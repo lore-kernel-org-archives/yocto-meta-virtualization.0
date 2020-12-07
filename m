@@ -1,528 +1,123 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
- by mx.groups.io with SMTP id smtpd.web12.1461.1606875103155455710
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (NAM10-MW2-obe.outbound.protection.outlook.com [40.107.94.40])
+ by mx.groups.io with SMTP id smtpd.web09.1001.1607308530366032029
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 01 Dec 2020 18:11:43 -0800
+ Sun, 06 Dec 2020 18:35:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=KZHVmzhb;
- spf=pass (domain: gmail.com, ip: 209.85.218.52, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ej1-f52.google.com with SMTP id pg6so8987746ejb.6
-        for <meta-virtualization@lists.yoctoproject.org>; Tue, 01 Dec 2020 18:11:42 -0800 (PST)
+ dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=ZlPv49XW;
+ spf=pass (domain: windriver.com, ip: 40.107.94.40, mailfrom: qi.chen@windriver.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=SLlJExRUzH721eDh0gF3KaoQhqsF550pWAB3C80Km5qjLpEHmT/kY2vKdaMt4NbX8zEZipTFgcDRsn1VlCn6bs8d2VNci6udTJl26Yz4coOh7MaOHF4p+PqHdqYFISZYnIGv+nxmzppG8eQkjqV2DOP2aFRBmeYwCJPFKiCRFIuhtibP6tqlQs8gw/h/V3AF5As4PB3b1BHNtKl07iKa+a55/06FF93e9ADNJhCIM3pTT3oAtAQo181IBVCk5paKnQYnIu/yc8qmUsxorm+w9pLCZSEn6j019HZV59nNmbqLg/99T3MQdu3RyTsT6BxOZ/7CDFSK1NbdMM7KwCCPug==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Pa64WUYRJnwHjNIRcCzlQL+GP4XN+L/7pwcVOlH1Cjg=;
+ b=MqOUfaSJQCU4Y5cNMqsw42+6SjKRlWcMtdNvFZKTeAbkD04Rpgw8zO44DfBRAC3l5TlwylmS9yL+lCGzvjTF4AYgc0ZyOByEEDSttm5uw/uWtDXCiiSffLEf4cheATHI5Tu1yO/4mgozzujIF6DmcWoNahJExNPe72cF+T4QIzLm3mn05Y1nieyOoicOiErPlihtAfL9aPdxfDrNoCVijHiezbLRmLQ8HCR0Ob6btfyQaBvTx2PNrlDIFmP/Tc6QFgXuI6md2FxkPC2fzfxb00l8S9wH4JRmVqnoTX5Daw3/eAlZbcefdvJ4iRz4dIt9xDUMxo+v269uFYguUMkq3Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=H/al6bY2dlR7h1/BfzCCkjbxyKZr+wYztpfKewq2ksE=;
-        b=KZHVmzhbVg3lqf5238VbzHIIH2ghhkn7vz0PSGrm4BDqWNdWIYVGEYE6AYUrMek23y
-         sR82FrmxiOIM1FOGbJJ/vetySkjv/sgMq6r+BHL9EP4r2gAp0k3vQofBcLMhzoO7lHx9
-         RxsG3oHzedBRrophh+mD1t1o0MM/CB3Z/cHvBlYurgDgFDWNRxkBS0iZcdBh0YGvs9TD
-         NYU2+vqKBSD0rd09VlMbFCXaD8ZD3MbFZ2/HZh1A1cee/sHt9WOjbajmGXNv8ArngLHP
-         CaD7DMGGPPsEtn3rOvPDdY9mnpX0zbu5u8b4JBsL7ItGkIbNf7o8No1SgXykrlBzjSY4
-         eRkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=H/al6bY2dlR7h1/BfzCCkjbxyKZr+wYztpfKewq2ksE=;
-        b=FgQLuaSJgwd23N69KId6WC/Q/vOaiMupKFApmZOrLtmpoBezaG05AFnyQfGq750amv
-         6pk9es6nr+OFDQRioTfHjeFflMv3YN5PldvVDQ9D6OUpQd9Wymzv5xd/9pAtrdJ2uW7a
-         l/wBbIJFYqEmt2t3zs0SQ5X6/B63yFQfpVnO9d05QXoxRFeFx1NLX1n7xqrphVWvMfl+
-         tidw5m7i3ww2slW5WMWOPVK1MU9FT0JGMkdXYSNK/5Rv4ireYYqzmIsKPCKBuknkFeHw
-         67gSclFyQR9/gCcKEgTRqtKsJEehCzjrS44keCECsZcAUBjLzmVElrNfbtlx1PyirSz6
-         NPBg==
-X-Gm-Message-State: AOAM530YWARudySgobqDm+3wREbOQmcIoGNpL3Tejdc45FUCEIwxw4nM
-	KC2ZsOqei+XbdPKs6EqQMbWP0rL5q5Tzkcf7Cs0=
-X-Google-Smtp-Source: ABdhPJxglcihDPlIhwSbfQyo0qAlBd4US9wBILCPvWQMY0oNapnKSy56oSx8cyZV0mDFl+7yDLy1QBkajHgsjuzd6eo=
-X-Received: by 2002:a17:906:6d58:: with SMTP id a24mr249381ejt.298.1606875101276;
- Tue, 01 Dec 2020 18:11:41 -0800 (PST)
+ d=windriversystems.onmicrosoft.com;
+ s=selector2-windriversystems-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Pa64WUYRJnwHjNIRcCzlQL+GP4XN+L/7pwcVOlH1Cjg=;
+ b=ZlPv49XWCg79kKG1Xn4Wop6VerDo02afptemYNPRH5YiXnjmFGaTtbveRun/qEFZJbeMr4eYM+PA/3vL3/S2M1gQ7KsEiE8aVg6xmWL5SrkdyXSkfqiGcV+YN4TeYHKeoYO0eNEwdnK/pC8q1GJksLFmKHW/jlBDCd60zNVflcU=
+Authentication-Results: lists.yoctoproject.org; dkim=none (message not signed)
+ header.d=none;lists.yoctoproject.org; dmarc=none action=none
+ header.from=windriver.com;
+Received: from BYAPR11MB3480.namprd11.prod.outlook.com (2603:10b6:a03:79::27)
+ by BYAPR11MB3112.namprd11.prod.outlook.com (2603:10b6:a03:85::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3632.23; Mon, 7 Dec
+ 2020 02:35:28 +0000
+Received: from BYAPR11MB3480.namprd11.prod.outlook.com
+ ([fe80::59b9:b0aa:a6f5:cbd5]) by BYAPR11MB3480.namprd11.prod.outlook.com
+ ([fe80::59b9:b0aa:a6f5:cbd5%3]) with mapi id 15.20.3632.021; Mon, 7 Dec 2020
+ 02:35:27 +0000
+From: "Chen Qi" <Qi.Chen@windriver.com>
+To: meta-virtualization@lists.yoctoproject.org
+Subject: [meta-virtualization][m-c-s][PATCH] python3-salttesting: use SRCREV instead of tag
+Date: Mon,  7 Dec 2020 10:35:12 +0800
+Message-Id: <20201207023512.21842-1-Qi.Chen@windriver.com>
+X-Mailer: git-send-email 2.17.1
+X-Originating-IP: [60.247.85.82]
+X-ClientProxiedBy: HK2PR02CA0144.apcprd02.prod.outlook.com
+ (2603:1096:202:16::28) To BYAPR11MB3480.namprd11.prod.outlook.com
+ (2603:10b6:a03:79::27)
+Return-Path: Qi.Chen@windriver.com
 MIME-Version: 1.0
-References: <80e1aaec-343b-9af4-6144-34c24746cd2a@optimcloud.com>
- <CADkTA4PVY139=rDa8vuSGwE8x+4oN80Z8np__=bK=b4w4iVYjw@mail.gmail.com>
- <164AC9578349B0A8.29370@lists.yoctoproject.org> <ca7960b9-973b-cb35-1ea3-bb1c7261636d@optimcloud.com>
- <164CAD00803DE49B.28599@lists.yoctoproject.org> <164CAD1F96CC6471.28599@lists.yoctoproject.org>
- <164CB61893C793E2.17283@lists.yoctoproject.org> <164CC30B1EDCBD64.9909@lists.yoctoproject.org>
-In-Reply-To: <164CC30B1EDCBD64.9909@lists.yoctoproject.org>
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Tue, 1 Dec 2020 21:11:29 -0500
-Message-ID: <CADkTA4NnZmM2g=XZeRWPPHMFDhzLLoQcfj05yqpn=jz9i80F0Q@mail.gmail.com>
-Subject: Re: [meta-virtualization] go broken or kubernetes ? go build runtime/cgo: invalid flag in go:cgo_ldflag: -Wl,-O1
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: Khem Raj <raj.khem@gmail.com>, OutBack Dingo <dingo@optimcloud.com>, 
-	meta-virtualization@lists.yoctoproject.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from pek-lpg-core3.wrs.com (60.247.85.82) by HK2PR02CA0144.apcprd02.prod.outlook.com (2603:1096:202:16::28) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3632.17 via Frontend Transport; Mon, 7 Dec 2020 02:35:26 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: fd837c25-141e-4649-15c4-08d89a58c23e
+X-MS-TrafficTypeDiagnostic: BYAPR11MB3112:
+X-Microsoft-Antispam-PRVS: 
+	<BYAPR11MB3112D3F73DDEF7A39FE032C1EDCE0@BYAPR11MB3112.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4714;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	/2xyOiAr1sG1UahEpMu6j94ukJoAeOmk6N1NhMRzgsJ1/Y33EKhldsG3pnmSMSWf+AacC6Put5Tkq8jAbunBWztJ1TYDIwsERbi+5gW5Uz7CXl0kpad+Ye8qp+EduB1xS847HlNbFDlcq+go6Odyyzj4sAYBp43N7FYFGpyrG75PPQnOQ2rm5WVp5xyiprx2n7kPP0ndvUKzUYXTnCnnqccY1sYa4HpAh2ZNMMHLfeUcgVhL+TJY+ZkdXJReAeIA82IENGQD27aPBw0JWIyP2bcstA5ZxPQlzYCFhHr7ZzX2YIehub/KLyWtRoqlYYmDNs46o/wAFAYrCavj/Asing==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR11MB3480.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(376002)(396003)(346002)(366004)(39840400004)(52116002)(6916009)(1076003)(8936002)(2906002)(2616005)(8676002)(66946007)(6506007)(6486002)(316002)(956004)(83380400001)(6512007)(478600001)(26005)(16526019)(86362001)(66476007)(6666004)(66556008)(36756003)(186003)(5660300002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: 
+	=?us-ascii?Q?elrj2SsksW7pcJ06oPlAvWgq7cdpcoIdS+PO+u8rdHzi2EV0xPGc8bA9rl66?=
+ =?us-ascii?Q?S+6M4dVJvXt3OuJxdrbpSiRfPwJkJqbi7HjdomefHvmFSUQaNKXfcUrzPETz?=
+ =?us-ascii?Q?enWpVC+oUODKpjy+Fnlcoy5eKL7TqpO68ILyiLRzrZXKnhKbrYW/hDlhM6ti?=
+ =?us-ascii?Q?X4N92U5a6RYtmEcCigP9oH1lJBhhY9SKZKfRukGMuW5FXtiDyfpbyPbe9tbi?=
+ =?us-ascii?Q?1ViTzEZnK4rAi+FKOURTUaerZb1IIAYOkU2U77my8IXH7cRoKj22QnqF+ZXI?=
+ =?us-ascii?Q?P7QSnCLmkYQpPej3JnFbdkejXycTd2YdkIZijIAsdXHmyLRdQFaXDW0zZPnT?=
+ =?us-ascii?Q?bXkHaub4c2LgDDIWoQYs3fxWF7UrFM/ma5yA7a/IrOt0RHyoPPv/Eelayvzi?=
+ =?us-ascii?Q?Kv2TTMLbgDvvLjjGqlYjHntMxbGqoOPwR5EXjAEPRjb4lBtcgb9Bo0kAje1J?=
+ =?us-ascii?Q?nXpUIZ9S3jowRAGdo2uwroDWyKGKh42r3ACB4ozkI1bci2vOzPpcpb/3WyQt?=
+ =?us-ascii?Q?vCzczakR+c0LDHkNYYlgxtFojOtVapljL/FAH54hgKnFmpzm/f5gYiWqz/Fm?=
+ =?us-ascii?Q?wcjs7X50x/tT7FTjIc33Tj39Zav+YwY7oO2iTdrsOR/iXt6aRFlgRvhVG/uN?=
+ =?us-ascii?Q?2pLPDevL+Si27SCruEfGK/2zaJv0dQ8yqTAKZU6Nxe9jjog8GQWbkunIaC8N?=
+ =?us-ascii?Q?7F9FQFBtbxA4nvD2ZBwoWZoXdGhRk5cr9cAXJSo2/qCo5RcWYmlshIc9Tgmr?=
+ =?us-ascii?Q?/smKfn+WXtTIzNkA5NZS8xdUddS7GjqMdtCEA3TTY1nczuLtPr0GCdOOc8BD?=
+ =?us-ascii?Q?KzvJkAc+yCVpOe/l3hbdR5VFfKN/jBrK97M69Mi6+IsXgZKEA8ikWXF/dZEY?=
+ =?us-ascii?Q?LGeqnQ+vntzHEZDfsADtXq/80F4ansWqVBPpnwxQgkoR8U/y7uH6MTwXF1ly?=
+ =?us-ascii?Q?lpiyvWXUYNbDeDYiBdo+oOnWNMqdyb29rGNiel8yy3w5X3e7kn6AH1WuLxyb?=
+ =?us-ascii?Q?x0e6?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB3480.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Dec 2020 02:35:27.8134
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-Network-Message-Id: fd837c25-141e-4649-15c4-08d89a58c23e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4Xbx9Rk8kF3kRWDctG8R4bNGvF86NZIxJp0c+QPWY38fA707QD3N+5EWBny9oC/aT9hdPC7lVPVNUM6qt4Tcbw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR11MB3112
+Content-Type: text/plain
 
-On Tue, Dec 1, 2020 at 8:47 PM Bruce Ashfield via
-lists.yoctoproject.org
-<bruce.ashfield=3Dgmail.com@lists.yoctoproject.org> wrote:
->
-> On Tue, Dec 1, 2020 at 4:49 PM Bruce Ashfield via
-> lists.yoctoproject.org
-> <bruce.ashfield=3Dgmail.com@lists.yoctoproject.org> wrote:
-> >
-> > On Tue, Dec 1, 2020 at 2:05 PM Bruce Ashfield via
-> > lists.yoctoproject.org
-> > <bruce.ashfield=3Dgmail.com@lists.yoctoproject.org> wrote:
-> > >
-> > > On Tue, Dec 1, 2020 at 2:03 PM Bruce Ashfield via
-> > > lists.yoctoproject.org
-> > > <bruce.ashfield=3Dgmail.com@lists.yoctoproject.org> wrote:
-> > > >
-> > > > Nope.
-> > > >
-> > > > It built fine, and continues to build fine here.
-> > > >
-> > >
-> > > I should say: it builds fine on qemu* which are the machines that I
-> > > use for sanity and integration testing.
-> > >
-> > > If there's an issue on machines and configs outside of that, I rely =
-on
-> > > others to send appropriate fixes.
-> > >
-> > > I do have a k8s version bump incoming, that may indirectly deal with=
- it.
-> >
-> > I was working on a new incremental update, and I'm seeing a similar
-> > failure. So hopefully I have a reproducer now and can dig into this!
-> >
->
-> The commit that triggered this is fairly obvious:
->
-> commit 0917e35aa2813e843457302d1a370dd6c7b03ad6
-> Author: Khem Raj <raj.khem@gmail.com>
-> Date:   Sat Nov 21 00:23:16 2020 -0800
->
->     go: Update to 1.15.5
->
->     Define CXX_FOR_TARGET and CC_FOR_TARGET for target go
->     since we are cross building it, it helps in defining the compiler
->     for cgo on target
->
->     backport a patch to fix CGO_LDFLAGS regression like below
->
->     Fixes
->     | Building std for target, linux/arm.
->     | go build runtime/cgo: invalid flag in go:cgo_ldflag: -Wl,-O1
->
->     (From OE-Core rev: a71d1b58e8cf0976a614c49aa2dfe1e0605dfe95)
->
->     Signed-off-by: Khem Raj <raj.khem@gmail.com>
->     Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->
-> It was masked here, since I was changing how generated_files was
-> built, but had to
-> restore it in my latest set of changes.
->
-> Right now, if we use "go" (go-native) to build the generated_files
-> (they are host side
-> and part of the build), we blow up with the flags errors.  if you are
-> x86 and use $GO,
-> you can build the generated files, but it breaks on ARM64.
->
-> I'll look into the flags and see if we can filter them out, or maybe
-> khem has another
-> idea.
+If we enable BB_NO_NETWORK, using tag in SRC_URI causes problem.
+Merely parsing the recipes will raise error. For example, `bitbake -p'.
 
-Sorry for all the email, but I didn't want khem to spend much time on
-this.
+So use SRCREV instead of tag to solve this problem.
 
-The kubernetes recipe pre-dates a lot of the current go.bbclass stuff,
-so does quite a bit of flag "fiddling". So the crime is just as likely in
-the recipe as anywhere else.
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ .../recipes-devtools/python/python3-salttesting_git.bb         | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-I've managed to get the host side stuff building by clearing the CGO_LDFLA=
-GS
-of the problematic host options, and it does seem to be building.
+diff --git a/meta-openstack/recipes-devtools/python/python3-salttesting_git.bb b/meta-openstack/recipes-devtools/python/python3-salttesting_git.bb
+index 34476219..fdc0341a 100644
+--- a/meta-openstack/recipes-devtools/python/python3-salttesting_git.bb
++++ b/meta-openstack/recipes-devtools/python/python3-salttesting_git.bb
+@@ -4,10 +4,11 @@ SECTION = "devel/python"
+ LICENSE = "Apache-2.0"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=f36f1e9e3e30f90180efdf7e40d943e5"
+ 
+-SRC_URI = "git://github.com/saltstack/salt-testing.git;branch=develop;tag=v2018.9.21 \
++SRC_URI = "git://github.com/saltstack/salt-testing.git;branch=develop \
+            file://0001-Add-ptest-output-option-to-test-suite.patch \
+            "
+ 
++SRCREV = "8d21627a4eef316d22cc424deeca16a0ec8472e9"
+ PV = "2018.9.21+git${SRCPV}"
+ 
+ S = "${WORKDIR}/git"
+-- 
+2.17.1
 
-I'll test a few more arches and call it 'good enough for now'.
-
-Bruce
-
->
-> Bruce
->
->
-> > >
-> > > Bruce
-> > >
-> > > > So there's nothing I can do about fixing it.
-> > > >
-> > > > Bruce
-> > > >
-> > > > On Tue, Dec 1, 2020 at 1:25 PM OutBack Dingo <dingo@optimcloud.com=
-> wrote:
-> > > > >
-> > > > > Any luck on this ?? Its failed both with the same errors as post=
-ed on Fedora 33 Silverblue and Debian 10
-> > > > >
-> > > > > Build Configuration:
-> > > > > BB_VERSION           =3D "1.49.0"
-> > > > > BUILD_SYS            =3D "x86_64-linux"
-> > > > > NATIVELSBSTRING      =3D "fedora-33"
-> > > > > TARGET_SYS           =3D "x86_64-overc-linux"
-> > > > > MACHINE              =3D "intel-corei7-64"
-> > > > > DISTRO               =3D "overc"
-> > > > > DISTRO_VERSION       =3D "1.0"
-> > > > > TUNE_FEATURES        =3D "m64 corei7"
-> > > > > TARGET_FPU           =3D ""
-> > > > > meta
-> > > > > meta-poky
-> > > > > meta-yocto-bsp       =3D "HEAD:0ac99625bf2c8a19d4ee746dc13e9c6b2=
-e1956e2"
-> > > > > meta-oe
-> > > > > meta-python
-> > > > > meta-networking
-> > > > > meta-filesystems
-> > > > > meta-initramfs
-> > > > > meta-multimedia
-> > > > > meta-perl            =3D "HEAD:f623d8b5741a8d9060a6be025cfdcfa47=
-9dd3fb3"
-> > > > > meta-overc
-> > > > > meta-cube            =3D "HEAD:af81bc7ec63e96aa7816b523b75ad9f29=
-f9dfcf0"
-> > > > > meta-virtualization  =3D "HEAD:fbfced367daaca778bda733f11c369735=
-77c2456"
-> > > > > meta-security        =3D "HEAD:d2ceb5e438b3b9c91696c83bf32f2df41=
-5a761ab"
-> > > > > meta-selinux         =3D "HEAD:5a58e87aa998c53527f92b32c3e6bc516=
-a03d9a3"
-> > > > > meta-gnome
-> > > > > meta-xfce            =3D "HEAD:f623d8b5741a8d9060a6be025cfdcfa47=
-9dd3fb3"
-> > > > > meta-intel           =3D "HEAD:7d79beb5093da8adf0f9b106a33d8e090=
-4a50a48"
-> > > > > meta-cloud-services  =3D "HEAD:5c44e6f076e5f9cfba71dc10f93325f7c=
-1f15455"
-> > > > > meta-awnix           =3D "master:c616414c6ed4f6f2ab75703ce5a3e84=
-acacd3c47"
-> > > > >
-> > > > > Initialising tasks: 100% |######################################=
-###########################################################################=
-#####| Time: 0:00:03
-> > > > > Sstate summary: Wanted 497 Found 0 Missed 497 Current 0 (0% matc=
-h, 0% complete)
-> > > > > NOTE: Executing Tasks
-> > > > > ERROR: kubernetes-v1.19.0-rc.3+gitbdc575e10c35a3e65a1c02bceea432=
-832b7e4f4f-r0 do_compile: Execution of '/var/home/dingo/overc/build/tmp/wor=
-k/corei7-64-overc-linux/kubernetes/v1.19.0-rc.3+gitbdc575e10c35a3e65a1c02bc=
-eea432832b7e4f4f-r0/temp/run.do_compile.1741097' failed with exit code 2:
-> > > > > go build runtime/cgo: invalid flag in go:cgo_ldflag: -Wl,-O1
-> > > > > +++ [1201 18:22:47] Building go targets for linux/amd64:
-> > > > >     ./vendor/k8s.io/code-generator/cmd/prerelease-lifecycle-gen
-> > > > > go build runtime/cgo: invalid flag in go:cgo_ldflag: -Wl,-O1
-> > > > > !!! [1201 18:22:48] Call tree:
-> > > > > !!! [1201 18:22:48]  1: /var/home/dingo/overc/build/tmp/work/cor=
-ei7-64-overc-linux/kubernetes/v1.19.0-rc.3+gitbdc575e10c35a3e65a1c02bceea43=
-2832b7e4f4f-r0/kubernetes-v1.19.0-rc.3+gitbdc575e10c35a3e65a1c02bceea432832=
-b7e4f4f/src/import/hack/lib/golang.sh:715 kube::golang::build_some_binaries=
-(...)
-> > > > > !!! [1201 18:22:48]  2: /var/home/dingo/overc/build/tmp/work/cor=
-ei7-64-overc-linux/kubernetes/v1.19.0-rc.3+gitbdc575e10c35a3e65a1c02bceea43=
-2832b7e4f4f-r0/kubernetes-v1.19.0-rc.3+gitbdc575e10c35a3e65a1c02bceea432832=
-b7e4f4f/src/import/hack/lib/golang.sh:859 kube::golang::build_binaries_for_=
-platform(...)
-> > > > > !!! [1201 18:22:48]  3: hack/make-rules/build.sh:27 kube::golang=
-::build_binaries(...)
-> > > > > !!! [1201 18:22:48] Call tree:
-> > > > > !!! [1201 18:22:48]  1: hack/make-rules/build.sh:27 kube::golang=
-::build_binaries(...)
-> > > > > !!! [1201 18:22:48] Call tree:
-> > > > > !!! [1201 18:22:48]  1: hack/make-rules/build.sh:27 kube::golang=
-::build_binaries(...)
-> > > > > make[1]: *** [Makefile.generated_files:197: _output/bin/prerelea=
-se-lifecycle-gen] Error 1
-> > > > > make: *** [Makefile:545: generated_files] Error 2
-> > > > > WARNING: /var/home/dingo/overc/build/tmp/work/corei7-64-overc-li=
-nux/kubernetes/v1.19.0-rc.3+gitbdc575e10c35a3e65a1c02bceea432832b7e4f4f-r0/=
-temp/run.do_compile.1741097:179 exit 2 from 'make generated_files GO=3D"go"=
- KUBE_BUILD_PLATFORMS=3D"linux/amd64"'
-> > > > > WARNING: Backtrace (BB generated script):
-> > > > >     #1: do_compile, /var/home/dingo/overc/build/tmp/work/corei7-=
-64-overc-linux/kubernetes/v1.19.0-rc.3+gitbdc575e10c35a3e65a1c02bceea432832=
-b7e4f4f-r0/temp/run.do_compile.1741097, line 179
-> > > > >     #2: main, /var/home/dingo/overc/build/tmp/work/corei7-64-ove=
-rc-linux/kubernetes/v1.19.0-rc.3+gitbdc575e10c35a3e65a1c02bceea432832b7e4f4=
-f-r0/temp/run.do_compile.1741097, line 198
-> > > > >
-> > > > > Backtrace (metadata-relative locations):
-> > > > >     #1: do_compile, /var/home/dingo/overc/meta-virtualization/re=
-cipes-containers/kubernetes/kubernetes_git.bb, line 55
-> > > > > ERROR: Logfile of failure stored in: /var/home/dingo/overc/build=
-/tmp/work/corei7-64-overc-linux/kubernetes/v1.19.0-rc.3+gitbdc575e10c35a3e6=
-5a1c02bceea432832b7e4f4f-r0/temp/log.do_compile.1741097
-> > > > > Log data follows:
-> > > > > | DEBUG: Executing shell function do_compile
-> > > > > | go build runtime/cgo: invalid flag in go:cgo_ldflag: -Wl,-O1
-> > > > > | +++ [1201 18:22:47] Building go targets for linux/amd64:
-> > > > > |     ./vendor/k8s.io/code-generator/cmd/prerelease-lifecycle-ge=
-n
-> > > > > | go build runtime/cgo: invalid flag in go:cgo_ldflag: -Wl,-O1
-> > > > > | !!! [1201 18:22:48] Call tree:
-> > > > > | !!! [1201 18:22:48]  1: /var/home/dingo/overc/build/tmp/work/c=
-orei7-64-overc-linux/kubernetes/v1.19.0-rc.3+gitbdc575e10c35a3e65a1c02bceea=
-432832b7e4f4f-r0/kubernetes-v1.19.0-rc.3+gitbdc575e10c35a3e65a1c02bceea4328=
-32b7e4f4f/src/import/hack/lib/golang.sh:715 kube::golang::build_some_binari=
-es(...)
-> > > > > | !!! [1201 18:22:48]  2: /var/home/dingo/overc/build/tmp/work/c=
-orei7-64-overc-linux/kubernetes/v1.19.0-rc.3+gitbdc575e10c35a3e65a1c02bceea=
-432832b7e4f4f-r0/kubernetes-v1.19.0-rc.3+gitbdc575e10c35a3e65a1c02bceea4328=
-32b7e4f4f/src/import/hack/lib/golang.sh:859 kube::golang::build_binaries_fo=
-r_platform(...)
-> > > > > | !!! [1201 18:22:48]  3: hack/make-rules/build.sh:27 kube::gola=
-ng::build_binaries(...)
-> > > > > | !!! [1201 18:22:48] Call tree:
-> > > > > | !!! [1201 18:22:48]  1: hack/make-rules/build.sh:27 kube::gola=
-ng::build_binaries(...)
-> > > > > | !!! [1201 18:22:48] Call tree:
-> > > > > | !!! [1201 18:22:48]  1: hack/make-rules/build.sh:27 kube::gola=
-ng::build_binaries(...)
-> > > > > | make[1]: *** [Makefile.generated_files:197: _output/bin/prerel=
-ease-lifecycle-gen] Error 1
-> > > > > | make: *** [Makefile:545: generated_files] Error 2
-> > > > > | WARNING: /var/home/dingo/overc/build/tmp/work/corei7-64-overc-=
-linux/kubernetes/v1.19.0-rc.3+gitbdc575e10c35a3e65a1c02bceea432832b7e4f4f-r=
-0/temp/run.do_compile.1741097:179 exit 2 from 'make generated_files GO=3D"g=
-o" KUBE_BUILD_PLATFORMS=3D"linux/amd64"'
-> > > > > | WARNING: Backtrace (BB generated script):
-> > > > > |     #1: do_compile, /var/home/dingo/overc/build/tmp/work/corei=
-7-64-overc-linux/kubernetes/v1.19.0-rc.3+gitbdc575e10c35a3e65a1c02bceea4328=
-32b7e4f4f-r0/temp/run.do_compile.1741097, line 179
-> > > > > |     #2: main, /var/home/dingo/overc/build/tmp/work/corei7-64-o=
-verc-linux/kubernetes/v1.19.0-rc.3+gitbdc575e10c35a3e65a1c02bceea432832b7e4=
-f4f-r0/temp/run.do_compile.1741097, line 198
-> > > > > | ERROR: Execution of '/var/home/dingo/overc/build/tmp/work/core=
-i7-64-overc-linux/kubernetes/v1.19.0-rc.3+gitbdc575e10c35a3e65a1c02bceea432=
-832b7e4f4f-r0/temp/run.do_compile.1741097' failed with exit code 2:
-> > > > > | go build runtime/cgo: invalid flag in go:cgo_ldflag: -Wl,-O1
-> > > > > | +++ [1201 18:22:47] Building go targets for linux/amd64:
-> > > > > |     ./vendor/k8s.io/code-generator/cmd/prerelease-lifecycle-ge=
-n
-> > > > > | go build runtime/cgo: invalid flag in go:cgo_ldflag: -Wl,-O1
-> > > > > | !!! [1201 18:22:48] Call tree:
-> > > > > | !!! [1201 18:22:48]  1: /var/home/dingo/overc/build/tmp/work/c=
-orei7-64-overc-linux/kubernetes/v1.19.0-rc.3+gitbdc575e10c35a3e65a1c02bceea=
-432832b7e4f4f-r0/kubernetes-v1.19.0-rc.3+gitbdc575e10c35a3e65a1c02bceea4328=
-32b7e4f4f/src/import/hack/lib/golang.sh:715 kube::golang::build_some_binari=
-es(...)
-> > > > > | !!! [1201 18:22:48]  2: /var/home/dingo/overc/build/tmp/work/c=
-orei7-64-overc-linux/kubernetes/v1.19.0-rc.3+gitbdc575e10c35a3e65a1c02bceea=
-432832b7e4f4f-r0/kubernetes-v1.19.0-rc.3+gitbdc575e10c35a3e65a1c02bceea4328=
-32b7e4f4f/src/import/hack/lib/golang.sh:859 kube::golang::build_binaries_fo=
-r_platform(...)
-> > > > > | !!! [1201 18:22:48]  3: hack/make-rules/build.sh:27 kube::gola=
-ng::build_binaries(...)
-> > > > > | !!! [1201 18:22:48] Call tree:
-> > > > > | !!! [1201 18:22:48]  1: hack/make-rules/build.sh:27 kube::gola=
-ng::build_binaries(...)
-> > > > > | !!! [1201 18:22:48] Call tree:
-> > > > > | !!! [1201 18:22:48]  1: hack/make-rules/build.sh:27 kube::gola=
-ng::build_binaries(...)
-> > > > > | make[1]: *** [Makefile.generated_files:197: _output/bin/prerel=
-ease-lifecycle-gen] Error 1
-> > > > > | make: *** [Makefile:545: generated_files] Error 2
-> > > > > | WARNING: /var/home/dingo/overc/build/tmp/work/corei7-64-overc-=
-linux/kubernetes/v1.19.0-rc.3+gitbdc575e10c35a3e65a1c02bceea432832b7e4f4f-r=
-0/temp/run.do_compile.1741097:179 exit 2 from 'make generated_files GO=3D"g=
-o" KUBE_BUILD_PLATFORMS=3D"linux/amd64"'
-> > > > > | WARNING: Backtrace (BB generated script):
-> > > > > |     #1: do_compile, /var/home/dingo/overc/build/tmp/work/corei=
-7-64-overc-linux/kubernetes/v1.19.0-rc.3+gitbdc575e10c35a3e65a1c02bceea4328=
-32b7e4f4f-r0/temp/run.do_compile.1741097, line 179
-> > > > > |     #2: main, /var/home/dingo/overc/build/tmp/work/corei7-64-o=
-verc-linux/kubernetes/v1.19.0-rc.3+gitbdc575e10c35a3e65a1c02bceea432832b7e4=
-f4f-r0/temp/run.do_compile.1741097, line 198
-> > > > > |
-> > > > > | Backtrace (metadata-relative locations):
-> > > > > |     #1: do_compile, /var/home/dingo/overc/meta-virtualization/=
-recipes-containers/kubernetes/kubernetes_git.bb, line 55
-> > > > > ERROR: Task (/var/home/dingo/overc/meta-virtualization/recipes-c=
-ontainers/kubernetes/kubernetes_git.bb:do_compile) failed with exit code '1=
-'
-> > > > > NOTE: Tasks Summary: Attempted 1672 tasks of which 0 didn't need=
- to be rerun and 1 failed.
-> > > > >
-> > > > > Summary: 1 task failed:
-> > > > >   /var/home/dingo/overc/meta-virtualization/recipes-containers/k=
-ubernetes/kubernetes_git.bb:do_compile
-> > > > > Summary: There were 2 WARNING messages shown.
-> > > > > Summary: There was 1 ERROR message shown, returning a non-zero e=
-xit code.
-> > > > >
-> > > > > On 11/25/20 10:19 PM, Dingo wrote:
-> > > > >
-> > > > > Building from head. on F33 Silverblue, always worked fine for k8=
-s... now fails.
-> > > > >
-> > > > > NOTE: Resolving any missing task queue dependencies
-> > > > >
-> > > > > Build Configuration:
-> > > > > BB_VERSION           =3D "1.49.0"
-> > > > > BUILD_SYS            =3D "x86_64-linux"
-> > > > > NATIVELSBSTRING      =3D "fedora-33"
-> > > > > TARGET_SYS           =3D "x86_64-overc-linux"
-> > > > > MACHINE              =3D "intel-corei7-64"
-> > > > > DISTRO               =3D "overc"
-> > > > > DISTRO_VERSION       =3D "1.0"
-> > > > > TUNE_FEATURES        =3D "m64 corei7"
-> > > > > TARGET_FPU           =3D ""
-> > > > > meta
-> > > > > meta-poky
-> > > > > meta-yocto-bsp       =3D "HEAD:3ecf5d9692fec97b37af6a4e6c747a4e2=
-c2ca292"
-> > > > > meta-oe
-> > > > > meta-python
-> > > > > meta-networking
-> > > > > meta-filesystems
-> > > > > meta-initramfs
-> > > > > meta-multimedia
-> > > > > meta-perl            =3D "HEAD:51c495772d3186ff7625675c83547eb74=
-10db57f"
-> > > > > meta-overc
-> > > > > meta-cube            =3D "master:af81bc7ec63e96aa7816b523b75ad9f=
-29f9dfcf0"
-> > > > > meta-virtualization  =3D "HEAD:fbfced367daaca778bda733f11c369735=
-77c2456"
-> > > > > meta-security        =3D "HEAD:d2ceb5e438b3b9c91696c83bf32f2df41=
-5a761ab"
-> > > > > meta-selinux         =3D "HEAD:5a58e87aa998c53527f92b32c3e6bc516=
-a03d9a3"
-> > > > > meta-intel           =3D "HEAD:6cf386fa948880eaaa60bbddb52452587=
-71fac79"
-> > > > > meta-awnix           =3D "<unknown>:<unknown>"
-> > > > > meta-cloud-services  =3D "HEAD:5c44e6f076e5f9cfba71dc10f93325f7c=
-1f15455"
-> > > > >
-> > > > >
-> > > > > On 11/25/20 8:55 PM, Bruce Ashfield wrote:
-> > > > >
-> > > > > Builds fine here, so you'll need to be more specific about your =
-configuration to see if I can reproduce the issue.
-> > > > >
-> > > > > Bruce
-> > > > >
-> > > > > On Wed, Nov 25, 2020 at 5:43 AM Dingo <dingo@optimcloud.com> wro=
-te:
-> > > > >>
-> > > > >> NOTE: Executing Tasks
-> > > > >> ERROR:
-> > > > >> kubernetes-v1.19.0-rc.3+gitbdc575e10c35a3e65a1c02bceea432832b7e=
-4f4f-r0
-> > > > >> do_compile: Execution of
-> > > > >> '/var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/kub=
-ernetes/v1.19.0-rc.3+gitbdc575e10c35a3e65a1c02bceea432832b7e4f4f-r0/temp/ru=
-n.do_compile.3481769'
-> > > > >> failed with exit code 2:
-> > > > >> go build runtime/cgo: invalid flag in go:cgo_ldflag: -Wl,-O1
-> > > > >> +++ [1125 10:38:01] Building go targets for linux/amd64:
-> > > > >>      ./vendor/k8s.io/code-generator/cmd/prerelease-lifecycle-ge=
-n
-> > > > >> go build runtime/cgo: invalid flag in go:cgo_ldflag: -Wl,-O1
-> > > > >> !!! [1125 10:38:02] Call tree:
-> > > > >> !!! [1125 10:38:02]  1:
-> > > > >> /var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/kube=
-rnetes/v1.19.0-rc.3+gitbdc575e10c35a3e65a1c02bceea432832b7e4f4f-r0/kubernet=
-es-v1.19.0-rc.3+gitbdc575e10c35a3e65a1c02bceea432832b7e4f4f/src/import/hack=
-/lib/golang.sh:715
-> > > > >> kube::golang::build_some_binaries(...)
-> > > > >> !!! [1125 10:38:02]  2:
-> > > > >> /var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/kube=
-rnetes/v1.19.0-rc.3+gitbdc575e10c35a3e65a1c02bceea432832b7e4f4f-r0/kubernet=
-es-v1.19.0-rc.3+gitbdc575e10c35a3e65a1c02bceea432832b7e4f4f/src/import/hack=
-/lib/golang.sh:859
-> > > > >> kube::golang::build_binaries_for_platform(...)
-> > > > >> !!! [1125 10:38:02]  3: hack/make-rules/build.sh:27
-> > > > >> kube::golang::build_binaries(...)
-> > > > >> !!! [1125 10:38:02] Call tree:
-> > > > >> !!! [1125 10:38:02]  1: hack/make-rules/build.sh:27
-> > > > >> kube::golang::build_binaries(...)
-> > > > >> !!! [1125 10:38:02] Call tree:
-> > > > >> !!! [1125 10:38:02]  1: hack/make-rules/build.sh:27
-> > > > >> kube::golang::build_binaries(...)
-> > > > >> make[1]: *** [Makefile.generated_files:197:
-> > > > >> _output/bin/prerelease-lifecycle-gen] Error 1
-> > > > >> make: *** [Makefile:545: generated_files] Error 2
-> > > > >> WARNING:
-> > > > >> /var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/kube=
-rnetes/v1.19.0-rc.3+gitbdc575e10c35a3e65a1c02bceea432832b7e4f4f-r0/temp/run=
-.do_compile.3481769:179
-> > > > >> exit 2 from 'make generated_files GO=3D"go"
-> > > > >> KUBE_BUILD_PLATFORMS=3D"linux/amd64"'
-> > > > >> WARNING: Backtrace (BB generated script):
-> > > > >>      #1: do_compile,
-> > > > >> /var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/kube=
-rnetes/v1.19.0-rc.3+gitbdc575e10c35a3e65a1c02bceea432832b7e4f4f-r0/temp/run=
-.do_compile.3481769,
-> > > > >> line 179
-> > > > >>      #2: main,
-> > > > >> /var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/kube=
-rnetes/v1.19.0-rc.3+gitbdc575e10c35a3e65a1c02bceea432832b7e4f4f-r0/temp/run=
-.do_compile.3481769,
-> > > > >> line 198
-> > > > >>
-> > > > >> Backtrace (metadata-relative locations):
-> > > > >>      #1: do_compile,
-> > > > >> /var/home/dingo/overc/meta-virtualization/recipes-containers/ku=
-bernetes/kubernetes_git.bb,
-> > > > >> line 55
-> > > > >> ERROR: Logfile of failure stored in:
-> > > > >> /var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/kube=
-rnetes/v1.19.0-rc.3+gitbdc575e10c35a3e65a1c02bceea432832b7e4f4f-r0/temp/log=
-.do_compile.3481769
-> > > > >>
-> > > > >>
-> > > > >>
-> > > > >>
-> > > > >
-> > > > >
-> > > > > --
-> > > > > - Thou shalt not follow the NULL pointer, for chaos and madness =
-await thee at its end
-> > > > > - "Use the force Harry" - Gandalf, Star Trek II
-> > > > >
-> > > > >
-> > > > >
-> > > > >
-> > > >
-> > > >
-> > > > --
-> > > > - Thou shalt not follow the NULL pointer, for chaos and madness aw=
-ait
-> > > > thee at its end
-> > > > - "Use the force Harry" - Gandalf, Star Trek II
-> > > >
-> > > >
-> > > >
-> > >
-> > >
-> > > --
-> > > - Thou shalt not follow the NULL pointer, for chaos and madness awai=
-t
-> > > thee at its end
-> > > - "Use the force Harry" - Gandalf, Star Trek II
-> > >
-> > >
-> > >
-> >
-> >
-> > --
-> > - Thou shalt not follow the NULL pointer, for chaos and madness await
-> > thee at its end
-> > - "Use the force Harry" - Gandalf, Star Trek II
-> >
-> >
-> >
->
->
-> --
-> - Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at its end
-> - "Use the force Harry" - Gandalf, Star Trek II
->
->=20
->
-
-
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
