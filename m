@@ -1,103 +1,128 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web08.21115.1607633965951484974
+ by mx.groups.io with SMTP id smtpd.web11.20990.1607634073329006947
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 10 Dec 2020 12:59:26 -0800
+ Thu, 10 Dec 2020 13:01:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=thTPILo2;
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=pzH1EO9f;
  spf=softfail (domain: gmail.com, ip: 198.145.29.25, mailfrom: bruce.ashfield@gmail.com)
-Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com [209.85.160.196])
-	by mail.yoctoproject.org (Postfix) with ESMTPS id 7C64438C13A4
-	for <meta-virtualization@yoctoproject.org>; Thu, 10 Dec 2020 20:59:25 +0000 (UTC)
-Received: by mail-qt1-f196.google.com with SMTP id z20so4862674qtq.3
-        for <meta-virtualization@yoctoproject.org>; Thu, 10 Dec 2020 12:59:25 -0800 (PST)
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+	by mail.yoctoproject.org (Postfix) with ESMTPS id 2F13838C13A4
+	for <meta-virtualization@yoctoproject.org>; Thu, 10 Dec 2020 21:01:13 +0000 (UTC)
+Received: by mail-ed1-f47.google.com with SMTP id dk8so7074532edb.1
+        for <meta-virtualization@yoctoproject.org>; Thu, 10 Dec 2020 13:01:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
-         :in-reply-to:user-agent;
-        bh=RtcjoN2x5GKjKAvTaSAOj0G3jg9R2Lc+MHGmS4Dt4D0=;
-        b=thTPILo2g1mtLS7iH9WjIb0KropusjJmsgJoIypk3T8F/hVOYLv6ayCEo8N/dSD+Eh
-         qENAqXwUuexRYweP7mutrV8VfGTebJxJGNd5CkFfOVmOdCvAF2Ncvq6NuBGiLDvOn5Xd
-         oMuaHjfEpom/3uTmEQxmcmQ8/jxaH1INDAF1KU0iYYLPAXdhMj6UtQGvcD4pqR1wzACY
-         ntunFYUgdcI5fMmx+m0eugk1kPztHkVLNMElVHMOxoLzpjrzun28EvnWk0hyeKYh/4Ti
-         TDr3R0PS61p9c5Ztr3GvkSDFX1YKkeycjLcSaeqaZ6eSHn99ytcLnYv2+ZjrNTYhme1p
-         FsYA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=8aFC96M7JM+DqvTsMmwEom8p2h6W5JZTiTCfv4zuYRs=;
+        b=pzH1EO9ffgnTddtzflH3uh/Ys6VfUOK7X1ZnlKC8t5rDffszPXDOGWmQJptg7c07t6
+         KPgvSurffC+bd6BtK+OtEsK2nJw6vQ0M5JaIgqQyksTMcDXenY3/dZJUiR3tuOhGo6Iw
+         m58NjIgmMSuK8aL5hqfAD3F7md2qUTr7BWuJ45HjfpdCfjy/xlgvtDzDJZGRC0SVGVGI
+         JoG9bxms+ibkO7IAcO/f0Mt4XRB+DH65NdY/7ffxSNSwMYfuPpb7vY7QPyNVAJRz3oOh
+         Hx6ugRKSM4GR8BlWX6WQXA/i1xjMA6JRVyPsuQocwSrh+Bm3Uert/J+y9T0RB0T3azq5
+         Wpng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=RtcjoN2x5GKjKAvTaSAOj0G3jg9R2Lc+MHGmS4Dt4D0=;
-        b=mA0mJ/eku5SHgwYnO9Cr7Ha5rVf4RRMAH43Etsk7WnoV1S3pFbxmGOSp4X7KM4ca3T
-         tCpbQF0jN7q6nvU7x7p6gi5ZTkPtNGV6QXfvfuY3cwsJ1vHiOphdEERB1kQgBCaMhj7t
-         aL1uD1StJDcb3cc3kNe9IGnAVXg1IPKFvnhY1gBQqf0qcxes1lsuVp5H8W1Rwj+J82NK
-         a8yyAiE5DZiM++OhDFbTMcmH0dwH2jsD7qqx99V4i7UyzVSWEqlZ8oLY+KJ/0dNQhRYk
-         Wx+KkeKLUKargwr++LISsaCx542jrvhVVuGRTFLLdVt/JWAiNi42Cc32xx8QCMVXR6Qh
-         zMXA==
-X-Gm-Message-State: AOAM5302buNkorOmZ3k86PE1hPug+Y7gcIw9dnsVAdSkkwlh3I8vFpOP
-	bv1Qpz6Q8h8w318s7DO7vWQ=
-X-Google-Smtp-Source: ABdhPJziKWxHcD3nM9E1ZVv1omvwovXsq48hqtdefvU7Ivz4Z2d9PgUTHDW1dGAfiBjbFKM3ypEpow==
-X-Received: by 2002:ac8:1013:: with SMTP id z19mr11076101qti.74.1607633964390;
-        Thu, 10 Dec 2020 12:59:24 -0800 (PST)
-Received: from gmail.com (cpe04d4c4975b80-cm64777d5e8820.cpe.net.cable.rogers.com. [174.112.165.127])
-        by smtp.gmail.com with ESMTPSA id l11sm4631657qtn.83.2020.12.10.12.59.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Dec 2020 12:59:23 -0800 (PST)
-Date: Thu, 10 Dec 2020 15:59:22 -0500
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-To: zhengruoqin <zhengrq.fnst@cn.fujitsu.com>
-Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [meta-virtualization] [PATCH] python3-dogpile.cache: upgrade 1.0.2 -> 1.1.1
-Message-ID: <20201210205921.GB4078@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=8aFC96M7JM+DqvTsMmwEom8p2h6W5JZTiTCfv4zuYRs=;
+        b=ZpGGb38ruKrs6NSotn4j/ISIu9CeFXKC5+xHci5BUS4dtuhekW0jmQtxnuorXBAV+8
+         0k0XscggOopYeU1d4Inl8nJiP1D3axG7WK5s4TboMg1ovLx443kYI+2s2bqRI7xjyHe3
+         5MbBpXHhrNSXlvJWp7qaA5KYVwDWFRKpRM1m4a3asyqN4PlxQc9N4VYTJApJ/wtKtjhf
+         bac5Sj2dJEn4E4RZrHpjDXVmYO/5u11B4fnzHdQCKqoBwYjWClbqoJc3ryLFtdNIho6b
+         q10r207iYRzOYK+RH+vv6cOTEm0GANhZ5AvTHLS3caYJR7EjkZUj8Sj3ZutgMLQA9t9p
+         aSgw==
+X-Gm-Message-State: AOAM532eXvRWQC+3+JUAvpMMXu1eiZdTVDqVhAsAHcb9IVPbI9OZgr4P
+	eoSepSqKxKjdEaYtpMR+IHXI8Rx8/7GaX1ex2cYH1m+EcJDYsw==
+X-Google-Smtp-Source: ABdhPJzuU9iMwGQpFC0JEcZvQBk6xJilaBAiib/2f29urdSZPb7JGAv0sfvqEzExLQ6Y2tGTXssiIiZYnVrJVBq6mAA=
+X-Received: by 2002:aa7:c886:: with SMTP id p6mr8927139eds.352.1607634071533;
+ Thu, 10 Dec 2020 13:01:11 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <1607403570-56215-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
- <1607403611-56302-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
- <1607403624-56341-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
- <1607403680-56464-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
- <1607403671-56404-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
- <1607403688-56502-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <16483063CB70B824.5807@lists.yoctoproject.org> <655aec7943784ad28bc7a557cbb7fada@G08CNEXMBPEKD04.g08.fujitsu.local>
+In-Reply-To: <655aec7943784ad28bc7a557cbb7fada@G08CNEXMBPEKD04.g08.fujitsu.local>
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+Date: Thu, 10 Dec 2020 16:01:00 -0500
+Message-ID: <CADkTA4O7XcDKeqWCcPL4QLgbsVXH9Y-++Z_V5DxU3_0iQFHkLg@mail.gmail.com>
+Subject: Re: [meta-virtualization] [PATCH] python-pysqlite: Remove recipe
+To: zangrc <zangrc.fnst@cn.fujitsu.com>
+Cc: "meta-virtualization@yoctoproject.org" <meta-virtualization@yoctoproject.org>
+Content-Type: text/plain; charset="UTF-8"
 
-merged.
+They were intended to be merged, and I don't see any in my queue that
+I missed, so yes, please re-submit the ones that I missed.
 
 Bruce
 
+On Tue, Dec 8, 2020 at 1:28 AM zangrc <zangrc.fnst@cn.fujitsu.com> wrote:
+>
+> Ping
+>
+> Hello, I found that none of the patches submitted on November 17, 2020 have been merged. Do I need to re submit these patches?
+>
+> > -----Original Message-----
+> > From: meta-virtualization@lists.yoctoproject.org <meta-
+> > virtualization@lists.yoctoproject.org> On Behalf Of zangrc
+> > Sent: Wednesday, November 18, 2020 12:14 AM
+> > To: meta-virtualization@yoctoproject.org
+> > Subject: [meta-virtualization] [PATCH] python-pysqlite: Remove recipe
+> >
+> > When I tried to change it to python3, it reported the following error:
+> > | pysqlite is not supported on Python 3. When using Python 3, use the sqlite3
+> > module from the standard library.
+> >
+> > Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+> > ---
+> >  .../python/python-pysqlite_2.6.3.bb           | 22 -------------------
+> >  1 file changed, 22 deletions(-)
+> >  delete mode 100644 meta-openstack/recipes-devtools/python/python-
+> > pysqlite_2.6.3.bb
+> >
+> > diff --git a/meta-openstack/recipes-devtools/python/python-
+> > pysqlite_2.6.3.bb b/meta-openstack/recipes-devtools/python/python-
+> > pysqlite_2.6.3.bb
+> > deleted file mode 100644
+> > index 6b8de00e..00000000
+> > --- a/meta-openstack/recipes-devtools/python/python-pysqlite_2.6.3.bb
+> > +++ /dev/null
+> > @@ -1,22 +0,0 @@
+> > -DESCRIPTION = "DB-API 2.0 interface for SQLite 3.x"
+> > -HOMEPAGE = "http://github.com/ghaering/pysqlite"
+> > -SECTION = "devel/python"
+> > -LICENSE = "Zlib"
+> > -LIC_FILES_CHKSUM =
+> > "file://LICENSE;md5=a85bd923e5c830f8eb89db354ff72f38"
+> > -
+> > -SRC_URI[md5sum] = "7ff1cedee74646b50117acff87aa1cfa"
+> > -SRC_URI[sha256sum] =
+> > "fe9c35216bf56c858b34c4b4c8be7e34566ddef29670e5a5b43f9cb8ecfbb2
+> > 8d"
+> > -
+> > -inherit setuptools3 pypi
+> > -
+> > -FILES_${PN} += "${datadir}/*"
+> > -
+> > -# DEPENDS_default: python-pip
+> > -
+> > -DEPENDS += " \
+> > -        python-pip \
+> > -        "
+> > -
+> > -# RDEPENDS_default:
+> > -RDEPENDS_${PN} += " \
+> > -        "
+> > --
+> > 2.25.1
+> >
+> >
+>
+>
+>
+>
+> 
+>
 
-In message: [meta-virtualization] [PATCH] python3-dogpile.cache: upgrade 1.0.2 -> 1.1.1
-on 08/12/2020 zhengruoqin wrote:
 
-> Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
-> ---
->  ...-dogpile.cache_1.0.2.bb => python3-dogpile.cache_1.1.1.bb} | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->  rename meta-openstack/recipes-devtools/python/{python3-dogpile.cache_1.0.2.bb => python3-dogpile.cache_1.1.1.bb} (73%)
-> 
-> diff --git a/meta-openstack/recipes-devtools/python/python3-dogpile.cache_1.0.2.bb b/meta-openstack/recipes-devtools/python/python3-dogpile.cache_1.1.1.bb
-> similarity index 73%
-> rename from meta-openstack/recipes-devtools/python/python3-dogpile.cache_1.0.2.bb
-> rename to meta-openstack/recipes-devtools/python/python3-dogpile.cache_1.1.1.bb
-> index 21b596fc..627d7db0 100644
-> --- a/meta-openstack/recipes-devtools/python/python3-dogpile.cache_1.0.2.bb
-> +++ b/meta-openstack/recipes-devtools/python/python3-dogpile.cache_1.1.1.bb
-> @@ -4,8 +4,8 @@ SECTION = "devel/python"
->  LICENSE = "BSD"
->  LIC_FILES_CHKSUM = "file://LICENSE;md5=46e560ef3e93a33b284504845ea6a11d"
->  
-> -SRC_URI[md5sum] = "a325ec142d690269573a872e24fc1cb6"
-> -SRC_URI[sha256sum] = "64fda39d25b46486a4876417ca03a4af06f35bfadba9f59613f9b3d748aa21ef"
-> +SRC_URI[md5sum] = "3cf83a593a1a1bc17b89d14917f66ef0"
-> +SRC_URI[sha256sum] = "40147b19696f387415a7efaaa4cf8ea0b5d31bdd1b53e5187e75d48ddfee9f0e"
->  
->  inherit setuptools3 pypi
->  
-> -- 
-> 2.25.1
-> 
-> 
-> 
-
-> 
-> 
-> 
-
-
+-- 
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
