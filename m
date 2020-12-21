@@ -1,56 +1,60 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web10.3335.1608588942424729017
+ by mx.groups.io with SMTP id smtpd.web10.3353.1608588994142225361
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 21 Dec 2020 14:15:42 -0800
+ Mon, 21 Dec 2020 14:16:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=DBL900u8;
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=seOYh3r7;
  spf=softfail (domain: gmail.com, ip: 198.145.29.25, mailfrom: bruce.ashfield@gmail.com)
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
-	by mail.yoctoproject.org (Postfix) with ESMTPS id 57C3138C156D
-	for <meta-virtualization@yoctoproject.org>; Mon, 21 Dec 2020 22:15:41 +0000 (UTC)
-Received: by mail-qt1-f174.google.com with SMTP id z20so7748869qtq.3
-        for <meta-virtualization@yoctoproject.org>; Mon, 21 Dec 2020 14:15:41 -0800 (PST)
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
+	by mail.yoctoproject.org (Postfix) with ESMTPS id EA99838C156D
+	for <meta-virtualization@yoctoproject.org>; Mon, 21 Dec 2020 22:16:33 +0000 (UTC)
+Received: by mail-qk1-f176.google.com with SMTP id b64so10246696qkc.12
+        for <meta-virtualization@yoctoproject.org>; Mon, 21 Dec 2020 14:16:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:mime-version:content-disposition
          :in-reply-to:user-agent;
-        bh=sOmwGuxxN7C5MB1RpwUhFRI21UD2rddElPr+6BQnito=;
-        b=DBL900u8vmFjbpjqQFegufRcAKJI2scQC3T+T+Z0YFHO3kqmEjwxseU9vDme80JrmK
-         smbL70LllV7zzesoeFx/EBEYqb5qDaAqA9FAVT6mA2h6DoHgdSpuSyjuHNOYawWsE9L9
-         5W3jffY/spmyMX+eLSpSrB8IT6HyyOp/S0u1lZceqo5JKi8uXPYXtWO1l3fJeOI47yJ6
-         BHNeNjIURqIPA4NPDmsP/Z8eSypP01CbJSXrYXDCupaK8olnTv1vJN/VHdZkno5USyG5
-         cxF7pNSKhCZxQStFnP0BxR54emYW758TA5OcmGdwbpzXxPP3vO3OruPqBs3r72oHc6tS
-         7CbA==
+        bh=dhEqo3+7hhucL0W/a0SCO7QoeU1fjk452EqNGQhmI+A=;
+        b=seOYh3r78SXb8ZEtM3Lrc1XwWUstsIeCsozhUiXL7JNoMUCG7b7ZDSVGiJC3c9wkHE
+         RFVfAZHfgaAQdr8OZAqO5oFRnux/NCylTWHv072cySBXUa8knnADA+fyDX9G57kgRz4H
+         rtvBcN9VOEn+prB6q0AgQf/PhT4Kj6p6BpTWjgIVonXfO6QyOVnupi79wRj+TP07nJn1
+         0zkMcsdg1iGYU1WiKrpDMjPbXy943LmpGwtlAjEGQFyGAyl9RKqdH/ESVUh7JIFTptL1
+         iPMTtufAb0WC9gNk6Hjvui/Q/tIkoh/zDHpznLRRAeOXDa4VaYG7aCBlLt13PGGM5IHZ
+         YrjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=sOmwGuxxN7C5MB1RpwUhFRI21UD2rddElPr+6BQnito=;
-        b=J+Op2yUidJ5OAu1HnDDkhCRpZKbRcYA0T8+8MvzcMAZ1T2Y3QK5YBkWOPgEOj1rcvu
-         SKdii8YxZA9m+9kzTcyY3s+WyAlZA2mm4o3sZfk+Myj/Ktr7Cfd+osOutkYI+VhyVC+b
-         4DbXLOMnZzJNzYQ50IM4gpiJz9Koss1gaukK0X/vFvJRsfqnjgssOouXQKqtR+AQr5ZM
-         JFlEX8ZbE6aKFdyv0R6FgMjU+C32Atj/LEtKBvVd4Vp6eAkQTL4DC270038b2ltvivGZ
-         PXBd9YZ9ENeJuEgEte4PPofJNEyRP+T3CESbdF8ofg8OhZKJblu7H6eOHtHKwLI0X8r2
-         upMA==
-X-Gm-Message-State: AOAM5320KddSlMJkfG1ZylsHmglHiO3w/lXfxEZW1jbfqPXgIo4T+Y+k
-	UdehdQe3xn+ftm/htAXiTcM=
-X-Google-Smtp-Source: ABdhPJxd14yXZJdIWzEh1aIzCbxzvyUkouE6qzSu5ybj9/LN7jRy8iV3Kf5cCRcyuBlN+RnEEvG2pA==
-X-Received: by 2002:aed:2123:: with SMTP id 32mr19102106qtc.325.1608588940391;
-        Mon, 21 Dec 2020 14:15:40 -0800 (PST)
+        bh=dhEqo3+7hhucL0W/a0SCO7QoeU1fjk452EqNGQhmI+A=;
+        b=JlFlfvEf8gwesGKpjzZ/VRZuOtZ7FS+9rbg3fdGYT+IsQTy/Sl4C2vS83+T2FqGAm3
+         eDIELBLEyYq/noACGqUaxFTHTfOqlmkMk+1eFYBHeVNCX/rbBJyMzDeveTsHQknDlQt8
+         1mpTBx76pSEMg5W3V3FryYKxk816WG1L+pgT7drIig+lMrimjOt3qIM31vVLfwJQtLjf
+         FICWZD0L92PSUF0R6M0k7JjYUhkQcC05SdGNgxKoJVCm1RJkltF2HL9sAe4UhfUTL8N2
+         qo1yZ9dMOOrNFY5iUoD5xwm5yyKEdshywY0r4iRev9KPcoWceXBVEbyp6p+HQT6yzLiQ
+         M5Rg==
+X-Gm-Message-State: AOAM5304Ygh8EMWOAVQF/nRaWt4EpuXhNxDH1/r/jlJLAekWDtLNiffu
+	iZtED2Gg//qHvQ3yP6thdPtHJb3OyQFANw==
+X-Google-Smtp-Source: ABdhPJyKcT404D/PoyjDBJs2FRCmj8ySp/QLz+RSoxMnaJIqlmPGLq5C9yDnqUUINCspri/esSYAGA==
+X-Received: by 2002:ae9:ddc7:: with SMTP id r190mr19143601qkf.102.1608588992897;
+        Mon, 21 Dec 2020 14:16:32 -0800 (PST)
 Received: from gmail.com (cpe04d4c4975b80-cm64777d5e8820.cpe.net.cable.rogers.com. [174.112.165.127])
-        by smtp.gmail.com with ESMTPSA id 102sm10706008qtg.45.2020.12.21.14.15.39
+        by smtp.gmail.com with ESMTPSA id w8sm12270979qts.50.2020.12.21.14.16.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Dec 2020 14:15:39 -0800 (PST)
-Date: Mon, 21 Dec 2020 17:15:38 -0500
+        Mon, 21 Dec 2020 14:16:32 -0800 (PST)
+Date: Mon, 21 Dec 2020 17:16:30 -0500
 From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-To: zangrc <zangrc.fnst@cn.fujitsu.com>
+To: zhengruoqin <zhengrq.fnst@cn.fujitsu.com>
 Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [meta-virtualization] [PATCH] python-functools32: Remove recipe
-Message-ID: <20201221221535.GA22844@gmail.com>
+Subject: Re: [meta-virtualization] [PATCH 7/7] python3-osprofiler: upgrade 2.9.0 -> 3.4.0
+Message-ID: <20201221221629.GB22844@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <1608016153-57351-1-git-send-email-zangrc.fnst@cn.fujitsu.com>
- <1608016178-57413-1-git-send-email-zangrc.fnst@cn.fujitsu.com>
- <1608016190-57478-1-git-send-email-zangrc.fnst@cn.fujitsu.com>
+In-Reply-To: <1608016848-55637-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+ <1608016875-55674-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+ <1608016895-55720-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+ <1608016902-55756-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+ <1608016926-55793-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+ <1608016934-55829-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+ <1608016956-55876-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
@@ -59,53 +63,101 @@ merged.
 
 Bruce
 
-In message: [meta-virtualization] [PATCH] python-functools32: Remove recipe
-on 15/12/2020 zangrc wrote:
+In message: [meta-virtualization] [PATCH 7/7] python3-osprofiler: upgrade 2.9.0 -> 3.4.0
+on 15/12/2020 zhengruoqin wrote:
 
-> This is a backport of the functools standard library module from Python 3.2.3 for use on Python 2.7 and PyPy. It includes new features lru_cache (Least-recently-used cache decorator).But the current version of python3 is 3.9.0, so remove this recipe.
+> Because python2 is no longer maintained, bb file is changed to python3 version.
 > 
-> Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+> Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
 > ---
->  .../python/python-functools32_git.bb          | 30 -------------------
->  1 file changed, 30 deletions(-)
->  delete mode 100644 meta-openstack/recipes-devtools/python/python-functools32_git.bb
+>  .../python/python-osprofiler_2.9.0.bb         | 35 -------------------
+>  .../python/python3-osprofiler_3.4.0.bb        | 35 +++++++++++++++++++
+>  2 files changed, 35 insertions(+), 35 deletions(-)
+>  delete mode 100644 meta-openstack/recipes-devtools/python/python-osprofiler_2.9.0.bb
+>  create mode 100644 meta-openstack/recipes-devtools/python/python3-osprofiler_3.4.0.bb
 > 
-> diff --git a/meta-openstack/recipes-devtools/python/python-functools32_git.bb b/meta-openstack/recipes-devtools/python/python-functools32_git.bb
+> diff --git a/meta-openstack/recipes-devtools/python/python-osprofiler_2.9.0.bb b/meta-openstack/recipes-devtools/python/python-osprofiler_2.9.0.bb
 > deleted file mode 100644
-> index 9744b522..00000000
-> --- a/meta-openstack/recipes-devtools/python/python-functools32_git.bb
+> index e6fe8656..00000000
+> --- a/meta-openstack/recipes-devtools/python/python-osprofiler_2.9.0.bb
 > +++ /dev/null
-> @@ -1,30 +0,0 @@
-> -SUMMARY = "Python higher-order functions and operations on callable objects"
-> -HOMEPAGE = "https://pypi.python.org/pypi/functools32"
+> @@ -1,35 +0,0 @@
+> -DESCRIPTION = "OpenStack Profiler Library"
+> -HOMEPAGE = "http://www.openstack.org/"
 > -SECTION = "devel/python"
-> -LICENSE = "PSFv2"
+> -LICENSE = "Apache-2.0"
+> -LIC_FILES_CHKSUM = "file://LICENSE;md5=19cbd64715b51267a47bf3750cc6a8a5"
 > -
-> -PV = "3.2.3-2"
-> -SRCREV = "ad90fa86e2f4f494a3aedb0571274f3bbc6d7ab5"
+> -SRC_URI[md5sum] = "75f190b00ac248b3d547b67a480801db"
+> -SRC_URI[sha256sum] = "6915cbf8ac390dc3e125340b0ff368dd53f5889e3d053f9122dd83ba0dd366f7"
 > -
-> -SRCNAME = "functools32"
+> -inherit setuptools3 pypi
 > -
-> -LIC_FILES_CHKSUM = "file://LICENSE;md5=27cf2345969ed18e6730e90fb0063a10"
-> -SRC_URI = "git://github.com/MiCHiLU/python-${SRCNAME}.git"
-> -
-> -S = "${WORKDIR}/git"
-> -
-> -inherit distutils3
-> -
-> -DISTUTILS_INSTALL_ARGS = "--root=${D} \
-> -    --prefix=${prefix} \
-> -    --install-lib=${PYTHON_SITEPACKAGES_DIR} \
-> -    --install-data=${datadir}"
+> -# DEPENDS_default: python-pip
 > -
 > -DEPENDS += " \
-> -	python-pbr \
-> -	"
+> -        python-pip \
+> -        python-pbr \
+> -        "
 > -
-> -RDEPENDS_${PN} += "python-testtools \
-> -	python-pbr \
-> -	"
+> -# Satisfy setup.py 'setup_requires'
+> -DEPENDS += " \
+> -        python-pbr-native \
+> -        "
 > -
+> -# RDEPENDS_default: 
+> -RDEPENDS_${PN} += " \
+> -        python-pbr \
+> -        python-six \
+> -        python-oslo.messaging \
+> -        python-oslo.log \
+> -        python-oslo.utils \
+> -        python-webob \
+> -        python-requests \
+> -        python-netaddr \
+> -        python-oslo.concurrency \
+> -        "
+> diff --git a/meta-openstack/recipes-devtools/python/python3-osprofiler_3.4.0.bb b/meta-openstack/recipes-devtools/python/python3-osprofiler_3.4.0.bb
+> new file mode 100644
+> index 00000000..5d7939b6
+> --- /dev/null
+> +++ b/meta-openstack/recipes-devtools/python/python3-osprofiler_3.4.0.bb
+> @@ -0,0 +1,35 @@
+> +DESCRIPTION = "OpenStack Profiler Library"
+> +HOMEPAGE = "http://www.openstack.org/"
+> +SECTION = "devel/python"
+> +LICENSE = "Apache-2.0"
+> +LIC_FILES_CHKSUM = "file://LICENSE;md5=19cbd64715b51267a47bf3750cc6a8a5"
+> +
+> +SRC_URI[md5sum] = "691c4d2cc77e60eeaa30edd7bf087481"
+> +SRC_URI[sha256sum] = "f7fe387f4dd681bbf92b9fbe857cc90e89cfe96d44522a2727540902310a9ed6"
+> +
+> +inherit setuptools3 pypi
+> +
+> +# DEPENDS_default: python-pip
+> +
+> +DEPENDS += " \
+> +        python3-pip \
+> +        python3-pbr \
+> +        "
+> +
+> +# Satisfy setup.py 'setup_requires'
+> +DEPENDS += " \
+> +        python3-pbr-native \
+> +        "
+> +
+> +# RDEPENDS_default: 
+> +RDEPENDS_${PN} += " \
+> +        python3-pbr \
+> +        python3-six \
+> +        python3-oslo.messaging \
+> +        python3-oslo.log \
+> +        python3-oslo.utils \
+> +        python3-webob \
+> +        python3-requests \
+> +        python3-netaddr \
+> +        python3-oslo.concurrency \
+> +        "
 > -- 
 > 2.25.1
 > 
