@@ -1,21 +1,21 @@
 Received: from cpanel8.indieserve.net (cpanel8.indieserve.net [199.212.143.3])
- by mx.groups.io with SMTP id smtpd.web11.11623.1609597218309703844
+ by mx.groups.io with SMTP id smtpd.web10.16137.1609618052672270643
  for <meta-virtualization@lists.yoctoproject.org>;
- Sat, 02 Jan 2021 06:20:18 -0800
+ Sat, 02 Jan 2021 12:07:33 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=pass (domain: crashcourse.ca, ip: 199.212.143.3, mailfrom: rpjday@crashcourse.ca)
-Received: from cpeac202e043973-cmac202e043970.sdns.net.rogers.com ([174.114.100.179]:45394 helo=fedora)
+Received: from cpef81d0f814063-cmf81d0f814060.cpe.net.cable.rogers.com ([174.114.57.56]:38718 helo=fedora)
 	by cpanel8.indieserve.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.93)
 	(envelope-from <rpjday@crashcourse.ca>)
-	id 1kvhlP-0007Wu-Qd; Sat, 02 Jan 2021 09:20:16 -0500
-Date: Sat, 2 Jan 2021 09:20:14 -0500 (EST)
+	id 1kvnBS-0003Z0-0s; Sat, 02 Jan 2021 15:07:31 -0500
+Date: Sat, 2 Jan 2021 15:07:27 -0500 (EST)
 From: "Robert P. J. Day" <rpjday@crashcourse.ca>
 To: Bruce Ashfield <bruce.ashfield@gmail.com>
 cc: meta-virtualization@lists.yoctoproject.org
 Subject: Re: [meta-virtualization] what is the state of meta-cloud-services, re: chef/puppet/ruby recipes?
 In-Reply-To: <CADkTA4Nf59A4F_JrPOtv77FK57nNEVjEvirhuegmWc=WwJzyhQ@mail.gmail.com>
-Message-ID: <4720fd3-e8d0-544f-2388-15f275d631@crashcourse.ca>
+Message-ID: <aceeb927-56eb-f93d-cdc3-9d9c3643dcdf@crashcourse.ca>
 References: <aee11c2c-09f-1c4-3a0-13b1b2338030@crashcourse.ca> <CADkTA4Nf59A4F_JrPOtv77FK57nNEVjEvirhuegmWc=WwJzyhQ@mail.gmail.com>
 MIME-Version: 1.0
 X-OutGoing-Spam-Status: No, score=-1.0
@@ -33,33 +33,52 @@ Content-Type: text/plain; charset=US-ASCII
 
 On Sun, 27 Dec 2020, Bruce Ashfield wrote:
 
-... snip ...
-
 > No one has done much with the ruby support in quite some time, so it
 > would need work as well. I thought there was a meta-ruby floating
 > around, but I couldn't find it on the layerindex, so it looks like
 > just oe-core + some work would be required.
 
-  dumb question alert: i'm currently going through all of the ruby
-recipes in meta-openstack, doing the occasional fixup to get them to
-build on the master branch, and i can see that all(?) of those recipes
-define a SRC_URI that downloads a proper .gemspec file for each
-recipe, which allows the recipe to build.
+  random thoughts after messing with various aspects of ruby for the
+last couple days.
 
-  *however*, even though a number of those recipes BBCLASSEXTEND to
-class "native", it's not possible to build the native variants as the
-error is that there is no gemspec file for the native variant. which
-is why i get:
+  first, would it not make sense to move the ruby.bbclass file to
+oe-core? given the fundamental nature of ruby.bbclass, it seems
+inappropriate to have it in a specialized layer like
+meta-cloud-services. if oe-core has class files related to things like
+perl and python, it would seem like ruby.bbclass belongs there as
+well.
 
-  $ bitbake yard-native
-  ...
-  Log data follows:
-  | DEBUG: Executing shell function do_compile
-  | ERROR:  Gemspec file not found: yard-native.gemspec
-  ... snip ...
+  also, i had to hack ruby.bbclass given the python 3 distinction
+between strings and bytes in order to get some ruby variables to be
+set properly:
 
-what's the magic to build native ruby recipes? does one actually have
-to define a distinct native version of the gemspec file for each
-recipe?
+diff --git a/classes/ruby.bbclass b/classes/ruby.bbclass
+index 15ac9f4b..585d128d 100644
+--- a/classes/ruby.bbclass
++++ b/classes/ruby.bbclass
+@@ -26,7 +26,7 @@ def get_rubyversion(p):
+     version = subprocess.Popen([cmd, "--version"],
+stdout=subprocess.PIPE).communicate()[0]
+
+     r = re.compile("ruby ([0-9]+\.[0-9]+\.[0-9]+)*")
+-    m = r.match(version)
++    m = r.match(version.decode("utf-8"))
+     if m:
+         found_version = m.group(1)
+
+@@ -44,6 +44,7 @@ def get_rubygemslocation(p):
+        return found_loc
+
+     loc = subprocess.Popen([cmd, "env"], stdout=subprocess.PIPE).communicate()[0]
++    loc = loc.decode("utf-8")
+
+     r = re.compile(".*\- (/usr.*/ruby/gems/.*)")
+     for line in loc.split('\n'):
+
+  i'm sure there's a cleaner way to do that ... i can submit that, but
+i'm not sure which ML to give it to.
+
+  in any event, i'm still beating up on ruby, and it would be nice to
+formalize how to get this organized.
 
 rday
