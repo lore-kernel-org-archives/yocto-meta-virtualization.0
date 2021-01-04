@@ -1,84 +1,72 @@
-Received: from cpanel8.indieserve.net (cpanel8.indieserve.net [199.212.143.3])
- by mx.groups.io with SMTP id smtpd.web10.16137.1609618052672270643
+Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
+ by mx.groups.io with SMTP id smtpd.web10.10622.1609744337281999169
  for <meta-virtualization@lists.yoctoproject.org>;
- Sat, 02 Jan 2021 12:07:33 -0800
+ Sun, 03 Jan 2021 23:12:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: crashcourse.ca, ip: 199.212.143.3, mailfrom: rpjday@crashcourse.ca)
-Received: from cpef81d0f814063-cmf81d0f814060.cpe.net.cable.rogers.com ([174.114.57.56]:38718 helo=fedora)
-	by cpanel8.indieserve.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.93)
-	(envelope-from <rpjday@crashcourse.ca>)
-	id 1kvnBS-0003Z0-0s; Sat, 02 Jan 2021 15:07:31 -0500
-Date: Sat, 2 Jan 2021 15:07:27 -0500 (EST)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+ dkim=fail reason="signature has expired" header.i=@axis.com header.s=axis-central1 header.b=RehTypkN;
+ spf=fail (domain: axis.com, ip: 198.145.29.25, mailfrom: joakim.roubert@axis.com)
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+	by mail.yoctoproject.org (Postfix) with ESMTPS id 891DF38C069E
+	for <meta-virtualization@yoctoproject.org>; Mon,  4 Jan 2021 07:12:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=axis.com; q=dns/txt; s=axis-central1; t=1609744335;
+  x=1641280335;
+  h=subject:to:cc:references:from:message-id:date:
+   mime-version:in-reply-to:content-transfer-encoding;
+  bh=VDWjQ+lC4HUQfR7A+/99qLjVs5yjOWLZeOhguruh5V0=;
+  b=RehTypkNOIZn9sJMO9aDCcW/JF6YfWKOQtXAy6X2zxefQH1hNl9Jd3eD
+   iKb2j4gvuQ0ZrvMdMrdkkwqHFv3VuVItabmTQzOZk5AnqCcicwSpzii32
+   gX8Gt1HRnfasODj5SuJU0ieZCEf2QpVPbnB1uiXvcENQU1nOMFLWIqy37
+   ew3C4ZDt988pYzeyLScWzRqOsbvQitpS4ThU+sn+cWuP/gfXBRDBX458v
+   5v6n8spB8ahjP3oqYRKuPPcEUSJxnCnGSOXm3XZhNcvzH7rybyYJqpP9v
+   vPrChyfBG7YDEm+qp5VK2hhxHv6lA3NP3eGDOP8SokV9QPDslPA4ohOUc
+   w==;
+Subject: Re: [meta-virtualization][PATCH] k3s: Bump to v1.19.3+k3s3
 To: Bruce Ashfield <bruce.ashfield@gmail.com>
-cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [meta-virtualization] what is the state of meta-cloud-services, re: chef/puppet/ruby recipes?
-In-Reply-To: <CADkTA4Nf59A4F_JrPOtv77FK57nNEVjEvirhuegmWc=WwJzyhQ@mail.gmail.com>
-Message-ID: <aceeb927-56eb-f93d-cdc3-9d9c3643dcdf@crashcourse.ca>
-References: <aee11c2c-09f-1c4-3a0-13b1b2338030@crashcourse.ca> <CADkTA4Nf59A4F_JrPOtv77FK57nNEVjEvirhuegmWc=WwJzyhQ@mail.gmail.com>
+CC: meta-virtualization <meta-virtualization@yoctoproject.org>
+References: <CADkTA4MYg8ayOej7ZV+saSnDzXod4URBCHitxFDOrfbLifwf4A@mail.gmail.com>
+ <0c2289b8-4ce2-ba88-a05d-7204d88f403e@axis.com>
+ <16485135E3A12798.28066@lists.yoctoproject.org>
+ <CADkTA4N6C6HdSMhX-+W4L9QcZWOGN+6WcrH0i9f8dO37NhFSVg@mail.gmail.com>
+ <6f43ed71-1a4c-f767-aa70-b83010851eb6@axis.com>
+ <1648529A6FD37D30.5807@lists.yoctoproject.org>
+ <CADkTA4PntU=xXDHzC6EissVgNf+hVq45qu58fuAr_x-b1Hdnsg@mail.gmail.com>
+ <6eaac6fd-21cd-8d06-eeb5-c8a77516bdbe@axis.com>
+ <CADkTA4PwG9_aUk07u=RttdwurGrbP1YPG1g+gE5H=q8r73ANhA@mail.gmail.com>
+ <DBBPR08MB4725E5A2E6EFF7A928BCA7AF91CA0@DBBPR08MB4725.eurprd08.prod.outlook.com>
+ <CADkTA4Mg_+4Aj216FyYqVA22g4vBSgt6f2zURvXjNikhwMJutw@mail.gmail.com>
+ <DBBPR08MB472507C6C2E14C13A773FF2C91C60@DBBPR08MB4725.eurprd08.prod.outlook.com>
+ <CADkTA4OOc_dL_8KVDFShHH5AkQXnpFoUAC7VOPEqnAPGH6qwLQ@mail.gmail.com>
+ <24132353-1078-bdbd-5856-3c644d615f1a@axis.com>
+ <CADkTA4Nrekx9LMEQP4ZJ=6T6Vt1tLMeDEgpY9xW4YY3aZEa83w@mail.gmail.com>
+From: "Joakim Roubert" <joakim.roubert@axis.com>
+Message-ID: <244150c1-c21d-9339-d189-ed9e80d79a37@axis.com>
+Date: Mon, 4 Jan 2021 08:12:12 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.1
 MIME-Version: 1.0
-X-OutGoing-Spam-Status: No, score=-1.0
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - cpanel8.indieserve.net
-X-AntiAbuse: Original Domain - lists.yoctoproject.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Get-Message-Sender-Via: cpanel8.indieserve.net: authenticated_id: rpjday+crashcourse.ca/only user confirmed/virtual account not confirmed
-X-Authenticated-Sender: cpanel8.indieserve.net: rpjday@crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <CADkTA4Nrekx9LMEQP4ZJ=6T6Vt1tLMeDEgpY9xW4YY3aZEa83w@mail.gmail.com>
+X-Originating-IP: [10.0.5.60]
+X-ClientProxiedBy: XBOX02.axis.com (10.0.5.16) To XBOX03.axis.com (10.0.5.17)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, 27 Dec 2020, Bruce Ashfield wrote:
+On 2020-12-22 17:15, Bruce Ashfield wrote:
+> So that rules out something in the kernel (and its config), the go=20
+> version or something in our rootfs being missing.
 
-> No one has done much with the ruby support in quite some time, so it
-> would need work as well. I thought there was a meta-ruby floating
-> around, but I couldn't find it on the layerindex, so it looks like
-> just oe-core + some work would be required.
+That surely narrows things down.
 
-  random thoughts after messing with various aspects of ruby for the
-last couple days.
+> But as soon as you fetch the rancher binary, restart the services ..
+> the containers come up just fine.
 
-  first, would it not make sense to move the ruby.bbclass file to
-oe-core? given the fundamental nature of ruby.bbclass, it seems
-inappropriate to have it in a specialized layer like
-meta-cloud-services. if oe-core has class files related to things like
-perl and python, it would seem like ruby.bbclass belongs there as
-well.
+Is this the same thing that happened for the k3s v1.18.9 build too?
 
-  also, i had to hack ruby.bbclass given the python 3 distinction
-between strings and bytes in order to get some ruby variables to be
-set properly:
+> I'm diving deeper to try and sort it out.
 
-diff --git a/classes/ruby.bbclass b/classes/ruby.bbclass
-index 15ac9f4b..585d128d 100644
---- a/classes/ruby.bbclass
-+++ b/classes/ruby.bbclass
-@@ -26,7 +26,7 @@ def get_rubyversion(p):
-     version = subprocess.Popen([cmd, "--version"],
-stdout=subprocess.PIPE).communicate()[0]
+=F0=9F=91=8D
 
-     r = re.compile("ruby ([0-9]+\.[0-9]+\.[0-9]+)*")
--    m = r.match(version)
-+    m = r.match(version.decode("utf-8"))
-     if m:
-         found_version = m.group(1)
+BR,
 
-@@ -44,6 +44,7 @@ def get_rubygemslocation(p):
-        return found_loc
-
-     loc = subprocess.Popen([cmd, "env"], stdout=subprocess.PIPE).communicate()[0]
-+    loc = loc.decode("utf-8")
-
-     r = re.compile(".*\- (/usr.*/ruby/gems/.*)")
-     for line in loc.split('\n'):
-
-  i'm sure there's a cleaner way to do that ... i can submit that, but
-i'm not sure which ML to give it to.
-
-  in any event, i'm still beating up on ruby, and it would be nice to
-formalize how to get this organized.
-
-rday
+/Joakim
