@@ -1,118 +1,98 @@
-Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web11.5355.1609855144250512008
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+ by mx.groups.io with SMTP id smtpd.web10.202.1609882079718246912
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 05 Jan 2021 05:59:04 -0800
+ Tue, 05 Jan 2021 13:28:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=vbne70M8;
- spf=softfail (domain: gmail.com, ip: 198.145.29.25, mailfrom: bruce.ashfield@gmail.com)
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
-	by mail.yoctoproject.org (Postfix) with ESMTPS id 8892738C069F
-	for <meta-virtualization@yoctoproject.org>; Tue,  5 Jan 2021 13:59:03 +0000 (UTC)
-Received: by mail-ej1-f49.google.com with SMTP id w1so41254972ejf.11
-        for <meta-virtualization@yoctoproject.org>; Tue, 05 Jan 2021 05:59:03 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=dmqGE8kD;
+ spf=pass (domain: gmail.com, ip: 209.85.208.44, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ed1-f44.google.com with SMTP id p22so2327233edu.11
+        for <meta-virtualization@lists.yoctoproject.org>; Tue, 05 Jan 2021 13:27:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=QPyjKI7BNFTpoEQs3T426pd+5nqkWiZPRU/A4VLX7+s=;
-        b=vbne70M8U4TNvjXujvjRmpyoWwHplr21p0kUAZMEckgy0A/8DtIRlrwURSuMlTXMIc
-         Gi8k5cY0ohEV4I4X6iVEDoR+B//yzsP0UHHaoQo/DhV7bPAst+MWaqf3XN9mleMGe3iy
-         igTzjTmwkXaODV9ZKPdh3THsBWk9W/GkRqye0cjYQWMqaAeVY9NVNPLfQxlwU0xjSG64
-         NHt56+Il+E7BjpRBLDhqexcL5nqKtDq10OdqBujUdAvskoIK21gr+suzuTcMhpAFZPnU
-         g4YG1aTVUL+4M60u1ATI406scCW4XllDM2jK/ssrTl1tj40brueVas3gUVe7jJQdzXIA
-         /x5g==
+        bh=Z+j7W7D5eLNPMTrAjEUyFXsoGqv5GWIpJf+quzGfDNU=;
+        b=dmqGE8kDEHT50qd6QcYLmbOcw5VG8HgLworRqzo93pgrywq1o7pQ5Sv/CuosS4mnOo
+         GOrGRfglYktbYLMdclYAIwA3ac5fAT+o/dyA1QCq5kxxvYlx/80ACYPMyfxsjW4DIwLH
+         fxaX/k3jsV127Uj4q0Pkun3VtuNAKShAQqHT6DK4Uex9o/9zr00iHqC+Z0NnJh4pImzy
+         MGx02tAYJquHHKbLtj1YqqiFDx+Fj5Esc+bUNRuxXAuGzd3P0E+kJufN4bD68ckAulci
+         VlBo8tXGpKDr8U5BkidM/WDzZesM0v769O6Yf9sOjx964xzT81NEm9UrwcAoVm72LINF
+         J0Ng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=QPyjKI7BNFTpoEQs3T426pd+5nqkWiZPRU/A4VLX7+s=;
-        b=DTXc7LHJvIAXm+Rbwp8BNSBJMjIHA4PC/14cJH6ORIVoDZwR27HdIeySbIhYAIvl79
-         vtkE54U1021abHO8aZyoHP0Qclsw8cvHUMokRQWl7q+3yZxf82VUvCV6FFTCSZMFJil+
-         rK9uzkDaP50l3Tm3R09c6jso7RAtG2H2zfxyOGku7wVnEudaJiJOypP8dWWI2spXS9hA
-         ptmV2BgcfnUWpbeB6Op1ZVvnTPq1159nzWsUscJr2i19bQ1L/BK+o06hzIz9LYrd47T9
-         ytyN6Ql0jpm+xXUeVpXkY0WxzuRQdEZtCpecJsFf8ZInew55i3M1p7xyCYm8hC2n+z6Q
-         LK4w==
-X-Gm-Message-State: AOAM5323xBXEevJDHXPX1Q2Ay/28phheTHGyzEuo9Vhet98GufXHaZTS
-	3JcvWfB3NXam4Kg4IQEiAxphxIPlkLtSZ2NGoz4=
-X-Google-Smtp-Source: ABdhPJwuVRZfPLzvMlwm3JRcFRNresXtpqdZSiZ8Gfz0OSHPDLf6Soxud13tVb4DWvAighSBPI8YA2EwOCjdSmKrG+c=
-X-Received: by 2002:a17:906:edc8:: with SMTP id sb8mr70996868ejb.247.1609855141816;
- Tue, 05 Jan 2021 05:59:01 -0800 (PST)
+        bh=Z+j7W7D5eLNPMTrAjEUyFXsoGqv5GWIpJf+quzGfDNU=;
+        b=UiIAqfqUw/HijAVj1dVDXkgPwhhb4AYTpyUk2qtQ1TQvQg9aA/F6Rh2i3MYWuC9cX4
+         x3a8goJ1f02XS7Xco6qlJcKNFHJ5pyOk1qStc12mVekeKFeXJIkjkDQaLUJDeh7v/vVh
+         4prK5TqnHi6OUjzxfi2CVUYcEtDsy3xzg9lyAglb3TR90ndj56XvHgINRFxFFfjQPbXU
+         3GsZ2gUxlqR/4ERFQhoACaecL9g3hTOrhHN+4ni27iNSQSG+VrOs/LwpnNzgvXf4wdUk
+         IsIADJAlb5NivD1IxbtHZ881hg7Ag1m98HtxfA2YiNv1G2LfXdmKoVjLIhax1DleFpaj
+         15Zg==
+X-Gm-Message-State: AOAM5334LxgCtVUI36Vvg3xpjo6C/GRTSicq7jGthmfTjEgCUU8jiDYh
+	IHoJKxp8J+Jg54jL1TEkYciv+HvJPYv9tVdlP7s=
+X-Google-Smtp-Source: ABdhPJz6e1mCBjUm7x6ZsuDzytQxYF9aUPpgPxzLhc7GToXPOD5V2AXOlta1SpLXJSxuoO2l28v0Q/UEs9HmkVgVVoI=
+X-Received: by 2002:a05:6402:3553:: with SMTP id f19mr1754303edd.129.1609882078150;
+ Tue, 05 Jan 2021 13:27:58 -0800 (PST)
 MIME-Version: 1.0
-References: <CADkTA4MYg8ayOej7ZV+saSnDzXod4URBCHitxFDOrfbLifwf4A@mail.gmail.com>
- <0c2289b8-4ce2-ba88-a05d-7204d88f403e@axis.com> <16485135E3A12798.28066@lists.yoctoproject.org>
- <CADkTA4N6C6HdSMhX-+W4L9QcZWOGN+6WcrH0i9f8dO37NhFSVg@mail.gmail.com>
- <6f43ed71-1a4c-f767-aa70-b83010851eb6@axis.com> <1648529A6FD37D30.5807@lists.yoctoproject.org>
- <CADkTA4PntU=xXDHzC6EissVgNf+hVq45qu58fuAr_x-b1Hdnsg@mail.gmail.com>
- <6eaac6fd-21cd-8d06-eeb5-c8a77516bdbe@axis.com> <CADkTA4PwG9_aUk07u=RttdwurGrbP1YPG1g+gE5H=q8r73ANhA@mail.gmail.com>
- <DBBPR08MB4725E5A2E6EFF7A928BCA7AF91CA0@DBBPR08MB4725.eurprd08.prod.outlook.com>
- <CADkTA4Mg_+4Aj216FyYqVA22g4vBSgt6f2zURvXjNikhwMJutw@mail.gmail.com>
- <DBBPR08MB472507C6C2E14C13A773FF2C91C60@DBBPR08MB4725.eurprd08.prod.outlook.com>
- <CADkTA4OOc_dL_8KVDFShHH5AkQXnpFoUAC7VOPEqnAPGH6qwLQ@mail.gmail.com>
- <24132353-1078-bdbd-5856-3c644d615f1a@axis.com> <CADkTA4Nrekx9LMEQP4ZJ=6T6Vt1tLMeDEgpY9xW4YY3aZEa83w@mail.gmail.com>
- <244150c1-c21d-9339-d189-ed9e80d79a37@axis.com> <16570B29E8680DE8.14857@lists.yoctoproject.org>
-In-Reply-To: <16570B29E8680DE8.14857@lists.yoctoproject.org>
+References: <aee11c2c-09f-1c4-3a0-13b1b2338030@crashcourse.ca>
+ <CADkTA4Nf59A4F_JrPOtv77FK57nNEVjEvirhuegmWc=WwJzyhQ@mail.gmail.com> <4720fd3-e8d0-544f-2388-15f275d631@crashcourse.ca>
+In-Reply-To: <4720fd3-e8d0-544f-2388-15f275d631@crashcourse.ca>
 From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Tue, 5 Jan 2021 08:58:50 -0500
-Message-ID: <CADkTA4NyWVY03JwZfb6HYbJ=SYtobXW9gJ=C1mNQ4CV2vWscjw@mail.gmail.com>
-Subject: Re: [meta-virtualization][PATCH] k3s: Bump to v1.19.3+k3s3
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: Joakim Roubert <joakim.roubert@axis.com>, 
-	meta-virtualization <meta-virtualization@yoctoproject.org>
+Date: Tue, 5 Jan 2021 16:27:47 -0500
+Message-ID: <CADkTA4MNV+yRXHL0X4=qTxGYD1E13rtvLPAN433Rbf+wfazqBg@mail.gmail.com>
+Subject: Re: [meta-virtualization] what is the state of meta-cloud-services, re: chef/puppet/ruby recipes?
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Cc: meta-virtualization@lists.yoctoproject.org
 Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Jan 4, 2021 at 8:41 AM Bruce Ashfield via
-lists.yoctoproject.org
-<bruce.ashfield=gmail.com@lists.yoctoproject.org> wrote:
+On Sat, Jan 2, 2021 at 9:20 AM Robert P. J. Day <rpjday@crashcourse.ca> wrote:
 >
-> On Mon, Jan 4, 2021 at 2:12 AM Joakim Roubert <joakim.roubert@axis.com> wrote:
-> >
-> > On 2020-12-22 17:15, Bruce Ashfield wrote:
-> > > So that rules out something in the kernel (and its config), the go
-> > > version or something in our rootfs being missing.
-> >
-> > That surely narrows things down.
-> >
-> > > But as soon as you fetch the rancher binary, restart the services ..
-> > > the containers come up just fine.
-> >
-> > Is this the same thing that happened for the k3s v1.18.9 build too?
-> >
+> On Sun, 27 Dec 2020, Bruce Ashfield wrote:
 >
-> Yep. It is consistent with all versions that I've built, including the
-> pre-release master branch as well. I was hoping for some "uprev magic"
-> to fix it, but that wasn't the case :)
+> ... snip ...
 >
-> I'm back from the holidays now, and will be back into this shortly.
+> > No one has done much with the ruby support in quite some time, so it
+> > would need work as well. I thought there was a meta-ruby floating
+> > around, but I couldn't find it on the layerindex, so it looks like
+> > just oe-core + some work would be required.
 >
+>   dumb question alert: i'm currently going through all of the ruby
+> recipes in meta-openstack, doing the occasional fixup to get them to
+> build on the master branch, and i can see that all(?) of those recipes
+> define a SRC_URI that downloads a proper .gemspec file for each
+> recipe, which allows the recipe to build.
+>
+>   *however*, even though a number of those recipes BBCLASSEXTEND to
+> class "native", it's not possible to build the native variants as the
+> error is that there is no gemspec file for the native variant. which
+> is why i get:
+>
+>   $ bitbake yard-native
+>   ...
+>   Log data follows:
+>   | DEBUG: Executing shell function do_compile
+>   | ERROR:  Gemspec file not found: yard-native.gemspec
+>   ... snip ...
+>
+> what's the magic to build native ruby recipes? does one actually have
+> to define a distinct native version of the gemspec file for each
+> recipe?
 
-I do have one more thing I'd like to try (I didn't get much debug done
-yesterday), do you happen to have a k3s binary that works in your
-environment ?
+I honestly can't say. I did little but review and merge the ruby
+changes. There was a primary author for the changes, and I haven't
+heard from them for some time.
 
-I'd like to toss it into my image and see if it behaves differently
-from my builds and the rancher builds of k3s.
+I don't recall them really being used in the -native variant, so it
+could / should probably just be a mass removal.
+
+Do you have a use case on the -native side of things ?
 
 Bruce
 
-> Bruce
 >
-> > > I'm diving deeper to try and sort it out.
-> >
-> >
-> >
-> > BR,
-> >
-> > /Joakim
->
->
->
-> --
-> - Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at its end
-> - "Use the force Harry" - Gandalf, Star Trek II
->
-> 
->
+> rday
+
 
 
 -- 
