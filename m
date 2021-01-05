@@ -1,95 +1,115 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
- by mx.groups.io with SMTP id smtpd.web10.202.1609882079718246912
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+ by mx.groups.io with SMTP id smtpd.web11.58.1609882294402575991
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 05 Jan 2021 13:28:00 -0800
+ Tue, 05 Jan 2021 13:31:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=dmqGE8kD;
- spf=pass (domain: gmail.com, ip: 209.85.208.44, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ed1-f44.google.com with SMTP id p22so2327233edu.11
-        for <meta-virtualization@lists.yoctoproject.org>; Tue, 05 Jan 2021 13:27:59 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=F19eeziA;
+ spf=pass (domain: gmail.com, ip: 209.85.218.44, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ej1-f44.google.com with SMTP id q22so2506849eja.2
+        for <meta-virtualization@lists.yoctoproject.org>; Tue, 05 Jan 2021 13:31:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=Z+j7W7D5eLNPMTrAjEUyFXsoGqv5GWIpJf+quzGfDNU=;
-        b=dmqGE8kDEHT50qd6QcYLmbOcw5VG8HgLworRqzo93pgrywq1o7pQ5Sv/CuosS4mnOo
-         GOrGRfglYktbYLMdclYAIwA3ac5fAT+o/dyA1QCq5kxxvYlx/80ACYPMyfxsjW4DIwLH
-         fxaX/k3jsV127Uj4q0Pkun3VtuNAKShAQqHT6DK4Uex9o/9zr00iHqC+Z0NnJh4pImzy
-         MGx02tAYJquHHKbLtj1YqqiFDx+Fj5Esc+bUNRuxXAuGzd3P0E+kJufN4bD68ckAulci
-         VlBo8tXGpKDr8U5BkidM/WDzZesM0v769O6Yf9sOjx964xzT81NEm9UrwcAoVm72LINF
-         J0Ng==
+        bh=jvX9Rbn7Zp97bVFopI/ezfE2QTyRNAQFGqKzPeNmRjw=;
+        b=F19eeziANwhbXKowsQ881BbjH4vsbGhjw4w+wnxDrTygwxepESdUnKGOl4SiHBpQ4w
+         xsm3ECeRRZ1yAO7EqrVJy1JimhQOoii1kQrt2aIsq7qq8wAU+0Cu6gxASQxTYjgSa7E8
+         EkQzqRN2GRh0P8S7DZoHqHyh10cLRbbK0Bnfk4TG38SobYTq5oMC3l0DlYEwunZRDf4A
+         zlSAkhwfa+aDuTkQPQ8YwDetEGTE+QSAOydQMPF7eOzhX1fkO6crv4SBgmWjb3DnmSkK
+         5H9WKN0vpQBdXQdXPXCaT+sGexMwtO53np55OpdzDx0C+C01NymNKYvGciS++41+nG1S
+         8VLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Z+j7W7D5eLNPMTrAjEUyFXsoGqv5GWIpJf+quzGfDNU=;
-        b=UiIAqfqUw/HijAVj1dVDXkgPwhhb4AYTpyUk2qtQ1TQvQg9aA/F6Rh2i3MYWuC9cX4
-         x3a8goJ1f02XS7Xco6qlJcKNFHJ5pyOk1qStc12mVekeKFeXJIkjkDQaLUJDeh7v/vVh
-         4prK5TqnHi6OUjzxfi2CVUYcEtDsy3xzg9lyAglb3TR90ndj56XvHgINRFxFFfjQPbXU
-         3GsZ2gUxlqR/4ERFQhoACaecL9g3hTOrhHN+4ni27iNSQSG+VrOs/LwpnNzgvXf4wdUk
-         IsIADJAlb5NivD1IxbtHZ881hg7Ag1m98HtxfA2YiNv1G2LfXdmKoVjLIhax1DleFpaj
-         15Zg==
-X-Gm-Message-State: AOAM5334LxgCtVUI36Vvg3xpjo6C/GRTSicq7jGthmfTjEgCUU8jiDYh
-	IHoJKxp8J+Jg54jL1TEkYciv+HvJPYv9tVdlP7s=
-X-Google-Smtp-Source: ABdhPJz6e1mCBjUm7x6ZsuDzytQxYF9aUPpgPxzLhc7GToXPOD5V2AXOlta1SpLXJSxuoO2l28v0Q/UEs9HmkVgVVoI=
-X-Received: by 2002:a05:6402:3553:: with SMTP id f19mr1754303edd.129.1609882078150;
- Tue, 05 Jan 2021 13:27:58 -0800 (PST)
+        bh=jvX9Rbn7Zp97bVFopI/ezfE2QTyRNAQFGqKzPeNmRjw=;
+        b=tsUqiKhAothUhYxY+k3AewBtoR4eXuB0Z+XljW2i49pekQOim78E663joCbSeZIZi8
+         /C0LbhQn93offfa819CgaGnx9Od8tRPz/wwEz5Hntzn7/Ya8wtRlc7jwyeIxoAQocG3g
+         VZ+Tmj7spWlEfkihOVkd6TgThDQYTzwe+mlxmsVE7TvB5bcZmQf5dOVZtUn/uE/EtTlA
+         UXSwOEmZTnFRAH+T6BYEt/IYxeP3l/ms8HTHfHsewlQvK8WnOOAa+s0d+DmIjb+8LmIN
+         bKXOAEgDTCBWTyCKlByyyopY7GVUi3/CaYFGY2kwhzDTlrGs1wR/mcC0I19kpMN1wMne
+         AyIw==
+X-Gm-Message-State: AOAM533Vk72LRcnwHbfyLsVe8UcIlUVrUGHyyIsH9ZHfUxDQnAoHDl5P
+	lI80j2o5gs+6gMbSqarFSegnkd7FoNVlDCMDfsE=
+X-Google-Smtp-Source: ABdhPJwruVdTjsFL7O+dJVLzu7i2JGFuZeKyPvnuof52Fep/vbzhVEG7s1SZmCdnhXiBaxrFZVMRqNXwLF1XqIU2yPk=
+X-Received: by 2002:a17:906:6448:: with SMTP id l8mr894385ejn.357.1609882292822;
+ Tue, 05 Jan 2021 13:31:32 -0800 (PST)
 MIME-Version: 1.0
 References: <aee11c2c-09f-1c4-3a0-13b1b2338030@crashcourse.ca>
- <CADkTA4Nf59A4F_JrPOtv77FK57nNEVjEvirhuegmWc=WwJzyhQ@mail.gmail.com> <4720fd3-e8d0-544f-2388-15f275d631@crashcourse.ca>
-In-Reply-To: <4720fd3-e8d0-544f-2388-15f275d631@crashcourse.ca>
+ <CADkTA4Nf59A4F_JrPOtv77FK57nNEVjEvirhuegmWc=WwJzyhQ@mail.gmail.com> <aceeb927-56eb-f93d-cdc3-9d9c3643dcdf@crashcourse.ca>
+In-Reply-To: <aceeb927-56eb-f93d-cdc3-9d9c3643dcdf@crashcourse.ca>
 From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Tue, 5 Jan 2021 16:27:47 -0500
-Message-ID: <CADkTA4MNV+yRXHL0X4=qTxGYD1E13rtvLPAN433Rbf+wfazqBg@mail.gmail.com>
+Date: Tue, 5 Jan 2021 16:31:21 -0500
+Message-ID: <CADkTA4PCtpvTE6+GeWgPtBzMXkk9NK5pSuCjem4a3GtrAwtshw@mail.gmail.com>
 Subject: Re: [meta-virtualization] what is the state of meta-cloud-services, re: chef/puppet/ruby recipes?
 To: "Robert P. J. Day" <rpjday@crashcourse.ca>
 Cc: meta-virtualization@lists.yoctoproject.org
 Content-Type: text/plain; charset="UTF-8"
 
-On Sat, Jan 2, 2021 at 9:20 AM Robert P. J. Day <rpjday@crashcourse.ca> wrote:
+On Sat, Jan 2, 2021 at 3:07 PM Robert P. J. Day <rpjday@crashcourse.ca> wrote:
 >
 > On Sun, 27 Dec 2020, Bruce Ashfield wrote:
->
-> ... snip ...
 >
 > > No one has done much with the ruby support in quite some time, so it
 > > would need work as well. I thought there was a meta-ruby floating
 > > around, but I couldn't find it on the layerindex, so it looks like
 > > just oe-core + some work would be required.
 >
->   dumb question alert: i'm currently going through all of the ruby
-> recipes in meta-openstack, doing the occasional fixup to get them to
-> build on the master branch, and i can see that all(?) of those recipes
-> define a SRC_URI that downloads a proper .gemspec file for each
-> recipe, which allows the recipe to build.
+>   random thoughts after messing with various aspects of ruby for the
+> last couple days.
 >
->   *however*, even though a number of those recipes BBCLASSEXTEND to
-> class "native", it's not possible to build the native variants as the
-> error is that there is no gemspec file for the native variant. which
-> is why i get:
+>   first, would it not make sense to move the ruby.bbclass file to
+> oe-core? given the fundamental nature of ruby.bbclass, it seems
+> inappropriate to have it in a specialized layer like
+> meta-cloud-services. if oe-core has class files related to things like
+> perl and python, it would seem like ruby.bbclass belongs there as
+> well.
+
+It is a possibility, and was considered in the past. But oe-core
+doesn't currently have any ruby recipes (just the toolchain), so it
+isn't common enough for core. We had a lot of ruby in the openstack
+world, so the extended support was created there.
+
 >
->   $ bitbake yard-native
->   ...
->   Log data follows:
->   | DEBUG: Executing shell function do_compile
->   | ERROR:  Gemspec file not found: yard-native.gemspec
->   ... snip ...
+>   also, i had to hack ruby.bbclass given the python 3 distinction
+> between strings and bytes in order to get some ruby variables to be
+> set properly:
 >
-> what's the magic to build native ruby recipes? does one actually have
-> to define a distinct native version of the gemspec file for each
-> recipe?
+> diff --git a/classes/ruby.bbclass b/classes/ruby.bbclass
+> index 15ac9f4b..585d128d 100644
+> --- a/classes/ruby.bbclass
+> +++ b/classes/ruby.bbclass
+> @@ -26,7 +26,7 @@ def get_rubyversion(p):
+>      version = subprocess.Popen([cmd, "--version"],
+> stdout=subprocess.PIPE).communicate()[0]
+>
+>      r = re.compile("ruby ([0-9]+\.[0-9]+\.[0-9]+)*")
+> -    m = r.match(version)
+> +    m = r.match(version.decode("utf-8"))
+>      if m:
+>          found_version = m.group(1)
+>
+> @@ -44,6 +44,7 @@ def get_rubygemslocation(p):
+>         return found_loc
+>
+>      loc = subprocess.Popen([cmd, "env"], stdout=subprocess.PIPE).communicate()[0]
+> +    loc = loc.decode("utf-8")
+>
+>      r = re.compile(".*\- (/usr.*/ruby/gems/.*)")
+>      for line in loc.split('\n'):
+>
+>   i'm sure there's a cleaner way to do that ... i can submit that, but
+> i'm not sure which ML to give it to.
 
-I honestly can't say. I did little but review and merge the ruby
-changes. There was a primary author for the changes, and I haven't
-heard from them for some time.
+The change should be good enough, that's the typical python3.x technique.
 
-I don't recall them really being used in the -native variant, so it
-could / should probably just be a mass removal.
-
-Do you have a use case on the -native side of things ?
+This is the right mailing list for any changes.
 
 Bruce
 
+>
+>   in any event, i'm still beating up on ruby, and it would be nice to
+> formalize how to get this organized.
 >
 > rday
 
