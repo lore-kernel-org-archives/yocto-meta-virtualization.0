@@ -1,17 +1,17 @@
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (NAM11-BN8-obe.outbound.protection.outlook.com [40.107.236.66])
- by mx.groups.io with SMTP id smtpd.web08.4341.1611726662728097565
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (NAM11-DM6-obe.outbound.protection.outlook.com [40.107.223.70])
+ by mx.groups.io with SMTP id smtpd.web08.4434.1611727872632449453
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 26 Jan 2021 21:51:03 -0800
+ Tue, 26 Jan 2021 22:11:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=iziFPdc/;
- spf=pass (domain: windriver.com, ip: 40.107.236.66, mailfrom: changqing.li@windriver.com)
+ dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=IIDcB6vV;
+ spf=pass (domain: windriver.com, ip: 40.107.223.70, mailfrom: changqing.li@windriver.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MZhxFc3eKk6KvY6RsRF8aX+GVBy4Sy7/KPKP8n6dWZXkEqEGnUeoLLdLj3U1Sm2h+flfFhYZdoxH9xQiY4E3XzlV8ekbVAS5Bytju6EnKVSsSc0KO94jChvfoQG3DSbxahJ9TB+nZXUm5Ac4XxFpI5L/jdhwD9QgSeCrDfeBcIMfGmx6SszyrPDXLzb1GOA0jrQfwe2NHHkk8UgI7S8/Gf5jeyhRp6ab984llhIPrhq+RdbOYzwsJQbP24UQaxhBlkEfb05y7VXwVe0zx94K5F+vmjFpcdLfkAZkECFwjT1C7C1kuZY2hxOQyVZrSbcQKD2Kes0CjWwJbPcd9QCBig==
+ b=nrenWNs3P+hDKSpOa4nsDYOyo4tzm0PtJkQ3bnoyRndLzaBT+vzjq3wN13WkkEywOygyMzFSgTL6VIvZA1j/JYiSKwRi3KpfXWrkglPImeRbkPFXNLdihD39nXuAK/7QkT7vzwm5DEMDrSBUZy7VWMyM6Vf+5T4LczBdBFihZD3fqswcNOG1zZSkLtOivq6qr3/QgI1W2Myh/tSgUCHu273ZZov4XCQ51XT3Fk6Fz9IElDeKF8qXqdUckTir5dSUhGu3FrDXSFLaRBDtP4gDoO+CE9Wu/yEdKuje3H2BiJqJ1hK7lRhBUBeQ+y2rVJLO9cuVvZ/eJ655jTtwYhNijw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2Li9C/2TO81s2N3BeTERGaFFtt1NguKEzttlp3s4BRY=;
- b=niAAhoSmMrhcCQgxdUv5g/YwKzd14pfTOWoShSLDAYbe5fuGmzXo/4JF0HprnzOo76cbr8gwDa4i7+Npjgn2qVl1KnUOSea/V18jLG4vE8EBlq2TPnP7aE556sx4b+liDdcLAL9ZSpc6Jt82KRtLp/XgQcAkQAagQqaKhAblevu77F3ceHM6pg1rsvQpMMSIjOU3s0DplST63RhqPCTOKd8MVdCk5dfQhI2OnpfhQkmTfVc4PgMgxQXmS61/kVXQzM3eQ3BOx0D0tCSCc6fyAuVqxHLTpj4FsxPmwxs3O6N7hYLvtTbdsbrSzuCyIwQ4WhnW309wZTsehP4erkbxkw==
+ bh=D6921iuaNX7vJxiEbRGFWQ5qwSExWXWgOuYQMimqc4Y=;
+ b=Wguv58RFU07q+X6Dpa/JIDnp6su+Qo4I6zehjbwvqAfoKIU4m6GpVdFqFhVA1Bmzc33Pp/sR9ZJkFsA7r8MMwKIDG7AOOzeFgV09iKxj6uxt8cNwqiE1TRzYQPgvB3a4dEd/JJWNQJW1ZuOysAcmJgYBFIuliD5cUrsRqldMESSzGKuOWE2oFboxUPJr9kjrKLSNP+1I+rjRDaNJswaXalZwVlj5spvN5m0QaWpFp/XG6qVBttOs3uxyRVAu7V8n01INF3ptEuAL6GkCs728bK6NxEDMLd5ZxP8pVxLQtbuP2ACytTWhFBVX2HQjW9+beJbI+clvtvvwAdHVpGcCSw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -19,144 +19,85 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=windriversystems.onmicrosoft.com;
  s=selector2-windriversystems-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2Li9C/2TO81s2N3BeTERGaFFtt1NguKEzttlp3s4BRY=;
- b=iziFPdc/nP5liDMfoszHHFjoRMTrBuDtyEMtkXORtC1i60cG7grBsJpPWnj7LwLFjLuh8K3DNaTROJOOWto0nsywMTwsR0KloTXCV5kcCYFT8VVct8Ji5ccG9R8HStkI4N/Qj687RDrYA0A/idDPn3y+JXNC3BF/CKQjcGApnxU=
+ bh=D6921iuaNX7vJxiEbRGFWQ5qwSExWXWgOuYQMimqc4Y=;
+ b=IIDcB6vV8kC6N0XDsQdaPSOUJE/0VK1nuWwRvPYrQHDo9Qgu9CkJuxcspa8KtJ2Jf4zl6/mF+S2jqr5seIRF3rInmzulRdHHQasnuwjByDsCABSWGUf2uw1Bt1dURua1WR7/NkqwUil+KTLOaTrSf59sY7gGFb8i3RFexaI/4/0=
 Authentication-Results: lists.yoctoproject.org; dkim=none (message not signed)
  header.d=none;lists.yoctoproject.org; dmarc=none action=none
  header.from=windriver.com;
 Received: from SN6PR11MB2557.namprd11.prod.outlook.com (2603:10b6:805:56::33)
- by SA2PR11MB5050.namprd11.prod.outlook.com (2603:10b6:806:fb::19) with
+ by SN6PR11MB2606.namprd11.prod.outlook.com (2603:10b6:805:55::21) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3805.16; Wed, 27 Jan
- 2021 05:51:00 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3784.17; Wed, 27 Jan
+ 2021 06:11:10 +0000
 Received: from SN6PR11MB2557.namprd11.prod.outlook.com
  ([fe80::10d7:6fc7:935:f29]) by SN6PR11MB2557.namprd11.prod.outlook.com
  ([fe80::10d7:6fc7:935:f29%7]) with mapi id 15.20.3784.017; Wed, 27 Jan 2021
- 05:51:00 +0000
-Subject: Re: [meta-virtualization] [PATCH] celt051: update SRC_URI
+ 06:11:10 +0000
 From: "Changqing Li" <changqing.li@windriver.com>
 To: meta-virtualization@lists.yoctoproject.org
-References: <165B98B8B8245A4C.28472@lists.yoctoproject.org>
-Message-ID: <37b49c77-76b0-2175-4e87-eeb4c3f6ccff@windriver.com>
-Date: Wed, 27 Jan 2021 13:50:54 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <165B98B8B8245A4C.28472@lists.yoctoproject.org>
+Subject: [V2][PATCH] celt051: update SRC_URI
+Date: Wed, 27 Jan 2021 14:10:54 +0800
+Message-Id: <20210127061054.15256-1-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <165E00DC7E478DDF.12137@lists.yoctoproject.org>
+References: <165E00DC7E478DDF.12137@lists.yoctoproject.org>
 X-Originating-IP: [60.247.85.82]
-X-ClientProxiedBy: SJ0PR13CA0060.namprd13.prod.outlook.com
- (2603:10b6:a03:2c2::35) To SN6PR11MB2557.namprd11.prod.outlook.com
+X-ClientProxiedBy: YTOPR0101CA0020.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b00:15::33) To SN6PR11MB2557.namprd11.prod.outlook.com
  (2603:10b6:805:56::33)
 Return-Path: changqing.li@windriver.com
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [128.224.162.189] (60.247.85.82) by SJ0PR13CA0060.namprd13.prod.outlook.com (2603:10b6:a03:2c2::35) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3805.5 via Frontend Transport; Wed, 27 Jan 2021 05:50:58 +0000
+Received: from pek-lpg-core2.corp.ad.wrs.com (60.247.85.82) by YTOPR0101CA0020.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b00:15::33) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3805.16 via Frontend Transport; Wed, 27 Jan 2021 06:11:09 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 4dcb0148-a534-47ee-cf95-08d8c287864d
-X-MS-TrafficTypeDiagnostic: SA2PR11MB5050:
+X-MS-Office365-Filtering-Correlation-Id: a7ca2cdf-28a4-45ed-eea4-08d8c28a5764
+X-MS-TrafficTypeDiagnostic: SN6PR11MB2606:
 X-Microsoft-Antispam-PRVS: 
-	<SA2PR11MB50501B3B70716E7EA368ED2B82BB9@SA2PR11MB5050.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
+	<SN6PR11MB26068D1AF2C933CEB852A62382BB9@SN6PR11MB2606.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4941;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	b9PYznueCMXNa51MGWIqw2WL259juaZ3ScYuBOzAYQwEdm/sGDaxtkj56GKk+wO1Bp/8RsuXWrFU+3iR3kV3U+n4qH5FwPmXUtpPRjb0laL6ICwJ4AljM1Fy+Cl+6ILD/fdLvVViSbIew4pNQTyikUf4y1z/t5N/K7xJ97OZ+OOVXZulcmPCThbvLHWf9Pqa2M7fCH/hIAWe/6Pj9y9HXCsmZw234/+FmsMtZjpiDEkjnbzY5Lhac66MoAi2qCxTKDzpkJtcZix2hcsjItEoAhXsaSWhd8NQcTrNfPdsFrYtrPT4RTbhJlZJ2GoBZhJb+Mp6xbR4vy4M76EfKP56QOpFLTB5OQLYpom8DpK3DRaLT8EoIeVKc61O4F/HU6K4wyImlat+6ZyfNNe76QFVopK0fNPTRI6lnFkwR6cW/IqTTu/uw/bxYZ2vQVD41LVwnqTk0AXl2S3yb/vz9JSOteGfhbgWsK7ZqhJMMIHatoNFspKFo0PDEzhmPFRvvCf27OFCbMutFpphRYRJOzTcvtcg8Bh7gR7WnStiB2rfFeY2YG97A9GxRL1v2csCjE4t0CMVVQOLKVO0Hv3RhoRQxQ==
+	vaVgC3VZhSy8zbmdUdQeLFiAknztQxVIPVwT8ghrasWr7mwNiILxXzrTykZcjIQz2a0Jzn3Z7fv8q/hyTESiuPKJ56DH9s9e+NVHXq80njGGUuCNOcfHaibTbLeuIUdAEer/ARWxMlFg7P5PoUkkV+cdOWhOVPrzR8ae9ro2gC74KqKyzyEI5E7iXkpCnan72B48V56ZhCJ248e1/Eg9bXQsZ+BkmwBTdz+2aVy41BL7hhdOpnsd8s/uOLpw1/1yp2dj4YZZF/Phi+Hq8nXilvbrbouY1o3CVVrjr8FL89Yk/x32JQb19SRuJ+6+UnNgO0MrGah4hKXe7PKXHCu5TzmUSdThTMvKVEgcJcpG/aHmVCeOvioIa5CUCMXVdclCA2lVBbXOezagYx2k9LmyPTR0nm682j+kiLd1akx8EBQQpAoh3VeCKMzdSoczFCAXiOzX0UJoWOoazF+1TR5W+JoW6EFEJh6cGl2CuX5LD+Hsx9T456OgpEybQ3wnNDy2N0nyuaTR1VpFeMi1pzy+iA==
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR11MB2557.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(346002)(39850400004)(376002)(136003)(396003)(6486002)(15650500001)(316002)(5660300002)(966005)(478600001)(6916009)(86362001)(52116002)(16576012)(8676002)(6706004)(186003)(16526019)(53546011)(6666004)(31696002)(66946007)(8936002)(66476007)(166002)(66556008)(83380400001)(33964004)(2906002)(26005)(31686004)(36756003)(956004)(44832011)(2616005)(78286007)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR11MB2557.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(366004)(136003)(396003)(376002)(39850400004)(956004)(86362001)(66946007)(8936002)(2906002)(1076003)(6486002)(316002)(6512007)(6916009)(26005)(8676002)(36756003)(66556008)(2616005)(16526019)(5660300002)(66476007)(478600001)(6506007)(186003)(52116002)(44832011)(4744005)(83380400001)(6666004);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData: 
-	=?utf-8?B?aERvS1B0OWxmNmxMZENIUTRJNk9uQ0liQnZ6SW85bDFqWElxL2tjclZVZUhm?=
- =?utf-8?B?cWJuanI5Y29zcXYxNlVFYlZHRm4zMWNhOWxXMXlWRmtBMU5jZ0dlVVBUb1B1?=
- =?utf-8?B?K0lWV2dGdlJ6UGVkbk1BRk1WbzhBVitIRlNnQzVBK0UwUTNPSXVHM1Fwa1RF?=
- =?utf-8?B?QjdZZzJsUVR4OGNENFY2RkJDeVlKaUl6NHRiNUpTMzBwYXdrdWV5K3k3THdW?=
- =?utf-8?B?V2RBdi9CcEt2U3l0RERIeFY5bEtmYzhjL04yb2ZGQ3l1ajdlVU5CL2RBU0Zu?=
- =?utf-8?B?RzZWMVBHOENyWVN1dWhIcnBqK1lDNGNVQzdsbi95S0Nrb01zTEtOdXJ4K3JJ?=
- =?utf-8?B?V3F0TzR6L29TTG5mYUNTZ2FHSHlMcHpISXJZSTFXby9YK3NXT21sSkg4bUFI?=
- =?utf-8?B?Q0lweHd6MVNNdWJCN1YrdDhSRjhpMFF1TWlEV2I2bDRHSlJTaElOb25PWkF2?=
- =?utf-8?B?TnArdHNISE0yc0M3R3dKSTJaSS9ESzF3YVFmbFVoM2ovZE9xNHo4ZkxBeUM1?=
- =?utf-8?B?U1NZZlAwT0xzb3A2VkZ5Q1RRelUwV095V3JYRjVIbk8xWVBJMzM2aGMyMVBp?=
- =?utf-8?B?ejdUU1F4UFBEdDRSbkZKVU5UL2o4bWRZaHdxQmZocVBnRHJiOEZPR29jT2ln?=
- =?utf-8?B?ZjBIY1FNUmM2WWxVOVRyTGJxeHRFTDJIUzBBY0RSWThwdmo5ZWo4b2tYY2JW?=
- =?utf-8?B?ejhwTGJGTloxTnJQN0thRm9ya0Z2bWprOFhXMEF3ZTF2Rk1BcEhEK3RCTmhS?=
- =?utf-8?B?MXR0UlBLRXJnZEM4RzlYQmRsOWhLbnhnYkhUeHdsQTV0cTZjQnlwaHdWdytN?=
- =?utf-8?B?MkdxbGdzYzlrYnFnVm5zQmhYTXVMSndzak1pL04vbVc1dTNWeVREVkR2cmo0?=
- =?utf-8?B?eGFsRk8rMzdoOXdENEpsOHZFdHI3bzROZXhkUC9oQVFWTGVzc0tQcFc2bzRi?=
- =?utf-8?B?emRGTHo2dEI2dTJaS2FiMmduQlE5RkFpR2FYK0x3dkpRaTdQYUU0dDR6WWE5?=
- =?utf-8?B?d1JKVEdnelVsb3phTEUydnpJYUFFUUJ4UjhQQlVMZ1hsNGZxc3JLSGppdHBo?=
- =?utf-8?B?M200Z0ZaOXZGMVBaZWlTbzdFNVdpRU5RMzZlOEltcEE5dDB2RitLK0pZaWFs?=
- =?utf-8?B?SndTSTVyeDRYOHEwZ3pMN2hEcDVmSmUwaEN3Nys3Q2J2a09oZmd3cUJvRGd5?=
- =?utf-8?B?ai9rVVVnWGRwVHZwRlJRa3BPTzhURnhtRWNVWE8wUHNqbjl2Z3lhc1p3bVVF?=
- =?utf-8?B?RlFNZnNBV1puM0NpcHJIbE1sY2YzRERGS1ExWlc0UEtnZ3ZBT1NrT1FuM1pP?=
- =?utf-8?B?c2VVRmNza0N6ajFoaTFmR3U4TDBpN1Yyd28rQkJIMXpya1BVaWwxWjVqTGNL?=
- =?utf-8?B?V0h6aUIvbFgyb2xqc2FURm1WRWxkYVpTeEpEblNja0ozamNHUG9JMmtUdWcx?=
- =?utf-8?Q?jzF9BAeo?=
+	=?us-ascii?Q?aFkqG3N0GdREHurYgbPOMT+l8mG2KirvPwCbOaSAplpIb7Kpndu340t7/e27?=
+ =?us-ascii?Q?Uh2/rAf8LglQrLlLC1ehzE5eH08lBmWenpU5rOF7mfDrD8+BwYEULllW3vst?=
+ =?us-ascii?Q?wjpJsGSOwMHI5SleTALz9k/M0bufNtSMMmsgxlhUxfzrIr/Z8yx6xr95/S8M?=
+ =?us-ascii?Q?RK0hF2UVHwOpn6xX/QjCdQQgarmDInOjxtJbJvGuq6lWpdKe5uY3J05dXQme?=
+ =?us-ascii?Q?KmgPUuJ15iFUveg9gp1Q5eC4aOmjnn9mQDsINCOE2qvN0heOeENYND+S+Z6r?=
+ =?us-ascii?Q?d6oDGhUpAtz53Z0e/Y/QjkXWK/Y1XisfFK7mSJtr+a+/IEgd0suNEKzcYmCN?=
+ =?us-ascii?Q?HnTgeaGm0kc3JR6sRsqvjRV9UzZ/AbNkxhbnl65ikeSjK05ks5UP6MXpzSAL?=
+ =?us-ascii?Q?3JhEGLZLyiW8p3F0Ic1TTYhsoYC1QpVHGUhlGD/eZWMcYkVGaKXVfPINyvwz?=
+ =?us-ascii?Q?TN1+feL199ZY+g/0YjZl0snargRf+/P/hBYLq9cg178Ld0PlaWzzcvWFYTYo?=
+ =?us-ascii?Q?WLiVjksL+mYgsebhkdqpjx+JT6JCkwo7hIeQ67ZOa+sxuh1h+25tI8q2VK0W?=
+ =?us-ascii?Q?3yGgHc/99gHBvYp7j60uS+GXRVDfJp8b67Vi3axWj4aPz/3rX7XGlAZjnEFO?=
+ =?us-ascii?Q?upvB5dg3SZLLhCuFl8RtM+m/LHiK3jia/t7zhVCpdubscOZxWEWFSyZxpOAU?=
+ =?us-ascii?Q?sfmchrIohzBYZkugg2VVUkmcCzPmR+OzgW1wavc9ZbAahcoRSBlxmdQOyOCR?=
+ =?us-ascii?Q?7vRzO959yIVGvcl90+tCihJfrtm2BxoRf1YaAZxRSDLhpdcGFTrfBo4INKxB?=
+ =?us-ascii?Q?qb4uQrSiYudwLw9HqgEeSJ00DO8eIlvhA0KWtMj0Y+XcsW9ZU+PYubOfzGuj?=
+ =?us-ascii?Q?ERUxC1RXvdb9ZPg7FleQtvZ7XEE+4bKc84TYrrMF3tu/lp+jNFtlFU8ncAUk?=
+ =?us-ascii?Q?vg02E4pgA+jSZKcwinqyuyafsQECmPvGXwJRqmmctZE+baNWcsCE+Sbwepgm?=
+ =?us-ascii?Q?AoUExng85FkII40Qh3ot5Tyu4gi75jh+zNjK8NdPWVN7T9qL4tgyVgwzUZ0k?=
+ =?us-ascii?Q?KQHFr8Jy?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4dcb0148-a534-47ee-cf95-08d8c287864d
+X-MS-Exchange-CrossTenant-Network-Message-Id: a7ca2cdf-28a4-45ed-eea4-08d8c28a5764
 X-MS-Exchange-CrossTenant-AuthSource: SN6PR11MB2557.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jan 2021 05:51:00.5463
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jan 2021 06:11:10.4670
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: IYlLXjaFOeIZUbjoXsk/UqHfspZ1Y+Gm+jDCEjnu2WreNiSjIXX7mjclMKODjY3zZXpbetC/uHjYGfoGuR63fYjtgP5qpQkL9muwTNErut4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB5050
-Content-Type: multipart/alternative;
- boundary="------------3E17E4EB1311DECB9BD9602A"
-Content-Language: en-US
+X-MS-Exchange-CrossTenant-UserPrincipalName: wTjPDKiZKAZPzklhDiwakbo27nxZDwXzqyOV+kjbMzqlWcSmYMMFl8WjRxLZpph4/wrpmWjbGm64zHDypFazRLfUF7N3mlyBMraIjIqTewM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR11MB2606
+Content-Type: text/plain
 
---------------3E17E4EB1311DECB9BD9602A
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Gitlab is old repo, which is no longer used for active development. But
+at least we can access, the new repo has down for several monthes.
 
-
-On 1/19/21 5:39 PM, Changqing Li wrote:
-> original SRC_URI is not valid now, offical CELT repository
-> moved to gitlab
->
-> Signed-off-by: Changqing Li <changqing.li@windriver.com>
-> ---
->   recipes-support/celt051/celt051_git.bb | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/recipes-support/celt051/celt051_git.bb b/recipes-support/celt051/celt051_git.bb
-> index ee388214..6eab5669 100644
-> --- a/recipes-support/celt051/celt051_git.bb
-> +++ b/recipes-support/celt051/celt051_git.bb
-> @@ -17,7 +17,7 @@ PR = "r0"
->   
->   SRCREV = "5555aae843f57241d005e330b9cb65602d56db0f"
->   
-> -SRC_URI = "git://git.xiph.org/celt.git;branch=compat-v0.5.1;protocol=https"
-> +SRC_URI = "git://gitlab.xiph.org/xiph/celt.git;branch=compat-v0.5.1;protocol=https"
-
-Gitlab is old repo, which is no longer used for active development. but 
-at least we can access, the
-
-new repo has down for several monthes.
-
->   
->   S = "${WORKDIR}/git"
->   
->
-> 
->
-
---------------3E17E4EB1311DECB9BD9602A
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 7bit
-
-<html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 1/19/21 5:39 PM, Changqing Li wrote:<br>
-    </div>
-    <blockquote type="cite" cite="mid:165B98B8B8245A4C.28472@lists.yoctoproject.org">
-      <pre class="moz-quote-pre" wrap="">original SRC_URI is not valid now, offical CELT repository
-moved to gitlab
-
-Signed-off-by: Changqing Li <a class="moz-txt-link-rfc2396E" href="mailto:changqing.li@windriver.com">&lt;changqing.li@windriver.com&gt;</a>
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
 ---
  recipes-support/celt051/celt051_git.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
@@ -165,31 +106,15 @@ diff --git a/recipes-support/celt051/celt051_git.bb b/recipes-support/celt051/ce
 index ee388214..6eab5669 100644
 --- a/recipes-support/celt051/celt051_git.bb
 +++ b/recipes-support/celt051/celt051_git.bb
-@@ -17,7 +17,7 @@ PR = &quot;r0&quot;
+@@ -17,7 +17,7 @@ PR = "r0"
  
- SRCREV = &quot;5555aae843f57241d005e330b9cb65602d56db0f&quot;
+ SRCREV = "5555aae843f57241d005e330b9cb65602d56db0f"
  
--SRC_URI = &quot;git://git.xiph.org/celt.git;branch=compat-v0.5.1;protocol=https&quot;
-+SRC_URI = &quot;git://gitlab.xiph.org/xiph/celt.git;branch=compat-v0.5.1;protocol=https&quot;</pre>
-    </blockquote>
-    <p>Gitlab is old repo, which is no longer used for active
-      development. but at least we can access, the</p>
-    <p>new repo has down for several monthes. <br>
-    </p>
-    <blockquote type="cite" cite="mid:165B98B8B8245A4C.28472@lists.yoctoproject.org">
-      <pre class="moz-quote-pre" wrap="">
+-SRC_URI = "git://git.xiph.org/celt.git;branch=compat-v0.5.1;protocol=https"
++SRC_URI = "git://gitlab.xiph.org/xiph/celt.git;branch=compat-v0.5.1;protocol=https"
  
- S = &quot;${WORKDIR}/git&quot;
+ S = "${WORKDIR}/git"
  
-</pre>
-      <br>
-      <fieldset class="mimeAttachmentHeader"></fieldset>
-      <pre class="moz-quote-pre" wrap="">
+-- 
+2.17.1
 
-
-</pre>
-    </blockquote>
-  </body>
-</html>
-
---------------3E17E4EB1311DECB9BD9602A--
