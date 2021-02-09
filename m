@@ -1,91 +1,82 @@
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
- by mx.groups.io with SMTP id smtpd.web09.20073.1612705749242016482
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+ by mx.groups.io with SMTP id smtpd.web10.7622.1612858161052107930
  for <meta-virtualization@lists.yoctoproject.org>;
- Sun, 07 Feb 2021 05:49:09 -0800
+ Tue, 09 Feb 2021 00:09:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=B/KH6OPj;
- spf=pass (domain: gmail.com, ip: 209.85.222.173, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f173.google.com with SMTP id s77so11865985qke.4
-        for <meta-virtualization@lists.yoctoproject.org>; Sun, 07 Feb 2021 05:49:09 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=j9x4XMoy;
+ spf=pass (domain: gmail.com, ip: 209.85.218.49, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ej1-f49.google.com with SMTP id y9so29791891ejp.10
+        for <meta-virtualization@lists.yoctoproject.org>; Tue, 09 Feb 2021 00:09:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=dICUWO/XEsDgA+gYICFcV64gvDEkVZen1P6ogRHIF+U=;
-        b=B/KH6OPjRC51IbPYHTFCfKLL/G5f1/3hnDxQ0GOWd3DRALXkt33h3ivsirwYKYSDBm
-         BlZXchp3TsHhKOpdSQOxr9D3nKVc7Hmj19gzGOSON+apyQy7lt1C3Q2Px689W2Zlbt6z
-         fpRXmkFQJH7u2skpyV8p2gwHpmqJyqggThqoHFPAMNXyytRKiOJMvIcnXh9cBauNYrSn
-         dy6+SQmb2XwZOhGSVY6A/KwwbGsvVh0xWjhuB6BJ3dHXmj3Dzznc44+3v90goDUVc0O8
-         +YENzjVh0ZhLH1OL/7mfW+Ems2i5nvvMRGgrYXO0ClH+maE+xOWU860Mttdiw7YDoWBj
-         jCFA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=B6w6iaEaiy4pGe7oN+fDbr99pZSm+CBcCOpKyQMg4hM=;
+        b=j9x4XMoy6W11KxMZwm5LSx7FopBNwOBWd78GvBowaylUAksFXI8NjOuMTQDisTHciI
+         jiBAFZ7FzMwoplTfpHCbZ25DAT6nVm0fW+GsrI1wwkr5UOdgOL9ZKbB8vux36Uym/VHw
+         GqbtK2FDEJGBCqWnvS2mJxwS3OODEv/0WED05lsyvXhs7CYLYr9Ty7uLbyoryP+IQINJ
+         Gem7DX2lIeBgWBOJ54oCNjMZHPZIpR1s7hAHQrEOxD23KCF/54TvCJbXtNMKVIUqrMzy
+         IaYMhtWEWrOhZ1NPAa533TMxe05JPrRjQ6QnOAY2xLvbDv1uUmgiEc2rIjHM3wI4i/as
+         dZRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=dICUWO/XEsDgA+gYICFcV64gvDEkVZen1P6ogRHIF+U=;
-        b=M3tOMBG68Dz7+A12pEP94Bsi05Q18R4+47VzWih3avPjnxKP5Zkk6UdscmBrx1k4C+
-         viBGX5MBIDu3uiLEOd93ooULVbdyaFo5iLEL2T9mjUtGLlEIYOYfB0JIOvaeDwXdKC9t
-         Ml3u5U85B68RYTyFGVW3JZXr+fmmiaqfRFmGTlnGYPLgxqkdM9dnWHiAKDtYPyYzqmNl
-         yhoSxYxh522wzNGauYQrli+Q/0ByEJzFkkF/gS1xvyazaqlhWatDDRFJU/n4GclGxyQu
-         ouRMhOlCyNlTZAWej3UuqeYu38F/FtMwKZ5HeGslSctGfIO0ByFrz5blojht2lQxd0VG
-         5UnA==
-X-Gm-Message-State: AOAM532WmUjT692EYLLOOGmWEfVg0HY9cGISJ1WOtYg8bftI7oalv1iB
-	y9HOhyziiMu2v5V9Gvitl8Y=
-X-Google-Smtp-Source: ABdhPJxDSFhIgouQi2VDl6DmAMKHaExpltr3bDPjO83mwvVQsSU+gqjTcGtKZtGs+k8FGhE2tV74aQ==
-X-Received: by 2002:ae9:e110:: with SMTP id g16mr13395369qkm.19.1612705748393;
-        Sun, 07 Feb 2021 05:49:08 -0800 (PST)
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from gmail.com (cpe04d4c4975b80-cm64777d5e8820.cpe.net.cable.rogers.com. [174.112.159.151])
-        by smtp.gmail.com with ESMTPSA id t14sm14109256qkt.50.2021.02.07.05.49.07
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=B6w6iaEaiy4pGe7oN+fDbr99pZSm+CBcCOpKyQMg4hM=;
+        b=O6JNdF9vPkiAeWAOLSibWAPo020AfLuwIos67iri7RlvRkFN6xPJ7zlg0P4KiilIy1
+         b7M4iRY40bcyAifUQ8m1hf2Y8zxe83Y8Y1H6phwBbm+dXfr7dN5/AIt/N3F3NhrCkjWt
+         AsJvYrDIXVRjRAiBbZzIupTnb+q6Rc2SHb1n/z7wqbGOw2jmPy9FpJN8iqNDeaSy2giT
+         hPym4gvZBoKMe45Bb0ZnwwoR+fTZ+j+NiUOiWs8gaCO04r4ee5ojClvcPDGnFT3La0Yp
+         ZFlHWAek8recqjyop5hhF2UqcXRp0pb7KusTPSM9Ol4Ig1CrIuWMo0AvEVEqN3tCg5eb
+         srpA==
+X-Gm-Message-State: AOAM531FSOHZ8s75PPMc05MfPbJZ5xeJRkdseh272akKstuC1Wfkeglu
+	RQQlw7aIMFPZQtISM1sr7ZzcNpJ/oppKcg==
+X-Google-Smtp-Source: ABdhPJz5HTCJKfbnjHleEJQhyJ8Nklg40xflUB9ahiih4ifTX6/+xmhRkYKGDozV1OPi/hkMhQdKEg==
+X-Received: by 2002:a17:907:2a85:: with SMTP id fl5mr20823271ejc.554.1612858159576;
+        Tue, 09 Feb 2021 00:09:19 -0800 (PST)
+Return-Path: <martin.jansa@gmail.com>
+Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
+        by smtp.gmail.com with ESMTPSA id t16sm12062353edi.60.2021.02.09.00.09.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 07 Feb 2021 05:49:07 -0800 (PST)
-Date: Sun, 7 Feb 2021 08:49:06 -0500
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-To: Yi Fan Yu <yifan.yu@windriver.com>
-Cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [meta-virtualization][PATCH] nagios-nsca: blacklist recipe due to unsupported libmcrypt
-Message-ID: <20210207134905.GC48372@gmail.com>
-References: <20210205215310.17125-1-yifan.yu@windriver.com>
+        Tue, 09 Feb 2021 00:09:18 -0800 (PST)
+From: "Martin Jansa" <Martin.Jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: meta-virtualization@lists.yoctoproject.org
+Cc: Martin Jansa <Martin.Jansa@gmail.com>
+Subject: [meta-virtualization][PATCH 1/2] Revert "libvirt: fix host gcc can't recognized option -fmacro-prefix-map"
+Date: Tue,  9 Feb 2021 09:09:14 +0100
+Message-Id: <20210209080915.1149076-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-In-Reply-To: <20210205215310.17125-1-yifan.yu@windriver.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-merged (now we see if anyone notices the blacklist and asks!)
+This reverts commit 08b5de42f9216a10bb2f83263b7e6789686b4c3d.
 
-Bruce
+libvirt shouldn't be using host's gcc to build python module, this issue
+is caused by missing inherit of python3targetconfig instead added in:
+https://git.openembedded.org/openembedded-core/commit/?id=5a118d4e7985fa88f04c3611f8db813f0dafce75
 
-In message: [meta-virtualization][PATCH] nagios-nsca: blacklist recipe due to unsupported libmcrypt
-on 05/02/2021 Yi Fan Yu wrote:
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ recipes-extended/libvirt/libvirt-python.inc | 5 -----
+ 1 file changed, 5 deletions(-)
 
-> nagios-nsca depends on libmcrypt...
-> However, libmcrypt is considered as abandonware
-> The last release was in 2007.
-> 
-> libmcrypt might not be building properly with
-> the upgrade of autoconf to 2.71.
-> 
-> Signed-off-by: Yi Fan Yu <yifan.yu@windriver.com>
-> ---
->  recipes-extended/nagios/nagios-nsca_2.9.2.bb | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/recipes-extended/nagios/nagios-nsca_2.9.2.bb b/recipes-extended/nagios/nagios-nsca_2.9.2.bb
-> index d342810..66f8da5 100644
-> --- a/recipes-extended/nagios/nagios-nsca_2.9.2.bb
-> +++ b/recipes-extended/nagios/nagios-nsca_2.9.2.bb
-> @@ -82,3 +82,5 @@ SYSTEMD_AUTO_ENABLE_${PN}-daemon = "enable"
->  INITSCRIPT_PACKAGES = "${PN}-daemon"
->  INITSCRIPT_NAME_${PN}-daemon = "nsca"
->  INITSCRIPT_PARAMS_${PN}-daemon = "defaults"
-> +
-> +PNBLACKLIST[nagios-nsca] ?= "Depends on libmcrypt, which is considered abandonware"
-> -- 
-> 2.29.2
-> 
-
-> 
-> 
-> 
+diff --git a/recipes-extended/libvirt/libvirt-python.inc b/recipes-extended/libvirt/libvirt-python.inc
+index 819eceb..7b87d5e 100644
+--- a/recipes-extended/libvirt/libvirt-python.inc
++++ b/recipes-extended/libvirt/libvirt-python.inc
+@@ -24,11 +24,6 @@ export LIBVIRT_API_PATH = "${S}/docs/libvirt-api.xml"
+ export LIBVIRT_CFLAGS = "-I${S}/include"
+ export LIBVIRT_LIBS = "-L${B}/src/.libs -lvirt -ldl"
+ export LDFLAGS="-L${B}/src/.libs"
+-export LDSHARED  = "${CCLD} -shared"
+-export LDCXXSHARED  = "${CXX} -shared"
+-export CCSHARED  = "-fPIC -DPIC"
+-export LINKFORSHARED = "${SECURITY_CFLAGS} -Xlinker -export-dynamic"
+-
+ 
+ LIBVIRT_INSTALL_ARGS = "--root=${D} \
+     --prefix=${prefix} \
+-- 
+2.27.0
 
