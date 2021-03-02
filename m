@@ -1,50 +1,50 @@
-Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
- by mx.groups.io with SMTP id smtpd.web11.14857.1614368818507088937
+Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
+ by mx.groups.io with SMTP id smtpd.web09.5567.1614672374758070685
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 26 Feb 2021 11:46:58 -0800
+ Tue, 02 Mar 2021 00:06:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=laYKN4pp;
- spf=pass (domain: gmail.com, ip: 209.85.167.171, mailfrom: christopher.w.clark@gmail.com)
-Received: by mail-oi1-f171.google.com with SMTP id x20so10886643oie.11
-        for <meta-virtualization@lists.yoctoproject.org>; Fri, 26 Feb 2021 11:46:58 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Tw/Qm2kn;
+ spf=pass (domain: gmail.com, ip: 209.85.210.49, mailfrom: christopher.w.clark@gmail.com)
+Received: by mail-ot1-f49.google.com with SMTP id s3so19203285otg.5
+        for <meta-virtualization@lists.yoctoproject.org>; Tue, 02 Mar 2021 00:06:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=rN35coY1THCNL917rW0lcqQOMIIXQUnwl4CUNaYg0x8=;
-        b=laYKN4ppz2o0n7qNc9xl1aReJzsRH4lH9/BvyrR2C1X2xwlZPHlJdROIsQlOPE+LiJ
-         oraMue+wRGH5V4cZsUWaYjROPTZq2DdIuPWc4BYVKmgANSd1E28tl31K0aDudU3FELRR
-         TtJjPsll8zb02/UBMb+WEegrDNaw0RGvkS9A1twAMEYQrA6dziQwMx0SrNam3A2HYzDB
-         6BxluIaNPD2wA8hwFQUhl/idnzbck+8YBMmsWcTGmGHp9uNmV4m9yGiU2IJVCc7C+ZEs
-         iIyLtnHAvENkaKzMLLvvfH/Vp2USWYTUjgfNBBvvpUpGXIrIeS/Du95ca68F0N/AJtzh
-         P51A==
+        bh=UbULenvU0RP4FQLy7gopD2NZhQkSTJxsXkmlrxZXZuQ=;
+        b=Tw/Qm2kn2vXb0Of3mswc+su29wTSfb0hK04ljLhrSIfZZVv5P9GB/OZZ+fj57eB/lu
+         L+is67Aq7RT/xN5GgnYCajSaP6xuu6OIjKh09kEj/rR+SEwzyz1/HARHDy3t35TnOUzl
+         PEDqlQu8snp8MfLKs6zevsTm6ek9muuh9iQ0lCmiPdyJ5Cc/CeTpxYA11ykdPwkVYiPP
+         dInhHIV/vZ0Cq85nRjvRmvsBbpcVFn8hjBXg4HadxY6bs8ARvmk8B6IPstlLlFZFuU/S
+         ogM7rxqEPU3B4G9nl4mlbQ43QxtyFh36Nnytf+22BM1IO/5WLplGmKSCEenFCvkwnSuK
+         JEpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=rN35coY1THCNL917rW0lcqQOMIIXQUnwl4CUNaYg0x8=;
-        b=NNwv0VTTdXEZ9G9EMS0vvmn4+Er5kjtvE4cBYXaKmfNhPDYhRtIb0vUtRs/Hahx6do
-         /3HUzpJUk5RjL1dtisX9SYOSoQS9r9/CNDPmnuIXNt7+GdlyW7tmtnczLQyacq/sc8PD
-         bdgRe4MA1Ei2sNPu2PqIeMlP97e6lc9mqa6kYsq+kK+NwScnHpcD4WhTTlhYYElkWN0z
-         FR6bGwl0UNckoYC6/bobAnDtX3uY75YeUXHGb1xO2acqTdCxiPMBRCDYuUkU0Ux1Bd54
-         LNFPUQQctUcDRXzymZLCCD698FqP8EsOCaddtpSVTOZSkDF9vtRZ0YjWcy2NGV5agP5o
-         iL9A==
-X-Gm-Message-State: AOAM532G9mPrLkXqor2NDOG+rTCgtjW3C3UQMweR5+yFWk4QhdqEzsA/
-	rkiF0hsrmKUEX+w0nHqxVa5crqQ+kWnwpPeNswU=
-X-Google-Smtp-Source: ABdhPJxgA1B6hOcI8vGFyCbiDR7D0lmecDKL/rPTFjgLrpWS2TKTMrN6I7AahLH+7M103lI+Am+hUuclXIrgHB2iUos=
-X-Received: by 2002:aca:8cf:: with SMTP id 198mr3266459oii.152.1614368817695;
- Fri, 26 Feb 2021 11:46:57 -0800 (PST)
+        bh=UbULenvU0RP4FQLy7gopD2NZhQkSTJxsXkmlrxZXZuQ=;
+        b=DIw8pwrH0CCGHtQeatnXT66iJsr9lk7iiOL54ErTrE1vM5lHpWgA+5jZz0lOAvA30M
+         TgjIhhuZe5GBX/IAoJHJH+/S9B+RibsX2wzW3gLuZgyock5jx5hrVQ9HRzr1x4zbwA4J
+         tXzbkjLXCTnc2EQW5ONtahnY3bo7e/Cy9jzT8U2cAqzK9bBA5YabGOqy/nIoIh/rVLYn
+         9V24909vPZSb50QXwBgv7mh6FL3vXpNUOGc3dYUrle1Ia4uW+rKtxAY7aqVzpK/ukFdH
+         /j6SWZrYNlWVpqLSFV2pw662eo3X5Wb6CkgKUqMnUyNIyItz3zjjeDllvxwyovJWoH69
+         kR5Q==
+X-Gm-Message-State: AOAM533FMXb7BRcmrrWMZFWbggVQ1g7xt4fcmpQeSVvCI5uqyJYrPHFq
+	BqqjjXBR4nMTs4g/rKrc+Ic1DPTXJarWYGvxRNY=
+X-Google-Smtp-Source: ABdhPJx2e3clpv8O9oAICK24RiU2JRMVHKMxBda5lztJ0HaqemSqv2yIxo0U82JDW91PUXkCs6BzP4f0y4gdYxOQbeY=
+X-Received: by 2002:a9d:6c6:: with SMTP id 64mr16938158otx.78.1614672373853;
+ Tue, 02 Mar 2021 00:06:13 -0800 (PST)
 MIME-Version: 1.0
 References: <7f53a8e6f74499215ec593993a00631049e05c8a.1613658838.git.bertrand.marquis@arm.com>
  <AM6PR08MB34614F21BA86DE2E60E51FCC92859@AM6PR08MB3461.eurprd08.prod.outlook.com>
 In-Reply-To: <AM6PR08MB34614F21BA86DE2E60E51FCC92859@AM6PR08MB3461.eurprd08.prod.outlook.com>
 From: "Christopher Clark" <christopher.w.clark@gmail.com>
-Date: Fri, 26 Feb 2021 11:46:46 -0800
-Message-ID: <CACMJ4GbpzCnJbZJytnfFhfDaF2Jjsp2AaHKn8NW+LVNQmNdMrg@mail.gmail.com>
+Date: Tue, 2 Mar 2021 00:06:00 -0800
+Message-ID: <CACMJ4GaAxYL-xYsyWYVAkaBDb=-4RmOW0xmAjRYj-BuOY55_Gg@mail.gmail.com>
 Subject: Re: [meta-virtualization] [PATCH] xen: Bump SRCREV to 4.14.1 and current master
-To: Diego Sueiro <diego.sueiro@arm.com>
-Cc: Bertrand Marquis <Bertrand.Marquis@arm.com>, 
-	"meta-virtualization@lists.yoctoproject.org" <meta-virtualization@lists.yoctoproject.org>, nd <nd@arm.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>, 
+	"meta-virtualization@lists.yoctoproject.org" <meta-virtualization@lists.yoctoproject.org>
+Cc: Bertrand Marquis <Bertrand.Marquis@arm.com>, Diego Sueiro <diego.sueiro@arm.com>, nd <nd@arm.com>
 Content-Type: text/plain; charset="UTF-8"
 
 On Thu, Feb 18, 2021 at 7:19 AM Diego Sueiro <diego.sueiro@arm.com> wrote:
@@ -78,8 +78,13 @@ On Thu, Feb 18, 2021 at 7:19 AM Diego Sueiro <diego.sueiro@arm.com> wrote:
 >
 > Reviewed-by: Diego Sueiro <diego.sueiro@arm.com>
 
-Apologies for my delay in looking at these - I am making my way to it
-and will post an update by end of Monday.
+Reviewed-by: Christopher Clark <christopher.w.clark@gmail.com>
+
+Both the 4.14.1 and the git recipe versions build fine and the changes
+here are good -- thanks. Some very minor style points noted below but
+this should go in, please, Bruce.
+
+thanks,
 
 Christopher
 
@@ -337,6 +342,10 @@ Christopher
 > >     ${sysconfdir}/sysconfig/xendomains \
 > >     ${systemd_unitdir}/system/xendomains.service \
 > >     "
+
+A newline should go here but it can be added later - no point holding
+this back for it.
+
 > >+FILES_${PN}-xen-access += "\
 > >+    ${sbindir}/xen-access \
 > >+    "
@@ -344,6 +353,11 @@ Christopher
 > >+FILES_${PN}-xen-memshare += "\
 > >+    ${sbindir}/xen-memshare \
 > >+    "
+
+I would suggest using just '=' instead of '+=' for future additions
+like these, but since there are already other instances of using '+='
+in this file, I think it's ok for this to go in as is.
+
 > >+
 > >+# memshare is only built for x86, so allow empty package for other
 > >+archs ALLOW_EMPTY_${PN}-xen-memshare = "1"
