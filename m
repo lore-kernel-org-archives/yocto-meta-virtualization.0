@@ -1,567 +1,145 @@
-Received: from EUR02-HE1-obe.outbound.protection.outlook.com (EUR02-HE1-obe.outbound.protection.outlook.com [40.107.1.61])
- by mx.groups.io with SMTP id smtpd.web12.10051.1614940172595002382
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (NAM10-MW2-obe.outbound.protection.outlook.com [40.107.94.66])
+ by mx.groups.io with SMTP id smtpd.web08.33290.1615191570533053811
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 05 Mar 2021 02:29:34 -0800
+ Mon, 08 Mar 2021 00:19:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=pqPeFHfr;
- spf=pass (domain: arm.com, ip: 40.107.1.61, mailfrom: bertrand.marquis@arm.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZnafNTSO6zGdyPkHRdNExM61ZSbst6r+/S+1T1HHUR0=;
- b=pqPeFHfrg8IxcPoypOk5AiHpd6JODH8mi7Kdnn/er5ThyF4GykSW6N2sX0ENMgJFnpausQeriffwb6bSRpxxt7nmj2HUdQYBNM9xFfPNyqGQQ/TbeBxXkDspx3Ak05ZXl/5CZ6zJOFvCKh7L7XbiJ/L+eC1G8f9wohz+r65tNyI=
-Received: from DU2PR04CA0026.eurprd04.prod.outlook.com (2603:10a6:10:3b::31)
- by AM6PR08MB4471.eurprd08.prod.outlook.com (2603:10a6:20b:b9::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3912.19; Fri, 5 Mar
- 2021 10:29:23 +0000
-Received: from DB5EUR03FT060.eop-EUR03.prod.protection.outlook.com
- (2603:10a6:10:3b:cafe::bd) by DU2PR04CA0026.outlook.office365.com
- (2603:10a6:10:3b::31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3912.17 via Frontend
- Transport; Fri, 5 Mar 2021 10:29:22 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; lists.yoctoproject.org; dkim=pass (signature was
- verified) header.d=armh.onmicrosoft.com;lists.yoctoproject.org; dmarc=pass
- action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- DB5EUR03FT060.mail.protection.outlook.com (10.152.21.231) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3912.17 via Frontend Transport; Fri, 5 Mar 2021 10:29:22 +0000
-Received: ("Tessian outbound 72bd4bdd1f59:v71"); Fri, 05 Mar 2021 10:29:22 +0000
-X-CheckRecipientChecked: true
-X-CR-MTA-CID: a99f64496b1090d4
-X-CR-MTA-TID: 64aa7808
-Received: from 62f55e515aea.1
-	by 64aa7808-outbound-1.mta.getcheckrecipient.com id 208A405D-7521-498F-83FB-7C7DDDF7C852.1;
-	Fri, 05 Mar 2021 10:29:11 +0000
-Received: from EUR04-VI1-obe.outbound.protection.outlook.com
-    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 62f55e515aea.1
-    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
-    Fri, 05 Mar 2021 10:29:11 +0000
+ dkim=fail reason="body hash did not verify" header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=SlEkjSQW;
+ spf=pass (domain: windriver.com, ip: 40.107.94.66, mailfrom: yanfei.xu@windriver.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=n6zYBekqvzgR5vBN07JB6jSKyEhyl4+zY5LIPWoXjrWESFWjr3NPrybkoJymjlFx909y1pNVN8qMUjdgRgws5mHVMITYmlJH79sMEcGGlfwrlHHlJeLbCi6gJdWNMwYgV5IUcndXmWToQ2OHjvbRfgjzkXLNmrGFXYBdZ6pom5c/EflEqskjGc3EkyHTYw9yH+l/0+H9HjoeU+f84+z1XrS3xBcRkIJtydnhpIwfsxpj1/maIQklAQkFpytHqBibubEactj+Aa0rzh0vc+iVyR4qE5eI0mkUOEVrML3TNRE1Dnq2KKOguv+oWItBm5pTyv/RfaZgUE8prB/ToeqZWw==
+ b=TN4Jdh+q9O9PSld9aN2uWDNctr50rGV2S2uh4tefBU4mNJGIzcADTFP+YXEFec/fFG9+dA3i6nofNI8y/AopguUvEnHunK3du1R6I7Nbb2bf4c/Nyyacv6ogzsbSmm7Fn6VUD9IiGLaRW6f8JxRAfvLLPL5MoXFETo1GaY/CJwjdkD4mEgA76pBtwRpMzAoEx/5rsr3LHzN1iPwmzrA33unJOVh3bfRPhaPMWsGDV2sd6NrzetCmtIMV6Ote/O0Olr/rRd60+35G5Ps609qTbdKDrT+MxwanFBIZhcXqMC84hsW1pHfTX50Zwak4L3D9PVSxFyhLFqW6yS/NLBxh8w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZnafNTSO6zGdyPkHRdNExM61ZSbst6r+/S+1T1HHUR0=;
- b=brq3+rZKvBr94I0IWqDVHE6TZilnqXhq54m1/pxDTK3ELtbkViGOEAsc8t7vguxFZLYAfEbxkw2IPtgGoXU1izusSrjycfSJlV2zbY79YuHkKp7sQkJPH78xped1+TlldElHvml1OWhOqK0v4suJzYtYj1dn3UhsvzchbXVCxXsOiEALOpWCxp+6EydYsjCpTAsHKGht3r2V0uLY/MRO6Pcpw3pcGhiF9dLPpPpupWYNu4wHyM/tZ2atoMMF2wZezdf0NbJqie6wlxji86UcSVnxNLz72xC+AimDOLx2OYBj0/OKiss0l4741Sfs60YgXuDMJOkyAhD0mUaQYhpFEA==
+ bh=9FLO6MSeBpVjn6e9rg3YtiBpicDpJndmndzZ3C2+kCI=;
+ b=bv/NEMJlQeGU6EcK+1GAS8BP8rGFWOz9cL38d2C6r1V71wCOikqHUFyufT2DhHvFdBG92KPBevAHhzXYVlCp0x1NCPUnUtJwwtGmWpq5y3bD6hjFk7gkkPAvDTIucNrf+yku7CEmP2M9gsjts7E5vCdjDPP/FmnH2Ljvd9N2hsiX6ejKCOJRDIogAJ0J8CcbsG3y89K3tZRrzxNjpIfQtcr1cBAOK+JwfLN16zVKnRPaB0FBekgMXvkVv7OnJ3BtcHNzZEzzaEURqMRigQCvxxgJMtakEvBvKuclpn1ewHUzfG1WKA0Ei6jyYwaTpmomCgpUx+1+v46uoihxKeYskg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=windriversystems.onmicrosoft.com;
+ s=selector2-windriversystems-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZnafNTSO6zGdyPkHRdNExM61ZSbst6r+/S+1T1HHUR0=;
- b=pqPeFHfrg8IxcPoypOk5AiHpd6JODH8mi7Kdnn/er5ThyF4GykSW6N2sX0ENMgJFnpausQeriffwb6bSRpxxt7nmj2HUdQYBNM9xFfPNyqGQQ/TbeBxXkDspx3Ak05ZXl/5CZ6zJOFvCKh7L7XbiJ/L+eC1G8f9wohz+r65tNyI=
-Received: from VE1PR08MB5696.eurprd08.prod.outlook.com (2603:10a6:800:1ae::15)
- by VE1PR08MB4816.eurprd08.prod.outlook.com (2603:10a6:802:a1::10) with
+ bh=9FLO6MSeBpVjn6e9rg3YtiBpicDpJndmndzZ3C2+kCI=;
+ b=SlEkjSQWUZB7o5nwe1g48A2+mL1pcoE+2O9QdvGtpbF04FrukdNiGAhZwFvG6hj3MWtoNgIsGlZvb9iKOjSdtwLTFUCcJArQ1RM05Ge13UsK0ZDUkQNV4+k1jIL/eZnUMz27XQoNjjIIWrX21FuO+b/uer+soDfSD/rVOvHOslA=
+Authentication-Results: lists.yoctoproject.org; dkim=none (message not signed)
+ header.d=none;lists.yoctoproject.org; dmarc=none action=none
+ header.from=windriver.com;
+Received: from BY5PR11MB4241.namprd11.prod.outlook.com (2603:10b6:a03:1ca::13)
+ by SJ0PR11MB4782.namprd11.prod.outlook.com (2603:10b6:a03:2df::20) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3912.19; Fri, 5 Mar
- 2021 10:29:09 +0000
-Received: from VE1PR08MB5696.eurprd08.prod.outlook.com
- ([fe80::5c93:6e79:8f1e:a839]) by VE1PR08MB5696.eurprd08.prod.outlook.com
- ([fe80::5c93:6e79:8f1e:a839%6]) with mapi id 15.20.3912.022; Fri, 5 Mar 2021
- 10:29:09 +0000
-From: "Bertrand Marquis" <bertrand.marquis@arm.com>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-CC: "meta-virtualization@lists.yoctoproject.org"
-	<meta-virtualization@lists.yoctoproject.org>, nd <nd@arm.com>
-Subject: Re: [meta-virtualization] [PATCH] xen: Bump SRCREV to 4.14.1 and current master
-Thread-Topic: [meta-virtualization] [PATCH] xen: Bump SRCREV to 4.14.1 and
- current master
-Thread-Index: AQHXBgePIItmbU+MdE+eSLqW56Z0N6p0LeOAgAAKsACAARAdAA==
-Date: Fri, 5 Mar 2021 10:29:09 +0000
-Message-ID: <43E84DAA-BAD4-4A34-9046-7E13420A12CF@arm.com>
-References: <1664DFE1A4BA4F42.31496@lists.yoctoproject.org>
- <B6A0774C-AAB4-4239-8791-5AD3E0C7E96C@arm.com>
- <CADkTA4P_m8_L5r6=x+nZ7qZr9bf2O87MmJTdwYAR=xv9Em9QAQ@mail.gmail.com>
-In-Reply-To: 
- <CADkTA4P_m8_L5r6=x+nZ7qZr9bf2O87MmJTdwYAR=xv9Em9QAQ@mail.gmail.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3654.60.0.2.21)
-Authentication-Results-Original: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=arm.com;
-x-originating-ip: [86.26.33.241]
-x-ms-publictraffictype: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 6a86697a-2ab9-4a41-0dab-08d8dfc18b1a
-x-ms-traffictypediagnostic: VE1PR08MB4816:|AM6PR08MB4471:
-X-Microsoft-Antispam-PRVS: 
-	<AM6PR08MB4471C4489C4B957C036DF27D9D969@AM6PR08MB4471.eurprd08.prod.outlook.com>
-x-checkrecipientrouted: true
-nodisclaimer: true
-x-ms-oob-tlc-oobclassifiers: OLM:10000;OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: 
- WNw9yVUB1YpYhBvS/GrxK3Ge3EfAzCoTOP8+uD3mcBhbkAUgsxF7XMw4oNlramf/rgA9u8C54dELzsq3bpSWKbj7E7/d3Z+gE0eJLq9J9F17DZudU3xXSH+Fuom8HQvq/iLmOs3Jwg9rQtJ8KouELSXdb8ZaHxfbW9ynODkx0mfYvW2Mzj2mIPz1U+U5gHIdojyIuQLENqn3WxCtSTS5fjndLRCPyCorTtTddKNY6I7TdFdt0nMpzS/Q+VF5NsfsqfIlXdwe8lTdFDGWqqq2NGDHk5mpunTpZNlx4r4tCw6E8NsXOcxSmEF8h7qD/WKJAqHs8YamUUKbLJX+ChvEuTayodu6jtp1Dw6dV2Mu8txyX4GOdUEkTzTuNNAdTf0THSh+9MoS8K5ay72GjgCVRu9A5PIooFdTOMXHP9lqYvVworSA2/O45CsjwT2vFteVhQFZYjmCCK20RZfcZkFquq/JbCH0M6yHXXh8t0unn+o+E8XHSGzALn+vQD3aCZ7b4eSOiyh/3E85AmnSlZgV4IwiOuNi0dXxlZ/YEyQ/mPLa0wkCsjwBWprqUOwuZxS79IkHfVL65KXBSPX8UAex+zfs+ycMtxujbODDSXBo4VsGH+OSIIGu7ySiHlvmDYUg04ws746F6xRnAPBmRAlnGw==
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VE1PR08MB5696.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(136003)(366004)(39860400002)(346002)(376002)(6916009)(186003)(26005)(4326008)(316002)(54906003)(53546011)(2616005)(91956017)(66476007)(76116006)(6506007)(6512007)(33656002)(71200400001)(86362001)(966005)(64756008)(478600001)(83380400001)(66556008)(30864003)(55236004)(2906002)(6486002)(8936002)(8676002)(36756003)(5660300002)(66946007)(66446008)(45980500001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata: 
- =?us-ascii?Q?eATMWsQNWmCinOf2uo+4NEvxOCpIXP4RbdC2FwHm+MKNpZ23nCZPO8eAkb+H?=
- =?us-ascii?Q?zCjIS6te4hzmcvi+IoJOzPs8m9cx+DAY/RTGyLpCzt4wGU35/DhdXdwEVEhR?=
- =?us-ascii?Q?wmOWRdq/1lTHSlLHACQWwTl5a/bpCo6/GpBbEfc74Y6t58L9Q1g3ovgc5iPc?=
- =?us-ascii?Q?s3WkJMO3W5/VYxC+zTCBVO6nc5696zXAfCPLy1kb0wGjitlHORVhxF1H+2Uw?=
- =?us-ascii?Q?6/RQD3CvyP8wtOKYXCDbIRC7fehmhXieslja2dZNhayyXaXbant1aaiGx/15?=
- =?us-ascii?Q?BehwlZHmCcGm6UBRBLOnoNYvoq2DSDimlgDuXDtMdU3GFA1qU0d+BP/Yqrvh?=
- =?us-ascii?Q?ELXyBdtEBn9vEdsYJq4cQny7iXX+tnb2FzySmp94x+ZXfFHllCbVivr0++Eu?=
- =?us-ascii?Q?v1yU+c8PnwWLSjipfIoFll2FiDzxzWLphNF94Ts5Nr0jvnQ63gm8TWTDzYQR?=
- =?us-ascii?Q?UoWypPtjj0QIaqfWzJm6hR87G3LIY1YIajPTVcQzNoL85+mXd/fz6kJME9aB?=
- =?us-ascii?Q?7EfTvvDt0ayto8vHvYfYUECK8VsXkHvwgZngvrpYLZwUN877XhYVN9iZ1BkW?=
- =?us-ascii?Q?j4QtUOWUU1Wao0C3MrnroYQW5+H8fjqOs/qM0wff2YiWfvOHirI7t2BVMzIY?=
- =?us-ascii?Q?s19cpGKPYrTQKuX6V5EyLGNSIr6dj3LItnrXfpOVG6BM+lWmT7mK+6tXif28?=
- =?us-ascii?Q?kTRqC9uakc07w20eIZSmyk49WAU5u3K2wDjtxOAZasL/3xuxJBC+KV1UHXEF?=
- =?us-ascii?Q?guoj7GMfykr1UnsLWOG1rr9QeNu+TLFJWHHbPZgG/GYyMrigp58YIzwXMDzA?=
- =?us-ascii?Q?uT1/T85uwseUnezVtPY7JIiAW6deI8j4EmZKAgA5rGdhy+QM9hT1NO+26FWh?=
- =?us-ascii?Q?CT7CqTeQR+IuZ1I/vcGX/OfnQ0e2dHZO4GvQHnif7KJ1FpgQZ8uhFpv9vvSW?=
- =?us-ascii?Q?qPK/Kc95gO4gdvrRPaGJV12eVdhPAEg3EQbObJrcrwlcRgS4DcPcaA0GTOjI?=
- =?us-ascii?Q?ReY4E6V4f9kCLqUF0LxWuOIoiEo5fJvAtJh1Uh0ISbxq2FhEVixgSfGLwuXm?=
- =?us-ascii?Q?8QUNr3UVhw8grwAXrXl0IUntD/QlxEFLw26cRPPQsBgfYbNS6J/sm/vwkQsE?=
- =?us-ascii?Q?5SlndN0cnxb+CNu8q4k8yVjVPF0kzI9Y5YRBUq9MsIPlo2xEmrIjsi3CFrAB?=
- =?us-ascii?Q?UJ+ecY1zSFQz3dbx41OGPKiSUZlgnw/OBa41Urq+JDJAglPhYuGMyzr+EQBP?=
- =?us-ascii?Q?hGqrg5J6MxM9PydGCZGJrPg2et2D3Z0KSQjuRdgqHPf6cK7qUYOHOW5ots5p?=
- =?us-ascii?Q?YPfapaPk1xav5cpljbmAurGq?=
-x-ms-exchange-transport-forked: True
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3912.26; Mon, 8 Mar
+ 2021 08:19:28 +0000
+Received: from BY5PR11MB4241.namprd11.prod.outlook.com
+ ([fe80::95a3:653e:2078:fb4]) by BY5PR11MB4241.namprd11.prod.outlook.com
+ ([fe80::95a3:653e:2078:fb4%6]) with mapi id 15.20.3912.027; Mon, 8 Mar 2021
+ 08:19:28 +0000
+From: "Xu, Yanfei" <yanfei.xu@windriver.com>
+To: meta-virtualization@lists.yoctoproject.org
+Subject: [meta-virtualization][PATCH] irqbalance: upgrade 1.6.0 -> 1.7.0
+Date: Mon,  8 Mar 2021 16:19:15 +0800
+Message-ID: <20210308081915.504129-1-yanfei.xu@windriver.com>
+X-Mailer: git-send-email 2.27.0
+X-Originating-IP: [60.247.85.82]
+X-ClientProxiedBy: HKAPR03CA0012.apcprd03.prod.outlook.com
+ (2603:1096:203:c8::17) To BY5PR11MB4241.namprd11.prod.outlook.com
+ (2603:10b6:a03:1ca::13)
+Return-Path: yanfei.xu@windriver.com
 MIME-Version: 1.0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR08MB4816
-Original-Authentication-Results: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=arm.com;
-Return-Path: Bertrand.Marquis@arm.com
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- DB5EUR03FT060.eop-EUR03.prod.protection.outlook.com
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	13d5efaf-bb9d-40a0-45fa-08d8dfc18324
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from pek-lpggp1.wrs.com (60.247.85.82) by HKAPR03CA0012.apcprd03.prod.outlook.com (2603:1096:203:c8::17) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3933.23 via Frontend Transport; Mon, 8 Mar 2021 08:19:27 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: abfbbc2f-17ce-4f92-8dd6-08d8e20ae403
+X-MS-TrafficTypeDiagnostic: SJ0PR11MB4782:
+X-Microsoft-Antispam-PRVS: 
+	<SJ0PR11MB47820A9C2574D7F054B4B47EE4939@SJ0PR11MB4782.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:198;
+X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	MgKeVyL0lOy2AXDm37zPnjorUt8ZHUzz49Y/PL/aKTH9FYDKpLMEKw3NCTQ/B5P3/O1ItG+SsHc12eZZEQ4Ec5XnUXOS7D61GclbgY/qunD0vRze853W/LVzMYSVOzbi/MYB/ENqYpVv0ZDhEC+nLO2ERHtciAii1rSqhSjUfcUTZ16PRgP7bTRMx/Y7L8g3yC8YigiEe5nV9VsSgKupuS8I9SYDaWRWmRP8PLL5VvK0UnBa+0OKhb5wQPu+Si5eT1JSsusOjg6n33iNsb5u2N/8R9hCjeLt+cZWfCPfLv/79pQI/0C62U2q3LeJxAYyE85S1eegJxAV3hIXmXL44Rd5yBQ7KOGuxDRES5no7XD4j4wVQ9KBqpSkBYNZbR460a1n88mVCU/uF95BJFwrhgeEqO9M2+bjQyKgj6jN+aKyTqdgvr2GgVCPKTZarr+DZCxze4ODtqAtPZV3gDZsQH98VaSTgKNsHCVjQuf7B2iw3ZbN33RlYGT0J4D22qmdFseWxr4HMHCSJX9rSQYv8y7gJvju8B4kB8I1ZE4CQXqB2i4tcDipeZjuUGofp12eT2oGOnIE3GqUbwDtrJdpfajBMCYKlvoO+SgO/APRJpigZzapDHVpDk3FAK12wXMQd2ZFe9nLLIgXoOsjEPdoOKSmNI9ILzXROedGkGABjNP7Ixg7MmL4Xqvy039Ee55E8sREshkd+3Zto8LDvicHMqWtaOZglYFWKPrJNAqVM7I=
+	9Kzb6G2rNk/vXeBE1hMpuPT13W8gVxsHC+TIcLY00/wWAv53G+CPKLcpAWH4GsdgL1ORGkMf+UR6KkJsW1Kg+1uTM0wZhKeh1WQuL977ZEmMhnNrJzmba3qguCjmnmOrwR6xLOjcCwTTy5mC8jTAJpvGBRjhtV/4L4N6jOqmVI+V1tZoe3ANGD/pzjdqGf/oQXBZOYghmObivH7C12IbbRchwHw8p9txtO3KvlxxHE/ezSs1byHEI/XlQIYE3SgTPeODtrTw+0tuO1jD2kYS+0yMtTF0Waq7AbZ2u9WBOCOULBQAYBkLzialch3RQrfCzlqjxAKbB392B8z5MEy8UO42cvUTWkth40Z4bCkw7xgeqgLSoU/vOqjxs+9C9uLiUsGQ91OHKcJOBG2Olyi9jYIAzv2G+HeCYzhlIbHUK4NXBVMb+7Yvh3p+m4M91B0GJEI05Fz0dJ8ef4AQKR6GvLBUHahBPohqnsEwp0P6QOoT10tBEvt9IwA1rm1G6oKb3Sy3r0w3prPKcG1XAO2leA==
 X-Forefront-Antispam-Report: 
-	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(4636009)(136003)(39860400002)(346002)(376002)(396003)(36840700001)(46966006)(966005)(33656002)(81166007)(83380400001)(316002)(356005)(36860700001)(47076005)(82740400003)(36756003)(82310400003)(6512007)(53546011)(86362001)(6862004)(5660300002)(70206006)(8676002)(6506007)(2616005)(336012)(6486002)(4326008)(30864003)(26005)(186003)(54906003)(478600001)(70586007)(8936002)(2906002)(55236004);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Mar 2021 10:29:22.8267
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB4241.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(39840400004)(396003)(376002)(136003)(346002)(86362001)(16526019)(66946007)(52116002)(1076003)(36756003)(6486002)(5660300002)(186003)(26005)(6666004)(9686003)(478600001)(8676002)(2906002)(8936002)(316002)(6916009)(83380400001)(66556008)(6506007)(956004)(2616005)(66476007)(6512007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: 
+	=?us-ascii?Q?1ewgVfcd4yfDPwyjbNN6yEhklaPhqgIVQsfSYnIpKQHcCpb/9d98adcV4LWB?=
+ =?us-ascii?Q?QronO8qeubefSA6klt0LPPojobrrDG7pDO9yh/FdztYzvaHxhiNTgmo7elLr?=
+ =?us-ascii?Q?eX8YphAnwqNkfz6/1n/k6AzGoDQjd806dqWfNvSfzd1HnEycQzko6yla4bwT?=
+ =?us-ascii?Q?pzW7FJ2MLW1/6Av3ILcshFlDEnRl+Q+QWOB3QkxN+5TdLUFva/a2DJDw1i/x?=
+ =?us-ascii?Q?hfZVxBtoXTmErkYv3kED5uMLEvGtiKSkxNB5lr/MEJvSF/zyrTyLiyi5BSlg?=
+ =?us-ascii?Q?kFaZVrom7to8bHd2iDXsu/L8F+eS4JOiwlJBU0GmP0sjDzET/13mzqMpcNF2?=
+ =?us-ascii?Q?433aFSYcJyUao74wfeT3xAxS7lY+yZIXsbKPR/9EacZ9iNVP9d2jN5kQvggk?=
+ =?us-ascii?Q?pITROvzlimujmOBh5e5O64NqcfZswy19Uj8ny193OiPZ/ChsVjlgs7CNHbhd?=
+ =?us-ascii?Q?Yp9J+6+hA2QsvyT1DXwYwlRPUSbfhK6jMKcAtNCJCnXBI+Qdza9lrf6/H9T3?=
+ =?us-ascii?Q?mAB/bUrVHe/FKg/4J9MFesQhzEHHbez1alVZRPEmaeSzHf5NVt6+5l4V3bGk?=
+ =?us-ascii?Q?jelTcCJ6jDtXKNwX9OtnaHuZqcplAtgbpeApQEsY3tb5pu4THGq07pmi5W1U?=
+ =?us-ascii?Q?KX9PmZDhhNmERmQ2xm+IX2C4F/Rh5rhdHE1rP51NtFIttaqmdcu3bh/eZngW?=
+ =?us-ascii?Q?OYXFeizLIX475RVM0XLlpJsGspRgkMfc90tP32G0WCgRzrO+6x6JSq6f/PcW?=
+ =?us-ascii?Q?tXbKuKSHdNyXB2Z4kt/LDOq/RaHLQHyWdKvrlnTV+1N80x5IOBpNSNc0FaMd?=
+ =?us-ascii?Q?s6i1RDt8v3bPSTyTNnQNdHhKXRpC1qMR0RRVdYx6Kutt/8CaME6wjyeK/ENb?=
+ =?us-ascii?Q?DdOWvDa59W0LqlbjDFbnzzp3YDNBgh2xNFckrKfGrRdeGiFfxDAbR5XSVuLx?=
+ =?us-ascii?Q?cWYAL/rrRuDzb97YnlwrQaLMc8EmluZh/7rADZz96s9UoSzoUFl3/i4YULbY?=
+ =?us-ascii?Q?ly04biyrV+vZo3OcClG+0C/zvZpb0xeOH2OxfKHioozXSglKhGTZqSFzHrPA?=
+ =?us-ascii?Q?tIQAGS6JLr4Chmz4uPalTZ7VV1nlPY3ouZsvoEhBFYM5yH2vyxjmfz7olEGZ?=
+ =?us-ascii?Q?wDm2tlo7EMkRmlvoSIceHQPQeOuY3EWj0D0UKeu+crzRxQ9G+LIP0cVUHDvs?=
+ =?us-ascii?Q?QSowOx/lb8VP8bDb7AynpQXMoUvBdhW1EsZKjyrhgR81X9mjUWm3l0YC50V2?=
+ =?us-ascii?Q?MDgaFlRvE9f++ufTs6QnZofFhYhj0AQCpbE0NTv13R85nr1Zji0zOABSl82D?=
+ =?us-ascii?Q?/47FHo2y4UryBDtdOi+V0UFl?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: abfbbc2f-17ce-4f92-8dd6-08d8e20ae403
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4241.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Mar 2021 08:19:28.0291
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6a86697a-2ab9-4a41-0dab-08d8dfc18b1a
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	DB5EUR03FT060.eop-EUR03.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4471
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <22E4E996F3AF9E43BA28C1A99D3FB4A7@eurprd08.prod.outlook.com>
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: /QjaxcMf+M8LEDkN2MB+wJrQZnwrrRXN9NEkTcu766aqjHteDbH1F+8j7z7GT0ad5GZEXwJRzfAFoJoG8Wcdig==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB4782
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-Hi Bruce,
+From: Yanfei Xu <yanfei.xu@windriver.com>
 
-> On 4 Mar 2021, at 18:15, Bruce Ashfield <bruce.ashfield@gmail.com> wrote=
-:
->=20
-> On Thu, Mar 4, 2021 at 12:37 PM Bertrand Marquis
-> <Bertrand.Marquis@arm.com> wrote:
->>=20
->> Hi Bruce,
->>=20
->>> On 18 Feb 2021, at 15:05, Bertrand Marquis via lists.yoctoproject.org =
-<bertrand.marquis=3Darm.com@lists.yoctoproject.org> wrote:
->>>=20
->>> This allows to remove some patches related to gcc 10 support which hav=
-e
->>> now been merged in Xen.
->>>=20
->>> Xen-tools is modified to include the latest tools installed with Xen:
->>> - a rename of the bash-completion,
->>> - a new xl example,
->>> - xen-access,
->>> - xen-memshare (only available on x86).
->>>=20
->>> A new patch to fix python and pygrub is added as the makefiles have be=
-en
->>> deeply modified in 4.15 which require a new patch (but doing the same)=
-.
->>>=20
->>> Signed-off-by: Bertrand Marquis <bertrand.marquis@arm.com>
->>=20
->> This has now been reviewed by several persons.
->>=20
->> When do you think you could check and maybe merge this ?
->=20
-> It's in the queue.
->=20
-> Christopher only gave me the thumbs up yesterday, so regardless of how
-> long it has been on the list, it has only been 24 hours or so since it
-> has gotten all reviews done.
+Miscellaneous bug fix release, consisting of:
 
-Sorry my mail was just meant to be a friendly ping and not a criticism :-)
+  Strlen checking for IRQBALANCE_BANNED_CPU env var
+  Typo cleanup in SOCKET_TMPFS
+  consolidation of numa node creation on non-numa systems
+  fix uninitialized use of package_mask in affinity setup
+  use num_online_cpus instead of core_count
+  fix a null ptr crash in do_one_cpu
+  make list searching common from glib
+  fix a calloc parameter bug
+  remove some unused variables
+  use g_list_free_full
+  remove redundant call to free_cl_opts
+  fix some resource leaks in main()
+  fix some use after free issues in check_for_irq_ban
+  fix resource leaks in irqballance-ui, and in add_one_node
 
-Thanks a lot for the merge.
+Signed-off-by: Yanfei Xu <yanfei.xu@windriver.com>
+---
+ recipes-extended/irqbalance/irqbalance_git.bb | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Cheers
-Bertrand
-
->=20
-> Bruce
->=20
->>=20
->> Cheers
->> Bertrand
->>=20
->>> ---
->>> ...ython-pygrub-pass-DISTUTILS-xen-4.15.patch | 73 +++++++++++++++++++
->>> ...ls-xenpmd-Fix-gcc10-snprintf-warning.patch | 60 ---------------
->>> ...uild-temporarily-inhibit-Werror-4.14.patch | 26 -------
->>> recipes-extended/xen/xen-tools.inc            | 14 ++++
->>> recipes-extended/xen/xen-tools_4.14.bb        |  4 +-
->>> recipes-extended/xen/xen-tools_git.bb         |  6 +-
->>> recipes-extended/xen/xen_4.14.bb              |  2 +-
->>> recipes-extended/xen/xen_git.bb               |  2 +-
->>> 8 files changed, 92 insertions(+), 95 deletions(-)
->>> create mode 100644 recipes-extended/xen/files/0001-python-pygrub-pass-=
-DISTUTILS-xen-4.15.patch
->>> delete mode 100644 recipes-extended/xen/files/0001-tools-xenpmd-Fix-gc=
-c10-snprintf-warning.patch
->>> delete mode 100644 recipes-extended/xen/files/0001-xen-build-temporari=
-ly-inhibit-Werror-4.14.patch
->>>=20
->>> diff --git a/recipes-extended/xen/files/0001-python-pygrub-pass-DISTUT=
-ILS-xen-4.15.patch b/recipes-extended/xen/files/0001-python-pygrub-pass-DIS=
-TUTILS-xen-4.15.patch
->>> new file mode 100644
->>> index 0000000..35cd9a8
->>> --- /dev/null
->>> +++ b/recipes-extended/xen/files/0001-python-pygrub-pass-DISTUTILS-xen=
--4.15.patch
->>> @@ -0,0 +1,73 @@
->>> +From 6db88791d923167f160afbcadeffad84a4cbdbc5 Mon Sep 17 00:00:00 200=
-1
->>> +Message-Id: <6db88791d923167f160afbcadeffad84a4cbdbc5.1612262706.git.=
-bertrand.marquis@arm.com>
->>> +From: Maciej Pijanowski <maciej.pijanowski@3mdeb.com>
->>> +Date: Fri, 19 Oct 2018 11:01:37 +0200
->>> +Subject: [PATCH] python,pygrub: pass DISTUTILS env vars as setup.py a=
-rgs
->>> +
->>> +Upstream-Status: Xen: Inappropriate [oe specific, python install issu=
-es]
->>> +
->>> +Allow to respect the target install dir (PYTHON_SITEPACKAGES_DIR)
->>> +as well as other parameters set by the OpenEmbedded build system.
->>> +This is especially useful when the target libdir is not the default o=
-ne
->>> +(/usr/lib), but for example /usr/lib64.
->>> +
->>> +Signed-off-by: Maciej Pijanowski <maciej.pijanowski@3mdeb.com>
->>> +
->>> +Forward-ported to Xen 4.12.0
->>> +Signed-off-by: Christopher Clark <christopher.clark6@baesystems.com>
->>> +
->>> +Modified to support pygrub installation with python 3
->>> +Signed-off-by: Christopher Clark <christopher.clark6@baesystems.com>
->>> +
->>> +Forward-ported to Xen 4.14.0
->>> +Signed-off-by: Christopher Clark <christopher.clark6@baesystems.com>
->>> +
->>> +Forward-ported to Xen 4.15.0
->>> +Signed-off-by: Bertrand Marquis <bertrand.marquis@arm.com>
->>> +
->>> +---
->>> + tools/pygrub/Makefile | 7 +++++--
->>> + tools/python/Makefile | 2 +-
->>> + 2 files changed, 6 insertions(+), 3 deletions(-)
->>> +
->>> +diff --git a/tools/pygrub/Makefile b/tools/pygrub/Makefile
->>> +index 37b2146214..ffb9270065 100644
->>> +--- a/tools/pygrub/Makefile
->>> ++++ b/tools/pygrub/Makefile
->>> +@@ -10,7 +10,7 @@ INSTALL_LOG =3D build/installed_files.txt
->>> + all: build
->>> + .PHONY: build
->>> + build:
->>> +-    CC=3D"$(CC)" CFLAGS=3D"$(PY_CFLAGS)" LDSHARED=3D"$(CC)" LDFLAGS=
-=3D"$(PY_LDFLAGS)" $(PYTHON) setup.py build
->>> ++    CC=3D"$(CC)" CFLAGS=3D"$(PY_CFLAGS)" LDSHARED=3D"$(CC)" LDFLAGS=
-=3D"$(PY_LDFLAGS)" $(PYTHON) setup.py build $(DISTUTILS_BUILD_ARGS)
->>> +
->>> + .PHONY: install
->>> + install: all
->>> +@@ -18,7 +18,10 @@ install: all
->>> +     CC=3D"$(CC)" CFLAGS=3D"$(PY_CFLAGS)" LDSHARED=3D"$(CC)" \
->>> +             LDFLAGS=3D"$(PY_LDFLAGS)" $(PYTHON) setup.py install \
->>> +             --record $(INSTALL_LOG) $(PYTHON_PREFIX_ARG) \
->>> +-             --root=3D"$(DESTDIR)" --install-scripts=3D$(LIBEXEC_BIN=
-) --force
->>> ++             --root=3D"$(DESTDIR)" --install-scripts=3D$(LIBEXEC_BIN=
-) --force \
->>> ++             $(DISTUTILS_INSTALL_ARGS)
->>> ++    rm -f $(DESTDIR)/$(LIBEXEC_BIN)/pygrub
->>> ++    $(INSTALL_PYTHON_PROG) src/pygrub $(DESTDIR)/$(LIBEXEC_BIN)/pygr=
-ub
->>> +     set -e; if [ $(bindir) !=3D $(LIBEXEC_BIN) -a \
->>> +                  "`readlink -f $(DESTDIR)/$(bindir)`" !=3D \
->>> +                  "`readlink -f $(LIBEXEC_BIN)`" ]; then \
->>> +diff --git a/tools/python/Makefile b/tools/python/Makefile
->>> +index cc76423647..5cb11ae453 100644
->>> +--- a/tools/python/Makefile
->>> ++++ b/tools/python/Makefile
->>> +@@ -12,7 +12,7 @@ setup.py =3D CC=3D"$(CC)" CFLAGS=3D"$(PY_CFLAGS)" L=
-DSHARED=3D"$(CC)" LDFLAGS=3D"$(PY_LDFLA
->>> +            SHLIB_libxenctrl=3D"$(SHLIB_libxenctrl)" \
->>> +            SHLIB_libxenguest=3D"$(SHLIB_libxenguest)" \
->>> +            SHLIB_libxenstore=3D"$(SHLIB_libxenstore)" \
->>> +-           $(PYTHON) setup.py
->>> ++           $(PYTHON) setup.py $(DISTUTILS_BUILD_ARGS)
->>> +
->>> + .PHONY: build
->>> + build:
->>> +--
->>> +2.17.1
->>> +
->>> diff --git a/recipes-extended/xen/files/0001-tools-xenpmd-Fix-gcc10-sn=
-printf-warning.patch b/recipes-extended/xen/files/0001-tools-xenpmd-Fix-gcc=
-10-snprintf-warning.patch
->>> deleted file mode 100644
->>> index 0a136c9..0000000
->>> --- a/recipes-extended/xen/files/0001-tools-xenpmd-Fix-gcc10-snprintf-=
-warning.patch
->>> +++ /dev/null
->>> @@ -1,60 +0,0 @@
->>> -From 0dfddb2116e3757f77a691a3fe335173088d69dc Mon Sep 17 00:00:00 200=
-1
->>> -Message-Id: <0dfddb2116e3757f77a691a3fe335173088d69dc.1604734077.git.=
-bertrand.marquis@arm.com>
->>> -From: Bertrand Marquis <bertrand.marquis@arm.com>
->>> -Date: Thu, 15 Oct 2020 10:16:09 +0100
->>> -Subject: [PATCH] tools/xenpmd: Fix gcc10 snprintf warning
->>> -
->>> -Add a check for snprintf return code and ignore the entry if we get a=
-n
->>> -error. This should in fact never happen and is more a trick to make g=
-cc
->>> -happy and prevent compilation errors.
->>> -
->>> -This is solving the following gcc warning when compiling for arm32 ho=
-st
->>> -platforms with optimization activated:
->>> -xenpmd.c:92:37: error: '%s' directive output may be truncated writing
->>> -between 4 and 2147483645 bytes into a region of size 271
->>> -[-Werror=3Dformat-truncation=3D]
->>> -
->>> -This is also solving the following Debian bug:
->>> -https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D970802
->>> -
->>> -Signed-off-by: Bertrand Marquis <bertrand.marquis@arm.com>
->>> -Acked-by: Wei Liu <wl@xen.org>
->>> ----
->>> -Upstream-status: Backport from 4.15
->>> ----
->>> - tools/xenpmd/xenpmd.c | 9 +++++++--
->>> - 1 file changed, 7 insertions(+), 2 deletions(-)
->>> -
->>> -diff --git a/tools/xenpmd/xenpmd.c b/tools/xenpmd/xenpmd.c
->>> -index 35fd1c931a..12b82cf43e 100644
->>> ---- a/tools/xenpmd/xenpmd.c
->>> -+++ b/tools/xenpmd/xenpmd.c
->>> -@@ -102,6 +102,7 @@ FILE *get_next_battery_file(DIR *battery_dir,
->>> -     FILE *file =3D 0;
->>> -     struct dirent *dir_entries;
->>> -     char file_name[284];
->>> -+    int ret;
->>> -
->>> -     do
->>> -     {
->>> -@@ -111,11 +112,15 @@ FILE *get_next_battery_file(DIR *battery_dir,
->>> -         if ( strlen(dir_entries->d_name) < 4 )
->>> -             continue;
->>> -         if ( battery_info_type =3D=3D BIF )
->>> --            snprintf(file_name, sizeof(file_name), BATTERY_INFO_FILE=
-_PATH,
->>> -+            ret =3D snprintf(file_name, sizeof(file_name), BATTERY_I=
-NFO_FILE_PATH,
->>> -                      dir_entries->d_name);
->>> -         else
->>> --            snprintf(file_name, sizeof(file_name), BATTERY_STATE_FIL=
-E_PATH,
->>> -+            ret =3D snprintf(file_name, sizeof(file_name), BATTERY_S=
-TATE_FILE_PATH,
->>> -                      dir_entries->d_name);
->>> -+        /* This should not happen but is needed to pass gcc checks *=
-/
->>> -+        if (ret < 0)
->>> -+            continue;
->>> -+        file_name[sizeof(file_name) - 1] =3D '\0';
->>> -         file =3D fopen(file_name, "r");
->>> -     } while ( !file );
->>> -
->>> ---
->>> -2.17.1
->>> -
->>> diff --git a/recipes-extended/xen/files/0001-xen-build-temporarily-inh=
-ibit-Werror-4.14.patch b/recipes-extended/xen/files/0001-xen-build-temporar=
-ily-inhibit-Werror-4.14.patch
->>> deleted file mode 100644
->>> index 0e0a3dc..0000000
->>> --- a/recipes-extended/xen/files/0001-xen-build-temporarily-inhibit-We=
-rror-4.14.patch
->>> +++ /dev/null
->>> @@ -1,26 +0,0 @@
->>> -From 9cff3bf8425ccc593825fcde8ca5eaa32a43d04d Mon Sep 17 00:00:00 200=
-1
->>> -From: Bruce Ashfield <bruce.ashfield@gmail.com>
->>> -Date: Thu, 18 Jun 2020 09:05:22 -0400
->>> -Subject: [PATCH] xen/build: temporarily inhibit Werror
->>> -
->>> -Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
->>> -Rebased on Xen 4.14:
->>> -Signed-off-by: Christopher Clark <christopher.w.clark@gmail.com>
->>> ----
->>> - tools/libxl/Makefile | 2 +-
->>> - xen/Rules.mk         | 2 +-
->>> - 2 files changed, 2 insertions(+), 2 deletions(-)
->>> -
->>> -diff --git a/tools/libxl/Makefile b/tools/libxl/Makefile
->>> -index 6da342ed61..c67560e269 100644
->>> ---- a/tools/libxl/Makefile
->>> -+++ b/tools/libxl/Makefile
->>> -@@ -11,7 +11,7 @@ MINOR =3D 0
->>> - XLUMAJOR =3D 4.14
->>> - XLUMINOR =3D 0
->>> -
->>> --CFLAGS +=3D -Werror -Wno-format-zero-length -Wmissing-declarations \
->>> -+CFLAGS +=3D -Wno-format-zero-length -Wmissing-declarations \
->>> -     -Wno-declaration-after-statement -Wformat-nonliteral
->>> - CFLAGS +=3D -I. -fPIC
->>> -
->>> diff --git a/recipes-extended/xen/xen-tools.inc b/recipes-extended/xen=
-/xen-tools.inc
->>> index 0c69fec..722c503 100644
->>> --- a/recipes-extended/xen/xen-tools.inc
->>> +++ b/recipes-extended/xen/xen-tools.inc
->>> @@ -234,6 +234,8 @@ PACKAGES =3D " \
->>>    ${PN}-xl-examples \
->>>    ${PN}-xm \
->>>    ${PN}-xm-examples \
->>> +    ${PN}-xen-access \
->>> +    ${PN}-xen-memshare \
->>>    "
->>>=20
->>> PROVIDES =3D+ " \
->>> @@ -633,6 +635,7 @@ FILES_${PN}-xen-watchdog =3D "\
->>>=20
->>> FILES_${PN}-xl =3D "\
->>>    ${sysconfdir}/bash_completion.d/xl.sh \
->>> +    ${sysconfdir}/bash_completion.d/xl \
->>>    ${sysconfdir}/xen/xl.conf \
->>>    ${libdir}/xen/bin/libxl-save-helper \
->>>    ${sbindir}/xl \
->>> @@ -642,6 +645,7 @@ FILES_${PN}-xl =3D "\
->>> FILES_${PN}-xl-examples =3D "\
->>>    ${sysconfdir}/xen/xlexample.hvm \
->>>    ${sysconfdir}/xen/xlexample.pvlinux \
->>> +    ${sysconfdir}/xen/xlexample.pvhlinux \
->>>    "
->>>=20
->>> FILES_${PN}-xm-examples =3D "\
->>> @@ -692,6 +696,16 @@ FILES_${PN}-xendomains +=3D "\
->>>    ${sysconfdir}/sysconfig/xendomains \
->>>    ${systemd_unitdir}/system/xendomains.service \
->>>    "
->>> +FILES_${PN}-xen-access +=3D "\
->>> +    ${sbindir}/xen-access \
->>> +    "
->>> +
->>> +FILES_${PN}-xen-memshare +=3D "\
->>> +    ${sbindir}/xen-memshare \
->>> +    "
->>> +
->>> +# memshare is only built for x86, so allow empty package for other ar=
-chs
->>> +ALLOW_EMPTY_${PN}-xen-memshare =3D "1"
->>>=20
->>> INSANE_SKIP_${PN} =3D "already-stripped"
->>>=20
->>> diff --git a/recipes-extended/xen/xen-tools_4.14.bb b/recipes-extended=
-/xen/xen-tools_4.14.bb
->>> index 73a52bc..a79b41d 100644
->>> --- a/recipes-extended/xen/xen-tools_4.14.bb
->>> +++ b/recipes-extended/xen/xen-tools_4.14.bb
->>> @@ -1,4 +1,4 @@
->>> -SRCREV ?=3D "456957aaa1391e0dfa969e2dd97b87c51a79444e"
->>> +SRCREV ?=3D "ad844aa352559a8b1f36e391a27d9d7dbddbdc36"
->>>=20
->>> XEN_REL ?=3D "4.14"
->>> XEN_BRANCH ?=3D "stable-${XEN_REL}"
->>> @@ -6,8 +6,6 @@ XEN_BRANCH ?=3D "stable-${XEN_REL}"
->>> SRC_URI =3D " \
->>>    git://xenbits.xen.org/xen.git;branch=3D${XEN_BRANCH} \
->>>    file://0001-python-pygrub-pass-DISTUTILS-xen-4.14.patch \
->>> -    file://0001-xen-build-temporarily-inhibit-Werror-4.14.patch \
->>> -    file://0001-tools-xenpmd-Fix-gcc10-snprintf-warning.patch \
->>>    "
->>>=20
->>> LIC_FILES_CHKSUM ?=3D "file://COPYING;md5=3D419739e325a50f3d7b4501338e=
-44a4e5"
->>> diff --git a/recipes-extended/xen/xen-tools_git.bb b/recipes-extended/=
-xen/xen-tools_git.bb
->>> index 1f6be1d..71850ee 100644
->>> --- a/recipes-extended/xen/xen-tools_git.bb
->>> +++ b/recipes-extended/xen/xen-tools_git.bb
->>> @@ -1,13 +1,11 @@
->>> -SRCREV ?=3D "8c4532f19d6925538fb0c938f7de9a97da8c5c3b"
->>> +SRCREV ?=3D "9dc687f155a57216b83b17f9cde55dd43e06b0cd"
->>>=20
->>> XEN_REL ?=3D "4.15"
->>> XEN_BRANCH ?=3D "master"
->>>=20
->>> SRC_URI =3D " \
->>>    git://xenbits.xen.org/xen.git;branch=3D${XEN_BRANCH} \
->>> -    file://0001-python-pygrub-pass-DISTUTILS-xen-4.14.patch \
->>> -    file://0001-xen-build-temporarily-inhibit-Werror-4.14.patch \
->>> -    file://0001-tools-xenpmd-Fix-gcc10-snprintf-warning.patch \
->>> +    file://0001-python-pygrub-pass-DISTUTILS-xen-4.15.patch \
->>>    "
->>>=20
->>> LIC_FILES_CHKSUM ?=3D "file://COPYING;md5=3D419739e325a50f3d7b4501338e=
-44a4e5"
->>> diff --git a/recipes-extended/xen/xen_4.14.bb b/recipes-extended/xen/x=
-en_4.14.bb
->>> index 91e8988..653e3b6 100644
->>> --- a/recipes-extended/xen/xen_4.14.bb
->>> +++ b/recipes-extended/xen/xen_4.14.bb
->>> @@ -1,4 +1,4 @@
->>> -SRCREV ?=3D "456957aaa1391e0dfa969e2dd97b87c51a79444e"
->>> +SRCREV ?=3D "ad844aa352559a8b1f36e391a27d9d7dbddbdc36"
->>>=20
->>> XEN_REL ?=3D "4.14"
->>> XEN_BRANCH ?=3D "stable-${XEN_REL}"
->>> diff --git a/recipes-extended/xen/xen_git.bb b/recipes-extended/xen/xe=
-n_git.bb
->>> index 57791fc..2b62c5c 100644
->>> --- a/recipes-extended/xen/xen_git.bb
->>> +++ b/recipes-extended/xen/xen_git.bb
->>> @@ -1,4 +1,4 @@
->>> -SRCREV ?=3D "8c4532f19d6925538fb0c938f7de9a97da8c5c3b"
->>> +SRCREV ?=3D "9dc687f155a57216b83b17f9cde55dd43e06b0cd"
->>>=20
->>> XEN_REL ?=3D "4.15"
->>> XEN_BRANCH ?=3D "master"
->>> --
->>> 2.17.1
->>>=20
->>>=20
->>>=20
->>>=20
->>=20
->=20
->=20
-> --=20
-> - Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at its end
-> - "Use the force Harry" - Gandalf, Star Trek II
+diff --git a/recipes-extended/irqbalance/irqbalance_git.bb b/recipes-extend=
+ed/irqbalance/irqbalance_git.bb
+index 7755e8ea..1a96c169 100644
+--- a/recipes-extended/irqbalance/irqbalance_git.bb
++++ b/recipes-extended/irqbalance/irqbalance_git.bb
+@@ -4,10 +4,10 @@
+=20
+ require irqbalance.inc
+=20
+-# commit tagged as version 1.6.0
++# commit tagged as version 1.7.0
+ #
+-SRCREV =3D "b47eea84cbb93f533b0cba2f1aaf9ca4da8706b9"
+-PV =3D "1.6.0"
++SRCREV =3D "641edc6f5d56f1b3eb8be0fa8a8e9b6a22e53218"
++PV =3D "1.7.0"
+=20
+ SRC_URI =3D "git://github.com/Irqbalance/irqbalance \
+            file://add-initscript.patch \
+--=20
+2.27.0
 
