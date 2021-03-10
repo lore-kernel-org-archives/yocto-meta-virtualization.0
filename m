@@ -1,54 +1,53 @@
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
- by mx.groups.io with SMTP id smtpd.web10.4061.1615347384690900828
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+ by mx.groups.io with SMTP id smtpd.web12.4102.1615347408411833043
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 09 Mar 2021 19:36:24 -0800
+ Tue, 09 Mar 2021 19:36:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=M+JqsZdh;
- spf=pass (domain: gmail.com, ip: 209.85.222.174, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f174.google.com with SMTP id s7so15510154qkg.4
-        for <meta-virtualization@lists.yoctoproject.org>; Tue, 09 Mar 2021 19:36:24 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=arzLuTxE;
+ spf=pass (domain: gmail.com, ip: 209.85.160.181, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f181.google.com with SMTP id v3so12057167qtw.4
+        for <meta-virtualization@lists.yoctoproject.org>; Tue, 09 Mar 2021 19:36:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=P30ak5glUOFlVA99dGsI+0aakLC+2e8CdThnc+JjwQA=;
-        b=M+JqsZdheS4Ryl6cfRG2OmxCYmYQ+sAHLIzdudumWi6V7uSWM2ni64v5K8m/FnzOjq
-         unsmOHnnt74VQjpozRq+53lxNQEoqQTe69aKHmhM7SsVkcTsAbrBKE0SZXeA7gKZqC6W
-         IEnly1ZwJXvMggim1/bScnY+0X+bn+scDvNLcMmVrQYNzkes7Je2H+iQZ/M3UZDNrCM9
-         cfey4g/4H/TYxv6P2rhgbWVuSKr1ZtvkEPm4U3bVVzXHaodTacG8GMBKMUZ/V9g8BGtb
-         dSXt4iJycZ/KANlnvyc2JRQeCWPlFsVWfOGOxmIa2+FHoa87Lx9k3qO3HZGAmVIGfO92
-         zUwA==
+        bh=eNC9+NGRq5abY3NyCOnLZFiwbtk51RteiIuZnpP8U40=;
+        b=arzLuTxEZ4Oy1ezVXzolHSnSTouVMDyhEZsFb1Z6zxevUufftB3ofAbOGnuDfiTOEN
+         srdfV+FnnI2Hv52ehsclFfFujiCaB+aso57s/1myOObPpZgV80gCD7ITQhMCGI0MFgZY
+         bS1YZrEW+sY17+5JPTPdpYFWRbcvnv6YIp7IdCABv/hjElLZZCxhGCtyUxfLriFKMJVb
+         rrrK9eT5MqBBX/UXMQqOKveTLHdf84KFa843nLBVe1I68fEE+vIzkYNvrPcZsU2+psjM
+         PXJTY2j57mTnvABTpOSyM5xR23FWxr+iAbMSbz64ueon2LpzUhxH3JrBar/o8Z8ooOJC
+         kDFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=P30ak5glUOFlVA99dGsI+0aakLC+2e8CdThnc+JjwQA=;
-        b=I5g9xgsG94Fetic83XhkGCyyaooU6QoagLMC4WqgBYIIlNAAlnF/8X9hzadUdh/b3i
-         wjldoUhFJpXc7A0o01SI8ccoYuuqp1dLxCxc4r7ft+wkXc27QJnlKPC8BKrPZ8bxqaTD
-         2exX1949dm24naDrDzFcHXnziS0TIV5qNHCgBH+HBqouLG0kSFEyNn5qgYW8T0ZysyZ3
-         N0VPncPB3H/dc5sohUQ27p8aY4g1ti9hEjEmIHhkjdmJSU3Nm/li6DqrQlXM6UpV6a9j
-         sJhdZ6QoqnfTcC9iaQyKKaXcni8Ttq1n1BdtFWIRYyma0zi77zIRSfyfL7FjnVkp90UX
-         /s9Q==
-X-Gm-Message-State: AOAM531zfH7ObgMOkeJEroCvshSsh6fWMhh+HZXzeiG4Pg15NWFbSzPh
-	vudxAt97zIDr8yFbzrzRltUpknT/uCV6iuzx
-X-Google-Smtp-Source: ABdhPJwuY28QcNf4ci6FiqUPkbGS2g7ngBUhFUry18JuB6LdiJ0KMQ/Q8q92FNHPhpjJLmFBniWp6g==
-X-Received: by 2002:a05:620a:1679:: with SMTP id d25mr918325qko.102.1615347383829;
-        Tue, 09 Mar 2021 19:36:23 -0800 (PST)
+        bh=eNC9+NGRq5abY3NyCOnLZFiwbtk51RteiIuZnpP8U40=;
+        b=Ds5gITGFqWJ6TFt4h+6JZgYo8Bze+r4B7XSpDyxzVmZXfywwqauAjX6haoQz2TIGWU
+         NfbTezCPXtUBMdgaid0mizwLuEm/xzrBmAkwQfk3cQOCiV8NWbh69nYYlvyyUGL+t5Qv
+         5TEBz7nAK2y438WZaB8/TjN1iGUZk/EXFKHyVK+Q0rV+Bxa6qldD5D7VifDO2B8uIvJ7
+         bqN5qILAcTluzatEYYQqD7vV0FvN0d53bjjFEzvD50JlMZQP/S+n7gO3gOLAjwYX+Ulc
+         d4bfhI6WWdpdD7isecs+Z5IYoZdYwR/zEbrrtNLQ+PaliqQ00pM0wxZiv+qNEG3hej99
+         svJA==
+X-Gm-Message-State: AOAM533aHG3REn3XRhdZ/o7XxuO7FRs3Ajjw+Va40HPceAD9w3NiJiB9
+	c6mpgA49USob4QI82f3FbuQ=
+X-Google-Smtp-Source: ABdhPJwhr1750UxqK6P4nAbRa2uIrA3d7R67OQaNEVwRrLrS2WouqKLXENlejo3iD05wSti/pn1Xrw==
+X-Received: by 2002:ac8:698f:: with SMTP id o15mr1140364qtq.39.1615347407522;
+        Tue, 09 Mar 2021 19:36:47 -0800 (PST)
 Return-Path: <bruce.ashfield@gmail.com>
 Received: from gmail.com (cpe04d4c4975b80-cmf4c11490699b.cpe.net.cable.rogers.com. [174.112.159.151])
-        by smtp.gmail.com with ESMTPSA id z7sm11628440qkf.136.2021.03.09.19.36.23
+        by smtp.gmail.com with ESMTPSA id q2sm11503591qkq.59.2021.03.09.19.36.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Mar 2021 19:36:23 -0800 (PST)
-Date: Tue, 9 Mar 2021 22:36:21 -0500
+        Tue, 09 Mar 2021 19:36:47 -0800 (PST)
+Date: Tue, 9 Mar 2021 22:36:45 -0500
 From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-To: Bertrand Marquis <bertrand.marquis@arm.com>
-Cc: meta-virtualization@lists.yoctoproject.org,
-	christopher.w.clark@gmail.com, nd@arm.com
-Subject: Re: [meta-virtualization] [PATCH] seabios: upgrade to version 1.14.0
-Message-ID: <20210310033621.GB15907@gmail.com>
-References: <798105b0371a04f3cbfec14966a336b68fcad5e6.1615287248.git.bertrand.marquis@arm.com>
+To: "Xu, Yanfei" <yanfei.xu@windriver.com>
+Cc: meta-virtualization@lists.yoctoproject.org
+Subject: Re: [meta-virtualization][PATCH] irqbalance: upgrade 1.6.0 -> 1.7.0
+Message-ID: <20210310033644.GC15907@gmail.com>
+References: <20210308081915.504129-1-yanfei.xu@windriver.com>
 MIME-Version: 1.0
-In-Reply-To: <798105b0371a04f3cbfec14966a336b68fcad5e6.1615287248.git.bertrand.marquis@arm.com>
+In-Reply-To: <20210308081915.504129-1-yanfei.xu@windriver.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
@@ -57,46 +56,53 @@ merged.
 
 Bruce
 
-In message: [meta-virtualization] [PATCH] seabios: upgrade to version 1.14.0
-on 09/03/2021 Bertrand Marquis wrote:
+In message: [meta-virtualization][PATCH] irqbalance: upgrade 1.6.0 -> 1.7.0
+on 08/03/2021 Xu, Yanfei wrote:
 
-> Upgrade version of seabios to the latest one.
-> This is solving compilation errors happening with newer version of gcc
-> introduced in poky which in the following error after some warnings:
-> "x86_64-poky-linux-ld: cannot use executable file 'out/rom16.strip.o' as
-> input to a link"
+> From: Yanfei Xu <yanfei.xu@windriver.com>
 > 
-> Signed-off-by: Bertrand Marquis <bertrand.marquis@arm.com>
-> ---
-> This change has only be tested to compile properly by building an x86_64
-> image for qemu x86_64 with Xen activated.
-> I could not check that the generated binaries by seabios are properly
-> working.
-> ---
->  .../seabios/{seabios_1.13.0.bb => seabios_1.14.0.bb}          | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->  rename recipes-extended/seabios/{seabios_1.13.0.bb => seabios_1.14.0.bb} (87%)
+> Miscellaneous bug fix release, consisting of:
 > 
-> diff --git a/recipes-extended/seabios/seabios_1.13.0.bb b/recipes-extended/seabios/seabios_1.14.0.bb
-> similarity index 87%
-> rename from recipes-extended/seabios/seabios_1.13.0.bb
-> rename to recipes-extended/seabios/seabios_1.14.0.bb
-> index 4cf4420..1591cb6 100644
-> --- a/recipes-extended/seabios/seabios_1.13.0.bb
-> +++ b/recipes-extended/seabios/seabios_1.14.0.bb
-> @@ -16,8 +16,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504
->                      file://COPYING.LESSER;md5=6a6a8e020838b23406c81b19c1d46df6  \
->                      "
+>   Strlen checking for IRQBALANCE_BANNED_CPU env var
+>   Typo cleanup in SOCKET_TMPFS
+>   consolidation of numa node creation on non-numa systems
+>   fix uninitialized use of package_mask in affinity setup
+>   use num_online_cpus instead of core_count
+>   fix a null ptr crash in do_one_cpu
+>   make list searching common from glib
+>   fix a calloc parameter bug
+>   remove some unused variables
+>   use g_list_free_full
+>   remove redundant call to free_cl_opts
+>   fix some resource leaks in main()
+>   fix some use after free issues in check_for_irq_ban
+>   fix resource leaks in irqballance-ui, and in add_one_node
+> 
+> Signed-off-by: Yanfei Xu <yanfei.xu@windriver.com>
+> ---
+>  recipes-extended/irqbalance/irqbalance_git.bb | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/recipes-extended/irqbalance/irqbalance_git.bb b/recipes-extended/irqbalance/irqbalance_git.bb
+> index 7755e8ea..1a96c169 100644
+> --- a/recipes-extended/irqbalance/irqbalance_git.bb
+> +++ b/recipes-extended/irqbalance/irqbalance_git.bb
+> @@ -4,10 +4,10 @@
 >  
-> -SRC_URI[md5sum] = "1dc1725bac1d230bfd6b3204eed4f2f7"
-> -SRC_URI[sha256sum] = "37673dc2d6308591b15bdb94e5bcc3e99bdb40198d2247733c43f50b55dbe703"
-> +SRC_URI[md5sum] = "9df3b7de6376850d09161137e7a9b61f"
-> +SRC_URI[sha256sum] = "eb70cc62b29aa83e10a653233acebf4bb154d00d0c87dc2a2c6e2da75e5e81fd"
+>  require irqbalance.inc
 >  
->  FILES_${PN} = "/usr/share/firmware"
+> -# commit tagged as version 1.6.0
+> +# commit tagged as version 1.7.0
+>  #
+> -SRCREV = "b47eea84cbb93f533b0cba2f1aaf9ca4da8706b9"
+> -PV = "1.6.0"
+> +SRCREV = "641edc6f5d56f1b3eb8be0fa8a8e9b6a22e53218"
+> +PV = "1.7.0"
 >  
+>  SRC_URI = "git://github.com/Irqbalance/irqbalance \
+>             file://add-initscript.patch \
 > -- 
-> 2.17.1
+> 2.27.0
 > 
 
 > 
