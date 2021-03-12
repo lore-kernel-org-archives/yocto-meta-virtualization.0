@@ -1,42 +1,42 @@
-Received: from mail-yb1-f201.google.com (mail-yb1-f201.google.com [209.85.219.201])
- by mx.groups.io with SMTP id smtpd.web09.4249.1615524721507282973
+Received: from mail-qt1-f202.google.com (mail-qt1-f202.google.com [209.85.160.202])
+ by mx.groups.io with SMTP id smtpd.web10.4279.1615525105361245436
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 11 Mar 2021 20:52:01 -0800
+ Thu, 11 Mar 2021 20:58:25 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@google.com header.s=20161025 header.b=DUUMg8WL;
- spf=pass (domain: flex--rburanyi.bounces.google.com, ip: 209.85.219.201, mailfrom: 3cpnkyagkais6q96p2dxv33v0t.r31@flex--rburanyi.bounces.google.com)
-Received: by mail-yb1-f201.google.com with SMTP id f81so28176049yba.8
-        for <meta-virtualization@lists.yoctoproject.org>; Thu, 11 Mar 2021 20:52:01 -0800 (PST)
+ dkim=pass header.i=@google.com header.s=20161025 header.b=ZiFlVzek;
+ spf=pass (domain: flex--rburanyi.bounces.google.com, ip: 209.85.160.202, mailfrom: 38prkyagkaa86q96p2dxv33v0t.r31@flex--rburanyi.bounces.google.com)
+Received: by mail-qt1-f202.google.com with SMTP id m35so7453233qtd.11
+        for <meta-virtualization@lists.yoctoproject.org>; Thu, 11 Mar 2021 20:58:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:message-id:mime-version:subject:from:to:cc;
-        bh=3m70Seym/wePKwste5cveaqSqTV/TkdLs2cJlqFb3QE=;
-        b=DUUMg8WLzwNCFQ4SRNqwET6/8UmyZsWEsuaAt7p+DKjmfUDHFAZKQUPhRcxS+LSIl9
-         W8VGrnHjR1dR5t4sPxW+ejlpEVshBLJnKigOdJwwCZogWfevJkLiZUED6TxoX7OebEDh
-         iJuCd2Fm4gIraCYFwABZgM1HiGhzdDij9VYR5Y89/xDaX1vkeajFoHIIwwmnEpbskrIG
-         pV9kE78HStjC9I12J0RC1Q6Xd0TgtgSaXMku/zmCKWYkG/qigZ/yHcCTiRsgrxA6w6uc
-         MgYwLP08pYUnBhE4Rsz1kL6Y8Dwq2YUHRsq16y2Fyf4ESbNDTVk459Tj0szDLfoaC8my
-         EY5A==
+        bh=XKgkNBrf8V+Cn/ppuWb1CN7n7DBQpJ/G5tJLwvhu1PI=;
+        b=ZiFlVzekuaWOrUyson8oM6w/jsmXPryDVTzO/183LNIaGHeghhVco3WiepN9t/+a49
+         Kjxpx60txxAPqFrkLMOT7tEu9ugGxomVeu0lHyIbYFcekyWDVVABOlv6mZhcHhPtBYvl
+         lRM+pgaymRzJzw3kLjRaNA7KFuqvat1pRYuDGTIr0Tulyet83WRn3URxXen3Jrb9vGBV
+         lBUepSuvABD8Kzqiosct7PZE0ZGvi8ALyqn0K4Yoz1xy+UnYdmzjwocEssJvlv4PnlSA
+         5FvYnkB1dK4OnPvOUsKlXgswVZGaQYXNpsKDXuwNILNIJ6xIJWOV+IPcUjFtsWJRKR7s
+         WTng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
-        bh=3m70Seym/wePKwste5cveaqSqTV/TkdLs2cJlqFb3QE=;
-        b=hzjISe/noDMCkx5X7ufsvkN8FkYJcSHTP6zL4hSW4WinxeKrrAxINMYvDGIvey9ksO
-         AUrTho+fW8gqclmwAVbgrnyuxOyQMtMT/ejtldi3dW3me/kmv5Dt/S8gtPvzA1y7wBUP
-         M3+nnkEp4QzOQ3E+z/v2YegksG85INTMb8cR2hCSz5ZGKJEoTHtO8YZhYgj6D2SA3Z9+
-         zOJrHYEZNBwFFYiL8way8JVPB3OPReZWS09qtBPqxc6s94q2NgEsgBwNsqlAaMtf+zmX
-         gwPr17EhB7E1yLVYNqmKtQ74hgDoVeX9CedDyiniBXlUhlC/CcmDeXHqQqTiMImpsxQR
-         cHUQ==
-X-Gm-Message-State: AOAM533wnLPbKhS6I9NkJ9VZOtRDQtOF2sImdnzmpJWSkgI4xgPD1jvK
-	eKSsoe4Ydhz3RsiNvdxQl06GHydDCS6Zt3MCjJxzs4Nfsm9VPDTnWC+bV8U3Js6ZSKjqabqs+8n
-	U/vB7QZ23YKcnmxEQZDDn4BYYxptLR+ai4Bv9JWxo0PaMzv/QtTbHpzoQ7ttVBqTZ2oCLH5fM4L
-	0wOwFAhhPoKO24AeewYQ==
-X-Google-Smtp-Source: ABdhPJyaH3vaHGU7U/aidXuvr/wd0RCHwX/CcM+Qw/54DCdm9Kp9jAySGY+9eLTKJaxzVy+XB4zofWRNIIldpA==
+        bh=XKgkNBrf8V+Cn/ppuWb1CN7n7DBQpJ/G5tJLwvhu1PI=;
+        b=K4QnJA5Ho1j34H9cDoQPkEFzd5545wkUmcaBpeWVQ0jdySFH5KAeUhdl+itqaQfOH7
+         +qB1YUzJjRTc8qvpLhIZNdckFrXFg8JvJKEimZaP3JzEKgkMKMZhAo7+61Ihn77+05k8
+         cO0ClcWyNP8QGaitWBtbPXKar89/dBUkA/cM4jK1Z/j5q7I0UiAjYEKYjmTYpQAaY3+F
+         0cg2sc40+LlgTf5iDphZIbJnuO8W2g2KbkF+f1raSYsrx7bMkMfBGI1HdC91N8wI/uR8
+         HJC3dPaazXD7eoPumtawMr+CUgjR9DyPem2HseFFiXGTYKRd7KSeywuuUgMscfrikdjQ
+         vggg==
+X-Gm-Message-State: AOAM530wdkAOHvlXtQaXiC3pS8UhnZ5AFEZpRPhGeJipLguXHnK5Rire
+	q0t7cfSYtr6yaiJSCUY6swqMpVFqmuwZsqkhf8FoUejlpUD6fTdi6ViF69if8t3a+yimO4yRPNu
+	0927I38F85oZ2QM8KBbzAD1jLu+VtsUzr/vwFNT5w8vtLLnajkY0vfXT+B3bHl2vX0/x3ZCmSi/
+	TddX0xRlLo9gin9b5nFQ==
+X-Google-Smtp-Source: ABdhPJz81RFX82+5g5rhG3MU4qH1uweKRAjiXQrpz49BVuNb+qVCq/CmbqBCnMkCK6T78V9nlWZqRppAxb2eAQ==
 X-Received: from rburanyi-linux.svl.corp.google.com ([2620:15c:2c5:3:f08b:e781:cc76:369a])
- (user=rburanyi job=sendgmr) by 2002:a25:1883:: with SMTP id
- 125mr16116655yby.465.1615524720106; Thu, 11 Mar 2021 20:52:00 -0800 (PST)
-Date: Thu, 11 Mar 2021 20:51:55 -0800
-Message-Id: <20210312045155.540266-1-rburanyi@google.com>
+ (user=rburanyi job=sendgmr) by 2002:a0c:d843:: with SMTP id
+ i3mr5330318qvj.16.1615525104219; Thu, 11 Mar 2021 20:58:24 -0800 (PST)
+Date: Thu, 11 Mar 2021 20:58:13 -0800
+Message-Id: <20210312045812.541509-1-rburanyi@google.com>
 Mime-Version: 1.0
 X-Mailer: git-send-email 2.31.0.rc2.261.g7f71774620-goog
 Subject: [meta-virtualization][PATCH] lxc: change download folder
@@ -51,13 +51,13 @@ path.
 
 Signed-off-by: Robi Buranyi <rburanyi@google.com>
 ---
- recipes-containers/lxc/lxc_4.0.4.bb | 2 +-
+ recipes-containers/lxc/lxc_4.0.1.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/recipes-containers/lxc/lxc_4.0.4.bb b/recipes-containers/lxc/lxc_4.0.4.bb
-index 4ef5fc0..637846e 100644
---- a/recipes-containers/lxc/lxc_4.0.4.bb
-+++ b/recipes-containers/lxc/lxc_4.0.4.bb
+diff --git a/recipes-containers/lxc/lxc_4.0.1.bb b/recipes-containers/lxc/lxc_4.0.1.bb
+index 807232e..ded8065 100644
+--- a/recipes-containers/lxc/lxc_4.0.1.bb
++++ b/recipes-containers/lxc/lxc_4.0.1.bb
 @@ -36,7 +36,7 @@ RDEPENDS_${PN}-ptest += "file make gmp nettle gnutls bash libgcc"
  
  RDEPENDS_${PN}-networking += "iptables"
