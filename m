@@ -1,104 +1,93 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
- by mx.groups.io with SMTP id smtpd.web12.8174.1615555532505085430
+Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
+ by mx.groups.io with SMTP id smtpd.web12.3313.1615663851678823623
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 12 Mar 2021 05:25:32 -0800
+ Sat, 13 Mar 2021 11:30:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=YwwWImx/;
- spf=pass (domain: gmail.com, ip: 209.85.218.54, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ej1-f54.google.com with SMTP id p8so53315455ejb.10
-        for <meta-virtualization@lists.yoctoproject.org>; Fri, 12 Mar 2021 05:25:32 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Kq5H3YdV;
+ spf=softfail (domain: gmail.com, ip: 198.145.29.25, mailfrom: bruce.ashfield@gmail.com)
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+	by mail.yoctoproject.org (Postfix) with ESMTPS id 2D3B738C06DF
+	for <meta-virtualization@yoctoproject.org>; Sat, 13 Mar 2021 19:30:49 +0000 (UTC)
+Received: by mail-ej1-f54.google.com with SMTP id bm21so59718903ejb.4
+        for <meta-virtualization@yoctoproject.org>; Sat, 13 Mar 2021 11:30:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=90Tdke8U9n3dU9fudUl6lURTV+iClrihzYKmM9o94aM=;
-        b=YwwWImx/Mx9JJJJJOjOJtmWrAHxSlvYo8G79lTZfrGUYytv9qs8mUdsxxML6aWnP02
-         a4FQJhHC25YpyCUhZvxoC1GQQXFvp36JGBLQD+vPrqc6iAZbNXtwbG6DNsqX4DOYcAWG
-         W87oga/wqujILiTWb/ggJwSpQifxQzz+Jj4pUhDupwAT8Sj2pCAjJ3CLKbgjriI8z3T2
-         mt1ft994bd7p4SI0XNvBduaYHGFxXEMuhfmOg+dcmrd7UA9S1Sr5WvSMEgCnLClGdbM3
-         js/dS//8PHf7PSDi6pqtvmAZXq2ZiHLmgIZJGFxAM9oK42y8od4NXEEUNg2qUfnwk2Ov
-         v/mA==
+        bh=Na77YGSgOoqOCfP30YqUIxYyno5By534vs1ks8v990Y=;
+        b=Kq5H3YdVcCEhLPAbijpiB2+JwTVkyQisgFHszud+NqcRBWpzaXfTWdVFrwPQVUxwxV
+         S31MNdwvfK8DcwZyhJt5Pi5sN814DJJhGjtEUXfRb6jcsAMRcRD8NnVz6LLsr1/Fez/R
+         cuGgjumy7zdl7Eyl2RrJSOMGNlWlgnvepY1fX7kIjpELQ5vahdOnymCGtoIhV9V4CSiI
+         lxdS7vFl7QtFW+RzajVNt+78SkeVnBnR4rE2CAMeCh2QNZBJBdPpSw9nHgZz7HlU746H
+         4ZNdioo9fQJg6nTnIDxffsClVHOae2rg1UqtWsh8k4di02LFdXkFQgQNc79Nj9jhzaU8
+         CBeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=90Tdke8U9n3dU9fudUl6lURTV+iClrihzYKmM9o94aM=;
-        b=Q+h+HGqrc0KqgeIEDHYn5dcmqQ1s70YdJmR+hsDLFEcG37nGN7N+hvUZNh08lFRFUb
-         6IzV/VOUzYyOQVdu0NCHi7u58m8MC7rJGLDFr1VLnXMghnbf/cJz2P/93uPFic5lVB5j
-         c0fnDBmdKPpi2QdXvknZYL114+PfsGLoN2pLJQl4au9Z3TqmzeMBYDDKLk2msHZoWU0p
-         77rTn6gvykYGIUF6CQ8sXTux5Pd6ZxZbXdm5mh+gYN7cZEum+39C+Rei3eD0SSiPXTUl
-         pMq+b7nmCTeuo36ngJT/Pf/Kd4WNpeVfa4RcvdZZsH1QJ422kWatMLTB1rQujXhAMaY7
-         cZUQ==
-X-Gm-Message-State: AOAM530+v1m+7ztQbrsS3yghthZJJqileY3pl4D38F6kppuvuxy90Bpx
-	tZMpAY0FTauGLraBwuWx+TXNFqFE85yfDV4fu40=
-X-Google-Smtp-Source: ABdhPJz8b5XUPAAITW0emPiVQBaCt4qKQuK7opMTu1YCMm34nh56TUEPOTiBdxix2xsqJXWP+ZZphkKNakA7p172+YE=
-X-Received: by 2002:a17:906:11d1:: with SMTP id o17mr8563634eja.517.1615555530765;
- Fri, 12 Mar 2021 05:25:30 -0800 (PST)
+        bh=Na77YGSgOoqOCfP30YqUIxYyno5By534vs1ks8v990Y=;
+        b=mBGLHmbge7OlsF/5x27EfDmqUZZLt8Teq30Vmd6gyF37h6ENC67EFCferK3POj6cVY
+         GpUXv8NVAlCg43S6YtWmoe/JXMBF+gPv+grGoLzUNQVaeObspKaQ0SA5CedPoFkKhLdn
+         bpo7WQqwtDfihHVAhat9oXF6wDLyUtb24xiwfo33bi10VWTeRJc1JvcsxFY6PaNIs87p
+         Y/LzmwF277E2ENXrR2yYnzv6RPqA8TZtZROOntk8lpb/7yC/2puQf2mjrN+WX3I5MIB0
+         w2qd/f8LiOcsUnOI6Tx7DIYVydVCv5jN7UOnXF2QtPOfijhmAegS8RdlM8LnZFeF/WiX
+         D8/A==
+X-Gm-Message-State: AOAM533RrMOOQwamxm7qpnSXkL0PILoP2rpq7E5jzPp+0mfKKuirRPQM
+	a00tgOW5OaEIVrhnaavBlt0HwhNAheSlxFEGNlTxVbVMfEM69w==
+X-Google-Smtp-Source: ABdhPJzSZ3ARgptfd82APL3/saeWrOAwPXEw2L9T4BBuLzZw25xWBGB5eqL8dlwpjHm8C8Xm2LEZMjGwGo58o+joEWk=
+X-Received: by 2002:a17:906:110d:: with SMTP id h13mr15597388eja.357.1615663847686;
+ Sat, 13 Mar 2021 11:30:47 -0800 (PST)
 MIME-Version: 1.0
-References: <166B8AE5719DF3F0.31346@lists.yoctoproject.org> <BYAPR11MB307762AF44B13DE8A7313B63F76F9@BYAPR11MB3077.namprd11.prod.outlook.com>
-In-Reply-To: <BYAPR11MB307762AF44B13DE8A7313B63F76F9@BYAPR11MB3077.namprd11.prod.outlook.com>
+References: <CADkTA4NUDHVRiSRHoUU=Ci8of0_J5C+pM7MVwOSopQ9F_yBTBw@mail.gmail.com>
+ <20201020111434.17993-1-joakimr@axis.com> <20201021031033.GA20764@gmail.com>
+ <e18fb481-4206-2b32-3f31-1e0aace470dc@axis.com> <CADkTA4M3HT9HuENi9m2x4v9SXa=28a75BYqhbRhFGDoPSeoTVg@mail.gmail.com>
+ <DBBPR08MB4725E54DC414E2CBE8E84D0D91E90@DBBPR08MB4725.eurprd08.prod.outlook.com>
+ <16462648E2B320A8.24110@lists.yoctoproject.org> <164627F27D18DB55.10479@lists.yoctoproject.org>
+ <CADkTA4MKnhDuf85C3X=CxqrMkCKy1ka3fWxVNfSN9U=m2cJWaw@mail.gmail.com>
+ <DBBPR08MB4725AF4604F11A7DF0A83E0491E80@DBBPR08MB4725.eurprd08.prod.outlook.com>
+ <CADkTA4PgwD1OwPa4kjAGHANjHYG7fbgmZAvGSw6nEt1x1Mvh3Q@mail.gmail.com>
+ <DBBPR08MB4725692B5248F6A8064C6CEC91E70@DBBPR08MB4725.eurprd08.prod.outlook.com>
+ <2a18b921-a876-5880-2f7a-43b1600695c8@axis.com>
+In-Reply-To: <2a18b921-a876-5880-2f7a-43b1600695c8@axis.com>
 From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Fri, 12 Mar 2021 08:25:19 -0500
-Message-ID: <CADkTA4OeZdPMiUNH_L--9gbs3c=PBcHf1E4du=AyvzF_G1vyLw@mail.gmail.com>
-Subject: Re: [meta-virtualization][PATCH] lxc: Fix download URL from SRC_URI
-To: Daniel Dragomir <Daniel.Dragomir@windriver.com>
-Cc: "meta-virtualization@lists.yoctoproject.org" <meta-virtualization@lists.yoctoproject.org>
+Date: Sat, 13 Mar 2021 14:30:36 -0500
+Message-ID: <CADkTA4Po_1y09qXiMF3Mh5-d9fkVNQJfyqyhMrEbkiOq8Ew8eQ@mail.gmail.com>
+Subject: Re: [meta-virtualization][PATCH v5] Adding k3s recipe
+To: Joakim Roubert <joakim.roubert@axis.com>
+Cc: "meta-virtualization@yoctoproject.org" <meta-virtualization@yoctoproject.org>
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Mar 12, 2021 at 3:39 AM Daniel Dragomir
-<Daniel.Dragomir@windriver.com> wrote:
+On Tue, Nov 17, 2020 at 9:14 AM Joakim Roubert <joakim.roubert@axis.com> wrote:
 >
-> Sorry Bruce! Now I saw there is a similar patch sent on mailing list. Please ignore this one.
-> Still... I don't see the other patch merged upstream on master.
-
-No worries! It definitely showed that people are in fact using the old
-branches regularly :D
-
-> And I have this error on dunfell and thud branches too. Can you backport this change untill thud?
+> On 2020-11-12 08:04, Lance Yang wrote:
+> >
+> > I started k3s server without agent and confirmed the node is ready. Then
+> > I copied the node_token and then ran k3s agent with that token and
+> > specified the server url.
+>
+> Did you do this on the same device?
+> I always run the k3s master on one device and the k3s agents on other
+> machines (and thought that was how it is supposed to work).
 >
 
-I just pushed master/gatesgarth/dunfell, and can also do some
-cherry-picks to the older branches now.
+FYI: after literally 5 months of on and off (most off) debugging and
+integration, I have finally gotten to the bottom of this, and now can
+bring up my all in one node out of the box!
+
+I can now pull k3s into lots of little bits and am confident that I
+can support it, given my recent findings and debug.
+
+I'm cleaning up changes, and will push a fully updated k3s to
+meta-virt master in the coming week.
+
+Cheers,
 
 Bruce
 
-> Thanks!
-> Daniel
-> ________________________________
-> From: meta-virtualization@lists.yoctoproject.org <meta-virtualization@lists.yoctoproject.org> on behalf of Daniel Dragomir <Daniel.Dragomir@windriver.com>
-> Sent: Friday, March 12, 2021 12:22 PM
-> To: meta-virtualization@lists.yoctoproject.org <meta-virtualization@lists.yoctoproject.org>
-> Subject: [meta-virtualization][PATCH] lxc: Fix download URL from SRC_URI
+
+> BR,
 >
-> Download URL from linuxcontainers.org for lxc has changed.
->
-> URL transformed to HTTPS due to an HSTS policy
-> --2021-03-12 09:53:23--  https://linuxcontainers.org/downloads/lxc-4.0.6.tar.gz
-> Resolving linuxcontainers.org (linuxcontainers.org)... 170.39.196.167, 2602:fd23:8:1::8
-> Connecting to linuxcontainers.org (linuxcontainers.org)|170.39.196.167|:443... connected.
-> HTTP request sent, awaiting response... 404 Not Found
-> 2021-03-12 09:53:24 ERROR 404: Not Found.
->
-> Signed-off-by: Daniel Dragomir <Daniel.Dragomir@windriver.com>
-> ---
->  recipes-containers/lxc/lxc_4.0.6.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/recipes-containers/lxc/lxc_4.0.6.bb b/recipes-containers/lxc/lxc_4.0.6.bb
-> index ddff9af..b422909 100644
-> --- a/recipes-containers/lxc/lxc_4.0.6.bb
-> +++ b/recipes-containers/lxc/lxc_4.0.6.bb
-> @@ -36,7 +36,7 @@ RDEPENDS_${PN}-ptest += "file make gmp nettle gnutls bash libgcc"
->
->  RDEPENDS_${PN}-networking += "iptables"
->
-> -SRC_URI = "http://linuxcontainers.org/downloads/${BPN}-${PV}.tar.gz \
-> +SRC_URI = "http://linuxcontainers.org/downloads/${BPN}/${BPN}-${PV}.tar.gz \
->          file://lxc-1.0.0-disable-udhcp-from-busybox-template.patch \
->          file://run-ptest \
->          file://lxc-fix-B-S.patch \
-> --
-> 2.17.1
+> /Joakim
 >
 >
 > 
