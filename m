@@ -1,37 +1,30 @@
-Received: from mx02.optimcloud.com (mx02.optimcloud.com [46.23.93.22])
- by mx.groups.io with SMTP id smtpd.web11.2575.1615696330274109111
+Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
+ by mx.groups.io with SMTP id smtpd.web10.6334.1615801620692288177
  for <meta-virtualization@lists.yoctoproject.org>;
- Sat, 13 Mar 2021 20:32:11 -0800
+ Mon, 15 Mar 2021 02:47:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="no key for verify" header.i=@optimcloud.com header.s=obsd header.b=sP5lK+H7;
- spf=none, err=permanent DNS error (domain: optimcloud.com, ip: 46.23.93.22, mailfrom: yocto@optimcloud.com)
-Received: from mx02.optimcloud.com (localhost [127.0.0.1])
-	by mx02.optimcloud.com (OpenSMTPD) with ESMTP id 3b39c1ef
-	for <meta-virtualization@lists.yoctoproject.org>;
-	Sun, 14 Mar 2021 05:32:06 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=optimcloud.com; h=
-	subject:to:references:from:message-id:date:mime-version
-	:in-reply-to:content-type; s=obsd; bh=IXu6FcDkWpS5c4f1FJ2cxBulmh
-	NxpkYk/tO0UPuaK/o=; b=sP5lK+H7s/6I9eh9imRKEfk/ClPPqSoKl6/aZpeEyh
-	BrfqX1uSGYqOejZ4HqBmWqlms0w/+hxlIlJ7ar4DRAlHDJycQLqJqh24dLm2K9EM
-	F+Yi1bcifL9tOjyyi6tJChVbukLimtU5vywD5mr7mZrLeEARbdttfd8Ld6UO2WM7
-	lc1I9oDxGrT0IUTFuQq/u31wFTfzgqa8JHIWnT1KUy7L2lOkhVuOhvn9klSmtJzp
-	fR/qoIO5akLU/e35nNRz9AdaqlkXfFJThkYRgUh8t216PqK4zUhL+pZAgts8LNij
-	O+8Nr+gobTYF7tgQwN5z6E2Hno76j9UTnDIeoou2QdyQ==
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=optimcloud.com; h=subject:to
-	:references:from:message-id:date:mime-version:in-reply-to
-	:content-type; q=dns; s=obsd; b=HX/dkzcLhaAdk3hxGt4jfKDNZZoMhQCU
-	gmSXMsjFJlKBREM5fCp7aLSaz9yeysCrK2vrHiBldXedqz4mlq2OtfuBNd4Rw3CF
-	oUTROX2DG6dNPlrsDcEDypQV6PZrvpTue4A+k0v3HAIDfG4Z52r2jMOHAOFttDcT
-	hdKmCJfF6dkuYCz3V9nQxaHiMO5Xa1OvvYO0Gqz66hztquDXJtD0xe5eUsYghkJF
-	CarvE1uxzmejs8caEGJ86JH49qjpeJVItDoTWDLa6HL9VJRozz8NRQ5vgJeN/HoJ
-	f5KLAD5vGWwKln5jYoBJtP7hBVQcVTjVLnJFLWrHgnObPWqcuzznDQ==
-Received: 
-	by mx02.optimcloud.com (OpenSMTPD) with ESMTPSA id 67208a61 (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO) auth=yes user=yocto@optimcloud.com
-	for <meta-virtualization@lists.yoctoproject.org>;
-	Sun, 14 Mar 2021 05:32:06 +0100 (CET)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=OEEMEMyY;
+ spf=fail (domain: axis.com, ip: 198.145.29.25, mailfrom: joakim.roubert@axis.com)
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+	by mail.yoctoproject.org (Postfix) with ESMTPS id 4A75F38C0850
+	for <meta-virtualization@yoctoproject.org>; Mon, 15 Mar 2021 09:46:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=axis.com; q=dns/txt; s=axis-central1; t=1615801619;
+  x=1647337619;
+  h=subject:to:cc:references:from:message-id:date:
+   mime-version:in-reply-to:content-transfer-encoding;
+  bh=fJDQB7se93HinZPKZtHijWfZUDakBXSFZb7X6Po0hSk=;
+  b=OEEMEMyYd2lZv2WIOvkuD8vB8HMFu5q6IBKl3vIaQXqcyIRh9uwRIJes
+   6Xr1/i1SKdyBYtMJf2PKRRwLZsfYXK/laNPLizIr0ocFjVpWH5FkJ0KV+
+   t788MwF044aHl/sOtMZatGRYqQjACoEkhkOkZv5B4pehYkHRdRZunVlpk
+   MfLDwk2u9T2CxOo8rAfru+gdNNKKTjx0NzJ4f6qav/FcxboPnKw+SyBGN
+   HrcemfpKt4lqbfrcXN7dg486UsmnH9cxxb6UCQ8FtBL+VSOltpHMJvOoE
+   2V2cwRUszscWj4wCpty3wuMSGLOYylGmbQGSQaznMjSxk0vWKKlEcWxLw
+   g==;
 Subject: Re: [meta-virtualization][PATCH v5] Adding k3s recipe
-To: meta-virtualization@lists.yoctoproject.org
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+CC: "meta-virtualization@yoctoproject.org"
+	<meta-virtualization@yoctoproject.org>
 References: <CADkTA4NUDHVRiSRHoUU=Ci8of0_J5C+pM7MVwOSopQ9F_yBTBw@mail.gmail.com>
  <20201020111434.17993-1-joakimr@axis.com> <20201021031033.GA20764@gmail.com>
  <e18fb481-4206-2b32-3f31-1e0aace470dc@axis.com>
@@ -45,157 +38,35 @@ References: <CADkTA4NUDHVRiSRHoUU=Ci8of0_J5C+pM7MVwOSopQ9F_yBTBw@mail.gmail.com>
  <DBBPR08MB4725692B5248F6A8064C6CEC91E70@DBBPR08MB4725.eurprd08.prod.outlook.com>
  <2a18b921-a876-5880-2f7a-43b1600695c8@axis.com>
  <CADkTA4Po_1y09qXiMF3Mh5-d9fkVNQJfyqyhMrEbkiOq8Ew8eQ@mail.gmail.com>
-From: "Yocto" <yocto@optimcloud.com>
-Message-ID: <4e890cce-1534-d2a0-435b-4530c27e34b5@optimcloud.com>
-Date: Sun, 14 Mar 2021 11:32:01 +0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+From: "Joakim Roubert" <joakim.roubert@axis.com>
+Message-ID: <97612504-29ef-9181-8e0c-01d8ef4f80e8@axis.com>
+Date: Mon, 15 Mar 2021 10:46:57 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
 In-Reply-To: <CADkTA4Po_1y09qXiMF3Mh5-d9fkVNQJfyqyhMrEbkiOq8Ew8eQ@mail.gmail.com>
-Content-Type: multipart/alternative;
- boundary="------------B29C5FDB1F2F0B0717E70737"
+X-Originating-IP: [10.0.5.60]
+X-ClientProxiedBy: XBOX03.axis.com (10.0.5.17) To XBOX03.axis.com (10.0.5.17)
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Language: en-US
-
---------------B29C5FDB1F2F0B0717E70737
-Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-
-On 3/14/21 2:30 AM, Bruce Ashfield wrote:
-> On Tue, Nov 17, 2020 at 9:14 AM Joakim Roubert <joakim.roubert@axis.com> wrote:
->> On 2020-11-12 08:04, Lance Yang wrote:
->>> I started k3s server without agent and confirmed the node is ready. Then
->>> I copied the node_token and then ran k3s agent with that token and
->>> specified the server url.
->> Did you do this on the same device?
->> I always run the k3s master on one device and the k3s agents on other
->> machines (and thought that was how it is supposed to work).
->>
+On 2021-03-13 20:30, Bruce Ashfield wrote:
+> 
 > FYI: after literally 5 months of on and off (most off) debugging and
 > integration, I have finally gotten to the bottom of this, and now can
 > bring up my all in one node out of the box!
->
-bravo kube-edge next, or starlingx simplex aio ---- meta-stx
-
-which combines k8s and openstack into a single platform
-
-which i thought would be the ultimate goal for OverC :)
-
-just thinking to myself outloud...
-
-
-
+> 
 > I can now pull k3s into lots of little bits and am confident that I
 > can support it, given my recent findings and debug.
->
+
+This is fantastic news, Bruce!
+
 > I'm cleaning up changes, and will push a fully updated k3s to
 > meta-virt master in the coming week.
->
-> Cheers,
->
-> Bruce
->
->
->> BR,
->>
->> /Joakim
->>
->>
->>
->>
->
->
-> 
->
 
---------------B29C5FDB1F2F0B0717E70737
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 7bit
+This officially makes you the king.
 
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 3/14/21 2:30 AM, Bruce Ashfield
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-cite="mid:CADkTA4Po_1y09qXiMF3Mh5-d9fkVNQJfyqyhMrEbkiOq8Ew8eQ@mail.gmail.com">
-      <pre class="moz-quote-pre" wrap="">On Tue, Nov 17, 2020 at 9:14 AM Joakim Roubert <a class="moz-txt-link-rfc2396E" href="mailto:joakim.roubert@axis.com">&lt;joakim.roubert@axis.com&gt;</a> wrote:
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">
-On 2020-11-12 08:04, Lance Yang wrote:
-</pre>
-        <blockquote type="cite">
-          <pre class="moz-quote-pre" wrap="">
-I started k3s server without agent and confirmed the node is ready. Then
-I copied the node_token and then ran k3s agent with that token and
-specified the server url.
-</pre>
-        </blockquote>
-        <pre class="moz-quote-pre" wrap="">
-Did you do this on the same device?
-I always run the k3s master on one device and the k3s agents on other
-machines (and thought that was how it is supposed to work).
-
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-FYI: after literally 5 months of on and off (most off) debugging and
-integration, I have finally gotten to the bottom of this, and now can
-bring up my all in one node out of the box!
-
-</pre>
-    </blockquote>
-    <p>bravo kube-edge next, or starlingx simplex aio ---- meta-stx<br>
-    </p>
-    <p>which combines k8s and openstack into a single platform</p>
-    <p>which i thought would be the ultimate goal for OverC :)</p>
-    <p>just thinking to myself outloud... <br>
-    </p>
-    <p><br>
-    </p>
-    <p><br>
-    </p>
-    <blockquote type="cite"
-cite="mid:CADkTA4Po_1y09qXiMF3Mh5-d9fkVNQJfyqyhMrEbkiOq8Ew8eQ@mail.gmail.com">
-      <pre class="moz-quote-pre" wrap="">I can now pull k3s into lots of little bits and am confident that I
-can support it, given my recent findings and debug.
-
-I'm cleaning up changes, and will push a fully updated k3s to
-meta-virt master in the coming week.
-
-Cheers,
-
-Bruce
-
-
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">BR,
+BR,
 
 /Joakim
-
-
-
-
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-
-</pre>
-      <br>
-      <fieldset class="mimeAttachmentHeader"></fieldset>
-      <pre class="moz-quote-pre" wrap="">
-
-
-</pre>
-    </blockquote>
-  </body>
-</html>
-
---------------B29C5FDB1F2F0B0717E70737--
