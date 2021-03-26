@@ -1,17 +1,17 @@
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (NAM12-BN8-obe.outbound.protection.outlook.com [40.107.237.85])
- by mx.groups.io with SMTP id smtpd.web12.7322.1616377308774883730
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (NAM11-CO1-obe.outbound.protection.outlook.com [40.107.220.57])
+ by mx.groups.io with SMTP id smtpd.web09.8827.1616740314631680103
  for <meta-virtualization@lists.yoctoproject.org>;
- Sun, 21 Mar 2021 18:41:49 -0700
+ Thu, 25 Mar 2021 23:31:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=KzGXSjtT;
- spf=pass (domain: windriver.com, ip: 40.107.237.85, mailfrom: qiang.zhang@windriver.com)
+ dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=nfdk1Zae;
+ spf=pass (domain: windriver.com, ip: 40.107.220.57, mailfrom: qiang.zhang@windriver.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=W68BU8E5IbVYLbmUonBjrMrkEeBsLwtArRuraA/SAocX9mjZuw6EzOaRZZInL1AKrYX/1jFBPflVtvAORM8hmZFxAli+oJhxKDJz4ZnT0fCAa3z2DbimNbQytmya50cAaKn6qqcjzhzPTuf/ud2XaOy29qFaqmmARaCnlTb0C7KaECTDsWSfyMyIjWRlxx9gbMwBKUTRsQe/PV9jD5wchQLyX7Z2nnl5AulDGsYer9yz/rgKhEJpyGqTxI7X6AEWbn/VISXcuOzaeNDzO2R/zeJVLYSsW79f39EMBYXY7trBHCLVHE0a/Do78Yc/A4jyZOOXEq6jyUggeuHHI/5xzA==
+ b=DAuDP5RL5VT45MXCmrWJkAcrN1oybsxsed/G+jVE41IXoWSbl/rn8l5yu5gYkJa0DMNHo7k2bE9vSXofyO61IfAXWx+UojMSvyW1SkIsItlXA5i2struWWNujfPVRUbg1V6YH/qNz4eu7wIjqYVs+GhIaechNPxNpNh7Vk/1TyeQwFAgpxAAWG3uucDzR8blZMenqXeIA+uN+dqhKD5jGgJcYvK693tXXV0Azj6plz4EYFVYmmso0K16OsagmtuxjJlSLAlcbylJ4m2rEwJINwAZ2drrLd4Fa6cwdMtutoDPkCP+6RFHy3CvBVqNrGqfnJhXDrWtN1Rc0lFcLSoE1Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gWKV5GZXQHjUfUR+Cacu+VDbZN3CO5qLvH0RFxOs/eA=;
- b=Rw69T0RR6qFZHhwZpmG3cR2tYxZ8h/Sq9bB36Kj6y/puMxse+K6Zwaora9cmd6ltkN6uHDNvNMxNCJaJXcRObSk/cznp2TMfQrAsalwcai6D0J37fdW/n7sPl6G3aUPZlJlDiniz/Eu074bPjYlfBgjJ7NPK0cjkyh4nvD+NTwMkezkenN3sJoNuNsPuYJqITsDujnI0PlH3og0ThoUG9Kc/I1w+eV8WkPkr3HuEbECvwRsf1fb8HQAo42XuZQoCKAYEE2phFqAoJesiWgocZCk8CsBucWG3Xhr4FN/+kOOx9OXjgZ1tzYGNf97ye6OHn4fCwtWgEbGGNiJ/Bonfkg==
+ bh=7Z70ojt7KSXEUVtid4fLNt3zA8GvKYNIL6RC5RGJ7ZI=;
+ b=nsgPsFNxr8M4p0hqUmqcAG1PYUpv3q3KNXGFjl4qzatPGRQpvyZebTbMIa5LzqXtbUMG8tDIC3YWrI2SC5XvtLr9Y0/9BTj23Iq7v82KTj2H5+NBBReuAtVvrmjUDwBrmufS0oU+sxRRKJfiNo63QPY7y9nm0qPxdAExf1X4bIuOP6sXUIrv7Bgcq3cJSnitKoAv8qhqZy47Yu5RSu3qBVb87Q2pVauFmT36t4jpQfQdmG3U3MBKu4cy8D7uaHM7BqXSehXu6hBKb+ech6trS4wOwUopP4nrHv8eAO8qJY4CphuEYXEzngBZd5/mw5amBbztNrZNm2FKa2ZvlN44iw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -19,114 +19,120 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=windriversystems.onmicrosoft.com;
  s=selector2-windriversystems-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gWKV5GZXQHjUfUR+Cacu+VDbZN3CO5qLvH0RFxOs/eA=;
- b=KzGXSjtTi4Y7yrbWtmrL0p42wP+jmGe9jg4mtAhJA515HRUZdZttm4+GYXFwtLA02D1NAkRgW5YloHgTDWQyoaCafzisEPrUxQsz7UCVln8/PXNLr84Wessv8csmJdaSV5ojiPNFaKOlrivV1iSOUmz+V9las0yEAcKBHg1zx4Y=
+ bh=7Z70ojt7KSXEUVtid4fLNt3zA8GvKYNIL6RC5RGJ7ZI=;
+ b=nfdk1ZaetOkWqArjEHAfxmifwwZ2g5WLkZ+cZ8fNZw7rLxHIbKIulvylk7zIIZq2uL+qMJD9QVIsRseQD1t1KR4Ku6rUUUDh/cDujYXNVUsuhz0701w1236Ot2yYQURPJ2I9hqSjXleKOEUFvKrncxgG/YTgHAOOjkVy93aTqd0=
 Authentication-Results: gmail.com; dkim=none (message not signed)
  header.d=none;gmail.com; dmarc=none action=none header.from=windriver.com;
 Received: from DM6PR11MB4202.namprd11.prod.outlook.com (2603:10b6:5:1df::16)
- by DM6PR11MB3865.namprd11.prod.outlook.com (2603:10b6:5:19d::31) with
+ by DM5PR11MB1929.namprd11.prod.outlook.com (2603:10b6:3:10a::22) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.18; Mon, 22 Mar
- 2021 01:41:47 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3977.29; Fri, 26 Mar
+ 2021 06:31:52 +0000
 Received: from DM6PR11MB4202.namprd11.prod.outlook.com
  ([fe80::60c5:cd78:8edd:d274]) by DM6PR11MB4202.namprd11.prod.outlook.com
- ([fe80::60c5:cd78:8edd:d274%5]) with mapi id 15.20.3955.024; Mon, 22 Mar 2021
- 01:41:47 +0000
+ ([fe80::60c5:cd78:8edd:d274%5]) with mapi id 15.20.3977.025; Fri, 26 Mar 2021
+ 06:31:52 +0000
 From: "Zhang, Qiang" <qiang.zhang@windriver.com>
 To: bruce.ashfield@gmail.com
 Cc: meta-virtualization@lists.yoctoproject.org
-Subject: [PATCH] libvmi: uprev from 0.12 to 0.14
-Date: Mon, 22 Mar 2021 09:41:48 +0800
-Message-Id: <20210322014148.35609-1-qiang.zhang@windriver.com>
+Subject: [meta-virtualization] [PATCH] ceph: uprev from 15.2.8 to 15.2.9
+Date: Fri, 26 Mar 2021 14:31:58 +0800
+Message-Id: <20210326063158.4015-1-qiang.zhang@windriver.com>
 X-Mailer: git-send-email 2.17.1
 X-Originating-IP: [60.247.85.82]
-X-ClientProxiedBy: HK2PR0401CA0013.apcprd04.prod.outlook.com
- (2603:1096:202:2::23) To DM6PR11MB4202.namprd11.prod.outlook.com
+X-ClientProxiedBy: HK2PR02CA0160.apcprd02.prod.outlook.com
+ (2603:1096:201:1f::20) To DM6PR11MB4202.namprd11.prod.outlook.com
  (2603:10b6:5:1df::16)
 Return-Path: qiang.zhang@windriver.com
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from pek-lpg-core1-vm1.wrs.com (60.247.85.82) by HK2PR0401CA0013.apcprd04.prod.outlook.com (2603:1096:202:2::23) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.18 via Frontend Transport; Mon, 22 Mar 2021 01:41:45 +0000
+Received: from pek-lpg-core1-vm1.wrs.com (60.247.85.82) by HK2PR02CA0160.apcprd02.prod.outlook.com (2603:1096:201:1f::20) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3977.25 via Frontend Transport; Fri, 26 Mar 2021 06:31:49 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 9de286c5-7d8c-4b06-f103-08d8ecd3a77f
-X-MS-TrafficTypeDiagnostic: DM6PR11MB3865:
+X-MS-Office365-Filtering-Correlation-Id: e455bfdd-dcb8-4310-4db6-08d8f020d7a3
+X-MS-TrafficTypeDiagnostic: DM5PR11MB1929:
 X-Microsoft-Antispam-PRVS: 
-	<DM6PR11MB3865B88E1DE3F6D257B5A926FF659@DM6PR11MB3865.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:514;
+	<DM5PR11MB192909C5C4C57D15363E2938FF619@DM5PR11MB1929.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5516;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	NrCYQYH5p99a2SuE38cxWfSCNO9CdvDySCI8MjaQDvrji7k9SoFvYY6XUXt5+X0B9WUdzeRG4wqSuOj+/XaiGzDqOE1LyQfOTInleZMx9iDR4YuNSz7kDf0aB/EJSLOgTALvlN28BSiBE6zhfMcy05GF0eD6nI2tFgJl3XSJ5QGBynYDlvwkLzBMIm0ClTMX16Z/nMHmW6jVDipHvwi5OlvbHg+cvXblmgU3e5VjWJZY/CbXTKVDFswxQecGvKdlTp4QhDW983tv/pGJzaZvyFD0N0gXs7UieAEJwsqll9nOQEACvBpSdKzCss2vo1XCt9vcv37T+M6flV+oUHHwCLLuOrqo6x8j/47BOHeDprp60gI9YoYTgamveNGlyG8eVn2Y8IirMhuMjC/kBum5pojiL1R/KVXQUJo+kvJ8dLPBmCF0pQ7Ktw9oVfocyPWnk0XldBCL+g9p2X91AsxlHcAdRNaiL52K10wME/Skf9zSd02NUaReTt4ekDr7I0PBbXFjLlDXCcsW1lQp1Zrq+BcM6KjfYE/BjcY1JNHlW6rV0PqyY0vPBAK74+rkrKtpHFaDBecibMfiNvmCIYTGO7REBYx9RMaGD9WD971Z4VvZaf/SWsqQLzvxZtpnosnTJkd1XPbmq8YsdEfyCtjJEw==
+	gpZYm5FpQMoIWAf/6cNDJOTcPX15WBd798KTkn5mMYt8mojZFdNTZMDHIt2CEAdthYpD0ot/9IctjU52IpDK/BpNFS9kZnQXgt54sYusWkQ1Cy65UTJg52zmuvqXnLHblRWgH97lpuAHmcCpSmCuvuVM4xexASACWLZ/6X0C+BAYFidkamn+jos5BV1Sv6n58RrAWZz7mi9EYeV8KLqV4nOWfVajYbfHlvfXVT9CJLlDLfV+GmvmnZZ7TP54zgHP2ADZqlr/qkE4wMDD96uNrrSqVRn2lcdsD8ouy583tp9NIR6QmMapND9XsMW3QlnUC5zb29XqL77HlPym76aMixZ6oST2r5Z9jk5LymUeHnwau+t6xWTK2laQps0N+1b90ufNUFEGRzl6d5sFqb1I2lcbBkFRB3LbJJS4JGlxPaJPmbvn5fSzjQX/mY57g/4kWb19OJ+eOQt/nbg6lggw19UPvd+INqqQR0f19/bl+VCl2UoSS23dEvwafRcwbR9YVGTWhLI993wIWUIaWHbiT4QiMQIjmWqKobBiCJG/8YNpCLc2PgDiTOrlNjK6gmH/S9aqY8PQu5PK9zmRVkZf/xzqVGgFHRjxc38TWyenlfgdetphiNwGl67QY/fRwa2cMud2dCDdJwlemyDXHYWTrDlJCKaX5s3lxaioi99b+LnO5fcgW/ExWYgoX6SSLqp+rJUx0KeQ3nwCKjz4fbulX1b8mlyE/B7Nd0kaJmRJVc2NgHC81//tj/SmU3lQf7Ou66u9Z4vCjurBL35C5paItA==
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB4202.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39830400003)(376002)(346002)(396003)(136003)(366004)(6506007)(8936002)(2616005)(956004)(66476007)(4326008)(478600001)(1076003)(38100700001)(2906002)(8676002)(83380400001)(9686003)(5660300002)(6916009)(6512007)(36756003)(6486002)(66946007)(316002)(66556008)(26005)(52116002)(86362001)(186003)(16526019);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB4202.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(366004)(376002)(396003)(136003)(39850400004)(83380400001)(38100700001)(8676002)(8936002)(86362001)(6512007)(6506007)(66556008)(66476007)(6486002)(16526019)(2906002)(6916009)(1076003)(26005)(186003)(52116002)(6666004)(478600001)(36756003)(5660300002)(66946007)(9686003)(956004)(2616005)(4326008)(316002)(473944003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData: 
-	=?us-ascii?Q?yU3VTCspJFNFmW58ym8m7yL6BYyOBqrEWTrFwxa0926V6tmm1JJnxO9NP4bX?=
- =?us-ascii?Q?lE2mBUxQiTeSFr93/9RxfN2rCSPvdTlWXhrHu2R5m0zOQpIzlBa5NnhvpcAO?=
- =?us-ascii?Q?71uOgEa6G644PJV4AQr76DcekMhmCM4jBvodu9uoUDwBeuhF7+5CdM0aACAT?=
- =?us-ascii?Q?OEzG4F4r6D97Fcrv/MDeCpXFxizBF0D6flmDEuVNSRkwYGjX5vpC4AZiYXfA?=
- =?us-ascii?Q?3B/50R8ux698S0wa7LVH6WaWLQio31dUwicHl7Idppedie0+JFJlob6zApHP?=
- =?us-ascii?Q?erA+vSnawgk7YnCQtkNSfubOt3UAjVEjAJyJt8icvV+q59KSLOpJOW7/XmBn?=
- =?us-ascii?Q?Dj9sehhfv03yk8J2VWBB9R0iAkxCgsu2gJVf4QMJ9MMhLjlTxEY3Ob4Oron1?=
- =?us-ascii?Q?NaDRva+PLokEdZRQ6VWZjLDd5VEFp7ELlcqzy352HAZiABwxLyKXEcXLyqpn?=
- =?us-ascii?Q?kpHDzK0LwagfJSJAT6LFCmNfYqcD5iFKu26FNOdc1rBEPT3UQSvawM1plyfq?=
- =?us-ascii?Q?SUynV8vU3aBTAtzOj/NHMa7+EzFn+VTemb603RwkqzV4QNd8nwO5dzPlYdqG?=
- =?us-ascii?Q?mtwKLKxKxvAGPox3tRR7F/h4zHa8OXTQa6tUVwDlnxLUDdTJZyfitu+ucw3j?=
- =?us-ascii?Q?RAIsgXgDEYTlrCxHFLUk8CMg7AVNj/kyyW/QH0AoMpN7wHxl9fkWdVFS/foy?=
- =?us-ascii?Q?pKFExXKF6pFbRozDfHDwUvj4NUx59uPXnqi7yjrfsRspP/lpoexC7V/iEDes?=
- =?us-ascii?Q?pD9n6P+2K4AODWHOEJxqvRTLduQg5iQ/y4iJez6wpP5ZASy9nMq1/u3PbL6N?=
- =?us-ascii?Q?svGZaY1eaho7FAOOddmd7FiYntLGIBnew9V2eQ5oMYP/K0pjkdKbtrbp89V+?=
- =?us-ascii?Q?Q/EcN4OEdXJAzjbvUM7jUSJz4pcV7m5AxBVa2yAJ9eWG0fOfiMccbk1SVu3a?=
- =?us-ascii?Q?nJtLSlsF1UNIMlOqyC9kEQf6cc9v7Ymd+oM7kUqm2x1uLmwH8FBtRVrlAhrV?=
- =?us-ascii?Q?MkAyyDzg54cy4k5RrGcJzObfaVD9GNeNKRoo8WApc3SFpeSVs8l2gLTgCXD4?=
- =?us-ascii?Q?lecb93D/ktvJutLnaMLwm+lnJ8JBeabN6k1oNzDGM1gCOwVJA7LCIkXCzU3D?=
- =?us-ascii?Q?YyfH/IeFaSi8FwiOl1m55/nB3YckuZieeVa08U+dXeitMvNCLFnYmMAIxgPT?=
- =?us-ascii?Q?3NHv+n2PrpJx/YlEtWEcz/hd+G+vYV2zGVG2SHceVbYviiCTPLK+3dzfhzvF?=
- =?us-ascii?Q?GeSeGlXhXyRNka6zslSaGeK79u2fHSFADIkm0jdEfjclGM8eQGvy+5AUuqFo?=
- =?us-ascii?Q?BFD3KHGHIVW+QBt9eKEegJ/q?=
+	=?us-ascii?Q?qrgPV+pQ7gvE6CJqRYrLDh5Ejido9M4hNBwE3XMsYGp5ZlGUwvz0/P0b+Pck?=
+ =?us-ascii?Q?pgSj3t+x4NANMFqn04psO8z6EtNpfmthR/0uNI6smuDzJpeIeryGLTcEpjQP?=
+ =?us-ascii?Q?nM/iee0Ewv7rDQPjvDGvgVv5YydZIThp0mH8UUNKnY7iPyKhjGDPzRT9IXEy?=
+ =?us-ascii?Q?5uBcnD10txHXdq2t0GHS6vtbc8Cx0WGOwaWUrVBJcLDV8GCM1geUk1MUFWEX?=
+ =?us-ascii?Q?W6WwNF20DQ5Jr1J4SF05zMfbdkbhpyPfV42Vf470XXpMuxGFVcP2so22mdYM?=
+ =?us-ascii?Q?xJ1NJuFXzwecYgkVbdNUdyDibeBzxDiy2lqiN/MN+MyM1a/uRIID2LJ2Db2M?=
+ =?us-ascii?Q?gBLkd2nHFItm6DNSzqbZGcMJOtLb/jpzxWz6QMeo/NAmVZNuVSWH2fbLyWaR?=
+ =?us-ascii?Q?fB3Z263OA1tMWZ5sYEctnEasnYlYuukDee++9KsRYh4qQ26pZcN3cV9SuL+E?=
+ =?us-ascii?Q?xode5D+QfiEQOj4cW0tAn+46VGWDkzrEYORTO5I5B18AH4jRTuydwvKBXdqQ?=
+ =?us-ascii?Q?GA5nx3IuIB+WKt+UQq42p/fUbZurp7HlCooMPkZ/dkVJhTd9/B/XNFI2h29z?=
+ =?us-ascii?Q?+3BzpKzb/1f/oPlicFqiaAKyqZgZg6gYWca6aTPqhh3N0GTgmWf66LAqUK9n?=
+ =?us-ascii?Q?QLg2IZxSh+fvb85LhuymUIGosQ366/pLI0YOd9cg4/KpXpZc263/P0wFRv3T?=
+ =?us-ascii?Q?aKvpOnrNUmDwxgoWMvD8ej3DK+H/n5kFujBAL6266i8ZAwdd+ZqLUQUXqhAs?=
+ =?us-ascii?Q?3L2KZEzrwWG5qkmtmoRDvSvGEr6OVPdXCuRkeDa8/cRdJqbd9Q7MOCL2x/QO?=
+ =?us-ascii?Q?cFAblXq+L4E3B/cuOyRu+FIH9/rR2oSpPS6OzK7laT+YvG5UVxfzBC67l/rx?=
+ =?us-ascii?Q?RxwrwkeU+0l2pY/MFrbO8VcxvXUKkQUXzwCAiOJstBD/GqwMQYJbaOIIewTb?=
+ =?us-ascii?Q?9mhCpldR4HZ7++7pz1moeoB5uWF31BxxY7NecQ0mNQWOSdOenQv0RzQFIFGy?=
+ =?us-ascii?Q?G2JosjRosWVDIIq9ZxEXvGOIONoxFS75JqyICgBhWtXYmFhnGzs6dSVRXlYR?=
+ =?us-ascii?Q?wQv7VuSHY3YQZdgqSBBWRywPHvaC/cP6gLRogV48NykmpRMvqyJhPbDlNHlK?=
+ =?us-ascii?Q?nLLbKNG1iqCbrY0Z07UVUByVz1QiwyXlF8FgO9I5a6ZwDuGaFLeggVQB9GHt?=
+ =?us-ascii?Q?xOfY9RfkSL/TkxdIbueukV412EWULLLvjN/DOXANnJ6bHDr88bRqKoYBQhcT?=
+ =?us-ascii?Q?DjNIRMa6rErKJFx9P4eez4GENF/P6HI5EnrP3RHH79/RbCGwMeuOHqRyzzLY?=
+ =?us-ascii?Q?SiCyo8zimRzeTJQ1FyQ+hGMh?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9de286c5-7d8c-4b06-f103-08d8ecd3a77f
+X-MS-Exchange-CrossTenant-Network-Message-Id: e455bfdd-dcb8-4310-4db6-08d8f020d7a3
 X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB4202.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Mar 2021 01:41:46.8967
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Mar 2021 06:31:52.3876
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +qxXextrZ9yi/GlBWyDPL8v2qmn0A6f+K3Sus9SugZxjnpZ5J3FYRdYQWmQxM3OwjiFM7JrGoK1HTqWiFKVnnILDuxkXKtHM+19nPv2pTCk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB3865
+X-MS-Exchange-CrossTenant-UserPrincipalName: cSikET/SsrveSAWzV88Bs8dYB8r/ruT/w6ti1xv7uAn4PSzAm6bbLkcCOanRwguht+rw/j7khSk4NLBgAfoU++qRi7mdDyjVuWc9l2Ez2Bs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR11MB1929
 Content-Type: text/plain
 
 From: Zqiang <qiang.zhang@windriver.com>
 
-Bump version to 0.14.
-This upgrade is mainly to fix some BUG.
+Notable Changes:
+1. progress module can now be turned on/off, using the
+commands: ceph progress on and ceph progress off.
+2. PG removal has been optimized in this release.
 
 Signed-off-by: Zqiang <qiang.zhang@windriver.com>
 ---
- recipes-extended/libvmi/libvmi_git.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ .../ceph/{ceph_15.2.8.bb => ceph_15.2.9.bb}            | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+ rename recipes-extended/ceph/{ceph_15.2.8.bb => ceph_15.2.9.bb} (91%)
 
-diff --git a/recipes-extended/libvmi/libvmi_git.bb b/recipes-extended/libvmi/libvmi_git.bb
-index 88fa5d30..b8e35669 100644
---- a/recipes-extended/libvmi/libvmi_git.bb
-+++ b/recipes-extended/libvmi/libvmi_git.bb
-@@ -11,7 +11,7 @@ DEPENDS = "libvirt libcheck bison fuse byacc-native"
- SRC_URI = "git://github.com/libvmi/libvmi.git \
+diff --git a/recipes-extended/ceph/ceph_15.2.8.bb b/recipes-extended/ceph/ceph_15.2.9.bb
+similarity index 91%
+rename from recipes-extended/ceph/ceph_15.2.8.bb
+rename to recipes-extended/ceph/ceph_15.2.9.bb
+index f771baa2..0d821f0b 100644
+--- a/recipes-extended/ceph/ceph_15.2.8.bb
++++ b/recipes-extended/ceph/ceph_15.2.9.bb
+@@ -16,11 +16,11 @@ SRC_URI = "http://download.ceph.com/tarballs/ceph-${PV}.tar.gz \
+            file://0001-cmake-add-support-for-python3.9.patch \
  "
  
--SRCREV = "6934e8a4758018983ec53ec791dd14a7d6ac31a9"
-+SRCREV = "e8c2061d11c42e5868cbf48229f59b5e7071395a"
+-SRC_URI[md5sum] = "cab93dadfe38888561d390fd58b8c947"
+-SRC_URI[sha256sum] = "64c5eaf8c1e4092e59bc538e9241b6d5cf4ffca92563031abbea8b37b4cab9da"
+-SRC_URI[sha1sum] = "77b60c3775cd6e38f2d07870aee550368105c74b"
+-SRC_URI[sha384sum] = "2173c5176e9ff3745e4bc493585a8cf14e9e7737cf575551a010b7b84cd6b88b378dc93e6509b3a696732c51f530fa60"
+-SRC_URI[sha512sum] = "66c7322575165b4747955ac9de34f9f9e2d4361c8cd8498819383883045601b92f786c4336c79369d6f019db1c4524c492faa40cdceed7fc1b2b373ca6ab5065"
++SRC_URI[md5sum] = "5a949b91199efe130bfe2e57f200eacd"
++SRC_URI[sha256sum] = "ea7fa2be68b3570c5c3aa02774dca27de20b6f20a8498f65e5c4ef375a209ace"
++SRC_URI[sha1sum] = "0503649d7c7d9268cb61b03bbe839106988f87d7"
++SRC_URI[sha384sum] = "57208c126ea8e640c3979073fd64ce58606f17b4b7ed2e005b0792bdfd51b13391af325658d0f68f961f94175d93e891"
++SRC_URI[sha512sum] = "1f55b0a13bf06df782831d0c9d5f8617c22442ab97fb186e6ccb08183e02bf1756caf8633fa6b1cf156c3fb7b1bdff90a60a1249adfad0b9450036e2329bf8ff"
  
- S = "${WORKDIR}/git"
- 
-@@ -29,6 +29,7 @@ FILES_${PN}-dev = "${includedir} ${libdir}/${BPN}.so ${libdir}/*.la \
- 
- PACKAGECONFIG ??= "json-c"
- PACKAGECONFIG[xen] = "--enable-xen,--disable-xen,xen,"
-+PACKAGECONFIG[kvm] = "--disable-kvm-legacy,--enable-kvm-legacy,kvm,"
- PACKAGECONFIG[json-c] = ",,json-c,"
- 
- # We include a sample conf file to which we have added
+ DEPENDS = "boost bzip2 curl expat gperf-native \
+            keyutils libaio libibverbs lz4 \
 -- 
 2.17.1
 
