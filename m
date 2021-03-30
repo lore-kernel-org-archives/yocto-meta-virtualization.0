@@ -1,101 +1,108 @@
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
- by mx.groups.io with SMTP id smtpd.web11.4751.1617136989198549500
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+ by mx.groups.io with SMTP id smtpd.web08.5029.1617137083502295276
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 30 Mar 2021 13:43:09 -0700
+ Tue, 30 Mar 2021 13:44:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=FldYv+LR;
- spf=pass (domain: gmail.com, ip: 209.85.160.175, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qt1-f175.google.com with SMTP id s2so12905767qtx.10
-        for <meta-virtualization@lists.yoctoproject.org>; Tue, 30 Mar 2021 13:43:09 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ltgj8Dss;
+ spf=pass (domain: gmail.com, ip: 209.85.160.177, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f177.google.com with SMTP id y12so5822936qtx.11
+        for <meta-virtualization@lists.yoctoproject.org>; Tue, 30 Mar 2021 13:44:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=S+IjNomtInNM6GXGq412sGRCXsdRFv16IaWBV5HBCw4=;
-        b=FldYv+LRfB8/vH7lpk3rPXQ08Ws3c8lKGe+f+DAT2isCNHE6SnihddZPRS6OcTrfTo
-         jk8HwmhLiEAJX3xUvplAGItMe+L/CGWL00yFG/JpeYOLuVKxL5GugK+S7t1/6WIcmbEA
-         534rQ1WEAMXKsPcf2IZqx5vTq+hTn3nkHiPqW5wmX8LOn6WcpEDI9hHhkoVOdCtug4fv
-         hqeJxu4OI0lLYttlD8a+OdgdRhNldikeOWB/BuvmtkMQVn4Uw3q9M/EJl/OqkxsrNdXD
-         KvKw1j131tmBWZzjXDd12WFNiyCCe1FgI8vxU3pXo43giJWD7ihyrVsuutUXekgiZXhM
-         u0tQ==
+        bh=QDn3BLkYgofgXKqGFVHRPB3k4YMOZs3ijF9zPc1Ywcs=;
+        b=ltgj8DssfhtAHx1ULSYRE6YVeJCo7qRsFj+hvhLQCT/PPLh4UBXe49X1/Npwgc40my
+         YKvnJalCXVhmVrFgx6dbF9aHgpUTvMhgCCmpVUYLKI79st9zJZUppBO2Wq134AIcNT7S
+         HkukSdghfpEaQ+dtvbNVyaBKY/nuEx8LaYh+Zgf1N6fKGOV8zWFM6AwaqMpqrl0Wvh1U
+         8/4srGS8X2bp8edgB7j5yH3OH4UmvmGZttDRJnx5sg7rOuLVMac0FM2b9l5fgYbxl/wS
+         SwTXp73N+aaBxGrJIeMZx5KwGq/CuqZcP8NOjkircEaT51dML6j6Ijt9SZy5BGWAqwo6
+         gNwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=S+IjNomtInNM6GXGq412sGRCXsdRFv16IaWBV5HBCw4=;
-        b=Z9ha9SEnwbeHUJ+zYASpOf462KLkGtihnlcmhgVLHyN3Plgpyvxuj90LvyOpYnWipf
-         0O/bcMC0zZDh3gdYxuQDWOXNY82xYw7FrRKtF60DCZP0cNy8UTp5OKCG+WPbwaWkKE05
-         SRQLQgRnf8DWYA5ANUCEffo23rDSykKqvtAIFRWmza5Cr2PIagVQ0t+oZXlYSsTcpaya
-         TTN8G4P1BNl9NvfFBsAkV+zhCrsLQnNZTjF2fG6MvCMfXnOcbOT3NYX7+TBPBInIkoH+
-         RhdtSGHfSqZFZIlYtn4GFrPSTfQUfYbRg4TFiGI7xQd++bt8Ioqh0Ww1XamPrmgGSWNi
-         H3tQ==
-X-Gm-Message-State: AOAM530KyvwZxvEGrmiSc0FVxvDNclVSzZ37rC1GoyBWM2pB1SS5W9nP
-	XYmfRxfaSwOa0EnzYL9L3js=
-X-Google-Smtp-Source: ABdhPJz0VyYy7Xvt+E8YjkeOlXoPAg1UptFCqMrqeZfhzfgNS20GQdxMxyClQuv9S3osYTVN0Wty7Q==
-X-Received: by 2002:ac8:5a51:: with SMTP id o17mr28889777qta.116.1617136988362;
-        Tue, 30 Mar 2021 13:43:08 -0700 (PDT)
+        bh=QDn3BLkYgofgXKqGFVHRPB3k4YMOZs3ijF9zPc1Ywcs=;
+        b=MaDW/u45AJ1PgXlhQJgMVgcmAAWsyquLfI8ffrPy2p1tjuYk68wlzkUERqttjGHbzS
+         V/hiXnljQ94WYwj6akXjvSzIuiaJMa4IKCkV67/UGh+VLBBWUmr1cSKWUNY2m+79hIYO
+         Yv/yvcGP2OVj2J+SV1v9eRZ9ynnLzLzejVCa730bFIGrsrIpbdx5p4bppHsn5TsAg5Mm
+         QJvBCdyxWtiWSyk7KceyCCW/IGQcK85l4Zs3NGYXYS7pQbcmx4npSO6YP51X4AYKOieG
+         apBnZJ8IM3v3O63AhyPg7wJkOVWBNTHWTS7p9t4AMlsTEwYRnui8Zif3necT00J5I4+o
+         y+jA==
+X-Gm-Message-State: AOAM530jOLyHBsNJQn3tpPerL+UDekHeSWE/oGyqfj0M1fG9t1iu8INH
+	a6a9JXkFZiC4u7Dw+NA9R0meKOt1ekA0aQ==
+X-Google-Smtp-Source: ABdhPJwS5vpok7yPovgX5YXMxRYWEyPJ6CjmOG9EnEKUWE8w3meogml9KuxKnuSDqDG5UODJYuXkjQ==
+X-Received: by 2002:a05:622a:446:: with SMTP id o6mr28975620qtx.257.1617137082633;
+        Tue, 30 Mar 2021 13:44:42 -0700 (PDT)
 Return-Path: <bruce.ashfield@gmail.com>
 Received: from gmail.com (cpe04d4c4975b80-cmf4c11490699b.cpe.net.cable.rogers.com. [174.112.159.151])
-        by smtp.gmail.com with ESMTPSA id 77sm16985574qko.48.2021.03.30.13.43.07
+        by smtp.gmail.com with ESMTPSA id i6sm16428996qkf.96.2021.03.30.13.44.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Mar 2021 13:43:08 -0700 (PDT)
-Date: Tue, 30 Mar 2021 16:43:06 -0400
+        Tue, 30 Mar 2021 13:44:42 -0700 (PDT)
+Date: Tue, 30 Mar 2021 16:44:40 -0400
 From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-To: qiang.zhang@windriver.com
+To: Bartosz Golaszewski <brgl@bgdev.pl>
 Cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [meta-virtualization] [PATCH] ceph: uprev from 15.2.8 to 15.2.9
-Message-ID: <20210330204305.GB12428@gmail.com>
-References: <20210326063158.4015-1-qiang.zhang@windriver.com>
+Subject: Re: [meta-virtualization][PATCH] boto3: satisfy runtime dependencies
+Message-ID: <20210330204440.GC12428@gmail.com>
+References: <20210329185955.11706-1-brgl@bgdev.pl>
 MIME-Version: 1.0
-In-Reply-To: <20210326063158.4015-1-qiang.zhang@windriver.com>
+In-Reply-To: <20210329185955.11706-1-brgl@bgdev.pl>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-merged.
+Thanks for the change.
+
+This is now merged (and I appreciate the submission here, since it is nice
+to keep the dependency close to what is using it .. until it becomes more
+common and then we can move it if required).
 
 Bruce
 
-In message: [meta-virtualization] [PATCH] ceph: uprev from 15.2.8 to 15.2.9
-on 26/03/2021 qiang.zhang@windriver.com wrote:
 
-> From: Zqiang <qiang.zhang@windriver.com>
+In message: [meta-virtualization][PATCH] boto3: satisfy runtime dependencies
+on 29/03/2021 Bartosz Golaszewski wrote:
+
+> Currently boto3 can be built into an image but it won't work without
+> additional dependencies. First: botocore is needed at run-time, second:
+> there are other packages available in meta-python that need adding.
 > 
-> Notable Changes:
-> 1. progress module can now be turned on/off, using the
-> commands: ceph progress on and ceph progress off.
-> 2. PG removal has been optimized in this release.
-> 
-> Signed-off-by: Zqiang <qiang.zhang@windriver.com>
+> Signed-off-by: Bartosz Golaszewski <brgl@bgdev.pl>
 > ---
->  .../ceph/{ceph_15.2.8.bb => ceph_15.2.9.bb}            | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
->  rename recipes-extended/ceph/{ceph_15.2.8.bb => ceph_15.2.9.bb} (91%)
+>  recipes-devtools/python/python3-boto3_1.14.7.bb     |  2 ++
+>  recipes-devtools/python/python3-botocore_1.20.36.bb | 12 ++++++++++++
+>  2 files changed, 14 insertions(+)
+>  create mode 100644 recipes-devtools/python/python3-botocore_1.20.36.bb
 > 
-> diff --git a/recipes-extended/ceph/ceph_15.2.8.bb b/recipes-extended/ceph/ceph_15.2.9.bb
-> similarity index 91%
-> rename from recipes-extended/ceph/ceph_15.2.8.bb
-> rename to recipes-extended/ceph/ceph_15.2.9.bb
-> index f771baa2..0d821f0b 100644
-> --- a/recipes-extended/ceph/ceph_15.2.8.bb
-> +++ b/recipes-extended/ceph/ceph_15.2.9.bb
-> @@ -16,11 +16,11 @@ SRC_URI = "http://download.ceph.com/tarballs/ceph-${PV}.tar.gz \
->             file://0001-cmake-add-support-for-python3.9.patch \
->  "
+> diff --git a/recipes-devtools/python/python3-boto3_1.14.7.bb b/recipes-devtools/python/python3-boto3_1.14.7.bb
+> index f9e979e..0e9611c 100644
+> --- a/recipes-devtools/python/python3-boto3_1.14.7.bb
+> +++ b/recipes-devtools/python/python3-boto3_1.14.7.bb
+> @@ -13,3 +13,5 @@ SRC_URI[md5sum] = "fb8b77d4ac10a971570419dd3613196e"
+>  SRC_URI[sha256sum] = "4856c8cb4150b900cc7dccbdf16f542fb8c12e97b17639979e58760847f7cf35"
 >  
-> -SRC_URI[md5sum] = "cab93dadfe38888561d390fd58b8c947"
-> -SRC_URI[sha256sum] = "64c5eaf8c1e4092e59bc538e9241b6d5cf4ffca92563031abbea8b37b4cab9da"
-> -SRC_URI[sha1sum] = "77b60c3775cd6e38f2d07870aee550368105c74b"
-> -SRC_URI[sha384sum] = "2173c5176e9ff3745e4bc493585a8cf14e9e7737cf575551a010b7b84cd6b88b378dc93e6509b3a696732c51f530fa60"
-> -SRC_URI[sha512sum] = "66c7322575165b4747955ac9de34f9f9e2d4361c8cd8498819383883045601b92f786c4336c79369d6f019db1c4524c492faa40cdceed7fc1b2b373ca6ab5065"
-> +SRC_URI[md5sum] = "5a949b91199efe130bfe2e57f200eacd"
-> +SRC_URI[sha256sum] = "ea7fa2be68b3570c5c3aa02774dca27de20b6f20a8498f65e5c4ef375a209ace"
-> +SRC_URI[sha1sum] = "0503649d7c7d9268cb61b03bbe839106988f87d7"
-> +SRC_URI[sha384sum] = "57208c126ea8e640c3979073fd64ce58606f17b4b7ed2e005b0792bdfd51b13391af325658d0f68f961f94175d93e891"
-> +SRC_URI[sha512sum] = "1f55b0a13bf06df782831d0c9d5f8617c22442ab97fb186e6ccb08183e02bf1756caf8633fa6b1cf156c3fb7b1bdff90a60a1249adfad0b9450036e2329bf8ff"
->  
->  DEPENDS = "boost bzip2 curl expat gperf-native \
->             keyutils libaio libibverbs lz4 \
+>  inherit pypi setuptools3
+> +
+> +RDEPENDS_${PN} += "python3-botocore python3-urllib3 python3-unixadmin"
+> diff --git a/recipes-devtools/python/python3-botocore_1.20.36.bb b/recipes-devtools/python/python3-botocore_1.20.36.bb
+> new file mode 100644
+> index 0000000..4c4a825
+> --- /dev/null
+> +++ b/recipes-devtools/python/python3-botocore_1.20.36.bb
+> @@ -0,0 +1,12 @@
+> +SUMMARY = "The low-level, core functionality of boto 3."
+> +HOMEPAGE = "https://github.com/boto/botocore"
+> +LICENSE = "Apache-2.0"
+> +LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=2ee41112a44fe7014dce33e26468ba93"
+> +
+> +SRC_URI = "git://github.com/boto/botocore.git;protocol=https"
+> +SRCREV = "8c7123bd4683049dcac62bf3e11662e6a72c5eec"
+> +S = "${WORKDIR}/git"
+> +
+> +inherit setuptools3
+> +
+> +RDEPENDS_${PN} += "python3-jmespath python3-dateutil python3-logging"
 > -- 
-> 2.17.1
+> 2.30.1
 > 
