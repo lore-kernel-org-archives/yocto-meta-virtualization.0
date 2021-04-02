@@ -1,83 +1,82 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
- by mx.groups.io with SMTP id smtpd.web10.12584.1617346972596090421
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+ by mx.groups.io with SMTP id smtpd.web12.12721.1617346973118176499
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 02 Apr 2021 00:02:52 -0700
+ Fri, 02 Apr 2021 00:02:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=udzH9d6h;
- spf=pass (domain: gmail.com, ip: 209.85.208.41, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ed1-f41.google.com with SMTP id w18so4587189edc.0
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=PP+/fFlU;
+ spf=pass (domain: gmail.com, ip: 209.85.218.46, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ej1-f46.google.com with SMTP id u9so6204718ejj.7
         for <meta-virtualization@lists.yoctoproject.org>; Fri, 02 Apr 2021 00:02:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=2YwHnzANFMJDQpw4Rro7tg/qcfv+jh+4rL+paDE2V30=;
-        b=udzH9d6h0RZ7KYj1hTLU4i+ihQiY5bA4uIBrouLOHAKtG70QMmMc2lTUXoJ/5BVDaK
-         lrfM/DkdwfPHtqjfynZcqo0LqndZWwqpWHPKfhnQITm8iixa1Ay18xgdsphu1CUNFgRf
-         6RzFwVce10D91Msf3AlERLvmAPVUFDZg2HiEBWOOXtBTE6gB0d9hCDJrw58RiVN9oDbm
-         gyluo69iZSTaFi5Tk5UQh4MT9sG/y3Ixv++hP803J3CFZ/MKvXn+ASH85v1OAu9X1RF+
-         nOn2kHxAsmPe+5oJVA9lj41Vsx0xu+PjjZmB69bM7+/5dt4m7SmFnD0eUXP38qmwPC65
-         QiKw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=7b/IHAqcD1seIg5S2UASwkx1ri3rdbU69v3Zt5nMFlE=;
+        b=PP+/fFlUlEsxYdevjJJABxu4fkdjAgVeymJR9tzNPJfv8nZHH/mABKamTP5YgtyoLu
+         Dgu2yY7xe4FzISApbTAH0Rb+Ekl5+/Huy3ip2HcLskRPjxFH7AE/eG5QdTmsTaHivoEl
+         Nclg/G/zFY+h4UaZIaE3L6mjXAaeElYsRQLYd0OU+HIl35moRRM1mHU4DGpqV8mnqlCl
+         BpakerFutxFQo/JmJJHs1PiCCKgWU0qKI7Qy/3unTFbr36/yfUMg6yEuTbNYqrtVvHFd
+         x+Ybzjj0Lu9+6LdW8/oFc/Mi5thEys/hwhgO7pKfIhhEyu3wX0IwjliK+dcITXu7SN8X
+         E8Hw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=2YwHnzANFMJDQpw4Rro7tg/qcfv+jh+4rL+paDE2V30=;
-        b=ZCwilejLClny13lWegxCMcJBY/TS+7443NHpwyY4g+vWQcnPf33i9EFGNwNfa9FRt0
-         ii9gLTuXV+asD+jwKaElOeLSXo4P+qPZF+9RDEZgPcMbtSkFakaA6fZVBLfYpzcRPOFi
-         sV3IIjzJuZ2YcHRQtEe4DAdo0MtkJNrv4jM2NOlo3PPxgQO+0in4aWfs5OJ+xszgMVsp
-         cQg0UGTNVrpejWIshSxLgBzFOUJpkPv7l+XofMzM2oqf2LyhaUw3s9+Nh/wqTlnxzTed
-         Nm1Brg6q2UWaFWwaRcgcXDlI1wM6c//yYz5Q8HS2taZdVmGZlfXQ+F0IoChfELyIdRcb
-         ooKA==
-X-Gm-Message-State: AOAM532q0Oe3YWjijzAM5Vv5bEA203ZlsbwVt2prm/Hy+QcktCav2Jtd
-	y5T1ecVcFrGblsqFW5W3Ax9EDl2kSqs=
-X-Google-Smtp-Source: ABdhPJyuscF57pxS+B4ocwkrIYZfmDuMoI5xWWqosKiX2wJL84YRfwNth0zQ43g1J2OGLtXRn2xt7Q==
-X-Received: by 2002:a05:6402:105a:: with SMTP id e26mr14109617edu.164.1617346970901;
-        Fri, 02 Apr 2021 00:02:50 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=7b/IHAqcD1seIg5S2UASwkx1ri3rdbU69v3Zt5nMFlE=;
+        b=cTIvM9PgC267YSiNJO2Ou3F/Q1xRS+ckxKNBY2QP2uI0IixpNI3xC3FHAmjwc/qcXk
+         hYyMwT7xg9KyUVfnOYW+RDAHEPIjx5p6FxFTQuO2ifuwaRfQiYmAPLgEY5d+vYKBQNEa
+         1G8QI/pbNoei8G1v09UdoKaK60iYj7acjhWuieBxwxaMYKqE2JXXdq59Ly5VDfyTnvRh
+         SRJ3YcX/63TkSSNNCRvUrChx+nhl2lGT5GD5Jz6G7gZL5pMAbePnRuL5adh7VJi0GLO0
+         gsz1t5NI91ITJIv7diLKLaRBGvd7TDrXJVYI1F9o+FeqYCAeNZAfYpHP5lkef3gwRbVT
+         SWRg==
+X-Gm-Message-State: AOAM532G21YSP5RDDjY1fsVTd73iJzZDr8QqeX4iWaZqCQxKu8WTgBmz
+	wH2476Vh3c/E237DHyhd8dcX31yKiFo=
+X-Google-Smtp-Source: ABdhPJxe1UBM3b25VpQ+pk3a11d6B6Lz8ZzoJzmVRAHbDOmVX4dENXYioiuTzrNtgsIR5x7T68+PaQ==
+X-Received: by 2002:a17:907:216a:: with SMTP id rl10mr12853522ejb.365.1617346971704;
+        Fri, 02 Apr 2021 00:02:51 -0700 (PDT)
 Return-Path: <martin.jansa@gmail.com>
 Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id dg26sm4925699edb.88.2021.04.02.00.02.50
+        by smtp.gmail.com with ESMTPSA id dx16sm225894ejb.89.2021.04.02.00.02.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Apr 2021 00:02:50 -0700 (PDT)
+        Fri, 02 Apr 2021 00:02:51 -0700 (PDT)
 From: "Martin Jansa" <Martin.Jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: meta-virtualization@lists.yoctoproject.org
 Cc: Martin Jansa <Martin.Jansa@gmail.com>
-Subject: [meta-virtualization][PATCH 1/2] packagegroup-kubernets: add seccomp to REQUIRED_DISTRO_FEATURES
-Date: Fri,  2 Apr 2021 09:02:43 +0200
-Message-Id: <20210402070244.2321014-1-Martin.Jansa@gmail.com>
+Subject: [meta-virtualization][PATCH 2/2] packagegroup-container: skip without meta-security because of podman
+Date: Fri,  2 Apr 2021 09:02:44 +0200
+Message-Id: <20210402070244.2321014-2-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210402070244.2321014-1-Martin.Jansa@gmail.com>
+References: <20210402070244.2321014-1-Martin.Jansa@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-* fixes world build:
-ERROR: Nothing RPROVIDES 'k3s-server' (but meta-virtualization/recipes-core/packagegroups/packagegroup-kubernetes.bb RDEPENDS on or otherwise requires it)
-k3s RPROVIDES k3s-server but was skipped: missing required distro feature 'seccomp' (not in DISTRO_FEATURES)
-NOTE: Runtime target 'k3s-server' is unbuildable, removing...
-Missing or unbuildable dependency chain was: ['k3s-server']
-ERROR: Required build target 'meta-world-pkgdata' has no buildable providers.
-Missing or unbuildable dependency chain was: ['meta-world-pkgdata', 'packagegroup-kubernetes', 'k3s-server']
+* copy the skip from podman recipe, because this packagegroup
+  depends on podman
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- recipes-core/packagegroups/packagegroup-kubernetes.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+ recipes-core/packagegroups/packagegroup-container.bb | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/recipes-core/packagegroups/packagegroup-kubernetes.bb b/recipes-core/packagegroups/packagegroup-kubernetes.bb
-index ec528e0..237e72e 100644
---- a/recipes-core/packagegroups/packagegroup-kubernetes.bb
-+++ b/recipes-core/packagegroups/packagegroup-kubernetes.bb
-@@ -4,6 +4,10 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
+diff --git a/recipes-core/packagegroups/packagegroup-container.bb b/recipes-core/packagegroups/packagegroup-container.bb
+index d425ac5..b3b0d4c 100644
+--- a/recipes-core/packagegroups/packagegroup-container.bb
++++ b/recipes-core/packagegroups/packagegroup-container.bb
+@@ -44,3 +44,12 @@ RDEPENDS_packagegroup-containerd = " \
+     virtual/containerd \
+ "
  
- inherit packagegroup
- 
-+# k3s has this restriction
-+inherit features_check
-+REQUIRED_DISTRO_FEATURES ?= "seccomp"
-+
- PACKAGES = "\
-     packagegroup-kubernetes-base \
-     packagegroup-k8s-host \
++python __anonymous() {
++    msg = ""
++    # ERROR: Nothing PROVIDES 'libseccomp' (but meta-virtualization/recipes-containers/podman/ DEPENDS on or otherwise requires it).
++    # ERROR: Required build target 'meta-world-pkgdata' has no buildable providers.
++    # Missing or unbuildable dependency chain was: ['meta-world-pkgdata', 'podman', 'libseccomp']
++    if 'security' not in d.getVar('BBFILE_COLLECTIONS').split():
++        msg += "Make sure meta-security should be present as it provides 'libseccomp'"
++        raise bb.parse.SkipRecipe(msg)
++}
 -- 
 2.30.2
 
