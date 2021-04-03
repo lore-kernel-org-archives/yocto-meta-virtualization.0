@@ -1,138 +1,123 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
- by mx.groups.io with SMTP id smtpd.web12.20715.1617388336366734659
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+ by mx.groups.io with SMTP id smtpd.web10.27904.1617438788576797922
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 02 Apr 2021 11:32:16 -0700
+ Sat, 03 Apr 2021 01:33:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Puzp1xQu;
- spf=pass (domain: gmail.com, ip: 209.85.216.47, mailfrom: akuster808@gmail.com)
-Received: by mail-pj1-f47.google.com with SMTP id gv19-20020a17090b11d3b029014c516f4eb5so1141640pjb.0
-        for <meta-virtualization@lists.yoctoproject.org>; Fri, 02 Apr 2021 11:32:16 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=fLBGF0vw;
+ spf=pass (domain: gmail.com, ip: 209.85.218.51, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ej1-f51.google.com with SMTP id n2so3885241ejy.7
+        for <meta-virtualization@lists.yoctoproject.org>; Sat, 03 Apr 2021 01:33:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:references:from:autocrypt:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=babiGked4NP99VlUBgGSK0h2Gq7pWr5H/MHReSls0ts=;
-        b=Puzp1xQuQkb6Ptt4bziM+ux86BR2ggjeAuPgUhkKtu1hZ4CKowjPlEkfmtKPu5unW+
-         WseDETa0n1cWcySr228beG5djFpUFm+/v1BqIvoszerr3zaKvTdOEjUrGeT6dV7EKBKq
-         jhwNMvz/ct0ox23NYpU1ffVv3j1QSKLZA/QFNZQIvty1prj2emGIiJNek2rp5R9UCI47
-         Wfm4pVtkZqkJcXgaqi7MGZZwcha12aVJjyR/JBDQNLrHRhRv+LltMTHexwVplKEhl01z
-         dYFRzbaV4B/zSYjwdy/CESMQNucR5mQraq9uusic2veYnk6CtqDNQ4ITmaD5FRJmSY+L
-         bAjg==
+        h=from:date:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=G4mQUM0uClom8dO64b5hTRdnSPkozhWldlzG7xGO81E=;
+        b=fLBGF0vwqAohudubPnGcoUQKrjERNIidnezcAypJF6CwGFgtpOT3WltTZMP/qg01Hh
+         0sjx+LXMb22TWHS0eZp8v7ZUmqozQ9mMijlCiwMncb2PYC2J1oTr25a5ILTmPqfzqYKE
+         3hwh41ESIRNu94Th5G5yD0vJfb5qKeI0PTRIfTcIUBjDcXotuTUR5iZOfNdcY/hZzLNO
+         OoMA9cJsEZ7uE9SNiGK9eID0bOxRuQO5MWDPwjn3h+ZnmsXzoFPo+zcPNKLzm7X8uZvm
+         WGZPsqJ+r+OR7ji8BKvFDG8UWY0jviV7cCHfK6eIsVm/HTJvDdYxY2ElMrYXPGlgVPT0
+         oZ4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:autocrypt:message-id
-         :date:user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=babiGked4NP99VlUBgGSK0h2Gq7pWr5H/MHReSls0ts=;
-        b=JZBq4I2tNYcAAR/uEljn3AZES4kSWaf39rJcXEgTsSj/LxYD6Q7E3pFhy+djHxQNdD
-         2pL7nvwWY9wbshIqsOk+LDgWx1l8IEdwLlZtofbfc1fMAAFZggzGP8WV33HEvV1iiWoz
-         2rsjsIrylXtbPt8hJ2l3q98mYQIRF0B7it/VKhcNQKpAeBEsC2FgMORH2xfVd0mgCtAG
-         2oaKQ4uB0RYT0MdNF/YwUZUurBWzQChVaul4nF6K5Rnimbx5Ha7/Ts88D0iaF+Bphkf6
-         uEKYEwRtmyPBcymVJT4oDM6O5wC+lJ55fD0IKx+zxzV+RtYOGsbDMcbcKrBCuAUM+TgY
-         e3OQ==
-X-Gm-Message-State: AOAM530ZZbgzRiV5cU2q0rZeEBa8IDvYfNcOrvS4W8Q2zIbMsr6Nccc+
-	TGIzU656Idv/UgPtAzeJaJWjjtUvZ1A=
-X-Google-Smtp-Source: ABdhPJxWX41823LNjwOpVjwXnUgMfJgZYdjL5wgMqp/31sJFFzRwZ7XH8rt527lyGbKWaiZlflEZYQ==
-X-Received: by 2002:a17:902:a587:b029:e7:347d:4872 with SMTP id az7-20020a170902a587b02900e7347d4872mr14134412plb.2.1617388335670;
-        Fri, 02 Apr 2021 11:32:15 -0700 (PDT)
-Return-Path: <akuster808@gmail.com>
-Received: from ?IPv6:2601:202:4180:a5c0:7050:b686:e2e6:21d4? ([2601:202:4180:a5c0:7050:b686:e2e6:21d4])
-        by smtp.gmail.com with ESMTPSA id i13sm8728307pgi.3.2021.04.02.11.32.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 02 Apr 2021 11:32:15 -0700 (PDT)
+        h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=G4mQUM0uClom8dO64b5hTRdnSPkozhWldlzG7xGO81E=;
+        b=STHDgNDDAMapxYMB/UBlJ7ZWJL+0pTSgTAy2CprVlrmetkHlGLJ1I7rBo+SlEh1+kb
+         h8QjIE/JHU1ouRdJi6m2BFd+0v3idkZZ9RZMVDIvrAoudMRAf8V9Tr+jOffDl2rLrtW1
+         617tjlFyPEMYHWV+nUK0mTkxHDavP6dUDP2YBcFiBU9GGLzRBUqYsIbrrG2m6ZiRzFhx
+         d4ghTSqSVjpKh7LIi5/9/ov3spgbpM5C2g5HXMeP00XjLdmp48rsM/rlQ+AqVALsqHMa
+         lN2xTx7N3nCxXFWbS2RjNxt2m9rT98Qa2YGwkrMJQFdW/rNeAhsFIwzDI1eA4hCbPt0k
+         u8dQ==
+X-Gm-Message-State: AOAM530KMKjmvqMmCap6kVJTZYggAV1zViZDBnZOPSxze/3KZEp5Lqwj
+	GKNWD31keOqGXkvCCv9kI6g=
+X-Google-Smtp-Source: ABdhPJwecBY2jR0RnJoTCeG6fVOgUlt3+LZNy8XT5YXsdGt4yxtxGow5ddAe1ML4ADBrqGJ9spBUmQ==
+X-Received: by 2002:a17:906:938f:: with SMTP id l15mr17821010ejx.15.1617438787065;
+        Sat, 03 Apr 2021 01:33:07 -0700 (PDT)
+Return-Path: <martin.jansa@gmail.com>
+Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
+        by smtp.gmail.com with ESMTPSA id cy5sm6792642edb.46.2021.04.03.01.33.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 03 Apr 2021 01:33:06 -0700 (PDT)
+From: "Martin Jansa" <Martin.Jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Sat, 3 Apr 2021 10:33:05 +0200
+To: akuster808 <akuster808@gmail.com>
+Cc: meta-virtualization@lists.yoctoproject.org
 Subject: Re: [meta-virtualization][PATCH 2/2] packagegroup-container: skip without meta-security because of podman
-To: Martin Jansa <Martin.Jansa@gmail.com>,
- meta-virtualization@lists.yoctoproject.org
+Message-ID: <20210403083305.nsxuymrw5ezxvolt@jama>
 References: <20210402070244.2321014-1-Martin.Jansa@gmail.com>
  <20210402070244.2321014-2-Martin.Jansa@gmail.com>
-From: "akuster" <akuster808@gmail.com>
-Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
- 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
- 8CS2NxU=
-Message-ID: <7d69bafb-d26d-0d79-2e22-1987911c1500@gmail.com>
-Date: Fri, 2 Apr 2021 11:32:14 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ <7d69bafb-d26d-0d79-2e22-1987911c1500@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210402070244.2321014-2-Martin.Jansa@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+In-Reply-To: <7d69bafb-d26d-0d79-2e22-1987911c1500@gmail.com>
+X-Groupsio-MsgNum: 6300
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="tx5pxcj5zlytcjlj"
+Content-Disposition: inline
 
+--tx5pxcj5zlytcjlj
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Fri, Apr 02, 2021 at 11:32:14AM -0700, akuster808 wrote:
+>=20
+>=20
+> On 4/2/21 12:02 AM, Martin Jansa wrote:
+> > * copy the skip from podman recipe, because this packagegroup
+> >   depends on podman
+> >
+> > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> > ---
+> >  recipes-core/packagegroups/packagegroup-container.bb | 9 +++++++++
+> >  1 file changed, 9 insertions(+)
+> >
+> > diff --git a/recipes-core/packagegroups/packagegroup-container.bb b/re=
+cipes-core/packagegroups/packagegroup-container.bb
+> > index d425ac5..b3b0d4c 100644
+> > --- a/recipes-core/packagegroups/packagegroup-container.bb
+> > +++ b/recipes-core/packagegroups/packagegroup-container.bb
+> > @@ -44,3 +44,12 @@ RDEPENDS_packagegroup-containerd =3D " \
+> >      virtual/containerd \
+> >  "
+> >  
+> > +python __anonymous() {
+> > +    msg =3D ""
+> > +    # ERROR: Nothing PROVIDES 'libseccomp' (but meta-virtualization/r=
+ecipes-containers/podman/ DEPENDS on or otherwise requires it).
+> > +    # ERROR: Required build target 'meta-world-pkgdata' has no builda=
+ble providers.
+> > +    # Missing or unbuildable dependency chain was: ['meta-world-pkgda=
+ta', 'podman', 'libseccomp']
+> > +    if 'security' not in d.getVar('BBFILE_COLLECTIONS').split():
+> > +        msg +=3D "Make sure meta-security should be present as it pro=
+vides 'libseccomp'"
+> > +        raise bb.parse.SkipRecipe(msg)
+> > +}
+>=20
+> That reminds me that the libsecomp pkg should move to meta-oe so this
+> other layers don't have to do these kinds of things.
 
-On 4/2/21 12:02 AM, Martin Jansa wrote:
-> * copy the skip from podman recipe, because this packagegroup
->   depends on podman
->
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> ---
->  recipes-core/packagegroups/packagegroup-container.bb | 9 +++++++++
->  1 file changed, 9 insertions(+)
->
-> diff --git a/recipes-core/packagegroups/packagegroup-container.bb b/recipes-core/packagegroups/packagegroup-container.bb
-> index d425ac5..b3b0d4c 100644
-> --- a/recipes-core/packagegroups/packagegroup-container.bb
-> +++ b/recipes-core/packagegroups/packagegroup-container.bb
-> @@ -44,3 +44,12 @@ RDEPENDS_packagegroup-containerd = " \
->      virtual/containerd \
->  "
->  
-> +python __anonymous() {
-> +    msg = ""
-> +    # ERROR: Nothing PROVIDES 'libseccomp' (but meta-virtualization/recipes-containers/podman/ DEPENDS on or otherwise requires it).
-> +    # ERROR: Required build target 'meta-world-pkgdata' has no buildable providers.
-> +    # Missing or unbuildable dependency chain was: ['meta-world-pkgdata', 'podman', 'libseccomp']
-> +    if 'security' not in d.getVar('BBFILE_COLLECTIONS').split():
-> +        msg += "Make sure meta-security should be present as it provides 'libseccomp'"
-> +        raise bb.parse.SkipRecipe(msg)
-> +}
+there are also nagios recipes depending on meta-webserver which is
+listed in LAYERRECOMMENDS_virtualization-layer but it would be better to
+skip them like this when meta-webserver isn't included as well.
 
-That reminds me that the libsecomp pkg should move to meta-oe so this
-other layers don't have to do these kinds of things.
+>=20
+> -armin
+> >
+> >=20
+> >
+>=20
 
--armin
->
-> 
->
+--tx5pxcj5zlytcjlj
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCYGgoPwAKCRA3VSO3ZXaA
+HBWAAJwOXaJJhitxnRY+ODeKY3/pjUdCDgCfUWKWwDnGk2qClxIR/l+qt3Er2zM=
+=P3bf
+-----END PGP SIGNATURE-----
+
+--tx5pxcj5zlytcjlj--
