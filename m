@@ -1,78 +1,133 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
- by mx.groups.io with SMTP id smtpd.web10.34321.1617479499593722097
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+ by mx.groups.io with SMTP id smtpd.web12.34437.1617479500411668092
  for <meta-virtualization@lists.yoctoproject.org>;
- Sat, 03 Apr 2021 12:51:39 -0700
+ Sat, 03 Apr 2021 12:51:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=X61Jy/U3;
- spf=pass (domain: gmail.com, ip: 209.85.218.43, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ej1-f43.google.com with SMTP id u17so5377520ejk.2
-        for <meta-virtualization@lists.yoctoproject.org>; Sat, 03 Apr 2021 12:51:39 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=EDTtKyhx;
+ spf=pass (domain: gmail.com, ip: 209.85.218.46, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ej1-f46.google.com with SMTP id n2so5406502ejy.7
+        for <meta-virtualization@lists.yoctoproject.org>; Sat, 03 Apr 2021 12:51:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=4OZHxwsZv7DEzQRpwAeC6AdK8qShRmpbGfKi8NqYJiw=;
-        b=X61Jy/U3CIz0s5mh94IdZcIvKNN829Z/MQAlsE245mg8/fWmu0oiKznoeqR3vOYXJS
-         +/QYxpz+zcJbUmYy8iNSVpJ/5ROAsMApJLSaZuCd7DSsZe0q4+syUVKY0ZzljBTIghNe
-         CHP2YWG30GOmtcEDn5KX9RynDo8o7pNHILURxVSLYwcSrLao7UtuvO34V7pg66x7dkWp
-         Hf8Sb8b1hZtWw9U0H+QmNEcF+gc3ZaptBjVndKJLIlD/aIn3Xsb7X9546b+3h/SY/fb6
-         6DiTD0C7R0Oge88z6UWzUstxvC2fimPCU0x+giYE1uBsvdN9Nb0qmCdqhvuI2jUPI/Sq
-         3NVQ==
+        bh=nm3pcr0VBGJU2h3mflLiSJhomjqUIM61TNrFyTYTKXc=;
+        b=EDTtKyhxMe9oU0uHzAc+ErAJIdAcUS9fKCM06hPch8GsXE7vTdlPHfeyJFGUsERza+
+         nYpzTKk8RLsZuWir7x/VZMnEhzZ6ampvVR1WypJ5IRCbmAB0D4jJLy2jXtC1GtdLKtjb
+         3tnz3WfWWv+uaDaGpNbWcflB5R906/JYU6vM03WhHNONAPjiRPJKTVeg1j/0ut5TZg3b
+         WGB8YD/CzYxmPkjJYQl0JFD/y2sC2dN9y/yA0OEk1Qhd4VocDFxB32UNw2jalejhrK7g
+         pASHeWw/HHLBgOrMl+kdm3FcE4+mgrXfObZjqV+Wf9JHaKPNxlHZhLA0WK0hAX9Y5dcu
+         emeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=4OZHxwsZv7DEzQRpwAeC6AdK8qShRmpbGfKi8NqYJiw=;
-        b=nIi4oWI9aucFO4B4ypR/qIsHMpJ5AfYRFtrtr82V1KlB7NNOn354I7meLyh06ykWfb
-         qhwKz9yfhF2GOsuz5P6IedQCexarI894N1PwiGz6TXesQfNf9wAHsMLfq82hOsW1DTb0
-         AGUk65sCnekfSJ9IhEnU3DdR90cRaqJ90yubnZ+8c13MTXd6h1IsOumvGnC9q4zaV6VY
-         az4k3UDtDIL5IP7HyMYVfhvGLoep/1OvJlsEiEFGGMw3CVJxzqEZ1xEsCGw2/QkrsWgi
-         GUHbAhQ7imuruoiAxEy1SprBUqwRIM152v5+E8Z3HrZn2LCHu8TATPaOwdGq/qPMNeVu
-         uIQA==
-X-Gm-Message-State: AOAM531fl0U0a/AHHNhwe0w83GqUJgSmW994UXMKcNSg+sL5OqJ3Vq0N
-	odTUH41WPKM5OhlbTWw+Tun1ILdPmkk=
-X-Google-Smtp-Source: ABdhPJwGeoZdpsMe7WO5pqFWLoG1M9QYLwHPfPCiOLIoL4STCeDbv6UHfY8/vKXEm+HuMdIbCfUSnQ==
-X-Received: by 2002:a17:906:d9cf:: with SMTP id qk15mr7124735ejb.415.1617479498275;
+        bh=nm3pcr0VBGJU2h3mflLiSJhomjqUIM61TNrFyTYTKXc=;
+        b=bfRBa7lscyvZUFeNal8zbgtVpFGVihESmda9CF7deWnmct0YTbZEZNEaBEi8d6O10v
+         VKSRO0jjfYx4ZkkseVMZE1muQ779wgK2UgXP0D684pfiuXnY0yoixHS+XiNvS7oz11Xp
+         We4LOSis7Yz8ilM8y0L3OBqibGdR3ym1QeEtT+3f7r6uRsUv5IqYOxBt6PdmVDbNJLsB
+         pMB9fhiUdcP/D2oHb0tAeQvUMnW7biK3EJ8jeJg2GB8rExdyiWIAzH2ivfiU/F+537q8
+         S24QXllDYhJgAXVp865KQzMFoBaBuuFQvtMCuZhIKM7BIPLLwpzvCZQkE5dojOlnuIbU
+         O+sQ==
+X-Gm-Message-State: AOAM5338ZiDCHgf1TMe7kfaezPRR7fYaBDoafEJt+1G4gH6QqiS+rJ5h
+	WHtTAYChQia4pwzWuXP71aBBbIpTbJQ=
+X-Google-Smtp-Source: ABdhPJzYPTs97sjLs1qfP+nNYAsxWiWSBkQlXq+58ub+T327J85YvO19S/TU+kzcd6s2zGxy5ezjhA==
+X-Received: by 2002:a17:906:71d3:: with SMTP id i19mr20717350ejk.347.1617479498991;
         Sat, 03 Apr 2021 12:51:38 -0700 (PDT)
 Return-Path: <martin.jansa@gmail.com>
 Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id t15sm7598710edw.84.2021.04.03.12.51.37
+        by smtp.gmail.com with ESMTPSA id bm21sm5861001ejb.36.2021.04.03.12.51.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 03 Apr 2021 12:51:37 -0700 (PDT)
+        Sat, 03 Apr 2021 12:51:38 -0700 (PDT)
 From: "Martin Jansa" <Martin.Jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: meta-virtualization@lists.yoctoproject.org
 Cc: Martin Jansa <Martin.Jansa@gmail.com>
-Subject: [meta-virtualization][PATCH 2/5] ipxe: add the same COMPATIBLE_HOST restriction as syslinux
-Date: Sat,  3 Apr 2021 21:51:30 +0200
-Message-Id: <20210403195133.1401406-2-Martin.Jansa@gmail.com>
+Subject: [meta-virtualization][PATCH 3/5] cri-o, podman, packagegroup-container: replace anonymous python function calling bb.parse.SkipRecipe with conditional PNBLACKLISTs
+Date: Sat,  3 Apr 2021 21:51:31 +0200
+Message-Id: <20210403195133.1401406-3-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210403195133.1401406-1-Martin.Jansa@gmail.com>
 References: <20210403195133.1401406-1-Martin.Jansa@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-* this depends on syslinux
+* PNBLACKLISTs are IMHO a bit easier to read and easier to override from distro
+  which e.g. provides own recipe for libseccomp
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- recipes-extended/ipxe/ipxe_git.bb | 3 +++
- 1 file changed, 3 insertions(+)
+ recipes-containers/cri-o/cri-o_git.bb            | 16 +---------------
+ recipes-containers/podman/podman_git.bb          | 10 +---------
+ .../packagegroups/packagegroup-container.bb      | 10 +---------
+ 3 files changed, 3 insertions(+), 33 deletions(-)
 
-diff --git a/recipes-extended/ipxe/ipxe_git.bb b/recipes-extended/ipxe/ipxe_git.bb
-index d7c60ab..7b76817 100644
---- a/recipes-extended/ipxe/ipxe_git.bb
-+++ b/recipes-extended/ipxe/ipxe_git.bb
-@@ -4,6 +4,9 @@ LICENSE = "GPLv2"
- DEPENDS = "binutils-native perl-native syslinux mtools-native cdrtools-native xz"
- LIC_FILES_CHKSUM = "file://../COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+diff --git a/recipes-containers/cri-o/cri-o_git.bb b/recipes-containers/cri-o/cri-o_git.bb
+index 2d6187a..0ac5ddc 100644
+--- a/recipes-containers/cri-o/cri-o_git.bb
++++ b/recipes-containers/cri-o/cri-o_git.bb
+@@ -43,21 +43,7 @@ RDEPENDS_${PN} = " \
+     libdevmapper \
+     "
  
-+# syslinux has this restriction
-+COMPATIBLE_HOST_class-target = '(x86_64|i.86).*-(linux|freebsd.*)'
-+
- SRCREV = "18dc73d27edb55ebe9cb13c58d59af3da3bd374b"
- PV = "gitr${SRCPV}"
- PR = "r0"
+-python __anonymous() {
+-    msg = ""
+-    # ERROR: Nothing PROVIDES 'libseccomp' (but /buildarea/layers/meta-virtualization/recipes-containers/cri-o/cri-o_git.bb DEPENDS on or otherwise requires it).
+-    # ERROR: Required build target 'meta-world-pkgdata' has no buildable providers.
+-    # Missing or unbuildable dependency chain was: ['meta-world-pkgdata', 'cri-o', 'libseccomp']
+-    if 'security' not in d.getVar('BBFILE_COLLECTIONS').split():
+-        msg += "Make sure meta-security should be present as it provides 'libseccomp'"
+-        raise bb.parse.SkipRecipe(msg)
+-    # ERROR: Nothing PROVIDES 'libselinux' (but /buildarea/layers/meta-virtualization/recipes-containers/cri-o/cri-o_git.bb DEPENDS on or otherwise requires it).
+-    # ERROR: Required build target 'meta-world-pkgdata' has no buildable providers.
+-    # Missing or unbuildable dependency chain was: ['meta-world-pkgdata', 'cri-o', 'libselinux']
+-    elif 'selinux' not in d.getVar('BBFILE_COLLECTIONS').split():
+-        msg += "Make sure meta-selinux should be present as it provides 'libselinux'"
+-        raise bb.parse.SkipRecipe(msg)
+-}
++PNBLACKLIST[cri-o] ?= "${@bb.utils.contains('BBFILE_COLLECTIONS', 'security', bb.utils.contains('BBFILE_COLLECTIONS', 'selinux', '', 'Depends on libselinux from meta-selinux which is not included', d), 'Depends on libseccomp from meta-security which is not included', d)}"
+ 
+ PACKAGES =+ "${PN}-config"
+ 
+diff --git a/recipes-containers/podman/podman_git.bb b/recipes-containers/podman/podman_git.bb
+index a552a7f..62ae024 100644
+--- a/recipes-containers/podman/podman_git.bb
++++ b/recipes-containers/podman/podman_git.bb
+@@ -14,15 +14,7 @@ DEPENDS = " \
+     ${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)} \
+ "
+ 
+-python __anonymous() {
+-    msg = ""
+-    # ERROR: Nothing PROVIDES 'libseccomp' (but meta-virtualization/recipes-containers/podman/ DEPENDS on or otherwise requires it).
+-    # ERROR: Required build target 'meta-world-pkgdata' has no buildable providers.
+-    # Missing or unbuildable dependency chain was: ['meta-world-pkgdata', 'podman', 'libseccomp']
+-    if 'security' not in d.getVar('BBFILE_COLLECTIONS').split():
+-        msg += "Make sure meta-security should be present as it provides 'libseccomp'"
+-        raise bb.parse.SkipRecipe(msg)
+-}
++PNBLACKLIST[podman] ?= "${@bb.utils.contains('BBFILE_COLLECTIONS', 'security', '', 'Depends on libseccomp from meta-security which is not included', d)}"
+ 
+ SRCREV = "288fb688964cb7fc7086d0728daa1f5f6b726dd6"
+ SRC_URI = " \
+diff --git a/recipes-core/packagegroups/packagegroup-container.bb b/recipes-core/packagegroups/packagegroup-container.bb
+index b3b0d4c..b06a7c7 100644
+--- a/recipes-core/packagegroups/packagegroup-container.bb
++++ b/recipes-core/packagegroups/packagegroup-container.bb
+@@ -44,12 +44,4 @@ RDEPENDS_packagegroup-containerd = " \
+     virtual/containerd \
+ "
+ 
+-python __anonymous() {
+-    msg = ""
+-    # ERROR: Nothing PROVIDES 'libseccomp' (but meta-virtualization/recipes-containers/podman/ DEPENDS on or otherwise requires it).
+-    # ERROR: Required build target 'meta-world-pkgdata' has no buildable providers.
+-    # Missing or unbuildable dependency chain was: ['meta-world-pkgdata', 'podman', 'libseccomp']
+-    if 'security' not in d.getVar('BBFILE_COLLECTIONS').split():
+-        msg += "Make sure meta-security should be present as it provides 'libseccomp'"
+-        raise bb.parse.SkipRecipe(msg)
+-}
++PNBLACKLIST[packagegroup-container] ?= "${@bb.utils.contains('BBFILE_COLLECTIONS', 'security', '', 'Depends on podman which depends on libseccomp from meta-security which is not included', d)}"
 -- 
 2.30.2
 
