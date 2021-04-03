@@ -1,123 +1,115 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
- by mx.groups.io with SMTP id smtpd.web10.27904.1617438788576797922
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+ by mx.groups.io with SMTP id smtpd.web12.34436.1617479498825865541
  for <meta-virtualization@lists.yoctoproject.org>;
- Sat, 03 Apr 2021 01:33:08 -0700
+ Sat, 03 Apr 2021 12:51:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=fLBGF0vw;
- spf=pass (domain: gmail.com, ip: 209.85.218.51, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ej1-f51.google.com with SMTP id n2so3885241ejy.7
-        for <meta-virtualization@lists.yoctoproject.org>; Sat, 03 Apr 2021 01:33:08 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=XgmtvlzW;
+ spf=pass (domain: gmail.com, ip: 209.85.218.48, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ej1-f48.google.com with SMTP id l4so11643295ejc.10
+        for <meta-virtualization@lists.yoctoproject.org>; Sat, 03 Apr 2021 12:51:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:date:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=G4mQUM0uClom8dO64b5hTRdnSPkozhWldlzG7xGO81E=;
-        b=fLBGF0vwqAohudubPnGcoUQKrjERNIidnezcAypJF6CwGFgtpOT3WltTZMP/qg01Hh
-         0sjx+LXMb22TWHS0eZp8v7ZUmqozQ9mMijlCiwMncb2PYC2J1oTr25a5ILTmPqfzqYKE
-         3hwh41ESIRNu94Th5G5yD0vJfb5qKeI0PTRIfTcIUBjDcXotuTUR5iZOfNdcY/hZzLNO
-         OoMA9cJsEZ7uE9SNiGK9eID0bOxRuQO5MWDPwjn3h+ZnmsXzoFPo+zcPNKLzm7X8uZvm
-         WGZPsqJ+r+OR7ji8BKvFDG8UWY0jviV7cCHfK6eIsVm/HTJvDdYxY2ElMrYXPGlgVPT0
-         oZ4Q==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=EwMUszbf/GodgSKhwHbhvbIPyPboXO8MGqflRa+G3vY=;
+        b=XgmtvlzWtORD8FHh+sNmoe6nOb6jjMyUhWdVDipe+xTTeDvCGqb+8FDSTkcIhsG9Uz
+         ne8Vyyp1+eBPhXNU3wK7AKWCq0wIHHND8SPXWkSK5YTrDluIxiZ0AUi/Qkc27O/t0Okr
+         li8HWAGqqQsx1o9qx9X7XQDQxtbZTg6oW+p6VpgkqNQaQ+VRskuLdLa2/7pF/fpoVnSF
+         3WNM/qobKeRjKcDU0OJS18vZtNvNJYOhBySrNT54HZZnx6HDKCC6uA3f/UZkHx8kYRuH
+         9DYgw4QmFLjPQ3zznmzvjVd5SNiPKMBMeQBEVXPpxZEwjCDOD6B8w3hqGwwqCxMQ/0Zl
+         cECw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=G4mQUM0uClom8dO64b5hTRdnSPkozhWldlzG7xGO81E=;
-        b=STHDgNDDAMapxYMB/UBlJ7ZWJL+0pTSgTAy2CprVlrmetkHlGLJ1I7rBo+SlEh1+kb
-         h8QjIE/JHU1ouRdJi6m2BFd+0v3idkZZ9RZMVDIvrAoudMRAf8V9Tr+jOffDl2rLrtW1
-         617tjlFyPEMYHWV+nUK0mTkxHDavP6dUDP2YBcFiBU9GGLzRBUqYsIbrrG2m6ZiRzFhx
-         d4ghTSqSVjpKh7LIi5/9/ov3spgbpM5C2g5HXMeP00XjLdmp48rsM/rlQ+AqVALsqHMa
-         lN2xTx7N3nCxXFWbS2RjNxt2m9rT98Qa2YGwkrMJQFdW/rNeAhsFIwzDI1eA4hCbPt0k
-         u8dQ==
-X-Gm-Message-State: AOAM530KMKjmvqMmCap6kVJTZYggAV1zViZDBnZOPSxze/3KZEp5Lqwj
-	GKNWD31keOqGXkvCCv9kI6g=
-X-Google-Smtp-Source: ABdhPJwecBY2jR0RnJoTCeG6fVOgUlt3+LZNy8XT5YXsdGt4yxtxGow5ddAe1ML4ADBrqGJ9spBUmQ==
-X-Received: by 2002:a17:906:938f:: with SMTP id l15mr17821010ejx.15.1617438787065;
-        Sat, 03 Apr 2021 01:33:07 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=EwMUszbf/GodgSKhwHbhvbIPyPboXO8MGqflRa+G3vY=;
+        b=kiikWGTmgOXqVuJnubWwpoUWW/BYiBoqeQANK3Ue5Sel3OBH2S/z2+MptmJeRWUlra
+         BQgfEzXcXwBiASJu7a/WcZLN19tx2BqYIr7MxRHr71CZ31re8MdxugHCojlaFU8yre5b
+         YsqcpRMexens4fjCBzXsnNJ2oXH8e6hQnghNNd8eFTEt3y0KPPrnQ4znLENWGjKzhYbW
+         x6LIBtGKflIjpR3j4+B/yk4/dwdWEdu6Z5iaaU+vizYkMS0y9eEHrVReyXKZzPqoG4U/
+         R2qrGdgAAZ5X2wfCzmKZHfijdEnF48oV72HNSkLKWgX0a5nwtdqfVDZhoEtgJKzRvyfx
+         +ctQ==
+X-Gm-Message-State: AOAM530n/7OqB+hFU8tGlw7eUwvTCO7pnhZOu0DrRLIfulb8Vp+9A7LX
+	Bg4PpMSUdXwbWHY/O6d84sjSLdJfm/I=
+X-Google-Smtp-Source: ABdhPJzR4xGky/4DqzoahSNrXVWSPMKAyFk5ebZEzZFa1GLx5QJENcQ+0fDMd7Cw5KAY67AKqt8dAw==
+X-Received: by 2002:a17:906:dfcc:: with SMTP id jt12mr20576948ejc.31.1617479497278;
+        Sat, 03 Apr 2021 12:51:37 -0700 (PDT)
 Return-Path: <martin.jansa@gmail.com>
 Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id cy5sm6792642edb.46.2021.04.03.01.33.06
+        by smtp.gmail.com with ESMTPSA id h22sm5882502eji.80.2021.04.03.12.51.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 03 Apr 2021 01:33:06 -0700 (PDT)
+        Sat, 03 Apr 2021 12:51:36 -0700 (PDT)
 From: "Martin Jansa" <Martin.Jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Sat, 3 Apr 2021 10:33:05 +0200
-To: akuster808 <akuster808@gmail.com>
-Cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [meta-virtualization][PATCH 2/2] packagegroup-container: skip without meta-security because of podman
-Message-ID: <20210403083305.nsxuymrw5ezxvolt@jama>
-References: <20210402070244.2321014-1-Martin.Jansa@gmail.com>
- <20210402070244.2321014-2-Martin.Jansa@gmail.com>
- <7d69bafb-d26d-0d79-2e22-1987911c1500@gmail.com>
+To: meta-virtualization@lists.yoctoproject.org
+Cc: Martin Jansa <Martin.Jansa@gmail.com>
+Subject: [meta-virtualization][PATCH 1/5] nagios-*: add conditional PNBLACKLIST, because of the dependency on meta-webserver
+Date: Sat,  3 Apr 2021 21:51:29 +0200
+Message-Id: <20210403195133.1401406-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <7d69bafb-d26d-0d79-2e22-1987911c1500@gmail.com>
-X-Groupsio-MsgNum: 6300
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="tx5pxcj5zlytcjlj"
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
---tx5pxcj5zlytcjlj
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ recipes-extended/nagios/nagios-core_4.4.6.bb    | 2 ++
+ recipes-extended/nagios/nagios-nrpe_4.0.2.bb    | 2 ++
+ recipes-extended/nagios/nagios-nsca_2.9.2.bb    | 2 ++
+ recipes-extended/nagios/nagios-plugins_2.2.1.bb | 2 ++
+ 4 files changed, 8 insertions(+)
 
-On Fri, Apr 02, 2021 at 11:32:14AM -0700, akuster808 wrote:
->=20
->=20
-> On 4/2/21 12:02 AM, Martin Jansa wrote:
-> > * copy the skip from podman recipe, because this packagegroup
-> >   depends on podman
-> >
-> > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> > ---
-> >  recipes-core/packagegroups/packagegroup-container.bb | 9 +++++++++
-> >  1 file changed, 9 insertions(+)
-> >
-> > diff --git a/recipes-core/packagegroups/packagegroup-container.bb b/re=
-cipes-core/packagegroups/packagegroup-container.bb
-> > index d425ac5..b3b0d4c 100644
-> > --- a/recipes-core/packagegroups/packagegroup-container.bb
-> > +++ b/recipes-core/packagegroups/packagegroup-container.bb
-> > @@ -44,3 +44,12 @@ RDEPENDS_packagegroup-containerd =3D " \
-> >      virtual/containerd \
-> >  "
-> >  
-> > +python __anonymous() {
-> > +    msg =3D ""
-> > +    # ERROR: Nothing PROVIDES 'libseccomp' (but meta-virtualization/r=
-ecipes-containers/podman/ DEPENDS on or otherwise requires it).
-> > +    # ERROR: Required build target 'meta-world-pkgdata' has no builda=
-ble providers.
-> > +    # Missing or unbuildable dependency chain was: ['meta-world-pkgda=
-ta', 'podman', 'libseccomp']
-> > +    if 'security' not in d.getVar('BBFILE_COLLECTIONS').split():
-> > +        msg +=3D "Make sure meta-security should be present as it pro=
-vides 'libseccomp'"
-> > +        raise bb.parse.SkipRecipe(msg)
-> > +}
->=20
-> That reminds me that the libsecomp pkg should move to meta-oe so this
-> other layers don't have to do these kinds of things.
+diff --git a/recipes-extended/nagios/nagios-core_4.4.6.bb b/recipes-extended/nagios/nagios-core_4.4.6.bb
+index 8bcd6c0..fc3d2c5 100644
+--- a/recipes-extended/nagios/nagios-core_4.4.6.bb
++++ b/recipes-extended/nagios/nagios-core_4.4.6.bb
+@@ -38,6 +38,8 @@ RDEPENDS_${PN} += "\
+     nagios-base \
+ "
+ 
++PNBLACKLIST[nagios-core] ?= "${@bb.utils.contains('BBFILE_COLLECTIONS', 'webserver', '', 'Depends on apache2 from meta-webserver which is not included', d)}"
++
+ acpaths = "-I ${S}/autoconf-macros"
+ 
+ # Set default password for the hardcoded Nagios admin user "nagiosadmin".
+diff --git a/recipes-extended/nagios/nagios-nrpe_4.0.2.bb b/recipes-extended/nagios/nagios-nrpe_4.0.2.bb
+index d9c7b15..7f81172 100644
+--- a/recipes-extended/nagios/nagios-nrpe_4.0.2.bb
++++ b/recipes-extended/nagios/nagios-nrpe_4.0.2.bb
+@@ -26,6 +26,8 @@ S = "${WORKDIR}/${SRCNAME}-${PV}"
+ 
+ inherit autotools-brokensep update-rc.d systemd update-alternatives
+ 
++PNBLACKLIST[nagios-nrpe] ?= "${@bb.utils.contains('BBFILE_COLLECTIONS', 'webserver', '', 'Depends on nagios-core which depends on apache2 from meta-webserver which is not included', d)}"
++
+ # IP address of server which proxy should connect to
+ MONITORING_PROXY_SERVER_IP ??= "192.168.7.2"
+ 
+diff --git a/recipes-extended/nagios/nagios-nsca_2.9.2.bb b/recipes-extended/nagios/nagios-nsca_2.9.2.bb
+index 66f8da5..1fce198 100644
+--- a/recipes-extended/nagios/nagios-nsca_2.9.2.bb
++++ b/recipes-extended/nagios/nagios-nsca_2.9.2.bb
+@@ -22,6 +22,8 @@ S = "${WORKDIR}/${SRCNAME}-${PV}"
+ 
+ inherit update-rc.d autotools-brokensep systemd dos2unix
+ 
++PNBLACKLIST[nagios-nsca] ?= "${@bb.utils.contains('BBFILE_COLLECTIONS', 'webserver', '', 'Rdepends on nagios-base provided by nagios-core which depends on apache2 from meta-webserver which is not included', d)}"
++
+ DEPENDS = "libmcrypt"
+ 
+ EXTRA_OECONF += "--with-nsca-user=${NAGIOS_USER} \
+diff --git a/recipes-extended/nagios/nagios-plugins_2.2.1.bb b/recipes-extended/nagios/nagios-plugins_2.2.1.bb
+index 0793365..b97d80c 100644
+--- a/recipes-extended/nagios/nagios-plugins_2.2.1.bb
++++ b/recipes-extended/nagios/nagios-plugins_2.2.1.bb
+@@ -18,6 +18,8 @@ S = "${WORKDIR}/${BPN}-${PV}"
+ 
+ inherit autotools gettext
+ 
++PNBLACKLIST[nagios-plugins] ?= "${@bb.utils.contains('BBFILE_COLLECTIONS', 'webserver', '', 'Depends on nagios-core which depends on apache2 from meta-webserver which is not included', d)}"
++
+ EXTRA_OECONF += "--with-sysroot=${STAGING_DIR_HOST} \
+                  --with-nagios-user=${NAGIOS_USER} \
+                  --with-nagios-group=${NAGIOS_GROUP} \
+-- 
+2.30.2
 
-there are also nagios recipes depending on meta-webserver which is
-listed in LAYERRECOMMENDS_virtualization-layer but it would be better to
-skip them like this when meta-webserver isn't included as well.
-
->=20
-> -armin
-> >
-> >=20
-> >
->=20
-
---tx5pxcj5zlytcjlj
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCYGgoPwAKCRA3VSO3ZXaA
-HBWAAJwOXaJJhitxnRY+ODeKY3/pjUdCDgCfUWKWwDnGk2qClxIR/l+qt3Er2zM=
-=P3bf
------END PGP SIGNATURE-----
-
---tx5pxcj5zlytcjlj--
