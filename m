@@ -1,20 +1,20 @@
 Received: from cpanel8.indieserve.net (cpanel8.indieserve.net [199.212.143.3])
- by mx.groups.io with SMTP id smtpd.web12.9721.1617701753246710943
+ by mx.groups.io with SMTP id smtpd.web08.9652.1617702141168855111
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 06 Apr 2021 02:35:53 -0700
+ Tue, 06 Apr 2021 02:42:21 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=pass (domain: crashcourse.ca, ip: 199.212.143.3, mailfrom: rpjday@crashcourse.ca)
-Received: from cpeac202e043973-cmac202e043970.sdns.net.rogers.com ([174.114.107.13]:33386 helo=fedora)
+Received: from bras-base-otwaon0916w-grc-67-70-50-7-189.dsl.bell.ca ([70.50.7.189]:33404 helo=fedora)
 	by cpanel8.indieserve.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.94)
 	(envelope-from <rpjday@crashcourse.ca>)
-	id 1lTi7j-00CeqY-3f
-	for meta-virtualization@lists.yoctoproject.org; Tue, 06 Apr 2021 05:35:51 -0400
-Date: Tue, 6 Apr 2021 05:35:48 -0400 (EDT)
+	id 1lTiDz-00Cfv2-Tc
+	for meta-virtualization@lists.yoctoproject.org; Tue, 06 Apr 2021 05:42:20 -0400
+Date: Tue, 6 Apr 2021 05:42:17 -0400 (EDT)
 From: "Robert P. J. Day" <rpjday@crashcourse.ca>
 To: meta-virtualization@lists.yoctoproject.org
-Subject: "FILESEXTRAPATHS_append" error in openvswitch_git.bb
-Message-ID: <f65d58c1-c178-9980-f835-418f5bded250@crashcourse.ca>
+Subject: two more FILESEXTRAPATHS issues in meta-openstack layer
+Message-ID: <3f5f6c5-a8fb-29d9-6af8-79fbcdb1ef84@crashcourse.ca>
 MIME-Version: 1.0
 X-OutGoing-Spam-Status: No, score=-1.0
 X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
@@ -30,11 +30,13 @@ X-Source-Dir:
 Content-Type: text/plain; charset=US-ASCII
 
 
-  this doesn't look right, but i don't know how one wants to resolve
-it:
+recipes-devtools/python/python-nova_git.bb:FILESEXTRAPATHS_append := "${THISDIR}/${PN}"
+recipes-support/iproute2/iproute2_openstack.inc:FILESEXTRAPATHS_append := "${THISDIR}/${PN}"
 
-  FILESEXTRAPATHS_append := "${THISDIR}/${PN}-git:"
-
-so i will leave it in your capable hands.
+  i'd submit a patch to add the missing colons, but i'm skeptical of
+any appending to FILESEXTRAPATHS in the first place, so i'll just
+leave that with you. i'm curious as to how the above made it past BB's
+sanity checking.
 
 rday
+
