@@ -1,260 +1,163 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
- by mx.groups.io with SMTP id smtpd.web12.544.1617756100112902853
+Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com [209.85.210.47])
+ by mx.groups.io with SMTP id smtpd.web11.3216.1617775162570356042
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 06 Apr 2021 17:41:40 -0700
+ Tue, 06 Apr 2021 22:59:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Bnu3U4Bw;
- spf=pass (domain: gmail.com, ip: 209.85.208.53, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ed1-f53.google.com with SMTP id e7so18662178edu.10
-        for <meta-virtualization@lists.yoctoproject.org>; Tue, 06 Apr 2021 17:41:39 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=IZdAjzSk;
+ spf=pass (domain: gmail.com, ip: 209.85.210.47, mailfrom: christopher.w.clark@gmail.com)
+Received: by mail-ot1-f47.google.com with SMTP id h6-20020a0568300346b02901b71a850ab4so16975123ote.6
+        for <meta-virtualization@lists.yoctoproject.org>; Tue, 06 Apr 2021 22:59:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=x7h1YSLryUTA4TLzyMEe20D6X7GUUaWCveJMGCsDx5g=;
-        b=Bnu3U4Bwfbd5n/lf9BVJQGmGJVCIPm/HOfjbmN+9N7/fB/O8r2z8Mq7VmxvhFl0Qgd
-         mfLLPIokx79ODsbdIfgMmunCNkVxtx7xSfFcLosPbbdLuxZTEy/gMYpqtJIeLjwLgMPC
-         ISho94EgXPQb2hnL1byFN5FEtJHajVDqOv0qoHuAvoHa2IM0YReVZj/HST5LZEHedvXQ
-         FqdXDAdA+W6ekv8PSf0ly4mHd90ZL0I2YEZsQKyycTSi5hMCcycxY7YePLKZcTCSoSOG
-         ESvYM1K31XPbo608gpMyyk/BufPIisXH1UepyWlDQ5Bzxfk4QUgA3g8V/dftzpkkxeLS
-         li9g==
+         :cc;
+        bh=5H0GtW3qIt58yyDisuHDp/IqXsS5iAvmXESdhwOPSMg=;
+        b=IZdAjzSkbW+J4HZlTUI/HWCPBlGioN3mZd6IhC6pkT/XoNOF6hgq4ky4vL3/8ivhWF
+         E/8Y1ru9iPWRK8o1NR0aUTV53eI9gPzR+jD6TcMehHOyRugN1MtekO6wggcQCdEc4rxW
+         AH1SY2jwnPKvCJGFMCqK/MW9TTpTO6VcI6xQx6KYdZVBy0d3gaWxXNWD564Pn4ogGVAP
+         Dskl2O0qMbDEoNQ2Kt+DSQoYzLXbCu/LnHiRr9W59M5EuVGqL9RTh1IN7FZZxE8fBYIm
+         0Dsw36wi1jwwrDYRU0mPwSOOHXmDnxSMVAuRJbfHeexGAgCGofrLzFhEFrk4cuulaj+p
+         sztA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=x7h1YSLryUTA4TLzyMEe20D6X7GUUaWCveJMGCsDx5g=;
-        b=cHdg63H3gjWX5WmbiJXhuPnW57c8L3H5gGfw4LggZv6DfJ0KWHIVxIwVSpR9cR61vD
-         c0Q0KeYtkFltlvCvtSQhQkm+4py6Jb+J/AfV+1S7OYnx1gMgpSbJ7JefEgC4HOd2iX/8
-         GzptBtyRKb8LI+uJ5SMp7iSxxGTSZaDhKrExgb7kMh4iItgaHbjmGDLiIz5gPmUtqv8r
-         JJgSpI27MdBb+8nSiLJvbwJPQOpMohbGTUAc+Yguy1gSQMJUlJKLUjiMVQKId4VJGTWQ
-         iAU1FN8LgCFgyutVHeUTAzBBhRFGhkTmZhfOMnS1emhtsMwXi+C8+qwkEZfDfy8wQzWz
-         FFxg==
-X-Gm-Message-State: AOAM530q8G5a4GazQ3ifA1A1Cr2ivl7+cYOZ5mtv0gbioTyTAPpAHNXa
-	YigoWFkWrpYD4YH/d9zpWXJ7affBAIg4DoNFIEU=
-X-Google-Smtp-Source: ABdhPJx0VjMekHRD0AAqymH6imMbRWeyr0GwBESISgUwdzQzfbC6g5CREHFUuwD+45uIISQAe6v/gM4VoLLZG1/unyI=
-X-Received: by 2002:a50:8711:: with SMTP id i17mr1260432edb.352.1617756098500;
- Tue, 06 Apr 2021 17:41:38 -0700 (PDT)
+         :message-id:subject:to:cc;
+        bh=5H0GtW3qIt58yyDisuHDp/IqXsS5iAvmXESdhwOPSMg=;
+        b=cOjv2e7ndeI+herEyszLCaF/Ff4i8xvwKmhgWIIAqZhYHz+1y3w2cIgCa0oxTTyTrh
+         YVU99jhhzIJIrEiiVzxAMlZuxbsmc7a8eHknTC6MyrZ6hwDoeHie9cF7zD3Sqbw3f7zX
+         ToLeD23TAZMMgEbf2u3NZ/NJUu/0qchx4TwfqEkJKBVylzs/BM0TEeciJsb6Gi+kuPOM
+         MRnEZA/ZM7KYGH2aHKtiwQPfVWuatW92nEBvqcoGSzL+wTZ9kSaKxNUPnbF71PURHIWZ
+         iHRbLR8Ol6S0hzb395GyZbWH1hXV6XtvmMTE3U7LwluVcSUwENmMicxDyvClcMGxMa3h
+         7AcA==
+X-Gm-Message-State: AOAM533vC8v4EY8g0ViL6WOSvB5F74DdQGUnh9fwkTLjIoEcdfpHlzaZ
+	PUiW/1gWEl9VrtpO0AWNCG1fv+gs/ytENdqP1A4=
+X-Google-Smtp-Source: ABdhPJy3mTaRcs1TQDvAAxMIZF7aH8LdaIV/88TbOrNpvBnHKFD2+CzTNYrllGqEYlQREVYSfUPNbmTu6+FUmuidk6I=
+X-Received: by 2002:a9d:70ce:: with SMTP id w14mr1550586otj.183.1617775161872;
+ Tue, 06 Apr 2021 22:59:21 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210403195133.1401406-1-Martin.Jansa@gmail.com>
- <20210403195133.1401406-3-Martin.Jansa@gmail.com> <CADkTA4OUZYj1GfcRr3zXQCjru4LA_a2EgCx+qRbFozgx4q1QAA@mail.gmail.com>
- <20210406131931.lwwhis6hw2j6klex@jama>
-In-Reply-To: <20210406131931.lwwhis6hw2j6klex@jama>
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Tue, 6 Apr 2021 20:41:27 -0400
-Message-ID: <CADkTA4OLdwndSYXxZxE2qh1T1AHy54-uoSySceXeyg0BaaAvGQ@mail.gmail.com>
-Subject: Re: [meta-virtualization][PATCH 3/5] cri-o, podman, packagegroup-container: replace anonymous python function calling bb.parse.SkipRecipe with conditional PNBLACKLISTs
+References: <20210404092619.2059377-1-Martin.Jansa@gmail.com>
+In-Reply-To: <20210404092619.2059377-1-Martin.Jansa@gmail.com>
+From: "Christopher Clark" <christopher.w.clark@gmail.com>
+Date: Tue, 6 Apr 2021 22:59:10 -0700
+Message-ID: <CACMJ4GaTFWE18fGWYPE0PWF1X=8gbGGWcp09bjc7fThc0sPcxg@mail.gmail.com>
+Subject: Re: [meta-virtualization][PATCH] xen: drop i686 support also from xen-tools/xen-python2
 To: Martin Jansa <martin.jansa@gmail.com>
 Cc: meta-virtualization@lists.yoctoproject.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Apr 6, 2021 at 9:19 AM Martin Jansa <martin.jansa@gmail.com> wrote:
+On Sun, Apr 4, 2021 at 2:26 AM Martin Jansa <martin.jansa@gmail.com> wrote:
 >
-> On Tue, Apr 06, 2021 at 08:58:13AM -0400, Bruce Ashfield wrote:
-> > On Sat, Apr 3, 2021 at 3:51 PM Martin Jansa <Martin.Jansa@gmail.com> w=
-rote:
-> > >
-> > > * PNBLACKLISTs are IMHO a bit easier to read and easier to override =
-from distro
-> > >   which e.g. provides own recipe for libseccomp
-> >
-> > Thanks Martin,
-> >
-> > I'm trying to decide if I should just give up and make meta-security a
-> > hard/full layer dependency. More and more of the container components
-> > just don't work if we don't have seccomp enabled.
+> * this commit seems no longer true for current version of xen:
+>   commit a0964e2044cb1ccdd4f64173658ce7602257ff48
+>   Author: Christopher Clark <christopher.w.clark@gmail.com>
+>   Date:   Tue Feb 25 16:16:00 2020 -0800
 >
-> Agreed, but Armin also mentioned that he plans to send libseccomp to
-> meta-oe, so this PNBLACKLIST change should be only temporary until that =
-happens.
+>     xen, xen-tools: separate COMPATIBLE_HOST for hypervisor and tools
 >
+>     The tools have broader platform compatibility than the hypervisor.
+>
+> * xen-tools are failing to build for qemux86 as shown in:
+>   http://errors.yoctoproject.org/Errors/Details/575367/
+>
+>   make[8]: Entering directory 'TOPDIR/tmp-glibc/work/core2-32-oe-linux/xen-tools/4.14+stableAUTOINC+ad844aa352-r0/git/tools/firmware/xen-dir/xen-root/xen'
+>   echo "*** Xen x86/32 target no longer supported!"
+>   *** Xen x86/32 target no longer supported!
+>   make[8]: Leaving directory 'TOPDIR/tmp-glibc/work/core2-32-oe-linux/xen-tools/4.14+stableAUTOINC+ad844aa352-r0/git/tools/firmware/xen-dir/xen-root/xen'
+>   ln -sf xen-root/xen/xen xen-shim
+>   ln -sf xen-root/xen/xen-syms xen-shim-syms
+>   ...
+>   install: cannot stat 'xen-dir/xen-shim': No such file or directory
+>   make[4]: *** [Makefile:51: install] Error 1
+>
+>   revert the commit and also drop i686 from map_xen_arch
 
-Thanks for the detailed description, it helps me understand how things
-are being used and gives me things to check before merging potential
-breakages.
+Thanks for reporting this, Martin. I need to look into this. I can see
+why this particular part of the tools build is not suitable for x86/32
+but I don't think that it necessarily means that the entire suite of
+xen-tools should be removed with it for x86/32, and if not then this
+won't be the change that we will want to fix this build issue.
 
-As it turns out, there was a yocto meeting today and where libseccomp
-lives came up. There seems to be a consensus that it should end up in
-oe-core (and at the very least meta-oe), so this will work itself out over
-time.
+Christopher
 
-So I went ahead and merged everything as-is, since we might as well
-keep the optional meta-security dependency for now, and revisit with
-libseccomp moves.
-
-> And I can imagine some people pulling libseccomp to their layer already
-> (instead of adding whole meta-security) and then being able to simply
-> set PNBLACKLIST to empty for these recipes would be much easier than
-> undoing the anonymous python (witch is imho impossible without
-> overlaying whole recipe except the function).
-
-Agreed.
 
 >
-> > But I agree that the blacklist technique is easier to read than the
-> > proliferating anonymous python. I'll merge it while I ponder the above
-> > question.
-> >
-> > On that topic, would adding meta-security as a layer dependency cause
-> > any issues in your setup/distros/builds ?
+> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> ---
+>  recipes-extended/xen/xen-arch.inc       | 3 +--
+>  recipes-extended/xen/xen-hypervisor.inc | 3 ---
+>  recipes-extended/xen/xen-python2.bb     | 3 ---
+>  recipes-extended/xen/xen-tools.inc      | 2 --
+>  recipes-extended/xen/xen.inc            | 2 ++
+>  5 files changed, 3 insertions(+), 10 deletions(-)
 >
-> I wouldn't call it my setup anymore, but I'm just going through
-> PNBLACKLISTs used in webOS OSE:
-> https://github.com/webosose/meta-webosose/blob/master/meta-webos/conf/di=
-stro/include/webos-recipe-blacklist.inc
-> https://github.com/webosose/meta-webosose/blob/master/meta-webos-virtual=
-ization/conf/layer.conf#L19
+> diff --git a/recipes-extended/xen/xen-arch.inc b/recipes-extended/xen/xen-arch.inc
+> index fb0093e..9676045 100644
+> --- a/recipes-extended/xen/xen-arch.inc
+> +++ b/recipes-extended/xen/xen-arch.inc
+> @@ -8,8 +8,7 @@ def map_xen_arch(a, d):
+>      import re
+>      valid_archs = d.getVar('valid_xen_archs').split()
 >
-> and fixing some of them or moving them to the layer where the issue is
-> introduced.
-
-Aha!
-
+> -    if   re.match("i.86", a):        return "x86_32"
+> -    elif re.match("x86.64", a):      return "x86_64"
+> +    if re.match("x86.64", a):      return "x86_64"
+>      elif re.match("arm.*", a):       return "arm32"
+>      elif re.match("aarch64.*", a):   return "arm64"
+>      elif a in valid_archs:           return a
+> diff --git a/recipes-extended/xen/xen-hypervisor.inc b/recipes-extended/xen/xen-hypervisor.inc
+> index 916bd3c..d8e57e2 100644
+> --- a/recipes-extended/xen/xen-hypervisor.inc
+> +++ b/recipes-extended/xen/xen-hypervisor.inc
+> @@ -6,9 +6,6 @@ DESCRIPTION = "The Xen hypervisor"
+>  # this allows for varying the target architecture or toolchain used
+>  # to build the different components. eg. 32-bit tools and a 64-bit hypervisor.
 >
-> In webOS OSE setup this libseccomp issue is kind of special, because it
-> already includes meta-security layer, but BBMASKs all its content except
-> smack recipes which are actively used:
-> https://github.com/webosose/meta-webosose/blob/master/meta-webos-smack/c=
-onf/layer.conf#L10
-> so these 3-4 PNBLACKLISTs will need to stay in OSE anyway even with the
-> conditional on security-layer, I'll just move it to meta-webos-smack
-> where the BBMASK is being set:
-> https://github.com/shr-project/meta-webosose/commit/430589dbae6c8616d696=
-92e65a3da40d2b192277
-> at least until libseccomp is in meta-oe and I'll be able to drop this as
-> well.
+> -# The Xen hypervisor has a narrower compatible platform range than the Xen tools
+> -COMPATIBLE_HOST = '(x86_64.*).*-linux|aarch64.*-linux|arm-.*-linux-gnueabi'
+> -
+>  inherit deploy python3native cml1
 >
-> And who know when LGE will update webOS OSE from currently used dunfell
-> release, so whatever you decide in meta-virtualization is fine with me
-> :).
-
-Gotcha.
-
-Again, thanks for the detailed explanation.
-
-Bruce
-
+>  PACKAGES = " \
+> diff --git a/recipes-extended/xen/xen-python2.bb b/recipes-extended/xen/xen-python2.bb
+> index ad3c1fd..08d8e92 100644
+> --- a/recipes-extended/xen/xen-python2.bb
+> +++ b/recipes-extended/xen/xen-python2.bb
+> @@ -6,9 +6,6 @@ SECTION = "console/tools"
 >
-> Cheers,
+>  SRCREV ?= "a5fcafbfbee55261853fba07149c1c795f2baf58"
 >
-> > > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> > > ---
-> > >  recipes-containers/cri-o/cri-o_git.bb            | 16 +------------=
----
-> > >  recipes-containers/podman/podman_git.bb          | 10 +---------
-> > >  .../packagegroups/packagegroup-container.bb      | 10 +---------
-> > >  3 files changed, 3 insertions(+), 33 deletions(-)
-> > >
-> > > diff --git a/recipes-containers/cri-o/cri-o_git.bb b/recipes-contain=
-ers/cri-o/cri-o_git.bb
-> > > index 2d6187a..0ac5ddc 100644
-> > > --- a/recipes-containers/cri-o/cri-o_git.bb
-> > > +++ b/recipes-containers/cri-o/cri-o_git.bb
-> > > @@ -43,21 +43,7 @@ RDEPENDS_${PN} =3D " \
-> > >      libdevmapper \
-> > >      "
-> > >
-> > > -python __anonymous() {
-> > > -    msg =3D ""
-> > > -    # ERROR: Nothing PROVIDES 'libseccomp' (but /buildarea/layers/m=
-eta-virtualization/recipes-containers/cri-o/cri-o_git.bb DEPENDS on or othe=
-rwise requires it).
-> > > -    # ERROR: Required build target 'meta-world-pkgdata' has no buil=
-dable providers.
-> > > -    # Missing or unbuildable dependency chain was: ['meta-world-pkg=
-data', 'cri-o', 'libseccomp']
-> > > -    if 'security' not in d.getVar('BBFILE_COLLECTIONS').split():
-> > > -        msg +=3D "Make sure meta-security should be present as it p=
-rovides 'libseccomp'"
-> > > -        raise bb.parse.SkipRecipe(msg)
-> > > -    # ERROR: Nothing PROVIDES 'libselinux' (but /buildarea/layers/m=
-eta-virtualization/recipes-containers/cri-o/cri-o_git.bb DEPENDS on or othe=
-rwise requires it).
-> > > -    # ERROR: Required build target 'meta-world-pkgdata' has no buil=
-dable providers.
-> > > -    # Missing or unbuildable dependency chain was: ['meta-world-pkg=
-data', 'cri-o', 'libselinux']
-> > > -    elif 'selinux' not in d.getVar('BBFILE_COLLECTIONS').split():
-> > > -        msg +=3D "Make sure meta-selinux should be present as it pr=
-ovides 'libselinux'"
-> > > -        raise bb.parse.SkipRecipe(msg)
-> > > -}
-> > > +PNBLACKLIST[cri-o] ?=3D "${@bb.utils.contains('BBFILE_COLLECTIONS',=
- 'security', bb.utils.contains('BBFILE_COLLECTIONS', 'selinux', '', 'Depend=
-s on libselinux from meta-selinux which is not included', d), 'Depends on l=
-ibseccomp from meta-security which is not included', d)}"
-> > >
-> > >  PACKAGES =3D+ "${PN}-config"
-> > >
-> > > diff --git a/recipes-containers/podman/podman_git.bb b/recipes-conta=
-iners/podman/podman_git.bb
-> > > index a552a7f..62ae024 100644
-> > > --- a/recipes-containers/podman/podman_git.bb
-> > > +++ b/recipes-containers/podman/podman_git.bb
-> > > @@ -14,15 +14,7 @@ DEPENDS =3D " \
-> > >      ${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)} \
-> > >  "
-> > >
-> > > -python __anonymous() {
-> > > -    msg =3D ""
-> > > -    # ERROR: Nothing PROVIDES 'libseccomp' (but meta-virtualization=
-/recipes-containers/podman/ DEPENDS on or otherwise requires it).
-> > > -    # ERROR: Required build target 'meta-world-pkgdata' has no buil=
-dable providers.
-> > > -    # Missing or unbuildable dependency chain was: ['meta-world-pkg=
-data', 'podman', 'libseccomp']
-> > > -    if 'security' not in d.getVar('BBFILE_COLLECTIONS').split():
-> > > -        msg +=3D "Make sure meta-security should be present as it p=
-rovides 'libseccomp'"
-> > > -        raise bb.parse.SkipRecipe(msg)
-> > > -}
-> > > +PNBLACKLIST[podman] ?=3D "${@bb.utils.contains('BBFILE_COLLECTIONS'=
-, 'security', '', 'Depends on libseccomp from meta-security which is not in=
-cluded', d)}"
-> > >
-> > >  SRCREV =3D "288fb688964cb7fc7086d0728daa1f5f6b726dd6"
-> > >  SRC_URI =3D " \
-> > > diff --git a/recipes-core/packagegroups/packagegroup-container.bb b/=
-recipes-core/packagegroups/packagegroup-container.bb
-> > > index b3b0d4c..b06a7c7 100644
-> > > --- a/recipes-core/packagegroups/packagegroup-container.bb
-> > > +++ b/recipes-core/packagegroups/packagegroup-container.bb
-> > > @@ -44,12 +44,4 @@ RDEPENDS_packagegroup-containerd =3D " \
-> > >      virtual/containerd \
-> > >  "
-> > >
-> > > -python __anonymous() {
-> > > -    msg =3D ""
-> > > -    # ERROR: Nothing PROVIDES 'libseccomp' (but meta-virtualization=
-/recipes-containers/podman/ DEPENDS on or otherwise requires it).
-> > > -    # ERROR: Required build target 'meta-world-pkgdata' has no buil=
-dable providers.
-> > > -    # Missing or unbuildable dependency chain was: ['meta-world-pkg=
-data', 'podman', 'libseccomp']
-> > > -    if 'security' not in d.getVar('BBFILE_COLLECTIONS').split():
-> > > -        msg +=3D "Make sure meta-security should be present as it p=
-rovides 'libseccomp'"
-> > > -        raise bb.parse.SkipRecipe(msg)
-> > > -}
-> > > +PNBLACKLIST[packagegroup-container] ?=3D "${@bb.utils.contains('BBF=
-ILE_COLLECTIONS', 'security', '', 'Depends on podman which depends on libse=
-ccomp from meta-security which is not included', d)}"
-> > > --
-> > > 2.30.2
-> > >
-> > >
-> > >=20
-> > >
-> >
-> >
-> > --
-> > - Thou shalt not follow the NULL pointer, for chaos and madness await
-> > thee at its end
-> > - "Use the force Harry" - Gandalf, Star Trek II
-
-
-
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+> -# The same restriction as xen-tools.inc, because of the dependency on xen-tools-xentrace from xen-tools-xentrace-format
+> -COMPATIBLE_HOST = 'i686-.*-linux|(x86_64.*).*-linux|aarch64.*-linux|arm-.*-linux-gnueabi'
+> -
+>  XEN_REL ?= "4.12"
+>  XEN_BRANCH ?= "stable-4.12"
+>
+> diff --git a/recipes-extended/xen/xen-tools.inc b/recipes-extended/xen/xen-tools.inc
+> index 722c503..35d0c58 100644
+> --- a/recipes-extended/xen/xen-tools.inc
+> +++ b/recipes-extended/xen/xen-tools.inc
+> @@ -1,8 +1,6 @@
+>  SUMMARY = "Xen hypervisor tools"
+>  DESCRIPTION = "Tools and utility software for the Xen hypervisor"
+>
+> -COMPATIBLE_HOST = 'i686-.*-linux|(x86_64.*).*-linux|aarch64.*-linux|arm-.*-linux-gnueabi'
+> -
+>  inherit setuptools3 update-rc.d systemd deploy
+>  require xen-blktap.inc
+>
+> diff --git a/recipes-extended/xen/xen.inc b/recipes-extended/xen/xen.inc
+> index 9e8fcad..8277939 100644
+> --- a/recipes-extended/xen/xen.inc
+> +++ b/recipes-extended/xen/xen.inc
+> @@ -2,6 +2,8 @@ HOMEPAGE = "http://xen.org"
+>  LICENSE = "GPLv2"
+>  SECTION = "console/tools"
+>
+> +COMPATIBLE_HOST = '(x86_64.*).*-linux|aarch64.*-linux|arm-.*-linux-gnueabi'
+> +
+>  inherit autotools-brokensep
+>
+>  require xen-arch.inc
+> --
+> 2.30.2
+>
