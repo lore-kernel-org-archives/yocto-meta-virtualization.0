@@ -1,105 +1,99 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.web11.12368.1617717515072690251
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+ by mx.groups.io with SMTP id smtpd.web09.402.1617755286492962396
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 06 Apr 2021 06:58:35 -0700
+ Tue, 06 Apr 2021 17:28:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=hBI1XWp3;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f47.google.com with SMTP id j4-20020a05600c4104b029010c62bc1e20so7369207wmi.3
-        for <meta-virtualization@lists.yoctoproject.org>; Tue, 06 Apr 2021 06:58:34 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=tD0qnuhJ;
+ spf=pass (domain: gmail.com, ip: 209.85.160.181, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f181.google.com with SMTP id s2so12566664qtx.10
+        for <meta-virtualization@lists.yoctoproject.org>; Tue, 06 Apr 2021 17:28:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=sT1WZM8cklDqD4k0uO8cH34Q+mRGPk2ZXBPVvVV8R94=;
-        b=hBI1XWp3+8H5HvYUmRy9eYhiZR8Iui4yDsZVRAjJQG+/kcsoc7Ttv6QdMI3bangfBZ
-         h9r24t/e7iBFJ+p6kuqnBsbpS2xVLxPo6oTFb04lagPebla1sz9Sy8rRICpNuQH6D/Sx
-         /zzXWcUVddTooe79QyEkGoqviOcI/fZRxTWhc=
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=G7IvgewrY15oc+gBv0ClPvy9HCBfxNVend8mphegbTo=;
+        b=tD0qnuhJuJ3Gei00f2f6PxkoVj1ECho9UTh3z5U+enQw3mkgAw+Az0Re68O52VzrGG
+         OLhkV2S6sygT2XnqbIWQY/AvCglm41SqOXWMc0lVzbm4ShO2TTQz2qLcM5SdRUafgRz3
+         VExJ8vKDlHw4VL7tpMDSNE7sZpwXOzyX/hoxIyUqlXZ8aFb71zeKdIx0LTmW5R3WUEF8
+         WjfRVx7TwoHGYXAslk76r+FbbB7Q+/t08gZEyiblL8DyTsVjpcO8BbfxG6xNcPKDbqs9
+         j9IqYaTJpSqgyC4wJEkSkKftHrg56CmsQtL6DzDty3QImb0nyvUaczMK9eHemyFng3hy
+         mpSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=sT1WZM8cklDqD4k0uO8cH34Q+mRGPk2ZXBPVvVV8R94=;
-        b=fMoDZeWIR/H9+RaY1n7kTUZzJOPSLHrqnWv8/KFbFUkfRNnMog2Fz/PfYghFS3e76G
-         tLZ/+tR+sbutOAR7Ri53Q3H8d46Jo9M+dwZNLDYxLyj3DaBfrvaHg/PJqLYDwsXC/N8L
-         XDdZO8cT6tSfYtDTn2XqcW2QnsqThtSiTRiWtTtzNNfYrroEoVjf/WFaaPxfoZVXb8RU
-         0ghqYooe0rD6iNEQUtHNZ4mop/n2iPswlJ2z1B7qKgBkhsK+Bvt6mjHJejTeNt9cf0E9
-         HQ6w+fGH/6syOIimWXk299Lsi97SuyJP5EC8tPTpAJJRQVGS3sq/ZxpTmL6n/exStVnm
-         GB+Q==
-X-Gm-Message-State: AOAM532YU+gDHqxBg3MIlBG0is7I7+7dDM/i+zVuVtUT4I4MhWnGoF6I
-	Nec3Xtt78/jfaQhHQgo0g2Irlw==
-X-Google-Smtp-Source: ABdhPJyd8WBMBLitYGVIlGmuw6lzEsEPVu9Q4PQR/riXMSquMu1aPnvDPALNPH3F1FC+Ur2KpYfpcg==
-X-Received: by 2002:a1c:6a01:: with SMTP id f1mr4268831wmc.144.1617717513533;
-        Tue, 06 Apr 2021 06:58:33 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:7a9e:d3b:5548:6469? ([2001:8b0:aba:5f3c:7a9e:d3b:5548:6469])
-        by smtp.gmail.com with ESMTPSA id c9sm150976wme.20.2021.04.06.06.58.33
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=G7IvgewrY15oc+gBv0ClPvy9HCBfxNVend8mphegbTo=;
+        b=XenPHQxAoon2+KKiJlbNlnrS6myMJFGKPMwIjTtUMOdhmNO8XEkpkZeVhwRTBU5nfb
+         abwQ4ja4uhYZh5lFPj+AkKPfI4uzaA0EPXELXuJGlFSV5mJEmJgW20Hxxp7F0yoQGRjJ
+         sPWeKcvJRV8iBen3CoOowxnXw2AXOLV0Bv73bAG6qxF2ttabjWoQiLSlH/KUQvO+y0jk
+         vxl1A22WsZ+oo3phG8kHhrvEdBnHSUNRXSreEhmGw39TQ/COOJlVoVyMBbZgiaZlCS2N
+         QqNZfj2cuf8Tmyl/f2B46chlXXWYNMmqcrIDxDnP9SygDRDA0CCdD57NP8cGvVVKhgDy
+         qanQ==
+X-Gm-Message-State: AOAM533RM3LhjExxqCPoEekmiQo/7q/0o5uYrQPf2m4lHoq2+7XJ6bJA
+	En2G9XteB5Io2HhXj8YQ3UY=
+X-Google-Smtp-Source: ABdhPJxDTffz5sDWUYRxOfTAaT5/qKTJC4Tw631jNWFoF5B/7EYdSBAaY71VKrTqT1Oa6dUkAEPdZA==
+X-Received: by 2002:ac8:7089:: with SMTP id y9mr524902qto.264.1617755285667;
+        Tue, 06 Apr 2021 17:28:05 -0700 (PDT)
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from gmail.com (cpe04d4c4975b80-cmf4c11490699b.cpe.net.cable.rogers.com. [174.112.159.151])
+        by smtp.gmail.com with ESMTPSA id j24sm17142460qka.67.2021.04.06.17.28.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Apr 2021 06:58:33 -0700 (PDT)
-Message-ID: <d9f285551e4a9265bc225e8b02c18df1e16d753e.camel@linuxfoundation.org>
-Subject: Re: [meta-virtualization] "FILESEXTRAPATHS_append" error in openvswitch_git.bb
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>, "Robert P. J. Day"
-	 <rpjday@crashcourse.ca>
+        Tue, 06 Apr 2021 17:28:05 -0700 (PDT)
+Date: Tue, 6 Apr 2021 20:28:03 -0400
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+To: Martin Jansa <Martin.Jansa@gmail.com>
 Cc: meta-virtualization@lists.yoctoproject.org
-Date: Tue, 06 Apr 2021 14:58:32 +0100
-In-Reply-To: <CADkTA4M8PpPDMf8hLQzZfsoyfDpZOeCvAhNMu5v1D39iU9s4Xw@mail.gmail.com>
-References: <f65d58c1-c178-9980-f835-418f5bded250@crashcourse.ca>
-	 <CADkTA4OhSe3z5Dv=SSFBA2dg_GZurw2QqjW=jxdu1ZFW__8EZg@mail.gmail.com>
-	 <2ae08013-4ca0-d661-fb8c-e8b8164bef29@crashcourse.ca>
-	 <CADkTA4PAUFvU=XNeksY8j9-SF+cJOHFbewHBw0s9ckju_Kw4Nw@mail.gmail.com>
-	 <541ead14-9177-a6be-c1ad-1c9640833646@crashcourse.ca>
-	 <CADkTA4M8PpPDMf8hLQzZfsoyfDpZOeCvAhNMu5v1D39iU9s4Xw@mail.gmail.com>
-User-Agent: Evolution 3.40.0-1 
+Subject: Re: [meta-virtualization][PATCH 1/2] packagegroup-kubernets: add seccomp to REQUIRED_DISTRO_FEATURES
+Message-ID: <20210407002800.GA24839@gmail.com>
+References: <20210402070244.2321014-1-Martin.Jansa@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210402070244.2321014-1-Martin.Jansa@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Tue, 2021-04-06 at 09:13 -0400, Bruce Ashfield wrote:
-> On Tue, Apr 6, 2021 at 9:07 AM Robert P. J. Day <rpjday@crashcourse.ca> wrote:
-> > 
-> > On Tue, 6 Apr 2021, Bruce Ashfield wrote:
-> > 
-> > > On Tue, Apr 6, 2021 at 8:40 AM Robert P. J. Day <rpjday@crashcourse.ca> wrote:
-> > > > 
-> > > > On Tue, 6 Apr 2021, Bruce Ashfield wrote:
-> > > > 
-> > > > > On Tue, Apr 6, 2021 at 5:35 AM Robert P. J. Day <rpjday@crashcourse.ca> wrote:
-> > > > > > 
-> > > > > > 
-> > > > > >   this doesn't look right, but i don't know how one wants to resolve
-> > > > > > it:
-> > > > > > 
-> > > > > 
-> > > > > What part doesn't look right ? I don't see any issues with it.
-> > > > > 
-> > > > > Bruce
-> > > > > 
-> > > > > >   FILESEXTRAPATHS_append := "${THISDIR}/${PN}-git:"
-> > > > 
-> > > >   isn't the colon on the wrong end?
-> > > 
-> > > In a quick scan of other layers, they are all leaving the variable in
-> > > the same state (with a trailing colon), whether they are using
-> > > _prepend or _append.
-> > 
-> >   i beg to differ -- here's a single example:
-> > 
-> >   meta-intel/recipes-core/zlib/zlib-intel_1.2.11.1.jtkv6.3.bb:
-> >     FILESEXTRAPATHS_append = ":${COREBASE}/meta/recipes-core/zlib/zlib"
+Thanks Martin,
+
+This is now merged.
+
+Bruce
+
+In message: [meta-virtualization][PATCH 1/2] packagegroup-kubernets: add seccomp to REQUIRED_DISTRO_FEATURES
+on 02/04/2021 Martin Jansa wrote:
+
+> * fixes world build:
+> ERROR: Nothing RPROVIDES 'k3s-server' (but meta-virtualization/recipes-core/packagegroups/packagegroup-kubernetes.bb RDEPENDS on or otherwise requires it)
+> k3s RPROVIDES k3s-server but was skipped: missing required distro feature 'seccomp' (not in DISTRO_FEATURES)
+> NOTE: Runtime target 'k3s-server' is unbuildable, removing...
+> Missing or unbuildable dependency chain was: ['k3s-server']
+> ERROR: Required build target 'meta-world-pkgdata' has no buildable providers.
+> Missing or unbuildable dependency chain was: ['meta-world-pkgdata', 'packagegroup-kubernetes', 'k3s-server']
 > 
-> Do a build with that. You have a double colon, so you found a bad
-> example, unless
-> the double colon is expected.
+> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> ---
+>  recipes-core/packagegroups/packagegroup-kubernetes.bb | 4 ++++
+>  1 file changed, 4 insertions(+)
 > 
-> FILESEXTRAPATHS="__default::/home/poky/meta/recipes-core/zlib/zlib"
+> diff --git a/recipes-core/packagegroups/packagegroup-kubernetes.bb b/recipes-core/packagegroups/packagegroup-kubernetes.bb
+> index ec528e0..237e72e 100644
+> --- a/recipes-core/packagegroups/packagegroup-kubernetes.bb
+> +++ b/recipes-core/packagegroups/packagegroup-kubernetes.bb
+> @@ -4,6 +4,10 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
+>  
+>  inherit packagegroup
+>  
+> +# k3s has this restriction
+> +inherit features_check
+> +REQUIRED_DISTRO_FEATURES ?= "seccomp"
+> +
+>  PACKAGES = "\
+>      packagegroup-kubernetes-base \
+>      packagegroup-k8s-host \
+> -- 
+> 2.30.2
+> 
 
-Anything using append should be adding a leading colon, anything prepending
-should be adding a trailing one.
-
-I suspect we need an audit and cleanup of several layers...
-
-Cheers,
-
-Richard
+> 
+> 
+> 
 
