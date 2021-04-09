@@ -1,20 +1,20 @@
 Received: from anavi.org (anavi.org [91.215.217.29])
- by mx.groups.io with SMTP id smtpd.web10.11962.1617985876497209316
+ by mx.groups.io with SMTP id smtpd.web08.11935.1617985878100673842
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 09 Apr 2021 09:31:16 -0700
+ Fri, 09 Apr 2021 09:31:18 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=permerror, err=parse error for token &{10 18 spf.securedserverspace.com}: parse error for token &{10 18 _netblocks4.securedserverspace.com}: limit exceeded (domain: konsulko.com, ip: 91.215.217.29, mailfrom: leon.anavi@konsulko.com)
 Received: from [78.130.197.211] (port=38492 helo=localhost.localdomain)
 	by voyager.icnhost.net with esmtpsa (TLSv1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
 	(Exim 4.92)
 	(envelope-from <leon.anavi@konsulko.com>)
-	id 1lUu2K-00055o-0U; Fri, 09 Apr 2021 19:31:12 +0300
+	id 1lUu2N-00055o-CG; Fri, 09 Apr 2021 19:31:17 +0300
 From: "Leon Anavi" <leon.anavi@konsulko.com>
 To: meta-virtualization@lists.yoctoproject.org
 Cc: Leon Anavi <leon.anavi@konsulko.com>
-Subject: [meta-virtualization][PATCH 2/5] python3-dotenv: Upgrade 0.13.0 -> 0.17.0
-Date: Fri,  9 Apr 2021 19:31:01 +0300
-Message-Id: <20210409163104.26711-2-leon.anavi@konsulko.com>
+Subject: [meta-virtualization][PATCH 4/5] python3-boto3: Upgrade 1.14.7 -> 1.17.48
+Date: Fri,  9 Apr 2021 19:31:03 +0300
+Message-Id: <20210409163104.26711-4-leon.anavi@konsulko.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210409163104.26711-1-leon.anavi@konsulko.com>
 References: <20210409163104.26711-1-leon.anavi@konsulko.com>
@@ -30,31 +30,46 @@ X-Source:
 X-Source-Args: 
 X-Source-Dir: 
 
-Upgrade to release 0.17.0:
+Upgrade to release 1.17.48:
 
-- Make dotenv get <key> only show the value, not key=value
-- Add --override/--no-override option to dotenv run
+- api-change:lookoutequipment: [botocore] This release introduces
+  support for Amazon Lookout for Equipment.
+- api-change:kinesis-video-archived-media: [botocore]
+  Documentation updates for archived.kinesisvideo
+- api-change:robomaker: [botocore] This release allows RoboMaker
+  customers to specify custom tools to run with their simulation
+  job
+- api-change:appstream: [botocore] This release provides support
+  for image updates
+- api-change:ram: [botocore] Documentation updates for AWS RAM
+  resource sharing
+- api-change:customer-profiles: [botocore] Documentation updates
+  for Put-Integration API
+- api-change:autoscaling: [botocore] Amazon EC2 Auto Scaling
+  announces Warm Pools that help applications to scale out faster
+  by pre-initializing EC2 instances and save money by requiring
+  fewer continuously running instances
 
 Signed-off-by: Leon Anavi <leon.anavi@konsulko.com>
 ---
- .../{python3-dotenv_0.13.0.bb => python3-dotenv_0.17.0.bb}     | 3 +--
+ .../{python3-boto3_1.14.7.bb => python3-boto3_1.17.48.bb}      | 3 +--
  1 file changed, 1 insertion(+), 2 deletions(-)
- rename recipes-devtools/python/{python3-dotenv_0.13.0.bb => python3-dotenv_0.17.0.bb} (70%)
+ rename recipes-devtools/python/{python3-boto3_1.14.7.bb => python3-boto3_1.17.48.bb} (75%)
 
-diff --git a/recipes-devtools/python/python3-dotenv_0.13.0.bb b/recipes-devtools/python/python3-dotenv_0.17.0.bb
-similarity index 70%
-rename from recipes-devtools/python/python3-dotenv_0.13.0.bb
-rename to recipes-devtools/python/python3-dotenv_0.17.0.bb
-index e7644cb..1fd13b7 100644
---- a/recipes-devtools/python/python3-dotenv_0.13.0.bb
-+++ b/recipes-devtools/python/python3-dotenv_0.17.0.bb
-@@ -7,7 +7,6 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=55ee2c3471d386636a719c8ccac40b31"
+diff --git a/recipes-devtools/python/python3-boto3_1.14.7.bb b/recipes-devtools/python/python3-boto3_1.17.48.bb
+similarity index 75%
+rename from recipes-devtools/python/python3-boto3_1.14.7.bb
+rename to recipes-devtools/python/python3-boto3_1.17.48.bb
+index f9e979e..fd2e479 100644
+--- a/recipes-devtools/python/python3-boto3_1.14.7.bb
++++ b/recipes-devtools/python/python3-boto3_1.17.48.bb
+@@ -9,7 +9,6 @@ SECTION = "devel/python"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=2ee41112a44fe7014dce33e26468ba93"
  
- PYPI_PACKAGE = "python-dotenv"
- 
--SRC_URI[md5sum] = "3dfde58c6a5fbd41292c4039a68f70f4"
--SRC_URI[sha256sum] = "3b9909bc96b0edc6b01586e1eed05e71174ef4e04c71da5786370cebea53ad74"
-+SRC_URI[sha256sum] = "471b782da0af10da1a80341e8438fca5fadeba2881c54360d5fd8d03d03a4f4a"
+-SRC_URI[md5sum] = "fb8b77d4ac10a971570419dd3613196e"
+-SRC_URI[sha256sum] = "4856c8cb4150b900cc7dccbdf16f542fb8c12e97b17639979e58760847f7cf35"
++SRC_URI[sha256sum] = "e86c15049dc07cb67e8b466795f004f1f23c1acf078d47283cd5e4a692a5aa37"
  
  inherit pypi setuptools3
 -- 
