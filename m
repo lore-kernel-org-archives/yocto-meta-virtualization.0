@@ -1,20 +1,20 @@
 Received: from anavi.org (anavi.org [91.215.217.29])
- by mx.groups.io with SMTP id smtpd.web08.11935.1617985878100673842
+ by mx.groups.io with SMTP id smtpd.web10.11963.1617985880643343290
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 09 Apr 2021 09:31:18 -0700
+ Fri, 09 Apr 2021 09:31:21 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=permerror, err=parse error for token &{10 18 spf.securedserverspace.com}: parse error for token &{10 18 _netblocks4.securedserverspace.com}: limit exceeded (domain: konsulko.com, ip: 91.215.217.29, mailfrom: leon.anavi@konsulko.com)
 Received: from [78.130.197.211] (port=38492 helo=localhost.localdomain)
 	by voyager.icnhost.net with esmtpsa (TLSv1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
 	(Exim 4.92)
 	(envelope-from <leon.anavi@konsulko.com>)
-	id 1lUu2N-00055o-CG; Fri, 09 Apr 2021 19:31:17 +0300
+	id 1lUu2P-00055o-C8; Fri, 09 Apr 2021 19:31:19 +0300
 From: "Leon Anavi" <leon.anavi@konsulko.com>
 To: meta-virtualization@lists.yoctoproject.org
 Cc: Leon Anavi <leon.anavi@konsulko.com>
-Subject: [meta-virtualization][PATCH 4/5] python3-boto3: Upgrade 1.14.7 -> 1.17.48
-Date: Fri,  9 Apr 2021 19:31:03 +0300
-Message-Id: <20210409163104.26711-4-leon.anavi@konsulko.com>
+Subject: [meta-virtualization][PATCH 5/5] python3-newrelic: Upgrade 6.0.1.155 -> 6.2.0.156
+Date: Fri,  9 Apr 2021 19:31:04 +0300
+Message-Id: <20210409163104.26711-5-leon.anavi@konsulko.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210409163104.26711-1-leon.anavi@konsulko.com>
 References: <20210409163104.26711-1-leon.anavi@konsulko.com>
@@ -30,48 +30,38 @@ X-Source:
 X-Source-Args: 
 X-Source-Dir: 
 
-Upgrade to release 1.17.48:
+Upgrade to release 6.2.0.156:
 
-- api-change:lookoutequipment: [botocore] This release introduces
-  support for Amazon Lookout for Equipment.
-- api-change:kinesis-video-archived-media: [botocore]
-  Documentation updates for archived.kinesisvideo
-- api-change:robomaker: [botocore] This release allows RoboMaker
-  customers to specify custom tools to run with their simulation
-  job
-- api-change:appstream: [botocore] This release provides support
-  for image updates
-- api-change:ram: [botocore] Documentation updates for AWS RAM
-  resource sharing
-- api-change:customer-profiles: [botocore] Documentation updates
-  for Put-Integration API
-- api-change:autoscaling: [botocore] Amazon EC2 Auto Scaling
-  announces Warm Pools that help applications to scale out faster
-  by pre-initializing EC2 instances and save money by requiring
-  fewer continuously running instances
+- Improved CPU metric sampling
+- Improved memory metric sampling
+- Increased custom attribute limit from 64 to 128
+- Fixed a TypeError with Uvicorn and unix sockets
+- Fixed a crash when using a FIPS compliant system with Cross
+  Agent Tracing enabled
 
 Signed-off-by: Leon Anavi <leon.anavi@konsulko.com>
 ---
- .../{python3-boto3_1.14.7.bb => python3-boto3_1.17.48.bb}      | 3 +--
+ ...on3-newrelic_6.0.1.155.bb => python3-newrelic_6.2.0.156.bb} | 3 +--
  1 file changed, 1 insertion(+), 2 deletions(-)
- rename recipes-devtools/python/{python3-boto3_1.14.7.bb => python3-boto3_1.17.48.bb} (75%)
+ rename recipes-devtools/python/{python3-newrelic_6.0.1.155.bb => python3-newrelic_6.2.0.156.bb} (83%)
 
-diff --git a/recipes-devtools/python/python3-boto3_1.14.7.bb b/recipes-devtools/python/python3-boto3_1.17.48.bb
-similarity index 75%
-rename from recipes-devtools/python/python3-boto3_1.14.7.bb
-rename to recipes-devtools/python/python3-boto3_1.17.48.bb
-index f9e979e..fd2e479 100644
---- a/recipes-devtools/python/python3-boto3_1.14.7.bb
-+++ b/recipes-devtools/python/python3-boto3_1.17.48.bb
-@@ -9,7 +9,6 @@ SECTION = "devel/python"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=2ee41112a44fe7014dce33e26468ba93"
+diff --git a/recipes-devtools/python/python3-newrelic_6.0.1.155.bb b/recipes-devtools/python/python3-newrelic_6.2.0.156.bb
+similarity index 83%
+rename from recipes-devtools/python/python3-newrelic_6.0.1.155.bb
+rename to recipes-devtools/python/python3-newrelic_6.2.0.156.bb
+index f79c99c..d3bbd9e 100644
+--- a/recipes-devtools/python/python3-newrelic_6.0.1.155.bb
++++ b/recipes-devtools/python/python3-newrelic_6.2.0.156.bb
+@@ -8,8 +8,7 @@ SECTION = "devel/python"
+ LICENSE = "BSD-3-Clause & MIT & Python-2.0 & BSD-2-Clause & NewRelic"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=2b42edef8fa55315f34f2370b4715ca9"
  
--SRC_URI[md5sum] = "fb8b77d4ac10a971570419dd3613196e"
--SRC_URI[sha256sum] = "4856c8cb4150b900cc7dccbdf16f542fb8c12e97b17639979e58760847f7cf35"
-+SRC_URI[sha256sum] = "e86c15049dc07cb67e8b466795f004f1f23c1acf078d47283cd5e4a692a5aa37"
+-SRC_URI[md5sum] = "0acf701c37ceb590e2a12d358ced16d7"
+-SRC_URI[sha256sum] = "e96689fc75eb2b1591903ad9e74225f5e1da734afcd3151d318c53f6635b5dda"
++SRC_URI[sha256sum] = "3dec4647de67609570c4e305f2b6432a00e0a0940a7ac69660ee92268b49d6e7"
  
  inherit pypi setuptools3
+ 
 -- 
 2.17.1
 
