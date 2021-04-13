@@ -1,211 +1,176 @@
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
- by mx.groups.io with SMTP id smtpd.web12.3804.1618283424357486046
+Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
+ by mx.groups.io with SMTP id smtpd.web11.3951.1618283739255159152
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 12 Apr 2021 20:10:24 -0700
+ Mon, 12 Apr 2021 20:15:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=k86T/JiK;
- spf=pass (domain: gmail.com, ip: 209.85.219.51, mailfrom: christopher.w.clark@gmail.com)
-Received: by mail-qv1-f51.google.com with SMTP id dp18so2794346qvb.5
-        for <meta-virtualization@lists.yoctoproject.org>; Mon, 12 Apr 2021 20:10:24 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=viC++SPx;
+ spf=pass (domain: gmail.com, ip: 209.85.210.51, mailfrom: christopher.w.clark@gmail.com)
+Received: by mail-ot1-f51.google.com with SMTP id v24-20020a9d69d80000b02901b9aec33371so14884781oto.2
+        for <meta-virtualization@lists.yoctoproject.org>; Mon, 12 Apr 2021 20:15:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=C4LvpOumvubIYBzNX7yEiylhEmYIyDN+5RuW3fsEo3A=;
-        b=k86T/JiK26xwOVY8ldaPZ5TNtUDVpoJXqI3jYIiOmU3xvy4lvtrzNLXFcgDCJxwYbh
-         6P/2yIxDT9IRvlbQxZw3BrY0IKudtQ9BuoLm8VLI8VkRQmtGm2x+DbvaqSeU7CTfVIzz
-         wYcem5XuFItHok7PdIivPYUXoxlB69RNjKw2u93ZtsWTKjXoHu9QJo5czBt8Uq9+fIXm
-         4lUTl/zIHlDvY9Khgnkw7JCteSYhbgqMl3mnjftW5sLzX6JA42A8WImSJE9eRFWKf/8R
-         iRKBGclgQqsOyvoW983eg6nD67oEhf0+CgvMfQvGscNx4BWniYNsFIvcpSMs64nrngt1
-         DsKg==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=3iHfe06VyQAmA0xnuAmsuNzzkqKlrcVjSvPQBEZ9/dQ=;
+        b=viC++SPx9p1IxmzUM5kJQgzyESX+d2NLR0OzXkDfT5PvpYse/nttdKDlh28641ZsTW
+         RfMdWAYvT4m9oJapms8XnRnMupY4tot7FQ4HPQuoavhSzUKkyPydcna7RGDxHlwSoPg5
+         gNMOvkxA98oSo53inCAh+54XOkbZFRqvJ6CPCe9oLEzrr2WPw7BsAbs8JAatVCBzFTz0
+         n32ePFHbab6ItWhOcL8Jt6FXGQxTBBHe8JxNNx8RnsAWslzPckGEOL8MWSZ1zzYYhD0+
+         fnRb8mgCWl0v53CPjYty/ZVa+O6pe/U3+AeuFJ96xCkGOhcuorYzhHhj23pRB8eIhsTK
+         Dz0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=C4LvpOumvubIYBzNX7yEiylhEmYIyDN+5RuW3fsEo3A=;
-        b=UXFbOlGK+s3pSKI4EurUhIbSY/ssiNGSbb6o8Ut6ykLX0FMKdN7fGCe/p2FVYgnl4Z
-         asJ5x1VkWPuHZw91q5ijyEPt5OUj7vBzTAzJDsrFPq1QDbsYZjpOmX/GnOAAM6CTIDFV
-         ele+YK/DQprDZMa03toEHRg4S4suMq486w7rW8rEhOOSqOzCXBBK5xcznkKTGUAGb+Bi
-         ngBT1Ulh5LUB66SR+Kp7qqBP5Abnh6OyVmlW3JkCx9qVMdKXCLRaTE3jJcxf8yqnEIds
-         Y2hU2YPFx0Znp7z3HpBdW1ojoZe2l4sleLQ6egz8ggPnW7Jeli/0ztchEr+dnWiCboxQ
-         RD9g==
-X-Gm-Message-State: AOAM531sd9IyTtUI3hpskoARjPnA0fe5pgB5ulu2ph/g19TXEQuKqvNR
-	YsdTkbbbdoXAEp5qSubhgEyWSXiBZ1Q=
-X-Google-Smtp-Source: ABdhPJz97vNYEvWPoivJ3tg/ttLJd0ouwUYJKCRfTvOXczUF15D0qMfFNMY/U7WG/61D2LISiUao/w==
-X-Received: by 2002:a0c:d7d2:: with SMTP id g18mr30754140qvj.42.1618283423381;
-        Mon, 12 Apr 2021 20:10:23 -0700 (PDT)
-Return-Path: <christopher.w.clark@gmail.com>
-Received: from walnut.ice.pyrology.org (mobile-166-176-187-62.mycingular.net. [166.176.187.62])
-        by smtp.gmail.com with ESMTPSA id i21sm561873qtr.94.2021.04.12.20.10.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Apr 2021 20:10:23 -0700 (PDT)
-From: "Christopher Clark" <christopher.w.clark@gmail.com>
-To: meta-virtualization@lists.yoctoproject.org
-Cc: cardoe@gentoo.org,
-	bruce.ashfield@gmail.com
-Subject: [meta-virtualization][PATCH 2/2] xen, xen-tools: upgrade version to latest 4.15
-Date: Mon, 12 Apr 2021 20:09:51 -0700
-Message-Id: <20210413030951.40543-2-christopher.w.clark@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210413030951.40543-1-christopher.w.clark@gmail.com>
-References: <20210413030951.40543-1-christopher.w.clark@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=3iHfe06VyQAmA0xnuAmsuNzzkqKlrcVjSvPQBEZ9/dQ=;
+        b=RaEuKkZ2bMeA01xseSVzfu/cfQslLrQjspM5BmcBt1poPRxWdp5z0Z4lgHvEK9D7d0
+         vcLDETif+0gtPoa5QzryI8nSeG0wNDASM76WvvAJ22HDFg69Gqke9ZjKkXIVNHyV6W/+
+         J1CduURO/zf4B9mTNXNe8Je4/ab2Mhq+fGCPRyeeIfMZ+QqM3RNpheqD+ypAFuNv5npS
+         17cxUD1zs2R+++jR42NFYa4cXFlksCSF4CGrD6iWBbdWoaFyG+xs9NKpt2oSxhQTOX7l
+         EGcsW/Iq1/5/dmdVI0gCoBK2GayRL7Xb7LOiDKxbvaLDHn0uvoibj5E4Rkzo6acYnLjI
+         cfHg==
+X-Gm-Message-State: AOAM532XEW3go5ud5uVo/0yvv/p4tmi5rg1PT7taKdb9ZDZwBvwMNI/z
+	F896KXQ5/N7OktId8eVIoXykuaTF6V0eJNPcq5w=
+X-Google-Smtp-Source: ABdhPJzxgdg3wRzKn/YbBus548fXealq9lztAd21PGj9yg6De0CW5gAwi/WIMA8aXyeR3E6E5V74Ru6CGu2qp4iJAUg=
+X-Received: by 2002:a05:6830:1d1:: with SMTP id r17mr10223673ota.78.1618283738541;
+ Mon, 12 Apr 2021 20:15:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210404092619.2059377-1-Martin.Jansa@gmail.com> <CACMJ4GaTFWE18fGWYPE0PWF1X=8gbGGWcp09bjc7fThc0sPcxg@mail.gmail.com>
+In-Reply-To: <CACMJ4GaTFWE18fGWYPE0PWF1X=8gbGGWcp09bjc7fThc0sPcxg@mail.gmail.com>
+From: "Christopher Clark" <christopher.w.clark@gmail.com>
+Date: Mon, 12 Apr 2021 20:15:27 -0700
+Message-ID: <CACMJ4GYJ44ZC28gM4WPrZcoxHKCR8Phf-Bkh1_a8Ek6pAwOJbw@mail.gmail.com>
+Subject: Re: [meta-virtualization][PATCH] xen: drop i686 support also from xen-tools/xen-python2
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: meta-virtualization@lists.yoctoproject.org
+Content-Type: text/plain; charset="UTF-8"
 
-Update the git recipes revision to the recent master branch point for
-starting 4.16 development.
+On Tue, Apr 6, 2021 at 10:59 PM Christopher Clark
+<christopher.w.clark@gmail.com> wrote:
+>
+> On Sun, Apr 4, 2021 at 2:26 AM Martin Jansa <martin.jansa@gmail.com> wrote:
+> >
+> > * this commit seems no longer true for current version of xen:
+> >   commit a0964e2044cb1ccdd4f64173658ce7602257ff48
+> >   Author: Christopher Clark <christopher.w.clark@gmail.com>
+> >   Date:   Tue Feb 25 16:16:00 2020 -0800
+> >
+> >     xen, xen-tools: separate COMPATIBLE_HOST for hypervisor and tools
+> >
+> >     The tools have broader platform compatibility than the hypervisor.
+> >
+> > * xen-tools are failing to build for qemux86 as shown in:
+> >   http://errors.yoctoproject.org/Errors/Details/575367/
+> >
+> >   make[8]: Entering directory 'TOPDIR/tmp-glibc/work/core2-32-oe-linux/xen-tools/4.14+stableAUTOINC+ad844aa352-r0/git/tools/firmware/xen-dir/xen-root/xen'
+> >   echo "*** Xen x86/32 target no longer supported!"
+> >   *** Xen x86/32 target no longer supported!
+> >   make[8]: Leaving directory 'TOPDIR/tmp-glibc/work/core2-32-oe-linux/xen-tools/4.14+stableAUTOINC+ad844aa352-r0/git/tools/firmware/xen-dir/xen-root/xen'
+> >   ln -sf xen-root/xen/xen xen-shim
+> >   ln -sf xen-root/xen/xen-syms xen-shim-syms
+> >   ...
+> >   install: cannot stat 'xen-dir/xen-shim': No such file or directory
+> >   make[4]: *** [Makefile:51: install] Error 1
+> >
+> >   revert the commit and also drop i686 from map_xen_arch
+>
+> Thanks for reporting this, Martin. I need to look into this. I can see
+> why this particular part of the tools build is not suitable for x86/32
+> but I don't think that it necessarily means that the entire suite of
+> xen-tools should be removed with it for x86/32, and if not then this
+> won't be the change that we will want to fix this build issue.
 
-Remove the xen-tools python patch for 4.14.
+To follow up on this: I've just posted an alternative patch that fixes
+the 32-bit x86 xen-tools build, so patch from this thread will not be
+required.
 
-Signed-off-by: Christopher Clark <christopher.w.clark@gmail.com>
-Signed-off-by: Christopher Clark <christopher.w.clark@gmail.com>
----
- ...ython-pygrub-pass-DISTUTILS-xen-4.14.patch | 66 -------------------
- .../{xen-tools_4.14.bb => xen-tools_4.15.bb}  |  6 +-
- recipes-extended/xen/xen-tools_git.bb         |  4 +-
- .../xen/{xen_4.14.bb => xen_4.15.bb}          |  4 +-
- recipes-extended/xen/xen_git.bb               |  4 +-
- 5 files changed, 9 insertions(+), 75 deletions(-)
- delete mode 100644 recipes-extended/xen/files/0001-python-pygrub-pass-DISTUTILS-xen-4.14.patch
- rename recipes-extended/xen/{xen-tools_4.14.bb => xen-tools_4.15.bb} (68%)
- rename recipes-extended/xen/{xen_4.14.bb => xen_4.15.bb} (85%)
+thanks
 
-diff --git a/recipes-extended/xen/files/0001-python-pygrub-pass-DISTUTILS-xen-4.14.patch b/recipes-extended/xen/files/0001-python-pygrub-pass-DISTUTILS-xen-4.14.patch
-deleted file mode 100644
-index f0688fd..0000000
---- a/recipes-extended/xen/files/0001-python-pygrub-pass-DISTUTILS-xen-4.14.patch
-+++ /dev/null
-@@ -1,66 +0,0 @@
--From d79dcc2002008c58683de82f06c168d6eea57991 Mon Sep 17 00:00:00 2001
--From: Maciej Pijanowski <maciej.pijanowski@3mdeb.com>
--Date: Fri, 19 Oct 2018 11:01:37 +0200
--Subject: [PATCH] python,pygrub: pass DISTUTILS env vars as setup.py args
--
--Allow to respect the target install dir (PYTHON_SITEPACKAGES_DIR)
--as well as other parameters set by the OpenEmbedded build system.
--This is especially useful when the target libdir is not the default one
--(/usr/lib), but for example /usr/lib64.
--
--Signed-off-by: Maciej Pijanowski <maciej.pijanowski@3mdeb.com>
--
--Forward-ported to Xen 4.12.0
--Signed-off-by: Christopher Clark <christopher.clark6@baesystems.com>
--
--Modified to support pygrub installation with python 3
--Signed-off-by: Christopher Clark <christopher.clark6@baesystems.com>
--
--Forward-ported to Xen 4.14.0
--Signed-off-by: Christopher Clark <christopher.clark6@baesystems.com>
--diff --git a/tools/pygrub/Makefile b/tools/pygrub/Makefile
--index 3063c49..513314b 100644
----- a/tools/pygrub/Makefile
--+++ b/tools/pygrub/Makefile
--@@ -10,14 +10,17 @@ INSTALL_LOG = build/installed_files.txt
-- all: build
-- .PHONY: build
-- build:
---	CC="$(CC)" CFLAGS="$(PY_CFLAGS)" LDFLAGS="$(PY_LDFLAGS)" $(PYTHON) setup.py build
--+	CC="$(CC)" CFLAGS="$(PY_CFLAGS)" LDFLAGS="$(PY_LDFLAGS)" $(PYTHON) setup.py build $(DISTUTILS_BUILD_ARGS)
-- 
-- .PHONY: install
-- install: all
-- 	$(INSTALL_DIR) $(DESTDIR)/$(bindir)
-- 	CC="$(CC)" CFLAGS="$(PY_CFLAGS)" LDFLAGS="$(PY_LDFLAGS)" $(PYTHON) \
-- 		setup.py install --record $(INSTALL_LOG) $(PYTHON_PREFIX_ARG) \
---		 --root="$(DESTDIR)" --install-scripts=$(LIBEXEC_BIN) --force
--+		 --root="$(DESTDIR)" --install-scripts=$(LIBEXEC_BIN) --force \
--+		 $(DISTUTILS_INSTALL_ARGS)
--+	rm -f $(DESTDIR)/$(LIBEXEC_BIN)/pygrub
--+	$(INSTALL_PYTHON_PROG) src/pygrub $(DESTDIR)/$(LIBEXEC_BIN)/pygrub
-- 	set -e; if [ $(bindir) != $(LIBEXEC_BIN) -a \
-- 	             "`readlink -f $(DESTDIR)/$(bindir)`" != \
-- 	             "`readlink -f $(LIBEXEC_BIN)`" ]; then \
--diff --git a/tools/python/Makefile b/tools/python/Makefile
--index 541858e..4d4a344 100644
----- a/tools/python/Makefile
--+++ b/tools/python/Makefile
--@@ -10,7 +10,7 @@ INSTALL_LOG = build/installed_files.txt
-- 
-- .PHONY: build
-- build:
---	CC="$(CC)" CFLAGS="$(PY_CFLAGS)" $(PYTHON) setup.py build
--+	CC="$(CC)" CFLAGS="$(PY_CFLAGS)" $(PYTHON) setup.py build $(DISTUTILS_BUILD_ARGS)
-- 
-- .PHONY: install
-- install:
--@@ -18,7 +18,7 @@ install:
-- 
-- 	CC="$(CC)" CFLAGS="$(PY_CFLAGS)" LDFLAGS="$(PY_LDFLAGS)" $(PYTHON) \
-- 		setup.py install --record $(INSTALL_LOG) $(PYTHON_PREFIX_ARG) \
---		--root="$(DESTDIR)" --force
--+		--root="$(DESTDIR)" --force $(DISTUTILS_INSTALL_ARGS)
-- 
-- 	$(INSTALL_PYTHON_PROG) scripts/convert-legacy-stream $(DESTDIR)$(LIBEXEC_BIN)
-- 	$(INSTALL_PYTHON_PROG) scripts/verify-stream-v2 $(DESTDIR)$(LIBEXEC_BIN)
-diff --git a/recipes-extended/xen/xen-tools_4.14.bb b/recipes-extended/xen/xen-tools_4.15.bb
-similarity index 68%
-rename from recipes-extended/xen/xen-tools_4.14.bb
-rename to recipes-extended/xen/xen-tools_4.15.bb
-index a79b41d..314dc52 100644
---- a/recipes-extended/xen/xen-tools_4.14.bb
-+++ b/recipes-extended/xen/xen-tools_4.15.bb
-@@ -1,11 +1,11 @@
--SRCREV ?= "ad844aa352559a8b1f36e391a27d9d7dbddbdc36"
-+SRCREV ?= "e25aa9939ae0cd8317605be3d5c5611b76bc4ab4"
- 
--XEN_REL ?= "4.14"
-+XEN_REL ?= "4.15"
- XEN_BRANCH ?= "stable-${XEN_REL}"
- 
- SRC_URI = " \
-     git://xenbits.xen.org/xen.git;branch=${XEN_BRANCH} \
--    file://0001-python-pygrub-pass-DISTUTILS-xen-4.14.patch \
-+    file://0001-python-pygrub-pass-DISTUTILS-xen-4.15.patch \
-     "
- 
- LIC_FILES_CHKSUM ?= "file://COPYING;md5=419739e325a50f3d7b4501338e44a4e5"
-diff --git a/recipes-extended/xen/xen-tools_git.bb b/recipes-extended/xen/xen-tools_git.bb
-index 71850ee..0188bdd 100644
---- a/recipes-extended/xen/xen-tools_git.bb
-+++ b/recipes-extended/xen/xen-tools_git.bb
-@@ -1,6 +1,6 @@
--SRCREV ?= "9dc687f155a57216b83b17f9cde55dd43e06b0cd"
-+SRCREV ?= "e680cc48b7184d3489873d6776f84ba1fc238ced"
- 
--XEN_REL ?= "4.15"
-+XEN_REL ?= "4.16"
- XEN_BRANCH ?= "master"
- 
- SRC_URI = " \
-diff --git a/recipes-extended/xen/xen_4.14.bb b/recipes-extended/xen/xen_4.15.bb
-similarity index 85%
-rename from recipes-extended/xen/xen_4.14.bb
-rename to recipes-extended/xen/xen_4.15.bb
-index 653e3b6..2842c0a 100644
---- a/recipes-extended/xen/xen_4.14.bb
-+++ b/recipes-extended/xen/xen_4.15.bb
-@@ -1,6 +1,6 @@
--SRCREV ?= "ad844aa352559a8b1f36e391a27d9d7dbddbdc36"
-+SRCREV ?= "e25aa9939ae0cd8317605be3d5c5611b76bc4ab4"
- 
--XEN_REL ?= "4.14"
-+XEN_REL ?= "4.15"
- XEN_BRANCH ?= "stable-${XEN_REL}"
- 
- SRC_URI = " \
-diff --git a/recipes-extended/xen/xen_git.bb b/recipes-extended/xen/xen_git.bb
-index 2b62c5c..eaf3956 100644
---- a/recipes-extended/xen/xen_git.bb
-+++ b/recipes-extended/xen/xen_git.bb
-@@ -1,6 +1,6 @@
--SRCREV ?= "9dc687f155a57216b83b17f9cde55dd43e06b0cd"
-+SRCREV ?= "e680cc48b7184d3489873d6776f84ba1fc238ced"
- 
--XEN_REL ?= "4.15"
-+XEN_REL ?= "4.16"
- XEN_BRANCH ?= "master"
- 
- SRC_URI = " \
--- 
-2.25.1
+Christopher
 
+
+>
+> Christopher
+>
+>
+> >
+> > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> > ---
+> >  recipes-extended/xen/xen-arch.inc       | 3 +--
+> >  recipes-extended/xen/xen-hypervisor.inc | 3 ---
+> >  recipes-extended/xen/xen-python2.bb     | 3 ---
+> >  recipes-extended/xen/xen-tools.inc      | 2 --
+> >  recipes-extended/xen/xen.inc            | 2 ++
+> >  5 files changed, 3 insertions(+), 10 deletions(-)
+> >
+> > diff --git a/recipes-extended/xen/xen-arch.inc b/recipes-extended/xen/xen-arch.inc
+> > index fb0093e..9676045 100644
+> > --- a/recipes-extended/xen/xen-arch.inc
+> > +++ b/recipes-extended/xen/xen-arch.inc
+> > @@ -8,8 +8,7 @@ def map_xen_arch(a, d):
+> >      import re
+> >      valid_archs = d.getVar('valid_xen_archs').split()
+> >
+> > -    if   re.match("i.86", a):        return "x86_32"
+> > -    elif re.match("x86.64", a):      return "x86_64"
+> > +    if re.match("x86.64", a):      return "x86_64"
+> >      elif re.match("arm.*", a):       return "arm32"
+> >      elif re.match("aarch64.*", a):   return "arm64"
+> >      elif a in valid_archs:           return a
+> > diff --git a/recipes-extended/xen/xen-hypervisor.inc b/recipes-extended/xen/xen-hypervisor.inc
+> > index 916bd3c..d8e57e2 100644
+> > --- a/recipes-extended/xen/xen-hypervisor.inc
+> > +++ b/recipes-extended/xen/xen-hypervisor.inc
+> > @@ -6,9 +6,6 @@ DESCRIPTION = "The Xen hypervisor"
+> >  # this allows for varying the target architecture or toolchain used
+> >  # to build the different components. eg. 32-bit tools and a 64-bit hypervisor.
+> >
+> > -# The Xen hypervisor has a narrower compatible platform range than the Xen tools
+> > -COMPATIBLE_HOST = '(x86_64.*).*-linux|aarch64.*-linux|arm-.*-linux-gnueabi'
+> > -
+> >  inherit deploy python3native cml1
+> >
+> >  PACKAGES = " \
+> > diff --git a/recipes-extended/xen/xen-python2.bb b/recipes-extended/xen/xen-python2.bb
+> > index ad3c1fd..08d8e92 100644
+> > --- a/recipes-extended/xen/xen-python2.bb
+> > +++ b/recipes-extended/xen/xen-python2.bb
+> > @@ -6,9 +6,6 @@ SECTION = "console/tools"
+> >
+> >  SRCREV ?= "a5fcafbfbee55261853fba07149c1c795f2baf58"
+> >
+> > -# The same restriction as xen-tools.inc, because of the dependency on xen-tools-xentrace from xen-tools-xentrace-format
+> > -COMPATIBLE_HOST = 'i686-.*-linux|(x86_64.*).*-linux|aarch64.*-linux|arm-.*-linux-gnueabi'
+> > -
+> >  XEN_REL ?= "4.12"
+> >  XEN_BRANCH ?= "stable-4.12"
+> >
+> > diff --git a/recipes-extended/xen/xen-tools.inc b/recipes-extended/xen/xen-tools.inc
+> > index 722c503..35d0c58 100644
+> > --- a/recipes-extended/xen/xen-tools.inc
+> > +++ b/recipes-extended/xen/xen-tools.inc
+> > @@ -1,8 +1,6 @@
+> >  SUMMARY = "Xen hypervisor tools"
+> >  DESCRIPTION = "Tools and utility software for the Xen hypervisor"
+> >
+> > -COMPATIBLE_HOST = 'i686-.*-linux|(x86_64.*).*-linux|aarch64.*-linux|arm-.*-linux-gnueabi'
+> > -
+> >  inherit setuptools3 update-rc.d systemd deploy
+> >  require xen-blktap.inc
+> >
+> > diff --git a/recipes-extended/xen/xen.inc b/recipes-extended/xen/xen.inc
+> > index 9e8fcad..8277939 100644
+> > --- a/recipes-extended/xen/xen.inc
+> > +++ b/recipes-extended/xen/xen.inc
+> > @@ -2,6 +2,8 @@ HOMEPAGE = "http://xen.org"
+> >  LICENSE = "GPLv2"
+> >  SECTION = "console/tools"
+> >
+> > +COMPATIBLE_HOST = '(x86_64.*).*-linux|aarch64.*-linux|arm-.*-linux-gnueabi'
+> > +
+> >  inherit autotools-brokensep
+> >
+> >  require xen-arch.inc
+> > --
+> > 2.30.2
+> >
