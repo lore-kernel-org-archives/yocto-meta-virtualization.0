@@ -1,89 +1,128 @@
-Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web10.4873.1618291060146060331
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+ by mx.groups.io with SMTP id smtpd.web08.5418.1618296239933598479
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 12 Apr 2021 22:17:40 -0700
+ Mon, 12 Apr 2021 23:44:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=Tg8w/inx;
- spf=neutral (domain: fujitsu.com, ip: 198.145.29.25, mailfrom: zangrc.fnst@fujitsu.com)
-Received: from mail1.bemta25.messagelabs.com (mail1.bemta25.messagelabs.com [195.245.230.3])
-	by mail.yoctoproject.org (Postfix) with ESMTPS id 7B23E38C0830
-	for <meta-virtualization@yoctoproject.org>; Tue, 13 Apr 2021 05:17:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1618291056; i=@fujitsu.com;
-	bh=2U2P5Dy7e84OOMkK0OAhIHFxTWGu8Hptu4xRxYuEoWY=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=Tg8w/inx7b5LNFZvoHLXU0WG0gXxQiiLy+JyM+HP+JNS6+HSg5b3PI6AhE6JCTMHp
-	 u4uWxRxrNoDEdxssnzT2IUFTKZumSSQBy0cJdnUO0NtiO/aAaqlOylKlpFQdN/FVHN
-	 fJRueA8yu+ZQbGK8gyVNwMfEClGpRZEuDBUhXtmmYkB/SaeInKRwSY3AEgOCMIe4eB
-	 P8935jlnrxXlvMHYZT6ZdH5QBo9Tq/zxVdSoWjHYvip2aVLZ9pIScZcmv8g/SAoYAr
-	 ntvTeHnc6iP7ct52gRRELR0dgF53GUX1+77eoenHy7Pfzob5EqIiiYM5IrqB1trYPN
-	 ZzDfEZMs5ZKfA==
-Received: from [100.112.192.143] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-3.bemta.az-a.eu-west-1.aws.symcld.net id 7A/81-24644-07925706; Tue, 13 Apr 2021 05:17:36 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupikeJIrShJLcpLzFFi42Kxs+EI0S3QLE0
-  wmNHIb3H7wBFmB0aP9hN9bAGMUayZeUn5FQmsGU3tE9gKnrJWHPu/mamBcRprFyMnh5DANCaJ
-  iZdKuxi5gOzjjBKv59xnA0mwCehIdLzoZgGxRQS0JNpbfzF3MXJwCAvYSqz+agESZhFQlbh5/
-  Ck7iM0r4CZxfdYpZhBbQkBBYsrD98wQcUGJkzOfgI1hFpCQOPjiBVSNosT2nWdYIOxKie3Tzj
-  JOYOSZhaRlFpKWBYxMqxgtkooy0zNKchMzc3QNDQx0DQ2NdA0tjXSNDEz0Eqt0E/VSS3XLU4t
-  LdA31EsuL9Yorc5NzUvTyUks2MQKDKKXgwJkdjKdef9A7xCjJwaQkyruhqyRBiC8pP6UyI7E4
-  I76oNCe1+BCjDAeHkgRvsEZpgpBgUWp6akVaZg4woGHSEhw8SiK871SA0rzFBYm5xZnpEKlTj
-  IpS4rxzQfoEQBIZpXlwbbAousQoKyXMy8jAwCDEU5BalJtZgir/ilGcg1FJmNddHWgKT2ZeCd
-  z0V0CLmYAWX9xaCLK4JBEhJdXA5F1to7Gq13b2GrbbVf6Jy0Mdp2fULFg/uSYy99puUcUnU4z
-  8Pr5KyLQ3atzuEZXbpcRSXuF7YEJWwYGDbe52k/SW/ixyYrNjyfLcGrx93k+fgA1yDRvLhMQf
-  LuCWu237dK/dt1nfU5wmNJ85vkxNZXGlqvK01462EldfCzLPtdVVd7/650J3l+vnSYuP5i+r1
-  nHcF/PjYHDrp6/b0lWSe4/27asumMMeG/x9t07xpuDDr+6sm2349GDk7xfnsyUmPqos1Enxvn
-  fP1Veez8v3wcqJjnrz5y+4cm568NJNMcscf8/zPWS74vKTUu4nelfLIlc6zE+Wfapk71ws/DH
-  TWd9lu9XMJQduMfw7leE/X4mlOCPRUIu5qDgRAPxcKDcdAwAA
-X-Env-Sender: zangrc.fnst@fujitsu.com
-X-Msg-Ref: server-22.tower-271.messagelabs.com!1618291055!684721!1
-X-Originating-IP: [62.60.8.84]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.60.3; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 23306 invoked from network); 13 Apr 2021 05:17:36 -0000
-Received: from unknown (HELO mailhost3.uk.fujitsu.com) (62.60.8.84)
-  by server-22.tower-271.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 13 Apr 2021 05:17:36 -0000
-Received: from R01UKEXCASM126.r01.fujitsu.local ([10.183.43.178])
-	by mailhost3.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 13D5HTjX021873
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <meta-virtualization@yoctoproject.org>; Tue, 13 Apr 2021 06:17:35 +0100
-Received: from localhost.localdomain.localdomain (10.167.225.81) by
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Tue, 13 Apr 2021 06:17:28 +0100
-From: "zangrc" <zangrc.fnst@fujitsu.com>
-To: <meta-virtualization@yoctoproject.org>
-Subject: [meta-virtualization] [PATCH] novnc: Correct LICENSE
-Date: Wed, 14 Apr 2021 01:17:18 +0800
-Message-ID: <1618334238-4306-1-git-send-email-zangrc.fnst@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=fe/ooPwC;
+ spf=pass (domain: gmail.com, ip: 209.85.160.182, mailfrom: christopher.w.clark@gmail.com)
+Received: by mail-qt1-f182.google.com with SMTP id i6so2328078qti.10
+        for <meta-virtualization@lists.yoctoproject.org>; Mon, 12 Apr 2021 23:43:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=5Bgv4e3ZCa4JG4bbO3Xhny7QkoTUi0f4Xck9rV1NqEQ=;
+        b=fe/ooPwC5hDi09G0n1CNNJKsjli8q1aXhMJT4p2I8m/BP9mUYfpwYkZ9Wif+Kcoqlu
+         QSpeBZ8WaXuaL10wgJh4aM1DaiMS6rx6aYGtA/U25yHcVKT9955kh5bB08a1BpvjtD3D
+         9SaxBkaR/RGEFczo297ESFDMZ0s6xrMPI8dsSfSYPrQ7I6OYnYLztsZ8kDrO5jXxwo7r
+         bWqEfc01YUCeSUCal0TcOsgGR4fOc8Iz0gZC3BrZ0wH5gC0A0r3yoeI4KfPk4Ps4Hu4o
+         pcckLGxIuUPdkpfLT1zjXlUT1GXSaibiHfFH5C477sj2YoR8Y5aaVaxCUgYsK8tVA7J6
+         DMOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=5Bgv4e3ZCa4JG4bbO3Xhny7QkoTUi0f4Xck9rV1NqEQ=;
+        b=oyakpfC3AmPA+ceYyutLA8cMpUiRVaPU42vXCtUQG8BDv87vinvSE0ivopwH5KgpnU
+         FppaGj7+BIPOe/iqdgkc7z2YnCZAm7Ji57Ie2v4KLkQahjl6dmpKOHu461nstwWv8PTe
+         kA2m7D56xc7161Et6Rrg0WEiDnY0FzMGnUYOp3cY2zyFdRewiPpa3OSvuShck2CxqSaY
+         Qr7OWHUuRgLOqRZgA8e8V5F2mdfcRnGAl4thyokyF/8lOW59PGy4DRMB3tLUyMHVf4vb
+         QKims4CAcJeYcJxMQxVkoNSSiDv0SB3RMzoqdHiwAh72BMRFZGR2Lx5APKSfjI+z3h8w
+         lPtA==
+X-Gm-Message-State: AOAM531Pbaj+/4hd7jwq7omB8/BdZjbe/dOVwcFrSllw3nmr6QpCpa3j
+	JqCWACMec0OYxmKSd20kugNxbiMgXqM=
+X-Google-Smtp-Source: ABdhPJzV/gU6Mjefa8n7NHGRdsclOfbkiC8iiNYf6av38u9I7ejQuQTEfhcVxJSOoB3d5G7aahgopQ==
+X-Received: by 2002:ac8:5847:: with SMTP id h7mr29337466qth.108.1618296238943;
+        Mon, 12 Apr 2021 23:43:58 -0700 (PDT)
+Return-Path: <christopher.w.clark@gmail.com>
+Received: from walnut.ice.pyrology.org (mobile-166-176-187-51.mycingular.net. [166.176.187.51])
+        by smtp.gmail.com with ESMTPSA id a19sm9491086qtn.41.2021.04.12.23.43.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Apr 2021 23:43:58 -0700 (PDT)
+From: "Christopher Clark" <christopher.w.clark@gmail.com>
+To: meta-virtualization@lists.yoctoproject.org
+Cc: cardoe@gentoo.org,
+	bruce.ashfield@gmail.com
+Subject: [meta-virtualization][PATCH 1/2] xtf: introduce recipe for the Xen Test Framework
+Date: Mon, 12 Apr 2021 23:43:31 -0700
+Message-Id: <20210413064332.42502-1-christopher.w.clark@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.81]
-X-ClientProxiedBy: G08CNEXCHPEKD05.g08.fujitsu.local (10.167.33.203) To
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-The LICENSE.txt file is described as follows:
-The default noVNC license is MPL-2.0.
-
-Signed-off-by: Zang Ruochen <zangrc.fnst@fujitsu.com>
+Signed-off-by: Christopher Clark <christopher.w.clark@gmail.com>
 ---
- meta-openstack/recipes-extended/novnc/novnc_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ recipes-extended/xen/xtf_git.bb | 61 +++++++++++++++++++++++++++++++++
+ 1 file changed, 61 insertions(+)
+ create mode 100644 recipes-extended/xen/xtf_git.bb
 
-diff --git a/meta-openstack/recipes-extended/novnc/novnc_git.bb b/meta-openstack/recipes-extended/novnc/novnc_git.bb
-index ee20e3b..7099d85 100644
---- a/meta-openstack/recipes-extended/novnc/novnc_git.bb
-+++ b/meta-openstack/recipes-extended/novnc/novnc_git.bb
-@@ -4,7 +4,7 @@ SECTION = "web"
- 
- PR = "r0"
- 
--LICENSE = "MIT"
-+LICENSE = "MPL-2.0"
- LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=ac06308a999996ffc2d24d81b3a39f1b"
- 
- SRCREV = "8f12ca7a5a64144fe548cada332d5d19ef26a1fe"
+diff --git a/recipes-extended/xen/xtf_git.bb b/recipes-extended/xen/xtf_git.bb
+new file mode 100644
+index 0000000..6dc0f8d
+--- /dev/null
++++ b/recipes-extended/xen/xtf_git.bb
+@@ -0,0 +1,61 @@
++SUMMARY = "Xen Test Framework"
++HOMEPAGE = "https://xenbits.xenproject.org/docs/xtf/"
++LICENSE = "BSD-2-Clause"
++
++SRC_URI = "git://xenbits.xen.org/xtf"
++SRCREV = "8ab15139728a8efd3ebbb60beb16a958a6a93fa1"
++
++COMPATIBLE_HOST = '(x86_64.*).*-linux'
++
++LIC_FILES_CHKSUM = "file://COPYING;md5=a5680865974e05cf0510615ee1d745d8"
++
++PV = "0+git${SRCPV}"
++
++S = "${WORKDIR}/git"
++
++inherit python3native
++
++# To build 32-bit binaries some files from 32-bit glibc are needed.
++# To enable multilib, please add the following to your local.conf -:
++#
++#    require conf/multilib.conf
++#    MULTILIBS = "multilib:lib32"
++#    DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
++
++# Use this multilib prefix for x86 32-bit to match local.conf:
++MLPREFIX32 = "lib32-"
++# Add the multilib 32-bit glibc to DEPENDS only when necessary:
++# The DEPENDS on a multilib 32-bit glibc is only added when target is x86-64
++# This x86-64 override is never intended for native use, so clear that.
++GLIBC32 = ""
++GLIBC32_x86-64 = "${MLPREFIX32}glibc"
++GLIBC32_class-native = ""
++DEPENDS += "${GLIBC32}"
++
++PACKAGES = "${PN}"
++
++FILES_${PN} = " \
++    ${libexecdir}/* \
++    "
++
++RDEPENDS_${PN} = " \
++    xen-tools-xl \
++    python3 \
++    "
++
++do_compile() {
++    oe_runmake CC="${TARGET_PREFIX}gcc ${TOOLCHAIN_OPTIONS} -I${RECIPE_SYSROOT}/../${MLPREFIX32}recipe-sysroot/usr/include" \
++               CPP="${CPP}" \
++               OBJCOPY="${OBJCOPY}" \
++               PYTHON="${PYTHON}"
++    # switch the shebang to python3
++    sed 's,^\(#!/usr/bin/env python\)$,\13,' -i "${B}/xtf-runner"
++}
++
++do_install() {
++    oe_runmake install DESTDIR="${D}" xtfdir="${libexecdir}/${BPN}" PYTHON="${PYTHON}"
++}
++
++INSANE_SKIP = "arch"
++INHIBIT_PACKAGE_STRIP = "1"
++INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
 -- 
 2.25.1
 
