@@ -1,92 +1,124 @@
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
- by mx.groups.io with SMTP id smtpd.web08.806.1618443594915503725
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
+ by mx.groups.io with SMTP id smtpd.web10.799.1618443596719232264
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 14 Apr 2021 16:39:55 -0700
+ Wed, 14 Apr 2021 16:39:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=eAhuyDAG;
- spf=pass (domain: gmail.com, ip: 209.85.219.43, mailfrom: christopher.w.clark@gmail.com)
-Received: by mail-qv1-f43.google.com with SMTP id er3so2321607qvb.6
-        for <meta-virtualization@lists.yoctoproject.org>; Wed, 14 Apr 2021 16:39:54 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=NubYWhNp;
+ spf=pass (domain: gmail.com, ip: 209.85.222.176, mailfrom: christopher.w.clark@gmail.com)
+Received: by mail-qk1-f176.google.com with SMTP id o17so14946604qkl.13
+        for <meta-virtualization@lists.yoctoproject.org>; Wed, 14 Apr 2021 16:39:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=QGkSXprDA1sH/rxOpnxuqrgo3MOZufRoCIiLzrqjj6E=;
-        b=eAhuyDAGwFsTF4m/eW42eO+FMVq8QTgNJTzklGKo+IhvxqRsg3bT6oz/JnDlvX8xbx
-         DzpAqy2fsaMd3Pub63nn/Cb3FQ0xgMQKiicY6ZIhisZnwK5tqYGzWi2eBaj64eP2wJCm
-         9DqxAd06PZpoQQ1r+dwMKMQ+tskOt2NYmyewn9mvEgKChqQs4DccEIe866KRQjJXGMXG
-         NOv4ZdJyH2G8OD2vSgO9k4v9Fp3HD5MFOgkAt7MkBoJKnvNGbMtMUaOVtZc1N3268lsA
-         HlRpMTu2gsh6CreVX3wnimUEVoM7L906JcAwvT4wnCGMTrRnPsORl9mWHXT7Lt9AjVQo
-         KrQQ==
+        bh=kjQvKktIeHzWy91CKmM1yLzGFUbJjBXHTLvXbl5/E1Y=;
+        b=NubYWhNpA6erqB9R9jJGnVPqKE5jF5r6qNKPUABjgUyqGh5ElUgWSszAnfguvbTIBW
+         XcnM89nPyrl3BJO9ClF46erJja5g87UOl4VV0bz9vJR0SMDh8Mh0DnLr3ybgWvCIHUPf
+         kq6a5r+D1O+VEaDOtvwKxCR6ZNpbKwbODphGE5lPReIAVTni7THZ23YPgmZelO+BpB7f
+         qHYdZilD5RVXcw6XVC0fbfa+ioKpF4n7gqpgX9be/JVow3DhPyRVY4nWBc83YanNdJSJ
+         VdODzwyF1SC5r5rtVIGBRKlWUwN1kb/PHuDzdHPN2nx5nvcXeYvxkCsdzhrT5p7icJFZ
+         v1NQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=QGkSXprDA1sH/rxOpnxuqrgo3MOZufRoCIiLzrqjj6E=;
-        b=r5bfD0UCkRxHFMVS/a8n11znP074d2MkCpQoobCBIY+iEAtcuoj/dYRGuzAaY3aY2u
-         HkePzCbAuzKM/uJNTw/4RRTjyoS2JDPTIuP7MgLyZtF3f4ekbVuYrErAWSmUDDkXR9V4
-         rT8XqN1sdv92srNj3GwB+RBBK0kiRoTJivZcqPoVO4M7Fsi6bd6oIujYfMDdgtrza1hz
-         nxDG/UdVVsvvCsX4Lsfk6wJnlH7e3qy/sUPkNbIe0C4R6MXar6dnv6SbwGNYWDe2Pggk
-         BDBVWWXnoZXK2pxkSeAfbHvSEBeDNc/qjCGCTEP9IPgKUWFBtxQ/E6/vNwlf6uJ7Sh7W
-         HN1Q==
-X-Gm-Message-State: AOAM532i9z1F7t6srJWebtpB1b3BbEOPjyxZdKQRUi2Y5NAl1dv+Gnrv
-	3jLJha7bjO5/oF5qCzPe7kWKJSvtifI=
-X-Google-Smtp-Source: ABdhPJzxA1BK7qoMV75C+Z+IHSzByg1i/w6J8PauJyf8q+88D6kvtICBD5XZJBvG7n+EXQ6UxyupAA==
-X-Received: by 2002:a0c:f454:: with SMTP id h20mr501513qvm.40.1618443593998;
-        Wed, 14 Apr 2021 16:39:53 -0700 (PDT)
+        bh=kjQvKktIeHzWy91CKmM1yLzGFUbJjBXHTLvXbl5/E1Y=;
+        b=qEyFKd/S4BlbtUe1ZcjL8sFoBuR2BW8Q0LQ9+lKCKj3NAZXTTOeDwjtf2Cg4XD+zrE
+         Nk3QjHYHfOhhsOkAqJLLbQC5jwXrizoL+QcTcRihvF2UBm04AcSvM9DBurkihFA8nTQ+
+         ZSJvYvGh2pGHMNH0hEjHRV5urU/Qtn6mUukzH5EFx/nx1IhXJ/ConRVZbTlBW0B3B+OB
+         ZVSrUnDX7ZnyhAPyvrU3uWjT2WdDHONdyCmWCOPUTRmfUIZ/o3eLHAc4XB87Zu6pXWMm
+         Yn+6sbGIaBIKyDyQBuNCwLuJeY53Ird9gL1pZNo3U+1EC3P5GJcown2gki9XYn+lsnF9
+         UDWA==
+X-Gm-Message-State: AOAM5326gu8agqSczkHLKVkT0HXMe54R4uQCkxoyLItAd6MSFAMoycyw
+	EScz9aAFPiTGT4t5ZJVeiQhTJH5ylrc=
+X-Google-Smtp-Source: ABdhPJz8Uc/qFLuEJcXw3ZYd4g/n1wJXCbm0n9Zi5KGlnrA4P2wt05XUSWVFKKl2BZJzYrBPM20jcw==
+X-Received: by 2002:a37:d2c1:: with SMTP id f184mr901174qkj.107.1618443595724;
+        Wed, 14 Apr 2021 16:39:55 -0700 (PDT)
 Return-Path: <christopher.w.clark@gmail.com>
 Received: from walnut.ice.pyrology.org (mobile-166-176-184-52.mycingular.net. [166.176.184.52])
-        by smtp.gmail.com with ESMTPSA id q28sm736010qkm.15.2021.04.14.16.39.52
+        by smtp.gmail.com with ESMTPSA id q28sm736010qkm.15.2021.04.14.16.39.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Apr 2021 16:39:53 -0700 (PDT)
+        Wed, 14 Apr 2021 16:39:55 -0700 (PDT)
 From: "Christopher Clark" <christopher.w.clark@gmail.com>
 To: meta-virtualization@lists.yoctoproject.org
 Cc: cardoe@gentoo.org,
 	bruce.ashfield@gmail.com,
 	bertrand.marquis@arm.com
-Subject: [meta-virtualization][PATCH v2 3/6] xen, xen-tools: uprev git recipes after 4.15 release
-Date: Wed, 14 Apr 2021 16:39:21 -0700
-Message-Id: <20210414233924.55589-3-christopher.w.clark@gmail.com>
+Subject: [meta-virtualization][PATCH v2 4/6] xen, xen-tools: Document the version update process in README
+Date: Wed, 14 Apr 2021 16:39:22 -0700
+Message-Id: <20210414233924.55589-4-christopher.w.clark@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210414233924.55589-1-christopher.w.clark@gmail.com>
 References: <20210414233924.55589-1-christopher.w.clark@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Updated to the branch point for 4.16 development.
+Describes the versions of Xen to be included in meta-virtualization
+and recipe maintenance in release branches.
 
 Signed-off-by: Christopher Clark <christopher.w.clark@gmail.com>
 ---
- recipes-extended/xen/xen-tools_git.bb | 4 ++--
- recipes-extended/xen/xen_git.bb       | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ recipes-extended/xen/README | 50 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 50 insertions(+)
 
-diff --git a/recipes-extended/xen/xen-tools_git.bb b/recipes-extended/xen/xen-tools_git.bb
-index 71850ee..0188bdd 100644
---- a/recipes-extended/xen/xen-tools_git.bb
-+++ b/recipes-extended/xen/xen-tools_git.bb
-@@ -1,6 +1,6 @@
--SRCREV ?= "9dc687f155a57216b83b17f9cde55dd43e06b0cd"
-+SRCREV ?= "e680cc48b7184d3489873d6776f84ba1fc238ced"
- 
--XEN_REL ?= "4.15"
-+XEN_REL ?= "4.16"
- XEN_BRANCH ?= "master"
- 
- SRC_URI = " \
-diff --git a/recipes-extended/xen/xen_git.bb b/recipes-extended/xen/xen_git.bb
-index 2b62c5c..eaf3956 100644
---- a/recipes-extended/xen/xen_git.bb
-+++ b/recipes-extended/xen/xen_git.bb
-@@ -1,6 +1,6 @@
--SRCREV ?= "9dc687f155a57216b83b17f9cde55dd43e06b0cd"
-+SRCREV ?= "e680cc48b7184d3489873d6776f84ba1fc238ced"
- 
--XEN_REL ?= "4.15"
-+XEN_REL ?= "4.16"
- XEN_BRANCH ?= "master"
- 
- SRC_URI = " \
+diff --git a/recipes-extended/xen/README b/recipes-extended/xen/README
+index f286bb5..b9117f0 100644
+--- a/recipes-extended/xen/README
++++ b/recipes-extended/xen/README
+@@ -36,3 +36,53 @@ as XSAs (http://xenbits.xen.org/xsa/). The easiest way to include those is to
+ drop patches in 'recipes-extened/xen/files' and create a bbappend adding those
+ patches to SRC_URI and they will be applied. Alternatively, you can override
+ the SRC_URI to a git repo you provide that contains the patches.
++
++recipe maintenance
++------------------
++
++# Xen version update
++
++The following rules shall be followed to define which versions of Xen have
++recipes in meta-virtualization:
++
++- Before a Yocto release meta-virtualization shall have recipes for:
++    - the latest stable major version of Xen, and
++
++    - the current version of the Xen master branch (known as the git recipes)
++
++    - In addition, there may also be recipes included for the previous stable
++      major version of Xen, in the case where the latest stable major version
++      is new and the prior stable major version of Xen is to be the preferred
++      version for the Yocto release
++
++- On Yocto LTS and the latest stable Yocto release branch, the preferred Xen
++  major version that is present when the Yocto release is issued must stay
++  supported and the recipes shall be regularly updated to follow updates
++  available in the Xen stable branch for that Xen major release.
++
++- On Yocto LTS and the latest stable Yocto release branch, the recipes for the
++  latest Xen major version shall also be regularly updated to follow updates
++  available in the Xen stable branch for that Xen major release.
++
++- On the master / in-development Yocto branch, new Xen recipes shall be added
++  when there is a new Xen major release.
++
++    - depending on the timing of the next Yocto release, the new recipes may
++      be preferred, or the prior major version recipes may remain preferred
++      until after the Yocto release
++
++    - the recipes for the previous Xen stable major version shall be removed
++      from the branch when it is no longer the preferred Xen version
++
++- On Yocto LTS and the latest stable Yocto release branch, new Xen recipes
++  shall be added when there is a new Xen major release.
++
++    - The preferred version of the Xen recipes shall always stay at the same
++      Xen major version once a Yocto release has been issued, and shall receive
++      regular updates to track the stable Xen branch of that Xen release.
++
++    - When new Xen recipes are added to a Yocto branch for a new Xen major
++      version, then any older Xen recipes present, except for the original
++      preferred version recipes, shall be marked as not updated anymore by
++      adding a comment inside the recipes. The older recipes will not receive
++      any build tests or be updated to follow the Xen branch.
 -- 
 2.25.1
 
