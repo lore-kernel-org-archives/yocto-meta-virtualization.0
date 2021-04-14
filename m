@@ -1,20 +1,20 @@
 Received: from anavi.org (anavi.org [91.215.217.29])
- by mx.groups.io with SMTP id smtpd.web10.14649.1618413287263553886
+ by mx.groups.io with SMTP id smtpd.web09.14610.1618413287776942411
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 14 Apr 2021 08:14:47 -0700
+ Wed, 14 Apr 2021 08:14:48 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=permerror, err=parse error for token &{10 18 spf.securedserverspace.com}: parse error for token &{10 18 _netblocks4.securedserverspace.com}: limit exceeded (domain: konsulko.com, ip: 91.215.217.29, mailfrom: leon.anavi@konsulko.com)
 Received: from [78.130.197.211] (port=60130 helo=localhost.localdomain)
 	by voyager.icnhost.net with esmtpsa (TLSv1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
 	(Exim 4.92)
 	(envelope-from <leon.anavi@konsulko.com>)
-	id 1lWhE5-00017J-UJ; Wed, 14 Apr 2021 18:14:46 +0300
+	id 1lWhE6-00017J-Ed; Wed, 14 Apr 2021 18:14:46 +0300
 From: "Leon Anavi" <leon.anavi@konsulko.com>
 To: meta-virtualization@lists.yoctoproject.org
 Cc: Leon Anavi <leon.anavi@konsulko.com>
-Subject: [meta-virtualization][PATCH 5/6] python3-sphinx: Upgrade 3.4.3 -> 3.5.4
-Date: Wed, 14 Apr 2021 18:14:34 +0300
-Message-Id: <20210414151435.9049-5-leon.anavi@konsulko.com>
+Subject: [meta-virtualization][PATCH 6/6] python3-cached-property: Upgrade 1.3.0 -> 1.5.2
+Date: Wed, 14 Apr 2021 18:14:35 +0300
+Message-Id: <20210414151435.9049-6-leon.anavi@konsulko.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210414151435.9049-1-leon.anavi@konsulko.com>
 References: <20210414151435.9049-1-leon.anavi@konsulko.com>
@@ -30,35 +30,33 @@ X-Source:
 X-Source-Args: 
 X-Source-Dir: 
 
-Upgrade to release 3.5.4:
+Upgrade to release 1.5.2:
 
-- Restrict docutils to 0.16
-- autodoc: Async staticmethods and classmethods are considered as
-  non async coroutine-functions with Python3.10
-- html theme: The style are not applied with docutils-0.17
+- Add formal support for Python 3.8
+- Remove formal support for Python 3.4
+- Switch from Travis to GitHub actions
+- Made tests pass flake8 for Python 2.7
 
 Signed-off-by: Leon Anavi <leon.anavi@konsulko.com>
 ---
- .../{python3-sphinx_3.4.3.bb => python3-sphinx_3.5.4.bb}      | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename recipes-devtools/python/{python3-sphinx_3.4.3.bb => python3-sphinx_3.5.4.bb} (63%)
+ ...ched-property_1.3.0.bb => python3-cached-property_1.5.2.bb} | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+ rename recipes-devtools/python/{python3-cached-property_1.3.0.bb => python3-cached-property_1.5.2.bb} (62%)
 
-diff --git a/recipes-devtools/python/python3-sphinx_3.4.3.bb b/recipes-devtools/python/python3-sphinx_3.5.4.bb
-similarity index 63%
-rename from recipes-devtools/python/python3-sphinx_3.4.3.bb
-rename to recipes-devtools/python/python3-sphinx_3.5.4.bb
-index 76b0cdb..3f541c7 100644
---- a/recipes-devtools/python/python3-sphinx_3.4.3.bb
-+++ b/recipes-devtools/python/python3-sphinx_3.5.4.bb
-@@ -6,6 +6,6 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=82cc7d23060a75a07b820eaaf75abecf"
+diff --git a/recipes-devtools/python/python3-cached-property_1.3.0.bb b/recipes-devtools/python/python3-cached-property_1.5.2.bb
+similarity index 62%
+rename from recipes-devtools/python/python3-cached-property_1.3.0.bb
+rename to recipes-devtools/python/python3-cached-property_1.5.2.bb
+index f01aabd..d7905f8 100644
+--- a/recipes-devtools/python/python3-cached-property_1.3.0.bb
++++ b/recipes-devtools/python/python3-cached-property_1.5.2.bb
+@@ -5,5 +5,4 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=db7ff60c4e14f58534201242803d8abc"
  
- PYPI_PACKAGE = "Sphinx"
+ inherit pypi setuptools3
  
--SRC_URI[md5sum] = "80c5176104fe0cfbd1a8430b6da308b4"
--SRC_URI[sha256sum] = "41cad293f954f7d37f803d97eb184158cfd90f51195131e94875bc07cd08b93c"
-+SRC_URI[sha256sum] = "19010b7b9fa0dc7756a6e105b2aacd3a80f798af3c25c273be64d7beeb482cb1"
-+
- inherit setuptools3 pypi
+-SRC_URI[md5sum] = "4a6039f7418007275505e355359396a8"
+-SRC_URI[sha256sum] = "458e78b1c7286ece887d92c9bee829da85717994c5e3ddd253a40467f488bc81"
++SRC_URI[sha256sum] = "9fa5755838eecbb2d234c3aa390bd80fbd3ac6b6869109bfc1b499f7bd89a130"
 -- 
 2.17.1
 
