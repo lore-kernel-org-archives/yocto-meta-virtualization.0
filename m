@@ -1,5 +1,5 @@
 Received: from anavi.org (anavi.org [91.215.217.29])
- by mx.groups.io with SMTP id smtpd.web11.14559.1618413286748763494
+ by mx.groups.io with SMTP id smtpd.web11.14560.1618413287040591868
  for <meta-virtualization@lists.yoctoproject.org>;
  Wed, 14 Apr 2021 08:14:47 -0700
 Authentication-Results: mx.groups.io;
@@ -8,13 +8,13 @@ Received: from [78.130.197.211] (port=60130 helo=localhost.localdomain)
 	by voyager.icnhost.net with esmtpsa (TLSv1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
 	(Exim 4.92)
 	(envelope-from <leon.anavi@konsulko.com>)
-	id 1lWhE5-00017J-Cu; Wed, 14 Apr 2021 18:14:45 +0300
+	id 1lWhE4-00017J-IS; Wed, 14 Apr 2021 18:14:45 +0300
 From: "Leon Anavi" <leon.anavi@konsulko.com>
 To: meta-virtualization@lists.yoctoproject.org
 Cc: Leon Anavi <leon.anavi@konsulko.com>
-Subject: [meta-virtualization][PATCH 4/6] python3-flask-cors: Upgrade 3.0.8 -> 3.0.10
-Date: Wed, 14 Apr 2021 18:14:33 +0300
-Message-Id: <20210414151435.9049-4-leon.anavi@konsulko.com>
+Subject: [meta-virtualization][PATCH 3/6] python3-botocore: Upgrade 1.20.36 -> 1.20.51
+Date: Wed, 14 Apr 2021 18:14:32 +0300
+Message-Id: <20210414151435.9049-3-leon.anavi@konsulko.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210414151435.9049-1-leon.anavi@konsulko.com>
 References: <20210414151435.9049-1-leon.anavi@konsulko.com>
@@ -30,32 +30,45 @@ X-Source:
 X-Source-Args: 
 X-Source-Dir: 
 
-Upgrade to release 3.0.10:
+Upgrade to release 1.20.51:
 
-- Adds support for PPC64 and ARM64 builds for distribution
+- api-change:lightsail: Documentation updates for Amazon
+  Lightsail.
+- api-change:sts: This release adds the SourceIdentity parameter
+  that can be set when assuming a role.
+- api-change:comprehendmedical: The InferICD10CM API now returns
+  TIME_EXPRESSION entities that refer to medical conditions.
+- api-change:rds: Clarify that enabling or disabling automated
+  backups causes a brief downtime, not an outage.
+- api-change:redshift: Added support to enable AQUA in Amazon
+  Redshift clusters.
 
 Signed-off-by: Leon Anavi <leon.anavi@konsulko.com>
 ---
- ...ython3-flask-cors_3.0.8.bb => python3-flask-cors_3.0.10.bb} | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
- rename recipes-devtools/python/{python3-flask-cors_3.0.8.bb => python3-flask-cors_3.0.10.bb} (76%)
+ ...hon3-botocore_1.20.36.bb => python3-botocore_1.20.51.bb} | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
+ rename recipes-devtools/python/{python3-botocore_1.20.36.bb => python3-botocore_1.20.51.bb} (64%)
 
-diff --git a/recipes-devtools/python/python3-flask-cors_3.0.8.bb b/recipes-devtools/python/python3-flask-cors_3.0.10.bb
-similarity index 76%
-rename from recipes-devtools/python/python3-flask-cors_3.0.8.bb
-rename to recipes-devtools/python/python3-flask-cors_3.0.10.bb
-index aac7152..2b2e2ce 100644
---- a/recipes-devtools/python/python3-flask-cors_3.0.8.bb
-+++ b/recipes-devtools/python/python3-flask-cors_3.0.10.bb
-@@ -11,7 +11,6 @@ DEPENDS += "python3-six python3-flask"
+diff --git a/recipes-devtools/python/python3-botocore_1.20.36.bb b/recipes-devtools/python/python3-botocore_1.20.51.bb
+similarity index 64%
+rename from recipes-devtools/python/python3-botocore_1.20.36.bb
+rename to recipes-devtools/python/python3-botocore_1.20.51.bb
+index 4c4a825..93e4eab 100644
+--- a/recipes-devtools/python/python3-botocore_1.20.36.bb
++++ b/recipes-devtools/python/python3-botocore_1.20.51.bb
+@@ -3,10 +3,8 @@ HOMEPAGE = "https://github.com/boto/botocore"
+ LICENSE = "Apache-2.0"
+ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=2ee41112a44fe7014dce33e26468ba93"
  
- PYPI_PACKAGE = "Flask-Cors"
+-SRC_URI = "git://github.com/boto/botocore.git;protocol=https"
+-SRCREV = "8c7123bd4683049dcac62bf3e11662e6a72c5eec"
+-S = "${WORKDIR}/git"
++SRC_URI[sha256sum] = "c853d6c2321e2f2328282c7d49d7b1a06201826ba0e7049c6975ab5f22927ea8"
  
--SRC_URI[md5sum] = "551cc4c0305a171d28caa2b3bc838867"
--SRC_URI[sha256sum] = "72170423eb4612f0847318afff8c247b38bd516b7737adfc10d1c2cdbb382d16"
-+SRC_URI[sha256sum] = "b60839393f3b84a0f3746f6cdca56c1ad7426aa738b70d6c61375857823181de"
+-inherit setuptools3
++inherit pypi setuptools3
  
- inherit pypi setuptools3
+ RDEPENDS_${PN} += "python3-jmespath python3-dateutil python3-logging"
 -- 
 2.17.1
 
