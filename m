@@ -1,24 +1,25 @@
-Received: from EUR01-DB5-obe.outbound.protection.outlook.com (EUR01-DB5-obe.outbound.protection.outlook.com [40.107.15.57])
- by mx.groups.io with SMTP id smtpd.web12.4524.1618478417745946252
+Received: from EUR02-AM5-obe.outbound.protection.outlook.com (EUR02-AM5-obe.outbound.protection.outlook.com [40.107.0.50])
+ by mx.groups.io with SMTP id smtpd.web08.4480.1618478510999931395
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 15 Apr 2021 02:20:18 -0700
+ Thu, 15 Apr 2021 02:21:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=FCwnyQNa;
- spf=pass (domain: arm.com, ip: 40.107.15.57, mailfrom: bertrand.marquis@arm.com)
+ dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=72yFPr/N;
+ spf=pass (domain: arm.com, ip: 40.107.0.50, mailfrom: bertrand.marquis@arm.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
  s=selector2-armh-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3tryLBe86d3qxW96bK/uYi/airFx2AyJGmtTgJmylXc=;
- b=FCwnyQNaSBIzR/4tR8OQbken0Oo1sjKR3Ml9Zg/v0Z1X8z1rDuS9SegUjotcZJeBapIQ5wRA+E1fhaUvMgAgWzI0uazJ88Kr8WatUiGstxLNB8eHbwCqhxXes144f67POAAAMRbPmF1zdYexL/KODzBDizw1TBIgD9kWJg8D8+Y=
-Received: from DB6P193CA0021.EURP193.PROD.OUTLOOK.COM (2603:10a6:6:29::31) by
- PA4PR08MB6078.eurprd08.prod.outlook.com (2603:10a6:102:e0::23) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4042.16; Thu, 15 Apr 2021 09:20:11 +0000
-Received: from DB5EUR03FT010.eop-EUR03.prod.protection.outlook.com
- (2603:10a6:6:29:cafe::4f) by DB6P193CA0021.outlook.office365.com
- (2603:10a6:6:29::31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4042.16 via Frontend
- Transport; Thu, 15 Apr 2021 09:20:11 +0000
+ bh=Mfk9IRpooP9vpDnQ9JumqoGu6Cx9ggZVhsrx/Np6rPs=;
+ b=72yFPr/NPhHwhtPzcVOs1muuNqT7j8vU+2bDfvrTwXonnI2magN6c+LW6xmD16SYLRyRRnZbf4WflM84R3VY2HAquT/5SZg6HKPROhyeLDphDzmFP4mUNWfD4NDJYXLFhsuoMVE0W7JRGedyzuNwkVSXmhT/9S5zB+G1maTlZQA=
+Received: from AM5PR0201CA0023.eurprd02.prod.outlook.com
+ (2603:10a6:203:3d::33) by AM5PR0802MB2611.eurprd08.prod.outlook.com
+ (2603:10a6:203:a2::19) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4042.16; Thu, 15 Apr
+ 2021 09:21:48 +0000
+Received: from AM5EUR03FT053.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:203:3d:cafe::a8) by AM5PR0201CA0023.outlook.office365.com
+ (2603:10a6:203:3d::33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4042.18 via Frontend
+ Transport; Thu, 15 Apr 2021 09:21:48 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
  smtp.mailfrom=arm.com; lists.yoctoproject.org; dkim=pass (signature was
  verified) header.d=armh.onmicrosoft.com;lists.yoctoproject.org; dmarc=pass
@@ -27,59 +28,58 @@ Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
  63.35.35.123 as permitted sender) receiver=protection.outlook.com;
  client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
 Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- DB5EUR03FT010.mail.protection.outlook.com (10.152.20.96) with Microsoft SMTP
+ AM5EUR03FT053.mail.protection.outlook.com (10.152.16.210) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4042.16 via Frontend Transport; Thu, 15 Apr 2021 09:20:11 +0000
-Received: ("Tessian outbound 81a4524e9a48:v90"); Thu, 15 Apr 2021 09:20:11 +0000
+ 15.20.4042.16 via Frontend Transport; Thu, 15 Apr 2021 09:21:47 +0000
+Received: ("Tessian outbound 47ca92dabae7:v90"); Thu, 15 Apr 2021 09:21:46 +0000
 X-CheckRecipientChecked: true
-X-CR-MTA-CID: 545a18c39ea38336
+X-CR-MTA-CID: 82acb1a320b86a91
 X-CR-MTA-TID: 64aa7808
-Received: from 7ceeb65e52b3.1
-	by 64aa7808-outbound-1.mta.getcheckrecipient.com id 98997E6F-1CBB-4F23-B95F-ED263B01D936.1;
-	Thu, 15 Apr 2021 09:20:03 +0000
-Received: from EUR03-AM5-obe.outbound.protection.outlook.com
-    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 7ceeb65e52b3.1
+Received: from a2969e26cfb6.1
+	by 64aa7808-outbound-1.mta.getcheckrecipient.com id 6DE349F5-D7DF-4756-B7C5-CDD746263469.1;
+	Thu, 15 Apr 2021 09:21:22 +0000
+Received: from EUR02-HE1-obe.outbound.protection.outlook.com
+    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id a2969e26cfb6.1
     (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
-    Thu, 15 Apr 2021 09:20:03 +0000
+    Thu, 15 Apr 2021 09:21:22 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mK/wbAVZ5VS4zVCpL42jfmkScuYIzwzpXF+uJrl2q5L15sUaX91vREf03gZyTRO0NqGoK84c21MUlMm1/RWwvfe9uGIcI2kHvDeKsMXfxgo5y4WejsmrWdzaFnv5FdZ6MIEHmS/PBt8gmuwn1vTggOm9LsrtIdkJH9K+nYi21cE49GAX5ZHcvnHOouJxCi+XexBEXuZAn2MTzUrQBDz9+Ofz/bDnnXid9wCtOM94lmHfdo1fVX53AESoIWvn/Hd8rZAUW5s8Ce0ASt0wYBtIpsB4cYH7/fbfMHe76AAxQNEaOehkFMyM3KZg8AMAmGLsH0xfCJ0qsZVG8fSSisS8FA==
+ b=SKT/kqEovoGp4ayykELWQUh+vwwA8iAZD/bhPrrTa7t7YfydXXW3vLFdc687fzTr6sS8atSMaJbxn3hiQHKztruVJ45J//YHaGi3hCn+3vHp7zdYfOXntGYPgbgbNlFn/Ya4O/5LcANaXGPDpMUL8XQRtJYElRxYthtuy4wYhzh8Q0vvuzI+b10Huj1roCwszWgZB+0T6vmJn6AnmfQjXJTthdv8DmpuBEv6NRCgEpFono0kV69J9b1ErY2XxS02dBQFOQV7Cbh1TreARqiqz+qtevtwbxEVt+gKVE/+nlRl80tPQgab4VmhI6NjM8HDhWInvbmTlVQz/Kwk/2xfYw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3tryLBe86d3qxW96bK/uYi/airFx2AyJGmtTgJmylXc=;
- b=AW2MXCrzdI+6jYHkRfbc70jQVfFfsdVvdQc5XuBgtMnA6wIe62QvDxal0XtGLvu1udoTIBIbJjh1hXO1kNoAsy5vCwhL3bki/gfOhZBuhLQDc1FB7GaLho/YLWa3H9Sc5lWeh/rbiotth3LwnkUCJTIn/W5bhTB3Jjaoa8KHG5j1f40swXn+8vO15D6WJZ4YZN54eFQ3fKNdimAMayWT7eVJgZsljxDq6PKZvCQ5OjFDWUc7yN+0tN87VBXlLCp12zi7aMoYwLt1NnFWYRNpKMfG1DaAzKONDva3heHpXu6JpCF0uGWsvQQZxqksBEN/iwz+iRX3vfLkFtSsfhom8w==
+ bh=Mfk9IRpooP9vpDnQ9JumqoGu6Cx9ggZVhsrx/Np6rPs=;
+ b=ZwI9hlwqYm7ZoC5FpmQWwI0USGWSYAnY6igjxJw4+6RDygH5bDRX1zT6SVQrZjWGOU/aVBnDLFQJt66M/CQKxx54IjTjAzZVtzeldRKHUBHUyI2fkc/m8tZ5Xg2e4IvyzBKIqOtRbAl3UKhb6pNKKiHYux+QT/DTEB/fCaDTmc7Sp7yYIlyXvRYHbjFCiIFJ2UxtUw3mUN0Q5+RZBnnMOCaV6iBQkKta/eqPfLeEnqQfrHDOGTIOPtHIm06xSm3oJpUlSbnLzxMMRPwNQdYi9G+GPBCtArNQ/8PuD952JSBFf6FFO9vBuGlZMk8Db8lze+6PtdVvGQky1esAsa0eDg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
  header.d=arm.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
  s=selector2-armh-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3tryLBe86d3qxW96bK/uYi/airFx2AyJGmtTgJmylXc=;
- b=FCwnyQNaSBIzR/4tR8OQbken0Oo1sjKR3Ml9Zg/v0Z1X8z1rDuS9SegUjotcZJeBapIQ5wRA+E1fhaUvMgAgWzI0uazJ88Kr8WatUiGstxLNB8eHbwCqhxXes144f67POAAAMRbPmF1zdYexL/KODzBDizw1TBIgD9kWJg8D8+Y=
+ bh=Mfk9IRpooP9vpDnQ9JumqoGu6Cx9ggZVhsrx/Np6rPs=;
+ b=72yFPr/NPhHwhtPzcVOs1muuNqT7j8vU+2bDfvrTwXonnI2magN6c+LW6xmD16SYLRyRRnZbf4WflM84R3VY2HAquT/5SZg6HKPROhyeLDphDzmFP4mUNWfD4NDJYXLFhsuoMVE0W7JRGedyzuNwkVSXmhT/9S5zB+G1maTlZQA=
 Received: from VE1PR08MB5696.eurprd08.prod.outlook.com (2603:10a6:800:1ae::15)
- by VI1PR0801MB1854.eurprd08.prod.outlook.com (2603:10a6:800:5c::15) with
+ by VI1PR08MB4047.eurprd08.prod.outlook.com (2603:10a6:803:df::27) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4020.18; Thu, 15 Apr
- 2021 09:20:00 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4020.16; Thu, 15 Apr
+ 2021 09:21:20 +0000
 Received: from VE1PR08MB5696.eurprd08.prod.outlook.com
  ([fe80::b538:7f7:f4f3:8c0e]) by VE1PR08MB5696.eurprd08.prod.outlook.com
  ([fe80::b538:7f7:f4f3:8c0e%7]) with mapi id 15.20.4020.023; Thu, 15 Apr 2021
- 09:20:00 +0000
+ 09:21:20 +0000
 From: "Bertrand Marquis" <bertrand.marquis@arm.com>
 To: Christopher Clark <christopher.w.clark@gmail.com>
 CC: "meta-virtualization@lists.yoctoproject.org"
-	<meta-virtualization@lists.yoctoproject.org>, Doug Goldstein
-	<cardoe@gentoo.org>, Bruce Ashfield <bruce.ashfield@gmail.com>, nd
-	<nd@arm.com>
-Subject: Re: [meta-virtualization][PATCH v2 3/6] xen, xen-tools: uprev git recipes after 4.15 release
-Thread-Topic: [meta-virtualization][PATCH v2 3/6] xen, xen-tools: uprev git
- recipes after 4.15 release
-Thread-Index: AQHXMYeEao8fRj2UdkW5jrtPY/Qyeaq1TfSA
-Date: Thu, 15 Apr 2021 09:20:00 +0000
-Message-ID: <7A9EB71D-ECC8-481F-A43E-C64191BB993C@arm.com>
+	<meta-virtualization@lists.yoctoproject.org>, "cardoe@gentoo.org"
+	<cardoe@gentoo.org>, "bruce.ashfield@gmail.com" <bruce.ashfield@gmail.com>
+Subject: Re: [meta-virtualization][PATCH v2 4/6] xen, xen-tools: Document the version update process in README
+Thread-Topic: [meta-virtualization][PATCH v2 4/6] xen, xen-tools: Document the
+ version update process in README
+Thread-Index: AQHXMYeJ98B+BHV2FUyO9Mtc3eSLwKq1TlOA
+Date: Thu, 15 Apr 2021 09:21:19 +0000
+Message-ID: <B18934F5-C60A-42D2-898E-26F6AA521B33@arm.com>
 References: <20210414233924.55589-1-christopher.w.clark@gmail.com>
- <20210414233924.55589-3-christopher.w.clark@gmail.com>
-In-Reply-To: <20210414233924.55589-3-christopher.w.clark@gmail.com>
+ <20210414233924.55589-4-christopher.w.clark@gmail.com>
+In-Reply-To: <20210414233924.55589-4-christopher.w.clark@gmail.com>
 Accept-Language: en-GB, en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
@@ -88,82 +88,83 @@ Authentication-Results-Original: gmail.com; dkim=none (message not signed)
  header.d=none;gmail.com; dmarc=none action=none header.from=arm.com;
 x-originating-ip: [154.57.226.134]
 x-ms-publictraffictype: Email
-X-MS-Office365-Filtering-Correlation-Id: 9e7e88fd-0cfd-4904-3b6a-08d8ffefab69
-x-ms-traffictypediagnostic: VI1PR0801MB1854:|PA4PR08MB6078:
+X-MS-Office365-Filtering-Correlation-Id: 71ece854-6825-4fce-deed-08d8ffefe49d
+x-ms-traffictypediagnostic: VI1PR08MB4047:|AM5PR0802MB2611:
 X-Microsoft-Antispam-PRVS: 
-	<PA4PR08MB60789249DEDF71972A1C28F79D4D9@PA4PR08MB6078.eurprd08.prod.outlook.com>
+	<AM5PR0802MB261135772C0242EEE16CD3949D4D9@AM5PR0802MB2611.eurprd08.prod.outlook.com>
 x-checkrecipientrouted: true
 nodisclaimer: true
-x-ms-oob-tlc-oobclassifiers: OLM:3968;OLM:3968;
+x-ms-oob-tlc-oobclassifiers: OLM:9508;OLM:10000;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam-Untrusted: BCL:0;
 X-Microsoft-Antispam-Message-Info-Original: 
- gncOpVLFoYxDdNxotn/bTcw5XKWXE7/Ag0d/uuDg8NtQUJesMLCSrzCU2XnxRUIpAqlzwwYtDqa68/ILJo5PJsFGV7mx1+8Z5+B91RR5U8tUZTHa/Gq4yhSpk3y/G7c0Qhz+YtZK6WtMWb7hoJjkvUABCPBQEibDolpv5jal863b8chGzAlbxxuNwrgxQwsBk3nadW0ToVu4XXj8fgBE4eVzIqXkoTDM8qA5hAAt+Zh1XpbrJ9nhTVag6OQlACzeGzOy+78scmMR+PW3M6r7zpbToX9rJ5RVibcHt4MMkBTO3jeDflpSc7MNTtk0tXHox8baTtMmcs4W7U2vMzzUqzuyTbeN8T4A6CA8CvKWleCJzz/3mi31ygAUfCnicsec6pezXudiK7dMR/zVdhbfjrie6eRhkfim0R0CHUKz+alFpfO90mpI2xU0dpGEzYxC1DDWLMRDAgXms/utdTDrRBb/5pop61PSaao99JdnQni1CaCCRe8w6DeUrU3lGQp+EyiyrpYHxyYMe6UTapmQM1DcZ4RRlW+0L7G5C6c9Sn/rFwbMOZ9aG6qDeonB+RJ5uIwouej9SlBlL1ENOCWmDt5VmUGjAyRXqWOFGSluB6X3cpZ5KKfgYUr+0hRkBWRkdesOyxAkdIOWUrMBtSBNw844opaizSVwc9asQ9SSWKH4wlGqkHfrJrMRBTMfcSUZrUkmjN8IWlBrqJEFI77OcgT42xGvgZR2Z/Izb+DZfaM=
+ /7Xx38+bwbnG7XeKu+kZGVNvbNYj3yk7G1URw1fn9cOcNe+4h+4Mtv9BVRPQ451H7KcVG8HdZ9UXesjVwdn2RZ4x8xzfRNNNra0VC+/8scvSvUbc5Ov8mqMKYISYfJDZFk+m5ATeVzArWojmqPp243BMT+EDH0UJj9xLrs+dfJ78RrQgwMJvruSTdJEVtOK48F918Vu+RV3I3bnsP0HeMpi+S6q0bS0CcWsnT00XdFyLBxdWLDqTHXVgwA+TW/4A4zaMSz8iyGiKuzwm4bOmjLSwa3shziq+R+fNvDIBOSemsJGCvuAzZ2QZR9iQXOy4PhbKQ4FEty1y7a6/m9DrV8PwntdV8QqejdxpVPLQ85WKqOuiDU4ZW6+V3aV0vqT6y1C3qcuT3s2oTH3Uef9h13kEbtWy1t0CqvtW4Gdba+7QjoeHAilEdPaZXwYCHAVXccRS3stvbcIF4h1k+d+i8ibgCWH3LQWcVeYSbI36VslMkVtJaGl+YTp+AnnOb4LwVCgoJMxJLej4iMwyDwV8TPjZ4Gea+f18CoUO5AMaq2RaRpj5PtNhGSKo6VdQRTIqKxMipFYLKBOCfp+2eQ5YoW2TExRbHr1njFYKuxM2r3V6d1mf9YtZGtGpyW+DtnecVICN4R602FKZdsjOLgz3lJ06sR85vN9Z/CwpKbDeBU6RDZeTni02GQY2vD2u42lD7j3ST3eVpMoXM880K3rV7nqjM/6Khw2YG2jB6X4j0sw=
 X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VE1PR08MB5696.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(366004)(39850400004)(396003)(346002)(376002)(66556008)(966005)(478600001)(6512007)(76116006)(2906002)(91956017)(53546011)(54906003)(66476007)(66446008)(4326008)(64756008)(66946007)(38100700002)(26005)(6486002)(186003)(71200400001)(33656002)(36756003)(6506007)(86362001)(8936002)(5660300002)(8676002)(2616005)(83380400001)(122000001)(6916009)(316002)(45980500001);DIR:OUT;SFP:1101;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VE1PR08MB5696.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(376002)(396003)(39850400004)(346002)(136003)(53546011)(6506007)(8676002)(6486002)(15650500001)(5660300002)(91956017)(66476007)(26005)(66946007)(71200400001)(2616005)(66556008)(8936002)(122000001)(186003)(83380400001)(86362001)(316002)(38100700002)(36756003)(33656002)(4326008)(966005)(2906002)(6916009)(76116006)(6512007)(64756008)(66446008)(478600001)(54906003)(45980500001);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata: 
- =?us-ascii?Q?W5DQwx2RzUblX9Ozul13nsKEvxsWnBcNkasx/+u/9gMN4wGvSpYBxkVMwmx+?=
- =?us-ascii?Q?O97KQjNWCuJSQ9dMDk5VdaHUryd7XqRTW22zLNVUxkksn0lls28r7LSj3BsP?=
- =?us-ascii?Q?ZldKHJfYdmHrOH03BJRUNZJmij0tdLZIM5uwb3lGSImb4RQW0xdf7lr5w6Ah?=
- =?us-ascii?Q?l7RO/Ng/f7XJsQRomyNy4F/6WkEVp6qdI4tKFj/u+9AaOmtNI1F8EmZRXU7S?=
- =?us-ascii?Q?M03J7d7kqO0ShZ7V0XilBarH2ovx3b9OFAsrFHUbrVDghm/k/3FOIkiQcJPt?=
- =?us-ascii?Q?hEOPtLlg01H3LxrJQSXSbATphWt0AijNQiLMr62bWibr0zpXFkmEp7i866eY?=
- =?us-ascii?Q?WCQ1p0BTr99V6hjyoEgJtmpkSmMFhCHP+0DjgzAyUcVhUfXLazctQrtOU8sX?=
- =?us-ascii?Q?hM9xVCXBVZQrr9wpHTzrV3Q0Q5F0pu6AXeoHOEdQ5BduIHxbXPyDbWY7KLOI?=
- =?us-ascii?Q?C/JRD8phMWZJIGrARZQ2nyaeYILgnebLRAV8J9mVmSqThDmbKbu4QK1U7GbP?=
- =?us-ascii?Q?DNtriwFa2m7thKWbKv6JTr/I/AaCJ6FrpL0wUGLK7km3iIJiX9sAJk8exIj6?=
- =?us-ascii?Q?2YZjHA4HkWTe42Ir7x2C6T3ZDQ8P5rFa8GfeWw2TR9OS0CEUF6M0QPRUd0rh?=
- =?us-ascii?Q?AtbGiJ9Rr7xgHymFYlpxhotU9WqFICC6W4GC7AZK6qh7rvtbCcacj2cWG4sZ?=
- =?us-ascii?Q?fUib6ByVcq/Rv1GMvcEFKR00Qn+YQ2Tl+vtyLjN9iBI/tDhGXhHfAjJJ51CP?=
- =?us-ascii?Q?t2kTQGDjFGWXTDN7gw6r9xeSAQxVsxnfjB+W/pzXc78iEJmyCU5LuvZnIlTq?=
- =?us-ascii?Q?0dvewrQ+JCm+cvTRY8cJ7qq617icXJWJS2uCKH0OQuQvKBZnnRWYQtR7TPdj?=
- =?us-ascii?Q?j8K392DYLuUXRH/3LHp5QMcKVjxo2yQBKtZtxhTIc/Uogk/HPk27OPmQQDTk?=
- =?us-ascii?Q?hPknVgcMD+0kf8yKLxG9mh4L0KoWV/zMAIi6POet1Qr2Bez71vAZTAx/idIo?=
- =?us-ascii?Q?9TCNzzv+PLfOkVFd4oPetSg+ZoxPtHqxfHyllmMty/1MEyW5Z1DFCaWEUDHn?=
- =?us-ascii?Q?dCS3afj7/X9S3mgIXb3JqU1/NbZ0SKeQ/6DKkVLzYxDeDJ5Dgymd4s7Xumk4?=
- =?us-ascii?Q?M34JOxS52/pDLYEpEWGf5MVydrVwM0kP0kf2HB5xwwi3ta7Sqg0G8AC+lTcz?=
- =?us-ascii?Q?crDqUEsvjWYsJWzgpasGch4JWJ5Oi52aKtRaGeuIIKNASChv/MvDZzpEU2vo?=
- =?us-ascii?Q?0ZCG47SbNiPdBD0b9GtxJkUIGQ5Hyb3JDTzTyY/uKSSWN4fbi9fIbVj9VEMP?=
- =?us-ascii?Q?TbuRN4sGVcV4oAbVNOLjUexU5fO/pAckRicLb9OReso5AQ=3D=3D?=
+ =?us-ascii?Q?j7rRXSbDMr/pv2HN7G51MuZSDB6ye90h2KQMovCnb9E/rL0fx/tl6TF71fTr?=
+ =?us-ascii?Q?QtJA4JMP/2+AYae/GnIJcUB+optRbheJqSBCLAlb9V/+MWS3ptBt1kKwpQOY?=
+ =?us-ascii?Q?Jj3FTWkhPylZXemgGoKMNAkvnIAHhzKsxUUem8B1P9P4MiSqO2yMdSHsghCY?=
+ =?us-ascii?Q?n5abuV2qE53vQD8nZWyABehmTx6DZc+rdXyw8dAE2MzJpI4Mur8wR+BAAysF?=
+ =?us-ascii?Q?pMnXPLKPnOnTv66SXj/32QVZ5BHKTVEVx2mlhF3SCBatS54wj87pcQaRimHu?=
+ =?us-ascii?Q?pl1WdbwIh2wvLvUIqgakz0R6xuS47HMMniu5aSZEHuja39AHkOAZkoklKpFS?=
+ =?us-ascii?Q?OMfSavvLghUUiVeuDin8Ove8WrbwnT88whCXcePjvr4OsgyUECu5by7049L9?=
+ =?us-ascii?Q?3uS6se17vTGg3aZnYHRxfPlTwiXFIqw5FrKal+DA11Zl0ispW/qhOMvUjkLP?=
+ =?us-ascii?Q?KyUHpSguVUFE9uXZKrK/uBXkDEOap3GkBPRnlTODMBn7UYFffC9Y8dVaSTu/?=
+ =?us-ascii?Q?mKrC2bKbGZBBBuo4W4MqV3D34CoHQaV54eOFknt1PXCkdTIn3FLRT9umXOkc?=
+ =?us-ascii?Q?Ejf5oNgdP0gLo+f6KmXXWnLno0Q/9+b32Ho3syq9T8+cRm7PjYnGncAh12rI?=
+ =?us-ascii?Q?3TqMYL33CQlBzXL0UOLVgM4jzKfpA720ZU3ZwHPxbATuU3xI1/S6Ffe/7sT2?=
+ =?us-ascii?Q?xTh4T5hEzGx8y33As81BiuJ4sGA+7xbK/J6u3kpkoCJ/bJHlSBfH0paV56Xy?=
+ =?us-ascii?Q?qg0RpqivoC609P7jv+pOWGKkNcoHrxruGEIcT1lp42N3A8Cnev309IbQZByd?=
+ =?us-ascii?Q?m0f8Obc3Kzt87PYdQh8oe3aHlAvRDZ6GuGqlQZk62ZLYO3xl04SDOSsmBrmA?=
+ =?us-ascii?Q?awWSEjGLjTnDRljqE50+zPe6pisNOssjJmcsXdNxtxd0hIo+Z1eJWcA0zd3y?=
+ =?us-ascii?Q?NX5Vpf0eaUDWv7Z9bt7QlKBlPnKfl1aHaGx5qZaS00Gtyf6XzwuMfS+F7THQ?=
+ =?us-ascii?Q?cfoMGy+2OS0iRHEq3ABeYoz7FQwVIB7BKGXvFojuDHa86H3N/TdheVYlg1vm?=
+ =?us-ascii?Q?XSAs9LHlz4PvfCi2Hv5ECxvoa5JHU54U4PBWIzjatgAVxyN1irDxwu3lyT4x?=
+ =?us-ascii?Q?n1rEkhG2FjWXDiLSuVpTaSiamHlpNhPJ7J1Z+8/nsbpEbah4we5tp2cIG8uM?=
+ =?us-ascii?Q?ZSN3fEAVfEpeGFaGPGbLLIXCaBTOJaBUmafzmxGQxHfeiDbebc1FINdw0N7n?=
+ =?us-ascii?Q?vv1NXjClfIXhbBWWqJwxe+kUqpiHLF35QOU/0LLSL3kRldA9aOusnu7OD2pB?=
+ =?us-ascii?Q?AkiggsvcCEfBcur7ox14N+8EH0fbDgryNHafakUyEuMj3w=3D=3D?=
 x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0801MB1854
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB4047
 Original-Authentication-Results: gmail.com; dkim=none (message not signed)
  header.d=none;gmail.com; dmarc=none action=none header.from=arm.com;
 Return-Path: Bertrand.Marquis@arm.com
 X-EOPAttributedMessage: 0
 X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- DB5EUR03FT010.eop-EUR03.prod.protection.outlook.com
+ AM5EUR03FT053.eop-EUR03.prod.protection.outlook.com
 X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	9832ee54-b0df-4e62-89f3-08d8ffefa4f8
+	fb5b9ae4-6ccb-49e3-d3b9-08d8ffefd487
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	Ufv8aKWyI1lEzB+L413Q/+mstdO3cTSAhChHrR341IfgkKJ7FneGzhrWJgdXwkcxF1hIPqrXo7AD5wmp5Zj4vYpYMKS8qj/zYX5ykV02RFXBz777m/eCJh7R6r6lpiUR4me49twzP6s9+3RxnbXFXqRJbo9yVYwCQ2aaG71Ss4SmXqfldaqrY21Ik6TUmNw1R4b1tegEQ5l9ajrFbtiQvJjMggRBQ0LKvSJcbNEGd62RZLbdoPyg2RgJyGtrLTcRJwD/16Y/Ab+63iWVxOsTJqiwR93ZYZfm2siLGQ4UW5/x4yyX1sRc4aLMcMhxLA6gssVjAs1bdHkDC92V2AK3GupgWKE97BH1kvsnbfnqdKWEAMByjvdxo5MPyLYGsWs7qMZHsZvVtdD3uCtjVudGSMC67ZVqXS0rVERvJm49A021vJO2N5ehgKn/cVjTAyvUtEUvg+CPNzFfUYr/NSBUZyKIeTUUn4Ale63R07Zit7GPompbW0DtR1q8sPlxtCQbStVXnZ2hFxNRRwWHxU8iNLZHo3t/ymej4WnYVP+TXbJfZIvYBUwmanleV8U/a0raBE8P7ynpxmimQ31s4cga5nVfAFyO4qO1sUJ9hHurku0HvhcnomxmHwBmLeOS2yoXfSyHq2fBLhDS9i44osRFH6J2IUgq5gQKhVaYqeHfCQk265JtnC0Q+EisBQjcYSwGrVzFMTBMiJFEAzqLeYpGtBGl0YrwVyCgC/mfqVs47pk=
+	3f1q95PO4+b3SVhcCDCoKeTdMu9WdavIEWgKoaWx+SkIQeHOvTh3t8FBniBviNjdxskFA8NBAxulSgFHgD5thvinHtQSSx7qP8be9UlzODb5jWAbwcfaPV0fbqmmNo/QLnmyOc6rdD97ZIZQfQDDUyISAaPtU0lVDD2pRjS6FTA+Eoe8YX7ePeG7qIktEToVr1uqoyTn7Kvvk4Pk9Xxp/S/4ix0DjQqBtOMAr8CWPWIsUj6PYHyQC3+dgFlMRvz9WC9TCiAwtRX8WJBWTCtfOY2W7oBSJzbsChf6lrONxj3MBWL6a1RL+mi/pQJuxFTFPEApL7NX/tLaHEGtdBQn+gHD1wMO/z4teHEb1Nl4LJH+Qy8pFyxL5r8/ix+oKJCEC973L7GnGZFUWOZcp9J5kPW0j9bSZzLAVo2t+BYPV+VZmyWhs/wYjkyUf2lwAHCzwGOkeCTY3u/MaN8vqO/VwrSB2yMTLfxmXFsCCRJlM8qjU72Fp6DYtgJAuq6gV8nLGyvySpSK6XcZ0wjf1okpnckrePQ5r4uekO2Awu+F6xg/Go0UaxvKyDODiZgXn6sBMIn6YlAP+1mCTmxKVCTKPlTcYGv1JnHoYHLKOdQXTzw4cD6eYvPNOwL2s1usNdcWtpg5TW9o1OEB2fejP+xH4LY9cA6JPOUpA4qm6fIUI02zYgGAY36p3mY+dykbX/mngYoIdqV9TPmBcUphWXmZ0DGs/fsY9iQgJZE+thVAfjvQa1AabrNdVkUF2XlxPx5PflUnR6dqETBbagkIob2IMA==
 X-Forefront-Antispam-Report: 
-	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(4636009)(136003)(396003)(346002)(376002)(39850400004)(36840700001)(46966006)(2616005)(316002)(54906003)(81166007)(82310400003)(5660300002)(70206006)(26005)(6506007)(6512007)(36756003)(47076005)(70586007)(966005)(2906002)(33656002)(478600001)(6486002)(36860700001)(186003)(336012)(8676002)(356005)(6862004)(83380400001)(86362001)(4326008)(8936002)(82740400003);DIR:OUT;SFP:1101;
+	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ErrorRetry;CAT:NONE;SFS:(4636009)(376002)(346002)(136003)(396003)(39850400004)(36840700001)(46966006)(5660300002)(2616005)(336012)(478600001)(70586007)(8676002)(82740400003)(70206006)(15650500001)(6506007)(82310400003)(33656002)(54906003)(83380400001)(36756003)(316002)(107886003)(86362001)(6862004)(356005)(186003)(2906002)(6512007)(47076005)(26005)(6486002)(8936002)(36860700001)(4326008)(81166007)(966005)(36900700001);DIR:OUT;SFP:1101;
 X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Apr 2021 09:20:11.0922
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Apr 2021 09:21:47.0183
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9e7e88fd-0cfd-4904-3b6a-08d8ffefab69
+X-MS-Exchange-CrossTenant-Network-Message-Id: 71ece854-6825-4fce-deed-08d8ffefe49d
 X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
 X-MS-Exchange-CrossTenant-AuthSource: 
-	DB5EUR03FT010.eop-EUR03.prod.protection.outlook.com
+	AM5EUR03FT053.eop-EUR03.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR08MB6078
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0802MB2611
 Content-Language: en-US
 Content-Type: text/plain; charset="us-ascii"
-Content-ID: <3D2A2D1D3EA1DA41A237B634609B9C5A@eurprd08.prod.outlook.com>
+Content-ID: <BB38928EC6CD1545801F530804E78742@eurprd08.prod.outlook.com>
 Content-Transfer-Encoding: quoted-printable
 
 Hi,
 
 > On 15 Apr 2021, at 00:39, Christopher Clark via lists.yoctoproject.org <=
 christopher.w.clark=3Dgmail.com@lists.yoctoproject.org> wrote:
->=20
-> Updated to the branch point for 4.16 development.
->=20
+>
+> Describes the versions of Xen to be included in meta-virtualization
+> and recipe maintenance in release branches.
+>
 > Signed-off-by: Christopher Clark <christopher.w.clark@gmail.com>
 Reviewed-by: Bertrand Marquis <bertrand.marquis@arm.com>
 
@@ -171,42 +172,101 @@ Cheers
 Bertrand
 
 > ---
-> recipes-extended/xen/xen-tools_git.bb | 4 ++--
-> recipes-extended/xen/xen_git.bb       | 4 ++--
-> 2 files changed, 4 insertions(+), 4 deletions(-)
->=20
-> diff --git a/recipes-extended/xen/xen-tools_git.bb b/recipes-extended/xe=
-n/xen-tools_git.bb
-> index 71850ee..0188bdd 100644
-> --- a/recipes-extended/xen/xen-tools_git.bb
-> +++ b/recipes-extended/xen/xen-tools_git.bb
-> @@ -1,6 +1,6 @@
-> -SRCREV ?=3D "9dc687f155a57216b83b17f9cde55dd43e06b0cd"
-> +SRCREV ?=3D "e680cc48b7184d3489873d6776f84ba1fc238ced"
->=20
-> -XEN_REL ?=3D "4.15"
-> +XEN_REL ?=3D "4.16"
-> XEN_BRANCH ?=3D "master"
->=20
-> SRC_URI =3D " \
-> diff --git a/recipes-extended/xen/xen_git.bb b/recipes-extended/xen/xen_=
-git.bb
-> index 2b62c5c..eaf3956 100644
-> --- a/recipes-extended/xen/xen_git.bb
-> +++ b/recipes-extended/xen/xen_git.bb
-> @@ -1,6 +1,6 @@
-> -SRCREV ?=3D "9dc687f155a57216b83b17f9cde55dd43e06b0cd"
-> +SRCREV ?=3D "e680cc48b7184d3489873d6776f84ba1fc238ced"
->=20
-> -XEN_REL ?=3D "4.15"
-> +XEN_REL ?=3D "4.16"
-> XEN_BRANCH ?=3D "master"
->=20
-> SRC_URI =3D " \
-> --=20
+> recipes-extended/xen/README | 50 +++++++++++++++++++++++++++++++++++++
+> 1 file changed, 50 insertions(+)
+>
+> diff --git a/recipes-extended/xen/README b/recipes-extended/xen/README
+> index f286bb5..b9117f0 100644
+> --- a/recipes-extended/xen/README
+> +++ b/recipes-extended/xen/README
+> @@ -36,3 +36,53 @@ as XSAs (http://xenbits.xen.org/xsa/). The easiest wa=
+y to include those is to
+> drop patches in 'recipes-extened/xen/files' and create a bbappend adding=
+ those
+> patches to SRC_URI and they will be applied. Alternatively, you can over=
+ride
+> the SRC_URI to a git repo you provide that contains the patches.
+> +
+> +recipe maintenance
+> +------------------
+> +
+> +# Xen version update
+> +
+> +The following rules shall be followed to define which versions of Xen h=
+ave
+> +recipes in meta-virtualization:
+> +
+> +- Before a Yocto release meta-virtualization shall have recipes for:
+> +    - the latest stable major version of Xen, and
+> +
+> +    - the current version of the Xen master branch (known as the git re=
+cipes)
+> +
+> +    - In addition, there may also be recipes included for the previous =
+stable
+> +      major version of Xen, in the case where the latest stable major v=
+ersion
+> +      is new and the prior stable major version of Xen is to be the pre=
+ferred
+> +      version for the Yocto release
+> +
+> +- On Yocto LTS and the latest stable Yocto release branch, the preferre=
+d Xen
+> +  major version that is present when the Yocto release is issued must s=
+tay
+> +  supported and the recipes shall be regularly updated to follow update=
+s
+> +  available in the Xen stable branch for that Xen major release.
+> +
+> +- On Yocto LTS and the latest stable Yocto release branch, the recipes =
+for the
+> +  latest Xen major version shall also be regularly updated to follow up=
+dates
+> +  available in the Xen stable branch for that Xen major release.
+> +
+> +- On the master / in-development Yocto branch, new Xen recipes shall be=
+ added
+> +  when there is a new Xen major release.
+> +
+> +    - depending on the timing of the next Yocto release, the new recipe=
+s may
+> +      be preferred, or the prior major version recipes may remain prefe=
+rred
+> +      until after the Yocto release
+> +
+> +    - the recipes for the previous Xen stable major version shall be re=
+moved
+> +      from the branch when it is no longer the preferred Xen version
+> +
+> +- On Yocto LTS and the latest stable Yocto release branch, new Xen reci=
+pes
+> +  shall be added when there is a new Xen major release.
+> +
+> +    - The preferred version of the Xen recipes shall always stay at the=
+ same
+> +      Xen major version once a Yocto release has been issued, and shall=
+ receive
+> +      regular updates to track the stable Xen branch of that Xen releas=
+e.
+> +
+> +    - When new Xen recipes are added to a Yocto branch for a new Xen ma=
+jor
+> +      version, then any older Xen recipes present, except for the origi=
+nal
+> +      preferred version recipes, shall be marked as not updated anymore=
+ by
+> +      adding a comment inside the recipes. The older recipes will not r=
+eceive
+> +      any build tests or be updated to follow the Xen branch.
+> --
 > 2.25.1
+>
+>
 >=20
->=20
->=20
->=20
+>
 
+IMPORTANT NOTICE: The contents of this email and any attachments are confi=
+dential and may also be privileged. If you are not the intended recipient, =
+please notify the sender immediately and do not disclose the contents to an=
+y other person, use it for any purpose, or store or copy the information in=
+ any medium. Thank you.
