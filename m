@@ -1,135 +1,173 @@
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
- by mx.groups.io with SMTP id smtpd.web10.7911.1618496837532316668
+Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com [209.85.167.172])
+ by mx.groups.io with SMTP id smtpd.web08.237.1618514680913622506
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 15 Apr 2021 07:27:17 -0700
+ Thu, 15 Apr 2021 12:24:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=op0aCcaL;
- spf=pass (domain: gmail.com, ip: 209.85.222.173, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f173.google.com with SMTP id d23so13278491qko.12
-        for <meta-virtualization@lists.yoctoproject.org>; Thu, 15 Apr 2021 07:27:17 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=aUe1fbdi;
+ spf=pass (domain: gmail.com, ip: 209.85.167.172, mailfrom: christopher.w.clark@gmail.com)
+Received: by mail-oi1-f172.google.com with SMTP id n140so25379333oig.9
+        for <meta-virtualization@lists.yoctoproject.org>; Thu, 15 Apr 2021 12:24:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
-         :in-reply-to:user-agent;
-        bh=5GbOPjtGpmEhioEpFBC2Vt+Dw9jhhEDPwbXi1xq9Vr0=;
-        b=op0aCcaLQsSUpMmXSfhwNrdAoGPdd6YIb0quByd4LowX0TI+NPDhFmoBBfockvGfF4
-         y2iLb6HJmxYbelqv+ibylpBndfmueHo5hYzRasjwN1z1OjVibmWOGAxF7SdUIl8ecbky
-         UneFplrONTaFBNKvBmszIT8vw5Rs3Dj68rYJSdw2P43wVtLXdXvwWoZhSaw2E38B4Djj
-         FDwgBNVDlaHeew8EmXsVwxmW8a72+4DE09/o+Y1A8SKwbFV2kQhkDzv9tm71+F5QnW+/
-         0r6iAxs2ghEb7kzrXJQz8oeicbFgE0uFp9RiaC7TC4aunTaaUSqx1tgHqdtCuuLhRxcg
-         X21Q==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=Zn6QGcl69GuLEez+l/K/C08vW9QPhHBGYhBjwpwvT3I=;
+        b=aUe1fbdiCzRAnkX3XjV7bSwB2iV9RQtMeafpLoSkLTLFPD07PKbk/Py9st1nm6+sBY
+         48uNR6A4LGsud7IK5CrfCjHyeA1lCs+jRlvQqJpABurQWKGO6js1uBJgFFn5w+kv2PF1
+         fewhVzHjLCDpBNNQLQxDQ1wN7TQvxzThh3ZxUbbtzyOZIwQ1PTyZDwlUj7wyLyqfxu5f
+         cqTnjSy0+oGpJH93CT7Q6rt66qVl7est2J7eZZS71NJZNn7wup7uqPUObw9J4pyx4aeH
+         JD6LI2bMrkF20nAnyahbHUq9ez8YJypo42ovQjIMUrapAvx2AdDEAHS1//Q90IxCHgOB
+         2tpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=5GbOPjtGpmEhioEpFBC2Vt+Dw9jhhEDPwbXi1xq9Vr0=;
-        b=D2wuUpnoopaC3v2Mo8dVKx7YOT66AgguzSCuVi4DAT2spMh+DbyzDywvTf6OtRQXpm
-         iPaIyUsYPJjU/lLASx7+6X9Q5yoVTyHshOqpEnIZz8fiKU7frwvkKOdwghaiEUpCfEJf
-         GAcOepPAXFqeP9kjMgz1CisaMqk79KsmIFdML9+aFeqKLJHKWad3rja8+ytErgMP9hR8
-         6QHCVyDMMR4dEVysF1R3iglblKNvVseTlPdc+KcX8T5z2dZV9SJvv1V8PDb2Yni6NOEx
-         IlylI6Kfew7PCsG8plxH0ZrOFup6i9Ayxttjwvf6jtAK4B2i10JjNAbP7KWmjAHINn6y
-         jfbQ==
-X-Gm-Message-State: AOAM530PzpnFsfXIioRCkOSgUbEOkhfYHUtlYWM7R/4JWyaPA17aKwa0
-	7ic72ARGpyO3P1Usyh2e2pQwxFAW+uG+vg==
-X-Google-Smtp-Source: ABdhPJzCHNVw/p3HtW+oq3qhmy3d4lKf/pb5zGZraVxCfOqi3RLmWFdD+2RPYUUkZ7vBZwJH/agQAg==
-X-Received: by 2002:ac8:4796:: with SMTP id k22mr2130266qtq.118.1618496267597;
-        Thu, 15 Apr 2021 07:17:47 -0700 (PDT)
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from gmail.com (cpe04d4c4975b80-cmf4c11490699b.cpe.net.cable.rogers.com. [174.112.159.151])
-        by smtp.gmail.com with ESMTPSA id v6sm1971516qkf.132.2021.04.15.07.17.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Apr 2021 07:17:46 -0700 (PDT)
-Date: Thu, 15 Apr 2021 10:17:45 -0400
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-To: Leon Anavi <leon.anavi@konsulko.com>
-Cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [meta-virtualization][PATCH 1/6] python3-bugsnag: Upgrade 3.6.1 -> 4.0.2
-Message-ID: <20210415141742.GA61220@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=Zn6QGcl69GuLEez+l/K/C08vW9QPhHBGYhBjwpwvT3I=;
+        b=msWpvepP8hFDxvMHRl1phY8MvoWpz7dU2qT6ROlHG+EQRbLeNKtnaC8mTbnyNemQwb
+         uy5Mapu2VHP6COvpmuZj3vZckfRBXtjzb63tjfztqjvapu9HN270WHdat500KLohATSN
+         OWbDLBEjk44r4nD7KY9J5k4uOYhh/j1SBCfeWAcNPNo0aAAWgM72uFpMofkK2lEDLqGq
+         TLwELWqFeZFDaMYgpp00+qnJHbyOaBhwN3aDMvMZpVdRzuHRKkxRcdODs3Tyd8qMs2Jm
+         5AsiiPaB2Xxf2fr94MfwdoUADucslAkh7L4QvTR9q9eJNhpXVXQWOaHdRawsC2oq8cJH
+         6Bpg==
+X-Gm-Message-State: AOAM533WtHYyt3x9bXOF2R+6uicYz6A78XXWq876TLOK2ythRTLxkAMO
+	k+zDJ9sLG0IZ4Uol4yoewKdWC2GnkPoqshQhS4U=
+X-Google-Smtp-Source: ABdhPJwZswsTqrmt/4fkUpVvbBTpwntJ9eXL3Tjb6eehzk3nSIsHxhmmw54NzDkdHFV9LywPZER4J3DPo21lFXUWQaE=
+X-Received: by 2002:aca:534d:: with SMTP id h74mr3693773oib.152.1618514680236;
+ Thu, 15 Apr 2021 12:24:40 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210414151435.9049-4-leon.anavi@konsulko.com>
- <20210414151435.9049-2-leon.anavi@konsulko.com>
- <20210414151435.9049-3-leon.anavi@konsulko.com>
- <20210414151435.9049-5-leon.anavi@konsulko.com>
- <20210414151435.9049-6-leon.anavi@konsulko.com>
- <20210414151435.9049-1-leon.anavi@konsulko.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20210414233924.55589-1-christopher.w.clark@gmail.com>
+ <20210414233924.55589-2-christopher.w.clark@gmail.com> <5B911C57-4D5E-40AA-B61A-8C07ACA3A5FE@arm.com>
+In-Reply-To: <5B911C57-4D5E-40AA-B61A-8C07ACA3A5FE@arm.com>
+From: "Christopher Clark" <christopher.w.clark@gmail.com>
+Date: Thu, 15 Apr 2021 12:24:28 -0700
+Message-ID: <CACMJ4GYkeZTD=QO8-B+mJ5vqneaK4KDN3iGhmVnnNkDYcgpCCA@mail.gmail.com>
+Subject: Re: [meta-virtualization][PATCH v2 2/6] xen, xen-tools: add recipes for new stable Xen 4.15 release
+To: Bertrand Marquis <Bertrand.Marquis@arm.com>
+Cc: "meta-virtualization@lists.yoctoproject.org" <meta-virtualization@lists.yoctoproject.org>, 
+	"cardoe@gentoo.org" <cardoe@gentoo.org>, "bruce.ashfield@gmail.com" <bruce.ashfield@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-merged to master.
+On Thu, Apr 15, 2021 at 2:12 AM Bertrand Marquis
+<Bertrand.Marquis@arm.com> wrote:
+>
+> Hi Christopher,
+>
+> > On 15 Apr 2021, at 00:39, Christopher Clark via lists.yoctoproject.org=
+ <christopher.w.clark=3Dgmail.com@lists.yoctoproject.org> wrote:
+> >
+> > Added as non-default, retaining the Xen 4.14 recipes as the default
+> > preferred version for the Hardknott release.
+> >
+> > Signed-off-by: Christopher Clark <christopher.w.clark@gmail.com>
+> > ---
+> > recipes-extended/xen/xen-tools_4.15.bb | 20 ++++++++++++++++++++
+> > recipes-extended/xen/xen_4.15.bb       | 21 +++++++++++++++++++++
+> > 2 files changed, 41 insertions(+)
+> > create mode 100644 recipes-extended/xen/xen-tools_4.15.bb
+> > create mode 100644 recipes-extended/xen/xen_4.15.bb
+> >
+> > diff --git a/recipes-extended/xen/xen-tools_4.15.bb b/recipes-extended=
+/xen/xen-tools_4.15.bb
+> > new file mode 100644
+> > index 0000000..d8cb846
+> > --- /dev/null
+> > +++ b/recipes-extended/xen/xen-tools_4.15.bb
+> > @@ -0,0 +1,20 @@
+> > +SRCREV ?=3D "e25aa9939ae0cd8317605be3d5c5611b76bc4ab4"
+> > +
+> > +XEN_REL ?=3D "4.15"
+> > +XEN_BRANCH ?=3D "stable-${XEN_REL}"
+> > +
+> > +SRC_URI =3D " \
+> > +    git://xenbits.xen.org/xen.git;branch=3D${XEN_BRANCH} \
+> > +    file://0001-python-pygrub-pass-DISTUTILS-xen-4.15.patch \
+> > +    "
+> > +
+> > +LIC_FILES_CHKSUM ?=3D "file://COPYING;md5=3D419739e325a50f3d7b4501338=
+e44a4e5"
+> > +
+> > +PV =3D "${XEN_REL}+stable${SRCPV}"
+> > +
+> > +S =3D "${WORKDIR}/git"
+> > +
+> > +DEFAULT_PREFERENCE ??=3D "-1"
+>
+> we have a file meta-virt-default-versions.inc in conf/distro/include
+>
+> Shouldn=E2=80=99t we use that file and set PREFERRED_VERSION instead of =
+using default
+> preference in each recipe ?
 
-I've branched hardknott and won't automatically backport version
-bumps, unless bugfix only (or other justified reason) and someone
-points it out to me (the most important part!)
+I wasn't aware of that file so hadn't considered it -- it's not
+obvious as a place to look to understand how the version of Xen is
+being set, or that it will change the default version of Xen according
+to whether the DISTRO_FEATURES includes 'virtualization'. So I am not
+sure that we should do that.
+(As an aside, there's meta-virt-xen.inc in that directory that I would
+like to retire and remove by making improvements elsewhere, for
+similar reasons.)
 
-Cheers,
+> Something like:
+> PREFERRED_VERSION_xen ?=3D "4.14%"
+> PREFERRED_VERSION_xen-tools ?=3D "4.14%"
+>
+> This would prevent modifying the recipes when we change the default vers=
+ion.
 
-Bruce
+I think I would prefer to modify the recipes when the default version
+is changed, to make it a clear localized change in the Xen recipe
+directory.
+Would that be acceptable?
 
-In message: [meta-virtualization][PATCH 1/6] python3-bugsnag: Upgrade 3.6.1 -> 4.0.2
-on 14/04/2021 Leon Anavi wrote:
+Christopher
 
-> Upgrade to release 4.0.2:
-> 
-> - Fixed an issue preventing code being fetched from files in the
->   project root but not in the PWD
-> - Fix issue where types were not packaged with the library
-> - Added __all__ lists throughout to indicate the boundaries of the
->   public interface. This may affect your integration if using
->   import *.
-> - Removed Configuration.use_ssl and Configuration.get_endpoint()
->   in favor of including the protocol in Configuration.endpoint
-> - Configuration.send_environment is now False by default. Enable
->   it as a part of your configuration to send the full request
->   context (if any) as a part of each event.
-> - Removed bugsnag.utils.ThreadLocals as it has been superseded by
->   the contextvars API
-> - Removed bugsnag.utils.merge_dicts, an unused helper function
-> - Removed bugsnag.send_sessions
-> - Deprecated bugsnag.notification.Notification in favor of
->   bugsnag.event.Event to better align with Bugsnag libraries on
->   other platforms. The Notification class is functionally
->   equivalent and will be removed in a future release.
-> - Added a request property to Event.
-> - Added type signatures throughout the library.
-> - [WSGI] Use X-Forwarded-For header if present to determine the IP
->   address used as the default user ID. The remote address remains
->   available in the request metadata attached to the event.
-> 
-> License-Update: Check only a single line from PKG-INFO
-> 
-> Signed-off-by: Leon Anavi <leon.anavi@konsulko.com>
-> ---
->  .../{python3-bugsnag_3.6.1.bb => python3-bugsnag_4.0.2.bb}   | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
->  rename recipes-devtools/python/{python3-bugsnag_3.6.1.bb => python3-bugsnag_4.0.2.bb} (70%)
-> 
-> diff --git a/recipes-devtools/python/python3-bugsnag_3.6.1.bb b/recipes-devtools/python/python3-bugsnag_4.0.2.bb
-> similarity index 70%
-> rename from recipes-devtools/python/python3-bugsnag_3.6.1.bb
-> rename to recipes-devtools/python/python3-bugsnag_4.0.2.bb
-> index 3238579..96550bb 100644
-> --- a/recipes-devtools/python/python3-bugsnag_3.6.1.bb
-> +++ b/recipes-devtools/python/python3-bugsnag_4.0.2.bb
-> @@ -8,10 +8,9 @@ DESCRIPTION = "\
->    "
->  SECTION = "devel/python"
->  LICENSE = "MIT"
-> -LIC_FILES_CHKSUM = "file://PKG-INFO;md5=3bc101ebc0815bd849021892cd333dd4"
-> +LIC_FILES_CHKSUM = "file://PKG-INFO;beginline=8;endline=8;md5=8227180126797a0148f94f483f3e1489"
->  
-> -SRC_URI[md5sum] = "93443091b052130cfe1daf7595249f9f"
-> -SRC_URI[sha256sum] = "8878437aa44ec485cecb255742035b3b98a6c7e7d167a943b5fbe597b2f8f7f9"
-> +SRC_URI[sha256sum] = "7a49dacf055a8c6dda4ce714acd91fabe9546f1ad826276918a26603a8b5489a"
->  
->  inherit pypi setuptools3
->  
-> -- 
-> 2.17.1
-> 
-
-> 
-> 
-> 
-
-
+>
+> Cheers
+> Bertrand
+>
+> > +
+> > +require xen.inc
+> > +require xen-tools.inc
+> > diff --git a/recipes-extended/xen/xen_4.15.bb b/recipes-extended/xen/x=
+en_4.15.bb
+> > new file mode 100644
+> > index 0000000..49268cc
+> > --- /dev/null
+> > +++ b/recipes-extended/xen/xen_4.15.bb
+> > @@ -0,0 +1,21 @@
+> > +SRCREV ?=3D "e25aa9939ae0cd8317605be3d5c5611b76bc4ab4"
+> > +
+> > +XEN_REL ?=3D "4.15"
+> > +XEN_BRANCH ?=3D "stable-${XEN_REL}"
+> > +
+> > +SRC_URI =3D " \
+> > +    git://xenbits.xen.org/xen.git;branch=3D${XEN_BRANCH} \
+> > +    file://xen-arm64-implement-atomic-fetch-add.patch \
+> > +    file://0001-menuconfig-mconf-cfg-Allow-specification-of-ncurses-l=
+ocation.patch \
+> > +    "
+> > +
+> > +LIC_FILES_CHKSUM ?=3D "file://COPYING;md5=3D419739e325a50f3d7b4501338=
+e44a4e5"
+> > +
+> > +PV =3D "${XEN_REL}+stable${SRCPV}"
+> > +
+> > +S =3D "${WORKDIR}/git"
+> > +
+> > +DEFAULT_PREFERENCE ??=3D "-1"
+> > +
+> > +require xen.inc
+> > +require xen-hypervisor.inc
+> > --
+> > 2.25.1
+> >
+> >
+> >=20
+> >
+>
+> IMPORTANT NOTICE: The contents of this email and any attachments are con=
+fidential and may also be privileged. If you are not the intended recipient=
+, please notify the sender immediately and do not disclose the contents to =
+any other person, use it for any purpose, or store or copy the information =
+in any medium. Thank you.
