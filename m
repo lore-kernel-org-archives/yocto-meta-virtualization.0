@@ -1,173 +1,150 @@
-Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com [209.85.167.172])
- by mx.groups.io with SMTP id smtpd.web08.237.1618514680913622506
+Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
+ by mx.groups.io with SMTP id smtpd.web11.3496.1618537285871845216
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 15 Apr 2021 12:24:41 -0700
+ Thu, 15 Apr 2021 18:41:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=aUe1fbdi;
- spf=pass (domain: gmail.com, ip: 209.85.167.172, mailfrom: christopher.w.clark@gmail.com)
-Received: by mail-oi1-f172.google.com with SMTP id n140so25379333oig.9
-        for <meta-virtualization@lists.yoctoproject.org>; Thu, 15 Apr 2021 12:24:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=Zn6QGcl69GuLEez+l/K/C08vW9QPhHBGYhBjwpwvT3I=;
-        b=aUe1fbdiCzRAnkX3XjV7bSwB2iV9RQtMeafpLoSkLTLFPD07PKbk/Py9st1nm6+sBY
-         48uNR6A4LGsud7IK5CrfCjHyeA1lCs+jRlvQqJpABurQWKGO6js1uBJgFFn5w+kv2PF1
-         fewhVzHjLCDpBNNQLQxDQ1wN7TQvxzThh3ZxUbbtzyOZIwQ1PTyZDwlUj7wyLyqfxu5f
-         cqTnjSy0+oGpJH93CT7Q6rt66qVl7est2J7eZZS71NJZNn7wup7uqPUObw9J4pyx4aeH
-         JD6LI2bMrkF20nAnyahbHUq9ez8YJypo42ovQjIMUrapAvx2AdDEAHS1//Q90IxCHgOB
-         2tpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=Zn6QGcl69GuLEez+l/K/C08vW9QPhHBGYhBjwpwvT3I=;
-        b=msWpvepP8hFDxvMHRl1phY8MvoWpz7dU2qT6ROlHG+EQRbLeNKtnaC8mTbnyNemQwb
-         uy5Mapu2VHP6COvpmuZj3vZckfRBXtjzb63tjfztqjvapu9HN270WHdat500KLohATSN
-         OWbDLBEjk44r4nD7KY9J5k4uOYhh/j1SBCfeWAcNPNo0aAAWgM72uFpMofkK2lEDLqGq
-         TLwELWqFeZFDaMYgpp00+qnJHbyOaBhwN3aDMvMZpVdRzuHRKkxRcdODs3Tyd8qMs2Jm
-         5AsiiPaB2Xxf2fr94MfwdoUADucslAkh7L4QvTR9q9eJNhpXVXQWOaHdRawsC2oq8cJH
-         6Bpg==
-X-Gm-Message-State: AOAM533WtHYyt3x9bXOF2R+6uicYz6A78XXWq876TLOK2ythRTLxkAMO
-	k+zDJ9sLG0IZ4Uol4yoewKdWC2GnkPoqshQhS4U=
-X-Google-Smtp-Source: ABdhPJwZswsTqrmt/4fkUpVvbBTpwntJ9eXL3Tjb6eehzk3nSIsHxhmmw54NzDkdHFV9LywPZER4J3DPo21lFXUWQaE=
-X-Received: by 2002:aca:534d:: with SMTP id h74mr3693773oib.152.1618514680236;
- Thu, 15 Apr 2021 12:24:40 -0700 (PDT)
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=Vl1LAYW8;
+ spf=neutral (domain: fujitsu.com, ip: 198.145.29.25, mailfrom: zangrc.fnst@fujitsu.com)
+Received: from mail1.bemta25.messagelabs.com (mail1.bemta25.messagelabs.com [195.245.230.5])
+	by mail.yoctoproject.org (Postfix) with ESMTPS id 34D8238C0632
+	for <meta-virtualization@yoctoproject.org>; Fri, 16 Apr 2021 01:41:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
+	s=170520fj; t=1618537281; i=@fujitsu.com;
+	bh=TZsvbaS2KKS13PAqCZzbgwdwAHDr81YzCwHi5d9k1Vk=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	b=Vl1LAYW8AFlKlkiNBByjB4jdJN5uGQWl8PN2FMxosaot1p+xupUGmd1yd4ChC3xwI
+	 3h5VNhfFT97UunmdF0Y+XKG9iwXJaEVJ+cQOm+e9Aw0GnVwT5MUX7/DSbRHCFBWjiq
+	 ksWNfRQb4Mo3hfClO9gEyTvU0rz5Kng0H22bHlPAaQqdZHbk5B5FbJgmJHhDIBPCJs
+	 xE5fAHYTxvmur2hTfdkf5scQg4FCsJLPOc38XjSB+IJIXc5rvKeeAOMxAkML6AhlrL
+	 ow527HBg//DgR1haGffGepJyMH4eL+pQlsP8B6xm6OR/fdpoZkv8xpLbXFzxqr3Wn4
+	 SLVU3kIRVa6rQ==
+Received: from [100.112.192.143] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
+	by server-5.bemta.az-a.eu-west-1.aws.symcld.net id 80/99-01834-14BE8706; Fri, 16 Apr 2021 01:41:21 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFuphkeJIrShJLcpLzFFi42Kxs+EI0XV4XZF
+  gcPiApcXtA0eYHRg92k/0sQUwRrFm5iXlVySwZsx8OJml4KlExbGHv1kbGHeLdjFycQgJTGOS
+  WLRvHzOEc5xRYmL3DfYuRk4ONgEdiY4X3SwgtoiAlkR76y9mEFtYwElizcwXjCA2i4CqxNHbi
+  8DivAJuElsfHwPrlRBQkJjy8D1UXFDi5MwnYHOYBSQkDr54wQxRoyixfecZFgi7UmL7tLOMEx
+  h5ZiFpmYWkZQEj0ypGi6SizPSMktzEzBxdQwMDXUNDI11DSyNdIwMTvcQq3US91FLd8tTiEl1
+  DvcTyYr3iytzknBS9vNSSTYzAQEopOHBmB+Op1x/0DjFKcjApifIeWlGWIMSXlJ9SmZFYnBFf
+  VJqTWnyIUYaDQ0mC1/lFRYKQYFFqempFWmYOMKhh0hIcPEoivB9eAqV5iwsSc4sz0yFSpxgVp
+  cR5F4AkBEASGaV5cG2wSLrEKCslzMvIwMAgxFOQWpSbWYIq/4pRnINRSZi3EWQKT2ZeCdz0V0
+  CLmYAWV6wqBVlckoiQkmpg8jgpKMZjdfrMi0l8zJdnvTjwXDF+gpAy89Kn071mGj0Rvnjhx6r
+  Lr2713TcM6f120rLsVcU7RrE+P+tj5VEzjthvLV2s+cz912uTNwXvxUtZ33J7zNxvbrhbVqTr
+  +/pTeY5HbuhpHdj+Wr330vu+G6cXmmuWzlX5x9EZPWnqOccrM3/lFn7KTn0foZ7NmynOaf1oV
+  ekMwZ2uO2wF5JgqLBj2F4abvEpcqlc29fr2AqdHc1b/5l/UcLbkWJ3Kvmm5L+Qe8XwyzVt8z+
+  /U4866rPxv602SbmT2BXhpP+a+mVSzX8vDY8/keVen7rxz24Mt7GrKjZnlXZead6yYd5pne/c
+  Z/elGnRM866zT1rPFZCuxFGckGmoxFxUnAgAasGekHwMAAA==
+X-Env-Sender: zangrc.fnst@fujitsu.com
+X-Msg-Ref: server-35.tower-265.messagelabs.com!1618537280!1544517!1
+X-Originating-IP: [62.60.8.84]
+X-SYMC-ESS-Client-Auth: outbound-route-from=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.60.3; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 15799 invoked from network); 16 Apr 2021 01:41:20 -0000
+Received: from unknown (HELO mailhost3.uk.fujitsu.com) (62.60.8.84)
+  by server-35.tower-265.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 16 Apr 2021 01:41:20 -0000
+Received: from R01UKEXCASM126.r01.fujitsu.local ([10.183.43.178])
+	by mailhost3.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 13G1fD1K019884
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
+	for <meta-virtualization@yoctoproject.org>; Fri, 16 Apr 2021 02:41:20 +0100
+Received: from localhost.localdomain.localdomain (10.167.225.81) by
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.2; Fri, 16 Apr 2021 02:41:11 +0100
+From: "zangrc" <zangrc.fnst@fujitsu.com>
+To: <meta-virtualization@yoctoproject.org>
+Subject: [meta-virtualization] [PATCH] novnc: upgrade 0.4 -> 1.2.0
+Date: Fri, 16 Apr 2021 09:41:04 +0800
+Message-ID: <1618537264-7180-1-git-send-email-zangrc.fnst@fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-References: <20210414233924.55589-1-christopher.w.clark@gmail.com>
- <20210414233924.55589-2-christopher.w.clark@gmail.com> <5B911C57-4D5E-40AA-B61A-8C07ACA3A5FE@arm.com>
-In-Reply-To: <5B911C57-4D5E-40AA-B61A-8C07ACA3A5FE@arm.com>
-From: "Christopher Clark" <christopher.w.clark@gmail.com>
-Date: Thu, 15 Apr 2021 12:24:28 -0700
-Message-ID: <CACMJ4GYkeZTD=QO8-B+mJ5vqneaK4KDN3iGhmVnnNkDYcgpCCA@mail.gmail.com>
-Subject: Re: [meta-virtualization][PATCH v2 2/6] xen, xen-tools: add recipes for new stable Xen 4.15 release
-To: Bertrand Marquis <Bertrand.Marquis@arm.com>
-Cc: "meta-virtualization@lists.yoctoproject.org" <meta-virtualization@lists.yoctoproject.org>, 
-	"cardoe@gentoo.org" <cardoe@gentoo.org>, "bruce.ashfield@gmail.com" <bruce.ashfield@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [10.167.225.81]
+X-ClientProxiedBy: G08CNEXCHPEKD05.g08.fujitsu.local (10.167.33.203) To
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
+Content-Type: text/plain
 
-On Thu, Apr 15, 2021 at 2:12 AM Bertrand Marquis
-<Bertrand.Marquis@arm.com> wrote:
->
-> Hi Christopher,
->
-> > On 15 Apr 2021, at 00:39, Christopher Clark via lists.yoctoproject.org=
- <christopher.w.clark=3Dgmail.com@lists.yoctoproject.org> wrote:
-> >
-> > Added as non-default, retaining the Xen 4.14 recipes as the default
-> > preferred version for the Hardknott release.
-> >
-> > Signed-off-by: Christopher Clark <christopher.w.clark@gmail.com>
-> > ---
-> > recipes-extended/xen/xen-tools_4.15.bb | 20 ++++++++++++++++++++
-> > recipes-extended/xen/xen_4.15.bb       | 21 +++++++++++++++++++++
-> > 2 files changed, 41 insertions(+)
-> > create mode 100644 recipes-extended/xen/xen-tools_4.15.bb
-> > create mode 100644 recipes-extended/xen/xen_4.15.bb
-> >
-> > diff --git a/recipes-extended/xen/xen-tools_4.15.bb b/recipes-extended=
-/xen/xen-tools_4.15.bb
-> > new file mode 100644
-> > index 0000000..d8cb846
-> > --- /dev/null
-> > +++ b/recipes-extended/xen/xen-tools_4.15.bb
-> > @@ -0,0 +1,20 @@
-> > +SRCREV ?=3D "e25aa9939ae0cd8317605be3d5c5611b76bc4ab4"
-> > +
-> > +XEN_REL ?=3D "4.15"
-> > +XEN_BRANCH ?=3D "stable-${XEN_REL}"
-> > +
-> > +SRC_URI =3D " \
-> > +    git://xenbits.xen.org/xen.git;branch=3D${XEN_BRANCH} \
-> > +    file://0001-python-pygrub-pass-DISTUTILS-xen-4.15.patch \
-> > +    "
-> > +
-> > +LIC_FILES_CHKSUM ?=3D "file://COPYING;md5=3D419739e325a50f3d7b4501338=
-e44a4e5"
-> > +
-> > +PV =3D "${XEN_REL}+stable${SRCPV}"
-> > +
-> > +S =3D "${WORKDIR}/git"
-> > +
-> > +DEFAULT_PREFERENCE ??=3D "-1"
->
-> we have a file meta-virt-default-versions.inc in conf/distro/include
->
-> Shouldn=E2=80=99t we use that file and set PREFERRED_VERSION instead of =
-using default
-> preference in each recipe ?
+Refer to Fedora's style and upgrade to the latest version.
 
-I wasn't aware of that file so hadn't considered it -- it's not
-obvious as a place to look to understand how the version of Xen is
-being set, or that it will change the default version of Xen according
-to whether the DISTRO_FEATURES includes 'virtualization'. So I am not
-sure that we should do that.
-(As an aside, there's meta-virt-xen.inc in that directory that I would
-like to retire and remove by making improvements elsewhere, for
-similar reasons.)
+-License-Update: Copyright year updated to 2019.
 
-> Something like:
-> PREFERRED_VERSION_xen ?=3D "4.14%"
-> PREFERRED_VERSION_xen-tools ?=3D "4.14%"
->
-> This would prevent modifying the recipes when we change the default vers=
-ion.
+Signed-off-by: Zang Ruochen <zangrc.fnst@fujitsu.com>
+---
+ .../recipes-extended/novnc/novnc_git.bb       | 51 ++++++-------------
+ 1 file changed, 16 insertions(+), 35 deletions(-)
 
-I think I would prefer to modify the recipes when the default version
-is changed, to make it a clear localized change in the Xen recipe
-directory.
-Would that be acceptable?
+diff --git a/meta-openstack/recipes-extended/novnc/novnc_git.bb b/meta-openstack/recipes-extended/novnc/novnc_git.bb
+index 7099d85..07a9153 100644
+--- a/meta-openstack/recipes-extended/novnc/novnc_git.bb
++++ b/meta-openstack/recipes-extended/novnc/novnc_git.bb
+@@ -1,52 +1,33 @@
+ DESCRIPTION = "HTML5 VNC client"
+ HOMEPAGE = "https://github.com/kanaka/noVNC"
+ SECTION = "web"
+-
+-PR = "r0"
+-
+ LICENSE = "MPL-2.0"
+-LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=ac06308a999996ffc2d24d81b3a39f1b"
++LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=b428e7772bf00c07fb7b863b80358adf"
+ 
+-SRCREV = "8f12ca7a5a64144fe548cada332d5d19ef26a1fe"
+-PV = "0.4+git${SRCPV}"
++SRCREV = "9142f8f0f7b4a53447f5cfec3a797cbf0d6204a9"
++PV = "1.2.0+git${SRCPV}"
+ 
+ SRC_URI = "git://github.com/kanaka/noVNC.git"
+ 
+ S = "${WORKDIR}/git"
+ 
+-RDEPENDS_${PN} += "python-numpy"
+-RDEPENDS_${PN} += "python-novnc"
+-RDEPENDS_${PN} += "python-websockify"
+-
+ do_compile() {
+     :
+ }
+ 
++RDEPENDS_${PN} += " \
++	bash \
++"
++
+ do_install() {
+-    install -m 755 -d ${D}${bindir}/novnc
+-    install -m 755 -d ${D}${datadir}/novnc/include
+-
+-    install -m 644 ${S}/vnc.html ${D}${datadir}/novnc
+-    install -m 644 ${S}/vnc_auto.html ${D}${datadir}/novnc
+-    install -m 644 ${S}/images/favicon.ico ${D}${datadir}/novnc
+-    install -m 644 ${S}/include/base64.js ${D}${datadir}/novnc/include
+-    install -m 644 ${S}/include/des.js ${D}${datadir}/novnc/include
+-    install -m 644 ${S}/include/display.js ${D}${datadir}/novnc/include
+-    install -m 644 ${S}/include/input.js ${D}${datadir}/novnc/include
+-    install -m 644 ${S}/include/logo.js ${D}${datadir}/novnc/include
+-    install -m 644 ${S}/include/base.css ${D}${datadir}/novnc/include
+-    install -m 644 ${S}/include/blue.css ${D}${datadir}/novnc/include
+-    install -m 644 ${S}/include/black.css ${D}${datadir}/novnc/include
+-    install -m 644 ${S}/include/playback.js ${D}${datadir}/novnc/include
+-    install -m 644 ${S}/include/rfb.js ${D}${datadir}/novnc/include
+-    install -m 644 ${S}/include/ui.js ${D}${datadir}/novnc/include
+-    install -m 644 ${S}/include/util.js ${D}${datadir}/novnc/include
+-    install -m 644 ${S}/include/websock.js ${D}${datadir}/novnc/include
+-    install -m 644 ${S}/include/webutil.js ${D}${datadir}/novnc/include
+-    install -m 644 ${S}/include/jsunzip.js ${D}${datadir}/novnc/include
+-
+-    sed -i -e 's:#!/usr/bin/env bash:#!/bin/sh:' ${S}/utils/launch.sh	
+-
+-    install -m 755 ${S}/utils/launch.sh ${D}${bindir}/novnc-launch.sh
++    install -m 755 -d ${D}${datadir}/novnc
++   
++    cp -R --no-dereference --preserve=mode,links ${S}/* ${D}${datadir}/novnc
++    
++    install -m 444 ${S}/vnc.html ${D}${datadir}/novnc/index.html
++    install -m 444 ${S}/vnc_lite.html ${D}${datadir}/novnc/vnc_auto.html
++
++    install -m 755 -d ${D}${bindir}
++    install -m 644 ${S}/utils/launch.sh ${D}${bindir}/novnc_server
+ }
+ 
+-- 
+2.25.1
 
-Christopher
-
->
-> Cheers
-> Bertrand
->
-> > +
-> > +require xen.inc
-> > +require xen-tools.inc
-> > diff --git a/recipes-extended/xen/xen_4.15.bb b/recipes-extended/xen/x=
-en_4.15.bb
-> > new file mode 100644
-> > index 0000000..49268cc
-> > --- /dev/null
-> > +++ b/recipes-extended/xen/xen_4.15.bb
-> > @@ -0,0 +1,21 @@
-> > +SRCREV ?=3D "e25aa9939ae0cd8317605be3d5c5611b76bc4ab4"
-> > +
-> > +XEN_REL ?=3D "4.15"
-> > +XEN_BRANCH ?=3D "stable-${XEN_REL}"
-> > +
-> > +SRC_URI =3D " \
-> > +    git://xenbits.xen.org/xen.git;branch=3D${XEN_BRANCH} \
-> > +    file://xen-arm64-implement-atomic-fetch-add.patch \
-> > +    file://0001-menuconfig-mconf-cfg-Allow-specification-of-ncurses-l=
-ocation.patch \
-> > +    "
-> > +
-> > +LIC_FILES_CHKSUM ?=3D "file://COPYING;md5=3D419739e325a50f3d7b4501338=
-e44a4e5"
-> > +
-> > +PV =3D "${XEN_REL}+stable${SRCPV}"
-> > +
-> > +S =3D "${WORKDIR}/git"
-> > +
-> > +DEFAULT_PREFERENCE ??=3D "-1"
-> > +
-> > +require xen.inc
-> > +require xen-hypervisor.inc
-> > --
-> > 2.25.1
-> >
-> >
-> >=20
-> >
->
-> IMPORTANT NOTICE: The contents of this email and any attachments are con=
-fidential and may also be privileged. If you are not the intended recipient=
-, please notify the sender immediately and do not disclose the contents to =
-any other person, use it for any purpose, or store or copy the information =
-in any medium. Thank you.
