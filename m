@@ -1,103 +1,78 @@
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
- by mx.groups.io with SMTP id smtpd.web12.995.1618598529855941957
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+ by mx.groups.io with SMTP id smtpd.web12.1708.1618791162424909175
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 16 Apr 2021 11:42:10 -0700
+ Sun, 18 Apr 2021 17:12:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=cJ0yj2E5;
- spf=pass (domain: gmail.com, ip: 209.85.222.172, mailfrom: christopher.w.clark@gmail.com)
-Received: by mail-qk1-f172.google.com with SMTP id d15so16889085qkc.9
-        for <meta-virtualization@lists.yoctoproject.org>; Fri, 16 Apr 2021 11:42:09 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=C+1+VRvE;
+ spf=pass (domain: gmail.com, ip: 209.85.160.170, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f170.google.com with SMTP id f12so24948959qtf.2
+        for <meta-virtualization@lists.yoctoproject.org>; Sun, 18 Apr 2021 17:12:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=iC3hmrNQdUlG2NJiNO/gZ1EIcCU6vPixaf82sOIEQHM=;
-        b=cJ0yj2E5wkQBzgZK5mIAj3c48Pm3KO/x0eVlpTV3fmcmGq8HLa/ajp+xAar7YAYHDf
-         bDTRmgYsVK0/z0uHpNUOt26xH5FQLT8yduijYFi6gwNSCTPESLbwiPyxCqM3NXn5jT2n
-         LwUhbidjwsf73uTQ/lRdmQlyBd6+b1bDMpl3sGdb0jOeKSSfOK0i550v1UL6AKfhru59
-         jVt6QRtkC0NUXwn4zRYb/nJOA112pSB1V8Jd2SbqTSbwfVPsrT2jMwGpETxQiLETxuur
-         pyMHJznlcp1y0nFI4+yuW6bOCsoy1K0hlav3NNoapLUvGtuD312g72mzRMviOWXqqgr9
-         SaWQ==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=qvKgADsIJ0XDzlXHC+zXjug0VIdJTqlPp/3ygU9u2sY=;
+        b=C+1+VRvEDbcaXxRc7AiyV4ygnR3/YXoy1sBB/cyBi3DJG3Yc4mRJpLxvZfqC8g9D0P
+         HTlEeze/FmU+SdJ4d2I5xTnEgKnhvYDxSXg10R8qcxVZ9D9cVvtaN/MNTf2kgoVQJDf7
+         zbwZTpVgZoSBTTIkKJyZw3vVuRMF7IW3X19Mn9IJ7gFwGolqwf7S99+NO1CY5gF0FS1f
+         WjlysZ3RH28tDAXWYuW14k4MLhUo71AK54xyVKebYq0E6Ip1WPdLS7Qpsv8WCmUtuGH8
+         Dp2LXV3eJoRRjkeHXCFJCxXx3S974vrMq/JF98l5K1gK0R0obCvFJhGC7k9kVVYD+t19
+         Z5Lg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=iC3hmrNQdUlG2NJiNO/gZ1EIcCU6vPixaf82sOIEQHM=;
-        b=iibWuXwsLS6VR5QTxIp61qxcivSuYlbtPXa8WxAE3z4tsDhRAVSUOi5DtPFgbLjBm8
-         BL8Otptz3u1BzEb2aSNCfx3ubhfXAHrHSkFyaxaTs7ByLfgvKvF3QRipi44x1yx53oBv
-         pstwe7pNSCdQWRdbjK/brN7E46y3nxT7CtqYcpIbt1d7uKcBISWikxIJ6xYmS/CH1Al3
-         M7I37a/BjvfasnBvvoB6DIKGVD6+6DaIa6CRuedqYs+ElC/LNkemoxjTzQiV8wkCgcnz
-         QVxi7xj9wv9D983fv0MzzBYu9NCnxQcMjNgTZlH+KLs0598t3SNMWRnIIjz4ADxsul6z
-         r2MQ==
-X-Gm-Message-State: AOAM5323gNqlvPVr05gh31ZJ9G76ggXQ7l/RbFBZvEVbbBPjKFz5x63u
-	LFgfyIPjX5RQywipsixs6rbrD0zTBcU+Cg==
-X-Google-Smtp-Source: ABdhPJwUFpDVDpS6hlexHl563XkLv78xtmbNDaoJ2NbztrTZJBG/Zjl2M63AZdoQsXG7tcDe1fVtdw==
-X-Received: by 2002:a37:5b43:: with SMTP id p64mr610248qkb.131.1618598528940;
-        Fri, 16 Apr 2021 11:42:08 -0700 (PDT)
-Return-Path: <christopher.w.clark@gmail.com>
-Received: from walnut.ice.pyrology.org ([166.176.185.178])
-        by smtp.gmail.com with ESMTPSA id m10sm3922238qtp.43.2021.04.16.11.42.07
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=qvKgADsIJ0XDzlXHC+zXjug0VIdJTqlPp/3ygU9u2sY=;
+        b=HDaGs+ug6Ce0iBQt1xMDz9PTzaYdFJy/ZDD584ukU3Xa+z5x5cCVCIGRbea99XYMW/
+         EcmgERqZZ/T2UqRg9oPPhCbIqnbWsz2HJucAsI1QMsrHY21j/S9WEdaa5grAT5w7cW61
+         wTxYI1YpXKAxzrIw08R/y4MyDyUXbDjJ3LbqzMzNC5J2KkgzP3ul1ct/IIEl3ilJkAzN
+         No/WTZiiJnAEYKaCjECNJGbrraexjrJWqzIntgqPIUwQTl8pG05N9Wrqe2PZA/k04QXn
+         vbn8j4uoLJ9xsnG88MqNz6rfszsqd6alqY4MFMsWsZO57NUoNc7OePCdTHWb3WTCCEcT
+         u6iw==
+X-Gm-Message-State: AOAM532hPnaLZj9W2qYPnOg8FDfYvO8B5gTdcpSfkalsOt1hQ/Ov88mX
+	OwlbPmZGZac+NfLw6nJLwEQ=
+X-Google-Smtp-Source: ABdhPJxfB+saXngGAi4AY8aO/AItlewtzeqJpu9BkZAUXeI583wcRd3fIZKFKp+6L6Xj6XBv9P2oYg==
+X-Received: by 2002:ac8:4e36:: with SMTP id d22mr9398130qtw.102.1618791161261;
+        Sun, 18 Apr 2021 17:12:41 -0700 (PDT)
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from gmail.com (cpe04d4c4975b80-cmf4c11490699b.cpe.net.cable.rogers.com. [174.112.159.151])
+        by smtp.gmail.com with ESMTPSA id j15sm3458276qke.35.2021.04.18.17.12.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Apr 2021 11:42:08 -0700 (PDT)
-From: "Christopher Clark" <christopher.w.clark@gmail.com>
-To: meta-virtualization@lists.yoctoproject.org
-Cc: cardoe@gentoo.org,
-	bruce.ashfield@gmail.com,
-	bertrand.marquis@arm.com
-Subject: [meta-virtualization][PATCH v3 6/6] xtf-image: add a new image for the Xen Test Framework
-Date: Fri, 16 Apr 2021 11:41:36 -0700
-Message-Id: <20210416184136.71992-6-christopher.w.clark@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210416184136.71992-1-christopher.w.clark@gmail.com>
-References: <20210416184136.71992-1-christopher.w.clark@gmail.com>
+        Sun, 18 Apr 2021 17:12:40 -0700 (PDT)
+Date: Sun, 18 Apr 2021 20:12:39 -0400
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+To: Nathan Dunne <Nathan.Dunne@arm.com>
+Cc: meta-virtualization@lists.yoctoproject.org
+Subject: Re: [meta-virtualization] [PATCH v2 1/2] busybox: Add nsenter for podman runtime
+Message-ID: <20210419001236.GA61503@gmail.com>
+References: <20210415083718.19954-1-nathan.dunne@arm.com>
+ <10678.1618476931041116975@lists.yoctoproject.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <10678.1618476931041116975@lists.yoctoproject.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Testing the Xen hypervisor, with the qemux86-64 MACHINE:
-    runqemu xtf-image nographic slirp
-        (login as root)
-        cd /usr/libexec/xtf
-        ./xtf-runner --list pv
-        # run an example test:
-        ./xtf-runner test-pv64-livepatch-priv-check
+In message: Re: [meta-virtualization] [PATCH v2 1/2] busybox: Add nsenter for podman runtime
+on 15/04/2021 Nathan Dunne wrote:
 
-Signed-off-by: Christopher Clark <christopher.w.clark@gmail.com>
-Reviewed-by: Bertrand Marquis <bertrand.marquis@arm.com>
----
- recipes-extended/images/xtf-image.bb | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
- create mode 100644 recipes-extended/images/xtf-image.bb
+> Hi,
+> 
+> I've accidentally included the Issue-Id and Change-Id tags in v2 of these
+> patches, can they be removed on merge or should I submit a v3?
 
-diff --git a/recipes-extended/images/xtf-image.bb b/recipes-extended/images/xtf-image.bb
-new file mode 100644
-index 0000000..3f9af25
---- /dev/null
-+++ b/recipes-extended/images/xtf-image.bb
-@@ -0,0 +1,24 @@
-+require recipes-extended/images/xen-image-minimal.bb
-+DESCRIPTION = "A minimal Xen Test Framework (XTF) image for testing the Xen hypervisor"
-+
-+# To run XTF tests with an image built for the qemux86-64 MACHINE:
-+#
-+#   runqemu xtf-image nographic slirp
-+#       (login as root)
-+#       # xtf-runner expects to be run from the top of the tests directory:
-+#       cd /usr/libexec/xtf
-+#       # list the tests available for PV guest types:
-+#       ./xtf-runner --list pv
-+#       # run an example test:
-+#       ./xtf-runner test-pv64-livepatch-priv-check
-+
-+IMAGE_NAME="xtf"
-+
-+IMAGE_INSTALL_append = " xtf"
-+
-+QB_DEFAULT_FSTYPE = "wic"
-+
-+# Set the dom0 memory level lower than that assigned to qemu so that Xen has
-+# some available memory for allocating to the XTF microkernel guests to run:
-+QB_MEM = "-m 400"
-+SYSLINUX_XEN_ARGS_append = " dom0_mem=256M"
--- 
-2.25.1
+I edited the patches are part of my normal flow and dropped the tracking
+IDs.
+
+But thanks for noticing and following up!
+
+Bruce
+
+> 
+> Thanks,
+> Nathan
+
+> 
+> 
+> 
 
