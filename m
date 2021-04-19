@@ -1,1291 +1,620 @@
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com (NAM04-DM6-obe.outbound.protection.outlook.com [40.107.102.55])
- by mx.groups.io with SMTP id smtpd.web10.4248.1618803452394981744
+Received: from EUR01-VE1-obe.outbound.protection.outlook.com (EUR01-VE1-obe.outbound.protection.outlook.com [40.107.14.80])
+ by mx.groups.io with SMTP id smtpd.web09.5723.1618818483472276204
  for <meta-virtualization@lists.yoctoproject.org>;
- Sun, 18 Apr 2021 20:37:32 -0700
+ Mon, 19 Apr 2021 00:48:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=jiJ1cyVM;
- spf=pass (domain: windriver.com, ip: 40.107.102.55, mailfrom: yanfei.xu@windriver.com)
+ dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=oR89Hf7g;
+ spf=pass (domain: arm.com, ip: 40.107.14.80, mailfrom: bertrand.marquis@arm.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+4bcTJgoBQ/3FXm0xCliVtaOfvhnvd32zbfsmVehJso=;
+ b=oR89Hf7gn9NkCCKcLNoYqzFPc1muVMN9/PyXX0QN+y5N3WhLG6mXErcOWfyL4XyCBWq/KSl962ev3+RyRTaA8vz1kod+nfDHP2LUp+9o84GEkakSfo6G4xI96NcRK4arY7M+zdU9CX1ddgvX9pQW1UvV7mDyp7RH7lwe2qKJVLs=
+Received: from MR2P264CA0098.FRAP264.PROD.OUTLOOK.COM (2603:10a6:500:33::14)
+ by HE1PR0801MB1626.eurprd08.prod.outlook.com (2603:10a6:3:86::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4042.16; Mon, 19 Apr
+ 2021 07:48:00 +0000
+Received: from VE1EUR03FT048.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:500:33:cafe::11) by MR2P264CA0098.outlook.office365.com
+ (2603:10a6:500:33::14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4042.16 via Frontend
+ Transport; Mon, 19 Apr 2021 07:48:00 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; lists.yoctoproject.org; dkim=pass (signature was
+ verified) header.d=armh.onmicrosoft.com;lists.yoctoproject.org; dmarc=pass
+ action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ VE1EUR03FT048.mail.protection.outlook.com (10.152.19.8) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4042.16 via Frontend Transport; Mon, 19 Apr 2021 07:47:59 +0000
+Received: ("Tessian outbound 81a4524e9a48:v90"); Mon, 19 Apr 2021 07:47:58 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: 83312dea453c9ca1
+X-CR-MTA-TID: 64aa7808
+Received: from 2821de8e65a9.1
+	by 64aa7808-outbound-1.mta.getcheckrecipient.com id 3E6DA1F5-7D86-41E9-8DF9-4AFFBA44426C.1;
+	Mon, 19 Apr 2021 07:47:52 +0000
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com
+    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 2821de8e65a9.1
+    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+    Mon, 19 Apr 2021 07:47:52 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=n2/bvUfVaW0MuWbBuoFdp/H3IjX41evz5rcLVVMFGqyZeUyDIWQvO7VqjVEvKDM/MlVk0FhqVcPpbEHFLAo5NDJyqbzd/dUfj55/Tp4fP4kPGFn8x7N5ZZLnsQYBZysPP0CeMkZOzMe//gFFiZdITCNqwOBZrhRGKQRHb1ozSDCyIFIKdffB3vPyhbL9i6HDITfUhk6a07wPcT32GNCRtzH4saNY7sEM38IANuLyNW3rG6YubHh1VpP+LRlZFJgGKI5am8gfuKKRYQSJGNa6xggiD75mR6b03c2r6o11rikJaOKwPQS3GKXRtCOIZvvccKhNjzYs4Z3p5UJf9E41ww==
+ b=hDJnbKh5Ybq1pdiFYkfL9ZEyifHGaxf1SYOaXpNx6TFJ83+WguuQiOeZNrWaiOpkkWWVlBNPJmyahhFo3fq78C+EzCYV+f/pW+lQvuIrYVweNRTJN/Ge+vpIiUUXi8v1MkZXE5PgCQbB44RYP+6gceGKgx5O0Wcqd9066AWMID5SIMUb/6UxpxN1um5DJkz4OmdC54EVTHdjzoWJyqnIZeh95BJ0roB9rSvJBLWaY0sYnufoJbIklX55Fh9sCnKNNRP3YTsMGi56bJv4Vv4fDKeRp3SZkOT/1/gcRcyB8bjKB7kex0rofPKLrE9Hx5YDgmGW2buoTiKk8/3lG5SNug==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cU0jejnBeCv7sxFT80PT2++Jrc/jty/xiiDdbrzlQ9M=;
- b=MymybRh7FI9jtJW54LvRu0rAu58jrUqAfZ7t8hESLf9iC5lo6k7ixjDUPJ1vjNbYk/4zKhoZ/PGfJYnnAF7ZKPMPHKQXCkvmDRXDBALs8szq/h/eZwyrm1uI3H0wRTkxot6sj18PGjrArMvXXH1IEVTwpTAw6BbrIa/UnC/diO5UYwf9rRBgubA/18aaZlFoofsppPVkUp029F5L+bBoRJPLMq6Kg5yxDuihMmgFWMJGhPAFT9m6VJUb1nVJjwadY87TDW8sp0TNFmYSxpZLXNCZ4VNpf8RxlkNCNzBPa3T3PcZKjIhhrd60+PG4uandA2qT0mwi7EbZ2o6tPvO4oQ==
+ bh=+4bcTJgoBQ/3FXm0xCliVtaOfvhnvd32zbfsmVehJso=;
+ b=Nd2iWPawwR9PaxTeYrsX7lQl0bYsc9+D9yMtsUi0R5QRl9GLwOHVcNbPMagY14rAA6ePWeS3c1nLWSCeZik0RfibAp8y28MB0Ehz9oK014SnISvS+fof7UN7emSVxfqJjMLP7aPmP482zmpQIjnOSLf71ecHYv9UnxJgFRD1nxiglFx3pn8Np5Hm2nTd+m9LRbs8j8ZJ4a/HyyBRLZ5Pza5dcaa3JRQsADxHAxVxqp5llVnY5GKRYyQ8R+wRuAuekASOxY0hQuyoRj31F2+b7X9zKBL/RIiVnL5i4+UpRj5+ncnRrAb4JDXtxPudLE6//EFi2kYVD4LPJbyYqyFj8A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=windriversystems.onmicrosoft.com;
- s=selector2-windriversystems-onmicrosoft-com;
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cU0jejnBeCv7sxFT80PT2++Jrc/jty/xiiDdbrzlQ9M=;
- b=jiJ1cyVMLP3/olkP5iy2MkOn9zN0PKmqlfEKSihf/3OJdVLBqSFqumluAG083xxqCTghcsy2IhykmkTpZEw3R3oQ4TQogUmRvvYnNsHRjWQrHcGammatDCmkOBK5XUhE+Cvd50QsVLHJ8fzkveeah24XjT2lR4d+Qag2bfDIv+0=
-Authentication-Results: lists.yoctoproject.org; dkim=none (message not signed)
- header.d=none;lists.yoctoproject.org; dmarc=none action=none
- header.from=windriver.com;
-Received: from BY5PR11MB4241.namprd11.prod.outlook.com (2603:10b6:a03:1ca::13)
- by BYAPR11MB2598.namprd11.prod.outlook.com (2603:10b6:a02:cb::17) with
+ bh=+4bcTJgoBQ/3FXm0xCliVtaOfvhnvd32zbfsmVehJso=;
+ b=oR89Hf7gn9NkCCKcLNoYqzFPc1muVMN9/PyXX0QN+y5N3WhLG6mXErcOWfyL4XyCBWq/KSl962ev3+RyRTaA8vz1kod+nfDHP2LUp+9o84GEkakSfo6G4xI96NcRK4arY7M+zdU9CX1ddgvX9pQW1UvV7mDyp7RH7lwe2qKJVLs=
+Received: from VE1PR08MB5696.eurprd08.prod.outlook.com (2603:10a6:800:1ae::15)
+ by VI1PR08MB4333.eurprd08.prod.outlook.com (2603:10a6:803:101::13) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3999.32; Mon, 19 Apr
- 2021 03:37:28 +0000
-Received: from BY5PR11MB4241.namprd11.prod.outlook.com
- ([fe80::551b:e310:2ae4:3011]) by BY5PR11MB4241.namprd11.prod.outlook.com
- ([fe80::551b:e310:2ae4:3011%6]) with mapi id 15.20.4042.024; Mon, 19 Apr 2021
- 03:37:28 +0000
-From: "Xu, Yanfei" <yanfei.xu@windriver.com>
-To: meta-virtualization@lists.yoctoproject.org
-Subject: [meta-virtualization][PATCH v2] libvirt: uprev v6.3 -> v7.2
-Date: Mon, 19 Apr 2021 11:37:14 +0800
-Message-ID: <20210419033714.3283256-1-yanfei.xu@windriver.com>
-X-Mailer: git-send-email 2.27.0
-X-Originating-IP: [60.247.85.82]
-X-ClientProxiedBy: HK2PR02CA0134.apcprd02.prod.outlook.com
- (2603:1096:202:16::18) To BY5PR11MB4241.namprd11.prod.outlook.com
- (2603:10b6:a03:1ca::13)
-Return-Path: yanfei.xu@windriver.com
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from pek-lpggp1.wrs.com (60.247.85.82) by HK2PR02CA0134.apcprd02.prod.outlook.com (2603:1096:202:16::18) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4042.16 via Frontend Transport; Mon, 19 Apr 2021 03:37:26 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 7459e98d-e5df-4a20-8371-08d902e47416
-X-MS-TrafficTypeDiagnostic: BYAPR11MB2598:
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4042.16; Mon, 19 Apr
+ 2021 07:47:50 +0000
+Received: from VE1PR08MB5696.eurprd08.prod.outlook.com
+ ([fe80::b538:7f7:f4f3:8c0e]) by VE1PR08MB5696.eurprd08.prod.outlook.com
+ ([fe80::b538:7f7:f4f3:8c0e%7]) with mapi id 15.20.4042.024; Mon, 19 Apr 2021
+ 07:47:49 +0000
+From: "Bertrand Marquis" <bertrand.marquis@arm.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+CC: Christopher Clark <christopher.w.clark@gmail.com>,
+	"meta-virtualization@lists.yoctoproject.org"
+	<meta-virtualization@lists.yoctoproject.org>, Doug Goldstein
+	<cardoe@gentoo.org>, "martin.jansa@gmail.com" <martin.jansa@gmail.com>, nd
+	<nd@arm.com>
+Subject: Re: [meta-virtualization][PATCH v3 1/6] xen-tools: fix 32-bit x86 build by setting pvshim configure flags
+Thread-Topic: [meta-virtualization][PATCH v3 1/6] xen-tools: fix 32-bit x86
+ build by setting pvshim configure flags
+Thread-Index: AQHXNMg1fMGlluHY3kGPRwgiUXi77Kq7dwaA
+Date: Mon, 19 Apr 2021 07:47:49 +0000
+Message-ID: <72C465B9-BCC7-46D6-8FB9-B013476E68E9@arm.com>
+References: <20210419030029.GC61503@gmail.com>
+In-Reply-To: <20210419030029.GC61503@gmail.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3654.60.0.2.21)
+Authentication-Results-Original: gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=none action=none header.from=arm.com;
+x-originating-ip: [154.57.226.134]
+x-ms-publictraffictype: Email
+X-MS-Office365-Filtering-Correlation-Id: 347f6ecd-1c20-45c3-75fd-08d9030773f3
+x-ms-traffictypediagnostic: VI1PR08MB4333:|HE1PR0801MB1626:
 X-Microsoft-Antispam-PRVS: 
-	<BYAPR11MB2598A60CD8F3C9372C8E05C4E4499@BYAPR11MB2598.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:11;
+	<HE1PR0801MB1626C440CA3D58A857809D099D499@HE1PR0801MB1626.eurprd08.prod.outlook.com>
+x-checkrecipientrouted: true
+nodisclaimer: true
+x-ms-oob-tlc-oobclassifiers: OLM:10000;OLM:10000;
 X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: 
+ aJGuM5OxlxELodyjs+k+s7SZ0Xlmwjajfq11VHBj6TnW7VFRkiGsbbxKzyYmACMGgd7pDuwTxes8t/MG6E8aP9HiQoh8A49FYa4JZFhw618GAYmLAkBXEOOu+sH6ftc1Wr3Q6PLg0w2+GwMxXpulWfSoZ9el1oYSxV6ymJVcpsjuyzS79DdsaYgA8BZ1x4nga9GN5N9jA8U3VZtNvZngIqrZbatMQ2MyPtWGefK5G3RzXxwERTWtIjb8Nv1YVQgmJuiP57CNo4R9K7PcUOFYkBIfpU1OPzlfULniJElIWsYs+Jridgl+aAih/It4C0AVc0HogSgogfukIE5MrUA+m/MlxGd+srC4yy7hkhrvUCVurLjtC6QGleOoUeWE4vZ25fQlZwpRhkzH7BpcU738EacLsmA+iXkcj0Ly8yGFkI4uOS7LOu1OzT1WtqzTilQlwJ2R2j+u3xZLBWTN2f1IWaVZmMvcjpK+EvdLs2h5PM6HKOHKHQ1p6bs0nDDihPYHpXthzJVaVUXyBSVlbHJHeJJfQcSthE/9ZvCay6+aB/wkNn7ftFUi+kisVCcUrvYHT02s6XirmFK9cHB2XIYCgWe3aMqu/6esywzDv7LEhjrlMqzFOCk7MvD9+42EvmQg40OIgTD1Y2Hj1no3GwtfUiER4GwNr1Vq/DcDwxvVHT1bwDHIZhRIGXWq/IfHZHm2ohDCYq1S3dZ+gOUv00VlQEj8k3Xk+k/B3mi7u6YvNPs=
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VE1PR08MB5696.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(396003)(346002)(39860400002)(136003)(366004)(6486002)(316002)(6506007)(26005)(53546011)(186003)(54906003)(6512007)(6916009)(2906002)(33656002)(478600001)(8936002)(966005)(91956017)(30864003)(66446008)(66556008)(76116006)(66946007)(64756008)(2616005)(66476007)(5660300002)(8676002)(122000001)(71200400001)(36756003)(86362001)(4326008)(83380400001)(38100700002)(45980500001);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata: 
+ =?us-ascii?Q?kztaNSwrR+1r1ccTmx+Kn9GKIwZ5oHbMKTADtU8cOwocC4UWk/GVZav4WQMY?=
+ =?us-ascii?Q?mksVxea0w9onySXFVaW1rmmhDP2AZBNYWpJNL950BQTO/CR4qKOX3QoLkiAs?=
+ =?us-ascii?Q?/12e6UrIIenJNAEWeqawBzw5BCzJGMU9r1aMW2sPnqCChjh+aypxtIbvuQH3?=
+ =?us-ascii?Q?vVOGb7JUl2nMEhZsCKxsI3oBI7RFGQ9XtRCFE3lITmkbZ9MswhXcDFXlkV/C?=
+ =?us-ascii?Q?1L3Sw+7yr2IZCKXGvRaCi6dTaCFtey8Xzjzu6O1bBREx2F0WbAJIu4R9/95C?=
+ =?us-ascii?Q?BhwwBsnHheYGg9Lb1Iko3MNIfXsJwokTBaoIdPToX/fhDmVWMgVx4FV5T5vl?=
+ =?us-ascii?Q?yd/wdurHroZmue2JBCMRHp+tmAh0URX7XhxDj1V0hdFnVTdDn4mHysGb4P16?=
+ =?us-ascii?Q?uVXpeVgv9MYJyDAJfNgR9aOnl0j9ynp0DU+iSBHp1ZblDVtPxAE/eupD20SD?=
+ =?us-ascii?Q?7mQnv5W2+FcPMapyfKd2YYpyxTlso4GGgUx8F6lq04sjqA+WBbE7gZiqgAqM?=
+ =?us-ascii?Q?P9+hbn/TgURkPn/qiNWgkBEsmqfOKYd9f3YIF4YEvyHHa0HbsPrrltfFIBAc?=
+ =?us-ascii?Q?S4nAF3+34IrzkEWJBlavKoYX0AnFbuQDroYDQ9/iXHkIS5uPxsLQoqWoK9uF?=
+ =?us-ascii?Q?ljQnTFYGS7QXLsLpxnvqPiJc8wlO75JNThsWqFB+xBEpzGsvketXwEN/TMpI?=
+ =?us-ascii?Q?lQpCJVafNNTdaiFKBR3rdVs9FSI1Tw005RaGTj4NdYH/Nuu0CRjqzVXjwq25?=
+ =?us-ascii?Q?5LXRJrFysoOL7HHWw8RRXcDk3hcNxX9+dVKk5WEeiHznYyhXdvr4HA1iTEu5?=
+ =?us-ascii?Q?FgH0Ybnj0yniLkT5EqeETbWodReMvBwZ6/KdMYBZxf7rknVjqwHyTSP6wWSB?=
+ =?us-ascii?Q?eQA6KI3PGZjUURJo2xmtG2tMSJHrnW8iMU4wcU3ftJ/36MYOibOA5FAqc08Y?=
+ =?us-ascii?Q?zLFBuu/AaArgr0BF34oai78Z6+bJCDbsEmU+HgyU5wpl0HWWJL0youduozuu?=
+ =?us-ascii?Q?jBEuhsQvLU/XQPve3g9wWEkTIorKSN3T/pJ2pdOTxbf2/OVb8CSus3WLutTW?=
+ =?us-ascii?Q?lU/splSiqfBiO9h59yISUkdklzpv2G1uyBxjifw0igF3Scw2nw878Gz9Vfc4?=
+ =?us-ascii?Q?31bOIHpSIvIBqjDVjg+IGaeUNdFPTwunVUhq2gd55B0nzdI+uJfAksUWMoFs?=
+ =?us-ascii?Q?draepOO44FLkICmR4AoqvbZio1ULovRpP8EHXYYAskTUGKXEML5x7HX/pcZS?=
+ =?us-ascii?Q?602pXAcP41JF5ZXBOp+aCplcNaTaEbeJBt0odirKl5DiI8NZ1QQNsNfZtDGp?=
+ =?us-ascii?Q?iKE+EaUJpuZncJW7LY5jFED2?=
+x-ms-exchange-transport-forked: True
+MIME-Version: 1.0
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB4333
+Original-Authentication-Results: gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=none action=none header.from=arm.com;
+Return-Path: Bertrand.Marquis@arm.com
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ VE1EUR03FT048.eop-EUR03.prod.protection.outlook.com
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	beb8d970-70c6-492f-7a94-08d903076e4e
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	q9g/kPPKtG4GFXTFXbtj1JR6yYgECiiEn/Geprr7qZRIHbynH1IWX1OAEH7BX741o6GCPvRUpAH8BWq/DiOC2E7Us10/GtzQDVrBWWxlsxs9+WD1mupbM6kE9CftM5ioK8rRLUJ+rb4sfSsiGDYO6wSiYCmHtFP0E2N1N7GALskhgpc4DoJtMa5AQdfxAV2z0y2UwCbHqecBWicUt6T5v7WzdS0FZwalNrFlUN++z0McXXqlf7qixcRjsGamh/GoK1gMbFGDs+dzpw6ilDbGoH0nKmX3QRszX9wKgdZ3CGJ2rnao/H+bUbpgLSJb1Yi0R3EUFYsgABtmjuzPQcj13wpAti/L0o85KdzXnTbVd++tBaqPK/9Hxn0K3Bu1Wjn8Do1qAzMXLTO+a8eO5cf6NUTi/HtxBZdhYsXUy7pbqwkgvKXGRq4qoROhu/aLxqvoZy9yYam5dNCFmWnqHky/b/bCfS/qzonl5aEyJoo+7S8YShfpBx84+cPFLZe3UpxIlX6JVEd9mPTwSnl+rQ80//0LS0ER1byoT/p6sn/eKHCR59k8bjJFBouHiQBruUzhuMaesVvOz/Zy+JMnU7g0D5GuciVlvwV7nupNaOj4mmmJO9eSvS6Q/4N9QnsvXlNHkDvMN3Xal9P3mdphsdvoVQ9TrP5Yp0bt8V5FeIyLh6x+EnrL6A0Fv2iPtJGpVFrIsEBvRG7LMYr8jXYDIElak0RL0agShtGpstI2lAxeTgPUnSazbkvtE9J3CRwje9D8
+	BgCU3/TGQw2Zqq4PPt6uyj5Jpe+mEt47VnKs/iIKKMgcVHG5NAdQfEFErctsQahUUX2Ms4VkDsdrBenlTEG8uSlWHD1tXTNc1suOrguPmBUtdUNy8hqtN1ZfljI6CsSJM2qU+ko6eV/qWBwJcbFDd0v3WHFjPuOJbp8iHH7KEM31HmKzmXc64bh7GYQOYiqdVfXfmIXPzXivCLOKxU/Hv5QZCSx4KLNOJ1HLLUMSOkn9wNBqXLt7TTgbQgUgDDobbsi3g9v4gTkVW2/hIu59qWfFdVOaKdZPBhgII6OjFnYfoyrxijvv8mtyKntZxvQdKAmCgL8iCQWGVn/N45BiBKnsa8dL6ZbhAZlvUaju25rSdlZkYqNQu2ZUDG6UBnGjgt+D3fePR3xomNZlo1CJULGjFeoN8o9HJZbPuvuBLYeZL9LFjlhFlkRKUzR2CQ/GlgBZG5nRAZTaVDUvozyUjjCpE/+eOVjVs9DxfQn0gBbJBpL1MFSGAc/HhyucTvmozWinNUXtuBcv/PGCAr/mXHOKRILnZTybQ+JXB9TpJ71Do/zzi514+QakQBZCcAoXHx6/+2On9XaGGD8+FS5/YBe8lS0yOR6+2Guvsuhepv9A8E/WQgJtC5QqIs1vpi2utSLrmhPVHNOx9/KmkySYd5FPRhC5dlzkJCawhZRHfpAL2aAt955P6Ctd77MZOw/p4sAq2RqhzNs1Sy+FG6BZj4a/THubEZYh7jzlKAuqk/o=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB4241.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(396003)(346002)(136003)(39840400004)(376002)(8936002)(38100700002)(6512007)(956004)(66476007)(66556008)(16526019)(6666004)(30864003)(26005)(86362001)(83380400001)(2616005)(36756003)(52116002)(2906002)(9686003)(316002)(1076003)(66946007)(38350700002)(5660300002)(478600001)(8676002)(186003)(6486002)(6506007)(6916009)(966005)(21314003)(579004);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: 
-	=?us-ascii?Q?XCfNO9CfI5kUo6MLDiqkYcdLSqwiNCoaNMmSids9B3mKsM+sPNbYaEKSlSOB?=
- =?us-ascii?Q?iqqxUqa7GczXxQlbEb/oaw/pIkn7+iiT6Ao1yup3UupKOsg95bmsC56t4noX?=
- =?us-ascii?Q?KVsU79cFeFyRO6tuUDbp5POw95n8Vzqo2n5sWrwjPMvAK45tsEMgFdobtB2h?=
- =?us-ascii?Q?n//HQswNVtl1oSnzZsgoQ+Us4LwQm8v6uj6NunD/q+cDUmaRc5TA0g+dH5Zy?=
- =?us-ascii?Q?80lHOepSQDWysGU5TwMz7JjM3rt8Kw3QiKCn44VK++/O60Cm/2WykxG22XcF?=
- =?us-ascii?Q?DPCVALugowaIKYJjtpG4BWLBxxj7gqM09apMLCCeRrn+Ob8UqXZZhrb5EGHc?=
- =?us-ascii?Q?JyQpbVdbUv12aKvlDdjl5IJYCxOdLhFxss1N/RU0OZdv2RbOb+t1GZC98O4+?=
- =?us-ascii?Q?Fz6GCwOYqZsOoiSxQhyN64IsPs7Fh18CDeydyGguhzV9YTzQEMsJiNYNvMei?=
- =?us-ascii?Q?atruxwpjgG+6brj3lN6il5+ixgJC2ngNgyr3s6fg3BzpuAt93fq4z8sz/0MM?=
- =?us-ascii?Q?q9CgvCV25vfR9lrdr0mGp87/u3Wn6f26NNG2eMAxI0mACSwdISYpIMR6Fbte?=
- =?us-ascii?Q?sTzBtrrAY/ztOVcpbIyyCwXQDDp3Qy6uy/K3HVJosig0OTInStJFC6hY4CHp?=
- =?us-ascii?Q?vgRPcAV6gSbcA3xWUK9xq1jOjUaJ31qh8KljFQAZV82/s511cu5t5C0c0qvr?=
- =?us-ascii?Q?Y6Pj90d7YHyKITBIfj4vRuOYiCnTy5pXz5ekbEknHyecFwsLKl8ORu1DNgiF?=
- =?us-ascii?Q?i85rNBssYqPlyGGo3EaHVzBJg9ZA1stzUFt/QeKhhVRVoBl5QpqN6+aebKKY?=
- =?us-ascii?Q?WRyqNC1m0g8+RaSL7gZBIfbYakjsmTLl8uWwgITrVmNHZCMddYt1yKgveofG?=
- =?us-ascii?Q?yGKUk7VtLJA1K5AmVgws/K6WMAMlt9ThB/zfFbQRaC13zeV97Keo/GtB9bjM?=
- =?us-ascii?Q?aV4UVSWxJfSK8IfQx6m7KrAyxqd9aVLh6Z+wb4WMItBoYjBLo+7JFUPwVosD?=
- =?us-ascii?Q?ltY3pefAMcl0u6TufPpPXtyIFPETfcN+UMC8nTJSLW8wuaQrSLpPmiB/tnJ3?=
- =?us-ascii?Q?bOB63NM5j9vP7M/2SVe72dEaSEpEcTqyLKJsfWb7UVsPu2ZAGDYZiN1ty+Am?=
- =?us-ascii?Q?qf4+pZgWxF2LjK9incwL6f37kVRmQjLewcY/i5VPxIA0LF0TIoRA+h96OXKp?=
- =?us-ascii?Q?hURyDZeGUeqceGA8HB46KgHQbBdIXYFxhRTN5CJp0u5nszNSb8KTNsJOP5pn?=
- =?us-ascii?Q?q3iutofjt1X2yDjIbsaxq/PKyhyc/tfsrZ9M5UCzGyF2NOciyhHGmq4i/nIW?=
- =?us-ascii?Q?3IbuKwDtn7j6t1+fJ9qOiAVf?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7459e98d-e5df-4a20-8371-08d902e47416
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4241.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Apr 2021 03:37:28.5530
+	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(4636009)(396003)(376002)(346002)(136003)(39860400002)(46966006)(36840700001)(478600001)(336012)(8936002)(2906002)(2616005)(966005)(26005)(30864003)(83380400001)(186003)(82740400003)(53546011)(8676002)(81166007)(6486002)(86362001)(6506007)(6862004)(82310400003)(356005)(47076005)(5660300002)(4326008)(36860700001)(70206006)(36756003)(316002)(70586007)(33656002)(54906003)(6512007);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Apr 2021 07:47:59.2928
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9n6PFGNoANaJwz+l5lVR0x6rRWQTCmx0weAYbLkTKlSBaZoMcSCy1l5cKAFYbKqMMLCYPUnxUWUD7EIUbFO3Tg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR11MB2598
+X-MS-Exchange-CrossTenant-Network-Message-Id: 347f6ecd-1c20-45c3-75fd-08d9030773f3
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	VE1EUR03FT048.eop-EUR03.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1PR0801MB1626
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <2AE8F7E1089C0040B7FE7508DB7D3E11@eurprd08.prod.outlook.com>
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
 
-From: Yanfei Xu <yanfei.xu@windriver.com>
+Hi Bruce,
 
-This upgrade spans 9 small release. The detailed realese logs could
-refer to: https://gitlab.com/libvirt/libvirt/-/blob/master/NEWS.rst
+> On 19 Apr 2021, at 04:00, Bruce Ashfield via lists.yoctoproject.org <bru=
+ce.ashfield=3Dgmail.com@lists.yoctoproject.org> wrote:
+>=20
+> I've merged v3.
+>=20
+> I also have a patch on master to bump the default version to 4.15,
+> but ran into a syslinux build issue (unrelated) that I'm sorting
+> out.
 
-Libvirt's buildsystem has changed to meson, So this upgrade drop some
-obsolete patches applied to makefile.
+If you share it, I could help do some testing with that.
 
-Due to libvirt's meson currently doesn't support to explicit the runtime
-binariy path. I made a patch which is
-0001-meson-add-options-to-explicit-binaries-path.patch for solving the
-problem.
+>=20
+> When I have that 4.15 build tested, I'll push it as well.
+>=20
+> To confirm, we also want to remove 4.14 from master ? I've
+> done that as well, but would like an Ack before I push it.
 
-I ran libvirt testcase and ovs testcase for this upgrade, the summary
-as follow:
+Could I request to wait some time to do that ?
+This would ease the transition on my side (and for some people using what =
+we do).
 
-libvirt_test (keyword: ) test results:
-*1 Run libvirt_test testing(do_test1)                          PASS
-*2 Check result (virsh_local_capabilities)                     PASS
-*3 Check result (virsh_local_domcapabilities)                  PASS
-*4 Check result (virsh_local_freecell)                         PASS
-*5 Check result (virsh_local_help)                             PASS
-*6 Check result (virsh_local_hostname)                         PASS
-*7 Check result (virsh_local_iface-begin)                      PASS
-*8 Check result (virsh_local_iface-commit)                     PASS
-*9 Check result (virsh_local_iface-list)                       PASS
-*10 Check result (virsh_local_list)                            PASS
-*11 Check result (virsh_local_maxvcpus)                        PASS
-*12 Check result (virsh_local_net-list)                        PASS
-*13 Check result (virsh_local_nodecpumap)                      PASS
-*14 Check result (virsh_local_nodecpustats)                    PASS
-*15 Check result (virsh_local_nodedev-list)                    PASS
-*16 Check result (virsh_local_nodeinfo)                        PASS
-*17 Check result (virsh_local_node-memory-tune)                PASS
-*18 Check result (virsh_local_nodememstats)                    PASS
-*19 Check result (virsh_local_nwfilter-binding-list)           PASS
-*20 Check result (virsh_local_nwfilter-list)                   PASS
-*21 Check result (virsh_local_pool-capabilities)               PASS
-*22 Check result (virsh_local_pool-list)                       PASS
-*23 Check result (virsh_local_pwd)                             PASS
-*24 Check result (virsh_local_secret-list)                     PASS
-*25 Check result (virsh_local_sysinfo)                         PASS
-*26 Check result (virsh_local_uri)                             PASS
-*27 Check result (virsh_local_version)                         PASS
+Something like a month would be great.
 
-openvswitch_vm2vm (keyword: qemux86) test results:
-*1 openvswitch_vm2vm testing(do_test1)                         PASS
-*2 Check result (ovs_vm2vm_boot_guest1)                        PASS
-*3 Check result (ovs_vm2vm_boot_guest2)                        PASS
-*4 Check result (ovs_vm2vm_netperf_test)                       PASS
-*5 Check result (ovs_vm2vm_destroy_guest1)                     PASS
-*6 Check result (ovs_vm2vm_destroy_guest2)                     PASS
-*7 check testcase call trace(do_check_call_trace)              PASS
+Regards
+Bertrand
 
-Signed-off-by: Yanfei Xu <yanfei.xu@windriver.com>
----
-v1-->v2:
-1.fix build failure caused by "getent".
-2.fix apply failure.
-3.drop ptest configurations in libvirt_7.2.0.bb
-4.add test log in commit messages.
-
- conf/layer.conf                               |   2 +
- recipes-extended/libvirt/libvirt-python.inc   |   4 +-
- ...drop-unnecessary-libgnu.la-reference.patch |  31 ---
- ...dd-options-to-explicit-binaries-path.patch |  86 ++++++++
- .../libvirt/0001-to-fix-build-error.patch     |  47 ----
- ...-search-for-rpc-rpc.h-in-the-sysroot.patch |  34 ---
- .../libvirt/install-missing-file.patch        |  50 -----
- ...read-safety-in-lxc-callback-handling.patch |  63 ------
- ...virt-use-pkg-config-to-locate-libcap.patch |  43 ----
- .../libvirt/qemu-fix-crash-in-qemuOpen.patch  |  39 ----
- .../libvirt/libvirt/runptest.patch            | 116 ----------
- ...t-net-rpc-to-virt-host-validate-when.patch |  91 --------
- .../{libvirt_6.3.0.bb =3D> libvirt_7.2.0.bb}    | 200 +++++-------------
- 13 files changed, 141 insertions(+), 665 deletions(-)
- delete mode 100644 recipes-extended/libvirt/libvirt/0001-build-drop-unnece=
-ssary-libgnu.la-reference.patch
- create mode 100644 recipes-extended/libvirt/libvirt/0001-meson-add-options=
--to-explicit-binaries-path.patch
- delete mode 100644 recipes-extended/libvirt/libvirt/0001-to-fix-build-erro=
-r.patch
- delete mode 100644 recipes-extended/libvirt/libvirt/configure.ac-search-fo=
-r-rpc-rpc.h-in-the-sysroot.patch
- delete mode 100644 recipes-extended/libvirt/libvirt/install-missing-file.p=
-atch
- delete mode 100644 recipes-extended/libvirt/libvirt/libvirt-1.0.3-fix-thre=
-ad-safety-in-lxc-callback-handling.patch
- delete mode 100644 recipes-extended/libvirt/libvirt/libvirt-use-pkg-config=
--to-locate-libcap.patch
- delete mode 100644 recipes-extended/libvirt/libvirt/qemu-fix-crash-in-qemu=
-Open.patch
- delete mode 100644 recipes-extended/libvirt/libvirt/runptest.patch
- delete mode 100644 recipes-extended/libvirt/libvirt/tools-add-libvirt-net-=
-rpc-to-virt-host-validate-when.patch
- rename recipes-extended/libvirt/{libvirt_6.3.0.bb =3D> libvirt_7.2.0.bb} (=
-62%)
-
-diff --git a/conf/layer.conf b/conf/layer.conf
-index f48ec25..0f0126b 100644
---- a/conf/layer.conf
-+++ b/conf/layer.conf
-@@ -67,3 +67,5 @@ K8S_CONFIG_PATH =3D "${LAYERDIR}/conf/distro/include/k8s-=
-versions.inc"
- USER_CLASSES_append =3D " meta-virt-cfg"
- USER_CLASSES_append =3D " meta-virt-k8s-cfg"
- USER_CLASSES_append =3D " meta-virt-xen-cfg"
-+
-+HOSTTOOLS_NONFATAL +=3D "getent"
-diff --git a/recipes-extended/libvirt/libvirt-python.inc b/recipes-extended=
-/libvirt/libvirt-python.inc
-index bcd7657..0c661af 100644
---- a/recipes-extended/libvirt/libvirt-python.inc
-+++ b/recipes-extended/libvirt/libvirt-python.inc
-@@ -17,8 +17,8 @@ FILES_${PN}-python =3D "${bindir}/* ${libdir}/* ${libdir}=
-/${PYTHON_DIR}/*"
-=20
- SRC_URI +=3D "http://libvirt.org/sources/python/libvirt-python-${PV}.tar.g=
-z;name=3Dlibvirt_python"
-=20
--SRC_URI[libvirt_python.md5sum] =3D "4cf898350ee9a47f94986d402c153bdb"
--SRC_URI[libvirt_python.sha256sum] =3D "c772421ecc144f098f4ab15db700c62db9b=
-9e6e76b876217edcfd62e9ce02750"
-+SRC_URI[libvirt_python.md5sum] =3D "19bf22414a43d358581b9259b52047a7"
-+SRC_URI[libvirt_python.sha256sum] =3D "c0c3bac54c55622e17927b09cd984386960=
-0d71842fb072c99491fe2608dcee7"
-=20
- export LIBVIRT_API_PATH =3D "${S}/docs/libvirt-api.xml"
- export LIBVIRT_CFLAGS =3D "-I${S}/include"
-diff --git a/recipes-extended/libvirt/libvirt/0001-build-drop-unnecessary-l=
-ibgnu.la-reference.patch b/recipes-extended/libvirt/libvirt/0001-build-drop=
--unnecessary-libgnu.la-reference.patch
-deleted file mode 100644
-index f02a5d6..0000000
---- a/recipes-extended/libvirt/libvirt/0001-build-drop-unnecessary-libgnu.l=
-a-reference.patch
-+++ /dev/null
-@@ -1,31 +0,0 @@
--From 30a056069cb35804434fb036e51ae97f33c02025 Mon Sep 17 00:00:00 2001
--From: Bruce Ashfield <bruce.ashfield@gmail.com>
--Date: Sat, 7 Mar 2020 21:36:27 -0500
--Subject: [PATCH] build: drop unnecessary libgnu.la reference
--
--Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
--
-----
-- tools/Makefile.am | 2 --
-- 1 file changed, 2 deletions(-)
--
--diff --git a/tools/Makefile.am b/tools/Makefile.am
--index 2a0a989..93fe283 100644
----- a/tools/Makefile.am
--+++ b/tools/Makefile.am
--@@ -168,7 +168,6 @@ virt_host_validate_LDADD =3D \
--=20
-- if WITH_GNUTLS
-- virt_host_validate_LDADD +=3D ../src/libvirt-net-rpc.la \
---                            ../gnulib/lib/libgnu.la   \
--                             $(NULL)
-- endif
--=20
--@@ -270,7 +269,6 @@ BUILT_SOURCES =3D
--=20
-- if WITH_GNUTLS
-- virsh_LDADD +=3D ../src/libvirt-net-rpc.la \
---               ../gnulib/lib/libgnu.la   \
--                $(NULL)
-- endif
--=20
-diff --git a/recipes-extended/libvirt/libvirt/0001-meson-add-options-to-exp=
-licit-binaries-path.patch b/recipes-extended/libvirt/libvirt/0001-meson-add=
--options-to-explicit-binaries-path.patch
-new file mode 100644
-index 0000000..4c545d4
---- /dev/null
-+++ b/recipes-extended/libvirt/libvirt/0001-meson-add-options-to-explicit-b=
-inaries-path.patch
-@@ -0,0 +1,86 @@
-+From 2e061ccf093063267277893cd5cacc9e7188c629 Mon Sep 17 00:00:00 2001
-+From: Yanfei Xu <yanfei.xu@windriver.com>
-+Date: Thu, 25 Mar 2021 16:24:04 +0800
-+Subject: [PATCH] meson: add options to explicit binaries path
-+
-+In cross compile evironment, path of binaries is possiblely different
-+between target and host. Let's add options to explicit binaries path
-+to solve this problem.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Yanfei Xu <yanfei.xu@windriver.com>
-+---
-+ meson.build       | 18 ++++++++++++------
-+ meson_options.txt | 23 +++++++++++++++++++++++
-+ 2 files changed, 35 insertions(+), 6 deletions(-)
-+
-+diff --git a/meson.build b/meson.build
-+index 369548f127..6c93be8e4b 100644
-+--- a/meson.build
-++++ b/meson.build
-+@@ -943,18 +943,24 @@ optional_programs =3D [
-+   'udevadm',
-+ ]
-+=20
-++# if -Dxxx-path option is found, use that. Otherwise, check in $PATH,
-++# /usr/sbin, /sbin, and fall back to the default from middle column.
-+ foreach name : optional_programs
-+-  prog =3D find_program(name, required: false, dirs: libvirt_sbin_path)
-+   varname =3D name.underscorify()
-+-  if prog.found()
-+-    prog_path =3D prog.path()
-++  prog_path =3D get_option(name + '-path')
-++  if prog_path !=3D ''
-++    message('Using @1@ for @0@'.format(name, prog_path))
-+   else
-+-    prog_path =3D name
-++    prog =3D find_program(name, required: false, dirs: libvirt_sbin_path)
-++    if prog.found()
-++      prog_path =3D prog.path()
-++    else
-++      prog_path =3D name
-++    endif
-++  set_variable('@0@_prog'.format(varname), prog)
-+   endif
-+-
-+   conf.set_quoted(varname.to_upper(), prog_path)
-+   conf.set_quoted('@0@_PATH'.format(varname.to_upper()), prog_path)
-+-  set_variable('@0@_prog'.format(varname), prog)
-+ endforeach
-+=20
-+=20
-+diff --git a/meson_options.txt b/meson_options.txt
-+index e5d79c2b6b..f06f46c7bb 100644
-+--- a/meson_options.txt
-++++ b/meson_options.txt
-+@@ -102,3 +102,26 @@ option('numad', type: 'feature', value: 'auto', descr=
-iption: 'use numad to manag
-+ option('pm_utils', type: 'feature', value: 'auto', description: 'use pm-u=
-tils for power management')
-+ option('sysctl_config', type: 'feature', value: 'auto', description: 'Whe=
-ther to install sysctl configs')
-+ option('tls_priority', type: 'string', value: 'NORMAL', description: 'set=
- the default TLS session priority string')
-++
-++
-++option('addr2line-path', type : 'string', description : 'path to addr2lin=
-e')
-++option('augparse-path', type : 'string', description : 'path to augparse'=
-)
-++option('dmidecode-path', type : 'string', description : 'path to dmidecod=
-e')
-++option('dnsmasq-path', type : 'string', description : 'path to dnsmasq')
-++option('ebtables-path', type : 'string', description : 'path to ebtables'=
-)
-++option('flake8-path', type : 'string', description : 'path to flake8')
-++option('ip-path', type : 'string', description : 'path to ip')
-++option('ip6tables-path', type : 'string', description : 'path to ip6table=
-s')
-++option('iptables-path', type : 'string', description : 'path to iptables'=
-)
-++option('iscsiadm-path', type : 'string', description : 'path to iscsiadm'=
-)
-++option('mdevctl-path', type : 'string', description : 'path to mdevctl')
-++option('mm-ctl-path', type : 'string', description : 'path to mm-ctl')
-++option('modprobe-path', type : 'string', description : 'path to modprobe'=
-)
-++option('ovs-vsctl-path', type : 'string', description : 'path to ovs-vsct=
-l')
-++option('pdwtags-path', type : 'string', description : 'path to pdwtags')
-++option('radvd-path', type : 'string', description : 'path to radvd')
-++option('rmmod-path', type : 'string', description : 'path to rmmod')
-++option('scrub-path', type : 'string', description : 'path to scrub')
-++option('tc-path', type : 'string', description : 'path to tc')
-++option('udevadm-path', type : 'string', description : 'path to udevadm')
-++
-+--=20
-+2.27.0
-+
-diff --git a/recipes-extended/libvirt/libvirt/0001-to-fix-build-error.patch=
- b/recipes-extended/libvirt/libvirt/0001-to-fix-build-error.patch
-deleted file mode 100644
-index b0148e5..0000000
---- a/recipes-extended/libvirt/libvirt/0001-to-fix-build-error.patch
-+++ /dev/null
-@@ -1,47 +0,0 @@
--From 3566bcacaa6408fb8f655d1749a20b2f30e0c765 Mon Sep 17 00:00:00 2001
--From: Lei Maohui <leimaohui@cn.fujitsu.com>
--Date: Fri, 31 Jul 2015 03:17:07 +0900
--Subject: [PATCH] to fix build error
--
--The error likes as following
--
--| Generating internals/command.html.tmp
--| /bin/sh: line 3: internals/command.html.tmp: No such file or directory
--| rm: Generating internals/locking.html.tmp
--| cannot remove `internals/command.html.tmp': No such file or directory
--| make[3]: *** [internals/command.html.tmp] Error 1
--| make[3]: *** Waiting for unfinished jobs....
--
--Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
--[ywei: rebased to libvirt-1.3.2]
--Signed-off-by: Yunguo Wei <yunguo.wei@windriver.com>
--[MA: rebase to v4.3.0]
--Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
--
-----
-- docs/Makefile.am | 5 ++---
-- 1 file changed, 2 insertions(+), 3 deletions(-)
--
--diff --git a/docs/Makefile.am b/docs/Makefile.am
--index ce3d296..2c8180f 100644
----- a/docs/Makefile.am
--+++ b/docs/Makefile.am
--@@ -366,7 +366,7 @@ EXTRA_DIST=3D \
--   aclperms.htmlinc \
--   $(schema_DATA)
--=20
---acl_generated =3D aclperms.htmlinc
--+acl.html:: $(srcdir)/aclperms.htmlinc
--=20
-- aclperms.htmlinc: $(top_srcdir)/src/access/viraccessperm.h \
--         $(top_srcdir)/scripts/genaclperms.py Makefile.am
--@@ -432,8 +432,7 @@ manpages/%.html.in: manpages/%.rst
-- 	$(AM_V_GEN)$(MKDIR_P) `dirname $@` && \
-- 	  $(RST2HTML) --strict $< > $@ || { rm $@ && exit 1; }
--=20
---%.html.tmp: %.html.in site.xsl subsite.xsl page.xsl \
---		$(acl_generated)
--+%.html.tmp: %.html.in site.xsl subsite.xsl page.xsl
-- 	$(AM_V_GEN)name=3D`echo $@ | sed -e 's/.tmp//'`; \
-- 	  genhtmlin=3D`echo $@ | sed -e 's/.tmp/.in/'`; \
-- 	  rst=3D`echo $@ | sed -e 's/.html.tmp/.rst/'`; \
-diff --git a/recipes-extended/libvirt/libvirt/configure.ac-search-for-rpc-r=
-pc.h-in-the-sysroot.patch b/recipes-extended/libvirt/libvirt/configure.ac-s=
-earch-for-rpc-rpc.h-in-the-sysroot.patch
-deleted file mode 100644
-index 395d561..0000000
---- a/recipes-extended/libvirt/libvirt/configure.ac-search-for-rpc-rpc.h-in=
--the-sysroot.patch
-+++ /dev/null
-@@ -1,34 +0,0 @@
--From 79f5975db01af0599860ccca7ef44b0e27105a04 Mon Sep 17 00:00:00 2001
--From: Mark Asselstine <mark.asselstine@windriver.com>
--Date: Thu, 10 May 2018 12:05:04 -0400
--Subject: [PATCH] configure.ac: search for rpc/rpc.h in the sysroot
--
--We want to avoid host contamination and use the sysroot as the base
--directory for our search so add the '=3D' the the '-I' when searching
--for libtirpc's rpc.h header.
--
--Upstream-Status: Inappropriate [old release]
--
--Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
--
-----
-- m4/virt-xdr.m4 | 4 ++--
-- 1 file changed, 2 insertions(+), 2 deletions(-)
--
--diff --git a/m4/virt-xdr.m4 b/m4/virt-xdr.m4
--index 8375415..12b51f7 100644
----- a/m4/virt-xdr.m4
--+++ b/m4/virt-xdr.m4
--@@ -30,10 +30,10 @@ AC_DEFUN([LIBVIRT_CHECK_XDR], [
--     ])
--     with_xdr=3D"yes"
--=20
---    dnl Recent glibc requires -I/usr/include/tirpc for <rpc/rpc.h>
--+    dnl Recent glibc requires -I=3D/usr/include/tirpc for <rpc/rpc.h>
--     old_CFLAGS=3D$CFLAGS
--     AC_CACHE_CHECK([where to find <rpc/rpc.h>], [lv_cv_xdr_cflags], [
---      for add_CFLAGS in '' '-I/usr/include/tirpc' 'missing'; do
--+      for add_CFLAGS in '' '-I=3D/usr/include/tirpc' 'missing'; do
--         if test x"$add_CFLAGS" =3D xmissing; then
--           lv_cv_xdr_cflags=3Dmissing; break
--         fi
-diff --git a/recipes-extended/libvirt/libvirt/install-missing-file.patch b/=
-recipes-extended/libvirt/libvirt/install-missing-file.patch
-deleted file mode 100644
-index 6aa36df..0000000
---- a/recipes-extended/libvirt/libvirt/install-missing-file.patch
-+++ /dev/null
-@@ -1,50 +0,0 @@
--From aa75f5136066d239d48a21373b3d96ee12378e8d Mon Sep 17 00:00:00 2001
--From: Dengke Du <dengke.du@windriver.com>
--Date: Wed, 8 May 2019 17:24:17 +0800
--Subject: [PATCH] Install missing conf file
--
--openvzutilstest.conf file is needed by openvzutilstest test.
--
--Upstream-Status: Inapproriate
--
--Signed-off-by: Catalin Enache <catalin.enache@windriver.com>
--[KK: Update context for 1.3.5.]
--Signed-off-by: Kai Kang <kai.kang@windriver.com>
--[MA: Update context for v4.3.0]
--Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
--[DDU: Update context for v5.3.0]
--Signed-off-by: Dengke Du <dengke.du@windriver.com>
--
-----
-- tests/Makefile.am | 4 +++-
-- 1 file changed, 3 insertions(+), 1 deletion(-)
--
--diff --git a/tests/Makefile.am b/tests/Makefile.am
--index 4a808dd..0c3e799 100644
----- a/tests/Makefile.am
--+++ b/tests/Makefile.am
--@@ -173,6 +173,7 @@ EXTRA_DIST =3D \
-- 	$(NULL)
--=20
-- test_helpers =3D commandhelper ssh
--+test_misc =3D
-- test_programs =3D virshtest sockettest \
-- 	virhostcputest virbuftest \
-- 	commandtest seclabeltest \
--@@ -311,6 +312,7 @@ endif WITH_LXC
--=20
-- if WITH_OPENVZ
-- test_programs +=3D openvzutilstest
--+test_misc +=3D openvzutilstest.conf
-- endif WITH_OPENVZ
--=20
-- if WITH_ESX
--@@ -1551,7 +1553,7 @@ endif  ! WITH_LINUX
--=20
-- buildtest-TESTS: $(TESTS) $(test_libraries) $(test_helpers)
--=20
---PTESTS =3D $(TESTS) $(test_helpers) test-lib.sh virschematest
--+PTESTS =3D $(TESTS) $(test_helpers) $(test_misc) test-lib.sh virschemates=
-t
--=20
-- install-ptest:
-- 	list=3D'$(TESTS) $(test_helpers) test-lib.sh virschematest'
-diff --git a/recipes-extended/libvirt/libvirt/libvirt-1.0.3-fix-thread-safe=
-ty-in-lxc-callback-handling.patch b/recipes-extended/libvirt/libvirt/libvir=
-t-1.0.3-fix-thread-safety-in-lxc-callback-handling.patch
-deleted file mode 100644
-index 558d5ef..0000000
---- a/recipes-extended/libvirt/libvirt/libvirt-1.0.3-fix-thread-safety-in-l=
-xc-callback-handling.patch
-+++ /dev/null
-@@ -1,63 +0,0 @@
--From ad5d9cee87357f9f38f62583119606ef95ba10df Mon Sep 17 00:00:00 2001
--From: Bogdan Purcareata <bogdan.purcareata@freescale.com>
--Date: Fri, 24 May 2013 16:46:00 +0300
--Subject: [PATCH] Fix thread safety in LXC callback handling
--
--Signed-off-by: Bogdan Purcareata <bogdan.purcareata@freescale.com>
-----
-- src/lxc/lxc_process.c | 18 +++++++++++++++++-
-- 1 file changed, 17 insertions(+), 1 deletion(-)
--
--diff --git a/src/lxc/lxc_process.c b/src/lxc/lxc_process.c
--index aaa81a7..0eadc67 100644
----- a/src/lxc/lxc_process.c
--+++ b/src/lxc/lxc_process.c
--@@ -609,8 +609,13 @@ static void virLXCProcessMonitorExitNotify(virLXCMoni=
-torPtr mon ATTRIBUTE_UNUSED
--                                            virLXCProtocolExitStatus statu=
-s,
--                                            virDomainObjPtr vm)
-- {
--+    virLXCDriverPtr driver =3D lxc_driver;
--     virLXCDomainObjPrivatePtr priv =3D vm->privateData;
--=20
--+    lxcDriverLock(driver);
--+    virObjectLock(vm);
--+    lxcDriverUnlock(driver);
--+
--     switch (status) {
--     case VIR_LXC_PROTOCOL_EXIT_STATUS_SHUTDOWN:
--         priv->stopReason =3D VIR_DOMAIN_EVENT_STOPPED_SHUTDOWN;
--@@ -628,6 +633,8 @@ static void virLXCProcessMonitorExitNotify(virLXCMonit=
-orPtr mon ATTRIBUTE_UNUSED
--     }
--     VIR_DEBUG("Domain shutoff reason %d (from status %d)",
--               priv->stopReason, status);
--+
--+    virObjectUnlock(vm);
-- }
--=20
-- /* XXX a little evil */
--@@ -636,12 +643,21 @@ static void virLXCProcessMonitorInitNotify(virLXCMon=
-itorPtr mon ATTRIBUTE_UNUSED
--                                            pid_t initpid,
--                                            virDomainObjPtr vm)
-- {
---    virLXCDomainObjPrivatePtr priv =3D vm->privateData;
--+    virLXCDriverPtr driver =3D lxc_driver;
--+    virLXCDomainObjPrivatePtr priv;
--+
--+    lxcDriverLock(driver);
--+    virObjectLock(vm);
--+    lxcDriverUnlock(driver);
--+
--+    priv =3D vm->privateData;
--     priv->initpid =3D initpid;
--     virDomainAuditInit(vm, initpid);
--=20
--     if (virDomainSaveStatus(lxc_driver->caps, lxc_driver->stateDir, vm) <=
- 0)
--         VIR_WARN("Cannot update XML with PID for LXC %s", vm->def->name);
--+
--+    virObjectUnlock(vm);
-- }
--=20
-- static virLXCMonitorCallbacks monitorCallbacks =3D {
----=20
--1.7.11.7
--
-diff --git a/recipes-extended/libvirt/libvirt/libvirt-use-pkg-config-to-loc=
-ate-libcap.patch b/recipes-extended/libvirt/libvirt/libvirt-use-pkg-config-=
-to-locate-libcap.patch
-deleted file mode 100644
-index 87b5591..0000000
---- a/recipes-extended/libvirt/libvirt/libvirt-use-pkg-config-to-locate-lib=
-cap.patch
-+++ /dev/null
-@@ -1,43 +0,0 @@
--From 94bd514e1b6e602a48285db94e65050f8f0c2585 Mon Sep 17 00:00:00 2001
--From: Bruce Ashfield <bruce.ashfield@windriver.com>
--Date: Wed, 8 Apr 2015 13:03:03 -0400
--Subject: [PATCH] libvirt: use pkg-config to locate libcap
--
--libvirt wants to use pcap-config to locate the exisence and location
--of libpcap. oe-core stubs this script and replaces it with pkg-config,
--which can lead to the host pcap-config triggering and either breaking
--the build or introducing host contamination.
--
--To fix this issue, we patch configure to use 'pkg-config libcap' to
--locate the correct libraries.
--
--Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
--[MA: Update to apply agains v4.3.0]
--Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
--
-----
-- m4/virt-libpcap.m4 | 6 +++---
-- 1 file changed, 3 insertions(+), 3 deletions(-)
--
--diff --git a/m4/virt-libpcap.m4 b/m4/virt-libpcap.m4
--index 605c2fd..e0ab018 100644
----- a/m4/virt-libpcap.m4
--+++ b/m4/virt-libpcap.m4
--@@ -23,14 +23,14 @@ AC_DEFUN([LIBVIRT_ARG_LIBPCAP], [
--=20
-- AC_DEFUN([LIBVIRT_CHECK_LIBPCAP], [
--   LIBPCAP_REQUIRED=3D"1.5.0"
---  LIBPCAP_CONFIG=3D"pcap-config"
--+  LIBPCAP_CONFIG=3D"pkg-config libpcap"
--   LIBPCAP_CFLAGS=3D""
--   LIBPCAP_LIBS=3D""
--=20
--   if test "x$with_libpcap" !=3D "xno"; then
--     case $with_libpcap in
---      ''|yes|check) LIBPCAP_CONFIG=3D"pcap-config" ;;
---      *)      LIBPCAP_CONFIG=3D"$with_libpcap/bin/pcap-config" ;;
--+      ''|yes|check) LIBPCAP_CONFIG=3D"pkg-config libpcap" ;;
--+      *)      LIBPCAP_CONFIG=3D"$with_libpcap/bin/pkg-config libpcap" ;;
--     esac
--     AS_IF([test "x$LIBPCAP_CONFIG" !=3D "x"], [
--       AC_MSG_CHECKING(libpcap $LIBPCAP_CONFIG >=3D $LIBPCAP_REQUIRED )
-diff --git a/recipes-extended/libvirt/libvirt/qemu-fix-crash-in-qemuOpen.pa=
-tch b/recipes-extended/libvirt/libvirt/qemu-fix-crash-in-qemuOpen.patch
-deleted file mode 100644
-index 3cf9e83..0000000
---- a/recipes-extended/libvirt/libvirt/qemu-fix-crash-in-qemuOpen.patch
-+++ /dev/null
-@@ -1,39 +0,0 @@
--From 74bff2509080912ea8abf1de8fd95fa2412b659a Mon Sep 17 00:00:00 2001
--From: =3D?UTF-8?q?J=3DC3=3DA1n=3D20Tomko?=3D <jtomko@redhat.com>
--Date: Thu, 11 Apr 2013 11:37:25 +0200
--Subject: [PATCH] qemu: fix crash in qemuOpen
--
--commit 74bff2509080912ea8abf1de8fd95fa2412b659a from upsteam
--git://libvirt.org/libvirt.git
--
--If the path part of connection URI is not present, cfg is used
--unitialized.
--
--https://bugzilla.redhat.com/show_bug.cgi?id=3D950855
-----
-- src/qemu/qemu_driver.c |    2 +-
-- 1 files changed, 1 insertions(+), 1 deletions(-)
--
--diff --git a/src/qemu/qemu_driver.c b/src/qemu/qemu_driver.c
--index 2c0d7d1..0d41e39 100644
----- a/src/qemu/qemu_driver.c
--+++ b/src/qemu/qemu_driver.c
--@@ -1026,6 +1026,7 @@ static virDrvOpenStatus qemuOpen(virConnectPtr conn,
--             goto cleanup;
--         }
--=20
--+        cfg =3D virQEMUDriverGetConfig(qemu_driver);
--         if (conn->uri->path =3D=3D NULL) {
--             virReportError(VIR_ERR_INTERNAL_ERROR,
--                            _("no QEMU URI path given, try %s"),
--@@ -1033,7 +1034,6 @@ static virDrvOpenStatus qemuOpen(virConnectPtr conn,
--             goto cleanup;
--         }
--=20
---        cfg =3D virQEMUDriverGetConfig(qemu_driver);
--         if (cfg->privileged) {
--             if (STRNEQ(conn->uri->path, "/system") &&
--                 STRNEQ(conn->uri->path, "/session")) {
----=20
--1.7.1
--
-diff --git a/recipes-extended/libvirt/libvirt/runptest.patch b/recipes-exte=
-nded/libvirt/libvirt/runptest.patch
-deleted file mode 100644
-index f6bc773..0000000
---- a/recipes-extended/libvirt/libvirt/runptest.patch
-+++ /dev/null
-@@ -1,116 +0,0 @@
--From d210838a4433dd254c1a11b08b804ebe9ff5f378 Mon Sep 17 00:00:00 2001
--From: Dengke Du <dengke.du@windriver.com>
--Date: Wed, 8 May 2019 10:20:47 +0800
--Subject: [PATCH] Add 'install-ptest' rule
--
--Change TESTS_ENVIRONMENT to allow running outside build dir.
--
--Upstream-status: Pending
--Signed-off-by: Mihaela Sendrea <mihaela.sendrea@enea.com>
--[KK: Update context for 1.3.5.]
--Signed-off-by: Kai Kang <kai.kang@windriver.com>
--[MA: Allow separate source and build dirs]
--Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
--[ZH: add missing test_helper files]
--Signed-off-by: He Zhe <zhe.he@windriver.com>
--[MA: Update context for v4.3.0]
--Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
--[DDU: Update context for v5.3.0]
--Signed-off-by: Dengke Du <dengke.du@windriver.com>
--
-----
-- tests/Makefile.am | 68 +++++++++++++++++++++++++++++++++++++++++------
-- 1 file changed, 60 insertions(+), 8 deletions(-)
--
--diff --git a/tests/Makefile.am b/tests/Makefile.am
--index ada5b8f..4a808dd 100644
----- a/tests/Makefile.am
--+++ b/tests/Makefile.am
--@@ -28,11 +28,13 @@ AM_CPPFLAGS =3D \
--=20
-- WARN_CFLAGS +=3D $(RELAXED_FRAME_LIMIT_CFLAGS)
--=20
--+PTEST_DIR ?=3D $(libdir)/libvirt/ptest
--+
-- AM_CFLAGS =3D \
---	-Dabs_builddir=3D"\"$(abs_builddir)\"" \
---	-Dabs_top_builddir=3D"\"$(abs_top_builddir)\"" \
---	-Dabs_srcdir=3D"\"$(abs_srcdir)\"" \
---	-Dabs_top_srcdir=3D"\"$(abs_top_srcdir)\"" \
--+	-Dabs_builddir=3D"\"$(PTEST_DIR)/tests\"" \
--+	-Dabs_top_builddir=3D"\"$(PTEST_DIR)\"" \
--+	-Dabs_srcdir=3D"\"$(PTEST_DIR)/tests\"" \
--+	-Dabs_top_srcdir=3D"\"$(PTEST_DIR)\"" \
-- 	$(LIBXML_CFLAGS) \
-- 	$(GLIB_CFLAGS) \
-- 	$(LIBNL_CFLAGS) \
--@@ -474,10 +476,10 @@ TESTS =3D $(test_programs) \
--=20
-- VIR_TEST_EXPENSIVE ?=3D $(VIR_TEST_EXPENSIVE_DEFAULT)
-- TESTS_ENVIRONMENT =3D \
---  abs_top_builddir=3D"$(abs_top_builddir)" \
---  abs_top_srcdir=3D"$(abs_top_srcdir)" \
---  abs_builddir=3D"$(abs_builddir)" \
---  abs_srcdir=3D"$(abs_srcdir)" \
--+  abs_top_builddir=3D"$(PTEST_DIR)" \
--+  abs_top_srcdir=3D"$(PTEST_DIR)" \
--+  abs_builddir=3D"$(PTEST_DIR)/tests" \
--+  abs_srcdir=3D"$(PTEST_DIR)/tests" \
--   LIBVIRT_AUTOSTART=3D0 \
--   LC_ALL=3DC \
--   VIR_TEST_EXPENSIVE=3D$(VIR_TEST_EXPENSIVE) \
--@@ -1547,4 +1549,54 @@ else ! WITH_LINUX
-- EXTRA_DIST +=3D virscsitest.c
-- endif  ! WITH_LINUX
--=20
--+buildtest-TESTS: $(TESTS) $(test_libraries) $(test_helpers)
--+
--+PTESTS =3D $(TESTS) $(test_helpers) test-lib.sh virschematest
--+
--+install-ptest:
--+	list=3D'$(TESTS) $(test_helpers) test-lib.sh virschematest'
--+	install -d $(DEST_DIR)/tools
--+	@(if [ -d ../tools/.libs ] ; then cd ../tools/.libs; fi; \
--+	install * $(DEST_DIR)/tools)
--+	install -d $(DEST_DIR)/src/network
--+	cp $(top_srcdir)/src/network/*.xml $(DEST_DIR)/src/network
--+	install -d $(DEST_DIR)/src/cpu_map
--+	cp $(top_srcdir)/src/cpu_map/*.xml $(DEST_DIR)/src/cpu_map
--+	install ../src/libvirt_iohelper $(DEST_DIR)/src
--+	install -D ../src/libvirtd $(DEST_DIR)/src/libvirtd
--+	install -d $(DEST_DIR)/src/remote
--+	install -D $(top_srcdir)/../build/src/remote/libvirtd.conf $(DEST_DIR)/s=
-rc/remote/libvirtd.conf
--+	install -d $(DEST_DIR)/src/remote/.libs
--+	@(if [ -d ../src/remote/.libs ] ; then cd ../src/remote/.libs; fi; \
--+	install * $(DEST_DIR)/src/remote/.libs)
--+	install -d $(DEST_DIR)/src/.libs
--+	@(if [ -d ../src/.libs ] ; then cd ../src/.libs; fi; \
--+	install * $(DEST_DIR)/src/.libs)
--+	install -d $(DEST_DIR)/docs/schemas
--+	cp $(top_srcdir)/docs/schemas/*.rng $(DEST_DIR)/docs/schemas
--+	cp -r $(top_srcdir)/build-aux $(DEST_DIR)
--+	install -d $(DEST_DIR)/examples/xml
--+	cp -r $(top_srcdir)/examples/xml/test $(DEST_DIR)/examples/xml
--+	install -d $(DEST_DIR)/tests/.libs
--+	find . -type d -name "*xml2xml*" -exec cp -r {} $(DEST_DIR)/tests \;
--+	find . -type d -name "*data" -exec cp -r {} $(DEST_DIR)/tests \;
--+	@(for file in $(PTESTS); do \
--+		if [ -f .libs/$$file ]; then \
--+			install .libs/$$file $(DEST_DIR)/tests; \
--+		elif [ -f $(srcdir)/$$file ]; then \
--+			install $(srcdir)/$$file $(DEST_DIR)/tests; \
--+		else \
--+			install $(builddir)/$$file $(DEST_DIR)/tests; \
--+		fi; \
--+	done;)
--+	@(if [ -d .libs ]; then install .libs/*.so $(DEST_DIR)/tests/.libs; fi;)
--+	cp ../config.h $(DEST_DIR)
--+	cp Makefile $(DEST_DIR)/tests
--+	sed -i -e 's/^Makefile:/_Makefile:/' $(DEST_DIR)/tests/Makefile
--+	cp ../Makefile $(DEST_DIR)
--+	sed -i -e 's|^Makefile:|_Makefile:|' $(DEST_DIR)/Makefile
--+	sed -i -e 's|$(BUILD_DIR)|$(PTEST_DIR)|g' $(DEST_DIR)/tests/Makefile
--+	sed -i -e 's|$(BUILD_DIR)|$(PTEST_DIR)|g' $(DEST_DIR)/Makefile
--+	sed -i -e 's|^\(.*\.log:\) \(.*EXEEXT.*\)|\1|g' $(DEST_DIR)/tests/Makefi=
-le
--+
-- CLEANFILES =3D *.cov *.gcov .libs/*.gcda .libs/*.gcno *.gcno *.gcda
-diff --git a/recipes-extended/libvirt/libvirt/tools-add-libvirt-net-rpc-to-=
-virt-host-validate-when.patch b/recipes-extended/libvirt/libvirt/tools-add-=
-libvirt-net-rpc-to-virt-host-validate-when.patch
-deleted file mode 100644
-index bb500fd..0000000
---- a/recipes-extended/libvirt/libvirt/tools-add-libvirt-net-rpc-to-virt-ho=
-st-validate-when.patch
-+++ /dev/null
-@@ -1,91 +0,0 @@
--From 7dc21edd851b260485b432c096f8e90f6fa07778 Mon Sep 17 00:00:00 2001
--From: Dengke Du <dengke.du@windriver.com>
--Date: Tue, 7 May 2019 15:26:32 +0800
--Subject: [PATCH] tools: add libvirt-net-rpc to virt-host-validate when TLS=
- is
-- enabled
--
--When gnu-tls is enabled for libvirt references to virNetTLSInit are
--generated in libvirt. Any binaries linking against libvirt, must also
--link against libvirt-net-rpc which provides the implementation.
--
--Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
--[ywei: rebased to libvirt-1.3.2]
--Signed-off-by: Yunguo Wei <yunguo.wei@windriver.com>
--[MA: rebase to v4.3.0]
--Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
--[ddu: rebase to v5.3.0]
--Signed-off-by: Dengke Du <dengke.du@windriver.com>
--
-----
-- examples/Makefile.am | 20 ++++++++++++++++++++
-- tools/Makefile.am    | 12 ++++++++++++
-- 2 files changed, 32 insertions(+)
--
--diff --git a/examples/Makefile.am b/examples/Makefile.am
--index ad635bd..a94f41d 100644
----- a/examples/Makefile.am
--+++ b/examples/Makefile.am
--@@ -74,6 +74,10 @@ LDADD =3D \
-- 	$(top_builddir)/src/libvirt-admin.la \
-- 	$(NULL)
--=20
--+if WITH_GNUTLS
--+LDADD +=3D $(top_builddir)/src/libvirt-net-rpc.la
--+endif
--+
-- noinst_PROGRAMS =3D \
-- 	c/admin/client_close \
-- 	c/admin/client_info \
--@@ -111,6 +115,22 @@ c_misc_openauth_SOURCES =3D c/misc/openauth.c
-- examplesdir =3D $(docdir)/examples
--=20
-- adminexamplesdir =3D $(examplesdir)/c/admin
--+
--+if WITH_GNUTLS
--+dominfo_info1_LDADD =3D $(top_builddir)/src/libvirt-net-rpc.la  \
--+               $(LDADD)    \
--+               $(NULL)
--+domsuspend_suspend_LDADD =3D $(top_builddir)/src/libvirt-net-rpc.la  \
--+               $(LDADD)    \
--+               $(NULL)
--+hellolibvirt_hellolibvirt_LDADD =3D $(top_builddir)/src/libvirt-net-rpc.l=
-a  \
--+               $(LDADD)    \
--+               $(NULL)
--+openauth_openauth_LDADD =3D $(top_builddir)/src/libvirt-net-rpc.la  \
--+               $(LDADD)   \
--+               $(NULL)
--+endif
--+
-- adminexamples_DATA =3D $(ADMIN_EXAMPLES)
--=20
-- domainexamplesdir =3D $(examplesdir)/c/domain
--diff --git a/tools/Makefile.am b/tools/Makefile.am
--index 53df930..2a0a989 100644
----- a/tools/Makefile.am
--+++ b/tools/Makefile.am
--@@ -166,6 +166,12 @@ virt_host_validate_LDADD =3D \
-- 		$(GLIB_LIBS) \
-- 		$(NULL)
--=20
--+if WITH_GNUTLS
--+virt_host_validate_LDADD +=3D ../src/libvirt-net-rpc.la \
--+                            ../gnulib/lib/libgnu.la   \
--+                            $(NULL)
--+endif
--+
-- virt_host_validate_CFLAGS =3D \
-- 		$(AM_CFLAGS) \
-- 		$(NULL)
--@@ -262,6 +268,12 @@ virt_admin_CFLAGS =3D \
-- 		$(READLINE_CFLAGS)
-- BUILT_SOURCES =3D
--=20
--+if WITH_GNUTLS
--+virsh_LDADD +=3D ../src/libvirt-net-rpc.la \
--+               ../gnulib/lib/libgnu.la   \
--+               $(NULL)
--+endif
--+
-- if WITH_WIN_ICON
-- virsh_LDADD +=3D virsh_win_icon.$(OBJEXT)
--=20
-diff --git a/recipes-extended/libvirt/libvirt_6.3.0.bb b/recipes-extended/l=
-ibvirt/libvirt_7.2.0.bb
-similarity index 62%
-rename from recipes-extended/libvirt/libvirt_6.3.0.bb
-rename to recipes-extended/libvirt/libvirt_7.2.0.bb
-index 41abb06..1093e9b 100644
---- a/recipes-extended/libvirt/libvirt_6.3.0.bb
-+++ b/recipes-extended/libvirt/libvirt_7.2.0.bb
-@@ -1,7 +1,6 @@
- DESCRIPTION =3D "A toolkit to interact with the virtualization capabilitie=
-s of recent versions of Linux."=20
- HOMEPAGE =3D "http://libvirt.org"
- LICENSE =3D "LGPLv2.1+ & GPLv2+"
--LICENSE_${PN}-ptest =3D "GPLv2+ & LGPLv2.1+"
- LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Db234ee4d69f5fce4486a80fdaf4a426=
-3 \
-                     file://COPYING.LESSER;md5=3D4b54a1fd55a448865a0b32d415=
-98759d"
- SECTION =3D "console/tools"
-@@ -16,9 +15,7 @@ DEPENDS =3D "bridge-utils gnutls libxml2 lvm2 avahi parte=
-d curl libpcap util-linux
- #
- RDEPENDS_${PN} =3D "gettext-runtime"
-=20
--RDEPENDS_${PN}-ptest +=3D "make gawk perl bash"
--
--RDEPENDS_libvirt-libvirtd +=3D "bridge-utils iptables pm-utils dnsmasq net=
-cat-openbsd"
-+RDEPENDS_libvirt-libvirtd +=3D "bridge-utils iptables pm-utils dnsmasq net=
-cat-openbsd ebtables"
- RDEPENDS_libvirt-libvirtd_append_x86-64 =3D " dmidecode"
- RDEPENDS_libvirt-libvirtd_append_x86 =3D " dmidecode"
-=20
-@@ -26,88 +23,30 @@ RDEPENDS_libvirt-libvirtd_append_x86 =3D " dmidecode"
- RCONFLICTS_${PN}_libvirtd =3D "connman"
-=20
- SRC_URI =3D "http://libvirt.org/sources/libvirt-${PV}.tar.xz;name=3Dlibvir=
-t \
--           file://tools-add-libvirt-net-rpc-to-virt-host-validate-when.pat=
-ch \
-            file://libvirtd.sh \
-            file://libvirtd.conf \
-            file://dnsmasq.conf \
--           file://runptest.patch \
--           file://run-ptest \
--           file://libvirt-use-pkg-config-to-locate-libcap.patch \
--           file://0001-to-fix-build-error.patch \
--           file://install-missing-file.patch \
--           file://0001-ptest-Remove-Windows-1252-check-from-esxutilstest.p=
-atch \
--           file://configure.ac-search-for-rpc-rpc.h-in-the-sysroot.patch \
--           file://0001-build-drop-unnecessary-libgnu.la-reference.patch \
-            file://hook_support.py \
-            file://gnutls-helper.py \
-+           file://0001-meson-add-options-to-explicit-binaries-path.patch \
-           "
-=20
--SRC_URI[libvirt.md5sum] =3D "1bd4435f77924f5ec9928b538daf4a02"
--SRC_URI[libvirt.sha256sum] =3D "74069438d34082336e99a88146349e21130552b96e=
-fc3b7c562f6878127996f5"
-+SRC_URI[libvirt.md5sum] =3D "92044b629216e44adce63224970a54a3"
-+SRC_URI[libvirt.sha256sum] =3D "01f459d0c7ba5009622a628dba1a026200e8f4a299=
-fea783b936a71d7e0ed1d0"
-=20
--inherit autotools gettext update-rc.d pkgconfig ptest systemd useradd perl=
-native
-+inherit meson gettext update-rc.d pkgconfig systemd useradd perlnative
- USERADD_PACKAGES =3D "${PN}"
- GROUPADD_PARAM_${PN} =3D "-r qemu; -r kvm"
- USERADD_PARAM_${PN} =3D "-r -g qemu -G kvm qemu"
-=20
--# Override the default set in autotools.bbclass so that we will use relati=
-ve pathnames
--# to our local m4 files.  This prevents an "Argument list too long" error =
-during configuration
--# if our project is in a directory with an absolute pathname of more than =
-about 125 characters.
--#
--acpaths =3D "-I ./m4"
--
--CACHED_CONFIGUREVARS +=3D "\
--ac_cv_path_XMLCATLOG=3D/usr/bin/xmlcatalog \
--ac_cv_path_AUGPARSE=3D/usr/bin/augparse \
--ac_cv_path_DMIDECODE=3D/usr/sbin/dmidecode \
--ac_cv_path_DNSMASQ=3D/usr/bin/dnsmasq \
--ac_cv_path_BRCTL=3D/usr/sbin/brctl \
--ac_cv_path_TC=3D/sbin/tc \
--ac_cv_path_UDEVADM=3D/sbin/udevadm \
--ac_cv_path_MODPROBE=3D/sbin/modprobe \
--ac_cv_path_IP_PATH=3D/bin/ip \
--ac_cv_path_IPTABLES_PATH=3D/usr/sbin/iptables \
--ac_cv_path_IP6TABLES_PATH=3D/usr/sbin/ip6tables \
--ac_cv_path_MOUNT=3D/bin/mount \
--ac_cv_path_UMOUNT=3D/bin/umount \
--ac_cv_path_MKFS=3D/usr/sbin/mkfs \
--ac_cv_path_SHOWMOUNT=3D/usr/sbin/showmount \
--ac_cv_path_PVCREATE=3D/usr/sbin/pvcreate \
--ac_cv_path_VGCREATE=3D/usr/sbin/vgcreate \
--ac_cv_path_LVCREATE=3D/usr/sbin/lvcreate \
--ac_cv_path_PVREMOVE=3D/usr/sbin/pvremove \
--ac_cv_path_VGREMOVE=3D/usr/sbin/vgremove \
--ac_cv_path_LVREMOVE=3D/usr/sbin/lvremove \
--ac_cv_path_LVCHANGE=3D/usr/sbin/lvchange \
--ac_cv_path_VGCHANGE=3D/usr/sbin/vgchange \
--ac_cv_path_VGSCAN=3D/usr/sbin/vgscan \
--ac_cv_path_PVS=3D/usr/sbin/pvs \
--ac_cv_path_VGS=3D/usr/sbin/vgs \
--ac_cv_path_LVS=3D/usr/sbin/lvs \
--ac_cv_path_PARTED=3D/usr/sbin/parted \
--ac_cv_path_DMSETUP=3D/usr/sbin/dmsetup"
--
--# Ensure that libvirt uses polkit rather than policykit, whether the host =
-has
--# pkcheck installed or not, and ensure the path is correct per our config.
--CACHED_CONFIGUREVARS +=3D "ac_cv_path_PKCHECK_PATH=3D${bindir}/pkcheck"
--
--# Some other possible paths we are not yet setting
--#ac_cv_path_RPCGEN=3D
--#ac_cv_path_XSLTPROC=3D
--#ac_cv_path_RADVD=3D
--#ac_cv_path_UDEVSETTLE=3D
--#ac_cv_path_EBTABLES_PATH=3D
--#ac_cv_path_PKG_CONFIG=3D
--#ac_cv_path_ac_pt_PKG_CONFIG
--#ac_cv_path_POLKIT_AUTH=3D
--#ac_cv_path_DTRACE=3D
--#ac_cv_path_ISCSIADM=3D
--#ac_cv_path_MSGFMT=3D
--#ac_cv_path_GMSGFMT=3D
--#ac_cv_path_XGETTEXT=3D
--#ac_cv_path_MSGMERGE=3D
--#ac_cv_path_SCRUB=3D
--#ac_cv_path_PYTHON=3D
-+
-+EXTRA_OEMESON +=3D " \
-+    -Dip6tables-path=3D/usr/sbin/ip6tables \
-+    -Ddmidecode-path=3D/usr/sbin/dmidecode \
-+    -Ddnsmasq-path=3D/usr/bin/dnsmasq \
-+    -Diptables-path=3D/usr/sbin/iptables \
-+    -Debtables-path=3D/sbin/ebtables \
-+    "
-=20
- ALLOW_EMPTY_${PN} =3D "1"
-=20
-@@ -166,32 +105,13 @@ SYSTEMD_SERVICE_${PN}-libvirtd =3D " \
-     libvirt-guests.service \
-     virtlockd.socket \
-     "
--
--
--PRIVATE_LIBS_${PN}-ptest =3D " \
--	libvirt-lxc.so.0 \
--	libvirt.so.0 \
--	libvirt-qemu.so.0 \
--	lockd.so \
--	libvirt_driver_secret.so \
--	libvirt_driver_nodedev.so \
--	libvirt_driver_vbox.so \
--	libvirt_driver_interface.so \
--	libvirt_driver_uml.so \
--	libvirt_driver_network.so \
--	libvirt_driver_nwfilter.so \
--	libvirt_driver_qemu.so \
--	libvirt_driver_storage.so \
--	libvirt_driver_lxc.so \
--    "
--
- # xen-minimal config
- #PACKAGECONFIG ??=3D "xen libxl xen-inotify test remote libvirtd"
-=20
- # full config
--PACKAGECONFIG ??=3D "gnutls qemu yajl openvz vmware vbox esx iproute2 lxc =
-test \
--                   remote macvtap libvirtd netcf udev python ebtables \
--                   fuse iproute2 firewalld libpcap \
-+PACKAGECONFIG ??=3D "gnutls qemu yajl openvz vmware vbox esx lxc test \
-+                   remote libvirtd netcf udev python \
-+                   fuse firewalld libpcap \
-                    ${@bb.utils.contains('DISTRO_FEATURES', 'selinux', 'sel=
-inux audit libcap-ng', '', d)} \
-                    ${@bb.utils.contains('DISTRO_FEATURES', 'xen', 'libxl',=
- '', d)} \
-                    ${@bb.utils.contains('DISTRO_FEATURES', 'polkit', 'polk=
-it', '', d)} \
-@@ -208,37 +128,34 @@ PACKAGECONFIG_remove_armeb =3D "numactl"
- # enable,disable,depends,rdepends
- #
- PACKAGECONFIG[gnutls] =3D ",,,gnutls-bin"
--PACKAGECONFIG[qemu] =3D "--with-qemu --with-qemu-user=3Dqemu --with-qemu-g=
-roup=3Dqemu,--without-qemu,qemu,"
--PACKAGECONFIG[yajl] =3D "--with-yajl,--without-yajl,yajl,yajl"
--PACKAGECONFIG[libxl] =3D "--with-libxl=3D${STAGING_DIR_TARGET}/lib,--witho=
-ut-libxl,xen,"
--PACKAGECONFIG[openvz] =3D "--with-openvz,--without-openvz,,"
--PACKAGECONFIG[vmware] =3D "--with-vmware,--without-vmware,,"
--PACKAGECONFIG[vbox] =3D "--with-vbox,--without-vbox,,"
--PACKAGECONFIG[esx] =3D "--with-esx,--without-esx,,"
--PACKAGECONFIG[hyperv] =3D "--with-hyperv,--without-hyperv,,"
--PACKAGECONFIG[polkit] =3D "--with-polkit,--without-polkit,polkit,polkit"
--PACKAGECONFIG[lxc] =3D "--with-lxc,--without-lxc, lxc,"
--PACKAGECONFIG[test] =3D "--with-test=3Dyes,--with-test=3Dno,,"
--PACKAGECONFIG[remote] =3D "--with-remote,--without-remote,,"
--PACKAGECONFIG[macvtap] =3D "--with-macvtap=3Dyes,--with-macvtap=3Dno,libnl=
-,libnl"
--PACKAGECONFIG[libvirtd] =3D "--with-libvirtd,--without-libvirtd,,"
--PACKAGECONFIG[netcf] =3D "--with-netcf,--without-netcf,netcf,netcf"
--PACKAGECONFIG[dtrace] =3D "--with-dtrace,--without-dtrace,,"
--PACKAGECONFIG[udev] =3D "--with-udev --with-pciaccess,--without-udev,udev =
-libpciaccess,"
--PACKAGECONFIG[selinux] =3D "--with-selinux,--without-selinux,libselinux,"
--PACKAGECONFIG[ebtables] =3D "ac_cv_path_EBTABLES_PATH=3D/sbin/ebtables,ac_=
-cv_path_EBTABLES_PATH=3D,ebtables,ebtables"
-+PACKAGECONFIG[qemu] =3D "-Ddriver_qemu=3Denabled -Dqemu_user=3Dqemu -Dqemu=
-_group=3Dqemu,-Dqemu=3Ddisabled,qemu,"
-+PACKAGECONFIG[yajl] =3D "-Dyajl=3Denabled,-Dyajl=3Ddisabled,yajl,yajl"
-+PACKAGECONFIG[libxl] =3D "-Dlibxl=3D${STAGING_DIR_TARGET}/lib,,xen,"
-+PACKAGECONFIG[openvz] =3D "-Ddriver_openvz=3Denabled,-Ddriver_openvz=3Ddis=
-abled,,"
-+PACKAGECONFIG[vmware] =3D "-Ddriver_vmware=3Denabled,-Ddriver_vmware=3Ddis=
-abled,,"
-+PACKAGECONFIG[vbox] =3D "-Ddriver_vbox=3Denabled,-Ddriver_vbox=3Ddisabled,=
-,"
-+PACKAGECONFIG[esx] =3D "-Ddriver_esx=3Denabled,-Ddriver_esx=3Ddisabled,,"
-+PACKAGECONFIG[hyperv] =3D "-Ddriver_hyperv=3Denabled,-Ddriver_hyperv=3Ddis=
-abled,,"
-+PACKAGECONFIG[polkit] =3D "-Dpolkit=3Denabled,-Dpolkit=3Ddisabled,polkit,p=
-olkit"
-+PACKAGECONFIG[lxc] =3D "-Ddriver_lxc=3Denabled,-Ddriver_lxc=3Ddisabled,lxc=
-,"
-+PACKAGECONFIG[test] =3D "-Ddriver_test=3Denabled,-Ddriver_test=3Ddisabled,=
-,"
-+PACKAGECONFIG[remote] =3D "-Ddriver_remote=3Denabled,-Ddriver_remote=3Ddis=
-abled,,"
-+PACKAGECONFIG[libvirtd] =3D "-Ddriver_libvirtd=3Denabled,-Ddriver_libvirtd=
-=3Ddisabled,,"
-+PACKAGECONFIG[netcf] =3D "-Dnetcf=3Denabled,-Dnetcf=3Ddisabled,netcf,netcf=
-"
-+PACKAGECONFIG[dtrace] =3D "-Ddtrace=3Denabled,-Ddtrace=3Ddisabled,,"
-+PACKAGECONFIG[udev] =3D "-Dudev=3Denabled -Dpciaccess=3Denabled,-Dudev=3Dd=
-isabled,udev libpciaccess,"
-+PACKAGECONFIG[selinux] =3D "-Dselinux=3Denabled,-Dselinux=3Ddisabled,libse=
-linux,"
- PACKAGECONFIG[python] =3D ",,python3,"
--PACKAGECONFIG[sasl] =3D "--with-sasl,--without-sasl,cyrus-sasl,cyrus-sasl"
--PACKAGECONFIG[iproute2] =3D "ac_cv_path_IP_PATH=3D/sbin/ip,ac_cv_path_IP_P=
-ATH=3D,iproute2,iproute2"
--PACKAGECONFIG[numactl] =3D "--with-numactl,--without-numactl,numactl,"
--PACKAGECONFIG[fuse] =3D "--with-fuse,--without-fuse,fuse,"
--PACKAGECONFIG[audit] =3D "--with-audit,--without-audit,audit,"
--PACKAGECONFIG[libcap-ng] =3D "--with-capng,--without-capng,libcap-ng,"
--PACKAGECONFIG[wireshark] =3D "--with-wireshark-dissector,--without-wiresha=
-rk-dissector,wireshark libwsutil,"
--PACKAGECONFIG[apparmor-profiles] =3D "--with-apparmor-profiles, --without-=
-apparmor-profiles,"
--PACKAGECONFIG[firewalld] =3D "--with-firewalld, --without-firewalld,"
--PACKAGECONFIG[libpcap] =3D "--with-libpcap, --without-libpcap,libpcap,libp=
-cap"
--PACKAGECONFIG[numad] =3D "--with-numad, --without-numad,"
-+PACKAGECONFIG[sasl] =3D "-Dsasl=3Denabled,-Dsasl=3Ddisabled,cyrus-sasl,cyr=
-us-sasl"
-+PACKAGECONFIG[numactl] =3D "-Dnumactl=3Denabled,-Dnumactl=3Ddisabled,numac=
-tl,"
-+PACKAGECONFIG[fuse] =3D "-Dfuse=3Denabled,-Dfuse=3Ddisabled,fuse,"
-+PACKAGECONFIG[audit] =3D "-Daudit=3Denabled,-Daudit=3Ddisabled,audit,"
-+PACKAGECONFIG[libcap-ng] =3D "-Dcapng=3Denabled,-Dcapng=3Ddisabled,libcap-=
-ng,"
-+PACKAGECONFIG[wireshark] =3D "-Dwireshark_dissector=3Denabled,-Dwireshark_=
-dissector=3Ddisabled,wireshark libwsutil,"
-+PACKAGECONFIG[apparmor_profiles] =3D "-Dapparmor_profiles=3Dtrue, -Dapparm=
-or_profiles=3Dfalse,"
-+PACKAGECONFIG[firewalld] =3D "-Dfirewalld=3Denabled, -Dfirewalld=3Ddisable=
-d,"
-+PACKAGECONFIG[libpcap] =3D "-Dlibpcap=3Denabled, -Dlibpcap=3Ddisabled,libp=
-cap,libpcap"
-+PACKAGECONFIG[numad] =3D "-Dnumad=3Denabled, -Dnumad=3Ddisabled,"
-=20
- # Enable the Python tool support
- require libvirt-python.inc
-@@ -255,7 +172,7 @@ do_compile() {
-=20
- 	cd ${B}
- 	export PKG_CONFIG_PATH=3D"$PKG_CONFIG_PATH:${B}/src:"
--	oe_runmake all
-+	ninja all
- }
-=20
- do_install_prepend() {
-@@ -278,6 +195,8 @@ do_install_append() {
- 	fi
-=20
- 	if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; t=
-hen
-+            mkdir -p ${D}/lib
-+            mv ${D}/usr/lib/systemd ${D}/lib
- 	    # This variable is used by libvirtd.service to start libvirtd in the =
-right mode
- 	    sed -i '/#LIBVIRTD_ARGS=3D"--listen"/a LIBVIRTD_ARGS=3D"--listen --da=
-emon"' ${D}/${sysconfdir}/sysconfig/libvirtd
-=20
-@@ -360,7 +279,7 @@ do_install_append() {
- 	    # connection via 127.0.0.1 is available out of box.
- 	    install -d ${D}/etc/pki/CA
- 	    install -d ${D}/etc/pki/libvirt/private
--	    install -m 0755 ${WORKDIR}/gnutls-helper.py ${D}/${bindir}
-+            install -m 0755 ${WORKDIR}/gnutls-helper.py ${D}/${bindir}
- 	    install -m 0644 ${WORKDIR}/cakey.pem ${D}/${sysconfdir}/pki/libvirt/p=
-rivate/cakey.pem
- 	    install -m 0644 ${WORKDIR}/cacert.pem ${D}/${sysconfdir}/pki/CA/cacer=
-t.pem
- 	    install -m 0644 ${WORKDIR}/serverkey.pem ${D}/${sysconfdir}/pki/libvi=
-rt/private/serverkey.pem
-@@ -376,10 +295,10 @@ do_install_append() {
- 	chmod 4755 ${D}${bindir}/virt-login-shell
- }
-=20
--EXTRA_OECONF +=3D " \
--    --with-init-script=3Dsystemd \
--    --with-test-suite \
--    --with-runstatedir=3D/run \
-+EXTRA_OEMESON +=3D " \
-+    -Dinit_script=3Dsystemd \
-+    -Drunstatedir=3D/run \
-+    -Dtests=3Denabled \
-     "
-=20
- # gcc9 end up mis-compiling qemuxml2argvtest.o with Og which then
-@@ -389,23 +308,6 @@ SELECTED_OPTIMIZATION_append_virtclass-multilib-lib32_=
-mipsarch =3D " -O2"
-=20
- EXTRA_OEMAKE =3D "BUILD_DIR=3D${B} DEST_DIR=3D${D}${PTEST_PATH} PTEST_DIR=
-=3D${PTEST_PATH} SYSTEMD_UNIT_DIR=3D${systemd_system_unitdir}"
-=20
--PRIVATE_LIBS_${PN}-ptest_append =3D "libvirt-admin.so.0"
--
--do_compile_ptest() {
--	oe_runmake -C tests buildtest-TESTS
--}
--
--do_install_ptest() {
--	oe_runmake -C tests install-ptest
--
--	find ${S}/tests -maxdepth 1 -type d -exec cp -r {} ${D}${PTEST_PATH}/test=
-s/ \;
--
--	# remove .la files for ptest, they aren't required and can trigger QA err=
-ors
--	for i in `find ${D}${PTEST_PATH} -type f \( -name *.la -o -name *.o \)`; =
-do
--                rm -f $i
--	done
--}
--
- pkg_postinst_${PN}() {
-         if [ -z "$D" ] && [ -e /etc/init.d/populate-volatile.sh ] ; then
-                 /etc/init.d/populate-volatile.sh update
---=20
-2.27.0
+>=20
+> Cheers,
+>=20
+> Bruce
+>=20
+> In message: [meta-virtualization][PATCH v3 1/6] xen-tools: fix 32-bit x8=
+6 build by setting pvshim configure flags
+> on 16/04/2021 Christopher Clark wrote:
+>=20
+>> Enable building the PV shim for x86_64 only.
+>>=20
+>> Signed-off-by: Christopher Clark <christopher.w.clark@gmail.com>
+>> Reviewed-by: Bertrand Marquis <bertrand.marquis@arm.com>
+>> ---
+>> recipes-extended/xen/xen.inc | 1 +
+>> 1 file changed, 1 insertion(+)
+>>=20
+>> diff --git a/recipes-extended/xen/xen.inc b/recipes-extended/xen/xen.in=
+c
+>> index 9e8fcad..2fbdb3a 100644
+>> --- a/recipes-extended/xen/xen.inc
+>> +++ b/recipes-extended/xen/xen.inc
+>> @@ -125,6 +125,7 @@ EXTRA_OECONF +=3D " \
+>>     --disable-rombios \
+>>     --disable-ocamltools \
+>>     --disable-qemu-traditional \
+>> +    ${@bb.utils.contains('XEN_TARGET_ARCH', 'x86_64', '--enable-pvshim=
+', '--disable-pvshim', d)} \
+>>     "
+>>=20
+>> EXTRA_OEMAKE +=3D "STDVGA_ROM=3D${STAGING_DIR_HOST}/usr/share/firmware/=
+vgabios-0.7a.bin"
+>> --=20
+>> 2.25.1
+>>=20
+>=20
+> In message: [meta-virtualization][PATCH v3 6/6] xtf-image: add a new ima=
+ge for the Xen Test Framework
+> on 16/04/2021 Christopher Clark wrote:
+>=20
+>> Testing the Xen hypervisor, with the qemux86-64 MACHINE:
+>>    runqemu xtf-image nographic slirp
+>>        (login as root)
+>>        cd /usr/libexec/xtf
+>>        ./xtf-runner --list pv
+>>        # run an example test:
+>>        ./xtf-runner test-pv64-livepatch-priv-check
+>>=20
+>> Signed-off-by: Christopher Clark <christopher.w.clark@gmail.com>
+>> Reviewed-by: Bertrand Marquis <bertrand.marquis@arm.com>
+>> ---
+>> recipes-extended/images/xtf-image.bb | 24 ++++++++++++++++++++++++
+>> 1 file changed, 24 insertions(+)
+>> create mode 100644 recipes-extended/images/xtf-image.bb
+>>=20
+>> diff --git a/recipes-extended/images/xtf-image.bb b/recipes-extended/im=
+ages/xtf-image.bb
+>> new file mode 100644
+>> index 0000000..3f9af25
+>> --- /dev/null
+>> +++ b/recipes-extended/images/xtf-image.bb
+>> @@ -0,0 +1,24 @@
+>> +require recipes-extended/images/xen-image-minimal.bb
+>> +DESCRIPTION =3D "A minimal Xen Test Framework (XTF) image for testing =
+the Xen hypervisor"
+>> +
+>> +# To run XTF tests with an image built for the qemux86-64 MACHINE:
+>> +#
+>> +#   runqemu xtf-image nographic slirp
+>> +#       (login as root)
+>> +#       # xtf-runner expects to be run from the top of the tests direc=
+tory:
+>> +#       cd /usr/libexec/xtf
+>> +#       # list the tests available for PV guest types:
+>> +#       ./xtf-runner --list pv
+>> +#       # run an example test:
+>> +#       ./xtf-runner test-pv64-livepatch-priv-check
+>> +
+>> +IMAGE_NAME=3D"xtf"
+>> +
+>> +IMAGE_INSTALL_append =3D " xtf"
+>> +
+>> +QB_DEFAULT_FSTYPE =3D "wic"
+>> +
+>> +# Set the dom0 memory level lower than that assigned to qemu so that X=
+en has
+>> +# some available memory for allocating to the XTF microkernel guests t=
+o run:
+>> +QB_MEM =3D "-m 400"
+>> +SYSLINUX_XEN_ARGS_append =3D " dom0_mem=3D256M"
+>> --=20
+>> 2.25.1
+>>=20
+>=20
+> In message: [meta-virtualization][PATCH v3 5/6] xtf: introduce recipe fo=
+r the Xen Test Framework
+> on 16/04/2021 Christopher Clark wrote:
+>=20
+>> Signed-off-by: Christopher Clark <christopher.w.clark@gmail.com>
+>> Reviewed-by: Bertrand Marquis <bertrand.marquis@arm.com>
+>> ---
+>> recipes-extended/xen/xtf_git.bb | 72 +++++++++++++++++++++++++++++++++
+>> 1 file changed, 72 insertions(+)
+>> create mode 100644 recipes-extended/xen/xtf_git.bb
+>>=20
+>> diff --git a/recipes-extended/xen/xtf_git.bb b/recipes-extended/xen/xtf=
+_git.bb
+>> new file mode 100644
+>> index 0000000..db08643
+>> --- /dev/null
+>> +++ b/recipes-extended/xen/xtf_git.bb
+>> @@ -0,0 +1,72 @@
+>> +SUMMARY =3D "Xen Test Framework"
+>> +HOMEPAGE =3D "https://xenbits.xenproject.org/docs/xtf/"
+>> +LICENSE =3D "BSD-2-Clause"
+>> +
+>> +# For additional reference on XTF, please see:
+>> +# https://static.sched.com/hosted_files/xendeveloperanddesignsummit201=
+7/79/xtf.pdf
+>> +
+>> +SRC_URI =3D "git://xenbits.xen.org/xtf"
+>> +SRCREV =3D "8ab15139728a8efd3ebbb60beb16a958a6a93fa1"
+>> +
+>> +COMPATIBLE_HOST =3D '(x86_64.*).*-linux'
+>> +
+>> +LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Da5680865974e05cf0510615ee1d=
+745d8"
+>> +
+>> +PV =3D "0+git${SRCPV}"
+>> +
+>> +S =3D "${WORKDIR}/git"
+>> +
+>> +inherit python3native
+>> +
+>> +# To build 32-bit binaries some files from 32-bit glibc are needed.
+>> +# To enable multilib, please add the following to your local.conf -:
+>> +#
+>> +#    require conf/multilib.conf
+>> +#    MULTILIBS =3D "multilib:lib32"
+>> +#    DEFAULTTUNE_virtclass-multilib-lib32 =3D "x86"
+>> +
+>> +# Use this multilib prefix for x86 32-bit to match local.conf:
+>> +MLPREFIX32 =3D "lib32-"
+>> +# Add the multilib 32-bit glibc to DEPENDS only when necessary:
+>> +# The DEPENDS on a multilib 32-bit glibc is only added when target is =
+x86-64
+>> +# This x86-64 override is never intended for native use, so clear that=
+.
+>> +GLIBC32 =3D ""
+>> +GLIBC32_x86-64 =3D "${MLPREFIX32}glibc"
+>> +GLIBC32_class-native =3D ""
+>> +DEPENDS +=3D "${GLIBC32}"
+>> +
+>> +PACKAGES =3D "${PN}"
+>> +
+>> +FILES_${PN} =3D " \
+>> +    ${libexecdir}/* \
+>> +    "
+>> +
+>> +RDEPENDS_${PN} =3D " \
+>> +    xen-tools-xl \
+>> +    python3 \
+>> +    "
+>> +
+>> +do_compile() {
+>> +    oe_runmake CC=3D"${TARGET_PREFIX}gcc ${TOOLCHAIN_OPTIONS} -I${RECI=
+PE_SYSROOT}/../${MLPREFIX32}recipe-sysroot/usr/include" \
+>> +               CPP=3D"${CPP}" \
+>> +               OBJCOPY=3D"${OBJCOPY}" \
+>> +               PYTHON=3D"${PYTHON}"
+>> +    # switch the shebang to python3
+>> +    sed 's,^\(#!/usr/bin/env python\)$,\13,' -i "${B}/xtf-runner"
+>> +}
+>> +
+>> +do_install() {
+>> +    # packaging: rpmbuild can package the XTF test unikernels when the=
+y are
+>> +    # installed as non-executable files (they are run within VMs anywa=
+y).
+>> +    oe_runmake install DESTDIR=3D"${D}" \
+>> +                       xtfdir=3D"${libexecdir}/${BPN}" \
+>> +                       PYTHON=3D"${PYTHON}" \
+>> +                       INSTALL_PROGRAM=3D"install -m 644 -p"
+>> +    install -m 755 -p "${B}/xtf-runner" "${D}${libexecdir}/${BPN}/xtf-=
+runner"
+>> +}
+>> +
+>> +INSANE_SKIP =3D "arch"
+>> +# xen-tools-xl is a runtime but not build time dependency
+>> +INSANE_SKIP_${PN} =3D "build-deps"
+>> +INHIBIT_PACKAGE_STRIP =3D "1"
+>> +INHIBIT_PACKAGE_DEBUG_SPLIT =3D "1"
+>> --=20
+>> 2.25.1
+>>=20
+>=20
+> In message: [meta-virtualization][PATCH v3 4/6] xen, xen-tools: Document=
+ the version update process in README
+> on 16/04/2021 Christopher Clark wrote:
+>=20
+>> Describes the versions of Xen to be included in meta-virtualization
+>> and recipe maintenance in release branches.
+>>=20
+>> Signed-off-by: Christopher Clark <christopher.w.clark@gmail.com>
+>> Reviewed-by: Bertrand Marquis <bertrand.marquis@arm.com>
+>> ---
+>> recipes-extended/xen/README | 50 +++++++++++++++++++++++++++++++++++++
+>> 1 file changed, 50 insertions(+)
+>>=20
+>> diff --git a/recipes-extended/xen/README b/recipes-extended/xen/README
+>> index f286bb5..b9117f0 100644
+>> --- a/recipes-extended/xen/README
+>> +++ b/recipes-extended/xen/README
+>> @@ -36,3 +36,53 @@ as XSAs (http://xenbits.xen.org/xsa/). The easiest w=
+ay to include those is to
+>> drop patches in 'recipes-extened/xen/files' and create a bbappend addin=
+g those
+>> patches to SRC_URI and they will be applied. Alternatively, you can ove=
+rride
+>> the SRC_URI to a git repo you provide that contains the patches.
+>> +
+>> +recipe maintenance
+>> +------------------
+>> +
+>> +# Xen version update
+>> +
+>> +The following rules shall be followed to define which versions of Xen =
+have
+>> +recipes in meta-virtualization:
+>> +
+>> +- Before a Yocto release meta-virtualization shall have recipes for:
+>> +    - the latest stable major version of Xen, and
+>> +
+>> +    - the current version of the Xen master branch (known as the git r=
+ecipes)
+>> +
+>> +    - In addition, there may also be recipes included for the previous=
+ stable
+>> +      major version of Xen, in the case where the latest stable major =
+version
+>> +      is new and the prior stable major version of Xen is to be the pr=
+eferred
+>> +      version for the Yocto release
+>> +
+>> +- On Yocto LTS and the latest stable Yocto release branch, the preferr=
+ed Xen
+>> +  major version that is present when the Yocto release is issued must =
+stay
+>> +  supported and the recipes shall be regularly updated to follow updat=
+es
+>> +  available in the Xen stable branch for that Xen major release.
+>> +
+>> +- On Yocto LTS and the latest stable Yocto release branch, the recipes=
+ for the
+>> +  latest Xen major version shall also be regularly updated to follow u=
+pdates
+>> +  available in the Xen stable branch for that Xen major release.
+>> +
+>> +- On the master / in-development Yocto branch, new Xen recipes shall b=
+e added
+>> +  when there is a new Xen major release.
+>> +
+>> +    - depending on the timing of the next Yocto release, the new recip=
+es may
+>> +      be preferred, or the prior major version recipes may remain pref=
+erred
+>> +      until after the Yocto release
+>> +
+>> +    - the recipes for the previous Xen stable major version shall be r=
+emoved
+>> +      from the branch when it is no longer the preferred Xen version
+>> +
+>> +- On Yocto LTS and the latest stable Yocto release branch, new Xen rec=
+ipes
+>> +  shall be added when there is a new Xen major release.
+>> +
+>> +    - The preferred version of the Xen recipes shall always stay at th=
+e same
+>> +      Xen major version once a Yocto release has been issued, and shal=
+l receive
+>> +      regular updates to track the stable Xen branch of that Xen relea=
+se.
+>> +
+>> +    - When new Xen recipes are added to a Yocto branch for a new Xen m=
+ajor
+>> +      version, then any older Xen recipes present, except for the orig=
+inal
+>> +      preferred version recipes, shall be marked as not updated anymor=
+e by
+>> +      adding a comment inside the recipes. The older recipes will not =
+receive
+>> +      any build tests or be updated to follow the Xen branch.
+>> --=20
+>> 2.25.1
+>>=20
+>=20
+> In message: [meta-virtualization][PATCH v3 3/6] xen, xen-tools: uprev gi=
+t recipes after 4.15 release
+> on 16/04/2021 Christopher Clark wrote:
+>=20
+>> Updated to the branch point for 4.16 development.
+>>=20
+>> Signed-off-by: Christopher Clark <christopher.w.clark@gmail.com>
+>> Reviewed-by: Bertrand Marquis <bertrand.marquis@arm.com>
+>> ---
+>> recipes-extended/xen/xen-tools_git.bb | 4 ++--
+>> recipes-extended/xen/xen_git.bb       | 4 ++--
+>> 2 files changed, 4 insertions(+), 4 deletions(-)
+>>=20
+>> diff --git a/recipes-extended/xen/xen-tools_git.bb b/recipes-extended/x=
+en/xen-tools_git.bb
+>> index 71850ee..0188bdd 100644
+>> --- a/recipes-extended/xen/xen-tools_git.bb
+>> +++ b/recipes-extended/xen/xen-tools_git.bb
+>> @@ -1,6 +1,6 @@
+>> -SRCREV ?=3D "9dc687f155a57216b83b17f9cde55dd43e06b0cd"
+>> +SRCREV ?=3D "e680cc48b7184d3489873d6776f84ba1fc238ced"
+>>=20
+>> -XEN_REL ?=3D "4.15"
+>> +XEN_REL ?=3D "4.16"
+>> XEN_BRANCH ?=3D "master"
+>>=20
+>> SRC_URI =3D " \
+>> diff --git a/recipes-extended/xen/xen_git.bb b/recipes-extended/xen/xen=
+_git.bb
+>> index 2b62c5c..eaf3956 100644
+>> --- a/recipes-extended/xen/xen_git.bb
+>> +++ b/recipes-extended/xen/xen_git.bb
+>> @@ -1,6 +1,6 @@
+>> -SRCREV ?=3D "9dc687f155a57216b83b17f9cde55dd43e06b0cd"
+>> +SRCREV ?=3D "e680cc48b7184d3489873d6776f84ba1fc238ced"
+>>=20
+>> -XEN_REL ?=3D "4.15"
+>> +XEN_REL ?=3D "4.16"
+>> XEN_BRANCH ?=3D "master"
+>>=20
+>> SRC_URI =3D " \
+>> --=20
+>> 2.25.1
+>>=20
+>=20
+> In message: [meta-virtualization][PATCH v3 2/6] xen, xen-tools: add reci=
+pes for new stable Xen 4.15 release
+> on 16/04/2021 Christopher Clark wrote:
+>=20
+>> The recipes are introduced as the non-default version by adding an
+>> expressed PREFERRED_VERSION for 4.14 in:
+>>    conf/distro/include/meta-virt-default-versions.inc
+>>=20
+>> to keep the Xen 4.14 recipes as default for the Hardknott release.
+>>=20
+>> Signed-off-by: Christopher Clark <christopher.w.clark@gmail.com>
+>> ---
+>> .../include/meta-virt-default-versions.inc    |  3 ++-
+>> recipes-extended/xen/xen-tools_4.15.bb        | 18 ++++++++++++++++++
+>> recipes-extended/xen/xen_4.15.bb              | 19 +++++++++++++++++++
+>> 3 files changed, 39 insertions(+), 1 deletion(-)
+>> create mode 100644 recipes-extended/xen/xen-tools_4.15.bb
+>> create mode 100644 recipes-extended/xen/xen_4.15.bb
+>>=20
+>> diff --git a/conf/distro/include/meta-virt-default-versions.inc b/conf/=
+distro/include/meta-virt-default-versions.inc
+>> index 299b5df..b85827b 100644
+>> --- a/conf/distro/include/meta-virt-default-versions.inc
+>> +++ b/conf/distro/include/meta-virt-default-versions.inc
+>> @@ -1,3 +1,4 @@
+>> # Meta-virtuailization PREFERED_VERSION
+>>=20
+>> -# placeholder for preferred versions
+>> +PREFERRED_VERSION_xen ?=3D "4.14+stable%"
+>> +PREFERRED_VERSION_xen-tools ?=3D "4.14+stable%"
+>> diff --git a/recipes-extended/xen/xen-tools_4.15.bb b/recipes-extended/=
+xen/xen-tools_4.15.bb
+>> new file mode 100644
+>> index 0000000..314dc52
+>> --- /dev/null
+>> +++ b/recipes-extended/xen/xen-tools_4.15.bb
+>> @@ -0,0 +1,18 @@
+>> +SRCREV ?=3D "e25aa9939ae0cd8317605be3d5c5611b76bc4ab4"
+>> +
+>> +XEN_REL ?=3D "4.15"
+>> +XEN_BRANCH ?=3D "stable-${XEN_REL}"
+>> +
+>> +SRC_URI =3D " \
+>> +    git://xenbits.xen.org/xen.git;branch=3D${XEN_BRANCH} \
+>> +    file://0001-python-pygrub-pass-DISTUTILS-xen-4.15.patch \
+>> +    "
+>> +
+>> +LIC_FILES_CHKSUM ?=3D "file://COPYING;md5=3D419739e325a50f3d7b4501338e=
+44a4e5"
+>> +
+>> +PV =3D "${XEN_REL}+stable${SRCPV}"
+>> +
+>> +S =3D "${WORKDIR}/git"
+>> +
+>> +require xen.inc
+>> +require xen-tools.inc
+>> diff --git a/recipes-extended/xen/xen_4.15.bb b/recipes-extended/xen/xe=
+n_4.15.bb
+>> new file mode 100644
+>> index 0000000..2842c0a
+>> --- /dev/null
+>> +++ b/recipes-extended/xen/xen_4.15.bb
+>> @@ -0,0 +1,19 @@
+>> +SRCREV ?=3D "e25aa9939ae0cd8317605be3d5c5611b76bc4ab4"
+>> +
+>> +XEN_REL ?=3D "4.15"
+>> +XEN_BRANCH ?=3D "stable-${XEN_REL}"
+>> +
+>> +SRC_URI =3D " \
+>> +    git://xenbits.xen.org/xen.git;branch=3D${XEN_BRANCH} \
+>> +    file://xen-arm64-implement-atomic-fetch-add.patch \
+>> +    file://0001-menuconfig-mconf-cfg-Allow-specification-of-ncurses-lo=
+cation.patch \
+>> +    "
+>> +
+>> +LIC_FILES_CHKSUM ?=3D "file://COPYING;md5=3D419739e325a50f3d7b4501338e=
+44a4e5"
+>> +
+>> +PV =3D "${XEN_REL}+stable${SRCPV}"
+>> +
+>> +S =3D "${WORKDIR}/git"
+>> +
+>> +require xen.inc
+>> +require xen-hypervisor.inc
+>> --=20
+>> 2.25.1
+>>=20
+>=20
+>=20
+>=20
 
