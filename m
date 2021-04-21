@@ -1,1239 +1,390 @@
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (NAM12-BN8-obe.outbound.protection.outlook.com [40.107.237.66])
- by mx.groups.io with SMTP id smtpd.web12.8502.1618985221411733867
+Received: from EUR04-HE1-obe.outbound.protection.outlook.com (EUR04-HE1-obe.outbound.protection.outlook.com [40.107.7.52])
+ by mx.groups.io with SMTP id smtpd.web08.9725.1618996838105293053
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 20 Apr 2021 23:07:01 -0700
+ Wed, 21 Apr 2021 02:20:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=pkt+Phpo;
- spf=pass (domain: windriver.com, ip: 40.107.237.66, mailfrom: yanfei.xu@windriver.com)
+ dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=O4YL05g8;
+ spf=pass (domain: arm.com, ip: 40.107.7.52, mailfrom: bertrand.marquis@arm.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KSbmMU6QNpFhbxg6jpySRJ4B8Wz5fU/5IGicUkiwed0=;
+ b=O4YL05g8iri3vI9IifuxKVTrh8JkEpC237udIo4/KI+mlxaH2wmYzLuATphYsurCnOabhNG10uy31FNHSsE/EUcn3BL3cJZ8HWiW0XoRi09bAZja1nKTFT9rX17km8eFH4GKXaV7AzPe5B7B241CkYfahuq4f3x/VK6bATKOF2g=
+Received: from AM5PR0202CA0023.eurprd02.prod.outlook.com
+ (2603:10a6:203:69::33) by AM9PR08MB6900.eurprd08.prod.outlook.com
+ (2603:10a6:20b:302::5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4042.16; Wed, 21 Apr
+ 2021 09:20:30 +0000
+Received: from AM5EUR03FT058.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:203:69:cafe::f) by AM5PR0202CA0023.outlook.office365.com
+ (2603:10a6:203:69::33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.20 via Frontend
+ Transport; Wed, 21 Apr 2021 09:20:30 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; lists.yoctoproject.org; dkim=pass (signature was
+ verified) header.d=armh.onmicrosoft.com;lists.yoctoproject.org; dmarc=pass
+ action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ AM5EUR03FT058.mail.protection.outlook.com (10.152.17.48) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4065.21 via Frontend Transport; Wed, 21 Apr 2021 09:20:29 +0000
+Received: ("Tessian outbound 9bcb3c8d6cb1:v90"); Wed, 21 Apr 2021 09:20:29 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: 8ada1221ccc81c07
+X-CR-MTA-TID: 64aa7808
+Received: from 52f2ef6dbd94.1
+	by 64aa7808-outbound-1.mta.getcheckrecipient.com id 089DB939-E470-4DC4-9E99-36029359FF2B.1;
+	Wed, 21 Apr 2021 09:20:22 +0000
+Received: from EUR04-HE1-obe.outbound.protection.outlook.com
+    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 52f2ef6dbd94.1
+    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+    Wed, 21 Apr 2021 09:20:22 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KF0w3MShayZ0FNwoXOYePv6ModxPDfVsY7Gm+6ERxThSJwRTamqWL2a2SWrgXw498bQXQpCgOuXjsBu3WGI7EF60vVjtbCPBvwvmlQd+ZT/nXGRCkB2vyfrCNhVb5Sx+MSLcU+i1oY5UrYPZyqi3b+4Xy2iXh2drSyA/+pVewYHxbBnpScuckPWJ++BNdUDJSHMplFiITmJJJBbqLTeIhHqHclnqMORUdb/vFhlwsCi7PAjK0m1EUXVRq3Ut0o/ZnaBAtSjG6i+nLw/tL58jRykMpx8cOddd7oaQQfDfzzTYA/kMYyMXwXva0q3OEQgWdeEmNC8zBXaB08PLK1w+uw==
+ b=PCNw389ObeQypLOMO9xHlz+b+PIET46T0o0zaNLNX102GQ+UQvl8kxHxbJf18NnyR+s8VMQT4mMasGuEPANP+U92wjqIoIzrwDagHd96nFLQmUA51dqN+WX+/BXePvrBe3gF+m+YvufSk3Vl9PS1/j83IyfpQ1e910L2H/Ibr7DtCEb/Wtbwm02kPr2NhE1pFR7fnur5q1BPZzCNInzzuKlRSvPw5c8r0AxTw+2i27demh3wpGB9ym99aldgKkrUTzTYLMvpBDiqnzvfx0JRDrhsC626k3ik2O/zttOeaAEt8IgNkq/Vslxo1ISGSMhM+zlKNNXPsTGDAwKMem66VQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4yqqndQabjt7hlz3S+WU9qIu3iV3uuGDE/lRAx9H7u8=;
- b=jrnYqyY4sc7GR22jep3qDfLrA8Ghbt0Wg5v39i7TtLIv9rYUsP/4wMQqXT8EqlQoDs+pTBvoORzNNK7HazQTaosMLV/rzBG3oXH+lv+3SjzcmEaC9rFa7BMGYn6or0TpNxvMe+IEG1pirR0pgIXgF814XMEwtSBMS+3R436WaltRlAhxWnib96mEozNJvhC5GzxHMAUp16wKjChW4GNfOmzM6+noFl9cfsUoubctXwmC5mEBrmhfkPV5YUK+q5h55i8Apbnbf9D8QnaJYhMXNWLDgk54tx++rEHzhgpMkEJclO50bgAjzrGricVxwnER9CNBYCBMUPJPjF6CEfP2Eg==
+ bh=KSbmMU6QNpFhbxg6jpySRJ4B8Wz5fU/5IGicUkiwed0=;
+ b=IXYSMo5h58LG5a9IcEMVxUQnqiOo3GdX1+HM4wVEaDFY21mHJUVqEl37lcetqMiM1mtyPeZZWNlI/56ZVcWiA+YPaGOp0z/YIHXHxrXMGMAW6diKmrxkTtcsjrIUY9kBeQJvRL9NyFIr3mwhP+xd0d7gsAJ/z+UHz3NUfT7ruaXD1fIBfY0c7Neoob3GASWSOrkpzSDg9nq+aUJbYk/q5G1rzXZsF68+ey56FLqb9UuX4Uhcq0hOhtBbjBGnYXHyrCs5yXFF7F+mAONjRIc31aW92Z7BpS4xdHrrMo5AKT8QQxF+Fe3NOTmqYfMQXoFmZofAzJeGDOeIezahpGzYzg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=windriversystems.onmicrosoft.com;
- s=selector2-windriversystems-onmicrosoft-com;
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4yqqndQabjt7hlz3S+WU9qIu3iV3uuGDE/lRAx9H7u8=;
- b=pkt+PhpoTRjQDsYVsbAxyRLnQh3oE9Tn4PLIPFqN9pj3nNKMzlzsB7JHBFjkdl4d5kbPsHxK7dU9KFlYE5KqU1aDY33cTdFZFvxRzOYkOiQyIM1AzcLZ7hdli+b6SpRHrRC5axx+7WqScyVIifsXWYqe8OMPl8alN+qJIS4jbww=
-Authentication-Results: lists.yoctoproject.org; dkim=none (message not signed)
- header.d=none;lists.yoctoproject.org; dmarc=none action=none
- header.from=windriver.com;
-Received: from BY5PR11MB4241.namprd11.prod.outlook.com (2603:10b6:a03:1ca::13)
- by SJ0PR11MB5134.namprd11.prod.outlook.com (2603:10b6:a03:2de::17) with
+ bh=KSbmMU6QNpFhbxg6jpySRJ4B8Wz5fU/5IGicUkiwed0=;
+ b=O4YL05g8iri3vI9IifuxKVTrh8JkEpC237udIo4/KI+mlxaH2wmYzLuATphYsurCnOabhNG10uy31FNHSsE/EUcn3BL3cJZ8HWiW0XoRi09bAZja1nKTFT9rX17km8eFH4GKXaV7AzPe5B7B241CkYfahuq4f3x/VK6bATKOF2g=
+Received: from PR3PR08MB5689.eurprd08.prod.outlook.com (2603:10a6:102:90::10)
+ by PR3PR08MB5865.eurprd08.prod.outlook.com (2603:10a6:102:92::18) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4042.23; Wed, 21 Apr
- 2021 06:06:58 +0000
-Received: from BY5PR11MB4241.namprd11.prod.outlook.com
- ([fe80::551b:e310:2ae4:3011]) by BY5PR11MB4241.namprd11.prod.outlook.com
- ([fe80::551b:e310:2ae4:3011%6]) with mapi id 15.20.4065.021; Wed, 21 Apr 2021
- 06:06:58 +0000
-Subject: Re: [meta-virtualization][PATCH v2] libvirt: uprev v6.3 -> v7.2
-To: Bruce Ashfield <bruce.ashfield@gmail.com>,
- Ross Burton <ross.burton@arm.com>
-Cc: meta-virtualization@lists.yoctoproject.org
-References: <20210419033714.3283256-1-yanfei.xu@windriver.com>
- <CADkTA4O+ENckFWbfO+DRXgmGvJABE3XviejkYCpfyP7kJ_nb5A@mail.gmail.com>
-From: "Xu, Yanfei" <yanfei.xu@windriver.com>
-Message-ID: <236f49cd-a678-ed31-35e0-622240c80875@windriver.com>
-Date: Wed, 21 Apr 2021 14:06:38 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <CADkTA4O+ENckFWbfO+DRXgmGvJABE3XviejkYCpfyP7kJ_nb5A@mail.gmail.com>
-X-Originating-IP: [60.247.85.82]
-X-ClientProxiedBy: HKAPR03CA0004.apcprd03.prod.outlook.com
- (2603:1096:203:c8::9) To BY5PR11MB4241.namprd11.prod.outlook.com
- (2603:10b6:a03:1ca::13)
-Return-Path: yanfei.xu@windriver.com
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [128.224.162.160] (60.247.85.82) by HKAPR03CA0004.apcprd03.prod.outlook.com (2603:1096:203:c8::9) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4087.15 via Frontend Transport; Wed, 21 Apr 2021 06:06:44 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 1bbf9f6c-955f-49ae-53e8-08d9048ba4fe
-X-MS-TrafficTypeDiagnostic: SJ0PR11MB5134:
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4042.16; Wed, 21 Apr
+ 2021 09:20:20 +0000
+Received: from PR3PR08MB5689.eurprd08.prod.outlook.com
+ ([fe80::1181:7889:ac28:ef7f]) by PR3PR08MB5689.eurprd08.prod.outlook.com
+ ([fe80::1181:7889:ac28:ef7f%7]) with mapi id 15.20.4042.024; Wed, 21 Apr 2021
+ 09:20:20 +0000
+From: "Bertrand Marquis" <bertrand.marquis@arm.com>
+To: Christopher Clark <christopher.w.clark@gmail.com>
+CC: "meta-virtualization@lists.yoctoproject.org"
+	<meta-virtualization@lists.yoctoproject.org>, Doug Goldstein
+	<cardoe@gentoo.org>, Bruce Ashfield <bruce.ashfield@gmail.com>, nd
+	<nd@arm.com>
+Subject: Re: [meta-virtualization][PATCH 1/3] xen-tools: add patches for 4.14 to enable dropping multilib build
+Thread-Topic: [meta-virtualization][PATCH 1/3] xen-tools: add patches for 4.14
+ to enable dropping multilib build
+Thread-Index: AQHXNXELQGLy8Ib0FE+2EjfvOq4bIaq+tDaA
+Date: Wed, 21 Apr 2021 09:20:20 +0000
+Message-ID: <2BA89CEF-8F2C-412D-8365-DA256D8E8F68@arm.com>
+References: <20210419230854.121217-1-christopher.w.clark@gmail.com>
+In-Reply-To: <20210419230854.121217-1-christopher.w.clark@gmail.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3654.60.0.2.21)
+Authentication-Results-Original: gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=none action=none header.from=arm.com;
+x-originating-ip: [154.57.226.134]
+x-ms-publictraffictype: Email
+X-MS-Office365-Filtering-Correlation-Id: 88487260-fed9-409d-ea2f-08d904a6b4f9
+x-ms-traffictypediagnostic: PR3PR08MB5865:|AM9PR08MB6900:
 X-Microsoft-Antispam-PRVS: 
-	<SJ0PR11MB5134829C6A73C246E5A78FF0E4479@SJ0PR11MB5134.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:79;
+	<AM9PR08MB6900B3346507072340977EF99D479@AM9PR08MB6900.eurprd08.prod.outlook.com>
+x-checkrecipientrouted: true
+nodisclaimer: true
+x-ms-oob-tlc-oobclassifiers: OLM:8882;OLM:8882;
 X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: 
+ uWCEc3xoMHXKkyiiUdlZvC6ZrHsJ/3UbvOz8AZzivxEM2FPecY/cUnD9qOSCLVOl3dbq+cJa+I1c2yVZnNgB5IAO+YbnlUQHBzWY2Rpq9hEtMUam5qKEoGCOMpk2BCAwe6W8cxRjeyUGvtZNxlxtUgLJcEpdP4+F5LUDY6Lu6uzrs3AULXgpH0tiTQ8/NAEGmySs3WrYYwY197aELQciLcTM8QRZsA8XZiF4yJiVBDr16GBZ1UDNflfXhPvDQ7H+W1OGIcASFa6WgKTIx7Y1bDv3/jeJUg6mQbaZiPuDmlaEDGJyi/FR9iVunY9lkOaauFkmrjw2VdwE/kw3OOcqJvjitcGXfsdaqfD5ac8A3AYsvCnnpxyTUlj9901d3HWJ6oAFj/DusrGznRPkMXwBqT3hFR7Y1mwfSgn4KiGduTPzveOb1wBhruQzXo1u/l/mH+F8kSQmWoeVQww5fEexCpXEHHWYjZ2MO9Libp6SlQNKLio4wp2xz1QxNqSxagE2t37sBWgcCrAN0QMHLSE/Kxs0pZFX2Na/z9u8ehdcnaW/dnp68WK/yGinSdkcPlYS/nXdqfHlGVCB0+Bqe9qOQFkR8NK2Ez6/Yv/lQ5l/jd+9z7rHe3NZQ4KRdSbFeXYyO5Ba7FECU0NEIAMSLowt62IcjCCf9DlRWmtDrt9wV47uOXZZzf3k23CMHB93bDhdxo4tOboY5ztIaMWDM9hzObXbjAZ2itZW+r+0pp8W4a8=
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PR3PR08MB5689.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(366004)(39860400002)(376002)(346002)(396003)(64756008)(316002)(8936002)(8676002)(4326008)(5660300002)(36756003)(66446008)(91956017)(30864003)(71200400001)(966005)(6916009)(478600001)(83380400001)(66946007)(76116006)(33656002)(6506007)(66556008)(186003)(53546011)(6486002)(86362001)(54906003)(122000001)(2906002)(6512007)(26005)(2616005)(66476007)(38100700002)(45980500001);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata: 
+ =?utf-8?B?M05RZm5vcW9xOHkzWFAvbXRHTUdDTG1KTFZla3BYTkl6T3RCS0lQeEtrWWty?=
+ =?utf-8?B?TDhKSTZyd3Y0S0dPY1pENnBDeWFsL1V1NmhWSWJVNmhKc0lzRmVMdjlJK2tn?=
+ =?utf-8?B?Y0VNd0VWa0ZWMFJWc1I4WWg4QTJHT3N2K0ZvNFlkdytjeVhreFd1MnpJNm9R?=
+ =?utf-8?B?UDJKRFY5bm80d3pIZWw0YlE3ODM0Q2M2YWg3ZkJ4NGlraXhYMmE2azlORDJG?=
+ =?utf-8?B?SVdYRUYySnpDWHoyTlJob0Z4RUxLWGxJY0c3dXRkMEF1Vy9DOG1zVHVxeHFY?=
+ =?utf-8?B?ZmlJRzU5NmtPSUpyeVozWUVmSklpK1JabVVWOWVmN0pFUXhDZkdrMmxjaUI2?=
+ =?utf-8?B?Y0xzc00vdGsrV2MwOXRKZmVhdlhUN3d1aEE4SUQyZ0c4elFvaFoxS3NkWjNS?=
+ =?utf-8?B?dW9LT2Vsd0dJbjBsWC9KamlhL1dSQzBhVzNhK1RwL0pVOE9YQjhhNFIxbzc1?=
+ =?utf-8?B?UmwyU0NhQ05mMnMvODJyUHgvT25tSnp3SVFGVlMvb0ErUWdOMlFXcGMxRlU4?=
+ =?utf-8?B?UDhMUlBZNnhhdXZtUXRzMVR4akM2eGdIMjgxN3IxZzJoMUtsL2VNRUtRTlhr?=
+ =?utf-8?B?aXFQeDY1N1FMSU1wY29JTnE0R3ExRnkyV3U5RFk2YWpzNEhraG1Wc29ZQWNY?=
+ =?utf-8?B?WWN6YnhLbGtoWDFmZ2M2UGh3MU41VEhYdUF3VHVNTktsdUNOdlB4enVHNFdQ?=
+ =?utf-8?B?N0pIN1ZGR3ZBbnA2UzlkY0VCaGx6b280ZVY1TUk5MmNaZ2xZeUJ5TWlkdEVk?=
+ =?utf-8?B?Z1FpNTNhUTB6bCsxTk1UY0pFSjllTW52V2tuWDJFdm41MkoxNHFueXY0T3Qy?=
+ =?utf-8?B?OXZRSTRucnJPZmMydTVRRndBN3NsQkxqajVNZmhjeFphbE9rMTQ0YlVhQThj?=
+ =?utf-8?B?R0tSU2hNUUlWNnFIZ0hSSG1IZmhXbnZuMmM3dHZtVCtVRTZlYS9OcjBtMjVj?=
+ =?utf-8?B?QVBKYUkvbjVBbG83MjJUQVhJNmxOeTNvQ0ZFakErMjJVenJwR2l4aUlBUVRQ?=
+ =?utf-8?B?a1Mwakh2SEZDTjREYUpNS0J2ZStMZzVNclhtdEVXelFZZ2tqb1lGZ09jU1lG?=
+ =?utf-8?B?T0doUlpHZXVOK0NsaXRyODBoTElldUlYbmhac245emkrSm9UMGJBd3BsSFIy?=
+ =?utf-8?B?a25pdlhzN0FWeDM0SVFjTFVjY01Qb3JQcWNXRkwrNm5oeG9zRDU2VFl2akFo?=
+ =?utf-8?B?MEk4STc2eGVob3ByVnhiQWYrV1Z3UkpjdWVRMTE1WmNnSW1XRlVCTGdWNmow?=
+ =?utf-8?B?dmFBQ3JPQlJKSTUwalJmVlhvcTVOZTN3NW4wOWsxU3R0RDg4L0hreDM1RktV?=
+ =?utf-8?B?WTJNR3RBcGxrNWJrWWJ5TDRBTTZBQ1dFZlc5QlVGS2x3WUlENGl5QWhveCtJ?=
+ =?utf-8?B?bEpKbnQvSElBNDFGcFM0MWxBWUtuWTI4T21xM0lTdlV4Y2ZJY01mS1R3aldT?=
+ =?utf-8?B?bSs1UVFuQmVkbk1wRGVLWG16QWlxaU5DVjB5QWtCTGh2S1E5eFE4eit3RlRP?=
+ =?utf-8?B?WUFBa1ZRT3hhYTNDcXJhV3JQZElrTUwyWld6RGFHYkNhaDBzdFJ2T3hNL2ky?=
+ =?utf-8?B?aGdZS2RNRXdUZkhSamVBQ3pLYTFxQk9adnlSclAvYzVUV1hDRGY1YzY1R0lO?=
+ =?utf-8?B?Qmh3dVY5OFlSZFJoWDlDZk9hQ2YyWmlSTzVSeTZQRHhUaDlFNGdaL2FyQm9y?=
+ =?utf-8?B?VjVuUVJiOWhyOVY4TGFyVEFUYUlURzBoVlBFY0NlUk1RYkhqd3ZpRGwrUWZy?=
+ =?utf-8?B?czdYVHdLYlJubStCaHdqNUIyUFg1Y3VYejlOOGxab0NITVBMVCtqcERyZmMx?=
+ =?utf-8?B?SzhUbVZHZnZjczRhdzZzQT09?=
+x-ms-exchange-transport-forked: True
+MIME-Version: 1.0
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3PR08MB5865
+Original-Authentication-Results: gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=none action=none header.from=arm.com;
+Return-Path: Bertrand.Marquis@arm.com
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ AM5EUR03FT058.eop-EUR03.prod.protection.outlook.com
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	5b1d94f4-6611-46c9-e458-08d904a6af5e
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	9WHLeBJ2YarZ0VQGeQOglEkf47SC8SHfC/26MbXAEBq5SHjzkqHD7WyRCxD09UyBnAN9MLWPM2ARpfodqUJkxzftfCskWJI8JAxG0BrSXvuyrb8bY8z/o0Oxk2Z8oOUpLWtZ2hQIFgkL80ytDuqc2T3QLZ6loE9SKVRnpIG+oVY1KSFkep+tdcIitB/inkFu6lknli4/t3WFRIjPHIW/klugsZzirKsrTeLzkrLymewP545bVOmqmjZtYT/l/DU5KMTNzQ73SRTBizX8KBzXFkqlmbOrBSFwfT36pUIUaSxWLtGFONThHEg6oAFwH1ppoNmkaIORh9w0qUD2pNl/RZHOYtql8o8tz0c05yaxZMR/X7IiMwZSIXL73xs+/vz841e71W2d0uhl8fMX+htBMYktjhEDhFUqkqOFJET0fB/70gGkv1ogouWUMKJk+9cUbu10XaXoSUUhrvUvJfRPgqOvxjf+RG3r016tN/PhqUhSiNccA7YcdWACVeurtE02vk8cuNiauu/2smB9AlnZSZPf/cB8oA20b0iYGsqLinlZE1xBQcWGB03hRYIWvTDg7dJOcSwyZfuhkQ1dtFEDLmd2oUybHNwgsKxPNFGSsXYn5LdFhAYzAYQJarAwoiw/+G2MnHfCwQl4DKFAFcTpB+09jynkmX09XVWo4PI5llP0JuMmrvYX+tRp1QcpLujFSVJkxcE/9YfFYub8kq8h0UTaof7/PHt+VdyjGDn+i2PcoxW7oQ+SdRFT+8kyzRqkg6dy3NczwRK3haN0o0AAg6r7lJEggAT1bkx3jHz4b2/TGcjybxli0rcQ+lCVybA5oDdtBmTyn9gPMi1XA+2+fQ==
+	u94qu32c1u37PV6fuB3d7Tr5BFl8LKQZSPMAraJE+vFcYPzkYVZy8KfPWlICv90R5yCLnIlZdXSIJG/2nFVpW5HCYu04ZFUR1e8nItwBlS5ONLNZeJXFshUvaDdzOpCWAGv8dKpOy2m888MbHdVwxwBeqGZwX2Vbev1IQDuH5182KdWNNFrPY7KSbkDrY+J0XwYpfbuVaZNI7MGayPz1DNsaVUHMflL2SVl00ayhcCItHchoLOSFyeyA+oizUCHLqF81B+TC/P7svJ26Xj+Ic1cxaTaQ1E9852LhDl513h6by/oFM9YivaVD8ZJHP8LY8JPuZWSTBmnvT6yIPHeantngrJL2yKgtfv0iithir2qek/3iwwPHXa/vlVn09r/UkuPGMsLd9OyJQobEHfbQVcqrFhrnTGNohIpJWw3Cx23veZZPC86aCBc4a9Ptn3hQAJhHBt4rUtxm4SwEeIuKg06rO5cg1lxFdApTEvVbtMxNSq2KOomaSvqSIc2h5xEWTFvmD4HlgY/qm73uwBo0QSCajrCm2dmlZVxxN1LUfNvXZ7eCAlwFbHPFkqSTTVHNlEx+Ku9CQ34HXlwMzzH9bLOfnGLAZqSSOEWbe8fEWeB9/bk/EMMD4zDcMVJwQzecHGN+7nM7IAk7mGwkMGVLxvhkiz/fb14YuGewNvU+aYZkhcImwv4Oh33og9pCmP9yAzcLOpkTWJdMzJKgpiduC8XVFsu/W7Ojw08xSnYHl3c=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB4241.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(396003)(39850400004)(346002)(136003)(376002)(2906002)(86362001)(38350700002)(16576012)(966005)(316002)(26005)(6486002)(6666004)(2616005)(66556008)(4326008)(186003)(31686004)(31696002)(16526019)(83380400001)(956004)(38100700002)(66946007)(8676002)(66476007)(5660300002)(30864003)(8936002)(53546011)(478600001)(52116002)(110136005)(6706004)(36756003)(21314003)(78286007)(43740500002)(45980500001)(579004)(559001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: 
-	=?utf-8?B?emxYY1pwQjV5cE5SY0ZGNnljY2FJOCtMN3R3clNBekhOTFErbVlCbFBwNU1P?=
- =?utf-8?B?Q2psZlY2cGhpUVlFWDdXTUpNT2hZVFlyYTUxYW0yS2tLdU5hb25jUElDaC9a?=
- =?utf-8?B?MURWcTRua2VKQWZlRkVBTUxkSHBWdG4rNi9VTVZyWE51dmlHd0hCZzRLdDc0?=
- =?utf-8?B?LzFXYUVESE1OWWJXQXA2SFI4dTV0WmdZRFVkVUF1K2U4enB0SHlzS21xT0E2?=
- =?utf-8?B?b1VhMHJmZVJwd3JReVFLNmtNTGdiNVNqRC8ya3poSmN6Ym9UVjJsY0hiYXFJ?=
- =?utf-8?B?ck5WOG1DZnpmOXZLZERnazFJZ3FrNThVMFlra1BtbHJHOGtEOTJQQWFZQ2hN?=
- =?utf-8?B?R0xobGxzRVpIbjZoVkRTWkthZ2xNaHFzMVpRNWt4eTB3N1QzaUMrWnArQXRE?=
- =?utf-8?B?d0pwdGhiQ0V0V2pUNHNFQWlPcHFyOWRKcWVBZ3owYlJkWmhTcVhSYVlmV2Zz?=
- =?utf-8?B?VTFkMUY4UkRZaUNTbFRqb2pDUWJMNjRGeWdEbWhaTFRrSk43Z2U1bHphQi9T?=
- =?utf-8?B?QjlFNWxtcUlXV3Naek4rTXdrblA2VnFLUkNxZjNLS2FFaE9PUG9MQTF1MjAw?=
- =?utf-8?B?eGJGclBJMS9VRGFLWlNiY3ZsaHdXM0E0YmJ2aFpNQ0g2VGNpZ2QvcmJVVVI3?=
- =?utf-8?B?MmNPZ2pUOEFBc0lXTWRRV296VGlEdmhBWGdHNFovbHB6bnBlRmNqOUpQVnBn?=
- =?utf-8?B?Uk4yQnJ4SFB5M0VCMi91bGZVWGtReEJnY3BGYkxuM0VJRTVWMU5NYldGVkN6?=
- =?utf-8?B?QmtoSjhkUXZ3T2gxT1dPSDRzeVFQR1dqYy83RUtlbDBGQXBaVUVjWXVna3RI?=
- =?utf-8?B?S1hSR2ZrZ3hFbklWUCtzZElaUitWRGh3eG0vZkYxSkJpMFhXS0RoSGdpSEo1?=
- =?utf-8?B?NEN0cmlCZEM1RGNGSS80T1hsb3VNZmpsdEJMazF4aENPZU1OMi9RMFN1SkV4?=
- =?utf-8?B?TXlJZ2FvWWRmem1maUIwZUNWdkN3bk1MSWtCWFZvdDJPWGh5d1hPYmZvbkxP?=
- =?utf-8?B?NEVjUm5sZ1dZQ1pnZFRaOHMvd1V5cXg4SXZzczVHTVdkWjk2NDRWOUR4eXg1?=
- =?utf-8?B?QXd2ZWNjSlhUSXVkdEhLUFVNRCtjZXlrTGRIVndYWTl4RDFJUkg1ZjBGLzRC?=
- =?utf-8?B?Z29JU3owR0cwdlVPWVhLZXpSQ2JKNktyYmJpbWJ5SnJaMXpmTytMU0VNaXFX?=
- =?utf-8?B?Q1JselZXaTFNaTFjalZ0MnFsT1N6ZFB3YUVUbmV3QkZvUWN1NVplaUxadmtD?=
- =?utf-8?B?dE0yaXpYM2paQno1SWM4cFNxQnc5TkttK2Z3RnBGWHZlbHJYNEE1bE1PVDNU?=
- =?utf-8?B?N2d4UXBUZVpTL1RBVXNkeXJQb3MveEtEL3RrdUkwWHFVV0xyRytWSC9aODVI?=
- =?utf-8?B?UWtBRDk2OWRIaGZGQlBtUDdjYmJVWVdTdyt1ejkyd1dVOVBjaGtEdHJxTTFL?=
- =?utf-8?B?MGJNRzhTV2hlT25qTm14NXhOajdlWFMvWDZKR0hsbldBQllBUWJPRHo4T3Ni?=
- =?utf-8?B?cVdLUitYbXgvOTVSZldhSlY3akVzaUovZ0ovSHZReWd0Y1pCQ1VZeGc0ZlR5?=
- =?utf-8?B?WWZuYXlVOTd1R1JFOVZSZFM2MDQ0M1FjV2RrRDQ4NndvdzRIeWVHMlN5NkJU?=
- =?utf-8?B?bkJ6bVJKZ3B2QzFJZEtET2JlNmJNbjIweElNMnZ0ZXAzQk1xelNralorUVVH?=
- =?utf-8?B?cFRhYTVGaXIwSzVJZFJZQVIyUStOc1VaWEFQdnk4dW02NkdYc2Nzd3REZ0Jz?=
- =?utf-8?Q?gw9m+JR2Toyl15GQ29ZoRHkBUwJ+8tNnAJxx2tU?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1bbf9f6c-955f-49ae-53e8-08d9048ba4fe
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4241.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Apr 2021 06:06:58.0786
+	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(4636009)(346002)(39860400002)(376002)(136003)(396003)(36840700001)(46966006)(8936002)(5660300002)(4326008)(186003)(2906002)(478600001)(356005)(54906003)(82740400003)(6486002)(966005)(70206006)(36756003)(6862004)(70586007)(8676002)(82310400003)(83380400001)(6506007)(47076005)(26005)(316002)(36860700001)(336012)(2616005)(86362001)(6512007)(81166007)(30864003)(33656002);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Apr 2021 09:20:29.6215
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7AiCXTk0FP1Xn4DSzrCCuuSe9N1iqGyxGIsTn9fQN3JEMFUjRJFxuxf2wcezahlXF7n9F2T1c6gSoiklb1LkKg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5134
-Content-Type: text/plain; charset=utf-8; format=flowed
+X-MS-Exchange-CrossTenant-Network-Message-Id: 88487260-fed9-409d-ea2f-08d904a6b4f9
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	AM5EUR03FT058.eop-EUR03.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR08MB6900
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <9E9088E66FD36F45BEA837882FD01016@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 
-
-
-On 4/21/21 5:18 AM, Bruce Ashfield wrote:
-> [Please note: This e-mail is from an EXTERNAL e-mail address]
-> 
-> On Sun, Apr 18, 2021 at 11:37 PM Xu, Yanfei <yanfei.xu@windriver.com> wrote:
->>
->> From: Yanfei Xu <yanfei.xu@windriver.com>
->>
->> This upgrade spans 9 small release. The detailed realese logs could
->> refer to: https://gitlab.com/libvirt/libvirt/-/blob/master/NEWS.rst
->>
->> Libvirt's buildsystem has changed to meson, So this upgrade drop some
->> obsolete patches applied to makefile.
->>
->> Due to libvirt's meson currently doesn't support to explicit the runtime
->> binariy path. I made a patch which is
->> 0001-meson-add-options-to-explicit-binaries-path.patch for solving the
->> problem.
-> 
-> I asked for some advice on this during a yocto weekly call today, and
-> Ross had some feedback (so I've added him here)
-> 
-> I'll try and summarize what we talked about, but I'm sure I'll mess it
-> up .. which is why I added Ross.
-> 
-> I was looking at https://mesonbuild.com/Cross-compilation.html to try
-> and understand a bit more.
-> 
-> Anyway, the advice was to pass native=True/False depending on
-> whether or not it is a build or runtime binary to find. I didn't see the
-> exact syntax on that page I referenced, but hopefully that makes sense
-> to you (I also didn't see it in the patch). I did see a few things in the
-> qemu recipe and the bbclass, but not that exact syntax.
-> 
-> Ross also mentioned the ability to use a file to list the binaries, versus
-> needing the option list. I did find references that.
-> 
-> i.e:
-> [binaries]
->     addr2line = /path/to/addr2line
-> 
-> And then we pass something like: --cross-file=<the file with options>
-> 
-> I see that in the bbclass and other recipes.
-> 
-> Had you already tried that (and I missed it) ? Or do those seem like
-> viable options to simplify the patch even more ?
-> 
-> Bruce
-> 
-
-You didn't miss anything, and the approach which you suggest works for 
-me and is easier to use. Will use it in v3!
-
-Thanks,
-Yanfei
-> 
->>
->> I ran libvirt testcase and ovs testcase for this upgrade, the summary
->> as follow:
->>
->> libvirt_test (keyword: ) test results:
->> *1 Run libvirt_test testing(do_test1)                          PASS
->> *2 Check result (virsh_local_capabilities)                     PASS
->> *3 Check result (virsh_local_domcapabilities)                  PASS
->> *4 Check result (virsh_local_freecell)                         PASS
->> *5 Check result (virsh_local_help)                             PASS
->> *6 Check result (virsh_local_hostname)                         PASS
->> *7 Check result (virsh_local_iface-begin)                      PASS
->> *8 Check result (virsh_local_iface-commit)                     PASS
->> *9 Check result (virsh_local_iface-list)                       PASS
->> *10 Check result (virsh_local_list)                            PASS
->> *11 Check result (virsh_local_maxvcpus)                        PASS
->> *12 Check result (virsh_local_net-list)                        PASS
->> *13 Check result (virsh_local_nodecpumap)                      PASS
->> *14 Check result (virsh_local_nodecpustats)                    PASS
->> *15 Check result (virsh_local_nodedev-list)                    PASS
->> *16 Check result (virsh_local_nodeinfo)                        PASS
->> *17 Check result (virsh_local_node-memory-tune)                PASS
->> *18 Check result (virsh_local_nodememstats)                    PASS
->> *19 Check result (virsh_local_nwfilter-binding-list)           PASS
->> *20 Check result (virsh_local_nwfilter-list)                   PASS
->> *21 Check result (virsh_local_pool-capabilities)               PASS
->> *22 Check result (virsh_local_pool-list)                       PASS
->> *23 Check result (virsh_local_pwd)                             PASS
->> *24 Check result (virsh_local_secret-list)                     PASS
->> *25 Check result (virsh_local_sysinfo)                         PASS
->> *26 Check result (virsh_local_uri)                             PASS
->> *27 Check result (virsh_local_version)                         PASS
->>
->> openvswitch_vm2vm (keyword: qemux86) test results:
->> *1 openvswitch_vm2vm testing(do_test1)                         PASS
->> *2 Check result (ovs_vm2vm_boot_guest1)                        PASS
->> *3 Check result (ovs_vm2vm_boot_guest2)                        PASS
->> *4 Check result (ovs_vm2vm_netperf_test)                       PASS
->> *5 Check result (ovs_vm2vm_destroy_guest1)                     PASS
->> *6 Check result (ovs_vm2vm_destroy_guest2)                     PASS
->> *7 check testcase call trace(do_check_call_trace)              PASS
->>
->> Signed-off-by: Yanfei Xu <yanfei.xu@windriver.com>
->> ---
->> v1-->v2:
->> 1.fix build failure caused by "getent".
->> 2.fix apply failure.
->> 3.drop ptest configurations in libvirt_7.2.0.bb
->> 4.add test log in commit messages.
->>
->>   conf/layer.conf                               |   2 +
->>   recipes-extended/libvirt/libvirt-python.inc   |   4 +-
->>   ...drop-unnecessary-libgnu.la-reference.patch |  31 ---
->>   ...dd-options-to-explicit-binaries-path.patch |  86 ++++++++
->>   .../libvirt/0001-to-fix-build-error.patch     |  47 ----
->>   ...-search-for-rpc-rpc.h-in-the-sysroot.patch |  34 ---
->>   .../libvirt/install-missing-file.patch        |  50 -----
->>   ...read-safety-in-lxc-callback-handling.patch |  63 ------
->>   ...virt-use-pkg-config-to-locate-libcap.patch |  43 ----
->>   .../libvirt/qemu-fix-crash-in-qemuOpen.patch  |  39 ----
->>   .../libvirt/libvirt/runptest.patch            | 116 ----------
->>   ...t-net-rpc-to-virt-host-validate-when.patch |  91 --------
->>   .../{libvirt_6.3.0.bb => libvirt_7.2.0.bb}    | 200 +++++-------------
->>   13 files changed, 141 insertions(+), 665 deletions(-)
->>   delete mode 100644 recipes-extended/libvirt/libvirt/0001-build-drop-unnecessary-libgnu.la-reference.patch
->>   create mode 100644 recipes-extended/libvirt/libvirt/0001-meson-add-options-to-explicit-binaries-path.patch
->>   delete mode 100644 recipes-extended/libvirt/libvirt/0001-to-fix-build-error.patch
->>   delete mode 100644 recipes-extended/libvirt/libvirt/configure.ac-search-for-rpc-rpc.h-in-the-sysroot.patch
->>   delete mode 100644 recipes-extended/libvirt/libvirt/install-missing-file.patch
->>   delete mode 100644 recipes-extended/libvirt/libvirt/libvirt-1.0.3-fix-thread-safety-in-lxc-callback-handling.patch
->>   delete mode 100644 recipes-extended/libvirt/libvirt/libvirt-use-pkg-config-to-locate-libcap.patch
->>   delete mode 100644 recipes-extended/libvirt/libvirt/qemu-fix-crash-in-qemuOpen.patch
->>   delete mode 100644 recipes-extended/libvirt/libvirt/runptest.patch
->>   delete mode 100644 recipes-extended/libvirt/libvirt/tools-add-libvirt-net-rpc-to-virt-host-validate-when.patch
->>   rename recipes-extended/libvirt/{libvirt_6.3.0.bb => libvirt_7.2.0.bb} (62%)
->>
->> diff --git a/conf/layer.conf b/conf/layer.conf
->> index f48ec25..0f0126b 100644
->> --- a/conf/layer.conf
->> +++ b/conf/layer.conf
->> @@ -67,3 +67,5 @@ K8S_CONFIG_PATH = "${LAYERDIR}/conf/distro/include/k8s-versions.inc"
->>   USER_CLASSES_append = " meta-virt-cfg"
->>   USER_CLASSES_append = " meta-virt-k8s-cfg"
->>   USER_CLASSES_append = " meta-virt-xen-cfg"
->> +
->> +HOSTTOOLS_NONFATAL += "getent"
->> diff --git a/recipes-extended/libvirt/libvirt-python.inc b/recipes-extended/libvirt/libvirt-python.inc
->> index bcd7657..0c661af 100644
->> --- a/recipes-extended/libvirt/libvirt-python.inc
->> +++ b/recipes-extended/libvirt/libvirt-python.inc
->> @@ -17,8 +17,8 @@ FILES_${PN}-python = "${bindir}/* ${libdir}/* ${libdir}/${PYTHON_DIR}/*"
->>
->>   SRC_URI += "http://libvirt.org/sources/python/libvirt-python-${PV}.tar.gz;name=libvirt_python"
->>
->> -SRC_URI[libvirt_python.md5sum] = "4cf898350ee9a47f94986d402c153bdb"
->> -SRC_URI[libvirt_python.sha256sum] = "c772421ecc144f098f4ab15db700c62db9b9e6e76b876217edcfd62e9ce02750"
->> +SRC_URI[libvirt_python.md5sum] = "19bf22414a43d358581b9259b52047a7"
->> +SRC_URI[libvirt_python.sha256sum] = "c0c3bac54c55622e17927b09cd9843869600d71842fb072c99491fe2608dcee7"
->>
->>   export LIBVIRT_API_PATH = "${S}/docs/libvirt-api.xml"
->>   export LIBVIRT_CFLAGS = "-I${S}/include"
->> diff --git a/recipes-extended/libvirt/libvirt/0001-build-drop-unnecessary-libgnu.la-reference.patch b/recipes-extended/libvirt/libvirt/0001-build-drop-unnecessary-libgnu.la-reference.patch
->> deleted file mode 100644
->> index f02a5d6..0000000
->> --- a/recipes-extended/libvirt/libvirt/0001-build-drop-unnecessary-libgnu.la-reference.patch
->> +++ /dev/null
->> @@ -1,31 +0,0 @@
->> -From 30a056069cb35804434fb036e51ae97f33c02025 Mon Sep 17 00:00:00 2001
->> -From: Bruce Ashfield <bruce.ashfield@gmail.com>
->> -Date: Sat, 7 Mar 2020 21:36:27 -0500
->> -Subject: [PATCH] build: drop unnecessary libgnu.la reference
->> -
->> -Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
->> -
->> ----
->> - tools/Makefile.am | 2 --
->> - 1 file changed, 2 deletions(-)
->> -
->> -diff --git a/tools/Makefile.am b/tools/Makefile.am
->> -index 2a0a989..93fe283 100644
->> ---- a/tools/Makefile.am
->> -+++ b/tools/Makefile.am
->> -@@ -168,7 +168,6 @@ virt_host_validate_LDADD = \
->> -
->> - if WITH_GNUTLS
->> - virt_host_validate_LDADD += ../src/libvirt-net-rpc.la \
->> --                            ../gnulib/lib/libgnu.la   \
->> -                             $(NULL)
->> - endif
->> -
->> -@@ -270,7 +269,6 @@ BUILT_SOURCES =
->> -
->> - if WITH_GNUTLS
->> - virsh_LDADD += ../src/libvirt-net-rpc.la \
->> --               ../gnulib/lib/libgnu.la   \
->> -                $(NULL)
->> - endif
->> -
->> diff --git a/recipes-extended/libvirt/libvirt/0001-meson-add-options-to-explicit-binaries-path.patch b/recipes-extended/libvirt/libvirt/0001-meson-add-options-to-explicit-binaries-path.patch
->> new file mode 100644
->> index 0000000..4c545d4
->> --- /dev/null
->> +++ b/recipes-extended/libvirt/libvirt/0001-meson-add-options-to-explicit-binaries-path.patch
->> @@ -0,0 +1,86 @@
->> +From 2e061ccf093063267277893cd5cacc9e7188c629 Mon Sep 17 00:00:00 2001
->> +From: Yanfei Xu <yanfei.xu@windriver.com>
->> +Date: Thu, 25 Mar 2021 16:24:04 +0800
->> +Subject: [PATCH] meson: add options to explicit binaries path
->> +
->> +In cross compile evironment, path of binaries is possiblely different
->> +between target and host. Let's add options to explicit binaries path
->> +to solve this problem.
->> +
->> +Upstream-Status: Pending
->> +
->> +Signed-off-by: Yanfei Xu <yanfei.xu@windriver.com>
->> +---
->> + meson.build       | 18 ++++++++++++------
->> + meson_options.txt | 23 +++++++++++++++++++++++
->> + 2 files changed, 35 insertions(+), 6 deletions(-)
->> +
->> +diff --git a/meson.build b/meson.build
->> +index 369548f127..6c93be8e4b 100644
->> +--- a/meson.build
->> ++++ b/meson.build
->> +@@ -943,18 +943,24 @@ optional_programs = [
->> +   'udevadm',
->> + ]
->> +
->> ++# if -Dxxx-path option is found, use that. Otherwise, check in $PATH,
->> ++# /usr/sbin, /sbin, and fall back to the default from middle column.
->> + foreach name : optional_programs
->> +-  prog = find_program(name, required: false, dirs: libvirt_sbin_path)
->> +   varname = name.underscorify()
->> +-  if prog.found()
->> +-    prog_path = prog.path()
->> ++  prog_path = get_option(name + '-path')
->> ++  if prog_path != ''
->> ++    message('Using @1@ for @0@'.format(name, prog_path))
->> +   else
->> +-    prog_path = name
->> ++    prog = find_program(name, required: false, dirs: libvirt_sbin_path)
->> ++    if prog.found()
->> ++      prog_path = prog.path()
->> ++    else
->> ++      prog_path = name
->> ++    endif
->> ++  set_variable('@0@_prog'.format(varname), prog)
->> +   endif
->> +-
->> +   conf.set_quoted(varname.to_upper(), prog_path)
->> +   conf.set_quoted('@0@_PATH'.format(varname.to_upper()), prog_path)
->> +-  set_variable('@0@_prog'.format(varname), prog)
->> + endforeach
->> +
->> +
->> +diff --git a/meson_options.txt b/meson_options.txt
->> +index e5d79c2b6b..f06f46c7bb 100644
->> +--- a/meson_options.txt
->> ++++ b/meson_options.txt
->> +@@ -102,3 +102,26 @@ option('numad', type: 'feature', value: 'auto', description: 'use numad to manag
->> + option('pm_utils', type: 'feature', value: 'auto', description: 'use pm-utils for power management')
->> + option('sysctl_config', type: 'feature', value: 'auto', description: 'Whether to install sysctl configs')
->> + option('tls_priority', type: 'string', value: 'NORMAL', description: 'set the default TLS session priority string')
->> ++
->> ++
->> ++option('addr2line-path', type : 'string', description : 'path to addr2line')
->> ++option('augparse-path', type : 'string', description : 'path to augparse')
->> ++option('dmidecode-path', type : 'string', description : 'path to dmidecode')
->> ++option('dnsmasq-path', type : 'string', description : 'path to dnsmasq')
->> ++option('ebtables-path', type : 'string', description : 'path to ebtables')
->> ++option('flake8-path', type : 'string', description : 'path to flake8')
->> ++option('ip-path', type : 'string', description : 'path to ip')
->> ++option('ip6tables-path', type : 'string', description : 'path to ip6tables')
->> ++option('iptables-path', type : 'string', description : 'path to iptables')
->> ++option('iscsiadm-path', type : 'string', description : 'path to iscsiadm')
->> ++option('mdevctl-path', type : 'string', description : 'path to mdevctl')
->> ++option('mm-ctl-path', type : 'string', description : 'path to mm-ctl')
->> ++option('modprobe-path', type : 'string', description : 'path to modprobe')
->> ++option('ovs-vsctl-path', type : 'string', description : 'path to ovs-vsctl')
->> ++option('pdwtags-path', type : 'string', description : 'path to pdwtags')
->> ++option('radvd-path', type : 'string', description : 'path to radvd')
->> ++option('rmmod-path', type : 'string', description : 'path to rmmod')
->> ++option('scrub-path', type : 'string', description : 'path to scrub')
->> ++option('tc-path', type : 'string', description : 'path to tc')
->> ++option('udevadm-path', type : 'string', description : 'path to udevadm')
->> ++
->> +--
->> +2.27.0
->> +
->> diff --git a/recipes-extended/libvirt/libvirt/0001-to-fix-build-error.patch b/recipes-extended/libvirt/libvirt/0001-to-fix-build-error.patch
->> deleted file mode 100644
->> index b0148e5..0000000
->> --- a/recipes-extended/libvirt/libvirt/0001-to-fix-build-error.patch
->> +++ /dev/null
->> @@ -1,47 +0,0 @@
->> -From 3566bcacaa6408fb8f655d1749a20b2f30e0c765 Mon Sep 17 00:00:00 2001
->> -From: Lei Maohui <leimaohui@cn.fujitsu.com>
->> -Date: Fri, 31 Jul 2015 03:17:07 +0900
->> -Subject: [PATCH] to fix build error
->> -
->> -The error likes as following
->> -
->> -| Generating internals/command.html.tmp
->> -| /bin/sh: line 3: internals/command.html.tmp: No such file or directory
->> -| rm: Generating internals/locking.html.tmp
->> -| cannot remove `internals/command.html.tmp': No such file or directory
->> -| make[3]: *** [internals/command.html.tmp] Error 1
->> -| make[3]: *** Waiting for unfinished jobs....
->> -
->> -Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
->> -[ywei: rebased to libvirt-1.3.2]
->> -Signed-off-by: Yunguo Wei <yunguo.wei@windriver.com>
->> -[MA: rebase to v4.3.0]
->> -Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
->> -
->> ----
->> - docs/Makefile.am | 5 ++---
->> - 1 file changed, 2 insertions(+), 3 deletions(-)
->> -
->> -diff --git a/docs/Makefile.am b/docs/Makefile.am
->> -index ce3d296..2c8180f 100644
->> ---- a/docs/Makefile.am
->> -+++ b/docs/Makefile.am
->> -@@ -366,7 +366,7 @@ EXTRA_DIST= \
->> -   aclperms.htmlinc \
->> -   $(schema_DATA)
->> -
->> --acl_generated = aclperms.htmlinc
->> -+acl.html:: $(srcdir)/aclperms.htmlinc
->> -
->> - aclperms.htmlinc: $(top_srcdir)/src/access/viraccessperm.h \
->> -         $(top_srcdir)/scripts/genaclperms.py Makefile.am
->> -@@ -432,8 +432,7 @@ manpages/%.html.in: manpages/%.rst
->> -       $(AM_V_GEN)$(MKDIR_P) `dirname $@` && \
->> -         $(RST2HTML) --strict $< > $@ || { rm $@ && exit 1; }
->> -
->> --%.html.tmp: %.html.in site.xsl subsite.xsl page.xsl \
->> --              $(acl_generated)
->> -+%.html.tmp: %.html.in site.xsl subsite.xsl page.xsl
->> -       $(AM_V_GEN)name=`echo $@ | sed -e 's/.tmp//'`; \
->> -         genhtmlin=`echo $@ | sed -e 's/.tmp/.in/'`; \
->> -         rst=`echo $@ | sed -e 's/.html.tmp/.rst/'`; \
->> diff --git a/recipes-extended/libvirt/libvirt/configure.ac-search-for-rpc-rpc.h-in-the-sysroot.patch b/recipes-extended/libvirt/libvirt/configure.ac-search-for-rpc-rpc.h-in-the-sysroot.patch
->> deleted file mode 100644
->> index 395d561..0000000
->> --- a/recipes-extended/libvirt/libvirt/configure.ac-search-for-rpc-rpc.h-in-the-sysroot.patch
->> +++ /dev/null
->> @@ -1,34 +0,0 @@
->> -From 79f5975db01af0599860ccca7ef44b0e27105a04 Mon Sep 17 00:00:00 2001
->> -From: Mark Asselstine <mark.asselstine@windriver.com>
->> -Date: Thu, 10 May 2018 12:05:04 -0400
->> -Subject: [PATCH] configure.ac: search for rpc/rpc.h in the sysroot
->> -
->> -We want to avoid host contamination and use the sysroot as the base
->> -directory for our search so add the '=' the the '-I' when searching
->> -for libtirpc's rpc.h header.
->> -
->> -Upstream-Status: Inappropriate [old release]
->> -
->> -Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
->> -
->> ----
->> - m4/virt-xdr.m4 | 4 ++--
->> - 1 file changed, 2 insertions(+), 2 deletions(-)
->> -
->> -diff --git a/m4/virt-xdr.m4 b/m4/virt-xdr.m4
->> -index 8375415..12b51f7 100644
->> ---- a/m4/virt-xdr.m4
->> -+++ b/m4/virt-xdr.m4
->> -@@ -30,10 +30,10 @@ AC_DEFUN([LIBVIRT_CHECK_XDR], [
->> -     ])
->> -     with_xdr="yes"
->> -
->> --    dnl Recent glibc requires -I/usr/include/tirpc for <rpc/rpc.h>
->> -+    dnl Recent glibc requires -I=/usr/include/tirpc for <rpc/rpc.h>
->> -     old_CFLAGS=$CFLAGS
->> -     AC_CACHE_CHECK([where to find <rpc/rpc.h>], [lv_cv_xdr_cflags], [
->> --      for add_CFLAGS in '' '-I/usr/include/tirpc' 'missing'; do
->> -+      for add_CFLAGS in '' '-I=/usr/include/tirpc' 'missing'; do
->> -         if test x"$add_CFLAGS" = xmissing; then
->> -           lv_cv_xdr_cflags=missing; break
->> -         fi
->> diff --git a/recipes-extended/libvirt/libvirt/install-missing-file.patch b/recipes-extended/libvirt/libvirt/install-missing-file.patch
->> deleted file mode 100644
->> index 6aa36df..0000000
->> --- a/recipes-extended/libvirt/libvirt/install-missing-file.patch
->> +++ /dev/null
->> @@ -1,50 +0,0 @@
->> -From aa75f5136066d239d48a21373b3d96ee12378e8d Mon Sep 17 00:00:00 2001
->> -From: Dengke Du <dengke.du@windriver.com>
->> -Date: Wed, 8 May 2019 17:24:17 +0800
->> -Subject: [PATCH] Install missing conf file
->> -
->> -openvzutilstest.conf file is needed by openvzutilstest test.
->> -
->> -Upstream-Status: Inapproriate
->> -
->> -Signed-off-by: Catalin Enache <catalin.enache@windriver.com>
->> -[KK: Update context for 1.3.5.]
->> -Signed-off-by: Kai Kang <kai.kang@windriver.com>
->> -[MA: Update context for v4.3.0]
->> -Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
->> -[DDU: Update context for v5.3.0]
->> -Signed-off-by: Dengke Du <dengke.du@windriver.com>
->> -
->> ----
->> - tests/Makefile.am | 4 +++-
->> - 1 file changed, 3 insertions(+), 1 deletion(-)
->> -
->> -diff --git a/tests/Makefile.am b/tests/Makefile.am
->> -index 4a808dd..0c3e799 100644
->> ---- a/tests/Makefile.am
->> -+++ b/tests/Makefile.am
->> -@@ -173,6 +173,7 @@ EXTRA_DIST = \
->> -       $(NULL)
->> -
->> - test_helpers = commandhelper ssh
->> -+test_misc =
->> - test_programs = virshtest sockettest \
->> -       virhostcputest virbuftest \
->> -       commandtest seclabeltest \
->> -@@ -311,6 +312,7 @@ endif WITH_LXC
->> -
->> - if WITH_OPENVZ
->> - test_programs += openvzutilstest
->> -+test_misc += openvzutilstest.conf
->> - endif WITH_OPENVZ
->> -
->> - if WITH_ESX
->> -@@ -1551,7 +1553,7 @@ endif  ! WITH_LINUX
->> -
->> - buildtest-TESTS: $(TESTS) $(test_libraries) $(test_helpers)
->> -
->> --PTESTS = $(TESTS) $(test_helpers) test-lib.sh virschematest
->> -+PTESTS = $(TESTS) $(test_helpers) $(test_misc) test-lib.sh virschematest
->> -
->> - install-ptest:
->> -       list='$(TESTS) $(test_helpers) test-lib.sh virschematest'
->> diff --git a/recipes-extended/libvirt/libvirt/libvirt-1.0.3-fix-thread-safety-in-lxc-callback-handling.patch b/recipes-extended/libvirt/libvirt/libvirt-1.0.3-fix-thread-safety-in-lxc-callback-handling.patch
->> deleted file mode 100644
->> index 558d5ef..0000000
->> --- a/recipes-extended/libvirt/libvirt/libvirt-1.0.3-fix-thread-safety-in-lxc-callback-handling.patch
->> +++ /dev/null
->> @@ -1,63 +0,0 @@
->> -From ad5d9cee87357f9f38f62583119606ef95ba10df Mon Sep 17 00:00:00 2001
->> -From: Bogdan Purcareata <bogdan.purcareata@freescale.com>
->> -Date: Fri, 24 May 2013 16:46:00 +0300
->> -Subject: [PATCH] Fix thread safety in LXC callback handling
->> -
->> -Signed-off-by: Bogdan Purcareata <bogdan.purcareata@freescale.com>
->> ----
->> - src/lxc/lxc_process.c | 18 +++++++++++++++++-
->> - 1 file changed, 17 insertions(+), 1 deletion(-)
->> -
->> -diff --git a/src/lxc/lxc_process.c b/src/lxc/lxc_process.c
->> -index aaa81a7..0eadc67 100644
->> ---- a/src/lxc/lxc_process.c
->> -+++ b/src/lxc/lxc_process.c
->> -@@ -609,8 +609,13 @@ static void virLXCProcessMonitorExitNotify(virLXCMonitorPtr mon ATTRIBUTE_UNUSED
->> -                                            virLXCProtocolExitStatus status,
->> -                                            virDomainObjPtr vm)
->> - {
->> -+    virLXCDriverPtr driver = lxc_driver;
->> -     virLXCDomainObjPrivatePtr priv = vm->privateData;
->> -
->> -+    lxcDriverLock(driver);
->> -+    virObjectLock(vm);
->> -+    lxcDriverUnlock(driver);
->> -+
->> -     switch (status) {
->> -     case VIR_LXC_PROTOCOL_EXIT_STATUS_SHUTDOWN:
->> -         priv->stopReason = VIR_DOMAIN_EVENT_STOPPED_SHUTDOWN;
->> -@@ -628,6 +633,8 @@ static void virLXCProcessMonitorExitNotify(virLXCMonitorPtr mon ATTRIBUTE_UNUSED
->> -     }
->> -     VIR_DEBUG("Domain shutoff reason %d (from status %d)",
->> -               priv->stopReason, status);
->> -+
->> -+    virObjectUnlock(vm);
->> - }
->> -
->> - /* XXX a little evil */
->> -@@ -636,12 +643,21 @@ static void virLXCProcessMonitorInitNotify(virLXCMonitorPtr mon ATTRIBUTE_UNUSED
->> -                                            pid_t initpid,
->> -                                            virDomainObjPtr vm)
->> - {
->> --    virLXCDomainObjPrivatePtr priv = vm->privateData;
->> -+    virLXCDriverPtr driver = lxc_driver;
->> -+    virLXCDomainObjPrivatePtr priv;
->> -+
->> -+    lxcDriverLock(driver);
->> -+    virObjectLock(vm);
->> -+    lxcDriverUnlock(driver);
->> -+
->> -+    priv = vm->privateData;
->> -     priv->initpid = initpid;
->> -     virDomainAuditInit(vm, initpid);
->> -
->> -     if (virDomainSaveStatus(lxc_driver->caps, lxc_driver->stateDir, vm) < 0)
->> -         VIR_WARN("Cannot update XML with PID for LXC %s", vm->def->name);
->> -+
->> -+    virObjectUnlock(vm);
->> - }
->> -
->> - static virLXCMonitorCallbacks monitorCallbacks = {
->> ---
->> -1.7.11.7
->> -
->> diff --git a/recipes-extended/libvirt/libvirt/libvirt-use-pkg-config-to-locate-libcap.patch b/recipes-extended/libvirt/libvirt/libvirt-use-pkg-config-to-locate-libcap.patch
->> deleted file mode 100644
->> index 87b5591..0000000
->> --- a/recipes-extended/libvirt/libvirt/libvirt-use-pkg-config-to-locate-libcap.patch
->> +++ /dev/null
->> @@ -1,43 +0,0 @@
->> -From 94bd514e1b6e602a48285db94e65050f8f0c2585 Mon Sep 17 00:00:00 2001
->> -From: Bruce Ashfield <bruce.ashfield@windriver.com>
->> -Date: Wed, 8 Apr 2015 13:03:03 -0400
->> -Subject: [PATCH] libvirt: use pkg-config to locate libcap
->> -
->> -libvirt wants to use pcap-config to locate the exisence and location
->> -of libpcap. oe-core stubs this script and replaces it with pkg-config,
->> -which can lead to the host pcap-config triggering and either breaking
->> -the build or introducing host contamination.
->> -
->> -To fix this issue, we patch configure to use 'pkg-config libcap' to
->> -locate the correct libraries.
->> -
->> -Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
->> -[MA: Update to apply agains v4.3.0]
->> -Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
->> -
->> ----
->> - m4/virt-libpcap.m4 | 6 +++---
->> - 1 file changed, 3 insertions(+), 3 deletions(-)
->> -
->> -diff --git a/m4/virt-libpcap.m4 b/m4/virt-libpcap.m4
->> -index 605c2fd..e0ab018 100644
->> ---- a/m4/virt-libpcap.m4
->> -+++ b/m4/virt-libpcap.m4
->> -@@ -23,14 +23,14 @@ AC_DEFUN([LIBVIRT_ARG_LIBPCAP], [
->> -
->> - AC_DEFUN([LIBVIRT_CHECK_LIBPCAP], [
->> -   LIBPCAP_REQUIRED="1.5.0"
->> --  LIBPCAP_CONFIG="pcap-config"
->> -+  LIBPCAP_CONFIG="pkg-config libpcap"
->> -   LIBPCAP_CFLAGS=""
->> -   LIBPCAP_LIBS=""
->> -
->> -   if test "x$with_libpcap" != "xno"; then
->> -     case $with_libpcap in
->> --      ''|yes|check) LIBPCAP_CONFIG="pcap-config" ;;
->> --      *)      LIBPCAP_CONFIG="$with_libpcap/bin/pcap-config" ;;
->> -+      ''|yes|check) LIBPCAP_CONFIG="pkg-config libpcap" ;;
->> -+      *)      LIBPCAP_CONFIG="$with_libpcap/bin/pkg-config libpcap" ;;
->> -     esac
->> -     AS_IF([test "x$LIBPCAP_CONFIG" != "x"], [
->> -       AC_MSG_CHECKING(libpcap $LIBPCAP_CONFIG >= $LIBPCAP_REQUIRED )
->> diff --git a/recipes-extended/libvirt/libvirt/qemu-fix-crash-in-qemuOpen.patch b/recipes-extended/libvirt/libvirt/qemu-fix-crash-in-qemuOpen.patch
->> deleted file mode 100644
->> index 3cf9e83..0000000
->> --- a/recipes-extended/libvirt/libvirt/qemu-fix-crash-in-qemuOpen.patch
->> +++ /dev/null
->> @@ -1,39 +0,0 @@
->> -From 74bff2509080912ea8abf1de8fd95fa2412b659a Mon Sep 17 00:00:00 2001
->> -From: =?UTF-8?q?J=C3=A1n=20Tomko?= <jtomko@redhat.com>
->> -Date: Thu, 11 Apr 2013 11:37:25 +0200
->> -Subject: [PATCH] qemu: fix crash in qemuOpen
->> -
->> -commit 74bff2509080912ea8abf1de8fd95fa2412b659a from upsteam
->> -git://libvirt.org/libvirt.git
->> -
->> -If the path part of connection URI is not present, cfg is used
->> -unitialized.
->> -
->> -https://bugzilla.redhat.com/show_bug.cgi?id=950855
->> ----
->> - src/qemu/qemu_driver.c |    2 +-
->> - 1 files changed, 1 insertions(+), 1 deletions(-)
->> -
->> -diff --git a/src/qemu/qemu_driver.c b/src/qemu/qemu_driver.c
->> -index 2c0d7d1..0d41e39 100644
->> ---- a/src/qemu/qemu_driver.c
->> -+++ b/src/qemu/qemu_driver.c
->> -@@ -1026,6 +1026,7 @@ static virDrvOpenStatus qemuOpen(virConnectPtr conn,
->> -             goto cleanup;
->> -         }
->> -
->> -+        cfg = virQEMUDriverGetConfig(qemu_driver);
->> -         if (conn->uri->path == NULL) {
->> -             virReportError(VIR_ERR_INTERNAL_ERROR,
->> -                            _("no QEMU URI path given, try %s"),
->> -@@ -1033,7 +1034,6 @@ static virDrvOpenStatus qemuOpen(virConnectPtr conn,
->> -             goto cleanup;
->> -         }
->> -
->> --        cfg = virQEMUDriverGetConfig(qemu_driver);
->> -         if (cfg->privileged) {
->> -             if (STRNEQ(conn->uri->path, "/system") &&
->> -                 STRNEQ(conn->uri->path, "/session")) {
->> ---
->> -1.7.1
->> -
->> diff --git a/recipes-extended/libvirt/libvirt/runptest.patch b/recipes-extended/libvirt/libvirt/runptest.patch
->> deleted file mode 100644
->> index f6bc773..0000000
->> --- a/recipes-extended/libvirt/libvirt/runptest.patch
->> +++ /dev/null
->> @@ -1,116 +0,0 @@
->> -From d210838a4433dd254c1a11b08b804ebe9ff5f378 Mon Sep 17 00:00:00 2001
->> -From: Dengke Du <dengke.du@windriver.com>
->> -Date: Wed, 8 May 2019 10:20:47 +0800
->> -Subject: [PATCH] Add 'install-ptest' rule
->> -
->> -Change TESTS_ENVIRONMENT to allow running outside build dir.
->> -
->> -Upstream-status: Pending
->> -Signed-off-by: Mihaela Sendrea <mihaela.sendrea@enea.com>
->> -[KK: Update context for 1.3.5.]
->> -Signed-off-by: Kai Kang <kai.kang@windriver.com>
->> -[MA: Allow separate source and build dirs]
->> -Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
->> -[ZH: add missing test_helper files]
->> -Signed-off-by: He Zhe <zhe.he@windriver.com>
->> -[MA: Update context for v4.3.0]
->> -Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
->> -[DDU: Update context for v5.3.0]
->> -Signed-off-by: Dengke Du <dengke.du@windriver.com>
->> -
->> ----
->> - tests/Makefile.am | 68 +++++++++++++++++++++++++++++++++++++++++------
->> - 1 file changed, 60 insertions(+), 8 deletions(-)
->> -
->> -diff --git a/tests/Makefile.am b/tests/Makefile.am
->> -index ada5b8f..4a808dd 100644
->> ---- a/tests/Makefile.am
->> -+++ b/tests/Makefile.am
->> -@@ -28,11 +28,13 @@ AM_CPPFLAGS = \
->> -
->> - WARN_CFLAGS += $(RELAXED_FRAME_LIMIT_CFLAGS)
->> -
->> -+PTEST_DIR ?= $(libdir)/libvirt/ptest
->> -+
->> - AM_CFLAGS = \
->> --      -Dabs_builddir="\"$(abs_builddir)\"" \
->> --      -Dabs_top_builddir="\"$(abs_top_builddir)\"" \
->> --      -Dabs_srcdir="\"$(abs_srcdir)\"" \
->> --      -Dabs_top_srcdir="\"$(abs_top_srcdir)\"" \
->> -+      -Dabs_builddir="\"$(PTEST_DIR)/tests\"" \
->> -+      -Dabs_top_builddir="\"$(PTEST_DIR)\"" \
->> -+      -Dabs_srcdir="\"$(PTEST_DIR)/tests\"" \
->> -+      -Dabs_top_srcdir="\"$(PTEST_DIR)\"" \
->> -       $(LIBXML_CFLAGS) \
->> -       $(GLIB_CFLAGS) \
->> -       $(LIBNL_CFLAGS) \
->> -@@ -474,10 +476,10 @@ TESTS = $(test_programs) \
->> -
->> - VIR_TEST_EXPENSIVE ?= $(VIR_TEST_EXPENSIVE_DEFAULT)
->> - TESTS_ENVIRONMENT = \
->> --  abs_top_builddir="$(abs_top_builddir)" \
->> --  abs_top_srcdir="$(abs_top_srcdir)" \
->> --  abs_builddir="$(abs_builddir)" \
->> --  abs_srcdir="$(abs_srcdir)" \
->> -+  abs_top_builddir="$(PTEST_DIR)" \
->> -+  abs_top_srcdir="$(PTEST_DIR)" \
->> -+  abs_builddir="$(PTEST_DIR)/tests" \
->> -+  abs_srcdir="$(PTEST_DIR)/tests" \
->> -   LIBVIRT_AUTOSTART=0 \
->> -   LC_ALL=C \
->> -   VIR_TEST_EXPENSIVE=$(VIR_TEST_EXPENSIVE) \
->> -@@ -1547,4 +1549,54 @@ else ! WITH_LINUX
->> - EXTRA_DIST += virscsitest.c
->> - endif  ! WITH_LINUX
->> -
->> -+buildtest-TESTS: $(TESTS) $(test_libraries) $(test_helpers)
->> -+
->> -+PTESTS = $(TESTS) $(test_helpers) test-lib.sh virschematest
->> -+
->> -+install-ptest:
->> -+      list='$(TESTS) $(test_helpers) test-lib.sh virschematest'
->> -+      install -d $(DEST_DIR)/tools
->> -+      @(if [ -d ../tools/.libs ] ; then cd ../tools/.libs; fi; \
->> -+      install * $(DEST_DIR)/tools)
->> -+      install -d $(DEST_DIR)/src/network
->> -+      cp $(top_srcdir)/src/network/*.xml $(DEST_DIR)/src/network
->> -+      install -d $(DEST_DIR)/src/cpu_map
->> -+      cp $(top_srcdir)/src/cpu_map/*.xml $(DEST_DIR)/src/cpu_map
->> -+      install ../src/libvirt_iohelper $(DEST_DIR)/src
->> -+      install -D ../src/libvirtd $(DEST_DIR)/src/libvirtd
->> -+      install -d $(DEST_DIR)/src/remote
->> -+      install -D $(top_srcdir)/../build/src/remote/libvirtd.conf $(DEST_DIR)/src/remote/libvirtd.conf
->> -+      install -d $(DEST_DIR)/src/remote/.libs
->> -+      @(if [ -d ../src/remote/.libs ] ; then cd ../src/remote/.libs; fi; \
->> -+      install * $(DEST_DIR)/src/remote/.libs)
->> -+      install -d $(DEST_DIR)/src/.libs
->> -+      @(if [ -d ../src/.libs ] ; then cd ../src/.libs; fi; \
->> -+      install * $(DEST_DIR)/src/.libs)
->> -+      install -d $(DEST_DIR)/docs/schemas
->> -+      cp $(top_srcdir)/docs/schemas/*.rng $(DEST_DIR)/docs/schemas
->> -+      cp -r $(top_srcdir)/build-aux $(DEST_DIR)
->> -+      install -d $(DEST_DIR)/examples/xml
->> -+      cp -r $(top_srcdir)/examples/xml/test $(DEST_DIR)/examples/xml
->> -+      install -d $(DEST_DIR)/tests/.libs
->> -+      find . -type d -name "*xml2xml*" -exec cp -r {} $(DEST_DIR)/tests \;
->> -+      find . -type d -name "*data" -exec cp -r {} $(DEST_DIR)/tests \;
->> -+      @(for file in $(PTESTS); do \
->> -+              if [ -f .libs/$$file ]; then \
->> -+                      install .libs/$$file $(DEST_DIR)/tests; \
->> -+              elif [ -f $(srcdir)/$$file ]; then \
->> -+                      install $(srcdir)/$$file $(DEST_DIR)/tests; \
->> -+              else \
->> -+                      install $(builddir)/$$file $(DEST_DIR)/tests; \
->> -+              fi; \
->> -+      done;)
->> -+      @(if [ -d .libs ]; then install .libs/*.so $(DEST_DIR)/tests/.libs; fi;)
->> -+      cp ../config.h $(DEST_DIR)
->> -+      cp Makefile $(DEST_DIR)/tests
->> -+      sed -i -e 's/^Makefile:/_Makefile:/' $(DEST_DIR)/tests/Makefile
->> -+      cp ../Makefile $(DEST_DIR)
->> -+      sed -i -e 's|^Makefile:|_Makefile:|' $(DEST_DIR)/Makefile
->> -+      sed -i -e 's|$(BUILD_DIR)|$(PTEST_DIR)|g' $(DEST_DIR)/tests/Makefile
->> -+      sed -i -e 's|$(BUILD_DIR)|$(PTEST_DIR)|g' $(DEST_DIR)/Makefile
->> -+      sed -i -e 's|^\(.*\.log:\) \(.*EXEEXT.*\)|\1|g' $(DEST_DIR)/tests/Makefile
->> -+
->> - CLEANFILES = *.cov *.gcov .libs/*.gcda .libs/*.gcno *.gcno *.gcda
->> diff --git a/recipes-extended/libvirt/libvirt/tools-add-libvirt-net-rpc-to-virt-host-validate-when.patch b/recipes-extended/libvirt/libvirt/tools-add-libvirt-net-rpc-to-virt-host-validate-when.patch
->> deleted file mode 100644
->> index bb500fd..0000000
->> --- a/recipes-extended/libvirt/libvirt/tools-add-libvirt-net-rpc-to-virt-host-validate-when.patch
->> +++ /dev/null
->> @@ -1,91 +0,0 @@
->> -From 7dc21edd851b260485b432c096f8e90f6fa07778 Mon Sep 17 00:00:00 2001
->> -From: Dengke Du <dengke.du@windriver.com>
->> -Date: Tue, 7 May 2019 15:26:32 +0800
->> -Subject: [PATCH] tools: add libvirt-net-rpc to virt-host-validate when TLS is
->> - enabled
->> -
->> -When gnu-tls is enabled for libvirt references to virNetTLSInit are
->> -generated in libvirt. Any binaries linking against libvirt, must also
->> -link against libvirt-net-rpc which provides the implementation.
->> -
->> -Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
->> -[ywei: rebased to libvirt-1.3.2]
->> -Signed-off-by: Yunguo Wei <yunguo.wei@windriver.com>
->> -[MA: rebase to v4.3.0]
->> -Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
->> -[ddu: rebase to v5.3.0]
->> -Signed-off-by: Dengke Du <dengke.du@windriver.com>
->> -
->> ----
->> - examples/Makefile.am | 20 ++++++++++++++++++++
->> - tools/Makefile.am    | 12 ++++++++++++
->> - 2 files changed, 32 insertions(+)
->> -
->> -diff --git a/examples/Makefile.am b/examples/Makefile.am
->> -index ad635bd..a94f41d 100644
->> ---- a/examples/Makefile.am
->> -+++ b/examples/Makefile.am
->> -@@ -74,6 +74,10 @@ LDADD = \
->> -       $(top_builddir)/src/libvirt-admin.la \
->> -       $(NULL)
->> -
->> -+if WITH_GNUTLS
->> -+LDADD += $(top_builddir)/src/libvirt-net-rpc.la
->> -+endif
->> -+
->> - noinst_PROGRAMS = \
->> -       c/admin/client_close \
->> -       c/admin/client_info \
->> -@@ -111,6 +115,22 @@ c_misc_openauth_SOURCES = c/misc/openauth.c
->> - examplesdir = $(docdir)/examples
->> -
->> - adminexamplesdir = $(examplesdir)/c/admin
->> -+
->> -+if WITH_GNUTLS
->> -+dominfo_info1_LDADD = $(top_builddir)/src/libvirt-net-rpc.la  \
->> -+               $(LDADD)    \
->> -+               $(NULL)
->> -+domsuspend_suspend_LDADD = $(top_builddir)/src/libvirt-net-rpc.la  \
->> -+               $(LDADD)    \
->> -+               $(NULL)
->> -+hellolibvirt_hellolibvirt_LDADD = $(top_builddir)/src/libvirt-net-rpc.la  \
->> -+               $(LDADD)    \
->> -+               $(NULL)
->> -+openauth_openauth_LDADD = $(top_builddir)/src/libvirt-net-rpc.la  \
->> -+               $(LDADD)   \
->> -+               $(NULL)
->> -+endif
->> -+
->> - adminexamples_DATA = $(ADMIN_EXAMPLES)
->> -
->> - domainexamplesdir = $(examplesdir)/c/domain
->> -diff --git a/tools/Makefile.am b/tools/Makefile.am
->> -index 53df930..2a0a989 100644
->> ---- a/tools/Makefile.am
->> -+++ b/tools/Makefile.am
->> -@@ -166,6 +166,12 @@ virt_host_validate_LDADD = \
->> -               $(GLIB_LIBS) \
->> -               $(NULL)
->> -
->> -+if WITH_GNUTLS
->> -+virt_host_validate_LDADD += ../src/libvirt-net-rpc.la \
->> -+                            ../gnulib/lib/libgnu.la   \
->> -+                            $(NULL)
->> -+endif
->> -+
->> - virt_host_validate_CFLAGS = \
->> -               $(AM_CFLAGS) \
->> -               $(NULL)
->> -@@ -262,6 +268,12 @@ virt_admin_CFLAGS = \
->> -               $(READLINE_CFLAGS)
->> - BUILT_SOURCES =
->> -
->> -+if WITH_GNUTLS
->> -+virsh_LDADD += ../src/libvirt-net-rpc.la \
->> -+               ../gnulib/lib/libgnu.la   \
->> -+               $(NULL)
->> -+endif
->> -+
->> - if WITH_WIN_ICON
->> - virsh_LDADD += virsh_win_icon.$(OBJEXT)
->> -
->> diff --git a/recipes-extended/libvirt/libvirt_6.3.0.bb b/recipes-extended/libvirt/libvirt_7.2.0.bb
->> similarity index 62%
->> rename from recipes-extended/libvirt/libvirt_6.3.0.bb
->> rename to recipes-extended/libvirt/libvirt_7.2.0.bb
->> index 41abb06..1093e9b 100644
->> --- a/recipes-extended/libvirt/libvirt_6.3.0.bb
->> +++ b/recipes-extended/libvirt/libvirt_7.2.0.bb
->> @@ -1,7 +1,6 @@
->>   DESCRIPTION = "A toolkit to interact with the virtualization capabilities of recent versions of Linux."
->>   HOMEPAGE = "http://libvirt.org"
->>   LICENSE = "LGPLv2.1+ & GPLv2+"
->> -LICENSE_${PN}-ptest = "GPLv2+ & LGPLv2.1+"
->>   LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
->>                       file://COPYING.LESSER;md5=4b54a1fd55a448865a0b32d41598759d"
->>   SECTION = "console/tools"
->> @@ -16,9 +15,7 @@ DEPENDS = "bridge-utils gnutls libxml2 lvm2 avahi parted curl libpcap util-linux
->>   #
->>   RDEPENDS_${PN} = "gettext-runtime"
->>
->> -RDEPENDS_${PN}-ptest += "make gawk perl bash"
->> -
->> -RDEPENDS_libvirt-libvirtd += "bridge-utils iptables pm-utils dnsmasq netcat-openbsd"
->> +RDEPENDS_libvirt-libvirtd += "bridge-utils iptables pm-utils dnsmasq netcat-openbsd ebtables"
->>   RDEPENDS_libvirt-libvirtd_append_x86-64 = " dmidecode"
->>   RDEPENDS_libvirt-libvirtd_append_x86 = " dmidecode"
->>
->> @@ -26,88 +23,30 @@ RDEPENDS_libvirt-libvirtd_append_x86 = " dmidecode"
->>   RCONFLICTS_${PN}_libvirtd = "connman"
->>
->>   SRC_URI = "http://libvirt.org/sources/libvirt-${PV}.tar.xz;name=libvirt \
->> -           file://tools-add-libvirt-net-rpc-to-virt-host-validate-when.patch \
->>              file://libvirtd.sh \
->>              file://libvirtd.conf \
->>              file://dnsmasq.conf \
->> -           file://runptest.patch \
->> -           file://run-ptest \
->> -           file://libvirt-use-pkg-config-to-locate-libcap.patch \
->> -           file://0001-to-fix-build-error.patch \
->> -           file://install-missing-file.patch \
->> -           file://0001-ptest-Remove-Windows-1252-check-from-esxutilstest.patch \
->> -           file://configure.ac-search-for-rpc-rpc.h-in-the-sysroot.patch \
->> -           file://0001-build-drop-unnecessary-libgnu.la-reference.patch \
->>              file://hook_support.py \
->>              file://gnutls-helper.py \
->> +           file://0001-meson-add-options-to-explicit-binaries-path.patch \
->>             "
->>
->> -SRC_URI[libvirt.md5sum] = "1bd4435f77924f5ec9928b538daf4a02"
->> -SRC_URI[libvirt.sha256sum] = "74069438d34082336e99a88146349e21130552b96efc3b7c562f6878127996f5"
->> +SRC_URI[libvirt.md5sum] = "92044b629216e44adce63224970a54a3"
->> +SRC_URI[libvirt.sha256sum] = "01f459d0c7ba5009622a628dba1a026200e8f4a299fea783b936a71d7e0ed1d0"
->>
->> -inherit autotools gettext update-rc.d pkgconfig ptest systemd useradd perlnative
->> +inherit meson gettext update-rc.d pkgconfig systemd useradd perlnative
->>   USERADD_PACKAGES = "${PN}"
->>   GROUPADD_PARAM_${PN} = "-r qemu; -r kvm"
->>   USERADD_PARAM_${PN} = "-r -g qemu -G kvm qemu"
->>
->> -# Override the default set in autotools.bbclass so that we will use relative pathnames
->> -# to our local m4 files.  This prevents an "Argument list too long" error during configuration
->> -# if our project is in a directory with an absolute pathname of more than about 125 characters.
->> -#
->> -acpaths = "-I ./m4"
->> -
->> -CACHED_CONFIGUREVARS += "\
->> -ac_cv_path_XMLCATLOG=/usr/bin/xmlcatalog \
->> -ac_cv_path_AUGPARSE=/usr/bin/augparse \
->> -ac_cv_path_DMIDECODE=/usr/sbin/dmidecode \
->> -ac_cv_path_DNSMASQ=/usr/bin/dnsmasq \
->> -ac_cv_path_BRCTL=/usr/sbin/brctl \
->> -ac_cv_path_TC=/sbin/tc \
->> -ac_cv_path_UDEVADM=/sbin/udevadm \
->> -ac_cv_path_MODPROBE=/sbin/modprobe \
->> -ac_cv_path_IP_PATH=/bin/ip \
->> -ac_cv_path_IPTABLES_PATH=/usr/sbin/iptables \
->> -ac_cv_path_IP6TABLES_PATH=/usr/sbin/ip6tables \
->> -ac_cv_path_MOUNT=/bin/mount \
->> -ac_cv_path_UMOUNT=/bin/umount \
->> -ac_cv_path_MKFS=/usr/sbin/mkfs \
->> -ac_cv_path_SHOWMOUNT=/usr/sbin/showmount \
->> -ac_cv_path_PVCREATE=/usr/sbin/pvcreate \
->> -ac_cv_path_VGCREATE=/usr/sbin/vgcreate \
->> -ac_cv_path_LVCREATE=/usr/sbin/lvcreate \
->> -ac_cv_path_PVREMOVE=/usr/sbin/pvremove \
->> -ac_cv_path_VGREMOVE=/usr/sbin/vgremove \
->> -ac_cv_path_LVREMOVE=/usr/sbin/lvremove \
->> -ac_cv_path_LVCHANGE=/usr/sbin/lvchange \
->> -ac_cv_path_VGCHANGE=/usr/sbin/vgchange \
->> -ac_cv_path_VGSCAN=/usr/sbin/vgscan \
->> -ac_cv_path_PVS=/usr/sbin/pvs \
->> -ac_cv_path_VGS=/usr/sbin/vgs \
->> -ac_cv_path_LVS=/usr/sbin/lvs \
->> -ac_cv_path_PARTED=/usr/sbin/parted \
->> -ac_cv_path_DMSETUP=/usr/sbin/dmsetup"
->> -
->> -# Ensure that libvirt uses polkit rather than policykit, whether the host has
->> -# pkcheck installed or not, and ensure the path is correct per our config.
->> -CACHED_CONFIGUREVARS += "ac_cv_path_PKCHECK_PATH=${bindir}/pkcheck"
->> -
->> -# Some other possible paths we are not yet setting
->> -#ac_cv_path_RPCGEN=
->> -#ac_cv_path_XSLTPROC=
->> -#ac_cv_path_RADVD=
->> -#ac_cv_path_UDEVSETTLE=
->> -#ac_cv_path_EBTABLES_PATH=
->> -#ac_cv_path_PKG_CONFIG=
->> -#ac_cv_path_ac_pt_PKG_CONFIG
->> -#ac_cv_path_POLKIT_AUTH=
->> -#ac_cv_path_DTRACE=
->> -#ac_cv_path_ISCSIADM=
->> -#ac_cv_path_MSGFMT=
->> -#ac_cv_path_GMSGFMT=
->> -#ac_cv_path_XGETTEXT=
->> -#ac_cv_path_MSGMERGE=
->> -#ac_cv_path_SCRUB=
->> -#ac_cv_path_PYTHON=
->> +
->> +EXTRA_OEMESON += " \
->> +    -Dip6tables-path=/usr/sbin/ip6tables \
->> +    -Ddmidecode-path=/usr/sbin/dmidecode \
->> +    -Ddnsmasq-path=/usr/bin/dnsmasq \
->> +    -Diptables-path=/usr/sbin/iptables \
->> +    -Debtables-path=/sbin/ebtables \
->> +    "
->>
->>   ALLOW_EMPTY_${PN} = "1"
->>
->> @@ -166,32 +105,13 @@ SYSTEMD_SERVICE_${PN}-libvirtd = " \
->>       libvirt-guests.service \
->>       virtlockd.socket \
->>       "
->> -
->> -
->> -PRIVATE_LIBS_${PN}-ptest = " \
->> -       libvirt-lxc.so.0 \
->> -       libvirt.so.0 \
->> -       libvirt-qemu.so.0 \
->> -       lockd.so \
->> -       libvirt_driver_secret.so \
->> -       libvirt_driver_nodedev.so \
->> -       libvirt_driver_vbox.so \
->> -       libvirt_driver_interface.so \
->> -       libvirt_driver_uml.so \
->> -       libvirt_driver_network.so \
->> -       libvirt_driver_nwfilter.so \
->> -       libvirt_driver_qemu.so \
->> -       libvirt_driver_storage.so \
->> -       libvirt_driver_lxc.so \
->> -    "
->> -
->>   # xen-minimal config
->>   #PACKAGECONFIG ??= "xen libxl xen-inotify test remote libvirtd"
->>
->>   # full config
->> -PACKAGECONFIG ??= "gnutls qemu yajl openvz vmware vbox esx iproute2 lxc test \
->> -                   remote macvtap libvirtd netcf udev python ebtables \
->> -                   fuse iproute2 firewalld libpcap \
->> +PACKAGECONFIG ??= "gnutls qemu yajl openvz vmware vbox esx lxc test \
->> +                   remote libvirtd netcf udev python \
->> +                   fuse firewalld libpcap \
->>                      ${@bb.utils.contains('DISTRO_FEATURES', 'selinux', 'selinux audit libcap-ng', '', d)} \
->>                      ${@bb.utils.contains('DISTRO_FEATURES', 'xen', 'libxl', '', d)} \
->>                      ${@bb.utils.contains('DISTRO_FEATURES', 'polkit', 'polkit', '', d)} \
->> @@ -208,37 +128,34 @@ PACKAGECONFIG_remove_armeb = "numactl"
->>   # enable,disable,depends,rdepends
->>   #
->>   PACKAGECONFIG[gnutls] = ",,,gnutls-bin"
->> -PACKAGECONFIG[qemu] = "--with-qemu --with-qemu-user=qemu --with-qemu-group=qemu,--without-qemu,qemu,"
->> -PACKAGECONFIG[yajl] = "--with-yajl,--without-yajl,yajl,yajl"
->> -PACKAGECONFIG[libxl] = "--with-libxl=${STAGING_DIR_TARGET}/lib,--without-libxl,xen,"
->> -PACKAGECONFIG[openvz] = "--with-openvz,--without-openvz,,"
->> -PACKAGECONFIG[vmware] = "--with-vmware,--without-vmware,,"
->> -PACKAGECONFIG[vbox] = "--with-vbox,--without-vbox,,"
->> -PACKAGECONFIG[esx] = "--with-esx,--without-esx,,"
->> -PACKAGECONFIG[hyperv] = "--with-hyperv,--without-hyperv,,"
->> -PACKAGECONFIG[polkit] = "--with-polkit,--without-polkit,polkit,polkit"
->> -PACKAGECONFIG[lxc] = "--with-lxc,--without-lxc, lxc,"
->> -PACKAGECONFIG[test] = "--with-test=yes,--with-test=no,,"
->> -PACKAGECONFIG[remote] = "--with-remote,--without-remote,,"
->> -PACKAGECONFIG[macvtap] = "--with-macvtap=yes,--with-macvtap=no,libnl,libnl"
->> -PACKAGECONFIG[libvirtd] = "--with-libvirtd,--without-libvirtd,,"
->> -PACKAGECONFIG[netcf] = "--with-netcf,--without-netcf,netcf,netcf"
->> -PACKAGECONFIG[dtrace] = "--with-dtrace,--without-dtrace,,"
->> -PACKAGECONFIG[udev] = "--with-udev --with-pciaccess,--without-udev,udev libpciaccess,"
->> -PACKAGECONFIG[selinux] = "--with-selinux,--without-selinux,libselinux,"
->> -PACKAGECONFIG[ebtables] = "ac_cv_path_EBTABLES_PATH=/sbin/ebtables,ac_cv_path_EBTABLES_PATH=,ebtables,ebtables"
->> +PACKAGECONFIG[qemu] = "-Ddriver_qemu=enabled -Dqemu_user=qemu -Dqemu_group=qemu,-Dqemu=disabled,qemu,"
->> +PACKAGECONFIG[yajl] = "-Dyajl=enabled,-Dyajl=disabled,yajl,yajl"
->> +PACKAGECONFIG[libxl] = "-Dlibxl=${STAGING_DIR_TARGET}/lib,,xen,"
->> +PACKAGECONFIG[openvz] = "-Ddriver_openvz=enabled,-Ddriver_openvz=disabled,,"
->> +PACKAGECONFIG[vmware] = "-Ddriver_vmware=enabled,-Ddriver_vmware=disabled,,"
->> +PACKAGECONFIG[vbox] = "-Ddriver_vbox=enabled,-Ddriver_vbox=disabled,,"
->> +PACKAGECONFIG[esx] = "-Ddriver_esx=enabled,-Ddriver_esx=disabled,,"
->> +PACKAGECONFIG[hyperv] = "-Ddriver_hyperv=enabled,-Ddriver_hyperv=disabled,,"
->> +PACKAGECONFIG[polkit] = "-Dpolkit=enabled,-Dpolkit=disabled,polkit,polkit"
->> +PACKAGECONFIG[lxc] = "-Ddriver_lxc=enabled,-Ddriver_lxc=disabled,lxc,"
->> +PACKAGECONFIG[test] = "-Ddriver_test=enabled,-Ddriver_test=disabled,,"
->> +PACKAGECONFIG[remote] = "-Ddriver_remote=enabled,-Ddriver_remote=disabled,,"
->> +PACKAGECONFIG[libvirtd] = "-Ddriver_libvirtd=enabled,-Ddriver_libvirtd=disabled,,"
->> +PACKAGECONFIG[netcf] = "-Dnetcf=enabled,-Dnetcf=disabled,netcf,netcf"
->> +PACKAGECONFIG[dtrace] = "-Ddtrace=enabled,-Ddtrace=disabled,,"
->> +PACKAGECONFIG[udev] = "-Dudev=enabled -Dpciaccess=enabled,-Dudev=disabled,udev libpciaccess,"
->> +PACKAGECONFIG[selinux] = "-Dselinux=enabled,-Dselinux=disabled,libselinux,"
->>   PACKAGECONFIG[python] = ",,python3,"
->> -PACKAGECONFIG[sasl] = "--with-sasl,--without-sasl,cyrus-sasl,cyrus-sasl"
->> -PACKAGECONFIG[iproute2] = "ac_cv_path_IP_PATH=/sbin/ip,ac_cv_path_IP_PATH=,iproute2,iproute2"
->> -PACKAGECONFIG[numactl] = "--with-numactl,--without-numactl,numactl,"
->> -PACKAGECONFIG[fuse] = "--with-fuse,--without-fuse,fuse,"
->> -PACKAGECONFIG[audit] = "--with-audit,--without-audit,audit,"
->> -PACKAGECONFIG[libcap-ng] = "--with-capng,--without-capng,libcap-ng,"
->> -PACKAGECONFIG[wireshark] = "--with-wireshark-dissector,--without-wireshark-dissector,wireshark libwsutil,"
->> -PACKAGECONFIG[apparmor-profiles] = "--with-apparmor-profiles, --without-apparmor-profiles,"
->> -PACKAGECONFIG[firewalld] = "--with-firewalld, --without-firewalld,"
->> -PACKAGECONFIG[libpcap] = "--with-libpcap, --without-libpcap,libpcap,libpcap"
->> -PACKAGECONFIG[numad] = "--with-numad, --without-numad,"
->> +PACKAGECONFIG[sasl] = "-Dsasl=enabled,-Dsasl=disabled,cyrus-sasl,cyrus-sasl"
->> +PACKAGECONFIG[numactl] = "-Dnumactl=enabled,-Dnumactl=disabled,numactl,"
->> +PACKAGECONFIG[fuse] = "-Dfuse=enabled,-Dfuse=disabled,fuse,"
->> +PACKAGECONFIG[audit] = "-Daudit=enabled,-Daudit=disabled,audit,"
->> +PACKAGECONFIG[libcap-ng] = "-Dcapng=enabled,-Dcapng=disabled,libcap-ng,"
->> +PACKAGECONFIG[wireshark] = "-Dwireshark_dissector=enabled,-Dwireshark_dissector=disabled,wireshark libwsutil,"
->> +PACKAGECONFIG[apparmor_profiles] = "-Dapparmor_profiles=true, -Dapparmor_profiles=false,"
->> +PACKAGECONFIG[firewalld] = "-Dfirewalld=enabled, -Dfirewalld=disabled,"
->> +PACKAGECONFIG[libpcap] = "-Dlibpcap=enabled, -Dlibpcap=disabled,libpcap,libpcap"
->> +PACKAGECONFIG[numad] = "-Dnumad=enabled, -Dnumad=disabled,"
->>
->>   # Enable the Python tool support
->>   require libvirt-python.inc
->> @@ -255,7 +172,7 @@ do_compile() {
->>
->>          cd ${B}
->>          export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:${B}/src:"
->> -       oe_runmake all
->> +       ninja all
->>   }
->>
->>   do_install_prepend() {
->> @@ -278,6 +195,8 @@ do_install_append() {
->>          fi
->>
->>          if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; then
->> +            mkdir -p ${D}/lib
->> +            mv ${D}/usr/lib/systemd ${D}/lib
->>              # This variable is used by libvirtd.service to start libvirtd in the right mode
->>              sed -i '/#LIBVIRTD_ARGS="--listen"/a LIBVIRTD_ARGS="--listen --daemon"' ${D}/${sysconfdir}/sysconfig/libvirtd
->>
->> @@ -360,7 +279,7 @@ do_install_append() {
->>              # connection via 127.0.0.1 is available out of box.
->>              install -d ${D}/etc/pki/CA
->>              install -d ${D}/etc/pki/libvirt/private
->> -           install -m 0755 ${WORKDIR}/gnutls-helper.py ${D}/${bindir}
->> +            install -m 0755 ${WORKDIR}/gnutls-helper.py ${D}/${bindir}
->>              install -m 0644 ${WORKDIR}/cakey.pem ${D}/${sysconfdir}/pki/libvirt/private/cakey.pem
->>              install -m 0644 ${WORKDIR}/cacert.pem ${D}/${sysconfdir}/pki/CA/cacert.pem
->>              install -m 0644 ${WORKDIR}/serverkey.pem ${D}/${sysconfdir}/pki/libvirt/private/serverkey.pem
->> @@ -376,10 +295,10 @@ do_install_append() {
->>          chmod 4755 ${D}${bindir}/virt-login-shell
->>   }
->>
->> -EXTRA_OECONF += " \
->> -    --with-init-script=systemd \
->> -    --with-test-suite \
->> -    --with-runstatedir=/run \
->> +EXTRA_OEMESON += " \
->> +    -Dinit_script=systemd \
->> +    -Drunstatedir=/run \
->> +    -Dtests=enabled \
->>       "
->>
->>   # gcc9 end up mis-compiling qemuxml2argvtest.o with Og which then
->> @@ -389,23 +308,6 @@ SELECTED_OPTIMIZATION_append_virtclass-multilib-lib32_mipsarch = " -O2"
->>
->>   EXTRA_OEMAKE = "BUILD_DIR=${B} DEST_DIR=${D}${PTEST_PATH} PTEST_DIR=${PTEST_PATH} SYSTEMD_UNIT_DIR=${systemd_system_unitdir}"
->>
->> -PRIVATE_LIBS_${PN}-ptest_append = "libvirt-admin.so.0"
->> -
->> -do_compile_ptest() {
->> -       oe_runmake -C tests buildtest-TESTS
->> -}
->> -
->> -do_install_ptest() {
->> -       oe_runmake -C tests install-ptest
->> -
->> -       find ${S}/tests -maxdepth 1 -type d -exec cp -r {} ${D}${PTEST_PATH}/tests/ \;
->> -
->> -       # remove .la files for ptest, they aren't required and can trigger QA errors
->> -       for i in `find ${D}${PTEST_PATH} -type f \( -name *.la -o -name *.o \)`; do
->> -                rm -f $i
->> -       done
->> -}
->> -
->>   pkg_postinst_${PN}() {
->>           if [ -z "$D" ] && [ -e /etc/init.d/populate-volatile.sh ] ; then
->>                   /etc/init.d/populate-volatile.sh update
->> --
->> 2.27.0
->>
->>
->> 
->>
-> 
-> 
-> --
-> - Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at its end
-> - "Use the force Harry" - Gandalf, Star Trek II
-> 
+SGkgQ2hyaXN0b3BoZXIsDQoNCj4gT24gMjAgQXByIDIwMjEsIGF0IDAwOjA4LCBDaHJpc3RvcGhl
+ciBDbGFyayB2aWEgbGlzdHMueW9jdG9wcm9qZWN0Lm9yZyA8Y2hyaXN0b3BoZXIudy5jbGFyaz1n
+bWFpbC5jb21AbGlzdHMueW9jdG9wcm9qZWN0Lm9yZz4gd3JvdGU6DQo+IA0KPiBCYWNrcG9ydCBY
+ZW4gcGF0Y2hlcyB0byBlbmFibGUgaHZtbG9hZGVyIHRvIGJlIGJ1aWx0IHdpdGhvdXQgbmVlZGlu
+Zw0KPiAzMi1iaXQgZ2xpYmMuDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBDaHJpc3RvcGhlciBDbGFy
+ayA8Y2hyaXN0b3BoZXIudy5jbGFya0BnbWFpbC5jb20+DQoNClRoaXMgaXMgcmVhbGx5IGF3ZXNv
+bWUsIHRoZSBtdWx0aWxpYiB0aGluZyB3YXMgcmVhbGx5IHBhaW5mdWwgYW5kIGl0IGlzIG5pY2Ug
+dG8gaGF2ZSBhIHNvbHV0aW9uLg0KDQpJIHJldmlld2VkIGFuZCBjaGVja2VkIGNvbXBpbGF0aW9u
+IG9mIGFsbCB2ZXJzaW9ucyBvZiB4ZW4gYXZhaWxhYmxlIGZvciBhcm0zMiwgYXJtNjQgYW5kIHg4
+Nl82NCAod2l0aG91dCBtdWx0aWxpYiBhY3RpdmF0ZWQpIHVzaW5nIHlvdSBjb21wbGV0ZSBzZXJp
+ZS4NCg0KUmV2aWV3ZWQtYnk6IEJlcnRyYW5kIE1hcnF1aXMgPGJlcnRyYW5kLm1hcnF1aXNAYXJt
+LmNvbT4NCg0KQ2hlZXJzDQpCZXJ0cmFuZA0KDQo+IC0tLQ0KPiAuLi4tc3RhbmQtYWxvbmUtc2V0
+LW9mLWhlYWRlcnMtWGVuLTQuMTQucGF0Y2ggfCAxNzggKysrKysrKysrKysrKysrKysrDQo+IC4u
+LmQtZmlybXdhcmUtYXMtZmZyZWVzdGFuZGluZy1YZW4tNC4xNC5wYXRjaCB8ICA4MyArKysrKysr
+Kw0KPiByZWNpcGVzLWV4dGVuZGVkL3hlbi94ZW4tdG9vbHNfNC4xNC5iYiAgICAgICAgfCAgIDIg
+Kw0KPiAzIGZpbGVzIGNoYW5nZWQsIDI2MyBpbnNlcnRpb25zKCspDQo+IGNyZWF0ZSBtb2RlIDEw
+MDY0NCByZWNpcGVzLWV4dGVuZGVkL3hlbi9maWxlcy8wMDAxLWZpcm13YXJlLXByb3ZpZGUtYS1z
+dGFuZC1hbG9uZS1zZXQtb2YtaGVhZGVycy1YZW4tNC4xNC5wYXRjaA0KPiBjcmVhdGUgbW9kZSAx
+MDA2NDQgcmVjaXBlcy1leHRlbmRlZC94ZW4vZmlsZXMvMDAwMS10b29scy1maXJtd2FyZS1CdWls
+ZC1maXJtd2FyZS1hcy1mZnJlZXN0YW5kaW5nLVhlbi00LjE0LnBhdGNoDQo+IA0KPiBkaWZmIC0t
+Z2l0IGEvcmVjaXBlcy1leHRlbmRlZC94ZW4vZmlsZXMvMDAwMS1maXJtd2FyZS1wcm92aWRlLWEt
+c3RhbmQtYWxvbmUtc2V0LW9mLWhlYWRlcnMtWGVuLTQuMTQucGF0Y2ggYi9yZWNpcGVzLWV4dGVu
+ZGVkL3hlbi9maWxlcy8wMDAxLWZpcm13YXJlLXByb3ZpZGUtYS1zdGFuZC1hbG9uZS1zZXQtb2Yt
+aGVhZGVycy1YZW4tNC4xNC5wYXRjaA0KPiBuZXcgZmlsZSBtb2RlIDEwMDY0NA0KPiBpbmRleCAw
+MDAwMDAwLi43YjA2MmI3DQo+IC0tLSAvZGV2L251bGwNCj4gKysrIGIvcmVjaXBlcy1leHRlbmRl
+ZC94ZW4vZmlsZXMvMDAwMS1maXJtd2FyZS1wcm92aWRlLWEtc3RhbmQtYWxvbmUtc2V0LW9mLWhl
+YWRlcnMtWGVuLTQuMTQucGF0Y2gNCj4gQEAgLTAsMCArMSwxNzggQEANCj4gK0Zyb20gNzNiMTM3
+MDVhZjdjM2JiOGZkZjExOTMyZWI2ODc4OGQwOTBhNDQzZiBNb24gU2VwIDE3IDAwOjAwOjAwIDIw
+MDENCj4gK0Zyb206ID0/VVRGLTg/cT9Sb2dlcj0yMFBhdT0yME1vbm49QzM9QTk/PSA8cm9nZXIu
+cGF1QGNpdHJpeC5jb20+DQo+ICtEYXRlOiBUaHUsIDQgTWFyIDIwMjEgMTY6NDk6MDAgKzAxMDAN
+Cj4gK1N1YmplY3Q6IFtQQVRDSF0gZmlybXdhcmU6IHByb3ZpZGUgYSBzdGFuZCBhbG9uZSBzZXQg
+b2YgaGVhZGVycw0KPiArTUlNRS1WZXJzaW9uOiAxLjANCj4gK0NvbnRlbnQtVHlwZTogdGV4dC9w
+bGFpbjsgY2hhcnNldD1VVEYtOA0KPiArQ29udGVudC1UcmFuc2Zlci1FbmNvZGluZzogOGJpdA0K
+PiArDQo+ICtUaGUgY3VycmVudCBidWlsZCBvZiB0aGUgZmlybXdhcmUgcmVsaWVzIG9uIGhhdmlu
+ZyAzMmJpdCBjb21wYXRpYmxlDQo+ICtoZWFkZXJzIGluc3RhbGxlZCBpbiBvcmRlciB0byBidWls
+ZCBzb21lIG9mIHRoZSAzMmJpdCBmaXJtd2FyZS4NCj4gK1VzdWFsbHkgdGhpcyBjYW4gYmUgc29s
+dmVkIGJ5IHVzaW5nIHRoZSAtZmZyZWVzdGFuZGluZyBjb21waWxlciBvcHRpb24NCj4gK3doaWNo
+IGRyb3BzIHRoZSB1c2FnZSBvZiB0aGUgc3lzdGVtIGhlYWRlcnMgaW4gZmF2b3Igb2YgYSBwcml2
+YXRlIHNldA0KPiArb2YgZnJlZXN0YW5kaW5nIGhlYWRlcnMgcHJvdmlkZWQgYnkgdGhlIGNvbXBp
+bGVyIGl0c2VsZiB0aGF0IGFyZSBub3QNCj4gK3RpZWQgdG8gbGliYy4NCj4gKw0KPiArSG93ZXZl
+ciBzdWNoIG9wdGlvbiBpcyBicm9rZW4gYXQgbGVhc3QgaW4gdGhlIGdjYyBjb21waWxlciBwcm92
+aWRlZCBpbg0KPiArQWxwaW5lIExpbnV4LCBhcyB0aGUgc3lzdGVtIGluY2x1ZGUgcGF0aCAoaWU6
+IC91c3IvaW5jbHVkZSkgdGFrZXMNCj4gK3ByZWNlZGVuY2Ugb3ZlciB0aGUgZ2NjIHByaXZhdGUg
+aW5jbHVkZSBwYXRoOg0KPiArDQo+ICsjaW5jbHVkZSA8Li4uPiBzZWFyY2ggc3RhcnRzIGhlcmU6
+DQo+ICsgL3Vzci9pbmNsdWRlDQo+ICsgL3Vzci9saWIvZ2NjL3g4Nl82NC1hbHBpbmUtbGludXgt
+bXVzbC8xMC4yLjEvaW5jbHVkZQ0KPiArDQo+ICtBbmQgdGhlIGhlYWRlcnMgaW4gL3Vzci9pbmNs
+dWRlIGFyZSBleGNsdXNpdmVseSA2NGJpdC4NCj4gKw0KPiArU2luY2UgLWZmcmVlc3RhbmRpbmcg
+aXMgY3VycmVudGx5IGJyb2tlbiBvbiBhdCBsZWFzdCB0aGF0IGRpc3RybywgYW5kDQo+ICtmb3Ig
+cmVzaWxpZW5jZSBhZ2FpbnN0IGZ1dHVyZSBjb21waWxlcnMgYWxzbyBoYXZpbmcgdGhlIG9wdGlv
+biBicm9rZW4NCj4gK3Byb3ZpZGUgYSBzZXQgb2Ygc3RhbmQgYWxvbmUgMzJiaXQgaGVhZGVycyBy
+ZXF1aXJlZCBmb3IgdGhlIGZpcm13YXJlDQo+ICtidWlsZC4NCj4gKw0KPiArU2lnbmVkLW9mZi1i
+eTogUm9nZXIgUGF1IE1vbm7DqSA8cm9nZXIucGF1QGNpdHJpeC5jb20+DQo+ICtSZXZpZXdlZC1i
+eTogSmFuIEJldWxpY2ggPGpiZXVsaWNoQHN1c2UuY29tPg0KPiArUmVsZWFzZS1BY2tlZC1ieTog
+SWFuIEphY2tzb24gPGl3akB4ZW5wcm9qZWN0Lm9yZz4NCj4gK0FwcGxpZWQgdG8gWGVuIDQuMTQg
+Ynk6IENocmlzdG9waGVyIENsYXJrIDxjaHJpc3RvcGhlci53LmNsYXJrQGdtYWlsLmNvbT4NCj4g
+Ky0tLQ0KPiArIHRvb2xzL2Zpcm13YXJlL1J1bGVzLm1rICAgICAgICAgICAgICAgICAgICAgICB8
+IDEzICsrKysrKysNCj4gKyB0b29scy9maXJtd2FyZS9pbmNsdWRlL3N0ZGFyZy5oICAgICAgICAg
+ICAgICAgfCAxMCArKysrKw0KPiArIHRvb2xzL2Zpcm13YXJlL2luY2x1ZGUvc3RkYm9vbC5oICAg
+ICAgICAgICAgICB8ICA5ICsrKysrDQo+ICsgdG9vbHMvZmlybXdhcmUvaW5jbHVkZS9zdGRkZWYu
+aCAgICAgICAgICAgICAgIHwgMTAgKysrKysNCj4gKyB0b29scy9maXJtd2FyZS9pbmNsdWRlL3N0
+ZGludC5oICAgICAgICAgICAgICAgfCAzOSArKysrKysrKysrKysrKysrKysrDQo+ICsgdG9vbHMv
+ZmlybXdhcmUvcm9tYmlvcy8zMmJpdC9yb21iaW9zX2NvbXBhdC5oIHwgIDQgKy0NCj4gKyA2IGZp
+bGVzIGNoYW5nZWQsIDgyIGluc2VydGlvbnMoKyksIDMgZGVsZXRpb25zKC0pDQo+ICsgY3JlYXRl
+IG1vZGUgMTAwNjQ0IHRvb2xzL2Zpcm13YXJlL2luY2x1ZGUvc3RkYXJnLmgNCj4gKyBjcmVhdGUg
+bW9kZSAxMDA2NDQgdG9vbHMvZmlybXdhcmUvaW5jbHVkZS9zdGRib29sLmgNCj4gKyBjcmVhdGUg
+bW9kZSAxMDA2NDQgdG9vbHMvZmlybXdhcmUvaW5jbHVkZS9zdGRkZWYuaA0KPiArIGNyZWF0ZSBt
+b2RlIDEwMDY0NCB0b29scy9maXJtd2FyZS9pbmNsdWRlL3N0ZGludC5oDQo+ICsNCj4gK2RpZmYg
+LS1naXQgYS90b29scy9maXJtd2FyZS9pbmNsdWRlL3N0ZGFyZy5oIGIvdG9vbHMvZmlybXdhcmUv
+aW5jbHVkZS9zdGRhcmcuaA0KPiArbmV3IGZpbGUgbW9kZSAxMDA2NDQNCj4gK2luZGV4IDAwMDAw
+MDAwMDAuLmM1ZTM3NjFjZDINCj4gKy0tLSAvZGV2L251bGwNCj4gKysrKyBiL3Rvb2xzL2Zpcm13
+YXJlL2luY2x1ZGUvc3RkYXJnLmgNCj4gK0BAIC0wLDAgKzEsMTAgQEANCj4gKysjaWZuZGVmIF9T
+VERBUkdfSF8NCj4gKysjZGVmaW5lIF9TVERBUkdfSF8NCj4gKysNCj4gKyt0eXBlZGVmIF9fYnVp
+bHRpbl92YV9saXN0IHZhX2xpc3Q7DQo+ICsrI2RlZmluZSB2YV9jb3B5KGRlc3QsIHNyYykgX19i
+dWlsdGluX3ZhX2NvcHkoZGVzdCwgc3JjKQ0KPiArKyNkZWZpbmUgdmFfc3RhcnQoYXAsIGxhc3Qp
+IF9fYnVpbHRpbl92YV9zdGFydChhcCwgbGFzdCkNCj4gKysjZGVmaW5lIHZhX2VuZChhcCkgX19i
+dWlsdGluX3ZhX2VuZChhcCkNCj4gKysjZGVmaW5lIHZhX2FyZyBfX2J1aWx0aW5fdmFfYXJnDQo+
+ICsrDQo+ICsrI2VuZGlmDQo+ICtkaWZmIC0tZ2l0IGEvdG9vbHMvZmlybXdhcmUvaW5jbHVkZS9z
+dGRib29sLmggYi90b29scy9maXJtd2FyZS9pbmNsdWRlL3N0ZGJvb2wuaA0KPiArbmV3IGZpbGUg
+bW9kZSAxMDA2NDQNCj4gK2luZGV4IDAwMDAwMDAwMDAuLjBjZjc2YjEwNmMNCj4gKy0tLSAvZGV2
+L251bGwNCj4gKysrKyBiL3Rvb2xzL2Zpcm13YXJlL2luY2x1ZGUvc3RkYm9vbC5oDQo+ICtAQCAt
+MCwwICsxLDkgQEANCj4gKysjaWZuZGVmIF9TVERCT09MX0hfDQo+ICsrI2RlZmluZSBfU1REQk9P
+TF9IXw0KPiArKw0KPiArKyNkZWZpbmUgYm9vbCBfQm9vbA0KPiArKyNkZWZpbmUgdHJ1ZSAxDQo+
+ICsrI2RlZmluZSBmYWxzZSAwDQo+ICsrI2RlZmluZSBfX2Jvb2xfdHJ1ZV9mYWxzZV9hcmVfZGVm
+aW5lZCAxDQo+ICsrDQo+ICsrI2VuZGlmDQo+ICtkaWZmIC0tZ2l0IGEvdG9vbHMvZmlybXdhcmUv
+aW5jbHVkZS9zdGRkZWYuaCBiL3Rvb2xzL2Zpcm13YXJlL2luY2x1ZGUvc3RkZGVmLmgNCj4gK25l
+dyBmaWxlIG1vZGUgMTAwNjQ0DQo+ICtpbmRleCAwMDAwMDAwMDAwLi5jN2Y5NzQ2MDhhDQo+ICst
+LS0gL2Rldi9udWxsDQo+ICsrKysgYi90b29scy9maXJtd2FyZS9pbmNsdWRlL3N0ZGRlZi5oDQo+
+ICtAQCAtMCwwICsxLDEwIEBADQo+ICsrI2lmbmRlZiBfU1REREVGX0hfDQo+ICsrI2RlZmluZSBf
+U1REREVGX0hfDQo+ICsrDQo+ICsrdHlwZWRlZiBfX1NJWkVfVFlQRV9fIHNpemVfdDsNCj4gKysN
+Cj4gKysjZGVmaW5lIE5VTEwgKCh2b2lkKikwKQ0KPiArKw0KPiArKyNkZWZpbmUgb2Zmc2V0b2Yo
+dCwgbSkgX19idWlsdGluX29mZnNldG9mKHQsIG0pDQo+ICsrDQo+ICsrI2VuZGlmDQo+ICtkaWZm
+IC0tZ2l0IGEvdG9vbHMvZmlybXdhcmUvaW5jbHVkZS9zdGRpbnQuaCBiL3Rvb2xzL2Zpcm13YXJl
+L2luY2x1ZGUvc3RkaW50LmgNCj4gK25ldyBmaWxlIG1vZGUgMTAwNjQ0DQo+ICtpbmRleCAwMDAw
+MDAwMDAwLi4xNmEwYjZkZTE5DQo+ICstLS0gL2Rldi9udWxsDQo+ICsrKysgYi90b29scy9maXJt
+d2FyZS9pbmNsdWRlL3N0ZGludC5oDQo+ICtAQCAtMCwwICsxLDM5IEBADQo+ICsrI2lmbmRlZiBf
+U1RESU5UX0hfDQo+ICsrI2RlZmluZSBfU1RESU5UX0hfDQo+ICsrDQo+ICsrI2lmIGRlZmluZWQo
+X19MUDY0X18pIHx8IGRlZmluZWQoX19QNjRfXykNCj4gKysjZXJyb3IgIjMyYml0IG9ubHkgaGVh
+ZGVyIg0KPiArKyNlbmRpZg0KPiArKw0KPiArK3R5cGVkZWYgdW5zaWduZWQgY2hhciB1aW50OF90
+Ow0KPiArK3R5cGVkZWYgc2lnbmVkIGNoYXIgaW50OF90Ow0KPiArKw0KPiArK3R5cGVkZWYgdW5z
+aWduZWQgc2hvcnQgdWludDE2X3Q7DQo+ICsrdHlwZWRlZiBzaWduZWQgc2hvcnQgaW50MTZfdDsN
+Cj4gKysNCj4gKyt0eXBlZGVmIHVuc2lnbmVkIGludCB1aW50MzJfdDsNCj4gKyt0eXBlZGVmIHNp
+Z25lZCBpbnQgaW50MzJfdDsNCj4gKysNCj4gKyt0eXBlZGVmIHVuc2lnbmVkIGxvbmcgbG9uZyB1
+aW50NjRfdDsNCj4gKyt0eXBlZGVmIHNpZ25lZCBsb25nIGxvbmcgaW50NjRfdDsNCj4gKysNCj4g
+KysjZGVmaW5lIElOVDhfTUlOICAgICAgICAoLTB4N2YtMSkNCj4gKysjZGVmaW5lIElOVDE2X01J
+TiAgICAgICAoLTB4N2ZmZi0xKQ0KPiArKyNkZWZpbmUgSU5UMzJfTUlOICAgICAgICgtMHg3ZmZm
+ZmZmZi0xKQ0KPiArKyNkZWZpbmUgSU5UNjRfTUlOICAgICAgICgtMHg3ZmZmZmZmZmZmZmZmZmZm
+bGwtMSkNCj4gKysNCj4gKysjZGVmaW5lIElOVDhfTUFYICAgICAgICAweDdmDQo+ICsrI2RlZmlu
+ZSBJTlQxNl9NQVggICAgICAgMHg3ZmZmDQo+ICsrI2RlZmluZSBJTlQzMl9NQVggICAgICAgMHg3
+ZmZmZmZmZg0KPiArKyNkZWZpbmUgSU5UNjRfTUFYICAgICAgIDB4N2ZmZmZmZmZmZmZmZmZmZmxs
+DQo+ICsrDQo+ICsrI2RlZmluZSBVSU5UOF9NQVggICAgICAgMHhmZg0KPiArKyNkZWZpbmUgVUlO
+VDE2X01BWCAgICAgIDB4ZmZmZg0KPiArKyNkZWZpbmUgVUlOVDMyX01BWCAgICAgIDB4ZmZmZmZm
+ZmZ1DQo+ICsrI2RlZmluZSBVSU5UNjRfTUFYICAgICAgMHhmZmZmZmZmZmZmZmZmZmZmdWxsDQo+
+ICsrDQo+ICsrdHlwZWRlZiB1aW50MzJfdCB1aW50cHRyX3Q7DQo+ICsrDQo+ICsrI2RlZmluZSBV
+SU5UUFRSX01BWCAgICAgVUlOVDMyX01BWA0KPiArKw0KPiArKyNlbmRpZg0KPiArZGlmZiAtLWdp
+dCBhL3Rvb2xzL2Zpcm13YXJlL3JvbWJpb3MvMzJiaXQvcm9tYmlvc19jb21wYXQuaCBiL3Rvb2xz
+L2Zpcm13YXJlL3JvbWJpb3MvMzJiaXQvcm9tYmlvc19jb21wYXQuaA0KPiAraW5kZXggM2ZlN2Q2
+NzcyMS4uOGJhNGMxN2ZmZCAxMDA2NDQNCj4gKy0tLSBhL3Rvb2xzL2Zpcm13YXJlL3JvbWJpb3Mv
+MzJiaXQvcm9tYmlvc19jb21wYXQuaA0KPiArKysrIGIvdG9vbHMvZmlybXdhcmUvcm9tYmlvcy8z
+MmJpdC9yb21iaW9zX2NvbXBhdC5oDQo+ICtAQCAtOCw5ICs4LDcgQEANCj4gKyANCj4gKyAjZGVm
+aW5lIEFERFJfRlJPTV9TRUdfT0ZGKHNlZywgb2ZmKSAgKHZvaWQgKikoKCgodWludDMyX3QpKHNl
+ZykpIDw8IDQpICsgKG9mZikpDQo+ICsgDQo+ICstdHlwZWRlZiB1bnNpZ25lZCBjaGFyIHVpbnQ4
+X3Q7DQo+ICstdHlwZWRlZiB1bnNpZ25lZCBzaG9ydCBpbnQgdWludDE2X3Q7DQo+ICstdHlwZWRl
+ZiB1bnNpZ25lZCBpbnQgdWludDMyX3Q7DQo+ICsrI2luY2x1ZGUgPHN0ZGludC5oPg0KPiArIA0K
+PiArIHR5cGVkZWYgdWludDhfdCAgQml0OHU7DQo+ICsgdHlwZWRlZiB1aW50MTZfdCBCaXQxNnU7
+DQo+ICtkaWZmIC0tZ2l0IGEvdG9vbHMvZmlybXdhcmUvUnVsZXMubWsgYi90b29scy9maXJtd2Fy
+ZS9SdWxlcy5taw0KPiAraW5kZXggMjZiYmRkY2NkNC4uY2IzODhiNzAxMSAxMDA2NDQNCj4gKy0t
+LSBhL3Rvb2xzL2Zpcm13YXJlL1J1bGVzLm1rDQo+ICsrKysgYi90b29scy9maXJtd2FyZS9SdWxl
+cy5taw0KPiArQEAgLTE3LDMgKzE3LDE2IEBAICQoY2FsbCBjYy1vcHRpb25zLWFkZCxDRkxBR1Ms
+Q0MsJChFTUJFRERFRF9FWFRSQV9DRkxBR1MpKQ0KPiArIA0KPiArICMgRXh0cmEgQ0ZMQUdTIHN1
+aXRhYmxlIGZvciBhbiBlbWJlZGRlZCB0eXBlIG9mIGVudmlyb25tZW50Lg0KPiArIENGTEFHUyAr
+PSAtZm5vLWJ1aWx0aW4gLW1zb2Z0LWZsb2F0DQo+ICsrDQo+ICsrIyBVc2Ugb3VyIG93biBzZXQg
+b2Ygc3RhbmQgYWxvbmUgaGVhZGVycyB0byBidWlsZCBmaXJtd2FyZS4NCj4gKysjDQo+ICsrIyBJ
+ZGVhbGx5IHVzaW5nIC1mZnJlZXN0YW5kaW5nIHNob3VsZCBiZSBlbm91Z2gsIGJ1dCB0aGF0IHJl
+bGllcyBvbiB0aGUNCj4gKysjIGNvbXBpbGVyIGhhdmluZyB0aGUgcmlnaHQgb3JkZXIgZm9yIGlu
+Y2x1ZGUgcGF0aHMgKGllOiBjb21waWxlciBwcml2YXRlDQo+ICsrIyBoZWFkZXJzIGJlZm9yZSBz
+eXN0ZW0gb25lcykgb3IgdGhlIGxpYmMgaGVhZGVycyBoYXZpbmcgcHJvcGVyIGFyY2gtYWdub3N0
+aWMNCj4gKysjIGZyZWVzdGFuZGluZyBzdXBwb3J0LiBUaGlzIGlzIG5vdCB0aGUgY2FzZSBpbiBB
+bHBpbmUgYXQgbGVhc3Qgd2hpY2ggc2VhcmNoZXMNCj4gKysjIHN5c3RlbSBoZWFkZXJzIGJlZm9y
+ZSBjb21waWxlciBvbmVzIGFuZCBoYXMgYXJjaC1zcGVjaWZpYyBsaWJjIGhlYWRlcnMuIFRoaXMN
+Cj4gKysjIGhhcyBiZWVuIHJlcG9ydGVkIHVwc3RyZWFtOg0KPiArKyMgaHR0cHM6Ly9naXRsYWIu
+YWxwaW5lbGludXgub3JnL2FscGluZS9hcG9ydHMvLS9pc3N1ZXMvMTI0NzcNCj4gKysjIEluIHRo
+ZSBtZWFudGltZSAoYW5kIGZvciByZXNpbGllbmNlIGFnYWluc3QgYnJva2VuIHN5c3RlbXMpIHVz
+ZSBvdXIgb3duIHNldA0KPiArKyMgb2YgaGVhZGVycyB0aGF0IHByb3ZpZGUgd2hhdCdzIG5lZWRl
+ZCBmb3IgdGhlIGZpcm13YXJlIGJ1aWxkLg0KPiArK0NGTEFHUyArPSAtbm9zdGRpbmMgLUkkKFhF
+Tl9ST09UKS90b29scy9maXJtd2FyZS9pbmNsdWRlDQo+ICstLSANCj4gKzIuMjUuMQ0KPiArDQo+
+IGRpZmYgLS1naXQgYS9yZWNpcGVzLWV4dGVuZGVkL3hlbi9maWxlcy8wMDAxLXRvb2xzLWZpcm13
+YXJlLUJ1aWxkLWZpcm13YXJlLWFzLWZmcmVlc3RhbmRpbmctWGVuLTQuMTQucGF0Y2ggYi9yZWNp
+cGVzLWV4dGVuZGVkL3hlbi9maWxlcy8wMDAxLXRvb2xzLWZpcm13YXJlLUJ1aWxkLWZpcm13YXJl
+LWFzLWZmcmVlc3RhbmRpbmctWGVuLTQuMTQucGF0Y2gNCj4gbmV3IGZpbGUgbW9kZSAxMDA2NDQN
+Cj4gaW5kZXggMDAwMDAwMC4uMDAxYjE5Ng0KPiAtLS0gL2Rldi9udWxsDQo+ICsrKyBiL3JlY2lw
+ZXMtZXh0ZW5kZWQveGVuL2ZpbGVzLzAwMDEtdG9vbHMtZmlybXdhcmUtQnVpbGQtZmlybXdhcmUt
+YXMtZmZyZWVzdGFuZGluZy1YZW4tNC4xNC5wYXRjaA0KPiBAQCAtMCwwICsxLDgzIEBADQo+ICtG
+cm9tIDBlYWUwMTZiNmUzZGNlNjllM2ZiODZhY2E1YzRmMjIxNTkxYTJmMTIgTW9uIFNlcCAxNyAw
+MDowMDowMCAyMDAxDQo+ICtGcm9tOiBBbmRyZXcgQ29vcGVyIDxhbmRyZXcuY29vcGVyM0BjaXRy
+aXguY29tPg0KPiArRGF0ZTogVGh1LCAyNSBGZWIgMjAyMSAxOToxNTowOCArMDAwMA0KPiArU3Vi
+amVjdDogW1BBVENIXSB0b29scy9maXJtd2FyZTogQnVpbGQgZmlybXdhcmUgYXMgLWZmcmVlc3Rh
+bmRpbmcNCj4gKw0KPiArZmlybXdhcmUgc2hvdWxkIGFsd2F5cyBoYXZlIGJlZW4gLWZmcmVlc3Rh
+bmRpbmcsIGFzIGl0IGRvZXNuJ3QgZXhlY3V0ZSBpbiB0aGUNCj4gK2hvc3QgZW52aXJvbm1lbnQu
+ICAtZmZyZWVzdGFuZGluZyBpbXBsaWVzIC1mbm8tYnVpbHRpbiwgc28gcmVwbGFjZSB0aGUgb3B0
+aW9uLg0KPiArDQo+ICtpbnR0eXBlcy5oIGlzbid0IGEgZnJlZXN0YW5kaW5nIGhlYWRlciwgYnV0
+IHRoZSAzMmJpdGJpb3Nfc3VwcG9ydC5jIG9ubHkgd2FudHMNCj4gK3RoZSBzdGRpbnQuaCB0eXBl
+cyBzbyBzd2l0Y2ggdG8gdGhlIG1vcmUgYXBwcm9wcmlhdGUgaW5jbHVkZS4NCj4gKw0KPiArVGhp
+cyByZW1vdmVzIHRoZSBidWlsZCB0aW1lIGRlcGVuZGVuY3kgb24gYSAzMmJpdCBsaWJjIGp1c3Qg
+dG8gY29tcGlsZSB0aGUNCj4gK2h2bWxvYWRlciBhbmQgZnJpZW5kcy4NCj4gKw0KPiArVXBkYXRl
+IFJFQURNRSBhbmQgdGhlIFRyYXZpc0NJIGNvbmZpZ3VyYXRpb24uDQo+ICsNCj4gK1NpZ25lZC1v
+ZmYtYnk6IEFuZHJldyBDb29wZXIgPGFuZHJldy5jb29wZXIzQGNpdHJpeC5jb20+DQo+ICtSZXZp
+ZXdlZC1ieTogSmFuIEJldWxpY2ggPGpiZXVsaWNoQHN1c2UuY29tPg0KPiArUmV2aWV3ZWQtYnk6
+IElhbiBKYWNrc29uIDxpd2pAeGVucHJvamVjdC5vcmc+DQo+ICtSZWxlYXNlLUFja2VkLWJ5OiBJ
+YW4gSmFja3NvbiA8aXdqQHhlbnByb2plY3Qub3JnPg0KPiArQXBwbGllZCB0byBtLXYgWGVuIDQu
+MTQgc2VyaWVzOiBDaHJpc3RvcGhlciBDbGFyayA8Y2hyaXN0b3BoZXIudy5jbGFya0BnbWFpbC5j
+b20+DQo+ICstLS0NCj4gKyAudHJhdmlzLnltbCAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICB8IDEgLQ0KPiArIFJFQURNRSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgIHwgMyAtLS0NCj4gKyB0b29scy9maXJtd2FyZS9SdWxlcy5tayAgICAgICAgICAgICAgICAg
+ICAgICB8IDIgKy0NCj4gKyB0b29scy9maXJtd2FyZS9odm1sb2FkZXIvMzJiaXRiaW9zX3N1cHBv
+cnQuYyB8IDIgKy0NCj4gKyA0IGZpbGVzIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgNiBkZWxl
+dGlvbnMoLSkNCj4gKw0KPiArZGlmZiAtLWdpdCBhLy50cmF2aXMueW1sIGIvLnRyYXZpcy55bWwN
+Cj4gK2luZGV4IDE1Y2E5ZTkwNDcuLjIzNjI0NzVmN2EgMTAwNjQ0DQo+ICstLS0gYS8udHJhdmlz
+LnltbA0KPiArKysrIGIvLnRyYXZpcy55bWwNCj4gK0BAIC01OCw3ICs1OCw2IEBAIGFkZG9uczoN
+Cj4gKyAgICAgICAgICAgICAtIGFjcGljYS10b29scw0KPiArICAgICAgICAgICAgIC0gYmluODYN
+Cj4gKyAgICAgICAgICAgICAtIGJjYw0KPiArLSAgICAgICAgICAgIC0gbGliYzYtZGV2LWkzODYN
+Cj4gKyAgICAgICAgICAgICAtIGxpYm5sLTMtZGV2DQo+ICsgICAgICAgICAgICAgLSBvY2FtbC1u
+b3gNCj4gKyAgICAgICAgICAgICAtIGxpYmZpbmRsaWItb2NhbWwtZGV2DQo+ICtkaWZmIC0tZ2l0
+IGEvUkVBRE1FIGIvUkVBRE1FDQo+ICtpbmRleCA2ZTE1MjQyYWUxLi44Yzk5YzMwOTg2IDEwMDY0
+NA0KPiArLS0tIGEvUkVBRE1FDQo+ICsrKysgYi9SRUFETUUNCj4gK0BAIC02Miw5ICs2Miw2IEBA
+IHByb3ZpZGVkIGJ5IHlvdXIgT1MgZGlzdHJpYnV0b3I6DQo+ICsgICAgICogR05VIGJpc29uIGFu
+ZCBHTlUgZmxleA0KPiArICAgICAqIEdOVSBnZXR0ZXh0DQo+ICsgICAgICogQUNQSSBBU0wgY29t
+cGlsZXIgKGlhc2wpDQo+ICstICAgICogTGliYyBtdWx0aWFyY2ggcGFja2FnZSAoZS5nLiBsaWJj
+Ni1kZXYtaTM4NiAvIGdsaWJjLWRldmVsLmk2ODYpLg0KPiArLSAgICAgIFJlcXVpcmVkIHdoZW4g
+YnVpbGRpbmcgb24gYSA2NC1iaXQgcGxhdGZvcm0gdG8gYnVpbGQNCj4gKy0gICAgICAzMi1iaXQg
+Y29tcG9uZW50cyB3aGljaCBhcmUgZW5hYmxlZCBvbiBhIGRlZmF1bHQgYnVpbGQuDQo+ICsgDQo+
+ICsgSW4gYWRkaXRpb24gdG8gdGhlIGFib3ZlIHRoZXJlIGFyZSBhIG51bWJlciBvZiBvcHRpb25h
+bCBidWlsZA0KPiArIHByZXJlcXVpc2l0ZXMuIE9taXR0aW5nIHRoZXNlIHdpbGwgY2F1c2UgdGhl
+IHJlbGF0ZWQgZmVhdHVyZXMgdG8gYmUNCj4gK2RpZmYgLS1naXQgYS90b29scy9maXJtd2FyZS9S
+dWxlcy5tayBiL3Rvb2xzL2Zpcm13YXJlL1J1bGVzLm1rDQo+ICtpbmRleCBjYjM4OGI3MDExLi45
+Zjc4YTdkZWM5IDEwMDY0NA0KPiArLS0tIGEvdG9vbHMvZmlybXdhcmUvUnVsZXMubWsNCj4gKysr
+KyBiL3Rvb2xzL2Zpcm13YXJlL1J1bGVzLm1rDQo+ICtAQCAtMTYsNyArMTYsNyBAQCBDRkxBR1Mg
+Kz0gLVdlcnJvcg0KPiArICQoY2FsbCBjYy1vcHRpb25zLWFkZCxDRkxBR1MsQ0MsJChFTUJFRERF
+RF9FWFRSQV9DRkxBR1MpKQ0KPiArIA0KPiArICMgRXh0cmEgQ0ZMQUdTIHN1aXRhYmxlIGZvciBh
+biBlbWJlZGRlZCB0eXBlIG9mIGVudmlyb25tZW50Lg0KPiArLUNGTEFHUyArPSAtZm5vLWJ1aWx0
+aW4gLW1zb2Z0LWZsb2F0DQo+ICsrQ0ZMQUdTICs9IC1mZnJlZXN0YW5kaW5nIC1tc29mdC1mbG9h
+dA0KPiArIA0KPiArICMgVXNlIG91ciBvd24gc2V0IG9mIHN0YW5kIGFsb25lIGhlYWRlcnMgdG8g
+YnVpbGQgZmlybXdhcmUuDQo+ICsgIw0KPiArZGlmZiAtLWdpdCBhL3Rvb2xzL2Zpcm13YXJlL2h2
+bWxvYWRlci8zMmJpdGJpb3Nfc3VwcG9ydC5jIGIvdG9vbHMvZmlybXdhcmUvaHZtbG9hZGVyLzMy
+Yml0Ymlvc19zdXBwb3J0LmMNCj4gK2luZGV4IDExNDEzNTAyMmUuLmVmNjgxZDRmNTcgMTAwNjQ0
+DQo+ICstLS0gYS90b29scy9maXJtd2FyZS9odm1sb2FkZXIvMzJiaXRiaW9zX3N1cHBvcnQuYw0K
+PiArKysrIGIvdG9vbHMvZmlybXdhcmUvaHZtbG9hZGVyLzMyYml0Ymlvc19zdXBwb3J0LmMNCj4g
+K0BAIC0yMCw3ICsyMCw3IEBADQo+ICsgICogdGhpcyBwcm9ncmFtOyBJZiBub3QsIHNlZSA8aHR0
+cDovL3d3dy5nbnUub3JnL2xpY2Vuc2VzLz4uDQo+ICsgICovDQo+ICsgDQo+ICstI2luY2x1ZGUg
+PGludHR5cGVzLmg+DQo+ICsrI2luY2x1ZGUgPHN0ZGludC5oPg0KPiArICNpbmNsdWRlIDxlbGYu
+aD4NCj4gKyAjaWZkZWYgX19zdW5fXw0KPiArICNpbmNsdWRlIDxzeXMvbWFjaGVsZi5oPg0KPiAr
+LS0gDQo+ICsyLjI1LjENCj4gKw0KPiBkaWZmIC0tZ2l0IGEvcmVjaXBlcy1leHRlbmRlZC94ZW4v
+eGVuLXRvb2xzXzQuMTQuYmIgYi9yZWNpcGVzLWV4dGVuZGVkL3hlbi94ZW4tdG9vbHNfNC4xNC5i
+Yg0KPiBpbmRleCBhNzliNDFkLi4xMDk4MmEyIDEwMDY0NA0KPiAtLS0gYS9yZWNpcGVzLWV4dGVu
+ZGVkL3hlbi94ZW4tdG9vbHNfNC4xNC5iYg0KPiArKysgYi9yZWNpcGVzLWV4dGVuZGVkL3hlbi94
+ZW4tdG9vbHNfNC4xNC5iYg0KPiBAQCAtNiw2ICs2LDggQEAgWEVOX0JSQU5DSCA/PSAic3RhYmxl
+LSR7WEVOX1JFTH0iDQo+IFNSQ19VUkkgPSAiIFwNCj4gICAgIGdpdDovL3hlbmJpdHMueGVuLm9y
+Zy94ZW4uZ2l0O2JyYW5jaD0ke1hFTl9CUkFOQ0h9IFwNCj4gICAgIGZpbGU6Ly8wMDAxLXB5dGhv
+bi1weWdydWItcGFzcy1ESVNUVVRJTFMteGVuLTQuMTQucGF0Y2ggXA0KPiArICAgIGZpbGU6Ly8w
+MDAxLWZpcm13YXJlLXByb3ZpZGUtYS1zdGFuZC1hbG9uZS1zZXQtb2YtaGVhZGVycy1YZW4tNC4x
+NC5wYXRjaCBcDQo+ICsgICAgZmlsZTovLzAwMDEtdG9vbHMtZmlybXdhcmUtQnVpbGQtZmlybXdh
+cmUtYXMtZmZyZWVzdGFuZGluZy1YZW4tNC4xNC5wYXRjaCBcDQo+ICAgICAiDQo+IA0KPiBMSUNf
+RklMRVNfQ0hLU1VNID89ICJmaWxlOi8vQ09QWUlORzttZDU9NDE5NzM5ZTMyNWE1MGYzZDdiNDUw
+MTMzOGU0NGE0ZTUiDQo+IC0tIA0KPiAyLjI1LjENCj4gDQo+IA0KPiANCj4gDQoNCg==
