@@ -1,89 +1,89 @@
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
- by mx.groups.io with SMTP id smtpd.web10.4249.1619253090839208662
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+ by mx.groups.io with SMTP id smtpd.web08.4167.1619253092594201348
  for <meta-virtualization@lists.yoctoproject.org>;
- Sat, 24 Apr 2021 01:31:31 -0700
+ Sat, 24 Apr 2021 01:31:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=UxSKdwtX;
- spf=pass (domain: gmail.com, ip: 209.85.222.174, mailfrom: christopher.w.clark@gmail.com)
-Received: by mail-qk1-f174.google.com with SMTP id q136so30986927qka.7
-        for <meta-virtualization@lists.yoctoproject.org>; Sat, 24 Apr 2021 01:31:30 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=IMDY1pKN;
+ spf=pass (domain: gmail.com, ip: 209.85.160.180, mailfrom: christopher.w.clark@gmail.com)
+Received: by mail-qt1-f180.google.com with SMTP id z25so15393973qtn.8
+        for <meta-virtualization@lists.yoctoproject.org>; Sat, 24 Apr 2021 01:31:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=6XhRRWRrKZvLQPKNW6oL+dJuAak3kw2RUyWC/uZSwmE=;
-        b=UxSKdwtX1LE+C97lg9lNNfHZmRuI+BPyqTV+OVPxcl74vMBqfjvq9HVsIgXZR09Uju
-         PEFI1fPM3fiaB3jrPFkeiiF9fdbIRrcR0mEkJWeulTZNNCfJFWWhLSBIWr5Iv29SwqrR
-         8zdBfvTGxP4QhzaIZaWmZXUWwmNLtuuUDmiD4zPqbjalS9JcFLytnhW66jNyWd6UWlh4
-         17Xf8Cz08Lwb6CRI6E89AaOmq/tOanMHH4d3bJo9MgLeMSO0jmGiu5LrwYq+TZNDexS4
-         iJuLuUkInZbtTgbZEcJGgHcai3nFAINZ89JfdGsXRtPQQ5ksWLdRCy+pFAk9B5OF7bCC
-         5axA==
+        bh=mCYfBixfHvm9xCW9BOkqTVae/Le935d4i8IR/e8UWw4=;
+        b=IMDY1pKNO5QxaNdXf1a3TV6CaX7Yqjch5f6NdcricWU7Fk5KRkxnJHWTUkb0McH+Gm
+         iNeW8xE99/lddwDFl2LF8/crwT2GUfHawp7k0Bj8dctDu4VbRCO0NVIlLO1mTh4Vy7cU
+         4MY4KGkYFoPdTCvJdcKNXnZo4Qpwfn8gXkAyJyuJt8acKSjmpbNywqJU9I8DwHONZPjM
+         E/qRUnhkiQwVgMG8msoolEOkdthRXxvyU/ggamu5SyZW1aqMRIiF9Sy0eqLnHBKeLKH2
+         /2i4GnAxwcVm/WDeeiE9nN6lqtnfZC6Oi37oS/TI6dOyVugIJxm+VP5yTcLL+a0bJFCb
+         2Jgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=6XhRRWRrKZvLQPKNW6oL+dJuAak3kw2RUyWC/uZSwmE=;
-        b=hRmDqgSngpN7omeqq3LR8YpNN0aA1iaj5jFV7trHwAXyQW1ThaJLuRUMv0g85SBVzo
-         Eht4q5V0JnIetAlzc2q+xatMyoUewrjRcjA/WQTAFMDqMXjTQJkk4B2q1u6UNwCItgSB
-         nfXz4udmOKhll7dGCCzzxmt4mKMG2/lOB2zJVQl5DRYgKLgDI8SFepHvPAUYgCVfiqRR
-         6gx6ngLnm1BY45uGUfYc8sM1HQZUOo7fHfrVeo9t6nKT+wA9PVMgxSdNCz5h662lnV9Q
-         uj5LA3YGpbr4rcoNXgHOpoJLHBqh8Z/k07MNwS5qXOl2X+kJmCtcKdEfnZRY50xWuLec
-         JC+g==
-X-Gm-Message-State: AOAM530uBwKax9WVQQOrA0jqJyzU5NX7Pp+zVVXW3JGoahxwq6ju7vRK
-	/AH3A05W/QvL/TRIpGirtk0chL5HAaw=
-X-Google-Smtp-Source: ABdhPJwVWoOI1Mfw1cltt+4oxSWbtqfxIkb86Czn4thIQamwaDbNZW1Ro52RpWMcfzxsPXiAkp0UrA==
-X-Received: by 2002:a37:6406:: with SMTP id y6mr7716260qkb.368.1619253089874;
-        Sat, 24 Apr 2021 01:31:29 -0700 (PDT)
+        bh=mCYfBixfHvm9xCW9BOkqTVae/Le935d4i8IR/e8UWw4=;
+        b=PG2no0Jz7yWal5UE2LLCrv43a8hfnp/gvks9I7hu4Bl6FFOIoUwxk02vb2wUqoI2GE
+         V3sxnq4T0tiLmRXaUJAGonwslcG73v/AXAISxgaPQGLMDEoIR7ZwR/7KVA3hFMWho5sy
+         UfrC3h40c8CfwGcmAAA7rp3swBzdTqkkM4LBv41SDSoFXLxVnP2/w2lAXKA37PtDfjtI
+         3+si8UZP0Jyj96qPZpVHeA/XCU9tNd5y0GvGS85l0c5a7vX/Wq+HFStJAj1NXQilIu2Z
+         wNh9/etHL6e3pITLu8UFK5QRxUQTWabwe5JjIWUniakQ7tppciFW01UKyECS27W0A2IK
+         PSbw==
+X-Gm-Message-State: AOAM532CSBex6kat04ECodL56/QgU1LtEzqJGVJJliOxNieMYS0gJl+U
+	GHlmR/XhLHZrJ70CQDar8DYdJIZ/4Mc=
+X-Google-Smtp-Source: ABdhPJyL5f6U7Q/FcPlJfWBOzbQL6DblxBwKJxgsmRdtk0DY7WZ0Z/IXaPSe0mwt1LojsGV1TYMUVw==
+X-Received: by 2002:ac8:7593:: with SMTP id s19mr7469396qtq.212.1619253091662;
+        Sat, 24 Apr 2021 01:31:31 -0700 (PDT)
 Return-Path: <christopher.w.clark@gmail.com>
 Received: from walnut.ice.pyrology.org (mobile-166-176-184-81.mycingular.net. [166.176.184.81])
-        by smtp.gmail.com with ESMTPSA id x24sm5984951qtm.95.2021.04.24.01.31.27
+        by smtp.gmail.com with ESMTPSA id x24sm5984951qtm.95.2021.04.24.01.31.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 24 Apr 2021 01:31:29 -0700 (PDT)
+        Sat, 24 Apr 2021 01:31:31 -0700 (PDT)
 From: "Christopher Clark" <christopher.w.clark@gmail.com>
 To: meta-virtualization@lists.yoctoproject.org
 Cc: cardoe@gentoo.org,
 	bruce.ashfield@gmail.com,
 	bertrand.marquis@arm.com
-Subject: [meta-virtualization][PATCH 4/8] xen, rpi4: switch Xen-on-Rpi4 kernel preference to linux-yocto
-Date: Sat, 24 Apr 2021 01:30:59 -0700
-Message-Id: <20210424083103.202107-5-christopher.w.clark@gmail.com>
+Subject: [meta-virtualization][PATCH 5/8] xen, rpi4: fix u-boot script to load binaries from boot partition
+Date: Sat, 24 Apr 2021 01:31:00 -0700
+Message-Id: <20210424083103.202107-6-christopher.w.clark@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210424083103.202107-1-christopher.w.clark@gmail.com>
 References: <20210424083103.202107-1-christopher.w.clark@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The 5.10 version of the Linux Yocto kernel supports running Xen on the
-Raspberry Pi 4, so the previous preference for linux-yocto-dev can be
-replaced.
+fatload needs to read from mmc 1:1 to find the Xen hypervisor and Linux
+kernel binaries with the current Yocto Linux 5.10 kernel.
 
-Use the ?= operator to set the kernel preference now since
-meta-raspberrypi commit e0b4b8c5d introduced use of the weak default
-for kernel preference in that layer to allow this here.
-
-KERNEL_DEVICETREE needs to be set to match the build outputs of the
-selected kernel, in this case: "broadcom/bcm2711-rpi-4-b.dtb"
-
-Tested with kernel version:
- SRCREV_machine = "cf5b0320cf4544d3db9ce3ddd6ddb7553a610651"
- SRCREV_meta="031f6c76e488a3563f35258c72ff1de3e25a512e"
+Add boot messages to to the u-boot script to indicate the size of files
+loaded for easier confirmation of load success.
 
 Signed-off-by: Christopher Clark <christopher.w.clark@gmail.com>
 ---
- conf/distro/include/meta-virt-xen.inc | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ .../recipes-bsp/rpi-u-boot-scr/files/boot.cmd.xen.in       | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/conf/distro/include/meta-virt-xen.inc b/conf/distro/include/meta-virt-xen.inc
-index 44853d9..584cd6e 100644
---- a/conf/distro/include/meta-virt-xen.inc
-+++ b/conf/distro/include/meta-virt-xen.inc
-@@ -20,4 +20,5 @@ RPI_EXTRA_CONFIG_append_raspberrypi4-64  = "\nenable_gic=1"
- # Increase boot partition for space for kernel and Xen
- BOOT_SPACE_raspberrypi4-64 = "61440"
- # Override the meta-raspberrypi default kernel preference
--PREFERRED_PROVIDER_virtual/kernel_raspberrypi4-64 = "linux-yocto-dev"
-+PREFERRED_PROVIDER_virtual/kernel_raspberrypi4-64 ?= "linux-yocto"
-+KERNEL_DEVICETREE_raspberrypi4-64 ?= "broadcom/bcm2711-rpi-4-b.dtb"
+diff --git a/dynamic-layers/raspberrypi/recipes-bsp/rpi-u-boot-scr/files/boot.cmd.xen.in b/dynamic-layers/raspberrypi/recipes-bsp/rpi-u-boot-scr/files/boot.cmd.xen.in
+index 9cba41f..dfcff2d 100644
+--- a/dynamic-layers/raspberrypi/recipes-bsp/rpi-u-boot-scr/files/boot.cmd.xen.in
++++ b/dynamic-layers/raspberrypi/recipes-bsp/rpi-u-boot-scr/files/boot.cmd.xen.in
+@@ -30,10 +30,13 @@ echo Delay to allow the MMC card to be ready
+ sleep 1
+ 
+ echo Load Xen into memory
+-fatload mmc 0:1 ${xen_loadaddr} xen
++fatload mmc 1:1 ${xen_loadaddr} xen
++echo Xen loaded, size: 0x$filesize
++
+ echo Load Linux kernel into memory
+-fatload mmc 0:1 ${kernel_loadaddr} Image
++fatload mmc 1:1 ${kernel_loadaddr} Image
+ setenv kernel_size 0x$filesize
++echo Linux loaded, size: 0x$filesize
+ 
+ echo Set the address and size for the Linux kernel so Xen can pick it up
+ fdt set /chosen/dom0 reg <${kernel_loadaddr} ${kernel_size}>
 -- 
 2.25.1
 
