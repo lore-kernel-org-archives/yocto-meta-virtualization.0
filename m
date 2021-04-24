@@ -1,89 +1,80 @@
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
- by mx.groups.io with SMTP id smtpd.web08.4167.1619253092594201348
+Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
+ by mx.groups.io with SMTP id smtpd.web11.4133.1619253094677401244
  for <meta-virtualization@lists.yoctoproject.org>;
- Sat, 24 Apr 2021 01:31:32 -0700
+ Sat, 24 Apr 2021 01:31:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=IMDY1pKN;
- spf=pass (domain: gmail.com, ip: 209.85.160.180, mailfrom: christopher.w.clark@gmail.com)
-Received: by mail-qt1-f180.google.com with SMTP id z25so15393973qtn.8
-        for <meta-virtualization@lists.yoctoproject.org>; Sat, 24 Apr 2021 01:31:32 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Px1+a8L6;
+ spf=pass (domain: gmail.com, ip: 209.85.222.173, mailfrom: christopher.w.clark@gmail.com)
+Received: by mail-qk1-f173.google.com with SMTP id 66so12384904qkf.2
+        for <meta-virtualization@lists.yoctoproject.org>; Sat, 24 Apr 2021 01:31:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=mCYfBixfHvm9xCW9BOkqTVae/Le935d4i8IR/e8UWw4=;
-        b=IMDY1pKNO5QxaNdXf1a3TV6CaX7Yqjch5f6NdcricWU7Fk5KRkxnJHWTUkb0McH+Gm
-         iNeW8xE99/lddwDFl2LF8/crwT2GUfHawp7k0Bj8dctDu4VbRCO0NVIlLO1mTh4Vy7cU
-         4MY4KGkYFoPdTCvJdcKNXnZo4Qpwfn8gXkAyJyuJt8acKSjmpbNywqJU9I8DwHONZPjM
-         E/qRUnhkiQwVgMG8msoolEOkdthRXxvyU/ggamu5SyZW1aqMRIiF9Sy0eqLnHBKeLKH2
-         /2i4GnAxwcVm/WDeeiE9nN6lqtnfZC6Oi37oS/TI6dOyVugIJxm+VP5yTcLL+a0bJFCb
-         2Jgw==
+        bh=k59sU5e+CftALiZ7590geP5LO+39UhnJYuK4OHS8O4s=;
+        b=Px1+a8L67xO09x84orVxpCsjQzYUCKkzbw81HJy4Y949cVLGKwZ4zezvzncreRE/so
+         fijKrR7/8178AGOaPqqUPD96OFdEQwqSyPJTcJ5W1M0IzETNVUiz941jL6yD6kpxV7yJ
+         1IMVLY2NtiJ5GVhyuik+nRZeB7Tt5TT4Nk6eNr5EPb5bprMwULUdQ8aZr+CjuuKoDwih
+         mSds1VusFMlUaVmApRfyCNeGB+hZrzqeMaljcg9HvutprhjgwNh6ZSWFup6pgjb4tTHz
+         vxVH0sVD2p42c8tvQQQXHhJeWiqT2AXtAAxEjyVzePMZpGHfuarIze2m7eymL216YPsy
+         6epA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=mCYfBixfHvm9xCW9BOkqTVae/Le935d4i8IR/e8UWw4=;
-        b=PG2no0Jz7yWal5UE2LLCrv43a8hfnp/gvks9I7hu4Bl6FFOIoUwxk02vb2wUqoI2GE
-         V3sxnq4T0tiLmRXaUJAGonwslcG73v/AXAISxgaPQGLMDEoIR7ZwR/7KVA3hFMWho5sy
-         UfrC3h40c8CfwGcmAAA7rp3swBzdTqkkM4LBv41SDSoFXLxVnP2/w2lAXKA37PtDfjtI
-         3+si8UZP0Jyj96qPZpVHeA/XCU9tNd5y0GvGS85l0c5a7vX/Wq+HFStJAj1NXQilIu2Z
-         wNh9/etHL6e3pITLu8UFK5QRxUQTWabwe5JjIWUniakQ7tppciFW01UKyECS27W0A2IK
-         PSbw==
-X-Gm-Message-State: AOAM532CSBex6kat04ECodL56/QgU1LtEzqJGVJJliOxNieMYS0gJl+U
-	GHlmR/XhLHZrJ70CQDar8DYdJIZ/4Mc=
-X-Google-Smtp-Source: ABdhPJyL5f6U7Q/FcPlJfWBOzbQL6DblxBwKJxgsmRdtk0DY7WZ0Z/IXaPSe0mwt1LojsGV1TYMUVw==
-X-Received: by 2002:ac8:7593:: with SMTP id s19mr7469396qtq.212.1619253091662;
-        Sat, 24 Apr 2021 01:31:31 -0700 (PDT)
+        bh=k59sU5e+CftALiZ7590geP5LO+39UhnJYuK4OHS8O4s=;
+        b=OvsC61z8tM9Hz5gamSNo5bVKuPgVyubzFmQQOGNwBtqWY3o/XwOOsu0GBCMJEtWar8
+         iPVck+W2dMv6SzugwqgKK1gH+I+Q99St+OpGekVKQbcn9ANk1xlWNQ1/TptCHodpzp2E
+         8SoLXBcU2frRYAsKm8RPRy+4iGxyPQ41vTlsswaz+/uEPTSJjv5mbRGWEwZJXK58zM1K
+         3x4/npC5Dzc+U/Vn0RB/bNidfHeto6mrlKg38nVg4YUkIioIrpj5+Aol82FmIdI1ZiwH
+         3UIfEM/HwS0/mscko1EmIzuaJnQRwItRe1VM4gIJvgJEaHM4ghIAltt1fggKNOBoo1z+
+         DIQA==
+X-Gm-Message-State: AOAM532Cq591DORA7m2xQO8IX1BjM5n0bACgq5ykdZqd1IiC1gjheBzn
+	9QPjpGp2XDl0v6qbdNbwmbXDRlTdZsk=
+X-Google-Smtp-Source: ABdhPJxU39ziB+TNScmFOMYO+VXhqWGuT2dKCUQY/4mq1D0O0XAGlY2FVJtLaY7IbDuNN+JxAga79g==
+X-Received: by 2002:a05:620a:12b1:: with SMTP id x17mr7805679qki.362.1619253093586;
+        Sat, 24 Apr 2021 01:31:33 -0700 (PDT)
 Return-Path: <christopher.w.clark@gmail.com>
 Received: from walnut.ice.pyrology.org (mobile-166-176-184-81.mycingular.net. [166.176.184.81])
-        by smtp.gmail.com with ESMTPSA id x24sm5984951qtm.95.2021.04.24.01.31.30
+        by smtp.gmail.com with ESMTPSA id x24sm5984951qtm.95.2021.04.24.01.31.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 24 Apr 2021 01:31:31 -0700 (PDT)
+        Sat, 24 Apr 2021 01:31:33 -0700 (PDT)
 From: "Christopher Clark" <christopher.w.clark@gmail.com>
 To: meta-virtualization@lists.yoctoproject.org
 Cc: cardoe@gentoo.org,
 	bruce.ashfield@gmail.com,
 	bertrand.marquis@arm.com
-Subject: [meta-virtualization][PATCH 5/8] xen, rpi4: fix u-boot script to load binaries from boot partition
-Date: Sat, 24 Apr 2021 01:31:00 -0700
-Message-Id: <20210424083103.202107-6-christopher.w.clark@gmail.com>
+Subject: [meta-virtualization][PATCH 6/8] xen, rpi4: apply workaround to fix crash on boot with Xen 4.14
+Date: Sat, 24 Apr 2021 01:31:01 -0700
+Message-Id: <20210424083103.202107-7-christopher.w.clark@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210424083103.202107-1-christopher.w.clark@gmail.com>
 References: <20210424083103.202107-1-christopher.w.clark@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-fatload needs to read from mmc 1:1 to find the Xen hypervisor and Linux
-kernel binaries with the current Yocto Linux 5.10 kernel.
+Apply update to the device tree to allow Xen 4.14 to boot.
 
-Add boot messages to to the u-boot script to indicate the size of files
-loaded for easier confirmation of load success.
-
+Suggested-by: Bertrand Marquis <bertrand.marquis@arm.com>
 Signed-off-by: Christopher Clark <christopher.w.clark@gmail.com>
 ---
- .../recipes-bsp/rpi-u-boot-scr/files/boot.cmd.xen.in       | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ .../recipes-bsp/rpi-u-boot-scr/files/boot.cmd.xen.in           | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/dynamic-layers/raspberrypi/recipes-bsp/rpi-u-boot-scr/files/boot.cmd.xen.in b/dynamic-layers/raspberrypi/recipes-bsp/rpi-u-boot-scr/files/boot.cmd.xen.in
-index 9cba41f..dfcff2d 100644
+index dfcff2d..0367e36 100644
 --- a/dynamic-layers/raspberrypi/recipes-bsp/rpi-u-boot-scr/files/boot.cmd.xen.in
 +++ b/dynamic-layers/raspberrypi/recipes-bsp/rpi-u-boot-scr/files/boot.cmd.xen.in
-@@ -30,10 +30,13 @@ echo Delay to allow the MMC card to be ready
+@@ -25,6 +25,9 @@ fdt set /chosen/dom0 compatible "multiboot,module"
+ 
+ # Tell Xen where PCI is
+ fdt set /scb/pcie@7d500000 device_type "pci"
++# Workaround to fix:
++# "Unable to retrieve address 0 for /scb/pcie@7d500000/pci@1,0/usb@1,0"
++fdt rm /scb/pcie@7d500000/pci@1,0/usb@1,0
+ 
+ echo Delay to allow the MMC card to be ready
  sleep 1
- 
- echo Load Xen into memory
--fatload mmc 0:1 ${xen_loadaddr} xen
-+fatload mmc 1:1 ${xen_loadaddr} xen
-+echo Xen loaded, size: 0x$filesize
-+
- echo Load Linux kernel into memory
--fatload mmc 0:1 ${kernel_loadaddr} Image
-+fatload mmc 1:1 ${kernel_loadaddr} Image
- setenv kernel_size 0x$filesize
-+echo Linux loaded, size: 0x$filesize
- 
- echo Set the address and size for the Linux kernel so Xen can pick it up
- fdt set /chosen/dom0 reg <${kernel_loadaddr} ${kernel_size}>
 -- 
 2.25.1
 
