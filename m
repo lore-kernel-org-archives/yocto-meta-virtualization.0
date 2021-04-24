@@ -1,131 +1,153 @@
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
- by mx.groups.io with SMTP id smtpd.web09.4209.1619253096577132727
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
+ by mx.groups.io with SMTP id smtpd.web08.4170.1619253098626072104
  for <meta-virtualization@lists.yoctoproject.org>;
- Sat, 24 Apr 2021 01:31:36 -0700
+ Sat, 24 Apr 2021 01:31:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=bbhd4ejx;
- spf=pass (domain: gmail.com, ip: 209.85.160.171, mailfrom: christopher.w.clark@gmail.com)
-Received: by mail-qt1-f171.google.com with SMTP id 18so24687854qtz.6
-        for <meta-virtualization@lists.yoctoproject.org>; Sat, 24 Apr 2021 01:31:36 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=bsEQMDvv;
+ spf=pass (domain: gmail.com, ip: 209.85.219.47, mailfrom: christopher.w.clark@gmail.com)
+Received: by mail-qv1-f47.google.com with SMTP id gv2so15674559qvb.8
+        for <meta-virtualization@lists.yoctoproject.org>; Sat, 24 Apr 2021 01:31:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Jna1jFJBPwplTz3/ESkMwSPUgGA9zHXE4Qw70ytHKts=;
-        b=bbhd4ejxP/ELA20n9WN2iuecOZWxzOH4uLzvBKihJ/Y/nkZfpV6mEA+lcQ/ZJShxUG
-         rJzXIRi7XxEkGOwzUKX/VU5sNwl8iuHMwgz3eysGG+APOsfxGs7TH6Arc1GfdRMy0Co3
-         YkUSNAuXlDnNaXfmB4mh6Q3K0d8IxO+vd4ScdTMB/+8VCgobr0zYwT18Mh6sqQwiv7n2
-         8gsin8FTOU6YDTRvG/dJeLiKwAOEuH+uZskEaEMZVnke+bVmMz2JBDEkRBVWnHlJtAhD
-         IA5Av1yDyuLkLSEw8qj873lYmwLfrc/vmxLbnviX7Nyd/yise832KYlb8wC9rFd+g/3q
-         L6tQ==
+        bh=Vv+aSHudtZIWl9V8CMTc5Y7y6fwDNILZ/jbVmLusKno=;
+        b=bsEQMDvvcfjcvWvEwa0M+XxYvUmf2x5KkGkd512cZpf9Haup5t0nLd961dk+roddZk
+         NVxHUfGCuexzCyQVa2PGZMIx2aU6uwH3eJcEeeJJ7jls2WAR3z67uhhRGmbV1BAGnD8O
+         yrXBCY6mXY6ASWpGFzHXmkI2SGp8mHyMS14TCRevY+2gCRCztR41bKK4u74LQOJXq5g8
+         9p4tMdKc8kxxqB2ZLVnOBayN+Sqid4GoKQKSdfCzcdSQ8z8VSnaz+N9waQ951Awn5Nz9
+         tfoEoLYWlF0r0Wq+wi40sFJfEKlKx2C5/idcTTFsaNtKAF964hNjGEKkpumUistnxGrW
+         hnfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Jna1jFJBPwplTz3/ESkMwSPUgGA9zHXE4Qw70ytHKts=;
-        b=AOHtFOcR2VqCxciuqkYEXFTbJMS/Fj4hKFnumzW8Tftj4Dz25W66kdmOsvvmwue5Uu
-         p0bq1RgiHV53SV45FzjVOUdWuSH9guQaypeuaYoA3U4O4WUslJ/3JmyEIHkqc5d8M1Of
-         Pge9/ZqoJWO+PoKmP/Tm6Qc5gGrWmr2iLkLFVORNpfWnGqnupGjb9xecktCUAZlx6+Ny
-         P6G2dSWmxGu/CMjm5yOJkN1IO5+Tmy6kuObqw0j72iUUKDjoyzcivzS9fXDd/6uGMs5v
-         IrLcr5iIxfz2pHahmNR3QPW8chddrhVP2g/ZX61mFYnmGLimzbF//LIaQ+sSfqB9v1wN
-         5Uyw==
-X-Gm-Message-State: AOAM530oiFnNM+8kozEK6QVX4Prxil0CvLOCtRWUqN66ONpfU8AU5rmD
-	AerAerRVT5eGEK9lGn00DCGjHFh56YE=
-X-Google-Smtp-Source: ABdhPJzVZmI0feUGXplKu/Ydu/Qi63DbC3zKIz4waxu3LUbigBS0GT9CtFFYLaNm10x+I02g5Vg3zA==
-X-Received: by 2002:ac8:5b86:: with SMTP id a6mr7092729qta.293.1619253095586;
-        Sat, 24 Apr 2021 01:31:35 -0700 (PDT)
+        bh=Vv+aSHudtZIWl9V8CMTc5Y7y6fwDNILZ/jbVmLusKno=;
+        b=lypUoNvRMJpGLy3ZdUFUWAmbCHRYPBzFO2T7nlykup9tToDId+K7OAordq8zYMB3em
+         +QfKOSkEnUmUQT6FIhicRmtxg4qB+QeDEZanjT9ACm9OrFGmq7Sru8g9EJbDWBDTWmWu
+         6R+pFydSfwowWsxrvdn/gsu4nYpjRIxWi28U8ZG1TY0IGcx67BmPQD9nBxbVDfMtFg7O
+         IC4nkKx35p2mZyk21iZHPJguY67kf0ZmyF48QUnaOAqwcItH6YL6msHGDkPqdPrZyXd6
+         xpfEUlzbdc/yppbGSa7Y2ejFOUuh8cfkLP8vv6sHbHGXY/UfSj7lTW1ZGWSL1nU8q9Qv
+         QYtg==
+X-Gm-Message-State: AOAM532be2Xt0l/gT2MkuoyZsz/D3dEf/NBT0o8Nmdb4weLzajpb6y/J
+	pjSoULKO6GhkL6rMPkBWL+192dOi02g=
+X-Google-Smtp-Source: ABdhPJyEuB8c1Jf/Nsta8I9CuYBksb/J72U7DIQ/WePuNmMEJ4fkrFX2RCd+h3JxOq9/2wWwYmYhfA==
+X-Received: by 2002:a05:6214:766:: with SMTP id f6mr155449qvz.17.1619253097661;
+        Sat, 24 Apr 2021 01:31:37 -0700 (PDT)
 Return-Path: <christopher.w.clark@gmail.com>
 Received: from walnut.ice.pyrology.org (mobile-166-176-184-81.mycingular.net. [166.176.184.81])
-        by smtp.gmail.com with ESMTPSA id x24sm5984951qtm.95.2021.04.24.01.31.33
+        by smtp.gmail.com with ESMTPSA id x24sm5984951qtm.95.2021.04.24.01.31.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 24 Apr 2021 01:31:35 -0700 (PDT)
+        Sat, 24 Apr 2021 01:31:37 -0700 (PDT)
 From: "Christopher Clark" <christopher.w.clark@gmail.com>
 To: meta-virtualization@lists.yoctoproject.org
 Cc: cardoe@gentoo.org,
 	bruce.ashfield@gmail.com,
 	bertrand.marquis@arm.com
-Subject: [meta-virtualization][PATCH 7/8] xen, rpi4: move rpi4-machine+xen-distro cfg into dynamic layer
-Date: Sat, 24 Apr 2021 01:31:02 -0700
-Message-Id: <20210424083103.202107-8-christopher.w.clark@gmail.com>
+Subject: [meta-virtualization][PATCH 8/8] xen, rpi4: add xen-rpi-u-boot-scr recipe for default u-boot script
+Date: Sat, 24 Apr 2021 01:31:03 -0700
+Message-Id: <20210424083103.202107-9-christopher.w.clark@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210424083103.202107-1-christopher.w.clark@gmail.com>
 References: <20210424083103.202107-1-christopher.w.clark@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Improve meta-virt-xen.inc by moving all the Raspberry Pi 4 config
-settings to a new xen-raspberrypi4-64.inc file in the raspberrypi
-dynamic layer.
+Add a new xen-rpi-u-boot-scr recipe to PROVIDE u-boot-default-script
+instead of using a bbappend to rpi-u-boot-scr.
 
-The new .inc file is included only for the raspberrypi4-64 MACHINE,
-so the config settings no longer need to be applied using overrides.
+This allows the new recipe to be selected by indicating it as
+PREFERRED_PROVIDER of u-boot-default-script, and then do that in the
+Xen on Raspberry Pi 4 config file, xen-raspberrypi4-64.inc.
 
 Signed-off-by: Christopher Clark <christopher.w.clark@gmail.com>
 ---
- conf/distro/include/meta-virt-xen.inc         | 22 ++++--------------
- .../distro/include/xen-raspberrypi4-64.inc    | 23 +++++++++++++++++++
- 2 files changed, 28 insertions(+), 17 deletions(-)
- create mode 100644 dynamic-layers/raspberrypi/conf/distro/include/xen-raspberrypi4-64.inc
+ .../distro/include/xen-raspberrypi4-64.inc    |  2 ++
+ .../rpi-u-boot-scr/rpi-u-boot-scr.bbappend    | 17 ----------
+ .../files/boot.cmd.xen.in                     |  0
+ .../xen-rpi-u-boot-scr/xen-rpi-u-boot-scr.bb  | 34 +++++++++++++++++++
+ 4 files changed, 36 insertions(+), 17 deletions(-)
+ delete mode 100644 dynamic-layers/raspberrypi/recipes-bsp/rpi-u-boot-scr/rpi-u-boot-scr.bbappend
+ rename dynamic-layers/raspberrypi/recipes-bsp/{rpi-u-boot-scr => xen-rpi-u-boot-scr}/files/boot.cmd.xen.in (100%)
+ create mode 100644 dynamic-layers/raspberrypi/recipes-bsp/xen-rpi-u-boot-scr/xen-rpi-u-boot-scr.bb
 
-diff --git a/conf/distro/include/meta-virt-xen.inc b/conf/distro/include/meta-virt-xen.inc
-index 584cd6e..02a7810 100644
---- a/conf/distro/include/meta-virt-xen.inc
-+++ b/conf/distro/include/meta-virt-xen.inc
-@@ -5,20 +5,8 @@ PACKAGECONFIG_append_pn-qemu = " xen"
- PACKAGECONFIG_append_pn-qemu_arm = " fdt"
- PACKAGECONFIG_append_pn-qemu_aarch64 = " fdt"
- 
--# Raspberry Pi settings
--# Xen uses u-boot for configuration and uses the uart
--RPI_USE_U_BOOT_raspberrypi4-64 = "1"
--ENABLE_UART_raspberrypi4-64 = "1"
--# Build the bootable SD card image
--IMAGE_CLASSES_append_raspberrypi4-64 = " sdcard_image-rpi"
--IMAGE_FSTYPES_append_raspberrypi4-64 = " rpi-sdimg"
--# Add Xen to the bootable SD card image
--RPI_SDIMG_EXTRA_DEPENDS_append_raspberrypi4-64 = " xen:do_deploy"
--DEPLOYPAYLOAD_raspberrypi4-64 = "xen-${MACHINE}:xen"
--# We need the GIC enabled for Xen to work
--RPI_EXTRA_CONFIG_append_raspberrypi4-64  = "\nenable_gic=1"
--# Increase boot partition for space for kernel and Xen
--BOOT_SPACE_raspberrypi4-64 = "61440"
--# Override the meta-raspberrypi default kernel preference
--PREFERRED_PROVIDER_virtual/kernel_raspberrypi4-64 ?= "linux-yocto"
--KERNEL_DEVICETREE_raspberrypi4-64 ?= "broadcom/bcm2711-rpi-4-b.dtb"
-+# Xen on Raspberry Pi 4 64-bit support
-+XEN_RPI4_64_CONFIG_PATH ??= \
-+    'dynamic-layers/raspberrypi/conf/distro/include/xen-raspberrypi4-64.inc'
-+include ${@bb.utils.contains('MACHINE', 'raspberrypi4-64', \
-+    '${XEN_RPI4_64_CONFIG_PATH}', '', d)}
 diff --git a/dynamic-layers/raspberrypi/conf/distro/include/xen-raspberrypi4-64.inc b/dynamic-layers/raspberrypi/conf/distro/include/xen-raspberrypi4-64.inc
-new file mode 100644
-index 0000000..9c36255
---- /dev/null
+index 9c36255..2ea19dd 100644
+--- a/dynamic-layers/raspberrypi/conf/distro/include/xen-raspberrypi4-64.inc
 +++ b/dynamic-layers/raspberrypi/conf/distro/include/xen-raspberrypi4-64.inc
-@@ -0,0 +1,23 @@
-+# Xen on Raspberry Pi 4 settings
+@@ -21,3 +21,5 @@ BOOT_SPACE = "61440"
+ # Override the meta-raspberrypi default kernel preference
+ PREFERRED_PROVIDER_virtual/kernel ?= "linux-yocto"
+ KERNEL_DEVICETREE ?= "broadcom/bcm2711-rpi-4-b.dtb"
 +
-+# Xen uses u-boot for configuration and uses the uart
-+RPI_USE_U_BOOT = "1"
-+ENABLE_UART = "1"
++PREFERRED_PROVIDER_u-boot-default-script ?= "xen-rpi-u-boot-scr"
+diff --git a/dynamic-layers/raspberrypi/recipes-bsp/rpi-u-boot-scr/rpi-u-boot-scr.bbappend b/dynamic-layers/raspberrypi/recipes-bsp/rpi-u-boot-scr/rpi-u-boot-scr.bbappend
+deleted file mode 100644
+index 2a51116..0000000
+--- a/dynamic-layers/raspberrypi/recipes-bsp/rpi-u-boot-scr/rpi-u-boot-scr.bbappend
++++ /dev/null
+@@ -1,17 +0,0 @@
+-FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+-
+-RPI_DOM0_MEM ??= "256M"
+-RPI_DEBUG_XEN_ARGS ??= "sync_console bootscrub=0"
+-
+-SRC_URI += "file://boot.cmd.xen.in"
+-
+-# If the distro is Xen enabled, override the default boot.cmd.in with the
+-# alternative boot.cmd.xen.in from this layer, with variables subsitution here
+-do_compile_append() {
+-    if [ "${@bb.utils.contains('DISTRO_FEATURES', 'xen', 'yes', 'no', d)}" = "yes" ]; then
+-        sed -e 's/@@RPI_DOM0_MEM@@/${RPI_DOM0_MEM}/' \
+-            -e 's/@@RPI_DEBUG_XEN_ARGS@@/${RPI_DEBUG_XEN_ARGS}/' \
+-                "${WORKDIR}/boot.cmd.xen.in" > "${WORKDIR}/boot.cmd"
+-        mkimage -A arm -T script -C none -n "Boot script" -d "${WORKDIR}/boot.cmd" boot.scr
+-    fi
+-}
+diff --git a/dynamic-layers/raspberrypi/recipes-bsp/rpi-u-boot-scr/files/boot.cmd.xen.in b/dynamic-layers/raspberrypi/recipes-bsp/xen-rpi-u-boot-scr/files/boot.cmd.xen.in
+similarity index 100%
+rename from dynamic-layers/raspberrypi/recipes-bsp/rpi-u-boot-scr/files/boot.cmd.xen.in
+rename to dynamic-layers/raspberrypi/recipes-bsp/xen-rpi-u-boot-scr/files/boot.cmd.xen.in
+diff --git a/dynamic-layers/raspberrypi/recipes-bsp/xen-rpi-u-boot-scr/xen-rpi-u-boot-scr.bb b/dynamic-layers/raspberrypi/recipes-bsp/xen-rpi-u-boot-scr/xen-rpi-u-boot-scr.bb
+new file mode 100644
+index 0000000..87619d0
+--- /dev/null
++++ b/dynamic-layers/raspberrypi/recipes-bsp/xen-rpi-u-boot-scr/xen-rpi-u-boot-scr.bb
+@@ -0,0 +1,34 @@
++SUMMARY = "U-boot boot script for Xen on Raspberry Pi 4"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
++COMPATIBLE_MACHINE = "^raspberrypi4-64$"
 +
-+# Build the bootable SD card image
-+IMAGE_CLASSES_append = " sdcard_image-rpi"
-+IMAGE_FSTYPES_append = " rpi-sdimg"
++DEPENDS = "u-boot-mkimage-native"
 +
-+# Add Xen to the bootable SD card image
-+RPI_SDIMG_EXTRA_DEPENDS_append = " xen:do_deploy"
-+DEPLOYPAYLOAD = "xen-${MACHINE}:xen"
++INHIBIT_DEFAULT_DEPS = "1"
 +
-+# We need the GIC enabled for Xen to work
-+RPI_EXTRA_CONFIG_append  = "\nenable_gic=1"
++SRC_URI = "file://boot.cmd.xen.in"
 +
-+# Increase boot partition for space for kernel and Xen
-+BOOT_SPACE = "61440"
++RPI_DOM0_MEM ??= "256M"
++RPI_DEBUG_XEN_ARGS ??= "sync_console bootscrub=0"
 +
-+# Override the meta-raspberrypi default kernel preference
-+PREFERRED_PROVIDER_virtual/kernel ?= "linux-yocto"
-+KERNEL_DEVICETREE ?= "broadcom/bcm2711-rpi-4-b.dtb"
++do_compile() {
++    sed -e 's/@@KERNEL_IMAGETYPE@@/${KERNEL_IMAGETYPE}/' \
++        -e 's/@@KERNEL_BOOTCMD@@/${KERNEL_BOOTCMD}/' \
++        -e 's/@@RPI_DOM0_MEM@@/${RPI_DOM0_MEM}/' \
++        -e 's/@@RPI_DEBUG_XEN_ARGS@@/${RPI_DEBUG_XEN_ARGS}/' \
++        "${WORKDIR}/boot.cmd.xen.in" > "${WORKDIR}/boot.cmd"
++
++    mkimage -A ${UBOOT_ARCH} -T script -C none -n "Boot script" -d "${WORKDIR}/boot.cmd" boot.scr
++}
++
++inherit kernel-arch deploy nopackages
++
++do_deploy() {
++    install -d ${DEPLOYDIR}
++    install -m 0644 boot.scr ${DEPLOYDIR}
++}
++
++addtask do_deploy after do_compile before do_build
++
++PROVIDES += "u-boot-default-script"
 -- 
 2.25.1
 
