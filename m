@@ -1,125 +1,130 @@
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (NAM11-BN8-obe.outbound.protection.outlook.com [40.107.236.51])
- by mx.groups.io with SMTP id smtpd.web12.5063.1619506500785601698
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
+ by mx.groups.io with SMTP id smtpd.web10.150.1619547022216455821
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 26 Apr 2021 23:55:01 -0700
+ Tue, 27 Apr 2021 11:10:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=lry4GKNT;
- spf=pass (domain: windriver.com, ip: 40.107.236.51, mailfrom: qiang.zhang@windriver.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iYR/zabS71NeoqUAvyafL3acZDLEWTlZBa6U/Y/3otTBkx1dDrD8fdR9nmpxh1whuURFwowq1iKch5TIQLsM18ILZ8kCB3oQlWx8XiQNIohuYBA0WUysSKF2y3Ffo3Mli2JcZZPQZWRj+XJSkop+zxNjfeLSACmgaw0J7JPRNhL6v1DBwCZyoAtAwre9GuGQL2zPlDwKQPzBqwtZyMIQzJ3K6bFHGy2xnTE6DgVyMrB00Wu4rr7G+JZTXPhOWuinq/qnaHXbFpv+9LIAz+4hlbsAPPyB86/UefwQnUgI7MxIxveJVPR5XqnjSK8qnVmEK5Av53y6OT0ekGc4CpU/KQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KbYXngyr/p2jarzltOvS4DQw7ljcItnvkEPkTDrvgWU=;
- b=f8EflZLbIM9WDBk/Drpu3/Js+9zZqw7KUsDPioobqLPee1ZpfC9y1a7HdtOb6DNW+YQfaqxJUIYBar9rA8JEeK9rgWE++5rNuF+hOIHDQZq/E371CNcdqsP1uOZM8KS/c2rs0oDqWcr/NH9UgOiZUE6j1yOriDqhO8iY3jxhCacgWOwqu4vbfbObS/XmMGiNK60Nv1PDM/8fyCKvNl1MUFfqR0lZ7CCFLybLIw0AQno7cw++i9xCficqvq6TI7LqY8oqHseI0tnGtQqbfj80eoQToYmyqb93/02m87hPzB5QrA4m0XIUaOOdP/HNq0y+xhkaDyTXMXz0+yr5mD9wMw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+ dkim=pass header.i=@linaro.org header.s=google header.b=cAF/iOIK;
+ spf=pass (domain: linaro.org, ip: 209.85.219.44, mailfrom: ralph.siemsen@linaro.org)
+Received: by mail-qv1-f44.google.com with SMTP id x27so29491710qvd.2
+        for <meta-virtualization@lists.yoctoproject.org>; Tue, 27 Apr 2021 11:10:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=windriversystems.onmicrosoft.com;
- s=selector2-windriversystems-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KbYXngyr/p2jarzltOvS4DQw7ljcItnvkEPkTDrvgWU=;
- b=lry4GKNTjnefzbhNEp5gXXZQxtJ/wjdjCwH7nXV3CZwSfPsfsag7aG3cJZf/5YhNsAva2ILeLIYIxxkWAPPoG9QSgfpqPd1sbP9FJRDTdaBZyxLztNSRapihMbYIqJ4OEqvEIyaHOiPySaeGEXurjDDLYfoJY8CVS40YxmBrnx4=
-Received: from DM6PR11MB4202.namprd11.prod.outlook.com (2603:10b6:5:1df::16)
- by DM6PR11MB3801.namprd11.prod.outlook.com (2603:10b6:5:136::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.24; Tue, 27 Apr
- 2021 06:54:58 +0000
-Received: from DM6PR11MB4202.namprd11.prod.outlook.com
- ([fe80::60c5:cd78:8edd:d274]) by DM6PR11MB4202.namprd11.prod.outlook.com
- ([fe80::60c5:cd78:8edd:d274%5]) with mapi id 15.20.4065.027; Tue, 27 Apr 2021
- 06:54:58 +0000
-From: "Zhang, Qiang" <qiang.zhang@windriver.com>
-To: Bruce <bruce.ashfield@gmail.com>
-CC: "meta-virtualization@lists.yoctoproject.org"
-	<meta-virtualization@lists.yoctoproject.org>
-Subject: Help on openvswitch
-Thread-Topic: Help on openvswitch
-Thread-Index: AQHXOzFR1u+PL85GCUaB3pK/EDn6KA==
-Date: Tue, 27 Apr 2021 06:54:58 +0000
-Message-ID: 
- <DM6PR11MB42022546C341761BE3193E74FF419@DM6PR11MB4202.namprd11.prod.outlook.com>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=windriver.com;
-x-originating-ip: [60.247.85.82]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 13843a22-2033-4691-d1e7-08d909495f4b
-x-ms-traffictypediagnostic: DM6PR11MB3801:
-x-microsoft-antispam-prvs: 
- <DM6PR11MB380109E613A6564F463C836DFF419@DM6PR11MB3801.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:6790;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- pj9cciduh/+7wJkzPqOjAGNKlDN9s8mjcbDJjfd+PAiPgwkDSr/mQoKRIsIILBu1NAaXAwpcuwumlcx/9Wmx8zUMxCoplHiO4w1OOszersE7+Qv72N+WLRpFvVXOc0jVacKS52fDj2a/shBaesnSgW15N5co7tXcoHAbxQAMQ09TS3j2uHkESiahKAMzqoJEpZVdXyLnGRKD2RG69uV4f7Ix3/H4AANN0QZd5k6Z4G1hlETdM5cPUlZL3E+Bji3jhn82vC5AVWX4MdyACgB0NBGwK/Q64CCuvupNlUdYDdTV8zRC25qHEWzNzr8hhlo41vOPq8vo/uNAueNwlicopr+pxbHB8NXjYjISXkNe6tgzKSGCiMGJ38yKvUOmcqdACjlN28RXeRczSqXcrqU3VsSCZfsavqPip0bQ0rLc+8UEl3aCHhayqNmy982GY6GQ9pD8/pPuheNi5WC9OXB5MeVrgDnncvn7eNckYJAzLq0Gi9bzxkHaknZbQkfhaZS2rRgTJBtW73fzY1muspHu89TdX/UR4PTcztHf39xGh7wyFKi4ROTiJTBrLBQwS6lFAmLw/VfhL9EAGQ3HK8RXWw==
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB4202.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39830400003)(366004)(346002)(376002)(396003)(136003)(186003)(7116003)(478600001)(9686003)(55016002)(7696005)(2906002)(71200400001)(76116006)(66446008)(66556008)(64756008)(91956017)(66946007)(6506007)(4326008)(86362001)(66476007)(38100700002)(5660300002)(83380400001)(26005)(8936002)(6916009)(33656002)(316002)(8676002)(4744005)(3480700007)(122000001)(52536014);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata: 
- =?gb2312?B?NzlFWGN0U28wNGpWT1hXZTFDZDBTbFUrOGorRTQ2S0ptKzVlc3FnY0lRYmRw?=
- =?gb2312?B?QWpiL1EzYWZMZ2FOV0l3WTJJbjJid3FlUThseWxrUjU1NDNkVWdwaFl5ZVZC?=
- =?gb2312?B?eks1czFOQ2JDS2IrWWFjdkYrZlBlSXJ0MWVJOXpRZUZHVjc4VUF2RG9VL29R?=
- =?gb2312?B?bDdnWlFUNGVwdXpVMDVnMCthSklCWkdWaldjK2QwaEJ5Q3gwdDVOOGtRWTVa?=
- =?gb2312?B?UGdrOE1xOTE4cWI1VXgrTHNXWUttVUx2MUFlbGVLcHVJa0UwYlVYSG5UUXpz?=
- =?gb2312?B?M005ejY2T2E5Z0g3TkhjaitwVjhGVGQ0dDAwVS9BL2hwa2M5c0hXbXRtaWNi?=
- =?gb2312?B?ditzU0QyQjBkZU5NZnJFN0JJaDA1dkhHK0wxRCtaTjFwblhQaFI1R01BTUVV?=
- =?gb2312?B?Mitrd2JqVEpDQXpWS21RSjNGVU5wZHVKeDNjN3phMjVBaDI4UWxLWVltREN6?=
- =?gb2312?B?V0RoKy9QM0lPczdMdTlRbFJRaFZkOG9VYzNzQjhVMG90TGFZWDJFS3NWQXRv?=
- =?gb2312?B?OTRSZ2RDQ1kwTVpva1MvR2xtOEVsMm0vc1hSMHNzQW1nSm9sVFg2QWE2QnN2?=
- =?gb2312?B?eHlqNytxY3RWNkRCYjRZMGZFUDNBQ0wvQSs1dFdiNkh4QkxYWGhBSUdwdFZp?=
- =?gb2312?B?SG01L0RsNFo2cUlveGtYVVFDR2YzUEdqbURiaXZ3ZlZYUUJEZ0Z1QnBrWHJO?=
- =?gb2312?B?ZXo4S1kxNGVBRFlMZmxXZXJhRHM4UHlkVE1wWjQ3ZHZOVS9FTFV5YUV3dXdN?=
- =?gb2312?B?T1RvNklScGFRNm56Zy9sdERQL251NllqMXp6d2hha1YrT1BKcllGd2lwdVJI?=
- =?gb2312?B?amFCenBINXcyTjNwMXVrOFpUa01CcGJEdklPcjFneWtSZlVDWXdxOUVhdFhT?=
- =?gb2312?B?K1FkOE1BOWV0SGtxVVhQQ1I1OVZTbTVuSW1venE2ZHZwTlZIMFN1WFZMTXFm?=
- =?gb2312?B?S3hpaDN5ME1BVjBtR2o4M3F1VmZQanZTSEo5Zi9CTlV1QUlOR1g2VmJVNUFq?=
- =?gb2312?B?M01tUjA0VTZkRnpaUXkxNTQ5czZkNUZ3S2dDcEFKWElZNVJNZlpyRmZzeC9w?=
- =?gb2312?B?NlZGREczYmRxWDNZKzRYbXhHM3l2L3g4RFExRHRjakx3SXdQTkNQS3lLU3RV?=
- =?gb2312?B?ZEJLY01mRWI2ZDFUOXpZVUs1Q3VrYng2SHZZUngwZUFRTlJxTFhsSWtybkgw?=
- =?gb2312?B?Q1pPS3Baamg3M2JLaWNBYmpmYXpSN2pLTmFtVkczMlI5S0h2dFMzT1FVL09y?=
- =?gb2312?B?clcrT09QR2pSUk41Um52Ui9UK1AvWitSNXhSSFhNcTBkSitJTkx6MjdjZ3py?=
- =?gb2312?B?MkFqV1BwdGFtdWdpUzNFdmFvcHZVZU9sbWVrMldScUFCRFp4VE5VeVp1UGlP?=
- =?gb2312?B?amNSQ0dJS3g2TkEwTzB6eDh6NDBGQURBUllpbEU3dFF6R1duK01WS3JTTmZj?=
- =?gb2312?B?M2JnTm5JdVRUdW9YMFNMeHpaa2JudmRobFlGNGp3dDdBMWx0VzllZStibDhL?=
- =?gb2312?B?WGZ5NEVyT0RUUjRMR0pxTHN1VVYxTW5OLzdxT3RuSHQvNWtEd3NKY3ltRFRY?=
- =?gb2312?B?Ym9oNkRLc1U2QWxIOEN6aTR2RzBkWENpTXNNTDk2a0dMakx6S3pnSW5Db1kr?=
- =?gb2312?B?b1h3Nk9QZWlGR1R1UnRiYmllaWl5cHlwWHY1NGI1bUxUYlB5Y0ZHd1ZGWVM1?=
- =?gb2312?B?K0t2MlJURDIzR0FoYy9xQjg0cEYzdDkvSnByV0l4K0huSURia3pZRGR0Z056?=
- =?gb2312?Q?UoHf5Rpb3CTlLlTrsk=3D?=
-x-ms-exchange-transport-forked: True
-MIME-Version: 1.0
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB4202.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 13843a22-2033-4691-d1e7-08d909495f4b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Apr 2021 06:54:58.4553
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: RcmKn5ELP+Mr2E5a3PPMQVjjCTEHW8aDrt27inXib9NSpM/wKCDLySe0ZOZ0o0dxN17WUSJ0QOKtOQ2RU7nx5N9rul6ThcxALLkahmu9z/I=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB3801
-Content-Language: zh-CN
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id;
+        bh=e7qbVjvqcbFb+4pAWYW+pLKL5uEXbAzAiDZ6lP+cbAk=;
+        b=cAF/iOIKO774upTkBuSNQcyt7YF/EKOPYAnlsr61vsBeqjNXayQ7wKTtnQSEliBVn+
+         t28XqlG5Q2uZTgQeWJ8MZ8LJ5ZcFW8INHAeFPm1VYKfA9v+BCKrsqyZvFv3g8obU0KDw
+         k7simJgozGpe6jCfTQ1ZLnGjrlSBeBSqkTDjQAaL5q/7ZX7bCupMXnPkc+eYkF1pEanr
+         4BstlKCmy3Da32oXThsnXzzTCrvaIq+zZz2UXKyvrTA+zg/OUSOlsh0/xNODKFsrWm7D
+         ryaGaL4s/ImkzKIr7BpqdzhbaqbYQ0gF0D7PIJbXtgcX0yHk09fp6LFLyQSHQ4NT5Pb2
+         iooA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=e7qbVjvqcbFb+4pAWYW+pLKL5uEXbAzAiDZ6lP+cbAk=;
+        b=SgVgzfoA+cF80STjvXTeUlkleO7bzFyMLDNUt6XuHOSBUc0T9Ds12+NEXZcRG+KRV3
+         q8BeRQSHL9YbllfFOpr+WL/5j9IwITUxkNmd9rrYJ7Ws4KDPvhstg0NBzBsAU9miZdGW
+         iyA53QZPc1VFE3A/zGz4ZA+mnMC+5m5IH5jlK7V4uEJMIOXBSs+uKbc9bEdeRBXVSyxZ
+         3Bdn0kdEicgX2OLvu/qu0WgmqS6xeBMkZ3TW1WjqiNnFRw7QSVpgt+Y14W8h7Puuo8Yv
+         QlkvFVhFmhcM/x8IrdLuihSuAXhplA2B6G8S2/lBKciE/PeafZqcFYvRrR2ba8kiGf7e
+         KCRQ==
+X-Gm-Message-State: AOAM532U/C69vNBxnVTqf/TeM/A/E86bYG8YSk5fsQZFR9SUuO/veEOH
+	H7rtaqCOphQwpthQEFk8li6saVLWbOFFMK8k
+X-Google-Smtp-Source: ABdhPJxHXDeQQ3v/RrXClpqbCPPhyC2gTYIg4Dh8EZOlXRoJ5PVUasrJiuQfJfcdpmBsKRlWPxPGHA==
+X-Received: by 2002:a0c:f901:: with SMTP id v1mr24158989qvn.26.1619547021355;
+        Tue, 27 Apr 2021 11:10:21 -0700 (PDT)
+Return-Path: <ralph.siemsen@linaro.org>
+Received: from maple.netwinder.org (rfs.netwinder.org. [206.248.184.2])
+        by smtp.gmail.com with ESMTPSA id e7sm435891qth.27.2021.04.27.11.10.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Apr 2021 11:10:20 -0700 (PDT)
+From: "Ralph Siemsen" <ralph.siemsen@linaro.org>
+To: meta-virtualization@lists.yoctoproject.org
+Cc: Ralph Siemsen <ralph.siemsen@linaro.org>
+Subject: [RFC][dunfell][PATCH] add CVE_PRODUCT for docker, containerd, runc
+Date: Tue, 27 Apr 2021 14:10:11 -0400
+Message-Id: <20210427181011.6193-1-ralph.siemsen@linaro.org>
+X-Mailer: git-send-email 2.17.1
 
-SGVsbG8gQnJ1Y2UKCndoZW4gb3BlbnZzd2l0Y2ggZW5hYmxlIERQREssIHRoZSBkb19jb25maWd1
-cmUgd2lsbCB0cmlnZ2VyIGZvbGxvdyBlcnJvcjoKCmNoZWNraW5nIHdoZXRoZXIgZHBkayBpcyBl
-bmFibGVkLi4uIHllcwp8IGNoZWNraW5nIGZvciBydGVfY29uZmlnLmguLi4geWVzCnwgY2hlY2tp
-bmcgd2hldGhlciBSVEVfTElCUlRFX1ZIT1NUX05VTUEgaXMgZGVjbGFyZWQuLi4gbm8KfCBjaGVj
-a2luZyB3aGV0aGVyIFJURV9FQUxfTlVNQV9BV0FSRV9IVUdFUEFHRVMgaXMgZGVjbGFyZWQuLi4g
-bm8KfCBjaGVja2luZyB3aGV0aGVyIFJURV9MSUJSVEVfUE1EX1BDQVAgaXMgZGVjbGFyZWQuLi4g
-bm8KfCBjaGVja2luZyB3aGV0aGVyIFJURV9MSUJSVEVfUE1EX0FGX1hEUCBpcyBkZWNsYXJlZC4u
-LiBubwp8IGNoZWNraW5nIHdoZXRoZXIgUlRFX0xJQlJURV9WSE9TVF9OVU1BIGlzIGRlY2xhcmVk
-Li4uIChjYWNoZWQpIG5vCnwgY2hlY2tpbmcgd2hldGhlciBSVEVfTElCUlRFX01MWDVfUE1EIGlz
-IGRlY2xhcmVkLi4uIG5vCnwgY2hlY2tpbmcgd2hldGhlciBSVEVfTElCUlRFX01MWDRfUE1EIGlz
-IGRlY2xhcmVkLi4uIG5vCnwgY2hlY2tpbmcgZm9yIGxpYnJhcnkgY29udGFpbmluZyBkbG9wZW4u
-Li4gLWxkbAp8IGNoZWNraW5nIHdoZXRoZXIgbGlua2luZyB3aXRoIGRwZGsgd29ya3MuLi4gbm8K
-fCBjb25maWd1cmU6IGVycm9yOiBDb3VsZCBub3QgZmluZCBEUERLIGxpYnJhcnkgaW4gZGVmYXVs
-dCBzZWFyY2ggcGF0aCwgdXBkYXRlIFBLR19DT05GSUdfUEFUSCBmb3IgcGtnLWNvbmZpZyB0byBm
-aW5kIHRoZSAucGMgZmlsZSBpbiBub24tc3RhbmRhcmQgbG9jYXRpb24KfCBXQVJOSU5HOiBleGl0
-IGNvZGUgMSBmcm9tIGEgc2hlbGwgY29tbWFuZC4KCkkgZGlkbid0IGZpbmQgb3V0IHdoeSwgIGhh
-dmUgeW91IHJlcGVhdGVkIHRoZSBxdWVzdGlvbj8KClRoYW5rcwpRaWFuZwo=
+This is more of an RFC than an actual review request. Currently, the
+yocto CVE checker fails to report CVEs in docker, due to mismatch of the
+package names (eg "docker-moby" versus just "docker" in NVD).
+
+So set CVE_PRODUCT in each recipe to match up the names. I have only
+done this for docker, containerd and runc. Perhaps there are more
+components needing similar treatment.
+
+Possible TODOs include:
+* rebase/update this to master, and test it there
+* split into separate commits, one per component
+---
+ recipes-containers/containerd/containerd-docker_git.bb         | 2 ++
+ recipes-containers/containerd/containerd-opencontainers_git.bb | 2 ++
+ recipes-containers/docker/docker-ce_git.bb                     | 2 ++
+ recipes-containers/docker/docker-moby.bb                       | 2 ++
+ recipes-containers/runc/runc-docker_git.bb                     | 2 ++
+ recipes-containers/runc/runc-opencontainers_git.bb             | 2 ++
+ 6 files changed, 12 insertions(+)
+
+diff --git a/recipes-containers/containerd/containerd-docker_git.bb b/recipes-containers/containerd/containerd-docker_git.bb
+index b18a9bb..2a3cd34 100644
+--- a/recipes-containers/containerd/containerd-docker_git.bb
++++ b/recipes-containers/containerd/containerd-docker_git.bb
+@@ -12,3 +12,5 @@ PROVIDES += "virtual/containerd"
+ RPROVIDES_${PN} = "virtual/containerd"
+ 
+ DEPENDS += "btrfs-tools"
++
++CVE_PRODUCT = "containerd"
+diff --git a/recipes-containers/containerd/containerd-opencontainers_git.bb b/recipes-containers/containerd/containerd-opencontainers_git.bb
+index 347eae5..2bcff1e 100644
+--- a/recipes-containers/containerd/containerd-opencontainers_git.bb
++++ b/recipes-containers/containerd/containerd-opencontainers_git.bb
+@@ -14,3 +14,5 @@ EXTRA_OEMAKE += "GODEBUG=1"
+ 
+ PROVIDES += "virtual/containerd"
+ RPROVIDES_${PN} = "virtual/containerd"
++
++CVE_PRODUCT = "containerd"
+diff --git a/recipes-containers/docker/docker-ce_git.bb b/recipes-containers/docker/docker-ce_git.bb
+index 14182d1..adffcec 100644
+--- a/recipes-containers/docker/docker-ce_git.bb
++++ b/recipes-containers/docker/docker-ce_git.bb
+@@ -129,3 +129,5 @@ FILES_${PN} += "${systemd_unitdir}/system/* ${sysconfdir}/docker"
+ 
+ FILES_${PN}-contrib += "${datadir}/docker/check-config.sh"
+ RDEPENDS_${PN}-contrib += "bash"
++
++CVE_PRODUCT = "docker"
+diff --git a/recipes-containers/docker/docker-moby.bb b/recipes-containers/docker/docker-moby.bb
+index 762a785..600603f 100644
+--- a/recipes-containers/docker/docker-moby.bb
++++ b/recipes-containers/docker/docker-moby.bb
+@@ -148,3 +148,5 @@ FILES_${PN} += "${systemd_unitdir}/system/* ${sysconfdir}/docker"
+ 
+ FILES_${PN}-contrib += "${datadir}/docker/check-config.sh"
+ RDEPENDS_${PN}-contrib += "bash"
++
++CVE_PRODUCT = "docker"
+diff --git a/recipes-containers/runc/runc-docker_git.bb b/recipes-containers/runc/runc-docker_git.bb
+index 8d810d0..3684366 100644
+--- a/recipes-containers/runc/runc-docker_git.bb
++++ b/recipes-containers/runc/runc-docker_git.bb
+@@ -11,3 +11,5 @@ SRC_URI = "git://github.com/opencontainers/runc;nobranch=1;name=runc-docker \
+           "
+ 
+ RUNC_VERSION = "1.0.0-rc8"
++
++CVE_PRODUCT = "runc"
+diff --git a/recipes-containers/runc/runc-opencontainers_git.bb b/recipes-containers/runc/runc-opencontainers_git.bb
+index 3a7e7aa..a1271f6 100644
+--- a/recipes-containers/runc/runc-opencontainers_git.bb
++++ b/recipes-containers/runc/runc-opencontainers_git.bb
+@@ -7,3 +7,5 @@ SRC_URI = " \
+     file://0001-Only-allow-proc-mount-if-it-is-procfs.patch \
+     "
+ RUNC_VERSION = "1.0.0-rc8"
++
++CVE_PRODUCT = "runc"
+-- 
+2.17.1
+
