@@ -1,158 +1,112 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
- by mx.groups.io with SMTP id smtpd.web10.6670.1619578285837428608
+Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
+ by mx.groups.io with SMTP id smtpd.web12.6400.1619578502417782556
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 27 Apr 2021 19:51:26 -0700
+ Tue, 27 Apr 2021 19:55:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=hE4Vp2gw;
- spf=pass (domain: gmail.com, ip: 209.85.208.42, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ed1-f42.google.com with SMTP id j28so8342302edy.9
-        for <meta-virtualization@lists.yoctoproject.org>; Tue, 27 Apr 2021 19:51:25 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=LOVbKHZF;
+ spf=pass (domain: gmail.com, ip: 209.85.222.181, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f181.google.com with SMTP id k127so6624087qkc.6
+        for <meta-virtualization@lists.yoctoproject.org>; Tue, 27 Apr 2021 19:55:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=FSPZRqAnwSzq/H3xfMdDSDwx36eOdJ6RQYxT0Hoqvgk=;
-        b=hE4Vp2gwAwFRELCPYbKpAECJ5ivzzPkDf4WnC/KUhZeAyNYQIHFRP77gPppoWm5Xmd
-         54A1VwpRGjuQEz8PArLdYfbnqK0V9AaDhSP1D9BzfdlwUQ61wWqvo44Hc6Ep94BcQyLv
-         BQ/5BjYcjwazEbDrKHwcNqeuXxKA9IolquDVn8rXta4QQGCD25GHPIOUaeFxvIkelLMb
-         2LojIrDBTUmusKv/wYMFiyV6WxYUUwnB9xBo3bSTxlREJ5wehX0mpYj+IdEULz9Z8+oW
-         wK/MkitB0ilUFocYEW6XdL7JjOBCHM4/T61QiOrqK3/T91mQVemmVxlAFFINCB7xP9tM
-         NiAg==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=JnjGtk3zXjAi1gUO2BLizGn/3HIu2je7sJeg5JCoCqs=;
+        b=LOVbKHZFzXSBcAug4ncOMW0jADgb/5G933qMY3THbLPmoUTB03E7dOLtD1Wikwa1w0
+         03XmiDj7Pk+AR+h1YgaJVKIBlkg2SKR7Pxv/34KCKlQ4wXlUnGmfsU15Z//Q0TvOwuTC
+         4z1px383yXssfUawr0dRq9pXvPmuAevML2IlRqwQITMOS3/Y9JCDNUOG0C7nmqs/fe+j
+         mOD4f1F5HKSMRmOkpvGUtFSrAeXGAu4xcjvliKiDdNdws5iYqWvaUXRFzpgCALDh/CAN
+         toYIR0tQBe+pM1+V/9reYSu+GS4EJKqI3uNkWeXfHAAI4OzCZ7jnHe6UxoqVw6iIxSvd
+         JV0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=FSPZRqAnwSzq/H3xfMdDSDwx36eOdJ6RQYxT0Hoqvgk=;
-        b=AaqkrBnNS/x2+ha3GaOUkc68hwU+RqiIcNpU2zJ5aRJh5lqAhYf6kHPS0B0iEGsQ8M
-         QQzwEK7JN8OZr+8nu+KJzV9eXnhZ3uOqtL1foMywHucbsdOUg6WFTREW8ibCQo9I8OkC
-         KEkeVvzX2H2xpDj+g09uKcRv3DWxsar4ggxB8plSbXHkTXibbbNFrIA9HrVYJVW59qyJ
-         YWktf33SwTNiLKgXSIvqhlnnO1l6bbzm/shFnHCXrBxmZNXtnRnU5ozs0vthd+T+LNya
-         wmWIBpFhA9kzIFbLx134wZv+OxTfj4WkRlr+f8/Vlftr5Nfnj5S2OSzp0sJUOdjn/UL3
-         BcGQ==
-X-Gm-Message-State: AOAM532Y/ITgaLk6vFrc6xa3vq5/qjmhIXRYlbAHXrvvs8SJnk3TjqNK
-	BC4Wwlu+qYQ6A4NzLeqrCH3Mset5gUiY74d3iisT6gOCQbY=
-X-Google-Smtp-Source: ABdhPJyEMBr5Pbf7g27JuIjgeDK/ztNn4rIW3tdePcPL9Or2xubK3uDM+8857T5iuI9Z6X33qhD5CQr5gfgMNo9Npi4=
-X-Received: by 2002:a05:6402:105a:: with SMTP id e26mr8051953edu.164.1619578284361;
- Tue, 27 Apr 2021 19:51:24 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210427181011.6193-1-ralph.siemsen@linaro.org>
-In-Reply-To: <20210427181011.6193-1-ralph.siemsen@linaro.org>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=JnjGtk3zXjAi1gUO2BLizGn/3HIu2je7sJeg5JCoCqs=;
+        b=ZFQxe50D5VB4Mj/Zsbjq0HfW4zEjLKFHcnTXiPUMfAil1Qyx2cWitFxBDqeLqbDOH/
+         2WAnFI4r9IXF6G7jr5AuDredvnsIkP96sioHbNiiQJlE12NooRkrres358/a+VlO2PyR
+         xDoGRvShAoD7z3s7YNaGuz6iOaOvkMxHnTyjz93LFy+dlK07xzH6XSQqIUnXUhTLxMv9
+         ymj+SQthIwEuGXryhHnF8yIgGNva9mXjtIp9G2wTOmFxNp5c4rGhjHAPBjP1CDHGWJ1e
+         aj7llTfaE/NJ+khKi+SYtIkMJSWYw3WWh0h5bD3kdERQLsXu0Rjsa/tvugGO0W/wUuUo
+         HPpg==
+X-Gm-Message-State: AOAM532ySm8Yp2f8KnL4aRI7LNH5SOvbuUXJUNR06GnbFKrHGL8E6N/K
+	zCRgcy0ojYm2qTHlpYIh/84=
+X-Google-Smtp-Source: ABdhPJxwdNk4D71cIHkIw4AdH7OlULd8ncxlh5Zx0akzndOR8Hfoyu33a4cE0EKab2QzfeqvBk3X7Q==
+X-Received: by 2002:a37:9903:: with SMTP id b3mr26817371qke.17.1619578501417;
+        Tue, 27 Apr 2021 19:55:01 -0700 (PDT)
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from gmail.com (cpe04d4c4975b80-cmf4c11490699b.cpe.net.cable.rogers.com. [174.112.159.151])
+        by smtp.gmail.com with ESMTPSA id l4sm1317295qtn.96.2021.04.27.19.55.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Apr 2021 19:55:01 -0700 (PDT)
+Date: Tue, 27 Apr 2021 22:54:59 -0400
 From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Tue, 27 Apr 2021 22:51:13 -0400
-Message-ID: <CADkTA4PX+xUC1q6--KnGBQF00FwyJ7Kdb0c02O2r5-_pxssQUg@mail.gmail.com>
-Subject: Re: [meta-virtualization] [RFC][dunfell][PATCH] add CVE_PRODUCT for docker, containerd, runc
-To: Ralph Siemsen <ralph.siemsen@linaro.org>
-Cc: meta-virtualization@lists.yoctoproject.org
-Content-Type: text/plain; charset="UTF-8"
+To: Christopher Clark <christopher.w.clark@gmail.com>
+Cc: meta-virtualization@lists.yoctoproject.org, cardoe@gentoo.org,
+	bertrand.marquis@arm.com, ticotimo@gmail.com
+Subject: Re: [meta-virtualization][PATCH 0/8] Xen and Yocto Linux on Raspberry Pi 4
+Message-ID: <20210428025458.GB50215@gmail.com>
+References: <20210424083103.202107-1-christopher.w.clark@gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <20210424083103.202107-1-christopher.w.clark@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Tue, Apr 27, 2021 at 2:10 PM Ralph Siemsen <ralph.siemsen@linaro.org> wrote:
->
-> This is more of an RFC than an actual review request. Currently, the
-> yocto CVE checker fails to report CVEs in docker, due to mismatch of the
-> package names (eg "docker-moby" versus just "docker" in NVD).
->
-> So set CVE_PRODUCT in each recipe to match up the names. I have only
-> done this for docker, containerd and runc. Perhaps there are more
-> components needing similar treatment.
+In message: [meta-virtualization][PATCH 0/8] Xen and Yocto Linux on Raspberry Pi 4
+on 24/04/2021 Christopher Clark wrote:
 
-There likely are more components that need this, in particular where I used
-to have support for docker variants, but we don't need to solve the entire
-problem now .. just starting is enough.
+> This series enables running Xen 4.14 and 4.15, with Yocto Linux 5.10,
+> on the Raspberry Pi 4 board.
+> 
+> Sets a new default kernel preference for linux-yocto for Xen on RPi4.
+> Applies some clean up to the config settings and dynamic layer.
 
-It's easy enough to port this to master, only that runc version being caught
-in the context might make it fail to apply .. and that's an easy fix.
+Everything looks good to me. I'll have to do some similar cleanups
+to the xilinx layers as well .. we have a RunX talk accepted for
+the upcoming Xen conf, so that's a good reason for me to do that
+part.
 
->
-> Possible TODOs include:
-> * rebase/update this to master, and test it there
-> * split into separate commits, one per component
-
-I'd suggest the split into the three, and go ahead and do the change on
-master. I'll carry it back to the released branches and pickup dunfell.
-
-The testing is pretty simple, so I'll make sure master is ok and you've
-already tested on dunfell, so that is enough.
+I'll merge these on Wednesday if I don't hear any objections.
 
 Bruce
 
-> ---
->  recipes-containers/containerd/containerd-docker_git.bb         | 2 ++
->  recipes-containers/containerd/containerd-opencontainers_git.bb | 2 ++
->  recipes-containers/docker/docker-ce_git.bb                     | 2 ++
->  recipes-containers/docker/docker-moby.bb                       | 2 ++
->  recipes-containers/runc/runc-docker_git.bb                     | 2 ++
->  recipes-containers/runc/runc-opencontainers_git.bb             | 2 ++
->  6 files changed, 12 insertions(+)
->
-> diff --git a/recipes-containers/containerd/containerd-docker_git.bb b/recipes-containers/containerd/containerd-docker_git.bb
-> index b18a9bb..2a3cd34 100644
-> --- a/recipes-containers/containerd/containerd-docker_git.bb
-> +++ b/recipes-containers/containerd/containerd-docker_git.bb
-> @@ -12,3 +12,5 @@ PROVIDES += "virtual/containerd"
->  RPROVIDES_${PN} = "virtual/containerd"
->
->  DEPENDS += "btrfs-tools"
-> +
-> +CVE_PRODUCT = "containerd"
-> diff --git a/recipes-containers/containerd/containerd-opencontainers_git.bb b/recipes-containers/containerd/containerd-opencontainers_git.bb
-> index 347eae5..2bcff1e 100644
-> --- a/recipes-containers/containerd/containerd-opencontainers_git.bb
-> +++ b/recipes-containers/containerd/containerd-opencontainers_git.bb
-> @@ -14,3 +14,5 @@ EXTRA_OEMAKE += "GODEBUG=1"
->
->  PROVIDES += "virtual/containerd"
->  RPROVIDES_${PN} = "virtual/containerd"
-> +
-> +CVE_PRODUCT = "containerd"
-> diff --git a/recipes-containers/docker/docker-ce_git.bb b/recipes-containers/docker/docker-ce_git.bb
-> index 14182d1..adffcec 100644
-> --- a/recipes-containers/docker/docker-ce_git.bb
-> +++ b/recipes-containers/docker/docker-ce_git.bb
-> @@ -129,3 +129,5 @@ FILES_${PN} += "${systemd_unitdir}/system/* ${sysconfdir}/docker"
->
->  FILES_${PN}-contrib += "${datadir}/docker/check-config.sh"
->  RDEPENDS_${PN}-contrib += "bash"
-> +
-> +CVE_PRODUCT = "docker"
-> diff --git a/recipes-containers/docker/docker-moby.bb b/recipes-containers/docker/docker-moby.bb
-> index 762a785..600603f 100644
-> --- a/recipes-containers/docker/docker-moby.bb
-> +++ b/recipes-containers/docker/docker-moby.bb
-> @@ -148,3 +148,5 @@ FILES_${PN} += "${systemd_unitdir}/system/* ${sysconfdir}/docker"
->
->  FILES_${PN}-contrib += "${datadir}/docker/check-config.sh"
->  RDEPENDS_${PN}-contrib += "bash"
-> +
-> +CVE_PRODUCT = "docker"
-> diff --git a/recipes-containers/runc/runc-docker_git.bb b/recipes-containers/runc/runc-docker_git.bb
-> index 8d810d0..3684366 100644
-> --- a/recipes-containers/runc/runc-docker_git.bb
-> +++ b/recipes-containers/runc/runc-docker_git.bb
-> @@ -11,3 +11,5 @@ SRC_URI = "git://github.com/opencontainers/runc;nobranch=1;name=runc-docker \
->            "
->
->  RUNC_VERSION = "1.0.0-rc8"
-> +
-> +CVE_PRODUCT = "runc"
-> diff --git a/recipes-containers/runc/runc-opencontainers_git.bb b/recipes-containers/runc/runc-opencontainers_git.bb
-> index 3a7e7aa..a1271f6 100644
-> --- a/recipes-containers/runc/runc-opencontainers_git.bb
-> +++ b/recipes-containers/runc/runc-opencontainers_git.bb
-> @@ -7,3 +7,5 @@ SRC_URI = " \
->      file://0001-Only-allow-proc-mount-if-it-is-procfs.patch \
->      "
->  RUNC_VERSION = "1.0.0-rc8"
-> +
-> +CVE_PRODUCT = "runc"
-> --
-> 2.17.1
->
->
 > 
->
-
-
--- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+> Tested with kernel v5.10.25:
+>  SRCREV_machine = "cf5b0320cf4544d3db9ce3ddd6ddb7553a610651"
+>  SRCREV_meta="031f6c76e488a3563f35258c72ff1de3e25a512e"
+> 
+> Christopher Clark (8):
+>   xen, rpi4: use the preferred generic multiboot,module compatible
+>     string
+>   xen, rpi4: drop the raspberrypi4-64 defconfig, xen_git.bbappend
+>   xen, rpi4, linux-yocto: enable linux-yocto 5.10 for RPi4
+>   xen, rpi4: switch Xen-on-Rpi4 kernel preference to linux-yocto
+>   xen, rpi4: fix u-boot script to load binaries from boot partition
+>   xen, rpi4: apply workaround to fix crash on boot with Xen 4.14
+>   xen, rpi4: move rpi4-machine+xen-distro cfg into dynamic layer
+>   xen, rpi4: add xen-rpi-u-boot-scr recipe for default u-boot script
+> 
+>  conf/distro/include/meta-virt-xen.inc         |  21 +---
+>  .../distro/include/xen-raspberrypi4-64.inc    |  25 ++++
+>  .../rpi-u-boot-scr/rpi-u-boot-scr.bbappend    |  17 ---
+>  .../files/boot.cmd.xen.in                     |  12 +-
+>  .../xen-rpi-u-boot-scr/xen-rpi-u-boot-scr.bb  |  34 +++++
+>  .../xen/files/defconfig_raspberrypi4-64       | 117 ------------------
+>  .../recipes-extended/xen/xen_git.bbappend     |  11 --
+>  .../linux/linux-yocto-dev.bbappend            |   6 +-
+>  .../linux/linux-yocto_5.10.bbappend           |   6 +
+>  .../linux/linux-yocto_xen-rpi.inc             |   6 +
+>  10 files changed, 87 insertions(+), 168 deletions(-)
+>  create mode 100644 dynamic-layers/raspberrypi/conf/distro/include/xen-raspberrypi4-64.inc
+>  delete mode 100644 dynamic-layers/raspberrypi/recipes-bsp/rpi-u-boot-scr/rpi-u-boot-scr.bbappend
+>  rename dynamic-layers/raspberrypi/recipes-bsp/{rpi-u-boot-scr => xen-rpi-u-boot-scr}/files/boot.cmd.xen.in (80%)
+>  create mode 100644 dynamic-layers/raspberrypi/recipes-bsp/xen-rpi-u-boot-scr/xen-rpi-u-boot-scr.bb
+>  delete mode 100644 dynamic-layers/raspberrypi/recipes-extended/xen/files/defconfig_raspberrypi4-64
+>  delete mode 100644 dynamic-layers/raspberrypi/recipes-extended/xen/xen_git.bbappend
+>  create mode 100644 dynamic-layers/raspberrypi/recipes-kernel/linux/linux-yocto_5.10.bbappend
+>  create mode 100644 dynamic-layers/raspberrypi/recipes-kernel/linux/linux-yocto_xen-rpi.inc
+> 
+> -- 
+> 2.25.1
+> 
