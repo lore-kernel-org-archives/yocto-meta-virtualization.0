@@ -1,190 +1,90 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
- by mx.groups.io with SMTP id smtpd.web11.12601.1619619140144653512
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
+ by mx.groups.io with SMTP id smtpd.web08.13721.1619624667518547706
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 28 Apr 2021 07:12:20 -0700
+ Wed, 28 Apr 2021 08:44:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=eaVCpMi/;
- spf=pass (domain: gmail.com, ip: 209.85.208.48, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ed1-f48.google.com with SMTP id s15so74450467edd.4
-        for <meta-virtualization@lists.yoctoproject.org>; Wed, 28 Apr 2021 07:12:19 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=XtS4txaC;
+ spf=pass (domain: linaro.org, ip: 209.85.219.51, mailfrom: ralph.siemsen@linaro.org)
+Received: by mail-qv1-f51.google.com with SMTP id dm16so6138844qvb.3
+        for <meta-virtualization@lists.yoctoproject.org>; Wed, 28 Apr 2021 08:44:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=OT9VsOtHVn4U4bmF3aqLVogPOW4y9JamSVAe/CIBnco=;
-        b=eaVCpMi/REf/1h+rDfBVsa0MiIruGUeNNdEtGk1JiM4hlPuF9hRSVTC08j5H2q4NNm
-         PoOqBdIg+G91rD/bWAH+fJP2cgYWMBZJ0kXWhP2RYmYoss5IxOuFCihY8E+olPEtRLF+
-         oNeDwXACV1IRJRLuqol/07arKre32pUA5WESVox9KcBiYwWuP7vKsAmzu9+G+6mbZBHJ
-         cn2ElRbkVSM6+Ci0I006F5gzQSjGayykJ6Oe0q0j54bgTxAyhojsLn9wpTxYMNIaAmyM
-         LZl5OmU6sEFf/fSwyYCp47DKaiFRGY1iJM00cxMyjrjENnJ9OM4A+PdndzdWSeXH46zr
-         csvQ==
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id;
+        bh=7AH9CdQEgrEFlIrf5HiqLa0+BUWcLBBPFiEgqTQdahk=;
+        b=XtS4txaCxeCDEzjvtYDWH6TUkv/DuZXdg5E93HaGezrL01AtJ3Qmv2OQ9J5OfW0gUz
+         +WJhfwONfBW/dy4N0ZSVzCMENyW+TzvfRKPfEdynlty3zZ1gtJ/6F0lWQ56pFs45bpCf
+         UBdUXmLcAD2O/CEaN/FUlaRUlvJxu467xmMbYwp3zCg+CGz4FBZq6GdnprOOZR/2uptr
+         a7YgUCHl5ME619T0cAUp0jz3/+yv+wZxxqaqOAT3FqTTbPu3Jt5Xa5o1exEL6NyzUnF7
+         y79xeW8X9h4l9NIwAdOO4lhZ+iE4Zn26SHf58Y5JlwIkzvgpn2JnqPO1eGJtfUHNnMLR
+         NzCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=OT9VsOtHVn4U4bmF3aqLVogPOW4y9JamSVAe/CIBnco=;
-        b=Ta8WN1IrLeH38Bs0++GfCYunRRM/kY+bujwcyjJ+e8NLCnJnXtqlgtOAWOnTxQNjO3
-         ViP22GasoWMkIXDc6lten548IZQz9DmoGKsOGAAyWq+OfwlFCxN0HdSYcaPJJIzYuSqp
-         zrYLzixF//Ql8YdBmzjuKhdB1sZZoVsjCRi9e0eq6gUhnUBTB/8G3Q/bAz3R1rmDAocw
-         3qAMzoPXPForZKtV46v4g1lpLjmbwjtVULy8D+EhN10m4sI0djQexaykxa2aHULnBpUB
-         sLoM+bgnQ0yWrcyFc3GIVdi2Tc4OqWZPUdi+P7F0tqDbLS0Js9tH9HN3pZ7oJOUQTBSb
-         t+KA==
-X-Gm-Message-State: AOAM530OMxmgKio7TKGu5wt32uUyPxqMXsgLgov4FLvDCbiV6MyF+OZi
-	ESs/zyrFdqz24O19Tee67ezlpgUPDoO//je3t4M=
-X-Google-Smtp-Source: ABdhPJypt8S7FsFjjJbEOrzQvCtvjf3RZNXejdXPUz1VZH1JuBu7cZlVvnyegqfFHUsiKKl02LcR+YUt5tZFyQgafK0=
-X-Received: by 2002:aa7:d54c:: with SMTP id u12mr12116295edr.234.1619619138565;
- Wed, 28 Apr 2021 07:12:18 -0700 (PDT)
-MIME-Version: 1.0
-References: <DM6PR11MB42022546C341761BE3193E74FF419@DM6PR11MB4202.namprd11.prod.outlook.com>
- <CADkTA4Otjn5uujw4Am89nsxPjAroTHVFUw1X-Ai73wq6YZeMYQ@mail.gmail.com> <DM6PR11MB420281956331ED9A9C71E07FFF409@DM6PR11MB4202.namprd11.prod.outlook.com>
-In-Reply-To: <DM6PR11MB420281956331ED9A9C71E07FFF409@DM6PR11MB4202.namprd11.prod.outlook.com>
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Wed, 28 Apr 2021 10:12:07 -0400
-Message-ID: <CADkTA4M7BQZHh9qxKGbvbM8D6-QuU1ZBZroAaYEMJEWjoGiWhQ@mail.gmail.com>
-Subject: Re: Help on openvswitch
-To: "Zhang, Qiang" <Qiang.Zhang@windriver.com>
-Cc: "meta-virtualization@lists.yoctoproject.org" <meta-virtualization@lists.yoctoproject.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=7AH9CdQEgrEFlIrf5HiqLa0+BUWcLBBPFiEgqTQdahk=;
+        b=sMUXxjM/OBkUgzO6nI6htUpzOcJAYTKPvsVD/VrZ2NMO99CAvZemaWF/54EiVrzYVa
+         NXDMKt0oc+ymu/Ua3JFslNSo1+UVyEceKgoezKss+yrlslRdhAxodeWUzV7OZIGG/jOp
+         lCYsvgm49CAWAO91wQ2K5FVjiW4NyszK8rCLp8IHA8AztXZIQGT2L989PtzhNAabkZyn
+         yCmOMZzBgg43RJcB51b494OqGLYdUhVpd64MuW14BbZZ+8m3LyrU3HfyJWzmsBPU1mO3
+         D/D/oDb1+L3lDX5aSmR4pkoQN4HK8IFAjiMdB64GCYw1plbdjQHjUsm8a7wKSbNRAPQc
+         qfUw==
+X-Gm-Message-State: AOAM531ZGFgwywkFB4ouqMLKk4qtvJyiiqQwmga6o0NdxajVAuUzjt4X
+	XgDVI4p0N0DvjWTbmi5gq4evh9cPRyNsaaHV
+X-Google-Smtp-Source: ABdhPJyxiG/kOTtAi54T/EK7wJRq5ztJHzBzRxrggidNjdUfr8/xRCMYpiyQdzVom7fseKv8rW5rEQ==
+X-Received: by 2002:a05:6214:224b:: with SMTP id c11mr30317038qvc.44.1619624666661;
+        Wed, 28 Apr 2021 08:44:26 -0700 (PDT)
+Return-Path: <ralph.siemsen@linaro.org>
+Received: from maple.netwinder.org (rfs.netwinder.org. [206.248.184.2])
+        by smtp.gmail.com with ESMTPSA id n11sm68228qkn.33.2021.04.28.08.44.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Apr 2021 08:44:26 -0700 (PDT)
+From: "Ralph Siemsen" <ralph.siemsen@linaro.org>
+To: meta-virtualization@lists.yoctoproject.org
+Cc: Ralph Siemsen <ralph.siemsen@linaro.org>
+Subject: [PATCH 1/3] docker: add CVE_PRODUCT to recipes
+Date: Wed, 28 Apr 2021 11:44:09 -0400
+Message-Id: <20210428154411.12994-1-ralph.siemsen@linaro.org>
+X-Mailer: git-send-email 2.17.1
 
-On Tue, Apr 27, 2021 at 11:41 PM Zhang, Qiang <Qiang.Zhang@windriver.com> w=
-rote:
->
->
->
-> ________________________________________
-> =E5=8F=91=E4=BB=B6=E4=BA=BA: Bruce Ashfield <bruce.ashfield@gmail.com>
-> =E5=8F=91=E9=80=81=E6=97=B6=E9=97=B4: 2021=E5=B9=B44=E6=9C=8828=E6=97=A5 =
-10:41
-> =E6=94=B6=E4=BB=B6=E4=BA=BA: Zhang, Qiang
-> =E6=8A=84=E9=80=81: meta-virtualization@lists.yoctoproject.org
-> =E4=B8=BB=E9=A2=98: Re: Help on openvswitch
->
-> [Please note: This e-mail is from an EXTERNAL e-mail address]
->
-> On Tue, Apr 27, 2021 at 2:54 AM Zhang, Qiang <Qiang.Zhang@windriver.com> =
-wrote:
-> >
-> > Hello Bruce
-> >
-> > when openvswitch enable DPDK, the do_configure will trigger follow erro=
-r:
-> >
-> > checking whether dpdk is enabled... yes
-> > | checking for rte_config.h... yes
-> > | checking whether RTE_LIBRTE_VHOST_NUMA is declared... no
-> > | checking whether RTE_EAL_NUMA_AWARE_HUGEPAGES is declared... no
-> > | checking whether RTE_LIBRTE_PMD_PCAP is declared... no
-> > | checking whether RTE_LIBRTE_PMD_AF_XDP is declared... no
-> > | checking whether RTE_LIBRTE_VHOST_NUMA is declared... (cached) no
-> > | checking whether RTE_LIBRTE_MLX5_PMD is declared... no
-> > | checking whether RTE_LIBRTE_MLX4_PMD is declared... no
-> > | checking for library containing dlopen... -ldl
-> > | checking whether linking with dpdk works... no
-> > | configure: error: Could not find DPDK library in default search path,=
- update PKG_CONFIG_PATH for pkg-config to find the .pc file in non-standard=
- location
-> > | WARNING: exit code 1 from a shell command.
-> >
-> > I didn't find out why,  have you repeated the question?
-> >
->
-> >I have seen this with other packages in the past, but can't >find the
-> >references to specific fixes now.
-> >
-> >Have you looked to see if dpdk is in fact producing a .pc file >? We
-> >kind of overload package config in OE where it is a general >set of
-> >options for recipes, and also the actual pkg-config >application (that
-> >needs those .pc files).
-> >
-> >A quick check shows that openvswitch isn't inheriting the >pkgconfig
-> >bbclass, which means our pkg-config-native isn't in the >dependency
-> >chain.
->
-> Hello Bruce
->
-> The 2.15 openvswitch parameter  --with-dpdk=3D must be 'static' or 'share=
-d'.   before  parameter --with-dpdk=3D be set a path.
->
->  I made the following changes
->
-> --- a/recipes-networking/openvswitch/openvswitch_git.bb
-> +++ b/recipes-networking/openvswitch/openvswitch_git.bb
-> @@ -1,6 +1,6 @@
->  require openvswitch.inc
->
-> -DEPENDS +=3D "virtual/kernel"
-> +DEPENDS +=3D "virtual/kernel pkgconfig-native"
->
->  PACKAGE_ARCH =3D "${MACHINE_ARCH}"
->
-> @@ -35,7 +35,7 @@ LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D1ce5d23a6429=
-dff345518758f13aaeab"
->  DPDK_INSTALL_DIR ?=3D "/opt/dpdk"
->
->  PACKAGECONFIG ?=3D "libcap-ng"
-> -PACKAGECONFIG[dpdk] =3D "--with-dpdk=3D${STAGING_DIR_TARGET}${DPDK_INSTA=
-LL_DIR}/share/${TARGET_ARCH}-native-linuxapp-gcc,,dpdk,dpdk"
-> +PACKAGECONFIG[dpdk] =3D "--with-dpdk=3Dstatic,,dpdk,dpdk"
->  PACKAGECONFIG[libcap-ng] =3D "--enable-libcapng,--disable-libcapng,libca=
-p-ng,"
->  PACKAGECONFIG[ssl] =3D ",--disable-ssl,openssl,"
->
->  The following error will be generated :
->
-> checking for struct tcf_t.firstuse... yes
-> | checking whether dpdk is enabled... yes
-> | checking for DPDK... no
-> | configure: error: Package requirements (libdpdk) were not met:
-> |
-> | No package 'libdpdk' found
-> |
-> | Consider adjusting the PKG_CONFIG_PATH environment variable if you
-> | installed software in a non-standard prefix.
-> |
-> | Alternatively, you may set the environment variables DPDK_CFLAGS
-> | and DPDK_LIBS to avoid the need to call pkg-config.
+Allows the yocto cve-checker to flag CVEs, which would otherwise go
+unreported due to the package name not matching NIST NVD data.
 
-Let me try and summarize,
+Signed-off-by: Ralph Siemsen <ralph.siemsen@linaro.org>
+---
+ .../docker-distribution/docker-distribution_git.bb              | 2 ++
+ recipes-containers/docker/docker-ce_git.bb                      | 2 ++
+ recipes-containers/docker/docker-moby.bb                        | 2 ++
+ 3 files changed, 6 insertions(+)
 
-DPDK has replaced a flag that used to point to the binary with a
-static/non-static flag and is using pkg-config to locate the binary.
+diff --git a/recipes-containers/docker-distribution/docker-distribution_git.bb b/recipes-containers/docker-distribution/docker-distribution_git.bb
+index 6bfc345..71a88ac 100644
+--- a/recipes-containers/docker-distribution/docker-distribution_git.bb
++++ b/recipes-containers/docker-distribution/docker-distribution_git.bb
+@@ -70,3 +70,5 @@ SYSTEMD_SERVICE_docker-registry = "${@bb.utils.contains('DISTRO_FEATURES','syste
+ SYSTEMD_AUTO_ENABLE_docker-registry = "enable"
+ 
+ RDEPENDS_${PN}-ptest_remove = "${PN}"
++
++CVE_PRODUCT = "docker_registry"
+diff --git a/recipes-containers/docker/docker-ce_git.bb b/recipes-containers/docker/docker-ce_git.bb
+index a107934..be45be2 100644
+--- a/recipes-containers/docker/docker-ce_git.bb
++++ b/recipes-containers/docker/docker-ce_git.bb
+@@ -132,3 +132,5 @@ FILES_${PN} += "${systemd_unitdir}/system/* ${sysconfdir}/docker"
+ 
+ FILES_${PN}-contrib += "${datadir}/docker/check-config.sh"
+ RDEPENDS_${PN}-contrib += "bash"
++
++CVE_PRODUCT = "docker"
+diff --git a/recipes-containers/docker/docker-moby.bb b/recipes-containers/docker/docker-moby.bb
+index 31f3ce9..0e716db 100644
+--- a/recipes-containers/docker/docker-moby.bb
++++ b/recipes-containers/docker/docker-moby.bb
+@@ -150,3 +150,5 @@ FILES_${PN} += "${systemd_unitdir}/system/* ${sysconfdir}/docker"
+ 
+ FILES_${PN}-contrib += "${datadir}/docker/check-config.sh"
+ RDEPENDS_${PN}-contrib += "bash"
++
++CVE_PRODUCT = "docker"
+-- 
+2.17.1
 
-If the yocto dpdk package isn't producing a valid set of .pc files
-that pkg-config is looking for, then it won't find them and that
-doesn't help us.
-
-So we need to see if the dpdk package is producing them, and if so,
-why aren't they in the right place.
-
-If we don't want to go that route, did you try setting the DPDK_CFLAGS
-and DPDK_LIBS to the path to where the libraries have been installed
-in the package sysroot ?
-
-Bruce
-
-> | See the pkg-config man page for more details.
-> | WARNING: exit code 1 from a shell command.
->
-> Qiang
->
-> >I'd start there.
-> >
-> >Bruce
->
-> > Thanks
-> > Qiang
->
->
->
-> --
-> - Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at its end
-> - "Use the force Harry" - Gandalf, Star Trek II
-
-
-
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
