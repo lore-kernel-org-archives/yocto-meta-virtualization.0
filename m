@@ -1,107 +1,114 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.web11.577.1620323754784858680
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+ by mx.groups.io with SMTP id smtpd.web09.5338.1620356893599299377
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 06 May 2021 10:55:55 -0700
+ Thu, 06 May 2021 20:08:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=OSkB2d+/;
- spf=pass (domain: gmail.com, ip: 209.85.128.48, mailfrom: martin.jansa@gmail.com)
-Received: by mail-wm1-f48.google.com with SMTP id g65so3851419wmg.2
-        for <meta-virtualization@lists.yoctoproject.org>; Thu, 06 May 2021 10:55:54 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=pPV4Xd8H;
+ spf=pass (domain: gmail.com, ip: 209.85.218.49, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ej1-f49.google.com with SMTP id w3so11334878ejc.4
+        for <meta-virtualization@lists.yoctoproject.org>; Thu, 06 May 2021 20:08:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:date:to:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=CbAXDCivYx04VKu7zdToihu3e3kHy5LnHran8i0LwI8=;
-        b=OSkB2d+/ymTHeTQxSjnqmwa+VooMZIiT4WDQfgWx5/8QxeQhohu9rRBOb7dYkiv8YQ
-         4U0DqhU8UDaaKmfp+yOmmC0Q37JNkVSje/iI51nHNdPdBKXKV81i1qLnlwhovSJOTIux
-         bvlE7ST+R54KNvCpah4kRUyZ1eZEHJ0gekQq6iGOWe+ZzCmQ1xaSZf5ReVOny2GUHoG9
-         811yBedMC0N7EgD/uuf1ZBDcK14KXxV4yQy4U4uwbYL66rYOqcBtUTyUVgz4Z+njeKAN
-         i57eH4EKlk8kaSE3VRHv1Yu8j0PCWcSi/ceOD/aqWIEOUtAchUeSoLhhLWujnOscR3ek
-         Z/8g==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=0HjbjKEYl0YYDVmJ/IJwkm9as7LA1etvhyzbw9dkwzE=;
+        b=pPV4Xd8HzP+5Z98fliZgNyQHsWmgZm4cq7+YwwmOEQuj5FCyUlYSsEMgNum4E/rvfO
+         1BifAksNKGExwuron9KQ8Yi6KURLgPY0Quq2H7cAYPajBh7ErBV/Wz3aTyyMMwMaHGa9
+         yCqPu/U0U8BqwaVloWAtRPFcK5otMVGURIVUTk8wwNUWKRkag/jjAelF9EzX42GzShg/
+         osJ/GCdNpBWcDD2i46vFR1sF8F8iRF2MivnjKw5i/Emi5czpWAMHARi7VB+sp0V8imSJ
+         ++AZFDfOdfVv+zDWl0U3/qdBJBzcdIdWs7QmelB3xb4c3TTXLwpkZenHgAVpcpHpFtAX
+         jFhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:date:to:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=CbAXDCivYx04VKu7zdToihu3e3kHy5LnHran8i0LwI8=;
-        b=HwGGdeeXH2zuWLTXS1MvxvfadaoghDnsE5px+iyZCN9kzLd7i8UNLYj+MJWcBWr7Sv
-         CCoG1s2Ixq+aVb0OWIQ4/Clfr9zz2J0M7t4MVNndAdT0IyKHtTwBRogH2r6qJtxd+sQJ
-         rc/zxY46U6nzBgcrIFMn2jxOZr9JlI39NmPDrbpZldZdLZosiDp2Fi6vwZGm6tUoBIFi
-         mTSSN9LZ1Y4VZkRF6koRr6hTVmAt0ASVvSM5i0Zaa2QoLy/tqI0q/m7O6cpdFOqtqVx2
-         xbED0J9Hsgee/9DTYOjAxw1sv+VLG91KE2oM4+09o7O0acFzM9z9mfUcFmaFescdZKcf
-         D2CA==
-X-Gm-Message-State: AOAM530B+gbtYUw16x1pDxztGLpCDAIHwu9be3nU8Ia/c+WdcX8TWcXx
-	TDJOomKRUJWk3gDs2K8wrHA=
-X-Google-Smtp-Source: ABdhPJz2C+mU/l20wBLmba3e8aIlAtbnR6kLt0hPOwuCLctS7d7kRgFwmdzZQ1opqnWrvrbN3qvgsQ==
-X-Received: by 2002:a05:600c:2f08:: with SMTP id r8mr16950972wmn.129.1620323753203;
-        Thu, 06 May 2021 10:55:53 -0700 (PDT)
-Return-Path: <martin.jansa@gmail.com>
-Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id z66sm12321788wmc.4.2021.05.06.10.55.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 May 2021 10:55:52 -0700 (PDT)
-From: "Martin Jansa" <Martin.Jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Thu, 6 May 2021 19:55:51 +0200
-To: Khem Raj <raj.khem@gmail.com>,
-	meta-virtualization@lists.yoctoproject.org
-Subject: Re: [meta-virtualization] [PATCH] runc-opencontainers: use bfd even with ld-is-gold
-Message-ID: <20210506175551.i2fe4melaqd6yzrk@jama>
-References: <20210503134041.2962422-1-Martin.Jansa@gmail.com>
- <f58ef464-89ce-755a-988b-5ebc6fc28fbe@gmail.com>
- <167B98ADE3C05EB1.24705@lists.yoctoproject.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=0HjbjKEYl0YYDVmJ/IJwkm9as7LA1etvhyzbw9dkwzE=;
+        b=gFpipLXeQikB8LdJwO/9x1H18tE0hNMsHRfVwaBvJx75z/9E0k3WaD01ApZKCWxZgV
+         DkaOozxdmf9CQGsUuIYakOBNPRJGzesb9pBXcBn+EI4S/o6fgRocfiwJBv0u0ZNfaAKY
+         3H60ZE7kk9VO8cSBlsVrACvnPXcUor0a1BalX+CosydiVucrbfHHknSJul3qYHge2/bE
+         CDqKImPyOb13SgUpTLDqpbzanS+TaKp1+LydFOz0sRxMZXdbtcoPp2jsRGcBy8gK72ha
+         PRUu31rkhVX/dI9mgmzaZBR19ZO9sYJEFFUlo3lTksigQyx6/vS54OXi8gAVs5tM+bzj
+         bXlA==
+X-Gm-Message-State: AOAM5320IzMT583cvNh9mVShkyi/moN5afCGKiRs/ls6V3FvjxMDNf4F
+	C0vlr8hLl/iuNPqbpPpJfyS9vcxicD2ikX33ajo=
+X-Google-Smtp-Source: ABdhPJzYUjlZBwPuA5oehQpjug1nUPc6Ew7ORCnfchwjjmsjLk0GFSkBlpr6j1INtGYrwTMMJwp7yf7BIWdflHQNdEY=
+X-Received: by 2002:a17:907:3d8f:: with SMTP id he15mr7588078ejc.22.1620356891802;
+ Thu, 06 May 2021 20:08:11 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <167B98ADE3C05EB1.24705@lists.yoctoproject.org>
-X-Groupsio-MsgNum: 6492
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="2fyfyhtne4wtdj3y"
-Content-Disposition: inline
+References: <20210503134041.2962422-1-Martin.Jansa@gmail.com>
+In-Reply-To: <20210503134041.2962422-1-Martin.Jansa@gmail.com>
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+Date: Thu, 6 May 2021 23:08:00 -0400
+Message-ID: <CADkTA4N_oGkK25k=H1SJ13idCpy8ti3WZV1L7WS47yTswC+igQ@mail.gmail.com>
+Subject: Re: [meta-virtualization] [PATCH] runc-opencontainers: use bfd even with ld-is-gold
+To: Martin Jansa <Martin.Jansa@gmail.com>
+Cc: meta-virtualization@lists.yoctoproject.org, Khem Raj <raj.khem@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
---2fyfyhtne4wtdj3y
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+This is on master-next now.
 
-On Mon, May 03, 2021 at 05:39:10PM +0200, Martin Jansa via lists.yoctoproject.org wrote:
-> runc-opencontainers is the only recipe currently failing like this for me
-> with gold, so instead of switching system linker I would prefer to force
-> bfd only here.
+From the follow ups, I assume that this is still needed. Once I get a
+bit of soak and runtime testing done on some other queued changes,
+this will be part of my next push.
 
-In my world builds with ld-is-gold I've found only 2 more recipes which
-trigger this internal error.
+Bruce
 
-> But there is also one more issue which is probably introduced by gcc-11 (I
-> had older version of your patches with 11.0.1 in my branches, so waiting
-> for build to confirm if it's reproducible with 11.1.0 as well):
+On Mon, May 3, 2021 at 9:40 AM Martin Jansa <Martin.Jansa@gmail.com> wrote=
+:
 >
-> NOTE: > Executing update_font_cache intercept ...
-> NOTE: Exit code 132. Output:
-> + '[' True = False -a qemuwrapper-cross '!=' nativesdk-qemuwrapper-cross ']'
-> + qemu-i386 -r 3.2.0 -E
-> LD_LIBRARY_PATH=/jenkins/mjansa/build/ose/honister/BUILD/work/qemux86-webos-linux/webos-image-ros-world/1.0-r3/rootfs/usr/lib:/jenkins/mjansa/build/ose/honister/BUILD/work/qemux86-webos-linux/webos-image-ros-world/1.0-r3/rootfs/lib
-> -L
-> /jenkins/mjansa/build/ose/honister/BUILD/work/qemux86-webos-linux/webos-image-ros-world/1.0-r3/rootfs
-> -E FC_DEBUG=16
-> /jenkins/mjansa/build/ose/honister/BUILD/work/qemux86-webos-linux/webos-image-ros-world/1.0-r3/rootfs/usr/libexec/fc-cache
-> --sysroot=/jenkins/mjansa/build/ose/honister/BUILD/work/qemux86-webos-linux/webos-image-ros-world/1.0-r3/rootfs
-> --system-only -v
-> qemu: uncaught target signal 4 (Illegal instruction) - core dumped
+> * just a work around for internal error in binutils-2.36 gold:
+>   http://errors.yoctoproject.org/Errors/Details/580099/
+>   CGO_ENABLED=3D1 x86_64-oe-linux-go build -trimpath  -tags "seccomp sec=
+comp                       netgo osusergo" -ldflags "-w -extldflags -static=
+ -X main.gitCommit=3D"fce58ab2d5c488bc573d02712db476a6daa9a60c-dirty" -X ma=
+in.version=3D1.0.0-rc93+dev " -o runc .
+>   TOPDIR/tmp-glibc/work/core2-64-oe-linux/runc-opencontainers/1.0.0-rc93=
++gitAUTOINC+fce58ab2d5-r0/recipe-sysroot-native/usr/bin/x86_64-oe-linux/../=
+../libexec/x86_64-oe-linux/gcc/x86_64-oe-linux/11.0.1/ld: internal error in=
+ format_file_lineno, at ../../gold/dwarf_reader.cc:2278
+>   collect2: error: ld returned 1 exit status
+>
+> * it fails like this only together with gcc-11, with gcc-10.3 it
+>   builds fine even with gold
+>
+> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> ---
+>  recipes-containers/runc/runc-opencontainers_git.bb | 7 +++++++
+>  1 file changed, 7 insertions(+)
+>
+> diff --git a/recipes-containers/runc/runc-opencontainers_git.bb b/recipe=
+s-containers/runc/runc-opencontainers_git.bb
+> index f3ff9a8..51ba7c9 100644
+> --- a/recipes-containers/runc/runc-opencontainers_git.bb
+> +++ b/recipes-containers/runc/runc-opencontainers_git.bb
+> @@ -8,3 +8,10 @@ SRC_URI =3D " \
+>  RUNC_VERSION =3D "1.0.0-rc93"
+>
+>  CVE_PRODUCT =3D "runc"
+> +
+> +# use BFD when ld-is-gold is used to work around:
+> +# http://errors.yoctoproject.org/Errors/Details/580099/
+> +# CGO_ENABLED=3D1 x86_64-oe-linux-go build -trimpath  -tags "seccomp se=
+ccomp                       netgo osusergo" -ldflags "-w -extldflags -stati=
+c -X main.gitCommit=3D"fce58ab2d5c488bc573d02712db476a6daa9a60c-dirty" -X m=
+ain.version=3D1.0.0-rc93+dev " -o runc .
+> +# TOPDIR/tmp-glibc/work/core2-64-oe-linux/runc-opencontainers/1.0.0-rc9=
+3+gitAUTOINC+fce58ab2d5-r0/recipe-sysroot-native/usr/bin/x86_64-oe-linux/..=
+/../libexec/x86_64-oe-linux/gcc/x86_64-oe-linux/11.0.1/ld: internal error i=
+n format_file_lineno, at ../../gold/dwarf_reader.cc:2278
+> +# collect2: error: ld returned 1 exit status
+> +LDFLAGS_append =3D "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold=
+', ' -fuse-ld=3Dbfd ', '', d)}"
+> --
+> 2.30.2
+>
+>
+>=20
+>
 
-In case someone sees this Illegal instruction as well, then in my case
-it was caused by missing "-cpu n270" in qemuwrapper-cross script,
-because of how webOS sets PACKAGE_ARCH to be MACHINE_ARCH by default
-QEMU_OPTIONS didn't include QEMU_EXTRAOPTIONS_core2-32.
 
-It used to work with default cpu in qemu-i386 until now, I think it
-stopped working when fontconfig was rebuilt with gcc-11, but not 100%
-sure.
-
---2fyfyhtne4wtdj3y
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCYJQtpQAKCRA3VSO3ZXaA
-HFOtAJ97fgkTVvocYXuUcK9mOPGCaTDcjwCdHIU9dLOWSQLh0Fb6LYSBLJwDpcw=
-=Muqe
------END PGP SIGNATURE-----
-
---2fyfyhtne4wtdj3y--
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
