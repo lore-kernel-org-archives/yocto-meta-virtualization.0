@@ -1,80 +1,94 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web08.26749.1620615417979655435
+ by mx.groups.io with SMTP id smtpd.web12.27139.1620615912935982517
  for <meta-virtualization@lists.yoctoproject.org>;
- Sun, 09 May 2021 19:56:58 -0700
+ Sun, 09 May 2021 20:05:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=ynEyD0Rv;
- spf=neutral (domain: fujitsu.com, ip: 198.145.29.25, mailfrom: zhengrq.fnst@fujitsu.com)
-Received: from mail1.bemta26.messagelabs.com (mail1.bemta26.messagelabs.com [85.158.142.114])
-	by mail.yoctoproject.org (Postfix) with ESMTPS id 876E438C056B
-	for <meta-virtualization@yoctoproject.org>; Mon, 10 May 2021 02:56:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1620615414; i=@fujitsu.com;
-	bh=3QqSpJinXINscU50ikZdQYTvCxT0skqacQ+sDtnZd24=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=ynEyD0RvihHEsxCjL68bC5/bE094XXV/fVVbjK77maqoFsg1F4fxb8zOXHJRMZOEY
-	 P/GKw67GXi9snWCQKyJXzfd0ee3GzXIC9DFxuBdvII45Tr+TY8KSnjQ9Tj1zNBecEl
-	 PFfiqncugSjLe2tpx9S3MY5L+M1jLuKQxFQ69dbO5kbaEbmMJabs/yVVFtMSK16U5O
-	 clpJ005ugnu2R/KSZDIgrCU/CsroYyigWnytI0Mq5rf73Su+pu8F9Kbmn5TgNRDieA
-	 jgeaXZ7oc+x2SB0I+HlZ29kLetvW1ulLoL2lIGWsNteDlYW7gP917al2h89VM0e8LF
-	 eslWS3ptB45LA==
-Received: from [100.113.6.49] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-3.bemta.az-b.eu-central-1.aws.symcld.net id 86/4C-23163-5F0A8906; Mon, 10 May 2021 02:56:53 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFuphkeJIrShJLcpLzFFi42Kxs+GYqvt1wYw
-  Eg5fb9SxuHzjC7MDo0X6ijy2AMYo1My8pvyKBNaN54X3mgiMsFbtW7WVsYGxn6WLk4hASmMYk
-  sWLrFGYIZzejxPlVDxm7GDk52AR0Jc49XssOYosIaEm0t/5iBrGFBUIlLn3ezAJiswioSjy5f
-  YQNxOYV8JBYevE3WFxCQEFiysP3zBBxQYmTM5+AxZkFJCQOvngBFOcAqlGUmD1dHqK8QmLGjG
-  1sExh5ZiHpmIWkYwEj0ypGy6SizPSMktzEzBxdQwMDXUNDY11TXSMTQ73EKt0kvdRS3eTUvJK
-  iRKCsXmJ5sV5xZW5yTopeXmrJJkZgIKUUsn7cwXjo9Qe9Q4ySHExKory/Q6cnCPEl5adUZiQW
-  Z8QXleakFh9ilOHgUJLgvTJvRoKQYFFqempFWmYOMKhh0hIcPEoivF0gad7igsTc4sx0iNQpR
-  kUpcV6z+UAJAZBERmkeXBsski4xykoJ8zIyMDAI8RSkFuVmlqDKv2IU52BUEua9CTKFJzOvBG
-  76K6DFTECLHyyaBrK4JBEhJdXA5HRoS/LyflfulBdbd9yeEF/13X/+zssOz+5fOj3te87bf6s
-  72dOrXj9fkNCf/if05OWl96f8Cllz26pcLkNCrcde71f54zj2d/OmKHcw106tPzlDco+/MI/z
-  cekl4Y/YajmDuaes3XXITXGuXONmrvPNBQtby56W2KczSP2Y971polZk6sZ7rOEPdgVtiV6Xk
-  37+q/hqCTvPFyIMawticwX3/Iy/N1nt4AJBJ21Dha+f1187viZ1R6lL+95duVn2RXmMQoxPrH
-  uXXF6syuynM3ej1J2XAhvWRJ1wmbS4Om3RUv+svkkfOli3qGb6P9jwj9MjX/P1Z9aP5j+kFjy
-  Qf5CVHFGw/Pfbt0/nl9+JO6TEUpyRaKjFXFScCABjZ1lHHwMAAA==
-X-Env-Sender: zhengrq.fnst@fujitsu.com
-X-Msg-Ref: server-31.tower-248.messagelabs.com!1620615413!844094!1
-X-Originating-IP: [62.60.8.149]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.75.3; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 11914 invoked from network); 10 May 2021 02:56:53 -0000
-Received: from unknown (HELO mailhost2.uk.fujitsu.com) (62.60.8.149)
-  by server-31.tower-248.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 10 May 2021 02:56:53 -0000
-Received: from R01UKEXCASM126.r01.fujitsu.local ([10.183.43.178])
-	by mailhost2.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 14A2ul4I024971
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <meta-virtualization@yoctoproject.org>; Mon, 10 May 2021 03:56:53 +0100
-Received: from localhost.localdomain (10.167.225.35) by
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Mon, 10 May 2021 03:56:46 +0100
-From: "zhengruoqin" <zhengrq.fnst@fujitsu.com>
-To: <meta-virtualization@yoctoproject.org>
-Subject: [meta-virtualization][PATCH] initrd: bump busybox to 1.33.1 to match oe-core
-Date: Mon, 10 May 2021 10:56:29 +0800
-Message-ID: <1620615389-72870-1-git-send-email-zhengrq.fnst@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=gfqRfqXg;
+ spf=softfail (domain: gmail.com, ip: 198.145.29.25, mailfrom: bruce.ashfield@gmail.com)
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+	by mail.yoctoproject.org (Postfix) with ESMTPS id C92DF38C056B
+	for <meta-virtualization@yoctoproject.org>; Mon, 10 May 2021 03:05:11 +0000 (UTC)
+Received: by mail-ej1-f45.google.com with SMTP id t4so22326721ejo.0
+        for <meta-virtualization@yoctoproject.org>; Sun, 09 May 2021 20:05:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=8mr0biHKF1TxcEN0DD6BZ6WV1hVTe3IwUjNnBo4ujFE=;
+        b=gfqRfqXgwv/X3kTmg8InRJlSDJKx87iJie5d8DPEE/iXEnAaEx/qQmUKva9S1z5+5I
+         v9d8/iPOXwAkkigCfl+I+PnC/YdJAGOeCh5CljfYas85vgJO1BH09LpELTMiWO1YmCoJ
+         8JsSOT8XIEzj6XdS7izbtEBSz8cXimGBvbFR+h9XAN9w0CnLw1Pg/Cd7vm4Dy4kEgiVW
+         DybpgdS9C1H6KqI2lP7RPJBkPcdkbXwGqO3EdtCUpKnPYHVpjiVjfvBB3IlOxPGntXu8
+         7WIo01UEc/v26AjofWGhqhFYvPRkCkWcoaT0qvS23Z6LwWPJMDtOI9PRxeecbA6ruO5p
+         PbiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=8mr0biHKF1TxcEN0DD6BZ6WV1hVTe3IwUjNnBo4ujFE=;
+        b=SZu7/E1h5ELmTObCyTkO9OjSefjppnviAs5TQigSNTDgOxGstH8/EgssbjOO9j1oW8
+         gZfU6yeQ+ruD2pt64sJs3as2BFE3Nijo9yq6GghvlYfgSMmJdHkl1yvXsT3NHd++JexH
+         HXrqr3LR1Stz3+fo8KhXfRduoGMVKx3oFZdQaevjje5WLqxk9mKWrjGmKTnwfdGdBOwJ
+         D+mB60fu6CQIPSe/sW2E2SASkj0hKTUFVRAdvFXzNzD7uL90Cg6yYMIUsDxfykhjn+wV
+         cGXKyVStACMi0La1xiK8Bj/KSPEWpu3nRywf+tkQ0KLUB3M0NpMKp0zcWBbPn/V4StV+
+         Qe1g==
+X-Gm-Message-State: AOAM532a8v/s7zSm9mBJ6+i1l8ufMy9h528JySA+afpuqsqbXB2LJ5IR
+	oktnraG7DUiNZ2MNvJKMf9+BY1ZIWJ7qmFtmEloTc3t7Mgs=
+X-Google-Smtp-Source: ABdhPJx96S460+5BwqL1DGkmE7TFd2NhPHGCEwFXmv8OW8KJ++q6iMG7BK6pgmKGqIH7Wi2zaU/s3su6IrDq0URRRTw=
+X-Received: by 2002:a17:906:11d4:: with SMTP id o20mr23436071eja.247.1620615910291;
+ Sun, 09 May 2021 20:05:10 -0700 (PDT)
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.35]
-X-ClientProxiedBy: G08CNEXCHPEKD09.g08.fujitsu.local (10.167.33.85) To
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
-Content-Type: text/plain
+References: <1620615389-72870-1-git-send-email-zhengrq.fnst@fujitsu.com>
+In-Reply-To: <1620615389-72870-1-git-send-email-zhengrq.fnst@fujitsu.com>
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+Date: Sun, 9 May 2021 23:04:59 -0400
+Message-ID: <CADkTA4PUxyb=FjZ9TLVMRMn5T_mMpuomAH-Pe0Psj9QEeqssLA@mail.gmail.com>
+Subject: Re: [meta-virtualization][PATCH] initrd: bump busybox to 1.33.1 to match oe-core
+To: zhengruoqin <zhengrq.fnst@fujitsu.com>
+Cc: meta-virtualization <meta-virtualization@yoctoproject.org>
+Content-Type: text/plain; charset="UTF-8"
 
-    OE core has updated busybox, so we bump to match.
+On Sun, May 9, 2021 at 10:56 PM zhengruoqin <zhengrq.fnst@fujitsu.com> wrote:
+>
+>     OE core has updated busybox, so we bump to match.
+>
 
-Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
----
- .../{busybox-initrd_1.33.0.bb => busybox-initrd_1.33.1.bb}        | 0
- 1 file changed, 0 insertions(+), 0 deletions(-)
- rename recipes-core/busybox/{busybox-initrd_1.33.0.bb => busybox-initrd_1.33.1.bb} (100%)
+Neither oe-core or poky master or master-next have 1.33.1 as the version yet.
 
-diff --git a/recipes-core/busybox/busybox-initrd_1.33.0.bb b/recipes-core/busybox/busybox-initrd_1.33.1.bb
-similarity index 100%
-rename from recipes-core/busybox/busybox-initrd_1.33.0.bb
-rename to recipes-core/busybox/busybox-initrd_1.33.1.bb
--- 
-2.25.1
+I realize you just sent the upgrade to oe-core, but having already
+sent this here, makes no sense.
 
+I have tests that will pickup when it merges to master, and I'll bump
+the version then. I'm dropping this for now, and will revisit when I
+see the version land in master.
+
+Cheers,
+
+Bruce
+
+
+
+
+
+> Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+> ---
+>  .../{busybox-initrd_1.33.0.bb => busybox-initrd_1.33.1.bb}        | 0
+>  1 file changed, 0 insertions(+), 0 deletions(-)
+>  rename recipes-core/busybox/{busybox-initrd_1.33.0.bb => busybox-initrd_1.33.1.bb} (100%)
+>
+> diff --git a/recipes-core/busybox/busybox-initrd_1.33.0.bb b/recipes-core/busybox/busybox-initrd_1.33.1.bb
+> similarity index 100%
+> rename from recipes-core/busybox/busybox-initrd_1.33.0.bb
+> rename to recipes-core/busybox/busybox-initrd_1.33.1.bb
+> --
+> 2.25.1
+>
+>
+> 
+>
+
+
+--
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
