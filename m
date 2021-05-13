@@ -1,98 +1,80 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
- by mx.groups.io with SMTP id smtpd.web08.2458.1620846462813537673
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+ by mx.groups.io with SMTP id smtpd.web08.11552.1620903138372308812
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 12 May 2021 12:07:43 -0700
+ Thu, 13 May 2021 03:52:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Pk6dhEiK;
- spf=pass (domain: gmail.com, ip: 209.85.208.44, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ed1-f44.google.com with SMTP id r11so4312822edt.13
-        for <meta-virtualization@lists.yoctoproject.org>; Wed, 12 May 2021 12:07:42 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Bm7FfnvC;
+ spf=pass (domain: gmail.com, ip: 209.85.208.41, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ed1-f41.google.com with SMTP id s6so30422613edu.10
+        for <meta-virtualization@lists.yoctoproject.org>; Thu, 13 May 2021 03:52:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=903Ep3UubZy+R9z9qFtuYVOytsXgZfmWmEtvoDhVq1w=;
-        b=Pk6dhEiKUZ4e9CdGuJ1QcgsbclDpaqcl5PoPehCH41WZ2wkc0twqi7F7KV5agAGqyh
-         hMplqAi/lqfOJwTh2Dqy/T76CG6Oe/UT/gu5iogxi6PsKdh+Z+yjT1PNUzVAfIx1+o2q
-         mr4yw9WzH2pw0ps0i2kYOoNgzBHt6GyykDmL6jVSlcNVItKf145hFpRipW4C2zjqQR/d
-         hzETSmkZ/Y8OZ//ehX/Cnvj0KQvWDbCEeUxO3ZGppu9SOQj/ARsyxL4DImDfU1djKMhQ
-         HKVwsZ9YD9NiYx254DnzTwgnk+t8i+sLkAAOPOSZM60nNLEidZ8jTH0rKkbjnFu8xI8e
-         qOyA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ohndrLRsm6VAB/mSgGLV3TnQe0ruFzXsgmaw/U8jeIg=;
+        b=Bm7FfnvCswyVWnroPxNub97GS+ZA7lOblR4jF8+St/QsJr+PbUIR63kT7WnK7B6+tN
+         MtiHDierzssky0DCZHKw705bx2666hm2Ww4WvKbw44rosgTYr0NQEmL7COr4HWZ68C/O
+         PntrkWNHiU221yojW8PTzFioY0j7373P2C3meqAKJtnwp9gDST4aNe/t5RaUpqN3EE7c
+         w66U880WZAy9uCrbTnQLAJYdKy3k8VVuKQvjkul5etgZurJcZMD3tWKRpqwqPLcSYloX
+         9/jLkDfnFK6ulnPwpYYs4Irmpkk51yE0DGoWlAQYLmW02KzLOkGXEdodLlqvlFs9Zn6Z
+         qDhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=903Ep3UubZy+R9z9qFtuYVOytsXgZfmWmEtvoDhVq1w=;
-        b=ozr1wqEWPYqtnnCez94+qUgshaxunPEniE9tqVZhpSIjFzYHS1NK5MZKr1lbNYPlb3
-         /TA15fTSJ9VWKoUBkOCBYKXF+OaHHR8HNliiD4Gv4YhWbmNXCJsbFwlmhFslCnJ4X7Vd
-         blsA1WstqjyM+JaQRYEQuBdu4/9icwqGKeZUSo54m1FuyACM6KXgeOzXrdzThYkU+rS4
-         vYYNp21xm3EZn07zOpUaVefzQF5epfoZUv3cjcU2GhyeKw1+qfFiRH6u2iYIi5AmBhi9
-         ht3NIEbYfrviyvTJp5AYRJgyDAd30lVOc8FgTBGVtwzu31rDMxS6PZYOmLabNpviez9D
-         f1zw==
-X-Gm-Message-State: AOAM531r/tqW+6ecVoAe5hB4yQD2hyD6Cwq+JLEkBvxsO3x12TsnhqpW
-	n32zWb0Ut+jpd9IievhGbRlQuKvIUOiYk9Hc6VY=
-X-Google-Smtp-Source: ABdhPJy3I9Kd4kwS3iARpe7MzV2vXCc066SbCgPe4MizhExNWQOKK2+UlqCX93PYe8UWH2F+RecKqSZ3TQRltYfHipk=
-X-Received: by 2002:a05:6402:11c7:: with SMTP id j7mr45946487edw.129.1620846461258;
- Wed, 12 May 2021 12:07:41 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ohndrLRsm6VAB/mSgGLV3TnQe0ruFzXsgmaw/U8jeIg=;
+        b=nRvifyUhOOKYYQtLgKPf4kX43enpGCtPn4RyFVmWjSSWGIOzE4dB11OOVMpxO0Ar6L
+         YRs8ZTtV21eUIXoXRHiaKxNLvmplZyVILOKxkLXDXLc9CahsFlySu2D/OeFn+NCIh8go
+         elTfaNVm+t+gmcVL3JA735YHQzqJvnM+usN2YV2iYv1ia7NFiYWWJBwqWtv+vecnI2uF
+         8oXbTreMehNvOL58HDumPaMZdU/me31GMzGJ3n18jv50tWJ4VKWuPazECUxvVspYH9D0
+         9TGeOJIKDRuk2ZFAPIbFrNqtliNBLVC/LatAwjCA85ijg0Zpg/z403iLCdsp8xk2AIn3
+         yUJQ==
+X-Gm-Message-State: AOAM532b1eQsubR/7Xo6AqZbBa0QrCoW7a2tM0Z3wk5UHghczJG6rrk6
+	kHJvdIZ8Zj4abv6uXnFHpLZXYReAn4U=
+X-Google-Smtp-Source: ABdhPJynws9ljVvogbiuLxXcA94lh/TocfDROmhx67haQMPtZdhPmox1U8G+ErVdk34Q+P+YbQiiGA==
+X-Received: by 2002:a05:6402:3104:: with SMTP id dc4mr48375491edb.144.1620903136668;
+        Thu, 13 May 2021 03:52:16 -0700 (PDT)
+Return-Path: <martin.jansa@gmail.com>
+Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
+        by smtp.gmail.com with ESMTPSA id ck4sm2099416edb.56.2021.05.13.03.52.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 May 2021 03:52:16 -0700 (PDT)
+From: "Martin Jansa" <Martin.Jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: meta-virtualization@lists.yoctoproject.org
+Cc: Martin Jansa <Martin.Jansa@gmail.com>
+Subject: [PATCH] Revert "runc-opencontainers: use bfd even with ld-is-gold"
+Date: Thu, 13 May 2021 12:52:12 +0200
+Message-Id: <20210513105212.1446927-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <29f9bb8975f085f2c86087938b383895a3e8871f.1620663255.git.diego.sueiro@arm.com>
-In-Reply-To: <29f9bb8975f085f2c86087938b383895a3e8871f.1620663255.git.diego.sueiro@arm.com>
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Wed, 12 May 2021 15:07:30 -0400
-Message-ID: <CADkTA4PCyLOpvZp8sD943Eb1w05+uV0Toii-QBoBypBJzwrDdQ@mail.gmail.com>
-Subject: Re: [meta-virtualization][PATCH hardknott] podman: Update 3.0-rc2 -> 3.0.1
-To: Diego Sueiro <diego.sueiro@arm.com>
-Cc: meta-virtualization@lists.yoctoproject.org, nd <nd@arm.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-merged.
+This reverts commit dda5ae36b44c61e61439341ea3153e6be5cb015e.
 
-Bruce
+binutils gold linker was fixed with:
+https://git.openembedded.org/openembedded-core/commit/?id=d07d4d739ae17787017f771dd2068fda0e836722
 
-On Mon, May 10, 2021 at 12:16 PM Diego Sueiro <diego.sueiro@arm.com> wrote:
->
-> Update podman to 3.0.1.
->
-> Signed-off-by: Diego Sueiro <diego.sueiro@arm.com>
-> ---
->  recipes-containers/podman/{podman_git.bb => podman_3.0.1.bb} | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
->  rename recipes-containers/podman/{podman_git.bb => podman_3.0.1.bb} (97%)
->
-> diff --git a/recipes-containers/podman/podman_git.bb b/recipes-containers/podman/podman_3.0.1.bb
-> similarity index 97%
-> rename from recipes-containers/podman/podman_git.bb
-> rename to recipes-containers/podman/podman_3.0.1.bb
-> index 6fb803e..26e6637 100644
-> --- a/recipes-containers/podman/podman_git.bb
-> +++ b/recipes-containers/podman/podman_3.0.1.bb
-> @@ -16,7 +16,7 @@ DEPENDS = " \
->
->  PNBLACKLIST[podman] ?= "${@bb.utils.contains('BBFILE_COLLECTIONS', 'security', '', 'Depends on libseccomp from meta-security which is not included', d)}"
->
-> -SRCREV = "288fb688964cb7fc7086d0728daa1f5f6b726dd6"
-> +SRCREV = "c640670e85c4aaaff92741691d6a854a90229d8d"
->  SRC_URI = " \
->      git://github.com/containers/libpod.git;branch=v3.0 \
->  "
-> @@ -28,8 +28,6 @@ GO_IMPORT = "import"
->
->  S = "${WORKDIR}/git"
->
-> -PV = "3.0-rc2+git${SRCPV}"
-> -
->  PACKAGES =+ "${PN}-contrib"
->
->  PODMAN_PKG = "github.com/containers/libpod"
-> --
-> 2.17.1
->
->
-> 
->
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ recipes-containers/runc/runc-opencontainers_git.bb | 7 -------
+ 1 file changed, 7 deletions(-)
 
-
+diff --git a/recipes-containers/runc/runc-opencontainers_git.bb b/recipes-containers/runc/runc-opencontainers_git.bb
+index 51ba7c9..f3ff9a8 100644
+--- a/recipes-containers/runc/runc-opencontainers_git.bb
++++ b/recipes-containers/runc/runc-opencontainers_git.bb
+@@ -8,10 +8,3 @@ SRC_URI = " \
+ RUNC_VERSION = "1.0.0-rc93"
+ 
+ CVE_PRODUCT = "runc"
+-
+-# use BFD when ld-is-gold is used to work around:
+-# http://errors.yoctoproject.org/Errors/Details/580099/
+-# CGO_ENABLED=1 x86_64-oe-linux-go build -trimpath  -tags "seccomp seccomp                       netgo osusergo" -ldflags "-w -extldflags -static -X main.gitCommit="fce58ab2d5c488bc573d02712db476a6daa9a60c-dirty" -X main.version=1.0.0-rc93+dev " -o runc .
+-# TOPDIR/tmp-glibc/work/core2-64-oe-linux/runc-opencontainers/1.0.0-rc93+gitAUTOINC+fce58ab2d5-r0/recipe-sysroot-native/usr/bin/x86_64-oe-linux/../../libexec/x86_64-oe-linux/gcc/x86_64-oe-linux/11.0.1/ld: internal error in format_file_lineno, at ../../gold/dwarf_reader.cc:2278
+-# collect2: error: ld returned 1 exit status
+-LDFLAGS_append = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', ' -fuse-ld=bfd ', '', d)}"
 -- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+2.30.2
+
