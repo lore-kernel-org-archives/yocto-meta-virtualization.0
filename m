@@ -1,80 +1,101 @@
-Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
- by mx.groups.io with SMTP id smtpd.web08.1362.1620925919552808036
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+ by mx.groups.io with SMTP id smtpd.web08.4016.1620961742818899739
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 13 May 2021 10:11:59 -0700
+ Thu, 13 May 2021 20:09:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=pQBkBNgE;
- spf=pass (domain: gmail.com, ip: 209.85.167.181, mailfrom: christopher.w.clark@gmail.com)
-Received: by mail-oi1-f181.google.com with SMTP id n184so25916043oia.12
-        for <meta-virtualization@lists.yoctoproject.org>; Thu, 13 May 2021 10:11:59 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=hRSsA+25;
+ spf=pass (domain: gmail.com, ip: 209.85.208.44, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ed1-f44.google.com with SMTP id f1so10925782edt.4
+        for <meta-virtualization@lists.yoctoproject.org>; Thu, 13 May 2021 20:09:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=4VkYuoWzU4J2TIbyDytqCFLihudAeVaKhGu/uCQSAzk=;
-        b=pQBkBNgEYMs6e5pvijGQs4WqDPgSxBVBHnCDwYSgl8xEF3vOZu1wp1ODldNKid9K+v
-         pNdfHMIOVo9fBmJ/7O369Vf19yoSPSc2iMNaziVAZgfP6DxhSEC6uwA74mLS8iw5rYMx
-         b0upKp9y2f+2fAWbKvAdfOnkRS7EQKkPOSr53g2OglU6I56IBX3WEmvMXFeybOojET2Q
-         8CImHQlCs8TV6Wj76VxfL+wsTw8O6rS3CnRvqLiMHNQ4jyTzg4Zvq2g2mnCxH1+CuRwl
-         p5PaXOmFnMANipNSJPvHw48ae775MHGhEroFIwTo3Op1xx3UKDlzygRuMk64WVhbymXG
-         WZDA==
+         :cc:content-transfer-encoding;
+        bh=axlC/8JwmNp1MqMmm57mVIn5YjhUF6XdRwZerP5rbXA=;
+        b=hRSsA+25lgYLvhOvRC4xedeIBciMkLnkPTC2L7F2rDT8Z+8F2sDh/xwxQl53cQfXG7
+         MtO41CMB9u1Hw3C4U4DZJapTjCQoKF1e/p6paFDWvikgCWaEmrRurvhHwBZXDJJSUV0d
+         RlDUh6lW/aEmxlcYIBrhhgkkv7ar84RvJJQl9xe/849raaWh+u14Yk0RCBjVVDzW2Ny4
+         X4U9l2rGDjYnSh5L4IHZH0dkY4NIVYUtl7DIOilY383jTs+XhQJUfL4kzJZhf824CN9A
+         1oyZCeRDhf37ideeguaCZAfpThaggg3Pc6lH1MVbaaIHFxtYWr/gdwklV1wnoAt6E4Fo
+         sCeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=4VkYuoWzU4J2TIbyDytqCFLihudAeVaKhGu/uCQSAzk=;
-        b=dNnxY8eN55/bkoQ0KfX2b9czXI+HAZr5qN5oWZWRcCQcGGZVLIjkgcU6FdnCENPcR6
-         d9Sl2ntCS7joQ5QxsCG4245payaTQr7Mo+yQXKapfbcm4RCn1tT5CA+QuNvcDY6P758z
-         ztehUXVNl9BlCaqkGQW+rxTLufdeclkw54X+1Fy8KB+3CXQLKF5yJp2LAJIo6cGs4jg3
-         0PePdnyEGSXuuSVhQkk04PfJMAAYofil11BTXSAVFJ2BK0tgDTy7VOjjlnVsUsNH/drQ
-         B9r12zusLcTMj8xoiJDOc59iYWmIUD2imy9exfXNyxGBC7dmpvQefgwgx5K/ReIIt103
-         h1RA==
-X-Gm-Message-State: AOAM5317gjRbF2p4dlSZ/YBReSlhBHWamLZy+iwZLGSsleaRT3oSguXR
-	gTEMuZ0h35/yMItKZA6R97Ev9zA2iCVCbiZb/yE=
-X-Google-Smtp-Source: ABdhPJyqjizvJBleZ0WDpG8kpEy15rzK5hFWPzRBYIF8iH6JhBIXMb91HtoYiRzLQ/uZGsnwXorosXFm7h/wa5ir6rc=
-X-Received: by 2002:a05:6808:193:: with SMTP id w19mr14458959oic.152.1620925918891;
- Thu, 13 May 2021 10:11:58 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=axlC/8JwmNp1MqMmm57mVIn5YjhUF6XdRwZerP5rbXA=;
+        b=OU5tfIA3tKthhj6A13Llsdbr7VdpAQkqDn69B6WTIDr+i96Gyt+22ghVp6I1AvdkHt
+         nB35jiN/zMz5kUfj8YX1sZJ7oXcWd7SdqSozEkXXIhEx1eTNju3Ofd7OgY/keNAAC9OF
+         kmGJUfkCRGr/JkpWNr/6tWrmu/+CP2KTkBox2irb6pAk/XvAzZWPr3RENk0wAnSdfxGp
+         ltVTkUipezPYfjkrRAVnPbMPyHO5SxMTRGaFbUlIZYcNDAZ/fbS4/nq8UlSZ4tAojdl3
+         mXoily+aMGRJZSpAH1TV+QQchNbQ/zhZ+xQpXpGIaBmSn4kQ803pkPPhRdtqU4q9mIqH
+         s+Qg==
+X-Gm-Message-State: AOAM532tVAwGGSDY5kMdX9vIHX5XxjgtXVlBGySd/IsCGVPhOIpQdYIr
+	X23oCF2wtObSnrqNZBgdc05dHOaikpQS6slZx2Q=
+X-Google-Smtp-Source: ABdhPJxCSWzTUz40e+grIWhgCijtEcl3OtgNmBvPR/o5wNSRiQiTXEy3uRYBA9+u86ykdmW2N2nNP23kqCsu1szf3qA=
+X-Received: by 2002:a05:6402:268c:: with SMTP id w12mr55522891edd.234.1620961741135;
+ Thu, 13 May 2021 20:09:01 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210513155812.3905140-1-richard.neill@arm.com>
-In-Reply-To: <20210513155812.3905140-1-richard.neill@arm.com>
-From: "Christopher Clark" <christopher.w.clark@gmail.com>
-Date: Thu, 13 May 2021 10:11:46 -0700
-Message-ID: <CACMJ4GYdOzumXJQ5kTAGcMPpdYpfRtiQSzz=qqw5DKEUjkBpZg@mail.gmail.com>
-Subject: Re: [meta-virtualization] [PATCH] xen, rpi4: fix typo in raspberrypi dynamic-layers inclusion
-To: Richard Neill <richard.neill@arm.com>
-Cc: meta-virtualization@lists.yoctoproject.org, nd <nd@arm.com>
+References: <20210513105212.1446927-1-Martin.Jansa@gmail.com>
+In-Reply-To: <20210513105212.1446927-1-Martin.Jansa@gmail.com>
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+Date: Thu, 13 May 2021 23:08:50 -0400
+Message-ID: <CADkTA4MirjyDNy-+oV1zrJf5H1XeWsNFqszC4ViY6cW9qK5wRQ@mail.gmail.com>
+Subject: Re: [meta-virtualization] [PATCH] Revert "runc-opencontainers: use bfd even with ld-is-gold"
+To: Martin Jansa <Martin.Jansa@gmail.com>
+Cc: meta-virtualization@lists.yoctoproject.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, May 13, 2021 at 8:57 AM Richard Neill <richard.neill@arm.com> wrote:
+merged.
+
+Bruce
+
+On Thu, May 13, 2021 at 6:52 AM Martin Jansa <Martin.Jansa@gmail.com> wrot=
+e:
 >
-> Signed-off-by: Richard Neill <richard.neill@arm.com>
-
-Thanks, Richard - I appreciate the find and fix.
-
-Reviewed-by: Christopher Clark <christopher.w.clark@gmail.com>
-
-Christopher
-
+> This reverts commit dda5ae36b44c61e61439341ea3153e6be5cb015e.
+>
+> binutils gold linker was fixed with:
+> https://git.openembedded.org/openembedded-core/commit/?id=3Dd07d4d739ae1=
+7787017f771dd2068fda0e836722
+>
+> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 > ---
->  conf/layer.conf | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  recipes-containers/runc/runc-opencontainers_git.bb | 7 -------
+>  1 file changed, 7 deletions(-)
 >
-> diff --git a/conf/layer.conf b/conf/layer.conf
-> index f1f468b..b3e5283 100644
-> --- a/conf/layer.conf
-> +++ b/conf/layer.conf
-> @@ -13,7 +13,7 @@ LICENSE_PATH += "${LAYERDIR}/files/custom-licenses"
+> diff --git a/recipes-containers/runc/runc-opencontainers_git.bb b/recipe=
+s-containers/runc/runc-opencontainers_git.bb
+> index 51ba7c9..f3ff9a8 100644
+> --- a/recipes-containers/runc/runc-opencontainers_git.bb
+> +++ b/recipes-containers/runc/runc-opencontainers_git.bb
+> @@ -8,10 +8,3 @@ SRC_URI =3D " \
+>  RUNC_VERSION =3D "1.0.0-rc93"
 >
->  BBFILES_DYNAMIC += " \
->      raspberrypi:${LAYERDIR}/dynamic-layers/raspberrypi/*/*/*.bb \
-> -    raspberrypi:${LAYERDIR}/dynamic-layers/rasbperrypi/*/*/*.bbappend \
-> +    raspberrypi:${LAYERDIR}/dynamic-layers/raspberrypi/*/*/*.bbappend \
->      xilinx:${LAYERDIR}/dynamic-layers/xilinx/*/*/*.bb \
->      xilinx:${LAYERDIR}/dynamic-layers/xilinx/*/*/*.bbappend \
->  "
+>  CVE_PRODUCT =3D "runc"
+> -
+> -# use BFD when ld-is-gold is used to work around:
+> -# http://errors.yoctoproject.org/Errors/Details/580099/
+> -# CGO_ENABLED=3D1 x86_64-oe-linux-go build -trimpath  -tags "seccomp se=
+ccomp                       netgo osusergo" -ldflags "-w -extldflags -stati=
+c -X main.gitCommit=3D"fce58ab2d5c488bc573d02712db476a6daa9a60c-dirty" -X m=
+ain.version=3D1.0.0-rc93+dev " -o runc .
+> -# TOPDIR/tmp-glibc/work/core2-64-oe-linux/runc-opencontainers/1.0.0-rc9=
+3+gitAUTOINC+fce58ab2d5-r0/recipe-sysroot-native/usr/bin/x86_64-oe-linux/..=
+/../libexec/x86_64-oe-linux/gcc/x86_64-oe-linux/11.0.1/ld: internal error i=
+n format_file_lineno, at ../../gold/dwarf_reader.cc:2278
+> -# collect2: error: ld returned 1 exit status
+> -LDFLAGS_append =3D "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold=
+', ' -fuse-ld=3Dbfd ', '', d)}"
 > --
-> 2.25.1
+> 2.30.2
 >
 >
-> 
+>=20
 >
+
+
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
