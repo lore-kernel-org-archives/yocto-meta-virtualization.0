@@ -1,101 +1,98 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
- by mx.groups.io with SMTP id smtpd.web08.4016.1620961742818899739
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+ by mx.groups.io with SMTP id smtpd.web12.4097.1620961759913695645
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 13 May 2021 20:09:03 -0700
+ Thu, 13 May 2021 20:09:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=hRSsA+25;
- spf=pass (domain: gmail.com, ip: 209.85.208.44, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ed1-f44.google.com with SMTP id f1so10925782edt.4
-        for <meta-virtualization@lists.yoctoproject.org>; Thu, 13 May 2021 20:09:02 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=AqeHW53y;
+ spf=pass (domain: gmail.com, ip: 209.85.218.45, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ej1-f45.google.com with SMTP id c20so7263357ejm.3
+        for <meta-virtualization@lists.yoctoproject.org>; Thu, 13 May 2021 20:09:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=axlC/8JwmNp1MqMmm57mVIn5YjhUF6XdRwZerP5rbXA=;
-        b=hRSsA+25lgYLvhOvRC4xedeIBciMkLnkPTC2L7F2rDT8Z+8F2sDh/xwxQl53cQfXG7
-         MtO41CMB9u1Hw3C4U4DZJapTjCQoKF1e/p6paFDWvikgCWaEmrRurvhHwBZXDJJSUV0d
-         RlDUh6lW/aEmxlcYIBrhhgkkv7ar84RvJJQl9xe/849raaWh+u14Yk0RCBjVVDzW2Ny4
-         X4U9l2rGDjYnSh5L4IHZH0dkY4NIVYUtl7DIOilY383jTs+XhQJUfL4kzJZhf824CN9A
-         1oyZCeRDhf37ideeguaCZAfpThaggg3Pc6lH1MVbaaIHFxtYWr/gdwklV1wnoAt6E4Fo
-         sCeA==
+         :cc;
+        bh=P+fAvmiZhyLYOicok/ycJUb/3aCo5eMayX7RIbXMOSw=;
+        b=AqeHW53ypmg9FIRdX/IUJXa/NCjhEmt21JnpzC0OsTbSNRTbC4h4ivGemBEc66PEdT
+         TfpGUyHa0xRmT8bBExywkqteVWk/YrcHvL19HgWKfnTDE1U7rypqAA33EL9XXveQnI+V
+         NSu1Yh96Yc2HrgNTvBc1LO/f9+e0Q0MAK4uzMMTzrLwiRuKGYKKA2VsP2G+LvRWLcZCR
+         4fD70VM5Z8xZUQn8mNmspDGFM77rkQnP1TJ/4FnQ5wsiZROh4NncvHwN2MXcf7ulQLkv
+         ltG+6yKYzTD6ApU/DmTykSUOv9buhU7ti1BigWW2EPzo45xVQa7hDbWmLc+BUofp5sM2
+         S38Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=axlC/8JwmNp1MqMmm57mVIn5YjhUF6XdRwZerP5rbXA=;
-        b=OU5tfIA3tKthhj6A13Llsdbr7VdpAQkqDn69B6WTIDr+i96Gyt+22ghVp6I1AvdkHt
-         nB35jiN/zMz5kUfj8YX1sZJ7oXcWd7SdqSozEkXXIhEx1eTNju3Ofd7OgY/keNAAC9OF
-         kmGJUfkCRGr/JkpWNr/6tWrmu/+CP2KTkBox2irb6pAk/XvAzZWPr3RENk0wAnSdfxGp
-         ltVTkUipezPYfjkrRAVnPbMPyHO5SxMTRGaFbUlIZYcNDAZ/fbS4/nq8UlSZ4tAojdl3
-         mXoily+aMGRJZSpAH1TV+QQchNbQ/zhZ+xQpXpGIaBmSn4kQ803pkPPhRdtqU4q9mIqH
-         s+Qg==
-X-Gm-Message-State: AOAM532tVAwGGSDY5kMdX9vIHX5XxjgtXVlBGySd/IsCGVPhOIpQdYIr
-	X23oCF2wtObSnrqNZBgdc05dHOaikpQS6slZx2Q=
-X-Google-Smtp-Source: ABdhPJxCSWzTUz40e+grIWhgCijtEcl3OtgNmBvPR/o5wNSRiQiTXEy3uRYBA9+u86ykdmW2N2nNP23kqCsu1szf3qA=
-X-Received: by 2002:a05:6402:268c:: with SMTP id w12mr55522891edd.234.1620961741135;
- Thu, 13 May 2021 20:09:01 -0700 (PDT)
+         :message-id:subject:to:cc;
+        bh=P+fAvmiZhyLYOicok/ycJUb/3aCo5eMayX7RIbXMOSw=;
+        b=b0DULxlWWGploweRz10NDCF7oY42cxBQw/imWmPBnlE6AcyBtRtZOmVLoTX5h25wzq
+         XAE3PF+iPfY+xTSmcrOfko+u0zLsvFul68MgmeXYCM9AH6EnlJc5NMAZ8F7NzmqP/uKo
+         tue2H9qkTrD7M7L3xRoYQbrEgAX37A6KZMZraTp2tHHdkEszgO4hr0ams6LTkDH0BSt2
+         M6MDKHy4oExfGlIlK7qn8PkVfSWaqlQaHYJrmgmCwtd8YKmbJpyr88HaXf7OuB8h564J
+         X9Zx6PVOipPR0cEKmBXr9s6/gyoZ2WaKlkN8w+/2YShgJpUny9sQjPAuW5xQZJqPPw7P
+         YfiA==
+X-Gm-Message-State: AOAM532vhU3JXJbPFMh1igGDW509/q+lQXNhCiCHLqZCyGblS9+cN6vP
+	suqC7QjfW5ttjwJvCQizHVBMQMduZuUmvf2ZMYktA7DWdXM=
+X-Google-Smtp-Source: ABdhPJxUvslzE9jY5qKMMOZ56cSARiRjwYpCrRtlP1tb5GGfOPffghy27mNSjYUy+48m5cri0T6Fl1sCiVQpeGv2uKk=
+X-Received: by 2002:a17:906:5617:: with SMTP id f23mr14519627ejq.298.1620961758377;
+ Thu, 13 May 2021 20:09:18 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210513105212.1446927-1-Martin.Jansa@gmail.com>
-In-Reply-To: <20210513105212.1446927-1-Martin.Jansa@gmail.com>
+References: <20210513155812.3905140-1-richard.neill@arm.com> <CACMJ4GYdOzumXJQ5kTAGcMPpdYpfRtiQSzz=qqw5DKEUjkBpZg@mail.gmail.com>
+In-Reply-To: <CACMJ4GYdOzumXJQ5kTAGcMPpdYpfRtiQSzz=qqw5DKEUjkBpZg@mail.gmail.com>
 From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Thu, 13 May 2021 23:08:50 -0400
-Message-ID: <CADkTA4MirjyDNy-+oV1zrJf5H1XeWsNFqszC4ViY6cW9qK5wRQ@mail.gmail.com>
-Subject: Re: [meta-virtualization] [PATCH] Revert "runc-opencontainers: use bfd even with ld-is-gold"
-To: Martin Jansa <Martin.Jansa@gmail.com>
-Cc: meta-virtualization@lists.yoctoproject.org
+Date: Thu, 13 May 2021 23:09:07 -0400
+Message-ID: <CADkTA4OTa+AS=Qh5ayGR21PGDHJEPdzCUjVQrZHnYFBrC5P3wQ@mail.gmail.com>
+Subject: Re: [meta-virtualization] [PATCH] xen, rpi4: fix typo in raspberrypi dynamic-layers inclusion
+To: Christopher Clark <christopher.w.clark@gmail.com>
+Cc: Richard Neill <richard.neill@arm.com>, meta-virtualization@lists.yoctoproject.org, 
+	nd <nd@arm.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-merged.
+On Thu, May 13, 2021 at 1:12 PM Christopher Clark
+<christopher.w.clark@gmail.com> wrote:
+>
+> On Thu, May 13, 2021 at 8:57 AM Richard Neill <richard.neill@arm.com> wrote:
+> >
+> > Signed-off-by: Richard Neill <richard.neill@arm.com>
+>
+> Thanks, Richard - I appreciate the find and fix.
+>
+> Reviewed-by: Christopher Clark <christopher.w.clark@gmail.com>
+>
+
+and merged.
 
 Bruce
 
-On Thu, May 13, 2021 at 6:52 AM Martin Jansa <Martin.Jansa@gmail.com> wrot=
-e:
+> Christopher
 >
-> This reverts commit dda5ae36b44c61e61439341ea3153e6be5cb015e.
+> > ---
+> >  conf/layer.conf | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/conf/layer.conf b/conf/layer.conf
+> > index f1f468b..b3e5283 100644
+> > --- a/conf/layer.conf
+> > +++ b/conf/layer.conf
+> > @@ -13,7 +13,7 @@ LICENSE_PATH += "${LAYERDIR}/files/custom-licenses"
+> >
+> >  BBFILES_DYNAMIC += " \
+> >      raspberrypi:${LAYERDIR}/dynamic-layers/raspberrypi/*/*/*.bb \
+> > -    raspberrypi:${LAYERDIR}/dynamic-layers/rasbperrypi/*/*/*.bbappend \
+> > +    raspberrypi:${LAYERDIR}/dynamic-layers/raspberrypi/*/*/*.bbappend \
+> >      xilinx:${LAYERDIR}/dynamic-layers/xilinx/*/*/*.bb \
+> >      xilinx:${LAYERDIR}/dynamic-layers/xilinx/*/*/*.bbappend \
+> >  "
+> > --
+> > 2.25.1
+> >
+> >
+> >
+> >
 >
-> binutils gold linker was fixed with:
-> https://git.openembedded.org/openembedded-core/commit/?id=3Dd07d4d739ae1=
-7787017f771dd2068fda0e836722
->
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> ---
->  recipes-containers/runc/runc-opencontainers_git.bb | 7 -------
->  1 file changed, 7 deletions(-)
->
-> diff --git a/recipes-containers/runc/runc-opencontainers_git.bb b/recipe=
-s-containers/runc/runc-opencontainers_git.bb
-> index 51ba7c9..f3ff9a8 100644
-> --- a/recipes-containers/runc/runc-opencontainers_git.bb
-> +++ b/recipes-containers/runc/runc-opencontainers_git.bb
-> @@ -8,10 +8,3 @@ SRC_URI =3D " \
->  RUNC_VERSION =3D "1.0.0-rc93"
->
->  CVE_PRODUCT =3D "runc"
-> -
-> -# use BFD when ld-is-gold is used to work around:
-> -# http://errors.yoctoproject.org/Errors/Details/580099/
-> -# CGO_ENABLED=3D1 x86_64-oe-linux-go build -trimpath  -tags "seccomp se=
-ccomp                       netgo osusergo" -ldflags "-w -extldflags -stati=
-c -X main.gitCommit=3D"fce58ab2d5c488bc573d02712db476a6daa9a60c-dirty" -X m=
-ain.version=3D1.0.0-rc93+dev " -o runc .
-> -# TOPDIR/tmp-glibc/work/core2-64-oe-linux/runc-opencontainers/1.0.0-rc9=
-3+gitAUTOINC+fce58ab2d5-r0/recipe-sysroot-native/usr/bin/x86_64-oe-linux/..=
-/../libexec/x86_64-oe-linux/gcc/x86_64-oe-linux/11.0.1/ld: internal error i=
-n format_file_lineno, at ../../gold/dwarf_reader.cc:2278
-> -# collect2: error: ld returned 1 exit status
-> -LDFLAGS_append =3D "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold=
-', ' -fuse-ld=3Dbfd ', '', d)}"
-> --
-> 2.30.2
->
->
->=20
+> 
 >
 
 
---=20
+-- 
 - Thou shalt not follow the NULL pointer, for chaos and madness await
 thee at its end
 - "Use the force Harry" - Gandalf, Star Trek II
