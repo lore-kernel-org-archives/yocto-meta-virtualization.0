@@ -1,260 +1,175 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
- by mx.groups.io with SMTP id smtpd.web09.2275.1621997514005605212
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.15358.1622242267942212934
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 25 May 2021 19:51:54 -0700
+ Fri, 28 May 2021 15:51:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=USx6lJgp;
- spf=pass (domain: gmail.com, ip: 209.85.208.53, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ed1-f53.google.com with SMTP id t3so38643463edc.7
-        for <meta-virtualization@lists.yoctoproject.org>; Tue, 25 May 2021 19:51:53 -0700 (PDT)
+ dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=FXYWbiNL;
+ spf=pass (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=1782103349=saul.wold@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 14SMiUv3021255
+	for <meta-virtualization@lists.yoctoproject.org>; Fri, 28 May 2021 22:51:07 GMT
+Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2108.outbound.protection.outlook.com [104.47.58.108])
+	by mx0a-0064b401.pphosted.com with ESMTP id 38u4ryg6j7-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <meta-virtualization@lists.yoctoproject.org>; Fri, 28 May 2021 22:51:07 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=VZdm321TxMbUpiUDTg2J8X36CvnDdfXoqqJS05lO/LjepJak0WIMQ10Knbk4Uv5jBo8uVhOgDtwyivH81rRdjDD6cj/8NOazlEsRxfJlnCDmN5++v5ttstI+Yb9MFOChJAi9itiUCs2c7+HhRUmZPiXCfeu1CA+LmVR9hDsKMyLh5VjaTK/I3HROY0xe9q6dP8DcKUxJveb5QcHB5A4hmGjOGhZ+lbmVpxbIE+COOeMeP98e+Omdsy+0QLYdSZiGGUHGpqfejypeRR2My7967qo0RyW2YJtMzSKYf2duBt8F+RTtki3vEmerQO0Bn1niAMyQUdfjNVxtah1SmnS7Aw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kqfAighFdBFuCkA3zBNgffJaAlMLxOVlkyTsfv+e3ZA=;
+ b=dKKGX5frwrckfWco4eveXZ26j/E6/latOiNtVQcGc0/P8m1pak8Epg5PmOZXLOL7LfuoF7JTMH+p8wFJ2CUGEfEgfd72s2q6Kw14VtHgamUzIysQevWMwSYHUa7dvIFysiR8X72bYx1k8zco+KvwL2AzUrbBOlkrefzbZrLY0kzF0ZgRjYirZTANnsYXRSAZY2z/5LSRgpDMnXheDd7CHXWwfJ9wo3QUOlvDg8kjaVW8vUa73lv3qhsd3+bDoz/msxkA08WPHjhZ4aft+XFv/sFCAip10yvW25U30bVGABhLd/OuSPNPRMJf638isyktlmF9NrkdHHfDyWCa6wgNyQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=PjmF3e7+IyaaVHNAY8k1OXW6uuI84/a5cLaRIoYIpjs=;
-        b=USx6lJgpZWsdpNhkk0LvZ7AJ5b6/TVT+KVm8QAplMWjvjbII+ZjLLSvZ+yUoMh/575
-         x3l0AeUJ654wbLCWxGl2wZkuz5zovUMrXPY4yY4aZrOWX4nRO7dRuO+kGK45nTMC0jiv
-         N773QYG9oh6+w7sFd3zRgTIQzMWmftEffcsheoNVLV8keiGJ+EawlCHxHUV3O+dHRzET
-         iRTyFDiGLpXOGpK/J2cD/GRJ8nAS+h9F683dcUDlQK1zXrwgm3UNCwgoNBJ3hhy2JbP5
-         5+MWuAhCFoWetcjOO7niA8VsJ9jfn2mHgkjuNJIhn+kVDCQFQ3PJw2Tq/sJmMdp+9JPE
-         vjtw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=PjmF3e7+IyaaVHNAY8k1OXW6uuI84/a5cLaRIoYIpjs=;
-        b=MIxhUXsoRUh44tHpVAt7BdSd+cxacwl3omdov/MbLaSjlioKiTOxOF1xZEW/qbf2VS
-         5JGNC+Rp0lifl/yNOHbKuEHZ4S2BvaAY8Am0CX+fYIOjAKTqA1hf++SI3t0jJZglIO81
-         dBn9hG3HfX5+EEdmIsfisDPArZ0lVxadubuDXcN2tCZU1OiNZqvxF+12BnXkt0af0dDY
-         CX+X6nWX87PHPXSCpu9s+kGl3I8fOL3yNxDYrOO05nX93ki6x0cOx/59eOFmhbvApIb2
-         /hhV98fCpAB5c9VyGEJEt7iiy+sBZjd5hcA7PogH0CYsFkrMG5ya7KQzh8buejY1XaFC
-         izRA==
-X-Gm-Message-State: AOAM531cG8zPjMm8j5KJQqy4ygYg5K9sBoElkrrEI/obZVZSjhRiJhQu
-	ayTlEkSUFKL2XuRCmMkjOuTwKJzC5TPNvOBCxb0=
-X-Google-Smtp-Source: ABdhPJwXi9Z23l+J3v3gbfTu4BV46ejTb7iAnTWrYCLk6031aAfJBtLajxF5Txs/03ZiiTnelOvdlBpLA82NXlH/qdY=
-X-Received: by 2002:a50:9346:: with SMTP id n6mr35147701eda.365.1621997512219;
- Tue, 25 May 2021 19:51:52 -0700 (PDT)
+ d=windriversystems.onmicrosoft.com;
+ s=selector2-windriversystems-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kqfAighFdBFuCkA3zBNgffJaAlMLxOVlkyTsfv+e3ZA=;
+ b=FXYWbiNLNYqdPMAXQhOyh409M0rPOr/UdXlN5PoMgKP2qUAOWIESR134gK2eA98AkHLa5l76XuPdCiyAx73UKohsXtsohvYzybL1FReghc+C6Ijqms9P7kASEXUMCChPlXeEU6uWpUU80ZrYt5f+oCfo8/v+7JZml047IgxoZFw=
+Authentication-Results: lists.yoctoproject.org; dkim=none (message not signed)
+ header.d=none;lists.yoctoproject.org; dmarc=none action=none
+ header.from=windriver.com;
+Received: from CO1PR11MB5076.namprd11.prod.outlook.com (2603:10b6:303:90::7)
+ by MWHPR1101MB2318.namprd11.prod.outlook.com (2603:10b6:301:4e::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.21; Fri, 28 May
+ 2021 22:51:05 +0000
+Received: from CO1PR11MB5076.namprd11.prod.outlook.com
+ ([fe80::fda5:ca87:9468:ad8]) by CO1PR11MB5076.namprd11.prod.outlook.com
+ ([fe80::fda5:ca87:9468:ad8%8]) with mapi id 15.20.4173.020; Fri, 28 May 2021
+ 22:51:05 +0000
+From: "Saul Wold" <Saul.Wold@windriver.com>
+To: meta-virtualization@lists.yoctoproject.org
+Subject: [PATCH] ceph: Fix compile error with snappy
+Date: Fri, 28 May 2021 15:50:48 -0700
+Message-Id: <20210528225048.4137924-1-saul.wold@windriver.com>
+X-Mailer: git-send-email 2.25.1
+X-Originating-IP: [71.238.119.71]
+X-ClientProxiedBy: CO2PR04CA0187.namprd04.prod.outlook.com
+ (2603:10b6:104:5::17) To CO1PR11MB5076.namprd11.prod.outlook.com
+ (2603:10b6:303:90::7)
 MIME-Version: 1.0
-References: <20210518045546.57617-1-Qi.Chen@windriver.com> <CADkTA4MR2hnoB73ohuDrwK7_aSy0ak8mkftb-iev-LyXh6NvXQ@mail.gmail.com>
- <f99fa35d-0f7d-6340-8e62-863588b6a4dc@windriver.com> <CADkTA4M2cxRadTv_C49PvcNLQg-w-oJwfEThVi0oLhUjf-vAog@mail.gmail.com>
- <fac74f8a-1d58-1bfb-9202-45dc4f23c93c@windriver.com> <CADkTA4PCfaOUW5BTJ_4yqA7xmy+gxbU0+Uut60rkCD3okJ_nxA@mail.gmail.com>
- <3f3801ea-e2a0-f730-5cfa-f3198c5d1779@windriver.com>
-In-Reply-To: <3f3801ea-e2a0-f730-5cfa-f3198c5d1779@windriver.com>
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Tue, 25 May 2021 22:51:41 -0400
-Message-ID: <CADkTA4ORnSYcvoc0KyTLe8bs=+EgwySfke+jyL8pLPbdjdNLYw@mail.gmail.com>
-Subject: Re: [meta-virtualization][PATCH] nativesdk-sloci-image: add recipe
-To: ChenQi <Qi.Chen@windriver.com>
-Cc: meta-virtualization@lists.yoctoproject.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from yocto-hs.bigsur.com.bigsur.com (71.238.119.71) by CO2PR04CA0187.namprd04.prod.outlook.com (2603:10b6:104:5::17) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.20 via Frontend Transport; Fri, 28 May 2021 22:51:04 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 0984a516-568d-47ff-ead9-08d9222b12f2
+X-MS-TrafficTypeDiagnostic: MWHPR1101MB2318:
+X-Microsoft-Antispam-PRVS: 
+	<MWHPR1101MB2318E56A8C111643FC5C2340EE229@MWHPR1101MB2318.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3826;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	tLY0h1XHignbn7048SCloPIgMOtjqzo6WM9KHV1onMkgg/dXQ90mbXKUIfzIfU7x3QQc6AWRunvNTQ1C36aiQVdqswwB3ah/tYZVIAuoPm9LgurMlmF7Bckl9H4dEckntiDK/n+OB15AVT1p7p5SGw/KxM/GOlqUKzgPQiVMndljIA1Sklf3ocYAQaH/Rq0UsbwkzvqRkh5J476H3BAC4S7RbIp5BCwE6KBq881p0E1TgS7U12NQYibCRoIDUJpgxnBqaDYMOT+rLWSR+YS4w8nRrPOeovXM7S+T6v9ngReK80/fTAYD4m8yGCmWUjwnUkViDAM1TYoBa0bVFmA6HmC6/d6Z+v3Td96O1kt7cEQQIJw4ZHV621ELx5eOhfPd1Vnc/fG3UE1q52A4MYSifm8lveUsT7G5Zap5X7IfPhxx2ciZFRnPeKjLYWFDLnd+YLAUNf9HNN5cOQV/A6jzDsrhlLfsuOMm0Qu9zSPp1tLVDuK9ALC9EVzyI9hsB2ohdBTIy4daMhz1padW+rCPePFw20C/YVY7h+AuQOme1IlHsVziNdFsZFC4Vx64JWa7wcNADLsFrCdN3GIDkwOQzrYlWcXuBs6RI3mROEc0pbgXVJfDQHsMY83+ESXjZnMEbPiB58PDPp/xWrIPb7FULH2wZMBD7daPBxz4tBOZoOGPsBJNzTJT33L2eZhbVgh9a06MS97EfKITuhTnTb4NLQptz4XI5478zi1jwbKVjRXqbgLjfBR9RuCtEbknJbMZo2RXOMa/ae6lJhPK3+B6KgijTMEAYM++hHTYRLONuy8=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB5076.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(346002)(366004)(39850400004)(396003)(136003)(6506007)(478600001)(186003)(16526019)(1076003)(26005)(83380400001)(86362001)(52116002)(38100700002)(5660300002)(66556008)(6666004)(966005)(66946007)(44832011)(8676002)(2616005)(956004)(6512007)(8936002)(6916009)(2906002)(38350700002)(6486002)(66476007)(36756003)(316002)(473944003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: 
+	=?us-ascii?Q?MWpu6CgBWACahs5H/hd6S9/4OO424HNQGJCWyNbPlSgQHGvsGx2HgqnJg4Qk?=
+ =?us-ascii?Q?5VmWJ1UPNDoJbJR1LbMBAQ59Rqs2SZ+EE3D80NXbMZZroOt+wdQoFMGeA8S1?=
+ =?us-ascii?Q?hTEKnOEPOcZB1O3n9wnCEJeh5G35aCRtoGP7GOK8eicNBMlIAtLCb5C9+ZDn?=
+ =?us-ascii?Q?xAs0upqtRej6yh1NVW3L2Z7GrtP/+No3LHLSzFJkfXl1P3Xyz8NR/s4QMZPq?=
+ =?us-ascii?Q?ywROZORMCeidLJFvl0NbpPLVavZHncEC72gpEt+6CL9Oe9c0fPFe+SSEqoVU?=
+ =?us-ascii?Q?28WZmSVGgJEKz78173jdRjgPqHqM6b6dBQtX/gIyR8fgzaeVWWtBu1ffbMR7?=
+ =?us-ascii?Q?H+D2zFs1c6K5uIMhiijm+PeFpp5lV1MTZfaC25xS0BWx5d26mx5u62efBXRS?=
+ =?us-ascii?Q?3CKBYeyWp0FPXg3VIUX/+t1blM8vuOlu9urPp7RdhnfyG+oZ+XOlX9fXbb5T?=
+ =?us-ascii?Q?jGeEnOIuacY4vala2b3XES24A8Y29CIyaETNUtCHImPdP/iDldvbJ5BNN5l8?=
+ =?us-ascii?Q?CuvjXJMqifSQ9+bqQX7TJiTvX72u5l3V1+vXB6YjYp/t4o9/Yt+w7TZSxoma?=
+ =?us-ascii?Q?MLn9UI6m1KHVVL+FNqpjAhYWuAqTYPnlqK50zH77rxJ56SRjLvlROjQvmQGb?=
+ =?us-ascii?Q?Vo72ZtKp+7RFvceyT/qgiUmxnIVvPayF4ri+/la0UUUaEGtdTzjRM6I/LLHW?=
+ =?us-ascii?Q?+0uwQyBJJnoidvuipQA9MjSqKdqkuBF9Wgi0q0XfXrXtbh0uF3gHmNhh2Qy4?=
+ =?us-ascii?Q?bl8opRUIy7oUViHc9K4CTNp1nieH/wQJip/HhRk+NfhQYYX6zXKbNuWxhiiQ?=
+ =?us-ascii?Q?6UCCKIlwBOq2dUXmrgZ+wRFw1fFdJl6KgvpqnP5jHsLvbk1saZBiJ+dsYkx4?=
+ =?us-ascii?Q?/X64aVnPn4WqBSIL/abljJc9sRx9Pv1UxZgcrBb0+/Gf8SR/bHEs6VTjc8dt?=
+ =?us-ascii?Q?551Ti4B17Vtnrv5nEJb5RringOVykchZhqBfVvVB1wn1B46f3Wb4VE26HbT3?=
+ =?us-ascii?Q?CroGIh9Sil+HehFU7QObamk1rli0u+nIYsXpK3R0+w10fx9wJKPVENT840KF?=
+ =?us-ascii?Q?ToAUyZuD2tjaqus4jYMj4OtiZustm8gtIysIhs+h+te2uVWzuMjEJ91ZCg8c?=
+ =?us-ascii?Q?kj3LnC5YaXMlIWPrTTPx0ot7EuKnLqKFJ+zRMRLCnQp+2D5gHtRn7/+1kyni?=
+ =?us-ascii?Q?dFVuG2u+lNNbQeUa174fPU9s8LWPyu1adk0A4NO/8p8InJMK3hPO2P8ougjS?=
+ =?us-ascii?Q?paWm2pqf6z3prL/tuVd7JwBtAbiKR+OvIjUKb+wI0IrWvUXVJ258JsfiLXCo?=
+ =?us-ascii?Q?ELEAOiq3R5juHdfZrmTEXn9/?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0984a516-568d-47ff-ead9-08d9222b12f2
+X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB5076.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 May 2021 22:51:04.8893
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 0pX/dVTa1mKJfvkOAYY3GXEG+QP+pj7yVzqiiLXdBhLLY8Ctrpnq6bDk7dUu6lLSibt09fH0ZU40osTeznh3Vw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR1101MB2318
+X-Proofpoint-ORIG-GUID: pKP6ERMNSdPYpGiKVpRP1tWW6SYmrUVM
+X-Proofpoint-GUID: pKP6ERMNSdPYpGiKVpRP1tWW6SYmrUVM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.761
+ definitions=2021-05-28_09:2021-05-27,2021-05-28 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ spamscore=0 mlxscore=0 lowpriorityscore=0 clxscore=1015 suspectscore=0
+ impostorscore=0 phishscore=0 adultscore=0 mlxlogscore=999 malwarescore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104190000 definitions=main-2105280151
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-On Tue, May 25, 2021 at 10:12 PM ChenQi <Qi.Chen@windriver.com> wrote:
->
-> Hi Bruce,
->
-> Sorry for the late reply.
-> I've tested nativesdk and native. It's working well.
->
+snappy changed a data type in the last update, this is a known
+issue in ceph.
 
-Thanks for the follow up!
+Signed-off-by: Saul Wold <saul.wold@windriver.com>
+---
+ ...mpressor.h-fix-snappy-compiler-error.patch | 30 +++++++++++++++++++
+ recipes-extended/ceph/ceph_15.2.12.bb         |  1 +
+ 2 files changed, 31 insertions(+)
+ create mode 100644 recipes-extended/ceph/ceph/0001-SnappyCompressor.h-fix-snappy-compiler-error.patch
 
-Bruce
+diff --git a/recipes-extended/ceph/ceph/0001-SnappyCompressor.h-fix-snappy-compiler-error.patch b/recipes-extended/ceph/ceph/0001-SnappyCompressor.h-fix-snappy-compiler-error.patch
+new file mode 100644
+index 0000000..2ebd32d
+--- /dev/null
++++ b/recipes-extended/ceph/ceph/0001-SnappyCompressor.h-fix-snappy-compiler-error.patch
+@@ -0,0 +1,30 @@
++From 85bde55627cfbb35d8b4735dec32bf33fa30079f Mon Sep 17 00:00:00 2001
++From: Saul Wold <saul.wold@windriver.com>
++Date: Fri, 28 May 2021 10:16:07 -0700
++Subject: [PATCH] SnappyCompressor.h: fix snappy compiler error
++
++snappy quietly changed public type
++
++Known issue in ceph: https://tracker.ceph.com/issues/50934
++
++Upstream-Status: Pending
++
++Signed-off-by: Saul Wold <saul.wold@windriver.com>
++
++---
++ src/compressor/snappy/SnappyCompressor.h | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/src/compressor/snappy/SnappyCompressor.h b/src/compressor/snappy/SnappyCompressor.h
++index 0cfb819c..2fbe35b7 100644
++--- a/src/compressor/snappy/SnappyCompressor.h
+++++ b/src/compressor/snappy/SnappyCompressor.h
++@@ -96,7 +96,7 @@ class SnappyCompressor : public Compressor {
++     if (qat_enabled)
++       return qat_accel.decompress(p, compressed_len, dst);
++ #endif
++-    snappy::uint32 res_len = 0;
+++    uint32_t res_len = 0;
++     BufferlistSource source_1(p, compressed_len);
++     if (!snappy::GetUncompressedLength(&source_1, &res_len)) {
++       return -1;
+diff --git a/recipes-extended/ceph/ceph_15.2.12.bb b/recipes-extended/ceph/ceph_15.2.12.bb
+index 9ba72b4..3c2e1c6 100644
+--- a/recipes-extended/ceph/ceph_15.2.12.bb
++++ b/recipes-extended/ceph/ceph_15.2.12.bb
+@@ -14,6 +14,7 @@ SRC_URI = "http://download.ceph.com/tarballs/ceph-${PV}.tar.gz \
+            file://ceph.conf \
+            file://0001-add-missing-include-for-atomic-bool.patch \
+            file://0001-cmake-add-support-for-python3.9.patch \
++           file://0001-SnappyCompressor.h-fix-snappy-compiler-error.patch \
+ "
+ 
+ SRC_URI[sha1sum] = "9c76b298e1e659b9c5501003ac77fb28aab7823d"
+-- 
+2.25.1
 
-> Best Regards,
-> Chen Qi
->
-> On 05/19/2021 11:09 AM, Bruce Ashfield wrote:
-> > On Tue, May 18, 2021 at 11:02 PM ChenQi <Qi.Chen@windriver.com> wrote:
-> >> On 05/19/2021 10:38 AM, Bruce Ashfield wrote:
-> >>> On Tue, May 18, 2021 at 9:23 PM ChenQi <Qi.Chen@windriver.com> wrote=
-:
-> >>>> On 05/18/2021 08:03 PM, Bruce Ashfield wrote:
-> >>>>> On Tue, May 18, 2021 at 12:55 AM Chen Qi <Qi.Chen@windriver.com> w=
-rote:
-> >>>>>> Add nativesdk-sloci-image recipe which is basically from the
-> >>>>>> sloci-image-native recipe.
-> >>>>>>
-> >>>>> Copying the recipe is a bad idea.
-> >>>>>
-> >>>>> What's wrong with just adding the inherit nativesdk in the existin=
-g
-> >>>>> sloci recipe ?
-> >>>>>
-> >>>>> Bruce
-> >>>> Hi Bruce,
-> >>>>
-> >>>> This is because a recipe cannot inherit native and nativesdk at the=
- same
-> >>>> time.
-> >>>> Hongxu once sent a patch to rename the native recipe to
-> >>>> https://urldefense.com/v3/__http://sloci-image_git.bb__;!!AjveYdw8E=
-vQ!IKbzht5nzzta0IFVO03JT5jvB1r_KWMX8Zmv-RxCOLxOY5eE1caxW8R3D21g_xdpSg$  and=
- use BBCLASSEXTEND =3D "native nativesdk", but that
-> >>>> patch was rejected.
-> >>> It wasn't rejected .. I gave feedback that it shouldn't drop the -na=
-tive from
-> >>> the name, but that it could be both nativesdk and native.
-> >>>
-> >>> At the time, the recipe needed to be clear that it wasn't for on-tar=
-get use,
-> >>> and was build side only. Having -native in the name was the clarity =
-I was
-> >>> looking for (as was the inherit native).
-> >>>
-> >>> Last I checked, the recipe name could still be -native (it's just a
-> >>> name after all),
-> >>> but have the BBCLASSEXTEND instead of the include line.
-> >>>
-> >>> And a quick test with the following change, allowed me to build
-> >>> sloci-image-native
-> >>> and nativesdk-sloci-image-native:
-> >>>
-> >>> diff --git a/recipes-containers/sloci-image/https://urldefense.com/v=
-3/__http://sloci-image-native_git.bb__;!!AjveYdw8EvQ!IKbzht5nzzta0IFVO03JT5=
-jvB1r_KWMX8Zmv-RxCOLxOY5eE1caxW8R3D20oXeUINQ$
-> >>> b/recipes-containers/sloci-image/https://urldefense.com/v3/__http://=
-sloci-image-native_git.bb__;!!AjveYdw8EvQ!IKbzht5nzzta0IFVO03JT5jvB1r_KWMX8=
-Zmv-RxCOLxOY5eE1caxW8R3D20oXeUINQ$
-> >>> index a68c6d9..fc3c329 100644
-> >>> --- a/recipes-containers/sloci-image/https://urldefense.com/v3/__htt=
-p://sloci-image-native_git.bb__;!!AjveYdw8EvQ!IKbzht5nzzta0IFVO03JT5jvB1r_K=
-WMX8Zmv-RxCOLxOY5eE1caxW8R3D20oXeUINQ$
-> >>> +++ b/recipes-containers/sloci-image/https://urldefense.com/v3/__htt=
-p://sloci-image-native_git.bb__;!!AjveYdw8EvQ!IKbzht5nzzta0IFVO03JT5jvB1r_K=
-WMX8Zmv-RxCOLxOY5eE1caxW8R3D20oXeUINQ$
-> >>> @@ -11,8 +11,6 @@ DEPENDS =3D ""
-> >>>    SRCREV =3D "4015e49763e5a738026a5bbfcf32b38b5a4fa650"
-> >>>    PV =3D "v0.1.0+git${SRCPV}"
-> >>>
-> >>> -inherit native
-> >>> -
-> >>>    S =3D "${WORKDIR}/git"
-> >>>
-> >>>    do_compile() {
-> >>> @@ -25,3 +23,5 @@ do_install() {
-> >>>    }
-> >>>
-> >>>    CLEANBROKEN =3D "1"
-> >>> +
-> >>> +BBCLASSEXTEND =3D "native nativesdk"
-> >>> I'm actually just finishing up some work on OCI image backend switch=
-ing and
-> >>> have some reworking of the sloci-image recipe ... and there are some
-> >>> use cases where it can be used on-target (whereas that wasn't the ca=
-se before).
-> >>>
-> >>> So the rename to _git is possible, as are the BBCLASSEXTEND changes =
-to
-> >>> the newly named https://urldefense.com/v3/__http://sloci-image_git.b=
-b__;!!AjveYdw8EvQ!IKbzht5nzzta0IFVO03JT5jvB1r_KWMX8Zmv-RxCOLxOY5eE1caxW8R3D=
-21g_xdpSg$
-> >>>
-> >>> Luckily we still have sloci-image-native as an available build targe=
-t,
-> >>> so nothing
-> >>> breaks with that rename.
-> >>>
-> >>> I can take care of that change right now, if that sounds like it mee=
-ts what you
-> >>> are looking for (that change being the BBCLASSEXTEND in a renamed sl=
-oci
-> >>> recipe).
-> >>>
-> >>> Bruce
-> >> Yes. Definitely! What I need is native and nativesdk support of sloci=
--image.
-> >> That would be great! Many thanks!
-> > The change is pushed. Let me know if it causes any issues.
-> >
-> > Bruce
-> >
-> >> Best Regards,
-> >> Chen Qi
-> >>
-> >>>> So I figured that adding a nativesdk-sloci-image recipe is only
-> >>>> remaining way to enable nativesdk support.
-> >>>>
-> >>>> Maybe I should extract the common part to sloci-image.inc, and the
-> >>>> native/nativesdk recipe only contains two lines like below:
-> >>>> require sloci-image.inc
-> >>>> inherit native (or inherit nativesdk)
-> >>>>
-> >>>> What do you think?
-> >>>>
-> >>>> Best Regards,
-> >>>> Chen Qi
-> >>>>
-> >>>>
-> >>>>>> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> >>>>>> ---
-> >>>>>>     .../sloci-image/https://urldefense.com/v3/__http://nativesdk-=
-sloci-image_git.bb__;!!AjveYdw8EvQ!IKbzht5nzzta0IFVO03JT5jvB1r_KWMX8Zmv-RxC=
-OLxOY5eE1caxW8R3D22nEkW98w$   | 27 +++++++++++++++++++
-> >>>>>>     1 file changed, 27 insertions(+)
-> >>>>>>     create mode 100644 recipes-containers/sloci-image/https://url=
-defense.com/v3/__http://nativesdk-sloci-image_git.bb__;!!AjveYdw8EvQ!IKbzht=
-5nzzta0IFVO03JT5jvB1r_KWMX8Zmv-RxCOLxOY5eE1caxW8R3D22nEkW98w$
-> >>>>>>
-> >>>>>> diff --git a/recipes-containers/sloci-image/https://urldefense.co=
-m/v3/__http://nativesdk-sloci-image_git.bb__;!!AjveYdw8EvQ!IKbzht5nzzta0IFV=
-O03JT5jvB1r_KWMX8Zmv-RxCOLxOY5eE1caxW8R3D22nEkW98w$  b/recipes-containers/s=
-loci-image/https://urldefense.com/v3/__http://nativesdk-sloci-image_git.bb_=
-_;!!AjveYdw8EvQ!IKbzht5nzzta0IFVO03JT5jvB1r_KWMX8Zmv-RxCOLxOY5eE1caxW8R3D22=
-nEkW98w$
-> >>>>>> new file mode 100644
-> >>>>>> index 0000000..3c2b539
-> >>>>>> --- /dev/null
-> >>>>>> +++ b/recipes-containers/sloci-image/https://urldefense.com/v3/__=
-http://nativesdk-sloci-image_git.bb__;!!AjveYdw8EvQ!IKbzht5nzzta0IFVO03JT5j=
-vB1r_KWMX8Zmv-RxCOLxOY5eE1caxW8R3D22nEkW98w$
-> >>>>>> @@ -0,0 +1,27 @@
-> >>>>>> +SUMMARY =3D "A simple CLI tool for packing rootfs into a single-=
-layer OCI image"
-> >>>>>> +LICENSE =3D "MIT"
-> >>>>>> +LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D948cd8e59069fad992b04=
-69af9ad7966"
-> >>>>>> +SRC_URI =3D "git://github.com/jirutka/sloci-image.git \
-> >>>>>> +           file://0001-sloci-image-fix-variant-quoting.patch \
-> >>>>>> +          "
-> >>>>>> +
-> >>>>>> +
-> >>>>>> +DEPENDS =3D ""
-> >>>>>> +
-> >>>>>> +SRCREV =3D "4015e49763e5a738026a5bbfcf32b38b5a4fa650"
-> >>>>>> +PV =3D "v0.1.0+git${SRCPV}"
-> >>>>>> +
-> >>>>>> +inherit nativesdk
-> >>>>>> +
-> >>>>>> +S =3D "${WORKDIR}/git"
-> >>>>>> +
-> >>>>>> +do_compile() {
-> >>>>>> +       :
-> >>>>>> +}
-> >>>>>> +
-> >>>>>> +do_install() {
-> >>>>>> +       cd ${S}
-> >>>>>> +        make PREFIX=3D"${exec_prefix}" DESTDIR=3D${D} install
-> >>>>>> +}
-> >>>>>> +
-> >>>>>> +CLEANBROKEN =3D "1"
-> >>>>>> --
-> >>>>>> 2.30.2
-> >>>>>>
-> >>>>>>
-> >>>>>>=20
-> >>>>>>
-> >>> --
-> >>> - Thou shalt not follow the NULL pointer, for chaos and madness awai=
-t
-> >>> thee at its end
-> >>> - "Use the force Harry" - Gandalf, Star Trek II
-> >>>
-> >
->
-
-
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
