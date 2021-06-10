@@ -1,93 +1,154 @@
-Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web12.33648.1623057431119222250
+Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
+ by mx.groups.io with SMTP id smtpd.web08.10803.1623335165779293572
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 07 Jun 2021 02:17:12 -0700
+ Thu, 10 Jun 2021 07:26:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=wUFBx2d9;
- spf=neutral (domain: fujitsu.com, ip: 198.145.29.25, mailfrom: zangrc.fnst@fujitsu.com)
-Received: from mail1.bemta25.messagelabs.com (mail1.bemta25.messagelabs.com [195.245.230.66])
-	by mail.yoctoproject.org (Postfix) with ESMTPS id B756A38C049A
-	for <meta-virtualization@yoctoproject.org>; Mon,  7 Jun 2021 09:17:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1623057419; i=@fujitsu.com;
-	bh=4L+AGT6+KUSoaD8SosRRAGz4r7ouRWkWWoSXq18QtDE=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=wUFBx2d9wP9HOUNFvQghiwcdrmU203Yl/MlD4I5oxAC5Hyye1xu/K9r+BX+fB16OY
-	 gq3+w9Bhml5wHojah7vArsn6v7PYljpKBDoNz96pAOtiTwuVRknCv/MCrqWEolO5a9
-	 edAwHV1+LCb4kn9+zNono6bfim3MDbE5a93lyPGlhKbn5wa5LEi7mKQztFC4Z36C4I
-	 UrYpvOqyBm3X5qGAr8yeB+5izaMgvCBbD+xZqpc6v/fe4SSES7zT5/qPYrGOQy7Wy0
-	 AjOO79wouXqi8IggDBHN0Muqy+RM1/LiXhbRz4ImD6lWMkruY+Z3Rcx91G/Eg7HobN
-	 RTuCE4sapysow==
-Received: from [100.112.199.57] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-2.bemta.az-b.eu-west-1.aws.symcld.net id 7C/51-25406-B04EDB06; Mon, 07 Jun 2021 09:16:59 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupmkeJIrShJLcpLzFFi42Kxs+EI0eV6sjf
-  BYE2/gcXtA0eYHRg92k/0sQUwRrFm5iXlVySwZjSducJc8IC9YtuSo2wNjDfZuhi5OIQEpjJJ
-  NE78x9jFyAnkHGeUOPs9BcRmE9CR6HjRzQJiiwhoSbS3/mIGsYUF3CSezFoOZrMIqEj8OdUNZ
-  vMKuEt8an7PDmJLCChITHn4HiouKHFy5hOwOcwCEhIHX7xghqhRlNi+8wwLhF0hMWPGNrYJjD
-  yzkLTMQtKygJFpFaNFUlFmekZJbmJmjq6hgYGuoaGRrqGlha6hubFeYpVukl5qqW55anGJrqF
-  eYnmxXnFlbnJOil5easkmRmAYpRQcW7uDsefNB71DjJIcTEqivNdv7U0Q4kvKT6nMSCzOiC8q
-  zUktPsQow8GhJMH78hFQTrAoNT21Ii0zBxjSMGkJDh4lEV4pkDRvcUFibnFmOkTqFKOilDivx
-  GOghABIIqM0D64NFkeXGGWlhHkZGRgYhHgKUotyM0tQ5V8xinMwKgnzloJM4cnMK4Gb/gpoMR
-  PQ4mr7XSCLSxIRUlINTNsOJC0Uriyr5Vq8ZXPOrO+LtE7c5RXz+7yJ69fCDbKc3WXc+fl2fI8
-  01C8VM0zie3GwRjm1hnn+o5rLKhvF5lXafC//73hSvPhLcEf0Ylc2gYTnC+8/S9hb+GuysLyB
-  xkTBScpLxRWWfl8iWFHNpvlW3fHSl6hA8/L7HX52V0L7pvY+L7rgvHJ/C6NUE7fbwmS9WqO0E
-  quXHk+UwhquBXIZ3o/6Xr66UCu/P/04S80UJfnSc2xb75Vlr3W2/vZDuPyWRKLHAwX7ZXM8tx
-  4//tVk9od9ivMmPehuNV/7jDNkf/Gt5NkVE7yn/Xy80yKfKaXxXaCVZuUCri8zOb/ev341Jet
-  lduTlw3wFLXEiSizFGYmGWsxFxYkAMHoZvh4DAAA=
-X-Env-Sender: zangrc.fnst@fujitsu.com
-X-Msg-Ref: server-6.tower-291.messagelabs.com!1623057418!270736!1
-X-Originating-IP: [62.60.8.84]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.75.3; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 2471 invoked from network); 7 Jun 2021 09:16:58 -0000
-Received: from unknown (HELO mailhost3.uk.fujitsu.com) (62.60.8.84)
-  by server-6.tower-291.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 7 Jun 2021 09:16:58 -0000
-Received: from R01UKEXCASM126.r01.fujitsu.local ([10.183.43.178])
-	by mailhost3.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 1579Gq4g028156
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <meta-virtualization@yoctoproject.org>; Mon, 7 Jun 2021 10:16:58 +0100
-Received: from localhost.localdomain.localdomain (10.167.225.81) by
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.18; Mon, 7 Jun 2021 10:16:50 +0100
-From: "zangrc" <zangrc.fnst@fujitsu.com>
-To: <meta-virtualization@yoctoproject.org>
-Subject: [meta-virtualization] [PATCH] novnc: Correct permission error
-Date: Mon, 7 Jun 2021 17:16:42 +0800
-Message-ID: <1623057402-21919-1-git-send-email-zangrc.fnst@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+ dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: sakib.sajal@windriver.com)
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 15AEQ3vB027827
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
+	for <meta-virtualization@lists.yoctoproject.org>; Thu, 10 Jun 2021 07:26:04 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.10; Thu, 10 Jun 2021 07:26:03 -0700
+Received: from yow-lpggp3.wrs.com (128.224.137.13) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2242.10 via Frontend Transport; Thu, 10 Jun 2021 07:26:03 -0700
+From: sakib.sajal@windriver.com
+To: <meta-virtualization@lists.yoctoproject.org>
+Subject: [meta-virtualization][hardnott][PATCH] kubernetes: fix CVE-2021-20206
+Date: Thu, 10 Jun 2021 10:26:03 -0400
+Message-ID: <20210610142603.27429-1-sakib.sajal@windriver.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.81]
-X-ClientProxiedBy: G08CNEXCHPEKD09.g08.fujitsu.local (10.167.33.85) To
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
+Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
-The permission of novnc-server was set incorrectly when copying.
+Bump containernetworking/cni to v0.8.1
 
-Signed-off-by: Zang Ruochen <zangrc.fnst@fujitsu.com>
+Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
 ---
- meta-openstack/recipes-extended/novnc/novnc_git.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ .../kubernetes/CVE-2021-20206.patch           | 97 +++++++++++++++++++
+ .../kubernetes/kubernetes_git.bb              |  1 +
+ 2 files changed, 98 insertions(+)
+ create mode 100644 recipes-containers/kubernetes/kubernetes/CVE-2021-20206.patch
 
-diff --git a/meta-openstack/recipes-extended/novnc/novnc_git.bb b/meta-openstack/recipes-extended/novnc/novnc_git.bb
-index 53a7056..9032a62 100644
---- a/meta-openstack/recipes-extended/novnc/novnc_git.bb
-+++ b/meta-openstack/recipes-extended/novnc/novnc_git.bb
-@@ -23,11 +23,11 @@ do_install() {
-     install -m 755 -d ${D}${datadir}/novnc
-    
-     cp -R --no-dereference --preserve=mode,links ${S}/* ${D}${datadir}/novnc
--    
+diff --git a/recipes-containers/kubernetes/kubernetes/CVE-2021-20206.patch b/recipes-containers/kubernetes/kubernetes/CVE-2021-20206.patch
+new file mode 100644
+index 0000000..7bdd735
+--- /dev/null
++++ b/recipes-containers/kubernetes/kubernetes/CVE-2021-20206.patch
+@@ -0,0 +1,97 @@
++From 1ff7fc0a0b8e5ee0bff0c7ba979efcd1ecdb9a39 Mon Sep 17 00:00:00 2001
++From: Navid Shaikh <navids@vmware.com>
++Date: Thu, 6 May 2021 15:41:08 +0530
++Subject: [PATCH] Bump containernetworking/cni to v0.8.1
++
++ Fix CVE-2021-20206
++
++Upstream-Status: Backport [185f65fbddb5239666c0c67fb335589b7570f60c]
++CVE: CVE-2021-20206
++
++Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
++---
++ go.mod                                                       | 4 ++--
++ go.sum                                                       | 4 ++--
++ vendor/github.com/containernetworking/cni/pkg/invoke/find.go | 5 +++++
++ vendor/modules.txt                                           | 4 ++--
++ 4 files changed, 11 insertions(+), 6 deletions(-)
++
++diff --git a/src/import/go.mod b/src/import/go.mod
++index e0ba549ab40..d4cc9ce01a9 100644
++--- a/src/import/go.mod
+++++ b/src/import/go.mod
++@@ -28,7 +28,7 @@ require (
++ 	github.com/clusterhq/flocker-go v0.0.0-20160920122132-2b8b7259d313
++ 	github.com/codegangsta/negroni v1.0.0 // indirect
++ 	github.com/container-storage-interface/spec v1.2.0
++-	github.com/containernetworking/cni v0.8.0
+++	github.com/containernetworking/cni v0.8.1
++ 	github.com/coredns/corefile-migration v1.0.10
++ 	github.com/coreos/go-oidc v2.1.0+incompatible
++ 	github.com/coreos/go-systemd v0.0.0-20190321100706-95778dfbb74e
++@@ -214,7 +214,7 @@ replace (
++ 	github.com/containerd/go-runc => github.com/containerd/go-runc v0.0.0-20180907222934-5a6d9f37cfa3
++ 	github.com/containerd/ttrpc => github.com/containerd/ttrpc v1.0.2
++ 	github.com/containerd/typeurl => github.com/containerd/typeurl v1.0.1
++-	github.com/containernetworking/cni => github.com/containernetworking/cni v0.8.0
+++	github.com/containernetworking/cni => github.com/containernetworking/cni v0.8.1
++ 	github.com/coredns/corefile-migration => github.com/coredns/corefile-migration v1.0.10
++ 	github.com/coreos/bbolt => github.com/coreos/bbolt v1.3.2
++ 	github.com/coreos/etcd => github.com/coreos/etcd v3.3.13+incompatible
++diff --git a/src/import/go.sum b/src/import/go.sum
++index 288f4554b1f..9168f49c859 100644
++--- a/src/import/go.sum
+++++ b/src/import/go.sum
++@@ -113,8 +113,8 @@ github.com/containerd/ttrpc v1.0.2 h1:2/O3oTZN36q2xRolk0a2WWGgh7/Vf/liElg5hFYLX9
++ github.com/containerd/ttrpc v1.0.2/go.mod h1:UAxOpgT9ziI0gJrmKvgcZivgxOp8iFPSk8httJEt98Y=
++ github.com/containerd/typeurl v1.0.1 h1:PvuK4E3D5S5q6IqsPDCy928FhP0LUIGcmZ/Yhgp5Djw=
++ github.com/containerd/typeurl v1.0.1/go.mod h1:TB1hUtrpaiO88KEK56ijojHS1+NeF0izUACaJW2mdXg=
++-github.com/containernetworking/cni v0.8.0 h1:BT9lpgGoH4jw3lFC7Odz2prU5ruiYKcgAjMCbgybcKI=
++-github.com/containernetworking/cni v0.8.0/go.mod h1:LGwApLUm2FpoOfxTDEeq8T9ipbpZ61X79hmU3w8FmsY=
+++github.com/containernetworking/cni v0.8.1 h1:7zpDnQ3T3s4ucOuJ/ZCLrYBxzkg0AELFfII3Epo9TmI=
+++github.com/containernetworking/cni v0.8.1/go.mod h1:LGwApLUm2FpoOfxTDEeq8T9ipbpZ61X79hmU3w8FmsY=
++ github.com/coredns/corefile-migration v1.0.10 h1:7HI4r5S5Fne749a+JDxUZppqBpYoZK8Q53ZVK9cn3aM=
++ github.com/coredns/corefile-migration v1.0.10/go.mod h1:RMy/mXdeDlYwzt0vdMEJvT2hGJ2I86/eO0UdXmH9XNI=
++ github.com/coreos/bbolt v1.3.2 h1:wZwiHHUieZCquLkDL0B8UhzreNWsPHooDAG3q34zk0s=
++diff --git a/src/import/vendor/github.com/containernetworking/cni/pkg/invoke/find.go b/src/import/vendor/github.com/containernetworking/cni/pkg/invoke/find.go
++index e815404c859..e62029eb788 100644
++--- a/src/import/vendor/github.com/containernetworking/cni/pkg/invoke/find.go
+++++ b/src/import/vendor/github.com/containernetworking/cni/pkg/invoke/find.go
++@@ -18,6 +18,7 @@ import (
++ 	"fmt"
++ 	"os"
++ 	"path/filepath"
+++	"strings"
++ )
 + 
-     install -m 444 ${S}/vnc.html ${D}${datadir}/novnc/index.html
-     install -m 444 ${S}/vnc_lite.html ${D}${datadir}/novnc/vnc_auto.html
++ // FindInPath returns the full path of the plugin by searching in the provided path
++@@ -26,6 +27,10 @@ func FindInPath(plugin string, paths []string) (string, error) {
++ 		return "", fmt.Errorf("no plugin name provided")
++ 	}
++ 
+++	if strings.ContainsRune(plugin, os.PathSeparator) {
+++		return "", fmt.Errorf("invalid plugin name: %s", plugin)
+++	}
+++
++ 	if len(paths) == 0 {
++ 		return "", fmt.Errorf("no paths provided")
++ 	}
++diff --git a/src/import/vendor/modules.txt b/src/import/vendor/modules.txt
++index 6a263b51686..f549467e77d 100644
++--- a/src/import/vendor/modules.txt
+++++ b/src/import/vendor/modules.txt
++@@ -257,9 +257,9 @@ github.com/containerd/containerd/pkg/dialer
++ github.com/containerd/ttrpc
++ # github.com/containerd/ttrpc => github.com/containerd/ttrpc v1.0.2
++ # github.com/containerd/typeurl => github.com/containerd/typeurl v1.0.1
++-# github.com/containernetworking/cni v0.8.0 => github.com/containernetworking/cni v0.8.0
+++# github.com/containernetworking/cni v0.8.1 => github.com/containernetworking/cni v0.8.1
++ ## explicit
++-# github.com/containernetworking/cni => github.com/containernetworking/cni v0.8.0
+++# github.com/containernetworking/cni => github.com/containernetworking/cni v0.8.1
++ github.com/containernetworking/cni/libcni
++ github.com/containernetworking/cni/pkg/invoke
++ github.com/containernetworking/cni/pkg/types
++-- 
++2.25.1
++
+diff --git a/recipes-containers/kubernetes/kubernetes_git.bb b/recipes-containers/kubernetes/kubernetes_git.bb
+index 57cadfe..6120116 100644
+--- a/recipes-containers/kubernetes/kubernetes_git.bb
++++ b/recipes-containers/kubernetes/kubernetes_git.bb
+@@ -17,6 +17,7 @@ SRC_URI = "git://github.com/kubernetes/kubernetes.git;branch=release-1.20;name=k
+            file://0001-build-golang.sh-convert-remaining-go-calls-to-use.patch \
+            file://0001-Makefile.generated_files-Fix-race-issue-for-installi.patch \
+            file://CVE-2021-25737.patch \
++           file://CVE-2021-20206.patch \
+           "
  
-     install -m 755 -d ${D}${bindir}
--    install -m 644 ${S}/utils/launch.sh ${D}${bindir}/novnc_server
-+    install ${S}/utils/launch.sh ${D}${bindir}/novnc_server
- }
- 
+ DEPENDS += "rsync-native \
 -- 
-2.25.1
+2.29.2
 
