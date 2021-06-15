@@ -1,98 +1,56 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
- by mx.groups.io with SMTP id smtpd.web12.8303.1623759056145021251
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+ by mx.groups.io with SMTP id smtpd.web11.8510.1623760060896029499
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 15 Jun 2021 05:10:56 -0700
+ Tue, 15 Jun 2021 05:27:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=XuUVVn7j;
- spf=pass (domain: gmail.com, ip: 209.85.218.44, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ej1-f44.google.com with SMTP id nb6so2011815ejc.10
-        for <meta-virtualization@lists.yoctoproject.org>; Tue, 15 Jun 2021 05:10:55 -0700 (PDT)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=I1j3Pver;
+ spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: joakim.roubert@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=b2ppqeQcOMd6dTSzE8IeEM9rboLHegJMz/unIwotf6Y=;
-        b=XuUVVn7jvVSGAebTpJo08TDvA9aYxtCsjA3tfYsbXMz0xel6pYaQWBw3vBjcDyLA/u
-         SJaVDs2ci5Oza9QKblLCIJD56yJxFVU+OP1d/cZM2FEL37yuz3VP1iqfFD+06JJjajpP
-         0ul/TxcwPgtzJc81iseursMdk0T7cTCO1yurFfthXWIikr6nrtcj7/UtAG+UsRKF14xO
-         8EqZuJx/8QD/SuuYNldFUAMG0GfLXrvDf3bHBcDhtUSoOyAoMyA8UUsPA1wDUNLk2Znh
-         3K9fbsNsCoK7JgWHkvCzPd1frzTEt0B3yYNXjFBCju/QvFFLaB2oGu/px5+Cp4AAuK95
-         e7RA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=b2ppqeQcOMd6dTSzE8IeEM9rboLHegJMz/unIwotf6Y=;
-        b=O+OJiBt4KhIv9pYnI3QeP+VSTlnKe9xvt8bu8h+OtuxkxSbxlRCTM1hfiJg+nOnHzw
-         Irsm80wJilq1EfZ42Natj/EI51pQsD688WTXTom0xWKXwNi0m1dVRbcCd03Bt8xQPlbw
-         jSewr+8VALaDHBI0L77dSP1HPfXXB+OXopzJmXihZ+5SCigP6dnM1UHlw2uLrGtcXlTC
-         +7aqqky6nFd6cFmjeTz2toBSEojCvDH5oU9jk+24zJIbJ1O3Y4tXcvsFFj6VjlA6X/9P
-         E7Rx12N+/ElR4K5goe0YpOtuZk37GZW30LSXfI9xoWhAqfug1j1HsBO/hV9xpIovqLUU
-         rc+Q==
-X-Gm-Message-State: AOAM530jJetk+KIkQHntIQ7Tr/dTjyrOZjtCpfJQfgyf99WnBweD+2MI
-	JymnhGvhmR8iSHuHWGD63legaZU0JYoay7bKPYY=
-X-Google-Smtp-Source: ABdhPJwrmKqHYRjWWiBf8pq6Bt3aTEn1YSgnYx9n1NH95zca103BupMV8yNOI2gORaMD5Wkzz+04wgBqa21SAcF40VA=
-X-Received: by 2002:a17:906:8056:: with SMTP id x22mr19848368ejw.298.1623759054638;
- Tue, 15 Jun 2021 05:10:54 -0700 (PDT)
-MIME-Version: 1.0
-References: <b345fed3-bf43-178e-70b3-6f3bacdbbb65@axis.com>
-In-Reply-To: <b345fed3-bf43-178e-70b3-6f3bacdbbb65@axis.com>
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Tue, 15 Jun 2021 08:10:43 -0400
-Message-ID: <CADkTA4Oh8V-M-G2OOhhp70ygXNVP8b1qhkV9asJGDCf1=YdvLw@mail.gmail.com>
+  d=axis.com; q=dns/txt; s=axis-central1; t=1623760061;
+  x=1655296061;
+  h=subject:to:cc:references:from:message-id:date:
+   mime-version:in-reply-to:content-transfer-encoding;
+  bh=MIZ5DHZBImmuyCOOTPgxH8BbvqQivvEXd5j41ZCVfnM=;
+  b=I1j3PverYOHtBTK6YMtEbr/FQBMjFb3fumfuX8S9B/w8Vc0cAsPDK808
+   hWkKXw+RRUXLGGkKHJGYTB51ViXYQjp1yidIJLJONXZ8619q8Wlx2Jkud
+   V8ZNahhnid2qlY9UF5n52ZqhtdeaaxvFVZoglOUNCROpCbUrb4y5cYoT2
+   dsvBTBi3NncvXLGrSvR3s6eeZ5BvlK1JMVe7THSEbGjubV+PQVtxqxBdG
+   9SU2viBt8EWz0l5eGr2jQHwq8nUm4jdeGYYFeu/FwYLaILzv1V9PtKVaH
+   1Nymp8qkycBtascjopBm9k4J4wIpV6/LMSjffdKwCCvYE41mUdXcT8EK7
+   w==;
 Subject: Re: [meta-virtualization] [cni] do_compile network issue behind proxy for Hardknott
-To: Joakim Roubert <joakim.roubert@axis.com>
-Cc: "meta-virtualization@lists.yoctoproject.org" <meta-virtualization@lists.yoctoproject.org>
-Content-Type: text/plain; charset="UTF-8"
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+CC: "meta-virtualization@lists.yoctoproject.org"
+	<meta-virtualization@lists.yoctoproject.org>
+References: <b345fed3-bf43-178e-70b3-6f3bacdbbb65@axis.com>
+ <CADkTA4Oh8V-M-G2OOhhp70ygXNVP8b1qhkV9asJGDCf1=YdvLw@mail.gmail.com>
+From: "Joakim Roubert" <joakim.roubert@axis.com>
+Message-ID: <594ed2dd-652e-92c8-97c9-e370d7c15b04@axis.com>
+Date: Tue, 15 Jun 2021 14:27:39 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+MIME-Version: 1.0
+In-Reply-To: <CADkTA4Oh8V-M-G2OOhhp70ygXNVP8b1qhkV9asJGDCf1=YdvLw@mail.gmail.com>
+Return-Path: joakim.roubert@axis.com
+X-Originating-IP: [10.0.5.60]
+X-ClientProxiedBy: XBOX03.axis.com (10.0.5.17) To XBOX03.axis.com (10.0.5.17)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jun 15, 2021 at 7:31 AM Joakim Roubert <joakim.roubert@axis.com> wrote:
->
-> Hi!
->
-> After upgrade to Hardknott from Gatesgarth, building cni on a machine
-> behind a proxy gives me network errors:
->
-> run.do_compile.18062' failed with exit code 1:                      go:
-> github.com/onsi/ginkgo@v1.13.0: Get
-> "https://proxy.golang.org/github.com/onsi/ginkgo/@v/v1.13.0.mod": dial
-> tcp 142.250.74.81:443: connect: network is unreachable
->
-> The command that fails is
->
-> https://git.yoctoproject.org/cgit/cgit.cgi/meta-virtualization/tree/recipes-networking/cni/cni_git.bb?h=hardknott&id=6c9b889224cedd42191ef5edc7e1f37b0c8ecfec#n37
->
-> and can be mitigated by explicitly setting the proxy environment
-> variable on that line:
->
-> http_proxy=http://<myproxyserver>:<proxyport>
-> https_proxy=http://<myproxyserver>:<proxyport> ${GO} build
->
-> Since building with Gatesgarth (where that line is the same in the
-> recipe, but the cni version 0.7 instead of 0.8) worked fine I did not
-> expect this to happen. Do you guys have any ideas? (Setting the
-> environment variable as describe above does not strike me as the
-> proper/best solution...)
-
-I have a note written on the paper in front of me "fix cni build for
-no-network", and a half started fix. :D
-
-So yes, cni is doing some fetches, due to missing go dependencies and
-trying to do a go.mod build. Neither of which we want.
-
-Let me dig up my changs and see how far away they are from being ready for test.
-
-Bruce
-
->
-> BR,
->
-> /Joakim
->
+On 2021-06-15 14:10, Bruce Ashfield wrote:
 > 
->
+> I have a note written on the paper in front of me "fix cni build for
+> no-network", and a half started fix. :D
 
+:-D
 
--- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+> Let me dig up my changs and see how far away they are from being ready 
+> for test.
+
+Awesome, thanks! I will be more than happy to evaluate such changes here 
+in my builds.
+
+BR,
+
+/Joakim
