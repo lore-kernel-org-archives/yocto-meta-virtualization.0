@@ -1,180 +1,111 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
- by mx.groups.io with SMTP id smtpd.web11.4325.1623725018774086100
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+ by mx.groups.io with SMTP id smtpd.web08.4338.1623725166617832035
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 14 Jun 2021 19:43:39 -0700
+ Mon, 14 Jun 2021 19:46:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=AmH5/wTg;
- spf=pass (domain: gmail.com, ip: 209.85.218.48, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ej1-f48.google.com with SMTP id gt18so1369995ejc.11
-        for <meta-virtualization@lists.yoctoproject.org>; Mon, 14 Jun 2021 19:43:38 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ZqEJDv8g;
+ spf=pass (domain: gmail.com, ip: 209.85.208.47, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ed1-f47.google.com with SMTP id t7so3843734edd.5
+        for <meta-virtualization@lists.yoctoproject.org>; Mon, 14 Jun 2021 19:46:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Ys4vhrf5wEHkXNt3f47bvF3/BYAUM+58Q0eJ1tz0ZsQ=;
-        b=AmH5/wTgOBCIljV3yCmddL3zI/i0xwYlmE7YkOnXMf4zle+xfwfgEgeK8qIYXkDiOQ
-         DKAcR+UacEV3ttqxqyyWnkbBTKjx9LyFuPEe1TklPVV6Kmk9aziSExXm6FtGczakmBlF
-         sJb/5j4eUy8kCvXMU3jEWP677KE9g7+vpS4WK8Na6FQARbkEF1kiua4vu1ehqsCiykBL
-         f/rb87GG3tubJak09dIzL7fIWKCUWr5aeWKOtijADJ1gF2VKc7tmir7+5naA2EDBpRhh
-         nE4ec5V6LDS7nEyiCUfkb0teLUm+eZIdnoNqFdFROvmaowxCN9RWwQd/yJ2QoSsJmVzQ
-         ewuw==
+         :cc:content-transfer-encoding;
+        bh=fdLM+33pI7tNRvZiNLkzomnM2japun8j4i4sYRTm5OM=;
+        b=ZqEJDv8gvtS6Gs5/mLmNb/q2c8txmPypD4YxBjXEOqOM8tvD58oJwR/ejkTUlb5uni
+         sOrNxnAkQZ/SzBBGq/SkgNWXNIE1pWg6pf2bTEzzefmiOjSwR+aSUsoVdU+C+eQIvqHC
+         ELyIThrogO1pXgfyLvPpIla+fwqD/0u3fz4fQygjM2Fc3PWBLUlgRjak3MlWNeNt3WVO
+         9MtPRyPGHLKRWpct3k18wrwjlpEYWr2mhR2/KSahI1fK8PLqgUUlv3Vft4qmIisMCEmo
+         IdLsTEtiD1SaaOcGEEZAE/4xYxQrUS3nclP1po9YVeWJqrFhdJmmiKiU87oBuEMoIZOQ
+         mZdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Ys4vhrf5wEHkXNt3f47bvF3/BYAUM+58Q0eJ1tz0ZsQ=;
-        b=aOSffgF34wpug5WtYJg/OODDFKUUxZJypSkUErGLbKTt6v9xRgi2NIAvS+wXDQfWK+
-         dGAG/Fs5GZ/lf4MXPIBLw0Tpj/FWWcWv9gZaBx63q8xO1wBknkcE5dMp5XEH0X260SMa
-         fy6ohH783fkfvwtXUIl2e2W7Ff+St+76mA0124yN7kcd00XNDfONM6HYtdlodng3cTRs
-         GbZrH9ugT2vz5/tilgaXBxkpYUkWJeFjxsYKgtRcJr6zlGvgrbea4r6cSN6uUuEgpkpo
-         tlFJSWjMlyKOcT4lZfN+clCT0buYdAMUu/nIyDHxQkFf9D/iaqichElb9DXokoM6cyeO
-         u2rA==
-X-Gm-Message-State: AOAM530iGIEkY5tZ4eKvcpT4qXtsL4STDfS562M6NVgJj/IqZboTTJx3
-	DqswmytE16h2zJU82s+ecP1epaBbpLyZTEbiRO0MAMYKrXgLdA==
-X-Google-Smtp-Source: ABdhPJy0k5h28kzZk8em+R+f+bCMIDPh5ooam/+7UnyCog7wjnEr9Cs03UWoQvcjwhyDRlVTI5Cct27km0cG7eR8KRs=
-X-Received: by 2002:a17:906:c211:: with SMTP id d17mr18409039ejz.247.1623725016696;
- Mon, 14 Jun 2021 19:43:36 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=fdLM+33pI7tNRvZiNLkzomnM2japun8j4i4sYRTm5OM=;
+        b=dylNs56Y0yoD5kWQKj48idamcOloU7W4rnsKhJFeKoo1Mn2hwmAm+aWEGvZfdbZo+K
+         rWMn70/lYDdr1z1adv0mrSDiLjygYN3F7mo8hE40Ohe0E+dfbJIFFTlxSzXOm4ViswEc
+         BisX9kIZOL+JlwgoVXbc503+LRgtwSdxqRH7dc2HDrOPFjmtnPcoR/36qZbeM07K3sfH
+         atCO7pEXABS4DHbJRw/DQm73MfuxIxVlVBmTCZuFT6uVWhf7lfOuWt8FLe1YPYCHGtlt
+         OVU3Nnz1K/oMsLX6ohhwL3kJ+91A1mvOgoJ1t4+23PhtZ7QE3A5/5i8e+ApHR6dxVEng
+         D44w==
+X-Gm-Message-State: AOAM530Tkg92gHZ28Oot15r2VthCnbKXoEBYKTaQd/xEaF6fcUKbyu6T
+	Kswvd4XvUNKp61/2iEWlj0Vmw4G0LFO8PwxhjLI=
+X-Google-Smtp-Source: ABdhPJz2GXjFouwIYfSb12t3d45izMytdYMxRWzIj1tGOOjB+n+p7+14GcJ64aBvZWgI+81GHtcnY/FLAf2v1YXjgqw=
+X-Received: by 2002:a05:6402:26d3:: with SMTP id x19mr21507158edd.234.1623725165172;
+ Mon, 14 Jun 2021 19:46:05 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210317054105.28887-1-Qi.Chen@windriver.com> <CADkTA4PrV4snkCyQ3A9KpJhaQsr-85j3Mt4QqCuO+52fd3MLtA@mail.gmail.com>
- <f6186111-db43-2c48-f0f7-ee71b0a0b5db@windriver.com>
-In-Reply-To: <f6186111-db43-2c48-f0f7-ee71b0a0b5db@windriver.com>
+References: <qTwn.1623666439663990628.RPs0@lists.yoctoproject.org>
+ <CADkTA4PkCG-xJ+hRANh4_tQFRdBGHrvsqkj=_Y_SPyK=Ru-fDg@mail.gmail.com>
+ <AS8PR08MB701191287DFA90A2F8408D7D95319@AS8PR08MB7011.eurprd08.prod.outlook.com>
+ <CADkTA4Mynf55A2NjnZ0ao2-7S2JWKsyXnwO-mJA5YHQp9psjnA@mail.gmail.com> <254de5b76e238bfae14c0b3d2376c99af068a5c9.camel@linuxfoundation.org>
+In-Reply-To: <254de5b76e238bfae14c0b3d2376c99af068a5c9.camel@linuxfoundation.org>
 From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Mon, 14 Jun 2021 22:43:25 -0400
-Message-ID: <CADkTA4OfN1jdwKNio6sKMzVVZ7HN7Xtc3Fy34hTi0ufnfeWawA@mail.gmail.com>
-Subject: Re: [meta-virtualization][PATCH] runc-docker: adjust patch to fit latest version
-To: Kai <kai.kang@windriver.com>
-Cc: Chen Qi <Qi.Chen@windriver.com>, meta-virtualization@lists.yoctoproject.org
+Date: Mon, 14 Jun 2021 22:45:54 -0400
+Message-ID: <CADkTA4PzxKq59J7sxU79CDF5m3Ar91-VHH=tisGqV0r8do4tvw@mail.gmail.com>
+Subject: Re: [meta-virtualization] Networking issue with l3s when using systemd
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Matt Spencer <Matt.Spencer@arm.com>, 
+	"meta-virtualization@lists.yoctoproject.org" <meta-virtualization@lists.yoctoproject.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jun 14, 2021 at 9:51 PM Kai <kai.kang@windriver.com> wrote:
+On Mon, Jun 14, 2021 at 4:33 PM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
 >
-> On 3/17/21 8:59 PM, Bruce Ashfield wrote:
+> On Mon, 2021-06-14 at 13:59 -0400, Bruce Ashfield wrote:
+> > On Mon, Jun 14, 2021 at 10:59 AM Matt Spencer <Matt.Spencer@arm.com> wr=
+ote:
+> > >
+> > > Hey Bruce,
+> > >
+> > > I understand that changing things can be difficult once launched.
+> > >
+> > > But looking at the systemd documentation here https://wiki.archlinux.=
+org/title/systemd-networkd and in the note that says 'Devices can also be m=
+atched by their type. E.g. Type=3Dether for Ethernet, Type=3Dwlan for Wi-Fi=
+ and Type=3Dwwan for WWAN. Note that Type=3Dether will also match virtual E=
+thernet interfaces (veth*), which may be undesirable.'
+> > >
+> > > I have created a patch that modifies poky's meta/recipes-core/systemd=
+/systemd-conf/wired.network to add '+Name=3D!veth*' to the Match clause whi=
+ch the team at Arm are reviewing with a view to upstream.
+> > >
+> > > I feel that this should have been the default behaviour anyway?
+> >
+> > Perhaps, but it is probably a good idea to have the default as broad
+> > as possible.  If someone comes up with an alternate requirement, you'd
+> > end up having a harder time keeping them both working in oe-core.
+> >
+> > We could also carry a bbappend in meta-virtualization that triggers
+> > when "virtualization" is in the distro features. That way we are
+> > providing an override that makes sense within the context of the layer
+> > that is providing it, and the distro features that are enabled.
 >
-> On Wed, Mar 17, 2021 at 1:41 AM Chen Qi <Qi.Chen@windriver.com> wrote:
->
-> Adjust patch to fit the latest version.
->
-> This is the wrong fix (and the commit log is wrong).
->
-> I unified runc-docker and runc-opencontainers upstream repositories a
-> while ago, since there are no longer docker specifics in a runc
-> variant.
->
-> I will delete the runc-docker recipe soon, but have been waiting on
-> that a bit longer.
->
-> When I bumped runc last week, I forgot to bump the second variant as
-> well. I've now done that, and the patch issues are gone.
->
-> Hi Bruce,
->
-> It breaks do_patch again. And what is the "second variant" you've mentioned, please?
->
+> FWIW I suspect the veth change should be ok for OE-Core if I understand
+> things correctly.
 
-I just pushed the fix.
+I'm sure we'll hear if someone is expecting networkd to manage their
+veth devices :D
 
-By "second variant", I just mean the runc-docker.
+Either way works for me, I just lean towards keeping core very general
+and not tailored to any particular use case.
 
-At one point, it was significant, but it is basically identical to the
-runc-opencontainers one at this point, with a couple of extra patches.
-There's one shared patch, and I tend to forget to update the
-runc-docker when I bump runc-opencontainers.
+If you are doing virtualization, and in particular kubernetes based,
+you need to have a close look at your networking regardless.
 
-I'll start the process of dropping runc-docker in the upcoming release.
+Cheers,
 
 Bruce
 
-> Regards,
-> Kai
 >
-> Bruce
+> Cheers,
 >
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> ---
->  ...docker-Makefile-respect-GOBUILDFLAGS.patch | 37 +++++++++++++++++++
->  recipes-containers/runc/runc-docker_git.bb    |  2 +-
->  2 files changed, 38 insertions(+), 1 deletion(-)
->  create mode 100644 recipes-containers/runc/runc-docker/0001-runc-docker-Makefile-respect-GOBUILDFLAGS.patch
+> Richard
 >
-> diff --git a/recipes-containers/runc/runc-docker/0001-runc-docker-Makefile-respect-GOBUILDFLAGS.patch b/recipes-containers/runc/runc-docker/0001-runc-docker-Makefile-respect-GOBUILDFLAGS.patch
-> new file mode 100644
-> index 00000000..7ea9109a
-> --- /dev/null
-> +++ b/recipes-containers/runc/runc-docker/0001-runc-docker-Makefile-respect-GOBUILDFLAGS.patch
-> @@ -0,0 +1,37 @@
-> +From c8ac2963cf17d4ee45b8b6ccbdfd81fe52e7092a Mon Sep 17 00:00:00 2001
-> +From: Chen Qi <Qi.Chen@windriver.com>
-> +Date: Tue, 16 Mar 2021 22:27:45 -0700
-> +Subject: [PATCH] Makefile: respect GOBUILDFLAGS for runc and remove recvtty
-> + from static
-> +
-> +Upstream-Status: Inappropriate [OE Specific]
-> +
-> +Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> +---
-> + Makefile | 3 +--
-> + 1 file changed, 1 insertion(+), 2 deletions(-)
-> +
-> +diff --git a/src/import/Makefile b/src/import/Makefile
-> +index e13d8f1d..409b61dd 100644
-> +--- a/src/import/Makefile
-> ++++ b/src/import/Makefile
-> +@@ -23,7 +23,7 @@ ifeq ($(shell $(GO) env GOOS),linux)
-> +               GO_BUILDMODE := "-buildmode=pie"
-> +       endif
-> + endif
-> +-GO_BUILD := $(GO) build -trimpath $(MOD_VENDOR) $(GO_BUILDMODE) $(EXTRA_FLAGS) -tags "$(BUILDTAGS)" \
-> ++GO_BUILD := $(GO) build $(GOBUILDFLAGS) -trimpath $(MOD_VENDOR) $(GO_BUILDMODE) $(EXTRA_FLAGS) -tags "$(BUILDTAGS)" \
-> +       -ldflags "-X main.gitCommit=$(COMMIT) -X main.version=$(VERSION) $(EXTRA_LDFLAGS)"
-> + GO_BUILD_STATIC := CGO_ENABLED=1 $(GO) build -trimpath $(MOD_VENDOR) $(EXTRA_FLAGS) -tags "$(BUILDTAGS) netgo osusergo" \
-> +       -ldflags "-w -extldflags -static -X main.gitCommit=$(COMMIT) -X main.version=$(VERSION) $(EXTRA_LDFLAGS)"
-> +@@ -40,7 +40,6 @@ recvtty:
-> +
-> + static:
-> +       $(GO_BUILD_STATIC) -o runc .
-> +-      $(GO_BUILD_STATIC) -o contrib/cmd/recvtty/recvtty ./contrib/cmd/recvtty
-> +
-> + release:
-> +       script/release.sh -r release/$(VERSION) -v $(VERSION)
-> +--
-> +2.30.2
-> +
-> diff --git a/recipes-containers/runc/runc-docker_git.bb b/recipes-containers/runc/runc-docker_git.bb
-> index 118bfc1d..9e7043ad 100644
-> --- a/recipes-containers/runc/runc-docker_git.bb
-> +++ b/recipes-containers/runc/runc-docker_git.bb
-> @@ -5,7 +5,7 @@ include runc.inc
->  SRCREV_runc-docker = "b4cb54c2ea78b90f9d8284316aeaeff876f61dfc"
->  SRC_URI = "git://github.com/opencontainers/runc;nobranch=1;name=runc-docker \
->             file://0001-runc-Add-console-socket-dev-null.patch \
-> -           file://0001-Makefile-respect-GOBUILDFLAGS-for-runc-and-remove-re.patch \
-> +           file://0001-runc-docker-Makefile-respect-GOBUILDFLAGS.patch \
->             file://0001-runc-docker-SIGUSR1-daemonize.patch \
->            "
->
-> --
-> 2.17.1
->
->
->
->
->
-> --
-> - Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at its end
-> - "Use the force Harry" - Gandalf, Star Trek II
->
->
-> 
->
->
-> --
-> Kai Kang
-> Wind River Linux
 
 
-
--- 
+--=20
 - Thou shalt not follow the NULL pointer, for chaos and madness await
 thee at its end
 - "Use the force Harry" - Gandalf, Star Trek II
