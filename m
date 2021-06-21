@@ -1,83 +1,75 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
- by mx.groups.io with SMTP id smtpd.web11.46736.1624280503693345573
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+ by mx.groups.io with SMTP id smtpd.web08.46978.1624280911837252013
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 21 Jun 2021 06:01:44 -0700
+ Mon, 21 Jun 2021 06:08:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=gufMif1r;
- spf=pass (domain: gmail.com, ip: 209.85.218.44, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ej1-f44.google.com with SMTP id hc16so300976ejc.12
-        for <meta-virtualization@lists.yoctoproject.org>; Mon, 21 Jun 2021 06:01:43 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=h3zDxb5a;
+ spf=pass (domain: gmail.com, ip: 209.85.218.51, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ej1-f51.google.com with SMTP id nd37so28746575ejc.3
+        for <meta-virtualization@lists.yoctoproject.org>; Mon, 21 Jun 2021 06:08:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=fA8uPtq98Arbug+d5mrcrL5EJ5irpTwYjNRJyAEnxlA=;
-        b=gufMif1r0SnYoMRoMMyxkjBrbmZ4HLfyGQe//eehH9Fdi3wFv4srtJjW78Fo3XODY+
-         XbkvkEz/MaWRJJI1l0asbLdjkdJfDLcHArEzCCsx5CiUIx/UMNQ72pAvK+s7tas0pT0q
-         gS7NdrjFyJ9b93PuKfiiuY8dP2KAmyaw+Siyz4Y17gvaNenyvJ+F+LVTRaq+oxGtIrWj
-         RPqdfBR/YvN+lMaKUb3Cjd9wq0+1t5KWBS79kPfKqcfiOBsIyBtOYWoF14wVIyl8nmeC
-         94bE277bTz/WbkxvGvYGNeS5OsiHMgS2VCPekYXY4bGIACoe90ZQ99BjB4DJnbU6bry4
-         5rqg==
+        bh=DYcSruXftXaBd5fOlbEMOlIUJIJ3PAZsjXlkqCDCQhQ=;
+        b=h3zDxb5apZhB4TyByF1Elnw8omb88Tm6BhGdh3exNC3kGRCO1USqhMTDhPqOmpNK91
+         r3rEnLjNwczNBvVakBZTAbM6X2veE9x0iWPypO8gM9CJsTQ5lKsYGatIBGp5m0U+CG/6
+         gYDbmdxamMJGsTFJmeGlpuQ9+kGiHmFYPBoLaQO3FY0xn45a6K5DWSBfymekvZP7pJqT
+         2LSk0ssATja16iE80heqkKKhCX/k8hxklmRUb/mvNZM7WYY+4/QF/7GPSbCdr0mSQHxi
+         9Jx8Jq7TO3MDQKUnbSPiMxXi9EvFZ8yY8FL89gjwFRo5Lw4scjIDyyExiBZU3lfybFn0
+         svyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=fA8uPtq98Arbug+d5mrcrL5EJ5irpTwYjNRJyAEnxlA=;
-        b=FCFQu3vSgjNGwlwZRC4PKwz3ntoCMSyTbH+MhvMvLSJrIjf2OoY2dJGXVREnUVvpAM
-         KFeP1Bi5lR5iKEll+0wbqzQi5AXEsmBud6NSA3mTXdSBBGxGizyVhx2YyCisuZuDTjtU
-         9K/oEgO6xCWY2WySjYWc5+JY0hYt78uMkISFkTUKr5gAcIDTQrrs0reiiqD17Z7dQWKg
-         ApfGAcPDAGh0kwK9oR8Mcbk1cWdqVFOf6aVx9s1LsYJX8Vho2JN+YdDUqp9Rz3CoZIzB
-         a1RKhFC/Oh6yFfS/wSVOq5Xv5pTxHu7O2ApeWHay2OquJhIS3XS0tr878L1qgxHNd8PS
-         dQDA==
-X-Gm-Message-State: AOAM531/hIv4EDu8x+KhGsGtJQA/edkWvvpK3nEWbSNem3lKmejgmNrT
-	GvaaMTOAjkoO8f7H8PZhJwcfd7cMCZILYbJUIUk=
-X-Google-Smtp-Source: ABdhPJwtM6ZffS6lnck9R+FhEq7um5jOIa2GagRCWQQXnFuZlpBahw29/gYY7+1cnRDsHvdqcbk/O4UIEOpHyWiv+mk=
-X-Received: by 2002:a17:906:180a:: with SMTP id v10mr24349484eje.22.1624280502174;
- Mon, 21 Jun 2021 06:01:42 -0700 (PDT)
+        bh=DYcSruXftXaBd5fOlbEMOlIUJIJ3PAZsjXlkqCDCQhQ=;
+        b=U6vMGVo83Yd/5pNrIKwYfPZFVTJ/0cxhaefheRyQ3zSNvSR7IuZPRciueJNSEDrFON
+         q90pbPcsklr7QeS+qnSDraHJL86WWkKzs/1haZdmvt2J2oBBpcuFpdRGhmfTy2is4dDQ
+         SOqvXR4mO9Ny6kldv/MsFnwr99ijqQAAVyhwV5XMHrd/edXWcR4+UEfh1sKkuDUR05G8
+         dl3I/7+mfiw4OlPmhTR+vllEgepXAkmDPWENzipAs4cJbqdStw2mcMUMt5ERwDhD0gZQ
+         FHOQDDLpxp2fNJ/1XDiy3n4MMOSZaevuGvEQMX5mSiEVHCxu1lqFJj/ckWojN8B6jXD9
+         /GuA==
+X-Gm-Message-State: AOAM531uPz4SbV5usXjF76ah2T7Yedhn2+pKyviTawWj598FIIikntaC
+	pb8a3Q2O16+OKbd6VyoTbLeAO6NoB+Kkk/h/Stw=
+X-Google-Smtp-Source: ABdhPJwJm4U+3giYSOW8IessQng9aiTBVGIowGDG3Bl+jEc5SdKuPdUkJZ6wlyZ4QNcocVJem0iqS0h5v9WivqeRhBc=
+X-Received: by 2002:a17:906:ca17:: with SMTP id jt23mr24986273ejb.334.1624280910099;
+ Mon, 21 Jun 2021 06:08:30 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210621114433.4510-1-h.assmann@pengutronix.de>
-In-Reply-To: <20210621114433.4510-1-h.assmann@pengutronix.de>
+References: <20210616074153.31524-1-yanfei.xu@windriver.com>
+In-Reply-To: <20210616074153.31524-1-yanfei.xu@windriver.com>
 From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Mon, 21 Jun 2021 09:01:31 -0400
-Message-ID: <CADkTA4N0dL=Q1yqFL7x7X6aejC6c3b=xEVjk=KwcrL_M0ADAbA@mail.gmail.com>
-Subject: Re: [meta-virtualization][PATCH 1/2] crun: branch "master" renamed to "main"
-To: Holger Assmann <h.assmann@pengutronix.de>
+Date: Mon, 21 Jun 2021 09:08:19 -0400
+Message-ID: <CADkTA4OmZbh_0CGbGCmrRcOdmDF=nftB9ihukHvJhQGJVvT9OQ@mail.gmail.com>
+Subject: Re: [meta-virtualization][PATCH] umoci: add nativesdk to BBCLASSEXTEND
+To: "Xu, Yanfei" <yanfei.xu@windriver.com>
 Cc: meta-virtualization@lists.yoctoproject.org
 Content-Type: text/plain; charset="UTF-8"
 
-Thanks for the fix!
-
-I had made the same changes over the weekend, and coupled them with
-bumps to the recipes. They are now pushed to the repo (and the branch
-changes cherry picked to older releases).
+merged
 
 Bruce
 
-On Mon, Jun 21, 2021 at 7:44 AM Holger Assmann <h.assmann@pengutronix.de> wrote:
+On Wed, Jun 16, 2021 at 3:42 AM Xu, Yanfei <yanfei.xu@windriver.com> wrote:
 >
-> crun "master" branch has been renamed to "main", so change SRC_URI
-> accordingly.
+> add nativesdk to BBCLASSEXTEND
 >
-> Signed-off-by: Holger Assmann <h.assmann@pengutronix.de>
+> Signed-off-by: Yanfei Xu <yanfei.xu@windriver.com>
 > ---
->  recipes-containers/crun/crun_git.bb | 2 +-
+>  recipes-containers/umoci/umoci_git.bb | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/recipes-containers/crun/crun_git.bb b/recipes-containers/crun/crun_git.bb
-> index ced1e1c..ed2c5b0 100644
-> --- a/recipes-containers/crun/crun_git.bb
-> +++ b/recipes-containers/crun/crun_git.bb
-> @@ -9,7 +9,7 @@ SRCREV_ispec = "79b036d80240ae530a8de15e1d21c7ab9292c693"
->  SRCREV_rspec = "7413a7f753e1bd9a6a9c6dc7f96f55888cbbd476"
+> diff --git a/recipes-containers/umoci/umoci_git.bb b/recipes-containers/umoci/umoci_git.bb
+> index 7cd147b2..f83a35a7 100644
+> --- a/recipes-containers/umoci/umoci_git.bb
+> +++ b/recipes-containers/umoci/umoci_git.bb
+> @@ -77,4 +77,4 @@ do_install() {
+>  }
 >
->  SRCREV_FORMAT = "crun_rspec"
-> -SRC_URI = "git://github.com/containers/crun.git;branch=master;name=crun \
-> +SRC_URI = "git://github.com/containers/crun.git;branch=main;name=crun \
->             git://github.com/containers/libocispec.git;branch=main;name=libocispec;destsuffix=git/libocispec \
->             git://github.com/opencontainers/runtime-spec.git;branch=master;name=rspec;destsuffix=git/libocispec/runtime-spec \
->             git://github.com/opencontainers/image-spec.git;branch=master;name=ispec;destsuffix=git/libocispec/image-spec \
+>  INSANE_SKIP_${PN} += "ldflags already-stripped"
+> -BBCLASSEXTEND = "native"
+> +BBCLASSEXTEND = "native nativesdk"
 > --
-> 2.29.2
+> 2.27.0
 >
 >
 > 
