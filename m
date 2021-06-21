@@ -1,56 +1,52 @@
-Received: from mail1.wrs.com (mail1.wrs.com [147.11.146.13])
- by mx.groups.io with SMTP id smtpd.web09.42944.1624254070883478033
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+ by mx.groups.io with SMTP id smtpd.web09.45868.1624275877324598976
  for <meta-virtualization@lists.yoctoproject.org>;
- Sun, 20 Jun 2021 22:41:11 -0700
+ Mon, 21 Jun 2021 04:44:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: mingli.yu@windriver.com)
-Received: from mail.windriver.com (mail.wrs.com [147.11.1.11])
-	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 15L5f9hH012746
-	(version=TLSv1.1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
-	for <meta-virtualization@lists.yoctoproject.org>; Sun, 20 Jun 2021 22:41:09 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 15L5f8CM029652
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
-	for <meta-virtualization@lists.yoctoproject.org>; Sun, 20 Jun 2021 22:41:09 -0700 (PDT)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.10; Sun, 20 Jun 2021 22:41:08 -0700
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.10 via Frontend Transport; Sun, 20 Jun 2021 22:41:07 -0700
-From: "Yu, Mingli" <mingli.yu@windriver.com>
-To: <meta-virtualization@lists.yoctoproject.org>
-Subject: [PATCH] conmon: switch to main branch
-Date: Mon, 21 Jun 2021 13:40:46 +0800
-Message-ID: <20210621054046.15518-1-mingli.yu@windriver.com>
+ dkim=missing; spf=pass (domain: pengutronix.de, ip: 85.220.165.71, mailfrom: has@pengutronix.de)
+Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28])
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <has@pengutronix.de>)
+	id 1lvILz-0000uH-NU; Mon, 21 Jun 2021 13:44:35 +0200
+Received: from has by dude02.hi.pengutronix.de with local (Exim 4.92)
+	(envelope-from <has@pengutronix.de>)
+	id 1lvILz-0003kW-Eu; Mon, 21 Jun 2021 13:44:35 +0200
+From: h.assmann@pengutronix.de
+To: meta-virtualization@lists.yoctoproject.org
+Cc: Holger Assmann <h.assmann@pengutronix.de>
+Subject: [meta-virtualization][PATCH 1/2] crun: branch "master" renamed to "main"
+Date: Mon, 21 Jun 2021 13:44:32 +0200
+Message-Id: <20210621114433.4510-1-h.assmann@pengutronix.de>
 X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
+X-SA-Exim-Mail-From: has@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: meta-virtualization@lists.yoctoproject.org
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 
-From: Mingli Yu <mingli.yu@windriver.com>
+crun "master" branch has been renamed to "main", so change SRC_URI
+accordingly.
 
-Switch to main branch to fix do_fetch error.
-
-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+Signed-off-by: Holger Assmann <h.assmann@pengutronix.de>
 ---
- recipes-containers/conmon/conmon_git.bb | 2 +-
+ recipes-containers/crun/crun_git.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/recipes-containers/conmon/conmon_git.bb b/recipes-containers/conmon/conmon_git.bb
-index 74f5bfa..974eb07 100644
---- a/recipes-containers/conmon/conmon_git.bb
-+++ b/recipes-containers/conmon/conmon_git.bb
-@@ -8,7 +8,7 @@ DEPENDS = "glib-2.0 go-md2man-native"
+diff --git a/recipes-containers/crun/crun_git.bb b/recipes-containers/crun/crun_git.bb
+index ced1e1c..ed2c5b0 100644
+--- a/recipes-containers/crun/crun_git.bb
++++ b/recipes-containers/crun/crun_git.bb
+@@ -9,7 +9,7 @@ SRCREV_ispec = "79b036d80240ae530a8de15e1d21c7ab9292c693"
+ SRCREV_rspec = "7413a7f753e1bd9a6a9c6dc7f96f55888cbbd476"
  
- SRCREV = "31614525ebc5fd9668a6e084b5638d71b903bf6d"
- SRC_URI = "\
--    git://github.com/containers/conmon.git \
-+    git://github.com/containers/conmon.git;branch=main \
- "
- 
- PV = "2.0.28+git${SRCPV}"
+ SRCREV_FORMAT = "crun_rspec"
+-SRC_URI = "git://github.com/containers/crun.git;branch=master;name=crun \
++SRC_URI = "git://github.com/containers/crun.git;branch=main;name=crun \
+            git://github.com/containers/libocispec.git;branch=main;name=libocispec;destsuffix=git/libocispec \
+            git://github.com/opencontainers/runtime-spec.git;branch=master;name=rspec;destsuffix=git/libocispec/runtime-spec \
+            git://github.com/opencontainers/image-spec.git;branch=master;name=ispec;destsuffix=git/libocispec/image-spec \
 -- 
 2.29.2
 
