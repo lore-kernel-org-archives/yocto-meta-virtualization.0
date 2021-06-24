@@ -1,116 +1,88 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
- by mx.groups.io with SMTP id smtpd.web09.46.1624553391543414407
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+ by mx.groups.io with SMTP id smtpd.web09.57.1624553444084516676
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 24 Jun 2021 09:49:51 -0700
+ Thu, 24 Jun 2021 09:50:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=qgaTSPyu;
- spf=pass (domain: gmail.com, ip: 209.85.208.47, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ed1-f47.google.com with SMTP id s6so9448856edu.10
-        for <meta-virtualization@lists.yoctoproject.org>; Thu, 24 Jun 2021 09:49:51 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=hsnpvNLd;
+ spf=pass (domain: gmail.com, ip: 209.85.218.52, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ej1-f52.google.com with SMTP id gn32so10616442ejc.2
+        for <meta-virtualization@lists.yoctoproject.org>; Thu, 24 Jun 2021 09:50:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=+JKwEmhu0+/Y2CPa3o6ui7gcOGbvoVqcrcVUITb69Aw=;
-        b=qgaTSPyufOG/igzVfjMJeguRC9lfgVmV8GoAMg8se5CFCSLUkdJbppSZKnGu76Wdzu
-         XuzB7+b/wKFZBiU+COy1ZWji8RARLkP/+IRe0nIWL77Guw56Dw8GGSWRIajbOno1Pyp8
-         s2IyqGVWmBOrJjCt9ZHEZ5RY2P5SHuGmatpfu2zaHOFiX+luILEi+Shl5STdmqyp7xtl
-         tpqYDG8+wcGY1T0LdJm+Zt/JL5k4XampXQZ3s5IJHZG82HqybGlXBM7y56+FGQq07pGI
-         iRtb5GugDoLqAEGTlyN52iERkfApBa/4mgMwEO1q7OyYyTH07ERRMScMECeuu1Cbt7dP
-         UbEQ==
+        bh=EpXW1Qy5WX5qeF2KjvRjW+d/OXFfH5kPRZDjs4YZTek=;
+        b=hsnpvNLdLli/c/qusJiAIoI4/fnPvyrRDhMk4VPz9aiENwIMCRKPrST7ffmyzfMVc0
+         C1WUCiADWVQ8Ke2QeEUVVUA1ePWQyxdptferFFdXM1hVd5dLXUfC8du61TbK9nnJNatG
+         OhwEBgqEg+LoJmrvmzucdK4bOifFkz/qJZauHyPsVcacMg/TbU0m2UeYEl9NIBUyFWlq
+         huFsXJlmFYksgr13y3r3a24iSeKfa0lSNQHnoMqN95j7Yqy505rEskcVaBxVGufEAlGj
+         iwVOWLJaEGlAu68kEybJbQegKx9jnQ2vt9rQDC9CAeX0BA/ZYPX8UysIFtp3Xl6OpniX
+         d83w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=+JKwEmhu0+/Y2CPa3o6ui7gcOGbvoVqcrcVUITb69Aw=;
-        b=imm6Er8pQjtMw/u6GcwN6Kvt5vWEgF7i5W6ypXijsW6FyS3RX9kOkYDpSxkCW5hJwT
-         mzLwTdMZ0qaruy1adU4wxKlXJINT06LLkaD316vWkkc+47tWJjwH+O/2H+wRUv6TUivk
-         RFy3t2o/j0hL4Mc+JWYDvU55Jfo72tu1d6oEL94/RQ03M9YJ6efKTnbQjgoBI65J4amS
-         CX2sUo7fSAhW2lN8pyPhn1S2hRKYgVim/0ICG93PR2SDnObOKRKJMFfzT23J4tlQy1Ld
-         l15ZrzUhsk7Bv6sjHV4rMG5sbpX7BZlY5JMsI16NhT2LN4ATPMw/cW3Io9yyoGrxFXNP
-         3TSQ==
-X-Gm-Message-State: AOAM532L2Y95vKNoqmCyrAAdk9W4liwK6p7XVlO6G9u8Vg2fa2pEQcWi
-	r77C8pZ6LzLBmlSLZmhyscwA1ing0lC3HwUBPos=
-X-Google-Smtp-Source: ABdhPJzwhYdssoe8Zc2BGmHPxdkD26etExzQXs+xhfpAm6mr5Gr2dbY7ZTbFodV+YVNmAdz29IDK95/3TxCXK7GU4uk=
-X-Received: by 2002:a05:6402:90a:: with SMTP id g10mr8391002edz.365.1624553389894;
- Thu, 24 Jun 2021 09:49:49 -0700 (PDT)
+        bh=EpXW1Qy5WX5qeF2KjvRjW+d/OXFfH5kPRZDjs4YZTek=;
+        b=KtEBohDYvKGIxCAXoFWeyGQtc+gTudKFFbMQrKvCjebG4HEc02x/2sbb80rimNr/P7
+         l4A3IhQeQAK8rFSRfo8kOKUAS/OUHn7zil50GODf5k/sv5Mz9Wiazv3mdXV3aBgC4Gsq
+         wo7odnIg3iZcB5C4YnkO4ukankFZvuRoIBz6PPDWjnvSkk3pT9gQJ1P/DKbOUsfgfmqi
+         oeZTvvf2+gN5o12fYaOxwurnXBCGT9jYpEHLtESxTCbq80cj/tNyn7xGQy2aWoMEc8y0
+         FiubUuKvZpWutmWSJri7ajv/TJsi9wcyq+huttFOfjV0RXC4WBwMlQ0fmmf2/LNQxxxp
+         6rUw==
+X-Gm-Message-State: AOAM533aYZ1bWXIs1+QMup6/P1HYF22SqeblmB9Gi9h4w3VzKcg6f09V
+	ipPASE5i9NxJIyBRmlv3KrZwuRHnVc8/yxZWThA=
+X-Google-Smtp-Source: ABdhPJwsmm2wXZnT7KVg1fnTQ/IqYO6pWcpu9xsffBbVJEn7nlMz8t0Apupu+XiZTXzFYcAZhUjXxNxPcRzvEUYQJio=
+X-Received: by 2002:a17:907:a8f:: with SMTP id by15mr6248136ejc.357.1624553442361;
+ Thu, 24 Jun 2021 09:50:42 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210622095531.33700-1-yanfei.xu@windriver.com>
-In-Reply-To: <20210622095531.33700-1-yanfei.xu@windriver.com>
+References: <20210623163527.2150181-1-Martin.Jansa@gmail.com>
+In-Reply-To: <20210623163527.2150181-1-Martin.Jansa@gmail.com>
 From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Thu, 24 Jun 2021 12:49:38 -0400
-Message-ID: <CADkTA4NanrTDpF=mLypqD4aTj+6osr_w6yA684kNivjKtPh6DQ@mail.gmail.com>
-Subject: Re: [meta-virtualization][PATCH] skopeo: add native and nativesdk support
-To: "Xu, Yanfei" <yanfei.xu@windriver.com>
+Date: Thu, 24 Jun 2021 12:50:31 -0400
+Message-ID: <CADkTA4Oi4mJSFRe5dH_C5HanHbozD1VJM=KH4NHij4Gf_pj5aw@mail.gmail.com>
+Subject: Re: [meta-virtualization][PATCH] conmon: add dependency on libseccomp and seccomp to REQUIRED_DISTRO_FEATURES
+To: Martin Jansa <Martin.Jansa@gmail.com>
 Cc: meta-virtualization@lists.yoctoproject.org
 Content-Type: text/plain; charset="UTF-8"
 
-merged
+Thanks Martin,
+
+This is now merged.
 
 Bruce
 
-On Tue, Jun 22, 2021 at 5:55 AM Xu, Yanfei <yanfei.xu@windriver.com> wrote:
+On Wed, Jun 23, 2021 at 12:35 PM Martin Jansa <Martin.Jansa@gmail.com> wrote:
 >
-> 1.Add native and nativesdk support.
+> * added with to v2.0.29 commit:
+>   106cad5 seccomp: add support for seccomp notify
+> * fixes:
+>   | src/seccomp_notify.c:9:10: fatal error: seccomp.h: No such file or directory
+>   |     9 | #include <seccomp.h>
+>   |       |          ^~~~~~~~~~~
 >
-> 2.Replace "multipath-tools" with "libdevmapper" and "lvm2". Because
-> the really direct DEPENDS package is "libdevmapper" and "lvm2". Log
-> of do_comopile as below:
->
-> -----------------[cut here]---------------------
-> DEBUG: Executing shell function do_compile
-> NOTE: make -j 40 BUILDTAGS= bin/skopeo
-> CGO_CFLAGS="-I/...../usr/include"
-> CGO_LDFLAGS="-L/...../usr/lib
-> -lgpgme -lgpg-error -lassuan" GO111MODULE=on go build -mod=vendor
-> "-buildmode=pie" -ldflags '-X
-> main.gitCommit=8efffce8befc2de87670ba75d6c86ada61e869fd ' -gcflags ""
-> -tags "" -o bin/skopeo ./cmd/skopeo
-> Package devmapper was not found in the pkg-config search path.
-> Perhaps you should add the directory containing `devmapper.pc'
-> to the PKG_CONFIG_PATH environment variable
-> No package 'devmapper' found
-> pkg-config: exit status 1
-> make: *** [Makefile:134: bin/skopeo] Error 2
->
-> Signed-off-by: Yanfei Xu <yanfei.xu@windriver.com>
+> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 > ---
->  recipes-containers/skopeo/skopeo_git.bb | 15 ++++++++++++++-
->  1 file changed, 14 insertions(+), 1 deletion(-)
+>  recipes-containers/conmon/conmon_git.bb | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
 >
-> diff --git a/recipes-containers/skopeo/skopeo_git.bb b/recipes-containers/skopeo/skopeo_git.bb
-> index 2c292463..6c95bf3e 100644
-> --- a/recipes-containers/skopeo/skopeo_git.bb
-> +++ b/recipes-containers/skopeo/skopeo_git.bb
-> @@ -5,7 +5,8 @@ LIC_FILES_CHKSUM = "file://src/import/LICENSE;md5=7e611105d3e369954840a6668c4385
+> diff --git a/recipes-containers/conmon/conmon_git.bb b/recipes-containers/conmon/conmon_git.bb
+> index 5c45ce0..e2f452c 100644
+> --- a/recipes-containers/conmon/conmon_git.bb
+> +++ b/recipes-containers/conmon/conmon_git.bb
+> @@ -4,7 +4,10 @@ HOMEPAGE = "https://github.com/containers/conmon"
+>  LICENSE = "Apache-2.0"
+>  LIC_FILES_CHKSUM = "file://LICENSE;md5=61af0b6932ea7b12fb9142721043bc77"
 >
->  DEPENDS = " \
->      gpgme \
-> -    multipath-tools \
-> +    libdevmapper \
-> +    lvm2 \
->      btrfs-tools \
->      glib-2.0 \
->      ostree \
-> @@ -80,4 +81,16 @@ do_install() {
->         install ${WORKDIR}/registries.conf ${D}/${sysconfdir}/containers/registries.conf
->  }
+> -DEPENDS = "glib-2.0 go-md2man-native"
+> +inherit features_check
+> +REQUIRED_DISTRO_FEATURES ?= "seccomp"
+> +
+> +DEPENDS = "glib-2.0 go-md2man-native libseccomp"
 >
-> +do_install_append_class-native() {
-> +    create_cmdline_wrapper ${D}/${sbindir}/skopeo \
-> +        --policy ${sysconfdir}/containers/policy.json
-> +}
-> +
-> +do_install_append_class-nativesdk() {
-> +    create_cmdline_wrapper ${D}/${sbindir}/skopeo \
-> +        --policy ${sysconfdir}/containers/policy.json
-> +}
-> +
->  INSANE_SKIP_${PN} += "ldflags"
-> +
-> +BBCLASSEXTEND = "native nativesdk"
+>  SRCREV = "1ef246896b4f6566964ed861b98cd32d0e7bf7a2"
+>  SRC_URI = "\
 > --
-> 2.27.0
+> 2.30.2
 >
 >
 > 
