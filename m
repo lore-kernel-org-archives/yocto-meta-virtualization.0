@@ -1,204 +1,234 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
- by mx.groups.io with SMTP id smtpd.web09.9373.1625231560936855266
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+ by mx.groups.io with SMTP id smtpd.web12.9481.1625232249733457665
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 02 Jul 2021 06:12:41 -0700
+ Fri, 02 Jul 2021 06:24:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=JBB/HTyD;
- spf=pass (domain: gmail.com, ip: 209.85.218.54, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ej1-f54.google.com with SMTP id hc16so16040338ejc.12
-        for <meta-virtualization@lists.yoctoproject.org>; Fri, 02 Jul 2021 06:12:40 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=IwmYNZoI;
+ spf=pass (domain: gmail.com, ip: 209.85.218.50, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ej1-f50.google.com with SMTP id i20so15795087ejw.4
+        for <meta-virtualization@lists.yoctoproject.org>; Fri, 02 Jul 2021 06:24:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=oKFAN5PESq2PT6ZtW4kUbwV8/X3pBKZMI9DI7P3egGc=;
-        b=JBB/HTyDOx2tGFAznCfde1qI6sBL8vQn1lomJtnwaKAn/7jsn/IgWWcgDyMY8zUyjl
-         /S2bPUlnOC8rsuAiWeA1xE1TKunEHeQYEKd2tQ9vUTtjZqX5Zjc4Q482lOkWwZrXUpOU
-         EquLjOuxdcIkvIIrtAdUlap+05VE8C/cDqwRTfEeZm1caPML3hNEfKIJ7o5onku1JLq0
-         oDBi9FZ3J3z2pi+B4Xh3Am9NMbg+IK0tTVbWGe1hrOmuhiQcr6DJlM9unJ+FXNbfMnPF
-         Sm3y2zMeDWcUVsg7MfklhjsshLa7RpoLu9fPOMWpkM74AIfTko8yC+V5IwYujr8YAxEL
-         Suow==
+        bh=quFfhM556I7g7GaQl0G0Y1bwqbKAp7bKhBP2Y+ZweHw=;
+        b=IwmYNZoIsu9B8nFJXlto/pH3s4scT0oaS1/xFxeOUn22vUbvCMdXBVqMe3ZMNAaKo3
+         FnqBR4FGroX3dR++W7Woxj9FFqJPgWNwa3hPoxQIpcSpQSDbKAk5qCOP0X1KMzD7zTzL
+         fXCH02KnYgFRz9yyR6Om1zzySh8iQXsSZjXHUYar/3TGtW02jhpjiczMxEtGQEJcP716
+         LTqEe2iCPiype/vlukVXuoUAFTmuoId6QG7bgnxZc7R4IbvmCJR8veQbMiKfN0kWGv1p
+         UJ2qdrj/jbiUd2btp6WT4XOPSDGG+4QQOBObs5e7cfr/fd2Exn/wQ3hyIm7hEGrvZKlh
+         Q0/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=oKFAN5PESq2PT6ZtW4kUbwV8/X3pBKZMI9DI7P3egGc=;
-        b=J/8nUpFUplxzbDRHb/xVgI7ieNe/+Hw2kr1C2KCNeU9hmVOorjZPPlts81uE7qEVTT
-         b1GwhezN2093PXu7w/0j5DXnZYpg0gKWytF2j1mJNo7+Ckyd7bWWyYNh1C5MPkq059fv
-         ykyiTTOvVamI1we01AniU3yaMfdg+Oie6mFLhl2omwHYiPqkdVCJGx+Ugbo8bwb+ZKe1
-         W0njXFAj/mEWKFg9W2a6Vr8X/0PqyyY2bPY3jQ7XXQbEjPmALP70hXr3zHoCHXgHzg4z
-         bFyPUr0OJtQyLAHMsSESq43eTMsCn+xGjUpDfQvtr/lwDdBX3A2c+HhhrK+JVi9V5emT
-         U/3A==
-X-Gm-Message-State: AOAM530bXah68f/LGSzCj2eQLzR3lqURDlV2AlvWdw9S4z0I44wl/o0B
-	FqMeGhoitucBQZL46ZWRd2I6VapzLolpyAIUr6o=
-X-Google-Smtp-Source: ABdhPJz3UoiZKRW1lIOCPR5rmcuqTu6mC3w0FavRP54zxFgS5M5TyTfnWyP4UqYn3QxFenqZinwQk2SwWZOyxXMRMuo=
-X-Received: by 2002:a17:906:2cca:: with SMTP id r10mr5082864ejr.298.1625231559166;
- Fri, 02 Jul 2021 06:12:39 -0700 (PDT)
+        bh=quFfhM556I7g7GaQl0G0Y1bwqbKAp7bKhBP2Y+ZweHw=;
+        b=VfF8+jOpOjNSkagLdvfH4woNBFVb59jmJgeNgwCw+ZdQ3mTtlBXEinKKE2cCOh8hBW
+         9tblbdPOnnF45zHTsKQt5bwgMsAWb6Gi1h4FSO/W2Yf1rDljHOe/txl6+YsrJ5oFZzBc
+         nqs5JHaP9SyjMZJam0j8TLFH9+HJ6ERzo0l2LX0kzah14P/lM2oi6g5YIT2ARsD3+9mD
+         QbnHhxVZ82rdlKKnnS0jpfDLB8do2/+RbwT8utWoVDb9hT15Op8OeQZm3D9kadktmh3M
+         ZaaJgtraJgLkVHtkpj0pMRUbTYo6mMPSGZ/uPaEMU66iw26gKugA0fh7GdBQgFysmAfo
+         HehA==
+X-Gm-Message-State: AOAM533rvlHBzhaBcF9iLV0SyvAaFuIAapUP7EYglKyAONXOQvbPuRIG
+	zO3oatMU5K0H9iTmASnPWDrzwwOSaTu7XzMe1uI=
+X-Google-Smtp-Source: ABdhPJwsXEBTQu4UNcwyuv+scQuFtqHhDSzb4iPTHQ2vKJ6RkKWH3xDA8zLpv7BrsKgpigGMcZH5RVasRJrcCMmw1OQ=
+X-Received: by 2002:a17:906:c2cf:: with SMTP id ch15mr5310611ejb.517.1625232246498;
+ Fri, 02 Jul 2021 06:24:06 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210702075942.37015-1-hongxu.jia@windriver.com> <168DFAA59EFCBE06.30759@lists.yoctoproject.org>
-In-Reply-To: <168DFAA59EFCBE06.30759@lists.yoctoproject.org>
+References: <168DEA6BA6D7C3F7.26864@lists.yoctoproject.org> <9477d86d-e33d-d726-b0ee-2693e655e8bd@windriver.com>
+In-Reply-To: <9477d86d-e33d-d726-b0ee-2693e655e8bd@windriver.com>
 From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Fri, 2 Jul 2021 09:12:28 -0400
-Message-ID: <CADkTA4NFipXx59_rYdgxJY0p1k7SrJhxAYAQ-EWADTnNXoX2EQ@mail.gmail.com>
+Date: Fri, 2 Jul 2021 09:23:55 -0400
+Message-ID: <CADkTA4PnFfL5Ro_9WmRD8jMdgG5-zMJT+6tsMQjOJJNQk3hcwQ@mail.gmail.com>
 Subject: Re: [meta-virtualization][PATCH] umoci: rework recipe
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: Hongxu Jia <hongxu.jia@windriver.com>, meta-virtualization@lists.yoctoproject.org
+To: Hongxu Jia <hongxu.jia@windriver.com>
+Cc: meta-virtualization@lists.yoctoproject.org
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Jul 2, 2021 at 8:57 AM Bruce Ashfield via
-lists.yoctoproject.org
-<bruce.ashfield=gmail.com@lists.yoctoproject.org> wrote:
+On Fri, Jul 2, 2021 at 4:11 AM Hongxu Jia <hongxu.jia@windriver.com> wrote:
 >
-> On Fri, Jul 2, 2021 at 3:59 AM Hongxu Jia <hongxu.jia@windriver.com> wrote:
-> >
-> > 1. tweak homepage
-> >
-> > 2. Use go_do_compile of go bbclass in oe-core to replace
-> >    the do_compile in recipe, variables such as LD,CC,
-> >    CFLAGS, CGO_CFLAGS will be set automatically
-> >
-> > 3. Use go_do_install of go bbclass in oe-core to replace
-> >    the do_install in recipe, all necessary will be installed
-> >
-> > 4. export GO111MODULE=off globally
-> >
-> > 5. Skip file-rdeps insane for umoci dev packages since scripts
-> >    in umoci dev packages contains awk, bash shebang
-> >
+> On 7/2/21 3:59 PM, hongxu wrote:
 >
-> Hmm. no. We need to keep all of the local parts of this recipe, it
-> needs to stay somewhat the bbclasses in oe-core, due to the way it
-> changes over time.
+> 1. tweak homepage
 >
-> What we have works, and I'll leave it as-is.
+> 2. Use go_do_compile of go bbclass in oe-core to replace
+>    the do_compile in recipe, variables such as LD,CC,
+>    CFLAGS, CGO_CFLAGS will be set automatically
+>
+> 3. Use go_do_install of go bbclass in oe-core to replace
+>    the do_install in recipe, all necessary will be installed
+>
+> 4. export GO111MODULE=off globally
+>
+> 5. Skip file-rdeps insane for umoci dev packages since scripts
+>    in umoci dev packages contains awk, bash shebang
+>
+> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> ---
+>  recipes-containers/umoci/umoci_git.bb | 75 ++++-----------------------
+>  1 file changed, 10 insertions(+), 65 deletions(-)
+>
+> diff --git a/recipes-containers/umoci/umoci_git.bb b/recipes-containers/umoci/umoci_git.bb
+> index f83a35a7..c4007eb3 100644
+> --- a/recipes-containers/umoci/umoci_git.bb
+> +++ b/recipes-containers/umoci/umoci_git.bb
+> @@ -1,80 +1,25 @@
+> -HOMEPAGE = "https://github.com/openSUSE/umoci"
+> +HOMEPAGE = "https://umo.ci"
+>  SUMMARY = "umoci modifies Open Container images"
+>  LICENSE = "Apache-2.0"
+> -LIC_FILES_CHKSUM = "file://COPYING;md5=3b83ef96387f14655fc854ddc3c6bd57"
+> +LIC_FILES_CHKSUM = "file://src/${GO_IMPORT}/COPYING;md5=3b83ef96387f14655fc854ddc3c6bd57"
+>
+>  RDEPENDS_${PN} = "skopeo"
+>  RDEPENDS_${PN}_class-native = ""
+>
+> -SRCREV_umoci = "758044fc26ad65eb900143e90d1e22c2d6e4484d"
+> -SRC_URI = "git://github.com/opencontainers/umoci.git;branch=master;name=umoci;destsuffix=github.com/opencontainers/umoci \
+> -          "
+> +SRCREV = "758044fc26ad65eb900143e90d1e22c2d6e4484d"
+> +SRC_URI = " \
+> +    git://${GO_IMPORT}; \
+> +"
+>
+>  PV = "v0.4.7-dev+git${SRCPV}"
+> -S = "${WORKDIR}/github.com/opencontainers/umoci"
+> +S = "${WORKDIR}/git"
+>  GO_IMPORT = "github.com/opencontainers/umoci"
+>
+>  inherit goarch
+>  inherit go
+>
+> -# This disables seccomp and apparmor, which are on by default in the
+> -# go package.
+> -EXTRA_OEMAKE="BUILDTAGS=''"
+> +export GO111MODULE="off"
+>
+> -
+> -do_compile_class-native () {
+> -    export GOARCH="${BUILD_GOARCH}"
+> -
+> -    # Pass the needed cflags/ldflags so that cgo can find the needed headers files and libraries
+> -    export CGO_ENABLED="1"
+> -    export CFLAGS="${BUILD_CFLAGS}"
+> -    export LDFLAGS="${BUILD_LDFLAGS}"
+> -    export CGO_CFLAGS="${BUILD_CFLAGS}"
+> -
+> -    # as of go 1.15.5, there are some flags the CGO doesn't like. Rather than
+> -    # clearing them all, we sed away the ones we don't want.
+> -    # export CGO_LDFLAGS="$(echo ${BUILD_LDFLAGS} | sed 's/-Wl,-O1//g' | sed 's/-Wl,--dynamic-linker.*?( \|$\)//g')"
+> -    export CC="${BUILD_CC}"
+> -    export LD="${BUILD_LD}"
+> -
+> -    export GOPATH="${WORKDIR}/git/"
+> -    export GO111MODULE=off
+> -
+> -    cd ${S}
+> -
+> -    # why static ? patchelf will be run on dynamic binaries and it breaks
+> -    # the executable (coredump)
+> -    # https://forum.snapcraft.io/t/patchelf-broke-my-binary/4928
+> -    # https://github.com/NixOS/patchelf/issues/146
+> -    oe_runmake umoci.static
+> -
+>
+> Hi Bruce,
+>
+> About native umoci, I've no idea about the patchelf testing, I directly run native umoci -h in my build
+>
 
-I should add that there is a middle ground.
+I have a whole series of OCI image construction changes that do need
+that static support. both sloci and umoci run in some unique ways to
+do the image work, hence why it must be static and isolated from the
+defaults.
 
-Leave the source layout as-is, and the explicit compile/install
-routines in place. If there are some variables that can now safely
-take defaults from the bbclass, we can use those. But dropping the
-recipe structure as it stands, and using the default routines (which
-have lost me days and weeks of time over the years), isn't going to
-make it into the tree as-is.
+Once I get 5.13 into oe-core as the default kernel, I'll be returning
+to that image work.
+
+Cheers,
 
 Bruce
 
+> ...
 >
-> cheers,
+> $ image/buildarea/raid5/hjia/wrlinux-20/lat_deb_061621/build-binary/tmp-glibc/work/x86_64-linux/umoci-native/0.4.6-r0/recipe-sysroot-native/usr/bin/umoci -h
+> NAME:
+>    umoci - umoci modifies Open Container images
 >
-> Bruce
+> USAGE:
+>    umoci [global options] command [command options] [arguments...]
 >
-> > Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> > ---
-> >  recipes-containers/umoci/umoci_git.bb | 75 ++++-----------------------
-> >  1 file changed, 10 insertions(+), 65 deletions(-)
-> >
-> > diff --git a/recipes-containers/umoci/umoci_git.bb b/recipes-containers/umoci/umoci_git.bb
-> > index f83a35a7..c4007eb3 100644
-> > --- a/recipes-containers/umoci/umoci_git.bb
-> > +++ b/recipes-containers/umoci/umoci_git.bb
-> > @@ -1,80 +1,25 @@
-> > -HOMEPAGE = "https://github.com/openSUSE/umoci"
-> > +HOMEPAGE = "https://umo.ci"
-> >  SUMMARY = "umoci modifies Open Container images"
-> >  LICENSE = "Apache-2.0"
-> > -LIC_FILES_CHKSUM = "file://COPYING;md5=3b83ef96387f14655fc854ddc3c6bd57"
-> > +LIC_FILES_CHKSUM = "file://src/${GO_IMPORT}/COPYING;md5=3b83ef96387f14655fc854ddc3c6bd57"
-> >
-> >  RDEPENDS_${PN} = "skopeo"
-> >  RDEPENDS_${PN}_class-native = ""
-> >
-> > -SRCREV_umoci = "758044fc26ad65eb900143e90d1e22c2d6e4484d"
-> > -SRC_URI = "git://github.com/opencontainers/umoci.git;branch=master;name=umoci;destsuffix=github.com/opencontainers/umoci \
-> > -          "
-> > +SRCREV = "758044fc26ad65eb900143e90d1e22c2d6e4484d"
-> > +SRC_URI = " \
-> > +    git://${GO_IMPORT}; \
-> > +"
-> >
-> >  PV = "v0.4.7-dev+git${SRCPV}"
-> > -S = "${WORKDIR}/github.com/opencontainers/umoci"
-> > +S = "${WORKDIR}/git"
-> >  GO_IMPORT = "github.com/opencontainers/umoci"
-> >
-> >  inherit goarch
-> >  inherit go
-> >
-> > -# This disables seccomp and apparmor, which are on by default in the
-> > -# go package.
-> > -EXTRA_OEMAKE="BUILDTAGS=''"
-> > +export GO111MODULE="off"
-> >
-> > -
-> > -do_compile_class-native () {
-> > -    export GOARCH="${BUILD_GOARCH}"
-> > -
-> > -    # Pass the needed cflags/ldflags so that cgo can find the needed headers files and libraries
-> > -    export CGO_ENABLED="1"
-> > -    export CFLAGS="${BUILD_CFLAGS}"
-> > -    export LDFLAGS="${BUILD_LDFLAGS}"
-> > -    export CGO_CFLAGS="${BUILD_CFLAGS}"
-> > -
-> > -    # as of go 1.15.5, there are some flags the CGO doesn't like. Rather than
-> > -    # clearing them all, we sed away the ones we don't want.
-> > -    # export CGO_LDFLAGS="$(echo ${BUILD_LDFLAGS} | sed 's/-Wl,-O1//g' | sed 's/-Wl,--dynamic-linker.*?( \|$\)//g')"
-> > -    export CC="${BUILD_CC}"
-> > -    export LD="${BUILD_LD}"
-> > -
-> > -    export GOPATH="${WORKDIR}/git/"
-> > -    export GO111MODULE=off
-> > -
-> > -    cd ${S}
-> > -
-> > -    # why static ? patchelf will be run on dynamic binaries and it breaks
-> > -    # the executable (coredump)
-> > -    # https://forum.snapcraft.io/t/patchelf-broke-my-binary/4928
-> > -    # https://github.com/NixOS/patchelf/issues/146
-> > -    oe_runmake umoci.static
-> > -
-> > -    # so the common install can find our binary
-> > -    cp umoci.static umoci
-> > -}
-> > -
-> > -do_compile() {
-> > -    export GOARCH="${TARGET_GOARCH}"
-> > -    export GOPATH="${WORKDIR}/git/"
-> > -
-> > -    # Pass the needed cflags/ldflags so that cgo
-> > -    # can find the needed headers files and libraries
-> > -    export CGO_ENABLED="1"
-> > -    export CFLAGS=""
-> > -    export LDFLAGS=""
-> > -    export CGO_CFLAGS="${BUILDSDK_CFLAGS} --sysroot=${STAGING_DIR_TARGET}"
-> > -    export CGO_LDFLAGS="${BUILDSDK_LDFLAGS} --sysroot=${STAGING_DIR_TARGET}"
-> > -
-> > -    export GO111MODULE=off
-> > -
-> > -    cd ${S}
-> > -
-> > -    oe_runmake umoci
-> > -}
-> > -
-> > -do_install() {
-> > -    install -d ${D}/${sbindir}
-> > -    install ${S}/umoci ${D}/${sbindir}
-> > -}
-> > -
-> > -INSANE_SKIP_${PN} += "ldflags already-stripped"
-> > +INSANE_SKIP_${PN}-dev += "file-rdeps"
-> > +INSANE_SKIP_${PN} += "already-stripped"
-> >  BBCLASSEXTEND = "native nativesdk"
-> > --
-> > 2.27.0
-> >
+> VERSION:
+>    unknown
 >
+> AUTHOR:
+>    Aleksa Sarai <asarai@suse.com>
 >
-> --
-> - Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at its end
-> - "Use the force Harry" - Gandalf, Star Trek II
+> COMMANDS:
+>    raw      advanced internal image tooling
+>    help, h  Shows a list of commands or help for one command
+>
+>    image:
+>      config      modifies the image configuration of an OCI image
+>      unpack      unpacks a reference into an OCI runtime bundle
+>      repack      repacks an OCI runtime bundle into a reference
+>      new         creates a blank tagged OCI image
+>      tag         creates a new tag in an OCI image
+>      remove, rm  removes a tag from an OCI image
+>      stat        displays status information of an image manifest
+>      insert      insert content into an OCI image
+>
+>    layout:
+>      gc        garbage-collects an OCI image's blobs
+>      init      create a new OCI layout
+>      list, ls  lists the set of tags in an OCI layout
+>
+> GLOBAL OPTIONS:
+>    --verbose      alias for --log=info
+>    --log value    set the log level (debug, info, [warn], error, fatal) (default: "warn")
+>    --help, -h     show help
+>    --version, -v  print the version
+>
+> ...
+>
+> //Hongxu
+>
+> -    # so the common install can find our binary
+> -    cp umoci.static umoci
+> -}
+> -
+> -do_compile() {
+> -    export GOARCH="${TARGET_GOARCH}"
+> -    export GOPATH="${WORKDIR}/git/"
+> -
+> -    # Pass the needed cflags/ldflags so that cgo
+> -    # can find the needed headers files and libraries
+> -    export CGO_ENABLED="1"
+> -    export CFLAGS=""
+> -    export LDFLAGS=""
+> -    export CGO_CFLAGS="${BUILDSDK_CFLAGS} --sysroot=${STAGING_DIR_TARGET}"
+> -    export CGO_LDFLAGS="${BUILDSDK_LDFLAGS} --sysroot=${STAGING_DIR_TARGET}"
+> -
+> -    export GO111MODULE=off
+> -
+> -    cd ${S}
+> -
+> -    oe_runmake umoci
+> -}
+> -
+> -do_install() {
+> -    install -d ${D}/${sbindir}
+> -    install ${S}/umoci ${D}/${sbindir}
+> -}
+> -
+> -INSANE_SKIP_${PN} += "ldflags already-stripped"
+> +INSANE_SKIP_${PN}-dev += "file-rdeps"
+> +INSANE_SKIP_${PN} += "already-stripped"
+>  BBCLASSEXTEND = "native nativesdk"
+>
 >
 > 
+>
 >
 
 
