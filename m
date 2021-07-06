@@ -1,532 +1,241 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
- by mx.groups.io with SMTP id smtpd.web08.10583.1625492162580830936
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web12.710.1625536464672333495
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 05 Jul 2021 06:36:03 -0700
+ Mon, 05 Jul 2021 18:54:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=s6cwdeRy;
- spf=pass (domain: gmail.com, ip: 209.85.218.48, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ej1-f48.google.com with SMTP id hr1so25695538ejc.1
-        for <meta-virtualization@lists.yoctoproject.org>; Mon, 05 Jul 2021 06:36:02 -0700 (PDT)
+ dkim=fail reason="body hash did not verify" header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=OdC7Rtyk;
+ spf=pass (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=2821a52d36=mingli.yu@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 1661sMk0007365;
+	Tue, 6 Jul 2021 01:54:22 GMT
+Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2103.outbound.protection.outlook.com [104.47.58.103])
+	by mx0a-0064b401.pphosted.com with ESMTP id 39keq6gwdd-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 06 Jul 2021 01:54:22 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Dl3PbjsKgqTqb4o74SWFb1EeDo51vvVrA7sNoUXnzYwisRlDAR/Wq1X0mwD3EZ6PUSkImT8WFBYsGtHT8RIHBd5iAWaaf/DBi+MYZ69+WRhe7WRq0MBesFfN1G6qaw2xcs1gISbkw3BzEHAJZh8SSnHCB8S4F2R/apJ+kiuiWkpLQRidTDKV7gchodSrx9i5XXuUrhLutqkA6cUaXiCh162mcG8MwDwjLpS0dW+X2fRMZHZ5eVpuX0lLOOHSLnYJQZcWN6oKwrNFV5eLiP1yYZVSH7jcEwo6khtFJrX2s2u0BBTSVtC9bF1SZqqf6IcODpK5tmubJxF1NoeN6vkuaQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=688CZx0QSUpL9iXUdrel64n7uOamLAY/suCdeTafFS4=;
+ b=V5211Sbws1UefBPEqghKqzpL5c2Reiu8YcsCyf8dNQgb4cqRlrd4WrIaqB6NFzLYPuCRN9jpFo4+AY/kO2SwtdcFfxpnQCgVakmAUzcYqmk82KPOHJJlww0AnW8CtyA3DUFFDNPxZhQ9Cc+bswFKyyjdHW3kB2fOvIwb7kKr7ydG3ILuZz6oasDQHXbfEm5kQ2UgUlYyBCjq58M5I9PdaMqgwBnpGRq7sX3HK5dei8DEX9WmLNy0Mvi30JY1XXtsTBE7lednfsCnfl/Z5n+TKC5nirbp27Q9obhSEIgZNswvEqJY5Rr1Ld4fPK0fB4Sxt9noMkXJ2y/6fL4yWcZ33g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=cBPFSTBHljk0KtFWbKt9hfoUbzKmj6SjXUObBt8O1kQ=;
-        b=s6cwdeRysNVRtQsn9X9rDHAdFTcdf2Msku+GHUVDtAQ1bjCFUef15eTRtZHt1kcIiy
-         wlk52YOTVTfWZSs/YcnxEWS607VtEKr9NMxkYw9HYDr2FkY8GFyPw2esjVdw5XXKJ1zE
-         YND+Sr0BQRMIogyDYCBFsAyanPwJQvPyRQT0jRmf0NiOPWqX4vN/REMJ6sx3eRmpDCrg
-         0bgqqqGuc9nDrQrnDIm8eZi18YxlH50Jep2386iKC0GesL9toqfdNAbamDHaXAfJHQqT
-         7pffmqiGAHoTkm5z14GUiYgg89nuZITuyeE8Ic3sxi0DyMXCAMLwgIB51e2n+9iVFiCs
-         ILkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=cBPFSTBHljk0KtFWbKt9hfoUbzKmj6SjXUObBt8O1kQ=;
-        b=lmhN68ybxqWVUyXJ+582kfOZKSjT1MBcxtSc8sdti5ADx1uzeDc7pePPvEft3PKGGt
-         MHDW1V4ZWwl1r6g2ak4k/ZcGMLMooDve7MYL+HrTbTrYvrRn80ptRjwB66dANoSjx1dE
-         /2JOSMQ78PHpAEFvOvm0q8Edf9ecHSZVJx2jyaoPhPedcqgGcS8p8mvaod5FyRdHYhMc
-         bbSKayQxvGaMbnYYkzni/FURyRIqsfzHfZ/hmohxLUHYdcreVKDn1IBv2qacbf8Zce2w
-         UrVIfQg1W5lhv+VrIbZhH9Pm656poi3ewN+QtvI1KxePdE6zdbHmPviuqL1DV8KGFjO3
-         eKVQ==
-X-Gm-Message-State: AOAM531pAVqhOcGCssb0dw81UDb2z8ULndV4EvP3mqi4MdkI9v3NG0y0
-	TON/bm8pWpOkdQPJhl8MdAQNAIb5U1e9mRjyP7M=
-X-Google-Smtp-Source: ABdhPJwps+voZelLtDqdeXfat719YP6keA1/W1wGYtYu7oKG2IgPmTrm7Z3loF0OFYCbcJ6hnB7PzD2xR7l+wEC4gK8=
-X-Received: by 2002:a17:907:77ca:: with SMTP id kz10mr13506410ejc.22.1625492160767;
- Mon, 05 Jul 2021 06:36:00 -0700 (PDT)
+ d=windriversystems.onmicrosoft.com;
+ s=selector2-windriversystems-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=688CZx0QSUpL9iXUdrel64n7uOamLAY/suCdeTafFS4=;
+ b=OdC7RtykGj45PaM2qhNzWiDx7tINRn7Df6+incDwf/Pb9R0kM8RCy+sclhQNSBrPA7F93NXVamZRK/02/UXUOOcdX3uew4Ns/m1WylvrljS+DYHoTWaV4hOnSJXxBdN4ULjVANAH5UGovMN6036kGxXSRzotWq8WEd0g3G+ArVY=
+Authentication-Results: lists.yoctoproject.org; dkim=none (message not signed)
+ header.d=none;lists.yoctoproject.org; dmarc=none action=none
+ header.from=windriver.com;
+Received: from CO1PR11MB5009.namprd11.prod.outlook.com (2603:10b6:303:9e::11)
+ by MW3PR11MB4556.namprd11.prod.outlook.com (2603:10b6:303:5b::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4287.24; Tue, 6 Jul
+ 2021 01:54:19 +0000
+Received: from CO1PR11MB5009.namprd11.prod.outlook.com
+ ([fe80::b9f0:8cd5:8e02:ec8e]) by CO1PR11MB5009.namprd11.prod.outlook.com
+ ([fe80::b9f0:8cd5:8e02:ec8e%4]) with mapi id 15.20.4287.033; Tue, 6 Jul 2021
+ 01:54:19 +0000
+Subject: Re: [meta-virtualization] [PATCH] conmon: switch to main branch
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: Bruce Ashfield <bruce.ashfield@gmail.com>,
+        meta-virtualization@lists.yoctoproject.org
+References: <20210621054046.15518-1-mingli.yu@windriver.com>
+ <CADkTA4ONqYOzDL2qJZDR0Wt3o6U+VZAzPEUew9sVX9wz+XtXWg@mail.gmail.com>
+ <71ba6591-ee91-45e7-e145-8567204bcdc5@windriver.com>
+ <CA+chaQc3jrrYerGhv8fEe7QjjqXbtVs02pDwanpWHTAxZWdEnA@mail.gmail.com>
+From: "Yu, Mingli" <mingli.yu@windriver.com>
+Message-ID: <07e0e996-a1b4-37d0-d703-4d4d0eb07deb@windriver.com>
+Date: Tue, 6 Jul 2021 10:01:03 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <CA+chaQc3jrrYerGhv8fEe7QjjqXbtVs02pDwanpWHTAxZWdEnA@mail.gmail.com>
+X-Originating-IP: [60.247.85.82]
+X-ClientProxiedBy: HK2PR02CA0189.apcprd02.prod.outlook.com
+ (2603:1096:201:21::25) To CO1PR11MB5009.namprd11.prod.outlook.com
+ (2603:10b6:303:9e::11)
 MIME-Version: 1.0
-References: <20210702003206.79756-1-christopher.w.clark@gmail.com>
- <20210702003206.79756-2-christopher.w.clark@gmail.com> <485C80E0-0070-4CD4-963D-69E1422DB882@arm.com>
- <CACMJ4GYuR9iEsFf1ixL1LhALdrQH=2Ov-_f=y94TKjT_Pme9EA@mail.gmail.com>
-In-Reply-To: <CACMJ4GYuR9iEsFf1ixL1LhALdrQH=2Ov-_f=y94TKjT_Pme9EA@mail.gmail.com>
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Mon, 5 Jul 2021 09:35:49 -0400
-Message-ID: <CADkTA4Pj9ZqYNG8axgcTCaVh91BTcZf5iToZwXOxuXE8BYYy1g@mail.gmail.com>
-Subject: Re: [meta-virtualization][PATCH 1/3] xen, xen-tools: add upstream patches for gcc11 compilation fixes
-To: Christopher Clark <christopher.w.clark@gmail.com>
-Cc: Bertrand Marquis <bertrand.marquis@arm.com>, 
-	"meta-virtualization@lists.yoctoproject.org" <meta-virtualization@lists.yoctoproject.org>, 
-	"cardoe@gentoo.org" <cardoe@gentoo.org>, Diego Sueiro <Diego.Sueiro@arm.com>, 
-	"andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>, 
-	"dpsmith@apertussolutions.com" <dpsmith@apertussolutions.com>, "persaur@gmail.com" <persaur@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [128.224.162.140] (60.247.85.82) by HK2PR02CA0189.apcprd02.prod.outlook.com (2603:1096:201:21::25) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4287.23 via Frontend Transport; Tue, 6 Jul 2021 01:54:18 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 83a34547-cde7-4291-9f23-08d94020f80f
+X-MS-TrafficTypeDiagnostic: MW3PR11MB4556:
+X-Microsoft-Antispam-PRVS: 
+	<MW3PR11MB4556DE68B5A30527083825E6F11B9@MW3PR11MB4556.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2512;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	MG+rtL8DGABh1XUTBgoBT0Fe1yGH62Q3hw+ehnYOWd7j7uQETypIMwzbyvYNuOFdIT1CN+aD8Vt1y6bcpQRGBmnmUlpqz5qHRnFpYYIYpTSJv+wD78W1wfbgWgWuh6M0FQaigGaL/1xDuF3XdCuKWbwAR4mEqqKre0U5Z8/GlCB7cTVgHtkqX6xo9Fwm8p4x9E/pcv6dvPnkYF4XHlXseYpKmlicN5fgzGw7vy87RnLJT9+Wu2dcATH5w+mV4h5op3crAaFv9+k76eSykfhyTaaughDR6k/11jNulsDHeOwcJvMt2tgTml2Alvy349L0kYlc5Ad7ungok415+aA11VKsu7u1CBvdGro+gnWDVInyu12VMwNYjdNXKMZm8laPCh/LfcJ8BZRsRRbOXsbaW2f3xUFm3tkqChL5g6vawDLmAYM8PVyfWz9w0/fCU0L31ozLx0zITLI1WDUfYjHzyNKGArHSb5GKjajrNd1QjXJ3Xyy9AUXGEo7qc6/nwldve9jw6Em9x99CKtaxa6ys5rRN8P5SuI9FQHwXzfRJTDYuPafzi4mbPGaFlgxhOhw41fa17JPl1MGrM2sY/kYGxNEUh95SzdDwuKwibGcw7qA+HbTRqQuIm1jxl8q5vyut51QfuP5E8aee9idDcu9QTBnrYjjq10kNZldV7ORG4CIMbQnkfWeRffx8pFe2A3aL2QZZTnWRLoyJCPGYIiSSz5QyfIzqc/o6zK8/Ghvqo9qJvjyx7Wko/HYXfFVpXUOfBk25A0r679junf1iGKfYH09xpUczC36HD51U/MXOz4I47RJqozYEjbtmI9zFj8ic8RDWCv1zJX2gbjwbNOiTSHzpHWccHnMKhcCMmqpUONjeDirAR1Ij5B7t+diAuk/AdBJ80920Ga9FT89a5RYyww==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB5009.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(366004)(346002)(376002)(136003)(39850400004)(6486002)(6666004)(4326008)(52116002)(8936002)(316002)(16576012)(2616005)(66946007)(66556008)(956004)(966005)(31686004)(66476007)(53546011)(31696002)(36756003)(6706004)(2906002)(478600001)(26005)(86362001)(16526019)(6916009)(186003)(8676002)(38350700002)(38100700002)(83380400001)(5660300002)(78286007)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?ZzZld2NtTm5SMGtkUU05eUtJK2FjTm51SEo5eFdjSktqK0V6WFQ1WndwWE5u?=
+ =?utf-8?B?Wko1dTV4c1JRZkZTRTYyQ0lYcng5VnArZTNNQlduR2hySHRvTGtjNGN3dUNL?=
+ =?utf-8?B?U3krcEd0NEY5V3dqbEhJaVVGSUxoL1E3VDlzQmVwRWtleTI4ZEJ4L1MvMGJk?=
+ =?utf-8?B?cVNhS29URXEwa0FZWEczWDdTWXQrWVkwTy9uU1k3QzhseWZRZUhCbUQzQnFZ?=
+ =?utf-8?B?ek1KRllWSnJLV1pHWUVwNThRVXhxTUtjV3FsSW1Gb2RYRmJicFdPN1NLbGNp?=
+ =?utf-8?B?NVp5ZHViZzhIZ1UxK1FWUitVbEI0ZWhKQy9FQUJrczlZTHJBQmlISDRiZFAx?=
+ =?utf-8?B?NFIyRzlzZE9SUEs5eVlFTDlFWHUzdG9IU2JjUGRHSkJiaVlsRCswck1vRU13?=
+ =?utf-8?B?OGU5Uk5kZGlVd0hBcU95RlRaT1AzWVFnQ1hhYmVzeHFqS1hYeTNvNGp4MFJk?=
+ =?utf-8?B?MXlEb3VGUFRSY2xGS2taVllsbDh0cmVOaW1DeGpDd3NZQ2N0ZEVXcXF4VnNB?=
+ =?utf-8?B?STNkVElydUYzQ1VxOFZQQkd4MEUxRFZsN1lCRzZHYXhCQVM5WVJZOWFYblRT?=
+ =?utf-8?B?WFprS01pelpsMnNEOEduWGRFSmR6NDB5Nkhwd0hML1hNRkdUa2MyWE41MlNQ?=
+ =?utf-8?B?dGpsUklTSnZ6S1ErNmhjWDJ5cW8rdnMyL2ZPaGdrSENJeEZXb3dUMXRSQjFi?=
+ =?utf-8?B?YVpFSEdqUGR6Vkp5QjZkVVlnM1NKa0JGUWNlTnQvWXlaR1ZucVIvMmNsYVFT?=
+ =?utf-8?B?dTVkQXZUMkEwd08zcmMxbXZzVS9iejNPc3pnS1V0WkZWaGxwWjZIOWkwOW5o?=
+ =?utf-8?B?MHBvUkovUGdEZExpTDRHcTNyV3NwSE9OcEZaWEM0MURBdEJ3emJpa1luNDVw?=
+ =?utf-8?B?bVl2K1ppNFBOSWsvcEtwZi9ZMW0zRGZPdGhFS1Fjb0QzMDkzVDJOano4WG5J?=
+ =?utf-8?B?NTJvVGovKzgvRzhVM2hFSngxSWtlMVpIeGZsbnlUZzR4b2EwTDRFTy9uSTFJ?=
+ =?utf-8?B?WnU4VVhsMnJIcWFoWDJmK1Jna0p6bk0xcytpNW5EWmdOUEtnTk54YW04ZlRQ?=
+ =?utf-8?B?LzYrOGRaTGIrR2FpZ0xDVGsrL3dOQ3dRVnJCSG5Ic0RPYlNnZE5vSmRTc1Bs?=
+ =?utf-8?B?bFhWN3h3YnlOUXJSQU9xdnVqSCsvMkJLMkFLM1huQ0hISk42TVk1ZmdaQnho?=
+ =?utf-8?B?amtkTGRhYXZDRkNBdXJCeUlYN2FzdVZVS1h4eFhRMVRVb3ZpZUp5TGpxTVJ3?=
+ =?utf-8?B?N2pLeGo5YXRRZlcwM2x1L0ZmcWtucG9MaWRoYlRvNVdIR3RyZzZoV1QwR2t3?=
+ =?utf-8?B?eXU1RUg5WGlhWjFReGVBbGdHbkFFZXY1OWk5a3Y0d084T2JRcU5UT0doSzRZ?=
+ =?utf-8?B?QnQreldVaGVKbzVCMHQxVjZNT3JsWEh0M3J4dTJpWUZVblN6SGE5OEY4SGlk?=
+ =?utf-8?B?TlZsK3VrR2dxRFRnMSs0SW9ySk5rcGQ0SnFWWVY3NkU1RHEzaTRJMGpVaFdV?=
+ =?utf-8?B?Ny9WcjhWNUgwREdJZzFWVzkxS3Q5TnRhbVcrT3VrL08zMHlDZkg5N3cwQytX?=
+ =?utf-8?B?OFhHZEcwQnlmdjd1ZmhwLzFsOHpneElHRWQ5YXpKbm5yK3o0QVJVMndKRnRq?=
+ =?utf-8?B?bXlpMlNtV1dJQkZTN05nTXQ4S0VBVzVQRzNQWVF6QzRFa3BTa05Ia2hkMVo0?=
+ =?utf-8?B?b0thaGk5ZE42V3NvS2wyMVdmdlZQZm8veEpyYXlCUHBDSWlTZnEvWnpQR3RX?=
+ =?utf-8?Q?ydLOu45SGWlPOjF1lBrIC2UkaHiz6HC4SX8Gpps?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 83a34547-cde7-4291-9f23-08d94020f80f
+X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB5009.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jul 2021 01:54:19.6193
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 384sR+mK4r0PUM+n/kwW9pFCGC9I4mtGlt/9SdV9c/DpDK3i/t2R75pBQyJWSFXEG7BKa+EdOX1bimpBwxlDmw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR11MB4556
+X-Proofpoint-GUID: IOBCa0hoIp4RLS3z-iEA9woGEahl42kG
+X-Proofpoint-ORIG-GUID: IOBCa0hoIp4RLS3z-iEA9woGEahl42kG
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.790
+ definitions=2021-07-05_12:2021-07-02,2021-07-05 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0
+ priorityscore=1501 suspectscore=0 clxscore=1011 bulkscore=0 mlxscore=0
+ impostorscore=0 lowpriorityscore=0 adultscore=0 phishscore=0
+ malwarescore=0 mlxlogscore=999 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2104190000 definitions=main-2107060008
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 1661sMk0007365
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Jul 4, 2021 at 5:10 PM Christopher Clark
-<christopher.w.clark@gmail.com> wrote:
->
-> On Fri, Jul 2, 2021 at 5:02 AM Bertrand Marquis
-> <bertrand.marquis@arm.com> wrote:
-> >
-> > Hi Christopher,
-> >
-> > > On 2 Jul 2021, at 01:32, Christopher Clark <christopher.w.clark@gmai=
-l.com> wrote:
-> > >
-> > > This allows the -Wno-vla-parameter workaround that was previously
-> > > applied (e99974aa57) to be retired.
-> > >
-> > > Signed-off-by: Christopher Clark <christopher.w.clark@gmail.com>
-> > > ---
-> > > ...-rijndaelEncrypt-prototype-for-gcc11.patch |  52 ++++++++
-> > > ...ry-Fix-osdep_xenforeignmemory_map-pr.patch |  33 ++++++
-> > > ...x86-make-hypervisor-build-with-gcc11.patch | 111 ++++++++++++++++=
-++
-> > > recipes-extended/xen/xen-tools.inc            |   5 +-
-> > > recipes-extended/xen/xen-tools_4.14.bb        |   1 +
-> > > recipes-extended/xen/xen-tools_4.15.bb        |   1 +
-> > > recipes-extended/xen/xen-tools_git.bb         |   1 +
-> > > recipes-extended/xen/xen_4.14.bb              |   2 +
-> > > recipes-extended/xen/xen_4.15.bb              |   1 +
-> > > recipes-extended/xen/xen_git.bb               |   1 +
-> > > 10 files changed, 204 insertions(+), 4 deletions(-)
-> > > create mode 100644 recipes-extended/xen/files/0001-crypto-adjust-rij=
-ndaelEncrypt-prototype-for-gcc11.patch
-> > > create mode 100644 recipes-extended/xen/files/0001-libs-foreignmemor=
-y-Fix-osdep_xenforeignmemory_map-pr.patch
-> > > create mode 100644 recipes-extended/xen/files/0001-x86-make-hypervis=
-or-build-with-gcc11.patch
-> > >
-> >
-> > On my tests git and 4.15 are working and compiling for arm32, arm64 an=
-d x86_64 but xen-4.14 does not work:
->
-> Thanks, Bertrand -- I appreciate the reviews and testing. I'm taking a
-> look into this and will post a v2.
-
-I assume you'll send all three patches in the v2.
-
-If you'd like me to apply any of the others before the v2, just let me kno=
-w.
-
-Bruce
-
->
-> Christopher
->
->
-> >
-> > ERROR: xen-4.14+stableAUTOINC+ad844aa352-r0 do_patch: Command Error: '=
-quilt --quiltrc /home/bermar01/Development/xen-dev/build-master/metavirt-ho=
-st-arm32-4.14-release.prj/tmp/work/armv7vet2hf-neon-poky-linux-gnueabi/xen/=
-4.14+stableAUTOINC+ad844aa352-r0/recipe-sysroot-native/etc/quiltrc push' ex=
-ited with 0  Output:
-> > stdout: Applying patch 0001-crypto-adjust-rijndaelEncrypt-prototype-fo=
-r-gcc11.patch
-> > patching file xen/include/crypto/rijndael.h
-> > Hunk #1 FAILED at 52.
-> > 1 out of 1 hunk FAILED -- rejects in file xen/include/crypto/rijndael.=
-h
-> > Patch 0001-crypto-adjust-rijndaelEncrypt-prototype-for-gcc11.patch doe=
-s not apply (enforce with -f)
-> >
-> > stderr:
-> > ERROR: Logfile of failure stored in: /home/bermar01/Development/xen-de=
-v/build-master/metavirt-host-arm32-4.14-release.prj/tmp/work/armv7vet2hf-ne=
-on-poky-linux-gnueabi/xen/4.14+stableAUTOINC+ad844aa352-r0/temp/log.do_patc=
-h.34794
-> > NOTE: recipe xen-4.14+stableAUTOINC+ad844aa352-r0: task do_patch: Fail=
-ed
-> >
-> > I used latest master from everything (yocto, open embedded and meta-di=
-rt).
-> >
-> > Regards
-> > Bertrand
-> >
-> > > diff --git a/recipes-extended/xen/files/0001-crypto-adjust-rijndaelE=
-ncrypt-prototype-for-gcc11.patch b/recipes-extended/xen/files/0001-crypto-a=
-djust-rijndaelEncrypt-prototype-for-gcc11.patch
-> > > new file mode 100644
-> > > index 0000000..1fc06f8
-> > > --- /dev/null
-> > > +++ b/recipes-extended/xen/files/0001-crypto-adjust-rijndaelEncrypt-=
-prototype-for-gcc11.patch
-> > > @@ -0,0 +1,52 @@
-> > > +From c6ad5a701b9a6df443a6c98d9e7201c958bbcafc Mon Sep 17 00:00:00 2=
-001
-> > > +From: Jan Beulich <jbeulich@suse.com>
-> > > +Date: Thu, 4 Mar 2021 16:47:51 +0100
-> > > +Subject: [PATCH] crypto: adjust rijndaelEncrypt() prototype for gcc=
-11
-> > > +
-> > > +The upcoming release complains, not entirely unreasonably:
-> > > +
-> > > +In file included from rijndael.c:33:
-> > > +.../xen/include/crypto/rijndael.h:55:53: note: previously declared =
-as 'const unsigned char[]'
-> > > +   55 | void    rijndaelEncrypt(const unsigned int [], int, const u=
-nsigned char [],
-> > > +      |                                                     ^~~~~~~=
-~~~~~~~~~~~~~~~
-> > > +rijndael.c:865:8: error: argument 4 of type 'u8[16]' {aka 'unsigned=
- char[16]'} with mismatched bound [-Werror=3Darray-parameter=3D]
-> > > +  865 |     u8 ct[16])
-> > > +      |     ~~~^~~~~~
-> > > +In file included from rijndael.c:33:
-> > > +.../xen/include/crypto/rijndael.h:56:13: note: previously declared =
-as 'unsigned char[]'
-> > > +   56 |             unsigned char []);
-> > > +      |             ^~~~~~~~~~~~~~~~
-> > > +
-> > > +Simply declare the correct array dimensions right away. This then a=
-llows
-> > > +compilers to apply checking at call sites, which seems desirable an=
-yway.
-> > > +
-> > > +For the moment I'm leaving untouched the disagreement between u8/u3=
-2
-> > > +used in the function definition and unsigned {char,int} used in the
-> > > +declaration, as making this consistent would call for touching furt=
-her
-> > > +functions.
-> > > +
-> > > +Reported-by: Charles Arnold <carnold@suse.com>
-> > > +Signed-off-by: Jan Beulich <jbeulich@suse.com>
-> > > +Reviewed-by: Julien Grall <jgrall@amazon.com>
-> > > +Release-Acked-by: Ian Jackson <iwj@xenproject.org>
-> > > +---
-> > > + xen/include/crypto/rijndael.h | 4 ++--
-> > > + 1 file changed, 2 insertions(+), 2 deletions(-)
-> > > +
-> > > +diff --git a/xen/include/crypto/rijndael.h b/xen/include/crypto/rij=
-ndael.h
-> > > +index 69965783c5..4386be5878 100644
-> > > +--- a/xen/include/crypto/rijndael.h
-> > > ++++ b/xen/include/crypto/rijndael.h
-> > > +@@ -52,7 +52,7 @@ void        rijndael_encrypt(rijndael_ctx *, cons=
-t unsigned char *, unsigned char *);
-> > > +
-> > > + int rijndaelKeySetupEnc(unsigned int [], const unsigned char [], i=
-nt);
-> > > + int rijndaelKeySetupDec(unsigned int [], const unsigned char [], i=
-nt);
-> > > +-void        rijndaelEncrypt(const unsigned int [], int, const unsi=
-gned char [],
-> > > +-        unsigned char []);
-> > > ++void        rijndaelEncrypt(const unsigned int [], int, const unsi=
-gned char [16],
-> > > ++        unsigned char [16]);
-> > > +
-> > > + #endif /* __RIJNDAEL_H */
-> > > +--
-> > > +2.25.1
-> > > +
-> > > diff --git a/recipes-extended/xen/files/0001-libs-foreignmemory-Fix-=
-osdep_xenforeignmemory_map-pr.patch b/recipes-extended/xen/files/0001-libs-=
-foreignmemory-Fix-osdep_xenforeignmemory_map-pr.patch
-> > > new file mode 100644
-> > > index 0000000..2e3b1a6
-> > > --- /dev/null
-> > > +++ b/recipes-extended/xen/files/0001-libs-foreignmemory-Fix-osdep_x=
-enforeignmemory_map-pr.patch
-> > > @@ -0,0 +1,33 @@
-> > > +From 5d3e4ebb5c71477d74a0c503438545a0126d3863 Mon Sep 17 00:00:00 2=
-001
-> > > +From: Anthony PERARD <anthony.perard@citrix.com>
-> > > +Date: Tue, 1 Jun 2021 16:41:47 +0100
-> > > +Subject: [PATCH] libs/foreignmemory: Fix osdep_xenforeignmemory_map=
- prototype
-> > > +
-> > > +Commit cf8c4d3d13b8 made some preparation to have one day
-> > > +variable-length-array argument, but didn't declare the array in the
-> > > +function prototype the same way as in the function definition. And =
-now
-> > > +GCC 11 complains about it.
-> > > +
-> > > +Fixes: cf8c4d3d13b8 ("tools/libs/foreignmemory: pull array length a=
-rgument to map forward")
-> > > +Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
-> > > +Reviewed-by: Jan Beulich <jbeulich@suse.com>
-> > > +---
-> > > + tools/libs/foreignmemory/private.h | 2 +-
-> > > + 1 file changed, 1 insertion(+), 1 deletion(-)
-> > > +
-> > > +diff --git a/tools/libs/foreignmemory/private.h b/tools/libs/foreig=
-nmemory/private.h
-> > > +index 1ee3626dd2..5bb0cefb09 100644
-> > > +--- a/tools/libs/foreignmemory/private.h
-> > > ++++ b/tools/libs/foreignmemory/private.h
-> > > +@@ -32,7 +32,7 @@ int osdep_xenforeignmemory_close(xenforeignmemory=
-_handle *fmem);
-> > > + void *osdep_xenforeignmemory_map(xenforeignmemory_handle *fmem,
-> > > +                                  uint32_t dom, void *addr,
-> > > +                                  int prot, int flags, size_t num,
-> > > +-                                 const xen_pfn_t arr[num], int err=
-[num]);
-> > > ++                                 const xen_pfn_t arr[/*num*/], int=
- err[/*num*/]);
-> > > + int osdep_xenforeignmemory_unmap(xenforeignmemory_handle *fmem,
-> > > +                                  void *addr, size_t num);
-> > > +
-> > > +--
-> > > +2.25.1
-> > > +
-> > > diff --git a/recipes-extended/xen/files/0001-x86-make-hypervisor-bui=
-ld-with-gcc11.patch b/recipes-extended/xen/files/0001-x86-make-hypervisor-b=
-uild-with-gcc11.patch
-> > > new file mode 100644
-> > > index 0000000..72592c4
-> > > --- /dev/null
-> > > +++ b/recipes-extended/xen/files/0001-x86-make-hypervisor-build-with=
--gcc11.patch
-> > > @@ -0,0 +1,111 @@
-> > > +From 722f59d38c710a940ab05e542a83020eb5546dea Mon Sep 17 00:00:00 2=
-001
-> > > +From: Jan Beulich <jbeulich@suse.com>
-> > > +Date: Thu, 27 May 2021 14:40:29 +0200
-> > > +Subject: [PATCH] x86: make hypervisor build with gcc11
-> > > +MIME-Version: 1.0
-> > > +Content-Type: text/plain; charset=3DUTF-8
-> > > +Content-Transfer-Encoding: 8bit
-> > > +
-> > > +Gcc 11 looks to make incorrect assumptions about valid ranges that
-> > > +pointers may be used for addressing when they are derived from e.g.=
- a
-> > > +plain constant. See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D=
-100680.
-> > > +
-> > > +Utilize RELOC_HIDE() to work around the issue, which for x86 manife=
-sts
-> > > +in at least
-> > > +- mpparse.c:efi_check_config(),
-> > > +- tboot.c:tboot_probe(),
-> > > +- tboot.c:tboot_gen_frametable_integrity(),
-> > > +- x86_emulate.c:x86_emulate() (at -O2 only).
-> > > +The last case is particularly odd not just because it only triggers=
- at
-> > > +higher optimization levels, but also because it only affects one of=
- at
-> > > +least three similar constructs. Various "note" diagnostics claim th=
-e
-> > > +valid index range to be [0, 2=E2=81=B6=C2=B3-1].
-> > > +
-> > > +Signed-off-by: Jan Beulich <jbeulich@suse.com>
-> > > +Tested-by: Jason Andryuk <jandryuk@gmail.com>
-> > > +Acked-by: Roger Pau Monn=C3=A9 <roger.pau@citrix.com>
-> > > +---
-> > > + tools/tests/x86_emulator/x86-emulate.c | 7 +++++++
-> > > + xen/arch/x86/x86_emulate/x86_emulate.c | 2 +-
-> > > + xen/include/asm-x86/fixmap.h           | 2 +-
-> > > + xen/include/xen/compiler.h             | 6 ++++++
-> > > + xen/include/xen/pdx.h                  | 2 +-
-> > > + 5 files changed, 16 insertions(+), 3 deletions(-)
-> > > +
-> > > +diff --git a/tools/tests/x86_emulator/x86-emulate.c b/tools/tests/x=
-86_emulator/x86-emulate.c
-> > > +index 07f892dbbb..ea286d6ad8 100644
-> > > +--- a/tools/tests/x86_emulator/x86-emulate.c
-> > > ++++ b/tools/tests/x86_emulator/x86-emulate.c
-> > > +@@ -8,6 +8,13 @@
-> > > +
-> > > + #define ERR_PTR(val) NULL
-> > > +
-> > > ++/* See gcc bug 100680, but here don't bother making this version d=
-ependent. */
-> > > ++#define gcc11_wrap(x) ({                  \
-> > > ++    unsigned long x_;                     \
-> > > ++    __asm__ ( "" : "=3Dg" (x_) : "0" (x) ); \
-> > > ++    (typeof(x))x_;                        \
-> > > ++})
-> > > ++
-> > > + #define cpu_has_amd_erratum(nr) 0
-> > > + #define cpu_has_mpx false
-> > > + #define read_bndcfgu() 0
-> > > +diff --git a/xen/arch/x86/x86_emulate/x86_emulate.c b/xen/arch/x86/=
-x86_emulate/x86_emulate.c
-> > > +index c25d88d0d8..31fdec030c 100644
-> > > +--- a/xen/arch/x86/x86_emulate/x86_emulate.c
-> > > ++++ b/xen/arch/x86/x86_emulate/x86_emulate.c
-> > > +@@ -726,7 +726,7 @@ union vex {
-> > > + #define copy_VEX(ptr, vex) ({ \
-> > > +     if ( !mode_64bit() ) \
-> > > +         (vex).reg |=3D 8; \
-> > > +-    (ptr)[0 - PFX_BYTES] =3D ext < ext_8f08 ? 0xc4 : 0x8f; \
-> > > ++    gcc11_wrap(ptr)[0 - PFX_BYTES] =3D ext < ext_8f08 ? 0xc4 : 0x8=
-f; \
-> > > +     (ptr)[1 - PFX_BYTES] =3D (vex).raw[0]; \
-> > > +     (ptr)[2 - PFX_BYTES] =3D (vex).raw[1]; \
-> > > +     container_of((ptr) + 1 - PFX_BYTES, typeof(vex), raw[0]); \
-> > > +diff --git a/xen/include/asm-x86/fixmap.h b/xen/include/asm-x86/fix=
-map.h
-> > > +index 0db314baeb..20746afd0a 100644
-> > > +--- a/xen/include/asm-x86/fixmap.h
-> > > ++++ b/xen/include/asm-x86/fixmap.h
-> > > +@@ -78,7 +78,7 @@ extern void __set_fixmap(
-> > > +
-> > > + #define clear_fixmap(idx) __set_fixmap(idx, 0, 0)
-> > > +
-> > > +-#define __fix_to_virt(x) (FIXADDR_TOP - ((x) << PAGE_SHIFT))
-> > > ++#define __fix_to_virt(x) gcc11_wrap(FIXADDR_TOP - ((x) << PAGE_SHI=
-FT))
-> > > + #define __virt_to_fix(x) ((FIXADDR_TOP - ((x)&PAGE_MASK)) >> PAGE_=
-SHIFT)
-> > > +
-> > > + #define fix_to_virt(x)   ((void *)__fix_to_virt(x))
-> > > +diff --git a/xen/include/xen/compiler.h b/xen/include/xen/compiler.=
-h
-> > > +index 17cf00e1ec..696c7eb89e 100644
-> > > +--- a/xen/include/xen/compiler.h
-> > > ++++ b/xen/include/xen/compiler.h
-> > > +@@ -140,6 +140,12 @@
-> > > +     __asm__ ("" : "=3Dr"(__ptr) : "0"(ptr));      \
-> > > +     (typeof(ptr)) (__ptr + (off)); })
-> > > +
-> > > ++#if CONFIG_GCC_VERSION >=3D 110000 /* See gcc bug 100680. */
-> > > ++# define gcc11_wrap(x) RELOC_HIDE(x, 0)
-> > > ++#else
-> > > ++# define gcc11_wrap(x) (x)
-> > > ++#endif
-> > > ++
-> > > + #ifdef __GCC_ASM_FLAG_OUTPUTS__
-> > > + # define ASM_FLAG_OUT(yes, no) yes
-> > > + #else
-> > > +diff --git a/xen/include/xen/pdx.h b/xen/include/xen/pdx.h
-> > > +index 770fadc06c..9fcfb0ce52 100644
-> > > +--- a/xen/include/xen/pdx.h
-> > > ++++ b/xen/include/xen/pdx.h
-> > > +@@ -19,7 +19,7 @@ extern u64 pdx_region_mask(u64 base, u64 len);
-> > > + extern void set_pdx_range(unsigned long smfn, unsigned long emfn);
-> > > +
-> > > + #define page_to_pdx(pg)  ((pg) - frame_table)
-> > > +-#define pdx_to_page(pdx) (frame_table + (pdx))
-> > > ++#define pdx_to_page(pdx) gcc11_wrap(frame_table + (pdx))
-> > > +
-> > > + bool __mfn_valid(unsigned long mfn);
-> > > +
-> > > +--
-> > > +2.25.1
-> > > +
-> > > diff --git a/recipes-extended/xen/xen-tools.inc b/recipes-extended/x=
-en/xen-tools.inc
-> > > index e939c45..3560e79 100644
-> > > --- a/recipes-extended/xen/xen-tools.inc
-> > > +++ b/recipes-extended/xen/xen-tools.inc
-> > > @@ -725,12 +725,9 @@ do_configure() {
-> > >     do_configure_common
-> > > }
-> > >
-> > > -# Workaround when compiling with gcc-11
-> > > -EXTRA_CFLAGS_XEN_TOOLS_append =3D " -Wno-vla-parameter"
-> > > -
-> > > do_compile() {
-> > >     cd ${S}
-> > > -    oe_runmake tools EXTRA_CFLAGS_XEN_TOOLS=3D"${EXTRA_CFLAGS_XEN_T=
-OOLS}" PYTHON=3D"${PYTHON}"
-> > > +    oe_runmake tools PYTHON=3D"${PYTHON}"
-> > > }
-> > >
-> > > do_install() {
-> > > diff --git a/recipes-extended/xen/xen-tools_4.14.bb b/recipes-extend=
-ed/xen/xen-tools_4.14.bb
-> > > index 10982a2..13c484c 100644
-> > > --- a/recipes-extended/xen/xen-tools_4.14.bb
-> > > +++ b/recipes-extended/xen/xen-tools_4.14.bb
-> > > @@ -8,6 +8,7 @@ SRC_URI =3D " \
-> > >     file://0001-python-pygrub-pass-DISTUTILS-xen-4.14.patch \
-> > >     file://0001-firmware-provide-a-stand-alone-set-of-headers-Xen-4.=
-14.patch \
-> > >     file://0001-tools-firmware-Build-firmware-as-ffreestanding-Xen-4=
-.14.patch \
-> > > +    file://0001-libs-foreignmemory-Fix-osdep_xenforeignmemory_map-p=
-r.patch \
-> > >     "
-> > >
-> > > LIC_FILES_CHKSUM ?=3D "file://COPYING;md5=3D419739e325a50f3d7b450133=
-8e44a4e5"
-> > > diff --git a/recipes-extended/xen/xen-tools_4.15.bb b/recipes-extend=
-ed/xen/xen-tools_4.15.bb
-> > > index 314dc52..f3f9cd3 100644
-> > > --- a/recipes-extended/xen/xen-tools_4.15.bb
-> > > +++ b/recipes-extended/xen/xen-tools_4.15.bb
-> > > @@ -6,6 +6,7 @@ XEN_BRANCH ?=3D "stable-${XEN_REL}"
-> > > SRC_URI =3D " \
-> > >     git://xenbits.xen.org/xen.git;branch=3D${XEN_BRANCH} \
-> > >     file://0001-python-pygrub-pass-DISTUTILS-xen-4.15.patch \
-> > > +    file://0001-libs-foreignmemory-Fix-osdep_xenforeignmemory_map-p=
-r.patch \
-> > >     "
-> > >
-> > > LIC_FILES_CHKSUM ?=3D "file://COPYING;md5=3D419739e325a50f3d7b450133=
-8e44a4e5"
-> > > diff --git a/recipes-extended/xen/xen-tools_git.bb b/recipes-extende=
-d/xen/xen-tools_git.bb
-> > > index 0188bdd..0b2dce9 100644
-> > > --- a/recipes-extended/xen/xen-tools_git.bb
-> > > +++ b/recipes-extended/xen/xen-tools_git.bb
-> > > @@ -6,6 +6,7 @@ XEN_BRANCH ?=3D "master"
-> > > SRC_URI =3D " \
-> > >     git://xenbits.xen.org/xen.git;branch=3D${XEN_BRANCH} \
-> > >     file://0001-python-pygrub-pass-DISTUTILS-xen-4.15.patch \
-> > > +    file://0001-libs-foreignmemory-Fix-osdep_xenforeignmemory_map-p=
-r.patch \
-> > >     "
-> > >
-> > > LIC_FILES_CHKSUM ?=3D "file://COPYING;md5=3D419739e325a50f3d7b450133=
-8e44a4e5"
-> > > diff --git a/recipes-extended/xen/xen_4.14.bb b/recipes-extended/xen=
-/xen_4.14.bb
-> > > index 653e3b6..aee4130 100644
-> > > --- a/recipes-extended/xen/xen_4.14.bb
-> > > +++ b/recipes-extended/xen/xen_4.14.bb
-> > > @@ -7,6 +7,8 @@ SRC_URI =3D " \
-> > >     git://xenbits.xen.org/xen.git;branch=3D${XEN_BRANCH} \
-> > >     file://xen-arm64-implement-atomic-fetch-add.patch \
-> > >     file://0001-menuconfig-mconf-cfg-Allow-specification-of-ncurses-=
-location.patch \
-> > > +    file://0001-x86-make-hypervisor-build-with-gcc11.patch \
-> > > +    file://0001-crypto-adjust-rijndaelEncrypt-prototype-for-gcc11.p=
-atch \
-> > >     "
-> > >
-> > > LIC_FILES_CHKSUM ?=3D "file://COPYING;md5=3D419739e325a50f3d7b450133=
-8e44a4e5"
-> > > diff --git a/recipes-extended/xen/xen_4.15.bb b/recipes-extended/xen=
-/xen_4.15.bb
-> > > index 2842c0a..d0aa176 100644
-> > > --- a/recipes-extended/xen/xen_4.15.bb
-> > > +++ b/recipes-extended/xen/xen_4.15.bb
-> > > @@ -7,6 +7,7 @@ SRC_URI =3D " \
-> > >     git://xenbits.xen.org/xen.git;branch=3D${XEN_BRANCH} \
-> > >     file://xen-arm64-implement-atomic-fetch-add.patch \
-> > >     file://0001-menuconfig-mconf-cfg-Allow-specification-of-ncurses-=
-location.patch \
-> > > +    file://0001-x86-make-hypervisor-build-with-gcc11.patch \
-> > >     "
-> > >
-> > > LIC_FILES_CHKSUM ?=3D "file://COPYING;md5=3D419739e325a50f3d7b450133=
-8e44a4e5"
-> > > diff --git a/recipes-extended/xen/xen_git.bb b/recipes-extended/xen/=
-xen_git.bb
-> > > index eaf3956..7ce7228 100644
-> > > --- a/recipes-extended/xen/xen_git.bb
-> > > +++ b/recipes-extended/xen/xen_git.bb
-> > > @@ -7,6 +7,7 @@ SRC_URI =3D " \
-> > >     git://xenbits.xen.org/xen.git;branch=3D${XEN_BRANCH} \
-> > >     file://xen-arm64-implement-atomic-fetch-add.patch \
-> > >     file://0001-menuconfig-mconf-cfg-Allow-specification-of-ncurses-=
-location.patch \
-> > > +    file://0001-x86-make-hypervisor-build-with-gcc11.patch \
-> > >     "
-> > >
-> > > LIC_FILES_CHKSUM ?=3D "file://COPYING;md5=3D419739e325a50f3d7b450133=
-8e44a4e5"
-> > > --
-> > > 2.25.1
-> > >
-> >
-> > IMPORTANT NOTICE: The contents of this email and any attachments are c=
-onfidential and may also be privileged. If you are not the intended recipie=
-nt, please notify the sender immediately and do not disclose the contents t=
-o any other person, use it for any purpose, or store or copy the informatio=
-n in any medium. Thank you.
-> >
-> >=20
-> >
 
 
+On 7/5/21 4:27 PM, Martin Jansa wrote:
+> **[Please note: This e-mail is from an EXTERNAL e-mail address]
+>=20
+> Yes, I see it in:
+> https://git.yoctoproject.org/cgit/cgit.cgi/meta-virtualization/commit/?i=
+d=3D950b24b2d5fe454c9d3a9eab5691753067e4b7d0=20
+> <https://urldefense.com/v3/__https://git.yoctoproject.org/cgit/cgit.cgi/=
+meta-virtualization/commit/?id=3D950b24b2d5fe454c9d3a9eab5691753067e4b7d0__=
+;!!AjveYdw8EvQ!LOd1jhUL1lTDqPYpPtkx3VUegEfozaL2ilIAtjJX06CKSGmSryem3XvN3YXP=
+rKZ4Yjs$>
 
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+Oh, yes, I see, thanks Martin very much for your pointing out!
+
+Thanks,
+
+>=20
+> On Mon, Jul 5, 2021 at 1:25 AM Yu, Mingli <mingli.yu@windriver.com=20
+> <mailto:mingli.yu@windriver.com>> wrote:
+>=20
+>=20
+>=20
+>     On 6/21/21 8:58 PM, Bruce Ashfield wrote:
+>      > [Please note: This e-mail is from an EXTERNAL e-mail address]
+>      >
+>      > Thanks for the change.
+>      >
+>      > I had done the same myself over the weekend, but was still doing
+>     a few tests.
+>      >
+>      > I pushed the change this morning, and have also cherry picked it =
+to
+>      > older releases.
+>=20
+>     Thanks Bruce!
+>     BTW is this change merged?
+>=20
+>     Thanks,
+>=20
+>      >
+>      > Bruce
+>      >
+>      > On Mon, Jun 21, 2021 at 1:41 AM Yu, Mingli
+>     <mingli.yu@windriver.com <mailto:mingli.yu@windriver.com>> wrote:
+>      >>
+>      >> From: Mingli Yu <mingli.yu@windriver.com
+>     <mailto:mingli.yu@windriver.com>>
+>      >>
+>      >> Switch to main branch to fix do_fetch error.
+>      >>
+>      >> Signed-off-by: Mingli Yu <mingli.yu@windriver.com
+>     <mailto:mingli.yu@windriver.com>>
+>      >> ---
+>      >>=C2=A0 =C2=A0recipes-containers/conmon/conmon_git.bb
+>     <https://urldefense.com/v3/__http://conmon_git.bb__;!!AjveYdw8EvQ!LO=
+d1jhUL1lTDqPYpPtkx3VUegEfozaL2ilIAtjJX06CKSGmSryem3XvN3YXP1SFgxcA$>
+>     | 2 +-
+>      >>=C2=A0 =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
+>      >>
+>      >> diff --git a/recipes-containers/conmon/conmon_git.bb
+>     <https://urldefense.com/v3/__http://conmon_git.bb__;!!AjveYdw8EvQ!LO=
+d1jhUL1lTDqPYpPtkx3VUegEfozaL2ilIAtjJX06CKSGmSryem3XvN3YXP1SFgxcA$>
+>     b/recipes-containers/conmon/conmon_git.bb
+>     <https://urldefense.com/v3/__http://conmon_git.bb__;!!AjveYdw8EvQ!LO=
+d1jhUL1lTDqPYpPtkx3VUegEfozaL2ilIAtjJX06CKSGmSryem3XvN3YXP1SFgxcA$>
+>      >> index 74f5bfa..974eb07 100644
+>      >> --- a/recipes-containers/conmon/conmon_git.bb
+>     <https://urldefense.com/v3/__http://conmon_git.bb__;!!AjveYdw8EvQ!LO=
+d1jhUL1lTDqPYpPtkx3VUegEfozaL2ilIAtjJX06CKSGmSryem3XvN3YXP1SFgxcA$>
+>      >> +++ b/recipes-containers/conmon/conmon_git.bb
+>     <https://urldefense.com/v3/__http://conmon_git.bb__;!!AjveYdw8EvQ!LO=
+d1jhUL1lTDqPYpPtkx3VUegEfozaL2ilIAtjJX06CKSGmSryem3XvN3YXP1SFgxcA$>
+>      >> @@ -8,7 +8,7 @@ DEPENDS =3D "glib-2.0 go-md2man-native"
+>      >>
+>      >>=C2=A0 =C2=A0SRCREV =3D "31614525ebc5fd9668a6e084b5638d71b903bf6d=
+"
+>      >>=C2=A0 =C2=A0SRC_URI =3D "\
+>      >> -=C2=A0 =C2=A0 git://github.com/containers/conmon.git
+>     <https://urldefense.com/v3/__http://github.com/containers/conmon.git=
+__;!!AjveYdw8EvQ!LOd1jhUL1lTDqPYpPtkx3VUegEfozaL2ilIAtjJX06CKSGmSryem3XvN3Y=
+XPT69BMFQ$>
+>     \
+>      >> +=C2=A0 =C2=A0 git://github.com/containers/conmon.git;branch=3Dm=
+ain
+>     <https://urldefense.com/v3/__http://github.com/containers/conmon.git=
+;branch=3Dmain__;!!AjveYdw8EvQ!LOd1jhUL1lTDqPYpPtkx3VUegEfozaL2ilIAtjJX06CK=
+SGmSryem3XvN3YXPi8yxuZI$>
+>     \
+>      >>=C2=A0 =C2=A0"
+>      >>
+>      >>=C2=A0 =C2=A0PV =3D "2.0.28+git${SRCPV}"
+>      >> --
+>      >> 2.29.2
+>      >>
+>      >>
+>      >>
+>      >>
+>      >
+>      >
+>      > --
+>      > - Thou shalt not follow the NULL pointer, for chaos and madness a=
+wait
+>      > thee at its end
+>      > - "Use the force Harry" - Gandalf, Star Trek II
+>      >
+>=20
+>    =20
+>=20
