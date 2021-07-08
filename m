@@ -1,44 +1,44 @@
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
- by mx.groups.io with SMTP id smtpd.web08.7721.1625719404967857919
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
+ by mx.groups.io with SMTP id smtpd.web11.7722.1625719409446112167
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 07 Jul 2021 21:43:25 -0700
+ Wed, 07 Jul 2021 21:43:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=ihkDEaiw;
- spf=pass (domain: gmail.com, ip: 209.85.222.174, mailfrom: christopher.w.clark@gmail.com)
-Received: by mail-qk1-f174.google.com with SMTP id t19so4459099qkg.7
-        for <meta-virtualization@lists.yoctoproject.org>; Wed, 07 Jul 2021 21:43:24 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=cKO9xhay;
+ spf=pass (domain: gmail.com, ip: 209.85.222.176, mailfrom: christopher.w.clark@gmail.com)
+Received: by mail-qk1-f176.google.com with SMTP id i125so4451474qke.12
+        for <meta-virtualization@lists.yoctoproject.org>; Wed, 07 Jul 2021 21:43:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=0ub33BV6h4j9eDRyv1bk40t+BrW0x64WJW4NcEkT+TA=;
-        b=ihkDEaiwb5BIIb/noJeH9dLRXy2alxvFRDJ4Y58KHUV5axXIpPlUdp+tlAtLDLk8U7
-         UBGCvkzdFC8BoR2IJgN/l+6qkyNan+jzlBmIbdw1pt7dKy7XS69cN/OkJFlPoWyoxBzP
-         L1DWveKb8hJIyLs7ZR5Tvyq5clZ+45wGkZMaf4u1HLVnP5nPJKHB0NvM2ArwmBog1fEq
-         zT7U6KZgVqV51WoUG58ArCPFqgwVHEcfiVEsM0JRoTOuAUqoQ9br63QZeqAqK6OLPiG2
-         cXLyuZaoR4KTj0TiCLyFcQNwtLga7O9j30g0HBvXnUAlTqgHWONW1oHH27tTl1KzaD2E
-         EJzQ==
+        bh=Z6tkTgxOUCiSX97YwHXVSW+vmtchN6WAHa6XRBuYQdQ=;
+        b=cKO9xhaydZg4GHEie5vUxXcvlfVglFkpVpK6t0TPmksKVU33SfzkC/HCyVAOTHhLgw
+         iOEeNeYmY2xBSLgwU90EgfZtWrIAW6eBweByN2GBDFVWEbxLuQMdCRwN82UaIDTKar1c
+         IqiBz9qdppzus3RjXobJ3WaJWDBfOTeTUHzrwcSig0+K0e2vRshyh4OnMRiVH0f4OqI8
+         xqp0Zh8S/7Cwx8QVo7j48DjmqS3zHYfv8ivoAA7vNB8E58LlcV265gEFaNjR4hcniS5A
+         cAISniZrj1J2pau8iB3fiE6sobx5ljjKJ46heANh+0ceHjChsKf/LtN8YAX+KbyQSbOY
+         Bbeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=0ub33BV6h4j9eDRyv1bk40t+BrW0x64WJW4NcEkT+TA=;
-        b=oNNa7pwF8mUQg2US2YdG5JUFvJU/9mjPJJvhJstvCab6tbsSUnBhDMVUFUVrQhjDN8
-         RC7WZjDBIxJw2M3qIoGXMB8yr0CRKygABQzCO3XV1ZcMVmYsH3TS8hEW5Yum01NjWU/k
-         T+jTA8nBW+p6wFSsHgNEERyk70EQGCrAHQBc8/WjS0I/JiLWTVqTw5r2MjmA7BgnkgDB
-         iaWBdt445I58+DluwzGo5z2gunb+7AAwKthrPNQ0+R+50mwPVh2YMXm7uJtBnl89e4qs
-         BpifSW36Idx+eXX3i7OswWkBPDzTcY/xE5dPtHdnfdlZSxqRqMKoSsF7UGNUPRUdI+8o
-         ttIw==
-X-Gm-Message-State: AOAM532STM5VL41k8R7OFJLxiKFqAvSF991hgpGtlCutBOPN2cJcUMwL
-	aH2ECwftXKIGtpSSF9zxnnaXErjzTDI5V9ie
-X-Google-Smtp-Source: ABdhPJzV9tnlWDHMzJXXNPZfIS1QvT67Br/pFoLZTh0jCLdxDwY8f9mxAugOXJrJ0Tfr5kN1BMCORw==
-X-Received: by 2002:a37:8e44:: with SMTP id q65mr29625274qkd.372.1625719404025;
-        Wed, 07 Jul 2021 21:43:24 -0700 (PDT)
+        bh=Z6tkTgxOUCiSX97YwHXVSW+vmtchN6WAHa6XRBuYQdQ=;
+        b=BqC3OFdUtsTUniiOCnjMrOfT9oGjGefnvNwwEn/co2Fr59cThgThbTnOax5SvNjP11
+         KBDOybLcELCRWU/+omyL75P4bn+oH8MeuSFU8PB+2eltDnefxSNJ92b+rkPJ16073PDo
+         jhEu7yUeEm+bShFcf2CpNWlrR8vqOw9r8zxoD8KOlntofedO69rpAekoJpIxYI4NyJr3
+         /3PSyGvIeUYqnnLiV2UDKUvKePhZDqgcYPYCkUpOyaj1libR0p59XgbnyqSa3TsQaLF2
+         lEqGTO8pbi1ksYcv8sB0I399t9k/dsLBJiJf/kcnGohvFUEQ+dE9wD5/NZhspjb4KjWS
+         bwcQ==
+X-Gm-Message-State: AOAM532+I3J6g8KOnTXPAPPiD0/x0/bkcvAeJtN7SgQk2wmpeOK4lysN
+	tv0GiH0N5ZiNErZlhBRLMd2di3XDlUi0PUps
+X-Google-Smtp-Source: ABdhPJzsrVs7Eru1snHly0D00V1ToEeplfqodNeWiVazwUfBi44v8ca8ZnmRlFaV8Q578yqjgj6Fjw==
+X-Received: by 2002:a05:620a:c87:: with SMTP id q7mr29072400qki.349.1625719408439;
+        Wed, 07 Jul 2021 21:43:28 -0700 (PDT)
 Return-Path: <christopher.w.clark@gmail.com>
 Received: from walnut.ice.pyrology.org (mobile-166-177-250-205.mycingular.net. [166.177.250.205])
-        by smtp.gmail.com with ESMTPSA id n81sm211614qkn.118.2021.07.07.21.43.17
+        by smtp.gmail.com with ESMTPSA id n81sm211614qkn.118.2021.07.07.21.43.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Jul 2021 21:43:23 -0700 (PDT)
+        Wed, 07 Jul 2021 21:43:28 -0700 (PDT)
 From: "Christopher Clark" <christopher.w.clark@gmail.com>
 To: meta-virtualization@lists.yoctoproject.org
 Cc: Christopher Clark <christopher.clark@starlab.io>,
@@ -51,9 +51,9 @@ Cc: Christopher Clark <christopher.clark@starlab.io>,
 	persaur@gmail.com,
 	scott.davis@starlab.io,
 	adam.schwalm@starlab.io
-Subject: [meta-virtualization][PATCH 1/2] lopper, python-dtc: add new recipes for device tree tools
-Date: Wed,  7 Jul 2021 21:42:59 -0700
-Message-Id: <20210708044300.127016-2-christopher.w.clark@gmail.com>
+Subject: [meta-virtualization][PATCH 2/2] qemuboot, xen-image-minimal: enable runqemu for qemuarm64 Xen images
+Date: Wed,  7 Jul 2021 21:43:00 -0700
+Message-Id: <20210708044300.127016-3-christopher.w.clark@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210708044300.127016-1-christopher.w.clark@gmail.com>
 References: <20210708044300.127016-1-christopher.w.clark@gmail.com>
@@ -62,107 +62,328 @@ Content-Transfer-Encoding: 8bit
 
 From: Christopher Clark <christopher.clark@starlab.io>
 
-This device tree tooling is being added as a prequisite for enabling
-qemuboot to run Xen system images with device trees generated for Qemu.
+The Xen hypervisor built for Arm 64-bit targets can be launched with
+runqemu by providing a Device Tree binary and configuration for Qemu,
+which enables interactive testing of Xen images.
 
-lopper: a tool for performing operations on device tree files.
-A new recipe inspired by the original from meta-xilinx-bsp.
+Add qemuboot-xen-dtb.bbclass to add a new bitbake task for generating
+the dtb file by using lopper on a device tree produced by Qemu.
 
-python-dtc: a python library for the Device Tree compiler.
-This is a prerequisite for lopper. Imported from meta-xilinx-bsp with an
-updated SRCREV and DESCRIPTION for the latest release, version 1.6.1.
+Add qemuboot-xen-defaults.bbclass to supply working default parameters
+for the qemuarm64 machine and general support for qemuboot for Xen.
+
+Add the new qemuboot-xen classes to the xen-image-minimal image, along
+with variable settings needed for qemuboot to run the image for
+qemuarm64.
+
+The memory setting for Qemu has been increased to 512M after testing
+with successful boots. Default fstype for qemux86-64 was found to need a
+stronger override in testing. Provide an override for the serial console
+setting for the qemuarm64 machine when the Xen distro feature is
+enabled for the console in qemuboot, following the example of similar
+machine settings in meta-arm-bsp.
+
+Development aided by this script by Stewart Hildebrand of DornerWorks:
+https://gist.github.com/stewdk/110f43e0cc1d905fc6ed4c7e10d8d35e
 
 Signed-off-by: Christopher Clark <christopher.clark@starlab.io>
 ---
- recipes-kernel/dtc/python3-dtc_1.6.1.bb | 26 ++++++++++++++
- recipes-kernel/lopper/lopper.bb         | 45 +++++++++++++++++++++++++
- 2 files changed, 71 insertions(+)
- create mode 100644 recipes-kernel/dtc/python3-dtc_1.6.1.bb
- create mode 100644 recipes-kernel/lopper/lopper.bb
+ classes/qemuboot-xen-defaults.bbclass        |  29 +++
+ classes/qemuboot-xen-dtb.bbclass             | 209 +++++++++++++++++++
+ conf/distro/include/meta-virt-xen.inc        |   3 +
+ recipes-extended/images/xen-image-minimal.bb |   6 +-
+ 4 files changed, 245 insertions(+), 2 deletions(-)
+ create mode 100644 classes/qemuboot-xen-defaults.bbclass
+ create mode 100644 classes/qemuboot-xen-dtb.bbclass
 
-diff --git a/recipes-kernel/dtc/python3-dtc_1.6.1.bb b/recipes-kernel/dtc/python3-dtc_1.6.1.bb
+diff --git a/classes/qemuboot-xen-defaults.bbclass b/classes/qemuboot-xen-defaults.bbclass
 new file mode 100644
-index 0000000..5374029
+index 0000000..82cad49
 --- /dev/null
-+++ b/recipes-kernel/dtc/python3-dtc_1.6.1.bb
-@@ -0,0 +1,26 @@
-+SUMMARY = "Python Library for the Device Tree Compiler"
-+HOMEPAGE = "https://devicetree.org/"
-+DESCRIPTION = "A python library for the Device Tree Compiler, a tool used to manipulate Device Tree files which contain a data structure for describing hardware."
-+SECTION = "bootloader"
-+LICENSE = "GPLv2 | BSD"
++++ b/classes/qemuboot-xen-defaults.bbclass
+@@ -0,0 +1,29 @@
++# Set defaults for booting Xen images with qemuboot
 +
-+DEPENDS = "flex-native bison-native swig-native libyaml dtc"
++# Xen and Dom0 command line options
++QB_XEN_CMDLINE_EXTRA ??= "dom0_mem=192M"
++QB_XEN_DOM0_BOOTARGS ??= \
++    "console=hvc0 earlyprintk clk_ignore_unused root=/dev/vda"
 +
-+SRC_URI = "git://git.kernel.org/pub/scm/utils/dtc/dtc.git"
++# Launch with one initial domain, dom0, with one boot module, the kernel
++DOM0_KERNEL="${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGETYPE}"
++DOM0_KERNEL_LOAD_ADDR="0x45000000"
++QB_XEN_DOMAIN_MODULES = "${DOM0_KERNEL}:${DOM0_KERNEL_LOAD_ADDR}:multiboot,kernel"
 +
-+UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+(\.\d+)+)"
-+
-+LIC_FILES_CHKSUM = "file://libfdt.i;beginline=1;endline=6;md5=afda088c974174a29108c8d80b5dce90"
-+
-+SRCREV = "ecaeb97fec013973360e94888a7de645f084345c"
-+
-+S = "${WORKDIR}/git/pylibfdt"
-+
-+inherit distutils3
-+
-+do_configure_prepend() {
-+    make -C "${S}/.." version_gen.h
-+    mv "${S}/../version_gen.h" "${S}/"
-+}
-+
-+BBCLASSEXTEND = "native nativesdk"
-diff --git a/recipes-kernel/lopper/lopper.bb b/recipes-kernel/lopper/lopper.bb
-new file mode 100644
-index 0000000..274d5b9
---- /dev/null
-+++ b/recipes-kernel/lopper/lopper.bb
-@@ -0,0 +1,45 @@
-+SUMMARY = "Device Tree Lopper"
-+DESCRIPTION = "Tool for manipulation of system device tree files"
-+LICENSE = "BSD-3-Clause"
-+SECTION = "bootloader"
-+
-+SRC_URI = "git://github.com/devicetree-org/lopper.git"
-+SRCREV = "0c23e51d585608ab04009ccf3499f168e2f4d478"
-+S = "${WORKDIR}/git"
-+
-+LIC_FILES_CHKSUM = "file://LICENSE.md;md5=8e5f5f691f01c9fdfa7a7f2d535be619"
-+
-+RDEPENDS_${PN} = " \
-+    python3-core \
-+    python3-dtc \
-+    python3-humanfriendly \
++# Qemuboot for 64-bit Arm uses the QB_DEFAULT_KERNEL method to load Xen
++# and the device loader option for the dom0 kernel:
++QB_OPT_APPEND_append_aarch64 = " \
++    -device loader,file=${DOM0_KERNEL},addr=${DOM0_KERNEL_LOAD_ADDR} \
 +    "
++QB_DEFAULT_KERNEL_aarch64 = "xen-${MACHINE}"
 +
-+do_install() {
-+    install -d "${D}/${bindir}"
-+    install -d "${D}/${datadir}/${BPN}"
++# 64-bit Arm: gic version 3
++QB_MACHINE_aarch64 = "-machine virt,gic-version=3 -machine virtualization=true"
 +
-+    install -m 0644 "${S}/README" "${D}/${datadir}/${BPN}"
-+    install -m 0644 "${S}/README-architecture.txt" "${D}/${datadir}/${BPN}"
-+    install -m 0644 "${S}/README.pydoc" "${D}/${datadir}/${BPN}"
-+    install -m 0644 "${S}/LICENSE.md" "${D}/${datadir}/${BPN}"
++# Use overrides for stronger assignment here as default memory set by the
++# machines is not high enough
++QB_MEM_qemuarm64 = "-m 512"
 +
-+    install -d "${D}/${datadir}/${BPN}/assists"
-+    install -m 0644 "${S}/assists/"* "${D}/${datadir}/${BPN}/assists/"
++# 64-bit Arm: qemuboot with a device tree binary
++QB_DTB_aarch64 = "${IMAGE_NAME}.qemuboot.dtb"
++QB_DTB_LINK_aarch64 = "${IMAGE_LINK_NAME}.qemuboot.dtb"
+diff --git a/classes/qemuboot-xen-dtb.bbclass b/classes/qemuboot-xen-dtb.bbclass
+new file mode 100644
+index 0000000..08f9b02
+--- /dev/null
++++ b/classes/qemuboot-xen-dtb.bbclass
+@@ -0,0 +1,209 @@
++# Enable booting Xen with qemuboot / runqemu: generate device tree
++#
++# Copyright (c) 2021 Star Lab Corp. All rights reserved.
++#
++# Author: Christopher Clark <christopher.clark@starlab.io>
 +
-+    install -d "${D}/${datadir}/${BPN}/lops"
-+    install -m 0644 "${S}/lops/"* "${D}/${datadir}/${BPN}/lops/"
++# Interface variables:
++#
++# QB_DTB : defined in qemuboot.bbclass.
++# If set, this class will generate the specified device tree file.
++#
++# QB_XEN_CMDLINE_EXTRA :
++# A string to be appended to the default Xen hypervisor boot command line,
++# for supplying Xen boot options.
++# The device tree that this bbclass generates will contain Xen command
++# line options to connect the Xen console to the Qemu serial port.
++#
++# QB_XEN_DOMAIN_MODULES :
++# A space-separated list of colon-separated entries:
++#   "<file for the module>:<load memory address>:<module compatibility string>"
++#
++# QB_XEN_DOM0_BOOTARGS :
++# A string for specifying Dom0 boot options for the Xen section of the device
++# tree.
++#
++# QB_XEN_DTB_TASK_DEPENDS :
++# The task dependencies for the DTB generation. A default is provided.
++#
++# See also: Other QB_ variables as defined by the qemuboot.bbclass.
 +
-+    install -d "${D}/${datadir}/${BPN}/device-trees"
-+    install -m 0644 "${S}/device-trees/"* "${D}/${datadir}/${BPN}/device-trees/"
-+
-+    install -m 0755 "${S}/"lopper*.py "${D}/${datadir}/${BPN}/"
-+
-+    datadir_relpath=${@os.path.relpath(d.getVar('datadir'), d.getVar('bindir'))}
-+    ln -s "${datadir_relpath}/${BPN}/lopper.py" "${D}/${bindir}/"
++write_lops_xen_section() {
++    cat <<EOF >"$1"
++/dts-v1/;
++/ {
++    compatible = "system-device-tree-v1";
++    lops {
++        /* Connect the Xen console to Qemu dtuart */
++        lop_1 {
++            compatible = "system-device-tree-v1,lop,code-v1";
++            code = "
++                chosen = node.tree['/chosen']
++                stdout_path = str(chosen['stdout-path'].value[0])
++                chosen['xen,xen-bootargs'] = \
++                        'console=dtuart dtuart=%s' % stdout_path
++                return True
++            ";
++        };
++        lop_2 {
++            compatible = "system-device-tree-v1,lop,modify";
++            modify = "/chosen:xen,dom0-bootargs:${QB_XEN_DOM0_BOOTARGS}";
++        };
++        lop_3 {
++            compatible = "system-device-tree-v1,lop,modify";
++            modify = "/chosen:#address-cells:<1>";
++        };
++        lop_4 {
++            compatible = "system-device-tree-v1,lop,modify";
++            modify = "/chosen:#size-cells:<1>";
++        };
++     };
++};
++EOF
 +}
 +
-+do_configure[noexec] = "1"
-+do_compile[noexec] = "1"
++write_lop_add_to_xen_cmdline() {
++    EXTRA_XEN_BOOTARGS="$2"
++    cat <<EOF >"$1"
++/dts-v1/;
++/ {
++    compatible = "system-device-tree-v1";
++    lops {
++        lop_1 {
++            compatible = "system-device-tree-v1,lop,code-v1";
++            options = "extra_xen_bootargs:${EXTRA_XEN_BOOTARGS}";
++            code = "
++                chosen = node.tree['/chosen']
++                xen_bootargs = str(chosen['xen,xen-bootargs'].value)
++                chosen['xen,xen-bootargs'] = '%s %s' % \
++                     (xen_bootargs, extra_xen_bootargs)
++                return True
++            ";
++        };
++     };
++};
++EOF
++}
 +
-+BBCLASSEXTEND = "native nativesdk"
++write_lop_add_chosen_module() {
++    ADDR="$2"
++    SIZE="$3"
++    MODULE_TYPE="$4"
++    cat <<EOF >"$1"
++/dts-v1/;
++/ {
++    compatible = "system-device-tree-v1";
++    lops {
++        lop_1 {
++            compatible = "system-device-tree-v1,lop,add";
++            node_src = "module@${ADDR}";
++            node_dest = "/chosen/module@${ADDR}";
++
++            module@${ADDR} {
++                compatible = "multiboot,module", "${MODULE_TYPE}";
++                reg = <${ADDR} ${SIZE}>;
++            };
++        };
++     };
++};
++EOF
++}
++
++generate_xen_qemuboot_dtb() {
++    # First: invoke qemu to generate an initial device tree.
++    # Parameters supplied here inspired by inspection of:
++    #   runqemu "${IMAGE_BASENAME}" nographic slirp \
++    #            qemuparams='-dtb "" -machine dumpdtb=${B}/qemu-dumped.dtb'
++    ${QB_SYSTEM_NAME} \
++        -device qemu-xhci \
++        -device usb-tablet \
++        -device usb-kbd \
++        -machine virt,gic-version=3 \
++        -machine virtualization=true \
++        ${QB_CPU} \
++        ${QB_SMP} \
++        ${QB_MEM} \
++        -nographic \
++        -serial mon:stdio \
++        -machine "dumpdtb=${B}/qemu-dumped.dtb"
++
++    # Lopper generates temporary files in cwd, so run it within ${B}
++    cd "${B}"
++    write_lops_xen_section "${B}/lop-insert-xen-section.dts"
++
++    write_lop_add_to_xen_cmdline "${B}/lop-xen-cmdline.dts" \
++        "${QB_XEN_CMDLINE_EXTRA}"
++
++    if [ -z "${QB_XEN_DOMAIN_MODULES}" ]; then
++        bbwarn "No domain modules: please set QB_XEN_DOMAIN_MODULES"
++    fi
++
++    for DOMAIN_MODULE in ${QB_XEN_DOMAIN_MODULES}
++    do
++        MODULE_FILE="$(echo ${DOMAIN_MODULE} | cut -f1 -d:)"
++        ADDR="$(echo ${DOMAIN_MODULE} | cut -f2 -d:)"
++        MODULE_TYPE="$(echo ${DOMAIN_MODULE} | cut -f3 -d:)"
++        RESOLVED_FILE="$(readlink -f ${MODULE_FILE})"
++        SIZE=$(printf '0x%x\n' $(stat -c '%s' "${RESOLVED_FILE}"))
++        [ "x${SIZE}" != "x0x0" ] || bbfatal No module: "${MODULE_FILE}"
++        write_lop_add_chosen_module "${B}/lop-add-module-${ADDR}.dts" \
++            "${ADDR}" "${SIZE}" "${MODULE_TYPE}"
++        LOP_MODULE_ARGS="${LOP_MODULE_ARGS} -i ${B}/lop-add-module-${ADDR}.dts"
++    done
++
++    QEMUBOOT_DTB="${IMGDEPLOYDIR}/${QB_DTB}"
++    QEMUBOOT_DTB_LINK="${IMGDEPLOYDIR}/${QB_DTB_LINK}"
++
++    lopper.py --werror --verbose \
++        -i "${B}/lop-insert-xen-section.dts" \
++        -i "${B}/lop-xen-cmdline.dts" \
++        ${LOP_MODULE_ARGS} \
++        -f -o "${QEMUBOOT_DTB}" \
++            "${B}/qemu-dumped.dtb"
++
++    # To assist debugging:
++    dtc -I dtb -O dts -o "${B}/output.dts" "${QEMUBOOT_DTB}"
++
++    if [ "${QEMUBOOT_DTB_LINK}" != "${QEMUBOOT_DTB}" ] ; then
++        if [ -e "${QEMUBOOT_DTB_LINK}" ] ; then
++            rm "${QEMUBOOT_DTB_LINK}"
++        fi
++        ln -s "${QB_DTB}" "${QEMUBOOT_DTB_LINK}"
++    fi
++}
++
++do_write_xen_qemuboot_dtb() {
++    # Not all architectures qemuboot with a device tree binary, so check
++    # to see if one is needed. This allows this bbclass file to be used
++    # in the same image recipe for multiple architectures.
++    if [ -n "${QB_DTB}" ] ; then
++        generate_xen_qemuboot_dtb
++    fi
++}
++
++addtask do_write_xen_qemuboot_dtb after do_write_qemuboot_conf before do_image
++# Task dependency:
++# An expected common case is that the kernel for at least one of the initial
++# domains (eg. dom0) is deployed from the virtual/kernel recipe, so
++# add virtual/kernel:do_deploy as a task dependency here since the kernel size
++# needs to be known for generating the device tree.
++# Dependencies are only introduced if a device tree will be generated.
++QB_XEN_DTB_TASK_DEPENDS ?= " \
++    ${@[ ' \
++        qemu-helper-native:do_populate_sysroot \
++        lopper-native:do_populate_sysroot \
++        dtc-native:do_populate_sysroot \
++        virtual/kernel:do_deploy \
++    ', ''][d.getVar('QB_DTB') == '' or d.getVar('QB_DTB') is None]} \
++    "
++do_write_xen_qemuboot_dtb[depends] = "${QB_XEN_DTB_TASK_DEPENDS}"
++
++def qemuboot_dtb_vars(d):
++    build_vars = ['MACHINE', 'TUNE_ARCH', 'DEPLOY_DIR_IMAGE',
++                'KERNEL_IMAGETYPE', 'IMAGE_NAME', 'IMAGE_LINK_NAME',
++                'STAGING_DIR_NATIVE', 'STAGING_BINDIR_NATIVE',
++                'STAGING_DIR_HOST', 'SERIAL_CONSOLES']
++    return build_vars + [k for k in d.keys() if k.startswith('QB_')]
++
++do_write_qemuboot_dtb[vardeps] += "${@' '.join(qemuboot_dtb_vars(d))}"
++do_write_qemuboot_dtb[vardepsexclude] += "TOPDIR"
+diff --git a/conf/distro/include/meta-virt-xen.inc b/conf/distro/include/meta-virt-xen.inc
+index 02a7810..2becba1 100644
+--- a/conf/distro/include/meta-virt-xen.inc
++++ b/conf/distro/include/meta-virt-xen.inc
+@@ -10,3 +10,6 @@ XEN_RPI4_64_CONFIG_PATH ??= \
+     'dynamic-layers/raspberrypi/conf/distro/include/xen-raspberrypi4-64.inc'
+ include ${@bb.utils.contains('MACHINE', 'raspberrypi4-64', \
+     '${XEN_RPI4_64_CONFIG_PATH}', '', d)}
++
++# Set serial for working qemuboot console
++SERIAL_CONSOLES_qemuarm64 ?= "115200;ttyAMA0"
+diff --git a/recipes-extended/images/xen-image-minimal.bb b/recipes-extended/images/xen-image-minimal.bb
+index 6733801..2175e63 100644
+--- a/recipes-extended/images/xen-image-minimal.bb
++++ b/recipes-extended/images/xen-image-minimal.bb
+@@ -31,7 +31,7 @@ XEN_PCIBACK_MODULE_x86-64 = "kernel-module-xen-pciback"
+ 
+ LICENSE = "MIT"
+ 
+-inherit core-image
++inherit core-image qemuboot-xen-defaults qemuboot-xen-dtb
+ 
+ do_check_xen_state() {
+     if [ "${@bb.utils.contains('DISTRO_FEATURES', 'xen', ' yes', 'no', d)}" = "no" ]; then
+@@ -74,10 +74,12 @@ build_syslinux_cfg () {
+ 
+ # Enable runqemu. eg: runqemu xen-image-minimal nographic slirp
+ WKS_FILE_x86-64 = "directdisk-xen.wks"
+-QB_MEM ?= "-m 400"
++QB_MEM ?= "-m 512"
+ QB_DEFAULT_KERNEL ?= "none"
+ QB_DEFAULT_FSTYPE ?= "wic"
++QB_DEFAULT_FSTYPE_qemux86-64 = "wic"
+ QB_FSINFO ?= "wic:kernel-in-fs"
++QB_SERIAL_OPT = "-serial mon:stdio"
+ # qemux86-64 machine does not include 'wic' in IMAGE_FSTYPES, which is needed
+ # to boot this image, so add it here:
+ IMAGE_FSTYPES_qemux86-64 += "wic"
 -- 
 2.25.1
 
