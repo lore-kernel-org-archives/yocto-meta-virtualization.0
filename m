@@ -1,389 +1,329 @@
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
- by mx.groups.io with SMTP id smtpd.web11.7722.1625719409446112167
+Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
+ by mx.groups.io with SMTP id smtpd.web10.5618.1625796416580004724
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 07 Jul 2021 21:43:29 -0700
+ Thu, 08 Jul 2021 19:06:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=cKO9xhay;
- spf=pass (domain: gmail.com, ip: 209.85.222.176, mailfrom: christopher.w.clark@gmail.com)
-Received: by mail-qk1-f176.google.com with SMTP id i125so4451474qke.12
-        for <meta-virtualization@lists.yoctoproject.org>; Wed, 07 Jul 2021 21:43:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=Z6tkTgxOUCiSX97YwHXVSW+vmtchN6WAHa6XRBuYQdQ=;
-        b=cKO9xhaydZg4GHEie5vUxXcvlfVglFkpVpK6t0TPmksKVU33SfzkC/HCyVAOTHhLgw
-         iOEeNeYmY2xBSLgwU90EgfZtWrIAW6eBweByN2GBDFVWEbxLuQMdCRwN82UaIDTKar1c
-         IqiBz9qdppzus3RjXobJ3WaJWDBfOTeTUHzrwcSig0+K0e2vRshyh4OnMRiVH0f4OqI8
-         xqp0Zh8S/7Cwx8QVo7j48DjmqS3zHYfv8ivoAA7vNB8E58LlcV265gEFaNjR4hcniS5A
-         cAISniZrj1J2pau8iB3fiE6sobx5ljjKJ46heANh+0ceHjChsKf/LtN8YAX+KbyQSbOY
-         Bbeg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Z6tkTgxOUCiSX97YwHXVSW+vmtchN6WAHa6XRBuYQdQ=;
-        b=BqC3OFdUtsTUniiOCnjMrOfT9oGjGefnvNwwEn/co2Fr59cThgThbTnOax5SvNjP11
-         KBDOybLcELCRWU/+omyL75P4bn+oH8MeuSFU8PB+2eltDnefxSNJ92b+rkPJ16073PDo
-         jhEu7yUeEm+bShFcf2CpNWlrR8vqOw9r8zxoD8KOlntofedO69rpAekoJpIxYI4NyJr3
-         /3PSyGvIeUYqnnLiV2UDKUvKePhZDqgcYPYCkUpOyaj1libR0p59XgbnyqSa3TsQaLF2
-         lEqGTO8pbi1ksYcv8sB0I399t9k/dsLBJiJf/kcnGohvFUEQ+dE9wD5/NZhspjb4KjWS
-         bwcQ==
-X-Gm-Message-State: AOAM532+I3J6g8KOnTXPAPPiD0/x0/bkcvAeJtN7SgQk2wmpeOK4lysN
-	tv0GiH0N5ZiNErZlhBRLMd2di3XDlUi0PUps
-X-Google-Smtp-Source: ABdhPJzsrVs7Eru1snHly0D00V1ToEeplfqodNeWiVazwUfBi44v8ca8ZnmRlFaV8Q578yqjgj6Fjw==
-X-Received: by 2002:a05:620a:c87:: with SMTP id q7mr29072400qki.349.1625719408439;
-        Wed, 07 Jul 2021 21:43:28 -0700 (PDT)
-Return-Path: <christopher.w.clark@gmail.com>
-Received: from walnut.ice.pyrology.org (mobile-166-177-250-205.mycingular.net. [166.177.250.205])
-        by smtp.gmail.com with ESMTPSA id n81sm211614qkn.118.2021.07.07.21.43.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Jul 2021 21:43:28 -0700 (PDT)
-From: "Christopher Clark" <christopher.w.clark@gmail.com>
-To: meta-virtualization@lists.yoctoproject.org
-Cc: Christopher Clark <christopher.clark@starlab.io>,
-	bruce.ashfield@gmail.com,
-	cardoe@gentoo.org,
-	diego.sueiro@arm.com,
-	Bertrand.Marquis@arm.com,
-	andrew.cooper3@citrix.com,
-	dpsmith@apertussolutions.com,
-	persaur@gmail.com,
-	scott.davis@starlab.io,
-	adam.schwalm@starlab.io
-Subject: [meta-virtualization][PATCH 2/2] qemuboot, xen-image-minimal: enable runqemu for qemuarm64 Xen images
-Date: Wed,  7 Jul 2021 21:43:00 -0700
-Message-Id: <20210708044300.127016-3-christopher.w.clark@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210708044300.127016-1-christopher.w.clark@gmail.com>
-References: <20210708044300.127016-1-christopher.w.clark@gmail.com>
+ dkim=fail reason="body hash did not verify" header.i=@fujitsu.com header.s=170520fj header.b=swLlFCcs;
+ spf=neutral (domain: fujitsu.com, ip: 198.145.29.25, mailfrom: zangrc.fnst@fujitsu.com)
+Received: from mail3.bemta25.messagelabs.com (mail3.bemta25.messagelabs.com [195.245.230.83])
+	by mail.yoctoproject.org (Postfix) with ESMTPS id 60D1F38C0701
+	for <meta-virtualization@yoctoproject.org>; Fri,  9 Jul 2021 02:06:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
+	s=170520fj; t=1625796413; i=@fujitsu.com;
+	bh=t/7GHD4I1x/kET0tjW8XgFJqgp53B4H08W4bgBFa+Qo=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	b=swLlFCcsl49v4cV4KDz45Z6ZH2a/CW3xtMh5dRzN20A81Y9t0UtruGX0Q1WKPRDkE
+	 SDcXpYiaU3LAoW4EJxzgjAmw+pXauRh89aasRZQAi8F5xms27kU/kiG0+lQXM88Gx3
+	 n9xFeAji29hCay/FUrWRNrTgAVxuGsRb6z3dByyX2wdLLhOyLMp6T6MgYeljHwooYG
+	 UOJbsh6AwkiDr+GNdDinihWIsEaxTFVuJD45gh+p1BbEK1ttsZS8sof7cEYjjg888+
+	 n9htyoZbxAZXQnOdLk7MvtYkma8eiv0zvKwcGvqz1UILA9CqaH+vchZZDa4ZIrF7W8
+	 b4I8iv8Glk2uQ==
+Received: from [100.112.199.200] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
+	by server-3.bemta.az-b.eu-west-1.aws.symcld.net id 75/A6-07821-D3FA7E06; Fri, 09 Jul 2021 02:06:53 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrHIsWRWlGSWpSXmKPExsViZ8MxVddm/fM
+  Eg8MT5C1uHzjC7MDo0X6ijy2AMYo1My8pvyKBNePNouksBU3OFb+v9TM3MG4162Lk4hASmMok
+  0T2xjx3COc4o8XvtTuYuRk4ONgEdiY4X3SwgtoiAlkR76y+wuLBAgMT68x8YQWwWARWJ7rdNY
+  DavgLvElb5d7CC2hICCxJSH75kh4oISJ2c+AZvDLKAp0br9NzuELS/RvHU2M0S9osT2nWdYIO
+  wKiRkztrFNYOSdhaR9FpL2WUjaFzAyr2K0SCrKTM8oyU3MzNE1NDDQNTQ00jW0NNM1MjTRS6z
+  STdJLLdUtTy0u0TXUSywv1iuuzE3OSdHLSy3ZxAgMvJSCI9d2MB54/UHvEKMkB5OSKK/WjOcJ
+  QnxJ+SmVGYnFGfFFpTmpxYcYZTg4lCR4u5YD5QSLUtNTK9Iyc4BRAJOW4OBREuHlXASU5i0uS
+  MwtzkyHSJ1i9ObYeXrxImaOZ2uXAMkN85YCyf937wLJ/gUHVzNz3Gw/tJpZiCUvPy9VSpyXYx
+  3QCAGQERmleXALYNF8iVFWSpiXkYGBQYinILUoN7MEVf4VozgHo5Iw70OQKTyZeSVwd7wCOpE
+  J6ESGw09BTixJREhJNTBN7jGpt9rRtkKyfXXH18OzTOR2r4tcsK06xuhWyekXqwvP33wym7FY
+  7KxLprxOs8dmpSZ+17c7OutWXGezXdASuvKutoPoNuOTlm8irudov/F+H3nGMMiMZYFpb9WiG
+  gmvumsd1pJLpoQVSs0w+8lnFRxXtSNng9yWOuXTE3d479R/P3vty7kr0w0OMyS7CLJMCd+jan
+  Fgnm+gwUpDk95fZipMpw7OU9+6McLl4RenzV1aBzMlgi9/XzJt3kyPXPmyR7JGKllxjyRs2h6
+  WrVAodFAMV6li573YGnt1jm2T0jHG9EciG23WfSjTWLCci0d+5veTtYoft86+qzCp1nzNtivO
+  6yxM3rycdiJyRbMSS3FGoqEWc1FxIgALTPX8YQMAAA==
+X-Env-Sender: zangrc.fnst@fujitsu.com
+X-Msg-Ref: server-6.tower-285.messagelabs.com!1625796412!238768!1
+X-Originating-IP: [62.60.8.149]
+X-SYMC-ESS-Client-Auth: outbound-route-from=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.81.3; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 21764 invoked from network); 9 Jul 2021 02:06:52 -0000
+Received: from unknown (HELO mailhost2.uk.fujitsu.com) (62.60.8.149)
+  by server-6.tower-285.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 9 Jul 2021 02:06:52 -0000
+Received: from R01UKEXCASM126.r01.fujitsu.local ([10.183.43.178])
+	by mailhost2.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 1691aXTv023508
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
+	for <meta-virtualization@yoctoproject.org>; Fri, 9 Jul 2021 02:36:42 +0100
+Received: from localhost.localdomain.localdomain (10.167.225.81) by
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.18; Fri, 9 Jul 2021 02:36:31 +0100
+From: "zangrc" <zangrc.fnst@fujitsu.com>
+To: <meta-virtualization@yoctoproject.org>
+Subject: [meta-virtualization] [PATCH] open-iscsi-user: upgrade 2.0-873 -> 2.1.4
+Date: Fri, 9 Jul 2021 09:36:24 +0800
+Message-ID: <1625794584-29456-1-git-send-email-zangrc.fnst@fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.167.225.81]
+X-ClientProxiedBy: G08CNEXCHPEKD09.g08.fujitsu.local (10.167.33.85) To
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Christopher Clark <christopher.clark@starlab.io>
+open-iscsi-2.1.3 - open-iscsi-2.1.4
 
-The Xen hypervisor built for Arm 64-bit targets can be launched with
-runqemu by providing a Device Tree binary and configuration for Qemu,
-which enables interactive testing of Xen images.
+Abhinav Rajagopalan (1):
+      Fix typo in util.py
 
-Add qemuboot-xen-dtb.bbclass to add a new bitbake task for generating
-the dtb file by using lopper on a device tree produced by Qemu.
+Chris Leech (3):
+      libopeniscsiusr: fix error messages
+      libopeniscsiusr: skip over removed sessions
+      libopeniscsiusr: dont error loudly if a session isn't found when wo=
+rking through iscsi_sessions_get()
 
-Add qemuboot-xen-defaults.bbclass to supply working default parameters
-for the qemuarm64 machine and general support for qemuboot for Xen.
+Fabian M=C3=B6ller (1):
+      iscsid: Add NO_SYSTEMD to CFLAGS
 
-Add the new qemuboot-xen classes to the xen-image-minimal image, along
-with variable settings needed for qemuboot to run the image for
-qemuarm64.
+Helmut Grohne (1):
+      Avoid hardcoding pkg-config to fix cross build
 
-The memory setting for Qemu has been increased to 512M after testing
-with successful boots. Default fstype for qemux86-64 was found to need a
-stronger override in testing. Provide an override for the serial console
-setting for the qemuarm64 machine when the Xen distro feature is
-enabled for the console in qemuboot, following the example of similar
-machine settings in meta-arm-bsp.
+John Schaeffer (1):
+      Add etc/systemd/iscsi-init.service to SYSTEMDFILES Makefile variabl=
+e
 
-Development aided by this script by Stewart Hildebrand of DornerWorks:
-https://gist.github.com/stewdk/110f43e0cc1d905fc6ed4c7e10d8d35e
+Lee Duncan (4):
+      iscsid: Do not allow conflicting pid-file options
+      Fix iscsiadm segfault when exiting
+      Fix iscsistart login issue when target is delayed.
+      Enable iscsi.service asynchronous logins, cleanup services
 
-Signed-off-by: Christopher Clark <christopher.clark@starlab.io>
+Matwey V. Kornilov (1):
+      Wants=3Dnetwork-online.target in iscsi.service
+
+Patrick Lawrence (1):
+      Change mkdir permissions to 0770, adjust usmask
+
+Wenchao Hao (4):
+      idbm: Fix memory leak and NULL pointer dereference in idbm_rec_upda=
+te_param()
+      libopeniscsiusr: Fix memory leak in iscsi_nodes_get()
+      libopeniscsiusr: Fix memory leak in iscsi_sessions_get()
+      iscsiadm: Fix memory leak in iscsiadm
+
+Signed-off-by: Zang Ruochen <zangrc.fnst@fujitsu.com>
 ---
- classes/qemuboot-xen-defaults.bbclass        |  29 +++
- classes/qemuboot-xen-dtb.bbclass             | 209 +++++++++++++++++++
- conf/distro/include/meta-virt-xen.inc        |   3 +
- recipes-extended/images/xen-image-minimal.bb |   6 +-
- 4 files changed, 245 insertions(+), 2 deletions(-)
- create mode 100644 classes/qemuboot-xen-defaults.bbclass
- create mode 100644 classes/qemuboot-xen-dtb.bbclass
+ .../0001-fix-build-error-of-cross-build.patch | 24 ++++----
+ .../open-iscsi/open-iscsi-user_2.0-873.bb     | 55 -----------------
+ .../open-iscsi/open-iscsi-user_2.1.4.bb       | 61 +++++++++++++++++++
+ 3 files changed, 73 insertions(+), 67 deletions(-)
+ delete mode 100644 meta-openstack/recipes-connectivity/open-iscsi/open-i=
+scsi-user_2.0-873.bb
+ create mode 100644 meta-openstack/recipes-connectivity/open-iscsi/open-i=
+scsi-user_2.1.4.bb
 
-diff --git a/classes/qemuboot-xen-defaults.bbclass b/classes/qemuboot-xen-defaults.bbclass
+diff --git a/meta-openstack/recipes-connectivity/open-iscsi/files/0001-fi=
+x-build-error-of-cross-build.patch b/meta-openstack/recipes-connectivity/=
+open-iscsi/files/0001-fix-build-error-of-cross-build.patch
+index 206da48..8eec2dc 100644
+--- a/meta-openstack/recipes-connectivity/open-iscsi/files/0001-fix-build=
+-error-of-cross-build.patch
++++ b/meta-openstack/recipes-connectivity/open-iscsi/files/0001-fix-build=
+-error-of-cross-build.patch
+@@ -1,30 +1,30 @@
+-From 943a321104a5b2c4ac25bdb2ae81b5b208e3973c Mon Sep 17 00:00:00 2001
+-From: Lei Maohui <leimaohui@cn.fujitsu.com>
+-Date: Tue, 18 Aug 2015 10:29:35 +0900
++From 2ba83ff539c18d02f8e4b4ce7903a5b46f364609 Mon Sep 17 00:00:00 2001
++From: Lei Maohui <leimaohui@fujitsu.com>
++Date: Thu, 8 Jul 2021 15:06:27 +0900
+ Subject: [PATCH] fix build error of cross build
+=20
+ The error likes as following
+ | configure: error: cannot run C compiled programs.
+ | If you meant to cross compile, use `--host'.
+=20
+-Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
++Signed-off-by: Lei Maohui <leimaohui@fujitsu.com>
+ ---
+  Makefile | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+=20
+ diff --git a/Makefile b/Makefile
+-index c5d9700..1f31e43 100644
++index 7f52cc8..cadbc47 100644
+ --- a/Makefile
+ +++ b/Makefile
+-@@ -42,7 +42,7 @@ user: utils/open-isns/Makefile
++@@ -78,7 +78,7 @@ user: iscsiuio/Makefile
+  	@echo "Read README file for detailed information."
+ =20
+- utils/open-isns/Makefile: utils/open-isns/configure utils/open-isns/Mak=
+efile.in
+--	cd utils/open-isns; ./configure CFLAGS=3D"$(OPTFLAGS)" --with-security=
+=3Dno
+-+	cd utils/open-isns; ./configure CFLAGS=3D"$(OPTFLAGS)" --with-security=
+=3Dno ${CONFIGURE_ARGS}
++ iscsiuio/Makefile: iscsiuio/configure iscsiuio/Makefile.in
++-	cd iscsiuio; ./configure $(WITHOUT_ARG)
+++	cd iscsiuio; ./configure $(WITHOUT_ARG) $(CONFIGURE_ARGS)
+ =20
+- kernel: force
+- 	$(MAKE) -C kernel
++ iscsiuio/configure iscsiuio/Makefile.in: iscsiuio/configure.ac iscsiuio=
+/Makefile.am
++ 	cd iscsiuio; autoreconf --install
+ --=20
+-1.8.4.2
++2.25.1
+=20
+diff --git a/meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-us=
+er_2.0-873.bb b/meta-openstack/recipes-connectivity/open-iscsi/open-iscsi=
+-user_2.0-873.bb
+deleted file mode 100644
+index 4c9326e..0000000
+--- a/meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-user_2.0-=
+873.bb
++++ /dev/null
+@@ -1,55 +0,0 @@
+-DESCRIPTION =3D "Open-iSCSI project is a high performance, transport ind=
+ependent, multi-platform implementation of RFC3720."
+-HOMEPAGE =3D "http://www.open-iscsi.org/"
+-LICENSE =3D "GPLv2"
+-PR =3D "r1"
+-
+-inherit systemd
+-
+-LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D393a5ca445f6965873eca0259a17f=
+833"
+-
+-SRC_URI =3D "http://www.open-iscsi.org/bits/open-iscsi-${PV}.tar.gz   \
+-           file://0001-fix-build-error-of-cross-build.patch         \
+-           file://open-iscsi                                        \
+-           file://initiatorname.iscsi                               \
+-           "
+-
+-
+-S =3D "${WORKDIR}/open-iscsi-${PV}"
+-TARGET_CC_ARCH +=3D "${LDFLAGS}"
+-EXTRA_OEMAKE +=3D "CONFIGURE_ARGS=3D'--host=3D${HOST_SYS}'"
+-
+-do_compile () {
+-        oe_runmake user
+-}
+-
+-do_install () {
+-        oe_runmake DESTDIR=3D"${D}" install_user
+-        cp -f "${WORKDIR}/open-iscsi" "${D}/etc/init.d/"
+-        install -m 0644 ${WORKDIR}/initiatorname.iscsi ${D}/etc/iscsi/in=
+itiatorname.iscsi
+-}
+-
+-
+-SRC_URI[md5sum] =3D "8b8316d7c9469149a6cc6234478347f7"
+-SRC_URI[sha256sum] =3D "7dd9f2f97da417560349a8da44ea4fcfe98bfd5ef284240a=
+2cc4ff8e88ac7cd9"
+-
+-# systemd support
+-PACKAGES =3D+ "${PN}-systemd"
+-SRC_URI_append =3D "  file://iscsi-initiator                            =
+       \
+-                    file://iscsi-initiator.service                      =
+     \
+-                    file://iscsi-initiator-targets.service              =
+     \
+-                 "
+-RDEPENDS_${PN} +=3D "bash"
+-RDEPENDS_${PN}-systemd +=3D "${PN}"
+-FILES_${PN}-systemd +=3D  "   ${base_libdir}/systemd                  \
+-                            ${sysconfdir}/default/iscsi-initiator   \
+-                        "
+-SYSTEMD_PACKAGES =3D "${PN}-systemd"
+-SYSTEMD_SERVICE_${PN}-systemd =3D "iscsi-initiator.service iscsi-initiat=
+or-targets.service"
+-
+-do_install_append () {
+-        install -d ${D}${sysconfdir}/default/
+-        install -m 0644 ${WORKDIR}/iscsi-initiator ${D}${sysconfdir}/def=
+ault/
+-        install -d ${D}${systemd_unitdir}/system
+-        install -m 0644 ${WORKDIR}/iscsi-initiator.service ${D}${systemd=
+_unitdir}/system/
+-        install -m 0644 ${WORKDIR}/iscsi-initiator-targets.service ${D}$=
+{systemd_unitdir}/system/
+-}
+diff --git a/meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-us=
+er_2.1.4.bb b/meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-u=
+ser_2.1.4.bb
 new file mode 100644
-index 0000000..82cad49
+index 0000000..139ce1d
 --- /dev/null
-+++ b/classes/qemuboot-xen-defaults.bbclass
-@@ -0,0 +1,29 @@
-+# Set defaults for booting Xen images with qemuboot
++++ b/meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-user_2.1.=
+4.bb
+@@ -0,0 +1,61 @@
++DESCRIPTION =3D "Open-iSCSI project is a high performance, transport ind=
+ependent, multi-platform implementation of RFC3720."
++HOMEPAGE =3D "http://www.open-iscsi.org/"
++LICENSE =3D "GPLv2"
++PR =3D "r1"
 +
-+# Xen and Dom0 command line options
-+QB_XEN_CMDLINE_EXTRA ??= "dom0_mem=192M"
-+QB_XEN_DOM0_BOOTARGS ??= \
-+    "console=hvc0 earlyprintk clk_ignore_unused root=/dev/vda"
++inherit systemd autotools pkgconfig
 +
-+# Launch with one initial domain, dom0, with one boot module, the kernel
-+DOM0_KERNEL="${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGETYPE}"
-+DOM0_KERNEL_LOAD_ADDR="0x45000000"
-+QB_XEN_DOMAIN_MODULES = "${DOM0_KERNEL}:${DOM0_KERNEL_LOAD_ADDR}:multiboot,kernel"
++LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Db234ee4d69f5fce4486a80fdaf4a4=
+263"
++DEPENDS =3D "kmod openssl util-linux open-isns"
++DEPENDS_append =3D " ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', =
+'systemd', '', d)}"
 +
-+# Qemuboot for 64-bit Arm uses the QB_DEFAULT_KERNEL method to load Xen
-+# and the device loader option for the dom0 kernel:
-+QB_OPT_APPEND_append_aarch64 = " \
-+    -device loader,file=${DOM0_KERNEL},addr=${DOM0_KERNEL_LOAD_ADDR} \
-+    "
-+QB_DEFAULT_KERNEL_aarch64 = "xen-${MACHINE}"
++SRC_URI =3D "git://github.com/open-iscsi/open-iscsi.git;protocol=3Dhttps=
+   \
++           file://0001-fix-build-error-of-cross-build.patch \
++           "
 +
-+# 64-bit Arm: gic version 3
-+QB_MACHINE_aarch64 = "-machine virt,gic-version=3 -machine virtualization=true"
++SRCREV =3D "095f59ca464220eae285de6b5f2ee31185a6a84c"
 +
-+# Use overrides for stronger assignment here as default memory set by the
-+# machines is not high enough
-+QB_MEM_qemuarm64 = "-m 512"
++S =3D "${WORKDIR}/git"
++B =3D "${S}"
 +
-+# 64-bit Arm: qemuboot with a device tree binary
-+QB_DTB_aarch64 = "${IMAGE_NAME}.qemuboot.dtb"
-+QB_DTB_LINK_aarch64 = "${IMAGE_LINK_NAME}.qemuboot.dtb"
-diff --git a/classes/qemuboot-xen-dtb.bbclass b/classes/qemuboot-xen-dtb.bbclass
-new file mode 100644
-index 0000000..08f9b02
---- /dev/null
-+++ b/classes/qemuboot-xen-dtb.bbclass
-@@ -0,0 +1,209 @@
-+# Enable booting Xen with qemuboot / runqemu: generate device tree
-+#
-+# Copyright (c) 2021 Star Lab Corp. All rights reserved.
-+#
-+# Author: Christopher Clark <christopher.clark@starlab.io>
++TARGET_CC_ARCH +=3D "${LDFLAGS}"
++EXTRA_OEMAKE +=3D "CONFIGURE_ARGS=3D'--host=3D${HOST_SYS}'"
 +
-+# Interface variables:
-+#
-+# QB_DTB : defined in qemuboot.bbclass.
-+# If set, this class will generate the specified device tree file.
-+#
-+# QB_XEN_CMDLINE_EXTRA :
-+# A string to be appended to the default Xen hypervisor boot command line,
-+# for supplying Xen boot options.
-+# The device tree that this bbclass generates will contain Xen command
-+# line options to connect the Xen console to the Qemu serial port.
-+#
-+# QB_XEN_DOMAIN_MODULES :
-+# A space-separated list of colon-separated entries:
-+#   "<file for the module>:<load memory address>:<module compatibility string>"
-+#
-+# QB_XEN_DOM0_BOOTARGS :
-+# A string for specifying Dom0 boot options for the Xen section of the device
-+# tree.
-+#
-+# QB_XEN_DTB_TASK_DEPENDS :
-+# The task dependencies for the DTB generation. A default is provided.
-+#
-+# See also: Other QB_ variables as defined by the qemuboot.bbclass.
-+
-+write_lops_xen_section() {
-+    cat <<EOF >"$1"
-+/dts-v1/;
-+/ {
-+    compatible = "system-device-tree-v1";
-+    lops {
-+        /* Connect the Xen console to Qemu dtuart */
-+        lop_1 {
-+            compatible = "system-device-tree-v1,lop,code-v1";
-+            code = "
-+                chosen = node.tree['/chosen']
-+                stdout_path = str(chosen['stdout-path'].value[0])
-+                chosen['xen,xen-bootargs'] = \
-+                        'console=dtuart dtuart=%s' % stdout_path
-+                return True
-+            ";
-+        };
-+        lop_2 {
-+            compatible = "system-device-tree-v1,lop,modify";
-+            modify = "/chosen:xen,dom0-bootargs:${QB_XEN_DOM0_BOOTARGS}";
-+        };
-+        lop_3 {
-+            compatible = "system-device-tree-v1,lop,modify";
-+            modify = "/chosen:#address-cells:<1>";
-+        };
-+        lop_4 {
-+            compatible = "system-device-tree-v1,lop,modify";
-+            modify = "/chosen:#size-cells:<1>";
-+        };
-+     };
-+};
-+EOF
++do_configure () {
++    :
 +}
 +
-+write_lop_add_to_xen_cmdline() {
-+    EXTRA_XEN_BOOTARGS="$2"
-+    cat <<EOF >"$1"
-+/dts-v1/;
-+/ {
-+    compatible = "system-device-tree-v1";
-+    lops {
-+        lop_1 {
-+            compatible = "system-device-tree-v1,lop,code-v1";
-+            options = "extra_xen_bootargs:${EXTRA_XEN_BOOTARGS}";
-+            code = "
-+                chosen = node.tree['/chosen']
-+                xen_bootargs = str(chosen['xen,xen-bootargs'].value)
-+                chosen['xen,xen-bootargs'] = '%s %s' % \
-+                     (xen_bootargs, extra_xen_bootargs)
-+                return True
-+            ";
-+        };
-+     };
-+};
-+EOF
++do_compile () {
++        oe_runmake user
 +}
 +
-+write_lop_add_chosen_module() {
-+    ADDR="$2"
-+    SIZE="$3"
-+    MODULE_TYPE="$4"
-+    cat <<EOF >"$1"
-+/dts-v1/;
-+/ {
-+    compatible = "system-device-tree-v1";
-+    lops {
-+        lop_1 {
-+            compatible = "system-device-tree-v1,lop,add";
-+            node_src = "module@${ADDR}";
-+            node_dest = "/chosen/module@${ADDR}";
 +
-+            module@${ADDR} {
-+                compatible = "multiboot,module", "${MODULE_TYPE}";
-+                reg = <${ADDR} ${SIZE}>;
-+            };
-+        };
-+     };
-+};
-+EOF
++do_install () {
++        oe_runmake DESTDIR=3D"${D}" install_user
++        install ${S}/etc/initd/initd.debian ${D}/etc/init.d/open-iscsi
++        install -m 0644 ${S}/etc/iscsid.conf ${D}/etc/iscsi/
++
++        install -d ${D}${libdir}
++        install -Dm 0644 ${S}/libopeniscsiusr/libopeniscsiusr.so.0.2.0 $=
+{D}${libdir}/
++        ln -sf ${libdir}/libopeniscsiusr.so.0.2.0 ${D}${libdir}/libcap-n=
+g.so=20
 +}
 +
-+generate_xen_qemuboot_dtb() {
-+    # First: invoke qemu to generate an initial device tree.
-+    # Parameters supplied here inspired by inspection of:
-+    #   runqemu "${IMAGE_BASENAME}" nographic slirp \
-+    #            qemuparams='-dtb "" -machine dumpdtb=${B}/qemu-dumped.dtb'
-+    ${QB_SYSTEM_NAME} \
-+        -device qemu-xhci \
-+        -device usb-tablet \
-+        -device usb-kbd \
-+        -machine virt,gic-version=3 \
-+        -machine virtualization=true \
-+        ${QB_CPU} \
-+        ${QB_SMP} \
-+        ${QB_MEM} \
-+        -nographic \
-+        -serial mon:stdio \
-+        -machine "dumpdtb=${B}/qemu-dumped.dtb"
++# systemd support
++PACKAGES =3D+ "${PN}-systemd"
++RDEPENDS_${PN} +=3D "bash"
++RDEPENDS_${PN}-systemd +=3D "${PN}"
++FILES_${PN}-systemd +=3D  "${base_libdir}/systemd                  \
++                         ${sysconfdir}/default/iscsi-initiator   \
++                        "
++SYSTEMD_PACKAGES =3D "${PN}-systemd"
++SYSTEMD_SERVICE_${PN}-systemd =3D "iscsi.service \
++                                 iscsiuio.service \
++                                 iscsid.service \
++                                 iscsi-init.service \
++                                 iscsid.socket \
++                                 iscsiuio.socket "
 +
-+    # Lopper generates temporary files in cwd, so run it within ${B}
-+    cd "${B}"
-+    write_lops_xen_section "${B}/lop-insert-xen-section.dts"
-+
-+    write_lop_add_to_xen_cmdline "${B}/lop-xen-cmdline.dts" \
-+        "${QB_XEN_CMDLINE_EXTRA}"
-+
-+    if [ -z "${QB_XEN_DOMAIN_MODULES}" ]; then
-+        bbwarn "No domain modules: please set QB_XEN_DOMAIN_MODULES"
-+    fi
-+
-+    for DOMAIN_MODULE in ${QB_XEN_DOMAIN_MODULES}
-+    do
-+        MODULE_FILE="$(echo ${DOMAIN_MODULE} | cut -f1 -d:)"
-+        ADDR="$(echo ${DOMAIN_MODULE} | cut -f2 -d:)"
-+        MODULE_TYPE="$(echo ${DOMAIN_MODULE} | cut -f3 -d:)"
-+        RESOLVED_FILE="$(readlink -f ${MODULE_FILE})"
-+        SIZE=$(printf '0x%x\n' $(stat -c '%s' "${RESOLVED_FILE}"))
-+        [ "x${SIZE}" != "x0x0" ] || bbfatal No module: "${MODULE_FILE}"
-+        write_lop_add_chosen_module "${B}/lop-add-module-${ADDR}.dts" \
-+            "${ADDR}" "${SIZE}" "${MODULE_TYPE}"
-+        LOP_MODULE_ARGS="${LOP_MODULE_ARGS} -i ${B}/lop-add-module-${ADDR}.dts"
-+    done
-+
-+    QEMUBOOT_DTB="${IMGDEPLOYDIR}/${QB_DTB}"
-+    QEMUBOOT_DTB_LINK="${IMGDEPLOYDIR}/${QB_DTB_LINK}"
-+
-+    lopper.py --werror --verbose \
-+        -i "${B}/lop-insert-xen-section.dts" \
-+        -i "${B}/lop-xen-cmdline.dts" \
-+        ${LOP_MODULE_ARGS} \
-+        -f -o "${QEMUBOOT_DTB}" \
-+            "${B}/qemu-dumped.dtb"
-+
-+    # To assist debugging:
-+    dtc -I dtb -O dts -o "${B}/output.dts" "${QEMUBOOT_DTB}"
-+
-+    if [ "${QEMUBOOT_DTB_LINK}" != "${QEMUBOOT_DTB}" ] ; then
-+        if [ -e "${QEMUBOOT_DTB_LINK}" ] ; then
-+            rm "${QEMUBOOT_DTB_LINK}"
-+        fi
-+        ln -s "${QB_DTB}" "${QEMUBOOT_DTB_LINK}"
-+    fi
++do_install_append () {
++        install -d ${D}${systemd_unitdir}/system
++        install -m 0644 ${S}/etc/systemd/* ${D}${systemd_unitdir}/system=
+/
 +}
-+
-+do_write_xen_qemuboot_dtb() {
-+    # Not all architectures qemuboot with a device tree binary, so check
-+    # to see if one is needed. This allows this bbclass file to be used
-+    # in the same image recipe for multiple architectures.
-+    if [ -n "${QB_DTB}" ] ; then
-+        generate_xen_qemuboot_dtb
-+    fi
-+}
-+
-+addtask do_write_xen_qemuboot_dtb after do_write_qemuboot_conf before do_image
-+# Task dependency:
-+# An expected common case is that the kernel for at least one of the initial
-+# domains (eg. dom0) is deployed from the virtual/kernel recipe, so
-+# add virtual/kernel:do_deploy as a task dependency here since the kernel size
-+# needs to be known for generating the device tree.
-+# Dependencies are only introduced if a device tree will be generated.
-+QB_XEN_DTB_TASK_DEPENDS ?= " \
-+    ${@[ ' \
-+        qemu-helper-native:do_populate_sysroot \
-+        lopper-native:do_populate_sysroot \
-+        dtc-native:do_populate_sysroot \
-+        virtual/kernel:do_deploy \
-+    ', ''][d.getVar('QB_DTB') == '' or d.getVar('QB_DTB') is None]} \
-+    "
-+do_write_xen_qemuboot_dtb[depends] = "${QB_XEN_DTB_TASK_DEPENDS}"
-+
-+def qemuboot_dtb_vars(d):
-+    build_vars = ['MACHINE', 'TUNE_ARCH', 'DEPLOY_DIR_IMAGE',
-+                'KERNEL_IMAGETYPE', 'IMAGE_NAME', 'IMAGE_LINK_NAME',
-+                'STAGING_DIR_NATIVE', 'STAGING_BINDIR_NATIVE',
-+                'STAGING_DIR_HOST', 'SERIAL_CONSOLES']
-+    return build_vars + [k for k in d.keys() if k.startswith('QB_')]
-+
-+do_write_qemuboot_dtb[vardeps] += "${@' '.join(qemuboot_dtb_vars(d))}"
-+do_write_qemuboot_dtb[vardepsexclude] += "TOPDIR"
-diff --git a/conf/distro/include/meta-virt-xen.inc b/conf/distro/include/meta-virt-xen.inc
-index 02a7810..2becba1 100644
---- a/conf/distro/include/meta-virt-xen.inc
-+++ b/conf/distro/include/meta-virt-xen.inc
-@@ -10,3 +10,6 @@ XEN_RPI4_64_CONFIG_PATH ??= \
-     'dynamic-layers/raspberrypi/conf/distro/include/xen-raspberrypi4-64.inc'
- include ${@bb.utils.contains('MACHINE', 'raspberrypi4-64', \
-     '${XEN_RPI4_64_CONFIG_PATH}', '', d)}
-+
-+# Set serial for working qemuboot console
-+SERIAL_CONSOLES_qemuarm64 ?= "115200;ttyAMA0"
-diff --git a/recipes-extended/images/xen-image-minimal.bb b/recipes-extended/images/xen-image-minimal.bb
-index 6733801..2175e63 100644
---- a/recipes-extended/images/xen-image-minimal.bb
-+++ b/recipes-extended/images/xen-image-minimal.bb
-@@ -31,7 +31,7 @@ XEN_PCIBACK_MODULE_x86-64 = "kernel-module-xen-pciback"
- 
- LICENSE = "MIT"
- 
--inherit core-image
-+inherit core-image qemuboot-xen-defaults qemuboot-xen-dtb
- 
- do_check_xen_state() {
-     if [ "${@bb.utils.contains('DISTRO_FEATURES', 'xen', ' yes', 'no', d)}" = "no" ]; then
-@@ -74,10 +74,12 @@ build_syslinux_cfg () {
- 
- # Enable runqemu. eg: runqemu xen-image-minimal nographic slirp
- WKS_FILE_x86-64 = "directdisk-xen.wks"
--QB_MEM ?= "-m 400"
-+QB_MEM ?= "-m 512"
- QB_DEFAULT_KERNEL ?= "none"
- QB_DEFAULT_FSTYPE ?= "wic"
-+QB_DEFAULT_FSTYPE_qemux86-64 = "wic"
- QB_FSINFO ?= "wic:kernel-in-fs"
-+QB_SERIAL_OPT = "-serial mon:stdio"
- # qemux86-64 machine does not include 'wic' in IMAGE_FSTYPES, which is needed
- # to boot this image, so add it here:
- IMAGE_FSTYPES_qemux86-64 += "wic"
--- 
+--=20
 2.25.1
 
