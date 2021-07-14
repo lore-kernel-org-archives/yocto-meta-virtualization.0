@@ -1,90 +1,95 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
- by mx.groups.io with SMTP id smtpd.web12.11749.1626291232106191047
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+ by mx.groups.io with SMTP id smtpd.web09.11839.1626291291825361576
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 14 Jul 2021 12:33:52 -0700
+ Wed, 14 Jul 2021 12:34:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=nIbxtGvX;
- spf=pass (domain: gmail.com, ip: 209.85.218.50, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ej1-f50.google.com with SMTP id bu12so5215087ejb.0
-        for <meta-virtualization@lists.yoctoproject.org>; Wed, 14 Jul 2021 12:33:51 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=RRa/mimu;
+ spf=pass (domain: gmail.com, ip: 209.85.218.47, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ej1-f47.google.com with SMTP id bu12so5219421ejb.0
+        for <meta-virtualization@lists.yoctoproject.org>; Wed, 14 Jul 2021 12:34:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=xFzu+J52qOsxlpGvHR7K3BT9Ubx9uDV5Nm5LT3QkUhE=;
-        b=nIbxtGvXjceGhia3lh81JavYL9Wtq+RLgiujRF10nzhZ8vrwomCU0ODvZofuHEeYHE
-         2/cOe7qzMwbHogKrqwRllH9uWAUs7g+enpIDioe3zkrvcU292sMYbWG5oU0APBOGMZEm
-         iNFj/vDmc3SPjzSYGnLkkGeX1spe1lGfO00PEG6GJZbcBu5TqA92srCl5qFm8laj0s98
-         s7/KDqa7Hh0h9FmqhqanozH5+wNlkcBKBFLvOmekXKL6HA1bDWw/6RUXs6mY/I6DpJA3
-         o9MyY2tDV1vOB5WkT4TZWG09eLbDrHNYKYUcAztARYYfb6c1FRj1RzpjLUEdlwloDw1v
-         C2jg==
+        bh=9usDkzHJukXGJEuL29BwXaP40XpP2J1rdzUzk3tV2Eo=;
+        b=RRa/mimurxtA3O9fOGcG9zF0GZ+fDbU/Vb+7NNvn2nrTTz23luXO76P5boEWVd7o+o
+         4d1N0l1rvl9s81XQ0vtd2uVoIZSI0DPit8nvNG34kry9avsb2j1MqAHFRCGSbCi93peG
+         kH9gtK8iMsrs/ONm6DaxHbCwVnmSTtA6esEZ/SBY6ntnVWxYYZOVk+NB7O5dtlevvOZi
+         NvfBiY0w4qmVhCgRhf+mLC3H5K4BSwtzeS3MXNYjOsfA3J1VJoWmYgByKCzV5/SVN+Zg
+         70L90JBJ5bGfKLLSvJJwHryhWV1oe+f2tS+X5mVw4rYXQeEd6c5tfQGagJ9/natpppNg
+         Jrtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=xFzu+J52qOsxlpGvHR7K3BT9Ubx9uDV5Nm5LT3QkUhE=;
-        b=NGqDp8OkKZqgP8Ejs63wN1Wa8XxIFtnieW/Vt3x0elPBo+xCe7MpgP/2Tlbmr2Ce2B
-         +vNgFhfS3jEPPfXT88BA9MSWwCYmo3SuWnZBw0IFTTpssB252Q+8nXIWYVGfOBWnS5ix
-         JWM703+l2pBWjoL9D6Y4nvlJaf04FSNJar6SmQ9kwoVgJPxBTxjZggaQi3mDud0BP6Vh
-         X81IgwmDB7uj5yseB1+EgT/wVe8stAa+m5RPyqIJU1sbm3R3OGzhOJZI0hJXVo03I2zL
-         IA2+C1JL4fG7pR8bS/ZayeB2qIi4s/Ns29TbMZtiUawp6kBxNcRXuXaX0A/u11fEO3oW
-         Ac8g==
-X-Gm-Message-State: AOAM532777vW9ietmeFhqCfmg/Pjxdt/lwkly2l66+Ko/YUmRM7QPPBM
-	8S6trHxKpoK53c7ZkWjacnHNAcr/UdqP7VtPC54=
-X-Google-Smtp-Source: ABdhPJyz82aZpmokh1XaN1mwcdVHGx8AwPv4XqwO9M0AGEUBRitm6Ob0hf/morcxf2I3+gZqsjrK7Vh0vZhkpe9/Rvk=
-X-Received: by 2002:a17:906:2cca:: with SMTP id r10mr13638888ejr.298.1626291230553;
- Wed, 14 Jul 2021 12:33:50 -0700 (PDT)
+        bh=9usDkzHJukXGJEuL29BwXaP40XpP2J1rdzUzk3tV2Eo=;
+        b=eP6CdBSUC1oBkOqbDuV6DukLFaNoTtgIIEvyL/LCz3itP7UgLmyM94AHwhoTcWF2iU
+         5hrlubAk3az0ZmkjIXM1HxSDmh2bNHMe19GClJzcFQItqsFFejmfOr88HNLmtOycOgw7
+         Eo9Ur9rtIGPU2HBZnQPrepGPSP3nD25B0rwCn31d21dxEIS4atxP63ee7/l4YK9yKYfV
+         2N6UOYc+r6ULQJMf70zQ6lBgyNLZnSO7gKajRTVhM3BF+r1kJqj3QNCn73kzfnXDWgmI
+         bfivlmYoSWAv+M3+oiKL3ZGKTDHLx2QiCCyDvOUKL/aJINSXA5+ljPPXOrdWnuRfW/3Q
+         9IHg==
+X-Gm-Message-State: AOAM533xBprlmqGz97tEVdfsxQPGinhf0J+vcEk0s/sysw4z+kTAgRNh
+	pkCeWeVUF/KDFtiCTxZ3IdjpglBVJXq6/PnteT4=
+X-Google-Smtp-Source: ABdhPJw+O0iLfLYdHMRo6WYgw48x8zZv3/pDg6k21FPfTm4MCf5+WZOUQCrJ/f1HDC8vFDld8JI7kM0PdkL4r8D1FcM=
+X-Received: by 2002:a17:907:1b29:: with SMTP id mp41mr13817737ejc.459.1626291290434;
+ Wed, 14 Jul 2021 12:34:50 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210708043246.126719-1-christopher.w.clark@gmail.com>
-In-Reply-To: <20210708043246.126719-1-christopher.w.clark@gmail.com>
+References: <20210708044300.127016-1-christopher.w.clark@gmail.com>
+In-Reply-To: <20210708044300.127016-1-christopher.w.clark@gmail.com>
 From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Wed, 14 Jul 2021 15:33:39 -0400
-Message-ID: <CADkTA4NsgSGcHzayEfWGKWZK0BsDFr5vG8GaXP37Q3PMtbiv-Q@mail.gmail.com>
-Subject: Re: [meta-virtualization][PATCH v2 0/4] Xen and XTF build fixes series
+Date: Wed, 14 Jul 2021 15:34:39 -0400
+Message-ID: <CADkTA4N7bm138tw-h1QLGMJJ-WTOYAwAhL3bvW58woyTTb35sw@mail.gmail.com>
+Subject: Re: [meta-virtualization][PATCH 0/2] Xen: qemuboot device tree support (Arm 64-bit)
 To: Christopher Clark <christopher.w.clark@gmail.com>
-Cc: meta-virtualization@lists.yoctoproject.org, 
+Cc: meta-virtualization@lists.yoctoproject.org, christopher.clark@starlab.io, 
 	Doug Goldstein <cardoe@gentoo.org>, Diego Sueiro <diego.sueiro@arm.com>, 
 	Bertrand Marquis <Bertrand.Marquis@arm.com>, andrew.cooper3@citrix.com, 
-	Daniel Smith <dpsmith@apertussolutions.com>, Rich Persaud <persaur@gmail.com>
+	Daniel Smith <dpsmith@apertussolutions.com>, Rich Persaud <persaur@gmail.com>, scott.davis@starlab.io, 
+	adam.schwalm@starlab.io
 Content-Type: text/plain; charset="UTF-8"
 
-I haven't heard any objections, so this is now merged to master.
+On Thu, Jul 8, 2021 at 12:43 AM Christopher Clark
+<christopher.w.clark@gmail.com> wrote:
+>
+> This series introduces tools and class structure in the layer for
+> enabling testing Xen system images with Qemu, booting with a device tree
+> that describes the target system.
+>
+> A device tree is required for launching Xen systems on Arm platforms and
+> is part of the Hyperlaunch design for Xen.
+>   https://wiki.xenproject.org/wiki/Hyperlaunch
+>
+> This series adds a recipe for Lopper, a device tree tool, and its
+> dependencies. It provides a class that implements a bitbake task to
+> generate a device tree for qemuboot, and a set of defaults to enable
+> 'runqemu xen-image-minimal nographic slirp' to boot images compiled for
+> Arm 64-bit machines.
+
+This looks great, and something that I've been looking for as well.
+
+I just need to carve out a bit more time to take it for a spin, but I
+don't see any issues with the changes. (I've reviewed the new recipes,
+etc, and nothing major jumped out).
 
 Bruce
 
-On Thu, Jul 8, 2021 at 12:33 AM Christopher Clark
-<christopher.w.clark@gmail.com> wrote:
 >
-> Pull in updates from upstream Xen and XTF for GCC 11 and fix passing
-> compiler flags for the Xen hypervisor, tools and test framework.
+> Christopher Clark (2):
+>   lopper, python-dtc: add new recipes for device tree tools
+>   qemuboot, xen-image-minimal: enable runqemu for qemuarm64 Xen images
 >
-> Changes since v1:
-> - for Xen 4.14, drop the previous cherry-picked compiler fix patch
->   via an update of SRCREV to the current tip of stable-4.14
-> - add a patch to drop an unnecessary compiler flag override for
->   the Arm 32-bit Xen tools build
->
-> Christopher Clark (4):
->   xen, xen-tools: apply upstream fixes for gcc11 compilation
->   xen, xen-tools: fix build and passing of CFLAGS via Xen vars
->   xtf: fix build with gcc11 SRCREV and specifying linker
->   xen-tools: remove Arm 32-bit compiler flags override
->
->  ...ry-Fix-osdep_xenforeignmemory_map-pr.patch |  33 ++++++
->  ...x86-make-hypervisor-build-with-gcc11.patch | 111 ++++++++++++++++++
->  recipes-extended/xen/xen-hypervisor.inc       |   3 +-
->  recipes-extended/xen/xen-tools.inc            |   6 +-
->  recipes-extended/xen/xen-tools_4.14.bb        |   3 +-
->  recipes-extended/xen/xen-tools_4.15.bb        |   1 +
->  recipes-extended/xen/xen-tools_git.bb         |   1 +
->  recipes-extended/xen/xen.inc                  |  13 +-
->  recipes-extended/xen/xen_4.14.bb              |   2 +-
->  recipes-extended/xen/xen_4.15.bb              |   1 +
->  recipes-extended/xen/xen_git.bb               |   1 +
->  recipes-extended/xen/xtf_git.bb               |   3 +-
->  12 files changed, 167 insertions(+), 11 deletions(-)
->  create mode 100644 recipes-extended/xen/files/0001-libs-foreignmemory-Fix-osdep_xenforeignmemory_map-pr.patch
->  create mode 100644 recipes-extended/xen/files/0001-x86-make-hypervisor-build-with-gcc11.patch
+>  classes/qemuboot-xen-defaults.bbclass        |  29 +++
+>  classes/qemuboot-xen-dtb.bbclass             | 209 +++++++++++++++++++
+>  conf/distro/include/meta-virt-xen.inc        |   3 +
+>  recipes-extended/images/xen-image-minimal.bb |   6 +-
+>  recipes-kernel/dtc/python3-dtc_1.6.1.bb      |  26 +++
+>  recipes-kernel/lopper/lopper.bb              |  45 ++++
+>  6 files changed, 316 insertions(+), 2 deletions(-)
+>  create mode 100644 classes/qemuboot-xen-defaults.bbclass
+>  create mode 100644 classes/qemuboot-xen-dtb.bbclass
+>  create mode 100644 recipes-kernel/dtc/python3-dtc_1.6.1.bb
+>  create mode 100644 recipes-kernel/lopper/lopper.bb
 >
 > --
 > 2.25.1
