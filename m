@@ -1,82 +1,70 @@
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
- by mx.groups.io with SMTP id smtpd.web12.342.1626907109336749289
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+ by mx.groups.io with SMTP id smtpd.web09.385.1626907152389093615
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 21 Jul 2021 15:38:29 -0700
+ Wed, 21 Jul 2021 15:39:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=liRcFjjv;
- spf=pass (domain: gmail.com, ip: 209.85.219.42, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qv1-f42.google.com with SMTP id i4so1733902qvq.10
-        for <meta-virtualization@lists.yoctoproject.org>; Wed, 21 Jul 2021 15:38:29 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=gUSkUQ/O;
+ spf=pass (domain: gmail.com, ip: 209.85.218.53, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ej1-f53.google.com with SMTP id hr1so5609055ejc.1
+        for <meta-virtualization@lists.yoctoproject.org>; Wed, 21 Jul 2021 15:39:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=NKAMaCynKeQbO12N5QNpF1vx0tIBn2U9dzhgXQZ0mVg=;
-        b=liRcFjjvbDGJbK4c1DqPGapUkcEkTI4/u/SldACefW9NWaj96DGE+ZRcUhQjEaHN8I
-         IK50ISemEbCDmJWT793Wb/bJowYAfFKPEkMtRJEbxyrs0kfKzhuRg2AXW86zMDb/eYxt
-         gwrB7oybJF+1X/4+YMbe5ipZPl/R7wgyARIgEGOsx8SEmPueNunmg26NNetFLdP9UJXl
-         o73aDiZ7aRM1eZoe35vUhb70IP9QrX7WpgPpc0IM0EOQq0FpBfwZjsB7G559Gs3wRD2W
-         pJNRXaaNjkR9Rhu1/yT/4/ecYj+B9k5p7LPR7Dv6UPTirwjVLEFm4RzRTShZaXOhplmY
-         zftw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=6sTfyYGFuDQ+CasUa8hoMKk6t9C0/tXqWf+liFKCjzI=;
+        b=gUSkUQ/O0EL5TJVys/iVvlgpW65Im+jmjNSsoz/Ah2UGMJWJncBKBPq5Pf/np+H8OC
+         TcLX+D7aEf5fQi7/YoEVY1vlmvqe78ZaeOI1G4TpXtwF3YLJVfqy+JGv8hmq3jEjXYUQ
+         QL13LkK/qLCfrEwSqNdJDil2uf9JWmHjHwakpxEZdUTZPJOUusAiSTSGCJ16TrJMenrl
+         gFnZm8t5pE8/B+XM3ZqPeKi/lTbIA6LhOfYl5lfKfThE2bsIqfrTbW2V80CiWfP/PsXF
+         aoYtL9zCgVLsrrxmnpHgT73UexMcTP9Re3DdrJO3F9i98bctISTcOe5amdtE8y5mpqRs
+         +BZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=NKAMaCynKeQbO12N5QNpF1vx0tIBn2U9dzhgXQZ0mVg=;
-        b=sguOeZGuXfAORcZhC8ljNcuDAzlAhbTfyh0SDT95+Wqv3uMrKa1BlEnMw3g5LC5Gzw
-         /5QGNjnht8CZOnhKMwOKupZBKGzPTZsS9pdq/XbHdkoOePx8JX63R4k3LQD8uZ+/zCp4
-         JztHth/MqiSQbp49Tcl3cghgPAGeMfVtMDQHtICTsuqeXQI17/DMbFO1TtgyttYAFwzP
-         JdKProdCfvi4CsfKHCfWrnLLCM37zGnUypoyXZhf7ZilelMS9///ZaFok750J+jFQCCA
-         AWPDE4lMk3tBdotxxu4NiQC6DfuuofhJaqr3aOkQUaZBmPzKVzE6E0sf55ddPxbXAShj
-         QRMQ==
-X-Gm-Message-State: AOAM533Lr/CJpjpFsnDVgSfHrXP/2uY9kvHpKnvk6sNKUTL5hWx1MmsP
-	OThtvyWB3tTXioZKSclU1Eo=
-X-Google-Smtp-Source: ABdhPJzItO30u7qpiMDdLtGGG5nFy7pKZgR2Rm3VLckAG9kRHa4wq/WqC0rh+RyY2BNPm7D9blcxtw==
-X-Received: by 2002:a05:6214:7cf:: with SMTP id bb15mr38082547qvb.29.1626907108362;
-        Wed, 21 Jul 2021 15:38:28 -0700 (PDT)
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from gmail.com (cpe04d4c4975b80-cmf4c11490699b.cpe.net.cable.rogers.com. [174.112.63.222])
-        by smtp.gmail.com with ESMTPSA id o27sm7719276qkk.124.2021.07.21.15.38.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Jul 2021 15:38:27 -0700 (PDT)
-Date: Wed, 21 Jul 2021 18:38:26 -0400
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-To: Diego Sueiro <diego.sueiro@arm.com>
-Cc: meta-virtualization@lists.yoctoproject.org, nd@arm.com
-Subject: Re: [meta-virtualization][PATCH hardknott] busybox-initrd: Update to 1.33.1
-Message-ID: <20210721223823.GA47431@gmail.com>
-References: <7a455f0667201311d7112840f8952aacf6ffc699.1626860249.git.diego.sueiro@arm.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=6sTfyYGFuDQ+CasUa8hoMKk6t9C0/tXqWf+liFKCjzI=;
+        b=EAcARPeOlMmu9aWCE9QW1HzNzWHpVO4q/OQE0RFY9c1lBEkXprKXEXPBgHypQk64Nt
+         14QmqYV5k8CpPR+pWDeSK8Luov/PitAWVeIvWqvzKbOUa4vxBplbjeni+rojQeAZAyCx
+         wwmcMgSvQNsSMReQ94+24cOda/cH9gGYnnzQhjvx3osw397nPJ5nll2XG8GZNXicpZke
+         mvI0jAAWzE+aljKOrw9mUwwokXPm/dcGuhHn5RD3Un9SFE1OPrjRzDsKiN8E2DAQd6iD
+         oPYSrj2nYvUeHOxHC/AcKDTFf70/9okxE+qS+OUz0Ghs5quk6oWpwYyIIfFhNmPbjKdG
+         Suzg==
+X-Gm-Message-State: AOAM5329HRZWp8ysW+wAAQ8knAKsaozZr0PfaR0YeCBceOStg5nyGEYV
+	JmhtTaBBDxM2uVbmubamrmWG/Rw2k3UaaiqdFQlVnxE0m+zjzcm+
+X-Google-Smtp-Source: ABdhPJyrj6d4as0FeS6njTg86ZGwWbOS7rX1w/gGSdvTHjghzWb3mWGgTPLcW45OxwEDCE/hdqMf9vIGAgc+vAf2Jlg=
+X-Received: by 2002:a17:906:4b46:: with SMTP id j6mr40798031ejv.247.1626907150957;
+ Wed, 21 Jul 2021 15:39:10 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <7a455f0667201311d7112840f8952aacf6ffc699.1626860249.git.diego.sueiro@arm.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <CADkTA4PUxyb=FjZ9TLVMRMn5T_mMpuomAH-Pe0Psj9QEeqssLA@mail.gmail.com>
+ <7328.1626882389960955019@lists.yoctoproject.org>
+In-Reply-To: <7328.1626882389960955019@lists.yoctoproject.org>
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+Date: Wed, 21 Jul 2021 18:38:59 -0400
+Message-ID: <CADkTA4PRdAjrqfbPdhh5oKjBt5zpLXvbfkA1vqYh+WYiaJuuJw@mail.gmail.com>
+Subject: Re: [meta-virtualization] [PATCH] initrd: bump busybox to 1.33.1 to match oe-core
+To: Daniel Dragomir <Daniel.Dragomir@windriver.com>
+Cc: meta-virtualization@lists.yoctoproject.org
+Content-Type: text/plain; charset="UTF-8"
 
-merged.
+Diego had sent a patch for this earlier today, so I grabbed his and we
+should be good to go.
 
 Bruce
 
-In message: [meta-virtualization][PATCH hardknott] busybox-initrd: Update to 1.33.1
-on 21/07/2021 Diego Sueiro wrote:
+On Wed, Jul 21, 2021 at 11:46 AM Daniel Dragomir
+<Daniel.Dragomir@windriver.com> wrote:
+>
+> Hi Bruce!
+> Busybox was upgraded to 1.33.1 for hardknott branch too in oe-core.
+> Can you please backport this patch for hardknott in meta-virtualization?
+>
+> Thanks,
+> Daniel
+> 
+>
 
-> In oe-core hardknott branch busybox was updated to 1.33.1. Hence, do the same
-> for busybox-initrd recipe.
-> 
-> Signed-off-by: Diego Sueiro <diego.sueiro@arm.com>
-> ---
->  .../{busybox-initrd_1.33.0.bb => busybox-initrd_1.33.1.bb}        | 0
->  1 file changed, 0 insertions(+), 0 deletions(-)
->  rename recipes-core/busybox/{busybox-initrd_1.33.0.bb => busybox-initrd_1.33.1.bb} (100%)
-> 
-> diff --git a/recipes-core/busybox/busybox-initrd_1.33.0.bb b/recipes-core/busybox/busybox-initrd_1.33.1.bb
-> similarity index 100%
-> rename from recipes-core/busybox/busybox-initrd_1.33.0.bb
-> rename to recipes-core/busybox/busybox-initrd_1.33.1.bb
-> -- 
-> 2.17.1
-> 
 
-> 
-> 
-> 
-
+-- 
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
