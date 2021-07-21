@@ -1,92 +1,187 @@
-Received: from mail1.bemta26.messagelabs.com (mail1.bemta26.messagelabs.com [85.158.142.116])
- by mx.groups.io with SMTP id smtpd.web11.693.1626829892220580370
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+ by mx.groups.io with SMTP id smtpd.web11.1527.1626835317407217317
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 20 Jul 2021 18:11:32 -0700
+ Tue, 20 Jul 2021 19:41:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=pPArLSYN;
- spf=pass (domain: fujitsu.com, ip: 85.158.142.116, mailfrom: wangmy@fujitsu.com)
-Return-Path: <wangmy@fujitsu.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1626829890; i=@fujitsu.com;
-	bh=d6W/Ewo13683cW/Jptq1ydbRqk5VJub1tf6g+nYV81U=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=pPArLSYNwFopwLkoeDD5AQqLTKAcbIFEBpkOkbwZUD8Tur1CADtD+vIC0oglpwOoB
-	 GQFvqnr44bIH1G0p/YSp0zwEU9hH/GYuOAd5zcGJRsNgNMC0+Ly7Np4IOIUaH1EEDE
-	 AYHO/58wyLXKmWxaKGN+kV4eLmpCqNyk80b7Yr8KIZKuT7yROi0j+Yn/gT7Y70E8Gn
-	 Wux1x7HzSaS6/XP1fiLNC9nIXwkm+qjoNsAy7nwhIrngNJecKnRb8ii+eofMc1XcSA
-	 hK4iGBy6V4QeApDNt5SD6HAFflnQWPNEFmCD6RJUeo6SRZScOTFgAVeoULSoRf9q4F
-	 IxwlGHkOVXrMg==
-Received: from [100.113.6.207] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-5.bemta.az-b.eu-central-1.aws.symcld.net id 5C/49-07230-14477F06; Wed, 21 Jul 2021 01:11:29 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprOIsWRWlGSWpSXmKPExsViZ8MRqutY8j3
-  BYMNnVotFX56xOjB6zDz1iDmAMYo1My8pvyKBNePeJtmCP2wVj5tesTQwzmLrYuTiEBLYziTx
-  59UlJgjnJKNE48RG5i5GTg42ATWJ6bdusILYIgIGEufOzQeLMwuoSLz43cMOYgsLJEo8OPUJz
-  GYRUJV413yOCcTmFXCUmPxzPguILSGgIDHl4XtmiLigxMmZT1gg5khIHHzxghmiRlFi9uVmoD
-  gHkF0pceNx6gRG3llIOmYh6VjAyLSK0TKpKDM9oyQ3MTNH19DAQNfQ0FjXVNfQ1FgvsUo3SS+
-  1VDc5Na+kKBEoq5dYXqxXXJmbnJOil5dasokRGF4phawzdzB+ev1B7xCjJAeTkijvWbZvCUJ8
-  SfkplRmJxRnxRaU5qcWHGGU4OJQkeFOKvicICRalpqdWpGXmAEMdJi3BwaMkwvswDyjNW1yQm
-  FucmQ6ROsWoKCXOOwWkTwAkkVGaB9cGi69LjLJSwryMDAwMQjwFqUW5mSWo8q8YxTkYlYR5Vx
-  cDTeHJzCuBm/4KaDET0OJd076CLC5JREhJNTCd2Fm1tlRP7kKGcCXvv5z+/rv/pilLfL68ZXJ
-  r3segH2JhLAeefvE8nB+wRefJXAMxe74lzD3GPC4/BEpOHfnqsvHDt7aZW5tmnQq2a1qe8LI0
-  WaM3tafQpF/sVZZyQG3wjc6MgM0BeiFrj33QeG/7Wb2MS9fq4ok4HgOpg39WNf289PtLRYzPb
-  MXNkhrlasab4y+9XO0XVzbBU21e2da2iM9Tov0FhUwFmASCIt+fWxSaqsX5apN947Ol9+/av9
-  lqWsnQ45F0w9NN3TH602YVuU2fvk8JPbFh9kvtV45czWv5LZI//LboPuXwr0NofcqDah6nrbM
-  L7zHp3tw+/+yNJ/MZUs54FRaV9rvPzlBiKc5INNRiLipOBADbLy+zKgMAAA==
-X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-13.tower-245.messagelabs.com!1626829888!83128!1
-X-Originating-IP: [62.60.8.85]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.81.3; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 17847 invoked from network); 21 Jul 2021 01:11:29 -0000
-Received: from unknown (HELO mailhost4.uk.fujitsu.com) (62.60.8.85)
-  by server-13.tower-245.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 21 Jul 2021 01:11:29 -0000
-Received: from R01UKEXCASM223.r01.fujitsu.local (ex2k13_223.fs.fujitsu.com [10.182.185.121])
-	by mailhost4.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 16L1BLql017370
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <meta-virtualization@lists.yoctoproject.org>; Wed, 21 Jul 2021 02:11:28 +0100
-Received: from localhost.localdomain.localdomain (10.167.225.33) by
- R01UKEXCASM223.r01.fujitsu.local (10.182.185.121) with Microsoft SMTP Server
- (TLS) id 15.0.1497.18; Wed, 21 Jul 2021 02:11:19 +0100
-From: "wangmy" <wangmy@fujitsu.com>
-To: <meta-virtualization@lists.yoctoproject.org>
-CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [meta-virtualization] [PATCH] open-iscsi-user: use update-alternatives for libcap-ng.so
-Date: Wed, 21 Jul 2021 09:11:08 +0800
-Message-ID: <1626829868-1763-1-git-send-email-wangmy@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=YiDLyK8a;
+ spf=pass (domain: gmail.com, ip: 209.85.208.48, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ed1-f48.google.com with SMTP id ca14so527163edb.2
+        for <meta-virtualization@lists.yoctoproject.org>; Tue, 20 Jul 2021 19:41:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=YC9N4/dg0kMN9U2YKgrGHkT7OCkPc4ED43mC+NQdJUk=;
+        b=YiDLyK8a8GHqdyFsF/SKqBWSklvz9htPmIqbB9ng0OpUHIrU4ZTJnlAK7XWDlUeMDF
+         oNyf0xKqmiOm7rt9a4FQVJX96aE7NHdfdzzQ5kQ3pSlSsIlYl23BIkxaB+N63+rLRwvg
+         G2gH4pxDEAS7PZVvQ5ac5gTBQ2KqV5W0DaeAFsVkOSIXtH065dqETqyuX79Karvlcv9l
+         H/m+Ch8QnI2MQ5isbkVxEPGF0xZ8iXj5RmB80Dj5FsYwr/R+UBpkcn2GrRAqFhjgb2ga
+         h0vSpn8qfqDKOIkqimSURInFW+tXquxyLhfWiRxAxRJtGNgW1TO3lVMmnP0AlaUjV2UE
+         z09w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=YC9N4/dg0kMN9U2YKgrGHkT7OCkPc4ED43mC+NQdJUk=;
+        b=lmm5PU/cStukpgT0kP7zvOKCozpP4h8iklViVZydLHoIrX3llVxnTCZ47TZSxJnncG
+         CGCdKcyBOqeWtMHI7dcwlUBkopH9LNHx2GgEZ3oiwwzoP3TeuoZH57SpFrPL1vRF1Kvn
+         JofYNnvtLFE8XERcZ2ESubP/hyJxRFh4hIJzXQs2jdpX7jPok6eQKCwj5r8jDQ151Wh5
+         +aKgj8ZfdCYCIxpEbVK0DDjR/53yIHo5bymF+Qr3/HYW89U2TtRTIyX8auT7enjuO8wb
+         omCIwO/Dn2MyceuEgacahz95ZPrH3NagQdOweRQzufK7D1Fo+ihIymjl6d4gMmQ71DzT
+         1kYw==
+X-Gm-Message-State: AOAM530uJPtlDruiJngnU3zXO/82bnx2SvMmLwvNzSCx0vWxFouRj3zV
+	xRgR4qnDcRfZti8/AIbS9NxGTYR8/3UExPzpXAI=
+X-Google-Smtp-Source: ABdhPJwRIedgFcPJIdQ5TETYILWem3RFJrhskHDq/x/8frkE8X2pdhfurWdkiH4ibs6mypyZPttS/NupXCH8lH5fZQk=
+X-Received: by 2002:a05:6402:1057:: with SMTP id e23mr45850058edu.352.1626835315714;
+ Tue, 20 Jul 2021 19:41:55 -0700 (PDT)
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.33]
-X-ClientProxiedBy: G08CNEXCHPEKD08.g08.fujitsu.local (10.167.33.83) To
- R01UKEXCASM223.r01.fujitsu.local (10.182.185.121)
-Content-Type: text/plain
+References: <20210708044300.127016-1-christopher.w.clark@gmail.com> <20210708044300.127016-2-christopher.w.clark@gmail.com>
+In-Reply-To: <20210708044300.127016-2-christopher.w.clark@gmail.com>
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+Date: Tue, 20 Jul 2021 22:41:44 -0400
+Message-ID: <CADkTA4PAHVoD3Raxsn6iK9m668GxC_fYgCsHf9=ZnZYb3LYC+Q@mail.gmail.com>
+Subject: Re: [meta-virtualization][PATCH 1/2] lopper, python-dtc: add new recipes for device tree tools
+To: Christopher Clark <christopher.w.clark@gmail.com>
+Cc: meta-virtualization@lists.yoctoproject.org, 
+	Christopher Clark <christopher.clark@starlab.io>, Doug Goldstein <cardoe@gentoo.org>, 
+	Diego Sueiro <diego.sueiro@arm.com>, Bertrand Marquis <Bertrand.Marquis@arm.com>, 
+	andrew.cooper3@citrix.com, Daniel Smith <dpsmith@apertussolutions.com>, 
+	Rich Persaud <persaur@gmail.com>, scott.davis@starlab.io, adam.schwalm@starlab.io
+Content-Type: text/plain; charset="UTF-8"
 
-libcap-ng also uses the doc 'libcap-ng.so'.
+On Thu, Jul 8, 2021 at 12:43 AM Christopher Clark
+<christopher.w.clark@gmail.com> wrote:
+>
+> From: Christopher Clark <christopher.clark@starlab.io>
+>
+> This device tree tooling is being added as a prequisite for enabling
+> qemuboot to run Xen system images with device trees generated for Qemu.
+>
+> lopper: a tool for performing operations on device tree files.
+> A new recipe inspired by the original from meta-xilinx-bsp.
+>
+> python-dtc: a python library for the Device Tree compiler.
+> This is a prerequisite for lopper. Imported from meta-xilinx-bsp with an
+> updated SRCREV and DESCRIPTION for the latest release, version 1.6.1.
+>
+> Signed-off-by: Christopher Clark <christopher.clark@starlab.io>
+> ---
+>  recipes-kernel/dtc/python3-dtc_1.6.1.bb | 26 ++++++++++++++
+>  recipes-kernel/lopper/lopper.bb         | 45 +++++++++++++++++++++++++
+>  2 files changed, 71 insertions(+)
+>  create mode 100644 recipes-kernel/dtc/python3-dtc_1.6.1.bb
+>  create mode 100644 recipes-kernel/lopper/lopper.bb
+>
+> diff --git a/recipes-kernel/dtc/python3-dtc_1.6.1.bb b/recipes-kernel/dtc/python3-dtc_1.6.1.bb
+> new file mode 100644
+> index 0000000..5374029
+> --- /dev/null
+> +++ b/recipes-kernel/dtc/python3-dtc_1.6.1.bb
+> @@ -0,0 +1,26 @@
+> +SUMMARY = "Python Library for the Device Tree Compiler"
+> +HOMEPAGE = "https://devicetree.org/"
+> +DESCRIPTION = "A python library for the Device Tree Compiler, a tool used to manipulate Device Tree files which contain a data structure for describing hardware."
+> +SECTION = "bootloader"
+> +LICENSE = "GPLv2 | BSD"
+> +
+> +DEPENDS = "flex-native bison-native swig-native libyaml dtc"
+> +
+> +SRC_URI = "git://git.kernel.org/pub/scm/utils/dtc/dtc.git"
+> +
+> +UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+(\.\d+)+)"
+> +
+> +LIC_FILES_CHKSUM = "file://libfdt.i;beginline=1;endline=6;md5=afda088c974174a29108c8d80b5dce90"
+> +
+> +SRCREV = "ecaeb97fec013973360e94888a7de645f084345c"
+> +
+> +S = "${WORKDIR}/git/pylibfdt"
+> +
+> +inherit distutils3
+> +
+> +do_configure_prepend() {
 
-libcap-ng has a priority of 100.
+Sorry for being so slow on the review of this, I was deep into getting
+the umoci backend to work for OCI image creation and am just getting
+to reviews now!
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
----
- .../recipes-connectivity/open-iscsi/open-iscsi-user_2.1.4.bb | 5 +++++
- 1 file changed, 5 insertions(+)
+> +    make -C "${S}/.." version_gen.h
 
-diff --git a/meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-user_2.1.4.bb b/meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-user_2.1.4.bb
-index 139ce1db..a05004a1 100644
---- a/meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-user_2.1.4.bb
-+++ b/meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-user_2.1.4.bb
-@@ -29,6 +29,11 @@ do_compile () {
-         oe_runmake user
- }
- 
-+inherit update-alternatives
-+
-+ALTERNATIVE_PRIORITY = "60"
-+ALTERNATIVE_${PN}-dev = "libcap-ng.so"
-+ALTERNATIVE_LINK_NAME[libcap-ng.so] = "${libdir}/libcap-ng.so"
- 
- do_install () {
-         oe_runmake DESTDIR="${D}" install_user
+Two minor thoughts on the line above:
+
+ - did you try oe_runmake ? versus the bare 'make' call ? I always
+forget to do that myself.
+ - the ${S}/.. concerned me at first, until I took a close look at
+${S}. Could we use "${WORKDIR}/git/" instead ? That doesn't make it
+look like we are scribbling outside of ${S}.
+
+> +    mv "${S}/../version_gen.h" "${S}/"
+> +}
+> +
+> +BBCLASSEXTEND = "native nativesdk"
+> diff --git a/recipes-kernel/lopper/lopper.bb b/recipes-kernel/lopper/lopper.bb
+> new file mode 100644
+> index 0000000..274d5b9
+> --- /dev/null
+> +++ b/recipes-kernel/lopper/lopper.bb
+> @@ -0,0 +1,45 @@
+> +SUMMARY = "Device Tree Lopper"
+> +DESCRIPTION = "Tool for manipulation of system device tree files"
+> +LICENSE = "BSD-3-Clause"
+> +SECTION = "bootloader"
+> +
+> +SRC_URI = "git://github.com/devicetree-org/lopper.git"
+> +SRCREV = "0c23e51d585608ab04009ccf3499f168e2f4d478"
+> +S = "${WORKDIR}/git"
+> +
+> +LIC_FILES_CHKSUM = "file://LICENSE.md;md5=8e5f5f691f01c9fdfa7a7f2d535be619"
+> +
+> +RDEPENDS_${PN} = " \
+> +    python3-core \
+> +    python3-dtc \
+> +    python3-humanfriendly \
+> +    "
+> +
+> +do_install() {
+> +    install -d "${D}/${bindir}"
+> +    install -d "${D}/${datadir}/${BPN}"
+> +
+> +    install -m 0644 "${S}/README" "${D}/${datadir}/${BPN}"
+> +    install -m 0644 "${S}/README-architecture.txt" "${D}/${datadir}/${BPN}"
+> +    install -m 0644 "${S}/README.pydoc" "${D}/${datadir}/${BPN}"
+> +    install -m 0644 "${S}/LICENSE.md" "${D}/${datadir}/${BPN}"
+> +
+> +    install -d "${D}/${datadir}/${BPN}/assists"
+> +    install -m 0644 "${S}/assists/"* "${D}/${datadir}/${BPN}/assists/"
+> +
+> +    install -d "${D}/${datadir}/${BPN}/lops"
+> +    install -m 0644 "${S}/lops/"* "${D}/${datadir}/${BPN}/lops/"
+> +
+> +    install -d "${D}/${datadir}/${BPN}/device-trees"
+> +    install -m 0644 "${S}/device-trees/"* "${D}/${datadir}/${BPN}/device-trees/"
+> +
+> +    install -m 0755 "${S}/"lopper*.py "${D}/${datadir}/${BPN}/"
+> +
+> +    datadir_relpath=${@os.path.relpath(d.getVar('datadir'), d.getVar('bindir'))}
+> +    ln -s "${datadir_relpath}/${BPN}/lopper.py" "${D}/${bindir}/"
+
+This looks good to me. I'm working on getting lopper into a pypi
+format, but I'll take care of updating this recipe once that work is
+complete.
+
+Bruce
+
+> +}
+> +
+> +do_configure[noexec] = "1"
+> +do_compile[noexec] = "1"
+> +
+> +BBCLASSEXTEND = "native nativesdk"
+> --
+> 2.25.1
+>
+
+
 -- 
-2.25.1
-
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
