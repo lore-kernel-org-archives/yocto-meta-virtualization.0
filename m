@@ -1,145 +1,70 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
- by mx.groups.io with SMTP id smtpd.web08.639.1627063392665594067
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+ by mx.groups.io with SMTP id smtpd.web09.4165.1627075004355623592
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 23 Jul 2021 11:03:13 -0700
+ Fri, 23 Jul 2021 14:16:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=cuKHKGkW;
- spf=pass (domain: gmail.com, ip: 209.85.218.50, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ej1-f50.google.com with SMTP id v21so4994969ejg.1
-        for <meta-virtualization@lists.yoctoproject.org>; Fri, 23 Jul 2021 11:03:12 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=BEcQPuYz;
+ spf=pass (domain: gmail.com, ip: 209.85.221.42, mailfrom: robert.berger.yocto.user@gmail.com)
+Received: by mail-wr1-f42.google.com with SMTP id e2so3698945wrq.6
+        for <meta-virtualization@lists.yoctoproject.org>; Fri, 23 Jul 2021 14:16:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=s1vDADLlFlEOINWV1lwFKHNBKBnWxThVIFSP7uetWEE=;
-        b=cuKHKGkWy4kNHJklVtqfs0nlnI1ITIM+R49qnpPZVKV/V6Z7ge/bt9xlun698ht+KM
-         /o4Cclys3WMJbstuQ5KvZpMG4N4QIJ1xhWAaxG7ClN+UsNGLUolgVmoO3gRgeHLVFYgF
-         edTIVyNqjmUW7Qd4E4QCRkpv9drjiqrPPGlGPQ//ZHfH2bIYTGKXak1ko/pLLcsUeXiP
-         Y860klVx2XTHQDS+pfEI/AWh/K1cEoF6xq9kdN4e46kAlWtak3CdlRujizzuF+1Cic0S
-         46PZUC69D2pA5eV/NiBne5IfTGUlxKjXJ5shpjongZ+qu4A50FuzRWLNHEkvrEUBKIJM
-         XRCw==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=gwUQID1w4naW0jnzJXJYoDs3nx1MdJ3EJlm2FkKUNbY=;
+        b=BEcQPuYzZ02xM/1+Yvph+pg2BY6KA8gWZdyvZvOX9iPLQjujTF7N+0aqSHji9Gn9es
+         6mZKt2rbUKLpeptxOfX5uYcCOstZSQtoAqfRlQ0ZWe/sheRNg3RReLP0hzLdv5Xs0UhR
+         h764aytZmvXkCA+6NovfpI8rw2f8v66LdaJUwDds4KtCdRDtbEwtUx42j3r/y0ctArQ6
+         4/QOmgWUM+nZ1bRFtXMOiYj6hL+afJQx3GiYIKTGzDsomrr1bno7ObUE5dYFJRCf9l8+
+         egL/jLZpJ95yROA/LqvnWDNHIYKrvNyKHaebu3SolZdviAWVznoJIDkhJO9/U7Uh+eYH
+         5Vcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=s1vDADLlFlEOINWV1lwFKHNBKBnWxThVIFSP7uetWEE=;
-        b=FjW2L6Q9Eupk/z97Mzur9eWyh2uuDcI0UndMBct45t6fQBQKDeqTUhU/oxtYBNK2Z7
-         ZM8imhWCx8p9SPcnRxDV9QNFG/pEOQP8CIqVJgl5gkVBwXCuXFrnq8HVukyRoMS+/9AX
-         d2LCT9UH27ISIOVwsobZc8wA0lFWnxLf725gPV391YBpj+lWxUqKp1V7ZKXVlRMLJcjl
-         YeQD0XFhmxRe+rT7c2gblEM3rOZaFxEunFJByfPQ+IDtqmDNI+lMosjnOCWyKmTgXGsA
-         zY6KXaKGkwEf78GG8OrkS12tEhQLAwfGkqWkwlcjKS9wl3QzQ7LriF2XFZnQRnZYeoTs
-         7R/g==
-X-Gm-Message-State: AOAM531dqOHXh82Wks7834N1sU92MKSga5im8NCRsvh4BwNMd8VRTMkL
-	P7ImGDtLsZFBC7OJcsQ7iBeAqlLxRxyR8uDwr+g=
-X-Google-Smtp-Source: ABdhPJx0CLqx6/PKk/wDdzfhDwgCSCU/Ox3vdmEewTw5OexnApjIRwoIE1l0ZnB7Qg5hbhYFKiaXv4ZBN5QzkdXmpls=
-X-Received: by 2002:a17:906:76d8:: with SMTP id q24mr1814358ejn.22.1627063391141;
- Fri, 23 Jul 2021 11:03:11 -0700 (PDT)
-MIME-Version: 1.0
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=gwUQID1w4naW0jnzJXJYoDs3nx1MdJ3EJlm2FkKUNbY=;
+        b=U2BmCsJGQS7Io0czCIKsuEDaT3oG+sKsFItq1jQYZUDuwKjEsKQa8+tN3xtAGZzEzW
+         3+1IgSXbYRLDg67tkYquw7NFuEmkKA0amZ4ruV7ILtCqdNU9nA5fyhaSH/ltqD+LUbin
+         1YC0pGg9LtGiiZyF9MG3WoyrG/ccifxh30eelORL2PY5U+ZwmkSel6iqwyblNDABG+Y7
+         aNYRdcOOQ+K1eGeLDq/rPiZV893m1sZJ8tAm32hTw101tfq7s8Ihw9sacAZ4IvXdRwQO
+         PGs8jkAqiw+0SLXGHfPBXXZctyFF+RcsoyVMZuoCvYdT/niD/2ih9sXndUjRSw9Jbdbk
+         eYIQ==
+X-Gm-Message-State: AOAM53278/wWGxMwvlTHrk51zwS4kuf7w/bzHKG308MGc6OUrISY48xf
+	6nVWtkzaYXG4nQWAoDV9a6w8q7Nmal5GNw==
+X-Google-Smtp-Source: ABdhPJwS9YflMbb1iCN7aomSDeOFjH+7CahBAakCCE+I4r87Y9Baq58PFgXVKUCjLCmVnFFbSamm+Q==
+X-Received: by 2002:a5d:64c4:: with SMTP id f4mr7174060wri.21.1627075002865;
+        Fri, 23 Jul 2021 14:16:42 -0700 (PDT)
+Return-Path: <robert.berger.yocto.user@gmail.com>
+Received: from [192.168.42.52] (athedsl-4432950.home.otenet.gr. [79.129.148.38])
+        by smtp.gmail.com with ESMTPSA id v9sm28914995wml.36.2021.07.23.14.16.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 23 Jul 2021 14:16:42 -0700 (PDT)
+Subject: Re: [meta-virtualization] linux-yocto virtualization requires virtio.scc from yocto-kernel-cache
+To: Bruce Ashfield <bruce.ashfield@gmail.com>,
+ Diego Sueiro <diego.sueiro@arm.com>
+Cc: meta-virtualization@lists.yoctoproject.org
 References: <CAFrQVPN-a-5DPmxe3A9-o6U=bwsdGQForwQ-qYUPXsJS1pgdCw@mail.gmail.com>
  <32271.1627021942920151318@lists.yoctoproject.org>
-In-Reply-To: <32271.1627021942920151318@lists.yoctoproject.org>
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Fri, 23 Jul 2021 14:02:57 -0400
-Message-ID: <CADkTA4Ny_xbg9Tw9zTBVJxzF2d_UAsfaR_Bt9ZWSUsCmzquxuw@mail.gmail.com>
-Subject: Re: [meta-virtualization] linux-yocto virtualization requires virtio.scc from yocto-kernel-cache
-To: Diego Sueiro <diego.sueiro@arm.com>
-Cc: meta-virtualization@lists.yoctoproject.org
-Content-Type: text/plain; charset="UTF-8"
+ <CADkTA4Ny_xbg9Tw9zTBVJxzF2d_UAsfaR_Bt9ZWSUsCmzquxuw@mail.gmail.com>
+From: "Robert Berger" <robert.berger.yocto.user@gmail.com>
+Message-ID: <d340d90e-0ae2-c764-9375-3801ecc47f71@gmail.com>
+Date: Sat, 24 Jul 2021 00:16:39 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+MIME-Version: 1.0
+In-Reply-To: <CADkTA4Ny_xbg9Tw9zTBVJxzF2d_UAsfaR_Bt9ZWSUsCmzquxuw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Fri, Jul 23, 2021 at 2:32 AM Diego Sueiro <diego.sueiro@arm.com> wrote:
->
-> On Fri, Jul 23, 2021 at 05:03 AM, Kyle Russell wrote:
->
-> >
-> > Hello,
-> >
-> > meta-virtualization's linux-yocto_virtualization.inc includes
-> > cfg/virtio.scc in KERNEL_FEATURES, which is a dependency from
-> > yocto-kernel-cache.  However, we do not use yocto-kernel-cache with our
-> > custom linux-* recipe, so we're hitting a metadata error because of a
-> > missing virtio.scc.  It seems like the creation of linux-%.bbappend (in
-> > f2f36a8061c600b35b5f0ce1599d59f1d144a3aa) was intentional to match kernel
-> > recipes other than linux-yocto*, which we could benefit from, but the lack
-> > of yocto-kernel-cache is problematic with virtio.scc.
-> >
-> > Can meta-virtualization provide virtio.scc like it does for the other
-> > kernel features to allow decoupling from yocto-kernel-cache?
-> >
->
-> Your question made me remember about the docker.scc. Which is being maintained
-> both on meta-virt and yocto-kernel-cache. And linux-yocto_virtualization.inc makes
-> usage of the one from meta-virt, which feels strange to me since it is a
-> **linux-yocto**_virtualization.inc file that supposedly extends linux-yocto*.bb from
-> oe-core.
-> IMHO, for scc/cfg files we should try to rely on a single canonical source, and in this
-> case, I believe is yocto-kernel-cache repo. Maintaining the same file for the same
-> purpose in two different places brings the risk of diversion and increases maintenance
-> effort to keep the instances aligned.
-> Also, the yocto-kernel-cache gives us the ability to easily manage .scc files
-> per kernel version.
+Hi,
 
-Yes .. precisely! I'll reply to both email here, so I'm mixing replies
-to Diego and
-Kyle throughout.
+I am building with my own kernel meta data and that's my little patch:
 
-We had a similar discussion in #meta-virt about a month ago, when some AGL
-builds were running into a similar issue. The layout of the includes
-and requirement
-for the fragment were intentional, as was the broad nature of the bbappend
-matching.
+https://github.com/RobertBerger/manifests/blob/master/meta-virtualization-master/0001-include-virtio.scc.patch
 
-Without those fragments, I end up debugging end users' subtle runtime errors for
-any number of packages in meta-virt, so having issues pop up when the
-fragments can't be found, while annoying, is a useful flag for potential issues.
+Regards,
 
-I resisted making a copy of virtio.cfg available in meta-virt for exactly the
-reason Diego is bringing up. Maintaining them in two places is not ideal, and
-having them centralized is the goal.
+Robert
 
-To solve the short term issue as we were talking about in #meta-virt, I did
-a couple of things:
-
-A "hack": https://git.yoctoproject.org/cgit/cgit.cgi/meta-virtualization/commit/?h=master-wip&id=40cae93f631e77286de7fa79101abee2f6c04618
-
-But if you use that, you'll need to ensure via other means that you get the
-right configuration enabled.
-
-And something that I had wanted to do for a while, which is the actual
-solution I'm heading towards.
-
-https://git.yoctoproject.org/cgit/cgit.cgi/meta-virtualization/log/?h=master-test
-
-see commits: https://git.yoctoproject.org/cgit/cgit.cgi/meta-virtualization/commit/?h=master-test&id=44db8ee6ddf7c9eb1b5ffb22e9b83b3840997da9
-and https://git.yoctoproject.org/cgit/cgit.cgi/meta-virtualization/commit/?h=master-test&id=8db75f2809318cfb4dbe1c6873c5a6bcfefc4d8c
-
-I still haven't done extensive testing with a lot of different kernels, hence
-why I haven't moved them to master yet.
-
-But with those two commits, I can remove all of the fragments in the layer
-and rely on the one true reference in the kernel-cache.
-
-Bruce
-
->
-> > meta-virtualization used to allow this decoupling by configuring the virtio
-> > feature without the yocto-kernel-cache in
-> > f1c03f390e95b63d5c2dfba9140d1b07c4d17acf, but that was restructured in
-> > 21d8bcdb791a1ea766a3e7e7663c7b6d49bc861a.  The dependency was not required
-> > unless you were using linux-yocto, but as of f2f36a8061c60 is now required
-> > for all linux-% recipes.  (We just now noticed because our linux recipe has
-> > recently been updated to match a kernel version supported by
-> > meta-virtualization.
-> >
-> > Thanks,
-> >
-> > Kyle
-> >
->
-> 
->
-
-
---
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
