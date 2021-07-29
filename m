@@ -1,102 +1,138 @@
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
- by mx.groups.io with SMTP id smtpd.web10.10739.1627570990244981615
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+ by mx.groups.io with SMTP id smtpd.web10.10854.1627571496500472843
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 29 Jul 2021 08:03:10 -0700
+ Thu, 29 Jul 2021 08:11:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=OwsU4RP8;
- spf=pass (domain: gmail.com, ip: 209.85.160.179, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qt1-f179.google.com with SMTP id d9so4105207qty.12
-        for <meta-virtualization@lists.yoctoproject.org>; Thu, 29 Jul 2021 08:03:10 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=OBEE4GlF;
+ spf=pass (domain: gmail.com, ip: 209.85.218.48, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ej1-f48.google.com with SMTP id gs8so11230929ejc.13
+        for <meta-virtualization@lists.yoctoproject.org>; Thu, 29 Jul 2021 08:11:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=38v9IOI/UwgwSPjS9ZkhEA6EIUR4TtVf6LbCMt4EKdA=;
-        b=OwsU4RP8IF7c7kuGWiDzrvjkX3t/TmUBDMVHQ03zOnkEmyfAEmP9rQwRRvkh0zDIZk
-         E0ijMsxtKqxDjtBmzS+8J42Ys2JWub8ZWJEFAdLpHb1QBMCJONeiedh82j5I4FjURLTc
-         Xh8TDX2EIFP+xZXhAKIVy9V4SbvVA/s65jVA5Ah48sMptCg0QjIlJUz+W/viVv3A9TRR
-         irNRD0dVSHbJtxpnyxkLAby3M2igwKdYUwxR6akXtC5uSeNPDLvtwgD2lv1WVBlyJfhZ
-         OKij0grhaNXtyC4i5UxpOXjVwChc84jko4pfB0ia75gvA1aluuOO1pZsx2bVBG6qA/FO
-         02XQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Pec1cN/gBcd/p6kMq1NvH7hjb0Xb0Yg35ly8XQ6v6hE=;
+        b=OBEE4GlF7sRe38290Y3lXI2Cr2Svie2u+BNMfED4jJHE+U8zfEXqgoMGQL82cJfizH
+         51JVXaCxzDOb16YwTfbT9LRzifqiaKwnMSr44m3JNfqUMwjAs+wY2cElkvW090aZunM7
+         Kn+33X9NRpDQ8SwZT1A0bKCCJ4tMP+JWAqKfcGl/UcrtGAkQtwVu6b9BriNVCUDyXM/Y
+         K0um0yfzUtTFXfVVDiO43Aw0uMX13tdgVwt6ZyRTINNyA+p1UoztIexMKrYmQBqlCqIT
+         l0/Rwizjt3qscvRZ72HE1b93nPOtwzGWQpiSlhBMqfgOMiWq8YDleIKlW+yBmyK89VME
+         W0kw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=38v9IOI/UwgwSPjS9ZkhEA6EIUR4TtVf6LbCMt4EKdA=;
-        b=dU7oK3XZdAABMxhi9EQhEX3y5gnJDneRZ7jzR4g1YC2DegJ0Njjm+It2zUG/teca2K
-         EjXpCQnvUROXd0awdC/BtT1KAa/DRNRUh503Wg5fJcpESCLv0n0Mab2FzV5zoIZrvrNS
-         M8uW5+YTe10wfKHzgfXJb0iVsZ+Je0RbIpiHSgMxltA3i4ObWOpFG1kE2GrYF5J8B+8B
-         QYwtDOBMC3bBSwrf8AZM9GW4GijKRkEtG7y8RvXWszJ/+XoDME9NQVUJvz+u9Un4hH/6
-         AnwNjJ2foGerAK7uJCNV9cthoBWtNeCcf9+iVcaDwTIfhrgTCl8Kf3YP9zVqxxWeeykB
-         9N5g==
-X-Gm-Message-State: AOAM531C2gutjlqG+WP6ocK5fC0TChcUqkrOMiMYWTc3YsTlFepjm9RI
-	wevJf4a7aNeU8wTr3wId8CY=
-X-Google-Smtp-Source: ABdhPJxzAtyPg1JvnpAus10jzzZfjCc5K2FRGR8OghiGfJJFd1tAW3zgBOFOfAG8iFnLyw+vXKOfYw==
-X-Received: by 2002:ac8:5502:: with SMTP id j2mr4568777qtq.116.1627570989300;
-        Thu, 29 Jul 2021 08:03:09 -0700 (PDT)
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from gmail.com (cpe04d4c4975b80-cmf4c11490699b.cpe.net.cable.rogers.com. [174.112.63.222])
-        by smtp.gmail.com with ESMTPSA id 188sm1832715qkj.48.2021.07.29.08.03.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Jul 2021 08:03:08 -0700 (PDT)
-Date: Thu, 29 Jul 2021 11:03:07 -0400
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-To: zangrc <zangrc.fnst@fujitsu.com>
-Cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [meta-virtualization] [PATCH] open-iscsi-user: Fix link errors
-Message-ID: <20210729150304.GA41177@gmail.com>
-References: <1627393477-28317-1-git-send-email-zangrc.fnst@fujitsu.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Pec1cN/gBcd/p6kMq1NvH7hjb0Xb0Yg35ly8XQ6v6hE=;
+        b=uiZsb2o5dNffsd1as2BxBZ4b73IzFWDD1E/F5gZqjqW8mCyRxaKj6xM0ru5vAJkMaV
+         4eB1L38D3LBcGd/aDG8moXfpB6wC53FA5UxB/NWmIYrZoT3r6WrUv1bgDewxbDkIjp4/
+         roCkrYtbimjEr4Q+qHzWtC6AzhpzmCC4oUPFD87Q2PbUNkmB5IdqIDnPG1YkIuxxN3YX
+         EOleJ+aiPEMp58S2ZK3S7ruT4X/4TCmGnBLbw8Hpahyn9BKTtlX10GyXz2XnJYeENA7U
+         d4rAxzTAJITOQ9paWtu0EPTVL3oOUhALKF2+Zv58L9FXroBk9nR3WW4yzx2lQ1PIHMOb
+         UgbQ==
+X-Gm-Message-State: AOAM5305DU5d5YKn/WV0C+9Ouaay+98HxTM2lA4VVSQl6CLvVL0aph5/
+	XmalqjcxWo60MywJqHk62fL5fcSzpr2M1p7PzZ8=
+X-Google-Smtp-Source: ABdhPJyApm5BC17XRU2c/Avo8jTbxt22hOqOQwmia7lqK/fj/xgKHYythUTdDnM8odoSBulSTsK4ZFZFdkL1pjBysnE=
+X-Received: by 2002:a17:906:784:: with SMTP id l4mr5073695ejc.357.1627571494429;
+ Thu, 29 Jul 2021 08:11:34 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1627393477-28317-1-git-send-email-zangrc.fnst@fujitsu.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <16964AC0B54EBA53.13113@lists.yoctoproject.org>
+In-Reply-To: <16964AC0B54EBA53.13113@lists.yoctoproject.org>
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+Date: Thu, 29 Jul 2021 11:11:23 -0400
+Message-ID: <CADkTA4M8s-p+EyQtsQEOM-VW61Ga=k-H761rwYb6nTpZSk-ioQ@mail.gmail.com>
+Subject: Re: [meta-virtualization] Overrides syntax conversion
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: meta-virtualization@lists.yoctoproject.org
+Content-Type: multipart/alternative; boundary="000000000000c5a5d405c844841f"
 
-merged.
+--000000000000c5a5d405c844841f
+Content-Type: text/plain; charset="UTF-8"
 
-Bruce
+And I immediately had to rebase and tweak the commit a bit, you'll still
+find it at the top of master-next:
 
-In message: [meta-virtualization] [PATCH] open-iscsi-user: Fix link errors
-on 27/07/2021 zangrc wrote:
+https://git.yoctoproject.org/cgit/cgit.cgi/meta-virtualization/commit/?h=master-next&id=917c02a836ad6f538b7fbc0599cfbab9ea21fdb9
 
-> The wrong link caused conflicts with other packages, so the link error was fixed and the conflict handling was removed.
-> 
-> Signed-off-by: Zang Ruochen <zangrc.fnst@fujitsu.com>
-> ---
->  .../open-iscsi/open-iscsi-user_2.1.4.bb                   | 8 +-------
->  1 file changed, 1 insertion(+), 7 deletions(-)
-> 
-> diff --git a/meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-user_2.1.4.bb b/meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-user_2.1.4.bb
-> index 73b5a66..b71d8dc 100644
-> --- a/meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-user_2.1.4.bb
-> +++ b/meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-user_2.1.4.bb
-> @@ -29,12 +29,6 @@ do_compile () {
->          oe_runmake user
->  }
->  
-> -inherit update-alternatives
-> -
-> -ALTERNATIVE_PRIORITY = "60"
-> -ALTERNATIVE_${PN}-dev = "libcap-ng.so"
-> -ALTERNATIVE_LINK_NAME[libcap-ng.so] = "${libdir}/libcap-ng.so"
-> -
->  do_install () {
->          oe_runmake DESTDIR="${D}" install_user
->          install ${S}/etc/initd/initd.debian ${D}/etc/init.d/open-iscsi
-> @@ -42,7 +36,7 @@ do_install () {
->  
->          install -d ${D}${libdir}
->          install -Dm 0644 ${S}/libopeniscsiusr/libopeniscsiusr.so.0.2.0 ${D}${libdir}/
-> -        ln -sf ${libdir}/libopeniscsiusr.so.0.2.0 ${D}${libdir}/libcap-ng.so 
-> +        ln -sf ${libdir}/libopeniscsiusr.so.0.2.0 ${D}${libdir}/libopeniscsiusr.so
->  }
->  
->  # systemd support
-> -- 
-> 2.25.1
-> 
+On Thu, Jul 29, 2021 at 10:55 AM Bruce Ashfield via lists.yoctoproject.org
+<bruce.ashfield=gmail.com@lists.yoctoproject.org> wrote:
 
+> Hi all,
+>
+> Just a heads up that I've started the overrides conversion to the new
+> bitbake syntax. I won't be pushing this for a few more weeks, but I wanted
+> to let everyone know.
+>
+> The details are here:
+> https://git.yoctoproject.org/cgit/cgit.cgi/meta-virtualization/commit/?h=master-next&id=d8493d7091dbfa402b3c25d51c5d5417bac6d617
+>
+> If you have any cycles, feel free to build/runtime test your components
+> and send incremental patches to the one I have on master-next.
+>
+> Cheers,
+>
+> Bruce
+>
+> --
+> - Thou shalt not follow the NULL pointer, for chaos and madness await thee
+> at its end
+> - "Use the force Harry" - Gandalf, Star Trek II
+>
+>
 > 
-> 
-> 
+>
+>
 
+-- 
+- Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end
+- "Use the force Harry" - Gandalf, Star Trek II
+
+--000000000000c5a5d405c844841f
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-size:small">And=
+ I immediately had to rebase and tweak the commit a bit, you&#39;ll still f=
+ind it at the top of master-next:</div><div class=3D"gmail_default" style=
+=3D"font-size:small"><br></div><div class=3D"gmail_default" style=3D"font-=
+size:small"><a href=3D"https://git.yoctoproject.org/cgit/cgit.cgi/meta-virt=
+ualization/commit/?h=3Dmaster-next&amp;id=3D917c02a836ad6f538b7fbc0599cfbab=
+9ea21fdb9">https://git.yoctoproject.org/cgit/cgit.cgi/meta-virtualization/c=
+ommit/?h=3Dmaster-next&amp;id=3D917c02a836ad6f538b7fbc0599cfbab9ea21fdb9</a=
+><br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"g=
+mail_attr">On Thu, Jul 29, 2021 at 10:55 AM Bruce Ashfield via <a href=3D"h=
+ttp://lists.yoctoproject.org">lists.yoctoproject.org</a> &lt;bruce.ashfield=
+=
+=3D<a href=3D"mailto:gmail.com@lists.yoctoproject.org">gmail.com@lists.yoc=
+toproject.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" sty=
+le=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddi=
+ng-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-si=
+ze:small">Hi all,</div><div class=3D"gmail_default" style=3D"font-size:smal=
+l"><br></div><div class=3D"gmail_default" style=3D"font-size:small">Just a =
+heads up that I&#39;ve started the overrides conversion to the new bitbake =
+syntax. I won&#39;t be pushing this for a few more weeks, but I wanted to l=
+et everyone know.</div><div class=3D"gmail_default" style=3D"font-size:smal=
+l"><br></div><div class=3D"gmail_default" style=3D"font-size:small">The det=
+ails are here: <a href=3D"https://git.yoctoproject.org/cgit/cgit.cgi/meta-v=
+irtualization/commit/?h=3Dmaster-next&amp;id=3Dd8493d7091dbfa402b3c25d51c5d=
+5417bac6d617" target=3D"_blank">https://git.yoctoproject.org/cgit/cgit.cgi/=
+meta-virtualization/commit/?h=3Dmaster-next&amp;id=3Dd8493d7091dbfa402b3c25=
+d51c5d5417bac6d617</a></div><div><br></div><div><div class=3D"gmail_default=
+" style=3D"font-size:small">If you have any cycles, feel free to build/runt=
+ime test your components and send incremental patches to the one I have on =
+master-next. </div><div class=3D"gmail_default" style=3D"font-size:small"><=
+br></div><div class=3D"gmail_default" style=3D"font-size:small">Cheers,</di=
+v><div class=3D"gmail_default" style=3D"font-size:small"><br></div><div cla=
+ss=3D"gmail_default" style=3D"font-size:small">Bruce</div><br></div>-- <br>=
+<div dir=3D"ltr">- Thou shalt not follow the NULL pointer, for chaos and ma=
+dness await thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf,=
+ Star Trek II<br><br></div></div>
+<br>
+<br>
+<br>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr=
+" class=3D"gmail_signature">- Thou shalt not follow the NULL pointer, for c=
+haos and madness await thee at its end<br>- &quot;Use the force Harry&quot;=
+ - Gandalf, Star Trek II<br><br></div>
+
+--000000000000c5a5d405c844841f--
