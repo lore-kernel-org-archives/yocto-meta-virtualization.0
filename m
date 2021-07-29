@@ -1,101 +1,98 @@
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
- by mx.groups.io with SMTP id smtpd.web08.10780.1627570589842207097
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
+ by mx.groups.io with SMTP id smtpd.web09.10573.1627570624072064173
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 29 Jul 2021 07:56:30 -0700
+ Thu, 29 Jul 2021 07:57:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=HWjkXOLF;
- spf=pass (domain: gmail.com, ip: 209.85.160.170, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qt1-f170.google.com with SMTP id h10so4107535qth.5
-        for <meta-virtualization@lists.yoctoproject.org>; Thu, 29 Jul 2021 07:56:29 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=PvGpFsVM;
+ spf=pass (domain: gmail.com, ip: 209.85.219.44, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qv1-f44.google.com with SMTP id p38so3493139qvp.11
+        for <meta-virtualization@lists.yoctoproject.org>; Thu, 29 Jul 2021 07:57:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=hgbdjFuwPM/+byrNzTA1y5U1QqN+s1aJJj8Huxrrp7I=;
-        b=HWjkXOLFmBRD9y7xqCXKYJqWz0Pykgc45l8zekmbsHDiQGPZZetGNITU0AkOK7vRDw
-         loWRoJlhV91lCIkzFMxCLOfaA2kjM7N3TIqLmA08SReqvnNYtC8B4cqgFVJuNWrc5Q0H
-         i4TtycuGsmf9a/PAqxMRqPHQyhyPQV3tHUnBno8THBkK8jWz2HO6ZOSrtaFqv85g8ht1
-         owqCXHTZ15w3gCBJWnL8ohS6M2wH4z14k+1Xd+vgUQzmx0xyf99SZ4BbllUrbJVO56lE
-         IISYsXKK64Cd6b/hQ1U+nETmNJnNR3cYR1EsAA/6tPBuFtwdWDN67zYIpaV1+LmUK37+
-         IPLA==
+        bh=I/vzwvjS/wOwh9mZDtBxOYotyBixfaUy3G60+29p4Sg=;
+        b=PvGpFsVM/TP03uo07h3M8vzTwpPO+LwtNMmyZFanAQo5AxNb4i6LXcv1oSvjnXLWrN
+         583A5rxNWvVtoun452jnRNKUzm29wUww1OEL85q+WLndFmI7HDu8KL/ws3otU3I1lm+Y
+         GL8J0Dn9DAuPYFdBSNyZODSOzfVdlX+okUmUVxQHJ9D0B8zwCFbg/FY76/DGZnTUgVuv
+         XTCV3D9zmRuLV16dj61FdHERTlw+3lK6IIyH7GiIezApAHaZsmFaVvYC4EXt8/ig3oj4
+         JcHzT9qvtNc6eDEzHm8ne+l0s9SeTEp6fBtOAzL+y8nTg5Jpphl+sRtcDlRIT0Y+FccW
+         IHGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=hgbdjFuwPM/+byrNzTA1y5U1QqN+s1aJJj8Huxrrp7I=;
-        b=UTBnUWwth1S3rZOgvM9gWHjIa+AIbFs2q78KAOuyaMqnh7esfNuqJvh18ZA2QlHaAu
-         LsF2lqMFjzfn2ae/MkzEVyTJpFrTB2t8qrurwXfiwzGX+e8MucRoAYB3oF7zavYdV6MY
-         D4676zLk4im2GQAJQHtF0ylVHgX+dssUOz0BPV1wsWKLmIRR0EsxYWgpSpny0VbahOSf
-         tku72Ts7d70ZQcXc+nD7wj1FppAVcCsZO/8aGb7b8rvdcuan4ZWucBLa5puGyKaPmaC8
-         1nFsJA0Ycyy8Gy0egym34IJDwMdfRZZZ0lpEaluJXb3bCihmCNi9dhAGF5PO6GgEueJ0
-         hblQ==
-X-Gm-Message-State: AOAM5328cvgA7dD+8v8fIMWjO72VIimBPzFxeLGJVgXU2y3bUtZr67c2
-	Gm+7qH9myLuOGvf9OQlnlxM=
-X-Google-Smtp-Source: ABdhPJwvp5F+s80lpS0z9TgABo84+a1WWGfu0ULWbdJ0Cj2j6vKXJoyfLkC0SnheT3ES27E5vWIs+g==
-X-Received: by 2002:ac8:72d2:: with SMTP id o18mr4527071qtp.170.1627570588928;
-        Thu, 29 Jul 2021 07:56:28 -0700 (PDT)
+        bh=I/vzwvjS/wOwh9mZDtBxOYotyBixfaUy3G60+29p4Sg=;
+        b=QTwgYSs0T+3iVTa7P0uTAyEhERi7SKF1zOYKkufDwc5cWh+ue1MTg+kdbFl6IesXst
+         Di+zE17HlMiCEAcIfvI2xFlNdTjaT/EjosRrx3jJmMhP/KkzsB2slcUH6/4PCAOAESSC
+         qNqf0arPmK7K520ixMPfsbBnUhnuSLKj4zOtMeSLm9koeWl+Z2ajIwNjLYUKXSrxHpOt
+         UL19jrMj6jcCdMngrlv+NXwp+7qfxnrNcyhXLWDJd2WSv3VPhSII93y+1JWsh+tb9Wkp
+         c0Nmg0SAHlRExRh5Il+rABT6fbZ5eBDY38zByOIIhiNBXhf74Ho4OpS1b+ZMp0cgqWEA
+         XpXQ==
+X-Gm-Message-State: AOAM531AVqJXhfGzfiZU4wtNkegAxvjoy0VYY0I2nNKJi6uS0AbuA/TG
+	J8LRqvrmm7AVyChAFDgfJ7A=
+X-Google-Smtp-Source: ABdhPJzUf3sk6HCbO0lKmicvjq/9oiFlrp41aPlCUfRwY/ADWFHYjORLkgvgS0nTTWRP2+71g5lFAQ==
+X-Received: by 2002:a05:6214:e83:: with SMTP id hf3mr5620631qvb.19.1627570623274;
+        Thu, 29 Jul 2021 07:57:03 -0700 (PDT)
 Return-Path: <bruce.ashfield@gmail.com>
 Received: from gmail.com (cpe04d4c4975b80-cmf4c11490699b.cpe.net.cable.rogers.com. [174.112.63.222])
-        by smtp.gmail.com with ESMTPSA id f24sm1272901qtq.82.2021.07.29.07.56.28
+        by smtp.gmail.com with ESMTPSA id g1sm1836811qkd.89.2021.07.29.07.57.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Jul 2021 07:56:28 -0700 (PDT)
-Date: Thu, 29 Jul 2021 10:56:26 -0400
+        Thu, 29 Jul 2021 07:57:02 -0700 (PDT)
+Date: Thu, 29 Jul 2021 10:57:01 -0400
 From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-To: Christopher Clark <christopher.w.clark@gmail.com>
-Cc: meta-virtualization@lists.yoctoproject.org, cardoe@gentoo.org,
-	diego.sueiro@arm.com, Bertrand.Marquis@arm.com,
-	andrew.cooper3@citrix.com, dpsmith@apertussolutions.com,
-	persaur@gmail.com, scott.davis@starlab.io, adam.schwalm@starlab.io
-Subject: Re: [meta-virtualization][PATCH v2 0/2] Xen: qemuboot device tree support (Arm 64-bit)
-Message-ID: <20210729145624.GA40673@gmail.com>
-References: <20210728000740.11070-1-christopher.w.clark@gmail.com>
+To: Ruslan Babayev <fib@cisco.com>
+Cc: meta-virtualization@lists.yoctoproject.org
+Subject: Re: [meta-virtualization][PATCH v3] python3: remove the no-longer required bbappend
+Message-ID: <20210729145700.GB40673@gmail.com>
+References: <20210726185823.26402-1-fib@cisco.com>
+ <20210726185823.26402-2-fib@cisco.com>
 MIME-Version: 1.0
-In-Reply-To: <20210728000740.11070-1-christopher.w.clark@gmail.com>
+In-Reply-To: <20210726185823.26402-2-fib@cisco.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-In message: [meta-virtualization][PATCH v2 0/2] Xen: qemuboot device tree support (Arm 64-bit)
-on 27/07/2021 Christopher Clark wrote:
-
-> This series introduces tools and class structure in the layer for
-> enabling testing Xen system images with Qemu, booting with a device tree
-> that describes the target system.
-> 
-> A device tree is required for launching Xen systems on Arm platforms and
-> is part of the Hyperlaunch design for Xen.
->   https://wiki.xenproject.org/wiki/Hyperlaunch
-> 
-> This series adds a recipe for Lopper, a device tree tool, and its
-> dependencies. It provides a class that implements a bitbake task to
-> generate a device tree for qemuboot, and a set of defaults to enable
-> 'runqemu xen-image-minimal nographic slirp' to boot images compiled for
-> Arm 64-bit machines.
-
-
-Looks good to me.
-
-this is now merged.
+merged.
 
 Bruce
 
+In message: [meta-virtualization][PATCH v3] python3: remove the no-longer required bbappend
+on 26/07/2021 Ruslan Babayev wrote:
+
+> It has been carried over from python2 and is no longer required.  More
+> importantly it breaks the python3-native build due to
+> ${STAGING_DIR_TARGET} being "" for native recipes.
 > 
-> Christopher Clark (2):
->   lopper, python-dtc: add new recipes for device tree tools
->   qemuboot, xen-image-minimal: enable runqemu for qemuarm64 Xen images
+> Signed-off-by: Ruslan Babayev <fib@cisco.com>
+> ---
+>  recipes-devtools/python/python3_3.%.bbappend       | 1 -
+>  recipes-devtools/python/python3_virtualization.inc | 8 --------
+>  2 files changed, 9 deletions(-)
+>  delete mode 100644 recipes-devtools/python/python3_3.%.bbappend
+>  delete mode 100644 recipes-devtools/python/python3_virtualization.inc
 > 
->  classes/qemuboot-xen-defaults.bbclass        |  30 +++
->  classes/qemuboot-xen-dtb.bbclass             | 209 +++++++++++++++++++
->  conf/distro/include/meta-virt-xen.inc        |   3 +
->  recipes-extended/images/xen-image-minimal.bb |   5 +-
->  recipes-kernel/dtc/python3-dtc_1.6.1.bb      |  28 +++
->  recipes-kernel/lopper/lopper.bb              |  45 ++++
->  6 files changed, 318 insertions(+), 2 deletions(-)
->  create mode 100644 classes/qemuboot-xen-defaults.bbclass
->  create mode 100644 classes/qemuboot-xen-dtb.bbclass
->  create mode 100644 recipes-kernel/dtc/python3-dtc_1.6.1.bb
->  create mode 100644 recipes-kernel/lopper/lopper.bb
-> 
+> diff --git a/recipes-devtools/python/python3_3.%.bbappend b/recipes-devtools/python/python3_3.%.bbappend
+> deleted file mode 100644
+> index 617cacc..0000000
+> --- a/recipes-devtools/python/python3_3.%.bbappend
+> +++ /dev/null
+> @@ -1 +0,0 @@
+> -require ${@bb.utils.contains('DISTRO_FEATURES', 'virtualization', '${BPN}_virtualization.inc', '', d)}
+> diff --git a/recipes-devtools/python/python3_virtualization.inc b/recipes-devtools/python/python3_virtualization.inc
+> deleted file mode 100644
+> index 55301c7..0000000
+> --- a/recipes-devtools/python/python3_virtualization.inc
+> +++ /dev/null
+> @@ -1,8 +0,0 @@
+> -FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
+> -
+> -DEPENDS += " ncurses"
+> -
+> -do_compile_prepend() {
+> -	export LIBRARY_PATH=${STAGING_DIR_TARGET}/lib
+> -}
+> -
 > -- 
-> 2.25.1
+> 2.26.2.Cisco
 > 
