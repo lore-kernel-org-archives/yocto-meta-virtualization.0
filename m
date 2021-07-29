@@ -1,105 +1,102 @@
 Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
- by mx.groups.io with SMTP id smtpd.web11.10787.1627570870747533499
+ by mx.groups.io with SMTP id smtpd.web10.10739.1627570990244981615
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 29 Jul 2021 08:01:10 -0700
+ Thu, 29 Jul 2021 08:03:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=izs05JhC;
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=OwsU4RP8;
  spf=pass (domain: gmail.com, ip: 209.85.160.179, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qt1-f179.google.com with SMTP id d9so4099762qty.12
-        for <meta-virtualization@lists.yoctoproject.org>; Thu, 29 Jul 2021 08:01:10 -0700 (PDT)
+Received: by mail-qt1-f179.google.com with SMTP id d9so4105207qty.12
+        for <meta-virtualization@lists.yoctoproject.org>; Thu, 29 Jul 2021 08:03:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=3g4vB9hmPl7eB1vHQmsiLhC0w21+SDKgRQ/wce5/KA0=;
-        b=izs05JhC7+UKn90CDXzmF7IFMxlWCnYDdMOW+RyaVJ5qLqB4tKv3ia2S6vOLqvYFdI
-         ur8qBfKWpAhPk3MFuDLnImpHJyHeyGdWZy7fO0e2vtURN4qAsXfQ+POQEbq31x0qyWlS
-         dkUSh7wEuqvf2P+2N0i+skHl9dreary5G5lJqSyUh5v9yzq+0shaeKaWpx6KrA2D+Qrs
-         Z6mzp0VNf/1IoRemcHHthuuQe+lvgyGGNFac7C5nJr6wCa44AVwHgbmROLYVsrkvYFY8
-         V2lLpXYHI5R3g/CPUvWKhMxHxchZjdxIa3k3C15FRbq32gE2u7/K7CSJLC5YSJD4f1v+
-         YceQ==
+        bh=38v9IOI/UwgwSPjS9ZkhEA6EIUR4TtVf6LbCMt4EKdA=;
+        b=OwsU4RP8IF7c7kuGWiDzrvjkX3t/TmUBDMVHQ03zOnkEmyfAEmP9rQwRRvkh0zDIZk
+         E0ijMsxtKqxDjtBmzS+8J42Ys2JWub8ZWJEFAdLpHb1QBMCJONeiedh82j5I4FjURLTc
+         Xh8TDX2EIFP+xZXhAKIVy9V4SbvVA/s65jVA5Ah48sMptCg0QjIlJUz+W/viVv3A9TRR
+         irNRD0dVSHbJtxpnyxkLAby3M2igwKdYUwxR6akXtC5uSeNPDLvtwgD2lv1WVBlyJfhZ
+         OKij0grhaNXtyC4i5UxpOXjVwChc84jko4pfB0ia75gvA1aluuOO1pZsx2bVBG6qA/FO
+         02XQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=3g4vB9hmPl7eB1vHQmsiLhC0w21+SDKgRQ/wce5/KA0=;
-        b=S3BLMVylzMKMCt64LuLV6VrJoj4hwFkbIIzBB1tvoFgYOUDfwYmpSNgMTLPqXESkK9
-         tnrE2L9N7Rj5tBCBvFH9dDZFNsH80AeQTJ6L08M+AjA9ijPPnLV8SsZ8+fJJ+AhwdVHO
-         K5aZLwwi9AdburLRvpvw6bwdkCFDnABHCU4lVOUHqSY9ionxTUFMKj4tdVKrwK6KBbSe
-         LMMgcKVngvN4Lv1HGZ9R8pxA1jEu1pBPGm2R+EmRIrD2FkTGNwgZlRYLs5GDl6W4dKzG
-         69/EAQTbjHcPrhXBFd/hRAz1iDxXBejxlEvQeDy412RfgU/tFLpAFNR8D/odTWkbRp8r
-         lsPw==
-X-Gm-Message-State: AOAM530VchJUZfqkESQ9nloyTe9fCOfS1KO2TEbDjMrZdjZZrq95sTTU
-	Bl9Mw4Cs3YwjvkYVuNU8XSDhQywBDesxNRNX
-X-Google-Smtp-Source: ABdhPJxTWGOOdXPouZGNyhBeCjnrLGdtQCr6+QWLc+T7xK2xMTG9ETPUX0ZZLC1xDh3PpSiqErxdwg==
-X-Received: by 2002:ac8:4a13:: with SMTP id x19mr4559619qtq.61.1627570869806;
-        Thu, 29 Jul 2021 08:01:09 -0700 (PDT)
+        bh=38v9IOI/UwgwSPjS9ZkhEA6EIUR4TtVf6LbCMt4EKdA=;
+        b=dU7oK3XZdAABMxhi9EQhEX3y5gnJDneRZ7jzR4g1YC2DegJ0Njjm+It2zUG/teca2K
+         EjXpCQnvUROXd0awdC/BtT1KAa/DRNRUh503Wg5fJcpESCLv0n0Mab2FzV5zoIZrvrNS
+         M8uW5+YTe10wfKHzgfXJb0iVsZ+Je0RbIpiHSgMxltA3i4ObWOpFG1kE2GrYF5J8B+8B
+         QYwtDOBMC3bBSwrf8AZM9GW4GijKRkEtG7y8RvXWszJ/+XoDME9NQVUJvz+u9Un4hH/6
+         AnwNjJ2foGerAK7uJCNV9cthoBWtNeCcf9+iVcaDwTIfhrgTCl8Kf3YP9zVqxxWeeykB
+         9N5g==
+X-Gm-Message-State: AOAM531C2gutjlqG+WP6ocK5fC0TChcUqkrOMiMYWTc3YsTlFepjm9RI
+	wevJf4a7aNeU8wTr3wId8CY=
+X-Google-Smtp-Source: ABdhPJxzAtyPg1JvnpAus10jzzZfjCc5K2FRGR8OghiGfJJFd1tAW3zgBOFOfAG8iFnLyw+vXKOfYw==
+X-Received: by 2002:ac8:5502:: with SMTP id j2mr4568777qtq.116.1627570989300;
+        Thu, 29 Jul 2021 08:03:09 -0700 (PDT)
 Return-Path: <bruce.ashfield@gmail.com>
 Received: from gmail.com (cpe04d4c4975b80-cmf4c11490699b.cpe.net.cable.rogers.com. [174.112.63.222])
-        by smtp.gmail.com with ESMTPSA id v17sm120840qtk.83.2021.07.29.08.01.09
+        by smtp.gmail.com with ESMTPSA id 188sm1832715qkj.48.2021.07.29.08.03.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Jul 2021 08:01:09 -0700 (PDT)
-Date: Thu, 29 Jul 2021 11:01:07 -0400
+        Thu, 29 Jul 2021 08:03:08 -0700 (PDT)
+Date: Thu, 29 Jul 2021 11:03:07 -0400
 From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-To: qiang.zhang@windriver.com
+To: zangrc <zangrc.fnst@fujitsu.com>
 Cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [meta-virtualization] [PATCH] k8s: update kernel configuration features
-Message-ID: <20210729150107.GD40673@gmail.com>
-References: <20210721031414.14596-1-qiang.zhang@windriver.com>
+Subject: Re: [meta-virtualization] [PATCH] open-iscsi-user: Fix link errors
+Message-ID: <20210729150304.GA41177@gmail.com>
+References: <1627393477-28317-1-git-send-email-zangrc.fnst@fujitsu.com>
 MIME-Version: 1.0
-In-Reply-To: <20210721031414.14596-1-qiang.zhang@windriver.com>
+In-Reply-To: <1627393477-28317-1-git-send-email-zangrc.fnst@fujitsu.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-I've merged this for now, but in the next month, I'll be moving all of
-the layer fragments to the kernel-cache, and at that time, we should
-be re-using fragments that already provide similar options, versus simply
-listing them all in the k8s fragment.
-
-I'll take care of those changes, but I just wanted to give a heads up.
+merged.
 
 Bruce
 
-In message: [meta-virtualization] [PATCH] k8s: update kernel configuration features
-on 21/07/2021 qiang.zhang@windriver.com wrote:
+In message: [meta-virtualization] [PATCH] open-iscsi-user: Fix link errors
+on 27/07/2021 zangrc wrote:
 
-> From: Zqiang <qiang.zhang@windriver.com>
+> The wrong link caused conflicts with other packages, so the link error was fixed and the conflict handling was removed.
 > 
-> Add kernel config fragment according to the requirement from the file
-> types_unix.go in source codes of kubernetes.
-> 
-> Signed-off-by: Zqiang <qiang.zhang@windriver.com>
+> Signed-off-by: Zang Ruochen <zangrc.fnst@fujitsu.com>
 > ---
->  .../linux/linux-yocto/kubernetes.cfg           | 18 +++++++++++++++++-
->  1 file changed, 17 insertions(+), 1 deletion(-)
+>  .../open-iscsi/open-iscsi-user_2.1.4.bb                   | 8 +-------
+>  1 file changed, 1 insertion(+), 7 deletions(-)
 > 
-> diff --git a/recipes-kernel/linux/linux-yocto/kubernetes.cfg b/recipes-kernel/linux/linux-yocto/kubernetes.cfg
-> index c3e90d43..2d4e1f54 100644
-> --- a/recipes-kernel/linux/linux-yocto/kubernetes.cfg
-> +++ b/recipes-kernel/linux/linux-yocto/kubernetes.cfg
-> @@ -16,4 +16,20 @@ CONFIG_IP_VS_RR=m
->  CONFIG_NETFILTER_XT_MATCH_COMMENT=m
->  CONFIG_NETFILTER_XT_MATCH_MARK=m
->  CONFIG_NETFILTER_XT_CONNMARK=m
+> diff --git a/meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-user_2.1.4.bb b/meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-user_2.1.4.bb
+> index 73b5a66..b71d8dc 100644
+> --- a/meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-user_2.1.4.bb
+> +++ b/meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-user_2.1.4.bb
+> @@ -29,12 +29,6 @@ do_compile () {
+>          oe_runmake user
+>  }
+>  
+> -inherit update-alternatives
 > -
-> +CONFIG_NAMESPACES=y
-> +CONFIG_NET_NS=y
-> +CONFIG_PID_NS=y
-> +CONFIG_IPC_NS=y
-> +CONFIG_UTS_NS=y
-> +CONFIG_CGROUPS=y
-> +CONFIG_CGROUP_CPUACCT=y
-> +CONFIG_CGROUP_DEVICE=y
-> +CONFIG_CGROUP_FREEZER=y
-> +CONFIG_CGROUP_SCHED=y
-> +CONFIG_SMP=y
-> +CONFIG_CPUSETS=y
-> +CONFIG_MEMCG=y
-> +CONFIG_INET=y
-> +CONFIG_EXT4_FS=y
-> +CONFIG_PROC_FS=y
-> +CONFIG_NETFILTER_XT_TARGET_REDIRECT=m
+> -ALTERNATIVE_PRIORITY = "60"
+> -ALTERNATIVE_${PN}-dev = "libcap-ng.so"
+> -ALTERNATIVE_LINK_NAME[libcap-ng.so] = "${libdir}/libcap-ng.so"
+> -
+>  do_install () {
+>          oe_runmake DESTDIR="${D}" install_user
+>          install ${S}/etc/initd/initd.debian ${D}/etc/init.d/open-iscsi
+> @@ -42,7 +36,7 @@ do_install () {
+>  
+>          install -d ${D}${libdir}
+>          install -Dm 0644 ${S}/libopeniscsiusr/libopeniscsiusr.so.0.2.0 ${D}${libdir}/
+> -        ln -sf ${libdir}/libopeniscsiusr.so.0.2.0 ${D}${libdir}/libcap-ng.so 
+> +        ln -sf ${libdir}/libopeniscsiusr.so.0.2.0 ${D}${libdir}/libopeniscsiusr.so
+>  }
+>  
+>  # systemd support
 > -- 
-> 2.29.2
+> 2.25.1
 > 
+
+> 
+> 
+> 
+
