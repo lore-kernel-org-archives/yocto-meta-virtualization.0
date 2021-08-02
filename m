@@ -1,79 +1,95 @@
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
- by mx.groups.io with SMTP id smtpd.web09.19982.1627912540961010934
+Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
+ by mx.groups.io with SMTP id smtpd.web10.1216.1627926638675193286
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 02 Aug 2021 06:55:41 -0700
+ Mon, 02 Aug 2021 10:50:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kudzu-us.20150623.gappssmtp.com header.s=20150623 header.b=IjE2tWnB;
- spf=none, err=permanent DNS error (domain: kudzu.us, ip: 209.85.160.170, mailfrom: jdmason@kudzu.us)
-Received: by mail-qt1-f170.google.com with SMTP id w10so11668279qtj.3
-        for <meta-virtualization@lists.yoctoproject.org>; Mon, 02 Aug 2021 06:55:40 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=R4vTYLWs;
+ spf=pass (domain: gmail.com, ip: 209.85.167.171, mailfrom: christopher.w.clark@gmail.com)
+Received: by mail-oi1-f171.google.com with SMTP id w6so25041042oiv.11
+        for <meta-virtualization@lists.yoctoproject.org>; Mon, 02 Aug 2021 10:50:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kudzu-us.20150623.gappssmtp.com; s=20150623;
+        d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=ITL5fkSyqbLT6SHw8Lf+YY0XK5GWEgoRluqXPDjsJzo=;
-        b=IjE2tWnBqyPR5FOeRBs/7DKMbyVKx6lArnO6a3M5PCTXr2sN4vVqOKcb7mRSEYs/HM
-         VYy6FP9fan9OOkY3qHARCBpkhjt2HLUsmBPlTmsr7pABTBzTib9KRNWkBMqSNtxiBcfP
-         VX1N/0I4J327x2MchEkytmfijHSGpRA4+kRO+bgYPxxXFghGct7IAmdfEUsEvXZyBwFN
-         vHakDCVb8qnW7CVpcfk7bAJnFlRUGjfni6TKJsgXYRAsYRZy0IGXhecpkvUUbL3yrGd9
-         ISuchPRy3Z/t7692wizQndTtgJgp7ilxhMRqtjMCsGOCLQ2CEIZgNBt5RUHrT3esZnVX
-         rJgQ==
+        bh=4HwLM2FFujtIrwviPcYV77dp+mdJanbv9aEAuRzlguk=;
+        b=R4vTYLWs4HDmkGy+ooxlwvE4ecesPYjIUfUkFzVA+aibnoIsC4h+6h0aSlFiHt4XF7
+         ZpYe/JdpK8P80xmbllrqfo9gLLMrEIHYENJgS4t5YQVU6SDRv4wQUCtMQmFmwUu2cjS0
+         srdaIGwWrYQxmsxjtb7fKxb68U574E0Zg39c1VGNTNY1QXfG8mzKYN8lnFmNFaGAj7V3
+         oMSxT0Aaj+ZjxMqsS/c4QELGHmyJsWtfi15G9aRuDkLZlyfriNYY7nWL85vjBQWsRPc/
+         okN3dBiNWio5iDN9fz0J5LK275pCmYLflpp45wFRaNKM7ObxF7q2iwNKDz2qkOqJYzf+
+         Bsjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=ITL5fkSyqbLT6SHw8Lf+YY0XK5GWEgoRluqXPDjsJzo=;
-        b=mZPO39G28QzdfEiQqKKNkPPuzMKi8QUvApd3wo02YYKYE5on4uCA2qcCUxn1I750LX
-         N9sla1vvfEwMYgQpFUKXmkAGx6ehXEfu4X703VZBVnVwoRmTq0aPq9LHnP06jj18g/Sl
-         Oi0bMgQgmt97jGxFZ1T6D0sErmMPM/jZVNP/o3CmFGA/ksCSHYj6e3T9/sKbfzfq4ZfN
-         AHx8CSdI0bqo2Lftj80C9M+IrcqLl9ABoDckywWQrW/729YsJMEJfNWKk1A6i1J8YMNj
-         LTnn0q8XzfNphFEv2xc17P5vWWKBFDCFka4+8UOaSA2XIJ0w6r16vFAGppQwKYgLM/NI
-         59Xg==
-X-Gm-Message-State: AOAM530KVlZWJmBfZAhnqh4XrZj/y2Cvt1QBsfThxti+9sGikW+C9yq/
-	+nXfrGL/QUKHV/m7MzdcUAMDaEXX30P5Az+B0uePAQ==
-X-Google-Smtp-Source: ABdhPJzah1UU4Q/eZ+lPTKj/wkfWWxzev2qUO1wEQ9BJEYqkR9vL7ONMqCQYh2xIk1gnFiIHpeD04IWH1U695OEpKlA=
-X-Received: by 2002:ac8:6a06:: with SMTP id t6mr14469089qtr.378.1627912540155;
- Mon, 02 Aug 2021 06:55:40 -0700 (PDT)
+        bh=4HwLM2FFujtIrwviPcYV77dp+mdJanbv9aEAuRzlguk=;
+        b=jLG3xmYLZ7CrnUanX9vy7HN228d+C4p7Uz3uGcKJ0u0QxgBcLlraWVge7hiulnI5Q+
+         Yucy3IeYEqyB81Qrd44oGk1BKSgSYo2hbM1n1ixixEWw4JIfIgeQ/UuzHaOfwGqNw1KO
+         wAbLj6zjFm9/A4f1hhH0K0C2qSb5L7NK56Woxf1N8ORkhDfH3kNY8Supax+3SvL2U9ZA
+         CaITB7K2XlRhXOPbO1QjCEr61G2CBAgFT5UTbL51XFYKJjHU5i9pCH8j8hMrL2lmnXw2
+         QymOY9X057LB59Ep+CnNisQ53e5R33CpQI9lVRhWg+8fmkE/oadq3KO+Qjmx/n5UQevl
+         66cw==
+X-Gm-Message-State: AOAM532RvVEP3mZMH57iAsaBbpzDTe8dFShSope9HzHDrKFXVWErmB8p
+	ICqYBeUPScNuUMnmS/DLvBiR+dxnPMBCs/jEdbs=
+X-Google-Smtp-Source: ABdhPJxv1OzMd+5k9pAAyeDdRzWTVCrLLYVp2menYHuKe0X+GY1amekawuTKiM1vdJ/BsFpQWnc3ReA/fTVsW+JjbpQ=
+X-Received: by 2002:a05:6808:1494:: with SMTP id e20mr102884oiw.122.1627926637871;
+ Mon, 02 Aug 2021 10:50:37 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210802012656.40174-1-christopher.w.clark@gmail.com> <20210802034857.GC16820@gmail.com>
-In-Reply-To: <20210802034857.GC16820@gmail.com>
-From: "Jon Mason" <jdmason@kudzu.us>
-Date: Mon, 2 Aug 2021 09:55:29 -0400
-Message-ID: <CAPoiz9zOfbm3FLACTGLLyj4BdD0HyRSf464J7iNKTDJnhL2_FA@mail.gmail.com>
-Subject: Re: [meta-virtualization][PATCH] xen-image-minimal: fix aarch64 build for non-qemuboot-enabled machines
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: Christopher Clark <christopher.w.clark@gmail.com>, 
-	meta-virtualization@lists.yoctoproject.org, cardoe@gentoo.org, 
-	Christopher Clark <christopher.clark@starlab.io>
+References: <CAPoiz9zH=UK1Aj=o6rWVmF4De58hjXyZ4QBpb8N5Lus898x6Uw@mail.gmail.com>
+ <CACMJ4GZ_fvUV_Z9z5+m5CE1Vj4xXVtD8PW0L9qUHwJ=CmwC7=Q@mail.gmail.com> <CAPoiz9xJ_VwufXeyB4osrp0iQeDrB=twBwDMiB35SoZTwM78Qg@mail.gmail.com>
+In-Reply-To: <CAPoiz9xJ_VwufXeyB4osrp0iQeDrB=twBwDMiB35SoZTwM78Qg@mail.gmail.com>
+From: "Christopher Clark" <christopher.w.clark@gmail.com>
+Date: Mon, 2 Aug 2021 10:50:26 -0700
+Message-ID: <CACMJ4Ga=89gH7NyrW_5=QAFJShdCTjFj3-_35+BfuBCOiq7pHA@mail.gmail.com>
+Subject: Re: [meta-virtualization] Build break with patch for "qemuboot, xen-image-minimal: enable runqemu for qemuarm64 Xen images"
+To: Jon Mason <jdmason@kudzu.us>
+Cc: Christopher Clark <christopher.clark@starlab.io>, Bruce Ashfield <bruce.ashfield@gmail.com>, 
+	meta-virtualization@lists.yoctoproject.org
 Content-Type: text/plain; charset="UTF-8"
 
-On Sun, Aug 1, 2021 at 11:49 PM Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
+On Mon, Aug 2, 2021 at 6:54 AM Jon Mason <jdmason@kudzu.us> wrote:
 >
-> Looks good to me.
->
-> I'll wait to hear from Jon that it fixes his problem before merging.
-
-Fix confirmed.  Feel free to add
-Reported-and-tested-by: Jon Mason <jdmason@kudzu.us>
-
-:)
-
->
-> Cheers,
->
-> Bruce
->
-> In message: [meta-virtualization][PATCH] xen-image-minimal: fix aarch64 build for non-qemuboot-enabled machines
-> on 01/08/2021 Christopher Clark wrote:
-> > The qemuboot device tree generation task in qemuboot-xen-dtb.bbclass
-> > requires the QB_SYSTEM_NAME variable to be set to identify the Qemu
-> > binary to use. Skip the task if it is not set.
+> On Sun, Aug 1, 2021 at 9:03 PM Christopher Clark
+> <christopher.w.clark@gmail.com> wrote:
 > >
-> > Reported-by: Jon Mason <jdmason@kudzu.us>
-> > Signed-off-by: Christopher Clark <christopher.clark@starlab.io>
-> > ---
-> >  classes/qemuboot-xen-dtb.bbclass | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > On Sun, Aug 1, 2021 at 8:36 AM Jon Mason <jdmason@kudzu.us> wrote:
+> > >
+> > > I'm building xen-image-minimal for gem5-arm64 machine (in the meta-arm
+> > > layer) and the recent patch to add qemuarm64 support is breaking my
+> > > builds.  The patch in question is:
+> > >
+> > > 19347a7c4e4c qemuboot, xen-image-minimal: enable runqemu for qemuarm64
+> > > Xen images
+> > >
+> > > You can see an example of the breakage here:
+> > > https://gitlab.com/jonmason00/meta-arm/-/jobs/1468242014
+> >
+> > Hi Jon
+> >
+> > I'm sorry that my patch caused trouble and thanks for sending your
+> > report. I now understand the issue.
+>
+> It happens, and I appreciate your rapid response (on a Sunday!).  This
+> is the reason why we have our nightly Gitlab CI runs :)
+>
+> >
+> > > The problematic line is
+> > > diff --git a/recipes-extended/images/xen-image-minimal.bb
+> > > b/recipes-extended/images/xen-image-minimal.bb
+> > > index 6733801cca5f..ca6d26836c42 100644
+> > > --- a/recipes-extended/images/xen-image-minimal.bb
+> > > +++ b/recipes-extended/images/xen-image-minimal.bb
+> > > @@ -31,7 +31,7 @@ XEN_PCIBACK_MODULE_x86-64 = "kernel-module-xen-pciback"
+> > >
+> > >  LICENSE = "MIT"
+> > >
+> > > -inherit core-image
+> > > +inherit core-image qemuboot-xen-defaults qemuboot-xen-dtb
+> > >
+> > > Reverting this line "fixes" my problem.
+> >
+> > Would you be able to try applying this patch instead? I believe it
+> > will resolve the issue.
 > >
 > > diff --git a/classes/qemuboot-xen-dtb.bbclass b/classes/qemuboot-xen-dtb.bbclass
 > > index 08f9b02..2d37e91 100644
@@ -88,6 +104,68 @@ Reported-and-tested-by: Jon Mason <jdmason@kudzu.us>
 > >          generate_xen_qemuboot_dtb
 > >      fi
 > >  }
-> > --
-> > 2.25.1
+>
+> This does indeed allow it to compile without issue.  Please push this
+> as soon as possible.
+
+Excellent, thanks!
+
+>
 > >
+> > > It seems odd to add qemu
+> > > stuff for machines that don't need it.  Is it right to add qemu stuff
+> > > to an image.bb?
+> >
+> > I believe that it is reasonable to do so as it enables support for
+> > testing the image (or images derived from it) even if the intended
+> > final target is non-qemu hardware. I have been working on using this
+> > qemu support to enable the OpenEmbedded QA framework to launch a Xen
+> > image and execute standard and Xen-specific OEQA test cases within it,
+> > eg. via: bitbake -c testimage xen-image-minimal
+> > It should be a valuable capability for images that are built even for
+> > non-qemu machine targets. You can also see within this layer that the
+> > xvisor image recipe similarly chooses to include qemu-specific items.
+>
+> Poor wording on my part.  I'm not saying QEMU has no value in testing,
+> I was trying to say that I don't see similar things in other layers
+> that use qemu (lazily looking at poky as my example).  This could very
+> well be the right way of doing it, and I'm just ignorant of it.
+
+I think the default OE qemu settings are OK for most images so no
+adjustments are needed, but those that include a hypervisor, or at
+least a type-1 hypervisor, may require some tuning of the settings to
+enable a successful boot. It gets even more complicated for Xen since
+the x86 and Arm platform boot configurations are currently rather
+different.
+
+> All of that being said, I am interested in what you are doing here.  I
+> think running CI on qemu xen arm64 as part of our development process
+> could be very beneficial.  In our current setup, we're running
+> testimage on qemu machines.  Do you have anything similar planned for
+> this machine?
+
+I've recently added recipes for the Xen Test Framework to
+meta-virtualization as preparation towards enabling that to run in CI
+with OEQA (ie. testimage). XTF is currently only for x86 platforms but
+I am aware of development efforts to enable running XTF on Arm too, so
+it should be useful to you when that lands. I have been working on the
+integration needed for XTF to run as an OEQA test case and I do have a
+working early version, but doing that work has surfaced some
+challenges with the Xen toolstack that I need to resolve first, so
+that's my current focus.
+
+I'm very happy to hear that you're already running CI on the Xen
+recipes and image - please do report any issues that you find.
+
+best,
+
+Christopher
+
+>
+> Thanks,
+> Jon
+>
+> >
+> > thanks,
+> >
+> > Christopher
