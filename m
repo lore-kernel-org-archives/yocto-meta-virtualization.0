@@ -1,85 +1,66 @@
-Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
- by mx.groups.io with SMTP id smtpd.web10.14389.1627866238948664336
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+ by mx.groups.io with SMTP id smtpd.web10.14607.1627867631506779128
  for <meta-virtualization@lists.yoctoproject.org>;
- Sun, 01 Aug 2021 18:03:59 -0700
+ Sun, 01 Aug 2021 18:27:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=mFlIwwIE;
- spf=pass (domain: gmail.com, ip: 209.85.210.46, mailfrom: christopher.w.clark@gmail.com)
-Received: by mail-ot1-f46.google.com with SMTP id h63-20020a9d14450000b02904ce97efee36so5388542oth.7
-        for <meta-virtualization@lists.yoctoproject.org>; Sun, 01 Aug 2021 18:03:58 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=inAIhp8z;
+ spf=pass (domain: gmail.com, ip: 209.85.222.179, mailfrom: christopher.w.clark@gmail.com)
+Received: by mail-qk1-f179.google.com with SMTP id z24so15235018qkz.7
+        for <meta-virtualization@lists.yoctoproject.org>; Sun, 01 Aug 2021 18:27:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=oQ9+4zwFhULRGsAyWeRKu+ogcwxjgb3W2zxY7ET7kaw=;
-        b=mFlIwwIEJnCVpU8dP1ynG/oEAQmqjbsMWIu2IuEHzdAndQr703r/R4FJRHNqigZQpt
-         q/SVVI6TjE4qLjXnGQu43aihuSB7W4aqHudwx1cwXDSGBP3S8IMj9gel1Af7I+KCD+z1
-         TzMELsoESQKxgrUvRjKM4pnA0MC8TJqMRFTvy89Sh70C1V9azeDN5kx2NmBkJbRINmm4
-         F+FlcWG1E/t0x0RRHITCulVHZO1ixpOuJadxIB9YpEw231DkQMp+oK/U2ZdVE1t7q4wb
-         6stwX9LzVB4gVEIlzNIdLp84isehWRgIPtl9xuYCNw7HfqVNyR+kVSMvhKGJl/kqyhfL
-         Xs1A==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=p0nq298E3yG3y8V+fh9GR4Tm+QgSgPL5RGFgnCSNUuM=;
+        b=inAIhp8z4mFdC9CKZKrG6doF6Twd9EMxLYw39a9YHhMKkTBNLPMvFPuH6tNo4XX9N7
+         VPNas6xJIsGcx1BW5V0n34AyrttTtZdLUzFfs1PKUib2snv8NeojRrKFmWsxRb5fbu63
+         IIfcS6YEF88k80uF20fp3bzR7C5kewya7NAkVhayJj/addXoBdBUnpF8O6x1xNaJmEsM
+         cMoxSJrr4J1tXDhZqhPPmpj8eVxd7WHI8zMPI32iO2a64uw1bLzfaAp1DUK6uhI6DEmn
+         1TWZ1i07GFjkFNAxXpNv2D6E4rQYpTx/+KvdY4esC/unzUJGq0X1CAE1CwtFteTo8Xdh
+         uhSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=oQ9+4zwFhULRGsAyWeRKu+ogcwxjgb3W2zxY7ET7kaw=;
-        b=bPGlbRqrYIWTOR5XZ7pGdJ2jj8ixP7vDNGNQz2HSDqjwf9kHod4gjrmRQhagxMBEwS
-         Wx1bWdWazUpsuG9DLYEx0RLP7s0QCujoSG5lmW06HUwHx+SeVcZNSoyLGUKOCadyeC7h
-         36jzcwZzL0RJGVAyH+ddb48+FpK/WSTrn6pUbdkjJ9LZjmoLvHkgyRJ0jdVAJ6dbjvrq
-         etQ+8GkA7ACDULKdG+lnfewH4e71nCfo+pIeeBoaktkW7MPDxb/urn/NdT5b19PUSYcJ
-         EUQX2W+5gtXCMWCv6oGW3D5kwAnxcpmsDbekzBj+xPLM62iGO8a6Pl2OupBHlb46yUX7
-         deMw==
-X-Gm-Message-State: AOAM532AZRj2X8HasXmTMotR1jjulUrzx5/gGbnEqxK2A9j25bpaiyRn
-	hIUWBT6u7hIIcN88BqWxFdb5CQsUu4HLVevFUTo=
-X-Google-Smtp-Source: ABdhPJyaSRf/zJndCBYbtlcP/LBfz63Xa+aO4q+PoDSiHm8mEM/DXA6eJEU/2Q41YYYlmMXlTMYtZ50jwjpzYuXhvak=
-X-Received: by 2002:a9d:5f07:: with SMTP id f7mr9793167oti.183.1627866238280;
- Sun, 01 Aug 2021 18:03:58 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAPoiz9zH=UK1Aj=o6rWVmF4De58hjXyZ4QBpb8N5Lus898x6Uw@mail.gmail.com>
-In-Reply-To: <CAPoiz9zH=UK1Aj=o6rWVmF4De58hjXyZ4QBpb8N5Lus898x6Uw@mail.gmail.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=p0nq298E3yG3y8V+fh9GR4Tm+QgSgPL5RGFgnCSNUuM=;
+        b=owVAaLgedzgTyf5RIwsmTd+Aat8pfPghd8RBa2iZ4/XuOL0tYlZ6YjfJrU1EneAlBo
+         MEoAAkEJa49lo5S1Z5laJydgnMeP/iPlrXVLorvSyxwNDCcq3P4rxJRXd0JvG1JK+54E
+         hr68VA7kfdnMxEvGmg/9wxWnYxIRgs21jMLqHQti7Dxvq+IfQMQqgxVT4U18CnO4vQAo
+         ECiRtHEb2+iefjgq8y09gqYFc43b5klOp8Ka7fM9teYCWmP7Flxe42Se17Bzfxt75yDF
+         37x30JL4svijuScmiDfAJOnien0zXIZPf6VDODEXp5w0LHKbQ9S95lNyorQe6wDth1Ud
+         O8Mw==
+X-Gm-Message-State: AOAM533fLN1DJrxLppXGPJoVMUpjF4c0cKOsDCeGSJvgAhHNCs6tXYrS
+	v+KbgOIZ+rXOlvHR6JaeO9UUY+Qs+GYxVw==
+X-Google-Smtp-Source: ABdhPJynHCOR98q65YT12b096z4X4AHwTVzz5/dbJI1V9QjrsRvYSQh+2knfKt47IE6ww4yEpn68vA==
+X-Received: by 2002:ae9:e606:: with SMTP id z6mr13310147qkf.152.1627867630470;
+        Sun, 01 Aug 2021 18:27:10 -0700 (PDT)
+Return-Path: <christopher.w.clark@gmail.com>
+Received: from walnut.ice.pyrology.org (mobile-166-137-177-087.mycingular.net. [166.137.177.87])
+        by smtp.gmail.com with ESMTPSA id d79sm5185825qke.45.2021.08.01.18.27.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 01 Aug 2021 18:27:10 -0700 (PDT)
 From: "Christopher Clark" <christopher.w.clark@gmail.com>
-Date: Sun, 1 Aug 2021 18:03:47 -0700
-Message-ID: <CACMJ4GZ_fvUV_Z9z5+m5CE1Vj4xXVtD8PW0L9qUHwJ=CmwC7=Q@mail.gmail.com>
-Subject: Re: [meta-virtualization] Build break with patch for "qemuboot, xen-image-minimal: enable runqemu for qemuarm64 Xen images"
-To: Jon Mason <jdmason@kudzu.us>
-Cc: Christopher Clark <christopher.clark@starlab.io>, Bruce Ashfield <bruce.ashfield@gmail.com>, 
-	meta-virtualization@lists.yoctoproject.org
-Content-Type: text/plain; charset="UTF-8"
+To: meta-virtualization@lists.yoctoproject.org
+Cc: bruce.ashfield@gmail.com,
+	cardoe@gentoo.org,
+	jdmason@kudzu.us,
+	christopher.clark@starlab.io
+Subject: [meta-virtualization][PATCH] xen-image-minimal: fix aarch64 build for non-qemuboot-enabled machines
+Date: Sun,  1 Aug 2021 18:26:56 -0700
+Message-Id: <20210802012656.40174-1-christopher.w.clark@gmail.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Sun, Aug 1, 2021 at 8:36 AM Jon Mason <jdmason@kudzu.us> wrote:
->
-> I'm building xen-image-minimal for gem5-arm64 machine (in the meta-arm
-> layer) and the recent patch to add qemuarm64 support is breaking my
-> builds.  The patch in question is:
->
-> 19347a7c4e4c qemuboot, xen-image-minimal: enable runqemu for qemuarm64
-> Xen images
->
-> You can see an example of the breakage here:
-> https://gitlab.com/jonmason00/meta-arm/-/jobs/1468242014
+The qemuboot device tree generation task in qemuboot-xen-dtb.bbclass
+requires the QB_SYSTEM_NAME variable to be set to identify the Qemu
+binary to use. Skip the task if it is not set.
 
-Hi Jon
-
-I'm sorry that my patch caused trouble and thanks for sending your
-report. I now understand the issue.
-
-> The problematic line is
-> diff --git a/recipes-extended/images/xen-image-minimal.bb
-> b/recipes-extended/images/xen-image-minimal.bb
-> index 6733801cca5f..ca6d26836c42 100644
-> --- a/recipes-extended/images/xen-image-minimal.bb
-> +++ b/recipes-extended/images/xen-image-minimal.bb
-> @@ -31,7 +31,7 @@ XEN_PCIBACK_MODULE_x86-64 = "kernel-module-xen-pciback"
->
->  LICENSE = "MIT"
->
-> -inherit core-image
-> +inherit core-image qemuboot-xen-defaults qemuboot-xen-dtb
->
-> Reverting this line "fixes" my problem.
-
-Would you be able to try applying this patch instead? I believe it
-will resolve the issue.
+Reported-by: Jon Mason <jdmason@kudzu.us>
+Signed-off-by: Christopher Clark <christopher.clark@starlab.io>
+---
+ classes/qemuboot-xen-dtb.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/classes/qemuboot-xen-dtb.bbclass b/classes/qemuboot-xen-dtb.bbclass
 index 08f9b02..2d37e91 100644
@@ -94,22 +75,6 @@ index 08f9b02..2d37e91 100644
          generate_xen_qemuboot_dtb
      fi
  }
+-- 
+2.25.1
 
-
-> It seems odd to add qemu
-> stuff for machines that don't need it.  Is it right to add qemu stuff
-> to an image.bb?
-
-I believe that it is reasonable to do so as it enables support for
-testing the image (or images derived from it) even if the intended
-final target is non-qemu hardware. I have been working on using this
-qemu support to enable the OpenEmbedded QA framework to launch a Xen
-image and execute standard and Xen-specific OEQA test cases within it,
-eg. via: bitbake -c testimage xen-image-minimal
-It should be a valuable capability for images that are built even for
-non-qemu machine targets. You can also see within this layer that the
-xvisor image recipe similarly chooses to include qemu-specific items.
-
-thanks,
-
-Christopher
