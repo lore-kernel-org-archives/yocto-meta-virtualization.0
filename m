@@ -1,73 +1,115 @@
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
- by mx.groups.io with SMTP id smtpd.web10.8373.1627832176752878367
+Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
+ by mx.groups.io with SMTP id smtpd.web10.14389.1627866238948664336
  for <meta-virtualization@lists.yoctoproject.org>;
- Sun, 01 Aug 2021 08:36:17 -0700
+ Sun, 01 Aug 2021 18:03:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kudzu-us.20150623.gappssmtp.com header.s=20150623 header.b=eapv/iLj;
- spf=none, err=permanent DNS error (domain: kudzu.us, ip: 209.85.222.181, mailfrom: jdmason@kudzu.us)
-Received: by mail-qk1-f181.google.com with SMTP id az7so14375350qkb.5
-        for <meta-virtualization@lists.yoctoproject.org>; Sun, 01 Aug 2021 08:36:16 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=mFlIwwIE;
+ spf=pass (domain: gmail.com, ip: 209.85.210.46, mailfrom: christopher.w.clark@gmail.com)
+Received: by mail-ot1-f46.google.com with SMTP id h63-20020a9d14450000b02904ce97efee36so5388542oth.7
+        for <meta-virtualization@lists.yoctoproject.org>; Sun, 01 Aug 2021 18:03:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kudzu-us.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:from:date:message-id:subject:to:cc;
-        bh=NKqTKWlOBe3mpnM9fXBk0UUFyai29Fk35z/Sn0Mcxzk=;
-        b=eapv/iLjMIio25vMH9Nw8p+hmzh7E4fjXio8ZOPfj+T2zGc/JJwr4qDK/KN5OEoXFH
-         xy7Ev8Kd94qkH8eFfGQRpizsUs/vF3J6vWRoeRa7e3IaRTjljAfnceYnMDdiMo/HuWEy
-         m8653nNtYn5/SO60e2wNMl8wkYkC3G5dmJIJAhS9K3QdeSbgaWs9sD19hCDUdrevH3B4
-         bG+Ijxg4XOZ1et9HuzcrXUIua/+QdTEVFwR9Ed38kQRI0b/QOCJtegZDHrHCgEFg+VQ2
-         NTKzTeAaav6XmMnsZD1pYdeFkpip2f4SyRBWwwkwwJiIfgoF8b6PN96FyXzElUnYdMqv
-         ejyA==
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=oQ9+4zwFhULRGsAyWeRKu+ogcwxjgb3W2zxY7ET7kaw=;
+        b=mFlIwwIEJnCVpU8dP1ynG/oEAQmqjbsMWIu2IuEHzdAndQr703r/R4FJRHNqigZQpt
+         q/SVVI6TjE4qLjXnGQu43aihuSB7W4aqHudwx1cwXDSGBP3S8IMj9gel1Af7I+KCD+z1
+         TzMELsoESQKxgrUvRjKM4pnA0MC8TJqMRFTvy89Sh70C1V9azeDN5kx2NmBkJbRINmm4
+         F+FlcWG1E/t0x0RRHITCulVHZO1ixpOuJadxIB9YpEw231DkQMp+oK/U2ZdVE1t7q4wb
+         6stwX9LzVB4gVEIlzNIdLp84isehWRgIPtl9xuYCNw7HfqVNyR+kVSMvhKGJl/kqyhfL
+         Xs1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
-        bh=NKqTKWlOBe3mpnM9fXBk0UUFyai29Fk35z/Sn0Mcxzk=;
-        b=Lmnaek++TSdj5Z3HWNignfQitv7o/tI01cIU10Np0yGLKgaRw45uNjbYgUgzfVual6
-         MVuCjAZKn7tM3la3WHRvvS0VTjXP/Lf8ao4rxYP+yd1BOoWlhVQi75gC/i+hZh1chXRN
-         oEOyGiKUcgwOigYNitty+wEY7Zpl8IIIbXEO04f0TpprUznhqc5XWhOq1WeRcpItQ26A
-         CuyoJpFi7F/9TLwd/dPxSdBHzRWFehXwIkkRFJSMXSwy5SwuCAfYkp/+FOgmWXG725yk
-         w7Q66VRFeESVHZVfgKVCu6HWAISU8WtK9bm3ETvu6FkmsdRxOWhNqgzm4ZNSduVdOW6Y
-         d28Q==
-X-Gm-Message-State: AOAM533xbz9H8hsCrp0LeOe14V+/nQCYBGbfO74ycqYTd6l5FAklOSS6
-	yN9IAYAV40Zf5Vd29m6V0/HXJ2LFOF+oqVKydb7s8Q==
-X-Google-Smtp-Source: ABdhPJxBOb6xm/GHT9ZTPPK3e1YYqN0S/yzi1S/Lgd/P6pla6zjMEh846h9p77HB42YHTXmfroTeY7Mni/ehDY4ZC5c=
-X-Received: by 2002:ae9:e886:: with SMTP id a128mr11735817qkg.218.1627832175942;
- Sun, 01 Aug 2021 08:36:15 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=oQ9+4zwFhULRGsAyWeRKu+ogcwxjgb3W2zxY7ET7kaw=;
+        b=bPGlbRqrYIWTOR5XZ7pGdJ2jj8ixP7vDNGNQz2HSDqjwf9kHod4gjrmRQhagxMBEwS
+         Wx1bWdWazUpsuG9DLYEx0RLP7s0QCujoSG5lmW06HUwHx+SeVcZNSoyLGUKOCadyeC7h
+         36jzcwZzL0RJGVAyH+ddb48+FpK/WSTrn6pUbdkjJ9LZjmoLvHkgyRJ0jdVAJ6dbjvrq
+         etQ+8GkA7ACDULKdG+lnfewH4e71nCfo+pIeeBoaktkW7MPDxb/urn/NdT5b19PUSYcJ
+         EUQX2W+5gtXCMWCv6oGW3D5kwAnxcpmsDbekzBj+xPLM62iGO8a6Pl2OupBHlb46yUX7
+         deMw==
+X-Gm-Message-State: AOAM532AZRj2X8HasXmTMotR1jjulUrzx5/gGbnEqxK2A9j25bpaiyRn
+	hIUWBT6u7hIIcN88BqWxFdb5CQsUu4HLVevFUTo=
+X-Google-Smtp-Source: ABdhPJyaSRf/zJndCBYbtlcP/LBfz63Xa+aO4q+PoDSiHm8mEM/DXA6eJEU/2Q41YYYlmMXlTMYtZ50jwjpzYuXhvak=
+X-Received: by 2002:a9d:5f07:: with SMTP id f7mr9793167oti.183.1627866238280;
+ Sun, 01 Aug 2021 18:03:58 -0700 (PDT)
 MIME-Version: 1.0
-From: "Jon Mason" <jdmason@kudzu.us>
-Date: Sun, 1 Aug 2021 11:36:05 -0400
-Message-ID: <CAPoiz9zH=UK1Aj=o6rWVmF4De58hjXyZ4QBpb8N5Lus898x6Uw@mail.gmail.com>
-Subject: Build break with patch for "qemuboot, xen-image-minimal: enable runqemu for qemuarm64 Xen images"
-To: Christopher Clark <christopher.clark@starlab.io>, Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: meta-virtualization@lists.yoctoproject.org
+References: <CAPoiz9zH=UK1Aj=o6rWVmF4De58hjXyZ4QBpb8N5Lus898x6Uw@mail.gmail.com>
+In-Reply-To: <CAPoiz9zH=UK1Aj=o6rWVmF4De58hjXyZ4QBpb8N5Lus898x6Uw@mail.gmail.com>
+From: "Christopher Clark" <christopher.w.clark@gmail.com>
+Date: Sun, 1 Aug 2021 18:03:47 -0700
+Message-ID: <CACMJ4GZ_fvUV_Z9z5+m5CE1Vj4xXVtD8PW0L9qUHwJ=CmwC7=Q@mail.gmail.com>
+Subject: Re: [meta-virtualization] Build break with patch for "qemuboot, xen-image-minimal: enable runqemu for qemuarm64 Xen images"
+To: Jon Mason <jdmason@kudzu.us>
+Cc: Christopher Clark <christopher.clark@starlab.io>, Bruce Ashfield <bruce.ashfield@gmail.com>, 
+	meta-virtualization@lists.yoctoproject.org
 Content-Type: text/plain; charset="UTF-8"
 
-I'm building xen-image-minimal for gem5-arm64 machine (in the meta-arm
-layer) and the recent patch to add qemuarm64 support is breaking my
-builds.  The patch in question is:
+On Sun, Aug 1, 2021 at 8:36 AM Jon Mason <jdmason@kudzu.us> wrote:
+>
+> I'm building xen-image-minimal for gem5-arm64 machine (in the meta-arm
+> layer) and the recent patch to add qemuarm64 support is breaking my
+> builds.  The patch in question is:
+>
+> 19347a7c4e4c qemuboot, xen-image-minimal: enable runqemu for qemuarm64
+> Xen images
+>
+> You can see an example of the breakage here:
+> https://gitlab.com/jonmason00/meta-arm/-/jobs/1468242014
 
-19347a7c4e4c qemuboot, xen-image-minimal: enable runqemu for qemuarm64
-Xen images
+Hi Jon
 
-You can see an example of the breakage here:
-https://gitlab.com/jonmason00/meta-arm/-/jobs/1468242014
+I'm sorry that my patch caused trouble and thanks for sending your
+report. I now understand the issue.
 
-The problematic line is
-diff --git a/recipes-extended/images/xen-image-minimal.bb
-b/recipes-extended/images/xen-image-minimal.bb
-index 6733801cca5f..ca6d26836c42 100644
---- a/recipes-extended/images/xen-image-minimal.bb
-+++ b/recipes-extended/images/xen-image-minimal.bb
-@@ -31,7 +31,7 @@ XEN_PCIBACK_MODULE_x86-64 = "kernel-module-xen-pciback"
+> The problematic line is
+> diff --git a/recipes-extended/images/xen-image-minimal.bb
+> b/recipes-extended/images/xen-image-minimal.bb
+> index 6733801cca5f..ca6d26836c42 100644
+> --- a/recipes-extended/images/xen-image-minimal.bb
+> +++ b/recipes-extended/images/xen-image-minimal.bb
+> @@ -31,7 +31,7 @@ XEN_PCIBACK_MODULE_x86-64 = "kernel-module-xen-pciback"
+>
+>  LICENSE = "MIT"
+>
+> -inherit core-image
+> +inherit core-image qemuboot-xen-defaults qemuboot-xen-dtb
+>
+> Reverting this line "fixes" my problem.
 
- LICENSE = "MIT"
+Would you be able to try applying this patch instead? I believe it
+will resolve the issue.
 
--inherit core-image
-+inherit core-image qemuboot-xen-defaults qemuboot-xen-dtb
+diff --git a/classes/qemuboot-xen-dtb.bbclass b/classes/qemuboot-xen-dtb.bbclass
+index 08f9b02..2d37e91 100644
+--- a/classes/qemuboot-xen-dtb.bbclass
++++ b/classes/qemuboot-xen-dtb.bbclass
+@@ -176,7 +176,7 @@ do_write_xen_qemuboot_dtb() {
+     # Not all architectures qemuboot with a device tree binary, so check
+     # to see if one is needed. This allows this bbclass file to be used
+     # in the same image recipe for multiple architectures.
+-    if [ -n "${QB_DTB}" ] ; then
++    if [ -n "${QB_DTB}" ] && [ -n "${QB_SYSTEM_NAME}" ] ; then
+         generate_xen_qemuboot_dtb
+     fi
+ }
 
-Reverting this line "fixes" my problem.  It seems odd to add qemu
-stuff for machines that don't need it.  Is it right to add qemu stuff
-to an image.bb?
 
+> It seems odd to add qemu
+> stuff for machines that don't need it.  Is it right to add qemu stuff
+> to an image.bb?
 
-Thanks,
-Jon
+I believe that it is reasonable to do so as it enables support for
+testing the image (or images derived from it) even if the intended
+final target is non-qemu hardware. I have been working on using this
+qemu support to enable the OpenEmbedded QA framework to launch a Xen
+image and execute standard and Xen-specific OEQA test cases within it,
+eg. via: bitbake -c testimage xen-image-minimal
+It should be a valuable capability for images that are built even for
+non-qemu machine targets. You can also see within this layer that the
+xvisor image recipe similarly chooses to include qemu-specific items.
+
+thanks,
+
+Christopher
