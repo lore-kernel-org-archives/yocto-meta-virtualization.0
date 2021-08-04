@@ -1,88 +1,67 @@
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
- by mx.groups.io with SMTP id smtpd.web08.2811.1627933920612459206
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.web11.11072.1628092539611361232
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 02 Aug 2021 12:52:00 -0700
+ Wed, 04 Aug 2021 08:55:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=btdWhe0S;
- spf=pass (domain: gmail.com, ip: 209.85.219.48, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qv1-f48.google.com with SMTP id em4so4606530qvb.0
-        for <meta-virtualization@lists.yoctoproject.org>; Mon, 02 Aug 2021 12:52:00 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=gkPCJEWQ;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.43, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f43.google.com with SMTP id l18so2804686wrv.5
+        for <meta-virtualization@lists.yoctoproject.org>; Wed, 04 Aug 2021 08:55:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=qnjVYPOweNmImiVsPNBg2f+II2maosm4oMelO1aZMgY=;
-        b=btdWhe0S+t2lpFoD9iSGfRt60yl/WfiyP9sccuVivOTyPrOWuJ8jWRhCWZYrx+0m26
-         lKeIv6fQPdzc4Qnw/IFPezfIewq4oWNSPNlTiem28F8AhjgikRwEFUWJuZ4+FbmCvbCV
-         wy1AQ5UzY8xJlbwKZEXx2iv5LsDX++CJ+Pxi8hwrwrC2KrMIYQNr0jopOZqOZam+27RQ
-         OQNoPMXkOaeNWp+tk6yNFs2/01Xf/OHTiZIiENeHrUGZDOrlmBB1Ogl3PHJeVMtbSjqt
-         v0bSQRH+EISA+1h6I/wXoBwP7S/1OEyvHoMvBAJvgHNd7Cs8VTx8ykAeIjs2LXmNDBNI
-         QAUA==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=EKErBJoyOWxr5iCjz+4ejn+g7OinkFC3FIMICcIdpec=;
+        b=gkPCJEWQq4tX1j8EJFHWDDKj3v397aSFWMVzhh5qj+EnU8tYCixFZN6QyB/VM2qQXs
+         KX1gljZQkcgj6iS2rVmoBljkOfOzSyqET//tzvzrdM5Ln/pSt+HNkJvz0XLn6WPOcQXq
+         ieAL9iKlxRud4EFHc2Avz2igup8sIW6l0q9co=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=qnjVYPOweNmImiVsPNBg2f+II2maosm4oMelO1aZMgY=;
-        b=uB+n+nh+engmA87vqrJNqI3ThYsyHa5/GNYavFX3zzEnGj+/dIZzVj4Ulf2Nxomism
-         b5gV0MTyxVdE+Fqt6wWxd4NRRFECCFEj3mWAVkylO5Zj3oFIrIKleTlbi9eY1Lw1tzzg
-         Z+4kuSl3qs/jMoRvisahw3LY/BvDS9/zLVM1guSEFNYg1lFoTkFUggkwjrdbABVQ0KVl
-         8jfPjp7TQbGKAcGeAXxneTEictOxfgk5lSKSEp4LY0O+Vd/8gSiKqroyT56YpDFUbwju
-         3ulfes0Vc8W3VKq+jQ7g+q9jVFc3hFnY9LNld3hv7VSKB48bqHhJVQDLatb/0c7PFy80
-         rAyw==
-X-Gm-Message-State: AOAM530IcPie0u/U54XoWkymaQaTRmXi7AtkkiGsDAQDcSmrrHe0NOzL
-	I6WRwKOS0z0z+4dv3IFYy34=
-X-Google-Smtp-Source: ABdhPJxtm4rDy6iaxFJTAa0N9onQ36FO+3HYG64ojmF1TPXt6CztjcmvXywOr/XMJGkoflN61taRIg==
-X-Received: by 2002:ad4:5de1:: with SMTP id jn1mr16438948qvb.62.1627933919723;
-        Mon, 02 Aug 2021 12:51:59 -0700 (PDT)
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from gmail.com (cpe04d4c4975b80-cmf4c11490699b.cpe.net.cable.rogers.com. [174.112.63.222])
-        by smtp.gmail.com with ESMTPSA id c6sm6421769qke.133.2021.08.02.12.51.58
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=EKErBJoyOWxr5iCjz+4ejn+g7OinkFC3FIMICcIdpec=;
+        b=R5GlJZX5hVNUhBoB8gtaRF5ZFucvGTUaxLenpwT5CEIbTJJAihhKPYFtdvimBbi08x
+         91koGdbzsSLzdMCxzvHGenjBQgqoLH9GKuETiYAHsB3CWe6wvEZBUPZo1mHH23u8UUk8
+         6HbkPIwsXeBZ1qkVwjX7soC3VzebpqFywOx0ohAUlufy3KChXGHeFD/ZOusrleRLvDlP
+         HN1goO43r/GGg6Lp1SDPDglfBRUxMFDUVoGLJrtftotxyMWQsZ+eiJBygIS34g3wHvrc
+         wit1tNRGkrFASs6pycnV1kPKj7Va6fkAkwk+O6HxHWyq3tQLybMxb/YxjTPURfQQKeXD
+         k8tA==
+X-Gm-Message-State: AOAM531RFlFlDeru025acRf71Ur9Pyz+LWUkA1kk5RlUp/m2YT1S6OR+
+	vMEdWuZB+Pdz/Ds5whfUaJsxIg==
+X-Google-Smtp-Source: ABdhPJw9nylQvQOdksDu0OjAH8zciufzg9v2wHxtEums7ufk4L5kFAjA/TpwTxfafY6FmVVuSq4AFQ==
+X-Received: by 2002:a05:6000:100a:: with SMTP id a10mr88600wrx.42.1628092538255;
+        Wed, 04 Aug 2021 08:55:38 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:895b:15d0:6c2e:72fa? ([2001:8b0:aba:5f3c:895b:15d0:6c2e:72fa])
+        by smtp.gmail.com with ESMTPSA id u11sm3019565wrp.26.2021.08.04.08.55.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Aug 2021 12:51:59 -0700 (PDT)
-Date: Mon, 2 Aug 2021 15:51:57 -0400
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-To: Christopher Clark <christopher.w.clark@gmail.com>
-Cc: meta-virtualization@lists.yoctoproject.org, cardoe@gentoo.org,
-	jdmason@kudzu.us, christopher.clark@starlab.io
-Subject: Re: [meta-virtualization][PATCH] xen-image-minimal: fix aarch64 build for non-qemuboot-enabled machines
-Message-ID: <20210802195154.GA25548@gmail.com>
-References: <20210802012656.40174-1-christopher.w.clark@gmail.com>
+        Wed, 04 Aug 2021 08:55:37 -0700 (PDT)
+Message-ID: <94612571ef4dc3a19736b14f571e068b295c098a.camel@linuxfoundation.org>
+Subject: Re: [meta-virtualization][WIP][PATCH] docker-distribution: manually finish override syntax conversion
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>, Martin Jansa
+	 <Martin.Jansa@gmail.com>
+Cc: meta-virtualization@lists.yoctoproject.org
+Date: Wed, 04 Aug 2021 16:55:37 +0100
+In-Reply-To: <CADkTA4M7gGWdQdsuu8PLuu1Mb_JxqDK4ki0AvHTnHeK_QaY5tw@mail.gmail.com>
+References: <20210730151319.54916-1-Martin.Jansa@gmail.com>
+	 <CADkTA4M7gGWdQdsuu8PLuu1Mb_JxqDK4ki0AvHTnHeK_QaY5tw@mail.gmail.com>
+User-Agent: Evolution 3.40.0-1 
 MIME-Version: 1.0
-In-Reply-To: <20210802012656.40174-1-christopher.w.clark@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-merged.
-
-Bruce
-
-In message: [meta-virtualization][PATCH] xen-image-minimal: fix aarch64 build for non-qemuboot-enabled machines
-on 01/08/2021 Christopher Clark wrote:
-
-> The qemuboot device tree generation task in qemuboot-xen-dtb.bbclass
-> requires the QB_SYSTEM_NAME variable to be set to identify the Qemu
-> binary to use. Skip the task if it is not set.
+On Sun, 2021-08-01 at 23:39 -0400, Bruce Ashfield wrote:
+> Thanks!
 > 
-> Reported-by: Jon Mason <jdmason@kudzu.us>
-> Signed-off-by: Christopher Clark <christopher.clark@starlab.io>
-> ---
->  classes/qemuboot-xen-dtb.bbclass | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/classes/qemuboot-xen-dtb.bbclass b/classes/qemuboot-xen-dtb.bbclass
-> index 08f9b02..2d37e91 100644
-> --- a/classes/qemuboot-xen-dtb.bbclass
-> +++ b/classes/qemuboot-xen-dtb.bbclass
-> @@ -176,7 +176,7 @@ do_write_xen_qemuboot_dtb() {
->      # Not all architectures qemuboot with a device tree binary, so check
->      # to see if one is needed. This allows this bbclass file to be used
->      # in the same image recipe for multiple architectures.
-> -    if [ -n "${QB_DTB}" ] ; then
-> +    if [ -n "${QB_DTB}" ] && [ -n "${QB_SYSTEM_NAME}" ] ; then
->          generate_xen_qemuboot_dtb
->      fi
->  }
-> -- 
-> 2.25.1
-> 
+> I've added this to the master-next queue for the overrides conversion.
+
+I know Bruce is on vacation, I just wanted to give a heads up that the override
+changes merged in master for OE-Core and now several other layers. The two layers
+left the autobuilder tests and that haven't been converted are meta-virt and 
+meta-arm. Anyone using meta-virt with master will need the master-next branch now.
+
+Cheers,
+
+Richard
+
