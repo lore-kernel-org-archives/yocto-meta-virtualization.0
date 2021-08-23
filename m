@@ -1,1347 +1,153 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
- by mx.groups.io with SMTP id smtpd.web10.49615.1629256891761090763
+Received: from mx0b-00010702.pphosted.com (mx0b-00010702.pphosted.com [148.163.158.57])
+ by mx.groups.io with SMTP id smtpd.web11.29004.1629746426498513555
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 17 Aug 2021 20:21:32 -0700
+ Mon, 23 Aug 2021 12:20:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=ey7N8bQ+;
- spf=pass (domain: gmail.com, ip: 209.85.218.49, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ej1-f49.google.com with SMTP id b15so1894983ejg.10
-        for <meta-virtualization@lists.yoctoproject.org>; Tue, 17 Aug 2021 20:21:31 -0700 (PDT)
+ dkim=pass header.i=@ni.com header.s=pps11062020 header.b=NNISysby;
+ spf=pass (domain: ni.com, ip: 148.163.158.57, mailfrom: prvs=38693267fd=alex.stewart@ni.com)
+Received: from pps.filterd (m0098779.ppops.net [127.0.0.1])
+	by mx0b-00010702.pphosted.com (8.16.1.2/8.16.0.43) with SMTP id 17NFbo10031959
+	for <meta-virtualization@lists.yoctoproject.org>; Mon, 23 Aug 2021 14:20:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ni.com; h=from : to : cc : subject
+ : date : message-id : content-transfer-encoding : content-type :
+ mime-version; s=PPS11062020;
+ bh=E35OKTr4S0kYR24uPT1iGxxpZld1lOi68TrEU2IIyw0=;
+ b=NNISysbyQS3r0X4woxo5TGmutmRu9DvvNsld3SMkm1f6gOjZJzmGM1tuM8dJ+jw4y/3h
+ uo2BE8i60w6DmwHg8oG4Qe6w4Z0WAnRBBScefMcUfMr4p4wZcn6XpIwWrFsqt7EcBQQ7
+ ZyxNQ8nuJIqga2H50V0vFcjH09ALFwokX8J5oasq/io44KyJeJj6FeyYAWbembZR31zn
+ nh1jmw0ammfGZEr3bSssEbKZJ04mdP5DoRFX2Pu6kmU6+0kZt/E2zMCt3jMCaq+zWt+q
+ BB7Gba36bgKDxoox/bJ07qcPMEuqlnnOz2FsRc6qK3KYTTU/PhdcyiUfQDMngmYb0ga0 2w== 
+Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10lp2103.outbound.protection.outlook.com [104.47.70.103])
+	by mx0b-00010702.pphosted.com with ESMTP id 3akvfgsvv7-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <meta-virtualization@lists.yoctoproject.org>; Mon, 23 Aug 2021 14:20:25 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=l+MJkT0qmoLGs7WynSpqv/XCO7yuX5AKyTy+O7vFdkPoHFHdc8ebG2Qx7NxkOnhq5hXUpsRfifBbmsNXtIqtS1ecnxrlNYaVB5hfgqYk16gZUmjicVqlkIeoGhkmR4bW3S9d9lretNmBakJ90fFL/oLkbeGxOGOlYTPj1FXsDiTvx7oMSXAWr87KJcf/DEYr3w+b5fXlQo7s6nZOWREt5dNOOxtPM3gHn1tu46Gd4G1OntQxYg5cAQ27zPgEVXwGes1A9iEHZk/dDe113qkqc162X8ZN4Nz2tV7dCSGF+jCB+EtQ+yB3rV2VueIA5jKQ/QmMiKdwlJg1PtgECepubQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=E35OKTr4S0kYR24uPT1iGxxpZld1lOi68TrEU2IIyw0=;
+ b=i8kBP93Znl/Svk6JdsduxFCYW3iGpHJVnNj0JhMk2eZCinNFX+VEhAQJxohEbITyieUmhqXqtbaEkB1/cvLyn8TZnfNaw3/npEwqzLFe+SDkD5EcfmWfTBMOlNOs9Riv+pAyPayZK7+FnmH1CSfLrQWH+fJd7CHSfIDO/d7JA3PCfL0SPfhL/fr7h7xb5QO+KByVHuM4FpLIoAN1Uf5pIwYQLEdpuydySYUmmu20hkjp45rG0zJXqWysts/m/3Iml/y9rdO9sVX7NM2LcARZIV2CyM8nOh1uhMhMJx29lMlZTBvyVxyjiliTT7SA97MYaBrSgQuQXVQ/TtPTxabL3A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=ni.com; dmarc=pass action=none header.from=ni.com; dkim=pass
+ header.d=ni.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=H9JL1IqkRkFEdA2QhtjoUxa8MEd5BlI8YjPDueunZhc=;
-        b=ey7N8bQ+YRx+Qi2ob+QXh770NmW2NtxELgnqDyzd0WAfskodbFKJ6nUhzBeIwJM2Rd
-         J9+rdkZUWW3+HNzA5p4W+iVT9lTz2sSEMoI1ZT0jvxsxF3ry58D8wnIAeIfFO0nIqJNe
-         wujRjpo7uMf6xeBlVsdlyWJarLB0Oys+UJqqSZ6Xyz6ZShC9EownxWUnajumy6y0yg8v
-         teSTW4qCGrtSFEVzyHhlcgrHv6y2mCgYM50tbxUl8tJhPL68s5INbeuE3hJMVlthRXIv
-         +0aDjW0kF5Ldw2dDm2z7txMhL2NLbicq4TjSJHbILr1FV8fFwUf6jMbTvtugPeieWoA1
-         +ejA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=H9JL1IqkRkFEdA2QhtjoUxa8MEd5BlI8YjPDueunZhc=;
-        b=kGLt7vEElkoxJ+IovihqMzzQEFv/2Rn0/Nzj0wrj5pdCxXHWxn/5iyP1YhmM9htiIy
-         5fU2guGVkM0qC/21JMU7QuTkmWYafsTgmtASE/eyYYj/KqGLRT5rv9ajGa+sonfhjU5m
-         dHkmbH57raYUYDjeOq/ncp4Jt7olonDLtW58Ge5t1phAiX4fUcryUQN1JulDbOrPeSS2
-         OjXOdEPvwTZeq4yZlQqCbsPgUD6GhE0mi30P7dTKKh9/IZbPVcQ6fGlPMhDOxSuVD4r3
-         egOkz8FlCN1ut/K2+8kQiQP3JeAAeHvzG8LG0gAFUAhA8KGXnyr9IiOA5/yLmbRDUFFB
-         msJw==
-X-Gm-Message-State: AOAM532V6ayXELDAt9p2LqgaZFBYxT+s93xpeX6VVe/5DEltsuSjPXkF
-	b10Fca/swhpBaCBs59bUj8LZ1s1hiACEpr2fgZE=
-X-Google-Smtp-Source: ABdhPJy+M9GrwDHFmWVhWYB8ZDz+RtQ7y6kVrSvEoHE697leIaBd5brIHrqkebzN6h/1OIDL3x8Vmz+R2EFNsQCS3LI=
-X-Received: by 2002:a17:907:1b29:: with SMTP id mp41mr7553298ejc.459.1629256888464;
- Tue, 17 Aug 2021 20:21:28 -0700 (PDT)
+ d=nio365.onmicrosoft.com; s=selector2-nio365-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=E35OKTr4S0kYR24uPT1iGxxpZld1lOi68TrEU2IIyw0=;
+ b=fb4wKpASMlxNkV+nJYJh7ReomSkil6w3YWj7vZS+L6zqEU+n1SLxbYv70fb9tBdPhdLAROgrJk0sMPVukl0/KaW70t95glOeFbetXs6IYGRCd4okYOxV0LxgvXCyLV+TXHgrV4AKzZKlVCTtYlaNS5VoT1El9cFGtpRUqO7dn+4=
+Authentication-Results: lists.yoctoproject.org; dkim=none (message not signed)
+ header.d=none;lists.yoctoproject.org; dmarc=none action=none
+ header.from=ni.com;
+Received: from SN6PR04MB5151.namprd04.prod.outlook.com (2603:10b6:805:90::25)
+ by SN6PR04MB4733.namprd04.prod.outlook.com (2603:10b6:805:a5::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.19; Mon, 23 Aug
+ 2021 19:20:23 +0000
+Received: from SN6PR04MB5151.namprd04.prod.outlook.com
+ ([fe80::8cec:8bf4:cce0:906b]) by SN6PR04MB5151.namprd04.prod.outlook.com
+ ([fe80::8cec:8bf4:cce0:906b%3]) with mapi id 15.20.4436.024; Mon, 23 Aug 2021
+ 19:20:23 +0000
+From: "Alex Stewart" <alex.stewart@ni.com>
+To: meta-virtualization@lists.yoctoproject.org
+Cc: Alex Stewart <alex.stewart@ni.com>
+Subject: [meta-virtualization][m-c-s][PATCH 1/2] salt: correct LICENSE md5sum
+Date: Mon, 23 Aug 2021 14:19:31 -0500
+Message-Id: <20210823191932.2555152-1-alex.stewart@ni.com>
+X-Mailer: git-send-email 2.32.0
+X-ClientProxiedBy: YT1PR01CA0031.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01::44)
+ To SN6PR04MB5151.namprd04.prod.outlook.com (2603:10b6:805:90::25)
 MIME-Version: 1.0
-References: <1629255157-40026-1-git-send-email-wangmy@fujitsu.com>
-In-Reply-To: <1629255157-40026-1-git-send-email-wangmy@fujitsu.com>
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Tue, 17 Aug 2021 23:21:17 -0400
-Message-ID: <CADkTA4OG2+xwNjs3WEy=bb+WwP2CiDATiZooPbO-pSBNt6wEXg@mail.gmail.com>
-Subject: Re: [meta-virtualization] [PATCH] Convert to new override syntax
-To: wangmy <wangmy@fujitsu.com>
-Cc: meta-virtualization@lists.yoctoproject.org
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from 41d17.amer.corp.natinst.com (37.19.213.70) by YT1PR01CA0031.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01::44) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.19 via Frontend Transport; Mon, 23 Aug 2021 19:20:23 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: d8d90a52-3f74-4112-688d-08d9666b0e2b
+X-MS-TrafficTypeDiagnostic: SN6PR04MB4733:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: 
+	<SN6PR04MB4733D828783FEA4774276846FEC49@SN6PR04MB4733.namprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:255;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	eyopOao1FPycDYgzPelLhVG7HZSohxv2YVYRXl+cFxlpl59NwtxRFWvTEMfdPpQwuPlVW98OZ7TUFEQW/FSm5VAtr+XctNAkwDj198+ycASFmLhN2eBeD2tgh/hqqoMjbKqNmkp6uiFWzU4NSijeFJk/Nj64pNx7A0K8S1CLtLlElygIv+RQUYjxCZXTBlgS8ywj1gWa2lZyNYY6hb//ZOw3n0BGD0JJa/2PFuw2kFWw/JvOMBb4B7XeJAom9hVGVUXknMMScB7BMmp+zPRi9+sDlQGLBQK2UvamUvU2v7hEevMn0Ig6rwd9iF2omOTXdjr3WPEx+rqYE0eGR+jdD82eLS5eZmv26OuV2WutZkoNFrRFFX+6ujAM/2myTUDUWmYbPctJ0zifR8rrqNc/B69cLcfDTKoBYL4Ag6jqzq6Y1dN30VEuBLGls04vhiHe8c2Rlyb9LfN0E5qzbf0gOJ5dkYRExKow60QuIVEHOZvPJ1JNuSloFfm/KkYFVey4Danm2Zc6xQTXpGGkb2LLKO8ZxyiP3V9vrzzytDm6WyXOKFZtlJ2UVhR0eLAYteFSwZYy8Ifb97ZdfqDy+OWHkqi6Uz83xExpAASAOnF0KbSWVSjwwqnwFWvrui+LjBbuMMraTiDNsOnlsdJSrXDXr3OUCx0EEH7GNIsYjUF2swsxJ478mh0MSigBAmjc+9vTzJyscFYwe073zntBh8TvKXyc7zBIJcLPXo1SvKcmPSxY/il+doMA3F5GxoBih4MdrfgUkQzV08m7j1Eb5hXlpKf/1EIhxhPv3DqZeanp+WEt45yAJC8kBSsBnkr5AFMe
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR04MB5151.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(6666004)(44832011)(26005)(66946007)(36756003)(2906002)(52116002)(6486002)(956004)(2616005)(5660300002)(66476007)(38350700002)(38100700002)(8676002)(86362001)(6512007)(1076003)(186003)(8936002)(6506007)(6916009)(4326008)(316002)(508600001)(83380400001)(66556008)(32563001);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?R0V2jCnSoxCvA5h3BX6qRsK00y74RLdLACN6j+KyJoAEWjnf6UdLr35XEv//?=
+ =?us-ascii?Q?/OdAklA5CvQq4Cyzng4+5QaP6Cq9T4g6p7ZlVMyDX8ntcuxznaicvMfUJbdM?=
+ =?us-ascii?Q?CDn7o5YWI3wi0DcJ226QZXcMASCUjEQl9SQQs9JIfFGCDSIXPHxIYKZ8BEtf?=
+ =?us-ascii?Q?7vaH3vRQI3u0SWI9SqqWGBWCa4RlzWCf5mzNdPuayEOWi+JSc9mXUqmEf2jW?=
+ =?us-ascii?Q?KDyQUc0XyBsV9tYZeL2+9hkg59A/1ukM47971bnmLgUuOYMM7IdCtQ2SrInV?=
+ =?us-ascii?Q?LhdXzTw0/hfy4dlfGjtC44QRqptuadLn/D5qDLWOpjv9bSpKqSr2eoWOnRW7?=
+ =?us-ascii?Q?+vg8CHVlGBZc8tB9YrOFvUYBkplas5rrNQQqO4wpNKhbij0KRtsGhOcar7uB?=
+ =?us-ascii?Q?Na1+PqhCCbuBXIOna85WW+qC4AYIKOzlCRoRcvcLpeisOKoTH6BT9Uz1RPfz?=
+ =?us-ascii?Q?tlF2GYMFjertStXSWkHVr3YrgbcYf1zHZqBkStQasrSa378jHey+PMTtyKFK?=
+ =?us-ascii?Q?HZNlp4yjUdwLNU/2Bz+fWNG+kfALCcH8ay5IQR/p21k13sou4yPlyGlljTB1?=
+ =?us-ascii?Q?4UqoQBTh8rRxB7TSjc/nwiIrUZ9/M6cK0wvQ3QISABMdqd30OuVgHYfilKLW?=
+ =?us-ascii?Q?kZdFY5qotUKEl4ioRaTGdBCJLpVDp2MW12VEUEfq3KgWlWo05VlSsvESFm8K?=
+ =?us-ascii?Q?PArfdWO9TopKtAjxeG3++Ce2R+Gq3zNUrEjlICo0GnD4VQ9+9F1rFnz9t3/l?=
+ =?us-ascii?Q?qLcdCCKKXx9ZCiy1g492rBaeUJvfsQyNU0RoF4XmYfPCBMldX6lxjI/ZgapA?=
+ =?us-ascii?Q?uSvYHJUMp2gNuwoDPU1hSQl1bRdsh2LuPCSMnlMEOg807xksigqfIbhDg+tk?=
+ =?us-ascii?Q?ughYX5kwK6NfALlKK0QsSS/ePC4Fci4Abs/6VpI+/szMshLNtbOzk5PfNSI3?=
+ =?us-ascii?Q?Q6DeNFv6Pht91eK6K5DHfH9BhkMYQJebnUb/H1KoYhzMzvQKKs9r7py4TCNP?=
+ =?us-ascii?Q?MAy/h+zHTWEAMJ7L1u3ZEsJ4GVHDRmpuTXESDjia19KTPqd/LiIdY3ev632+?=
+ =?us-ascii?Q?oEmkBGhir5ppi/QuD5DISKS1WKK410MoxGlJ8V2xY9gf3HIuqcOhRKaDnoyN?=
+ =?us-ascii?Q?KIIdRMPyRQYp8HqNmXdtPkiFyNeb8Nr3sD4bBOuH373wZ+7AuP7HXToFWMCk?=
+ =?us-ascii?Q?jRTPqQRxYgoBtihKTvaFvOMbH/4OC0YSPsh04n5vSIl7Wgzqgf0s3Lxtb/e5?=
+ =?us-ascii?Q?95ly9i3r2pf9EXJcfBn5RfEDWs8vrVvL5a8B/H/YI5TjgdRqb1oBaBFPXFFH?=
+ =?us-ascii?Q?cayrUwm85Go1VacnyafqJ09g?=
+X-OriginatorOrg: ni.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d8d90a52-3f74-4112-688d-08d9666b0e2b
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR04MB5151.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Aug 2021 19:20:23.7164
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 87ba1f9a-44cd-43a6-b008-6fdb45a5204e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Gg++O3qKq5/ALAN/gyeMAILSL4Arb92mWx+BWDiWfxcO4GRoO1IUou5g0bDvemNf2/7xM1x5/i8TpPgHnI7H9Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR04MB4733
+X-Proofpoint-ORIG-GUID: tJ2BEpgx14jkJ75l4omq81LobCIuTeNe
+X-Proofpoint-GUID: tJ2BEpgx14jkJ75l4omq81LobCIuTeNe
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.391,FMLib:17.0.607.475
+ definitions=2021-08-23_04,2021-08-23_01,2020-04-07_01
+X-Proofpoint-Spam-Details: rule=outbound_policy_notspam policy=outbound_policy score=30 phishscore=0
+ clxscore=1011 lowpriorityscore=0 impostorscore=0 spamscore=0
+ priorityscore=1501 bulkscore=0 adultscore=0 mlxscore=0 suspectscore=0
+ mlxlogscore=999 malwarescore=0 classifier=spam adjust=30 reason=mlx
+ scancount=1 engine=8.12.0-2107140000 definitions=main-2108230132
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-I have similar patches queued on master-next, but was only able to
-complete testing on them today (since I was on vacation). I've now
-merged master-next to master.
+The md5sum "ac9a49d8..." has never been a salt LICENSE file hashsum.
+Salt_3001 verification therefore fails after fetch.
 
-If I've missed something, feel free to send follow up changes.
+Set the LICENSE file hashsum to the correct value as of salt upstream
+commit a1d07e9cc5d84895468bf360390754c4d68308d9 - which services salt
+3001.
 
-Bruce
+Signed-off-by: Alex Stewart <alex.stewart@ni.com>
+---
+ meta-openstack/recipes-support/salt/salt_3001.1.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On Tue, Aug 17, 2021 at 10:53 PM wangmy <wangmy@fujitsu.com> wrote:
->
-> This is the result of automated script (0.9.1) conversion:
->
-> oe-core/scripts/contrib/convert-overrides.py .
->
-> converting the metadata to use ":" as the override character instead of "_".
->
-> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-> ---
->  .../python/python-neutron_git.bbappend                 |  4 ++--
->  .../recipes-devtools/python/python-cinder_git.bbappend |  6 +++---
->  .../recipes-devtools/python/python-glance_git.bbappend |  4 ++--
->  .../python/python-neutron_git.bbappend                 |  4 ++--
->  .../recipes-devtools/python/python-nova_git.bbappend   |  4 ++--
->  .../python/python-ceilometer_git.bbappend              |  2 +-
->  .../recipes-devtools/python/python-nova_git.bbappend   |  2 +-
->  meta-openstack/Documentation/README.OpenLDAP           |  2 +-
->  meta-openstack/README                                  |  2 +-
->  meta-openstack/README.setup                            |  6 +++---
->  meta-openstack/classes/identity.bbclass                |  2 +-
->  meta-openstack/classes/rmargparse.bbclass              |  2 +-
->  .../open-iscsi/open-iscsi-kernel_2.0-873.bb            |  2 +-
->  .../open-iscsi/open-iscsi-user_2.1.4.bb                |  4 ++--
->  .../recipes-connectivity/openssh/openssh_openstack.inc |  4 ++--
->  .../recipes-core/base-files/base-files_openstack.inc   |  4 ++--
->  .../recipes-core/initscripts/initscripts_openstack.inc |  2 +-
->  .../recipes-dbs/postgresql/postgresql_openstack.inc    |  4 ++--
->  .../recipes-devtools/erlang/erlang-native_R15B.bb      |  4 ++--
->  .../recipes-devtools/erlang/erlang-native_R16B03-1.bb  |  4 ++--
->  meta-openstack/recipes-devtools/erlang/erlang_R15B.bb  | 10 +++++-----
->  .../recipes-devtools/erlang/erlang_R16B03-1.bb         | 10 +++++-----
->  .../erlang/nativesdk-erlang_R16B03-1.bb                |  6 +++---
->  .../recipes-devtools/python/python-barbican_git.bb     |  2 +-
->  .../recipes-devtools/python/python-ceilometer_git.bb   |  4 ++--
->  .../recipes-devtools/python/python-cinder_git.bb       |  2 +-
->  .../recipes-devtools/python/python-cinderclient_git.bb |  2 +-
->  .../recipes-devtools/python/python-glance_git.bb       |  4 ++--
->  .../recipes-devtools/python/python-heat_git.bb         |  2 +-
->  .../recipes-devtools/python/python-heatclient_git.bb   |  2 +-
->  .../recipes-devtools/python/python-horizon_git.bb      |  2 +-
->  .../python/python-keystone-hybrid-backend_git.bb       |  2 +-
->  .../recipes-devtools/python/python-keystone_git.bb     |  2 +-
->  .../recipes-devtools/python/python-neutron_git.bb      |  2 +-
->  .../python/python-neutronclient_git.bb                 |  2 +-
->  .../recipes-devtools/python/python-nova_git.bb         |  4 ++--
->  .../recipes-devtools/python/python-novaclient_git.bb   |  2 +-
->  .../recipes-devtools/python/python-oauth2_1.5.211.bb   |  2 +-
->  .../recipes-devtools/python/python-oauthlib_0.7.2.bb   |  2 +-
->  .../recipes-devtools/python/python-rally_git.bb        |  2 +-
->  .../recipes-devtools/python/python-swift_git.bb        |  2 +-
->  meta-openstack/recipes-devtools/python/python-tox.inc  |  2 +-
->  .../recipes-devtools/python/python-trove_git.bb        |  4 ++--
->  .../recipes-devtools/python/python-troveclient_git.bb  |  2 +-
->  .../python/python3-django-compressor_2.1.bb            |  2 +-
->  .../recipes-devtools/python/python3-falcon_2.0.0.bb    |  2 +-
->  .../recipes-devtools/python/python3-happybase_1.2.0.bb |  2 +-
->  .../python/python3-keystoneclient_git.bb               |  2 +-
->  .../python/python3-requestsexceptions_1.4.0.bb         |  2 +-
->  .../python/python3-setuptools-git_1.2.bb               |  2 +-
->  .../python/python3-swiftclient_3.10.0.bb               |  2 +-
->  meta-openstack/recipes-devtools/ruby/erubis_git.bb     |  2 +-
->  meta-openstack/recipes-devtools/ruby/fluentd_1.9.2.bb  |  2 +-
->  .../recipes-devtools/ruby/http-parser.rb_0.6.0.bb      |  2 +-
->  .../recipes-extended/images/openstack-image-aio.bb     |  2 +-
->  .../recipes-extended/images/openstack-image-compute.bb |  2 +-
->  .../images/openstack-image-controller.bb               |  2 +-
->  .../recipes-extended/libpam/libpam_openstack.inc       |  4 ++--
->  .../recipes-extended/libvirt/libvirt_openstack.inc     |  4 ++--
->  .../recipes-extended/lighttpd/lighttpd_openstack.inc   |  2 +-
->  meta-openstack/recipes-extended/qpid/qpid_0.20.bb      |  2 +-
->  meta-openstack/recipes-extended/tempest/tempest_git.bb |  2 +-
->  .../recipes-kernel/linux/linux-yocto_openstack.inc     |  2 +-
->  meta-openstack/recipes-support/chef/chef_git.bb        |  2 +-
->  .../recipes-support/dnsmasq/dnsmasq_openstack.inc      |  2 +-
->  .../recipes-support/iproute2/iproute2_openstack.inc    |  2 +-
->  .../recipes-support/memcached/memcached_1.5.3.bb       |  2 +-
->  .../recipes-support/mod-wsgi/mod-wsgi_git.bb           |  2 +-
->  .../recipes-support/openldap/openldap_openstack.inc    |  4 ++--
->  meta-openstack/recipes-support/salt/salt_3001.1.bb     |  4 ++--
->  recipes-connectivity/consul/consul_git.bb              |  6 +++---
->  recipes-devtools/python/python-ansible.inc             |  2 +-
->  recipes-extended/glusterfs/glusterfs.inc               |  6 +++---
->  recipes-extended/librdmacm/librdmacm_1.1.0.bb          |  2 +-
->  recipes-support/nss-pam-ldapd/nss-pam-ldapd_0.9.8.bb   |  4 ++--
->  recipes-support/openldap/openldap_2.4.39.bb            |  2 +-
->  recipes-support/puppet-vswitch/puppet-vswitch_git.bb   |  2 +-
->  recipes-support/puppet/puppet_5.4.0.bb                 |  2 +-
->  recipes-support/spice/spice_git.bb                     |  4 ++--
->  79 files changed, 117 insertions(+), 117 deletions(-)
->
-> diff --git a/meta-openstack-compute-test-config/recipes-devtools/python/python-neutron_git.bbappend b/meta-openstack-compute-test-config/recipes-devtools/python/python-neutron_git.bbappend
-> index 60e70fca..a34ba055 100644
-> --- a/meta-openstack-compute-test-config/recipes-devtools/python/python-neutron_git.bbappend
-> +++ b/meta-openstack-compute-test-config/recipes-devtools/python/python-neutron_git.bbappend
-> @@ -1,10 +1,10 @@
-> -FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
-> +FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}:"
->
->  SRC_URI += " file://neutron-test-config.init"
->
->  NEUTRON_CONF_EXT_ETH_IF ?= "eth0"
->
-> -do_install_append() {
-> +do_install:append() {
->      sed -e "s:%NEUTRON_CONF_EXT_ETH_IF%:${NEUTRON_CONF_EXT_ETH_IF}:g" -i ${WORKDIR}/neutron-test-config.init
->      sed -e "s:%COMPUTE_IP%:${COMPUTE_IP}:g" -i ${WORKDIR}/neutron-test-config.init
->      install -m 0755 ${WORKDIR}/neutron-test-config.init ${D}${sysconfdir}/init.d/neutron-test-config
-> diff --git a/meta-openstack-controller-test-config/recipes-devtools/python/python-cinder_git.bbappend b/meta-openstack-controller-test-config/recipes-devtools/python/python-cinder_git.bbappend
-> index 50033364..121f7e73 100644
-> --- a/meta-openstack-controller-test-config/recipes-devtools/python/python-cinder_git.bbappend
-> +++ b/meta-openstack-controller-test-config/recipes-devtools/python/python-cinder_git.bbappend
-> @@ -1,13 +1,13 @@
-> -FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
-> +FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}:"
->
->  SRC_URI += " file://cinder-test-config.init"
->
-> -do_install_prepend() {
-> +do_install:prepend() {
->      # Remove nfs cinder-volume backend driver
->      sed -e "s/nfsdriver,//" -i ${WORKDIR}/cinder.conf
->  }
->
-> -do_install_append() {
-> +do_install:append() {
->      install -m 0755 ${WORKDIR}/cinder-test-config.init ${D}${sysconfdir}/init.d/cinder-test-config
->  }
->
-> diff --git a/meta-openstack-controller-test-config/recipes-devtools/python/python-glance_git.bbappend b/meta-openstack-controller-test-config/recipes-devtools/python/python-glance_git.bbappend
-> index 1c89d517..f3b32f2a 100644
-> --- a/meta-openstack-controller-test-config/recipes-devtools/python/python-glance_git.bbappend
-> +++ b/meta-openstack-controller-test-config/recipes-devtools/python/python-glance_git.bbappend
-> @@ -1,8 +1,8 @@
-> -FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
-> +FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}:"
->
->  SRC_URI += " file://glance-test-config.init"
->
-> -do_install_append() {
-> +do_install:append() {
->      install -m 0755 ${WORKDIR}/glance-test-config.init ${D}${sysconfdir}/init.d/glance-test-config
->  }
->
-> diff --git a/meta-openstack-controller-test-config/recipes-devtools/python/python-neutron_git.bbappend b/meta-openstack-controller-test-config/recipes-devtools/python/python-neutron_git.bbappend
-> index 2276456f..aa880bc4 100644
-> --- a/meta-openstack-controller-test-config/recipes-devtools/python/python-neutron_git.bbappend
-> +++ b/meta-openstack-controller-test-config/recipes-devtools/python/python-neutron_git.bbappend
-> @@ -1,10 +1,10 @@
-> -FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
-> +FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}:"
->
->  SRC_URI += " file://neutron-test-config.init"
->
->  NEUTRON_CONF_EXT_ETH_IF ?= "eth0"
->
-> -do_install_append() {
-> +do_install:append() {
->      sed -e "s:%NEUTRON_CONF_EXT_ETH_IF%:${NEUTRON_CONF_EXT_ETH_IF}:g" -i ${WORKDIR}/neutron-test-config.init
->      sed -e "s:%CONTROLLER_IP%:${CONTROLLER_IP}:g" -i ${WORKDIR}/neutron-test-config.init
->      install -m 0755 ${WORKDIR}/neutron-test-config.init ${D}${sysconfdir}/init.d/neutron-test-config
-> diff --git a/meta-openstack-controller-test-config/recipes-devtools/python/python-nova_git.bbappend b/meta-openstack-controller-test-config/recipes-devtools/python/python-nova_git.bbappend
-> index c01d6497..208fc88b 100644
-> --- a/meta-openstack-controller-test-config/recipes-devtools/python/python-nova_git.bbappend
-> +++ b/meta-openstack-controller-test-config/recipes-devtools/python/python-nova_git.bbappend
-> @@ -1,8 +1,8 @@
-> -FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
-> +FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}:"
->
->  SRC_URI += " file://nova-test-config.init"
->
-> -do_install_append() {
-> +do_install:append() {
->      install -m 0755 ${WORKDIR}/nova-test-config.init ${D}${sysconfdir}/init.d/nova-test-config
->  }
->
-> diff --git a/meta-openstack-qemu/recipes-devtools/python/python-ceilometer_git.bbappend b/meta-openstack-qemu/recipes-devtools/python/python-ceilometer_git.bbappend
-> index 5d45d629..e4edfde7 100644
-> --- a/meta-openstack-qemu/recipes-devtools/python/python-ceilometer_git.bbappend
-> +++ b/meta-openstack-qemu/recipes-devtools/python/python-ceilometer_git.bbappend
-> @@ -1,4 +1,4 @@
-> -do_install_append() {
-> +do_install:append() {
->      if [ ! -f "${WORKDIR}/ceilometer.conf" ]; then
->          return
->      fi
-> diff --git a/meta-openstack-qemu/recipes-devtools/python/python-nova_git.bbappend b/meta-openstack-qemu/recipes-devtools/python/python-nova_git.bbappend
-> index b2e3dff0..42e2fbae 100644
-> --- a/meta-openstack-qemu/recipes-devtools/python/python-nova_git.bbappend
-> +++ b/meta-openstack-qemu/recipes-devtools/python/python-nova_git.bbappend
-> @@ -1,4 +1,4 @@
-> -do_install_append() {
-> +do_install:append() {
->      if [ ! -f "${WORKDIR}/nova.conf" ]; then
->          return
->      fi
-> diff --git a/meta-openstack/Documentation/README.OpenLDAP b/meta-openstack/Documentation/README.OpenLDAP
-> index 06e186ea..a45b7691 100644
-> --- a/meta-openstack/Documentation/README.OpenLDAP
-> +++ b/meta-openstack/Documentation/README.OpenLDAP
-> @@ -6,7 +6,7 @@ OpenLDAP into DISTRO_FEATURES
->
->  e.g. in conf/local.conf
->
-> -DISTRO_FEATURES_append += " OpenLDAP"
-> +DISTRO_FEATURES:append += " OpenLDAP"
->
->  A number of variables can be specified during the build phase that configures
->  OpenLDAP specific options:
-> diff --git a/meta-openstack/README b/meta-openstack/README
-> index cd1c2e75..127e8142 100644
-> --- a/meta-openstack/README
-> +++ b/meta-openstack/README
-> @@ -9,7 +9,7 @@ The bbappend files for some recipes (e.g. postgresql) and preferred version sett
->  (e.g. python-networkx)in this layer need to have 'openstack' in DISTRO_FEATURES to
->  have effect. To enable them, add in configuration file the following line.
->
-> -  DISTRO_FEATURES_append = " openstack"
-> +  DISTRO_FEATURES:append = " openstack"
->
->  If meta-openstack is included, but openstack is not enabled as a
->  distro feature a warning is printed at parse time:
-> diff --git a/meta-openstack/README.setup b/meta-openstack/README.setup
-> index b02ebf69..d1a47034 100644
-> --- a/meta-openstack/README.setup
-> +++ b/meta-openstack/README.setup
-> @@ -88,14 +88,14 @@ to the bblayers.conf file:
->  initialized you have to append the necessary variables to ensure that
->  systemd will be used in your images:
->
-> -    DISTRO_FEATURES_append = " systemd"
-> +    DISTRO_FEATURES:append = " systemd"
->      DISTRO_FEATURES_BACKFILL_CONSIDERED += "sysvinit"
->      VIRTUAL-RUNTIME_init_manager = "systemd"
->      VIRTUAL-RUNTIME_initscripts = "systemd-compat-units"
->
->  Additionally activiate the meta-virtualization layer:
->
-> -    DISTRO_FEATURES_append += "virtualization kvm"
-> +    DISTRO_FEATURES:append += "virtualization kvm"
->
->
->  Package configurations
-> @@ -120,7 +120,7 @@ bblayers.conf file, after the node type deployment layer.
->  If a sample guest image is desired on a control node, the following can
->  be added to local.conf:
->
-> -  IMAGE_INSTALL_append = " cirros-guest-image"
-> +  IMAGE_INSTALL:append = " cirros-guest-image"
->
->  * Cinder Additional Packages *
->
-> diff --git a/meta-openstack/classes/identity.bbclass b/meta-openstack/classes/identity.bbclass
-> index 1f4f408e..66998759 100644
-> --- a/meta-openstack/classes/identity.bbclass
-> +++ b/meta-openstack/classes/identity.bbclass
-> @@ -152,7 +152,7 @@ def servicecreate_param(d, pkg):
->      return service_param
->
->  # Add the postinst script into the generated package
-> -python populate_packages_append () {
-> +python populate_packages:append () {
->      servicecreate_packages = d.getVar('SERVICECREATE_PACKAGES', True) or ""
->
->      servicecreate_postinst_common_copy = d.getVar('servicecreate_postinst_common', True)
-> diff --git a/meta-openstack/classes/rmargparse.bbclass b/meta-openstack/classes/rmargparse.bbclass
-> index 65d84595..e3930cea 100644
-> --- a/meta-openstack/classes/rmargparse.bbclass
-> +++ b/meta-openstack/classes/rmargparse.bbclass
-> @@ -1,3 +1,3 @@
-> -do_install_append() {
-> +do_install:append() {
->      sed -i '/argparse/d' ${D}${libdir}/python2.7/site-packages/*/requires.txt
->  }
-> diff --git a/meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-kernel_2.0-873.bb b/meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-kernel_2.0-873.bb
-> index 8d514601..69412349 100644
-> --- a/meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-kernel_2.0-873.bb
-> +++ b/meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-kernel_2.0-873.bb
-> @@ -1,7 +1,7 @@
->  DESCRIPTION = "Open-iSCSI project is a high performance, transport independent, multi-platform implementation of RFC3720."
->  HOMEPAGE = "http://www.open-iscsi.org/"
->  LICENSE = "GPL"
-> -MACHINE_KERNEL_PR_append = "a"
-> +MACHINE_KERNEL_PR:append = "a"
->  PR = "r2"
->
->  LIC_FILES_CHKSUM = "file://COPYING;md5=393a5ca445f6965873eca0259a17f833"
-> diff --git a/meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-user_2.1.4.bb b/meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-user_2.1.4.bb
-> index b71d8dc1..7d046fcc 100644
-> --- a/meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-user_2.1.4.bb
-> +++ b/meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-user_2.1.4.bb
-> @@ -7,7 +7,7 @@ inherit systemd autotools pkgconfig
->
->  LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
->  DEPENDS = "kmod openssl util-linux open-isns"
-> -DEPENDS_append = " ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)}"
-> +DEPENDS:append = " ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)}"
->
->  SRC_URI = "git://github.com/open-iscsi/open-iscsi.git;protocol=https   \
->             file://0001-fix-build-error-of-cross-build.patch \
-> @@ -54,7 +54,7 @@ SYSTEMD_SERVICE_${PN}-systemd = "iscsi.service \
->                                   iscsid.socket \
->                                   iscsiuio.socket "
->
-> -do_install_append () {
-> +do_install:append () {
->          install -d ${D}${systemd_unitdir}/system
->          install -m 0644 ${S}/etc/systemd/* ${D}${systemd_unitdir}/system/
->  }
-> diff --git a/meta-openstack/recipes-connectivity/openssh/openssh_openstack.inc b/meta-openstack/recipes-connectivity/openssh/openssh_openstack.inc
-> index 5c0d724f..0244ae32 100644
-> --- a/meta-openstack/recipes-connectivity/openssh/openssh_openstack.inc
-> +++ b/meta-openstack/recipes-connectivity/openssh/openssh_openstack.inc
-> @@ -1,9 +1,9 @@
-> -FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
-> +FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
->
->  SRC_URI += "file://mcs-sshd"
->  SRC_URI += "file://mcs-sshd_config"
->
-> -do_install_append() {
-> +do_install:append() {
->      if ${@bb.utils.contains('DISTRO_FEATURES', 'OpenLDAP', 'true', 'false', d)}; then
->          install -D -m 644 ${WORKDIR}/mcs-sshd ${D}/etc/pam.d/sshd
->          install -D -m 644 ${WORKDIR}/mcs-sshd_config ${D}/etc/ssh/sshd_config
-> diff --git a/meta-openstack/recipes-core/base-files/base-files_openstack.inc b/meta-openstack/recipes-core/base-files/base-files_openstack.inc
-> index 0a1b1604..d69bc792 100644
-> --- a/meta-openstack/recipes-core/base-files/base-files_openstack.inc
-> +++ b/meta-openstack/recipes-core/base-files/base-files_openstack.inc
-> @@ -1,11 +1,11 @@
-> -FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
-> +FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
->
->  SRC_URI += "file://nsswitch.conf"
->
->  PACKAGECONFIG ?= "${@bb.utils.contains('DISTRO_FEATURES', 'OpenLDAP', 'OpenLDAP', '', d)}"
->  PACKAGECONFIG[OpenLDAP] = ",,,nss-pam-ldapd"
->
-> -do_install_append() {
-> +do_install:append() {
->      if ${@bb.utils.contains('DISTRO_FEATURES', 'OpenLDAP', 'true', 'false', d)}; then
->          install -m 755 -d ${D}/etc/
->          install -m 644 ${WORKDIR}/nsswitch.conf ${D}/etc/
-> diff --git a/meta-openstack/recipes-core/initscripts/initscripts_openstack.inc b/meta-openstack/recipes-core/initscripts/initscripts_openstack.inc
-> index 21749974..39308672 100644
-> --- a/meta-openstack/recipes-core/initscripts/initscripts_openstack.inc
-> +++ b/meta-openstack/recipes-core/initscripts/initscripts_openstack.inc
-> @@ -1,4 +1,4 @@
-> -do_install_append() {
-> +do_install:append() {
->
->         echo                  >> ${D}${sysconfdir}/init.d/functions
->         echo init_is_upstart \(\) \{  >> ${D}${sysconfdir}/init.d/functions
-> diff --git a/meta-openstack/recipes-dbs/postgresql/postgresql_openstack.inc b/meta-openstack/recipes-dbs/postgresql/postgresql_openstack.inc
-> index 3de5845b..4d55007d 100644
-> --- a/meta-openstack/recipes-dbs/postgresql/postgresql_openstack.inc
-> +++ b/meta-openstack/recipes-dbs/postgresql/postgresql_openstack.inc
-> @@ -1,4 +1,4 @@
-> -FILESEXTRAPATHS_prepend := "${THISDIR}/postgresql:"
-> +FILESEXTRAPATHS:prepend := "${THISDIR}/postgresql:"
->
->  SRC_URI += " \
->      file://postgresql-init \
-> @@ -12,7 +12,7 @@ SYSTEMD_AUTO_ENABLE_${PN} = "enable"
->  # default
->  DB_DATADIR ?= "/var/lib/postgres/data"
->
-> -do_install_append() {
-> +do_install:append() {
->      D_DEST_DIR=${D}${sysconfdir}/postgresql
->
->      install -d ${D_DEST_DIR}
-> diff --git a/meta-openstack/recipes-devtools/erlang/erlang-native_R15B.bb b/meta-openstack/recipes-devtools/erlang/erlang-native_R15B.bb
-> index 435795fd..f4cad839 100644
-> --- a/meta-openstack/recipes-devtools/erlang/erlang-native_R15B.bb
-> +++ b/meta-openstack/recipes-devtools/erlang/erlang-native_R15B.bb
-> @@ -16,11 +16,11 @@ do_configure() {
->         oe_runconf
->  }
->
-> -do_compile_prepend() {
-> +do_compile:prepend() {
->      export TARGET=${HOST_SYS}
->  }
->
-> -do_install_prepend() {
-> +do_install:prepend() {
->      export TARGET=${HOST_SYS}
->  }
->
-> diff --git a/meta-openstack/recipes-devtools/erlang/erlang-native_R16B03-1.bb b/meta-openstack/recipes-devtools/erlang/erlang-native_R16B03-1.bb
-> index 61fc027d..6f3ca463 100644
-> --- a/meta-openstack/recipes-devtools/erlang/erlang-native_R16B03-1.bb
-> +++ b/meta-openstack/recipes-devtools/erlang/erlang-native_R16B03-1.bb
-> @@ -13,11 +13,11 @@ do_configure() {
->         oe_runconf
->  }
->
-> -do_compile_prepend() {
-> +do_compile:prepend() {
->      export TARGET=${HOST_SYS}
->  }
->
-> -do_install_prepend() {
-> +do_install:prepend() {
->      export TARGET=${HOST_SYS}
->  }
->
-> diff --git a/meta-openstack/recipes-devtools/erlang/erlang_R15B.bb b/meta-openstack/recipes-devtools/erlang/erlang_R15B.bb
-> index 68d144b1..7aa9a80d 100644
-> --- a/meta-openstack/recipes-devtools/erlang/erlang_R15B.bb
-> +++ b/meta-openstack/recipes-devtools/erlang/erlang_R15B.bb
-> @@ -9,11 +9,11 @@ EXTRA_OEMAKE = "BUILD_CC='${BUILD_CC}'"
->
->  EXTRA_OECONF = "--with-ssl=${STAGING_DIR_HOST}${layout_exec_prefix}"
->
-> -EXTRA_OECONF_append_arm = " --disable-smp-support --disable-hipe"
-> -EXTRA_OECONF_append_armeb = " --disable-smp-support --disable-hipe"
-> -EXTRA_OECONF_append_mipsel = " --disable-smp-support --disable-hipe"
-> -EXTRA_OECONF_append_sh3 = " --disable-smp-support --disable-hipe"
-> -EXTRA_OECONF_append_sh4 = " --disable-smp-support --disable-hipe"
-> +EXTRA_OECONF:append:arm = " --disable-smp-support --disable-hipe"
-> +EXTRA_OECONF:append:armeb = " --disable-smp-support --disable-hipe"
-> +EXTRA_OECONF:append:mipsel = " --disable-smp-support --disable-hipe"
-> +EXTRA_OECONF:append:sh3 = " --disable-smp-support --disable-hipe"
-> +EXTRA_OECONF:append:sh4 = " --disable-smp-support --disable-hipe"
->
->  NATIVE_BIN = "${TMPDIR}/work/erlang-native-${PV}-${PR}/otp_src_${UPSTREAM_VERSION}/bin"
->
-> diff --git a/meta-openstack/recipes-devtools/erlang/erlang_R16B03-1.bb b/meta-openstack/recipes-devtools/erlang/erlang_R16B03-1.bb
-> index 4c2b947f..91c88177 100644
-> --- a/meta-openstack/recipes-devtools/erlang/erlang_R16B03-1.bb
-> +++ b/meta-openstack/recipes-devtools/erlang/erlang_R16B03-1.bb
-> @@ -9,11 +9,11 @@ TARGET_CC_ARCH += "${LDFLAGS}"
->
->  EXTRA_OEMAKE = "BUILD_CC='${BUILD_CC}'"
->
-> -EXTRA_OECONF_append_arm = " --disable-smp-support --disable-hipe"
-> -EXTRA_OECONF_append_armeb = " --disable-smp-support --disable-hipe"
-> -EXTRA_OECONF_append_mipsel = " --disable-smp-support --disable-hipe"
-> -EXTRA_OECONF_append_sh3 = " --disable-smp-support --disable-hipe"
-> -EXTRA_OECONF_append_sh4 = " --disable-smp-support --disable-hipe"
-> +EXTRA_OECONF:append:arm = " --disable-smp-support --disable-hipe"
-> +EXTRA_OECONF:append:armeb = " --disable-smp-support --disable-hipe"
-> +EXTRA_OECONF:append:mipsel = " --disable-smp-support --disable-hipe"
-> +EXTRA_OECONF:append:sh3 = " --disable-smp-support --disable-hipe"
-> +EXTRA_OECONF:append:sh4 = " --disable-smp-support --disable-hipe"
->
->  NATIVE_BIN = "${STAGING_LIBDIR_NATIVE}/erlang/bin"
->
-> diff --git a/meta-openstack/recipes-devtools/erlang/nativesdk-erlang_R16B03-1.bb b/meta-openstack/recipes-devtools/erlang/nativesdk-erlang_R16B03-1.bb
-> index 7196fc69..6d0fc564 100644
-> --- a/meta-openstack/recipes-devtools/erlang/nativesdk-erlang_R16B03-1.bb
-> +++ b/meta-openstack/recipes-devtools/erlang/nativesdk-erlang_R16B03-1.bb
-> @@ -21,15 +21,15 @@ do_configure() {
->      oe_runconf
->  }
->
-> -do_compile_prepend() {
-> +do_compile:prepend() {
->      export TARGET=${HOST_SYS}
->  }
->
-> -do_install_prepend() {
-> +do_install:prepend() {
->      export TARGET=${HOST_SYS}
->  }
->
-> -do_install_append() {
-> +do_install:append() {
->      rm -f ${D}/${libdir}/erlang/Install
->  }
->
-> diff --git a/meta-openstack/recipes-devtools/python/python-barbican_git.bb b/meta-openstack/recipes-devtools/python/python-barbican_git.bb
-> index 8908e205..96d016b4 100644
-> --- a/meta-openstack/recipes-devtools/python/python-barbican_git.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-barbican_git.bb
-> @@ -40,7 +40,7 @@ python () {
->  }
->  SERVICECREATE_PACKAGES[vardeps] += "KEYSTONE_HOST"
->
-> -do_install_append() {
-> +do_install:append() {
->      TEMPLATE_CONF_DIR=${S}${sysconfdir}/${SRCNAME}
->      BARBICAN_CONF_DIR=${D}${sysconfdir}/${SRCNAME}
->
-> diff --git a/meta-openstack/recipes-devtools/python/python-ceilometer_git.bb b/meta-openstack/recipes-devtools/python/python-ceilometer_git.bb
-> index 1f18d7bb..5af40416 100644
-> --- a/meta-openstack/recipes-devtools/python/python-ceilometer_git.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-ceilometer_git.bb
-> @@ -47,13 +47,13 @@ python () {
->      d.setVarFlags("USERCREATE_PARAM_%s-reseller" % d.getVar('SRCNAME',True), flags)
->  }
->
-> -do_configure_append() {
-> +do_configure:append() {
->      # We are using postgresql support, hence this requirement is not valid
->      # removing it, to avoid on-target runtime issues
->      sed -e "s:MySQL-python::g" -i ${S}/requirements.txt
->  }
->
-> -do_install_append() {
-> +do_install:append() {
->      TEMPLATE_CONF_DIR=${S}${sysconfdir}/${SRCNAME}
->      CEILOMETER_CONF_DIR=${D}${sysconfdir}/${SRCNAME}
->
-> diff --git a/meta-openstack/recipes-devtools/python/python-cinder_git.bb b/meta-openstack/recipes-devtools/python/python-cinder_git.bb
-> index 8afe84db..d174ed48 100644
-> --- a/meta-openstack/recipes-devtools/python/python-cinder_git.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-cinder_git.bb
-> @@ -44,7 +44,7 @@ CINDER_NFS_VOLUME_SERVERS ?= "${CINDER_NFS_VOLUME_SERVERS_DEFAULT}"
->  CINDER_GLUSTERFS_VOLUME_SERVERS_DEFAULT = "controller:/glusterfs_volumes"
->  CINDER_GLUSTERFS_VOLUME_SERVERS ?= "${CINDER_GLUSTERFS_VOLUME_SERVERS_DEFAULT}"
->
-> -do_install_append() {
-> +do_install:append() {
->      TEMPLATE_CONF_DIR=${S}${sysconfdir}/${SRCNAME}
->      CINDER_CONF_DIR=${D}${sysconfdir}/${SRCNAME}
->
-> diff --git a/meta-openstack/recipes-devtools/python/python-cinderclient_git.bb b/meta-openstack/recipes-devtools/python/python-cinderclient_git.bb
-> index bacb25f9..ae91bb0b 100644
-> --- a/meta-openstack/recipes-devtools/python/python-cinderclient_git.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-cinderclient_git.bb
-> @@ -43,7 +43,7 @@ RDEPENDS_${PN} += " \
->  PACKAGECONFIG ?= "bash-completion"
->  PACKAGECONFIG[bash-completion] = ",,bash-completion,bash-completion ${BPN}-bash-completion"
->
-> -do_install_append() {
-> +do_install:append() {
->         install -d ${D}/${sysconfdir}/bash_completion.d
->         install -m 664 ${S}/tools/cinder.bash_completion ${D}/${sysconfdir}/bash_completion.d
->  }
-> diff --git a/meta-openstack/recipes-devtools/python/python-glance_git.bb b/meta-openstack/recipes-devtools/python/python-glance_git.bb
-> index f692963d..1f0cf2f8 100644
-> --- a/meta-openstack/recipes-devtools/python/python-glance_git.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-glance_git.bb
-> @@ -56,13 +56,13 @@ python () {
->  }
->  SERVICECREATE_PACKAGES[vardeps] += "KEYSTONE_HOST"
->
-> -do_install_prepend() {
-> +do_install:prepend() {
->      sed 's:%PYTHON_SITEPACKAGES_DIR%:${PYTHON_SITEPACKAGES_DIR}:g' -i ${S}/${SRCNAME}/tests/functional/__init__.py
->      sed 's:%PYTHON_SITEPACKAGES_DIR%:${PYTHON_SITEPACKAGES_DIR}:g' -i ${S}/${SRCNAME}/tests/unit/base.py
->      sed 's:%PYTHON_SITEPACKAGES_DIR%:${PYTHON_SITEPACKAGES_DIR}:g' -i ${S}/${SRCNAME}/tests/utils.py
->  }
->
-> -do_install_append() {
-> +do_install:append() {
->      SRC_SYSCONFDIR=${S}${sysconfdir}
->      GLANCE_CONF_DIR=${D}${sysconfdir}/glance
->
-> diff --git a/meta-openstack/recipes-devtools/python/python-heat_git.bb b/meta-openstack/recipes-devtools/python/python-heat_git.bb
-> index a3102ffa..d96bc168 100644
-> --- a/meta-openstack/recipes-devtools/python/python-heat_git.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-heat_git.bb
-> @@ -57,7 +57,7 @@ python () {
->      d.setVarFlags("SERVICECREATE_PARAM_%s-cfn" % d.getVar('SRCNAME',True), flags)
->  }
->
-> -do_install_append() {
-> +do_install:append() {
->      TEMPLATE_CONF_DIR=${S}${sysconfdir}/${SRCNAME}
->      HEAT_CONF_DIR=${D}${sysconfdir}/${SRCNAME}
->
-> diff --git a/meta-openstack/recipes-devtools/python/python-heatclient_git.bb b/meta-openstack/recipes-devtools/python/python-heatclient_git.bb
-> index e0927f3c..391d7d2f 100644
-> --- a/meta-openstack/recipes-devtools/python/python-heatclient_git.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-heatclient_git.bb
-> @@ -39,7 +39,7 @@ inherit setuptools3
->  PACKAGECONFIG ?= "bash-completion"
->  PACKAGECONFIG[bash-completion] = ",,bash-completion,bash-completion ${BPN}-bash-completion"
->
-> -do_install_append() {
-> +do_install:append() {
->         install -d ${D}/${sysconfdir}/bash_completion.d
->         install -m 664 ${S}/tools/heat.bash_completion ${D}/${sysconfdir}/bash_completion.d
->  }
-> diff --git a/meta-openstack/recipes-devtools/python/python-horizon_git.bb b/meta-openstack/recipes-devtools/python/python-horizon_git.bb
-> index 26afe402..ebccbabd 100644
-> --- a/meta-openstack/recipes-devtools/python/python-horizon_git.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-horizon_git.bb
-> @@ -102,7 +102,7 @@ USERADD_PARAM_${PN} = "--system -m -d ${localstatedir}/lib/openstack-dashboard -
->  # no longer required. kept as reference.
->  # do_install[dirs] += "${D}/usr/share/bin"
->
-> -do_install_append() {
-> +do_install:append() {
->      SYSCONF_DIR=${D}${sysconfdir}
->      DASHBOARD_CONF_DIR=${SYSCONF_DIR}/openstack-dashboard
->      DASHBOARD_SHARE_DIR=${D}${datadir}/openstack-dashboard
-> diff --git a/meta-openstack/recipes-devtools/python/python-keystone-hybrid-backend_git.bb b/meta-openstack/recipes-devtools/python/python-keystone-hybrid-backend_git.bb
-> index e595180c..e522cd63 100644
-> --- a/meta-openstack/recipes-devtools/python/python-keystone-hybrid-backend_git.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-keystone-hybrid-backend_git.bb
-> @@ -14,7 +14,7 @@ S = "${WORKDIR}/git"
->
->  inherit python3-dir
->
-> -do_install_append() {
-> +do_install:append() {
->      install -D -m 0644 hybrid_assignment.py ${D}/${PYTHON_SITEPACKAGES_DIR}/keystone/assignment/backends/hybrid_assignment.py
->      install -D -m 0644 hybrid_identity.py ${D}/${PYTHON_SITEPACKAGES_DIR}/keystone/identity/backends/hybrid_identity.py
->  }
-> diff --git a/meta-openstack/recipes-devtools/python/python-keystone_git.bb b/meta-openstack/recipes-devtools/python/python-keystone_git.bb
-> index a8cc9440..63a0e326 100644
-> --- a/meta-openstack/recipes-devtools/python/python-keystone_git.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-keystone_git.bb
-> @@ -65,7 +65,7 @@ python () {
->      d.setVarFlags("SERVICECREATE_PARAM_%s-setup" % d.getVar('SRCNAME',True), flags)
->  }
->
-> -do_install_append() {
-> +do_install:append() {
->
->      KEYSTONE_CONF_DIR=${D}${sysconfdir}/keystone
->      KEYSTONE_PACKAGE_DIR=${D}${PYTHON_SITEPACKAGES_DIR}/keystone
-> diff --git a/meta-openstack/recipes-devtools/python/python-neutron_git.bb b/meta-openstack/recipes-devtools/python/python-neutron_git.bb
-> index 315cb45a..0a669cc0 100644
-> --- a/meta-openstack/recipes-devtools/python/python-neutron_git.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-neutron_git.bb
-> @@ -60,7 +60,7 @@ python () {
->      d.setVarFlags("SERVICECREATE_PARAM_%s-setup" % d.getVar('SRCNAME',True), flags)
->  }
->
-> -do_install_append() {
-> +do_install:append() {
->      TEMPLATE_CONF_DIR=${S}${sysconfdir}/
->      NEUTRON_CONF_DIR=${D}${sysconfdir}/neutron
->
-> diff --git a/meta-openstack/recipes-devtools/python/python-neutronclient_git.bb b/meta-openstack/recipes-devtools/python/python-neutronclient_git.bb
-> index f519bf7d..04a9b10d 100644
-> --- a/meta-openstack/recipes-devtools/python/python-neutronclient_git.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-neutronclient_git.bb
-> @@ -48,7 +48,7 @@ inherit setuptools3 monitor rmargparse
->  PACKAGECONFIG ?= "bash-completion"
->  PACKAGECONFIG[bash-completion] = ",,bash-completion,bash-completion ${BPN}-bash-completion"
->
-> -do_install_append() {
-> +do_install:append() {
->         install -d ${D}/${sysconfdir}/bash_completion.d
->         install -m 664 ${S}/tools/neutron.bash_completion ${D}/${sysconfdir}/bash_completion.d
->  }
-> diff --git a/meta-openstack/recipes-devtools/python/python-nova_git.bb b/meta-openstack/recipes-devtools/python/python-nova_git.bb
-> index 8c643bd2..82e0484d 100644
-> --- a/meta-openstack/recipes-devtools/python/python-nova_git.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-nova_git.bb
-> @@ -11,7 +11,7 @@ DEPENDS = " \
->
->  SRCNAME = "nova"
->
-> -FILESEXTRAPATHS_append := "${THISDIR}/${PN}"
-> +FILESEXTRAPATHS:append := "${THISDIR}/${PN}"
->
->  SRC_URI = "git://github.com/openstack/${SRCNAME}.git;branch=stable/pike \
->             file://neutron-api-set-default-binding-vnic_type.patch \
-> @@ -82,7 +82,7 @@ python () {
->      d.setVarFlags("SERVICECREATE_PARAM_%s-ec2" % d.getVar('SRCNAME',True), flags)
->  }
->
-> -do_install_append() {
-> +do_install:append() {
->      if [ ! -f "${WORKDIR}/nova.conf" ]; then
->          return
->      fi
-> diff --git a/meta-openstack/recipes-devtools/python/python-novaclient_git.bb b/meta-openstack/recipes-devtools/python/python-novaclient_git.bb
-> index f85ae4d3..d83c4754 100644
-> --- a/meta-openstack/recipes-devtools/python/python-novaclient_git.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-novaclient_git.bb
-> @@ -42,7 +42,7 @@ RDEPENDS_${PN} += " \
->  PACKAGECONFIG ?= "bash-completion"
->  PACKAGECONFIG[bash-completion] = ",,bash-completion,bash-completion ${BPN}-bash-completion"
->
-> -do_install_append() {
-> +do_install:append() {
->         install -d ${D}/${sysconfdir}/bash_completion.d
->         install -m 664 ${S}/tools/nova.bash_completion ${D}/${sysconfdir}/bash_completion.d
->
-> diff --git a/meta-openstack/recipes-devtools/python/python-oauth2_1.5.211.bb b/meta-openstack/recipes-devtools/python/python-oauth2_1.5.211.bb
-> index 38351385..d897a67e 100644
-> --- a/meta-openstack/recipes-devtools/python/python-oauth2_1.5.211.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-oauth2_1.5.211.bb
-> @@ -17,7 +17,7 @@ RDEPENDS_${PN} += "python-prettytable \
->              python-pyflakes"
->
->
-> -do_install_append() {
-> +do_install:append() {
->         perm_files=$(find "${D}${PYTHON_SITEPACKAGES_DIR}/" -name "PKG-INFO")
->         for f in $perm_files; do
->                 chmod 644 "${f}"
-> diff --git a/meta-openstack/recipes-devtools/python/python-oauthlib_0.7.2.bb b/meta-openstack/recipes-devtools/python/python-oauthlib_0.7.2.bb
-> index a5be175c..12579742 100644
-> --- a/meta-openstack/recipes-devtools/python/python-oauthlib_0.7.2.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-oauthlib_0.7.2.bb
-> @@ -19,7 +19,7 @@ DEPENDS += " \
->  RDEPENDS_${PN} += " \
->          "
->
-> -do_install_append() {
-> +do_install:append() {
->          perm_files=`find "${D}${PYTHON_SITEPACKAGES_DIR}/" -name "top_level.txt" -o -name "requires.txt"`
->          perm_files="$perm_files "$(find "${D}${PYTHON_SITEPACKAGES_DIR}/" -name "PKG-INFO")
->          for f in $perm_files; do
-> diff --git a/meta-openstack/recipes-devtools/python/python-rally_git.bb b/meta-openstack/recipes-devtools/python/python-rally_git.bb
-> index ef864182..2ab75adb 100644
-> --- a/meta-openstack/recipes-devtools/python/python-rally_git.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-rally_git.bb
-> @@ -26,7 +26,7 @@ S = "${WORKDIR}/git"
->
->  inherit setuptools3 update-rc.d hosts identity default_configs
->
-> -do_install_append() {
-> +do_install:append() {
->      RALLY_CONF_DIR=${D}${sysconfdir}/${SRCNAME}
->      RALLY_PYTHON_SITEPACKAGES_DIR=${D}${PYTHON_SITEPACKAGES_DIR}/${SRCNAME}
->
-> diff --git a/meta-openstack/recipes-devtools/python/python-swift_git.bb b/meta-openstack/recipes-devtools/python/python-swift_git.bb
-> index a5998eb3..e7c84fb2 100644
-> --- a/meta-openstack/recipes-devtools/python/python-swift_git.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-swift_git.bb
-> @@ -48,7 +48,7 @@ python () {
->      d.setVarFlags("SERVICECREATE_PARAM_%s-setup" % d.getVar('SRCNAME',True), flags)
->  }
->
-> -do_install_append() {
-> +do_install:append() {
->      SWIFT_CONF_DIR=${D}${sysconfdir}/swift
->
->      install -d ${SWIFT_CONF_DIR}
-> diff --git a/meta-openstack/recipes-devtools/python/python-tox.inc b/meta-openstack/recipes-devtools/python/python-tox.inc
-> index 66b13553..eb95b518 100644
-> --- a/meta-openstack/recipes-devtools/python/python-tox.inc
-> +++ b/meta-openstack/recipes-devtools/python/python-tox.inc
-> @@ -16,7 +16,7 @@ RDEPENDS_${PN} += " \
->          ${PYTHON_PN}-pytest \
->          "
->
-> -do_install_append() {
-> +do_install:append() {
->
->      install -d ${D}/${sysconfdir}/${SRCNAME}
->      cp ${S}/tox.ini    ${D}/${sysconfdir}/${SRCNAME}
-> diff --git a/meta-openstack/recipes-devtools/python/python-trove_git.bb b/meta-openstack/recipes-devtools/python/python-trove_git.bb
-> index f5a75a0f..3f1867aa 100755
-> --- a/meta-openstack/recipes-devtools/python/python-trove_git.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-trove_git.bb
-> @@ -36,7 +36,7 @@ python () {
->  }
->  SERVICECREATE_PACKAGES[vardeps] += "KEYSTONE_HOST"
->
-> -do_install_append() {
-> +do_install:append() {
->      TEMPLATE_CONF_DIR=${S}${sysconfdir}/${SRCNAME}
->      TROVE_CONF_DIR=${D}${sysconfdir}/${SRCNAME}
->      TROVE_LOG_DIR="/var/log/${SRCNAME}"
-> @@ -191,7 +191,7 @@ PACKAGES += " \
->      ${SRCNAME}-taskmanager \
->      "
->
-> -PACKAGES_prepend = " \
-> +PACKAGES:prepend = " \
->      ${SRCNAME}-tests \
->      "
->
-> diff --git a/meta-openstack/recipes-devtools/python/python-troveclient_git.bb b/meta-openstack/recipes-devtools/python/python-troveclient_git.bb
-> index 64ab1669..54375761 100644
-> --- a/meta-openstack/recipes-devtools/python/python-troveclient_git.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-troveclient_git.bb
-> @@ -29,7 +29,7 @@ PACKAGES += " \
->      ${SRCNAME}-bin \
->      "
->
-> -PACKAGES_prepend = " \
-> +PACKAGES:prepend = " \
->      ${SRCNAME}-tests \
->      "
->
-> diff --git a/meta-openstack/recipes-devtools/python/python3-django-compressor_2.1.bb b/meta-openstack/recipes-devtools/python/python3-django-compressor_2.1.bb
-> index 40a0133b..3d554b31 100644
-> --- a/meta-openstack/recipes-devtools/python/python3-django-compressor_2.1.bb
-> +++ b/meta-openstack/recipes-devtools/python/python3-django-compressor_2.1.bb
-> @@ -17,7 +17,7 @@ RDEPENDS_${PN} += " \
->          python3-rjsmin  \
->          "
->
-> -do_install_append() {
-> +do_install:append() {
->      # Ensure permisive perms are granted
->      find -L "${D}${PYTHON_SITEPACKAGES_DIR}/compressor" -type f -exec chmod 644 {} \;
->      find -L "${D}${PYTHON_SITEPACKAGES_DIR}/compressor" -type d -exec chmod 755 {} \;
-> diff --git a/meta-openstack/recipes-devtools/python/python3-falcon_2.0.0.bb b/meta-openstack/recipes-devtools/python/python3-falcon_2.0.0.bb
-> index 648a7dd1..bcc67fc2 100644
-> --- a/meta-openstack/recipes-devtools/python/python3-falcon_2.0.0.bb
-> +++ b/meta-openstack/recipes-devtools/python/python3-falcon_2.0.0.bb
-> @@ -10,7 +10,7 @@ SRC_URI[sha256sum] = "eea593cf466b9c126ce667f6d30503624ef24459f118c75594a69353b6
->  inherit setuptools3 pypi
->
->  # conflicting file prevention
-> -do_install_append() {
-> +do_install:append() {
->         rm -f ${D}${libdir}/python*/site-packages/tests/*
->  }
->
-> diff --git a/meta-openstack/recipes-devtools/python/python3-happybase_1.2.0.bb b/meta-openstack/recipes-devtools/python/python3-happybase_1.2.0.bb
-> index 56b6c798..c8f9135b 100644
-> --- a/meta-openstack/recipes-devtools/python/python3-happybase_1.2.0.bb
-> +++ b/meta-openstack/recipes-devtools/python/python3-happybase_1.2.0.bb
-> @@ -9,7 +9,7 @@ SRC_URI[sha256sum] = "850b4ee651128588a57e1e152dd1252e5ec39776a5d3d14ee892b8bac0
->
->  inherit setuptools3 pypi
->
-> -do_install_append() {
-> +do_install:append() {
->         perm_files=$(find "${D}${PYTHON_SITEPACKAGES_DIR}/" -name "top_level.txt")
->         perm_files="$perm_files "$(find "${D}${PYTHON_SITEPACKAGES_DIR}/" -name "PKG-INFO")
->         for f in $perm_files; do
-> diff --git a/meta-openstack/recipes-devtools/python/python3-keystoneclient_git.bb b/meta-openstack/recipes-devtools/python/python3-keystoneclient_git.bb
-> index c8fe38af..3b01036c 100644
-> --- a/meta-openstack/recipes-devtools/python/python3-keystoneclient_git.bb
-> +++ b/meta-openstack/recipes-devtools/python/python3-keystoneclient_git.bb
-> @@ -46,7 +46,7 @@ RDEPENDS_${PN} += " \
->          python3-stevedore \
->          "
->
-> -do_install_append() {
-> +do_install:append() {
->         cp -r ${S}/examples ${D}${PYTHON_SITEPACKAGES_DIR}/${SRCNAME}
->  }
->
-> diff --git a/meta-openstack/recipes-devtools/python/python3-requestsexceptions_1.4.0.bb b/meta-openstack/recipes-devtools/python/python3-requestsexceptions_1.4.0.bb
-> index 4bf9c0eb..1357bd05 100644
-> --- a/meta-openstack/recipes-devtools/python/python3-requestsexceptions_1.4.0.bb
-> +++ b/meta-openstack/recipes-devtools/python/python3-requestsexceptions_1.4.0.bb
-> @@ -10,7 +10,7 @@ SRC_URI[sha256sum] = "b095cbc77618f066d459a02b137b020c37da9f46d9b057704019c9f77d
->  inherit setuptools3 pypi
->
->  # conflicting file prevention
-> -do_install_append() {
-> +do_install:append() {
->         rm -f ${D}${libdir}/python*/site-packages/tests/*
->  }
->
-> diff --git a/meta-openstack/recipes-devtools/python/python3-setuptools-git_1.2.bb b/meta-openstack/recipes-devtools/python/python3-setuptools-git_1.2.bb
-> index 34b40def..98fec91f 100644
-> --- a/meta-openstack/recipes-devtools/python/python3-setuptools-git_1.2.bb
-> +++ b/meta-openstack/recipes-devtools/python/python3-setuptools-git_1.2.bb
-> @@ -10,7 +10,7 @@ SRC_URI[sha256sum] = "ff64136da01aabba76ae88b050e7197918d8b2139ccbf6144e14d472b9
->  inherit setuptools3 pypi
->
->  # conflicting file prevention
-> -do_install_append() {
-> +do_install:append() {
->         rm -f ${D}${libdir}/python*/site-packages/site.py*
->  }
->  BBCLASSEXTEND = "native"
-> diff --git a/meta-openstack/recipes-devtools/python/python3-swiftclient_3.10.0.bb b/meta-openstack/recipes-devtools/python/python3-swiftclient_3.10.0.bb
-> index 1025d9e0..f2ab597f 100644
-> --- a/meta-openstack/recipes-devtools/python/python3-swiftclient_3.10.0.bb
-> +++ b/meta-openstack/recipes-devtools/python/python3-swiftclient_3.10.0.bb
-> @@ -10,7 +10,7 @@ SRC_URI[sha256sum] = "66227eaf29a691c70675fb9982022980b92797c273dd5e6dc7e680425e
->
->  inherit pypi setuptools3 python3-dir
->
-> -do_install_append() {
-> +do_install:append() {
->      cp -r test ${D}/${PYTHON_SITEPACKAGES_DIR}/${SRCNAME}/
->  }
->
-> diff --git a/meta-openstack/recipes-devtools/ruby/erubis_git.bb b/meta-openstack/recipes-devtools/ruby/erubis_git.bb
-> index 08e0f281..540231a9 100644
-> --- a/meta-openstack/recipes-devtools/ruby/erubis_git.bb
-> +++ b/meta-openstack/recipes-devtools/ruby/erubis_git.bb
-> @@ -21,7 +21,7 @@ SRC_URI = " \
->
->  inherit ruby
->
-> -do_patch_append() {
-> +do_patch:append() {
->      bb.build.exec_func('do_fixup_gemspec', d)
->  }
->
-> diff --git a/meta-openstack/recipes-devtools/ruby/fluentd_1.9.2.bb b/meta-openstack/recipes-devtools/ruby/fluentd_1.9.2.bb
-> index 768bc218..77c1282d 100644
-> --- a/meta-openstack/recipes-devtools/ruby/fluentd_1.9.2.bb
-> +++ b/meta-openstack/recipes-devtools/ruby/fluentd_1.9.2.bb
-> @@ -11,7 +11,7 @@ RDEPENDS_${PN} = "cool.io http-parser.rb msgpack serverengine sigdump strptime t
->
->  inherit ruby
->
-> -do_install_append() {
-> +do_install:append() {
->         install -d ${D}/etc/fluent/
->         install ${S}/fluent.conf ${D}/etc/fluent/fluent.conf
->  }
-> diff --git a/meta-openstack/recipes-devtools/ruby/http-parser.rb_0.6.0.bb b/meta-openstack/recipes-devtools/ruby/http-parser.rb_0.6.0.bb
-> index db52ebd5..6bf809ed 100644
-> --- a/meta-openstack/recipes-devtools/ruby/http-parser.rb_0.6.0.bb
-> +++ b/meta-openstack/recipes-devtools/ruby/http-parser.rb_0.6.0.bb
-> @@ -16,7 +16,7 @@ DEPENDS = "git"
->  inherit ruby
->
->  # Download the submodules
-> -do_configure_prepend() {
-> +do_configure:prepend() {
->         cd ${WORKDIR}/git
->         git submodule update --init --recursive
->  }
-> diff --git a/meta-openstack/recipes-extended/images/openstack-image-aio.bb b/meta-openstack/recipes-extended/images/openstack-image-aio.bb
-> index 2fbb85e2..858c8e99 100644
-> --- a/meta-openstack/recipes-extended/images/openstack-image-aio.bb
-> +++ b/meta-openstack/recipes-extended/images/openstack-image-aio.bb
-> @@ -27,7 +27,7 @@ inherit identity
->  inherit monitor
->
->  # check for 5G of free space, so we use 5G as a starting point.
-> -IMAGE_ROOTFS_EXTRA_SPACE_append += "+ 5000000"
-> +IMAGE_ROOTFS_EXTRA_SPACE:append += "+ 5000000"
->
->  POST_KEYSTONE_SETUP_COMMAND = "/etc/keystone/hybrid-backend-setup"
->
-> diff --git a/meta-openstack/recipes-extended/images/openstack-image-compute.bb b/meta-openstack/recipes-extended/images/openstack-image-compute.bb
-> index 897efc42..15726fde 100644
-> --- a/meta-openstack/recipes-extended/images/openstack-image-compute.bb
-> +++ b/meta-openstack/recipes-extended/images/openstack-image-compute.bb
-> @@ -19,6 +19,6 @@ inherit monitor
->
->  # Ensure extra space for guest images, and rabbit MQ has a hard coded
->  # check for 2G of free space, so we use 3G as a starting point.
-> -IMAGE_ROOTFS_EXTRA_SPACE_append += "+ 3000000"
-> +IMAGE_ROOTFS_EXTRA_SPACE:append += "+ 3000000"
->
->  # ROOTFS_POSTPROCESS_COMMAND += "remove_packaging_data_files ; "
-> diff --git a/meta-openstack/recipes-extended/images/openstack-image-controller.bb b/meta-openstack/recipes-extended/images/openstack-image-controller.bb
-> index 6f324d84..7f41a086 100644
-> --- a/meta-openstack/recipes-extended/images/openstack-image-controller.bb
-> +++ b/meta-openstack/recipes-extended/images/openstack-image-controller.bb
-> @@ -24,5 +24,5 @@ inherit monitor
->
->  # Ensure extra space for guest images, and rabbit MQ has a hard coded
->  # check for 2G of free space, so we use 5G as a starting point.
-> -IMAGE_ROOTFS_EXTRA_SPACE_append += "+ 5000000"
-> +IMAGE_ROOTFS_EXTRA_SPACE:append += "+ 5000000"
->
-> diff --git a/meta-openstack/recipes-extended/libpam/libpam_openstack.inc b/meta-openstack/recipes-extended/libpam/libpam_openstack.inc
-> index ec858a7f..6ebb4a33 100644
-> --- a/meta-openstack/recipes-extended/libpam/libpam_openstack.inc
-> +++ b/meta-openstack/recipes-extended/libpam/libpam_openstack.inc
-> @@ -1,4 +1,4 @@
-> -FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
-> +FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
->
->  SRC_URI += "file://common-account"
->  SRC_URI += "file://common-auth"
-> @@ -9,7 +9,7 @@ SRC_URI += "file://common-session-noninteractive"
->  PACKAGECONFIG ?= "${@bb.utils.contains('DISTRO_FEATURES', 'OpenLDAP', 'OpenLDAP', '', d)}"
->  PACKAGECONFIG[OpenLDAP] = ",,,pam-plugin-mkhomedir nss-pam-ldapd"
->
-> -do_install_append() {
-> +do_install:append() {
->      if ${@bb.utils.contains('DISTRO_FEATURES', 'OpenLDAP', 'true', 'false', d)}; then
->          install -m 755 -d ${D}/etc/pam.d/
->          install -m 644 ${WORKDIR}/common-account ${D}/etc/pam.d/
-> diff --git a/meta-openstack/recipes-extended/libvirt/libvirt_openstack.inc b/meta-openstack/recipes-extended/libvirt/libvirt_openstack.inc
-> index 0b0f0114..8f6f8400 100644
-> --- a/meta-openstack/recipes-extended/libvirt/libvirt_openstack.inc
-> +++ b/meta-openstack/recipes-extended/libvirt/libvirt_openstack.inc
-> @@ -5,9 +5,9 @@ PACKAGECONFIG ?= "qemu lxc test remote macvtap libvirtd udev yajl \
->
->  inherit useradd
->  USERADD_PACKAGES = "${PN}"
-> -GROUPADD_PARAM_${PN}_append = " ;--system libvirt"
-> +GROUPADD_PARAM_${PN}:append = " ;--system libvirt"
->
-> -do_install_append() {
-> +do_install:append() {
->         sed -e "s:^#unix_sock_group =:unix_sock_group =:g" -i ${D}/etc/libvirt/libvirtd.conf
->         sed -e "s:^#unix_sock_rw_perms =:unix_sock_rw_perms =:g" -i ${D}/etc/libvirt/libvirtd.conf
->  }
-> diff --git a/meta-openstack/recipes-extended/lighttpd/lighttpd_openstack.inc b/meta-openstack/recipes-extended/lighttpd/lighttpd_openstack.inc
-> index 33b1f61c..73cc86a8 100644
-> --- a/meta-openstack/recipes-extended/lighttpd/lighttpd_openstack.inc
-> +++ b/meta-openstack/recipes-extended/lighttpd/lighttpd_openstack.inc
-> @@ -1,3 +1,3 @@
-> -do_install_append() {
-> +do_install:append() {
->         sed -i '2i port=`grep "^server.port" /etc/lighttpd.conf`; if [ -z $port ]; then echo "server port not configured, not running lighttpd..."; exit 0; fi' ${D}/etc/init.d/lighttpd
->  }
-> diff --git a/meta-openstack/recipes-extended/qpid/qpid_0.20.bb b/meta-openstack/recipes-extended/qpid/qpid_0.20.bb
-> index 933f5efd..a88c8ead 100644
-> --- a/meta-openstack/recipes-extended/qpid/qpid_0.20.bb
-> +++ b/meta-openstack/recipes-extended/qpid/qpid_0.20.bb
-> @@ -32,7 +32,7 @@ EXTRA_OEMAKE += " CPPFLAGS=-Wno-unused-function \
->          pythondir=${PYTHON_SITEPACKAGES_DIR} \
->  "
->
-> -do_install_append() {
-> +do_install:append() {
->       install -d ${D}${sysconfdir}/init.d
->       install -m 0755 ${WORKDIR}/qpidd ${D}${sysconfdir}/init.d/qpidd
->  }
-> diff --git a/meta-openstack/recipes-extended/tempest/tempest_git.bb b/meta-openstack/recipes-extended/tempest/tempest_git.bb
-> index 48a286ce..9bff98c2 100644
-> --- a/meta-openstack/recipes-extended/tempest/tempest_git.bb
-> +++ b/meta-openstack/recipes-extended/tempest/tempest_git.bb
-> @@ -61,7 +61,7 @@ python () {
->      d.setVarFlags("USERCREATE_PARAM_%s-setup-admin" % d.getVar('SRCNAME',True), flags)
->  }
->
-> -do_install_append() {
-> +do_install:append() {
->      TEMPLATE_CONF_DIR=${S}${sysconfdir}/
->      TEMPEST_CONF_DIR=${D}${sysconfdir}/${SRCNAME}
->
-> diff --git a/meta-openstack/recipes-kernel/linux/linux-yocto_openstack.inc b/meta-openstack/recipes-kernel/linux/linux-yocto_openstack.inc
-> index cc774fed..4faab108 100644
-> --- a/meta-openstack/recipes-kernel/linux/linux-yocto_openstack.inc
-> +++ b/meta-openstack/recipes-kernel/linux/linux-yocto_openstack.inc
-> @@ -1,4 +1,4 @@
-> -FILESEXTRAPATHS_prepend := "${THISDIR}/linux-yocto:"
-> +FILESEXTRAPATHS:prepend := "${THISDIR}/linux-yocto:"
->
->  SRC_URI += "file://enable-veth.cfg \
->              file://enable-iscsi-tcp.cfg \
-> diff --git a/meta-openstack/recipes-support/chef/chef_git.bb b/meta-openstack/recipes-support/chef/chef_git.bb
-> index 86e4165a..5960dd0c 100644
-> --- a/meta-openstack/recipes-support/chef/chef_git.bb
-> +++ b/meta-openstack/recipes-support/chef/chef_git.bb
-> @@ -67,6 +67,6 @@ RUBY_INSTALL_GEMS = "pkg/chef-${BPV}.gem"
->  FILES_${PN} += "${libdir}/ruby/gems/2.2.0/build_info"
->  FILES_${PN} += "${libdir}/ruby/gems/2.2.0/extensions"
->
-> -do_install_prepend() {
-> +do_install:prepend() {
->         rake gem
->  }
-> diff --git a/meta-openstack/recipes-support/dnsmasq/dnsmasq_openstack.inc b/meta-openstack/recipes-support/dnsmasq/dnsmasq_openstack.inc
-> index 0c979fea..d731da26 100644
-> --- a/meta-openstack/recipes-support/dnsmasq/dnsmasq_openstack.inc
-> +++ b/meta-openstack/recipes-support/dnsmasq/dnsmasq_openstack.inc
-> @@ -1,4 +1,4 @@
-> -do_install_append() {
-> +do_install:append() {
->      # Remove /var/run as it is created on startup
->      rm -rf ${D}${localstatedir}/run
->  }
-> diff --git a/meta-openstack/recipes-support/iproute2/iproute2_openstack.inc b/meta-openstack/recipes-support/iproute2/iproute2_openstack.inc
-> index 2fde00dc..97e372a9 100644
-> --- a/meta-openstack/recipes-support/iproute2/iproute2_openstack.inc
-> +++ b/meta-openstack/recipes-support/iproute2/iproute2_openstack.inc
-> @@ -1,4 +1,4 @@
-> -FILESEXTRAPATHS_append := "${THISDIR}/${PN}"
-> +FILESEXTRAPATHS:append := "${THISDIR}/${PN}"
->
->  RRECOMMENDS_${PN} += "kernel-module-veth \
->         "
-> diff --git a/meta-openstack/recipes-support/memcached/memcached_1.5.3.bb b/meta-openstack/recipes-support/memcached/memcached_1.5.3.bb
-> index b2d776b1..d65e699e 100644
-> --- a/meta-openstack/recipes-support/memcached/memcached_1.5.3.bb
-> +++ b/meta-openstack/recipes-support/memcached/memcached_1.5.3.bb
-> @@ -53,7 +53,7 @@ INITSCRIPT_PARAMS = "defaults"
->  SYSTEMD_PACKAGES = "memcached"
->  SYSTEMD_SERVICE_${PN} = "memcached.service"
->
-> -do_install_append() {
-> +do_install:append() {
->      install -D -m 755 ${S}/scripts/memcached-init ${D}${sysconfdir}/init.d/memcached
->
->      mkdir -p ${D}/usr/share/memcached/scripts
-> diff --git a/meta-openstack/recipes-support/mod-wsgi/mod-wsgi_git.bb b/meta-openstack/recipes-support/mod-wsgi/mod-wsgi_git.bb
-> index 73dab13a..da49953d 100644
-> --- a/meta-openstack/recipes-support/mod-wsgi/mod-wsgi_git.bb
-> +++ b/meta-openstack/recipes-support/mod-wsgi/mod-wsgi_git.bb
-> @@ -45,7 +45,7 @@ CFLAGS += " -I${STAGING_INCDIR}/apache2"
->  FILES_${PN} += "/etc/apache2/"
->  FILES_${PN}-dbg += "${libdir}/apache2/modules/.debug"
->
-> -do_install_append() {
-> +do_install:append() {
->         mkdir -p ${D}/etc/apache2/modules.d/
->         echo "LoadModule wsgi_module ${libexecdir}/apache2/modules/mod_wsgi.so" > \
->           ${D}/etc/apache2/modules.d/wsgi.load
-> diff --git a/meta-openstack/recipes-support/openldap/openldap_openstack.inc b/meta-openstack/recipes-support/openldap/openldap_openstack.inc
-> index 63f6064f..bda1875b 100644
-> --- a/meta-openstack/recipes-support/openldap/openldap_openstack.inc
-> +++ b/meta-openstack/recipes-support/openldap/openldap_openstack.inc
-> @@ -1,7 +1,7 @@
->  DEPEND_${PN} += "cyrus-sasl"
->  RDEPEND_${PN} += "libsasl2-modules"
->
-> -FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
-> +FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
->  SRC_URI += "file://initscript"
->  SRC_URI += "file://ops-base.ldif"
->
-> @@ -12,7 +12,7 @@ OPENLDAP_LIBEXECDIR = "${libexecdir}"
->
->  EXTRA_OECONF += "--libexecdir=${OPENLDAP_LIBEXECDIR}"
->
-> -do_install_append() {
-> +do_install:append() {
->      install -D -m 0755 ${WORKDIR}/initscript ${D}${sysconfdir}/init.d/openldap
->      sed -i -e 's/%DEFAULT_DN%/${LDAP_DN}/g' ${D}${sysconfdir}/init.d/openldap
->      sed -i -e 's#%LDAP_DATADIR%#${LDAP_DATADIR}#g' ${D}${sysconfdir}/init.d/openldap
-> diff --git a/meta-openstack/recipes-support/salt/salt_3001.1.bb b/meta-openstack/recipes-support/salt/salt_3001.1.bb
-> index 9b485d69..ac5f5a78 100644
-> --- a/meta-openstack/recipes-support/salt/salt_3001.1.bb
-> +++ b/meta-openstack/recipes-support/salt/salt_3001.1.bb
-> @@ -58,7 +58,7 @@ PACKAGES += "\
->             ${PN}-zsh-completion \
->  "
->
-> -do_install_append() {
-> +do_install:append() {
->          install -Dm644 ${S}/pkg/salt-common.logrotate ${D}${sysconfdir}/logrotate.d/${PN}
->          install -Dm644 ${S}/pkg/salt.bash ${D}${datadir}/bash-completion/completions/${PN}
->          install -Dm644 ${S}/pkg/zsh_completion.zsh ${D}${datadir}/zsh/site-functions/_${PN}
-> @@ -90,7 +90,7 @@ DESCRIPTION_${PN}-minion = "${DESCRIPTION_COMMON} This particular package provid
->  RDEPENDS_${PN}-minion = "${PN}-common (= ${EXTENDPKGV}) python3-msgpack python3-pycryptodomex (>= 3.9.7)"
->  RDEPENDS_${PN}-minion += "${@bb.utils.contains('PACKAGECONFIG', 'zeromq', 'python3-pycrypto python3-pyzmq (>= 13.1.0)', '',d)}"
->  RDEPENDS_${PN}-minion += "${@bb.utils.contains('PACKAGECONFIG', 'tcp', 'python3-pycrypto', '',d)}"
-> -RRECOMMENDS_${PN}-minion_append_x64 = "dmidecode"
-> +RRECOMMENDS_${PN}-minion:append_x64 = "dmidecode"
->  RSUGGESTS_${PN}-minion = "python3-augeas"
->  CONFFILES_${PN}-minion = "${sysconfdir}/${PN}/minion"
->  FILES_${PN}-minion = "${bindir}/${PN}-minion ${sysconfdir}/${PN}/minion.d/ ${CONFFILES_${PN}-minion} ${bindir}/${PN}-proxy ${systemd_system_unitdir}/salt-minion.service"
-> diff --git a/recipes-connectivity/consul/consul_git.bb b/recipes-connectivity/consul/consul_git.bb
-> index a49d4a16..9f9c42c2 100644
-> --- a/recipes-connectivity/consul/consul_git.bb
-> +++ b/recipes-connectivity/consul/consul_git.bb
-> @@ -12,7 +12,7 @@ SRC_URI = "git://${GO_IMPORT}.git;branch=main \
->
->  S = "${WORKDIR}/git"
->
-> -RDEPENDS_${PN}-dev_append = " bash"
-> +RDEPENDS_${PN}-dev:append = " bash"
->
->  # Temporarily workaround an issue with GO 1.12.1
->  # http://www.lyddzz.com/github_/golang/go/issues/30768
-> @@ -28,11 +28,11 @@ COMPATIBLE_HOST_mipsarch = "null"
->  SYSTEMD_SERVICE_${PN} = "consul.service"
->  SYSTEMD_AUTO_ENABLE_${PN} = "disable"
->
-> -do_compile_prepend () {
-> +do_compile:prepend () {
->      export GO111MODULE=off
->  }
->
-> -do_install_append() {
-> +do_install:append() {
->      install -d ${D}/${systemd_unitdir}/system
->      cp ${WORKDIR}/consul.service ${D}/${systemd_unitdir}/system
->  }
-> diff --git a/recipes-devtools/python/python-ansible.inc b/recipes-devtools/python/python-ansible.inc
-> index f1b3771a..2b8d655e 100644
-> --- a/recipes-devtools/python/python-ansible.inc
-> +++ b/recipes-devtools/python/python-ansible.inc
-> @@ -16,7 +16,7 @@ S = "${WORKDIR}/${SRCNAME}-${PV}"
->
->  ANSIBLE_WHITELIST_MODULES ?= "commands files system network/ovs __pycache__ service"
->
-> -do_install_append() {
-> +do_install:append() {
->      set +e
->
->      # install hosts and conf
-> diff --git a/recipes-extended/glusterfs/glusterfs.inc b/recipes-extended/glusterfs/glusterfs.inc
-> index 81ea65e1..c8ff71f0 100644
-> --- a/recipes-extended/glusterfs/glusterfs.inc
-> +++ b/recipes-extended/glusterfs/glusterfs.inc
-> @@ -52,8 +52,8 @@ EXTRA_OECONF = "ac_cv_file__etc_debian_version=no \
->                 "
->
->  PACKAGECONFIG ??= "georeplication libibverbs"
-> -PACKAGECONFIG_remove_mipsarch = "libibverbs"
-> -PACKAGECONFIG_remove_arm = "libibverbs"
-> +PACKAGECONFIG:remove:mipsarch = "libibverbs"
-> +PACKAGECONFIG:remove:arm = "libibverbs"
->
->  PACKAGECONFIG[debug] = "--enable-debug,--disable-debug,,"
->  PACKAGECONFIG[georeplication] = "--enable-georeplication,--disable-georeplication,,rsync"
-> @@ -61,7 +61,7 @@ PACKAGECONFIG[libibverbs] = "--enable-ibverbs,--disable-ibverbs,virtual/libibver
->  PACKAGECONFIG[ocf] = "--with-ocf,--without-ocf,,"
->  PACKAGECONFIG[valgrind] = "--enable-valgrind,--disable-valgrind,valgrind,"
->
-> -do_install_append() {
-> +do_install:append() {
->      install -d ${D}${sysconfdir}/init.d
->      install -m 0755 ${WORKDIR}/glusterd.init \
->          ${D}${sysconfdir}/init.d/glusterd
-> diff --git a/recipes-extended/librdmacm/librdmacm_1.1.0.bb b/recipes-extended/librdmacm/librdmacm_1.1.0.bb
-> index edf92f01..12b94a37 100644
-> --- a/recipes-extended/librdmacm/librdmacm_1.1.0.bb
-> +++ b/recipes-extended/librdmacm/librdmacm_1.1.0.bb
-> @@ -35,7 +35,7 @@ FILES_${PN}-dbg += "${libdir}/rsocket/.debug"
->  PACKAGECONFIG ??= ""
->  PACKAGECONFIG[valgrind] = "--with-valgrind,--without-valgrind,valgrind,"
->
-> -do_install_append() {
-> +do_install:append() {
->          rm -f ${D}${libdir}/librdmacm.la
->          rm -f ${D}${libdir}/rsocket/librspreload.la
->  }
-> diff --git a/recipes-support/nss-pam-ldapd/nss-pam-ldapd_0.9.8.bb b/recipes-support/nss-pam-ldapd/nss-pam-ldapd_0.9.8.bb
-> index 98fb4425..ef4d2e73 100644
-> --- a/recipes-support/nss-pam-ldapd/nss-pam-ldapd_0.9.8.bb
-> +++ b/recipes-support/nss-pam-ldapd/nss-pam-ldapd_0.9.8.bb
-> @@ -12,7 +12,7 @@ LICENSE = "LGPLv2.1"
->  LIC_FILES_CHKSUM = "file://COPYING;md5=fbc093901857fcd118f065f900982c24"
->  SECTION = "base"
->
-> -FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
-> +FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
->
->  SRC_URI = "\
->         http://arthurdejong.org/nss-pam-ldapd/${BPN}-${PV}.tar.gz \
-> @@ -41,7 +41,7 @@ FILES_${PN}-dbg += "${base_libdir}/security/.debug"
->
->  LDAP_DN ?= "dc=my-domain,dc=com"
->
-> -do_install_append() {
-> +do_install:append() {
->         install -D -m 0755 ${WORKDIR}/nslcd.init ${D}${sysconfdir}/init.d/nslcd
->
->         sed -i -e 's/^uid nslcd/# uid nslcd/;' ${D}${sysconfdir}/nslcd.conf
-> diff --git a/recipes-support/openldap/openldap_2.4.39.bb b/recipes-support/openldap/openldap_2.4.39.bb
-> index 3048c8ee..d52b1a12 100644
-> --- a/recipes-support/openldap/openldap_2.4.39.bb
-> +++ b/recipes-support/openldap/openldap_2.4.39.bb
-> @@ -164,7 +164,7 @@ PACKAGECONFIG[proxycache] = "--enable-proxycache=mod,--enable-proxycache=no,"
->  #--enable-mdb         enable mdb database backend no|yes|mod no
->  PACKAGECONFIG[mdb] = "--enable-mdb=mod,--enable-mdb=no,"
->
-> -CPPFLAGS_append = " -D_GNU_SOURCE"
-> +CPPFLAGS:append = " -D_GNU_SOURCE"
->
->  do_configure() {
->      cp ${STAGING_DATADIR_NATIVE}/libtool/config/ltmain.sh ${S}/build
-> diff --git a/recipes-support/puppet-vswitch/puppet-vswitch_git.bb b/recipes-support/puppet-vswitch/puppet-vswitch_git.bb
-> index 86922aef..a1cce85f 100644
-> --- a/recipes-support/puppet-vswitch/puppet-vswitch_git.bb
-> +++ b/recipes-support/puppet-vswitch/puppet-vswitch_git.bb
-> @@ -28,5 +28,5 @@ RDEPENDS_${PN} += " \
->
->  RUBY_INSTALL_GEMS = "puppet-vswitch-${PV}.gem"
->
-> -do_install_append() {
-> +do_install:append() {
->  }
-> diff --git a/recipes-support/puppet/puppet_5.4.0.bb b/recipes-support/puppet/puppet_5.4.0.bb
-> index 54574e49..3937d433 100644
-> --- a/recipes-support/puppet/puppet_5.4.0.bb
-> +++ b/recipes-support/puppet/puppet_5.4.0.bb
-> @@ -36,7 +36,7 @@ SYSTEMD_AUTO_ENABLE = "enable"
->  SYSTEMD_PACKAGES = "${PN}"
->  SYSTEMD_SERVICE_${PN} = "${BPN}.service"
->
-> -do_install_append() {
-> +do_install:append() {
->      install -d ${D}${sysconfdir}/puppet
->      install -d ${D}${sysconfdir}/puppet/manifests
->      install -d ${D}${sysconfdir}/puppet/modules
-> diff --git a/recipes-support/spice/spice_git.bb b/recipes-support/spice/spice_git.bb
-> index 7198ce05..4d8e962c 100644
-> --- a/recipes-support/spice/spice_git.bb
-> +++ b/recipes-support/spice/spice_git.bb
-> @@ -66,11 +66,11 @@ LICENSE_${PN}-protocol = "BSD"
->  FILES_${PN}-protocol += "${includedir}/spice-1"
->  FILES_${PN}-protocol += "${datadir}/pkgconfig"
->
-> -do_configure_prepend() {
-> +do_configure:prepend() {
->         mkdir -p ${S}/spice-common/spice-protocol/m4
->  }
->
-> -do_install_append() {
-> +do_install:append() {
->         cd ${B}/spice-common/spice-protocol
->         oe_runmake DESTDIR="${D}" install
->         cd -
-> --
-> 2.25.1
->
->
-> 
->
-
-
+diff --git a/meta-openstack/recipes-support/salt/salt_3001.1.bb b/meta-openstack/recipes-support/salt/salt_3001.1.bb
+index 9b485d699b5e01ed287256b96e33249e98b02ae0..c789ab94c44bb6fd8713f15174b4ffa91a173e47 100644
+--- a/meta-openstack/recipes-support/salt/salt_3001.1.bb
++++ b/meta-openstack/recipes-support/salt/salt_3001.1.bb
+@@ -1,7 +1,7 @@
+ HOMEPAGE = "http://saltstack.com/"
+ SECTION = "admin"
+ LICENSE = "Apache-2.0"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=89aea4e17d99a7cacdbeed46a0096b10"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=ac9a49d86925151327b277d6a3999a07"
+ DEPENDS = "\
+            python3-msgpack \
+            python3-pyyaml \
 -- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+2.32.0
+
