@@ -1,68 +1,193 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
- by mx.groups.io with SMTP id smtpd.web09.7900.1630070357124334052
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+ by mx.groups.io with SMTP id smtpd.web10.9130.1630075916564902156
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 27 Aug 2021 06:19:17 -0700
+ Fri, 27 Aug 2021 07:51:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=LA08eXNM;
- spf=pass (domain: gmail.com, ip: 209.85.218.54, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ej1-f54.google.com with SMTP id u14so13686367ejf.13
-        for <meta-virtualization@lists.yoctoproject.org>; Fri, 27 Aug 2021 06:19:16 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=oO+7MfPA;
+ spf=pass (domain: gmail.com, ip: 209.85.222.177, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f177.google.com with SMTP id 14so7438046qkc.4
+        for <meta-virtualization@lists.yoctoproject.org>; Fri, 27 Aug 2021 07:51:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=BZZDu6Qyp/dsU8JVdtstyE0BKC5mzaiszyDMjKqhNG0=;
-        b=LA08eXNM82o9I3/WMLr+J3YQC9ebEgGZmJntxDIj440MF9D+aEOjwoV2seb8xu1XEk
-         xUKSrXssgof2Q70d4tFQ0aG3LAB1yHS8CmyCdD1LJb0lw5Os4H/ETeWDb+WMZVqb1RTL
-         2waNOKt8SmzF2DgO4qow5ElMWVSDcI3bhuNKi1wNPdAxXocM20IsBUb4vk5J9QuVEY1P
-         21DpnWZonHkYUJKj7LCIqITAMsD4l+OD2LRbj44QwsB5D28jkVoE+Gc7tU60SQVchHkM
-         GdBz7jNpLCzlNc8iaoY4hEXgOK/967m3NNYnVIBwBt36SZVm7fyUlYLgo46fk0HzJTlQ
-         OAvw==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=yEiELB0QszfKWHkIrFy8DvBWv+0JeAdNQWs07N39y3g=;
+        b=oO+7MfPAvDjwu6pDLv+gRqiO2wGz4oJn4SVXAyq7gOagtZcylAipW11lPl+MuVNOJv
+         trXf8nJjWGU2KMKNtBYVizZ3vY6eoQEKhBfr32q0Jc2CPij250gW8S/YPLA+DRllLYjd
+         hNPXSebcWU0fkWYdTVPDxW3qr+cBEI/b/XJEIRhleGb3+yFDWHWSbjZgGqXTae0tK0gm
+         5YWeIZ29fXqPdaf7MNYDCTMsrI8Fy3c1YxhGUDFEHOHd9JY3/lnC67IxgMch5Fy53xQh
+         s8rlNGP4+mVNqVlBFRgavRcNVrq0c7cwfeEG8+Yrk52WScL9Hv1EXjW8KURY6Po/HVgj
+         skIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=BZZDu6Qyp/dsU8JVdtstyE0BKC5mzaiszyDMjKqhNG0=;
-        b=rF7skuDypkLzXbyVpCuabpyWdoga/52reeSHfkz1A7ArrOZzoFEkdmWJvUC2PWnXnJ
-         i2ndIrEGnih9Yq1Khcjrbj1yL6b+v2pWJBvvtUBKbjV+y50eAraugcD6A9hFOvf4BBBw
-         oEh6mQPsIOEj7+245ptUaeRuwwr1Sb63Bmr3PdFXo66cXDEM1tN8obEnMC3a1/d03a8e
-         0RnGuZr3LTrRz8OcnIHe5N77DX6lfsU+mD1N3fOpKWhGZi3a4KmkIOuh7fBAJbnrqqsP
-         UBjjITDtCzwfefxAPSbAWPMEMZRdO3lQPbBUN699Xs61o9882DhrfVsCP41w/miTpImb
-         N0fA==
-X-Gm-Message-State: AOAM533EzF7++9B8EvPGZfjqZVnPKQw+lJJqQPwyDPNFN94dzrdHukiR
-	Gk6tahjHLn0VF/oHeImj+YRdr3hxyjffUg==
-X-Google-Smtp-Source: ABdhPJxl0xbCYF/mYlaAFR4jGk3MCUw8h6jrtsCxys6txH33CAFw5M5UPYOQkcxmdPDrgZvAvOBAIw==
-X-Received: by 2002:a17:906:660b:: with SMTP id b11mr9644408ejp.427.1630070355590;
-        Fri, 27 Aug 2021 06:19:15 -0700 (PDT)
-Return-Path: <martin.jansa@gmail.com>
-Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id b3sm2885827ejb.7.2021.08.27.06.19.15
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=yEiELB0QszfKWHkIrFy8DvBWv+0JeAdNQWs07N39y3g=;
+        b=qvhe1vLDge/F4JkkSxQfPzAYymDY3GC30QgywpgyHaZbKeMNTmkk58MHAiQaZlz7qP
+         oA+bNgL/XHQps9BBYl/MpqW+ISgfqpZ281RFwo7E3/BhzNNSaWYXg1zUpQqBnx4ZBtlv
+         +p85aspS4IxRXpX2+gboLPVDmgWztEgHDC2fQbXPw6Ny/+i4sFNXni8zpbkex/ib1dhQ
+         pwZlFNAS0H6NgUtQE8m9SVypXJsyM1XK6gnXQnDdqIcGGnqf5si3PgnjUtNkie7ZBuF/
+         orI9Oxl5ivds5MOQhIbHQ2Gf0r5CfjyXMEKKEiC48PBsni7grAfSJ/s+enmQA3DlQzwD
+         DzaQ==
+X-Gm-Message-State: AOAM5322zrMEuhY7Q+VKS2cppyrej9LQg9028APOFPoxsiznQKwjEGyB
+	7LE8oZru2xKOQ5ATOdNCDQw=
+X-Google-Smtp-Source: ABdhPJyx7mkXcx2/OZEBKaRtZTZsfh5qjoGQZclstSel7WOj2llOD1zofOm61RDXMj33Zo9Ou+e6qw==
+X-Received: by 2002:a05:620a:2849:: with SMTP id h9mr9562861qkp.69.1630075915611;
+        Fri, 27 Aug 2021 07:51:55 -0700 (PDT)
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from gmail.com (cpe04d4c4975b80-cmf4c11490699b.cpe.net.cable.rogers.com. [174.112.63.222])
+        by smtp.gmail.com with ESMTPSA id bi20sm4601209qkb.133.2021.08.27.07.51.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Aug 2021 06:19:15 -0700 (PDT)
-From: "Martin Jansa" <Martin.Jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: meta-virtualization@lists.yoctoproject.org
-Cc: Martin Jansa <Martin.Jansa@gmail.com>
-Subject: [meta-virtualization][PATCH] busybox-initrd: rename to match 1.34.0 version from oe-core
-Date: Fri, 27 Aug 2021 15:19:13 +0200
-Message-Id: <20210827131913.3314816-1-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.30.2
+        Fri, 27 Aug 2021 07:51:54 -0700 (PDT)
+Date: Fri, 27 Aug 2021 10:51:53 -0400
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+To: Christopher Clark <christopher.w.clark@gmail.com>
+Cc: meta-virtualization@lists.yoctoproject.org, cardoe@gentoo.org
+Subject: Re: [meta-virtualization][PATCH] xen, xen-tools: apply workaround for gnu linker error to fix x86 build
+Message-ID: <20210827145150.GA23331@gmail.com>
+References: <20210824051027.200287-1-christopher.w.clark@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210824051027.200287-1-christopher.w.clark@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Upgraded in:
-https://git.openembedded.org/openembedded-core/commit/?id=d0e694ef4ec7bd862bdefee494210e3878152b44
+merged!
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- .../{busybox-initrd_1.33.1.bb => busybox-initrd_1.34.0.bb}        | 0
- 1 file changed, 0 insertions(+), 0 deletions(-)
- rename recipes-core/busybox/{busybox-initrd_1.33.1.bb => busybox-initrd_1.34.0.bb} (100%)
+Bruce
 
-diff --git a/recipes-core/busybox/busybox-initrd_1.33.1.bb b/recipes-core/busybox/busybox-initrd_1.34.0.bb
-similarity index 100%
-rename from recipes-core/busybox/busybox-initrd_1.33.1.bb
-rename to recipes-core/busybox/busybox-initrd_1.34.0.bb
--- 
-2.30.2
+In message: [meta-virtualization][PATCH] xen, xen-tools: apply workaround for gnu linker error to fix x86 build
+on 23/08/2021 Christopher Clark wrote:
 
+> Upstream patch applied to each Xen and Xen tools recipe to fix the build
+> of the hypervisor and shim with GNU linker 2.37.
+> 
+> Signed-off-by: Christopher Clark <christopher.w.clark@gmail.com>
+> ---
+>  ...-around-build-issue-with-GNU-ld-2.37.patch | 36 +++++++++++++++++++
+>  recipes-extended/xen/xen-tools_4.14.bb        |  1 +
+>  recipes-extended/xen/xen-tools_4.15.bb        |  1 +
+>  recipes-extended/xen/xen-tools_git.bb         |  1 +
+>  recipes-extended/xen/xen_4.14.bb              |  1 +
+>  recipes-extended/xen/xen_4.15.bb              |  1 +
+>  recipes-extended/xen/xen_git.bb               |  1 +
+>  7 files changed, 42 insertions(+)
+>  create mode 100644 recipes-extended/xen/files/0001-x86-work-around-build-issue-with-GNU-ld-2.37.patch
+> 
+> diff --git a/recipes-extended/xen/files/0001-x86-work-around-build-issue-with-GNU-ld-2.37.patch b/recipes-extended/xen/files/0001-x86-work-around-build-issue-with-GNU-ld-2.37.patch
+> new file mode 100644
+> index 0000000..f5108be
+> --- /dev/null
+> +++ b/recipes-extended/xen/files/0001-x86-work-around-build-issue-with-GNU-ld-2.37.patch
+> @@ -0,0 +1,36 @@
+> +From 58ad654ebce7ccb272a3f4f3482c03aaad850d31 Mon Sep 17 00:00:00 2001
+> +From: Jan Beulich <jbeulich@suse.com>
+> +Date: Thu, 22 Jul 2021 11:20:38 +0200
+> +Subject: [PATCH] x86: work around build issue with GNU ld 2.37
+> +
+> +I suspect it is commit 40726f16a8d7 ("ld script expression parsing")
+> +which broke the hypervisor build, by no longer accepting section names
+> +with a dash in them inside ADDR() (and perhaps other script directives
+> +expecting just a section name, not an expression): .note.gnu.build-id
+> +is such a section.
+> +
+> +Quoting all section names passed to ADDR() via DECL_SECTION() works
+> +around the regression.
+> +
+> +Signed-off-by: Jan Beulich <jbeulich@suse.com>
+> +Acked-by: Andrew Cooper <andrew.cooper3@citrix.com>
+> +---
+> + xen/arch/x86/xen.lds.S | 2 +-
+> + 1 file changed, 1 insertion(+), 1 deletion(-)
+> +
+> +diff --git a/xen/arch/x86/xen.lds.S b/xen/arch/x86/xen.lds.S
+> +index 9c6c1c8005..955d5cf4a0 100644
+> +--- a/xen/arch/x86/xen.lds.S
+> ++++ b/xen/arch/x86/xen.lds.S
+> +@@ -18,7 +18,7 @@ ENTRY(efi_start)
+> + #else /* !EFI */
+> + 
+> + #define FORMAT "elf64-x86-64"
+> +-#define DECL_SECTION(x) x : AT(ADDR(x) - __XEN_VIRT_START)
+> ++#define DECL_SECTION(x) x : AT(ADDR(#x) - __XEN_VIRT_START)
+> + 
+> + ENTRY(start_pa)
+> + 
+> +-- 
+> +2.25.1
+> +
+> diff --git a/recipes-extended/xen/xen-tools_4.14.bb b/recipes-extended/xen/xen-tools_4.14.bb
+> index 6fd6f7f..ce5dc2e 100644
+> --- a/recipes-extended/xen/xen-tools_4.14.bb
+> +++ b/recipes-extended/xen/xen-tools_4.14.bb
+> @@ -9,6 +9,7 @@ SRC_URI = " \
+>      file://0001-firmware-provide-a-stand-alone-set-of-headers-Xen-4.14.patch \
+>      file://0001-tools-firmware-Build-firmware-as-ffreestanding-Xen-4.14.patch \
+>      file://0001-libs-foreignmemory-Fix-osdep_xenforeignmemory_map-pr.patch \
+> +    file://0001-x86-work-around-build-issue-with-GNU-ld-2.37.patch \
+>      "
+>  
+>  LIC_FILES_CHKSUM ?= "file://COPYING;md5=419739e325a50f3d7b4501338e44a4e5"
+> diff --git a/recipes-extended/xen/xen-tools_4.15.bb b/recipes-extended/xen/xen-tools_4.15.bb
+> index f3f9cd3..e9c3bd6 100644
+> --- a/recipes-extended/xen/xen-tools_4.15.bb
+> +++ b/recipes-extended/xen/xen-tools_4.15.bb
+> @@ -7,6 +7,7 @@ SRC_URI = " \
+>      git://xenbits.xen.org/xen.git;branch=${XEN_BRANCH} \
+>      file://0001-python-pygrub-pass-DISTUTILS-xen-4.15.patch \
+>      file://0001-libs-foreignmemory-Fix-osdep_xenforeignmemory_map-pr.patch \
+> +    file://0001-x86-work-around-build-issue-with-GNU-ld-2.37.patch \
+>      "
+>  
+>  LIC_FILES_CHKSUM ?= "file://COPYING;md5=419739e325a50f3d7b4501338e44a4e5"
+> diff --git a/recipes-extended/xen/xen-tools_git.bb b/recipes-extended/xen/xen-tools_git.bb
+> index 0b2dce9..6926bd9 100644
+> --- a/recipes-extended/xen/xen-tools_git.bb
+> +++ b/recipes-extended/xen/xen-tools_git.bb
+> @@ -7,6 +7,7 @@ SRC_URI = " \
+>      git://xenbits.xen.org/xen.git;branch=${XEN_BRANCH} \
+>      file://0001-python-pygrub-pass-DISTUTILS-xen-4.15.patch \
+>      file://0001-libs-foreignmemory-Fix-osdep_xenforeignmemory_map-pr.patch \
+> +    file://0001-x86-work-around-build-issue-with-GNU-ld-2.37.patch \
+>      "
+>  
+>  LIC_FILES_CHKSUM ?= "file://COPYING;md5=419739e325a50f3d7b4501338e44a4e5"
+> diff --git a/recipes-extended/xen/xen_4.14.bb b/recipes-extended/xen/xen_4.14.bb
+> index 0dd9d3c..291ba16 100644
+> --- a/recipes-extended/xen/xen_4.14.bb
+> +++ b/recipes-extended/xen/xen_4.14.bb
+> @@ -7,6 +7,7 @@ SRC_URI = " \
+>      git://xenbits.xen.org/xen.git;branch=${XEN_BRANCH} \
+>      file://xen-arm64-implement-atomic-fetch-add.patch \
+>      file://0001-menuconfig-mconf-cfg-Allow-specification-of-ncurses-location.patch \
+> +    file://0001-x86-work-around-build-issue-with-GNU-ld-2.37.patch \
+>      "
+>  
+>  LIC_FILES_CHKSUM ?= "file://COPYING;md5=419739e325a50f3d7b4501338e44a4e5"
+> diff --git a/recipes-extended/xen/xen_4.15.bb b/recipes-extended/xen/xen_4.15.bb
+> index d0aa176..0605441 100644
+> --- a/recipes-extended/xen/xen_4.15.bb
+> +++ b/recipes-extended/xen/xen_4.15.bb
+> @@ -8,6 +8,7 @@ SRC_URI = " \
+>      file://xen-arm64-implement-atomic-fetch-add.patch \
+>      file://0001-menuconfig-mconf-cfg-Allow-specification-of-ncurses-location.patch \
+>      file://0001-x86-make-hypervisor-build-with-gcc11.patch \
+> +    file://0001-x86-work-around-build-issue-with-GNU-ld-2.37.patch \
+>      "
+>  
+>  LIC_FILES_CHKSUM ?= "file://COPYING;md5=419739e325a50f3d7b4501338e44a4e5"
+> diff --git a/recipes-extended/xen/xen_git.bb b/recipes-extended/xen/xen_git.bb
+> index 7ce7228..12c9403 100644
+> --- a/recipes-extended/xen/xen_git.bb
+> +++ b/recipes-extended/xen/xen_git.bb
+> @@ -8,6 +8,7 @@ SRC_URI = " \
+>      file://xen-arm64-implement-atomic-fetch-add.patch \
+>      file://0001-menuconfig-mconf-cfg-Allow-specification-of-ncurses-location.patch \
+>      file://0001-x86-make-hypervisor-build-with-gcc11.patch \
+> +    file://0001-x86-work-around-build-issue-with-GNU-ld-2.37.patch \
+>      "
+>  
+>  LIC_FILES_CHKSUM ?= "file://COPYING;md5=419739e325a50f3d7b4501338e44a4e5"
+> -- 
+> 2.25.1
+> 
