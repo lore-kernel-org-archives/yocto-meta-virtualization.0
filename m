@@ -1,126 +1,84 @@
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
- by mx.groups.io with SMTP id smtpd.web08.657.1630452527882714457
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
+ by mx.groups.io with SMTP id smtpd.web10.621.1630452561208536358
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 31 Aug 2021 16:28:48 -0700
+ Tue, 31 Aug 2021 16:29:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=bGGBhMIk;
- spf=pass (domain: gmail.com, ip: 209.85.222.179, mailfrom: christopher.w.clark@gmail.com)
-Received: by mail-qk1-f179.google.com with SMTP id t190so1182196qke.7
-        for <meta-virtualization@lists.yoctoproject.org>; Tue, 31 Aug 2021 16:28:47 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ZAkvri/a;
+ spf=pass (domain: gmail.com, ip: 209.85.222.174, mailfrom: christopher.w.clark@gmail.com)
+Received: by mail-qk1-f174.google.com with SMTP id p4so1214383qki.3
+        for <meta-virtualization@lists.yoctoproject.org>; Tue, 31 Aug 2021 16:29:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=68itnh0LU5Sn7KsNck04ruDuZUbKwqtDWPy37YfJZC4=;
-        b=bGGBhMIkdbC90XJAOsBDxTcYp9Vcl1YWeNHaAooZvOYDIm5bP7OguUHe+uS0istswF
-         byqaELLATtQ43ZxoKLpKaUgacbFaJD9aHLbvKT+5IP/UCLMEWIvm9JwpBbAj62Y4FmGv
-         SfkZlqBG2xOqXjCQZ2F92EOFAnSmSL5a7BeKYPEk3nwQsewYgRaMdwW/61OtXAt2bbxE
-         TTv+hZ0J363N9HqXpx5AAhjTU4cCxjrIuyDrgEr8jYb/wc88g9nxVaCJ33IdJPR+t95x
-         skwTr+Mz00dlzA4f+ntIszECGQyJGD6AyWpiPu9n1310a3hAQfD+YmeeTLAJYCSIRgDd
-         bgTw==
+        bh=IdKRK7mN5GY2NQpiIBvo06f9nZwyLuEegNkf9umH8O0=;
+        b=ZAkvri/aJ3DQnMeqMOt9agd7sU8UfFeZmbuUfWxk8aRVqDSd9Kd9sVxrk0Ae1tXA9k
+         YTfCLwo36fZetfnTAAxxp4VMYk+WhESlytX+aLO48WXri4+z2ad/C94adCVUwh8pYbZ/
+         nWHNUguSPq1FT5p419PFqV+ThxOWUK/86iSTQME/x72tKo9q8z1yowI2gnJ3fvFDSMr5
+         tn1+X83CFhW96gwgL+x4fnKmGVrqiivjPhNl51Pip2TzigCrmquPXNfeHxD8lagsXyFY
+         veA4QvtqkOjqpubulnIvk64cqi9dGuBi2CNeWunlcSo9czpyJNJU9vpUVfS+F8v2GX3I
+         pENg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=68itnh0LU5Sn7KsNck04ruDuZUbKwqtDWPy37YfJZC4=;
-        b=IvbqDF3Cr0i+TaGq/wN/uVweNf/2Ib+4MX35eONJL5Nudc3mXtp7MBWjObwVjMRFHb
-         yOHb3Nq/m8rIwstqoP7Gm+yM1uY460roNvf1g7+WvTp2AQ6d0919WMuQaII/Kkys3F/d
-         8jYr3PfyV/xRKOY24TyTPD06yEjR54/g4uyjLdbHdvW2OFKPI+VTKNdTEVijgwVG4peX
-         pRTkQeDa1xcwDxgEWKzaExxC8LHqzmQwfMX5EjuYkm3fGQLqijuo3dQjtvww3wrClW1H
-         qh2P0jL63HtWF9gzXETbH7JViiSqhsYPyp3aTpvEDn8W539Zp/tbdfofFpvQZ53BcKNC
-         ZZPg==
-X-Gm-Message-State: AOAM533TWlQFyoUSuLi1/sVxuZSd72EYe6zyhcocWSaDS6TqW2B1f6kH
-	0N7UZUnoRWvbzCBvJpCnBrA1fa8tpxNe8g==
-X-Google-Smtp-Source: ABdhPJy0in8wEgR+g//bni0UAqzPtD830EkdighcCe0FQLGBUlMlMhUQTatoBeobAE2++SxPR27z0Q==
-X-Received: by 2002:a37:b606:: with SMTP id g6mr5685400qkf.476.1630452526848;
-        Tue, 31 Aug 2021 16:28:46 -0700 (PDT)
+        bh=IdKRK7mN5GY2NQpiIBvo06f9nZwyLuEegNkf9umH8O0=;
+        b=gvODPIUrp/xrPNWF8QhRrFGaBAgmYMfGUU/dUVPW+vohx3G3DwPRKEqhbvTZ0wH52M
+         ptlh5wAo9hYY5RtVsDeeTvNRlhfOapsYsSI1zGUW6JunIEEYcaQl1YWEGYf1SbRrekUo
+         Xs3GHoVshaIPEzj9w4s+l5lCWEZ13T2Oi72nUfManb91+Byn5h7YW8kLYy4SEWuXr2m1
+         gHV9yUcoBSVmpDl4zVmHES804MIZQf3TmOzYycb/qRnwq1WQDWpsLfQG80DEGjjLLvHS
+         1vLo+xYHN3vMu5iolHwVYtwc/AyoIaLriIE8/CnFOFga8fPKFCNwUlJ2eHZcAiG6s0TS
+         LhdA==
+X-Gm-Message-State: AOAM533IPv0k9y9a7ZWV3XwrcdZx1jmDzjGyi0U66CD46etvnctI3LwE
+	Xh9cEDU9x1vIV9EdyznY9EUf3zfRLQAPGg==
+X-Google-Smtp-Source: ABdhPJyzh7X04zUkF6qSccovRhxk2ApeoHSBreXcVHKPSrwHLhGtKuoeUsLh4IuuO8OekoPWFZ5qaQ==
+X-Received: by 2002:a05:620a:294d:: with SMTP id n13mr5582822qkp.179.1630452560216;
+        Tue, 31 Aug 2021 16:29:20 -0700 (PDT)
 Return-Path: <christopher.w.clark@gmail.com>
 Received: from walnut.ice.pyrology.org (mobile-166-170-39-79.mycingular.net. [166.170.39.79])
-        by smtp.gmail.com with ESMTPSA id d20sm14793007qkl.13.2021.08.31.16.28.29
+        by smtp.gmail.com with ESMTPSA id d20sm14793007qkl.13.2021.08.31.16.28.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 Aug 2021 16:28:46 -0700 (PDT)
+        Tue, 31 Aug 2021 16:29:19 -0700 (PDT)
 From: "Christopher Clark" <christopher.w.clark@gmail.com>
 To: meta-virtualization@lists.yoctoproject.org
 Cc: bruce.ashfield@gmail.com,
 	cardoe@gentoo.org,
+	Bertrand.Marquis@arm.com,
 	andrew.cooper3@citrix.com,
 	dpsmith@apertussolutions.com,
 	persaur@gmail.com,
 	scott.davis@starlab.io,
-	adam.schwalm@starlab.io
-Subject: [meta-virtualization][PATCH 1/4] xen-image-minimal: supply bootloader config for qemux86-64 machine
-Date: Tue, 31 Aug 2021 16:27:40 -0700
-Message-Id: <20210831232743.252498-2-christopher.w.clark@gmail.com>
+	adam.schwalm@starlab.io,
+	jdmason@kudzu.us
+Subject: [meta-virtualization][PATCH 2/4] xtf-image: fix QB_DEFAULT_FSTYPE: only needed for x86-64 qemu
+Date: Tue, 31 Aug 2021 16:27:41 -0700
+Message-Id: <20210831232743.252498-3-christopher.w.clark@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210831232743.252498-1-christopher.w.clark@gmail.com>
 References: <20210831232743.252498-1-christopher.w.clark@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add a dedicated bootloader config for the qemux86-64 machine so that the
-'pmtmr=0' kernel command line argument can be provided, which removes an
-error message that otherwise occurs in syslog during boot which is
-detected by an OEQA test case causing it to fail.
-
-A new kickstart file is provided that applies the new bootloader config
-and it is supplied as an override to WKS_FILE for this image.
-
-This is work towards enabling the Xen Test Framework (XTF) in the OEQA
-testimage framework.
+The qemuboot launch method for x86-64 uses wic but Arm does not.
 
 Signed-off-by: Christopher Clark <christopher.clark@starlab.io>
 ---
- recipes-extended/images/xen-image-minimal.bb |  1 +
- wic/qemuboot-xen-x86-64.cfg                  |  8 ++++++++
- wic/qemuboot-xen-x86-64.wks                  | 12 ++++++++++++
- 3 files changed, 21 insertions(+)
- create mode 100644 wic/qemuboot-xen-x86-64.cfg
- create mode 100644 wic/qemuboot-xen-x86-64.wks
+ recipes-extended/images/xtf-image.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/recipes-extended/images/xen-image-minimal.bb b/recipes-extended/images/xen-image-minimal.bb
-index b4ddda2..fbdd007 100644
---- a/recipes-extended/images/xen-image-minimal.bb
-+++ b/recipes-extended/images/xen-image-minimal.bb
-@@ -74,6 +74,7 @@ build_syslinux_cfg () {
+diff --git a/recipes-extended/images/xtf-image.bb b/recipes-extended/images/xtf-image.bb
+index 6bd5a34..21c0e7f 100644
+--- a/recipes-extended/images/xtf-image.bb
++++ b/recipes-extended/images/xtf-image.bb
+@@ -16,7 +16,7 @@ IMAGE_NAME="xtf"
  
- # Enable runqemu. eg: runqemu xen-image-minimal nographic slirp
- WKS_FILE:x86-64 = "directdisk-xen.wks"
-+WKS_FILE:qemux86-64 = "qemuboot-xen-x86-64.wks"
- QB_MEM ?= "-m 400"
- QB_DEFAULT_KERNEL ?= "none"
- QB_DEFAULT_FSTYPE ?= "wic"
-diff --git a/wic/qemuboot-xen-x86-64.cfg b/wic/qemuboot-xen-x86-64.cfg
-new file mode 100644
-index 0000000..297e19b
---- /dev/null
-+++ b/wic/qemuboot-xen-x86-64.cfg
-@@ -0,0 +1,8 @@
-+DEFAULT boot
-+TIMEOUT 0
-+PROMPT 0
-+SERIAL 0 115200
-+
-+LABEL boot
-+  KERNEL mboot.c32
-+  APPEND /xen.gz console=com1,vga com1=115200,8n1 loglvl=all guest_loglvl=all --- /vmlinuz console=hvc0 earlyprintk=xen root=/dev/sda2 pmtmr=0
-diff --git a/wic/qemuboot-xen-x86-64.wks b/wic/qemuboot-xen-x86-64.wks
-new file mode 100644
-index 0000000..593e0a6
---- /dev/null
-+++ b/wic/qemuboot-xen-x86-64.wks
-@@ -0,0 +1,12 @@
-+# short-description: Create a 'pcbios' direct disk image with Xen hypervisor and bootloader config
-+# long-description: Creates a partitioned legacy BIOS disk image to boot Xen
-+# with a bootloader config that the user can directly dd to boot media.
-+# Boot files are located on the first vfat partition.
-+
-+part /boot --source bootimg-biosxen --ondisk sda --label boot --active --align 1024
-+
-+# For the main partition, it can be useful to add additional space for VMs;
-+# eg. increase partition size by appending: --size 10G
-+part / --source rootfs --ondisk sda --use-uuid --fstype=ext4 --label root --align 1024
-+
-+bootloader --configfile="qemuboot-xen-x86-64.cfg"
+ IMAGE_INSTALL:append = " xtf"
+ 
+-QB_DEFAULT_FSTYPE = "wic"
++QB_DEFAULT_FSTYPE_x86-64 = "wic"
+ 
+ # Set the dom0 memory level lower than that assigned to qemu so that Xen has
+ # some available memory for allocating to the XTF microkernel guests to run:
 -- 
 2.25.1
 
