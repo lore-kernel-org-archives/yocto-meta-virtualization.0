@@ -1,94 +1,100 @@
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
- by mx.groups.io with SMTP id smtpd.web08.9297.1630076029250055408
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+ by mx.groups.io with SMTP id smtpd.web08.655.1630452509213314213
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 27 Aug 2021 07:53:49 -0700
+ Tue, 31 Aug 2021 16:28:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=XzPE+Aza;
- spf=pass (domain: gmail.com, ip: 209.85.160.181, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qt1-f181.google.com with SMTP id e3so5500307qth.9
-        for <meta-virtualization@lists.yoctoproject.org>; Fri, 27 Aug 2021 07:53:49 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=vNNrEmpT;
+ spf=pass (domain: gmail.com, ip: 209.85.222.177, mailfrom: christopher.w.clark@gmail.com)
+Received: by mail-qk1-f177.google.com with SMTP id f22so1196071qkm.5
+        for <meta-virtualization@lists.yoctoproject.org>; Tue, 31 Aug 2021 16:28:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=SBYvhpLIKyLJq2VeVUlAjEMIqhFFnwMGpxldIuSWQyE=;
-        b=XzPE+Azaqoj/LDC0DV8rNDyAGRbdeiZIgJ6S0pz4tueWGK8cri/aYKnKDOq6K2HgAh
-         UDgLySLH5vIQkrQ2aNBP2aXg7DhhB6WM8QvpYvgBBHELd1dzDWZ1kJpuzKzDJ5ZcBvp0
-         6LKa3tDbkfoOSTVpD+H3NCDIIn3vIX9KtFG+KWPEOFZ55uJjUxuMx3GR4H+iGH773pFk
-         kBtj6bsMZN8bgFHFtg57njTBFpSWu7Wgzx3G+RYPgTnYmdz7Yj3QSgyzePJANlwq/VN2
-         j7W53TxDGlhZOq3h7lk+uRIUiZG2CSUujVK2izke6EK3IA6a7QBl7YFH0eq4sqAMcbF5
-         VGcQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Ry99kP0JB053Ssyckuv0Y0BMAHCEkmm5f6kkHaOlqM4=;
+        b=vNNrEmpTqAkfvGw82SR5oz6x4x5GjHWoajEUr+k1DeC8To+0UfmSLxzGmReeTjqLH+
+         rWzLjqzfzPeLKoyRrfeLMJR40JSb55FbCgPvU+qUqnAHtpZOEnpYZsvjIKMDx3ismWbY
+         XNWzAp7XqFaaP448AxrZ5RVICJ3fdThvjyGK30ZFTo4DCz6NVlPZYZ7Xyk51bcF78q8k
+         HRxI//oOpX0scRwnzG6253I+bF8MkU66TKQull7y/NRvA39efHYNB5gmH6p/imjpvieQ
+         jQg3TO5mWPtJEX5l4kQTfHFvsiMMGtFK1syUbFj/8rFR3j9EfSn3EcqFOJruECuYkE0W
+         VdgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=SBYvhpLIKyLJq2VeVUlAjEMIqhFFnwMGpxldIuSWQyE=;
-        b=ceW4HBkx4fiDajX40xRSsTl4lWQGe+CiS9EDtrExOVwUe5mhq6/lZ+K2kJjCgAKnme
-         ZoreQVXkcTGW0X5ebmpIxhd65mLtyyWNj4b2pVkZFYhN3wnKECV4N9ZyLfNKd+r0yhbB
-         7Wh3bfW4obK3Mq+oThUqHt7Nqwz0T/HUc1jXj+uMddZxBcoKmBUDu/5/DXJHdZ85dayw
-         gnFBp/Wo0+u868C8tDbi7b3OGfMb+kMG5+AQAnBz/T6bcVzm481JXlpvK+YxbwKjdkRr
-         m4iIKsTjeTJ2e1WVVFliIEBVKCVGV0rDZXjXS4/+DZP5oEIDoH/EK4tmV8DAD3NOZYc5
-         /gTQ==
-X-Gm-Message-State: AOAM530hY9Nd27oSgHHkhrmRoeMHNxXqVoYOQ9c+sI4ltAebUKI0Sil9
-	tlSaUlvl/+eeIPcZIeMmLRdMjs7idtbneA==
-X-Google-Smtp-Source: ABdhPJza/Cdi1tcXoFEBV2gJAfePi2UctwQ1FBmnKFYCPgagHzSp5oigx1DYo4AwfTJ3Jb+IsoGPiw==
-X-Received: by 2002:ac8:59c4:: with SMTP id f4mr8647781qtf.334.1630076028330;
-        Fri, 27 Aug 2021 07:53:48 -0700 (PDT)
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from gmail.com (cpe04d4c4975b80-cmf4c11490699b.cpe.net.cable.rogers.com. [174.112.63.222])
-        by smtp.gmail.com with ESMTPSA id i16sm3652928qtq.52.2021.08.27.07.53.47
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Ry99kP0JB053Ssyckuv0Y0BMAHCEkmm5f6kkHaOlqM4=;
+        b=JVnEkHsFo/fRDk6+mzx/xdj16H9IkBgeS1L/q6EoRkkohXI7aRiFiGK556oYmXLGe2
+         kJYP1tfAMpRNpLBmFjOaxunsGx+odFbwcXZrnR3m3g2lM1n/9UzJtGIndgwWeHIm4+pt
+         jzRUe8XAD9EcdS4oZQ6HlueIu3z9eglYr7z947Ld6wpw7ocfmCckg6wQbBfUBkgE13Pr
+         VWUVqDNSnJLkwCtgpVfkhikaTQL9voA9W1Q10EJN6a1jvHw5V9Gd+1PPMEeReuZDTO9S
+         XQ/0T1TxOh3JRLqYJsVnCPz+I0WP3rGXPOgiVSiJHzcYaCG/eG365pa35UQj2ZoLLdxm
+         UzbQ==
+X-Gm-Message-State: AOAM531aaKx7UGPjk3vLDGiHjnlvUrDexTF+jlOxodvnxoopG+KXNDnA
+	0hayZJfff/IquqOcv+l7vAsM4dJ0RgPu9w==
+X-Google-Smtp-Source: ABdhPJz1oPVEgrfESwcSvmCpCE/R6B2kC9V1uV+fO5Su3sFG8mYhDhSCNj0TVmgWF8Ades78tt8xZQ==
+X-Received: by 2002:a37:2d04:: with SMTP id t4mr5748841qkh.160.1630452508150;
+        Tue, 31 Aug 2021 16:28:28 -0700 (PDT)
+Return-Path: <christopher.w.clark@gmail.com>
+Received: from walnut.ice.pyrology.org (mobile-166-170-39-79.mycingular.net. [166.170.39.79])
+        by smtp.gmail.com with ESMTPSA id d20sm14793007qkl.13.2021.08.31.16.28.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Aug 2021 07:53:47 -0700 (PDT)
-Date: Fri, 27 Aug 2021 10:53:46 -0400
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-To: Alex Stewart <alex.stewart@ni.com>
-Cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [meta-virtualization][m-c-s][PATCH 1/2] salt: correct LICENSE md5sum
-Message-ID: <20210827145343.GA23990@gmail.com>
-References: <20210823191932.2555152-1-alex.stewart@ni.com>
+        Tue, 31 Aug 2021 16:28:27 -0700 (PDT)
+From: "Christopher Clark" <christopher.w.clark@gmail.com>
+To: meta-virtualization@lists.yoctoproject.org
+Cc: bruce.ashfield@gmail.com,
+	cardoe@gentoo.org,
+	Bertrand.Marquis@arm.com,
+	andrew.cooper3@citrix.com,
+	dpsmith@apertussolutions.com,
+	persaur@gmail.com,
+	scott.davis@starlab.io,
+	adam.schwalm@starlab.io,
+	jdmason@kudzu.us
+Subject: [meta-virtualization][PATCH 0/4] Xen Test Framework OEQA
+Date: Tue, 31 Aug 2021 16:27:39 -0700
+Message-Id: <20210831232743.252498-1-christopher.w.clark@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20210823191932.2555152-1-alex.stewart@ni.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Thanks for the fixes, these are now merged.
+This series integrates the Xen Test Framework (XTF) into the
+OpenEmbedded QA (OEQA) structure and enables testing of Xen with XTF
+test cases in Qemu via the standard OE testimage mechanism.
+It builds upon the earlier work to package XTF and the XTF image.
 
-Bruce
+I am aiming for this test to be enabled by default to support test
+coverage for the Xen hypervisor and initial virtual machines, the
+Xen toolstack and XTF.
 
-In message: [meta-virtualization][m-c-s][PATCH 1/2] salt: correct LICENSE md5sum
-on 23/08/2021 Alex Stewart wrote:
+Since many XTF test cases have hardware-dependent behaviour, the list of
+XTF test cases to run is minimal by default but able to be extended as
+appropriate for a particular downstream image or machine via provided
+configuration variables documented within the test.
 
-> The md5sum "ac9a49d8..." has never been a salt LICENSE file hashsum.
-> Salt_3001 verification therefore fails after fetch.
-> 
-> Set the LICENSE file hashsum to the correct value as of salt upstream
-> commit a1d07e9cc5d84895468bf360390754c4d68308d9 - which services salt
-> 3001.
-> 
-> Signed-off-by: Alex Stewart <alex.stewart@ni.com>
-> ---
->  meta-openstack/recipes-support/salt/salt_3001.1.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meta-openstack/recipes-support/salt/salt_3001.1.bb b/meta-openstack/recipes-support/salt/salt_3001.1.bb
-> index 9b485d699b5e01ed287256b96e33249e98b02ae0..c789ab94c44bb6fd8713f15174b4ffa91a173e47 100644
-> --- a/meta-openstack/recipes-support/salt/salt_3001.1.bb
-> +++ b/meta-openstack/recipes-support/salt/salt_3001.1.bb
-> @@ -1,7 +1,7 @@
->  HOMEPAGE = "http://saltstack.com/"
->  SECTION = "admin"
->  LICENSE = "Apache-2.0"
-> -LIC_FILES_CHKSUM = "file://LICENSE;md5=89aea4e17d99a7cacdbeed46a0096b10"
-> +LIC_FILES_CHKSUM = "file://LICENSE;md5=ac9a49d86925151327b277d6a3999a07"
->  DEPENDS = "\
->             python3-msgpack \
->             python3-pyyaml \
-> -- 
-> 2.32.0
-> 
+thanks,
 
-> 
-> 
-> 
+Christopher
+
+
+Christopher Clark (4):
+  xen-image-minimal: supply bootloader config for qemux86-64 machine
+  xtf-image: fix QB_DEFAULT_FSTYPE: only needed for x86-64 qemu
+  xtf-image: update qemuboot settings
+  xtf: add testimage integration to run XTF test cases in OEQA
+
+ .gitignore                                   |   1 +
+ classes/qemuboot-testimage-network.bbclass   |  17 +++
+ lib/oeqa/runtime/cases/xtf_minimal.py        | 116 +++++++++++++++++++
+ recipes-extended/images/xen-image-minimal.bb |   3 +-
+ recipes-extended/images/xtf-image.bb         |  20 +++-
+ wic/qemuboot-xen-x86-64.cfg                  |   8 ++
+ wic/qemuboot-xen-x86-64.wks                  |  12 ++
+ 7 files changed, 171 insertions(+), 6 deletions(-)
+ create mode 100644 classes/qemuboot-testimage-network.bbclass
+ create mode 100644 lib/oeqa/runtime/cases/xtf_minimal.py
+ create mode 100644 wic/qemuboot-xen-x86-64.cfg
+ create mode 100644 wic/qemuboot-xen-x86-64.wks
+
+-- 
+2.25.1
 
