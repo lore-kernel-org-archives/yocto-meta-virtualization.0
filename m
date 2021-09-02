@@ -1,144 +1,112 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
- by mx.groups.io with SMTP id smtpd.web12.5676.1630582781600146010
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+ by mx.groups.io with SMTP id smtpd.web11.2846.1630615049012432212
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 02 Sep 2021 04:39:41 -0700
+ Thu, 02 Sep 2021 13:37:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=NKVLQN+6;
- spf=pass (domain: gmail.com, ip: 209.85.218.54, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ej1-f54.google.com with SMTP id lc21so3582541ejc.7
-        for <meta-virtualization@lists.yoctoproject.org>; Thu, 02 Sep 2021 04:39:41 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=IFCeLeOm;
+ spf=pass (domain: gmail.com, ip: 209.85.160.173, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f173.google.com with SMTP id t35so2768432qtc.6
+        for <meta-virtualization@lists.yoctoproject.org>; Thu, 02 Sep 2021 13:37:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=bBDbif+X7E9nd07up4a/KLiqQvzkImHpJLnY877aYMc=;
-        b=NKVLQN+6yOCYSgB4iLexLkmYfu+ZpeDd/xqUdocHpWDg31MZztQ74GLy8zz7OzG/Dc
-         4Xsz5Ep5B3fg/nX8aCg3dML8XTuffPhNWCIzCQC9IhXR/8Yk/i19c9eZan4TiNFjTNBk
-         da/+axHV0UR9YP5qK2Pp6jPrDg/iCIkT8btmQQpH7qpPrrGi95ZbJoCWqYI3ReMNAFpb
-         m7upxmqGR0QEgDXkMhzOs+saolzNSSATIKOAet5aR22FFHWHDZDP/WX3PNXc0ZTPj3Dk
-         dwLbUCkCKVNAYCLiUIootijzafdf4cTtVEgLL5XtU2JvwnlXuVQj/E7aIm6ApDjE6JUu
-         nNsQ==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=XeRFY9/ZZy14mpyplSaZf4wNb7e0AsyvHIX0H/HUifk=;
+        b=IFCeLeOm9tbYO1l7G92fq0ylxbBsgCG14ssXxbqH4bPqRVDLru2Zr2fQNepDSPazo8
+         38E99xtJtl+B4LLCtQM17kIxKuT0Yo0WNrGOviNgAmXGGh0yFjN5GHQP3eXQsRRS2HRO
+         EtlEFqei1pSzSxzwrZjVsMHmuPk7yETjpfcrSaNso5CK590kIkvMXK6ZMRwzRHzKv+qT
+         JwU04m/dDvNFOZCADq8nf6sxgHpxokkJnNoS41FII+3WVIUDTlKf0ZQ7Zvnak63a9mEJ
+         AXgafiJS8v/1nc840pWDNrMQYQCMBlJ10+gQ4nACsGnI3ZYvZyX7bshnlvXWihl+mytY
+         u6Qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=bBDbif+X7E9nd07up4a/KLiqQvzkImHpJLnY877aYMc=;
-        b=L5rvhjC2xMH4gZfMeTbZ3NI3/bwVUuVgIi/98vo0azJ08pu68x4azuHrTx8I+I8WLL
-         LjJP8VcdfWn3H6WL8wIIeNLQCbkZTRhFxDlj8Pu6LtD62d5po7ZdXw6HqUwafRHncPkO
-         wJzniWSLGb7xEYBtnXXPsWJja1oOYMtqTTSaoUDbUt0CEd83pzat1ZDgQG9cmvklm9hD
-         F8kF32BiKPOYe+PO7YjPsFHuyRHsPUUUYYhSU0/kWAaZEPKnHc5ULFGBXWkEdehHfion
-         Y2oGxKhW1ExdQvDDNxc9jZ7/IjOR0eyovE0nZ+tontxhDg2+FItPj/GB41T0E9AuwtBT
-         hZkQ==
-X-Gm-Message-State: AOAM531tMiI4Mdl64PFSZQhtveqPNMXoKgX9JrAy/4qEVcLSqEEMAS/Z
-	91JyfHcPvwKEr2MoK6gLAJbW6tpgVGolHlXhdWgGhRJdutA=
-X-Google-Smtp-Source: ABdhPJxQmXKUADidIoH0xAqF5M+q4jylGnuaQQPPf2uGeYKbq6a2IDpHrnFuplawCXjwknnwWzagGLW+S4+YlyxbdYE=
-X-Received: by 2002:a17:907:1dcf:: with SMTP id og15mr3298025ejc.470.1630582780065;
- Thu, 02 Sep 2021 04:39:40 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=XeRFY9/ZZy14mpyplSaZf4wNb7e0AsyvHIX0H/HUifk=;
+        b=LbS3VpQdXF7SRLc0RPf7AybEQlOcIn7HfE6gMSVGy5YgE0pZmj0Hi7tbODX23EjsEX
+         D0/UnLPnb8TbtmWmLnGnyexWa2wHK7DzdmJRobzeNyP/wb1do7zNZvi11sv5VtV5lv42
+         GCc4RrolDktVtPScxwN3gWm3oWGzYO3d/AMpmeLFlnI/p4/EXXhyNjBxYDt68hSOGfFv
+         VTTwQU5c3FNJxisoPV5nW1Tl98VHJR0jMkxiF34W3UvnVDaZJzWI4skc14deFLZjKohZ
+         YX5cbY61DSAY+guAdTg5elY32c5nFYkqTlSLXBt1B5jgXFSA+TlAW7oNdYzq+KCI+hNi
+         A+tw==
+X-Gm-Message-State: AOAM531dvuwTgQ2KEL2gcmCzZcsIaD9ciAY2BQNqMbq4m6+O4C+63b05
+	QnRs4f1FfKXmA9HyjvHfj3c=
+X-Google-Smtp-Source: ABdhPJz5IG03Ji1DLKNlp4L3sx/jqTZ3uYkiQJlG6rGSLLm2VaJKD4UUSlKdYok+huQWjiFyvkpjCw==
+X-Received: by 2002:ac8:5802:: with SMTP id g2mr207608qtg.391.1630615048161;
+        Thu, 02 Sep 2021 13:37:28 -0700 (PDT)
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from gmail.com (cpe04d4c4975b80-cmf4c11490699b.cpe.net.cable.rogers.com. [174.112.63.222])
+        by smtp.gmail.com with ESMTPSA id u27sm2311352qku.9.2021.09.02.13.37.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Sep 2021 13:37:27 -0700 (PDT)
+Date: Thu, 2 Sep 2021 16:37:25 -0400
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+To: Christopher Clark <christopher.w.clark@gmail.com>
+Cc: meta-virtualization@lists.yoctoproject.org, cardoe@gentoo.org,
+	Bertrand.Marquis@arm.com, andrew.cooper3@citrix.com,
+	dpsmith@apertussolutions.com, persaur@gmail.com,
+	scott.davis@starlab.io, adam.schwalm@starlab.io, jdmason@kudzu.us
+Subject: Re: [meta-virtualization][PATCH 0/4] Xen Test Framework OEQA
+Message-ID: <20210902203723.GA13022@gmail.com>
+References: <20210831232743.252498-1-christopher.w.clark@gmail.com>
 MIME-Version: 1.0
-References: <20210902085344.74360-1-yi.zhao@windriver.com>
-In-Reply-To: <20210902085344.74360-1-yi.zhao@windriver.com>
-From: "Martin Jansa" <Martin.Jansa@gmail.com>
-Date: Thu, 2 Sep 2021 13:39:28 +0200
-Message-ID: <CA+chaQevEHaAZWz177bx7asB9P+t=EFpnaQJQ=s5hVs74fwG2A@mail.gmail.com>
-Subject: Re: [meta-virtualization] [PATCH] docker-distribution: allow empty packages
-To: Yi Zhao <yi.zhao@windriver.com>
-Cc: meta-virtualization@lists.yoctoproject.org
-Content-Type: multipart/alternative; boundary="00000000000061fcd705cb01a300"
+In-Reply-To: <20210831232743.252498-1-christopher.w.clark@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
---00000000000061fcd705cb01a300
-Content-Type: text/plain; charset="UTF-8"
 
-${PN}-dev already isn't empty when you get the "needed by
-docker-distribution-dev-v2.7.1-r0.core2_64" message right?
 
-and for empty ${PN}, why don't you set RDEPENDS:${PN}-dev to be empty
-instead? empty packages are useless.
+In message: [meta-virtualization][PATCH 0/4] Xen Test Framework OEQA
+on 31/08/2021 Christopher Clark wrote:
 
-On Thu, Sep 2, 2021 at 10:53 AM Yi Zhao <yi.zhao@windriver.com> wrote:
-
-> Allow to create empty packages for docker-distribution and
-> docker-distribution-dev to fix the do_populate_sdk error:
-> Error: nothing provides docker-distribution = v2.7.1-r0 needed by
-> docker-distribution-dev-v2.7.1-r0.core2_64
->
-> Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
-> ---
->  .../docker-distribution/docker-distribution_git.bb             | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/recipes-containers/docker-distribution/
-> docker-distribution_git.bb b/recipes-containers/docker-distribution/
-> docker-distribution_git.bb
-> index 1f6334f..6e93a21 100644
-> --- a/recipes-containers/docker-distribution/docker-distribution_git.bb
-> +++ b/recipes-containers/docker-distribution/docker-distribution_git.bb
-> @@ -72,3 +72,6 @@ SYSTEMD_AUTO_ENABLE:docker-registry = "enable"
->  RDEPENDS:${PN}-ptest:remove = "${PN}"
->
->  CVE_PRODUCT = "docker_registry"
-> +
-> +ALLOW_EMPTY:${PN} = "1"
-> +ALLOW_EMPTY:${PN}-dev = "1"
-> --
-> 2.25.1
->
->
+> This series integrates the Xen Test Framework (XTF) into the
+> OpenEmbedded QA (OEQA) structure and enables testing of Xen with XTF
+> test cases in Qemu via the standard OE testimage mechanism.
+> It builds upon the earlier work to package XTF and the XTF image.
 > 
->
->
+> I am aiming for this test to be enabled by default to support test
+> coverage for the Xen hypervisor and initial virtual machines, the
+> Xen toolstack and XTF.
+> 
+> Since many XTF test cases have hardware-dependent behaviour, the list of
+> XTF test cases to run is minimal by default but able to be extended as
+> appropriate for a particular downstream image or machine via provided
+> configuration variables documented within the test.
 
---00000000000061fcd705cb01a300
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+I'm cycle constrained while I finish up my ELC presentation and demo,
+so I haven't had a chance to test this yet.
 
-<div dir=3D"ltr">${PN}-dev already isn&#39;t empty when you get the &quot;n=
-eeded by docker-distribution-dev-v2.7.1-r0.core2_64&quot; message right?<br=
-><div><br></div><div>and for empty ${PN}, why don&#39;t you set RDEPENDS:${=
-PN}-dev to be empty instead? empty packages are useless.</div></div><br><di=
-v class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Sep 2=
-, 2021 at 10:53 AM Yi Zhao &lt;<a href=3D"mailto:yi.zhao@windriver.com">yi.=
-zhao@windriver.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote=
-" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
-padding-left:1ex">Allow to create empty packages for docker-distribution an=
-d<br>
-docker-distribution-dev to fix the do_populate_sdk error:<br>
-Error: nothing provides docker-distribution =3D v2.7.1-r0 needed by docker-=
-distribution-dev-v2.7.1-r0.core2_64<br>
-<br>
-Signed-off-by: Yi Zhao &lt;<a href=3D"mailto:yi.zhao@windriver.com" target=
-=3D"_blank">yi.zhao@windriver.com</a>&gt;<br>
----<br>
-=C2=A0.../docker-distribution/<a href=3D"http://docker-distribution_git.bb"=
- rel=3D"noreferrer" target=3D"_blank">docker-distribution_git.bb</a>=C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 3 +++<br>
-=C2=A01 file changed, 3 insertions(+)<br>
-<br>
-diff --git a/recipes-containers/docker-distribution/<a href=3D"http://docke=
-r-distribution_git.bb" rel=3D"noreferrer" target=3D"_blank">docker-distribu=
-tion_git.bb</a> b/recipes-containers/docker-distribution/<a href=3D"http://=
-docker-distribution_git.bb" rel=3D"noreferrer" target=3D"_blank">docker-dis=
-tribution_git.bb</a><br>
-index 1f6334f..6e93a21 100644<br>
---- a/recipes-containers/docker-distribution/<a href=3D"http://docker-distr=
-ibution_git.bb" rel=3D"noreferrer" target=3D"_blank">docker-distribution_gi=
-t.bb</a><br>
-+++ b/recipes-containers/docker-distribution/<a href=3D"http://docker-distr=
-ibution_git.bb" rel=3D"noreferrer" target=3D"_blank">docker-distribution_gi=
-t.bb</a><br>
-@@ -72,3 +72,6 @@ SYSTEMD_AUTO_ENABLE:docker-registry =3D &quot;enable&quot=
-;<br>
-=C2=A0RDEPENDS:${PN}-ptest:remove =3D &quot;${PN}&quot;<br>
-<br>
-=C2=A0CVE_PRODUCT =3D &quot;docker_registry&quot;<br>
-+<br>
-+ALLOW_EMPTY:${PN} =3D &quot;1&quot;<br>
-+ALLOW_EMPTY:${PN}-dev =3D &quot;1&quot;<br>
--- <br>
-2.25.1<br>
-<br>
-<br>
-<br>
-<br>
-</blockquote></div>
+But i have queued it and pushed it to master-next, so others can
+more easily try it out.
 
---00000000000061fcd705cb01a300--
+Bruce
+
+> 
+> thanks,
+> 
+> Christopher
+> 
+> 
+> Christopher Clark (4):
+>   xen-image-minimal: supply bootloader config for qemux86-64 machine
+>   xtf-image: fix QB_DEFAULT_FSTYPE: only needed for x86-64 qemu
+>   xtf-image: update qemuboot settings
+>   xtf: add testimage integration to run XTF test cases in OEQA
+> 
+>  .gitignore                                   |   1 +
+>  classes/qemuboot-testimage-network.bbclass   |  17 +++
+>  lib/oeqa/runtime/cases/xtf_minimal.py        | 116 +++++++++++++++++++
+>  recipes-extended/images/xen-image-minimal.bb |   3 +-
+>  recipes-extended/images/xtf-image.bb         |  20 +++-
+>  wic/qemuboot-xen-x86-64.cfg                  |   8 ++
+>  wic/qemuboot-xen-x86-64.wks                  |  12 ++
+>  7 files changed, 171 insertions(+), 6 deletions(-)
+>  create mode 100644 classes/qemuboot-testimage-network.bbclass
+>  create mode 100644 lib/oeqa/runtime/cases/xtf_minimal.py
+>  create mode 100644 wic/qemuboot-xen-x86-64.cfg
+>  create mode 100644 wic/qemuboot-xen-x86-64.wks
+> 
+> -- 
+> 2.25.1
+> 
