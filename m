@@ -1,112 +1,137 @@
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
- by mx.groups.io with SMTP id smtpd.web11.2846.1630615049012432212
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+ by mx.groups.io with SMTP id smtpd.web12.693.1630648078280831930
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 02 Sep 2021 13:37:29 -0700
+ Thu, 02 Sep 2021 22:47:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=IFCeLeOm;
- spf=pass (domain: gmail.com, ip: 209.85.160.173, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qt1-f173.google.com with SMTP id t35so2768432qtc.6
-        for <meta-virtualization@lists.yoctoproject.org>; Thu, 02 Sep 2021 13:37:28 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=PNMTxUcW;
+ spf=pass (domain: gmail.com, ip: 209.85.216.46, mailfrom: sanakazisk19@gmail.com)
+Received: by mail-pj1-f46.google.com with SMTP id u11-20020a17090adb4b00b00181668a56d6so3175952pjx.5
+        for <meta-virtualization@lists.yoctoproject.org>; Thu, 02 Sep 2021 22:47:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=XeRFY9/ZZy14mpyplSaZf4wNb7e0AsyvHIX0H/HUifk=;
-        b=IFCeLeOm9tbYO1l7G92fq0ylxbBsgCG14ssXxbqH4bPqRVDLru2Zr2fQNepDSPazo8
-         38E99xtJtl+B4LLCtQM17kIxKuT0Yo0WNrGOviNgAmXGGh0yFjN5GHQP3eXQsRRS2HRO
-         EtlEFqei1pSzSxzwrZjVsMHmuPk7yETjpfcrSaNso5CK590kIkvMXK6ZMRwzRHzKv+qT
-         JwU04m/dDvNFOZCADq8nf6sxgHpxokkJnNoS41FII+3WVIUDTlKf0ZQ7Zvnak63a9mEJ
-         AXgafiJS8v/1nc840pWDNrMQYQCMBlJ10+gQ4nACsGnI3ZYvZyX7bshnlvXWihl+mytY
-         u6Qw==
+        h=from:to:cc:subject:date:message-id;
+        bh=2fDp+BwjUqjOtwH+i+RaMgmTJ0vTELbDxZboMLRJEUI=;
+        b=PNMTxUcW4yzsep7vJAV0ib4Ggx2Xgvtt06cWy4C8R6305IofgxJeaaol6g1FyawpcP
+         HkRA5KBjgVA+nTCJFyzTn8XmNDKbgH14awdL3OlhaIHnTvY2DEB/UkIZzAbNXkwpiQLp
+         urcBEnij1LPyE2gusYDFFzecRsuWKuwBMxJ9b1pkMpnbtP3QLx/rZ7ZyrKB35OkautAk
+         73KctgCxUNAYIjMEkqr6IRJ8cMCgW5lE9/uNdWfSBVCitB6/1Bw2qAha7DU8yh8GLb3H
+         vi5gL5iykBbwQ3thUXkXyPRifpeD0nxyCSZUVwlkom3jIhf4L9Vf7sDCOvwoTs7QQkk7
+         OYRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=XeRFY9/ZZy14mpyplSaZf4wNb7e0AsyvHIX0H/HUifk=;
-        b=LbS3VpQdXF7SRLc0RPf7AybEQlOcIn7HfE6gMSVGy5YgE0pZmj0Hi7tbODX23EjsEX
-         D0/UnLPnb8TbtmWmLnGnyexWa2wHK7DzdmJRobzeNyP/wb1do7zNZvi11sv5VtV5lv42
-         GCc4RrolDktVtPScxwN3gWm3oWGzYO3d/AMpmeLFlnI/p4/EXXhyNjBxYDt68hSOGfFv
-         VTTwQU5c3FNJxisoPV5nW1Tl98VHJR0jMkxiF34W3UvnVDaZJzWI4skc14deFLZjKohZ
-         YX5cbY61DSAY+guAdTg5elY32c5nFYkqTlSLXBt1B5jgXFSA+TlAW7oNdYzq+KCI+hNi
-         A+tw==
-X-Gm-Message-State: AOAM531dvuwTgQ2KEL2gcmCzZcsIaD9ciAY2BQNqMbq4m6+O4C+63b05
-	QnRs4f1FfKXmA9HyjvHfj3c=
-X-Google-Smtp-Source: ABdhPJz5IG03Ji1DLKNlp4L3sx/jqTZ3uYkiQJlG6rGSLLm2VaJKD4UUSlKdYok+huQWjiFyvkpjCw==
-X-Received: by 2002:ac8:5802:: with SMTP id g2mr207608qtg.391.1630615048161;
-        Thu, 02 Sep 2021 13:37:28 -0700 (PDT)
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from gmail.com (cpe04d4c4975b80-cmf4c11490699b.cpe.net.cable.rogers.com. [174.112.63.222])
-        by smtp.gmail.com with ESMTPSA id u27sm2311352qku.9.2021.09.02.13.37.27
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=2fDp+BwjUqjOtwH+i+RaMgmTJ0vTELbDxZboMLRJEUI=;
+        b=O3noxHiAup8CVqnu0+uJIlMinwbuYc2V5rBimqKfS2F904pGv8LiWgqhtIVcYSjjCi
+         /XgS1T3gYORhMgz5QPK4+OrNUValkho1AB/ln0Riib27r575dEibaEeR/DrNjSEXG3bB
+         snL2YniFp59yVPi760fHG4M9jBL71kzuVvHSO/dflca8cQOeRSn8krZOB/Dr1XLtq9nh
+         c9jtShn9YbL0sT0Wga0agia7+PYmGzvPz0NgsHdg+T9r/qrCvlcAzbYF85A1sUnIa9F4
+         hmz1OZBktZDbv8Hp0NnNVbR0yDqJrWKWPdo3WvuNozEEKaLWoAiYZM8G3vXXXa8KwIOc
+         0dvQ==
+X-Gm-Message-State: AOAM530dM5k9LkxEcuRJVOWcHiLyBljnlFOuLM0hgqF8eOWh184xb3Mb
+	2VZw4r2hmg1M2AMVdyhIkwgRLRWV2J8=
+X-Google-Smtp-Source: ABdhPJzdyXDWIkvDTF/se5aLbUYylFL28rTNdphqaN3aNcXL08qVaafk+B6ig8/LUNG3vq9GZijZhQ==
+X-Received: by 2002:a17:90b:4b4d:: with SMTP id mi13mr8144140pjb.160.1630648077442;
+        Thu, 02 Sep 2021 22:47:57 -0700 (PDT)
+Return-Path: <sanakazisk19@gmail.com>
+Received: from localhost.localdomain ([2401:4900:190a:600c:b02b:a85a:72bd:f2])
+        by smtp.gmail.com with ESMTPSA id b16sm3939450pfr.138.2021.09.02.22.47.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Sep 2021 13:37:27 -0700 (PDT)
-Date: Thu, 2 Sep 2021 16:37:25 -0400
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-To: Christopher Clark <christopher.w.clark@gmail.com>
-Cc: meta-virtualization@lists.yoctoproject.org, cardoe@gentoo.org,
-	Bertrand.Marquis@arm.com, andrew.cooper3@citrix.com,
-	dpsmith@apertussolutions.com, persaur@gmail.com,
-	scott.davis@starlab.io, adam.schwalm@starlab.io, jdmason@kudzu.us
-Subject: Re: [meta-virtualization][PATCH 0/4] Xen Test Framework OEQA
-Message-ID: <20210902203723.GA13022@gmail.com>
-References: <20210831232743.252498-1-christopher.w.clark@gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <20210831232743.252498-1-christopher.w.clark@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+        Thu, 02 Sep 2021 22:47:56 -0700 (PDT)
+From: "sana kazi" <sanakazisk19@gmail.com>
+To: meta-virtualization@lists.yoctoproject.org
+Cc: nishaparrakat@gmail.com,
+	purushottamchoudhary29@gmail.com
+Subject: [meta-virtualization][master][PATCH] lxc: Enable seccomp support for lxc
+Date: Fri,  3 Sep 2021 11:17:37 +0530
+Message-Id: <20210903054737.20114-1-sanakazisk19@gmail.com>
+X-Mailer: git-send-email 2.17.1
 
+Enabled seccomp support for lxc.
+Also added a patch to enable seccomp.profile only when compiled with
+libseccomp. Currently, seccomp.profile is silently ignored. This
+could lead to the false impression that the seccomp filter is
+applied while it actually isn't.
 
+Signed-off-by: Sana Kazi <Sana.Kazi@kpit.com>
+---
+ ...omp_profile_when_compiled_libseccomp.patch | 46 +++++++++++++++++++
+ recipes-containers/lxc/lxc_4.0.9.bb           |  3 +-
+ 2 files changed, 48 insertions(+), 1 deletion(-)
+ create mode 100644 recipes-containers/lxc/files/enable_seccomp_profile_when_compiled_libseccomp.patch
 
-In message: [meta-virtualization][PATCH 0/4] Xen Test Framework OEQA
-on 31/08/2021 Christopher Clark wrote:
+diff --git a/recipes-containers/lxc/files/enable_seccomp_profile_when_compiled_libseccomp.patch b/recipes-containers/lxc/files/enable_seccomp_profile_when_compiled_libseccomp.patch
+new file mode 100644
+index 0000000..f0a5813
+--- /dev/null
++++ b/recipes-containers/lxc/files/enable_seccomp_profile_when_compiled_libseccomp.patch
+@@ -0,0 +1,46 @@
++From 3d46e1d1f8e904fddd4fab3e8d0c6cf57d2ddd4e Mon Sep 17 00:00:00 2001
++From: Maximilian Blenk <Maximilian.Blenk@bmw.de>
++Date: Mon, 23 Aug 2021 22:04:40 +0200
++Subject: [PATCH] config: enable seccomp profile only when compiled with
++ libseccomp
++
++Make lxc fail if seccomp.profile is specified but lxc is compiled
++without seccomp support. Currently, seccomp.profile is silently ignored
++if is specified in such a scenario. This could lead to the false
++impression that the seccomp filter is applied while it actually isn't.
++
++Signed-off-by: Maximilian Blenk <Maximilian.Blenk@bmw.de>
++---
++ src/lxc/confile.c | 8 ++++++++
++ 1 file changed, 8 insertions(+)
++
++Upstream-Status: Submitted [https://github.com/lxc/lxc/pull/3947/commits/3d46e1d1f8e904fddd4fab3e8d0c6cf57d2ddd4e]
++
++diff --git a/src/lxc/confile.c b/src/lxc/confile.c
++index d8b96c6921..1cc8da15f1 100644
++--- a/src/lxc/confile.c
+++++ b/src/lxc/confile.c
++@@ -1211,7 +1211,11 @@ static int set_config_seccomp_notify_proxy(const char *key, const char *value,
++ static int set_config_seccomp_profile(const char *key, const char *value,
++ 				      struct lxc_conf *lxc_conf, void *data)
++ {
+++#ifdef HAVE_SECCOMP
++ 	return set_config_path_item(&lxc_conf->seccomp.seccomp, value);
+++#else
+++	return ret_set_errno(-1, ENOSYS);
+++#endif
++ }
++ 
++ static int set_config_execute_cmd(const char *key, const char *value,
++@@ -4383,7 +4387,11 @@ static int get_config_seccomp_notify_proxy(const char *key, char *retv, int inle
++ static int get_config_seccomp_profile(const char *key, char *retv, int inlen,
++ 				      struct lxc_conf *c, void *data)
++ {
+++#ifdef HAVE_SECCOMP
++ 	return lxc_get_conf_str(retv, inlen, c->seccomp.seccomp);
+++#else
+++	return ret_errno(ENOSYS);
+++#endif
++ }
++ 
++ static int get_config_autodev(const char *key, char *retv, int inlen,
+diff --git a/recipes-containers/lxc/lxc_4.0.9.bb b/recipes-containers/lxc/lxc_4.0.9.bb
+index 0ef81a5..1fd3ea5 100644
+--- a/recipes-containers/lxc/lxc_4.0.9.bb
++++ b/recipes-containers/lxc/lxc_4.0.9.bb
+@@ -49,6 +49,7 @@ SRC_URI = "http://linuxcontainers.org/downloads/${BPN}/${BPN}-${PV}.tar.gz \
+ 	file://tests-add-no-validate-when-using-download-template.patch \
+ 	file://dnsmasq.conf \
+ 	file://lxc-net \
++        file://enable_seccomp_profile_when_compiled_libseccomp.patch \
+ 	"
+ 
+ SRC_URI[md5sum] = "365fcca985038910e19a1e0fff15ed07"
+@@ -69,7 +70,7 @@ ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)}"
+ 
+ EXTRA_OECONF += "--enable-log-src-basename --disable-werror"
+ 
+-PACKAGECONFIG ??= "templates \
++PACKAGECONFIG ??= "templates seccomp \
+     ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)} \
+     ${@bb.utils.contains('DISTRO_FEATURES', 'selinux', 'selinux', '', d)} \
+ "
+-- 
+2.17.1
 
-> This series integrates the Xen Test Framework (XTF) into the
-> OpenEmbedded QA (OEQA) structure and enables testing of Xen with XTF
-> test cases in Qemu via the standard OE testimage mechanism.
-> It builds upon the earlier work to package XTF and the XTF image.
-> 
-> I am aiming for this test to be enabled by default to support test
-> coverage for the Xen hypervisor and initial virtual machines, the
-> Xen toolstack and XTF.
-> 
-> Since many XTF test cases have hardware-dependent behaviour, the list of
-> XTF test cases to run is minimal by default but able to be extended as
-> appropriate for a particular downstream image or machine via provided
-> configuration variables documented within the test.
-
-I'm cycle constrained while I finish up my ELC presentation and demo,
-so I haven't had a chance to test this yet.
-
-But i have queued it and pushed it to master-next, so others can
-more easily try it out.
-
-Bruce
-
-> 
-> thanks,
-> 
-> Christopher
-> 
-> 
-> Christopher Clark (4):
->   xen-image-minimal: supply bootloader config for qemux86-64 machine
->   xtf-image: fix QB_DEFAULT_FSTYPE: only needed for x86-64 qemu
->   xtf-image: update qemuboot settings
->   xtf: add testimage integration to run XTF test cases in OEQA
-> 
->  .gitignore                                   |   1 +
->  classes/qemuboot-testimage-network.bbclass   |  17 +++
->  lib/oeqa/runtime/cases/xtf_minimal.py        | 116 +++++++++++++++++++
->  recipes-extended/images/xen-image-minimal.bb |   3 +-
->  recipes-extended/images/xtf-image.bb         |  20 +++-
->  wic/qemuboot-xen-x86-64.cfg                  |   8 ++
->  wic/qemuboot-xen-x86-64.wks                  |  12 ++
->  7 files changed, 171 insertions(+), 6 deletions(-)
->  create mode 100644 classes/qemuboot-testimage-network.bbclass
->  create mode 100644 lib/oeqa/runtime/cases/xtf_minimal.py
->  create mode 100644 wic/qemuboot-xen-x86-64.cfg
->  create mode 100644 wic/qemuboot-xen-x86-64.wks
-> 
-> -- 
-> 2.25.1
-> 
