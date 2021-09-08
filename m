@@ -1,213 +1,118 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
- by mx.groups.io with SMTP id smtpd.web09.35244.1631019420933516899
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by mx.groups.io with SMTP id smtpd.web11.15392.1631124148667191884
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 07 Sep 2021 05:57:01 -0700
+ Wed, 08 Sep 2021 11:02:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=BPZswuYP;
- spf=pass (domain: gmail.com, ip: 209.85.208.44, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ed1-f44.google.com with SMTP id g21so13799391edw.4
-        for <meta-virtualization@lists.yoctoproject.org>; Tue, 07 Sep 2021 05:57:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=g0PZEoTphEcBZtzjTIxpV4EeSep+KR1xjOrvd8/QDoY=;
-        b=BPZswuYPUxwTQm62MdVeBh33gh1LClusmokglNv4to+nR0st72aSfDzNFDNw4aU4Ox
-         naYpv7Jc9bOy1xQcPzL7V4rRUPpPriZ2tGTWP73On9W7fD6k8IimT0Zm+pCm33cgkYAQ
-         IWFki6JVesENHtnLghPafUFN0F7emGqL4vyUUr2AuH6HA3IdlL6vOV0WGFayc05xVqgN
-         z07F/8ipaZF5eQGaIqnHeheeZ0J3AEfEcr/ouSFXsc04F04uy5inq5y2rSOUDrRh66+Y
-         mKW1fV9+2tcYsQ2qEme9ur7MWRcH3RzdOGkvfh3nHHySKcCLXZhs4pqiGx/6Eu3ODM9Q
-         4nQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=g0PZEoTphEcBZtzjTIxpV4EeSep+KR1xjOrvd8/QDoY=;
-        b=pdRWv+sJGSp/XvvE/aPaGzM1RBOxfX0pxW0VE9Pb1KItrSEyCiJFD77Zmg9J/Aripx
-         u/FO82lpWaKSVT3DoxJiSr31KhJJ7apyXMMKKc+xGKHqOxfAUi7hah6T7rrKH03WenfD
-         hiLWV/ZEb9qpXtGdiWX2g2gEv2QcpriD6BpFEUSJ+oU25ym6m3LEvGr7ahEZS+5EEaEr
-         isAavQmMmhcS0JkTBRPclx3rcxi/VXVZrq1LHVDv1bo/Iv5HcMfl2/lI1T0kZYjoRAL1
-         Fl6J+8a3O2oI9jRs0XOydFmPLtLlnQHiEevWBo0rZCJJwMYsZv8d1hTSP2Tybr7yHYu4
-         0nIw==
-X-Gm-Message-State: AOAM532X+IkpBJPcBbVQnmv5E3n5dvuPYWKoJ3HO7BsNaie9CtgnZlcb
-	uEPivFqFixgjvFbFCmRQH9iqLOy5dHOGaD2wGeh+gObb4Zg=
-X-Google-Smtp-Source: ABdhPJzpsJQRAAI8C8ck1Rsu41nCGqqNZeevW7WQvc54opL6oYaAzYZW9HVJvMsyDIfobV30RqEfQ6wyZ2cFa0fE/bc=
-X-Received: by 2002:a50:f1c6:: with SMTP id y6mr18022091edl.354.1631019419128;
- Tue, 07 Sep 2021 05:56:59 -0700 (PDT)
+ dkim=fail reason="body hash did not verify" header.i=@denx.de header.s=phobos-20191101 header.b=AsatDOzW;
+ spf=pass (domain: denx.de, ip: 85.214.62.61, mailfrom: festevam@denx.de)
+Received: from localhost.localdomain (unknown [IPv6:2804:14c:485:504a:e0ac:bf1c:7025:95c6])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: festevam@denx.de)
+	by phobos.denx.de (Postfix) with ESMTPSA id 3F0E783445;
+	Wed,  8 Sep 2021 20:02:24 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+	s=phobos-20191101; t=1631124147;
+	bh=DlBffIOa7mvsgilFV2ORouaRKuu6tSfTbwV/Wr6Goos=;
+	h=From:To:Cc:Subject:Date:From;
+	b=AsatDOzWgDPFm3+CjVrSxNxeka61gXu7OyxPUd8eqSY2A7oIUEjuk6Vsa1IEPwkMx
+	 c/nzc3l6fFbyuEK9lCJD1s8wFoXjKd2uB1LGks2A3l6CfpuS1FC3IYfGxXjvLE7ruq
+	 ycHO/dAXODlJ6f2yWqZ5dJO4URBobMUjXTP5vU658QS1YLqunbywbMRuUesu5aK6xO
+	 zNqn/CmYrVfLawwooXbWNm3jaeQ/l65MakUnxgWBAa2yyQrXZa55hxGjh2mnzVY4Ar
+	 jjQ5Z3kqG3uoHKF67UR8a36CGTMm0OtxEH0FlSUDKs2nWZv3trpQTu2Ylk124T1k55
+	 yThxvDgNxR9eQ==
+From: "Fabio Estevam" <festevam@denx.de>
+To: meta-virtualization@lists.yoctoproject.org
+Cc: bruce.ashfield@gmail.com,
+	otavio@ossystems.com.br,
+	marex@denx.de,
+	Fabio Estevam <festevam@denx.de>
+Subject: [meta-virtualization][PATCH dunfell] containers: Explictly reference a valid branch
+Date: Wed,  8 Sep 2021 15:02:14 -0300
+Message-Id: <20210908180214.1302459-1-festevam@denx.de>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210906080510.28468-1-mingli.yu@windriver.com>
- <20210906080510.28468-2-mingli.yu@windriver.com> <CADkTA4OJ1XKrGkUvbUCW6AyoGwK4rQaPhER4P0hzpb3xg1Fzdg@mail.gmail.com>
- <CADkTA4PujyTHtFxOt0DodPQQGBS=bwAC-4FC7pVG4jLrQfVaRQ@mail.gmail.com>
- <d493a642-ff70-02d5-ff7d-fde98d4abb9d@windriver.com> <CADkTA4NcKhhJ_ULEdoFhSWyhcd6NcUDcmr1VDqTWrSwuqKCzUQ@mail.gmail.com>
- <1245214a-6dd9-eaf1-9969-34e12c68eb91@windriver.com>
-In-Reply-To: <1245214a-6dd9-eaf1-9969-34e12c68eb91@windriver.com>
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Tue, 7 Sep 2021 08:56:48 -0400
-Message-ID: <CADkTA4MC5A9q0SwmPAS2Xf35RsfKrXX=86yLetZeFRm4ysq1=Q@mail.gmail.com>
-Subject: Re: [meta-virtualization] [PATCH 2/2] skopeo: Upgrade to 1.4.1
-To: "Yu, Mingli" <mingli.yu@windriver.com>
-Cc: meta-virtualization@lists.yoctoproject.org
-Content-Type: text/plain; charset="UTF-8"
+X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
+X-Virus-Status: Clean
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Sep 6, 2021 at 11:41 PM Yu, Mingli <mingli.yu@windriver.com> wrote:
->
->
->
-> On 9/7/21 11:05 AM, Bruce Ashfield wrote:
-> > [Please note: This e-mail is from an EXTERNAL e-mail address]
-> >
-> > On Mon, Sep 6, 2021 at 10:35 PM Yu, Mingli <mingli.yu@windriver.com> wrote:
-> >>
-> >>
-> >>
-> >> On 9/6/21 10:08 PM, Bruce Ashfield wrote:
-> >>> [Please note: This e-mail is from an EXTERNAL e-mail address]
-> >>>
-> >>> On Mon, Sep 6, 2021 at 9:46 AM Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
-> >>>>
-> >>>> I also already have this version bump queued locally.
-> >>>
-> >>> Actually cancel that. I have more -dev versions under test (I got my
-> >>> uprev's confused for a moment).
-> >>>
-> >>> But we don't want this SRCREV change. I put it to the tip of the
-> >>> release branch on purpose, this rewinds the SRCREV, and it isn't
-> >>> something I'd merge.
-> >>>
-> >>> But the packageconfig change can be valid, and is something I'd take.
-> >>
-> >> Okay, I will send the packageconfig part then. BTW, why is there dev
-> >> version, I think the latest release version should satisfy most of our
-> >> needs.
-> >
-> > In this case, it is just a commit that bumps the version in
-> > preparation for more changes (for 3.3.2), if you look at the
-> > historical SRCREV bumps, I always take those changes.  There's no
-> > reason to exclude them, since they are part of the release development
-> > cycle. 3.3.2 will be out before the next release, and by taking those
-> > commits, it shows the intention to track the tip for anything we may
-> > need.
->
-> If so, could we put two recipes here? one is for dev version such as
-> podman-dev.bb and one such as podman_git.bb to track the latest release?
->
+These repositories have dropped their master branches,
+so the fetcher default no longer works.
 
-There's no value in doing that. There aren't specific "more stable" or
-"development" releases. That simply doubles maintenance and splits our
-testing.
+Point to an existing branch to fix the fetch failure.
 
-By the time meta-virt 'releases' against honister, we'll be at the
-next dot release.
+Signed-off-by: Fabio Estevam <festevam@denx.de>
+---
+Sorry for the resend.
 
-Bruce
+I was not subscribed to the list in the first time.
 
-> Thanks,
->
-> >
-> > Bruce
-> >
-> >>
-> >> Thanks,
-> >>
-> >>>
-> >>> Bruce
-> >>>
-> >>>>
-> >>>>
-> >>>> On Mon, Sep 6, 2021 at 4:09 AM Yu, Mingli <mingli.yu@windriver.com> wrote:
-> >>>>>
-> >>>>> From: Mingli Yu <mingli.yu@windriver.com>
-> >>>>>
-> >>>>> Remove the unvalid keys to silence the below warning:
-> >>>>>    # podman --version
-> >>>>>    WARN[0000] Failed to decode the keys ["storage.options.override_kernel_check" "storage.options.overlay.ostree_repo"] from "/etc/containers/storage.conf"
-> >>>>>    podman version 3.3.1
-> >>>>>
-> >>>>> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-> >>>>> ---
-> >>>>>    recipes-containers/skopeo/files/storage.conf | 6 +++---
-> >>>>>    recipes-containers/skopeo/skopeo_git.bb      | 2 +-
-> >>>>>    2 files changed, 4 insertions(+), 4 deletions(-)
-> >>>>>
-> >>>>> diff --git a/recipes-containers/skopeo/files/storage.conf b/recipes-containers/skopeo/files/storage.conf
-> >>>>> index 818cfe8..c0d512f 100644
-> >>>>> --- a/recipes-containers/skopeo/files/storage.conf
-> >>>>> +++ b/recipes-containers/skopeo/files/storage.conf
-> >>>>> @@ -30,7 +30,7 @@ size = ""
-> >>>>>    #mount_program = "/usr/bin/fuse-overlayfs"
-> >>>>>
-> >>>>>    # OverrideKernelCheck tells the driver to ignore kernel checks based on kernel version
-> >>>>> -override_kernel_check = "true"
-> >>>>> +#override_kernel_check = "true"
-> >>>>
-> >>>> But there's no reason to drop this.
-> >>>>
-> >>>>>
-> >>>>>    # mountopt specifies comma separated list of extra mount options
-> >>>>>    mountopt = "nodev"
-> >>>>> @@ -126,8 +126,8 @@ mountopt = "nodev"
-> >>>>>    # xfs_nospace_max_retries = "0"
-> >>>>>
-> >>>>>    # If specified, use OSTree to deduplicate files with the overlay backend
-> >>>>> -ostree_repo = ""
-> >>>>> +#ostree_repo = ""
-> >>>>>
-> >>>>>    # Set to skip a PRIVATE bind mount on the storage home directory.  Only supported by
-> >>>>>    # certain container storage drivers
-> >>>>> -skip_mount_home = "false"
-> >>>>> +#skip_mount_home = "false"
-> >>>>
-> >>>> or any of these .. the skopeo configuration serves many different use
-> >>>> cases, if these are causing warnings in your setup, you need to carry
-> >>>> your own storage.conf
-> >>>>
-> >>>> Bruce
-> >>>>
-> >>>>> diff --git a/recipes-containers/skopeo/skopeo_git.bb b/recipes-containers/skopeo/skopeo_git.bb
-> >>>>> index 39ee8ca..adb7de1 100644
-> >>>>> --- a/recipes-containers/skopeo/skopeo_git.bb
-> >>>>> +++ b/recipes-containers/skopeo/skopeo_git.bb
-> >>>>> @@ -27,7 +27,7 @@ SRC_URI = " \
-> >>>>>        file://registries.conf \
-> >>>>>    "
-> >>>>>
-> >>>>> -SRCREV = "01e51ce610e3cfe1230a10af982e962c4ad1c990"
-> >>>>> +SRCREV = "130f32f047b7bf9b1fb4f95c4c5b1da6255e4829"
-> >>>>>    PV = "v1.4.1+git${SRCPV}"
-> >>>>>    GO_IMPORT = "import"
-> >>>>>
-> >>>>> --
-> >>>>> 2.17.1
-> >>>>>
-> >>>>>
-> >>>>> 
-> >>>>>
-> >>>>
-> >>>>
-> >>>> --
-> >>>> - Thou shalt not follow the NULL pointer, for chaos and madness await
-> >>>> thee at its end
-> >>>> - "Use the force Harry" - Gandalf, Star Trek II
-> >>>
-> >>>
-> >>>
-> >>> --
-> >>> - Thou shalt not follow the NULL pointer, for chaos and madness await
-> >>> thee at its end
-> >>> - "Use the force Harry" - Gandalf, Star Trek II
-> >>>
-> >
-> >
-> >
-> > --
-> > - Thou shalt not follow the NULL pointer, for chaos and madness await
-> > thee at its end
-> > - "Use the force Harry" - Gandalf, Star Trek II
-> >
+ recipes-containers/oci-image-spec/oci-image-spec_git.bb   | 2 +-
+ recipes-containers/podman-compose/podman-compose_0.1.5.bb | 2 +-
+ recipes-containers/podman/podman_git.bb                   | 2 +-
+ recipes-containers/skopeo/skopeo_git.bb                   | 2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
 
+diff --git a/recipes-containers/oci-image-spec/oci-image-spec_git.bb b/re=
+cipes-containers/oci-image-spec/oci-image-spec_git.bb
+index 5805740..a137bc8 100644
+--- a/recipes-containers/oci-image-spec/oci-image-spec_git.bb
++++ b/recipes-containers/oci-image-spec/oci-image-spec_git.bb
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM =3D "file://src/${PKG_NAME}/LICENSE;md5=3D=
+27ef03aa2da6e424307f102e8
+ SRCNAME =3D "image-spec"
+=20
+ PKG_NAME =3D "github.com/opencontainers/${SRCNAME}"
+-SRC_URI =3D "git://${PKG_NAME}.git;destsuffix=3Dgit/src/${PKG_NAME}"
++SRC_URI =3D "git://${PKG_NAME}.git;destsuffix=3Dgit/src/${PKG_NAME};bran=
+ch=3Dmain"
+=20
+ SRCREV =3D "bd4f8fcb0979a663d8b97a1d4d9b030b3d2ca1fa"
+ PV =3D "v1.0.1+git${SRCPV}"
+diff --git a/recipes-containers/podman-compose/podman-compose_0.1.5.bb b/=
+recipes-containers/podman-compose/podman-compose_0.1.5.bb
+index 4015069..b9eb1c8 100644
+--- a/recipes-containers/podman-compose/podman-compose_0.1.5.bb
++++ b/recipes-containers/podman-compose/podman-compose_0.1.5.bb
+@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3Db234ee4d69f5fc=
+e4486a80fdaf4a4263"
+=20
+ inherit setuptools3 pypi
+=20
+-SRC_URI =3D "git://github.com/containers/podman-compose.git"
++SRC_URI =3D "git://github.com/containers/podman-compose.git;branch=3Ddev=
+el"
+=20
+ SRCREV =3D "f008986633879acf3f54848dabbf07cef8e9c68f"
+=20
+diff --git a/recipes-containers/podman/podman_git.bb b/recipes-containers=
+/podman/podman_git.bb
+index aa6b25b..a8a6b02 100644
+--- a/recipes-containers/podman/podman_git.bb
++++ b/recipes-containers/podman/podman_git.bb
+@@ -26,7 +26,7 @@ python __anonymous() {
+=20
+ SRCREV =3D "444a19cdd2e6108c75f6c1aadc1a2a9138a8bd73"
+ SRC_URI =3D " \
+-    git://github.com/containers/libpod.git;branch=3Dmaster \
++    git://github.com/containers/libpod.git;branch=3Dmain \
+ "
+=20
+ LICENSE =3D "Apache-2.0"
+diff --git a/recipes-containers/skopeo/skopeo_git.bb b/recipes-containers=
+/skopeo/skopeo_git.bb
+index f5a6231..b14c293 100644
+--- a/recipes-containers/skopeo/skopeo_git.bb
++++ b/recipes-containers/skopeo/skopeo_git.bb
+@@ -20,7 +20,7 @@ RDEPENDS_${PN} =3D " \
+ "
+=20
+ SRC_URI =3D " \
+-    git://github.com/containers/skopeo \
++    git://github.com/containers/skopeo;branch=3Dmain \
+     file://storage.conf \
+     file://registries.conf \
+ "
+--=20
+2.25.1
 
-
--- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
