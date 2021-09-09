@@ -1,109 +1,151 @@
-Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
- by mx.groups.io with SMTP id smtpd.web12.3427.1631212660815219498
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+ by mx.groups.io with SMTP id smtpd.web11.3652.1631213144385399407
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 09 Sep 2021 11:37:41 -0700
+ Thu, 09 Sep 2021 11:45:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=h5J8w/Ve;
- spf=pass (domain: gmail.com, ip: 209.85.222.169, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f169.google.com with SMTP id t4so2873852qkb.9
-        for <meta-virtualization@lists.yoctoproject.org>; Thu, 09 Sep 2021 11:37:40 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=OKx18s0J;
+ spf=pass (domain: gmail.com, ip: 209.85.208.52, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ed1-f52.google.com with SMTP id z19so3957158edi.9
+        for <meta-virtualization@lists.yoctoproject.org>; Thu, 09 Sep 2021 11:45:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=FlfquHuE46EffcJyxINNwWAMiCXCeqW/xtlkU95S4Hs=;
-        b=h5J8w/Ve/Hk6GG2DnwujOCGkzawiWCEeXyLbhXf5njFXeJqjw2jb0xex+QsCJv96Xm
-         rSNxLB1PpJWpyOlrakSaTSHerZwn0wDSDi8sjgep24U1QPwPG0h0Rm13qhefReh0fqNF
-         Sb5OCw4KCi/70BLBhvs3yPbh7ecLsHdZyP9IkAZsqKwtBSBqupXaNE6eoanff+xNb/cY
-         AG2lwTAMmnJwU13QIHo5/+r/GNbgIW3LzeS9MK7Tvyo2uL4+bha8Nyay437olWLxjsP/
-         OXh2YB2VLg7W2jiuPzPbfAv3m5sEYDObKmwkp7wNAGzBIko298w1czQVF93QzV/bVhPH
-         PTeQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ylq2IOrqdAc+Obso/SvTxMRcXcIlYp6Me3IXOOi0rd0=;
+        b=OKx18s0Jrxdau6rlvxqdsSr3rBROQuruua3245R45qK6XF9cMPZNUBdKBHoJ6OpjqC
+         D6u8rAtRew9BKUITqLosT4sXB5J3AczpvnKr/0HsAKT6LXtUzpbavwy2fnCEVGH8pCBA
+         fihUgbnq2YcpkC1O8GI9cvL2KNYbM7xhr8QZLQa2sw7eiYyoAPhBKJQJ+eqc+PNoyYWN
+         EGg0XkewDoQ3iGhX9sQj9iSgJA2H5zIFzsxz3J41PmnDuZb3j8iJY13bujRqQ18yTOqn
+         FtHUIduJxm6rGrQQgINZeejsLHGuPEerRMSreHxrTxq7rx7HhT1qvkBFMm90Kzya7bQm
+         TUwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=FlfquHuE46EffcJyxINNwWAMiCXCeqW/xtlkU95S4Hs=;
-        b=LcFuFRckFFqpi77UWz/mrAVvodWBcpLcqYZTOtgWD9M4ZcJaD1xVXQLc5pMLEv25J/
-         5s4rz015lg/cEVcTtA3U+P46LbaA/k4zRWM868dQhIja6C4PHp5Q+NY/UGjfhfB6yvS7
-         3JibBrR7KrJUX3vBvQ5GtSkCdPLPZ4vqvHjpKkzJONrjBv3kwKG1esKu2ECChkjqVffs
-         MYTyvkbQF9J2s4pbAhjcpRKV5TnAgWwZWZcAANICT15rxWYxaP8ZGqWqw+ZLoBiENK/P
-         goIM5/i3F6tYZfKU96V1Yxb44YXzfRN9Sy+4NodEVPnCUuTuVjisZNVbkOy/QXUbI/CC
-         toOQ==
-X-Gm-Message-State: AOAM532yrSHliKfQKjlgzrw5CnRFeMNdbuLUu/3j0VS8CyTu4fs6IEl8
-	OeTd3LUfc39cmgqWiLoHxG0=
-X-Google-Smtp-Source: ABdhPJw4MX89pm8fXgK4D5yRdt9mPSJ7vt+Tp/9W8UTSIpn/vBHG7Slfo6yr6evKqFKjG+IUJ+45xw==
-X-Received: by 2002:a05:620a:d87:: with SMTP id q7mr4103959qkl.173.1631212659817;
-        Thu, 09 Sep 2021 11:37:39 -0700 (PDT)
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from gmail.com (cpe04d4c4975b80-cmf4c11490699b.cpe.net.cable.rogers.com. [174.112.63.222])
-        by smtp.gmail.com with ESMTPSA id h4sm1868870qkp.86.2021.09.09.11.37.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Sep 2021 11:37:39 -0700 (PDT)
-Date: Thu, 9 Sep 2021 14:37:37 -0400
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-To: Christopher Clark <christopher.w.clark@gmail.com>
-Cc: meta-virtualization@lists.yoctoproject.org, cardoe@gentoo.org,
-	Bertrand.Marquis@arm.com, andrew.cooper3@citrix.com,
-	dpsmith@apertussolutions.com, persaur@gmail.com,
-	scott.davis@starlab.io, adam.schwalm@starlab.io, jdmason@kudzu.us
-Subject: Re: [meta-virtualization][PATCH 0/4] Xen Test Framework OEQA
-Message-ID: <20210909183734.GA35070@gmail.com>
-References: <20210831232743.252498-1-christopher.w.clark@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ylq2IOrqdAc+Obso/SvTxMRcXcIlYp6Me3IXOOi0rd0=;
+        b=rOjCLnNZ543NdyJ/9voBsSVujA1HtyoBT8YjwB102yQsdmsrphQ+sJ2QjQnlXlCrbt
+         OxTnZcmUbPKA+NiLr20I+8VPYydyq79idUBUtrtPLpW6EIECVWsSEN2J3um4TnS89ufl
+         QFtSUduJ6dYg2w6ox0ZAkk1HU365hUqql2dXb6Y54Jx6ALSsh33PoSINanYzNlmjtIH8
+         /oGX27P9bXhfGpxTtIW6wlJ+IULOHswt69JCyK6319drTBO0R714NpDEEjtGgKwutn2a
+         LyuFh5azMVUpLZv8zn8AvVYTzMjWoSKfwmo9N8cZr+tZTYMxiKVLQekNP7tICPvMPrh9
+         cuDQ==
+X-Gm-Message-State: AOAM530KGcCczNU15q6ub34ZuFCsayUszOoy5SWdd4OGRR4LAlMVoKDy
+	fWjEN2mq4sLAEeaI7omJAPIfwU3tLRpjVoaM9W8=
+X-Google-Smtp-Source: ABdhPJx1W7/EFWKiRDt06fd8OfW5TZsx8EtiSt0ECDptIf4+JAuHQlBegHwdOpkNu0gzEtwsPkTwIn8WFKinx3iK8I8=
+X-Received: by 2002:aa7:dd57:: with SMTP id o23mr4733113edw.385.1631213142840;
+ Thu, 09 Sep 2021 11:45:42 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210831232743.252498-1-christopher.w.clark@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20210904155408.6015-1-sanakazisk19@gmail.com>
+In-Reply-To: <20210904155408.6015-1-sanakazisk19@gmail.com>
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+Date: Thu, 9 Sep 2021 14:45:32 -0400
+Message-ID: <CADkTA4P4meoNaQfcONA9yLWMV5GLuiZq1qi1tj0-2x8QqPET=Q@mail.gmail.com>
+Subject: Re: [meta-virtualization][master][PATCHv2] lxc: Enable seccomp support for lxc
+To: sana kazi <sanakazisk19@gmail.com>
+Cc: meta-virtualization@lists.yoctoproject.org, nishaparrakat@gmail.com, 
+	purushottamchoudhary29@gmail.com
+Content-Type: text/plain; charset="UTF-8"
 
-
-In message: [meta-virtualization][PATCH 0/4] Xen Test Framework OEQA
-on 31/08/2021 Christopher Clark wrote:
-
-> This series integrates the Xen Test Framework (XTF) into the
-> OpenEmbedded QA (OEQA) structure and enables testing of Xen with XTF
-> test cases in Qemu via the standard OE testimage mechanism.
-> It builds upon the earlier work to package XTF and the XTF image.
-> 
-> I am aiming for this test to be enabled by default to support test
-> coverage for the Xen hypervisor and initial virtual machines, the
-> Xen toolstack and XTF.
-> 
-> Since many XTF test cases have hardware-dependent behaviour, the list of
-> XTF test cases to run is minimal by default but able to be extended as
-> appropriate for a particular downstream image or machine via provided
-> configuration variables documented within the test.
-
-These have now been merged to master!
-
-Thanks for the series.
+v2 is now merged.
 
 Bruce
 
+On Sat, Sep 4, 2021 at 11:54 AM sana kazi <sanakazisk19@gmail.com> wrote:
+>
+> Enabled seccomp support for lxc.
+> Also added a patch to enable seccomp.profile only when compiled with
+> libseccomp. Currently, seccomp.profile is silently ignored. This
+> could lead to the false impression that the seccomp filter is
+> applied while it actually isn't.
+>
+> Signed-off-by: Sana Kazi <Sana.Kazi@kpit.com>
+> ---
+>  ...omp_profile_when_compiled_libseccomp.patch | 46 +++++++++++++++++++
+>  recipes-containers/lxc/lxc_4.0.9.bb           |  2 +
+>  2 files changed, 48 insertions(+)
+>  create mode 100644 recipes-containers/lxc/files/enable_seccomp_profile_when_compiled_libseccomp.patch
+>
+> diff --git a/recipes-containers/lxc/files/enable_seccomp_profile_when_compiled_libseccomp.patch b/recipes-containers/lxc/files/enable_seccomp_profile_when_compiled_libseccomp.patch
+> new file mode 100644
+> index 0000000..f0a5813
+> --- /dev/null
+> +++ b/recipes-containers/lxc/files/enable_seccomp_profile_when_compiled_libseccomp.patch
+> @@ -0,0 +1,46 @@
+> +From 3d46e1d1f8e904fddd4fab3e8d0c6cf57d2ddd4e Mon Sep 17 00:00:00 2001
+> +From: Maximilian Blenk <Maximilian.Blenk@bmw.de>
+> +Date: Mon, 23 Aug 2021 22:04:40 +0200
+> +Subject: [PATCH] config: enable seccomp profile only when compiled with
+> + libseccomp
+> +
+> +Make lxc fail if seccomp.profile is specified but lxc is compiled
+> +without seccomp support. Currently, seccomp.profile is silently ignored
+> +if is specified in such a scenario. This could lead to the false
+> +impression that the seccomp filter is applied while it actually isn't.
+> +
+> +Signed-off-by: Maximilian Blenk <Maximilian.Blenk@bmw.de>
+> +---
+> + src/lxc/confile.c | 8 ++++++++
+> + 1 file changed, 8 insertions(+)
+> +
+> +Upstream-Status: Submitted [https://github.com/lxc/lxc/pull/3947/commits/3d46e1d1f8e904fddd4fab3e8d0c6cf57d2ddd4e]
+> +
+> +diff --git a/src/lxc/confile.c b/src/lxc/confile.c
+> +index d8b96c6921..1cc8da15f1 100644
+> +--- a/src/lxc/confile.c
+> ++++ b/src/lxc/confile.c
+> +@@ -1211,7 +1211,11 @@ static int set_config_seccomp_notify_proxy(const char *key, const char *value,
+> + static int set_config_seccomp_profile(const char *key, const char *value,
+> +                                     struct lxc_conf *lxc_conf, void *data)
+> + {
+> ++#ifdef HAVE_SECCOMP
+> +       return set_config_path_item(&lxc_conf->seccomp.seccomp, value);
+> ++#else
+> ++      return ret_set_errno(-1, ENOSYS);
+> ++#endif
+> + }
+> +
+> + static int set_config_execute_cmd(const char *key, const char *value,
+> +@@ -4383,7 +4387,11 @@ static int get_config_seccomp_notify_proxy(const char *key, char *retv, int inle
+> + static int get_config_seccomp_profile(const char *key, char *retv, int inlen,
+> +                                     struct lxc_conf *c, void *data)
+> + {
+> ++#ifdef HAVE_SECCOMP
+> +       return lxc_get_conf_str(retv, inlen, c->seccomp.seccomp);
+> ++#else
+> ++      return ret_errno(ENOSYS);
+> ++#endif
+> + }
+> +
+> + static int get_config_autodev(const char *key, char *retv, int inlen,
+> diff --git a/recipes-containers/lxc/lxc_4.0.9.bb b/recipes-containers/lxc/lxc_4.0.9.bb
+> index 0ef81a5..6720733 100644
+> --- a/recipes-containers/lxc/lxc_4.0.9.bb
+> +++ b/recipes-containers/lxc/lxc_4.0.9.bb
+> @@ -49,6 +49,7 @@ SRC_URI = "http://linuxcontainers.org/downloads/${BPN}/${BPN}-${PV}.tar.gz \
+>         file://tests-add-no-validate-when-using-download-template.patch \
+>         file://dnsmasq.conf \
+>         file://lxc-net \
+> +        file://enable_seccomp_profile_when_compiled_libseccomp.patch \
+>         "
+>
+>  SRC_URI[md5sum] = "365fcca985038910e19a1e0fff15ed07"
+> @@ -72,6 +73,7 @@ EXTRA_OECONF += "--enable-log-src-basename --disable-werror"
+>  PACKAGECONFIG ??= "templates \
+>      ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)} \
+>      ${@bb.utils.contains('DISTRO_FEATURES', 'selinux', 'selinux', '', d)} \
+> +    ${@bb.utils.contains('DISTRO_FEATURES', 'seccomp', 'seccomp', '', d)} \
+>  "
+>  PACKAGECONFIG[doc] = "--enable-doc --enable-api-docs,--disable-doc --disable-api-docs,,"
+>  PACKAGECONFIG[rpath] = "--enable-rpath,--disable-rpath,,"
+> --
+> 2.17.1
+>
+>
 > 
-> thanks,
-> 
-> Christopher
-> 
-> 
-> Christopher Clark (4):
->   xen-image-minimal: supply bootloader config for qemux86-64 machine
->   xtf-image: fix QB_DEFAULT_FSTYPE: only needed for x86-64 qemu
->   xtf-image: update qemuboot settings
->   xtf: add testimage integration to run XTF test cases in OEQA
-> 
->  .gitignore                                   |   1 +
->  classes/qemuboot-testimage-network.bbclass   |  17 +++
->  lib/oeqa/runtime/cases/xtf_minimal.py        | 116 +++++++++++++++++++
->  recipes-extended/images/xen-image-minimal.bb |   3 +-
->  recipes-extended/images/xtf-image.bb         |  20 +++-
->  wic/qemuboot-xen-x86-64.cfg                  |   8 ++
->  wic/qemuboot-xen-x86-64.wks                  |  12 ++
->  7 files changed, 171 insertions(+), 6 deletions(-)
->  create mode 100644 classes/qemuboot-testimage-network.bbclass
->  create mode 100644 lib/oeqa/runtime/cases/xtf_minimal.py
->  create mode 100644 wic/qemuboot-xen-x86-64.cfg
->  create mode 100644 wic/qemuboot-xen-x86-64.wks
-> 
-> -- 
-> 2.25.1
-> 
+>
+
+
+-- 
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
