@@ -1,151 +1,60 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
- by mx.groups.io with SMTP id smtpd.web11.3652.1631213144385399407
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by mx.groups.io with SMTP id smtpd.web08.3571.1631213298161808483
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 09 Sep 2021 11:45:44 -0700
+ Thu, 09 Sep 2021 11:48:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=OKx18s0J;
- spf=pass (domain: gmail.com, ip: 209.85.208.52, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ed1-f52.google.com with SMTP id z19so3957158edi.9
-        for <meta-virtualization@lists.yoctoproject.org>; Thu, 09 Sep 2021 11:45:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ylq2IOrqdAc+Obso/SvTxMRcXcIlYp6Me3IXOOi0rd0=;
-        b=OKx18s0Jrxdau6rlvxqdsSr3rBROQuruua3245R45qK6XF9cMPZNUBdKBHoJ6OpjqC
-         D6u8rAtRew9BKUITqLosT4sXB5J3AczpvnKr/0HsAKT6LXtUzpbavwy2fnCEVGH8pCBA
-         fihUgbnq2YcpkC1O8GI9cvL2KNYbM7xhr8QZLQa2sw7eiYyoAPhBKJQJ+eqc+PNoyYWN
-         EGg0XkewDoQ3iGhX9sQj9iSgJA2H5zIFzsxz3J41PmnDuZb3j8iJY13bujRqQ18yTOqn
-         FtHUIduJxm6rGrQQgINZeejsLHGuPEerRMSreHxrTxq7rx7HhT1qvkBFMm90Kzya7bQm
-         TUwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ylq2IOrqdAc+Obso/SvTxMRcXcIlYp6Me3IXOOi0rd0=;
-        b=rOjCLnNZ543NdyJ/9voBsSVujA1HtyoBT8YjwB102yQsdmsrphQ+sJ2QjQnlXlCrbt
-         OxTnZcmUbPKA+NiLr20I+8VPYydyq79idUBUtrtPLpW6EIECVWsSEN2J3um4TnS89ufl
-         QFtSUduJ6dYg2w6ox0ZAkk1HU365hUqql2dXb6Y54Jx6ALSsh33PoSINanYzNlmjtIH8
-         /oGX27P9bXhfGpxTtIW6wlJ+IULOHswt69JCyK6319drTBO0R714NpDEEjtGgKwutn2a
-         LyuFh5azMVUpLZv8zn8AvVYTzMjWoSKfwmo9N8cZr+tZTYMxiKVLQekNP7tICPvMPrh9
-         cuDQ==
-X-Gm-Message-State: AOAM530KGcCczNU15q6ub34ZuFCsayUszOoy5SWdd4OGRR4LAlMVoKDy
-	fWjEN2mq4sLAEeaI7omJAPIfwU3tLRpjVoaM9W8=
-X-Google-Smtp-Source: ABdhPJx1W7/EFWKiRDt06fd8OfW5TZsx8EtiSt0ECDptIf4+JAuHQlBegHwdOpkNu0gzEtwsPkTwIn8WFKinx3iK8I8=
-X-Received: by 2002:aa7:dd57:: with SMTP id o23mr4733113edw.385.1631213142840;
- Thu, 09 Sep 2021 11:45:42 -0700 (PDT)
+ dkim=pass header.i=@denx.de header.s=phobos-20191101 header.b=XsC7zxNx;
+ spf=pass (domain: denx.de, ip: 85.214.62.61, mailfrom: festevam@denx.de)
+Received: from mail.denx.de (unknown [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: festevam@denx.de)
+	by phobos.denx.de (Postfix) with ESMTPSA id 5A9AE8317A;
+	Thu,  9 Sep 2021 20:48:15 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+	s=phobos-20191101; t=1631213295;
+	bh=ZhQ95hn6r35+phXUQWNChHLJhsBEV9XoD5c4bDW6zE4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=XsC7zxNxp1A7ij5hK7U6zIiRHnlU+G+myuKw3RELRSEnDDnO+u+fUvvwomHs4yiwx
+	 e4gIyVh3FPxS/TNGhYKapjB8TsXaZS3Oiyk4s62DuNcamTCAj4Xp7eS3eF0xaMUzXF
+	 urwmRKSJ/PAMAdcplENh5rFOTXGDLBUAmqKq9JqukFDUD6KipzrLDfAX09qlJzYQRU
+	 KATJe/JuyS9Za4sgD31MsQGnHcfNoCBy5sfm5NvT6OPPl4l5noRJIpwrqeVu5XqgR5
+	 NQ0PrQl3IekDSNfjn6li8FhbRf/BYjnQq0kl59FJvh0ZhyI1eSiacwtEYIwSCgBf3u
+	 4POmFHmp8x47w==
 MIME-Version: 1.0
-References: <20210904155408.6015-1-sanakazisk19@gmail.com>
-In-Reply-To: <20210904155408.6015-1-sanakazisk19@gmail.com>
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Thu, 9 Sep 2021 14:45:32 -0400
-Message-ID: <CADkTA4P4meoNaQfcONA9yLWMV5GLuiZq1qi1tj0-2x8QqPET=Q@mail.gmail.com>
-Subject: Re: [meta-virtualization][master][PATCHv2] lxc: Enable seccomp support for lxc
-To: sana kazi <sanakazisk19@gmail.com>
-Cc: meta-virtualization@lists.yoctoproject.org, nishaparrakat@gmail.com, 
-	purushottamchoudhary29@gmail.com
-Content-Type: text/plain; charset="UTF-8"
+Date: Thu, 09 Sep 2021 15:48:15 -0300
+From: "Fabio Estevam" <festevam@denx.de>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: meta-virtualization@lists.yoctoproject.org, Otavio Salvador
+ <otavio@ossystems.com.br>, Marek Vasut <marex@denx.de>
+Subject: Re: [meta-virtualization][PATCH dunfell] containers: Explictly reference a valid branch
+In-Reply-To: <CADkTA4NkfPNkDHZeGTbqRxOgecgEWyo19e6g8VpdJAL8JjwZiQ@mail.gmail.com>
+References: <20210908180214.1302459-1-festevam@denx.de>
+ <CADkTA4O92EpgmyNO1ZhBi0OV8hNdZO7=tNc8jZwfEDkDZFg0sg@mail.gmail.com>
+ <2153cd79fc3fdeff42e8d0926adb7863@denx.de>
+ <CADkTA4NkfPNkDHZeGTbqRxOgecgEWyo19e6g8VpdJAL8JjwZiQ@mail.gmail.com>
+Message-ID: <85e0e7f996d8846a71c391d31feef01b@denx.de>
+X-Sender: festevam@denx.de
+User-Agent: Roundcube Webmail/1.3.6
+X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
+X-Virus-Status: Clean
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
 
-v2 is now merged.
+Hi Bruce,
 
-Bruce
+On 09/09/2021 15:32, Bruce Ashfield wrote:
 
-On Sat, Sep 4, 2021 at 11:54 AM sana kazi <sanakazisk19@gmail.com> wrote:
->
-> Enabled seccomp support for lxc.
-> Also added a patch to enable seccomp.profile only when compiled with
-> libseccomp. Currently, seccomp.profile is silently ignored. This
-> could lead to the false impression that the seccomp filter is
-> applied while it actually isn't.
->
-> Signed-off-by: Sana Kazi <Sana.Kazi@kpit.com>
-> ---
->  ...omp_profile_when_compiled_libseccomp.patch | 46 +++++++++++++++++++
->  recipes-containers/lxc/lxc_4.0.9.bb           |  2 +
->  2 files changed, 48 insertions(+)
->  create mode 100644 recipes-containers/lxc/files/enable_seccomp_profile_when_compiled_libseccomp.patch
->
-> diff --git a/recipes-containers/lxc/files/enable_seccomp_profile_when_compiled_libseccomp.patch b/recipes-containers/lxc/files/enable_seccomp_profile_when_compiled_libseccomp.patch
-> new file mode 100644
-> index 0000000..f0a5813
-> --- /dev/null
-> +++ b/recipes-containers/lxc/files/enable_seccomp_profile_when_compiled_libseccomp.patch
-> @@ -0,0 +1,46 @@
-> +From 3d46e1d1f8e904fddd4fab3e8d0c6cf57d2ddd4e Mon Sep 17 00:00:00 2001
-> +From: Maximilian Blenk <Maximilian.Blenk@bmw.de>
-> +Date: Mon, 23 Aug 2021 22:04:40 +0200
-> +Subject: [PATCH] config: enable seccomp profile only when compiled with
-> + libseccomp
-> +
-> +Make lxc fail if seccomp.profile is specified but lxc is compiled
-> +without seccomp support. Currently, seccomp.profile is silently ignored
-> +if is specified in such a scenario. This could lead to the false
-> +impression that the seccomp filter is applied while it actually isn't.
-> +
-> +Signed-off-by: Maximilian Blenk <Maximilian.Blenk@bmw.de>
-> +---
-> + src/lxc/confile.c | 8 ++++++++
-> + 1 file changed, 8 insertions(+)
-> +
-> +Upstream-Status: Submitted [https://github.com/lxc/lxc/pull/3947/commits/3d46e1d1f8e904fddd4fab3e8d0c6cf57d2ddd4e]
-> +
-> +diff --git a/src/lxc/confile.c b/src/lxc/confile.c
-> +index d8b96c6921..1cc8da15f1 100644
-> +--- a/src/lxc/confile.c
-> ++++ b/src/lxc/confile.c
-> +@@ -1211,7 +1211,11 @@ static int set_config_seccomp_notify_proxy(const char *key, const char *value,
-> + static int set_config_seccomp_profile(const char *key, const char *value,
-> +                                     struct lxc_conf *lxc_conf, void *data)
-> + {
-> ++#ifdef HAVE_SECCOMP
-> +       return set_config_path_item(&lxc_conf->seccomp.seccomp, value);
-> ++#else
-> ++      return ret_set_errno(-1, ENOSYS);
-> ++#endif
-> + }
-> +
-> + static int set_config_execute_cmd(const char *key, const char *value,
-> +@@ -4383,7 +4387,11 @@ static int get_config_seccomp_notify_proxy(const char *key, char *retv, int inle
-> + static int get_config_seccomp_profile(const char *key, char *retv, int inlen,
-> +                                     struct lxc_conf *c, void *data)
-> + {
-> ++#ifdef HAVE_SECCOMP
-> +       return lxc_get_conf_str(retv, inlen, c->seccomp.seccomp);
-> ++#else
-> ++      return ret_errno(ENOSYS);
-> ++#endif
-> + }
-> +
-> + static int get_config_autodev(const char *key, char *retv, int inlen,
-> diff --git a/recipes-containers/lxc/lxc_4.0.9.bb b/recipes-containers/lxc/lxc_4.0.9.bb
-> index 0ef81a5..6720733 100644
-> --- a/recipes-containers/lxc/lxc_4.0.9.bb
-> +++ b/recipes-containers/lxc/lxc_4.0.9.bb
-> @@ -49,6 +49,7 @@ SRC_URI = "http://linuxcontainers.org/downloads/${BPN}/${BPN}-${PV}.tar.gz \
->         file://tests-add-no-validate-when-using-download-template.patch \
->         file://dnsmasq.conf \
->         file://lxc-net \
-> +        file://enable_seccomp_profile_when_compiled_libseccomp.patch \
->         "
->
->  SRC_URI[md5sum] = "365fcca985038910e19a1e0fff15ed07"
-> @@ -72,6 +73,7 @@ EXTRA_OECONF += "--enable-log-src-basename --disable-werror"
->  PACKAGECONFIG ??= "templates \
->      ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)} \
->      ${@bb.utils.contains('DISTRO_FEATURES', 'selinux', 'selinux', '', d)} \
-> +    ${@bb.utils.contains('DISTRO_FEATURES', 'seccomp', 'seccomp', '', d)} \
->  "
->  PACKAGECONFIG[doc] = "--enable-doc --enable-api-docs,--disable-doc --disable-api-docs,,"
->  PACKAGECONFIG[rpath] = "--enable-rpath,--disable-rpath,,"
-> --
-> 2.17.1
->
->
-> 
->
+> These have been cherry-picked into dunfell.
 
+Excellent, I am able to build dunfell now.
 
+Thanks!
+
+Fabio Estevam
 -- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
+HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
+Phone: (+49)-8142-66989-60 Fax: (+49)-8142-66989-80 Email: 
+festevam@denx.de
