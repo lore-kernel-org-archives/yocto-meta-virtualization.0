@@ -1,111 +1,109 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
- by mx.groups.io with SMTP id smtpd.web09.3330.1631212355822404009
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
+ by mx.groups.io with SMTP id smtpd.web12.3427.1631212660815219498
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 09 Sep 2021 11:32:36 -0700
+ Thu, 09 Sep 2021 11:37:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=UrRn2iLJ;
- spf=pass (domain: gmail.com, ip: 209.85.208.41, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ed1-f41.google.com with SMTP id g21so3926967edw.4
-        for <meta-virtualization@lists.yoctoproject.org>; Thu, 09 Sep 2021 11:32:35 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=h5J8w/Ve;
+ spf=pass (domain: gmail.com, ip: 209.85.222.169, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f169.google.com with SMTP id t4so2873852qkb.9
+        for <meta-virtualization@lists.yoctoproject.org>; Thu, 09 Sep 2021 11:37:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=RSNDQevpFGrjY7bjxeEO4tY9YZvZ6+4hg4FMsOR8o0A=;
-        b=UrRn2iLJ0HPOnd2CXbrauGpJc4rIb2qGFytWhIyOTJ7/+tUva0vaFfmafa1g0Na/+S
-         PuabkNqFwXivtuJsdtcrasAHRg6IgRxTBWjf3enN9wsSYgFqWtUxubTSA4wGoVqRexjt
-         tZLN0bIs/L/347HEF35d5WZt597Zvqn9tBtxy2heqY4rgmJqR1HC2GgAetsqjvdFQCw/
-         9Ln4twhxEMNlH+94Vg8fx56Ne5dF/5nB9Tb8uGZSyp+BQSxqgY+SISb2EhrexDISiblm
-         7qxaHoMXTRuwJ31IKsJMDvclNGgDeYD+eF0HasY4O3tXXALxPIar+6/49OokN5uBTLpN
-         52Wg==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=FlfquHuE46EffcJyxINNwWAMiCXCeqW/xtlkU95S4Hs=;
+        b=h5J8w/Ve/Hk6GG2DnwujOCGkzawiWCEeXyLbhXf5njFXeJqjw2jb0xex+QsCJv96Xm
+         rSNxLB1PpJWpyOlrakSaTSHerZwn0wDSDi8sjgep24U1QPwPG0h0Rm13qhefReh0fqNF
+         Sb5OCw4KCi/70BLBhvs3yPbh7ecLsHdZyP9IkAZsqKwtBSBqupXaNE6eoanff+xNb/cY
+         AG2lwTAMmnJwU13QIHo5/+r/GNbgIW3LzeS9MK7Tvyo2uL4+bha8Nyay437olWLxjsP/
+         OXh2YB2VLg7W2jiuPzPbfAv3m5sEYDObKmwkp7wNAGzBIko298w1czQVF93QzV/bVhPH
+         PTeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=RSNDQevpFGrjY7bjxeEO4tY9YZvZ6+4hg4FMsOR8o0A=;
-        b=pLOTeUKgcK9ykcZNhNGSW1Br0Ec4Vd+qRj+8D92vkKWaRTVztDtqwg5MLUcHa6mTMC
-         zdm4nETVs/kLGxbq52Osgeg4AAg1rD6lMBLlM4hp7MyamxG928pS+D21Dd3TdsMQRFfQ
-         dQVIummUc5mudrcVI7E+zW/c0Q+6zhGKId0+pNMlUPB8rc4cLu8yGY8R4gQPEyqSMiRH
-         bAWgqJnH/ozuW4TASt0UUAIa1ioiMVPLK6agDs1c3obgV1S2nEPGsfUQjU+we0L8E9tz
-         Hc1grodGFCHuThznI107WiAjOK3enlIdUwFbTfYxFODxvBmsUJSxyT9H59EYHoNxDJKe
-         j0Zw==
-X-Gm-Message-State: AOAM530lsP61WQTd2lehH2vYErdVjQfI8/6SNDFs6Sy3fm8he8cy/xWy
-	a8wNbjg60m46JPFOzy9pjkHQPOd9Mz0CA9E93F0=
-X-Google-Smtp-Source: ABdhPJzLokfDNWXfevrJX6kn5t0lOs1IE0jm2teRJ7GFdTrdIpUihcJhf4JvfTI/J/6SwPw6H07Ss1yHIdVrTDvoR/Q=
-X-Received: by 2002:aa7:dd57:: with SMTP id o23mr4677267edw.385.1631212354355;
- Thu, 09 Sep 2021 11:32:34 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210908180214.1302459-1-festevam@denx.de> <CADkTA4O92EpgmyNO1ZhBi0OV8hNdZO7=tNc8jZwfEDkDZFg0sg@mail.gmail.com>
- <2153cd79fc3fdeff42e8d0926adb7863@denx.de>
-In-Reply-To: <2153cd79fc3fdeff42e8d0926adb7863@denx.de>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=FlfquHuE46EffcJyxINNwWAMiCXCeqW/xtlkU95S4Hs=;
+        b=LcFuFRckFFqpi77UWz/mrAVvodWBcpLcqYZTOtgWD9M4ZcJaD1xVXQLc5pMLEv25J/
+         5s4rz015lg/cEVcTtA3U+P46LbaA/k4zRWM868dQhIja6C4PHp5Q+NY/UGjfhfB6yvS7
+         3JibBrR7KrJUX3vBvQ5GtSkCdPLPZ4vqvHjpKkzJONrjBv3kwKG1esKu2ECChkjqVffs
+         MYTyvkbQF9J2s4pbAhjcpRKV5TnAgWwZWZcAANICT15rxWYxaP8ZGqWqw+ZLoBiENK/P
+         goIM5/i3F6tYZfKU96V1Yxb44YXzfRN9Sy+4NodEVPnCUuTuVjisZNVbkOy/QXUbI/CC
+         toOQ==
+X-Gm-Message-State: AOAM532yrSHliKfQKjlgzrw5CnRFeMNdbuLUu/3j0VS8CyTu4fs6IEl8
+	OeTd3LUfc39cmgqWiLoHxG0=
+X-Google-Smtp-Source: ABdhPJw4MX89pm8fXgK4D5yRdt9mPSJ7vt+Tp/9W8UTSIpn/vBHG7Slfo6yr6evKqFKjG+IUJ+45xw==
+X-Received: by 2002:a05:620a:d87:: with SMTP id q7mr4103959qkl.173.1631212659817;
+        Thu, 09 Sep 2021 11:37:39 -0700 (PDT)
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from gmail.com (cpe04d4c4975b80-cmf4c11490699b.cpe.net.cable.rogers.com. [174.112.63.222])
+        by smtp.gmail.com with ESMTPSA id h4sm1868870qkp.86.2021.09.09.11.37.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Sep 2021 11:37:39 -0700 (PDT)
+Date: Thu, 9 Sep 2021 14:37:37 -0400
 From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Thu, 9 Sep 2021 14:32:23 -0400
-Message-ID: <CADkTA4NkfPNkDHZeGTbqRxOgecgEWyo19e6g8VpdJAL8JjwZiQ@mail.gmail.com>
-Subject: Re: [meta-virtualization][PATCH dunfell] containers: Explictly reference a valid branch
-To: Fabio Estevam <festevam@denx.de>
-Cc: meta-virtualization@lists.yoctoproject.org, 
-	Otavio Salvador <otavio@ossystems.com.br>, Marek Vasut <marex@denx.de>
-Content-Type: text/plain; charset="UTF-8"
+To: Christopher Clark <christopher.w.clark@gmail.com>
+Cc: meta-virtualization@lists.yoctoproject.org, cardoe@gentoo.org,
+	Bertrand.Marquis@arm.com, andrew.cooper3@citrix.com,
+	dpsmith@apertussolutions.com, persaur@gmail.com,
+	scott.davis@starlab.io, adam.schwalm@starlab.io, jdmason@kudzu.us
+Subject: Re: [meta-virtualization][PATCH 0/4] Xen Test Framework OEQA
+Message-ID: <20210909183734.GA35070@gmail.com>
+References: <20210831232743.252498-1-christopher.w.clark@gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <20210831232743.252498-1-christopher.w.clark@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed, Sep 8, 2021 at 2:29 PM Fabio Estevam <festevam@denx.de> wrote:
->
-> Hi Bruce,
->
-> On 08/09/2021 15:07, Bruce Ashfield wrote:
-> > On Wed, Sep 8, 2021 at 2:02 PM Fabio Estevam <festevam@denx.de> wrote:
-> >>
-> >> These repositories have dropped their master branches,
-> >> so the fetcher default no longer works.
-> >>
-> >> Point to an existing branch to fix the fetch failure.
-> >>
-> >> Signed-off-by: Fabio Estevam <festevam@denx.de>
-> >> ---
-> >> Sorry for the resend.
-> >>
-> >> I was not subscribed to the list in the first time.
-> >
-> > You are working on an out of date master, or an old branch.
->
-> I am working on dunfell.
->
-> > If you want some of the branch changes cherry picked, specify the
-> > commit and branch, and I can do that.
->
-> Could you please cherry-pick the four commits below to dunfell to fix
-> the build?
->
-> oci-image-spec_git:
-> https://git.yoctoproject.org/cgit/cgit.cgi/meta-virtualization/commit/?id=96712be73dbca60fdceb4be68e5454944fe42d50
->
-> podman compose:
-> https://git.yoctoproject.org/cgit/cgit.cgi/meta-virtualization/commit/recipes-containers/podman-compose/podman-compose_0.1.5.bb?id=f32657ae6efd35e259147582ed12fb864688402a
->
-> podman:
-> https://git.yoctoproject.org/cgit/cgit.cgi/meta-virtualization/commit/recipes-containers/podman/podman_git.bb?id=4344c3db4054fae135d2d2d72c2300994f69f8d4
->
-> skopeo:
-> https://git.yoctoproject.org/cgit/cgit.cgi/meta-virtualization/commit/recipes-containers/skopeo/skopeo_git.bb?id=c3fe6ab4276444d0ac0c1de23a935d77fc2f4404
->
 
-These have been cherry-picked into dunfell.
+In message: [meta-virtualization][PATCH 0/4] Xen Test Framework OEQA
+on 31/08/2021 Christopher Clark wrote:
 
-Cheers,
+> This series integrates the Xen Test Framework (XTF) into the
+> OpenEmbedded QA (OEQA) structure and enables testing of Xen with XTF
+> test cases in Qemu via the standard OE testimage mechanism.
+> It builds upon the earlier work to package XTF and the XTF image.
+> 
+> I am aiming for this test to be enabled by default to support test
+> coverage for the Xen hypervisor and initial virtual machines, the
+> Xen toolstack and XTF.
+> 
+> Since many XTF test cases have hardware-dependent behaviour, the list of
+> XTF test cases to run is minimal by default but able to be extended as
+> appropriate for a particular downstream image or machine via provided
+> configuration variables documented within the test.
+
+These have now been merged to master!
+
+Thanks for the series.
 
 Bruce
 
-> Thanks,
->
-> Fabio Estevam
-> --
-> DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
-> HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
-> Phone: (+49)-8142-66989-60 Fax: (+49)-8142-66989-80 Email:
-> festevam@denx.de
-
-
-
--- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+> 
+> thanks,
+> 
+> Christopher
+> 
+> 
+> Christopher Clark (4):
+>   xen-image-minimal: supply bootloader config for qemux86-64 machine
+>   xtf-image: fix QB_DEFAULT_FSTYPE: only needed for x86-64 qemu
+>   xtf-image: update qemuboot settings
+>   xtf: add testimage integration to run XTF test cases in OEQA
+> 
+>  .gitignore                                   |   1 +
+>  classes/qemuboot-testimage-network.bbclass   |  17 +++
+>  lib/oeqa/runtime/cases/xtf_minimal.py        | 116 +++++++++++++++++++
+>  recipes-extended/images/xen-image-minimal.bb |   3 +-
+>  recipes-extended/images/xtf-image.bb         |  20 +++-
+>  wic/qemuboot-xen-x86-64.cfg                  |   8 ++
+>  wic/qemuboot-xen-x86-64.wks                  |  12 ++
+>  7 files changed, 171 insertions(+), 6 deletions(-)
+>  create mode 100644 classes/qemuboot-testimage-network.bbclass
+>  create mode 100644 lib/oeqa/runtime/cases/xtf_minimal.py
+>  create mode 100644 wic/qemuboot-xen-x86-64.cfg
+>  create mode 100644 wic/qemuboot-xen-x86-64.wks
+> 
+> -- 
+> 2.25.1
+> 
