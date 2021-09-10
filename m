@@ -1,70 +1,86 @@
-Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com [64.147.123.19])
- by mx.groups.io with SMTP id smtpd.web10.6639.1631265667260396019
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+ by mx.groups.io with SMTP id smtpd.web10.8261.1631277307363576196
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 10 Sep 2021 02:21:07 -0700
+ Fri, 10 Sep 2021 05:35:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=ayQ1sCjB;
- spf=pass (domain: pbarker.dev, ip: 64.147.123.19, mailfrom: paul@pbarker.dev)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailout.west.internal (Postfix) with ESMTP id 003FC3200302
-	for <meta-virtualization@lists.yoctoproject.org>; Fri, 10 Sep 2021 05:21:01 -0400 (EDT)
-Received: from imap42 ([10.202.2.92])
-  by compute4.internal (MEProxy); Fri, 10 Sep 2021 05:21:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
-	mime-version:message-id:in-reply-to:references:date:from:to
-	:subject:content-type; s=fm1; bh=zXp1N4ly1pitBe/40M+XeeE79ELYmHr
-	DAFNMSMMjnF4=; b=ayQ1sCjBY+Uyd2nFbKVZz3Y9p5WCMUoKoOwtvzbeYhGFm8S
-	VmS5Lb1jSehVkAg0SLB6HMdGQEbfUmmygizku3wij+tzXOBGBtgp6vincHSXCRum
-	5yZ07QzAPXDW47gE5Wv1PFr4mDYvkOrafemTc1dyssLBghHM5REYJeL9ZeIpn+qY
-	iAxRzCKL7TBxRsSwHNsmtjH+KaUAia/D10EwU+/8Fz4eXIuWc0AotNC84PJbIKpg
-	TnFLvnyciZT+HebHh+b4JpHP6BLUgF0EUbIcT2CRJ0+333JzjFf22X/7M4Yo0Mwx
-	42Mn4UyxhpMVl8bvZGWfvP65kH1OkiO7yBrLgVQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=zXp1N4
-	ly1pitBe/40M+XeeE79ELYmHrDAFNMSMMjnF4=; b=PaseRmpnuiLslc61kCAR1y
-	ZeLmxUW/mPxpdxcvp8PaxwFCuLtFGgYdTupPc3BsSf7Gi3G5sjwzfPmyjEh+ztZL
-	FQ+LQ5ZWA6rwX+l5gxMME4JGEOzFnmroIjC8hlCFExXA/JaG04VrwFzEwdTeCCA3
-	NBHE56mUzuM5SMZXmTDAqJ9+mCkFiSJXxtXsg6hEvBhBuO1ZIHADQzG9kkLsMum6
-	1CAwFm5AF98ySj4NKFHXJaclXFURk2tmrkOFCnIVabE0o7WwY6GnIbDpJHoN5rmr
-	u9Suc7JCFBbXPoTynHOXlvuOPtqvDDcOJV7x8MLlf12ubflLGIQDUcYe4Spcb8rg
-	==
-X-ME-Sender: <xms:fSM7YRpkLd2XNEwxeB1qp5Wfnh55cEsxDpiNtcoX1QuHq5KtYNFAXQ>
-    <xme:fSM7YToXMRA8jYdHI0EMfFf3LMnxQ3l9FmeCASqr45-a19kyQ9VwLtGtrb6mYSPXh
-    iFfD4iDDCpjPUtnTDE>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudeguddgudegucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucenucfjughrpefofgggkfgjfhffhffvufgtsehttd
-    ertderreejnecuhfhrohhmpedfrfgruhhluceurghrkhgvrhdfuceophgruhhlsehpsggr
-    rhhkvghrrdguvghvqeenucggtffrrghtthgvrhhnpeeigfejvddtvdeuteevgfffteetke
-    efgffgveegteeufeduhfdufeefffevgfeivdenucffohhmrghinhepphgsrghrkhgvrhdr
-    uggvvhenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    hprghulhesphgsrghrkhgvrhdruggvvh
-X-ME-Proxy: <xmx:fSM7YeNXnaxdfr-PogmOf-zk7rHI-o4p1nRW-RRXCR7aiGjhzvabog>
-    <xmx:fSM7Yc7JGwCTRzj2miXn6_SpV8vdg4T_8p96pV9_C2TDDSzrdOYn9A>
-    <xmx:fSM7YQ7FT-1Vwn4oY6IMJ7RdM7gHhKKOnLXpuFabmghYQc_zZ81hTw>
-    <xmx:fSM7YSF4GN549vNVkAnTJFRjW-iCq6DpVJrIprb0blYIj_-EKQRGQA>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 178B2218006E; Fri, 10 Sep 2021 05:21:01 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.5.0-alpha0-1229-g7ca81dfce5-fm-20210908.005-g7ca81dfc
-Mime-Version: 1.0
-Message-Id: <d2e925ff-e04b-45c0-a5fc-7fcec9d2118c@www.fastmail.com>
-In-Reply-To: <1631262707367.2520628917.514655614@optimcloud.com>
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Qu38iLJ+;
+ spf=pass (domain: gmail.com, ip: 209.85.208.41, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ed1-f41.google.com with SMTP id t6so842273edi.9
+        for <meta-virtualization@lists.yoctoproject.org>; Fri, 10 Sep 2021 05:35:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=m6omcPMtndRii98rultQCYehCfO/my+HfLl3YfA/Hrg=;
+        b=Qu38iLJ+y4oLyjYdTZhR52oUXzSGKhyAw7Bz6qbdVEV1C7NW5m6tqxAJjgV4s1IieM
+         56o5wFcI8r1sThRvycQRORwf3em3vkl36SJjUUGOFHxRi4vNpwD/LFnK3ZitVdCLefmF
+         W8W0VCiQhPk43o25gnWvWTo+nB5OJINwxcHODxYmPOP/TIdXVzynzUXcOAtkp3qvqvxo
+         8a3mhJ+helxoVA4g+wb6PQqtOnqjnToqICixnRTuU0z80PYAOqe94XAwjYVRugztIlhd
+         3evNLz5fFyPBt13Aw1cRGMc8F6Zt+I7E5WfBajkeMQSu95Shj+g6d9wkrgiJle31ZyDf
+         xzAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=m6omcPMtndRii98rultQCYehCfO/my+HfLl3YfA/Hrg=;
+        b=wyWfIR7bPwSF1WGzKsTJZyixD/I9U/y1aHoHmK9/fqbgB2/CpR0z66GcRnDkzKaidB
+         er1flwVkzkbBJsb2tASMYhDH0bu/b4ImTNuUqH0q7W9Wu20EfCaMl7QBGwk4+f50EyJz
+         yCWuNOyL2+QBFR9fMhcdLWz9K5indaHcBgtKXnyOFoHUlw1eBcTXs+IeDb5h1ektJ/y4
+         11bBIfbrlXaJsq48Omab5J9jICI1vdZ07cpob18qPF9peu2E62iGhXPHlpuFmfiug43a
+         BG1U129VwNK2pitHY1eMI5znWdwFCBd8IcXUl3xuFfhjBVuZU9FeJhfT4y5UkONybdrW
+         xciQ==
+X-Gm-Message-State: AOAM533luUN9GiF99n5jk+zMG9gRdDMCXM+VeoOoC664FOmWCpk0HPyR
+	fArthkVotxjZHFTWbU4q67LksSfHo8pwZRpUgCA=
+X-Google-Smtp-Source: ABdhPJwGTmbsVcaXXAdA36dZaGgi5VynoaCWL5OcjeheX7dud5HrlLP9PznH9mBX+Y1sZPBaAOWbLlJwra5y1G1brLc=
+X-Received: by 2002:aa7:c806:: with SMTP id a6mr4430843edt.354.1631277305754;
+ Fri, 10 Sep 2021 05:35:05 -0700 (PDT)
+MIME-Version: 1.0
 References: <729c3f470eb64e3a8832e3e70c8da768@axis.com>
- <1631262707367.2520628917.514655614@optimcloud.com>
-Date: Fri, 10 Sep 2021 10:20:04 +0100
-From: "Paul Barker" <paul@pbarker.dev>
-To: meta-virtualization@lists.yoctoproject.org
+In-Reply-To: <729c3f470eb64e3a8832e3e70c8da768@axis.com>
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+Date: Fri, 10 Sep 2021 08:34:54 -0400
+Message-ID: <CADkTA4PVaJRsbzw8E8cco8_F8u-g2J6v9S9eUqygTK+=8C70Tg@mail.gmail.com>
 Subject: Re: [meta-virtualization] thoughts on k3s and supporting builds of more than one k8s version
-Content-Type: text/plain
+To: Joakim Roubert <joakim.roubert@axis.com>
+Cc: "meta-virtualization@lists.yoctoproject.org" <meta-virtualization@lists.yoctoproject.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, 10 Sep 2021, at 09:34, Yocto wrote:
+On Fri, Sep 10, 2021 at 2:49 AM Joakim Roubert <joakim.roubert@axis.com> wrote:
+>
+> Hi!
+>
+> I was thinking about k3s, and now that the latest stable k3s is a Kubernetes 1.21 version:
+> Do we want to have recipes for multiple k3s versions? I'm thinking someone perhaps wants, say, 1.20 to go with a system with 1.21, while someone else perhaps wants 1.21 to go with 1.21 components.
+> And then have a common .inc-file with everything that is not individual for the versions, and small recipes with the source revision and such for each version.
+> What are your thoughts on this?
+
+I've held pretty firm on not having multiple versions of anything in
+the layer. Multiple providers, yes, multiple versions .. no.
+
+It quite simply splits the testing,  multiplies the support and is
+distracting. And honestly, you'll never get any agreement on versions
+.. I've been there and done that.
+
+We don't even like to do that with the kernel in oe-core, but our hand
+was a bit forced on that front (and arguably the kernel is actually
+easier to test).
+
+For a version of the layer that might be released against a LTS, the
+plan was to match up a LTS version and "the latest", but for
+intermediate/non-LTS releases sticking with one is the goal.
+
+Bruce
+
+>
+> BR,
+>
+> /Joakim
+>
 > 
+>
 
-Please don't use "Yocto" as your name on this list, it may come across to folks who are new to our community as if you're speaking for the project.
 
 -- 
-Paul Barker
-https://pbarker.dev/
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
