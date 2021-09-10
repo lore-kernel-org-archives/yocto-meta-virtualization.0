@@ -1,323 +1,253 @@
-Received: from esa4.fujitsucc.c3s2.iphmx.com (esa4.fujitsucc.c3s2.iphmx.com [68.232.151.214])
- by mx.groups.io with SMTP id smtpd.web10.3731.1631213722750158988
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web09.4178.1631242250778289543
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 09 Sep 2021 11:55:23 -0700
+ Thu, 09 Sep 2021 19:50:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj1 header.b=KY3PlGrM;
- spf=pass (domain: fujitsu.com, ip: 68.232.151.214, mailfrom: al.smith@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj1;
-  t=1631213723; x=1662749723;
-  h=from:to:subject:date:message-id:mime-version;
-  bh=bfZMgZsYWtiY6iOY7laiVo9XAwE226b63QM+7VlXV30=;
-  b=KY3PlGrMkHb7T+FgOsk4/M+DNsEIP23l2D/C7TbMI+V2t+dswBQqcZhs
-   Va55ueaN3m+vuAcfX/0XoLO5Unk8DuO5p62GdJ1tcPDLRHVdO70qKnvyQ
-   IenUPFbHlH8Hbb8pyz1q+XieWF0sww4qH0OK0oxseVFYMmvPhMeapvhlP
-   9pQta0PAC73uAFtaEy7JehfnOLwF1kvEZouiAXpuk0YHPIC7f6Q0HhDib
-   ftr8gEu1296tQI9qplu6Kro1zhyFYfxrGM7W/HbwRwXDTBclNbhritoOZ
-   PNPMCI2NDEobfgU2fYGO387wufZKVVuqm8SEsNDNpkbcnBBbkndp6G0t0
-   g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10102"; a="46824915"
-X-IronPort-AV: E=Sophos;i="5.85,281,1624287600"; 
-   d="scan'208,217";a="46824915"
-Received: from mail-mw2nam10lp2109.outbound.protection.outlook.com (HELO NAM10-MW2-obe.outbound.protection.outlook.com) ([104.47.55.109])
-  by ob1.fujitsucc.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2021 03:55:19 +0900
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=JkL4yRnX;
+ spf=pass (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=4887064055=qiang.zhang@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 18A2C4LD018011;
+	Thu, 9 Sep 2021 19:50:48 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to : cc :
+ subject : date : message-id : content-type : mime-version; s=PPS06212021;
+ bh=6+MO+lOzmCKR26KiMZGGucaEQiPn0HqErnJIgkWhjdY=;
+ b=JkL4yRnXn3uWsxnJvyEuMNOv4AztHHWjO+32yimy92FauFeyheAB2iWPcExvhdaHL1o4
+ ipodWwx/p/zbZAycIOWK7/MVs0nYo5puIC/f+0flNZ4xoRvE4SEdxfy07q2GMbDZKWRG
+ oEQsdC0/56N7yN1jUmWwDynENjoscm0XRuvyNXj9xERHL8kVvcllSUSCq0VrU0IHt4n9
+ 9RTmCDyPo6PoXV4w0j6LX+yGFEepCgZdZ+YAqW7GlyVMhewgNWRcm2z1be+1bFzPpZWE
+ jqalsuRuiQVu9IAKaXNQzKmaLmOop+q6ovxoAKFtne/0BvDl3WvZJ02AsWHHyeEihqe9 rw== 
+Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2104.outbound.protection.outlook.com [104.47.58.104])
+	by mx0a-0064b401.pphosted.com with ESMTP id 3aytdm85v2-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 09 Sep 2021 19:50:47 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BeknXqqW0rHU050ASfM4DVLGy9TGgHtuDUhSSJYiOsVTjU5CFeMwrJONLGYdudwagPnqagHrAYKpUrDEcJJ71eLzARHJb5B5Lp9cZDq3MmodyhM+tn3YCpyIib0hF5Ay7K4XGCcYHmuFtVY0KS8lWJRsSyotRFmcEEqGNRRBj1PHfcUwhEtCd8X7PrEMzm/t6m6MesfhFIdgks9s/Ourf+oI0CBKMwf0+OkpTB9DO589y8LblsH7iAxrbO2NyDTBpaX3UXZB5hlZf0DYFrjtikWtgjZy2Th+0auRVSE3Z3lnr8TxQXSSev4PKVKcTGYOg4Ur1/g7i8ExZn/EOYF8/g==
+ b=AJnXBb5ItgQqD6fmTOnYddqEUR7CQNOybVIpIMpkUwo37cnpTo+R29Prwvt49qEt7aC1V6RiOcddXa/wWTbqLtFwl1G9h6E5aEdTbGP7gZACsOYG9bS9yi2OAXa5o9XnFgyOVGOPYVOLlW6WCHHPt03R/gf4CMZSXUq0dNCzzsETRx4sCutiVANuWhjIStrEQTdRghP66x+w7zPv4xAYha6I0QSpB0ZOXVTxOBlekeWgiUHflSbXKY7wSV8AyDeQ3EjBcxx9ywCDLPmaqdX8U7IgD5JCXY9ponJ8CK+tLRs2b57RFWQMKmQBOwHa2jqE2j9t3ulFigj0X4cG6D0PRQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pi20kKarVAXiM9oZhWSak78Cu56PbwfVeApp+Chmgb8=;
- b=k50ntBgjMBZGrme6WTQRyVj2wsYbvw3Ugqzr6zuyVq2OnsbB9rrCsC5utpkcr7SOmNl0s3K/Sh7BbnKn6yNw8Y6dEESRRBaan3DFdBWFGDsmK/TiXx1mJYehZklwwMcaM8yPy4JiCHriTyAIWiynxrLBHfSx5RzBxp8suGZUrfFnJf+nYvZ74rH98d5TcsOSBbYT3pSMRJVz/DoFbpz27htYSn58+VaLQYlOvS9u1CnDNmDmvvxBMRgAaWcaS6JDeHzveefvHoRzzF/Dml58G+lkN8ULnPz7v8pt9F25l/iChvzyhqPOP6b8tKXNJOB1yQNG+ZQhP0Rpo/J2nowp1w==
+ s=arcselector9901; h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
+ bh=6+MO+lOzmCKR26KiMZGGucaEQiPn0HqErnJIgkWhjdY=;
+ b=PgIRPMYIOhzG2x4MId14c/zqBBAD/P33Hra3Jcs8TRjINq/odLyOwOhK0caVga23v3Ih97Y3YTBVtypwmRVKqg24YtO+zsJjQOJfa5HnHFUfGhba1NUdHWba3xN/8zjAIJ4peRzBgIHoQwBALkUw1U2YmiakP6zq1StwnPyLgRCx2hMQ5bnP+hkhtsFzh+adlJw+uDRkJRDi2nGs/YOAUXAQZuQZ0LJfzU1nbkm5m+5m1jqc+hEEhSD/IaN0eAEv/oH3aLpVfuwsoDc3EjhzOOPmtEhArvlmRmlmd25rACYBVntlUhjnSAy7Z6ThgfmZahHhX3LqrPBufnGrm8XIUw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=fujitsu.com; dmarc=pass action=none header.from=fujitsu.com;
- dkim=pass header.d=fujitsu.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fujitsu.onmicrosoft.com; s=selector2-fujitsu-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pi20kKarVAXiM9oZhWSak78Cu56PbwfVeApp+Chmgb8=;
- b=Ec1jehisn/c8VJTVF39whNTh3BuL6iyHKOD9iltgNyNpkWanC5K7b7MO895RMGuXlem+jc6GsG93HrT5oq/Fe9roYW6Omig43wt449RG097OSTtGPp7uwmHSJd2wvijOdZoXK9QSGtvIeFUL4gRBemHclKS4LAl/60VaH9cyds8=
-Received: from SN6PR07MB4830.namprd07.prod.outlook.com (2603:10b6:805:37::20)
- by SN1PR07MB3950.namprd07.prod.outlook.com (2603:10b6:802:26::10) with
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Authentication-Results: gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=none action=none header.from=windriver.com;
+Received: from BL1PR11MB5478.namprd11.prod.outlook.com (2603:10b6:208:31d::12)
+ by BL0PR11MB3250.namprd11.prod.outlook.com (2603:10b6:208:63::13) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4457.23; Thu, 9 Sep
- 2021 18:55:16 +0000
-Received: from SN6PR07MB4830.namprd07.prod.outlook.com
- ([fe80::2c26:90ec:47d5:8672]) by SN6PR07MB4830.namprd07.prod.outlook.com
- ([fe80::2c26:90ec:47d5:8672%6]) with mapi id 15.20.4500.016; Thu, 9 Sep 2021
- 18:55:16 +0000
-From: al.smith@fujitsu.com
-To: "meta-virtualization@lists.yoctoproject.org"
-	<meta-virtualization@lists.yoctoproject.org>
-Subject: container build not pulling in libraries
-Thread-Topic: container build not pulling in libraries
-Thread-Index: AdelrAyK+jJgSr6nQdCbhaUCY3ktIg==
-Date: Thu, 9 Sep 2021 18:55:16 +0000
-Message-ID: 
- <SN6PR07MB4830947D79F9F5FB8A86BDED9FD59@SN6PR07MB4830.namprd07.prod.outlook.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: lists.yoctoproject.org; dkim=none (message not signed)
- header.d=none;lists.yoctoproject.org; dmarc=none action=none
- header.from=fujitsu.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: f38f500b-42e2-4ff9-26fe-08d973c35cfa
-x-ms-traffictypediagnostic: SN1PR07MB3950:
-x-microsoft-antispam-prvs: 
- <SN1PR07MB3950CC13DD8151DC6DDEE99A9FD59@SN1PR07MB3950.namprd07.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- JAcuFH5wKK4SnFvzndah45PoAmWZO/wBMQIRYVNdN1LN9pGFNTN/MMbl6UrofZvKVsyx15SmGh63Hn+DFEtBPePcPkua4VFwpvUjqP7TdY7rQz2lOyLRy2GwlZSkdQC/kDf7DCab6kAUDZS7ErkA+evY4BXqThrydnp1fXIhIoHUXRacQtOwQ/AFb1u2UZQwV9P4+Ej+RwsBMVh7L3EBzCyWb0iDOHXK3KP0+8s80CM3kstn3lMg4VZ/SCRxfD5wLM3jDi+uXN+IDto5UdRLRRek/MvaQxfjWBMLGpKFuIOBRAEbPpAQg0W39DL1A6lAzlNM7VPTGT9yTdzS2g3MfpowswZ57DxY9gP0oBLhTNPc/9SSqFsHEqxmRrwXkwI8eE1YbmBeKyJxAqDeXDiwSjoH3+jyawDIBIzC8wQ6UZqFLh80XhNsMN+nJeS4C+a7TJhx0cWc44Os2dSJyt9LnLLdVk6Ul7LoKIVtglGKDTt9Hoau7qvYPEtHnIrLmX2c7WqsmUe1y08u4rWv1j9WUy/erSWlZnHxg5+2wMKt/SojZVh4bNVA8hlCR0So52PFxfugs7Z4PcBjmxOlEjbAHdyXrCdb3VtKx1DZpTt0SnVqXzVilZ+UFcIqzGZYhKWl53LfgdAUAtwDaI8acL15gxxMfncM4V5pCdpXroujbDAF/0iD93O7gamHnFSS9Bbtds2e0I79c94Fou2XaPQnIw==
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR07MB4830.namprd07.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(136003)(39850400004)(396003)(346002)(366004)(6506007)(38070700005)(86362001)(316002)(55016002)(122000001)(5660300002)(66946007)(9686003)(478600001)(52536014)(7696005)(71200400001)(66446008)(8936002)(76116006)(8676002)(186003)(38100700002)(83380400001)(6916009)(33656002)(66556008)(66476007)(26005)(2906002)(64756008);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?RZlTXSTIZVqefuEYO93bOYAWbN15T6LdXIxL6gx7htJKnZMEQ54OIylMCdhn?=
- =?us-ascii?Q?Vn65zh5ehw3GUakgknW8sQ+5ZEzwJPYTW9KQgURa94CeAeEHxosy0bpdji7G?=
- =?us-ascii?Q?CAG/rq3Dz/IXCekXTPaG1b9h5rAQV6e377tnpZ4gBcdJuf2LekmLOZ/Z+Gql?=
- =?us-ascii?Q?ms1zdCssXaqGWBHHAo9Z7DxglaSYkom3vrXkfZiOzdpA0TsAEBabgg2j/5hi?=
- =?us-ascii?Q?pvdAydIoDplry3gfTozY7NNRm8E22IzD7srGIVHFKSkjoO+NgRjDlPhztaht?=
- =?us-ascii?Q?ey/Z/GizlJP/ID+FD1/e3d6GMlsLL4q7k4+FMzUBauhF06cFV+Qisl1NXxXL?=
- =?us-ascii?Q?TftglyiFCsaxWDlqrvPzJfy5GobenFmbtjau0Rsvb8GMgfvmsSM6x+ScBYTL?=
- =?us-ascii?Q?vDrqPB/khhOWmS7STko/HSq8tFINmOZ/+JuIPkx/YegV+w06950aroqQn97K?=
- =?us-ascii?Q?QothXVVsL05m+uM4qfdYNp0HMPyrzxz/4F50H32AwjHliqnO2PED9S7vI2ht?=
- =?us-ascii?Q?ZtYxRFlYbLVkJddAOeJfvVTST9q7KFYO83ZtfhylD13wNGnyckI8ggG7+LTW?=
- =?us-ascii?Q?nIGxl9SL94sG7AerUbmF33jQq+GF5sI7G3PDLFlUK0glJpYGJ10BtuLMwEiu?=
- =?us-ascii?Q?lNMCtivVQ04EjlOnzzo2qD99tb2TqgmofSnHQ3q892VFFDVWHZK6KdpK1z1q?=
- =?us-ascii?Q?Kno6F8FTmZKKfl9aZnarXnaR4c5zTXOA27m/3zLJmwmzGQ++leQng0kmEcax?=
- =?us-ascii?Q?rLSmcTR9nxjZLP7zPwkFQPtz3yaGjwJWoWNtZwfkSRSXSRJ9Ei9ZystsCNF1?=
- =?us-ascii?Q?quIvgBtVAdtTuLiyS5wDJ6ITvK34SEB6b2LcjbHJxusyQ14fq/neKZLS1G42?=
- =?us-ascii?Q?NcXT+1lLK0DEpuF2HyfMwLvmqxsGpIoxIAZ1J4FNNbpuetscL1d/vhHP2nPZ?=
- =?us-ascii?Q?eskCK06ingz6SFdX9Mvw4qSvK66WDcIMiJ+KnfMg1mrcTP5nPsSBEarZ9Nd+?=
- =?us-ascii?Q?4bupkEWa71cFRcHUBDbCqXW7iv7I6NuymmR01Vj4y3HO7FAV9yPClWs/Ek5F?=
- =?us-ascii?Q?Dge/iEIAlzVkZ/YyT3MT9WyT1ZpnDI0VIlj66xR5tfPAUeR18QHDIGJPDCNS?=
- =?us-ascii?Q?FYfxXu0hkUBttfxFBEEDaZtsHZKm+SiyvhsPssKn/PwWTjEhjziVvPs1OXEo?=
- =?us-ascii?Q?jOXWWfE7yKVqN4FtWiwMYku+Z/HuUSejZfBs5H+zdWkNdaK2xLa64gvYY6BQ?=
- =?us-ascii?Q?l9V3QlkUCFHXseZBrVHdtdx5xwUjDI/WjIy4FWImewQYB7DrnvExdm/PTdZl?=
- =?us-ascii?Q?WndPTYD88Z5kBaiByXqIn+sw?=
-x-ms-exchange-transport-forked: True
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4500.14; Fri, 10 Sep
+ 2021 02:50:45 +0000
+Received: from BL1PR11MB5478.namprd11.prod.outlook.com
+ ([fe80::19db:ee0e:abd0:df6d]) by BL1PR11MB5478.namprd11.prod.outlook.com
+ ([fe80::19db:ee0e:abd0:df6d%8]) with mapi id 15.20.4500.017; Fri, 10 Sep 2021
+ 02:50:44 +0000
+From: "Zhang, Qiang" <qiang.zhang@windriver.com>
+To: bruce.ashfield@gmail.com
+Cc: meta-virtualization@lists.yoctoproject.org
+Subject: [PATCH] openvswitch: fix CVE-2021-36980
+Date: Fri, 10 Sep 2021 11:21:04 +0800
+Message-Id: <20210910032104.38901-1-qiang.zhang@windriver.com>
+X-Mailer: git-send-email 2.17.1
+X-ClientProxiedBy: HK0PR03CA0097.apcprd03.prod.outlook.com
+ (2603:1096:203:b0::13) To BL1PR11MB5478.namprd11.prod.outlook.com
+ (2603:10b6:208:31d::12)
 MIME-Version: 1.0
-X-OriginatorOrg: fujitsu.com
+Received: from pek-lpg-core1-vm1.wrs.com (60.247.85.82) by HK0PR03CA0097.apcprd03.prod.outlook.com (2603:1096:203:b0::13) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4500.14 via Frontend Transport; Fri, 10 Sep 2021 02:50:43 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: d4845a68-62ac-4ef6-903d-08d97405c8ed
+X-MS-TrafficTypeDiagnostic: BL0PR11MB3250:
+X-Microsoft-Antispam-PRVS: 
+	<BL0PR11MB3250BC026D59A87D7A5042CEFFD69@BL0PR11MB3250.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:30;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	1EVtoDvKc9rm4zFhrxu9xMDh6YiaoAo0V4HuRiQrRqd0SMwrlSVC3x/lLclzq4czzCo8ie/MQbqX8A5FEqmKIekBVBItpFpV+wq8hiOiVmwPiRB+T6A+pQR+0gFFiJDSn24hH4bPttAKvleI4xBD98USIzbWDPr0QvFdlw9Pa9EhQKXKdVXGpmHDL8lBtqcMY62kRWzOx5VV+OJvwf21FHl/pviYqdlya4DJi4kGBn90YmEqiDWkScP0P3OIat7rIdRHVZzzleiTKUQl/KyBSAhHZZlyyVY4erpv3aUZV+crUxBTDYnBmBb9xuP10a7I19NDm7s7r6xGnq64+jt8wpYF1n/rFIa0u6DuzIThTQ9UNxbUjDdouCoeCbenaB5COaA/OQPQ5LvG7+5sqLbOI0dzUy0260DNiZ3rQqw41mTwD3+7wB8WLYBZp8tRoSfmrQ0YEUvd7mX+hQ+ACECegbf6wfgToebzXKe0Ofhh3fR2aC8Jl5Tkt4YwCYdyBx1ADkq5b8m7wqJeizbXGceYAys19lA2K0WT1V+V1de+pGxV1XeHExTWzodJROBg+M6HO3GHCj4DWNJ88STNaJO8/XyvdaJ0/e3V4ma8oDBskiCQGrfS1kIfTj8tVeRKRcA0el4lTOXeJ6NlMtCEOBBEBuRLx/+EcBX+h/XEUCUmv8UabJbk3GKLKaVRt1jeuzsDEl7jm66D3/sX7fPWW+jRojBe+LF8bjVFf7712Kji90/Z5GLi3fw8VI53Qf+xFKwsmCrqIQ67HsmSHyeNQwORQKIJrpdP3QnpMraXkFtzZBOwUslQqlFucAXPLKCgtFF3qLYVncR5KIsrt9CsZCsafQ==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR11MB5478.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(366004)(396003)(39850400004)(346002)(376002)(6512007)(8936002)(6506007)(9686003)(956004)(1076003)(5660300002)(83380400001)(52116002)(8676002)(26005)(2616005)(2906002)(4326008)(38100700002)(36756003)(316002)(66946007)(38350700002)(6916009)(478600001)(966005)(6486002)(86362001)(186003)(66476007)(66556008)(6666004);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?HK8Z+VOp5pmucsVAJNeWjVx/u9BIu8xdCmgRd2LXhPd8I5EXz++Dln9E5A+L?=
+ =?us-ascii?Q?XV7kFgXePWiOM/x4wQPbt9RX4J4s/aOdE3IljTKaRrjPOiW5rK17eYfDBORm?=
+ =?us-ascii?Q?nF3LawJK/ExgZTzd8aDm1MlJ+bpNhJ6pY8SHHTv6d9duByrvl+mjkPCjTgPQ?=
+ =?us-ascii?Q?92futxrGlwbdyqPKcwQdyBVDJ3Pckk6NAri/vEb/jHO//HM/3H1VBcq0qKx0?=
+ =?us-ascii?Q?GqcSRiQtse8vV7lWAytNGRUCt8knzCaVQxmSGSCkipAGR8/pDxBiZCa6rTYm?=
+ =?us-ascii?Q?ZiOPQrV4NpPc6zj6KMRsfgdgtIjPmMrZrHwi4N2Z4exSkPNl4/CC5zFmBMO+?=
+ =?us-ascii?Q?7UkxzJvE7EgXZ16fH8xLg/4AOyJjn6VX9Fbg9uRSTAmRuw7P6hg5N9PuU5Bn?=
+ =?us-ascii?Q?ZFjq7HQVhemLKt9THCXMuYCzL3hnQ8vsbTMUKi78UyqG91MY4y+KHn7zmAGJ?=
+ =?us-ascii?Q?9u9/2rgZ1n0o4Ka8AK9cACux55sNf9wVkARWU1LMlDPLXeIr1O0fzVQqa/Qy?=
+ =?us-ascii?Q?QoIGrtYMi2oJ6eefXptgfsxjyt5mhyfB2IPYzPApmyeJiniPrSO52X+jgp75?=
+ =?us-ascii?Q?+sB6tXEHOSiSYNnnOZlLAZNFHHrBmXJRqomXkF1m19N1nDWxLiW90J2AUiwr?=
+ =?us-ascii?Q?uXp6tPPLR5BlCDaThsK40pJemsvkZpzYtWVxJuGEYbJf+r8mM5cAYVW8Myci?=
+ =?us-ascii?Q?tome41EYo3DhPP1tWaeIOkxPOdXkIb3OdRWZK6TYYZ+x4hVrxmUIIY4XCsYf?=
+ =?us-ascii?Q?VEFWWBDN8T5Vdi3OAywI5ae1pPgciED4jFHebRf1PAZxDJrj5116aLx5qp05?=
+ =?us-ascii?Q?/FLhAp2xlIvY4X6Mwvykb9lNVYh549lwGo0mPvwtfNtSOqEtM7UX054+3O5u?=
+ =?us-ascii?Q?N2wYAG8rm2zQjHNVQTURxpno6MloH7MIcKfl+Mwd0C9YNNyBDR1xSOlZupUr?=
+ =?us-ascii?Q?jIctRdRl4eCT6z6SUO2+if5H50IMA54rJEdCI+ApHamM9iP7v0CGY/V8BUbj?=
+ =?us-ascii?Q?3e0Zvz35BNnwahd55LzWCVM+ZfTVm0rJbUH1kHOVQ/y6EGAZSe/AAnI5YPar?=
+ =?us-ascii?Q?hbHR2r8YLQsYQTNAWgct1RNyFbTrZZjTfdiCyg3RTz/D3IYQPe8tbUSbWoOO?=
+ =?us-ascii?Q?cXebSETfphYxlF8JOZdHGm5fXL/wr7Ou38IGkcScjOsbxTzayfIrHBVZ3D/8?=
+ =?us-ascii?Q?0JlRZ1TegDE5MKGm5TzubFCrET+aYQxrrE6F8viBUxcTaHTJ7a2GdwvFgNCl?=
+ =?us-ascii?Q?hvpLT0iMp7CVrmwcMgox7QRFUOzZsYOqL2JyV++xnbZFlnNstGPHBm9H0b9w?=
+ =?us-ascii?Q?yTT5Byl+/Ow+Gi0HkvIRYj49?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d4845a68-62ac-4ef6-903d-08d97405c8ed
+X-MS-Exchange-CrossTenant-AuthSource: BL1PR11MB5478.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR07MB4830.namprd07.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f38f500b-42e2-4ff9-26fe-08d973c35cfa
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Sep 2021 18:55:16.4391
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2021 02:50:44.7039
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a19f121d-81e1-4858-a9d8-736e267fd4c7
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ITkKpL9pIr0fkJNmePcDFEhMTVzgIMQjpv2su+G8pjHYBMAcpGvUf7mzQf7DFGEvkf7WJ+tVmQzkjo2DX4wAiA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN1PR07MB3950
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_SN6PR07MB4830947D79F9F5FB8A86BDED9FD59SN6PR07MB4830namp_"
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: VMEchMgoH7H/AcJSXjkpCjDLJKfy8eB0GOe3a1aXjBO2JSX0CtfKNZw3hOBlQdzV4sNjRfIDKR/dDaNX9yx24KTK1TM18EDVcJzo94uLMD8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR11MB3250
+X-Proofpoint-ORIG-GUID: WCObviduwlRpbF0Hr2CUSBRZVL0Z_xAf
+X-Proofpoint-GUID: WCObviduwlRpbF0Hr2CUSBRZVL0Z_xAf
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.391,FMLib:17.0.607.475
+ definitions=2021-09-10_01,2021-09-09_01,2020-04-07_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ spamscore=0 phishscore=0 malwarescore=0 clxscore=1011 suspectscore=0
+ impostorscore=0 mlxlogscore=999 mlxscore=0 bulkscore=0 priorityscore=1501
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2109030001 definitions=main-2109100016
+Content-Type: text/plain
 
---_000_SN6PR07MB4830947D79F9F5FB8A86BDED9FD59SN6PR07MB4830namp_
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+From: Zqiang <qiang.zhang@windriver.com>
 
+Open vSwitch (aka openvswitch) 2.11.0 through 2.15.0 has
+a use-after-free in decode_NXAST_RAW_ENCAP (called from
+ofpact_decode and ofpacts_decode) during the decoding of
+a RAW_ENCAP action.
 
-I have a question regarding containers and was curious if you could provide=
- some assistance.
+Reference:
+https://nvd.nist.gov/vuln/detail/CVE-2021-36980
 
-I have built container image using  my own recipe. The recipe pulls in othe=
-r recipes such as  mono recipe.  Mono recipe is a custom recipe .bb file.  =
- I have changed the code which mono recipe .bb file references in SRC, but =
-the container build doesn't pick up the changes.  If I build the host image=
- which also uses the recipe, it picks up the changes.
-So, it seems the fact that I am using container build, the mono recipe buil=
-d for some reason doesn't put the libraries and etc  in the container usr/l=
-ib directory.
-Is there anything special to get container  build to work proper by pulling=
- in libraries and object?
+Patches from:
+https://github.com/openvswitch/ovs/commit/65c61b0c23a0d474696d7b1cea522a5016a8aeb3
 
+Signed-off-by: Zqiang <qiang.zhang@windriver.com>
+---
+ ...use-after-free-while-decoding-RAW_EN.patch | 97 +++++++++++++++++++
+ .../openvswitch/openvswitch_git.bb            |  1 +
+ 2 files changed, 98 insertions(+)
+ create mode 100644 recipes-networking/openvswitch/files/0001-ofp-actions-Fix-use-after-free-while-decoding-RAW_EN.patch
 
-I have tried
- "bitbake -c  cleanall mono"
-bitbake -f mono
+diff --git a/recipes-networking/openvswitch/files/0001-ofp-actions-Fix-use-after-free-while-decoding-RAW_EN.patch b/recipes-networking/openvswitch/files/0001-ofp-actions-Fix-use-after-free-while-decoding-RAW_EN.patch
+new file mode 100644
+index 00000000..3afd1bad
+--- /dev/null
++++ b/recipes-networking/openvswitch/files/0001-ofp-actions-Fix-use-after-free-while-decoding-RAW_EN.patch
+@@ -0,0 +1,97 @@
++From 77cccc74deede443e8b9102299efc869a52b65b2 Mon Sep 17 00:00:00 2001
++From: Ilya Maximets <i.maximets@ovn.org>
++Date: Tue, 16 Feb 2021 23:27:30 +0100
++Subject: [PATCH] ofp-actions: Fix use-after-free while decoding RAW_ENCAP.
++
++While decoding RAW_ENCAP action, decode_ed_prop() might re-allocate
++ofpbuf if there is no enough space left.  However, function
++'decode_NXAST_RAW_ENCAP' continues to use old pointer to 'encap'
++structure leading to write-after-free and incorrect decoding.
++
++  ==3549105==ERROR: AddressSanitizer: heap-use-after-free on address
++  0x60600000011a at pc 0x0000005f6cc6 bp 0x7ffc3a2d4410 sp 0x7ffc3a2d4408
++  WRITE of size 2 at 0x60600000011a thread T0
++    #0 0x5f6cc5 in decode_NXAST_RAW_ENCAP lib/ofp-actions.c:4461:20
++    #1 0x5f0551 in ofpact_decode ./lib/ofp-actions.inc2:4777:16
++    #2 0x5ed17c in ofpacts_decode lib/ofp-actions.c:7752:21
++    #3 0x5eba9a in ofpacts_pull_openflow_actions__ lib/ofp-actions.c:7791:13
++    #4 0x5eb9fc in ofpacts_pull_openflow_actions lib/ofp-actions.c:7835:12
++    #5 0x64bb8b in ofputil_decode_packet_out lib/ofp-packet.c:1113:17
++    #6 0x65b6f4 in ofp_print_packet_out lib/ofp-print.c:148:13
++    #7 0x659e3f in ofp_to_string__ lib/ofp-print.c:1029:16
++    #8 0x659b24 in ofp_to_string lib/ofp-print.c:1244:21
++    #9 0x65a28c in ofp_print lib/ofp-print.c:1288:28
++    #10 0x540d11 in ofctl_ofp_parse utilities/ovs-ofctl.c:2814:9
++    #11 0x564228 in ovs_cmdl_run_command__ lib/command-line.c:247:17
++    #12 0x56408a in ovs_cmdl_run_command lib/command-line.c:278:5
++    #13 0x5391ae in main utilities/ovs-ofctl.c:179:9
++    #14 0x7f6911ce9081 in __libc_start_main (/lib64/libc.so.6+0x27081)
++    #15 0x461fed in _start (utilities/ovs-ofctl+0x461fed)
++
++Fix that by getting a new pointer before using.
++
++Credit to OSS-Fuzz.
++
++Fuzzer regression test will fail only with AddressSanitizer enabled.
++
++Reported-at: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=27851
++Fixes: f839892a206a ("OF support and translation of generic encap and decap")
++Acked-by: William Tu <u9012063@gmail.com>
++Signed-off-by: Ilya Maximets <i.maximets@ovn.org>
++---
++ lib/ofp-actions.c                                       | 2 ++
++ tests/automake.mk                                       | 3 ++-
++ tests/fuzz-regression-list.at                           | 1 +
++ tests/fuzz-regression/ofp_print_fuzzer-6540965472632832 | 0
++ 4 files changed, 5 insertions(+), 1 deletion(-)
++ create mode 100644 tests/fuzz-regression/ofp_print_fuzzer-6540965472632832
++
++diff --git a/lib/ofp-actions.c b/lib/ofp-actions.c
++index e2e829772..0342a228b 100644
++--- a/lib/ofp-actions.c
+++++ b/lib/ofp-actions.c
++@@ -4431,6 +4431,7 @@ decode_NXAST_RAW_ENCAP(const struct nx_action_encap *nae,
++ {
++     struct ofpact_encap *encap;
++     const struct ofp_ed_prop_header *ofp_prop;
+++    const size_t encap_ofs = out->size;
++     size_t props_len;
++     uint16_t n_props = 0;
++     int err;
++@@ -4458,6 +4459,7 @@ decode_NXAST_RAW_ENCAP(const struct nx_action_encap *nae,
++         }
++         n_props++;
++     }
+++    encap = ofpbuf_at_assert(out, encap_ofs, sizeof *encap);
++     encap->n_props = n_props;
++     out->header = &encap->ofpact;
++     ofpact_finish_ENCAP(out, &encap);
++diff --git a/tests/automake.mk b/tests/automake.mk
++index 677b99a6b..fc80e027d 100644
++--- a/tests/automake.mk
+++++ b/tests/automake.mk
++@@ -134,7 +134,8 @@ FUZZ_REGRESSION_TESTS = \
++ 	tests/fuzz-regression/ofp_print_fuzzer-5722747668791296 \
++ 	tests/fuzz-regression/ofp_print_fuzzer-6285128790704128 \
++ 	tests/fuzz-regression/ofp_print_fuzzer-6470117922701312 \
++-	tests/fuzz-regression/ofp_print_fuzzer-6502620041576448
+++	tests/fuzz-regression/ofp_print_fuzzer-6502620041576448 \
+++	tests/fuzz-regression/ofp_print_fuzzer-6540965472632832
++ $(srcdir)/tests/fuzz-regression-list.at: tests/automake.mk
++ 	$(AM_V_GEN)for name in $(FUZZ_REGRESSION_TESTS); do \
++             basename=`echo $$name | sed 's,^.*/,,'`; \
++diff --git a/tests/fuzz-regression-list.at b/tests/fuzz-regression-list.at
++index e3173fb88..2347c690e 100644
++--- a/tests/fuzz-regression-list.at
+++++ b/tests/fuzz-regression-list.at
++@@ -21,3 +21,4 @@ TEST_FUZZ_REGRESSION([ofp_print_fuzzer-5722747668791296])
++ TEST_FUZZ_REGRESSION([ofp_print_fuzzer-6285128790704128])
++ TEST_FUZZ_REGRESSION([ofp_print_fuzzer-6470117922701312])
++ TEST_FUZZ_REGRESSION([ofp_print_fuzzer-6502620041576448])
+++TEST_FUZZ_REGRESSION([ofp_print_fuzzer-6540965472632832])
++diff --git a/tests/fuzz-regression/ofp_print_fuzzer-6540965472632832 b/tests/fuzz-regression/ofp_print_fuzzer-6540965472632832
++new file mode 100644
++index 000000000..e69de29bb
++-- 
++2.17.1
++
+diff --git a/recipes-networking/openvswitch/openvswitch_git.bb b/recipes-networking/openvswitch/openvswitch_git.bb
+index 1fa7fb2c..4f5454fe 100644
+--- a/recipes-networking/openvswitch/openvswitch_git.bb
++++ b/recipes-networking/openvswitch/openvswitch_git.bb
+@@ -30,6 +30,7 @@ SRC_URI += "git://github.com/openvswitch/ovs.git;protocol=git;branch=branch-2.15
+             file://0001-ovs-use-run-instead-of-var-run-for-in-systemd-units.patch \
+             file://0001-openvswitch-fix-do_configure-with-DPDK-19.11-error.patch \
+             file://0001-openvswitch-fix-netdev-dpdk-compile-error.patch \
++            file://0001-ofp-actions-Fix-use-after-free-while-decoding-RAW_EN.patch \
+            "
+ 
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=1ce5d23a6429dff345518758f13aaeab"
+-- 
+2.17.1
 
-   The build actually works, but it continues to pull the stale libraries (=
-mar 9 2018)  and not the new libraries which were just built.
-[asmith@rtxdoclp001 build]$ ls -l /home/asmith/preValContainer/poky/build/t=
-mp/work/containerx86_64-enea-linux/fss-preval-container/1.0-r0/rootfs/usr/l=
-ib/libmonotonic_clock.so.0
-lrwxrwxrwx 1 asmith domain users 27 Mar  9  2018 /home/asmith/preValContain=
-er/poky/build/tmp/work/containerx86_64-enea-linux/fss-preval-con
-
-
-local.conf   snipnets..
-
-DISTRO_FEATURES_append =3D " virtualization"
-IMAGE_FSTYPES =3D "container"
-PREFERRED_PROVIDER_virtual/kernel =3D "linux-dummy"
-IMAGE_LINGUAS_append =3D " en-us"
-#SSTATE_MIRRORS ?=3D "file://.* file:///proj/bitbake/poky-cache/sstate-cach=
-e/PATH<file://.*%20file:/proj/bitbake/poky-cache/sstate-cache/PATH>"
-MACHINE ?=3D "containerx86-64"
-
-Thanks,
-Al
-
-
---_000_SN6PR07MB4830947D79F9F5FB8A86BDED9FD59SN6PR07MB4830namp_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
-osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
-//www.w3.org/TR/REC-html40">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
->
-<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
-<style><!--
-/* Font Definitions */
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:DengXian;
-	panose-1:2 1 6 0 3 1 1 1 1 1;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:"\@DengXian";
-	panose-1:2 1 6 0 3 1 1 1 1 1;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-a:visited, span.MsoHyperlinkFollowed
-	{mso-style-priority:99;
-	color:#954F72;
-	text-decoration:underline;}
-span.EmailStyle17
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-family:"Calibri",sans-serif;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]-->
-</head>
-<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72">
-<div class=3D"WordSection1">
-<p class=3D"MsoNormal"><span style=3D"mso-fareast-language:ZH-CN"><o:p>&nbs=
-p;</o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"mso-fareast-language:ZH-CN">I have a =
-question regarding containers and was curious if you could provide some ass=
-istance.<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"mso-fareast-language:ZH-CN"><o:p>&nbs=
-p;</o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"mso-fareast-language:ZH-CN">I have bu=
-ilt container image using &nbsp;my own recipe. The recipe pulls in other re=
-cipes such as&nbsp; mono recipe.&nbsp; Mono recipe is a custom recipe .bb f=
-ile.&nbsp;&nbsp; I have changed the code which mono recipe .bb
- file references in SRC, but the container build doesn&#8217;t pick up the =
-changes.&nbsp; If I build the host image which also uses the recipe, it pic=
-ks up the changes.
-<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"mso-fareast-language:ZH-CN">So, it se=
-ems the fact that I am using container build, the mono recipe build for som=
-e reason doesn&#8217;t put the libraries and etc&nbsp; in the container usr=
-/lib directory.<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"mso-fareast-language:ZH-CN">Is there =
-anything special to get container &nbsp;build to work proper by pulling in =
-libraries and object?<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"mso-fareast-language:ZH-CN"><o:p>&nbs=
-p;</o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"mso-fareast-language:ZH-CN"><o:p>&nbs=
-p;</o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"mso-fareast-language:ZH-CN">I have tr=
-ied&nbsp;&nbsp; <o:p>
-</o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10.5pt;mso-fareast-language=
-:ZH-CN">&nbsp;</span><span lang=3D"ZH-CN" style=3D"font-size:10.5pt;font-fa=
-mily:DengXian;mso-fareast-language:ZH-CN">&#8220;</span><span style=3D"font=
--size:10.5pt;font-family:DengXian;mso-fareast-language:ZH-CN">bitbake
- -c </span><span style=3D"font-size:10.5pt;mso-fareast-language:ZH-CN">&nbs=
-p;</span><span style=3D"font-size:10.5pt;font-family:DengXian;mso-fareast-l=
-anguage:ZH-CN">cleanall mono</span><span style=3D"font-size:10.5pt;mso-fare=
-ast-language:ZH-CN">&#8221;</span><span style=3D"font-size:10.5pt;font-fami=
-ly:DengXian;mso-fareast-language:ZH-CN"><o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10.5pt;font-family:DengXian=
-;mso-fareast-language:ZH-CN">bitbake
-</span><span style=3D"font-size:10.5pt;mso-fareast-language:ZH-CN">&#8211;<=
-/span><span style=3D"font-size:10.5pt;font-family:DengXian;mso-fareast-lang=
-uage:ZH-CN">f mono<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10.5pt;font-family:DengXian=
-;mso-fareast-language:ZH-CN"><o:p>&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"color:#1F497D">&nbsp;&nbsp; The build=
- actually works, but it continues to pull the stale libraries (mar 9 2018) =
-&nbsp;and not the new libraries which were just built.<o:p></o:p></span></p=
->
-<p class=3D"MsoNormal"><span style=3D"font-size:10.5pt;font-family:DengXian=
-;mso-fareast-language:ZH-CN">[asmith@rtxdoclp001 build]$ ls -l /home/asmith=
-/preValContainer/poky/build/tmp/work/containerx86_64-enea-linux/fss-preval-=
-container/1.0-r0/rootfs/usr/lib/libmonotonic_clock.so.0
-<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10.5pt;font-family:DengXian=
-;mso-fareast-language:ZH-CN">lrwxrwxrwx 1 asmith domain users 27 Mar</span>=
-<span style=3D"font-size:10.5pt;mso-fareast-language:ZH-CN">&nbsp;</span><s=
-pan style=3D"font-size:10.5pt;font-family:DengXian;mso-fareast-language:ZH-=
-CN">
- 9</span><span style=3D"font-size:10.5pt;mso-fareast-language:ZH-CN">&nbsp;=
-</span><span style=3D"font-size:10.5pt;font-family:DengXian;mso-fareast-lan=
-guage:ZH-CN"> 2018 /home/asmith/preValContainer/poky/build/tmp/work/contain=
-erx86_64-enea-linux/fss-preval-con<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"mso-fareast-language:ZH-CN"><o:p>&nbs=
-p;</o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"mso-fareast-language:ZH-CN"><o:p>&nbs=
-p;</o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"mso-fareast-language:ZH-CN">local.con=
-f&nbsp;&nbsp; snipnets..<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"mso-fareast-language:ZH-CN"><o:p>&nbs=
-p;</o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"mso-fareast-language:ZH-CN">DISTRO_FE=
-ATURES_append =3D &quot; virtualization&quot;<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"mso-fareast-language:ZH-CN">IMAGE_FST=
-YPES =3D &quot;container&quot;<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"mso-fareast-language:ZH-CN">PREFERRED=
-_PROVIDER_virtual/kernel =3D &quot;linux-dummy&quot;<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"mso-fareast-language:ZH-CN">IMAGE_LIN=
-GUAS_append =3D &quot; en-us&quot;<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"mso-fareast-language:ZH-CN">#SSTATE_M=
-IRRORS ?=3D &quot;<a href=3D"file://.*%20file:/proj/bitbake/poky-cache/ssta=
-te-cache/PATH"><span style=3D"color:#0563C1">file://.* file:///proj/bitbake=
-/poky-cache/sstate-cache/PATH</span></a>&quot;<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"mso-fareast-language:ZH-CN">MACHINE ?=
-=3D &quot;containerx86-64&quot;<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"mso-fareast-language:ZH-CN"><o:p>&nbs=
-p;</o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"mso-fareast-language:ZH-CN">Thanks,<o=
-:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"mso-fareast-language:ZH-CN">Al<o:p></=
-o:p></span></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-</div>
-</body>
-</html>
-
---_000_SN6PR07MB4830947D79F9F5FB8A86BDED9FD59SN6PR07MB4830namp_--
