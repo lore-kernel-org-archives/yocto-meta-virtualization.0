@@ -1,113 +1,113 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
- by mx.groups.io with SMTP id smtpd.web11.5824.1631702822951737872
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+ by mx.groups.io with SMTP id smtpd.web11.5833.1631702874246256648
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 15 Sep 2021 03:47:03 -0700
+ Wed, 15 Sep 2021 03:47:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=etH6/z2q;
- spf=pass (domain: gmail.com, ip: 209.85.214.172, mailfrom: sanakazisk19@gmail.com)
-Received: by mail-pl1-f172.google.com with SMTP id f21so1377099plb.4
-        for <meta-virtualization@lists.yoctoproject.org>; Wed, 15 Sep 2021 03:47:02 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=OdNAgcTg;
+ spf=pass (domain: gmail.com, ip: 209.85.210.176, mailfrom: sanakazisk19@gmail.com)
+Received: by mail-pf1-f176.google.com with SMTP id f65so2268399pfb.10
+        for <meta-virtualization@lists.yoctoproject.org>; Wed, 15 Sep 2021 03:47:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id;
-        bh=YT3dXRh6obcFtxySX0VHgSaW+SuE48hCTd77TrzQlSE=;
-        b=etH6/z2qQT5BV2gRrscrMPODZp7wDmsOwGtQJJwHhOrtqHEHccpYSZMIx77Orxb79X
-         +Zng+ARS1NQBcf+yJd+NLmXmb4gR6GpSL7Vri5gJ6XQ2STZNptbhKfPFQ2BN6bppeDGM
-         bbStOa0QpD1bmSDpyrdPUUN2SZUQab6xRsAQ8NETlDaTlaHUj2WZelh8ahOSZWp7OAp4
-         7VZzItnavMzrjRfKMa18M9ww0yzmHFBSSfkmpolOTzJPDruIx5kdjCp6y6YTKNB1SfJ9
-         zYjypnwdIihexw2lDPZhNMsRr7JWk9XdyNM44y0BDfBcHA60mPF1bffswi+twq1mVUVG
-         eHvA==
+        bh=3NFzA+GMIIvoSwuhJTrpKRe0ZmEqeb2ZrTqucbv4wAs=;
+        b=OdNAgcTgeGzJDoHTn2+iIYZUEFHy0deiuD+DL2hcDBhfjEK4xd9n/O1RhMisCeyfUh
+         ZbiqfK5bBbXsI8xQBlI2gXFZyk7kh55z7OzX4n+Dna5eaC1Dq4TgkkgQw7Lh2zB9x4GE
+         7FcMcCqFoMA6AAovZy8lLeAM0aVb/ZeyOFwW7LBvQpvaxHYUIZkkpadU0n9plDqjhdya
+         9gkfb0WVgI+pqAbTL8Nqm4sCa0lnesAiBSBZ6Glkn6q+/vqpyb1BCqClFKTfF7RpRHQ6
+         A6TfEXHmEwCtyKaZIF1MXODkUlEpk/haqbt/iFyVq6M9+NqNRVqDSUxedFX5lsPofoRd
+         jMCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=YT3dXRh6obcFtxySX0VHgSaW+SuE48hCTd77TrzQlSE=;
-        b=uI7yDLcYMCVjC0nbALrn/X6fj8HUgELRtFuQgjCcU27kbDL3UuebBh0HozQuCsSbww
-         hIwgHp+N53tcFWzjMqyJrdahNdh9b4jO1vQGoMwIS3V5kekPEy0My1tdKrYQbV/0evTn
-         fEhNCuRT/rGaSxnb/PDQu1GYqXot8INV9pzlUpWtl30zUvTohDaQwIe4F4QvUuwKnrLz
-         Vy3LooCOaPr/KryCLIqB5B6yFyofWEbUvrvkXBi+kZYnPHiu9HSbhACcZ4Qm7QLqmTXN
-         Li3mee9pCoRbdjyUGSfvErD05rkM+h1rAmHhi/GbsrNgHVUbTGPuwJHwvhG4RNtSL6hK
-         YTKg==
-X-Gm-Message-State: AOAM531zMRnCabeWfnCdYQLjGwfzyWNHCCE93PRM6IW7W1VcQwynak6x
-	lAcxsGwY8aH6zmrxG7at/zWQ8NGSVzE=
-X-Google-Smtp-Source: ABdhPJxHo2fBRsQITi6hPbgI9y1kXyqO6JjXKAXsmqSuXNaMrm0z6QlAm4YsjcO8pdoJFr7bHMDL6w==
-X-Received: by 2002:a17:90b:4a84:: with SMTP id lp4mr7854975pjb.34.1631702821978;
-        Wed, 15 Sep 2021 03:47:01 -0700 (PDT)
+        bh=3NFzA+GMIIvoSwuhJTrpKRe0ZmEqeb2ZrTqucbv4wAs=;
+        b=0gCUVXrGDtvARAj5Zlwi/sLPrg3tmHwq/ADYTi462qmevQstFQAx7ggwMITK7scK8W
+         wCI2TMHeR0mCAwKVjNcXEYWvH1UDkXF5JWUEUVrf17cvvzGvSMIWUcp0v3MWIzqsTD6U
+         W0TsdzR7S7S6KtB0/0ZHYQcOAzDWYVTxzQAo/n/7ez9DV18wTe1mpGySS1dknyKX7pev
+         7LsDwniT5j+7gkNFYjT4QZqei1JdmpD/+H/VZED2JDCvkm05KkKRVBX+fCOCfuTkZjQV
+         vVcU1Hpi90+cSY18VkpKfdbXsfcV5Xu9B8P+lyTapLghTxrzQ37LEpYgpBMu07o+L3+i
+         iIIA==
+X-Gm-Message-State: AOAM531YubGVqANitJzgWmGB9UaJJw+09lgFrGicsiXYhjiXKAmvfEH+
+	f/RIXF3kSa4glp1VO5Wr7d4bJLbG46A=
+X-Google-Smtp-Source: ABdhPJwVxGwLVUgLMXHSSxUBSrC+r4XbtS5REOBY5S5ifUWzbKON6Fx3G+iwbSNmeSffx3vYEe3RZg==
+X-Received: by 2002:a62:6493:0:b0:43c:e252:3dfc with SMTP id y141-20020a626493000000b0043ce2523dfcmr9751596pfb.60.1631702873498;
+        Wed, 15 Sep 2021 03:47:53 -0700 (PDT)
 Return-Path: <sanakazisk19@gmail.com>
 Received: from localhost.localdomain ([2401:4900:197c:c240:ac8a:850a:232a:b91b])
-        by smtp.gmail.com with ESMTPSA id 126sm16121312pgi.86.2021.09.15.03.46.59
+        by smtp.gmail.com with ESMTPSA id 141sm14351001pgg.16.2021.09.15.03.47.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Sep 2021 03:47:01 -0700 (PDT)
+        Wed, 15 Sep 2021 03:47:53 -0700 (PDT)
 From: "sana kazi" <sanakazisk19@gmail.com>
 To: meta-virtualization@lists.yoctoproject.org
 Cc: Sana Kazi <sanakazisk19@gmail.com>
-Subject: [meta-virtualization][master][PATCH] lxc: Skip rootfs pinning for read-only filesystem
-Date: Wed, 15 Sep 2021 16:16:19 +0530
-Message-Id: <20210915104619.18928-1-sanakazisk19@gmail.com>
+Subject: [meta-virtualization][master][PATCH] lxc: Fix -c command for lxc-attach
+Date: Wed, 15 Sep 2021 16:17:39 +0530
+Message-Id: <20210915104739.19316-1-sanakazisk19@gmail.com>
 X-Mailer: git-send-email 2.17.1
 
-Added patch to skip rootfs pinning for read-only filesystem
-which fixes below issue:
-
-lxc-start[1559]: Error: oap: conf - conf.c:lxc_rootfs_init:581
-- Read-only file system - Failed to pin rootfs
-lxc-start[1744]: Error: node1: conf - conf.c:lxc_rootfs_init:581
-- Read-only file system - Failed to pin rootfs
-lxc-start[1745]: Error: ivi: conf - conf.c:lxc_rootfs_init:581
-- Read-only file system - Failed to pin rootfs
+Added fix_c_command.patch the -c command seems to be broken because
+the passed context is ignored and always overwritten by the context
+specified in the config file.
 
 Signed-off-by: Sana Kazi <Sana.Kazi@kpit.com>
 Signed-off-by: Sana Kazi <sanakazisk19@gmail.com>
 ---
- ...tfs_pinning_for_read_only_filesystem.patch | 30 +++++++++++++++++++
+ .../lxc/files/fix_c_command.patch             | 36 +++++++++++++++++++
  recipes-containers/lxc/lxc_4.0.9.bb           |  1 +
- 2 files changed, 31 insertions(+)
- create mode 100644 recipes-containers/lxc/files/skip_rootfs_pinning_for_read_only_filesystem.patch
+ 2 files changed, 37 insertions(+)
+ create mode 100644 recipes-containers/lxc/files/fix_c_command.patch
 
-diff --git a/recipes-containers/lxc/files/skip_rootfs_pinning_for_read_only_filesystem.patch b/recipes-containers/lxc/files/skip_rootfs_pinning_for_read_only_filesystem.patch
+diff --git a/recipes-containers/lxc/files/fix_c_command.patch b/recipes-containers/lxc/files/fix_c_command.patch
 new file mode 100644
-index 0000000..c29d996
+index 0000000..1ed8daf
 --- /dev/null
-+++ b/recipes-containers/lxc/files/skip_rootfs_pinning_for_read_only_filesystem.patch
-@@ -0,0 +1,30 @@
-+From e859a5ee2cdee5111185a6a629f891aa40b2ffd6 Mon Sep 17 00:00:00 2001
-+From: Wei Mingzhi <weimingzhi@baidu.com>
-+Date: Tue, 18 May 2021 20:37:52 +0800
-+Subject: [PATCH] Skip rootfs pinning for read-only file system.
++++ b/recipes-containers/lxc/files/fix_c_command.patch
+@@ -0,0 +1,36 @@
++From 9becf309a81806ef08acf9ca99ab95c1bcfa1f65 Mon Sep 17 00:00:00 2001
++From: Maximilian Blenk <Maximilian.Blenk@bmw.de>
++Date: Mon, 23 Aug 2021 15:39:28 +0200
++Subject: [PATCH] attach: Fix -c command
 +
-+Signed-off-by: Wei Mingzhi <weimingzhi@baidu.com>
++Currently, the -c command (to set the selinux context) seems to be
++broken because the passed context is ignored and always overwritten by
++the context specified in the config file. The intention behind the -c
++imho was to be able to manually overwrite this behavior. This patch
++ensures that the selinux context will be set if passed via the command
++line.
++
++Signed-off-by: Maximilian Blenk <Maximilian.Blenk@bmw.de>
 +---
-+ src/lxc/conf.c | 6 +++++-
-+ 1 file changed, 5 insertions(+), 1 deletion(-)
++ src/lxc/tools/lxc_attach.c | 5 ++++-
++ 1 file changed, 4 insertions(+), 1 deletion(-)
 +
-+Upstream-Status: Backport [https://github.com/lxc/lxc/commit/966dad2494dda4948f1508bcd0e444f1d65b2df8.patch]
++Upstream-Status: Backport [https://github.com/lxc/lxc/commit/9becf309a81806ef08acf9ca99ab95c1bcfa1f65.patch]
 +Comment: No change in any hunk
 +
-+diff --git a/src/lxc/conf.c b/src/lxc/conf.c
-+index 7a248c2685..4b427c08d2 100644
-+--- a/src/lxc/conf.c
-++++ b/src/lxc/conf.c
-+@@ -573,8 +573,12 @@ int lxc_rootfs_init(struct lxc_conf *conf, bool userns)
-+ 			 PROTECT_OPEN | O_CREAT,
-+ 			 PROTECT_LOOKUP_BENEATH,
-+ 			 S_IWUSR | S_IRUSR);
-+-	if (fd_pin < 0)
-++	if (fd_pin < 0) {
-++		if (errno == EROFS) {
-++			return log_trace_errno(0, EROFS, "Not pinning on read-only filesystem");
-++		}
-+ 		return syserror("Failed to pin rootfs");
++diff --git a/src/lxc/tools/lxc_attach.c b/src/lxc/tools/lxc_attach.c
++index 0374d980b4..e6b388b20c 100644
++--- a/src/lxc/tools/lxc_attach.c
+++++ b/src/lxc/tools/lxc_attach.c
++@@ -379,7 +379,10 @@ int main(int argc, char *argv[])
++ 		attach_options.gid = my_args.gid;
++ 
++ 	// selinux_context will be NULL if not set
++-	attach_options.lsm_label = selinux_context;
+++	if (selinux_context) {
+++		attach_options.attach_flags |= LXC_ATTACH_LSM_LABEL;
+++		attach_options.lsm_label = selinux_context;
 ++	}
 + 
-+ 	TRACE("Pinned rootfs %d(.lxc_keep)", fd_pin);
++ 	if (command.program) {
++ 		ret = c->attach_run_wait(c, &attach_options, command.program,
 diff --git a/recipes-containers/lxc/lxc_4.0.9.bb b/recipes-containers/lxc/lxc_4.0.9.bb
-index 6720733..ad2416f 100644
+index 6720733..c45ae5c 100644
 --- a/recipes-containers/lxc/lxc_4.0.9.bb
 +++ b/recipes-containers/lxc/lxc_4.0.9.bb
 @@ -50,6 +50,7 @@ SRC_URI = "http://linuxcontainers.org/downloads/${BPN}/${BPN}-${PV}.tar.gz \
  	file://dnsmasq.conf \
  	file://lxc-net \
          file://enable_seccomp_profile_when_compiled_libseccomp.patch \
-+        file://skip_rootfs_pinning_for_read_only_filesystem.patch \
++        file://fix_c_command.patch \
  	"
  
  SRC_URI[md5sum] = "365fcca985038910e19a1e0fff15ed07"
