@@ -1,103 +1,117 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
- by mx.groups.io with SMTP id smtpd.web09.14267.1633015872572043935
+Received: from smtp-fw-80007.amazon.com (smtp-fw-80007.amazon.com [99.78.197.218])
+ by mx.groups.io with SMTP id smtpd.web08.14250.1633016400880373773
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 30 Sep 2021 08:31:12 -0700
+ Thu, 30 Sep 2021 08:40:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=hcwSvAiF;
- spf=pass (domain: gmail.com, ip: 209.85.208.51, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ed1-f51.google.com with SMTP id l8so23889948edw.2
-        for <meta-virtualization@lists.yoctoproject.org>; Thu, 30 Sep 2021 08:31:12 -0700 (PDT)
+ dkim=pass header.i=@amazon.co.uk header.s=amazon201209 header.b=IJlbjvHK;
+ spf=pass (domain: amazon.co.uk, ip: 99.78.197.218, mailfrom: prvs=900604687=stephibb@amazon.co.uk)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=lrYyRfw7O3DvC/7ttQCo9x8jYwClvWQJq8f+Y0CRj9s=;
-        b=hcwSvAiFaGGHRjkCy7wpQWyRgi+NaWmtPtyWoqk5CdewcZraV4s80vr8/rA/fGPDYp
-         Qd2XmJrBiv/3oeE2e9k+nFMn2LFOy8kzZ/RokLR3OPOiVyM+O6piigXGVoh2ZPsAGYzv
-         maz+CHDtbc7jgLeaxVwY4u7DqcY48V7JI7lUnAnfGdE7qbtlVk7gfA9EgAgy+DY9bHgZ
-         mTSHOr2sNVdzun3B65fxOfv9a5oWBs3imn4urXoPeynAQ3/Ss4q4oXQKNPFCwLQeWZYB
-         cVC73CAt+kJg7VtHUUgV1Q2d5bryFWXDf9HawWqBw80WDn9ZXJ98IDu2HQEfwl38c7Wc
-         XFmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=lrYyRfw7O3DvC/7ttQCo9x8jYwClvWQJq8f+Y0CRj9s=;
-        b=cVBMCK4cSWDUu06/D+0vFUlmRMARsDhjZUzdNWX3BA3dMJ5BuhUoA1A+9jPkGUMKNi
-         ApgYkfsQcctEuJdAped9wczWoEkrNO7fgfRNkAXsgKLm7mIB55NSv1UNneBpMg1iMpL4
-         KaUhYKc2EkGQpA9GBHIPLXCACkPkb7+C7WCnklnU6xP3ITuRVbdNLPPnn1lH9klYGncO
-         YK8gCCaHwtlSC9QHNxFMaF/A2qzWL0UkPvwKqLLSYA7pHzx3x78UBergISShAdjWaOM4
-         zHOFXzKIhKP2UGhamUyq7AVbIEhaXSMxb4Hm+gPTU9a9Dgv7ZkxRk395Hv1TzKD20sFn
-         7slw==
-X-Gm-Message-State: AOAM530wvWmSwVkqE6teZEGAk0QNLuEttiwAp4Rn7MHoiQHJNEEq4KaZ
-	ywdj3WvelijyHKcw2nhgWmsKvo3Rc5XVaxdfU5g=
-X-Google-Smtp-Source: ABdhPJynXjMZIUeK6/V/4WR5LJ0VPLxHFqa9hcuIm8I/DS7s7l4XVk8r3GSojGEzDnZfMpNrdjTFUoQGdl4K1CsYwck=
-X-Received: by 2002:a17:906:d541:: with SMTP id cr1mr7771556ejc.81.1633015766078;
- Thu, 30 Sep 2021 08:29:26 -0700 (PDT)
-MIME-Version: 1.0
-References: <sR4y.1633012897405396850.uLez@lists.yoctoproject.org>
-In-Reply-To: <sR4y.1633012897405396850.uLez@lists.yoctoproject.org>
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Thu, 30 Sep 2021 11:29:13 -0400
-Message-ID: <CADkTA4PEGOtu8EnSjfVCv=EJynX2hHo7t40=htGdrfchNL3gcg@mail.gmail.com>
+  d=amazon.co.uk; i=@amazon.co.uk; q=dns/txt;
+  s=amazon201209; t=1633016401; x=1664552401;
+  h=from:to:cc:date:message-id:references:in-reply-to:
+   content-id:mime-version:content-transfer-encoding:subject;
+  bh=PQwdqXF8ZSb7aaQ4SVtI9Jx80hK7YDEGec84l1k85uU=;
+  b=IJlbjvHK+3G3ZekHdVbiyRFEV5Ei0gsJMuA3nuFhhZYkEhfdJIl+L8Xg
+   dUyd0Xlw2BG0/rv0VD6utBf9wJxd/r0mNcHTnFmlRM1GxgjeNCcStDrdZ
+   eytJCutlcWbfFIkMERkouuSNihLuJGIVzMuLNLtcQbSd8w3VidFnKFyCB
+   Y=;
+X-IronPort-AV: E=Sophos;i="5.85,336,1624320000"; 
+   d="scan'208";a="30818877"
 Subject: Re: [meta-virtualization] Docker 20.10.3 breaks due to iptables v1.8.7 (legacy) incompatibility #meta-virtualization
-To: stephibb@amazon.co.uk
-Cc: meta-virtualization@lists.yoctoproject.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Thread-Topic: [meta-virtualization] Docker 20.10.3 breaks due to iptables v1.8.7 (legacy)
+ incompatibility #meta-virtualization
+Received: from pdx4-co-svc-p1-lb2-vlan2.amazon.com (HELO email-inbound-relay-pdx-2c-a264e6fe.us-west-2.amazon.com) ([10.25.36.210])
+  by smtp-border-fw-80007.pdx80.corp.amazon.com with ESMTP; 30 Sep 2021 15:39:52 +0000
+Received: from EX13D01EUB003.ant.amazon.com (pdx1-ws-svc-p6-lb9-vlan3.pdx.amazon.com [10.236.137.198])
+	by email-inbound-relay-pdx-2c-a264e6fe.us-west-2.amazon.com (Postfix) with ESMTPS id A5C0E41FB1;
+	Thu, 30 Sep 2021 15:39:51 +0000 (UTC)
+Received: from EX13D01EUB004.ant.amazon.com (10.43.166.180) by
+ EX13D01EUB003.ant.amazon.com (10.43.166.248) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.23; Thu, 30 Sep 2021 15:39:50 +0000
+Received: from EX13D01EUB004.ant.amazon.com ([10.43.166.180]) by
+ EX13D01EUB004.ant.amazon.com ([10.43.166.180]) with mapi id 15.00.1497.023;
+ Thu, 30 Sep 2021 15:39:50 +0000
+From: "Stephen" <stephibb@amazon.co.uk>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+CC: "meta-virtualization@lists.yoctoproject.org"
+	<meta-virtualization@lists.yoctoproject.org>
+Thread-Index: AQHXtglfgoZ/iRiCKE6Ulc+hz+Tqc6u8s8WAgAATuYA=
+Date: Thu, 30 Sep 2021 15:39:49 +0000
+Message-ID: <EEB11201-E4B0-4045-8C31-026DBF2AB43F@amazon.com>
+References: <sR4y.1633012897405396850.uLez@lists.yoctoproject.org>
+ <CADkTA4PEGOtu8EnSjfVCv=EJynX2hHo7t40=htGdrfchNL3gcg@mail.gmail.com>
+In-Reply-To: <CADkTA4PEGOtu8EnSjfVCv=EJynX2hHo7t40=htGdrfchNL3gcg@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.43.166.213]
+MIME-Version: 1.0
+Content-Language: en-GB
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <6F7090375A302741A3F20F9194BDD6CF@amazon.com>
+Content-Transfer-Encoding: base64
 
-On Thu, Sep 30, 2021 at 10:41 AM Stephen via lists.yoctoproject.org
-<stephibb=3Damazon.co.uk@lists.yoctoproject.org> wrote:
->
-> Hello all!
->
-> The current meta-virtualisation docker is incompatible with the legacy v1=
-.8.7 iptables.
->
-> Docker version 20.10.3, build 41b3ea7e47 http://layers.openembedded.org/l=
-ayerindex/recipe/176817/
->
-> iptables v1.8.7 (legacy) https://git.yoctoproject.org/cgit.cgi/poky/plain=
-/meta/recipes-extended/iptables/
->
-> level=3Dinfo time=3D2021-09-30T08:58:56Z msg=3D"TaskHandler: Sending task=
- change: TaskChange: [arn:aws:ecs:eu-west-1:116589935960:task/GravitonID-ec=
-s-ECSGra viton2DA545608-tzdG3bupgLcn/ef8d9ea15a434c298a9623551d39c6ab -> ST=
-OPPED, Known Sent: NONE, PullStartedAt: 2021-09-30 08:58:55.809460935 +0000=
- UTC m=3D+5 2315.765706001, PullStoppedAt: 2021-09-30 08:58:55.919351717 +0=
-000 UTC m=3D+52315.875596782, ExecutionStoppedAt: 2021-09-30 08:58:56.15935=
-6552 +0000 UTC m=3D+52316.115601617, container change: arn:aws:ecs:eu-west-=
-1:116589935960:task/GravitonID-ecs-ECSGraviton2DA545608-tzdG3bupgLcn/ef8d9e=
-a15a434c298a9623 551d39c6ab web -> STOPPED, Reason CannotStartContainerErro=
-r: Error response from daemon: driver failed programming external connectiv=
-ity on endpoint e cs-GravitonIDecsTaskDefA2CA7A76-4-web-9eb9aba094eccadb130=
-0 (db13dc1931d5be70284cac4de6899246035db8e5f9e0cf9ee3773000801a70b0): (ipta=
-bles failed: ipta bles --wait -t nat -A DOCKER -p tcp -d 0/0 --dport 8080 -=
-j DNAT --to-destination 172.17.0.2:3000 ! -i docker0: iptables v1.8.7 (lega=
-cy): unknown optio n \"--to-destination\"\nTry `iptables -h' or 'iptables -=
--help' for more information.\n (exit status 2)), Known Sent: NONE] sent: fa=
-lse" module=3Dtask_ha ndler_types.go
->
-> Possibly linked to this issue and nftables support? https://github.com/mo=
-by/moby/issues/38099
->
-> Any ideas for workarounds would be very much appreciated!
-
-It's your kernel configuration, coupled with the iptables modules
-available .. but most often, it is a missing kernel module.
-
-So without knowing exactly what kernel and hardware you are running,
-it is hard to say more.
-
-Bruce
-
->
->
->=20
->
-
-
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+VGhhbmtzIGZvciB0aGUgcmVwbHkgQnJ1Y2UgX18gTGV0IG1lIGtub3cgaWYgdGhlc2UgZGV0YWls
+cyBoZWxwPw0KDQpyb290QGdlbmVyaWMtYXJtNjQ6fiMgdW5hbWUgLXINCjUuMTAuNDYteW9jdG8t
+c3RhbmRhcmQNCg0KT25seSBzZXR0aW5nIHRoZXNlIHR3byBrZXJuZWwgY29uZmlncyBhdCB0aGUg
+bW9tZW50Og0KQ09ORklHX0VOQV9FVEhFUk5FVD15DQpDT05GSUdfQkxLX0RFVl9OVk1FPXkNCg0K
+QW5kIHRoZXNlIGFyZSB0aGUgbGF5ZXJzLCBydW5uaW5nIGhhcmtub3R0Li4uDQpkcnd4cnd4ci14
+IDEyIHVidW50dSB1YnVudHUgNDA5NiBTZXAgMjkgMTQ6MDIgbWV0YS1hcm0vDQpkcnd4cnd4ci14
+ICA4IHVidW50dSB1YnVudHUgNDA5NiBTZXAgMjkgMTQ6MDAgbWV0YS1ld2FvbC8NCmRyd3hyd3hy
+LXggMTEgdWJ1bnR1IHVidW50dSA0MDk2IFNlcCAyOSAxNTowOSBtZXRhLW9wZW5lbWJlZGRlZC8N
+CmRyd3hyd3hyLXggMjQgdWJ1bnR1IHVidW50dSA0MDk2IFNlcCAyOSAxNDowMiBtZXRhLXNlY3Vy
+aXR5Lw0KZHJ3eHJ3eHIteCAxNyB1YnVudHUgdWJ1bnR1IDQwOTYgU2VwIDI5IDE0OjAyIG1ldGEt
+dmlydHVhbGl6YXRpb24vDQoNCg0K77u/T24gMzAvMDkvMjAyMSwgMTY6MzIsICJCcnVjZSBBc2hm
+aWVsZCIgPGJydWNlLmFzaGZpZWxkQGdtYWlsLmNvbT4gd3JvdGU6DQoNCiAgICBDQVVUSU9OOiBU
+aGlzIGVtYWlsIG9yaWdpbmF0ZWQgZnJvbSBvdXRzaWRlIG9mIHRoZSBvcmdhbml6YXRpb24uIERv
+IG5vdCBjbGljayBsaW5rcyBvciBvcGVuIGF0dGFjaG1lbnRzIHVubGVzcyB5b3UgY2FuIGNvbmZp
+cm0gdGhlIHNlbmRlciBhbmQga25vdyB0aGUgY29udGVudCBpcyBzYWZlLg0KDQoNCg0KICAgIE9u
+IFRodSwgU2VwIDMwLCAyMDIxIGF0IDEwOjQxIEFNIFN0ZXBoZW4gdmlhIGxpc3RzLnlvY3RvcHJv
+amVjdC5vcmcNCiAgICA8c3RlcGhpYmI9YW1hem9uLmNvLnVrQGxpc3RzLnlvY3RvcHJvamVjdC5v
+cmc+IHdyb3RlOg0KICAgID4NCiAgICA+IEhlbGxvIGFsbCENCiAgICA+DQogICAgPiBUaGUgY3Vy
+cmVudCBtZXRhLXZpcnR1YWxpc2F0aW9uIGRvY2tlciBpcyBpbmNvbXBhdGlibGUgd2l0aCB0aGUg
+bGVnYWN5IHYxLjguNyBpcHRhYmxlcy4NCiAgICA+DQogICAgPiBEb2NrZXIgdmVyc2lvbiAyMC4x
+MC4zLCBidWlsZCA0MWIzZWE3ZTQ3IGh0dHA6Ly9sYXllcnMub3BlbmVtYmVkZGVkLm9yZy9sYXll
+cmluZGV4L3JlY2lwZS8xNzY4MTcvDQogICAgPg0KICAgID4gaXB0YWJsZXMgdjEuOC43IChsZWdh
+Y3kpIGh0dHBzOi8vZ2l0LnlvY3RvcHJvamVjdC5vcmcvY2dpdC5jZ2kvcG9reS9wbGFpbi9tZXRh
+L3JlY2lwZXMtZXh0ZW5kZWQvaXB0YWJsZXMvDQogICAgPg0KICAgID4gbGV2ZWw9aW5mbyB0aW1l
+PTIwMjEtMDktMzBUMDg6NTg6NTZaIG1zZz0iVGFza0hhbmRsZXI6IFNlbmRpbmcgdGFzayBjaGFu
+Z2U6IFRhc2tDaGFuZ2U6IFthcm46YXdzOmVjczpldS13ZXN0LTE6MTE2NTg5OTM1OTYwOnRhc2sv
+R3Jhdml0b25JRC1lY3MtRUNTR3JhIHZpdG9uMkRBNTQ1NjA4LXR6ZEczYnVwZ0xjbi9lZjhkOWVh
+MTVhNDM0YzI5OGE5NjIzNTUxZDM5YzZhYiAtPiBTVE9QUEVELCBLbm93biBTZW50OiBOT05FLCBQ
+dWxsU3RhcnRlZEF0OiAyMDIxLTA5LTMwIDA4OjU4OjU1LjgwOTQ2MDkzNSArMDAwMCBVVEMgbT0r
+NSAyMzE1Ljc2NTcwNjAwMSwgUHVsbFN0b3BwZWRBdDogMjAyMS0wOS0zMCAwODo1ODo1NS45MTkz
+NTE3MTcgKzAwMDAgVVRDIG09KzUyMzE1Ljg3NTU5Njc4MiwgRXhlY3V0aW9uU3RvcHBlZEF0OiAy
+MDIxLTA5LTMwIDA4OjU4OjU2LjE1OTM1NjU1MiArMDAwMCBVVEMgbT0rNTIzMTYuMTE1NjAxNjE3
+LCBjb250YWluZXIgY2hhbmdlOiBhcm46YXdzOmVjczpldS13ZXN0LTE6MTE2NTg5OTM1OTYwOnRh
+c2svR3Jhdml0b25JRC1lY3MtRUNTR3Jhdml0b24yREE1NDU2MDgtdHpkRzNidXBnTGNuL2VmOGQ5
+ZWExNWE0MzRjMjk4YTk2MjMgNTUxZDM5YzZhYiB3ZWIgLT4gU1RPUFBFRCwgUmVhc29uIENhbm5v
+dFN0YXJ0Q29udGFpbmVyRXJyb3I6IEVycm9yIHJlc3BvbnNlIGZyb20gZGFlbW9uOiBkcml2ZXIg
+ZmFpbGVkIHByb2dyYW1taW5nIGV4dGVybmFsIGNvbm5lY3Rpdml0eSBvbiBlbmRwb2ludCBlIGNz
+LUdyYXZpdG9uSURlY3NUYXNrRGVmQTJDQTdBNzYtNC13ZWItOWViOWFiYTA5NGVjY2FkYjEzMDAg
+KGRiMTNkYzE5MzFkNWJlNzAyODRjYWM0ZGU2ODk5MjQ2MDM1ZGI4ZTVmOWUwY2Y5ZWUzNzczMDAw
+ODAxYTcwYjApOiAoaXB0YWJsZXMgZmFpbGVkOiBpcHRhIGJsZXMgLS13YWl0IC10IG5hdCAtQSBE
+T0NLRVIgLXAgdGNwIC1kIDAvMCAtLWRwb3J0IDgwODAgLWogRE5BVCAtLXRvLWRlc3RpbmF0aW9u
+IDE3Mi4xNy4wLjI6MzAwMCAhIC1pIGRvY2tlcjA6IGlwdGFibGVzIHYxLjguNyAobGVnYWN5KTog
+dW5rbm93biBvcHRpbyBuIFwiLS10by1kZXN0aW5hdGlvblwiXG5UcnkgYGlwdGFibGVzIC1oJyBv
+ciAnaXB0YWJsZXMgLS1oZWxwJyBmb3IgbW9yZSBpbmZvcm1hdGlvbi5cbiAoZXhpdCBzdGF0dXMg
+MikpLCBLbm93biBTZW50OiBOT05FXSBzZW50OiBmYWxzZSIgbW9kdWxlPXRhc2tfaGEgbmRsZXJf
+dHlwZXMuZ28NCiAgICA+DQogICAgPiBQb3NzaWJseSBsaW5rZWQgdG8gdGhpcyBpc3N1ZSBhbmQg
+bmZ0YWJsZXMgc3VwcG9ydD8gaHR0cHM6Ly9naXRodWIuY29tL21vYnkvbW9ieS9pc3N1ZXMvMzgw
+OTkNCiAgICA+DQogICAgPiBBbnkgaWRlYXMgZm9yIHdvcmthcm91bmRzIHdvdWxkIGJlIHZlcnkg
+bXVjaCBhcHByZWNpYXRlZCENCg0KICAgIEl0J3MgeW91ciBrZXJuZWwgY29uZmlndXJhdGlvbiwg
+Y291cGxlZCB3aXRoIHRoZSBpcHRhYmxlcyBtb2R1bGVzDQogICAgYXZhaWxhYmxlIC4uIGJ1dCBt
+b3N0IG9mdGVuLCBpdCBpcyBhIG1pc3Npbmcga2VybmVsIG1vZHVsZS4NCg0KICAgIFNvIHdpdGhv
+dXQga25vd2luZyBleGFjdGx5IHdoYXQga2VybmVsIGFuZCBoYXJkd2FyZSB5b3UgYXJlIHJ1bm5p
+bmcsDQogICAgaXQgaXMgaGFyZCB0byBzYXkgbW9yZS4NCg0KICAgIEJydWNlDQoNCiAgICA+DQog
+ICAgPg0KICAgID4gDQogICAgPg0KDQoNCiAgICAtLQ0KICAgIC0gVGhvdSBzaGFsdCBub3QgZm9s
+bG93IHRoZSBOVUxMIHBvaW50ZXIsIGZvciBjaGFvcyBhbmQgbWFkbmVzcyBhd2FpdA0KICAgIHRo
+ZWUgYXQgaXRzIGVuZA0KICAgIC0gIlVzZSB0aGUgZm9yY2UgSGFycnkiIC0gR2FuZGFsZiwgU3Rh
+ciBUcmVrIElJDQoNCgoKCkFtYXpvbiBXZWIgU2VydmljZXMgRU1FQSBTQVJMLCAzOCBhdmVudWUg
+Sm9obiBGLiBLZW5uZWR5LCBMLTE4NTUgTHV4ZW1ib3VyZywgUi5DLlMuIEx1eGVtYm91cmcgQjE4
+NjI4NAoKQW1hem9uIFdlYiBTZXJ2aWNlcyBFTUVBIFNhcmwsIFVLIEJyYW5jaCwgMSBQcmluY2lw
+YWwgUGxhY2UsIFdvcnNoaXAgU3RyZWV0LCBMb25kb24sIEVDMkEgMkZBLCBVbml0ZWQgS2luZ2Rv
+bSwgcmVnaXN0ZXJlZCBpbiBFbmdsYW5kIGFuZCBXYWxlcywgVUsgRXN0YWJsaXNobWVudCBOby4g
+QlIwMTkzMTUKCgo=
