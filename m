@@ -1,172 +1,237 @@
-Received: from smtp-fw-6002.amazon.com (smtp-fw-6002.amazon.com [52.95.49.90])
- by mx.groups.io with SMTP id smtpd.web11.5184.1633077307183440473
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+ by mx.groups.io with SMTP id smtpd.web11.5432.1633078904333529963
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 01 Oct 2021 01:35:07 -0700
+ Fri, 01 Oct 2021 02:01:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@amazon.co.uk header.s=amazon201209 header.b=GykqBbGe;
- spf=pass (domain: amazon.co.uk, ip: 52.95.49.90, mailfrom: prvs=901b48dde=stephibb@amazon.co.uk)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=j4ksiUdF;
+ spf=pass (domain: gmail.com, ip: 209.85.214.176, mailfrom: martin.jansa@gmail.com)
+Received: by mail-pl1-f176.google.com with SMTP id b22so5890819pls.1
+        for <meta-virtualization@lists.yoctoproject.org>; Fri, 01 Oct 2021 02:01:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.co.uk; i=@amazon.co.uk; q=dns/txt;
-  s=amazon201209; t=1633077307; x=1664613307;
-  h=from:to:cc:date:message-id:references:in-reply-to:
-   content-id:mime-version:content-transfer-encoding:subject;
-  bh=eVlqKgzh5A9iMkvdORjOb9EHVYhz/UVv5Rs30U94OQk=;
-  b=GykqBbGeYCkBMKHU8RfoQCh+8iib36f0YQoT/BRKSk2jiahA3i7Z4PVa
-   n63HGoTcefFbFUJzgwM7zKL88Ecu82czNFA3FMR556KIT51Ah++jAm4fB
-   RIUIifpzfyiP8ZXpHN1/zipYdJEe33R4b2gc+Q2qJCyJjnWjQW/8Oip1e
-   Y=;
-X-IronPort-AV: E=Sophos;i="5.85,337,1624320000"; 
-   d="scan'208";a="144668372"
-Subject: Re: [meta-virtualization] Docker 20.10.3 breaks due to iptables v1.8.7 (legacy) incompatibility #meta-virtualization
-Thread-Topic: [meta-virtualization] Docker 20.10.3 breaks due to iptables v1.8.7 (legacy)
- incompatibility #meta-virtualization
-Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO email-inbound-relay-iad-1box-d-0230bc7b.us-east-1.amazon.com) ([10.43.8.2])
-  by smtp-border-fw-6002.iad6.amazon.com with ESMTP; 01 Oct 2021 08:34:59 +0000
-Received: from EX13D01EUB004.ant.amazon.com (iad12-ws-svc-p26-lb9-vlan3.iad.amazon.com [10.40.163.38])
-	by email-inbound-relay-iad-1box-d-0230bc7b.us-east-1.amazon.com (Postfix) with ESMTPS id C0CFFC0B14;
-	Fri,  1 Oct 2021 08:34:58 +0000 (UTC)
-Received: from EX13D01EUB004.ant.amazon.com (10.43.166.180) by
- EX13D01EUB004.ant.amazon.com (10.43.166.180) with Microsoft SMTP Server (TLS)
- id 15.0.1497.23; Fri, 1 Oct 2021 08:34:57 +0000
-Received: from EX13D01EUB004.ant.amazon.com ([10.43.166.180]) by
- EX13D01EUB004.ant.amazon.com ([10.43.166.180]) with mapi id 15.00.1497.023;
- Fri, 1 Oct 2021 08:34:57 +0000
-From: "Stephen" <stephibb@amazon.co.uk>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-CC: "meta-virtualization@lists.yoctoproject.org"
-	<meta-virtualization@lists.yoctoproject.org>
-Thread-Index: AQHXtglfgoZ/iRiCKE6Ulc+hz+Tqc6u8s8WAgAATuYCAAAEQgIABGl8A
-Date: Fri, 1 Oct 2021 08:34:56 +0000
-Message-ID: <C5B1B9DC-453E-434D-804D-0655FFCDE5BF@amazon.com>
-References: <sR4y.1633012897405396850.uLez@lists.yoctoproject.org>
- <CADkTA4PEGOtu8EnSjfVCv=EJynX2hHo7t40=htGdrfchNL3gcg@mail.gmail.com>
- <EEB11201-E4B0-4045-8C31-026DBF2AB43F@amazon.com>
- <CADkTA4OhF2HShNVKw5Sk7jAXPAmuqHxwSjMue+tcw_E0+NCwsQ@mail.gmail.com>
-In-Reply-To: <CADkTA4OhF2HShNVKw5Sk7jAXPAmuqHxwSjMue+tcw_E0+NCwsQ@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.43.165.203]
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=uKcnRDYlROaEcz74g4xNNHmVsPOvXveZ++VfsAiZJFw=;
+        b=j4ksiUdFdkANjvif/W6stPTWSrbBZjLXrhkunzQRV4SVWQhicDcrwy+3LXTnIbMf8J
+         TiWmFLihJgnHQk70v0TAYaklbHodAZQVsm675V45M8fF3FDeZziVeYoddKqrzlur3swW
+         l5/l+KlM5vGH4/FW/wtj0ThDs1lQUTKw20p6qH+UfRagNkqgCEehluRyMQnx3Uc1oruP
+         1dfHYoS/EPkc5sNhpE4UhybmfWZwZCudggmdcLT1zg2OjtQ/+ZBKZJEiLjgxdXVctsNL
+         WxYCr354R34V9M96pqWcd3v75DOX6NvKF1prZV15CfVhbFZAFx7jOp0JslwzWRFYo6pV
+         PQbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=uKcnRDYlROaEcz74g4xNNHmVsPOvXveZ++VfsAiZJFw=;
+        b=Rjhq4QGWkjKGMJio+Arh2jho4wfV+ha78Omw0IPin0Rjf40g/C6xbEwvQbYMWKgkwG
+         IqutzICuoWTjvItQVl6bUyzZsbCFZsTPwdZV2AW5fffRVbjNTZ7fThjCYNQPaLgi2cnr
+         Y9NvP0dv0T27v0CupbK+sN2oT1vlMMuCSDq0sLRXDLVWkCgmorgeJ7OQ5Q0En8dEypbL
+         n2p2QJRe/7MYVBdx5cbodc1xN+evCg6sQrN7fifCbgoI+MhNj5wUBGwVcFFBLBTVez8z
+         8F6AIypCVi3njCQm0qXnCf2GHt6KFTGbBqblhRJGDe2+gmYxM7EtOHueU7xsunEDD7uv
+         7Ufg==
+X-Gm-Message-State: AOAM531i5FaxM3jnSvh19f8gx3jwj2ucW5h89rSYxrLW4Iflm5iEg4dy
+	1wTEpGy1G72L/brUt+k7Stbh9IlHmrgZtjqBfHM=
+X-Google-Smtp-Source: ABdhPJxQ8/ow5H2pLzpB9xfrB6Y488Pl64oOoIM44PEJcXbNrUWwD9BZUnIdvPiLcYmpF6jfaURRwDUgn37HfPl51KE=
+X-Received: by 2002:a17:902:e78f:b0:13d:f99f:34bb with SMTP id
+ cp15-20020a170902e78f00b0013df99f34bbmr8646282plb.48.1633078903807; Fri, 01
+ Oct 2021 02:01:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Language: en-GB
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <99DBF6D35AE93744939FE4620EBEAE43@amazon.com>
-Content-Transfer-Encoding: base64
+References: <20210930084950.41628-1-Martin.Jansa@gmail.com> <20211001023629.GB11771@gmail.com>
+In-Reply-To: <20211001023629.GB11771@gmail.com>
+From: "Martin Jansa" <Martin.Jansa@gmail.com>
+Date: Fri, 1 Oct 2021 11:01:32 +0200
+Message-ID: <CA+chaQcZN3ngXVsKDuMu8d+ebPKc2LJj0Hm9RRYCWOVy8Hf80g@mail.gmail.com>
+Subject: Re: [meta-virtualization][PATCH] oath: inherit pkgconfig
+To: Bruce Ashfield <bruce.ashfield@gmail.com>, Khem Raj <raj.khem@gmail.com>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: meta-virtualization@lists.yoctoproject.org
+Content-Type: multipart/alternative; boundary="000000000000f3a2db05cd46cf69"
 
-WWVzLCB5b3UncmUgc3BvdCBvbiEgDQoNClJ1bm5pbmcgdGhlIHNjcmlwdCByZXZpbGVkIHRoZSBm
-b2xsb3dpbmcuIFRoZSBpc3N1ZSBJJ20gaGF2aW5nIG5vdyBpcyBmaW5kaW5nIHRoZSBjb3JyZWN0
-IHdheSBvZiBpbmNsdWRpbmcgdGhlIGNvbmZpZ3MsIEkgdHJpZWQgc2V0dGluZyB0aGVtIGluIG15
-IG15S2VybmVsQ29uZmlncy5jZmcgYW5kIElNQUdFX0lOU1RBTExfYXBwZW5kID0gImRvY2tlci1t
-b2J5LWNvbnRyaWIga2VybmVsLW1vZHVsZS1uZi1uYXQga2VybmVsLW1vZHVsZS14dC1jb25udHJh
-Y2sga2VybmVsLW1vZHVsZS14dC1hZGRydHlwZSINCg0KQnV0IHJ1bm5pbmcgdGhlIGNvbmZpZyBz
-Y3JpcHQgc3RpbGwgc2hvd3MgdGhlIG91dHB1dCBiZWxvdzoNCg0Kcm9vdEBnZW5lcmljLWFybTY0
-Oi91c3Ivc2hhcmUvZG9ja2VyIyAuL2NoZWNrLWNvbmZpZy5zaCANCmluZm86IHJlYWRpbmcga2Vy
-bmVsIGNvbmZpZyBmcm9tIC9wcm9jL2NvbmZpZy5neiAuLi4NCkdlbmVyYWxseSBOZWNlc3Nhcnk6
-DQotIGNncm91cCBoaWVyYXJjaHk6IHByb3Blcmx5IG1vdW50ZWQgWy9zeXMvZnMvY2dyb3VwXQ0K
-LSBDT05GSUdfTkFNRVNQQUNFUzogZW5hYmxlZA0KLSBDT05GSUdfTkVUX05TOiBlbmFibGVkDQot
-IENPTkZJR19QSURfTlM6IGVuYWJsZWQNCi0gQ09ORklHX0lQQ19OUzogZW5hYmxlZA0KLSBDT05G
-SUdfVVRTX05TOiBlbmFibGVkDQotIENPTkZJR19DR1JPVVBTOiBlbmFibGVkDQotIENPTkZJR19D
-R1JPVVBfQ1BVQUNDVDogZW5hYmxlZA0KLSBDT05GSUdfQ0dST1VQX0RFVklDRTogZW5hYmxlZA0K
-LSBDT05GSUdfQ0dST1VQX0ZSRUVaRVI6IG1pc3NpbmcNCi0gQ09ORklHX0NHUk9VUF9TQ0hFRDog
-ZW5hYmxlZA0KLSBDT05GSUdfQ1BVU0VUUzogZW5hYmxlZA0KLSBDT05GSUdfTUVNQ0c6IGVuYWJs
-ZWQNCi0gQ09ORklHX0tFWVM6IGVuYWJsZWQNCi0gQ09ORklHX1ZFVEg6IGVuYWJsZWQNCi0gQ09O
-RklHX0JSSURHRTogZW5hYmxlZCAoYXMgbW9kdWxlKQ0KLSBDT05GSUdfQlJJREdFX05FVEZJTFRF
-UjogbWlzc2luZw0KLSBDT05GSUdfTkZfTkFUX0lQVjQ6IG1pc3NpbmcNCi0gQ09ORklHX0lQX05G
-X0ZJTFRFUjogZW5hYmxlZCAoYXMgbW9kdWxlKQ0KLSBDT05GSUdfSVBfTkZfVEFSR0VUX01BU1FV
-RVJBREU6IGVuYWJsZWQgKGFzIG1vZHVsZSkNCi0gQ09ORklHX05FVEZJTFRFUl9YVF9NQVRDSF9B
-RERSVFlQRTogZW5hYmxlZCAoYXMgbW9kdWxlKQ0KLSBDT05GSUdfTkVURklMVEVSX1hUX01BVENI
-X0NPTk5UUkFDSzogZW5hYmxlZCAoYXMgbW9kdWxlKQ0KLSBDT05GSUdfTkVURklMVEVSX1hUX01B
-VENIX0lQVlM6IG1pc3NpbmcNCi0gQ09ORklHX0lQX05GX05BVDogZW5hYmxlZCAoYXMgbW9kdWxl
-KQ0KLSBDT05GSUdfTkZfTkFUOiBlbmFibGVkIChhcyBtb2R1bGUpDQotIENPTkZJR19ORl9OQVRf
-TkVFREVEOiBtaXNzaW5nDQotIENPTkZJR19QT1NJWF9NUVVFVUU6IGVuYWJsZWQNCg0K77u/T24g
-MzAvMDkvMjAyMSwgMTc6NDgsICJCcnVjZSBBc2hmaWVsZCIgPGJydWNlLmFzaGZpZWxkQGdtYWls
-LmNvbT4gd3JvdGU6DQoNCiAgICBDQVVUSU9OOiBUaGlzIGVtYWlsIG9yaWdpbmF0ZWQgZnJvbSBv
-dXRzaWRlIG9mIHRoZSBvcmdhbml6YXRpb24uIERvIG5vdCBjbGljayBsaW5rcyBvciBvcGVuIGF0
-dGFjaG1lbnRzIHVubGVzcyB5b3UgY2FuIGNvbmZpcm0gdGhlIHNlbmRlciBhbmQga25vdyB0aGUg
-Y29udGVudCBpcyBzYWZlLg0KDQoNCg0KICAgIE9uIFRodSwgU2VwIDMwLCAyMDIxIGF0IDExOjQw
-IEFNIEhpYmJlcnQsIFN0ZXBoZW4gPHN0ZXBoaWJiQGFtYXpvbi5jby51az4gd3JvdGU6DQogICAg
-Pg0KICAgID4gVGhhbmtzIGZvciB0aGUgcmVwbHkgQnJ1Y2UgX18gTGV0IG1lIGtub3cgaWYgdGhl
-c2UgZGV0YWlscyBoZWxwPw0KICAgID4NCiAgICA+IHJvb3RAZ2VuZXJpYy1hcm02NDp+IyB1bmFt
-ZSAtcg0KICAgID4gNS4xMC40Ni15b2N0by1zdGFuZGFyZA0KICAgID4NCiAgICA+IE9ubHkgc2V0
-dGluZyB0aGVzZSB0d28ga2VybmVsIGNvbmZpZ3MgYXQgdGhlIG1vbWVudDoNCiAgICA+IENPTkZJ
-R19FTkFfRVRIRVJORVQ9eQ0KICAgID4gQ09ORklHX0JMS19ERVZfTlZNRT15DQoNCiAgICBJdCds
-bCBiZSB0aGUgaXB0YWJsZXMgYW5kIGNncm91cHMgb3B0aW9ucyB0aGF0IGFyZSBjYXVzaW5nIGlz
-c3Vlcy4NCg0KICAgIFRoZSBzdGFuZGFyZCBsYXllcnMgYW5kIGtlcm5lbCBhcmUgZXh0ZW5zaXZl
-bHkgdGVzdGVkIHdpdGggbWV0YS12aXJ0LA0KICAgIHNvIHRoZXJlIHJlYWxseSBzaG91bGRuJ3Qg
-YmUgc29tZXRoaW5nIG1pc3NpbmcuDQoNCiAgICBZb3UgY2FuIGFsc28gaW5zdGFsbCB0aGUgZG9j
-a2VyLWNvbnRyaWIgcGFja2FnZSB0byB5b3VyIGltYWdlLCBhbmQgcnVuDQogICAgdGhlIGNoZWNr
-LWNvbmZpZy5zaCBzY3JpcHQgdG8gc2VlIGlmIGl0IHJlcG9ydHMgYW55IGlzc3Vlcy4NCg0KICAg
-IEJydWNlDQoNCiAgICA+DQogICAgPiBBbmQgdGhlc2UgYXJlIHRoZSBsYXllcnMsIHJ1bm5pbmcg
-aGFya25vdHQuLi4NCiAgICA+IGRyd3hyd3hyLXggMTIgdWJ1bnR1IHVidW50dSA0MDk2IFNlcCAy
-OSAxNDowMiBtZXRhLWFybS8NCiAgICA+IGRyd3hyd3hyLXggIDggdWJ1bnR1IHVidW50dSA0MDk2
-IFNlcCAyOSAxNDowMCBtZXRhLWV3YW9sLw0KICAgID4gZHJ3eHJ3eHIteCAxMSB1YnVudHUgdWJ1
-bnR1IDQwOTYgU2VwIDI5IDE1OjA5IG1ldGEtb3BlbmVtYmVkZGVkLw0KICAgID4gZHJ3eHJ3eHIt
-eCAyNCB1YnVudHUgdWJ1bnR1IDQwOTYgU2VwIDI5IDE0OjAyIG1ldGEtc2VjdXJpdHkvDQogICAg
-PiBkcnd4cnd4ci14IDE3IHVidW50dSB1YnVudHUgNDA5NiBTZXAgMjkgMTQ6MDIgbWV0YS12aXJ0
-dWFsaXphdGlvbi8NCiAgICA+DQogICAgPg0KICAgID4gT24gMzAvMDkvMjAyMSwgMTY6MzIsICJC
-cnVjZSBBc2hmaWVsZCIgPGJydWNlLmFzaGZpZWxkQGdtYWlsLmNvbT4gd3JvdGU6DQogICAgPg0K
-ICAgID4gICAgIENBVVRJT046IFRoaXMgZW1haWwgb3JpZ2luYXRlZCBmcm9tIG91dHNpZGUgb2Yg
-dGhlIG9yZ2FuaXphdGlvbi4gRG8gbm90IGNsaWNrIGxpbmtzIG9yIG9wZW4gYXR0YWNobWVudHMg
-dW5sZXNzIHlvdSBjYW4gY29uZmlybSB0aGUgc2VuZGVyIGFuZCBrbm93IHRoZSBjb250ZW50IGlz
-IHNhZmUuDQogICAgPg0KICAgID4NCiAgICA+DQogICAgPiAgICAgT24gVGh1LCBTZXAgMzAsIDIw
-MjEgYXQgMTA6NDEgQU0gU3RlcGhlbiB2aWEgbGlzdHMueW9jdG9wcm9qZWN0Lm9yZw0KICAgID4g
-ICAgIDxzdGVwaGliYj1hbWF6b24uY28udWtAbGlzdHMueW9jdG9wcm9qZWN0Lm9yZz4gd3JvdGU6
-DQogICAgPiAgICAgPg0KICAgID4gICAgID4gSGVsbG8gYWxsIQ0KICAgID4gICAgID4NCiAgICA+
-ICAgICA+IFRoZSBjdXJyZW50IG1ldGEtdmlydHVhbGlzYXRpb24gZG9ja2VyIGlzIGluY29tcGF0
-aWJsZSB3aXRoIHRoZSBsZWdhY3kgdjEuOC43IGlwdGFibGVzLg0KICAgID4gICAgID4NCiAgICA+
-ICAgICA+IERvY2tlciB2ZXJzaW9uIDIwLjEwLjMsIGJ1aWxkIDQxYjNlYTdlNDcgaHR0cDovL2xh
-eWVycy5vcGVuZW1iZWRkZWQub3JnL2xheWVyaW5kZXgvcmVjaXBlLzE3NjgxNy8NCiAgICA+ICAg
-ICA+DQogICAgPiAgICAgPiBpcHRhYmxlcyB2MS44LjcgKGxlZ2FjeSkgaHR0cHM6Ly9naXQueW9j
-dG9wcm9qZWN0Lm9yZy9jZ2l0LmNnaS9wb2t5L3BsYWluL21ldGEvcmVjaXBlcy1leHRlbmRlZC9p
-cHRhYmxlcy8NCiAgICA+ICAgICA+DQogICAgPiAgICAgPiBsZXZlbD1pbmZvIHRpbWU9MjAyMS0w
-OS0zMFQwODo1ODo1NlogbXNnPSJUYXNrSGFuZGxlcjogU2VuZGluZyB0YXNrIGNoYW5nZTogVGFz
-a0NoYW5nZTogW2Fybjphd3M6ZWNzOmV1LXdlc3QtMToxMTY1ODk5MzU5NjA6dGFzay9HcmF2aXRv
-bklELWVjcy1FQ1NHcmEgdml0b24yREE1NDU2MDgtdHpkRzNidXBnTGNuL2VmOGQ5ZWExNWE0MzRj
-Mjk4YTk2MjM1NTFkMzljNmFiIC0+IFNUT1BQRUQsIEtub3duIFNlbnQ6IE5PTkUsIFB1bGxTdGFy
-dGVkQXQ6IDIwMjEtMDktMzAgMDg6NTg6NTUuODA5NDYwOTM1ICswMDAwIFVUQyBtPSs1IDIzMTUu
-NzY1NzA2MDAxLCBQdWxsU3RvcHBlZEF0OiAyMDIxLTA5LTMwIDA4OjU4OjU1LjkxOTM1MTcxNyAr
-MDAwMCBVVEMgbT0rNTIzMTUuODc1NTk2NzgyLCBFeGVjdXRpb25TdG9wcGVkQXQ6IDIwMjEtMDkt
-MzAgMDg6NTg6NTYuMTU5MzU2NTUyICswMDAwIFVUQyBtPSs1MjMxNi4xMTU2MDE2MTcsIGNvbnRh
-aW5lciBjaGFuZ2U6IGFybjphd3M6ZWNzOmV1LXdlc3QtMToxMTY1ODk5MzU5NjA6dGFzay9HcmF2
-aXRvbklELWVjcy1FQ1NHcmF2aXRvbjJEQTU0NTYwOC10emRHM2J1cGdMY24vZWY4ZDllYTE1YTQz
-NGMyOThhOTYyMyA1NTFkMzljNmFiIHdlYiAtPiBTVE9QUEVELCBSZWFzb24gQ2Fubm90U3RhcnRD
-b250YWluZXJFcnJvcjogRXJyb3IgcmVzcG9uc2UgZnJvbSBkYWVtb246IGRyaXZlciBmYWlsZWQg
-cHJvZ3JhbW1pbmcgZXh0ZXJuYWwgY29ubmVjdGl2aXR5IG9uIGVuZHBvaW50IGUgY3MtR3Jhdml0
-b25JRGVjc1Rhc2tEZWZBMkNBN0E3Ni00LXdlYi05ZWI5YWJhMDk0ZWNjYWRiMTMwMCAoZGIxM2Rj
-MTkzMWQ1YmU3MDI4NGNhYzRkZTY4OTkyNDYwMzVkYjhlNWY5ZTBjZjllZTM3NzMwMDA4MDFhNzBi
-MCk6IChpcHRhYmxlcyBmYWlsZWQ6IGlwdGEgYmxlcyAtLXdhaXQgLXQgbmF0IC1BIERPQ0tFUiAt
-cCB0Y3AgLWQgMC8wIC0tZHBvcnQgODA4MCAtaiBETkFUIC0tdG8tZGVzdGluYXRpb24gMTcyLjE3
-LjAuMjozMDAwICEgLWkgZG9ja2VyMDogaXB0YWJsZXMgdjEuOC43IChsZWdhY3kpOiB1bmtub3du
-IG9wdGlvIG4gXCItLXRvLWRlc3RpbmF0aW9uXCJcblRyeSBgaXB0YWJsZXMgLWgnIG9yICdpcHRh
-YmxlcyAtLWhlbHAnIGZvciBtb3JlIGluZm9ybWF0aW9uLlxuIChleGl0IHN0YXR1cyAyKSksIEtu
-b3duIFNlbnQ6IE5PTkVdIHNlbnQ6IGZhbHNlIiBtb2R1bGU9dGFza19oYSBuZGxlcl90eXBlcy5n
-bw0KICAgID4gICAgID4NCiAgICA+ICAgICA+IFBvc3NpYmx5IGxpbmtlZCB0byB0aGlzIGlzc3Vl
-IGFuZCBuZnRhYmxlcyBzdXBwb3J0PyBodHRwczovL2dpdGh1Yi5jb20vbW9ieS9tb2J5L2lzc3Vl
-cy8zODA5OQ0KICAgID4gICAgID4NCiAgICA+ICAgICA+IEFueSBpZGVhcyBmb3Igd29ya2Fyb3Vu
-ZHMgd291bGQgYmUgdmVyeSBtdWNoIGFwcHJlY2lhdGVkIQ0KICAgID4NCiAgICA+ICAgICBJdCdz
-IHlvdXIga2VybmVsIGNvbmZpZ3VyYXRpb24sIGNvdXBsZWQgd2l0aCB0aGUgaXB0YWJsZXMgbW9k
-dWxlcw0KICAgID4gICAgIGF2YWlsYWJsZSAuLiBidXQgbW9zdCBvZnRlbiwgaXQgaXMgYSBtaXNz
-aW5nIGtlcm5lbCBtb2R1bGUuDQogICAgPg0KICAgID4gICAgIFNvIHdpdGhvdXQga25vd2luZyBl
-eGFjdGx5IHdoYXQga2VybmVsIGFuZCBoYXJkd2FyZSB5b3UgYXJlIHJ1bm5pbmcsDQogICAgPiAg
-ICAgaXQgaXMgaGFyZCB0byBzYXkgbW9yZS4NCiAgICA+DQogICAgPiAgICAgQnJ1Y2UNCiAgICA+
-DQogICAgPiAgICAgPg0KICAgID4gICAgID4NCiAgICA+ICAgICA+IA0KICAgID4gICAgID4NCiAg
-ICA+DQogICAgPg0KICAgID4gICAgIC0tDQogICAgPiAgICAgLSBUaG91IHNoYWx0IG5vdCBmb2xs
-b3cgdGhlIE5VTEwgcG9pbnRlciwgZm9yIGNoYW9zIGFuZCBtYWRuZXNzIGF3YWl0DQogICAgPiAg
-ICAgdGhlZSBhdCBpdHMgZW5kDQogICAgPiAgICAgLSAiVXNlIHRoZSBmb3JjZSBIYXJyeSIgLSBH
-YW5kYWxmLCBTdGFyIFRyZWsgSUkNCiAgICA+DQogICAgPg0KICAgID4NCiAgICA+DQogICAgPiBB
-bWF6b24gV2ViIFNlcnZpY2VzIEVNRUEgU0FSTCwgMzggYXZlbnVlIEpvaG4gRi4gS2VubmVkeSwg
-TC0xODU1IEx1eGVtYm91cmcsIFIuQy5TLiBMdXhlbWJvdXJnIEIxODYyODQNCiAgICA+DQogICAg
-PiBBbWF6b24gV2ViIFNlcnZpY2VzIEVNRUEgU2FybCwgVUsgQnJhbmNoLCAxIFByaW5jaXBhbCBQ
-bGFjZSwgV29yc2hpcCBTdHJlZXQsIExvbmRvbiwgRUMyQSAyRkEsIFVuaXRlZCBLaW5nZG9tLCBy
-ZWdpc3RlcmVkIGluIEVuZ2xhbmQgYW5kIFdhbGVzLCBVSyBFc3RhYmxpc2htZW50IE5vLiBCUjAx
-OTMxNQ0KICAgID4NCiAgICA+DQoNCg0KICAgIC0tDQogICAgLSBUaG91IHNoYWx0IG5vdCBmb2xs
-b3cgdGhlIE5VTEwgcG9pbnRlciwgZm9yIGNoYW9zIGFuZCBtYWRuZXNzIGF3YWl0DQogICAgdGhl
-ZSBhdCBpdHMgZW5kDQogICAgLSAiVXNlIHRoZSBmb3JjZSBIYXJyeSIgLSBHYW5kYWxmLCBTdGFy
-IFRyZWsgSUkNCg0KCgoKQW1hem9uIFdlYiBTZXJ2aWNlcyBFTUVBIFNBUkwsIDM4IGF2ZW51ZSBK
-b2huIEYuIEtlbm5lZHksIEwtMTg1NSBMdXhlbWJvdXJnLCBSLkMuUy4gTHV4ZW1ib3VyZyBCMTg2
-Mjg0CgpBbWF6b24gV2ViIFNlcnZpY2VzIEVNRUEgU2FybCwgVUsgQnJhbmNoLCAxIFByaW5jaXBh
-bCBQbGFjZSwgV29yc2hpcCBTdHJlZXQsIExvbmRvbiwgRUMyQSAyRkEsIFVuaXRlZCBLaW5nZG9t
-LCByZWdpc3RlcmVkIGluIEVuZ2xhbmQgYW5kIFdhbGVzLCBVSyBFc3RhYmxpc2htZW50IE5vLiBC
-UjAxOTMxNQoKCg==
+--000000000000f3a2db05cd46cf69
+Content-Type: text/plain; charset="UTF-8"
+
+I did "bitbake world" build with webOS OSE
+https://github.com/shr-project/build-webos/tree/honister with it's default
+DISTRO_FEATUREs and PNBLACKLIST, so not all of meta-virtualization was
+built, but most of it and this was the only failed task from there
+(surprisingly).
+
+But be aware that yesterday I also notice once strange issue, that a recipe
+"collada-dom" started to shows textrel QA issue and it was actually caused
+by pkgconfig not being available where do_configure "silently" failed to
+find system bzip2 and minizip due to missing pkgconfig and built own
+version instead which lead to this textrel QA issue.
+
+There might be many more recipes like this, which build something
+differently without pkgconfig evailable, without triggering any QA check
+like in this case. It might be useful to compare at least buildhistory
+results with and without the layer.conf change to see what else was changed
+unexpectedly.
+
++ RP and Khem (maybe I should report this on the layer.conf change review
+instead..)
+
+On Fri, Oct 1, 2021 at 4:36 AM Bruce Ashfield <bruce.ashfield@gmail.com>
+wrote:
+
+> I've been watching for these as well, but haven't gotten to doing
+> my 'all' builds to trigger them.
+>
+> Out of curiosity, what level of coverage do you end up with on
+> the meta-virt layers ? I'm just trying to scope out how many more
+> of these may be lurking :D
+>
+> I've grabbed this, and will push it shortly.
+>
+> Bruce
+>
+> In message: [meta-virtualization][PATCH] oath: inherit pkgconfig
+> on 30/09/2021 Martin Jansa wrote:
+>
+> > * Newer oe-core doesn't pull many default dependencies anymore:
+> >   https://lists.openembedded.org/g/openembedded-core/message/156185
+> >   add explicit dependency on pkgconfig through pkgconfig.bbclass as
+> >   we're using it here.
+> >
+> > * fixes:
+> >   ../../oath-toolkit-2.6.2/liboath/configure: line 30585:
+> PKG_PROG_PKG_CONFIG: command not found
+> >   checking for gtk-doc... ../../oath-toolkit-2.6.2/liboath/configure:
+> line 30595: syntax error near unexpected token
+> `$gtk_doc_requires,have_gtk_doc=yes,have_gtk_doc=no'
+> >   ../../oath-toolkit-2.6.2/liboath/configure: line 30595: `
+> PKG_CHECK_EXISTS($gtk_doc_requires,have_gtk_doc=yes,have_gtk_doc=no)'
+> >   configure: error: ../../oath-toolkit-2.6.2/liboath/configure failed
+> for liboath
+> >
+> > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> > ---
+> >  recipes-extended/oath/oath_2.6.2.bb | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/recipes-extended/oath/oath_2.6.2.bb
+> b/recipes-extended/oath/oath_2.6.2.bb
+> > index f423044..d568ec0 100644
+> > --- a/recipes-extended/oath/oath_2.6.2.bb
+> > +++ b/recipes-extended/oath/oath_2.6.2.bb
+> > @@ -12,7 +12,7 @@ S = "${WORKDIR}/${BPN}-toolkit-${PV}"
+> >  SRC_URI[md5sum] = "4a05cd4768764843bd5493609a6bdb17"
+> >  SRC_URI[sha256sum] =
+> "b03446fa4b549af5ebe4d35d7aba51163442d255660558cd861ebce536824aa0"
+> >
+> > -inherit autotools
+> > +inherit autotools pkgconfig
+> >
+> >  # Specify any options you want to pass to the configure script using
+> EXTRA_OECONF:
+> >  EXTRA_OECONF = ""
+> > --
+> > 2.32.0
+> >
+>
+> >
+> > 
+> >
+>
+>
+
+--000000000000f3a2db05cd46cf69
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">I did &quot;bitbake world&quot; build with webOS OSE=C2=A0=
+<a href=3D"https://github.com/shr-project/build-webos/tree/honister">https:=
+//github.com/shr-project/build-webos/tree/honister</a> with it&#39;s defaul=
+t DISTRO_FEATUREs and PNBLACKLIST, so not all of meta-virtualization was bu=
+ilt, but most of it and this was the only failed task from there (surprisin=
+gly).<div><br></div><div>But be aware that yesterday I also notice once str=
+ange issue, that a recipe &quot;collada-dom&quot; started to shows textrel =
+QA issue and it was actually caused by pkgconfig not being available where =
+do_configure &quot;silently&quot; failed to find system bzip2 and minizip d=
+ue to missing pkgconfig and built own version instead which lead to this te=
+xtrel QA issue.</div><div><br></div><div>There might be many more recipes l=
+ike this, which build something differently without pkgconfig evailable, wi=
+thout triggering any QA check like in this case. It might be useful to comp=
+are at least buildhistory results with and without the layer.conf change to=
+ see what else was changed unexpectedly.</div><div><br></div><div>+ RP and =
+Khem (maybe I should report this on the layer.conf change review instead..)=
+<br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gm=
+ail_attr">On Fri, Oct 1, 2021 at 4:36 AM Bruce Ashfield &lt;<a href=3D"mail=
+to:bruce.ashfield@gmail.com">bruce.ashfield@gmail.com</a>&gt; wrote:<br></d=
+iv><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bord=
+er-left:1px solid rgb(204,204,204);padding-left:1ex">I&#39;ve been watching=
+ for these as well, but haven&#39;t gotten to doing<br>
+my &#39;all&#39; builds to trigger them.<br>
+<br>
+Out of curiosity, what level of coverage do you end up with on<br>
+the meta-virt layers ? I&#39;m just trying to scope out how many more<br>
+of these may be lurking :D<br>
+<br>
+I&#39;ve grabbed this, and will push it shortly.<br>
+<br>
+Bruce<br>
+<br>
+In message: [meta-virtualization][PATCH] oath: inherit pkgconfig<br>
+on 30/09/2021 Martin Jansa wrote:<br>
+<br>
+&gt; * Newer oe-core doesn&#39;t pull many default dependencies anymore:<br=
+>
+&gt;=C2=A0 =C2=A0<a href=3D"https://lists.openembedded.org/g/openembedded-c=
+ore/message/156185" rel=3D"noreferrer" target=3D"_blank">https://lists.open=
+embedded.org/g/openembedded-core/message/156185</a><br>
+&gt;=C2=A0 =C2=A0add explicit dependency on pkgconfig through pkgconfig.bbc=
+lass as<br>
+&gt;=C2=A0 =C2=A0we&#39;re using it here.<br>
+&gt; <br>
+&gt; * fixes:<br>
+&gt;=C2=A0 =C2=A0../../oath-toolkit-2.6.2/liboath/configure: line 30585: PK=
+G_PROG_PKG_CONFIG: command not found<br>
+&gt;=C2=A0 =C2=A0checking for gtk-doc... ../../oath-toolkit-2.6.2/liboath/c=
+onfigure: line 30595: syntax error near unexpected token `$gtk_doc_requires=
+,have_gtk_doc=3Dyes,have_gtk_doc=3Dno&#39;<br>
+&gt;=C2=A0 =C2=A0../../oath-toolkit-2.6.2/liboath/configure: line 30595: `=
+=C2=A0 PKG_CHECK_EXISTS($gtk_doc_requires,have_gtk_doc=3Dyes,have_gtk_doc=
+=3Dno)&#39;<br>
+&gt;=C2=A0 =C2=A0configure: error: ../../oath-toolkit-2.6.2/liboath/configu=
+re failed for liboath<br>
+&gt; <br>
+&gt; Signed-off-by: Martin Jansa &lt;<a href=3D"mailto:Martin.Jansa@gmail.c=
+om" target=3D"_blank">Martin.Jansa@gmail.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 recipes-extended/oath/<a href=3D"http://oath_2.6.2.bb" rel=3D"no=
+referrer" target=3D"_blank">oath_2.6.2.bb</a> | 2 +-<br>
+&gt;=C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)<br>
+&gt; <br>
+&gt; diff --git a/recipes-extended/oath/<a href=3D"http://oath_2.6.2.bb" re=
+l=3D"noreferrer" target=3D"_blank">oath_2.6.2.bb</a> b/recipes-extended/oat=
+h/<a href=3D"http://oath_2.6.2.bb" rel=3D"noreferrer" target=3D"_blank">oat=
+h_2.6.2.bb</a><br>
+&gt; index f423044..d568ec0 100644<br>
+&gt; --- a/recipes-extended/oath/<a href=3D"http://oath_2.6.2.bb" rel=3D"no=
+referrer" target=3D"_blank">oath_2.6.2.bb</a><br>
+&gt; +++ b/recipes-extended/oath/<a href=3D"http://oath_2.6.2.bb" rel=3D"no=
+referrer" target=3D"_blank">oath_2.6.2.bb</a><br>
+&gt; @@ -12,7 +12,7 @@ S =3D &quot;${WORKDIR}/${BPN}-toolkit-${PV}&quot;<br=
+>
+&gt;=C2=A0 SRC_URI[md5sum] =3D &quot;4a05cd4768764843bd5493609a6bdb17&quot;=
+<br>
+&gt;=C2=A0 SRC_URI[sha256sum] =3D &quot;b03446fa4b549af5ebe4d35d7aba5116344=
+2d255660558cd861ebce536824aa0&quot;<br>
+&gt;=C2=A0 <br>
+&gt; -inherit autotools<br>
+&gt; +inherit autotools pkgconfig<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 # Specify any options you want to pass to the configure script u=
+sing EXTRA_OECONF:<br>
+&gt;=C2=A0 EXTRA_OECONF =3D &quot;&quot;<br>
+&gt; -- <br>
+&gt; 2.32.0<br>
+&gt; <br>
+<br>
+&gt; <br>
+&gt; <br>
+&gt; <br>
+<br>
+</blockquote></div>
+
+--000000000000f3a2db05cd46cf69--
