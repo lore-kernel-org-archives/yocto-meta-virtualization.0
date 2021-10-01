@@ -1,216 +1,172 @@
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
- by mx.groups.io with SMTP id smtpd.web12.2827.1633056661592504434
+Received: from smtp-fw-6002.amazon.com (smtp-fw-6002.amazon.com [52.95.49.90])
+ by mx.groups.io with SMTP id smtpd.web11.5184.1633077307183440473
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 30 Sep 2021 19:51:01 -0700
+ Fri, 01 Oct 2021 01:35:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=CwHbugIo;
- spf=pass (domain: gmail.com, ip: 209.85.160.180, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qt1-f180.google.com with SMTP id d8so7714480qtd.5
-        for <meta-virtualization@lists.yoctoproject.org>; Thu, 30 Sep 2021 19:51:01 -0700 (PDT)
+ dkim=pass header.i=@amazon.co.uk header.s=amazon201209 header.b=GykqBbGe;
+ spf=pass (domain: amazon.co.uk, ip: 52.95.49.90, mailfrom: prvs=901b48dde=stephibb@amazon.co.uk)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=XgT7oxfb/ZWZd3sV8w08mFK2sf2sCENsHl7kPw0YwIE=;
-        b=CwHbugIoUx57J+FzKYpzoQtn2t59AoxmMls/oibX9GhlCjrILklLjz9qeqMqjVE3JN
-         97QkzkLXlzYGbxW/RRUZ8tg0UcqwtOWCsoL+tg15p36Pao0ZuX4cKaoKp7f7OOnZPSqL
-         ptBDEQOAGPPudW73tyGwaSV9/bwcclj5KrMZD0PZsT/Qnuih2J1KKcSCzN8DM5M87OQ/
-         WtrmTglSzC++hs1zRU497GNVNtV24Ku6Z/HUQ5tgUrxRNyd7u1BUisM6Gu4ziHRsx2Zz
-         7+oa/+qLXX9aTVz6qw/a8b+EnIdLTd921Puq3AIhLwzTVhK8bjx1RL99DJijoBrxc2OL
-         1hXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=XgT7oxfb/ZWZd3sV8w08mFK2sf2sCENsHl7kPw0YwIE=;
-        b=Vudl3JK02o2CW2CiMFyz71Z8yagLKJMeEHma8nnPndJ3HVEHxLEtAVXVmtqjo5srqG
-         ufCZbkkPkKkYPphk4X4VnDZwzbhq+N0LCkyCXx9RdA6pTE5x2jPTJwsw/vhKgy8O4Iul
-         ReJWgpr1LAxVG/r4TmJggc9f3WkVq1bicsT/lJAkLf2qCwn3eR8v92f3ZJvYjZ7IQ47C
-         gIcWxvod90Y6o5DhKkLcgIEsczhJ3I7nCL5YsmRn3+3zzI9mibDeXVubqtErdAU4ZGGc
-         1Uf379zWBIvMJ0axM4V6GNGWzBAWaFks2EV4vGUwLJMJ6tre3OuG3dthUdpagVykuARA
-         srgQ==
-X-Gm-Message-State: AOAM531/5MUK4oFhJsLtPS7ajEupEMjGjyGW086lvIOxcWQinCiKedPc
-	cKqHTZCoT0Rlhwr1HJJaJ8LBiR+4QYowCQ==
-X-Google-Smtp-Source: ABdhPJxvBJR1bf1SIqisQcZ9gPgdKcpXHBrUP2wFuLTVs3bxtM/teWTdJOmG7EIVi7Iscs38LldUFw==
-X-Received: by 2002:ac8:4744:: with SMTP id k4mr10135295qtp.247.1633056660631;
-        Thu, 30 Sep 2021 19:51:00 -0700 (PDT)
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from gmail.com (cpe04d4c4975b80-cmf4c11490699b.cpe.net.cable.rogers.com. [174.112.63.222])
-        by smtp.gmail.com with ESMTPSA id v11sm2318940qkg.92.2021.09.30.19.51.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Sep 2021 19:51:00 -0700 (PDT)
-Date: Thu, 30 Sep 2021 22:50:58 -0400
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-To: "Xu, Yanfei" <yanfei.xu@windriver.com>
-Cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [meta-virtualization][hardknott][PATCH] openvswitch: Security fix for CVE-2021-36980
-Message-ID: <20211001025058.GC11771@gmail.com>
-References: <20210929033648.2372012-1-yanfei.xu@windriver.com>
+  d=amazon.co.uk; i=@amazon.co.uk; q=dns/txt;
+  s=amazon201209; t=1633077307; x=1664613307;
+  h=from:to:cc:date:message-id:references:in-reply-to:
+   content-id:mime-version:content-transfer-encoding:subject;
+  bh=eVlqKgzh5A9iMkvdORjOb9EHVYhz/UVv5Rs30U94OQk=;
+  b=GykqBbGeYCkBMKHU8RfoQCh+8iib36f0YQoT/BRKSk2jiahA3i7Z4PVa
+   n63HGoTcefFbFUJzgwM7zKL88Ecu82czNFA3FMR556KIT51Ah++jAm4fB
+   RIUIifpzfyiP8ZXpHN1/zipYdJEe33R4b2gc+Q2qJCyJjnWjQW/8Oip1e
+   Y=;
+X-IronPort-AV: E=Sophos;i="5.85,337,1624320000"; 
+   d="scan'208";a="144668372"
+Subject: Re: [meta-virtualization] Docker 20.10.3 breaks due to iptables v1.8.7 (legacy) incompatibility #meta-virtualization
+Thread-Topic: [meta-virtualization] Docker 20.10.3 breaks due to iptables v1.8.7 (legacy)
+ incompatibility #meta-virtualization
+Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO email-inbound-relay-iad-1box-d-0230bc7b.us-east-1.amazon.com) ([10.43.8.2])
+  by smtp-border-fw-6002.iad6.amazon.com with ESMTP; 01 Oct 2021 08:34:59 +0000
+Received: from EX13D01EUB004.ant.amazon.com (iad12-ws-svc-p26-lb9-vlan3.iad.amazon.com [10.40.163.38])
+	by email-inbound-relay-iad-1box-d-0230bc7b.us-east-1.amazon.com (Postfix) with ESMTPS id C0CFFC0B14;
+	Fri,  1 Oct 2021 08:34:58 +0000 (UTC)
+Received: from EX13D01EUB004.ant.amazon.com (10.43.166.180) by
+ EX13D01EUB004.ant.amazon.com (10.43.166.180) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.23; Fri, 1 Oct 2021 08:34:57 +0000
+Received: from EX13D01EUB004.ant.amazon.com ([10.43.166.180]) by
+ EX13D01EUB004.ant.amazon.com ([10.43.166.180]) with mapi id 15.00.1497.023;
+ Fri, 1 Oct 2021 08:34:57 +0000
+From: "Stephen" <stephibb@amazon.co.uk>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+CC: "meta-virtualization@lists.yoctoproject.org"
+	<meta-virtualization@lists.yoctoproject.org>
+Thread-Index: AQHXtglfgoZ/iRiCKE6Ulc+hz+Tqc6u8s8WAgAATuYCAAAEQgIABGl8A
+Date: Fri, 1 Oct 2021 08:34:56 +0000
+Message-ID: <C5B1B9DC-453E-434D-804D-0655FFCDE5BF@amazon.com>
+References: <sR4y.1633012897405396850.uLez@lists.yoctoproject.org>
+ <CADkTA4PEGOtu8EnSjfVCv=EJynX2hHo7t40=htGdrfchNL3gcg@mail.gmail.com>
+ <EEB11201-E4B0-4045-8C31-026DBF2AB43F@amazon.com>
+ <CADkTA4OhF2HShNVKw5Sk7jAXPAmuqHxwSjMue+tcw_E0+NCwsQ@mail.gmail.com>
+In-Reply-To: <CADkTA4OhF2HShNVKw5Sk7jAXPAmuqHxwSjMue+tcw_E0+NCwsQ@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.43.165.203]
 MIME-Version: 1.0
-In-Reply-To: <20210929033648.2372012-1-yanfei.xu@windriver.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Language: en-GB
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <99DBF6D35AE93744939FE4620EBEAE43@amazon.com>
+Content-Transfer-Encoding: base64
 
-In message: [meta-virtualization][hardknott][PATCH] openvswitch: Security fix for CVE-2021-36980
-on 29/09/2021 Xu, Yanfei wrote:
-
-> Open vSwitch (aka openvswitch) 2.11.0 through 2.15.0 has
-> a use-after-free in decode_NXAST_RAW_ENCAP (called from
-> ofpact_decode and ofpacts_decode) during the decoding of
-> a RAW_ENCAP action.
-> 
-> Reference:
-> https://nvd.nist.gov/vuln/detail/CVE-2021-36980
-> 
-> Patches from:
-> format-patch from ovs v2.15.1
-> 
-> Signed-off-by: Yanfei Xu <yanfei.xu@windriver.com>
-> ---
->  ...use-after-free-while-decoding-RAW_EN.patch | 101 ++++++++++++++++++
->  .../openvswitch/openvswitch_git.bb            |   1 +
->  2 files changed, 102 insertions(+)
->  create mode 100644 recipes-networking/openvswitch/files/0001-ofp-actions-Fix-use-after-free-while-decoding-RAW_EN.patch
-> 
-> diff --git a/recipes-networking/openvswitch/files/0001-ofp-actions-Fix-use-after-free-while-decoding-RAW_EN.patch b/recipes-networking/openvswitch/files/0001-ofp-actions-Fix-use-after-free-while-decoding-RAW_EN.patch
-> new file mode 100644
-> index 00000000..c88c097d
-> --- /dev/null
-> +++ b/recipes-networking/openvswitch/files/0001-ofp-actions-Fix-use-after-free-while-decoding-RAW_EN.patch
-> @@ -0,0 +1,101 @@
-> +From 802a31a7070cea910b95d7e926c9da30a1f9e54f Mon Sep 17 00:00:00 2001
-> +From: Ilya Maximets <i.maximets@ovn.org>
-> +Date: Tue, 16 Feb 2021 23:27:30 +0100
-> +Subject: [PATCH] ofp-actions: Fix use-after-free while decoding RAW_ENCAP.
-> +
-> +While decoding RAW_ENCAP action, decode_ed_prop() might re-allocate
-> +ofpbuf if there is no enough space left.  However, function
-> +'decode_NXAST_RAW_ENCAP' continues to use old pointer to 'encap'
-> +structure leading to write-after-free and incorrect decoding.
-> +
-> +  ==3549105==ERROR: AddressSanitizer: heap-use-after-free on address
-> +  0x60600000011a at pc 0x0000005f6cc6 bp 0x7ffc3a2d4410 sp 0x7ffc3a2d4408
-> +  WRITE of size 2 at 0x60600000011a thread T0
-> +    #0 0x5f6cc5 in decode_NXAST_RAW_ENCAP lib/ofp-actions.c:4461:20
-> +    #1 0x5f0551 in ofpact_decode ./lib/ofp-actions.inc2:4777:16
-> +    #2 0x5ed17c in ofpacts_decode lib/ofp-actions.c:7752:21
-> +    #3 0x5eba9a in ofpacts_pull_openflow_actions__ lib/ofp-actions.c:7791:13
-> +    #4 0x5eb9fc in ofpacts_pull_openflow_actions lib/ofp-actions.c:7835:12
-> +    #5 0x64bb8b in ofputil_decode_packet_out lib/ofp-packet.c:1113:17
-> +    #6 0x65b6f4 in ofp_print_packet_out lib/ofp-print.c:148:13
-> +    #7 0x659e3f in ofp_to_string__ lib/ofp-print.c:1029:16
-> +    #8 0x659b24 in ofp_to_string lib/ofp-print.c:1244:21
-> +    #9 0x65a28c in ofp_print lib/ofp-print.c:1288:28
-> +    #10 0x540d11 in ofctl_ofp_parse utilities/ovs-ofctl.c:2814:9
-> +    #11 0x564228 in ovs_cmdl_run_command__ lib/command-line.c:247:17
-> +    #12 0x56408a in ovs_cmdl_run_command lib/command-line.c:278:5
-> +    #13 0x5391ae in main utilities/ovs-ofctl.c:179:9
-> +    #14 0x7f6911ce9081 in __libc_start_main (/lib64/libc.so.6+0x27081)
-> +    #15 0x461fed in _start (utilities/ovs-ofctl+0x461fed)
-> +
-> +Fix that by getting a new pointer before using.
-> +
-> +Credit to OSS-Fuzz.
-> +
-> +Fuzzer regression test will fail only with AddressSanitizer enabled.
-> +
-> +Reported-at: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=27851
-> +Fixes: f839892a206a ("OF support and translation of generic encap and decap")
-> +Acked-by: William Tu <u9012063@gmail.com>
-> +Signed-off-by: Ilya Maximets <i.maximets@ovn.org>
-> +
-> +Upstream-Status: Backport
-> +CVE: CVE-2021-36980
-> +Signed-off-by: Yanfei Xu <yanfei.xu@windriver.com>
-> +---
-> + lib/ofp-actions.c                                       | 2 ++
-> + tests/automake.mk                                       | 3 ++-
-> + tests/fuzz-regression-list.at                           | 1 +
-> + tests/fuzz-regression/ofp_print_fuzzer-6540965472632832 | 0
-> + 4 files changed, 5 insertions(+), 1 deletion(-)
-> + create mode 100644 tests/fuzz-regression/ofp_print_fuzzer-6540965472632832
-> +
-> +diff --git a/lib/ofp-actions.c b/lib/ofp-actions.c
-> +index e2e829772..0342a228b 100644
-> +--- a/lib/ofp-actions.c
-> ++++ b/lib/ofp-actions.c
-> +@@ -4431,6 +4431,7 @@ decode_NXAST_RAW_ENCAP(const struct nx_action_encap *nae,
-> + {
-> +     struct ofpact_encap *encap;
-> +     const struct ofp_ed_prop_header *ofp_prop;
-> ++    const size_t encap_ofs = out->size;
-> +     size_t props_len;
-> +     uint16_t n_props = 0;
-> +     int err;
-> +@@ -4458,6 +4459,7 @@ decode_NXAST_RAW_ENCAP(const struct nx_action_encap *nae,
-> +         }
-> +         n_props++;
-> +     }
-> ++    encap = ofpbuf_at_assert(out, encap_ofs, sizeof *encap);
-> +     encap->n_props = n_props;
-> +     out->header = &encap->ofpact;
-> +     ofpact_finish_ENCAP(out, &encap);
-> +diff --git a/tests/automake.mk b/tests/automake.mk
-> +index 677b99a6b..fc80e027d 100644
-> +--- a/tests/automake.mk
-> ++++ b/tests/automake.mk
-> +@@ -134,7 +134,8 @@ FUZZ_REGRESSION_TESTS = \
-> + 	tests/fuzz-regression/ofp_print_fuzzer-5722747668791296 \
-> + 	tests/fuzz-regression/ofp_print_fuzzer-6285128790704128 \
-> + 	tests/fuzz-regression/ofp_print_fuzzer-6470117922701312 \
-> +-	tests/fuzz-regression/ofp_print_fuzzer-6502620041576448
-> ++	tests/fuzz-regression/ofp_print_fuzzer-6502620041576448 \
-> ++	tests/fuzz-regression/ofp_print_fuzzer-6540965472632832
-> + $(srcdir)/tests/fuzz-regression-list.at: tests/automake.mk
-> + 	$(AM_V_GEN)for name in $(FUZZ_REGRESSION_TESTS); do \
-> +             basename=`echo $$name | sed 's,^.*/,,'`; \
-> +diff --git a/tests/fuzz-regression-list.at b/tests/fuzz-regression-list.at
-> +index e3173fb88..2347c690e 100644
-> +--- a/tests/fuzz-regression-list.at
-> ++++ b/tests/fuzz-regression-list.at
-> +@@ -21,3 +21,4 @@ TEST_FUZZ_REGRESSION([ofp_print_fuzzer-5722747668791296])
-> + TEST_FUZZ_REGRESSION([ofp_print_fuzzer-6285128790704128])
-> + TEST_FUZZ_REGRESSION([ofp_print_fuzzer-6470117922701312])
-> + TEST_FUZZ_REGRESSION([ofp_print_fuzzer-6502620041576448])
-> ++TEST_FUZZ_REGRESSION([ofp_print_fuzzer-6540965472632832])
-> +diff --git a/tests/fuzz-regression/ofp_print_fuzzer-6540965472632832 b/tests/fuzz-regression/ofp_print_fuzzer-6540965472632832
-> +new file mode 100644
-> +index 000000000..e69de29bb
-> +-- 
-> +2.27.0
-> +
-> diff --git a/recipes-networking/openvswitch/openvswitch_git.bb b/recipes-networking/openvswitch/openvswitch_git.bb
-> index 16ec4c72..56f1297c 100644
-> --- a/recipes-networking/openvswitch/openvswitch_git.bb
-> +++ b/recipes-networking/openvswitch/openvswitch_git.bb
-> @@ -30,6 +30,7 @@ SRC_URI += "git://github.com/openvswitch/ovs.git;protocol=git;branch=branch-2.15
->              file://0001-ovs-use-run-instead-of-var-run-for-in-systemd-units.patch \
->              file://0001-openvswitch-fix-do_configure-with-DPDK-19.11-error.patch \
->              file://0001-openvswitch-fix-netdev-dpdk-compile-error.patch \
-> +            file://0001-ofp-actions-Fix-use-after-free-while-decoding-RAW_EN.patch \
-
-You are carrying local patches to your ovs recipe that don't match meta-virt.
-
-As such, this didn't directly apply. I fixed it up and merged it.
-
-But you should consider carrying those patches in a bbappend, so that
-upstream sends like this have proper context, and I can be more sure
-of the testing that is done on submissions.
-
-I also took this as an opportunity to bump OVS in master, since I wanted
-to be sure that we have the same CVE addressed there.
-
-Bruce
-
->             "
->  
->  LIC_FILES_CHKSUM = "file://LICENSE;md5=1ce5d23a6429dff345518758f13aaeab"
-> -- 
-> 2.27.0
-> 
-
-> 
-> 
-> 
-
+WWVzLCB5b3UncmUgc3BvdCBvbiEgDQoNClJ1bm5pbmcgdGhlIHNjcmlwdCByZXZpbGVkIHRoZSBm
+b2xsb3dpbmcuIFRoZSBpc3N1ZSBJJ20gaGF2aW5nIG5vdyBpcyBmaW5kaW5nIHRoZSBjb3JyZWN0
+IHdheSBvZiBpbmNsdWRpbmcgdGhlIGNvbmZpZ3MsIEkgdHJpZWQgc2V0dGluZyB0aGVtIGluIG15
+IG15S2VybmVsQ29uZmlncy5jZmcgYW5kIElNQUdFX0lOU1RBTExfYXBwZW5kID0gImRvY2tlci1t
+b2J5LWNvbnRyaWIga2VybmVsLW1vZHVsZS1uZi1uYXQga2VybmVsLW1vZHVsZS14dC1jb25udHJh
+Y2sga2VybmVsLW1vZHVsZS14dC1hZGRydHlwZSINCg0KQnV0IHJ1bm5pbmcgdGhlIGNvbmZpZyBz
+Y3JpcHQgc3RpbGwgc2hvd3MgdGhlIG91dHB1dCBiZWxvdzoNCg0Kcm9vdEBnZW5lcmljLWFybTY0
+Oi91c3Ivc2hhcmUvZG9ja2VyIyAuL2NoZWNrLWNvbmZpZy5zaCANCmluZm86IHJlYWRpbmcga2Vy
+bmVsIGNvbmZpZyBmcm9tIC9wcm9jL2NvbmZpZy5neiAuLi4NCkdlbmVyYWxseSBOZWNlc3Nhcnk6
+DQotIGNncm91cCBoaWVyYXJjaHk6IHByb3Blcmx5IG1vdW50ZWQgWy9zeXMvZnMvY2dyb3VwXQ0K
+LSBDT05GSUdfTkFNRVNQQUNFUzogZW5hYmxlZA0KLSBDT05GSUdfTkVUX05TOiBlbmFibGVkDQot
+IENPTkZJR19QSURfTlM6IGVuYWJsZWQNCi0gQ09ORklHX0lQQ19OUzogZW5hYmxlZA0KLSBDT05G
+SUdfVVRTX05TOiBlbmFibGVkDQotIENPTkZJR19DR1JPVVBTOiBlbmFibGVkDQotIENPTkZJR19D
+R1JPVVBfQ1BVQUNDVDogZW5hYmxlZA0KLSBDT05GSUdfQ0dST1VQX0RFVklDRTogZW5hYmxlZA0K
+LSBDT05GSUdfQ0dST1VQX0ZSRUVaRVI6IG1pc3NpbmcNCi0gQ09ORklHX0NHUk9VUF9TQ0hFRDog
+ZW5hYmxlZA0KLSBDT05GSUdfQ1BVU0VUUzogZW5hYmxlZA0KLSBDT05GSUdfTUVNQ0c6IGVuYWJs
+ZWQNCi0gQ09ORklHX0tFWVM6IGVuYWJsZWQNCi0gQ09ORklHX1ZFVEg6IGVuYWJsZWQNCi0gQ09O
+RklHX0JSSURHRTogZW5hYmxlZCAoYXMgbW9kdWxlKQ0KLSBDT05GSUdfQlJJREdFX05FVEZJTFRF
+UjogbWlzc2luZw0KLSBDT05GSUdfTkZfTkFUX0lQVjQ6IG1pc3NpbmcNCi0gQ09ORklHX0lQX05G
+X0ZJTFRFUjogZW5hYmxlZCAoYXMgbW9kdWxlKQ0KLSBDT05GSUdfSVBfTkZfVEFSR0VUX01BU1FV
+RVJBREU6IGVuYWJsZWQgKGFzIG1vZHVsZSkNCi0gQ09ORklHX05FVEZJTFRFUl9YVF9NQVRDSF9B
+RERSVFlQRTogZW5hYmxlZCAoYXMgbW9kdWxlKQ0KLSBDT05GSUdfTkVURklMVEVSX1hUX01BVENI
+X0NPTk5UUkFDSzogZW5hYmxlZCAoYXMgbW9kdWxlKQ0KLSBDT05GSUdfTkVURklMVEVSX1hUX01B
+VENIX0lQVlM6IG1pc3NpbmcNCi0gQ09ORklHX0lQX05GX05BVDogZW5hYmxlZCAoYXMgbW9kdWxl
+KQ0KLSBDT05GSUdfTkZfTkFUOiBlbmFibGVkIChhcyBtb2R1bGUpDQotIENPTkZJR19ORl9OQVRf
+TkVFREVEOiBtaXNzaW5nDQotIENPTkZJR19QT1NJWF9NUVVFVUU6IGVuYWJsZWQNCg0K77u/T24g
+MzAvMDkvMjAyMSwgMTc6NDgsICJCcnVjZSBBc2hmaWVsZCIgPGJydWNlLmFzaGZpZWxkQGdtYWls
+LmNvbT4gd3JvdGU6DQoNCiAgICBDQVVUSU9OOiBUaGlzIGVtYWlsIG9yaWdpbmF0ZWQgZnJvbSBv
+dXRzaWRlIG9mIHRoZSBvcmdhbml6YXRpb24uIERvIG5vdCBjbGljayBsaW5rcyBvciBvcGVuIGF0
+dGFjaG1lbnRzIHVubGVzcyB5b3UgY2FuIGNvbmZpcm0gdGhlIHNlbmRlciBhbmQga25vdyB0aGUg
+Y29udGVudCBpcyBzYWZlLg0KDQoNCg0KICAgIE9uIFRodSwgU2VwIDMwLCAyMDIxIGF0IDExOjQw
+IEFNIEhpYmJlcnQsIFN0ZXBoZW4gPHN0ZXBoaWJiQGFtYXpvbi5jby51az4gd3JvdGU6DQogICAg
+Pg0KICAgID4gVGhhbmtzIGZvciB0aGUgcmVwbHkgQnJ1Y2UgX18gTGV0IG1lIGtub3cgaWYgdGhl
+c2UgZGV0YWlscyBoZWxwPw0KICAgID4NCiAgICA+IHJvb3RAZ2VuZXJpYy1hcm02NDp+IyB1bmFt
+ZSAtcg0KICAgID4gNS4xMC40Ni15b2N0by1zdGFuZGFyZA0KICAgID4NCiAgICA+IE9ubHkgc2V0
+dGluZyB0aGVzZSB0d28ga2VybmVsIGNvbmZpZ3MgYXQgdGhlIG1vbWVudDoNCiAgICA+IENPTkZJ
+R19FTkFfRVRIRVJORVQ9eQ0KICAgID4gQ09ORklHX0JMS19ERVZfTlZNRT15DQoNCiAgICBJdCds
+bCBiZSB0aGUgaXB0YWJsZXMgYW5kIGNncm91cHMgb3B0aW9ucyB0aGF0IGFyZSBjYXVzaW5nIGlz
+c3Vlcy4NCg0KICAgIFRoZSBzdGFuZGFyZCBsYXllcnMgYW5kIGtlcm5lbCBhcmUgZXh0ZW5zaXZl
+bHkgdGVzdGVkIHdpdGggbWV0YS12aXJ0LA0KICAgIHNvIHRoZXJlIHJlYWxseSBzaG91bGRuJ3Qg
+YmUgc29tZXRoaW5nIG1pc3NpbmcuDQoNCiAgICBZb3UgY2FuIGFsc28gaW5zdGFsbCB0aGUgZG9j
+a2VyLWNvbnRyaWIgcGFja2FnZSB0byB5b3VyIGltYWdlLCBhbmQgcnVuDQogICAgdGhlIGNoZWNr
+LWNvbmZpZy5zaCBzY3JpcHQgdG8gc2VlIGlmIGl0IHJlcG9ydHMgYW55IGlzc3Vlcy4NCg0KICAg
+IEJydWNlDQoNCiAgICA+DQogICAgPiBBbmQgdGhlc2UgYXJlIHRoZSBsYXllcnMsIHJ1bm5pbmcg
+aGFya25vdHQuLi4NCiAgICA+IGRyd3hyd3hyLXggMTIgdWJ1bnR1IHVidW50dSA0MDk2IFNlcCAy
+OSAxNDowMiBtZXRhLWFybS8NCiAgICA+IGRyd3hyd3hyLXggIDggdWJ1bnR1IHVidW50dSA0MDk2
+IFNlcCAyOSAxNDowMCBtZXRhLWV3YW9sLw0KICAgID4gZHJ3eHJ3eHIteCAxMSB1YnVudHUgdWJ1
+bnR1IDQwOTYgU2VwIDI5IDE1OjA5IG1ldGEtb3BlbmVtYmVkZGVkLw0KICAgID4gZHJ3eHJ3eHIt
+eCAyNCB1YnVudHUgdWJ1bnR1IDQwOTYgU2VwIDI5IDE0OjAyIG1ldGEtc2VjdXJpdHkvDQogICAg
+PiBkcnd4cnd4ci14IDE3IHVidW50dSB1YnVudHUgNDA5NiBTZXAgMjkgMTQ6MDIgbWV0YS12aXJ0
+dWFsaXphdGlvbi8NCiAgICA+DQogICAgPg0KICAgID4gT24gMzAvMDkvMjAyMSwgMTY6MzIsICJC
+cnVjZSBBc2hmaWVsZCIgPGJydWNlLmFzaGZpZWxkQGdtYWlsLmNvbT4gd3JvdGU6DQogICAgPg0K
+ICAgID4gICAgIENBVVRJT046IFRoaXMgZW1haWwgb3JpZ2luYXRlZCBmcm9tIG91dHNpZGUgb2Yg
+dGhlIG9yZ2FuaXphdGlvbi4gRG8gbm90IGNsaWNrIGxpbmtzIG9yIG9wZW4gYXR0YWNobWVudHMg
+dW5sZXNzIHlvdSBjYW4gY29uZmlybSB0aGUgc2VuZGVyIGFuZCBrbm93IHRoZSBjb250ZW50IGlz
+IHNhZmUuDQogICAgPg0KICAgID4NCiAgICA+DQogICAgPiAgICAgT24gVGh1LCBTZXAgMzAsIDIw
+MjEgYXQgMTA6NDEgQU0gU3RlcGhlbiB2aWEgbGlzdHMueW9jdG9wcm9qZWN0Lm9yZw0KICAgID4g
+ICAgIDxzdGVwaGliYj1hbWF6b24uY28udWtAbGlzdHMueW9jdG9wcm9qZWN0Lm9yZz4gd3JvdGU6
+DQogICAgPiAgICAgPg0KICAgID4gICAgID4gSGVsbG8gYWxsIQ0KICAgID4gICAgID4NCiAgICA+
+ICAgICA+IFRoZSBjdXJyZW50IG1ldGEtdmlydHVhbGlzYXRpb24gZG9ja2VyIGlzIGluY29tcGF0
+aWJsZSB3aXRoIHRoZSBsZWdhY3kgdjEuOC43IGlwdGFibGVzLg0KICAgID4gICAgID4NCiAgICA+
+ICAgICA+IERvY2tlciB2ZXJzaW9uIDIwLjEwLjMsIGJ1aWxkIDQxYjNlYTdlNDcgaHR0cDovL2xh
+eWVycy5vcGVuZW1iZWRkZWQub3JnL2xheWVyaW5kZXgvcmVjaXBlLzE3NjgxNy8NCiAgICA+ICAg
+ICA+DQogICAgPiAgICAgPiBpcHRhYmxlcyB2MS44LjcgKGxlZ2FjeSkgaHR0cHM6Ly9naXQueW9j
+dG9wcm9qZWN0Lm9yZy9jZ2l0LmNnaS9wb2t5L3BsYWluL21ldGEvcmVjaXBlcy1leHRlbmRlZC9p
+cHRhYmxlcy8NCiAgICA+ICAgICA+DQogICAgPiAgICAgPiBsZXZlbD1pbmZvIHRpbWU9MjAyMS0w
+OS0zMFQwODo1ODo1NlogbXNnPSJUYXNrSGFuZGxlcjogU2VuZGluZyB0YXNrIGNoYW5nZTogVGFz
+a0NoYW5nZTogW2Fybjphd3M6ZWNzOmV1LXdlc3QtMToxMTY1ODk5MzU5NjA6dGFzay9HcmF2aXRv
+bklELWVjcy1FQ1NHcmEgdml0b24yREE1NDU2MDgtdHpkRzNidXBnTGNuL2VmOGQ5ZWExNWE0MzRj
+Mjk4YTk2MjM1NTFkMzljNmFiIC0+IFNUT1BQRUQsIEtub3duIFNlbnQ6IE5PTkUsIFB1bGxTdGFy
+dGVkQXQ6IDIwMjEtMDktMzAgMDg6NTg6NTUuODA5NDYwOTM1ICswMDAwIFVUQyBtPSs1IDIzMTUu
+NzY1NzA2MDAxLCBQdWxsU3RvcHBlZEF0OiAyMDIxLTA5LTMwIDA4OjU4OjU1LjkxOTM1MTcxNyAr
+MDAwMCBVVEMgbT0rNTIzMTUuODc1NTk2NzgyLCBFeGVjdXRpb25TdG9wcGVkQXQ6IDIwMjEtMDkt
+MzAgMDg6NTg6NTYuMTU5MzU2NTUyICswMDAwIFVUQyBtPSs1MjMxNi4xMTU2MDE2MTcsIGNvbnRh
+aW5lciBjaGFuZ2U6IGFybjphd3M6ZWNzOmV1LXdlc3QtMToxMTY1ODk5MzU5NjA6dGFzay9HcmF2
+aXRvbklELWVjcy1FQ1NHcmF2aXRvbjJEQTU0NTYwOC10emRHM2J1cGdMY24vZWY4ZDllYTE1YTQz
+NGMyOThhOTYyMyA1NTFkMzljNmFiIHdlYiAtPiBTVE9QUEVELCBSZWFzb24gQ2Fubm90U3RhcnRD
+b250YWluZXJFcnJvcjogRXJyb3IgcmVzcG9uc2UgZnJvbSBkYWVtb246IGRyaXZlciBmYWlsZWQg
+cHJvZ3JhbW1pbmcgZXh0ZXJuYWwgY29ubmVjdGl2aXR5IG9uIGVuZHBvaW50IGUgY3MtR3Jhdml0
+b25JRGVjc1Rhc2tEZWZBMkNBN0E3Ni00LXdlYi05ZWI5YWJhMDk0ZWNjYWRiMTMwMCAoZGIxM2Rj
+MTkzMWQ1YmU3MDI4NGNhYzRkZTY4OTkyNDYwMzVkYjhlNWY5ZTBjZjllZTM3NzMwMDA4MDFhNzBi
+MCk6IChpcHRhYmxlcyBmYWlsZWQ6IGlwdGEgYmxlcyAtLXdhaXQgLXQgbmF0IC1BIERPQ0tFUiAt
+cCB0Y3AgLWQgMC8wIC0tZHBvcnQgODA4MCAtaiBETkFUIC0tdG8tZGVzdGluYXRpb24gMTcyLjE3
+LjAuMjozMDAwICEgLWkgZG9ja2VyMDogaXB0YWJsZXMgdjEuOC43IChsZWdhY3kpOiB1bmtub3du
+IG9wdGlvIG4gXCItLXRvLWRlc3RpbmF0aW9uXCJcblRyeSBgaXB0YWJsZXMgLWgnIG9yICdpcHRh
+YmxlcyAtLWhlbHAnIGZvciBtb3JlIGluZm9ybWF0aW9uLlxuIChleGl0IHN0YXR1cyAyKSksIEtu
+b3duIFNlbnQ6IE5PTkVdIHNlbnQ6IGZhbHNlIiBtb2R1bGU9dGFza19oYSBuZGxlcl90eXBlcy5n
+bw0KICAgID4gICAgID4NCiAgICA+ICAgICA+IFBvc3NpYmx5IGxpbmtlZCB0byB0aGlzIGlzc3Vl
+IGFuZCBuZnRhYmxlcyBzdXBwb3J0PyBodHRwczovL2dpdGh1Yi5jb20vbW9ieS9tb2J5L2lzc3Vl
+cy8zODA5OQ0KICAgID4gICAgID4NCiAgICA+ICAgICA+IEFueSBpZGVhcyBmb3Igd29ya2Fyb3Vu
+ZHMgd291bGQgYmUgdmVyeSBtdWNoIGFwcHJlY2lhdGVkIQ0KICAgID4NCiAgICA+ICAgICBJdCdz
+IHlvdXIga2VybmVsIGNvbmZpZ3VyYXRpb24sIGNvdXBsZWQgd2l0aCB0aGUgaXB0YWJsZXMgbW9k
+dWxlcw0KICAgID4gICAgIGF2YWlsYWJsZSAuLiBidXQgbW9zdCBvZnRlbiwgaXQgaXMgYSBtaXNz
+aW5nIGtlcm5lbCBtb2R1bGUuDQogICAgPg0KICAgID4gICAgIFNvIHdpdGhvdXQga25vd2luZyBl
+eGFjdGx5IHdoYXQga2VybmVsIGFuZCBoYXJkd2FyZSB5b3UgYXJlIHJ1bm5pbmcsDQogICAgPiAg
+ICAgaXQgaXMgaGFyZCB0byBzYXkgbW9yZS4NCiAgICA+DQogICAgPiAgICAgQnJ1Y2UNCiAgICA+
+DQogICAgPiAgICAgPg0KICAgID4gICAgID4NCiAgICA+ICAgICA+IA0KICAgID4gICAgID4NCiAg
+ICA+DQogICAgPg0KICAgID4gICAgIC0tDQogICAgPiAgICAgLSBUaG91IHNoYWx0IG5vdCBmb2xs
+b3cgdGhlIE5VTEwgcG9pbnRlciwgZm9yIGNoYW9zIGFuZCBtYWRuZXNzIGF3YWl0DQogICAgPiAg
+ICAgdGhlZSBhdCBpdHMgZW5kDQogICAgPiAgICAgLSAiVXNlIHRoZSBmb3JjZSBIYXJyeSIgLSBH
+YW5kYWxmLCBTdGFyIFRyZWsgSUkNCiAgICA+DQogICAgPg0KICAgID4NCiAgICA+DQogICAgPiBB
+bWF6b24gV2ViIFNlcnZpY2VzIEVNRUEgU0FSTCwgMzggYXZlbnVlIEpvaG4gRi4gS2VubmVkeSwg
+TC0xODU1IEx1eGVtYm91cmcsIFIuQy5TLiBMdXhlbWJvdXJnIEIxODYyODQNCiAgICA+DQogICAg
+PiBBbWF6b24gV2ViIFNlcnZpY2VzIEVNRUEgU2FybCwgVUsgQnJhbmNoLCAxIFByaW5jaXBhbCBQ
+bGFjZSwgV29yc2hpcCBTdHJlZXQsIExvbmRvbiwgRUMyQSAyRkEsIFVuaXRlZCBLaW5nZG9tLCBy
+ZWdpc3RlcmVkIGluIEVuZ2xhbmQgYW5kIFdhbGVzLCBVSyBFc3RhYmxpc2htZW50IE5vLiBCUjAx
+OTMxNQ0KICAgID4NCiAgICA+DQoNCg0KICAgIC0tDQogICAgLSBUaG91IHNoYWx0IG5vdCBmb2xs
+b3cgdGhlIE5VTEwgcG9pbnRlciwgZm9yIGNoYW9zIGFuZCBtYWRuZXNzIGF3YWl0DQogICAgdGhl
+ZSBhdCBpdHMgZW5kDQogICAgLSAiVXNlIHRoZSBmb3JjZSBIYXJyeSIgLSBHYW5kYWxmLCBTdGFy
+IFRyZWsgSUkNCg0KCgoKQW1hem9uIFdlYiBTZXJ2aWNlcyBFTUVBIFNBUkwsIDM4IGF2ZW51ZSBK
+b2huIEYuIEtlbm5lZHksIEwtMTg1NSBMdXhlbWJvdXJnLCBSLkMuUy4gTHV4ZW1ib3VyZyBCMTg2
+Mjg0CgpBbWF6b24gV2ViIFNlcnZpY2VzIEVNRUEgU2FybCwgVUsgQnJhbmNoLCAxIFByaW5jaXBh
+bCBQbGFjZSwgV29yc2hpcCBTdHJlZXQsIExvbmRvbiwgRUMyQSAyRkEsIFVuaXRlZCBLaW5nZG9t
+LCByZWdpc3RlcmVkIGluIEVuZ2xhbmQgYW5kIFdhbGVzLCBVSyBFc3RhYmxpc2htZW50IE5vLiBC
+UjAxOTMxNQoKCg==
