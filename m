@@ -1,88 +1,56 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
- by mx.groups.io with SMTP id smtpd.web12.9353.1634304842967931549
+Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
+ by mx.groups.io with SMTP id smtpd.web09.31760.1634530204504865764
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 15 Oct 2021 06:34:03 -0700
+ Sun, 17 Oct 2021 21:10:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=jA0+D9Uy;
- spf=pass (domain: gmail.com, ip: 209.85.208.49, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ed1-f49.google.com with SMTP id w14so38029722edv.11
-        for <meta-virtualization@lists.yoctoproject.org>; Fri, 15 Oct 2021 06:34:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Y2jFfpilKEh1fnOuOPPa1uG4HYS37G5d9GPBpTIB1yI=;
-        b=jA0+D9UyDedTKGpv/8ULcuKTceIP2RxtDpwqlRKnrk1PBGQD6v4TbcMXJX3V2wzY2u
-         h2eR8nPzJvprjT5+gSU+5bsSH7x8nlaBv6HXE4MqvEMq20S5x5wDqTF7o2VkgbUAdoNE
-         ct0/5oqrZdmaUmjT1Hy5m/yCUU9xK7dp+rne/WQMSCSr/efgvuLNpr/FBds3OXPPfJtU
-         Ti8MN0x2bqU2C/9ZrPH1dLy+B0rJ321XXN7RMK0z9/TycAT1Xbs7e8Hl2UUpmGPyUp6l
-         NhAqwwD9oX2FDH6pUGokBjBCL+UXmZYIWiwwX5dFdBS6cMewlEh/TpLWzw0i4ZdDf+dY
-         PQUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Y2jFfpilKEh1fnOuOPPa1uG4HYS37G5d9GPBpTIB1yI=;
-        b=CpQNQ/kSseLKu8jpgaCoLSrE4T7ByPAyaJ0xLUiu9vEEUaenhCf+hVwJrvRaWyBFRJ
-         e1KTCSec8AFydi590ymOhH+IDxcO4Ce3fT+p/wvsfwPantMiX20tq6QHDrLQnINWjzYZ
-         6hDnljAyf9ufIAUQ8rxNh1w8VJ4SDYDOWT2gwpAL/ZjBcCHpnPWKs7PVH/QEbcIGQ5GK
-         Z4kZBHUlSCHgmw7G0FoKtwtdiOGdGfJxgfZ2+sITMky5+PtIIt1QAHwWd5P0oys5PgSG
-         DKLsFyl3qURlwdFajYKrHqV4kRVZYc5AzqqNATQ6tNyyfzL57NrgaEfq2lAliVxK/YpC
-         6Znw==
-X-Gm-Message-State: AOAM532GP4HT5g78cEI/sKHSqJdBTNiOAaoWdIpbOaW+SFuVnh1PtdCR
-	ed28nUwmyZY/DKyx/WXMnuHOzkD/Ngg7IfHpUus=
-X-Google-Smtp-Source: ABdhPJwHFu1Er5eRcBkjJg+auA57oOhohe1TBx0AiDzGQBxKIpuDdNVKg0QE6aj2xDF9FvLcfwdbEiqTbsV67bNdqKI=
-X-Received: by 2002:a17:906:3542:: with SMTP id s2mr6960191eja.379.1634304834149;
- Fri, 15 Oct 2021 06:33:54 -0700 (PDT)
+ dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: qi.chen@windriver.com)
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 19I49sPE028212
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
+	for <meta-virtualization@lists.yoctoproject.org>; Sun, 17 Oct 2021 21:09:58 -0700
+Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Sun, 17 Oct 2021 21:09:54 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.14; Sun, 17 Oct 2021 21:09:54 -0700
+Received: from ala-lpggp7.wrs.com (147.11.105.171) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2242.12 via Frontend Transport; Sun, 17 Oct 2021 21:09:54 -0700
+From: "Chen Qi" <Qi.Chen@windriver.com>
+To: <meta-virtualization@lists.yoctoproject.org>
+Subject: [meta-virtualization][PATCH] criu: use a valid SRCREV
+Date: Sun, 17 Oct 2021 21:09:53 -0700
+Message-ID: <20211018040953.17905-1-Qi.Chen@windriver.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-References: <ad014c7cc4e8d1bcd4f499229d09e013@denx.de> <8227d089c2ea3916874c0818ef882fa1@denx.de>
-In-Reply-To: <8227d089c2ea3916874c0818ef882fa1@denx.de>
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Fri, 15 Oct 2021 09:33:42 -0400
-Message-ID: <CADkTA4Oz_97+2kyOoP4YtH__bHCK+9hwGZCPXyEvgyM5eoehtw@mail.gmail.com>
-Subject: Re: ip6tables executable not getting installed in dunfell
-To: Fabio Estevam <festevam@denx.de>
-Cc: Nathan Dunne <Nathan.Dunne@arm.com>, meta-virtualization@lists.yoctoproject.org, 
-	Otavio Salvador <otavio@ossystems.com.br>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-On Fri, Oct 15, 2021 at 8:49 AM Fabio Estevam <festevam@denx.de> wrote:
->
-> On 15/10/2021 01:40, Fabio Estevam wrote:
-> > Hi,
-> >
-> > I am running the dunfell branch and I notice
-> > that ip6tables is not getting installed:
->
-> After passing 'ipv6' into DISTRO_FEATURES, ip6tables gets installed.
->
+Commit e49ce513c8df43e8d3b30b7acfbe7bd496d89862 is no longer in repo.
+Use 95ead14874244f3c12e5970a74d1f4dd2433d652 instead, which is tagged
+3.14.
 
-ipv6 is always in my distro features, so I didn't notice that myself.
-I've added ipv6 to the required distros check of podman, so it will be
-caught in the future.
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ recipes-containers/criu/criu_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Bruce
-
-> ~# podman run hello-world
-> ....
-> [  207.201607] cni-podman0: port 1(veth6b661354) entered disabled state
-> Error: systemd cgroup flag passed, but systemd support for managing
-> cgroups is not available: OCI runtime error
->
-> Does anyone know how to add systemd support for managing cgroups?
->
-> Thanks,
->
-> Fabio Estevam
-> --
-> DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
-> HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
-> Phone: (+49)-8142-66989-60 Fax: (+49)-8142-66989-80 Email:
-> festevam@denx.de
-
-
-
+diff --git a/recipes-containers/criu/criu_git.bb b/recipes-containers/criu/criu_git.bb
+index 045a431..6b1b809 100644
+--- a/recipes-containers/criu/criu_git.bb
++++ b/recipes-containers/criu/criu_git.bb
+@@ -13,7 +13,7 @@ EXCLUDE_FROM_WORLD = "1"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=412de458544c1cb6a2b512cd399286e2"
+ 
+-SRCREV = "e49ce513c8df43e8d3b30b7acfbe7bd496d89862"
++SRCREV = "95ead14874244f3c12e5970a74d1f4dd2433d652"
+ PV = "3.14+git${SRCPV}"
+ 
+ SRC_URI = "git://github.com/checkpoint-restore/criu.git;branch=criu-dev \
 -- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+2.33.0
+
