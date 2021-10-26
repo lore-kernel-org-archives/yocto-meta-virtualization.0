@@ -1,225 +1,383 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
- by mx.groups.io with SMTP id smtpd.web10.12186.1635254567453939672
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com (EUR05-VI1-obe.outbound.protection.outlook.com [40.107.21.70])
+ by mx.groups.io with SMTP id smtpd.web08.12201.1635254846435402179
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 26 Oct 2021 06:22:47 -0700
+ Tue, 26 Oct 2021 06:27:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=feYmh8hf;
- spf=pass (domain: gmail.com, ip: 209.85.208.42, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ed1-f42.google.com with SMTP id h7so2378760ede.8
-        for <meta-virtualization@lists.yoctoproject.org>; Tue, 26 Oct 2021 06:22:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=OTvn+IJrcTAq3Gy+xUeEMT7p+3zZdFVLG5r3X6TBGVQ=;
-        b=feYmh8hfO6Rixxq55hkcJEYaT8DAxev+Nm5xKsK0jp/ECoWbkzBaoFl+aqr1t7exbA
-         JR3+ER+weg6w+xgifeMyin4m2xI4KvZ3xJHCavMAREBWQO+t6kldfErTvtUgXj07dgES
-         SYQQXzIW9nQ+OZEVznUJzu5SI9Qj1Oo048SVIzBx9VazAD9f1HM5sirXBzaQI7pBesIk
-         nBor4pRRbf8zEa9HU3YfQpHHENIrC8/KLtHQ7lx8dAp5khvuXUmjSMnANPkAru/lmaV4
-         QpsLpszmgGJyYNpHcKlh6dOnNTpMhttMrof7k4pC8gHSRYwvOLHFqhqi8enhCrnc0Boc
-         oGFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=OTvn+IJrcTAq3Gy+xUeEMT7p+3zZdFVLG5r3X6TBGVQ=;
-        b=o64m9ZIXQ4n0RTceShfpbCdIGzfIPiPHzga30p723uxzKlNSTgdx/H+uS3MlVKr3S6
-         teaJ8IKBrswI7hyh1mVEGS/XV7QFn6+67ihjbp79BSBeAb2fteHLsxXVGAdWHE8LWlVD
-         W68rnhPyVsa4PZDIfqDOLcArfWnj8XxvIFsTUWE8zGGXVYC69MNwUvw5WcJ+8gdNkO3J
-         yU8+HHIS/pLIg+Huq+mD5hPvrTQx2mVGiBv2bvR1H0MxYK3n5qFhRvsRmD3qAk8S8L/n
-         zgvINnvsitQwYo1Xf6V7u/NrGu/L83fidTmc5k3J4O3EQ7+IlVLIRh2TjsxfLXcUWCTK
-         bB/g==
-X-Gm-Message-State: AOAM5328+doQUPaCvt307IDM/W5m35jYa2lSEpae1wUIVeM6Gi09i/0H
-	2IQ2E0U7nXau9yZVqklHi9EPV0uPEws0tetyWXM=
-X-Google-Smtp-Source: ABdhPJzrK2s+PFP9vDKWS1fwsHgENLihveFS4wczGQmoWpQJ9HFlP6zVn75BpxPNfS6KzIBWSIMybGuAFkq2ZTSvNYA=
-X-Received: by 2002:a05:6402:3590:: with SMTP id y16mr14290985edc.249.1635254546179;
- Tue, 26 Oct 2021 06:22:26 -0700 (PDT)
-MIME-Version: 1.0
-References: <AM6PR08MB4086AA6D776124ABB5125CE8F0849@AM6PR08MB4086.eurprd08.prod.outlook.com>
-In-Reply-To: <AM6PR08MB4086AA6D776124ABB5125CE8F0849@AM6PR08MB4086.eurprd08.prod.outlook.com>
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Tue, 26 Oct 2021 09:22:15 -0400
-Message-ID: <CADkTA4Nu5eGqsfe5mmJ6cHQQ51BAUY+4aROaWqa-5tbNH+Kxqg@mail.gmail.com>
+ dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=5JcRxU7G;
+ spf=pass (domain: arm.com, ip: 40.107.21.70, mailfrom: edward.pickup@arm.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xU29Bp4Vyn/8yZ1sjcCBlKa4Ln8oQFvaBdyRXdD2qTc=;
+ b=5JcRxU7GG1H5YtCeX6FlXn/CQ3LEv25IGFQV/D982ibPlRK8OxHm32W1crrm0U49VGfzFhmUaFTLDIr2Sv/FpHKb5gMJwsQwbRTHNuefbiZr/cLYOSdiLuLN0XkbkdNiNWHD97i4d5mIJ2Ij9wyYp4g2rs701zYMdt2+DtgCdls=
+Received: from AM6P193CA0061.EURP193.PROD.OUTLOOK.COM (2603:10a6:209:8e::38)
+ by DB6PR0801MB1623.eurprd08.prod.outlook.com (2603:10a6:4:3b::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4628.18; Tue, 26 Oct
+ 2021 13:27:21 +0000
+Received: from VE1EUR03FT009.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:209:8e:cafe::f3) by AM6P193CA0061.outlook.office365.com
+ (2603:10a6:209:8e::38) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4628.22 via Frontend
+ Transport; Tue, 26 Oct 2021 13:27:19 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ VE1EUR03FT009.mail.protection.outlook.com (10.152.18.92) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4628.16 via Frontend Transport; Tue, 26 Oct 2021 13:27:18 +0000
+Received: ("Tessian outbound a8bfe25d7364:v103"); Tue, 26 Oct 2021 13:27:18 +0000
+X-CR-MTA-TID: 64aa7808
+Received: from 38c7d3a52d93.2
+	by 64aa7808-outbound-1.mta.getcheckrecipient.com id DE18001A-0FFD-48F6-972F-CF847C192ECC.1;
+	Tue, 26 Oct 2021 13:27:11 +0000
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com
+    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 38c7d3a52d93.2
+    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+    Tue, 26 Oct 2021 13:27:11 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=IO9PIoHEhwHVvEhFktaN5PzqttUp/5WS4OQblJEN/w1hkPG5l1ShFnyUqup1zFZFIamzeHCavw3LiIycaVE7wwxvU5iQaYIXckYKBUCGQ48fJn/UE27E+6n/94o62angaeYtuVdAlKau09/BRDf/u5TsYORp67r6Ywr3T0vhOmMUBSjWfiBGeKc+H32giqVXTZGdYOt/gZRbTJutDperCxLbOmsqCDPrdUES7lAOCDzGfOqJqTAcdlfVD/T9To8nxJEAZNn43P78Evx1L30MbLrc83MDvLPCpRQinSMfrSnsRsjnDUZSLx1KcxXs0YThVilt0hKW3m6SLCD9rBLu/w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=xU29Bp4Vyn/8yZ1sjcCBlKa4Ln8oQFvaBdyRXdD2qTc=;
+ b=LH3f9BSFb44mrybDd11myHp+EUB1DMRpCWOUEqU+oEaFAEYOxzepA7cbd0SCYCl6enEfGvr0UQweVMBTbTJzE7NHHBureDRZLTOwfnF06JyVcOei0XmpIN9MNZA21pUutsvxAKzd1O+22jMozY7/XZ+KcwzP12xG+VcHD2FvbcqKJcn6rb+irJNuvFhbRnBdDbOI25cj+ghXpDvOFPTquEfPRJkzm4wMTPhyzmEyDc6P9BC02pV0EdFqHNbdQpHK4TEnaFiyy7jaANukPWcVL/dEPtFGgnx5eDO/jqkcW9HDnqkjHMf86D2KDeczxrSW1Zc4EmfRSVKchi/Bu3bIug==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xU29Bp4Vyn/8yZ1sjcCBlKa4Ln8oQFvaBdyRXdD2qTc=;
+ b=5JcRxU7GG1H5YtCeX6FlXn/CQ3LEv25IGFQV/D982ibPlRK8OxHm32W1crrm0U49VGfzFhmUaFTLDIr2Sv/FpHKb5gMJwsQwbRTHNuefbiZr/cLYOSdiLuLN0XkbkdNiNWHD97i4d5mIJ2Ij9wyYp4g2rs701zYMdt2+DtgCdls=
+Received: from AM6PR08MB4086.eurprd08.prod.outlook.com (2603:10a6:20b:a8::32)
+ by AM6PR08MB3000.eurprd08.prod.outlook.com (2603:10a6:209:43::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4649.14; Tue, 26 Oct
+ 2021 13:27:09 +0000
+Received: from AM6PR08MB4086.eurprd08.prod.outlook.com
+ ([fe80::f9e7:cf27:abd8:44d1]) by AM6PR08MB4086.eurprd08.prod.outlook.com
+ ([fe80::f9e7:cf27:abd8:44d1%6]) with mapi id 15.20.4628.020; Tue, 26 Oct 2021
+ 13:27:09 +0000
+From: "Edward Pickup" <edward.pickup@arm.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+CC: "meta-virtualization@lists.yoctoproject.org"
+	<meta-virtualization@lists.yoctoproject.org>, Bertrand Marquis
+	<Bertrand.Marquis@arm.com>, "christopher.w.clark@gmail.com"
+	<christopher.w.clark@gmail.com>, nd <nd@arm.com>
 Subject: Re: [meta-virtualization] Error building Xen device tree for qemuarm64
-To: Edward Pickup <edward.pickup@arm.com>
-Cc: "meta-virtualization@lists.yoctoproject.org" <meta-virtualization@lists.yoctoproject.org>, 
-	Bertrand Marquis <Bertrand.Marquis@arm.com>, 
-	"christopher.w.clark@gmail.com" <christopher.w.clark@gmail.com>, nd <nd@arm.com>
-Content-Type: multipart/alternative; boundary="00000000000057a99b05cf415ef1"
+Thread-Topic: [meta-virtualization] Error building Xen device tree for
+ qemuarm64
+Thread-Index: AdfKaNrlOvyQzYIUQaGokIBx1i2kqgAA6MeAAAAQeqA=
+Date: Tue, 26 Oct 2021 13:27:09 +0000
+Message-ID: 
+ <AM6PR08MB40864FE34FC26FC9EDD37AEDF0849@AM6PR08MB4086.eurprd08.prod.outlook.com>
+References: 
+ <AM6PR08MB4086AA6D776124ABB5125CE8F0849@AM6PR08MB4086.eurprd08.prod.outlook.com>
+ <CADkTA4Nu5eGqsfe5mmJ6cHQQ51BAUY+4aROaWqa-5tbNH+Kxqg@mail.gmail.com>
+In-Reply-To: 
+ <CADkTA4Nu5eGqsfe5mmJ6cHQQ51BAUY+4aROaWqa-5tbNH+Kxqg@mail.gmail.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ts-tracking-id: 2E80F62B352FA8439E63CE1CC5D1D656.0
+x-checkrecipientchecked: true
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-publictraffictype: Email
+X-MS-Office365-Filtering-Correlation-Id: 7ee11c4d-2c31-4fc8-476c-08d99884559d
+x-ms-traffictypediagnostic: AM6PR08MB3000:|DB6PR0801MB1623:
+X-Microsoft-Antispam-PRVS: 
+	<DB6PR0801MB1623507CB96CFC0FC41BB502F0849@DB6PR0801MB1623.eurprd08.prod.outlook.com>
+x-checkrecipientrouted: true
+nodisclaimer: true
+x-ms-oob-tlc-oobclassifiers: OLM:10000;OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: 
+ RyO/Yw3nwwW1fhMMlC0Un14B0og9qyi1rWs1ZQmPxuI6XFT7OtC/ZxU45cHpc274V6YdmT98uLBOXAp1TlSkfgiuuB5vlcXvwu2KkGwPKqi8/sZ72b5qeMhRsMAvY2a9bjQA425eX0SxugcCNqjJ9aTYDepKwKliVXPigLBjD+0Rb+FfJR/8W+65T+u04Nb7hAW6M0ayHITRGwf2pBUpe9U/KSbOdiGwSdmb0YcNlXG7C/+Ynt3Ibts5x8fkcn6CF0Zht6yLvYG4aKkGgU+U0rtjiF8VcIEpZbhKox8p65pEd9UB5QqzCizeRzC4jkabYicU9f/U6u/rB8NAmx6OfFLLMDofVreRE0V8NlW6vCbZznUpk7BPs0bM+baUWmphyHLeXANyTuGIu3raHrjX+roApLPdu1Qvao8O/Vnd65dZZfgYouqomJ1bQ4nATyt+x5vGaeDJaGtmBUOJxch2a/SywWXImrOqDopIp/cNJKKdjeIZIzoBtaKmowCfJqZbkAFERiBj5ElRno6WmLGjOhTPZxwSMhTFdpffWWvZOK9+bMRSw6X79PfWzMKdoHE4yjjF1j0Q0ylUH5CWBeX1sVoVbR7LY/CjPkLHi/gwVh8luD11H6MIkXaISSr1ZkWzCQH2/qTfEXOufBCEnoCxmTdjmMGOg60JBuWj1HL02A2wF39Pqa0XoC4x3lV7VkSswAHkCIG6Vkok6DmcND7GH8hzVsyuTd+30LXp5wvJhQmeWy1IKFzmycoqTO4UiOh8GnpNd3050zGBfYfg+fX8GLw7Ann2mw8hq2ENtN4KvuY=
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR08MB4086.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(316002)(186003)(9686003)(26005)(9326002)(33656002)(7696005)(8936002)(54906003)(53546011)(6506007)(55016002)(8676002)(71200400001)(166002)(83380400001)(6916009)(52536014)(122000001)(4326008)(966005)(38100700002)(508600001)(86362001)(66946007)(66446008)(66556008)(76116006)(38070700005)(64756008)(66476007)(5660300002)(2906002);DIR:OUT;SFP:1101;
+MIME-Version: 1.0
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3000
+Original-Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+Return-Path: Edward.Pickup@arm.com
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ VE1EUR03FT009.eop-EUR03.prod.protection.outlook.com
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	4a26fbb8-6f47-4acd-0a5e-08d998845002
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	Lb36N1j59wkZFAuO2+8FgoLb7rxhMmZ4Tmfv/URRXluI8FU7Y1TJYh9uF/9b9IDaV+WgVIKkxfL43hvuj+f8KEsQihkhgsPm8geA71/KX+HyiwixSoSbySco9iN2xSwH369MTIbFpK/NQ7Q3eVTY9aaERzABZT/fxmzDP716BBl+aRgI2+GwOz+cJivsdrAdHSvUVBHzQnhq+0bAppZk/xpYewWAkI+mTuO/o7hkRbvCNU5zLXXmFdZpKFP620tCvS3upP3raUhncobb/N137G4Er+dM35fOFFq+mgK3FRaIYiTNSerJpeWWn0t1y0rTa5jpdNSjV0mUrokV13b7fqmVj1kHw3AEeiqZRpUQpJsnO50SIudPvVz2EVntgRsJkYdX2FWnoRojYPjXw0wQ3TUJIuTTUG+aHF76J9qk0llcbbFnvQUVsdOjva8Oxcu4r+//4pj34jQMrMzbfw8Ei/Pg+pwjc2LSPzQSYkEiIf6phSHpw3IWeefVeVIK5XjvJBv5q8d3B/dz/EfDhu18GoycKUsPCKkeOOCBiABgPozdjVCPCe13EuzKscxaVtl9FfbZPqRQWd0P7nkYHp+K9TcSzhvu+yoHfQ/lvT5CRGJ0BYjSsGc9AZIdeakZ/R71V/XTV8tkmL7e7iAxUd3EsVnXWbA3+VRUClLyTHUzon3NKoUH1Iz91xXEnZB87uOVCq7uMLe0O85EFveFenq8M1ObB3hRApmYe0HHWsFoHb+Kq61Epq9kIkiDGZ8WMLGh9czFeDLkuvGHQhQ5vtoQi1f+gndg/ffWGewRtH66d+A=
+X-Forefront-Antispam-Report: 
+	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(4636009)(46966006)(36840700001)(33964004)(54906003)(53546011)(9686003)(47076005)(508600001)(966005)(55016002)(6506007)(30864003)(316002)(7696005)(336012)(83380400001)(52536014)(81166007)(70206006)(4326008)(70586007)(166002)(356005)(36860700001)(26005)(86362001)(6862004)(2906002)(9326002)(82310400003)(33656002)(8936002)(186003)(5660300002)(8676002);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Oct 2021 13:27:18.7652
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7ee11c4d-2c31-4fc8-476c-08d99884559d
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	VE1EUR03FT009.eop-EUR03.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB6PR0801MB1623
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_AM6PR08MB40864FE34FC26FC9EDD37AEDF0849AM6PR08MB4086eurp_"
 
---00000000000057a99b05cf415ef1
-Content-Type: text/plain; charset="UTF-8"
+--_000_AM6PR08MB40864FE34FC26FC9EDD37AEDF0849AM6PR08MB4086eurp_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Tue, Oct 26, 2021 at 8:58 AM Edward Pickup <edward.pickup@arm.com> wrote:
+SGkgQnJ1Y2UsDQpTb3JyeSBmb3IgdGhlIGZvcm1hdHRpbmcgaXNzdWVzLCBlbWFpbCBjbGllbnQg
+Y29uZmlnIGlzc3Vlcw0KDQpGcm9tOiBCcnVjZSBBc2hmaWVsZCA8YnJ1Y2UuYXNoZmllbGRAZ21h
+aWwuY29tPg0KU2VudDogMjYgT2N0b2JlciAyMDIxIDE0OjIyDQpUbzogRWR3YXJkIFBpY2t1cCA8
+RWR3YXJkLlBpY2t1cEBhcm0uY29tPg0KQ2M6IG1ldGEtdmlydHVhbGl6YXRpb25AbGlzdHMueW9j
+dG9wcm9qZWN0Lm9yZzsgQmVydHJhbmQgTWFycXVpcyA8QmVydHJhbmQuTWFycXVpc0Bhcm0uY29t
+PjsgY2hyaXN0b3BoZXIudy5jbGFya0BnbWFpbC5jb207IG5kIDxuZEBhcm0uY29tPg0KU3ViamVj
+dDogUmU6IFttZXRhLXZpcnR1YWxpemF0aW9uXSBFcnJvciBidWlsZGluZyBYZW4gZGV2aWNlIHRy
+ZWUgZm9yIHFlbXVhcm02NA0KDQoNCg0KT24gVHVlLCBPY3QgMjYsIDIwMjEgYXQgODo1OCBBTSBF
+ZHdhcmQgUGlja3VwIDxlZHdhcmQucGlja3VwQGFybS5jb208bWFpbHRvOmVkd2FyZC5waWNrdXBA
+YXJtLmNvbT4+IHdyb3RlOg0KSGkgYWxsLA0KDQpJIGhhdmUgZW5jb3VudGVyZWQgYW4gZXJyb3Ig
+d2hpbGUgYnVpbGRpbmcgdGhlIGFybTY0IHZlcnNpb24gb2YgdGhlIHhlbiA0LjE2IHJlY2lwZSBp
+biBtZXRhLXZpcnR1YWxpc2F0aW9uLCB1c2luZyB0aGUgbWFzdGVyIHZlcnNpb24gb2YgcG9reSBh
+bmQgbWV0YS12aXJ0dWFpc2F0aW9uLg0KSSB3YXMgd29uZGVyaW5nIGlmIGFueW9uZSB3YXMgZmFt
+aWxpYXIgd2l0aCB0aGUgaXNzdWUgb3Iga25ldyBob3cgdG8gZml4IGl0LiBUaGUgZXJyb3IgaXMg
+YXMgZm9sbG93czoNCg0KRVJST1I6IHhlbi1pbWFnZS1taW5pbWFsLTEuMC1yMCBkb193cml0ZV94
+ZW5fcWVtdWJvb3RfZHRiOiBFeGVjdXRpb25FcnJvcignL2hvbWUvZWR3cGljMDEvd29yay9tYXN0
+ZXItdXBkYXRlLXhlbi9idWlsZC9tZXRhdmlydC1ob3N0LWFybTY0LTQuMTYtcmVsZWFzZS5wcmov
+dG1wL3dvcmsvcWVtdWFybTY0LXBva3ktbGludXgveGVuLWltYWdlLW1pbmltYWwvMS4wLXIwL3Rl
+bXAvcnVuLmRvX3dyaXRlX3hlbl9xZW11Ym9vdF9kdGIuMzY3OTEzNScsIDIsIE5vbmUsIE5vbmUp
+DQpFUlJPUjogTG9nZmlsZSBvZiBmYWlsdXJlIHN0b3JlZCBpbjogL2hvbWUvZWR3cGljMDEvd29y
+ay9tYXN0ZXItdXBkYXRlLXhlbi9idWlsZC9tZXRhdmlydC1ob3N0LWFybTY0LTQuMTYtcmVsZWFz
+ZS5wcmovdG1wL3dvcmsvcWVtdWFybTY0LXBva3ktbGludXgveGVuLWltYWdlLW1pbmltYWwvMS4w
+LXIwL3RlbXAvbG9nLmRvX3dyaXRlX3hlbl9xZW11Ym9vdF9kdGIuMzY3OTEzNSAuDQoNCkkgYmVs
+aWV2ZSB0aGUgcmVsZXZhbnQgcGFydCBvZiB0aGUgbG9nIGlzIGFzIGZvbGxvd3M6DQoNCnwgW05P
+VEVdOiAnMycgbG9wcGVyIG9wZXJhdGlvbiBmaWxlcyB3aWxsIGJlIHByb2Nlc3NlZA0KfCBbSU5G
+T106IGR0YiBvdXRwdXQgZm9ybWF0IGRldGVjdGVkLCB3cml0aW5nIC9ob21lL2Vkd3BpYzAxL3dv
+cmsvbWFzdGVyLXVwZGF0ZS14ZW4vYnVpbGQvbWV0YXZpcnQtaG9zdC1hcm02NC00LjE2LXJlbGVh
+c2UucHJqL3RtcC93b3JrL3FlbXVhcm02NC1wb2t5LWxpbnV4L3hlbi1pbWFnZS1taW5pbWFsLzEu
+MC1yMC9kZXBsb3kteGVuLWltYWdlLW1pbmltYWwtaW1hZ2UtY29tcGxldGUveGVuLWltYWdlLW1p
+bmltYWwtcWVtdWFybTY0LTIwMjExMDI2MTIxNTAyLnFlbXVib290LmR0Yg0KfCBbSU5GT106IHdy
+aXRpbmcgb3V0cHV0IGR0YjogL2hvbWUvZWR3cGljMDEvd29yay9tYXN0ZXItdXBkYXRlLXhlbi9i
+dWlsZC9tZXRhdmlydC1ob3N0LWFybTY0LTQuMTYtcmVsZWFzZS5wcmovdG1wL3dvcmsvcWVtdWFy
+bTY0LXBva3ktbGludXgveGVuLWltYWdlLW1pbmltYWwvMS4wLXIwL2RlcGxveS14ZW4taW1hZ2Ut
+bWluaW1hbC1pbWFnZS1jb21wbGV0ZS94ZW4taW1hZ2UtbWluaW1hbC1xZW11YXJtNjQtMjAyMTEw
+MjYxMjE1MDIucWVtdWJvb3QuZHRiDQp8IC9ob21lL2Vkd3BpYzAxL3dvcmsvbWFzdGVyLXVwZGF0
+ZS14ZW4vYnVpbGQvbWV0YXZpcnQtaG9zdC1hcm02NC00LjE2LXJlbGVhc2UucHJqL3RtcC93b3Jr
+L3FlbXVhcm02NC1wb2t5LWxpbnV4L3hlbi1pbWFnZS1taW5pbWFsLzEuMC1yMC94ZW4taW1hZ2Ut
+bWluaW1hbC0xLjAvb3V0cHV0LmR0czogRVJST1IgKGV4cGxpY2l0X3BoYW5kbGVzKTogL2FwYi1w
+Y2xrOnBoYW5kbGU6IGJhZCBsZW5ndGggKDEpIHBoYW5kbGUgcHJvcGVydHkNCnwgL2hvbWUvZWR3
+cGljMDEvd29yay9tYXN0ZXItdXBkYXRlLXhlbi9idWlsZC9tZXRhdmlydC1ob3N0LWFybTY0LTQu
+MTYtcmVsZWFzZS5wcmovdG1wL3dvcmsvcWVtdWFybTY0LXBva3ktbGludXgveGVuLWltYWdlLW1p
+bmltYWwvMS4wLXIwL3hlbi1pbWFnZS1taW5pbWFsLTEuMC9vdXRwdXQuZHRzOiBFUlJPUiAoZXhw
+bGljaXRfcGhhbmRsZXMpOiAvaW50Y0A4MDAwMDAwOnBoYW5kbGU6IGJhZCBsZW5ndGggKDEpIHBo
+YW5kbGUgcHJvcGVydHkNCnwgL2hvbWUvZWR3cGljMDEvd29yay9tYXN0ZXItdXBkYXRlLXhlbi9i
+dWlsZC9tZXRhdmlydC1ob3N0LWFybTY0LTQuMTYtcmVsZWFzZS5wcmovdG1wL3dvcmsvcWVtdWFy
+bTY0LXBva3ktbGludXgveGVuLWltYWdlLW1pbmltYWwvMS4wLXIwL3hlbi1pbWFnZS1taW5pbWFs
+LTEuMC9vdXRwdXQuZHRzOiBFUlJPUiAoZXhwbGljaXRfcGhhbmRsZXMpOiAvcGwwNjFAOTAzMDAw
+MDpwaGFuZGxlOiBiYWQgbGVuZ3RoICgxKSBwaGFuZGxlIHByb3BlcnR5DQp8IEVSUk9SOiBJbnB1
+dCB0cmVlIGhhcyBlcnJvcnMsIGFib3J0aW5nICh1c2UgLWYgdG8gZm9yY2Ugb3V0cHV0KQ0KfCBX
+QVJOSU5HOiBleGl0IGNvZGUgMiBmcm9tIGEgc2hlbGwgY29tbWFuZC4NCg0KVGhlIGFib3ZlIGVy
+cm9yIHdhcyB0aGUgcmVzdWx0IGZyb20gYnVpbGRpbmcgb24geDg2XzY0LWxpbnV4LCB0YXJnZXQg
+c3lzdGVtIHdhcyBhYXJjaDY0LXBva3ktbGludXgsIHJ1bm5pbmcgb24gYSBxZW11YXJjaDY0IG1h
+Y2hpbmUsIGl0c2VsZiBydW5uaW5nIG9uIHg4Nl82NCBsaW51eC4NCkFzIG1lbnRpb25lZCB0aGlz
+IHdhcyBkb25lIG9uIHRoZSBtYXN0ZXIgdmVyc2lvbiBvZiBtZXRhLXZpcnR1YWxpc2F0aW9uLg0K
+VGhlIGJpdGJha2UgY29tbWFuZCB0byBnZW5lcmF0ZSB0aGlzIHdhcyBiaXRiYWtlIHhlbi1pbWFn
+ZS1taW5pbmFsLg0KVGhlIGVycm9yIGlzIGFsc28gcHJlc2VudCB3aGVuIGJ1aWxkaW5nIHRoZSB4
+ZW4gNC4xNCBhbmQgeGVuIDQuMTUgYXJtNjQgdmVyc2lvbnMsIGFuZCBpcyBub3QgcHJlc2VudCBv
+biB0aGUgYXJtMzIgb3IgeDg2IGJ1aWxkcyBmb3IgeGVuLg0KSWYgYW55b25lIGtub3dzIHRoZSBj
+YXVzZSBvZiB0aGUgZXJyb3IsIHRoZSBpbmZvcm1hdGlvbiB3b3VsZCBiZSBhcHByZWNpYXRlZC4N
+Cg0KVGhlcmUncyBzb21ldGhpbmcgd3Jvbmcgd2l0aCB0aGUgaW5wdXQgRFRTIHRvIExvcHBlciAu
+LiBsdWNraWx5LCBJIG1haW50YWluIExvcHBlciwgc28gaWYgdGhlcmUncyBhbiBhY3R1YWwgYnVn
+IGluIHRoZSBwcm9jZXNzaW5nIG9mIHRoZSBpbnB1dCBEVFMgLi4gSSBjYW4gZml4IHRoYXQuDQoN
+CkkgY2FuIGZpcmUgdXAgYSBidWlsZCBhbmQgc2VlIGlmIGl0IGhhcHBlbnMgaGVyZS4NCg0KU28g
+dGhpcyBpcyBqdXN0IHFlbXVhcm02NCwgd2l0aCB4ZW4gKyB2aXJ0dWFsaXphdGlvbiBpbiB0aGUg
+ZGlzdHJvIGZlYXR1cmVzID8gQW55IG90aGVyIGxheWVycyA/IEFueXRoaW5nIGVsc2UgPw0KDQpC
+cnVjZQ0KWWVzLCB0aGlzIGlzIGp1c3QgYXMgeW91IHNheSwgbm8gb3RoZXIgbGF5ZXJzIG9yIGFu
+eXRoaW5nIGVsc2UuIFRoYW5rIHlvdSBmb3IgdGhlIHNwZWVkeSByZXBseSENCg0KRWR3YXJkDQoN
+Cg0KQ2hlZXJzIQ0KDQoNCklNUE9SVEFOVCBOT1RJQ0U6IFRoZSBjb250ZW50cyBvZiB0aGlzIGVt
+YWlsIGFuZCBhbnkgYXR0YWNobWVudHMgYXJlIGNvbmZpZGVudGlhbCBhbmQgbWF5IGFsc28gYmUg
+cHJpdmlsZWdlZC4gSWYgeW91IGFyZSBub3QgdGhlIGludGVuZGVkIHJlY2lwaWVudCwgcGxlYXNl
+IG5vdGlmeSB0aGUgc2VuZGVyIGltbWVkaWF0ZWx5IGFuZCBkbyBub3QgZGlzY2xvc2UgdGhlIGNv
+bnRlbnRzIHRvIGFueSBvdGhlciBwZXJzb24sIHVzZSBpdCBmb3IgYW55IHB1cnBvc2UsIG9yIHN0
+b3JlIG9yIGNvcHkgdGhlIGluZm9ybWF0aW9uIGluIGFueSBtZWRpdW0uIFRoYW5rIHlvdS4NCg0K
+DQoNCg0KLS0NCi0gVGhvdSBzaGFsdCBub3QgZm9sbG93IHRoZSBOVUxMIHBvaW50ZXIsIGZvciBj
+aGFvcyBhbmQgbWFkbmVzcyBhd2FpdCB0aGVlIGF0IGl0cyBlbmQNCi0gIlVzZSB0aGUgZm9yY2Ug
+SGFycnkiIC0gR2FuZGFsZiwgU3RhciBUcmVrIElJDQpJTVBPUlRBTlQgTk9USUNFOiBUaGUgY29u
+dGVudHMgb2YgdGhpcyBlbWFpbCBhbmQgYW55IGF0dGFjaG1lbnRzIGFyZSBjb25maWRlbnRpYWwg
+YW5kIG1heSBhbHNvIGJlIHByaXZpbGVnZWQuIElmIHlvdSBhcmUgbm90IHRoZSBpbnRlbmRlZCBy
+ZWNpcGllbnQsIHBsZWFzZSBub3RpZnkgdGhlIHNlbmRlciBpbW1lZGlhdGVseSBhbmQgZG8gbm90
+IGRpc2Nsb3NlIHRoZSBjb250ZW50cyB0byBhbnkgb3RoZXIgcGVyc29uLCB1c2UgaXQgZm9yIGFu
+eSBwdXJwb3NlLCBvciBzdG9yZSBvciBjb3B5IHRoZSBpbmZvcm1hdGlvbiBpbiBhbnkgbWVkaXVt
+LiBUaGFuayB5b3UuDQo=
 
-> Hi all,
->
-> I have encountered an error while building the arm64 version of the xen
-> 4.16 recipe in meta-virtualisation, using the master version of poky and
-> meta-virtuaisation.
-> I was wondering if anyone was familiar with the issue or knew how to fix
-> it. The error is as follows:
->
-> ERROR: xen-image-minimal-1.0-r0 do_write_xen_qemuboot_dtb:
-> ExecutionError('/home/edwpic01/work/master-update-xen/build/metavirt-host-arm64-4.16-release.prj/tmp/work/qemuarm64-poky-linux/xen-image-minimal/1.0-r0/temp/run.do_write_xen_qemuboot_dtb.3679135',
-> 2, None, None)
-> ERROR: Logfile of failure stored in:
-> /home/edwpic01/work/master-update-xen/build/metavirt-host-arm64-4.16-release.prj/tmp/work/qemuarm64-poky-linux/xen-image-minimal/1.0-r0/temp/log.do_write_xen_qemuboot_dtb.3679135
-> .
->
-> I believe the relevant part of the log is as follows:
->
-> | [NOTE]: '3' lopper operation files will be processed
-> | [INFO]: dtb output format detected, writing
-> /home/edwpic01/work/master-update-xen/build/metavirt-host-arm64-4.16-release.prj/tmp/work/qemuarm64-poky-linux/xen-image-minimal/1.0-r0/deploy-xen-image-minimal-image-complete/xen-image-minimal-qemuarm64-20211026121502.qemuboot.dtb
-> | [INFO]: writing output dtb:
-> /home/edwpic01/work/master-update-xen/build/metavirt-host-arm64-4.16-release.prj/tmp/work/qemuarm64-poky-linux/xen-image-minimal/1.0-r0/deploy-xen-image-minimal-image-complete/xen-image-minimal-qemuarm64-20211026121502.qemuboot.dtb
-> |
-> /home/edwpic01/work/master-update-xen/build/metavirt-host-arm64-4.16-release.prj/tmp/work/qemuarm64-poky-linux/xen-image-minimal/1.0-r0/xen-image-minimal-1.0/output.dts:
-> ERROR (explicit_phandles): /apb-pclk:phandle: bad length (1) phandle
-> property
-> |
-> /home/edwpic01/work/master-update-xen/build/metavirt-host-arm64-4.16-release.prj/tmp/work/qemuarm64-poky-linux/xen-image-minimal/1.0-r0/xen-image-minimal-1.0/output.dts:
-> ERROR (explicit_phandles): /intc@8000000:phandle: bad length (1) phandle
-> property
-> |
-> /home/edwpic01/work/master-update-xen/build/metavirt-host-arm64-4.16-release.prj/tmp/work/qemuarm64-poky-linux/xen-image-minimal/1.0-r0/xen-image-minimal-1.0/output.dts:
-> ERROR (explicit_phandles): /pl061@9030000:phandle: bad length (1) phandle
-> property
-> | ERROR: Input tree has errors, aborting (use -f to force output)
-> | WARNING: exit code 2 from a shell command.
->
-> The above error was the result from building on x86_64-linux, target
-> system was aarch64-poky-linux, running on a qemuarch64 machine, itself
-> running on x86_64 linux.
-> As mentioned this was done on the master version of meta-virtualisation.
-> The bitbake command to generate this was bitbake xen-image-mininal.
-> The error is also present when building the xen 4.14 and xen 4.15 arm64
-> versions, and is not present on the arm32 or x86 builds for xen.
-> If anyone knows the cause of the error, the information would be
-> appreciated.
->
+--_000_AM6PR08MB40864FE34FC26FC9EDD37AEDF0849AM6PR08MB4086eurp_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-There's something wrong with the input DTS to Lopper .. luckily, I maintain
-Lopper, so if there's an actual bug in the processing of the input DTS .. I
-can fix that.
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
+YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
+IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
+IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBjbTsNCglmb250LXNpemU6MTEuMHB0Ow0KCWZvbnQt
+ZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmO30NCmE6bGluaywgc3Bhbi5Nc29IeXBlcmxpbmsN
+Cgl7bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOmJsdWU7DQoJdGV4dC1kZWNvcmF0aW9u
+OnVuZGVybGluZTt9DQpzcGFuLkVtYWlsU3R5bGUxOA0KCXttc28tc3R5bGUtdHlwZTpwZXJzb25h
+bC1yZXBseTsNCglmb250LWZhbWlseToiQ2FsaWJyaSIsc2Fucy1zZXJpZjsNCgljb2xvcjp3aW5k
+b3d0ZXh0O30NCi5Nc29DaHBEZWZhdWx0DQoJe21zby1zdHlsZS10eXBlOmV4cG9ydC1vbmx5Ow0K
+CWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmOw0KCW1zby1mYXJlYXN0LWxhbmd1YWdl
+OkVOLVVTO30NCkBwYWdlIFdvcmRTZWN0aW9uMQ0KCXtzaXplOjYxMi4wcHQgNzkyLjBwdDsNCglt
+YXJnaW46NzIuMHB0IDcyLjBwdCA3Mi4wcHQgNzIuMHB0O30NCmRpdi5Xb3JkU2VjdGlvbjENCgl7
+cGFnZTpXb3JkU2VjdGlvbjE7fQ0KLS0+PC9zdHlsZT48IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4N
+CjxvOnNoYXBlZGVmYXVsdHMgdjpleHQ9ImVkaXQiIHNwaWRtYXg9IjEwMjYiIC8+DQo8L3htbD48
+IVtlbmRpZl0tLT48IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4NCjxvOnNoYXBlbGF5b3V0IHY6ZXh0
+PSJlZGl0Ij4NCjxvOmlkbWFwIHY6ZXh0PSJlZGl0IiBkYXRhPSIxIiAvPg0KPC9vOnNoYXBlbGF5
+b3V0PjwveG1sPjwhW2VuZGlmXS0tPg0KPC9oZWFkPg0KPGJvZHkgbGFuZz0iRU4tR0IiIGxpbms9
+ImJsdWUiIHZsaW5rPSJwdXJwbGUiIHN0eWxlPSJ3b3JkLXdyYXA6YnJlYWstd29yZCI+DQo8ZGl2
+IGNsYXNzPSJXb3JkU2VjdGlvbjEiPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9
+Im1zby1mYXJlYXN0LWxhbmd1YWdlOkVOLVVTIj5IaSBCcnVjZSwgPGJyPg0KU29ycnkgZm9yIHRo
+ZSBmb3JtYXR0aW5nIGlzc3VlcywgZW1haWwgY2xpZW50IGNvbmZpZyBpc3N1ZXM8bzpwPjwvbzpw
+Pjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0ibXNvLWZhcmVh
+c3QtbGFuZ3VhZ2U6RU4tVVMiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxkaXYgc3R5
+bGU9ImJvcmRlcjpub25lO2JvcmRlci10b3A6c29saWQgI0UxRTFFMSAxLjBwdDtwYWRkaW5nOjMu
+MHB0IDBjbSAwY20gMGNtIj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxiPjxzcGFuIGxhbmc9IkVO
+LVVTIj5Gcm9tOjwvc3Bhbj48L2I+PHNwYW4gbGFuZz0iRU4tVVMiPiBCcnVjZSBBc2hmaWVsZCAm
+bHQ7YnJ1Y2UuYXNoZmllbGRAZ21haWwuY29tJmd0Ow0KPGJyPg0KPGI+U2VudDo8L2I+IDI2IE9j
+dG9iZXIgMjAyMSAxNDoyMjxicj4NCjxiPlRvOjwvYj4gRWR3YXJkIFBpY2t1cCAmbHQ7RWR3YXJk
+LlBpY2t1cEBhcm0uY29tJmd0Ozxicj4NCjxiPkNjOjwvYj4gbWV0YS12aXJ0dWFsaXphdGlvbkBs
+aXN0cy55b2N0b3Byb2plY3Qub3JnOyBCZXJ0cmFuZCBNYXJxdWlzICZsdDtCZXJ0cmFuZC5NYXJx
+dWlzQGFybS5jb20mZ3Q7OyBjaHJpc3RvcGhlci53LmNsYXJrQGdtYWlsLmNvbTsgbmQgJmx0O25k
+QGFybS5jb20mZ3Q7PGJyPg0KPGI+U3ViamVjdDo8L2I+IFJlOiBbbWV0YS12aXJ0dWFsaXphdGlv
+bl0gRXJyb3IgYnVpbGRpbmcgWGVuIGRldmljZSB0cmVlIGZvciBxZW11YXJtNjQ8bzpwPjwvbzpw
+Pjwvc3Bhbj48L3A+DQo8L2Rpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9v
+OnA+PC9wPg0KPGRpdj4NCjxkaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4g
+c3R5bGU9ImZvbnQtc2l6ZToxMi4wcHQiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjwv
+ZGl2Pg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4N
+CjxkaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCIgc3R5bGU9Im1hcmdpbi1sZWZ0OjEx
+LjNwdCI+T24gVHVlLCBPY3QgMjYsIDIwMjEgYXQgODo1OCBBTSBFZHdhcmQgUGlja3VwICZsdDs8
+YSBocmVmPSJtYWlsdG86ZWR3YXJkLnBpY2t1cEBhcm0uY29tIj5lZHdhcmQucGlja3VwQGFybS5j
+b208L2E+Jmd0OyB3cm90ZTo8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGJsb2NrcXVvdGUgc3R5
+bGU9ImJvcmRlcjpub25lO2JvcmRlci1sZWZ0OnNvbGlkICNDQ0NDQ0MgMS4wcHQ7cGFkZGluZzow
+Y20gMGNtIDBjbSA2LjBwdDttYXJnaW4tbGVmdDo0LjhwdDttYXJnaW4tcmlnaHQ6MGNtIj4NCjxw
+IGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJtYXJnaW4tbGVmdDoxMS4zcHQiPkhpIGFsbCw8YnI+
+DQo8YnI+DQpJIGhhdmUgZW5jb3VudGVyZWQgYW4gZXJyb3Igd2hpbGUgYnVpbGRpbmcgdGhlIGFy
+bTY0IHZlcnNpb24gb2YgdGhlIHhlbiA0LjE2IHJlY2lwZSBpbiBtZXRhLXZpcnR1YWxpc2F0aW9u
+LCB1c2luZyB0aGUgbWFzdGVyIHZlcnNpb24gb2YgcG9reSBhbmQgbWV0YS12aXJ0dWFpc2F0aW9u
+Ljxicj4NCkkgd2FzIHdvbmRlcmluZyBpZiBhbnlvbmUgd2FzIGZhbWlsaWFyIHdpdGggdGhlIGlz
+c3VlIG9yIGtuZXcgaG93IHRvIGZpeCBpdC4gVGhlIGVycm9yIGlzIGFzIGZvbGxvd3M6PGJyPg0K
+PGJyPg0KRVJST1I6IHhlbi1pbWFnZS1taW5pbWFsLTEuMC1yMCBkb193cml0ZV94ZW5fcWVtdWJv
+b3RfZHRiOiBFeGVjdXRpb25FcnJvcignL2hvbWUvZWR3cGljMDEvd29yay9tYXN0ZXItdXBkYXRl
+LXhlbi9idWlsZC9tZXRhdmlydC1ob3N0LWFybTY0LTQuMTYtcmVsZWFzZS5wcmovdG1wL3dvcmsv
+cWVtdWFybTY0LXBva3ktbGludXgveGVuLWltYWdlLW1pbmltYWwvMS4wLXIwL3RlbXAvcnVuLmRv
+X3dyaXRlX3hlbl9xZW11Ym9vdF9kdGIuMzY3OTEzNScsIDIsDQogTm9uZSwgTm9uZSk8YnI+DQpF
+UlJPUjogTG9nZmlsZSBvZiBmYWlsdXJlIHN0b3JlZCBpbjogL2hvbWUvZWR3cGljMDEvd29yay9t
+YXN0ZXItdXBkYXRlLXhlbi9idWlsZC9tZXRhdmlydC1ob3N0LWFybTY0LTQuMTYtcmVsZWFzZS5w
+cmovdG1wL3dvcmsvcWVtdWFybTY0LXBva3ktbGludXgveGVuLWltYWdlLW1pbmltYWwvMS4wLXIw
+L3RlbXAvbG9nLmRvX3dyaXRlX3hlbl9xZW11Ym9vdF9kdGIuMzY3OTEzNSAuPGJyPg0KPGJyPg0K
+SSBiZWxpZXZlIHRoZSByZWxldmFudCBwYXJ0IG9mIHRoZSBsb2cgaXMgYXMgZm9sbG93czo8YnI+
+DQo8YnI+DQp8IFtOT1RFXTogJzMnIGxvcHBlciBvcGVyYXRpb24gZmlsZXMgd2lsbCBiZSBwcm9j
+ZXNzZWQ8YnI+DQp8IFtJTkZPXTogZHRiIG91dHB1dCBmb3JtYXQgZGV0ZWN0ZWQsIHdyaXRpbmcg
+L2hvbWUvZWR3cGljMDEvd29yay9tYXN0ZXItdXBkYXRlLXhlbi9idWlsZC9tZXRhdmlydC1ob3N0
+LWFybTY0LTQuMTYtcmVsZWFzZS5wcmovdG1wL3dvcmsvcWVtdWFybTY0LXBva3ktbGludXgveGVu
+LWltYWdlLW1pbmltYWwvMS4wLXIwL2RlcGxveS14ZW4taW1hZ2UtbWluaW1hbC1pbWFnZS1jb21w
+bGV0ZS94ZW4taW1hZ2UtbWluaW1hbC1xZW11YXJtNjQtMjAyMTEwMjYxMjE1MDIucWVtdWJvb3Qu
+ZHRiPGJyPg0KfCBbSU5GT106IHdyaXRpbmcgb3V0cHV0IGR0YjogL2hvbWUvZWR3cGljMDEvd29y
+ay9tYXN0ZXItdXBkYXRlLXhlbi9idWlsZC9tZXRhdmlydC1ob3N0LWFybTY0LTQuMTYtcmVsZWFz
+ZS5wcmovdG1wL3dvcmsvcWVtdWFybTY0LXBva3ktbGludXgveGVuLWltYWdlLW1pbmltYWwvMS4w
+LXIwL2RlcGxveS14ZW4taW1hZ2UtbWluaW1hbC1pbWFnZS1jb21wbGV0ZS94ZW4taW1hZ2UtbWlu
+aW1hbC1xZW11YXJtNjQtMjAyMTEwMjYxMjE1MDIucWVtdWJvb3QuZHRiPGJyPg0KfCAvaG9tZS9l
+ZHdwaWMwMS93b3JrL21hc3Rlci11cGRhdGUteGVuL2J1aWxkL21ldGF2aXJ0LWhvc3QtYXJtNjQt
+NC4xNi1yZWxlYXNlLnByai90bXAvd29yay9xZW11YXJtNjQtcG9reS1saW51eC94ZW4taW1hZ2Ut
+bWluaW1hbC8xLjAtcjAveGVuLWltYWdlLW1pbmltYWwtMS4wL291dHB1dC5kdHM6IEVSUk9SIChl
+eHBsaWNpdF9waGFuZGxlcyk6IC9hcGItcGNsazpwaGFuZGxlOiBiYWQgbGVuZ3RoICgxKSBwaGFu
+ZGxlIHByb3BlcnR5PGJyPg0KfCAvaG9tZS9lZHdwaWMwMS93b3JrL21hc3Rlci11cGRhdGUteGVu
+L2J1aWxkL21ldGF2aXJ0LWhvc3QtYXJtNjQtNC4xNi1yZWxlYXNlLnByai90bXAvd29yay9xZW11
+YXJtNjQtcG9reS1saW51eC94ZW4taW1hZ2UtbWluaW1hbC8xLjAtcjAveGVuLWltYWdlLW1pbmlt
+YWwtMS4wL291dHB1dC5kdHM6IEVSUk9SIChleHBsaWNpdF9waGFuZGxlcyk6IC9pbnRjQDgwMDAw
+MDA6cGhhbmRsZTogYmFkIGxlbmd0aCAoMSkgcGhhbmRsZSBwcm9wZXJ0eTxicj4NCnwgL2hvbWUv
+ZWR3cGljMDEvd29yay9tYXN0ZXItdXBkYXRlLXhlbi9idWlsZC9tZXRhdmlydC1ob3N0LWFybTY0
+LTQuMTYtcmVsZWFzZS5wcmovdG1wL3dvcmsvcWVtdWFybTY0LXBva3ktbGludXgveGVuLWltYWdl
+LW1pbmltYWwvMS4wLXIwL3hlbi1pbWFnZS1taW5pbWFsLTEuMC9vdXRwdXQuZHRzOiBFUlJPUiAo
+ZXhwbGljaXRfcGhhbmRsZXMpOiAvcGwwNjFAOTAzMDAwMDpwaGFuZGxlOiBiYWQgbGVuZ3RoICgx
+KSBwaGFuZGxlIHByb3BlcnR5PGJyPg0KfCBFUlJPUjogSW5wdXQgdHJlZSBoYXMgZXJyb3JzLCBh
+Ym9ydGluZyAodXNlIC1mIHRvIGZvcmNlIG91dHB1dCk8YnI+DQp8IFdBUk5JTkc6IGV4aXQgY29k
+ZSAyIGZyb20gYSBzaGVsbCBjb21tYW5kLjxicj4NCjxicj4NClRoZSBhYm92ZSBlcnJvciB3YXMg
+dGhlIHJlc3VsdCBmcm9tIGJ1aWxkaW5nIG9uIHg4Nl82NC1saW51eCwgdGFyZ2V0IHN5c3RlbSB3
+YXMgYWFyY2g2NC1wb2t5LWxpbnV4LCBydW5uaW5nIG9uIGEgcWVtdWFyY2g2NCBtYWNoaW5lLCBp
+dHNlbGYgcnVubmluZyBvbiB4ODZfNjQgbGludXguPGJyPg0KQXMgbWVudGlvbmVkIHRoaXMgd2Fz
+IGRvbmUgb24gdGhlIG1hc3RlciB2ZXJzaW9uIG9mIG1ldGEtdmlydHVhbGlzYXRpb24uPGJyPg0K
+VGhlIGJpdGJha2UgY29tbWFuZCB0byBnZW5lcmF0ZSB0aGlzIHdhcyBiaXRiYWtlIHhlbi1pbWFn
+ZS1taW5pbmFsLjxicj4NClRoZSBlcnJvciBpcyBhbHNvIHByZXNlbnQgd2hlbiBidWlsZGluZyB0
+aGUgeGVuIDQuMTQgYW5kIHhlbiA0LjE1IGFybTY0IHZlcnNpb25zLCBhbmQgaXMgbm90IHByZXNl
+bnQgb24gdGhlIGFybTMyIG9yIHg4NiBidWlsZHMgZm9yIHhlbi48YnI+DQpJZiBhbnlvbmUga25v
+d3MgdGhlIGNhdXNlIG9mIHRoZSBlcnJvciwgdGhlIGluZm9ybWF0aW9uIHdvdWxkIGJlIGFwcHJl
+Y2lhdGVkLjxvOnA+PC9vOnA+PC9wPg0KPC9ibG9ja3F1b3RlPg0KPGRpdj4NCjxwIGNsYXNzPSJN
+c29Ob3JtYWwiIHN0eWxlPSJtYXJnaW4tbGVmdDoxMS4zcHQiPjxvOnA+Jm5ic3A7PC9vOnA+PC9w
+Pg0KPC9kaXY+DQo8ZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJtYXJn
+aW4tbGVmdDoxMS4zcHQiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTIuMHB0Ij5UaGVyZSdzIHNv
+bWV0aGluZyB3cm9uZyB3aXRoIHRoZSBpbnB1dCBEVFMgdG8gTG9wcGVyIC4uIGx1Y2tpbHksIEkg
+bWFpbnRhaW4gTG9wcGVyLCBzbyBpZiB0aGVyZSdzIGFuIGFjdHVhbCBidWcgaW4gdGhlIHByb2Nl
+c3Npbmcgb2YgdGhlIGlucHV0IERUUyAuLiBJIGNhbiBmaXggdGhhdC48bzpwPjwvbzpwPjwvc3Bh
+bj48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIiBzdHlsZT0ibWFyZ2lu
+LWxlZnQ6MTEuM3B0Ij48c3BhbiBzdHlsZT0iZm9udC1zaXplOjEyLjBwdCI+PG86cD4mbmJzcDs8
+L286cD48L3NwYW4+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCIgc3R5
+bGU9Im1hcmdpbi1sZWZ0OjExLjNwdCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMi4wcHQiPkkg
+Y2FuIGZpcmUgdXAgYSBidWlsZCBhbmQgc2VlIGlmIGl0IGhhcHBlbnMgaGVyZS48bzpwPjwvbzpw
+Pjwvc3Bhbj48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIiBzdHlsZT0i
+bWFyZ2luLWxlZnQ6MTEuM3B0Ij48c3BhbiBzdHlsZT0iZm9udC1zaXplOjEyLjBwdCI+PG86cD4m
+bmJzcDs8L286cD48L3NwYW4+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1h
+bCIgc3R5bGU9Im1hcmdpbi1sZWZ0OjExLjNwdCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMi4w
+cHQiPlNvIHRoaXMgaXMganVzdCBxZW11YXJtNjQsIHdpdGggeGVuICsgdmlydHVhbGl6YXRpb24g
+aW4gdGhlIGRpc3RybyBmZWF0dXJlcyA/IEFueSBvdGhlciBsYXllcnMgPyBBbnl0aGluZyBlbHNl
+ID88bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9y
+bWFsIiBzdHlsZT0ibWFyZ2luLWxlZnQ6MTEuM3B0Ij48c3BhbiBzdHlsZT0iZm9udC1zaXplOjEy
+LjBwdCI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xh
+c3M9Ik1zb05vcm1hbCIgc3R5bGU9Im1hcmdpbi1sZWZ0OjExLjNwdCI+PHNwYW4gc3R5bGU9ImZv
+bnQtc2l6ZToxMi4wcHQiPkJydWNlDQo8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8L2Rpdj4NCjxw
+IGNsYXNzPSJNc29Ob3JtYWwiPlllcywgdGhpcyBpcyBqdXN0IGFzIHlvdSBzYXksIG5vIG90aGVy
+IGxheWVycyBvciBhbnl0aGluZyBlbHNlLiBUaGFuayB5b3UgZm9yIHRoZSBzcGVlZHkgcmVwbHkh
+PG86cD48L286cD48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwv
+cD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPkVkd2FyZDxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8
+ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+Jm5ic3A7PG86cD48L286cD48L3A+DQo8L2Rpdj4N
+CjxibG9ja3F1b3RlIHN0eWxlPSJib3JkZXI6bm9uZTtib3JkZXItbGVmdDpzb2xpZCAjQ0NDQ0ND
+IDEuMHB0O3BhZGRpbmc6MGNtIDBjbSAwY20gNi4wcHQ7bWFyZ2luLWxlZnQ6NC44cHQ7bWFyZ2lu
+LXJpZ2h0OjBjbSI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIiBzdHlsZT0ibWFyZ2luLWJvdHRvbTox
+Mi4wcHQiPjxicj4NCkNoZWVycyE8YnI+DQo8YnI+DQo8YnI+DQpJTVBPUlRBTlQgTk9USUNFOiBU
+aGUgY29udGVudHMgb2YgdGhpcyBlbWFpbCBhbmQgYW55IGF0dGFjaG1lbnRzIGFyZSBjb25maWRl
+bnRpYWwgYW5kIG1heSBhbHNvIGJlIHByaXZpbGVnZWQuIElmIHlvdSBhcmUgbm90IHRoZSBpbnRl
+bmRlZCByZWNpcGllbnQsIHBsZWFzZSBub3RpZnkgdGhlIHNlbmRlciBpbW1lZGlhdGVseSBhbmQg
+ZG8gbm90IGRpc2Nsb3NlIHRoZSBjb250ZW50cyB0byBhbnkgb3RoZXIgcGVyc29uLCB1c2UgaXQg
+Zm9yIGFueSBwdXJwb3NlLA0KIG9yIHN0b3JlIG9yIGNvcHkgdGhlIGluZm9ybWF0aW9uIGluIGFu
+eSBtZWRpdW0uIFRoYW5rIHlvdS48YnI+DQo8YnI+DQo8bzpwPjwvbzpwPjwvcD4NCjwvYmxvY2tx
+dW90ZT4NCjwvZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PGJyIGNsZWFyPSJhbGwiPg0KPG86
+cD48L286cD48L3A+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286
+cD48L3A+DQo8L2Rpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPi0tIDxvOnA+PC9vOnA+PC9wPg0K
+PGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJtYXJnaW4tYm90dG9tOjEyLjBwdCI+
+LSBUaG91IHNoYWx0IG5vdCBmb2xsb3cgdGhlIE5VTEwgcG9pbnRlciwgZm9yIGNoYW9zIGFuZCBt
+YWRuZXNzIGF3YWl0IHRoZWUgYXQgaXRzIGVuZDxicj4NCi0gJnF1b3Q7VXNlIHRoZSBmb3JjZSBI
+YXJyeSZxdW90OyAtIEdhbmRhbGYsIFN0YXIgVHJlayBJSTxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+
+DQo8L2Rpdj4NCjwvZGl2Pg0KSU1QT1JUQU5UIE5PVElDRTogVGhlIGNvbnRlbnRzIG9mIHRoaXMg
+ZW1haWwgYW5kIGFueSBhdHRhY2htZW50cyBhcmUgY29uZmlkZW50aWFsIGFuZCBtYXkgYWxzbyBi
+ZSBwcml2aWxlZ2VkLiBJZiB5b3UgYXJlIG5vdCB0aGUgaW50ZW5kZWQgcmVjaXBpZW50LCBwbGVh
+c2Ugbm90aWZ5IHRoZSBzZW5kZXIgaW1tZWRpYXRlbHkgYW5kIGRvIG5vdCBkaXNjbG9zZSB0aGUg
+Y29udGVudHMgdG8gYW55IG90aGVyIHBlcnNvbiwgdXNlIGl0IGZvciBhbnkgcHVycG9zZSwNCiBv
+ciBzdG9yZSBvciBjb3B5IHRoZSBpbmZvcm1hdGlvbiBpbiBhbnkgbWVkaXVtLiBUaGFuayB5b3Uu
+DQo8L2JvZHk+DQo8L2h0bWw+DQo=
 
-I can fire up a build and see if it happens here.
-
-So this is just qemuarm64, with xen + virtualization in the distro features
-? Any other layers ? Anything else ?
-
-Bruce
-
-
-
->
-> Cheers!
->
->
-> IMPORTANT NOTICE: The contents of this email and any attachments are
-> confidential and may also be privileged. If you are not the intended
-> recipient, please notify the sender immediately and do not disclose the
-> contents to any other person, use it for any purpose, or store or copy the
-> information in any medium. Thank you.
->
-> 
->
->
-
--- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end
-- "Use the force Harry" - Gandalf, Star Trek II
-
---00000000000057a99b05cf415ef1
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-size:small"><br></div></div><br><div class=3D"gmail_quote"><div dir=3D"lt=
-r" class=3D"gmail_attr">On Tue, Oct 26, 2021 at 8:58 AM Edward Pickup &lt;<=
-a href=3D"mailto:edward.pickup@arm.com">edward.pickup@arm.com</a>&gt; wrote=
-:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.=
-8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Hi all,<br>
-<br>
-I have encountered an error while building the arm64 version of the xen 4.1=
-6 recipe in meta-virtualisation, using the master version of poky and meta-=
-virtuaisation.<br>
-I was wondering if anyone was familiar with the issue or knew how to fix it=
-. The error is as follows:<br>
-<br>
-ERROR: xen-image-minimal-1.0-r0 do_write_xen_qemuboot_dtb: ExecutionError(&=
-#39;/home/edwpic01/work/master-update-xen/build/metavirt-host-arm64-4.16-re=
-lease.prj/tmp/work/qemuarm64-poky-linux/xen-image-minimal/1.0-r0/temp/run.d=
-o_write_xen_qemuboot_dtb.3679135&#39;, 2, None, None)<br>
-ERROR: Logfile of failure stored in: /home/edwpic01/work/master-update-xen/=
-build/metavirt-host-arm64-4.16-release.prj/tmp/work/qemuarm64-poky-linux/xe=
-n-image-minimal/1.0-r0/temp/log.do_write_xen_qemuboot_dtb.3679135 .<br>
-<br>
-I believe the relevant part of the log is as follows:<br>
-<br>
-| [NOTE]: &#39;3&#39; lopper operation files will be processed<br>
-| [INFO]: dtb output format detected, writing /home/edwpic01/work/master-up=
-date-xen/build/metavirt-host-arm64-4.16-release.prj/tmp/work/qemuarm64-poky=
--linux/xen-image-minimal/1.0-r0/deploy-xen-image-minimal-image-complete/xen=
--image-minimal-qemuarm64-20211026121502.qemuboot.dtb<br>
-| [INFO]: writing output dtb: /home/edwpic01/work/master-update-xen/build/m=
-etavirt-host-arm64-4.16-release.prj/tmp/work/qemuarm64-poky-linux/xen-image=
--minimal/1.0-r0/deploy-xen-image-minimal-image-complete/xen-image-minimal-q=
-emuarm64-20211026121502.qemuboot.dtb<br>
-| /home/edwpic01/work/master-update-xen/build/metavirt-host-arm64-4.16-rele=
-ase.prj/tmp/work/qemuarm64-poky-linux/xen-image-minimal/1.0-r0/xen-image-mi=
-nimal-1.0/output.dts: ERROR (explicit_phandles): /apb-pclk:phandle: bad len=
-gth (1) phandle property<br>
-| /home/edwpic01/work/master-update-xen/build/metavirt-host-arm64-4.16-rele=
-ase.prj/tmp/work/qemuarm64-poky-linux/xen-image-minimal/1.0-r0/xen-image-mi=
-nimal-1.0/output.dts: ERROR (explicit_phandles): /intc@8000000:phandle: bad=
- length (1) phandle property<br>
-| /home/edwpic01/work/master-update-xen/build/metavirt-host-arm64-4.16-rele=
-ase.prj/tmp/work/qemuarm64-poky-linux/xen-image-minimal/1.0-r0/xen-image-mi=
-nimal-1.0/output.dts: ERROR (explicit_phandles): /pl061@9030000:phandle: ba=
-d length (1) phandle property<br>
-| ERROR: Input tree has errors, aborting (use -f to force output)<br>
-| WARNING: exit code 2 from a shell command.<br>
-<br>
-The above error was the result from building on x86_64-linux, target system=
- was aarch64-poky-linux, running on a qemuarch64 machine, itself running on=
- x86_64 linux.<br>
-As mentioned this was done on the master version of meta-virtualisation.<br=
->
-The bitbake command to generate this was bitbake xen-image-mininal.<br>
-The error is also present when building the xen 4.14 and xen 4.15 arm64 ver=
-sions, and is not present on the arm32 or x86 builds for xen.<br>
-If anyone knows the cause of the error, the information would be appreciate=
-d.<br></blockquote><div><br></div><div><div class=3D"gmail_default" style=
-=3D"font-size:small">There&#39;s something wrong with the input DTS to Lopp=
-er .. luckily, I maintain Lopper, so if there&#39;s an actual bug in the pr=
-ocessing of the input DTS .. I can fix that.</div><div class=3D"gmail_defau=
-lt" style=3D"font-size:small"><br></div><div class=3D"gmail_default" style=
-=3D"font-size:small">I can fire up a build and see if it happens here.</div=
-><div class=3D"gmail_default" style=3D"font-size:small"><br></div><div clas=
-s=3D"gmail_default" style=3D"font-size:small">So this is just qemuarm64, wi=
-th xen + virtualization in the distro features ? Any other layers ? Anythin=
-g else ?</div><div class=3D"gmail_default" style=3D"font-size:small"><br></=
-div><div class=3D"gmail_default" style=3D"font-size:small">Bruce </div><br>=
-</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
-x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-Cheers!<br>
-<br>
-<br>
-IMPORTANT NOTICE: The contents of this email and any attachments are confid=
-ential and may also be privileged. If you are not the intended recipient, p=
-lease notify the sender immediately and do not disclose the contents to any=
- other person, use it for any purpose, or store or copy the information in =
-any medium. Thank you.<br>
-<br>
-<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature">- Thou shalt not follow the NULL pointer, for ch=
-aos and madness await thee at its end<br>- &quot;Use the force Harry&quot; =
-- Gandalf, Star Trek II<br><br></div></div>
-
---00000000000057a99b05cf415ef1--
+--_000_AM6PR08MB40864FE34FC26FC9EDD37AEDF0849AM6PR08MB4086eurp_--
