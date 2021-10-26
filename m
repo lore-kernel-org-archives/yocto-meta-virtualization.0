@@ -1,151 +1,243 @@
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web09.35.1635176808521457196
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+ by mx.groups.io with SMTP id smtpd.web09.6369.1635212526741394497
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 25 Oct 2021 08:46:49 -0700
+ Mon, 25 Oct 2021 18:42:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=i5B0KFWb;
- spf=pass (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=5932144ca1=trevor.gamblin@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 19PCWr4l004671
-	for <meta-virtualization@lists.yoctoproject.org>; Mon, 25 Oct 2021 08:46:47 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to :
- subject : date : message-id : content-transfer-encoding : content-type :
- mime-version; s=PPS06212021;
- bh=zuxK5s0bm/L/nKXIDmDCylN4VtAKp7QJUj0Dc2Z9Eqk=;
- b=i5B0KFWbOwqZF2J/NtjVCvM1imkpw2PLY0pdaMm7q2a60jA5dPzGc1sfc7Nw+v+wNz8C
- XvEJwQYkFiPIGn+vEYsMfYut2uuAa8eSHUyUi/vFO3v4gCj7z9PWw5HJv7EceLbdx9kM
- rUWxrXJNSUOGgexrRYodJCoH5uujJNSOpv5l3pXHyRcfP0R5giYWeB9wqVujI+Fhb+Yq
- qG49aRWju0e5AFEnqdSzmBi5iUanr4FwSMhfNChNMvsa5I2ZO4r9hy0zDxLdNSv7wJ+v
- 95Ez0aLex+meFLxDoIlgk3EqymeV0mOtGdA6+8URa+6fUfbd5Zfi1Hapr+N2yIANedIk yg== 
-Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2046.outbound.protection.outlook.com [104.47.66.46])
-	by mx0a-0064b401.pphosted.com with ESMTP id 3bw9rwgrpr-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <meta-virtualization@lists.yoctoproject.org>; Mon, 25 Oct 2021 08:46:47 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FtDCaJwrHNYk61IXHHahG/0KhC38yY/zt7HqDLWw6AIoUjBAgexbwqpGAexXpsHfkj7gTzVXZGDpyysfmgHtUN0L7T7h6yJXypOQ6SNjqn8gXrARVv1oz0MD7lKFG4XX42PpkyNXEuRKpv2FxdXoMAPQYmcapR38UYddeNmXKeRzqfsiyfNjXp2Apbtrl8ydo3CNle0M3q414TMmhCuDc9QG2rSLZJeXfytalzdAxnLorVHckNVdgec1GKWI4INwAleO/7/QBezqokldHUEUvP04M7WH3hTLErR5/XLSt9iXk59c5l0xJBV2e3bAvb5oe9hPYI/JRDSgy1zPHWSTgw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zuxK5s0bm/L/nKXIDmDCylN4VtAKp7QJUj0Dc2Z9Eqk=;
- b=Oq3375ZZw9Hb9sQbm7XGQWE+UVN8hyLNYAiJMwoW+wdssyMC98dUzHG1cogrSF6xiQMUwwzilNMJd6VjhcmUshOjq8W+8eRdEq2dZBKIOftJCiRodOEjrReGwi77fzc/K4HlM0Z2Gn4rrUkNnMT0UcpNdKkrSu047DDLu99oUEeJDAYPuE6Az5OI1MOumcPdytXuGsfP7S49oYhfB9F7rz9zqwLdpcacfxunZmh/MnEbcm4lvdCNEYji4/xY6EMFmmuZI3eOm8Dr2TWTL0zw5BLXuQHTvE2onjXfbaw4T/oZYHQQvYxtLATp0r88b/o7aL8CBZ0eIixEoyAWFYfH8g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Authentication-Results: lists.yoctoproject.org; dkim=none (message not signed)
- header.d=none;lists.yoctoproject.org; dmarc=none action=none
- header.from=windriver.com;
-Received: from BY5PR11MB3909.namprd11.prod.outlook.com (2603:10b6:a03:191::13)
- by BYAPR11MB3224.namprd11.prod.outlook.com (2603:10b6:a03:77::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4628.16; Mon, 25 Oct
- 2021 15:46:44 +0000
-Received: from BY5PR11MB3909.namprd11.prod.outlook.com
- ([fe80::ccb2:28ab:f000:8440]) by BY5PR11MB3909.namprd11.prod.outlook.com
- ([fe80::ccb2:28ab:f000:8440%3]) with mapi id 15.20.4628.020; Mon, 25 Oct 2021
- 15:46:44 +0000
-From: "Trevor Gamblin" <trevor.gamblin@windriver.com>
-To: meta-virtualization@lists.yoctoproject.org
-Subject: [meta-virtualization][m-c-s][hardknott][PATCH] python3-posix-ipc: Add LDSHARED to recipe
-Date: Mon, 25 Oct 2021 11:46:31 -0400
-Message-Id: <20211025154631.14039-1-trevor.gamblin@windriver.com>
-X-Mailer: git-send-email 2.33.0
-X-ClientProxiedBy: YT2PR01CA0028.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:38::33) To BY5PR11MB3909.namprd11.prod.outlook.com
- (2603:10b6:a03:191::13)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=VvFt/nPu;
+ spf=pass (domain: gmail.com, ip: 209.85.208.49, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ed1-f49.google.com with SMTP id u13so6887864edy.10
+        for <meta-virtualization@lists.yoctoproject.org>; Mon, 25 Oct 2021 18:42:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=2ai9rfBO40UY8gjLrXItdXUbF2f6v7nkt7brhMwN3yA=;
+        b=VvFt/nPuqfRcVFdD21MupP3NQB3gR0/PxNBfK8/Tfk8aHEHNqqBtz7yvpQDO/wXtwY
+         hoTH+ZR6F/HuYlrr56NEKd3yiqudTc0TsQjEkBHs0fK6nLFLXzUMpdm7qI6dd6BGSAhK
+         dMGLjB/l5ZWOle5JowFsSQMe0R5M8svL9dffXz3vy+HQ+nFet1vlqlsMsftR/Va1GS7g
+         QTMkHZ3x4PNzZLDYzjfmd8EjqFS0hTK9KCYSZ0t3ac0JXP7HbnwBrtYpmrdbrvKpn9pB
+         yUKujnQJ9e8RXoaoHHuaggGm2mteuxRFyp+5LTE29cc1S5Wbh9kEKmOGjP4bA5j865Pa
+         6Yyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=2ai9rfBO40UY8gjLrXItdXUbF2f6v7nkt7brhMwN3yA=;
+        b=mNU8NDs4U6SNPjRdc3cSc7l6OU9/2uwfuAgCvCJ9ZfwGH+lai997LYd/jas9FQMMu3
+         6aARXPVYZG64QHPq93CvscaqPeMo6xagDSB3E1Pc65/WSCYbKeVk9fUoKJGXsOLSxbVM
+         /ERWRFbU3H7y8Tx+bmkwEoB5ytu46x9a9bi74Wf+ht7cMsjRB4K9ToHxuhwnDLoxYh54
+         4UZ98EUoGcHtRsMHv5STp0TOdwW2AdCW0baVg6zVd4BvtVhCNlW3fBPEJvp1tnWipFR9
+         ro727L0LQZ4ji/K5CvCSlxYxPc0TiSFpPN3vYtwEoKh8KHiam2YsgWU4dg3ZlFjD39xF
+         tAiQ==
+X-Gm-Message-State: AOAM5318mHzOuXFvTqlpeP+hZM8TfUIzK+yaeHillS50ETu2bK//1w64
+	AcC6yiajG+OUA+Y+uJD5RJtm3jnR7PyOXMSOybQ=
+X-Google-Smtp-Source: ABdhPJycq0pKP1RVfUuUl5F0HcIyC8iW0/7Zh5zAOu6F8ja6WYyQNo06hR9r/x5obfMbViNz20tD2s9GZoJB66KLhNs=
+X-Received: by 2002:a17:906:3542:: with SMTP id s2mr26496701eja.379.1635212524849;
+ Mon, 25 Oct 2021 18:42:04 -0700 (PDT)
 MIME-Version: 1.0
-Received: from yow-lpggp3.wrs.com (128.224.252.2) by YT2PR01CA0028.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:38::33) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4628.22 via Frontend Transport; Mon, 25 Oct 2021 15:46:43 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 2d6c933c-9472-4a53-a6e2-08d997cea4f7
-X-MS-TrafficTypeDiagnostic: BYAPR11MB3224:
-X-Microsoft-Antispam-PRVS: 
-	<BYAPR11MB3224CEB5B01738BB3C11A6759F839@BYAPR11MB3224.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4714;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	OqXTcwtsO9ISX/u/jqc58+R5dMbdNVHtxSrJKnh049rqwesss79Rw4a61uyr3w23MNgQ/GA8FxOLUFkC4HXEYlSNvxRs16CAAIc/3IWgLsqNHNn4WzXjQtf0Ktbx2yz5pfUji80oJe0nYIAg0R66yPe+2G06eUvL3wRrWp+Eha2SqsHA5HQOMoYG7spZr4ChBWWVw64uokqLcLlpyopKq8x2JW4uNjmilWVNSYyMPV4uz2HwKnJHKl5ytctuo2P0KWJyMwSL+JZHSNj9SYEjT594unIxqKngAFRfWTv+bqs6UXxMvwu64kt8/0ShlNpLJYXw1R1kq+IUpx4CuY/h4gzjV0+y1V3CBmy7FT9NZJ7T4cwdGnbDGdpeDXyWnclxc+f/a9vjefLTRumMjGtC0vpJnZ3jXg10AP5ZQYL/aD55FFrylR+H404AXT2utMsx6NGkYUJbu9IMHiiMkoR1RWJEQdsFy4B5ijzENwUc8gSdEfeGq4y557buMh4bd9hlrBfhdGQGnieOTDoPEK4dn5KKXmaL2mJ3icqRP4zIkrSu+lasj2LKB9Hq3rkVwGx+RlYORioGaLSig1bxXMoh9wY71upb+NaapUQ5JZwERSObPfnEIetqQEdDwL7wI8fAH2tzuBlWrvwd4pE+xPvtap/3GXcpbIUJmAiGMDDFHdV8MsXmcp6H1s+3iIYn11obXzlVObxFlE8LjCeCjUbT9g==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB3909.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(52116002)(6486002)(186003)(956004)(86362001)(2616005)(6506007)(44832011)(5660300002)(26005)(316002)(38350700002)(6916009)(4744005)(66476007)(8676002)(508600001)(38100700002)(6666004)(66556008)(8936002)(66946007)(2906002)(36756003)(1076003)(6512007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?5/sRmZ7jNXQ0T/qizBCwdGA8Io/m0DNvsi+N0j1u8FPWRBNyp9YOB5NzypgB?=
- =?us-ascii?Q?bBaR3Cezz6lyhSas5+qeWK+aaPhvuae2ISv2vekTtgqweIxOdOpA0YeoJlRM?=
- =?us-ascii?Q?GhipNxqEwmByICGvwDY30ldn6u0uDlb4DlzAmk2UVaNE06IP91zDGAQMG9MX?=
- =?us-ascii?Q?Q1FRfNbbNZLc7xb4A4lZZ5KrVJnUzukmuJxzbpHZu6Uf3/Oud6ldDMt1toVu?=
- =?us-ascii?Q?AQobN9WgU9q89pHVWeAU4CfeM7EujvpxZ1xkXsezJfKclLWVU81HS/TgsmNI?=
- =?us-ascii?Q?+p8W7Vnx5TUVlkTKc9Nqe9LJKxtAUU924cWSyxuoU+4AfGaxsJZbfImoajSP?=
- =?us-ascii?Q?Q9HRdRva+fGQpAsCT+RXlCmet262IyuTJlyLn74mUP3iSY/KDXdbR44TkuCQ?=
- =?us-ascii?Q?LSWf8AMiMMAPh3QzBWVvUyoH37jQl/E1XzHlvrWPhb7R6DNpk4wqXwZ+sZ+1?=
- =?us-ascii?Q?0LgrtCP0fdEoIid4Yp6uNbO5lU5Ly7sxyGV1ThXFEPFGdlzl+MTS63mMDFjU?=
- =?us-ascii?Q?zvu/URKYss8Yh3AOMnXGd3BmRtf67+DJpwKuLnTRImrPVD/KGx4vrzBma1Ex?=
- =?us-ascii?Q?PoK1e4ftCuPC5H0S4LLvD1mJjQ3hLVA7sf1VpKZTgYLZjKwBQgdR4wivQIic?=
- =?us-ascii?Q?iETKUprg82j9tJpseMIT6wkbUHKsH1S/POIyIEjVYQRXvBo9N8FtQPD+Q8/P?=
- =?us-ascii?Q?AP8otBwRLy9gxRj8Yp+lSB/AHrDjyEV9pEI+6guEhSAGgdAkH12MkyNdGCf+?=
- =?us-ascii?Q?cqMEV803YGOArlpatwksC8Zl1Kz5/6eX7bduD3UhDEs/CmtpG23N0pJXYqah?=
- =?us-ascii?Q?bIvbel45Lnl7XSazSHotJmJi/ti6H4SBRkTqB0Mnq0WAuiacQREatHuaUdcT?=
- =?us-ascii?Q?rAp1iDinNfidMhoUZBmuUKTCLNfqTxhVUqlBtggPkdxn65rptP2tE8ycK7/5?=
- =?us-ascii?Q?kU1xDT7RQF9SbrsPN5xMi/vd/dGETPX3p3ny4pPRaoJahfoFc5VEaIdQmlRE?=
- =?us-ascii?Q?q4Qh0xM+uBxhWzvkhFD5Dg448hgbxKtAySUrv8IRGom5dBv/K0vSl0bzRU3F?=
- =?us-ascii?Q?1ivDjDS7aLRm6b4+7uqgI1i1VgcXYn5wp3G5ifO1OJ7N+gnjcg8qVo8EiOQV?=
- =?us-ascii?Q?GpJo6VNluj/yk6wkmzTDTfdGRgdUThNEoiOM8SAQrFFA12t40ZyytTM431zg?=
- =?us-ascii?Q?ou0I1xUcN7WUpQhgP7dKN5oxIeCMQL9/MFlAAQHBj8ZC2Htbf0Z9FBTln20j?=
- =?us-ascii?Q?/b3GLJvm9mCEzpUXAc5qiSSf6EvOxkX8ZowBTJT/+aVmm1vPgMUa75ftvJAg?=
- =?us-ascii?Q?3JTn3AncKnY2v7//cfOVwqxhJCltjs8pJ0OhtMuZUsqlFUrtIdQYS2fZAen5?=
- =?us-ascii?Q?vA7Vhnd0UGOmTK8XzO/SsvB+CNCp+xKD+HMqq31eo6rTkX0/5WXkEwwoQpJp?=
- =?us-ascii?Q?J6LEdojVHLjftIshltQA7RnrA6PBsX7MSywD/mTHkRegXs+rHc/ZylqabLas?=
- =?us-ascii?Q?MeONpMm/svNTlgqtAI48YvFRP7x1YDyLcqRZ2skQ2y7anm3EoyddIYPkvXml?=
- =?us-ascii?Q?p2+ui23UIROQmZ4mKJ7dEhxQK+Brg+oSiKxIgcESjWEpBcCa7eYLen2bSTVa?=
- =?us-ascii?Q?qswkL6ruh4SMkq8eZ774oWy+00/V1QLrQmWkGK6r00kYEEOeJkW+pPnykoY4?=
- =?us-ascii?Q?oOaw6A=3D=3D?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2d6c933c-9472-4a53-a6e2-08d997cea4f7
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB3909.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Oct 2021 15:46:43.9045
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /cZv7lqeLTy/QBLP4Mrk+pdXdnwJeLElBg7EWJqRp44i2mG+vQrs9kelq9tXUKth8TncH9o8C9lpgy95jNiVNXi52le+yrOQnVnP3h1PHwA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR11MB3224
-X-Proofpoint-ORIG-GUID: bFlv2geE-vDr00vwCyNb9qQWzj7-iMVp
-X-Proofpoint-GUID: bFlv2geE-vDr00vwCyNb9qQWzj7-iMVp
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
- definitions=2021-10-25_05,2021-10-25_02,2020-04-07_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
- priorityscore=1501 lowpriorityscore=0 spamscore=0 mlxscore=0
- mlxlogscore=852 phishscore=0 adultscore=0 clxscore=1011 bulkscore=0
- malwarescore=0 impostorscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2109230001 definitions=main-2110250093
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+References: <28d55e92-0471-6a72-914e-3d9b2529373b@systech.com> <04a849b5-7e46-8424-24ae-7a3201470e7c@systech.com>
+In-Reply-To: <04a849b5-7e46-8424-24ae-7a3201470e7c@systech.com>
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+Date: Mon, 25 Oct 2021 21:41:53 -0400
+Message-ID: <CADkTA4NEEVkbK-qp+VcLUBFDKWy2D22ns_w_LovdqNMoaMq3ig@mail.gmail.com>
+Subject: Re: Problems Building Docker with dunfell
+To: jay.foster@systech.com
+Cc: meta-virtualization@lists.yoctoproject.org
+Content-Type: multipart/alternative; boundary="000000000000ad0f4305cf379593"
 
-Doing "import posix_ipc" on hardknott builds gives the following error:
+--000000000000ad0f4305cf379593
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-ImportError: /usr/lib/python3.9/site-packages/posix_ipc.cpython-39-x86_64-linux-gnu.so: undefined symbol: shm_unlink
+On Mon, Oct 25, 2021 at 8:26 PM Jay Foster <jay.foster@systech.com> wrote:
 
-Set LDSHARED for the recipe with "-lrt" included to fix this.
+> Sorry for the noise.  I think I found my silly mistake.  I checked out
+> the dunfell branch instead of the yocto-3.1.11 tag, which results in a
+> newer, incompatible, version of go.
+>
 
-Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
----
- .../recipes-devtools/python/python3-posix-ipc_1.0.4.bb          | 2 ++
- 1 file changed, 2 insertions(+)
+The tip of dunfell should be fine, it doesn't take those sorts of upgrades
+(incompatible go updates).
 
-diff --git a/meta-openstack/recipes-devtools/python/python3-posix-ipc_1.0.4.bb b/meta-openstack/recipes-devtools/python/python3-posix-ipc_1.0.4.bb
-index 2e8dca06..cded499d 100644
---- a/meta-openstack/recipes-devtools/python/python3-posix-ipc_1.0.4.bb
-+++ b/meta-openstack/recipes-devtools/python/python3-posix-ipc_1.0.4.bb
-@@ -20,6 +20,8 @@ DEPENDS += " \
-         ${PYTHON_PN}-pip \
-         "
- 
-+LDSHARED="${CCLD} -shared -lrt"
-+
- # RDEPENDS_default: 
- RDEPENDS_${PN} += " \
-         "
--- 
-2.33.0
+I fired off a clean build from the latest dunfell, and didn't have any
+issues.
 
+Bruce
+
+
+> Jay
+>
+> On 10/25/2021 3:38 PM, Jay Foster wrote:
+> > I am trying to build docker (virtual/docker) from dunfell
+> > meta/virtualization layer with go from the dunfell
+> > meta/recipes-devtools/go and cannot get it to build.  docker, runc,
+> > and containerd (the go based programs) each fail with an error like:
+> >
+> > DEBUG: Executing shell function do_compile
+> > NOTE: make -j 6 GODEBUG=3D1 binaries
+> > =F0=9F=87=A9 bin/ctr
+> > go: cannot find main module, but found vendor.conf in
+> >
+> /home2/jay/work/sc-docker/sc20_linux/poky/build/tmp-glibc/work/armv7ahf-n=
+eon-oe-linux-gnueabi/containerd-opencontainers/v1.2.14+gitAUTOINC+3b3e9d5f6=
+2-r0/git/src/import
+> >     to create a module there, run:
+> >     go mod init
+> > Makefile:173: recipe for target 'bin/ctr' failed
+> > make: *** [bin/ctr] Error 1
+> > ERROR: oe_runmake failed
+> > WARNING:
+> >
+> /home2/jay/work/sc-docker/sc20_linux/poky/build/tmp-glibc/work/armv7ahf-n=
+eon-oe-linux-gnueabi/containerd-opencontainers/v1.2.14+gitAUTOINC+3b3e9d5f6=
+2-r0/temp/run.do_compile.23657:1
+>
+> > exit 1 from 'exit 1'
+> > ERROR: Function failed: do_compile (log file is located at
+> >
+> /home2/jay/work/sc-docker/sc20_linux/poky/build/tmp-glibc/work/armv7ahf-n=
+eon-oe-linux-gnueabi/containerd-opencontainers/v1.2.14+gitAUTOINC+3b3e9d5f6=
+2-r0/temp/log.do_compile.23657)
+> >
+> >
+> > DEBUG: Executing shell function do_compile
+> > NOTE: make -j 6 BUILDTAGS=3D${PACKAGECONFIG_CONFARGS}
+> > GO=3Darm-oe-linux-gnueabi-go static
+> > CGO_ENABLED=3D1 arm-oe-linux-gnueabi-go build  -tags " netgo osusergo
+> > static_build" -installsuffix netgo -ldflags "-w -extldflags -static -X
+> > main.gitCommit=3D"425e105d5a03fabd737a126ad93d62a9eeede87f-dirty" -X
+> > main.version=3D1.0.0-rc8 " -o runc .
+> > go: cannot find main module, but found vendor.conf in
+> >
+> /home2/jay/work/sc-docker/sc20_linux/poky/build/tmp-glibc/work/armv7ahf-n=
+eon-oe-linux-gnueabi/runc-docker/1.0.0-rc8+gitAUTOINC+425e105d5a-r0/git/src=
+/import
+> >     to create a module there, run:
+> >     go mod init
+> > Makefile:43: recipe for target 'static' failed
+> > make: *** [static] Error 1
+> > ERROR: oe_runmake failed
+> > WARNING:
+> >
+> /home2/jay/work/sc-docker/sc20_linux/poky/build/tmp-glibc/work/armv7ahf-n=
+eon-oe-linux-gnueabi/runc-docker/1.0.0-rc8+gitAUTOINC+425e105d5a-r0/temp/ru=
+n.do_compile.23438:1
+>
+> > exit 1 from 'exit 1'
+> > ERROR: Function failed: do_compile (log file is located at
+> >
+> /home2/jay/work/sc-docker/sc20_linux/poky/build/tmp-glibc/work/armv7ahf-n=
+eon-oe-linux-gnueabi/runc-docker/1.0.0-rc8+gitAUTOINC+425e105d5a-r0/temp/lo=
+g.do_compile.23438)
+> >
+> > Am I missing something obvious or is meta/virtualization (dunfell) out
+> > of sync with meta (dunfell)?
+> >
+> > Jay
+> >
+>
+>
+
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end
+- "Use the force Harry" - Gandalf, Star Trek II
+
+--000000000000ad0f4305cf379593
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
+t-size:small"><br></div></div><br><div class=3D"gmail_quote"><div dir=3D"lt=
+r" class=3D"gmail_attr">On Mon, Oct 25, 2021 at 8:26 PM Jay Foster &lt;<a h=
+ref=3D"mailto:jay.foster@systech.com">jay.foster@systech.com</a>&gt; wrote:=
+<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
+ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Sorry for the n=
+oise.=C2=A0 I think I found my silly mistake.=C2=A0 I checked out <br>
+the dunfell branch instead of the yocto-3.1.11 tag, which results in a <br>
+newer, incompatible, version of go.<br></blockquote><div><br></div><div><di=
+v class=3D"gmail_default" style=3D"font-size:small"> The tip of dunfell sho=
+uld be fine, it doesn&#39;t take those sorts of upgrades (incompatible go u=
+pdates).</div><div class=3D"gmail_default" style=3D"font-size:small"><br></=
+div><div class=3D"gmail_default" style=3D"font-size:small">I fired off a cl=
+ean build from the latest=C2=A0dunfell, and didn&#39;t have any issues.</di=
+v></div><div>=C2=A0</div><div><div class=3D"gmail_default" style=3D"font-si=
+ze:small">Bruce</div><div class=3D"gmail_default" style=3D"font-size:small"=
+></div><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+Jay<br>
+<br>
+On 10/25/2021 3:38 PM, Jay Foster wrote:<br>
+&gt; I am trying to build docker (virtual/docker) from dunfell <br>
+&gt; meta/virtualization layer with go from the dunfell <br>
+&gt; meta/recipes-devtools/go and cannot get it to build.=C2=A0 docker, run=
+c, <br>
+&gt; and containerd (the go based programs) each fail with an error like:<b=
+r>
+&gt;<br>
+&gt; DEBUG: Executing shell function do_compile<br>
+&gt; NOTE: make -j 6 GODEBUG=3D1 binaries<br>
+&gt; =F0=9F=87=A9 bin/ctr<br>
+&gt; go: cannot find main module, but found vendor.conf in <br>
+&gt; /home2/jay/work/sc-docker/sc20_linux/poky/build/tmp-glibc/work/armv7ah=
+f-neon-oe-linux-gnueabi/containerd-opencontainers/v1.2.14+gitAUTOINC+3b3e9d=
+5f62-r0/git/src/import<br>
+&gt; =C2=A0=C2=A0 =C2=A0to create a module there, run:<br>
+&gt; =C2=A0=C2=A0 =C2=A0go mod init<br>
+&gt; Makefile:173: recipe for target &#39;bin/ctr&#39; failed<br>
+&gt; make: *** [bin/ctr] Error 1<br>
+&gt; ERROR: oe_runmake failed<br>
+&gt; WARNING: <br>
+&gt; /home2/jay/work/sc-docker/sc20_linux/poky/build/tmp-glibc/work/armv7ah=
+f-neon-oe-linux-gnueabi/containerd-opencontainers/v1.2.14+gitAUTOINC+3b3e9d=
+5f62-r0/temp/run.do_compile.23657:1 <br>
+&gt; exit 1 from &#39;exit 1&#39;<br>
+&gt; ERROR: Function failed: do_compile (log file is located at <br>
+&gt; /home2/jay/work/sc-docker/sc20_linux/poky/build/tmp-glibc/work/armv7ah=
+f-neon-oe-linux-gnueabi/containerd-opencontainers/v1.2.14+gitAUTOINC+3b3e9d=
+5f62-r0/temp/log.do_compile.23657)<br>
+&gt;<br>
+&gt;<br>
+&gt; DEBUG: Executing shell function do_compile<br>
+&gt; NOTE: make -j 6 BUILDTAGS=3D${PACKAGECONFIG_CONFARGS} <br>
+&gt; GO=3Darm-oe-linux-gnueabi-go static<br>
+&gt; CGO_ENABLED=3D1 arm-oe-linux-gnueabi-go build=C2=A0 -tags &quot; netgo=
+ osusergo <br>
+&gt; static_build&quot; -installsuffix netgo -ldflags &quot;-w -extldflags =
+-static -X <br>
+&gt; main.gitCommit=3D&quot;425e105d5a03fabd737a126ad93d62a9eeede87f-dirty&=
+quot; -X <br>
+&gt; main.version=3D1.0.0-rc8 &quot; -o runc .<br>
+&gt; go: cannot find main module, but found vendor.conf in <br>
+&gt; /home2/jay/work/sc-docker/sc20_linux/poky/build/tmp-glibc/work/armv7ah=
+f-neon-oe-linux-gnueabi/runc-docker/1.0.0-rc8+gitAUTOINC+425e105d5a-r0/git/=
+src/import<br>
+&gt; =C2=A0=C2=A0 =C2=A0to create a module there, run:<br>
+&gt; =C2=A0=C2=A0 =C2=A0go mod init<br>
+&gt; Makefile:43: recipe for target &#39;static&#39; failed<br>
+&gt; make: *** [static] Error 1<br>
+&gt; ERROR: oe_runmake failed<br>
+&gt; WARNING: <br>
+&gt; /home2/jay/work/sc-docker/sc20_linux/poky/build/tmp-glibc/work/armv7ah=
+f-neon-oe-linux-gnueabi/runc-docker/1.0.0-rc8+gitAUTOINC+425e105d5a-r0/temp=
+/run.do_compile.23438:1 <br>
+&gt; exit 1 from &#39;exit 1&#39;<br>
+&gt; ERROR: Function failed: do_compile (log file is located at <br>
+&gt; /home2/jay/work/sc-docker/sc20_linux/poky/build/tmp-glibc/work/armv7ah=
+f-neon-oe-linux-gnueabi/runc-docker/1.0.0-rc8+gitAUTOINC+425e105d5a-r0/temp=
+/log.do_compile.23438)<br>
+&gt;<br>
+&gt; Am I missing something obvious or is meta/virtualization (dunfell) out=
+ <br>
+&gt; of sync with meta (dunfell)?<br>
+&gt;<br>
+&gt; Jay<br>
+&gt;<br>
+<br>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
+ class=3D"gmail_signature">- Thou shalt not follow the NULL pointer, for ch=
+aos and madness await thee at its end<br>- &quot;Use the force Harry&quot; =
+- Gandalf, Star Trek II<br><br></div></div>
+
+--000000000000ad0f4305cf379593--
