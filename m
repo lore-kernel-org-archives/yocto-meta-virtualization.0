@@ -1,1125 +1,462 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
- by mx.groups.io with SMTP id smtpd.web12.12622.1635257295608266707
+Received: from EUR03-VE1-obe.outbound.protection.outlook.com (EUR03-VE1-obe.outbound.protection.outlook.com [40.107.5.75])
+ by mx.groups.io with SMTP id smtpd.web09.12666.1635257709656194197
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 26 Oct 2021 07:08:16 -0700
+ Tue, 26 Oct 2021 07:15:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=jxufj+8K;
- spf=pass (domain: gmail.com, ip: 209.85.208.46, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ed1-f46.google.com with SMTP id z20so1053907edi.0
-        for <meta-virtualization@lists.yoctoproject.org>; Tue, 26 Oct 2021 07:08:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=F5Sdy7geYmJOGxqP+CrrgoCDMD8t9kuijqMJ0xNw7/M=;
-        b=jxufj+8KO7TIPKDJJdMVPkNyW51L1vg+EzS++Snb7cczG3qYClP8G0LUjgoQ4iUj9c
-         b/EfiCMaWEBx1Xay1rujEciaRQHLAlr8roQPsvRluJguR71HLTg/eZwUDLCOgClq0Bd9
-         yTgF2mrVCAXuWZau007XKUyMPQnk/sLtgddNpLmebBmyKLTC1gsY/FT2P4yl4t2m9ATA
-         GxbnldE3jlepUwFr0ciBYo8mgy3UIbXbrTtktDxc4ps9SGiD8tXrLp/7WBCbCOSpDeL3
-         iW65y1gtSeslFS/mGl4+KxxVDsiv4nmVpIH4E13GNdBwZ7jQ37hPh2/CH9+22Y6f1zcH
-         3Ymg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=F5Sdy7geYmJOGxqP+CrrgoCDMD8t9kuijqMJ0xNw7/M=;
-        b=I0vF6Heof+Psg3acGO7zWuB5GAtPfW1lR3dX8JSggU62iOgNYwb3NdB4+QHsLF8jjR
-         5Msp2+FjaKmEK/k6w8TQi1X+qbZ0Z3mTpKbUc0VynnO0cwnEFZ1hkuaEipOYOSKEF7cI
-         Pdj/MvRclXgTh3/aZlvu1qXdg3RTXqTmUCIwmrCEx+OMTx00fp9KnkkOalLIwMfj4SbM
-         e/H11SBlTjjhAzJ07yYC50m0QGpkjIcdUFbypPztczvmICYIxqD6Ldd9q6reqc7JmK/K
-         SHYOlY9bAlWZvOjC+jkrJIXZBC+svqNwXM2Hg7z3SkMwdh8QekhUoxd6ONvgZ+OL99ke
-         yvAA==
-X-Gm-Message-State: AOAM530FCIqvRm0CCdzpDlX0P2PCfQciwJdnK41NGPwF/oPHoI1H5IND
-	nwU8mck0pJzV3QwMIr9AcH/ke5JOYfp5donn1fA=
-X-Google-Smtp-Source: ABdhPJzxFkYLrTkqI4//+/OL0rcibiHtFXR7ie/Tov0yudgr8TEtvvf8uwqyEUlRhOOQIY5Dad3iEY2q5SqTLQS1B8s=
-X-Received: by 2002:a17:906:9bf9:: with SMTP id de57mr14824948ejc.35.1635257179098;
- Tue, 26 Oct 2021 07:06:19 -0700 (PDT)
-MIME-Version: 1.0
-References: <20211026133204.335413-1-Edward.Pickup@arm.com>
-In-Reply-To: <20211026133204.335413-1-Edward.Pickup@arm.com>
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Tue, 26 Oct 2021 10:06:08 -0400
-Message-ID: <CADkTA4N__a7OO1KRF-fcRpui3Vd2h2S8uai_Uuy+Y--YRVgpWQ@mail.gmail.com>
+ dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=LZsGARl/;
+ spf=pass (domain: arm.com, ip: 40.107.5.75, mailfrom: bertrand.marquis@arm.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1kEMQhDMxcV1BT0ymJDiewsblBYf08ljlUuBYAwJUr0=;
+ b=LZsGARl/+hmRf0r7bq1BzlV5uIcZ57PjEtr+XIFiEYhQQjq0GxVI4pqJ4Q7tWPSAo3A6vSki6UReYZgRNmOED/mlR9gx4BUp9Dv2MGVuF2ayojYPu32+GdV+nX6ak66ZGxglthAcKVYtKwo2LjKfK1rTjhB44GjW7zq3klkgKzI=
+Received: from AM7PR04CA0013.eurprd04.prod.outlook.com (2603:10a6:20b:110::23)
+ by DB7PR08MB3899.eurprd08.prod.outlook.com (2603:10a6:10:7f::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4628.18; Tue, 26 Oct
+ 2021 14:14:56 +0000
+Received: from VE1EUR03FT007.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:20b:110:cafe::4e) by AM7PR04CA0013.outlook.office365.com
+ (2603:10a6:20b:110::23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4628.18 via Frontend
+ Transport; Tue, 26 Oct 2021 14:14:56 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ VE1EUR03FT007.mail.protection.outlook.com (10.152.18.114) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4628.18 via Frontend Transport; Tue, 26 Oct 2021 14:14:55 +0000
+Received: ("Tessian outbound 8e26f7114b75:v103"); Tue, 26 Oct 2021 14:14:54 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: ab317b79a0e7955d
+X-CR-MTA-TID: 64aa7808
+Received: from 45e87a94f398.1
+	by 64aa7808-outbound-1.mta.getcheckrecipient.com id 90D947C0-D0E1-4FD1-80F6-BB44A128EA6F.1;
+	Tue, 26 Oct 2021 14:14:43 +0000
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com
+    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 45e87a94f398.1
+    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+    Tue, 26 Oct 2021 14:14:43 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=W4aUGOJrXVGpJdkUgTw1Vsn2NJF9SJ5y+QD16lD2boTLBTYiavLLdlTXDRn4syagO7Ni3PBx7uQwaz1x6BfEYtzw2q6jAj30n1ykyhwf04MespKG8uGhpLOL1fiifOQjOkqSVcdT6WxpOe7NiaCUfRuys/GgPZZAyNQnkTyfhSnf6PGhIU01tonS7LCp/lUDu4PX7lhdOGwyuHwcEVGiuv69xmKHufAPwFTQFMGODTOorCUdRAQykz9qFFoWKb3P2bnicPJjYi0rUf47RTnF63v7scZ3I7+ryNGlZ/H4YZypK6IEVTmaqtQyOC29/ENGsjDiZqeYP+sNDJg0qsJSCg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1kEMQhDMxcV1BT0ymJDiewsblBYf08ljlUuBYAwJUr0=;
+ b=MPUAOhWjLoolwBqQR1K+XsRyAXpxXPqQfxBvUvEHk4F6mjYnu283XIXRz8CR1QxOlcKf3QZptrmT61DbpksJXrPT68QX3JVqU/S0xO1tLDY/uS3R+nkQC327Nejtj17uoc+U2yuxznevYSzeVpQj+eY5SFuuN3fCN6sn7XqU0ine2aX6o3GAlGZXhf/wXyvk6IzNMqjp4olKbmCa4ZAk6tQJQf6QtepLZp/f0VRHbNaCT3odv+l37f+Td2qpWR6vDRp18UXSO+og7YGJWUZ6xAMeTQ9zQozVHtQHmejXrxSI4w6/cmHeOn2ZjdQmJ2WsqcSxYbhlPGh0XcvWSrBG+w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1kEMQhDMxcV1BT0ymJDiewsblBYf08ljlUuBYAwJUr0=;
+ b=LZsGARl/+hmRf0r7bq1BzlV5uIcZ57PjEtr+XIFiEYhQQjq0GxVI4pqJ4Q7tWPSAo3A6vSki6UReYZgRNmOED/mlR9gx4BUp9Dv2MGVuF2ayojYPu32+GdV+nX6ak66ZGxglthAcKVYtKwo2LjKfK1rTjhB44GjW7zq3klkgKzI=
+Received: from AM6PR08MB3784.eurprd08.prod.outlook.com (2603:10a6:20b:85::25)
+ by AM6PR08MB3430.eurprd08.prod.outlook.com (2603:10a6:20b:43::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4628.20; Tue, 26 Oct
+ 2021 14:14:38 +0000
+Received: from AM6PR08MB3784.eurprd08.prod.outlook.com
+ ([fe80::69d7:e26:6610:ebd8]) by AM6PR08MB3784.eurprd08.prod.outlook.com
+ ([fe80::69d7:e26:6610:ebd8%4]) with mapi id 15.20.4628.020; Tue, 26 Oct 2021
+ 14:14:37 +0000
+From: "Bertrand Marquis" <bertrand.marquis@arm.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+CC: Edward Pickup <Edward.Pickup@arm.com>,
+	"meta-virtualization@lists.yoctoproject.org"
+	<meta-virtualization@lists.yoctoproject.org>, Christopher Clark
+	<christopher.w.clark@gmail.com>
 Subject: Re: [meta-virtualization] [PATCH] xen,xen-tools: update xen to new releases
-To: Edward Pickup <edward.pickup@arm.com>
-Cc: meta-virtualization@lists.yoctoproject.org, 
-	Christopher Clark <christopher.w.clark@gmail.com>, Bertrand Marquis <bertrand.marquis@arm.com>
-Content-Type: multipart/alternative; boundary="00000000000046db4d05cf41fbb9"
+Thread-Topic: [meta-virtualization] [PATCH] xen,xen-tools: update xen to new
+ releases
+Thread-Index: AQHXym3pgPkqlh88q0GP/p8jimv+EavlUGIAgAACX4A=
+Date: Tue, 26 Oct 2021 14:14:37 +0000
+Message-ID: <DFB6DAC3-6431-48C1-96F9-EDB6F881987B@arm.com>
+References: <20211026133204.335413-1-Edward.Pickup@arm.com>
+ <CADkTA4N__a7OO1KRF-fcRpui3Vd2h2S8uai_Uuy+Y--YRVgpWQ@mail.gmail.com>
+In-Reply-To: 
+ <CADkTA4N__a7OO1KRF-fcRpui3Vd2h2S8uai_Uuy+Y--YRVgpWQ@mail.gmail.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3654.120.0.1.13)
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-publictraffictype: Email
+X-MS-Office365-Filtering-Correlation-Id: d4fc4de1-7412-457d-c9ff-08d9988afc3c
+x-ms-traffictypediagnostic: AM6PR08MB3430:|DB7PR08MB3899:
+X-Microsoft-Antispam-PRVS: 
+	<DB7PR08MB38994E20BBDA606204EB2BC39D849@DB7PR08MB3899.eurprd08.prod.outlook.com>
+x-checkrecipientrouted: true
+nodisclaimer: true
+x-ms-oob-tlc-oobclassifiers: OLM:1751;OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: 
+ o5YjvPUMy6spjFqL2ICC+d8UYX/3luH1WICbaSs19pNSb4J2HZcMkXo8lF7ZXeOi2EjW7li/2O7s0M3fOUZ7ppr0Ep+gDapEPq2kOJvB5szndJE5lc9BwoGC9VsvROVAbuU6ocAyFuu9lF+UCtIdROpUncr5q6v12x9TpQs5P348CG4pTonDHYFxKXLc1uhRB0yDtBlE3tc82NXMOCEj3CrHxgztJmlBdURvNMeb/aV/k0X4kUtw6q4AIBN9Ma9lQTu5gCva3w5pLTDzNDS4jcxrOs/8U3RT8U0IaPgo9B2hLsLU0QeRwr4mC33p3JGXjTrEDphssyF5lQ+k56rjgBBTEsr8KZkltDGKT1ajm69BHfGoXaGm9ewjBYxZLdHXI2qDRJpPRrSfnwiu5D/LtNCzZK+VtZ+pu1vFomuNtcibycVhqcwK5HZ1g3uf0WkrPLFhCD9J3eoCaGUYWHZ9KtHSq8QStMHtvJutrEtTsNy6aSnNFgB27Q8+gEYjNC+hkG4OE/GcA85B+hwBJEPVQhzIMN6B2Hzz8dQgLyz1n3oru0mz8lknDHuukUcJvgK+Ic8vBacDi6m2yYeYuFed5uxAhvoLNy52mfbv75BsFIpw79NwQ7rJMmVmmrhZufvW9jSjK74GA/bY8cjBvkRkie9RZKPxm7H9szmoZEZWZD0JkjTJB0X5d8EZzNkSiEJPfPatTId7AAvvjwYelDhjSIK3GQFKnbeiNuOpGrrjwLTecPiJE15ieEFmOA65g0jVXSYbBDl4IOdCa73jiKYt6lrqlVtaTerFwuohJ2A4Ly9+CcVzZJPLP/Z/Q4NCa7Jj
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR08MB3784.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(5660300002)(86362001)(36756003)(71200400001)(316002)(122000001)(33656002)(66946007)(76116006)(38070700005)(30864003)(4001150100001)(38100700002)(54906003)(15650500001)(8676002)(6486002)(2906002)(26005)(508600001)(966005)(6506007)(6512007)(53546011)(186003)(66446008)(66556008)(66476007)(64756008)(6916009)(4326008)(2616005)(91956017)(83380400001)(8936002)(45980500001);DIR:OUT;SFP:1101;
+MIME-Version: 1.0
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3430
+Original-Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+Return-Path: Bertrand.Marquis@arm.com
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ VE1EUR03FT007.eop-EUR03.prod.protection.outlook.com
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	203c5d62-8a46-446c-c135-08d9988af1bd
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	R6vdSQfxghblI0axEOb3/5pDfoUtC8v596urggbkbBDhY0u/4e4sBoIDhl9/EpOaTWMvT9Dck0oUVfERYyCBvdKZoWaBY+FEMLNp4I0PpKa8/7RyFKEeSNhcF54oUhWp2v7OHG/jF4mfrDA3yADFo+mCD5Zt6XJDJJ+G4/T2otmD6uJNQtFWk0SEV8uNDjKtvpTCKO74DCvupSK8dQON4D3XEMZYuUcKZ/AZ00jbe52nJMRYwaNgWdznj6NzliwZozHIRgnj61zTZqHnVRb+RT7xfq7dBuCqTpzUqgZTFPKBC8Ee/xVJlpLC5IhetZHOWDB/OTLyDj4SnvOrg9+6mP5QxXfdfoNQ5lkgu051PA12/I0HPtMz/jcD3rsspTy5AS4PMCaLQR/uOrHzpxSHHPQO6/qt3ZKUbBBegnwxD9VJ2oKGybWatRsM1chHQ6r/zV25QnOttrNFttExS5R49Usl5N/oSrOSKVvLQf3BXqBKI2saQnhvlrHnRxh7Dcux2ZRAp8kL2/68inePHBNTdIE0faeFxma8Micxki3w99NVs1yxPP4gFojqrdfrkdlW3d8Pozaec2fT/s7iJ4mDtAQMYMNYbPWLVTVcRIhSX9eoLOIA1P5BL9lyrLZN0UY68qtqkgNfyVebeCpnZq5PS2UDHp7djKmsYH3FDDl7aZNrpOPbdW6W/RVWglc4214Cmk1i1iVpdbnRPQAtvucUn2fH2gWpoKimNczL4L3KvLuZWUHhBQFjJLaiY/iLWSFMtSS+m/Xva0hlJL9rCVmNQA==
+X-Forefront-Antispam-Report: 
+	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(4636009)(36840700001)(46966006)(70586007)(70206006)(316002)(966005)(33656002)(82310400003)(47076005)(107886003)(2616005)(54906003)(6486002)(356005)(6506007)(8936002)(83380400001)(15650500001)(2906002)(4001150100001)(36756003)(81166007)(186003)(30864003)(53546011)(26005)(5660300002)(36860700001)(6862004)(336012)(86362001)(8676002)(508600001)(6512007)(4326008);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Oct 2021 14:14:55.3017
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: d4fc4de1-7412-457d-c9ff-08d9988afc3c
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	VE1EUR03FT007.eop-EUR03.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB7PR08MB3899
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <EF8C5E5F1F1C91438806C9BC432CDC1B@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 
---00000000000046db4d05cf41fbb9
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, Oct 26, 2021 at 9:32 AM Edward Pickup <edward.pickup@arm.com> wrote=
-:
-
-> Update the SHA in recipes for xen and xen-tools to use the latest release=
-s;
-> update xen 4.14 to xen 4.14.3 release, update xen 4.15 to 4.15.1 release,
-> and
-> xen 4.16 to the current master version.
->
-> Add a comment to each recipe indicating which version of Xen is used in
-> recipe.
->
-> Do not apply patches that have been merged/solved in Xen and remove patch
-> files
-> not needed anymore.
->
-> Create a test package to pack new tests introduced in 4.16.
->
-> Add a depencency to util-linux-prlimit, as the xen 4.16 x86 requires
-> prlimit,
-> without this boot of dom0 fails.
->
-
-
-Given your other email, I assume that the 4.16 bump isn't building for
-qemuarm64 ? Otherwise, they are all building for the supported targets ?
-
-Bruce
-
-
->
-> Signed-off-by: Edward Pickup <Edward.Pickup@arm.com>
-> ---
->  ...ry-Fix-osdep_xenforeignmemory_map-pr.patch |  33 ------
->  ...x86-make-hypervisor-build-with-gcc11.patch | 111 ------------------
->  ...-around-build-issue-with-GNU-ld-2.37.patch |  36 ------
->  recipes-extended/xen/xen-tools.inc            |  29 +++++
->  recipes-extended/xen/xen-tools_4.14.bb        |   5 +-
->  recipes-extended/xen/xen-tools_4.15.bb        |   5 +-
->  recipes-extended/xen/xen-tools_git.bb         |   5 +-
->  recipes-extended/xen/xen_4.14.bb              |   4 +-
->  recipes-extended/xen/xen_4.15.bb              |   5 +-
->  recipes-extended/xen/xen_git.bb               |   5 +-
->  10 files changed, 41 insertions(+), 197 deletions(-)
->  delete mode 100644
-> recipes-extended/xen/files/0001-libs-foreignmemory-Fix-osdep_xenforeignme=
-mory_map-pr.patch
->  delete mode 100644
-> recipes-extended/xen/files/0001-x86-make-hypervisor-build-with-gcc11.patc=
-h
->  delete mode 100644
-> recipes-extended/xen/files/0001-x86-work-around-build-issue-with-GNU-ld-2=
-.37.patch
->
-> diff --git
-> a/recipes-extended/xen/files/0001-libs-foreignmemory-Fix-osdep_xenforeign=
-memory_map-pr.patch
-> b/recipes-extended/xen/files/0001-libs-foreignmemory-Fix-osdep_xenforeign=
-memory_map-pr.patch
-> deleted file mode 100644
-> index 2e3b1a6..0000000
-> ---
-> a/recipes-extended/xen/files/0001-libs-foreignmemory-Fix-osdep_xenforeign=
-memory_map-pr.patch
-> +++ /dev/null
-> @@ -1,33 +0,0 @@
-> -From 5d3e4ebb5c71477d74a0c503438545a0126d3863 Mon Sep 17 00:00:00 2001
-> -From: Anthony PERARD <anthony.perard@citrix.com>
-> -Date: Tue, 1 Jun 2021 16:41:47 +0100
-> -Subject: [PATCH] libs/foreignmemory: Fix osdep_xenforeignmemory_map
-> prototype
-> -
-> -Commit cf8c4d3d13b8 made some preparation to have one day
-> -variable-length-array argument, but didn't declare the array in the
-> -function prototype the same way as in the function definition. And now
-> -GCC 11 complains about it.
-> -
-> -Fixes: cf8c4d3d13b8 ("tools/libs/foreignmemory: pull array length
-> argument to map forward")
-> -Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
-> -Reviewed-by: Jan Beulich <jbeulich@suse.com>
-> ----
-> - tools/libs/foreignmemory/private.h | 2 +-
-> - 1 file changed, 1 insertion(+), 1 deletion(-)
-> -
-> -diff --git a/tools/libs/foreignmemory/private.h
-> b/tools/libs/foreignmemory/private.h
-> -index 1ee3626dd2..5bb0cefb09 100644
-> ---- a/tools/libs/foreignmemory/private.h
-> -+++ b/tools/libs/foreignmemory/private.h
-> -@@ -32,7 +32,7 @@ int
-> osdep_xenforeignmemory_close(xenforeignmemory_handle *fmem);
-> - void *osdep_xenforeignmemory_map(xenforeignmemory_handle *fmem,
-> -                                  uint32_t dom, void *addr,
-> -                                  int prot, int flags, size_t num,
-> --                                 const xen_pfn_t arr[num], int err[num]=
-);
-> -+                                 const xen_pfn_t arr[/*num*/], int
-> err[/*num*/]);
-> - int osdep_xenforeignmemory_unmap(xenforeignmemory_handle *fmem,
-> -                                  void *addr, size_t num);
-> -
-> ---
-> -2.25.1
-> -
-> diff --git
-> a/recipes-extended/xen/files/0001-x86-make-hypervisor-build-with-gcc11.pa=
-tch
-> b/recipes-extended/xen/files/0001-x86-make-hypervisor-build-with-gcc11.pa=
-tch
-> deleted file mode 100644
-> index 72592c4..0000000
-> ---
-> a/recipes-extended/xen/files/0001-x86-make-hypervisor-build-with-gcc11.pa=
-tch
-> +++ /dev/null
-> @@ -1,111 +0,0 @@
-> -From 722f59d38c710a940ab05e542a83020eb5546dea Mon Sep 17 00:00:00 2001
-> -From: Jan Beulich <jbeulich@suse.com>
-> -Date: Thu, 27 May 2021 14:40:29 +0200
-> -Subject: [PATCH] x86: make hypervisor build with gcc11
-> -MIME-Version: 1.0
-> -Content-Type: text/plain; charset=3DUTF-8
-> -Content-Transfer-Encoding: 8bit
-> -
-> -Gcc 11 looks to make incorrect assumptions about valid ranges that
-> -pointers may be used for addressing when they are derived from e.g. a
-> -plain constant. See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D10068=
-0.
-> -
-> -Utilize RELOC_HIDE() to work around the issue, which for x86 manifests
-> -in at least
-> -- mpparse.c:efi_check_config(),
-> -- tboot.c:tboot_probe(),
-> -- tboot.c:tboot_gen_frametable_integrity(),
-> -- x86_emulate.c:x86_emulate() (at -O2 only).
-> -The last case is particularly odd not just because it only triggers at
-> -higher optimization levels, but also because it only affects one of at
-> -least three similar constructs. Various "note" diagnostics claim the
-> -valid index range to be [0, 2=E2=81=B6=C2=B3-1].
-> -
-> -Signed-off-by: Jan Beulich <jbeulich@suse.com>
-> -Tested-by: Jason Andryuk <jandryuk@gmail.com>
-> -Acked-by: Roger Pau Monn=C3=A9 <roger.pau@citrix.com>
-> ----
-> - tools/tests/x86_emulator/x86-emulate.c | 7 +++++++
-> - xen/arch/x86/x86_emulate/x86_emulate.c | 2 +-
-> - xen/include/asm-x86/fixmap.h           | 2 +-
-> - xen/include/xen/compiler.h             | 6 ++++++
-> - xen/include/xen/pdx.h                  | 2 +-
-> - 5 files changed, 16 insertions(+), 3 deletions(-)
-> -
-> -diff --git a/tools/tests/x86_emulator/x86-emulate.c
-> b/tools/tests/x86_emulator/x86-emulate.c
-> -index 07f892dbbb..ea286d6ad8 100644
-> ---- a/tools/tests/x86_emulator/x86-emulate.c
-> -+++ b/tools/tests/x86_emulator/x86-emulate.c
-> -@@ -8,6 +8,13 @@
-> -
-> - #define ERR_PTR(val) NULL
-> -
-> -+/* See gcc bug 100680, but here don't bother making this version
-> dependent. */
-> -+#define gcc11_wrap(x) ({                  \
-> -+    unsigned long x_;                     \
-> -+    __asm__ ( "" : "=3Dg" (x_) : "0" (x) ); \
-> -+    (typeof(x))x_;                        \
-> -+})
-> -+
-> - #define cpu_has_amd_erratum(nr) 0
-> - #define cpu_has_mpx false
-> - #define read_bndcfgu() 0
-> -diff --git a/xen/arch/x86/x86_emulate/x86_emulate.c
-> b/xen/arch/x86/x86_emulate/x86_emulate.c
-> -index c25d88d0d8..31fdec030c 100644
-> ---- a/xen/arch/x86/x86_emulate/x86_emulate.c
-> -+++ b/xen/arch/x86/x86_emulate/x86_emulate.c
-> -@@ -726,7 +726,7 @@ union vex {
-> - #define copy_VEX(ptr, vex) ({ \
-> -     if ( !mode_64bit() ) \
-> -         (vex).reg |=3D 8; \
-> --    (ptr)[0 - PFX_BYTES] =3D ext < ext_8f08 ? 0xc4 : 0x8f; \
-> -+    gcc11_wrap(ptr)[0 - PFX_BYTES] =3D ext < ext_8f08 ? 0xc4 : 0x8f; \
-> -     (ptr)[1 - PFX_BYTES] =3D (vex).raw[0]; \
-> -     (ptr)[2 - PFX_BYTES] =3D (vex).raw[1]; \
-> -     container_of((ptr) + 1 - PFX_BYTES, typeof(vex), raw[0]); \
-> -diff --git a/xen/include/asm-x86/fixmap.h b/xen/include/asm-x86/fixmap.h
-> -index 0db314baeb..20746afd0a 100644
-> ---- a/xen/include/asm-x86/fixmap.h
-> -+++ b/xen/include/asm-x86/fixmap.h
-> -@@ -78,7 +78,7 @@ extern void __set_fixmap(
-> -
-> - #define clear_fixmap(idx) __set_fixmap(idx, 0, 0)
-> -
-> --#define __fix_to_virt(x) (FIXADDR_TOP - ((x) << PAGE_SHIFT))
-> -+#define __fix_to_virt(x) gcc11_wrap(FIXADDR_TOP - ((x) << PAGE_SHIFT))
-> - #define __virt_to_fix(x) ((FIXADDR_TOP - ((x)&PAGE_MASK)) >> PAGE_SHIFT=
-)
-> -
-> - #define fix_to_virt(x)   ((void *)__fix_to_virt(x))
-> -diff --git a/xen/include/xen/compiler.h b/xen/include/xen/compiler.h
-> -index 17cf00e1ec..696c7eb89e 100644
-> ---- a/xen/include/xen/compiler.h
-> -+++ b/xen/include/xen/compiler.h
-> -@@ -140,6 +140,12 @@
-> -     __asm__ ("" : "=3Dr"(__ptr) : "0"(ptr));      \
-> -     (typeof(ptr)) (__ptr + (off)); })
-> -
-> -+#if CONFIG_GCC_VERSION >=3D 110000 /* See gcc bug 100680. */
-> -+# define gcc11_wrap(x) RELOC_HIDE(x, 0)
-> -+#else
-> -+# define gcc11_wrap(x) (x)
-> -+#endif
-> -+
-> - #ifdef __GCC_ASM_FLAG_OUTPUTS__
-> - # define ASM_FLAG_OUT(yes, no) yes
-> - #else
-> -diff --git a/xen/include/xen/pdx.h b/xen/include/xen/pdx.h
-> -index 770fadc06c..9fcfb0ce52 100644
-> ---- a/xen/include/xen/pdx.h
-> -+++ b/xen/include/xen/pdx.h
-> -@@ -19,7 +19,7 @@ extern u64 pdx_region_mask(u64 base, u64 len);
-> - extern void set_pdx_range(unsigned long smfn, unsigned long emfn);
-> -
-> - #define page_to_pdx(pg)  ((pg) - frame_table)
-> --#define pdx_to_page(pdx) (frame_table + (pdx))
-> -+#define pdx_to_page(pdx) gcc11_wrap(frame_table + (pdx))
-> -
-> - bool __mfn_valid(unsigned long mfn);
-> -
-> ---
-> -2.25.1
-> -
-> diff --git
-> a/recipes-extended/xen/files/0001-x86-work-around-build-issue-with-GNU-ld=
--2.37.patch
-> b/recipes-extended/xen/files/0001-x86-work-around-build-issue-with-GNU-ld=
--2.37.patch
-> deleted file mode 100644
-> index f5108be..0000000
-> ---
-> a/recipes-extended/xen/files/0001-x86-work-around-build-issue-with-GNU-ld=
--2.37.patch
-> +++ /dev/null
-> @@ -1,36 +0,0 @@
-> -From 58ad654ebce7ccb272a3f4f3482c03aaad850d31 Mon Sep 17 00:00:00 2001
-> -From: Jan Beulich <jbeulich@suse.com>
-> -Date: Thu, 22 Jul 2021 11:20:38 +0200
-> -Subject: [PATCH] x86: work around build issue with GNU ld 2.37
-> -
-> -I suspect it is commit 40726f16a8d7 ("ld script expression parsing")
-> -which broke the hypervisor build, by no longer accepting section names
-> -with a dash in them inside ADDR() (and perhaps other script directives
-> -expecting just a section name, not an expression): .note.gnu.build-id
-> -is such a section.
-> -
-> -Quoting all section names passed to ADDR() via DECL_SECTION() works
-> -around the regression.
-> -
-> -Signed-off-by: Jan Beulich <jbeulich@suse.com>
-> -Acked-by: Andrew Cooper <andrew.cooper3@citrix.com>
-> ----
-> - xen/arch/x86/xen.lds.S | 2 +-
-> - 1 file changed, 1 insertion(+), 1 deletion(-)
-> -
-> -diff --git a/xen/arch/x86/xen.lds.S b/xen/arch/x86/xen.lds.S
-> -index 9c6c1c8005..955d5cf4a0 100644
-> ---- a/xen/arch/x86/xen.lds.S
-> -+++ b/xen/arch/x86/xen.lds.S
-> -@@ -18,7 +18,7 @@ ENTRY(efi_start)
-> - #else /* !EFI */
-> -
-> - #define FORMAT "elf64-x86-64"
-> --#define DECL_SECTION(x) x : AT(ADDR(x) - __XEN_VIRT_START)
-> -+#define DECL_SECTION(x) x : AT(ADDR(#x) - __XEN_VIRT_START)
-> -
-> - ENTRY(start_pa)
-> -
-> ---
-> -2.25.1
-> -
-> diff --git a/recipes-extended/xen/xen-tools.inc
-> b/recipes-extended/xen/xen-tools.inc
-> index 614f557..d831941 100644
-> --- a/recipes-extended/xen/xen-tools.inc
-> +++ b/recipes-extended/xen/xen-tools.inc
-> @@ -102,6 +102,7 @@ RSUGGESTS:${PN}-xencov =3D "${PN}-xencov-split"
->
->  RDEPENDS:${PN}-xencommons =3D "\
->      bash \
-> +    util-linux-prlimit \
->      ${PN}-console \
->      ${PN}-xenstore \
->      virtual/xenstored \
-> @@ -213,6 +214,9 @@ PACKAGES =3D " \
->      ${PN}-xm-examples \
->      ${PN}-xen-access \
->      ${PN}-xen-memshare \
-> +    ${PN}-test \
-> +    ${PN}-xen-vmtrace \
-> +    ${PN}-xen-mceinj \
->      "
->
->  PROVIDES =3D+ " \
-> @@ -684,6 +688,31 @@ FILES:${PN}-xen-memshare +=3D "\
->  # memshare is only built for x86, so allow empty package for other archs
->  ALLOW_EMPTY:${PN}-xen-memshare =3D "1"
->
-> +FILES:${PN}-test +=3D "\
-> +    ${libdir}/xen/bin/test-xenstore \
-> +    ${libdir}/xen/bin/test-resource \
-> +    ${libdir}/xen/bin/test-cpu-policy \
-> +    ${libdir}/xen/bin/test-tsx \
-> +    "
-> +
-> +# test-xenstore and test-resource currently only exist in 4.16
-> +# test-cpu-policy and test-tsx only exist in 4.16 for x86
-> +ALLOW_EMPTY:${PN}-test =3D "1"
-> +
-> +FILES:${PN}-xen-mceinj +=3D"\
-> +    ${sbindir}/xen-mceinj \
-> +    "
-> +
-> +# xen-mceinj is only built for x86 4.16, so allow empty package
-> +ALLOW_EMPTY:${PN}-xen-mceinj =3D "1"
-> +
-> +FILES:${PN}-xen-vmtrace +=3D"\
-> +    ${sbindir}/xen-vmtrace \
-> +    "
-> +
-> +# xen-vmtrace is only built for x86 4.16, so allow empty package
-> +ALLOW_EMPTY:${PN}-xen-vmtrace =3D "1"
-> +
->  INSANE_SKIP:${PN} =3D "already-stripped"
->
->  # configure init.d scripts
-> diff --git a/recipes-extended/xen/xen-tools_4.14.bb
-> b/recipes-extended/xen/xen-tools_4.14.bb
-> index ce5dc2e..9d78e44 100644
-> --- a/recipes-extended/xen/xen-tools_4.14.bb
-> +++ b/recipes-extended/xen/xen-tools_4.14.bb
-> @@ -1,4 +1,5 @@
-> -SRCREV ?=3D "b6a8c4f72def4d1135ff42660a86276ce2565c8c"
-> +# 4.14.3 release SHA
-> +SRCREV ?=3D "9f2b6c5ec2ded4c1caf149743e862c5f15d6d083"
->
->  XEN_REL ?=3D "4.14"
->  XEN_BRANCH ?=3D "stable-${XEN_REL}"
-> @@ -8,8 +9,6 @@ SRC_URI =3D " \
->      file://0001-python-pygrub-pass-DISTUTILS-xen-4.14.patch \
->
->  file://0001-firmware-provide-a-stand-alone-set-of-headers-Xen-4.14.patch=
- \
->
->  file://0001-tools-firmware-Build-firmware-as-ffreestanding-Xen-4.14.patc=
-h \
-> -
-> file://0001-libs-foreignmemory-Fix-osdep_xenforeignmemory_map-pr.patch \
-> -    file://0001-x86-work-around-build-issue-with-GNU-ld-2.37.patch \
->      "
->
->  LIC_FILES_CHKSUM ?=3D "file://COPYING;md5=3D419739e325a50f3d7b4501338e44=
-a4e5"
-> diff --git a/recipes-extended/xen/xen-tools_4.15.bb
-> b/recipes-extended/xen/xen-tools_4.15.bb
-> index e9c3bd6..840f162 100644
-> --- a/recipes-extended/xen/xen-tools_4.15.bb
-> +++ b/recipes-extended/xen/xen-tools_4.15.bb
-> @@ -1,4 +1,5 @@
-> -SRCREV ?=3D "e25aa9939ae0cd8317605be3d5c5611b76bc4ab4"
-> +# xen 4.15.1 release sha
-> +SRCREV ?=3D "84fa99099b920f7bcde8899e1a9b756078719d7d"
->
->  XEN_REL ?=3D "4.15"
->  XEN_BRANCH ?=3D "stable-${XEN_REL}"
-> @@ -6,8 +7,6 @@ XEN_BRANCH ?=3D "stable-${XEN_REL}"
->  SRC_URI =3D " \
->      git://xenbits.xen.org/xen.git;branch=3D${XEN_BRANCH}
-> <http://xenbits.xen.org/xen.git;branch=3D$%7BXEN_BRANCH%7D> \
->      file://0001-python-pygrub-pass-DISTUTILS-xen-4.15.patch \
-> -
-> file://0001-libs-foreignmemory-Fix-osdep_xenforeignmemory_map-pr.patch \
-> -    file://0001-x86-work-around-build-issue-with-GNU-ld-2.37.patch \
->      "
->
->  LIC_FILES_CHKSUM ?=3D "file://COPYING;md5=3D419739e325a50f3d7b4501338e44=
-a4e5"
-> diff --git a/recipes-extended/xen/xen-tools_git.bb b/recipes-extended/xen=
-/
-> xen-tools_git.bb
-> index 6926bd9..8ff9c4c 100644
-> --- a/recipes-extended/xen/xen-tools_git.bb
-> +++ b/recipes-extended/xen/xen-tools_git.bb
-> @@ -1,4 +1,5 @@
-> -SRCREV ?=3D "e680cc48b7184d3489873d6776f84ba1fc238ced"
-> +# master status on 2020-10-21
-> +SRCREV ?=3D "23ec1ebc8acbfd2bf06f6085a776f0db923f9fa9"
->
->  XEN_REL ?=3D "4.16"
->  XEN_BRANCH ?=3D "master"
-> @@ -6,8 +7,6 @@ XEN_BRANCH ?=3D "master"
->  SRC_URI =3D " \
->      git://xenbits.xen.org/xen.git;branch=3D${XEN_BRANCH}
-> <http://xenbits.xen.org/xen.git;branch=3D$%7BXEN_BRANCH%7D> \
->      file://0001-python-pygrub-pass-DISTUTILS-xen-4.15.patch \
-> -
-> file://0001-libs-foreignmemory-Fix-osdep_xenforeignmemory_map-pr.patch \
-> -    file://0001-x86-work-around-build-issue-with-GNU-ld-2.37.patch \
->      "
->
->  LIC_FILES_CHKSUM ?=3D "file://COPYING;md5=3D419739e325a50f3d7b4501338e44=
-a4e5"
-> diff --git a/recipes-extended/xen/xen_4.14.bb b/recipes-extended/xen/
-> xen_4.14.bb
-> index 291ba16..0d7d20b 100644
-> --- a/recipes-extended/xen/xen_4.14.bb
-> +++ b/recipes-extended/xen/xen_4.14.bb
-> @@ -1,4 +1,5 @@
-> -SRCREV ?=3D "b6a8c4f72def4d1135ff42660a86276ce2565c8c"
-> +# 4.14.3 release SHA
-> +SRCREV ?=3D "9f2b6c5ec2ded4c1caf149743e862c5f15d6d083"
->
->  XEN_REL ?=3D "4.14"
->  XEN_BRANCH ?=3D "stable-${XEN_REL}"
-> @@ -7,7 +8,6 @@ SRC_URI =3D " \
->      git://xenbits.xen.org/xen.git;branch=3D${XEN_BRANCH}
-> <http://xenbits.xen.org/xen.git;branch=3D$%7BXEN_BRANCH%7D> \
->      file://xen-arm64-implement-atomic-fetch-add.patch \
->
->  file://0001-menuconfig-mconf-cfg-Allow-specification-of-ncurses-location=
-.patch
-> \
-> -    file://0001-x86-work-around-build-issue-with-GNU-ld-2.37.patch \
->      "
->
->  LIC_FILES_CHKSUM ?=3D "file://COPYING;md5=3D419739e325a50f3d7b4501338e44=
-a4e5"
-> diff --git a/recipes-extended/xen/xen_4.15.bb b/recipes-extended/xen/
-> xen_4.15.bb
-> index 0605441..0cfaf0c 100644
-> --- a/recipes-extended/xen/xen_4.15.bb
-> +++ b/recipes-extended/xen/xen_4.15.bb
-> @@ -1,4 +1,5 @@
-> -SRCREV ?=3D "e25aa9939ae0cd8317605be3d5c5611b76bc4ab4"
-> +# xen 4.15.1 release sha
-> +SRCREV ?=3D "84fa99099b920f7bcde8899e1a9b756078719d7d"
->
->  XEN_REL ?=3D "4.15"
->  XEN_BRANCH ?=3D "stable-${XEN_REL}"
-> @@ -7,8 +8,6 @@ SRC_URI =3D " \
->      git://xenbits.xen.org/xen.git;branch=3D${XEN_BRANCH}
-> <http://xenbits.xen.org/xen.git;branch=3D$%7BXEN_BRANCH%7D> \
->      file://xen-arm64-implement-atomic-fetch-add.patch \
->
->  file://0001-menuconfig-mconf-cfg-Allow-specification-of-ncurses-location=
-.patch
-> \
-> -    file://0001-x86-make-hypervisor-build-with-gcc11.patch \
-> -    file://0001-x86-work-around-build-issue-with-GNU-ld-2.37.patch \
->      "
->
->  LIC_FILES_CHKSUM ?=3D "file://COPYING;md5=3D419739e325a50f3d7b4501338e44=
-a4e5"
-> diff --git a/recipes-extended/xen/xen_git.bb b/recipes-extended/xen/
-> xen_git.bb
-> index 12c9403..20227e0 100644
-> --- a/recipes-extended/xen/xen_git.bb
-> +++ b/recipes-extended/xen/xen_git.bb
-> @@ -1,4 +1,5 @@
-> -SRCREV ?=3D "e680cc48b7184d3489873d6776f84ba1fc238ced"
-> +# master status on 2020-10-21
-> +SRCREV ?=3D "23ec1ebc8acbfd2bf06f6085a776f0db923f9fa9"
->
->  XEN_REL ?=3D "4.16"
->  XEN_BRANCH ?=3D "master"
-> @@ -7,8 +8,6 @@ SRC_URI =3D " \
->      git://xenbits.xen.org/xen.git;branch=3D${XEN_BRANCH}
-> <http://xenbits.xen.org/xen.git;branch=3D$%7BXEN_BRANCH%7D> \
->      file://xen-arm64-implement-atomic-fetch-add.patch \
->
->  file://0001-menuconfig-mconf-cfg-Allow-specification-of-ncurses-location=
-.patch
-> \
-> -    file://0001-x86-make-hypervisor-build-with-gcc11.patch \
-> -    file://0001-x86-work-around-build-issue-with-GNU-ld-2.37.patch \
->      "
->
->  LIC_FILES_CHKSUM ?=3D "file://COPYING;md5=3D419739e325a50f3d7b4501338e44=
-a4e5"
-> --
-> 2.25.1
->
->
->=20
->
->
-
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end
-- "Use the force Harry" - Gandalf, Star Trek II
-
---00000000000046db4d05cf41fbb9
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-size:small"><br></div></div><br><div class=3D"gmail_quote"><div dir=3D"lt=
-r" class=3D"gmail_attr">On Tue, Oct 26, 2021 at 9:32 AM Edward Pickup &lt;<=
-a href=3D"mailto:edward.pickup@arm.com">edward.pickup@arm.com</a>&gt; wrote=
-:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.=
-8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Update the SHA=
- in recipes for xen and xen-tools to use the latest releases;<br>
-update xen 4.14 to xen 4.14.3 release, update xen 4.15 to 4.15.1 release, a=
-nd<br>
-xen 4.16 to the current master version.<br>
-<br>
-Add a comment to each recipe indicating which version of Xen is used in rec=
-ipe.<br>
-<br>
-Do not apply patches that have been merged/solved in Xen and remove patch f=
-iles<br>
-not needed anymore.<br>
-<br>
-Create a test package to pack new tests introduced in 4.16.<br>
-<br>
-Add a depencency to util-linux-prlimit, as the xen 4.16 x86 requires prlimi=
-t,<br>
-without this boot of dom0 fails.<br></blockquote><div><br></div><div><br></=
-div><div><div class=3D"gmail_default" style=3D"font-size:small">Given your =
-other email, I assume that the 4.16 bump isn&#39;t building for qemuarm64 ?=
- Otherwise, they are all building for the supported targets ?</div><div cla=
-ss=3D"gmail_default" style=3D"font-size:small"><br></div><div class=3D"gmai=
-l_default" style=3D"font-size:small">Bruce</div></div><div>=C2=A0</div><blo=
-ckquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left=
-:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-Signed-off-by: Edward Pickup &lt;<a href=3D"mailto:Edward.Pickup@arm.com" t=
-arget=3D"_blank">Edward.Pickup@arm.com</a>&gt;<br>
----<br>
-=C2=A0...ry-Fix-osdep_xenforeignmemory_map-pr.patch |=C2=A0 33 ------<br>
-=C2=A0...x86-make-hypervisor-build-with-gcc11.patch | 111 -----------------=
--<br>
-=C2=A0...-around-build-issue-with-GNU-ld-2.37.patch |=C2=A0 36 ------<br>
-=C2=A0recipes-extended/xen/xen-tools.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 |=C2=A0 29 +++++<br>
-=C2=A0recipes-extended/xen/<a href=3D"http://xen-tools_4.14.bb" rel=3D"nore=
-ferrer" target=3D"_blank">xen-tools_4.14.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-|=C2=A0 =C2=A05 +-<br>
-=C2=A0recipes-extended/xen/<a href=3D"http://xen-tools_4.15.bb" rel=3D"nore=
-ferrer" target=3D"_blank">xen-tools_4.15.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-|=C2=A0 =C2=A05 +-<br>
-=C2=A0recipes-extended/xen/<a href=3D"http://xen-tools_git.bb" rel=3D"noref=
-errer" target=3D"_blank">xen-tools_git.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0|=C2=A0 =C2=A05 +-<br>
-=C2=A0recipes-extended/xen/<a href=3D"http://xen_4.14.bb" rel=3D"noreferrer=
-" target=3D"_blank">xen_4.14.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 |=C2=A0 =C2=A04 +-<br>
-=C2=A0recipes-extended/xen/<a href=3D"http://xen_4.15.bb" rel=3D"noreferrer=
-" target=3D"_blank">xen_4.15.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 |=C2=A0 =C2=A05 +-<br>
-=C2=A0recipes-extended/xen/<a href=3D"http://xen_git.bb" rel=3D"noreferrer"=
- target=3D"_blank">xen_git.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0|=C2=A0 =C2=A05 +-<br>
-=C2=A010 files changed, 41 insertions(+), 197 deletions(-)<br>
-=C2=A0delete mode 100644 recipes-extended/xen/files/0001-libs-foreignmemory=
--Fix-osdep_xenforeignmemory_map-pr.patch<br>
-=C2=A0delete mode 100644 recipes-extended/xen/files/0001-x86-make-hyperviso=
-r-build-with-gcc11.patch<br>
-=C2=A0delete mode 100644 recipes-extended/xen/files/0001-x86-work-around-bu=
-ild-issue-with-GNU-ld-2.37.patch<br>
-<br>
-diff --git a/recipes-extended/xen/files/0001-libs-foreignmemory-Fix-osdep_x=
-enforeignmemory_map-pr.patch b/recipes-extended/xen/files/0001-libs-foreign=
-memory-Fix-osdep_xenforeignmemory_map-pr.patch<br>
-deleted file mode 100644<br>
-index 2e3b1a6..0000000<br>
---- a/recipes-extended/xen/files/0001-libs-foreignmemory-Fix-osdep_xenforei=
-gnmemory_map-pr.patch<br>
-+++ /dev/null<br>
-@@ -1,33 +0,0 @@<br>
--From 5d3e4ebb5c71477d74a0c503438545a0126d3863 Mon Sep 17 00:00:00 2001<br>
--From: Anthony PERARD &lt;<a href=3D"mailto:anthony.perard@citrix.com" targ=
-et=3D"_blank">anthony.perard@citrix.com</a>&gt;<br>
--Date: Tue, 1 Jun 2021 16:41:47 +0100<br>
--Subject: [PATCH] libs/foreignmemory: Fix osdep_xenforeignmemory_map protot=
-ype<br>
--<br>
--Commit cf8c4d3d13b8 made some preparation to have one day<br>
--variable-length-array argument, but didn&#39;t declare the array in the<br=
->
--function prototype the same way as in the function definition. And now<br>
--GCC 11 complains about it.<br>
--<br>
--Fixes: cf8c4d3d13b8 (&quot;tools/libs/foreignmemory: pull array length arg=
-ument to map forward&quot;)<br>
--Signed-off-by: Anthony PERARD &lt;<a href=3D"mailto:anthony.perard@citrix.=
-com" target=3D"_blank">anthony.perard@citrix.com</a>&gt;<br>
--Reviewed-by: Jan Beulich &lt;<a href=3D"mailto:jbeulich@suse.com" target=
-=3D"_blank">jbeulich@suse.com</a>&gt;<br>
-----<br>
-- tools/libs/foreignmemory/private.h | 2 +-<br>
-- 1 file changed, 1 insertion(+), 1 deletion(-)<br>
--<br>
--diff --git a/tools/libs/foreignmemory/private.h b/tools/libs/foreignmemory=
-/private.h<br>
--index 1ee3626dd2..5bb0cefb09 100644<br>
----- a/tools/libs/foreignmemory/private.h<br>
--+++ b/tools/libs/foreignmemory/private.h<br>
--@@ -32,7 +32,7 @@ int osdep_xenforeignmemory_close(xenforeignmemory_handle=
- *fmem);<br>
-- void *osdep_xenforeignmemory_map(xenforeignmemory_handle *fmem,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 uint32_t dom, void *addr,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 int prot, int flags, size_t n=
-um,<br>
---=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0const xen_pfn_t arr[num], int =
-err[num]);<br>
--+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0const xen_pfn_t arr[/*num*/], =
-int err[/*num*/]);<br>
-- int osdep_xenforeignmemory_unmap(xenforeignmemory_handle *fmem,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 void *addr, size_t num);<br>
-- <br>
---- <br>
--2.25.1<br>
--<br>
-diff --git a/recipes-extended/xen/files/0001-x86-make-hypervisor-build-with=
--gcc11.patch b/recipes-extended/xen/files/0001-x86-make-hypervisor-build-wi=
-th-gcc11.patch<br>
-deleted file mode 100644<br>
-index 72592c4..0000000<br>
---- a/recipes-extended/xen/files/0001-x86-make-hypervisor-build-with-gcc11.=
-patch<br>
-+++ /dev/null<br>
-@@ -1,111 +0,0 @@<br>
--From 722f59d38c710a940ab05e542a83020eb5546dea Mon Sep 17 00:00:00 2001<br>
--From: Jan Beulich &lt;<a href=3D"mailto:jbeulich@suse.com" target=3D"_blan=
-k">jbeulich@suse.com</a>&gt;<br>
--Date: Thu, 27 May 2021 14:40:29 +0200<br>
--Subject: [PATCH] x86: make hypervisor build with gcc11<br>
--MIME-Version: 1.0<br>
--Content-Type: text/plain; charset=3DUTF-8<br>
--Content-Transfer-Encoding: 8bit<br>
--<br>
--Gcc 11 looks to make incorrect assumptions about valid ranges that<br>
--pointers may be used for addressing when they are derived from e.g. a<br>
--plain constant. See <a href=3D"https://gcc.gnu.org/bugzilla/show_bug.cgi?i=
-d=3D100680" rel=3D"noreferrer" target=3D"_blank">https://gcc.gnu.org/bugzil=
-la/show_bug.cgi?id=3D100680</a>.<br>
--<br>
--Utilize RELOC_HIDE() to work around the issue, which for x86 manifests<br>
--in at least<br>
--- mpparse.c:efi_check_config(),<br>
--- tboot.c:tboot_probe(),<br>
--- tboot.c:tboot_gen_frametable_integrity(),<br>
--- x86_emulate.c:x86_emulate() (at -O2 only).<br>
--The last case is particularly odd not just because it only triggers at<br>
--higher optimization levels, but also because it only affects one of at<br>
--least three similar constructs. Various &quot;note&quot; diagnostics claim=
- the<br>
--valid index range to be [0, 2=E2=81=B6=C2=B3-1].<br>
--<br>
--Signed-off-by: Jan Beulich &lt;<a href=3D"mailto:jbeulich@suse.com" target=
-=3D"_blank">jbeulich@suse.com</a>&gt;<br>
--Tested-by: Jason Andryuk &lt;<a href=3D"mailto:jandryuk@gmail.com" target=
-=3D"_blank">jandryuk@gmail.com</a>&gt;<br>
--Acked-by: Roger Pau Monn=C3=A9 &lt;<a href=3D"mailto:roger.pau@citrix.com"=
- target=3D"_blank">roger.pau@citrix.com</a>&gt;<br>
-----<br>
-- tools/tests/x86_emulator/x86-emulate.c | 7 +++++++<br>
-- xen/arch/x86/x86_emulate/x86_emulate.c | 2 +-<br>
-- xen/include/asm-x86/fixmap.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 2 =
-+-<br>
-- xen/include/xen/compiler.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0| 6 ++++++<br>
-- xen/include/xen/pdx.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 | 2 +-<br>
-- 5 files changed, 16 insertions(+), 3 deletions(-)<br>
--<br>
--diff --git a/tools/tests/x86_emulator/x86-emulate.c b/tools/tests/x86_emul=
-ator/x86-emulate.c<br>
--index 07f892dbbb..ea286d6ad8 100644<br>
----- a/tools/tests/x86_emulator/x86-emulate.c<br>
--+++ b/tools/tests/x86_emulator/x86-emulate.c<br>
--@@ -8,6 +8,13 @@<br>
-- <br>
-- #define ERR_PTR(val) NULL<br>
-- <br>
--+/* See gcc bug 100680, but here don&#39;t bother making this version depe=
-ndent. */<br>
--+#define gcc11_wrap(x) ({=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 \<br>
--+=C2=A0 =C2=A0 unsigned long x_;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
--+=C2=A0 =C2=A0 __asm__ ( &quot;&quot; : &quot;=3Dg&quot; (x_) : &quot;0&qu=
-ot; (x) ); \<br>
--+=C2=A0 =C2=A0 (typeof(x))x_;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br>
--+})<br>
--+<br>
-- #define cpu_has_amd_erratum(nr) 0<br>
-- #define cpu_has_mpx false<br>
-- #define read_bndcfgu() 0<br>
--diff --git a/xen/arch/x86/x86_emulate/x86_emulate.c b/xen/arch/x86/x86_emu=
-late/x86_emulate.c<br>
--index c25d88d0d8..31fdec030c 100644<br>
----- a/xen/arch/x86/x86_emulate/x86_emulate.c<br>
--+++ b/xen/arch/x86/x86_emulate/x86_emulate.c<br>
--@@ -726,7 +726,7 @@ union vex {<br>
-- #define copy_VEX(ptr, vex) ({ \<br>
--=C2=A0 =C2=A0 =C2=A0if ( !mode_64bit() ) \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(vex).reg |=3D 8; \<br>
---=C2=A0 =C2=A0 (ptr)[0 - PFX_BYTES] =3D ext &lt; ext_8f08 ? 0xc4 : 0x8f; \=
-<br>
--+=C2=A0 =C2=A0 gcc11_wrap(ptr)[0 - PFX_BYTES] =3D ext &lt; ext_8f08 ? 0xc4=
- : 0x8f; \<br>
--=C2=A0 =C2=A0 =C2=A0(ptr)[1 - PFX_BYTES] =3D (vex).raw[0]; \<br>
--=C2=A0 =C2=A0 =C2=A0(ptr)[2 - PFX_BYTES] =3D (vex).raw[1]; \<br>
--=C2=A0 =C2=A0 =C2=A0container_of((ptr) + 1 - PFX_BYTES, typeof(vex), raw[0=
-]); \<br>
--diff --git a/xen/include/asm-x86/fixmap.h b/xen/include/asm-x86/fixmap.h<b=
-r>
--index 0db314baeb..20746afd0a 100644<br>
----- a/xen/include/asm-x86/fixmap.h<br>
--+++ b/xen/include/asm-x86/fixmap.h<br>
--@@ -78,7 +78,7 @@ extern void __set_fixmap(<br>
-- <br>
-- #define clear_fixmap(idx) __set_fixmap(idx, 0, 0)<br>
-- <br>
---#define __fix_to_virt(x) (FIXADDR_TOP - ((x) &lt;&lt; PAGE_SHIFT))<br>
--+#define __fix_to_virt(x) gcc11_wrap(FIXADDR_TOP - ((x) &lt;&lt; PAGE_SHIF=
-T))<br>
-- #define __virt_to_fix(x) ((FIXADDR_TOP - ((x)&amp;PAGE_MASK)) &gt;&gt; PA=
-GE_SHIFT)<br>
-- <br>
-- #define fix_to_virt(x)=C2=A0 =C2=A0((void *)__fix_to_virt(x))<br>
--diff --git a/xen/include/xen/compiler.h b/xen/include/xen/compiler.h<br>
--index 17cf00e1ec..696c7eb89e 100644<br>
----- a/xen/include/xen/compiler.h<br>
--+++ b/xen/include/xen/compiler.h<br>
--@@ -140,6 +140,12 @@<br>
--=C2=A0 =C2=A0 =C2=A0__asm__ (&quot;&quot; : &quot;=3Dr&quot;(__ptr) : &quo=
-t;0&quot;(ptr));=C2=A0 =C2=A0 =C2=A0 \<br>
--=C2=A0 =C2=A0 =C2=A0(typeof(ptr)) (__ptr + (off)); })<br>
-- <br>
--+#if CONFIG_GCC_VERSION &gt;=3D 110000 /* See gcc bug 100680. */<br>
--+# define gcc11_wrap(x) RELOC_HIDE(x, 0)<br>
--+#else<br>
--+# define gcc11_wrap(x) (x)<br>
--+#endif<br>
--+<br>
-- #ifdef __GCC_ASM_FLAG_OUTPUTS__<br>
-- # define ASM_FLAG_OUT(yes, no) yes<br>
-- #else<br>
--diff --git a/xen/include/xen/pdx.h b/xen/include/xen/pdx.h<br>
--index 770fadc06c..9fcfb0ce52 100644<br>
----- a/xen/include/xen/pdx.h<br>
--+++ b/xen/include/xen/pdx.h<br>
--@@ -19,7 +19,7 @@ extern u64 pdx_region_mask(u64 base, u64 len);<br>
-- extern void set_pdx_range(unsigned long smfn, unsigned long emfn);<br>
-- <br>
-- #define page_to_pdx(pg)=C2=A0 ((pg) - frame_table)<br>
---#define pdx_to_page(pdx) (frame_table + (pdx))<br>
--+#define pdx_to_page(pdx) gcc11_wrap(frame_table + (pdx))<br>
-- <br>
-- bool __mfn_valid(unsigned long mfn);<br>
-- <br>
---- <br>
--2.25.1<br>
--<br>
-diff --git a/recipes-extended/xen/files/0001-x86-work-around-build-issue-wi=
-th-GNU-ld-2.37.patch b/recipes-extended/xen/files/0001-x86-work-around-buil=
-d-issue-with-GNU-ld-2.37.patch<br>
-deleted file mode 100644<br>
-index f5108be..0000000<br>
---- a/recipes-extended/xen/files/0001-x86-work-around-build-issue-with-GNU-=
-ld-2.37.patch<br>
-+++ /dev/null<br>
-@@ -1,36 +0,0 @@<br>
--From 58ad654ebce7ccb272a3f4f3482c03aaad850d31 Mon Sep 17 00:00:00 2001<br>
--From: Jan Beulich &lt;<a href=3D"mailto:jbeulich@suse.com" target=3D"_blan=
-k">jbeulich@suse.com</a>&gt;<br>
--Date: Thu, 22 Jul 2021 11:20:38 +0200<br>
--Subject: [PATCH] x86: work around build issue with GNU ld 2.37<br>
--<br>
--I suspect it is commit 40726f16a8d7 (&quot;ld script expression parsing&qu=
-ot;)<br>
--which broke the hypervisor build, by no longer accepting section names<br>
--with a dash in them inside ADDR() (and perhaps other script directives<br>
--expecting just a section name, not an expression): .note.gnu.build-id<br>
--is such a section.<br>
--<br>
--Quoting all section names passed to ADDR() via DECL_SECTION() works<br>
--around the regression.<br>
--<br>
--Signed-off-by: Jan Beulich &lt;<a href=3D"mailto:jbeulich@suse.com" target=
-=3D"_blank">jbeulich@suse.com</a>&gt;<br>
--Acked-by: Andrew Cooper &lt;<a href=3D"mailto:andrew.cooper3@citrix.com" t=
-arget=3D"_blank">andrew.cooper3@citrix.com</a>&gt;<br>
-----<br>
-- xen/arch/x86/xen.lds.S | 2 +-<br>
-- 1 file changed, 1 insertion(+), 1 deletion(-)<br>
--<br>
--diff --git a/xen/arch/x86/xen.lds.S b/xen/arch/x86/xen.lds.S<br>
--index 9c6c1c8005..955d5cf4a0 100644<br>
----- a/xen/arch/x86/xen.lds.S<br>
--+++ b/xen/arch/x86/xen.lds.S<br>
--@@ -18,7 +18,7 @@ ENTRY(efi_start)<br>
-- #else /* !EFI */<br>
-- <br>
-- #define FORMAT &quot;elf64-x86-64&quot;<br>
---#define DECL_SECTION(x) x : AT(ADDR(x) - __XEN_VIRT_START)<br>
--+#define DECL_SECTION(x) x : AT(ADDR(#x) - __XEN_VIRT_START)<br>
-- <br>
-- ENTRY(start_pa)<br>
-- <br>
---- <br>
--2.25.1<br>
--<br>
-diff --git a/recipes-extended/xen/xen-tools.inc b/recipes-extended/xen/xen-=
-tools.inc<br>
-index 614f557..d831941 100644<br>
---- a/recipes-extended/xen/xen-tools.inc<br>
-+++ b/recipes-extended/xen/xen-tools.inc<br>
-@@ -102,6 +102,7 @@ RSUGGESTS:${PN}-xencov =3D &quot;${PN}-xencov-split&quo=
-t;<br>
-<br>
-=C2=A0RDEPENDS:${PN}-xencommons =3D &quot;\<br>
-=C2=A0 =C2=A0 =C2=A0bash \<br>
-+=C2=A0 =C2=A0 util-linux-prlimit \<br>
-=C2=A0 =C2=A0 =C2=A0${PN}-console \<br>
-=C2=A0 =C2=A0 =C2=A0${PN}-xenstore \<br>
-=C2=A0 =C2=A0 =C2=A0virtual/xenstored \<br>
-@@ -213,6 +214,9 @@ PACKAGES =3D &quot; \<br>
-=C2=A0 =C2=A0 =C2=A0${PN}-xm-examples \<br>
-=C2=A0 =C2=A0 =C2=A0${PN}-xen-access \<br>
-=C2=A0 =C2=A0 =C2=A0${PN}-xen-memshare \<br>
-+=C2=A0 =C2=A0 ${PN}-test \<br>
-+=C2=A0 =C2=A0 ${PN}-xen-vmtrace \<br>
-+=C2=A0 =C2=A0 ${PN}-xen-mceinj \<br>
-=C2=A0 =C2=A0 =C2=A0&quot;<br>
-<br>
-=C2=A0PROVIDES =3D+ &quot; \<br>
-@@ -684,6 +688,31 @@ FILES:${PN}-xen-memshare +=3D &quot;\<br>
-=C2=A0# memshare is only built for x86, so allow empty package for other ar=
-chs<br>
-=C2=A0ALLOW_EMPTY:${PN}-xen-memshare =3D &quot;1&quot;<br>
-<br>
-+FILES:${PN}-test +=3D &quot;\<br>
-+=C2=A0 =C2=A0 ${libdir}/xen/bin/test-xenstore \<br>
-+=C2=A0 =C2=A0 ${libdir}/xen/bin/test-resource \<br>
-+=C2=A0 =C2=A0 ${libdir}/xen/bin/test-cpu-policy \<br>
-+=C2=A0 =C2=A0 ${libdir}/xen/bin/test-tsx \<br>
-+=C2=A0 =C2=A0 &quot;<br>
-+<br>
-+# test-xenstore and test-resource currently only exist in 4.16<br>
-+# test-cpu-policy and test-tsx only exist in 4.16 for x86<br>
-+ALLOW_EMPTY:${PN}-test =3D &quot;1&quot;<br>
-+<br>
-+FILES:${PN}-xen-mceinj +=3D&quot;\<br>
-+=C2=A0 =C2=A0 ${sbindir}/xen-mceinj \<br>
-+=C2=A0 =C2=A0 &quot;<br>
-+<br>
-+# xen-mceinj is only built for x86 4.16, so allow empty package<br>
-+ALLOW_EMPTY:${PN}-xen-mceinj =3D &quot;1&quot;<br>
-+<br>
-+FILES:${PN}-xen-vmtrace +=3D&quot;\<br>
-+=C2=A0 =C2=A0 ${sbindir}/xen-vmtrace \<br>
-+=C2=A0 =C2=A0 &quot;<br>
-+<br>
-+# xen-vmtrace is only built for x86 4.16, so allow empty package<br>
-+ALLOW_EMPTY:${PN}-xen-vmtrace =3D &quot;1&quot;<br>
-+<br>
-=C2=A0INSANE_SKIP:${PN} =3D &quot;already-stripped&quot;<br>
-<br>
-=C2=A0# configure init.d scripts<br>
-diff --git a/recipes-extended/xen/<a href=3D"http://xen-tools_4.14.bb" rel=
-=3D"noreferrer" target=3D"_blank">xen-tools_4.14.bb</a> b/recipes-extended/=
-xen/<a href=3D"http://xen-tools_4.14.bb" rel=3D"noreferrer" target=3D"_blan=
-k">xen-tools_4.14.bb</a><br>
-index ce5dc2e..9d78e44 100644<br>
---- a/recipes-extended/xen/<a href=3D"http://xen-tools_4.14.bb" rel=3D"nore=
-ferrer" target=3D"_blank">xen-tools_4.14.bb</a><br>
-+++ b/recipes-extended/xen/<a href=3D"http://xen-tools_4.14.bb" rel=3D"nore=
-ferrer" target=3D"_blank">xen-tools_4.14.bb</a><br>
-@@ -1,4 +1,5 @@<br>
--SRCREV ?=3D &quot;b6a8c4f72def4d1135ff42660a86276ce2565c8c&quot;<br>
-+# 4.14.3 release SHA<br>
-+SRCREV ?=3D &quot;9f2b6c5ec2ded4c1caf149743e862c5f15d6d083&quot;<br>
-<br>
-=C2=A0XEN_REL ?=3D &quot;4.14&quot;<br>
-=C2=A0XEN_BRANCH ?=3D &quot;stable-${XEN_REL}&quot;<br>
-@@ -8,8 +9,6 @@ SRC_URI =3D &quot; \<br>
-=C2=A0 =C2=A0 =C2=A0file://0001-python-pygrub-pass-DISTUTILS-xen-4.14.patch=
- \<br>
-=C2=A0 =C2=A0 =C2=A0file://0001-firmware-provide-a-stand-alone-set-of-heade=
-rs-Xen-4.14.patch \<br>
-=C2=A0 =C2=A0 =C2=A0file://0001-tools-firmware-Build-firmware-as-ffreestand=
-ing-Xen-4.14.patch \<br>
--=C2=A0 =C2=A0 file://0001-libs-foreignmemory-Fix-osdep_xenforeignmemory_ma=
-p-pr.patch \<br>
--=C2=A0 =C2=A0 file://0001-x86-work-around-build-issue-with-GNU-ld-2.37.pat=
-ch \<br>
-=C2=A0 =C2=A0 =C2=A0&quot;<br>
-<br>
-=C2=A0LIC_FILES_CHKSUM ?=3D &quot;file://COPYING;md5=3D419739e325a50f3d7b45=
-01338e44a4e5&quot;<br>
-diff --git a/recipes-extended/xen/<a href=3D"http://xen-tools_4.15.bb" rel=
-=3D"noreferrer" target=3D"_blank">xen-tools_4.15.bb</a> b/recipes-extended/=
-xen/<a href=3D"http://xen-tools_4.15.bb" rel=3D"noreferrer" target=3D"_blan=
-k">xen-tools_4.15.bb</a><br>
-index e9c3bd6..840f162 100644<br>
---- a/recipes-extended/xen/<a href=3D"http://xen-tools_4.15.bb" rel=3D"nore=
-ferrer" target=3D"_blank">xen-tools_4.15.bb</a><br>
-+++ b/recipes-extended/xen/<a href=3D"http://xen-tools_4.15.bb" rel=3D"nore=
-ferrer" target=3D"_blank">xen-tools_4.15.bb</a><br>
-@@ -1,4 +1,5 @@<br>
--SRCREV ?=3D &quot;e25aa9939ae0cd8317605be3d5c5611b76bc4ab4&quot;<br>
-+# xen 4.15.1 release sha<br>
-+SRCREV ?=3D &quot;84fa99099b920f7bcde8899e1a9b756078719d7d&quot;<br>
-<br>
-=C2=A0XEN_REL ?=3D &quot;4.15&quot;<br>
-=C2=A0XEN_BRANCH ?=3D &quot;stable-${XEN_REL}&quot;<br>
-@@ -6,8 +7,6 @@ XEN_BRANCH ?=3D &quot;stable-${XEN_REL}&quot;<br>
-=C2=A0SRC_URI =3D &quot; \<br>
-=C2=A0 =C2=A0 =C2=A0git://<a href=3D"http://xenbits.xen.org/xen.git;branch=
-=3D$%7BXEN_BRANCH%7D" rel=3D"noreferrer" target=3D"_blank">xenbits.xen.org/=
-xen.git;branch=3D${XEN_BRANCH}</a> \<br>
-=C2=A0 =C2=A0 =C2=A0file://0001-python-pygrub-pass-DISTUTILS-xen-4.15.patch=
- \<br>
--=C2=A0 =C2=A0 file://0001-libs-foreignmemory-Fix-osdep_xenforeignmemory_ma=
-p-pr.patch \<br>
--=C2=A0 =C2=A0 file://0001-x86-work-around-build-issue-with-GNU-ld-2.37.pat=
-ch \<br>
-=C2=A0 =C2=A0 =C2=A0&quot;<br>
-<br>
-=C2=A0LIC_FILES_CHKSUM ?=3D &quot;file://COPYING;md5=3D419739e325a50f3d7b45=
-01338e44a4e5&quot;<br>
-diff --git a/recipes-extended/xen/<a href=3D"http://xen-tools_git.bb" rel=
-=3D"noreferrer" target=3D"_blank">xen-tools_git.bb</a> b/recipes-extended/x=
-en/<a href=3D"http://xen-tools_git.bb" rel=3D"noreferrer" target=3D"_blank"=
->xen-tools_git.bb</a><br>
-index 6926bd9..8ff9c4c 100644<br>
---- a/recipes-extended/xen/<a href=3D"http://xen-tools_git.bb" rel=3D"noref=
-errer" target=3D"_blank">xen-tools_git.bb</a><br>
-+++ b/recipes-extended/xen/<a href=3D"http://xen-tools_git.bb" rel=3D"noref=
-errer" target=3D"_blank">xen-tools_git.bb</a><br>
-@@ -1,4 +1,5 @@<br>
--SRCREV ?=3D &quot;e680cc48b7184d3489873d6776f84ba1fc238ced&quot;<br>
-+# master status on 2020-10-21<br>
-+SRCREV ?=3D &quot;23ec1ebc8acbfd2bf06f6085a776f0db923f9fa9&quot;<br>
-<br>
-=C2=A0XEN_REL ?=3D &quot;4.16&quot;<br>
-=C2=A0XEN_BRANCH ?=3D &quot;master&quot;<br>
-@@ -6,8 +7,6 @@ XEN_BRANCH ?=3D &quot;master&quot;<br>
-=C2=A0SRC_URI =3D &quot; \<br>
-=C2=A0 =C2=A0 =C2=A0git://<a href=3D"http://xenbits.xen.org/xen.git;branch=
-=3D$%7BXEN_BRANCH%7D" rel=3D"noreferrer" target=3D"_blank">xenbits.xen.org/=
-xen.git;branch=3D${XEN_BRANCH}</a> \<br>
-=C2=A0 =C2=A0 =C2=A0file://0001-python-pygrub-pass-DISTUTILS-xen-4.15.patch=
- \<br>
--=C2=A0 =C2=A0 file://0001-libs-foreignmemory-Fix-osdep_xenforeignmemory_ma=
-p-pr.patch \<br>
--=C2=A0 =C2=A0 file://0001-x86-work-around-build-issue-with-GNU-ld-2.37.pat=
-ch \<br>
-=C2=A0 =C2=A0 =C2=A0&quot;<br>
-<br>
-=C2=A0LIC_FILES_CHKSUM ?=3D &quot;file://COPYING;md5=3D419739e325a50f3d7b45=
-01338e44a4e5&quot;<br>
-diff --git a/recipes-extended/xen/<a href=3D"http://xen_4.14.bb" rel=3D"nor=
-eferrer" target=3D"_blank">xen_4.14.bb</a> b/recipes-extended/xen/<a href=
-=3D"http://xen_4.14.bb" rel=3D"noreferrer" target=3D"_blank">xen_4.14.bb</a=
-><br>
-index 291ba16..0d7d20b 100644<br>
---- a/recipes-extended/xen/<a href=3D"http://xen_4.14.bb" rel=3D"noreferrer=
-" target=3D"_blank">xen_4.14.bb</a><br>
-+++ b/recipes-extended/xen/<a href=3D"http://xen_4.14.bb" rel=3D"noreferrer=
-" target=3D"_blank">xen_4.14.bb</a><br>
-@@ -1,4 +1,5 @@<br>
--SRCREV ?=3D &quot;b6a8c4f72def4d1135ff42660a86276ce2565c8c&quot;<br>
-+# 4.14.3 release SHA<br>
-+SRCREV ?=3D &quot;9f2b6c5ec2ded4c1caf149743e862c5f15d6d083&quot;<br>
-<br>
-=C2=A0XEN_REL ?=3D &quot;4.14&quot;<br>
-=C2=A0XEN_BRANCH ?=3D &quot;stable-${XEN_REL}&quot;<br>
-@@ -7,7 +8,6 @@ SRC_URI =3D &quot; \<br>
-=C2=A0 =C2=A0 =C2=A0git://<a href=3D"http://xenbits.xen.org/xen.git;branch=
-=3D$%7BXEN_BRANCH%7D" rel=3D"noreferrer" target=3D"_blank">xenbits.xen.org/=
-xen.git;branch=3D${XEN_BRANCH}</a> \<br>
-=C2=A0 =C2=A0 =C2=A0file://xen-arm64-implement-atomic-fetch-add.patch \<br>
-=C2=A0 =C2=A0 =C2=A0file://0001-menuconfig-mconf-cfg-Allow-specification-of=
--ncurses-location.patch \<br>
--=C2=A0 =C2=A0 file://0001-x86-work-around-build-issue-with-GNU-ld-2.37.pat=
-ch \<br>
-=C2=A0 =C2=A0 =C2=A0&quot;<br>
-<br>
-=C2=A0LIC_FILES_CHKSUM ?=3D &quot;file://COPYING;md5=3D419739e325a50f3d7b45=
-01338e44a4e5&quot;<br>
-diff --git a/recipes-extended/xen/<a href=3D"http://xen_4.15.bb" rel=3D"nor=
-eferrer" target=3D"_blank">xen_4.15.bb</a> b/recipes-extended/xen/<a href=
-=3D"http://xen_4.15.bb" rel=3D"noreferrer" target=3D"_blank">xen_4.15.bb</a=
-><br>
-index 0605441..0cfaf0c 100644<br>
---- a/recipes-extended/xen/<a href=3D"http://xen_4.15.bb" rel=3D"noreferrer=
-" target=3D"_blank">xen_4.15.bb</a><br>
-+++ b/recipes-extended/xen/<a href=3D"http://xen_4.15.bb" rel=3D"noreferrer=
-" target=3D"_blank">xen_4.15.bb</a><br>
-@@ -1,4 +1,5 @@<br>
--SRCREV ?=3D &quot;e25aa9939ae0cd8317605be3d5c5611b76bc4ab4&quot;<br>
-+# xen 4.15.1 release sha<br>
-+SRCREV ?=3D &quot;84fa99099b920f7bcde8899e1a9b756078719d7d&quot;<br>
-<br>
-=C2=A0XEN_REL ?=3D &quot;4.15&quot;<br>
-=C2=A0XEN_BRANCH ?=3D &quot;stable-${XEN_REL}&quot;<br>
-@@ -7,8 +8,6 @@ SRC_URI =3D &quot; \<br>
-=C2=A0 =C2=A0 =C2=A0git://<a href=3D"http://xenbits.xen.org/xen.git;branch=
-=3D$%7BXEN_BRANCH%7D" rel=3D"noreferrer" target=3D"_blank">xenbits.xen.org/=
-xen.git;branch=3D${XEN_BRANCH}</a> \<br>
-=C2=A0 =C2=A0 =C2=A0file://xen-arm64-implement-atomic-fetch-add.patch \<br>
-=C2=A0 =C2=A0 =C2=A0file://0001-menuconfig-mconf-cfg-Allow-specification-of=
--ncurses-location.patch \<br>
--=C2=A0 =C2=A0 file://0001-x86-make-hypervisor-build-with-gcc11.patch \<br>
--=C2=A0 =C2=A0 file://0001-x86-work-around-build-issue-with-GNU-ld-2.37.pat=
-ch \<br>
-=C2=A0 =C2=A0 =C2=A0&quot;<br>
-<br>
-=C2=A0LIC_FILES_CHKSUM ?=3D &quot;file://COPYING;md5=3D419739e325a50f3d7b45=
-01338e44a4e5&quot;<br>
-diff --git a/recipes-extended/xen/<a href=3D"http://xen_git.bb" rel=3D"nore=
-ferrer" target=3D"_blank">xen_git.bb</a> b/recipes-extended/xen/<a href=3D"=
-http://xen_git.bb" rel=3D"noreferrer" target=3D"_blank">xen_git.bb</a><br>
-index 12c9403..20227e0 100644<br>
---- a/recipes-extended/xen/<a href=3D"http://xen_git.bb" rel=3D"noreferrer"=
- target=3D"_blank">xen_git.bb</a><br>
-+++ b/recipes-extended/xen/<a href=3D"http://xen_git.bb" rel=3D"noreferrer"=
- target=3D"_blank">xen_git.bb</a><br>
-@@ -1,4 +1,5 @@<br>
--SRCREV ?=3D &quot;e680cc48b7184d3489873d6776f84ba1fc238ced&quot;<br>
-+# master status on 2020-10-21<br>
-+SRCREV ?=3D &quot;23ec1ebc8acbfd2bf06f6085a776f0db923f9fa9&quot;<br>
-<br>
-=C2=A0XEN_REL ?=3D &quot;4.16&quot;<br>
-=C2=A0XEN_BRANCH ?=3D &quot;master&quot;<br>
-@@ -7,8 +8,6 @@ SRC_URI =3D &quot; \<br>
-=C2=A0 =C2=A0 =C2=A0git://<a href=3D"http://xenbits.xen.org/xen.git;branch=
-=3D$%7BXEN_BRANCH%7D" rel=3D"noreferrer" target=3D"_blank">xenbits.xen.org/=
-xen.git;branch=3D${XEN_BRANCH}</a> \<br>
-=C2=A0 =C2=A0 =C2=A0file://xen-arm64-implement-atomic-fetch-add.patch \<br>
-=C2=A0 =C2=A0 =C2=A0file://0001-menuconfig-mconf-cfg-Allow-specification-of=
--ncurses-location.patch \<br>
--=C2=A0 =C2=A0 file://0001-x86-make-hypervisor-build-with-gcc11.patch \<br>
--=C2=A0 =C2=A0 file://0001-x86-work-around-build-issue-with-GNU-ld-2.37.pat=
-ch \<br>
-=C2=A0 =C2=A0 =C2=A0&quot;<br>
-<br>
-=C2=A0LIC_FILES_CHKSUM ?=3D &quot;file://COPYING;md5=3D419739e325a50f3d7b45=
-01338e44a4e5&quot;<br>
--- <br>
-2.25.1<br>
-<br>
-<br>
-<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature">- Thou shalt not follow the NULL pointer, for ch=
-aos and madness await thee at its end<br>- &quot;Use the force Harry&quot; =
-- Gandalf, Star Trek II<br><br></div></div>
-
---00000000000046db4d05cf41fbb9--
+SGkgQnJ1Y2UsDQoNCj4gT24gMjYgT2N0IDIwMjEsIGF0IDE1OjA2LCBCcnVjZSBBc2hmaWVsZCA8
+YnJ1Y2UuYXNoZmllbGRAZ21haWwuY29tPiB3cm90ZToNCj4NCj4NCj4NCj4gT24gVHVlLCBPY3Qg
+MjYsIDIwMjEgYXQgOTozMiBBTSBFZHdhcmQgUGlja3VwIDxlZHdhcmQucGlja3VwQGFybS5jb20+
+IHdyb3RlOg0KPiBVcGRhdGUgdGhlIFNIQSBpbiByZWNpcGVzIGZvciB4ZW4gYW5kIHhlbi10b29s
+cyB0byB1c2UgdGhlIGxhdGVzdCByZWxlYXNlczsNCj4gdXBkYXRlIHhlbiA0LjE0IHRvIHhlbiA0
+LjE0LjMgcmVsZWFzZSwgdXBkYXRlIHhlbiA0LjE1IHRvIDQuMTUuMSByZWxlYXNlLCBhbmQNCj4g
+eGVuIDQuMTYgdG8gdGhlIGN1cnJlbnQgbWFzdGVyIHZlcnNpb24uDQo+DQo+IEFkZCBhIGNvbW1l
+bnQgdG8gZWFjaCByZWNpcGUgaW5kaWNhdGluZyB3aGljaCB2ZXJzaW9uIG9mIFhlbiBpcyB1c2Vk
+IGluIHJlY2lwZS4NCj4NCj4gRG8gbm90IGFwcGx5IHBhdGNoZXMgdGhhdCBoYXZlIGJlZW4gbWVy
+Z2VkL3NvbHZlZCBpbiBYZW4gYW5kIHJlbW92ZSBwYXRjaCBmaWxlcw0KPiBub3QgbmVlZGVkIGFu
+eW1vcmUuDQo+DQo+IENyZWF0ZSBhIHRlc3QgcGFja2FnZSB0byBwYWNrIG5ldyB0ZXN0cyBpbnRy
+b2R1Y2VkIGluIDQuMTYuDQo+DQo+IEFkZCBhIGRlcGVuY2VuY3kgdG8gdXRpbC1saW51eC1wcmxp
+bWl0LCBhcyB0aGUgeGVuIDQuMTYgeDg2IHJlcXVpcmVzIHBybGltaXQsDQo+IHdpdGhvdXQgdGhp
+cyBib290IG9mIGRvbTAgZmFpbHMuDQo+DQo+DQo+IEdpdmVuIHlvdXIgb3RoZXIgZW1haWwsIEkg
+YXNzdW1lIHRoYXQgdGhlIDQuMTYgYnVtcCBpc24ndCBidWlsZGluZyBmb3IgcWVtdWFybTY0ID8g
+T3RoZXJ3aXNlLCB0aGV5IGFyZSBhbGwgYnVpbGRpbmcgZm9yIHRoZSBzdXBwb3J0ZWQgdGFyZ2V0
+cyA/DQoNClRoaXMgaXMgYnVpbGRpbmcgZm9yIGFsbCBxZW11IHRhcmdldCAoYXJtMzIsIDY0IGFu
+ZCB4ODZfNjQpLiBGb3IgYXJtNjQgSSBjaGVja2VkIHRoYXQgYnkgY29tbWVudGluZyBvdXQgdGhl
+IGRldmljZSB0cmVlIG1vZGlmaWNhdGlvbiBpbiB0aGUgY2xhc3MuDQoNClRoaXMgaXMgcHJvcGVy
+bHkgYm9vdGluZyBvbiBxZW11IHg4NiBhbmQgb24gb3RoZXIgYXJtIHRhcmdldHMgKHVzaW5nIG1l
+dGEtYXJtIGxheWVyIGZvciB0aGUgQlNQcykuDQoNCkkgZGlkIHJldmlldyBhbmQgY29tcGlsZSB0
+ZXN0IHRoaXMgc28geW91IGNhbiBhZGQgbXk6DQoNClJldmlld2VkLWJ5OiBCZXJ0cmFuZCBNYXJx
+dWlzIDxiZXJ0cmFuZC5tYXJxdWlzQGFybS5jb20+DQoNCkNoZWVycw0KQmVydHJhbmQNCg0KPg0K
+PiBCcnVjZQ0KPg0KPg0KPiBTaWduZWQtb2ZmLWJ5OiBFZHdhcmQgUGlja3VwIDxFZHdhcmQuUGlj
+a3VwQGFybS5jb20+DQo+IC0tLQ0KPiAgLi4ucnktRml4LW9zZGVwX3hlbmZvcmVpZ25tZW1vcnlf
+bWFwLXByLnBhdGNoIHwgIDMzIC0tLS0tLQ0KPiAgLi4ueDg2LW1ha2UtaHlwZXJ2aXNvci1idWls
+ZC13aXRoLWdjYzExLnBhdGNoIHwgMTExIC0tLS0tLS0tLS0tLS0tLS0tLQ0KPiAgLi4uLWFyb3Vu
+ZC1idWlsZC1pc3N1ZS13aXRoLUdOVS1sZC0yLjM3LnBhdGNoIHwgIDM2IC0tLS0tLQ0KPiAgcmVj
+aXBlcy1leHRlbmRlZC94ZW4veGVuLXRvb2xzLmluYyAgICAgICAgICAgIHwgIDI5ICsrKysrDQo+
+ICByZWNpcGVzLWV4dGVuZGVkL3hlbi94ZW4tdG9vbHNfNC4xNC5iYiAgICAgICAgfCAgIDUgKy0N
+Cj4gIHJlY2lwZXMtZXh0ZW5kZWQveGVuL3hlbi10b29sc180LjE1LmJiICAgICAgICB8ICAgNSAr
+LQ0KPiAgcmVjaXBlcy1leHRlbmRlZC94ZW4veGVuLXRvb2xzX2dpdC5iYiAgICAgICAgIHwgICA1
+ICstDQo+ICByZWNpcGVzLWV4dGVuZGVkL3hlbi94ZW5fNC4xNC5iYiAgICAgICAgICAgICAgfCAg
+IDQgKy0NCj4gIHJlY2lwZXMtZXh0ZW5kZWQveGVuL3hlbl80LjE1LmJiICAgICAgICAgICAgICB8
+ICAgNSArLQ0KPiAgcmVjaXBlcy1leHRlbmRlZC94ZW4veGVuX2dpdC5iYiAgICAgICAgICAgICAg
+IHwgICA1ICstDQo+ICAxMCBmaWxlcyBjaGFuZ2VkLCA0MSBpbnNlcnRpb25zKCspLCAxOTcgZGVs
+ZXRpb25zKC0pDQo+ICBkZWxldGUgbW9kZSAxMDA2NDQgcmVjaXBlcy1leHRlbmRlZC94ZW4vZmls
+ZXMvMDAwMS1saWJzLWZvcmVpZ25tZW1vcnktRml4LW9zZGVwX3hlbmZvcmVpZ25tZW1vcnlfbWFw
+LXByLnBhdGNoDQo+ICBkZWxldGUgbW9kZSAxMDA2NDQgcmVjaXBlcy1leHRlbmRlZC94ZW4vZmls
+ZXMvMDAwMS14ODYtbWFrZS1oeXBlcnZpc29yLWJ1aWxkLXdpdGgtZ2NjMTEucGF0Y2gNCj4gIGRl
+bGV0ZSBtb2RlIDEwMDY0NCByZWNpcGVzLWV4dGVuZGVkL3hlbi9maWxlcy8wMDAxLXg4Ni13b3Jr
+LWFyb3VuZC1idWlsZC1pc3N1ZS13aXRoLUdOVS1sZC0yLjM3LnBhdGNoDQo+DQo+IGRpZmYgLS1n
+aXQgYS9yZWNpcGVzLWV4dGVuZGVkL3hlbi9maWxlcy8wMDAxLWxpYnMtZm9yZWlnbm1lbW9yeS1G
+aXgtb3NkZXBfeGVuZm9yZWlnbm1lbW9yeV9tYXAtcHIucGF0Y2ggYi9yZWNpcGVzLWV4dGVuZGVk
+L3hlbi9maWxlcy8wMDAxLWxpYnMtZm9yZWlnbm1lbW9yeS1GaXgtb3NkZXBfeGVuZm9yZWlnbm1l
+bW9yeV9tYXAtcHIucGF0Y2gNCj4gZGVsZXRlZCBmaWxlIG1vZGUgMTAwNjQ0DQo+IGluZGV4IDJl
+M2IxYTYuLjAwMDAwMDANCj4gLS0tIGEvcmVjaXBlcy1leHRlbmRlZC94ZW4vZmlsZXMvMDAwMS1s
+aWJzLWZvcmVpZ25tZW1vcnktRml4LW9zZGVwX3hlbmZvcmVpZ25tZW1vcnlfbWFwLXByLnBhdGNo
+DQo+ICsrKyAvZGV2L251bGwNCj4gQEAgLTEsMzMgKzAsMCBAQA0KPiAtRnJvbSA1ZDNlNGViYjVj
+NzE0NzdkNzRhMGM1MDM0Mzg1NDVhMDEyNmQzODYzIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQ0K
+PiAtRnJvbTogQW50aG9ueSBQRVJBUkQgPGFudGhvbnkucGVyYXJkQGNpdHJpeC5jb20+DQo+IC1E
+YXRlOiBUdWUsIDEgSnVuIDIwMjEgMTY6NDE6NDcgKzAxMDANCj4gLVN1YmplY3Q6IFtQQVRDSF0g
+bGlicy9mb3JlaWdubWVtb3J5OiBGaXggb3NkZXBfeGVuZm9yZWlnbm1lbW9yeV9tYXAgcHJvdG90
+eXBlDQo+IC0NCj4gLUNvbW1pdCBjZjhjNGQzZDEzYjggbWFkZSBzb21lIHByZXBhcmF0aW9uIHRv
+IGhhdmUgb25lIGRheQ0KPiAtdmFyaWFibGUtbGVuZ3RoLWFycmF5IGFyZ3VtZW50LCBidXQgZGlk
+bid0IGRlY2xhcmUgdGhlIGFycmF5IGluIHRoZQ0KPiAtZnVuY3Rpb24gcHJvdG90eXBlIHRoZSBz
+YW1lIHdheSBhcyBpbiB0aGUgZnVuY3Rpb24gZGVmaW5pdGlvbi4gQW5kIG5vdw0KPiAtR0NDIDEx
+IGNvbXBsYWlucyBhYm91dCBpdC4NCj4gLQ0KPiAtRml4ZXM6IGNmOGM0ZDNkMTNiOCAoInRvb2xz
+L2xpYnMvZm9yZWlnbm1lbW9yeTogcHVsbCBhcnJheSBsZW5ndGggYXJndW1lbnQgdG8gbWFwIGZv
+cndhcmQiKQ0KPiAtU2lnbmVkLW9mZi1ieTogQW50aG9ueSBQRVJBUkQgPGFudGhvbnkucGVyYXJk
+QGNpdHJpeC5jb20+DQo+IC1SZXZpZXdlZC1ieTogSmFuIEJldWxpY2ggPGpiZXVsaWNoQHN1c2Uu
+Y29tPg0KPiAtLS0tDQo+IC0gdG9vbHMvbGlicy9mb3JlaWdubWVtb3J5L3ByaXZhdGUuaCB8IDIg
+Ky0NCj4gLSAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkNCj4g
+LQ0KPiAtZGlmZiAtLWdpdCBhL3Rvb2xzL2xpYnMvZm9yZWlnbm1lbW9yeS9wcml2YXRlLmggYi90
+b29scy9saWJzL2ZvcmVpZ25tZW1vcnkvcHJpdmF0ZS5oDQo+IC1pbmRleCAxZWUzNjI2ZGQyLi41
+YmIwY2VmYjA5IDEwMDY0NA0KPiAtLS0tIGEvdG9vbHMvbGlicy9mb3JlaWdubWVtb3J5L3ByaXZh
+dGUuaA0KPiAtKysrIGIvdG9vbHMvbGlicy9mb3JlaWdubWVtb3J5L3ByaXZhdGUuaA0KPiAtQEAg
+LTMyLDcgKzMyLDcgQEAgaW50IG9zZGVwX3hlbmZvcmVpZ25tZW1vcnlfY2xvc2UoeGVuZm9yZWln
+bm1lbW9yeV9oYW5kbGUgKmZtZW0pOw0KPiAtIHZvaWQgKm9zZGVwX3hlbmZvcmVpZ25tZW1vcnlf
+bWFwKHhlbmZvcmVpZ25tZW1vcnlfaGFuZGxlICpmbWVtLA0KPiAtICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgIHVpbnQzMl90IGRvbSwgdm9pZCAqYWRkciwNCj4gLSAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICBpbnQgcHJvdCwgaW50IGZsYWdzLCBzaXplX3QgbnVtLA0K
+PiAtLSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGNvbnN0IHhlbl9wZm5fdCBhcnJb
+bnVtXSwgaW50IGVycltudW1dKTsNCj4gLSsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICBjb25zdCB4ZW5fcGZuX3QgYXJyWy8qbnVtKi9dLCBpbnQgZXJyWy8qbnVtKi9dKTsNCj4gLSBp
+bnQgb3NkZXBfeGVuZm9yZWlnbm1lbW9yeV91bm1hcCh4ZW5mb3JlaWdubWVtb3J5X2hhbmRsZSAq
+Zm1lbSwNCj4gLSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB2b2lkICphZGRyLCBz
+aXplX3QgbnVtKTsNCj4gLQ0KPiAtLS0NCj4gLTIuMjUuMQ0KPiAtDQo+IGRpZmYgLS1naXQgYS9y
+ZWNpcGVzLWV4dGVuZGVkL3hlbi9maWxlcy8wMDAxLXg4Ni1tYWtlLWh5cGVydmlzb3ItYnVpbGQt
+d2l0aC1nY2MxMS5wYXRjaCBiL3JlY2lwZXMtZXh0ZW5kZWQveGVuL2ZpbGVzLzAwMDEteDg2LW1h
+a2UtaHlwZXJ2aXNvci1idWlsZC13aXRoLWdjYzExLnBhdGNoDQo+IGRlbGV0ZWQgZmlsZSBtb2Rl
+IDEwMDY0NA0KPiBpbmRleCA3MjU5MmM0Li4wMDAwMDAwDQo+IC0tLSBhL3JlY2lwZXMtZXh0ZW5k
+ZWQveGVuL2ZpbGVzLzAwMDEteDg2LW1ha2UtaHlwZXJ2aXNvci1idWlsZC13aXRoLWdjYzExLnBh
+dGNoDQo+ICsrKyAvZGV2L251bGwNCj4gQEAgLTEsMTExICswLDAgQEANCj4gLUZyb20gNzIyZjU5
+ZDM4YzcxMGE5NDBhYjA1ZTU0MmE4MzAyMGViNTU0NmRlYSBNb24gU2VwIDE3IDAwOjAwOjAwIDIw
+MDENCj4gLUZyb206IEphbiBCZXVsaWNoIDxqYmV1bGljaEBzdXNlLmNvbT4NCj4gLURhdGU6IFRo
+dSwgMjcgTWF5IDIwMjEgMTQ6NDA6MjkgKzAyMDANCj4gLVN1YmplY3Q6IFtQQVRDSF0geDg2OiBt
+YWtlIGh5cGVydmlzb3IgYnVpbGQgd2l0aCBnY2MxMQ0KPiAtTUlNRS1WZXJzaW9uOiAxLjANCj4g
+LUNvbnRlbnQtVHlwZTogdGV4dC9wbGFpbjsgY2hhcnNldD1VVEYtOA0KPiAtQ29udGVudC1UcmFu
+c2Zlci1FbmNvZGluZzogOGJpdA0KPiAtDQo+IC1HY2MgMTEgbG9va3MgdG8gbWFrZSBpbmNvcnJl
+Y3QgYXNzdW1wdGlvbnMgYWJvdXQgdmFsaWQgcmFuZ2VzIHRoYXQNCj4gLXBvaW50ZXJzIG1heSBi
+ZSB1c2VkIGZvciBhZGRyZXNzaW5nIHdoZW4gdGhleSBhcmUgZGVyaXZlZCBmcm9tIGUuZy4gYQ0K
+PiAtcGxhaW4gY29uc3RhbnQuIFNlZSBodHRwczovL2djYy5nbnUub3JnL2J1Z3ppbGxhL3Nob3df
+YnVnLmNnaT9pZD0xMDA2ODAuDQo+IC0NCj4gLVV0aWxpemUgUkVMT0NfSElERSgpIHRvIHdvcmsg
+YXJvdW5kIHRoZSBpc3N1ZSwgd2hpY2ggZm9yIHg4NiBtYW5pZmVzdHMNCj4gLWluIGF0IGxlYXN0
+DQo+IC0tIG1wcGFyc2UuYzplZmlfY2hlY2tfY29uZmlnKCksDQo+IC0tIHRib290LmM6dGJvb3Rf
+cHJvYmUoKSwNCj4gLS0gdGJvb3QuYzp0Ym9vdF9nZW5fZnJhbWV0YWJsZV9pbnRlZ3JpdHkoKSwN
+Cj4gLS0geDg2X2VtdWxhdGUuYzp4ODZfZW11bGF0ZSgpIChhdCAtTzIgb25seSkuDQo+IC1UaGUg
+bGFzdCBjYXNlIGlzIHBhcnRpY3VsYXJseSBvZGQgbm90IGp1c3QgYmVjYXVzZSBpdCBvbmx5IHRy
+aWdnZXJzIGF0DQo+IC1oaWdoZXIgb3B0aW1pemF0aW9uIGxldmVscywgYnV0IGFsc28gYmVjYXVz
+ZSBpdCBvbmx5IGFmZmVjdHMgb25lIG9mIGF0DQo+IC1sZWFzdCB0aHJlZSBzaW1pbGFyIGNvbnN0
+cnVjdHMuIFZhcmlvdXMgIm5vdGUiIGRpYWdub3N0aWNzIGNsYWltIHRoZQ0KPiAtdmFsaWQgaW5k
+ZXggcmFuZ2UgdG8gYmUgWzAsIDLigbbCsy0xXS4NCj4gLQ0KPiAtU2lnbmVkLW9mZi1ieTogSmFu
+IEJldWxpY2ggPGpiZXVsaWNoQHN1c2UuY29tPg0KPiAtVGVzdGVkLWJ5OiBKYXNvbiBBbmRyeXVr
+IDxqYW5kcnl1a0BnbWFpbC5jb20+DQo+IC1BY2tlZC1ieTogUm9nZXIgUGF1IE1vbm7DqSA8cm9n
+ZXIucGF1QGNpdHJpeC5jb20+DQo+IC0tLS0NCj4gLSB0b29scy90ZXN0cy94ODZfZW11bGF0b3Iv
+eDg2LWVtdWxhdGUuYyB8IDcgKysrKysrKw0KPiAtIHhlbi9hcmNoL3g4Ni94ODZfZW11bGF0ZS94
+ODZfZW11bGF0ZS5jIHwgMiArLQ0KPiAtIHhlbi9pbmNsdWRlL2FzbS14ODYvZml4bWFwLmggICAg
+ICAgICAgIHwgMiArLQ0KPiAtIHhlbi9pbmNsdWRlL3hlbi9jb21waWxlci5oICAgICAgICAgICAg
+IHwgNiArKysrKysNCj4gLSB4ZW4vaW5jbHVkZS94ZW4vcGR4LmggICAgICAgICAgICAgICAgICB8
+IDIgKy0NCj4gLSA1IGZpbGVzIGNoYW5nZWQsIDE2IGluc2VydGlvbnMoKyksIDMgZGVsZXRpb25z
+KC0pDQo+IC0NCj4gLWRpZmYgLS1naXQgYS90b29scy90ZXN0cy94ODZfZW11bGF0b3IveDg2LWVt
+dWxhdGUuYyBiL3Rvb2xzL3Rlc3RzL3g4Nl9lbXVsYXRvci94ODYtZW11bGF0ZS5jDQo+IC1pbmRl
+eCAwN2Y4OTJkYmJiLi5lYTI4NmQ2YWQ4IDEwMDY0NA0KPiAtLS0tIGEvdG9vbHMvdGVzdHMveDg2
+X2VtdWxhdG9yL3g4Ni1lbXVsYXRlLmMNCj4gLSsrKyBiL3Rvb2xzL3Rlc3RzL3g4Nl9lbXVsYXRv
+ci94ODYtZW11bGF0ZS5jDQo+IC1AQCAtOCw2ICs4LDEzIEBADQo+IC0NCj4gLSAjZGVmaW5lIEVS
+Ul9QVFIodmFsKSBOVUxMDQo+IC0NCj4gLSsvKiBTZWUgZ2NjIGJ1ZyAxMDA2ODAsIGJ1dCBoZXJl
+IGRvbid0IGJvdGhlciBtYWtpbmcgdGhpcyB2ZXJzaW9uIGRlcGVuZGVudC4gKi8NCj4gLSsjZGVm
+aW5lIGdjYzExX3dyYXAoeCkgKHsgICAgICAgICAgICAgICAgICBcDQo+IC0rICAgIHVuc2lnbmVk
+IGxvbmcgeF87ICAgICAgICAgICAgICAgICAgICAgXA0KPiAtKyAgICBfX2FzbV9fICggIiIgOiAi
+PWciICh4XykgOiAiMCIgKHgpICk7IFwNCj4gLSsgICAgKHR5cGVvZih4KSl4XzsgICAgICAgICAg
+ICAgICAgICAgICAgICBcDQo+IC0rfSkNCj4gLSsNCj4gLSAjZGVmaW5lIGNwdV9oYXNfYW1kX2Vy
+cmF0dW0obnIpIDANCj4gLSAjZGVmaW5lIGNwdV9oYXNfbXB4IGZhbHNlDQo+IC0gI2RlZmluZSBy
+ZWFkX2JuZGNmZ3UoKSAwDQo+IC1kaWZmIC0tZ2l0IGEveGVuL2FyY2gveDg2L3g4Nl9lbXVsYXRl
+L3g4Nl9lbXVsYXRlLmMgYi94ZW4vYXJjaC94ODYveDg2X2VtdWxhdGUveDg2X2VtdWxhdGUuYw0K
+PiAtaW5kZXggYzI1ZDg4ZDBkOC4uMzFmZGVjMDMwYyAxMDA2NDQNCj4gLS0tLSBhL3hlbi9hcmNo
+L3g4Ni94ODZfZW11bGF0ZS94ODZfZW11bGF0ZS5jDQo+IC0rKysgYi94ZW4vYXJjaC94ODYveDg2
+X2VtdWxhdGUveDg2X2VtdWxhdGUuYw0KPiAtQEAgLTcyNiw3ICs3MjYsNyBAQCB1bmlvbiB2ZXgg
+ew0KPiAtICNkZWZpbmUgY29weV9WRVgocHRyLCB2ZXgpICh7IFwNCj4gLSAgICAgaWYgKCAhbW9k
+ZV82NGJpdCgpICkgXA0KPiAtICAgICAgICAgKHZleCkucmVnIHw9IDg7IFwNCj4gLS0gICAgKHB0
+cilbMCAtIFBGWF9CWVRFU10gPSBleHQgPCBleHRfOGYwOCA/IDB4YzQgOiAweDhmOyBcDQo+IC0r
+ICAgIGdjYzExX3dyYXAocHRyKVswIC0gUEZYX0JZVEVTXSA9IGV4dCA8IGV4dF84ZjA4ID8gMHhj
+NCA6IDB4OGY7IFwNCj4gLSAgICAgKHB0cilbMSAtIFBGWF9CWVRFU10gPSAodmV4KS5yYXdbMF07
+IFwNCj4gLSAgICAgKHB0cilbMiAtIFBGWF9CWVRFU10gPSAodmV4KS5yYXdbMV07IFwNCj4gLSAg
+ICAgY29udGFpbmVyX29mKChwdHIpICsgMSAtIFBGWF9CWVRFUywgdHlwZW9mKHZleCksIHJhd1sw
+XSk7IFwNCj4gLWRpZmYgLS1naXQgYS94ZW4vaW5jbHVkZS9hc20teDg2L2ZpeG1hcC5oIGIveGVu
+L2luY2x1ZGUvYXNtLXg4Ni9maXhtYXAuaA0KPiAtaW5kZXggMGRiMzE0YmFlYi4uMjA3NDZhZmQw
+YSAxMDA2NDQNCj4gLS0tLSBhL3hlbi9pbmNsdWRlL2FzbS14ODYvZml4bWFwLmgNCj4gLSsrKyBi
+L3hlbi9pbmNsdWRlL2FzbS14ODYvZml4bWFwLmgNCj4gLUBAIC03OCw3ICs3OCw3IEBAIGV4dGVy
+biB2b2lkIF9fc2V0X2ZpeG1hcCgNCj4gLQ0KPiAtICNkZWZpbmUgY2xlYXJfZml4bWFwKGlkeCkg
+X19zZXRfZml4bWFwKGlkeCwgMCwgMCkNCj4gLQ0KPiAtLSNkZWZpbmUgX19maXhfdG9fdmlydCh4
+KSAoRklYQUREUl9UT1AgLSAoKHgpIDw8IFBBR0VfU0hJRlQpKQ0KPiAtKyNkZWZpbmUgX19maXhf
+dG9fdmlydCh4KSBnY2MxMV93cmFwKEZJWEFERFJfVE9QIC0gKCh4KSA8PCBQQUdFX1NISUZUKSkN
+Cj4gLSAjZGVmaW5lIF9fdmlydF90b19maXgoeCkgKChGSVhBRERSX1RPUCAtICgoeCkmUEFHRV9N
+QVNLKSkgPj4gUEFHRV9TSElGVCkNCj4gLQ0KPiAtICNkZWZpbmUgZml4X3RvX3ZpcnQoeCkgICAo
+KHZvaWQgKilfX2ZpeF90b192aXJ0KHgpKQ0KPiAtZGlmZiAtLWdpdCBhL3hlbi9pbmNsdWRlL3hl
+bi9jb21waWxlci5oIGIveGVuL2luY2x1ZGUveGVuL2NvbXBpbGVyLmgNCj4gLWluZGV4IDE3Y2Yw
+MGUxZWMuLjY5NmM3ZWI4OWUgMTAwNjQ0DQo+IC0tLS0gYS94ZW4vaW5jbHVkZS94ZW4vY29tcGls
+ZXIuaA0KPiAtKysrIGIveGVuL2luY2x1ZGUveGVuL2NvbXBpbGVyLmgNCj4gLUBAIC0xNDAsNiAr
+MTQwLDEyIEBADQo+IC0gICAgIF9fYXNtX18gKCIiIDogIj1yIihfX3B0cikgOiAiMCIocHRyKSk7
+ICAgICAgXA0KPiAtICAgICAodHlwZW9mKHB0cikpIChfX3B0ciArIChvZmYpKTsgfSkNCj4gLQ0K
+PiAtKyNpZiBDT05GSUdfR0NDX1ZFUlNJT04gPj0gMTEwMDAwIC8qIFNlZSBnY2MgYnVnIDEwMDY4
+MC4gKi8NCj4gLSsjIGRlZmluZSBnY2MxMV93cmFwKHgpIFJFTE9DX0hJREUoeCwgMCkNCj4gLSsj
+ZWxzZQ0KPiAtKyMgZGVmaW5lIGdjYzExX3dyYXAoeCkgKHgpDQo+IC0rI2VuZGlmDQo+IC0rDQo+
+IC0gI2lmZGVmIF9fR0NDX0FTTV9GTEFHX09VVFBVVFNfXw0KPiAtICMgZGVmaW5lIEFTTV9GTEFH
+X09VVCh5ZXMsIG5vKSB5ZXMNCj4gLSAjZWxzZQ0KPiAtZGlmZiAtLWdpdCBhL3hlbi9pbmNsdWRl
+L3hlbi9wZHguaCBiL3hlbi9pbmNsdWRlL3hlbi9wZHguaA0KPiAtaW5kZXggNzcwZmFkYzA2Yy4u
+OWZjZmIwY2U1MiAxMDA2NDQNCj4gLS0tLSBhL3hlbi9pbmNsdWRlL3hlbi9wZHguaA0KPiAtKysr
+IGIveGVuL2luY2x1ZGUveGVuL3BkeC5oDQo+IC1AQCAtMTksNyArMTksNyBAQCBleHRlcm4gdTY0
+IHBkeF9yZWdpb25fbWFzayh1NjQgYmFzZSwgdTY0IGxlbik7DQo+IC0gZXh0ZXJuIHZvaWQgc2V0
+X3BkeF9yYW5nZSh1bnNpZ25lZCBsb25nIHNtZm4sIHVuc2lnbmVkIGxvbmcgZW1mbik7DQo+IC0N
+Cj4gLSAjZGVmaW5lIHBhZ2VfdG9fcGR4KHBnKSAgKChwZykgLSBmcmFtZV90YWJsZSkNCj4gLS0j
+ZGVmaW5lIHBkeF90b19wYWdlKHBkeCkgKGZyYW1lX3RhYmxlICsgKHBkeCkpDQo+IC0rI2RlZmlu
+ZSBwZHhfdG9fcGFnZShwZHgpIGdjYzExX3dyYXAoZnJhbWVfdGFibGUgKyAocGR4KSkNCj4gLQ0K
+PiAtIGJvb2wgX19tZm5fdmFsaWQodW5zaWduZWQgbG9uZyBtZm4pOw0KPiAtDQo+IC0tLQ0KPiAt
+Mi4yNS4xDQo+IC0NCj4gZGlmZiAtLWdpdCBhL3JlY2lwZXMtZXh0ZW5kZWQveGVuL2ZpbGVzLzAw
+MDEteDg2LXdvcmstYXJvdW5kLWJ1aWxkLWlzc3VlLXdpdGgtR05VLWxkLTIuMzcucGF0Y2ggYi9y
+ZWNpcGVzLWV4dGVuZGVkL3hlbi9maWxlcy8wMDAxLXg4Ni13b3JrLWFyb3VuZC1idWlsZC1pc3N1
+ZS13aXRoLUdOVS1sZC0yLjM3LnBhdGNoDQo+IGRlbGV0ZWQgZmlsZSBtb2RlIDEwMDY0NA0KPiBp
+bmRleCBmNTEwOGJlLi4wMDAwMDAwDQo+IC0tLSBhL3JlY2lwZXMtZXh0ZW5kZWQveGVuL2ZpbGVz
+LzAwMDEteDg2LXdvcmstYXJvdW5kLWJ1aWxkLWlzc3VlLXdpdGgtR05VLWxkLTIuMzcucGF0Y2gN
+Cj4gKysrIC9kZXYvbnVsbA0KPiBAQCAtMSwzNiArMCwwIEBADQo+IC1Gcm9tIDU4YWQ2NTRlYmNl
+N2NjYjI3MmEzZjRmMzQ4MmMwM2FhYWQ4NTBkMzEgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxDQo+
+IC1Gcm9tOiBKYW4gQmV1bGljaCA8amJldWxpY2hAc3VzZS5jb20+DQo+IC1EYXRlOiBUaHUsIDIy
+IEp1bCAyMDIxIDExOjIwOjM4ICswMjAwDQo+IC1TdWJqZWN0OiBbUEFUQ0hdIHg4Njogd29yayBh
+cm91bmQgYnVpbGQgaXNzdWUgd2l0aCBHTlUgbGQgMi4zNw0KPiAtDQo+IC1JIHN1c3BlY3QgaXQg
+aXMgY29tbWl0IDQwNzI2ZjE2YThkNyAoImxkIHNjcmlwdCBleHByZXNzaW9uIHBhcnNpbmciKQ0K
+PiAtd2hpY2ggYnJva2UgdGhlIGh5cGVydmlzb3IgYnVpbGQsIGJ5IG5vIGxvbmdlciBhY2NlcHRp
+bmcgc2VjdGlvbiBuYW1lcw0KPiAtd2l0aCBhIGRhc2ggaW4gdGhlbSBpbnNpZGUgQUREUigpIChh
+bmQgcGVyaGFwcyBvdGhlciBzY3JpcHQgZGlyZWN0aXZlcw0KPiAtZXhwZWN0aW5nIGp1c3QgYSBz
+ZWN0aW9uIG5hbWUsIG5vdCBhbiBleHByZXNzaW9uKTogLm5vdGUuZ251LmJ1aWxkLWlkDQo+IC1p
+cyBzdWNoIGEgc2VjdGlvbi4NCj4gLQ0KPiAtUXVvdGluZyBhbGwgc2VjdGlvbiBuYW1lcyBwYXNz
+ZWQgdG8gQUREUigpIHZpYSBERUNMX1NFQ1RJT04oKSB3b3Jrcw0KPiAtYXJvdW5kIHRoZSByZWdy
+ZXNzaW9uLg0KPiAtDQo+IC1TaWduZWQtb2ZmLWJ5OiBKYW4gQmV1bGljaCA8amJldWxpY2hAc3Vz
+ZS5jb20+DQo+IC1BY2tlZC1ieTogQW5kcmV3IENvb3BlciA8YW5kcmV3LmNvb3BlcjNAY2l0cml4
+LmNvbT4NCj4gLS0tLQ0KPiAtIHhlbi9hcmNoL3g4Ni94ZW4ubGRzLlMgfCAyICstDQo+IC0gMSBm
+aWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pDQo+IC0NCj4gLWRpZmYg
+LS1naXQgYS94ZW4vYXJjaC94ODYveGVuLmxkcy5TIGIveGVuL2FyY2gveDg2L3hlbi5sZHMuUw0K
+PiAtaW5kZXggOWM2YzFjODAwNS4uOTU1ZDVjZjRhMCAxMDA2NDQNCj4gLS0tLSBhL3hlbi9hcmNo
+L3g4Ni94ZW4ubGRzLlMNCj4gLSsrKyBiL3hlbi9hcmNoL3g4Ni94ZW4ubGRzLlMNCj4gLUBAIC0x
+OCw3ICsxOCw3IEBAIEVOVFJZKGVmaV9zdGFydCkNCj4gLSAjZWxzZSAvKiAhRUZJICovDQo+IC0N
+Cj4gLSAjZGVmaW5lIEZPUk1BVCAiZWxmNjQteDg2LTY0Ig0KPiAtLSNkZWZpbmUgREVDTF9TRUNU
+SU9OKHgpIHggOiBBVChBRERSKHgpIC0gX19YRU5fVklSVF9TVEFSVCkNCj4gLSsjZGVmaW5lIERF
+Q0xfU0VDVElPTih4KSB4IDogQVQoQUREUigjeCkgLSBfX1hFTl9WSVJUX1NUQVJUKQ0KPiAtDQo+
+IC0gRU5UUlkoc3RhcnRfcGEpDQo+IC0NCj4gLS0tDQo+IC0yLjI1LjENCj4gLQ0KPiBkaWZmIC0t
+Z2l0IGEvcmVjaXBlcy1leHRlbmRlZC94ZW4veGVuLXRvb2xzLmluYyBiL3JlY2lwZXMtZXh0ZW5k
+ZWQveGVuL3hlbi10b29scy5pbmMNCj4gaW5kZXggNjE0ZjU1Ny4uZDgzMTk0MSAxMDA2NDQNCj4g
+LS0tIGEvcmVjaXBlcy1leHRlbmRlZC94ZW4veGVuLXRvb2xzLmluYw0KPiArKysgYi9yZWNpcGVz
+LWV4dGVuZGVkL3hlbi94ZW4tdG9vbHMuaW5jDQo+IEBAIC0xMDIsNiArMTAyLDcgQEAgUlNVR0dF
+U1RTOiR7UE59LXhlbmNvdiA9ICIke1BOfS14ZW5jb3Ytc3BsaXQiDQo+DQo+ICBSREVQRU5EUzok
+e1BOfS14ZW5jb21tb25zID0gIlwNCj4gICAgICBiYXNoIFwNCj4gKyAgICB1dGlsLWxpbnV4LXBy
+bGltaXQgXA0KPiAgICAgICR7UE59LWNvbnNvbGUgXA0KPiAgICAgICR7UE59LXhlbnN0b3JlIFwN
+Cj4gICAgICB2aXJ0dWFsL3hlbnN0b3JlZCBcDQo+IEBAIC0yMTMsNiArMjE0LDkgQEAgUEFDS0FH
+RVMgPSAiIFwNCj4gICAgICAke1BOfS14bS1leGFtcGxlcyBcDQo+ICAgICAgJHtQTn0teGVuLWFj
+Y2VzcyBcDQo+ICAgICAgJHtQTn0teGVuLW1lbXNoYXJlIFwNCj4gKyAgICAke1BOfS10ZXN0IFwN
+Cj4gKyAgICAke1BOfS14ZW4tdm10cmFjZSBcDQo+ICsgICAgJHtQTn0teGVuLW1jZWluaiBcDQo+
+ICAgICAgIg0KPg0KPiAgUFJPVklERVMgPSsgIiBcDQo+IEBAIC02ODQsNiArNjg4LDMxIEBAIEZJ
+TEVTOiR7UE59LXhlbi1tZW1zaGFyZSArPSAiXA0KPiAgIyBtZW1zaGFyZSBpcyBvbmx5IGJ1aWx0
+IGZvciB4ODYsIHNvIGFsbG93IGVtcHR5IHBhY2thZ2UgZm9yIG90aGVyIGFyY2hzDQo+ICBBTExP
+V19FTVBUWToke1BOfS14ZW4tbWVtc2hhcmUgPSAiMSINCj4NCj4gK0ZJTEVTOiR7UE59LXRlc3Qg
+Kz0gIlwNCj4gKyAgICAke2xpYmRpcn0veGVuL2Jpbi90ZXN0LXhlbnN0b3JlIFwNCj4gKyAgICAk
+e2xpYmRpcn0veGVuL2Jpbi90ZXN0LXJlc291cmNlIFwNCj4gKyAgICAke2xpYmRpcn0veGVuL2Jp
+bi90ZXN0LWNwdS1wb2xpY3kgXA0KPiArICAgICR7bGliZGlyfS94ZW4vYmluL3Rlc3QtdHN4IFwN
+Cj4gKyAgICAiDQo+ICsNCj4gKyMgdGVzdC14ZW5zdG9yZSBhbmQgdGVzdC1yZXNvdXJjZSBjdXJy
+ZW50bHkgb25seSBleGlzdCBpbiA0LjE2DQo+ICsjIHRlc3QtY3B1LXBvbGljeSBhbmQgdGVzdC10
+c3ggb25seSBleGlzdCBpbiA0LjE2IGZvciB4ODYNCj4gK0FMTE9XX0VNUFRZOiR7UE59LXRlc3Qg
+PSAiMSINCj4gKw0KPiArRklMRVM6JHtQTn0teGVuLW1jZWluaiArPSJcDQo+ICsgICAgJHtzYmlu
+ZGlyfS94ZW4tbWNlaW5qIFwNCj4gKyAgICAiDQo+ICsNCj4gKyMgeGVuLW1jZWluaiBpcyBvbmx5
+IGJ1aWx0IGZvciB4ODYgNC4xNiwgc28gYWxsb3cgZW1wdHkgcGFja2FnZQ0KPiArQUxMT1dfRU1Q
+VFk6JHtQTn0teGVuLW1jZWluaiA9ICIxIg0KPiArDQo+ICtGSUxFUzoke1BOfS14ZW4tdm10cmFj
+ZSArPSJcDQo+ICsgICAgJHtzYmluZGlyfS94ZW4tdm10cmFjZSBcDQo+ICsgICAgIg0KPiArDQo+
+ICsjIHhlbi12bXRyYWNlIGlzIG9ubHkgYnVpbHQgZm9yIHg4NiA0LjE2LCBzbyBhbGxvdyBlbXB0
+eSBwYWNrYWdlDQo+ICtBTExPV19FTVBUWToke1BOfS14ZW4tdm10cmFjZSA9ICIxIg0KPiArDQo+
+ICBJTlNBTkVfU0tJUDoke1BOfSA9ICJhbHJlYWR5LXN0cmlwcGVkIg0KPg0KPiAgIyBjb25maWd1
+cmUgaW5pdC5kIHNjcmlwdHMNCj4gZGlmZiAtLWdpdCBhL3JlY2lwZXMtZXh0ZW5kZWQveGVuL3hl
+bi10b29sc180LjE0LmJiIGIvcmVjaXBlcy1leHRlbmRlZC94ZW4veGVuLXRvb2xzXzQuMTQuYmIN
+Cj4gaW5kZXggY2U1ZGMyZS4uOWQ3OGU0NCAxMDA2NDQNCj4gLS0tIGEvcmVjaXBlcy1leHRlbmRl
+ZC94ZW4veGVuLXRvb2xzXzQuMTQuYmINCj4gKysrIGIvcmVjaXBlcy1leHRlbmRlZC94ZW4veGVu
+LXRvb2xzXzQuMTQuYmINCj4gQEAgLTEsNCArMSw1IEBADQo+IC1TUkNSRVYgPz0gImI2YThjNGY3
+MmRlZjRkMTEzNWZmNDI2NjBhODYyNzZjZTI1NjVjOGMiDQo+ICsjIDQuMTQuMyByZWxlYXNlIFNI
+QQ0KPiArU1JDUkVWID89ICI5ZjJiNmM1ZWMyZGVkNGMxY2FmMTQ5NzQzZTg2MmM1ZjE1ZDZkMDgz
+Ig0KPg0KPiAgWEVOX1JFTCA/PSAiNC4xNCINCj4gIFhFTl9CUkFOQ0ggPz0gInN0YWJsZS0ke1hF
+Tl9SRUx9Ig0KPiBAQCAtOCw4ICs5LDYgQEAgU1JDX1VSSSA9ICIgXA0KPiAgICAgIGZpbGU6Ly8w
+MDAxLXB5dGhvbi1weWdydWItcGFzcy1ESVNUVVRJTFMteGVuLTQuMTQucGF0Y2ggXA0KPiAgICAg
+IGZpbGU6Ly8wMDAxLWZpcm13YXJlLXByb3ZpZGUtYS1zdGFuZC1hbG9uZS1zZXQtb2YtaGVhZGVy
+cy1YZW4tNC4xNC5wYXRjaCBcDQo+ICAgICAgZmlsZTovLzAwMDEtdG9vbHMtZmlybXdhcmUtQnVp
+bGQtZmlybXdhcmUtYXMtZmZyZWVzdGFuZGluZy1YZW4tNC4xNC5wYXRjaCBcDQo+IC0gICAgZmls
+ZTovLzAwMDEtbGlicy1mb3JlaWdubWVtb3J5LUZpeC1vc2RlcF94ZW5mb3JlaWdubWVtb3J5X21h
+cC1wci5wYXRjaCBcDQo+IC0gICAgZmlsZTovLzAwMDEteDg2LXdvcmstYXJvdW5kLWJ1aWxkLWlz
+c3VlLXdpdGgtR05VLWxkLTIuMzcucGF0Y2ggXA0KPiAgICAgICINCj4NCj4gIExJQ19GSUxFU19D
+SEtTVU0gPz0gImZpbGU6Ly9DT1BZSU5HO21kNT00MTk3MzllMzI1YTUwZjNkN2I0NTAxMzM4ZTQ0
+YTRlNSINCj4gZGlmZiAtLWdpdCBhL3JlY2lwZXMtZXh0ZW5kZWQveGVuL3hlbi10b29sc180LjE1
+LmJiIGIvcmVjaXBlcy1leHRlbmRlZC94ZW4veGVuLXRvb2xzXzQuMTUuYmINCj4gaW5kZXggZTlj
+M2JkNi4uODQwZjE2MiAxMDA2NDQNCj4gLS0tIGEvcmVjaXBlcy1leHRlbmRlZC94ZW4veGVuLXRv
+b2xzXzQuMTUuYmINCj4gKysrIGIvcmVjaXBlcy1leHRlbmRlZC94ZW4veGVuLXRvb2xzXzQuMTUu
+YmINCj4gQEAgLTEsNCArMSw1IEBADQo+IC1TUkNSRVYgPz0gImUyNWFhOTkzOWFlMGNkODMxNzYw
+NWJlM2Q1YzU2MTFiNzZiYzRhYjQiDQo+ICsjIHhlbiA0LjE1LjEgcmVsZWFzZSBzaGENCj4gK1NS
+Q1JFViA/PSAiODRmYTk5MDk5YjkyMGY3YmNkZTg4OTllMWE5Yjc1NjA3ODcxOWQ3ZCINCj4NCj4g
+IFhFTl9SRUwgPz0gIjQuMTUiDQo+ICBYRU5fQlJBTkNIID89ICJzdGFibGUtJHtYRU5fUkVMfSIN
+Cj4gQEAgLTYsOCArNyw2IEBAIFhFTl9CUkFOQ0ggPz0gInN0YWJsZS0ke1hFTl9SRUx9Ig0KPiAg
+U1JDX1VSSSA9ICIgXA0KPiAgICAgIGdpdDovL3hlbmJpdHMueGVuLm9yZy94ZW4uZ2l0O2JyYW5j
+aD0ke1hFTl9CUkFOQ0h9IFwNCj4gICAgICBmaWxlOi8vMDAwMS1weXRob24tcHlncnViLXBhc3Mt
+RElTVFVUSUxTLXhlbi00LjE1LnBhdGNoIFwNCj4gLSAgICBmaWxlOi8vMDAwMS1saWJzLWZvcmVp
+Z25tZW1vcnktRml4LW9zZGVwX3hlbmZvcmVpZ25tZW1vcnlfbWFwLXByLnBhdGNoIFwNCj4gLSAg
+ICBmaWxlOi8vMDAwMS14ODYtd29yay1hcm91bmQtYnVpbGQtaXNzdWUtd2l0aC1HTlUtbGQtMi4z
+Ny5wYXRjaCBcDQo+ICAgICAgIg0KPg0KPiAgTElDX0ZJTEVTX0NIS1NVTSA/PSAiZmlsZTovL0NP
+UFlJTkc7bWQ1PTQxOTczOWUzMjVhNTBmM2Q3YjQ1MDEzMzhlNDRhNGU1Ig0KPiBkaWZmIC0tZ2l0
+IGEvcmVjaXBlcy1leHRlbmRlZC94ZW4veGVuLXRvb2xzX2dpdC5iYiBiL3JlY2lwZXMtZXh0ZW5k
+ZWQveGVuL3hlbi10b29sc19naXQuYmINCj4gaW5kZXggNjkyNmJkOS4uOGZmOWM0YyAxMDA2NDQN
+Cj4gLS0tIGEvcmVjaXBlcy1leHRlbmRlZC94ZW4veGVuLXRvb2xzX2dpdC5iYg0KPiArKysgYi9y
+ZWNpcGVzLWV4dGVuZGVkL3hlbi94ZW4tdG9vbHNfZ2l0LmJiDQo+IEBAIC0xLDQgKzEsNSBAQA0K
+PiAtU1JDUkVWID89ICJlNjgwY2M0OGI3MTg0ZDM0ODk4NzNkNjc3NmY4NGJhMWZjMjM4Y2VkIg0K
+PiArIyBtYXN0ZXIgc3RhdHVzIG9uIDIwMjAtMTAtMjENCj4gK1NSQ1JFViA/PSAiMjNlYzFlYmM4
+YWNiZmQyYmYwNmY2MDg1YTc3NmYwZGI5MjNmOWZhOSINCj4NCj4gIFhFTl9SRUwgPz0gIjQuMTYi
+DQo+ICBYRU5fQlJBTkNIID89ICJtYXN0ZXIiDQo+IEBAIC02LDggKzcsNiBAQCBYRU5fQlJBTkNI
+ID89ICJtYXN0ZXIiDQo+ICBTUkNfVVJJID0gIiBcDQo+ICAgICAgZ2l0Oi8veGVuYml0cy54ZW4u
+b3JnL3hlbi5naXQ7YnJhbmNoPSR7WEVOX0JSQU5DSH0gXA0KPiAgICAgIGZpbGU6Ly8wMDAxLXB5
+dGhvbi1weWdydWItcGFzcy1ESVNUVVRJTFMteGVuLTQuMTUucGF0Y2ggXA0KPiAtICAgIGZpbGU6
+Ly8wMDAxLWxpYnMtZm9yZWlnbm1lbW9yeS1GaXgtb3NkZXBfeGVuZm9yZWlnbm1lbW9yeV9tYXAt
+cHIucGF0Y2ggXA0KPiAtICAgIGZpbGU6Ly8wMDAxLXg4Ni13b3JrLWFyb3VuZC1idWlsZC1pc3N1
+ZS13aXRoLUdOVS1sZC0yLjM3LnBhdGNoIFwNCj4gICAgICAiDQo+DQo+ICBMSUNfRklMRVNfQ0hL
+U1VNID89ICJmaWxlOi8vQ09QWUlORzttZDU9NDE5NzM5ZTMyNWE1MGYzZDdiNDUwMTMzOGU0NGE0
+ZTUiDQo+IGRpZmYgLS1naXQgYS9yZWNpcGVzLWV4dGVuZGVkL3hlbi94ZW5fNC4xNC5iYiBiL3Jl
+Y2lwZXMtZXh0ZW5kZWQveGVuL3hlbl80LjE0LmJiDQo+IGluZGV4IDI5MWJhMTYuLjBkN2QyMGIg
+MTAwNjQ0DQo+IC0tLSBhL3JlY2lwZXMtZXh0ZW5kZWQveGVuL3hlbl80LjE0LmJiDQo+ICsrKyBi
+L3JlY2lwZXMtZXh0ZW5kZWQveGVuL3hlbl80LjE0LmJiDQo+IEBAIC0xLDQgKzEsNSBAQA0KPiAt
+U1JDUkVWID89ICJiNmE4YzRmNzJkZWY0ZDExMzVmZjQyNjYwYTg2Mjc2Y2UyNTY1YzhjIg0KPiAr
+IyA0LjE0LjMgcmVsZWFzZSBTSEENCj4gK1NSQ1JFViA/PSAiOWYyYjZjNWVjMmRlZDRjMWNhZjE0
+OTc0M2U4NjJjNWYxNWQ2ZDA4MyINCj4NCj4gIFhFTl9SRUwgPz0gIjQuMTQiDQo+ICBYRU5fQlJB
+TkNIID89ICJzdGFibGUtJHtYRU5fUkVMfSINCj4gQEAgLTcsNyArOCw2IEBAIFNSQ19VUkkgPSAi
+IFwNCj4gICAgICBnaXQ6Ly94ZW5iaXRzLnhlbi5vcmcveGVuLmdpdDticmFuY2g9JHtYRU5fQlJB
+TkNIfSBcDQo+ICAgICAgZmlsZTovL3hlbi1hcm02NC1pbXBsZW1lbnQtYXRvbWljLWZldGNoLWFk
+ZC5wYXRjaCBcDQo+ICAgICAgZmlsZTovLzAwMDEtbWVudWNvbmZpZy1tY29uZi1jZmctQWxsb3ct
+c3BlY2lmaWNhdGlvbi1vZi1uY3Vyc2VzLWxvY2F0aW9uLnBhdGNoIFwNCj4gLSAgICBmaWxlOi8v
+MDAwMS14ODYtd29yay1hcm91bmQtYnVpbGQtaXNzdWUtd2l0aC1HTlUtbGQtMi4zNy5wYXRjaCBc
+DQo+ICAgICAgIg0KPg0KPiAgTElDX0ZJTEVTX0NIS1NVTSA/PSAiZmlsZTovL0NPUFlJTkc7bWQ1
+PTQxOTczOWUzMjVhNTBmM2Q3YjQ1MDEzMzhlNDRhNGU1Ig0KPiBkaWZmIC0tZ2l0IGEvcmVjaXBl
+cy1leHRlbmRlZC94ZW4veGVuXzQuMTUuYmIgYi9yZWNpcGVzLWV4dGVuZGVkL3hlbi94ZW5fNC4x
+NS5iYg0KPiBpbmRleCAwNjA1NDQxLi4wY2ZhZjBjIDEwMDY0NA0KPiAtLS0gYS9yZWNpcGVzLWV4
+dGVuZGVkL3hlbi94ZW5fNC4xNS5iYg0KPiArKysgYi9yZWNpcGVzLWV4dGVuZGVkL3hlbi94ZW5f
+NC4xNS5iYg0KPiBAQCAtMSw0ICsxLDUgQEANCj4gLVNSQ1JFViA/PSAiZTI1YWE5OTM5YWUwY2Q4
+MzE3NjA1YmUzZDVjNTYxMWI3NmJjNGFiNCINCj4gKyMgeGVuIDQuMTUuMSByZWxlYXNlIHNoYQ0K
+PiArU1JDUkVWID89ICI4NGZhOTkwOTliOTIwZjdiY2RlODg5OWUxYTliNzU2MDc4NzE5ZDdkIg0K
+Pg0KPiAgWEVOX1JFTCA/PSAiNC4xNSINCj4gIFhFTl9CUkFOQ0ggPz0gInN0YWJsZS0ke1hFTl9S
+RUx9Ig0KPiBAQCAtNyw4ICs4LDYgQEAgU1JDX1VSSSA9ICIgXA0KPiAgICAgIGdpdDovL3hlbmJp
+dHMueGVuLm9yZy94ZW4uZ2l0O2JyYW5jaD0ke1hFTl9CUkFOQ0h9IFwNCj4gICAgICBmaWxlOi8v
+eGVuLWFybTY0LWltcGxlbWVudC1hdG9taWMtZmV0Y2gtYWRkLnBhdGNoIFwNCj4gICAgICBmaWxl
+Oi8vMDAwMS1tZW51Y29uZmlnLW1jb25mLWNmZy1BbGxvdy1zcGVjaWZpY2F0aW9uLW9mLW5jdXJz
+ZXMtbG9jYXRpb24ucGF0Y2ggXA0KPiAtICAgIGZpbGU6Ly8wMDAxLXg4Ni1tYWtlLWh5cGVydmlz
+b3ItYnVpbGQtd2l0aC1nY2MxMS5wYXRjaCBcDQo+IC0gICAgZmlsZTovLzAwMDEteDg2LXdvcmst
+YXJvdW5kLWJ1aWxkLWlzc3VlLXdpdGgtR05VLWxkLTIuMzcucGF0Y2ggXA0KPiAgICAgICINCj4N
+Cj4gIExJQ19GSUxFU19DSEtTVU0gPz0gImZpbGU6Ly9DT1BZSU5HO21kNT00MTk3MzllMzI1YTUw
+ZjNkN2I0NTAxMzM4ZTQ0YTRlNSINCj4gZGlmZiAtLWdpdCBhL3JlY2lwZXMtZXh0ZW5kZWQveGVu
+L3hlbl9naXQuYmIgYi9yZWNpcGVzLWV4dGVuZGVkL3hlbi94ZW5fZ2l0LmJiDQo+IGluZGV4IDEy
+Yzk0MDMuLjIwMjI3ZTAgMTAwNjQ0DQo+IC0tLSBhL3JlY2lwZXMtZXh0ZW5kZWQveGVuL3hlbl9n
+aXQuYmINCj4gKysrIGIvcmVjaXBlcy1leHRlbmRlZC94ZW4veGVuX2dpdC5iYg0KPiBAQCAtMSw0
+ICsxLDUgQEANCj4gLVNSQ1JFViA/PSAiZTY4MGNjNDhiNzE4NGQzNDg5ODczZDY3NzZmODRiYTFm
+YzIzOGNlZCINCj4gKyMgbWFzdGVyIHN0YXR1cyBvbiAyMDIwLTEwLTIxDQo+ICtTUkNSRVYgPz0g
+IjIzZWMxZWJjOGFjYmZkMmJmMDZmNjA4NWE3NzZmMGRiOTIzZjlmYTkiDQo+DQo+ICBYRU5fUkVM
+ID89ICI0LjE2Ig0KPiAgWEVOX0JSQU5DSCA/PSAibWFzdGVyIg0KPiBAQCAtNyw4ICs4LDYgQEAg
+U1JDX1VSSSA9ICIgXA0KPiAgICAgIGdpdDovL3hlbmJpdHMueGVuLm9yZy94ZW4uZ2l0O2JyYW5j
+aD0ke1hFTl9CUkFOQ0h9IFwNCj4gICAgICBmaWxlOi8veGVuLWFybTY0LWltcGxlbWVudC1hdG9t
+aWMtZmV0Y2gtYWRkLnBhdGNoIFwNCj4gICAgICBmaWxlOi8vMDAwMS1tZW51Y29uZmlnLW1jb25m
+LWNmZy1BbGxvdy1zcGVjaWZpY2F0aW9uLW9mLW5jdXJzZXMtbG9jYXRpb24ucGF0Y2ggXA0KPiAt
+ICAgIGZpbGU6Ly8wMDAxLXg4Ni1tYWtlLWh5cGVydmlzb3ItYnVpbGQtd2l0aC1nY2MxMS5wYXRj
+aCBcDQo+IC0gICAgZmlsZTovLzAwMDEteDg2LXdvcmstYXJvdW5kLWJ1aWxkLWlzc3VlLXdpdGgt
+R05VLWxkLTIuMzcucGF0Y2ggXA0KPiAgICAgICINCj4NCj4gIExJQ19GSUxFU19DSEtTVU0gPz0g
+ImZpbGU6Ly9DT1BZSU5HO21kNT00MTk3MzllMzI1YTUwZjNkN2I0NTAxMzM4ZTQ0YTRlNSINCj4g
+LS0NCj4gMi4yNS4xDQo+DQo+DQo+IA0KPg0KPg0KPg0KPiAtLQ0KPiAtIFRob3Ugc2hhbHQgbm90
+IGZvbGxvdyB0aGUgTlVMTCBwb2ludGVyLCBmb3IgY2hhb3MgYW5kIG1hZG5lc3MgYXdhaXQgdGhl
+ZSBhdCBpdHMgZW5kDQo+IC0gIlVzZSB0aGUgZm9yY2UgSGFycnkiIC0gR2FuZGFsZiwgU3RhciBU
+cmVrIElJDQoNCklNUE9SVEFOVCBOT1RJQ0U6IFRoZSBjb250ZW50cyBvZiB0aGlzIGVtYWlsIGFu
+ZCBhbnkgYXR0YWNobWVudHMgYXJlIGNvbmZpZGVudGlhbCBhbmQgbWF5IGFsc28gYmUgcHJpdmls
+ZWdlZC4gSWYgeW91IGFyZSBub3QgdGhlIGludGVuZGVkIHJlY2lwaWVudCwgcGxlYXNlIG5vdGlm
+eSB0aGUgc2VuZGVyIGltbWVkaWF0ZWx5IGFuZCBkbyBub3QgZGlzY2xvc2UgdGhlIGNvbnRlbnRz
+IHRvIGFueSBvdGhlciBwZXJzb24sIHVzZSBpdCBmb3IgYW55IHB1cnBvc2UsIG9yIHN0b3JlIG9y
+IGNvcHkgdGhlIGluZm9ybWF0aW9uIGluIGFueSBtZWRpdW0uIFRoYW5rIHlvdS4NCg==
