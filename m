@@ -1,383 +1,478 @@
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com (EUR05-VI1-obe.outbound.protection.outlook.com [40.107.21.70])
- by mx.groups.io with SMTP id smtpd.web08.12201.1635254846435402179
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web12.12169.1635255138526296743
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 26 Oct 2021 06:27:27 -0700
+ Tue, 26 Oct 2021 06:32:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=5JcRxU7G;
- spf=pass (domain: arm.com, ip: 40.107.21.70, mailfrom: edward.pickup@arm.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xU29Bp4Vyn/8yZ1sjcCBlKa4Ln8oQFvaBdyRXdD2qTc=;
- b=5JcRxU7GG1H5YtCeX6FlXn/CQ3LEv25IGFQV/D982ibPlRK8OxHm32W1crrm0U49VGfzFhmUaFTLDIr2Sv/FpHKb5gMJwsQwbRTHNuefbiZr/cLYOSdiLuLN0XkbkdNiNWHD97i4d5mIJ2Ij9wyYp4g2rs701zYMdt2+DtgCdls=
-Received: from AM6P193CA0061.EURP193.PROD.OUTLOOK.COM (2603:10a6:209:8e::38)
- by DB6PR0801MB1623.eurprd08.prod.outlook.com (2603:10a6:4:3b::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4628.18; Tue, 26 Oct
- 2021 13:27:21 +0000
-Received: from VE1EUR03FT009.eop-EUR03.prod.protection.outlook.com
- (2603:10a6:209:8e:cafe::f3) by AM6P193CA0061.outlook.office365.com
- (2603:10a6:209:8e::38) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4628.22 via Frontend
- Transport; Tue, 26 Oct 2021 13:27:19 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- VE1EUR03FT009.mail.protection.outlook.com (10.152.18.92) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4628.16 via Frontend Transport; Tue, 26 Oct 2021 13:27:18 +0000
-Received: ("Tessian outbound a8bfe25d7364:v103"); Tue, 26 Oct 2021 13:27:18 +0000
-X-CR-MTA-TID: 64aa7808
-Received: from 38c7d3a52d93.2
-	by 64aa7808-outbound-1.mta.getcheckrecipient.com id DE18001A-0FFD-48F6-972F-CF847C192ECC.1;
-	Tue, 26 Oct 2021 13:27:11 +0000
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com
-    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 38c7d3a52d93.2
-    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
-    Tue, 26 Oct 2021 13:27:11 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IO9PIoHEhwHVvEhFktaN5PzqttUp/5WS4OQblJEN/w1hkPG5l1ShFnyUqup1zFZFIamzeHCavw3LiIycaVE7wwxvU5iQaYIXckYKBUCGQ48fJn/UE27E+6n/94o62angaeYtuVdAlKau09/BRDf/u5TsYORp67r6Ywr3T0vhOmMUBSjWfiBGeKc+H32giqVXTZGdYOt/gZRbTJutDperCxLbOmsqCDPrdUES7lAOCDzGfOqJqTAcdlfVD/T9To8nxJEAZNn43P78Evx1L30MbLrc83MDvLPCpRQinSMfrSnsRsjnDUZSLx1KcxXs0YThVilt0hKW3m6SLCD9rBLu/w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xU29Bp4Vyn/8yZ1sjcCBlKa4Ln8oQFvaBdyRXdD2qTc=;
- b=LH3f9BSFb44mrybDd11myHp+EUB1DMRpCWOUEqU+oEaFAEYOxzepA7cbd0SCYCl6enEfGvr0UQweVMBTbTJzE7NHHBureDRZLTOwfnF06JyVcOei0XmpIN9MNZA21pUutsvxAKzd1O+22jMozY7/XZ+KcwzP12xG+VcHD2FvbcqKJcn6rb+irJNuvFhbRnBdDbOI25cj+ghXpDvOFPTquEfPRJkzm4wMTPhyzmEyDc6P9BC02pV0EdFqHNbdQpHK4TEnaFiyy7jaANukPWcVL/dEPtFGgnx5eDO/jqkcW9HDnqkjHMf86D2KDeczxrSW1Zc4EmfRSVKchi/Bu3bIug==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xU29Bp4Vyn/8yZ1sjcCBlKa4Ln8oQFvaBdyRXdD2qTc=;
- b=5JcRxU7GG1H5YtCeX6FlXn/CQ3LEv25IGFQV/D982ibPlRK8OxHm32W1crrm0U49VGfzFhmUaFTLDIr2Sv/FpHKb5gMJwsQwbRTHNuefbiZr/cLYOSdiLuLN0XkbkdNiNWHD97i4d5mIJ2Ij9wyYp4g2rs701zYMdt2+DtgCdls=
-Received: from AM6PR08MB4086.eurprd08.prod.outlook.com (2603:10a6:20b:a8::32)
- by AM6PR08MB3000.eurprd08.prod.outlook.com (2603:10a6:209:43::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4649.14; Tue, 26 Oct
- 2021 13:27:09 +0000
-Received: from AM6PR08MB4086.eurprd08.prod.outlook.com
- ([fe80::f9e7:cf27:abd8:44d1]) by AM6PR08MB4086.eurprd08.prod.outlook.com
- ([fe80::f9e7:cf27:abd8:44d1%6]) with mapi id 15.20.4628.020; Tue, 26 Oct 2021
- 13:27:09 +0000
+ dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: edward.pickup@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A38F4D6E;
+	Tue, 26 Oct 2021 06:32:17 -0700 (PDT)
+Received: from e109506.cambridge.arm.com (e109506.cambridge.arm.com [10.1.199.62])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id F20653F73D;
+	Tue, 26 Oct 2021 06:32:16 -0700 (PDT)
 From: "Edward Pickup" <edward.pickup@arm.com>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-CC: "meta-virtualization@lists.yoctoproject.org"
-	<meta-virtualization@lists.yoctoproject.org>, Bertrand Marquis
-	<Bertrand.Marquis@arm.com>, "christopher.w.clark@gmail.com"
-	<christopher.w.clark@gmail.com>, nd <nd@arm.com>
-Subject: Re: [meta-virtualization] Error building Xen device tree for qemuarm64
-Thread-Topic: [meta-virtualization] Error building Xen device tree for
- qemuarm64
-Thread-Index: AdfKaNrlOvyQzYIUQaGokIBx1i2kqgAA6MeAAAAQeqA=
-Date: Tue, 26 Oct 2021 13:27:09 +0000
-Message-ID: 
- <AM6PR08MB40864FE34FC26FC9EDD37AEDF0849@AM6PR08MB4086.eurprd08.prod.outlook.com>
-References: 
- <AM6PR08MB4086AA6D776124ABB5125CE8F0849@AM6PR08MB4086.eurprd08.prod.outlook.com>
- <CADkTA4Nu5eGqsfe5mmJ6cHQQ51BAUY+4aROaWqa-5tbNH+Kxqg@mail.gmail.com>
-In-Reply-To: 
- <CADkTA4Nu5eGqsfe5mmJ6cHQQ51BAUY+4aROaWqa-5tbNH+Kxqg@mail.gmail.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ts-tracking-id: 2E80F62B352FA8439E63CE1CC5D1D656.0
-x-checkrecipientchecked: true
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-x-ms-publictraffictype: Email
-X-MS-Office365-Filtering-Correlation-Id: 7ee11c4d-2c31-4fc8-476c-08d99884559d
-x-ms-traffictypediagnostic: AM6PR08MB3000:|DB6PR0801MB1623:
-X-Microsoft-Antispam-PRVS: 
-	<DB6PR0801MB1623507CB96CFC0FC41BB502F0849@DB6PR0801MB1623.eurprd08.prod.outlook.com>
-x-checkrecipientrouted: true
-nodisclaimer: true
-x-ms-oob-tlc-oobclassifiers: OLM:10000;OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: 
- RyO/Yw3nwwW1fhMMlC0Un14B0og9qyi1rWs1ZQmPxuI6XFT7OtC/ZxU45cHpc274V6YdmT98uLBOXAp1TlSkfgiuuB5vlcXvwu2KkGwPKqi8/sZ72b5qeMhRsMAvY2a9bjQA425eX0SxugcCNqjJ9aTYDepKwKliVXPigLBjD+0Rb+FfJR/8W+65T+u04Nb7hAW6M0ayHITRGwf2pBUpe9U/KSbOdiGwSdmb0YcNlXG7C/+Ynt3Ibts5x8fkcn6CF0Zht6yLvYG4aKkGgU+U0rtjiF8VcIEpZbhKox8p65pEd9UB5QqzCizeRzC4jkabYicU9f/U6u/rB8NAmx6OfFLLMDofVreRE0V8NlW6vCbZznUpk7BPs0bM+baUWmphyHLeXANyTuGIu3raHrjX+roApLPdu1Qvao8O/Vnd65dZZfgYouqomJ1bQ4nATyt+x5vGaeDJaGtmBUOJxch2a/SywWXImrOqDopIp/cNJKKdjeIZIzoBtaKmowCfJqZbkAFERiBj5ElRno6WmLGjOhTPZxwSMhTFdpffWWvZOK9+bMRSw6X79PfWzMKdoHE4yjjF1j0Q0ylUH5CWBeX1sVoVbR7LY/CjPkLHi/gwVh8luD11H6MIkXaISSr1ZkWzCQH2/qTfEXOufBCEnoCxmTdjmMGOg60JBuWj1HL02A2wF39Pqa0XoC4x3lV7VkSswAHkCIG6Vkok6DmcND7GH8hzVsyuTd+30LXp5wvJhQmeWy1IKFzmycoqTO4UiOh8GnpNd3050zGBfYfg+fX8GLw7Ann2mw8hq2ENtN4KvuY=
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR08MB4086.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(316002)(186003)(9686003)(26005)(9326002)(33656002)(7696005)(8936002)(54906003)(53546011)(6506007)(55016002)(8676002)(71200400001)(166002)(83380400001)(6916009)(52536014)(122000001)(4326008)(966005)(38100700002)(508600001)(86362001)(66946007)(66446008)(66556008)(76116006)(38070700005)(64756008)(66476007)(5660300002)(2906002);DIR:OUT;SFP:1101;
+To: meta-virtualization@lists.yoctoproject.org
+Cc: christopher.w.clark@gmail.com,
+	bertrand.marquis@arm.com
+Subject: [PATCH] xen,xen-tools: update xen to new releases
+Date: Tue, 26 Oct 2021 14:32:04 +0100
+Message-Id: <20211026133204.335413-1-Edward.Pickup@arm.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3000
-Original-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-Return-Path: Edward.Pickup@arm.com
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- VE1EUR03FT009.eop-EUR03.prod.protection.outlook.com
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	4a26fbb8-6f47-4acd-0a5e-08d998845002
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	Lb36N1j59wkZFAuO2+8FgoLb7rxhMmZ4Tmfv/URRXluI8FU7Y1TJYh9uF/9b9IDaV+WgVIKkxfL43hvuj+f8KEsQihkhgsPm8geA71/KX+HyiwixSoSbySco9iN2xSwH369MTIbFpK/NQ7Q3eVTY9aaERzABZT/fxmzDP716BBl+aRgI2+GwOz+cJivsdrAdHSvUVBHzQnhq+0bAppZk/xpYewWAkI+mTuO/o7hkRbvCNU5zLXXmFdZpKFP620tCvS3upP3raUhncobb/N137G4Er+dM35fOFFq+mgK3FRaIYiTNSerJpeWWn0t1y0rTa5jpdNSjV0mUrokV13b7fqmVj1kHw3AEeiqZRpUQpJsnO50SIudPvVz2EVntgRsJkYdX2FWnoRojYPjXw0wQ3TUJIuTTUG+aHF76J9qk0llcbbFnvQUVsdOjva8Oxcu4r+//4pj34jQMrMzbfw8Ei/Pg+pwjc2LSPzQSYkEiIf6phSHpw3IWeefVeVIK5XjvJBv5q8d3B/dz/EfDhu18GoycKUsPCKkeOOCBiABgPozdjVCPCe13EuzKscxaVtl9FfbZPqRQWd0P7nkYHp+K9TcSzhvu+yoHfQ/lvT5CRGJ0BYjSsGc9AZIdeakZ/R71V/XTV8tkmL7e7iAxUd3EsVnXWbA3+VRUClLyTHUzon3NKoUH1Iz91xXEnZB87uOVCq7uMLe0O85EFveFenq8M1ObB3hRApmYe0HHWsFoHb+Kq61Epq9kIkiDGZ8WMLGh9czFeDLkuvGHQhQ5vtoQi1f+gndg/ffWGewRtH66d+A=
-X-Forefront-Antispam-Report: 
-	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(4636009)(46966006)(36840700001)(33964004)(54906003)(53546011)(9686003)(47076005)(508600001)(966005)(55016002)(6506007)(30864003)(316002)(7696005)(336012)(83380400001)(52536014)(81166007)(70206006)(4326008)(70586007)(166002)(356005)(36860700001)(26005)(86362001)(6862004)(2906002)(9326002)(82310400003)(33656002)(8936002)(186003)(5660300002)(8676002);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Oct 2021 13:27:18.7652
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7ee11c4d-2c31-4fc8-476c-08d99884559d
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	VE1EUR03FT009.eop-EUR03.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB6PR0801MB1623
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_AM6PR08MB40864FE34FC26FC9EDD37AEDF0849AM6PR08MB4086eurp_"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
---_000_AM6PR08MB40864FE34FC26FC9EDD37AEDF0849AM6PR08MB4086eurp_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Update the SHA in recipes for xen and xen-tools to use the latest release=
+s;
+update xen 4.14 to xen 4.14.3 release, update xen 4.15 to 4.15.1 release,=
+ and
+xen 4.16 to the current master version.
 
-SGkgQnJ1Y2UsDQpTb3JyeSBmb3IgdGhlIGZvcm1hdHRpbmcgaXNzdWVzLCBlbWFpbCBjbGllbnQg
-Y29uZmlnIGlzc3Vlcw0KDQpGcm9tOiBCcnVjZSBBc2hmaWVsZCA8YnJ1Y2UuYXNoZmllbGRAZ21h
-aWwuY29tPg0KU2VudDogMjYgT2N0b2JlciAyMDIxIDE0OjIyDQpUbzogRWR3YXJkIFBpY2t1cCA8
-RWR3YXJkLlBpY2t1cEBhcm0uY29tPg0KQ2M6IG1ldGEtdmlydHVhbGl6YXRpb25AbGlzdHMueW9j
-dG9wcm9qZWN0Lm9yZzsgQmVydHJhbmQgTWFycXVpcyA8QmVydHJhbmQuTWFycXVpc0Bhcm0uY29t
-PjsgY2hyaXN0b3BoZXIudy5jbGFya0BnbWFpbC5jb207IG5kIDxuZEBhcm0uY29tPg0KU3ViamVj
-dDogUmU6IFttZXRhLXZpcnR1YWxpemF0aW9uXSBFcnJvciBidWlsZGluZyBYZW4gZGV2aWNlIHRy
-ZWUgZm9yIHFlbXVhcm02NA0KDQoNCg0KT24gVHVlLCBPY3QgMjYsIDIwMjEgYXQgODo1OCBBTSBF
-ZHdhcmQgUGlja3VwIDxlZHdhcmQucGlja3VwQGFybS5jb208bWFpbHRvOmVkd2FyZC5waWNrdXBA
-YXJtLmNvbT4+IHdyb3RlOg0KSGkgYWxsLA0KDQpJIGhhdmUgZW5jb3VudGVyZWQgYW4gZXJyb3Ig
-d2hpbGUgYnVpbGRpbmcgdGhlIGFybTY0IHZlcnNpb24gb2YgdGhlIHhlbiA0LjE2IHJlY2lwZSBp
-biBtZXRhLXZpcnR1YWxpc2F0aW9uLCB1c2luZyB0aGUgbWFzdGVyIHZlcnNpb24gb2YgcG9reSBh
-bmQgbWV0YS12aXJ0dWFpc2F0aW9uLg0KSSB3YXMgd29uZGVyaW5nIGlmIGFueW9uZSB3YXMgZmFt
-aWxpYXIgd2l0aCB0aGUgaXNzdWUgb3Iga25ldyBob3cgdG8gZml4IGl0LiBUaGUgZXJyb3IgaXMg
-YXMgZm9sbG93czoNCg0KRVJST1I6IHhlbi1pbWFnZS1taW5pbWFsLTEuMC1yMCBkb193cml0ZV94
-ZW5fcWVtdWJvb3RfZHRiOiBFeGVjdXRpb25FcnJvcignL2hvbWUvZWR3cGljMDEvd29yay9tYXN0
-ZXItdXBkYXRlLXhlbi9idWlsZC9tZXRhdmlydC1ob3N0LWFybTY0LTQuMTYtcmVsZWFzZS5wcmov
-dG1wL3dvcmsvcWVtdWFybTY0LXBva3ktbGludXgveGVuLWltYWdlLW1pbmltYWwvMS4wLXIwL3Rl
-bXAvcnVuLmRvX3dyaXRlX3hlbl9xZW11Ym9vdF9kdGIuMzY3OTEzNScsIDIsIE5vbmUsIE5vbmUp
-DQpFUlJPUjogTG9nZmlsZSBvZiBmYWlsdXJlIHN0b3JlZCBpbjogL2hvbWUvZWR3cGljMDEvd29y
-ay9tYXN0ZXItdXBkYXRlLXhlbi9idWlsZC9tZXRhdmlydC1ob3N0LWFybTY0LTQuMTYtcmVsZWFz
-ZS5wcmovdG1wL3dvcmsvcWVtdWFybTY0LXBva3ktbGludXgveGVuLWltYWdlLW1pbmltYWwvMS4w
-LXIwL3RlbXAvbG9nLmRvX3dyaXRlX3hlbl9xZW11Ym9vdF9kdGIuMzY3OTEzNSAuDQoNCkkgYmVs
-aWV2ZSB0aGUgcmVsZXZhbnQgcGFydCBvZiB0aGUgbG9nIGlzIGFzIGZvbGxvd3M6DQoNCnwgW05P
-VEVdOiAnMycgbG9wcGVyIG9wZXJhdGlvbiBmaWxlcyB3aWxsIGJlIHByb2Nlc3NlZA0KfCBbSU5G
-T106IGR0YiBvdXRwdXQgZm9ybWF0IGRldGVjdGVkLCB3cml0aW5nIC9ob21lL2Vkd3BpYzAxL3dv
-cmsvbWFzdGVyLXVwZGF0ZS14ZW4vYnVpbGQvbWV0YXZpcnQtaG9zdC1hcm02NC00LjE2LXJlbGVh
-c2UucHJqL3RtcC93b3JrL3FlbXVhcm02NC1wb2t5LWxpbnV4L3hlbi1pbWFnZS1taW5pbWFsLzEu
-MC1yMC9kZXBsb3kteGVuLWltYWdlLW1pbmltYWwtaW1hZ2UtY29tcGxldGUveGVuLWltYWdlLW1p
-bmltYWwtcWVtdWFybTY0LTIwMjExMDI2MTIxNTAyLnFlbXVib290LmR0Yg0KfCBbSU5GT106IHdy
-aXRpbmcgb3V0cHV0IGR0YjogL2hvbWUvZWR3cGljMDEvd29yay9tYXN0ZXItdXBkYXRlLXhlbi9i
-dWlsZC9tZXRhdmlydC1ob3N0LWFybTY0LTQuMTYtcmVsZWFzZS5wcmovdG1wL3dvcmsvcWVtdWFy
-bTY0LXBva3ktbGludXgveGVuLWltYWdlLW1pbmltYWwvMS4wLXIwL2RlcGxveS14ZW4taW1hZ2Ut
-bWluaW1hbC1pbWFnZS1jb21wbGV0ZS94ZW4taW1hZ2UtbWluaW1hbC1xZW11YXJtNjQtMjAyMTEw
-MjYxMjE1MDIucWVtdWJvb3QuZHRiDQp8IC9ob21lL2Vkd3BpYzAxL3dvcmsvbWFzdGVyLXVwZGF0
-ZS14ZW4vYnVpbGQvbWV0YXZpcnQtaG9zdC1hcm02NC00LjE2LXJlbGVhc2UucHJqL3RtcC93b3Jr
-L3FlbXVhcm02NC1wb2t5LWxpbnV4L3hlbi1pbWFnZS1taW5pbWFsLzEuMC1yMC94ZW4taW1hZ2Ut
-bWluaW1hbC0xLjAvb3V0cHV0LmR0czogRVJST1IgKGV4cGxpY2l0X3BoYW5kbGVzKTogL2FwYi1w
-Y2xrOnBoYW5kbGU6IGJhZCBsZW5ndGggKDEpIHBoYW5kbGUgcHJvcGVydHkNCnwgL2hvbWUvZWR3
-cGljMDEvd29yay9tYXN0ZXItdXBkYXRlLXhlbi9idWlsZC9tZXRhdmlydC1ob3N0LWFybTY0LTQu
-MTYtcmVsZWFzZS5wcmovdG1wL3dvcmsvcWVtdWFybTY0LXBva3ktbGludXgveGVuLWltYWdlLW1p
-bmltYWwvMS4wLXIwL3hlbi1pbWFnZS1taW5pbWFsLTEuMC9vdXRwdXQuZHRzOiBFUlJPUiAoZXhw
-bGljaXRfcGhhbmRsZXMpOiAvaW50Y0A4MDAwMDAwOnBoYW5kbGU6IGJhZCBsZW5ndGggKDEpIHBo
-YW5kbGUgcHJvcGVydHkNCnwgL2hvbWUvZWR3cGljMDEvd29yay9tYXN0ZXItdXBkYXRlLXhlbi9i
-dWlsZC9tZXRhdmlydC1ob3N0LWFybTY0LTQuMTYtcmVsZWFzZS5wcmovdG1wL3dvcmsvcWVtdWFy
-bTY0LXBva3ktbGludXgveGVuLWltYWdlLW1pbmltYWwvMS4wLXIwL3hlbi1pbWFnZS1taW5pbWFs
-LTEuMC9vdXRwdXQuZHRzOiBFUlJPUiAoZXhwbGljaXRfcGhhbmRsZXMpOiAvcGwwNjFAOTAzMDAw
-MDpwaGFuZGxlOiBiYWQgbGVuZ3RoICgxKSBwaGFuZGxlIHByb3BlcnR5DQp8IEVSUk9SOiBJbnB1
-dCB0cmVlIGhhcyBlcnJvcnMsIGFib3J0aW5nICh1c2UgLWYgdG8gZm9yY2Ugb3V0cHV0KQ0KfCBX
-QVJOSU5HOiBleGl0IGNvZGUgMiBmcm9tIGEgc2hlbGwgY29tbWFuZC4NCg0KVGhlIGFib3ZlIGVy
-cm9yIHdhcyB0aGUgcmVzdWx0IGZyb20gYnVpbGRpbmcgb24geDg2XzY0LWxpbnV4LCB0YXJnZXQg
-c3lzdGVtIHdhcyBhYXJjaDY0LXBva3ktbGludXgsIHJ1bm5pbmcgb24gYSBxZW11YXJjaDY0IG1h
-Y2hpbmUsIGl0c2VsZiBydW5uaW5nIG9uIHg4Nl82NCBsaW51eC4NCkFzIG1lbnRpb25lZCB0aGlz
-IHdhcyBkb25lIG9uIHRoZSBtYXN0ZXIgdmVyc2lvbiBvZiBtZXRhLXZpcnR1YWxpc2F0aW9uLg0K
-VGhlIGJpdGJha2UgY29tbWFuZCB0byBnZW5lcmF0ZSB0aGlzIHdhcyBiaXRiYWtlIHhlbi1pbWFn
-ZS1taW5pbmFsLg0KVGhlIGVycm9yIGlzIGFsc28gcHJlc2VudCB3aGVuIGJ1aWxkaW5nIHRoZSB4
-ZW4gNC4xNCBhbmQgeGVuIDQuMTUgYXJtNjQgdmVyc2lvbnMsIGFuZCBpcyBub3QgcHJlc2VudCBv
-biB0aGUgYXJtMzIgb3IgeDg2IGJ1aWxkcyBmb3IgeGVuLg0KSWYgYW55b25lIGtub3dzIHRoZSBj
-YXVzZSBvZiB0aGUgZXJyb3IsIHRoZSBpbmZvcm1hdGlvbiB3b3VsZCBiZSBhcHByZWNpYXRlZC4N
-Cg0KVGhlcmUncyBzb21ldGhpbmcgd3Jvbmcgd2l0aCB0aGUgaW5wdXQgRFRTIHRvIExvcHBlciAu
-LiBsdWNraWx5LCBJIG1haW50YWluIExvcHBlciwgc28gaWYgdGhlcmUncyBhbiBhY3R1YWwgYnVn
-IGluIHRoZSBwcm9jZXNzaW5nIG9mIHRoZSBpbnB1dCBEVFMgLi4gSSBjYW4gZml4IHRoYXQuDQoN
-CkkgY2FuIGZpcmUgdXAgYSBidWlsZCBhbmQgc2VlIGlmIGl0IGhhcHBlbnMgaGVyZS4NCg0KU28g
-dGhpcyBpcyBqdXN0IHFlbXVhcm02NCwgd2l0aCB4ZW4gKyB2aXJ0dWFsaXphdGlvbiBpbiB0aGUg
-ZGlzdHJvIGZlYXR1cmVzID8gQW55IG90aGVyIGxheWVycyA/IEFueXRoaW5nIGVsc2UgPw0KDQpC
-cnVjZQ0KWWVzLCB0aGlzIGlzIGp1c3QgYXMgeW91IHNheSwgbm8gb3RoZXIgbGF5ZXJzIG9yIGFu
-eXRoaW5nIGVsc2UuIFRoYW5rIHlvdSBmb3IgdGhlIHNwZWVkeSByZXBseSENCg0KRWR3YXJkDQoN
-Cg0KQ2hlZXJzIQ0KDQoNCklNUE9SVEFOVCBOT1RJQ0U6IFRoZSBjb250ZW50cyBvZiB0aGlzIGVt
-YWlsIGFuZCBhbnkgYXR0YWNobWVudHMgYXJlIGNvbmZpZGVudGlhbCBhbmQgbWF5IGFsc28gYmUg
-cHJpdmlsZWdlZC4gSWYgeW91IGFyZSBub3QgdGhlIGludGVuZGVkIHJlY2lwaWVudCwgcGxlYXNl
-IG5vdGlmeSB0aGUgc2VuZGVyIGltbWVkaWF0ZWx5IGFuZCBkbyBub3QgZGlzY2xvc2UgdGhlIGNv
-bnRlbnRzIHRvIGFueSBvdGhlciBwZXJzb24sIHVzZSBpdCBmb3IgYW55IHB1cnBvc2UsIG9yIHN0
-b3JlIG9yIGNvcHkgdGhlIGluZm9ybWF0aW9uIGluIGFueSBtZWRpdW0uIFRoYW5rIHlvdS4NCg0K
-DQoNCg0KLS0NCi0gVGhvdSBzaGFsdCBub3QgZm9sbG93IHRoZSBOVUxMIHBvaW50ZXIsIGZvciBj
-aGFvcyBhbmQgbWFkbmVzcyBhd2FpdCB0aGVlIGF0IGl0cyBlbmQNCi0gIlVzZSB0aGUgZm9yY2Ug
-SGFycnkiIC0gR2FuZGFsZiwgU3RhciBUcmVrIElJDQpJTVBPUlRBTlQgTk9USUNFOiBUaGUgY29u
-dGVudHMgb2YgdGhpcyBlbWFpbCBhbmQgYW55IGF0dGFjaG1lbnRzIGFyZSBjb25maWRlbnRpYWwg
-YW5kIG1heSBhbHNvIGJlIHByaXZpbGVnZWQuIElmIHlvdSBhcmUgbm90IHRoZSBpbnRlbmRlZCBy
-ZWNpcGllbnQsIHBsZWFzZSBub3RpZnkgdGhlIHNlbmRlciBpbW1lZGlhdGVseSBhbmQgZG8gbm90
-IGRpc2Nsb3NlIHRoZSBjb250ZW50cyB0byBhbnkgb3RoZXIgcGVyc29uLCB1c2UgaXQgZm9yIGFu
-eSBwdXJwb3NlLCBvciBzdG9yZSBvciBjb3B5IHRoZSBpbmZvcm1hdGlvbiBpbiBhbnkgbWVkaXVt
-LiBUaGFuayB5b3UuDQo=
+Add a comment to each recipe indicating which version of Xen is used in r=
+ecipe.
 
---_000_AM6PR08MB40864FE34FC26FC9EDD37AEDF0849AM6PR08MB4086eurp_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+Do not apply patches that have been merged/solved in Xen and remove patch=
+ files
+not needed anymore.
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
-YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
-IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
-IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBjbTsNCglmb250LXNpemU6MTEuMHB0Ow0KCWZvbnQt
-ZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmO30NCmE6bGluaywgc3Bhbi5Nc29IeXBlcmxpbmsN
-Cgl7bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOmJsdWU7DQoJdGV4dC1kZWNvcmF0aW9u
-OnVuZGVybGluZTt9DQpzcGFuLkVtYWlsU3R5bGUxOA0KCXttc28tc3R5bGUtdHlwZTpwZXJzb25h
-bC1yZXBseTsNCglmb250LWZhbWlseToiQ2FsaWJyaSIsc2Fucy1zZXJpZjsNCgljb2xvcjp3aW5k
-b3d0ZXh0O30NCi5Nc29DaHBEZWZhdWx0DQoJe21zby1zdHlsZS10eXBlOmV4cG9ydC1vbmx5Ow0K
-CWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmOw0KCW1zby1mYXJlYXN0LWxhbmd1YWdl
-OkVOLVVTO30NCkBwYWdlIFdvcmRTZWN0aW9uMQ0KCXtzaXplOjYxMi4wcHQgNzkyLjBwdDsNCglt
-YXJnaW46NzIuMHB0IDcyLjBwdCA3Mi4wcHQgNzIuMHB0O30NCmRpdi5Xb3JkU2VjdGlvbjENCgl7
-cGFnZTpXb3JkU2VjdGlvbjE7fQ0KLS0+PC9zdHlsZT48IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4N
-CjxvOnNoYXBlZGVmYXVsdHMgdjpleHQ9ImVkaXQiIHNwaWRtYXg9IjEwMjYiIC8+DQo8L3htbD48
-IVtlbmRpZl0tLT48IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4NCjxvOnNoYXBlbGF5b3V0IHY6ZXh0
-PSJlZGl0Ij4NCjxvOmlkbWFwIHY6ZXh0PSJlZGl0IiBkYXRhPSIxIiAvPg0KPC9vOnNoYXBlbGF5
-b3V0PjwveG1sPjwhW2VuZGlmXS0tPg0KPC9oZWFkPg0KPGJvZHkgbGFuZz0iRU4tR0IiIGxpbms9
-ImJsdWUiIHZsaW5rPSJwdXJwbGUiIHN0eWxlPSJ3b3JkLXdyYXA6YnJlYWstd29yZCI+DQo8ZGl2
-IGNsYXNzPSJXb3JkU2VjdGlvbjEiPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9
-Im1zby1mYXJlYXN0LWxhbmd1YWdlOkVOLVVTIj5IaSBCcnVjZSwgPGJyPg0KU29ycnkgZm9yIHRo
-ZSBmb3JtYXR0aW5nIGlzc3VlcywgZW1haWwgY2xpZW50IGNvbmZpZyBpc3N1ZXM8bzpwPjwvbzpw
-Pjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0ibXNvLWZhcmVh
-c3QtbGFuZ3VhZ2U6RU4tVVMiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxkaXYgc3R5
-bGU9ImJvcmRlcjpub25lO2JvcmRlci10b3A6c29saWQgI0UxRTFFMSAxLjBwdDtwYWRkaW5nOjMu
-MHB0IDBjbSAwY20gMGNtIj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxiPjxzcGFuIGxhbmc9IkVO
-LVVTIj5Gcm9tOjwvc3Bhbj48L2I+PHNwYW4gbGFuZz0iRU4tVVMiPiBCcnVjZSBBc2hmaWVsZCAm
-bHQ7YnJ1Y2UuYXNoZmllbGRAZ21haWwuY29tJmd0Ow0KPGJyPg0KPGI+U2VudDo8L2I+IDI2IE9j
-dG9iZXIgMjAyMSAxNDoyMjxicj4NCjxiPlRvOjwvYj4gRWR3YXJkIFBpY2t1cCAmbHQ7RWR3YXJk
-LlBpY2t1cEBhcm0uY29tJmd0Ozxicj4NCjxiPkNjOjwvYj4gbWV0YS12aXJ0dWFsaXphdGlvbkBs
-aXN0cy55b2N0b3Byb2plY3Qub3JnOyBCZXJ0cmFuZCBNYXJxdWlzICZsdDtCZXJ0cmFuZC5NYXJx
-dWlzQGFybS5jb20mZ3Q7OyBjaHJpc3RvcGhlci53LmNsYXJrQGdtYWlsLmNvbTsgbmQgJmx0O25k
-QGFybS5jb20mZ3Q7PGJyPg0KPGI+U3ViamVjdDo8L2I+IFJlOiBbbWV0YS12aXJ0dWFsaXphdGlv
-bl0gRXJyb3IgYnVpbGRpbmcgWGVuIGRldmljZSB0cmVlIGZvciBxZW11YXJtNjQ8bzpwPjwvbzpw
-Pjwvc3Bhbj48L3A+DQo8L2Rpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9v
-OnA+PC9wPg0KPGRpdj4NCjxkaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4g
-c3R5bGU9ImZvbnQtc2l6ZToxMi4wcHQiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjwv
-ZGl2Pg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4N
-CjxkaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCIgc3R5bGU9Im1hcmdpbi1sZWZ0OjEx
-LjNwdCI+T24gVHVlLCBPY3QgMjYsIDIwMjEgYXQgODo1OCBBTSBFZHdhcmQgUGlja3VwICZsdDs8
-YSBocmVmPSJtYWlsdG86ZWR3YXJkLnBpY2t1cEBhcm0uY29tIj5lZHdhcmQucGlja3VwQGFybS5j
-b208L2E+Jmd0OyB3cm90ZTo8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGJsb2NrcXVvdGUgc3R5
-bGU9ImJvcmRlcjpub25lO2JvcmRlci1sZWZ0OnNvbGlkICNDQ0NDQ0MgMS4wcHQ7cGFkZGluZzow
-Y20gMGNtIDBjbSA2LjBwdDttYXJnaW4tbGVmdDo0LjhwdDttYXJnaW4tcmlnaHQ6MGNtIj4NCjxw
-IGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJtYXJnaW4tbGVmdDoxMS4zcHQiPkhpIGFsbCw8YnI+
-DQo8YnI+DQpJIGhhdmUgZW5jb3VudGVyZWQgYW4gZXJyb3Igd2hpbGUgYnVpbGRpbmcgdGhlIGFy
-bTY0IHZlcnNpb24gb2YgdGhlIHhlbiA0LjE2IHJlY2lwZSBpbiBtZXRhLXZpcnR1YWxpc2F0aW9u
-LCB1c2luZyB0aGUgbWFzdGVyIHZlcnNpb24gb2YgcG9reSBhbmQgbWV0YS12aXJ0dWFpc2F0aW9u
-Ljxicj4NCkkgd2FzIHdvbmRlcmluZyBpZiBhbnlvbmUgd2FzIGZhbWlsaWFyIHdpdGggdGhlIGlz
-c3VlIG9yIGtuZXcgaG93IHRvIGZpeCBpdC4gVGhlIGVycm9yIGlzIGFzIGZvbGxvd3M6PGJyPg0K
-PGJyPg0KRVJST1I6IHhlbi1pbWFnZS1taW5pbWFsLTEuMC1yMCBkb193cml0ZV94ZW5fcWVtdWJv
-b3RfZHRiOiBFeGVjdXRpb25FcnJvcignL2hvbWUvZWR3cGljMDEvd29yay9tYXN0ZXItdXBkYXRl
-LXhlbi9idWlsZC9tZXRhdmlydC1ob3N0LWFybTY0LTQuMTYtcmVsZWFzZS5wcmovdG1wL3dvcmsv
-cWVtdWFybTY0LXBva3ktbGludXgveGVuLWltYWdlLW1pbmltYWwvMS4wLXIwL3RlbXAvcnVuLmRv
-X3dyaXRlX3hlbl9xZW11Ym9vdF9kdGIuMzY3OTEzNScsIDIsDQogTm9uZSwgTm9uZSk8YnI+DQpF
-UlJPUjogTG9nZmlsZSBvZiBmYWlsdXJlIHN0b3JlZCBpbjogL2hvbWUvZWR3cGljMDEvd29yay9t
-YXN0ZXItdXBkYXRlLXhlbi9idWlsZC9tZXRhdmlydC1ob3N0LWFybTY0LTQuMTYtcmVsZWFzZS5w
-cmovdG1wL3dvcmsvcWVtdWFybTY0LXBva3ktbGludXgveGVuLWltYWdlLW1pbmltYWwvMS4wLXIw
-L3RlbXAvbG9nLmRvX3dyaXRlX3hlbl9xZW11Ym9vdF9kdGIuMzY3OTEzNSAuPGJyPg0KPGJyPg0K
-SSBiZWxpZXZlIHRoZSByZWxldmFudCBwYXJ0IG9mIHRoZSBsb2cgaXMgYXMgZm9sbG93czo8YnI+
-DQo8YnI+DQp8IFtOT1RFXTogJzMnIGxvcHBlciBvcGVyYXRpb24gZmlsZXMgd2lsbCBiZSBwcm9j
-ZXNzZWQ8YnI+DQp8IFtJTkZPXTogZHRiIG91dHB1dCBmb3JtYXQgZGV0ZWN0ZWQsIHdyaXRpbmcg
-L2hvbWUvZWR3cGljMDEvd29yay9tYXN0ZXItdXBkYXRlLXhlbi9idWlsZC9tZXRhdmlydC1ob3N0
-LWFybTY0LTQuMTYtcmVsZWFzZS5wcmovdG1wL3dvcmsvcWVtdWFybTY0LXBva3ktbGludXgveGVu
-LWltYWdlLW1pbmltYWwvMS4wLXIwL2RlcGxveS14ZW4taW1hZ2UtbWluaW1hbC1pbWFnZS1jb21w
-bGV0ZS94ZW4taW1hZ2UtbWluaW1hbC1xZW11YXJtNjQtMjAyMTEwMjYxMjE1MDIucWVtdWJvb3Qu
-ZHRiPGJyPg0KfCBbSU5GT106IHdyaXRpbmcgb3V0cHV0IGR0YjogL2hvbWUvZWR3cGljMDEvd29y
-ay9tYXN0ZXItdXBkYXRlLXhlbi9idWlsZC9tZXRhdmlydC1ob3N0LWFybTY0LTQuMTYtcmVsZWFz
-ZS5wcmovdG1wL3dvcmsvcWVtdWFybTY0LXBva3ktbGludXgveGVuLWltYWdlLW1pbmltYWwvMS4w
-LXIwL2RlcGxveS14ZW4taW1hZ2UtbWluaW1hbC1pbWFnZS1jb21wbGV0ZS94ZW4taW1hZ2UtbWlu
-aW1hbC1xZW11YXJtNjQtMjAyMTEwMjYxMjE1MDIucWVtdWJvb3QuZHRiPGJyPg0KfCAvaG9tZS9l
-ZHdwaWMwMS93b3JrL21hc3Rlci11cGRhdGUteGVuL2J1aWxkL21ldGF2aXJ0LWhvc3QtYXJtNjQt
-NC4xNi1yZWxlYXNlLnByai90bXAvd29yay9xZW11YXJtNjQtcG9reS1saW51eC94ZW4taW1hZ2Ut
-bWluaW1hbC8xLjAtcjAveGVuLWltYWdlLW1pbmltYWwtMS4wL291dHB1dC5kdHM6IEVSUk9SIChl
-eHBsaWNpdF9waGFuZGxlcyk6IC9hcGItcGNsazpwaGFuZGxlOiBiYWQgbGVuZ3RoICgxKSBwaGFu
-ZGxlIHByb3BlcnR5PGJyPg0KfCAvaG9tZS9lZHdwaWMwMS93b3JrL21hc3Rlci11cGRhdGUteGVu
-L2J1aWxkL21ldGF2aXJ0LWhvc3QtYXJtNjQtNC4xNi1yZWxlYXNlLnByai90bXAvd29yay9xZW11
-YXJtNjQtcG9reS1saW51eC94ZW4taW1hZ2UtbWluaW1hbC8xLjAtcjAveGVuLWltYWdlLW1pbmlt
-YWwtMS4wL291dHB1dC5kdHM6IEVSUk9SIChleHBsaWNpdF9waGFuZGxlcyk6IC9pbnRjQDgwMDAw
-MDA6cGhhbmRsZTogYmFkIGxlbmd0aCAoMSkgcGhhbmRsZSBwcm9wZXJ0eTxicj4NCnwgL2hvbWUv
-ZWR3cGljMDEvd29yay9tYXN0ZXItdXBkYXRlLXhlbi9idWlsZC9tZXRhdmlydC1ob3N0LWFybTY0
-LTQuMTYtcmVsZWFzZS5wcmovdG1wL3dvcmsvcWVtdWFybTY0LXBva3ktbGludXgveGVuLWltYWdl
-LW1pbmltYWwvMS4wLXIwL3hlbi1pbWFnZS1taW5pbWFsLTEuMC9vdXRwdXQuZHRzOiBFUlJPUiAo
-ZXhwbGljaXRfcGhhbmRsZXMpOiAvcGwwNjFAOTAzMDAwMDpwaGFuZGxlOiBiYWQgbGVuZ3RoICgx
-KSBwaGFuZGxlIHByb3BlcnR5PGJyPg0KfCBFUlJPUjogSW5wdXQgdHJlZSBoYXMgZXJyb3JzLCBh
-Ym9ydGluZyAodXNlIC1mIHRvIGZvcmNlIG91dHB1dCk8YnI+DQp8IFdBUk5JTkc6IGV4aXQgY29k
-ZSAyIGZyb20gYSBzaGVsbCBjb21tYW5kLjxicj4NCjxicj4NClRoZSBhYm92ZSBlcnJvciB3YXMg
-dGhlIHJlc3VsdCBmcm9tIGJ1aWxkaW5nIG9uIHg4Nl82NC1saW51eCwgdGFyZ2V0IHN5c3RlbSB3
-YXMgYWFyY2g2NC1wb2t5LWxpbnV4LCBydW5uaW5nIG9uIGEgcWVtdWFyY2g2NCBtYWNoaW5lLCBp
-dHNlbGYgcnVubmluZyBvbiB4ODZfNjQgbGludXguPGJyPg0KQXMgbWVudGlvbmVkIHRoaXMgd2Fz
-IGRvbmUgb24gdGhlIG1hc3RlciB2ZXJzaW9uIG9mIG1ldGEtdmlydHVhbGlzYXRpb24uPGJyPg0K
-VGhlIGJpdGJha2UgY29tbWFuZCB0byBnZW5lcmF0ZSB0aGlzIHdhcyBiaXRiYWtlIHhlbi1pbWFn
-ZS1taW5pbmFsLjxicj4NClRoZSBlcnJvciBpcyBhbHNvIHByZXNlbnQgd2hlbiBidWlsZGluZyB0
-aGUgeGVuIDQuMTQgYW5kIHhlbiA0LjE1IGFybTY0IHZlcnNpb25zLCBhbmQgaXMgbm90IHByZXNl
-bnQgb24gdGhlIGFybTMyIG9yIHg4NiBidWlsZHMgZm9yIHhlbi48YnI+DQpJZiBhbnlvbmUga25v
-d3MgdGhlIGNhdXNlIG9mIHRoZSBlcnJvciwgdGhlIGluZm9ybWF0aW9uIHdvdWxkIGJlIGFwcHJl
-Y2lhdGVkLjxvOnA+PC9vOnA+PC9wPg0KPC9ibG9ja3F1b3RlPg0KPGRpdj4NCjxwIGNsYXNzPSJN
-c29Ob3JtYWwiIHN0eWxlPSJtYXJnaW4tbGVmdDoxMS4zcHQiPjxvOnA+Jm5ic3A7PC9vOnA+PC9w
-Pg0KPC9kaXY+DQo8ZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJtYXJn
-aW4tbGVmdDoxMS4zcHQiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTIuMHB0Ij5UaGVyZSdzIHNv
-bWV0aGluZyB3cm9uZyB3aXRoIHRoZSBpbnB1dCBEVFMgdG8gTG9wcGVyIC4uIGx1Y2tpbHksIEkg
-bWFpbnRhaW4gTG9wcGVyLCBzbyBpZiB0aGVyZSdzIGFuIGFjdHVhbCBidWcgaW4gdGhlIHByb2Nl
-c3Npbmcgb2YgdGhlIGlucHV0IERUUyAuLiBJIGNhbiBmaXggdGhhdC48bzpwPjwvbzpwPjwvc3Bh
-bj48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIiBzdHlsZT0ibWFyZ2lu
-LWxlZnQ6MTEuM3B0Ij48c3BhbiBzdHlsZT0iZm9udC1zaXplOjEyLjBwdCI+PG86cD4mbmJzcDs8
-L286cD48L3NwYW4+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCIgc3R5
-bGU9Im1hcmdpbi1sZWZ0OjExLjNwdCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMi4wcHQiPkkg
-Y2FuIGZpcmUgdXAgYSBidWlsZCBhbmQgc2VlIGlmIGl0IGhhcHBlbnMgaGVyZS48bzpwPjwvbzpw
-Pjwvc3Bhbj48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIiBzdHlsZT0i
-bWFyZ2luLWxlZnQ6MTEuM3B0Ij48c3BhbiBzdHlsZT0iZm9udC1zaXplOjEyLjBwdCI+PG86cD4m
-bmJzcDs8L286cD48L3NwYW4+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1h
-bCIgc3R5bGU9Im1hcmdpbi1sZWZ0OjExLjNwdCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMi4w
-cHQiPlNvIHRoaXMgaXMganVzdCBxZW11YXJtNjQsIHdpdGggeGVuICsgdmlydHVhbGl6YXRpb24g
-aW4gdGhlIGRpc3RybyBmZWF0dXJlcyA/IEFueSBvdGhlciBsYXllcnMgPyBBbnl0aGluZyBlbHNl
-ID88bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9y
-bWFsIiBzdHlsZT0ibWFyZ2luLWxlZnQ6MTEuM3B0Ij48c3BhbiBzdHlsZT0iZm9udC1zaXplOjEy
-LjBwdCI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xh
-c3M9Ik1zb05vcm1hbCIgc3R5bGU9Im1hcmdpbi1sZWZ0OjExLjNwdCI+PHNwYW4gc3R5bGU9ImZv
-bnQtc2l6ZToxMi4wcHQiPkJydWNlDQo8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8L2Rpdj4NCjxw
-IGNsYXNzPSJNc29Ob3JtYWwiPlllcywgdGhpcyBpcyBqdXN0IGFzIHlvdSBzYXksIG5vIG90aGVy
-IGxheWVycyBvciBhbnl0aGluZyBlbHNlLiBUaGFuayB5b3UgZm9yIHRoZSBzcGVlZHkgcmVwbHkh
-PG86cD48L286cD48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwv
-cD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPkVkd2FyZDxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8
-ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+Jm5ic3A7PG86cD48L286cD48L3A+DQo8L2Rpdj4N
-CjxibG9ja3F1b3RlIHN0eWxlPSJib3JkZXI6bm9uZTtib3JkZXItbGVmdDpzb2xpZCAjQ0NDQ0ND
-IDEuMHB0O3BhZGRpbmc6MGNtIDBjbSAwY20gNi4wcHQ7bWFyZ2luLWxlZnQ6NC44cHQ7bWFyZ2lu
-LXJpZ2h0OjBjbSI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIiBzdHlsZT0ibWFyZ2luLWJvdHRvbTox
-Mi4wcHQiPjxicj4NCkNoZWVycyE8YnI+DQo8YnI+DQo8YnI+DQpJTVBPUlRBTlQgTk9USUNFOiBU
-aGUgY29udGVudHMgb2YgdGhpcyBlbWFpbCBhbmQgYW55IGF0dGFjaG1lbnRzIGFyZSBjb25maWRl
-bnRpYWwgYW5kIG1heSBhbHNvIGJlIHByaXZpbGVnZWQuIElmIHlvdSBhcmUgbm90IHRoZSBpbnRl
-bmRlZCByZWNpcGllbnQsIHBsZWFzZSBub3RpZnkgdGhlIHNlbmRlciBpbW1lZGlhdGVseSBhbmQg
-ZG8gbm90IGRpc2Nsb3NlIHRoZSBjb250ZW50cyB0byBhbnkgb3RoZXIgcGVyc29uLCB1c2UgaXQg
-Zm9yIGFueSBwdXJwb3NlLA0KIG9yIHN0b3JlIG9yIGNvcHkgdGhlIGluZm9ybWF0aW9uIGluIGFu
-eSBtZWRpdW0uIFRoYW5rIHlvdS48YnI+DQo8YnI+DQo8bzpwPjwvbzpwPjwvcD4NCjwvYmxvY2tx
-dW90ZT4NCjwvZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PGJyIGNsZWFyPSJhbGwiPg0KPG86
-cD48L286cD48L3A+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286
-cD48L3A+DQo8L2Rpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPi0tIDxvOnA+PC9vOnA+PC9wPg0K
-PGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJtYXJnaW4tYm90dG9tOjEyLjBwdCI+
-LSBUaG91IHNoYWx0IG5vdCBmb2xsb3cgdGhlIE5VTEwgcG9pbnRlciwgZm9yIGNoYW9zIGFuZCBt
-YWRuZXNzIGF3YWl0IHRoZWUgYXQgaXRzIGVuZDxicj4NCi0gJnF1b3Q7VXNlIHRoZSBmb3JjZSBI
-YXJyeSZxdW90OyAtIEdhbmRhbGYsIFN0YXIgVHJlayBJSTxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+
-DQo8L2Rpdj4NCjwvZGl2Pg0KSU1QT1JUQU5UIE5PVElDRTogVGhlIGNvbnRlbnRzIG9mIHRoaXMg
-ZW1haWwgYW5kIGFueSBhdHRhY2htZW50cyBhcmUgY29uZmlkZW50aWFsIGFuZCBtYXkgYWxzbyBi
-ZSBwcml2aWxlZ2VkLiBJZiB5b3UgYXJlIG5vdCB0aGUgaW50ZW5kZWQgcmVjaXBpZW50LCBwbGVh
-c2Ugbm90aWZ5IHRoZSBzZW5kZXIgaW1tZWRpYXRlbHkgYW5kIGRvIG5vdCBkaXNjbG9zZSB0aGUg
-Y29udGVudHMgdG8gYW55IG90aGVyIHBlcnNvbiwgdXNlIGl0IGZvciBhbnkgcHVycG9zZSwNCiBv
-ciBzdG9yZSBvciBjb3B5IHRoZSBpbmZvcm1hdGlvbiBpbiBhbnkgbWVkaXVtLiBUaGFuayB5b3Uu
-DQo8L2JvZHk+DQo8L2h0bWw+DQo=
+Create a test package to pack new tests introduced in 4.16.
 
---_000_AM6PR08MB40864FE34FC26FC9EDD37AEDF0849AM6PR08MB4086eurp_--
+Add a depencency to util-linux-prlimit, as the xen 4.16 x86 requires prli=
+mit,
+without this boot of dom0 fails.
+
+Signed-off-by: Edward Pickup <Edward.Pickup@arm.com>
+---
+ ...ry-Fix-osdep_xenforeignmemory_map-pr.patch |  33 ------
+ ...x86-make-hypervisor-build-with-gcc11.patch | 111 ------------------
+ ...-around-build-issue-with-GNU-ld-2.37.patch |  36 ------
+ recipes-extended/xen/xen-tools.inc            |  29 +++++
+ recipes-extended/xen/xen-tools_4.14.bb        |   5 +-
+ recipes-extended/xen/xen-tools_4.15.bb        |   5 +-
+ recipes-extended/xen/xen-tools_git.bb         |   5 +-
+ recipes-extended/xen/xen_4.14.bb              |   4 +-
+ recipes-extended/xen/xen_4.15.bb              |   5 +-
+ recipes-extended/xen/xen_git.bb               |   5 +-
+ 10 files changed, 41 insertions(+), 197 deletions(-)
+ delete mode 100644 recipes-extended/xen/files/0001-libs-foreignmemory-Fi=
+x-osdep_xenforeignmemory_map-pr.patch
+ delete mode 100644 recipes-extended/xen/files/0001-x86-make-hypervisor-b=
+uild-with-gcc11.patch
+ delete mode 100644 recipes-extended/xen/files/0001-x86-work-around-build=
+-issue-with-GNU-ld-2.37.patch
+
+diff --git a/recipes-extended/xen/files/0001-libs-foreignmemory-Fix-osdep=
+_xenforeignmemory_map-pr.patch b/recipes-extended/xen/files/0001-libs-for=
+eignmemory-Fix-osdep_xenforeignmemory_map-pr.patch
+deleted file mode 100644
+index 2e3b1a6..0000000
+--- a/recipes-extended/xen/files/0001-libs-foreignmemory-Fix-osdep_xenfor=
+eignmemory_map-pr.patch
++++ /dev/null
+@@ -1,33 +0,0 @@
+-From 5d3e4ebb5c71477d74a0c503438545a0126d3863 Mon Sep 17 00:00:00 2001
+-From: Anthony PERARD <anthony.perard@citrix.com>
+-Date: Tue, 1 Jun 2021 16:41:47 +0100
+-Subject: [PATCH] libs/foreignmemory: Fix osdep_xenforeignmemory_map prot=
+otype
+-
+-Commit cf8c4d3d13b8 made some preparation to have one day
+-variable-length-array argument, but didn't declare the array in the
+-function prototype the same way as in the function definition. And now
+-GCC 11 complains about it.
+-
+-Fixes: cf8c4d3d13b8 ("tools/libs/foreignmemory: pull array length argume=
+nt to map forward")
+-Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
+-Reviewed-by: Jan Beulich <jbeulich@suse.com>
+----
+- tools/libs/foreignmemory/private.h | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/tools/libs/foreignmemory/private.h b/tools/libs/foreignmemo=
+ry/private.h
+-index 1ee3626dd2..5bb0cefb09 100644
+---- a/tools/libs/foreignmemory/private.h
+-+++ b/tools/libs/foreignmemory/private.h
+-@@ -32,7 +32,7 @@ int osdep_xenforeignmemory_close(xenforeignmemory_hand=
+le *fmem);
+- void *osdep_xenforeignmemory_map(xenforeignmemory_handle *fmem,
+-                                  uint32_t dom, void *addr,
+-                                  int prot, int flags, size_t num,
+--                                 const xen_pfn_t arr[num], int err[num]=
+);
+-+                                 const xen_pfn_t arr[/*num*/], int err[=
+/*num*/]);
+- int osdep_xenforeignmemory_unmap(xenforeignmemory_handle *fmem,
+-                                  void *addr, size_t num);
+-=20
+---=20
+-2.25.1
+-
+diff --git a/recipes-extended/xen/files/0001-x86-make-hypervisor-build-wi=
+th-gcc11.patch b/recipes-extended/xen/files/0001-x86-make-hypervisor-buil=
+d-with-gcc11.patch
+deleted file mode 100644
+index 72592c4..0000000
+--- a/recipes-extended/xen/files/0001-x86-make-hypervisor-build-with-gcc1=
+1.patch
++++ /dev/null
+@@ -1,111 +0,0 @@
+-From 722f59d38c710a940ab05e542a83020eb5546dea Mon Sep 17 00:00:00 2001
+-From: Jan Beulich <jbeulich@suse.com>
+-Date: Thu, 27 May 2021 14:40:29 +0200
+-Subject: [PATCH] x86: make hypervisor build with gcc11
+-MIME-Version: 1.0
+-Content-Type: text/plain; charset=3DUTF-8
+-Content-Transfer-Encoding: 8bit
+-
+-Gcc 11 looks to make incorrect assumptions about valid ranges that
+-pointers may be used for addressing when they are derived from e.g. a
+-plain constant. See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D10068=
+0.
+-
+-Utilize RELOC_HIDE() to work around the issue, which for x86 manifests
+-in at least
+-- mpparse.c:efi_check_config(),
+-- tboot.c:tboot_probe(),
+-- tboot.c:tboot_gen_frametable_integrity(),
+-- x86_emulate.c:x86_emulate() (at -O2 only).
+-The last case is particularly odd not just because it only triggers at
+-higher optimization levels, but also because it only affects one of at
+-least three similar constructs. Various "note" diagnostics claim the
+-valid index range to be [0, 2=E2=81=B6=C2=B3-1].
+-
+-Signed-off-by: Jan Beulich <jbeulich@suse.com>
+-Tested-by: Jason Andryuk <jandryuk@gmail.com>
+-Acked-by: Roger Pau Monn=C3=A9 <roger.pau@citrix.com>
+----
+- tools/tests/x86_emulator/x86-emulate.c | 7 +++++++
+- xen/arch/x86/x86_emulate/x86_emulate.c | 2 +-
+- xen/include/asm-x86/fixmap.h           | 2 +-
+- xen/include/xen/compiler.h             | 6 ++++++
+- xen/include/xen/pdx.h                  | 2 +-
+- 5 files changed, 16 insertions(+), 3 deletions(-)
+-
+-diff --git a/tools/tests/x86_emulator/x86-emulate.c b/tools/tests/x86_em=
+ulator/x86-emulate.c
+-index 07f892dbbb..ea286d6ad8 100644
+---- a/tools/tests/x86_emulator/x86-emulate.c
+-+++ b/tools/tests/x86_emulator/x86-emulate.c
+-@@ -8,6 +8,13 @@
+-=20
+- #define ERR_PTR(val) NULL
+-=20
+-+/* See gcc bug 100680, but here don't bother making this version depend=
+ent. */
+-+#define gcc11_wrap(x) ({                  \
+-+    unsigned long x_;                     \
+-+    __asm__ ( "" : "=3Dg" (x_) : "0" (x) ); \
+-+    (typeof(x))x_;                        \
+-+})
+-+
+- #define cpu_has_amd_erratum(nr) 0
+- #define cpu_has_mpx false
+- #define read_bndcfgu() 0
+-diff --git a/xen/arch/x86/x86_emulate/x86_emulate.c b/xen/arch/x86/x86_e=
+mulate/x86_emulate.c
+-index c25d88d0d8..31fdec030c 100644
+---- a/xen/arch/x86/x86_emulate/x86_emulate.c
+-+++ b/xen/arch/x86/x86_emulate/x86_emulate.c
+-@@ -726,7 +726,7 @@ union vex {
+- #define copy_VEX(ptr, vex) ({ \
+-     if ( !mode_64bit() ) \
+-         (vex).reg |=3D 8; \
+--    (ptr)[0 - PFX_BYTES] =3D ext < ext_8f08 ? 0xc4 : 0x8f; \
+-+    gcc11_wrap(ptr)[0 - PFX_BYTES] =3D ext < ext_8f08 ? 0xc4 : 0x8f; \
+-     (ptr)[1 - PFX_BYTES] =3D (vex).raw[0]; \
+-     (ptr)[2 - PFX_BYTES] =3D (vex).raw[1]; \
+-     container_of((ptr) + 1 - PFX_BYTES, typeof(vex), raw[0]); \
+-diff --git a/xen/include/asm-x86/fixmap.h b/xen/include/asm-x86/fixmap.h
+-index 0db314baeb..20746afd0a 100644
+---- a/xen/include/asm-x86/fixmap.h
+-+++ b/xen/include/asm-x86/fixmap.h
+-@@ -78,7 +78,7 @@ extern void __set_fixmap(
+-=20
+- #define clear_fixmap(idx) __set_fixmap(idx, 0, 0)
+-=20
+--#define __fix_to_virt(x) (FIXADDR_TOP - ((x) << PAGE_SHIFT))
+-+#define __fix_to_virt(x) gcc11_wrap(FIXADDR_TOP - ((x) << PAGE_SHIFT))
+- #define __virt_to_fix(x) ((FIXADDR_TOP - ((x)&PAGE_MASK)) >> PAGE_SHIFT=
+)
+-=20
+- #define fix_to_virt(x)   ((void *)__fix_to_virt(x))
+-diff --git a/xen/include/xen/compiler.h b/xen/include/xen/compiler.h
+-index 17cf00e1ec..696c7eb89e 100644
+---- a/xen/include/xen/compiler.h
+-+++ b/xen/include/xen/compiler.h
+-@@ -140,6 +140,12 @@
+-     __asm__ ("" : "=3Dr"(__ptr) : "0"(ptr));      \
+-     (typeof(ptr)) (__ptr + (off)); })
+-=20
+-+#if CONFIG_GCC_VERSION >=3D 110000 /* See gcc bug 100680. */
+-+# define gcc11_wrap(x) RELOC_HIDE(x, 0)
+-+#else
+-+# define gcc11_wrap(x) (x)
+-+#endif
+-+
+- #ifdef __GCC_ASM_FLAG_OUTPUTS__
+- # define ASM_FLAG_OUT(yes, no) yes
+- #else
+-diff --git a/xen/include/xen/pdx.h b/xen/include/xen/pdx.h
+-index 770fadc06c..9fcfb0ce52 100644
+---- a/xen/include/xen/pdx.h
+-+++ b/xen/include/xen/pdx.h
+-@@ -19,7 +19,7 @@ extern u64 pdx_region_mask(u64 base, u64 len);
+- extern void set_pdx_range(unsigned long smfn, unsigned long emfn);
+-=20
+- #define page_to_pdx(pg)  ((pg) - frame_table)
+--#define pdx_to_page(pdx) (frame_table + (pdx))
+-+#define pdx_to_page(pdx) gcc11_wrap(frame_table + (pdx))
+-=20
+- bool __mfn_valid(unsigned long mfn);
+-=20
+---=20
+-2.25.1
+-
+diff --git a/recipes-extended/xen/files/0001-x86-work-around-build-issue-=
+with-GNU-ld-2.37.patch b/recipes-extended/xen/files/0001-x86-work-around-=
+build-issue-with-GNU-ld-2.37.patch
+deleted file mode 100644
+index f5108be..0000000
+--- a/recipes-extended/xen/files/0001-x86-work-around-build-issue-with-GN=
+U-ld-2.37.patch
++++ /dev/null
+@@ -1,36 +0,0 @@
+-From 58ad654ebce7ccb272a3f4f3482c03aaad850d31 Mon Sep 17 00:00:00 2001
+-From: Jan Beulich <jbeulich@suse.com>
+-Date: Thu, 22 Jul 2021 11:20:38 +0200
+-Subject: [PATCH] x86: work around build issue with GNU ld 2.37
+-
+-I suspect it is commit 40726f16a8d7 ("ld script expression parsing")
+-which broke the hypervisor build, by no longer accepting section names
+-with a dash in them inside ADDR() (and perhaps other script directives
+-expecting just a section name, not an expression): .note.gnu.build-id
+-is such a section.
+-
+-Quoting all section names passed to ADDR() via DECL_SECTION() works
+-around the regression.
+-
+-Signed-off-by: Jan Beulich <jbeulich@suse.com>
+-Acked-by: Andrew Cooper <andrew.cooper3@citrix.com>
+----
+- xen/arch/x86/xen.lds.S | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/xen/arch/x86/xen.lds.S b/xen/arch/x86/xen.lds.S
+-index 9c6c1c8005..955d5cf4a0 100644
+---- a/xen/arch/x86/xen.lds.S
+-+++ b/xen/arch/x86/xen.lds.S
+-@@ -18,7 +18,7 @@ ENTRY(efi_start)
+- #else /* !EFI */
+-=20
+- #define FORMAT "elf64-x86-64"
+--#define DECL_SECTION(x) x : AT(ADDR(x) - __XEN_VIRT_START)
+-+#define DECL_SECTION(x) x : AT(ADDR(#x) - __XEN_VIRT_START)
+-=20
+- ENTRY(start_pa)
+-=20
+---=20
+-2.25.1
+-
+diff --git a/recipes-extended/xen/xen-tools.inc b/recipes-extended/xen/xe=
+n-tools.inc
+index 614f557..d831941 100644
+--- a/recipes-extended/xen/xen-tools.inc
++++ b/recipes-extended/xen/xen-tools.inc
+@@ -102,6 +102,7 @@ RSUGGESTS:${PN}-xencov =3D "${PN}-xencov-split"
+=20
+ RDEPENDS:${PN}-xencommons =3D "\
+     bash \
++    util-linux-prlimit \
+     ${PN}-console \
+     ${PN}-xenstore \
+     virtual/xenstored \
+@@ -213,6 +214,9 @@ PACKAGES =3D " \
+     ${PN}-xm-examples \
+     ${PN}-xen-access \
+     ${PN}-xen-memshare \
++    ${PN}-test \
++    ${PN}-xen-vmtrace \
++    ${PN}-xen-mceinj \
+     "
+=20
+ PROVIDES =3D+ " \
+@@ -684,6 +688,31 @@ FILES:${PN}-xen-memshare +=3D "\
+ # memshare is only built for x86, so allow empty package for other archs
+ ALLOW_EMPTY:${PN}-xen-memshare =3D "1"
+=20
++FILES:${PN}-test +=3D "\
++    ${libdir}/xen/bin/test-xenstore \
++    ${libdir}/xen/bin/test-resource \
++    ${libdir}/xen/bin/test-cpu-policy \
++    ${libdir}/xen/bin/test-tsx \
++    "
++
++# test-xenstore and test-resource currently only exist in 4.16
++# test-cpu-policy and test-tsx only exist in 4.16 for x86
++ALLOW_EMPTY:${PN}-test =3D "1"
++
++FILES:${PN}-xen-mceinj +=3D"\
++    ${sbindir}/xen-mceinj \
++    "
++
++# xen-mceinj is only built for x86 4.16, so allow empty package
++ALLOW_EMPTY:${PN}-xen-mceinj =3D "1"
++
++FILES:${PN}-xen-vmtrace +=3D"\
++    ${sbindir}/xen-vmtrace \
++    "
++
++# xen-vmtrace is only built for x86 4.16, so allow empty package
++ALLOW_EMPTY:${PN}-xen-vmtrace =3D "1"
++
+ INSANE_SKIP:${PN} =3D "already-stripped"
+=20
+ # configure init.d scripts
+diff --git a/recipes-extended/xen/xen-tools_4.14.bb b/recipes-extended/xe=
+n/xen-tools_4.14.bb
+index ce5dc2e..9d78e44 100644
+--- a/recipes-extended/xen/xen-tools_4.14.bb
++++ b/recipes-extended/xen/xen-tools_4.14.bb
+@@ -1,4 +1,5 @@
+-SRCREV ?=3D "b6a8c4f72def4d1135ff42660a86276ce2565c8c"
++# 4.14.3 release SHA
++SRCREV ?=3D "9f2b6c5ec2ded4c1caf149743e862c5f15d6d083"
+=20
+ XEN_REL ?=3D "4.14"
+ XEN_BRANCH ?=3D "stable-${XEN_REL}"
+@@ -8,8 +9,6 @@ SRC_URI =3D " \
+     file://0001-python-pygrub-pass-DISTUTILS-xen-4.14.patch \
+     file://0001-firmware-provide-a-stand-alone-set-of-headers-Xen-4.14.p=
+atch \
+     file://0001-tools-firmware-Build-firmware-as-ffreestanding-Xen-4.14.=
+patch \
+-    file://0001-libs-foreignmemory-Fix-osdep_xenforeignmemory_map-pr.pat=
+ch \
+-    file://0001-x86-work-around-build-issue-with-GNU-ld-2.37.patch \
+     "
+=20
+ LIC_FILES_CHKSUM ?=3D "file://COPYING;md5=3D419739e325a50f3d7b4501338e44=
+a4e5"
+diff --git a/recipes-extended/xen/xen-tools_4.15.bb b/recipes-extended/xe=
+n/xen-tools_4.15.bb
+index e9c3bd6..840f162 100644
+--- a/recipes-extended/xen/xen-tools_4.15.bb
++++ b/recipes-extended/xen/xen-tools_4.15.bb
+@@ -1,4 +1,5 @@
+-SRCREV ?=3D "e25aa9939ae0cd8317605be3d5c5611b76bc4ab4"
++# xen 4.15.1 release sha
++SRCREV ?=3D "84fa99099b920f7bcde8899e1a9b756078719d7d"
+=20
+ XEN_REL ?=3D "4.15"
+ XEN_BRANCH ?=3D "stable-${XEN_REL}"
+@@ -6,8 +7,6 @@ XEN_BRANCH ?=3D "stable-${XEN_REL}"
+ SRC_URI =3D " \
+     git://xenbits.xen.org/xen.git;branch=3D${XEN_BRANCH} \
+     file://0001-python-pygrub-pass-DISTUTILS-xen-4.15.patch \
+-    file://0001-libs-foreignmemory-Fix-osdep_xenforeignmemory_map-pr.pat=
+ch \
+-    file://0001-x86-work-around-build-issue-with-GNU-ld-2.37.patch \
+     "
+=20
+ LIC_FILES_CHKSUM ?=3D "file://COPYING;md5=3D419739e325a50f3d7b4501338e44=
+a4e5"
+diff --git a/recipes-extended/xen/xen-tools_git.bb b/recipes-extended/xen=
+/xen-tools_git.bb
+index 6926bd9..8ff9c4c 100644
+--- a/recipes-extended/xen/xen-tools_git.bb
++++ b/recipes-extended/xen/xen-tools_git.bb
+@@ -1,4 +1,5 @@
+-SRCREV ?=3D "e680cc48b7184d3489873d6776f84ba1fc238ced"
++# master status on 2020-10-21
++SRCREV ?=3D "23ec1ebc8acbfd2bf06f6085a776f0db923f9fa9"
+=20
+ XEN_REL ?=3D "4.16"
+ XEN_BRANCH ?=3D "master"
+@@ -6,8 +7,6 @@ XEN_BRANCH ?=3D "master"
+ SRC_URI =3D " \
+     git://xenbits.xen.org/xen.git;branch=3D${XEN_BRANCH} \
+     file://0001-python-pygrub-pass-DISTUTILS-xen-4.15.patch \
+-    file://0001-libs-foreignmemory-Fix-osdep_xenforeignmemory_map-pr.pat=
+ch \
+-    file://0001-x86-work-around-build-issue-with-GNU-ld-2.37.patch \
+     "
+=20
+ LIC_FILES_CHKSUM ?=3D "file://COPYING;md5=3D419739e325a50f3d7b4501338e44=
+a4e5"
+diff --git a/recipes-extended/xen/xen_4.14.bb b/recipes-extended/xen/xen_=
+4.14.bb
+index 291ba16..0d7d20b 100644
+--- a/recipes-extended/xen/xen_4.14.bb
++++ b/recipes-extended/xen/xen_4.14.bb
+@@ -1,4 +1,5 @@
+-SRCREV ?=3D "b6a8c4f72def4d1135ff42660a86276ce2565c8c"
++# 4.14.3 release SHA
++SRCREV ?=3D "9f2b6c5ec2ded4c1caf149743e862c5f15d6d083"
+=20
+ XEN_REL ?=3D "4.14"
+ XEN_BRANCH ?=3D "stable-${XEN_REL}"
+@@ -7,7 +8,6 @@ SRC_URI =3D " \
+     git://xenbits.xen.org/xen.git;branch=3D${XEN_BRANCH} \
+     file://xen-arm64-implement-atomic-fetch-add.patch \
+     file://0001-menuconfig-mconf-cfg-Allow-specification-of-ncurses-loca=
+tion.patch \
+-    file://0001-x86-work-around-build-issue-with-GNU-ld-2.37.patch \
+     "
+=20
+ LIC_FILES_CHKSUM ?=3D "file://COPYING;md5=3D419739e325a50f3d7b4501338e44=
+a4e5"
+diff --git a/recipes-extended/xen/xen_4.15.bb b/recipes-extended/xen/xen_=
+4.15.bb
+index 0605441..0cfaf0c 100644
+--- a/recipes-extended/xen/xen_4.15.bb
++++ b/recipes-extended/xen/xen_4.15.bb
+@@ -1,4 +1,5 @@
+-SRCREV ?=3D "e25aa9939ae0cd8317605be3d5c5611b76bc4ab4"
++# xen 4.15.1 release sha
++SRCREV ?=3D "84fa99099b920f7bcde8899e1a9b756078719d7d"
+=20
+ XEN_REL ?=3D "4.15"
+ XEN_BRANCH ?=3D "stable-${XEN_REL}"
+@@ -7,8 +8,6 @@ SRC_URI =3D " \
+     git://xenbits.xen.org/xen.git;branch=3D${XEN_BRANCH} \
+     file://xen-arm64-implement-atomic-fetch-add.patch \
+     file://0001-menuconfig-mconf-cfg-Allow-specification-of-ncurses-loca=
+tion.patch \
+-    file://0001-x86-make-hypervisor-build-with-gcc11.patch \
+-    file://0001-x86-work-around-build-issue-with-GNU-ld-2.37.patch \
+     "
+=20
+ LIC_FILES_CHKSUM ?=3D "file://COPYING;md5=3D419739e325a50f3d7b4501338e44=
+a4e5"
+diff --git a/recipes-extended/xen/xen_git.bb b/recipes-extended/xen/xen_g=
+it.bb
+index 12c9403..20227e0 100644
+--- a/recipes-extended/xen/xen_git.bb
++++ b/recipes-extended/xen/xen_git.bb
+@@ -1,4 +1,5 @@
+-SRCREV ?=3D "e680cc48b7184d3489873d6776f84ba1fc238ced"
++# master status on 2020-10-21
++SRCREV ?=3D "23ec1ebc8acbfd2bf06f6085a776f0db923f9fa9"
+=20
+ XEN_REL ?=3D "4.16"
+ XEN_BRANCH ?=3D "master"
+@@ -7,8 +8,6 @@ SRC_URI =3D " \
+     git://xenbits.xen.org/xen.git;branch=3D${XEN_BRANCH} \
+     file://xen-arm64-implement-atomic-fetch-add.patch \
+     file://0001-menuconfig-mconf-cfg-Allow-specification-of-ncurses-loca=
+tion.patch \
+-    file://0001-x86-make-hypervisor-build-with-gcc11.patch \
+-    file://0001-x86-work-around-build-issue-with-GNU-ld-2.37.patch \
+     "
+=20
+ LIC_FILES_CHKSUM ?=3D "file://COPYING;md5=3D419739e325a50f3d7b4501338e44=
+a4e5"
+--=20
+2.25.1
+
