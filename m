@@ -1,189 +1,202 @@
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
- by mx.groups.io with SMTP id smtpd.web08.2559.1635449468209195847
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+ by mx.groups.io with SMTP id smtpd.web08.2574.1635449544261067284
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 28 Oct 2021 12:31:08 -0700
+ Thu, 28 Oct 2021 12:32:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=RHtbwSPz;
- spf=pass (domain: gmail.com, ip: 209.85.222.172, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f172.google.com with SMTP id bm16so6929274qkb.11
-        for <meta-virtualization@lists.yoctoproject.org>; Thu, 28 Oct 2021 12:31:08 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=eYG3F4H2;
+ spf=pass (domain: gmail.com, ip: 209.85.208.54, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ed1-f54.google.com with SMTP id w1so10322048edd.0
+        for <meta-virtualization@lists.yoctoproject.org>; Thu, 28 Oct 2021 12:32:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=w076HekA0nPK9brZ7bJ3km8Su1FZrmsTJBSJPdQF714=;
-        b=RHtbwSPzM8fO/v9Om+cxEhcVhYg/AXP4fB2Pn0vT9St5V1lGIke8veyu/pFdFO2CJc
-         BNoHUd6EyZ9Miv3DEwOyw1TM85YQOJLfiZGpLxXFv5mVcHbYWcSD0cDDltxDZihsKzb0
-         ZhNFOVLnvieQcNnxjMbrJzFQ16RrAZ3m4WWUDjOTH0ECzaJvZuZF05K7484EoyG8tNcv
-         arA78HLP9wMn70AJraVrxzgVVnRCNybFREE8jJ9stHYfVBELjlNkVuE2a5h8U6sDLaS0
-         w8b/e+Tsc1/DgWb9R3PNDB3tRHl4WljdVeWFPM2unGAH0FSRgCn5lBsJH8dzam/EJiRG
-         WBtw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=b4tm2TQxUF9mPXsMEtaJThbDtMdA3dMRYFAawLCb92Y=;
+        b=eYG3F4H2vkLRZbipqbeKa0/qlXd1jVBQlNxu7HKtu4lM1ESul9XBJKQcfxrBtpE6+2
+         C5v5cEHKUX/TJFAuWfCLIrTNJm3wk4LIfjO0VxyOWK3v+DUouXBMww6yUMr+9+NVzAPh
+         +lv250r4XuEw99MVbmZq6dU8dytDMeK8GjoNTAuNYJg9cZAMXqaCziiZUfJAU5zceWfI
+         43SHPP//MyZwWfvfv+uPfwf2BjJKowCAYiA2A1I/FeH8e3PpoT9sA26lm4NjsJ76TE9j
+         8wmTEmtcdxNpTc8mtSa8NGrzoyNcrIYlXYkIwcgJpk4SCCFI/XzBDjV2zHCRMVoa9wyY
+         CSaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=w076HekA0nPK9brZ7bJ3km8Su1FZrmsTJBSJPdQF714=;
-        b=uy8JwfUzks1b1lYbnQAvZ4CwCag5bf5mDNKLj90Tmt4Q5Vjavugbt/TGyctA4/kC3F
-         AwBJKYuiMfrViDdlnXVHy5aYvXqwZMiRhu4q0JaKra8rnI8v9g5CRSs6FSSppi2wlo8O
-         NS9MtcilBPwHbP16K4d/RB1+meE+4uhxwZESoMXSQX31sEYkCxb3XPMDMz34b0W1OMLM
-         z09iWLwETCBMGTTB7PLGo+RaKotPTRnzeIvOXyPct1FwU47pBLX/JfLj+Uf8nY1m2odz
-         blUKFoW9H3zp+oaXom5vial9k5QCuypDauOnMgHnUT6qhfCPiSAYacMmMHsV9X+5XSho
-         9dDA==
-X-Gm-Message-State: AOAM533/d7kE1AdqIrYYqgoyANN1pNnUH22BjWDMZTJ9nHTiUDlkytEA
-	lTiivCvv428Po29iCi24XQw=
-X-Google-Smtp-Source: ABdhPJzuj2nInJZgWytz9/7Df9UJGWMc3ihHa9siyJfaDyj40c+yuzGvha6vKvXNi3TT5KIr1Jk5pQ==
-X-Received: by 2002:a05:620a:2a0b:: with SMTP id o11mr5180442qkp.493.1635449467194;
-        Thu, 28 Oct 2021 12:31:07 -0700 (PDT)
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from gmail.com (cpe04d4c4975b80-cmf4c11490699b.cpe.net.cable.rogers.com. [174.112.63.222])
-        by smtp.gmail.com with ESMTPSA id c20sm2862931qtx.14.2021.10.28.12.31.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Oct 2021 12:31:06 -0700 (PDT)
-Date: Thu, 28 Oct 2021 15:31:05 -0400
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-To: kai <kai.kang@windriver.com>
-Cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [meta-virtualization] [PATCH] ceph: 15.2.12 -> 15.2.15
-Message-ID: <20211028193102.GA18574@gmail.com>
-References: <20211022104628.30906-1-kai.kang@windriver.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=b4tm2TQxUF9mPXsMEtaJThbDtMdA3dMRYFAawLCb92Y=;
+        b=p9SPs8kvHc7utgFnZTywFJDzm9nhiY65cIgCfh7QUSDsTTWxQ3V7IQhWw0cuYzwFRZ
+         JzXtpWOorZxKD/6UgCjr6lcRVO/piuwh3TQQjM9lbB7+X+LaWeDd6MFl/RKdDR7x3M8J
+         MhtNq09q00Jau935H0OBT75b8K97H+oLA/K5P7c4zwp3xee9iXGoNaVAL4xcoBSpWO2z
+         Lrx97Z7zDusoVFcQOqjxzrnuHk/xNW7SIqjaZDqs5LTlYuxSpbj2wsu6e+AT0dzZBOz0
+         3C9OOC7kDhdUueTxrGl6tL1Z27UXOl3SNbvMVoAEqpbI6opG4FIfBzGkkJolDH2x95R1
+         /aaw==
+X-Gm-Message-State: AOAM532kIMZRBdjDN6ET9ujHrOd8plDBbeNRS3+Kf0iLhsrUUQ0GWUxI
+	4b9RUi5Pcw523RbK367Nb6fj1aPLCrjqXg0IF+I=
+X-Google-Smtp-Source: ABdhPJx8AZ3v7kDNaoSQpXJ5A+bekJhmyHPxJ1VMc6Qinx5uby1XjGOCTYqMGo5TG95L5CHM8AYqGEXquFIh0TukjTw=
+X-Received: by 2002:a17:906:8298:: with SMTP id h24mr8166184ejx.211.1635449542424;
+ Thu, 28 Oct 2021 12:32:22 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20211022104628.30906-1-kai.kang@windriver.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <CADkTA4Ppi=7SLtd4hbDPZT1WARmaxs_7dwKMqa33wPuxz9aGLA@mail.gmail.com>
+ <29697.1634888278709637812@lists.yoctoproject.org> <AM6PR08MB346139074D6A33370A78A2DB92869@AM6PR08MB3461.eurprd08.prod.outlook.com>
+ <16B232F25D90C384.11077@lists.yoctoproject.org>
+In-Reply-To: <16B232F25D90C384.11077@lists.yoctoproject.org>
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+Date: Thu, 28 Oct 2021 15:32:11 -0400
+Message-ID: <CADkTA4PGDpxzYR+czzoHCKH23tEA2OFty8QaMPoA5GTsR5PEwQ@mail.gmail.com>
+Subject: Re: [meta-virtualization] [PATCH 1/2] k3s: Update k3s service configuration
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: Diego Sueiro <Diego.Sueiro@arm.com>, 
+	"meta-virtualization@lists.yoctoproject.org" <meta-virtualization@lists.yoctoproject.org>, 
+	=?UTF-8?Q?Kamil_Dzie=C5=BCyk?= <Kamil.Dziezyk@arm.com>, nd <nd@arm.com>
+Content-Type: multipart/alternative; boundary="000000000000063b5605cf6ec5ec"
 
-merged to master.
+--000000000000063b5605cf6ec5ec
+Content-Type: text/plain; charset="UTF-8"
+
+On Thu, Oct 28, 2021 at 8:53 AM Bruce Ashfield via lists.yoctoproject.org
+<bruce.ashfield=gmail.com@lists.yoctoproject.org> wrote:
+
+> On Thu, Oct 28, 2021 at 4:36 AM Diego Sueiro <Diego.Sueiro@arm.com> wrote:
+> >
+> >
+> > Hi Bruce,
+> >
+> > Any expectations to have this patch chain backported to honister?
+> >
+>
+> I've tagged them for backport, I was just busy trying to figure out
+> why python 3.10 is breaking master.
+>
+> I expect to get to them shortly.
+>
+>
+... and they are now on honister as well.
 
 Bruce
 
-In message: [meta-virtualization] [PATCH] ceph: 15.2.12 -> 15.2.15
-on 22/10/2021 kai wrote:
 
-> From: Kai Kang <kai.kang@windriver.com>
-> 
-> Update ceph to latest 15.x version:
-> 
-> * remove 0001-add-missing-include-for-atomic-bool.patch which has been
->   fixed in upstream
-> * update patch to support python 3.10
-> * add gawk to RDEPENDS that script 'rgw-gap-list-comparator' requires it
-> 
-> Signed-off-by: Kai Kang <kai.kang@windriver.com>
-> ---
->  ...-add-missing-include-for-atomic-bool.patch | 25 -------------------
->  ...01-cmake-add-support-for-python3.10.patch} | 12 ++++++---
->  .../ceph/{ceph_15.2.12.bb => ceph_15.2.15.bb} |  9 +++----
->  3 files changed, 11 insertions(+), 35 deletions(-)
->  delete mode 100644 recipes-extended/ceph/ceph/0001-add-missing-include-for-atomic-bool.patch
->  rename recipes-extended/ceph/ceph/{0001-cmake-add-support-for-python3.9.patch => 0001-cmake-add-support-for-python3.10.patch} (76%)
->  rename recipes-extended/ceph/{ceph_15.2.12.bb => ceph_15.2.15.bb} (89%)
-> 
-> diff --git a/recipes-extended/ceph/ceph/0001-add-missing-include-for-atomic-bool.patch b/recipes-extended/ceph/ceph/0001-add-missing-include-for-atomic-bool.patch
-> deleted file mode 100644
-> index ffcbc583..00000000
-> --- a/recipes-extended/ceph/ceph/0001-add-missing-include-for-atomic-bool.patch
-> +++ /dev/null
-> @@ -1,25 +0,0 @@
-> -From 502be73be3c3645094525aa552f5e53d8782a004 Mon Sep 17 00:00:00 2001
-> -From: Sakib Sajal <sakib.sajal@windriver.com>
-> -Date: Fri, 28 Aug 2020 19:36:19 -0400
-> -Subject: [PATCH] add missing include for atomic<bool>
-> -
-> -Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
-> ----
-> - src/tools/rbd/action/Bench.cc | 1 +
-> - 1 file changed, 1 insertion(+)
-> -
-> -diff --git a/src/tools/rbd/action/Bench.cc b/src/tools/rbd/action/Bench.cc
-> -index aa6edbc1..90c551c1 100644
-> ---- a/src/tools/rbd/action/Bench.cc
-> -+++ b/src/tools/rbd/action/Bench.cc
-> -@@ -9,6 +9,7 @@
-> - #include "common/ceph_mutex.h"
-> - #include "include/types.h"
-> - #include "global/signal_handler.h"
-> -+#include <atomic>
-> - #include <iostream>
-> - #include <boost/accumulators/accumulators.hpp>
-> - #include <boost/accumulators/statistics/stats.hpp>
-> --- 
-> -2.27.0
-> -
-> diff --git a/recipes-extended/ceph/ceph/0001-cmake-add-support-for-python3.9.patch b/recipes-extended/ceph/ceph/0001-cmake-add-support-for-python3.10.patch
-> similarity index 76%
-> rename from recipes-extended/ceph/ceph/0001-cmake-add-support-for-python3.9.patch
-> rename to recipes-extended/ceph/ceph/0001-cmake-add-support-for-python3.10.patch
-> index d9116c4f..94c4b8a6 100644
-> --- a/recipes-extended/ceph/ceph/0001-cmake-add-support-for-python3.9.patch
-> +++ b/recipes-extended/ceph/ceph/0001-cmake-add-support-for-python3.10.patch
-> @@ -1,13 +1,17 @@
->  From 1060f2e4362ebd6db23870d442dcd158d219ee92 Mon Sep 17 00:00:00 2001
->  From: Yanfei Xu <yanfei.xu@windriver.com>
->  Date: Tue, 10 Nov 2020 17:17:30 +0800
-> -Subject: [PATCH] cmake: add support for python3.9
-> +Subject: [PATCH] cmake: add support for python 3.9 and 3.10
->  
->  add support for python3.9.
->  
-> -Upstream-Status: Pending
-> -
->  Signed-off-by: Yanfei Xu <yanfei.xu@windriver.com>
-> +
-> +Add support for python 3.10.
-> +
-> +Upstream-Status: Submitted [https://github.com/ceph/ceph/pull/43630]
-> +
-> +Signed-off-by: Kai Kang <kai.kang@windriver.com>
->  ---
->   cmake/modules/FindPython/Support.cmake | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> @@ -21,7 +25,7 @@ index 6584699b79..c05bbe3306 100644
->   endif()
->   if (_${_PYTHON_PREFIX}_REQUIRED_VERSION_MAJOR EQUAL 3)
->  -  set(_${_PYTHON_PREFIX}_VERSIONS 3.8 3.7 3.6 3.5 3.4 3.3 3.2 3.1 3.0)
-> -+  set(_${_PYTHON_PREFIX}_VERSIONS 3.9 3.8 3.7 3.6 3.5 3.4 3.3 3.2 3.1 3.0)
-> ++  set(_${_PYTHON_PREFIX}_VERSIONS 3.10 3.9 3.8 3.7 3.6 3.5 3.4 3.3 3.2 3.1 3.0)
->   elseif (_${_PYTHON_PREFIX}_REQUIRED_VERSION_MAJOR EQUAL 2)
->     set(_${_PYTHON_PREFIX}_VERSIONS 2.7 2.6 2.5 2.4 2.3 2.2 2.1 2.0)
->   else()
-> diff --git a/recipes-extended/ceph/ceph_15.2.12.bb b/recipes-extended/ceph/ceph_15.2.15.bb
-> similarity index 89%
-> rename from recipes-extended/ceph/ceph_15.2.12.bb
-> rename to recipes-extended/ceph/ceph_15.2.15.bb
-> index 693b5259..0d9bae02 100644
-> --- a/recipes-extended/ceph/ceph_15.2.12.bb
-> +++ b/recipes-extended/ceph/ceph_15.2.15.bb
-> @@ -12,15 +12,11 @@ SRC_URI = "http://download.ceph.com/tarballs/ceph-${PV}.tar.gz \
->             file://0001-ceph-fix-build-errors-for-cross-compile.patch \
->             file://0001-fix-host-library-paths-were-used.patch \
->             file://ceph.conf \
-> -           file://0001-add-missing-include-for-atomic-bool.patch \
-> -           file://0001-cmake-add-support-for-python3.9.patch \
-> +           file://0001-cmake-add-support-for-python3.10.patch \
->             file://0001-SnappyCompressor.h-fix-snappy-compiler-error.patch \
->  "
->  
-> -SRC_URI[sha1sum] = "9c76b298e1e659b9c5501003ac77fb28aab7823d"
-> -SRC_URI[sha256sum] = "8710f6700de83765138df8eb4fc7a5e7c66104dd838033e0827a1850f250ac85"
-> -SRC_URI[sha384sum] = "2a2f177e5b68f6f5d13b253a8d4daba9e956b4a79a40a4775aee288b60c612fe13b417d6baf77944c32b1181b2136f68"
-> -SRC_URI[sha512sum] = "08266a2e9a7ca5a37e03f340873571fd012c630dd898a87241cd97c29760b2bf41fe64c8883e7b08e0f83c26245072cd26e69ecb1db02378d1ec38335ba1cd0f"
-> +SRC_URI[sha256sum] = "5dccdaff2ebe18d435b32bfc06f8b5f474bf6ac0432a6a07d144b7c56700d0bf"
->  
->  DEPENDS = "boost bzip2 curl expat gperf-native \
->             keyutils libaio libibverbs lz4 \
-> @@ -133,6 +129,7 @@ RDEPENDS:${PN} += "\
->  		python3-modules \
->  		python3-prettytable \
->  		${PN}-python \
-> +		gawk \
->  "
->  COMPATIBLE_HOST = "(x86_64).*"
->  PACKAGES += " \
-> -- 
-> 2.17.1
-> 
 
+> Bruce
+>
+>
+> > If it helps, we can send the patches targeting honister to the mailing
+> list.
+> >
+> > Regards,
+> > Diego Sueiro
+> >
+> > ________________________________
+> > From: meta-virtualization@lists.yoctoproject.org <
+> meta-virtualization@lists.yoctoproject.org> on behalf of Kamil Dziezyk
+> via lists.yoctoproject.org <kamil.dziezyk=arm.com@lists.yoctoproject.org>
+> > Sent: 22 October 2021 08:37
+> > To: meta-virtualization@lists.yoctoproject.org <
+> meta-virtualization@lists.yoctoproject.org>
+> > Subject: Re: [meta-virtualization] [PATCH 1/2] k3s: Update k3s service
+> configuration
+> >
+> >
+> > Hello Bruce,
+> >
+> > Can you backport these two k3s patches to honister branch?
+> >
+> > Thanks,
+> >
+> > Kamil
+>
+>
+>
+> --
+> - Thou shalt not follow the NULL pointer, for chaos and madness await
+> thee at its end
+> - "Use the force Harry" - Gandalf, Star Trek II
+>
 > 
-> 
-> 
+>
+>
 
+-- 
+- Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end
+- "Use the force Harry" - Gandalf, Star Trek II
+
+--000000000000063b5605cf6ec5ec
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
+t-size:small"><br></div></div><br><div class=3D"gmail_quote"><div dir=3D"lt=
+r" class=3D"gmail_attr">On Thu, Oct 28, 2021 at 8:53 AM Bruce Ashfield via =
+<a href=3D"http://lists.yoctoproject.org">lists.yoctoproject.org</a> &lt;br=
+uce.ashfield=3D<a href=3D"mailto:gmail.com@lists.yoctoproject.org">gmail.co=
+m@lists.yoctoproject.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail=
+_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204=
+,204);padding-left:1ex">On Thu, Oct 28, 2021 at 4:36 AM Diego Sueiro &lt;<a=
+ href=3D"mailto:Diego.Sueiro@arm.com" target=3D"_blank">Diego.Sueiro@arm.co=
+m</a>&gt; wrote:<br>
+&gt;<br>
+&gt;<br>
+&gt; Hi Bruce,<br>
+&gt;<br>
+&gt; Any expectations to have this patch chain backported to honister?<br>
+&gt;<br>
+<br>
+I&#39;ve tagged them for backport, I was just busy trying to figure out<br>
+why python 3.10 is breaking master.<br>
+<br>
+I expect to get to them shortly.<br>
+<br></blockquote><div><br></div><div><div class=3D"gmail_default" style=3D"=
+font-size:small">... and they are now on honister as well.</div><div class=
+=3D"gmail_default" style=3D"font-size:small"><br></div><div class=3D"gmail_=
+default" style=3D"font-size:small">Bruce</div><br></div><div>=C2=A0</div><b=
+lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
+ft:1px solid rgb(204,204,204);padding-left:1ex">
+Bruce<br>
+<br>
+<br>
+&gt; If it helps, we can send the patches targeting honister to the mailing=
+ list.<br>
+&gt;<br>
+&gt; Regards,<br>
+&gt; Diego Sueiro<br>
+&gt;<br>
+&gt; ________________________________<br>
+&gt; From: <a href=3D"mailto:meta-virtualization@lists.yoctoproject.org" ta=
+rget=3D"_blank">meta-virtualization@lists.yoctoproject.org</a> &lt;<a href=
+=3D"mailto:meta-virtualization@lists.yoctoproject.org" target=3D"_blank">me=
+ta-virtualization@lists.yoctoproject.org</a>&gt; on behalf of Kamil Dziezyk=
+ via <a href=3D"http://lists.yoctoproject.org" rel=3D"noreferrer" target=3D=
+"_blank">lists.yoctoproject.org</a> &lt;kamil.dziezyk=3D<a href=3D"mailto:a=
+rm.com@lists.yoctoproject.org" target=3D"_blank">arm.com@lists.yoctoproject=
+.org</a>&gt;<br>
+&gt; Sent: 22 October 2021 08:37<br>
+&gt; To: <a href=3D"mailto:meta-virtualization@lists.yoctoproject.org" targ=
+et=3D"_blank">meta-virtualization@lists.yoctoproject.org</a> &lt;<a href=3D=
+"mailto:meta-virtualization@lists.yoctoproject.org" target=3D"_blank">meta-=
+virtualization@lists.yoctoproject.org</a>&gt;<br>
+&gt; Subject: Re: [meta-virtualization] [PATCH 1/2] k3s: Update k3s service=
+ configuration<br>
+&gt;<br>
+&gt;<br>
+&gt; Hello Bruce,<br>
+&gt;<br>
+&gt; Can you backport these two k3s patches to honister branch?<br>
+&gt;<br>
+&gt; Thanks,<br>
+&gt;<br>
+&gt; Kamil<br>
+<br>
+<br>
+<br>
+-- <br>
+- Thou shalt not follow the NULL pointer, for chaos and madness await<br>
+thee at its end<br>
+- &quot;Use the force Harry&quot; - Gandalf, Star Trek II<br>
+<br>
+<br>
+<br>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
+ class=3D"gmail_signature">- Thou shalt not follow the NULL pointer, for ch=
+aos and madness await thee at its end<br>- &quot;Use the force Harry&quot; =
+- Gandalf, Star Trek II<br><br></div></div>
+
+--000000000000063b5605cf6ec5ec--
