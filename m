@@ -1,1181 +1,349 @@
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
- by mx.groups.io with SMTP id smtpd.web09.8126.1635948601697196304
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com (EUR05-AM6-obe.outbound.protection.outlook.com [40.107.22.51])
+ by mx.groups.io with SMTP id smtpd.web09.8131.1635948628146752539
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 03 Nov 2021 07:10:02 -0700
+ Wed, 03 Nov 2021 07:10:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=QNuAZDuf;
- spf=pass (domain: gmail.com, ip: 209.85.208.182, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-lj1-f182.google.com with SMTP id h11so4082772ljk.1
-        for <meta-virtualization@lists.yoctoproject.org>; Wed, 03 Nov 2021 07:10:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=zwvfj7QGNiK8lONXYEwqNdKXG8lQ2LcqbdP/nA8HTvA=;
-        b=QNuAZDufjNc8Oz+mGtpLOpecXwfQdt3d/ZftM/i69PYAL0Xug2Ikp0NWpNhQZ+QbYw
-         NJz1rdZ/6wgcjqyzhkj4lojRQb0VgFknGL1H9Vb6LAZJitMQidMrIWkYjXwjW4cJqSfL
-         2V0VT0Wt7H6ZLhyoZE3bXTPvNuPBbFZKV/nbBEQlNT4mpjpqX2exQ350b1hat4LuWJuG
-         Q/h+L5IoBkotAxKnCb1kc94n96myTATfOieDmq1gr0HHrhONY7qik2ZeWkEZfjAZdnOm
-         TZRC/icMsSW50CZ/qhSmbWl/cAqLoiCIIuMgW7G9MdN0xviFYnG5S2OniGkRgGct/udi
-         wN0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=zwvfj7QGNiK8lONXYEwqNdKXG8lQ2LcqbdP/nA8HTvA=;
-        b=n26LCRd22bBtKHcYCpr13RHWGQPEVf7a8mEUV9zwZ1ere6SUs66MOxgYS4PxG9/H8J
-         taHie4vqDObNB2Bhv6Fq4LKS6IUg89/ZfqgctON2G0HD/GeC98/kA7S4RzvfueIhiJMM
-         IbwofkEuHG7JPbicvLMnycqBSyNw/tNaBWVdWnF+/psx6+do0tTcvsAO7513zKP24/Rb
-         NEHJ1Nk8A8sSF0BLoSc2oZWo8RiMKMLpL1EJbtXJ2NM/CQjb+wh1fSeWflZba2fFFE2B
-         wOOYi+xLBJOVoymTrWzRjWuNmJcVt1nvLDHPCf0v22g7TvOe38GdwWA9uVHUZBcLp6c5
-         sMjw==
-X-Gm-Message-State: AOAM5316/RwoR1+LcGXvkDUmfpQNcSR1FYBhR100UQgWyjFyffsYuFfq
-	bKlGsCPJ7aKGXVrwcb+hJHECsg+fCzNEo3K9988=
-X-Google-Smtp-Source: ABdhPJzOUvGtSIsMQ5NUVYtsTFWh8d/INLamqzv9fHFJ+ENc6W1uRyQATOLkcduppMeAb43qCoWRIWe1qlERc+EugIk=
-X-Received: by 2002:a2e:7c03:: with SMTP id x3mr4668215ljc.447.1635948599872;
- Wed, 03 Nov 2021 07:09:59 -0700 (PDT)
-MIME-Version: 1.0
-References: <20211026133204.335413-1-Edward.Pickup@arm.com> <16B249122D826112.5665@lists.yoctoproject.org>
-In-Reply-To: <16B249122D826112.5665@lists.yoctoproject.org>
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Wed, 3 Nov 2021 10:09:48 -0400
-Message-ID: <CADkTA4MAaYFnwwDt1NJysftTOj6geXuZ-cVyR3Jd5XeELLh9MA@mail.gmail.com>
-Subject: Re: [meta-virtualization] [PATCH] xen,xen-tools: update xen to new releases
+ dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=Nd2K+0QC;
+ spf=pass (domain: arm.com, ip: 40.107.22.51, mailfrom: bertrand.marquis@arm.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=aByjpXjF8rAjm2aJtJQALCJik/Mw3ZMwP6YMdUH9yZ0=;
+ b=Nd2K+0QCx5QsPGHWYaDJuSYtEGNLzWleurZbYvJjz/D7tSHo0Nk3dqRFYMPna6EfCGpth05OCuyBXqLKIv9of1dEz5WI+EHORfzKJbMIRdcM0DPGZcvLEmGJRmxpyS+UejsSIowsHbIQ3/rtoJlbrfr/0uFhQ/LSaUp4ePfghzU=
+Received: from DB6PR0202CA0012.eurprd02.prod.outlook.com (2603:10a6:4:29::22)
+ by PR2PR08MB4859.eurprd08.prod.outlook.com (2603:10a6:101:28::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4649.17; Wed, 3 Nov
+ 2021 14:10:18 +0000
+Received: from DB5EUR03FT033.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:4:29:cafe::b6) by DB6PR0202CA0012.outlook.office365.com
+ (2603:10a6:4:29::22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4669.11 via Frontend
+ Transport; Wed, 3 Nov 2021 14:10:18 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ DB5EUR03FT033.mail.protection.outlook.com (10.152.20.76) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4649.14 via Frontend Transport; Wed, 3 Nov 2021 14:10:17 +0000
+Received: ("Tessian outbound 7b0bcc4a550a:v108"); Wed, 03 Nov 2021 14:10:17 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: d1137c1a82ea4bb8
+X-CR-MTA-TID: 64aa7808
+Received: from f473d9338a87.1
+	by 64aa7808-outbound-1.mta.getcheckrecipient.com id A111D8DB-0F4B-42C2-A00C-DE05CAEAC5BF.1;
+	Wed, 03 Nov 2021 14:10:05 +0000
+Received: from EUR04-DB3-obe.outbound.protection.outlook.com
+    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id f473d9338a87.1
+    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+    Wed, 03 Nov 2021 14:10:05 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=USv72K1R5SJvBYmmJ4AuGnHJt/WpiNOOnJO86yLTJXhOfJo3FQ0xyyRAI1XijYP1tAHjKwhpNjj4lSSmhiUqxz3KriQPNRZr/vksxzSb2bW4WoP8AXIkb6CuBuWw9XX1i/ZsOy8cGdKL0++u5M3QRTUXXqr1wp8spnsgZS5/jhBBVrUjHJcRT1B/IGN3Cm52Oo34HOqWQ+fktY4Gv5qnOI2/JtS1IYfXh8N1RGJRiew29uqZTdWUkjGSSpjztwPaCyaKtpcwSxeXhS/kJ32EdFOjx9BRyilMB2TZo8a6mXZ+FBIPUPnsEVj3LCapZNw+7exBgqt0EC9GyBz0ZixX4g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=aByjpXjF8rAjm2aJtJQALCJik/Mw3ZMwP6YMdUH9yZ0=;
+ b=aUct6MdeL0kxRXO6Ol6AAbhvcBPxs3snQF9kmq0JHA/r7jvP3MV705z/Eq5WJK5PDV74KnnSEpt2eLBvsxlrcjbOWgk6tbNCDxoCp/wNtMkKsSE3Z0svH9pKdxC2H1wqJeeo3c6WdS9mzjjebGWfSOoGKz17wKxG0mmaJRus87BzDQxI5s6rHCEkp+KmVkHynElXri/l24V/RuntigyKb43Ej0gwyDnoW55f2T5nj22srJNZLoy4jvBnW15jZeP/ItIDuxTo9zqXb52UrrFym3fD/Xvvw6X3hnBd+m/orQyWLDSGsuc1m5Ptxn2Xg7V9SzEj2s6fYt45TBve6Ny5dw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=aByjpXjF8rAjm2aJtJQALCJik/Mw3ZMwP6YMdUH9yZ0=;
+ b=Nd2K+0QCx5QsPGHWYaDJuSYtEGNLzWleurZbYvJjz/D7tSHo0Nk3dqRFYMPna6EfCGpth05OCuyBXqLKIv9of1dEz5WI+EHORfzKJbMIRdcM0DPGZcvLEmGJRmxpyS+UejsSIowsHbIQ3/rtoJlbrfr/0uFhQ/LSaUp4ePfghzU=
+Received: from AM6PR08MB3784.eurprd08.prod.outlook.com (2603:10a6:20b:85::25)
+ by AM6PR08MB3493.eurprd08.prod.outlook.com (2603:10a6:20b:4a::30) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4669.11; Wed, 3 Nov
+ 2021 14:10:04 +0000
+Received: from AM6PR08MB3784.eurprd08.prod.outlook.com
+ ([fe80::69d7:e26:6610:ebd8]) by AM6PR08MB3784.eurprd08.prod.outlook.com
+ ([fe80::69d7:e26:6610:ebd8%4]) with mapi id 15.20.4649.020; Wed, 3 Nov 2021
+ 14:10:04 +0000
+From: "Bertrand Marquis" <bertrand.marquis@arm.com>
 To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: Edward Pickup <edward.pickup@arm.com>, meta-virtualization@lists.yoctoproject.org, 
-	Christopher Clark <christopher.w.clark@gmail.com>, Bertrand Marquis <bertrand.marquis@arm.com>
-Content-Type: multipart/alternative; boundary="0000000000002a908e05cfe2f748"
-
---0000000000002a908e05cfe2f748
-Content-Type: text/plain; charset="UTF-8"
+CC: Edward Pickup <Edward.Pickup@arm.com>,
+	"meta-virtualization@lists.yoctoproject.org"
+	<meta-virtualization@lists.yoctoproject.org>, "christopher.w.clark@gmail.com"
+	<christopher.w.clark@gmail.com>, nd <nd@arm.com>
+Subject: Re: [meta-virtualization] Error building Xen device tree for qemuarm64
+Thread-Topic: [meta-virtualization] Error building Xen device tree for
+ qemuarm64
+Thread-Index: 
+ AdfKaNrlOvyQzYIUQaGokIBx1i2kqgAA6MeAAAAQeqAAEOGyAAF+6tiAAAQRcQAAABG8gA==
+Date: Wed, 3 Nov 2021 14:10:04 +0000
+Message-ID: <00A9DCB3-AE22-4634-BA45-A781D10BE028@arm.com>
+References: 
+ <AM6PR08MB4086AA6D776124ABB5125CE8F0849@AM6PR08MB4086.eurprd08.prod.outlook.com>
+ <CADkTA4Nu5eGqsfe5mmJ6cHQQ51BAUY+4aROaWqa-5tbNH+Kxqg@mail.gmail.com>
+ <AM6PR08MB40864FE34FC26FC9EDD37AEDF0849@AM6PR08MB4086.eurprd08.prod.outlook.com>
+ <CADkTA4Oec38XsZJZP-p+LXax_vkHME9wm5AO4t3gSE32eO8WAA@mail.gmail.com>
+ <708E6FE4-D7F6-428C-8D56-67DB594302EB@arm.com>
+ <CADkTA4Mcj1EBKvJn-Qp-LBKYQdeto7uaFMTGVFRh_dJVi-zJEQ@mail.gmail.com>
+In-Reply-To: 
+ <CADkTA4Mcj1EBKvJn-Qp-LBKYQdeto7uaFMTGVFRh_dJVi-zJEQ@mail.gmail.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3654.120.0.1.13)
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-publictraffictype: Email
+X-MS-Office365-Filtering-Correlation-Id: e7214729-1c00-48bd-6e35-08d99ed3aa1e
+x-ms-traffictypediagnostic: AM6PR08MB3493:|PR2PR08MB4859:
+X-Microsoft-Antispam-PRVS: 
+	<PR2PR08MB48599E4FBF6BDE4C25F7622F9D8C9@PR2PR08MB4859.eurprd08.prod.outlook.com>
+x-checkrecipientrouted: true
+nodisclaimer: true
+x-ms-oob-tlc-oobclassifiers: OLM:10000;OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: 
+ roIrKtQh/YS9RrmuiJvpdUK2H2xMmBZOEb2zMeHjM6ah//jnikbvouM/eC7XI9E/+dlwGKMHvoqpvR6jhkglqVzBL+6TTVEcqEC3oRdSEaAbJ+7zPmiWdsoOvcFU4n6g7g3zoQnWghClehd+0ZbS8OHcQEXNF1vOPCCkO9TbYzMFvHoklSg+FKAS0nS6Zwn6QkFkueXwGqwDff2HUzbA74EMnHCk6Mh03XUVhTBJ/qKdo1xeUgWBWsCc780DSR05FTKG/6yfrI8n7g2zUAGU/QtQ80zi4N/yhZvVvexfc8Rde7/JSnR0L6p7l509dJUv6oy/8IDwtRvO4tak+IlOnArz3PEzio7vimEZUBgXI1RCY+EtbIO3lD2VVHzNj5lEhIm7pCgXr8DDX94v4ablsCh57jOnZ7CHvuTQ/9yGA+yau1h4Gd5aHnu/Bhp3j1gcJSqfj6QqgI53fHCJD9A+cTv/QGFOISzHIRJSZ/vG5Bi5MVbdK5335nnGUUxcqV2Wt07dNsoBhJ+UX57XH4Sa6XrN8RivsfR55FLAs/zRL9ZIgs0riQfcxr+4Z9FBzolWT+RXpKreR0UK8Xv+mEGYqjVB68nCgcm3dpLnsLJwDAFrHIpK/EyHR23djqSVbJbUaU94y+9jU99nx/zvqorl5Hn33BMuwpp+3wAfHjPX8S0hDd3DLLE1+WumVgNBrak7oCS83OL4vF38f8zyGj/s8WJBlUEUd5arzvWH9VV65pc8Z0luK3mqH8bhEoTMyTKDSH2rYVZtA5GZ/YoViQ5drn8v9YX3MLxNwUyiY7bKbLFBOUXSk/JzqKU/1g/3JZ9i9HZE6HnpO7imeiYzgcIORGZjksN8OPqi+ZvzwpjG8XY=
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR08MB3784.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(53546011)(6506007)(33656002)(186003)(91956017)(4326008)(8676002)(6512007)(26005)(76116006)(66946007)(38070700005)(71200400001)(316002)(54906003)(83380400001)(966005)(36756003)(6486002)(66446008)(64756008)(8936002)(508600001)(86362001)(38100700002)(122000001)(2616005)(5660300002)(66476007)(66556008)(6916009)(2906002)(45980500001);DIR:OUT;SFP:1101;
+MIME-Version: 1.0
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3493
+Original-Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+Return-Path: Bertrand.Marquis@arm.com
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ DB5EUR03FT033.eop-EUR03.prod.protection.outlook.com
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	407f1410-7d9a-4013-27fb-08d99ed3a1f6
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	aSZmfOOvwsbZyIylNAEwnbyxZf3iqH2zLRchkHEcOy9A8rrIfMLesgOeXkzWxX7oUhdsK3occXvLL2NVWB+4943++MTEAoHCe6p/3t3EeJJKveoj/Wep4E+4sbdGg9CGm9wKw+qoriv03bGJ68Y7r3cZZhOQ9luNAxd8Tgs3HMKJetJ3lKnmEZS0DB7JT1+LFhm0We0Xkf6sMuc4K6tH6O8Cknb/fJ8WhMlsvPWwtGoqVN7QuLk6xN56QhFXkK840Iv6f1L0PxWdGFnX+FuM0OmauA7ZakKf6rFQtHCK1/GSRMSkf5S/p9lMtzRO1oCafnLxN6ZFfFeX0SdUwp4v21bjYZLTeucfKUhzsTi90gNsCRU0UXPV6MiV5FsIpSE2dRzzA8UmWrYugciDBaEMgsIX39WFEjLgwU3Bn4uowTC5Xrj+RozcoByEqe6KKFAUCd22HVogvF2MGN8ZI7/+CXx9l5yX/bMORlZhe0sR9p1oBQL+/sfOJ0/ndIQV8Y2gLaUeP/pf5k4CVMlbk6seAgDA+a8qv0/8nBCKIftjlU85kLJKVFLrqoSpOEfOPS54d+h4IP4zd3JdKBUCgIK6X4O/hJOIMNGuBW04JAGuVpLagRgFhGYLcZ5eDv/Iu4YZs0XlsOuMcEprVVA21/DEWE/7e7WgG07R6y+OtWoDBq/9kht/5VFbqzQWUfK46s8LaJBN4Es5rY29JYcK1KI+CER0Q197xEP9zzeMoUZ0GJDk7sM3X8SljYe/yDH/8VAlmmcoxvQYWk8cZHZZo5jyar723l9/wezQpEqGH48hI63a89RxziXpWYf56WBj//0M
+X-Forefront-Antispam-Report: 
+	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(4636009)(36840700001)(46966006)(2906002)(6512007)(5660300002)(6486002)(83380400001)(316002)(54906003)(8676002)(2616005)(8936002)(6862004)(356005)(81166007)(6506007)(53546011)(4326008)(508600001)(47076005)(70586007)(70206006)(82310400003)(36756003)(26005)(966005)(336012)(86362001)(36860700001)(186003)(33656002);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2021 14:10:17.8914
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e7214729-1c00-48bd-6e35-08d99ed3aa1e
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DB5EUR03FT033.eop-EUR03.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR2PR08MB4859
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <1FE73C363E734E4382701E061E6ADE7D@eurprd08.prod.outlook.com>
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 28, 2021 at 3:39 PM Bruce Ashfield via lists.yoctoproject.org
-<bruce.ashfield=3Dgmail.com@lists.yoctoproject.org> wrote:
+Hi Bruce,
 
-> Just a status update.
->
-> I'm still hung up on how python 3.10 is breaking with c compiled
-> extensions (i.e. libfdt), so this will take a bit longer. For now, it isn=
-'t
-> something I'm willing to overlook.
->
-> I'm also going to wait to hear from Christopher on the upgrades.
->
-
-I've gone ahead and merged these to master and honister .. but that being
-said, I'll revert or tweak as necessary based on what Christopher suggests.
-
-Master still has the libfdt issue, I still need to sort out what is wrong
-with python 3.10 and swig.
-
-Bruce
-
-
-
->
->  Bruce
->
-> On Tue, Oct 26, 2021 at 9:32 AM Edward Pickup <edward.pickup@arm.com>
-> wrote:
->
->> Update the SHA in recipes for xen and xen-tools to use the latest
->> releases;
->> update xen 4.14 to xen 4.14.3 release, update xen 4.15 to 4.15.1 release=
-,
->> and
->> xen 4.16 to the current master version.
->>
->> Add a comment to each recipe indicating which version of Xen is used in
->> recipe.
->>
->> Do not apply patches that have been merged/solved in Xen and remove patc=
-h
->> files
->> not needed anymore.
->>
->> Create a test package to pack new tests introduced in 4.16.
->>
->> Add a depencency to util-linux-prlimit, as the xen 4.16 x86 requires
->> prlimit,
->> without this boot of dom0 fails.
->>
->> Signed-off-by: Edward Pickup <Edward.Pickup@arm.com>
->> ---
->>  ...ry-Fix-osdep_xenforeignmemory_map-pr.patch |  33 ------
->>  ...x86-make-hypervisor-build-with-gcc11.patch | 111 ------------------
->>  ...-around-build-issue-with-GNU-ld-2.37.patch |  36 ------
->>  recipes-extended/xen/xen-tools.inc            |  29 +++++
->>  recipes-extended/xen/xen-tools_4.14.bb        |   5 +-
->>  recipes-extended/xen/xen-tools_4.15.bb        |   5 +-
->>  recipes-extended/xen/xen-tools_git.bb         |   5 +-
->>  recipes-extended/xen/xen_4.14.bb              |   4 +-
->>  recipes-extended/xen/xen_4.15.bb              |   5 +-
->>  recipes-extended/xen/xen_git.bb               |   5 +-
->>  10 files changed, 41 insertions(+), 197 deletions(-)
->>  delete mode 100644
->> recipes-extended/xen/files/0001-libs-foreignmemory-Fix-osdep_xenforeignm=
-emory_map-pr.patch
->>  delete mode 100644
->> recipes-extended/xen/files/0001-x86-make-hypervisor-build-with-gcc11.pat=
-ch
->>  delete mode 100644
->> recipes-extended/xen/files/0001-x86-work-around-build-issue-with-GNU-ld-=
-2.37.patch
->>
->> diff --git
->> a/recipes-extended/xen/files/0001-libs-foreignmemory-Fix-osdep_xenforeig=
-nmemory_map-pr.patch
->> b/recipes-extended/xen/files/0001-libs-foreignmemory-Fix-osdep_xenforeig=
-nmemory_map-pr.patch
->> deleted file mode 100644
->> index 2e3b1a6..0000000
->> ---
->> a/recipes-extended/xen/files/0001-libs-foreignmemory-Fix-osdep_xenforeig=
-nmemory_map-pr.patch
->> +++ /dev/null
->> @@ -1,33 +0,0 @@
->> -From 5d3e4ebb5c71477d74a0c503438545a0126d3863 Mon Sep 17 00:00:00 2001
->> -From: Anthony PERARD <anthony.perard@citrix.com>
->> -Date: Tue, 1 Jun 2021 16:41:47 +0100
->> -Subject: [PATCH] libs/foreignmemory: Fix osdep_xenforeignmemory_map
->> prototype
->> -
->> -Commit cf8c4d3d13b8 made some preparation to have one day
->> -variable-length-array argument, but didn't declare the array in the
->> -function prototype the same way as in the function definition. And now
->> -GCC 11 complains about it.
->> -
->> -Fixes: cf8c4d3d13b8 ("tools/libs/foreignmemory: pull array length
->> argument to map forward")
->> -Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
->> -Reviewed-by: Jan Beulich <jbeulich@suse.com>
->> ----
->> - tools/libs/foreignmemory/private.h | 2 +-
->> - 1 file changed, 1 insertion(+), 1 deletion(-)
->> -
->> -diff --git a/tools/libs/foreignmemory/private.h
->> b/tools/libs/foreignmemory/private.h
->> -index 1ee3626dd2..5bb0cefb09 100644
->> ---- a/tools/libs/foreignmemory/private.h
->> -+++ b/tools/libs/foreignmemory/private.h
->> -@@ -32,7 +32,7 @@ int
->> osdep_xenforeignmemory_close(xenforeignmemory_handle *fmem);
->> - void *osdep_xenforeignmemory_map(xenforeignmemory_handle *fmem,
->> -                                  uint32_t dom, void *addr,
->> -                                  int prot, int flags, size_t num,
->> --                                 const xen_pfn_t arr[num], int
->> err[num]);
->> -+                                 const xen_pfn_t arr[/*num*/], int
->> err[/*num*/]);
->> - int osdep_xenforeignmemory_unmap(xenforeignmemory_handle *fmem,
->> -                                  void *addr, size_t num);
->> -
->> ---
->> -2.25.1
->> -
->> diff --git
->> a/recipes-extended/xen/files/0001-x86-make-hypervisor-build-with-gcc11.p=
-atch
->> b/recipes-extended/xen/files/0001-x86-make-hypervisor-build-with-gcc11.p=
-atch
->> deleted file mode 100644
->> index 72592c4..0000000
->> ---
->> a/recipes-extended/xen/files/0001-x86-make-hypervisor-build-with-gcc11.p=
-atch
->> +++ /dev/null
->> @@ -1,111 +0,0 @@
->> -From 722f59d38c710a940ab05e542a83020eb5546dea Mon Sep 17 00:00:00 2001
->> -From: Jan Beulich <jbeulich@suse.com>
->> -Date: Thu, 27 May 2021 14:40:29 +0200
->> -Subject: [PATCH] x86: make hypervisor build with gcc11
->> -MIME-Version: 1.0
->> -Content-Type: text/plain; charset=3DUTF-8
->> -Content-Transfer-Encoding: 8bit
->> -
->> -Gcc 11 looks to make incorrect assumptions about valid ranges that
->> -pointers may be used for addressing when they are derived from e.g. a
->> -plain constant. See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D1006=
-80.
->> -
->> -Utilize RELOC_HIDE() to work around the issue, which for x86 manifests
->> -in at least
->> -- mpparse.c:efi_check_config(),
->> -- tboot.c:tboot_probe(),
->> -- tboot.c:tboot_gen_frametable_integrity(),
->> -- x86_emulate.c:x86_emulate() (at -O2 only).
->> -The last case is particularly odd not just because it only triggers at
->> -higher optimization levels, but also because it only affects one of at
->> -least three similar constructs. Various "note" diagnostics claim the
->> -valid index range to be [0, 2=E2=81=B6=C2=B3-1].
->> -
->> -Signed-off-by: Jan Beulich <jbeulich@suse.com>
->> -Tested-by: Jason Andryuk <jandryuk@gmail.com>
->> -Acked-by: Roger Pau Monn=C3=A9 <roger.pau@citrix.com>
->> ----
->> - tools/tests/x86_emulator/x86-emulate.c | 7 +++++++
->> - xen/arch/x86/x86_emulate/x86_emulate.c | 2 +-
->> - xen/include/asm-x86/fixmap.h           | 2 +-
->> - xen/include/xen/compiler.h             | 6 ++++++
->> - xen/include/xen/pdx.h                  | 2 +-
->> - 5 files changed, 16 insertions(+), 3 deletions(-)
->> -
->> -diff --git a/tools/tests/x86_emulator/x86-emulate.c
->> b/tools/tests/x86_emulator/x86-emulate.c
->> -index 07f892dbbb..ea286d6ad8 100644
->> ---- a/tools/tests/x86_emulator/x86-emulate.c
->> -+++ b/tools/tests/x86_emulator/x86-emulate.c
->> -@@ -8,6 +8,13 @@
->> -
->> - #define ERR_PTR(val) NULL
->> -
->> -+/* See gcc bug 100680, but here don't bother making this version
->> dependent. */
->> -+#define gcc11_wrap(x) ({                  \
->> -+    unsigned long x_;                     \
->> -+    __asm__ ( "" : "=3Dg" (x_) : "0" (x) ); \
->> -+    (typeof(x))x_;                        \
->> -+})
->> -+
->> - #define cpu_has_amd_erratum(nr) 0
->> - #define cpu_has_mpx false
->> - #define read_bndcfgu() 0
->> -diff --git a/xen/arch/x86/x86_emulate/x86_emulate.c
->> b/xen/arch/x86/x86_emulate/x86_emulate.c
->> -index c25d88d0d8..31fdec030c 100644
->> ---- a/xen/arch/x86/x86_emulate/x86_emulate.c
->> -+++ b/xen/arch/x86/x86_emulate/x86_emulate.c
->> -@@ -726,7 +726,7 @@ union vex {
->> - #define copy_VEX(ptr, vex) ({ \
->> -     if ( !mode_64bit() ) \
->> -         (vex).reg |=3D 8; \
->> --    (ptr)[0 - PFX_BYTES] =3D ext < ext_8f08 ? 0xc4 : 0x8f; \
->> -+    gcc11_wrap(ptr)[0 - PFX_BYTES] =3D ext < ext_8f08 ? 0xc4 : 0x8f; \
->> -     (ptr)[1 - PFX_BYTES] =3D (vex).raw[0]; \
->> -     (ptr)[2 - PFX_BYTES] =3D (vex).raw[1]; \
->> -     container_of((ptr) + 1 - PFX_BYTES, typeof(vex), raw[0]); \
->> -diff --git a/xen/include/asm-x86/fixmap.h b/xen/include/asm-x86/fixmap.=
-h
->> -index 0db314baeb..20746afd0a 100644
->> ---- a/xen/include/asm-x86/fixmap.h
->> -+++ b/xen/include/asm-x86/fixmap.h
->> -@@ -78,7 +78,7 @@ extern void __set_fixmap(
->> -
->> - #define clear_fixmap(idx) __set_fixmap(idx, 0, 0)
->> -
->> --#define __fix_to_virt(x) (FIXADDR_TOP - ((x) << PAGE_SHIFT))
->> -+#define __fix_to_virt(x) gcc11_wrap(FIXADDR_TOP - ((x) << PAGE_SHIFT))
->> - #define __virt_to_fix(x) ((FIXADDR_TOP - ((x)&PAGE_MASK)) >> PAGE_SHIF=
-T)
->> -
->> - #define fix_to_virt(x)   ((void *)__fix_to_virt(x))
->> -diff --git a/xen/include/xen/compiler.h b/xen/include/xen/compiler.h
->> -index 17cf00e1ec..696c7eb89e 100644
->> ---- a/xen/include/xen/compiler.h
->> -+++ b/xen/include/xen/compiler.h
->> -@@ -140,6 +140,12 @@
->> -     __asm__ ("" : "=3Dr"(__ptr) : "0"(ptr));      \
->> -     (typeof(ptr)) (__ptr + (off)); })
->> -
->> -+#if CONFIG_GCC_VERSION >=3D 110000 /* See gcc bug 100680. */
->> -+# define gcc11_wrap(x) RELOC_HIDE(x, 0)
->> -+#else
->> -+# define gcc11_wrap(x) (x)
->> -+#endif
->> -+
->> - #ifdef __GCC_ASM_FLAG_OUTPUTS__
->> - # define ASM_FLAG_OUT(yes, no) yes
->> - #else
->> -diff --git a/xen/include/xen/pdx.h b/xen/include/xen/pdx.h
->> -index 770fadc06c..9fcfb0ce52 100644
->> ---- a/xen/include/xen/pdx.h
->> -+++ b/xen/include/xen/pdx.h
->> -@@ -19,7 +19,7 @@ extern u64 pdx_region_mask(u64 base, u64 len);
->> - extern void set_pdx_range(unsigned long smfn, unsigned long emfn);
->> -
->> - #define page_to_pdx(pg)  ((pg) - frame_table)
->> --#define pdx_to_page(pdx) (frame_table + (pdx))
->> -+#define pdx_to_page(pdx) gcc11_wrap(frame_table + (pdx))
->> -
->> - bool __mfn_valid(unsigned long mfn);
->> -
->> ---
->> -2.25.1
->> -
->> diff --git
->> a/recipes-extended/xen/files/0001-x86-work-around-build-issue-with-GNU-l=
-d-2.37.patch
->> b/recipes-extended/xen/files/0001-x86-work-around-build-issue-with-GNU-l=
-d-2.37.patch
->> deleted file mode 100644
->> index f5108be..0000000
->> ---
->> a/recipes-extended/xen/files/0001-x86-work-around-build-issue-with-GNU-l=
-d-2.37.patch
->> +++ /dev/null
->> @@ -1,36 +0,0 @@
->> -From 58ad654ebce7ccb272a3f4f3482c03aaad850d31 Mon Sep 17 00:00:00 2001
->> -From: Jan Beulich <jbeulich@suse.com>
->> -Date: Thu, 22 Jul 2021 11:20:38 +0200
->> -Subject: [PATCH] x86: work around build issue with GNU ld 2.37
->> -
->> -I suspect it is commit 40726f16a8d7 ("ld script expression parsing")
->> -which broke the hypervisor build, by no longer accepting section names
->> -with a dash in them inside ADDR() (and perhaps other script directives
->> -expecting just a section name, not an expression): .note.gnu.build-id
->> -is such a section.
->> -
->> -Quoting all section names passed to ADDR() via DECL_SECTION() works
->> -around the regression.
->> -
->> -Signed-off-by: Jan Beulich <jbeulich@suse.com>
->> -Acked-by: Andrew Cooper <andrew.cooper3@citrix.com>
->> ----
->> - xen/arch/x86/xen.lds.S | 2 +-
->> - 1 file changed, 1 insertion(+), 1 deletion(-)
->> -
->> -diff --git a/xen/arch/x86/xen.lds.S b/xen/arch/x86/xen.lds.S
->> -index 9c6c1c8005..955d5cf4a0 100644
->> ---- a/xen/arch/x86/xen.lds.S
->> -+++ b/xen/arch/x86/xen.lds.S
->> -@@ -18,7 +18,7 @@ ENTRY(efi_start)
->> - #else /* !EFI */
->> -
->> - #define FORMAT "elf64-x86-64"
->> --#define DECL_SECTION(x) x : AT(ADDR(x) - __XEN_VIRT_START)
->> -+#define DECL_SECTION(x) x : AT(ADDR(#x) - __XEN_VIRT_START)
->> -
->> - ENTRY(start_pa)
->> -
->> ---
->> -2.25.1
->> -
->> diff --git a/recipes-extended/xen/xen-tools.inc
->> b/recipes-extended/xen/xen-tools.inc
->> index 614f557..d831941 100644
->> --- a/recipes-extended/xen/xen-tools.inc
->> +++ b/recipes-extended/xen/xen-tools.inc
->> @@ -102,6 +102,7 @@ RSUGGESTS:${PN}-xencov =3D "${PN}-xencov-split"
->>
->>  RDEPENDS:${PN}-xencommons =3D "\
->>      bash \
->> +    util-linux-prlimit \
->>      ${PN}-console \
->>      ${PN}-xenstore \
->>      virtual/xenstored \
->> @@ -213,6 +214,9 @@ PACKAGES =3D " \
->>      ${PN}-xm-examples \
->>      ${PN}-xen-access \
->>      ${PN}-xen-memshare \
->> +    ${PN}-test \
->> +    ${PN}-xen-vmtrace \
->> +    ${PN}-xen-mceinj \
->>      "
->>
->>  PROVIDES =3D+ " \
->> @@ -684,6 +688,31 @@ FILES:${PN}-xen-memshare +=3D "\
->>  # memshare is only built for x86, so allow empty package for other arch=
-s
->>  ALLOW_EMPTY:${PN}-xen-memshare =3D "1"
->>
->> +FILES:${PN}-test +=3D "\
->> +    ${libdir}/xen/bin/test-xenstore \
->> +    ${libdir}/xen/bin/test-resource \
->> +    ${libdir}/xen/bin/test-cpu-policy \
->> +    ${libdir}/xen/bin/test-tsx \
->> +    "
->> +
->> +# test-xenstore and test-resource currently only exist in 4.16
->> +# test-cpu-policy and test-tsx only exist in 4.16 for x86
->> +ALLOW_EMPTY:${PN}-test =3D "1"
->> +
->> +FILES:${PN}-xen-mceinj +=3D"\
->> +    ${sbindir}/xen-mceinj \
->> +    "
->> +
->> +# xen-mceinj is only built for x86 4.16, so allow empty package
->> +ALLOW_EMPTY:${PN}-xen-mceinj =3D "1"
->> +
->> +FILES:${PN}-xen-vmtrace +=3D"\
->> +    ${sbindir}/xen-vmtrace \
->> +    "
->> +
->> +# xen-vmtrace is only built for x86 4.16, so allow empty package
->> +ALLOW_EMPTY:${PN}-xen-vmtrace =3D "1"
->> +
->>  INSANE_SKIP:${PN} =3D "already-stripped"
->>
->>  # configure init.d scripts
->> diff --git a/recipes-extended/xen/xen-tools_4.14.bb
->> b/recipes-extended/xen/xen-tools_4.14.bb
->> index ce5dc2e..9d78e44 100644
->> --- a/recipes-extended/xen/xen-tools_4.14.bb
->> +++ b/recipes-extended/xen/xen-tools_4.14.bb
->> @@ -1,4 +1,5 @@
->> -SRCREV ?=3D "b6a8c4f72def4d1135ff42660a86276ce2565c8c"
->> +# 4.14.3 release SHA
->> +SRCREV ?=3D "9f2b6c5ec2ded4c1caf149743e862c5f15d6d083"
->>
->>  XEN_REL ?=3D "4.14"
->>  XEN_BRANCH ?=3D "stable-${XEN_REL}"
->> @@ -8,8 +9,6 @@ SRC_URI =3D " \
->>      file://0001-python-pygrub-pass-DISTUTILS-xen-4.14.patch \
->>
->>  file://0001-firmware-provide-a-stand-alone-set-of-headers-Xen-4.14.patc=
-h \
->>
->>  file://0001-tools-firmware-Build-firmware-as-ffreestanding-Xen-4.14.pat=
-ch \
->> -
->> file://0001-libs-foreignmemory-Fix-osdep_xenforeignmemory_map-pr.patch \
->> -    file://0001-x86-work-around-build-issue-with-GNU-ld-2.37.patch \
->>      "
->>
->>  LIC_FILES_CHKSUM ?=3D "file://COPYING;md5=3D419739e325a50f3d7b4501338e4=
-4a4e5"
->> diff --git a/recipes-extended/xen/xen-tools_4.15.bb
->> b/recipes-extended/xen/xen-tools_4.15.bb
->> index e9c3bd6..840f162 100644
->> --- a/recipes-extended/xen/xen-tools_4.15.bb
->> +++ b/recipes-extended/xen/xen-tools_4.15.bb
->> @@ -1,4 +1,5 @@
->> -SRCREV ?=3D "e25aa9939ae0cd8317605be3d5c5611b76bc4ab4"
->> +# xen 4.15.1 release sha
->> +SRCREV ?=3D "84fa99099b920f7bcde8899e1a9b756078719d7d"
->>
->>  XEN_REL ?=3D "4.15"
->>  XEN_BRANCH ?=3D "stable-${XEN_REL}"
->> @@ -6,8 +7,6 @@ XEN_BRANCH ?=3D "stable-${XEN_REL}"
->>  SRC_URI =3D " \
->>      git://xenbits.xen.org/xen.git;branch=3D${XEN_BRANCH}
->> <http://xenbits.xen.org/xen.git;branch=3D$%7BXEN_BRANCH%7D> \
->>      file://0001-python-pygrub-pass-DISTUTILS-xen-4.15.patch \
->> -
->> file://0001-libs-foreignmemory-Fix-osdep_xenforeignmemory_map-pr.patch \
->> -    file://0001-x86-work-around-build-issue-with-GNU-ld-2.37.patch \
->>      "
->>
->>  LIC_FILES_CHKSUM ?=3D "file://COPYING;md5=3D419739e325a50f3d7b4501338e4=
-4a4e5"
->> diff --git a/recipes-extended/xen/xen-tools_git.bb
->> b/recipes-extended/xen/xen-tools_git.bb
->> index 6926bd9..8ff9c4c 100644
->> --- a/recipes-extended/xen/xen-tools_git.bb
->> +++ b/recipes-extended/xen/xen-tools_git.bb
->> @@ -1,4 +1,5 @@
->> -SRCREV ?=3D "e680cc48b7184d3489873d6776f84ba1fc238ced"
->> +# master status on 2020-10-21
->> +SRCREV ?=3D "23ec1ebc8acbfd2bf06f6085a776f0db923f9fa9"
->>
->>  XEN_REL ?=3D "4.16"
->>  XEN_BRANCH ?=3D "master"
->> @@ -6,8 +7,6 @@ XEN_BRANCH ?=3D "master"
->>  SRC_URI =3D " \
->>      git://xenbits.xen.org/xen.git;branch=3D${XEN_BRANCH}
->> <http://xenbits.xen.org/xen.git;branch=3D$%7BXEN_BRANCH%7D> \
->>      file://0001-python-pygrub-pass-DISTUTILS-xen-4.15.patch \
->> -
->> file://0001-libs-foreignmemory-Fix-osdep_xenforeignmemory_map-pr.patch \
->> -    file://0001-x86-work-around-build-issue-with-GNU-ld-2.37.patch \
->>      "
->>
->>  LIC_FILES_CHKSUM ?=3D "file://COPYING;md5=3D419739e325a50f3d7b4501338e4=
-4a4e5"
->> diff --git a/recipes-extended/xen/xen_4.14.bb b/recipes-extended/xen/
->> xen_4.14.bb
->> index 291ba16..0d7d20b 100644
->> --- a/recipes-extended/xen/xen_4.14.bb
->> +++ b/recipes-extended/xen/xen_4.14.bb
->> @@ -1,4 +1,5 @@
->> -SRCREV ?=3D "b6a8c4f72def4d1135ff42660a86276ce2565c8c"
->> +# 4.14.3 release SHA
->> +SRCREV ?=3D "9f2b6c5ec2ded4c1caf149743e862c5f15d6d083"
->>
->>  XEN_REL ?=3D "4.14"
->>  XEN_BRANCH ?=3D "stable-${XEN_REL}"
->> @@ -7,7 +8,6 @@ SRC_URI =3D " \
->>      git://xenbits.xen.org/xen.git;branch=3D${XEN_BRANCH}
->> <http://xenbits.xen.org/xen.git;branch=3D$%7BXEN_BRANCH%7D> \
->>      file://xen-arm64-implement-atomic-fetch-add.patch \
->>
->>  file://0001-menuconfig-mconf-cfg-Allow-specification-of-ncurses-locatio=
-n.patch
->> \
->> -    file://0001-x86-work-around-build-issue-with-GNU-ld-2.37.patch \
->>      "
->>
->>  LIC_FILES_CHKSUM ?=3D "file://COPYING;md5=3D419739e325a50f3d7b4501338e4=
-4a4e5"
->> diff --git a/recipes-extended/xen/xen_4.15.bb b/recipes-extended/xen/
->> xen_4.15.bb
->> index 0605441..0cfaf0c 100644
->> --- a/recipes-extended/xen/xen_4.15.bb
->> +++ b/recipes-extended/xen/xen_4.15.bb
->> @@ -1,4 +1,5 @@
->> -SRCREV ?=3D "e25aa9939ae0cd8317605be3d5c5611b76bc4ab4"
->> +# xen 4.15.1 release sha
->> +SRCREV ?=3D "84fa99099b920f7bcde8899e1a9b756078719d7d"
->>
->>  XEN_REL ?=3D "4.15"
->>  XEN_BRANCH ?=3D "stable-${XEN_REL}"
->> @@ -7,8 +8,6 @@ SRC_URI =3D " \
->>      git://xenbits.xen.org/xen.git;branch=3D${XEN_BRANCH}
->> <http://xenbits.xen.org/xen.git;branch=3D$%7BXEN_BRANCH%7D> \
->>      file://xen-arm64-implement-atomic-fetch-add.patch \
->>
->>  file://0001-menuconfig-mconf-cfg-Allow-specification-of-ncurses-locatio=
-n.patch
->> \
->> -    file://0001-x86-make-hypervisor-build-with-gcc11.patch \
->> -    file://0001-x86-work-around-build-issue-with-GNU-ld-2.37.patch \
->>      "
->>
->>  LIC_FILES_CHKSUM ?=3D "file://COPYING;md5=3D419739e325a50f3d7b4501338e4=
-4a4e5"
->> diff --git a/recipes-extended/xen/xen_git.bb b/recipes-extended/xen/
->> xen_git.bb
->> index 12c9403..20227e0 100644
->> --- a/recipes-extended/xen/xen_git.bb
->> +++ b/recipes-extended/xen/xen_git.bb
->> @@ -1,4 +1,5 @@
->> -SRCREV ?=3D "e680cc48b7184d3489873d6776f84ba1fc238ced"
->> +# master status on 2020-10-21
->> +SRCREV ?=3D "23ec1ebc8acbfd2bf06f6085a776f0db923f9fa9"
->>
->>  XEN_REL ?=3D "4.16"
->>  XEN_BRANCH ?=3D "master"
->> @@ -7,8 +8,6 @@ SRC_URI =3D " \
->>      git://xenbits.xen.org/xen.git;branch=3D${XEN_BRANCH}
->> <http://xenbits.xen.org/xen.git;branch=3D$%7BXEN_BRANCH%7D> \
->>      file://xen-arm64-implement-atomic-fetch-add.patch \
->>
->>  file://0001-menuconfig-mconf-cfg-Allow-specification-of-ncurses-locatio=
-n.patch
->> \
->> -    file://0001-x86-make-hypervisor-build-with-gcc11.patch \
->> -    file://0001-x86-work-around-build-issue-with-GNU-ld-2.37.patch \
->>      "
->>
->>  LIC_FILES_CHKSUM ?=3D "file://COPYING;md5=3D419739e325a50f3d7b4501338e4=
-4a4e5"
->> --
->> 2.25.1
->>
->>
->>
->>
->>
->
-> --
-> - Thou shalt not follow the NULL pointer, for chaos and madness await the=
-e
-> at its end
-> - "Use the force Harry" - Gandalf, Star Trek II
->
->
+> On 3 Nov 2021, at 14:08, Bruce Ashfield via lists.yoctoproject.org <bruce=
+.ashfield=3Dgmail.com@lists.yoctoproject.org> wrote:
 >=20
->
->
+>=20
+>=20
+> On Wed, Nov 3, 2021 at 8:11 AM Bertrand Marquis <Bertrand.Marquis@arm.com=
+> wrote:
+> Hi Bruce,
+>=20
+> > On 26 Oct 2021, at 22:27, Bruce Ashfield <bruce.ashfield@gmail.com> wro=
+te:
+> >=20
+> >=20
+> >=20
+> >=20
+> > On Tue, Oct 26, 2021 at 9:27 AM Edward Pickup <Edward.Pickup@arm.com> w=
+rote:
+> > Hi Bruce,=20
+> > Sorry for the formatting issues, email client config issues
+> >=20
+> > =20
+> >=20
+> > From: Bruce Ashfield <bruce.ashfield@gmail.com>=20
+> > Sent: 26 October 2021 14:22
+> > To: Edward Pickup <Edward.Pickup@arm.com>
+> > Cc: meta-virtualization@lists.yoctoproject.org; Bertrand Marquis <Bertr=
+and.Marquis@arm.com>; christopher.w.clark@gmail.com; nd <nd@arm.com>
+> > Subject: Re: [meta-virtualization] Error building Xen device tree for q=
+emuarm64
+> >=20
+> > =20
+> >=20
+> > =20
+> >=20
+> > =20
+> >=20
+> > On Tue, Oct 26, 2021 at 8:58 AM Edward Pickup <edward.pickup@arm.com> w=
+rote:
+> >=20
+> > Hi all,
+> >=20
+> > I have encountered an error while building the arm64 version of the xen=
+ 4.16 recipe in meta-virtualisation, using the master version of poky and m=
+eta-virtuaisation.
+> > I was wondering if anyone was familiar with the issue or knew how to fi=
+x it. The error is as follows:
+> >=20
+> > ERROR: xen-image-minimal-1.0-r0 do_write_xen_qemuboot_dtb: ExecutionErr=
+or('/home/edwpic01/work/master-update-xen/build/metavirt-host-arm64-4.16-re=
+lease.prj/tmp/work/qemuarm64-poky-linux/xen-image-minimal/1.0-r0/temp/run.d=
+o_write_xen_qemuboot_dtb.3679135', 2, None, None)
+> > ERROR: Logfile of failure stored in: /home/edwpic01/work/master-update-=
+xen/build/metavirt-host-arm64-4.16-release.prj/tmp/work/qemuarm64-poky-linu=
+x/xen-image-minimal/1.0-r0/temp/log.do_write_xen_qemuboot_dtb.3679135 .
+> >=20
+> > I believe the relevant part of the log is as follows:
+> >=20
+> > | [NOTE]: '3' lopper operation files will be processed
+> > | [INFO]: dtb output format detected, writing /home/edwpic01/work/maste=
+r-update-xen/build/metavirt-host-arm64-4.16-release.prj/tmp/work/qemuarm64-=
+poky-linux/xen-image-minimal/1.0-r0/deploy-xen-image-minimal-image-complete=
+/xen-image-minimal-qemuarm64-20211026121502.qemuboot.dtb
+> > | [INFO]: writing output dtb: /home/edwpic01/work/master-update-xen/bui=
+ld/metavirt-host-arm64-4.16-release.prj/tmp/work/qemuarm64-poky-linux/xen-i=
+mage-minimal/1.0-r0/deploy-xen-image-minimal-image-complete/xen-image-minim=
+al-qemuarm64-20211026121502.qemuboot.dtb
+> > | /home/edwpic01/work/master-update-xen/build/metavirt-host-arm64-4.16-=
+release.prj/tmp/work/qemuarm64-poky-linux/xen-image-minimal/1.0-r0/xen-imag=
+e-minimal-1.0/output.dts: ERROR (explicit_phandles): /apb-pclk:phandle: bad=
+ length (1) phandle property
+> > | /home/edwpic01/work/master-update-xen/build/metavirt-host-arm64-4.16-=
+release.prj/tmp/work/qemuarm64-poky-linux/xen-image-minimal/1.0-r0/xen-imag=
+e-minimal-1.0/output.dts: ERROR (explicit_phandles): /intc@8000000:phandle:=
+ bad length (1) phandle property
+> > | /home/edwpic01/work/master-update-xen/build/metavirt-host-arm64-4.16-=
+release.prj/tmp/work/qemuarm64-poky-linux/xen-image-minimal/1.0-r0/xen-imag=
+e-minimal-1.0/output.dts: ERROR (explicit_phandles): /pl061@9030000:phandle=
+: bad length (1) phandle property
+> > | ERROR: Input tree has errors, aborting (use -f to force output)
+> > | WARNING: exit code 2 from a shell command.
+> >=20
+> > The above error was the result from building on x86_64-linux, target sy=
+stem was aarch64-poky-linux, running on a qemuarch64 machine, itself runnin=
+g on x86_64 linux.
+> > As mentioned this was done on the master version of meta-virtualisation=
+.
+> > The bitbake command to generate this was bitbake xen-image-mininal.
+> > The error is also present when building the xen 4.14 and xen 4.15 arm64=
+ versions, and is not present on the arm32 or x86 builds for xen.
+> > If anyone knows the cause of the error, the information would be apprec=
+iated.
+> >=20
+> > =20
+> >=20
+> > There's something wrong with the input DTS to Lopper .. luckily, I main=
+tain Lopper, so if there's an actual bug in the processing of the input DTS=
+ .. I can fix that.
+> >=20
+> > =20
+> >=20
+> > I can fire up a build and see if it happens here.
+>=20
+>=20
+> Could this be also considered for honister branch ?
+>=20
+>=20
+> Normally I might not bring back version bumps like these, but since most =
+of the heavy Xen users are asking for the change .. I've gone ahead and pul=
+led it back.
 
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+Thanks a lot.
 
---0000000000002a908e05cfe2f748
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+>=20
+> Note: I've left ARM64 broken on master, due to the libfdt issue, since th=
+at still requires more effort.
 
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-size:small"><br></div></div><br><div class=3D"gmail_quote"><div dir=3D"lt=
-r" class=3D"gmail_attr">On Thu, Oct 28, 2021 at 3:39 PM Bruce Ashfield via =
-<a href=3D"http://lists.yoctoproject.org">lists.yoctoproject.org</a> &lt;br=
-uce.ashfield=3D<a href=3D"mailto:gmail.com@lists.yoctoproject.org">gmail.co=
-m@lists.yoctoproject.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail=
-_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204=
-,204);padding-left:1ex"><div dir=3D"ltr"><div style=3D"font-size:small">Jus=
-t a status update.</div><div style=3D"font-size:small"><br></div><div style=
-=3D"font-size:small">I&#39;m still hung up on how python 3.10 is breaking w=
-ith c compiled extensions (i.e. libfdt), so this will take a bit longer. Fo=
-r now, it isn&#39;t something I&#39;m willing to overlook.</div><div style=
-=3D"font-size:small"><br></div><div style=3D"font-size:small">I&#39;m also =
-going to wait to hear from Christopher on the upgrades.</div></div></blockq=
-uote><div><br></div><div><div class=3D"gmail_default" style=3D"font-size:sm=
-all">I&#39;ve gone ahead and merged these to master and honister .. but tha=
-t being said, I&#39;ll revert or tweak as necessary based on what Christoph=
-er suggests.</div><div class=3D"gmail_default" style=3D"font-size:small"><b=
-r></div><div class=3D"gmail_default" style=3D"font-size:small">Master still=
- has the libfdt issue, I still need to sort out what is wrong with python 3=
-.10 and swig.</div><div class=3D"gmail_default" style=3D"font-size:small"><=
-br></div><div class=3D"gmail_default" style=3D"font-size:small">Bruce</div>=
-<br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
-"><div dir=3D"ltr"><div style=3D"font-size:small"><br></div><div style=3D"f=
-ont-size:small">=C2=A0Bruce</div></div><br><div class=3D"gmail_quote"><div =
-dir=3D"ltr" class=3D"gmail_attr">On Tue, Oct 26, 2021 at 9:32 AM Edward Pic=
-kup &lt;<a href=3D"mailto:edward.pickup@arm.com" target=3D"_blank">edward.p=
-ickup@arm.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" sty=
-le=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddi=
-ng-left:1ex">Update the SHA in recipes for xen and xen-tools to use the lat=
-est releases;<br>
-update xen 4.14 to xen 4.14.3 release, update xen 4.15 to 4.15.1 release, a=
-nd<br>
-xen 4.16 to the current master version.<br>
-<br>
-Add a comment to each recipe indicating which version of Xen is used in rec=
-ipe.<br>
-<br>
-Do not apply patches that have been merged/solved in Xen and remove patch f=
-iles<br>
-not needed anymore.<br>
-<br>
-Create a test package to pack new tests introduced in 4.16.<br>
-<br>
-Add a depencency to util-linux-prlimit, as the xen 4.16 x86 requires prlimi=
-t,<br>
-without this boot of dom0 fails.<br>
-<br>
-Signed-off-by: Edward Pickup &lt;<a href=3D"mailto:Edward.Pickup@arm.com" t=
-arget=3D"_blank">Edward.Pickup@arm.com</a>&gt;<br>
----<br>
-=C2=A0...ry-Fix-osdep_xenforeignmemory_map-pr.patch |=C2=A0 33 ------<br>
-=C2=A0...x86-make-hypervisor-build-with-gcc11.patch | 111 -----------------=
--<br>
-=C2=A0...-around-build-issue-with-GNU-ld-2.37.patch |=C2=A0 36 ------<br>
-=C2=A0recipes-extended/xen/xen-tools.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 |=C2=A0 29 +++++<br>
-=C2=A0recipes-extended/xen/<a href=3D"http://xen-tools_4.14.bb" rel=3D"nore=
-ferrer" target=3D"_blank">xen-tools_4.14.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-|=C2=A0 =C2=A05 +-<br>
-=C2=A0recipes-extended/xen/<a href=3D"http://xen-tools_4.15.bb" rel=3D"nore=
-ferrer" target=3D"_blank">xen-tools_4.15.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-|=C2=A0 =C2=A05 +-<br>
-=C2=A0recipes-extended/xen/<a href=3D"http://xen-tools_git.bb" rel=3D"noref=
-errer" target=3D"_blank">xen-tools_git.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0|=C2=A0 =C2=A05 +-<br>
-=C2=A0recipes-extended/xen/<a href=3D"http://xen_4.14.bb" rel=3D"noreferrer=
-" target=3D"_blank">xen_4.14.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 |=C2=A0 =C2=A04 +-<br>
-=C2=A0recipes-extended/xen/<a href=3D"http://xen_4.15.bb" rel=3D"noreferrer=
-" target=3D"_blank">xen_4.15.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 |=C2=A0 =C2=A05 +-<br>
-=C2=A0recipes-extended/xen/<a href=3D"http://xen_git.bb" rel=3D"noreferrer"=
- target=3D"_blank">xen_git.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0|=C2=A0 =C2=A05 +-<br>
-=C2=A010 files changed, 41 insertions(+), 197 deletions(-)<br>
-=C2=A0delete mode 100644 recipes-extended/xen/files/0001-libs-foreignmemory=
--Fix-osdep_xenforeignmemory_map-pr.patch<br>
-=C2=A0delete mode 100644 recipes-extended/xen/files/0001-x86-make-hyperviso=
-r-build-with-gcc11.patch<br>
-=C2=A0delete mode 100644 recipes-extended/xen/files/0001-x86-work-around-bu=
-ild-issue-with-GNU-ld-2.37.patch<br>
-<br>
-diff --git a/recipes-extended/xen/files/0001-libs-foreignmemory-Fix-osdep_x=
-enforeignmemory_map-pr.patch b/recipes-extended/xen/files/0001-libs-foreign=
-memory-Fix-osdep_xenforeignmemory_map-pr.patch<br>
-deleted file mode 100644<br>
-index 2e3b1a6..0000000<br>
---- a/recipes-extended/xen/files/0001-libs-foreignmemory-Fix-osdep_xenforei=
-gnmemory_map-pr.patch<br>
-+++ /dev/null<br>
-@@ -1,33 +0,0 @@<br>
--From 5d3e4ebb5c71477d74a0c503438545a0126d3863 Mon Sep 17 00:00:00 2001<br>
--From: Anthony PERARD &lt;<a href=3D"mailto:anthony.perard@citrix.com" targ=
-et=3D"_blank">anthony.perard@citrix.com</a>&gt;<br>
--Date: Tue, 1 Jun 2021 16:41:47 +0100<br>
--Subject: [PATCH] libs/foreignmemory: Fix osdep_xenforeignmemory_map protot=
-ype<br>
--<br>
--Commit cf8c4d3d13b8 made some preparation to have one day<br>
--variable-length-array argument, but didn&#39;t declare the array in the<br=
->
--function prototype the same way as in the function definition. And now<br>
--GCC 11 complains about it.<br>
--<br>
--Fixes: cf8c4d3d13b8 (&quot;tools/libs/foreignmemory: pull array length arg=
-ument to map forward&quot;)<br>
--Signed-off-by: Anthony PERARD &lt;<a href=3D"mailto:anthony.perard@citrix.=
-com" target=3D"_blank">anthony.perard@citrix.com</a>&gt;<br>
--Reviewed-by: Jan Beulich &lt;<a href=3D"mailto:jbeulich@suse.com" target=
-=3D"_blank">jbeulich@suse.com</a>&gt;<br>
-----<br>
-- tools/libs/foreignmemory/private.h | 2 +-<br>
-- 1 file changed, 1 insertion(+), 1 deletion(-)<br>
--<br>
--diff --git a/tools/libs/foreignmemory/private.h b/tools/libs/foreignmemory=
-/private.h<br>
--index 1ee3626dd2..5bb0cefb09 100644<br>
----- a/tools/libs/foreignmemory/private.h<br>
--+++ b/tools/libs/foreignmemory/private.h<br>
--@@ -32,7 +32,7 @@ int osdep_xenforeignmemory_close(xenforeignmemory_handle=
- *fmem);<br>
-- void *osdep_xenforeignmemory_map(xenforeignmemory_handle *fmem,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 uint32_t dom, void *addr,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 int prot, int flags, size_t n=
-um,<br>
---=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0const xen_pfn_t arr[num], int =
-err[num]);<br>
--+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0const xen_pfn_t arr[/*num*/], =
-int err[/*num*/]);<br>
-- int osdep_xenforeignmemory_unmap(xenforeignmemory_handle *fmem,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 void *addr, size_t num);<br>
-- <br>
---- <br>
--2.25.1<br>
--<br>
-diff --git a/recipes-extended/xen/files/0001-x86-make-hypervisor-build-with=
--gcc11.patch b/recipes-extended/xen/files/0001-x86-make-hypervisor-build-wi=
-th-gcc11.patch<br>
-deleted file mode 100644<br>
-index 72592c4..0000000<br>
---- a/recipes-extended/xen/files/0001-x86-make-hypervisor-build-with-gcc11.=
-patch<br>
-+++ /dev/null<br>
-@@ -1,111 +0,0 @@<br>
--From 722f59d38c710a940ab05e542a83020eb5546dea Mon Sep 17 00:00:00 2001<br>
--From: Jan Beulich &lt;<a href=3D"mailto:jbeulich@suse.com" target=3D"_blan=
-k">jbeulich@suse.com</a>&gt;<br>
--Date: Thu, 27 May 2021 14:40:29 +0200<br>
--Subject: [PATCH] x86: make hypervisor build with gcc11<br>
--MIME-Version: 1.0<br>
--Content-Type: text/plain; charset=3DUTF-8<br>
--Content-Transfer-Encoding: 8bit<br>
--<br>
--Gcc 11 looks to make incorrect assumptions about valid ranges that<br>
--pointers may be used for addressing when they are derived from e.g. a<br>
--plain constant. See <a href=3D"https://gcc.gnu.org/bugzilla/show_bug.cgi?i=
-d=3D100680" rel=3D"noreferrer" target=3D"_blank">https://gcc.gnu.org/bugzil=
-la/show_bug.cgi?id=3D100680</a>.<br>
--<br>
--Utilize RELOC_HIDE() to work around the issue, which for x86 manifests<br>
--in at least<br>
--- mpparse.c:efi_check_config(),<br>
--- tboot.c:tboot_probe(),<br>
--- tboot.c:tboot_gen_frametable_integrity(),<br>
--- x86_emulate.c:x86_emulate() (at -O2 only).<br>
--The last case is particularly odd not just because it only triggers at<br>
--higher optimization levels, but also because it only affects one of at<br>
--least three similar constructs. Various &quot;note&quot; diagnostics claim=
- the<br>
--valid index range to be [0, 2=E2=81=B6=C2=B3-1].<br>
--<br>
--Signed-off-by: Jan Beulich &lt;<a href=3D"mailto:jbeulich@suse.com" target=
-=3D"_blank">jbeulich@suse.com</a>&gt;<br>
--Tested-by: Jason Andryuk &lt;<a href=3D"mailto:jandryuk@gmail.com" target=
-=3D"_blank">jandryuk@gmail.com</a>&gt;<br>
--Acked-by: Roger Pau Monn=C3=A9 &lt;<a href=3D"mailto:roger.pau@citrix.com"=
- target=3D"_blank">roger.pau@citrix.com</a>&gt;<br>
-----<br>
-- tools/tests/x86_emulator/x86-emulate.c | 7 +++++++<br>
-- xen/arch/x86/x86_emulate/x86_emulate.c | 2 +-<br>
-- xen/include/asm-x86/fixmap.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 2 =
-+-<br>
-- xen/include/xen/compiler.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0| 6 ++++++<br>
-- xen/include/xen/pdx.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 | 2 +-<br>
-- 5 files changed, 16 insertions(+), 3 deletions(-)<br>
--<br>
--diff --git a/tools/tests/x86_emulator/x86-emulate.c b/tools/tests/x86_emul=
-ator/x86-emulate.c<br>
--index 07f892dbbb..ea286d6ad8 100644<br>
----- a/tools/tests/x86_emulator/x86-emulate.c<br>
--+++ b/tools/tests/x86_emulator/x86-emulate.c<br>
--@@ -8,6 +8,13 @@<br>
-- <br>
-- #define ERR_PTR(val) NULL<br>
-- <br>
--+/* See gcc bug 100680, but here don&#39;t bother making this version depe=
-ndent. */<br>
--+#define gcc11_wrap(x) ({=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 \<br>
--+=C2=A0 =C2=A0 unsigned long x_;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
--+=C2=A0 =C2=A0 __asm__ ( &quot;&quot; : &quot;=3Dg&quot; (x_) : &quot;0&qu=
-ot; (x) ); \<br>
--+=C2=A0 =C2=A0 (typeof(x))x_;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br>
--+})<br>
--+<br>
-- #define cpu_has_amd_erratum(nr) 0<br>
-- #define cpu_has_mpx false<br>
-- #define read_bndcfgu() 0<br>
--diff --git a/xen/arch/x86/x86_emulate/x86_emulate.c b/xen/arch/x86/x86_emu=
-late/x86_emulate.c<br>
--index c25d88d0d8..31fdec030c 100644<br>
----- a/xen/arch/x86/x86_emulate/x86_emulate.c<br>
--+++ b/xen/arch/x86/x86_emulate/x86_emulate.c<br>
--@@ -726,7 +726,7 @@ union vex {<br>
-- #define copy_VEX(ptr, vex) ({ \<br>
--=C2=A0 =C2=A0 =C2=A0if ( !mode_64bit() ) \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(vex).reg |=3D 8; \<br>
---=C2=A0 =C2=A0 (ptr)[0 - PFX_BYTES] =3D ext &lt; ext_8f08 ? 0xc4 : 0x8f; \=
-<br>
--+=C2=A0 =C2=A0 gcc11_wrap(ptr)[0 - PFX_BYTES] =3D ext &lt; ext_8f08 ? 0xc4=
- : 0x8f; \<br>
--=C2=A0 =C2=A0 =C2=A0(ptr)[1 - PFX_BYTES] =3D (vex).raw[0]; \<br>
--=C2=A0 =C2=A0 =C2=A0(ptr)[2 - PFX_BYTES] =3D (vex).raw[1]; \<br>
--=C2=A0 =C2=A0 =C2=A0container_of((ptr) + 1 - PFX_BYTES, typeof(vex), raw[0=
-]); \<br>
--diff --git a/xen/include/asm-x86/fixmap.h b/xen/include/asm-x86/fixmap.h<b=
-r>
--index 0db314baeb..20746afd0a 100644<br>
----- a/xen/include/asm-x86/fixmap.h<br>
--+++ b/xen/include/asm-x86/fixmap.h<br>
--@@ -78,7 +78,7 @@ extern void __set_fixmap(<br>
-- <br>
-- #define clear_fixmap(idx) __set_fixmap(idx, 0, 0)<br>
-- <br>
---#define __fix_to_virt(x) (FIXADDR_TOP - ((x) &lt;&lt; PAGE_SHIFT))<br>
--+#define __fix_to_virt(x) gcc11_wrap(FIXADDR_TOP - ((x) &lt;&lt; PAGE_SHIF=
-T))<br>
-- #define __virt_to_fix(x) ((FIXADDR_TOP - ((x)&amp;PAGE_MASK)) &gt;&gt; PA=
-GE_SHIFT)<br>
-- <br>
-- #define fix_to_virt(x)=C2=A0 =C2=A0((void *)__fix_to_virt(x))<br>
--diff --git a/xen/include/xen/compiler.h b/xen/include/xen/compiler.h<br>
--index 17cf00e1ec..696c7eb89e 100644<br>
----- a/xen/include/xen/compiler.h<br>
--+++ b/xen/include/xen/compiler.h<br>
--@@ -140,6 +140,12 @@<br>
--=C2=A0 =C2=A0 =C2=A0__asm__ (&quot;&quot; : &quot;=3Dr&quot;(__ptr) : &quo=
-t;0&quot;(ptr));=C2=A0 =C2=A0 =C2=A0 \<br>
--=C2=A0 =C2=A0 =C2=A0(typeof(ptr)) (__ptr + (off)); })<br>
-- <br>
--+#if CONFIG_GCC_VERSION &gt;=3D 110000 /* See gcc bug 100680. */<br>
--+# define gcc11_wrap(x) RELOC_HIDE(x, 0)<br>
--+#else<br>
--+# define gcc11_wrap(x) (x)<br>
--+#endif<br>
--+<br>
-- #ifdef __GCC_ASM_FLAG_OUTPUTS__<br>
-- # define ASM_FLAG_OUT(yes, no) yes<br>
-- #else<br>
--diff --git a/xen/include/xen/pdx.h b/xen/include/xen/pdx.h<br>
--index 770fadc06c..9fcfb0ce52 100644<br>
----- a/xen/include/xen/pdx.h<br>
--+++ b/xen/include/xen/pdx.h<br>
--@@ -19,7 +19,7 @@ extern u64 pdx_region_mask(u64 base, u64 len);<br>
-- extern void set_pdx_range(unsigned long smfn, unsigned long emfn);<br>
-- <br>
-- #define page_to_pdx(pg)=C2=A0 ((pg) - frame_table)<br>
---#define pdx_to_page(pdx) (frame_table + (pdx))<br>
--+#define pdx_to_page(pdx) gcc11_wrap(frame_table + (pdx))<br>
-- <br>
-- bool __mfn_valid(unsigned long mfn);<br>
-- <br>
---- <br>
--2.25.1<br>
--<br>
-diff --git a/recipes-extended/xen/files/0001-x86-work-around-build-issue-wi=
-th-GNU-ld-2.37.patch b/recipes-extended/xen/files/0001-x86-work-around-buil=
-d-issue-with-GNU-ld-2.37.patch<br>
-deleted file mode 100644<br>
-index f5108be..0000000<br>
---- a/recipes-extended/xen/files/0001-x86-work-around-build-issue-with-GNU-=
-ld-2.37.patch<br>
-+++ /dev/null<br>
-@@ -1,36 +0,0 @@<br>
--From 58ad654ebce7ccb272a3f4f3482c03aaad850d31 Mon Sep 17 00:00:00 2001<br>
--From: Jan Beulich &lt;<a href=3D"mailto:jbeulich@suse.com" target=3D"_blan=
-k">jbeulich@suse.com</a>&gt;<br>
--Date: Thu, 22 Jul 2021 11:20:38 +0200<br>
--Subject: [PATCH] x86: work around build issue with GNU ld 2.37<br>
--<br>
--I suspect it is commit 40726f16a8d7 (&quot;ld script expression parsing&qu=
-ot;)<br>
--which broke the hypervisor build, by no longer accepting section names<br>
--with a dash in them inside ADDR() (and perhaps other script directives<br>
--expecting just a section name, not an expression): .note.gnu.build-id<br>
--is such a section.<br>
--<br>
--Quoting all section names passed to ADDR() via DECL_SECTION() works<br>
--around the regression.<br>
--<br>
--Signed-off-by: Jan Beulich &lt;<a href=3D"mailto:jbeulich@suse.com" target=
-=3D"_blank">jbeulich@suse.com</a>&gt;<br>
--Acked-by: Andrew Cooper &lt;<a href=3D"mailto:andrew.cooper3@citrix.com" t=
-arget=3D"_blank">andrew.cooper3@citrix.com</a>&gt;<br>
-----<br>
-- xen/arch/x86/xen.lds.S | 2 +-<br>
-- 1 file changed, 1 insertion(+), 1 deletion(-)<br>
--<br>
--diff --git a/xen/arch/x86/xen.lds.S b/xen/arch/x86/xen.lds.S<br>
--index 9c6c1c8005..955d5cf4a0 100644<br>
----- a/xen/arch/x86/xen.lds.S<br>
--+++ b/xen/arch/x86/xen.lds.S<br>
--@@ -18,7 +18,7 @@ ENTRY(efi_start)<br>
-- #else /* !EFI */<br>
-- <br>
-- #define FORMAT &quot;elf64-x86-64&quot;<br>
---#define DECL_SECTION(x) x : AT(ADDR(x) - __XEN_VIRT_START)<br>
--+#define DECL_SECTION(x) x : AT(ADDR(#x) - __XEN_VIRT_START)<br>
-- <br>
-- ENTRY(start_pa)<br>
-- <br>
---- <br>
--2.25.1<br>
--<br>
-diff --git a/recipes-extended/xen/xen-tools.inc b/recipes-extended/xen/xen-=
-tools.inc<br>
-index 614f557..d831941 100644<br>
---- a/recipes-extended/xen/xen-tools.inc<br>
-+++ b/recipes-extended/xen/xen-tools.inc<br>
-@@ -102,6 +102,7 @@ RSUGGESTS:${PN}-xencov =3D &quot;${PN}-xencov-split&quo=
-t;<br>
-<br>
-=C2=A0RDEPENDS:${PN}-xencommons =3D &quot;\<br>
-=C2=A0 =C2=A0 =C2=A0bash \<br>
-+=C2=A0 =C2=A0 util-linux-prlimit \<br>
-=C2=A0 =C2=A0 =C2=A0${PN}-console \<br>
-=C2=A0 =C2=A0 =C2=A0${PN}-xenstore \<br>
-=C2=A0 =C2=A0 =C2=A0virtual/xenstored \<br>
-@@ -213,6 +214,9 @@ PACKAGES =3D &quot; \<br>
-=C2=A0 =C2=A0 =C2=A0${PN}-xm-examples \<br>
-=C2=A0 =C2=A0 =C2=A0${PN}-xen-access \<br>
-=C2=A0 =C2=A0 =C2=A0${PN}-xen-memshare \<br>
-+=C2=A0 =C2=A0 ${PN}-test \<br>
-+=C2=A0 =C2=A0 ${PN}-xen-vmtrace \<br>
-+=C2=A0 =C2=A0 ${PN}-xen-mceinj \<br>
-=C2=A0 =C2=A0 =C2=A0&quot;<br>
-<br>
-=C2=A0PROVIDES =3D+ &quot; \<br>
-@@ -684,6 +688,31 @@ FILES:${PN}-xen-memshare +=3D &quot;\<br>
-=C2=A0# memshare is only built for x86, so allow empty package for other ar=
-chs<br>
-=C2=A0ALLOW_EMPTY:${PN}-xen-memshare =3D &quot;1&quot;<br>
-<br>
-+FILES:${PN}-test +=3D &quot;\<br>
-+=C2=A0 =C2=A0 ${libdir}/xen/bin/test-xenstore \<br>
-+=C2=A0 =C2=A0 ${libdir}/xen/bin/test-resource \<br>
-+=C2=A0 =C2=A0 ${libdir}/xen/bin/test-cpu-policy \<br>
-+=C2=A0 =C2=A0 ${libdir}/xen/bin/test-tsx \<br>
-+=C2=A0 =C2=A0 &quot;<br>
-+<br>
-+# test-xenstore and test-resource currently only exist in 4.16<br>
-+# test-cpu-policy and test-tsx only exist in 4.16 for x86<br>
-+ALLOW_EMPTY:${PN}-test =3D &quot;1&quot;<br>
-+<br>
-+FILES:${PN}-xen-mceinj +=3D&quot;\<br>
-+=C2=A0 =C2=A0 ${sbindir}/xen-mceinj \<br>
-+=C2=A0 =C2=A0 &quot;<br>
-+<br>
-+# xen-mceinj is only built for x86 4.16, so allow empty package<br>
-+ALLOW_EMPTY:${PN}-xen-mceinj =3D &quot;1&quot;<br>
-+<br>
-+FILES:${PN}-xen-vmtrace +=3D&quot;\<br>
-+=C2=A0 =C2=A0 ${sbindir}/xen-vmtrace \<br>
-+=C2=A0 =C2=A0 &quot;<br>
-+<br>
-+# xen-vmtrace is only built for x86 4.16, so allow empty package<br>
-+ALLOW_EMPTY:${PN}-xen-vmtrace =3D &quot;1&quot;<br>
-+<br>
-=C2=A0INSANE_SKIP:${PN} =3D &quot;already-stripped&quot;<br>
-<br>
-=C2=A0# configure init.d scripts<br>
-diff --git a/recipes-extended/xen/<a href=3D"http://xen-tools_4.14.bb" rel=
-=3D"noreferrer" target=3D"_blank">xen-tools_4.14.bb</a> b/recipes-extended/=
-xen/<a href=3D"http://xen-tools_4.14.bb" rel=3D"noreferrer" target=3D"_blan=
-k">xen-tools_4.14.bb</a><br>
-index ce5dc2e..9d78e44 100644<br>
---- a/recipes-extended/xen/<a href=3D"http://xen-tools_4.14.bb" rel=3D"nore=
-ferrer" target=3D"_blank">xen-tools_4.14.bb</a><br>
-+++ b/recipes-extended/xen/<a href=3D"http://xen-tools_4.14.bb" rel=3D"nore=
-ferrer" target=3D"_blank">xen-tools_4.14.bb</a><br>
-@@ -1,4 +1,5 @@<br>
--SRCREV ?=3D &quot;b6a8c4f72def4d1135ff42660a86276ce2565c8c&quot;<br>
-+# 4.14.3 release SHA<br>
-+SRCREV ?=3D &quot;9f2b6c5ec2ded4c1caf149743e862c5f15d6d083&quot;<br>
-<br>
-=C2=A0XEN_REL ?=3D &quot;4.14&quot;<br>
-=C2=A0XEN_BRANCH ?=3D &quot;stable-${XEN_REL}&quot;<br>
-@@ -8,8 +9,6 @@ SRC_URI =3D &quot; \<br>
-=C2=A0 =C2=A0 =C2=A0file://0001-python-pygrub-pass-DISTUTILS-xen-4.14.patch=
- \<br>
-=C2=A0 =C2=A0 =C2=A0file://0001-firmware-provide-a-stand-alone-set-of-heade=
-rs-Xen-4.14.patch \<br>
-=C2=A0 =C2=A0 =C2=A0file://0001-tools-firmware-Build-firmware-as-ffreestand=
-ing-Xen-4.14.patch \<br>
--=C2=A0 =C2=A0 file://0001-libs-foreignmemory-Fix-osdep_xenforeignmemory_ma=
-p-pr.patch \<br>
--=C2=A0 =C2=A0 file://0001-x86-work-around-build-issue-with-GNU-ld-2.37.pat=
-ch \<br>
-=C2=A0 =C2=A0 =C2=A0&quot;<br>
-<br>
-=C2=A0LIC_FILES_CHKSUM ?=3D &quot;file://COPYING;md5=3D419739e325a50f3d7b45=
-01338e44a4e5&quot;<br>
-diff --git a/recipes-extended/xen/<a href=3D"http://xen-tools_4.15.bb" rel=
-=3D"noreferrer" target=3D"_blank">xen-tools_4.15.bb</a> b/recipes-extended/=
-xen/<a href=3D"http://xen-tools_4.15.bb" rel=3D"noreferrer" target=3D"_blan=
-k">xen-tools_4.15.bb</a><br>
-index e9c3bd6..840f162 100644<br>
---- a/recipes-extended/xen/<a href=3D"http://xen-tools_4.15.bb" rel=3D"nore=
-ferrer" target=3D"_blank">xen-tools_4.15.bb</a><br>
-+++ b/recipes-extended/xen/<a href=3D"http://xen-tools_4.15.bb" rel=3D"nore=
-ferrer" target=3D"_blank">xen-tools_4.15.bb</a><br>
-@@ -1,4 +1,5 @@<br>
--SRCREV ?=3D &quot;e25aa9939ae0cd8317605be3d5c5611b76bc4ab4&quot;<br>
-+# xen 4.15.1 release sha<br>
-+SRCREV ?=3D &quot;84fa99099b920f7bcde8899e1a9b756078719d7d&quot;<br>
-<br>
-=C2=A0XEN_REL ?=3D &quot;4.15&quot;<br>
-=C2=A0XEN_BRANCH ?=3D &quot;stable-${XEN_REL}&quot;<br>
-@@ -6,8 +7,6 @@ XEN_BRANCH ?=3D &quot;stable-${XEN_REL}&quot;<br>
-=C2=A0SRC_URI =3D &quot; \<br>
-=C2=A0 =C2=A0 =C2=A0git://<a href=3D"http://xenbits.xen.org/xen.git;branch=
-=3D$%7BXEN_BRANCH%7D" rel=3D"noreferrer" target=3D"_blank">xenbits.xen.org/=
-xen.git;branch=3D${XEN_BRANCH}</a> \<br>
-=C2=A0 =C2=A0 =C2=A0file://0001-python-pygrub-pass-DISTUTILS-xen-4.15.patch=
- \<br>
--=C2=A0 =C2=A0 file://0001-libs-foreignmemory-Fix-osdep_xenforeignmemory_ma=
-p-pr.patch \<br>
--=C2=A0 =C2=A0 file://0001-x86-work-around-build-issue-with-GNU-ld-2.37.pat=
-ch \<br>
-=C2=A0 =C2=A0 =C2=A0&quot;<br>
-<br>
-=C2=A0LIC_FILES_CHKSUM ?=3D &quot;file://COPYING;md5=3D419739e325a50f3d7b45=
-01338e44a4e5&quot;<br>
-diff --git a/recipes-extended/xen/<a href=3D"http://xen-tools_git.bb" rel=
-=3D"noreferrer" target=3D"_blank">xen-tools_git.bb</a> b/recipes-extended/x=
-en/<a href=3D"http://xen-tools_git.bb" rel=3D"noreferrer" target=3D"_blank"=
->xen-tools_git.bb</a><br>
-index 6926bd9..8ff9c4c 100644<br>
---- a/recipes-extended/xen/<a href=3D"http://xen-tools_git.bb" rel=3D"noref=
-errer" target=3D"_blank">xen-tools_git.bb</a><br>
-+++ b/recipes-extended/xen/<a href=3D"http://xen-tools_git.bb" rel=3D"noref=
-errer" target=3D"_blank">xen-tools_git.bb</a><br>
-@@ -1,4 +1,5 @@<br>
--SRCREV ?=3D &quot;e680cc48b7184d3489873d6776f84ba1fc238ced&quot;<br>
-+# master status on 2020-10-21<br>
-+SRCREV ?=3D &quot;23ec1ebc8acbfd2bf06f6085a776f0db923f9fa9&quot;<br>
-<br>
-=C2=A0XEN_REL ?=3D &quot;4.16&quot;<br>
-=C2=A0XEN_BRANCH ?=3D &quot;master&quot;<br>
-@@ -6,8 +7,6 @@ XEN_BRANCH ?=3D &quot;master&quot;<br>
-=C2=A0SRC_URI =3D &quot; \<br>
-=C2=A0 =C2=A0 =C2=A0git://<a href=3D"http://xenbits.xen.org/xen.git;branch=
-=3D$%7BXEN_BRANCH%7D" rel=3D"noreferrer" target=3D"_blank">xenbits.xen.org/=
-xen.git;branch=3D${XEN_BRANCH}</a> \<br>
-=C2=A0 =C2=A0 =C2=A0file://0001-python-pygrub-pass-DISTUTILS-xen-4.15.patch=
- \<br>
--=C2=A0 =C2=A0 file://0001-libs-foreignmemory-Fix-osdep_xenforeignmemory_ma=
-p-pr.patch \<br>
--=C2=A0 =C2=A0 file://0001-x86-work-around-build-issue-with-GNU-ld-2.37.pat=
-ch \<br>
-=C2=A0 =C2=A0 =C2=A0&quot;<br>
-<br>
-=C2=A0LIC_FILES_CHKSUM ?=3D &quot;file://COPYING;md5=3D419739e325a50f3d7b45=
-01338e44a4e5&quot;<br>
-diff --git a/recipes-extended/xen/<a href=3D"http://xen_4.14.bb" rel=3D"nor=
-eferrer" target=3D"_blank">xen_4.14.bb</a> b/recipes-extended/xen/<a href=
-=3D"http://xen_4.14.bb" rel=3D"noreferrer" target=3D"_blank">xen_4.14.bb</a=
-><br>
-index 291ba16..0d7d20b 100644<br>
---- a/recipes-extended/xen/<a href=3D"http://xen_4.14.bb" rel=3D"noreferrer=
-" target=3D"_blank">xen_4.14.bb</a><br>
-+++ b/recipes-extended/xen/<a href=3D"http://xen_4.14.bb" rel=3D"noreferrer=
-" target=3D"_blank">xen_4.14.bb</a><br>
-@@ -1,4 +1,5 @@<br>
--SRCREV ?=3D &quot;b6a8c4f72def4d1135ff42660a86276ce2565c8c&quot;<br>
-+# 4.14.3 release SHA<br>
-+SRCREV ?=3D &quot;9f2b6c5ec2ded4c1caf149743e862c5f15d6d083&quot;<br>
-<br>
-=C2=A0XEN_REL ?=3D &quot;4.14&quot;<br>
-=C2=A0XEN_BRANCH ?=3D &quot;stable-${XEN_REL}&quot;<br>
-@@ -7,7 +8,6 @@ SRC_URI =3D &quot; \<br>
-=C2=A0 =C2=A0 =C2=A0git://<a href=3D"http://xenbits.xen.org/xen.git;branch=
-=3D$%7BXEN_BRANCH%7D" rel=3D"noreferrer" target=3D"_blank">xenbits.xen.org/=
-xen.git;branch=3D${XEN_BRANCH}</a> \<br>
-=C2=A0 =C2=A0 =C2=A0file://xen-arm64-implement-atomic-fetch-add.patch \<br>
-=C2=A0 =C2=A0 =C2=A0file://0001-menuconfig-mconf-cfg-Allow-specification-of=
--ncurses-location.patch \<br>
--=C2=A0 =C2=A0 file://0001-x86-work-around-build-issue-with-GNU-ld-2.37.pat=
-ch \<br>
-=C2=A0 =C2=A0 =C2=A0&quot;<br>
-<br>
-=C2=A0LIC_FILES_CHKSUM ?=3D &quot;file://COPYING;md5=3D419739e325a50f3d7b45=
-01338e44a4e5&quot;<br>
-diff --git a/recipes-extended/xen/<a href=3D"http://xen_4.15.bb" rel=3D"nor=
-eferrer" target=3D"_blank">xen_4.15.bb</a> b/recipes-extended/xen/<a href=
-=3D"http://xen_4.15.bb" rel=3D"noreferrer" target=3D"_blank">xen_4.15.bb</a=
-><br>
-index 0605441..0cfaf0c 100644<br>
---- a/recipes-extended/xen/<a href=3D"http://xen_4.15.bb" rel=3D"noreferrer=
-" target=3D"_blank">xen_4.15.bb</a><br>
-+++ b/recipes-extended/xen/<a href=3D"http://xen_4.15.bb" rel=3D"noreferrer=
-" target=3D"_blank">xen_4.15.bb</a><br>
-@@ -1,4 +1,5 @@<br>
--SRCREV ?=3D &quot;e25aa9939ae0cd8317605be3d5c5611b76bc4ab4&quot;<br>
-+# xen 4.15.1 release sha<br>
-+SRCREV ?=3D &quot;84fa99099b920f7bcde8899e1a9b756078719d7d&quot;<br>
-<br>
-=C2=A0XEN_REL ?=3D &quot;4.15&quot;<br>
-=C2=A0XEN_BRANCH ?=3D &quot;stable-${XEN_REL}&quot;<br>
-@@ -7,8 +8,6 @@ SRC_URI =3D &quot; \<br>
-=C2=A0 =C2=A0 =C2=A0git://<a href=3D"http://xenbits.xen.org/xen.git;branch=
-=3D$%7BXEN_BRANCH%7D" rel=3D"noreferrer" target=3D"_blank">xenbits.xen.org/=
-xen.git;branch=3D${XEN_BRANCH}</a> \<br>
-=C2=A0 =C2=A0 =C2=A0file://xen-arm64-implement-atomic-fetch-add.patch \<br>
-=C2=A0 =C2=A0 =C2=A0file://0001-menuconfig-mconf-cfg-Allow-specification-of=
--ncurses-location.patch \<br>
--=C2=A0 =C2=A0 file://0001-x86-make-hypervisor-build-with-gcc11.patch \<br>
--=C2=A0 =C2=A0 file://0001-x86-work-around-build-issue-with-GNU-ld-2.37.pat=
-ch \<br>
-=C2=A0 =C2=A0 =C2=A0&quot;<br>
-<br>
-=C2=A0LIC_FILES_CHKSUM ?=3D &quot;file://COPYING;md5=3D419739e325a50f3d7b45=
-01338e44a4e5&quot;<br>
-diff --git a/recipes-extended/xen/<a href=3D"http://xen_git.bb" rel=3D"nore=
-ferrer" target=3D"_blank">xen_git.bb</a> b/recipes-extended/xen/<a href=3D"=
-http://xen_git.bb" rel=3D"noreferrer" target=3D"_blank">xen_git.bb</a><br>
-index 12c9403..20227e0 100644<br>
---- a/recipes-extended/xen/<a href=3D"http://xen_git.bb" rel=3D"noreferrer"=
- target=3D"_blank">xen_git.bb</a><br>
-+++ b/recipes-extended/xen/<a href=3D"http://xen_git.bb" rel=3D"noreferrer"=
- target=3D"_blank">xen_git.bb</a><br>
-@@ -1,4 +1,5 @@<br>
--SRCREV ?=3D &quot;e680cc48b7184d3489873d6776f84ba1fc238ced&quot;<br>
-+# master status on 2020-10-21<br>
-+SRCREV ?=3D &quot;23ec1ebc8acbfd2bf06f6085a776f0db923f9fa9&quot;<br>
-<br>
-=C2=A0XEN_REL ?=3D &quot;4.16&quot;<br>
-=C2=A0XEN_BRANCH ?=3D &quot;master&quot;<br>
-@@ -7,8 +8,6 @@ SRC_URI =3D &quot; \<br>
-=C2=A0 =C2=A0 =C2=A0git://<a href=3D"http://xenbits.xen.org/xen.git;branch=
-=3D$%7BXEN_BRANCH%7D" rel=3D"noreferrer" target=3D"_blank">xenbits.xen.org/=
-xen.git;branch=3D${XEN_BRANCH}</a> \<br>
-=C2=A0 =C2=A0 =C2=A0file://xen-arm64-implement-atomic-fetch-add.patch \<br>
-=C2=A0 =C2=A0 =C2=A0file://0001-menuconfig-mconf-cfg-Allow-specification-of=
--ncurses-location.patch \<br>
--=C2=A0 =C2=A0 file://0001-x86-make-hypervisor-build-with-gcc11.patch \<br>
--=C2=A0 =C2=A0 file://0001-x86-work-around-build-issue-with-GNU-ld-2.37.pat=
-ch \<br>
-=C2=A0 =C2=A0 =C2=A0&quot;<br>
-<br>
-=C2=A0LIC_FILES_CHKSUM ?=3D &quot;file://COPYING;md5=3D419739e325a50f3d7b45=
-01338e44a4e5&quot;<br>
--- <br>
-2.25.1<br>
-<br>
-<br>
-<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
->- Thou shalt not follow the NULL pointer, for chaos and madness await thee=
- at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star Trek II<br=
-><br></div>
-<br>
-<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature">- Thou shalt not follow the NULL pointer, for ch=
-aos and madness await thee at its end<br>- &quot;Use the force Harry&quot; =
-- Gandalf, Star Trek II<br><br></div></div>
+Yes I think this is ok for now.
+If you push any fix do not hesitate to ping us to validate them.
 
---0000000000002a908e05cfe2f748--
+Cheers
+Bertrand
+
+>=20
+> Bruce
+>=20
+> =20
+>=20
+> Regards
+> Bertrand
+>=20
+> >=20
+> > =20
+> >=20
+> > So this is just qemuarm64, with xen + virtualization in the distro feat=
+ures ? Any other layers ? Anything else ?
+> >=20
+> > =20
+> >=20
+> > Bruce
+> >=20
+> > Yes, this is just as you say, no other layers or anything else. Thank y=
+ou for the speedy reply!
+> >=20
+> >=20
+> > There's a really bad interaction between libfdt and python 3.10.=20
+> >=20
+> > I've traced the error down to libfdt not being able to read anything fr=
+om the dtbs and hence the chained errors.
+> >=20
+> > I'm building some older branches to confirm behaviours .. it will take =
+me a few days to sort through this, but I don't want to mask the issue, as =
+I need to understand exactly what is going on here.
+> >=20
+> > Bruce
+> >=20
+> > =20
+> > =20
+> >=20
+> > Edward
+> >=20
+> > =20
+> >=20
+> >=20
+> > Cheers!
+> >=20
+> >=20
+> > IMPORTANT NOTICE: The contents of this email and any attachments are co=
+nfidential and may also be privileged. If you are not the intended recipien=
+t, please notify the sender immediately and do not disclose the contents to=
+ any other person, use it for any purpose, or store or copy the information=
+ in any medium. Thank you.
+> >=20
+> >=20
+> >=20
+> >=20
+> >=20
+> > =20
+> >=20
+> > --=20
+> >=20
+> > - Thou shalt not follow the NULL pointer, for chaos and madness await t=
+hee at its end
+> > - "Use the force Harry" - Gandalf, Star Trek II
+> >=20
+> > IMPORTANT NOTICE: The contents of this email and any attachments are co=
+nfidential and may also be privileged. If you are not the intended recipien=
+t, please notify the sender immediately and do not disclose the contents to=
+ any other person, use it for any purpose, or store or copy the information=
+ in any medium. Thank you.
+> >=20
+> >=20
+> > --=20
+> > - Thou shalt not follow the NULL pointer, for chaos and madness await t=
+hee at its end
+> > - "Use the force Harry" - Gandalf, Star Trek II
+>=20
+>=20
+>=20
+> --=20
+> - Thou shalt not follow the NULL pointer, for chaos and madness await the=
+e at its end
+> - "Use the force Harry" - Gandalf, Star Trek II
+>=20
+>=20
+>=20
+
