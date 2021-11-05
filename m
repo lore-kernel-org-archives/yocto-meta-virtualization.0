@@ -1,87 +1,78 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.web12.6715.1636124324630913920
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.web08.6735.1636124325811890455
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 05 Nov 2021 07:58:44 -0700
+ Fri, 05 Nov 2021 07:58:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=BH+ITElV;
- spf=pass (domain: gmail.com, ip: 209.85.221.45, mailfrom: martin.jansa@gmail.com)
-Received: by mail-wr1-f45.google.com with SMTP id r8so14134011wra.7
-        for <meta-virtualization@lists.yoctoproject.org>; Fri, 05 Nov 2021 07:58:44 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=U5rowp0+;
+ spf=pass (domain: gmail.com, ip: 209.85.221.54, mailfrom: martin.jansa@gmail.com)
+Received: by mail-wr1-f54.google.com with SMTP id i5so14207855wrb.2
+        for <meta-virtualization@lists.yoctoproject.org>; Fri, 05 Nov 2021 07:58:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=8X4NI32O1SiTNzArDXJAOj78Q31iycoYeCouPtvRH3s=;
-        b=BH+ITElVxictT1CnmEzOcoTagaIazWzpYbX7IyfnhNTEoFdfDBZ3T60Yadw9V5Al3Q
-         mEPn95V3q3LUsXiWzGw5YQivhDdXqqDZ7t5tJWIAZuBf0Hsu2gicsUwtb7vSBe45lNWx
-         16l9dDF8t2gFNjWg+JqFBZ5VGlb2KUSqP1nrt+kzAyVEUDUTxrNLVM64Mm0Tf3ULM2Tv
-         as7gFRjyDLViD3PqIyLeUySP8v/geBraDtVdedyDqAj4kKjatHSp2GbIFbmqwDDN0KQ6
-         hhxJf2iHx/5DbuBNn0ybrN44YfFLKxMU4LrgmTAWaJHa5JFWmW3tW2f1dzd1bJ6S5JKU
-         oyWg==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=f850WtSU1tT9VURexGQSkaN+D4nh51RsnZFyeFz+rEY=;
+        b=U5rowp0+ek1FZ60kWBdULUlMAF0K1COCsXMolKu5aDvyBSBWpjDkdzalt+ZFM/Epxg
+         734kKsaWhjVw4WOEmqq0Gkht8FKkDqZgHLsz6prlPC1rbkcqkFPys9fGAzj9l1rdxSxv
+         NNKgx69OyF9MFsAqfz/tfXevA4wU9+f05HKfaeAgxtCyCTY7NW1y3HfF9ZGTXn4V+DTK
+         fIM8LERgw1vTMpCkEiTQRscTDeLlBgqhZ3ybGfK8oJhAg/rGw8vEwvsKOi+31mXo61Bn
+         V29nNqAoH0mFAGguv88NUGoPtii8OgigA3PpGzoqSuxl3XD4SnCvZlXywwg0Ix6tpQ7f
+         9Bww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=8X4NI32O1SiTNzArDXJAOj78Q31iycoYeCouPtvRH3s=;
-        b=J5rjUJ+YRyKUFAfYexN1brrzYr/aM0cQYG9T4m5/E1PR+gZqsbU/+/0rPmCqjiHyLE
-         KkU0g3ILhZUrmOHpeSxf8iksVos5/tcNpjITO9tRnsmtXxkYmC/8kUMf8MMuILb3w/6J
-         Mci2uja1ChexEfXk7xN0UQ5SQt+GdasdWjSdU0ulzcSvcTRN/9icqxuDPUSnjgwVi990
-         cXJVEeEzu0kGPxoaGolblm2ZOtwEvrUda0zWz6IFG6hc9aOgVD0PfrF/9JTCuxMEYmTv
-         XiIf98fWetc6gEGG+HiFEy0P9ejPb4jP5vze6KEqGEh4wd21UFo9h5O1zMQm0aw7gq5Z
-         adMA==
-X-Gm-Message-State: AOAM533mmXcQ+33No9L+7X9/UCrRlKqiYrt+24sP3sdFnP/+n9IFndVY
-	zLAFWco+HjXJTpz3Nw8/rLu+9+hZwQU=
-X-Google-Smtp-Source: ABdhPJyesrDcGnkrZUA544YfKcXrbUqaVDR1mbEk3C//Q8T4g6RdYefEX9GhGyt96YmWEJRu5YzRAg==
-X-Received: by 2002:adf:f08d:: with SMTP id n13mr55244837wro.395.1636124323144;
-        Fri, 05 Nov 2021 07:58:43 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=f850WtSU1tT9VURexGQSkaN+D4nh51RsnZFyeFz+rEY=;
+        b=kKZ6Pf/x/JkdxqOXeQaErDHJ9hBUxLN5iRLqLU0K+7h5yvJ3FLsqRKPlsgHn8/5jkE
+         IBq/ylkrIjX3Gs6PO6BNsLQPEiGG4QHu0GfXy9ozkp0q5q34WAQ5LnrKukV3rHka87zT
+         pHoRzo8QD/00vuwH0hULoghqTL+t+PsgFMBTKWYDrxbL2ud/WF4IwYp7o5mhJJ8xO84L
+         uLX0GLZ7wiIkBOQJHpbsRojIE9QHt/1DMF0j36Onv1HaOVi7ALqnWHcLDPt9ElGg1Lvd
+         bdx2kL9to1PfXxOMBJQYERctrUnvCJp7rzJZRsSAvib+nKi0Qr9LCYrxzVMeiRPuPMXx
+         Lvyw==
+X-Gm-Message-State: AOAM533R7Y9UGeIhE6hHqt6ItDLnIVplgw2CbzVRIJ+GI4QGVCvonUK4
+	9r4Li+Q54utbKZl05AoyPhznZjIZ3dg=
+X-Google-Smtp-Source: ABdhPJw2gNUQVduOnWem1EQ6oLWjHIZr72iSbLJq9BoEM/wDMtVbK3NynSCl0T1E8eX+EyqR+cmE+Q==
+X-Received: by 2002:a5d:6a4d:: with SMTP id t13mr45214399wrw.104.1636124324489;
+        Fri, 05 Nov 2021 07:58:44 -0700 (PDT)
 Return-Path: <martin.jansa@gmail.com>
 Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id i15sm10465679wmq.18.2021.11.05.07.58.42
+        by smtp.gmail.com with ESMTPSA id w17sm8425522wrp.79.2021.11.05.07.58.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Nov 2021 07:58:42 -0700 (PDT)
+        Fri, 05 Nov 2021 07:58:44 -0700 (PDT)
 From: "Martin Jansa" <Martin.Jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: meta-virtualization@lists.yoctoproject.org
 Cc: Martin Jansa <Martin.Jansa@gmail.com>
-Subject: [meta-virtualization][PATCH 1/2] go-{distribution,systemd}: convert github SRC_URIs to use https protocol
-Date: Fri,  5 Nov 2021 15:58:39 +0100
-Message-Id: <20211105145840.1721877-1-Martin.Jansa@gmail.com>
+Subject: [meta-virtualization][PATCH 2/2] linux-yocto_virtualization.inc: remove :append and += combination
+Date: Fri,  5 Nov 2021 15:58:40 +0100
+Message-Id: <20211105145840.1721877-2-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20211105145840.1721877-1-Martin.Jansa@gmail.com>
+References: <20211105145840.1721877-1-Martin.Jansa@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
+* fixes:
+  KERNEL_FEATURES:append += is not a recommended operator combination, please replace it.
+
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- recipes-devtools/go/go-distribution_git.bb | 2 +-
- recipes-devtools/go/go-systemd_git.bb      | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ recipes-kernel/linux/linux-yocto_virtualization.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/recipes-devtools/go/go-distribution_git.bb b/recipes-devtools/go/go-distribution_git.bb
-index f481d61..948831b 100644
---- a/recipes-devtools/go/go-distribution_git.bb
-+++ b/recipes-devtools/go/go-distribution_git.bb
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://src/${PKG_NAME}/LICENSE;md5=d2794c0df5b907fdace235a61
- SRCNAME = "distribution"
+diff --git a/recipes-kernel/linux/linux-yocto_virtualization.inc b/recipes-kernel/linux/linux-yocto_virtualization.inc
+index a27ae7d..84a7bd8 100644
+--- a/recipes-kernel/linux/linux-yocto_virtualization.inc
++++ b/recipes-kernel/linux/linux-yocto_virtualization.inc
+@@ -13,7 +13,7 @@ KERNEL_MODULE_AUTOLOAD += "nf_conntrack_ipv6 openvswitch"
+ KERNEL_MODULE_AUTOLOAD += "${@bb.utils.contains('DISTRO_FEATURES', 'kvm', 'kvm', '', d)}"
  
- PKG_NAME = "github.com/docker/${SRCNAME}"
--SRC_URI = "git://${PKG_NAME}.git;branch=docker/1.13;destsuffix=git/src/${PKG_NAME}"
-+SRC_URI = "git://${PKG_NAME}.git;branch=docker/1.13;destsuffix=git/src/${PKG_NAME};protocol=https"
+ # aufs kernel support required for xen-image-minimal
+-KERNEL_FEATURES:append += "${@bb.utils.contains('DISTRO_FEATURES', 'aufs', ' features/aufs/aufs-enable.scc', '', d)}"
++KERNEL_FEATURES:append = "${@bb.utils.contains('DISTRO_FEATURES', 'aufs', ' features/aufs/aufs-enable.scc', '', d)}"
  
- SRCREV = "28602af35aceda2f8d571bad7ca37a54cf0250bc"
- PV = "2.6.0+git${SRCPV}"
-diff --git a/recipes-devtools/go/go-systemd_git.bb b/recipes-devtools/go/go-systemd_git.bb
-index 130ef8b..91f67da 100644
---- a/recipes-devtools/go/go-systemd_git.bb
-+++ b/recipes-devtools/go/go-systemd_git.bb
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=19cbd64715b51267a47bf3750cc6a8a5"
- SRCNAME = "systemd"
- 
- PKG_NAME = "github.com/coreos/go-${SRCNAME}"
--SRC_URI = "git://${PKG_NAME}.git;branch=main"
-+SRC_URI = "git://${PKG_NAME}.git;branch=main;protocol=https"
- 
- SRCREV = "b4a58d95188dd092ae20072bac14cece0e67c388"
- PV = "4+git${SRCPV}"
+ # if the kernel-yocto meta-data routine automatically starts to add the
+ # recipe-sysroot-native, we can do away with this conditional, since all
 -- 
 2.32.0
 
