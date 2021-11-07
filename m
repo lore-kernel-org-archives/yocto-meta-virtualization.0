@@ -1,94 +1,92 @@
-Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
- by mx.groups.io with SMTP id smtpd.web10.21451.1636218915137477919
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+ by mx.groups.io with SMTP id smtpd.web08.33997.1636306650022719322
  for <meta-virtualization@lists.yoctoproject.org>;
- Sat, 06 Nov 2021 10:15:15 -0700
+ Sun, 07 Nov 2021 09:37:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kudzu-us.20210112.gappssmtp.com header.s=20210112 header.b=qTAziBOz;
- spf=none, err=permanent DNS error (domain: kudzu.us, ip: 209.85.222.169, mailfrom: jdmason@kudzu.us)
-Received: by mail-qk1-f169.google.com with SMTP id az8so11721588qkb.2
-        for <meta-virtualization@lists.yoctoproject.org>; Sat, 06 Nov 2021 10:15:15 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=I/Gz//JI;
+ spf=pass (domain: gmail.com, ip: 209.85.208.47, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ed1-f47.google.com with SMTP id o8so53166496edc.3
+        for <meta-virtualization@lists.yoctoproject.org>; Sun, 07 Nov 2021 09:37:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kudzu-us.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=t/idOF6ehYPANugpRAMPGynk6BSROpMjq7C8rBRvpyw=;
-        b=qTAziBOz4uMU/XWgJls5Juc81X9w5ALig2Bn1oKeyCkQ9czMfBaYfxvVZt3p8TMy7Q
-         k9FMwnGt2N3Vxz6nBY9pDYbJ60lKLsFF96IE1gewSwSP0H/CGhsSNFEg2GU4OJIhOoEw
-         u+y/fQn6AAHelSk+UwULKmag+nmvci9r0Bmlu8kpt0UWWJa3S1cnr+E8GN/19O8GUm9/
-         CALqWMKapMezs9RAQehcWfo7ghIRNe4KG6rcUth8M2LmfhSKvFk1viPQw+VVq8i0Mulv
-         JMO0FtFDncMjLBBpWDpEQT0/uEmH4jCJ5nYWe6jXv/gzsXlAM1pxpD21UsNSOxvXdA+n
-         nNWA==
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=INN1VPOwBlKebkM0F4grMDhONJqPeaISxfKnvn9qwpM=;
+        b=I/Gz//JIPFusn5WzL9H0eE8Jr/7DLis7qGKidta46CuaFE9XMZgTz4jJAuFxU4R7/f
+         cPi4rJbFvQblBIkVn41coO3OD+eyJas4BdhvyhW1+uc1idJycx+7NvVZLJc4VztYldrD
+         aNol8VA4VHyWwaouQ54DznSXTxAZQhqjdsYVLDn/OC9a77d4jFPbhHjPDZx3r/TYmnbe
+         vW09lSANiE48h+u6TwbBl6XLEveYScze20zdbFl1hfTzbtBkIpwr8PhEZdOhF55QUId2
+         oujCUYNITMBYtuU1P8l5y4KWxCqbOlVp8EWaHM8S9z7XWopkH3CWT4UHAdtOUcfGAsyz
+         m4ng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=t/idOF6ehYPANugpRAMPGynk6BSROpMjq7C8rBRvpyw=;
-        b=605pybq+V+9fexSmLGtIhHSt629VuT8w1IUuwnQaij9mZXUSRfCgJ2Twh6lmmXfZb6
-         EYYUL+mSwQKCaQICVd/8nOXcgXrSwD6CRxpCyKxy+KLb6XDmgCRvnHhld+zXN6v10q7/
-         5e0iEhrLxU73K1432nnvG/m56jtn7xyzsz27XUvu8R4yoQb1xFydW9fx37E2Y96dot42
-         7pDQE0+KL+0WlGoMzS/hzHsKaEEifmdwo+U4MEYBLuU9ue/2RUCNvZ7tTjz5iP+ciLWu
-         z3gQ85emFwoSW6xBFFN9wrJWa5WpnSm3pHjtDHCnCxJiXHfqUcHKpvkaFEMwi2egrbBF
-         z7pQ==
-X-Gm-Message-State: AOAM533pOmYn0+Olz/iQEJCyGagaWe58Ag5c7QQBFKH0BbZN6meTavam
-	zOqaoZ1I+GCEQyy19xRDaysfQXxbVb6/AkrQxNjZuw==
-X-Google-Smtp-Source: ABdhPJwn3LyYBqWS/CGsRPyXpaP2FRZyy883nrJP5yVXruSHJZNRRl/+SlZvZD6EvRKd+16bNtLaS6q8UpNBujMlEUw=
-X-Received: by 2002:a37:9244:: with SMTP id u65mr54858512qkd.46.1636218914159;
- Sat, 06 Nov 2021 10:15:14 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=INN1VPOwBlKebkM0F4grMDhONJqPeaISxfKnvn9qwpM=;
+        b=lRbm1ffPXdORq+i1Nw0lSQj2KuV005F+K2CX5IVMmUr9sRxkUDg1K8S3pO4Zw6SjNt
+         zyZgaNfvIXItPjiOVtAiFvQ0HiX1tbbePskhIeVKLs3XI3SKAR/LRBKiJajewBQn4cm2
+         wI+rlUDwAjc/ONNY5/s/jppursjFriJceAQryG5x1BFtvWrYEb5a8SM0E/1u9yuaictW
+         m4lk998DlYg5fANijfPsiY/jTE+/jUvl0FaMZHGF9UD9Mp1c0xAS07wsysu49HWEiZ+f
+         jvwtU78AyO4dAecabcZYOHuRQAtG7L87GlPSoWKTQrSpKZZK8KEllPVsa8Z5djA605kb
+         KolA==
+X-Gm-Message-State: AOAM530EfqY1obKOE873No83C2hLoufCPkfaf397kwyAmR8Kb7mCqCrJ
+	KGZKnzN71WAYzbcOXHN4ksaTIeI5ZkM=
+X-Google-Smtp-Source: ABdhPJzRZKSSJXMBzOvBscrhYf4+8YBm9CHlUCRFMiKBsTyCyJfReko83TDgKrd75gVR4sEp9M07rg==
+X-Received: by 2002:a17:906:c248:: with SMTP id bl8mr87277477ejb.360.1636306648288;
+        Sun, 07 Nov 2021 09:37:28 -0800 (PST)
+Return-Path: <martin.jansa@gmail.com>
+Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
+        by smtp.gmail.com with ESMTPSA id cz7sm7907685edb.55.2021.11.07.09.37.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 07 Nov 2021 09:37:27 -0800 (PST)
+From: "Martin Jansa" <Martin.Jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: meta-virtualization@lists.yoctoproject.org
+Cc: Martin Jansa <Martin.Jansa@gmail.com>
+Subject: [meta-virtualization][PATCH 1/2] irqbalance: bump SRCREV to latest
+Date: Sun,  7 Nov 2021 18:37:22 +0100
+Message-Id: <20211107173723.700787-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-References: <20211105145840.1721877-1-Martin.Jansa@gmail.com>
-In-Reply-To: <20211105145840.1721877-1-Martin.Jansa@gmail.com>
-From: "Jon Mason" <jdmason@kudzu.us>
-Date: Sat, 6 Nov 2021 13:15:03 -0400
-Message-ID: <CAPoiz9waxNrJmBPas4LBg+hjvQ15u2rZjroZm+SLnLO_nxtnyQ@mail.gmail.com>
-Subject: Re: [meta-virtualization][PATCH 1/2] go-{distribution,systemd}: convert github SRC_URIs to use https protocol
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: meta-virtualization@lists.yoctoproject.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Fri, Nov 5, 2021 at 10:58 AM Martin Jansa <Martin.Jansa@gmail.com> wrote:
->
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+* remove the incorrect comment about SRCREV being 1.7.0
+* and add +git because the old SRCREV wasn't matching
+  with 1.8.0 tag as well
 
-Please apply this patch as soon as possible, qemuarm + xen is seeing
-warnings for this (and it's quite annoying).
+* add -Wno-error=format-security to work around build failures with newer ncurses-6.3 like:
+  | ../git/ui/ui.c:45:32: error: format not a string literal and no format arguments [-Werror=format-security]
+  |    45 |         mvprintw(LINES - 1, 0, footer);
+  |       |                                ^~~~~~
 
-Thanks,
-Jon
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ recipes-extended/irqbalance/irqbalance_git.bb | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-> ---
->  recipes-devtools/go/go-distribution_git.bb | 2 +-
->  recipes-devtools/go/go-systemd_git.bb      | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/recipes-devtools/go/go-distribution_git.bb b/recipes-devtools/go/go-distribution_git.bb
-> index f481d61..948831b 100644
-> --- a/recipes-devtools/go/go-distribution_git.bb
-> +++ b/recipes-devtools/go/go-distribution_git.bb
-> @@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://src/${PKG_NAME}/LICENSE;md5=d2794c0df5b907fdace235a61
->  SRCNAME = "distribution"
->
->  PKG_NAME = "github.com/docker/${SRCNAME}"
-> -SRC_URI = "git://${PKG_NAME}.git;branch=docker/1.13;destsuffix=git/src/${PKG_NAME}"
-> +SRC_URI = "git://${PKG_NAME}.git;branch=docker/1.13;destsuffix=git/src/${PKG_NAME};protocol=https"
->
->  SRCREV = "28602af35aceda2f8d571bad7ca37a54cf0250bc"
->  PV = "2.6.0+git${SRCPV}"
-> diff --git a/recipes-devtools/go/go-systemd_git.bb b/recipes-devtools/go/go-systemd_git.bb
-> index 130ef8b..91f67da 100644
-> --- a/recipes-devtools/go/go-systemd_git.bb
-> +++ b/recipes-devtools/go/go-systemd_git.bb
-> @@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=19cbd64715b51267a47bf3750cc6a8a5"
->  SRCNAME = "systemd"
->
->  PKG_NAME = "github.com/coreos/go-${SRCNAME}"
-> -SRC_URI = "git://${PKG_NAME}.git;branch=main"
-> +SRC_URI = "git://${PKG_NAME}.git;branch=main;protocol=https"
->
->  SRCREV = "b4a58d95188dd092ae20072bac14cece0e67c388"
->  PV = "4+git${SRCPV}"
-> --
-> 2.32.0
->
->
-> 
->
+diff --git a/recipes-extended/irqbalance/irqbalance_git.bb b/recipes-extended/irqbalance/irqbalance_git.bb
+index 0911201..5761185 100644
+--- a/recipes-extended/irqbalance/irqbalance_git.bb
++++ b/recipes-extended/irqbalance/irqbalance_git.bb
+@@ -4,10 +4,8 @@
+ 
+ require irqbalance.inc
+ 
+-# commit tagged as version 1.7.0
+-#
+-SRCREV = "bd5aaf5a8613c8eadfbf9f0908fd8260125aae28"
+-PV = "1.8.0"
++SRCREV = "a97266548398870c2dde034e48a8c9e3c1893acb"
++PV = "1.8.0+git${SRCPV}"
+ 
+ SRC_URI = "git://github.com/Irqbalance/irqbalance;branch=master;protocol=https \
+            file://add-initscript.patch \
+@@ -16,3 +14,5 @@ SRC_URI = "git://github.com/Irqbalance/irqbalance;branch=master;protocol=https \
+           "
+ 
+ S = "${WORKDIR}/git"
++
++CFLAGS += "-Wno-error=format-security"
+-- 
+2.32.0
+
