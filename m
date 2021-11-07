@@ -1,92 +1,75 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
- by mx.groups.io with SMTP id smtpd.web08.33997.1636306650022719322
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+ by mx.groups.io with SMTP id smtpd.web09.33821.1636306650888998411
  for <meta-virtualization@lists.yoctoproject.org>;
- Sun, 07 Nov 2021 09:37:30 -0800
+ Sun, 07 Nov 2021 09:37:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=I/Gz//JI;
- spf=pass (domain: gmail.com, ip: 209.85.208.47, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ed1-f47.google.com with SMTP id o8so53166496edc.3
-        for <meta-virtualization@lists.yoctoproject.org>; Sun, 07 Nov 2021 09:37:29 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=pG/PzxoY;
+ spf=pass (domain: gmail.com, ip: 209.85.208.46, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ed1-f46.google.com with SMTP id ee33so53490242edb.8
+        for <meta-virtualization@lists.yoctoproject.org>; Sun, 07 Nov 2021 09:37:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=INN1VPOwBlKebkM0F4grMDhONJqPeaISxfKnvn9qwpM=;
-        b=I/Gz//JIPFusn5WzL9H0eE8Jr/7DLis7qGKidta46CuaFE9XMZgTz4jJAuFxU4R7/f
-         cPi4rJbFvQblBIkVn41coO3OD+eyJas4BdhvyhW1+uc1idJycx+7NvVZLJc4VztYldrD
-         aNol8VA4VHyWwaouQ54DznSXTxAZQhqjdsYVLDn/OC9a77d4jFPbhHjPDZx3r/TYmnbe
-         vW09lSANiE48h+u6TwbBl6XLEveYScze20zdbFl1hfTzbtBkIpwr8PhEZdOhF55QUId2
-         oujCUYNITMBYtuU1P8l5y4KWxCqbOlVp8EWaHM8S9z7XWopkH3CWT4UHAdtOUcfGAsyz
-         m4ng==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=Jdek5/eMrEa/gfKBOrWEfBQXWecwSjybLWhDoqYpnCA=;
+        b=pG/PzxoYigTQ6d3/zer07Zxht2OUoCrIs/1lsG9RmY2ux88vwlhpm26jeiTnG4n/yR
+         rzbqGkxYk+xLO5H/91mvingyR1mnwPSbaTKq01oismDM0pe2uZKCqAwuPuOKmTWEMEA/
+         PUInFXU/tltWtR47ZI9GRuBsAqSQ8W66WRF5qfxfwiY+Z1Qp+YvSDvEm+JR0NJWxC1yr
+         RYnnStFKkfeFy+ywUh4tZuld7kPnJ+LPAhU3FDLSZLLgb3pu+Cxc2qdqIBNK7u7lroXC
+         Rx/Yt/dYxVMlsyOExTrMhirYf3a+yXPjGMAWYSCq8G2NnGk/6pkbRmef3CyaXbWoYfuc
+         Mslg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=INN1VPOwBlKebkM0F4grMDhONJqPeaISxfKnvn9qwpM=;
-        b=lRbm1ffPXdORq+i1Nw0lSQj2KuV005F+K2CX5IVMmUr9sRxkUDg1K8S3pO4Zw6SjNt
-         zyZgaNfvIXItPjiOVtAiFvQ0HiX1tbbePskhIeVKLs3XI3SKAR/LRBKiJajewBQn4cm2
-         wI+rlUDwAjc/ONNY5/s/jppursjFriJceAQryG5x1BFtvWrYEb5a8SM0E/1u9yuaictW
-         m4lk998DlYg5fANijfPsiY/jTE+/jUvl0FaMZHGF9UD9Mp1c0xAS07wsysu49HWEiZ+f
-         jvwtU78AyO4dAecabcZYOHuRQAtG7L87GlPSoWKTQrSpKZZK8KEllPVsa8Z5djA605kb
-         KolA==
-X-Gm-Message-State: AOAM530EfqY1obKOE873No83C2hLoufCPkfaf397kwyAmR8Kb7mCqCrJ
-	KGZKnzN71WAYzbcOXHN4ksaTIeI5ZkM=
-X-Google-Smtp-Source: ABdhPJzRZKSSJXMBzOvBscrhYf4+8YBm9CHlUCRFMiKBsTyCyJfReko83TDgKrd75gVR4sEp9M07rg==
-X-Received: by 2002:a17:906:c248:: with SMTP id bl8mr87277477ejb.360.1636306648288;
-        Sun, 07 Nov 2021 09:37:28 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=Jdek5/eMrEa/gfKBOrWEfBQXWecwSjybLWhDoqYpnCA=;
+        b=bIFGA+gBwY0mGkUGEWEnZKlXovbKyOa0jSKq6BzTEs8/KdRpWaaAvzY23wu52ro1kP
+         lei2ML5Rqnnc53aoChDfitUa0nWklejzc2dxax/EGVIulWrf5K8FDudD46eMZIkIM1xa
+         40s+QFjJbbDE1tBIi7zKDujmYUPa/yPHUJNgqC1LgBP0n8Kw6fEtH9hnjJpx4a0EfqUL
+         2yuWehkmi/7KDMQcXo9tJqav3HUbxxX3/wMNZ7ahoEORMikUyefI9ouNhvQxmu8bJ25x
+         FYwwBHuMA8SXx177IaSVYl+BRnqtR4wNObCYeosGmbg3Z1daiD4UK5nPHM/kvpEwSLLh
+         C16g==
+X-Gm-Message-State: AOAM532rHrEX34ub1neB9dwTuFg3ETJvw5ugkKR4AU8hwVH3BTYwFEfB
+	tPcsG3xoajb5ntudVZtbXZx1dA0oQdw=
+X-Google-Smtp-Source: ABdhPJxpF38MYJYgjeiPjbrJkvvQKRSsW2jZmXmorJIlu/MKaf5aiE/Ay8lLbERRgBXTS0KbbbNv+A==
+X-Received: by 2002:a05:6402:42c8:: with SMTP id i8mr30486501edc.373.1636306649352;
+        Sun, 07 Nov 2021 09:37:29 -0800 (PST)
 Return-Path: <martin.jansa@gmail.com>
 Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id cz7sm7907685edb.55.2021.11.07.09.37.27
+        by smtp.gmail.com with ESMTPSA id j12sm4622603edr.67.2021.11.07.09.37.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 07 Nov 2021 09:37:27 -0800 (PST)
+        Sun, 07 Nov 2021 09:37:29 -0800 (PST)
 From: "Martin Jansa" <Martin.Jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: meta-virtualization@lists.yoctoproject.org
 Cc: Martin Jansa <Martin.Jansa@gmail.com>
-Subject: [meta-virtualization][PATCH 1/2] irqbalance: bump SRCREV to latest
-Date: Sun,  7 Nov 2021 18:37:22 +0100
-Message-Id: <20211107173723.700787-1-Martin.Jansa@gmail.com>
+Subject: [meta-virtualization][PATCH 2/2] yq: convert github SRC_URI to use https protocol
+Date: Sun,  7 Nov 2021 18:37:23 +0100
+Message-Id: <20211107173723.700787-2-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20211107173723.700787-1-Martin.Jansa@gmail.com>
+References: <20211107173723.700787-1-Martin.Jansa@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-* remove the incorrect comment about SRCREV being 1.7.0
-* and add +git because the old SRCREV wasn't matching
-  with 1.8.0 tag as well
-
-* add -Wno-error=format-security to work around build failures with newer ncurses-6.3 like:
-  | ../git/ui/ui.c:45:32: error: format not a string literal and no format arguments [-Werror=format-security]
-  |    45 |         mvprintw(LINES - 1, 0, footer);
-  |       |                                ^~~~~~
-
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- recipes-extended/irqbalance/irqbalance_git.bb | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ recipes-devtools/yq/yq_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/recipes-extended/irqbalance/irqbalance_git.bb b/recipes-extended/irqbalance/irqbalance_git.bb
-index 0911201..5761185 100644
---- a/recipes-extended/irqbalance/irqbalance_git.bb
-+++ b/recipes-extended/irqbalance/irqbalance_git.bb
-@@ -4,10 +4,8 @@
+diff --git a/recipes-devtools/yq/yq_git.bb b/recipes-devtools/yq/yq_git.bb
+index 3e48fee..1fccb12 100644
+--- a/recipes-devtools/yq/yq_git.bb
++++ b/recipes-devtools/yq/yq_git.bb
+@@ -15,7 +15,7 @@ SRCREV_logging = "b2cb9fa56473e98db8caba80237377e83fe44db5"
+ SRCREV_yaml = "eeeca48fe7764f320e4870d231902bf9c1be2c08"
  
- require irqbalance.inc
- 
--# commit tagged as version 1.7.0
--#
--SRCREV = "bd5aaf5a8613c8eadfbf9f0908fd8260125aae28"
--PV = "1.8.0"
-+SRCREV = "a97266548398870c2dde034e48a8c9e3c1893acb"
-+PV = "1.8.0+git${SRCPV}"
- 
- SRC_URI = "git://github.com/Irqbalance/irqbalance;branch=master;protocol=https \
-            file://add-initscript.patch \
-@@ -16,3 +14,5 @@ SRC_URI = "git://github.com/Irqbalance/irqbalance;branch=master;protocol=https \
-           "
- 
- S = "${WORKDIR}/git"
-+
-+CFLAGS += "-Wno-error=format-security"
+ SRCREV_FORMAT = "yq_color"
+-SRC_URI = "git://${GO_IMPORT};name=yq;branch=master \
++SRC_URI = "git://${GO_IMPORT};name=yq;branch=master;protocol=https \
+            git://github.com/fatih/color;name=color;destsuffix=build/vendor/src/github.com/fatih/color;branch=master;protocol=https \
+            git://github.com/goccy/go-yaml;name=lexer;destsuffix=build/vendor/src/github.com/goccy/go-yaml/;branch=master;protocol=https \
+            git://github.com/kylelemons/godebug;name=debug;destsuffix=build/vendor/src/github.com/kylelemons/godebug/;branch=master;protocol=https \
 -- 
 2.32.0
 
