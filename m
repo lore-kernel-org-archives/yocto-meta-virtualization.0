@@ -1,92 +1,107 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
- by mx.groups.io with SMTP id smtpd.web08.45365.1636381083808957445
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
+ by mx.groups.io with SMTP id smtpd.web08.45381.1636381179975699288
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 08 Nov 2021 06:18:04 -0800
+ Mon, 08 Nov 2021 06:19:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=HEM9vtcn;
- spf=pass (domain: gmail.com, ip: 209.85.208.52, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ed1-f52.google.com with SMTP id v11so60570647edc.9
-        for <meta-virtualization@lists.yoctoproject.org>; Mon, 08 Nov 2021 06:18:03 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=ntImimG9;
+ spf=pass (domain: gmail.com, ip: 209.85.219.46, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qv1-f46.google.com with SMTP id gu12so4549958qvb.6
+        for <meta-virtualization@lists.yoctoproject.org>; Mon, 08 Nov 2021 06:19:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=262j8xiBkkkBqHncwXTtkeuGNfCgJp8aYyXP64rE0zA=;
-        b=HEM9vtcnEgINDnqUdVpG18QyH+MpjAjhz9VqLJwVY8xLSGvHiDnJHgEd/PkIwNl8w9
-         UI2OeEGsYb755nFqBi1PrP3uYQtpUFqPI8E3SoFqzNQtIYWEN+MXAU4sz1zrsxu4QJG+
-         NZyv2qbxaq5k+ah2xKDIFB3oRyOrylRKQnmL8qQ7qHgudDTxJoHZTs0/TvUtsRK60sDH
-         wq3Kwmks6Rsu0PaKJuEp/0owmfEK+dhhfkga8oJpBjjC6trBTiMY4aDXLjkIScIMgG2M
-         qnaGo+ohKQnV+8UxkGbcKx2gE3Z1y3mA55HWj5j2AiRPg3IxvXLms6azHncox5SbGdFg
-         1vFA==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=PD4Tvh+yN2iEwiry8oo4FaSOoJXjPALk0xYsxCwJx70=;
+        b=ntImimG9bpmeSExVrnUXesBDC9qdm65G/oAacVV1A+rdW+xT5HAK+lM13t+mgV8dqa
+         fBx0D5pACCHP4ZnWt3c2QgsW4OsQqeOMAltkrZKjEozwjIIJhuM3+ePAcbX54KplZNnT
+         ccRTScQEkenThJQd4bsyRci/3O5ZX1C/Ps95e7KMmRts02jDumMK49RVIJYzuFpjWUan
+         dxvKSGo6fncVskhVs6MNXa6SMfAFkRIeeFQ2E3aod/Qfp7BHGrRKvUFKYdGnQoQd8udY
+         DE/tpbK3x6CUHGBV5YbpFpOIwPw5OcrdjbSrc0L5gjtvNhkrS6Y3JJYpg9NWNVwCJ6BF
+         BWTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=262j8xiBkkkBqHncwXTtkeuGNfCgJp8aYyXP64rE0zA=;
-        b=QER1q1XsdmWcD7mcb7tt2VVoTip/jzl2bOB3xhPtxkZIisSTxS0iKUa39D4TOKv2rg
-         M6ZF9gRzTPFQoaxRikx7tuaP0gSdR9O5qTrW4SUKHM7Log2fCxh3D1pOn7/NQqb7iLBW
-         FdPqLH83xqAuosp7i4QhF9b4tRqZHLmARVmVeK6FuYQD08bRfrXoWJmrXuP0wj/mF8iN
-         REZlEOrcnRUXOEpBXTwEbtd3QSHJV15OQledvPA8YI2/FHvGc6RFWbxlbcD71kPly1In
-         VvmssmT3/OM3HUYP21ghbAPoA8UsiMEGsqAvZS1ZABezbedGOw9WCS/pYHNI6rNzo6YO
-         35pA==
-X-Gm-Message-State: AOAM533BLFFpYo8eMw5UjdyeGioJTA2xqqDXcIsp9NvM8FhasIPElF4p
-	h46DjF7NYEW/fFxokcBl5B2ACYZmpcq3AB/691I=
-X-Google-Smtp-Source: ABdhPJxz3WorrF7M1+i9h+Oh4VdkU9Dn6QJzF9jsOG4QcAK3ELDmJqTtEAfkYYy753dDfUGw7uuKqSCx9rFflFqkXo0=
-X-Received: by 2002:a05:6402:5161:: with SMTP id d1mr88565988ede.385.1636381081885;
- Mon, 08 Nov 2021 06:18:01 -0800 (PST)
-MIME-Version: 1.0
-References: <20211104221006.3757-1-crawford.benjamin15@gmail.com>
-In-Reply-To: <20211104221006.3757-1-crawford.benjamin15@gmail.com>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=PD4Tvh+yN2iEwiry8oo4FaSOoJXjPALk0xYsxCwJx70=;
+        b=vSh1+Z/kZJe4snEtD13TMdeiOwxdMujXYsyVkcDHASXYVQN88nAvwgS7kPnZi8GGcm
+         b8aGOzA5pWB91W5rfWpSLWYl9PzMgsMs0Dk7VQGZ0LUU30KxaPIglF+VCoMqc8otvwn4
+         qIMpWved9YrVHoDKcmzU0G9rlDKxGfpXZ2oMYujSibcM1zf6IpbkbecdF/XC0q/Ktqmu
+         cx6g2VotvebZXNJme0iccgjYVGlTHJj24aDJGNSUUGi/B53InVCEJPxilBNt5Vh9x9Aj
+         AzbEyvoYxk/JrvbghT/Ou6a+l8H5nmcQbALA4Tc7nXFD1FdfeNJCfnHVmn0/b9UvpYct
+         Xz8w==
+X-Gm-Message-State: AOAM531BfKfqLXx0YCizBtwOTtXJvTnQkLshNeRW6j6gKU4fVKpiPj9m
+	BsM6RXmvNn495BEMh4Lk78w=
+X-Google-Smtp-Source: ABdhPJyu4kD5nvbR36janpXj7G8vBA7JoD2LRX/Ve8Ho5vcUIxBABgjvGI6AOLLoMp/Xz/UqPS+I4A==
+X-Received: by 2002:ad4:5d63:: with SMTP id fn3mr19082082qvb.5.1636381179095;
+        Mon, 08 Nov 2021 06:19:39 -0800 (PST)
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from gmail.com (cpe04d4c4975b80-cmf4c11490699b.cpe.net.cable.rogers.com. [174.112.63.222])
+        by smtp.gmail.com with ESMTPSA id j13sm10338594qkp.111.2021.11.08.06.19.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Nov 2021 06:19:38 -0800 (PST)
+Date: Mon, 8 Nov 2021 09:19:37 -0500
 From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Mon, 8 Nov 2021 09:17:50 -0500
-Message-ID: <CADkTA4PM2N2PN_YuKDMuqPT03Vsu5F5ZGOGP=HjiJvfMA7Vmzw@mail.gmail.com>
-Subject: Re: [meta-virtualization] [PATCH] docker: add netfilter configuration fragments
-To: Benjamin Mordaunt <crawford.benjamin15@gmail.com>
+To: Martin Jansa <Martin.Jansa@gmail.com>
 Cc: meta-virtualization@lists.yoctoproject.org
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [meta-virtualization][PATCH 1/2] irqbalance: bump SRCREV to latest
+Message-ID: <20211108141934.GA18783@gmail.com>
+References: <20211107173723.700787-1-Martin.Jansa@gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <20211107173723.700787-1-Martin.Jansa@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-I'm currently unifying the fragments into the central kernel
-repository, so I've grabbed this and will make sure it is represented
-in that sync.
+In message: [meta-virtualization][PATCH 1/2] irqbalance: bump SRCREV to latest
+on 07/11/2021 Martin Jansa wrote:
+
+> * remove the incorrect comment about SRCREV being 1.7.0
+> * and add +git because the old SRCREV wasn't matching
+>   with 1.8.0 tag as well
+> 
+> * add -Wno-error=format-security to work around build failures with newer ncurses-6.3 like:
+>   | ../git/ui/ui.c:45:32: error: format not a string literal and no format arguments [-Werror=format-security]
+>   |    45 |         mvprintw(LINES - 1, 0, footer);
+>   |       |                                ^~~~~~
+
+Thanks for the cleanup! This is now merged.
 
 Bruce
 
-On Thu, Nov 4, 2021 at 6:10 PM Benjamin Mordaunt
-<crawford.benjamin15@gmail.com> wrote:
->
-> The docker.cfg file is missing a few netfilter
-> module requirements. Without these, it is possible
-> for networking and bridge initialization to fail.
->
-> Signed-off-by: Benjamin Mordaunt <crawford.benjamin15@gmail.com>
-> ---
->  recipes-kernel/linux/linux-yocto/docker.cfg | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/recipes-kernel/linux/linux-yocto/docker.cfg b/recipes-kernel/linux/linux-yocto/docker.cfg
-> index 79012a6..9378266 100644
-> --- a/recipes-kernel/linux/linux-yocto/docker.cfg
-> +++ b/recipes-kernel/linux/linux-yocto/docker.cfg
-> @@ -5,7 +5,9 @@ CONFIG_NF_CONNTRACK=y
->
->  CONFIG_DM_THIN_PROVISIONING=m
->
-> -
-> +CONFIG_NETFILTER_NETLINK=m
-> +CONFIG_NT_CT_NETLINK=m
-> +CONFIG_NETFILTER_XT_MATCH_CONNTRACK=m
->  CONFIG_IP_NF_NAT=m
->  CONFIG_IP_NF_TARGET_MASQUERADE=m
->
-> --
-> 2.30.1 (Apple Git-130)
->
->
 > 
->
+> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> ---
+>  recipes-extended/irqbalance/irqbalance_git.bb | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/recipes-extended/irqbalance/irqbalance_git.bb b/recipes-extended/irqbalance/irqbalance_git.bb
+> index 0911201..5761185 100644
+> --- a/recipes-extended/irqbalance/irqbalance_git.bb
+> +++ b/recipes-extended/irqbalance/irqbalance_git.bb
+> @@ -4,10 +4,8 @@
+>  
+>  require irqbalance.inc
+>  
+> -# commit tagged as version 1.7.0
+> -#
+> -SRCREV = "bd5aaf5a8613c8eadfbf9f0908fd8260125aae28"
+> -PV = "1.8.0"
+> +SRCREV = "a97266548398870c2dde034e48a8c9e3c1893acb"
+> +PV = "1.8.0+git${SRCPV}"
+>  
+>  SRC_URI = "git://github.com/Irqbalance/irqbalance;branch=master;protocol=https \
+>             file://add-initscript.patch \
+> @@ -16,3 +14,5 @@ SRC_URI = "git://github.com/Irqbalance/irqbalance;branch=master;protocol=https \
+>            "
+>  
+>  S = "${WORKDIR}/git"
+> +
+> +CFLAGS += "-Wno-error=format-security"
+> -- 
+> 2.32.0
+> 
 
+> 
+> 
+> 
 
--- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
