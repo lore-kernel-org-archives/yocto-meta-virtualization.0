@@ -1,86 +1,92 @@
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
- by mx.groups.io with SMTP id smtpd.web08.8991.1636628756255114296
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web12.10774.1636639066601448384
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 11 Nov 2021 03:05:57 -0800
+ Thu, 11 Nov 2021 05:57:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=SN+j2sGA;
- spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: peter.kjellerstedt@axis.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1636628756;
-  x=1668164756;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   content-transfer-encoding:mime-version;
-  bh=LoMQ4tnqLD3w32OPEERIyUdNSIGTyOu7QpJ5qL3FBco=;
-  b=SN+j2sGAynNiGwxV9Gyzf88o7yfuZHKYPFF/4LhbJ0mkop5kJKGFW7z9
-   OXwfJU0W06l7/kX8tZuQSDz+iy/vh+jBmzJsRIhQxIfzCGXeykIJAiTiH
-   IK6HoV4zcAoFW60XSqUkDJ6tXVcO3QWCvlN8nSYknn8qME6da1ClTnYKo
-   wKl5xYHm24N87W0phj1H/UVEVhbbKLYZS4wyusj5Gj8lIXGlk+jrDRFpm
-   sqp4eCD2wFpWZMCX8BvZBmnAVwXRqzo74XuKKkMcik/5L9pzFqhAtJhO+
-   z69s7pSVkQWEmYxdxKaix13J2cUf/6l4pgy0gJ9pDW5VwvLPxdeOZm/jP
-   A==;
-From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
-To: kai <kai.kang@windriver.com>, "meta-virtualization@lists.yoctoproject.org"
-	<meta-virtualization@lists.yoctoproject.org>
-Subject: Re: [meta-virtualization][m-c-s][PATCH] concurrent-ruby: add explicit branch
-Thread-Topic: [meta-virtualization][m-c-s][PATCH] concurrent-ruby: add
- explicit branch
-Thread-Index: AQHX1uP7gDaR48EWp0KRqxauJ2vGR6v+KhoQ
-Date: Thu, 11 Nov 2021 11:05:53 +0000
-Message-ID: <8552b0e951af4cd1b9a0a7d945ccef85@axis.com>
-References: <20211111100725.38963-1-kai.kang@windriver.com>
-In-Reply-To: <20211111100725.38963-1-kai.kang@windriver.com>
-Accept-Language: en-US, sv-SE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.0.5.60]
+ dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D2BD6ED1
+	for <meta-virtualization@lists.yoctoproject.org>; Thu, 11 Nov 2021 05:57:39 -0800 (PST)
+Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7C9CD3F70D
+	for <meta-virtualization@lists.yoctoproject.org>; Thu, 11 Nov 2021 05:57:39 -0800 (PST)
+From: "Ross Burton" <ross@burtonini.com>
+To: meta-virtualization@lists.yoctoproject.org
+Subject: [PATCH] python3-dtc: port to Python 3.10
+Date: Thu, 11 Nov 2021 13:57:19 +0000
+Message-Id: <20211111135719.2503140-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-> -----Original Message-----
-> From: meta-virtualization@lists.yoctoproject.org <meta-
-> virtualization@lists.yoctoproject.org> On Behalf Of kai
-> Sent: den 11 november 2021 11:07
-> To: meta-virtualization@lists.yoctoproject.org
-> Subject: [meta-virtualization][m-c-s][PATCH] concurrent-ruby: add explici=
-t
-> branch
->=20
-> From: Kai Kang <kai.kang@windriver.com>
->=20
-> Add explicit branch master for concurrent-ruby as the same for other
-> recipes.
->=20
-> Signed-off-by: Kai Kang <kai.kang@windriver.com>
-> ---
->  meta-openstack/recipes-devtools/ruby/concurrent-ruby_1.1.6.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/meta-openstack/recipes-devtools/ruby/concurrent-ruby_1.1.6.b=
-b
-> b/meta-openstack/recipes-devtools/ruby/concurrent-ruby_1.1.6.bb
-> index a328203e..61a2c598 100644
-> --- a/meta-openstack/recipes-devtools/ruby/concurrent-ruby_1.1.6.bb
-> +++ b/meta-openstack/recipes-devtools/ruby/concurrent-ruby_1.1.6.bb
-> @@ -4,7 +4,7 @@ HOMEPAGE =3D "http://www.concurrent-ruby.com"
->  LICENSE =3D "MIT"
->  LIC_FILES_CHKSUM =3D
-> "file://LICENSE.md;md5=3Dfde65ae93d18826f70c6fe125aa04297"
->=20
-> -SRC_URI =3D "git://github.com/ruby-concurrency/concurrent-ruby.git;proto=
-col=3Dhttps;tag=3Dv1.1.6\
-> +SRC_URI =3D "git://github.com/ruby-concurrency/concurrent-ruby.git;proto=
-col=3Dhttps;tag=3Dv1.1.6;branch=3Dmaster \
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+---
+ recipes-kernel/dtc/files/ssize.patch    | 35 +++++++++++++++++++++++++
+ recipes-kernel/dtc/python3-dtc_1.6.1.bb |  3 ++-
+ 2 files changed, 37 insertions(+), 1 deletion(-)
+ create mode 100644 recipes-kernel/dtc/files/ssize.patch
 
-While at it, why not remove the tag=3D and replace it with a proper=20
-SRCREV =3D "<sha1>"?
-
->  	   file://0001-Removed-check-for-concurrent_ruby.jar.patch"
->=20
->  S =3D "${WORKDIR}/git"
-> --
-> 2.17.1
-
-//Peter
+diff --git a/recipes-kernel/dtc/files/ssize.patch b/recipes-kernel/dtc/fi=
+les/ssize.patch
+new file mode 100644
+index 0000000..3156896
+--- /dev/null
++++ b/recipes-kernel/dtc/files/ssize.patch
+@@ -0,0 +1,35 @@
++Python 3.10 has made it mandatory that the 'string+length` formats use s=
+size_t
++instead of int, so define the magic symbol and upcast the ints from the =
+libfdt
++API to ssize_t.
++
++Upstream-Status: Pending
++Signed-off-by: Ross Burton <ross.burton@arm.com>
++
++diff --git a/pylibfdt/libfdt.i b/pylibfdt/libfdt.i
++index 51ee801..075ef70 100644
++--- a/pylibfdt/libfdt.i
+++++ b/pylibfdt/libfdt.i
++@@ -1044,9 +1044,9 @@ typedef uint32_t fdt32_t;
++ 		$result =3D Py_None;
++ 	else
++         %#if PY_VERSION_HEX >=3D 0x03000000
++-            $result =3D Py_BuildValue("y#", $1, *arg4);
+++            $result =3D Py_BuildValue("y#", $1, (Py_ssize_t)*arg4);
++         %#else
++-            $result =3D Py_BuildValue("s#", $1, *arg4);
+++            $result =3D Py_BuildValue("s#", $1, (Py_ssize_t)*arg4);
++         %#endif
++ }
++=20
++diff --git a/pylibfdt/setup.py b/pylibfdt/setup.py
++index ef40f15..88ff7d1 100755
++--- a/pylibfdt/setup.py
+++++ b/pylibfdt/setup.py
++@@ -42,6 +42,7 @@ def get_version():
++ libfdt_module =3D Extension(
++     '_libfdt',
++     sources=3D[os.path.join(srcdir, 'libfdt.i')],
+++    define_macros=3D[('PY_SSIZE_T_CLEAN', None)],
++     include_dirs=3D[os.path.join(srcdir, '../libfdt')],
++     libraries=3D['fdt'],
++     library_dirs=3D[os.path.join(top_builddir, 'libfdt')],
+diff --git a/recipes-kernel/dtc/python3-dtc_1.6.1.bb b/recipes-kernel/dtc=
+/python3-dtc_1.6.1.bb
+index 293c8d3..d7d45a4 100644
+--- a/recipes-kernel/dtc/python3-dtc_1.6.1.bb
++++ b/recipes-kernel/dtc/python3-dtc_1.6.1.bb
+@@ -6,7 +6,8 @@ LICENSE =3D "GPLv2 | BSD-2-Clause"
+=20
+ DEPENDS =3D "flex-native bison-native swig-native libyaml dtc"
+=20
+-SRC_URI =3D "git://git.kernel.org/pub/scm/utils/dtc/dtc.git;branch=3Dmas=
+ter"
++SRC_URI =3D "git://git.kernel.org/pub/scm/utils/dtc/dtc.git;branch=3Dmas=
+ter \
++           file://ssize.patch"
+=20
+ UPSTREAM_CHECK_GITTAGREGEX =3D "v(?P<pver>\d+(\.\d+)+)"
+=20
+--=20
+2.25.1
 
