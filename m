@@ -1,129 +1,147 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
- by mx.groups.io with SMTP id smtpd.web12.17257.1636731417168985752
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (NAM11-BN8-obe.outbound.protection.outlook.com [40.92.20.59])
+ by mx.groups.io with SMTP id smtpd.web12.19474.1636961388374060723
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 12 Nov 2021 07:36:57 -0800
+ Sun, 14 Nov 2021 23:29:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Y+QTtlB3;
- spf=pass (domain: gmail.com, ip: 209.85.208.54, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ed1-f54.google.com with SMTP id r12so39258421edt.6
-        for <meta-virtualization@lists.yoctoproject.org>; Fri, 12 Nov 2021 07:36:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=JiaUZ/ebLDJCeZRHaD2pmIcLGzrOIdIaNUzTc9pMf6c=;
-        b=Y+QTtlB3VYSeCXVLm7siY7R56YizzzGkxi9PKRjbSmJEi2TEGurSjAdEKJuGJNSVad
-         68XX+63bhNJrlllcdc2kY2FhEAxWMFPbmHUXnDP7bqTiTOLUTh54FZfDNnX+5xnd3hWG
-         37TxANJRTCJCT+eBdx32KW2V4JNc7FYZIdHcwd8MQYcz4MFpg4X7HwZGYalvFnan5rxp
-         yGek7qOdZuQVXZBesGZOf1ZPcVg7tQc+V7WAeSVwfHYRquI1qlnDkZ6yOAem3jig1LNg
-         7bQvtIzfrlHShVXM3t2OIE8WjMVDXYcErpcRJ74/TtLnNm6wPn1nfWLYhJC+LjbWDsqQ
-         ZI0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=JiaUZ/ebLDJCeZRHaD2pmIcLGzrOIdIaNUzTc9pMf6c=;
-        b=m2kMJCXHQqkXrUHE0Z3/ROBCM9wZXMuBUsuaX0X3g7LkVDiUBctrQXBpxLEDudU6E3
-         Kfe8NJPs/E/ROlCW6AHMKHimUlINbcfqWpd/EGAq3jmgKV9849gwNwweaHIGYBWRPhaz
-         l2Z2n3sxDmhbs8vrzkCAux5xxOwO0Ar+G5vqgErPywSUV2u0AQcdo0APG8DC7Bb64k9V
-         Oibc7PIfv2aKmG2dvE52eKUq0Ch4tuYoAGWjqI9TWwiSnO8qNEw0owKgmSqq7c4EVWhS
-         FXdmsUr0eBVsWw6e6dZu3fcOIKLnkwEWoQ430mdz20AOlxcBJK+nhd9PpZbh0hQsJkSw
-         qS+g==
-X-Gm-Message-State: AOAM531+bvn0hXMfKxaO7N75Hm9lMubnVTwkWypMDgG++vqfBiF9q8PV
-	Qda8ynd+XVsgTN8I2qfd7vZWB4gq0cEAVu8nhyo=
-X-Google-Smtp-Source: ABdhPJxCb/K2Ty1ML9qNGJ4RjxG7Lx/FEQwVj58FtI+Q+o5vHoIxlgPl3zu+P/kPprkOm7Na2o6qkqvNoAhJTBjCeqA=
-X-Received: by 2002:a50:c31c:: with SMTP id a28mr6740472edb.4.1636731415483;
- Fri, 12 Nov 2021 07:36:55 -0800 (PST)
+ dkim=pass header.i=@outlook.com header.s=selector1 header.b=TUNvgIbm;
+ spf=pass (domain: outlook.com, ip: 40.92.20.59, mailfrom: pbg.dev@outlook.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=oBHPfFVLkczC4/4ZWcE7Ly4z+au+FvayJcDATJpTmWYTWFiRXE1R/zGuRHzClM9G3yCTP41gI8yJh4Cgfz5q7PY69RoMD15R48SNMnwVaS3FfbjPv9D7N2P/O6+4uH5VEgdhjEaVRxZEmzMPO01N8ZycFWlenztXQqKxM6Zf8IbKgZZ4gTINxN/TdEaHDW0OwPbXVNy4Anb2dYE/zgoXhWDhJ+wSTnmz5U3z6ffw8a9zg8U00evS0ca8GG7v/pUH4rCeYsNmKE0EC04hOb1X61nELmLqnrX08zQoUNk9Eopu7wux9cC5mAGaQUAIRF3WYDnIV19KfRSes+mz/ch9Cg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=DLIVkvxJwiy+XXALV7TJHVXEMvcXMS6prGxdLP7TCMg=;
+ b=F4yhK+IbckygThfztXB/KbQA6TUAYDbwSQgBXOE0aMYWWNP9tLBppOyWHyp5KkcUcbOuJHjEgmkbj1vODAsNcwpiGFuGOFJ6cF6BySxhm3iCnVMls+t3B5c5mQfNfGTVkENCpeZ93DOivaszLEvG44E/ZQ83FTMcvIQPeNobngIfburIaNGVsIalxJe4Zw1KMcfvEWjXghUj/x577cRSolOt0K3bGCkw6QaYC/+T+3X9SWurNxqYzHmHRS4PhBfGG0pFox15lpes3Al4TDZiGVxIN+rzCvqAJbiOeXv3P8coDE8fxfo2EQPL6sMYIMXCr18pxpVhmSfng7DQUOXJ1Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DLIVkvxJwiy+XXALV7TJHVXEMvcXMS6prGxdLP7TCMg=;
+ b=TUNvgIbmiFpGt4tTR3BOvongjtOQMl6ekETYP6BLWd28hKLYAqD/TpOsbEw7tusR3KK2oZhSKmPQ2pMbnFaQULlTaWqOWHmp43/S5I0HQNmdMbKS5/p60UsTzjXDxfVTMISm4/0wSfaT2sDtyVPZeGdIprDxxZzRbOfI9ADSu4H5PyCJxPtQbUf2e5UqkSzeZjKwawJWusGDHuZHhALWPcNaWUGTEZgjUMZjKiRRQoOPe34Q0XxSZuss4pm2xIuwcTzVhpl6PYurd2kuqasG0sK7OKg+rhOJ6X71u4/WiJWXzxzNyslN3G2F7H1C7c+oZRVUi5wpDf1ym8OM6rjC7Q==
+Received: from CO1PR08MB7016.namprd08.prod.outlook.com (2603:10b6:303:d4::6)
+ by MWHPR08MB2445.namprd08.prod.outlook.com (2603:10b6:300:10::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4690.16; Mon, 15 Nov
+ 2021 07:29:46 +0000
+Received: from CO1PR08MB7016.namprd08.prod.outlook.com
+ ([fe80::9923:a468:77a1:bf4a]) by CO1PR08MB7016.namprd08.prod.outlook.com
+ ([fe80::9923:a468:77a1:bf4a%3]) with mapi id 15.20.4690.027; Mon, 15 Nov 2021
+ 07:29:46 +0000
+From: "Patrick Godwin" <pbg.dev@outlook.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+CC: "meta-virtualization@lists.yoctoproject.org"
+	<meta-virtualization@lists.yoctoproject.org>
+Subject: Re: [meta-virtualization] Building xen-image-minimal for RPi4 Compute Module
+Thread-Topic: [meta-virtualization] Building xen-image-minimal for RPi4
+ Compute Module
+Thread-Index: AdfSwKnaipM8xbQYTSaDeK/f+MNiSAESyVCAALmRLOA=
+Date: Mon, 15 Nov 2021 07:29:46 +0000
+Message-ID: 
+ <CO1PR08MB7016A32C84123C11F5991AB9F0989@CO1PR08MB7016.namprd08.prod.outlook.com>
+References: 
+ <CO1PR08MB7016339CB7AA08CE6D133344F08F9@CO1PR08MB7016.namprd08.prod.outlook.com>
+ <CADkTA4NLB7k+oF0K1YeXuGchi8UJHsHQtEdmKvvZcN1jNxoQnA@mail.gmail.com>
+In-Reply-To: 
+ <CADkTA4NLB7k+oF0K1YeXuGchi8UJHsHQtEdmKvvZcN1jNxoQnA@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-tmn: [fnNxtu+LPkgXdlZ4X0KlTpl8mowGRLi4UmccBGHa0W0XTvTR9ClvCIxsY9Am3+0/]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: f7c89e31-77ec-4863-ff57-08d9a809b36a
+x-ms-traffictypediagnostic: MWHPR08MB2445:
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ BMU7n0RWtdkbV9SfSU3JH1ovVVtyVOe9qSY6aTEAv105X8as2qFg02MdFxlNyCvFJ3pEtfVMsCd3VtjM8SAz3SBvxt7DUYB6N7EF9Sh76Ka7BtfoFFSjmX/kGK33veT2WFekmx3sWgx2NTsvt6T5YKH6A3IukTlmNsy+S1tmhaLX7xbaU2aoQy8wh1z5jkjx+mFcBZunKy5Rh5G6mNkWxTFnVHqR2bZEEBs579LS/ZxffI2WXpwj2w4bUQCLKQVNj4/ZvhFBu+7Yl0McSNdvNQ9CX6Xe+iWsoo05HtWRTQPv/R9ZMYfcbFOOZC8luray2dsKCi9GV6hw5IFMEhukzZlqBpA+GzZZsCgfc65jcucY4sWiF51o4JmitXALtAe5gx2qZgq1yc5oRaIg4md+36cDN8OeGz9cw1D0Y0ZVhWIwdbKKK9VDl/P0/R1gXq1j6hZ0dpT3xaWmFhom+E92q6tgrKI5402+TY76/LpCASCGKAmC2Wh+x+i8RMbsUHMzwy8Mgn67MQ06Hs2aYCInsty3YfPRbcJlK3O7z0PnPvczh9i7at89BICKxHFieGX+UnX68MOsTX2rmU9r8cnoMg==
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ +pgaW/pv4BLfewKxhNA0QvpGxruyi6TmbS5SaJUa/bAY+iOkG4AF3Amo7Gkp+uHj6gxsLppx0MhnfVtTclVgx+nmMJoOqc2bdm/dKY8pDIsoKU9MSWjMDAVX93nP93i0bIBNCJOSvU+qIUdF1kMclkQgVGXnRKupbRo/FIZLZz1A6brqlpfvaE5C24MFaBZ9+xZcU3lNghBauu/E8JGveq+azb5dtgyY+v0ufhvR6kuDPbG5Xoxth/XX5GkJC5e03pOkKQo0OuS1yU6iwui0oTrpgYYCW/IP7KvCvVXLqrE/zy8+hP04qXMB89bNhfVnf+ntyT0l2jq9rFvHScXiKpMZQFroJV3MkZU6fjfvDh42DFSHiTYlFSD5utPLJlYWoXCLS5w0xq65JNmpgBqfrVXMqPaWu494ODzSlHB46setcNNeuaAg/y4UmoPSL7Iec6TK6W8SrPIVCHVQgs80mf7BioYzknd3lL4eTEZ/FZicmcsq1DjNCnWevge/IOdhGURDgA3PIAjYeT11X9tLpVeFsAOMoSjykdPyXCdtLM0w301StFrxUW5p6Jr98JminVa9WZtpzc75lGJM8RwgceXOmstd/SdHC6Qc031r27W7PtAKi38vQqKLogZegOr+vWtHyzERjc+hDLLGnWj1naYsoDQdp/Zw6snZ8ejOp/FGrLXIk5zeCmQ6wzQ/4apHfxOAtfkMqWmxsNbnZBgKiapZu9oQzruWsjVoxfRmN+0HWH2+CSZBn3tdgzx8oCG51OtluEpNFkzWsSzfYBhFvw==
 MIME-Version: 1.0
-References: <20211112032335.5922-1-kai.kang@windriver.com> <CADkTA4O6W8QHsSrsWuc-_CM8yBo=QgcVBBynOj-92UbWwftNAA@mail.gmail.com>
- <bbb475b9-d49d-576f-5a70-8dfc462582c6@windriver.com>
-In-Reply-To: <bbb475b9-d49d-576f-5a70-8dfc462582c6@windriver.com>
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Fri, 12 Nov 2021 10:36:44 -0500
-Message-ID: <CADkTA4NCXky4K_hm6Bx4rg2Ue+83jxknxKuAsqVwVWyk3j_S2A@mail.gmail.com>
-Subject: Re: [meta-virtualization] [PATCH] libvirt: do not install /var/log for target
-To: Kai <kai.kang@windriver.com>
-Cc: meta-virtualization@lists.yoctoproject.org
-Content-Type: text/plain; charset="UTF-8"
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CO1PR08MB7016.namprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: f7c89e31-77ec-4863-ff57-08d9a809b36a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Nov 2021 07:29:46.6438
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR08MB2445
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Thu, Nov 11, 2021 at 11:49 PM Kai <kai.kang@windriver.com> wrote:
->
-> On 11/12/21 12:03 PM, Bruce Ashfield wrote:
-> > On Thu, Nov 11, 2021 at 10:23 PM kai <kai.kang@windriver.com> wrote:
-> >> From: Kai Kang <kai.kang@windriver.com>
-> >>
-> >> /var/log is normally a link to /var/volatile/log and /var/volatile is a tmpfs
-> >> mount. So anything created in /var/log will not be available when the tmpfs is
-> >> mounted.
-> >>
-> >> Not install /var/log to avoid 'empty-dirs' qa issue:
-> >>
-> >> | ERROR: libvirt-7.2.0-r0 do_package_qa: QA Issue: libvirt installs files in
-> >>    /var/volatile, but it is expected to be empty [empty-dirs]
-> >>
-> >> Signed-off-by: Kai Kang <kai.kang@windriver.com>
-> >> ---
-> >>   recipes-extended/libvirt/libvirt_7.2.0.bb | 4 ++++
-> >>   1 file changed, 4 insertions(+)
-> >>
-> >> diff --git a/recipes-extended/libvirt/libvirt_7.2.0.bb b/recipes-extended/libvirt/libvirt_7.2.0.bb
-> >> index b7f8383a..b49bd11a 100644
-> >> --- a/recipes-extended/libvirt/libvirt_7.2.0.bb
-> >> +++ b/recipes-extended/libvirt/libvirt_7.2.0.bb
-> >> @@ -232,6 +232,10 @@ do_install:append() {
-> >>          echo "d root root 0755 /run/libvirt/qemu none" \
-> >>               >> ${D}${sysconfdir}/default/volatiles/99_libvirt
-> >>
-> >> +       # /var/log is normally a link to /var/volatile/log
-> >> +       # and /var/volatile is a tmpfs mount which should be clean.
-> >> +       rm -rf ${D}${localstatedir}/log
-> > We should be preventing the install from happening at all, not
-> > deleting it after the fact.
-> >
-> > If libvirt thinks something needs to be in the directory, then we
-> > should be looking into why it does exactly that.
->
-> OK.I'll figure out.
-
-I poked around at this myself, and then asked Ross to help me out .. I
-assumed it was meson doing this, and he pointed out the right
-meson.build files to me.
-
-I'm trying to figure out how to balance some non volatile use cases,
-with this new QA check. If we universally delete those files, then
-those cases are broken.
-
-I'm leaning towards leaving the directories in place, and just
-inhibiting the QA check.
-
-Bruce
-
->
-> Regards,
-> Kai
->
-> >
-> > Bruce
-> >
-> >> +
-> >>          # Manually set permissions and ownership to match polkit recipe
-> >>          if ${@bb.utils.contains('PACKAGECONFIG', 'polkit', 'true', 'false', d)}; then
-> >>                  install -d -m 0700 ${D}/${datadir}/polkit-1/rules.d
-> >> --
-> >> 2.33.0
-> >>
-> >>
-> >> 
-> >>
-> >
->
-> --
-> Kai Kang
-> Wind River Linux
->
-
-
--- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+Tm8gd29ycmllcywgbm93IGl0J3MgbXkgdHVybiB0byBhcG9sb2dpemUgOikgR290IHB1bGxlZCBh
+d2F5IGZyb20gdGhpcyBvdmVyIHRoZSBsYXN0IHdlZWsgYW5kIGhhdmVuJ3QgaGFkIGEgY2hhbmNl
+IHRvIGZ1bGx5IGRpdmUgYmFjayBvbiBpbiwgYnV0IEkgcmVhbGx5IGFwcHJlY2lhdGUgeW91IHRh
+a2luZyB0aGUgdGltZSB0byByZXBseSBoZXJlISBOb3cgdGhhdCBJJ3ZlIGhhZCBtb3JlIHRpbWUg
+d2l0aCBZb2N0byBhbmQgdGhlIG1ldGEtdmlydCBsYXllciBJIHRoaW5rIEknbSBjbG9zaW5nIHRo
+ZSBrbm93bGVkZ2UgZ2FwcyB0aGF0IGFyZSBibG9ja2luZyBtZSwgSSBqdXN0IGhhdmUgYSBmZXcg
+bW9yZSBlZGdlcyB0byBzb3J0IG91dC4gSSB0aGluayB0aGF0IHlvdSdyZSByaWdodCB0aGF0IGEg
+cGF0Y2ggc2hvdWxkbid0IGJlIG5lZWRlZCwgSSB0aGluayBpdCdzIGp1c3QgYmVlbiBhIGxvdCBv
+ZiB1c2VyIGVycm9yIG9uIG15IHBhcnQuDQoNCkknbGwgYmUgc3VyZSB0byB1cGRhdGUgdGhpcyB0
+aHJlYWQgb25jZSBJIGhhdmUgdGhlIGRldmljZSB1cCBhbmQgcnVubmluZzsgSSB0aGluayBJJ20g
+Y2xvc2UuIFRoYW5rcyBhZ2FpbiENCg0KLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCkZyb206
+IEJydWNlIEFzaGZpZWxkIDxicnVjZS5hc2hmaWVsZEBnbWFpbC5jb20+IA0KU2VudDogVGh1cnNk
+YXksIE5vdmVtYmVyIDExLCAyMDIxIDY6NTMgQU0NClRvOiBQYXRyaWNrIEdvZHdpbiA8cGJnLmRl
+dkBvdXRsb29rLmNvbT4NCkNjOiBtZXRhLXZpcnR1YWxpemF0aW9uQGxpc3RzLnlvY3RvcHJvamVj
+dC5vcmcNClN1YmplY3Q6IFJlOiBbbWV0YS12aXJ0dWFsaXphdGlvbl0gQnVpbGRpbmcgeGVuLWlt
+YWdlLW1pbmltYWwgZm9yIFJQaTQgQ29tcHV0ZSBNb2R1bGUNCg0KU29ycnkgZm9yIHRoZSBzbG93
+IHJlcGx5LA0KDQpPbiBGcmksIE5vdiA1LCAyMDIxIGF0IDExOjQ1IFBNIFBhdHJpY2sgR29kd2lu
+IDxwYmcuZGV2QG91dGxvb2suY29tPiB3cm90ZToNCj4NCj4gSSdtIGluIHRoZSBwcm9jZXNzIG9m
+IGJ1aWxkaW5nIHhlbi1pbWFnZS1taW5pbWFsIGZvciBteSBSYXNwYmVycnkgUGkgNCBDb21wdXRl
+IE1vZHVsZSBhbmQgYW0gaGl0dGluZyBzb21lIGlzc3VlcyB3aGVuIHJ1bm5pbmcgdGhlIGltYWdl
+IG9uIHBoeXNpY2FsIGhhcmR3YXJlLiBVcG9uIGluc3BlY3RpbmcgdGhlIGJvb3QgcGFydGl0aW9u
+IG9mIHRoZSBzZC1jYXJkLCBJIG5vdGljZWQgdGhhdCB0aGUgaW1hZ2Ugb25seSBjb250YWluZWQg
+dGhlIGR0YiBmb3IgdGhlIFJhc3BiZXJyeSBQaSA0QjsgdGhpcyBtYWtlcyBzZW5zZSB3aGVuIEkg
+bG9vayBhdCB4ZW4tcmFzcGJlcnJ5cGk0LTY0LmluYzoNCj4NCg0KTm90IHN1cmUgaWYgeW91J3Zl
+IHNvcnRlZCB0aGlzIG91dCB5ZXQuDQoNCldlIGRvIGhhdmUgcmVmZXJlbmNlIGltYWdlcyB0aGF0
+IGJvb3RlZCBvbiB0aGUgUlBJLCBidXQgSSBjYW4ndCBzYXkgdGhhdCBJJ3ZlIGJlZW4gdGVzdGlu
+ZyB0aGVtIG15c2VsZi4gSSdtIGhvcGluZyB0aGF0IG15IHJlcGx5IHdpbGwgY2F0Y2ggdGhlIGF0
+dGVudGlvbiBvZiB0aG9zZSB0aGF0IGRvIGhhdmUgdGhlIGgvdyBhbmQgdGhleSBjYW4gY29tbWVu
+dCBpbiBtb3JlIGRldGFpbC4NCg0KPiAgICAgIyBPdmVycmlkZSB0aGUgbWV0YS1yYXNwYmVycnlw
+aSBkZWZhdWx0IGtlcm5lbCBwcmVmZXJlbmNlDQo+ICAgICBQUkVGRVJSRURfUFJPVklERVJfdmly
+dHVhbC9rZXJuZWwgPz0gImxpbnV4LXlvY3RvIg0KPiAgICAgS0VSTkVMX0RFVklDRVRSRUUgPz0g
+ImJyb2FkY29tL2JjbTI3MTEtcnBpLTQtYi5kdGIiDQo+DQo+IENvbXBhcmVkIHdpdGggdGhlIGRl
+dmljZSB0cmVlIGJsb2JzIGRlY2xhcmVkIGluIG1ldGEtcmFzcGJlcnJ5cGkncyByYXNwYmVycnlw
+aTQtNjQuY29uZjoNCj4NCj4gICAgIFJQSV9LRVJORUxfREVWSUNFVFJFRSA9ICIgXA0KPiAgICAg
+ICAgIGJyb2FkY29tL2JjbTI3MTEtcnBpLTQtYi5kdGIgXA0KPiAgICAgICAgIGJyb2FkY29tL2Jj
+bTI3MTEtcnBpLTQwMC5kdGIgXA0KPiAgICAgICAgIGJyb2FkY29tL2JjbTI3MTEtcnBpLWNtNC5k
+dGIgXA0KPiAgICAgIg0KPg0KPiBMb29raW5nIGludG8gaXQgZnVydGhlciwgaXQgc2VlbXMgdGhh
+dCB0aGUgZGV2aWNlIHRyZWUgbGlzdGluZyBpbiB0aGUga2VybmVsIHVzZWQgaW4gdGhlIHhlbi1p
+bWFnZS1taW5pbWFsIGJ1aWxkIGRvZXNuJ3QgY29udGFpbiB0aGUgbmV3ZXIgZmlybXdhcmUgYmxv
+YnMgY29udGFpbmVkIGluIG1ldGEtcmFzcGJlcnJ5cGksIHdoaWNoIGNhdXNlcyBkZXZpY2VzIGxp
+a2UgZXRoZXJuZXQgdG8gZmFpbCB0byBzdGFydCB1cCB3aGVuIHRoZSBpbWFnZSBmaW5hbGx5IGJv
+b3RzLg0KPg0KDQpUaGVyZSdzIGEgZGlmZmVyZW50IGxldmVsIG9mIHN1cHBvcnQgb24gdGhlIGgv
+dyBiZXR3ZWVuIGxpbnV4LXlvY3RvIGFuZCB0aGUgJ3ZlbmRvcicgcnBpIHRyZWUuIFdlIHVzZSBs
+aW51eC15b2N0byBmb3IgdGhlIGNvcmUgZW5hYmxlbWVudCBiZWNhdXNlIHRoZSBicmFuY2hlcyBh
+cmUgc3RhYmxlL25vdCByZWJhc2VkIGFuZCBoYXZlIGEgY2FkZW5jZSB3ZSBjYW4gcHJlZGljdCAo
+YWxsIG1lbnRpb25lZCB0aGluZ3MgYXJlIGJyZWFrYWdlcyB3ZSd2ZSBoaXQgYmVmb3JlISkuDQoN
+ClRoYXQgYmVpbmcgc2FpZCwgeW91IGNhbiBjaGFuZ2UgdGhlIGtlcm5lbCBwcm92aWRlciB0byB0
+aGUgbGludXgtcnBpLCBhbmQgdGhlIHJlc3Qgb2YgdGhlIG1ldGEtdmlydCBzZXR0aW5ncywgZXRj
+LCBhcmUgc3RpbGwgYXBwbGljYWJsZSBhbmQgc2hvdWxkIHdvcmsuDQoNCj4gSSd2ZSB0cmllZCBh
+ZGRpbmcgdGhlIGJjbTI3MTEtcnBpLWNtNCBmaXJtd2FyZSBibG9iIHRvIHRoZSBTRCBjYXJkIG1h
+bnVhbGx5LCBidXQgdGhhdCBjYXVzZXMgdS1ib290IHRvIGZhaWwgd2l0aCB0aGUgZXJyb3IgIkJh
+ZCBMaW51eCBBUk02NCBJbWFnZSBNYWdpYyEiIGFmdGVyIHRoZSBCb290IFhlbiBzdGVwIGluIG91
+dHB1dC4gSSBhbHNvIHRyaWVkIG1hbnVhbGx5IHJlcGxhY2luZyB0aGUgYm9vdGZpbGVzIHdyaXR0
+ZW4gYnkgdGhlIHhlbiBzZCBjYXJkIGltYWdlIHdpdGggdGhlIGxhdGVzdCBibG9icyBmcm9tIG1l
+dGEtcmFzcGJlcnJ5cGkncyBwYWNrYWdlcywgYnV0IG9uY2UgdGhlIE9TIGJvb3RzIEkgZmluZCB0
+aGF0IHhlbiBpcyBubyBsb25nZXIgcnVubmluZywgbWFraW5nIG1lIHN1c3BlY3QgSSBzY3Jld2Vk
+IHVwIHRoZSBjb25maWd1cmF0aW9uIHNvbWV3aGVyZS4NCj4NCg0KSXQgY291bGQgYmUgYSBrZXJu
+ZWwgY29uZmlndXJhdGlvbiBpc3N1ZSBiZXR3ZWVuIHRoZSB0d28gaW1hZ2VzLCBpZiB0aGUgWGVu
+IHBhY2thZ2VzIGFyZSBvbiB0aGUgaW1hZ2UsIGJ1dCBub3RoaW5nIGlzIHJ1bm5pbmcuIENhbiB5
+b3UgaW50ZXJhY3Qgd2l0aCB0aGUgWGVuIHN1cHBvcnQgdmlhIHRoZSB4ZW4gY2xpIGF0IGFsbCA/
+IEp1c3QgdG8gZ2V0IGEgYmV0dGVyIGVycm9yIG1lc3NhZ2UgPw0KDQo+IElzIHRoaXMgc29tZXRo
+aW5nIEkgY2FuIHRyaXZpYWxseSBmaXg/IElzIHRoZXJlIGEgd2F5IGZvciBtZSB0byBvdmVycmlk
+ZSB0aGUgZGV2aWNlIHRyZWUgc2VsZWN0aW9uIHVzZWQgYnkgdGhlIG1pbmltYWwgeGVuIGltYWdl
+IGluIG15IGxvY2FsLmNvbmY/IE9yIGRvIEkgbmVlZCB0byBpbnZlc3RpZ2F0ZSBwYXRjaGluZyBv
+bmUgb2YgdGhlIG1ldGEtdmlydHVhbGl6YXRpb24gcmVjaXBlcz8NCg0KQW55dGhpbmcgdGhhdCBu
+ZWVkcyBjaGFuZ2luZywgc2hvdWxkIGJlIG92ZXJyaWRhYmxlIHZpYSB2YXJpYWJsZSBvciB0aHJv
+dWdoIGJiYXBwZW5kcywgc28gaG9wZWZ1bGx5IG5vIHBhdGNoaW5nIGlzIHJlcXVpcmVkLg0KDQpC
+cnVjZQ0KDQo+DQo+IChBcG9sb2dpZXMgaWYgSSd2ZSB1c2VkIGFueSBvZiB0aGUgd3JvbmcgbGlu
+Z28vdGVybXMgaGVyZTsgc3RpbGwgbmV3IA0KPiB0byBSYXNQaS9Zb2N0by9YZW4gOkQpDQo+DQo+
+DQo+IA0KPg0KDQoNCi0tDQotIFRob3Ugc2hhbHQgbm90IGZvbGxvdyB0aGUgTlVMTCBwb2ludGVy
+LCBmb3IgY2hhb3MgYW5kIG1hZG5lc3MgYXdhaXQgdGhlZSBhdCBpdHMgZW5kDQotICJVc2UgdGhl
+IGZvcmNlIEhhcnJ5IiAtIEdhbmRhbGYsIFN0YXIgVHJlayBJSQ0K
