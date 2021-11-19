@@ -1,98 +1,84 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
- by mx.groups.io with SMTP id smtpd.web12.8893.1637328534953179281
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+ by mx.groups.io with SMTP id smtpd.web12.8897.1637328548308606536
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 19 Nov 2021 05:28:55 -0800
+ Fri, 19 Nov 2021 05:29:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=cakDUVz9;
- spf=pass (domain: gmail.com, ip: 209.85.208.50, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ed1-f50.google.com with SMTP id x15so42801768edv.1
-        for <meta-virtualization@lists.yoctoproject.org>; Fri, 19 Nov 2021 05:28:54 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Hey4QkLV;
+ spf=pass (domain: gmail.com, ip: 209.85.208.48, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ed1-f48.google.com with SMTP id x15so42804413edv.1
+        for <meta-virtualization@lists.yoctoproject.org>; Fri, 19 Nov 2021 05:29:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=BRHw/ozKYVSCagxtp0oapW6KPEOLnQyvC/eX1spcnrg=;
-        b=cakDUVz9zSSu62JXpMjq+WPAKTwgI711XG4PhMigH7IQ1uMFhx0gl3lth7u31/FmbI
-         MdcQou6sjcZlc8pI/JkxJhITEJor52pdiGJQd1R7MHH9Xdx0YpvLPR6r+Vz5cfYbtBRo
-         hoEHkjJolhl5jfCjHzITrSXzVbY4hQD9w/1dTGNXAYkm69nOlVnt0T0TB0KgCE9vshMU
-         xM0IzZcDGRXuxQ0tcRJSz6H3TQ4FIS4wsNNKwPBJ1NzOqBH35Bfgjlnd/CcvpphN9vOP
-         7N87Zs9dXAqsvLtAdEuzGSGa7QTAJbMd3Bf6DCAtuPaYMNGv7Vsw739YW8wDCHQP2+vD
-         1akg==
+        bh=mvvj6BRp/Up+CTfypG7LIGIfbK9jj7tO3VThOTbW9fA=;
+        b=Hey4QkLVrBgcfO+P9Q9OcEIprJRh0t6bnyrro8aWrLnq0Lw7QPQmi2Y8x2+Tl9Adt/
+         8NFrEmAh/fHoLPJ6BTtnCXY3ZwhZ0h4F/zysnhvF8eKArpOfjCYJtL9AWRkpI8qulIlw
+         gXT3FH1niJf2GtarpIqtzHSO8NmFGpZOUtU97Jogujj8LkvAgBNBQgDMrwLV+Xau3SgO
+         n1DTClwm+HrWp72P/MBRTDtdIapnvPkRmHpAOZJMROsZtBabs1skTHGacJTjLi+TLQ6k
+         4JkHf7gie6ppcN6FROuL3F4jttwEp0xggUsGedemqQKuqplsU4YYVuLCRTxHuhfC4Ssn
+         kv5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=BRHw/ozKYVSCagxtp0oapW6KPEOLnQyvC/eX1spcnrg=;
-        b=y0fXlddINH+HGpbgjoybXAu9t8zlSjFCqv/T70jjwJQlqDdMZu/Gop/PY4rKXDUqVU
-         MH/QMS4OKNExj0OO8GssN/KQFl6h/a4ifX/pIPdROBOdFEcTqaXLAGR51szRgh7hRwXt
-         cTCMnyrJLwImzG+5l/beHe4dfZxJJsB6z9CuTiKrEbTCNhmYRhpXWj11jQLRX1lN8vgW
-         Vqf8ZzOMiILRZ22UOhxRcBzkSxJnVz5t7n2k79Ae5s5JOUpc2L0EImw5yqyy9+sGQcZ1
-         /4du6JaATopCQBLVjhEPFKpZFHinZ+c8kPJb8jbN7uEXlxQ5sCvb2PJCgLGQXA6fh3T8
-         aVpw==
-X-Gm-Message-State: AOAM530vSz+0j4POiPH7rme89n9d1JtXns0U81AWPEWNcodLqWKinL9t
-	A4Comr+1ixYI9xP+VaEFmnpqA8lzxMv8Q26wRys=
-X-Google-Smtp-Source: ABdhPJxssa0SqLrsqyKqLH4uK9mfkpnAhE0VOl2ayZ0HAmXexZvOZoPWp8WsiSyJdFkHz0Ml7Vnh2ph9YLpuEJAEf4g=
-X-Received: by 2002:a17:907:1c0a:: with SMTP id nc10mr7892208ejc.211.1637328532868;
- Fri, 19 Nov 2021 05:28:52 -0800 (PST)
+        bh=mvvj6BRp/Up+CTfypG7LIGIfbK9jj7tO3VThOTbW9fA=;
+        b=wmKv6xJCjtJM04Es6gU4JlHgqrdkv+6ycHwgyT4hBAq061GvZaxgaSAOLalc3we5KY
+         18NALNghZ/lDQo/+64uhCbJVgTskTH/eJoDk6nf0DaEijU8hN9CD/ZxUmcaeOwKI7gmX
+         53hYoIXLqEzyhmDDE4w5gXWXI5vw8vB3sLYlPTNsuhkF7vHVFSWYD/FbYMKgEGoULeR/
+         +fCZWQW9GrFWTInefwEWotxSj6pii90v2N4Duuclo/aLp0U+yqTIqxNw70lJZbZBJdCF
+         LxiIqSo5wXZxAmc5rF/RhtLUOa2/mAFtNjLlRGjlJ8i4bw7STOrgAGyk4ZgQLZl5e2xh
+         gAkw==
+X-Gm-Message-State: AOAM532liy39sz+iSlLj374Ie0p6dvGLMpQUhZMUAiQpnnUw3pVDUknX
+	YU1jnS399sw3OuF+BPGpH61l1ouGpGY/CIwQ43k=
+X-Google-Smtp-Source: ABdhPJxthvqMTs1HAottxSQ0UFuqyGzgEYIPGq4GSYfOzufwKQlRtpfmzr6yY+glb8VHgzeNQmwlrSSQIwtKQ8FrWFY=
+X-Received: by 2002:a17:906:4fc4:: with SMTP id i4mr8323882ejw.81.1637328546641;
+ Fri, 19 Nov 2021 05:29:06 -0800 (PST)
 MIME-Version: 1.0
-References: <16B661A3874E3006.9335@lists.yoctoproject.org> <6e0222bd-7bf5-dbb3-d469-3f2356dcfaa2@windriver.com>
-In-Reply-To: <6e0222bd-7bf5-dbb3-d469-3f2356dcfaa2@windriver.com>
+References: <20211119072841.20701-1-kai.kang@windriver.com>
+In-Reply-To: <20211119072841.20701-1-kai.kang@windriver.com>
 From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Fri, 19 Nov 2021 08:28:42 -0500
-Message-ID: <CADkTA4POvRijPX88eOfyp_iyiTcirwJgRLros4uF43ytNG-G8A@mail.gmail.com>
-Subject: Re: [meta-virtualization][m-c-s][PATCH] open-iscsi-user: remove typo spaces in SRC_URI
+Date: Fri, 19 Nov 2021 08:28:55 -0500
+Message-ID: <CADkTA4NAUG-nOW9s9yiLSiYstJsD+0yFSR7B+C+adSh-ML=8OA@mail.gmail.com>
+Subject: Re: [meta-virtualization][m-c-s][PATCH] openstack-image-aio: fix warning of operator remove combined with +=
 To: kai <kai.kang@windriver.com>
 Cc: meta-virtualization@lists.yoctoproject.org
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Nov 19, 2021 at 2:10 AM kai <kai.kang@windriver.com> wrote:
->
-> On 11/11/21 11:53 AM, kai wrote:
->
-> From: Kai Kang <kai.kang@windriver.com>
->
-> There are typo spaces in SRC_URI which are introduced when add
-> ';branch=master'. Remove them.
->
-> Signed-off-by: Kai Kang <kai.kang@windriver.com>
-> ---
->  .../recipes-connectivity/open-iscsi/open-iscsi-user_2.1.4.bb    | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-user_2.1.4.bb b/meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-user_2.1.4.bb
-> index d4c489cf..fe802b72 100644
-> --- a/meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-user_2.1.4.bb
-> +++ b/meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-user_2.1.4.bb
-> @@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
->  DEPENDS = "kmod openssl util-linux open-isns"
->  DEPENDS:append = " ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)}"
->
-> -SRC_URI = "git://github.com/open-iscsi/open-iscsi.git;protocol=https  ;branch=master \
-> +SRC_URI = "git://github.com/open-iscsi/open-iscsi.git;protocol=https;branch=master \
->             file://0001-fix-build-error-of-cross-build.patch \
->             "
->
->
-> Ping.
->
-
-I was waiting for you to reply about the comment on your other patch
-in the same send (the ruby branch one), since if they are sent on the
-same day by the same person, and there are comments .. I tend to treat
-them as a unit.
-
-But I have gone ahead and merged this now.
+merged.
 
 Bruce
 
+On Fri, Nov 19, 2021 at 2:29 AM kai <kai.kang@windriver.com> wrote:
 >
+> From: Kai Kang <kai.kang@windriver.com>
 >
+> Fix warning of openstack-image-aio:
 >
+> | WARNING: /path/to/meta-openstack/recipes-extended/images/openstack-image-aio.bb:
+> |   IMAGE_ROOTFS_EXTRA_SPACE:append += is not a recommended operator combination,
+> |   please replace it.
 >
+> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> ---
+>  meta-openstack/recipes-extended/images/openstack-image-aio.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta-openstack/recipes-extended/images/openstack-image-aio.bb b/meta-openstack/recipes-extended/images/openstack-image-aio.bb
+> index 858c8e99..f01d0ed5 100644
+> --- a/meta-openstack/recipes-extended/images/openstack-image-aio.bb
+> +++ b/meta-openstack/recipes-extended/images/openstack-image-aio.bb
+> @@ -27,7 +27,7 @@ inherit identity
+>  inherit monitor
+>
+>  # check for 5G of free space, so we use 5G as a starting point.
+> -IMAGE_ROOTFS_EXTRA_SPACE:append += "+ 5000000"
+> +IMAGE_ROOTFS_EXTRA_SPACE += "+ 5000000"
+>
+>  POST_KEYSTONE_SETUP_COMMAND = "/etc/keystone/hybrid-backend-setup"
 >
 > --
-> Kai Kang
-> Wind River Linux
+> 2.17.1
 >
 >
 > 
