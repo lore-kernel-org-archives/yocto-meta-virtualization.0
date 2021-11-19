@@ -1,165 +1,231 @@
 Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web09.6361.1637043231106405722
+ by mx.groups.io with SMTP id smtpd.web09.5661.1637305815381167465
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 15 Nov 2021 22:13:51 -0800
+ Thu, 18 Nov 2021 23:10:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=ENL/ixHz;
- spf=pass (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=69548836a7=qi.chen@windriver.com)
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=qK6UkY06;
+ spf=pass (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=695783f828=kai.kang@windriver.com)
 Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 1AG68XCX031858
-	for <meta-virtualization@lists.yoctoproject.org>; Mon, 15 Nov 2021 22:13:50 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to :
- subject : date : message-id : content-transfer-encoding : content-type :
+	by mx0a-0064b401.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 1AJ76QmI021017
+	for <meta-virtualization@lists.yoctoproject.org>; Thu, 18 Nov 2021 23:10:15 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=subject : to :
+ references : from : message-id : date : in-reply-to : content-type :
  mime-version; s=PPS06212021;
- bh=0Wa392ZSlUFhs6oVU5nUR/1YESjIl21A2Rjg09sGr9w=;
- b=ENL/ixHzAkntGghsyCZNjcLvZjYwXpR7EBOs8jBFcN6vgWuSGycl7hbR3wmmF3K9WNOM
- af7FjFDbPYCJgr9C0YTTIdcLkchJnU+7IgJVtuB2V64C5tpyLDqO9Ovq5FBktf5hudY9
- huYJThGyGev9BvIVeibsPNgsXeZGXuQkX7qfDSUPDSIAyOeo552dSGrn5YcW9U/JO3V7
- 3tgNMyxz+HY0VglrQ0hIo5Lc44JQv+h6NB2YlQ45H7vxd2m1ltepmuO0cmHByovX5MxR
- t+q5wfutjSZg6XaemywQEOc2a9zDY2mb9Oet9AGTLYeaOCRJi+coPDFyVKAUpqNGMWlp bw== 
-Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2174.outbound.protection.outlook.com [104.47.57.174])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3cbqrursdk-1
+ bh=izhdzZy7+SGAe0nzwTRRZcgXgBZ/8AMaK7k0+GcIkC8=;
+ b=qK6UkY06wr8t+qoAii5zHGgE0oaepvEmkKni85mrk2K3+l+g4Oq8Bz72ZoIou/xl7G7/
+ OPQj51iVes3Vv3WYbVTmJJqGI5XrDdg0Lnynwr1+85b5bE6vQkwC6Qpb8hHOxTvQXq2o
+ EQbjcXrvphaf7fFYDFPzH85uChc1ENdbPvwhXSpWlW3D3BO3re1SdAYMA58WO5vBLyjK
+ 5+AHe0HIDllwjjJoT6Kj93oJUbCMavhVDs+g0D27dBsRk7icz+gIx/cr9+URSs3u5JGG
+ 9aL428MroM+Vjl0MjO9IZP1+IPI4gUbYw2pJYthpLLiVmZ+sFRDLl9G9a/LZJFAuSKhw /g== 
+Received: from nam04-mw2-obe.outbound.protection.outlook.com (mail-mw2nam08lp2170.outbound.protection.outlook.com [104.47.73.170])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3ce02h892w-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <meta-virtualization@lists.yoctoproject.org>; Mon, 15 Nov 2021 22:13:50 -0800
+	for <meta-virtualization@lists.yoctoproject.org>; Thu, 18 Nov 2021 23:10:14 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EYPJSfcR2vFFy6pYGDEGFsP2OFIl6m8xhFKZFBgrFe3ME8qAtLEjWbKwLl7SMFXJOHaWQBoJgUC1OeKstR56rgZtwsS5XtFSZ3+tr1vr2jpOGY6sZpb3Y2K+taYNCkOU2U9dOkC4NbXgLTTizCh4heSEYEiqP+lMAKWwSWU9Q895aqc7if5H4j+qv3q2hFF6G+JeuTFxHwa3zy86xIIw9jYa5i9SCfhUJBOE4xdQSDluaJKxNlGBNS4v/p4ydrYF4H1tnAVq1ai7bFXvPrkDSwB/FGITXj/mpywv7uI9Gvo1h6uwvpyVbJbxpLJNAWStojmYx6CocaqTs1Wxa59f5A==
+ b=P3CiJCweJ/vjBgyCD/EgnxAjo5QQ1S8z1zjpB68KU7yGT68A6NX3jxsvN2ITJA7wzpCe0P0vTkGxL9j9UCItJhc28kFr/aYTd8bWlOeb/vnlgUmnbT6vrKkvGIeRdm21P1/eufD7Aa6nZ2FqgpbxrS6Dx7C1lGgWAJGAmK4SzD+BJ/bJMnpYVkWufUi98RFUyLX7kM6WV30zGuTc+7OFHP9nliaFV7y6IFfhHvzzV1WQ2FePOyM8qxZaGC9sgKWgtXNQmqxQLEPoWS/0XmVMhj2WcIL5HusSRgC5J+ZH6BmWA7zH9AnL5ywfxZY+JsEiOw7HVkQ0SHP0oUtxnGFilw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0Wa392ZSlUFhs6oVU5nUR/1YESjIl21A2Rjg09sGr9w=;
- b=HFw+8Pvyz5e+95OEBwILV89gRy7Ar91xL6jLzp89rToiftqbidKWgyYx6iA8x0naUNqVVx4NIMWq1vdp/XdW6zrEiAvXyJjKxYt8K/3U9QoP2Ww0EMAunf902Xnr1gRJHEo2nLA7Kk40vpY0OACcHETyXKHSmODM5J9deMAYf9JVz+GrfjFsSYL/eRxhvSVfVKGdPgtst4NN6tpEvyNMwM5ZRUqmrPLWI6R+hC0kUQvZBSe2egqvp36Hv203TgIz5COmZgKgAiH7vY1LyiqAEVgsyVxJTfZ/EEfEU//YM5vqZWA01XqPYXps01pDfbPpwXVtISFdjTWUJjdy78S3cA==
+ bh=izhdzZy7+SGAe0nzwTRRZcgXgBZ/8AMaK7k0+GcIkC8=;
+ b=WO13Rxlx0/HuQs7cPGclc1O5JlWJxGG+ojxh6wQI3gsu4qal2HqWkjU+AOVRh1Wvh289JF9psi7QHnPNvJiZ6dxDK64v1A1SryGVM8Ndma83vaBDSWeA8HtF9HEtLaXcmGwEm+MPARAV6xFvcq3yKRykcrV33QIAyz8q19ZOlyMRyy+SwKXdvltjD4ZxRB++MbRDpbHlZ7rmNvgGSqQVT7ezkdpD/MKMtTFrKgJoMnOz4BvSGxKqHFHaiHWz9BGGkarcdqE2cvsc4KMZ/XlKfhyh3aDG/SKP2s2bihHNE6XMXz91obLpMjWdDz41/egm95YkM57Rter8PiWzkCMzcw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
- by CO6PR11MB5620.namprd11.prod.outlook.com (2603:10b6:303:13e::17) with
+Received: from CO6PR11MB5651.namprd11.prod.outlook.com (2603:10b6:5:356::20)
+ by CO6PR11MB5570.namprd11.prod.outlook.com (2603:10b6:303:138::15) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4690.27; Tue, 16 Nov
- 2021 06:13:49 +0000
-Received: from CO6PR11MB5602.namprd11.prod.outlook.com
- ([fe80::98c4:c603:2360:7b8b]) by CO6PR11MB5602.namprd11.prod.outlook.com
- ([fe80::98c4:c603:2360:7b8b%9]) with mapi id 15.20.4669.011; Tue, 16 Nov 2021
- 06:13:49 +0000
-From: "Chen Qi" <Qi.Chen@windriver.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4690.19; Fri, 19 Nov
+ 2021 07:10:12 +0000
+Received: from CO6PR11MB5651.namprd11.prod.outlook.com
+ ([fe80::4c98:111b:1f1e:898f]) by CO6PR11MB5651.namprd11.prod.outlook.com
+ ([fe80::4c98:111b:1f1e:898f%6]) with mapi id 15.20.4649.015; Fri, 19 Nov 2021
+ 07:10:12 +0000
+Subject: Re: [meta-virtualization][m-c-s][PATCH] open-iscsi-user: remove typo spaces in SRC_URI
 To: meta-virtualization@lists.yoctoproject.org
-Subject: [meta-virtualization][PATCH] openvswitch: fix configure error with dpdk enabled
-Date: Mon, 15 Nov 2021 22:13:38 -0800
-Message-Id: <20211116061338.24900-1-Qi.Chen@windriver.com>
-X-Mailer: git-send-email 2.33.0
-X-ClientProxiedBy: BYAPR01CA0071.prod.exchangelabs.com (2603:10b6:a03:94::48)
- To CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
+References: <16B661A3874E3006.9335@lists.yoctoproject.org>
+From: "kai" <kai.kang@windriver.com>
+Message-ID: <6e0222bd-7bf5-dbb3-d469-3f2356dcfaa2@windriver.com>
+Date: Fri, 19 Nov 2021 15:10:07 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+In-Reply-To: <16B661A3874E3006.9335@lists.yoctoproject.org>
+X-ClientProxiedBy: HK0PR03CA0106.apcprd03.prod.outlook.com
+ (2603:1096:203:b0::22) To CO6PR11MB5651.namprd11.prod.outlook.com
+ (2603:10b6:5:356::20)
 MIME-Version: 1.0
-Received: from ala-lpggp7.wrs.com (147.11.105.171) by BYAPR01CA0071.prod.exchangelabs.com (2603:10b6:a03:94::48) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4690.26 via Frontend Transport; Tue, 16 Nov 2021 06:13:48 +0000
+Received: from [128.224.162.156] (60.247.85.82) by HK0PR03CA0106.apcprd03.prod.outlook.com (2603:1096:203:b0::22) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.21 via Frontend Transport; Fri, 19 Nov 2021 07:10:11 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 414085e2-294a-4b88-cd6b-08d9a8c840f7
-X-MS-TrafficTypeDiagnostic: CO6PR11MB5620:
+X-MS-Office365-Filtering-Correlation-Id: 2df84500-d9bc-4a05-64c8-08d9ab2ba0ed
+X-MS-TrafficTypeDiagnostic: CO6PR11MB5570:
 X-Microsoft-Antispam-PRVS: 
-	<CO6PR11MB562009D5E69D8015021F9759ED999@CO6PR11MB5620.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
+	<CO6PR11MB5570EF43451B67949601DABC959C9@CO6PR11MB5570.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:120;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	5G0xq7eNAojdgImescB62F91fJAZUOe5tWTKxOa4S+8Jmee/vImHV+5kJaUSW1SuiC+1YKHeG9iZ8KPE+HjV3DhmkiNgOdQlo9H8fqAonEjDAtXgCnGs2tsG0NCIQel2J39J/O9KSh1sjsOdfIXKKjPbWDMBMkUBngA4TAbAmbzWo1HAHNsmpvqQDJPSRFsrFAR/1SE2sjgR6eFf4DSWhQvvgKSZbx17+/bwHog82yMFYhF8qDPboa36OWb8gm84yk8x7/WVESxRpBrNjOBywjE4VzGA7uF6ceeKUmZfAiskU5cgInWfOL+WfcarWxUhFSCIHDeIwY2qFeSHOg34FshTACKU13K6SsssGHNIpXeUhu3RMIJol6t+Nsgu3TztaU1ZkkTAfTRk+2FkmoGAteF4O9gfkS6HwRaLKjoTvHYYynFyv5k696/G6Z0REZC34mT0asZowj2/6EG3wNrtbg64yKXrOwDAUGroc69JJmwp39Bi3PkpdQVClCjFcbgz6FwOn4omYngn7V+iJM0s8DmjgrhS5jRNjJOUz50RuJLopSGcoVFMhnkPmM4PBU1+TJyjUp2HsFDjEcRYYIqwxhbEfURdm0GFYS03pRpBvEQOsABgbMBQVKTUoYWzU1+MWFX74LemnjOhqMsMfhU8QPHs3hVfcUcGkLHHB4OtiefkHQy7XyAAji/K42pnHN0pvSvtOfBhKNFEGeXpJXl9TxaTJaxtOVGvnN/iw6V2vq/6+JYjgGkXgXQpPsUJbue+kjPDPq8Pgz4TuRvEQUyaPWmym3f3tTJBWnodnF/wgZs=
+	GLbOzxpokbTWFCaiN3ke3fXsce9hn0CcrwXn1yOFI6gBU0zwQtLY6fBqCEvFFMZHhrYa25lvVa6a8sRNCsHibhYzEgOMyV/OLQlTbG2g6z7FeuwQEkyUulJeXbR6zmBD/UWeskyBrMfIL8EqPiwhxVGujCcGGAFqeu/Q8P0D90vftilOYQA+odq/wQv5/qBK9+u1/i462PItl8z2rxyFPzIZvQ26fVKRlVqRzjYp3tiofIManfHrlIdZXZRIYQP4ZPGh7eqVKibr2APGsCdIt0g/5rTkeyW3nnpNx6/hJVA8g0IuU+i5ahTfW93eTxsYXowXjmsDhK55arOhhXhFVRShF07QNl61Ljtx2M9tRKIVQ7HOowpx8IkOKAWlivCKQrOc7G77jRNSn/2sTziUXkrFiGqIQwAEVKd+5KFU0Oz1gxCFcr32YMDWH3OEtf8XdvwHkC8rfKH2yGsVXx71kwayvWRF0s9C3yBDedQZiNBD2UQmsl0UDg9CyyUunlvoY3B+mqhoEvImFvlzc3y1WnIKBA67sKiTpb0zAl5ZLBN+O+CAzMUtSV5Hp/phIat71ryHICbqaRX3O1Uj9zekoxqcl3hThSHeTSbnJwDVkUUuBP7Lao+IO4jMEk3dZb5uFfbwTBPsCEWh89v9PTPXxLWY72fLrQ32tTBrQRfv/6huxT62Ia7UrQcMEk2/SKRJt1mi58AZ1KSnIbgXOg3YkAf+tISHnmZbdBWBb9p/jNf1K18MDem3M82Mp47y7EhFvfMhnrNlHjPE68X6EEgqFdof75SVYLLd/e0FWElvIMQLqc+0RfUksAdutPK0EaPH7h6B1101iXvQ3QXIma84GTY7hFh2kRuoEfIFuVx02ifndm3xAcN1XFGvNbdownQQwovaJQ/j/+yIGmWQ6Zsid0qm2Ob7rOC3GUlZK9t4vnQ=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(36756003)(83380400001)(66476007)(66946007)(508600001)(66556008)(38350700002)(38100700002)(316002)(6916009)(8676002)(5660300002)(6506007)(2906002)(186003)(26005)(52116002)(1076003)(2616005)(8936002)(6512007)(956004)(6486002)(6666004)(86362001);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5651.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(6916009)(36756003)(5660300002)(26005)(31686004)(66556008)(66476007)(86362001)(6706004)(83380400001)(166002)(316002)(956004)(66946007)(2616005)(6666004)(6486002)(33964004)(186003)(8936002)(52116002)(966005)(38100700002)(38350700002)(16576012)(508600001)(53546011)(8676002)(31696002)(2906002)(78286007)(45980500001)(43740500002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?5RX+pGK5Oy0213+MTblFJofj+HLT5ULaHyh3Ylb3KhC2uzEPW3q1/YKDcEel?=
- =?us-ascii?Q?c3ACz6igVehroW8L2Rqpyqn1O7nZf4Ix0sNcqrxI5hs+aTxOFt4zKBHG7BiM?=
- =?us-ascii?Q?23CxWjLWUoTr7sBMAHDEZcSRmTHt1TQ/wQt09SfOj75YTjKkVojuk0s3w45C?=
- =?us-ascii?Q?uLRDGSlDwc/26Jm/f70Hj4Qrd1MIP2x/p19JyfFcNRTd12Zao5UuwYYTJAB/?=
- =?us-ascii?Q?eHPy+BSz0KM8ft4V9G38rV29NPXL1ZIyuBFsC85GGS2hR69WOWOTJ/dnqvXq?=
- =?us-ascii?Q?nwPMADfc+19y4DXWJf6rjvrNWnCGa9bhwTfpi1VArBWhnTaGPMgvaGRvDuuR?=
- =?us-ascii?Q?ZvufqJw7A6K+EuftPE6xFgcmCbS2nLYhzupXbpev85QOFnOq+SJNWigwyN6z?=
- =?us-ascii?Q?4kerc7XBT2lHswn/vSaBk2VqNp2FHLIOzWS3ir9Uof6hQK/XS9uyObBgh6tB?=
- =?us-ascii?Q?si7gZYfDuWjAeUY2fT2T0ztzh5p/BahW2LTX8FHGxGOF4ZEOlYAui6mvxiRY?=
- =?us-ascii?Q?4qiVAuPPtO8IXJrxyd+DKR1RmFOoJv8aZtB7RmjkdgjNhbAXJNxrFRtVSYzM?=
- =?us-ascii?Q?xqlOQPHa1kY26gVaygjpBDjhueWq0iRo7dOlyruTMWS6BwBYwhcuhFe4x8C3?=
- =?us-ascii?Q?+Qz5W+GX5QX35APTA5Byvir7xaDijQLosL/fLPpQMDLB+38KXJp1Y5PY2+b+?=
- =?us-ascii?Q?BAfqiu+TacnH8/XVOFKMua87dlAVL5wr6OyvRAt5KIz/1GlYVB4gx3TiHkMm?=
- =?us-ascii?Q?faKz4mlkBlyTTPPs2Trh7wta5U2ddXq3mFR+DoVogNn8Fm60exE81/f20PBr?=
- =?us-ascii?Q?P4Kf2apOOMZOOntJh6wmRSX2YskHsKfyahTYdMGNkT32YdFhWlk83HbZI85L?=
- =?us-ascii?Q?aHSjkHkmxRqUX++mPcgoHm7Fp+8OprNAxroYUW1JL6slZ0LEWYIwxjqD5qtR?=
- =?us-ascii?Q?LwhsmztioKkVgaqfh5XiXy8dRexoQ0X6AP5aCC2zNab4rWHgVyoAe6LPkg+X?=
- =?us-ascii?Q?KDaQB9OPpVVhLTdY1m9C2UCCAKqx8yq5oJHUJC0vBSgYURoRM0gDlZLzw7Kb?=
- =?us-ascii?Q?EheR2wGh8m5rw0pMddD4iU3OPQK9rcsjV3ylqG+oUQh3g/ArOLzEbkQhakMx?=
- =?us-ascii?Q?i1Cv/NA2M+8b/r5eD9PwiuTIcOsMEPtRVQ0uy0HICichOyf2VxCV9ceNK4/I?=
- =?us-ascii?Q?XIrq+CvUoBHDXiqaE3piiJl/B9BQceLosb9C0swROvWKwwAMZ/ccDIPbKX4O?=
- =?us-ascii?Q?ytjlbQZWgw2vKRz44WotXcAEEfPSRdMmP+pgZOFpnFyKxxRCot0VlAkvIQLm?=
- =?us-ascii?Q?+eFMmox/9C+Uc68d2Fsx+74WlgsU6Wy3KZj0tJP7wTG/uMyWrHzbdi/GoKav?=
- =?us-ascii?Q?/UsYnSpGoBLLwHoF00QnsI/sfv45es0f5mLHv0ZQycX+JzdnFghGQq7zAkzi?=
- =?us-ascii?Q?vkC1tEvPuz3wh97IREhyDAB0+bc2zqN2sg9cvQ31CJXC5TJgt4YOUe/sRiP3?=
- =?us-ascii?Q?+YkjY388YfDtIM8K0lpqQhdh6PHLFWq3Q4INg0Of4W750xbPMV602BN2w8G5?=
- =?us-ascii?Q?kddl4fn3yveMNrpjFlTgsqZiDgphMLetht9mdyfD9v0YzNLWwqiGv7/FocRb?=
- =?us-ascii?Q?ZZHDneo/0ggnQf+ThZpPIBY=3D?=
+	=?utf-8?B?YjBIRzlSWHZqQmV5dDFERWRkYWdvZm1DdGhjSnJOZkpRZDZ5aUROdmJTOEZL?=
+ =?utf-8?B?cU56c3h6OHNoWVprZlFmSk5ndmxKcDlpaVFVYk5YZDhRUks5bnU0NlhkV3p5?=
+ =?utf-8?B?VUR2azA5RFk5VFNKVkNSaUpGV242a0lXTkpSb2JWK3QzYUkvaTF2MDVyam1U?=
+ =?utf-8?B?ZWlNaXNuWUtmZlE4ZDdLcDhtZ3ZydmpqS0pjbktRRzRETGJnR3RUalU5QWta?=
+ =?utf-8?B?KzhlaHp5VndiUHU0QWNCNlBxR0NNVENjcmdGMUVBM2R2OGVlcnVRd0t5TExn?=
+ =?utf-8?B?dUlSS3pOQ3F1bGxUMjVGWTcrWGhlT1NLNHI3Uk1EQTBmUHFWVG1TUkgvZmk4?=
+ =?utf-8?B?RUtUZXRRbmFpSDZJdTlDSXQzRElQa3N5WkpuZFprM3g0N245QU9BenkyMnBL?=
+ =?utf-8?B?QmJycFY2OXM1dnFldUJiMzQyTmxDNmY1eC94ZWF3K1dvb0xhdXcxREFiQThw?=
+ =?utf-8?B?cjNXN3pNU2h4R1cxbE04NFNQbFZ1emRtV2J5SFBQWk9QZDRCMktXQlZnM0lO?=
+ =?utf-8?B?M2JlUWZ6aVU0d1pPTWRmdW0zem0zWlZEY3NraVZjZ05xcG1HSytWRmNYbWxo?=
+ =?utf-8?B?WU42Q2RPMUVJVjR6WldrUjhON0R4aEdGOFhwTlJPVWdvSGNsRzdacFBCZEgv?=
+ =?utf-8?B?d0Jldi9uV3htVWM3OWxTZy9YeGhhbFYwY3VDQzVzSEMrbUJFQjh3SzRsR3Aw?=
+ =?utf-8?B?QUk5dWgyUWpVRW9kc2ROVEhLbFBHajNiWm5RRG5Dc01sMm04dlhmaCtwS2JH?=
+ =?utf-8?B?MG0rRFR1aFgyMmVHZmNkSnBFS3dhWXExSnlWZlh1WDJzKzFxOFdNTGNIb2Vz?=
+ =?utf-8?B?TjVoWmZNV1BJQ0hKYmNuMlFPcGJqZHJXc2MxNzZJNnViVkZwNzVOaUllUGhp?=
+ =?utf-8?B?bmVCbHhjVGdSbjhaaGtGZkgraVl0T0NFdGFKcmhnYndrL2pEenNRZmJnOWlQ?=
+ =?utf-8?B?a3VsKzFFd2RSY1RrT0xhWW5nN0YzcnBSVFlrMVFyRnM2Y01EamluVit0blJM?=
+ =?utf-8?B?NDFYNE5iKzlYSGpDNjhCZkt1MkVQNWg1cFhocGJEN0piNFJqeTNFYUx6Zll2?=
+ =?utf-8?B?Mm5TMUNPS3FLM1I5ZE5tand6Q25WanNrdjkza3ZtdUxqN2pOYnJRaDB4eG96?=
+ =?utf-8?B?Tm9wYUs3c0VzZlpmODJ5YUdTZmxOKzcyTS94Zzk3VnFUaHptT0hINHdzMlN3?=
+ =?utf-8?B?eWc5cXlaQVZ5V3BBQ0U2c1BwWExUSTY4aDFDOHdDbDYyQjRFNDl1eWtDTlFG?=
+ =?utf-8?B?aVRCQ0lWNzhIVldEYmRUL3UvVmE3a2daMkxWQkFsRFlvRGhQcjl3bHEyVlRB?=
+ =?utf-8?B?UitoemxsN0Iyd1IxSFcwSWpVWVV1RVpmSWpocEhSYjMwSVR2a3JlQ2JMT1d1?=
+ =?utf-8?B?ZExxdEJKN3ZBOGhTNVVSMkxZeUp1RFFOSDdrN01ITHlRTlh1b0NncjVPdkRr?=
+ =?utf-8?B?Qy9wMEZqZlk5c2JCaWdQcVg0bHlZeDBYbjM3WnJEWkVTbHp3WHptQU9URmoy?=
+ =?utf-8?B?NDgrK1hPNG1aajZkSm9BYjB4UHFQWXpLOHdtdlMxa3dYNGhoYjdIemEyYUwx?=
+ =?utf-8?B?ZW9OYkxXTWZvQnRvOVNYOUp2NmJtd3FIVXdJZ0J4aXVXNWdCMGlYOHhUb2Ev?=
+ =?utf-8?B?Sk1ZTWZ3TEhuWXg3U2VnamdTaVVGT2JtTU0rbk8ydExZOVF2K0o5bkVwaEsx?=
+ =?utf-8?B?TjVBdTc3TElpNEUrcVZnYmg2bUlsSnpBczlENzBZc05GczUydnlpbVVSV3R6?=
+ =?utf-8?B?cCtsRnIrS3RwOER5Z1dOU1ZyZUZGMW12V05nRWtIdlVOd2kvcnN6NWlrdDU3?=
+ =?utf-8?B?YkZOSzVWM25mbWxOdGh1c0tUYjNyTEJzQ3d4WXF4a2ZmcFFUcEp0c1IvV3Ny?=
+ =?utf-8?B?NkE3UXZBaXByQjhnRDhvbGp3SDhMdHRyM3pZN2ZzUUpVbStvWWtKT2VTQzFH?=
+ =?utf-8?B?NFJGaUZnVEs5U1FRVkJVd0hmOS95dVl0cUFlak5mc0M4K1IwdkZ5cnVZMHFN?=
+ =?utf-8?B?YVl3MUVLSmxsQm1EN2VGZjZGQU45T0cvT2g3eTBQMU1GZVdWQ0ZpRkxMY3Bu?=
+ =?utf-8?B?eHpNd21vbVpCZ2tLZFVFMUdmYmQ1Ri93KzI0VHV3U2wwaVdRbVhHU1drUExh?=
+ =?utf-8?B?aW9sK1lVZDRuMUVjaGhhWkhjREdmSWJ4eGtlR3hFd1ZEeHZBVkphSFlkR1ZZ?=
+ =?utf-8?Q?ebFTr+8fTeHrXpnh8/aW2Q4=3D?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 414085e2-294a-4b88-cd6b-08d9a8c840f7
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2df84500-d9bc-4a05-64c8-08d9ab2ba0ed
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5651.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Nov 2021 06:13:48.8584
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Nov 2021 07:10:12.5105
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tm526I/6BpvVeBYIQEkSdssvCLuKtiC+M5wsYke0MoVsWewGYX1EPKKzjQihPRLN+z39OTL6jV7wM7ZTfumxIw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR11MB5620
-X-Proofpoint-ORIG-GUID: y9NkgLYliL0Jb6FIxye9xWRsgLftYHFE
-X-Proofpoint-GUID: y9NkgLYliL0Jb6FIxye9xWRsgLftYHFE
+X-MS-Exchange-CrossTenant-UserPrincipalName: gHaJakTB28ejOdyhjAbIeW4GYb1UAoLp4AMygUIrzxpjcjjegKhnka3D6fqQB3r8NrFrB9RXSvuNUxlVa+a6rQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR11MB5570
+X-Proofpoint-GUID: 11PlR4gm9Wx7QdzLkNczqiYh62m3B8R3
+X-Proofpoint-ORIG-GUID: 11PlR4gm9Wx7QdzLkNczqiYh62m3B8R3
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
- definitions=2021-11-15_16,2021-11-15_01,2020-04-07_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- malwarescore=0 clxscore=1011 adultscore=0 mlxlogscore=892 mlxscore=0
- suspectscore=0 priorityscore=1501 spamscore=0 phishscore=0
- lowpriorityscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2110150000 definitions=main-2111160033
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+ definitions=2021-11-19_07,2021-11-17_01,2020-04-07_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 spamscore=0
+ impostorscore=0 lowpriorityscore=0 suspectscore=0 bulkscore=0
+ malwarescore=0 mlxscore=0 phishscore=0 priorityscore=1501 clxscore=1015
+ mlxlogscore=875 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2111190038
+Content-Type: multipart/alternative;
+ boundary="------------3219BA4C3152435A543071F5"
+Content-Language: en-US
 
-When enabling 'dpdk' PACKAGECONFIG, the following error appears.
+--------------3219BA4C3152435A543071F5
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-  | configure: error: Could not find DPDK library in default search path
+On 11/11/21 11:53 AM, kai wrote:
+> From: Kai Kang <kai.kang@windriver.com>
+>
+> There are typo spaces in SRC_URI which are introduced when add
+> ';branch=master'. Remove them.
+>
+> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> ---
+>   .../recipes-connectivity/open-iscsi/open-iscsi-user_2.1.4.bb    | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-user_2.1.4.bb b/meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-user_2.1.4.bb
+> index d4c489cf..fe802b72 100644
+> --- a/meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-user_2.1.4.bb
+> +++ b/meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-user_2.1.4.bb
+> @@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+>   DEPENDS = "kmod openssl util-linux open-isns"
+>   DEPENDS:append = " ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)}"
+>   
+> -SRC_URI = "git://github.com/open-iscsi/open-iscsi.git;protocol=https  ;branch=master \
+> +SRC_URI = "git://github.com/open-iscsi/open-iscsi.git;protocol=https;branch=master \
+>              file://0001-fix-build-error-of-cross-build.patch \
+>              "
+>   
 
-Fix the error by tweaking the configure option regarding dpdk.
-Add pkgconfig to 'inherit' because pkgconfig is required at do_configure
-when dpdk is enabled.
+Ping.
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- recipes-networking/openvswitch/openvswitch.inc    | 2 +-
- recipes-networking/openvswitch/openvswitch_git.bb | 4 +---
- 2 files changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/recipes-networking/openvswitch/openvswitch.inc b/recipes-networking/openvswitch/openvswitch.inc
-index b354a84..831e0b3 100644
---- a/recipes-networking/openvswitch/openvswitch.inc
-+++ b/recipes-networking/openvswitch/openvswitch.inc
-@@ -72,7 +72,7 @@ FILES:${PN} += "${datadir}/ovsdbmonitor"
- FILES:${PN} += "/run"
- 
- FILES:${PN} += "${libdir}/python${PYTHON_BASEVERSION}/"
--inherit autotools update-rc.d systemd python3native
-+inherit pkgconfig autotools update-rc.d systemd python3native
- 
- SYSTEMD_PACKAGES = "${PN}-switch"
- SYSTEMD_SERVICE:${PN}-switch = " \
-diff --git a/recipes-networking/openvswitch/openvswitch_git.bb b/recipes-networking/openvswitch/openvswitch_git.bb
-index f1a5c4c..0fb7c13 100644
---- a/recipes-networking/openvswitch/openvswitch_git.bb
-+++ b/recipes-networking/openvswitch/openvswitch_git.bb
-@@ -32,10 +32,8 @@ SRC_URI += "git://github.com/openvswitch/ovs.git;protocol=https;branch=branch-2.
- 
- LIC_FILES_CHKSUM = "file://LICENSE;md5=1ce5d23a6429dff345518758f13aaeab"
- 
--DPDK_INSTALL_DIR ?= "/opt/dpdk"
--
- PACKAGECONFIG ?= "libcap-ng"
--PACKAGECONFIG[dpdk] = "--with-dpdk=${STAGING_DIR_TARGET}${DPDK_INSTALL_DIR}/share/${TARGET_ARCH}-native-linuxapp-gcc,,dpdk,dpdk"
-+PACKAGECONFIG[dpdk] = "--with-dpdk=shared,,dpdk,dpdk"
- PACKAGECONFIG[libcap-ng] = "--enable-libcapng,--disable-libcapng,libcap-ng,"
- PACKAGECONFIG[ssl] = ",--disable-ssl,openssl,"
- 
+>
+> 
+>
+
 -- 
-2.33.0
+Kai Kang
+Wind River Linux
 
+
+--------------3219BA4C3152435A543071F5
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 7bit
+
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body>
+    <div class="moz-cite-prefix">On 11/11/21 11:53 AM, kai wrote:<br>
+    </div>
+    <blockquote type="cite" cite="mid:16B661A3874E3006.9335@lists.yoctoproject.org">
+      <pre class="moz-quote-pre" wrap="">From: Kai Kang <a class="moz-txt-link-rfc2396E" href="mailto:kai.kang@windriver.com">&lt;kai.kang@windriver.com&gt;</a>
+
+There are typo spaces in SRC_URI which are introduced when add
+';branch=master'. Remove them.
+
+Signed-off-by: Kai Kang <a class="moz-txt-link-rfc2396E" href="mailto:kai.kang@windriver.com">&lt;kai.kang@windriver.com&gt;</a>
+---
+ .../recipes-connectivity/open-iscsi/open-iscsi-user_2.1.4.bb    | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-user_2.1.4.bb b/meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-user_2.1.4.bb
+index d4c489cf..fe802b72 100644
+--- a/meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-user_2.1.4.bb
++++ b/meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-user_2.1.4.bb
+@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = <a class="moz-txt-link-rfc2396E" href="file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263">&quot;file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263&quot;</a>
+ DEPENDS = &quot;kmod openssl util-linux open-isns&quot;
+ DEPENDS:append = &quot; ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)}&quot;
+ 
+-SRC_URI = &quot;git://github.com/open-iscsi/open-iscsi.git;protocol=https  ;branch=master \
++SRC_URI = &quot;git://github.com/open-iscsi/open-iscsi.git;protocol=https;branch=master \
+            <a class="moz-txt-link-freetext" href="file://0001-fix-build-error-of-cross-build.patch">file://0001-fix-build-error-of-cross-build.patch</a> \
+            &quot;
+ </pre>
+    </blockquote>
+    <p>Ping.</p>
+    <p><br>
+    </p>
+    <blockquote type="cite" cite="mid:16B661A3874E3006.9335@lists.yoctoproject.org">
+      <pre class="moz-quote-pre" wrap="">
+</pre>
+      <br>
+      <fieldset class="mimeAttachmentHeader"></fieldset>
+      <pre class="moz-quote-pre" wrap="">
+
+
+</pre>
+    </blockquote>
+    <p><br>
+    </p>
+    <pre class="moz-signature" cols="72">-- 
+Kai Kang
+Wind River Linux</pre>
+  </body>
+</html>
+
+--------------3219BA4C3152435A543071F5--
