@@ -1,33 +1,33 @@
 Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.3873.1637381827582200709
+ by mx.groups.io with SMTP id smtpd.web09.3801.1637381827892103297
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 19 Nov 2021 20:17:07 -0800
+ Fri, 19 Nov 2021 20:17:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=Y6WSlAwc;
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=RAfR82cn;
  spf=pass (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=69583b91e3=yi.zhao@windriver.com)
 Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 1AK4H7fC016699
+	by mx0a-0064b401.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 1AK4H7fD016699
 	for <meta-virtualization@lists.yoctoproject.org>; Fri, 19 Nov 2021 20:17:07 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to :
- subject : date : message-id : content-transfer-encoding : content-type :
- mime-version; s=PPS06212021;
- bh=3v4ahy24CtG7jp5gPvbVAorCsuheTW0lAX+no7BFQfc=;
- b=Y6WSlAwcNnAewAN/olduxcKpkFFtWo0MG3dYTa/5BPb5EA60N0XyqUXQjI0T5tZ8hOwc
- gKpIGA2BBjDNTZBuEgO56M4FcI0tskA4pOX39zDouZJFprTQUVaqpfAM3S9UFzYVuTKP
- 0TzTvJTrvePpr6QL2bmIFW9GSRcmt+e+KIxn4J1kD3Qgs2HRGL9OHGnnLjl2xOoedZLR
- DHNaQ+ADnF8WbWi3sex+Yhex4/w0WG46lg6C1X3TpcJyidchIpng8YSzznzWlV9jsSFO
- ki11oNmt/6So1vOAE50CbR2zi0ZgCLRkxd5WBTIJqruN5w6xHQszyhH+EBDSWsuoITWZ 8g== 
+ subject : date : message-id : in-reply-to : references :
+ content-transfer-encoding : content-type : mime-version; s=PPS06212021;
+ bh=Spg/ByIsjaVMnKb/ij0RllrrZrwAuuFNTeqDsTppq+Q=;
+ b=RAfR82cnujFqdb3J4PSWGq73NNpcOMbF+j0ESOIPUGzQO2sIrpGzjFClXuFeztKKH848
+ FARB0R3VYga7mZ96x28Jv+EBtxYw4usXCd91wLJ3MM9XqFwvzdf+PDwpVFZCcu5qUCHL
+ pyVKZC/jYmdLtOdbW9lLDIAxpkeTpj96FXuqtqSXUcr/rvmmaAtXasraOJ36VWfL9d4/
+ rt42538MhGRN+8ExHAisj8OZj8Hh8+pbtJyFg/48amvcPdcuCT70zjV/z3mrFsRWcAi5
+ GRRADjD8/dJBpE3SlPGrSjk8ewwugAnnO85DRMXCUFpLwSdZJw2De1YyuheemcrVcoiw ow== 
 Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2047.outbound.protection.outlook.com [104.47.66.47])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3ce02h940h-2
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3ce02h940h-3
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
 	for <meta-virtualization@lists.yoctoproject.org>; Fri, 19 Nov 2021 20:17:07 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RcyoCXCjyou2MljEmoxgFcYU18BXxXwKWVBE6ek0f7B/mEQLKPnYp0NAz8i+s2YE8S9Ds9ZEW8Rihcqx7y4cEVDNrk75j7n7ByWL6FNao/casEXOkLjgI5Ky6WzmZkgBWSWDh0uNvv1kpAgJQ/XY6x1MCjIu+5VED94z/logwIGnCYcEBX9PGXdV+VkPGOVuR86UjZiosk2020V6+ih8o+vvniWIpjLX47JaExz6pBQtEfMIiMmMe7rF4qCYNue7diZFfjqso13fjf5+D21XzP0eSrVRqpl7H6j8y46FB1/c1P0dqYiJkZ4OxWkklmnBPXURzABNKy44AfrHvKjWlw==
+ b=chfTnv0aailVCaBk24fnssaW/7NPAr1TlnnzffPBEksKqJaXAygs0B//HqsUVQDXyr7PhzNA/gdT4HeFeVebrhApFd2vMsl2ZdV/mAht67AOIhCQ1+ZRunHbK9+tYYmrs3LwvVSf9wk7UA+N0CJZACpX6E0Bx5XJeuPuo9JWEmeYiGVU8tHzodqleVWg2XIkPvvQPqnK5otmc9h4FzGqr16d9IEeQW+ZXcRY50Rpsnt8KeFuXjQ0L7+Cw8KGYDZia48RY8u2U3rpWRf8S4i5Cvqnxgbxl9xYUSwhoUGomn6tTX6BSmyTXxoYUfzdmPWz5N7stMQoT0Hjo9eHRqOxeg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3v4ahy24CtG7jp5gPvbVAorCsuheTW0lAX+no7BFQfc=;
- b=a5myVF7qQK+DpuAoE6PDm5b4e1IoVFrdlBChHz36QyVngRh7QaGTHdPI7T+N3wB34k1toI6LZnIDB8EJbhglxzlB6UAFnOFH9rgTdgvMFo05pWeqOcNRhVB68/RAx8NGGr1/RbOMGNsGqrck5hguMq42QeroRXS3+YZ1ZL4svrsG9OuLoRik696IgvViUs8HwigxKBUeo3wp/m1Wnvk6E/EPeVeGOWabs9RW5giANs5a50og453AhNRYyGsFf+U/z4AWaRJUjbZjxH2392c2Lh+Hy+J3ax2wRmDNHk7pATUcgd4e25yQds2xJT9q+TZa6x4qEyO+4c9+i5Y+ydg5GQ==
+ bh=Spg/ByIsjaVMnKb/ij0RllrrZrwAuuFNTeqDsTppq+Q=;
+ b=NKXy1XdZelbxktf62DMAYtfIgPkgZhIj37FXMHuidUq7YF2+b+0466LSRHxuyDRvkSPID6mTHo3VsswQgaQ0U566I+UoRhGZT61rlsJc7WwJI0/03t+yHdtNrJyGl78Zcgk7b+cq5eOb38B3+FQ85uW0si/25EqeHOGkpKiJvuLAS5c9wTEKVIDGhrR9v89fUfN1nVVM0x24H3Qe2fw9ibQv990s7FLWr2oEkKVnLMt1frT+a54p7rfezq2CenD7UI44zfLBl4l5EnQFj25eKW4E8QGiu2+IFVOcCmCOXNNo0wTbeZzMv75eazwtZ0LLrdFZKU8tDU56NO2V+Ebf3g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -35,110 +35,123 @@ Received: from CO1PR11MB4867.namprd11.prod.outlook.com (2603:10b6:303:9a::13)
  by CO1PR11MB4785.namprd11.prod.outlook.com (2603:10b6:303:6f::21) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.22; Sat, 20 Nov
- 2021 04:17:04 +0000
+ 2021 04:17:06 +0000
 Received: from CO1PR11MB4867.namprd11.prod.outlook.com
  ([fe80::455e:9cfb:d106:4480]) by CO1PR11MB4867.namprd11.prod.outlook.com
  ([fe80::455e:9cfb:d106:4480%9]) with mapi id 15.20.4713.022; Sat, 20 Nov 2021
- 04:17:04 +0000
+ 04:17:06 +0000
 From: "Yi Zhao" <yi.zhao@windriver.com>
 To: meta-virtualization@lists.yoctoproject.org
-Subject: [meta-cloud-services][PATCH 1/3] openstack-image-compute: fix warning of operator append combined with +=
-Date: Sat, 20 Nov 2021 12:16:50 +0800
-Message-Id: <20211120041652.583066-1-yi.zhao@windriver.com>
+Subject: [meta-cloud-services][PATCH 3/3] meta-openstack/README: fix for operator append combined with +=
+Date: Sat, 20 Nov 2021 12:16:52 +0800
+Message-Id: <20211120041652.583066-3-yi.zhao@windriver.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20211120041652.583066-1-yi.zhao@windriver.com>
+References: <20211120041652.583066-1-yi.zhao@windriver.com>
 X-ClientProxiedBy: HK2PR02CA0155.apcprd02.prod.outlook.com
  (2603:1096:201:1f::15) To CO1PR11MB4867.namprd11.prod.outlook.com
  (2603:10b6:303:9a::13)
 MIME-Version: 1.0
-Received: from pek-yzhao1-d1.wrs.com (60.247.85.82) by HK2PR02CA0155.apcprd02.prod.outlook.com (2603:1096:201:1f::15) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.19 via Frontend Transport; Sat, 20 Nov 2021 04:17:03 +0000
+Received: from pek-yzhao1-d1.wrs.com (60.247.85.82) by HK2PR02CA0155.apcprd02.prod.outlook.com (2603:1096:201:1f::15) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.19 via Frontend Transport; Sat, 20 Nov 2021 04:17:05 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: eb81fd7a-6fa0-40c3-bd72-08d9abdc9b93
+X-MS-Office365-Filtering-Correlation-Id: 245ffa5b-14df-48a4-68b2-08d9abdc9d0d
 X-MS-TrafficTypeDiagnostic: CO1PR11MB4785:
 X-Microsoft-Antispam-PRVS: 
-	<CO1PR11MB4785B3E797791A0BCBEA8A27F99D9@CO1PR11MB4785.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4502;
+	<CO1PR11MB47850ADCB595225A8EFC5F5FF99D9@CO1PR11MB4785.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4125;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	BrcbUThJXEUEH+pLKfXNffkVxfDtQHjOJyDdevFpXD8SjW2ootA5L+QbX/WTywkHzUknC9A0HqEiCFGaFPfc0qpUz7VYb5sw4IbaZ41S3Y/12frOXXsDXb1KWpFpexkPGdwt3rbn3LtzAhrO3gNgdO1S0v5vVWGfbrd+k8fdD3QluTGWEnQAjaMvxmDcJTHC01M0qqHyaaidK4bMG3kUcT5CVjCmi+7K0wQt8DxCPhR5lSY3hLPR30+ynNLztvnmrX+DE6cx6x/h69V5niRr1zeqgn9ONmagDLsJFQNYGCTfUu9cXNMJVItxSzyuiEe9sekPMX1G+1GHiNCB4gUyyNVU0qekqGDGgIOOg1wFCFGp3SyF0DdNd8ZPewlV9V4BgGcuEV6FjeTEqlRig+eYrpvorkk1a+q8xlYPEd8UKhd/mixLOuuLF0IaISvhQ15ZMHVhXjee3t00IYVkHVdcOLE5752U/O96e9RM/ynXycQw1ZGKgdBdUk9jOdgl14yqri1jD9L7c5bMxr29bzBJgRXy9GtNhG8eslomyBr0AV50HQmbcq39YLx3Da6SNyyOtX337kjlsr5lOxTVp3OY64+mPxWUp/IJq6lmu7Zp4BLB4inQVGlFY6HlD2Nbyb56VCyxZQc4Ep0WzLL6fE4D3kMTTAYlFtF4j1XsST31j+kZfuK/bJbzLQ+NBE0iBPZJ3IRUmhr8NFuXwPHU9m+DfA==
+	Ul08O/ovZLN3Jv3RU2cPTlr1VIpra23sBc028H3nxP2fB3gc0Ln5l+103togNzVo81igieuDzpTZf5Zqigfgt6+Kb+XlyrdgPcj+WAkd1JqzMOS04aN49XiWMYL94I0M/RGtMfk55qwHAob6gUYqXTMKzhx/A+QBijKlWY+ILLUqJzoyNC+FIYatBvuefvzp8ks/Sdj57/JzU1F3D9OL1LTAfg4wFrlF1N+hShGKAKZodaNxDlRjpbTwS/MxqUAXi8ZoQYXkhhBwx7uxzqTqfp3pr86LFWaCDoOqdJmdpXn4xv2B7F9p/erc3+1CRsLibSwVhwL9w7kEEhJ/3wbljiWWiiazteod9obGN1UaG/lQNGVbRVcaE4m2hjK7X4hVEl+16Ity2lJZ6ecLAwRDQMOmUVswi3Wes30lQVYeghV8zT3Ctq8kYh17poXTPiQKLSsCkGrWtfCqSqOVyiuXfos57JSUQzfyC3YHkid4pgURBj+8n9uqliSCJi7JcDsmi6qu2j55U+eZgvvh2gHgujYVMlmLUEmviT2iCf9FcUJXDNtCU9ilQ43gfKEHZ+Qpc5JrTfLDgapwO3MN9w+Dh3nnREsDrpJvSG74wX0DvMuRvdghjqwgSnFK4W33JL69wCHqNDUxo8AR3o85HjsdaP3wyAC9TbLtpRGMCODfC0iPPQ6NEbiUIA2JMiKz1zIQNm6dSUoNvF5tw7G2qEzRVA==
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB4867.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(6666004)(6506007)(2906002)(38350700002)(38100700002)(66556008)(6486002)(4744005)(52116002)(6916009)(1076003)(83380400001)(66946007)(8676002)(6512007)(44832011)(36756003)(186003)(86362001)(5660300002)(956004)(8936002)(508600001)(66476007)(2616005)(26005)(316002);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB4867.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(6666004)(6506007)(2906002)(38350700002)(38100700002)(66556008)(6486002)(52116002)(6916009)(1076003)(83380400001)(66946007)(8676002)(6512007)(44832011)(36756003)(186003)(86362001)(5660300002)(956004)(8936002)(508600001)(66476007)(2616005)(26005)(316002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?CYvoZ7P8Mcq7Zc/VtQLuEpK9lCyORUVMCMMyzJj6MaWo7EOq9f+eEYqEVrhS?=
- =?us-ascii?Q?xE+bfU5zqaqYEBl5gfVdMMg7h3NS3f/QyJqiVWXVmNKwpXHghWJ20t7saNmT?=
- =?us-ascii?Q?21tI5ABh3iuSKzhPOHA80gcHII+MjU1q1dM+ihI4l6E5TSVGxGVq2+ih8SA1?=
- =?us-ascii?Q?uSU0g1xarnrKeXd0jNQGM6F3co7hTHn+zN39nUOawhok0CV/n4KqsverUUvv?=
- =?us-ascii?Q?otk5k/Wty3LwhHZR2RRhHF+u3b+Jtid6kZKHLvA6ZblzU6ynZEtiJPU0Z56y?=
- =?us-ascii?Q?/njPDQJZ5VVna3qhqbG1EVoZqwz57cdHKWRW392F3QpNWrZT4941SaHBhiIa?=
- =?us-ascii?Q?lPdVpx+3wFcxWmaKv8YnRoYQqD3eT/lhsEd5hxKoQFxncf+ZgIYt6Esg/BrL?=
- =?us-ascii?Q?TCBGGPh+Vfmc41UKxS7hB4FbFrWSk11e6WwfH9hPz7wlPrSbLTYISPrD+VML?=
- =?us-ascii?Q?iwPLloz41W95cPB2H21ZrENHQLNZ8JOP8BHvPBLFihLPCoXBwxPJ6EyPm/vJ?=
- =?us-ascii?Q?KVTeq8lZPmX1pH22uBPTBBXGDPPEAvTqDVVQMkvijNo/D3lTsNb37hLk+/sc?=
- =?us-ascii?Q?nX/KbDJ2QnxDRdd4TRF6L8pxxNIOlHJDuv/fZIgbr9LypgVzkdwgkRMJLR9O?=
- =?us-ascii?Q?kCF4gNgnjeiQULQADKSGud3AuTDAGmzHSARy+XyS27Ynxck/Yn/ewahucwZL?=
- =?us-ascii?Q?cO17zqEPFDlX39EvcZl8aLVGfoGiQWRmW4BUxMr9FD73wQy3LkIT0Er2JbqA?=
- =?us-ascii?Q?IISTk9SWMMTPiM4Q6taNX7t4U49V1sx2LOe+jj7Bd/qBtqjJWJK0Bx2RyUAn?=
- =?us-ascii?Q?tGk/ntqR2uNTkBMUYIumEZrCR6MxwOeeQ9u49Ca+uDAOlpD3d2qkgi/DxuxS?=
- =?us-ascii?Q?5Hp0vOY4yOVSmMe0kTbVg+fOuhM8nqQvve8ZqnBpgjpCCLp3E8N5wm87X5qg?=
- =?us-ascii?Q?wqGnXcXi366MAA3O7CqapKrdYhTZj4btuhvRvgR1iVRpgE9BuumqhRyjGgAk?=
- =?us-ascii?Q?/qQg+5sp5Gf7Q2nEqzuUuSHxB+GlGHHr+w4WBd13K0nEumSQZKLDcnC3hPcn?=
- =?us-ascii?Q?DPoEWKvv/Iz2eCX5L3NF/7fTOx9p6Mm8V6TLnTxscEOaLSpF4zmGMpDlneUM?=
- =?us-ascii?Q?7+noMsJNemnuTLTm4/x4s5zfdazQfhy4qyXdvO/JBqYswT0VwwiltXzIS2g/?=
- =?us-ascii?Q?RY07aNDEo51c2sO7xgt2RtjLjKovuZUz1axqKAjesSSZXsX1UKAYvru/hBNw?=
- =?us-ascii?Q?r6kA4lNaEFyXBnJQqVwUCmehVpjWygox/1xM//N2UttydJFvhMMMy2ZVsm9F?=
- =?us-ascii?Q?Uf21Ryk8B+cizTc72lq4U3uIkjxYnH3QejgXKPSm9VNtt/rkXiP3T+34ob81?=
- =?us-ascii?Q?vrjKMuqyVtf332yfvefBrRiaUmRcLg68q9fR0BTFqWrj8pVdA6VXYAj8DmeI?=
- =?us-ascii?Q?x8LX7QWCWizsj55roiXopxl4AbleexpeH4YmZtlC9JXvny77noEpikKR8tHN?=
- =?us-ascii?Q?3UBX+SHQ/ajOaPoVrI5d/D1R8DNmTuPyXFvXUR5xK3NuSapBkFiuLnPIlPw+?=
- =?us-ascii?Q?KBUF5vMeIooY1glWCLjdotdx3PsVzLKjjsrfWE2Pt5qwoftbUBott5PDLX3R?=
- =?us-ascii?Q?Uv086g21xOsieAxSWjP6RPk=3D?=
+	=?us-ascii?Q?MbLeDnj0VF+FRKskbtO6n+caFG8e+Y2ItTy/nfO6bfqvmsR+h7da6EZuyxrN?=
+ =?us-ascii?Q?P929lmX2vFagEet16sX1wg3SXWmVKaKSYH0UWxGW1bQmHlhXuybSYvi/ZVPH?=
+ =?us-ascii?Q?VP357y8tkjz6u+z9p6PngF4f3OOItpSwxoORXBEmW3M/c3SDh+bqhUnAMqF3?=
+ =?us-ascii?Q?q2vzFzI8CAyDHKq3Lxky2eWy22pgureaguXUMY+0MWI6uIGC12PSAccVjw1I?=
+ =?us-ascii?Q?HBuGR3Yqv0WLlqENMiqPj1AHY5QoU13xGVN4AO+ht2deEOeqgnyvJHAAxFvd?=
+ =?us-ascii?Q?kASzTVQ8nL37hRBaOoT3RDZ1jakaZhnB/nernejTOnItHwi11vErMY8BTdMD?=
+ =?us-ascii?Q?ljigWaE3LKRY1oBARsmR8Xg6RaehyIyN1HhlNmHm++IJ2zn0vCuLb0vxGI3w?=
+ =?us-ascii?Q?U9/chQmaSomJ5yEO9GCQg7iztrUzMgvjmG71ccFcH7irmPBapSFYkuZf5ItC?=
+ =?us-ascii?Q?JwsSCA+PZT8Eho+yxMJWGSX1fBbmADzwK6l9KWNgvvDtEsEUK7HPbMwknnYj?=
+ =?us-ascii?Q?oTd5NBUxL+gcbUMf6iuERj7HZMItEc0fKgdHGM8RL2ClMfJ01Db48yVfF8+x?=
+ =?us-ascii?Q?Ap3lcv95KedygLzibZU/gH4KBtRlhQFuxKbQS5pKLAcT95jLrEkfPRsGsThQ?=
+ =?us-ascii?Q?L0vrDfa+J9Z7VSodfmklj46rGLsCpCTjKBm7WS8Gk/zHyk1WxtiAMGEeNt5w?=
+ =?us-ascii?Q?4c0TeDNqI0IsgaqvtYSqrW4K11986fa+wD/4DJ//kDVKLLhrV8pWAkDfzR4G?=
+ =?us-ascii?Q?9tuoL70dsDs/HhkD1XH2DtJ/9gsjGgdna2961WeRWBcaQqN82vMhS8yizTPW?=
+ =?us-ascii?Q?srshFToVK+xwURa9WaWf7Iytll7y57BMzoycSbgZ5mCEPFQOaffU4KKLiY1G?=
+ =?us-ascii?Q?YaUOYOJyAZG3pIooy5GURfOr/XCDwUVqh3A0JLwnsobkVgpilsz1Wn3IJw5A?=
+ =?us-ascii?Q?eg1yxnj7rzY4FOIkIoBw63mc+pShAvSFE3eHfrXtaLrLT9uycGGzdLmT9Hbk?=
+ =?us-ascii?Q?nLIrmsFthDoW0948iO5rE2y/bmEpvpeEicrUJWfGkorYg5JdPEiTf86imrQE?=
+ =?us-ascii?Q?pHvKW5ePZL+d4dY7fVFgpMrN0gZ3+GuurD6gAZ3VZfIYOtznBkOjldLHXW0G?=
+ =?us-ascii?Q?Io+tWQ7nrF1LhNps7IMFk2Qn7KxPypQlxfvwy/HHsYtuQ+2v8StRId5D1yc+?=
+ =?us-ascii?Q?5qkVf6XMmIG057jabLSlboXUqdKwc8U4dbDdK1q/1azhbiIX74ZbIcpsjF8i?=
+ =?us-ascii?Q?1hay+GkxV0jsEBX3u+676ljBh6gSSRKdAKkYnD808piq0qC+85UbPXfj35GR?=
+ =?us-ascii?Q?C3xtYFr7l3lxzVIvKW5EUTz8oEZUg1L7C9kTrYpLQUHE8Q9JRlWmjmIPmHke?=
+ =?us-ascii?Q?1E3mIN0bPn/FMJ3jPxTBFSwQFXrlFUevXd2uoPpB0MvGnDXrJ1a3eW9+oWtD?=
+ =?us-ascii?Q?upr3nWEoFioJlp2378ol8+IQFY5rxSdC3eP/ibUTrMAV9t7thMK3jkx45UN9?=
+ =?us-ascii?Q?4bXNiqcK9DefQCVwXn7IgzkREC90yF9zpuwcKNdXDocS/Uzr94wnIk7UzHmj?=
+ =?us-ascii?Q?YTFipifJyQRVTYIR2GAMlQLToCH7zN1wU+It+dMQOBlQO5WHnt8oswPRsUfh?=
+ =?us-ascii?Q?+u7RpWYh7VH6ndcTxztktsA=3D?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: eb81fd7a-6fa0-40c3-bd72-08d9abdc9b93
+X-MS-Exchange-CrossTenant-Network-Message-Id: 245ffa5b-14df-48a4-68b2-08d9abdc9d0d
 X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB4867.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2021 04:17:04.3649
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2021 04:17:06.8360
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: YLmrTzQXVCujmZoa6Z8ICoXcnYi++akmGzHwke7y02BAbpSAFKaTotEKu+j4Eky+03nvbzf9c+ahz+2GNZJA+A==
+X-MS-Exchange-CrossTenant-UserPrincipalName: F4Tisy9sFSjL/8uknoGmlzGZPD29JUjmAwdAUGDn0wQK010P704kFvOszwEcwVC0+m4/pquRl6PGZAcrCqXJfQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB4785
-X-Proofpoint-GUID: efol7bunM8t90LR6_0-VLR7uttQ2X17W
-X-Proofpoint-ORIG-GUID: efol7bunM8t90LR6_0-VLR7uttQ2X17W
+X-Proofpoint-GUID: 9TyZBf32REtZRa7IOQYv_zYeQsOWl2mq
+X-Proofpoint-ORIG-GUID: 9TyZBf32REtZRa7IOQYv_zYeQsOWl2mq
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
  definitions=2021-11-20_01,2021-11-17_01,2020-04-07_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 spamscore=0
  impostorscore=0 lowpriorityscore=0 suspectscore=0 bulkscore=0
  malwarescore=0 mlxscore=0 phishscore=0 priorityscore=1501 clxscore=1015
- mlxlogscore=814 classifier=spam adjust=0 reason=mlx scancount=1
+ mlxlogscore=788 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2110150000 definitions=main-2111200025
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
-Fixes:
-WARNING: openstack-image-compute.bb: IMAGE_ROOTFS_EXTRA_SPACE:append +=
-is not a recommended operator combination, please replace it.
-
 Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
 ---
- .../recipes-extended/images/openstack-image-compute.bb          | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta-openstack/Documentation/README.OpenLDAP | 2 +-
+ meta-openstack/README.setup                  | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta-openstack/recipes-extended/images/openstack-image-compute.bb b/meta-openstack/recipes-extended/images/openstack-image-compute.bb
-index 15726fd..a725e2e 100644
---- a/meta-openstack/recipes-extended/images/openstack-image-compute.bb
-+++ b/meta-openstack/recipes-extended/images/openstack-image-compute.bb
-@@ -19,6 +19,6 @@ inherit monitor
+diff --git a/meta-openstack/Documentation/README.OpenLDAP b/meta-openstack/Documentation/README.OpenLDAP
+index a45b769..95c2227 100644
+--- a/meta-openstack/Documentation/README.OpenLDAP
++++ b/meta-openstack/Documentation/README.OpenLDAP
+@@ -6,7 +6,7 @@ OpenLDAP into DISTRO_FEATURES
  
- # Ensure extra space for guest images, and rabbit MQ has a hard coded
- # check for 2G of free space, so we use 3G as a starting point.
--IMAGE_ROOTFS_EXTRA_SPACE:append += "+ 3000000"
-+IMAGE_ROOTFS_EXTRA_SPACE:append = " + 3000000"
+ e.g. in conf/local.conf
  
- # ROOTFS_POSTPROCESS_COMMAND += "remove_packaging_data_files ; "
+-DISTRO_FEATURES:append += " OpenLDAP"
++DISTRO_FEATURES:append = " OpenLDAP"
+ 
+ A number of variables can be specified during the build phase that configures
+ OpenLDAP specific options:
+diff --git a/meta-openstack/README.setup b/meta-openstack/README.setup
+index d1a4703..f837f63 100644
+--- a/meta-openstack/README.setup
++++ b/meta-openstack/README.setup
+@@ -95,7 +95,7 @@ systemd will be used in your images:
+ 
+ Additionally activiate the meta-virtualization layer:
+ 
+-    DISTRO_FEATURES:append += "virtualization kvm"
++    DISTRO_FEATURES:append = " virtualization kvm"
+ 
+ 
+ Package configurations
 -- 
 2.25.1
 
