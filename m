@@ -1,119 +1,78 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
- by mx.groups.io with SMTP id smtpd.web09.6627.1637589784763752495
+Received: from mail1.wrs.com (mail1.wrs.com [147.11.3.146])
+ by mx.groups.io with SMTP id smtpd.web08.7684.1637593897755927586
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 22 Nov 2021 06:03:05 -0800
+ Mon, 22 Nov 2021 07:11:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=pf383fuX;
- spf=pass (domain: gmail.com, ip: 209.85.208.44, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ed1-f44.google.com with SMTP id v1so43920228edx.2
-        for <meta-virtualization@lists.yoctoproject.org>; Mon, 22 Nov 2021 06:03:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=3/y4yw8ySPeAjV8ehJQdTet3gdydm0/UM8JRtHGIVPM=;
-        b=pf383fuXOqJsSqsV9NEYckKTr4N/hXWQVOnzA68SclPTTSN4glVesB4ANHDtZwyBqr
-         kN+mIF9jUmZZdaRNx7THd6V35b06fnGGKZflrbYWPt7qNH49UC79tv+G4793i9AZhI1l
-         BHf8jkNCxiitDei36STgCw1MtMF5iOQJSHiOUyFfjZwUKeG3A0pRL5CaQtLj94It6bWe
-         nNfwppwGt77sOBSUwjWTXZqVAKlyqTn1X4/4sSdo3wGszM4RheSB23ul8p3PXCsAUCgX
-         mkrcSQcpffOAMcAebH+4Xdk8ftzhaML5HybPQAGikBvkF1dr2ucseRf/JcD4NgkKrvsk
-         /ACQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=3/y4yw8ySPeAjV8ehJQdTet3gdydm0/UM8JRtHGIVPM=;
-        b=7kGDC2gL+MyY+7avMu8nbWT/qsJ9Tve3WA69cqsHRg1pFX51XFT60qnfimCFnHdNqR
-         hKDpGuedS6IHUlLgdrGhgzC3iDZsU4Sjv1z4fiuba8YifbHqxuvC3hlh5QcteEKsTc4Q
-         ixu2aqhLjo4KTTZbK5iY39jBtBOL/EPruMYz+cHEB5u9Gn540gFOEFXC7+KCRoigEPvv
-         INS2dS1UprHIq8N+osGlnRMcKwf+W00oIKJ4aKe6iZGzoQEXPwCa0PUiUZ1WHfRvUGBe
-         3VKskNwF+/Kyrst4r/dUL9p1iN1EJTr8ydXm0lXhkpTd0+LJjc1MIelAev3rxtO+B/0m
-         YlKA==
-X-Gm-Message-State: AOAM530h1f301RrXWKN90Igga+aUSUgRQe3j4XW3LPW6g/DxvxRFt4aU
-	fBN8C0qvi4ZnypFEFAAdJn2Lq3tKualUol48Cvw=
-X-Google-Smtp-Source: ABdhPJyb1qrfnyKEIjzFW67TAFg9N1GTpMoXhy+6R1KJjSdtAcZhH+WM8pdr/fOLVnCN6UN0npv53mJ0vPisII1DXsc=
-X-Received: by 2002:a17:906:314e:: with SMTP id e14mr41160179eje.165.1637589778790;
- Mon, 22 Nov 2021 06:02:58 -0800 (PST)
+ dkim=missing; spf=fail (domain: windriver.com, ip: 147.11.3.146, mailfrom: kai.kang@windriver.com)
+Received: from mail.windriver.com (mail.wrs.com [147.11.1.11])
+	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 1AMFBatb031877
+	(version=TLSv1.1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
+	for <meta-virtualization@lists.yoctoproject.org>; Mon, 22 Nov 2021 07:11:36 -0800
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 1AMFBZk9026934
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
+	for <meta-virtualization@lists.yoctoproject.org>; Mon, 22 Nov 2021 07:11:36 -0800 (PST)
+Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Mon, 22 Nov 2021 07:11:35 -0800
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Mon, 22 Nov 2021 07:11:35 -0800
+Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2242.12 via Frontend Transport; Mon, 22 Nov 2021 07:11:34 -0800
+From: "kai" <kai.kang@windriver.com>
+To: <meta-virtualization@lists.yoctoproject.org>
+Subject: [meta-virtualization][m-c-s][PATCH] concurrent-ruby: 1.1.6 -> 1.1.9
+Date: Mon, 22 Nov 2021 23:10:51 +0800
+Message-ID: <20211122151051.9683-1-kai.kang@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-References: <20211122073735.99777-1-Qi.Chen@windriver.com> <16B9E2BFEBABA343.12459@lists.yoctoproject.org>
-In-Reply-To: <16B9E2BFEBABA343.12459@lists.yoctoproject.org>
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Mon, 22 Nov 2021 09:02:47 -0500
-Message-ID: <CADkTA4P3_dGXufv0JVr_g8iuko9GTYpWnmjYNY09YOYgb-mefA@mail.gmail.com>
-Subject: Re: [meta-virtualization][hardknott][PATCH] containerd-opencontainers: bump to v1.4.12
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: Chen Qi <Qi.Chen@windriver.com>, meta-virtualization@lists.yoctoproject.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 
-On Mon, Nov 22, 2021 at 8:54 AM Bruce Ashfield via
-lists.yoctoproject.org
-<bruce.ashfield=gmail.com@lists.yoctoproject.org> wrote:
->
-> I already have version bumps for all of the related components under
-> test, they'll show up in master-next shortly, and should cover this.
->
+From: Kai Kang <kai.kang@windriver.com>
 
-Aha. My mistake, I didn't see the branch you specified. I'll merge
-this to hardknott shortly.
+Upgrade concurrent-ruby from 1.1.6 to 1.1.9:
 
-Bruce
+* it changed license file to txt, so the license file name and checksum changed
+* remove 'tag=' from SRC_URI and use SRCREV instead
 
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
+---
+ ...urrent-ruby_1.1.6.bb => concurrent-ruby_1.1.9.bb} | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
+ rename meta-openstack/recipes-devtools/ruby/{concurrent-ruby_1.1.6.bb => concurrent-ruby_1.1.9.bb} (50%)
 
-
-> Cheers,
->
-> Bruce
->
-> On Mon, Nov 22, 2021 at 2:37 AM Chen Qi <Qi.Chen@windriver.com> wrote:
-> >
-> > Bump from v1.4.4 to v.1.4.12 so that some CVEs are resolved,
-> > e.g. CVE-2021-41103.
-> >
-> > Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> > ---
-> >  .../containerd/containerd-opencontainers_git.bb               | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/recipes-containers/containerd/containerd-opencontainers_git.bb b/recipes-containers/containerd/containerd-opencontainers_git.bb
-> > index 774a28c..7f6c75d 100644
-> > --- a/recipes-containers/containerd/containerd-opencontainers_git.bb
-> > +++ b/recipes-containers/containerd/containerd-opencontainers_git.bb
-> > @@ -5,7 +5,7 @@ DESCRIPTION = "containerd is a daemon to control runC, built for performance and
-> >                 support as well as checkpoint and restore for cloning and live migration of containers."
-> >
-> >
-> > -SRCREV = "409c87ba59dd96965239573aa9458a3585c05468"
-> > +SRCREV = "7b11cfaabd73bb80907dd23182b9347b4245eb5d"
-> >  SRC_URI = "git://github.com/containerd/containerd;branch=release/1.4 \
-> >             file://0001-build-use-oe-provided-GO-and-flags.patch \
-> >             file://0001-Add-build-option-GODEBUG-1.patch \
-> > @@ -15,7 +15,7 @@ SRC_URI = "git://github.com/containerd/containerd;branch=release/1.4 \
-> >  LICENSE = "Apache-2.0"
-> >  LIC_FILES_CHKSUM = "file://src/import/LICENSE;md5=1269f40c0d099c21a871163984590d89"
-> >
-> > -CONTAINERD_VERSION = "v1.4.4"
-> > +CONTAINERD_VERSION = "v1.4.12"
-> >
-> >  EXTRA_OEMAKE += "GODEBUG=1"
-> >
-> > --
-> > 2.33.0
-> >
-> >
-> >
-> >
->
->
-> --
-> - Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at its end
-> - "Use the force Harry" - Gandalf, Star Trek II
->
-> 
->
-
-
+diff --git a/meta-openstack/recipes-devtools/ruby/concurrent-ruby_1.1.6.bb b/meta-openstack/recipes-devtools/ruby/concurrent-ruby_1.1.9.bb
+similarity index 50%
+rename from meta-openstack/recipes-devtools/ruby/concurrent-ruby_1.1.6.bb
+rename to meta-openstack/recipes-devtools/ruby/concurrent-ruby_1.1.9.bb
+index a328203e..e2c99d7d 100644
+--- a/meta-openstack/recipes-devtools/ruby/concurrent-ruby_1.1.6.bb
++++ b/meta-openstack/recipes-devtools/ruby/concurrent-ruby_1.1.9.bb
+@@ -2,11 +2,17 @@ SUMMARY = "Modern concurrency tools including agents, futures, promises, thread
+ HOMEPAGE = "http://www.concurrent-ruby.com"
+ 
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://LICENSE.md;md5=fde65ae93d18826f70c6fe125aa04297"
++LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=e319104fe1435b64fc0a67032db44f02"
+ 
+-SRC_URI = "git://github.com/ruby-concurrency/concurrent-ruby.git;protocol=https;tag=v1.1.6\
+-	   file://0001-Removed-check-for-concurrent_ruby.jar.patch"
++SRC_URI = "git://github.com/ruby-concurrency/concurrent-ruby.git;protocol=https;branch=master \
++           file://0001-Removed-check-for-concurrent_ruby.jar.patch \
++           "
++SRCREV = "52c08fca13cc3811673ea2f6fdb244a0e42e0ebe"
+ 
+ S = "${WORKDIR}/git"
+ 
++do_install:append () {
++    rmdir --ignore-fail-on-non-empty ${D}${libdir}/ruby/gems/${RUBY_GEM_VERSION}/plugins
++}
++
+ inherit ruby
 -- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+2.17.1
+
