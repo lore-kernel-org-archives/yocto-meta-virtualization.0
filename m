@@ -1,53 +1,54 @@
 Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
- by mx.groups.io with SMTP id smtpd.web10.4734.1637791382379875172
+ by mx.groups.io with SMTP id smtpd.web08.4664.1637791395750043109
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 24 Nov 2021 14:03:02 -0800
+ Wed, 24 Nov 2021 14:03:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=k8t2ZqQs;
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=FzKAAqnL;
  spf=pass (domain: gmail.com, ip: 209.85.222.171, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f171.google.com with SMTP id d2so5418459qki.12
-        for <meta-virtualization@lists.yoctoproject.org>; Wed, 24 Nov 2021 14:03:02 -0800 (PST)
+Received: by mail-qk1-f171.google.com with SMTP id t83so5436744qke.8
+        for <meta-virtualization@lists.yoctoproject.org>; Wed, 24 Nov 2021 14:03:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=PVaiKm+P6iTBAkjxxt8ExGBa4IE5dfAHYcGiNLpudCI=;
-        b=k8t2ZqQsVcZ6SzsSSSkGV+BS2iQTi3J49suVBBysuBg8gyA1yZ1SimUU65HJXUryCE
-         EULZTDllD5S5OHegnVPZcpbty5T9Owv73d/XcpOKEM9NDvrcJO2LZzgnQzuxuEDnIelw
-         je438RrySL9bJiDDFv9THpMv//FJ6UtVdDjDTCi/Q4id015G1sPGcxjuqdhb5lDM4pPu
-         ZmIZFIYRn/RCefh9VLeKNwDwW3egFrN2OdKWy/1PPP5D611zihtlrKrdsbw3e0Ke4IXa
-         KHlMVhpoTe+Ulr8JFBuXNYm/5KFjjAgsbZpRyOlg2qqP2hKejFYkjO8uWPavoDu9fpgK
-         foFg==
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :in-reply-to:user-agent;
+        bh=4JP5OtMXDOQZqRlQHpqvq459PCZMgAZd1nzUibgZzxE=;
+        b=FzKAAqnLAYtZU7kguG+AYQ26dNqjkES+OYj+WYc1WxEkSarf1MGHC9ztcvn4G0UxR2
+         xql90DCK0jw5c00xJ0QFty+N1i2fSaBHRjpqjt/Zio2lrbBgQ+tjJU7O6QjEtue2wVSG
+         zr3OFcLDxD+dWatRE/PwhR7Pv8JU8/Vqn9mFsJphcKGQa7VfKfNtckkaummeWl3D/7FA
+         bpG1vz6emFNY8rWddICKx7e1ugpOn7Rtle+xMjZk/VWVUEhLAGMSRCTPT293zQuFTU4V
+         5N7ecyYVWQW2m2MNdrojiCmmdgLuLrTV2uUkGVP1RB/Iz9OPY2AsNluysS1MD35fY8m1
+         XzmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=PVaiKm+P6iTBAkjxxt8ExGBa4IE5dfAHYcGiNLpudCI=;
-        b=Jr4FrozA6yqNQ/Djouanwfl4gdGnbro1uzpo5BXX3YZKgNZpGfqesVrtA2EMDAv3RK
-         XFKQ2tYik3h089XagFWJVJ1hhByG8g7UIZblmecESB6ApyQXdzTiJcgB6topgEuVrClO
-         tARUvW/7zx8FoWr80RHOivDbQimOopWDLe9xXVuntaMBiKhulj4IIIez8XJ8i8gVhk7Z
-         AWja/9KVj2ztxUMj0bAWhQw3qTAUk5EkOyExre+BCHXqMkWwYEOwFeAgOebfY8HutzGx
-         9PxIuE6tQGJwQ5vpFxcMjlMFMsFS72/lzFUsTfpzQIU4dXuCI3Fkni+ij1YFweF5ff2n
-         ZCOw==
-X-Gm-Message-State: AOAM5310QrXS6PAejKX0pU8Gpc+WySwo6BDnSfgG/xP4eHqoGpkX8osH
-	vph5occlIGZHDAN4lpVFeo0=
-X-Google-Smtp-Source: ABdhPJzNtT8LMurBKYBzB4BrLnqttq5mrxBzRuLOF3rduXsWJ3h6Q246dImG0fJqRigYkyt4ctzMRQ==
-X-Received: by 2002:a05:620a:4547:: with SMTP id u7mr1802971qkp.643.1637791381492;
-        Wed, 24 Nov 2021 14:03:01 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=4JP5OtMXDOQZqRlQHpqvq459PCZMgAZd1nzUibgZzxE=;
+        b=yX3BA1OhQKs0KiTNcvBtCEoeWeXySBZZwy33/n6YZBIp1pKD8emcAamWSxfDv4j0O1
+         5yBPqWnrEQsSJ8On9AugKNK733aA0D9AR3HoaFXlvhQ3S+JnWYlbPDYhR8LDQpAIBozq
+         ll6ao/OXGmxNdrFyirD38WD8ByDwxwNIhvmWUSOnvwE31M1Cap+XctHQA5BZ2M4RSCQi
+         E70J8SQL6XyYI98kPJfeR6HFGlqj0p+H1n8t6eBZZhe5eVxkD0rqPgumLaY0O6pOpR9D
+         5tnyMeIGRkj1gja9gE6CplsDNSHAYQD2mqVpUJNRZ1BUDKbPfsb6nCA8SW8ohRSH2DwX
+         ZyhQ==
+X-Gm-Message-State: AOAM532i54XdhVjNp1Emwh/w4tzBck4nDisB5Myfan7DnsFEUl9EWzKt
+	3Tftfg0qqR6iml2Lvht5hfQYX8jvEl9Dhw==
+X-Google-Smtp-Source: ABdhPJz0r2i1rT0R9dV6IrI4jymeL7y2o0x4h0j5NmsS2OoYZh0ROuFAh03Pg6pvUBtWW6mzKSXWSQ==
+X-Received: by 2002:a05:620a:a47:: with SMTP id j7mr9668078qka.439.1637791394832;
+        Wed, 24 Nov 2021 14:03:14 -0800 (PST)
 Return-Path: <bruce.ashfield@gmail.com>
 Received: from gmail.com (cpe04d4c4975b80-cmf4c11490699b.cpe.net.cable.rogers.com. [174.112.63.222])
-        by smtp.gmail.com with ESMTPSA id y73sm467277qkb.113.2021.11.24.14.03.00
+        by smtp.gmail.com with ESMTPSA id v21sm564683qta.0.2021.11.24.14.03.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Nov 2021 14:03:01 -0800 (PST)
-Date: Wed, 24 Nov 2021 17:02:59 -0500
+        Wed, 24 Nov 2021 14:03:14 -0800 (PST)
+Date: Wed, 24 Nov 2021 17:03:12 -0500
 From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-To: kai <kai.kang@windriver.com>
+To: Yi Zhao <yi.zhao@windriver.com>
 Cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [meta-virtualization][m-c-s][PATCH] concurrent-ruby: 1.1.6 -> 1.1.9
-Message-ID: <20211124220256.GA41710@gmail.com>
-References: <20211122151051.9683-1-kai.kang@windriver.com>
+Subject: Re: [meta-virtualization] [meta-cloud-services][PATCH 1/3] openstack-image-compute: fix warning of operator append combined with +=
+Message-ID: <20211124220312.GB41710@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20211122151051.9683-1-kai.kang@windriver.com>
+In-Reply-To: <20211120041652.583066-3-yi.zhao@windriver.com>
+ <20211120041652.583066-2-yi.zhao@windriver.com>
+ <20211120041652.583066-1-yi.zhao@windriver.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
@@ -56,55 +57,36 @@ merged.
 
 Bruce
 
-In message: [meta-virtualization][m-c-s][PATCH] concurrent-ruby: 1.1.6 -> 1.1.9
-on 22/11/2021 kai wrote:
+In message: [meta-virtualization] [meta-cloud-services][PATCH 1/3] openstack-image-compute: fix warning of operator append combined with +=
+on 20/11/2021 Yi Zhao wrote:
 
-> From: Kai Kang <kai.kang@windriver.com>
+> Fixes:
+> WARNING: openstack-image-compute.bb: IMAGE_ROOTFS_EXTRA_SPACE:append +=
+> is not a recommended operator combination, please replace it.
 > 
-> Upgrade concurrent-ruby from 1.1.6 to 1.1.9:
-> 
-> * it changed license file to txt, so the license file name and checksum changed
-> * remove 'tag=' from SRC_URI and use SRCREV instead
-> 
-> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
 > ---
->  ...urrent-ruby_1.1.6.bb => concurrent-ruby_1.1.9.bb} | 12 +++++++++---
->  1 file changed, 9 insertions(+), 3 deletions(-)
->  rename meta-openstack/recipes-devtools/ruby/{concurrent-ruby_1.1.6.bb => concurrent-ruby_1.1.9.bb} (50%)
+>  .../recipes-extended/images/openstack-image-compute.bb          | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/meta-openstack/recipes-devtools/ruby/concurrent-ruby_1.1.6.bb b/meta-openstack/recipes-devtools/ruby/concurrent-ruby_1.1.9.bb
-> similarity index 50%
-> rename from meta-openstack/recipes-devtools/ruby/concurrent-ruby_1.1.6.bb
-> rename to meta-openstack/recipes-devtools/ruby/concurrent-ruby_1.1.9.bb
-> index a328203e..e2c99d7d 100644
-> --- a/meta-openstack/recipes-devtools/ruby/concurrent-ruby_1.1.6.bb
-> +++ b/meta-openstack/recipes-devtools/ruby/concurrent-ruby_1.1.9.bb
-> @@ -2,11 +2,17 @@ SUMMARY = "Modern concurrency tools including agents, futures, promises, thread
->  HOMEPAGE = "http://www.concurrent-ruby.com"
+> diff --git a/meta-openstack/recipes-extended/images/openstack-image-compute.bb b/meta-openstack/recipes-extended/images/openstack-image-compute.bb
+> index 15726fd..a725e2e 100644
+> --- a/meta-openstack/recipes-extended/images/openstack-image-compute.bb
+> +++ b/meta-openstack/recipes-extended/images/openstack-image-compute.bb
+> @@ -19,6 +19,6 @@ inherit monitor
 >  
->  LICENSE = "MIT"
-> -LIC_FILES_CHKSUM = "file://LICENSE.md;md5=fde65ae93d18826f70c6fe125aa04297"
-> +LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=e319104fe1435b64fc0a67032db44f02"
+>  # Ensure extra space for guest images, and rabbit MQ has a hard coded
+>  # check for 2G of free space, so we use 3G as a starting point.
+> -IMAGE_ROOTFS_EXTRA_SPACE:append += "+ 3000000"
+> +IMAGE_ROOTFS_EXTRA_SPACE:append = " + 3000000"
 >  
-> -SRC_URI = "git://github.com/ruby-concurrency/concurrent-ruby.git;protocol=https;tag=v1.1.6\
-> -	   file://0001-Removed-check-for-concurrent_ruby.jar.patch"
-> +SRC_URI = "git://github.com/ruby-concurrency/concurrent-ruby.git;protocol=https;branch=master \
-> +           file://0001-Removed-check-for-concurrent_ruby.jar.patch \
-> +           "
-> +SRCREV = "52c08fca13cc3811673ea2f6fdb244a0e42e0ebe"
->  
->  S = "${WORKDIR}/git"
->  
-> +do_install:append () {
-> +    rmdir --ignore-fail-on-non-empty ${D}${libdir}/ruby/gems/${RUBY_GEM_VERSION}/plugins
-> +}
-> +
->  inherit ruby
+>  # ROOTFS_POSTPROCESS_COMMAND += "remove_packaging_data_files ; "
 > -- 
-> 2.17.1
+> 2.25.1
 > 
 
 > 
 > 
 > 
+
 
