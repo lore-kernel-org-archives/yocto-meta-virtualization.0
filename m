@@ -1,148 +1,107 @@
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
- by mx.groups.io with SMTP id smtpd.web10.4664.1637791025626316323
+Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
+ by mx.groups.io with SMTP id smtpd.web10.4734.1637791382379875172
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 24 Nov 2021 13:57:05 -0800
+ Wed, 24 Nov 2021 14:03:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=dti0BORE;
- spf=pass (domain: gmail.com, ip: 209.85.160.180, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qt1-f180.google.com with SMTP id f20so4204841qtb.4
-        for <meta-virtualization@lists.yoctoproject.org>; Wed, 24 Nov 2021 13:57:05 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=k8t2ZqQs;
+ spf=pass (domain: gmail.com, ip: 209.85.222.171, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f171.google.com with SMTP id d2so5418459qki.12
+        for <meta-virtualization@lists.yoctoproject.org>; Wed, 24 Nov 2021 14:03:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=H/1sqox8PksQ2zsRyS7qR8Vvwtq7o4DE1dhfEk0cQAg=;
-        b=dti0BOREMhz0mtVaQuD2ERlb8BA/DCw+SZLcKPz0dRLno/IUuElLmIYc7kian2O3nY
-         ZmE4dbmoewLxdwPrtRaShl+kvwWoxC+E2LZmbYr+14Mj7gvNG9aO3LnnnRH9XTKxHn91
-         rb4WRNuFNO+8yUk+Un4pPnVNzS2LN+NZIisVjdFSeMMKLr3rrrZmG9xQX9+Gu21IFG18
-         rUfpTodAU8IHdrs/3Wyn0qq6KMf8lDQ9Rb9GarUwA9EoisOFnLpuCju8SI2fFdoA/2vQ
-         kqKLat3rGPnRTkNLAGDrqN2Y72EoiFnp6J5vtYo8UhHZajOYm2kQ0+Ox1pszRUS15l6Y
-         qkFA==
+        bh=PVaiKm+P6iTBAkjxxt8ExGBa4IE5dfAHYcGiNLpudCI=;
+        b=k8t2ZqQsVcZ6SzsSSSkGV+BS2iQTi3J49suVBBysuBg8gyA1yZ1SimUU65HJXUryCE
+         EULZTDllD5S5OHegnVPZcpbty5T9Owv73d/XcpOKEM9NDvrcJO2LZzgnQzuxuEDnIelw
+         je438RrySL9bJiDDFv9THpMv//FJ6UtVdDjDTCi/Q4id015G1sPGcxjuqdhb5lDM4pPu
+         ZmIZFIYRn/RCefh9VLeKNwDwW3egFrN2OdKWy/1PPP5D611zihtlrKrdsbw3e0Ke4IXa
+         KHlMVhpoTe+Ulr8JFBuXNYm/5KFjjAgsbZpRyOlg2qqP2hKejFYkjO8uWPavoDu9fpgK
+         foFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=H/1sqox8PksQ2zsRyS7qR8Vvwtq7o4DE1dhfEk0cQAg=;
-        b=4XsADNX8L2OjN1R6tpAhDdERRPsN8qU2RouKcRdrr6s3A2EQx0DEDzTrhLOgITzEfp
-         xZPh2hEkud/MLsQnG3Xbd/X1XV5avuLDgXh2ltHm8D/7BBB0N9WRf7uuRV/cv35bAeSG
-         PV1BKTQsJFPNGxowPLo8Hg2vTxrFLTAdRHdLn/Ek8NrgY3DLDcneSGKiiDNzZgyq8NCN
-         ojwBcwDtcS6pb0AZYMFtS7MXuyKLC9XlaAWA6YINB9aZ3xhk0q35BmCZ1H2oOiGnOoFL
-         iTJS4M9P0TrX/IAQnei5cqIZk0wYjJEv5vT2WVLvPLvxW1/ySxrXeohU1oNNuFxHFYio
-         xv3Q==
-X-Gm-Message-State: AOAM5313Lmpd4tTiprazOb8fdLgRkvkD22U3F3RYWAdeJRil/t0OFWR+
-	ojlyN7J2Sy2GXcykJxM/jDM=
-X-Google-Smtp-Source: ABdhPJzEBKLBHTCoarV0uy01WwPT5UGKhu7rmS1bqm0AYgP28V7B0clGk0OEa7ztpbcXnmjbgtuVqA==
-X-Received: by 2002:ac8:5848:: with SMTP id h8mr11280912qth.339.1637791024606;
-        Wed, 24 Nov 2021 13:57:04 -0800 (PST)
+        bh=PVaiKm+P6iTBAkjxxt8ExGBa4IE5dfAHYcGiNLpudCI=;
+        b=Jr4FrozA6yqNQ/Djouanwfl4gdGnbro1uzpo5BXX3YZKgNZpGfqesVrtA2EMDAv3RK
+         XFKQ2tYik3h089XagFWJVJ1hhByG8g7UIZblmecESB6ApyQXdzTiJcgB6topgEuVrClO
+         tARUvW/7zx8FoWr80RHOivDbQimOopWDLe9xXVuntaMBiKhulj4IIIez8XJ8i8gVhk7Z
+         AWja/9KVj2ztxUMj0bAWhQw3qTAUk5EkOyExre+BCHXqMkWwYEOwFeAgOebfY8HutzGx
+         9PxIuE6tQGJwQ5vpFxcMjlMFMsFS72/lzFUsTfpzQIU4dXuCI3Fkni+ij1YFweF5ff2n
+         ZCOw==
+X-Gm-Message-State: AOAM5310QrXS6PAejKX0pU8Gpc+WySwo6BDnSfgG/xP4eHqoGpkX8osH
+	vph5occlIGZHDAN4lpVFeo0=
+X-Google-Smtp-Source: ABdhPJzNtT8LMurBKYBzB4BrLnqttq5mrxBzRuLOF3rduXsWJ3h6Q246dImG0fJqRigYkyt4ctzMRQ==
+X-Received: by 2002:a05:620a:4547:: with SMTP id u7mr1802971qkp.643.1637791381492;
+        Wed, 24 Nov 2021 14:03:01 -0800 (PST)
 Return-Path: <bruce.ashfield@gmail.com>
 Received: from gmail.com (cpe04d4c4975b80-cmf4c11490699b.cpe.net.cable.rogers.com. [174.112.63.222])
-        by smtp.gmail.com with ESMTPSA id v15sm509652qkl.91.2021.11.24.13.57.03
+        by smtp.gmail.com with ESMTPSA id y73sm467277qkb.113.2021.11.24.14.03.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Nov 2021 13:57:04 -0800 (PST)
-Date: Wed, 24 Nov 2021 16:57:02 -0500
+        Wed, 24 Nov 2021 14:03:01 -0800 (PST)
+Date: Wed, 24 Nov 2021 17:02:59 -0500
 From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-To: "Xu, Yanfei" <yanfei.xu@windriver.com>
+To: kai <kai.kang@windriver.com>
 Cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [meta-virtualization][PATCH] libvirt: fix CVE-2021-3667
-Message-ID: <20211124215659.GA41316@gmail.com>
-References: <20211123075031.2902715-1-yanfei.xu@windriver.com>
+Subject: Re: [meta-virtualization][m-c-s][PATCH] concurrent-ruby: 1.1.6 -> 1.1.9
+Message-ID: <20211124220256.GA41710@gmail.com>
+References: <20211122151051.9683-1-kai.kang@windriver.com>
 MIME-Version: 1.0
-In-Reply-To: <20211123075031.2902715-1-yanfei.xu@windriver.com>
+In-Reply-To: <20211122151051.9683-1-kai.kang@windriver.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-In master, I tend to favour uprev's versus specific CVE patches.
-
-That being said, I have a lot of pending changes right now, and
-won't have time to uprev for a few more weeks, so I've gone ahead
-and merged the change.
+merged.
 
 Bruce
 
-In message: [meta-virtualization][PATCH] libvirt: fix CVE-2021-3667
-on 23/11/2021 Xu, Yanfei wrote:
+In message: [meta-virtualization][m-c-s][PATCH] concurrent-ruby: 1.1.6 -> 1.1.9
+on 22/11/2021 kai wrote:
 
-> Backport a fix for CVE-2021-3667.
+> From: Kai Kang <kai.kang@windriver.com>
 > 
-> The CVE discription: An improper locking issue was found in the
-> virStoragePoolLookupByTargetPath API of libvirt. It occurs in the
-> storagePoolLookupByTargetPath function where a locked virStoragePoolObj
-> object is not properly released on ACL permission failure. Clients
-> connecting to the read-write socket with limited ACL permissions could
-> use this flaw to acquire the lock and prevent other users from accessing
-> storage pool/volume APIs, resulting in a denial of service condition.
-> The highest threat from this vulnerability is to system availability.
+> Upgrade concurrent-ruby from 1.1.6 to 1.1.9:
 > 
-> Refer to: https://bugzilla.redhat.com/show_bug.cgi?id=1986094
+> * it changed license file to txt, so the license file name and checksum changed
+> * remove 'tag=' from SRC_URI and use SRCREV instead
 > 
-> Signed-off-by: Yanfei Xu <yanfei.xu@windriver.com>
+> Signed-off-by: Kai Kang <kai.kang@windriver.com>
 > ---
->  ...nlock-object-on-ACL-fail-in-storageP.patch | 40 +++++++++++++++++++
->  recipes-extended/libvirt/libvirt_7.2.0.bb     |  1 +
->  2 files changed, 41 insertions(+)
->  create mode 100644 recipes-extended/libvirt/libvirt/0001-storage_driver-Unlock-object-on-ACL-fail-in-storageP.patch
+>  ...urrent-ruby_1.1.6.bb => concurrent-ruby_1.1.9.bb} | 12 +++++++++---
+>  1 file changed, 9 insertions(+), 3 deletions(-)
+>  rename meta-openstack/recipes-devtools/ruby/{concurrent-ruby_1.1.6.bb => concurrent-ruby_1.1.9.bb} (50%)
 > 
-> diff --git a/recipes-extended/libvirt/libvirt/0001-storage_driver-Unlock-object-on-ACL-fail-in-storageP.patch b/recipes-extended/libvirt/libvirt/0001-storage_driver-Unlock-object-on-ACL-fail-in-storageP.patch
-> new file mode 100644
-> index 00000000..608322d9
-> --- /dev/null
-> +++ b/recipes-extended/libvirt/libvirt/0001-storage_driver-Unlock-object-on-ACL-fail-in-storageP.patch
-> @@ -0,0 +1,40 @@
-> +From d3e20e186ed531e196bb1529430f39b0c917e6dc Mon Sep 17 00:00:00 2001
-> +From: Peter Krempa <pkrempa@redhat.com>
-> +Date: Wed, 21 Jul 2021 11:22:25 +0200
-> +Subject: [PATCH] storage_driver: Unlock object on ACL fail in
-> + storagePoolLookupByTargetPath
-> +
-> +'virStoragePoolObjListSearch' returns a locked and refed object, thus we
-> +must release it on ACL permission failure.
-> +
-> +Fixes: 7aa0e8c0cb8
-> +Resolves: https://bugzilla.redhat.com/show_bug.cgi?id=1984318
-> +Signed-off-by: Peter Krempa <pkrempa@redhat.com>
-> +Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
-> +
-> +Upstream-status: Backport
-> +CVE-2021-3667 [https://bugzilla.redhat.com/show_bug.cgi?id=1986094]
-> +Signed-off-by: Yanfei Xu <yanfei.xu@windriver.com>
-> +---
-> + src/storage/storage_driver.c | 4 +++-
-> + 1 file changed, 3 insertions(+), 1 deletion(-)
-> +
-> +diff --git a/src/storage/storage_driver.c b/src/storage/storage_driver.c
-> +index ecb5b86b4f..de66f1f9e5 100644
-> +--- a/src/storage/storage_driver.c
-> ++++ b/src/storage/storage_driver.c
-> +@@ -1739,8 +1739,10 @@ storagePoolLookupByTargetPath(virConnectPtr conn,
-> +                                            storagePoolLookupByTargetPathCallback,
-> +                                            cleanpath))) {
-> +         def = virStoragePoolObjGetDef(obj);
-> +-        if (virStoragePoolLookupByTargetPathEnsureACL(conn, def) < 0)
-> ++        if (virStoragePoolLookupByTargetPathEnsureACL(conn, def) < 0) {
-> ++            virStoragePoolObjEndAPI(&obj);
-> +             return NULL;
-> ++        }
-> + 
-> +         pool = virGetStoragePool(conn, def->name, def->uuid, NULL, NULL);
-> +         virStoragePoolObjEndAPI(&obj);
-> +-- 
-> +2.27.0
-> +
-> diff --git a/recipes-extended/libvirt/libvirt_7.2.0.bb b/recipes-extended/libvirt/libvirt_7.2.0.bb
-> index cc7bb2cb..4ec11fb5 100644
-> --- a/recipes-extended/libvirt/libvirt_7.2.0.bb
-> +++ b/recipes-extended/libvirt/libvirt_7.2.0.bb
-> @@ -30,6 +30,7 @@ SRC_URI = "http://libvirt.org/sources/libvirt-${PV}.tar.xz;name=libvirt \
->             file://gnutls-helper.py \
->             file://0002-meson-Fix-compatibility-with-Meson-0.58.patch \
->             file://0001-security-fix-SELinux-label-generation-logic.patch \
-> +           file://0001-storage_driver-Unlock-object-on-ACL-fail-in-storageP.patch \
->            "
+> diff --git a/meta-openstack/recipes-devtools/ruby/concurrent-ruby_1.1.6.bb b/meta-openstack/recipes-devtools/ruby/concurrent-ruby_1.1.9.bb
+> similarity index 50%
+> rename from meta-openstack/recipes-devtools/ruby/concurrent-ruby_1.1.6.bb
+> rename to meta-openstack/recipes-devtools/ruby/concurrent-ruby_1.1.9.bb
+> index a328203e..e2c99d7d 100644
+> --- a/meta-openstack/recipes-devtools/ruby/concurrent-ruby_1.1.6.bb
+> +++ b/meta-openstack/recipes-devtools/ruby/concurrent-ruby_1.1.9.bb
+> @@ -2,11 +2,17 @@ SUMMARY = "Modern concurrency tools including agents, futures, promises, thread
+>  HOMEPAGE = "http://www.concurrent-ruby.com"
 >  
->  SRC_URI[libvirt.md5sum] = "92044b629216e44adce63224970a54a3"
+>  LICENSE = "MIT"
+> -LIC_FILES_CHKSUM = "file://LICENSE.md;md5=fde65ae93d18826f70c6fe125aa04297"
+> +LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=e319104fe1435b64fc0a67032db44f02"
+>  
+> -SRC_URI = "git://github.com/ruby-concurrency/concurrent-ruby.git;protocol=https;tag=v1.1.6\
+> -	   file://0001-Removed-check-for-concurrent_ruby.jar.patch"
+> +SRC_URI = "git://github.com/ruby-concurrency/concurrent-ruby.git;protocol=https;branch=master \
+> +           file://0001-Removed-check-for-concurrent_ruby.jar.patch \
+> +           "
+> +SRCREV = "52c08fca13cc3811673ea2f6fdb244a0e42e0ebe"
+>  
+>  S = "${WORKDIR}/git"
+>  
+> +do_install:append () {
+> +    rmdir --ignore-fail-on-non-empty ${D}${libdir}/ruby/gems/${RUBY_GEM_VERSION}/plugins
+> +}
+> +
+>  inherit ruby
 > -- 
-> 2.27.0
+> 2.17.1
 > 
 
 > 
