@@ -1,172 +1,241 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
- by mx.groups.io with SMTP id smtpd.web10.79591.1638290861757443492
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+ by mx.groups.io with SMTP id smtpd.web10.79592.1638290862866320658
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 30 Nov 2021 08:47:42 -0800
+ Tue, 30 Nov 2021 08:47:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=khZBsU41;
- spf=pass (domain: gmail.com, ip: 209.85.208.53, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ed1-f53.google.com with SMTP id x6so89046218edr.5
-        for <meta-virtualization@lists.yoctoproject.org>; Tue, 30 Nov 2021 08:47:41 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=XKqzyDtf;
+ spf=pass (domain: gmail.com, ip: 209.85.208.46, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ed1-f46.google.com with SMTP id o20so88858592eds.10
+        for <meta-virtualization@lists.yoctoproject.org>; Tue, 30 Nov 2021 08:47:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=c2+piBimMdX0lpt1PzDPoqtG8TWJ1o3P1qrM7htKD7c=;
-        b=khZBsU41wMn8mH7ESi68Y7cvBlRCtxt69LqGHzKWzZXDcJ3PoaPepNfjjmAJXiPMDb
-         QWgQJXtPzt7yqb1CwhZEwzwAFbVngkvhyVdVaMeL0uFGv6+DuQO1kUujLN5V96puXaSQ
-         FrZYGoJ1zFX3hlRUuW6bTEHq293zo5NjrvXL4bdjIIentDjnryIQc1fuXcTvvQk3CbqT
-         Q423v5O9egMGw70Nm/uUU+cIsd4VHDcHrqPDaunhKZ3JMFl1Q7oCzrW2HcRzQAD5jTPl
-         mce0WXH0Gxp/gwvdJM0iVm3l8qTxXlk0WixTUov9yjs+pC4QM9/jpXa5YztVAj7xmkTk
-         +YjQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=4/Q6BlLLiZF8rqTVSjT1DouoVWpxdijdFKGOGkLpqWM=;
+        b=XKqzyDtfjwytt/0f/VbDkpI7TJODvwSkW3QPpMy0d5GijEl+7eiC+8dLFu4cRB6SkH
+         OSi0WVmXQESUdDkccdtTVAlQJdBTTqWwi3AwAh8Uptke0dVl+/erjQCnXf5aiTj1vUPB
+         /aOKDlM81vix1TcRtqDYPN3LUztq+NH1z4gbATH6lLtjw/KSapgJsyYTj7O6l9mc3dia
+         P1b+3ta+Qzaebsl98/oFpdBnL1Au7PJXpv16eKV/NH2CsZXPt4mF6FfYkdP2xx8dcz8t
+         hEj19qeCg4jFX+1l01c3SqSbu9E3f2KN6HgkWyiSu13HJRtEXyOxouFRjIAqL0PyQgKZ
+         mFBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=c2+piBimMdX0lpt1PzDPoqtG8TWJ1o3P1qrM7htKD7c=;
-        b=t2gn56GdlfObUaPmwzJmv7vNkSYxeldj7jYFVbWetBX9Yi2j56dgdJhF/KSN2REIts
-         FTEEC2zt7XRm2IbNDX10rN1mxD0N8qBjX3BbgQqk45yb8xE4sKPJ2v7SfFOIkIIPb9qx
-         pwnTEybDxemKJgEVStl05qzaieWBOL50HfvrBf/BvtPkaC8c2a31tlQywcIvo1drSBIj
-         L2zrRd98tthzO4ikThUkLhMziMfMtRu6KyUa0oojDWZWCLacBiyXIMEAgcYauKoj4OAm
-         c0dWb3hHRSyB42X4Ox1KEbF8yiSUtG+ybmjDH658zRFBEgY462Wqyyh0LLoec4AUf520
-         RAzg==
-X-Gm-Message-State: AOAM531FgJpRCvnkV1QnU7avOL7zMfoETyjZA5fykdumrhLb6WjCy2s+
-	AmWZBTmIuaAgRe9Em6SpjvQTQrUd7OU=
-X-Google-Smtp-Source: ABdhPJy+Nbf94oSioh6x/DBZRtuBaah5MFwJLimylXztdANRGY2f3oSo+cr5GFyW33SrhxZBkkzNgA==
-X-Received: by 2002:a50:da48:: with SMTP id a8mr183829edk.146.1638290860115;
-        Tue, 30 Nov 2021 08:47:40 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=4/Q6BlLLiZF8rqTVSjT1DouoVWpxdijdFKGOGkLpqWM=;
+        b=bFqLnQXs3S5aUVRUJ662c4b2fDU9NBk0Gq3J5qXdm8ozhb1uXiYVlEZ9Cv/xNOamoZ
+         eUQIgkSOdQreUXq287WAlSMroqU1PYVMhYFNMASgaPEqCAWsNDT+9ujXj6QXjcMzxvtd
+         Jwfg1NN8U2exHcNPuKdLWXmDNGMgPzgbToH4/8TuEV+/PlcXug3gTpCiAoFcC9FfyvTm
+         K56PuQP0IXwcQwfp0HVec5kAGpL02vYBlzUroWQ3paUJ/Ms2AXyaOZGUZHB+BUV/Atxe
+         9MShwOR2aXLfqIxBWOkyeppJ/tedh01M3trqgn6jSjHjuStACGQlkn1PCPngc28XM2zK
+         ByUA==
+X-Gm-Message-State: AOAM530uj303Ao27V8U9CV0B3Bwcw/yc0J3jDKc3qOOXxJOfdrSN9l6G
+	14brr8z34am7tD5lNwv7G1IP1vR0iBw=
+X-Google-Smtp-Source: ABdhPJwlll0AW6DCHO9dcH0HmYzQxWmjLDGDw03h7caVqFesUFJhlFq6F5xYr6v+prUxTzJTS7gktA==
+X-Received: by 2002:a05:6402:26cd:: with SMTP id x13mr135661edd.11.1638290861425;
+        Tue, 30 Nov 2021 08:47:41 -0800 (PST)
 Return-Path: <martin.jansa@gmail.com>
 Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id d23sm3914317edq.51.2021.11.30.08.47.39
+        by smtp.gmail.com with ESMTPSA id u16sm9343641ejy.16.2021.11.30.08.47.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Nov 2021 08:47:39 -0800 (PST)
+        Tue, 30 Nov 2021 08:47:40 -0800 (PST)
 From: "Martin Jansa" <Martin.Jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: meta-virtualization@lists.yoctoproject.org
 Cc: Martin Jansa <Martin.Jansa@gmail.com>
-Subject: [meta-virtualization][PATCHv2 1/2] uxen-guest-tools: fix build against kernels 5.15+
-Date: Tue, 30 Nov 2021 17:47:35 +0100
-Message-Id: <20211130164736.43609-1-Martin.Jansa@gmail.com>
+Subject: [meta-virtualization][PATCHv2 2/2] uxen-guest-tools: fix -DMODULE not working when building uxenhc module
+Date: Tue, 30 Nov 2021 17:47:36 +0100
+Message-Id: <20211130164736.43609-2-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20211130164736.43609-1-Martin.Jansa@gmail.com>
+References: <20211130164736.43609-1-Martin.Jansa@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 
-This is a compile only fix to update the uxen kernel modules to
-work against newer kernels.
+* undo the unnecessary and incomplete changes from 0001-vm-support-fix-buil=
+d-for-kernel-s-5.4.patch
+  because with 5.15 it was still failing with:
+  ERROR: modpost: missing MODULE_LICENSE() in uxen-guest-tools/4.1.8-r0/uxe=
+n-4.1.8-72a4af9/vm-support/linux/uxenhc/uxenhc.o
+
+  fix it properly in 0004-uxenhc-fix-DMODULE-not-working-on-module-build-co=
+mma.patch
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- ...-support-fix-build-for-kernel-s-5.15.patch | 46 +++++++++++++++++++
- ...-support-fix-build-for-kernel-s-5.14.patch | 32 +++++++++++++
- .../uxen/uxen-guest-tools_4.1.8.bb            |  4 +-
- 3 files changed, 81 insertions(+), 1 deletion(-)
- create mode 100644 recipes-extended/uxen/uxen-guest-tools/0002-vm-support-fix-build-for-kernel-s-5.15.patch
- create mode 100644 recipes-extended/uxen/uxen-guest-tools/0003-vm-support-fix-build-for-kernel-s-5.14.patch
+ ...m-support-fix-build-for-kernel-s-5.4.patch | 13 -----
+ ...LE-not-working-on-module-build-comma.patch | 56 +++++++++++++++++++
+ .../uxen/uxen-guest-tools_4.1.8.bb            |  1 +
+ 3 files changed, 57 insertions(+), 13 deletions(-)
+ create mode 100644 recipes-extended/uxen/uxen-guest-tools/0004-uxenhc-fix-=
+DMODULE-not-working-on-module-build-comma.patch
 
-diff --git a/recipes-extended/uxen/uxen-guest-tools/0002-vm-support-fix-build-for-kernel-s-5.15.patch b/recipes-extended/uxen/uxen-guest-tools/0002-vm-support-fix-build-for-kernel-s-5.15.patch
+diff --git a/recipes-extended/uxen/uxen-guest-tools/0001-vm-support-fix-bui=
+ld-for-kernel-s-5.4.patch b/recipes-extended/uxen/uxen-guest-tools/0001-vm-=
+support-fix-build-for-kernel-s-5.4.patch
+index a3325ce..287170c 100644
+--- a/recipes-extended/uxen/uxen-guest-tools/0001-vm-support-fix-build-for-=
+kernel-s-5.4.patch
++++ b/recipes-extended/uxen/uxen-guest-tools/0001-vm-support-fix-build-for-=
+kernel-s-5.4.patch
+@@ -34,19 +34,6 @@ index 0b9ef3f..04957a8 100644
+          if (!uxen_hcbase) {
+              ret =3D -ENOMEM;
+              goto out;
+-@@ -149,8 +154,11 @@ static void __exit uxen_hypercall_exit(void)
+- {
+- }
+-=20
+-+
+-+#define KBUILD_MODFILE "uxenhc"
+-+
+- module_init(uxen_hypercall_init);
+- module_exit(uxen_hypercall_exit);
+-+MODULE_LICENSE("GPL");
+- MODULE_AUTHOR("paulian.marinca@bromium.com");
+- MODULE_DESCRIPTION("uXen hypercall support");
+--MODULE_LICENSE("GPL");
+ diff --git a/v4vvsock/v4v_vsock.c b/v4vvsock/v4v_vsock.c
+ index 8d80d7d..cd7e8ce 100644
+ --- a/v4vvsock/v4v_vsock.c
+diff --git a/recipes-extended/uxen/uxen-guest-tools/0004-uxenhc-fix-DMODULE=
+-not-working-on-module-build-comma.patch b/recipes-extended/uxen/uxen-guest=
+-tools/0004-uxenhc-fix-DMODULE-not-working-on-module-build-comma.patch
 new file mode 100644
-index 0000000..6b7f1f8
+index 0000000..60018f0
 --- /dev/null
-+++ b/recipes-extended/uxen/uxen-guest-tools/0002-vm-support-fix-build-for-kernel-s-5.15.patch
-@@ -0,0 +1,46 @@
-+From f8a33a209498b32b0fc06d80baa071f0902b9a85 Mon Sep 17 00:00:00 2001
++++ b/recipes-extended/uxen/uxen-guest-tools/0004-uxenhc-fix-DMODULE-not-wo=
+rking-on-module-build-comma.patch
+@@ -0,0 +1,56 @@
++From 732791cb353289e37448d84503a7d62ca156f29f Mon Sep 17 00:00:00 2001
 +From: Martin Jansa <Martin.Jansa@gmail.com>
-+Date: Tue, 30 Nov 2021 06:45:34 -0800
-+Subject: [PATCH] vm-support: fix build for kernel's > 5.15
++Date: Tue, 30 Nov 2021 16:33:14 +0000
++Subject: [PATCH] uxenhc: fix -DMODULE not working on module build command =
+line
 +
-+* remove callback was changed to return void instead of int in:
-+  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=fc7a6209d5710618eb4f72a77cd81b8d694ecf89
++* ATTOXEN_API_INC isn't defined anywhere in our OE builds, so the command =
+line ends like this:
++
++  x86_64-oe-linux-gcc  -fuse-ld=3Dbfd -fmacro-prefix-map=3D/OE/work/qemux8=
+6_64-oe-linux/uxen-guest-tools/4.1.8-r0=3D/usr/src/debug/uxen-guest-tools/4=
+.1.8-r0                      -fdebug-prefix-map=3D/OE/work/qemux86_64-oe-li=
+nux/uxen-guest-tools/4.1.8-r0=3D/usr/src/debug/uxen-guest-tools/4.1.8-r0   =
+                   -fdebug-prefix-map=3D/OE/work/qemux86_64-oe-linux/uxen-g=
+uest-tools/4.1.8-r0/recipe-sysroot=3D                      -fdebug-prefix-m=
+ap=3D/OE/work/qemux86_64-oe-linux/uxen-guest-tools/4.1.8-r0/recipe-sysroot-=
+native=3D  -fdebug-prefix-map=3D/OE/work-shared/qemux86-64/kernel-source=3D=
+/usr/src/kernel -Wp,-MMD,/OE/work/qemux86_64-oe-linux/uxen-guest-tools/4.1.=
+8-r0/uxen-4.1.8-72a4af9/vm-support/linux/uxenhc/.hypercall.o.d -I/OE/work/q=
+emux86_64-oe-linux/uxen-guest-tools/4.1.8-r0/uxen-4.1.8-72a4af9/vm-support/=
+linux/include/ -I/OE/work/qemux86_64-oe-linux/uxen-guest-tools/4.1.8-r0/uxe=
+n-4.1.8-72a4af9/vm-support/linux/include/uxen -I/OE/work/qemux86_64-oe-linu=
+x/uxen-guest-tools/4.1.8-r0/uxen-4.1.8-72a4af9/vm-support/linux/include/uxe=
+n/xen -I/OE/work-shared/qemux86-64/kernel-source/arch/x86/include -I./arch/=
+x86/include/generated -I/OE/work-shared/qemux86-64/kernel-source/include -I=
+./include -I/OE/work-shared/qemux86-64/kernel-source/arch/x86/include/uapi =
+-I./arch/x86/include/generated/uapi -I/OE/work-shared/qemux86-64/kernel-sou=
+rce/include/uapi -I./include/generated/uapi -include /OE/work-shared/qemux8=
+6-64/kernel-source/include/linux/compiler-version.h -include /OE/work-share=
+d/qemux86-64/kernel-source/include/linux/kconfig.h -include /OE/work-shared=
+/qemux86-64/kernel-source/include/linux/compiler_types.h -D__KERNEL__ -fmac=
+ro-prefix-map=3D/OE/work-shared/qemux86-64/kernel-source/=3D -Wall -Wundef =
+-Werror=3Dstrict-prototypes -Wno-trigraphs -fno-strict-aliasing -fno-common=
+ -fshort-wchar -fno-PIE -Werror=3Dimplicit-function-declaration -Werror=3Di=
+mplicit-int -Werror=3Dreturn-type -Wno-format-security -std=3Dgnu89 -mno-ss=
+e -mno-mmx -mno-sse2 -mno-3dnow -mno-avx -fcf-protection=3Dnone -m64 -falig=
+n-jumps=3D1 -falign-loops=3D1 -mno-80387 -mno-fp-ret-in-387 -mpreferred-sta=
+ck-boundary=3D3 -mskip-rax-setup -march=3Dcore2 -mno-red-zone -mcmodel=3Dke=
+rnel -Wno-sign-compare -fno-asynchronous-unwind-tables -mindirect-branch=3D=
+thunk-extern -mindirect-branch-register -fno-jump-tables -fno-delete-null-p=
+ointer-checks -Wno-frame-address -Wno-format-truncation -Wno-format-overflo=
+w -Wno-address-of-packed-member -O2 -fno-allow-store-data-races -Wframe-lar=
+ger-than=3D2048 -fstack-protector-strong -Wimplicit-fallthrough=3D5 -Wno-ma=
+in -Wno-unused-but-set-variable -Wno-unused-const-variable -fno-omit-frame-=
+pointer -fno-optimize-sibling-calls -fno-stack-clash-protection -pg -mrecor=
+d-mcount -mfentry -DCC_USING_FENTRY -Wdeclaration-after-statement -Wvla -Wn=
+o-pointer-sign -Wno-stringop-truncation -Wno-zero-length-bounds -Wno-array-=
+bounds -Wno-stringop-overflow -Wno-restrict -Wno-maybe-uninitialized -fno-s=
+trict-overflow -fno-stack-check -fconserve-stack -Werror=3Ddate-time -Werro=
+r=3Dincompatible-pointer-types -Werror=3Ddesignated-init -Wno-packed-not-al=
+igned -DLX_TARGET_STANDARDVM -g -Wall -I  -DMODULE  -DKBUILD_BASENAME=3D'"h=
+ypercall"' -DKBUILD_MODNAME=3D'"uxenhc"' -D__KBUILD_MODNAME=3Dkmod_uxenhc -=
+c -o /OE/work/qemux86_64-oe-linux/uxen-guest-tools/4.1.8-r0/uxen-4.1.8-72a4=
+af9/vm-support/linux/uxenhc/hypercall.o /OE/work/qemux86_64-oe-linux/uxen-g=
+uest-tools/4.1.8-r0/uxen-4.1.8-72a4af9/vm-support/linux/uxenhc/hypercall.c
++
++  the important part is "-I  -DMODULE" which breaks include/linux/module.h=
+ behavior:
++
++  /*
++   * MODULE_FILE is used for generating modules.builtin
++   * So, make it no-op when this is being built as a module
++   */
++  #ifdef MODULE
++  #define MODULE_FILE
++  #else
++  #define MODULE_FILE     MODULE_INFO(file, KBUILD_MODFILE);
++  #endif
++
++  resulting in:
++
++  In file included from /OE/work-shared/qemux86-64/kernel-source/include/l=
+inux/module.h:22,
++                   from /OE/work/qemux86_64-oe-linux/uxen-guest-tools/4.1.=
+8-r0/uxen-4.1.8-72a4af9/vm-support/linux/uxenhc/hypercall.c:3:
++  /OE/work-shared/qemux86-64/kernel-source/include/linux/module.h:183:43: =
+error: expected ',' or ';' before 'KBUILD_MODFILE'
++    183 | #define MODULE_FILE     MODULE_INFO(file, KBUILD_MODFILE);
++        |                                           ^~~~~~~~~~~~~~
++  /OE/work-shared/qemux86-64/kernel-source/include/linux/moduleparam.h:26:=
+61: note: in definition of macro '__MODULE_INFO'
++     26 |                 =3D __MODULE_INFO_PREFIX __stringify(tag) "=3D" =
+info
++        |                                                             ^~~~
++  /OE/work-shared/qemux86-64/kernel-source/include/linux/module.h:183:25: =
+note: in expansion of macro 'MODULE_INFO'
++    183 | #define MODULE_FILE     MODULE_INFO(file, KBUILD_MODFILE);
++        |                         ^~~~~~~~~~~
++  /OE/work-shared/qemux86-64/kernel-source/include/linux/module.h:230:34: =
+note: in expansion of macro 'MODULE_FILE'
++    230 | #define MODULE_LICENSE(_license) MODULE_FILE MODULE_INFO(license=
+, _license)
++        |                                  ^~~~~~~~~~~
++  /OE/work/qemux86_64-oe-linux/uxen-guest-tools/4.1.8-r0/uxen-4.1.8-72a4af=
+9/vm-support/linux/uxenhc/hypercall.c:161:1: note: in expansion of macro 'M=
+ODULE_LICENSE'
++    161 | MODULE_LICENSE("GPL");
++        | ^~~~~~~~~~~~~~
 +
 +Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 +---
-+ uxenplatform/platform.c | 7 +++++++
-+ 1 file changed, 7 insertions(+)
++ uxenhc/Kbuild | 1 -
++ 1 file changed, 1 deletion(-)
 +
-+diff --git a/uxenplatform/platform.c b/uxenplatform/platform.c
-+index 99fc76a..5225a00 100644
-+--- a/uxenplatform/platform.c
-++++ b/uxenplatform/platform.c
-+@@ -4,6 +4,7 @@
-+ #include <linux/random.h>
-+ #include <linux/kthread.h>
-+ #include <linux/delay.h>
-++#include <linux/version.h>
-+ 
-+ #include <uxen-hypercall.h>
-+ #include <uxen-platform.h>
-+@@ -32,14 +33,20 @@ static int bus_probe(struct device *_dev)
-+     return drv && drv->probe ? drv->probe(dev) : -ENODEV;
-+ }
-+ 
-++#if (LINUX_VERSION_CODE < KERNEL_VERSION(5,15,0))
-+ static int bus_remove(struct device *_dev)
-++#else
-++static void bus_remove(struct device *_dev)
-++#endif
-+ {
-+     struct uxen_device *dev = dev_to_uxen(_dev);
-+     struct uxen_driver *drv = drv_to_uxen(_dev->driver);
-+ 
-+     if (dev && drv && drv->remove)
-+        drv->remove(dev);
-++#if (LINUX_VERSION_CODE < KERNEL_VERSION(5,15,0))
-+     return 0;
-++#endif
-+ }
-+ 
-+ static int bus_suspend(struct device *_dev, pm_message_t state)
-diff --git a/recipes-extended/uxen/uxen-guest-tools/0003-vm-support-fix-build-for-kernel-s-5.14.patch b/recipes-extended/uxen/uxen-guest-tools/0003-vm-support-fix-build-for-kernel-s-5.14.patch
-new file mode 100644
-index 0000000..ec31eea
---- /dev/null
-+++ b/recipes-extended/uxen/uxen-guest-tools/0003-vm-support-fix-build-for-kernel-s-5.14.patch
-@@ -0,0 +1,32 @@
-+From 59986e91d807591f05dfbd57b459ba71670874f9 Mon Sep 17 00:00:00 2001
-+From: Martin Jansa <Martin.Jansa@gmail.com>
-+Date: Tue, 30 Nov 2021 15:04:31 +0000
-+Subject: [PATCH] vm-support: fix build for kernel's > 5.14
-+
-+* remove set_driver_byte call
-+* not sure if it's still necessary here, but set_driver_byte as well as DRIVER_SENSE was killed in 5.14 with:
-+  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=464a00c9e0ad45e3f42ff6ea705491a356df818e
-+
-+  in some cases it was replaced with set_status_byte(sc, SAM_STAT_CHECK_CONDITION), but I didn't
-+  read the implementation carefully enough to decide if this is still needed, I was only interested
-+  in fixing the build failure (and I don't use this at all to test it in runtime)
-+
-+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-+---
-+ uxenstor/stor.c | 2 ++
-+ 1 file changed, 2 insertions(+)
-+
-+diff --git a/uxenstor/stor.c b/uxenstor/stor.c
-+index e07b08e..6bf2184 100644
-+--- a/uxenstor/stor.c
-++++ b/uxenstor/stor.c
-+@@ -109,7 +109,9 @@ static void uxenstor_softirq(unsigned long opaque)
-+                                          sc->sense_buffer,
-+                                          sizeof(hdr) + hdr.sense_size,
-+                                          0, sizeof(hdr));
-++#if (LINUX_VERSION_CODE < KERNEL_VERSION(5,14,0))
-+                 set_driver_byte(sc, DRIVER_SENSE);
-++#endif
-+             }
-+ 
-+             set_host_byte(sc, DID_ERROR);
-diff --git a/recipes-extended/uxen/uxen-guest-tools_4.1.8.bb b/recipes-extended/uxen/uxen-guest-tools_4.1.8.bb
-index 06dc376..841c71a 100644
++diff --git a/uxenhc/Kbuild b/uxenhc/Kbuild
++index e418096..ef1b145 100644
++--- a/uxenhc/Kbuild
+++++ b/uxenhc/Kbuild
++@@ -1,4 +1,3 @@
++ obj-m +=3D uxenhc.o
++=20
++ uxenhc-y :=3D hypercall.o
++-CFLAGS_hypercall.o :=3D -I$(ATTOXEN_API_INC)
++\ No newline at end of file
+diff --git a/recipes-extended/uxen/uxen-guest-tools_4.1.8.bb b/recipes-exte=
+nded/uxen/uxen-guest-tools_4.1.8.bb
+index 841c71a..529efdb 100644
 --- a/recipes-extended/uxen/uxen-guest-tools_4.1.8.bb
 +++ b/recipes-extended/uxen/uxen-guest-tools_4.1.8.bb
-@@ -10,7 +10,9 @@ SRC_URI = " \
-     https://www.bromium.com/wp-content/uploads/2019/11/Bromium-4.1.8-Open-Source-Software.pdf;name=license \
-     file://fix-Makefile-for-OE-kernel-build.patch \
+@@ -12,6 +12,7 @@ SRC_URI =3D " \
      file://0001-vm-support-fix-build-for-kernel-s-5.4.patch \
--    "
-+    file://0002-vm-support-fix-build-for-kernel-s-5.15.patch \
-+    file://0003-vm-support-fix-build-for-kernel-s-5.14.patch \
-+"
- 
- SRC_URI[uxen.sha384sum] = "be2233bc6506a23350d76c03ac28ea7ea381e1dc6ed5ce996e8ac71e6a3316fcaa2ed070c622618bd226f43a4d6db5d4"
- SRC_URI[license.sha384sum] = "92e48c614df3094cb52321d4c4e01f6df5526d46aee5c6fa36c43ee23d4c33f03baa1fc5f6f29efafff636b6d13bc92c"
--- 
+     file://0002-vm-support-fix-build-for-kernel-s-5.15.patch \
+     file://0003-vm-support-fix-build-for-kernel-s-5.14.patch \
++    file://0004-uxenhc-fix-DMODULE-not-working-on-module-build-comma.patch=
+ \
+ "
+=20
+ SRC_URI[uxen.sha384sum] =3D "be2233bc6506a23350d76c03ac28ea7ea381e1dc6ed5c=
+e996e8ac71e6a3316fcaa2ed070c622618bd226f43a4d6db5d4"
+--=20
 2.32.0
 
