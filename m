@@ -1,126 +1,203 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
- by mx.groups.io with SMTP id smtpd.web10.77470.1638282689889030701
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+ by mx.groups.io with SMTP id smtpd.web10.78337.1638285993795012567
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 30 Nov 2021 06:31:30 -0800
+ Tue, 30 Nov 2021 07:26:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=MBl+tzLv;
- spf=pass (domain: gmail.com, ip: 209.85.208.51, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ed1-f51.google.com with SMTP id z5so22400445edd.3
-        for <meta-virtualization@lists.yoctoproject.org>; Tue, 30 Nov 2021 06:31:29 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=TIZ+nmGN;
+ spf=pass (domain: gmail.com, ip: 209.85.221.52, mailfrom: martin.jansa@gmail.com)
+Received: by mail-wr1-f52.google.com with SMTP id t9so28284978wrx.7
+        for <meta-virtualization@lists.yoctoproject.org>; Tue, 30 Nov 2021 07:26:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=KHGtKQZ3mEQo27hZ6XX1spjmFOKUwEcQvvsDs0i5Obg=;
-        b=MBl+tzLvKRxnQimraSk/pxds2buIUV445TUY0CQ5q7O816sm7G3+JDFlRzHlpvXzT3
-         Q2VF4uJhPLbYRS08CoFBXaaMkC7u7x1j7lMgyzTPqSUPBXtDNgmLZIqI5Fhe0SgLj+5l
-         0Y23cM3QiiJLZKpCBVcQjWaro5DYpBR2lOKvK8mZNujqZGa8CKfagyNt4d4JfTHG+kb9
-         obZ3Hx3guZtg9QYEalEMEt464j4W6YBvsfUs7jOMCVe8ZkAMgK5nYnfEjL6yJDG1fJXJ
-         Ivmq29WV3q5/W8a7CCwoN7VooXLC4gL9C0P765lyocOXfFKr+w7oaOVn2f5Pn9dHyqK7
-         E0Yg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=sFkLVrojpIXYFUc13LiKpv1QWx5+jFUWwcFWpkU+cLQ=;
+        b=TIZ+nmGN+pRO/KQovX8CELazhVgKJo5Kf1P9W0voBy7uanlT7vx8wrLEPofifuu82d
+         i9aHLFHZJC3bEDP/qxiTPjhDGV/TnFSZ/KQRedae+sYfpJPnfUWMtBnZqP/sbNA3JCAr
+         VtQiL/pqxFw/RuBYTJ23kehm2xR2IJfaZ4FosIIMAX0FznAnl2KgMpiCEVetPDvz620H
+         33Tb8JjvQHsh6et3vXeciGvSUc89jGGQgpSoOzXipwdNzc7hkreC8BDUxSkesgq2k/Fi
+         PSYIyavKeGqyBc3bfluO934UmUS46SYAxyn9+hlyoujBaiGhUGfZeVHe97Q9GIXO1aa1
+         0eLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=KHGtKQZ3mEQo27hZ6XX1spjmFOKUwEcQvvsDs0i5Obg=;
-        b=5L6v9cQDtqYIRpBd+/2r1pkPoZF3zenWDqnxObFAE8nhEkftjA2SSLyECl1iFC1Ly5
-         iQBNVHKpPIlXxTrLvJdcSWH7Wzoc03/7bfnndGNIy+7de49sRNtQy462UK9k7rLqFKqC
-         eqzyHox+qR66UIQ9jONjAeo24bD9yxJ4hw7yNkeUpmBleeiOFj781Gv4ZmilkadOjo3p
-         uGLdN/ZEm69Q+AnZrh9//+7xHiQC7xdYeEDqnUGRNdMJ3rOw4hF/3c3DrqLj3i338VRp
-         IbfiLq8+rsD7zn/1w6ZBco1IF6l8bs7DsRE2RsWjPcIzg+vkGP8S4RbUeiAKprOFwCAO
-         Qb2w==
-X-Gm-Message-State: AOAM531SVEu5Y5pVct/QqcqxTOK8CrsZ/BBEHpWlKdl7FXUAfUXWThZa
-	O6PiMLmnt1xk8jmVkiyeLeUWtU+TGe1OaMiWugPTcujO+Hk=
-X-Google-Smtp-Source: ABdhPJwPTUwbBWrU8AN+3aZbKtaTHmvagSIzAAktX5CRdLJKNLUEE2VWt5ZTWeZnZ/MIOHEmYnuMz1W+OkTnMf4zw/Y=
-X-Received: by 2002:a17:906:48cd:: with SMTP id d13mr66225287ejt.35.1638282687958;
- Tue, 30 Nov 2021 06:31:27 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=sFkLVrojpIXYFUc13LiKpv1QWx5+jFUWwcFWpkU+cLQ=;
+        b=Fpkznws0BDv+OKA0m4FwZYDy0YRQn+i4qcWgVK669K9xjoLCBFwc8XSrqja57xQyPt
+         SGjrxn8Z84286q5rs6K9rIj27K5T5fMNuhiZxByz6mu2rJ0rRQLsfxc8c7WFanhjxElk
+         J5gEo8e2lzoG353e9s/0iOK/T1hfItK/iVCZ0MYek39gp7i7amdVo5ipVxY5oYpCMoOc
+         k4qRScxYL+gspiKYEJ0j7ACy5m2+92s0EGXT2pxE4lnKZQnnqOyD9dB0DTiFyIJZrT1t
+         m8fZGBTj5AVZP9FrOszVKWjJivcEvNHdnwUXv1MjbERHYsyttxHZcmtvmNa4mXefpt4s
+         N/6g==
+X-Gm-Message-State: AOAM530hO5Ru/QFlwHwDDQ22KAiEnP8gVzruKYv9+uUC0DgfoY6cwbTx
+	mP3pyTzA8vED/t3ctboC3iD8pvK2Gfg=
+X-Google-Smtp-Source: ABdhPJyVzCo8mRfMWF2ajJ76nzCwt75Y0Xv0CPKO05bXKArYZE4gHbk1IAcdBeWfNS3r/JhRZg1XTQ==
+X-Received: by 2002:a5d:674f:: with SMTP id l15mr40475088wrw.624.1638285992264;
+        Tue, 30 Nov 2021 07:26:32 -0800 (PST)
+Return-Path: <martin.jansa@gmail.com>
+Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
+        by smtp.gmail.com with ESMTPSA id t11sm17025115wrz.97.2021.11.30.07.26.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Nov 2021 07:26:31 -0800 (PST)
+From: "Martin Jansa" <Martin.Jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: meta-virtualization@lists.yoctoproject.org
+Cc: Martin Jansa <Martin.Jansa@gmail.com>
+Subject: [meta-virtualization][PATCH] uxen-guest-tools: fix build against kernels 5.15+
+Date: Tue, 30 Nov 2021 16:26:30 +0100
+Message-Id: <20211130152630.38146-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-References: <20211130140908.33560-1-Martin.Jansa@gmail.com>
-In-Reply-To: <20211130140908.33560-1-Martin.Jansa@gmail.com>
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Tue, 30 Nov 2021 09:31:16 -0500
-Message-ID: <CADkTA4MKWKmYihECD7m8ZTeOd-RdpNdY5ZiGHJXQJkPKtTqvYA@mail.gmail.com>
-Subject: Re: [meta-virtualization][PATCH] singularity: fix build with automake-1.16.5
-To: Martin Jansa <Martin.Jansa@gmail.com>
-Cc: meta-virtualization@lists.yoctoproject.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Looks good to me, fix confirmed on my builder.
+This is a compile only fix to update the uxen kernel modules to
+work against newer kernels.
 
-Merged.
+There is one more issue with 5.15 and this applied:
+ERROR: modpost: missing MODULE_LICENSE() in uxen-guest-tools/4.1.8-r0/uxen-4.1.8-72a4af9/vm-support/linux/uxenhc/uxenhc.o
 
-Bruce
+Bruce already tried to fix it in 0001-vm-support-fix-build-for-kernel-s-5.4.patch
+but it isn't enough for 5.15 and if I remove his MODULE_LICENSE() and KBUILD_MODFILE
+changes, then I get probably the same error he was originally trying to fix for 5.4:
 
-On Tue, Nov 30, 2021 at 9:09 AM Martin Jansa <Martin.Jansa@gmail.com> wrote:
->
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> ---
->  ...nfigure.ac-drop-2nd-AM_INIT_AUTOMAKE.patch | 34 +++++++++++++++++++
->  .../singularity/singularity_git.bb            |  1 +
->  2 files changed, 35 insertions(+)
->  create mode 100644 recipes-containers/singularity/singularity/0001-configure.ac-drop-2nd-AM_INIT_AUTOMAKE.patch
->
-> diff --git a/recipes-containers/singularity/singularity/0001-configure.ac-drop-2nd-AM_INIT_AUTOMAKE.patch b/recipes-containers/singularity/singularity/0001-configure.ac-drop-2nd-AM_INIT_AUTOMAKE.patch
-> new file mode 100644
-> index 0000000..d5744a2
-> --- /dev/null
-> +++ b/recipes-containers/singularity/singularity/0001-configure.ac-drop-2nd-AM_INIT_AUTOMAKE.patch
-> @@ -0,0 +1,34 @@
-> +From 13ee3e016490e74868b64e3a07dcccf9feafebdf Mon Sep 17 00:00:00 2001
-> +From: Martin Jansa <Martin.Jansa@gmail.com>
-> +Date: Tue, 30 Nov 2021 05:59:06 -0800
-> +Subject: [PATCH] configure.ac: drop 2nd AM_INIT_AUTOMAKE
-> +
-> +* automake-1.16.5 introduced in oe-core:
-> +  https://git.openembedded.org/openembedded-core/commit/?id=851167b3a41b1728407d331c1666827fb730daa1
-> +  doesn't like this after:
-> +  http://git.savannah.gnu.org/cgit/automake.git/commit/?id=f4a3a70f69e1dbccb6578f39ef47835098a04624
-> +
-> +  and do_configure fails with:
-> +  configure.ac:38: error: AM_INIT_AUTOMAKE expanded multiple times
-> +
-> +  There is no point in upstreaming this, because singularity-2.3.1 is very old and
-> +  whole autotools support is removed in version 3 (currently 3.8.5) with:
-> +  https://github.com/hpcng/singularity/commit/a06e3d13a822080d7a9bc55085ee1bb32026a96e
-> +
-> +Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> +---
-> + configure.ac | 7 +++----
-> + 1 file changed, 3 insertions(+), 4 deletions(-)
-> +
-> +diff --git a/configure.ac b/configure.ac
-> +index 8ffa5ab32..a5a35c43a 100644
-> +--- a/configure.ac
-> ++++ b/configure.ac
-> +@@ -35,7 +35,6 @@ AC_GNU_SOURCE
-> + AC_PROG_INSTALL
-> + AC_PROG_LIBTOOL
-> + AC_PROG_CC
-> +-AM_INIT_AUTOMAKE
-> + AM_PROG_CC_C_O
-> + AC_ENABLE_SHARED
-> + AC_PROG_LIBTOOL(libtool)
-> diff --git a/recipes-containers/singularity/singularity_git.bb b/recipes-containers/singularity/singularity_git.bb
-> index f729657..321a9a6 100644
-> --- a/recipes-containers/singularity/singularity_git.bb
-> +++ b/recipes-containers/singularity/singularity_git.bb
-> @@ -12,6 +12,7 @@ LIC_FILES_CHKSUM = "file://COPYRIGHT.md;md5=be78c34e483dd7d8439358b1e024b294 \
->
->  SRC_URI = "git://github.com/singularityware/singularity.git;protocol=https;branch=master \
->      file://0001-Use-python3.patch \
-> +    file://0001-configure.ac-drop-2nd-AM_INIT_AUTOMAKE.patch \
->  "
->  PV = "2.3.1+git${SRCPV}"
->  SRCREV = "e214d4ebf0a1274b1c63b095fd55ae61c7e92947"
-> --
-> 2.32.0
->
->
-> 
->
+| make -C work-shared/qemux86-64/kernel-source LX_TARGET_ATTOVM=n LX_TARGET_STANDARDVM=y M=uxen-guest-tools/4.1.8-r0/uxen-4.1.8-72a4af9/vm-support/linux EXTRA_CFLAGS="-DLX_TARGET_STANDARDVM -g -Wall" NOSTDINC_FLAGS="-Iuxen-guest-tools/4.1.8-r0/uxen-4.1.8-72a4af9/vm-support/linux/include/ -Iuxen-guest-tools/4.1.8-r0/uxen-4.1.8-72a4af9/vm-support/linux/include/uxen -Iuxen-guest-tools/4.1.8-r0/uxen-4.1.8-72a4af9/vm-support/linux/include/uxen/xen"
+| make[1]: warning: jobserver unavailable: using -j1.  Add '+' to parent make rule.
+| make[1]: Entering directory 'work-shared/qemux86-64/kernel-source'
+| make[2]: Entering directory 'work-shared/qemux86-64/kernel-build-artifacts'
+|   CC [M]  uxen-guest-tools/4.1.8-r0/uxen-4.1.8-72a4af9/vm-support/linux/uxenhc/hypercall.o
+| In file included from work-shared/qemux86-64/kernel-source/include/linux/module.h:22,
+|                  from uxen-guest-tools/4.1.8-r0/uxen-4.1.8-72a4af9/vm-support/linux/uxenhc/hypercall.c:3:
+| work-shared/qemux86-64/kernel-source/include/linux/module.h:183:43: error: expected ',' or ';' before 'KBUILD_MODFILE'
+|   183 | #define MODULE_FILE     MODULE_INFO(file, KBUILD_MODFILE);
+|       |                                           ^~~~~~~~~~~~~~
+| work-shared/qemux86-64/kernel-source/include/linux/moduleparam.h:26:61: note: in definition of macro '__MODULE_INFO'
+|    26 |                 = __MODULE_INFO_PREFIX __stringify(tag) "=" info
+|       |                                                             ^~~~
+| work-shared/qemux86-64/kernel-source/include/linux/module.h:183:25: note: in expansion of macro 'MODULE_INFO'
+|   183 | #define MODULE_FILE     MODULE_INFO(file, KBUILD_MODFILE);
+|       |                         ^~~~~~~~~~~
+| work-shared/qemux86-64/kernel-source/include/linux/module.h:230:34: note: in expansion of macro 'MODULE_FILE'
+|   230 | #define MODULE_LICENSE(_license) MODULE_FILE MODULE_INFO(license, _license)
+|       |                                  ^~~~~~~~~~~
+| uxen-guest-tools/4.1.8-r0/uxen-4.1.8-72a4af9/vm-support/linux/uxenhc/hypercall.c:161:1: note: in expansion of macro 'MODULE_LICENSE'
+|   161 | MODULE_LICENSE("GPL");
+|       | ^~~~~~~~~~~~~~
 
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ ...-support-fix-build-for-kernel-s-5.15.patch | 47 +++++++++++++++++++
+ ...-support-fix-build-for-kernel-s-5.14.patch | 32 +++++++++++++
+ .../uxen/uxen-guest-tools_4.1.8.bb            |  4 +-
+ 3 files changed, 82 insertions(+), 1 deletion(-)
+ create mode 100644 recipes-extended/uxen/uxen-guest-tools/0002-vm-support-fix-build-for-kernel-s-5.15.patch
+ create mode 100644 recipes-extended/uxen/uxen-guest-tools/0003-vm-support-fix-build-for-kernel-s-5.14.patch
 
+diff --git a/recipes-extended/uxen/uxen-guest-tools/0002-vm-support-fix-build-for-kernel-s-5.15.patch b/recipes-extended/uxen/uxen-guest-tools/0002-vm-support-fix-build-for-kernel-s-5.15.patch
+new file mode 100644
+index 0000000..a8089f6
+--- /dev/null
++++ b/recipes-extended/uxen/uxen-guest-tools/0002-vm-support-fix-build-for-kernel-s-5.15.patch
+@@ -0,0 +1,47 @@
++From cc31e9648b76bfaa2f04825b5ef8c09fe79782f7 Mon Sep 17 00:00:00 2001
++From: Martin Jansa <Martin.Jansa@gmail.com>
++Date: Tue, 30 Nov 2021 06:45:34 -0800
++Subject: [PATCH] vm-support: fix build for kernel's > 5.15
++
++* remove callback was changed to return void instead of int in:
++  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=fc7a6209d5710618eb4f72a77cd81b8d694ecf89
++
++Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
++---
++ uxenplatform/platform.c | 7 +++++++
++ 1 file changed, 7 insertions(+)
++
++diff --git a/uxenplatform/platform.c b/uxenplatform/platform.c
++index 99fc76a..579be7a 100644
++--- a/uxenplatform/platform.c
+++++ b/uxenplatform/platform.c
++@@ -4,6 +4,7 @@
++ #include <linux/random.h>
++ #include <linux/kthread.h>
++ #include <linux/delay.h>
+++#include <linux/version.h>
++ 
++ #include <uxen-hypercall.h>
++ #include <uxen-platform.h>
++@@ -64,7 +65,11 @@ static int bus_resume(struct device *_dev)
++     return 0;
++ }
++ 
+++#if (LINUX_VERSION_CODE < KERNEL_VERSION(5,15,0))
++ static int device_remove(struct device *_dev, void *data)
+++#else
+++static void device_remove(struct device *_dev, void *data)
+++#endif
++ {
++     struct uxen_device *dev = dev_to_uxen(_dev);
++     struct uxen_driver *drv = drv_to_uxen(_dev->driver);
++@@ -72,7 +77,9 @@ static int device_remove(struct device *_dev, void *data)
++     if (dev && drv && drv->remove)
++         drv->remove(dev);
++     device_unregister(_dev);
+++#if (LINUX_VERSION_CODE < KERNEL_VERSION(5,15,0))
++     return 0;
+++#endif
++ }
++ 
++ int protvm_use_secure_keyboard = 0;
+diff --git a/recipes-extended/uxen/uxen-guest-tools/0003-vm-support-fix-build-for-kernel-s-5.14.patch b/recipes-extended/uxen/uxen-guest-tools/0003-vm-support-fix-build-for-kernel-s-5.14.patch
+new file mode 100644
+index 0000000..ec31eea
+--- /dev/null
++++ b/recipes-extended/uxen/uxen-guest-tools/0003-vm-support-fix-build-for-kernel-s-5.14.patch
+@@ -0,0 +1,32 @@
++From 59986e91d807591f05dfbd57b459ba71670874f9 Mon Sep 17 00:00:00 2001
++From: Martin Jansa <Martin.Jansa@gmail.com>
++Date: Tue, 30 Nov 2021 15:04:31 +0000
++Subject: [PATCH] vm-support: fix build for kernel's > 5.14
++
++* remove set_driver_byte call
++* not sure if it's still necessary here, but set_driver_byte as well as DRIVER_SENSE was killed in 5.14 with:
++  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=464a00c9e0ad45e3f42ff6ea705491a356df818e
++
++  in some cases it was replaced with set_status_byte(sc, SAM_STAT_CHECK_CONDITION), but I didn't
++  read the implementation carefully enough to decide if this is still needed, I was only interested
++  in fixing the build failure (and I don't use this at all to test it in runtime)
++
++Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
++---
++ uxenstor/stor.c | 2 ++
++ 1 file changed, 2 insertions(+)
++
++diff --git a/uxenstor/stor.c b/uxenstor/stor.c
++index e07b08e..6bf2184 100644
++--- a/uxenstor/stor.c
+++++ b/uxenstor/stor.c
++@@ -109,7 +109,9 @@ static void uxenstor_softirq(unsigned long opaque)
++                                          sc->sense_buffer,
++                                          sizeof(hdr) + hdr.sense_size,
++                                          0, sizeof(hdr));
+++#if (LINUX_VERSION_CODE < KERNEL_VERSION(5,14,0))
++                 set_driver_byte(sc, DRIVER_SENSE);
+++#endif
++             }
++ 
++             set_host_byte(sc, DID_ERROR);
+diff --git a/recipes-extended/uxen/uxen-guest-tools_4.1.8.bb b/recipes-extended/uxen/uxen-guest-tools_4.1.8.bb
+index 06dc376..841c71a 100644
+--- a/recipes-extended/uxen/uxen-guest-tools_4.1.8.bb
++++ b/recipes-extended/uxen/uxen-guest-tools_4.1.8.bb
+@@ -10,7 +10,9 @@ SRC_URI = " \
+     https://www.bromium.com/wp-content/uploads/2019/11/Bromium-4.1.8-Open-Source-Software.pdf;name=license \
+     file://fix-Makefile-for-OE-kernel-build.patch \
+     file://0001-vm-support-fix-build-for-kernel-s-5.4.patch \
+-    "
++    file://0002-vm-support-fix-build-for-kernel-s-5.15.patch \
++    file://0003-vm-support-fix-build-for-kernel-s-5.14.patch \
++"
+ 
+ SRC_URI[uxen.sha384sum] = "be2233bc6506a23350d76c03ac28ea7ea381e1dc6ed5ce996e8ac71e6a3316fcaa2ed070c622618bd226f43a4d6db5d4"
+ SRC_URI[license.sha384sum] = "92e48c614df3094cb52321d4c4e01f6df5526d46aee5c6fa36c43ee23d4c33f03baa1fc5f6f29efafff636b6d13bc92c"
 -- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+2.32.0
+
