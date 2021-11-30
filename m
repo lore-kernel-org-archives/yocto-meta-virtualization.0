@@ -1,92 +1,114 @@
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
- by mx.groups.io with SMTP id smtpd.web08.4664.1637791395750043109
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.web11.76401.1638281354537452907
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 24 Nov 2021 14:03:15 -0800
+ Tue, 30 Nov 2021 06:09:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=FzKAAqnL;
- spf=pass (domain: gmail.com, ip: 209.85.222.171, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f171.google.com with SMTP id t83so5436744qke.8
-        for <meta-virtualization@lists.yoctoproject.org>; Wed, 24 Nov 2021 14:03:15 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=cnYUHuZq;
+ spf=pass (domain: gmail.com, ip: 209.85.221.44, mailfrom: martin.jansa@gmail.com)
+Received: by mail-wr1-f44.google.com with SMTP id a18so44777244wrn.6
+        for <meta-virtualization@lists.yoctoproject.org>; Tue, 30 Nov 2021 06:09:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
-         :in-reply-to:user-agent;
-        bh=4JP5OtMXDOQZqRlQHpqvq459PCZMgAZd1nzUibgZzxE=;
-        b=FzKAAqnLAYtZU7kguG+AYQ26dNqjkES+OYj+WYc1WxEkSarf1MGHC9ztcvn4G0UxR2
-         xql90DCK0jw5c00xJ0QFty+N1i2fSaBHRjpqjt/Zio2lrbBgQ+tjJU7O6QjEtue2wVSG
-         zr3OFcLDxD+dWatRE/PwhR7Pv8JU8/Vqn9mFsJphcKGQa7VfKfNtckkaummeWl3D/7FA
-         bpG1vz6emFNY8rWddICKx7e1ugpOn7Rtle+xMjZk/VWVUEhLAGMSRCTPT293zQuFTU4V
-         5N7ecyYVWQW2m2MNdrojiCmmdgLuLrTV2uUkGVP1RB/Iz9OPY2AsNluysS1MD35fY8m1
-         XzmA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3lsv6MxAdeK+DuuwQs4I04pmyWAY0TCB41rfNB+/sro=;
+        b=cnYUHuZq8HgiuTJSTmGeiOZC2xdN1ytONKaBfilpSu7PE5w5iNh7jrJUdsrDvJMJin
+         6OIBrY5km8UN9TxjmICG89fjhViXPpIQBQxZSzdxoTz9f/XnLUVOggzoxcFUQlJGJFog
+         gJyiTbsC4WU20/ALStxWWFmj7DxqkwdiKKgL8FhRcUmnRik5Nz8RVjuEOSa7L4XWFdyJ
+         QkPvJW3w87nhCjykfeOV73+1l4zPNbQbJu5p1h7xUCw8IIIOsqXyjcyXP/znL5vrPZ4s
+         +ccoC8on4iVrS7zackMKF2k6AMFxPQ25zWryr6x+AUNMy8Utx9eNkCQNcSPLcRUqACFb
+         uOFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=4JP5OtMXDOQZqRlQHpqvq459PCZMgAZd1nzUibgZzxE=;
-        b=yX3BA1OhQKs0KiTNcvBtCEoeWeXySBZZwy33/n6YZBIp1pKD8emcAamWSxfDv4j0O1
-         5yBPqWnrEQsSJ8On9AugKNK733aA0D9AR3HoaFXlvhQ3S+JnWYlbPDYhR8LDQpAIBozq
-         ll6ao/OXGmxNdrFyirD38WD8ByDwxwNIhvmWUSOnvwE31M1Cap+XctHQA5BZ2M4RSCQi
-         E70J8SQL6XyYI98kPJfeR6HFGlqj0p+H1n8t6eBZZhe5eVxkD0rqPgumLaY0O6pOpR9D
-         5tnyMeIGRkj1gja9gE6CplsDNSHAYQD2mqVpUJNRZ1BUDKbPfsb6nCA8SW8ohRSH2DwX
-         ZyhQ==
-X-Gm-Message-State: AOAM532i54XdhVjNp1Emwh/w4tzBck4nDisB5Myfan7DnsFEUl9EWzKt
-	3Tftfg0qqR6iml2Lvht5hfQYX8jvEl9Dhw==
-X-Google-Smtp-Source: ABdhPJz0r2i1rT0R9dV6IrI4jymeL7y2o0x4h0j5NmsS2OoYZh0ROuFAh03Pg6pvUBtWW6mzKSXWSQ==
-X-Received: by 2002:a05:620a:a47:: with SMTP id j7mr9668078qka.439.1637791394832;
-        Wed, 24 Nov 2021 14:03:14 -0800 (PST)
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from gmail.com (cpe04d4c4975b80-cmf4c11490699b.cpe.net.cable.rogers.com. [174.112.63.222])
-        by smtp.gmail.com with ESMTPSA id v21sm564683qta.0.2021.11.24.14.03.14
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3lsv6MxAdeK+DuuwQs4I04pmyWAY0TCB41rfNB+/sro=;
+        b=n/+t+boRhqkFLIWiIQgQT7cAZxtbWmaq1L0unADvbUwfWytoNk0wRA3FOjua2u2NGq
+         hBwkqNbWt6+iqXcblIos2F9UR/XEdjlnZxLsvqvUIhMixK47GIFyDun6E22Jur2JFPwp
+         AS8vuKOmVVJzfu9snJqQFKmiQojRzHQpieM8VFtozEzIr6JrraGHLiDnQIfzyvho0kUh
+         f9QXP4ff5GYTd9brrq6Bd5aLtanU2wlWTlMJis9TKSq+vROOLopUD+//Zv/SjvBClDX6
+         Y7VB2/1rH7en8JoDmPUlKA5sAoBtk8Nvx8HdZt93P04kfcUuX0UeUe9XyeLQFBuKrhK7
+         IoZA==
+X-Gm-Message-State: AOAM532ewtOnPhqVZfIrpfafdi2pyRE1FZJOvPQswLpJYedxgyide9kg
+	bhyp2CkOckuW+h1HJ70TmwcjXdiTG1g=
+X-Google-Smtp-Source: ABdhPJxxBNRbLZC9kq6TOciVeqeRknksYm5tv4rdnWThkCFEVbhO/C2hxIEcyKLZVXu/m2Yfqh518A==
+X-Received: by 2002:a5d:5850:: with SMTP id i16mr40284658wrf.410.1638281352965;
+        Tue, 30 Nov 2021 06:09:12 -0800 (PST)
+Return-Path: <martin.jansa@gmail.com>
+Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
+        by smtp.gmail.com with ESMTPSA id 10sm21601889wrb.75.2021.11.30.06.09.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Nov 2021 14:03:14 -0800 (PST)
-Date: Wed, 24 Nov 2021 17:03:12 -0500
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-To: Yi Zhao <yi.zhao@windriver.com>
-Cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [meta-virtualization] [meta-cloud-services][PATCH 1/3] openstack-image-compute: fix warning of operator append combined with +=
-Message-ID: <20211124220312.GB41710@gmail.com>
+        Tue, 30 Nov 2021 06:09:12 -0800 (PST)
+From: "Martin Jansa" <Martin.Jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: meta-virtualization@lists.yoctoproject.org
+Cc: Martin Jansa <Martin.Jansa@gmail.com>
+Subject: [meta-virtualization][PATCH] singularity: fix build with automake-1.16.5
+Date: Tue, 30 Nov 2021 15:09:08 +0100
+Message-Id: <20211130140908.33560-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-In-Reply-To: <20211120041652.583066-3-yi.zhao@windriver.com>
- <20211120041652.583066-2-yi.zhao@windriver.com>
- <20211120041652.583066-1-yi.zhao@windriver.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-merged.
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ ...nfigure.ac-drop-2nd-AM_INIT_AUTOMAKE.patch | 34 +++++++++++++++++++
+ .../singularity/singularity_git.bb            |  1 +
+ 2 files changed, 35 insertions(+)
+ create mode 100644 recipes-containers/singularity/singularity/0001-configure.ac-drop-2nd-AM_INIT_AUTOMAKE.patch
 
-Bruce
-
-In message: [meta-virtualization] [meta-cloud-services][PATCH 1/3] openstack-image-compute: fix warning of operator append combined with +=
-on 20/11/2021 Yi Zhao wrote:
-
-> Fixes:
-> WARNING: openstack-image-compute.bb: IMAGE_ROOTFS_EXTRA_SPACE:append +=
-> is not a recommended operator combination, please replace it.
-> 
-> Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
-> ---
->  .../recipes-extended/images/openstack-image-compute.bb          | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meta-openstack/recipes-extended/images/openstack-image-compute.bb b/meta-openstack/recipes-extended/images/openstack-image-compute.bb
-> index 15726fd..a725e2e 100644
-> --- a/meta-openstack/recipes-extended/images/openstack-image-compute.bb
-> +++ b/meta-openstack/recipes-extended/images/openstack-image-compute.bb
-> @@ -19,6 +19,6 @@ inherit monitor
->  
->  # Ensure extra space for guest images, and rabbit MQ has a hard coded
->  # check for 2G of free space, so we use 3G as a starting point.
-> -IMAGE_ROOTFS_EXTRA_SPACE:append += "+ 3000000"
-> +IMAGE_ROOTFS_EXTRA_SPACE:append = " + 3000000"
->  
->  # ROOTFS_POSTPROCESS_COMMAND += "remove_packaging_data_files ; "
-> -- 
-> 2.25.1
-> 
-
-> 
-> 
-> 
-
+diff --git a/recipes-containers/singularity/singularity/0001-configure.ac-drop-2nd-AM_INIT_AUTOMAKE.patch b/recipes-containers/singularity/singularity/0001-configure.ac-drop-2nd-AM_INIT_AUTOMAKE.patch
+new file mode 100644
+index 0000000..d5744a2
+--- /dev/null
++++ b/recipes-containers/singularity/singularity/0001-configure.ac-drop-2nd-AM_INIT_AUTOMAKE.patch
+@@ -0,0 +1,34 @@
++From 13ee3e016490e74868b64e3a07dcccf9feafebdf Mon Sep 17 00:00:00 2001
++From: Martin Jansa <Martin.Jansa@gmail.com>
++Date: Tue, 30 Nov 2021 05:59:06 -0800
++Subject: [PATCH] configure.ac: drop 2nd AM_INIT_AUTOMAKE
++
++* automake-1.16.5 introduced in oe-core:
++  https://git.openembedded.org/openembedded-core/commit/?id=851167b3a41b1728407d331c1666827fb730daa1
++  doesn't like this after:
++  http://git.savannah.gnu.org/cgit/automake.git/commit/?id=f4a3a70f69e1dbccb6578f39ef47835098a04624
++
++  and do_configure fails with:
++  configure.ac:38: error: AM_INIT_AUTOMAKE expanded multiple times
++
++  There is no point in upstreaming this, because singularity-2.3.1 is very old and
++  whole autotools support is removed in version 3 (currently 3.8.5) with:
++  https://github.com/hpcng/singularity/commit/a06e3d13a822080d7a9bc55085ee1bb32026a96e
++
++Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
++---
++ configure.ac | 7 +++----
++ 1 file changed, 3 insertions(+), 4 deletions(-)
++
++diff --git a/configure.ac b/configure.ac
++index 8ffa5ab32..a5a35c43a 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -35,7 +35,6 @@ AC_GNU_SOURCE
++ AC_PROG_INSTALL
++ AC_PROG_LIBTOOL
++ AC_PROG_CC
++-AM_INIT_AUTOMAKE
++ AM_PROG_CC_C_O
++ AC_ENABLE_SHARED
++ AC_PROG_LIBTOOL(libtool)
+diff --git a/recipes-containers/singularity/singularity_git.bb b/recipes-containers/singularity/singularity_git.bb
+index f729657..321a9a6 100644
+--- a/recipes-containers/singularity/singularity_git.bb
++++ b/recipes-containers/singularity/singularity_git.bb
+@@ -12,6 +12,7 @@ LIC_FILES_CHKSUM = "file://COPYRIGHT.md;md5=be78c34e483dd7d8439358b1e024b294 \
+ 
+ SRC_URI = "git://github.com/singularityware/singularity.git;protocol=https;branch=master \
+     file://0001-Use-python3.patch \
++    file://0001-configure.ac-drop-2nd-AM_INIT_AUTOMAKE.patch \
+ "
+ PV = "2.3.1+git${SRCPV}"
+ SRCREV = "e214d4ebf0a1274b1c63b095fd55ae61c7e92947"
+-- 
+2.32.0
 
