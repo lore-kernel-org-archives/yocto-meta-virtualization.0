@@ -1,51 +1,51 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
- by mx.groups.io with SMTP id smtpd.web11.94174.1638376907789943869
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+ by mx.groups.io with SMTP id smtpd.web09.94792.1638376907995558176
  for <meta-virtualization@lists.yoctoproject.org>;
  Wed, 01 Dec 2021 08:41:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=TYxm5C6L;
- spf=pass (domain: gmail.com, ip: 209.85.208.51, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ed1-f51.google.com with SMTP id o20so103602606eds.10
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=dxXHrm77;
+ spf=pass (domain: gmail.com, ip: 209.85.208.50, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ed1-f50.google.com with SMTP id r25so38773429edq.7
         for <meta-virtualization@lists.yoctoproject.org>; Wed, 01 Dec 2021 08:41:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=3N/Kf9VcjJlEk+wHY4ve2mLDFV+XqpyG33N2JKpixqo=;
-        b=TYxm5C6Lwo45y0QYhnbFdpTqUlifKqznQqvZ11La2n+kaM0HLQdCdciQ8EwDRvIlTj
-         nH3in2Lnr03a7l+q8g8jcn+oP9ar5Kh+jAkWGCDUlG63s/Z1Kfa8cq2g1CMBGDT98OVE
-         auKR+D2eekOjzdcBRUfz4byyg+qjzldMjQUcRX8dU3Yx6tE4NLqozEF1OLP3sreobskl
-         ZkhQT9jwuA6MqV5yfrXMFw+bEkg+XQ4zH4NdsntXdLfesmc81hRAE3yoCGpd0PQy0Dxi
-         ZCOxZmMMUxQOyJKPXKB2RCuy3xuJxi64xP4GbfWelVH6YforwWGG3a6y/W3VHeqI6Aoh
-         +nUw==
+        bh=F9M4ibrz15yIAwamSjkAdnWAxBlbx8UVQt9tYuv25IU=;
+        b=dxXHrm77y0lsrE/Yy7PhckAia0S3MCHrlNVSzq+xIDa/b5y0uCEMgvz345WPSeaJo9
+         nN0MofVECcgW30zgZreJ6v/lijLsBWc+6UiigDLDqOHxmL9rQ9Q33Q2LMWfiEa1p/WNU
+         wYsfsZNhMfcTLLlVq1EbdqtFpAvR0huXJFtH5ys98eJgEBa8XmV1IcceWQv9IFSXs1zk
+         heYbzLGwao7riFoDt/w8M90blb3W84lLmCz0O2XZwzvrVVrzsNSXXUmfpxGDPQkm2qCY
+         eiKOaK0zOV+j4JqJ72gcroMhgbIDygoRrVahtl79Pkkw3KcPimH19VLrr0Yvjz4VxV7Q
+         6CRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=3N/Kf9VcjJlEk+wHY4ve2mLDFV+XqpyG33N2JKpixqo=;
-        b=WDGb0qUCB05huTJFdCbTaaaLX7D9OXTsOompdnFzcTz0yv9mUoGNDyEBPv3sShs3pV
-         HOVIQ5Sk18YCWKVkdA3bsL6w9HXqqI7NplAogYfkdfvYgdRP8hy48JP1LKv0uq6ZSXB+
-         FzbNG6CHQ6su5ZU+ALTBbWjJn3RJ9SG0If2JNYwSeyuHBX9dmVnqnDBKA12Y3ZR4tBZ2
-         KoQbhoA4dlAr4pi2f4cmw9tUZkspsnjtRa8VFIS913LIom+7C51LVHmeGw05qz5hw66k
-         QMh7MC86IsNTyKeSnIIi0VPTAokkfDFpXDq+h+OPipN1sQrB6ykoXgc4TTG3zGOIsAlU
-         zLLg==
-X-Gm-Message-State: AOAM531svVNcDaSURBNmjNT+X5gOyOy5TICOguM9zMB71hBerZqrd1Fu
-	TfM+Nw713lhnZMmldnibtxPzN3nrlLI=
-X-Google-Smtp-Source: ABdhPJwuDHjUlS6OcnxOedJYPcm2ryjorHF3lHIQEgv06UM9SEMeO6czEDAfeQG1RG10tQes6K1mNA==
-X-Received: by 2002:a05:6402:34c1:: with SMTP id w1mr9860652edc.179.1638376906386;
-        Wed, 01 Dec 2021 08:41:46 -0800 (PST)
+        bh=F9M4ibrz15yIAwamSjkAdnWAxBlbx8UVQt9tYuv25IU=;
+        b=CnDGyigCmOXeCPWYHMELPyNmYAdAKcUyxlrCFsmWHCmasjibYSRqF8LZwSBa0nExt6
+         0h0SpfgNg6KPN7N6rMu1bxZSbwSQYAFV9JJnSGhwQ38DmlIwXeKIUZwE5YfuDdm55yjL
+         UeqfTQmTaNYG7u69Xs4tRdnVQ91e9gAZnqUiVFCvCPH2y769H0wopH3lbtQ2JZK1Cm7M
+         od1gnNNIQi8aHsJTpMYsCieO+mpZ/W1f2Ltso0E9yQuFlD38F9PEny0yTfZ3OdJVZzRr
+         kb79QkpJQNcnRTLimf3bvMWlgj8S+9pUMmOvkEGfYP8HAx5qACGMfRFH8SEA/gGGfOJg
+         kM0g==
+X-Gm-Message-State: AOAM533XtR2NE1+fhM/rOYUftA5VY3BqulA4Zxb8HJ9KGbixcwv0Qv9/
+	H0B6bVJk26CYbClGDGpGDkLQFg+Rwhk=
+X-Google-Smtp-Source: ABdhPJzYWKQDdktZ4L8Ps9IBu2kCrHJ0eCv99ULkLdV3MrliGhR9Ih0/nG85h1rsijsaTR1u3IFLZw==
+X-Received: by 2002:a17:907:3d9e:: with SMTP id he30mr8510260ejc.177.1638376901824;
+        Wed, 01 Dec 2021 08:41:41 -0800 (PST)
 Return-Path: <martin.jansa@gmail.com>
 Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id kx3sm133147ejc.112.2021.12.01.08.41.45
+        by smtp.gmail.com with ESMTPSA id e4sm188812ejs.13.2021.12.01.08.41.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Dec 2021 08:41:45 -0800 (PST)
+        Wed, 01 Dec 2021 08:41:40 -0800 (PST)
 From: "Martin Jansa" <Martin.Jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: meta-virtualization@lists.yoctoproject.org
 Cc: Bruce Ashfield <bruce.ashfield@gmail.com>
-Subject: [meta-virtualization][hardknott][PATCH 05/13] xvisor: uprev to latest master and fix python reference
-Date: Wed,  1 Dec 2021 17:41:28 +0100
-Message-Id: <20211201164136.33802-5-Martin.Jansa@gmail.com>
+Subject: [meta-virtualization][hardknott][PATCH 02/13] uxen-guest-tools: fix build against kernels 5.4+
+Date: Wed,  1 Dec 2021 17:41:25 +0100
+Message-Id: <20211201164136.33802-2-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20211201164136.33802-1-Martin.Jansa@gmail.com>
 References: <20211201164136.33802-1-Martin.Jansa@gmail.com>
@@ -54,143 +54,131 @@ Content-Transfer-Encoding: 8bit
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Bumping to the latest xvisor tip.
-
-We drop one patch that is now part of the upstream, and we
-add another to remove /usr/bin/python from scripts called
-during build, since it breaks the build on hosts without
-/usr/bin/python.
+This is a compile only fix to update the uxen kernel modules to
+work against newer kernels.
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- ...-Allow-Xvisor-to-compile-with-gcc-10.patch | 55 -------------------
- ...d-use-usr-bin-env-for-python-scripts.patch | 36 ++++++++++++
- recipes-extended/xvisor/xvisor_git.bb         |  6 +-
- 3 files changed, 39 insertions(+), 58 deletions(-)
- delete mode 100644 recipes-extended/xvisor/files/0001-EMULATORS-Allow-Xvisor-to-compile-with-gcc-10.patch
- create mode 100644 recipes-extended/xvisor/files/0001-build-use-usr-bin-env-for-python-scripts.patch
+ ...m-support-fix-build-for-kernel-s-5.4.patch | 97 +++++++++++++++++++
+ .../uxen/uxen-guest-tools_4.1.8.bb            |  1 +
+ 2 files changed, 98 insertions(+)
+ create mode 100644 recipes-extended/uxen/uxen-guest-tools/0001-vm-support-fix-build-for-kernel-s-5.4.patch
 
-diff --git a/recipes-extended/xvisor/files/0001-EMULATORS-Allow-Xvisor-to-compile-with-gcc-10.patch b/recipes-extended/xvisor/files/0001-EMULATORS-Allow-Xvisor-to-compile-with-gcc-10.patch
-deleted file mode 100644
-index 221a314..0000000
---- a/recipes-extended/xvisor/files/0001-EMULATORS-Allow-Xvisor-to-compile-with-gcc-10.patch
-+++ /dev/null
-@@ -1,55 +0,0 @@
--From 417184cc41cfd33ae7b4c11c8396e0f47f43e2ba Mon Sep 17 00:00:00 2001
--From: Jean-Christophe Dubois <jcd@tribudubois.net>
--Date: Fri, 8 May 2020 15:17:36 +0200
--Subject: [PATCH] EMULATORS: Allow Xvisor to compile with gcc 10.
--
--With gcc 10 because some header files do not declare some variable
--definition as extern, the variable get duplicated in all files
--using it.
--
--This patch allow xvisor to compile with the latest gcc.
--
--Signed-off-by: Jean-Christophe Dubois <jcd@tribudubois.net>
--Reviewed-by: Anup Patel <anup@brainfault.org>
-----
-- drivers/mmc/core/core.h    |  2 +-
-- emulators/display/drawfn.h | 10 +++++-----
-- 2 files changed, 6 insertions(+), 6 deletions(-)
--
--diff --git a/drivers/mmc/core/core.h b/drivers/mmc/core/core.h
--index d75d135a..e2ca3141 100644
----- a/drivers/mmc/core/core.h
--+++ b/drivers/mmc/core/core.h
--@@ -64,7 +64,7 @@ int mmc_go_idle(struct mmc_host *host);
--  * Note: Must be called with host->lock held.
--  */
-- extern struct vmm_bus sdio_bus_type;
---struct vmm_device_type sdio_func_type;
--+extern struct vmm_device_type sdio_func_type;
-- 
-- int __sdio_attach(struct mmc_host *host);
-- 
--diff --git a/emulators/display/drawfn.h b/emulators/display/drawfn.h
--index f9163cff..385deaf6 100644
----- a/emulators/display/drawfn.h
--+++ b/emulators/display/drawfn.h
--@@ -69,14 +69,14 @@ typedef void (*drawfn)(struct vmm_surface *,
-- 				 DRAWFN_ORDER_MAX * \
-- 				 DRAWFN_FORMAT_MAX)
-- 
---drawfn drawfn_surface_fntable_8[DRAWFN_FNTABLE_SIZE];
--+extern drawfn drawfn_surface_fntable_8[DRAWFN_FNTABLE_SIZE];
-- 
---drawfn drawfn_surface_fntable_15[DRAWFN_FNTABLE_SIZE];
--+extern drawfn drawfn_surface_fntable_15[DRAWFN_FNTABLE_SIZE];
-- 
---drawfn drawfn_surface_fntable_16[DRAWFN_FNTABLE_SIZE];
--+extern drawfn drawfn_surface_fntable_16[DRAWFN_FNTABLE_SIZE];
-- 
---drawfn drawfn_surface_fntable_24[DRAWFN_FNTABLE_SIZE];
--+extern drawfn drawfn_surface_fntable_24[DRAWFN_FNTABLE_SIZE];
-- 
---drawfn drawfn_surface_fntable_32[DRAWFN_FNTABLE_SIZE];
--+extern drawfn drawfn_surface_fntable_32[DRAWFN_FNTABLE_SIZE];
-- 
-- #endif
-diff --git a/recipes-extended/xvisor/files/0001-build-use-usr-bin-env-for-python-scripts.patch b/recipes-extended/xvisor/files/0001-build-use-usr-bin-env-for-python-scripts.patch
+diff --git a/recipes-extended/uxen/uxen-guest-tools/0001-vm-support-fix-build-for-kernel-s-5.4.patch b/recipes-extended/uxen/uxen-guest-tools/0001-vm-support-fix-build-for-kernel-s-5.4.patch
 new file mode 100644
-index 0000000..dfbb00b
+index 0000000..a3325ce
 --- /dev/null
-+++ b/recipes-extended/xvisor/files/0001-build-use-usr-bin-env-for-python-scripts.patch
-@@ -0,0 +1,36 @@
-+From eb351ca63a86f53cfb18987284a1445d543dfe56 Mon Sep 17 00:00:00 2001
++++ b/recipes-extended/uxen/uxen-guest-tools/0001-vm-support-fix-build-for-kernel-s-5.4.patch
+@@ -0,0 +1,97 @@
++From 21bb6953a64390dd1c5a8b7520eb5e2c18ea3ff1 Mon Sep 17 00:00:00 2001
 +From: Bruce Ashfield <bruce.ashfield@gmail.com>
-+Date: Mon, 29 Nov 2021 17:20:00 -0500
-+Subject: [PATCH] build: use /usr/bin/env for python scripts
-+
-+Without this, we break on hosts without /usr/bin/python
++Date: Mon, 29 Nov 2021 21:01:03 -0500
++Subject: [PATCH] vm-support: fix build for kernel's > 5.4
 +
 +Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 +---
-+ tools/scripts/d2c.py    | 2 +-
-+ tools/scripts/memimg.py | 2 +-
-+ 2 files changed, 2 insertions(+), 2 deletions(-)
++ a/uxenhc/hypercall.c             | 10 +++++++++-
++ a/v4vvsock/v4v_vsock.c           |  2 ++
++ a/vmdiagnostics/vm_diagnostics.c |  9 ++++++++-
++ 3 files changed, 19 insertions(+), 2 deletions(-)
 +
-+diff --git a/tools/scripts/d2c.py b/tools/scripts/d2c.py
-+index b46a7bc4..0a6bce08 100755
-+--- a/tools/scripts/d2c.py
-++++ b/tools/scripts/d2c.py
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/python
-++#!/usr/bin/env python3
-+ #/**
-+ # Copyright (c) 2013 Anup Patel.
-+ # All rights reserved.
-+diff --git a/tools/scripts/memimg.py b/tools/scripts/memimg.py
-+index 423c9c33..ba2f06cb 100755
-+--- a/tools/scripts/memimg.py
-++++ b/tools/scripts/memimg.py
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/python
-++#!/usr/bin/env python3
-+ #/**
-+ # Copyright (c) 2011 Anup Patel.
-+ # All rights reserved.
++diff --git a/uxenhc/hypercall.c b/uxenhc/hypercall.c
++index 0b9ef3f..04957a8 100644
++--- a/uxenhc/hypercall.c
+++++ b/uxenhc/hypercall.c
++@@ -10,6 +10,7 @@
++ #include <linux/mm.h>
++ #include <linux/spinlock.h>
++ #include <linux/compiler.h>
+++#include <linux/version.h>
++ 
++ #include <xen/xen.h>
++ #include <xen/version.h>
++@@ -124,7 +125,11 @@ static int __init uxen_hypercall_init(void)
++     printk(KERN_INFO "using uxen hypervisor\n");
++ 
++     if (!uxen_hcbase) {
+++#if (LINUX_VERSION_CODE < KERNEL_VERSION(5,8,0))
++         uxen_hcbase =  __vmalloc(PAGE_SIZE, GFP_KERNEL, PAGE_KERNEL_EXEC);
+++#else
+++	uxen_hcbase =  __vmalloc(PAGE_SIZE, GFP_KERNEL);
+++#endif
++         if (!uxen_hcbase) {
++             ret = -ENOMEM;
++             goto out;
++@@ -149,8 +154,11 @@ static void __exit uxen_hypercall_exit(void)
++ {
++ }
++ 
+++
+++#define KBUILD_MODFILE "uxenhc"
+++
++ module_init(uxen_hypercall_init);
++ module_exit(uxen_hypercall_exit);
+++MODULE_LICENSE("GPL");
++ MODULE_AUTHOR("paulian.marinca@bromium.com");
++ MODULE_DESCRIPTION("uXen hypercall support");
++-MODULE_LICENSE("GPL");
++diff --git a/v4vvsock/v4v_vsock.c b/v4vvsock/v4v_vsock.c
++index 8d80d7d..cd7e8ce 100644
++--- a/v4vvsock/v4v_vsock.c
+++++ b/v4vvsock/v4v_vsock.c
++@@ -578,8 +578,10 @@ static const struct proto_ops vsock_dgram_ops = {
++     .ioctl = sock_no_ioctl,
++     .listen = sock_no_listen,
++     .shutdown = sock_no_shutdown,
+++#if (LINUX_VERSION_CODE < KERNEL_VERSION(5,10,0))
++     .setsockopt = sock_no_setsockopt,
++     .getsockopt = sock_no_getsockopt,
+++#endif
++     .sendmsg = vsock_sendmsg,
++     .recvmsg = vsock_recvmsg,
++     .mmap = sock_no_mmap,
++diff --git a/vmdiagnostics/vm_diagnostics.c b/vmdiagnostics/vm_diagnostics.c
++index 9ff94fb..db14e57 100644
++--- a/vmdiagnostics/vm_diagnostics.c
+++++ b/vmdiagnostics/vm_diagnostics.c
++@@ -22,6 +22,7 @@
++ #include <linux/timekeeping.h>
++ #include <linux/types.h>
++ #include <linux/vmstat.h>
+++#include <linux/version.h>
++ 
++ #include <uxen-v4vlib.h>
++ 
++@@ -403,10 +404,16 @@ static void vm_handle_request_stat_task(struct vm_diagnostics_context *context,
++  
++             task_payload.state = task_state_to_char(task);
++             task_payload.num_threads = get_nr_threads(task);
+++
+++#if (LINUX_VERSION_CODE < KERNEL_VERSION(5,5,0))
++             task_payload.start_time_nsec = task->real_start_time;
+++#else
+++            task_payload.start_time_nsec = task->start_boottime;
+++#endif
+++
++             task_payload.last_run_cpu_id = task_cpu(task);
++ 
++-            thread_group_cputime_adjusted(task, &user_nsec, &system_nsec);
+++            //thread_group_cputime_adjusted(task, &user_nsec, &system_nsec);
++             task_payload.user_nsec = user_nsec;
++             task_payload.system_nsec = system_nsec;
++ 
 +-- 
 +2.19.1
 +
-diff --git a/recipes-extended/xvisor/xvisor_git.bb b/recipes-extended/xvisor/xvisor_git.bb
-index 831c943..85ac163 100644
---- a/recipes-extended/xvisor/xvisor_git.bb
-+++ b/recipes-extended/xvisor/xvisor_git.bb
-@@ -9,10 +9,10 @@ require xvisor-configs.inc
- inherit autotools-brokensep
+diff --git a/recipes-extended/uxen/uxen-guest-tools_4.1.8.bb b/recipes-extended/uxen/uxen-guest-tools_4.1.8.bb
+index 2ca0cb1..06dc376 100644
+--- a/recipes-extended/uxen/uxen-guest-tools_4.1.8.bb
++++ b/recipes-extended/uxen/uxen-guest-tools_4.1.8.bb
+@@ -9,6 +9,7 @@ SRC_URI = " \
+     https://www.bromium.com/wp-content/uploads/2019/11/uxen-${PV}.zip;name=uxen \
+     https://www.bromium.com/wp-content/uploads/2019/11/Bromium-4.1.8-Open-Source-Software.pdf;name=license \
+     file://fix-Makefile-for-OE-kernel-build.patch \
++    file://0001-vm-support-fix-build-for-kernel-s-5.4.patch \
+     "
  
- # This version support the RISC-V v0.5.0 Hypervisor extensions
--SRCREV = "b3dac5b1f61f23f21dc59b3880897cff78f3b618"
--SRC_URI = "git://github.com/avpatel/xvisor-next.git \
-+SRCREV = "6b23764a1439f9d08b2ed2f363da522460d8a22b"
-+SRC_URI = "git://github.com/avpatel/xvisor-next.git;branch=master;protocol=https \
-     file://0001-TESTS-Don-t-specify-mabi-or-march-for-RISC-V.patch \
--    file://0001-EMULATORS-Allow-Xvisor-to-compile-with-gcc-10.patch \
-+    file://0001-build-use-usr-bin-env-for-python-scripts.patch \
- "
- 
- S = "${WORKDIR}/git"
+ SRC_URI[uxen.sha384sum] = "be2233bc6506a23350d76c03ac28ea7ea381e1dc6ed5ce996e8ac71e6a3316fcaa2ed070c622618bd226f43a4d6db5d4"
 -- 
 2.32.0
 
