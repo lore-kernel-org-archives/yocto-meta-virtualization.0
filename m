@@ -1,182 +1,176 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
- by mx.groups.io with SMTP id smtpd.web12.94307.1638376839970498145
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+ by mx.groups.io with SMTP id smtpd.web08.94466.1638376841604450251
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 01 Dec 2021 08:40:40 -0800
+ Wed, 01 Dec 2021 08:40:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=CxrQZB4H;
- spf=pass (domain: gmail.com, ip: 209.85.221.44, mailfrom: martin.jansa@gmail.com)
-Received: by mail-wr1-f44.google.com with SMTP id c4so53627913wrd.9
-        for <meta-virtualization@lists.yoctoproject.org>; Wed, 01 Dec 2021 08:40:39 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=YSiAitpk;
+ spf=pass (domain: gmail.com, ip: 209.85.221.52, mailfrom: martin.jansa@gmail.com)
+Received: by mail-wr1-f52.google.com with SMTP id u1so53607214wru.13
+        for <meta-virtualization@lists.yoctoproject.org>; Wed, 01 Dec 2021 08:40:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=F9M4ibrz15yIAwamSjkAdnWAxBlbx8UVQt9tYuv25IU=;
-        b=CxrQZB4HfwzxK0+Fxr86S5XU2iWkaV1YXimRB5+b+62NF/YQQ6dhg0A5xdcdZD7oS3
-         czR3N2IEoA0g2FEW4sROwjyZuejmTsv162QiY3wGvmJHDzTzqqxlZjaXdAT2QKrDuhM3
-         Pddjb++U+wYgFlKExFoQDZtUA5IKRM4NndbNOMCDODxL4UgAeIsdLYq1c5Ez6b8Hj0Rd
-         rsDxaIccvwsQZhXW69s+bNbfkMbv4n1FRChh34zNcPVqxUTuXiArnJAcMeuun0T3i6cC
-         Zoe61dKk24TLJJpyagGt2jE9f6jsZ8gAC3S4G9CZ48j1zOsTrMkmOFCg+HG4PSATRuG7
-         FLmQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=zW6pqYYblOmFaZQ9BKirB9mm1CIUPuOdQulVDH851sk=;
+        b=YSiAitpkLMkJpgwheHGknr1/RFP5aAPbxGmCm5lVa8Ewt3Yx3YV/SxihpokwSpRgmH
+         akEMlxu+PyttIuEnq4UDlKatdJOGCHjkiuyAqJoYa5GQggebN88rabOhHA6fMtFieZ/5
+         kNXbAK/rBJ4kK0H983bxGI59CoWtkxDkcNN3hnrpFZSgvGp2EaRtW4oooQfDwTv9ktXg
+         sExWbVTu2OcPbdJTn58rr+w3er1hJCoF4YMOopEnETOAxwXwKkppmUIK7sHrcYeMASEt
+         Lkke3+wEil5bgDNzCsE22+9pf7VorLaMpDj7OkEkKuxCj3X5+BVpBUx86YYXX4n40Q40
+         /B9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=F9M4ibrz15yIAwamSjkAdnWAxBlbx8UVQt9tYuv25IU=;
-        b=eQeaMbWZjRfQFPdgF9DZVAP5Ft/ylpkF6Blj73Dkrenz/5hepVhVfmGCV6BR6dSQW5
-         3TeQdOTr1tJIUq8qo0qy0JG/yhlh0PE3EWH09qEzBZ1HYRdpUvSNNw1CCxI6/93rw+3Z
-         6u1xY+JzxJDIYpkCGKVqdhSczTvgu9QIrjHVZMSZ4suAeK7PJ2FxkpYVy3GFhTRuV+2e
-         X0pS2V1qURaZIncmO2NrMLMGmrtBepdR3rOfNE78zr/KNq41vXpNfIzZaWNM5SgWmufg
-         7Wqsllp4rYxGVT6GWuvKGEAvp2wf5ygQn/QsiZWKhQ/7n/aXkrZxAuMJYVMRc+B9rMvn
-         LqZw==
-X-Gm-Message-State: AOAM531QhCqQZlJ8EZPPF0rxHpGYMBiii7u1bYdMQy8KkBFx74u/NOjR
-	fzbWj5BYUSX0xe8+U25rJApoW9rf+zo=
-X-Google-Smtp-Source: ABdhPJz0C61I6Axic6dBlmR8EkBQiNinUxsLAA3wAU1+6jtJXy36Yn3WMpKJPgfIv2QLmjFiPONwbw==
-X-Received: by 2002:a05:6000:1862:: with SMTP id d2mr8227033wri.251.1638376838423;
-        Wed, 01 Dec 2021 08:40:38 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=zW6pqYYblOmFaZQ9BKirB9mm1CIUPuOdQulVDH851sk=;
+        b=iW9YMSAXfROEQtKX4lSiq2Qx2bQFrh6Nu5yrtOgbL0rH1fOg1Rp+wkTO92cBpMf1Rr
+         mvLTdybdh+cPujPaAaa1wg7lugOmFcQT8GuLMyqIGgd6t6OAXDAwe9ZPb2JfX1eVgGhi
+         4CALIlr8vB1Y7THJiw21u8ABMLd10wyUhwye6HdK1dwbsTQgdl69DKJ54hntlxjNo5NT
+         lhddjkluYWdUQaZCyZZdpvB+x5LPwCsP45m81S/ockjbhiQyIoqfQbGN21jO7UGIz+iT
+         rU9o8nKjtMVLrYWpclI7pkg1CtV7sFPNY1r7+F7R6l1gCwrtfLLa9IadWz+Wd12eyIZD
+         jcxg==
+X-Gm-Message-State: AOAM530fvikauWIORkhE+Bla3QJ69pIdd8gYyY0jSjR9HNM/oY+v//1Q
+	h1gNTgpQMVd3Gek3lAuI+pNFnygUygk=
+X-Google-Smtp-Source: ABdhPJwGI1byO5b9cGu7kZUxQRqK9/nl6laM4Sd+pOS0Uqv0iqGVch/AVeRVmszpATMeVoZ4XhQmYg==
+X-Received: by 2002:adf:f207:: with SMTP id p7mr7962593wro.173.1638376840173;
+        Wed, 01 Dec 2021 08:40:40 -0800 (PST)
 Return-Path: <martin.jansa@gmail.com>
 Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id t8sm298041wrv.30.2021.12.01.08.40.37
+        by smtp.gmail.com with ESMTPSA id j134sm303957wmj.3.2021.12.01.08.40.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Dec 2021 08:40:37 -0800 (PST)
+        Wed, 01 Dec 2021 08:40:39 -0800 (PST)
 From: "Martin Jansa" <Martin.Jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: meta-virtualization@lists.yoctoproject.org
-Cc: Bruce Ashfield <bruce.ashfield@gmail.com>
-Subject: [meta-virtualization][honister][PATCH 1/5] uxen-guest-tools: fix build against kernels 5.4+
-Date: Wed,  1 Dec 2021 17:40:30 +0100
-Message-Id: <20211201164034.33610-1-Martin.Jansa@gmail.com>
+Cc: Martin Jansa <Martin.Jansa@gmail.com>,
+	Bruce Ashfield <bruce.ashfield@gmail.com>
+Subject: [meta-virtualization][honister][PATCH 2/5] uxen-guest-tools: fix build against kernels 5.15+
+Date: Wed,  1 Dec 2021 17:40:31 +0100
+Message-Id: <20211201164034.33610-2-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20211201164034.33610-1-Martin.Jansa@gmail.com>
+References: <20211201164034.33610-1-Martin.Jansa@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
 This is a compile only fix to update the uxen kernel modules to
 work against newer kernels.
 
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- ...m-support-fix-build-for-kernel-s-5.4.patch | 97 +++++++++++++++++++
- .../uxen/uxen-guest-tools_4.1.8.bb            |  1 +
- 2 files changed, 98 insertions(+)
- create mode 100644 recipes-extended/uxen/uxen-guest-tools/0001-vm-support-fix-build-for-kernel-s-5.4.patch
+ ...-support-fix-build-for-kernel-s-5.15.patch | 46 +++++++++++++++++++
+ ...-support-fix-build-for-kernel-s-5.14.patch | 32 +++++++++++++
+ .../uxen/uxen-guest-tools_4.1.8.bb            |  4 +-
+ 3 files changed, 81 insertions(+), 1 deletion(-)
+ create mode 100644 recipes-extended/uxen/uxen-guest-tools/0002-vm-support-fix-build-for-kernel-s-5.15.patch
+ create mode 100644 recipes-extended/uxen/uxen-guest-tools/0003-vm-support-fix-build-for-kernel-s-5.14.patch
 
-diff --git a/recipes-extended/uxen/uxen-guest-tools/0001-vm-support-fix-build-for-kernel-s-5.4.patch b/recipes-extended/uxen/uxen-guest-tools/0001-vm-support-fix-build-for-kernel-s-5.4.patch
+diff --git a/recipes-extended/uxen/uxen-guest-tools/0002-vm-support-fix-build-for-kernel-s-5.15.patch b/recipes-extended/uxen/uxen-guest-tools/0002-vm-support-fix-build-for-kernel-s-5.15.patch
 new file mode 100644
-index 0000000..a3325ce
+index 0000000..6b7f1f8
 --- /dev/null
-+++ b/recipes-extended/uxen/uxen-guest-tools/0001-vm-support-fix-build-for-kernel-s-5.4.patch
-@@ -0,0 +1,97 @@
-+From 21bb6953a64390dd1c5a8b7520eb5e2c18ea3ff1 Mon Sep 17 00:00:00 2001
-+From: Bruce Ashfield <bruce.ashfield@gmail.com>
-+Date: Mon, 29 Nov 2021 21:01:03 -0500
-+Subject: [PATCH] vm-support: fix build for kernel's > 5.4
++++ b/recipes-extended/uxen/uxen-guest-tools/0002-vm-support-fix-build-for-kernel-s-5.15.patch
+@@ -0,0 +1,46 @@
++From f8a33a209498b32b0fc06d80baa071f0902b9a85 Mon Sep 17 00:00:00 2001
++From: Martin Jansa <Martin.Jansa@gmail.com>
++Date: Tue, 30 Nov 2021 06:45:34 -0800
++Subject: [PATCH] vm-support: fix build for kernel's > 5.15
 +
-+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
++* remove callback was changed to return void instead of int in:
++  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=fc7a6209d5710618eb4f72a77cd81b8d694ecf89
++
++Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 +---
-+ a/uxenhc/hypercall.c             | 10 +++++++++-
-+ a/v4vvsock/v4v_vsock.c           |  2 ++
-+ a/vmdiagnostics/vm_diagnostics.c |  9 ++++++++-
-+ 3 files changed, 19 insertions(+), 2 deletions(-)
++ uxenplatform/platform.c | 7 +++++++
++ 1 file changed, 7 insertions(+)
 +
-+diff --git a/uxenhc/hypercall.c b/uxenhc/hypercall.c
-+index 0b9ef3f..04957a8 100644
-+--- a/uxenhc/hypercall.c
-++++ b/uxenhc/hypercall.c
-+@@ -10,6 +10,7 @@
-+ #include <linux/mm.h>
-+ #include <linux/spinlock.h>
-+ #include <linux/compiler.h>
++diff --git a/uxenplatform/platform.c b/uxenplatform/platform.c
++index 99fc76a..5225a00 100644
++--- a/uxenplatform/platform.c
+++++ b/uxenplatform/platform.c
++@@ -4,6 +4,7 @@
++ #include <linux/random.h>
++ #include <linux/kthread.h>
++ #include <linux/delay.h>
 ++#include <linux/version.h>
 + 
-+ #include <xen/xen.h>
-+ #include <xen/version.h>
-+@@ -124,7 +125,11 @@ static int __init uxen_hypercall_init(void)
-+     printk(KERN_INFO "using uxen hypervisor\n");
-+ 
-+     if (!uxen_hcbase) {
-++#if (LINUX_VERSION_CODE < KERNEL_VERSION(5,8,0))
-+         uxen_hcbase =  __vmalloc(PAGE_SIZE, GFP_KERNEL, PAGE_KERNEL_EXEC);
-++#else
-++	uxen_hcbase =  __vmalloc(PAGE_SIZE, GFP_KERNEL);
-++#endif
-+         if (!uxen_hcbase) {
-+             ret = -ENOMEM;
-+             goto out;
-+@@ -149,8 +154,11 @@ static void __exit uxen_hypercall_exit(void)
-+ {
++ #include <uxen-hypercall.h>
++ #include <uxen-platform.h>
++@@ -32,14 +33,20 @@ static int bus_probe(struct device *_dev)
++     return drv && drv->probe ? drv->probe(dev) : -ENODEV;
 + }
 + 
-++
-++#define KBUILD_MODFILE "uxenhc"
-++
-+ module_init(uxen_hypercall_init);
-+ module_exit(uxen_hypercall_exit);
-++MODULE_LICENSE("GPL");
-+ MODULE_AUTHOR("paulian.marinca@bromium.com");
-+ MODULE_DESCRIPTION("uXen hypercall support");
-+-MODULE_LICENSE("GPL");
-+diff --git a/v4vvsock/v4v_vsock.c b/v4vvsock/v4v_vsock.c
-+index 8d80d7d..cd7e8ce 100644
-+--- a/v4vvsock/v4v_vsock.c
-++++ b/v4vvsock/v4v_vsock.c
-+@@ -578,8 +578,10 @@ static const struct proto_ops vsock_dgram_ops = {
-+     .ioctl = sock_no_ioctl,
-+     .listen = sock_no_listen,
-+     .shutdown = sock_no_shutdown,
-++#if (LINUX_VERSION_CODE < KERNEL_VERSION(5,10,0))
-+     .setsockopt = sock_no_setsockopt,
-+     .getsockopt = sock_no_getsockopt,
-++#endif
-+     .sendmsg = vsock_sendmsg,
-+     .recvmsg = vsock_recvmsg,
-+     .mmap = sock_no_mmap,
-+diff --git a/vmdiagnostics/vm_diagnostics.c b/vmdiagnostics/vm_diagnostics.c
-+index 9ff94fb..db14e57 100644
-+--- a/vmdiagnostics/vm_diagnostics.c
-++++ b/vmdiagnostics/vm_diagnostics.c
-+@@ -22,6 +22,7 @@
-+ #include <linux/timekeeping.h>
-+ #include <linux/types.h>
-+ #include <linux/vmstat.h>
-++#include <linux/version.h>
-+ 
-+ #include <uxen-v4vlib.h>
-+ 
-+@@ -403,10 +404,16 @@ static void vm_handle_request_stat_task(struct vm_diagnostics_context *context,
-+  
-+             task_payload.state = task_state_to_char(task);
-+             task_payload.num_threads = get_nr_threads(task);
-++
-++#if (LINUX_VERSION_CODE < KERNEL_VERSION(5,5,0))
-+             task_payload.start_time_nsec = task->real_start_time;
+++#if (LINUX_VERSION_CODE < KERNEL_VERSION(5,15,0))
++ static int bus_remove(struct device *_dev)
 ++#else
-++            task_payload.start_time_nsec = task->start_boottime;
+++static void bus_remove(struct device *_dev)
 ++#endif
-++
-+             task_payload.last_run_cpu_id = task_cpu(task);
++ {
++     struct uxen_device *dev = dev_to_uxen(_dev);
++     struct uxen_driver *drv = drv_to_uxen(_dev->driver);
 + 
-+-            thread_group_cputime_adjusted(task, &user_nsec, &system_nsec);
-++            //thread_group_cputime_adjusted(task, &user_nsec, &system_nsec);
-+             task_payload.user_nsec = user_nsec;
-+             task_payload.system_nsec = system_nsec;
++     if (dev && drv && drv->remove)
++        drv->remove(dev);
+++#if (LINUX_VERSION_CODE < KERNEL_VERSION(5,15,0))
++     return 0;
+++#endif
++ }
 + 
-+-- 
-+2.19.1
++ static int bus_suspend(struct device *_dev, pm_message_t state)
+diff --git a/recipes-extended/uxen/uxen-guest-tools/0003-vm-support-fix-build-for-kernel-s-5.14.patch b/recipes-extended/uxen/uxen-guest-tools/0003-vm-support-fix-build-for-kernel-s-5.14.patch
+new file mode 100644
+index 0000000..ec31eea
+--- /dev/null
++++ b/recipes-extended/uxen/uxen-guest-tools/0003-vm-support-fix-build-for-kernel-s-5.14.patch
+@@ -0,0 +1,32 @@
++From 59986e91d807591f05dfbd57b459ba71670874f9 Mon Sep 17 00:00:00 2001
++From: Martin Jansa <Martin.Jansa@gmail.com>
++Date: Tue, 30 Nov 2021 15:04:31 +0000
++Subject: [PATCH] vm-support: fix build for kernel's > 5.14
 +
++* remove set_driver_byte call
++* not sure if it's still necessary here, but set_driver_byte as well as DRIVER_SENSE was killed in 5.14 with:
++  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=464a00c9e0ad45e3f42ff6ea705491a356df818e
++
++  in some cases it was replaced with set_status_byte(sc, SAM_STAT_CHECK_CONDITION), but I didn't
++  read the implementation carefully enough to decide if this is still needed, I was only interested
++  in fixing the build failure (and I don't use this at all to test it in runtime)
++
++Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
++---
++ uxenstor/stor.c | 2 ++
++ 1 file changed, 2 insertions(+)
++
++diff --git a/uxenstor/stor.c b/uxenstor/stor.c
++index e07b08e..6bf2184 100644
++--- a/uxenstor/stor.c
+++++ b/uxenstor/stor.c
++@@ -109,7 +109,9 @@ static void uxenstor_softirq(unsigned long opaque)
++                                          sc->sense_buffer,
++                                          sizeof(hdr) + hdr.sense_size,
++                                          0, sizeof(hdr));
+++#if (LINUX_VERSION_CODE < KERNEL_VERSION(5,14,0))
++                 set_driver_byte(sc, DRIVER_SENSE);
+++#endif
++             }
++ 
++             set_host_byte(sc, DID_ERROR);
 diff --git a/recipes-extended/uxen/uxen-guest-tools_4.1.8.bb b/recipes-extended/uxen/uxen-guest-tools_4.1.8.bb
-index 2ca0cb1..06dc376 100644
+index 06dc376..841c71a 100644
 --- a/recipes-extended/uxen/uxen-guest-tools_4.1.8.bb
 +++ b/recipes-extended/uxen/uxen-guest-tools_4.1.8.bb
-@@ -9,6 +9,7 @@ SRC_URI = " \
-     https://www.bromium.com/wp-content/uploads/2019/11/uxen-${PV}.zip;name=uxen \
+@@ -10,7 +10,9 @@ SRC_URI = " \
      https://www.bromium.com/wp-content/uploads/2019/11/Bromium-4.1.8-Open-Source-Software.pdf;name=license \
      file://fix-Makefile-for-OE-kernel-build.patch \
-+    file://0001-vm-support-fix-build-for-kernel-s-5.4.patch \
-     "
+     file://0001-vm-support-fix-build-for-kernel-s-5.4.patch \
+-    "
++    file://0002-vm-support-fix-build-for-kernel-s-5.15.patch \
++    file://0003-vm-support-fix-build-for-kernel-s-5.14.patch \
++"
  
  SRC_URI[uxen.sha384sum] = "be2233bc6506a23350d76c03ac28ea7ea381e1dc6ed5ce996e8ac71e6a3316fcaa2ed070c622618bd226f43a4d6db5d4"
+ SRC_URI[license.sha384sum] = "92e48c614df3094cb52321d4c4e01f6df5526d46aee5c6fa36c43ee23d4c33f03baa1fc5f6f29efafff636b6d13bc92c"
 -- 
 2.32.0
 
