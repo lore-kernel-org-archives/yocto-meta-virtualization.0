@@ -2,249 +2,255 @@ Return-Path: <christopher.w.clark@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A6CCC433F5
-	for <webhook@archiver.kernel.org>; Tue, 21 Dec 2021 03:33:55 +0000 (UTC)
-Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com
- [209.85.222.49])
- by mx.groups.io with SMTP id smtpd.web09.1746.1640057634680261511
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 141C3C433EF
+	for <webhook@archiver.kernel.org>; Tue, 21 Dec 2021 04:39:27 +0000 (UTC)
+Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com
+ [209.85.221.177])
+ by mx.groups.io with SMTP id smtpd.web10.2248.1640061566051290077
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 20 Dec 2021 19:33:54 -0800
+ Mon, 20 Dec 2021 20:39:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Q/C8JuB8;
- spf=pass (domain: gmail.com, ip: 209.85.222.49,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=nK3auiX7;
+ spf=pass (domain: gmail.com, ip: 209.85.221.177,
  mailfrom: christopher.w.clark@gmail.com)
-Received: by mail-ua1-f49.google.com with SMTP id n7so21258579uaq.12
+Received: by mail-vk1-f177.google.com with SMTP id b77so2021235vka.11
         for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 20 Dec 2021 19:33:54 -0800 (PST)
+ Mon, 20 Dec 2021 20:39:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=tz0rr8LvNMify589K9hcoAaYxApsN5QTxJr+jX1zFKI=;
-        b=Q/C8JuB8hdd203v8BHyGVgh/nPiKecYQmBoDOrx10WFHoy4lr0+nbXNb1ENWA365GP
-         7k7m1iLKvw5cxia0AefTOLExnd8Xxn6/al45N14T5GnUiZr8qawl/H70B3vfIg63x7Ij
-         wys9yd1wGy6x85qDh/6TdQY0skDpSeaFCWP1HtACc6Hw1ovVrAMZ7bqSBZsyGkUHlMnr
-         rAkyVAFGzAV9cbmQpy/Trr4KKdc/Pk7ZHeTf8zB5dSFnIOgz7nAxUdx0NMhrogy4eOf6
-         y451Y7chcEqM0wCoB/rdQybybDTIGxN3RztA9RmfLjXdwGB9tCq3o7yw7aEqyT9Ojvmz
-         x5rw==
+        bh=jX6XlrRwWcNpYCO3tskRaDf23qqastjYwIDiKil4hQ4=;
+        b=nK3auiX7F9Zj6GW7U+0EgaZkFXhf/Qj7ecg/K9hCCPfqABVDcgRiWmEWCd8S0THx8Z
+         Vc0tv3JIOTqWPHhru5huvTo0ieT/vXkIrDr/vTeXwY1lqknZv8MVkLQQKlHv2cN6nQkW
+         LDHhSJ/cgF5qFidfqwe6JC0QPiTPJF6EWA236KG8IBotVvqatQos/k7ooQj98FjT0iuA
+         tM3xNptRMSO32K7XOxjlNP1OswIcKCJdJ116YQweoPtK6XDC4liztpg9k1da0t1mvoyE
+         E17KG0aRSjWuVW8SlDPIZw3JggIBQDxu6nZ0MtCVer2y6nnC/sjumRJnmV4jFe65wOeI
+         QBqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=tz0rr8LvNMify589K9hcoAaYxApsN5QTxJr+jX1zFKI=;
-        b=knQMPinMX3K15Xgvmkd2yckDMrDaPRgANJyVxWDVsDrZ9sNDZdYqAHLwTDp+uhziYo
-         liyXuViabX+LEXA3Nb6iJBTKjb93kecWs3Xhtfxam0F6smHs2ZnZVwaDvi48YPbKIAXE
-         4ZprZrm7voSRaLNehoGzBrh8lB4bJ3GSpAefK4jn0v6oIuhrRYXSlvWhAR9wgsHy+Xq7
-         b243bMzHMkORLhdxKzJ2+Iv1yyMDKTjRt/G4MNgYczk3zWDRh2syCLUl9oHJwUWg8gAw
-         WJTU9hlXXn27ZdUVd8X9a3QbRnzkWNQGIyvXZzB/yzasRNddKR9a9VMYFGLagt+IXi25
-         gLmA==
-X-Gm-Message-State: AOAM530c0qHvppEQdA16qF1TnNusvmhbJl1lTWKOxWBZZyFhIkoEcnL0
-	hPvMGt+erXU6nUe//DfD7mbUbXd0w6FsiqegMRs=
+        bh=jX6XlrRwWcNpYCO3tskRaDf23qqastjYwIDiKil4hQ4=;
+        b=j4IexXLPw3NBszku6JZAba5a2NXzZ+jEg9P3IXBvYgg66wJurJNcU2fcd+I0EEAD7E
+         sykN5KwF72zHkapcbvpb/bkoijgpAT42ucn6hFD7H3sLPFJUAobtWO2BBPM4upfnpfBC
+         rAsn8Z2F6Brfrp/Xo+o3B2EuEr5MuELBXlA5+zohi859vfnUrUiv8aWDvCyy6sQp4IFm
+         zfAF4zo5LPf9CCbfCLAoTSLHTesAnKWUfjQlqf8wVIzHSdJWwRBV/zXCpqTDhMmUS2Af
+         OnZJFl5CBPuqqtxSlw45cogHCaA1xYW1lpxgMzUN6/SAyVTtanKh0aqco+s9ALqKK1Wf
+         6KeQ==
+X-Gm-Message-State: AOAM5334/sEtFOuhMCURyWXOC9Ay5AGtZ8x+vpKLDYUXJrZ0fQq/cpHP
+	2jm75bNLXGiOhV/GmIaJxbGOIhSftGYsR1FwJ1c=
 X-Google-Smtp-Source: 
- ABdhPJx3nPRKK79EoT0ZmRsfqfXrUqSIpAN8lrhkN80Ste09BGH9TC1TXjmLt4k/buKMSDB/Bp4zD/iFFY9fENb8Jfo=
-X-Received: by 2002:a67:2e09:: with SMTP id u9mr406372vsu.77.1640057633743;
- Mon, 20 Dec 2021 19:33:53 -0800 (PST)
+ ABdhPJyaf0R86WGxvV6zSA6tr45jEs6HPbocvECuikK0eylCBfAAaGcy9C75o8YDEWV8oA9WNoTldcmYNp7izYqDsC0=
+X-Received: by 2002:a1f:ff0a:: with SMTP id p10mr445297vki.1.1640061565098;
+ Mon, 20 Dec 2021 20:39:25 -0800 (PST)
 MIME-Version: 1.0
 References: <20211209135752.6872-1-kamil.dziezyk@arm.com>
- <CADkTA4MD816MbZi3=BmZQSwG6NMq2=zsFoPvsc0E180UCjBuWg@mail.gmail.com>
-In-Reply-To: 
- <CADkTA4MD816MbZi3=BmZQSwG6NMq2=zsFoPvsc0E180UCjBuWg@mail.gmail.com>
+ <20211209135752.6872-2-kamil.dziezyk@arm.com>
+In-Reply-To: <20211209135752.6872-2-kamil.dziezyk@arm.com>
 From: Christopher Clark <christopher.w.clark@gmail.com>
-Date: Mon, 20 Dec 2021 19:33:42 -0800
+Date: Mon, 20 Dec 2021 20:39:14 -0800
 Message-ID: 
- <CACMJ4Gaa=CeYUwSLmZcgH00xDnUbfyuAw_OPcnEEBkMo-+QQ7A@mail.gmail.com>
-Subject: Re: [meta-virtualization][PATCH v2 1/3] xen-tools: Load xen related
- kernel modules during system boot
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: Kamil Dziezyk <kamil.dziezyk@arm.com>,
- meta-virtualization@lists.yoctoproject.org,
-	nd <nd@arm.com>
-Content-Type: multipart/alternative; boundary="000000000000aba6c705d39fac07"
+ <CACMJ4GZTTz9L1_+8Ldd8_4x6EUOfJeps_K11UP9stjdxBBKjmg@mail.gmail.com>
+Subject: Re: [meta-virtualization][PATCH v2 2/3] xen: Clear TUNE_CCARGS for
+ Xen build for aarch64 machines
+To: Kamil Dziezyk <kamil.dziezyk@arm.com>
+Cc: meta-virtualization@lists.yoctoproject.org, nd <nd@arm.com>,
+	Doug Goldstein <cardoe@gentoo.org>
+Content-Type: multipart/alternative; boundary="000000000000ff5fb205d3a096db"
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Tue, 21 Dec 2021 03:33:55 -0000
+ <meta-virtualization@lists.yoctoproject.org>; Tue, 21 Dec 2021 04:39:27 -0000
 X-Groupsio-URL: 
- https://lists.yoctoproject.org/g/meta-virtualization/message/6983
+ https://lists.yoctoproject.org/g/meta-virtualization/message/6984
 
---000000000000aba6c705d39fac07
+--000000000000ff5fb205d3a096db
 Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Dec 13, 2021 at 12:42 PM Bruce Ashfield <bruce.ashfield@gmail.com>
-wrote:
+On Thu, Dec 9, 2021 at 5:59 AM Kamil Dziezyk <kamil.dziezyk@arm.com> wrote:
 
-> v2 looks good to me, but I'd like to get an Ack from Christopher before
-> merging.
+> Xen build may fail for arm machines that have enabled extra flags,
+> that can be enabled only for specific architecture version, e.g. armv8-2a.
 >
 
-Ack, this looks good - thanks for making the change, Kamil.
+Apologies for being slow to review this one.
+
+From looking at "bitbake -e xen" for an example Raspberry Pi 4 aarch64
+build configuration, the major variables that this affects looks like: CPP,
+CXX and EXTRA_CFLAGS_XEN_TOOLS.
+So is it the xen recipe or the xen-tools recipe that this patch is intended
+to fix the build for? (or both?)
+
+I can't immediately tell what compilation this fixes, but: I think that
+this change is probably OK for the hypervisor case, since TUNE_CCARGS is
+already excluded from the definition of CC for aarch64 for the hypervisor
+build, but for the tools it will affect the compiler flags, so:
+
+Do you really intend to drop all "-mcpu" and "-march" C compiler flags from
+the Xen tools build, for any aarch64 MACHINEs? Should your MACHINEs
+actually populate TUNE_CCARGS with those flags if they are not wanted for
+userspace software? -- or is there a problem that is specifically being
+encountered with the Xen tools software build? If so, I'd like to know a
+bit more about that -- and then this workaround may be OK if we can confirm
+that it doesn't negatively affect the MACHINEs that we care about, which
+include QemuArm64 and the Rpi4 as a reference platform.
+
+As an aside, I would like to remove the similar x86 logic from this recipe
+where TUNE_CCARGS is cleared to address the hvmloader build, and fix that
+in a better way. (That will be separate to this work.)
+
+The comment that is being added refers to "HVM-mode": is that term still
+accurate for Xen on Arm?
+
+The subject line for this patch should indicate both "xen" and "xen-tools",
+since this modifies xen.inc which is included by both recipes. I would
+encourage you to CC both myself and Doug on future posts of Xen-related
+patches, please.
+
+thanks
 
 Christopher
 
 
+
 >
-> Bruce
+> Signed-off-by: Kamil Dziezyk <kamil.dziezyk@arm.com>
+> ---
+>  recipes-extended/xen/xen.inc | 5 +++++
+>  1 file changed, 5 insertions(+)
 >
-> On Thu, Dec 9, 2021 at 8:58 AM Kamil Dziezyk <kamil.dziezyk@arm.com>
-> wrote:
-> >
-> > This patch changes the location of xen.conf file, that contains list of
-> kernel
-> > modules to be loaded during system boot, to "${nonarch_libdir}".
-> >
-> > Previous path based on "${systemd_unitdir}" was not considered by
-> default by
-> > systemd-modules-load.service.
-> >
-> > Signed-off-by: Kamil Dziezyk <kamil.dziezyk@arm.com>
-> > ---
-> >  recipes-extended/xen/xen-tools.inc | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/recipes-extended/xen/xen-tools.inc
-> b/recipes-extended/xen/xen-tools.inc
-> > index d831941..17ef0f7 100644
-> > --- a/recipes-extended/xen/xen-tools.inc
-> > +++ b/recipes-extended/xen/xen-tools.inc
-> > @@ -653,10 +653,10 @@ FILES:${PN}-xm = "\
-> >      "
-> >
-> >  FILES:${PN}-xencommons += "\
-> > +    ${nonarch_libdir}/modules-load.d/xen.conf \
-> >      ${sysconfdir}/default/xencommons \
-> >      ${sysconfdir}/init.d/xencommons \
-> >      ${sysconfdir}/xen/scripts/launch-xenstore \
-> > -    ${systemd_unitdir}/modules-load.d/xen.conf \
-> >      ${systemd_unitdir}/system/proc-xen.mount \
-> >      ${systemd_unitdir}/system/xen-qemu-dom0-disk-backend.service \
-> >      ${systemd_unitdir}/system/xenconsoled.service \
-> > @@ -744,7 +744,7 @@ SYSTEMD_SERVICE:${PN}-xendomains =
-> "xendomains.service"
-> >
-> >  EXTRA_OECONF += " \
-> >      --with-systemd=${systemd_unitdir}/system \
-> > -    --with-systemd-modules-load=${systemd_unitdir}/modules-load.d \
-> > +    --with-systemd-modules-load=${nonarch_libdir}/modules-load.d \
-> >      --with-initddir=${INIT_D_DIR} \
-> >      --with-sysconfig-leaf-dir=default \
-> >      --with-system-qemu=${bindir}/qemu-system-i386 \
-> > --
-> > 2.17.1
-> >
-> >
-> > -=-=-=-=-=-=-=-=-=-=-=-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#6972):
-> https://lists.yoctoproject.org/g/meta-virtualization/message/6972
-> > Mute This Topic: https://lists.yoctoproject.org/mt/87611978/1050810
-> > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> > Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub
-> [bruce.ashfield@gmail.com]
-> > -=-=-=-=-=-=-=-=-=-=-=-
-> >
+> diff --git a/recipes-extended/xen/xen.inc b/recipes-extended/xen/xen.inc
+> index d3c7a7d..9ac82ef 100644
+> --- a/recipes-extended/xen/xen.inc
+> +++ b/recipes-extended/xen/xen.inc
+> @@ -102,6 +102,11 @@ EXTRA_CFLAGS_XEN_CORE="${DEBUG_PREFIX_MAP}"
+>  #   EXTRA_CFLAGS_XEN_TOOLS: so clear TUNE_CCARGS on x86 to prevent that.
+>  TUNE_CCARGS:x86-64=""
 >
->
+> +# - The Xen build for aarch64 systems with HVM-mode enabled may include
+> +#   architecture specific flags '-march=*' which causes build failure, so
+> clear
+> +#   TUNE_CCARGS on aarch64 to prevent that.
+> +TUNE_CCARGS:aarch64=""
+> +
+>  # - Yocto supplies the _FORTIFY_SOURCE flag via CC/CPP/CXX but then
+> passes the
+>  #   optimization -O via C*FLAGS which is problematic when the CFLAGS are
+> cleared
+>  #   within the build because compilation fails with the compiler stating
 > --
-> - Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at its end
-> - "Use the force Harry" - Gandalf, Star Trek II
+> 2.17.1
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#6973):
+> https://lists.yoctoproject.org/g/meta-virtualization/message/6973
+> Mute This Topic: https://lists.yoctoproject.org/mt/87611981/3619036
+> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [
+> christopher.w.clark+meta-virt@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 >
 
---000000000000aba6c705d39fac07
+--000000000000ff5fb205d3a096db
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr">On Mon, Dec 13, 2021 at 12:42 PM Bruce As=
-hfield &lt;<a href=3D"mailto:bruce.ashfield@gmail.com">bruce.ashfield@gmail=
-.com</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex">v2 looks good to me, but I&#39;d like to g=
-et an Ack from Christopher before merging.<br></blockquote><div><br></div><=
-div>Ack, this looks good - thanks for making the change, Kamil.</div><div><=
-br></div><div>Christopher</div><div>=C2=A0</div><blockquote class=3D"gmail_=
-quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,=
-204);padding-left:1ex">
+<div dir=3D"ltr"><div dir=3D"ltr">On Thu, Dec 9, 2021 at 5:59 AM Kamil Dzie=
+zyk &lt;<a href=3D"mailto:kamil.dziezyk@arm.com">kamil.dziezyk@arm.com</a>&=
+gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_q=
+uote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,2=
+04);padding-left:1ex">Xen build may fail for arm machines that have enabled=
+ extra flags,<br>
+that can be enabled only for specific architecture version, e.g. armv8-2a.<=
+br></blockquote><div><br></div><div>Apologies for being slow to review this=
+ one.</div><div><br></div><div><div>From looking at &quot;bitbake -e xen&qu=
+ot; for an example Raspberry Pi 4 aarch64 build configuration, the major va=
+riables that this affects looks like: CPP, CXX and=C2=A0EXTRA_CFLAGS_XEN_TO=
+OLS.</div><div>So is it the xen recipe or the xen-tools recipe that this pa=
+tch is intended to fix the build for? (or both?)<br></div></div><div><br></=
+div><div>I can&#39;t immediately tell what compilation this fixes, but: I t=
+hink that this change is probably OK for the hypervisor case, since TUNE_CC=
+ARGS is already excluded from the definition of CC for aarch64 for the hype=
+rvisor build, but for the tools it will affect the compiler flags, so:</div=
+><div><br></div><div>Do you really intend to drop all &quot;-mcpu&quot; and=
+ &quot;-march&quot; C compiler flags from the Xen tools build, for any aarc=
+h64 MACHINEs? Should your MACHINEs actually populate TUNE_CCARGS with those=
+ flags if they are not wanted for userspace software? -- or is there a prob=
+lem that is specifically being encountered with the Xen tools software buil=
+d? If so, I&#39;d like to know a bit more about that -- and then this worka=
+round may be OK if we can confirm that it doesn&#39;t negatively affect the=
+ MACHINEs that we care about, which include QemuArm64 and the Rpi4 as a ref=
+erence platform.</div><div><br></div><div><div>As an aside, I would like to=
+ remove the similar x86 logic from this recipe where TUNE_CCARGS is cleared=
+ to address the hvmloader build, and fix that in a better way. (That will b=
+e separate to this work.)</div></div><div><br></div><div>The comment that i=
+s being added refers to &quot;HVM-mode&quot;: is that term still accurate f=
+or Xen on Arm?</div><div><br></div><div><div><div>The subject line for this=
+ patch should indicate both &quot;xen&quot; and &quot;xen-tools&quot;, sinc=
+e this modifies xen.inc which is included by both recipes. I would encourag=
+e you to CC both myself and Doug on future posts of Xen-related patches, pl=
+ease.</div></div></div><div><br></div><div>thanks</div><div><br></div><div>=
+Christopher</div><div><br></div><div>=C2=A0</div><blockquote class=3D"gmail=
+_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204=
+,204);padding-left:1ex">
 <br>
-Bruce<br>
+Signed-off-by: Kamil Dziezyk &lt;<a href=3D"mailto:kamil.dziezyk@arm.com" t=
+arget=3D"_blank">kamil.dziezyk@arm.com</a>&gt;<br>
+---<br>
+=C2=A0recipes-extended/xen/xen.inc | 5 +++++<br>
+=C2=A01 file changed, 5 insertions(+)<br>
 <br>
-On Thu, Dec 9, 2021 at 8:58 AM Kamil Dziezyk &lt;<a href=3D"mailto:kamil.dz=
-iezyk@arm.com" target=3D"_blank">kamil.dziezyk@arm.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; This patch changes the location of xen.conf file, that contains list o=
-f kernel<br>
-&gt; modules to be loaded during system boot, to &quot;${nonarch_libdir}&qu=
-ot;.<br>
-&gt;<br>
-&gt; Previous path based on &quot;${systemd_unitdir}&quot; was not consider=
-ed by default by<br>
-&gt; systemd-modules-load.service.<br>
-&gt;<br>
-&gt; Signed-off-by: Kamil Dziezyk &lt;<a href=3D"mailto:kamil.dziezyk@arm.c=
-om" target=3D"_blank">kamil.dziezyk@arm.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 recipes-extended/xen/xen-tools.inc | 4 ++--<br>
-&gt;=C2=A0 1 file changed, 2 insertions(+), 2 deletions(-)<br>
-&gt;<br>
-&gt; diff --git a/recipes-extended/xen/xen-tools.inc b/recipes-extended/xen=
-/xen-tools.inc<br>
-&gt; index d831941..17ef0f7 100644<br>
-&gt; --- a/recipes-extended/xen/xen-tools.inc<br>
-&gt; +++ b/recipes-extended/xen/xen-tools.inc<br>
-&gt; @@ -653,10 +653,10 @@ FILES:${PN}-xm =3D &quot;\<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &quot;<br>
-&gt;<br>
-&gt;=C2=A0 FILES:${PN}-xencommons +=3D &quot;\<br>
-&gt; +=C2=A0 =C2=A0 ${nonarch_libdir}/modules-load.d/xen.conf \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 ${sysconfdir}/default/xencommons \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 ${sysconfdir}/init.d/xencommons \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 ${sysconfdir}/xen/scripts/launch-xenstore \<br>
-&gt; -=C2=A0 =C2=A0 ${systemd_unitdir}/modules-load.d/xen.conf \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 ${systemd_unitdir}/system/proc-xen.mount \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 ${systemd_unitdir}/system/xen-qemu-dom0-disk-backe=
-nd.service \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 ${systemd_unitdir}/system/xenconsoled.service \<br=
+diff --git a/recipes-extended/xen/xen.inc b/recipes-extended/xen/xen.inc<br=
 >
-&gt; @@ -744,7 +744,7 @@ SYSTEMD_SERVICE:${PN}-xendomains =3D &quot;xendoma=
-ins.service&quot;<br>
-&gt;<br>
-&gt;=C2=A0 EXTRA_OECONF +=3D &quot; \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 --with-systemd=3D${systemd_unitdir}/system \<br>
-&gt; -=C2=A0 =C2=A0 --with-systemd-modules-load=3D${systemd_unitdir}/module=
-s-load.d \<br>
-&gt; +=C2=A0 =C2=A0 --with-systemd-modules-load=3D${nonarch_libdir}/modules=
--load.d \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 --with-initddir=3D${INIT_D_DIR} \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 --with-sysconfig-leaf-dir=3Ddefault \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 --with-system-qemu=3D${bindir}/qemu-system-i386 \<=
-br>
-&gt; --<br>
-&gt; 2.17.1<br>
-&gt;<br>
-&gt;<br>
-&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt; Links: You receive all messages sent to this group.<br>
-&gt; View/Reply Online (#6972): <a href=3D"https://lists.yoctoproject.org/g=
-/meta-virtualization/message/6972" rel=3D"noreferrer" target=3D"_blank">htt=
-ps://lists.yoctoproject.org/g/meta-virtualization/message/6972</a><br>
-&gt; Mute This Topic: <a href=3D"https://lists.yoctoproject.org/mt/87611978=
-/1050810" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.o=
-rg/mt/87611978/1050810</a><br>
-&gt; Group Owner: <a href=3D"mailto:meta-virtualization%2Bowner@lists.yocto=
-project.org" target=3D"_blank">meta-virtualization+owner@lists.yoctoproject=
-.org</a><br>
-&gt; Unsubscribe: <a href=3D"https://lists.yoctoproject.org/g/meta-virtuali=
-zation/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproje=
-ct.org/g/meta-virtualization/unsub</a> [<a href=3D"mailto:bruce.ashfield@gm=
-ail.com" target=3D"_blank">bruce.ashfield@gmail.com</a>]<br>
-&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt;<br>
+index d3c7a7d..9ac82ef 100644<br>
+--- a/recipes-extended/xen/xen.inc<br>
++++ b/recipes-extended/xen/xen.inc<br>
+@@ -102,6 +102,11 @@ EXTRA_CFLAGS_XEN_CORE=3D&quot;${DEBUG_PREFIX_MAP}&quot=
+;<br>
+=C2=A0#=C2=A0 =C2=A0EXTRA_CFLAGS_XEN_TOOLS: so clear TUNE_CCARGS on x86 to =
+prevent that.<br>
+=C2=A0TUNE_CCARGS:x86-64=3D&quot;&quot;<br>
 <br>
-<br>
++# - The Xen build for aarch64 systems with HVM-mode enabled may include<br=
+>
++#=C2=A0 =C2=A0architecture specific flags &#39;-march=3D*&#39; which cause=
+s build failure, so clear<br>
++#=C2=A0 =C2=A0TUNE_CCARGS on aarch64 to prevent that.<br>
++TUNE_CCARGS:aarch64=3D&quot;&quot;<br>
++<br>
+=C2=A0# - Yocto supplies the _FORTIFY_SOURCE flag via CC/CPP/CXX but then p=
+asses the<br>
+=C2=A0#=C2=A0 =C2=A0optimization -O via C*FLAGS which is problematic when t=
+he CFLAGS are cleared<br>
+=C2=A0#=C2=A0 =C2=A0within the build because compilation fails with the com=
+piler stating<br>
 -- <br>
-- Thou shalt not follow the NULL pointer, for chaos and madness await<br>
-thee at its end<br>
-- &quot;Use the force Harry&quot; - Gandalf, Star Trek II<br>
+2.17.1<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#6973): <a href=3D"https://lists.yoctoproject.org/g/meta=
+-virtualization/message/6973" rel=3D"noreferrer" target=3D"_blank">https://=
+lists.yoctoproject.org/g/meta-virtualization/message/6973</a><br>
+Mute This Topic: <a href=3D"https://lists.yoctoproject.org/mt/87611981/3619=
+036" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.org/mt=
+/87611981/3619036</a><br>
+Group Owner: <a href=3D"mailto:meta-virtualization%2Bowner@lists.yoctoproje=
+ct.org" target=3D"_blank">meta-virtualization+owner@lists.yoctoproject.org<=
+/a><br>
+Unsubscribe: <a href=3D"https://lists.yoctoproject.org/g/meta-virtualizatio=
+n/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.or=
+g/g/meta-virtualization/unsub</a> [<a href=3D"mailto:christopher.w.clark%2B=
+meta-virt@gmail.com" target=3D"_blank">christopher.w.clark+meta-virt@gmail.=
+com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
 </blockquote></div></div>
 
---000000000000aba6c705d39fac07--
+--000000000000ff5fb205d3a096db--
 
