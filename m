@@ -1,249 +1,250 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <christopher.w.clark@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F89DC433F5
-	for <webhook@archiver.kernel.org>; Tue, 21 Dec 2021 01:52:48 +0000 (UTC)
-Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com
- [209.85.219.46])
- by mx.groups.io with SMTP id smtpd.web09.869.1640051567654580389
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A6CCC433F5
+	for <webhook@archiver.kernel.org>; Tue, 21 Dec 2021 03:33:55 +0000 (UTC)
+Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com
+ [209.85.222.49])
+ by mx.groups.io with SMTP id smtpd.web09.1746.1640057634680261511
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 20 Dec 2021 17:52:47 -0800
+ Mon, 20 Dec 2021 19:33:54 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=JR+O+Us7;
- spf=pass (domain: gmail.com, ip: 209.85.219.46,
- mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qv1-f46.google.com with SMTP id q3so3700245qvc.7
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Q/C8JuB8;
+ spf=pass (domain: gmail.com, ip: 209.85.222.49,
+ mailfrom: christopher.w.clark@gmail.com)
+Received: by mail-ua1-f49.google.com with SMTP id n7so21258579uaq.12
         for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 20 Dec 2021 17:52:47 -0800 (PST)
+ Mon, 20 Dec 2021 19:33:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=iGGNaJvpMcsnN51VF7lTfTs2fa9ruuvE37tUwOG5m1M=;
-        b=JR+O+Us7Lx/oJjf50H+tvoTGdRth0osu2vbNe5RUrBShvSs5pcWJmGEC1/N66ISwbt
-         iY0/dX3UeRjIO9s6isSs43GM7DyYHJgQgtvfKChcwAHiCMG3QWR0Gvx10yrbNXCcD8bG
-         f7RtOVajvOWwLU9pAC7VPpvTEQUTzE1M/l35Gzue/42qhYlvVVVuPHDJ9imS++6zsJXc
-         Hl2e7R9hQQ4pIjzXpixuQg4UL4CxW6IqbkC26brM5/lqwpDu7FJNqAq/DNohWae6LwgP
-         GewPxHK+YINYR9vfzryVWlw9jaiv5cw4WW3efSHSdMDnipaqUuQr2U79oWyvidbM1EiT
-         8qXw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=tz0rr8LvNMify589K9hcoAaYxApsN5QTxJr+jX1zFKI=;
+        b=Q/C8JuB8hdd203v8BHyGVgh/nPiKecYQmBoDOrx10WFHoy4lr0+nbXNb1ENWA365GP
+         7k7m1iLKvw5cxia0AefTOLExnd8Xxn6/al45N14T5GnUiZr8qawl/H70B3vfIg63x7Ij
+         wys9yd1wGy6x85qDh/6TdQY0skDpSeaFCWP1HtACc6Hw1ovVrAMZ7bqSBZsyGkUHlMnr
+         rAkyVAFGzAV9cbmQpy/Trr4KKdc/Pk7ZHeTf8zB5dSFnIOgz7nAxUdx0NMhrogy4eOf6
+         y451Y7chcEqM0wCoB/rdQybybDTIGxN3RztA9RmfLjXdwGB9tCq3o7yw7aEqyT9Ojvmz
+         x5rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=iGGNaJvpMcsnN51VF7lTfTs2fa9ruuvE37tUwOG5m1M=;
-        b=AzWkd4r7u672EEXDuSJDcqIGhtyIBrAlKQ0WfK5rtjUp9kQ953q306JrzDoJtocSu5
-         sU0ar1TMQ8X508ft1+9rocQj9O3dF4l1I120cYFKiFZCVu+Sx1fhfwLEbN3iEya6mZy+
-         V5N0TM6CKQu8fy8YaKXL0HP7ngILjrfIPVFWMX3Lp4Mq8g3FkhB2ud8eIxlcDRZyMOLK
-         Eo+ABd257F9T57ZVYmK0l+0hCPyseXZoFPULVkJkP5QFrpNU4MBRqW8/wcm+8wpeSz6t
-         s/akMQWfLeDuR792PRCAjzxt0SB7GRHZtZIqvqTLFQk4fyTE2CZqut1uHhJIjIl3noIz
-         wUaQ==
-X-Gm-Message-State: AOAM533kvTRgQDIu3GYJ7h4FuFckpY1GHSiON8L2ZI7gOuP9xlCZAf3E
-	fWrqgOQu3ZkQUqRlfoZCXQfxDRbLCA0=
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=tz0rr8LvNMify589K9hcoAaYxApsN5QTxJr+jX1zFKI=;
+        b=knQMPinMX3K15Xgvmkd2yckDMrDaPRgANJyVxWDVsDrZ9sNDZdYqAHLwTDp+uhziYo
+         liyXuViabX+LEXA3Nb6iJBTKjb93kecWs3Xhtfxam0F6smHs2ZnZVwaDvi48YPbKIAXE
+         4ZprZrm7voSRaLNehoGzBrh8lB4bJ3GSpAefK4jn0v6oIuhrRYXSlvWhAR9wgsHy+Xq7
+         b243bMzHMkORLhdxKzJ2+Iv1yyMDKTjRt/G4MNgYczk3zWDRh2syCLUl9oHJwUWg8gAw
+         WJTU9hlXXn27ZdUVd8X9a3QbRnzkWNQGIyvXZzB/yzasRNddKR9a9VMYFGLagt+IXi25
+         gLmA==
+X-Gm-Message-State: AOAM530c0qHvppEQdA16qF1TnNusvmhbJl1lTWKOxWBZZyFhIkoEcnL0
+	hPvMGt+erXU6nUe//DfD7mbUbXd0w6FsiqegMRs=
 X-Google-Smtp-Source: 
- ABdhPJx1dTk1Rx9ZDxM2S1PHLdC4ouOBbmZ+YWV8Dq6o/4Wf03GOW81gN92ryxdDtwd8E9kN041a5g==
-X-Received: by 2002:a05:6214:2523:: with SMTP id
- gg3mr599984qvb.1.1640051566689;
-        Mon, 20 Dec 2021 17:52:46 -0800 (PST)
-Received: from gmail.com
- (cpe04d4c4975b80-cmf4c11490699b.cpe.net.cable.rogers.com. [174.112.63.222])
-        by smtp.gmail.com with ESMTPSA id
- y20sm13175661qkj.24.2021.12.20.17.52.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Dec 2021 17:52:46 -0800 (PST)
-Date: Mon, 20 Dec 2021 20:52:44 -0500
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Jeremy Puhlman <jpuhlman@mvista.com>
-Cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [meta-virtualization][m-c-s][PATCH] mod-wsgi: move to 4.9.0
-Message-ID: <20211221015242.GA36916@gmail.com>
-References: <20211220192706.4002841-1-jpuhlman@mvista.com>
+ ABdhPJx3nPRKK79EoT0ZmRsfqfXrUqSIpAN8lrhkN80Ste09BGH9TC1TXjmLt4k/buKMSDB/Bp4zD/iFFY9fENb8Jfo=
+X-Received: by 2002:a67:2e09:: with SMTP id u9mr406372vsu.77.1640057633743;
+ Mon, 20 Dec 2021 19:33:53 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211220192706.4002841-1-jpuhlman@mvista.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20211209135752.6872-1-kamil.dziezyk@arm.com>
+ <CADkTA4MD816MbZi3=BmZQSwG6NMq2=zsFoPvsc0E180UCjBuWg@mail.gmail.com>
+In-Reply-To: 
+ <CADkTA4MD816MbZi3=BmZQSwG6NMq2=zsFoPvsc0E180UCjBuWg@mail.gmail.com>
+From: Christopher Clark <christopher.w.clark@gmail.com>
+Date: Mon, 20 Dec 2021 19:33:42 -0800
+Message-ID: 
+ <CACMJ4Gaa=CeYUwSLmZcgH00xDnUbfyuAw_OPcnEEBkMo-+QQ7A@mail.gmail.com>
+Subject: Re: [meta-virtualization][PATCH v2 1/3] xen-tools: Load xen related
+ kernel modules during system boot
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: Kamil Dziezyk <kamil.dziezyk@arm.com>,
+ meta-virtualization@lists.yoctoproject.org,
+	nd <nd@arm.com>
+Content-Type: multipart/alternative; boundary="000000000000aba6c705d39fac07"
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Tue, 21 Dec 2021 01:52:48 -0000
+ <meta-virtualization@lists.yoctoproject.org>; Tue, 21 Dec 2021 03:33:55 -0000
 X-Groupsio-URL: 
- https://lists.yoctoproject.org/g/meta-virtualization/message/6982
+ https://lists.yoctoproject.org/g/meta-virtualization/message/6983
 
-merged.
+--000000000000aba6c705d39fac07
+Content-Type: text/plain; charset="UTF-8"
 
-Bruce
+On Mon, Dec 13, 2021 at 12:42 PM Bruce Ashfield <bruce.ashfield@gmail.com>
+wrote:
 
-In message: [meta-virtualization][m-c-s][PATCH] mod-wsgi: move to 4.9.0
-on 20/12/2021 Jeremy Puhlman wrote:
+> v2 looks good to me, but I'd like to get an Ack from Christopher before
+> merging.
+>
 
-> Older version of mod-wsgi no longer builds against python 3.10
-> 
-> Signed-off-by: Jeremy A. Puhlman <jpuhlman@mvista.com>
-> ---
->  ...ow-PYTHON-values-to-be-passed-via-en.patch | 37 +++++++++----------
->  .../recipes-support/mod-wsgi/mod-wsgi_git.bb  |  4 +-
->  2 files changed, 20 insertions(+), 21 deletions(-)
-> 
-> diff --git a/meta-openstack/recipes-support/mod-wsgi/files/configure.ac-allow-PYTHON-values-to-be-passed-via-en.patch b/meta-openstack/recipes-support/mod-wsgi/files/configure.ac-allow-PYTHON-values-to-be-passed-via-en.patch
-> index 4683db0a..79aedffd 100644
-> --- a/meta-openstack/recipes-support/mod-wsgi/files/configure.ac-allow-PYTHON-values-to-be-passed-via-en.patch
-> +++ b/meta-openstack/recipes-support/mod-wsgi/files/configure.ac-allow-PYTHON-values-to-be-passed-via-en.patch
-> @@ -7,28 +7,31 @@ This allows the recipe to specify specific values instead of them
->  being 'discovered' which may lead to host contamination or similar
->  issues.
->  
-> +Updated for 4.9.0: Jeremy Puhlman
-> +
->  Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
-> ----
-> +----
->   configure.ac | 41 +++++++++++++++++++++++++++++++++++++++++
->   1 file changed, 41 insertions(+)
->  
-> +
->  diff --git a/configure.ac b/configure.ac
-> -index 25afe44..b5a9e03 100644
-> +index 37a0f86..9b77c7f 100644
->  --- a/configure.ac
->  +++ b/configure.ac
-> -@@ -100,26 +100,38 @@ fi
-> +@@ -106,26 +106,38 @@ fi
->   
->   AC_SUBST(PYTHON)
->   
->  +if test -z "${PYTHON_VERSION}"; then
->   PYTHON_VERSION=`${PYTHON} -c 'from sys import stdout; \
-> -     from distutils import sysconfig; \
-> +     import sysconfig; \
->       stdout.write(sysconfig.get_config_var("VERSION"))'`
->  +fi
->   
->  +if test -z "${PYTHON_LDVERSION}"; then
->   PYTHON_LDVERSION=`${PYTHON} -c 'from sys import stdout; \
-> -     from distutils import sysconfig; \
-> +     import sysconfig; \
->       stdout.write(sysconfig.get_config_var("LDVERSION") or "")'`
->  +fi
->   
-> @@ -38,7 +41,7 @@ index 25afe44..b5a9e03 100644
->   
->  +if test -z "${PYTHON_INCLUDEPY}"; then
->   CPPFLAGS1=`${PYTHON} -c 'from sys import stdout; \
-> -     from distutils import sysconfig; \
-> +     import sysconfig; \
->       stdout.write("-I" + sysconfig.get_config_var("INCLUDEPY"))'`
->  +else
->  +CPPFLAGS1="${PYTHON_INCLUDEPY}"
-> @@ -46,7 +49,7 @@ index 25afe44..b5a9e03 100644
->   
->  +if test -z "${PYTHON_CFLAGS}"; then
->   CPPFLAGS2=`${PYTHON} -c 'from sys import stdout; \
-> -     from distutils import sysconfig; \
-> +     import sysconfig; \
->       stdout.write(" ".join(filter(lambda x: x.startswith("-D"), \
->       sysconfig.get_config_var("CFLAGS").split())))'`
->  +else
-> @@ -55,13 +58,13 @@ index 25afe44..b5a9e03 100644
->   
->   if test "${ENABLE_EMBEDDED}" != "yes"; then
->   CPPFLAGS3="-DMOD_WSGI_DISABLE_EMBEDDED"
-> -@@ -131,22 +143,43 @@ CPPFLAGS="${CPPFLAGS} ${CPPFLAGS1} ${CPPFLAGS2} ${CPPFLAGS3}"
-> +@@ -137,22 +149,42 @@ CPPFLAGS="${CPPFLAGS} ${CPPFLAGS1} ${CPPFLAGS2} ${CPPFLAGS3}"
->   
->   AC_SUBST(CPPFLAGS)
->   
->  +if test -z "${PYTHON_LIBDIR}"; then
->   PYTHONLIBDIR=`${PYTHON} -c 'from sys import stdout; \
-> -     from distutils import sysconfig; \
-> +     import sysconfig; \
->       stdout.write(sysconfig.get_config_var("LIBDIR"))'`
->  +else
->  +PYTHONLIBDIR="${PYTHON_LIBDIR}"
-> @@ -76,22 +79,21 @@ index 25afe44..b5a9e03 100644
->  +fi
->  +if test -z "${PYTHON_FRAMEWORKDIR}"; then
->   PYTHONFRAMEWORKDIR=`${PYTHON} -c 'from sys import stdout; \
-> -     from distutils import sysconfig; \
-> +     import sysconfig; \
->       stdout.write(sysconfig.get_config_var("PYTHONFRAMEWORKDIR"))'`
->  +else
->  +PYTHONFRAMEWORKDIR="${PYTHON_FRAMEWORKDIR}"
->  +fi
-> -+
->  +if test -z "${PYTHON_FRAMEWORKPREFIX}"; then
->   PYTHONFRAMEWORKPREFIX=`${PYTHON} -c 'from sys import stdout; \
-> -     from distutils import sysconfig; \
-> +     import sysconfig; \
->       stdout.write(sysconfig.get_config_var("PYTHONFRAMEWORKPREFIX"))'`
->  +else
->  +PYTHONFRAMEWORKPREFIX="${PYTHON_FRAMEWORKPREFIX}"
->  +fi
->  +if test -z "${PYTHON_FRAMEWORK}"; then
->   PYTHONFRAMEWORK=`${PYTHON} -c 'from sys import stdout; \
-> -     from distutils import sysconfig; \
-> +     import sysconfig; \
->       stdout.write(sysconfig.get_config_var("PYTHONFRAMEWORK"))'`
->  +else
->  +PYTHONFRAMEWORK="${PYTHON_FRAMEWORK}"
-> @@ -99,20 +101,20 @@ index 25afe44..b5a9e03 100644
->   
->   if test "${PYTHON_LDVERSION}" != "${PYTHON_VERSION}"; then
->       PYTHONCFGDIR="${PYTHONCFGDIR}-${PYTHON_LDVERSION}"
-> -@@ -170,12 +203,20 @@ if test "${PYTHONFRAMEWORKDIR}" = "no-framework" -o \
-> +@@ -180,12 +212,20 @@ if test "${PYTHONFRAMEWORKDIR}" = "no-framework" -o \
->           LDLIBS1="-lpython${PYTHON_VERSION}"
->       fi
->   
->  +    if test -z "${PYTHON_LIBS}"; then
->       LDLIBS2=`${PYTHON} -c 'from sys import stdout; \
-> -         from distutils import sysconfig; \
-> +         import sysconfig; \
->           stdout.write(sysconfig.get_config_var("LIBS"))'`
->  +    else
->  +    LDLIBS2="${PYTHON_LIBS}"
->  +    fi
->  +    if test -z "${PYTHON_SYSLIBS}"; then
->       LDLIBS3=`${PYTHON} -c 'from sys import stdout; \
-> -         from distutils import sysconfig; \
-> +         import sysconfig; \
->           stdout.write(sysconfig.get_config_var("SYSLIBS"))'`
->  +    else
->  +    LDLIBS3="${PYTHON_SYSLIBS}"
-> @@ -120,6 +122,3 @@ index 25afe44..b5a9e03 100644
->   else
->       LDFLAGS1="-Wl,-F${PYTHONFRAMEWORKPREFIX} -framework ${PYTHONFRAMEWORK}"
->   
-> --- 
-> -2.7.4
-> -
-> diff --git a/meta-openstack/recipes-support/mod-wsgi/mod-wsgi_git.bb b/meta-openstack/recipes-support/mod-wsgi/mod-wsgi_git.bb
-> index 79afba81..910bba1b 100644
-> --- a/meta-openstack/recipes-support/mod-wsgi/mod-wsgi_git.bb
-> +++ b/meta-openstack/recipes-support/mod-wsgi/mod-wsgi_git.bb
-> @@ -9,8 +9,8 @@ HOMEPAGE = "https://github.com/GrahamDumpleton/mod_wsgi"
->  LICENSE = "Apache-2.0"
->  LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
->  
-> -SRCREV = "217e80b7436035723b80ff02ee349365e8553dfc"
-> -PV = "4.6.8+git${SRCPV}"
-> +SRCREV = "df9faf954a1ab6208f45ba6fde90f0b41f605483"
-> +PV = "4.9.0+git${SRCPV}"
->  
->  S = "${WORKDIR}/git"
->  
-> -- 
-> 2.31.1
-> 
+Ack, this looks good - thanks for making the change, Kamil.
 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#6981): https://lists.yoctoproject.org/g/meta-virtualization/message/6981
-> Mute This Topic: https://lists.yoctoproject.org/mt/87863585/1050810
-> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+Christopher
 
+
+>
+> Bruce
+>
+> On Thu, Dec 9, 2021 at 8:58 AM Kamil Dziezyk <kamil.dziezyk@arm.com>
+> wrote:
+> >
+> > This patch changes the location of xen.conf file, that contains list of
+> kernel
+> > modules to be loaded during system boot, to "${nonarch_libdir}".
+> >
+> > Previous path based on "${systemd_unitdir}" was not considered by
+> default by
+> > systemd-modules-load.service.
+> >
+> > Signed-off-by: Kamil Dziezyk <kamil.dziezyk@arm.com>
+> > ---
+> >  recipes-extended/xen/xen-tools.inc | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/recipes-extended/xen/xen-tools.inc
+> b/recipes-extended/xen/xen-tools.inc
+> > index d831941..17ef0f7 100644
+> > --- a/recipes-extended/xen/xen-tools.inc
+> > +++ b/recipes-extended/xen/xen-tools.inc
+> > @@ -653,10 +653,10 @@ FILES:${PN}-xm = "\
+> >      "
+> >
+> >  FILES:${PN}-xencommons += "\
+> > +    ${nonarch_libdir}/modules-load.d/xen.conf \
+> >      ${sysconfdir}/default/xencommons \
+> >      ${sysconfdir}/init.d/xencommons \
+> >      ${sysconfdir}/xen/scripts/launch-xenstore \
+> > -    ${systemd_unitdir}/modules-load.d/xen.conf \
+> >      ${systemd_unitdir}/system/proc-xen.mount \
+> >      ${systemd_unitdir}/system/xen-qemu-dom0-disk-backend.service \
+> >      ${systemd_unitdir}/system/xenconsoled.service \
+> > @@ -744,7 +744,7 @@ SYSTEMD_SERVICE:${PN}-xendomains =
+> "xendomains.service"
+> >
+> >  EXTRA_OECONF += " \
+> >      --with-systemd=${systemd_unitdir}/system \
+> > -    --with-systemd-modules-load=${systemd_unitdir}/modules-load.d \
+> > +    --with-systemd-modules-load=${nonarch_libdir}/modules-load.d \
+> >      --with-initddir=${INIT_D_DIR} \
+> >      --with-sysconfig-leaf-dir=default \
+> >      --with-system-qemu=${bindir}/qemu-system-i386 \
+> > --
+> > 2.17.1
+> >
+> >
+> > -=-=-=-=-=-=-=-=-=-=-=-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#6972):
+> https://lists.yoctoproject.org/g/meta-virtualization/message/6972
+> > Mute This Topic: https://lists.yoctoproject.org/mt/87611978/1050810
+> > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+> > Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub
+> [bruce.ashfield@gmail.com]
+> > -=-=-=-=-=-=-=-=-=-=-=-
+> >
+>
+>
+> --
+> - Thou shalt not follow the NULL pointer, for chaos and madness await
+> thee at its end
+> - "Use the force Harry" - Gandalf, Star Trek II
+>
+
+--000000000000aba6c705d39fac07
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">On Mon, Dec 13, 2021 at 12:42 PM Bruce As=
+hfield &lt;<a href=3D"mailto:bruce.ashfield@gmail.com">bruce.ashfield@gmail=
+.com</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex">v2 looks good to me, but I&#39;d like to g=
+et an Ack from Christopher before merging.<br></blockquote><div><br></div><=
+div>Ack, this looks good - thanks for making the change, Kamil.</div><div><=
+br></div><div>Christopher</div><div>=C2=A0</div><blockquote class=3D"gmail_=
+quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,=
+204);padding-left:1ex">
+<br>
+Bruce<br>
+<br>
+On Thu, Dec 9, 2021 at 8:58 AM Kamil Dziezyk &lt;<a href=3D"mailto:kamil.dz=
+iezyk@arm.com" target=3D"_blank">kamil.dziezyk@arm.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; This patch changes the location of xen.conf file, that contains list o=
+f kernel<br>
+&gt; modules to be loaded during system boot, to &quot;${nonarch_libdir}&qu=
+ot;.<br>
+&gt;<br>
+&gt; Previous path based on &quot;${systemd_unitdir}&quot; was not consider=
+ed by default by<br>
+&gt; systemd-modules-load.service.<br>
+&gt;<br>
+&gt; Signed-off-by: Kamil Dziezyk &lt;<a href=3D"mailto:kamil.dziezyk@arm.c=
+om" target=3D"_blank">kamil.dziezyk@arm.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 recipes-extended/xen/xen-tools.inc | 4 ++--<br>
+&gt;=C2=A0 1 file changed, 2 insertions(+), 2 deletions(-)<br>
+&gt;<br>
+&gt; diff --git a/recipes-extended/xen/xen-tools.inc b/recipes-extended/xen=
+/xen-tools.inc<br>
+&gt; index d831941..17ef0f7 100644<br>
+&gt; --- a/recipes-extended/xen/xen-tools.inc<br>
+&gt; +++ b/recipes-extended/xen/xen-tools.inc<br>
+&gt; @@ -653,10 +653,10 @@ FILES:${PN}-xm =3D &quot;\<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &quot;<br>
+&gt;<br>
+&gt;=C2=A0 FILES:${PN}-xencommons +=3D &quot;\<br>
+&gt; +=C2=A0 =C2=A0 ${nonarch_libdir}/modules-load.d/xen.conf \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 ${sysconfdir}/default/xencommons \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 ${sysconfdir}/init.d/xencommons \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 ${sysconfdir}/xen/scripts/launch-xenstore \<br>
+&gt; -=C2=A0 =C2=A0 ${systemd_unitdir}/modules-load.d/xen.conf \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 ${systemd_unitdir}/system/proc-xen.mount \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 ${systemd_unitdir}/system/xen-qemu-dom0-disk-backe=
+nd.service \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 ${systemd_unitdir}/system/xenconsoled.service \<br=
+>
+&gt; @@ -744,7 +744,7 @@ SYSTEMD_SERVICE:${PN}-xendomains =3D &quot;xendoma=
+ins.service&quot;<br>
+&gt;<br>
+&gt;=C2=A0 EXTRA_OECONF +=3D &quot; \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 --with-systemd=3D${systemd_unitdir}/system \<br>
+&gt; -=C2=A0 =C2=A0 --with-systemd-modules-load=3D${systemd_unitdir}/module=
+s-load.d \<br>
+&gt; +=C2=A0 =C2=A0 --with-systemd-modules-load=3D${nonarch_libdir}/modules=
+-load.d \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 --with-initddir=3D${INIT_D_DIR} \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 --with-sysconfig-leaf-dir=3Ddefault \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 --with-system-qemu=3D${bindir}/qemu-system-i386 \<=
+br>
+&gt; --<br>
+&gt; 2.17.1<br>
+&gt;<br>
+&gt;<br>
+&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt; Links: You receive all messages sent to this group.<br>
+&gt; View/Reply Online (#6972): <a href=3D"https://lists.yoctoproject.org/g=
+/meta-virtualization/message/6972" rel=3D"noreferrer" target=3D"_blank">htt=
+ps://lists.yoctoproject.org/g/meta-virtualization/message/6972</a><br>
+&gt; Mute This Topic: <a href=3D"https://lists.yoctoproject.org/mt/87611978=
+/1050810" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.o=
+rg/mt/87611978/1050810</a><br>
+&gt; Group Owner: <a href=3D"mailto:meta-virtualization%2Bowner@lists.yocto=
+project.org" target=3D"_blank">meta-virtualization+owner@lists.yoctoproject=
+.org</a><br>
+&gt; Unsubscribe: <a href=3D"https://lists.yoctoproject.org/g/meta-virtuali=
+zation/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproje=
+ct.org/g/meta-virtualization/unsub</a> [<a href=3D"mailto:bruce.ashfield@gm=
+ail.com" target=3D"_blank">bruce.ashfield@gmail.com</a>]<br>
+&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt;<br>
+<br>
+<br>
+-- <br>
+- Thou shalt not follow the NULL pointer, for chaos and madness await<br>
+thee at its end<br>
+- &quot;Use the force Harry&quot; - Gandalf, Star Trek II<br>
+</blockquote></div></div>
+
+--000000000000aba6c705d39fac07--
 
