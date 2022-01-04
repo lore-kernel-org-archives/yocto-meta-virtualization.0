@@ -1,166 +1,327 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <thitgahamtonghop@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C9D46C433F5
-	for <webhook@archiver.kernel.org>; Wed, 29 Dec 2021 16:44:13 +0000 (UTC)
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com
- [209.85.208.52])
- by mx.groups.io with SMTP id smtpd.web10.52964.1640796253034522582
- for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 29 Dec 2021 08:44:13 -0800
-Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=lmS0ux5A;
- spf=pass (domain: gmail.com, ip: 209.85.208.52,
- mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ed1-f52.google.com with SMTP id bm14so88346881edb.5
-        for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 29 Dec 2021 08:44:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=LrPvjP8VZNT8b4EzaPGDLBwboGxhjzYJjqqrCB4AcSE=;
-        b=lmS0ux5AuefXwfkyDAt1lMNIKPnQxBuFP3sifcmHeOzAUrKnaAe3YgFW8m4AzCizcD
-         EAgI2KS8ErPE41NBmmH2t7Fe2mhCGSy6A0H9f33MEEjuoaZySyIHojUUsFf6irnRt+Mj
-         d8Kc8nBKg/LJLI59M8rjMqKFjRoPpXWVIsTTO92VmLENusW0pzqkhsH47sMuygpMAncg
-         2VmHiQJLVrVt6KwEfX4aTSAPRUYzmb3+2ru7GJFCvQoTSJsVr58+NjOY5xWTV18hcYfc
-         nvlWS7DAwXSkgGSSdXMwSTz7kPq6iMHqoCI9Sv4FyVYvBfcwZ9RuZ+52arArM2P7W6hg
-         0bwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=LrPvjP8VZNT8b4EzaPGDLBwboGxhjzYJjqqrCB4AcSE=;
-        b=Y9pxEAsje42fiwYBEWjrxOlfdPb27xost8hkWrS9ZbTr1vFUm92zVVwbLSUd3Av6/X
-         NmYeQT3sjQo19pj81R7XjGQtv4MhFYm/ySOvQcbNoMNMAkrMhme7PPKnUOK+bW6qvJ6h
-         s/pQnFDPhhuHBUnb4HOkK/tPWxANqPPnnn799zpoplutDni9EMkoLAAioEPPruNnra1B
-         G9Mwa8qvAws61BVqwv/cDk8R72NqtbwNOXbhxJCEB//88DAuCAH1oJK7lwB+4gUUYURC
-         VjuhBsQEnuE30mmuT5ZysQOIJIwXAQ469+1oYNRqClV0gIGhEHVWq3K2do1/zjQ0Tcga
-         MG/g==
-X-Gm-Message-State: AOAM533KshMMRiqhcsc/3+BRBzJHIxC12GVvcNL5yv0f/5Bh8Bo/iIgf
-	322KXR3vTIPQjwFYGx1LeMIeOm4GSWR9DwTAsSI=
-X-Google-Smtp-Source: 
- ABdhPJx7EjMx7wgV7hkAjm0H4ODgnoNbjbUKv2Ljl/kcyeQ2ekca4nKkn073xs6ebMu/t7CFu9BBcKk+Lmr27npUuEM=
-X-Received: by 2002:a05:6402:4307:: with SMTP id
- m7mr26341193edc.349.1640796251318;
- Wed, 29 Dec 2021 08:44:11 -0800 (PST)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0397EC433EF
+	for <webhook@archiver.kernel.org>; Tue,  4 Jan 2022 11:11:57 +0000 (UTC)
+Subject: Where is docker.cfg file in rocko?  #meta-virtualization #yocto 
+To: meta-virtualization@lists.yoctoproject.org
+From: thitgahamtonghop@gmail.com
+X-Originating-Location: Vaasa, Ostrobothnia, FI (195.148.173.129)
+X-Originating-Platform: Windows Chrome 96
+User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-References: <20211229120539.2392783-1-adrian.freihofer@siemens.com>
-In-Reply-To: <20211229120539.2392783-1-adrian.freihofer@siemens.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 29 Dec 2021 11:44:00 -0500
-Message-ID: 
- <CADkTA4OpKLgj476pvsuC7OqzT9D3zmLcWS9F9Wdqt5gp_kTnDQ@mail.gmail.com>
-Subject: Re: [meta-virtualization][PATCH] k3s: fix systemd service install
-To: Adrian Freihofer <adrian.freihofer@gmail.com>
-Cc: meta-virtualization@lists.yoctoproject.org,
-	Adrian Freihofer <adrian.freihofer@siemens.com>
-Content-Type: text/plain; charset="UTF-8"
+Date: Tue, 04 Jan 2022 03:11:56 -0800
+Message-ID: <3P52.1641294716031699062.nFhN@lists.yoctoproject.org>
+Content-Type: multipart/alternative; boundary="TCjd8IjgKGABjMS0Nelv"
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Wed, 29 Dec 2021 16:44:13 -0000
+ <meta-virtualization@lists.yoctoproject.org>; Tue, 04 Jan 2022 11:11:57 -0000
 X-Groupsio-URL: 
- https://lists.yoctoproject.org/g/meta-virtualization/message/6989
+ https://lists.yoctoproject.org/g/meta-virtualization/message/6990
 
-On Wed, Dec 29, 2021 at 7:05 AM Adrian Freihofer
-<adrian.freihofer@gmail.com> wrote:
->
-> - sed was complicated and fragile
-> - sed runs on k3s-agent.service before it was installed
+--TCjd8IjgKGABjMS0Nelv
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-Was that actually causing breakage ? As long as WORKDIR is used, it
-typically doesn't break anything.
+Hi,
+So I am having problem running docker image. When I run command: *docker ru=
+n hello-world* , this is the output:
+>=20
+>=20
+> docker: Error response from daemon: failed to create endpoint
+> elastic_hypatia on network bridge: failed to add the host (vethf9c4250)
+> <=3D> sandbox (vethc439d7e) pair interfaces: operation not supported.
+> ERRO[0000] error waiting for container: context canceled
+>=20
 
-> - not all paths were replaced
+So I suspect that the veth module is missing and as checking, I ran the che=
+ck-config.sh script, and here is what I get
 
-Which ones in particular ? We should document
+>=20
+> root@procemex:~# bash check-config.sh
+> info: reading kernel config from /proc/config.gz ...
+>=20
+> Generally Necessary:
+> - check-config.sh: line 159: [: missing `]'
+> check-config.sh: line 160: /sys/fs/cgroup/memory: Is a directory
+> cgroup hierarchy: single mountpoint! [/sys/fs/cgroup/memory]
+> (see https://github.com/tianon/cgroupfs-mount)
+> - CONFIG_NAMESPACES: enabled
+> - CONFIG_NET_NS: enabled
+> - CONFIG_PID_NS: enabled
+> - CONFIG_IPC_NS: enabled
+> - CONFIG_UTS_NS: enabled
+> - CONFIG_CGROUPS: enabled
+> - CONFIG_CGROUP_CPUACCT: enabled
+> - CONFIG_CGROUP_DEVICE: enabled
+> - CONFIG_CGROUP_FREEZER: enabled
+> - CONFIG_CGROUP_SCHED: enabled
+> - CONFIG_CPUSETS: enabled
+> - CONFIG_MEMCG: enabled
+> - CONFIG_KEYS: enabled
+> - CONFIG_VETH: missing
+> - CONFIG_BRIDGE: enabled (as module)
+> - CONFIG_BRIDGE_NETFILTER: enabled (as module)
+> - CONFIG_NF_NAT_IPV4: enabled (as module)
+> - CONFIG_IP_NF_FILTER: enabled (as module)
+> - CONFIG_IP_NF_TARGET_MASQUERADE: missing
+> - CONFIG_NETFILTER_XT_MATCH_ADDRTYPE: missing
+> - CONFIG_NETFILTER_XT_MATCH_CONNTRACK: enabled (as module)
+> - CONFIG_NETFILTER_XT_MATCH_IPVS: missing
+> - CONFIG_IP_NF_NAT: missing
+> - CONFIG_NF_NAT: enabled (as module)
+> - CONFIG_NF_NAT_NEEDED: enabled
+> - CONFIG_POSIX_MQUEUE: enabled
+> - CONFIG_DEVPTS_MULTIPLE_INSTANCES: missing
+>=20
+> Optional Features:
+> - CONFIG_USER_NS: enabled
+> - CONFIG_SECCOMP: enabled
+> - CONFIG_CGROUP_PIDS: missing
+> - CONFIG_MEMCG_SWAP: enabled
+> - CONFIG_MEMCG_SWAP_ENABLED: enabled
+> (cgroup swap accounting is currently enabled)
+> - CONFIG_LEGACY_VSYSCALL_EMULATE: enabled
+> - CONFIG_MEMCG_KMEM: enabled
+> - CONFIG_BLK_CGROUP: enabled
+> - CONFIG_BLK_DEV_THROTTLING: missing
+> - CONFIG_IOSCHED_CFQ: enabled
+> - CONFIG_CFQ_GROUP_IOSCHED: missing
+> - CONFIG_CGROUP_PERF: missing
+> - CONFIG_CGROUP_HUGETLB: missing
+> - CONFIG_NET_CLS_CGROUP: enabled
+> - CONFIG_CGROUP_NET_PRIO: missing
+> - CONFIG_CFS_BANDWIDTH: missing
+> - CONFIG_FAIR_GROUP_SCHED: enabled
+> - CONFIG_RT_GROUP_SCHED: enabled
+> - CONFIG_IP_VS: missing
+> - CONFIG_IP_VS_NFCT: missing
+> - CONFIG_IP_VS_RR: missing
+> - CONFIG_EXT3_FS: enabled
+> - CONFIG_EXT3_FS_XATTR: missing
+> - CONFIG_EXT3_FS_POSIX_ACL: enabled
+> - CONFIG_EXT3_FS_SECURITY: enabled
+> (enable these ext3 configs if you are using ext3 as backing filesystem)
+> - CONFIG_EXT4_FS: enabled
+> - CONFIG_EXT4_FS_POSIX_ACL: enabled
+> - CONFIG_EXT4_FS_SECURITY: enabled
+> - Network Drivers:
+> - "overlay":
+> - CONFIG_VXLAN: missing
+> Optional (for encrypted networks):
+> - CONFIG_CRYPTO: enabled
+> - CONFIG_CRYPTO_AEAD: enabled
+> - CONFIG_CRYPTO_GCM: enabled (as module)
+> - CONFIG_CRYPTO_SEQIV: enabled (as module)
+> - CONFIG_CRYPTO_GHASH: enabled (as module)
+> - CONFIG_XFRM: enabled
+> - CONFIG_XFRM_USER: enabled (as module)
+> - CONFIG_XFRM_ALGO: enabled
+> - CONFIG_INET_ESP: enabled (as module)
+> - CONFIG_INET_XFRM_MODE_TRANSPORT: enabled
+> - "ipvlan":
+> - CONFIG_IPVLAN: missing
+> - "macvlan":
+> - CONFIG_MACVLAN: missing
+> - CONFIG_DUMMY: enabled (as module)
+> - "ftp,tftp client in container":
+> - CONFIG_NF_NAT_FTP: enabled (as module)
+> - CONFIG_NF_CONNTRACK_FTP: enabled (as module)
+> - CONFIG_NF_NAT_TFTP: enabled (as module)
+> - CONFIG_NF_CONNTRACK_TFTP: enabled (as module)
+> - Storage Drivers:
+> - "aufs":
+> - CONFIG_AUFS_FS: enabled
+> - "btrfs":
+> - CONFIG_BTRFS_FS: enabled
+> - CONFIG_BTRFS_FS_POSIX_ACL: enabled
+> - "devicemapper":
+> - CONFIG_BLK_DEV_DM: enabled
+> - CONFIG_DM_THIN_PROVISIONING: missing
+> - "overlay":
+> - CONFIG_OVERLAY_FS: missing
+> - "zfs":
+> - /dev/zfs: missing
+> - zfs command: missing
+> - zpool command: missing
+>=20
+> Limits:
+> - /proc/sys/kernel/keys/root_maxkeys: 1000000
+>=20
 
-> - "if systemd in DISTRO_FEATURES" is already handled in systemd.bbclass
+Even running *modprobe veth* showing that veth is not there:
 
-It still needs to be protected by the check. We shouldn't be
-installing them at all if it isn't enabled. The bbclass doesn't help
-with that.
+>=20
+> modprobe: FATAL: Module veth not found in directory
+> /lib/modules/4.4.113-yocto-standard
+>=20
 
-Bruce
+After going around the internet, I found out that somebody had the same iss=
+ue with me: https://marc.info/?l=3Dopenembedded-devel&m=3D154773496216135&w=
+=3D2 , and they also think that veth missing is the problem. And as suggest=
+ion, I added in my local.conf:
+CORE_IMAGE_EXTRA_INSTALL +=3D "kernel-modules docker"
+But they also mentioned the actual solution is :
+I found the issue.  The veth kernel parameter was not enabled.  Once I adde=
+d
+CONFIG_VETH=3Dy to my docker.cfg file, I was able to successfully run a
+docker container in my openembedded OS So where could I do the same? I've u=
+sed the rocko version and it doesn't have the linux/docker.cfg file? Or cou=
+ld I can create one by myself?
 
->
-> Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
-> ---
->  recipes-containers/k3s/k3s/k3s-agent.service |  4 ++--
->  recipes-containers/k3s/k3s/k3s.service       |  4 ++--
->  recipes-containers/k3s/k3s_git.bb            | 12 ++++++------
->  3 files changed, 10 insertions(+), 10 deletions(-)
->
-> diff --git a/recipes-containers/k3s/k3s/k3s-agent.service b/recipes-containers/k3s/k3s/k3s-agent.service
-> index 9f9016d..eeeef2a 100644
-> --- a/recipes-containers/k3s/k3s/k3s-agent.service
-> +++ b/recipes-containers/k3s/k3s/k3s-agent.service
-> @@ -21,6 +21,6 @@ Restart=always
->  RestartSec=5s
->  ExecStartPre=-/sbin/modprobe br_netfilter
->  ExecStartPre=-/sbin/modprobe overlay
-> -ExecStart=/usr/local/bin/k3s agent
-> -ExecStopPost=/usr/local/bin/k3s-clean
-> +ExecStart=@@BIN_PREFIX@@/bin/k3s agent
-> +ExecStopPost=@@BIN_PREFIX@@/bin/k3s-clean
->
-> diff --git a/recipes-containers/k3s/k3s/k3s.service b/recipes-containers/k3s/k3s/k3s.service
-> index 33d3ee7..b82d8ce 100644
-> --- a/recipes-containers/k3s/k3s/k3s.service
-> +++ b/recipes-containers/k3s/k3s/k3s.service
-> @@ -29,9 +29,9 @@ RestartSec=5s
->  ExecStartPre=/bin/sh -xc '! systemctl is-enabled --quiet nm-cloud-setup.service'
->  ExecStartPre=-/sbin/modprobe br_netfilter
->  ExecStartPre=-/sbin/modprobe overlay
-> -ExecStart=/usr/local/bin/k3s server
-> +ExecStart=@@BIN_PREFIX@@/bin/k3s server
->  # Avoid any delay due to this service when the system is rebooting or shutting
->  # down by using the k3s-killall.sh script to kill all of the running k3s
->  # services and containers
->  ExecStopPost=/bin/sh -c "if systemctl is-system-running | grep -i \
-> -                           'stopping'; then /usr/local/bin/k3s-killall.sh; fi"
-> +                           'stopping'; then @@BIN_PREFIX@@/bin/k3s-killall.sh; fi"
-> diff --git a/recipes-containers/k3s/k3s_git.bb b/recipes-containers/k3s/k3s_git.bb
-> index c9779ea..d38044c 100644
-> --- a/recipes-containers/k3s/k3s_git.bb
-> +++ b/recipes-containers/k3s/k3s_git.bb
-> @@ -63,12 +63,12 @@ do_install() {
->          install -m 755 "${WORKDIR}/k3s-clean" "${D}${BIN_PREFIX}/bin"
->          install -m 755 "${WORKDIR}/k3s-killall.sh" "${D}${BIN_PREFIX}/bin"
->
-> -        if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; then
-> -                install -D -m 0644 "${WORKDIR}/k3s.service" "${D}${systemd_system_unitdir}/k3s.service"
-> -                install -D -m 0644 "${WORKDIR}/k3s-agent.service" "${D}${systemd_system_unitdir}/k3s-agent.service"
-> -                sed -i "s#\(Exec\)\(.*\)=\(.*\)\(k3s\)#\1\2=${BIN_PREFIX}/bin/\4#g" "${D}${systemd_system_unitdir}/k3s.service" "${D}${systemd_system_unitdir}/k3s-agent.service"
-> -                install -m 755 "${WORKDIR}/k3s-agent" "${D}${BIN_PREFIX}/bin"
-> -        fi
-> +        install -D -m 0644 "${WORKDIR}/k3s.service" "${D}${systemd_system_unitdir}/k3s.service"
-> +        install -D -m 0644 "${WORKDIR}/k3s-agent.service" "${D}${systemd_system_unitdir}/k3s-agent.service"
-> +        install -m 755 "${WORKDIR}/k3s-agent" "${D}${BIN_PREFIX}/bin"
-> +        sed -i -e "s#@@BIN_PREFIX@@#${BIN_PREFIX}#g" \
-> +            "${D}${systemd_system_unitdir}/k3s.service" \
-> +            "${D}${systemd_system_unitdir}/k3s-agent.service"
->  }
->
->  PACKAGES =+ "${PN}-server ${PN}-agent"
-> --
-> 2.31.1
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#6988): https://lists.yoctoproject.org/g/meta-virtualization/message/6988
-> Mute This Topic: https://lists.yoctoproject.org/mt/88013223/1050810
-> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+--TCjd8IjgKGABjMS0Nelv
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
+Hi,<br />So I am having problem running docker image. When I run command:&n=
+bsp;<strong>docker run hello-world</strong>, this is the output:
+<blockquote>docker: Error response from daemon: failed to create endpoint e=
+lastic_hypatia on network bridge: failed to add the host (vethf9c4250) &lt;=
+=3D&gt; sandbox (vethc439d7e) pair interfaces: operation not supported.
+<div>ERRO[0000] error waiting for container: context canceled</div>
+</blockquote>
+So I suspect that the veth module is missing and as checking, I ran the che=
+ck-config.sh script, and here is what I get<br />
+<blockquote>
+<div>
+<div>root@procemex:~# bash check-config.sh</div>
+<div>info: reading kernel config from /proc/config.gz ...</div>
+<div>&nbsp;</div>
+<div>Generally Necessary:</div>
+<div>- check-config.sh: line 159: [: missing `]'</div>
+<div>check-config.sh: line 160: /sys/fs/cgroup/memory: Is a directory</div>
+<div>cgroup hierarchy: single mountpoint! [/sys/fs/cgroup/memory]</div>
+<div>&nbsp; &nbsp; (see https://github.com/tianon/cgroupfs-mount)</div>
+<div>- CONFIG_NAMESPACES: enabled</div>
+<div>- CONFIG_NET_NS: enabled</div>
+<div>- CONFIG_PID_NS: enabled</div>
+<div>- CONFIG_IPC_NS: enabled</div>
+<div>- CONFIG_UTS_NS: enabled</div>
+<div>- CONFIG_CGROUPS: enabled</div>
+<div>- CONFIG_CGROUP_CPUACCT: enabled</div>
+<div>- CONFIG_CGROUP_DEVICE: enabled</div>
+<div>- CONFIG_CGROUP_FREEZER: enabled</div>
+<div>- CONFIG_CGROUP_SCHED: enabled</div>
+<div>- CONFIG_CPUSETS: enabled</div>
+<div>- CONFIG_MEMCG: enabled</div>
+<div>- CONFIG_KEYS: enabled</div>
+<div>- CONFIG_VETH: missing</div>
+<div>- CONFIG_BRIDGE: enabled (as module)</div>
+<div>- CONFIG_BRIDGE_NETFILTER: enabled (as module)</div>
+<div>- CONFIG_NF_NAT_IPV4: enabled (as module)</div>
+<div>- CONFIG_IP_NF_FILTER: enabled (as module)</div>
+<div>- CONFIG_IP_NF_TARGET_MASQUERADE: missing</div>
+<div>- CONFIG_NETFILTER_XT_MATCH_ADDRTYPE: missing</div>
+<div>- CONFIG_NETFILTER_XT_MATCH_CONNTRACK: enabled (as module)</div>
+<div>- CONFIG_NETFILTER_XT_MATCH_IPVS: missing</div>
+<div>- CONFIG_IP_NF_NAT: missing</div>
+<div>- CONFIG_NF_NAT: enabled (as module)</div>
+<div>- CONFIG_NF_NAT_NEEDED: enabled</div>
+<div>- CONFIG_POSIX_MQUEUE: enabled</div>
+<div>- CONFIG_DEVPTS_MULTIPLE_INSTANCES: missing</div>
+<div>&nbsp;</div>
+<div>Optional Features:</div>
+<div>- CONFIG_USER_NS: enabled</div>
+<div>- CONFIG_SECCOMP: enabled</div>
+<div>- CONFIG_CGROUP_PIDS: missing</div>
+<div>- CONFIG_MEMCG_SWAP: enabled</div>
+<div>- CONFIG_MEMCG_SWAP_ENABLED: enabled</div>
+<div>&nbsp; &nbsp; (cgroup swap accounting is currently enabled)</div>
+<div>- CONFIG_LEGACY_VSYSCALL_EMULATE: enabled</div>
+<div>- CONFIG_MEMCG_KMEM: enabled</div>
+<div>- CONFIG_BLK_CGROUP: enabled</div>
+<div>- CONFIG_BLK_DEV_THROTTLING: missing</div>
+<div>- CONFIG_IOSCHED_CFQ: enabled</div>
+<div>- CONFIG_CFQ_GROUP_IOSCHED: missing</div>
+<div>- CONFIG_CGROUP_PERF: missing</div>
+<div>- CONFIG_CGROUP_HUGETLB: missing</div>
+<div>- CONFIG_NET_CLS_CGROUP: enabled</div>
+<div>- CONFIG_CGROUP_NET_PRIO: missing</div>
+<div>- CONFIG_CFS_BANDWIDTH: missing</div>
+<div>- CONFIG_FAIR_GROUP_SCHED: enabled</div>
+<div>- CONFIG_RT_GROUP_SCHED: enabled</div>
+<div>- CONFIG_IP_VS: missing</div>
+<div>- CONFIG_IP_VS_NFCT: missing</div>
+<div>- CONFIG_IP_VS_RR: missing</div>
+<div>- CONFIG_EXT3_FS: enabled</div>
+<div>- CONFIG_EXT3_FS_XATTR: missing</div>
+<div>- CONFIG_EXT3_FS_POSIX_ACL: enabled</div>
+<div>- CONFIG_EXT3_FS_SECURITY: enabled</div>
+<div>&nbsp; &nbsp; (enable these ext3 configs if you are using ext3 as back=
+ing filesystem)</div>
+<div>- CONFIG_EXT4_FS: enabled</div>
+<div>- CONFIG_EXT4_FS_POSIX_ACL: enabled</div>
+<div>- CONFIG_EXT4_FS_SECURITY: enabled</div>
+<div>- Network Drivers:</div>
+<div>&nbsp; - "overlay":</div>
+<div>&nbsp; &nbsp; - CONFIG_VXLAN: missing</div>
+<div>&nbsp; &nbsp; &nbsp; Optional (for encrypted networks):</div>
+<div>&nbsp; &nbsp; &nbsp; - CONFIG_CRYPTO: enabled</div>
+<div>&nbsp; &nbsp; &nbsp; - CONFIG_CRYPTO_AEAD: enabled</div>
+<div>&nbsp; &nbsp; &nbsp; - CONFIG_CRYPTO_GCM: enabled (as module)</div>
+<div>&nbsp; &nbsp; &nbsp; - CONFIG_CRYPTO_SEQIV: enabled (as module)</div>
+<div>&nbsp; &nbsp; &nbsp; - CONFIG_CRYPTO_GHASH: enabled (as module)</div>
+<div>&nbsp; &nbsp; &nbsp; - CONFIG_XFRM: enabled</div>
+<div>&nbsp; &nbsp; &nbsp; - CONFIG_XFRM_USER: enabled (as module)</div>
+<div>&nbsp; &nbsp; &nbsp; - CONFIG_XFRM_ALGO: enabled</div>
+<div>&nbsp; &nbsp; &nbsp; - CONFIG_INET_ESP: enabled (as module)</div>
+<div>&nbsp; &nbsp; &nbsp; - CONFIG_INET_XFRM_MODE_TRANSPORT: enabled</div>
+<div>&nbsp; - "ipvlan":</div>
+<div>&nbsp; &nbsp; - CONFIG_IPVLAN: missing</div>
+<div>&nbsp; - "macvlan":</div>
+<div>&nbsp; &nbsp; - CONFIG_MACVLAN: missing</div>
+<div>&nbsp; &nbsp; - CONFIG_DUMMY: enabled (as module)</div>
+<div>&nbsp; - "ftp,tftp client in container":</div>
+<div>&nbsp; &nbsp; - CONFIG_NF_NAT_FTP: enabled (as module)</div>
+<div>&nbsp; &nbsp; - CONFIG_NF_CONNTRACK_FTP: enabled (as module)</div>
+<div>&nbsp; &nbsp; - CONFIG_NF_NAT_TFTP: enabled (as module)</div>
+<div>&nbsp; &nbsp; - CONFIG_NF_CONNTRACK_TFTP: enabled (as module)</div>
+<div>- Storage Drivers:</div>
+<div>&nbsp; - "aufs":</div>
+<div>&nbsp; &nbsp; - CONFIG_AUFS_FS: enabled</div>
+<div>&nbsp; - "btrfs":</div>
+<div>&nbsp; &nbsp; - CONFIG_BTRFS_FS: enabled</div>
+<div>&nbsp; &nbsp; - CONFIG_BTRFS_FS_POSIX_ACL: enabled</div>
+<div>&nbsp; - "devicemapper":</div>
+<div>&nbsp; &nbsp; - CONFIG_BLK_DEV_DM: enabled</div>
+<div>&nbsp; &nbsp; - CONFIG_DM_THIN_PROVISIONING: missing</div>
+<div>&nbsp; - "overlay":</div>
+<div>&nbsp; &nbsp; - CONFIG_OVERLAY_FS: missing</div>
+<div>&nbsp; - "zfs":</div>
+<div>&nbsp; &nbsp; - /dev/zfs: missing</div>
+<div>&nbsp; &nbsp; - zfs command: missing</div>
+<div>&nbsp; &nbsp; - zpool command: missing</div>
+<div>&nbsp;</div>
+<div>Limits:</div>
+<div>- /proc/sys/kernel/keys/root_maxkeys: 1000000</div>
+</div>
+</blockquote>
+Even running&nbsp;<strong>modprobe veth</strong> showing that veth is not t=
+here:<br />
+<div>
+<blockquote>
+<div>modprobe: FATAL: Module veth not found in directory /lib/modules/4.4.1=
+13-yocto-standard</div>
+</blockquote>
+</div>
+<div>After going around the internet, I found out that somebody had the sam=
+e issue with me:&nbsp;<a href=3D"https://marc.info/?l=3Dopenembedded-devel&=
+amp;m=3D154773496216135&amp;w=3D2" target=3D"_blank" rel=3D"noopener">https=
+://marc.info/?l=3Dopenembedded-devel&amp;m=3D154773496216135&amp;w=3D2</a>,=
+ and they also think that veth missing is the problem. And as suggestion, I=
+ added in my local.conf:<br /><span style=3D"background-color: #f5f5f5; col=
+or: #000000; font-family: 'courier new', courier, monospace; font-size: 16p=
+x; font-weight: 600;">CORE_IMAGE_EXTRA_INSTALL +=3D "kernel-modules docker"=
+<br /></span>But they also mentioned the actual solution is :<br />
+<pre style=3D"font-family: 'courier new', courier, monospace; font-size: 16=
+px; font-weight: 600; color: #000000;">I found the issue.  The veth kernel =
+parameter was not enabled.  Once I added
+CONFIG_VETH=3Dy to my docker.cfg file, I was able to successfully run a
+docker container in my openembedded OS</pre>
+So where could I do the same? I've used the rocko version and it doesn't ha=
+ve the linux/docker.cfg file? Or could I can create one by myself?</div>
 
--- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+--TCjd8IjgKGABjMS0Nelv--
 
