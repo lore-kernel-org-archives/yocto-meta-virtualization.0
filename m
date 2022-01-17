@@ -1,175 +1,236 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <christopher.w.clark@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B1C2C433EF
-	for <webhook@archiver.kernel.org>; Mon, 17 Jan 2022 13:35:32 +0000 (UTC)
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com
- [209.85.208.43])
- by mx.groups.io with SMTP id smtpd.web12.11061.1642426530727555134
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76E8BC433EF
+	for <webhook@archiver.kernel.org>; Mon, 17 Jan 2022 18:04:47 +0000 (UTC)
+Received: from mail-vk1-f182.google.com (mail-vk1-f182.google.com
+ [209.85.221.182])
+ by mx.groups.io with SMTP id smtpd.web09.896.1642442686205811391
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 17 Jan 2022 05:35:31 -0800
+ Mon, 17 Jan 2022 10:04:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=frbZ+MHa;
- spf=pass (domain: gmail.com, ip: 209.85.208.43,
- mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ed1-f43.google.com with SMTP id f21so8569821eds.11
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=eQy/7l0d;
+ spf=pass (domain: gmail.com, ip: 209.85.221.182,
+ mailfrom: christopher.w.clark@gmail.com)
+Received: by mail-vk1-f182.google.com with SMTP id m131so1365050vkm.7
         for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 17 Jan 2022 05:35:30 -0800 (PST)
+ Mon, 17 Jan 2022 10:04:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=NFyBjYuLqoOnLWNGvmIPw6aAQjfen2sVzRH8UojN7SI=;
-        b=frbZ+MHaumtyR7nWf0vo2yMPtk+46sW2kkoC829fY+X5Xl87q/AEtgbD2sS5o+J/Po
-         F3ulxCViUqWWnWF9uVXs7lY8UBJhrPAPCgeJxLag/mUtUrunJfDcIqItsak+PJBK6nPL
-         hFYUQFjVNKQeEe4bIaP7iRM3AaTs4ti4nvIW2ytp4jPIT3rJ6T0t2V9Pp+A4dXUnmQdP
-         xQMRTLFxUDnJEqqJhDKpcFfna1ywQ3+YP6ueg/WFFDYx37Kc2o/uioIfzBk/IGY1MiPm
-         WUhtfBh2unpaqQkl1v8bJluXiKmA3Cg/zEg3NF33DYSvLbY1fX+NXHK9R1ShB6E2UjR9
-         6TdA==
+        bh=e/zvqahAS7M5Gs9w6KPEwz/oCOSb3oWgp4weOEZoghw=;
+        b=eQy/7l0doYvmS4B5C+9b8gXuvpF8IF5KeafpTd2eg+iPpZvfJFvUEBLPXAcQC1q3ld
+         J5p7x5FJegWG1C86gFl+7rSSt0neOu67L9HCYd7kHWqgw6QuVNTl0Jip7V376m2EYDab
+         sarTKANb1kiXnWogoHpUeSOHSZ4Z9Qg/YRSHvBG7cTFMMGgr4GpqlRceVRNpqQO/C4QP
+         Z2l7IULaEvKa7Dlj3SjiGVueuNgppfho1H+uydNXyT3vJePodwYjvaXKTYghcXqFUMLc
+         yUIQxKMFpvuvbmp6NvwGvjCjsOrCaVM4RpNOLjjgaxAkMxfIiMpU4BZCRh/BShRq+Z6S
+         z5mA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=NFyBjYuLqoOnLWNGvmIPw6aAQjfen2sVzRH8UojN7SI=;
-        b=ichivaiwDgo4s1nkXetMsDMJe6k9zrnuQc7QWeHLUL4spe0vLqLE/BIIpr6iBCEqYU
-         sXHoNJ6xvJChH0HlhMGsJoZYWjBb8lEu+HuKnvGq78BuK6kGoLFEA6uYDh3wZiWIcMP5
-         Ky+TzkKVKnBO/0CkhpWm7GgWWT/29qjQrR46FPeh3dhAYyTVz7KT01iDJfY2thCvqn69
-         yyGsl2myKr4Yp3TACSl6Z5eBG89ODOxB0kHPhvmpkRvSoFfMxfz7o+RKXjuVhpyuPIIQ
-         ztU0u8DfKJT1amy4lVLLHISCY+h/+oSeM8FDa6n8cYJHfZEO04qrfI6uq8UhspaGHTp7
-         cBYw==
-X-Gm-Message-State: AOAM533QwPDPiruLmQ0VYGKOjlfg02BaTHfzz31dAqrIomU/nLh8LQqz
-	zK0pa99Qi/wwoR6x7sqi3DJhvILMZkuNMhG0JLQ=
+        bh=e/zvqahAS7M5Gs9w6KPEwz/oCOSb3oWgp4weOEZoghw=;
+        b=zOXN1gZLjKwWplTxiA1gqFMoUWkMeth1sqnAN4GWCxkcTczZ2l51S+hjlNmhcvu523
+         5cj65RssOYBOoj5CEEohtdL1FMHun6gXK6eaNdn8vtmDfJTEuina+PXemM80k9rtdy/U
+         IhVEKNmR54/0NGmUwNjmO1dfXJZf0hUCqmA03dk9RigXuSMyPgWQ6ziZoN8hATdYJFAD
+         uRdO5HXJ0uZnA6iS6D2thI/hTzLWnOtWMvoostblfvmUEIYaNMLjAuljAJXnM9S+eWL5
+         rlT4GHlkfB0B5diP12OuliVrHytwl2/E93LKv8IP+vWAqQiDMtOmUQE6Foxo9v6py4tN
+         dMWA==
+X-Gm-Message-State: AOAM532RlEo0KAewaGgQDHPhpgoq2uvvqhCp+rbkhLLvPJSfyejWWLQ0
+	hAFpHYRx139/CKsPYwtnn8sV79bZR1wi0VDIIMs=
 X-Google-Smtp-Source: 
- ABdhPJzJTQiC1FmbH6bZwAlgi7rn9gTGblLNjpgwjwtbuPXWqiioofKCG/zVLgsLLetZMOQGhneOftQadkERUawi33E=
-X-Received: by 2002:a17:906:2cd5:: with SMTP id
- r21mr17282083ejr.435.1642426528796;
- Mon, 17 Jan 2022 05:35:28 -0800 (PST)
+ ABdhPJy8Qs2QXg41B3+logcG9DIH/Nm1lvMPuCAGEU9fqgKIeF3oqi6Bk/dbIg+d9jhB2BiBcPdt/PhAnldJHqyeiQ0=
+X-Received: by 2002:ac5:c395:: with SMTP id s21mr8333031vkk.3.1642442685334;
+ Mon, 17 Jan 2022 10:04:45 -0800 (PST)
 MIME-Version: 1.0
-References: <20220117125827.464599-1-ross.burton@arm.com>
-In-Reply-To: <20220117125827.464599-1-ross.burton@arm.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Mon, 17 Jan 2022 08:35:17 -0500
+References: <20220113113059.20489-1-kamil.dziezyk@arm.com>
+ <20220113113059.20489-2-kamil.dziezyk@arm.com>
+ <977A07F3-C1CD-407C-AEED-9CC7C5B45E23@arm.com>
+In-Reply-To: <977A07F3-C1CD-407C-AEED-9CC7C5B45E23@arm.com>
+From: Christopher Clark <christopher.w.clark@gmail.com>
+Date: Mon, 17 Jan 2022 10:04:34 -0800
 Message-ID: 
- <CADkTA4Nm6mr0F0fYGtmC7iA+pDsoUwawb54SBGxnQidnLd7WGg@mail.gmail.com>
-Subject: Re: [meta-virtualization] [PATCH] python3-dtc: fix packaging by using
- setuptools
-To: Ross Burton <ross@burtonini.com>
-Cc: meta-virtualization@lists.yoctoproject.org
-Content-Type: text/plain; charset="UTF-8"
+ <CACMJ4GbvRYkbJe4mE0m+SGipcF19FufmmXFPLcChp46JmjZ7VA@mail.gmail.com>
+Subject: Re: [meta-virtualization] [PATCH v3 2/2] xen: Clear TUNE_CCARGS for
+ Xen build for aarch64 machines
+To: Bertrand Marquis <Bertrand.Marquis@arm.com>
+Cc: =?UTF-8?Q?Kamil_Dzie=C5=BCyk?= <Kamil.Dziezyk@arm.com>,
+	"meta-virtualization@lists.yoctoproject.org"
+ <meta-virtualization@lists.yoctoproject.org>,
+	"cardoe@gentoo.org" <cardoe@gentoo.org>
+Content-Type: multipart/alternative; boundary="000000000000d2c84b05d5cafcb4"
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Mon, 17 Jan 2022 13:35:32 -0000
+ <meta-virtualization@lists.yoctoproject.org>; Mon, 17 Jan 2022 18:04:47 -0000
 X-Groupsio-URL: 
- https://lists.yoctoproject.org/g/meta-virtualization/message/7008
+ https://lists.yoctoproject.org/g/meta-virtualization/message/7009
 
-On Mon, Jan 17, 2022 at 7:58 AM Ross Burton <ross@burtonini.com> wrote:
->
-> Inheriting setuptools3-base doesn't actually define any tasks, so commit
-> 1ef6050 to drop distutils3 had the side-effect of not building any code.
->
-> Backport a commit from upstream to switch to setuptools, inherit
-> setuptool3, and change DISTUTILS_SETUP_PATH to SETUPTOOLS_SETUP_PATH.
->
+--000000000000d2c84b05d5cafcb4
+Content-Type: text/plain; charset="UTF-8"
 
-I have a SRCREV bump ready to go for dtc, so I've applied this and
-then the bump on top.
+On Mon, Jan 17, 2022 at 12:34 AM Bertrand Marquis <Bertrand.Marquis@arm.com>
+wrote:
 
-Bruce
-
-> Signed-off-by: Ross Burton <ross.burton@arm.com>
-> ---
->  recipes-kernel/dtc/files/setuptools.patch | 34 +++++++++++++++++++++++
->  recipes-kernel/dtc/python3-dtc_1.6.1.bb   |  7 +++--
->  2 files changed, 38 insertions(+), 3 deletions(-)
->  create mode 100644 recipes-kernel/dtc/files/setuptools.patch
+> Hi Kamil,
 >
-> diff --git a/recipes-kernel/dtc/files/setuptools.patch b/recipes-kernel/dtc/files/setuptools.patch
-> new file mode 100644
-> index 0000000..3d37ebd
-> --- /dev/null
-> +++ b/recipes-kernel/dtc/files/setuptools.patch
-> @@ -0,0 +1,34 @@
-> +Upstream-Status: Backport
-> +Signed-off-by: Ross Burton <ross.burton@arm.com>
-> +
-> +From c691776ddb26acbd3674722caafacaf7b6e3e807 Mon Sep 17 00:00:00 2001
-> +From: Rob Herring <robh@kernel.org>
-> +Date: Wed, 10 Nov 2021 19:11:32 -0600
-> +Subject: [PATCH] pylibfdt: Use setuptools instead of distutils
-> +
-> +The use of setuptools is favored over distutils. setuptools is needed to
-> +support building Python 'wheels' and for pip support.
-> +
-> +Signed-off-by: Rob Herring <robh@kernel.org>
-> +Message-Id: <20211111011135.2386773-2-robh@kernel.org>
-> +Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-> +---
-> + pylibfdt/setup.py | 2 +-
-> + 1 file changed, 1 insertion(+), 1 deletion(-)
-> +
-> +diff --git a/pylibfdt/setup.py b/pylibfdt/setup.py
-> +index ef40f15..f065a59 100755
-> +--- a/pylibfdt/setup.py
-> ++++ b/pylibfdt/setup.py
-> +@@ -10,7 +10,7 @@ Copyright (C) 2017 Google, Inc.
-> + Written by Simon Glass <sjg@chromium.org>
-> + """
-> +
-> +-from distutils.core import setup, Extension
-> ++from setuptools import setup, Extension
-> + import os
-> + import re
-> + import sys
-> +--
-> +2.25.1
-> +
-> diff --git a/recipes-kernel/dtc/python3-dtc_1.6.1.bb b/recipes-kernel/dtc/python3-dtc_1.6.1.bb
-> index e9b8499..6e02db6 100644
-> --- a/recipes-kernel/dtc/python3-dtc_1.6.1.bb
-> +++ b/recipes-kernel/dtc/python3-dtc_1.6.1.bb
-> @@ -7,6 +7,7 @@ LICENSE = "GPLv2 | BSD-2-Clause"
->  DEPENDS = "flex-native bison-native swig-native libyaml dtc"
+> > On 13 Jan 2022, at 11:30, Kamil Dziezyk via lists.yoctoproject.org
+> <kamil.dziezyk=arm.com@lists.yoctoproject.org> wrote:
+> >
+> > Xen build may fail for arm machines that have enabled extra flags,
+> > that can be enabled only for specific architecture version, e.g.
+> armv8-2a.
+> >
+> > Signed-off-by: Kamil Dziezyk <kamil.dziezyk@arm.com>
 >
->  SRC_URI = "git://git.kernel.org/pub/scm/utils/dtc/dtc.git;branch=master \
-> +           file://setuptools.patch \
->             file://ssize.patch"
->
->  UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+(\.\d+)+)"
-> @@ -17,13 +18,13 @@ SRCREV = "ecaeb97fec013973360e94888a7de645f084345c"
->
->  S = "${WORKDIR}/git"
->
-> -inherit setuptools3-base pkgconfig
-> +inherit setuptools3 pkgconfig
->
-> -DISTUTILS_SETUP_PATH = "${S}/pylibfdt"
-> +SETUPTOOLS_SETUP_PATH = "${S}/pylibfdt"
->
->  do_configure:prepend() {
->      oe_runmake -C "${S}" version_gen.h
-> -    mv "${S}/version_gen.h" "${DISTUTILS_SETUP_PATH}/"
-> +    mv "${S}/version_gen.h" "${SETUPTOOLS_SETUP_PATH}/"
->  }
->
->  BBCLASSEXTEND = "native nativesdk"
-> --
-> 2.25.1
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#7007): https://lists.yoctoproject.org/g/meta-virtualization/message/7007
-> Mute This Topic: https://lists.yoctoproject.org/mt/88482921/1050810
-> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
+> Reviewed-by: Bertrand Marquis <bertrand.marquis@arm.com>
 >
 
+Acked-by: Christopher Clark <christopher.w.clark@gmail.com>
 
--- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+Christopher
+
+
+
+>
+> Cheers
+> Bertrand
+>
+> > ---
+> > recipes-extended/xen/xen-hypervisor.inc | 4 ++++
+> > 1 file changed, 4 insertions(+)
+> >
+> > diff --git a/recipes-extended/xen/xen-hypervisor.inc
+> b/recipes-extended/xen/xen-hypervisor.inc
+> > index cffd491..81e361f 100644
+> > --- a/recipes-extended/xen/xen-hypervisor.inc
+> > +++ b/recipes-extended/xen/xen-hypervisor.inc
+> > @@ -103,3 +103,7 @@ CROSS_CURSES_LIB += "-L${STAGING_LIBDIR_NATIVE}"
+> > # Specify the root dir of the .config file for do_menuconfig and
+> do_diffconfig
+> > # tasks
+> > KCONFIG_CONFIG_ROOTDIR = "${S}/xen"
+> > +
+> > +# Xen is setting all CC flags on its own. Make sure that they are not
+> modified
+> > +# for aarch64, e.g. with architecture-specific optimizations.
+> > +TUNE_CCARGS:aarch64=""
+> > --
+> > 2.17.1
+> >
+> > IMPORTANT NOTICE: The contents of this email and any attachments are
+> confidential and may also be privileged. If you are not the intended
+> recipient, please notify the sender immediately and do not disclose the
+> contents to any other person, use it for any purpose, or store or copy the
+> information in any medium. Thank you.
+> >
+> > -=-=-=-=-=-=-=-=-=-=-=-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#7000):
+> https://lists.yoctoproject.org/g/meta-virtualization/message/7000
+> > Mute This Topic: https://lists.yoctoproject.org/mt/88394702/3619089
+> > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+> > Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub
+> [bertrand.marquis@arm.com]
+> > -=-=-=-=-=-=-=-=-=-=-=-
+> >
+>
+> IMPORTANT NOTICE: The contents of this email and any attachments are
+> confidential and may also be privileged. If you are not the intended
+> recipient, please notify the sender immediately and do not disclose the
+> contents to any other person, use it for any purpose, or store or copy the
+> information in any medium. Thank you.
+>
+
+--000000000000d2c84b05d5cafcb4
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Jan 17, 2022 at 12:34 AM Bert=
+rand Marquis &lt;<a href=3D"mailto:Bertrand.Marquis@arm.com">Bertrand.Marqu=
+is@arm.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">Hi Kamil,<br>
+<br>
+&gt; On 13 Jan 2022, at 11:30, Kamil Dziezyk via <a href=3D"http://lists.yo=
+ctoproject.org" rel=3D"noreferrer" target=3D"_blank">lists.yoctoproject.org=
+</a> &lt;kamil.dziezyk=3D<a href=3D"mailto:arm.com@lists.yoctoproject.org" =
+target=3D"_blank">arm.com@lists.yoctoproject.org</a>&gt; wrote:<br>
+&gt;<br>
+&gt; Xen build may fail for arm machines that have enabled extra flags,<br>
+&gt; that can be enabled only for specific architecture version, e.g. armv8=
+-2a.<br>
+&gt;<br>
+&gt; Signed-off-by: Kamil Dziezyk &lt;<a href=3D"mailto:kamil.dziezyk@arm.c=
+om" target=3D"_blank">kamil.dziezyk@arm.com</a>&gt;<br>
+<br>
+Reviewed-by: Bertrand Marquis &lt;<a href=3D"mailto:bertrand.marquis@arm.co=
+m" target=3D"_blank">bertrand.marquis@arm.com</a>&gt;<br></blockquote><div>=
+<br></div><div>Acked-by: Christopher Clark &lt;<a href=3D"mailto:christophe=
+r.w.clark@gmail.com">christopher.w.clark@gmail.com</a>&gt;</div><div><br></=
+div><div>Christopher</div><div><br></div><div>=C2=A0</div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex">
+<br>
+Cheers<br>
+Bertrand<br>
+<br>
+&gt; ---<br>
+&gt; recipes-extended/xen/xen-hypervisor.inc | 4 ++++<br>
+&gt; 1 file changed, 4 insertions(+)<br>
+&gt;<br>
+&gt; diff --git a/recipes-extended/xen/xen-hypervisor.inc b/recipes-extende=
+d/xen/xen-hypervisor.inc<br>
+&gt; index cffd491..81e361f 100644<br>
+&gt; --- a/recipes-extended/xen/xen-hypervisor.inc<br>
+&gt; +++ b/recipes-extended/xen/xen-hypervisor.inc<br>
+&gt; @@ -103,3 +103,7 @@ CROSS_CURSES_LIB +=3D &quot;-L${STAGING_LIBDIR_NAT=
+IVE}&quot;<br>
+&gt; # Specify the root dir of the .config file for do_menuconfig and do_di=
+ffconfig<br>
+&gt; # tasks<br>
+&gt; KCONFIG_CONFIG_ROOTDIR =3D &quot;${S}/xen&quot;<br>
+&gt; +<br>
+&gt; +# Xen is setting all CC flags on its own. Make sure that they are not=
+ modified<br>
+&gt; +# for aarch64, e.g. with architecture-specific optimizations.<br>
+&gt; +TUNE_CCARGS:aarch64=3D&quot;&quot;<br>
+&gt; --<br>
+&gt; 2.17.1<br>
+&gt;<br>
+&gt; IMPORTANT NOTICE: The contents of this email and any attachments are c=
+onfidential and may also be privileged. If you are not the intended recipie=
+nt, please notify the sender immediately and do not disclose the contents t=
+o any other person, use it for any purpose, or store or copy the informatio=
+n in any medium. Thank you.<br>
+&gt;<br>
+&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt; Links: You receive all messages sent to this group.<br>
+&gt; View/Reply Online (#7000): <a href=3D"https://lists.yoctoproject.org/g=
+/meta-virtualization/message/7000" rel=3D"noreferrer" target=3D"_blank">htt=
+ps://lists.yoctoproject.org/g/meta-virtualization/message/7000</a><br>
+&gt; Mute This Topic: <a href=3D"https://lists.yoctoproject.org/mt/88394702=
+/3619089" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.o=
+rg/mt/88394702/3619089</a><br>
+&gt; Group Owner: <a href=3D"mailto:meta-virtualization%2Bowner@lists.yocto=
+project.org" target=3D"_blank">meta-virtualization+owner@lists.yoctoproject=
+.org</a><br>
+&gt; Unsubscribe: <a href=3D"https://lists.yoctoproject.org/g/meta-virtuali=
+zation/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproje=
+ct.org/g/meta-virtualization/unsub</a> [<a href=3D"mailto:bertrand.marquis@=
+arm.com" target=3D"_blank">bertrand.marquis@arm.com</a>]<br>
+&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt;<br>
+<br>
+IMPORTANT NOTICE: The contents of this email and any attachments are confid=
+ential and may also be privileged. If you are not the intended recipient, p=
+lease notify the sender immediately and do not disclose the contents to any=
+ other person, use it for any purpose, or store or copy the information in =
+any medium. Thank you.<br>
+</blockquote></div></div>
+
+--000000000000d2c84b05d5cafcb4--
 
