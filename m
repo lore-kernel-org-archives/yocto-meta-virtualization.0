@@ -2,118 +2,173 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EBFD0C433EF
-	for <webhook@archiver.kernel.org>; Wed, 19 Jan 2022 13:34:42 +0000 (UTC)
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com
- [209.85.208.49])
- by mx.groups.io with SMTP id smtpd.web09.6285.1642599281214097428
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0BFAC433EF
+	for <webhook@archiver.kernel.org>; Wed, 19 Jan 2022 18:21:37 +0000 (UTC)
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com
+ [209.85.208.53])
+ by mx.groups.io with SMTP id smtpd.web11.349.1642616496524344174
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 19 Jan 2022 05:34:41 -0800
+ Wed, 19 Jan 2022 10:21:36 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=qdAxGdKo;
- spf=pass (domain: gmail.com, ip: 209.85.208.49,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=g2dj7vOx;
+ spf=pass (domain: gmail.com, ip: 209.85.208.53,
  mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ed1-f49.google.com with SMTP id p12so11514257edq.9
+Received: by mail-ed1-f53.google.com with SMTP id z22so17103192edd.12
         for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 19 Jan 2022 05:34:40 -0800 (PST)
+ Wed, 19 Jan 2022 10:21:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=mq4JC606hy6jiuryUG4tS/MdXNJ12f+x6Qcqnau1+Jw=;
-        b=qdAxGdKoOVWoP8ml5GzDSmkPAYgXoiv7KwD3SYbmnaw5TdlQM0jVxQ+PIjw9KCLNDh
-         3Y1zOeRl740DYMIzq6+u6pXJ+yqsbCf9aclbpgsY4X3ADF0YjXzwFRcjU/qbYGRmyv+1
-         +je4f0hy37ykDtgl6M1idsJ+HizlmqgSOP5tUEph2DcJjA0uu7FmFHzU+GyurUbLLX0V
-         stL5lpp5vlslCcdjwlldDT2VOlW8mO5VY0chGLHQunaksJ74vXgB8Nyu43p6UsxPbMJp
-         /Re/e57VWLpcJpLz/mPoZlW+yEeT/BCXfikejK/pJnnxhf03/yJmbVTDoVYGxTzjnCpk
-         b+Xg==
+         :cc:content-transfer-encoding;
+        bh=QKoSURWbPzNSITuITczZ4iOL0BUs97XqDzciECmacNI=;
+        b=g2dj7vOxIQ9QAGcXHNKj7P/eo+pILtWrheOjcePKK6H32K+icZfaeHtXO2T9EAKmhn
+         M0IdSqD9i+IiyY+6Tyk3bxDLZQFC78D02s2RSankMkPBtDcHXH93W8Yxr2zAIt0QIrrX
+         1h+HboaZAinw232bunIFtgQaEI1ru7N3Kiw3sklEcmRhIj6QTvp593rFZcahz2cPb9ge
+         BQFwuTsuVts6vkApGZ4SP9PlpK/TBGmESoPAqlw/cbFT/yFqzAJJq8Du4/etvIjGJv/O
+         gWLGwj7Tkr7cibXVruPwgVjXJGhGG/XwrTChiKa7yxxptGWgpHiGGJoYZKQuSkyTQqi3
+         71CQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=mq4JC606hy6jiuryUG4tS/MdXNJ12f+x6Qcqnau1+Jw=;
-        b=OD12OkYnpOZimn7MUy+fFxW+ZWBl2H/G9BX0MkB1CDdDRteddYugqSkUieR8JZ/SCh
-         VpZfx1B0n9uqzyBs9crfuim1VYCybRh3PsaMVb5OZ7WXdi5ODqYdsLtPWJZf2OZZz4tH
-         V/VRE2Km0KqtX8le+YkzqcaoDvOdKgq1MhsXPy1IP1QIs/Zzf6mRQFtDfrgEJhr/8W8s
-         r6q+kwapVbqm6po8eSSdhgb1YEf38UT/Nw3tQ25fbFYQx8HUYjMTQ6jGPcafe1fG6Dar
-         SwiGejCC7NsWinjHoKumtjyQd3gz7gLx4lvEC6sOwFWa5LNYeIT590FdAezs6goGCd4F
-         dF6g==
-X-Gm-Message-State: AOAM532H06jElx56o5DQfFFC1Gipdj6+8y11YyA65stXAWzWeJAuOU9I
-	WlVPLiym6mmOtGgKd9XrhS+kEnKPVck8rRVcQGo=
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=QKoSURWbPzNSITuITczZ4iOL0BUs97XqDzciECmacNI=;
+        b=EtCAzAbUi77S81psdqU6KsrhFVMd+DrPKYJMza5KcOWUVTF1gpCqpSecEXEcHiYW4Y
+         fShOSegl4RjzwAg8Ax3l7E5tdWYhxxYj6cJt1TNwkI/Qj4mO+bRRRLgEIX/Iz7XgLdug
+         kPmH0i1nCPP2PYKxaz4s2Jlgmvt9Imz1DFzpXyLJQTTehE4HPOO21eI9A9VyjecVo8t5
+         MlSsEfRxPhc6C0D2gwGK6sOWCLjnkiGNZiSn6lAnJ1xtpf8a4lFmHA3cnwwxNzY7xsmE
+         PpXoHnivfqFQwLhzS7PntQhqPugeP5alyOUuuVfwCrM+/mCyK7rp10YPa8QD5CrXKuvr
+         jL8Q==
+X-Gm-Message-State: AOAM530uyo2e15hHANN7teR2PJDq920x9SWQCb4I2Cd/0+t60JN5txY3
+	cT/dZ8PJ2gpR8khpswe7UjvNoBdBbsLD1ZFe3Cw=
 X-Google-Smtp-Source: 
- ABdhPJzn2btwi4VFaysljZD7EVveH8RJVK/3nrkS6jR4CRLReCU28UfH+62deaedivaJPUg/tGZsOaU17UoojlUb/Gc=
-X-Received: by 2002:a17:907:7da1:: with SMTP id
- oz33mr16031487ejc.532.1642599279493;
- Wed, 19 Jan 2022 05:34:39 -0800 (PST)
+ ABdhPJw4NSF6MzHe7bfoDpUMIhn6mpSiFLBtcvg97QahpiAWOi64L/izHSOF9nhkzzkiKdNHXt31fH0IfY2IXiUkkl0=
+X-Received: by 2002:aa7:c750:: with SMTP id c16mr5244941eds.141.1642616494995;
+ Wed, 19 Jan 2022 10:21:34 -0800 (PST)
 MIME-Version: 1.0
-References: <20220119115956.1104692-1-liezhi.yang@windriver.com>
-In-Reply-To: <20220119115956.1104692-1-liezhi.yang@windriver.com>
+References: <20220113113059.20489-2-kamil.dziezyk@arm.com>
+ <20220113113059.20489-1-kamil.dziezyk@arm.com>
+ <20220119034402.GA51854@gmail.com>
+ <AM6PR08MB34615E150DB7600831CD308792599@AM6PR08MB3461.eurprd08.prod.outlook.com>
+In-Reply-To: 
+ <AM6PR08MB34615E150DB7600831CD308792599@AM6PR08MB3461.eurprd08.prod.outlook.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 19 Jan 2022 08:34:28 -0500
+Date: Wed, 19 Jan 2022 13:21:23 -0500
 Message-ID: 
- <CADkTA4M3L97amNq62TyRGUnkSn7LDHzJkL2vz4cDJxW+AtBtUQ@mail.gmail.com>
-Subject: Re: [meta-virtualization][PATCH] docker: Add kernel-module-xt-nat to
- RRECOMMENDS
-To: Robert Yang <liezhi.yang@windriver.com>
-Cc: meta-virtualization@lists.yoctoproject.org
+ <CADkTA4MN2ZhaaAN+3nk7V2UMsxfyDDXXqCQwO4=JUwPiPy+QhQ@mail.gmail.com>
+Subject: Re: [meta-virtualization] [PATCH v3 1/2] xen-tools: Load xen related
+ kernel modules during system boot
+To: Diego Sueiro <Diego.Sueiro@arm.com>
+Cc: =?UTF-8?Q?Kamil_Dzie=C5=BCyk?= <Kamil.Dziezyk@arm.com>,
+	"meta-virtualization@lists.yoctoproject.org"
+ <meta-virtualization@lists.yoctoproject.org>,
+	"christopher.w.clark@gmail.com" <christopher.w.clark@gmail.com>,
+ "cardoe@gentoo.org" <cardoe@gentoo.org>, nd <nd@arm.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Wed, 19 Jan 2022 13:34:42 -0000
+ <meta-virtualization@lists.yoctoproject.org>; Wed, 19 Jan 2022 18:21:37 -0000
 X-Groupsio-URL: 
- https://lists.yoctoproject.org/g/meta-virtualization/message/7027
+ https://lists.yoctoproject.org/g/meta-virtualization/message/7028
 
-On Wed, Jan 19, 2022 at 7:00 AM Robert Yang <liezhi.yang@windriver.com> wrote:
+On Wed, Jan 19, 2022 at 7:39 AM Diego Sueiro <Diego.Sueiro@arm.com> wrote:
 >
-> Fixed when kernel-module-xt-nat is not installed:
-> $ docker run --rm -it -p 80:80 alpine
+> Hello Bruce,
 >
-> docker: Error response from daemon: driver failed programming external connectivity on endpoint elated_cori
-> Try `iptables -h' or 'iptables --help' for more information.
->  (exit status 2)).
+> Thanks for getting this merged.
+>
+> We consider these patches as bug fixing and in this case is it possible t=
+o have them backported (cherry picked) to honister branch?
 >
 
-There's already a pending patch for similar changes, I'm still
-working through the unification of the meta-virt fragments and the
-kernel-cache fragments, so I'm not doing any of the RRECOMMENDS
-changes at the moment, until I have that unified.
-
-Since we can recommend all we want, but it can't fix a bad
-configuration, and that's the issue.
+Agreed. they are bug fixes, so I've done the cherry pick to honister.
 
 Bruce
 
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> ---
->  recipes-containers/docker/docker.inc | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
->
-> diff --git a/recipes-containers/docker/docker.inc b/recipes-containers/docker/docker.inc
-> index 40a3642c..e7bdc388 100644
-> --- a/recipes-containers/docker/docker.inc
-> +++ b/recipes-containers/docker/docker.inc
-> @@ -29,7 +29,13 @@ RDEPENDS:${PN} = "util-linux util-linux-unshare iptables \
->                   "
->  RDEPENDS:${PN} += "virtual-containerd virtual-runc"
->
-> -RRECOMMENDS:${PN} = "kernel-module-dm-thin-pool kernel-module-nf-nat kernel-module-nf-conntrack-netlink kernel-module-xt-addrtype kernel-module-xt-masquerade"
-> +RRECOMMENDS:${PN} = "kernel-module-dm-thin-pool \
-> +    kernel-module-nf-nat \
-> +    kernel-module-nf-conntrack-netlink \
-> +    kernel-module-xt-addrtype \
-> +    kernel-module-xt-masquerade \
-> +    kernel-module-xt-nat \
-> +    "
->
->  PROVIDES += "virtual/docker"
+> Cheers,
 >
 > --
-> 2.17.1
+> Diego Sueiro
+>
+> >-----Original Message-----
+> >From: meta-virtualization@lists.yoctoproject.org <meta-
+> >virtualization@lists.yoctoproject.org> On Behalf Of Bruce Ashfield via
+> >lists.yoctoproject.org
+> >Sent: 19 January 2022 03:44
+> >To: Kamil Dzie=C5=BCyk <Kamil.Dziezyk@arm.com>
+> >Cc: meta-virtualization@lists.yoctoproject.org;
+> >christopher.w.clark@gmail.com; cardoe@gentoo.org
+> >Subject: Re: [meta-virtualization] [PATCH v3 1/2] xen-tools: Load xen re=
+lated
+> >kernel modules during system boot
+> >
+> >merged.
+> >
+> >Bruce
+> >
+> >In message: [meta-virtualization] [PATCH v3 1/2] xen-tools: Load xen rel=
+ated
+> >kernel modules during system boot on 13/01/2022 Kamil Dziezyk wrote:
+> >
+> >> This patch changes the location of xen.conf file, that contains list
+> >> of kernel modules to be loaded during system boot, to
+> >> "${nonarch_libdir}". This is done by removing '--with-systemd-modules-
+> >load=3D' flag from EXTRA_OECONF variable.
+> >>
+> >> Previous path based on "${systemd_unitdir}" was not considered by
+> >> default by systemd-modules-load.service.
+> >>
+> >> Signed-off-by: Kamil Dziezyk <kamil.dziezyk@arm.com>
+> >> ---
+> >>  recipes-extended/xen/xen-tools.inc | 3 +--
+> >>  1 file changed, 1 insertion(+), 2 deletions(-)
+> >>
+> >> diff --git a/recipes-extended/xen/xen-tools.inc
+> >> b/recipes-extended/xen/xen-tools.inc
+> >> index ca924f4..6e25046 100644
+> >> --- a/recipes-extended/xen/xen-tools.inc
+> >> +++ b/recipes-extended/xen/xen-tools.inc
+> >> @@ -653,10 +653,10 @@ FILES:${PN}-xm =3D "\
+> >>      "
+> >>
+> >>  FILES:${PN}-xencommons +=3D "\
+> >> +    ${nonarch_libdir}/modules-load.d/xen.conf \
+> >>      ${sysconfdir}/default/xencommons \
+> >>      ${sysconfdir}/init.d/xencommons \
+> >>      ${sysconfdir}/xen/scripts/launch-xenstore \
+> >> -    ${systemd_unitdir}/modules-load.d/xen.conf \
+> >>      ${systemd_unitdir}/system/proc-xen.mount \
+> >>      ${systemd_unitdir}/system/xen-qemu-dom0-disk-backend.service \
+> >>      ${systemd_unitdir}/system/xenconsoled.service \ @@ -744,7 +744,6
+> >> @@ SYSTEMD_SERVICE:${PN}-xendomains =3D "xendomains.service"
+> >>
+> >>  EXTRA_OECONF +=3D " \
+> >>      --with-systemd=3D${systemd_unitdir}/system \
+> >> -    --with-systemd-modules-load=3D${systemd_unitdir}/modules-load.d \
+> >>      --with-initddir=3D${INIT_D_DIR} \
+> >>      --with-sysconfig-leaf-dir=3Ddefault \
+> >>      --with-system-qemu=3D${bindir}/qemu-system-i386 \
+> >> --
+> >> 2.17.1
+> >>
+> >> IMPORTANT NOTICE: The contents of this email and any attachments are
+> >confidential and may also be privileged. If you are not the intended rec=
+ipient,
+> >please notify the sender immediately and do not disclose the contents to=
+ any
+> >other person, use it for any purpose, or store or copy the information i=
+n any
+> >medium. Thank you.
+> >
+> >>
+> >>
+> >>
+> >
 >
 
 
---
+--=20
 - Thou shalt not follow the NULL pointer, for chaos and madness await
 thee at its end
 - "Use the force Harry" - Gandalf, Star Trek II
