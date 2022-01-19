@@ -2,95 +2,172 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A31FFC433F5
-	for <webhook@archiver.kernel.org>; Tue, 18 Jan 2022 13:52:18 +0000 (UTC)
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com
- [209.85.208.54])
- by mx.groups.io with SMTP id smtpd.web08.12730.1642513937756780789
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 642EDC433EF
+	for <webhook@archiver.kernel.org>; Wed, 19 Jan 2022 03:44:12 +0000 (UTC)
+Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com
+ [209.85.222.180])
+ by mx.groups.io with SMTP id smtpd.web10.1863.1642563848392947480
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 18 Jan 2022 05:52:18 -0800
+ Tue, 18 Jan 2022 19:44:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=XqwzWYF/;
- spf=pass (domain: gmail.com, ip: 209.85.208.54,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=NaMr8WOE;
+ spf=pass (domain: gmail.com, ip: 209.85.222.180,
  mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ed1-f54.google.com with SMTP id m10so1310451edq.9
+Received: by mail-qk1-f180.google.com with SMTP id t66so1482500qkb.4
         for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 18 Jan 2022 05:52:17 -0800 (PST)
+ Tue, 18 Jan 2022 19:44:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=KEndIGWNC1JG0TWU+Tvnn0vDELMZ9uVWccY+eados4I=;
-        b=XqwzWYF/sdVh63s9NPGOp7la/q1N75cBqVKub6K15NQDjw/lAu2JmPEaj5XJVfbvQ3
-         rrpVn16WY2NrEECu5Eowi4uGkgeUIHYyILFX1VvZYCyo33+0dw+1GmteAsLNQCkq9PKC
-         zvjXbcgXSrK7JoyM3ztZv+AYe2dnL5F5B18/8McvefRsA5dL42bu08b6HFvK60t0jEN7
-         EqYeLUA5dXM23alRVDNEwwzzTThsth+nO/lOYLMxrWnYJtK5PM/EsRfNPkrKmtEBeTfd
-         RlDjsQyc0XkOvcfsw/BFsMtDKuqZbUM1aajtwjvTnPsjEUAcpBWTi+KHwxQ8PH+64DVn
-         W39g==
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :in-reply-to:user-agent;
+        bh=2plwkBepgLtpDdBHzYZBDZNa/JLkEnxuBRfdj/tFoS8=;
+        b=NaMr8WOEHWIr738skRsYXsgYtFeNIl/FHsrNb3yTW5IZdF7G1Rl7MNIhdQALw7ANEo
+         StCJfEHPh6otrZjzlJyuXMdEnu4clznNm24mFzdhOMyvAHP0PTYk8XDgO9CO/UN07tYN
+         FRg57Je+U5edoxopTk15hwSucmt107mC2IEi06jNhHkxSlsvhPg+DOo1aau8f9xTDUtW
+         i6VuMJXFoyf84L8Vdl3VON2vX/oZGkjGuTBovbmfKksDiIx0hr2EX4i6TiYdvbdiWFaG
+         rt6Cods8+SquKaiCEGLbG1rfpbP9gYEh9twcR8wchUeSJplzFWA7Xc1i033qU4l2Qx7S
+         K4JQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=KEndIGWNC1JG0TWU+Tvnn0vDELMZ9uVWccY+eados4I=;
-        b=XA91K8RWTbA3VtXQEe9rGzJ5VHgO4mWtP8k4cg1WUgHcwnZD8Mjt1SZ+QgeKDVXQcw
-         qyQ6k7pFWPvK+o3DbXJR22cusnyRXhBMvDjeAX01Zj7gDCUJuSCSMSlf32Z+cm1K/TLS
-         uA/pITQWx8GBPuQthsaGNMec8edaUJdO6JZznkhi6PaBjtPvADSNyM83F6EwYiZVTD+4
-         Hwz7TBep5RigoDY1z3PtLMmKjMrqPs55CIDXccEX4oHtwm1ysdmbwXeyhXU2QBP6v8wO
-         m5wqVakjDngjsa6E4LxPrU+lRQyQuAkNNS5q3ViUPn6Arhjd6BuxCVvHrLezcQpG1Nba
-         C90A==
-X-Gm-Message-State: AOAM532VlptN3/7i8pDrQFsItz1Tb36IDZH25MaEG2mjj1WZATPkDYo4
-	YXmg0wAeUYE9dWO/WvR0PaaxBI3jBi/dLg3SoEM=
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=2plwkBepgLtpDdBHzYZBDZNa/JLkEnxuBRfdj/tFoS8=;
+        b=4yaKeaVe1xsD63PpPZZZQuQJQqRQzI2YzXG+YDsi+uStdFNzqFNVVe7E32mcdJRKcV
+         Y9k1Ie/5IUZJGKok4h6y1P/R4Revb5QLjDVin4bGwKfOP+Bw4OFAOx9j0d1UJHYR0BJm
+         ADX6p7wzR2ztctkMoYvZxi6VNNYp/GUlOe0HDgIjYn7d5PA++gAJxKupAYwXIvRPp+T4
+         38V6oAO00QnY/Zz67+2AtczS6wqp0eLXn5mvbr70zAuDTweZ2mxhDHV2bXu5ELnd36/w
+         /kQR3O3sNFkvc0dpeXZpCKbZWDqlOhI1hfi+X7Bcbkz6pyH44RebWAPiuTCJ4WayGMPT
+         4WHg==
+X-Gm-Message-State: AOAM531bWyQaVO9UdrcT4lkRD3MLASBE6+9i0kDUPR75hmXjdVKLr3Pb
+	nvghwKQmk0hMtKcpeTMSLlQ=
 X-Google-Smtp-Source: 
- ABdhPJxFkmnZGxPIuwh4pYO1gEIoY9pzDRQIUdMu/OkxX1jITY527Eh39tX+C3a4Mxcv61pjc0gVkGYFY6zFYKguHek=
-X-Received: by 2002:a50:f086:: with SMTP id v6mr26107007edl.94.1642513936196;
- Tue, 18 Jan 2022 05:52:16 -0800 (PST)
-MIME-Version: 1.0
-References: <20220117125827.464599-1-ross.burton@arm.com>
- <16CB123A6CD49E87.30851@lists.yoctoproject.org>
- <CADkTA4MR63ejM49VXLaBz_AeK60Xk0kEJ8E1dQ7CPSTAvOkQVg@mail.gmail.com>
- <CAAnfSTtTQNQmY5DZSeZ=KRQ=F5-BGkdK=OswPHfyG7OAxJnuMQ@mail.gmail.com>
-In-Reply-To: 
- <CAAnfSTtTQNQmY5DZSeZ=KRQ=F5-BGkdK=OswPHfyG7OAxJnuMQ@mail.gmail.com>
+ ABdhPJxCDY9rD3w6zxtW2+2kTQB9vWYTF4zj5eWlJqV+Xfn+78OMRaZ7xtUMi13T/r/r9NHCs7ZRHA==
+X-Received: by 2002:a05:620a:4450:: with SMTP id
+ w16mr828606qkp.340.1642563847364;
+        Tue, 18 Jan 2022 19:44:07 -0800 (PST)
+Received: from gmail.com
+ (cpe04d4c4975b80-cmf4c11490699b.cpe.net.cable.rogers.com. [174.112.63.222])
+        by smtp.gmail.com with ESMTPSA id
+ t20sm11019943qto.94.2022.01.18.19.44.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Jan 2022 19:44:06 -0800 (PST)
+Date: Tue, 18 Jan 2022 22:44:05 -0500
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Tue, 18 Jan 2022 08:52:05 -0500
-Message-ID: 
- <CADkTA4NKiE208nqVhX2pbZvdvr5QREBKYZGrd3-DXz9h+HsMhg@mail.gmail.com>
-Subject: Re: [meta-virtualization] [PATCH] python3-dtc: fix packaging by using
- setuptools
-To: Ross Burton <ross@burtonini.com>
-Cc: meta-virtualization@lists.yoctoproject.org
-Content-Type: text/plain; charset="UTF-8"
+To: Kamil Dziezyk <kamil.dziezyk@arm.com>
+Cc: meta-virtualization@lists.yoctoproject.org,
+	christopher.w.clark@gmail.com, cardoe@gentoo.org
+Subject: Re: [meta-virtualization] [PATCH v3 1/2] xen-tools: Load xen related
+ kernel modules during system boot
+Message-ID: <20220119034402.GA51854@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220113113059.20489-2-kamil.dziezyk@arm.com>
+ <20220113113059.20489-1-kamil.dziezyk@arm.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Tue, 18 Jan 2022 13:52:18 -0000
+ <meta-virtualization@lists.yoctoproject.org>; Wed, 19 Jan 2022 03:44:12 -0000
 X-Groupsio-URL: 
- https://lists.yoctoproject.org/g/meta-virtualization/message/7013
+ https://lists.yoctoproject.org/g/meta-virtualization/message/7014
 
-On Tue, Jan 18, 2022 at 6:18 AM Ross Burton <ross@burtonini.com> wrote:
->
-> On Mon, 17 Jan 2022 at 18:07, Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
-> > Your change + my update are now queued:
-> >
-> > https://git.yoctoproject.org/meta-virtualization/commit/?h=master-next&id=ed4bd1de0d2e040c303a8497ac0cd961aa8b8a7b
-> >
-> > If you have any cycles for test build, that would be great .. since
-> > somehow my own build didn't notice the empty package, so I can't say I
-> > fully trust it.
->
-> SETUPTOOLS_SETUP_PATH defaults to S, so you can remove the assignment entirely.
->
-
-done. And pushed to master.
+merged.
 
 Bruce
 
-> Ross
+In message: [meta-virtualization] [PATCH v3 1/2] xen-tools: Load xen related kernel modules during system boot
+on 13/01/2022 Kamil Dziezyk wrote:
+
+> This patch changes the location of xen.conf file, that contains list of kernel
+> modules to be loaded during system boot, to "${nonarch_libdir}". This is done
+> by removing '--with-systemd-modules-load=' flag from EXTRA_OECONF variable.
+> 
+> Previous path based on "${systemd_unitdir}" was not considered by default by
+> systemd-modules-load.service.
+> 
+> Signed-off-by: Kamil Dziezyk <kamil.dziezyk@arm.com>
+> ---
+>  recipes-extended/xen/xen-tools.inc | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/recipes-extended/xen/xen-tools.inc b/recipes-extended/xen/xen-tools.inc
+> index ca924f4..6e25046 100644
+> --- a/recipes-extended/xen/xen-tools.inc
+> +++ b/recipes-extended/xen/xen-tools.inc
+> @@ -653,10 +653,10 @@ FILES:${PN}-xm = "\
+>      "
+> 
+>  FILES:${PN}-xencommons += "\
+> +    ${nonarch_libdir}/modules-load.d/xen.conf \
+>      ${sysconfdir}/default/xencommons \
+>      ${sysconfdir}/init.d/xencommons \
+>      ${sysconfdir}/xen/scripts/launch-xenstore \
+> -    ${systemd_unitdir}/modules-load.d/xen.conf \
+>      ${systemd_unitdir}/system/proc-xen.mount \
+>      ${systemd_unitdir}/system/xen-qemu-dom0-disk-backend.service \
+>      ${systemd_unitdir}/system/xenconsoled.service \
+> @@ -744,7 +744,6 @@ SYSTEMD_SERVICE:${PN}-xendomains = "xendomains.service"
+> 
+>  EXTRA_OECONF += " \
+>      --with-systemd=${systemd_unitdir}/system \
+> -    --with-systemd-modules-load=${systemd_unitdir}/modules-load.d \
+>      --with-initddir=${INIT_D_DIR} \
+>      --with-sysconfig-leaf-dir=default \
+>      --with-system-qemu=${bindir}/qemu-system-i386 \
+> --
+> 2.17.1
+> 
+> IMPORTANT NOTICE: The contents of this email and any attachments are confidential and may also be privileged. If you are not the intended recipient, please notify the sender immediately and do not disclose the contents to any other person, use it for any purpose, or store or copy the information in any medium. Thank you.
+
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#6999): https://lists.yoctoproject.org/g/meta-virtualization/message/6999
+> Mute This Topic: https://lists.yoctoproject.org/mt/88394698/1050810
+> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
 
+In message: [meta-virtualization] [PATCH v3 2/2] xen: Clear TUNE_CCARGS for Xen build for aarch64 machines
+on 13/01/2022 Kamil Dziezyk wrote:
 
--- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+> Xen build may fail for arm machines that have enabled extra flags,
+> that can be enabled only for specific architecture version, e.g. armv8-2a.
+> 
+> Signed-off-by: Kamil Dziezyk <kamil.dziezyk@arm.com>
+> ---
+>  recipes-extended/xen/xen-hypervisor.inc | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/recipes-extended/xen/xen-hypervisor.inc b/recipes-extended/xen/xen-hypervisor.inc
+> index cffd491..81e361f 100644
+> --- a/recipes-extended/xen/xen-hypervisor.inc
+> +++ b/recipes-extended/xen/xen-hypervisor.inc
+> @@ -103,3 +103,7 @@ CROSS_CURSES_LIB += "-L${STAGING_LIBDIR_NATIVE}"
+>  # Specify the root dir of the .config file for do_menuconfig and do_diffconfig
+>  # tasks
+>  KCONFIG_CONFIG_ROOTDIR = "${S}/xen"
+> +
+> +# Xen is setting all CC flags on its own. Make sure that they are not modified
+> +# for aarch64, e.g. with architecture-specific optimizations.
+> +TUNE_CCARGS:aarch64=""
+> --
+> 2.17.1
+> 
+> IMPORTANT NOTICE: The contents of this email and any attachments are confidential and may also be privileged. If you are not the intended recipient, please notify the sender immediately and do not disclose the contents to any other person, use it for any purpose, or store or copy the information in any medium. Thank you.
+
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#7000): https://lists.yoctoproject.org/g/meta-virtualization/message/7000
+> Mute This Topic: https://lists.yoctoproject.org/mt/88394702/1050810
+> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
+
 
