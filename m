@@ -1,178 +1,100 @@
-Return-Path: <mans.zigher@gmail.com>
+Return-Path: <yocto@optimcloud.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F183CC433EF
-	for <webhook@archiver.kernel.org>; Fri,  4 Feb 2022 14:31:01 +0000 (UTC)
-Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com
- [209.85.167.177])
- by mx.groups.io with SMTP id smtpd.web11.9615.1643985061446065742
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 982A5C433F5
+	for <webhook@archiver.kernel.org>; Fri,  4 Feb 2022 14:42:32 +0000 (UTC)
+Received: from mail.optimvoice.io (mail.optimvoice.io [46.23.82.140])
+ by mx.groups.io with SMTP id smtpd.web10.9748.1643985749832313801
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 04 Feb 2022 06:31:01 -0800
+ Fri, 04 Feb 2022 06:42:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=aj0IJlm1;
- spf=pass (domain: gmail.com, ip: 209.85.167.177,
- mailfrom: mans.zigher@gmail.com)
-Received: by mail-oi1-f177.google.com with SMTP id m9so8622866oia.12
-        for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 04 Feb 2022 06:31:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=8LbUtnkYmc+YJS+QTEXBmAH7f2cHea9+dpJsAFJAnJs=;
-        b=aj0IJlm1zYJRqB4w/JM/lqQCBf/FDa1pG8+9rZZhpi83tk8p4Y8tycN4zuDkx9TymG
-         6bp0suuq42Zf5KJYPKl9mctIQAHiPygoA0xDeBxm3VpQKIavDqJqLpadR0dzlAANRa2o
-         /DTFcVYc8A4EehowKsNbLqzL0wgymRH0KMp85g595U9RDWXQyIEqafL4M/7+VK8qFb2M
-         sJdCgwFWosLBs+HV9bf7K1iVznH1BCOyLRR2gG7KZLbMGdQC5vEwOgQrBcDa+KzxNaiP
-         3g4c9OpKRCjP+hgEcRSgTq491oDkdfqeFMx/i1F1fV21T6d6WIM70A6H0kdkl6hx9phi
-         K56A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=8LbUtnkYmc+YJS+QTEXBmAH7f2cHea9+dpJsAFJAnJs=;
-        b=d5nevnRaxodmDT5NmM02IFHsxrF1lxEgsrF2L3OCpqVo3fyCkRTnVLiOh6JrOOEmTW
-         XTpUDccPP7kW4imo0VOTxsr3S2AX56kXvhWX0f7PlVK3OqmwvT3kho9/6xLL9ETUmEN6
-         7dTIAZeBGbzz1KMU0YEDITndapQIqhbn3uPWeq1sNz7M4wrD7bX6Z6ucSSUHwN/N+JEX
-         CbPV5jYFeu7DArAUa+i5a0apk0TCeYghHPt6w24zmEUIe+XWoyfmfnD9aTubaMezDkhH
-         BxZcv+SxcePq/jL0sUwaaBua76CFK7cD7Ytbo2TvVJMJjAys+4ECFYy7ju3yE9uVe7qs
-         1Ifg==
-X-Gm-Message-State: AOAM530z5HLmlhYIjq2CYhOkjsYPUsTpe52StoxO/ynb96VPkRMPJoig
-	LHUWI/tvP2RIToa93zG2aM6xEy0XtmY1EaV72Gg=
-X-Google-Smtp-Source: 
- ABdhPJwviDEY4xwey0ZwMPRcoU3Yalk4yUDRDYvmCyIGnZ7nZNN9d5kOakuJJtr1O0mEpKRfI0SBaAJ7xq4gCvONvxw=
-X-Received: by 2002:aca:5e55:: with SMTP id s82mr1341910oib.109.1643985060609;
- Fri, 04 Feb 2022 06:31:00 -0800 (PST)
-MIME-Version: 1.0
-References: 
- <CAEhQi8=RL8Ngx3jH_qaPGQwpJ=vR8LD0D9vaT11-LN4dCcT-OA@mail.gmail.com>
- <CADkTA4PdJ5u7Mwm1sB9pceGXDhZQfm6gpBm5VEr7ggRnqH44+g@mail.gmail.com>
-In-Reply-To: 
- <CADkTA4PdJ5u7Mwm1sB9pceGXDhZQfm6gpBm5VEr7ggRnqH44+g@mail.gmail.com>
-From: =?UTF-8?B?TcOlbnM=?= <mans.zigher@gmail.com>
-Date: Fri, 4 Feb 2022 15:30:49 +0100
-Message-ID: 
- <CAEhQi8mJcecVMa0xozbsP1DcxV1LwkN25x6GdEgApKMQvW9WNA@mail.gmail.com>
-Subject: Re: [meta-virtualization] Docker and GPLv3
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
+ dkim=fail reason="no public key found in DNS TXT" header.i=@optimcloud.com
+ header.s=dkim header.b=W5WI9F7X;
+ spf=pass (domain: optimcloud.com, ip: 46.23.82.140,
+ mailfrom: yocto@optimcloud.com)
+Received: from authenticated-user (mail.optimvoice.io [46.23.82.140])
+	by mail.optimvoice.io (Postfix) with ESMTPA id 323B464002D;
+	Fri,  4 Feb 2022 14:42:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=optimcloud.com;
+	s=dkim; t=1643985747;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=l+h01rH7U5McugiQ3Yjb6X1BUezJNQqHNF59TuRmo1c=;
+	b=W5WI9F7XtpO29CQdIuyIrwIqFTBl7GNTAKiwS5dtlIQFn3ancaRCipjYmxmOtp3yBddFT3
+	T34oOd3tzz0DP3yCXCEM6TcS4kPEhqUD/oq9MDjbqA76FsNxWp8ZnuBDXGwz2QqVIiUYOS
+	/ditdwoXPh+DEtc3/yYl/qyzWL8dnbwvJdHXs4EA56O7r4OkY9lMIAY11/ibswTEiq2+Eh
+	H8o2zCf5POMts5VBhnBxt34GFt/l4C6iPNqsqB6Hw+Hgf2fZf801tnAkunvLlyEGuzAfsf
+	ld4QlpWA2sUYPyuuw8uqTEpbOBz7ig1F80ijQfqkoDGMavFzpVXCRuVHK2RO3g==
+Content-Type: text/plain; charset=utf-8
+Message-Id: <1643985053428.3389501462.529681158@optimcloud.com>
+From: Embedded Devel <yocto@optimcloud.com>
+To: =?UTF-8?Q?M=C3=A5ns?= <mans.zigher@gmail.com>
 Cc: meta-virtualization@lists.yoctoproject.org
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [meta-virtualization] Docker and GPLv3
+Date: Fri, 04 Feb 2022 14:42:20 +0000
+In-Reply-To: 
+ <CAEhQi8mFNmsjymm6tsFCekZpJzXjbibkdHXA4f0KLP2FHZwnCg@mail.gmail.com>
+References: 
+ <CAEhQi8mFNmsjymm6tsFCekZpJzXjbibkdHXA4f0KLP2FHZwnCg@mail.gmail.com>
 Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+Authentication-Results: mail.optimvoice.io;
+	auth=pass smtp.auth=yocto@optimcloud.com smtp.mailfrom=yocto@optimcloud.com
+X-Spamd-Bar: /
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Fri, 04 Feb 2022 14:31:01 -0000
+ <meta-virtualization@lists.yoctoproject.org>; Fri, 04 Feb 2022 14:42:32 -0000
 X-Groupsio-URL: 
- https://lists.yoctoproject.org/g/meta-virtualization/message/7045
+ https://lists.yoctoproject.org/g/meta-virtualization/message/7046
 
-Hi,
 
-Thanks for your reply. The customer is currently using Thud. You
-confirm our current findings so thanks. We are looking into removing
-lxc and will then see what else is needed to see if we can skip the
-GPLv3 packages. We will look into the GPLv3 license again but with our
-current understanding our customer cannot comply with GPLv3 so we have
-to avoid it at all cost.
 
-BR
-M=C3=A5ns Zigher
+On Friday 04 February 2022 21:23:18 PM (+07:00), M=C3=A5ns wrote:
 
-Den fre 4 feb. 2022 kl 15:15 skrev Bruce Ashfield <bruce.ashfield@gmail.com=
->:
+> Hi,
 >
-> On Fri, Feb 4, 2022 at 3:53 AM Mans Zigher <mans.zigher@gmail.com> wrote:
+> Well, does GPLv3 not require that a customer should be able to build
+> the GPLv3 like bash and deploy it to the target? It is not directly
+> secure-boot but the customer has a boot up sequence that starts with
+> secure boot and then the rootfs needs to be signed. So it would not be
+> possible to open up the device to allow a customer to deploy his own
+> version of bash on the target. But I might have misunderstood GPLv3. I
+> am not an expert.
+>
+> BR
+> M=C3=A5ns Zigher
+ermmm no... my understanding is if a device is bootlocked.. grub or =
+secure-boot, then the vendor only needs to provide a way a client having =
+ownership of the device
+can make, rebuild, duplicate, circumvent the secure-boot. ie... make it =
+undoable/bypassable and as long as they allow users to install their own =
+secure boot keys
+
+now im not  LAWYER .... However.... if a client can regenerate =
+keys/bootloader/image then i believe your safe.
+
+>
+> Den fre 4 feb. 2022 kl 15:19 skrev Embedded Devel <yocto@optimcloud.=
+com>:
 > >
-> > Hi,
 > >
-> > A client of mine wants to have docker on it's product and they are
-> > having secure boot enabled which prevents us from having any GPLv3
-> > licensed code on the target. We have successfully managed to add
-> > docker to the target but we noticed that several packages have also
-> > been added that is GPLv3
 > >
-> > bash, gmp, gzip, libidn, libunistring, nettle, rsync, tar, wget
->
-> Those shouldn't be coming directly from the docker dependencies, but of
-> course packages that it depends on, may pull other dependencies, etc.
->
-> What branch are you using ?
->
-> If you look at docker.inc in the layer, it has our known dependencies:
->
-> DEPENDS =3D " \
->     go-cli \
->     go-pty \
->     go-context \
->     go-mux \
->     go-patricia \
->     go-logrus \
->     go-fsnotify \
->     go-dbus \
->     go-capability \
->     go-systemd \
->     btrfs-tools \
->     sqlite3 \
->     go-distribution \
->     compose-file \
->     go-connections \
->     notary \
->     grpc-go \
->     libtool-native \
->     libtool \
->     "
->
-> DEPENDS:append:class-target =3D " lvm2"
-> RDEPENDS:${PN} =3D "util-linux util-linux-unshare iptables \
->                   ${@bb.utils.contains('DISTRO_FEATURES', 'aufs',
-> 'aufs-util', '', d)} \
->                   ${@bb.utils.contains('DISTRO_FEATURES', 'systemd',
-> '', 'cgroup-lite', d)} \
->                   bridge-utils \
->                   ca-certificates \
->                  "
-> RDEPENDS:${PN} +=3D "virtual-containerd virtual-runc"
->
->
+> > On Friday 04 February 2022 15:53:42 PM (+07:00), Mans Zigher wrote:
 > >
-> > 1. Does docker have a strict dependency to GPLv3 code?
+> > > Hi,
+> > >
+> > > A client of mine wants to have docker on it's product and they are
+> > > having secure boot enabled which prevents us from having any GPLv3
+> > > licensed code on the target.
+> > Okay, wait, why does enabling secure-boot prevent including GPLv3 =
+packages??
+> > Ive never heard this before.
 >
-> There may be ways to avoid some GPLv3 dependencies, but it isn't
-> something that we've actively explored or tested. So it would be
-> an effort that needs experimentation.
->
-> > 2. For some reason that I don't understand, docker seems to pull in
-> > LXC which in turn will pull in many of the packages. Is Docker using
-> > LXC? I thought docker was replacing LXC doing the same thing as LXC.
-> > 3. Do you have any suggestions on how to have container support and
-> > not pull in GPLv3 code? Is Docker moby an alternative?
->
-> It depends on how you are installing docker to your image. In the latest
-> branches, it doesn't have a dependency on lxc. There are some package
-> groups and kernel configurations that are shared, but you don't have to
-> install using those packagegroups if they are pulling in elements that
-> you don't want or need.
->
-> Bruce
->
-> >
-> > BR
-> > M=C3=A5ns Zigher
-> >
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#7040): https://lists.yoctoproject.org/g/meta-virtua=
-lization/message/7040
-> > Mute This Topic: https://lists.yoctoproject.org/mt/88903092/1050810
-> > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> > Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub=
- [bruce.ashfield@gmail.com]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >
->
->
-> --
-> - Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at its end
-> - "Use the force Harry" - Gandalf, Star Trek II
+--=20
+Sent with Vivaldi Mail. Download Vivaldi for free at vivaldi.=
+com
 
