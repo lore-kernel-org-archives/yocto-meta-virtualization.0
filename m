@@ -2,93 +2,100 @@ Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60FD1C433F5
-	for <webhook@archiver.kernel.org>; Sun, 27 Feb 2022 23:28:24 +0000 (UTC)
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
- [209.85.214.182])
- by mx.groups.io with SMTP id smtpd.web10.14222.1646004503078549647
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DC97C433F5
+	for <webhook@archiver.kernel.org>; Sun, 27 Feb 2022 23:28:27 +0000 (UTC)
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com
+ [209.85.216.41])
+ by mx.groups.io with SMTP id smtpd.web09.14444.1646004506739351700
  for <meta-virtualization@lists.yoctoproject.org>;
- Sun, 27 Feb 2022 15:28:23 -0800
+ Sun, 27 Feb 2022 15:28:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=klC2/WcX;
- spf=pass (domain: gmail.com, ip: 209.85.214.182,
- mailfrom: ticotimo@gmail.com)
-Received: by mail-pl1-f182.google.com with SMTP id z2so9218324plg.8
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=nPSQ0TuT;
+ spf=pass (domain: gmail.com, ip: 209.85.216.41, mailfrom: ticotimo@gmail.com)
+Received: by mail-pj1-f41.google.com with SMTP id bx5so9570885pjb.3
         for <meta-virtualization@lists.yoctoproject.org>;
- Sun, 27 Feb 2022 15:28:23 -0800 (PST)
+ Sun, 27 Feb 2022 15:28:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=7JQejhwYj7uqjNLmeKabLn2mRL4jFTenAjV4Mszp+ng=;
-        b=klC2/WcXXlKP9q3umwOaLOqLACJHx8NSuFLpvakN0yXjr8kIWptHh7u1BxBJI2Sglv
-         xcs2VYBZ6J8l/skYUm/cFge1jzxdZ+/unvbqlE9yhXX9/b8DUtaGHQlyQcR8tu62yNmH
-         B7lSiJ4dmOpuLgGeTgxYqRl3kbuU/9GOaFxzEzS+o53HxztEC7aaN1YzKlnjzsj0JE6d
-         di7HuW2dCI0WfLGOD5f11z91wkzCbgDJQcCLIzAjHQtC+uqHevqHFCwzNPz1l9BdL7Nu
-         2vkZh+rXY0IKwwFKyoVNWr1LMoH+YTpjNpmntkwPLGr7fBUyiNq4IBIhxMoEw2Oo/agM
-         cLhA==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=utt+dA2zyTwh8pqYkQnRjqoUcgB+A9fhuWEKU4+sjK8=;
+        b=nPSQ0TuTDt0fwrLphmyq7dqbmCtjbR5lzrot80B/GwrAPVm3/3OuoTOnNqi1+Q3m6X
+         zCmGEpdNNcn4mWO8AbnRPBfQgohF67uEP7yEzbC88lM4kyXDtTlIh/HlJqMvFejjscXn
+         Bz64ZwjVpLCpcRxIJBHmH9I23YyS1E7WC11JHEp2z7NM1ycN6PohB9sYdh18I2TJn1Q/
+         EbTFR1CvvlBxqOyUPwZ3nfvJZTue2Y0t6rgTmd/MKJBUnkmkc6I7aY8zIECRFwxv4IeC
+         Upst7cQtSnLFsN+pg6d9fgqgHNFIWYcJoOcUaREaMNixIN8auRxdbFseGa5DfSFFwjgS
+         54yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=7JQejhwYj7uqjNLmeKabLn2mRL4jFTenAjV4Mszp+ng=;
-        b=GI1w6Xgku/0uuZ89T1EkNOlm4g4RNMgfat4Lyhu2IpWlsMIH/DZvi+QslMwip29Wtc
-         n9mVNh6cPajWm/gTDHmpbZCyyMWMHQUk3e42SfeqKiYNZwvjNRqm+cqd630Mj7o91LTb
-         7/PNk40+GkQbMatYGSDOrIRPsQXyP2/KLSkj/EsoVTh+zCxvhhH1mhNXgl7aWgSCZi7x
-         lQf3HjkFdZTdTjz5PiFsqYXE5BOLiJHO1OLlpD+86S49AwJOymEItka216Q7EFVKluA7
-         4a3SXU4Nd1YGlgHGx1Q6Jtja+RjC5OzyvR1IAW7Bl8PR1SYFLCcXaotLWIQumbX9t/GY
-         MPnQ==
-X-Gm-Message-State: AOAM530oJbXejNA6aOWz6x+FvsZ54178WBf3HlBxOSS0MiWUHyaCfUSB
-	PUFNR/3iQb7l+kzXWKs4ExheydX1s4E=
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=utt+dA2zyTwh8pqYkQnRjqoUcgB+A9fhuWEKU4+sjK8=;
+        b=zniIp3AoOr79y1ITbZFny5qWFsjR0l1sc3eGukYyyY1QV6YAVV3daYlb+x0bKh+8Ou
+         +eYq68+rTbKa7x0W+u2RCSl5z1EFbemUKYIVeyzbEDmw9bWwQYUV1QrXkLtLP6Z2VxFM
+         TmaUgSml3RIlDh7j5jDBavinLqKbXjlTWTCaCQ4skbLdk97ZRcryCjS8dEMylZb3YA5F
+         nEM4t+Te62EG6hLF76tatKgaZfWzM9DA+D89PjVzJz+g/FUN/dDW21BI0j5I6MfiAaZi
+         wkHWDr6UOaznrjjmAuteLVP7OfTR9a9vPwnVy1Jl4HUzpRgP8wl0CaOQDHs83poMfNAL
+         Zbcg==
+X-Gm-Message-State: AOAM531gIvIXSKYwE5EVdh0d0Gcpd3eWeVfPeLksvuXWXAZPnIfQGV8P
+	Teyc0pb/p8kjCUhl7CSunq5QvGJtskM=
 X-Google-Smtp-Source: 
- ABdhPJyQyjra0Mr/rmTUuMWMYgefjwdYjWTj2jO1uZOztORqr6XVZCTRC5cw+WX85QvI/wp0b8GfUA==
-X-Received: by 2002:a17:90b:4394:b0:1bc:e369:1f2b with SMTP id
- in20-20020a17090b439400b001bce3691f2bmr13762323pjb.92.1646004502075;
-        Sun, 27 Feb 2022 15:28:22 -0800 (PST)
+ ABdhPJwn8ULLWDHx7IaNASclaKSWHox7ZTjMzqiCmvD3NIz4LDWH9Ke6c757EzZUbjJ8affZAKLYuQ==
+X-Received: by 2002:a17:90a:6c66:b0:1bc:52a2:18e8 with SMTP id
+ x93-20020a17090a6c6600b001bc52a218e8mr13977127pjj.180.1646004505785;
+        Sun, 27 Feb 2022 15:28:25 -0800 (PST)
 Received: from nereus.hsd1.or.comcast.net
  ([2601:1c0:6000:1b20:1961:a694:c80b:3158])
         by smtp.gmail.com with ESMTPSA id
- s33-20020a056a0017a100b004bf85a94ef2sm11166972pfg.183.2022.02.27.15.28.21
+ s33-20020a056a0017a100b004bf85a94ef2sm11166972pfg.183.2022.02.27.15.28.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Feb 2022 15:28:21 -0800 (PST)
+        Sun, 27 Feb 2022 15:28:25 -0800 (PST)
 From: Tim Orling <ticotimo@gmail.com>
 X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
 To: meta-virtualization@lists.yoctoproject.org
 Cc: Tim Orling <tim.orling@konsulko.com>
-Subject: [PATCH 1/2] python3-dtc: fix wheel build
-Date: Sun, 27 Feb 2022 15:28:17 -0800
-Message-Id: <20220227232818.1085145-1-tim.orling@konsulko.com>
+Subject: [PATCH 2/2] lopper: fix wheel build
+Date: Sun, 27 Feb 2022 15:28:18 -0800
+Message-Id: <20220227232818.1085145-2-tim.orling@konsulko.com>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220227232818.1085145-1-tim.orling@konsulko.com>
+References: <20220227232818.1085145-1-tim.orling@konsulko.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Sun, 27 Feb 2022 23:28:24 -0000
+ <meta-virtualization@lists.yoctoproject.org>; Sun, 27 Feb 2022 23:28:27 -0000
 X-Groupsio-URL: 
- https://lists.yoctoproject.org/g/meta-virtualization/message/7066
+ https://lists.yoctoproject.org/g/meta-virtualization/message/7067
 
-The wheel that is built is ${S}/dist/libfdt-1.6.2.dev39+g4048aed.d20220103-cp310-cp310-linux_x86_64.whl
-Set PYPA_WHEEL to match this.
+The wheel that is built is:
+lopper-1.0-py3-none-any.whl
+
+Set BASEVERSION to 1.0 and use this to set PV and the value for PYPA_WHEEL
+(the path to the wheel filename).
 
 Signed-off-by: Tim Orling <tim.orling@konsulko.com>
 ---
- recipes-kernel/dtc/python3-dtc_1.6.1.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ recipes-kernel/lopper/lopper_git.bb | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/recipes-kernel/dtc/python3-dtc_1.6.1.bb b/recipes-kernel/dtc/python3-dtc_1.6.1.bb
-index 449d071..671d280 100644
---- a/recipes-kernel/dtc/python3-dtc_1.6.1.bb
-+++ b/recipes-kernel/dtc/python3-dtc_1.6.1.bb
-@@ -19,6 +19,8 @@ SRCREV = "4048aed12b81c5a0154b9af438edc99ec7d2b6a1"
- PV = "1.6.1+git${SRCPV}"
+diff --git a/recipes-kernel/lopper/lopper_git.bb b/recipes-kernel/lopper/lopper_git.bb
+index 606dab6..e96bac7 100644
+--- a/recipes-kernel/lopper/lopper_git.bb
++++ b/recipes-kernel/lopper/lopper_git.bb
+@@ -7,7 +7,10 @@ SRC_URI = "git://github.com/devicetree-org/lopper.git;branch=master;protocol=htt
+ SRCREV = "3c81fcce08eeb64cbbde1535abd83572985a8689"
  S = "${WORKDIR}/git"
  
-+PYPA_WHEEL = "${S}/dist/libfdt-1.6.2*.whl"
+-PV="v1.0+git${SRCPV}"
++BASEVERSION = "1.0"
++PV="v${BASEVERSION}+git${SRCPV}"
 +
- inherit setuptools3 pkgconfig
++PYPA_WHEEL = "${PIP_INSTALL_DIST_PATH}/${BPN}-${BASEVERSION}-*.whl"
  
- BBCLASSEXTEND = "native nativesdk"
+ LIC_FILES_CHKSUM = "file://LICENSE.md;md5=8e5f5f691f01c9fdfa7a7f2d535be619"
+ 
 -- 
 2.30.2
 
