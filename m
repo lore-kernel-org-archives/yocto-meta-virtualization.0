@@ -2,165 +2,99 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D45E7C433F5
-	for <webhook@archiver.kernel.org>; Thu, 10 Mar 2022 19:43:07 +0000 (UTC)
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com
- [209.85.222.174])
- by mx.groups.io with SMTP id smtpd.web12.1262.1646941386586705017
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00C58C433EF
+	for <webhook@archiver.kernel.org>; Thu, 10 Mar 2022 19:44:23 +0000 (UTC)
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com
+ [209.85.219.48])
+ by mx.groups.io with SMTP id smtpd.web12.1280.1646941462393373425
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 10 Mar 2022 11:43:06 -0800
+ Thu, 10 Mar 2022 11:44:22 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=esCbrp13;
- spf=pass (domain: gmail.com, ip: 209.85.222.174,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Did1yXht;
+ spf=pass (domain: gmail.com, ip: 209.85.219.48,
  mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f174.google.com with SMTP id 1so4705224qke.1
+Received: by mail-qv1-f48.google.com with SMTP id kl20so5345755qvb.10
         for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 10 Mar 2022 11:43:06 -0800 (PST)
+ Thu, 10 Mar 2022 11:44:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=q90NGdoV7ndhlItyOshaZML+T+1/C+mEzYCRLNYjrhU=;
-        b=esCbrp13rCo1JLOGo+RvsSJZTt90XXdVi4BW7/ongmlaP70jgsl9maRmkM+KHFKMPL
-         NmcHh6oHugHNDT64hvl4dI4ZvHZ0PqA7IeSLEnC0vXP8UppwK7IWheAuM7gzpeu/60G3
-         vsSA6/1x10KuwP62Xl/RIwo1qsjRhsHtg2GM2XjGe1CuhS1YoTsafwOtoJs9Wd5urxQF
-         JFuyX5+qgXFWwUsFxq89Lv1U6AjaC3tExLtn+8zCr0iUiFHWzMyVwX7t+bcVlS9xGOPc
-         2LelhCHrHD5DycaNwx3QnBJOuqMEW4xYezcr1rHoDO71pnKrfw9Bo8IdTw2+cUeCzRp2
-         L0pg==
+        bh=WiqiMJ8lnrBoK9/4OoBrfk2O7RRlv4nG1yUPTN0EVq0=;
+        b=Did1yXhtJss5aQEcF78NG2FxIJCXWQJF06TCXY2AHZk6DNvdjNRf1bZ6fZFQXmwkVQ
+         Por9s7jFQ54u0Qf+v3bEIH9fonzZ/1kAL7zI89Sn6eTsDqi2kGQ3G412xq6plKmc/rRC
+         WfUHPYH82z8NaEOvPrp3FpCUosK/urZlqqNnB50mLs1nTrIrevtLOwsnSZXnRHnnOltd
+         3EH2c6/Lj84f0R6z6TVb1RlaG9Nueb1Sz4JJWbvFIHmvJJTdgzUq5ikIeH6ErC7p32+w
+         tWGr08TMX4N0jgfglyi83IdTOOdOptXjml9TIAwEIX2qzKOOS8YHpW6saFyM6jgBOV9H
+         29cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=q90NGdoV7ndhlItyOshaZML+T+1/C+mEzYCRLNYjrhU=;
-        b=kJKyKLObWKtxgehpkaWHo/ENmq9PNK8Lwz3qUleoch8Z3EcucKC0V7bY/juSiJVYqL
-         4B42gLRqPWQ7uzgXnu/CsZmgRXbW50AVK8yaV4cabGesCpoYZeT1VxdgID5YOQ3FpYjk
-         Z0Bt9sGuK0NOG5/uj5F+o0h5+ZAzoSGqCZoT5rbiZF3zidFRPaVDT5COPYiadZuCrlQt
-         HT/E4yUf1ejay4rHuMGjlBkgU1vcVYMUophNLCvye8BVNeBUtqUiRxHNp+1MGInV4Aqs
-         SDpam1D4L5B1Xb02RyMbNtg8aHZ+aLyvxRvXqLXCF91LqmHRpuqIPRu+B2ilaCgtMWNz
-         PIvQ==
-X-Gm-Message-State: AOAM531q8aclgh/nlTIjqfmqQGjpXWXNrPVUo1AtHvHQEtI/24lJzeMe
-	0aRjjaGRVvIj9dI2alT/yTI=
+        bh=WiqiMJ8lnrBoK9/4OoBrfk2O7RRlv4nG1yUPTN0EVq0=;
+        b=qkUDHfC69a6Mk+DO4r6z/zITc1OVYWTHM2aMkV3IIFEGgIAve1Edv3KB8BwSiIV/NE
+         t5VVCem3YF2FyFqRYx/3p0faZuNH+Frm1YImrHlzjqxVMo3xp5hqaB3r7jvr/2eQEkJM
+         4fUdOgq2dSUzInNAQZoFRBtoQmznBHg0h7ZHlyOdcxBH/Rlz/hmqBFCDycdTG4PNOg9Y
+         ryGrGlEh1QUaGlL4OD/5ldLS6EbC/H/GCms0/TVyganI/wUJJI5KGw9NvR63Oo2l6OB2
+         Q5VXCwdaNkTXxDdoJqt+EtnE4z1oPImP0nv+Ot11xIOXfsAcHwY7rr3Q7sGLtVPfA8bG
+         /+eA==
+X-Gm-Message-State: AOAM5303yzVRbL8XjHJ6mTP070N62VmQRSWaHlAJ4uw13XgQPWdoLWMa
+	6foqxlQRz44vewFf6kBegzIwxatox4DpKQ==
 X-Google-Smtp-Source: 
- ABdhPJz6Gqo8HOS7huH4eMGuSOCYC1ptNXmSsFxlFxuXQL9fFXYESjKISVRWggLar2lE6eE4vQJb9g==
-X-Received: by 2002:a05:620a:2591:b0:67a:f1ef:cda3 with SMTP id
- x17-20020a05620a259100b0067af1efcda3mr4344301qko.656.1646941385644;
-        Thu, 10 Mar 2022 11:43:05 -0800 (PST)
+ ABdhPJzGXK+JzZ/RB2L2mk57Rf/sYxi8kV7GmjyNu7MgqqZNQ1s+MurBHmeUm5hPjzOHcTAJu4oDJA==
+X-Received: by 2002:a05:6214:2625:b0:435:7c1d:f27 with SMTP id
+ gv5-20020a056214262500b004357c1d0f27mr5135341qvb.116.1646941461481;
+        Thu, 10 Mar 2022 11:44:21 -0800 (PST)
 Received: from gmail.com ([173.34.88.218])
         by smtp.gmail.com with ESMTPSA id
- p4-20020a05622a00c400b002de0b744039sm3763590qtw.43.2022.03.10.11.43.04
+ i20-20020ac85c14000000b002de4b6004a7sm3704208qti.27.2022.03.10.11.44.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Mar 2022 11:43:05 -0800 (PST)
-Date: Thu, 10 Mar 2022 14:43:03 -0500
+        Thu, 10 Mar 2022 11:44:21 -0800 (PST)
+Date: Thu, 10 Mar 2022 14:44:19 -0500
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Bertrand Marquis <bertrand.marquis@arm.com>
-Cc: meta-virtualization@lists.yoctoproject.org, nd@arm.com,
-	christopher.w.clark@gmail.com, cardoe@gentoo.org,
-	Michal Orzel <michal.orzel@arm.com>
-Subject: Re: [meta-virtualization] [PATCH] xen: Override CC and CPP in make
- command line
-Message-ID: <20220310194302.GB37392@gmail.com>
-References: <20220309110906.2925117-1-bertrand.marquis@arm.com>
+To: wangmy <wangmy@fujitsu.com>
+Cc: meta-virtualization@lists.yoctoproject.org
+Subject: Re: [meta-virtualization][meta-cloud-services][PATCH] layer.conf:
+ Update to kirkstone namespace
+Message-ID: <20220310194416.GA37856@gmail.com>
+References: <1646905230-64641-1-git-send-email-wangmy@fujitsu.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220309110906.2925117-1-bertrand.marquis@arm.com>
+In-Reply-To: <1646905230-64641-1-git-send-email-wangmy@fujitsu.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Thu, 10 Mar 2022 19:43:07 -0000
+ <meta-virtualization@lists.yoctoproject.org>; Thu, 10 Mar 2022 19:44:22 -0000
 X-Groupsio-URL: 
- https://lists.yoctoproject.org/g/meta-virtualization/message/7086
+ https://lists.yoctoproject.org/g/meta-virtualization/message/7087
 
-I've merged the patch, if Christopher has any review comments or needs
-changes, we'll stack them on top.
+merged.
 
 Bruce
 
-In message: [meta-virtualization] [PATCH] xen: Override CC and CPP in make command line
-on 09/03/2022 Bertrand Marquis wrote:
+In message: [meta-virtualization][meta-cloud-services][PATCH] layer.conf: Update to kirkstone namespace
+on 10/03/2022 wangmy wrote:
 
-> From: Michal Orzel <michal.orzel@arm.com>
-> 
-> After 4.16 release, Xen build system has been changed significantly.
-> When building latest status of Xen it was observed that commit
-> 317c98cb91 broke the hypervisor build on arm32 due to the change in
-> handling Rules.mk that xen.inc modifies to override CC and CPP.
-> 
-> In order to fix the issue this patch moves overriding CC and CPP from
-> Rules.mk to make command line by adding them to EXTRA_OEMAKE:arm.
-> 
-> Take the opportunity to bump SRCREV of xen_git.bb and xen-tools_git.bb
-> to the current status of master.
-> 
-> Signed-off-by: Michal Orzel <michal.orzel@arm.com>
+> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 > ---
->  recipes-extended/xen/xen-hypervisor.inc | 8 ++++++++
->  recipes-extended/xen/xen-tools_git.bb   | 4 ++--
->  recipes-extended/xen/xen.inc            | 6 ------
->  recipes-extended/xen/xen_git.bb         | 4 ++--
->  4 files changed, 12 insertions(+), 10 deletions(-)
+>  meta-openstack/conf/layer.conf | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/recipes-extended/xen/xen-hypervisor.inc b/recipes-extended/xen/xen-hypervisor.inc
-> index 81e361f..6f3d24d 100644
-> --- a/recipes-extended/xen/xen-hypervisor.inc
-> +++ b/recipes-extended/xen/xen-hypervisor.inc
-> @@ -48,6 +48,14 @@ do_configure() {
->      fi
->  }
+> diff --git a/meta-openstack/conf/layer.conf b/meta-openstack/conf/layer.conf
+> index bd5a8ac7..b112030f 100644
+> --- a/meta-openstack/conf/layer.conf
+> +++ b/meta-openstack/conf/layer.conf
+> @@ -7,7 +7,7 @@ BBFILES += "${LAYERDIR}/recipes*/*/*.bb ${LAYERDIR}/recipes*/*/*.bbappend"
+>  BBFILE_COLLECTIONS += "openstack-layer"
+>  BBFILE_PATTERN_openstack-layer := "^${LAYERDIR}/"
+>  BBFILE_PRIORITY_openstack-layer = "5"
+> -LAYERSERIES_COMPAT_openstack-layer = "honister"
+> +LAYERSERIES_COMPAT_openstack-layer = "kirkstone"
+>  BB_DANGLINGAPPENDS_WARNONLY ?= "true"
 >  
-> +# The hypervisor binary for arm must not be built with the hard floating point
-> +# ABI. Override CC and CPP when invoking make so that they do not contain
-> +# TUNE_CCARGS.
-> +EXTRA_OEMAKE:arm += "CC='${CCACHE}${HOST_PREFIX}gcc ${TOOLCHAIN_OPTIONS} \
-> +                         ${CC_REPRODUCIBLE_OPTIONS}' \
-> +                     CPP='${CCACHE}${HOST_PREFIX}gcc -E ${TOOLCHAIN_OPTIONS} \
-> +                         ${CC_REPRODUCIBLE_OPTIONS}'"
-> +
->  do_compile() {
->      oe_runmake xen PYTHON="${PYTHON}" \
->                     EXTRA_CFLAGS_XEN_CORE="${EXTRA_CFLAGS_XEN_CORE}"
-> diff --git a/recipes-extended/xen/xen-tools_git.bb b/recipes-extended/xen/xen-tools_git.bb
-> index 8ff9c4c..e733f1d 100644
-> --- a/recipes-extended/xen/xen-tools_git.bb
-> +++ b/recipes-extended/xen/xen-tools_git.bb
-> @@ -1,5 +1,5 @@
-> -# master status on 2020-10-21
-> -SRCREV ?= "23ec1ebc8acbfd2bf06f6085a776f0db923f9fa9"
-> +# master status on 2022-03-08
-> +SRCREV ?= "9d4a44380d273de22d5753883cbf5581795ff24d"
->  
->  XEN_REL ?= "4.16"
->  XEN_BRANCH ?= "master"
-> diff --git a/recipes-extended/xen/xen.inc b/recipes-extended/xen/xen.inc
-> index 4df99bf..8b86de5 100644
-> --- a/recipes-extended/xen/xen.inc
-> +++ b/recipes-extended/xen/xen.inc
-> @@ -193,12 +193,6 @@ do_post_patch() {
->      fi
->  }
->  
-> -do_post_patch:append:arm()  {
-> -    # The hypervisor binary must not be built with the hard floating point ABI.
-> -    echo "CC := \$(filter-out ${TUNE_CCARGS},\$(CC))" >> ${S}/xen/arch/arm/Rules.mk
-> -    echo "CPP := \$(filter-out ${TUNE_CCARGS},\$(CPP))" >> ${S}/xen/arch/arm/Rules.mk
-> -}
-> -
->  addtask post_patch after do_patch before do_configure
->  
->  # Allow all hypervisor settings in a defconfig
-> diff --git a/recipes-extended/xen/xen_git.bb b/recipes-extended/xen/xen_git.bb
-> index e014733..2fbfb54 100644
-> --- a/recipes-extended/xen/xen_git.bb
-> +++ b/recipes-extended/xen/xen_git.bb
-> @@ -1,5 +1,5 @@
-> -# master status on 2020-10-21
-> -SRCREV ?= "23ec1ebc8acbfd2bf06f6085a776f0db923f9fa9"
-> +# master status on 2022-03-08
-> +SRCREV ?= "9d4a44380d273de22d5753883cbf5581795ff24d"
->  
->  XEN_REL ?= "4.16"
->  XEN_BRANCH ?= "master"
+>  LAYERDEPENDS_openstack-layer = " \
 > -- 
 > 2.25.1
 > 
@@ -168,8 +102,8 @@ on 09/03/2022 Bertrand Marquis wrote:
 > 
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#7079): https://lists.yoctoproject.org/g/meta-virtualization/message/7079
-> Mute This Topic: https://lists.yoctoproject.org/mt/89659618/1050810
+> View/Reply Online (#7081): https://lists.yoctoproject.org/g/meta-virtualization/message/7081
+> Mute This Topic: https://lists.yoctoproject.org/mt/89682822/1050810
 > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
 > Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
