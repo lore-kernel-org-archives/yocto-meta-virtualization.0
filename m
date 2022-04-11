@@ -1,338 +1,305 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <Qi.Chen@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B008BC5AC78
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6520C63684
 	for <webhook@archiver.kernel.org>; Mon, 11 Apr 2022 17:18:00 +0000 (UTC)
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com
- [209.85.208.47])
- by mx.groups.io with SMTP id smtpd.web09.28989.1649682340370175867
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com
+ [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web09.28938.1649682108861801676
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 11 Apr 2022 06:05:40 -0700
+ Mon, 11 Apr 2022 06:01:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=j613T1Wb;
- spf=pass (domain: gmail.com, ip: 209.85.208.47,
- mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ed1-f47.google.com with SMTP id z99so9702755ede.5
-        for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 11 Apr 2022 06:05:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=QWODqQ9nUjMMY4X/1c36GlwRJuiQ5t+HV9PVN3x9q74=;
-        b=j613T1WbG6MmvkP1kjsQ5E9nN+tNI8Ige3/zvhDl5qT2iXkNCEHd3wzkab0Xmw1RaM
-         pLnqtDo+7yOLxDOZqrbu9A7ZaMztMH6skbKrUn6BC2rKwwi01Kz42DdOX66xYK1bqhsB
-         xfNro8EHhDzqFb1xpBK5PyTLE7nmfSJm23GTWQkQKVKu1J1cTDeLW+pEkZVX7nRGHhLQ
-         X0Z9WFMbfR//2m3uONlPctLIqvRx2e5+wTLLM6cxk4l6HRlsmfEQpYoILmVjKlvz0auA
-         /6ngTYpd4PC8Sx6wg+4iCIqhquSfsj7okGTA/5P0fkx1AZgjaei19suuN1fK7HMBl8sM
-         axxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=QWODqQ9nUjMMY4X/1c36GlwRJuiQ5t+HV9PVN3x9q74=;
-        b=5sGZN9Dp7BlX7xp2OwES1fuNxLPVsk5b56O9blVv+5DEMkfH6xmFLxmndqoQWmyQAO
-         ++/WHaaxzV6buFGcf3vjz7EFI1V+Nnn3jaJ22Q88UzQ3vv4Fi5YviWjGWDXYdr+OX75u
-         D0diSyWWXp+CMuwDr42SzcS4UoUIfowwWH5by/AO+K1JehBh9rD+bBR/q6dhPy2MjST/
-         GNi4zCZ0L9sD35Vr1XJPDGqCiZIwzjVSaMVRDV7nNgdhbbybhT+mltrBG4I/tdlB8WZl
-         NzPf2AYXSYNvCHq/yxzGYLHvnhLpA+DjJTWgLu9m9Q7D0Rj97oaEJIquwmK8dvT0mIJL
-         RznA==
-X-Gm-Message-State: AOAM530xWgiX1CffhYL42yXu3COn2myNpJrcmFRUaVR/61vuCyPLOOvM
-	Q4fCBP/nbmvgKwtnYmanDPyVbC+q3c7LEVV8Bk0=
-X-Google-Smtp-Source: 
- ABdhPJwhOiZVUCO+Yl1qtp06VRAMVRkg8FSM80P1Ho28bmkosCz4e6e5j4QpayDQJk2n7ipK7S82gLBzQzBPwAJbwM4=
-X-Received: by 2002:a05:6402:d4c:b0:410:a415:fd95 with SMTP id
- ec12-20020a0564020d4c00b00410a415fd95mr33313366edb.288.1649682338834; Mon, 11
- Apr 2022 06:05:38 -0700 (PDT)
-MIME-Version: 1.0
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=ivTvhigO;
+ spf=permerror,
+ err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}:
+ invalid domain name (domain: windriver.com, ip: 205.220.166.238,
+ mailfrom: prvs=1100a70fa3=qi.chen@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id
+ 23BCuWdG026239;
+	Mon, 11 Apr 2022 06:01:45 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+ h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ mime-version; s=PPS06212021;
+ bh=E3UqcrkixG5HGNsZ5BhdxbsbeVtjMalTxyabZcoR8ps=;
+ b=ivTvhigOVfHbTuPyVn/eMneDcXz5OZmTzh5fSXYQOPOvJQKiM95l3gveU8tVSxmZVAGJ
+ r73A/0m2Gqp4Ok8H7U448OajK6P0Auf3A7chx0LtAM+tj2eLp2+r7wtGaavkWhNASYBL
+ wmFCw8/QzlljyrlIf2cnE6JsNCro9zkzyOS2Fyk+RVyspdlPL/0ZmFyjvbCBLBi4pgpZ
+ aOPShqXNDER2J+wZRriUdDcCj2uZNdYvoU1gmrW6qaCUzXNk4cgExyPeY20LdV/Qz42k
+ LLNDFUeWDzpmQiEkGFEU+PZZu2L+KkTmy1JfneKwOmeV5FfkubuRMn1K6/zrpUCYgOVl cQ==
+Received: from nam04-bn8-obe.outbound.protection.outlook.com
+ (mail-bn8nam08lp2043.outbound.protection.outlook.com [104.47.74.43])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3fb9nfs7xb-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 11 Apr 2022 06:01:44 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gH8r4G/pm4QebIGXwTPfekSHtROPWXW5oGKF/UexsL87v9IhB1HMPbFK9lTAfWz6sgg9Y0MBprzIT8rGvTGsRtCV7gF9ndxmpC9Z+5jQdXFUhV4DclIZuibLtOvqAFU4ouVqrvhQp82l+yTroIF23ew2pOLkmqf7xdcXoziR/5x8n+1der6m3+HnB6NH8qhMXEl6i7+UI7Y1RC6/iL8bWSx+PEXT9FLh1JSmE1r6UZpm/CJPN9E0a7rqiqUzpQgMpJAUHV7Xu+EOcSQkxka85PGkCDvJ8SPcxBpTrMkwN5pE6+o/hXT5rqICDzzSnPoODXbxcoYkPx0v3QpG9c3YQw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=E3UqcrkixG5HGNsZ5BhdxbsbeVtjMalTxyabZcoR8ps=;
+ b=EuPCVKGCjVCU02GOYLUB7m69C6OYSXb6Sn9Os3xZ7q7ANwyEAOt7THcPeXx2eNTsF4D1oIbvpjOoLO4piDipTcLxXwjoH9HX5qDPak+70/2JLK+GDDBPXJVwen/0F4TeoL5HNLlshK0YBl7dfE1KP98Y2MrVugeQvUo8Tb8RfRB0/EbRXdmwSJIxbuA3/juY0vlP5Tb8GBVstnoCy8T8i7nkAydanKvsL9RUajy3meN5SV2ixzTaZtZsC87fQTLduX8kYuMwTmqSKHQJo1YYYSJVF3XA1mSzqblHVI08Mgi7+YuYzoscIpgbkJruAFgPu5u49CnPnG+IEgl08cN7Fw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
+ by BN6PR11MB3953.namprd11.prod.outlook.com (2603:10b6:405:7f::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5144.29; Mon, 11 Apr
+ 2022 13:01:39 +0000
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::f0d0:2344:b876:db97]) by CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::f0d0:2344:b876:db97%7]) with mapi id 15.20.5144.029; Mon, 11 Apr 2022
+ 13:01:39 +0000
+From: "Chen, Qi" <Qi.Chen@windriver.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>,
+        "preeti.sachan@intel.com"
+	<preeti.sachan@intel.com>
+CC: "meta-virtualization@lists.yoctoproject.org"
+	<meta-virtualization@lists.yoctoproject.org>
+Subject: RE: [meta-virtualization] [PATCH] libvirt: fix do_package issue
+Thread-Topic: [meta-virtualization] [PATCH] libvirt: fix do_package issue
+Thread-Index: AQHYTVckDw14K3mZdkOkURVgbd13LqzqqNcAgAAEOzA=
+Date: Mon, 11 Apr 2022 13:01:39 +0000
+Message-ID: 
+ <CO6PR11MB5602540494F72070D6315A30EDEA9@CO6PR11MB5602.namprd11.prod.outlook.com>
 References: 
  <CADkTA4MBM_yP+DyR4=mS0K06JzACmJZP5v0E_hG0c+9e=ypikw@mail.gmail.com>
  <4446.1649648962103104390@lists.yoctoproject.org>
  <CADkTA4Nh0273C0r2g1ieTAwN3bnYw+RbLM0CQNz1HMPOzxz9rA@mail.gmail.com>
- <CO6PR11MB5602540494F72070D6315A30EDEA9@CO6PR11MB5602.namprd11.prod.outlook.com>
 In-Reply-To: 
- <CO6PR11MB5602540494F72070D6315A30EDEA9@CO6PR11MB5602.namprd11.prod.outlook.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Mon, 11 Apr 2022 09:05:27 -0400
-Message-ID: 
- <CADkTA4MxEkKrmeCYuZLP+_OsoDP03pARDRs3dmSp=GCq50U-zQ@mail.gmail.com>
-Subject: Re: [meta-virtualization] [PATCH] libvirt: fix do_package issue
-To: "Chen, Qi" <Qi.Chen@windriver.com>
-Cc: "preeti.sachan@intel.com" <preeti.sachan@intel.com>,
-	"meta-virtualization@lists.yoctoproject.org"
- <meta-virtualization@lists.yoctoproject.org>
-Content-Type: multipart/alternative; boundary="000000000000cc6ced05dc609978"
+ <CADkTA4Nh0273C0r2g1ieTAwN3bnYw+RbLM0CQNz1HMPOzxz9rA@mail.gmail.com>
+Accept-Language: en-US, zh-CN
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: ac4b2891-1ddf-43f8-b43a-08da1bbb6aff
+x-ms-traffictypediagnostic: BN6PR11MB3953:EE_
+x-microsoft-antispam-prvs: 
+ <BN6PR11MB395362C01CA9C79152CDE904EDEA9@BN6PR11MB3953.namprd11.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ ohydEpUjUHaiFZru8o/LFRWSeIePUi1dhyIl036ZfdWpUdsVgP2svXfCcgS0q4jIiyEEzbKxjIMMRk1Zn14LxbTKXQPgCqHJzrXVj0ZvHcWTmdSfAeJcl1pCpdmgHhSfoK5X3/H75h5HMam8YJEjUi2zCXnX6KEGGNrvvVPOvrfNwF6fB6/2mFpQWhS7G7zdGh6vx1hmmLuR+a391Wp2qRsoRjOJV/7HW7Awk3vYRi6xeQA5KNk8/8NraoBtSJPSic6O9gKU1WyT2inzqyjLbcvsMV9htL5w28v9CAJJrz+qW78PK+1Z1AOmG5K/7Qz4ZlQ1qaLRXFAMazOwJqNeK6gK21iOUFLqOLqTNOhepQ+7NcfhmEA6jOmET/wQ4vFSxBJkhmfyKcnsneuMB9KKbBzm+5a6TxI2KKVzkYy35ZERAwidMlo3Qo8w6sCLgAP7mB2Ef6cXtsb+JwRusm0K62HcvGnghmIEjxMY19H/ktTRUHvlvVvTzvkoyCJ11MDBhkRjGZZszwxxWPgv7j0ulL6OUy/YBGiT9kOiaEwC7YIv9mgQWD5qrYQwibMs2STz8/B4fLTzaM0CN5UFDYTGzR8o1BKr8bz4xXn/OyHYO0GxjJxM9M1txiRNnyYggmqjiJPIVA0m82/tzwMlcGdClZBa9vEgBouaxszesuZdJEMYJbNuGa6cL7b/8DpE0V/2GF/+tioJ0kOhIHQi1sd/CJOR1jZsGlimvo/CyVCs0mw=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(33656002)(83380400001)(8936002)(38100700002)(38070700005)(26005)(186003)(5660300002)(2906002)(55016003)(8676002)(508600001)(4326008)(76116006)(110136005)(64756008)(66946007)(86362001)(316002)(66476007)(66556008)(52536014)(66446008)(6506007)(7696005)(53546011)(9686003)(71200400001)(122000001)(9126006);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?ZGsxQTFjRzI3S3ZzUVoyTEhMSk1vak94UlJQMzRyc3BIRlEwdXYzbE96Nkhk?=
+ =?utf-8?B?dkJMVFAvRmxqQlJIUTFIS0hlV2p6QkJra2FzUVAyNFA2Z2NSaGx6dUdWUzFk?=
+ =?utf-8?B?ek55K0hPVVdndUZJd0IxZVhzMXFKY3NvTHFwdndHUmsrNTFXK014MkU2TDRP?=
+ =?utf-8?B?aTN6K0NITGRhdGw2R2g0UllpNWw5elM5WnFTamk5blU0ZTB5RHdmbmhNcjh1?=
+ =?utf-8?B?aGJLNUhvcFlneWplZm1xeWl1d0ppTlRFSDFLNkt1YTBBU3d5ZWhqSU5ROW12?=
+ =?utf-8?B?cWM3TmRLSm0rc01NTGtQTGdkdFFJcUdWbjA4bXpGQUkxSEdGMjgxMmVEL1Ru?=
+ =?utf-8?B?Q3NMeVdHYWdINytLd0tEK3Rlei9wQUNvay9OelNKNFBlMWI1cURZT0w4Vlpa?=
+ =?utf-8?B?R1JPN2ZueVc2WEZOU2o3QkpvM1o2alFtZDZmN09CLzZkWHRZOEdPTXVFanhY?=
+ =?utf-8?B?MlhsU3hJTFBjUEdJRlBEQjNzeVhMMWlKZUVIeFRkZkpDc0c2UTNhWXdIRnVM?=
+ =?utf-8?B?TThSditic2hoS1phaHdiNWs0LzdsTTJsM1QwL2ZjZklha0FkV3VXZEhiQlg4?=
+ =?utf-8?B?VjFnU0hoa2FBMVhNWkt5RUwzblRvcWlacUl3YXlZalFxc05GK3dwTzZtVjZh?=
+ =?utf-8?B?YitoUUV4dE5sQWN2SC9DSE9KR2t6OGp6YmdOdVRqcGszdFhoZkN3c1Q0RU1m?=
+ =?utf-8?B?UFFUZ0l4bG5FeGNYVDFXZ1BKS21HOURwV0dzZ0lBeG5mNmYrTUxPTGpkbWRz?=
+ =?utf-8?B?YzZaamJ2cDk2OEVWb0ROeS9aOTAyY2hkaXZ6MFkvcjlHcnQvVzBjSWtnYkNw?=
+ =?utf-8?B?VzVzelhDM0V5dmFJWklVendlbDErVW81ejJpejNFSlNrWFRTVGJuc3VudlNX?=
+ =?utf-8?B?QjBjRnlNTlNWaDdXeW9hRGlNay9DUE5nZmtUeXFqVzA3MzE0ZXR5Q3c0Skow?=
+ =?utf-8?B?c01FMGthTWcvQmVPZFFRb3cvZ1U5a3JEYXR5UjRheXU3VWQwVGFSZHpmY09N?=
+ =?utf-8?B?Ymo3STJoOU8yUDZ5eUZLSHZYTW9WMHFVbmFjcjRGUElOaHN1enBJYkhIVTAx?=
+ =?utf-8?B?VDI5WjdEd0Y3Um9TWWZiK2VRaW9KRExnVVRyaHBacFFNZ0RFeTIrT3drVFoy?=
+ =?utf-8?B?eHlKMFg1S2ViM1pRS3dxS3ZxT2lFcVBFZldXOWg2TnZCMUhTYlRvVlZLQ0c4?=
+ =?utf-8?B?RmlPUVBTTjRnNUlsVFRxOCtMVXpXakNxZnAzQ0J0c2x5ODBycG1yOFZ6TlVP?=
+ =?utf-8?B?blFNcnR1bU55ZDFEZ0hRQkNrOUNSUnpFQWtQbmp6Z2todml4T0VwVkFRTnV5?=
+ =?utf-8?B?RllLMEN1RG1Kb0wvbmlGaHJNUXBDRkJ2VC81bHRZQ1lkS0drNmNDUDJLWDBp?=
+ =?utf-8?B?aWdtc2JlVGtUSDZDY01nUDUzSDh5bHdQSTR3YU9mQ2lkczhmaVNCam84TFly?=
+ =?utf-8?B?M25NZW5CRDUxTGhOdEV5VGdwTFlSWnB3MTBIT3V0Zm9xcHkxYzZXRFlWSFVH?=
+ =?utf-8?B?NVNYUklYcDR1VHBZTmsxYjBLakhWejcwYVdEYWdMbXBLcG5BWURBemZhRmZN?=
+ =?utf-8?B?d3hiYzIyOXh2dWNPMXNRUTRXQ3E5OEh1b3RmTHBtVHJoMHQ4bzFwaC9CN3dH?=
+ =?utf-8?B?dW5pVGx6UmVqRUFCSDMxMjdrUktqZk1wRXJlNzZyanc3djNVNG52aDE2MEdU?=
+ =?utf-8?B?djZDYmF1YkhPZ2hub0xQeXlXdWUyRjRkdklJcW1USjVicUdUUHBNbXJMOEYw?=
+ =?utf-8?B?d0ljQnhzNzk3dE9mRUZzaGFTakZMMnB4clRnYXExV3JPVUhvRG1oZ0hIdCs4?=
+ =?utf-8?B?Y1hhNHRpejdkemNhODRqck5KbjRhdnRVZlVqd1YxQWEwcERqRVp1VURCMFNX?=
+ =?utf-8?B?Z05LWkRPSXFyS04zU08zbFcxZUlzdzByb1ZpRC91MUF5amRGQWpLT1BvVnRz?=
+ =?utf-8?B?V2RKWGVxa2tqU2h0Z2NxVnFYc2YwSkZaSjN6cytWQWlnTEpycXcyQTdDNnlw?=
+ =?utf-8?B?aVBsWW9XS0VlMkpkbWxJU1hiRitLY1hSZ0dpZjdYS1dUeE5aZnBlT1M4QzM2?=
+ =?utf-8?B?enNCMEcxTjhQRXdmRURnclZvTGIzYlAxcGNhUHFxOUk3RStpS3o1UzhLQ2Qy?=
+ =?utf-8?B?cWJTSnlVZEI3dGQyODNWRUxuVlZKbnl2RVdZS0xCK2JDbEc3SDNJY1RoVkxV?=
+ =?utf-8?B?YW1pcVhBMEdWdWhqVTRHNFNYdXdjTWhQYjg3cVc0MVRBcVVzTUlJMmdYcGpQ?=
+ =?utf-8?B?eW9rdXN5ZXNpSUhwYVNWeDFwMDJURXZINENnOFltMTZOV1IzS2pxaC9mR2NQ?=
+ =?utf-8?B?a2JPR2ROc3hib1ZqcWlsa3ZGTWNnazZTbTdmeEtkVzZBQ3FJNWsrZz09?=
+Content-Type: multipart/alternative;
+	boundary="_000_CO6PR11MB5602540494F72070D6315A30EDEA9CO6PR11MB5602namp_"
+MIME-Version: 1.0
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 
+ ac4b2891-1ddf-43f8-b43a-08da1bbb6aff
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Apr 2022 13:01:39.2761
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 
+ aigcaImPqhk+7BHMbCq1AhGz7Big8yrRXS2Ur1Clq6nFJaSr5+BENa4sKrlTxTncWzNBAQJPemlASOl+DqZsQw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR11MB3953
+X-Proofpoint-ORIG-GUID: QmlpYeleJh-USIs3cEB0xOeLoqWWZw8o
+X-Proofpoint-GUID: QmlpYeleJh-USIs3cEB0xOeLoqWWZw8o
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.425,FMLib:17.11.64.514
+ definitions=2022-04-11_04,2022-04-11_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 mlxscore=0
+ mlxlogscore=933 bulkscore=0 adultscore=0 impostorscore=0 malwarescore=0
+ clxscore=1011 phishscore=0 priorityscore=1501 suspectscore=0 spamscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
+ definitions=main-2204110072
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <meta-virtualization@lists.yoctoproject.org>; Mon, 11 Apr 2022 17:18:00 -0000
 X-Groupsio-URL: 
- https://lists.yoctoproject.org/g/meta-virtualization/message/7153
+ https://lists.yoctoproject.org/g/meta-virtualization/message/7152
 
---000000000000cc6ced05dc609978
-Content-Type: text/plain; charset="UTF-8"
+--_000_CO6PR11MB5602540494F72070D6315A30EDEA9CO6PR11MB5602namp_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Mon, Apr 11, 2022 at 9:01 AM Chen, Qi <Qi.Chen@windriver.com> wrote:
+SGkgQnJ1Y2UgJiBQcmVldGksDQoNCkkgd2FzIHRyeWluZyB0byBmaXggdGhlIHNhbWUgaXNzdWUg
+d2hlbiBJIGZvdW5kIHRoaXMgdGhyZWFkLg0KVGhpcyBpc3N1ZSBhcHBlYXJzIHdoZW4gbXVsdGls
+aWIgaXMgZW5hYmxlZC4NCg0KV2hlbiBtdWx0aWxpYiBpcyBkaXNhYmxlZCwgJHtsaWJkaXJ9IGlz
+IC91c3IvbGliLCB0aHVzIHBhY2thZ2luZyB0aGUgZmlsZSBpbnRvIGxpYnZpcnQtcHl0aG9uLg0K
+V2hlbiBtdWx0aWxpYiBpcyBlbmFibGVkLCAke2xpYmRpcn0gaXMgL3Vzci9saWI2NCwgYW5kIHRo
+ZSBmaWxlIGlzIG5vdCBwYWNrYWdlZC4NCg0KUmVnYXJkcywNClFpDQoNCkZyb206IG1ldGEtdmly
+dHVhbGl6YXRpb25AbGlzdHMueW9jdG9wcm9qZWN0Lm9yZyA8bWV0YS12aXJ0dWFsaXphdGlvbkBs
+aXN0cy55b2N0b3Byb2plY3Qub3JnPiBPbiBCZWhhbGYgT2YgQnJ1Y2UgQXNoZmllbGQNClNlbnQ6
+IE1vbmRheSwgQXByaWwgMTEsIDIwMjIgODo0NCBQTQ0KVG86IHByZWV0aS5zYWNoYW5AaW50ZWwu
+Y29tDQpDYzogbWV0YS12aXJ0dWFsaXphdGlvbkBsaXN0cy55b2N0b3Byb2plY3Qub3JnDQpTdWJq
+ZWN0OiBSZTogW21ldGEtdmlydHVhbGl6YXRpb25dIFtQQVRDSF0gbGlidmlydDogZml4IGRvX3Bh
+Y2thZ2UgaXNzdWUNCg0KVGhlcmUncyBkZWZpbml0ZWx5IHNvbWV0aGluZyBkaWZmZXJlbnQgaW4g
+eW91ciBjb25maWd1cmF0aW9uLCBzbyB0aGF0IG5lZWRzIHRvIGJlIHVuZGVyc3Rvb2QgZmlyc3Qu
+DQoNClRoYXQgZmlsZSBpcyBwYWNrYWdlZCBhcyBwYXJ0IG9mIGxpYnZpcnQtcHl0aG9uIGhlcmUs
+IGFuZCBzaG91bGQgYmUgdGhlIHNhbWUgZm9yIG90aGVycywgYXMgSSBoYXZlbid0IGhhZCBhbnkg
+cmVwb3J0cyBvZiBmYWlsdXJlcy4NCg0KWW91IGhhdmUgYSBtdWx0aWNvbmZpZyBpbiBwbGF5LiBB
+bnl0aGluZyBlbHNlID8gV2hhdCBpcyB5b3VyIGluaXQgc3lzdGVtID8gQW55IGJiYXBwZW5kcyBp
+biBwbGF5ID8NCg0KQnJ1Y2UNCg0KT24gU3VuLCBBcHIgMTAsIDIwMjIgYXQgMTE6NDkgUE0gPHBy
+ZWV0aS5zYWNoYW5AaW50ZWwuY29tPG1haWx0bzpwcmVldGkuc2FjaGFuQGludGVsLmNvbT4+IHdy
+b3RlOg0KRVJST1I6IG1jOng4Ni0yMDIwOmxpYnZpcnQtOC4xLjAtcjAgZG9fcGFja2FnZTogUUEg
+SXNzdWU6IGxpYnZpcnQ6IEZpbGVzL2RpcmVjdG9yaWVzIHdlcmUgaW5zdGFsbGVkIGJ1dCBub3Qg
+c2hpcHBlZCBpbiBhbnkgcGFja2FnZToNCiAgL3Vzci9saWIvc3lzY3RsLmQvNjAtcWVtdS1wb3N0
+Y29weS1taWdyYXRpb24uY29uZg0KUGxlYXNlIHNldCBGSUxFUyBzdWNoIHRoYXQgdGhlc2UgaXRl
+bXMgYXJlIHBhY2thZ2VkLiBBbHRlcm5hdGl2ZWx5IGlmIHRoZXkgYXJlIHVubmVlZGVkLCBhdm9p
+ZCBpbnN0YWxsaW5nIHRoZW0gb3IgZGVsZXRlIHRoZW0gd2l0aGluIGRvX2luc3RhbGwuDQpsaWJ2
+aXJ0OiAxIGluc3RhbGxlZCBhbmQgbm90IHNoaXBwZWQgZmlsZXMuIFtpbnN0YWxsZWQtdnMtc2hp
+cHBlZF0NCkVSUk9SOiBtYzp4ODYtMjAyMDpsaWJ2aXJ0LTguMS4wLXIwIGRvX3BhY2thZ2U6IEZh
+dGFsIFFBIGVycm9ycyB3ZXJlIGZvdW5kLCBmYWlsaW5nIHRhc2suDQoNCg0KDQoNCi0tDQotIFRo
+b3Ugc2hhbHQgbm90IGZvbGxvdyB0aGUgTlVMTCBwb2ludGVyLCBmb3IgY2hhb3MgYW5kIG1hZG5l
+c3MgYXdhaXQgdGhlZSBhdCBpdHMgZW5kDQotICJVc2UgdGhlIGZvcmNlIEhhcnJ5IiAtIEdhbmRh
+bGYsIFN0YXIgVHJlayBJSQ0K
 
-> Hi Bruce & Preeti,
->
->
->
-> I was trying to fix the same issue when I found this thread.
->
-> This issue appears when multilib is enabled.
->
->
->
-> When multilib is disabled, ${libdir} is /usr/lib, thus packaging the file
-> into libvirt-python.
->
-> When multilib is enabled, ${libdir} is /usr/lib64, and the file is not
-> packaged.
->
+--_000_CO6PR11MB5602540494F72070D6315A30EDEA9CO6PR11MB5602namp_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Aha. Right you are.
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
+YWNlDQoJe2ZvbnQtZmFtaWx5Ouetiee6vzsNCglwYW5vc2UtMToyIDEgNiAwIDMgMSAxIDEgMSAx
+O30NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6Q2FsaWJyaTsNCglwYW5vc2UtMToyIDE1IDUg
+MiAyIDIgNCAzIDIgNDt9DQpAZm9udC1mYWNlDQoJe2ZvbnQtZmFtaWx5OiJcQOetiee6vyI7DQoJ
+cGFub3NlLTE6MiAxIDYgMCAzIDEgMSAxIDEgMTt9DQovKiBTdHlsZSBEZWZpbml0aW9ucyAqLw0K
+cC5Nc29Ob3JtYWwsIGxpLk1zb05vcm1hbCwgZGl2Lk1zb05vcm1hbA0KCXttYXJnaW46MGluOw0K
+CWZvbnQtc2l6ZToxMS4wcHQ7DQoJZm9udC1mYW1pbHk6IkNhbGlicmkiLHNhbnMtc2VyaWY7fQ0K
+YTpsaW5rLCBzcGFuLk1zb0h5cGVybGluaw0KCXttc28tc3R5bGUtcHJpb3JpdHk6OTk7DQoJY29s
+b3I6Ymx1ZTsNCgl0ZXh0LWRlY29yYXRpb246dW5kZXJsaW5lO30NCnNwYW4uRW1haWxTdHlsZTE4
+DQoJe21zby1zdHlsZS10eXBlOnBlcnNvbmFsLXJlcGx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJp
+IixzYW5zLXNlcmlmOw0KCWNvbG9yOndpbmRvd3RleHQ7fQ0KLk1zb0NocERlZmF1bHQNCgl7bXNv
+LXN0eWxlLXR5cGU6ZXhwb3J0LW9ubHk7DQoJZm9udC1mYW1pbHk6IkNhbGlicmkiLHNhbnMtc2Vy
+aWY7fQ0KQHBhZ2UgV29yZFNlY3Rpb24xDQoJe3NpemU6OC41aW4gMTEuMGluOw0KCW1hcmdpbjox
+LjBpbiAxLjI1aW4gMS4waW4gMS4yNWluO30NCmRpdi5Xb3JkU2VjdGlvbjENCgl7cGFnZTpXb3Jk
+U2VjdGlvbjE7fQ0KLS0+PC9zdHlsZT48IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4NCjxvOnNoYXBl
+ZGVmYXVsdHMgdjpleHQ9ImVkaXQiIHNwaWRtYXg9IjEwMjYiIC8+DQo8L3htbD48IVtlbmRpZl0t
+LT48IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4NCjxvOnNoYXBlbGF5b3V0IHY6ZXh0PSJlZGl0Ij4N
+CjxvOmlkbWFwIHY6ZXh0PSJlZGl0IiBkYXRhPSIxIiAvPg0KPC9vOnNoYXBlbGF5b3V0PjwveG1s
+PjwhW2VuZGlmXS0tPg0KPC9oZWFkPg0KPGJvZHkgbGFuZz0iRU4tVVMiIGxpbms9ImJsdWUiIHZs
+aW5rPSJwdXJwbGUiIHN0eWxlPSJ3b3JkLXdyYXA6YnJlYWstd29yZCI+DQo8ZGl2IGNsYXNzPSJX
+b3JkU2VjdGlvbjEiPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+SGkgQnJ1Y2UgJmFtcDsgUHJlZXRp
+LDxvOnA+PC9vOnA+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48
+L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5JIHdhcyB0cnlpbmcgdG8gZml4IHRoZSBzYW1lIGlz
+c3VlIHdoZW4gSSBmb3VuZCB0aGlzIHRocmVhZC48bzpwPjwvbzpwPjwvcD4NCjxwIGNsYXNzPSJN
+c29Ob3JtYWwiPlRoaXMgaXNzdWUgYXBwZWFycyB3aGVuIG11bHRpbGliIGlzIGVuYWJsZWQuPG86
+cD48L286cD48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4N
+CjxwIGNsYXNzPSJNc29Ob3JtYWwiPldoZW4gbXVsdGlsaWIgaXMgZGlzYWJsZWQsICR7bGliZGly
+fSBpcyAvdXNyL2xpYiwgdGh1cyBwYWNrYWdpbmcgdGhlIGZpbGUgaW50byBsaWJ2aXJ0LXB5dGhv
+bi48bzpwPjwvbzpwPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPldoZW4gbXVsdGlsaWIgaXMg
+ZW5hYmxlZCwgJHtsaWJkaXJ9IGlzIC91c3IvbGliNjQsIGFuZCB0aGUgZmlsZSBpcyBub3QgcGFj
+a2FnZWQuPG86cD48L286cD48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwv
+bzpwPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPlJlZ2FyZHMsPG86cD48L286cD48L3A+DQo8
+cCBjbGFzcz0iTXNvTm9ybWFsIj5RaTxvOnA+PC9vOnA+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1h
+bCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8ZGl2IHN0eWxlPSJib3JkZXI6bm9uZTtib3JkZXIt
+dG9wOnNvbGlkICNFMUUxRTEgMS4wcHQ7cGFkZGluZzozLjBwdCAwaW4gMGluIDBpbiI+DQo8cCBj
+bGFzcz0iTXNvTm9ybWFsIj48Yj5Gcm9tOjwvYj4gbWV0YS12aXJ0dWFsaXphdGlvbkBsaXN0cy55
+b2N0b3Byb2plY3Qub3JnICZsdDttZXRhLXZpcnR1YWxpemF0aW9uQGxpc3RzLnlvY3RvcHJvamVj
+dC5vcmcmZ3Q7DQo8Yj5PbiBCZWhhbGYgT2YgPC9iPkJydWNlIEFzaGZpZWxkPGJyPg0KPGI+U2Vu
+dDo8L2I+IE1vbmRheSwgQXByaWwgMTEsIDIwMjIgODo0NCBQTTxicj4NCjxiPlRvOjwvYj4gcHJl
+ZXRpLnNhY2hhbkBpbnRlbC5jb208YnI+DQo8Yj5DYzo8L2I+IG1ldGEtdmlydHVhbGl6YXRpb25A
+bGlzdHMueW9jdG9wcm9qZWN0Lm9yZzxicj4NCjxiPlN1YmplY3Q6PC9iPiBSZTogW21ldGEtdmly
+dHVhbGl6YXRpb25dIFtQQVRDSF0gbGlidmlydDogZml4IGRvX3BhY2thZ2UgaXNzdWU8bzpwPjwv
+bzpwPjwvcD4NCjwvZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48
+L3A+DQo8ZGl2Pg0KPGRpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHls
+ZT0iZm9udC1zaXplOjEyLjBwdCI+VGhlcmUncyBkZWZpbml0ZWx5IHNvbWV0aGluZyBkaWZmZXJl
+bnQmbmJzcDtpbiB5b3VyIGNvbmZpZ3VyYXRpb24sIHNvIHRoYXQgbmVlZHMgdG8gYmUgdW5kZXJz
+dG9vZCBmaXJzdC48bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFz
+cz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjEyLjBwdCI+PG86cD4mbmJzcDs8
+L286cD48L3NwYW4+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNw
+YW4gc3R5bGU9ImZvbnQtc2l6ZToxMi4wcHQiPlRoYXQgZmlsZSBpcyBwYWNrYWdlZCBhcyBwYXJ0
+IG9mIGxpYnZpcnQtcHl0aG9uIGhlcmUsIGFuZCBzaG91bGQgYmUgdGhlIHNhbWUgZm9yIG90aGVy
+cywgYXMgSSBoYXZlbid0IGhhZCBhbnkgcmVwb3J0cyBvZiBmYWlsdXJlcy48bzpwPjwvbzpwPjwv
+c3Bhbj48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHls
+ZT0iZm9udC1zaXplOjEyLjBwdCI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPC9kaXY+
+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMi4w
+cHQiPllvdSBoYXZlIGEgbXVsdGljb25maWcgaW4gcGxheS4gQW55dGhpbmcmbmJzcDtlbHNlID8g
+V2hhdCBpcyB5b3VyIGluaXQgc3lzdGVtID8gQW55IGJiYXBwZW5kcyBpbiBwbGF5ID88bzpwPjwv
+bzpwPjwvc3Bhbj48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3Bh
+biBzdHlsZT0iZm9udC1zaXplOjEyLjBwdCI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0K
+PC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6
+ZToxMi4wcHQiPkJydWNlPG86cD48L286cD48L3NwYW4+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjxw
+IGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPGRpdj4NCjxkaXY+DQo8
+cCBjbGFzcz0iTXNvTm9ybWFsIj5PbiBTdW4sIEFwciAxMCwgMjAyMiBhdCAxMTo0OSBQTSAmbHQ7
+PGEgaHJlZj0ibWFpbHRvOnByZWV0aS5zYWNoYW5AaW50ZWwuY29tIj5wcmVldGkuc2FjaGFuQGlu
+dGVsLmNvbTwvYT4mZ3Q7IHdyb3RlOjxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8YmxvY2txdW90
+ZSBzdHlsZT0iYm9yZGVyOm5vbmU7Ym9yZGVyLWxlZnQ6c29saWQgI0NDQ0NDQyAxLjBwdDtwYWRk
+aW5nOjBpbiAwaW4gMGluIDYuMHB0O21hcmdpbi1sZWZ0OjQuOHB0O21hcmdpbi1yaWdodDowaW4i
+Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPkVSUk9SOiBtYzp4ODYtMjAyMDpsaWJ2aXJ0
+LTguMS4wLXIwIGRvX3BhY2thZ2U6IFFBIElzc3VlOiBsaWJ2aXJ0OiBGaWxlcy9kaXJlY3Rvcmll
+cyB3ZXJlIGluc3RhbGxlZCBidXQgbm90IHNoaXBwZWQgaW4gYW55IHBhY2thZ2U6PG86cD48L286
+cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj4mbmJzcDsgL3Vzci9s
+aWIvc3lzY3RsLmQvNjAtcWVtdS1wb3N0Y29weS1taWdyYXRpb24uY29uZjxvOnA+PC9vOnA+PC9w
+Pg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+UGxlYXNlIHNldCBGSUxFUyBz
+dWNoIHRoYXQgdGhlc2UgaXRlbXMgYXJlIHBhY2thZ2VkLiBBbHRlcm5hdGl2ZWx5IGlmIHRoZXkg
+YXJlIHVubmVlZGVkLCBhdm9pZCBpbnN0YWxsaW5nIHRoZW0gb3IgZGVsZXRlIHRoZW0gd2l0aGlu
+IGRvX2luc3RhbGwuPG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNv
+Tm9ybWFsIj5saWJ2aXJ0OiAxIGluc3RhbGxlZCBhbmQgbm90IHNoaXBwZWQgZmlsZXMuIFtpbnN0
+YWxsZWQtdnMtc2hpcHBlZF08bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNz
+PSJNc29Ob3JtYWwiPkVSUk9SOiBtYzp4ODYtMjAyMDpsaWJ2aXJ0LTguMS4wLXIwIGRvX3BhY2th
+Z2U6IEZhdGFsIFFBIGVycm9ycyB3ZXJlIGZvdW5kLCBmYWlsaW5nIHRhc2suPG86cD48L286cD48
+L3A+DQo8L2Rpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJtYXJnaW4tYm90dG9tOjEy
+LjBwdCI+PGJyPg0KPGJyPg0KPG86cD48L286cD48L3A+DQo8L2Jsb2NrcXVvdGU+DQo8L2Rpdj4N
+CjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxiciBjbGVhcj0iYWxsIj4NCjxvOnA+PC9vOnA+PC9wPg0K
+PGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPC9kaXY+
+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj4tLSA8bzpwPjwvbzpwPjwvcD4NCjxkaXY+DQo8cCBjbGFz
+cz0iTXNvTm9ybWFsIiBzdHlsZT0ibWFyZ2luLWJvdHRvbToxMi4wcHQiPi0gVGhvdSBzaGFsdCBu
+b3QgZm9sbG93IHRoZSBOVUxMIHBvaW50ZXIsIGZvciBjaGFvcyBhbmQgbWFkbmVzcyBhd2FpdCB0
+aGVlIGF0IGl0cyBlbmQ8YnI+DQotICZxdW90O1VzZSB0aGUgZm9yY2UgSGFycnkmcXVvdDsgLSBH
+YW5kYWxmLCBTdGFyIFRyZWsgSUk8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rp
+dj4NCjwvYm9keT4NCjwvaHRtbD4NCg==
 
-So we should tweak libvirt to use ${libdir} and not the hardcoded /user/lib
-(which it never really should have been), and package anything that gets
-installed into sysctl.d/
-
-It isn't clear that this particular .conf belongs in libvirtd, but it is
-just as good there, as in the libvirt-python.
-
-I'll do some tests in the non-multiconfig configuration to ensure that
-everything still packages properly.
-
-Bruce
-
-
-
->
->
-> Regards,
->
-> Qi
->
->
->
-> *From:* meta-virtualization@lists.yoctoproject.org <
-> meta-virtualization@lists.yoctoproject.org> *On Behalf Of *Bruce Ashfield
-> *Sent:* Monday, April 11, 2022 8:44 PM
-> *To:* preeti.sachan@intel.com
-> *Cc:* meta-virtualization@lists.yoctoproject.org
-> *Subject:* Re: [meta-virtualization] [PATCH] libvirt: fix do_package issue
->
->
->
-> There's definitely something different in your configuration, so that
-> needs to be understood first.
->
->
->
-> That file is packaged as part of libvirt-python here, and should be the
-> same for others, as I haven't had any reports of failures.
->
->
->
-> You have a multiconfig in play. Anything else ? What is your init system ?
-> Any bbappends in play ?
->
->
->
-> Bruce
->
->
->
-> On Sun, Apr 10, 2022 at 11:49 PM <preeti.sachan@intel.com> wrote:
->
-> ERROR: mc:x86-2020:libvirt-8.1.0-r0 do_package: QA Issue: libvirt:
-> Files/directories were installed but not shipped in any package:
->
->   /usr/lib/sysctl.d/60-qemu-postcopy-migration.conf
->
-> Please set FILES such that these items are packaged. Alternatively if they
-> are unneeded, avoid installing them or delete them within do_install.
->
-> libvirt: 1 installed and not shipped files. [installed-vs-shipped]
->
-> ERROR: mc:x86-2020:libvirt-8.1.0-r0 do_package: Fatal QA errors were
-> found, failing task.
->
->
->
->
->
->
-> --
->
-> - Thou shalt not follow the NULL pointer, for chaos and madness await thee
-> at its end
-> - "Use the force Harry" - Gandalf, Star Trek II
->
-
-
--- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end
-- "Use the force Harry" - Gandalf, Star Trek II
-
---000000000000cc6ced05dc609978
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-size:small"><br></div></div><br><div class=3D"gmail_quote"><div dir=3D"lt=
-r" class=3D"gmail_attr">On Mon, Apr 11, 2022 at 9:01 AM Chen, Qi &lt;<a hre=
-f=3D"mailto:Qi.Chen@windriver.com">Qi.Chen@windriver.com</a>&gt; wrote:<br>=
-</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
-order-left:1px solid rgb(204,204,204);padding-left:1ex">
-
-
-
-
-
-<div lang=3D"EN-US" style=3D"overflow-wrap: break-word;">
-<div class=3D"gmail-m_2162310242523886326WordSection1">
-<p class=3D"MsoNormal">Hi Bruce &amp; Preeti,<u></u><u></u></p>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-<p class=3D"MsoNormal">I was trying to fix the same issue when I found this=
- thread.<u></u><u></u></p>
-<p class=3D"MsoNormal">This issue appears when multilib is enabled.<u></u><=
-u></u></p>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-<p class=3D"MsoNormal">When multilib is disabled, ${libdir} is /usr/lib, th=
-us packaging the file into libvirt-python.<u></u><u></u></p>
-<p class=3D"MsoNormal">When multilib is enabled, ${libdir} is /usr/lib64, a=
-nd the file is not packaged.</p></div></div></blockquote><div><br></div><di=
-v><div class=3D"gmail_default" style=3D"font-size:small">Aha. Right you are=
-.</div><div class=3D"gmail_default" style=3D"font-size:small"><br></div><di=
-v class=3D"gmail_default" style=3D"font-size:small">So we should tweak libv=
-irt to use ${libdir} and not the hardcoded /user/lib (which it never really=
- should have been), and package anything that gets installed into sysctl.d/=
-</div><div class=3D"gmail_default" style=3D"font-size:small"><br></div><div=
- class=3D"gmail_default" style=3D"font-size:small">It isn&#39;t clear that =
-this particular .conf belongs in libvirtd, but it is just as good there, as=
- in the libvirt-python.</div><div class=3D"gmail_default" style=3D"font-siz=
-e:small"><br></div><div class=3D"gmail_default" style=3D"font-size:small">I=
-&#39;ll do some tests in the non-multiconfig configuration to ensure that e=
-verything still packages properly.</div><div class=3D"gmail_default" style=
-=3D"font-size:small"><br></div><div class=3D"gmail_default" style=3D"font-s=
-ize:small">Bruce</div><br></div><div>=C2=A0</div><blockquote class=3D"gmail=
-_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204=
-,204);padding-left:1ex"><div lang=3D"EN-US" style=3D"overflow-wrap: break-w=
-ord;"><div class=3D"gmail-m_2162310242523886326WordSection1"><p class=3D"Ms=
-oNormal"><u></u><u></u></p>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-<p class=3D"MsoNormal">Regards,<u></u><u></u></p>
-<p class=3D"MsoNormal">Qi<u></u><u></u></p>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-<div style=3D"border-right:none;border-bottom:none;border-left:none;border-=
-top:1pt solid rgb(225,225,225);padding:3pt 0in 0in">
-<p class=3D"MsoNormal"><b>From:</b> <a href=3D"mailto:meta-virtualization@l=
-ists.yoctoproject.org" target=3D"_blank">meta-virtualization@lists.yoctopro=
-ject.org</a> &lt;<a href=3D"mailto:meta-virtualization@lists.yoctoproject.o=
-rg" target=3D"_blank">meta-virtualization@lists.yoctoproject.org</a>&gt;
-<b>On Behalf Of </b>Bruce Ashfield<br>
-<b>Sent:</b> Monday, April 11, 2022 8:44 PM<br>
-<b>To:</b> <a href=3D"mailto:preeti.sachan@intel.com" target=3D"_blank">pre=
-eti.sachan@intel.com</a><br>
-<b>Cc:</b> <a href=3D"mailto:meta-virtualization@lists.yoctoproject.org" ta=
-rget=3D"_blank">meta-virtualization@lists.yoctoproject.org</a><br>
-<b>Subject:</b> Re: [meta-virtualization] [PATCH] libvirt: fix do_package i=
-ssue<u></u><u></u></p>
-</div>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-<div>
-<div>
-<div>
-<p class=3D"MsoNormal"><span style=3D"font-size:12pt">There&#39;s definitel=
-y something different=C2=A0in your configuration, so that needs to be under=
-stood first.<u></u><u></u></span></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><span style=3D"font-size:12pt"><u></u>=C2=A0<u></u><=
-/span></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><span style=3D"font-size:12pt">That file is packaged=
- as part of libvirt-python here, and should be the same for others, as I ha=
-ven&#39;t had any reports of failures.<u></u><u></u></span></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><span style=3D"font-size:12pt"><u></u>=C2=A0<u></u><=
-/span></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><span style=3D"font-size:12pt">You have a multiconfi=
-g in play. Anything=C2=A0else ? What is your init system ? Any bbappends in=
- play ?<u></u><u></u></span></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><span style=3D"font-size:12pt"><u></u>=C2=A0<u></u><=
-/span></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><span style=3D"font-size:12pt">Bruce<u></u><u></u></=
-span></p>
-</div>
-</div>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-<div>
-<div>
-<p class=3D"MsoNormal">On Sun, Apr 10, 2022 at 11:49 PM &lt;<a href=3D"mail=
-to:preeti.sachan@intel.com" target=3D"_blank">preeti.sachan@intel.com</a>&g=
-t; wrote:<u></u><u></u></p>
-</div>
-<blockquote style=3D"border-top:none;border-right:none;border-bottom:none;b=
-order-left:1pt solid rgb(204,204,204);padding:0in 0in 0in 6pt;margin-left:4=
-.8pt;margin-right:0in">
-<div>
-<p class=3D"MsoNormal">ERROR: mc:x86-2020:libvirt-8.1.0-r0 do_package: QA I=
-ssue: libvirt: Files/directories were installed but not shipped in any pack=
-age:<u></u><u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal">=C2=A0 /usr/lib/sysctl.d/60-qemu-postcopy-migration.=
-conf<u></u><u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal">Please set FILES such that these items are packaged.=
- Alternatively if they are unneeded, avoid installing them or delete them w=
-ithin do_install.<u></u><u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal">libvirt: 1 installed and not shipped files. [install=
-ed-vs-shipped]<u></u><u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal">ERROR: mc:x86-2020:libvirt-8.1.0-r0 do_package: Fata=
-l QA errors were found, failing task.<u></u><u></u></p>
-</div>
-<p class=3D"MsoNormal" style=3D"margin-bottom:12pt"><br>
-<br>
-<u></u><u></u></p>
-</blockquote>
-</div>
-<p class=3D"MsoNormal"><br clear=3D"all">
-<u></u><u></u></p>
-<div>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-</div>
-<p class=3D"MsoNormal">-- <u></u><u></u></p>
-<div>
-<p class=3D"MsoNormal" style=3D"margin-bottom:12pt">- Thou shalt not follow=
- the NULL pointer, for chaos and madness await thee at its end<br>
-- &quot;Use the force Harry&quot; - Gandalf, Star Trek II<u></u><u></u></p>
-</div>
-</div>
-</div>
-</div>
-
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature">- Thou shalt not follow the NULL pointer, for ch=
-aos and madness await thee at its end<br>- &quot;Use the force Harry&quot; =
-- Gandalf, Star Trek II<br><br></div></div>
-
---000000000000cc6ced05dc609978--
+--_000_CO6PR11MB5602540494F72070D6315A30EDEA9CO6PR11MB5602namp_--
 
