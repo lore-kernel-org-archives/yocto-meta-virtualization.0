@@ -1,175 +1,408 @@
-Return-Path: <Qi.Chen@windriver.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C6562C6369B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6A1FC636CF
 	for <webhook@archiver.kernel.org>; Mon, 11 Apr 2022 17:18:00 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com
- [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web09.29223.1649683779855194754
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com
+ [209.85.218.42])
+ by mx.groups.io with SMTP id smtpd.web09.29206.1649683694540807473
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 11 Apr 2022 06:29:40 -0700
+ Mon, 11 Apr 2022 06:28:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=CEw/AVWj;
- spf=permerror,
- err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}:
- invalid domain name (domain: windriver.com, ip: 205.220.166.238,
- mailfrom: prvs=1100a70fa3=qi.chen@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id
- 23BCuWdt026239
-	for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 11 Apr 2022 06:29:39 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
- h=from : to :
- subject : date : message-id : content-transfer-encoding : content-type :
- mime-version; s=PPS06212021;
- bh=WGolH9DX7yYaImaIOwQcNB41ieb3noY3U1fTAnu22o8=;
- b=CEw/AVWj2SurMGopZ1Oeb4huLh7Kn2mn4rdqYBQieBJ38pEgqAPW9Ka/xbz3e46D5lOR
- G99rWx+Z4qQIdj72jE7ZWxBtZlmFV4QnMWzBEyUkgI1C6Nsrl5UTgaAu3Cn2seit4rTJ
- h6MLs1M7fLplqw9vu1KtPqPz8HJ1g1eoHiF5XpCZExR5zstqvW46uarXhLPk0vNpTN/V
- KWhSz2/9HKRVr9Gp/g93HaTvPAQFP1j3WAUqc/G13L0MatX4nnmodGFYBcY+8JMcO/iw
- dL50n2D88Cwg4Hx3UwPxSKUwWjc5KrjJGngLtWJbhxjJ/lQbNbumI69BbRTWHzuO9LGo bw==
-Received: from nam10-mw2-obe.outbound.protection.outlook.com
- (mail-mw2nam10lp2109.outbound.protection.outlook.com [104.47.55.109])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3fb9nfs8hf-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 11 Apr 2022 06:29:38 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UcF0F8a4x5BxD9Gfa/4p7AYRHSXzzDkbBAYOmv3L0np941u3DLV18LEJEzS1S8b/nyuzPhuzd1xx5ztWHxzHoTkCDUVnflyUbKy1fLFBmWvylBqIuwaemfrdLUGWQzaJbur9kG9hbzV516txuaA8cNL2IprSQVKu0zBqEWokJ5Mx5R8eJwqxnBAAscSTZywN6S4v2dqYOW0u3nLgwVRNVy2ag6hEOf9dWKyJs8G0bbUA90HmrwxCgkK06zy0k9N/lJ8724dBXLf0HfgAiVX41DLH+OCu+G6LNFi1aXWszvP2xR79lTVZiVnTh8BdoW0ijfxRQc1OCSnLgdMF5REENQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WGolH9DX7yYaImaIOwQcNB41ieb3noY3U1fTAnu22o8=;
- b=kV13vBK/hGstOqKV5ParetcqIsIGczGF40+9JTjIYFSaqGBTz9huELMQHLhfH5h/wDvmllpSuHaL7ijbatmoXm2PLUqYY+lrN0cJmRwH1LRHfa8JvAuGLtm0HPWffXsvwz2pmh3zdcFSUqipxTIfjZkDlf9cM5k82q7nMBSzvR4rK3EgOlxt1/fLNtgL0PK9uCm79am9ubQkpWgmNNJvZUWXXFRnRx2nEfq5ZsN6RO36tfZiLnUbQvCrM1wYyMyhdr8XMJ1wSA0JzGL6ktXBu0QwImjb5bkV2BpMRTawaL8X+afSrmGc/cL4JPm2w+hU+VebkTMLJc4FrGARzLeemA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
- by LV2PR11MB6024.namprd11.prod.outlook.com (2603:10b6:408:17a::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5144.29; Mon, 11 Apr
- 2022 13:29:37 +0000
-Received: from CO6PR11MB5602.namprd11.prod.outlook.com
- ([fe80::f0d0:2344:b876:db97]) by CO6PR11MB5602.namprd11.prod.outlook.com
- ([fe80::f0d0:2344:b876:db97%7]) with mapi id 15.20.5144.029; Mon, 11 Apr 2022
- 13:29:37 +0000
-From: Chen Qi <Qi.Chen@windriver.com>
-To: meta-virtualization@lists.yoctoproject.org
-Subject: [meta-virtualization][PATCH] libvirt: package all sysctl conf files
- for libvirtd
-Date: Mon, 11 Apr 2022 06:29:21 -0700
-Message-Id: <20220411132921.35512-1-Qi.Chen@windriver.com>
-X-Mailer: git-send-email 2.33.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SJ0PR03CA0356.namprd03.prod.outlook.com
- (2603:10b6:a03:39c::31) To CO6PR11MB5602.namprd11.prod.outlook.com
- (2603:10b6:303:13a::5)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=eTgs2ieI;
+ spf=pass (domain: gmail.com, ip: 209.85.218.42,
+ mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ej1-f42.google.com with SMTP id lc2so10305545ejb.12
+        for <meta-virtualization@lists.yoctoproject.org>;
+ Mon, 11 Apr 2022 06:28:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=OOg/hePL3n+Y+gdrv78ZWYRBUwW7LGSmDmIe3sl5llE=;
+        b=eTgs2ieITmuURDOwt8e7XIruwkC+02fqqjgqCsZ1HUgJwJYe9pwN8zJX7BjtysFMXn
+         SaZG4zv+HwFJ/uFWsBf0XyHxyhHJdhYKW6c3FDUzAg2Yfcp2v/PCK0znnoVmuTYp0bGD
+         iS8eiFv5bg2UGffj4LTnek28QQ8x2cvgL1Ij8QnVVDXQoeQcRjKzhm4iQfZ/ONLX4Dr3
+         Wm5tE9fKedrx5s14IHq5qy23Gmmp9KT0fsTCN0NN9+VUVmuvG/PQIqnJogTwOUGOe2a7
+         g01J6/QCPHhmHQVxgUNT3qYAPcGrlls+JGE1LnNYlvqwUheGRIXDidPKK9ny0wDgN5bL
+         dt6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=OOg/hePL3n+Y+gdrv78ZWYRBUwW7LGSmDmIe3sl5llE=;
+        b=jOU5ZPnJ3cs2HW5K243qN8OWVA1qWtjREqNjf0458M+dQxs+emssvUCuAeGAt1qmlv
+         vnzjHQCxsuamGP6R2wjkMdm7anu1t4eyWTbWdsAQb4NCjcFMNdKCsEPJAnJB0hMXz/QC
+         dLQm3wAwDJWRvgMn6MFR/el90T6J4YbkptjSzeEX5r3hL1Vz8yAkS13t1Ry7exg1wLgx
+         2qCAVVyEo9lI+1TFxJnmyQpAROJ4rmluWTq4eCkKWKR1HmjZ/JX3Lt99yguh5IrS+qZk
+         EyXwYGc6SapQlzytqVKQFGfHIBpBfzce2NIHmbfV+0HNAdjOhqhjEhNzXUJJ/ysUi7oy
+         0Frg==
+X-Gm-Message-State: AOAM530offwYmcrkLMa5ywVhBUNiZiTpfESwGCdujhubOAipOWVnjLrF
+	TgxFQD85ylyHiZzDDTY2osEE5bvG3ZAhWi65xws=
+X-Google-Smtp-Source: 
+ ABdhPJysxktmtabymvpIoPsiRyCy35VqY/qyW/zgmYm7hhxnjHg/Q+UOl/uHf71YV8tss3v2Tuy9SIq0tJl3SMYPW5I=
+X-Received: by 2002:a17:907:d23:b0:6db:6c6:8558 with SMTP id
+ gn35-20020a1709070d2300b006db06c68558mr29415776ejc.141.1649683692976; Mon, 11
+ Apr 2022 06:28:12 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a7929c9d-667d-46f9-a780-08da1bbf52c3
-X-MS-TrafficTypeDiagnostic: LV2PR11MB6024:EE_
-X-Microsoft-Antispam-PRVS: 
-	<LV2PR11MB6024EDDA18856F0061B59EB0EDEA9@LV2PR11MB6024.namprd11.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	Cxlnnzq0ddTFqc4XeJ59ecxxzTm1KYDp27AiWXhWFkJJbBmZy+9+IwkNEYWnhS6f37BcopEYmo7+vXLbLJEf0rRRq8iXLtCB647E4mQFPxQpwvF07Koc87Em4UQodXV+xlel1KpZwEYU06MpNor4y4i1s4EpIpyQrndkgk2tcSj53TNlBEZtRHTd/gTERAK4qgRh1z/x1fxxhcYHvkpO9fWl/2ktThfSv7DZMWW/t0Re9xgCzMw0ZsAWAW37fWcqLsQTkBUF1jssFBM55zu68jWwzcRxlYf02TPSNNnr9uG72IDr7PlY7xpFaWLAehNHuoUyjBh4Mi/b42Mp9RV9YFbZ14YmKWRT9DxIAQaVDpZbjSdrTjsqtjwHQYKlDKJ8WsBobHoSP62FzICFhnBZ+W9t9pbJqEnbsJibCrE4Z8Nr6dCYptFLSxOWXAfSG+gGygkzA8filnzDKi9FVwF2TlOkQbX2AJCEpHS3cA55KaMoW8ttEepX6UKAIp8IAnCe/tYkbUe0stwp0pZK7ziVeaSqiGLDdjoqEw4LHZcEcdlgjFs0BFXBZKugQhA08B5QQQjziwZPwVgcXISXRNxJrFNSyyqPcKbTAuGFTw29pngtnrnzWRREIREy9XPkGC7C7IeiIrr3fYP+u8Lob5CgJ5POkThx8JLlh4iPWeHt76iBSFH4iH0r8r25sXHdrgU5L6JQ7j37Xh3vb9cAkZ2VqA==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(2616005)(38350700002)(38100700002)(6486002)(6916009)(6666004)(2906002)(6512007)(508600001)(316002)(5660300002)(52116002)(6506007)(1076003)(26005)(186003)(36756003)(66556008)(66946007)(8676002)(8936002)(66476007)(83380400001)(86362001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?tup/mrkawrvZjNs3I928Cbvjn3SMb/p0txFlLW1ApYKopEs3+6oxWHtubrwK?=
- =?us-ascii?Q?K9UbbYk+Fk1wR4K8ykEkiB61Qt4oKYLHfIcni7pzwBRBxUVAq3nEY3LOlEiK?=
- =?us-ascii?Q?nOQDz4hSqoleyEdQ7Aer51Jzy/37+Py6fQlZ6DnHMui3IC/cCoEYStSzH/BZ?=
- =?us-ascii?Q?/UTFiz1q0nKPApEXkEmjeg6oR+gjo6Ok/p3FwTHmWdtx2DwO5pbLqm+JsGNY?=
- =?us-ascii?Q?zcCRGiGF5fgv1WczY9e5I0Sx/LlgSWyULt9DxJKN95aEbwYpoDGOI/tycS8v?=
- =?us-ascii?Q?W65UChogqlIeQuUWmAGP/ZOlYTzoPFMbzbyNfKsN0lYJgnZgfaZD3FodUVKR?=
- =?us-ascii?Q?GFh8BrDGRrGKRK/mnzdhfa/ydJJVnfblpkaP29rqvCjaNXnx1pXw4NqSAdRY?=
- =?us-ascii?Q?wMOEP6XnJqFKM+2opSaU8LG1zX/opO7HpMcKYrKNLhJPXvfbdEqkQ02WQK9U?=
- =?us-ascii?Q?dUGsuNWITNSFbQ/vc3LqqgrKfI3NjR3h8ewwCNFsKtxaRwiRo8Yz/PDT1T1C?=
- =?us-ascii?Q?xOwoG2FRHmGGj1CE9IwfIeDKyy2gSrYmaroX0gHynwxgcsB/iDkqpt2BRZTq?=
- =?us-ascii?Q?dk+eHC/+8DY1H4XlBtwFoV7W/4OvOTrirwBA9H79nuDoNGRzejWtammyryKm?=
- =?us-ascii?Q?BVYzVSGrzPeeH6Jtzxn1ydziZh2ke62GVYUT03FG3WX/OJEPuFiuBkt+ODIo?=
- =?us-ascii?Q?bXrN286+W0SIx4l8M4clZfc89s0vpkZtwhgHPU3DoVpZj7klhvBr/gkk06An?=
- =?us-ascii?Q?1jDmejB9/bU7eOsAcczXZ17/nKcKxH1eVYacI4XbBAujbrAUPtWeWPecC2nP?=
- =?us-ascii?Q?2CvHutwMh8ltlRHgwy+A8wyHTqnqyeV+bO74vUFvr9IddhhN6h+10Uto0HHM?=
- =?us-ascii?Q?z7hykHAY30D7sEYiAOk+WUVBolG0EfUA2yLc/RLPdd3Pjqqt52q96wT6Uwdk?=
- =?us-ascii?Q?lCis62KymOxb9cSgMeluatfTg6+4AetsfEKLFPmdc8R45BXAzqVvsiikcZ64?=
- =?us-ascii?Q?sYrZtuhgtiZIgUThvRXr4lVOofxE2vSiDyCTA2g5tc7XYMuqnAkf/GsVdpkA?=
- =?us-ascii?Q?OKUBVObAekNVTdoWq8Me5JNiBZt9JjBavd/BM3at69mzp1uxX1edFDeI2gEO?=
- =?us-ascii?Q?0tQLnM6+ONjxD2sfCuqzwJlOa8xfw41dUUuCZ9JwHX7D4effJozxf2iF7aeW?=
- =?us-ascii?Q?NjQf4uX4v81ztsX9i+py2LS65MK8Edm6QAy/3nmnwb8/2yi3ezlL11cBQLvT?=
- =?us-ascii?Q?lXND/SiXJo2bBp01wvd4T4FPw7dUX/13eu+xi61GerRXQjNnaBj3eq/CcEZn?=
- =?us-ascii?Q?fVWxBj6Jt+rs9/Ld/CxCc+cW6bLC/G7tKjnwai85SnvZNCI2gbwDTvhFNj5k?=
- =?us-ascii?Q?Ey7U/fuxcywaRRYjeLp2lw4c/m6LCx2nkaZXSl9l3LkBuJPO11Oj1BuqMTzM?=
- =?us-ascii?Q?J/o67yiI7E9WlVdsEHw719JYT3vE0AfetWJ2VsQXX4Ffxz9VeW/tU03oVPi/?=
- =?us-ascii?Q?4AIQTyVbqTl7npl35pGW0J/NXdCXXZ1/FBKZH8TJgWvNPKv1p4dfxdjAcveA?=
- =?us-ascii?Q?jzij6WYZvWPJhUBdgCKaiOb00SKaVg4Ul34EIrZuHcOFCcm3wC5LSxGXhNh5?=
- =?us-ascii?Q?s5eb4UjAfgvgVqenWJ97dGXbcnb9o+FfNZHWzKx4Rv49PUK5ZvFJBE2V3EId?=
- =?us-ascii?Q?/ULS0UFIVKLrF20UV7zNH5x5aX8L5WDoZop1V81XW0LjmrLxNVJVa2uzFcSm?=
- =?us-ascii?Q?qraj6KtlxaPw2e7Jv+BMiOqQFMAytNw=3D?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 
- a7929c9d-667d-46f9-a780-08da1bbf52c3
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Apr 2022 13:29:36.9791
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 
- 8tv38DIxSfsSCUkcrxFVjOJ/1SLZfk7g4L8aSzpH33yOcSBUcQqkq+jBf5FcHLwkkHTWETjDR9ECFnglKb/+Dw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR11MB6024
-X-Proofpoint-ORIG-GUID: G_68mY4X3MUhOOv89S6aqp1GUbOMryvM
-X-Proofpoint-GUID: G_68mY4X3MUhOOv89S6aqp1GUbOMryvM
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.425,FMLib:17.11.64.514
- definitions=2022-04-11_05,2022-04-11_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 mlxscore=0
- mlxlogscore=737 bulkscore=0 adultscore=0 impostorscore=0 malwarescore=0
- clxscore=1015 phishscore=0 priorityscore=1501 suspectscore=0 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
- definitions=main-2204110074
+References: 
+ <CADkTA4MBM_yP+DyR4=mS0K06JzACmJZP5v0E_hG0c+9e=ypikw@mail.gmail.com>
+ <4446.1649648962103104390@lists.yoctoproject.org>
+ <CADkTA4Nh0273C0r2g1ieTAwN3bnYw+RbLM0CQNz1HMPOzxz9rA@mail.gmail.com>
+ <CO6PR11MB5602540494F72070D6315A30EDEA9@CO6PR11MB5602.namprd11.prod.outlook.com>
+ <16E4D95942C915B5.9240@lists.yoctoproject.org>
+In-Reply-To: <16E4D95942C915B5.9240@lists.yoctoproject.org>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Mon, 11 Apr 2022 09:28:01 -0400
+Message-ID: 
+ <CADkTA4N0Ku1JqZyFCYfyiJS_CFk5ZCkHROguLKqLuOdWhKVcmw@mail.gmail.com>
+Subject: Re: [meta-virtualization] [PATCH] libvirt: fix do_package issue
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: "Chen, Qi" <Qi.Chen@windriver.com>,
+	"preeti.sachan@intel.com" <preeti.sachan@intel.com>,
+	"meta-virtualization@lists.yoctoproject.org"
+ <meta-virtualization@lists.yoctoproject.org>
+Content-Type: multipart/alternative; boundary="00000000000082fe2a05dc60eaf3"
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <meta-virtualization@lists.yoctoproject.org>; Mon, 11 Apr 2022 17:18:00 -0000
 X-Groupsio-URL: 
- https://lists.yoctoproject.org/g/meta-virtualization/message/7155
+ https://lists.yoctoproject.org/g/meta-virtualization/message/7154
 
-The libvirtd package has already packaged ${sysconfdir}/sysctl.d,
-and also the /usr/lib/sysctl.d/60-libvirtd.conf, it would be
-reasonable for it to package other sysctl conf files, otherwise
-we will meet the following error in case of multilib.
+--00000000000082fe2a05dc60eaf3
+Content-Type: text/plain; charset="UTF-8"
 
-  QA Issue: libvirt: Files/directories were installed but not shipped in any package:
-    /usr/lib/sysctl.d/60-qemu-postcopy-migration.conf
+On Mon, Apr 11, 2022 at 9:05 AM Bruce Ashfield via lists.yoctoproject.org
+<bruce.ashfield=gmail.com@lists.yoctoproject.org> wrote:
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- recipes-extended/libvirt/libvirt_8.1.0.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+>
+>
+> On Mon, Apr 11, 2022 at 9:01 AM Chen, Qi <Qi.Chen@windriver.com> wrote:
+>
+>> Hi Bruce & Preeti,
+>>
+>>
+>>
+>> I was trying to fix the same issue when I found this thread.
+>>
+>> This issue appears when multilib is enabled.
+>>
+>>
+>>
+>> When multilib is disabled, ${libdir} is /usr/lib, thus packaging the file
+>> into libvirt-python.
+>>
+>> When multilib is enabled, ${libdir} is /usr/lib64, and the file is not
+>> packaged.
+>>
+>
+> Aha. Right you are.
+>
+> So we should tweak libvirt to use ${libdir} and not the hardcoded
+> /user/lib (which it never really should have been), and package anything
+> that gets installed into sysctl.d/
+>
+> It isn't clear that this particular .conf belongs in libvirtd, but it is
+> just as good there, as in the libvirt-python.
+>
+> I'll do some tests in the non-multiconfig configuration to ensure that
+> everything still packages properly.
+>
 
-diff --git a/recipes-extended/libvirt/libvirt_8.1.0.bb b/recipes-extended/libvirt/libvirt_8.1.0.bb
-index b90fb704..433601c6 100644
---- a/recipes-extended/libvirt/libvirt_8.1.0.bb
-+++ b/recipes-extended/libvirt/libvirt_8.1.0.bb
-@@ -62,7 +62,7 @@ FILES:${PN}-libvirtd = " \
- 	${sysconfdir}/sysctl.d \
- 	${sysconfdir}/logrotate.d \
- 	${sysconfdir}/libvirt/libvirtd.conf \
--        /usr/lib/sysctl.d/60-libvirtd.conf \
-+        /usr/lib/sysctl.d/ \
- 	${sbindir}/libvirtd \
- 	${systemd_system_unitdir} \
- 	${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', '', '${libexecdir}/libvirt-guests.sh', d)} \
+I've pushed my WIP patch here:
+
+https://git.yoctoproject.org/meta-virtualization/commit/?h=master-next
+
+Bruce
+
+
+
+>
+> Bruce
+>
+>
+>
+>>
+>>
+>> Regards,
+>>
+>> Qi
+>>
+>>
+>>
+>> *From:* meta-virtualization@lists.yoctoproject.org <
+>> meta-virtualization@lists.yoctoproject.org> *On Behalf Of *Bruce Ashfield
+>> *Sent:* Monday, April 11, 2022 8:44 PM
+>> *To:* preeti.sachan@intel.com
+>> *Cc:* meta-virtualization@lists.yoctoproject.org
+>> *Subject:* Re: [meta-virtualization] [PATCH] libvirt: fix do_package
+>> issue
+>>
+>>
+>>
+>> There's definitely something different in your configuration, so that
+>> needs to be understood first.
+>>
+>>
+>>
+>> That file is packaged as part of libvirt-python here, and should be the
+>> same for others, as I haven't had any reports of failures.
+>>
+>>
+>>
+>> You have a multiconfig in play. Anything else ? What is your init system
+>> ? Any bbappends in play ?
+>>
+>>
+>>
+>> Bruce
+>>
+>>
+>>
+>> On Sun, Apr 10, 2022 at 11:49 PM <preeti.sachan@intel.com> wrote:
+>>
+>> ERROR: mc:x86-2020:libvirt-8.1.0-r0 do_package: QA Issue: libvirt:
+>> Files/directories were installed but not shipped in any package:
+>>
+>>   /usr/lib/sysctl.d/60-qemu-postcopy-migration.conf
+>>
+>> Please set FILES such that these items are packaged. Alternatively if
+>> they are unneeded, avoid installing them or delete them within do_install.
+>>
+>> libvirt: 1 installed and not shipped files. [installed-vs-shipped]
+>>
+>> ERROR: mc:x86-2020:libvirt-8.1.0-r0 do_package: Fatal QA errors were
+>> found, failing task.
+>>
+>>
+>>
+>>
+>>
+>>
+>> --
+>>
+>> - Thou shalt not follow the NULL pointer, for chaos and madness await
+>> thee at its end
+>> - "Use the force Harry" - Gandalf, Star Trek II
+>>
+>
+>
+> --
+> - Thou shalt not follow the NULL pointer, for chaos and madness await thee
+> at its end
+> - "Use the force Harry" - Gandalf, Star Trek II
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#7153):
+> https://lists.yoctoproject.org/g/meta-virtualization/message/7153
+> Mute This Topic: https://lists.yoctoproject.org/mt/90385357/1050810
+> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [
+> bruce.ashfield@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+>
+
 -- 
-2.33.0
+- Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
+--00000000000082fe2a05dc60eaf3
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
+t-size:small"><br></div></div><br><div class=3D"gmail_quote"><div dir=3D"lt=
+r" class=3D"gmail_attr">On Mon, Apr 11, 2022 at 9:05 AM Bruce Ashfield via =
+<a href=3D"http://lists.yoctoproject.org">lists.yoctoproject.org</a> &lt;br=
+uce.ashfield=3D<a href=3D"mailto:gmail.com@lists.yoctoproject.org">gmail.co=
+m@lists.yoctoproject.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail=
+_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204=
+,204);padding-left:1ex"><div dir=3D"ltr"><div dir=3D"ltr"><div style=3D"fon=
+t-size:small"><br></div></div><br><div class=3D"gmail_quote"><div dir=3D"lt=
+r" class=3D"gmail_attr">On Mon, Apr 11, 2022 at 9:01 AM Chen, Qi &lt;<a hre=
+f=3D"mailto:Qi.Chen@windriver.com" target=3D"_blank">Qi.Chen@windriver.com<=
+/a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0=
+px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+
+
+
+
+
+<div lang=3D"EN-US">
+<div>
+<p class=3D"MsoNormal">Hi Bruce &amp; Preeti,<u></u><u></u></p>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<p class=3D"MsoNormal">I was trying to fix the same issue when I found this=
+ thread.<u></u><u></u></p>
+<p class=3D"MsoNormal">This issue appears when multilib is enabled.<u></u><=
+u></u></p>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<p class=3D"MsoNormal">When multilib is disabled, ${libdir} is /usr/lib, th=
+us packaging the file into libvirt-python.<u></u><u></u></p>
+<p class=3D"MsoNormal">When multilib is enabled, ${libdir} is /usr/lib64, a=
+nd the file is not packaged.</p></div></div></blockquote><div><br></div><di=
+v><div style=3D"font-size:small">Aha. Right you are.</div><div style=3D"fon=
+t-size:small"><br></div><div style=3D"font-size:small">So we should tweak l=
+ibvirt to use ${libdir} and not the hardcoded /user/lib (which it never rea=
+lly should have been), and package anything that gets installed into sysctl=
+.d/</div><div style=3D"font-size:small"><br></div><div style=3D"font-size:s=
+mall">It isn&#39;t clear that this particular .conf belongs in libvirtd, bu=
+t it is just as good there, as in the libvirt-python.</div><div style=3D"fo=
+nt-size:small"><br></div><div style=3D"font-size:small">I&#39;ll do some te=
+sts in the non-multiconfig configuration to ensure that everything still pa=
+ckages properly.</div></div></div></div></blockquote><div><br></div><div><d=
+iv class=3D"gmail_default" style=3D"font-size:small">I&#39;ve pushed my WIP=
+ patch here:</div><div class=3D"gmail_default" style=3D"font-size:small"><b=
+r></div><div class=3D"gmail_default" style=3D"font-size:small"><a href=3D"h=
+ttps://git.yoctoproject.org/meta-virtualization/commit/?h=3Dmaster-next">ht=
+tps://git.yoctoproject.org/meta-virtualization/commit/?h=3Dmaster-next</a><=
+/div><div class=3D"gmail_default" style=3D"font-size:small"><br></div><div =
+class=3D"gmail_default" style=3D"font-size:small">Bruce</div><br></div><div=
+>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
+0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"=
+ltr"><div class=3D"gmail_quote"><div><div style=3D"font-size:small"><br></d=
+iv><div style=3D"font-size:small">Bruce</div><br></div><div>=C2=A0</div><bl=
+ockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-lef=
+t:1px solid rgb(204,204,204);padding-left:1ex"><div lang=3D"EN-US"><div><p =
+class=3D"MsoNormal"><u></u><u></u></p>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<p class=3D"MsoNormal">Regards,<u></u><u></u></p>
+<p class=3D"MsoNormal">Qi<u></u><u></u></p>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<div style=3D"border-right:none;border-bottom:none;border-left:none;border-=
+top:1pt solid rgb(225,225,225);padding:3pt 0in 0in">
+<p class=3D"MsoNormal"><b>From:</b> <a href=3D"mailto:meta-virtualization@l=
+ists.yoctoproject.org" target=3D"_blank">meta-virtualization@lists.yoctopro=
+ject.org</a> &lt;<a href=3D"mailto:meta-virtualization@lists.yoctoproject.o=
+rg" target=3D"_blank">meta-virtualization@lists.yoctoproject.org</a>&gt;
+<b>On Behalf Of </b>Bruce Ashfield<br>
+<b>Sent:</b> Monday, April 11, 2022 8:44 PM<br>
+<b>To:</b> <a href=3D"mailto:preeti.sachan@intel.com" target=3D"_blank">pre=
+eti.sachan@intel.com</a><br>
+<b>Cc:</b> <a href=3D"mailto:meta-virtualization@lists.yoctoproject.org" ta=
+rget=3D"_blank">meta-virtualization@lists.yoctoproject.org</a><br>
+<b>Subject:</b> Re: [meta-virtualization] [PATCH] libvirt: fix do_package i=
+ssue<u></u><u></u></p>
+</div>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<div>
+<div>
+<div>
+<p class=3D"MsoNormal"><span style=3D"font-size:12pt">There&#39;s definitel=
+y something different=C2=A0in your configuration, so that needs to be under=
+stood first.<u></u><u></u></span></p>
+</div>
+<div>
+<p class=3D"MsoNormal"><span style=3D"font-size:12pt"><u></u>=C2=A0<u></u><=
+/span></p>
+</div>
+<div>
+<p class=3D"MsoNormal"><span style=3D"font-size:12pt">That file is packaged=
+ as part of libvirt-python here, and should be the same for others, as I ha=
+ven&#39;t had any reports of failures.<u></u><u></u></span></p>
+</div>
+<div>
+<p class=3D"MsoNormal"><span style=3D"font-size:12pt"><u></u>=C2=A0<u></u><=
+/span></p>
+</div>
+<div>
+<p class=3D"MsoNormal"><span style=3D"font-size:12pt">You have a multiconfi=
+g in play. Anything=C2=A0else ? What is your init system ? Any bbappends in=
+ play ?<u></u><u></u></span></p>
+</div>
+<div>
+<p class=3D"MsoNormal"><span style=3D"font-size:12pt"><u></u>=C2=A0<u></u><=
+/span></p>
+</div>
+<div>
+<p class=3D"MsoNormal"><span style=3D"font-size:12pt">Bruce<u></u><u></u></=
+span></p>
+</div>
+</div>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<div>
+<div>
+<p class=3D"MsoNormal">On Sun, Apr 10, 2022 at 11:49 PM &lt;<a href=3D"mail=
+to:preeti.sachan@intel.com" target=3D"_blank">preeti.sachan@intel.com</a>&g=
+t; wrote:<u></u><u></u></p>
+</div>
+<blockquote style=3D"border-top:none;border-right:none;border-bottom:none;b=
+order-left:1pt solid rgb(204,204,204);padding:0in 0in 0in 6pt;margin-left:4=
+.8pt;margin-right:0in">
+<div>
+<p class=3D"MsoNormal">ERROR: mc:x86-2020:libvirt-8.1.0-r0 do_package: QA I=
+ssue: libvirt: Files/directories were installed but not shipped in any pack=
+age:<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">=C2=A0 /usr/lib/sysctl.d/60-qemu-postcopy-migration.=
+conf<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">Please set FILES such that these items are packaged.=
+ Alternatively if they are unneeded, avoid installing them or delete them w=
+ithin do_install.<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">libvirt: 1 installed and not shipped files. [install=
+ed-vs-shipped]<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">ERROR: mc:x86-2020:libvirt-8.1.0-r0 do_package: Fata=
+l QA errors were found, failing task.<u></u><u></u></p>
+</div>
+<p class=3D"MsoNormal" style=3D"margin-bottom:12pt"><br>
+<br>
+<u></u><u></u></p>
+</blockquote>
+</div>
+<p class=3D"MsoNormal"><br clear=3D"all">
+<u></u><u></u></p>
+<div>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+</div>
+<p class=3D"MsoNormal">-- <u></u><u></u></p>
+<div>
+<p class=3D"MsoNormal" style=3D"margin-bottom:12pt">- Thou shalt not follow=
+ the NULL pointer, for chaos and madness await thee at its end<br>
+- &quot;Use the force Harry&quot; - Gandalf, Star Trek II<u></u><u></u></p>
+</div>
+</div>
+</div>
+</div>
+
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
+>- Thou shalt not follow the NULL pointer, for chaos and madness await thee=
+ at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star Trek II<br=
+><br></div></div>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#7153): <a href=3D"https://lists.yoctoproject.org/g/meta=
+-virtualization/message/7153" rel=3D"noreferrer" target=3D"_blank">https://=
+lists.yoctoproject.org/g/meta-virtualization/message/7153</a><br>
+Mute This Topic: <a href=3D"https://lists.yoctoproject.org/mt/90385357/1050=
+810" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.org/mt=
+/90385357/1050810</a><br>
+Group Owner: <a href=3D"mailto:meta-virtualization%2Bowner@lists.yoctoproje=
+ct.org" target=3D"_blank">meta-virtualization+owner@lists.yoctoproject.org<=
+/a><br>
+Unsubscribe: <a href=3D"https://lists.yoctoproject.org/g/meta-virtualizatio=
+n/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.or=
+g/g/meta-virtualization/unsub</a> [<a href=3D"mailto:bruce.ashfield@gmail.c=
+om" target=3D"_blank">bruce.ashfield@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
+ class=3D"gmail_signature">- Thou shalt not follow the NULL pointer, for ch=
+aos and madness await thee at its end<br>- &quot;Use the force Harry&quot; =
+- Gandalf, Star Trek II<br><br></div></div>
+
+--00000000000082fe2a05dc60eaf3--
 
