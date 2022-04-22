@@ -2,513 +2,192 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B1B4C4707A
-	for <webhook@archiver.kernel.org>; Thu, 21 Apr 2022 16:46:13 +0000 (UTC)
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com
- [209.85.218.51])
- by mx.groups.io with SMTP id smtpd.web11.23301.1650557035702384298
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DCDE5C35295
+	for <webhook@archiver.kernel.org>; Fri, 22 Apr 2022 16:51:59 +0000 (UTC)
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com
+ [209.85.218.43])
+ by mx.groups.io with SMTP id smtpd.web09.3806.1650595374942571105
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 21 Apr 2022 09:03:56 -0700
+ Thu, 21 Apr 2022 19:42:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=pzUP/af6;
- spf=pass (domain: gmail.com, ip: 209.85.218.51,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=m8GV/KCU;
+ spf=pass (domain: gmail.com, ip: 209.85.218.43,
  mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ej1-f51.google.com with SMTP id i27so10964961ejd.9
+Received: by mail-ej1-f43.google.com with SMTP id r13so13657457ejd.5
         for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 21 Apr 2022 09:03:55 -0700 (PDT)
+ Thu, 21 Apr 2022 19:42:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=VHAA1nxrmfjljrQroiJU712uG6GTHJ7XHUYPEB4G8Ic=;
-        b=pzUP/af6JiLJCxURjvPQ1wUegjCpEzzCC/c5YipijF+2bC6KU4rDse08BVrFI1/520
-         fNEh60MFeOBmXlDz8Fm0NJfnd0pYjKZo05OkjHWcngkg5jIXvwoCexmxmT/D138Jqbnc
-         RKsg9SLpFxuQnrsT8gnSFv+d3y5iYUcPZTdkDH0sJ1GHxYxawt7DSBdzol0eMgdaCv1U
-         cDZS5TSm4AAGrLdjOFiChNdFOFHHMrRs9fi7M9I0b6BF3Q7yq1dfXwEdZBVGNszzfHwp
-         oFXQRB5mNgqysKspGaLz8DrtoIS6HWeympbYURwd0pG+TulsbBYJQg21c2vuvrxJPDay
-         59/Q==
+         :cc;
+        bh=TNmwaVmisujO9Ki1kdBp8MlJKCcLc2v8qmZviWufl/c=;
+        b=m8GV/KCUcR5Wpub2kc3369mDnIdxXrIbkxL9qnh2eGug07XcbGq2vC2ps6mC49THNj
+         +w9HhixzM6MdD0pA5xUVKfUHJlLJLK7+9YU2BK3KCM6Ejyvef6AZz2Htvo6laVA2c5K1
+         XhCjOK36LwM0IZywvaz+ixFMSjlDW2cilwU63tifsR5k4gCoh0IJTC//xOaVl83fdE8l
+         KHYtOnSqmAdqxqKCOqAASxk781uUeR3s8/9fkSo1iDb17hSknY5G0UjwkABugn59c95K
+         mhxwG1a6BzcilfUFCkdq9Y9JgmYEpVfftfhfc1kB9gINRUwfREVqoeTfNnHHy/q8htKU
+         mHQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=VHAA1nxrmfjljrQroiJU712uG6GTHJ7XHUYPEB4G8Ic=;
-        b=0c9QUaNJ4Q4KCM3XXR7VmZnMt2IyJacQvxvI1FYp5MQRzmRCFhvWTxI76aC6OiK8hY
-         ji79+9E9LejrLE3v05loHb6wEF3g24lmOALRdTTuJMI14i2O9cQQh2JpnjIygYtI5o5h
-         3grB3+xaa53JcY21NMLLDYOygsyaLwcWp2EE1RwpYKq+V/A5x1I7PDldmPbPL6NpRFzA
-         1rnFqS4lScRLpVikQKGR5FFo3TnkeKywImYnhv2fdNd9zlOcQgy1kIX372QGNQZXGe1c
-         jqszXo4XC5DYMzDyb+sx1VcIle++jWb3dB4KNcn35SvY+J/c+IfhppsFIQLcaiEc5R9s
-         6DCQ==
-X-Gm-Message-State: AOAM530i5eDRPGNlQGZ+8lFgh85a8hPoi4PO+fL6HjrqIrUATOC/PK4o
-	3s6uN+j/8KR8w2YWfkaFaLZEoimtfJiXPsWMJIQ=
+         :message-id:subject:to:cc;
+        bh=TNmwaVmisujO9Ki1kdBp8MlJKCcLc2v8qmZviWufl/c=;
+        b=YFWChJ57e8UQs1XYBxLLsNPw8fhvG4bVewMBDq9nb7jav+3kt7zDCwffZfG9tHEVDV
+         Kw7jnqBR546wFdrFz3l41sBYJzaFXzXUtH/AGF9qxVVhHDofq/AGFpuFQC+mvokJi15p
+         uFEDLA4hcBMXRBi4XRUanN/xBYcktkSHoxJTovWwS7G+yw2c6v0IAM+X9xnTrClWN2TT
+         TR4I8ODukFU3wHgxyKg6R2xfN918S/Grop1hgMdDqOENRPBgK9WGYpK/g1IEhMnEI0vh
+         2o8f9P5Mr2Euj2agzbEpuIzbhQFOt/NveOxrTCiRvYqv20ULU/Rz181q+qOP3NFXABfX
+         jDCw==
+X-Gm-Message-State: AOAM533+7GJVbzSV7amouP/fipJIqDcZ3y3+Po6M9Ddcc9Dq+kVzFoz8
+	5QM1HTgr0VwBCDiDxt0Q+9XmaIBinDAH+9WT7XU=
 X-Google-Smtp-Source: 
- ABdhPJx2HLJaTyY8jaAe3BPMnGUCNGqaCSPreoPizO1jG2u9ZcsoN4CxawekkByXy1AYtyX4yJ/rXRXBj2Iuzy6+hgc=
-X-Received: by 2002:a17:907:86a3:b0:6ec:aaa:7f82 with SMTP id
- qa35-20020a17090786a300b006ec0aaa7f82mr175548ejc.651.1650557033753; Thu, 21
- Apr 2022 09:03:53 -0700 (PDT)
+ ABdhPJysN+I1tDYSw5bxDqqn5JGbRS63Pmz4HqrMAe6Syz+En4hRDy3reLBdX8iqD3m+NMD03naxlAgQQqov55id2Xs=
+X-Received: by 2002:a17:907:3f04:b0:6e8:4b0e:438d with SMTP id
+ hq4-20020a1709073f0400b006e84b0e438dmr2081520ejc.391.1650595373044; Thu, 21
+ Apr 2022 19:42:53 -0700 (PDT)
 MIME-Version: 1.0
-References: <16E75FCC13F8DB9E.24908@lists.yoctoproject.org>
- <VI1PR08MB3470D55C69E59D176411051592F29@VI1PR08MB3470.eurprd08.prod.outlook.com>
- <CADkTA4NE1CJBbYnVhB8g8kbPEfhXtw8WQ+4FHq60QCz=kp7bKQ@mail.gmail.com>
- <16E762DD856665D2.8966@lists.yoctoproject.org>
- <VI1PR08MB3470BBF7904E49A5E2AC1B7192F29@VI1PR08MB3470.eurprd08.prod.outlook.com>
- <VI1PR08MB3470733477CCFCB2B95464F192F29@VI1PR08MB3470.eurprd08.prod.outlook.com>
- <16E76B3B75796758.23693@lists.yoctoproject.org>
- <16E7728C69F8F83F.10736@lists.yoctoproject.org>
-In-Reply-To: <16E7728C69F8F83F.10736@lists.yoctoproject.org>
+References: <d972d7f9cf36463185b2811362a7df11@XBOX03.axis.com>
+ <CADkTA4M0=xJ8Kt0k6ZHdT7Vy4CPQkZNsFHvCHMR=-4KM9hfcgQ@mail.gmail.com>
+ <5bf45976-11c1-1184-f51b-e886c8aa301e@axis.com>
+ <167DCA8D5023C45A.28983@lists.yoctoproject.org>
+ <CADkTA4PMFz8wa-huojDvsOOYCTPFt3sEXqLYmTTMMtkcNs3Scg@mail.gmail.com>
+ <8cd4d50a-4e1f-6f67-727c-e2ca6fbcf5c6@axis.com>
+ <5763bac9-78cf-97eb-1dc6-7db16ab22b34@windriver.com>
+ <CADkTA4PY8ktGzH_0zGxzEwn+zRMy6RbbTBXr5mZ+NyEY3p88Sw@mail.gmail.com>
+ <b441020b-fb1c-4c18-0439-2c408f577f4d@windriver.com>
+In-Reply-To: <b441020b-fb1c-4c18-0439-2c408f577f4d@windriver.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Thu, 21 Apr 2022 12:03:42 -0400
+Date: Thu, 21 Apr 2022 22:42:42 -0400
 Message-ID: 
- <CADkTA4NJG=w8Mo0iEK5a0GPt7L_E5RoMGR3sndvRq1nJ0SvpWg@mail.gmail.com>
-Subject: Re: [meta-virtualization][PATCH v2] xen-tools: Fix
- xen-tools-xencommons do_package
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: Diego Sueiro <Diego.Sueiro@arm.com>,
+ <CADkTA4Na4tQ_q6ChGBN+mDgLT0V=ahU-NoUH0viMEmjjVQ-mTQ@mail.gmail.com>
+Subject: Re: [meta-virtualization] nerdctl
+To: ChenQi <Qi.Chen@windriver.com>
+Cc: Joakim Roubert <joakim.roubert@axis.com>,
 	"meta-virtualization@lists.yoctoproject.org"
- <meta-virtualization@lists.yoctoproject.org>,
-	"christopher.w.clark@gmail.com" <christopher.w.clark@gmail.com>,
- nd <nd@arm.com>
+ <meta-virtualization@lists.yoctoproject.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Thu, 21 Apr 2022 16:46:13 -0000
+ <meta-virtualization@lists.yoctoproject.org>; Fri, 22 Apr 2022 16:51:59 -0000
 X-Groupsio-URL: 
- https://lists.yoctoproject.org/g/meta-virtualization/message/7206
+ https://lists.yoctoproject.org/g/meta-virtualization/message/7208
 
-On Tue, Apr 19, 2022 at 8:15 PM Bruce Ashfield via
-lists.yoctoproject.org
-<bruce.ashfield=3Dgmail.com@lists.yoctoproject.org> wrote:
+On Thu, Apr 21, 2022 at 10:38 PM ChenQi <Qi.Chen@windriver.com> wrote:
 >
-> On Tue, Apr 19, 2022 at 6:01 PM Bruce Ashfield via
-> lists.yoctoproject.org
-> <bruce.ashfield=3Dgmail.com@lists.yoctoproject.org> wrote:
-> >
-> > On Tue, Apr 19, 2022 at 4:38 PM Diego Sueiro <Diego.Sueiro@arm.com> wro=
-te:
-> > >
-> > >
-> > >
-> > > --
-> > > Diego Sueiro
-> > > Staff Software Developer =E2=80=93 Automotive and Industrial Solution=
-s (CE-OSS)
-> > >
-> > > >-----Original Message-----
-> > > >From: Diego Sueiro <Diego.Sueiro@arm.com>
-> > > >Sent: 19 April 2022 20:41
-> > > >To: Diego Sueiro <Diego.Sueiro@arm.com>; bruce.ashfield@gmail.com
-> > > >Cc: meta-virtualization@lists.yoctoproject.org;
-> > > >christopher.w.clark@gmail.com; nd <nd@arm.com>
-> > > >Subject: RE: [meta-virtualization][PATCH v2] xen-tools: Fix xen-tool=
-s-
-> > > >xencommons do_package
-> > > >
-> > > >
-> > > >>-----Original Message-----
-> > > >>From: meta-virtualization@lists.yoctoproject.org <meta-
-> > > >>virtualization@lists.yoctoproject.org> On Behalf Of Diego Sueiro vi=
-a
-> > > >>lists.yoctoproject.org
-> > > >>Sent: 19 April 2022 20:28
-> > > >>To: bruce.ashfield@gmail.com
-> > > >>Cc: meta-virtualization@lists.yoctoproject.org;
-> > > >>christopher.w.clark@gmail.com; nd <nd@arm.com>
-> > > >>Subject: Re: [meta-virtualization][PATCH v2] xen-tools: Fix xen-too=
-ls-
-> > > >>xencommons do_package
-> > > >>
-> > > >>Hi Bruce,
-> > > >>
-> > > >>>-----Original Message-----
-> > > >>>From: meta-virtualization@lists.yoctoproject.org <meta-
-> > > >>>virtualization@lists.yoctoproject.org> On Behalf Of Bruce Ashfield=
- via
-> > > >>>lists.yoctoproject.org
-> > > >>>Sent: 19 April 2022 20:17
-> > > >>>To: Diego Sueiro <Diego.Sueiro@arm.com>
-> > > >>>Cc: meta-virtualization@lists.yoctoproject.org;
-> > > >>>christopher.w.clark@gmail.com; nd <nd@arm.com>
-> > > >>>Subject: Re: [meta-virtualization][PATCH v2] xen-tools: Fix xen-to=
-ols-
-> > > >>>xencommons do_package
-> > > >>>
-> > > >>>On Tue, Apr 19, 2022 at 3:07 PM Diego Sueiro <diego.sueiro@arm.com=
+> Hi Bruce,
 >
-> > > >>wrote:
-> > > >>>>
-> > > >>>> Hi Bruce and Christopher,
-> > > >>>>
-> > > >>>> I'm not sure if this is the best solution, since after fixing th=
-e
-> > > >>>> xen-tools
-> > > >>>do_package, now I'm getting the following error on do_rootfs:
-> > > >>>> ```
-> > > >>>>   Installing       : xen-tools-xencommons-4.15+stable0+84fa99099=
-b-r0.
-> > > >>>429/483
-> > > >>>>   Running scriptlet: xen-tools-xencommons-4.15+stable0+84fa99099=
-b-r0.
-> > > >>>429/483
-> > > >>>> %post(xen-tools-xencommons-4.15+stable0+84fa99099b-r0.armv8a):
-> > > >>>> scriptlet start
-> > > >>>> %post(xen-tools-xencommons-4.15+stable0+84fa99099b-r0.armv8a):
-> > > >>>> execv(/bin/sh) pid 5408
-> > > >>>> + set -e
-> > > >>>> + systemctl
-> > > >>>> + OPTS=3D
-> > > >>>> + [ -n
-> > > >>>> + /[...]/build/tmp_virtualization/work/n1sdp-poky-linux/ewaol-vi=
-rtua
-> > > >>>> + l
-> > > >>>> + i
-> > > >>>> + zation-image/1.0-r0/rootfs ]
-> > > >>>> + OPTS=3D--root=3D/[...]/build/tmp_virtualization/work/n1sdp-pok=
-y-linux/
-> > > >>>> + e w aol-virtualization-image/1.0-r0/rootfs
-> > > >>>> + [ enable =3D enable ]
-> > > >>>> + systemctl
-> > > >>>> + --root=3D/[...]/build/tmp_virtualization/work/n1sdp-poky-linux=
-/ewaol
-> > > >>>> + - v irtualization-image/1.0-r0/rootfs enable proc-xen.mount
-> > > >>>> + systemctl
-> > > >>>> + --root=3D/[...]/build/tmp_virtualization/work/n1sdp-poky-linux=
-/ewaol
-> > > >>>> + - v irtualization-image/1.0-r0/rootfs enable
-> > > >>>> + var-lib-xenstored.mount systemctl
-> > > >>>> + --root=3D/[...]/build/tmp_virtualization/work/n1sdp-poky-linux=
-/ewaol
-> > > >>>> + - v irtualization-image/1.0-r0/rootfs enable
-> > > >>>> + xen-qemu-dom0-disk-backend.service
-> > > >>>> ln -s /lib/systemd/system/xen-qemu-dom0-disk-backend.service
-> > > >>>> /[...]/build/tmp_virtualization/work/n1sdp-poky-linux/ewaol-virt=
-uali
-> > > >>>> z
-> > > >>>> a
-> > > >>>> tion-image/1.0-r0/rootfs/etc/systemd/system/multi-user.target.wa=
-nts/
-> > > >>>> x
-> > > >>>> e
-> > > >>>> n-qemu-dom0-disk-backend.service
-> > > >>>> + systemctl
-> > > >>>> + --root=3D/[...]/build/tmp_virtualization/work/n1sdp-poky-linux=
-/ewaol
-> > > >>>> + - v irtualization-image/1.0-r0/rootfs enable xenconsoled.servi=
-ce
-> > > >>>> ln -s /lib/systemd/system/xenconsoled.service
-> > > >>>> /[...]/build/tmp_virtualization/work/n1sdp-poky-linux/ewaol-virt=
-uali
-> > > >>>> z
-> > > >>>> a
-> > > >>>> tion-image/1.0-r0/rootfs/etc/systemd/system/multi-user.target.wa=
-nts/
-> > > >>>> x
-> > > >>>> e
-> > > >>>> nconsoled.service
-> > > >>>> + systemctl
-> > > >>>> + --root=3D/[...]/build/tmp_virtualization/work/n1sdp-poky-linux=
-/ewaol
-> > > >>>> + - v irtualization-image/1.0-r0/rootfs enable xen-init-dom0.ser=
-vice
-> > > >>>> ln -s /lib/systemd/system/xen-init-dom0.service
-> > > >>>> /[...]/build/tmp_virtualization/work/n1sdp-poky-linux/ewaol-virt=
-uali
-> > > >>>> z
-> > > >>>> a
-> > > >>>> tion-image/1.0-r0/rootfs/etc/systemd/system/multi-user.target.wa=
-nts/
-> > > >>>> x
-> > > >>>> e
-> > > >>>> n-init-dom0.service
-> > > >>>> + systemctl
-> > > >>>> + --root=3D/[...]/build/tmp_virtualization/work/n1sdp-poky-linux=
-/ewaol
-> > > >>>> + - v irtualization-image/1.0-r0/rootfs enable xenstored.service
-> > > >>>> ln -s /lib/systemd/system/xenstored.service
-> > > >>>> /[...]/build/tmp_virtualization/work/n1sdp-poky-linux/ewaol-virt=
-uali
-> > > >>>> z
-> > > >>>> a
-> > > >>>> tion-image/1.0-r0/rootfs/etc/systemd/system/multi-user.target.wa=
-nts/
-> > > >>>> x
-> > > >>>> e
-> > > >>>> nstored.service
-> > > >>>> + [ -z
-> > > >>>> + /[...]/build/tmp_virtualization/work/n1sdp-poky-linux/ewaol-vi=
-rtua
-> > > >>>> + l
-> > > >>>> + i
-> > > >>>> + zation-image/1.0-r0/rootfs ] [ -n
-> > > >>>> + /[...]/build/tmp_virtualization/work/n1sdp-poky-linux/ewaol-vi=
-rtua
-> > > >>>> + l i zation-image/1.0-r0/rootfs -o ! -d /run/systemd/system ] t=
-ype
-> > > >>>> + update-rc.d [ -n
-> > > >>>> + /[...]/build/tmp_virtualization/work/n1sdp-poky-linux/ewaol-vi=
-rtua
-> > > >>>> + l i zation-image/1.0-r0/rootfs ] OPT=3D-r
-> > > >>>> + /[...]/build/tmp_virtualization/work/n1sdp-poky-linux/ewaol-vi=
-rtua
-> > > >>>> + l i zation-image/1.0-r0/rootfs update-rc.d -r
-> > > >>>> + /[...]/build/tmp_virtualization/work/n1sdp-poky-linux/ewaol-vi=
-rtua
-> > > >>>> + l i zation-image/1.0-r0/rootfs xencommons defaults 80
-> > > >>>> update-rc.d:
-> > > >>>> /[...]/build/tmp_virtualization/work/n1sdp-poky-linux/ewaol-virt=
-uali
-> > > >>>> z
-> > > >>>> a
-> > > >>>> tion-image/1.0-r0/rootfs/etc/init.d/xencommons: file does not ex=
-ist
-> > > >>>> %post(xen-tools-xencommons-4.15+stable0+84fa99099b-r0.armv8a):
-> > > >>>> waitpid(5408) rc 5408 status 100
-> > > >>>> warning: %post(xen-tools-xencommons-4.15+stable0+84fa99099b-
-> > > >>>r0.armv8a)
-> > > >>>> scriptlet failed, exit status 1
-> > > >>>>
-> > > >>>> Error in POSTIN scriptlet in rpm package xen-tools-xencommons
-> > > >>>>   Installing       : xen-tools-xen-watchdog-4.15+stable0+84fa990=
-99b-r
-> > > >>>430/483
-> > > >>>>   Running scriptlet:
-> > > >>>> xen-tools-xen-watchdog-4.15+stable0+84fa99099b-r
-> > > >>>430/483
-> > > >>>> ```
-> > > >>>>
-> > > >>>> I guess that the "xen: only package xencommon systemd components=
- if
-> > > >>>systemd is enabled" (c9554c6) patch introduced the issues for
-> > > >>>do_package as well as do_rootfs.
-> > > >>>> Also, I never had the issue , at least using system, reported in=
- the
-> > > >>>> commit
-> > > >>>message. And as far as I understand systemd is capable of ignoring
-> > > >>>sysvinit scripts.
-> > > >>>>
-> > > >>>
-> > > >>>Are you building sysvinit when you see the errors you are trying t=
-o
-> > > >>>fix ? I've never seen them in either configuration here.
-> > > >>>
-> > > >>>I can confirm that it isn't ignoring them by default, and I had
-> > > >>>multiple reports of the serial port being setup twice, and causing
-> > > >>>runtime /
-> > > >>login errors.
-> > > >>>
-> > > >>>Bruce
-> > > >>
-> > > >>These are my current settings:
-> > > >>VIRTUAL-RUNTIME_init_manager=3D"systemd"
-> > > >>VIRTUAL-RUNTIME_initscripts=3D"initscripts"
-> > > >>DISTRO_FEATURES_BACKFILL_CONSIDERED=3D"sysvinit systemd"
-> > > >>DISTRO_FEATURES=3D"acl alsa argp bluetooth debuginfod ext2 ipv4 ipv=
-6
-> > > >>largefile pcmcia usbgadget usbhost wifi xattr nfs zeroconf pci 3g n=
-fc
-> > > >>x11 vfat seccomp largefile opengl ptest multiarch wayland vulkan
-> > > >>virtualization ipv6 systemd seccomp k3s sysvinit  xen ptest"
-> > > >>
-> > > >
-> > > >I guess I'll have to set the INIT_MANAGER variable to systemd instea=
-d:
-> > > >https://git.yoctoproject.org/poky/commit/?id=3Da6ebbe3a10ff76386dde0=
-3ddaa
-> > > >7097bdb2f5d9a5
-> > > >
-> > > >I started a build, lets see how it goes.
-> > >
-> > > I can confirm that by having INIT_MANAGER =3D "system" there are no i=
-ssues for do_package and do_rootfs.
-> > > I'm sorry for the false alarm.
-> >
-> > Hmmm. It should be packaged regardless.  I have a build running, and
-> > will see if I can trigger the issue.
+> I found that the nerdctl does not work on qemuarm. After tracking down
+> the problem, I found that it's caused by CONFIG_OABI_COMPAT being
+> enabled for qemuarm. It needs to be disabled for SECCOMP_FILTER to work,
+> which is needed by nerdctl.
 >
-> Looking at ti more closely, I do think there's an issue lurking in
-> some configurations.
+> Looking at the help message of 'CONFIG_OABI_COMPAT', it seems that it's
+> pretty safe for us to disable it as we build things from scratch. And it
+> suggests that "If in doubt say N.".
 >
-> My suggestion to fix things up is this:
->
-> https://git.yoctoproject.org/meta-virtualization/commit/?h=3Dmaster-next&=
-id=3D51e404af981ab18391ca44d121fba71946abcc17
->
-> Where we just remove the init system files that we don't want .. which
-> matches the conditional packaging of xencommons
+> Do you think this option should be disabled by default in yocto's kernel
+> config?
 
-I ran into yet another issue with this during rootfs assembly. I've
-pushed another fixup patch to master-next.
+Yes, it can be changed to =n at this point, but we still want to be
+explicit and not take any defaults. It was a transitional ABI setting
+.. almost 10 years ago. We can safely say that the transition period
+is over.
 
-Everything is building here, but then again, I wasn't seeing some of
-the other issues.
-
-I'm interested to hear if anyone sees any runtime issues with the
-init.d/xencommons no longer active for systemd init based systems. If
-it causes issues, and with the amount of patches I've had to do to fix
-things, I'll just revert the original patch and wait for reports of
-duplicate initialization to resurface.
+As well as changing it to disabled, we should create a new fragment
+with a name like "enable-oabi.scc" and the associated
+"enable-oabi.cfg" that could be used via KERNEL_FEATURES to enable the
+OABI functionality if anyone really needs it.
 
 Bruce
 
 >
-> Bruce
+> Regards,
+> Qi
 >
->
+> On 4/18/22 21:42, Bruce Ashfield wrote:
+> > On Mon, Apr 18, 2022 at 2:17 AM ChenQi <Qi.Chen@windriver.com> wrote:
+> >> Hi Bruce and Joakim,
+> >>
+> >> I'm recently looking into this nerdctl recipe. I'm kind of shocked by
+> >> the SRC_URI number in this recipe.
+> > k3s is much, much worse.
+> >
+> >> Looking at the discussion on the mailing list (go.bbclass: Allow network
+> > Right, we need this for licensing, SBOM, reproducibility, etc. As you
+> > say, there's a shocking amount of code/dependencies that are fetched
+> > for a lot of these recipes. The version management and scaling of them
+> > to individual recipes would be nearly impossible .. so this is my
+> > current effort :)
+> >
+> >> in do_compile), it seems that they are needed for offline build for this
+> >> recipe.
+> >>
+> > Yes, they are (almost) all required (indirect dependency generation
+> > isn't exact at times, so there may be a few extras that aren't used in
+> > some build configurations).
+> >
+> >> Bruce, how do you get all these contents? Also, how do you generate the
+> >> modules.txt file? You mentioned some helping script in the discussion,
+> >> what's the status of that script?
+> > The tool is still a WIP, once we get past the current release, I'm
+> > going to complete the cleanup and make it more widely available. It
+> > currently isn't really usable.
+> >
+> > The script generates the SRC_URI, the modules.txt and the vendor/
+> > relocation parts of the recipe.
+> >
+> >> Joakim, maybe I misunderstood it, but are you still working on an
+> >> upgrade of this recipe? If not, I'm going to try to do it.
+> > I have an in progress update here.
+> >
+> > I'm using it to test the script in that mode, I should have the update
+> > available in the next little while, and then the script that generates
+> > it will follow.
+> >
+> > Cheers,
 > >
 > > Bruce
 > >
-> > >
-> > > --
-> > > Diego
-> > >
-> > > >
-> > > >I'm just curious to see how will be the behaviour on the kirkstone b=
-ranch.
-> > > >
-> > > >--
-> > > >Diego
-> > > >
-> > > >>
-> > > >>>
-> > > >>>>
-> > > >>>> --
-> > > >>>> Diego Sueiro
-> > > >>>> Staff Software Developer - Automotive and Industrial Solutions
-> > > >>>> (CE-OSS)
-> > > >>>>
-> > > >>>> >-----Original Message-----
-> > > >>>> >From: meta-virtualization@lists.yoctoproject.org <meta-
-> > > >>>> >virtualization@lists.yoctoproject.org> On Behalf Of Diego Sueir=
-o
-> > > >>>> >via lists.yoctoproject.org
-> > > >>>> >Sent: 19 April 2022 19:32
-> > > >>>> >To: meta-virtualization@lists.yoctoproject.org
-> > > >>>> >Cc: christopher.w.clark@gmail.com; nd <nd@arm.com>; Diego Sueir=
-o
-> > > >>>> ><Diego.Sueiro@arm.com>
-> > > >>>> >Subject: [meta-virtualization][PATCH v2] xen-tools: Fix
-> > > >>>> >xen-tools-xencommons do_package
-> > > >>>> >
-> > > >>>> >With the patch "xen: only package xencommon systemd components =
-if
-> > > >>>> >systemd is enabled" (c9554c6), the following error is displayed=
-:
-> > > >>>> >
-> > > >>>> >    ERROR: xen-tools-4.15+stableAUTOINC+84fa99099b-r0 do_packag=
-e:
-> > > >>>> >QA
-> > > >>>> >Issue:
-> > > >>>> >    xen-tools: Files/directories were installed but not shipped=
- in
-> > > >>>> >any
-> > > >>package:
-> > > >>>> >        /etc/init.d/xencommons
-> > > >>>> >
-> > > >>>> >To fix this, we need to conditionally include/exclude files in
-> > > >>>> >do_install depending on whether or not systemd is in the
-> > > >>>DISTRO_FEATURES.
-> > > >>>> >
-> > > >>>> >Also, take the opportunity to have the relevant extra sed
-> > > >>>> >processing in these conditionals.
-> > > >>>> >
-> > > >>>> >Signed-off-by: Diego Sueiro <diego.sueiro@arm.com>
-> > > >>>> >
-> > > >>>> >Change since v1:
-> > > >>>> > * Added missing ${D} when removing unnecessary files.
-> > > >>>> >---
-> > > >>>> > recipes-extended/xen/xen-tools.inc | 20 ++++++++++++++------
-> > > >>>> > 1 file changed, 14 insertions(+), 6 deletions(-)
-> > > >>>> >
-> > > >>>> >diff --git a/recipes-extended/xen/xen-tools.inc
-> > > >>>> >b/recipes-extended/xen/xen- tools.inc index 6bbc8cd..4acf054 10=
-0644
-> > > >>>> >--- a/recipes-extended/xen/xen-tools.inc
-> > > >>>> >+++ b/recipes-extended/xen/xen-tools.inc
-> > > >>>> >@@ -805,14 +805,22 @@ do_install() {
-> > > >>>> >         for i in $VOLATILE_DIRS; do
-> > > >>>> >             echo "d $i 0755 root root - -"  >>
-> > > >>>${D}${sysconfdir}/tmpfiles.d/xen.conf
-> > > >>>> >         done
-> > > >>>> >-    fi
-> > > >>>> >
-> > > >>>> >-    # fixup default path to qemu-system-i386
-> > > >>>> >-    sed -i 's#\(test -z "$QEMU_XEN" &&
-> > > >>>QEMU_XEN=3D\).*$#\1"/usr/bin/qemu-
-> > > >>>> >system-i386"#' ${D}/etc/init.d/xencommons
-> > > >>>> >+        if [ -e ${D}${systemd_unitdir}/system/xen-qemu-dom0-di=
-sk-
-> > > >>>> >backend.service ]; then
-> > > >>>> >+            sed -i 's#ExecStart=3D.*qemu-system-
-> > > >>>> >i386\(.*\)$#ExecStart=3D/usr/bin/qemu-system-i386\1#' \
-> > > >>>> >+                ${D}${systemd_unitdir}/system/xen-qemu-dom0-di=
-sk-
-> > > >>>> >backend.service
-> > > >>>> >+        fi
-> > > >>>> >+
-> > > >>>> >+        # remove sysvinit specific file:
-> > > >>>> >+        rm -rf ${D}${sysconfdir}/init.d/xencommons
-> > > >>>> >+
-> > > >>>> >+    # sysvinit
-> > > >>>> >+    else
-> > > >>>> >+        # fixup default path to qemu-system-i386
-> > > >>>> >+        sed -i 's#\(test -z "$QEMU_XEN" &&
-> > > >>>> >+ QEMU_XEN=3D\).*$#\1"/usr/bin/qemu-system-i386"#'
-> > > >>>> >+ ${D}/etc/init.d/xencommons
-> > > >>>> >
-> > > >>>> >-    if [ -e ${D}${systemd_unitdir}/system/xen-qemu-dom0-disk-
-> > > >>>> >backend.service ]; then
-> > > >>>> >-        sed -i 's#ExecStart=3D.*qemu-system-
-> > > >>>> >i386\(.*\)$#ExecStart=3D/usr/bin/qemu-system-i386\1#' \
-> > > >>>> >-            ${D}${systemd_unitdir}/system/xen-qemu-dom0-disk-
-> > > >>>backend.service
-> > > >>>> >+        # remove systemd specific files
-> > > >>>> >+        rm -rf ${D}${systemd_unitdir}
-> > > >>>> >     fi
-> > > >>>> > }
-> > > >>>> >
-> > > >>>> >--
-> > > >>>> >2.35.1
-> > > >>>>
-> > > >>>>
-> > > >>>>
-> > > >>>>
-> > > >>>
-> > > >>>
-> > > >>>--
-> > > >>>- Thou shalt not follow the NULL pointer, for chaos and madness aw=
-ait
-> > > >>>thee at its end
-> > > >>>- "Use the force Harry" - Gandalf, Star Trek II
+> >> Last but not least, Bruce, thank you again for making this recipe work.
+> >>
+> >> Regards,
+> >> Qi
+> >>
+> >> On 3/7/22 15:30, Joakim Roubert wrote:
+> >>> On 2022-03-04 16:48, Bruce Ashfield wrote:
+> >>>> It took several months, but:
+> >>>>
+> >>>> root@qemux86-64:~# uname -a
+> >>>> Linux qemux86-64 5.17.0-rc6-yoctodev-standard #1 SMP PREEMPT Sun Feb
+> >>>> 27 22:36:33 UTC 2022 x86_64 x86_64 x86_64 GNU/Linux
+> >>>> root@qemux86-64:~# nerdctl --version
+> >>>> nerdctl version 0.17.0-10-gf2427ff.m
+> >>>> root@qemux86-64:~#
+> >>> Really cool!!!
+> >>>
+> >>>> The recipe isn't available yet, since this is using a huge amount of
+> >>>> fetched go dependencies, using some new scripts/tooling that I created
+> >>>> .. but at least I know the approach is feasible!
+> >>> Excellent news!
+> >>>
+> >>> BR,
+> >>>
+> >>> /Joakim
+> >>>
+> >>> -=-=-=-=-=-=-=-=-=-=-=-
+> >>> Links: You receive all messages sent to this group.
+> >>> View/Reply Online (#7078): https://lists.yoctoproject.org/g/meta-virtualization/message/7078
+> >>> Mute This Topic: https://lists.yoctoproject.org/mt/82714461/3618072
+> >>> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+> >>> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [Qi.Chen@windriver.com]
+> >>> -=-=-=-=-=-=-=-=-=-=-=-
+> >>>
 > >
-> >
-> >
-> > --
-> > - Thou shalt not follow the NULL pointer, for chaos and madness await
-> > thee at its end
-> > - "Use the force Harry" - Gandalf, Star Trek II
-> >
-> >
-> >
->
->
-> --
-> - Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at its end
-> - "Use the force Harry" - Gandalf, Star Trek II
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#7201): https://lists.yoctoproject.org/g/meta-virtuali=
-zation/message/7201
-> Mute This Topic: https://lists.yoctoproject.org/mt/90568380/1050810
-> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [=
-bruce.ashfield@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 >
 
 
---=20
+-- 
 - Thou shalt not follow the NULL pointer, for chaos and madness await
 thee at its end
 - "Use the force Harry" - Gandalf, Star Trek II
