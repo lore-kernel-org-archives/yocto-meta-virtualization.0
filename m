@@ -2,55 +2,54 @@ Return-Path: <christopher.w.clark@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84A53C433FE
-	for <webhook@archiver.kernel.org>; Thu, 28 Apr 2022 00:06:21 +0000 (UTC)
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com
- [209.85.216.49])
- by mx.groups.io with SMTP id smtpd.web12.4253.1651104379939857123
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F0F3C433EF
+	for <webhook@archiver.kernel.org>; Thu, 28 Apr 2022 00:06:31 +0000 (UTC)
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com
+ [209.85.214.172])
+ by mx.groups.io with SMTP id smtpd.web08.4067.1651104381483235255
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 27 Apr 2022 17:06:20 -0700
+ Wed, 27 Apr 2022 17:06:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=mvybkSTi;
- spf=pass (domain: gmail.com, ip: 209.85.216.49,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=ChRYLy5R;
+ spf=pass (domain: gmail.com, ip: 209.85.214.172,
  mailfrom: christopher.w.clark.io@gmail.com)
-Received: by mail-pj1-f49.google.com with SMTP id
- gj17-20020a17090b109100b001d8b390f77bso6266413pjb.1
+Received: by mail-pl1-f172.google.com with SMTP id q8so2924555plx.3
         for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 27 Apr 2022 17:06:19 -0700 (PDT)
+ Wed, 27 Apr 2022 17:06:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Lh/wyUSqc26YCdkPkU4pMimbUEop5iBgKMJ/COFiSc4=;
-        b=mvybkSTifZ7BF1I5oao8I7WEkfIR6gAexXBn0OaSBnS7bJ4gVRd5+kBDJlw/fV69+7
-         B8Wufyz83y47bwTBWZc7skHK9n7cDKSzzRNkkf+A3qxAsayHVhT98lIZwByXo2isRLeY
-         vOP90bYWP1r5mrf3HpdooEW24c947GK99J/L8TJWOFjks50UYB6HFRxp0aYTyPgTnGUn
-         PFBUjtDi9v0a94cN1ms6hFNXTHN0JO7W3VmCQe/eJ/GU1e1kgzL5Ld9D/s7eItUTyErr
-         uzgoFyMi+91mY9KmPcoNGlL6uRGSUuOXu7/oPG44GgEzFlrp9UryUn9HWrY3udLycrvN
-         ZtqA==
+        bh=WW2UXpDBq3Fyja9306R/5mURvzPYymaIIXfq3+Bk0F4=;
+        b=ChRYLy5RcA2gukNZwXnOU0kba2sfgTK7GX+oesEDDjiVKQzLdC3gsY1U7JPpqFeLWd
+         VQGc8RuYa8Xl2BhDofvd8yN1ZADW3gAs9UsTUIMWu8o/4Np/D44sNtq8Se8WuR75klql
+         SC9I/hF0e/GNXU0udJ8Whtc5AOIZ35cWvfP89YA5b6cBbYGx8m2c/loM9b695xfAqz/R
+         cnGMqr1DcFD/CWWlLd6hg+lOiWRuyYf7+c1iRLkruRKYzt5Nv29b8wxPkfYou/pshVUw
+         Ocdf49s8joPJwJ5BKTmb5Pz78V+zqY37o6Ix4Z3EF5OXkCGz20g1yJdZOgbKkXgl+T+Y
+         29cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
          :in-reply-to:references:mime-version:content-transfer-encoding;
-        bh=Lh/wyUSqc26YCdkPkU4pMimbUEop5iBgKMJ/COFiSc4=;
-        b=oA9ljv7nWGlSIeD9Swxt45DLO1EO3zd4LfBzQg/EQ/2r9qfReGSjBfvi3RGly5OaRa
-         qpqfKlEhUNqx2iTgq5o3HU07NZIShTnjWCqUIjPr1kU9QCw45MZR44gaVpON9rsB4WNn
-         nYLNgmDrreWuJTxI06IzrjF2AhF6eWLrueNrMVc6bxRYm9MHohXCJm7Qmr1OItIWRI2b
-         3xhAOARovOr4ysxPjLyhvTSvcnn8uqJdbLhIfQf2P6ZJFmRMEBv9Ssk3tF0t6VbjcNg1
-         R1rr9428N6QFL+AAEOHnqw9uJE/3d3aRMRs4mssgkY1jRFpuMzX8N3mBrlPqYn7JZdBI
-         19HQ==
-X-Gm-Message-State: AOAM530idfHMRMDwXvQlzmFrUXStGKssPDOs1/hmoBT4gVIRxuBmBzk4
-	1W7+D/o8+Z0yBwUH6G8/xngR8EnECa4wXg==
+        bh=WW2UXpDBq3Fyja9306R/5mURvzPYymaIIXfq3+Bk0F4=;
+        b=ZdrhdvXnzPzpWVUD1RO4r2LHdHjpOVG+F1+oyD3KSL6g0agGcQTTz6X9VsidCx30EU
+         aaWS7hziVI9Moq9O+VD4AjfJWSMvX0IAvMVVRejbuJR41veV0bM2NT+kZZmEhRJZGN5q
+         81ZzHZBf4Ei7WcS/QFA8jFJFBvp80pXrbAbMOOPrfssmA7xKyuKJ6KlWdS1KB6yVD3uX
+         AvqQ+oubZuujv+Nozuy6gm13a91q/sCyPN9fmDqLeAfz26h42N1RCCnRmY96//crkFXj
+         DAqP741z/ZQVK3oHpIbX5SXTyTRGCMVW5CyJxhCihfwbmaCBla6O4Sl/t6hbwIHcz67O
+         13xA==
+X-Gm-Message-State: AOAM530WNRIaXoW3yHQu7bU5ThqNdU5H1VFCjS/STr/KTzZOPjP/zJey
+	bYt3uA9+VzKR/4l49IBNkPtHuVjB/tzSNg==
 X-Google-Smtp-Source: 
- ABdhPJzfXl6FSkZFPIfmpYigbtocw9jnh6xaAQUa0AgrdjvBedgqO+Oee5SqKjIka4xiJq2GK52Zyw==
-X-Received: by 2002:a17:902:704b:b0:15c:42fb:e5b with SMTP id
- h11-20020a170902704b00b0015c42fb0e5bmr28719661plt.79.1651104379337;
-        Wed, 27 Apr 2022 17:06:19 -0700 (PDT)
+ ABdhPJx5RYgfZfEYqiJ1Ep+iUivCukErhQP4wdya29QRFKI76b+CqiLJXXjZPfVkMgnwvGjVSMMPZg==
+X-Received: by 2002:a17:903:124a:b0:154:c7a4:9374 with SMTP id
+ u10-20020a170903124a00b00154c7a49374mr31193336plh.68.1651104380928;
+        Wed, 27 Apr 2022 17:06:20 -0700 (PDT)
 Received: from cog-dev.home ([70.103.208.83])
         by smtp.gmail.com with ESMTPSA id
- h8-20020a17090a3d0800b001cd4989ff4asm4268239pjc.17.2022.04.27.17.06.18
+ h8-20020a17090a3d0800b001cd4989ff4asm4268239pjc.17.2022.04.27.17.06.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Apr 2022 17:06:18 -0700 (PDT)
+        Wed, 27 Apr 2022 17:06:20 -0700 (PDT)
 Sender: Christopher Clark <christopher.w.clark.io@gmail.com>
 From: Christopher Clark <christopher.w.clark@gmail.com>
 To: meta-virtualization@lists.yoctoproject.org
@@ -60,10 +59,10 @@ Cc: bruce.ashfield@gmail.com,
 	scott.davis@starlab.io,
 	Diego.Sueiro@arm.com,
 	jdmason@kudzu.us
-Subject: [meta-virtualization][PATCH v2 1/3] xen,
- xen-tools: add recommendation for Qemu for non-hvm x86
-Date: Wed, 27 Apr 2022 17:06:07 -0700
-Message-Id: <20220428000609.26814-2-christopher.w.clark@gmail.com>
+Subject: [meta-virtualization][PATCH v2 3/3] xen images,
+ qemuboot: configure xenbr0 bridge for runqemu, testimage
+Date: Wed, 27 Apr 2022 17:06:09 -0700
+Message-Id: <20220428000609.26814-4-christopher.w.clark@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220428000609.26814-1-christopher.w.clark@gmail.com>
 References: <20220428000609.26814-1-christopher.w.clark@gmail.com>
@@ -72,76 +71,97 @@ Content-Transfer-Encoding: 8bit
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Thu, 28 Apr 2022 00:06:21 -0000
+ <meta-virtualization@lists.yoctoproject.org>; Thu, 28 Apr 2022 00:06:31 -0000
 X-Groupsio-URL: 
- https://lists.yoctoproject.org/g/meta-virtualization/message/7226
+ https://lists.yoctoproject.org/g/meta-virtualization/message/7228
 
-The Spectre and Meltdown mitigations for Xen run PV guests within
-HVM virtual machines, so Qemu is no longer only needed for systems
-configured to run HVM guests.
+Networking for Xen guest virtual machines is commonly configured via
+bridging in the host system between a physical interface and the
+guest virtual interfaces.
 
-With the split xen hypervisor and tools recipes, the bios dependencies
-belong in the tools recipe, so move them and replace the hvm
-PACKAGECONFIG option with the recommendation based on target arch.
+To make it easier to test networking and use testimage with Xen guest
+virtual machines, extend the bbclass that provides network configuration
+for qemu machines for the Xen images to configure a Xen bridge and put
+eth0 onto it when QB_XEN_HOST_BRIDGE is set.
 
 Signed-off-by: Christopher Clark <christopher.clark@starlab.io>
 ---
-Unchanged since v1
+- Changes since v1: revised Signed-off-by
 
- recipes-extended/xen/xen-tools.inc | 9 ++-------
- recipes-extended/xen/xen.inc       | 6 +++---
- 2 files changed, 5 insertions(+), 10 deletions(-)
+ classes/qemuboot-testimage-network.bbclass   | 36 +++++++++++++++++++-
+ recipes-extended/images/xen-image-minimal.bb |  2 ++
+ 2 files changed, 37 insertions(+), 1 deletion(-)
 
-diff --git a/recipes-extended/xen/xen-tools.inc b/recipes-extended/xen/xen-tools.inc
-index 6bbc8cd..54bc477 100644
---- a/recipes-extended/xen/xen-tools.inc
-+++ b/recipes-extended/xen/xen-tools.inc
-@@ -30,14 +30,9 @@ RDEPENDS:${PN} = "\
+diff --git a/classes/qemuboot-testimage-network.bbclass b/classes/qemuboot-testimage-network.bbclass
+index 18af1ee..57e0355 100644
+--- a/classes/qemuboot-testimage-network.bbclass
++++ b/classes/qemuboot-testimage-network.bbclass
+@@ -1,17 +1,51 @@
+ # The recipe for init-ifupdown in core has a special-case for all
+ # the Qemu MACHINES: it removes all external network interfaces
+ # by default. However, eth0 is needed for testimage, so enable it here.
++
++# If QB_NETWORK_XEN_BRIDGE is set, configure bridging for the network.
++QB_NETWORK_XEN_BRIDGE ??= ""
++
+ enable_runqemu_network() {
+     : # no-op for non-qemu MACHINES
+ }
++
+ enable_runqemu_network:qemuall() {
++    # Do not override a network configuration for eth0 if one is present
+     if ! grep -q eth0 "${IMAGE_ROOTFS}${sysconfdir}/network/interfaces" ; then
+-        cat <<EOF >>${IMAGE_ROOTFS}${sysconfdir}/network/interfaces
++
++        # Xen host networking: use bridging to support guest networks
++        if [ -n "${QB_NETWORK_XEN_BRIDGE}" ] ; then
++            # Configure a Xen host network bridge and put eth0 on it
++            cat <<EOF >>${IMAGE_ROOTFS}${sysconfdir}/network/interfaces
++
++# Bridged host network for Xen testimage
++iface eth0 inet manual
++
++auto xenbr0
++iface xenbr0 inet dhcp
++	bridge_ports eth0
++EOF
++
++# Add a script to create the bridge and add eth0 if necessary
++            cat <<EOF >>${IMAGE_ROOTFS}${sysconfdir}/network/if-pre-up.d/xenbr0
++#!/bin/sh
++
++if [ "\$IFACE" = xenbr0 ]; then
++    brctl addbr xenbr0 || /bin/true
++    brctl addif xenbr0 eth0 || /bin/true
++    ifconfig eth0 up
++fi
++EOF
++            chmod 755 ${IMAGE_ROOTFS}${sysconfdir}/network/if-pre-up.d/xenbr0
++        else
++            # Just configure eth0
++            cat <<EOF >>${IMAGE_ROOTFS}${sysconfdir}/network/interfaces
  
- RDEPENDS:${PN}-dev = ""
+ # Network for testimage
+ auto eth0
+ iface eth0 inet dhcp
+ EOF
++        fi
+     fi
+ }
+ ROOTFS_POSTPROCESS_COMMAND += 'enable_runqemu_network;'
+diff --git a/recipes-extended/images/xen-image-minimal.bb b/recipes-extended/images/xen-image-minimal.bb
+index c17c153..6609f81 100644
+--- a/recipes-extended/images/xen-image-minimal.bb
++++ b/recipes-extended/images/xen-image-minimal.bb
+@@ -34,6 +34,8 @@ XEN_ACPI_PROCESSOR_MODULE:x86-64 = "kernel-module-xen-acpi-processor"
  
--# Qemu is necessary on ARM platforms, and to support HVM guests on x86
--QEMU = "${@bb.utils.contains('PACKAGECONFIG', 'hvm', 'qemu', '', d)}"
--QEMU:arm = "qemu"
--QEMU:aarch64 = "qemu"
--
- RRECOMMENDS:${PN} = " \
--    ${QEMU} \
--    ${@bb.utils.contains('PACKAGECONFIG', 'hvm', 'seabios', '', d)} \
-+    qemu \
-+    ${@bb.utils.contains('XEN_TARGET_ARCH', 'x86_64', 'seabios ipxe vgabios', '', d)} \
-     ${@bb.utils.contains('PACKAGECONFIG', 'externalblktap', '', '${BLKTAP_RRECOMMENDS}', d)} \
-     ${PN}-flask \
-     ${PN}-hvmloader \
-diff --git a/recipes-extended/xen/xen.inc b/recipes-extended/xen/xen.inc
-index 8b86de5..4c38ccf 100644
---- a/recipes-extended/xen/xen.inc
-+++ b/recipes-extended/xen/xen.inc
-@@ -9,13 +9,11 @@ require xen-arch.inc
- PACKAGECONFIG ??= " \
-     sdl \
-     ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)} \
--    ${@bb.utils.contains('XEN_TARGET_ARCH', 'x86_64', 'hvm', '', d)} \
-     "
+ LICENSE = "MIT"
  
- PACKAGECONFIG[sdl] = "--enable-sdl,--disable-sdl,virtual/libsdl,"
- PACKAGECONFIG[xsm] = "--enable-xsmpolicy,--disable-xsmpolicy,checkpolicy-native,"
- PACKAGECONFIG[systemd] = "--enable-systemd,--disable-systemd,systemd,"
--PACKAGECONFIG[hvm] = "--with-system-seabios="/usr/share/firmware/bios.bin",--disable-seabios,seabios ipxe vgabios,"
- PACKAGECONFIG[externalblktap] = ",,,"
- 
- DEPENDS = " \
-@@ -132,7 +130,9 @@ EXTRA_OECONF += " \
-     --disable-rombios \
-     --disable-ocamltools \
-     --disable-qemu-traditional \
--    ${@bb.utils.contains('XEN_TARGET_ARCH', 'x86_64', '--enable-pvshim', '--disable-pvshim', d)} \
-+    ${@bb.utils.contains('XEN_TARGET_ARCH', 'x86_64', \
-+        '--enable-pvshim --with-system-seabios="/usr/share/firmware/bios.bin"', \
-+        '--disable-pvshim --disable-seabios', d)} \
-     "
- 
- EXTRA_OEMAKE += "STDVGA_ROM=${STAGING_DIR_HOST}/usr/share/firmware/vgabios-0.7a.bin"
++QB_NETWORK_XEN_BRIDGE = "1"
++
+ inherit core-image
+ # Only inherit the qemuboot classes when building for a qemu machine
+ QB_QEMU_CLASSES = ""
 -- 
 2.25.1
 
