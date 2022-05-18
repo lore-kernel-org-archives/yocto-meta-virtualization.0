@@ -2,104 +2,167 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15A63C433FE
-	for <webhook@archiver.kernel.org>; Wed, 18 May 2022 17:59:13 +0000 (UTC)
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com
- [209.85.128.174])
- by mx.groups.io with SMTP id smtpd.web09.111.1652896750835054586
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0458BC433F5
+	for <webhook@archiver.kernel.org>; Wed, 18 May 2022 17:59:43 +0000 (UTC)
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com
+ [209.85.219.181])
+ by mx.groups.io with SMTP id smtpd.web08.136.1652896781565991755
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 18 May 2022 10:59:11 -0700
+ Wed, 18 May 2022 10:59:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=m5bHX5E2;
- spf=pass (domain: gmail.com, ip: 209.85.128.174,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=RzeOBJGV;
+ spf=pass (domain: gmail.com, ip: 209.85.219.181,
  mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-yw1-f174.google.com with SMTP id
- 00721157ae682-2fed823dd32so32596677b3.12
+Received: by mail-yb1-f181.google.com with SMTP id x2so4686711ybi.8
         for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 18 May 2022 10:59:10 -0700 (PDT)
+ Wed, 18 May 2022 10:59:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=f9Ep/8WPQWPeGflMc3/jGBpZVjLtkNtF4BGJnVyrcXo=;
-        b=m5bHX5E2TPD8fQ7fhdbS214gmcxl7PpXIYBmyp3q5fcDAZLUM+KMfuHfWLiKcU6ncX
-         aNZkoi4JeH2aqIjkglQkvC1glSc9NzbOlG8mg7J49qgxsF3zqjyw20LZzGxS3KPtkzWZ
-         gbBZ2NmlbPF0dDOU7Lng0lOYIsUfuTounE6vMGXo6GLbQal/uHLSV0mR3+fum2Z30reI
-         E52T44w4ABWezi++jYBCrSYlpvTYhbwDx0/5jHiyvZ/ttdJSFBlW1ypci1SqfesLwBKj
-         c8OJ4GrOUIWi11wBRXkR8urXtuPGFB6nnID5YLC8nqMw+1oTsg2msFZmnnb3qpWG2QDk
-         mfAQ==
+        bh=ERen1zCl3MgX2kloNWfThBgxbZRxEqSrNhszOr0uWAo=;
+        b=RzeOBJGV0j8iSf2hZl8K243TnQCuypdBw7yeSZ3xq50RZX/ngywReJ41+V5bPFdFiP
+         hDHZyC+HZN2ThBy+FGnEQ6oSounmEtgBLwr1MbjnGbkfBmqQLvKPTQ98SrehvWVNnLtT
+         afYUdMD4VWoEiSSDWDFppwHNTGTMGprFUyUF+Zh/IcI2Fz5yad3l1n8bO53ARq1cUqxf
+         6aaUdCc2pWDsvI3CSjfDvo0VCpryOzP2E5udTZIylBu3I/lHgPSKAW4aTyN8BEAT0UmG
+         +wcrUO5guCYMp28vN0W8+U44ZMzQoAZ8uL2NAO4jm0r1EvUJ6MAnOVAySrV1fTa8Zd0h
+         KQtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=f9Ep/8WPQWPeGflMc3/jGBpZVjLtkNtF4BGJnVyrcXo=;
-        b=ebnpOCGZnHT9wAhzI0+qseb5FNfI3rgOV9fDU+jcvO13RY2mkfbsjxugLKgFnhH6cA
-         /qd456agqLmkfGm2lAqBOvCQroiuILILW6CvMO06XN0Id+jJ1WtOzoLSCpfB2xtsjnbU
-         pHleHALDp6vg+mrHa2cNnw56Oj8xJWtaRNPDXSeQnOPAIGZO+hdqKX7sAFKI6jZqar/n
-         a2eF4ovi2+mQIJILMx7rU0AENyNh/ugyEsx7eiD0KgNhL/jd/wOZ9E2BCNmm7w+4+EdJ
-         +qA+N/UmGSQCd0k5uDKy/T3DZGcidA78gFVoXtrTNK0yD7qEl3D4e+uws9n8E6YkCoP+
-         4Akg==
-X-Gm-Message-State: AOAM533yfGj/MgbUiBuoDyx1ebWDuoO+dwUvfzUeq4+ZYdCec2Vh//sj
-	dIIhiiYwsx3+Tj9c17tVeP7VBPp4bN53yBwJ8rqLpEjZRSM=
+        bh=ERen1zCl3MgX2kloNWfThBgxbZRxEqSrNhszOr0uWAo=;
+        b=uvsnEnXDj3mgtbOJ92hMoDhK6wlhaL8vx9woRgCOagJCgVZQ+YNVsTK/w13+7fYGIp
+         g6gUUISgvaXUmNcq73t8Glo/08/VIixg7cr+uZlIGBRyWtvVB8kxtvGSitBwB1Ea11nA
+         boIcTMGYJuVnEgmO37ag4mOmFfGN3/IGeiPjTzr07oBaX4MOW/1rkNJ+lLbxVxeasfx7
+         BtbNTZv/K+DqPoGJjjjwveJIZT8eXxiZd+oI5c6AapauwevhNYNZCWMZxyDKK7Q5GVt1
+         kHjvBv1KXM7bD0hrrX5RrMhcgMXXXVWY33n4nSa/ExkZEC7f1EbnNmjH3wQo1McV77Rm
+         q+/w==
+X-Gm-Message-State: AOAM532x4RCPwwkHV7dI975nZrtkU70DRL/BSMhlhfcZCSra9M20VAh/
+	hhSmZW2GJyL32gmdzf8dpu0KHaFqxIhaK5nUUhUfE7hJw2Q=
 X-Google-Smtp-Source: 
- ABdhPJwr8Q+STehjKxVHF/xXhb5Hd10apnuARN+H/Ku2XnU3dHVvllld+S1Mi9Ry27TA4BCkpsAurneS/eB/x4OLp+Q=
-X-Received: by 2002:a81:6dd4:0:b0:2ff:413a:f812 with SMTP id
- i203-20020a816dd4000000b002ff413af812mr595146ywc.323.1652896749919; Wed, 18
- May 2022 10:59:09 -0700 (PDT)
+ ABdhPJy9En0o1zAEv7VF4QlAQ7Hf5kvx020Nyi6HPWRCB+uHpU6eUmKa91c2Vu0pkZy8D0CE6j1en76b9bRVi3Pv/c4=
+X-Received: by 2002:a05:6902:1285:b0:649:ae47:176a with SMTP id
+ i5-20020a056902128500b00649ae47176amr810478ybu.40.1652896780744; Wed, 18 May
+ 2022 10:59:40 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220517074907.419113-1-zhe.he@windriver.com>
-In-Reply-To: <20220517074907.419113-1-zhe.he@windriver.com>
+References: <cover.1652196703.git.bertrand.marquis@arm.com>
+ <39d2a5b406c9445ad1e19a1315254e2d049ced60.1652196703.git.bertrand.marquis@arm.com>
+ <CACMJ4GZ1ApagfEG-g6Wf46Ea29YVLowtP2Mi0-CK8_h++eKrrw@mail.gmail.com>
+In-Reply-To: 
+ <CACMJ4GZ1ApagfEG-g6Wf46Ea29YVLowtP2Mi0-CK8_h++eKrrw@mail.gmail.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 18 May 2022 13:58:58 -0400
+Date: Wed, 18 May 2022 13:59:29 -0400
 Message-ID: 
- <CADkTA4OxAOamXBKwc2NShsi=icMUY8nbffDLpRZSzpqtY85NPQ@mail.gmail.com>
-Subject: Re: [meta-virtualization][PATCH] libvirt: Fix keeping restarting
-To: He Zhe <zhe.he@windriver.com>
-Cc: meta-virtualization@lists.yoctoproject.org
+ <CADkTA4PszL3E0H4T3U-J2Gu72MNagtHppEDsUWEB+q3ax1fHnQ@mail.gmail.com>
+Subject: Re: [meta-virtualization] [PATCH v2 4/4] xen: Disable PCI on qemuarm
+ with Xen
+To: Christopher Clark <christopher.w.clark@gmail.com>
+Cc: Bertrand Marquis <bertrand.marquis@arm.com>,
+ meta-virtualization@lists.yoctoproject.org,
+	nd <nd@arm.com>
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Wed, 18 May 2022 17:59:13 -0000
+ <meta-virtualization@lists.yoctoproject.org>; Wed, 18 May 2022 17:59:43 -0000
 X-Groupsio-URL: 
- https://lists.yoctoproject.org/g/meta-virtualization/message/7287
+ https://lists.yoctoproject.org/g/meta-virtualization/message/7288
 
-merged
+On Tue, May 17, 2022 at 8:14 PM Christopher Clark
+<christopher.w.clark@gmail.com> wrote:
+>
+> On Tue, May 10, 2022 at 8:35 AM Bertrand Marquis
+> <bertrand.marquis@arm.com> wrote:
+> >
+> > Remove the pci node from the qemu device tree when runqemu is used with
+> > xen-qemuboot.
+> >
+> > Linux is ending up in an infinite loop when trying to access PCI
+> > configuration space when running on top of Xen on arm32.
+> > As we do not need or support any of the devices on PCI on arm32 at the
+> > moment, just remove the node from the device tree generated by qemu.
+> >
+> > The problem does not appear at the moment without Xen and it is unclear
+> > why it is with Xen.
+> > This will be investigated but in the meantime provide a working
+> > configuration for users.
+> >
+> > Signed-off-by: Bertrand Marquis <bertrand.marquis@arm.com>
+>
+> Thanks for this - my review is from inspecting the patch applied; I
+> have yet to test it but there's no need to hold this back with
+> positive reports now from Bruce and Bertrand.
+>
+> Reviewed-by: Christopher Clark <christopher.w.clark@gmail.com>
+>
+> thanks,
+>
+
+Everything is merged to master and kirkstone.
 
 Bruce
 
-On Tue, May 17, 2022 at 3:49 AM He Zhe <zhe.he@windriver.com> wrote:
+> Christopher
 >
-> LIBVIRTD_ARGS has been moved to libvirtd.service since v8.1.0. Move our mode
-> setting accordingly, otherwise libvirt would keep restarting and VMs would be
-> constantly stopped.
+> > ---
+> >  classes/qemuboot-xen-dtb.bbclass | 22 ++++++++++++++++++++++
+> >  1 file changed, 22 insertions(+)
+> >
+> > diff --git a/classes/qemuboot-xen-dtb.bbclass b/classes/qemuboot-xen-dtb.bbclass
+> > index d43d23a..1f17a86 100644
+> > --- a/classes/qemuboot-xen-dtb.bbclass
+> > +++ b/classes/qemuboot-xen-dtb.bbclass
+> > @@ -63,6 +63,21 @@ write_lops_xen_section() {
+> >  EOF
+> >  }
+> >
+> > +write_lop_rm_pci() {
+> > +    cat <<EOF >"$1"
+> > +/dts-v1/;
+> > +/ {
+> > +    compatible = "system-device-tree-v1";
+> > +    lops {
+> > +        lop_1 {
+> > +            compatible = "system-device-tree-v1,lop,modify";
+> > +            modify = "/pcie@10000000::";
+> > +        };
+> > +     };
+> > +};
+> > +EOF
+> > +}
+> > +
+> >  write_lop_add_to_xen_cmdline() {
+> >      EXTRA_XEN_BOOTARGS="$2"
+> >      cat <<EOF >"$1"
+> > @@ -135,6 +150,13 @@ generate_xen_qemuboot_dtb() {
+> >      write_lop_add_to_xen_cmdline "${B}/lop-xen-cmdline.dts" \
+> >          "${QB_XEN_CMDLINE_EXTRA}"
+> >
+> > +    # On Qemu Arm32, Dom0 accessing PCI config space ends up in an
+> > +    # infinite loop. Remove pci node from the device tree
+> > +    if [ "${MACHINE}" = "qemuarm" ]; then
+> > +        write_lop_rm_pci "${B}/lop-rm-pci.dts"
+> > +        LOP_MODULE_ARGS="${LOP_MODULE_ARGS} -i ${B}/lop-rm-pci.dts"
+> > +    fi
+> > +
+> >      if [ -z "${QB_XEN_DOMAIN_MODULES}" ]; then
+> >          bbwarn "No domain modules: please set QB_XEN_DOMAIN_MODULES"
+> >      fi
+> > --
+> > 2.25.1
+> >
+> >
+> >
+> >
 >
-> Signed-off-by: He Zhe <zhe.he@windriver.com>
-> ---
->  recipes-extended/libvirt/libvirt_8.1.0.bb | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
->
-> diff --git a/recipes-extended/libvirt/libvirt_8.1.0.bb b/recipes-extended/libvirt/libvirt_8.1.0.bb
-> index f8deba45..89f82bf8 100644
-> --- a/recipes-extended/libvirt/libvirt_8.1.0.bb
-> +++ b/recipes-extended/libvirt/libvirt_8.1.0.bb
-> @@ -208,12 +208,11 @@ do_install:append() {
->                  rmdir ${D}${prefix}/lib/systemd/system ${D}${prefix}/lib/systemd
->              fi
->
-> -           # This variable is used by libvirtd.service to start libvirtd in the right mode
-> -           sed -i '/#LIBVIRTD_ARGS="--listen"/a LIBVIRTD_ARGS="--listen --daemon"' ${D}/${sysconfdir}/init.d/libvirtd
-> -
->             # We can't use 'notify' when we don't support 'sd_notify' dbus capabilities.
-> +           # Change default LIBVIRTD_ARGS to start libvirtd in the right mode.
->             sed -i -e 's/Type=notify/Type=forking/' \
->                    -e '/Type=forking/a PIDFile=/run/libvirtd.pid' \
-> +                  -e 's/\(Environment=LIBVIRTD_ARGS="--timeout 120"\)/#\1\nEnvironment=LIBVIRTD_ARGS="--listen --daemon"/' \
->                    ${D}/${systemd_system_unitdir}/libvirtd.service
->         fi
->
-> --
-> 2.25.1
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#7285): https://lists.yoctoproject.org/g/meta-virtualization/message/7285
+> Mute This Topic: https://lists.yoctoproject.org/mt/91015801/1050810
+> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
 >
 
 
