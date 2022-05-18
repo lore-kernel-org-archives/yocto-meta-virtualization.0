@@ -2,145 +2,150 @@ Return-Path: <christopher.w.clark@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D00CEC433EF
-	for <webhook@archiver.kernel.org>; Wed, 18 May 2022 00:11:24 +0000 (UTC)
-Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com
- [209.85.222.54])
- by mx.groups.io with SMTP id smtpd.web09.384.1652832680811152726
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E05B2C433EF
+	for <webhook@archiver.kernel.org>; Wed, 18 May 2022 00:14:44 +0000 (UTC)
+Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com
+ [209.85.222.52])
+ by mx.groups.io with SMTP id smtpd.web09.416.1652832880357955159
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 17 May 2022 17:11:21 -0700
+ Tue, 17 May 2022 17:14:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=RLuGtZEt;
- spf=pass (domain: gmail.com, ip: 209.85.222.54,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=p/ZLJhJo;
+ spf=pass (domain: gmail.com, ip: 209.85.222.52,
  mailfrom: christopher.w.clark@gmail.com)
-Received: by mail-ua1-f54.google.com with SMTP id 63so266318uaw.10
+Received: by mail-ua1-f52.google.com with SMTP id 63so268628uaw.10
         for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 17 May 2022 17:11:20 -0700 (PDT)
+ Tue, 17 May 2022 17:14:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=/Mjuc0ntBC7aVq0BAWrlo0Hh4oR2RweWXyD0fJrWsuY=;
-        b=RLuGtZEtquiR78PnWLBTOkM5G168jLTVJ4pMIRLeWUc34pcppR2XxVYcX5qopJ5Y/C
-         Qlss8Rv6FxKX/HmFiAerzE1PP9sDNPxP1tPiX+3os/Qb90Ku69SyM0nsqfxkSjHMxv3a
-         6FbBskTk8xKPb6bmNKNjM5EiI+9XYhrAOCpnUimTDAV0HeFNtGYm3PnM3RANBI6j/38j
-         3qTgwEzUAfZA1Gmoe8PfZPWU547xqkh+gX04HnoTr0NMpn7wVKyVc5u10rABpkPc5cU1
-         XaNf96FBcDRqZhoxiRBvEy0wMqQNB1UXUaq0IOzqmzJc4jnNAdkNtNNQUbz+DKFa757y
-         mNxg==
+        bh=3Tghye5hGM11TcgEfzCOhK+lscKzvU1LmRmu+KPK9kc=;
+        b=p/ZLJhJoJjUXwoN+SBSDlmeEL+L56qcOyU1DOn1QeqE5pok/N0+gHPqT2CiMCKWYx1
+         wIAjcQHgMr4Fl6KcYzWJ1cQG4D1CBsUCJwrjbplAerTO3fUJ+MEQEI8Y6yWXRvGMahng
+         ymWHDMsx35UwF8u7LVyKvChFqx/Q26PNsuUeP2UxrtrC8oTteuqqLc0GZ3KTtLAEf2AK
+         psU0MyIStJows5F5drW/bP+h90f09GzHfgvx88xuJI1EB5lBNCpBNg15qKaG7jkoupdM
+         RStq0tQYJQt0MgruxaUO4E5C59ExgjT0jie4tZ8JhZUlmVB6WncotWsR4gLNxGzrrNb/
+         ZeAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=/Mjuc0ntBC7aVq0BAWrlo0Hh4oR2RweWXyD0fJrWsuY=;
-        b=pVl+H5ryZ536lDFxfJlm0ZBMusKyFBsIY2rK4KItRkwL96S44AYGx0wl9GBGa7PRpX
-         QaPXnKuunxVjV7GNpYTnoUB9OhchsUVk5euqCqPZPMaAYSKjqRSmhaUG36hoa30/nc9U
-         VfMIpkXAIN4YFzFMAliLGNFYeTAEPJXYqAL4S5wpHnPI7+ms5xeJDN6cvNwjwGR2B+iQ
-         xsYGrJbdVRTC4rbDDf4WK3gZpztXeAQFaXC4ixTkaOqPDQglQgd0H5XXYt5iQ1qkgibN
-         fVa6gkOyla++AX9dNBHUi4/Br8gZisr63OTwW8w+qpm6X3smKdE8Ys66vmtVWr3buPjx
-         FoaQ==
-X-Gm-Message-State: AOAM532e6/IHNlaYRw5QvCtFSSnFG30UD4QOt+TuEqL8wdJOoTRXcu7s
-	ONvbva0ln5CQuQX3CfecoH1SmmYpyUdeEMlYD0M=
+        bh=3Tghye5hGM11TcgEfzCOhK+lscKzvU1LmRmu+KPK9kc=;
+        b=TO1P0UZzkLAgUef3T36BRZNm7NQD4cO7oS6Lf0pWRTe0oUDSTC3NMDaQTc1hKeDPwp
+         5ZeWJtBG5l5ZKzMBQ2uszX6pbcjQY149dqkXZyPICHYHCsaSMJKZ6YkJ+Ut7ZRftZVcg
+         iV88Bey6VZqnXkC6auotV2/uRK4di2eBMDZcbF4XjyyyNqcmd6QqBo6b3OSU4DEM6Deh
+         osb1gWHx6W3/AVzgKZa8naaVQBRSMVph0aoxY9ouWT77FQC8liNRJmn9U+oqVlt1FVTh
+         0wqASSfnvchMDayO2fATes8fpBNoIsgfYVs7r41jv5Rpey6aYUTX2jm3CAT4fwtJuylG
+         XuWQ==
+X-Gm-Message-State: AOAM530OHshCtbQ3E65DuzsC1BwpVrSX+P+bN9sFn22D/9cROh2HDrYl
+	m0Jc0g5NpQhqozHke37wfW59ShE2fk0AWqQQGA1UOXNOzAU=
 X-Google-Smtp-Source: 
- ABdhPJx5LehHwTGHo/s7YgOpJPSM8TdcFsuDfm0LN+XLtbjp24t2lNAVmkSIB7jxatW+r9qEobjyC/aW7CetdRJ/0nE=
-X-Received: by 2002:ab0:6381:0:b0:368:b480:d3e6 with SMTP id
- y1-20020ab06381000000b00368b480d3e6mr4764497uao.3.1652832679848; Tue, 17 May
- 2022 17:11:19 -0700 (PDT)
+ ABdhPJy+KvWuQW9e+MdTo4yTg/OEgf2/UXvR5qqtHxLaMeH2mLm0XZfAwA6k9VfELzZDRdjjMdRYj/dt/ehZoFK5ir8=
+X-Received: by 2002:a9f:3109:0:b0:368:c346:6203 with SMTP id
+ m9-20020a9f3109000000b00368c3466203mr1948019uab.28.1652832879454; Tue, 17 May
+ 2022 17:14:39 -0700 (PDT)
 MIME-Version: 1.0
 References: <cover.1652196703.git.bertrand.marquis@arm.com>
- <3ff0a6eb0eb859dade39cfa8c1494519c626d26d.1652196703.git.bertrand.marquis@arm.com>
+ <39d2a5b406c9445ad1e19a1315254e2d049ced60.1652196703.git.bertrand.marquis@arm.com>
 In-Reply-To: 
- <3ff0a6eb0eb859dade39cfa8c1494519c626d26d.1652196703.git.bertrand.marquis@arm.com>
+ <39d2a5b406c9445ad1e19a1315254e2d049ced60.1652196703.git.bertrand.marquis@arm.com>
 From: Christopher Clark <christopher.w.clark@gmail.com>
-Date: Tue, 17 May 2022 17:11:09 -0700
+Date: Tue, 17 May 2022 17:14:28 -0700
 Message-ID: 
- <CACMJ4GYiMC79YZNDQ=ZUmRkiQCQ2coWY0fK-DVn+PKOQBC6UfA@mail.gmail.com>
-Subject: Re: [meta-virtualization] [PATCH v2 3/4] xen: enable qemuboot for
- arm32
+ <CACMJ4GZ1ApagfEG-g6Wf46Ea29YVLowtP2Mi0-CK8_h++eKrrw@mail.gmail.com>
+Subject: Re: [meta-virtualization] [PATCH v2 4/4] xen: Disable PCI on qemuarm
+ with Xen
 To: Bertrand Marquis <bertrand.marquis@arm.com>
 Cc: meta-virtualization@lists.yoctoproject.org, nd <nd@arm.com>
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Wed, 18 May 2022 00:11:24 -0000
+ <meta-virtualization@lists.yoctoproject.org>; Wed, 18 May 2022 00:14:44 -0000
 X-Groupsio-URL: 
- https://lists.yoctoproject.org/g/meta-virtualization/message/7284
+ https://lists.yoctoproject.org/g/meta-virtualization/message/7285
 
 On Tue, May 10, 2022 at 8:35 AM Bertrand Marquis
 <bertrand.marquis@arm.com> wrote:
 >
-> Add required variables to generate a qemuboot devicetree for qemuarm.
-> With this change, Xen and dom0 can be started using runqemu.
+> Remove the pci node from the qemu device tree when runqemu is used with
+> xen-qemuboot.
 >
-> Xen is started using qemu kernel argument and the devicetree is modified
-> to properly boot dom0 (which is loaded in memory).
-> This is using the same system as qemuarm64.
+> Linux is ending up in an infinite loop when trying to access PCI
+> configuration space when running on top of Xen on arm32.
+> As we do not need or support any of the devices on PCI on arm32 at the
+> moment, just remove the node from the device tree generated by qemu.
 >
-> At this stage dom0 is hanging on PCI device scanning.
->
-> This patch is also using qemuarm64 as machine for arm64 bit instead of
-> aarch64 to allow adding support for other machine (an example a Xilinx
-> board that can be emulated with using an other xen machine).
+> The problem does not appear at the moment without Xen and it is unclear
+> why it is with Xen.
+> This will be investigated but in the meantime provide a working
+> configuration for users.
 >
 > Signed-off-by: Bertrand Marquis <bertrand.marquis@arm.com>
 
+Thanks for this - my review is from inspecting the patch applied; I
+have yet to test it but there's no need to hold this back with
+positive reports now from Bruce and Bertrand.
+
 Reviewed-by: Christopher Clark <christopher.w.clark@gmail.com>
+
+thanks,
 
 Christopher
 
 > ---
->  classes/qemuboot-xen-defaults.bbclass | 20 +++++++++++++++-----
->  1 file changed, 15 insertions(+), 5 deletions(-)
+>  classes/qemuboot-xen-dtb.bbclass | 22 ++++++++++++++++++++++
+>  1 file changed, 22 insertions(+)
 >
-> diff --git a/classes/qemuboot-xen-defaults.bbclass b/classes/qemuboot-xen-defaults.bbclass
-> index c7e74c3..f1550cc 100644
-> --- a/classes/qemuboot-xen-defaults.bbclass
-> +++ b/classes/qemuboot-xen-defaults.bbclass
-> @@ -10,15 +10,21 @@ DOM0_KERNEL ??= "${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGETYPE}"
->  DOM0_KERNEL_LOAD_ADDR ??= "0x45000000"
->  QB_XEN_DOMAIN_MODULES ??= "${DOM0_KERNEL}:${DOM0_KERNEL_LOAD_ADDR}:multiboot,kernel"
+> diff --git a/classes/qemuboot-xen-dtb.bbclass b/classes/qemuboot-xen-dtb.bbclass
+> index d43d23a..1f17a86 100644
+> --- a/classes/qemuboot-xen-dtb.bbclass
+> +++ b/classes/qemuboot-xen-dtb.bbclass
+> @@ -63,6 +63,21 @@ write_lops_xen_section() {
+>  EOF
+>  }
 >
-> -# Qemuboot for 64-bit Arm uses the QB_DEFAULT_KERNEL method to load Xen
-> +# Qemuboot for Arm uses the QB_DEFAULT_KERNEL method to load Xen
->  # and the device loader option for the dom0 kernel:
->  QB_OPT_APPEND:append:aarch64 = " \
->      -device loader,file=${DOM0_KERNEL},addr=${DOM0_KERNEL_LOAD_ADDR} \
->      "
-> -QB_DEFAULT_KERNEL:aarch64 = "xen-${MACHINE}"
-> +QB_OPT_APPEND:append:qemuarm = " \
-> +    -device loader,file=${DOM0_KERNEL},addr=${DOM0_KERNEL_LOAD_ADDR} \
-> +    "
-> +QB_DEFAULT_KERNEL:qemuarm64 = "xen-${MACHINE}"
-> +QB_DEFAULT_KERNEL:qemuarm = "xen-${MACHINE}"
->
->  # 64-bit Arm: gic version 3
-> -QB_MACHINE:aarch64 = "-machine virt,gic-version=3 -machine virtualization=true"
-> +QB_MACHINE:qemuarm64 = "-machine virt,gic-version=3 -machine virtualization=true"
-> +# 32-bit Arm
-> +QB_MACHINE:qemuarm = "-machine virt -machine virtualization=true"
->
->  # Increase the default qemu memory allocation to allow for the hypervisor.
->  # Use a weak assignment to allow for change of default and override elsewhere.
-> @@ -26,5 +32,9 @@ QB_MEM_VALUE ??= "512"
->  QB_MEM = "-m ${QB_MEM_VALUE}"
->
->  # 64-bit Arm: qemuboot with a device tree binary
-> -QB_DTB:aarch64 = "${IMAGE_NAME}.qemuboot.dtb"
-> -QB_DTB_LINK:aarch64 = "${IMAGE_LINK_NAME}.qemuboot.dtb"
-> +QB_DTB:qemuarm64 = "${IMAGE_NAME}.qemuboot.dtb"
-> +QB_DTB_LINK:qemuarm64 = "${IMAGE_LINK_NAME}.qemuboot.dtb"
+> +write_lop_rm_pci() {
+> +    cat <<EOF >"$1"
+> +/dts-v1/;
+> +/ {
+> +    compatible = "system-device-tree-v1";
+> +    lops {
+> +        lop_1 {
+> +            compatible = "system-device-tree-v1,lop,modify";
+> +            modify = "/pcie@10000000::";
+> +        };
+> +     };
+> +};
+> +EOF
+> +}
 > +
-> +# 32-bit Arm: qemuboot with a device tree binary
-> +QB_DTB:qemuarm = "${IMAGE_NAME}.qemuboot.dtb"
-> +QB_DTB_LINK:qemuarm = "${IMAGE_LINK_NAME}.qemuboot.dtb"
+>  write_lop_add_to_xen_cmdline() {
+>      EXTRA_XEN_BOOTARGS="$2"
+>      cat <<EOF >"$1"
+> @@ -135,6 +150,13 @@ generate_xen_qemuboot_dtb() {
+>      write_lop_add_to_xen_cmdline "${B}/lop-xen-cmdline.dts" \
+>          "${QB_XEN_CMDLINE_EXTRA}"
+>
+> +    # On Qemu Arm32, Dom0 accessing PCI config space ends up in an
+> +    # infinite loop. Remove pci node from the device tree
+> +    if [ "${MACHINE}" = "qemuarm" ]; then
+> +        write_lop_rm_pci "${B}/lop-rm-pci.dts"
+> +        LOP_MODULE_ARGS="${LOP_MODULE_ARGS} -i ${B}/lop-rm-pci.dts"
+> +    fi
+> +
+>      if [ -z "${QB_XEN_DOMAIN_MODULES}" ]; then
+>          bbwarn "No domain modules: please set QB_XEN_DOMAIN_MODULES"
+>      fi
 > --
 > 2.25.1
 >
 >
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#7274): https://lists.yoctoproject.org/g/meta-virtualization/message/7274
-> Mute This Topic: https://lists.yoctoproject.org/mt/91015802/3619037
+> View/Reply Online (#7273): https://lists.yoctoproject.org/g/meta-virtualization/message/7273
+> Mute This Topic: https://lists.yoctoproject.org/mt/91015801/3619037
 > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
 > Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [christopher.w.clark@gmail.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
