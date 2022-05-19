@@ -1,129 +1,177 @@
-Return-Path: <sakib.sajal@windriver.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86AC3C433F5
-	for <webhook@archiver.kernel.org>; Thu, 19 May 2022 19:52:07 +0000 (UTC)
-Received: from mail1.wrs.com (mail1.wrs.com [147.11.3.146])
- by mx.groups.io with SMTP id smtpd.web11.266.1652989922080637861
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF0FFC433EF
+	for <webhook@archiver.kernel.org>; Thu, 19 May 2022 20:35:07 +0000 (UTC)
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com
+ [209.85.219.181])
+ by mx.groups.io with SMTP id smtpd.web09.751.1652992500971719380
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 19 May 2022 12:52:03 -0700
+ Thu, 19 May 2022 13:35:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=permerror,
- err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid
- domain name (domain: windriver.com, ip: 147.11.3.146,
- mailfrom: sakib.sajal@windriver.com)
-Received: from mail.windriver.com (mail.wrs.com [147.11.1.11])
-	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 24JJpxn5031010
-	(version=TLSv1.1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
-	for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 19 May 2022 12:51:59 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com
- [147.11.82.252])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 24JJpxU4004256
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
-	for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 19 May 2022 12:51:59 -0700 (PDT)
-Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Thu, 19 May 2022 12:51:59 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Thu, 19 May 2022 12:51:59 -0700
-Received: from yow-lpggp3.wrs.com (128.224.137.13) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.12 via Frontend Transport; Thu, 19 May 2022 12:51:58 -0700
-From: Sakib Sajal <sakib.sajal@windriver.com>
-To: <meta-virtualization@lists.yoctoproject.org>
-Subject: [meta-virtualization][PATCH] buildah: add recipe for buildah v1.26
-Date: Thu, 19 May 2022 15:51:57 -0400
-Message-ID: <20220519195157.8270-1-sakib.sajal@windriver.com>
-X-Mailer: git-send-email 2.33.0
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=RGqIu9VR;
+ spf=pass (domain: gmail.com, ip: 209.85.219.181,
+ mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-yb1-f181.google.com with SMTP id q135so10977322ybg.10
+        for <meta-virtualization@lists.yoctoproject.org>;
+ Thu, 19 May 2022 13:35:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=I7G9EX4NLHMbKfY02HCdl6KVHaEMi9JxvhnTIeN/jWU=;
+        b=RGqIu9VRH8sJxT+OmBpDq+s0K0ak7bSGlloaGOR3lj150hmPgI7nXeIYfaLnlkVKi3
+         D4sLeSbVpwguy+hTXVNgb9hlPULvahoqCh8NJP4LplDVB+6hWUnjF8kB02krsamFIjsa
+         dKncK/Ez7y0u63fmIVWa0mlA4iqYlePasSpGYNPnLr+hOH+3pc+q2mtDnXIUITprnTS+
+         lU+FlGtN5tajwba9T3TubHWvax3Yuppy+G9BzwaqZQY1BqNM0tXWng8df6SMV2KSy9Mm
+         JPiu9HL8Sfyp6CcAFF08zUM2xNiXHRCVlZ6C56py8/iJtdJllM3YncHMDnUdjyVGtrRq
+         itmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=I7G9EX4NLHMbKfY02HCdl6KVHaEMi9JxvhnTIeN/jWU=;
+        b=QOxc3DhY/Ib1Vu44XxP+GDNis62Et9D3zVaWrlqhQnizCHStzuVi7YhaTgoh/6Y40q
+         9YyHIVdy7zVESTLHPxGHpGCK8GmcqLLYCb3QUhNOF1a3wdl5nv9Nt16Lrof9mam83mc0
+         sOD8dOIxkmOouYGxnGeUOvDE4TsTSN93Yj6Rbjd0l1V9E2WlpKPuJFwF8Sabiie7bFrY
+         7BcHCeiG+HvvLWhvMLRaGCjiW4r1nRQSX2nTm7MgbVNGAtkeSQls6qoU7UQ0UIu067y9
+         fgdvvlhzcwKgt/w7cJZdtxHEmHcG+9qIuVLQ544QNzwZ/kwbPysy8xW7r9RYAX2dNxPC
+         kXSA==
+X-Gm-Message-State: AOAM533k0xhLry9S8MsH8o5BaHSavdsVBUKkf7IzepMRPRpWiQyyHg5s
+	V5u9G54Xd/JpMa0lAYJ6MP7YwYHeqXpdDJ9YzxE=
+X-Google-Smtp-Source: 
+ ABdhPJxfZrIaCcMg455TE2vmo0lC6ERXlKId6t/xl3scdxd8kLa/JsCpy5vT+0Ik1WWrAv7gd3jTAFu4fIKWbRwjv20=
+X-Received: by 2002:a25:b6c9:0:b0:64a:9f32:5ac4 with SMTP id
+ f9-20020a25b6c9000000b0064a9f325ac4mr5907586ybm.131.1652992500033; Thu, 19
+ May 2022 13:35:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+References: <20220519193936.39214-1-sakib.sajal@windriver.com>
+In-Reply-To: <20220519193936.39214-1-sakib.sajal@windriver.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Thu, 19 May 2022 16:34:49 -0400
+Message-ID: 
+ <CADkTA4PnUxAvrEYoMuiSBMK4mvwT+SVoX_j0AJ_aSm=Ne+09sw@mail.gmail.com>
+Subject: Re: [meta-virtualization][PATCH] podman: do not build or install docs
+To: Sakib Sajal <sakib.sajal@windriver.com>
+Cc: meta-virtualization@lists.yoctoproject.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Thu, 19 May 2022 19:52:07 -0000
+ <meta-virtualization@lists.yoctoproject.org>; Thu, 19 May 2022 20:35:07 -0000
 X-Groupsio-URL: 
- https://lists.yoctoproject.org/g/meta-virtualization/message/7292
+ https://lists.yoctoproject.org/g/meta-virtualization/message/7293
 
-buildah is a tool that facilitates building OCI container images.
+On Thu, May 19, 2022 at 3:39 PM <sakib.sajal@windriver.com> wrote:
+>
+> When using oe-core, podman do_compile fails with the error:
+>    .../podman/4.0.1+gitAUTOINC+717edd7b84-r0/recipe-sysroot-native/usr/bin/go-md2man:
+>    No such file or directory
+>    make: *** [Makefile:482: docs/source/markdown/podman-attach.1] Error 127
+> Whereas when using poky, the build passes without issues.
+>
+> Investigating the native go-md2man binaries from both oe-core and poky
+> builds using ldd, it appears that the issue lies with how go-md2man is linked.
+> On oe-core it is linked to the loader in recipe sysroot:
+>    tmp-glibc/work/x86_64-linux/go-md2man-native/1.0.10+gitAUTOINC+f79a8a8ca6-r0/recipe-sysroot-native/usr/lib/ld-linux-x86-64.so.2
+>    => /lib64/ld-linux-x86-64.so.2 (0x00007f4da90f0000)
+>
+> whereas on poky its linked to sysroot-uninative:
+>    tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2
+>    => /lib64/ld-linux-x86-64.so.2 (0x00007f9c82c71000)
+>
+> I have confirmed that this issue exists on both Ubuntu 18.04 and
+> Fedora 35.
+>
+> Rather have this fail for people using only oe-core, skip generating the
+> documentation for podman until the problem can be resolved.
 
-Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
----
- recipes-containers/buildah/buildah_git.bb | 57 +++++++++++++++++++++++
- 1 file changed, 57 insertions(+)
- create mode 100644 recipes-containers/buildah/buildah_git.bb
+I'm building podman nightly without seeing this error.
 
-diff --git a/recipes-containers/buildah/buildah_git.bb b/recipes-containers/buildah/buildah_git.bb
-new file mode 100644
-index 0000000..024e82c
---- /dev/null
-+++ b/recipes-containers/buildah/buildah_git.bb
-@@ -0,0 +1,57 @@
-+HOMEPAGE = "https://buildah.io"
-+SUMMARY = "A tool that facilitates building OCI container images."
-+DESCRIPTION = "A tool that facilitates building OCI container images."
-+
-+# Apache-2.0 for containerd
-+LICENSE = "Apache-2.0"
-+LIC_FILES_CHKSUM = "file://src/github.com/containers/buildah/LICENSE;md5=e3fc50a88d0a364313df4b21ef20c29e"
-+
-+S = "${WORKDIR}/git"
-+
-+BUILDAH_VERSION = "1.26"
-+SRCREV_buildah = "0a9d6e6eaef2e2e7936313d449a4e226022eb865"
-+
-+PV = "${BUILDAH_VERSION}"
-+
-+inherit go
-+inherit goarch
-+inherit pkgconfig
-+
-+GO_IMPORT = "github.com/containers/buildah"
-+GO_INSTALL = "${GO_IMPORT}"
-+GO_WORKDIR = "${GO_INSTALL}"
-+GOBUILDFLAGS += "-mod vendor"
-+
-+SRC_URI = " \
-+    git://github.com/containers/buildah;branch=release-${BUILDAH_VERSION};name=buildah;protocol=https \
-+    "
-+
-+DEPENDS = "libdevmapper btrfs-tools gpgme"
-+RDEPENDS:${PN} = "cgroup-lite fuse-overlayfs libdevmapper podman"
-+RDEPENDS:${PN}-dev = "bash perl"
-+
-+do_compile:prepend() {
-+    cd ${S}/src/github.com/containers/buildah
-+}
-+
-+go_do_compile() {
-+        export TMPDIR="${GOTMPDIR}"
-+        if [ -n "${GO_INSTALL}" ]; then
-+                if [ -n "${GO_LINKSHARED}" ]; then
-+                        ${GO} install ${GOBUILDFLAGS} ./cmd/buildah
-+                        ${GO} install ${GOBUILDFLAGS} ./tests/imgtype/imgtype.go
-+                        ${GO} install ${GOBUILDFLAGS} ./tests/copy/copy.go
-+                        rm -rf ${B}/bin
-+                fi
-+                ${GO} install ${GO_LINKSHARED} ${GOBUILDFLAGS} ./cmd/buildah
-+                ${GO} install ${GO_LINKSHARED} ${GOBUILDFLAGS} ./tests/imgtype/imgtype.go
-+                ${GO} install ${GO_LINKSHARED} ${GOBUILDFLAGS} ./tests/copy/copy.go
-+        fi
-+}
-+
-+do_install:append() {
-+    dest_dir=${D}/${sysconfdir}/containers
-+    mkdir -p ${dest_dir}
-+    install -m 666 ${S}/src/github.com/containers/buildah/docs/samples/registries.conf ${dest_dir}/buildah.registries.conf.sample
-+    install -m 666 ${S}/src/github.com/containers/buildah/tests/policy.json ${dest_dir}/buildah.policy.json.sample
-+}
+So your message about "people using only oe-core" doesn't make sense,
+can you clarify ?
+
+Bruce
+
+
+>
+> Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
+> ---
+>  ...efile-do-not-compile-or-install-docs.patch | 35 +++++++++++++++++++
+>  recipes-containers/podman/podman_git.bb       |  1 +
+>  2 files changed, 36 insertions(+)
+>  create mode 100644 recipes-containers/podman/files/0001-Makefile-do-not-compile-or-install-docs.patch
+>
+> diff --git a/recipes-containers/podman/files/0001-Makefile-do-not-compile-or-install-docs.patch b/recipes-containers/podman/files/0001-Makefile-do-not-compile-or-install-docs.patch
+> new file mode 100644
+> index 0000000..1363ee8
+> --- /dev/null
+> +++ b/recipes-containers/podman/files/0001-Makefile-do-not-compile-or-install-docs.patch
+> @@ -0,0 +1,35 @@
+> +From 7913cac21842f56ae9752fb0c253f838bab04ae8 Mon Sep 17 00:00:00 2001
+> +From: Sakib Sajal <sakib.sajal@windriver.com>
+> +Date: Fri, 13 May 2022 13:06:29 -0400
+> +Subject: [PATCH] Makefile: do not compile or install docs
+> +
+> +Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
+> +---
+> + Makefile | 4 ++--
+> + 1 file changed, 2 insertions(+), 2 deletions(-)
+> +
+> +diff --git a/src/import/Makefile b/src/import/Makefile
+> +index cb230d8e9..7e07ab61a 100644
+> +--- a/src/import/Makefile
+> ++++ b/src/import/Makefile
+> +@@ -202,7 +202,7 @@ GV_SHA=e943b1806d94d387c4c38d96719432d50a84bbd0
+> + default: all
+> +
+> + .PHONY: all
+> +-all: binaries docs
+> ++all: binaries
+> +
+> + .PHONY: binaries
+> + binaries: podman podman-remote rootlessport ## Build podman, podman-remote and rootlessport binaries
+> +@@ -754,7 +754,7 @@ package-install: package  ## Install rpm packages
+> +       /usr/bin/podman info  # will catch a broken conmon
+> +
+> + .PHONY: install
+> +-install: .gopathok install.bin install.remote install.man install.systemd  ## Install binaries to system locations
+> ++install: .gopathok install.bin install.remote install.systemd  ## Install binaries to system locations
+> +
+> + .PHONY: install.catatonit
+> + install.catatonit:
+> +--
+> +2.33.0
+> +
+> diff --git a/recipes-containers/podman/podman_git.bb b/recipes-containers/podman/podman_git.bb
+> index f805cb6..8339a16 100644
+> --- a/recipes-containers/podman/podman_git.bb
+> +++ b/recipes-containers/podman/podman_git.bb
+> @@ -20,6 +20,7 @@ DEPENDS = " \
+>  SRCREV = "717edd7b844dcd66468f5d991991d87e9fc14c12"
+>  SRC_URI = " \
+>      git://github.com/containers/libpod.git;branch=v4.0;protocol=https \
+> +    file://0001-Makefile-do-not-compile-or-install-docs.patch \
+>  "
+>
+>  LICENSE = "Apache-2.0"
+> --
+> 2.33.0
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#7290): https://lists.yoctoproject.org/g/meta-virtualization/message/7290
+> Mute This Topic: https://lists.yoctoproject.org/mt/91216450/1050810
+> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+
+
 -- 
-2.33.0
-
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
