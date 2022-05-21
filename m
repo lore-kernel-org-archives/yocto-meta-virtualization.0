@@ -2,63 +2,63 @@ Return-Path: <christopher.w.clark@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 81FE5C43219
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F849C41535
 	for <webhook@archiver.kernel.org>; Sat, 21 May 2022 19:05:02 +0000 (UTC)
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com
- [209.85.210.175])
- by mx.groups.io with SMTP id smtpd.web08.8688.1653159897648556760
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
+ [209.85.214.182])
+ by mx.groups.io with SMTP id smtpd.web08.8687.1653159896202083561
  for <meta-virtualization@lists.yoctoproject.org>;
- Sat, 21 May 2022 12:04:57 -0700
+ Sat, 21 May 2022 12:04:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=GqsLiX9W;
- spf=pass (domain: gmail.com, ip: 209.85.210.175,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=b9gLxBt1;
+ spf=pass (domain: gmail.com, ip: 209.85.214.182,
  mailfrom: christopher.w.clark@gmail.com)
-Received: by mail-pf1-f175.google.com with SMTP id c14so10362327pfn.2
+Received: by mail-pl1-f182.google.com with SMTP id i1so9868912plg.7
         for <meta-virtualization@lists.yoctoproject.org>;
- Sat, 21 May 2022 12:04:57 -0700 (PDT)
+ Sat, 21 May 2022 12:04:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=o8ScAK+5KQdoMz/zcy1OanNmZYfaERFlOMEKOv2pFo8=;
-        b=GqsLiX9WEN6nCdLB3NpTp6le2khOgwhErduUSokNmGyWeYwSl0z0zw0euR9u7Z2Xiu
-         N5qWDyJx/iJpuwaJOqkiDgCrIYnXLptptbikFzknq9CgusOmH3Ko6AzO4fuvciRD3F2b
-         h90+yy3/IFK18o3w0ZQSfFMVV2SjR/+3DHp8ARTc5hbye/cM+1+cn3UDqJjbjPbTK+cr
-         Sug1kMVyHvEny9u5tmMLJZ8ur/QHIszhWUEFCuRAPrRd1CJ2/SSHuOm56py94q6j8faI
-         n2fr5FTTwp1p4orhzgYYeoeA2Jjz7UetvgC1j83RP+9PErLtt3PtwQ1boquO2Bi2BjUq
-         ViZA==
+        bh=y4w9TTolWpY8/swZ4ydYgNESTvnk4+7PmDA3YweJHZ8=;
+        b=b9gLxBt1A6eNtDSus/hlm+8gDF0Zob6tln/vU6b5UkwDr+/kBbykFHL/oh/URCl/N1
+         Vcqhb45Sq++iP3Z+OS0OcPir8X3zjSRVpPjGqnPPzVSe4u+zbigIQUHIM8BT6NcmzYsx
+         buz3Sze9UzIuo+XkVxyGYQeqdtjH+NbFarNjKkZDszkIuHglG7f+xiqHdk4q2zgUav9x
+         radeQK7rbzfut0ysv1YRe0kaK5QYaJzIWnJthehLaG8ENsg0t31h7BSYoreQT3mumiN0
+         PILrrtN1GjyT8d/A3lrznVJq2R4gu6qtmr+N88mqlNVjdrt/c4lxVk7hPnEHG5kAQAWv
+         YQjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=o8ScAK+5KQdoMz/zcy1OanNmZYfaERFlOMEKOv2pFo8=;
-        b=PiqnYK/WY9X3zJiD+06Wu0ezETLrPvue1QtqOnl8G+Wvk1aUGfnvoaapM8mJYzcDnu
-         QjvMrBdQrGfaas4mSX1gmsOr9OprkqSmNfn51Wwi8r6QgxpI9s4/0xAPcHBcbG4sVDhX
-         IBEUsYJCXIcGfs8tsOdRXwzyfr14EUC3++Lvu/zs6ncG+Kuie+CBNp1aKkT1hk9kjujw
-         lfGNvHgeNvdr/aDKe3+r76bTJblxrUt3Rx9IbOX3ipq/YtfKsjCm6dJvNn3WCoaSPmMQ
-         S8Jgq3KZC9nQ2qp9IhKLXptlJztSbh7UIHACt332bCVDIBfqh0SiugNGIo192nq7spYG
-         e3eQ==
-X-Gm-Message-State: AOAM5303UL2JZIMSd0NAkddI6/W9h9tqKfPVhThCg63Zz6TyXT4Iw46/
-	Uf5XrxUG/Rdia9SpKKXFoFMqNSUFO+U=
+        bh=y4w9TTolWpY8/swZ4ydYgNESTvnk4+7PmDA3YweJHZ8=;
+        b=S+zyTyzlmXMNBytJkzL5RKQo6lhh12dPJ8ExciKDUbFDl98wQziYxP1dBkfsZcLnn5
+         eopKf9KtXGYKjnunf3PnrkalJhiunzSjuRh6SkyEI1LQOZLToPrxyZPhOB45z1oRU41D
+         RGewS82IEGBRESojXUZMfnRki/uX42ejdrWcAii2bNKsonrInfxGmmesnFVKpP5PAxAk
+         8EFLtNABhsmRhzIcW1gjSPiwkV1Op4aRp9hE0KnQ+y8TdeIwT1L6sWKchG9tLakhBOEH
+         oMnDzD2pIztquQZ+tiYDV4y6QmlSvx3KGah8ah5aHzMzcS+dvgP4QPERHEz6FUsShX/3
+         RQvA==
+X-Gm-Message-State: AOAM5311+Vdju3Ce/G0HLj/4LPMn9k0YGAdcFTo6uWWV/trCzotDAgMu
+	z1ycQgy77KxmcOJ3qWoM1i4nd/uap9k=
 X-Google-Smtp-Source: 
- ABdhPJxuj97GSXwpIVpi55myoj1dYql9p/35diGbKPpWwpVDKlWtwctePA7GAoWl9lOfpod2+L8Aeg==
-X-Received: by 2002:a63:7d3:0:b0:3f6:885:cd22 with SMTP id
- 202-20020a6307d3000000b003f60885cd22mr13901286pgh.143.1653159896967;
-        Sat, 21 May 2022 12:04:56 -0700 (PDT)
+ ABdhPJw/m3ACkD6NIo0Q4O1hU/MQA81CkgtXSUfnyzj3Co1QTS2W6h+E5L1G1PAkvwddggenYXd/og==
+X-Received: by 2002:a17:902:bf06:b0:14d:8c72:96c6 with SMTP id
+ bi6-20020a170902bf0600b0014d8c7296c6mr15510134plb.156.1653159895599;
+        Sat, 21 May 2022 12:04:55 -0700 (PDT)
 Received: from cog-dev.home ([70.103.208.83])
         by smtp.gmail.com with ESMTPSA id
- c16-20020a170902d49000b001620a2737b6sm1592856plg.74.2022.05.21.12.04.56
+ c16-20020a170902d49000b001620a2737b6sm1592856plg.74.2022.05.21.12.04.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 21 May 2022 12:04:56 -0700 (PDT)
+        Sat, 21 May 2022 12:04:55 -0700 (PDT)
 From: Christopher Clark <christopher.w.clark@gmail.com>
 To: meta-virtualization@lists.yoctoproject.org
 Cc: bruce.ashfield@gmail.com,
 	cardoe@gentoo.org,
 	Bertrand.Marquis@arm.com
-Subject: [meta-virtualization][hardknott][PATCH 1/3] linux-yocto-dev,
- raspberrypi: apply fixed revision to kernel
-Date: Sat, 21 May 2022 12:04:40 -0700
-Message-Id: <20220521190447.135705-5-christopher.w.clark@gmail.com>
+Subject: [meta-virtualization][gatesgarth][PATCH 2/3] xen: drop patch to
+ workaround prelink on aarch64
+Date: Sat, 21 May 2022 12:04:38 -0700
+Message-Id: <20220521190447.135705-3-christopher.w.clark@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220521190447.135705-1-christopher.w.clark@gmail.com>
 References: <20220521190447.135705-1-christopher.w.clark@gmail.com>
@@ -69,40 +69,104 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <meta-virtualization@lists.yoctoproject.org>; Sat, 21 May 2022 19:05:02 -0000
 X-Groupsio-URL: 
- https://lists.yoctoproject.org/g/meta-virtualization/message/7302
+ https://lists.yoctoproject.org/g/meta-virtualization/message/7300
 
-The default preferred Linux kernel for Xen on the Raspberry Pi 4
-board in this branch is linux-yocto-dev, which unfortunately results
-in a branch tracking configuration rather than a fixed revision.
+Patch is not needed for image prelinking since the gcc toolchain
+in this branch successfully links Xen without it.
 
-Apply a specified revision from the 5.12/standard/bcm-2xxx-rpi
-branch, per the kernel version for this release, and disable tracking.
-Revision is the current tip of v5.12/standard/bcm-2xxx-rpi branch,
-tested and verified working on the board.
+Remove the patch from the stable branch since the BSD license of the
+modified header file differs vs the GPLv2 source code referenced.
+Removal preferred to replacement with a new patch that moves the function
+into GPLv2 .c source files since the build now succeeds without it.
 
 Signed-off-by: Christopher Clark <christopher.w.clark@gmail.com>
 ---
- .../recipes-kernel/linux/linux-yocto-dev.bbappend         | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ ...xen-arm64-implement-atomic-fetch-add.patch | 50 -------------------
+ recipes-extended/xen/xen_4.14.bb              |  1 -
+ recipes-extended/xen/xen_git.bb               |  1 -
+ 3 files changed, 52 deletions(-)
+ delete mode 100644 recipes-extended/xen/files/xen-arm64-implement-atomic-fetch-add.patch
 
-diff --git a/dynamic-layers/raspberrypi/recipes-kernel/linux/linux-yocto-dev.bbappend b/dynamic-layers/raspberrypi/recipes-kernel/linux/linux-yocto-dev.bbappend
-index 2a0416f..91558b3 100644
---- a/dynamic-layers/raspberrypi/recipes-kernel/linux/linux-yocto-dev.bbappend
-+++ b/dynamic-layers/raspberrypi/recipes-kernel/linux/linux-yocto-dev.bbappend
-@@ -5,6 +5,12 @@ DEFAULT_CMDLINE := "${CMDLINE}"
- XEN_LINUX_CMDLINE ?= "console=hvc0 clk_ignore_unused earlycon=xenboot debug root=/dev/mmcblk0p2 rootwait"
- CMDLINE = "${@bb.utils.contains('DISTRO_FEATURES', 'xen', '${XEN_LINUX_CMDLINE}', '${DEFAULT_CMDLINE}', d)}"
+diff --git a/recipes-extended/xen/files/xen-arm64-implement-atomic-fetch-add.patch b/recipes-extended/xen/files/xen-arm64-implement-atomic-fetch-add.patch
+deleted file mode 100644
+index 6e957a5..0000000
+--- a/recipes-extended/xen/files/xen-arm64-implement-atomic-fetch-add.patch
++++ /dev/null
+@@ -1,50 +0,0 @@
+-From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+-From: Christopher Clark <christopher.w.clark@gmail.com>
+-Date: Fri, 26 June 2020 16:34:00 -0800
+-Subject: [PATCH] xen: implement atomic op to fix arm64 compilation
+-
+-Xen's ARM implementation of arch_fetch_and_add since f9cc3cd9
+-uses a builtin, despite the build being performed with -fno-builtin.
+-With gcc 10.1.0, this now breaks prelinking spinlock.c, so
+-implement the one atomic operation that is required with logic
+-derived from Linux's atomic_ll_sc.h: ATOMIC_FETCH_OP and comparison with
+-the binary produced with and without the patch with gcc 9.2.0.
+-
+-Signed-off-by: Christopher Clark <christopher.w.clark@gmail.com>
+-diff --git a/xen/include/asm-arm/system.h b/xen/include/asm-arm/system.h
+-index e5d062667d..c46dd3ac71 100644
+---- a/xen/include/asm-arm/system.h
+-+++ b/xen/include/asm-arm/system.h
+-@@ -55,7 +55,32 @@ static inline int local_abort_is_enabled(void)
+-     return !(flags & PSR_ABT_MASK);
+- }
+- 
+-+#ifdef CONFIG_ARM_64
+-+
+-+/* see atomic_ll_sc.h:  ATOMIC_FETCH_OP(name, mb, acq, rel, cl, op, asm_op, constraint) */
+-+static inline int arch_fetch_and_add(unsigned int *ptr, unsigned long i)
+-+{
+-+    int register lptr asm("x0");
+-+    int register result asm("w1");
+-+    int register newval asm("w2");
+-+    int register status asm("w3");
+-+
+-+    asm volatile(
+-+    "   mov       %[lptr], %[ptr]\n"
+-+    "1: ldxr      %w[result], [%[lptr]]\n"
+-+    "   add       %w[newval], %w[result], %w[i]\n"
+-+    "   stlxr     %w[status], %w[newval], [%[lptr]]\n"
+-+    "   cbnz      %w[status], 1b\n"
+-+    "   dmb       ish\n"
+-+    : [result] "=&r" (result), [lptr] "=&r" (lptr), [newval] "=&r" (newval), [status] "=&r" (status), [i] "+r" (i), "+Q" (*ptr)
+-+    : [ptr] "r" (ptr), "r" (i)
+-+    : "memory");
+-+
+-+    return result;
+-+}
+-+#else
+- #define arch_fetch_and_add(x, v) __sync_fetch_and_add(x, v)
+-+#endif
+- 
+- extern struct vcpu *__context_switch(struct vcpu *prev, struct vcpu *next);
+- 
+diff --git a/recipes-extended/xen/xen_4.14.bb b/recipes-extended/xen/xen_4.14.bb
+index 653e3b6..6ac3236 100644
+--- a/recipes-extended/xen/xen_4.14.bb
++++ b/recipes-extended/xen/xen_4.14.bb
+@@ -5,7 +5,6 @@ XEN_BRANCH ?= "stable-${XEN_REL}"
  
--KBRANCH_raspberrypi4-64 ?= "standard/bcm-2xxx-rpi"
-+KBRANCH_raspberrypi4-64 ?= "v5.12/standard/bcm-2xxx-rpi"
- KMACHINE_raspberrypi4-64 ?= "bcm-2xxx-rpi4"
- COMPATIBLE_MACHINE_raspberrypi4-64 = "(raspberrypi4-64)"
-+
-+# Tip of v5.12/standard/bcm-2xxx-rpi
-+SRCREV_machine_raspberrypi4-64 = "f48ad8b95fdcc48a3defe5d085cfd8c5390826b8"
-+
-+# Tip of master:
-+SRCREV_meta_raspberrypi4-64 = "942a3a2cc192a8b2e38a7fef4a40249c79f5c9f5"
+ SRC_URI = " \
+     git://xenbits.xen.org/xen.git;branch=${XEN_BRANCH} \
+-    file://xen-arm64-implement-atomic-fetch-add.patch \
+     file://0001-menuconfig-mconf-cfg-Allow-specification-of-ncurses-location.patch \
+     "
+ 
+diff --git a/recipes-extended/xen/xen_git.bb b/recipes-extended/xen/xen_git.bb
+index 2b62c5c..fba12e5 100644
+--- a/recipes-extended/xen/xen_git.bb
++++ b/recipes-extended/xen/xen_git.bb
+@@ -5,7 +5,6 @@ XEN_BRANCH ?= "master"
+ 
+ SRC_URI = " \
+     git://xenbits.xen.org/xen.git;branch=${XEN_BRANCH} \
+-    file://xen-arm64-implement-atomic-fetch-add.patch \
+     file://0001-menuconfig-mconf-cfg-Allow-specification-of-ncurses-location.patch \
+     "
+ 
 -- 
 2.25.1
 
