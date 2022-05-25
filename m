@@ -1,158 +1,184 @@
-Return-Path: <christopher.w.clark@gmail.com>
+Return-Path: <sakib.sajal@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7949DC433EF
-	for <webhook@archiver.kernel.org>; Wed, 25 May 2022 17:00:27 +0000 (UTC)
-Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com
- [209.85.217.42])
- by mx.groups.io with SMTP id smtpd.web11.9416.1653498024629201262
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BEB1C433F5
+	for <webhook@archiver.kernel.org>; Wed, 25 May 2022 23:43:59 +0000 (UTC)
+Received: from mail1.wrs.com (mail1.wrs.com [147.11.3.146])
+ by mx.groups.io with SMTP id smtpd.web10.13807.1653522231654835446
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 25 May 2022 10:00:24 -0700
+ Wed, 25 May 2022 16:43:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=AFA6JVqj;
- spf=pass (domain: gmail.com, ip: 209.85.217.42,
- mailfrom: christopher.w.clark@gmail.com)
-Received: by mail-vs1-f42.google.com with SMTP id j7so21256310vsj.7
-        for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 25 May 2022 10:00:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=CfTZ++m6vux3LGNZLJpWCfzCuL5mZTcYP237yMmBD0g=;
-        b=AFA6JVqjn4e4dDP0iGKv5Krp4DPKSXK/u8F9SdiofHFxSYYUC+G6cJtXWf4XrGuCj0
-         kxyBrXFgwAzcCIemMoTB3YtV7EKbr0q5Lia/bfaPUDPaitDSifOde5MUHQrV/AuI+pmb
-         fg4S5FG6OLXsPSa9b3x2cHVnSMA6qTtm4noLmFUvGrQ7uGE/yecw6uvfYtxrYBpyqeIW
-         tkJXnFB8ZL8A0LToj8UzwhcINAtW340S0CEuVJ/dD809d1QzbjINZv9FB9riLTlzuo4M
-         /kznsQ8MQJBZXYpG2upDWaLnCvtZDNTYO92dH37haCIqd2UuKEI/gqN/3+2zcR26MHJV
-         lczw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=CfTZ++m6vux3LGNZLJpWCfzCuL5mZTcYP237yMmBD0g=;
-        b=nVl0joI3R8LERf/bqmhAvFA9xdn51kKPHMuYX2303E46qjPGE1fb5fZVfEZNkfckeK
-         a7QvfJNVLq9gSwRoww8+EDbvozfzfnAKxdjycPdbwPjULqWx0s/SLXyP5ZZDLfxPjsh1
-         CcRfUm/DM5MOsXaI7gdXcamzXIrGNueyEbrzHq1TT6xd0CVnE+lBGCkoeJLlrsVuIwuQ
-         YVot1mxW4gedPrOXBg1S86bABQzh/ZNix1gNUp8/Fxar2zWMIZuxe3Ek90q+YbiTEEdt
-         f50JXm28miocBjSvg98BuwkQ060yYW9rQsOwK635VdNQ7987HpoW5+5RiKzHCuLZVcln
-         pxOA==
-X-Gm-Message-State: AOAM531KMza7mzfT8p+LqEORMlf1RTf+fk6CJdr751l1EIfHa5yWEXTQ
-	ZQ9GfeHF5oOYcsrSU1MUnjp9hTjGdE+qQ+jhtu4=
-X-Google-Smtp-Source: 
- ABdhPJwwhqhW3AcurNqTKeTW5AO49yxKGnfV5fdGmoHxdoboVl82FC7+PgWw9QMMiBpl2EPXng6etZUNmVGi+NlFb7Y=
-X-Received: by 2002:a67:ed4b:0:b0:32d:285a:e552 with SMTP id
- m11-20020a67ed4b000000b0032d285ae552mr13912034vsp.84.1653498023710; Wed, 25
- May 2022 10:00:23 -0700 (PDT)
+ dkim=missing;
+ spf=permerror,
+ err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid
+ domain name (domain: windriver.com, ip: 147.11.3.146,
+ mailfrom: sakib.sajal@windriver.com)
+Received: from mail.windriver.com (mail.wrs.com [147.11.1.11])
+	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 24PNhmYj000964
+	(version=TLSv1.1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
+	for <meta-virtualization@lists.yoctoproject.org>;
+ Wed, 25 May 2022 16:43:49 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com
+ [147.11.82.252])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 24PNhm28027967
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
+	for <meta-virtualization@lists.yoctoproject.org>;
+ Wed, 25 May 2022 16:43:48 -0700 (PDT)
+Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Wed, 25 May 2022 16:43:48 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27; Wed, 25 May 2022 16:43:48 -0700
+Received: from yow-lpggp3.wrs.com (128.224.137.13) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2242.12 via Frontend Transport; Wed, 25 May 2022 16:43:48 -0700
+From: Sakib Sajal <sakib.sajal@windriver.com>
+To: <meta-virtualization@lists.yoctoproject.org>
+Subject: [meta-virtualization][PATCH V2] buildah: add recipe for buildah v1.26
+Date: Wed, 25 May 2022 19:43:47 -0400
+Message-ID: <20220525234347.3799-1-sakib.sajal@windriver.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-References: <20220521190447.135705-1-christopher.w.clark@gmail.com>
- <CADkTA4Pv6Qz7i6+AtHaGUuq6yPOkkgCM9Hb8eqXW_U6kh3nCFA@mail.gmail.com>
-In-Reply-To: 
- <CADkTA4Pv6Qz7i6+AtHaGUuq6yPOkkgCM9Hb8eqXW_U6kh3nCFA@mail.gmail.com>
-From: Christopher Clark <christopher.w.clark@gmail.com>
-Date: Wed, 25 May 2022 10:00:12 -0700
-Message-ID: 
- <CACMJ4GZX0zzNQHijN6-y9ia1RPZgTs=Jd70CNxN+XDvuE7-7Tw@mail.gmail.com>
-Subject: Re:
- [meta-virtualization][gatesgarth,hardknott,honister,kirkstone,master][PATCH
- 0/11] Xen on Raspberry Pi 4 fixes
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: meta-virtualization@lists.yoctoproject.org,
-	Doug Goldstein <cardoe@gentoo.org>,
- Bertrand Marquis <Bertrand.Marquis@arm.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Wed, 25 May 2022 17:00:27 -0000
+ <meta-virtualization@lists.yoctoproject.org>; Wed, 25 May 2022 23:43:59 -0000
 X-Groupsio-URL: 
- https://lists.yoctoproject.org/g/meta-virtualization/message/7323
+ https://lists.yoctoproject.org/g/meta-virtualization/message/7324
 
- On Wed, May 25, 2022 at 8:36 AM Bruce Ashfield
-<bruce.ashfield@gmail.com> wrote:
->
-> On Sat, May 21, 2022 at 3:04 PM Christopher Clark
-> <christopher.w.clark@gmail.com> wrote:
-> >
-> > A series of fixes applied to master and across stable branches where
-> > needed to fix running Xen on the Raspberry Pi 4 board.
-> >
-> > This updates Linux kernel configuration for Xen to remove tracking from
-> > the linux-yocto-dev kernel, either by applying a fixed revision and
-> > specification of a stable branch or replacing it with the linux-yocto
-> > kernel. The Xen build configuration is updated to remove the hypervisor
-> > defconfig for the Raspberry Pi and drop the arm64 prelink patch as a
-> > license correction and since the build no longer needs it with the newer
-> > gcc toolchain.
->
-> I appreciate the patches for all the branches, it gives more
-> confidence in how thorough things look!
->
-> I will avoid the EOL branches, but if someone really wants them, they
-> are on the list and I wouldn't fight too hard about not applying them.
+buildah is a command line tool, to be installed and run on target,
+that can be used to:
+   - create a working container, either from scratch or using an image
+     as a starting point
+   - create an image, either from a working container or via the
+     instructions in a Dockerfile
+   - images can be built in either the OCI image format or the
+     traditional upstream docker image format
+   - mount a working container's root filesystem for manipulation
+   - unmount a working container's root filesystem
+   - use the updated contents of a container's root filesystem as a
+     filesystem layer to create a new image
+   - delete a working container or an image
+   - rename a local container
 
-ack, ok
+Testing:
+Setup the build directory:
+   $ . oe-init-build-env <build_dir>
 
-> Just so I'm clear, there aren't actually 11 patches, just some of the
-> patches repeated across the various branches .. totalling 11. If that
-> is wrong, please do follow up to the branches with more patches, as I
-> definitely didn't get 11.
+Add to local.conf:
+   IMAGE_INSTALL:append = " buildah kernel-modules"
+   KERNEL_FEATURES += "features/overlayfs/overlayfs.cfgi \
+                       features/netfilter/netfilter.scc  \
+                       features/lxc/lxc-enable.scc"
+   IMAGE_ROOTFS_EXTRA_SPACE = "5242880"
 
-It is a bit confusing, sorry - I sent 11 patches in total, so I put
-"0/11" on the cover letter, but that's the total over 5 branches.
-(They are in sequence starting here:
-https://lists.yoctoproject.org/g/meta-virtualization/message/7298 and
-listed in the first message in this thread)
-When I sent each patch, I put the branch name that the patch applies
-to in the Subject line.
+Build image:
+   $ bitbake core-image-minimal
 
-There are at most 3 patches for any given branch, and although the
-patches do look similar between branches, there are small differences:
-eg. selection of "v5.10/standard/bcm-2xxx-rpi" for gatesgarth vs
-"v5.12/standard/bcm-2xxx-rpi" for hardknott, reflecting the state of
-linux-yocto-dev at the point that the branch was active.
-So I sent the patches that I tested in each branch, and I would
-recommend applying the sent one rather than picking similar ones
-across between branches for these.
+Run the image:
+   $ runqemu nographic kvm qemuparams="-m 4096"
 
-thanks,
+On target:
+Pull an image:
+   > cnt=$(buildah from fedora)
 
-Christopher
+Or build from Dockerfile
+   > buildah bud -t <image_name>:<tag> .
 
->
-> Bruce
->
-> >
-> > Tested on hardware.
-> >
-> > Christopher Clark
-> >
-> > gatesgarth:
-> >   01: linux-yocto-dev, raspberrypi: apply fixed revision to kernel
-> >   02: xen: drop patch to workaround prelink on aarch64
-> >   03: xen: fix boot on the Raspberry Pi 4
-> >
-> > hardknott:
-> >   04: linux-yocto-dev, raspberrypi: apply fixed revision to kernel
-> >   05: xen: drop patch to workaround prelink on aarch64
-> >   06: xen: fix boot on the Raspberry Pi 4
-> >
-> > honister:
-> >   07: linux-yocto-dev, xen, raspberrypi: remove tracking bbappend
-> >   08: xen: drop patch to workaround prelink on aarch64
-> >   09: xen: fix boot on the Raspberry Pi 4 with Xen 4.14
-> >
-> > kirkstone:
-> >   10: xen, raspberry pi: replace linux-yocto-dev with linux-yocto 5.15
-> >
-> > master:
-> >   11: xen, raspberry pi: replace linux-yocto-dev with linux-yocto 5.15
->
->
->
-> --
-> - Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at its end
-> - "Use the force Harry" - Gandalf, Star Trek II
+Mount the image:
+   > mnt=$(buildah mount ${cnt})
+
+Install packages on the container rootfs:
+   > dnf install --installroot $mnt <packages_to_install> -y
+
+Copy local files to the container:
+   > buildah copy $cnt <local_file> <dest_on_container>
+
+Save the changes to an image
+   > buildah commit --format docker $cnt <name>:<tag>
+
+Run the image using buildah:
+   > buildah run $cnt /bin/sh
+
+Or using docker:
+   > docker run -it <name>:<tag>
+
+Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
+---
+ recipes-containers/buildah/buildah_git.bb | 57 +++++++++++++++++++++++
+ 1 file changed, 57 insertions(+)
+ create mode 100644 recipes-containers/buildah/buildah_git.bb
+
+diff --git a/recipes-containers/buildah/buildah_git.bb b/recipes-containers/buildah/buildah_git.bb
+new file mode 100644
+index 0000000..024e82c
+--- /dev/null
++++ b/recipes-containers/buildah/buildah_git.bb
+@@ -0,0 +1,57 @@
++HOMEPAGE = "https://buildah.io"
++SUMMARY = "A tool that facilitates building OCI container images."
++DESCRIPTION = "A tool that facilitates building OCI container images."
++
++# Apache-2.0 for containerd
++LICENSE = "Apache-2.0"
++LIC_FILES_CHKSUM = "file://src/github.com/containers/buildah/LICENSE;md5=e3fc50a88d0a364313df4b21ef20c29e"
++
++S = "${WORKDIR}/git"
++
++BUILDAH_VERSION = "1.26"
++SRCREV_buildah = "0a9d6e6eaef2e2e7936313d449a4e226022eb865"
++
++PV = "${BUILDAH_VERSION}"
++
++inherit go
++inherit goarch
++inherit pkgconfig
++
++GO_IMPORT = "github.com/containers/buildah"
++GO_INSTALL = "${GO_IMPORT}"
++GO_WORKDIR = "${GO_INSTALL}"
++GOBUILDFLAGS += "-mod vendor"
++
++SRC_URI = " \
++    git://github.com/containers/buildah;branch=release-${BUILDAH_VERSION};name=buildah;protocol=https \
++    "
++
++DEPENDS = "libdevmapper btrfs-tools gpgme"
++RDEPENDS:${PN} = "cgroup-lite fuse-overlayfs libdevmapper podman"
++RDEPENDS:${PN}-dev = "bash perl"
++
++do_compile:prepend() {
++    cd ${S}/src/github.com/containers/buildah
++}
++
++go_do_compile() {
++        export TMPDIR="${GOTMPDIR}"
++        if [ -n "${GO_INSTALL}" ]; then
++                if [ -n "${GO_LINKSHARED}" ]; then
++                        ${GO} install ${GOBUILDFLAGS} ./cmd/buildah
++                        ${GO} install ${GOBUILDFLAGS} ./tests/imgtype/imgtype.go
++                        ${GO} install ${GOBUILDFLAGS} ./tests/copy/copy.go
++                        rm -rf ${B}/bin
++                fi
++                ${GO} install ${GO_LINKSHARED} ${GOBUILDFLAGS} ./cmd/buildah
++                ${GO} install ${GO_LINKSHARED} ${GOBUILDFLAGS} ./tests/imgtype/imgtype.go
++                ${GO} install ${GO_LINKSHARED} ${GOBUILDFLAGS} ./tests/copy/copy.go
++        fi
++}
++
++do_install:append() {
++    dest_dir=${D}/${sysconfdir}/containers
++    mkdir -p ${dest_dir}
++    install -m 666 ${S}/src/github.com/containers/buildah/docs/samples/registries.conf ${dest_dir}/buildah.registries.conf.sample
++    install -m 666 ${S}/src/github.com/containers/buildah/tests/policy.json ${dest_dir}/buildah.policy.json.sample
++}
+-- 
+2.33.0
+
 
