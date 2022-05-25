@@ -2,357 +2,197 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E950C433EF
-	for <webhook@archiver.kernel.org>; Wed, 25 May 2022 15:45:57 +0000 (UTC)
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com
- [209.85.160.170])
- by mx.groups.io with SMTP id smtpd.web10.8465.1653493554335359415
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F36CDC4332F
+	for <webhook@archiver.kernel.org>; Wed, 25 May 2022 15:46:16 +0000 (UTC)
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com
+ [209.85.219.52])
+ by mx.groups.io with SMTP id smtpd.web09.8481.1653493569652264390
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 25 May 2022 08:45:54 -0700
+ Wed, 25 May 2022 08:46:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=VCm1Vnmz;
- spf=pass (domain: gmail.com, ip: 209.85.160.170,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=BIkSCCOs;
+ spf=pass (domain: gmail.com, ip: 209.85.219.52,
  mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qt1-f170.google.com with SMTP id s31so1841022qtc.3
+Received: by mail-qv1-f52.google.com with SMTP id em1so715617qvb.7
         for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 25 May 2022 08:45:54 -0700 (PDT)
+ Wed, 25 May 2022 08:46:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=HzVxs0QsjAFzRhX9efAqNBsO172Gd4FMwJIFIFmWKOo=;
-        b=VCm1VnmzUAutdQ7muZvJ1nQemcTPz+mpggIcnq+5JG89dDIOxKQ5bgH0wPl3rqyDL7
-         tXKq7n7zhnLRA5SsWsJ/Z6hOftkQ5STPS7cnNSRhIR5oDiLRrQoxR/q6NM42UNfeo3tk
-         UvSH65FjFZl9GxOiq4P8YZy5+9I1GLTDoJ37wR11aKpxpKjmVEAo5dZKtYxwM5MIs4GE
-         ny0gyYGmvCXrx4cZBkoHJpeGF40NkqxT7WjXuDP7H5cFlZq/P88mNSYiR15m3YDQyGy8
-         eleQAa3Jckyi0r+SthbxnwYCqgHnkyxte0xjFpUwGoRAJZcbJUt9OTEhjztnydUIBfES
-         Fvvg==
+        bh=T/NH2T4qjrL+B5p7l8s2hujlz8q1Do5vHRuML3tpd1Y=;
+        b=BIkSCCOsFQ+uTRoOYU1W86w3jn8uDETAGkq4QP5REfEy/WHtF4scys9ntirOkKM5Eo
+         In5ARiFts8vhIdKPyeLqNVgnHPu/dL4wr4tAEEd4z36O+91kLKf/zoCFRD5ntxFjA6et
+         Bmd8jtTdNu92FdhmYsOPA4IUAvLJ09qt1tHU7kZJmTOW2Y+9TD1Wz82GBlNrDWJuXyt5
+         wHW91RxdNroAhAQTkhE2V5Kmv8CDoBi6Y9Y8NKZmUWguc2oPvkri/168INQK1aJ7vFuo
+         VlJ7+zttuC8HkUFSQ94dYacOgm3b1BFH8Lnj83dK2/dfkW4sT8fnIBAamV691UlVqhcp
+         SFxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=HzVxs0QsjAFzRhX9efAqNBsO172Gd4FMwJIFIFmWKOo=;
-        b=lYgH/JvOaRbOHTDmoGLlm6vq++qzfx5MWMEkV+C1hCTpfpMaEfk1WfWvvgflXR6vRU
-         A2D5Jg6R6bigEtYrR29eIAYfyYGHXTdpolNUKxzoP66aAUcjrV7WCNiFwamd4URZBtwJ
-         k6g+yZBq9sGnVn2v4pgTs/0daNJdBnCAypGiBxR0q29KndjIWTKBntM/FHlt5PQkZd4R
-         tQ4foTz1m21CRYLOdSeUK076kBxn9qtRNTXGEXj09FdKDvRjlauMzo7lYWNdh0mfwVhP
-         gsD4XxoOj1HvDRewjneKPNcbmWlNSnGgOA3bAZ5jIXxukrymigU/23/jP/QKjoz8ZKBY
-         tUeQ==
-X-Gm-Message-State: AOAM532Kw17QHbJd8DrROxhqURXg1wFW2d7pMwkopdnTAsn5LlyIcxaf
-	8D1hGgzWIAnYtxQ6AF0cw5I=
+        bh=T/NH2T4qjrL+B5p7l8s2hujlz8q1Do5vHRuML3tpd1Y=;
+        b=SjQrqyh1PCpUCJA/nrnRVYXrWK12i/qUl1GWeh3CJgZo+ZapoJJSfJfW7gMDWZTVX4
+         uUGmXXPt6TQwy8h/X6GBPi2Ac/dU809vU/AnnDeXykz3+yutelZmPkVME6EN5Hx49DT+
+         8/LPnildm2/p+dPrFmA2cxoJ3nytJY1GzyF3vE16QiWuC9igIC46xfNtSb9JCuylVvF/
+         vtu8ZKFwIaZ0A9xK22dinIYO2awMrPClkwn+OJkx1MRp5NeHhKyjr59Xj47kuRFUuEai
+         TdcpCoqcJtaXKHKNV9g1OgJn8A45/Zd0sag2QJsvLc6PsO+DokakvjGpu3V3bJWt6Lgs
+         hriw==
+X-Gm-Message-State: AOAM532yA254VuSQnYk2gBZkXx6rnxLF3PLu1ntvui7LOoUdE7X3aIIT
+	JDM4lp8wINWLOermL7CtuN6kXt7IFElvIg==
 X-Google-Smtp-Source: 
- ABdhPJzS4ELNwdJIkFbSdmc9Z3JNBfPCxJydt1eehVxFCNeHfLa9IdZRlLsdKiG+xDAPfuvpfsqYIA==
-X-Received: by 2002:a05:622a:4c9:b0:2f3:c6a9:39d with SMTP id
- q9-20020a05622a04c900b002f3c6a9039dmr25209605qtx.363.1653493553159;
-        Wed, 25 May 2022 08:45:53 -0700 (PDT)
+ ABdhPJzH0c8pCaD0PVwf515p6eVOk1yOXVX9Wkiq+a6Kr42pt8G3sRtWm+pTkcU3RGSR4HFe75sxEA==
+X-Received: by 2002:a05:6214:c83:b0:462:4404:5d38 with SMTP id
+ r3-20020a0562140c8300b0046244045d38mr11963314qvr.111.1653493568602;
+        Wed, 25 May 2022 08:46:08 -0700 (PDT)
 Received: from gmail.com ([173.34.88.218])
         by smtp.gmail.com with ESMTPSA id
- h3-20020ac85043000000b002f918680d80sm1419377qtm.78.2022.05.25.08.45.52
+ a21-20020a376615000000b0069fc13ce1d5sm1520983qkc.6.2022.05.25.08.46.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 May 2022 08:45:52 -0700 (PDT)
-Date: Wed, 25 May 2022 11:45:51 -0400
+        Wed, 25 May 2022 08:46:08 -0700 (PDT)
+Date: Wed, 25 May 2022 11:46:06 -0400
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: leimaohui <leimaohui@fujitsu.com>
+To: Chen Qi <Qi.Chen@windriver.com>
 Cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [meta-virtualization] [PATCH] open-iscsi-user: Upgraded from
- 2.1.4 to 2.1.7.
-Message-ID: <20220525154550.GB42310@gmail.com>
-References: <1653359314-24039-1-git-send-email-leimaohui@fujitsu.com>
+Subject: Re: [meta-virtualization][PATCH] ceph: fix gcc-12 compile failure
+Message-ID: <20220525154606.GC42310@gmail.com>
+References: <20220523044655.59281-1-Qi.Chen@windriver.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1653359314-24039-1-git-send-email-leimaohui@fujitsu.com>
+In-Reply-To: <20220523044655.59281-1-Qi.Chen@windriver.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Wed, 25 May 2022 15:45:57 -0000
+ <meta-virtualization@lists.yoctoproject.org>; Wed, 25 May 2022 15:46:16 -0000
 X-Groupsio-URL: 
- https://lists.yoctoproject.org/g/meta-virtualization/message/7321
+ https://lists.yoctoproject.org/g/meta-virtualization/message/7322
 
 merged.
 
 Bruce
 
-In message: [meta-virtualization] [PATCH] open-iscsi-user: Upgraded from 2.1.4 to 2.1.7.
-on 24/05/2022 leimaohui wrote:
+In message: [meta-virtualization][PATCH] ceph: fix gcc-12 compile failure
+on 22/05/2022 Chen Qi wrote:
 
-> Changelog:
->       Fix issues discovered by gcc12
->       Fix more issues discovered by gcc12
->       Build: add libsystemd CFLAGS for building objects
->       Build: remove redundant definition in utils Makefile
->       Build: add RULESDIR to top-level Makefile
->       Create an systemd iBFT rule generator
->       Build: install systemd generator file with svc files
->       Use kernel initiatorname when setting local iname
->       utils: remove errant spaces in script
->       Check for root in iscsi-gen-initiatorname
->       Make fwparam_ibft build more reliable.
->       Fix ibft-rule-generator shell error
->       ......
+> Add two patches to fix gcc-12 compile failure.
 > 
-> Signed-off-by: Lei Maohui <leimaohui@fujitsu.com>
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 > ---
->  .../files/0001-Fix-usr-bin-sed-to-sed.patch        | 53 +++++++++++++++++++
->  ...1-Makefile-Fix-build-error-of-cross-build.patch | 25 +++++++++
->  ...th-of-systemd-service-from-usr-lib-to-lib.patch | 25 +++++++++
->  .../open-iscsi/open-iscsi-user_2.1.4.bb            | 60 ----------------------
->  .../open-iscsi/open-iscsi-user_2.1.7.bb            | 45 ++++++++++++++++
->  5 files changed, 148 insertions(+), 60 deletions(-)
->  create mode 100644 meta-openstack/recipes-connectivity/open-iscsi/files/0001-Fix-usr-bin-sed-to-sed.patch
->  create mode 100644 meta-openstack/recipes-connectivity/open-iscsi/files/0001-Makefile-Fix-build-error-of-cross-build.patch
->  create mode 100644 meta-openstack/recipes-connectivity/open-iscsi/files/0001-Modified-path-of-systemd-service-from-usr-lib-to-lib.patch
->  delete mode 100644 meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-user_2.1.4.bb
->  create mode 100644 meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-user_2.1.7.bb
+>  ...ssing-header-file-due-to-gcc-upgrade.patch | 30 +++++++++++++
+>  ...S-due-to-dout-need_dynamic-on-GCC-12.patch | 42 +++++++++++++++++++
+>  recipes-extended/ceph/ceph_15.2.15.bb         |  2 +
+>  3 files changed, 74 insertions(+)
+>  create mode 100644 recipes-extended/ceph/ceph/0001-buffer.h-add-missing-header-file-due-to-gcc-upgrade.patch
+>  create mode 100644 recipes-extended/ceph/ceph/0002-common-fix-FTBFS-due-to-dout-need_dynamic-on-GCC-12.patch
 > 
-> diff --git a/meta-openstack/recipes-connectivity/open-iscsi/files/0001-Fix-usr-bin-sed-to-sed.patch b/meta-openstack/recipes-connectivity/open-iscsi/files/0001-Fix-usr-bin-sed-to-sed.patch
+> diff --git a/recipes-extended/ceph/ceph/0001-buffer.h-add-missing-header-file-due-to-gcc-upgrade.patch b/recipes-extended/ceph/ceph/0001-buffer.h-add-missing-header-file-due-to-gcc-upgrade.patch
 > new file mode 100644
-> index 0000000..ef11366
+> index 0000000..70d3eb9
 > --- /dev/null
-> +++ b/meta-openstack/recipes-connectivity/open-iscsi/files/0001-Fix-usr-bin-sed-to-sed.patch
-> @@ -0,0 +1,53 @@
-> +From 569886070a273e914f2662d10b03e1767d488aee Mon Sep 17 00:00:00 2001
-> +From: Lei Maohui <leimaohui@fujitsu.com>
-> +Date: Wed, 18 May 2022 11:32:29 +0900
-> +Subject: [PATCH] Fix /usr/bin/sed to sed.
+> +++ b/recipes-extended/ceph/ceph/0001-buffer.h-add-missing-header-file-due-to-gcc-upgrade.patch
+> @@ -0,0 +1,30 @@
+> +From 496465d9238109a93612e28682273e5bf576823b Mon Sep 17 00:00:00 2001
+> +From: Chen Qi <Qi.Chen@windriver.com>
+> +Date: Sun, 22 May 2022 19:40:59 -0700
+> +Subject: [PATCH 1/2] buffer.h: add missing header file due to gcc upgrade
 > +
-> +Signed-off-by: Lei Maohui <leimaohui@fujitsu.com>
+> +The header file <memory> have been changed to be no longer included by other
+> +heades, thus requiring explicit include. See https://gcc.gnu.org/gcc-12/porting_to.html
+> +
+> +Upstream-Status: Pending
+> +
+> +Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 > +---
-> + doc/Makefile   | 2 +-
-> + etc/Makefile   | 2 +-
-> + utils/Makefile | 2 +-
-> + 3 files changed, 3 insertions(+), 3 deletions(-)
+> + src/include/buffer.h | 1 +
+> + 1 file changed, 1 insertion(+)
 > +
-> +diff --git a/doc/Makefile b/doc/Makefile
-> +index 9ed025d..e121270 100644
-> +--- a/doc/Makefile
-> ++++ b/doc/Makefile
-> +@@ -7,7 +7,7 @@ ifeq ($(TOPDIR),)
-> +	TOPDIR = ..
-> + endif
+> +diff --git a/src/include/buffer.h b/src/include/buffer.h
+> +index 5c8b427d..88845ee6 100644
+> +--- a/src/include/buffer.h
+> ++++ b/src/include/buffer.h
+> +@@ -43,6 +43,7 @@
+> + #include <list>
+> + #include <vector>
+> + #include <string>
+> ++#include <memory>
+> + #if __cplusplus >= 201703L
+> + #include <string_view>
+> + #endif // __cplusplus >= 201703L
+> +-- 
+> +2.36.0
 > +
-> +-SED = /usr/bin/sed
-> ++SED = sed
-> + INSTALL = install
-> +
-> + DESTDIR ?=
-> +diff --git a/etc/Makefile b/etc/Makefile
-> +index d065319..2d98027 100644
-> +--- a/etc/Makefile
-> ++++ b/etc/Makefile
-> +@@ -19,7 +19,7 @@ initddir ?= $(etcdir)/init.d
-> +
-> + HOMEDIR ?= $(etcdir)/iscsi
-> +
-> +-SED = /usr/bin/sed
-> ++SED = sed
-> + INSTALL = install
-> +
-> + SYSTEMD_SOURCE_FILES	= iscsid.socket iscsiuio.socket
-> +diff --git a/utils/Makefile b/utils/Makefile
-> +index a7eb352..15539eb 100644
-> +--- a/utils/Makefile
-> ++++ b/utils/Makefile
-> +@@ -7,7 +7,7 @@
-> + # from the top-level make file.
-> + #
-> +
-> +-SED = /usr/bin/sed
-> ++SED = sed
-> + INSTALL = install
-> + CHMOD = chmod
-> +
-> +--
-> +2.25.1
-> diff --git a/meta-openstack/recipes-connectivity/open-iscsi/files/0001-Makefile-Fix-build-error-of-cross-build.patch b/meta-openstack/recipes-connectivity/open-iscsi/files/0001-Makefile-Fix-build-error-of-cross-build.patch
+> diff --git a/recipes-extended/ceph/ceph/0002-common-fix-FTBFS-due-to-dout-need_dynamic-on-GCC-12.patch b/recipes-extended/ceph/ceph/0002-common-fix-FTBFS-due-to-dout-need_dynamic-on-GCC-12.patch
 > new file mode 100644
-> index 0000000..bdb9e45
+> index 0000000..d119bf1
 > --- /dev/null
-> +++ b/meta-openstack/recipes-connectivity/open-iscsi/files/0001-Makefile-Fix-build-error-of-cross-build.patch
-> @@ -0,0 +1,25 @@
-> +From 69fa594af5a09e356319cc0ec2e71809ac964d9b Mon Sep 17 00:00:00 2001
-> +From: Lei Maohui <leimaohui@fujitsu.com>
-> +Date: Wed, 18 May 2022 10:28:53 +0900
-> +Subject: [PATCH] Makefile: Fix build error of cross build.
+> +++ b/recipes-extended/ceph/ceph/0002-common-fix-FTBFS-due-to-dout-need_dynamic-on-GCC-12.patch
+> @@ -0,0 +1,42 @@
+> +From 841806de212226921eeaeb3eea054bda8ccce616 Mon Sep 17 00:00:00 2001
+> +From: Radoslaw Zarzynski <rzarzyns@redhat.com>
+> +Date: Wed, 19 Jan 2022 15:24:11 +0000
+> +Subject: [PATCH 2/2] common: fix FTBFS due to dout & need_dynamic on GCC-12
 > +
-> +Signed-off-by: Lei Maohui <leimaohui@fujitsu.com>
+> +For details see:
+> +https://gist.github.com/rzarzynski/d6d2df6888923bef6a3e764f4856853f.
+> +
+> +Special thanks to Kaleb Keithley who reported the issue
+> +and tested the fix!
+> +
+> +Fixes: https://tracker.ceph.com/issues/53896
+> +Signed-off-by: Radoslaw Zarzynski <rzarzyns@redhat.com>
+> +
+> +Upstream-Status: Backport [963d756ded40f5adf2efef53893c917bec1845c1]
+> +Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 > +---
-> + Makefile | 2 +-
-> + 1 file changed, 1 insertion(+), 1 deletion(-)
+> + src/common/dout.h | 5 +++--
+> + 1 file changed, 3 insertions(+), 2 deletions(-)
 > +
-> +diff --git a/Makefile b/Makefile
-> +index d2f143b..127ba90 100644
-> +--- a/Makefile
-> ++++ b/Makefile
-> +@@ -69,7 +69,7 @@ user: iscsiuio/Makefile
-> +	@echo "Read README file for detailed information."
+> +diff --git a/src/common/dout.h b/src/common/dout.h
+> +index c7c08182..42f49915 100644
+> +--- a/src/common/dout.h
+> ++++ b/src/common/dout.h
+> +@@ -99,11 +99,12 @@ namespace ceph::dout {
+> + template<typename T>
+> + struct dynamic_marker_t {
+> +   T value;
+> +-  operator T() const { return value; }
+> ++  // constexpr ctor isn't needed as it's an aggregate type
+> ++  constexpr operator T() const { return value; }
+> + };
+> + 
+> + template<typename T>
+> +-dynamic_marker_t<T> need_dynamic(T&& t) {
+> ++constexpr dynamic_marker_t<T> need_dynamic(T&& t) {
+> +   return dynamic_marker_t<T>{ std::forward<T>(t) };
+> + }
+> + 
+> +-- 
+> +2.36.0
 > +
-> + iscsiuio/Makefile: iscsiuio/configure iscsiuio/Makefile.in
-> +-	cd iscsiuio; ./configure $(WITHOUT_ARG) --sbindir=$(SBINDIR)
-> ++	cd iscsiuio; ./configure $(WITHOUT_ARG) --sbindir=$(SBINDIR) $(CONFIGURE_ARGS)
-> +
-> + iscsiuio/configure: iscsiuio/configure.ac iscsiuio/Makefile.am
-> +	cd iscsiuio; autoreconf --install
-> +--
-> +2.25.1
-> diff --git a/meta-openstack/recipes-connectivity/open-iscsi/files/0001-Modified-path-of-systemd-service-from-usr-lib-to-lib.patch b/meta-openstack/recipes-connectivity/open-iscsi/files/0001-Modified-path-of-systemd-service-from-usr-lib-to-lib.patch
-> new file mode 100644
-> index 0000000..8cea597
-> --- /dev/null
-> +++ b/meta-openstack/recipes-connectivity/open-iscsi/files/0001-Modified-path-of-systemd-service-from-usr-lib-to-lib.patch
-> @@ -0,0 +1,25 @@
-> +From 280fbda492256d2ef70c6d377e8bd8935e7a4f9c Mon Sep 17 00:00:00 2001
-> +From: Lei Maohui <leimaohui@fujitsu.com>
-> +Date: Fri, 20 May 2022 17:59:03 +0900
-> +Subject: [PATCH] Modified path of systemd service from /usr/lib to /lib.
-> +
-> +Signed-off-by: Lei Maohui <leimaohui@fujitsu.com>
-> +---
-> + etc/Makefile | 2 +-
-> + 1 file changed, 1 insertion(+), 1 deletion(-)
-> +
-> +diff --git a/etc/Makefile b/etc/Makefile
-> +index 2d98027..d24fd03 100644
-> +--- a/etc/Makefile
-> ++++ b/etc/Makefile
-> +@@ -7,7 +7,7 @@ ifeq ($(TOPDIR),)
-> +	TOPDIR = ..
-> + endif
-> +
-> +-prefix = /usr
-> ++prefix =
-> + DESTDIR ?=
-> + SBINDIR ?= /sbin
-> +
-> +--
-> +2.25.1
-> diff --git a/meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-user_2.1.4.bb b/meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-user_2.1.4.bb
-> deleted file mode 100644
-> index 928290f..0000000
-> --- a/meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-user_2.1.4.bb
-> +++ /dev/null
-> @@ -1,60 +0,0 @@
-> -DESCRIPTION = "Open-iSCSI project is a high performance, transport independent, multi-platform implementation of RFC3720."
-> -HOMEPAGE = "http://www.open-iscsi.org/"
-> -LICENSE = "GPL-2.0-only"
-> -PR = "r1"
-> -
-> -inherit systemd autotools pkgconfig
-> -
-> -LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
-> -DEPENDS = "kmod openssl util-linux open-isns"
-> -DEPENDS:append = " ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)}"
-> -
-> -SRC_URI = "git://github.com/open-iscsi/open-iscsi.git;protocol=https;branch=master \
-> -           file://0001-fix-build-error-of-cross-build.patch \
-> -           "
-> -
-> -SRCREV = "095f59ca464220eae285de6b5f2ee31185a6a84c"
-> -
-> -S = "${WORKDIR}/git"
-> -B = "${S}"
-> -
-> -TARGET_CC_ARCH += "${LDFLAGS}"
-> -EXTRA_OEMAKE += "CONFIGURE_ARGS='--host=${HOST_SYS}'"
-> -
-> -do_configure () {
-> -    :
-> -}
-> -
-> -do_compile () {
-> -        oe_runmake user
-> -}
-> -
-> -do_install () {
-> -        oe_runmake DESTDIR="${D}" install_user
-> -        install ${S}/etc/initd/initd.debian ${D}/etc/init.d/open-iscsi
-> -        install -m 0644 ${S}/etc/iscsid.conf ${D}/etc/iscsi/
-> -
-> -        install -d ${D}${libdir}
-> -        install -Dm 0644 ${S}/libopeniscsiusr/libopeniscsiusr.so.0.2.0 ${D}${libdir}/
-> -        ln -sf ${libdir}/libopeniscsiusr.so.0.2.0 ${D}${libdir}/libopeniscsiusr.so
-> -}
-> -
-> -# systemd support
-> -PACKAGES =+ "${PN}-systemd"
-> -RDEPENDS:${PN} += "bash"
-> -RDEPENDS:${PN}-systemd += "${PN}"
-> -FILES:${PN}-systemd +=  "${base_libdir}/systemd                  \
-> -                         ${sysconfdir}/default/iscsi-initiator   \
-> -                        "
-> -SYSTEMD_PACKAGES = "${PN}-systemd"
-> -SYSTEMD_SERVICE:${PN}-systemd = "iscsi.service \
-> -                                 iscsiuio.service \
-> -                                 iscsid.service \
-> -                                 iscsi-init.service \
-> -                                 iscsid.socket \
-> -                                 iscsiuio.socket "
-> -
-> -do_install:append () {
-> -        install -d ${D}${systemd_unitdir}/system
-> -        install -m 0644 ${S}/etc/systemd/* ${D}${systemd_unitdir}/system/
-> -}
-> diff --git a/meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-user_2.1.7.bb b/meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-user_2.1.7.bb
-> new file mode 100644
-> index 0000000..b4b9ebc
-> --- /dev/null
-> +++ b/meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-user_2.1.7.bb
-> @@ -0,0 +1,45 @@
-> +DESCRIPTION = "Open-iSCSI project is a high performance, transport independent, multi-platform implementation of RFC3720."
-> +HOMEPAGE = "http://www.open-iscsi.org/"
-> +LICENSE = "GPL-2.0-only"
-> +PR = "r1"
-> +
-> +inherit autotools systemd pkgconfig
-> +
-> +LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
-> +DEPENDS = "kmod openssl util-linux open-isns"
-> +DEPENDS:append = " ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)}"
-> +
-> +SRC_URI = "git://github.com/open-iscsi/open-iscsi.git;protocol=https;branch=master \
-> +           file://0001-Makefile-Fix-build-error-of-cross-build.patch \
-> +           file://0001-Fix-usr-bin-sed-to-sed.patch \
-> +           file://0001-Modified-path-of-systemd-service-from-usr-lib-to-lib.patch \
-> +           "
-> +
-> +SRCREV = "7b53fcc502da8617110fd64d675b476772c28a6f"
-> +
-> +S = "${WORKDIR}/git"
-> +B = "${S}"
-> +
-> +PARALLEL_MAKEINST = ""
-> +TARGET_CC_ARCH += "${LDFLAGS}"
-> +EXTRA_OEMAKE += "CONFIGURE_ARGS='--host=${HOST_SYS}' MFLAGS='' LIB_DIR=${libdir}"
-> +RDEPENDS:${PN} += "bash"
-> +
-> +SYSTEMD_PACKAGES = "${PN}"
-> +SYSTEMD_SERVICE:${PN} = "iscsi.service \
-> +                         iscsid.socket \
-> +                         iscsiuio.socket \
-> +                         iscsid.service \
-> +                         iscsi-init.service \
-> +                         iscsiuio.service \
-> +"
-> +SYSTEMD_AUTO_ENABLE = "disable"
-> +FILES:${PN} += " \
-> +    ${systemd_system_unitdir}/iscsi.service \
-> +    ${systemd_system_unitdir}/iscsid.socket \
-> +    ${systemd_system_unitdir}/iscsiuio.socket \
-> +    ${systemd_system_unitdir}/iscsid.service \
-> +    ${systemd_system_unitdir}/iscsi-init.service \
-> +    ${systemd_system_unitdir}/iscsiuio.service \
-> +    ${systemd_unitdir}/system-generators/ibft-rule-generator \
-> +"
+> diff --git a/recipes-extended/ceph/ceph_15.2.15.bb b/recipes-extended/ceph/ceph_15.2.15.bb
+> index 17dbcf3..0fb32b2 100644
+> --- a/recipes-extended/ceph/ceph_15.2.15.bb
+> +++ b/recipes-extended/ceph/ceph_15.2.15.bb
+> @@ -14,6 +14,8 @@ SRC_URI = "http://download.ceph.com/tarballs/ceph-${PV}.tar.gz \
+>             file://ceph.conf \
+>             file://0001-cmake-add-support-for-python3.10.patch \
+>             file://0001-SnappyCompressor.h-fix-snappy-compiler-error.patch \
+> +           file://0001-buffer.h-add-missing-header-file-due-to-gcc-upgrade.patch \
+> +           file://0002-common-fix-FTBFS-due-to-dout-need_dynamic-on-GCC-12.patch \
+>  "
+>  
+>  SRC_URI[sha256sum] = "5dccdaff2ebe18d435b32bfc06f8b5f474bf6ac0432a6a07d144b7c56700d0bf"
 > -- 
-> 1.8.3.1
+> 2.36.0
 > 
 
 > 
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#7317): https://lists.yoctoproject.org/g/meta-virtualization/message/7317
-> Mute This Topic: https://lists.yoctoproject.org/mt/91303968/1050810
+> View/Reply Online (#7310): https://lists.yoctoproject.org/g/meta-virtualization/message/7310
+> Mute This Topic: https://lists.yoctoproject.org/mt/91282108/1050810
 > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
 > Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
