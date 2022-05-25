@@ -2,128 +2,132 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D863C43219
-	for <webhook@archiver.kernel.org>; Wed, 25 May 2022 15:36:37 +0000 (UTC)
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com
- [209.85.219.181])
- by mx.groups.io with SMTP id smtpd.web12.8370.1653492996523079851
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26685C433F5
+	for <webhook@archiver.kernel.org>; Wed, 25 May 2022 15:45:27 +0000 (UTC)
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com
+ [209.85.222.172])
+ by mx.groups.io with SMTP id smtpd.web08.8525.1653493520293523527
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 25 May 2022 08:36:36 -0700
+ Wed, 25 May 2022 08:45:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Kddj3Bg+;
- spf=pass (domain: gmail.com, ip: 209.85.219.181,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=gBv8ir2K;
+ spf=pass (domain: gmail.com, ip: 209.85.222.172,
  mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-yb1-f181.google.com with SMTP id i11so36898199ybq.9
+Received: by mail-qk1-f172.google.com with SMTP id r84so6278642qke.10
         for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 25 May 2022 08:36:36 -0700 (PDT)
+ Wed, 25 May 2022 08:45:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=bl0oN/vmGjwW+I/OcZKO50CWSi1+8UeN+O0f9k0kvXI=;
-        b=Kddj3Bg+AdC/mvUWenFAC1M6Q8U1nt4eeF7x8RJ3WT4NK2M501l9TcKlkXU34q1RHa
-         yihA3RfVV5k72xh4nWuSI4XGO5DiEX5t/YQHLGQnahTjU54EmlLid84BN1CHAE18bktO
-         BoaHHW5IYkf30E7epdA33I6FHglG8/u9g7c8iZpzGGCXYwylFBkO6GJ3IY+sff+Cyg8y
-         LXTCqLYIGiMQr2gwOYdzeZ9M5FHJKYoh3f2RYPQekC15UpNMStih3m2YWBO0ZnJlUdnO
-         dDoGcWMdhbz3up72OLxjFi8FOA/bkQ6mp+phg6Vi19lqAK/dpCTT3WpoqtPxTBdby1uz
-         2BeA==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=299+nxU8VFEKldNSldN3ZlzRrRbAHvwDjsqtwCMgiro=;
+        b=gBv8ir2KY32oaBbFlc2CW9c36/6JrCRKI2hNN54Hr2/NJ+dxD/1CaxUxTg1/jbfKOh
+         XA2tf/zBawySv3rPxdNFH51xrdVv+EVqQ6MYmtSypcd6mdxPHMkpoVjHCQN1ndK/k13+
+         MB0TlGEphKzsKFOFnmMXrkStFkCwbSlY4cFeTkozafWGXHr8aor0xXI/wIvo1Ex6sK2B
+         ICH1wWKJdsLitRDXIuKZXbxzxR6RgMzzpPGOPm7m6gI+gUnwTggiGxWnsSnVQAEB657S
+         mvN9alXItJqQ6GaepV2RYznLw6i+KBARPBAhOWdMQIlGSgi0N3Qp5DYnyNE0joPrKqu6
+         bC6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=bl0oN/vmGjwW+I/OcZKO50CWSi1+8UeN+O0f9k0kvXI=;
-        b=pcYqQc4KsJ/WXsRm/LIJMsiqriH5PJ8TZJnDC0zRrkf+I63cOjQPAy9LkYu17RGpVs
-         tDlI79ZxEUf7nACOvsyezCk3abh238jBWFBVirkSV98RMUBm7M2M8zpkmz696NkXMnKF
-         VwfV9+oQWc2nxR0++CVWvKj25aLgI1F8aBTuAAxB2xoBFW936ISe8gniBoC5VLyVBr58
-         CJRS7ik7+k6BID/l84geqww3bIrBlXtDNsQQkdnyAhrOKxlHjSgvOZs+1b/3JwHOYOy4
-         3YVyJfX6EHvGHGrdkxiIYVItMt21cg2kblhVNgbplAFZ1wId/gQVdW4MGZQB2bAE5k+U
-         2+6w==
-X-Gm-Message-State: AOAM530li5vWhuIWnJkdLCyZWY1GBP9ZlBVWKQGAcVDmqzdmjGlZCOTB
-	r3H7gN1z0z0CbHGcSF9ZknNjG3I8Rod4J5W+lAU=
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=299+nxU8VFEKldNSldN3ZlzRrRbAHvwDjsqtwCMgiro=;
+        b=Pss/fysuDxNCkI7GVIRU1Hr7xBykHbNAnqJioepJiUETOgxe1nJo4H4J3xwdCrLWm4
+         OAv1xDXMkQa3EUzL9ozggQUQkPYbBrfADvwMozC/ipikfdB01p0KxgR6n36M+VyjIDwZ
+         MqQ0+8E83zrwSAFRj3S1pr2NNNWqh16ep+a/RzEJ1QugpgiYQtqC7JMQNqpVnsUPSJ2A
+         sCSKDhhM3UcnI/vmIU5v9k/uec63yeMdOVI9RLjFUBqJGyxTSJgPPx3Om7O4dcybzkrw
+         3PZB15+6zOL7u+itkRE/gNpzVKxHXDnYwW5PIrmM5ILE7+Wtw63IgxtCVgDLrqe1G3Nr
+         J7jw==
+X-Gm-Message-State: AOAM530cYlj0RR92t4euGEK9xNLiI21oQFlCntV7SZzsuXtOrNl2chum
+	Cc1HzFCcyI8oc24y+vAIax8=
 X-Google-Smtp-Source: 
- ABdhPJyiasd0aBE+bot2buZcQrjolutET1UWDMOMrhBDzgzRpi3sasfrFIyXhz8DHw/Br1t/spt3lfgVsniV6L2MgK0=
-X-Received: by 2002:a05:6902:114c:b0:641:87a7:da90 with SMTP id
- p12-20020a056902114c00b0064187a7da90mr33258591ybu.561.1653492995547; Wed, 25
- May 2022 08:36:35 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220521190447.135705-1-christopher.w.clark@gmail.com>
-In-Reply-To: <20220521190447.135705-1-christopher.w.clark@gmail.com>
+ ABdhPJzWT1pUUAGis918XZCapVD7AVZTmKN7aKeUbjlPWth6+UK3ynJb5CSEKj2izrm3PqW6gmNV/g==
+X-Received: by 2002:a05:620a:424e:b0:67e:4c1b:c214 with SMTP id
+ w14-20020a05620a424e00b0067e4c1bc214mr21509881qko.651.1653493519247;
+        Wed, 25 May 2022 08:45:19 -0700 (PDT)
+Received: from gmail.com ([173.34.88.218])
+        by smtp.gmail.com with ESMTPSA id
+ z4-20020ae9e604000000b0069fc13ce1f7sm1451487qkf.40.2022.05.25.08.45.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 May 2022 08:45:18 -0700 (PDT)
+Date: Wed, 25 May 2022 11:45:17 -0400
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 25 May 2022 11:36:24 -0400
-Message-ID: 
- <CADkTA4Pv6Qz7i6+AtHaGUuq6yPOkkgCM9Hb8eqXW_U6kh3nCFA@mail.gmail.com>
-Subject: Re:
- [meta-virtualization][gatesgarth,hardknott,honister,kirkstone,master][PATCH
- 0/11] Xen on Raspberry Pi 4 fixes
-To: Christopher Clark <christopher.w.clark@gmail.com>
-Cc: meta-virtualization@lists.yoctoproject.org,
-	Doug Goldstein <cardoe@gentoo.org>,
- Bertrand Marquis <Bertrand.Marquis@arm.com>
-Content-Type: text/plain; charset="UTF-8"
+To: Ross Burton <ross.burton@arm.com>
+Cc: meta-virtualization@lists.yoctoproject.org, nd@arm.com
+Subject: Re: [meta-virtualization] [RFC PATCH] xen: make LZO dependency
+ optional
+Message-ID: <20220525154515.GA42310@gmail.com>
+References: <20220525112512.2512972-1-ross.burton@arm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220525112512.2512972-1-ross.burton@arm.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Wed, 25 May 2022 15:36:37 -0000
+ <meta-virtualization@lists.yoctoproject.org>; Wed, 25 May 2022 15:45:27 -0000
 X-Groupsio-URL: 
- https://lists.yoctoproject.org/g/meta-virtualization/message/7319
+ https://lists.yoctoproject.org/g/meta-virtualization/message/7320
 
-On Sat, May 21, 2022 at 3:04 PM Christopher Clark
-<christopher.w.clark@gmail.com> wrote:
->
-> A series of fixes applied to master and across stable branches where
-> needed to fix running Xen on the Raspberry Pi 4 board.
->
-> This updates Linux kernel configuration for Xen to remove tracking from
-> the linux-yocto-dev kernel, either by applying a fixed revision and
-> specification of a stable branch or replacing it with the linux-yocto
-> kernel. The Xen build configuration is updated to remove the hypervisor
-> defconfig for the Raspberry Pi and drop the arm64 prelink patch as a
-> license correction and since the build no longer needs it with the newer
-> gcc toolchain.
+merged.
 
-I appreciate the patches for all the branches, it gives more
-confidence in how thorough things look!
-
-I will avoid the EOL branches, but if someone really wants them, they
-are on the list and I wouldn't fight too hard about not applying them.
-
-Just so I'm clear, there aren't actually 11 patches, just some of the
-patches repeated across the various branches .. totalling 11. If that
-is wrong, please do follow up to the branches with more patches, as I
-definitely didn't get 11.
+If someone really needed this enabled by default, they can
+follow up and explain (or carry a bbappend with the packageconfig).
 
 Bruce
 
->
-> Tested on hardware.
->
-> Christopher Clark
->
-> gatesgarth:
->   01: linux-yocto-dev, raspberrypi: apply fixed revision to kernel
->   02: xen: drop patch to workaround prelink on aarch64
->   03: xen: fix boot on the Raspberry Pi 4
->
-> hardknott:
->   04: linux-yocto-dev, raspberrypi: apply fixed revision to kernel
->   05: xen: drop patch to workaround prelink on aarch64
->   06: xen: fix boot on the Raspberry Pi 4
->
-> honister:
->   07: linux-yocto-dev, xen, raspberrypi: remove tracking bbappend
->   08: xen: drop patch to workaround prelink on aarch64
->   09: xen: fix boot on the Raspberry Pi 4 with Xen 4.14
->
-> kirkstone:
->   10: xen, raspberry pi: replace linux-yocto-dev with linux-yocto 5.15
->
-> master:
->   11: xen, raspberry pi: replace linux-yocto-dev with linux-yocto 5.15
 
+In message: [meta-virtualization] [RFC PATCH] xen: make LZO dependency optional
+on 25/05/2022 Ross Burton wrote:
 
+> xen-tools has an optional dependency on LZO.  As this is a unmaintained
+> compression format with better alternatives (such as Zstd), disable it
+> by default.
+> 
+> Signed-off-by: Ross Burton <ross.burton@arm.com>
+> ---
+> 
+> I'm trying to purge LZO from as much as possible, as it is unmaintained
+> and Zstd is a better all-rounder.  I hope to move lzo from oe-core to
+> meta-oe, so if you wish to keep LZO support enabled by default it will
+> continue to work.
+> 
+>  recipes-extended/xen/xen.inc | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/recipes-extended/xen/xen.inc b/recipes-extended/xen/xen.inc
+> index d352ffb..ed6e6a7 100644
+> --- a/recipes-extended/xen/xen.inc
+> +++ b/recipes-extended/xen/xen.inc
+> @@ -11,6 +11,7 @@ PACKAGECONFIG ??= " \
+>      ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)} \
+>      "
+>  
+> +PACKAGECONFIG[lzo] = ",,lzo"
+>  PACKAGECONFIG[sdl] = "--enable-sdl,--disable-sdl,virtual/libsdl,"
+>  PACKAGECONFIG[xsm] = "--enable-xsmpolicy,--disable-xsmpolicy,checkpolicy-native,"
+>  PACKAGECONFIG[systemd] = "--enable-systemd,--disable-systemd,systemd,"
+> @@ -41,7 +42,6 @@ DEPENDS = " \
+>      procps \
+>      python3 \
+>      libaio \
+> -    lzo \
+>      util-linux \
+>      xz \
+>      yajl \
+> -- 
+> 2.25.1
+> 
 
--- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#7318): https://lists.yoctoproject.org/g/meta-virtualization/message/7318
+> Mute This Topic: https://lists.yoctoproject.org/mt/91330824/1050810
+> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
 
