@@ -1,171 +1,255 @@
-Return-Path: <Qi.Chen@windriver.com>
+Return-Path: <yocto@optimcloud.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CF89C433F5
-	for <webhook@archiver.kernel.org>; Thu, 26 May 2022 03:55:50 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com
- [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web12.15799.1653537344167735147
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23D89C433F5
+	for <webhook@archiver.kernel.org>; Sat, 28 May 2022 02:32:33 +0000 (UTC)
+Received: from mail.optimvoice.io (mail.optimvoice.io [46.23.82.139])
+ by mx.groups.io with SMTP id smtpd.web09.11388.1653705144548846424
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 25 May 2022 20:55:45 -0700
+ Fri, 27 May 2022 19:32:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=J/4MlfKj;
- spf=permerror,
- err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}:
- invalid domain name (domain: windriver.com, ip: 205.220.166.238,
- mailfrom: prvs=214598dbdd=qi.chen@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id
- 24Q3c0bJ011571
+ dkim=fail reason="no key for verify" header.i=@optimcloud.com header.s=dkim
+ header.b=dBPoqDDT;
+ spf=none, err=permanent DNS error (domain: optimcloud.com, ip: 46.23.82.139,
+ mailfrom: yocto@optimcloud.com)
+Received: from authenticated-user (mail.optimvoice.io [46.23.82.139])
+	by mail.optimvoice.io (Postfix) with ESMTPA id C314010800091
 	for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 25 May 2022 20:55:43 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
- h=from : to :
- subject : date : message-id : content-transfer-encoding : content-type :
- mime-version; s=PPS06212021;
- bh=qAmHUa1rNAo72azqOKmTp6dIiBuOOJ/mDHhY16Kxd9I=;
- b=J/4MlfKjUhFFEVET2zaKCi4RZu0ORDE9uUzMaHyOWmTOUjz5o+lw7yVUIwSTmfTndbSl
- P6sHxhWGbMWTglrffko36xIWlnYeUpw1YmivfX0JJCq8h/ufklrIWk5yxHBkJlu67RLz
- j2/prjwehzKNaTKeHDzChME+DRErOM5pLiJq1/tTtYvOINXu8AkP/jwSb+K71ep11EpY
- URKXaYgxC/kGznNkWu0t4EVQvG1PsqxKvttMJaTYlNOBxpRY1YYyxwvPiHejN8vW0my2
- +6jfzn3ckfnCsEMsxNQw/zl+P8P82M+3NAtuRubMyteAk4bfDV6PPQx9oFhk3qPSs63q aw==
-Received: from nam10-mw2-obe.outbound.protection.outlook.com
- (mail-mw2nam10lp2101.outbound.protection.outlook.com [104.47.55.101])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3g93u9s7bv-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 25 May 2022 20:55:43 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dDNd7OTbsE4ug8VTtIGnBD2w/oZhEWq6Rhoucb4lQ1d/l+/9rDArOdGv604XljUrhqx28sNR6n6V5/MO7g5SwpYdRkjdOhwCpYUqegi3zGuTbKTREZ4U2ScxGQeGG0YoJxnIBvCqCBvKvmIGvNxgGwQYi5h2Sj43bPdHJrEHEXKDd5bS+xdlAapypF6nWuoC3sQUxm774+ZUwmwwDK5qBAst9fm5kn1tN1SB76IQLAaqiT+Hhjq0Ml7fyoEWnuELFTHaA0AQw47DPbwj5UsMdgEf5GFvqfXIOtgnStb1h3iXVTre3lV4u0PYuaI+Y/9jfBYiTcM8ao2hWvJdWhDtKA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qAmHUa1rNAo72azqOKmTp6dIiBuOOJ/mDHhY16Kxd9I=;
- b=OcZtTJQiDfI1NFsmGddVwO2uheI/Rv8960dslPlbjICXqG2OCAN7nnbdLpc/QUFsZYocwws/984Y9JHmkLsMW4CYD56tGzuWKpFEKmgU2DePLKw1N776Ky4Eq8yCGowx3MmlDiqikZ6vFPNqbNZ2BGsHS1AOW4GDzsOhnyJdlI6SNs392dzQFx1RMKoUA0VQEHSshCPhM2rOvRTNmch+yXbRHJ+AL07ZWGZYvxW64SY5ASTGrFaFBN16MqojB0KXoiitVahvniygm9uRUNrzhcIa1QzYckGBubjZRtTlMTOU90YtpTx4DVUc/4BnfEx8qurNEO0SyJW2E6eI0D2wxQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
- by SN6PR11MB2656.namprd11.prod.outlook.com (2603:10b6:805:58::28) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5293.13; Thu, 26 May
- 2022 03:55:34 +0000
-Received: from CO6PR11MB5602.namprd11.prod.outlook.com
- ([fe80::a0a0:842:e19d:e5df]) by CO6PR11MB5602.namprd11.prod.outlook.com
- ([fe80::a0a0:842:e19d:e5df%8]) with mapi id 15.20.5293.013; Thu, 26 May 2022
- 03:55:34 +0000
-From: Chen Qi <Qi.Chen@windriver.com>
+ Sat, 28 May 2022 02:32:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=optimcloud.com;
+	s=dkim; t=1653705136;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=TInAJZ0D+WxnuFzaWNmZPzR/CsRyLp2rmvEd8nJCuCM=;
+	b=dBPoqDDTylh7ZyIC9p6ywrUBSxcIuML2n20bHuyFNXs7uYzS43DonRz60MpqFTw7ja6mYi
+	aRS6XTpTGZyb+PrCRysVXulY6+u/x+1i5r1E58djn+rDY992Q8Ry2C3bQC6rcfzFjbUnYf
+	9Pvm7aTVHxjD4+OV3OmpXw27aKl9jSSU1fEbkxvTX7tyfinoiI8xBWdwDy/ZYaj+seSgFg
+	wDqq1cbXe5cU70kN+jG2seRicTd1FSXGw8TdJ/1RWhoXyG0yGBrn7xH0Bu+Y2dpoU3Ajl1
+	Eq6zhvHbQRju5m0IT0+eQgMalHDGGWy6ianHIdXzhR7lwG52dHkfmqf30Ez6PQ==
+Content-Type: text/plain; charset=utf-8; format=flowed
+Message-Id: <1653704757498.3591515068.3658663655@optimcloud.com>
+From: Embedded Devel <yocto@optimcloud.com>
 To: meta-virtualization@lists.yoctoproject.org
-Subject: [meta-virtualization][PATCH] criu: fix QA issue about shebang too
- long
-Date: Wed, 25 May 2022 20:55:19 -0700
-Message-Id: <20220526035519.63646-1-Qi.Chen@windriver.com>
-X-Mailer: git-send-email 2.36.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: BYAPR07CA0025.namprd07.prod.outlook.com
- (2603:10b6:a02:bc::38) To CO6PR11MB5602.namprd11.prod.outlook.com
- (2603:10b6:303:13a::5)
+Subject: kubernetes k8s failure
+Date: Sat, 28 May 2022 02:32:12 +0000
+Content-Transfer-Encoding: 7bit
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 25e00059-5d04-4f50-87c2-08da3ecb960f
-X-MS-TrafficTypeDiagnostic: SN6PR11MB2656:EE_
-X-Microsoft-Antispam-PRVS: 
-	<SN6PR11MB26562DA3D77CCC96E24A50A8EDD99@SN6PR11MB2656.namprd11.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	J0G+UZTVv8jF+JvelmtcbBYCrDvovd45EIP2ITQ1IYeBGyOMZSJYuJ3HjYi4fvg9XEcJ+avHlCx0tfyRI+PDTZoNT4+WKf/0LhiUIVAVikoiSfxQegyDQ0XKnOkTRTidGn9NBSHA1MAxs6smUuEkshNn2sLpOTH3+FL2lAFxzRTVDXfUTV8v78qd+LqgRGLnLePD5i13CdsUKP3/Tvet0rN9D6aErJ7+u7wCUTFI8O/kbspISUIuHZsGpkfKuD9OqCYg7iUBMezMNgn6OQQt5s5yDny9sArGumHyemhjMmjw3NPmHv1XcI3E2VgVmpofdrZqOEM84bGPc8TGvVHM3GS44RDOnOPXJBK1rQzyxZYIwSpqSiP4of58Nw0acVq+Y3zJ2eQZC/7xAc8pLs3jOUUBMKT2a2yKKwVuLdsx4Y8DgIKmyYnyPU00rZ4a1IPOHUXDqp8ERpLe/STOqCLR4hSV7epMfjR3o5Ews997mBcEZe3N0sI9hGPTMFLJcANC2nr4BO1XJH5AgEC+sdEyKYv5La343TIr47OLUG6hifsVvz9Ggy6bgDtX/Cy+O25eKgq6AN6WaM5XUWW1xc4RTwAe3X2fkUwF+bco3ewWy9s+YN0zXO6TzEbqQ0jk50SueJXKp0+Z1HJSJACcEjHuBRpNVxOm0BfnnIbxbMIMBBpkY1iVMs9UPDP4PqIS4/WPVU5O/Uc3DAzDBP2smYafYg==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(6512007)(52116002)(6506007)(6666004)(2906002)(8936002)(508600001)(26005)(86362001)(36756003)(1076003)(2616005)(186003)(6486002)(38350700002)(38100700002)(5660300002)(66556008)(66476007)(8676002)(316002)(6916009)(66946007)(83380400001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?w/gm//BfEuIJUXjYKEIH4gQnBvmrFan20z+zX+8RBmiHXIUUmaW9wPrS8eDm?=
- =?us-ascii?Q?t62fes82VQ26C2SppeyFUIGaJ/VAUg7HNI5JQZY7TfsD0gMkD03yGw4mSE4t?=
- =?us-ascii?Q?d78b468z1ki6NXKffKl9gyEvBi5ZkgU+RGqZcu1hMHTUplyYuhp2yAnRFsJd?=
- =?us-ascii?Q?gstPfKnO51ksSyBZJ9P4uqgvlQcEU/iblyvi9ewDkBklv4kn+++qD4tOQQGY?=
- =?us-ascii?Q?wwyzn2VFRWLrDLDFVHVks0IWNk0F/fXbspUFR/5n+/spQMUKFbbDTvKMDvCx?=
- =?us-ascii?Q?sbdT7QzB54QtoHcUaIIHh3UH7hpplMYmKuy+jklRq4aORr8fUDfmZpwLilq6?=
- =?us-ascii?Q?MS8BOioiDMKpEmOVaEsWciIT1+wXKPtUfFwgZzfP51UywA8FRihAK36p5zG0?=
- =?us-ascii?Q?Lee/L/Gwx4W+SrOOcNRqGOTV5H+49svrMhQMmQgk3zQ1vt+xbJIJYE3DZgZT?=
- =?us-ascii?Q?cwaEn2ppOmf0Ux4Yh1+CTDMVPg2iYcjIwwae/ktyEsqEqXBpx7lyUGn6OLqE?=
- =?us-ascii?Q?m2G1iAgL52Yl2A8KWIKkO8teTavVPKrS8gdsw0aK8kZDutnk8CyFAlHZJcKu?=
- =?us-ascii?Q?R54USlvMuRFm645jORdib7pTXSUGkGMf7Quf2OJR2Kl73Z+6DF+ri3AmK1oA?=
- =?us-ascii?Q?cVd9kaLlw7aEiiet2Q0WB+zXeTBME+EG7QdffYpURU1iiRm5cNkl954tgkU1?=
- =?us-ascii?Q?7VC3lBJO17yIbJv+aTPBG8ItNvFc/ZWclA7AmK0vbL+DgC6LAIeXif9U5nyq?=
- =?us-ascii?Q?17thg7yeFRObbZ5BcYFogZQat4yrLuxJyLQSjKXv1MEi7u7JlUu1jTIDlmOs?=
- =?us-ascii?Q?O8pSVb35WtQH8onGxZ15kddghfmre/Q8qKaToRMls6ZgYrW8H7S6oaGGdj16?=
- =?us-ascii?Q?ItlnqqPMWJK827ckeWgrA95Qw+mDUAgFm7DyZy3cG5t+zUaBoWeWrSgg6bdi?=
- =?us-ascii?Q?9kkHLC9hiLxgc4oQXxfE0vgEaDJr7+SdXdc78HRVXRL99YQCF3YNh0DZV4bL?=
- =?us-ascii?Q?IE3YAnxkGHTUkuQKpEO0sEIvEPPidy7ouo+IsOXd6fRAPWXKEy0KkP7X26eO?=
- =?us-ascii?Q?g6eO5Nm8kViobAk3SXjCCrMNaKNRQS3Onz1fFs5ED3ebRy/Ra7EgRWY5znNN?=
- =?us-ascii?Q?gurhQXzeWFpwnHoF4IYLcS871dpwbidhr8jpgn4N1h3V0/Ynzi2eBT+wy+sQ?=
- =?us-ascii?Q?1ZPIQPucPKYTxJk597dPDMeywvc6OxOkmj5wbI4gMrXx0ebQigDP30+rKJHQ?=
- =?us-ascii?Q?eltu5SDg0B016sLNXhgvtzffCoam8qSdwQNccXXJIbSK1297hCwrEplHBcFd?=
- =?us-ascii?Q?tyAmUeff5PHmPZFwbDMlfKk+maQ3VmgqfYRzIQWftvPv/ntg5LXmZRfTBZRN?=
- =?us-ascii?Q?ST5gI46DQTUBtadVdaSafXDM0AD2HTHrkkRUh62XH0T6FikEPqhH+MFzKo2B?=
- =?us-ascii?Q?7OCdK8aAc7EnrvAI+HLRrm5RtWM4q1hRy2xFhP+8K6LAytnUu0wzPgTLLwAE?=
- =?us-ascii?Q?6ZrHTVqcdPc7S6j0ixUSJgcrgek4OKZ8IF2aJbqc2MkegrIS7bEw5Vk5zVQJ?=
- =?us-ascii?Q?dKkxiBOnX8ys3dO9EjsrWays1POS1C0h3fqOkC/Q7AwZ44WxlU67rSeGfep1?=
- =?us-ascii?Q?R8pFvYGQLF3JJ17X2QYjk2r6YHaj3XadZc5oRnDdUxxuWpejKH95qDbbXheN?=
- =?us-ascii?Q?FHzIAgKCByW5iR9UEnTMvZ6pWSUJVim0VavNLxOWFxpvmfPFwjl061yPK5+h?=
- =?us-ascii?Q?Y+9jdO6INmQleX/re42BMTZPgIVZntQ=3D?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 25e00059-5d04-4f50-87c2-08da3ecb960f
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 May 2022 03:55:34.5729
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 
- 0BNl0kusit2ej8uDw/gvy68zSbA00NOZxHl8gBYqT/briKRWVKQoye6CF+koGRbD99fIejmM3jIVEITkaGRhtQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR11MB2656
-X-Proofpoint-GUID: 4glmFZ-cfoKwObKyAm2gHpT7FpykD5Qg
-X-Proofpoint-ORIG-GUID: 4glmFZ-cfoKwObKyAm2gHpT7FpykD5Qg
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.874,Hydra:6.0.486,FMLib:17.11.64.514
- definitions=2022-05-26_01,2022-05-25_02,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 adultscore=0
- mlxlogscore=729 phishscore=0 mlxscore=0 suspectscore=0 clxscore=1015
- malwarescore=0 bulkscore=0 lowpriorityscore=0 priorityscore=1501
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2204290000 definitions=main-2205260020
+X-Spamd-Bar: /
+Authentication-Results: mail.optimvoice.io;
+	auth=pass smtp.auth=yocto@optimcloud.com smtp.mailfrom=yocto@optimcloud.com
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Thu, 26 May 2022 03:55:50 -0000
+ <meta-virtualization@lists.yoctoproject.org>; Sat, 28 May 2022 02:32:33 -0000
 X-Groupsio-URL: 
- https://lists.yoctoproject.org/g/meta-virtualization/message/7325
+ https://lists.yoctoproject.org/g/meta-virtualization/message/7326
 
-There's a QA issue about criu complaining the shebang
-of crit script is too long. We should replace it with
-'#!/usr/bin/env python3'.
+so ive built yocto with kubernetes k8s flavor, image created and booted, 
+ive done this before with overc which back then worked fine, yet  vanilla 
+yocto master seems to have issue
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- recipes-containers/criu/criu_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/recipes-containers/criu/criu_git.bb b/recipes-containers/criu/criu_git.bb
-index 4b616ccf..77a12abf 100644
---- a/recipes-containers/criu/criu_git.bb
-+++ b/recipes-containers/criu/criu_git.bb
-@@ -81,7 +81,7 @@ do_install () {
-     # scripts. 'crit' is one of those scripts. The "executable" or "e" option to the
-     # setup call should fix it, but it is being ignored. So to avoid getting our native
-     # intepreter replaced in the script, we'll do an explicit update ourselves.
--    sed -i 's%^\#\!.*%\#\!/usr/bin/env python3%g' ${D}/usr/bin/crit
-+    sed -i 's%^\#\!.*%\#\!/usr/bin/env python3%' ${D}/usr/bin/crit ${D}${libdir}/python3*/site-packages/crit-0.0.1-py3*.egg/EGG-INFO/scripts/crit
- }
- 
- FILES:${PN} += "${systemd_unitdir}/ \
+swapoff -a
+
+k8sinit
+
+root@node-1:~# swapoff -a
+root@node-1:~# k8s-init 
+/bin/k8s-init: line 11: /etc/sysconfig/iptables: No such file or directory
+I0528 02:21:13.465437     479 version.go:255] remote version is much newer: 
+v1.24.1; falling back to: stable-1.23
+[init] Using Kubernetes version: v1.23.7
+[preflight] Running pre-flight checks
+	[WARNING SystemVerification]: missing optional cgroups: hugetlb
+[preflight] Pulling images required for setting up a Kubernetes cluster
+[preflight] This might take a minute or two, depending on the speed of your 
+internet connection
+[preflight] You can also perform this action in beforehand using 'kubeadm 
+config images pull'
+[certs] Using certificateDir folder "/etc/kubernetes/pki"
+[certs] Generating "ca" certificate and key
+[certs] Generating "apiserver" certificate and key
+[certs] apiserver serving cert is signed for DNS names [kubernetes 
+kubernetes.default kubernetes.default.svc 
+kubernetes.default.svc.cluster.local node-1] and IPs [10.96.0.1 
+192.168.0.189]
+[certs] Generating "apiserver-kubelet-client" certificate and key
+[certs] Generating "front-proxy-ca" certificate and key
+[certs] Generating "front-proxy-client" certificate and key
+[certs] Generating "etcd/ca" certificate and key
+[certs] Generating "etcd/server" certificate and key
+[certs] etcd/server serving cert is signed for DNS names [localhost node-1] 
+and IPs [192.168.0.189 127.0.0.1 ::1]
+[certs] Generating "etcd/peer" certificate and key
+[certs] etcd/peer serving cert is signed for DNS names [localhost node-1] 
+and IPs [192.168.0.189 127.0.0.1 ::1]
+[certs] Generating "etcd/healthcheck-client" certificate and key
+[certs] Generating "apiserver-etcd-client" certificate and key
+[certs] Generating "sa" key and public key
+[kubeconfig] Using kubeconfig folder "/etc/kubernetes"
+[kubeconfig] Writing "admin.conf" kubeconfig file
+[kubeconfig] Writing "kubelet.conf" kubeconfig file
+[kubeconfig] Writing "controller-manager.conf" kubeconfig file
+[kubeconfig] Writing "scheduler.conf" kubeconfig file
+[kubelet-start] Writing kubelet environment file with flags to file 
+"/var/lib/kubelet/kubeadm-flags.env"
+[kubelet-start] Writing kubelet configuration to file 
+"/var/lib/kubelet/config.yaml"
+[kubelet-start] Starting the kubelet
+[control-plane] Using manifest folder "/etc/kubernetes/manifests"
+[control-plane] Creating static Pod manifest for "kube-apiserver"
+[control-plane] Creating static Pod manifest for "kube-controller-manager"
+[control-plane] Creating static Pod manifest for "kube-scheduler"
+[etcd] Creating static Pod manifest for local etcd in 
+"/etc/kubernetes/manifests"
+[wait-control-plane] Waiting for the kubelet to boot up the control plane 
+as static Pods from directory "/etc/kubernetes/manifests". This can take up 
+to 4m0s
+[kubelet-check] Initial timeout of 40s passed.
+
+	Unfortunately, an error has occurred:
+		timed out waiting for the condition
+
+	This error is likely caused by:
+		- The kubelet is not running
+		- The kubelet is unhealthy due to a misconfiguration of the node in some 
+way (required cgroups disabled)
+
+	If you are on a systemd-powered system, you can try to troubleshoot the 
+error with the following commands:
+		- 'systemctl status kubelet'
+		- 'journalctl -xeu kubelet'
+
+	Additionally, a control plane component may have crashed or exited when 
+started by the container runtime.
+	To troubleshoot, list all containers using your preferred container 
+runtimes CLI.
+
+	Here is one example how you may list all Kubernetes containers running in 
+cri-o/containerd using crictl:
+		- 'crictl --runtime-endpoint /run/containerd/containerd.sock ps -a | grep 
+kube | grep -v pause'
+		Once you have found the failing container, you can inspect its logs with:
+		- 'crictl --runtime-endpoint /run/containerd/containerd.sock logs 
+CONTAINERID'
+
+error execution phase wait-control-plane: couldn't initialize a Kubernetes 
+cluster
+To see the stack trace of this error execute with --v=5 or higher
+
+
+journalctl says
+May 28 02:22:50 node-1 kubelet[825]: E0528 02:22:50.457191     825 
+remote_runtime.go:448] "StartContainer from runtime service failed" 
+err="rpc error: code = Unknown desc = failed to create containerd task: 
+failed to create shim task: OCI runtime create failed: runc create failed: 
+unable to start container process: error during container init: error 
+setting cgroup config for procHooks process: openat2 
+/sys/fs/cgroup/cpu,cpuacct/system.slice/containerd.service/kubepods-burstable-pod2f35c35e9fe662a834b6d53268894e8a.slice:cri-containerd:a87e4c5256ef0c61cd2ccc453580936d6cc6f10c9febec5ddf190fd40753c148/cpu.cfs_period_us: 
+no such file or directory: unknown" 
+containerID="a87e4c5256ef0c61cd2ccc453580936d6cc6f10c9febec5ddf190fd40753c148"
+
+May 28 02:22:50 node-1 kubelet[825]: E0528 02:22:50.457462     825 
+kuberuntime_manager.go:919] container 
+&Container{Name:etcd,Image:k8s.gcr.io/etcd:3.5.1-0,Command:[etcd 
+--advertise-client-urls=https://192.168.0.189:2379 
+--cert-file=/etc/kubernetes/pki/etcd/server.crt --client-cert-auth=true 
+--data-dir=/var/lib/etcd 
+--initial-advertise-peer-urls=https://192.168.0.189:2380 
+--initial-cluster=node-1=https://192.168.0.189:2380 
+--key-file=/etc/kubernetes/pki/etcd/server.key 
+--listen-client-urls=https://127.0.0.1:2379,https://192.168.0.189:2379 
+--listen-metrics-urls=http://127.0.0.1:2381 
+--listen-peer-urls=https://192.168.0.189:2380 --name=node-1 
+--peer-cert-file=/etc/kubernetes/pki/etcd/peer.crt 
+--peer-client-cert-auth=true 
+--peer-key-file=/etc/kubernetes/pki/etcd/peer.key 
+--peer-trusted-ca-file=/etc/kubernetes/pki/etcd/ca.crt 
+--snapshot-count=10000 
+--trusted-ca-file=/etc/kubernetes/pki/etcd/ca.crt],Args:[],WorkingDir:,Ports:[]ContainerPort{},Env:[]EnvVar{},Resources:ResourceRequirements{Limits:ResourceList{},Requests:ResourceList{cpu: 
+{{100 -3} {<nil>} 100m DecimalSI},memory: {{104857600 0} {<nil>} 100Mi 
+BinarySI},},},VolumeMounts:[]VolumeMount{VolumeMount{Name:etcd-data,ReadOnly:false,MountPath:/var/lib/etcd,SubPath:,MountPropagation:nil,SubPathExpr:,},VolumeMount{Name:etcd-certs,ReadOnly:false,MountPath:/etc/kubernetes/pki/etcd,SubPath:,MountPropagation:nil,SubPathExpr:,},},LivenessProbe:&Probe{ProbeHandler:ProbeHandler{Exec:nil,HTTPGet:&HTTPGetAction{Path:/health,Port:{0 
+2381 
+},Host:127.0.0.1,Scheme:HTTP,HTTPHeaders:[]HTTPHeader{},},TCPSocket:nil,GRPC:nil,},InitialDelaySeconds:10,TimeoutSeconds:15,PeriodSeconds:10,SuccessThreshold:1,FailureThreshold:8,TerminationGracePeriodSeconds:nil,},ReadinessProbe:nil,Lifecycle:nil,TerminationMessagePath:/dev/termination-log,ImagePullPolicy:IfNotPresent,SecurityContext:nil,Stdin:false,StdinOnce:false,TTY:false,EnvFrom:[]EnvFromSource{},TerminationMessagePolicy:File,VolumeDevices:[]VolumeDevice{},StartupProbe:&Probe{ProbeHandler:ProbeHandler{Exec:nil,HTTPGet:&HTTPGetAction{Path:/health,Port:{0 
+2381 
+},Host:127.0.0.1,Scheme:HTTP,HTTPHeaders:[]HTTPHeader{},},TCPSocket:nil,GRPC:nil,},InitialDelaySeconds:10,TimeoutSeconds:15,PeriodSeconds:10,SuccessThreshold:1,FailureThreshold:24,TerminationGracePeriodSeconds:nil,},} 
+start failed in pod 
+etcd-node-1_kube-system(2f35c35e9fe662a834b6d53268894e8a): 
+RunContainerError: failed to create containerd task: failed to create shim 
+task: OCI runtime create failed: runc create failed: unable to start 
+container process: error during container init: error setting cgroup config 
+for procHooks process: openat2 
+/sys/fs/cgroup/cpu,cpuacct/system.slice/containerd.service/kubepods-burstable-pod2f35c35e9fe662a834b6d53268894e8a.slice:cri-containerd:a87e4c5256ef0c61cd2ccc453580936d6cc6f10c9febec5ddf190fd40753c148/cpu.cfs_period_us: 
+no such file or directory: unknown
+May 28 02:22:50 node-1 kubelet[825]: E0528 02:22:50.457564     825 
+pod_workers.go:951] "Error syncing pod, skipping" err="failed to 
+\"StartContainer\" for \"etcd\" with RunContainerError: \"failed to create 
+containerd task: failed to create shim task: OCI runtime create failed: 
+runc create failed: unable to start container process: error during 
+container init: error setting cgroup config for procHooks process: openat2 
+/sys/fs/cgroup/cpu,cpuacct/system.slice/containerd.service/kubepods-burstable-pod2f35c35e9fe662a834b6d53268894e8a.slice:cri-containerd:a87e4c5256ef0c61cd2ccc453580936d6cc6f10c9febec5ddf190fd40753c148/cpu.cfs_period_us: 
+no such file or directory: unknown\"" pod="kube-system/etcd-node-1" 
+podUID=2f35c35e9fe662a834b6d53268894e8a
+May 28 02:22:50 node-1 containerd[350]: 
+time="2022-05-28T02:22:50.469596452Z" level=error msg="StartContainer for 
+\"d5f0203e814a4d14c24c17a2c2b3982b43e7427ab135b0c98956ee638c82aeaf\" 
+failed" error="failed to create containerd task: failed to create shim 
+task: OCI runtime create failed: runc create failed: unable to start 
+container process: error during container init: error setting cgroup config 
+for procHooks process: openat2 
+/sys/fs/cgroup/cpu,cpuacct/system.slice/containerd.service/kubepods-burstable-pod90c43fd55dbe3c307fa34d50b43224e6.slice:cri-containerd:d5f0203e814a4d14c24c17a2c2b3982b43e7427ab135b0c98956ee638c82aeaf/cpu.cfs_period_us: 
+no such file or directory: unknown"
+May 28 02:22:50 node-1 containerd[350]: 
+time="2022-05-28T02:22:50.469657943Z" level=error msg="StartContainer for 
+\"70b9504b4733741c4274884ad69f702818e071ecd6e62dca81382a68ca64c1b1\" 
+failed" error="failed to create containerd task: failed to create shim 
+task: OCI runtime create failed: runc create failed: unable to start 
+container process: error during container init: error setting cgroup config 
+for procHooks process: openat2 
+/sys/fs/cgroup/cpu,cpuacct/system.slice/containerd.service/kubepods-burstable-pod4339400940323fa9543500bd60488683.slice:cri-containerd:70b9504b4733741c4274884ad69f702818e071ecd6e62dca81382a68ca64c1b1/cpu.cfs_period_us: 
+no such file or directory: unknown"
+May 28 02:22:50 node-1 containerd[350]: 
+time="2022-05-28T02:22:50.469702603Z" level=error msg="StartContainer for 
+\"038b05d9f6f77c2c705da5f66f417b84697f0b66642f7d9b90693877e36c9b83\" 
+failed" error="failed to create containerd task: failed to create shim 
+task: OCI runtime create failed: runc create failed: unable to start 
+container process: error during container init: error setting cgroup config 
+for procHooks process: openat2 
+/sys/fs/cgroup/cpu,cpuacct/system.slice/containerd.service/kubepods-burstable-podd94f28892ce55932f3909341450b4129.slice:cri-containerd:038b05d9f6f77c2c705da5f66f417b84697f0b66642f7d9b90693877e36c9b83/cpu.cfs_period_us: 
+no such file or directory: unknown"
+
+root@node-1:~# crictl --runtime-endpoint /run/containerd/containerd.sock ps 
+-a
+I0528 02:30:50.674997    2376 util_unix.go:104] "Using this endpoint is 
+deprecated, please consider using full URL format" 
+endpoint="/run/containerd/containerd.sock" 
+URL="unix:///run/containerd/containerd.sock"
+I0528 02:30:50.675769    2376 util_unix.go:104] "Using this endpoint is 
+deprecated, please consider using full URL format" 
+endpoint="/run/containerd/containerd.sock" 
+URL="unix:///run/containerd/containerd.sock"
+CONTAINER           IMAGE               CREATED             STATE           
+    NAME                      ATTEMPT             POD ID              POD
+027a394f5bc72       ed0ccfa052ab4       2 minutes ago       Exited          
+    kube-scheduler            6                   f3d96a4b9301d       
+kube-scheduler-node-1
+4516ebb79f90e       03c169f383d97       2 minutes ago       Exited          
+    kube-apiserver            6                   8937c47e4a03d       
+kube-apiserver-node-1
+0d1497cffec50       25f8c7f3da61c       2 minutes ago       Exited          
+    etcd                      6                   1ee2992c605bc       
+etcd-node-1
+881632903e7f3       e34d4a6252edd       2 minutes ago       Exited          
+    kube-controller-manager   6                   25a48784ec11f       
+kube-controller-manager-node-1
+
+
+
+
+
+
 -- 
-2.36.0
-
+Sent with Vivaldi Mail. Download Vivaldi for free at vivaldi.com
 
