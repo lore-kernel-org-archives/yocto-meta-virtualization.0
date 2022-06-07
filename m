@@ -2,187 +2,240 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87092C433EF
-	for <webhook@archiver.kernel.org>; Tue,  7 Jun 2022 14:05:21 +0000 (UTC)
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com
- [209.85.222.179])
- by mx.groups.io with SMTP id smtpd.web11.12671.1654610712104083867
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E46CC43334
+	for <webhook@archiver.kernel.org>; Tue,  7 Jun 2022 14:06:41 +0000 (UTC)
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com
+ [209.85.219.173])
+ by mx.groups.io with SMTP id smtpd.web09.12927.1654610791131282194
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 07 Jun 2022 07:05:12 -0700
+ Tue, 07 Jun 2022 07:06:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=EDHobHU0;
- spf=pass (domain: gmail.com, ip: 209.85.222.179,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=ljs9nPfU;
+ spf=pass (domain: gmail.com, ip: 209.85.219.173,
  mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f179.google.com with SMTP id a184so9697608qkg.5
+Received: by mail-yb1-f173.google.com with SMTP id w2so31325945ybi.7
         for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 07 Jun 2022 07:05:11 -0700 (PDT)
+ Tue, 07 Jun 2022 07:06:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=udonxLxKVrRbyuMTAgHIacZaKIyRaT4SOA3a3cHyr14=;
-        b=EDHobHU0Qx+TcfTSoyASLe7xSctDMsGSk+5ODiZYoc76v5C6Ytg/x4OJjCfcLbPSRI
-         4ZaaVr00C2NtaJxafoR9AEB6wfAfrs29Pdl3HxURaCq50jm49jRDsgMTWIG/91BVAwSt
-         5NkGvotIn/0xxOGq8dHGQK79Vhht7TLTY21Featb07wTby0vI9N9P7dAgUGvqBqMMFEF
-         IUjGYa3Fj+9uvXtFs8e1npdeyOT65l3KbGT0NHyj11KjarZATTEuyb1fOwZOIUDdSZ9I
-         eR/gn7bNpmbcBedS3dHtH1XzH8e8DQzILwOHbpIeOs1y7x2D0Zl9EqTd5FFtVbicAqu5
-         pZTg==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=+ID8FTiBhRmpWpZbEoeK57W9sVe9mkZt+RuUeAetn5Q=;
+        b=ljs9nPfUDKrg4jp/ECTMyl6huUfxk/pCrkHutQjCV8IQD5/CHJM9+OC56ycZNKXpw5
+         kdfGtRA2epxcEw/yUpf2VMJvWGO29M+x8UCs1FLgOkZkqr+LsYqG4bJ5Gh4BDI0NK3VN
+         2sOOsoYd+6J3z7yJPl/EbJizy4WyYd+gOS+chOS6/mNJ0x2YFl+MX/Wkn3Om/VuhylAA
+         pLtWF80fIEQ6iIRC3z0bkPJkAfG84VgRd3LktnD6nFdThFp/NCti/042bZRvFMcFIWN8
+         Zi6k30mBquEx1KKNPFIM/A50/PEPusDJ1xoXDUid3YHXSCQhufBNnfswQV1lnCCpmJqN
+         rNDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=udonxLxKVrRbyuMTAgHIacZaKIyRaT4SOA3a3cHyr14=;
-        b=s6kz1RRyqxzdH+8m/fj/kt6RIjOjoL0qqlZCq8EaajliWQ6Z4SnON73+0wg7aU6DKU
-         wFXEvvyzRfgmCDSqkYr4OB0q7xKLSTmz9XhGKR7IOpVXzuj3Jj9bD9gaHvYOSligBaxv
-         gfAR3b4zl8pU54D+t2/wLyoh9k1SuhSGAetzPufqt2xBiOZAd12eFKRHWgqUkhd8u3qy
-         bAWh6E5nshN9RAcXVtf4Pho8mOrkh25BxgyQSLMArp5BI5AFVbrDU0j87bDk3+E2a5Cz
-         cnPVG3EsR8yDByjQeTJ3FKWCzLyk8YTT8GbHE+2apVAu4LkDC0e6/+71NsqFsTJP3D6y
-         bmQA==
-X-Gm-Message-State: AOAM532F5nGttlLsHndtXQrsqEkqE0Tlkjhh/ND2c2fMQqVrxYdItHxH
-	AcDqIoiyXZGtNtnsj8dEYzBI3bHpu4BC4A==
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=+ID8FTiBhRmpWpZbEoeK57W9sVe9mkZt+RuUeAetn5Q=;
+        b=yJUfXGdJSY8ZBFYdOHqV1Andk6wN7yxpOFf5Wh8P4NuUXw8a1pHJebHq7byMNy2pGa
+         5J07Ya9Yu1dBRUn19EirrPEX6K8YnRAKlc40EjVCZw4O+kcbwhEr0xkFNELa4vtxXUPY
+         DRp1oVFHlJPB6LNDVG//c5nqOlMfLBp2EC8aUwv6NTXuXtijcQYME7PRWR0+LX7TWLrm
+         QLT0lyIS/VkWcesEE9olq9I6a8ENlSn+hAokuKEibnONy72WsXY64AxikW2ItCLbrkWu
+         7ocywyKHHC2Wrjfo7SRLmZtCnwwY/IPSbyez/wQHeSZ5eAp1BUZR61ro4aVinPhYyj4A
+         nfbA==
+X-Gm-Message-State: AOAM530S8mbQFBEK9VxGdO2IJj/tMPMWM5Kd/6PcfOIUO6sP9P1PtzVp
+	dG0ACzdpsjbQGNM9/68St/lVbOuE0XTJJTD70sAHcyUtUMk=
 X-Google-Smtp-Source: 
- ABdhPJwq33Is5TscT565/UL5RfYiJk6ZGpI0umrABKALY86pRHjG2/3uPl0/lL75bHAzxDYy6alYLw==
-X-Received: by 2002:a05:620a:17a1:b0:6a6:ed81:ec with SMTP id
- ay33-20020a05620a17a100b006a6ed8100ecmr1204852qkb.523.1654610710994;
-        Tue, 07 Jun 2022 07:05:10 -0700 (PDT)
-Received: from gmail.com ([173.34.88.218])
-        by smtp.gmail.com with ESMTPSA id
- w184-20020a3794c1000000b006a098381abcsm13886557qkd.114.2022.06.07.07.05.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jun 2022 07:05:10 -0700 (PDT)
-Date: Tue, 7 Jun 2022 10:05:08 -0400
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: leimaohui <leimaohui@fujitsu.com>
-Cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [meta-virtualization] [PATCH] open-iscsi-user: Fix conflict
- error with systemd and net-snmp-server-snmptrapd.
-Message-ID: <20220607140508.GD54262@gmail.com>
-References: <1654571706-3858-1-git-send-email-leimaohui@fujitsu.com>
+ ABdhPJxSD1B44p4e+turEHuEScVDfFCVZzF+CFB+JKnEWeWjaMZSEh3KvJNQ0ZcvwN4Blv7r+eVNYJ0hAAnGLMl4OBs=
+X-Received: by 2002:a25:bc84:0:b0:65c:e3df:223f with SMTP id
+ e4-20020a25bc84000000b0065ce3df223fmr28653999ybk.131.1654610789678; Tue, 07
+ Jun 2022 07:06:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1654571706-3858-1-git-send-email-leimaohui@fujitsu.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20220525234347.3799-1-sakib.sajal@windriver.com>
+ <CADkTA4PJT5HwekzjTQsCg3dt=N25fwzAaRpXGQkH7a=SUDaMkA@mail.gmail.com>
+ <e25f93e4-3512-eb34-aa57-c691f8e169d7@windriver.com>
+In-Reply-To: <e25f93e4-3512-eb34-aa57-c691f8e169d7@windriver.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Tue, 7 Jun 2022 10:06:17 -0400
+Message-ID: 
+ <CADkTA4ODh7j1FKWN_iDxmqcWMraRsV65AkjtfUn0ScOzNwnuvA@mail.gmail.com>
+Subject: Re: [meta-virtualization][PATCH V2] buildah: add recipe for buildah
+ v1.26
+To: Sakib Sajal <sakib.sajal@windriver.com>
+Cc: meta-virtualization@lists.yoctoproject.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Tue, 07 Jun 2022 14:05:21 -0000
+ <meta-virtualization@lists.yoctoproject.org>; Tue, 07 Jun 2022 14:06:41 -0000
 X-Groupsio-URL: 
- https://lists.yoctoproject.org/g/meta-virtualization/message/7341
+ https://lists.yoctoproject.org/g/meta-virtualization/message/7342
 
-merged to master and kirkstone.
+On Tue, Jun 7, 2022 at 9:50 AM Sakib Sajal <sakib.sajal@windriver.com> wrote:
+>
+>
+> On 2022-06-07 08:59, Bruce Ashfield wrote:
+> > [Please note: This e-mail is from an EXTERNAL e-mail address]
+> >
+> > On Wed, May 25, 2022 at 7:43 PM <sakib.sajal@windriver.com> wrote:
+> >> buildah is a command line tool, to be installed and run on target,
+> >> that can be used to:
+> >>     - create a working container, either from scratch or using an image
+> >>       as a starting point
+> >>     - create an image, either from a working container or via the
+> >>       instructions in a Dockerfile
+> >>     - images can be built in either the OCI image format or the
+> >>       traditional upstream docker image format
+> >>     - mount a working container's root filesystem for manipulation
+> >>     - unmount a working container's root filesystem
+> >>     - use the updated contents of a container's root filesystem as a
+> >>       filesystem layer to create a new image
+> >>     - delete a working container or an image
+> >>     - rename a local container
+> >>
+> >> Testing:
+> >> Setup the build directory:
+> >>     $ . oe-init-build-env <build_dir>
+> >>
+> >> Add to local.conf:
+> >>     IMAGE_INSTALL:append = " buildah kernel-modules"
+> >>     KERNEL_FEATURES += "features/overlayfs/overlayfs.cfgi \
+> >>                         features/netfilter/netfilter.scc  \
+> >>                         features/lxc/lxc-enable.scc"
+> >>     IMAGE_ROOTFS_EXTRA_SPACE = "5242880"
+> >>
+> >> Build image:
+> >>     $ bitbake core-image-minimal
+> >>
+> >> Run the image:
+> >>     $ runqemu nographic kvm qemuparams="-m 4096"
+> >>
+> >> On target:
+> >> Pull an image:
+> >>     > cnt=$(buildah from fedora)
+> >>
+> >> Or build from Dockerfile
+> >>     > buildah bud -t <image_name>:<tag> .
+> >>
+> >> Mount the image:
+> >>     > mnt=$(buildah mount ${cnt})
+> >>
+> >> Install packages on the container rootfs:
+> >>     > dnf install --installroot $mnt <packages_to_install> -y
+> >>
+> >> Copy local files to the container:
+> >>     > buildah copy $cnt <local_file> <dest_on_container>
+> >>
+> >> Save the changes to an image
+> >>     > buildah commit --format docker $cnt <name>:<tag>
+> >>
+> >> Run the image using buildah:
+> >>     > buildah run $cnt /bin/sh
+> >>
+> >> Or using docker:
+> >>     > docker run -it <name>:<tag>
+> > I haven't forgotten about this, just with the storms and power outages
+> > here in Ottawa, I'm running way behind in my patch processing.
+> >
+> > Bruce
+>
+> Thank you for the update, I was about to ping you regarding this.
+>
+
+I did the easier patches this morning, I'll have a look at this more
+closely on Wednesday.
 
 Bruce
 
-In message: [meta-virtualization] [PATCH] open-iscsi-user: Fix conflict error with systemd and net-snmp-server-snmptrapd.
-on 07/06/2022 leimaohui wrote:
+> Sakib
+>
+> >
+> >> Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
+> >> ---
+> >>   recipes-containers/buildah/buildah_git.bb | 57 +++++++++++++++++++++++
+> >>   1 file changed, 57 insertions(+)
+> >>   create mode 100644 recipes-containers/buildah/buildah_git.bb
+> >>
+> >> diff --git a/recipes-containers/buildah/buildah_git.bb b/recipes-containers/buildah/buildah_git.bb
+> >> new file mode 100644
+> >> index 0000000..024e82c
+> >> --- /dev/null
+> >> +++ b/recipes-containers/buildah/buildah_git.bb
+> >> @@ -0,0 +1,57 @@
+> >> +HOMEPAGE = "https://buildah.io"
+> >> +SUMMARY = "A tool that facilitates building OCI container images."
+> >> +DESCRIPTION = "A tool that facilitates building OCI container images."
+> >> +
+> >> +# Apache-2.0 for containerd
+> >> +LICENSE = "Apache-2.0"
+> >> +LIC_FILES_CHKSUM = "file://src/github.com/containers/buildah/LICENSE;md5=e3fc50a88d0a364313df4b21ef20c29e"
+> >> +
+> >> +S = "${WORKDIR}/git"
+> >> +
+> >> +BUILDAH_VERSION = "1.26"
+> >> +SRCREV_buildah = "0a9d6e6eaef2e2e7936313d449a4e226022eb865"
+> >> +
+> >> +PV = "${BUILDAH_VERSION}"
+> >> +
+> >> +inherit go
+> >> +inherit goarch
+> >> +inherit pkgconfig
+> >> +
+> >> +GO_IMPORT = "github.com/containers/buildah"
+> >> +GO_INSTALL = "${GO_IMPORT}"
+> >> +GO_WORKDIR = "${GO_INSTALL}"
+> >> +GOBUILDFLAGS += "-mod vendor"
+> >> +
+> >> +SRC_URI = " \
+> >> +    git://github.com/containers/buildah;branch=release-${BUILDAH_VERSION};name=buildah;protocol=https \
+> >> +    "
+> >> +
+> >> +DEPENDS = "libdevmapper btrfs-tools gpgme"
+> >> +RDEPENDS:${PN} = "cgroup-lite fuse-overlayfs libdevmapper podman"
+> >> +RDEPENDS:${PN}-dev = "bash perl"
+> >> +
+> >> +do_compile:prepend() {
+> >> +    cd ${S}/src/github.com/containers/buildah
+> >> +}
+> >> +
+> >> +go_do_compile() {
+> >> +        export TMPDIR="${GOTMPDIR}"
+> >> +        if [ -n "${GO_INSTALL}" ]; then
+> >> +                if [ -n "${GO_LINKSHARED}" ]; then
+> >> +                        ${GO} install ${GOBUILDFLAGS} ./cmd/buildah
+> >> +                        ${GO} install ${GOBUILDFLAGS} ./tests/imgtype/imgtype.go
+> >> +                        ${GO} install ${GOBUILDFLAGS} ./tests/copy/copy.go
+> >> +                        rm -rf ${B}/bin
+> >> +                fi
+> >> +                ${GO} install ${GO_LINKSHARED} ${GOBUILDFLAGS} ./cmd/buildah
+> >> +                ${GO} install ${GO_LINKSHARED} ${GOBUILDFLAGS} ./tests/imgtype/imgtype.go
+> >> +                ${GO} install ${GO_LINKSHARED} ${GOBUILDFLAGS} ./tests/copy/copy.go
+> >> +        fi
+> >> +}
+> >> +
+> >> +do_install:append() {
+> >> +    dest_dir=${D}/${sysconfdir}/containers
+> >> +    mkdir -p ${dest_dir}
+> >> +    install -m 666 ${S}/src/github.com/containers/buildah/docs/samples/registries.conf ${dest_dir}/buildah.registries.conf.sample
+> >> +    install -m 666 ${S}/src/github.com/containers/buildah/tests/policy.json ${dest_dir}/buildah.policy.json.sample
+> >> +}
+> >> --
+> >> 2.33.0
+> >>
+> >>
+> >> -=-=-=-=-=-=-=-=-=-=-=-
+> >> Links: You receive all messages sent to this group.
+> >> View/Reply Online (#7324): https://lists.yoctoproject.org/g/meta-virtualization/message/7324
+> >> Mute This Topic: https://lists.yoctoproject.org/mt/91344690/1050810
+> >> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+> >> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
+> >> -=-=-=-=-=-=-=-=-=-=-=-
+> >>
+> >
+> > --
+> > - Thou shalt not follow the NULL pointer, for chaos and madness await
+> > thee at its end
+> > - "Use the force Harry" - Gandalf, Star Trek II
 
-> - reinstall service files
-> - deleted older version
-> 
-> Signed-off-by: Lei Maohui <leimaohui@fujitsu.com>
-> ---
->  .../open-iscsi/open-iscsi-user_2.1.4.bb            | 60 ----------------------
->  .../open-iscsi/open-iscsi-user_2.1.7.bb            | 10 ++++
->  2 files changed, 10 insertions(+), 60 deletions(-)
->  delete mode 100644 meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-user_2.1.4.bb
-> 
-> diff --git a/meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-user_2.1.4.bb b/meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-user_2.1.4.bb
-> deleted file mode 100644
-> index 928290f..0000000
-> --- a/meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-user_2.1.4.bb
-> +++ /dev/null
-> @@ -1,60 +0,0 @@
-> -DESCRIPTION = "Open-iSCSI project is a high performance, transport independent, multi-platform implementation of RFC3720."
-> -HOMEPAGE = "http://www.open-iscsi.org/"
-> -LICENSE = "GPL-2.0-only"
-> -PR = "r1"
-> -
-> -inherit systemd autotools pkgconfig
-> -
-> -LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
-> -DEPENDS = "kmod openssl util-linux open-isns"
-> -DEPENDS:append = " ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)}"
-> -
-> -SRC_URI = "git://github.com/open-iscsi/open-iscsi.git;protocol=https;branch=master \
-> -           file://0001-fix-build-error-of-cross-build.patch \
-> -           "
-> -
-> -SRCREV = "095f59ca464220eae285de6b5f2ee31185a6a84c"
-> -
-> -S = "${WORKDIR}/git"
-> -B = "${S}"
-> -
-> -TARGET_CC_ARCH += "${LDFLAGS}"
-> -EXTRA_OEMAKE += "CONFIGURE_ARGS='--host=${HOST_SYS}'"
-> -
-> -do_configure () {
-> -    :
-> -}
-> -
-> -do_compile () {
-> -        oe_runmake user
-> -}
-> -
-> -do_install () {
-> -        oe_runmake DESTDIR="${D}" install_user
-> -        install ${S}/etc/initd/initd.debian ${D}/etc/init.d/open-iscsi
-> -        install -m 0644 ${S}/etc/iscsid.conf ${D}/etc/iscsi/
-> -
-> -        install -d ${D}${libdir}
-> -        install -Dm 0644 ${S}/libopeniscsiusr/libopeniscsiusr.so.0.2.0 ${D}${libdir}/
-> -        ln -sf ${libdir}/libopeniscsiusr.so.0.2.0 ${D}${libdir}/libopeniscsiusr.so
-> -}
-> -
-> -# systemd support
-> -PACKAGES =+ "${PN}-systemd"
-> -RDEPENDS:${PN} += "bash"
-> -RDEPENDS:${PN}-systemd += "${PN}"
-> -FILES:${PN}-systemd +=  "${base_libdir}/systemd                  \
-> -                         ${sysconfdir}/default/iscsi-initiator   \
-> -                        "
-> -SYSTEMD_PACKAGES = "${PN}-systemd"
-> -SYSTEMD_SERVICE:${PN}-systemd = "iscsi.service \
-> -                                 iscsiuio.service \
-> -                                 iscsid.service \
-> -                                 iscsi-init.service \
-> -                                 iscsid.socket \
-> -                                 iscsiuio.socket "
-> -
-> -do_install:append () {
-> -        install -d ${D}${systemd_unitdir}/system
-> -        install -m 0644 ${S}/etc/systemd/* ${D}${systemd_unitdir}/system/
-> -}
-> diff --git a/meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-user_2.1.7.bb b/meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-user_2.1.7.bb
-> index b4b9ebc..8cedff4 100644
-> --- a/meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-user_2.1.7.bb
-> +++ b/meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-user_2.1.7.bb
-> @@ -43,3 +43,13 @@ FILES:${PN} += " \
->      ${systemd_system_unitdir}/iscsiuio.service \
->      ${systemd_unitdir}/system-generators/ibft-rule-generator \
->  "
-> +
-> +do_install:append() {
-> +    rm -rf ${D}${systemd_unitdir}/
-> +
-> +    install -d ${D}${systemd_unitdir}/system
-> +    install -d ${D}${systemd_unitdir}/system-generators
-> +    install -m 0644 ${S}/etc/systemd/*.service ${D}${systemd_unitdir}/system/
-> +    install -m 0644 ${S}/etc/systemd/*.socket ${D}${systemd_unitdir}/system/
-> +    install -m 0644 ${S}/etc/systemd/ibft-rule-generator ${D}${systemd_unitdir}/system-generators/
-> +}
-> -- 
-> 1.8.3.1
-> 
 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#7335): https://lists.yoctoproject.org/g/meta-virtualization/message/7335
-> Mute This Topic: https://lists.yoctoproject.org/mt/91593585/1050810
-> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
 
+-- 
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
