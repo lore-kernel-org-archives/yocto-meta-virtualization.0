@@ -1,183 +1,219 @@
-Return-Path: <leimaohui@fujitsu.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B737C43334
-	for <webhook@archiver.kernel.org>; Tue,  7 Jun 2022 03:15:48 +0000 (UTC)
-Received: from mail1.bemta32.messagelabs.com (mail1.bemta32.messagelabs.com
- [195.245.230.2])
- by mx.groups.io with SMTP id smtpd.web10.7513.1654571742774067468
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 39E0DC43334
+	for <webhook@archiver.kernel.org>; Tue,  7 Jun 2022 13:00:01 +0000 (UTC)
+Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com
+ [209.85.219.182])
+ by mx.groups.io with SMTP id smtpd.web11.11879.1654606795108832555
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 06 Jun 2022 20:15:43 -0700
+ Tue, 07 Jun 2022 05:59:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=GMZKXWkl;
- spf=pass (domain: fujitsu.com, ip: 195.245.230.2,
- mailfrom: leimaohui@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1654571740; i=@fujitsu.com;
-	bh=Hai808WM2VtFYLetq3n0R3d9318uf9R4urxCz0NW6QI=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=GMZKXWklCyecm0hDL5ReTEtJnj+0ZhBhrUv8C4ljtess3SXB0FhAWIlnxzc9KqCSv
-	 YWBw5BwikneiGkmiSDeLYT5hdofRjTrpNi0ITD0P1tOORfkO89NsivJ6MrjlPYCVI6
-	 rZKipRQIUr5/Qui11HMaTzniwIzhFY3O8OjYf7bfvZauicWC4HPNJiWJEZafgFnQh0
-	 PKOhyLrEapwPouSl3WbYr6+chotbi7avtTyFiYiGPKe2hNzICoi3lE0QdDnbuwpLJD
-	 LBkQjScUjf4EPRH2VT37Wq2hsD4u3XOdoy7xHkosBIfcPbKsidKYNBn8sOMiuuloyF
-	 GScGD+0+qRp8w==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrIIsWRWlGSWpSXmKPExsViZ8OxWffOoXl
-  JBrPaBS0WfXnG6sDoMfPUI+YAxijWzLyk/IoE1oxl916yF/yXqbi37jpLA+NT8S5GLg4hgceM
-  EmcvH2GHcM4zScxt+MfUxcgJ5OxhlDj2whDEZhPQkNg99TIziC0iYCBx7tx8MJtZQE3i6MufY
-  LawQJnElJ8dbCA2i4CKRMP3R6wgNq+Ai8SW9kawuISAgsSUh++ZIeKCEidnPmGBmCMhcfDFC2
-  aIGiWJt5f2MELYFRKvD1+CiqtJXD23iXkCI/8sJO2zkLQvYGRaxWiZVJSZnlGSm5iZo2toYKB
-  raGiqa6hraqmXWKWbqJdaqlueWlyia6iXWF6sl1pcrFdcmZuck6KXl1qyiREYkinFjNY7GDv6
-  fuodYpTkYFIS5d13YF6SEF9SfkplRmJxRnxRaU5q8SFGGQ4OJQle7oNAOcGi1PTUirTMHGB8w
-  KQlOHiURHh7QVp5iwsSc4sz0yFSpxgVpcR5O0D6BEASGaV5cG2wmLzEKCslzMvIwMAgxFOQWp
-  SbWYIq/4pRnINRSZjXB2QKT2ZeCdz0V0CLmYAW+zyYA7K4JBEhJdXAJDXz0+Zft5NXWE6NtEp
-  dtixb6+99z/+HF81MS9XceLorUVnsVa4C34ltZkxrvq9i9HUo4Xr8y8Bv1aOTC2SPhE0rfT5x
-  6+lPqZLubAzzNjAqbzi3q2GCbDqD26nu+ru7t306GnR84Ys980pW3Hy/o0bxVzhPYpzEo92ie
-  3LX6F3OU2ZbMD80eIHP5MgoO7dLW1XCyvRfi6kszb182zhCskUy8Xmq58+DDIkqIVJ6vk62M6
-  7tXOKp8/BV8V6eTZyV/T1ay3i4Tt24ZnYv8qtN94Yw53edzS7as4/FJh5OnOYYcVXWnrtP5i5
-  HiyPbv7AOn8ViDE/22q5c5s3HXf1vjqzGC0/V/JMPpFeXH9OLVWIpzkg01GIuKk4EAG4+9INE
-  AwAA
-X-Env-Sender: leimaohui@fujitsu.com
-X-Msg-Ref: server-11.tower-587.messagelabs.com!1654571740!18891!1
-X-Originating-IP: [62.60.8.179]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.86.7; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 862 invoked from network); 7 Jun 2022 03:15:40 -0000
-Received: from unknown (HELO n03ukasimr04.n03.fujitsu.local) (62.60.8.179)
-  by server-11.tower-587.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
- encrypted SMTP; 7 Jun 2022 03:15:40 -0000
-Received: from n03ukasimr04.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr04.n03.fujitsu.local (Postfix) with ESMTP id CC7E72CC6
-	for <meta-virtualization@lists.yoctoproject.org>;
- Tue,  7 Jun 2022 04:15:39 +0100 (BST)
-Received: from R01UKEXCASM126.r01.fujitsu.local (unknown [10.183.43.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by n03ukasimr04.n03.fujitsu.local (Postfix) with ESMTPS id BFF442CBF
-	for <meta-virtualization@lists.yoctoproject.org>;
- Tue,  7 Jun 2022 04:15:39 +0100 (BST)
-Received: from localhost.localdomain (10.167.225.227) by
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.32; Tue, 7 Jun 2022 04:15:17 +0100
-From: Lei Maohui <leimaohui@fujitsu.com>
-To: <meta-virtualization@lists.yoctoproject.org>
-CC: Lei Maohui <leimaohui@fujitsu.com>
-Subject: [meta-virtualization] [PATCH] open-iscsi-user: Fix conflict error
- with systemd and net-snmp-server-snmptrapd.
-Date: Tue, 7 Jun 2022 11:15:06 +0800
-Message-ID: <1654571706-3858-1-git-send-email-leimaohui@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=GOfCd1EH;
+ spf=pass (domain: gmail.com, ip: 209.85.219.182,
+ mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-yb1-f182.google.com with SMTP id l204so30980168ybf.10
+        for <meta-virtualization@lists.yoctoproject.org>;
+ Tue, 07 Jun 2022 05:59:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=o3/re2aRoQBWXTlKAgUI5IVD+Ro/W1xOSjknN7hqErg=;
+        b=GOfCd1EHa5c8wxOfV2sT5zTKWKt5Vze1b3vFT2l7b5G94KsLEL5W8D8mTJ/3GV6aRR
+         Za2ZkG7qppSeWEjW54Wa2Wo61VC53QROVvCp26Dbu+DY3Ccf3EFy51S76HGzgFlvwRJA
+         TOdjod0QUp/tIhKNwij70oQhpr04Du4AJyOnCA5DqFsbi5gmwzBNXTbvX8q8NOokpG+v
+         oE0cOIDLK/q4+LuvC+ewJlMM+QHMYuI1jf6wrcvFVoU0DE/ST2GflU4dZiYY7JB2Bt03
+         nfIYlaMpMdgkx7XN7ssoPK62WSxkb05Z91zuCzVxUw80w/9axAAIIDxTxr540ja1NKnF
+         WZYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=o3/re2aRoQBWXTlKAgUI5IVD+Ro/W1xOSjknN7hqErg=;
+        b=ov8mlYqP3OSP8AcoJkaN1SHoRzFIPvaQ/NMGnU3J/vXsfhkdQEfwYTz/n6v5X4C8x7
+         BVI5d6K13zVPI5Ni32RkYQguAX1lN6H3Zrh0+z3mt5rILBbOYta/4BaTaLxGbldVE1ap
+         DXxFDvqDB4zytdJUauFRC7leIWJFq769GWgHRozyDEyIGHZa5ZE26ukl0/NEh504FaTn
+         qo4Zu1rpjVHx4MBRnoeAmrWC6inWAjXPmxuXWsFuII0pCGGMfA++Ro6CKStuPArtvGU6
+         mPhPNe5hgwqCoOAe5grgGeNi/hhJXgOkiWQ2SBuE86BmOizvuu7crLdewiHi0lWqK0iP
+         Kspg==
+X-Gm-Message-State: AOAM532FajQZ0FJZWuC6c/00MYBjL9LcOWNslCrGKbzFX2CG3fDu6SLS
+	J/028EN8p8CXyo5XSdv1VgCE30Me0+Xp/naWa3Mk8fm4kUM=
+X-Google-Smtp-Source: 
+ ABdhPJx7Wj9IoBMDBRxVgGkAcKR1FMTAz+AA4Ul6kOn5eseMOn4k2dtF3V8w7SRGkcoH8E6chtopOFB8geCcRffoWLM=
+X-Received: by 2002:a25:6b50:0:b0:64f:4b33:664 with SMTP id
+ o16-20020a256b50000000b0064f4b330664mr31550243ybm.153.1654606794121; Tue, 07
+ Jun 2022 05:59:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.167.225.227]
-X-ClientProxiedBy: G08CNEXCHPEKD08.g08.fujitsu.local (10.167.33.83) To
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
-X-Virus-Scanned: ClamAV using ClamSMTP
+References: <20220525234347.3799-1-sakib.sajal@windriver.com>
+In-Reply-To: <20220525234347.3799-1-sakib.sajal@windriver.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Tue, 7 Jun 2022 08:59:43 -0400
+Message-ID: 
+ <CADkTA4PJT5HwekzjTQsCg3dt=N25fwzAaRpXGQkH7a=SUDaMkA@mail.gmail.com>
+Subject: Re: [meta-virtualization][PATCH V2] buildah: add recipe for buildah
+ v1.26
+To: Sakib Sajal <sakib.sajal@windriver.com>
+Cc: meta-virtualization@lists.yoctoproject.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Tue, 07 Jun 2022 03:15:48 -0000
+ <meta-virtualization@lists.yoctoproject.org>; Tue, 07 Jun 2022 13:00:01 -0000
 X-Groupsio-URL: 
- https://lists.yoctoproject.org/g/meta-virtualization/message/7335
+ https://lists.yoctoproject.org/g/meta-virtualization/message/7336
 
-- reinstall service files
-- deleted older version
+On Wed, May 25, 2022 at 7:43 PM <sakib.sajal@windriver.com> wrote:
+>
+> buildah is a command line tool, to be installed and run on target,
+> that can be used to:
+>    - create a working container, either from scratch or using an image
+>      as a starting point
+>    - create an image, either from a working container or via the
+>      instructions in a Dockerfile
+>    - images can be built in either the OCI image format or the
+>      traditional upstream docker image format
+>    - mount a working container's root filesystem for manipulation
+>    - unmount a working container's root filesystem
+>    - use the updated contents of a container's root filesystem as a
+>      filesystem layer to create a new image
+>    - delete a working container or an image
+>    - rename a local container
+>
+> Testing:
+> Setup the build directory:
+>    $ . oe-init-build-env <build_dir>
+>
+> Add to local.conf:
+>    IMAGE_INSTALL:append = " buildah kernel-modules"
+>    KERNEL_FEATURES += "features/overlayfs/overlayfs.cfgi \
+>                        features/netfilter/netfilter.scc  \
+>                        features/lxc/lxc-enable.scc"
+>    IMAGE_ROOTFS_EXTRA_SPACE = "5242880"
+>
+> Build image:
+>    $ bitbake core-image-minimal
+>
+> Run the image:
+>    $ runqemu nographic kvm qemuparams="-m 4096"
+>
+> On target:
+> Pull an image:
+>    > cnt=$(buildah from fedora)
+>
+> Or build from Dockerfile
+>    > buildah bud -t <image_name>:<tag> .
+>
+> Mount the image:
+>    > mnt=$(buildah mount ${cnt})
+>
+> Install packages on the container rootfs:
+>    > dnf install --installroot $mnt <packages_to_install> -y
+>
+> Copy local files to the container:
+>    > buildah copy $cnt <local_file> <dest_on_container>
+>
+> Save the changes to an image
+>    > buildah commit --format docker $cnt <name>:<tag>
+>
+> Run the image using buildah:
+>    > buildah run $cnt /bin/sh
+>
+> Or using docker:
+>    > docker run -it <name>:<tag>
 
-Signed-off-by: Lei Maohui <leimaohui@fujitsu.com>
----
- .../open-iscsi/open-iscsi-user_2.1.4.bb            | 60 ----------------------
- .../open-iscsi/open-iscsi-user_2.1.7.bb            | 10 ++++
- 2 files changed, 10 insertions(+), 60 deletions(-)
- delete mode 100644 meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-user_2.1.4.bb
+I haven't forgotten about this, just with the storms and power outages
+here in Ottawa, I'm running way behind in my patch processing.
 
-diff --git a/meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-user_2.1.4.bb b/meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-user_2.1.4.bb
-deleted file mode 100644
-index 928290f..0000000
---- a/meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-user_2.1.4.bb
-+++ /dev/null
-@@ -1,60 +0,0 @@
--DESCRIPTION = "Open-iSCSI project is a high performance, transport independent, multi-platform implementation of RFC3720."
--HOMEPAGE = "http://www.open-iscsi.org/"
--LICENSE = "GPL-2.0-only"
--PR = "r1"
--
--inherit systemd autotools pkgconfig
--
--LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
--DEPENDS = "kmod openssl util-linux open-isns"
--DEPENDS:append = " ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)}"
--
--SRC_URI = "git://github.com/open-iscsi/open-iscsi.git;protocol=https;branch=master \
--           file://0001-fix-build-error-of-cross-build.patch \
--           "
--
--SRCREV = "095f59ca464220eae285de6b5f2ee31185a6a84c"
--
--S = "${WORKDIR}/git"
--B = "${S}"
--
--TARGET_CC_ARCH += "${LDFLAGS}"
--EXTRA_OEMAKE += "CONFIGURE_ARGS='--host=${HOST_SYS}'"
--
--do_configure () {
--    :
--}
--
--do_compile () {
--        oe_runmake user
--}
--
--do_install () {
--        oe_runmake DESTDIR="${D}" install_user
--        install ${S}/etc/initd/initd.debian ${D}/etc/init.d/open-iscsi
--        install -m 0644 ${S}/etc/iscsid.conf ${D}/etc/iscsi/
--
--        install -d ${D}${libdir}
--        install -Dm 0644 ${S}/libopeniscsiusr/libopeniscsiusr.so.0.2.0 ${D}${libdir}/
--        ln -sf ${libdir}/libopeniscsiusr.so.0.2.0 ${D}${libdir}/libopeniscsiusr.so
--}
--
--# systemd support
--PACKAGES =+ "${PN}-systemd"
--RDEPENDS:${PN} += "bash"
--RDEPENDS:${PN}-systemd += "${PN}"
--FILES:${PN}-systemd +=  "${base_libdir}/systemd                  \
--                         ${sysconfdir}/default/iscsi-initiator   \
--                        "
--SYSTEMD_PACKAGES = "${PN}-systemd"
--SYSTEMD_SERVICE:${PN}-systemd = "iscsi.service \
--                                 iscsiuio.service \
--                                 iscsid.service \
--                                 iscsi-init.service \
--                                 iscsid.socket \
--                                 iscsiuio.socket "
--
--do_install:append () {
--        install -d ${D}${systemd_unitdir}/system
--        install -m 0644 ${S}/etc/systemd/* ${D}${systemd_unitdir}/system/
--}
-diff --git a/meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-user_2.1.7.bb b/meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-user_2.1.7.bb
-index b4b9ebc..8cedff4 100644
---- a/meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-user_2.1.7.bb
-+++ b/meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-user_2.1.7.bb
-@@ -43,3 +43,13 @@ FILES:${PN} += " \
-     ${systemd_system_unitdir}/iscsiuio.service \
-     ${systemd_unitdir}/system-generators/ibft-rule-generator \
- "
-+
-+do_install:append() {
-+    rm -rf ${D}${systemd_unitdir}/
-+
-+    install -d ${D}${systemd_unitdir}/system
-+    install -d ${D}${systemd_unitdir}/system-generators
-+    install -m 0644 ${S}/etc/systemd/*.service ${D}${systemd_unitdir}/system/
-+    install -m 0644 ${S}/etc/systemd/*.socket ${D}${systemd_unitdir}/system/
-+    install -m 0644 ${S}/etc/systemd/ibft-rule-generator ${D}${systemd_unitdir}/system-generators/
-+}
+Bruce
+
+>
+> Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
+> ---
+>  recipes-containers/buildah/buildah_git.bb | 57 +++++++++++++++++++++++
+>  1 file changed, 57 insertions(+)
+>  create mode 100644 recipes-containers/buildah/buildah_git.bb
+>
+> diff --git a/recipes-containers/buildah/buildah_git.bb b/recipes-containers/buildah/buildah_git.bb
+> new file mode 100644
+> index 0000000..024e82c
+> --- /dev/null
+> +++ b/recipes-containers/buildah/buildah_git.bb
+> @@ -0,0 +1,57 @@
+> +HOMEPAGE = "https://buildah.io"
+> +SUMMARY = "A tool that facilitates building OCI container images."
+> +DESCRIPTION = "A tool that facilitates building OCI container images."
+> +
+> +# Apache-2.0 for containerd
+> +LICENSE = "Apache-2.0"
+> +LIC_FILES_CHKSUM = "file://src/github.com/containers/buildah/LICENSE;md5=e3fc50a88d0a364313df4b21ef20c29e"
+> +
+> +S = "${WORKDIR}/git"
+> +
+> +BUILDAH_VERSION = "1.26"
+> +SRCREV_buildah = "0a9d6e6eaef2e2e7936313d449a4e226022eb865"
+> +
+> +PV = "${BUILDAH_VERSION}"
+> +
+> +inherit go
+> +inherit goarch
+> +inherit pkgconfig
+> +
+> +GO_IMPORT = "github.com/containers/buildah"
+> +GO_INSTALL = "${GO_IMPORT}"
+> +GO_WORKDIR = "${GO_INSTALL}"
+> +GOBUILDFLAGS += "-mod vendor"
+> +
+> +SRC_URI = " \
+> +    git://github.com/containers/buildah;branch=release-${BUILDAH_VERSION};name=buildah;protocol=https \
+> +    "
+> +
+> +DEPENDS = "libdevmapper btrfs-tools gpgme"
+> +RDEPENDS:${PN} = "cgroup-lite fuse-overlayfs libdevmapper podman"
+> +RDEPENDS:${PN}-dev = "bash perl"
+> +
+> +do_compile:prepend() {
+> +    cd ${S}/src/github.com/containers/buildah
+> +}
+> +
+> +go_do_compile() {
+> +        export TMPDIR="${GOTMPDIR}"
+> +        if [ -n "${GO_INSTALL}" ]; then
+> +                if [ -n "${GO_LINKSHARED}" ]; then
+> +                        ${GO} install ${GOBUILDFLAGS} ./cmd/buildah
+> +                        ${GO} install ${GOBUILDFLAGS} ./tests/imgtype/imgtype.go
+> +                        ${GO} install ${GOBUILDFLAGS} ./tests/copy/copy.go
+> +                        rm -rf ${B}/bin
+> +                fi
+> +                ${GO} install ${GO_LINKSHARED} ${GOBUILDFLAGS} ./cmd/buildah
+> +                ${GO} install ${GO_LINKSHARED} ${GOBUILDFLAGS} ./tests/imgtype/imgtype.go
+> +                ${GO} install ${GO_LINKSHARED} ${GOBUILDFLAGS} ./tests/copy/copy.go
+> +        fi
+> +}
+> +
+> +do_install:append() {
+> +    dest_dir=${D}/${sysconfdir}/containers
+> +    mkdir -p ${dest_dir}
+> +    install -m 666 ${S}/src/github.com/containers/buildah/docs/samples/registries.conf ${dest_dir}/buildah.registries.conf.sample
+> +    install -m 666 ${S}/src/github.com/containers/buildah/tests/policy.json ${dest_dir}/buildah.policy.json.sample
+> +}
+> --
+> 2.33.0
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#7324): https://lists.yoctoproject.org/g/meta-virtualization/message/7324
+> Mute This Topic: https://lists.yoctoproject.org/mt/91344690/1050810
+> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+
+
 -- 
-1.8.3.1
-
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
