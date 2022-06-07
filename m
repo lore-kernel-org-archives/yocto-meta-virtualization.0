@@ -2,81 +2,80 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D998C43334
-	for <webhook@archiver.kernel.org>; Tue,  7 Jun 2022 14:02:31 +0000 (UTC)
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com
- [209.85.160.179])
- by mx.groups.io with SMTP id smtpd.web10.12731.1654610542995274648
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DC54C43334
+	for <webhook@archiver.kernel.org>; Tue,  7 Jun 2022 14:03:21 +0000 (UTC)
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com
+ [209.85.160.176])
+ by mx.groups.io with SMTP id smtpd.web08.13048.1654610597203422088
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 07 Jun 2022 07:02:23 -0700
+ Tue, 07 Jun 2022 07:03:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=MbMIWaYj;
- spf=pass (domain: gmail.com, ip: 209.85.160.179,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=IKNWHxvy;
+ spf=pass (domain: gmail.com, ip: 209.85.160.176,
  mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qt1-f179.google.com with SMTP id hh4so12638525qtb.10
+Received: by mail-qt1-f176.google.com with SMTP id 2so12686884qtw.0
         for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 07 Jun 2022 07:02:22 -0700 (PDT)
+ Tue, 07 Jun 2022 07:03:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=cJgk2OzxQMg2Lb1ZoDRY4lc8ffbG2Cd5LTEIc+8xFdg=;
-        b=MbMIWaYjwEGJDznjap/enpx4Bv9lxC5PGS3osC2X6Ljj9LZfh4oEsGWb6l3cZzER3O
-         AGOVwrHS5nHG1gBmw1Aa1CxBu7QQ2t15QrfTqR8oCYQFti2wpAACW20Z6RcyIyfXWqnT
-         rRGjwxteR6bT6uDTmGljT/J2KxVOOj5OFOcQCU+8uAzR2kCnhH5XDoHpplp9BKI0f7Sv
-         blgCKz2UwdidzkDjgkq3c0dpcLBYG/sXPbamrohJWs8vwFqi5lQ/Ah6KJX9mQIS2AZNT
-         DVTiLOb+5/kdJPPsyiT8ghtQyylpxUCgs1vog1YvuGq73HenQ46ndmgmSro3vJr1QSGr
-         pbBw==
+        bh=7Sr0DwkpQpOSlHd6OAMJvc0V622sp0fW71F6GhEgNUw=;
+        b=IKNWHxvyFPcAhBQVf26TZm56JgJNtnUkxv3K1uggpjPWz4kwEhdf9xPgPEgWEHtf7G
+         t99GeNhShY/Rhd0nUeKrydVwUbsZdKJQYWQ20ZZqg7SK1C7F2Q1cUzQD5WtQ4m3AtjSB
+         UzvGSNF0Ft6XJ3G0kSKkOOZXfihqxoOsePjSdiIcPJG+dIVB2+9E81pJyAAwrR2eorOo
+         atZyqyrV6PTWcKqJcZqjHaRzHqyrvU301T0VJKWoSYzX0cojxKtAZ/HVF72f4Rw1FrTt
+         ZBglzg6gRMPjFaNHqysDyZRtDa9VH6z7piQwC0dUb+iodfbb7XO7Fp0VGdzJdvkq5Xvm
+         9zCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=cJgk2OzxQMg2Lb1ZoDRY4lc8ffbG2Cd5LTEIc+8xFdg=;
-        b=KbKaSY0W4HjBQtLatfJk2IQpkBhkzsXO5tXTyOfjDxNIyWEDeVwLHcJr3Pv1tLntL7
-         npHb0zW6OtQftMlf4ARHYd8mjJjLekioyZcOT0jNUoEBgiFFpJvP1YZn1TPvf1zgxRHG
-         DLJONmHPS8pRVLYkQ5lanP+PPjp9gxzfoEo7ZYA8syLrX/2zbOkVUJwjfVQ6hMe8oJAj
-         foZoBc9i1n6L2n7keEJUvdWhOav+Rz5eaoj7ZjFSxgpb39Xc66j42WjWbArXZm41fW6a
-         GsiAbqn3n1DmKfk858WyRyPrKh8GkPOrwuAMgEZYUYUoP4oTBSvUboZhT0jjetqBUaod
-         HMNg==
-X-Gm-Message-State: AOAM531ZyGBwugHgoUAw17YeydJYTS312kheBIgsD1mJRtAmgp9tnH/1
-	pox25cxxICOWtZfdb8N3/zA=
+        bh=7Sr0DwkpQpOSlHd6OAMJvc0V622sp0fW71F6GhEgNUw=;
+        b=7xKNe9KoZ5mfkNqv6NB9ZI8BavbqUnQG2l1RCX2w+LDHVtjN671BB0Ou+4Zl660zrp
+         i+Jm+Q6kviNc76qHhbWyyW741MrlRVAQYm1CTiR7ICs5qIRqCwXgkNXLtz84369KLSkz
+         z70H/1fa5rbI9cXtubVluaK+1JD1jETvW8sb/VIemdSXbyLYVcZ8E8tOv3ejY0wjux0F
+         ajU+jVvTFP5UFteLTcX7sbRgcLS5ioZ9zBE8C2FEPTfaCKw7B8x27hJr6cmmRRQXXCJ4
+         dsSspMsYr3F6BrnWzhRfXCUzf9IH8bRKEzn6bfzadMbG/GiOZ3lD/vQrwngrIfjQIL0d
+         OhvQ==
+X-Gm-Message-State: AOAM530V21CtesPGqS7uA7UkzF+PrE8Oc6OKGGOo/xbHTdszgh/2M8o+
+	5SkVgJ2vyAB1l8sTocHKryISia7LtfqDxA==
 X-Google-Smtp-Source: 
- ABdhPJy54dOu1YxSKAxShdlMeUJeiqFfBqZaI5/mPQ3DXrOQ8W9c8FW+cJ9jOoMWfXMd7GhHRMywbQ==
-X-Received: by 2002:ac8:7c48:0:b0:2fc:59cc:aa0f with SMTP id
- o8-20020ac87c48000000b002fc59ccaa0fmr22557914qtv.409.1654610535259;
-        Tue, 07 Jun 2022 07:02:15 -0700 (PDT)
+ ABdhPJz748TYUk/iGDe8iJTK1kDKm708Fr8zkL4mbOB8U8CEeGPQGQrYaJ2ItfO7d5W+Tf1AE7DVSQ==
+X-Received: by 2002:a05:622a:387:b0:304:e67e:815c with SMTP id
+ j7-20020a05622a038700b00304e67e815cmr12731471qtx.337.1654610595777;
+        Tue, 07 Jun 2022 07:03:15 -0700 (PDT)
 Received: from gmail.com ([173.34.88.218])
         by smtp.gmail.com with ESMTPSA id
- cb24-20020a05622a1f9800b00304fd1f6b4csm687557qtb.77.2022.06.07.07.02.14
+ w15-20020a05620a424f00b006a69d7f390csm10382333qko.103.2022.06.07.07.03.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jun 2022 07:02:14 -0700 (PDT)
-Date: Tue, 7 Jun 2022 10:02:13 -0400
+        Tue, 07 Jun 2022 07:03:15 -0700 (PDT)
+Date: Tue, 7 Jun 2022 10:03:13 -0400
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 To: Changqing Li <changqing.li@windriver.com>
 Cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [meta-virtualization] [PATCH] crir: fix patch fuzz and remove
+Subject: Re: [meta-virtualization] [PATCH V3] criu: fix patch fuzz and remove
  unused patch
-Message-ID: <20220607140212.GB54262@gmail.com>
-References: <20220530064947.2645585-1-changqing.li@windriver.com>
+Message-ID: <20220607140312.GC54262@gmail.com>
+References: <20220530071426.2745835-1-changqing.li@windriver.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220530064947.2645585-1-changqing.li@windriver.com>
+In-Reply-To: <20220530071426.2745835-1-changqing.li@windriver.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Tue, 07 Jun 2022 14:02:31 -0000
+ <meta-virtualization@lists.yoctoproject.org>; Tue, 07 Jun 2022 14:03:21 -0000
 X-Groupsio-URL: 
- https://lists.yoctoproject.org/g/meta-virtualization/message/7339
+ https://lists.yoctoproject.org/g/meta-virtualization/message/7340
 
-typo in the shortlog, but I've fixed it here.
-
-Merged to master.
+I just saw v3 now. I've undone my earlier one and merged this
+instead.
 
 Bruce
 
-In message: [meta-virtualization] [PATCH] crir: fix patch fuzz and remove unused patch
+In message: [meta-virtualization] [PATCH V3] criu: fix patch fuzz and remove unused patch
 on 30/05/2022 Changqing Li wrote:
 
 > From: Changqing Li <changqing.li@windriver.com>
@@ -95,7 +94,7 @@ on 30/05/2022 Changqing Li wrote:
 >  delete mode 100644 recipes-containers/criu/files/fix-building-on-newest-glibc-and-kernel.patch
 > 
 > diff --git a/recipes-containers/criu/criu_git.bb b/recipes-containers/criu/criu_git.bb
-> index 4b616cc..353f3e0 100644
+> index 4b616cc..f5ae514 100644
 > --- a/recipes-containers/criu/criu_git.bb
 > +++ b/recipes-containers/criu/criu_git.bb
 > @@ -17,9 +17,9 @@ SRCREV = "4f8f295e57e68740699479d12c1ad251e6dd859f"
@@ -106,8 +105,8 @@ on 30/05/2022 Changqing Li wrote:
 > -           file://0001-criu-Change-libraries-install-directory.patch \
 > -           file://lib-Makefile-overwrite-install-lib-to-allow-multiarc.patch \
 > +           file://0001-criu-Skip-documentation-install.patch \
-> +	   file://0002-criu-Change-libraries-install-directory.patch \
-> +	   file://0003-lib-Makefile-overwrite-install-lib-to-allow-multiarc.patch \
+> +           file://0002-criu-Change-libraries-install-directory.patch \
+> +           file://0003-lib-Makefile-overwrite-install-lib-to-allow-multiarc.patch \
 >            "
 >  
 >  COMPATIBLE_HOST = "(x86_64|arm|aarch64).*-linux"
@@ -303,8 +302,8 @@ on 30/05/2022 Changqing Li wrote:
 > 
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#7327): https://lists.yoctoproject.org/g/meta-virtualization/message/7327
-> Mute This Topic: https://lists.yoctoproject.org/mt/91426054/1050810
+> View/Reply Online (#7329): https://lists.yoctoproject.org/g/meta-virtualization/message/7329
+> Mute This Topic: https://lists.yoctoproject.org/mt/91426276/1050810
 > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
 > Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
