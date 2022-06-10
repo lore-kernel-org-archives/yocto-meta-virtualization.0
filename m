@@ -2,47 +2,47 @@ Return-Path: <Qi.Chen@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 19E2DC433EF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AA32C43334
 	for <webhook@archiver.kernel.org>; Fri, 10 Jun 2022 04:21:17 +0000 (UTC)
 Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com
  [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.23093.1654834869988210695
+ by mx.groups.io with SMTP id smtpd.web10.22987.1654834869736848226
  for <meta-virtualization@lists.yoctoproject.org>;
  Thu, 09 Jun 2022 21:21:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=BJuw7Twi;
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=qBxGEcGR;
  spf=permerror,
  err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}:
  invalid domain name (domain: windriver.com, ip: 205.220.178.238,
  mailfrom: prvs=31600aeb41=qi.chen@windriver.com)
 Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
 	by mx0a-0064b401.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id
- 25A41bIJ025481
+ 25A41bII025481
 	for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 10 Jun 2022 04:21:09 GMT
+ Fri, 10 Jun 2022 04:21:08 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
  h=from : to :
  subject : date : message-id : in-reply-to : references :
  content-transfer-encoding : content-type : mime-version; s=PPS06212021;
- bh=FjOmdMugtjQfRLqOUaBNwFAtJp6TeZi9pI/30bvJiY4=;
- b=BJuw7TwiJyk15UOwA54EFsiahnGN9Kpje9jXmsfO8Ezyw0fRujCRmYBJFY3PQbWPXuVH
- ntVPLH7P8G2y6xdVQlQAOiTs85efzg6VUg7c2IrN3yYvgYY3ULJt38MCoerG/TmHzJyA
- 7bY6sTPrnizJLBBdXATJ5mzqzw1zJnFLttf4gYPhAq64kzk6VwfrVkY6evH1Py1Joy2p
- fb7jeOrRTovfSvex2OpsMC6Tywo/C9NA54ZmDxxCsm6h15uH3YJ8NJ91Kx3grAJob/7H
- +CHGvvixeBK2oEJ9XD75q426NCaT2joT0MyUnvek+v0JjC4eizHxEPSdx7oNi7tOzeg1 FA==
+ bh=jW+NBfBbhfjeNCg7hDaX2WVuJv7xONULDkmz8ZE41EY=;
+ b=qBxGEcGR8hxn/dC3Jq3/fpL4VgdTMdH+Brb2CVZZ1xWn29g5xte29Po/mz+/m6MB+bMf
+ +X5fm6xYvO8QrUhRIgaay+mSYj2g3sZTzabo63dCDbAY0aCpCCQz28FY2eTYFg//FzbL
+ X/IOxJyJ1ofukYkP0r/1Mg1OCY7pdoRI6fwz3uHSsfDUkiIdjXfFMPTmcHttuZKHAgrK
+ Uxo4cd51xDIgCESq8HRDjZloFyxQX7jkS6mYSr2VsgBtuiov9fqCp9W1CxYtZan+wb3V
+ kfsWttcYFr5ZupUWMZNXOJ6Fddtcl3GJD5ytslZluUObJ9C0bPa8EBxDlRhA5YO2zgcD DQ==
 Received: from nam02-sn1-obe.outbound.protection.outlook.com
  (mail-sn1anam02lp2044.outbound.protection.outlook.com [104.47.57.44])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3gkuvb02vs-2
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3gkuvb02vs-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
 	for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 10 Jun 2022 04:21:09 +0000
+ Fri, 10 Jun 2022 04:21:08 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bueZZIJJHtvGsK/0k+m7UIkJxuNOxetK7XvbsiwqfG2bp7g/8ZQ50feVHzQm1FWui2WUwMqq/cxhyfTYmEHnmFQd5vyO3jgEJdNJR1mkXdQ/X4Jwq+W0obpNSjhIkSZWHwdSjqEh1UZU+yuqUc5W/ouUENVyJs7V9TN4a0G8GYKjDMfnIIq8uoyDd7m+Q7BKK2v1K7dmFCM52jEvvM/Wj/GS3bfOQwk5Vfx4kLkOU45ugx4qFEfoxYTtiJepsxvfrZXSgm804ecPxcD7ez+qm8ONLRhp6KIitYaLrg83lEi/UIbXlUDDaXXOgaezO65Iwfdbv1fF7NZPQ2wG4PQ2+g==
+ b=fCQsAH0aEVHfX9AxysYCsjnGsvONo7Z1EKaRKRJ5MgLm5HoDyBDqdQ0lWAx2oDdjyUx97XX/AVnOpGTGntbilQXw8gYSefuoLq+sQ58SvXlTio4800Mkq9KLArzM+rm9I9DIL1r+QrTyGgPTnuDNCPBvnOtkrA1LOKq90EXCvkoLc4UgsXJVWsWyR6mPWArnd+xDC/TDMR3S6EPt7MDZC4ngDoQkNmxsrpTp9yXp5ZXRCtyOb0Yp/T38KoOGPlgSaEpJ1Oc60Gt3rCbyTeLMVj7VmJ55r7mmmaoSEVy5yCDuA+kxBLY5LTgeZ+aerNdave5RN00sZ8hnk+9SsoUH1A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=FjOmdMugtjQfRLqOUaBNwFAtJp6TeZi9pI/30bvJiY4=;
- b=Gvd4vhAnmQK7zz9DDvcnFVnZ5CQcDrW78qJtVXvUb1zqGQXgwICnmjsxdJnV9R5B6sMQxsHLBtqLeLbeULi3LnuUfvULNJneux3JQjF659nyUDc3F1RzN1xqerquKrarriCdXx0QRjHkw16m3ct/Ds/R87AxXwyiKdsZt7XjwMfmSEEcDSzgMD8uwW52lwedfdkW4X5uDXvkXL8hBRbW4+W7XUb14az7aubrE3bFeK75E5WBzgpR/hW+kg94ulcmhsmmd4RkjoKpKEMM4YaJa1c77f44X69kvulU50LtNXTlM1F4/29AK4WtFRFjv8FcRlofGaVSZS4z2jPNvN8s2w==
+ bh=jW+NBfBbhfjeNCg7hDaX2WVuJv7xONULDkmz8ZE41EY=;
+ b=lARWrmh+Xe/Y/+54CKA8pxcZ8MjP4RQuojEzfpXU8pStze+j4xzwfSjeLIdHNu3h1vvNA+/hBxCDdAviGD68FeVafn60i++HAll2qZm1Hs/hN43vuGKsPynH8j0xJx6Zm7S7m5GX50kD2CvF+SQqpdKt/Z/wWZEE+LQGlHRizsbY1xzN54LAQYQesw+msEjweApzS7hrO8nszeLiLsE1CPuA4YqbxpayB/kwasR+sHNAsAFe3x/uvXlZidDDQVWIiiOALvCAOYZDF2VPF62w4BXPyOtqDz6LzbEzoLucJt59qCLJ+jXWdaptOhxe6Hp2Mo9OyTYT/GviC1Qsqm/jzw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -50,17 +50,17 @@ Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
  by MW3PR11MB4652.namprd11.prod.outlook.com (2603:10b6:303:5a::21) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5332.13; Fri, 10 Jun
- 2022 04:21:07 +0000
+ 2022 04:21:06 +0000
 Received: from CO6PR11MB5602.namprd11.prod.outlook.com
  ([fe80::38d5:6ff6:8771:8e8]) by CO6PR11MB5602.namprd11.prod.outlook.com
  ([fe80::38d5:6ff6:8771:8e8%5]) with mapi id 15.20.5332.013; Fri, 10 Jun 2022
- 04:21:07 +0000
+ 04:21:06 +0000
 From: Chen Qi <Qi.Chen@windriver.com>
 To: meta-virtualization@lists.yoctoproject.org
-Subject: [meta-virtualization][master][kirkstone][PATCH 3/3]
-  docker-distribution: upgrade to 2.8.1
-Date: Thu,  9 Jun 2022 21:20:53 -0700
-Message-Id: <20220610042053.4051-3-Qi.Chen@windriver.com>
+Subject: [meta-virtualization][master][kirkstone][PATCH 2/3]
+  docker-distribution: fix build error on new hosts
+Date: Thu,  9 Jun 2022 21:20:52 -0700
+Message-Id: <20220610042053.4051-2-Qi.Chen@windriver.com>
 X-Mailer: git-send-email 2.36.0
 In-Reply-To: <20220610042053.4051-1-Qi.Chen@windriver.com>
 References: <20220610042053.4051-1-Qi.Chen@windriver.com>
@@ -71,70 +71,70 @@ X-ClientProxiedBy: SJ0PR03CA0051.namprd03.prod.outlook.com
  (2603:10b6:303:13a::5)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 2b714b6c-abf6-431b-ad8d-08da4a98a39e
+X-MS-Office365-Filtering-Correlation-Id: dac7da1d-0cab-4aac-f931-08da4a98a2c0
 X-MS-TrafficTypeDiagnostic: MW3PR11MB4652:EE_
 X-Microsoft-Antispam-PRVS: 
-	<MW3PR11MB4652B202C4132CFAD0D1E6F4EDA69@MW3PR11MB4652.namprd11.prod.outlook.com>
+	<MW3PR11MB4652EFE2BA0F9B2FE6DE43C9EDA69@MW3PR11MB4652.namprd11.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	yTD/nSztlVwZV92O908SH2dHm9HWyqlEx+KiWwyXqDzTthEXz6qesPMOrem6p8Pk02Hox065XG7IKPdwEyXlc0S+pnLkUUByHzoVlIT/0ROi38gRKd0L4MGOwkFoXpJnkNHVgYjvaql9vrTA06C1VXG9QldDK6dWqdk10zwrx5b8xtvu6kYvywBVd7BaWrkdT1QNXCrVp3XDuaOyvpa8p5GbwGBlMwBRFfQJ0bEaHkMuqcUDTiNsdpQZxafLqNMbzurAxc+2KKgUwxjwMY99ThI5fHroTk5Z++axRRMDu5rNHXcOEYjUR1i9TClPP7vm1RGDReOGOplRZreOM4N0NOb/FdoXDqEQSAD9RfDPglOGNComJM49+yD2Oa2d9aiiB+oK5wed+ZzHLUzlzheh30HeFcHCfA7z2imljfAxQVOw49lIzn27Po9YW+W0bvwfTe2SIbz/krju9SI8OWTIhOiOA69LRnj0W7A6bhgqQyqcsCiOeUBh7O5/9iPDJEViPY1cPiNnfY7tdoKMebXW/3EqkdXaumOfbYcf61PHLPZcf3lcgHDqq5GrzMUBvpA/yuKQzW1IUxg6089tIb70Fuhi+Dir0OMiBtiBp3f4I5dslzDM9l2yC9h44hvPep5m2Yu5RlgUFXTUn+3hoiM358Av7fK7TXK744d/wK3NwMfFu0kt4uKrJoqMjabYYEgrOCfVUtXv50vNduN56HoQOA==
+	FcxS6VxX5A70j3y5J6x6WO9Z6pHVBOglsnoKaqq/KQNgHlONltT9/KJ64pjMcw/Z6/ZviyVSJi1bgeM2zoaD3Rp07BkjNTDR3SwMNEZS+F0op+INZKE8Tz9wnQa4WC0oN72AqpLIvBN98KluKktnpaTuLQbWYnXrPdqcsI9EtT76KWnuPh39Q/t+ri9QNqoT4nonf1mM+0sQ0PsPoqanlkUy/50Gua2St66lSHW4tyAtQu6SncpGZt38a7xlB0twKavSWS0dvUX41FBIUvCrcns/uHnj1jjIysxPimlXJqibp30MwtD4Ox9m28fMAO5L5IOF0rb3ECOm6p5yrJV4S36t1reb0c/eFd/ZRFQgyPcujsgV1gkQUTVhxuArgyq5L+nwOueTU7UadG+v/56DVDqN7p5VSwyABhYCJAzTF150v9g5EywY/DvbATAOxFQcBF6lHrEl5wo2QtQLxVXpAfkiuHne0eh8gtnOUMqSAkLsCPguyyQ/pumYJsxqa8okVUg8VQpJa/FQ8tZy0v3St2K8xHjSUWkpXYPb786bEwntqGFUy9ykMOrlVKaivXHgwtAJv5HK1xVZeopaPDlkks2YwS+XOrsO31QztGALE5QL7FsjiR+DaD8OA7DoScxPOc826cXeVLWiUnOVeKRUCAsOMlr9q5p5ldw+/p4EF8rrX7Du1FUYsVSAK6NZSWvGf1BhE60G1MGZtWwWcauRYA==
 X-Forefront-Antispam-Report: 
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(316002)(83380400001)(2906002)(66476007)(66946007)(66556008)(6486002)(5660300002)(8676002)(36756003)(26005)(6666004)(6512007)(86362001)(6506007)(52116002)(508600001)(2616005)(1076003)(6916009)(186003)(8936002)(38100700002)(38350700002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?n0tbfcgA+b2qZZleZ+f+bDgqM65NDxEqdVPQZRk3mCS/V7JU8+Jq7C9DOFJR?=
- =?us-ascii?Q?Us6d3vvLr02TrPfxxB58k5wqWPJvXIJPTC5ZMzbJ2KwXaI7j0rYIkgDQKlRL?=
- =?us-ascii?Q?G/KyqyH6DBjPlfpcEbUQQ6J9ns8aPqJlawcu4TQpHz3dKzbvoh1n45GAhXtG?=
- =?us-ascii?Q?jH4eC5RTMNMN+mC0pt4t1SzlDIcFl/r193c7szgA7wL+S6jK3LOV6rZTnVMC?=
- =?us-ascii?Q?GSkqjpLOcPUg/xPAHWK57DPFyM0XT/nFEJRskXzHuGdGsrHq5wLg1D2OTt3v?=
- =?us-ascii?Q?E7FBXnJlL5r4Xkxmp+V3HgwOde1Bwh2gImlgXHqSoITsvhy8xmI8YP4ujbEo?=
- =?us-ascii?Q?frHX5qGBmZwb4C3NO9ytDe5nRbyAkQS+OQMcUMKIGqXV1LkgcHR4oX6fxjta?=
- =?us-ascii?Q?KEbI5R4JtxA0R8i7wlUOPkMdBALw/7fdE59fgDA9mO2EzX9dOFo5r4hTpHU7?=
- =?us-ascii?Q?wpugsYQ7idi1dbdxXU4FHuVbGfwwQC8ehDsdxaUGkf/DyPgEO90Rf9CGeS94?=
- =?us-ascii?Q?0+gdKRqLsOujtLOjbXilBMQ4G6Rq5xgqDQiVpuxJSs/gzAuBPG7VeqiJaUkI?=
- =?us-ascii?Q?kXZj97xsQbmAYqz5p72JTBJrE2rXu6SCbdMbZVJMDV7zpGdl/uJIQTT3a9Xp?=
- =?us-ascii?Q?r4PGc4InT4dyX+Ak+gDXsC81TaqFSqICkgmdoGh4WOcpcI8WVWolmYOWk7fc?=
- =?us-ascii?Q?z9uUNCPBQMn8rNqgFBjK37Z7wDpA2Nw1tH0K9Y+ooUCesxlATgzx5VUL5Ofh?=
- =?us-ascii?Q?jyFdH6oB/hm+UqkwQr0v//z0G1GVYv66r0jdD6IPx7QpUmqxceCddDhMNGE0?=
- =?us-ascii?Q?a5suQRS7EMNU/9dHv5WRXS3WBDvi9ZYHEwK4n0FMzwLPGl0Lzl1fs+nRZuna?=
- =?us-ascii?Q?in92hoMsZc98czi5oN9VKQ9Ezlrk1O/0gVt2Hz7IPqlP2UduGgRGNZGBGTca?=
- =?us-ascii?Q?7CcjTHSE1jPlM+TAsOoKPwWayYdTAZoJxEYn9OI4HD9C1OILVu+5VNgA0lPP?=
- =?us-ascii?Q?sNqcDtqEtDdrnhNhDC5uR6G6bbSLYCfD8hi+O+VBzvZqBC7HQ9R5K/Mg9fyg?=
- =?us-ascii?Q?g4rXgjuXa+iLNslmSswYoqRwtyENnCzHxDsWGEolCkgrciSH00GarU8pBmpT?=
- =?us-ascii?Q?ptQa3W5S+nsvj+JO3vAXc8529SGO/pyKVNxz5VhJqodk2YktM17VFNhWgrFZ?=
- =?us-ascii?Q?Z9ldBzHPTs0I2HmQEes78LCfMCqwncLwA2t6IZK2t90Td2KjzTYm7q4fm+ey?=
- =?us-ascii?Q?OqG8fkDkWBvBFOZ5TWFR+5b1x6RmhytutQBZziX76FjDtTYJ9c7EbtuRUJc5?=
- =?us-ascii?Q?RhRkOqahbWA6TX/nJQuj3PU2oahCXc0nDJX2p8jurR4JGuGBijZWpBsEm6mw?=
- =?us-ascii?Q?ktYPOZN4r0itU2uBphx7qDBUKQO1YneSBciv99Ur20H1dlxn7jeLa8SZy8FB?=
- =?us-ascii?Q?3W6Ps1hqdi2OE7AfTWfnwtmIL/5y08TNtDlxMUUTfw0N4OlCLGVuu/4DpUGT?=
- =?us-ascii?Q?HM6in1U+4Ti35oc/4M3AJcHlEuLfWWkAriWTqBZi1mN+bBINf+8PMOrspyNu?=
- =?us-ascii?Q?v0EW45Hw/uuTzbOssKZXhHMa9kKOt20p4t4wpSbKEgooLj5MLBU8m6dqqAF1?=
- =?us-ascii?Q?NRJbpnf9BS8Px2/6mZ2YAQJtfyyhqtRoP5e+X5Ibwa0qpH62kv8P7tZCYoiZ?=
- =?us-ascii?Q?BUFMa4Y0dPPIpGtDHDsDsDCQMb5qVOLyMMk2domNuFBmbAapn0VI56zjOF3N?=
- =?us-ascii?Q?Pu52q3RX58AOW5Y5DTzbEergV7bg8kg=3D?=
+	=?us-ascii?Q?6GnytExDSOM7GUnC5CahYkeEIcbr2ZaMiKQzqz3GEMB449V0BFzSYB84ufrt?=
+ =?us-ascii?Q?i4LrEODujNwDLQTYwGkAKyXsKNy8eJIWye4VQdA9vajilDu2DfYAAUsJd7EO?=
+ =?us-ascii?Q?i0jDKWDPaOlDxIeP6b9iupKZ7eUq7nqrzrUtYk4/xdatGajx8zYv5ZlyBt0Z?=
+ =?us-ascii?Q?vYNhzzbLjnHeEDkOKujPMUyZzxUQgqD4i5HcA2uMf3rM/q1uBdcfG4b6TCgW?=
+ =?us-ascii?Q?Oi6K0WAs/p6UPCumVzf/CxuxM+VvbbPb7+f9V7AljY5oV0HJaY9b6J3z3Yiq?=
+ =?us-ascii?Q?i9hWJWT1XTOPxUohFB0aep6ziJcOQxpXD87d+6qwMfekpYpRTQ/wZvnSPAio?=
+ =?us-ascii?Q?yPy1+pVIGYy8/z3gDBDP68NTuqWbg7VxLular/brDPs6F6jI717C1CO7j12Y?=
+ =?us-ascii?Q?A4y8CcAtm6P8q7kMpNTla2pWJ1iQAmyg0h0xF8n0FCY+BBNkHHLf63Nz0i11?=
+ =?us-ascii?Q?8aeped9o7OYKuNrL2gFi6aeUu8vuLlwrNpGE4ruU9/CkIQ0ZXeIPHnQN2vSJ?=
+ =?us-ascii?Q?ZVoTMXBR5hYoqB55hm5wBaeu5/efLu/EaE02HyaLAUwjotyZXj5oU7wCecji?=
+ =?us-ascii?Q?DioXCBJmN/08u/c5FSpxxPz+Tfor726EuVl4KJGIWr5C5WFYR/1xr2yILKKp?=
+ =?us-ascii?Q?o65a3VfzBf0ehTwlUcYxqfLezvyPwUs8YqEe+l9saXfIEQB27k2+EZ3C4IdR?=
+ =?us-ascii?Q?c/1HP9IyDE/yrxTApZQMURIyDrS1qwRa/9TQTrTo4JQKCFwUnlLUeWE8cyWt?=
+ =?us-ascii?Q?S3IrVPT4YJduY7oVBWotJ6qek2NBAURYEd6f+vSLFbN7jVM3zvuCC4OTQjy+?=
+ =?us-ascii?Q?7HwrPQsXMFcm8mbvd5xIMo6pXk40fzbaMFvXHZfm/z5qBPa8ihnMXEgwbSTO?=
+ =?us-ascii?Q?fDOOkjPYt7HTyaxTCIB8IhhFi8D8E9UxP9dyAcocFaty7LefDBmQdnGTjwJx?=
+ =?us-ascii?Q?+0PXj6fCU+lAlSkjU3swldkOJAwR5Uv65s/M9iwk6P/pbUqxdZiqYNbB3Bav?=
+ =?us-ascii?Q?nSsh3X7qjppchYhwcD2YL+VcmTl1hnu1AMBlpvkSdxiheYLx7rg4ywg3b/Ng?=
+ =?us-ascii?Q?Muc7dCBxF13ez4TunUL19eiFmYkI9BedrycE0SXvXMAuXfithaZn3uaQ3ZQS?=
+ =?us-ascii?Q?aCjBif1o882qGd1rAYdnX4n8E8DGngN/+6Qvw2bAb8u8uQc2fb6qGJY6WOoB?=
+ =?us-ascii?Q?ZuLBYtSXFBpyhdEsxy3L22e5GXS2MWd1nXUNSuEhV5zuC7HSlOHcmdSsaihq?=
+ =?us-ascii?Q?1jNz07PiUWkPupCq1cyuy/zr6SC6MV2Al5xr3Xt8P6iTg4qzQRYEQpBZUuY1?=
+ =?us-ascii?Q?teefNX3HntuK2eopaBxQAlj9LeI6F3A+tQQn0bN/EBnw/F9qTQe0sJeSFeaN?=
+ =?us-ascii?Q?dGDZVq5dR8plTI6MF+oAiOYtQpgojZ38Cz1fXpXkZITIgK/yxWU/eZZrkCLV?=
+ =?us-ascii?Q?lWydNV/uFzlH73pAMWZqkXEdog3KwKO9M/GUatPUtRJD1YyDtM0+h/7RXAMe?=
+ =?us-ascii?Q?oK1FEs+sBjJRtIMPu3r4o/I/A9iSmPXpiEimBMkstM6UEX1Ai501zsO8FmEx?=
+ =?us-ascii?Q?kR00+lxrlrIfM1ncmqNsnxOy1uuktVDXHDJmseqeBo9cEnj7Y46jQFct88Ek?=
+ =?us-ascii?Q?EDeRAe6o53OxRPcG9dI9DUVA2lQ9EJgdQk6B5+emTwSnWMdx2sNUT7eh0d8P?=
+ =?us-ascii?Q?3Hq8L0bdSWKQoeuBYpYVJAfA9QAm40CW2Fcwlq8Mr+h1jNVtQhZYAszDtYfN?=
+ =?us-ascii?Q?9roTQd6onNd215+R/aH2lWkAWvX3ws0=3D?=
 X-OriginatorOrg: windriver.com
 X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 2b714b6c-abf6-431b-ad8d-08da4a98a39e
+ dac7da1d-0cab-4aac-f931-08da4a98a2c0
 X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jun 2022 04:21:07.1446
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jun 2022 04:21:05.8935
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
 X-MS-Exchange-CrossTenant-UserPrincipalName: 
- Q6rHz8v0onl98XXz8WxtMPGxj/znU/etZuJygD0ReGepvkEBiJVFCuepAyBKUZuvYTxZ7MgzcP2YtlGbEQIlPw==
+ VbvKWnxmrzpup6QO6MPiXk/Na7geQQmZXqvoO/lagoy8wnZJkpEA+h5vjJUoPwWpmM4fgUnsUMFJueTQ2aOrbw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR11MB4652
-X-Proofpoint-GUID: EGD8T3S-8ZSYpLaJMXB203-JV2Ts9eVo
-X-Proofpoint-ORIG-GUID: EGD8T3S-8ZSYpLaJMXB203-JV2Ts9eVo
+X-Proofpoint-GUID: -FgHO9XpXEadQM8UAEgoMVUQVbTXw55p
+X-Proofpoint-ORIG-GUID: -FgHO9XpXEadQM8UAEgoMVUQVbTXw55p
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.874,Hydra:6.0.517,FMLib:17.11.64.514
  definitions=2022-06-10_01,2022-06-09_02,2022-02-23_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  priorityscore=1501
- malwarescore=0 adultscore=0 mlxlogscore=860 lowpriorityscore=0
+ malwarescore=0 adultscore=0 mlxlogscore=999 lowpriorityscore=0
  phishscore=0 suspectscore=0 mlxscore=0 clxscore=1015 bulkscore=0
  impostorscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.12.0-2204290000 definitions=main-2206100013
@@ -143,38 +143,53 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <meta-virtualization@lists.yoctoproject.org>; Fri, 10 Jun 2022 04:21:17 -0000
 X-Groupsio-URL: 
- https://lists.yoctoproject.org/g/meta-virtualization/message/7357
+ https://lists.yoctoproject.org/g/meta-virtualization/message/7356
 
-v2.8.1 is the latest stable version.
+The CGO_CFLAGS and other related variables have already been set
+appropriately by the go.bbclass in oe-core. Setting them in this
+recipe is not only unncessary but also error prone.
+
+For example CGO_CFLAGS is set to use BUILDSDK_CFLAGS, and this is
+incorrect. We need target flags instead of SDK related flags. Such
+setting happens to work for some hosts. However, when building on
+newer hosts, we get QA error like below:
+
+  ERROR: docker-distribution-v2.7.1-r0 do_package_qa:
+  QA Issue: /usr/sbin/registry contained in package docker-registry requires
+  libc.so.6(GLIBC_2.34)(64bit), but no providers found in RDEPENDS_docker-registry? [file-rdeps]
+
+The above error was found on hardknott on host Fedora 35.
+Tracking down the error and I found it's using host stuff which is likely
+to be caused by using incorrect CGO_CFLAGS. As the master branch is
+using the same settings, it has the same issue.
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- .../docker-distribution/docker-distribution_git.bb          | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ .../docker-distribution/docker-distribution_git.bb       | 9 ---------
+ 1 file changed, 9 deletions(-)
 
 diff --git a/recipes-containers/docker-distribution/docker-distribution_git.bb b/recipes-containers/docker-distribution/docker-distribution_git.bb
-index 679bcf8b..0d497916 100644
+index 1d074bf3..679bcf8b 100644
 --- a/recipes-containers/docker-distribution/docker-distribution_git.bb
 +++ b/recipes-containers/docker-distribution/docker-distribution_git.bb
-@@ -3,15 +3,15 @@ SUMMARY = "The Docker toolset to pack, ship, store, and deliver content"
- LICENSE = "Apache-2.0"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=d2794c0df5b907fdace235a619d80314"
+@@ -23,17 +23,8 @@ inherit go systemd
+ EXTRA_OEMAKE="BUILDTAGS=''"
  
--SRCREV_distribution= "3b7b534569220c840993aad03e3eafe54b923f4d"
--SRC_URI = "git://github.com/docker/distribution.git;branch=release/2.7;name=distribution;destsuffix=git/src/github.com/docker/distribution;protocol=https \
-+SRCREV_distribution= "b5ca020cfbe998e5af3457fda087444cf5116496"
-+SRC_URI = "git://github.com/docker/distribution.git;branch=release/2.8;name=distribution;destsuffix=git/src/github.com/docker/distribution;protocol=https \
-            file://docker-registry.service \
-            file://0001-build-use-to-use-cross-go-compiler.patch \
-           "
+ do_compile() {
+-	export GOARCH="${TARGET_GOARCH}"
+ 	export GOPATH="${WORKDIR}/git/"
+-	export GOROOT="${STAGING_LIBDIR_NATIVE}/${TARGET_SYS}/go"
+-	# Pass the needed cflags/ldflags so that cgo
+-	# can find the needed headers files and libraries
+-	export CGO_ENABLED="1"
+-	export CFLAGS=""
+-	export LDFLAGS=""
+-	export CGO_CFLAGS="${BUILDSDK_CFLAGS} --sysroot=${STAGING_DIR_TARGET}"
+ 	export GO_GCFLAGS=""
+-	export CGO_LDFLAGS="${BUILDSDK_LDFLAGS} --sysroot=${STAGING_DIR_TARGET}"
+ 	export GO111MODULE=off
  
- PACKAGES =+ "docker-registry"
- 
--PV = "v2.8.0+git${SRCPV}"
-+PV = "v2.8.1+git${SRCPV}"
- S = "${WORKDIR}/git/src/github.com/docker/distribution"
- 
- GO_IMPORT = "import"
+ 	cd ${S}
 -- 
 2.36.0
 
