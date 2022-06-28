@@ -2,117 +2,197 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 56086CCA473
-	for <webhook@archiver.kernel.org>; Mon, 27 Jun 2022 12:51:38 +0000 (UTC)
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com
- [209.85.215.178])
- by mx.groups.io with SMTP id smtpd.web10.41215.1656334294096423878
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9463DC433EF
+	for <webhook@archiver.kernel.org>; Tue, 28 Jun 2022 03:39:42 +0000 (UTC)
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com
+ [209.85.219.48])
+ by mx.groups.io with SMTP id smtpd.web12.51446.1656387576006476564
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 27 Jun 2022 05:51:34 -0700
+ Mon, 27 Jun 2022 20:39:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=eBHPTeim;
- spf=pass (domain: gmail.com, ip: 209.85.215.178,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=dusrbudl;
+ spf=pass (domain: gmail.com, ip: 209.85.219.48,
  mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-pg1-f178.google.com with SMTP id 23so9017868pgc.8
+Received: by mail-qv1-f48.google.com with SMTP id z1so1023378qvp.9
         for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 27 Jun 2022 05:51:34 -0700 (PDT)
+ Mon, 27 Jun 2022 20:39:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=HX79n7jJZQYs/nbaxdYOAztoySHqedlCULq+XIt6LDE=;
-        b=eBHPTeimB6fEj1QRlXzFxJ86WIBBrovxCVa8QYlc7MNALeJy2sHFe3jd9tHgHCSQXl
-         6gARhTF8EHMcYZtGq0cd4Ea05vSHhwS5ocUWGGmT9MucebcZAAQMU2dcJlnJl4sG0D5p
-         Ne/Av2hO2pLLR/Q8w5kEP65wXwXpfgB3AxvmevYRqDbYMEATwZzg9gSQke+6+f4+2YcR
-         V0w8vhKoSMqlFVK7HTqoMR7UXN9EurfeUwlYbNBpY9XuH3AZ0inBtEvbc+9G9f1jgCIJ
-         ntq1M5dN/A2/oVpK3JLPh10A+d1AEMvSNaToSVzc7rKom1oyjo1DyirIECynw3lD1BJy
-         1GkQ==
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :in-reply-to:user-agent;
+        bh=Q/ukOeYbacyZ7StNYljJrJePLq2DiKgWQVILG39nf7c=;
+        b=dusrbudlW2Zsf+zFynmbEiLByfg6EsWUelFOhgAxd5OAd4HLxqw4l0qnupuPXrA9H5
+         dpTadJNW2ViCO2yVYRv7mPZqgcXhVj2nXAAfa8YEvTVndPvekhUEkAZLk4GKqjV1AM47
+         +YfHAet+y8BsHInoy0EN7kfQ2om4Sj7Md6wZhb710Dh+W3C5FH1Y3CTw3QlZySHuPxBY
+         uLEAjs7q9pXE6ebJCQPNF1/78KmF8Qh2IlSaJrHQlKYGMhyr3xhJvR3suChJp4iTLqMC
+         g2l4UuJM1e8ANuvNq98gyGrimOkrWUqQDUZvYt/WAASx+it94/8FEiGUg/UW1f3fPAmZ
+         ie4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=HX79n7jJZQYs/nbaxdYOAztoySHqedlCULq+XIt6LDE=;
-        b=R6BHRMm8OmBSLpodfAIWZ+et3QInc1/Y+rhk2/wvF3IHo5uK1eDNTGBrWrHLWXJ5B6
-         hFEV1Ig5tmsds4n2me9vgtCfjUzFJwZs2Y4DG08BxcSG3jTZ7Q5zO5jIBLnT8okoZFWH
-         YBrtWFfL/6zbVTA4CZwNVsLuDoz68h2+FHZT2GWM8CkosD3kgEThjPiwgQ6zpE6dUOiR
-         SMFggW3JuwqSeBacivImiCxuRK0vbk1CpM2fTO3BxD5Pa0QvJDrh9CXmOJghnhV+qkNP
-         UpbduxCne1P/9XVF2qaZr14QPZO0sn/DwwHtMy3M4D2XQKZNMIUYheaKij4q2m0tLxO3
-         Muog==
-X-Gm-Message-State: AJIora+Eyz40UNKCDKEQl2teZfI9b6FEqK5fQ/NAvzbmDrXa7sMhkUhL
-	FaS4tkjCwOWSIVWSmMBfBxVLi4I2P1hiVvzBtR3Sf4H5
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=Q/ukOeYbacyZ7StNYljJrJePLq2DiKgWQVILG39nf7c=;
+        b=C8JmaZd5mlQaJ2HyVdHO/7TYu/ob3/sM/dQ06ofh3Y1MnlGwWYKh3j2dl6nDO9HZOG
+         Xqe/Mg1jR5ZocRd1/8bdLgmrLN+ovQUXO6nkvjO28y5vPS8/q4sHDWVzVpoNum+9c2ld
+         6BD3NOkYVVSvKTWY66hhdlZvCSrGtaiOdJAker0uChvs9elBimeNEKjh2LF6Wr0Rx0bM
+         tD9zUCFc6P6xgEBE80EOB1yIIWyFTzR8xHS7zivllocgx59q0Wkm7ib+gIvf5b7ofLZA
+         4I4Gh/wgk6JW+RzBcMGQ5HTRFvydPD5mV7qtCRXJQkJl1Qvp7tHRg4cI5XrnNF8Kl7/0
+         McuA==
+X-Gm-Message-State: AJIora8BOtK3BJEN9zDpK7voJflvSBj4R6ayLDOQu7I7nfdNdYHHWJ46
+	RygaSiqoUFdYDWiC7Su9dTfuizMHfWEeIg==
 X-Google-Smtp-Source: 
- AGRyM1t6JMSwt//7a2SlohR6e8FrTMgURQI770PFnpUG7+gk6qVQ+gpWiLoWJmkQiidGx08tqhVXRLUxaQulJkCP4Os=
-X-Received: by 2002:a05:6a00:cce:b0:525:79b5:588c with SMTP id
- b14-20020a056a000cce00b0052579b5588cmr14837817pfv.19.1656334293285; Mon, 27
- Jun 2022 05:51:33 -0700 (PDT)
-MIME-Version: 1.0
-References: 
- <DBBPR08MB469695119DAF4FC29F66BAC1FDB49@DBBPR08MB4696.eurprd08.prod.outlook.com>
- <DBBPR08MB46968C1581734B64AAB82D32FDB99@DBBPR08MB4696.eurprd08.prod.outlook.com>
-In-Reply-To: 
- <DBBPR08MB46968C1581734B64AAB82D32FDB99@DBBPR08MB4696.eurprd08.prod.outlook.com>
+ AGRyM1t8FPD2mBXWoHq9TA+9IkcOzHNqCOyeklXVh/5LCjTswSNaJ7eHkXGWHUD27a0EwmZ28Wg6cQ==
+X-Received: by 2002:a0c:9ccd:0:b0:470:7f96:8e93 with SMTP id
+ j13-20020a0c9ccd000000b004707f968e93mr2067943qvf.64.1656387574918;
+        Mon, 27 Jun 2022 20:39:34 -0700 (PDT)
+Received: from gmail.com ([173.34.88.218])
+        by smtp.gmail.com with ESMTPSA id
+ s10-20020a05620a0bca00b006af0ce13499sm7952751qki.115.2022.06.27.20.39.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Jun 2022 20:39:34 -0700 (PDT)
+Date: Mon, 27 Jun 2022 23:39:32 -0400
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Mon, 27 Jun 2022 08:51:21 -0400
-Message-ID: 
- <CADkTA4OwycAA=stusCGHrEjRga+JP3vjm+U5anU50y-D-0o8kA@mail.gmail.com>
-Subject: Re: K3s service not starting after go-lang version update in poky
-To: =?UTF-8?Q?Kamil_Dzie=C5=BCyk?= <Kamil.Dziezyk@arm.com>
-Cc: "meta-virtualization@lists.yoctoproject.org"
- <meta-virtualization@lists.yoctoproject.org>, nd <nd@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To: Jeremy Puhlman <jpuhlman@mvista.com>
+Cc: meta-virtualization@lists.yoctoproject.org
+Subject: Re: [meta-virtualization][master|kirkstone][PATCH 1/2] cloud-init:
+ add rdpends for netifaces and charset-normalizer
+Message-ID: <20220628033929.GA9737@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220621165510.324992-1-jpuhlman@mvista.com>
+ <20220621220011.778623-2-jpuhlman@mvista.com>
+ <20220621220011.778623-1-jpuhlman@mvista.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Mon, 27 Jun 2022 12:51:38 -0000
+ <meta-virtualization@lists.yoctoproject.org>; Tue, 28 Jun 2022 03:39:42 -0000
 X-Groupsio-URL: 
- https://lists.yoctoproject.org/g/meta-virtualization/message/7396
+ https://lists.yoctoproject.org/g/meta-virtualization/message/7397
 
-On Mon, Jun 27, 2022 at 6:00 AM Kamil Dzie=C5=BCyk <Kamil.Dziezyk@arm.com> =
-wrote:
->
-> Hello Bruce,
->
-> There is a problem with the k3s service starting when the Yocto image is =
-built with the meta-virtualization master branch.
->
-> This issue might be related to the go-lang version(1.18) used to build th=
-e k3s.
-> After this patch was merged: https://git.yoctoproject.org/poky/commit/?id=
-=3D8dc1f28aa10c775e64b5275679b1f8142e8cd038
-> a warning pops up during the k3s build:
-> ```
-> WARNING: k3s-v1.22.6+k3s1+git4262c6b91a43ef8411870f72ff8b8715949f90e2-r0 =
-do_package_qa: QA Issue: k3s: ELF binary /usr/local/bin/k3s has relocations=
- in .text [textrel]
+Thanks Jeremy,
 
-That warning has actually been around for a while.
-
-> ```
-> See k3s service start logs here: https://pastebin.com/uXvsjPFu
-> I have tried a more recent version of k3s 1.22.8 with a small change and =
-this version of the k3s starts successfully.
-> However, I did not manage to update all k3s build dependency sources from=
- the recipes-container/k3s/src_uri.inc.
-> I have built the k3s with this change: https://pastebin.com/3QGvcqta
->
-> Could you update the k3s recipe on the master branch, to build a more rec=
-ent version 1.23 or 1.24?
-
-I have a 1.24 update already underway. So hopefully things will be
-sorted out shortly.
+All three patches have been merged to master and kirskstone.
 
 Bruce
 
->
-> Thanks,
->
-> Kamil Dzie=C5=BCyk
->
+In message: [meta-virtualization][master|kirkstone][PATCH 1/2] cloud-init: add rdpends for netifaces and charset-normalizer
+on 21/06/2022 Jeremy Puhlman wrote:
+
+> Signed-off-by: Jeremy A. Puhlman <jpuhlman@mvista.com>
+> ---
+>  recipes-extended/cloud-init/cloud-init_21.4.bb | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/recipes-extended/cloud-init/cloud-init_21.4.bb b/recipes-extended/cloud-init/cloud-init_21.4.bb
+> index c6e64b3..9c2dae7 100644
+> --- a/recipes-extended/cloud-init/cloud-init_21.4.bb
+> +++ b/recipes-extended/cloud-init/cloud-init_21.4.bb
+> @@ -56,6 +56,8 @@ RDEPENDS:${PN} = "python3 \
+>                    python3-jsonschema \
+>                    python3-pyyaml \
+>                    python3-oauthlib \
+> +                  python3-netifaces \
+> +                  python3-charset-normalizer \
+>                    bash \
+>                   "
+>  
+> -- 
+> 2.35.3
+> 
+
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#7393): https://lists.yoctoproject.org/g/meta-virtualization/message/7393
+> Mute This Topic: https://lists.yoctoproject.org/mt/91910328/1050810
+> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
 
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+In message: [meta-virtualization][master|kirkstone][PATCH 2/2] cloud-init: install sysvinit initscripts
+on 21/06/2022 Jeremy Puhlman wrote:
+
+> The redhat versions work with out modification.
+> 
+> Signed-off-by: Jeremy A. Puhlman <jpuhlman@mvista.com>
+> ---
+>  recipes-extended/cloud-init/cloud-init_21.4.bb | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/recipes-extended/cloud-init/cloud-init_21.4.bb b/recipes-extended/cloud-init/cloud-init_21.4.bb
+> index 9c2dae7..5cb6227 100644
+> --- a/recipes-extended/cloud-init/cloud-init_21.4.bb
+> +++ b/recipes-extended/cloud-init/cloud-init_21.4.bb
+> @@ -19,6 +19,11 @@ DISTUTILS_INSTALL_ARGS:append = " ${@bb.utils.contains('DISTRO_FEATURES', 'syste
+>  do_install:append() {
+>      ln -s ${libdir}/${BPN}/uncloud-init ${D}${sysconfdir}/cloud/uncloud-init
+>      ln -s ${libdir}/${BPN}/write-ssh-key-fingerprints ${D}${sysconfdir}/cloud/write-ssh-key-fingerprints
+> +    if ${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'true', 'false', d)}; then
+> +       install -m 755 -d ${D}${sysconfdir}/init.d/
+> +       install -m 755 ${S}/sysvinit/redhat/* ${D}${sysconfdir}/init.d/
+> +    fi
+> +
+>  }
+>  
+>  inherit pkgconfig
+> -- 
+> 2.35.3
+> 
+
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#7394): https://lists.yoctoproject.org/g/meta-virtualization/message/7394
+> Mute This Topic: https://lists.yoctoproject.org/mt/91910329/1050810
+> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
+
+In message: [meta-virtualization][master|kirkstone][PATCH] cloud-init: add depend on udev in sysvinit case.
+on 21/06/2022 Jeremy Puhlman wrote:
+
+> Just as with systemd, the build needs the dev manager installed
+> as a dependancy
+> 
+> Signed-off-by: Jeremy A. Puhlman <jpuhlman@mvista.com>
+> ---
+>  recipes-extended/cloud-init/cloud-init_21.4.bb | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/recipes-extended/cloud-init/cloud-init_21.4.bb b/recipes-extended/cloud-init/cloud-init_21.4.bb
+> index f549db9..c6e64b3 100644
+> --- a/recipes-extended/cloud-init/cloud-init_21.4.bb
+> +++ b/recipes-extended/cloud-init/cloud-init_21.4.bb
+> @@ -26,8 +26,9 @@ inherit setuptools3_legacy
+>  inherit update-rc.d
+>  inherit systemd
+>  
+> -# setup.py calls "pkg-config systemd --variable=systemdsystemunitdir" and needs to find our systemd
+> +# setup.py calls "pkg-config systemd --variable=systemdsystemunitdir" and needs to find our dev manager
+>  DEPENDS += "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)}"
+> +DEPENDS += "${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'udev', '', d)}"
+>  
+>  inherit python3native
+>  
+> -- 
+> 2.35.3
+> 
+
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#7392): https://lists.yoctoproject.org/g/meta-virtualization/message/7392
+> Mute This Topic: https://lists.yoctoproject.org/mt/91904265/1050810
+> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
+
 
