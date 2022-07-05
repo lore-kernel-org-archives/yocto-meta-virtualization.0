@@ -2,82 +2,80 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51C4ACCA47B
-	for <webhook@archiver.kernel.org>; Tue,  5 Jul 2022 20:26:21 +0000 (UTC)
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com
- [209.85.222.170])
- by mx.groups.io with SMTP id smtpd.web11.89022.1657052773775083874
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C7BEC43334
+	for <webhook@archiver.kernel.org>; Tue,  5 Jul 2022 20:26:51 +0000 (UTC)
+Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com
+ [209.85.222.180])
+ by mx.groups.io with SMTP id smtpd.web08.88969.1657052807276989838
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 05 Jul 2022 13:26:14 -0700
+ Tue, 05 Jul 2022 13:26:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=QJ/v4Ktv;
- spf=pass (domain: gmail.com, ip: 209.85.222.170,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Negh7StP;
+ spf=pass (domain: gmail.com, ip: 209.85.222.180,
  mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f170.google.com with SMTP id o26so2516752qkl.6
+Received: by mail-qk1-f180.google.com with SMTP id b125so9601033qkg.11
         for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 05 Jul 2022 13:26:13 -0700 (PDT)
+ Tue, 05 Jul 2022 13:26:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=XAn8QG9A9yAJDy3dEfUcUfzM6RklouSgsAoVBOzkJR8=;
-        b=QJ/v4KtvS4Inh6XisJiLQj8BVBI92v8qdWdmuqOhdbBKEOfPB+o7wNFkBwXDeovVMr
-         vu2P6f5aqZQpoPql4t7ZcMtCHxj9/nUJPrObkFzNEdVrAJDZnRuGgY2TXXtdrZOy+309
-         gm7ZW7MrLCuRF3pxMd0yriZ8K1bqDIiCY3x+Dwk5v8hBe4dLMs1c8CeY16TbywsYhGEx
-         r4aT2CLTP7xtL8WYISpKZ0+s1vRKj37t/5DyqPk8t0ZHVi7qmCNpw6dQuMtfKUxZHpZH
-         T5Skke+VGv92//erFKsKnXuIIlPxNdDRj8ZJ+KhVTFTqloVPtg8bDk3giY7dj/O1Je5J
-         MW+w==
+        bh=YIbkEYl9woQo1XwiUko77ooZovXrolVSqkqhxKWHxX8=;
+        b=Negh7StPC2ZEUYrPQLM/7z+Sup5F7gVUNOz+UgxjZg8Wehn75UjfAuZNRP0ITwlZqE
+         Wwoy/Mo42kA//B6nq/AhK1Mfonlsq1NVBcu8sArLm1TbRWkP3dR5KaOL7ef3YGcxzon3
+         gi+Fd9TD+Ufj+XV1BL9IdOU2CF0ql/PxrijpP55UJNBgWt4Lj8SDKJ5Kit7s+qI+KwCD
+         yuXNz/zOhVb8H9qksUOsaYEDtn7XAtGrNAZSWBVSzo7GlfoPEKP780//4v7e2yN5+zu8
+         oPIwG12PyHSEI98R/9WMLefFpG6LK9/Km+zmuDr+2pH/mkF1axrGeIw7b+xDIcmW8Ay/
+         DfDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=XAn8QG9A9yAJDy3dEfUcUfzM6RklouSgsAoVBOzkJR8=;
-        b=ZMz+DSfKhs+HosejGSA0aKwlq6yFm8Es1cluXNEcVYyWz+6fkAauoNFYetRrraRjrO
-         MuQm8hN2nEW4TtO21JUEZPlIoIR1N84WYkSz9jmxPJOjVbgfd42+krJfgpxZnvXcmaPr
-         mp27Rqd8fQQATTVqA6XdEO7+eNJmTTsoKobHYn6xZmpoJjyDptuFaxv7gtfNhc1Hp7ok
-         X+jme6Gxo9F5+5QH8XlRduW/lFV/j2yMPGBkbQD9ZA4o6tMc+5gXqXKOZ/VrFQRj9ztv
-         2k0BkpOO65WbsMWhl2Jhu2J1uBMTd/jvs90Sty446rj7qLGt1K6oWR/yCb3Jja4JCBfO
-         W/lg==
-X-Gm-Message-State: AJIora8zwp1HCsbwWYRjkW4lksqSB/CT0zAP8l8R4GKntQV3+oqP6v0b
-	qKS0+Gdg9GMuyqETIlvSHCo=
+        bh=YIbkEYl9woQo1XwiUko77ooZovXrolVSqkqhxKWHxX8=;
+        b=TyMlPLw0tQU2WN9SBnf82Wq4S2IRxiulJiR5ysXND+qJmflBgRusqxu/ZKCZTaHaWf
+         oHL1UogSlIkwOujNRptodWz/BXzPoEvvZvYA2kD4msv7W7c+q/V7bIMC9gzFWuFlksLa
+         9EA0B8sLB8oHedD7wBu8zPyoVY4cBrW7JpY/NKlxBNIKOXr2eRvqcj29bULQFEQ3m1OJ
+         2fgwVXwwshGmXkS4cFxKLigZCOga6x1YVVate7CGdCxo7irgjKKC79iYPYFxwJqqyaVc
+         NzZX71fDape9PS9WMuTtd6oZymK8NWDJPPzRrk0gocWwJk7QJXITgv0tR8oIOusJDYdK
+         Rc5A==
+X-Gm-Message-State: AJIora/ktcW9qqmWOhu1FQDxf2TKnaANsis+06oy6XLW/Thd+KRTlQnC
+	JOfNmfbz0oDOslDXyBP0er0=
 X-Google-Smtp-Source: 
- AGRyM1umM4YE4MzJeSZm/sLccAeEMjHh78lOzs3Ed9J4hW54WeBZP07vxlUYGsUMORPS5HSrUeQnPA==
-X-Received: by 2002:a05:620a:1996:b0:6b2:59b7:2636 with SMTP id
- bm22-20020a05620a199600b006b259b72636mr16407434qkb.782.1657052772685;
-        Tue, 05 Jul 2022 13:26:12 -0700 (PDT)
+ AGRyM1ss9orDVpmvlu3QZQP20J1A7+kSk6wCSKJDuzrs1FdORZdUp7of2y/JkYOZjdUBRs4sDhcPNw==
+X-Received: by 2002:a05:620a:3712:b0:6af:4a37:1a11 with SMTP id
+ de18-20020a05620a371200b006af4a371a11mr25305331qkb.418.1657052806201;
+        Tue, 05 Jul 2022 13:26:46 -0700 (PDT)
 Received: from gmail.com ([173.34.88.218])
         by smtp.gmail.com with ESMTPSA id
- m14-20020a05620a290e00b006b46ad28ba7sm5406349qkp.84.2022.07.05.13.26.11
+ 194-20020a370acb000000b006a8b6848556sm27639080qkk.7.2022.07.05.13.26.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Jul 2022 13:26:11 -0700 (PDT)
-Date: Tue, 5 Jul 2022 16:26:10 -0400
+        Tue, 05 Jul 2022 13:26:45 -0700 (PDT)
+Date: Tue, 5 Jul 2022 16:26:43 -0400
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 To: Andrei Gherzan <andrei@gherzan.com>
 Cc: meta-virtualization@lists.yoctoproject.org,
 	Andrei Gherzan <andrei.gherzan@huawei.com>
-Subject: Re: [meta-virtualization][PATCH 1/2] podman: Fix host contamination
-Message-ID: <20220705202607.GA24762@gmail.com>
-References: <20220705101750.1729143-1-andrei@gherzan.com>
+Subject: Re: [meta-virtualization][kirkstone][PATCH 1/3] podman: Fix host
+ contamination
+Message-ID: <20220705202642.GB24762@gmail.com>
+References: <20220705101830.1729681-1-andrei@gherzan.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220705101750.1729143-1-andrei@gherzan.com>
+In-Reply-To: <20220705101830.1729681-1-andrei@gherzan.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Tue, 05 Jul 2022 20:26:21 -0000
+ <meta-virtualization@lists.yoctoproject.org>; Tue, 05 Jul 2022 20:26:51 -0000
 X-Groupsio-URL: 
- https://lists.yoctoproject.org/g/meta-virtualization/message/7407
+ https://lists.yoctoproject.org/g/meta-virtualization/message/7408
 
-merged.
-
-I'll wait on the upstream-status changes for now, since I'll be
-going through a refresh and will re-consider them then.
+merged to kirkstone.
 
 Bruce
 
-In message: [meta-virtualization][PATCH 1/2] podman: Fix host contamination
+In message: [meta-virtualization][kirkstone][PATCH 1/3] podman: Fix host contamination
 on 05/07/2022 Andrei Gherzan wrote:
 
 > From: Andrei Gherzan <andrei.gherzan@huawei.com>
@@ -232,13 +230,13 @@ on 05/07/2022 Andrei Gherzan wrote:
 > +2.25.1
 > +
 > diff --git a/recipes-containers/podman/podman_git.bb b/recipes-containers/podman/podman_git.bb
-> index 913aea8..547bc4e 100644
+> index f805cb6..727a298 100644
 > --- a/recipes-containers/podman/podman_git.bb
 > +++ b/recipes-containers/podman/podman_git.bb
 > @@ -20,6 +20,7 @@ DEPENDS = " \
->  SRCREV = "cedbbfa543651a13055a1fe093a4d0a2a28ccdfd"
+>  SRCREV = "717edd7b844dcd66468f5d991991d87e9fc14c12"
 >  SRC_URI = " \
->      git://github.com/containers/libpod.git;branch=v4.1;protocol=https \
+>      git://github.com/containers/libpod.git;branch=v4.0;protocol=https \
 > +    file://0001-Rename-BUILDFLAGS-to-GOBUILDFLAGS.patch;patchdir=src/import \
 >  "
 >  
@@ -250,8 +248,8 @@ on 05/07/2022 Andrei Gherzan wrote:
 > 
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#7402): https://lists.yoctoproject.org/g/meta-virtualization/message/7402
-> Mute This Topic: https://lists.yoctoproject.org/mt/92181862/1050810
+> View/Reply Online (#7404): https://lists.yoctoproject.org/g/meta-virtualization/message/7404
+> Mute This Topic: https://lists.yoctoproject.org/mt/92181869/1050810
 > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
 > Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
