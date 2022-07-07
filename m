@@ -2,116 +2,127 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4181C433EF
-	for <webhook@archiver.kernel.org>; Thu,  7 Jul 2022 13:18:54 +0000 (UTC)
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com
- [209.85.210.176])
- by mx.groups.io with SMTP id smtpd.web09.5403.1657199932889853485
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62A7DC433EF
+	for <webhook@archiver.kernel.org>; Thu,  7 Jul 2022 14:56:35 +0000 (UTC)
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com
+ [209.85.160.170])
+ by mx.groups.io with SMTP id smtpd.web10.6574.1657205790826206807
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 07 Jul 2022 06:18:53 -0700
+ Thu, 07 Jul 2022 07:56:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=afn/iIGr;
- spf=pass (domain: gmail.com, ip: 209.85.210.176,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=aGxmaVoo;
+ spf=pass (domain: gmail.com, ip: 209.85.160.170,
  mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-pf1-f176.google.com with SMTP id j3so6677193pfb.6;
-        Thu, 07 Jul 2022 06:18:52 -0700 (PDT)
+Received: by mail-qt1-f170.google.com with SMTP id c20so784844qtw.8
+        for <meta-virtualization@lists.yoctoproject.org>;
+ Thu, 07 Jul 2022 07:56:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=DJwISTVdbIbJW8cuQPmHWPoAzyieVnFYU0CFb8546xg=;
-        b=afn/iIGr+6YrCeNmryOENl8A6VKa2wuU6oaKiroCHdJZ0ZoWz7Qo5vXKwErR9XLfJO
-         hvAPFXlQys/DwVvoEiCv2BB90YVD0xNFkfnGJTqO60ROh0L30VpgRiP2lMnzCz+RBmpX
-         gBitT/g+M8SGxo2TOJWR+kd0EGifBWpkZJZi2FRt9cUs5E7X61R5SHztJYMXQ6CjJCzv
-         4uTLioKnxi/UWYYQF0TXoIMFVmujbSKEkHT4kGTJrAif5zQYZUlv36wUGGxBWnh68TiJ
-         FztHnEFromieYETBNfK2blAa7/yWexN/cF4kwjDzrXIu2fW1Lqs8mEcK6TWPsIqCcLJz
-         S6cw==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=6bvMdxuKSvzzp6q3Sjswq16kceIIT4UVu3LbPiqeUgo=;
+        b=aGxmaVoou/mcjf1lCHc7QW2YoZ0r5r5oYysWnW2zDZvlbKT9vKJD2pL1DwFgEKxguG
+         /krpFl+iiFCAnbCltSwn13FN0c6EPcOPTJjVAfVEdm/5qPwEFrgy6PAeFdxQPT4V7ve/
+         ZjBevfecsYXJr0TXlbTVEW20JRgxwo9J/4WUtX37T9sj8gfbJl8STNFE6XqIo7OfWJAg
+         hwgOYm/uMy4XziKn6/3qdl9ftPx2Tbq1bPbTPDProdwfaxLxJSBjK8dn0yXSv8lUVPC4
+         Sl5rkp7JRWle7rRzsiILnBxBuEHlIQTTjje946MQ/lYGvoG7/q5M1q9A6syBeOeA0+OL
+         MOMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=DJwISTVdbIbJW8cuQPmHWPoAzyieVnFYU0CFb8546xg=;
-        b=jple2QJKBDAdvhtuEL+l6IsYXqaidv/TROk5vWQbAgirv8d+R7IRdB8TXtcw5MADXw
-         U1Yzec0kXGFlbjMqKIwMK6gzo+VBQT3cju+4yYx/0f5XEqi4aJieg3D47YQazc6Imt3/
-         qn5Oxr9Valf1FoHe9LzV9BqKmb7XBEOoBSLc/G5+7im4vsxra6wWnCF9lFIf8btHxffQ
-         JHjHMmk/YBNZ30+qo4rrrJFaH99rfmvYqnkoEBW74h9Xv4iw+PSKjCOtr/Zcwubq7JKg
-         jNAjFVW2+9+Qw7xCWuQ5x96qMJNFkDK98pD9upJN4gNTwXW0hyy6jUqzohiGS/AyZcEc
-         jYeA==
-X-Gm-Message-State: AJIora+u8lm+7/8W5/mURbUcoN7G1amPj5qV1ew+Lz54yMgDYrWlajCz
-	F86YPZIwhrxApCxvh+HEZyI+Wx8Sq+Lnbs3HwuM=
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=6bvMdxuKSvzzp6q3Sjswq16kceIIT4UVu3LbPiqeUgo=;
+        b=ShRIQa7/X4sFeQRD2dZtAhp3B4DqoQuloEoC4ZMPX1dTWWTmCIcEfyGGOr2xl86Bxh
+         Ei9OE8aux8R/odnFXfk7rJx6afmCv/oUgM/VzTGrd2yz4GUcytNimy5/Q1mx6UHosc1o
+         czh3hQ1nQQ5nskqJ9EFa0eg/amto9Z0t/IoTxNrFGgQtg6ILNsDI6h0LVouIHrazhxd/
+         CckcMot9q5aBQ+gSib/a2C9urn9ZKfLt3wwsNy6wpyLEhQcSY8K0uwGH6CSSXTXiroAN
+         ulNN0Jzg+fvz0LNK5BI4wWujMldt++HZebFGBAgiHR2e44scmo4RWO5UJz9f88u919CO
+         bw+Q==
+X-Gm-Message-State: AJIora+Aszh6V3mWBCjp8SbBLLikEQg7ZsI1YjAhh3F+UYBYQi9bqE5h
+	5FNjoMUm02Tg/epzGs373dE=
 X-Google-Smtp-Source: 
- AGRyM1s3vOoKof8cG5479npHIFY5xEnc6BFf9CsxynCrZepRidHp/7QlaPNKoyvKklsrlJawhK+NyKzNYQnuLXnSCkI=
-X-Received: by 2002:a17:902:b186:b0:16b:d762:6d81 with SMTP id
- s6-20020a170902b18600b0016bd7626d81mr28411402plr.88.1657199932083; Thu, 07
- Jul 2022 06:18:52 -0700 (PDT)
-MIME-Version: 1.0
-References: <YsbcR39JGUL/D8uu@mail.local>
-In-Reply-To: <YsbcR39JGUL/D8uu@mail.local>
+ AGRyM1tW8j0gtLKt9wd1sYbb0zY/A4zzufLsled3VE7MDY/gymyi1f27gdCsHDpgWDo3tOF5yFK44Q==
+X-Received: by 2002:a05:6214:1d2b:b0:473:2501:4575 with SMTP id
+ f11-20020a0562141d2b00b0047325014575mr5881158qvd.42.1657205789764;
+        Thu, 07 Jul 2022 07:56:29 -0700 (PDT)
+Received: from gmail.com ([173.34.88.218])
+        by smtp.gmail.com with ESMTPSA id
+ n4-20020a05620a294400b006b24d912ab7sm18213685qkp.46.2022.07.07.07.56.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 Jul 2022 07:56:29 -0700 (PDT)
+Date: Thu, 7 Jul 2022 10:56:27 -0400
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Thu, 7 Jul 2022 09:18:40 -0400
-Message-ID: 
- <CADkTA4Mhdnwy2sm9hBDZTeifP9mK2xktvKS7tPjxWHcmrK_6yA@mail.gmail.com>
-Subject: Re: check-layer-nightly failure
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: meta-virtualization@lists.yoctoproject.org,
-	swat <swat@lists.yoctoproject.org>
-Content-Type: text/plain; charset="UTF-8"
+To: Bertrand Marquis <bertrand.marquis@arm.com>
+Cc: meta-virtualization@lists.yoctoproject.org, nd@arm.com,
+	christopher.w.clark@gmail.com
+Subject: Re: [meta-virtualization] [PATCH] xen/sysvinit: add hvc0 console
+ only if not there already
+Message-ID: <20220707145624.GA40251@gmail.com>
+References: 
+ <09a42f2562420f11d3187606418a73af07690f98.1656417819.git.bertrand.marquis@arm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: 
+ <09a42f2562420f11d3187606418a73af07690f98.1656417819.git.bertrand.marquis@arm.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Thu, 07 Jul 2022 13:18:54 -0000
+ <meta-virtualization@lists.yoctoproject.org>; Thu, 07 Jul 2022 14:56:35 -0000
 X-Groupsio-URL: 
- https://lists.yoctoproject.org/g/meta-virtualization/message/7415
+ https://lists.yoctoproject.org/g/meta-virtualization/message/7416
 
-On Thu, Jul 7, 2022 at 9:14 AM Alexandre Belloni
-<alexandre.belloni@bootlin.com> wrote:
->
-> Hello,
->
-> Since python3-colorama got upgraded to 0.4.5 in meta-python,
-> check-layer-nightly is failing for meta-virtualization:
->
-> AssertionError: Adding layer meta-virtualization changed signatures.
-> 23 signatures changed, initial differences (first hash before, second after):
->    python3-colorama:do_fetch: 0ac42383a6557a119738c7fda6a53a08837ffe2686b34f8fa5c2db83213bfe39 -> e2cfb137b2ed19476cbfba1402316e3433f7f03d1065fc8c74837ff631ff89c4
->       bitbake-diffsigs --task python3-colorama do_fetch --signature 0ac42383a6557a119738c7fda6a53a08837ffe2686b34f8fa5c2db83213bfe39 e2cfb137b2ed19476cbfba1402316e3433f7f03d1065fc8c74837ff631ff89c4
->       NOTE: Starting bitbake server...
->       Task dependencies changed from:
->       ['BPN', 'PN', 'PV', 'PYPI_ARCHIVE_NAME', 'PYPI_PACKAGE', 'PYPI_PACKAGE_EXT', 'PYPI_SRC_URI', 'SPECIAL_PKGSUFFIX', 'SRCREV', 'SRC_URI', 'SRC_URI[sha256sum]', 'base_do_fetch', 'do_fetch[network]', 'pypi_package', 'pypi_src_uri']
->       to:
->       ['BPN', 'PN', 'PV', 'PYPI_ARCHIVE_NAME', 'PYPI_PACKAGE', 'PYPI_PACKAGE_EXT', 'PYPI_SRC_URI', 'SPECIAL_PKGSUFFIX', 'SRCREV', 'SRC_URI', 'SRC_URI[md5sum]', 'SRC_URI[sha256sum]', 'base_do_fetch', 'do_fetch[network]', 'pypi_package', 'pypi_src_uri']
->       basehash changed from e3e476f44ff3905e371e1451a0e6e301baf5bdfb2f39c4140b75925fb331cd57 to 998a2a96caa4512c9c77acab928aa7246b2e1cecf44e59babf5fa94bcce4a413
->       List of dependencies for variable SRC_URI changed from '{'SRC_URI[sha256sum]', 'PYPI_SRC_URI'}' to '{'SRC_URI[md5sum]', 'SRC_URI[sha256sum]', 'PYPI_SRC_URI'}'
->       changed items: {'SRC_URI[md5sum]'}
->       Dependency on variable SRC_URI[md5sum] was added
->       Variable PV value changed from '0.4.5' to '0.4.4'
->       Variable SRC_URI[sha256sum] value changed from 'e6c6b4334fc50988a639d9b98aa429a0b57da6e17b9a44f0451f930b6967b7a4' to '5941b2b48a20143d2267e95b1c2a7603ce057ee39fd88e7329b0c292aa16869b'
-
-docker-compose has a history of being sensitive to changes in this package.
-
-Once again, I'll put on the record that we continue to ignore the lack
-of an elegant way to deal with language layers and the insistence that
-somehow the whole world of dependencies can align on one version of a
-package.
-
-I'll do a version bump this time, since it does look ok .. but I won't
-be dropping the recipe from the layer, and I may have to just fork it
-into a version specific package and handle the upgrade cadence in
-meta-virtualization.
+merged to master and kirkstone.
 
 Bruce
 
->
->
-> --
-> Alexandre Belloni, co-owner and COO, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
+In message: [meta-virtualization] [PATCH] xen/sysvinit: add hvc0 console only if not there already
+on 28/06/2022 Bertrand Marquis wrote:
 
+> The base inittab recipe is creating inittab entries for consoles listed
+> in SERIAL_CONSOLES.
+> For qemu, this contains "115200,hvc0" so an entry is created in inittab
+> for it.
+> Prevent to create a second entry if hvc0 is present in SERIAL_CONSOLES.
+> 
+> On qemuarm, this solves issues with the console when starting on top of
+> Xen as dom0.
+> 
+> Signed-off-by: Bertrand Marquis <bertrand.marquis@arm.com>
+> ---
+>  recipes-core/sysvinit/sysvinit-inittab_xen.inc | 10 ++++++++--
+>  1 file changed, 8 insertions(+), 2 deletions(-)
+> 
+> diff --git a/recipes-core/sysvinit/sysvinit-inittab_xen.inc b/recipes-core/sysvinit/sysvinit-inittab_xen.inc
+> index 7f92bd1..724f47d 100644
+> --- a/recipes-core/sysvinit/sysvinit-inittab_xen.inc
+> +++ b/recipes-core/sysvinit/sysvinit-inittab_xen.inc
+> @@ -1,4 +1,10 @@
+> +
+> +
+>  do_install:append() {
+> -                echo "" >> ${D}${sysconfdir}/inittab
+> -                echo "X0:12345:respawn:${base_sbindir}/getty-wrapper 115200 hvc0" >> ${D}${sysconfdir}/inittab
+> +    # if SERIAL_CONSOLES contains hvc0, it is already added in inittab so do
+> +    # not add it twice
+> +    if echo "${SERIAL_CONSOLES}" | grep -vq "hvc0"; then
+> +        echo "" >> ${D}${sysconfdir}/inittab
+> +        echo "X0:12345:respawn:${base_sbindir}/getty-wrapper 115200 hvc0" >> ${D}${sysconfdir}/inittab
+> +    fi
+>  }
+> -- 
+> 2.25.1
+> 
 
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#7400): https://lists.yoctoproject.org/g/meta-virtualization/message/7400
+> Mute This Topic: https://lists.yoctoproject.org/mt/92046232/1050810
+> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
--- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
 
