@@ -1,117 +1,104 @@
-Return-Path: <andrei@gherzan.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B060EC433EF
-	for <webhook@archiver.kernel.org>; Mon, 11 Jul 2022 13:39:30 +0000 (UTC)
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
- [66.111.4.26])
- by mx.groups.io with SMTP id smtpd.web09.28638.1657546768873436164
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7853C433EF
+	for <webhook@archiver.kernel.org>; Mon, 11 Jul 2022 13:42:20 +0000 (UTC)
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com
+ [209.85.215.172])
+ by mx.groups.io with SMTP id smtpd.web09.28676.1657546939336461333
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 11 Jul 2022 06:39:29 -0700
+ Mon, 11 Jul 2022 06:42:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gherzan.com header.s=fm1
- header.b=DTSBzhhl;
- spf=pass (domain: gherzan.com, ip: 66.111.4.26, mailfrom: andrei@gherzan.com)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailout.nyi.internal (Postfix) with ESMTP id 3D3165C00E9;
-	Mon, 11 Jul 2022 09:39:28 -0400 (EDT)
-Received: from imap41 ([10.202.2.91])
-  by compute3.internal (MEProxy); Mon, 11 Jul 2022 09:39:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gherzan.com; h=
-	cc:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to; s=fm1; t=1657546768; x=1657633168; bh=2UPSyuxhF/
-	EeEdU7o2BS/9axN+oKn4nBltGz9DDaEAY=; b=DTSBzhhlRGmjp/4gKomyE8tbc/
-	IcFgqDf3hB/vL7zAnYv7/Lv+3PWH+ZOhx0QEN9yZHU2oRdZP78mOcu3lDxYZPfiT
-	qCy6V0Ozo7/GwTGbdCv0ewaKauXxJZvcoyqyuO3Vkx6CsIFtL8R4V/e4j2Dqrgt4
-	mSZUmxwAxFJEywi+PyDgfmtKKmGznhSIhPuuHhVqy/UIUG7cx/ITL/JEJRXWRbFY
-	FgRCFuGNCWk9N4Qvz3LD/eX2TDPLMpN+TghGfOtJ4Z2ITfhT3JtTxY/RutBR1PIE
-	UX/mEW5jNmwwyxyXRM6p9VSRDPBD0/d56FKd8nEUTa8NkCz2DfeDsdYHHXbQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:sender:subject:subject:to:to
-	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm3; t=1657546768; x=1657633168; bh=2UPSyuxhF/EeEdU7o2BS/9axN+oK
-	n4nBltGz9DDaEAY=; b=od9m9HK5LYFjuHQ1FEE/yZ6W0XUxPS/3wbKTohdEozEQ
-	+QyoAnaqs18iR+8cOO75pyEisVSQMIi+xd94P78mE+P2kRwRkt/aWOudkkLytZ5e
-	9uS9pC4g1Mb6ax1pCwIfZ6c9q+L1oZ3OMEsLkSmFCsFkweusOt7qCpeElCPLLRn/
-	d4VEux0ruaBc4g0Pab37pWyRfkCj8wS3vMIN3+K7gKmX0aaqs1iRcATq3OvSy/5o
-	WxDMZ5PREM0Jh4+sbr1xZfy+ZrcxD3X8L4vGq92fdl4Mt6ITNqUuD1ST3roAWe/W
-	O/417IQAXmuaTLbqPqXYdobY4eRBT8qhXN7AC2o2yw==
-X-ME-Sender: <xms:ECjMYqfkmIan-vCEnlvjpx-XG7cVEv8bw9Kp0OmI7Qs16Zb4B0DLvw>
-    <xme:ECjMYkOBcZBkJTHc-V2YPr9IQErmkasUpAlwzemCOyjSK5it-nsqz-3OCktwtLSWI
-    I-2EqRqnDDMUO1rH_Y>
-X-ME-Proxy-Cause: 
- gggruggvucftvghtrhhoucdtuddrgedvfedrudejfedgieegucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehn
-    ughrvghiucfihhgvrhiirghnfdcuoegrnhgurhgvihesghhhvghriigrnhdrtghomheqne
-    cuggftrfgrthhtvghrnheplefhleejteeuvdeuhfejffeigfduieelgfduueffueethfeg
-    geetvdevffffueffnecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrghilh
-    hfrhhomheprghnughrvghisehghhgvrhiirghnrdgtohhm
-X-ME-Proxy: <xmx:ECjMYriTmrVkIMh-xn3pOOrD_e0pm81gKZfOAUbJLf5TjXv2F3kMcA>
-    <xmx:ECjMYn-hCzaxXpv2ZMks2IZqLDx5J7a5DIDF07ZdZxX_zAnnD9KIXw>
-    <xmx:ECjMYmuhY7VZEFzvGZ3OvlNGd_YLW67pKCo0RKJ_4nD7_tqXBqI0Cg>
-    <xmx:ECjMYs1vkTS0oK83YIZtDtCx99Zk0arvVlKoOsBdtJ72WDYDbGvqdg>
-Feedback-ID: i68994715:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 0C2612340077; Mon, 11 Jul 2022 09:39:28 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-720-gbf5afa95ff-fm-20220708.001-gbf5afa95
-Mime-Version: 1.0
-Message-Id: <a835deb9-a0e0-4655-9371-686fa55ea284@www.fastmail.com>
-In-Reply-To: 
- <CADkTA4MZOuSQYfyPZYt_pVH_aa2xzQfj=sRjw7yxBCi_0GiBAw@mail.gmail.com>
-References: <20220711130022.3264142-1-andrei@gherzan.com>
- <CADkTA4MZOuSQYfyPZYt_pVH_aa2xzQfj=sRjw7yxBCi_0GiBAw@mail.gmail.com>
-Date: Mon, 11 Jul 2022 14:39:07 +0100
-From: "Andrei Gherzan" <andrei@gherzan.com>
-To: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=kkealXXK;
+ spf=pass (domain: gmail.com, ip: 209.85.215.172,
+ mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-pg1-f172.google.com with SMTP id o18so4748239pgu.9
+        for <meta-virtualization@lists.yoctoproject.org>;
+ Mon, 11 Jul 2022 06:42:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=4tuTp+eNc/GBu8NUCMIUOIZrVg2DWZWwE3bZW6PrKa0=;
+        b=kkealXXKWDhIhBpWufWIv+wt/qynx91v8e8FlYeRP0pdzEc91aQCiQalPyZw9LP+9K
+         YiqoWZtTD2P2YUAKcU751vGscaeYUEdkCseOYwP4f4h3dvDZceHi68bQxlh8yPhq1UN3
+         JQMInYa7npUFwPpwupyeIM2wsdrL+BrANb4C//gNiRH2C08Fq7cMbDzbNaSgO8UIz8eo
+         mkv4iJjH8XZsXHncUhvDedQFoVCLq/80wv2ujJpqvYIet3GN0qDw0qBkegWoLUXjwy2D
+         AJ1wCfMzz8yeetk05AXQWG8aWiQhMK2x37PL7UlvJzl47lXAdJP2bPSQn8ixbG5brXw6
+         xL0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=4tuTp+eNc/GBu8NUCMIUOIZrVg2DWZWwE3bZW6PrKa0=;
+        b=FuOvRhVzPzWZ55gAf1ryOUMc8vCSvX0QAzCHO0+4RWvi1r0JTvioUJa52/dJuoz18e
+         PCVmfd4sx5FOD5urHSS3hxCLLgndcyzwd27GLku7z+zEVqLpjASNiR2SoFrMaKQ3n1D0
+         ZMUnypC+NTe818/+VBqFyVBxwaVslEj+E1tNwxuPr6jefa1zNa+rJmgDXUaAO+fsY6cj
+         bcwFrg6YyAH8nrOxXEumcbQQU43BHVdOMipXuKWLCg1ozfSnmUhkYRG3qCuDM8lzRbbS
+         Jye0ngWE1R0b5+li6mAW7CLW8Wv3RWUjFJeLMhQDbbbhvz0iGVrjHfKBc8mpFgoHuj8b
+         mItQ==
+X-Gm-Message-State: AJIora+1QBmu/NC1UAgtTY48ARW21Fa4eZMisfphXfMTrvzbEKD32V3n
+	LUpw4BHcHeKqnlVKC6T5bRxhrgtl/idPU+7BPK0=
+X-Google-Smtp-Source: 
+ AGRyM1tuK4NH16x/ZTGZIGKvoNt0iCueAktX8p+ne6uehDNgDlfgv4T2Gu5IkCMALj0I9jxHPf/V1jMz7G578rFFKAg=
+X-Received: by 2002:a63:9041:0:b0:415:c0e8:c588 with SMTP id
+ a62-20020a639041000000b00415c0e8c588mr13682813pge.282.1657546938783; Mon, 11
+ Jul 2022 06:42:18 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220711130110.3264816-1-andrei@gherzan.com>
+ <20220711130110.3264816-3-andrei@gherzan.com>
+ <CADkTA4PMRv54fcxXz_+NtzJrbH6wf9XMA=0nzQaRSmLX8YCGDA@mail.gmail.com>
+ <45eee3f1-8e1e-4606-94ae-08c9001381a7@www.fastmail.com>
+In-Reply-To: <45eee3f1-8e1e-4606-94ae-08c9001381a7@www.fastmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Mon, 11 Jul 2022 09:42:06 -0400
+Message-ID: 
+ <CADkTA4Ok1GrK3hRD7dzA+G_-U5Dvu7bhj_eGm8ajx8kBBUjeEg@mail.gmail.com>
+Subject: Re: [meta-virtualization][kirkstone][PATCH 3/3] podman: Add support
+ for rootless mode
+To: Andrei Gherzan <andrei@gherzan.com>
 Cc: meta-virtualization@lists.yoctoproject.org,
- "Andrei Gherzan" <andrei.gherzan@huawei.com>
-Subject: Re: [meta-virtualization][PATCH 1/3] slirp4netns: Require tun kernel
- module
-Content-Type: text/plain
+	Andrei Gherzan <andrei.gherzan@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Mon, 11 Jul 2022 13:39:30 -0000
+ <meta-virtualization@lists.yoctoproject.org>; Mon, 11 Jul 2022 13:42:20 -0000
 X-Groupsio-URL: 
- https://lists.yoctoproject.org/g/meta-virtualization/message/7431
+ https://lists.yoctoproject.org/g/meta-virtualization/message/7432
 
-On Mon, 11 Jul 2022, at 14:26, Bruce Ashfield wrote:
-> On Mon, Jul 11, 2022 at 9:00 AM Andrei Gherzan <andrei@gherzan.com> wrote:
->>
->> From: Andrei Gherzan <andrei.gherzan@huawei.com>
->>
->> slirp4netns uses a TAP device to connect to the internet in an
->> unprivileged way. Without the required kernel support (TAP/TUN),
->> slirp4netns will fail at runtime.
->>
->> Signed-off-by: Andrei Gherzan <andrei.gherzan@huawei.com>
->> ---
->>  recipes-networking/slirp4netns/slirp4netns_git.bb | 2 ++
->>  1 file changed, 2 insertions(+)
->>
->> diff --git a/recipes-networking/slirp4netns/slirp4netns_git.bb b/recipes-networking/slirp4netns/slirp4netns_git.bb
->> index a63871c..4bf25b8 100644
->> --- a/recipes-networking/slirp4netns/slirp4netns_git.bb
->> +++ b/recipes-networking/slirp4netns/slirp4netns_git.bb
->> @@ -18,4 +18,6 @@ DEPENDS = "glib-2.0 libcap libseccomp libslirp"
->>
->>  S = "${WORKDIR}/git"
->>
->> +RDEPENDS:${PN} += "kernel-module-tun"
+On Mon, Jul 11, 2022 at 9:39 AM Andrei Gherzan <andrei@gherzan.com> wrote:
 >
-> This needs to be a RRECOMMENDS, since we can suggest, but not enforce
-> a specific configuration.
+> On Mon, 11 Jul 2022, at 14:31, Bruce Ashfield wrote:
+> > This is new functionality ... and while we don't have a strict rule
+> > about not adding new features to existing releases, this is stretching
+> > the definition, since it does have the potential to cause issues.
+> >
+> > It is definitely fine for master, but I'm not particularly keen to
+> > start adding new features to kirkstone.
+>
+> That makes sense. Would you accept it with a disabled default in kirkstone?
 
-Agreed.
+I think that's ok .. it's a balance between keeping kirkstone useful,
+and not requiring folks to carry too many changes in their layers.
+It's easy enough by inspection to show that the disabled feature won't
+impact existing functionality or break anything.
+
+On further thought, we should keep it disabled by default even in
+master, so from that point of view, we can keep them in alignment.
+
+Bruce
+
+>
+> --
+> Andrei Gherzan
+> gpg: rsa4096/D4D94F67AD0E9640
+
+
 
 -- 
-Andrei Gherzan 
-gpg: rsa4096/D4D94F67AD0E9640
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
