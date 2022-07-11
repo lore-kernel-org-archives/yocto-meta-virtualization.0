@@ -1,90 +1,114 @@
-Return-Path: <ralph.siemsen@linaro.org>
+Return-Path: <andrei@gherzan.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1ED4EC43334
-	for <webhook@archiver.kernel.org>; Mon, 11 Jul 2022 18:13:12 +0000 (UTC)
-Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com
- [209.85.217.54])
- by mx.groups.io with SMTP id smtpd.web09.32523.1657563183410709092
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD38FC433EF
+	for <webhook@archiver.kernel.org>; Mon, 11 Jul 2022 18:53:37 +0000 (UTC)
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
+ [66.111.4.27])
+ by mx.groups.io with SMTP id smtpd.web12.276.1657565608091959914
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 11 Jul 2022 11:13:03 -0700
+ Mon, 11 Jul 2022 11:53:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=jEcMochf;
- spf=pass (domain: linaro.org, ip: 209.85.217.54,
- mailfrom: ralph.siemsen@linaro.org)
-Received: by mail-vs1-f54.google.com with SMTP id j65so5652786vsc.3
-        for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 11 Jul 2022 11:13:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=/kdUScliGSDyxXkB6ZdnaSG500yHfPzwA+6zWWSMwfk=;
-        b=jEcMochfchwn9uKjhUr2s6qLJYQQRsa6cwz3xu7IVNpcMWUTAKMkYsHKhoV6N6zm4M
-         8q33lnQ/Zuwh91aW119fX/yxXryajYK0WGiZc1EecnQUk0G2Ne9c9/OTcy13HvRsEtvW
-         /b5ia5YKeDqJaFCD9yK4mG2x3c36e/nQpS6aM1MUOkpI7XHiABwX++Fl2T2QNtQRi2qw
-         2iwHpobzg3JgkocVm272uj7amADnti9SwzcWthfrexIvtLVd2YxVV8rqt4FV0+Hge0Ko
-         koaY+Cu/meEpuvxa2gKfZqeJrXRkji/MRx7FljAGYxbMHOGrskhi0nGDt3Bj1XMq5XsF
-         FKHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=/kdUScliGSDyxXkB6ZdnaSG500yHfPzwA+6zWWSMwfk=;
-        b=gDk51KBM/uU2LcooJUvTQ6nYa9H5qdrNa6LaolqkzjYb++i6zcG18etgAf2FUtMVV0
-         XyGxUQyeg87N8/axc57Et2whBS195spirnZXzmnKY57v3b6EXsNirbpoIpkRG8At8iLo
-         C+sei/W/haaLyZH5xHGFSYYEW16levSp4HPhNQI7o6Mo5Po5apunkmvu0Vl5CO1Yr4zB
-         thna9xH7bsGZuHgoxE7vekGxHqvd1ZLKScuYyx3CM9juaNIHeScFqDZQy0iNAKte9JmX
-         T4hMcM9aW8cS/vGITxWMwyhIocGxx79tvrn3XnfbmTNhvYTo4HOWE3Hqxl4lwqRZyQEN
-         Le5Q==
-X-Gm-Message-State: AJIora/X8ZDli+IOvukxF694m3tKdQ4btaY/PfBz+RQ66beKuGfUjop0
-	AJEtgfQLJbP0D3dxFMzn0bPHUgLL6YysHxOlhDXSeV24XFaVXA==
-X-Google-Smtp-Source: 
- AGRyM1vl2zXB9EEjAlulTBhlH9h7NTSXBB7X8X5Q4RqOScwc9K6+t11ElG0lvqIaiiANmd2k54aStGQQxvfypISys9I=
-X-Received: by 2002:a67:e04b:0:b0:357:4556:ca68 with SMTP id
- n11-20020a67e04b000000b003574556ca68mr5122499vsl.73.1657563182409; Mon, 11
- Jul 2022 11:13:02 -0700 (PDT)
-MIME-Version: 1.0
-From: Ralph Siemsen <ralph.siemsen@linaro.org>
-Date: Mon, 11 Jul 2022 14:12:51 -0400
-Message-ID: 
- <CANp-EDa+9Wa6GntcF6+XU3khNfRoCfhE0cCAXihNHr1Btb2H5A@mail.gmail.com>
-Subject: docker/containerd/runc version compatability
+ dkim=fail reason="signature has expired" header.i=@gherzan.com header.s=fm1
+ header.b=ITBsgs9p;
+ spf=pass (domain: gherzan.com, ip: 66.111.4.27, mailfrom: andrei@gherzan.com)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+	by mailout.nyi.internal (Postfix) with ESMTP id 6A0645C014D;
+	Mon, 11 Jul 2022 14:53:27 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute2.internal (MEProxy); Mon, 11 Jul 2022 14:53:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gherzan.com; h=
+	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:sender
+	:subject:subject:to:to; s=fm1; t=1657565607; x=1657652007; bh=pK
+	cLc4G8/xkbAnzMDS4jqIVhZm3pp1wgHYjE3HzUjls=; b=ITBsgs9pG3K9vD9fTA
+	EqaeRg/DbsloqFfWrMVWQTZAik9Vh33l4tCGUM+HKGTRH5KatwvA01bHAk+PBst+
+	SGQaEH0WaekkP8ZyiggogRM4tUubulTr011tN3FvPlD6rz0Gfb9uA2Tx/w1oqq2c
+	ER1lr9WBFBkocinydLQ94roeRI0Ick56xN5uPkEExgoBb8AWy6vF9HQxu4a/lVKs
+	FNcayRtjN5v18zrOkxr//Wm2fLx65CXuAne3xUFWWMgdPSLoXl3otrJWMm9HiPyu
+	0e+U5h5Y5NyTVQWEApsSes/lVJG/30FvIPDnNMSzEtVl/CqrmBKXAtsjqqUOIxHX
+	3ReA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm3; t=1657565607; x=1657652007; bh=pKcLc4G8/xkbA
+	nzMDS4jqIVhZm3pp1wgHYjE3HzUjls=; b=p4hKjX+SParLLiqIxtbxSYe2IK/Z5
+	udxc6rlxjy0hnD1cHjJo1XFn4xvb5lBbIQ/8WJ50o1lVdGoLOFa3PmdRI079sLJn
+	s8ehrwMpfNZKJxAYJagWnNFSJyxERRtqbdJ8i70q8NF1yvDlbKzebG8a6T+yPL0e
+	OOQbKOLyz8bMxNdyOafszH2+9Qms6yJimdp8Rzs7X1NfrA8q3oOsHQnCvwj0PpjV
+	mU4AS2fUZ9hU4JAmjprhInjYPR+WXimFmj50QDa978KFbeHeAqG17vfKk4fb456M
+	ONZcM/MLEyCPqv5G2lqLw4PZ2mQehRQN9233GR0/I0dqrsvvmjCxsTWCA==
+X-ME-Sender: <xms:p3HMYsjNcw5VUM2qBhhJJl3WQFNzISp841h2cMuTiOTkEId7o42M4g>
+    <xme:p3HMYlBqhp7j2CK6_avGGVfCSCUQya-busiMhkDJ1lgdAPyWLCtoQ2H6fywcHuWbD
+    -BTFXl-Uz0OimATFUg>
+X-ME-Received: 
+ <xmr:p3HMYkF835tJLHYXOuFe0mWf7cZPLJ0853NV_kLYZcXyYoCj99RnPtxMIeVvVh2Nw4bOkvVS6Bi1I8SzEgMNLOhGyi9Hfy1vywGGVdMBRqrYURXW9GYjH43j>
+X-ME-Proxy-Cause: 
+ gggruggvucftvghtrhhoucdtuddrgedvfedrudejfedgudeftdcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecunecujfgurhephffvvefufffkofgjfhgggfestd
+    ekredtredttdenucfhrhhomheptehnughrvghiucfihhgvrhiirghnuceorghnughrvghi
+    sehghhgvrhiirghnrdgtohhmqeenucggtffrrghtthgvrhhnpeejhfevhfeggfffjeegle
+    ekjeelieffjefggfekgefgfffgffeifeefgeehhfdtffenucevlhhushhtvghrufhiiigv
+    pedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrnhgurhgvihesghhhvghriigrnhdrtg
+    homh
+X-ME-Proxy: <xmx:p3HMYtS5mVZ9XX2CQo1IL_UU9LIHOvU9VdLzNx-XfNmWny58YRXn9Q>
+    <xmx:p3HMYpxbHGAxjM2tUhDPyZRD_JTREXP4svaeDfA1twkJv2nAT-yUtQ>
+    <xmx:p3HMYr7FF6NyKGBRePPqQae-aV98WiGJNGpxEh_N43ljrb8J9491KQ>
+    <xmx:p3HMYqqrNkeglogUdov778dbcgsKUiB7xO8FZFK4oijCEQJZpFotdg>
+Feedback-ID: i68994715:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 11 Jul 2022 14:53:26 -0400 (EDT)
+From: Andrei Gherzan <andrei@gherzan.com>
 To: meta-virtualization@lists.yoctoproject.org
-Content-Type: text/plain; charset="UTF-8"
+Cc: andrei@gherzan.com,
+	Andrei Gherzan <andrei.gherzan@huawei.com>
+Subject: [meta-virtualization][PATCH v2 2/4] podman: Silence docker emulation
+ warnings
+Date: Mon, 11 Jul 2022 20:53:03 +0200
+Message-Id: <20220711185305.705539-2-andrei@gherzan.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220711185305.705539-1-andrei@gherzan.com>
+References: <20220711185305.705539-1-andrei@gherzan.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Mon, 11 Jul 2022 18:13:12 -0000
+ <meta-virtualization@lists.yoctoproject.org>; Mon, 11 Jul 2022 18:53:37 -0000
 X-Groupsio-URL: 
- https://lists.yoctoproject.org/g/meta-virtualization/message/7435
+ https://lists.yoctoproject.org/g/meta-virtualization/message/7437
 
-Perhaps someone here can help point me to relevant documentation. I'm
-wondering if there are some guidelines about which version(s) of
-docker/containerd/runc are compatible. I've searched through the
-docker manuals and release notes, without finding very many details.
+From: Andrei Gherzan <andrei.gherzan@huawei.com>
 
-Backing up a step further, the dunfell branch of meta-virtualization
-has docker-moby 19.03.15, containerd-v1.2.14, and runc-1.0.0-rc8. This
-combination seems to work fine, however there are several CVEs
-flagged.
+Podman can run in via a docker symlink emulating docker commands. By
+default this generates a runtime warning. This change silences it via
+the provided interface.
 
-In a somewhat naive attempt to fix some of the CVEs, I updated
-containerd from 1.2.x to v1.4.12. This version was picked primarily
-because it was available in gatesgarth at the time, I could just copy
-the recipe over. This compiles and runs hello-world and ubuntu test
-images successfully.
+Signed-off-by: Andrei Gherzan <andrei.gherzan@huawei.com>
+---
+ recipes-containers/podman/podman_git.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-However over time, an oddity has emerged: even with no images
-downloaded and therefore no containers running (just the daemon
-sitting idle), the system log shows a goroutine crashing periodically
-with "fatal error: bad symbol table". It can take up to 10 hours, but
-usually happens within an hour, on an otherwise idle system.
+diff --git a/recipes-containers/podman/podman_git.bb b/recipes-containers/podman/podman_git.bb
+index 547bc4e..961cd18 100644
+--- a/recipes-containers/podman/podman_git.bb
++++ b/recipes-containers/podman/podman_git.bb
+@@ -93,6 +93,10 @@ do_install() {
+ 	if ${@bb.utils.contains('PACKAGECONFIG', 'docker', 'true', 'false', d)}; then
+ 		oe_runmake install.docker DESTDIR="${D}"
+ 	fi
++
++	# Silence docker emulation warnings.
++	mkdir -p ${D}/etc/containers
++	touch ${D}/etc/containers/nodocker
+ }
+ 
+ FILES:${PN} += " \
+-- 
+2.25.1
 
-This did not happen with the original set of versions on the dunfell
-branch. So I'm wondering what versions can be combined? What other
-tests (besides downloading and starting a container) could be run to
-check that the chosen versions are working together correctly?
-
-Any hints or advice would be appreciated!
-Ralph
 
