@@ -1,113 +1,90 @@
-Return-Path: <andrei@gherzan.com>
+Return-Path: <ralph.siemsen@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B73ADC43334
-	for <webhook@archiver.kernel.org>; Mon, 11 Jul 2022 13:45:00 +0000 (UTC)
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
- [66.111.4.26])
- by mx.groups.io with SMTP id smtpd.web12.28663.1657547097058230832
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1ED4EC43334
+	for <webhook@archiver.kernel.org>; Mon, 11 Jul 2022 18:13:12 +0000 (UTC)
+Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com
+ [209.85.217.54])
+ by mx.groups.io with SMTP id smtpd.web09.32523.1657563183410709092
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 11 Jul 2022 06:44:57 -0700
+ Mon, 11 Jul 2022 11:13:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gherzan.com header.s=fm1
- header.b=kPtkjqO6;
- spf=pass (domain: gherzan.com, ip: 66.111.4.26, mailfrom: andrei@gherzan.com)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailout.nyi.internal (Postfix) with ESMTP id 629C15C0112;
-	Mon, 11 Jul 2022 09:44:56 -0400 (EDT)
-Received: from imap41 ([10.202.2.91])
-  by compute3.internal (MEProxy); Mon, 11 Jul 2022 09:44:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gherzan.com; h=
-	cc:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to; s=fm1; t=1657547096; x=1657633496; bh=SWNZCO9KGc
-	9HHDDB5N39QAvj7ZR/iRgzIJwFY1nm5rs=; b=kPtkjqO6DZen3PL2xvit2niaE6
-	OvZsjsjxVaHKMZ1YgH7ZLCFH7lA0ldwYg1l9ZG93582iTKBBqGZjU2nVyA90B7WM
-	+0bhyIqkWxEvY1qCI5PCPkhFaA9yr7FPinmsimS90YIlmD4n3hhim5bt5ka0zPTp
-	J6+w68Fr1cZ3UepEuzlRl5InTPCwiuUOxIPJQDm+Uv5cM6z72mdvFnBvqrh4gyLE
-	3ru8a6xflsRlMkbVzS4feCXmYI7AZq32g9e9+b0rfxL+DRvr355grT995SKJhC6V
-	FEJKoIrsV/4e7/jNwcMhrFC3V5DzofIcGZDtlWSjt3UnxI+Hjf9R8eZL+7fQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:sender:subject:subject:to:to
-	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm3; t=1657547096; x=1657633496; bh=SWNZCO9KGc9HHDDB5N39QAvj7ZR/
-	iRgzIJwFY1nm5rs=; b=MIrtFFO5CSaE0G63/gZd26O8VrZDsdZmsrenOhGwOIgo
-	3OXtdJ4U2Ysqlk7SVC0+65lzitnRorMtjBgMqZHw+mWqKtY0azfD27p73HUKWXdK
-	EFWRq+rz9HgMAnAveiqx1mgvlHTQVMeDk2v3vTAOK85GRlhGk5jmaeN3kgrTFR/C
-	pEzviBCioGMqDU39+lFCxeHBmDHvc7PIc5w6zocaS7dg3DA2f+vfsikbmUO3wPZb
-	q1O+u9tjYIpih+mIzr0TFwg0OnwZrJ4fJL1n6N7xcm1znxi/j/i3bQcf/5L5wn23
-	C08BrnDPmK60yBprrbcDyC1DRqAF7jUd5B4r+qGq/A==
-X-ME-Sender: <xms:WCnMYt3dK_oYHjC_2YsdlpzsMZmZVwOCwpgMRgLoyBQnR7UT8urRWw>
-    <xme:WCnMYkEhtGPvQm_iMSZLGpsr5xF4ZiIC_ybZcZxshsKS98aMPZgylcYcHbkjLW5Pd
-    yeU0hlyzjAQp2My0V0>
-X-ME-Proxy-Cause: 
- gggruggvucftvghtrhhoucdtuddrgedvfedrudejfedgieehucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehn
-    ughrvghiucfihhgvrhiirghnfdcuoegrnhgurhgvihesghhhvghriigrnhdrtghomheqne
-    cuggftrfgrthhtvghrnheplefhleejteeuvdeuhfejffeigfduieelgfduueffueethfeg
-    geetvdevffffueffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
-    hfrhhomheprghnughrvghisehghhgvrhiirghnrdgtohhm
-X-ME-Proxy: <xmx:WCnMYt7m3kZE45No4lRiQRYpJ4v5Art7aclNuWzS6SanIAkF9Sxw0g>
-    <xmx:WCnMYq0s3w0SPHRV3VnSvT1yKtp2msrGQx2Q5yjnGFjIBbJ0yslasA>
-    <xmx:WCnMYgE46dskeJTQs3WtgXHYgnVjHOuvVEUdqRdimlY6ocouaMcHIg>
-    <xmx:WCnMYrPBgvx9veO6oHhCbCucMPHaVjAnrXZQduzVPQVJ2rsnT827ig>
-Feedback-ID: i68994715:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 33CAF2340077; Mon, 11 Jul 2022 09:44:56 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-720-gbf5afa95ff-fm-20220708.001-gbf5afa95
-Mime-Version: 1.0
-Message-Id: <1d953b0a-59b8-4620-ad4d-9daed49a2d95@www.fastmail.com>
-In-Reply-To: 
- <CADkTA4Ok1GrK3hRD7dzA+G_-U5Dvu7bhj_eGm8ajx8kBBUjeEg@mail.gmail.com>
-References: <20220711130110.3264816-1-andrei@gherzan.com>
- <20220711130110.3264816-3-andrei@gherzan.com>
- <CADkTA4PMRv54fcxXz_+NtzJrbH6wf9XMA=0nzQaRSmLX8YCGDA@mail.gmail.com>
- <45eee3f1-8e1e-4606-94ae-08c9001381a7@www.fastmail.com>
- <CADkTA4Ok1GrK3hRD7dzA+G_-U5Dvu7bhj_eGm8ajx8kBBUjeEg@mail.gmail.com>
-Date: Mon, 11 Jul 2022 14:44:35 +0100
-From: "Andrei Gherzan" <andrei@gherzan.com>
-To: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Cc: meta-virtualization@lists.yoctoproject.org,
- "Andrei Gherzan" <andrei.gherzan@huawei.com>
-Subject: Re: [meta-virtualization][kirkstone][PATCH 3/3] podman: Add support
- for
- rootless mode
-Content-Type: text/plain
+ dkim=pass header.i=@linaro.org header.s=google header.b=jEcMochf;
+ spf=pass (domain: linaro.org, ip: 209.85.217.54,
+ mailfrom: ralph.siemsen@linaro.org)
+Received: by mail-vs1-f54.google.com with SMTP id j65so5652786vsc.3
+        for <meta-virtualization@lists.yoctoproject.org>;
+ Mon, 11 Jul 2022 11:13:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=/kdUScliGSDyxXkB6ZdnaSG500yHfPzwA+6zWWSMwfk=;
+        b=jEcMochfchwn9uKjhUr2s6qLJYQQRsa6cwz3xu7IVNpcMWUTAKMkYsHKhoV6N6zm4M
+         8q33lnQ/Zuwh91aW119fX/yxXryajYK0WGiZc1EecnQUk0G2Ne9c9/OTcy13HvRsEtvW
+         /b5ia5YKeDqJaFCD9yK4mG2x3c36e/nQpS6aM1MUOkpI7XHiABwX++Fl2T2QNtQRi2qw
+         2iwHpobzg3JgkocVm272uj7amADnti9SwzcWthfrexIvtLVd2YxVV8rqt4FV0+Hge0Ko
+         koaY+Cu/meEpuvxa2gKfZqeJrXRkji/MRx7FljAGYxbMHOGrskhi0nGDt3Bj1XMq5XsF
+         FKHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=/kdUScliGSDyxXkB6ZdnaSG500yHfPzwA+6zWWSMwfk=;
+        b=gDk51KBM/uU2LcooJUvTQ6nYa9H5qdrNa6LaolqkzjYb++i6zcG18etgAf2FUtMVV0
+         XyGxUQyeg87N8/axc57Et2whBS195spirnZXzmnKY57v3b6EXsNirbpoIpkRG8At8iLo
+         C+sei/W/haaLyZH5xHGFSYYEW16levSp4HPhNQI7o6Mo5Po5apunkmvu0Vl5CO1Yr4zB
+         thna9xH7bsGZuHgoxE7vekGxHqvd1ZLKScuYyx3CM9juaNIHeScFqDZQy0iNAKte9JmX
+         T4hMcM9aW8cS/vGITxWMwyhIocGxx79tvrn3XnfbmTNhvYTo4HOWE3Hqxl4lwqRZyQEN
+         Le5Q==
+X-Gm-Message-State: AJIora/X8ZDli+IOvukxF694m3tKdQ4btaY/PfBz+RQ66beKuGfUjop0
+	AJEtgfQLJbP0D3dxFMzn0bPHUgLL6YysHxOlhDXSeV24XFaVXA==
+X-Google-Smtp-Source: 
+ AGRyM1vl2zXB9EEjAlulTBhlH9h7NTSXBB7X8X5Q4RqOScwc9K6+t11ElG0lvqIaiiANmd2k54aStGQQxvfypISys9I=
+X-Received: by 2002:a67:e04b:0:b0:357:4556:ca68 with SMTP id
+ n11-20020a67e04b000000b003574556ca68mr5122499vsl.73.1657563182409; Mon, 11
+ Jul 2022 11:13:02 -0700 (PDT)
+MIME-Version: 1.0
+From: Ralph Siemsen <ralph.siemsen@linaro.org>
+Date: Mon, 11 Jul 2022 14:12:51 -0400
+Message-ID: 
+ <CANp-EDa+9Wa6GntcF6+XU3khNfRoCfhE0cCAXihNHr1Btb2H5A@mail.gmail.com>
+Subject: docker/containerd/runc version compatability
+To: meta-virtualization@lists.yoctoproject.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Mon, 11 Jul 2022 13:45:00 -0000
+ <meta-virtualization@lists.yoctoproject.org>; Mon, 11 Jul 2022 18:13:12 -0000
 X-Groupsio-URL: 
- https://lists.yoctoproject.org/g/meta-virtualization/message/7434
+ https://lists.yoctoproject.org/g/meta-virtualization/message/7435
 
-On Mon, 11 Jul 2022, at 14:42, Bruce Ashfield wrote:
-> On Mon, Jul 11, 2022 at 9:39 AM Andrei Gherzan <andrei@gherzan.com> wrote:
->>
->> On Mon, 11 Jul 2022, at 14:31, Bruce Ashfield wrote:
->> > This is new functionality ... and while we don't have a strict rule
->> > about not adding new features to existing releases, this is stretching
->> > the definition, since it does have the potential to cause issues.
->> >
->> > It is definitely fine for master, but I'm not particularly keen to
->> > start adding new features to kirkstone.
->>
->> That makes sense. Would you accept it with a disabled default in kirkstone?
->
-> I think that's ok .. it's a balance between keeping kirkstone useful,
-> and not requiring folks to carry too many changes in their layers.
-> It's easy enough by inspection to show that the disabled feature won't
-> impact existing functionality or break anything.
->
-> On further thought, we should keep it disabled by default even in
-> master, so from that point of view, we can keep them in alignment.
+Perhaps someone here can help point me to relevant documentation. I'm
+wondering if there are some guidelines about which version(s) of
+docker/containerd/runc are compatible. I've searched through the
+docker manuals and release notes, without finding very many details.
 
-Deal. I'll do this in the next v.
+Backing up a step further, the dunfell branch of meta-virtualization
+has docker-moby 19.03.15, containerd-v1.2.14, and runc-1.0.0-rc8. This
+combination seems to work fine, however there are several CVEs
+flagged.
 
-Andrei
+In a somewhat naive attempt to fix some of the CVEs, I updated
+containerd from 1.2.x to v1.4.12. This version was picked primarily
+because it was available in gatesgarth at the time, I could just copy
+the recipe over. This compiles and runs hello-world and ubuntu test
+images successfully.
+
+However over time, an oddity has emerged: even with no images
+downloaded and therefore no containers running (just the daemon
+sitting idle), the system log shows a goroutine crashing periodically
+with "fatal error: bad symbol table". It can take up to 10 hours, but
+usually happens within an hour, on an otherwise idle system.
+
+This did not happen with the original set of versions on the dunfell
+branch. So I'm wondering what versions can be combined? What other
+tests (besides downloading and starting a container) could be run to
+check that the chosen versions are working together correctly?
+
+Any hints or advice would be appreciated!
+Ralph
 
