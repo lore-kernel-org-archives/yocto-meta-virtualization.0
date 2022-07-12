@@ -1,166 +1,154 @@
-Return-Path: <vasileios.anagnostopoulos@siemens.com>
+Return-Path: <andrei@gherzan.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D105C433EF
-	for <webhook@archiver.kernel.org>; Tue, 12 Jul 2022 12:27:39 +0000 (UTC)
-Received: from EUR03-DBA-obe.outbound.protection.outlook.com
- (EUR03-DBA-obe.outbound.protection.outlook.com [40.107.104.74])
- by mx.groups.io with SMTP id smtpd.web08.8515.1657628851097170302
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3F06CCA47F
+	for <webhook@archiver.kernel.org>; Tue, 12 Jul 2022 14:17:39 +0000 (UTC)
+Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com
+ [64.147.123.25])
+ by mx.groups.io with SMTP id smtpd.web11.9545.1657635453267450322
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 12 Jul 2022 05:27:31 -0700
+ Tue, 12 Jul 2022 07:17:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@siemens.com
- header.s=selector2 header.b=Do/yBY5M;
- spf=pass (domain: siemens.com, ip: 40.107.104.74,
- mailfrom: vasileios.anagnostopoulos@siemens.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cqVf698fnD/KlUpauBhxgAMzMttP3yEs1iMsFFnK/AsyhtgqSlhqifc71QiCbiw1fRL3dESeAqTyC9gVyYtZDaq6IVm58U8zcyKXONU+Hw+3SbUsqp1ITKCD2kVfl5v7S8W4zvuusSjSzO8weMZul/TD4TAq3hrpOxBb4FpISSvNwKfyxGwOcTy6zx7v3FQCQZ5nz6IPassiOkINQA71jwzyfEsr7xY9a/5xkHEkVZy/PQbreGNX4dYATu9XdjaBZae5wrYZj+4vyMjQ5C1ZwN2QJp6lC6Xvc5C0vX5DqN0FMY8BCexXA9rhOuuhpltaWKIN0bViZtDQ9mB64xWGGA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WxPBx7ftWZhz5Vo4H1dc+yRXpQPVveUKcqWsuO/YJ3M=;
- b=N7Phfm1c7B5rlI8wUO2Y91hyVVv3WEat6UqlyzZxLgK5K+khL+wvKIufynFBh+eWxkYDPsFrZ12qtEN0TOiO/QSRKAIGwk/GyZQMqfXhTEID8NQRbUF4T1TQLI7qdkHAVs/Dr1VTiFd9vj7YkV8KE+hORr/y3R6kH1/c1bsdfUypbSP+Krd7WeTRH6elHIvoTRLW++/yXCJF6eIo4x8Ki+W4LUBC+hDPTh434N52jvnP3//1SNsOqZragyGugokAckmm3QGnjSXTHahTC1wGT6mws4EE9xCNHS+VIQIn5yaDekjlbSImCNUh6fkj5kYj9A8xOoLaefG1QTV53+Sshg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 194.138.21.70) smtp.rcpttodomain=lists.yoctoproject.org
- smtp.mailfrom=siemens.com; dmarc=pass (p=none sp=none pct=100) action=none
- header.from=siemens.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WxPBx7ftWZhz5Vo4H1dc+yRXpQPVveUKcqWsuO/YJ3M=;
- b=Do/yBY5MNrjcP9XfxjBqoR7aCSSgLbVg2+Jae/Knb/P75B+2p90otBfVBI4j1MIXTMHmqCquahtWHoXQ4zkk9Q0WbbuBM5tYRvnU7fxTieAKjiKbejywxUOim05EE7fcA74cQ9PyV5XMbxLu8Tv/ODUwqlaqrT/YePyzI80phz6ME8ConA+/ojh3IlBm+RHcxg2WaI0t2+TvO4h6ifj0DEdp06KxujcLCo4gBIuQs/nk8KpYNh1UqgEgUjoytuYkUs9fy2MFdUMQG+s0Hc822vauJPrUfvVyTZXWe9qmKa9ciC9VZtWr1zMGrDKagL/kyL4iMoenP+o189VFrMv43w==
-Received: from FR0P281CA0117.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:a8::15)
- by DBAPR10MB4059.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:1cc::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5417.21; Tue, 12 Jul
- 2022 12:27:28 +0000
-Received: from VE1EUR01FT094.eop-EUR01.prod.protection.outlook.com
- (2603:10a6:d10:a8:cafe::9) by FR0P281CA0117.outlook.office365.com
- (2603:10a6:d10:a8::15) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5438.5 via Frontend
- Transport; Tue, 12 Jul 2022 12:27:28 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 194.138.21.70)
- smtp.mailfrom=siemens.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=siemens.com;
-Received-SPF: Pass (protection.outlook.com: domain of siemens.com designates
- 194.138.21.70 as permitted sender) receiver=protection.outlook.com;
- client-ip=194.138.21.70; helo=hybrid.siemens.com; pr=C
-Received: from hybrid.siemens.com (194.138.21.70) by
- VE1EUR01FT094.mail.protection.outlook.com (10.152.3.97) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5417.15 via Frontend Transport; Tue, 12 Jul 2022 12:27:27 +0000
-Received: from DEMCHDC89XA.ad011.siemens.net (139.25.226.103) by
- DEMCHDC9SJA.ad011.siemens.net (194.138.21.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.9; Tue, 12 Jul 2022 14:27:26 +0200
-Received: from md3itd2c.ad001.siemens.net (139.21.146.185) by
- DEMCHDC89XA.ad011.siemens.net (139.25.226.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.9; Tue, 12 Jul 2022 14:27:26 +0200
-From: Vasileios Anagnostopoulos <vasileios.anagnostopoulos@siemens.com>
-To: <meta-virtualization@lists.yoctoproject.org>
-CC: Vasileios Anagnostopoulos <vasileios.anagnostopoulos@siemens.com>
-Subject: [meta-virtualization][PATCH 2/3] image-oci-umoci: add parameter for
- stop signal
-Date: Tue, 12 Jul 2022 14:26:46 +0200
-Message-ID: <20220712122647.12746-2-vasileios.anagnostopoulos@siemens.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220712122647.12746-1-vasileios.anagnostopoulos@siemens.com>
-References: <20220712122647.12746-1-vasileios.anagnostopoulos@siemens.com>
+ dkim=fail reason="signature has expired" header.i=@gherzan.com header.s=fm1
+ header.b=CPCy6OQB;
+ spf=pass (domain: gherzan.com, ip: 64.147.123.25,
+ mailfrom: andrei@gherzan.com)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.west.internal (Postfix) with ESMTP id 498573200917;
+	Tue, 12 Jul 2022 10:17:32 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Tue, 12 Jul 2022 10:17:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gherzan.com; h=
+	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
+	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
+	 s=fm1; t=1657635451; x=1657721851; bh=MXJeJvfZfBlvKPVKJhoMMv8J+
+	ImMkJWG1rjyhJy9fKk=; b=CPCy6OQBXsgLlhrnWCIzYBg43r6dRBoXuqa1WnD9r
+	BhnMSCSIHDq/iUqvw4hj0rQm5hlxsf+79upQjlcVd+uBCOHeHsvdojpY1HYOdznp
+	jr6SGGlD/0Bzi46It+UAMcSNiOYBA93UZmzSLFr7jA7ziuXnOF5IpHxPluZsyTKY
+	m61ttTh2VgDTXwyEcB1UBf/xXxJb0RmZIkq07Hi1pi/g4xC6lsjjIN/6K8XMVBY/
+	IOqEKFaz3Mcl8hRHq725FJUki9H+9+sNi8kSabVpg3xH/xIJa5xd+ZFQ/AXvjy+A
+	IYBLahn93X7C4KnquPsSq3Gc/+2YcnbNkgrJuvmi7OQDw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:message-id
+	:mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+	1657635451; x=1657721851; bh=MXJeJvfZfBlvKPVKJhoMMv8J+ImMkJWG1rj
+	yhJy9fKk=; b=hL9zm/DH9kMXiYO0eB5oe2UHYNWIF2hBZT90JASclheWMo8by6+
+	//heHqFWTNrJQiT21jpXg+IPmYq8sKoGVSnqjcDxlFpRTIGJoDAbekWV9RKggavd
+	NHvsL5H0XIyNO4k5FTKoy8yqW+JP8jMaZL6reJ/xcnsWUxofG6EeJAB/m9ix5Xvn
+	ThNceteMMhimFo+SUh7FZixAMx0DzVsMANnhuemLvOGfIOCQwUAFBcSEhtjUd56K
+	+RBz7htGdjuoSdrRvhsVq20R0gBtLPqJzokPaRxqba4VvRc4D9/J1zUH1x2d+CMt
+	Nhn/gp58AUSeVdQtiQz1DexhbeGI7v9fkng==
+X-ME-Sender: <xms:eYLNYrB-GVWG9E0bM8n8wocOjpOPSJRK9J1ZRazqga5DaIVrsxID7Q>
+    <xme:eYLNYhgt49VATcT6I1aDIJIjJauuMrdktTrp5b0jAE33QtbUs5P1S2oruxu5Kx-eT
+    4xiEOi5CkMU0kZ8KzY>
+X-ME-Received: 
+ <xmr:eYLNYmkbvoXTdDV-_TtGCDN3dRUDdyfHZ5KTuPlDzbWhZViTS1vjO04BS8fjh9tF_INwViXwYoRHAbsDbJyEZgboC0kqMEwiDJBZAFHmsYsOKehITyRS41ae>
+X-ME-Proxy-Cause: 
+ gggruggvucftvghtrhhoucdtuddrgedvfedrudejhedgjeehucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffoggfgsedtkeertd
+    ertddtnecuhfhrohhmpeetnhgurhgvihcuifhhvghriigrnhcuoegrnhgurhgvihesghhh
+    vghriigrnhdrtghomheqnecuggftrfgrthhtvghrnhepjeffveelleeigedvieeiuddvtd
+    ffleettdeitdfgffejhfeigeekvdduvefhtedtnecuffhomhgrihhnpehgihhthhhusgdr
+    tghomhenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    grnhgurhgvihesghhhvghriigrnhdrtghomh
+X-ME-Proxy: <xmx:eoLNYtxtQVZP9FgLTYETGq68TiestBeb1245ymCWGaQhrXOG5FUD_Q>
+    <xmx:eoLNYgQzo83O5KKEjhg8HwmneXDRZ2ZVZzgp7VUDqwPcLuzvkHqEug>
+    <xmx:eoLNYgbt6C6JggN-ERvc4xL2COZtEMLiz63HKI1t01_av_jQJ0OnMQ>
+    <xmx:e4LNYrLYzWGnlX5icg0PmV2_XEryEIRd044rY_RTaknvh68HosYOdA>
+Feedback-ID: i68994715:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 12 Jul 2022 10:17:29 -0400 (EDT)
+From: Andrei Gherzan <andrei@gherzan.com>
+To: meta-virtualization@lists.yoctoproject.org
+Cc: andrei@gherzan.com,
+	Andrei Gherzan <andrei.gherzan@huawei.com>
+Subject: [meta-virtualization][PATCH] fuse-overlayfs: Update to v1.9
+Date: Tue, 12 Jul 2022 16:17:19 +0200
+Message-Id: <20220712141719.879382-1-andrei@gherzan.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-Originating-IP: [139.21.146.185]
-X-ClientProxiedBy: DEMCHDC8A0A.ad011.siemens.net (139.25.226.106) To
- DEMCHDC89XA.ad011.siemens.net (139.25.226.103)
-X-TM-AS-Product-Ver: SMEX-14.0.0.3080-8.6.1018-26680.007
-X-TM-AS-Result: No-10--8.256600-8.000000
-X-TMASE-MatchedRID: 9aSuCSGb5I0QwVtkLIfLLYMdEtNFjZ453szvVnpBZzjBe89zsi5D0BNw
-	Wv2dBrmkTJDyHMXec/bX6TGug1j07nxs7qFZ9FbOj0IvV7jlqDi1/Y3yaQd6W4IK2tjTqNot64s
-	VlliWKx8fE8yM4pjsDwtuKBGekqUpOlxBO2IcOBb8bdFkodeJ58pbtGj/rF06pryYvghwCBhU/k
-	Rx/ERkQUjbcGWMIUzTQwymtxuJ6y0=
-X-TM-AS-User-Approved-Sender: No
-X-TM-AS-User-Blocked-Sender: No
-X-TMASE-Result: 10--8.256600-8.000000
-X-TMASE-Version: SMEX-14.0.0.3080-8.6.1018-26680.007
-X-TM-SNTS-SMTP: 
- FE165C76BE312ECD6BB366F19CF8BD8BA11360C46474314E01772BB9E46E5C362000:8
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 61c062db-98fa-475b-120f-08da6401e1fe
-X-MS-TrafficTypeDiagnostic: DBAPR10MB4059:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	DQI8OrPcQLx3lsZaS4jOXf5lOIbdW8DZbzfZw5o/QlEw5hsOu7dwE++EwIDq17LYe6cYaxSQHsXL+t5TXmg5L9yqcV98SUTPFjoW+PGsAHFfpx3IXhC4XTETkcnt3u/ONatmtiURSohjL6FwPwkl3iEILSRDuuXHHSE9yzHGyvPxCZaZjl/Zv530QG3iXLZA1eWk5i7jyRS0i07+utBYHNzF22C6M46DmK+GaR4S32PT+saBegiKE+KW7goKFhfTkQYRB9rqSUrROnt/unKbc+OqQXK09J5Ub7xI/Ts/H9X2iQouipMdd4mQXrU3yqOg3lzf8QfwsdsqnsUSwKsfGrOZIw7m2EwheJ5/QN5KrxGVhsyTQY6ivVhHFRNYSjceWOrQAi+mk8H1Xtg+Sh9A0lbV52zfIb3/RUHtX6oVXEJKkatOoyjb+dSxTBLeyTEDPP/FE6zw2VdUQz/V1LOTkHufxYmeNTdRF+gJPtLaFAOA5QLH5CfuBOygvqp9sUoSpg2XiM0JZsGwiWgK5D7L0yv51mAxXKJMYJ2KhOzpSuQVZvatc8S38gLm2oTmsQlKRwWIzHvK9vwxQeXHesRT88msPpYGUx5dlN04QabttpgIvQWi3QCUzorSUCX5ElIzTTCiwmMsUKhNaicOH4c3ZxE5CIk2LWKEO4o5bRGmhMVg/eFiBku45lQXTrzrsRbiOaJazHYRF2ZDxEZ+Uz2Ge9s8f4eGyXkNgmrLZPW9kPFyIh0mzyZcztGastkelnn+UKY++xpulG78e/xpK6zysI5/T3E86HWo9sJDGu5Z1W8sz1/lBGvwOqmyov5jbjh1
-X-Forefront-Antispam-Report: 
-	CIP:194.138.21.70;CTRY:DE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:hybrid.siemens.com;PTR:hybrid.siemens.com;CAT:NONE;SFS:(13230016)(4636009)(346002)(39860400002)(396003)(136003)(376002)(36840700001)(40470700004)(46966006)(2906002)(36756003)(40460700003)(316002)(8936002)(44832011)(36860700001)(5660300002)(7636003)(7596003)(1076003)(356005)(4326008)(336012)(16526019)(86362001)(82740400003)(70586007)(41300700001)(6666004)(70206006)(6916009)(82960400001)(107886003)(956004)(8676002)(2616005)(26005)(82310400005)(47076005)(478600001)(40480700001)(186003);DIR:OUT;SFP:1101;
-X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jul 2022 12:27:27.5147
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 61c062db-98fa-475b-120f-08da6401e1fe
-X-MS-Exchange-CrossTenant-Id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: 
- TenantId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;Ip=[194.138.21.70];Helo=[hybrid.siemens.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	VE1EUR01FT094.eop-EUR01.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBAPR10MB4059
+Content-Transfer-Encoding: 8bit
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Tue, 12 Jul 2022 12:27:39 -0000
+ <meta-virtualization@lists.yoctoproject.org>; Tue, 12 Jul 2022 14:17:39 -0000
 X-Groupsio-URL: 
- https://lists.yoctoproject.org/g/meta-virtualization/message/7442
+ https://lists.yoctoproject.org/g/meta-virtualization/message/7444
 
-Add an optional parameter that allows to override the stop
-signal that is used.
+From: Andrei Gherzan <andrei.gherzan@huawei.com>
 
-Signed-off-by: Vasileios Anagnostopoulos <vasileios.anagnostopoulos@siemens=
-.com>
+Signed-off-by: Andrei Gherzan <andrei.gherzan@huawei.com>
 ---
- classes/image-oci-umoci.inc | 4 ++++
- classes/image-oci.bbclass   | 1 +
- 2 files changed, 5 insertions(+)
+ ...-Fix-buffer-overflow-on-workdir-path.patch | 32 -------------------
+ ...erlayfs_0.6.4.bb => fuse-overlayfs_1.9.bb} |  7 ++--
+ 2 files changed, 2 insertions(+), 37 deletions(-)
+ delete mode 100644 recipes-extended/fuse-overlayfs/fuse-overlayfs/0001-Fix-buffer-overflow-on-workdir-path.patch
+ rename recipes-extended/fuse-overlayfs/{fuse-overlayfs_0.6.4.bb => fuse-overlayfs_1.9.bb} (60%)
 
-diff --git a/classes/image-oci-umoci.inc b/classes/image-oci-umoci.inc
-index b159614..f941795 100644
---- a/classes/image-oci-umoci.inc
-+++ b/classes/image-oci-umoci.inc
-@@ -82,6 +82,10 @@ IMAGE_CMD:oci() {
- 	bbdebug 1 "umoci config --image $image_name:${OCI_IMAGE_TAG}  --config.wo=
-rkingdir ${OCI_IMAGE_WORKINGDIR}"
- 	umoci config --image $image_name:${OCI_IMAGE_TAG} --config.workingdir ${O=
-CI_IMAGE_WORKINGDIR}
-     fi
-+    if [ -n "${OCI_IMAGE_STOPSIGNAL}" ]; then
-+	bbdebug 1 "umoci config --image $image_name:${OCI_IMAGE_TAG}  --config.st=
-opsignal ${OCI_IMAGE_STOPSIGNAL}"
-+	umoci config --image $image_name:${OCI_IMAGE_TAG} --config.stopsignal ${O=
-CI_IMAGE_STOPSIGNAL}
-+    fi
-     if [ -n "${OCI_IMAGE_OS}" ]; then
- 	bbdebug 1 "umoci config --image $image_name:${OCI_IMAGE_TAG}  --os ${OCI_=
-IMAGE_OS}"
- 	umoci config --image $image_name:${OCI_IMAGE_TAG} --os ${OCI_IMAGE_OS}
-diff --git a/classes/image-oci.bbclass b/classes/image-oci.bbclass
-index 7a39d27..9ddb88b 100644
---- a/classes/image-oci.bbclass
-+++ b/classes/image-oci.bbclass
-@@ -58,6 +58,7 @@ OCI_IMAGE_SUBARCH ?=3D "${@oci_map_subarch(d.getVar('TARG=
-ET_ARCH'), d.getVar('TUNE
- OCI_IMAGE_ENTRYPOINT ?=3D "sh"
- OCI_IMAGE_ENTRYPOINT_ARGS ?=3D ""
- OCI_IMAGE_WORKINGDIR ?=3D ""
-+OCI_IMAGE_STOPSIGNAL ?=3D ""
-=20
- # List of ports to expose from a container running this image:
- #  PORT[/PROT] =20
---=20
-2.34.1
+diff --git a/recipes-extended/fuse-overlayfs/fuse-overlayfs/0001-Fix-buffer-overflow-on-workdir-path.patch b/recipes-extended/fuse-overlayfs/fuse-overlayfs/0001-Fix-buffer-overflow-on-workdir-path.patch
+deleted file mode 100644
+index 129423d..0000000
+--- a/recipes-extended/fuse-overlayfs/fuse-overlayfs/0001-Fix-buffer-overflow-on-workdir-path.patch
++++ /dev/null
+@@ -1,32 +0,0 @@
+-From 7e5992d6121aed0cfcbfaf70472f28d87cff1426 Mon Sep 17 00:00:00 2001
+-From: Andrei Gherzan <andrei.gherzan@huawei.com>
+-Date: Mon, 11 Jul 2022 20:36:06 +0200
+-Subject: [PATCH] Fix buffer overflow on workdir path
+-
+-We make sure that the path used for workdir is reallocated before
+-appending. This was initially included in upstream as part of
+-https://github.com/containers/fuse-overlayfs/commit/d5b725b6f18a437db66bfc1456d04c3bf658f66a.
+-
+-Signed-off-by: Andrei Gherzan <andrei.gherzan@huawei.com>
+-Upstream-Status: Backport
+----
+- main.c | 3 +++
+- 1 file changed, 3 insertions(+)
+-
+-diff --git a/main.c b/main.c
+-index e5bdda1..118a6cb 100644
+---- a/main.c
+-+++ b/main.c
+-@@ -5039,6 +5039,9 @@ main (int argc, char *argv[])
+-       if (path == NULL)
+-         goto err_out1;
+-       mkdir (path, 0700);
+-+      path = realloc(path, strlen(path)+strlen("/work")+1);
+-+      if (!path)
+-+        error (EXIT_FAILURE, errno, "allocating workdir path");
+-       strcat (path, "/work");
+-       mkdir (path, 0700);
+-       free (lo.workdir);
+--- 
+-2.25.1
+-
+diff --git a/recipes-extended/fuse-overlayfs/fuse-overlayfs_0.6.4.bb b/recipes-extended/fuse-overlayfs/fuse-overlayfs_1.9.bb
+similarity index 60%
+rename from recipes-extended/fuse-overlayfs/fuse-overlayfs_0.6.4.bb
+rename to recipes-extended/fuse-overlayfs/fuse-overlayfs_1.9.bb
+index 4f793bd..18e9dfa 100644
+--- a/recipes-extended/fuse-overlayfs/fuse-overlayfs_0.6.4.bb
++++ b/recipes-extended/fuse-overlayfs/fuse-overlayfs_1.9.bb
+@@ -5,11 +5,8 @@ containers."
+ LICENSE = "GPL-3.0-or-later"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+ 
+-SRCREV = "098d9ad79fdbb8538adde08628408aa32a8b4b17"
+-SRC_URI = " \
+-	git://github.com/containers/fuse-overlayfs.git;nobranch=1;protocol=https \
+-	file://0001-Fix-buffer-overflow-on-workdir-path.patch \
+-"
++SRCREV = "51592ea406f48faeccab288f65dcba6c4a67cd90"
++SRC_URI = "git://github.com/containers/fuse-overlayfs.git;nobranch=1;protocol=https"
+ 
+ DEPENDS = "fuse3"
+ 
+-- 
+2.25.1
 
 
