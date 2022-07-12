@@ -1,106 +1,143 @@
-Return-Path: <andrei@gherzan.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DFDDDCCA47F
-	for <webhook@archiver.kernel.org>; Mon, 11 Jul 2022 18:53:37 +0000 (UTC)
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
- [66.111.4.27])
- by mx.groups.io with SMTP id smtpd.web09.306.1657565607508326063
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DDBCC433EF
+	for <webhook@archiver.kernel.org>; Tue, 12 Jul 2022 02:14:16 +0000 (UTC)
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com
+ [209.85.214.169])
+ by mx.groups.io with SMTP id smtpd.web10.4288.1657592051815065216
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 11 Jul 2022 11:53:27 -0700
+ Mon, 11 Jul 2022 19:14:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gherzan.com header.s=fm1
- header.b=GdIOqKed;
- spf=pass (domain: gherzan.com, ip: 66.111.4.27, mailfrom: andrei@gherzan.com)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailout.nyi.internal (Postfix) with ESMTP id 99FDF5C014F;
-	Mon, 11 Jul 2022 14:53:26 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute4.internal (MEProxy); Mon, 11 Jul 2022 14:53:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gherzan.com; h=
-	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
-	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
-	 s=fm1; t=1657565606; x=1657652006; bh=+IOGSc4rz0zlcDcCwxR+VVWQI
-	uSAlMF9ZQkWRftF5tU=; b=GdIOqKedxSRZCLL3qkWtBoJ5q8r8kQYqloWnSKhYz
-	d644Vh918apjgZwgeojCR2U6jhmPC39dkuD0MUUdkDQRTWecAsV5iPZrHb1RWamp
-	3CzgdgGNTS0dK/uUnZGdd/ybS8Mil6FYK6Ws65vQ0kAWuACmL8ZNLJsSCIL1Uh+/
-	COaHldD+q1qMS4+1aTXqwGqqmrWPY7yuwn6SLW0jNnxxu34NtVhKDFlrqMPs7UJs
-	y1DwczXaVahjLxeccyr7Pnt9JqBq6HplfX1rD5XnslnaH9bLlzEp/SvPE3l6qlgq
-	sVW5b7pZOnBjwC9PpT4JyYei4M/HYlydDnC/lebenWwBw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:message-id
-	:mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1657565606; x=1657652006; bh=+IOGSc4rz0zlcDcCwxR+VVWQIuSAlMF9ZQk
-	WRftF5tU=; b=gdWegEFR42iMjvdvDLKLGLn5JM3u9DV5JD5EOZfoVYQpiBd+Dss
-	KieJkziSPGKUFlcuOwWZt7Bidmbk2oYj7Cy8VIEI5SKpsh888cGenrgeOT5quhkv
-	YdAKMdHhyNTei8cALm2UUkHJdOqvMG9O9YlbZlCf+icBDTCCMCbP31F51POWjkqL
-	RO3Rp5aP3TGJKH8/K3vr0wWDNy1m6Gvwc/BQ6OtWGuLrbHfJ2kOQ1Zi8okMYG/ge
-	CMmzK9F3H09fG7xD+JBggQ3raDbVYpGQFGyh88Ltigw+QRGuryyEeyeYn4h3Oq8B
-	7o949cvsVxCz2qI2p/C/Dj9EJiMwoTJkF9g==
-X-ME-Sender: <xms:pXHMYodBBIUd4zpNg6MIUoYKBuETBNHB6VHFTfygmZPrUV65q2LkuA>
-    <xme:pXHMYqNMGTiPax2J8V-SCYzPXnuhj_vulqIIurVd5vQYwKLCnhQ66RMvXAZHKJCVn
-    uYSQ5lqdhQqD16zTzA>
-X-ME-Received: 
- <xmr:pXHMYphrRJWcTNgALFUwfmM_Rn2tv9DAOpfPzM33WxoofhrE-wr543j_5kg9wffhXlJ0H6tAr0es2BglwTCIkCjmd-dJRtveTHekb7-F0tQihrZXE-YcXNZK>
-X-ME-Proxy-Cause: 
- gggruggvucftvghtrhhoucdtuddrgedvfedrudejfedgudeftdcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecunecujfgurhephffvvefufffkofgggfestdekre
-    dtredttdenucfhrhhomheptehnughrvghiucfihhgvrhiirghnuceorghnughrvghisehg
-    hhgvrhiirghnrdgtohhmqeenucggtffrrghtthgvrhhnpeeijeelhfevveelffevgeefte
-    eljeetvdegjedttdehhffhtdeihfevgeffgeegkeenucevlhhushhtvghrufhiiigvpedt
-    necurfgrrhgrmhepmhgrihhlfhhrohhmpegrnhgurhgvihesghhhvghriigrnhdrtghomh
-X-ME-Proxy: <xmx:pXHMYt_Lz0s2Ai8gSbX1tAzv8XTVdFKqOymv_8sxAo9HMYXnYX4SCA>
-    <xmx:pXHMYkvse4gZTgFeqZzXhytABnvn4SzHtK4TOLizKOP-GjRJyKpKRw>
-    <xmx:pXHMYkGaGdMalPZZyJqK0eEHKBa6RBWwEaKhSKntQhhuSeZZC7qLUA>
-    <xmx:pnHMYhXU-ug7pN0KgXDBoWI-p0OW4HpGy2J7ABm-OvywPcWWvdobCw>
-Feedback-ID: i68994715:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 11 Jul 2022 14:53:25 -0400 (EDT)
-From: Andrei Gherzan <andrei@gherzan.com>
-To: meta-virtualization@lists.yoctoproject.org
-Cc: andrei@gherzan.com,
-	Andrei Gherzan <andrei.gherzan@huawei.com>
-Subject: [meta-virtualization][PATCH v2 1/4] slirp4netns: Runtime recommend
- the tun kernel module
-Date: Mon, 11 Jul 2022 20:53:02 +0200
-Message-Id: <20220711185305.705539-1-andrei@gherzan.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=VmTvc7Yt;
+ spf=pass (domain: gmail.com, ip: 209.85.214.169,
+ mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-pl1-f169.google.com with SMTP id g13so1089651plh.2
+        for <meta-virtualization@lists.yoctoproject.org>;
+ Mon, 11 Jul 2022 19:14:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=fNSen6ocfT1eK++4Tl4wSfmrsdXWylUBUkVkTDKBufo=;
+        b=VmTvc7YtTmXV8q2G07CZX/nUXGw6596tVo/V9Hhj1DK7ngEWMlV9fpgoAdygGFC5zF
+         N3qAbtEsko2gh/UO/mh0BYA+LAp6OfisTI3kTTinYeetEmFddpEu7/al8SVvLnG2nirX
+         czgomd0K0PIdIN9ju73+hikqninn30cQeruCq7dy8aRK3sFvMlHQQGi8tgTikcq/Chna
+         fCv8YZHh9MhmbJoQRmz258auP72htwMy5EHxVbMCbt1hAf4HI646l7Cr7FKexirv4Jnl
+         7Kwj4WQthKX0/u7fBrTFXkHkW/Y4suwWghjq5gzAJu3mpwYbH6l6OkkXxpLADB4MTL6B
+         hsyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=fNSen6ocfT1eK++4Tl4wSfmrsdXWylUBUkVkTDKBufo=;
+        b=Ds5KqHCC8x6fNkXcDy96VU1vlWY9OWR4J9GkkJqxx7E98WgAGtA0jDap1rAC3TpiUL
+         lUJpJgLBrwavwH/Qzc/GItG5pbqwblbeifTRQwHW33QKFindx4IWS+l07DHMNbrg4Z8V
+         +C9f2O9HKjOGZLym10Sjh4Vq7SKnpn+HUuUcFGyNH253N+csmbD2AXE53IpkmQyFMxTr
+         ihen12EbDEwfw/RElRBCPfQ0m3C1xGcq8jrr0DWUOdbhwcfBXflKZ77oR+NZ0Gxpitdl
+         H1GL1jrDe+uwMLZHhjwjRQvuooaIpus1UtlS9du4BmxVsbuX7KepA6eBBZcDHMOooxZ/
+         TRKg==
+X-Gm-Message-State: AJIora8ir8dUGjbmYUgfLaGtfhuQgXh9PWfWEaxC6XAyEGFJS8IezpJ+
+	eDXYPkzzdWpelVLKseMLm9AlFR5iO7Rk/TL8mEQ=
+X-Google-Smtp-Source: 
+ AGRyM1sj3MHLoWX5KN4xB73IktS8n/fKPE/0QwG56PlxWiRJaSt3osR8ICSr2hJ/foTDasciPsyOCXZaqxgpjo0+Uk8=
+X-Received: by 2002:a17:902:d548:b0:16c:115d:7483 with SMTP id
+ z8-20020a170902d54800b0016c115d7483mr22199396plf.135.1657592051183; Mon, 11
+ Jul 2022 19:14:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: 
+ <CANp-EDa+9Wa6GntcF6+XU3khNfRoCfhE0cCAXihNHr1Btb2H5A@mail.gmail.com>
+In-Reply-To: 
+ <CANp-EDa+9Wa6GntcF6+XU3khNfRoCfhE0cCAXihNHr1Btb2H5A@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Mon, 11 Jul 2022 22:13:59 -0400
+Message-ID: 
+ <CADkTA4M8yppFXr-EnvqSEJZ0Fw3wJvXg4z5vQSAoy7UA0=z82A@mail.gmail.com>
+Subject: Re: [meta-virtualization] docker/containerd/runc version
+ compatability
+To: Ralph Siemsen <ralph.siemsen@linaro.org>
+Cc: meta-virtualization@lists.yoctoproject.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Mon, 11 Jul 2022 18:53:37 -0000
+ <meta-virtualization@lists.yoctoproject.org>; Tue, 12 Jul 2022 02:14:16 -0000
 X-Groupsio-URL: 
- https://lists.yoctoproject.org/g/meta-virtualization/message/7436
+ https://lists.yoctoproject.org/g/meta-virtualization/message/7440
 
-From: Andrei Gherzan <andrei.gherzan@huawei.com>
+On Mon, Jul 11, 2022 at 2:13 PM Ralph Siemsen <ralph.siemsen@linaro.org> wrote:
+>
+> Perhaps someone here can help point me to relevant documentation. I'm
+> wondering if there are some guidelines about which version(s) of
+> docker/containerd/runc are compatible. I've searched through the
+> docker manuals and release notes, without finding very many details.
+>
+> Backing up a step further, the dunfell branch of meta-virtualization
+> has docker-moby 19.03.15, containerd-v1.2.14, and runc-1.0.0-rc8. This
+> combination seems to work fine, however there are several CVEs
+> flagged.
+>
+> In a somewhat naive attempt to fix some of the CVEs, I updated
+> containerd from 1.2.x to v1.4.12. This version was picked primarily
+> because it was available in gatesgarth at the time, I could just copy
+> the recipe over. This compiles and runs hello-world and ubuntu test
+> images successfully.
 
-slirp4netns uses a TAP device to connect to the internet in an
-unprivileged way. Without the required kernel support (TAP/TUN),
-slirp4netns will fail at runtime.
+FWIW, that's more than just bug fixes, so we wouldn't want that
+much of a version bump on any of the -stable branches. They'd
+stay within the .x series of a release.
 
-Signed-off-by: Andrei Gherzan <andrei.gherzan@huawei.com>
----
- recipes-networking/slirp4netns/slirp4netns_git.bb | 2 ++
- 1 file changed, 2 insertions(+)
+>
+> However over time, an oddity has emerged: even with no images
+> downloaded and therefore no containers running (just the daemon
+> sitting idle), the system log shows a goroutine crashing periodically
+> with "fatal error: bad symbol table". It can take up to 10 hours, but
+> usually happens within an hour, on an otherwise idle system.
+>
+> This did not happen with the original set of versions on the dunfell
+> branch. So I'm wondering what versions can be combined? What other
+> tests (besides downloading and starting a container) could be run to
+> check that the chosen versions are working together correctly?
 
-diff --git a/recipes-networking/slirp4netns/slirp4netns_git.bb b/recipes-networking/slirp4netns/slirp4netns_git.bb
-index a63871c..6526d39 100644
---- a/recipes-networking/slirp4netns/slirp4netns_git.bb
-+++ b/recipes-networking/slirp4netns/slirp4netns_git.bb
-@@ -18,4 +18,6 @@ DEPENDS = "glib-2.0 libcap libseccomp libslirp"
- 
- S = "${WORKDIR}/git"
- 
-+RRECOMMENDS:${PN} += "kernel-module-tun"
-+
- inherit autotools pkgconfig
+What you are describing is exactly why you'll see me in the list archives
+telling folks that there's no need to send updates to the individual
+packages in master. I do unified testing on all the various components
+in about the m3 timeframe of a release. The -stable branches are
+updated for CVEs/bugs only and get updates at a much slower cadence.
+
+The dependencies/versions are documented within the projects
+themselves, but they aren't tightly coupled (for the most part) so
+there is some flex.  But honestly, it is often that the latest of all the
+projects work together at any given point, so when I do the updates
+that is fundamentally the known set of working versions. Otherwise,
+you are into looking at the project and their documented dependencies
+on the various components. (or looking at what other distros are doing,
+etc).
+
+The larger stacks (i.e. k3s) are what I use to drive more complex
+and end to end testing with the components. But fetching a container
+and running it is a good test and covers a lot of ground.
+
+Bruce
+
+
+>
+> Any hints or advice would be appreciated!
+> Ralph
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#7435): https://lists.yoctoproject.org/g/meta-virtualization/message/7435
+> Mute This Topic: https://lists.yoctoproject.org/mt/92316357/1050810
+> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+
+
 -- 
-2.25.1
-
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
