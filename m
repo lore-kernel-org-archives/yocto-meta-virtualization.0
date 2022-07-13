@@ -1,1030 +1,168 @@
-Return-Path: <vasileios.anagnostopoulos@siemens.com>
+Return-Path: <andrei@gherzan.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26C2BC43334
-	for <webhook@archiver.kernel.org>; Wed, 13 Jul 2022 07:19:15 +0000 (UTC)
-Subject: Re: [PATCH 3/3] image-oci-umoci: skip parent directory in tar
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9107C43334
+	for <webhook@archiver.kernel.org>; Wed, 13 Jul 2022 10:24:45 +0000 (UTC)
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
+ [66.111.4.26])
+ by mx.groups.io with SMTP id smtpd.web10.20496.1657707877199755165
+ for <meta-virtualization@lists.yoctoproject.org>;
+ Wed, 13 Jul 2022 03:24:37 -0700
+Authentication-Results: mx.groups.io;
+ dkim=fail reason="signature has expired" header.i=@gherzan.com header.s=fm1
+ header.b=AiQwRLA7;
+ spf=pass (domain: gherzan.com, ip: 66.111.4.26, mailfrom: andrei@gherzan.com)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailout.nyi.internal (Postfix) with ESMTP id 8A8D65C02C0;
+	Wed, 13 Jul 2022 06:24:36 -0400 (EDT)
+Received: from imap41 ([10.202.2.91])
+  by compute3.internal (MEProxy); Wed, 13 Jul 2022 06:24:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gherzan.com; h=
+	cc:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to; s=fm1; t=1657707876; x=1657794276; bh=jns4yIO+DQ
+	Ct2IwDfaeUmHAWv3o28Q/QT3ziAY7r0FM=; b=AiQwRLA72zb3nBn+zkEYB2kmx+
+	WBqm11klrl+oUnAFjCEwBQp58jyPsvpIOL4Ornbr+szD8yiuW05r2p0Ql2zGYjrj
+	WiZlz8BmIY19J2njwEuNjkMK50CdG3noij84XjeA0677XRAiGYIbNWZ+/7I/5t36
+	DVMsLa0wOS8SUXxTzmWtss1BmaPggFSGLUtQQI0mOjUaUnJl7wlDqIFrsx7F7QFj
+	z8OHA5v9IC0g0yInLyZ57ziiZuvpx8+ht1r75PRId4y3N/ycb8R6buX08dwuNwuW
+	NqfNPGuCNl61PrcsrdocReFc44WHnkHh8HOznzmCzpLHiv/vC6VS56DLPoaA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:sender:subject:subject:to:to
+	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1657707876; x=1657794276; bh=jns4yIO+DQCt2IwDfaeUmHAWv3o2
+	8Q/QT3ziAY7r0FM=; b=DWHXiEvhncmBZSj6r6g1B9NYTzQO9k1bB/iwFdjcTrv4
+	Q4B0OpKpkc1BLmdANBzQcb/PPC4qpCe4b6HRpXxCDZr4VnOx++37UXfKPemb9zgC
+	lkwuaJqBgRFfRR7tL0GtMT5mIH+JaA1+TfgtvMdz2GzEvlFvv7+elt3SgFd48DvK
+	sDXVQDWfrIubMDLpHxm3Z/MW88VxNUcpt0VTX0jiCvE9Su908sHBgUpbHjXMOFrL
+	K9ShyAXktLSACFiQdJ7+QHjXiB+6HnvZI2p+hJirqQ+UjOyDO0dOp4XNhh0Sk6On
+	lwLi6yVzPpIR65WU8Bi8pRv0E6cA2eZ5rvUH1yoLXA==
+X-ME-Sender: <xms:ZJ3OYjTsUuSAgaQlkzIaSU630_kKz0w1r7enK2znZcytY1RbDFIrdA>
+    <xme:ZJ3OYkxma9erM94bexWBzxbjhH8sjzhzEweNfpacJF87e79P50O5zCyAXzP-c4KBC
+    J6BzwQ5SRNRVewWi7Q>
+X-ME-Proxy-Cause: 
+ gggruggvucftvghtrhhoucdtuddrgedvfedrudejjedgvdeiucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucenucfjughrpefofgggkfgjfhffhffvvefutgesth
+    dtredtreertdenucfhrhhomhepfdetnhgurhgvihcuifhhvghriigrnhdfuceorghnughr
+    vghisehghhgvrhiirghnrdgtohhmqeenucggtffrrghtthgvrhhnpedtheevvdeutdekie
+    efheehtdevhedtjeejvdfhgfeffefhfeeffeeltdetkeeiteenucffohhmrghinhepghhi
+    thhhuhgsrdgtohhmnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
+    hfrhhomheprghnughrvghisehghhgvrhiirghnrdgtohhm
+X-ME-Proxy: <xmx:ZJ3OYo0uE2TyKW7QVLtHiBLjohPMedP-aaCP6guCAEA25hGb4LuqkQ>
+    <xmx:ZJ3OYjDs3EwFcExfdY4VeRcTZotYQpx8Mi4w1NuwxgRANUX3K9XJtQ>
+    <xmx:ZJ3OYsh0x84SLxHRfqcKiOA-BFaWqGK-qWrFlKR5_AL9P7TkTnCaqA>
+    <xmx:ZJ3OYqeWIea_I5qs_nokNXjN8N2AgMiB8e70RH21lJKPSKPCMLg9hA>
+Feedback-ID: i68994715:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 31746234007E; Wed, 13 Jul 2022 06:24:36 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-755-g3e1da8b93f-fm-20220708.002-g3e1da8b9
+Mime-Version: 1.0
+Message-Id: <bfc46925-3e47-4c98-96c2-0faf8f89ab06@www.fastmail.com>
+In-Reply-To: <20220712141719.879382-1-andrei@gherzan.com>
+References: <20220712141719.879382-1-andrei@gherzan.com>
+Date: Wed, 13 Jul 2022 11:24:15 +0100
+From: "Andrei Gherzan" <andrei@gherzan.com>
 To: meta-virtualization@lists.yoctoproject.org
-From: "Vasileios Anagnostopoulos" <vasileios.anagnostopoulos@siemens.com>
-X-Originating-Location: CH (165.225.94.219)
-X-Originating-Platform: Windows Firefox 91
-User-Agent: GROUPS.IO Web Poster
-MIME-Version: 1.0
-Date: Wed, 13 Jul 2022 00:19:10 -0700
-References: 
- <CADkTA4PZ6rMBUAF1Q23C6ov9OzjByCjvDQ+dMMxumyJL2fzaUg@mail.gmail.com>
-In-Reply-To: 
- <CADkTA4PZ6rMBUAF1Q23C6ov9OzjByCjvDQ+dMMxumyJL2fzaUg@mail.gmail.com>
-Message-ID: <12926.1657696750463147139@lists.yoctoproject.org>
-Content-Type: multipart/alternative; boundary="ikEvYELbwWAtMhPIpG5T"
+Cc: "Andrei Gherzan" <andrei.gherzan@huawei.com>
+Subject: Re: [meta-virtualization][PATCH] fuse-overlayfs: Update to v1.9
+Content-Type: text/plain
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Wed, 13 Jul 2022 07:19:15 -0000
+ <meta-virtualization@lists.yoctoproject.org>; Wed, 13 Jul 2022 10:24:45 -0000
 X-Groupsio-URL: 
- https://lists.yoctoproject.org/g/meta-virtualization/message/7451
+ https://lists.yoctoproject.org/g/meta-virtualization/message/7452
 
---ikEvYELbwWAtMhPIpG5T
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+On Tue, 12 Jul 2022, at 15:17, Andrei Gherzan wrote:
+> From: Andrei Gherzan <andrei.gherzan@huawei.com>
+>
+> Signed-off-by: Andrei Gherzan <andrei.gherzan@huawei.com>
+> ---
+>  ...-Fix-buffer-overflow-on-workdir-path.patch | 32 -------------------
+>  ...erlayfs_0.6.4.bb => fuse-overlayfs_1.9.bb} |  7 ++--
+>  2 files changed, 2 insertions(+), 37 deletions(-)
+>  delete mode 100644 
+> recipes-extended/fuse-overlayfs/fuse-overlayfs/0001-Fix-buffer-overflow-on-workdir-path.patch
+>  rename recipes-extended/fuse-overlayfs/{fuse-overlayfs_0.6.4.bb => 
+> fuse-overlayfs_1.9.bb} (60%)
+>
+> diff --git 
+> a/recipes-extended/fuse-overlayfs/fuse-overlayfs/0001-Fix-buffer-overflow-on-workdir-path.patch 
+> b/recipes-extended/fuse-overlayfs/fuse-overlayfs/0001-Fix-buffer-overflow-on-workdir-path.patch
+> deleted file mode 100644
+> index 129423d..0000000
+> --- 
+> a/recipes-extended/fuse-overlayfs/fuse-overlayfs/0001-Fix-buffer-overflow-on-workdir-path.patch
+> +++ /dev/null
+> @@ -1,32 +0,0 @@
+> -From 7e5992d6121aed0cfcbfaf70472f28d87cff1426 Mon Sep 17 00:00:00 2001
+> -From: Andrei Gherzan <andrei.gherzan@huawei.com>
+> -Date: Mon, 11 Jul 2022 20:36:06 +0200
+> -Subject: [PATCH] Fix buffer overflow on workdir path
+> -
+> -We make sure that the path used for workdir is reallocated before
+> -appending. This was initially included in upstream as part of
+> -https://github.com/containers/fuse-overlayfs/commit/d5b725b6f18a437db66bfc1456d04c3bf658f66a.
+> -
+> -Signed-off-by: Andrei Gherzan <andrei.gherzan@huawei.com>
+> -Upstream-Status: Backport
+> ----
+> - main.c | 3 +++
+> - 1 file changed, 3 insertions(+)
+> -
+> -diff --git a/main.c b/main.c
+> -index e5bdda1..118a6cb 100644
+> ---- a/main.c
+> -+++ b/main.c
+> -@@ -5039,6 +5039,9 @@ main (int argc, char *argv[])
+> -       if (path == NULL)
+> -         goto err_out1;
+> -       mkdir (path, 0700);
+> -+      path = realloc(path, strlen(path)+strlen("/work")+1);
+> -+      if (!path)
+> -+        error (EXIT_FAILURE, errno, "allocating workdir path");
+> -       strcat (path, "/work");
+> -       mkdir (path, 0700);
+> -       free (lo.workdir);
+> --- 
+> -2.25.1
+> -
+> diff --git a/recipes-extended/fuse-overlayfs/fuse-overlayfs_0.6.4.bb 
+> b/recipes-extended/fuse-overlayfs/fuse-overlayfs_1.9.bb
+> similarity index 60%
+> rename from recipes-extended/fuse-overlayfs/fuse-overlayfs_0.6.4.bb
+> rename to recipes-extended/fuse-overlayfs/fuse-overlayfs_1.9.bb
+> index 4f793bd..18e9dfa 100644
+> --- a/recipes-extended/fuse-overlayfs/fuse-overlayfs_0.6.4.bb
+> +++ b/recipes-extended/fuse-overlayfs/fuse-overlayfs_1.9.bb
+> @@ -5,11 +5,8 @@ containers."
+>  LICENSE = "GPL-3.0-or-later"
+>  LIC_FILES_CHKSUM = 
+> "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+> 
+> -SRCREV = "098d9ad79fdbb8538adde08628408aa32a8b4b17"
+> -SRC_URI = " \
+> -	git://github.com/containers/fuse-overlayfs.git;nobranch=1;protocol=https 
+> \
+> -	file://0001-Fix-buffer-overflow-on-workdir-path.patch \
+> -"
+> +SRCREV = "51592ea406f48faeccab288f65dcba6c4a67cd90"
+> +SRC_URI = 
+> "git://github.com/containers/fuse-overlayfs.git;nobranch=1;protocol=https"
+> 
+>  DEPENDS = "fuse3"
+> 
+> -- 
+> 2.25.1
 
-Hello Bruce,
+Stand by for a v2 on this one. It needs a musl fix. Also, do you see any issues in using 1.9 vs 1.9.0 as a version? They both are semver compliant.
 
-How do you generate the images and import them? Could you describe a bit mo=
-re the use case?
-
-With podman for example you can load the image by using `podman load -i bui=
-ld-oci/tmp/deploy/images/capricorn-64/name-of-the-image-capricorn-64-202207=
-13063601.rootfs.tar`
-
-Usually, the tools that support the oci image format also support the oci-a=
-rchive image format. An exception is docker that does not support the oci i=
-mage format and I have first to transform it using skopeo.
-
-What is the advantage of first un-taring the image and then doing the impor=
-t?
-
-Probably the other 2 patches that I send it with this one ( https://lists.y=
-octoproject.org/g/meta-virtualization/message/7442 , https://lists.yoctopro=
-ject.org/g/meta-virtualization/message/7441 ) are still relevant, because t=
-hey are fixing other minor issues.
-
-Vasileios
-
---ikEvYELbwWAtMhPIpG5T
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-
-<p class=3D"DefangedMsoNormal" style=3D"margin:0px;"><span style=3D"mso-ans=
-i-language: #2000;" lang=3D"en-150">Hello Bruce,<br/><br/></span></p>
-<p class=3D"DefangedMsoNormal" style=3D"margin:0px;"><span style=3D"mso-ans=
-i-language: #2000;" lang=3D"en-150">How do you generate the images and impo=
-rt them? Could you describe a bit more the use case?</span></p>
-<p class=3D"DefangedMsoNormal" style=3D"margin:0px;"><span style=3D"mso-ans=
-i-language: #2000;" lang=3D"en-150">With podman for example you can load th=
-e image by using `podman load -i build-oci/tmp/deploy/images/capricorn-64/n=
-ame-of-the-image-capricorn-64-20220713063601.rootfs.tar`</span></p>
-<p class=3D"DefangedMsoNormal" style=3D"margin:0px;"><span style=3D"mso-ans=
-i-language: #2000;" lang=3D"en-150">Usually, the tools that support the oci=
- image format also support the oci-archive image format. An exception is do=
-cker that does not support the oci image format and I have first to transfo=
-rm it using skopeo. </span></p>
-<p class=3D"DefangedMsoNormal" style=3D"margin:0px;"><span style=3D"mso-ans=
-i-language: #2000;" lang=3D"en-150">What is the advantage of first un-tarin=
-g the image and then doing the import?<br/><br/></span></p>
-<p class=3D"DefangedMsoNormal" style=3D"margin:0px;"><span style=3D"mso-ans=
-i-language: #2000;" lang=3D"en-150">Probably the other 2 patches that I sen=
-d it with this one (<a href=3D"https://lists.yoctoproject.org/g/meta-virtua=
-lization/message/7442">https://lists.yoctoproject.org/g/meta-virtualization=
-/message/7442</a>, <a href=3D"https://lists.yoctoproject.org/g/meta-virtual=
-ization/message/7441">https://lists.yoctoproject.org/g/meta-virtualization/=
-message/7441</a>) are still relevant, because they are fixing other minor i=
-ssues. </span></p>
-<p class=3D"DefangedMsoNormal" style=3D"margin:0px;"><span style=3D"mso-ans=
-i-language: #2000;" lang=3D"en-150">=C2=A0</span></p>
-<p class=3D"DefangedMsoNormal" style=3D"margin:0px;"><span style=3D"mso-ans=
-i-language: #2000;" lang=3D"en-150">Vasileios</span></p>
-<!-- [if gte mso 9]><xml>
- <o:OfficeDocumentSettings>
-  <o:AllowPNG/>
- </o:OfficeDocumentSettings>
-</xml><![endif]--><!-- [if gte mso 9]><xml>
- <w:WordDocument>
-  <w:View>Normal</w:View>
-  <w:Zoom>0</w:Zoom>
-  <w:TrackMoves/>
-  <w:TrackFormatting/>
-  <w:HyphenationZone>21</w:HyphenationZone>
-  <w:PunctuationKerning/>
-  <w:ValidateAgainstSchemas/>
-  <w:SaveIfXMLInvalid>false</w:SaveIfXMLInvalid>
-  <w:IgnoreMixedContent>false</w:IgnoreMixedContent>
-  <w:AlwaysShowPlaceholderText>false</w:AlwaysShowPlaceholderText>
-  <w:DoNotPromoteQF/>
-  <w:LidThemeOther>DE-CH</w:LidThemeOther>
-  <w:LidThemeAsian>X-NONE</w:LidThemeAsian>
-  <w:LidThemeComplexScript>X-NONE</w:LidThemeComplexScript>
-  <w:Compatibility>
-   <w:BreakWrappedTables/>
-   <w:SnapToGridInCell/>
-   <w:WrapTextWithPunct/>
-   <w:UseAsianBreakRules/>
-   <w:DontGrowAutofit/>
-   <w:SplitPgBreakAndParaMark/>
-   <w:EnableOpenTypeKerning/>
-   <w:DontFlipMirrorIndents/>
-   <w:OverrideTableStyleHps/>
-  </w:Compatibility>
-  <m:mathPr>
-   <m:mathFont m:val=3D"Cambria Math"/>
-   <m:brkBin m:val=3D"before"/>
-   <m:brkBinSub m:val=3D"--"/>
-   <m:smallFrac m:val=3D"off"/>
-   <m:dispDef/>
-   <m:lMargin m:val=3D"0"/>
-   <m:rMargin m:val=3D"0"/>
-   <m:defJc m:val=3D"centerGroup"/>
-   <m:wrapIndent m:val=3D"1440"/>
-   <m:intLim m:val=3D"subSup"/>
-   <m:naryLim m:val=3D"undOvr"/>
-  </m:mathPr></w:WordDocument>
-</xml><![endif]--><!-- [if gte mso 9]><xml>
- <w:LatentStyles DefLockedState=3D"false" DefUnhideWhenUsed=3D"false"
-  DefSemiHidden=3D"false" DefQFormat=3D"false" DefPriority=3D"99"
-  LatentStyleCount=3D"376">
-  <w:LsdException Locked=3D"false" Priority=3D"0" QFormat=3D"true" Name=3D"=
-Normal"/>
-  <w:LsdException Locked=3D"false" Priority=3D"9" QFormat=3D"true" Name=3D"=
-heading 1"/>
-  <w:LsdException Locked=3D"false" Priority=3D"9" SemiHidden=3D"true"
-   UnhideWhenUsed=3D"true" QFormat=3D"true" Name=3D"heading 2"/>
-  <w:LsdException Locked=3D"false" Priority=3D"9" SemiHidden=3D"true"
-   UnhideWhenUsed=3D"true" QFormat=3D"true" Name=3D"heading 3"/>
-  <w:LsdException Locked=3D"false" Priority=3D"9" SemiHidden=3D"true"
-   UnhideWhenUsed=3D"true" QFormat=3D"true" Name=3D"heading 4"/>
-  <w:LsdException Locked=3D"false" Priority=3D"9" SemiHidden=3D"true"
-   UnhideWhenUsed=3D"true" QFormat=3D"true" Name=3D"heading 5"/>
-  <w:LsdException Locked=3D"false" Priority=3D"9" SemiHidden=3D"true"
-   UnhideWhenUsed=3D"true" QFormat=3D"true" Name=3D"heading 6"/>
-  <w:LsdException Locked=3D"false" Priority=3D"9" SemiHidden=3D"true"
-   UnhideWhenUsed=3D"true" QFormat=3D"true" Name=3D"heading 7"/>
-  <w:LsdException Locked=3D"false" Priority=3D"9" SemiHidden=3D"true"
-   UnhideWhenUsed=3D"true" QFormat=3D"true" Name=3D"heading 8"/>
-  <w:LsdException Locked=3D"false" Priority=3D"9" SemiHidden=3D"true"
-   UnhideWhenUsed=3D"true" QFormat=3D"true" Name=3D"heading 9"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"index 1"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"index 2"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"index 3"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"index 4"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"index 5"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"index 6"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"index 7"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"index 8"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"index 9"/>
-  <w:LsdException Locked=3D"false" Priority=3D"39" SemiHidden=3D"true"
-   UnhideWhenUsed=3D"true" Name=3D"toc 1"/>
-  <w:LsdException Locked=3D"false" Priority=3D"39" SemiHidden=3D"true"
-   UnhideWhenUsed=3D"true" Name=3D"toc 2"/>
-  <w:LsdException Locked=3D"false" Priority=3D"39" SemiHidden=3D"true"
-   UnhideWhenUsed=3D"true" Name=3D"toc 3"/>
-  <w:LsdException Locked=3D"false" Priority=3D"39" SemiHidden=3D"true"
-   UnhideWhenUsed=3D"true" Name=3D"toc 4"/>
-  <w:LsdException Locked=3D"false" Priority=3D"39" SemiHidden=3D"true"
-   UnhideWhenUsed=3D"true" Name=3D"toc 5"/>
-  <w:LsdException Locked=3D"false" Priority=3D"39" SemiHidden=3D"true"
-   UnhideWhenUsed=3D"true" Name=3D"toc 6"/>
-  <w:LsdException Locked=3D"false" Priority=3D"39" SemiHidden=3D"true"
-   UnhideWhenUsed=3D"true" Name=3D"toc 7"/>
-  <w:LsdException Locked=3D"false" Priority=3D"39" SemiHidden=3D"true"
-   UnhideWhenUsed=3D"true" Name=3D"toc 8"/>
-  <w:LsdException Locked=3D"false" Priority=3D"39" SemiHidden=3D"true"
-   UnhideWhenUsed=3D"true" Name=3D"toc 9"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Normal Indent"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"footnote text"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"annotation text"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"header"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"footer"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"index heading"/>
-  <w:LsdException Locked=3D"false" Priority=3D"35" SemiHidden=3D"true"
-   UnhideWhenUsed=3D"true" QFormat=3D"true" Name=3D"caption"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"table of figures"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"envelope address"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"envelope return"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"footnote reference"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"annotation reference"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"line number"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"page number"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"endnote reference"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"endnote text"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"table of authorities"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"macro"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"toa heading"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"List"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"List Bullet"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"List Number"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"List 2"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"List 3"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"List 4"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"List 5"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"List Bullet 2"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"List Bullet 3"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"List Bullet 4"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"List Bullet 5"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"List Number 2"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"List Number 3"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"List Number 4"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"List Number 5"/>
-  <w:LsdException Locked=3D"false" Priority=3D"10" QFormat=3D"true" Name=3D=
-"Title"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Closing"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Signature"/>
-  <w:LsdException Locked=3D"false" Priority=3D"1" SemiHidden=3D"true"
-   UnhideWhenUsed=3D"true" Name=3D"Default Paragraph Font"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Body Text"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Body Text Indent"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"List Continue"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"List Continue 2"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"List Continue 3"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"List Continue 4"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"List Continue 5"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Message Header"/>
-  <w:LsdException Locked=3D"false" Priority=3D"11" QFormat=3D"true" Name=3D=
-"Subtitle"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Salutation"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Date"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Body Text First Indent"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Body Text First Indent 2"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Note Heading"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Body Text 2"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Body Text 3"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Body Text Indent 2"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Body Text Indent 3"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Block Text"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Hyperlink"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"FollowedHyperlink"/>
-  <w:LsdException Locked=3D"false" Priority=3D"22" QFormat=3D"true" Name=3D=
-"Strong"/>
-  <w:LsdException Locked=3D"false" Priority=3D"20" QFormat=3D"true" Name=3D=
-"Emphasis"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Document Map"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Plain Text"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"E-mail Signature"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"HTML Top of Form"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"HTML Bottom of Form"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Normal (Web)"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"HTML Acronym"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"HTML Address"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"HTML Cite"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"HTML Code"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"HTML Definition"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"HTML Keyboard"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"HTML Preformatted"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"HTML Sample"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"HTML Typewriter"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"HTML Variable"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Normal Table"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"annotation subject"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"No List"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Outline List 1"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Outline List 2"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Outline List 3"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Table Simple 1"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Table Simple 2"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Table Simple 3"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Table Classic 1"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Table Classic 2"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Table Classic 3"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Table Classic 4"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Table Colorful 1"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Table Colorful 2"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Table Colorful 3"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Table Columns 1"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Table Columns 2"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Table Columns 3"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Table Columns 4"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Table Columns 5"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Table Grid 1"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Table Grid 2"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Table Grid 3"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Table Grid 4"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Table Grid 5"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Table Grid 6"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Table Grid 7"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Table Grid 8"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Table List 1"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Table List 2"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Table List 3"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Table List 4"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Table List 5"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Table List 6"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Table List 7"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Table List 8"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Table 3D effects 1"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Table 3D effects 2"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Table 3D effects 3"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Table Contemporary"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Table Elegant"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Table Professional"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Table Subtle 1"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Table Subtle 2"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Table Web 1"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Table Web 2"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Table Web 3"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Balloon Text"/>
-  <w:LsdException Locked=3D"false" Priority=3D"39" Name=3D"Table Grid"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Table Theme"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" Name=3D"Placeholder =
-Text"/>
-  <w:LsdException Locked=3D"false" Priority=3D"1" QFormat=3D"true" Name=3D"=
-No Spacing"/>
-  <w:LsdException Locked=3D"false" Priority=3D"60" Name=3D"Light Shading"/>
-  <w:LsdException Locked=3D"false" Priority=3D"61" Name=3D"Light List"/>
-  <w:LsdException Locked=3D"false" Priority=3D"62" Name=3D"Light Grid"/>
-  <w:LsdException Locked=3D"false" Priority=3D"63" Name=3D"Medium Shading 1=
-"/>
-  <w:LsdException Locked=3D"false" Priority=3D"64" Name=3D"Medium Shading 2=
-"/>
-  <w:LsdException Locked=3D"false" Priority=3D"65" Name=3D"Medium List 1"/>
-  <w:LsdException Locked=3D"false" Priority=3D"66" Name=3D"Medium List 2"/>
-  <w:LsdException Locked=3D"false" Priority=3D"67" Name=3D"Medium Grid 1"/>
-  <w:LsdException Locked=3D"false" Priority=3D"68" Name=3D"Medium Grid 2"/>
-  <w:LsdException Locked=3D"false" Priority=3D"69" Name=3D"Medium Grid 3"/>
-  <w:LsdException Locked=3D"false" Priority=3D"70" Name=3D"Dark List"/>
-  <w:LsdException Locked=3D"false" Priority=3D"71" Name=3D"Colorful Shading=
-"/>
-  <w:LsdException Locked=3D"false" Priority=3D"72" Name=3D"Colorful List"/>
-  <w:LsdException Locked=3D"false" Priority=3D"73" Name=3D"Colorful Grid"/>
-  <w:LsdException Locked=3D"false" Priority=3D"60" Name=3D"Light Shading Ac=
-cent 1"/>
-  <w:LsdException Locked=3D"false" Priority=3D"61" Name=3D"Light List Accen=
-t 1"/>
-  <w:LsdException Locked=3D"false" Priority=3D"62" Name=3D"Light Grid Accen=
-t 1"/>
-  <w:LsdException Locked=3D"false" Priority=3D"63" Name=3D"Medium Shading 1=
- Accent 1"/>
-  <w:LsdException Locked=3D"false" Priority=3D"64" Name=3D"Medium Shading 2=
- Accent 1"/>
-  <w:LsdException Locked=3D"false" Priority=3D"65" Name=3D"Medium List 1 Ac=
-cent 1"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" Name=3D"Revision"/>
-  <w:LsdException Locked=3D"false" Priority=3D"34" QFormat=3D"true"
-   Name=3D"List Paragraph"/>
-  <w:LsdException Locked=3D"false" Priority=3D"29" QFormat=3D"true" Name=3D=
-"Quote"/>
-  <w:LsdException Locked=3D"false" Priority=3D"30" QFormat=3D"true"
-   Name=3D"Intense Quote"/>
-  <w:LsdException Locked=3D"false" Priority=3D"66" Name=3D"Medium List 2 Ac=
-cent 1"/>
-  <w:LsdException Locked=3D"false" Priority=3D"67" Name=3D"Medium Grid 1 Ac=
-cent 1"/>
-  <w:LsdException Locked=3D"false" Priority=3D"68" Name=3D"Medium Grid 2 Ac=
-cent 1"/>
-  <w:LsdException Locked=3D"false" Priority=3D"69" Name=3D"Medium Grid 3 Ac=
-cent 1"/>
-  <w:LsdException Locked=3D"false" Priority=3D"70" Name=3D"Dark List Accent=
- 1"/>
-  <w:LsdException Locked=3D"false" Priority=3D"71" Name=3D"Colorful Shading=
- Accent 1"/>
-  <w:LsdException Locked=3D"false" Priority=3D"72" Name=3D"Colorful List Ac=
-cent 1"/>
-  <w:LsdException Locked=3D"false" Priority=3D"73" Name=3D"Colorful Grid Ac=
-cent 1"/>
-  <w:LsdException Locked=3D"false" Priority=3D"60" Name=3D"Light Shading Ac=
-cent 2"/>
-  <w:LsdException Locked=3D"false" Priority=3D"61" Name=3D"Light List Accen=
-t 2"/>
-  <w:LsdException Locked=3D"false" Priority=3D"62" Name=3D"Light Grid Accen=
-t 2"/>
-  <w:LsdException Locked=3D"false" Priority=3D"63" Name=3D"Medium Shading 1=
- Accent 2"/>
-  <w:LsdException Locked=3D"false" Priority=3D"64" Name=3D"Medium Shading 2=
- Accent 2"/>
-  <w:LsdException Locked=3D"false" Priority=3D"65" Name=3D"Medium List 1 Ac=
-cent 2"/>
-  <w:LsdException Locked=3D"false" Priority=3D"66" Name=3D"Medium List 2 Ac=
-cent 2"/>
-  <w:LsdException Locked=3D"false" Priority=3D"67" Name=3D"Medium Grid 1 Ac=
-cent 2"/>
-  <w:LsdException Locked=3D"false" Priority=3D"68" Name=3D"Medium Grid 2 Ac=
-cent 2"/>
-  <w:LsdException Locked=3D"false" Priority=3D"69" Name=3D"Medium Grid 3 Ac=
-cent 2"/>
-  <w:LsdException Locked=3D"false" Priority=3D"70" Name=3D"Dark List Accent=
- 2"/>
-  <w:LsdException Locked=3D"false" Priority=3D"71" Name=3D"Colorful Shading=
- Accent 2"/>
-  <w:LsdException Locked=3D"false" Priority=3D"72" Name=3D"Colorful List Ac=
-cent 2"/>
-  <w:LsdException Locked=3D"false" Priority=3D"73" Name=3D"Colorful Grid Ac=
-cent 2"/>
-  <w:LsdException Locked=3D"false" Priority=3D"60" Name=3D"Light Shading Ac=
-cent 3"/>
-  <w:LsdException Locked=3D"false" Priority=3D"61" Name=3D"Light List Accen=
-t 3"/>
-  <w:LsdException Locked=3D"false" Priority=3D"62" Name=3D"Light Grid Accen=
-t 3"/>
-  <w:LsdException Locked=3D"false" Priority=3D"63" Name=3D"Medium Shading 1=
- Accent 3"/>
-  <w:LsdException Locked=3D"false" Priority=3D"64" Name=3D"Medium Shading 2=
- Accent 3"/>
-  <w:LsdException Locked=3D"false" Priority=3D"65" Name=3D"Medium List 1 Ac=
-cent 3"/>
-  <w:LsdException Locked=3D"false" Priority=3D"66" Name=3D"Medium List 2 Ac=
-cent 3"/>
-  <w:LsdException Locked=3D"false" Priority=3D"67" Name=3D"Medium Grid 1 Ac=
-cent 3"/>
-  <w:LsdException Locked=3D"false" Priority=3D"68" Name=3D"Medium Grid 2 Ac=
-cent 3"/>
-  <w:LsdException Locked=3D"false" Priority=3D"69" Name=3D"Medium Grid 3 Ac=
-cent 3"/>
-  <w:LsdException Locked=3D"false" Priority=3D"70" Name=3D"Dark List Accent=
- 3"/>
-  <w:LsdException Locked=3D"false" Priority=3D"71" Name=3D"Colorful Shading=
- Accent 3"/>
-  <w:LsdException Locked=3D"false" Priority=3D"72" Name=3D"Colorful List Ac=
-cent 3"/>
-  <w:LsdException Locked=3D"false" Priority=3D"73" Name=3D"Colorful Grid Ac=
-cent 3"/>
-  <w:LsdException Locked=3D"false" Priority=3D"60" Name=3D"Light Shading Ac=
-cent 4"/>
-  <w:LsdException Locked=3D"false" Priority=3D"61" Name=3D"Light List Accen=
-t 4"/>
-  <w:LsdException Locked=3D"false" Priority=3D"62" Name=3D"Light Grid Accen=
-t 4"/>
-  <w:LsdException Locked=3D"false" Priority=3D"63" Name=3D"Medium Shading 1=
- Accent 4"/>
-  <w:LsdException Locked=3D"false" Priority=3D"64" Name=3D"Medium Shading 2=
- Accent 4"/>
-  <w:LsdException Locked=3D"false" Priority=3D"65" Name=3D"Medium List 1 Ac=
-cent 4"/>
-  <w:LsdException Locked=3D"false" Priority=3D"66" Name=3D"Medium List 2 Ac=
-cent 4"/>
-  <w:LsdException Locked=3D"false" Priority=3D"67" Name=3D"Medium Grid 1 Ac=
-cent 4"/>
-  <w:LsdException Locked=3D"false" Priority=3D"68" Name=3D"Medium Grid 2 Ac=
-cent 4"/>
-  <w:LsdException Locked=3D"false" Priority=3D"69" Name=3D"Medium Grid 3 Ac=
-cent 4"/>
-  <w:LsdException Locked=3D"false" Priority=3D"70" Name=3D"Dark List Accent=
- 4"/>
-  <w:LsdException Locked=3D"false" Priority=3D"71" Name=3D"Colorful Shading=
- Accent 4"/>
-  <w:LsdException Locked=3D"false" Priority=3D"72" Name=3D"Colorful List Ac=
-cent 4"/>
-  <w:LsdException Locked=3D"false" Priority=3D"73" Name=3D"Colorful Grid Ac=
-cent 4"/>
-  <w:LsdException Locked=3D"false" Priority=3D"60" Name=3D"Light Shading Ac=
-cent 5"/>
-  <w:LsdException Locked=3D"false" Priority=3D"61" Name=3D"Light List Accen=
-t 5"/>
-  <w:LsdException Locked=3D"false" Priority=3D"62" Name=3D"Light Grid Accen=
-t 5"/>
-  <w:LsdException Locked=3D"false" Priority=3D"63" Name=3D"Medium Shading 1=
- Accent 5"/>
-  <w:LsdException Locked=3D"false" Priority=3D"64" Name=3D"Medium Shading 2=
- Accent 5"/>
-  <w:LsdException Locked=3D"false" Priority=3D"65" Name=3D"Medium List 1 Ac=
-cent 5"/>
-  <w:LsdException Locked=3D"false" Priority=3D"66" Name=3D"Medium List 2 Ac=
-cent 5"/>
-  <w:LsdException Locked=3D"false" Priority=3D"67" Name=3D"Medium Grid 1 Ac=
-cent 5"/>
-  <w:LsdException Locked=3D"false" Priority=3D"68" Name=3D"Medium Grid 2 Ac=
-cent 5"/>
-  <w:LsdException Locked=3D"false" Priority=3D"69" Name=3D"Medium Grid 3 Ac=
-cent 5"/>
-  <w:LsdException Locked=3D"false" Priority=3D"70" Name=3D"Dark List Accent=
- 5"/>
-  <w:LsdException Locked=3D"false" Priority=3D"71" Name=3D"Colorful Shading=
- Accent 5"/>
-  <w:LsdException Locked=3D"false" Priority=3D"72" Name=3D"Colorful List Ac=
-cent 5"/>
-  <w:LsdException Locked=3D"false" Priority=3D"73" Name=3D"Colorful Grid Ac=
-cent 5"/>
-  <w:LsdException Locked=3D"false" Priority=3D"60" Name=3D"Light Shading Ac=
-cent 6"/>
-  <w:LsdException Locked=3D"false" Priority=3D"61" Name=3D"Light List Accen=
-t 6"/>
-  <w:LsdException Locked=3D"false" Priority=3D"62" Name=3D"Light Grid Accen=
-t 6"/>
-  <w:LsdException Locked=3D"false" Priority=3D"63" Name=3D"Medium Shading 1=
- Accent 6"/>
-  <w:LsdException Locked=3D"false" Priority=3D"64" Name=3D"Medium Shading 2=
- Accent 6"/>
-  <w:LsdException Locked=3D"false" Priority=3D"65" Name=3D"Medium List 1 Ac=
-cent 6"/>
-  <w:LsdException Locked=3D"false" Priority=3D"66" Name=3D"Medium List 2 Ac=
-cent 6"/>
-  <w:LsdException Locked=3D"false" Priority=3D"67" Name=3D"Medium Grid 1 Ac=
-cent 6"/>
-  <w:LsdException Locked=3D"false" Priority=3D"68" Name=3D"Medium Grid 2 Ac=
-cent 6"/>
-  <w:LsdException Locked=3D"false" Priority=3D"69" Name=3D"Medium Grid 3 Ac=
-cent 6"/>
-  <w:LsdException Locked=3D"false" Priority=3D"70" Name=3D"Dark List Accent=
- 6"/>
-  <w:LsdException Locked=3D"false" Priority=3D"71" Name=3D"Colorful Shading=
- Accent 6"/>
-  <w:LsdException Locked=3D"false" Priority=3D"72" Name=3D"Colorful List Ac=
-cent 6"/>
-  <w:LsdException Locked=3D"false" Priority=3D"73" Name=3D"Colorful Grid Ac=
-cent 6"/>
-  <w:LsdException Locked=3D"false" Priority=3D"19" QFormat=3D"true"
-   Name=3D"Subtle Emphasis"/>
-  <w:LsdException Locked=3D"false" Priority=3D"21" QFormat=3D"true"
-   Name=3D"Intense Emphasis"/>
-  <w:LsdException Locked=3D"false" Priority=3D"31" QFormat=3D"true"
-   Name=3D"Subtle Reference"/>
-  <w:LsdException Locked=3D"false" Priority=3D"32" QFormat=3D"true"
-   Name=3D"Intense Reference"/>
-  <w:LsdException Locked=3D"false" Priority=3D"33" QFormat=3D"true" Name=3D=
-"Book Title"/>
-  <w:LsdException Locked=3D"false" Priority=3D"37" SemiHidden=3D"true"
-   UnhideWhenUsed=3D"true" Name=3D"Bibliography"/>
-  <w:LsdException Locked=3D"false" Priority=3D"39" SemiHidden=3D"true"
-   UnhideWhenUsed=3D"true" QFormat=3D"true" Name=3D"TOC Heading"/>
-  <w:LsdException Locked=3D"false" Priority=3D"41" Name=3D"Plain Table 1"/>
-  <w:LsdException Locked=3D"false" Priority=3D"42" Name=3D"Plain Table 2"/>
-  <w:LsdException Locked=3D"false" Priority=3D"43" Name=3D"Plain Table 3"/>
-  <w:LsdException Locked=3D"false" Priority=3D"44" Name=3D"Plain Table 4"/>
-  <w:LsdException Locked=3D"false" Priority=3D"45" Name=3D"Plain Table 5"/>
-  <w:LsdException Locked=3D"false" Priority=3D"40" Name=3D"Grid Table Light=
-"/>
-  <w:LsdException Locked=3D"false" Priority=3D"46" Name=3D"Grid Table 1 Lig=
-ht"/>
-  <w:LsdException Locked=3D"false" Priority=3D"47" Name=3D"Grid Table 2"/>
-  <w:LsdException Locked=3D"false" Priority=3D"48" Name=3D"Grid Table 3"/>
-  <w:LsdException Locked=3D"false" Priority=3D"49" Name=3D"Grid Table 4"/>
-  <w:LsdException Locked=3D"false" Priority=3D"50" Name=3D"Grid Table 5 Dar=
-k"/>
-  <w:LsdException Locked=3D"false" Priority=3D"51" Name=3D"Grid Table 6 Col=
-orful"/>
-  <w:LsdException Locked=3D"false" Priority=3D"52" Name=3D"Grid Table 7 Col=
-orful"/>
-  <w:LsdException Locked=3D"false" Priority=3D"46"
-   Name=3D"Grid Table 1 Light Accent 1"/>
-  <w:LsdException Locked=3D"false" Priority=3D"47" Name=3D"Grid Table 2 Acc=
-ent 1"/>
-  <w:LsdException Locked=3D"false" Priority=3D"48" Name=3D"Grid Table 3 Acc=
-ent 1"/>
-  <w:LsdException Locked=3D"false" Priority=3D"49" Name=3D"Grid Table 4 Acc=
-ent 1"/>
-  <w:LsdException Locked=3D"false" Priority=3D"50" Name=3D"Grid Table 5 Dar=
-k Accent 1"/>
-  <w:LsdException Locked=3D"false" Priority=3D"51"
-   Name=3D"Grid Table 6 Colorful Accent 1"/>
-  <w:LsdException Locked=3D"false" Priority=3D"52"
-   Name=3D"Grid Table 7 Colorful Accent 1"/>
-  <w:LsdException Locked=3D"false" Priority=3D"46"
-   Name=3D"Grid Table 1 Light Accent 2"/>
-  <w:LsdException Locked=3D"false" Priority=3D"47" Name=3D"Grid Table 2 Acc=
-ent 2"/>
-  <w:LsdException Locked=3D"false" Priority=3D"48" Name=3D"Grid Table 3 Acc=
-ent 2"/>
-  <w:LsdException Locked=3D"false" Priority=3D"49" Name=3D"Grid Table 4 Acc=
-ent 2"/>
-  <w:LsdException Locked=3D"false" Priority=3D"50" Name=3D"Grid Table 5 Dar=
-k Accent 2"/>
-  <w:LsdException Locked=3D"false" Priority=3D"51"
-   Name=3D"Grid Table 6 Colorful Accent 2"/>
-  <w:LsdException Locked=3D"false" Priority=3D"52"
-   Name=3D"Grid Table 7 Colorful Accent 2"/>
-  <w:LsdException Locked=3D"false" Priority=3D"46"
-   Name=3D"Grid Table 1 Light Accent 3"/>
-  <w:LsdException Locked=3D"false" Priority=3D"47" Name=3D"Grid Table 2 Acc=
-ent 3"/>
-  <w:LsdException Locked=3D"false" Priority=3D"48" Name=3D"Grid Table 3 Acc=
-ent 3"/>
-  <w:LsdException Locked=3D"false" Priority=3D"49" Name=3D"Grid Table 4 Acc=
-ent 3"/>
-  <w:LsdException Locked=3D"false" Priority=3D"50" Name=3D"Grid Table 5 Dar=
-k Accent 3"/>
-  <w:LsdException Locked=3D"false" Priority=3D"51"
-   Name=3D"Grid Table 6 Colorful Accent 3"/>
-  <w:LsdException Locked=3D"false" Priority=3D"52"
-   Name=3D"Grid Table 7 Colorful Accent 3"/>
-  <w:LsdException Locked=3D"false" Priority=3D"46"
-   Name=3D"Grid Table 1 Light Accent 4"/>
-  <w:LsdException Locked=3D"false" Priority=3D"47" Name=3D"Grid Table 2 Acc=
-ent 4"/>
-  <w:LsdException Locked=3D"false" Priority=3D"48" Name=3D"Grid Table 3 Acc=
-ent 4"/>
-  <w:LsdException Locked=3D"false" Priority=3D"49" Name=3D"Grid Table 4 Acc=
-ent 4"/>
-  <w:LsdException Locked=3D"false" Priority=3D"50" Name=3D"Grid Table 5 Dar=
-k Accent 4"/>
-  <w:LsdException Locked=3D"false" Priority=3D"51"
-   Name=3D"Grid Table 6 Colorful Accent 4"/>
-  <w:LsdException Locked=3D"false" Priority=3D"52"
-   Name=3D"Grid Table 7 Colorful Accent 4"/>
-  <w:LsdException Locked=3D"false" Priority=3D"46"
-   Name=3D"Grid Table 1 Light Accent 5"/>
-  <w:LsdException Locked=3D"false" Priority=3D"47" Name=3D"Grid Table 2 Acc=
-ent 5"/>
-  <w:LsdException Locked=3D"false" Priority=3D"48" Name=3D"Grid Table 3 Acc=
-ent 5"/>
-  <w:LsdException Locked=3D"false" Priority=3D"49" Name=3D"Grid Table 4 Acc=
-ent 5"/>
-  <w:LsdException Locked=3D"false" Priority=3D"50" Name=3D"Grid Table 5 Dar=
-k Accent 5"/>
-  <w:LsdException Locked=3D"false" Priority=3D"51"
-   Name=3D"Grid Table 6 Colorful Accent 5"/>
-  <w:LsdException Locked=3D"false" Priority=3D"52"
-   Name=3D"Grid Table 7 Colorful Accent 5"/>
-  <w:LsdException Locked=3D"false" Priority=3D"46"
-   Name=3D"Grid Table 1 Light Accent 6"/>
-  <w:LsdException Locked=3D"false" Priority=3D"47" Name=3D"Grid Table 2 Acc=
-ent 6"/>
-  <w:LsdException Locked=3D"false" Priority=3D"48" Name=3D"Grid Table 3 Acc=
-ent 6"/>
-  <w:LsdException Locked=3D"false" Priority=3D"49" Name=3D"Grid Table 4 Acc=
-ent 6"/>
-  <w:LsdException Locked=3D"false" Priority=3D"50" Name=3D"Grid Table 5 Dar=
-k Accent 6"/>
-  <w:LsdException Locked=3D"false" Priority=3D"51"
-   Name=3D"Grid Table 6 Colorful Accent 6"/>
-  <w:LsdException Locked=3D"false" Priority=3D"52"
-   Name=3D"Grid Table 7 Colorful Accent 6"/>
-  <w:LsdException Locked=3D"false" Priority=3D"46" Name=3D"List Table 1 Lig=
-ht"/>
-  <w:LsdException Locked=3D"false" Priority=3D"47" Name=3D"List Table 2"/>
-  <w:LsdException Locked=3D"false" Priority=3D"48" Name=3D"List Table 3"/>
-  <w:LsdException Locked=3D"false" Priority=3D"49" Name=3D"List Table 4"/>
-  <w:LsdException Locked=3D"false" Priority=3D"50" Name=3D"List Table 5 Dar=
-k"/>
-  <w:LsdException Locked=3D"false" Priority=3D"51" Name=3D"List Table 6 Col=
-orful"/>
-  <w:LsdException Locked=3D"false" Priority=3D"52" Name=3D"List Table 7 Col=
-orful"/>
-  <w:LsdException Locked=3D"false" Priority=3D"46"
-   Name=3D"List Table 1 Light Accent 1"/>
-  <w:LsdException Locked=3D"false" Priority=3D"47" Name=3D"List Table 2 Acc=
-ent 1"/>
-  <w:LsdException Locked=3D"false" Priority=3D"48" Name=3D"List Table 3 Acc=
-ent 1"/>
-  <w:LsdException Locked=3D"false" Priority=3D"49" Name=3D"List Table 4 Acc=
-ent 1"/>
-  <w:LsdException Locked=3D"false" Priority=3D"50" Name=3D"List Table 5 Dar=
-k Accent 1"/>
-  <w:LsdException Locked=3D"false" Priority=3D"51"
-   Name=3D"List Table 6 Colorful Accent 1"/>
-  <w:LsdException Locked=3D"false" Priority=3D"52"
-   Name=3D"List Table 7 Colorful Accent 1"/>
-  <w:LsdException Locked=3D"false" Priority=3D"46"
-   Name=3D"List Table 1 Light Accent 2"/>
-  <w:LsdException Locked=3D"false" Priority=3D"47" Name=3D"List Table 2 Acc=
-ent 2"/>
-  <w:LsdException Locked=3D"false" Priority=3D"48" Name=3D"List Table 3 Acc=
-ent 2"/>
-  <w:LsdException Locked=3D"false" Priority=3D"49" Name=3D"List Table 4 Acc=
-ent 2"/>
-  <w:LsdException Locked=3D"false" Priority=3D"50" Name=3D"List Table 5 Dar=
-k Accent 2"/>
-  <w:LsdException Locked=3D"false" Priority=3D"51"
-   Name=3D"List Table 6 Colorful Accent 2"/>
-  <w:LsdException Locked=3D"false" Priority=3D"52"
-   Name=3D"List Table 7 Colorful Accent 2"/>
-  <w:LsdException Locked=3D"false" Priority=3D"46"
-   Name=3D"List Table 1 Light Accent 3"/>
-  <w:LsdException Locked=3D"false" Priority=3D"47" Name=3D"List Table 2 Acc=
-ent 3"/>
-  <w:LsdException Locked=3D"false" Priority=3D"48" Name=3D"List Table 3 Acc=
-ent 3"/>
-  <w:LsdException Locked=3D"false" Priority=3D"49" Name=3D"List Table 4 Acc=
-ent 3"/>
-  <w:LsdException Locked=3D"false" Priority=3D"50" Name=3D"List Table 5 Dar=
-k Accent 3"/>
-  <w:LsdException Locked=3D"false" Priority=3D"51"
-   Name=3D"List Table 6 Colorful Accent 3"/>
-  <w:LsdException Locked=3D"false" Priority=3D"52"
-   Name=3D"List Table 7 Colorful Accent 3"/>
-  <w:LsdException Locked=3D"false" Priority=3D"46"
-   Name=3D"List Table 1 Light Accent 4"/>
-  <w:LsdException Locked=3D"false" Priority=3D"47" Name=3D"List Table 2 Acc=
-ent 4"/>
-  <w:LsdException Locked=3D"false" Priority=3D"48" Name=3D"List Table 3 Acc=
-ent 4"/>
-  <w:LsdException Locked=3D"false" Priority=3D"49" Name=3D"List Table 4 Acc=
-ent 4"/>
-  <w:LsdException Locked=3D"false" Priority=3D"50" Name=3D"List Table 5 Dar=
-k Accent 4"/>
-  <w:LsdException Locked=3D"false" Priority=3D"51"
-   Name=3D"List Table 6 Colorful Accent 4"/>
-  <w:LsdException Locked=3D"false" Priority=3D"52"
-   Name=3D"List Table 7 Colorful Accent 4"/>
-  <w:LsdException Locked=3D"false" Priority=3D"46"
-   Name=3D"List Table 1 Light Accent 5"/>
-  <w:LsdException Locked=3D"false" Priority=3D"47" Name=3D"List Table 2 Acc=
-ent 5"/>
-  <w:LsdException Locked=3D"false" Priority=3D"48" Name=3D"List Table 3 Acc=
-ent 5"/>
-  <w:LsdException Locked=3D"false" Priority=3D"49" Name=3D"List Table 4 Acc=
-ent 5"/>
-  <w:LsdException Locked=3D"false" Priority=3D"50" Name=3D"List Table 5 Dar=
-k Accent 5"/>
-  <w:LsdException Locked=3D"false" Priority=3D"51"
-   Name=3D"List Table 6 Colorful Accent 5"/>
-  <w:LsdException Locked=3D"false" Priority=3D"52"
-   Name=3D"List Table 7 Colorful Accent 5"/>
-  <w:LsdException Locked=3D"false" Priority=3D"46"
-   Name=3D"List Table 1 Light Accent 6"/>
-  <w:LsdException Locked=3D"false" Priority=3D"47" Name=3D"List Table 2 Acc=
-ent 6"/>
-  <w:LsdException Locked=3D"false" Priority=3D"48" Name=3D"List Table 3 Acc=
-ent 6"/>
-  <w:LsdException Locked=3D"false" Priority=3D"49" Name=3D"List Table 4 Acc=
-ent 6"/>
-  <w:LsdException Locked=3D"false" Priority=3D"50" Name=3D"List Table 5 Dar=
-k Accent 6"/>
-  <w:LsdException Locked=3D"false" Priority=3D"51"
-   Name=3D"List Table 6 Colorful Accent 6"/>
-  <w:LsdException Locked=3D"false" Priority=3D"52"
-   Name=3D"List Table 7 Colorful Accent 6"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Mention"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Smart Hyperlink"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Hashtag"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Unresolved Mention"/>
-  <w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"tr=
-ue"
-   Name=3D"Smart Link"/>
- </w:LatentStyles>
-</xml><![endif]--><!-- [if gte mso 10]>
-<style>
- /* Style Definitions */
- table.MsoNormalTable
-	{mso-style-name:"Table Normal";
-	mso-tstyle-rowband-size:0;
-	mso-tstyle-colband-size:0;
-	mso-style-noshow:yes;
-	mso-style-priority:99;
-	mso-style-parent:"";
-	mso-padding-alt:0cm 5.4pt 0cm 5.4pt;
-	mso-para-margin-top:0cm;
-	mso-para-margin-right:0cm;
-	mso-para-margin-bottom:8.0pt;
-	mso-para-margin-left:0cm;
-	line-height:107%;
-	mso-pagination:widow-orphan;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;
-	mso-ascii-font-family:Calibri;
-	mso-ascii-theme-font:minor-latin;
-	mso-hansi-font-family:Calibri;
-	mso-hansi-theme-font:minor-latin;
-	mso-bidi-font-family:"Times New Roman";
-	mso-bidi-theme-font:minor-bidi;
-	mso-fareast-language:EN-US;}
-</style>
-<![endif]-->
-
---ikEvYELbwWAtMhPIpG5T--
+-- 
+Andrei Gherzan 
+gpg: rsa4096/D4D94F67AD0E9640
 
