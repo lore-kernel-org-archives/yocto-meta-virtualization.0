@@ -1,708 +1,242 @@
-Return-Path: <linux_learner@outlook.com>
+Return-Path: <vasileios.anagnostopoulos@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 52BEBC43334
-	for <webhook@archiver.kernel.org>; Mon, 18 Jul 2022 06:03:10 +0000 (UTC)
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (NAM10-DM6-obe.outbound.protection.outlook.com [40.92.41.78])
- by mx.groups.io with SMTP id smtpd.web09.24021.1658124180750934365
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E01A1C433EF
+	for <webhook@archiver.kernel.org>; Mon, 18 Jul 2022 11:51:51 +0000 (UTC)
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com
+ (EUR04-VI1-obe.outbound.protection.outlook.com [40.107.8.73])
+ by mx.groups.io with SMTP id smtpd.web09.26131.1658145106181990857
  for <meta-virtualization@lists.yoctoproject.org>;
- Sun, 17 Jul 2022 23:03:01 -0700
+ Mon, 18 Jul 2022 04:51:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@outlook.com header.s=selector1 header.b=ZpXXAJET;
- spf=pass (domain: outlook.com, ip: 40.92.41.78,
- mailfrom: linux_learner@outlook.com)
+ dkim=pass header.i=@siemens.com header.s=selector2 header.b=z+jfwTSY;
+ spf=pass (domain: siemens.com, ip: 40.107.8.73,
+ mailfrom: vasileios.anagnostopoulos@siemens.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SqZS0MS56vlcWyUrSUZmd82ufWAwnl7ZBeYpjj6chXtM0L8wCCpB0sFkIbyswbAIWp7n1slke4TnzorFuOIHMwaVk/19+sgzk/nx1eEChntbTh0duFQ6ftU9RXSJ38+SpPF+YqKSeIOsQiZAdDYoxew+xLn30NBDuQQSMDbafFKAF43Su3gt/i2B7zMwLz3mIgbWXKlj0jqkphjQlRr+6kWfnYVUXCSZ2RiuwSSMBh9i4ioEJ4IA0i/mYtOEOaIxtmE3GZVtDNkDtRQnsYwkkBN4FrIdwJ3+mO1lkRgBmboqjUuza3zxLMpMuReXnTDgkv3VKdVHvxsFzYUn+3ZNmg==
+ b=VTCSNegQRON5PG6XGutxYTJe2sqDxJM7VeGVtYrDrG1Yqo5cd259AlK5WbupecCoKK9penoCX7QdfG1OLcY1GK43RKCDpPuYsAECktly/BiitnAyEQa1GBFqAamSUhrTBlISldwFCLglff8F7oivxwqNUYVXbZZbesSIE/nPZuhCv0ZJTA8kJ5dHuszR72M07QDFaq4HKcNSbk6xiq8za1HSU8IV8KG7chU18870aths0h60wYdBQdFGmFdSTrvH2QIN/YOsfXyGI21WGNxg0R5DfAUv/XC5+YauW8rnC5TljfuKjVQ0uTSeAMjF6Vgja0AwoxZAxJTDlFHwwQxVzQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=usfQM9AT0AI5VqHW07mrgE2CPmiqHcq/P/gfMvDVmt8=;
- b=dbb5DRUvhiayGVIDADXk/UuP8HXaiuOEkxxRdIgjZymD1zysN8l5VLdQAvhMN+VYibtwCrAiKS2UazseOe1gWSrj0/ghpDHZjcqDQNaAYWbS2N4kDuwSkJJTTg8kerbnMvC2x3p119rQNqfXpZaoI1LgsKehXqPEbRtk5iNWnLHX1fGLsJlaWPu+MFRhY6JexdCf0aIFLCGLdbOqzU+RYhmENNg1eUv5T/rAK3NwBaIJxaSKyVG61QblBWMJ9Pch8T80wZhX9LMv8xkO6nIYluSG7I/zfjTkHL+NtLJhWHeAVz5ljtvl4hJTZIWE5lRf8hHe7k0Mt1PkHnyBvB7DPw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
+ bh=mnkt+66whqPeBcP1rfXwiOQBbV9M/Xfl4iO9hGwZ/Yk=;
+ b=U11668PapW6pmoOSQzQlhrahJQ03b9pzuAiyLvjCvdGrauEyAbmGv7/o51ievduNsmmM+4HDCoGwUU92nhm6frcMJ47BQZGh6gKtbJqtTAOYxNLk0JQZNcN2t8b1TH75fjDFx8BB4I2oJCxOhVMbPVPq0SGB1gQbexIc4x4Dm5wSW4pUQJmabcfKeT2/KwgwC/V0ibdYohiMMrwkG5SDEQXFMaINbEY5NPRdqLCkMkRXjgJOIyQW7zD5HHe237hJasZBznqry8b3luHFxQ8pAhADxdd9xBqUOQOSaiL+tiYj5U/5Uwh3T7CROmrHCgB6xRdETM7pSJiGNqNO2H9PVA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
+ dkim=pass header.d=siemens.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=usfQM9AT0AI5VqHW07mrgE2CPmiqHcq/P/gfMvDVmt8=;
- b=ZpXXAJETf3NBFCzy9++sMsnhV4rf1OTK+cI5C98dm+4cFXYxHAm8iMaQpKNW8E3NEw78FSN/sNoIk7ZyB9GwdQc3xkL/SnHvDcw6LaP4icO0qD6Ixu1jT0Pu90ZygFyoD56aN89g5OfrLNtF7uGPQ1cxQHiqrqyUBWuUtqbnvFQOo6IWBqqy1fwBsuyO0naS9yReT4XIX1yhbW+LsWswd3lJxgDAsg1EuPlUdp0n+TP6jku2x72KhdhzSwRTGIfUmahZo2PYmBDlyhDLwwHW5P569J4mhf/28Xs8T+7RkC7uUHpUKsHbdQ6guLamCV+P06LX0u1XyIiofmVs+T9Ruw==
-Received: from BY5PR14MB3893.namprd14.prod.outlook.com (2603:10b6:a03:1dc::15)
- by MN2PR14MB3421.namprd14.prod.outlook.com (2603:10b6:208:1a6::12) with
+ bh=mnkt+66whqPeBcP1rfXwiOQBbV9M/Xfl4iO9hGwZ/Yk=;
+ b=z+jfwTSYBtl5PSybX3sIH8TG4Z0TgmIgr6E2IMOpqcqnXo6PDZoUXT9SXBhg7JScvWwfvtkvVp/eyAxh6uzMMR5IxuBHGox0L8bN1ACuDCnGL1CDZXq68IglWQTOlz2YFU53n/emkFX78VxuPi0WyzcOx4cbsLB3xhzl3oTRIiKOaRN9e14e+co4W7SQmIfIp6qhLfqA9R/HZqVt8QiZqJpfNdFXqjCw6Mxb02/OaShi08sG57yCXOOSKdNplbsck4HSwFUuG/2DSzIQzCTdhoU0NTclqx4JzWoPvDsg9KLZsohUrFmv9RVoB+MHM5KQuIoeOgsgbp1HcG2/oaGbfg==
+Received: from DB6PR1001MB1285.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:4:b6::18)
+ by AS8PR10MB4849.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:348::5) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5438.17; Mon, 18 Jul
- 2022 06:02:58 +0000
-Received: from BY5PR14MB3893.namprd14.prod.outlook.com
- ([fe80::a1e2:2e8d:4879:53c3]) by BY5PR14MB3893.namprd14.prod.outlook.com
- ([fe80::a1e2:2e8d:4879:53c3%8]) with mapi id 15.20.5438.022; Mon, 18 Jul 2022
- 06:02:58 +0000
-From: "Pra.. Dew.." <linux_learner@outlook.com>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>, Andrei Gherzan
-	<andrei.gherzan@huawei.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5438.12; Mon, 18 Jul
+ 2022 11:51:43 +0000
+Received: from DB6PR1001MB1285.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::e0fb:623c:658e:6a6]) by DB6PR1001MB1285.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::e0fb:623c:658e:6a6%5]) with mapi id 15.20.5438.023; Mon, 18 Jul 2022
+ 11:51:43 +0000
+From: "Anagnostopoulos, Vasileios" <vasileios.anagnostopoulos@siemens.com>
+To: "Anagnostopoulos, Vasileios" <vasileios.anagnostopoulos@siemens.com>,
+	Bruce Ashfield <bruce.ashfield@gmail.com>
 CC: "meta-virtualization@lists.yoctoproject.org"
 	<meta-virtualization@lists.yoctoproject.org>
-Subject: RE: [meta-virtualization] pthreads dependency error in building
- podman
-Thread-Topic: [meta-virtualization] pthreads dependency error in building
- podman
-Thread-Index: AQHYmN+I3aimISXC70WeqS3bIiQmF62AjtVJgAJZYACAALyQrw==
-Date: Mon, 18 Jul 2022 06:02:58 +0000
+Subject: RE: [meta-virtualization] [PATCH 3/3] image-oci-umoci: skip parent
+ directory in tar
+Thread-Topic: [meta-virtualization] [PATCH 3/3] image-oci-umoci: skip parent
+ directory in tar
+Thread-Index: AQHYlojkHHOFwCLM1USRTz1pkaf8ga18w3KAgACrD0CABp2B4A==
+Date: Mon, 18 Jul 2022 11:51:42 +0000
 Message-ID: 
- <BY5PR14MB3893EB9A81915490B3F068E9868C9@BY5PR14MB3893.namprd14.prod.outlook.com>
+ <DB6PR1001MB12850350F80F2A045592CC51FA8C9@DB6PR1001MB1285.EURPRD10.PROD.OUTLOOK.COM>
 References: 
- <BY5PR14MB389313571AD8B0342EBB19E7868A9@BY5PR14MB3893.namprd14.prod.outlook.com>
- <BY5PR14MB38931183FDDBF76A031B4EC7868A9@BY5PR14MB3893.namprd14.prod.outlook.com>
- <CADkTA4Nw8iNm8rjR=BvOsdPjPFybn9eLQ--3cn9_Au6a2H80wA@mail.gmail.com>
-In-Reply-To: 
- <CADkTA4Nw8iNm8rjR=BvOsdPjPFybn9eLQ--3cn9_Au6a2H80wA@mail.gmail.com>
-Accept-Language: en-US
+ <CADkTA4PZ6rMBUAF1Q23C6ov9OzjByCjvDQ+dMMxumyJL2fzaUg@mail.gmail.com>
+ <12926.1657696750463147139@lists.yoctoproject.org>
+ <CADkTA4NzkovYyu_b-pJCFjoKwpCb+q-mQKkRZVQ7mkkxsf389g@mail.gmail.com>
+ <17019F65456D67C8.559@lists.yoctoproject.org>
+In-Reply-To: <17019F65456D67C8.559@lists.yoctoproject.org>
+Accept-Language: de-DE, en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tmn: [xzootBjm3MA12nkW37HgYvJahOl333+V]
+msip_labels: MSIP_Label_6f75f480-7803-4ee9-bb54-84d0635fdbe7_Enabled=true;
+ MSIP_Label_6f75f480-7803-4ee9-bb54-84d0635fdbe7_SetDate=2022-07-18T11:51:41Z;
+ MSIP_Label_6f75f480-7803-4ee9-bb54-84d0635fdbe7_Method=Privileged;
+ MSIP_Label_6f75f480-7803-4ee9-bb54-84d0635fdbe7_Name=unrestricted;
+ MSIP_Label_6f75f480-7803-4ee9-bb54-84d0635fdbe7_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;
+ MSIP_Label_6f75f480-7803-4ee9-bb54-84d0635fdbe7_ActionId=283129f4-def8-45b0-ba49-04a0e4608c8d;
+ MSIP_Label_6f75f480-7803-4ee9-bb54-84d0635fdbe7_ContentBits=0
+document_confidentiality: Unrestricted
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siemens.com;
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 37da1ea2-0eb8-401f-2ba7-08da68832a09
-x-ms-traffictypediagnostic: MN2PR14MB3421:EE_
+x-ms-office365-filtering-correlation-id: 3d5c385f-5131-43d4-e48a-08da68b3e233
+x-ms-traffictypediagnostic: AS8PR10MB4849:EE_
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
 x-microsoft-antispam-message-info: 
- Kli9mVoNjqDfmRLaD/MNwyCTokoMik8yctekgnezde7VeKHnwLJGRvYGRJciu4Pmnn9a33+jZ0xbd6Jg2cKStD+odyUCt+yZCGmjoUqL52qGiMZka4/SqdzgI5oG4fgKk368Jou6UiDaBQit69KJIQIVpHdO6xsdM5UciEEvYGwSMhyvYtxajjDu1IkiczlezB5uUmCyPoBiuHOJGlMdlj+a4qq6aXKaG5wz361qGESRECuzPxOh7an28Rzcjw+YlwUQZUIF8zz18tLn7qh8zQtxmdxB3+pQ7VO4RFXRh9XMjq0h/7Vx489/zLCMgKm2loIA4Zi0UMKLxWumFJ47rsx8jZNhoXjKNxShjceFizjNaORebsz5HfId6Xe9MKgXMLbIxLkAmBWlcksg8RFkLRHAHmJgOj0HJjr1tGlIv+z6uXJrX87HToDx4acVRiaSEeva3zQQE5AngEAluFWxIb5KxJL3STJb0undeqojE0x8Rm2Wcn2eNBt1Yp5QEdMJk2Ek5hLYrAr6DhM16UVmO9gxmCs7ShtE7ZqF5Yd6Epxv3MVoFErxuesTpXwW8zZWW8K57PhqS+NLArxm0FEDYAh10oYgFWHx9WxIfEve5nPoiGV8LbKo/2/D6C0IHUcwPh3BLJJlId1m6fdWJX2ecJIt+SJCmyDOeryNl3fEI/110EJQ+EyzmAJ9mz5ixr+9/p/k4e061LmgjilbbfyP0evGBKK3JpUcWz8AAL3Gg1E=
+ booqhESfCkJBj9teVWT82AdtopDeZRjeKwUCzqOrYo5aaxOqwh+1z7AxyBccB4FjGmMofzzN32ZOqb3YjB3z2cjDBm/MNXby+isY2oncpx/4O8mt2hogSI7hecZFCnIqP9s9U9EGh9Cn9jWkiMvOj39VdsxCDt85AC0MSMbE/zP1kBebFsOcq72ipUMmXK7m02XmoPmITiw93wvfeNHTqp3/2GgP+Yc27/+IrjI5iEPLr9YaBpal9+/gYV56U8LhqbcguNJP1B0JfF+EEFNsYA2oARPsmm7t48BwIwDx3HywKZEyz/mkm5ejWO2Q4pUKjZV2RgPZe/RYjqQ618WxC+VBECgbAfb2rbvjxc/O1Z8R6XqAK1ohduJgz8OUWwQLwyiq1TUrvgaywZ8yrWNcvRLMlMHnmKHqFwD7zJjwlpbhea0tCF6BJ1tbESEJbOVQW4hXlDMmXLEY756hV3HiNjBdEUJN4yHvQqj8VMqhyU575FufA2ZoFkNSJ5zDYAW1cx5ZHGs3mAm3nHWwqvV9Mfgk+1UvRVF45PXwV2gCfL6BnfT7/42mk7pnTt1y6P3BviqET+0QgNKDcqr67ycOWlwaUGGEobCWkmGwLpdYw90E3K8jha1blalBHL0+E0tAO4ZCgw72yEAyA+FAAjcFW9a2rOVFSnNUPSSDgud4UHf+E/gTC1w7ghdQww0wVnubHAEulhVPZRN9EMAedpTbkOyj+x25qFVcjA5zheh2CvawmRQvE4AdQTkIuOF7b4Sxo3tkFby3JCdYpTtXbL5GnVuoueNOKiBFXYxQdly/Q9RcLcYd/JVjdwSCRGCpUtEsnffmstbKsbgFQtVStldun+SLyNqEp7BQZnPHvpPkGhk=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB6PR1001MB1285.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230016)(4636009)(376002)(346002)(39860400002)(366004)(396003)(136003)(83380400001)(9686003)(26005)(186003)(33656002)(41300700001)(2906002)(478600001)(55236004)(7696005)(53546011)(6506007)(966005)(5660300002)(8936002)(52536014)(86362001)(45080400002)(122000001)(316002)(38070700005)(82960400001)(66476007)(71200400001)(64756008)(66446008)(110136005)(8676002)(4326008)(55016003)(66556008)(66946007)(76116006)(38100700002);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?yPsyo5ZYU6Rtgcq1yp6ldOBUVNuU4teobCTYNm4LzDP6cvWsiLGifkOizN60?=
- =?us-ascii?Q?7njzuHaeh+mcRl8zXbDo9zrzV3Z+E4q6QZ8AX1Xa3n74CcxXnjvZnct4MqoQ?=
- =?us-ascii?Q?Dz+XsR3GsNcnu0o9UxR5lLnjAnUGN9dGLKS1EFPDkAorm8rG4LG4BZSZEgYn?=
- =?us-ascii?Q?uyqfD9GGKR40LKN6LOq42C9nK7MU2zE84RGMp+y+nbOI/03WMABd3iNP8IB+?=
- =?us-ascii?Q?Kz/4rgWPfbJecTzzZ2iSdorHNpBg0I6NHgs9MDU+BGJ24pm1AU7WbNrYOSEo?=
- =?us-ascii?Q?6cE49VzbxYzhpgS9sFXAc+jG8eTcxNpFnaBRS+EbJEas5DZciVpjEfflsO5E?=
- =?us-ascii?Q?A6K9cTSkYL5XCMlOF++Nw0nM+Hl3E0mlp8i73S+NXAZ8XnGNuxr7kEfWAYOw?=
- =?us-ascii?Q?rZBXdp+fwOd/Ov593WtATSsbg3XuHYVJfuy18CXb5AtfXYD3kVUG8AOCr1iX?=
- =?us-ascii?Q?5KUes34KL3w1nU9lD3fJQ4yQVowoZA6k/+coZjkwGZsis4Sz+dgLEU48A8Ee?=
- =?us-ascii?Q?MMU5gwUScO+Ru1aNfr+QeTzevCD6ix0BMofZ9MyP13bYZBE7E8bkCeHCOIBS?=
- =?us-ascii?Q?JbqWtbEcf1bKOaMo9eZWdulYUblkMgZ4Edet7kML+7iZlWwUoX1FhxSbz1BV?=
- =?us-ascii?Q?ITB7+k5Aul0JpHXMA/FE62yp7iJWvaRdi+3RSkJF33ez9M0CoKGQDvs1tjgq?=
- =?us-ascii?Q?qBIRlN5Ng+yU58ssOMZZkDlATE/gHfX2qbaxKNX5nrIpQ3isnDAw8oqx3g3K?=
- =?us-ascii?Q?04D1UCj+YqsdJDjlM2WfORVAPSLviZu16SORPiz4Ys01U+RLlaYa4y//KORt?=
- =?us-ascii?Q?W31eyIbNi52k69NvqrFz/sQm5Vm++Rt1CfEA4sKG8H9+dOzqPOWXHbeagvUw?=
- =?us-ascii?Q?eM2jH0Mksq434ZxgB7iAAak28b7oqWIT+jHKW4HFoG5Fmmdl+ggcmvtFjzeN?=
- =?us-ascii?Q?YPYzJJQPta0lFsiE+ffLwDYTUPSTgTqrtehnP+JUeze26PEGMwMewLijtTdx?=
- =?us-ascii?Q?hcRJvBkVVlt2epdoLbSvXAKEYRXd/0K7Y6f8aQomY7s+1hX18k8dw/Wlywku?=
- =?us-ascii?Q?k8kiFDsikNtaqs2GJuavNfclELiPvbRqoYeHe9EnKtF/TuUhjFSDoHvt2mRU?=
- =?us-ascii?Q?qcWH8XdHY+OMY1FsOoMDc+jCnPdj5EcAAeD3n85dwyqFyxwThZO0EQ6A3l2j?=
- =?us-ascii?Q?s078cIGqgZ2ZVuJOx7j+z+EfIL30JBSwdKePtK9haAco6EGfdiK7DsM5nUHg?=
- =?us-ascii?Q?mPvBQH64lls3/Eam5PE117OprCJQFGgBVJ3CEqtD5bh3eZohbh7SUICP7udJ?=
- =?us-ascii?Q?XqQ=3D?=
-Content-Type: multipart/alternative;
-	boundary="_000_BY5PR14MB3893EB9A81915490B3F068E9868C9BY5PR14MB3893namp_"
+ =?us-ascii?Q?NhiNEzH+d67b7DKBPUklCHI4bd/6JE8rbkYmZSbi+1I+ZyiSpf0yEAYVXM9q?=
+ =?us-ascii?Q?mNvgHUzKYs1C43PsX1Ax01KCOG7BgE1ViuaJ84SHWKe6A1gPaSfLcBSdsRko?=
+ =?us-ascii?Q?gHJDodvKTYzn7WjJaEDj4aF5t+fd+y1APStgMPut/kZLXYZGTwilu8Aw/DIR?=
+ =?us-ascii?Q?v2mnZM3/Q0PvWVBszh0oZ852beLZ65+4IBCXffmk2Bwr9BwnAe3EYuib+EVb?=
+ =?us-ascii?Q?5teNtaGyAIoxZuA0Cqz/3p9BHekMn0Hfu9J2hTL/Z4DvHkTmgEadHmSSvLV5?=
+ =?us-ascii?Q?r2BKYrsv1A/+omeHRcMDfvXWbhZEiXgo41A/4fGNZu7sw/y8YpQByApjjDCU?=
+ =?us-ascii?Q?R2KUGIG1mUXTuusqAPLAovLk3AdOpHmUEbOdWBsNCa6ti6XtfDHykNb/nwwl?=
+ =?us-ascii?Q?4kphtPaanJCYBKMz5gkZoH9ix0zv6SPfDbnKUg0dr1rKm5qdin6/M0wl6ZUu?=
+ =?us-ascii?Q?GbkK1ecxCOMEyACRBpu7WG7prTMVXqrKn432YkVxuHJ1WzC89E6Vt6Vr+YVB?=
+ =?us-ascii?Q?qlVlSeKZe802XRJBoYKA1Use7oBZPsltF5LIzix09gXXXQTzaPI3qbtNHCQn?=
+ =?us-ascii?Q?sHYQ4NBnPDIf9uDFMZrKwZ9Ewk8rQFahqnKAikPxW8m/Gmmz1Nlv81Uou/Vp?=
+ =?us-ascii?Q?Ga110SZ2aZa/PPrX661BfB3Qw2IfIplGxp6ADegpFrslgqXBJaCuUOnRlijq?=
+ =?us-ascii?Q?8WS9965QLOB9TLFFldmVdJAdPLa3XwLrQTfZ3M1XeM6Bqwpy/4fGEtifNmyJ?=
+ =?us-ascii?Q?qsWubzUhqedIGK24x2jOoK4xaeG7Z0b3jMAqVsGirF5c7kMohadoNks09AAa?=
+ =?us-ascii?Q?Klbr5k3gK3G4UYqGKMynHDG10hu1GLVtBvJdUFU1iB5/i5fYQ4Ndvhkt3prR?=
+ =?us-ascii?Q?VT5VDQKgwlSKnQYNEtqR0oVsfRiodvOMfVQoMCcVjZAkenYPmM0rC8CKw9QQ?=
+ =?us-ascii?Q?EfBZS9I74k2jC4rJ/4LA7uPp/tSVof55vkoaSjsr0wvL+1akqt3ngFSE50Ha?=
+ =?us-ascii?Q?6CuQGcU4O11i+bodWs44DlePhGtW2h7UdchEQoIL39/scMdJw84jr7734Sk4?=
+ =?us-ascii?Q?TyxdC7LQH3lr4Zx4x49S4SqwdDyAYcuUp9hwonO+F+OL0s/6clQ+MB3Lprg9?=
+ =?us-ascii?Q?bEpY5VOMbZRD9oE2dV+NiXIO60/+LZcw1PoYXPqqHk8TiCi/6rf53ZbrDGy1?=
+ =?us-ascii?Q?rFzEVGUllydj/sIqFol4muhmGc8THFJrrZmkQXJYN2hFnEtwHZFx6TN1dwgV?=
+ =?us-ascii?Q?1Z1NhQVJGm1KLtbg9bigkw2IHKzM/MsDl8uPrQFbIu21b03i7CGspRgsZiRM?=
+ =?us-ascii?Q?opB+syBJ4bK1JJhkKmJ3GCTT/A2ad0goy32ZO6lMQP9MZHlBnB/1+myoJHpk?=
+ =?us-ascii?Q?yOzNZmd+WVAzmhCew0RtmbEXHbFqGEgQluqsqQQY4m/T1j6k/jotmD7J5Q5f?=
+ =?us-ascii?Q?6uzbwmNFSTOKUvRg0zVrtxf7MkQWhZNaLHizvrCXDSsEU/DHZ1A9oDvV5Vnr?=
+ =?us-ascii?Q?40APlz492qZuAEMB/rkUq18XMPBs14FHgHJJ+8yCMsjC6Hpnw1AUPhOiqmtD?=
+ =?us-ascii?Q?ss4zs74o2P5wKwAbuxGUwY3juaDlrYdBlKYbyTHF6J07axdnZ3qFUEkjb1DH?=
+ =?us-ascii?Q?gRpPM0WNR9bcNgdg+zj2a34=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-OriginatorOrg: outlook.com
+X-OriginatorOrg: siemens.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR14MB3893.namprd14.prod.outlook.com
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 
- 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-AuthSource: 
+ DB6PR1001MB1285.EURPRD10.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 37da1ea2-0eb8-401f-2ba7-08da68832a09
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Jul 2022 06:02:58.1126
+ 3d5c385f-5131-43d4-e48a-08da68b3e233
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Jul 2022 11:51:42.9520
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 
- 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR14MB3421
+X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 
+ B1JTxerAuqTUtM5obofma/rbTmzZqYpTgcNJx2Xb5LqLzUikZ1VpvAANmOeBN1kp1XF/J/IPVo1GxoO98J+n4p2IlTf10AmPcvxQ3SI0S5eSNPQnMTt3SXsOyYsowVS0
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR10MB4849
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Mon, 18 Jul 2022 06:03:10 -0000
+ <meta-virtualization@lists.yoctoproject.org>; Mon, 18 Jul 2022 11:51:51 -0000
 X-Groupsio-URL: 
- https://lists.yoctoproject.org/g/meta-virtualization/message/7465
+ https://lists.yoctoproject.org/g/meta-virtualization/message/7466
 
---_000_BY5PR14MB3893EB9A81915490B3F068E9868C9BY5PR14MB3893namp_
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Hello Bruce,
 
-Thank you so much Bruce!
+Thank you for merging the changes for the image-oci-umoci in the master bra=
+nch! I was wondering, if it makes sense to also back port these changes to =
+the kirkstone branch? If yes, should I send new patches for the kirkostone =
+branch?
 
+Vasileios
 
-  1.  This is the commit id that I am using. I think this is from Kirkstone=
- -  d81de7af35cc4ac803c1567a8af1c5725f80ef7d
-  2.  However, I am getting the same errors for podman
+-----Original Message-----
+From: meta-virtualization@lists.yoctoproject.org <meta-virtualization@lists=
+.yoctoproject.org> On Behalf Of Vasileios Anagnostopoulos via lists.yoctopr=
+oject.org
+Sent: Thursday, 14 July 2022 08:50
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: meta-virtualization@lists.yoctoproject.org
+Subject: Re: [meta-virtualization] [PATCH 3/3] image-oci-umoci: skip parent=
+ directory in tar
 
+Hello Bruce,
 
+Ok. Thank you for the extra info! Let me know if I can help in any way.=20
 
-# github.com/containers/podman/v4/cmd/rootlessport
+Vasileios
 
-| net(.text._cgo_3c1cec0c9a4e_C2func_getaddrinfo): unknown symbol __errno_l=
-ocation in callarm64
+-----Original Message-----
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Sent: Wednesday, 13 July 2022 22:37
+To: Anagnostopoulos, Vasileios (SI BP R&D ZG FW ITW) <vasileios.anagnostopo=
+ulos@siemens.com>
+Cc: meta-virtualization@lists.yoctoproject.org
+Subject: Re: [meta-virtualization] [PATCH 3/3] image-oci-umoci: skip parent=
+ directory in tar
 
-| net(.text._cgo_3c1cec0c9a4e_C2func_getaddrinfo): unknown symbol getaddrin=
-fo in callarm64
-
-| net(.text._cgo_3c1cec0c9a4e_Cfunc_freeaddrinfo): unknown symbol freeaddri=
-nfo in callarm64
-
-| net(.text._cgo_3c1cec0c9a4e_Cfunc_gai_strerror): unknown symbol gai_strer=
-ror in callarm64
-
-| runtime/cgo(.text.fatalf): unknown symbol fputs in callarm64
-
-| runtime/cgo(.text.fatalf): unknown symbol __vfprintf_chk in callarm64
-
-| runtime/cgo(.text.fatalf): unknown symbol fputc in callarm64
-
-| runtime/cgo(.text.x_cgo_notify_runtime_init_done): unknown symbol pthread=
-_mutex_lock in callarm64
-
-| runtime/cgo(.text.x_cgo_notify_runtime_init_done): unknown symbol pthread=
-_cond_broadcast in callarm64
-
-| runtime/cgo(.text.x_cgo_notify_runtime_init_done): unknown symbol pthread=
-_mutex_unlock in callarm64
-
-| runtime/cgo(.text._cgo_try_pthread_create): unknown symbol pthread_create=
- in callarm64
-
-| runtime/cgo(.text._cgo_try_pthread_create): unknown symbol pthread_detach=
- in callarm64
-
-| runtime/cgo(.text._cgo_try_pthread_create): unknown symbol __stack_chk_fa=
-il in callarm64
-
-| runtime/cgo(.text._cgo_try_pthread_create): unknown symbol nanosleep in c=
-allarm64
-
-| runtime/cgo(.text.threadentry): unknown symbol free in callarm64
-
-| runtime/cgo(.text._cgo_sys_thread_start): unknown symbol sigfillset in ca=
-llarm64
-
-| runtime/cgo(.text._cgo_sys_thread_start): unknown symbol pthread_sigmask =
-in callarm64
-
-| runtime/cgo(.text._cgo_sys_thread_start): unknown symbol pthread_attr_ini=
-t in callarm64
-
-| runtime/cgo(.text._cgo_sys_thread_start): unknown symbol pthread_attr_get=
-stacksize in callarm64
-
-| runtime/cgo(.text._cgo_sys_thread_start): unknown symbol pthread_sigmask =
-in callarm64
-
-| runtime/cgo(.text._cgo_sys_thread_start): unknown symbol strerror in call=
-arm64
-
-| /home/work/azure_repos/azure-sphere-nre-yocto/build/tmp-qemuarm64-azure-s=
-phere/work/cortexa57-azuresphere-linux/podman/4.0.1+gitAUTOINC+717edd7b84-r=
-0/recipe-sysroot-native/usr/lib/aarch64-azuresphere-linux/go/pkg/tool/linux=
-_amd64/link: too many errors
-
-| make: *** [Makefile:398: bin/rootlessport] Error 2
-
-| ERROR: oe_runmake failed
-
-| WARNING: exit code 1 from a shell command.
-
-ERROR: Task (/home/work/azure_repos/azure-sphere-nre-yocto/work/meta-virtua=
-lization/recipes-containers/podman/podman_git.bb:do_compile)
-
-
-
-Sent from Mail<https://go.microsoft.com/fwlink/?LinkId=3D550986> for Window=
-s
-
-From: Bruce Ashfield<mailto:bruce.ashfield@gmail.com>
-Sent: Sunday, July 17, 2022 11:42 AM
-To: Pra.. Dew..<mailto:linux_learner@outlook.com>; Andrei Gherzan<mailto:an=
-drei.gherzan@huawei.com>
-Cc: meta-virtualization@lists.yoctoproject.org<mailto:meta-virtualization@l=
-ists.yoctoproject.org>
-Subject: Re: [meta-virtualization] pthreads dependency error in building po=
-dman
-
-On Sat, Jul 16, 2022 at 2:50 AM Pra.. Dew.. <linux_learner@outlook.com> wro=
-te:
+On Wed, Jul 13, 2022 at 3:19 AM Vasileios Anagnostopoulos <vasileios.anagno=
+stopoulos@siemens.com> wrote:
 >
+> Hello Bruce,
 >
+> How do you generate the images and import them? Could you describe a bit =
+more the use case?
 >
+> With podman for example you can load the image by using `podman load=20
+> -i
+> build-oci/tmp/deploy/images/capricorn-64/name-of-the-image-capricorn-6
+> 4-20220713063601.rootfs.tar`
 >
+> Usually, the tools that support the oci image format also support the oci=
+-archive image format. An exception is docker that does not support the oci=
+ image format and I have first to transform it using skopeo.
 >
-> I added the meta-virtualization layer to a Yocto (Kirkstone) project usin=
-g KAS. When I try to compile the project  I get the following errors. I was=
- hoping that the layer should build cleanly since I have not modified anyth=
-ing in the layer. Tanks for all your guidance and help.
->
+> What is the advantage of first un-taring the image and then doing the imp=
+ort?
 >
 
-master looks like it has a problem with a patch I recently merged from
-Andrei, but I've fixed that here and pushed a change.
+There's no advantage, it's just the support for the OCI image format when I=
+ added it, was around the oci image, not the oci-archive, and it was design=
+ed around oci-image-tools, runc, and directly executing / manipulating the =
+images. The tgz version was something I added after, to make it easier to c=
+opy them around, stage them, and otherwise collect artifacts.  docker, podm=
+an or any other specific runtime wasn't the target.
 
-kirskstone doesn't have that change, so should be fine. I'm getting
-patches for podman on kirkstone, so there are people building and
-running without issues.
+skopeo was from the beginning the tool that was used to copy/import the ima=
+ges, and that was with the oci: type .. not with the tarballs .. in those f=
+lows as well.
+
+I'm just pondering the right way to not break existing layouts and flows, a=
+nd that will take me a bit longer.
+
+> Probably the other 2 patches that I send it with this one (https://eur01.=
+safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Flists.yoctoproject.or=
+g%2Fg%2Fmeta-virtualization%2Fmessage%2F7442&amp;data=3D05%7C01%7Cvasileios=
+.anagnostopoulos%40siemens.com%7C45180cb757f947e2f63008da656510d4%7C38ae3bc=
+d95794fd4addab42e1495d55a%7C1%7C0%7C637933782366613603%7CUnknown%7CTWFpbGZs=
+b3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C30=
+00%7C%7C%7C&amp;sdata=3DOnmF%2BmqKwRl0uBfYVswDG7Ko3f62BOMwFyzqQ3zOwjU%3D&am=
+p;reserved=3D0, https://eur01.safelinks.protection.outlook.com/?url=3Dhttps=
+%3A%2F%2Flists.yoctoproject.org%2Fg%2Fmeta-virtualization%2Fmessage%2F7441&=
+amp;data=3D05%7C01%7Cvasileios.anagnostopoulos%40siemens.com%7C45180cb757f9=
+47e2f63008da656510d4%7C38ae3bcd95794fd4addab42e1495d55a%7C1%7C0%7C637933782=
+366613603%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBT=
+iI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=3D%2Bo56q8uJz5WdxSdKh3r=
+zpdw4n9EguCgbgihXmlNPBIM%3D&amp;reserved=3D0) are still relevant, because t=
+hey are fixing other minor issues.
+>
+
+Yep, I still have those tagged in my "to-review" and "to-test" queues.
+
+Cheers,
 
 Bruce
 
 >
-> buM_iMH1g6GesQ1UE_c\n"
 >
-> | HASH[link github.com/containernetworking/cni/cnitool]: "packagefile git=
-hub.com/containernetworking/cni/pkg/types/020=3DoY1xAj97Tqs0jbqIHGIg\n"
->
-> | HASH[link github.com/containernetworking/cni/cnitool]: 803d1b283174051e=
-aa86b7a946484a68a9626fcebff229bc3c414c4222c4badc
+> Vasileios
 >
 >
->
-> # github.com/containernetworking/cni/cnitool
->
-> | runtime/cgo(.text.fatalf): unknown symbol fputs in callarm64
->
-> | runtime/cgo(.text.fatalf): unknown symbol __vfprintf_chk in callarm64
->
-> | runtime/cgo(.text.fatalf): unknown symbol fputc in callarm64
->
-> | runtime/cgo(.text.x_cgo_notify_runtime_init_done): unknown symbol pthre=
-ad_mutex_lock in callarm64
->
-> | runtime/cgo(.text.x_cgo_notify_runtime_init_done): unknown symbol pthre=
-ad_cond_broadcast in callarm64
->
-> | runtime/cgo(.text.x_cgo_notify_runtime_init_done): unknown symbol pthre=
-ad_mutex_unlock in callarm64
->
-> | runtime/cgo(.text._cgo_try_pthread_create): unknown symbol pthread_crea=
-te in callarm64
->
-> | runtime/cgo(.text._cgo_try_pthread_create): unknown symbol pthread_deta=
-ch in callarm64
->
-> | runtime/cgo(.text._cgo_try_pthread_create): unknown symbol __stack_chk_=
-fail in callarm64
->
-> | runtime/cgo(.text._cgo_try_pthread_create): unknown symbol nanosleep in=
- callarm64
->
-> | runtime/cgo(.text.threadentry): unknown symbol free in callarm64
->
-> | runtime/cgo(.text._cgo_sys_thread_start): unknown symbol sigfillset in =
-callarm64
->
-> | runtime/cgo(.text._cgo_sys_thread_start): unknown symbol pthread_sigmas=
-k in callarm64
->
-> | runtime/cgo(.text._cgo_sys_thread_start): unknown symbol pthread_attr_i=
-nit in callarm64
->
-> | runtime/cgo(.text._cgo_sys_thread_start): unknown symbol pthread_attr_g=
-etstacksize in callarm64
->
-> | runtime/cgo(.text._cgo_sys_thread_start): unknown symbol pthread_sigmas=
-k in callarm64
->
-> | runtime/cgo(.text._cgo_sys_thread_start): unknown symbol strerror in ca=
-llarm64
->
-> | runtime/cgo(.text._cgo_sys_thread_start): unknown symbol __stack_chk_fa=
-il in callarm64
->
-> | runtime/cgo(.text.x_cgo_init): unknown symbol malloc in callarm64
->
-> | runtime/cgo(.text.x_cgo_init): unknown symbol __errno_location in calla=
-rm64
->
-> | runtime/cgo(.text.x_cgo_init): unknown symbol strerror in callarm64
->
->
->
-> Sent from Mail for Windows
->
->
->
->
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#7463): https://nam12.safelinks.protection.outlook.com=
-/?url=3Dhttps%3A%2F%2Flists.yoctoproject.org%2Fg%2Fmeta-virtualization%2Fme=
-ssage%2F7463&amp;data=3D05%7C01%7C%7C381955eaa922446abfb208da68242517%7C84d=
-f9e7fe9f640afb435aaaaaaaaaaaa%7C1%7C0%7C637936801697321806%7CUnknown%7CTWFp=
-bGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%=
-7C3000%7C%7C%7C&amp;sdata=3DvO1fmfxv8WMe%2FB19SNS%2BTttVWdb4busK%2Bc46zx2qS=
-B8%3D&amp;reserved=3D0
-> Mute This Topic: https://nam12.safelinks.protection.outlook.com/?url=3Dht=
-tps%3A%2F%2Flists.yoctoproject.org%2Fmt%2F92416761%2F1050810&amp;data=3D05%=
-7C01%7C%7C381955eaa922446abfb208da68242517%7C84df9e7fe9f640afb435aaaaaaaaaa=
-aa%7C1%7C0%7C637936801697321806%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDA=
-iLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=
-=3DcLStJNelKn8AvVQRy2p3cDARSBKIcXUDKU2joYUEde4%3D&amp;reserved=3D0
-> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> Unsubscribe: https://nam12.safelinks.protection.outlook.com/?url=3Dhttps%=
-3A%2F%2Flists.yoctoproject.org%2Fg%2Fmeta-virtualization%2Funsub&amp;data=
-=3D05%7C01%7C%7C381955eaa922446abfb208da68242517%7C84df9e7fe9f640afb435aaaa=
-aaaaaaaa%7C1%7C0%7C637936801697321806%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wL=
-jAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;s=
-data=3DRePKfqhP8BRmJ5Fk%2B8YdP1GNrHdKlhQVbnQNZDLYLlQ%3D&amp;reserved=3D0 [b=
-ruce.ashfield@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>=20
 >
 
 
 --
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
+- Thou shalt not follow the NULL pointer, for chaos and madness await thee =
+at its end
 - "Use the force Harry" - Gandalf, Star Trek II
-
-
---_000_BY5PR14MB3893EB9A81915490B3F068E9868C9BY5PR14MB3893namp_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:o=3D"urn:schemas-microsoft-com:office:office" xmlns:w=3D"urn:sc=
-hemas-microsoft-com:office:word" xmlns:m=3D"http://schemas.microsoft.com/of=
-fice/2004/12/omml" xmlns=3D"http://www.w3.org/TR/REC-html40">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
->
-<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
-<style><!--
-/* Font Definitions */
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:blue;
-	text-decoration:underline;}
-p.MsoListParagraph, li.MsoListParagraph, div.MsoListParagraph
-	{mso-style-priority:34;
-	margin-top:0in;
-	margin-right:0in;
-	margin-bottom:0in;
-	margin-left:.5in;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-.MsoChpDefault
-	{mso-style-type:export-only;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
-/* List Definitions */
-@list l0
-	{mso-list-id:1143935201;
-	mso-list-type:hybrid;
-	mso-list-template-ids:-1779400592 -1 67698713 67698715 67698703 67698713 6=
-7698715 67698703 67698713 67698715;}
-@list l0:level1
-	{mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-.25in;}
-@list l0:level2
-	{mso-level-number-format:alpha-lower;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-.25in;}
-@list l0:level3
-	{mso-level-number-format:roman-lower;
-	mso-level-tab-stop:none;
-	mso-level-number-position:right;
-	text-indent:-9.0pt;}
-@list l0:level4
-	{mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-.25in;}
-@list l0:level5
-	{mso-level-number-format:alpha-lower;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-.25in;}
-@list l0:level6
-	{mso-level-number-format:roman-lower;
-	mso-level-tab-stop:none;
-	mso-level-number-position:right;
-	text-indent:-9.0pt;}
-@list l0:level7
-	{mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-.25in;}
-@list l0:level8
-	{mso-level-number-format:alpha-lower;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-.25in;}
-@list l0:level9
-	{mso-level-number-format:roman-lower;
-	mso-level-tab-stop:none;
-	mso-level-number-position:right;
-	text-indent:-9.0pt;}
-ol
-	{margin-bottom:0in;}
-ul
-	{margin-bottom:0in;}
---></style>
-</head>
-<body lang=3D"EN-US" link=3D"blue" vlink=3D"#954F72" style=3D"word-wrap:bre=
-ak-word">
-<div class=3D"WordSection1">
-<p class=3D"MsoNormal">Thank you so much Bruce!</p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<ol style=3D"margin-top:0in" start=3D"1" type=3D"1">
-<li class=3D"MsoListParagraph" style=3D"margin-left:0in;mso-list:l0 level1 =
-lfo1">This is the commit id that I am using. I think this is from Kirkstone=
- - &nbsp;d81de7af35cc4ac803c1567a8af1c5725f80ef7d</li><li class=3D"MsoListP=
-aragraph" style=3D"margin-left:0in;mso-list:l0 level1 lfo1">However, I am g=
-etting the same errors for podman</li></ol>
-<p class=3D"MsoListParagraph"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoListParagraph"># github.com/containers/podman/v4/cmd/rootles=
-sport</p>
-<p class=3D"MsoListParagraph">| net(.text._cgo_3c1cec0c9a4e_C2func_getaddri=
-nfo): unknown symbol __errno_location in callarm64</p>
-<p class=3D"MsoListParagraph">| net(.text._cgo_3c1cec0c9a4e_C2func_getaddri=
-nfo): unknown symbol getaddrinfo in callarm64</p>
-<p class=3D"MsoListParagraph">| net(.text._cgo_3c1cec0c9a4e_Cfunc_freeaddri=
-nfo): unknown symbol freeaddrinfo in callarm64</p>
-<p class=3D"MsoListParagraph">| net(.text._cgo_3c1cec0c9a4e_Cfunc_gai_strer=
-ror): unknown symbol gai_strerror in callarm64</p>
-<p class=3D"MsoListParagraph">| runtime/cgo(.text.fatalf): unknown symbol f=
-puts in callarm64</p>
-<p class=3D"MsoListParagraph">| runtime/cgo(.text.fatalf): unknown symbol _=
-_vfprintf_chk in callarm64</p>
-<p class=3D"MsoListParagraph">| runtime/cgo(.text.fatalf): unknown symbol f=
-putc in callarm64</p>
-<p class=3D"MsoListParagraph">| runtime/cgo(.text.x_cgo_notify_runtime_init=
-_done): unknown symbol pthread_mutex_lock in callarm64</p>
-<p class=3D"MsoListParagraph">| runtime/cgo(.text.x_cgo_notify_runtime_init=
-_done): unknown symbol pthread_cond_broadcast in callarm64</p>
-<p class=3D"MsoListParagraph">| runtime/cgo(.text.x_cgo_notify_runtime_init=
-_done): unknown symbol pthread_mutex_unlock in callarm64</p>
-<p class=3D"MsoListParagraph">| runtime/cgo(.text._cgo_try_pthread_create):=
- unknown symbol pthread_create in callarm64</p>
-<p class=3D"MsoListParagraph">| runtime/cgo(.text._cgo_try_pthread_create):=
- unknown symbol pthread_detach in callarm64</p>
-<p class=3D"MsoListParagraph">| runtime/cgo(.text._cgo_try_pthread_create):=
- unknown symbol __stack_chk_fail in callarm64</p>
-<p class=3D"MsoListParagraph">| runtime/cgo(.text._cgo_try_pthread_create):=
- unknown symbol nanosleep in callarm64</p>
-<p class=3D"MsoListParagraph">| runtime/cgo(.text.threadentry): unknown sym=
-bol free in callarm64</p>
-<p class=3D"MsoListParagraph">| runtime/cgo(.text._cgo_sys_thread_start): u=
-nknown symbol sigfillset in callarm64</p>
-<p class=3D"MsoListParagraph">| runtime/cgo(.text._cgo_sys_thread_start): u=
-nknown symbol pthread_sigmask in callarm64</p>
-<p class=3D"MsoListParagraph">| runtime/cgo(.text._cgo_sys_thread_start): u=
-nknown symbol pthread_attr_init in callarm64</p>
-<p class=3D"MsoListParagraph">| runtime/cgo(.text._cgo_sys_thread_start): u=
-nknown symbol pthread_attr_getstacksize in callarm64</p>
-<p class=3D"MsoListParagraph">| runtime/cgo(.text._cgo_sys_thread_start): u=
-nknown symbol pthread_sigmask in callarm64</p>
-<p class=3D"MsoListParagraph">| runtime/cgo(.text._cgo_sys_thread_start): u=
-nknown symbol strerror in callarm64</p>
-<p class=3D"MsoListParagraph">| /home/work/azure_repos/azure-sphere-nre-yoc=
-to/build/tmp-qemuarm64-azure-sphere/work/cortexa57-azuresphere-linux/podman=
-/4.0.1+gitAUTOINC+717edd7b84-r0/recipe-sysroot-native/usr/lib/aarch64-azure=
-sphere-linux/go/pkg/tool/linux_amd64/link:
- too many errors</p>
-<p class=3D"MsoListParagraph">| make: *** [Makefile:398: bin/rootlessport] =
-Error 2</p>
-<p class=3D"MsoListParagraph">| ERROR: oe_runmake failed</p>
-<p class=3D"MsoListParagraph">| WARNING: exit code 1 from a shell command.<=
-/p>
-<p class=3D"MsoListParagraph">ERROR: Task (/home/work/azure_repos/azure-sph=
-ere-nre-yocto/work/meta-virtualization/recipes-containers/podman/podman_git=
-.bb:do_compile)</p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">Sent from <a href=3D"https://go.microsoft.com/fwlink=
-/?LinkId=3D550986">
-Mail</a> for Windows</p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<div style=3D"mso-element:para-border-div;border:none;border-top:solid #E1E=
-1E1 1.0pt;padding:3.0pt 0in 0in 0in">
-<p class=3D"MsoNormal" style=3D"border:none;padding:0in"><b>From: </b><a hr=
-ef=3D"mailto:bruce.ashfield@gmail.com">Bruce Ashfield</a><br>
-<b>Sent: </b>Sunday, July 17, 2022 11:42 AM<br>
-<b>To: </b><a href=3D"mailto:linux_learner@outlook.com">Pra.. Dew..</a>; <a=
- href=3D"mailto:andrei.gherzan@huawei.com">
-Andrei Gherzan</a><br>
-<b>Cc: </b><a href=3D"mailto:meta-virtualization@lists.yoctoproject.org">me=
-ta-virtualization@lists.yoctoproject.org</a><br>
-<b>Subject: </b>Re: [meta-virtualization] pthreads dependency error in buil=
-ding podman</p>
-</div>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">On Sat, Jul 16, 2022 at 2:50 AM Pra.. Dew.. &lt;linu=
-x_learner@outlook.com&gt; wrote:<br>
-&gt;<br>
-&gt;<br>
-&gt;<br>
-&gt;<br>
-&gt;<br>
-&gt; I added the meta-virtualization layer to a Yocto (Kirkstone) project u=
-sing KAS. When I try to compile the project&nbsp; I get the following error=
-s. I was hoping that the layer should build cleanly since I have not modifi=
-ed anything in the layer. Tanks for all
- your guidance and help.<br>
-&gt;<br>
-&gt;<br>
-<br>
-master looks like it has a problem with a patch I recently merged from<br>
-Andrei, but I've fixed that here and pushed a change.<br>
-<br>
-kirskstone doesn't have that change, so should be fine. I'm getting<br>
-patches for podman on kirkstone, so there are people building and<br>
-running without issues.<br>
-<br>
-Bruce<br>
-<br>
-&gt;<br>
-&gt; buM_iMH1g6GesQ1UE_c\n&quot;<br>
-&gt;<br>
-&gt; | HASH[link github.com/containernetworking/cni/cnitool]: &quot;package=
-file github.com/containernetworking/cni/pkg/types/020=3DoY1xAj97Tqs0jbqIHGI=
-g\n&quot;<br>
-&gt;<br>
-&gt; | HASH[link github.com/containernetworking/cni/cnitool]: 803d1b2831740=
-51eaa86b7a946484a68a9626fcebff229bc3c414c4222c4badc<br>
-&gt;<br>
-&gt;<br>
-&gt;<br>
-&gt; # github.com/containernetworking/cni/cnitool<br>
-&gt;<br>
-&gt; | runtime/cgo(.text.fatalf): unknown symbol fputs in callarm64<br>
-&gt;<br>
-&gt; | runtime/cgo(.text.fatalf): unknown symbol __vfprintf_chk in callarm6=
-4<br>
-&gt;<br>
-&gt; | runtime/cgo(.text.fatalf): unknown symbol fputc in callarm64<br>
-&gt;<br>
-&gt; | runtime/cgo(.text.x_cgo_notify_runtime_init_done): unknown symbol pt=
-hread_mutex_lock in callarm64<br>
-&gt;<br>
-&gt; | runtime/cgo(.text.x_cgo_notify_runtime_init_done): unknown symbol pt=
-hread_cond_broadcast in callarm64<br>
-&gt;<br>
-&gt; | runtime/cgo(.text.x_cgo_notify_runtime_init_done): unknown symbol pt=
-hread_mutex_unlock in callarm64<br>
-&gt;<br>
-&gt; | runtime/cgo(.text._cgo_try_pthread_create): unknown symbol pthread_c=
-reate in callarm64<br>
-&gt;<br>
-&gt; | runtime/cgo(.text._cgo_try_pthread_create): unknown symbol pthread_d=
-etach in callarm64<br>
-&gt;<br>
-&gt; | runtime/cgo(.text._cgo_try_pthread_create): unknown symbol __stack_c=
-hk_fail in callarm64<br>
-&gt;<br>
-&gt; | runtime/cgo(.text._cgo_try_pthread_create): unknown symbol nanosleep=
- in callarm64<br>
-&gt;<br>
-&gt; | runtime/cgo(.text.threadentry): unknown symbol free in callarm64<br>
-&gt;<br>
-&gt; | runtime/cgo(.text._cgo_sys_thread_start): unknown symbol sigfillset =
-in callarm64<br>
-&gt;<br>
-&gt; | runtime/cgo(.text._cgo_sys_thread_start): unknown symbol pthread_sig=
-mask in callarm64<br>
-&gt;<br>
-&gt; | runtime/cgo(.text._cgo_sys_thread_start): unknown symbol pthread_att=
-r_init in callarm64<br>
-&gt;<br>
-&gt; | runtime/cgo(.text._cgo_sys_thread_start): unknown symbol pthread_att=
-r_getstacksize in callarm64<br>
-&gt;<br>
-&gt; | runtime/cgo(.text._cgo_sys_thread_start): unknown symbol pthread_sig=
-mask in callarm64<br>
-&gt;<br>
-&gt; | runtime/cgo(.text._cgo_sys_thread_start): unknown symbol strerror in=
- callarm64<br>
-&gt;<br>
-&gt; | runtime/cgo(.text._cgo_sys_thread_start): unknown symbol __stack_chk=
-_fail in callarm64<br>
-&gt;<br>
-&gt; | runtime/cgo(.text.x_cgo_init): unknown symbol malloc in callarm64<br=
->
-&gt;<br>
-&gt; | runtime/cgo(.text.x_cgo_init): unknown symbol __errno_location in ca=
-llarm64<br>
-&gt;<br>
-&gt; | runtime/cgo(.text.x_cgo_init): unknown symbol strerror in callarm64<=
-br>
-&gt;<br>
-&gt;<br>
-&gt;<br>
-&gt; Sent from Mail for Windows<br>
-&gt;<br>
-&gt;<br>
-&gt;<br>
-&gt;<br>
-&gt;<br>
-&gt;<br>
-&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt; Links: You receive all messages sent to this group.<br>
-&gt; View/Reply Online (#7463): <a href=3D"https://nam12.safelinks.protecti=
-on.outlook.com/?url=3Dhttps%3A%2F%2Flists.yoctoproject.org%2Fg%2Fmeta-virtu=
-alization%2Fmessage%2F7463&amp;amp;data=3D05%7C01%7C%7C381955eaa922446abfb2=
-08da68242517%7C84df9e7fe9f640afb435aaaaaaaaaaaa%7C1%7C0%7C63793680169732180=
-6%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1ha=
-WwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;amp;sdata=3DvO1fmfxv8WMe%2FB19SNS%2BT=
-ttVWdb4busK%2Bc46zx2qSB8%3D&amp;amp;reserved=3D0">
-https://nam12.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Flists.y=
-octoproject.org%2Fg%2Fmeta-virtualization%2Fmessage%2F7463&amp;amp;data=3D0=
-5%7C01%7C%7C381955eaa922446abfb208da68242517%7C84df9e7fe9f640afb435aaaaaaaa=
-aaaa%7C1%7C0%7C637936801697321806%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwM=
-DAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;amp;s=
-data=3DvO1fmfxv8WMe%2FB19SNS%2BTttVWdb4busK%2Bc46zx2qSB8%3D&amp;amp;reserve=
-d=3D0</a><br>
-&gt; Mute This Topic: <a href=3D"https://nam12.safelinks.protection.outlook=
-.com/?url=3Dhttps%3A%2F%2Flists.yoctoproject.org%2Fmt%2F92416761%2F1050810&=
-amp;amp;data=3D05%7C01%7C%7C381955eaa922446abfb208da68242517%7C84df9e7fe9f6=
-40afb435aaaaaaaaaaaa%7C1%7C0%7C637936801697321806%7CUnknown%7CTWFpbGZsb3d8e=
-yJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C=
-%7C%7C&amp;amp;sdata=3DcLStJNelKn8AvVQRy2p3cDARSBKIcXUDKU2joYUEde4%3D&amp;a=
-mp;reserved=3D0">
-https://nam12.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Flists.y=
-octoproject.org%2Fmt%2F92416761%2F1050810&amp;amp;data=3D05%7C01%7C%7C38195=
-5eaa922446abfb208da68242517%7C84df9e7fe9f640afb435aaaaaaaaaaaa%7C1%7C0%7C63=
-7936801697321806%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMz=
-IiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;amp;sdata=3DcLStJNelKn=
-8AvVQRy2p3cDARSBKIcXUDKU2joYUEde4%3D&amp;amp;reserved=3D0</a><br>
-&gt; Group Owner: meta-virtualization+owner@lists.yoctoproject.org<br>
-&gt; Unsubscribe: <a href=3D"https://nam12.safelinks.protection.outlook.com=
-/?url=3Dhttps%3A%2F%2Flists.yoctoproject.org%2Fg%2Fmeta-virtualization%2Fun=
-sub&amp;amp;data=3D05%7C01%7C%7C381955eaa922446abfb208da68242517%7C84df9e7f=
-e9f640afb435aaaaaaaaaaaa%7C1%7C0%7C637936801697321806%7CUnknown%7CTWFpbGZsb=
-3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C300=
-0%7C%7C%7C&amp;amp;sdata=3DRePKfqhP8BRmJ5Fk%2B8YdP1GNrHdKlhQVbnQNZDLYLlQ%3D=
-&amp;amp;reserved=3D0">
-https://nam12.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Flists.y=
-octoproject.org%2Fg%2Fmeta-virtualization%2Funsub&amp;amp;data=3D05%7C01%7C=
-%7C381955eaa922446abfb208da68242517%7C84df9e7fe9f640afb435aaaaaaaaaaaa%7C1%=
-7C0%7C637936801697321806%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIj=
-oiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;amp;sdata=3DRe=
-PKfqhP8BRmJ5Fk%2B8YdP1GNrHdKlhQVbnQNZDLYLlQ%3D&amp;amp;reserved=3D0</a>
- [bruce.ashfield@gmail.com]<br>
-&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt;<br>
-<br>
-<br>
--- <br>
-- Thou shalt not follow the NULL pointer, for chaos and madness await<br>
-thee at its end<br>
-- &quot;Use the force Harry&quot; - Gandalf, Star Trek II<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-</div>
-</body>
-</html>
-
---_000_BY5PR14MB3893EB9A81915490B3F068E9868C9BY5PR14MB3893namp_--
 
