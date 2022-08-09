@@ -2,58 +2,58 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A9F9C19F2D
-	for <webhook@archiver.kernel.org>; Tue,  9 Aug 2022 13:19:08 +0000 (UTC)
-Received: from mail-oa1-f47.google.com (mail-oa1-f47.google.com
- [209.85.160.47])
- by mx.groups.io with SMTP id smtpd.web12.11730.1660051139016700047
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 048F4C19F2D
+	for <webhook@archiver.kernel.org>; Tue,  9 Aug 2022 13:19:28 +0000 (UTC)
+Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com
+ [209.85.167.173])
+ by mx.groups.io with SMTP id smtpd.web09.11773.1660051167205302966
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 09 Aug 2022 06:18:59 -0700
+ Tue, 09 Aug 2022 06:19:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=WeyAh0kI;
- spf=pass (domain: gmail.com, ip: 209.85.160.47,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=HgCSOcyk;
+ spf=pass (domain: gmail.com, ip: 209.85.167.173,
  mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-oa1-f47.google.com with SMTP id
- 586e51a60fabf-10ea7d8fbf7so13877968fac.7
+Received: by mail-oi1-f173.google.com with SMTP id s199so7949201oie.3
         for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 09 Aug 2022 06:18:58 -0700 (PDT)
+ Tue, 09 Aug 2022 06:19:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc;
-        bh=btxO8W7FSarB2U+Ae0tpoeJJAa6iybtP7FiaRHsl0uA=;
-        b=WeyAh0kI8EUP8Ve3nTXBTdVp9hXk2bLpixNk+2LyN6cmbw0bpINXE3Rpg/5GCRBMrJ
-         SepYxZRgy3Mfjfu8RBVMqwEBEkov1pvPn0a0n4H8YIcaErB1UX2ggU6KDqhIMD/Co8JM
-         Vu8Lw9dOCNqW7GW1E890rKfEX0KUcWWelASUeHzSTvx5zXV0VYKYNrALzTGdwTeAwz9E
-         BTMR2006Ai/uVHLKnFWFXeVwM8VJ/AOPfnNlaWAYNQTs1duzZuvjdWvOLKhd8TY6B5r1
-         QYVhH1GJw5q7dke63vfSAG/aFrrdfUzTdNAJq9bQR+j4fsjJF5j9Lv4FZfXZvUCJezXI
-         gGgQ==
+        bh=aDoYLM4GKWdTDhFk4dFfH3xhnrKAgEJxjAajbprcKag=;
+        b=HgCSOcykm5ecKig4S4bjAKPsPywqAeFL2huq8SJ4x4lvaaJs0P9BQ3E6u2VG4Vo24x
+         tDtPIx7UKbI6tkmNL8SZxDl+yxSae9N29BXLQghquPBH/sOw1PL//7dRr9kFsSFW/5nY
+         iAYdypgMCZpENgGxn28+tptGFokuL6vHPuilBItKSP0Bb/WtMWr50GVP+XmgUTcWXIGm
+         lDtt1Hi/DX89LXZ9WTAl05VnOzxtMiwxpg91eDIwBedORLe29DFlw4BwkPKu8zKrus8i
+         3+Wkz1crxSimEAnpLkEFYU+u+at6iSa7kQCCfab5ajp+6EDMIzsIk4xb+GHtgFzuL7Nx
+         B8CA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc;
-        bh=btxO8W7FSarB2U+Ae0tpoeJJAa6iybtP7FiaRHsl0uA=;
-        b=bZqEkbRVNL1VSyeoWUOFGtNV1r9wZl5uUnf+EQucKsMYRI8lMVl29PSONvqOvMyEpe
-         +mpKjcK/iNa0cQVuCwz6BWNcXOHSp0TOElTF9Fn4j6LBLWndAxAdhdl8fanReEuT04u6
-         XYfX6sPguCnQ7zySI7ZVvQKqPJDdPbEjz1SyI4URdL7quOFyTfq0FC1oT5y6cr6wRJuG
-         LaPsUxB8Q24SXU+OhI9KDPE37P1hgVwmx99s5Jw53oTFAJ6lvve7U+yQxl+9ZC1vkg5j
-         ZNLYUgm2xnLbZ89837JnD70KRDYZAtS6f7MtGtXwwzBfxpg6KS3BZ9HFba9Oa/irNBo4
-         HtIw==
-X-Gm-Message-State: ACgBeo3emkHxnEF9aydQkyVO+Zk3HQN14+8QDqDRNmaK5PMLYKH8zG5i
-	DhlDq/bf8bCzMZk5Vm1yXwOS5i4iST80+M3Mr9g=
+        bh=aDoYLM4GKWdTDhFk4dFfH3xhnrKAgEJxjAajbprcKag=;
+        b=a5Mk7HmF4zLGwySXEaKHGUicH0fUTD7LZEpeRLIRB+8eM6jRmwhgo8ibh7wkCCP34+
+         aFE5qALrJNxWBtUIlWFTcZQXaNm9OINygYUapTP/V2Op7llldVZnPqpq/er+MXO9KEc8
+         AeK3eL5Frcbi1kzhi+/RefbYt8HxHZzgqcrIU8TmWj4TrxXnr/3m7BiDso6MzeoiRbqz
+         /tXmn+i1BDqoPrzvksg6SHHfyNVrxtr+S0kuvfztpGi/i7SmhxBLi3H7MHL9HQargynf
+         dMnZuOmz9+a48dvWZ4fGGcIaNL/LberHAowCsQM5NZAXib12H7D/Xl8I7sMViTNRiP0C
+         S2QA==
+X-Gm-Message-State: ACgBeo04uOMnbwHuFxyFhLHLTUvLhFhbrJC6Z7ZBvyKggB7cA2InVnSX
+	713UGYpKn0L7WW56Jmp3JRGP7Grmk4/2V+PdJuTA5EwetbM=
 X-Google-Smtp-Source: 
- AA6agR6KMtYsiKHh8Wue4ysiGceZpp48Nnrpxx8qvoE5SBNwRb3htsnxRI3VQ8vMADD4wkNhLV8pgXMldi2GvsKQrd0=
-X-Received: by 2002:a05:6870:d29d:b0:10e:747b:f87b with SMTP id
- d29-20020a056870d29d00b0010e747bf87bmr13984938oae.6.1660051138315; Tue, 09
- Aug 2022 06:18:58 -0700 (PDT)
+ AA6agR4599yFzqCY0rzx9FSZx3SOcwYGigdJeZKSMl2l+Apd3rYBzgXmuebW881mj/vRuVjvcjfTFvJMQi/oPvY7+E4=
+X-Received: by 2002:a05:6808:1312:b0:341:cbcd:5387 with SMTP id
+ y18-20020a056808131200b00341cbcd5387mr12283288oiv.175.1660051166493; Tue, 09
+ Aug 2022 06:19:26 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220809121619.32258-1-jose.quaresma@foundries.io>
-In-Reply-To: <20220809121619.32258-1-jose.quaresma@foundries.io>
+ <20220809121619.32258-2-jose.quaresma@foundries.io>
+In-Reply-To: <20220809121619.32258-2-jose.quaresma@foundries.io>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Tue, 9 Aug 2022 09:18:46 -0400
+Date: Tue, 9 Aug 2022 09:19:14 -0400
 Message-ID: 
- <CADkTA4OaXz+DFBs+W8TpqkdusRzhg5wS8vDAmxoveeB=QrSNbA@mail.gmail.com>
-Subject: Re: [meta-virtualization][kirkstone][master][PATCH 1/4] nerdctl:
+ <CADkTA4OGLGXrRWaEVJMpUKs_X3F3nJf1Y7LUQP4SziXXPaBJ2g@mail.gmail.com>
+Subject: Re: [meta-virtualization][kirkstone][master][PATCH 2/4] kubernetes:
  install the binaries in OE standard places
 To: Jose Quaresma <quaresma.jose@gmail.com>
 Cc: meta-virtualization@lists.yoctoproject.org,
@@ -62,57 +62,66 @@ Content-Type: text/plain; charset="UTF-8"
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Tue, 09 Aug 2022 13:19:08 -0000
+ <meta-virtualization@lists.yoctoproject.org>; Tue, 09 Aug 2022 13:19:28 -0000
 X-Groupsio-URL: 
- https://lists.yoctoproject.org/g/meta-virtualization/message/7499
+ https://lists.yoctoproject.org/g/meta-virtualization/message/7500
+
+You must have something different in your environment, I'm not seeing
+any of these same issues.
+
+Cheers,
+
+Bruce
 
 On Tue, Aug 9, 2022 at 8:16 AM Jose Quaresma <quaresma.jose@gmail.com> wrote:
 >
 > - The env BIN_PREFIX is there from the beginning but there are no references to it,
-> also fix a fatal QA errors installed-vs-shipped:
+> also fix a fatal QA errors installed-vs-shipped.
 >
-> ERROR: nerdctl-v0.18.0-r0 do_package: QA Issue: nerdctl: Files/directories were installed but not shipped in any package:
+> ERROR: kubernetes-1_v1.23.6+gitfbcfa33018159c033aee77b0d5456df6771aa9b5-r0 do_package: QA Issue: kubernetes: Files/directories were installed but not shipped in any package:
 >   /bin
->   /bin/nerdctl
+>   /bin/k8s-init
 > Please set FILES such that these items are packaged. Alternatively if they are unneeded, avoid installing them or delete them within do_install.
-> nerdctl: 2 installed and not shipped files. [installed-vs-shipped]
-> ERROR: nerdctl-v0.18.0-r0 do_package: Fatal QA errors were found, failing task.
+> kubernetes: 2 installed and not shipped files. [installed-vs-shipped]
+> ERROR: kubernetes-1_v1.23.6+gitfbcfa33018159c033aee77b0d5456df6771aa9b5-r0 do_package: Fatal QA errors were found, failing task.
 >
-
-I'm building nerdctl constantly, and I'm not seeing this.
-
-So until I can reproduce the issue, I can't merge this change.
-
-Bruce
-
 > Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
 > ---
->  recipes-containers/nerdctl/nerdctl_git.bb | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  recipes-containers/kubernetes/kubernetes_git.bb | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 >
-> diff --git a/recipes-containers/nerdctl/nerdctl_git.bb b/recipes-containers/nerdctl/nerdctl_git.bb
-> index 5d4d827..ad18f67 100644
-> --- a/recipes-containers/nerdctl/nerdctl_git.bb
-> +++ b/recipes-containers/nerdctl/nerdctl_git.bb
-> @@ -239,8 +239,8 @@ do_compile() {
->  }
+> diff --git a/recipes-containers/kubernetes/kubernetes_git.bb b/recipes-containers/kubernetes/kubernetes_git.bb
+> index e9460d4..82b75b1 100644
+> --- a/recipes-containers/kubernetes/kubernetes_git.bb
+> +++ b/recipes-containers/kubernetes/kubernetes_git.bb
+> @@ -103,8 +103,8 @@ do_install() {
+>      install -m 0644 ${WORKDIR}/git/release/cmd/kubepkg/templates/latest/deb/kubeadm/10-kubeadm.conf  ${D}${systemd_unitdir}/system/kubelet.service.d/
 >
->  do_install() {
-> -        install -d "${D}${BIN_PREFIX}/bin"
-> -        install -m 755 "${S}/src/import/_output/nerdctl" "${D}${BIN_PREFIX}/bin"
-> +        install -d ${D}${bindir}
-> +        install -m 755 ${S}/src/import/_output/nerdctl ${D}${bindir}
->  }
+>      if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; then
+> -       install -d "${D}${BIN_PREFIX}/bin"
+> -       install -m 755 "${WORKDIR}/k8s-init" "${D}${BIN_PREFIX}/bin"
+> +       install -d ${D}${bindir}
+> +       install -m 755 ${WORKDIR}/k8s-init ${D}${bindir}
 >
->  INHIBIT_PACKAGE_STRIP = "1"
+>         install -d ${D}${sysconfdir}/sysctl.d
+>         install -m 0644 "${WORKDIR}/99-kubernetes.conf" "${D}${sysconfdir}/sysctl.d"
+> @@ -141,7 +141,7 @@ FILES:kube-proxy = "${bindir}/kube-proxy"
+>  FILES:${PN}-misc = "${bindir} ${sysconfdir}/sysctl.d"
+>
+>  ALLOW_EMPTY:${PN}-host = "1"
+> -FILE:${PN}-host = "${BIN_PREFIX}/bin/k8s-init"
+> +FILE:${PN}-host = "${bindir}/k8s-init"
+>  RDEPENDS:${PN}-host = "${PN}"
+>
+>  RRECOMMENDS:${PN} = "\
 > --
 > 2.37.1
 >
 >
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#7495): https://lists.yoctoproject.org/g/meta-virtualization/message/7495
-> Mute This Topic: https://lists.yoctoproject.org/mt/92913425/1050810
+> View/Reply Online (#7496): https://lists.yoctoproject.org/g/meta-virtualization/message/7496
+> Mute This Topic: https://lists.yoctoproject.org/mt/92913426/1050810
 > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
 > Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
