@@ -2,118 +2,164 @@ Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB0E0C3F6B0
-	for <webhook@archiver.kernel.org>; Tue,  9 Aug 2022 16:33:48 +0000 (UTC)
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
- [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.web08.14357.1660062824032403866
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CE1A1C19F2D
+	for <webhook@archiver.kernel.org>; Tue,  9 Aug 2022 16:34:38 +0000 (UTC)
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
+ [209.85.221.48])
+ by mx.groups.io with SMTP id smtpd.web09.14141.1660062874449110914
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 09 Aug 2022 09:33:44 -0700
+ Tue, 09 Aug 2022 09:34:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=FDhIgPqr;
- spf=pass (domain: gmail.com, ip: 209.85.221.43,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=fUN5VIqX;
+ spf=pass (domain: gmail.com, ip: 209.85.221.48,
  mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wr1-f43.google.com with SMTP id j1so14955803wrw.1
+Received: by mail-wr1-f48.google.com with SMTP id p10so14899414wru.8
         for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 09 Aug 2022 09:33:43 -0700 (PDT)
+ Tue, 09 Aug 2022 09:34:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=qHm1auOF9ahjlvvwmjrXgnABU4BBYwIP5dm/rVHNVcY=;
-        b=FDhIgPqryMraJqfPXLs3Ca18oWmltEsiunmh2i52lKQ9bloGtMU0RVblky3/XdSrf+
-         XoSo8qNcwrGydtEK+CF6kv/QW/+ioWuaekwgIE9euWGC4LXQ9+zOh6uo2dGo3lpuN2r5
-         SK9EITcc2rQdhP4tCK6qrcjntwlTMTdZ5U/w5zd8zqD2cqOxKBj8mdm4r2nv6v/8yfq/
-         12pWV0jpqvJJ0QcdZ2i3PSy9bm1LfWWr+Fq0lUf9wH9t/v7li6sjTUVMg/L6qo1qgTXz
-         xIQZR9KXZOt4ARhZRiP6OeOOymtURd1YcvPbgACtKjl+d2k+Rtt7lqTyqu1yV6LuClM+
-         XTrw==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc;
+        bh=8+rzSoqxCZpH9AHZJpcC3y1+mgbymWbpI6YCYtW9YjI=;
+        b=fUN5VIqXqOasvLBkKP0ehpMCzN/cI/28avqxG2F2r1ByPvYRo9ec5yCCsvNQlkw+j6
+         xmXBnh7phYHN/AeItAPz7HIXtqlic3a0kXxFcIp8yxqUj2eWOkPC5QiAHL/jJLeaSVod
+         uAk4qHFDTQAC8kd5b22hC+u8+lCsOUolZ+i0xEt01f/YtKic92dFjxQvoEjdUCTVXqLX
+         /rBhywm1ZGsXk67NbmP2+xtKT9HhAD1u+ld4tHOuN8C+8hwkRd8jQrt5ky+IaEohVOjL
+         0whVbIeYJ94Qs2D4Zi7NryIVNU6h4w+uGFZ20ux2kPXQGnQrMy4c2KDmFZ1nzPWOs7Vv
+         k2bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=qHm1auOF9ahjlvvwmjrXgnABU4BBYwIP5dm/rVHNVcY=;
-        b=ftxQzgoCD1ALLZD2lQuyUqHmJAYZIhztcKueIdv1DKdH7wPnlAHNcc5nVaFThkGS6z
-         65OOYG86NqJI2mREhRvpa2hgwmAfboLphMhGlG8v00dSbDnCqf26Zmw2hZKtH1IOpcn1
-         cUfiScqUQFKJ4nbaYGfmbBft/NgQq4GILNdER+rMgE15/tbaeXsgcbFRiy74CNjeboku
-         yaaSJ0UThw6ayS5n97F+TwmZUZVjo6KEdX8rrhaygyGtOTluXHWVq7at+H7WtJXBzHC9
-         TglaRWqc8u8zkpyTu/dbfu28jQOWAoGg9HIMP7mVaCuQB/5hFOs3xPd/2N2Jss3deilz
-         KExA==
-X-Gm-Message-State: ACgBeo3QiT/xxCPK5jDXt3IBWznC1yfzOBhZQ6PvwG13LRGyHWa7FLCV
-	Imijm5uDwxEKdG4der5qSA6IALedf6M=
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc;
+        bh=8+rzSoqxCZpH9AHZJpcC3y1+mgbymWbpI6YCYtW9YjI=;
+        b=3PPeBCiqf5TMFFB89JI6zzQ4HJpexLOKVi9JEaTXb34TNuwWLCbKMfOZpvgbSlz8Yi
+         cn1enI8YPgHz+VxQvANsEYytEFI4UuBbUDiSbVXrDeQcpHbmuEC7SK5HZpxXn4Us9Tpv
+         ZIjsrJyUhOA0s7HdLKs+2oKKXHWrHgT5IQ30ui2oo8qXiomyzwCClKYBTaKPSEERW19c
+         ic2clS1Z6zrenO9MWBtU10Bc4Qcws2388ri9pbG+jVoVm0lMboEebpzOMHzt83jvZP9v
+         GV5/6WeCVjsl8bGQraVjgCsTmfY6u960sGn7bePjm79P7Otr0dsNHiVvs7jkJnzgAc2I
+         VZmA==
+X-Gm-Message-State: ACgBeo1QAvksRteMaFoyuzsYnmVAKP0P+aGTeeicN0QY2zhLT28Cw1nW
+	8IL6WpcSUAmXCjXorVi4xZ8GDJkm5ng=
 X-Google-Smtp-Source: 
- AA6agR5yu/qQtNjhHajeBUrQmTU9/dvi9I7NgQFHVAr7nag9Pz2Ixa2elDzHxJlGpL9aQhWsrT7uJA==
-X-Received: by 2002:adf:dd46:0:b0:21e:e972:7c70 with SMTP id
- u6-20020adfdd46000000b0021ee9727c70mr14580060wrm.554.1660062822001;
-        Tue, 09 Aug 2022 09:33:42 -0700 (PDT)
+ AA6agR6NrMmwPXguf2xiB179W/mS1YdU0d1yk9S274C9OnJaZk0Q17KowsWDruvXxzQZsY4HurBVJQ==
+X-Received: by 2002:a05:6000:186b:b0:220:5bf8:a5e8 with SMTP id
+ d11-20020a056000186b00b002205bf8a5e8mr14791927wri.328.1660062872480;
+        Tue, 09 Aug 2022 09:34:32 -0700 (PDT)
 Received: from fio.lan (176.57.115.89.rev.vodafone.pt. [89.115.57.176])
         by smtp.gmail.com with ESMTPSA id
- r66-20020a1c2b45000000b003a5a4635fadsm1210248wmr.37.2022.08.09.09.33.41
+ b6-20020a5d6346000000b0022063e5228bsm13978116wrw.93.2022.08.09.09.34.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Aug 2022 09:33:41 -0700 (PDT)
+        Tue, 09 Aug 2022 09:34:31 -0700 (PDT)
 From: Jose Quaresma <quaresma.jose@gmail.com>
 X-Google-Original-From: Jose Quaresma <jose.quaresma@foundries.io>
 To: meta-virtualization@lists.yoctoproject.org
 Cc: Jose Quaresma <jose.quaresma@foundries.io>
-Subject: [meta-virtualization][kirkstone][master][PATCH v2 2/3] kubernetes:
- install the binaries in OE standard places
-Date: Tue,  9 Aug 2022 17:31:29 +0100
-Message-Id: <20220809163127.54464-2-jose.quaresma@foundries.io>
+Subject: [meta-virtualization][kirkstone][master][PATCH] k3s: install the
+ binaries in OE standard places
+Date: Tue,  9 Aug 2022 17:34:19 +0100
+Message-Id: <20220809163419.54694-1-jose.quaresma@foundries.io>
 X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20220809163127.54464-1-jose.quaresma@foundries.io>
-References: <20220809163127.54464-1-jose.quaresma@foundries.io>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Tue, 09 Aug 2022 16:33:48 -0000
+ <meta-virtualization@lists.yoctoproject.org>; Tue, 09 Aug 2022 16:34:38 -0000
 X-Groupsio-URL: 
- https://lists.yoctoproject.org/g/meta-virtualization/message/7507
+ https://lists.yoctoproject.org/g/meta-virtualization/message/7509
 
-- Install the binaries in the default "/usr/bin" and not in "/bin"
-
-- The env BIN_PREFIX is there from the beginning but it is not defined,
-also fix a fatal QA errors installed-vs-shipped (only enabled with usrmerge):
-
-ERROR: kubernetes-1_v1.23.6+gitfbcfa33018159c033aee77b0d5456df6771aa9b5-r0 do_package: QA Issue: kubernetes: Files/directories were installed but not shipped in any package:
-  /bin
-  /bin/k8s-init
-Please set FILES such that these items are packaged. Alternatively if they are unneeded, avoid installing them or delete them within do_install.
-kubernetes: 2 installed and not shipped files. [installed-vs-shipped]
-ERROR: kubernetes-1_v1.23.6+gitfbcfa33018159c033aee77b0d5456df6771aa9b5-r0 do_package: Fatal QA errors were found, failing task.
+This will change the instalation path from "${exec_prefix}/local/bin"
+to "${bindir}", that in OE-core moves the binaries from the
+"/usr/local/bin" to the default "/usr/bin" path.
+Update the systemd services as well with the new "${bindir}" path.
 
 Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
 ---
+ recipes-containers/k3s/k3s/k3s-agent.service |  4 ++--
+ recipes-containers/k3s/k3s/k3s.service       |  4 ++--
+ recipes-containers/k3s/k3s_git.bb            | 21 +++++++++-----------
+ 3 files changed, 13 insertions(+), 16 deletions(-)
 
- v2: update commit description, drop k3s patch
-
- recipes-containers/kubernetes/kubernetes_git.bb | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/recipes-containers/kubernetes/kubernetes_git.bb b/recipes-containers/kubernetes/kubernetes_git.bb
-index e9460d4..82b75b1 100644
---- a/recipes-containers/kubernetes/kubernetes_git.bb
-+++ b/recipes-containers/kubernetes/kubernetes_git.bb
-@@ -103,8 +103,8 @@ do_install() {
-     install -m 0644 ${WORKDIR}/git/release/cmd/kubepkg/templates/latest/deb/kubeadm/10-kubeadm.conf  ${D}${systemd_unitdir}/system/kubelet.service.d/
+diff --git a/recipes-containers/k3s/k3s/k3s-agent.service b/recipes-containers/k3s/k3s/k3s-agent.service
+index 9f9016d..0792970 100644
+--- a/recipes-containers/k3s/k3s/k3s-agent.service
++++ b/recipes-containers/k3s/k3s/k3s-agent.service
+@@ -21,6 +21,6 @@ Restart=always
+ RestartSec=5s
+ ExecStartPre=-/sbin/modprobe br_netfilter
+ ExecStartPre=-/sbin/modprobe overlay
+-ExecStart=/usr/local/bin/k3s agent
+-ExecStopPost=/usr/local/bin/k3s-clean
++ExecStart=/usr/bin/k3s agent
++ExecStopPost=/usr/bin/k3s-clean
  
-     if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; then
--	install -d "${D}${BIN_PREFIX}/bin"
--	install -m 755 "${WORKDIR}/k8s-init" "${D}${BIN_PREFIX}/bin"
-+	install -d ${D}${bindir}
-+	install -m 755 ${WORKDIR}/k8s-init ${D}${bindir}
+diff --git a/recipes-containers/k3s/k3s/k3s.service b/recipes-containers/k3s/k3s/k3s.service
+index 33d3ee7..647fc66 100644
+--- a/recipes-containers/k3s/k3s/k3s.service
++++ b/recipes-containers/k3s/k3s/k3s.service
+@@ -29,9 +29,9 @@ RestartSec=5s
+ ExecStartPre=/bin/sh -xc '! systemctl is-enabled --quiet nm-cloud-setup.service'
+ ExecStartPre=-/sbin/modprobe br_netfilter
+ ExecStartPre=-/sbin/modprobe overlay
+-ExecStart=/usr/local/bin/k3s server
++ExecStart=/usr/bin/k3s server
+ # Avoid any delay due to this service when the system is rebooting or shutting
+ # down by using the k3s-killall.sh script to kill all of the running k3s
+ # services and containers
+ ExecStopPost=/bin/sh -c "if systemctl is-system-running | grep -i \
+-                           'stopping'; then /usr/local/bin/k3s-killall.sh; fi"
++                           'stopping'; then /usr/bin/k3s-killall.sh; fi"
+diff --git a/recipes-containers/k3s/k3s_git.bb b/recipes-containers/k3s/k3s_git.bb
+index 7f9f549..a4973fe 100644
+--- a/recipes-containers/k3s/k3s_git.bb
++++ b/recipes-containers/k3s/k3s_git.bb
+@@ -37,7 +37,6 @@ GO_BUILD_LDFLAGS = "-X github.com/rancher/k3s/pkg/version.Version=${PV} \
+                     -X github.com/rancher/k3s/pkg/version.GitCommit=${@d.getVar('SRCREV_k3s', d, 1)[:8]} \
+                     -w -s \
+                    "
+-BIN_PREFIX ?= "${exec_prefix}/local"
  
- 	install -d ${D}${sysconfdir}/sysctl.d
- 	install -m 0644 "${WORKDIR}/99-kubernetes.conf" "${D}${sysconfdir}/sysctl.d"
-@@ -141,7 +141,7 @@ FILES:kube-proxy = "${bindir}/kube-proxy"
- FILES:${PN}-misc = "${bindir} ${sysconfdir}/sysctl.d"
+ inherit features_check
+ REQUIRED_DISTRO_FEATURES ?= "seccomp"
+@@ -634,20 +633,19 @@ do_compile() {
+ }
  
- ALLOW_EMPTY:${PN}-host = "1"
--FILE:${PN}-host = "${BIN_PREFIX}/bin/k8s-init"
-+FILE:${PN}-host = "${bindir}/k8s-init"
- RDEPENDS:${PN}-host = "${PN}"
+ do_install() {
+-        install -d "${D}${BIN_PREFIX}/bin"
+-        install -m 755 "${S}/src/import/dist/artifacts/k3s" "${D}${BIN_PREFIX}/bin"
+-        ln -sr "${D}/${BIN_PREFIX}/bin/k3s" "${D}${BIN_PREFIX}/bin/crictl"
++        install -d "${D}${bindir}"
++        install -m 755 "${S}/src/import/dist/artifacts/k3s" "${D}${bindir}"
++        ln -sr "${D}${bindir}/k3s" "${D}${bindir}/crictl"
+         # We want to use the containerd provided ctr
+-        # ln -sr "${D}/${BIN_PREFIX}/bin/k3s" "${D}${BIN_PREFIX}/bin/ctr"
+-        ln -sr "${D}/${BIN_PREFIX}/bin/k3s" "${D}${BIN_PREFIX}/bin/kubectl"
+-        install -m 755 "${WORKDIR}/k3s-clean" "${D}${BIN_PREFIX}/bin"
+-        install -m 755 "${WORKDIR}/k3s-killall.sh" "${D}${BIN_PREFIX}/bin"
++        # ln -sr "${D}${bindir}/k3s" "${D}${bindir}/ctr"
++        ln -sr "${D}${bindir}/k3s" "${D}${bindir}/kubectl"
++        install -m 755 "${WORKDIR}/k3s-clean" "${D}${bindir}"
++        install -m 755 "${WORKDIR}/k3s-killall.sh" "${D}${bindir}"
  
- RRECOMMENDS:${PN} = "\
+         if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; then
+                 install -D -m 0644 "${WORKDIR}/k3s.service" "${D}${systemd_system_unitdir}/k3s.service"
+                 install -D -m 0644 "${WORKDIR}/k3s-agent.service" "${D}${systemd_system_unitdir}/k3s-agent.service"
+-                sed -i "s#\(Exec\)\(.*\)=\(.*\)\(k3s\)#\1\2=${BIN_PREFIX}/bin/\4#g" "${D}${systemd_system_unitdir}/k3s.service" "${D}${systemd_system_unitdir}/k3s-agent.service"
+-                install -m 755 "${WORKDIR}/k3s-agent" "${D}${BIN_PREFIX}/bin"
++                install -m 755 "${WORKDIR}/k3s-agent" "${D}${bindir}"
+         fi
+ }
+ 
+@@ -658,8 +656,7 @@ SYSTEMD_SERVICE:${PN}-server = "${@bb.utils.contains('DISTRO_FEATURES','systemd'
+ SYSTEMD_SERVICE:${PN}-agent = "${@bb.utils.contains('DISTRO_FEATURES','systemd','k3s-agent.service','',d)}"
+ SYSTEMD_AUTO_ENABLE:${PN}-agent = "disable"
+ 
+-FILES:${PN}-agent = "${BIN_PREFIX}/bin/k3s-agent"
+-FILES:${PN} += "${BIN_PREFIX}/bin/*"
++FILES:${PN}-agent = "${bindir}/k3s-agent"
+ 
+ RDEPENDS:${PN} = "k3s-cni conntrack-tools coreutils findutils iptables iproute2 ipset virtual-containerd"
+ RDEPENDS:${PN}-server = "${PN}"
 -- 
 2.37.1
 
