@@ -1,317 +1,338 @@
-Return-Path: <joe.slater@windriver.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D07C7C00140
-	for <webhook@archiver.kernel.org>; Wed, 10 Aug 2022 18:26:35 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com
- [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web12.1876.1660155987314580545
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4CA9C00140
+	for <webhook@archiver.kernel.org>; Wed, 10 Aug 2022 18:34:45 +0000 (UTC)
+Received: from mail-oa1-f42.google.com (mail-oa1-f42.google.com
+ [209.85.160.42])
+ by mx.groups.io with SMTP id smtpd.web09.1989.1660156483491646801
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 10 Aug 2022 11:26:27 -0700
+ Wed, 10 Aug 2022 11:34:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=SDyoWhxy;
- spf=permerror,
- err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}:
- invalid domain name (domain: windriver.com, ip: 205.220.166.238,
- mailfrom: prvs=52213e9b55=joe.slater@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id
- 27ACoReV031036;
-	Wed, 10 Aug 2022 11:26:26 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
- h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=PPS06212021;
- bh=Az1x6gkU9YQqc21ARc7/XkqiIGIaWwVFcIAUuzCudK0=;
- b=SDyoWhxyDKtyjHkO/mmyKblhtqacc3Tg9F+bt7Z8AIMbuwpcJ5/vZIIKfqtwxsUOI2yx
- P/Gwm7YSX8NZQsnOrJJ0yEH1UeZbtQGkL60WZFPF5tpDldBdJqyWKS+TEAa1IREm+ChZ
- cKMUIZkIbP/IAD7BVGhfYntQJ0caWTrTKlL0y5wBM3N9x7RzjhG6OU/CQcN5w6JHLeI2
- /kbzevF9JiH5vuRT+WPVkAMbEVmLNO+G0uLz1YLVramNpmMyarWn3W/busztN+lnssRc
- 0tQHs7TnH+/GGyk5qiMPMS1wPvoN3NqD9/x1jOnkARKrkVODfuAq+GhCUbRzSWZqiuxF JA==
-Received: from nam11-dm6-obe.outbound.protection.outlook.com
- (mail-dm6nam11lp2175.outbound.protection.outlook.com [104.47.57.175])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3huwr7ru38-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 10 Aug 2022 11:26:25 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=e66GfGgONAbQfW92fkNDwezTyiGg8NPVJFHLziSLasdS4E8nicsSsEBTODgdenWhw7yqVbgSLkPhiznxtOdl1mlM6Sc2mI1otMssZ6DmWFknrIsLvA5wbCa9U6jicgqmrau+lDuJdUtozfU4UsNHXKKapZLIKpke6OIHr1D10PxQCkq0LG3uIyYLVZ7S6yaqBihXpK/iKK2KumG8Nk2kmd3wFt4AGN0Z9L6GNyUv5IvK2+OO+FSuI/TlFs/4K8YTxA4lio9bTzUoaY5hHYiJIbgVA889toCACAAxqHKCE2JKoqzvKPzNSWW453FuG42zfSdEPdJyT6MWd51NR55ndA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Az1x6gkU9YQqc21ARc7/XkqiIGIaWwVFcIAUuzCudK0=;
- b=Znx+2Ws9pJpj1TNCl9VY7Ljmgw10rp1HC9PHDuhaMJCcjB7qqRIIaEQxZj4p4OK5qq/pGiMltWGY4U/gVW9Fh/6kZMZz2zIjU9YdqJ5BHdg7OCRz9+Fow9hmiYk5P8KpeKFNz5f966hXod4Cf0TdAexYnDLtl6NrJ3rO2N06QOBJU8OyAAWzqhJAWxLeR15lX6n0jebmxNmWNsa+j9OPgi/coWrva9olR2akVfLRfHRMXljGIEQm92ciGxkoZ7cWPcxZsAqIsBZu7Wxt2GpmROo3oSkQz/Qwk5oXtYnkyG5XGotbmPIbB8zqf1T7CeZdGoMgoRmeOFSpBWyp9rxtTA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from BY5PR11MB3992.namprd11.prod.outlook.com (2603:10b6:a03:188::10)
- by CH0PR11MB5332.namprd11.prod.outlook.com (2603:10b6:610:bf::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.14; Wed, 10 Aug
- 2022 18:26:23 +0000
-Received: from BY5PR11MB3992.namprd11.prod.outlook.com
- ([fe80::fd52:2da0:170b:8c37]) by BY5PR11MB3992.namprd11.prod.outlook.com
- ([fe80::fd52:2da0:170b:8c37%7]) with mapi id 15.20.5525.010; Wed, 10 Aug 2022
- 18:26:23 +0000
-From: "Slater, Joseph" <joe.slater@windriver.com>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-CC: "meta-virtualization@lists.yoctoproject.org"
-	<meta-virtualization@lists.yoctoproject.org>,
-        "MacLeod, Randy"
-	<Randy.MacLeod@windriver.com>
-Subject: RE: [meta-virtualization] [meta-virt][kirkstone][PATCH 1/1] ceph: Fix
- CVE-1021-3979
-Thread-Topic: [meta-virtualization] [meta-virt][kirkstone][PATCH 1/1] ceph:
- Fix CVE-1021-3979
-Thread-Index: AQHYrOAmuBgXa3twokOjG5bsBcw5Oa2obTQAgAAFLuA=
-Date: Wed, 10 Aug 2022 18:26:22 +0000
-Message-ID: 
- <BY5PR11MB3992A9E105CC35A418B7D03E88659@BY5PR11MB3992.namprd11.prod.outlook.com>
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=dFRsbrC9;
+ spf=pass (domain: gmail.com, ip: 209.85.160.42,
+ mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-oa1-f42.google.com with SMTP id
+ 586e51a60fabf-10ea9ef5838so18797556fac.3
+        for <meta-virtualization@lists.yoctoproject.org>;
+ Wed, 10 Aug 2022 11:34:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=KlR4qU9hBCuQ74KphzVRoGfO3oGJiqCpm/51BEXB5eY=;
+        b=dFRsbrC9/nrFNGICF8pL+k4gjTytJ7bYRzci6ZDhUG3jLfkPp0Jr3FsJe/79SsP7nF
+         adBbgjVd9xhjqTbLUUgiVCIW/h0O2D6h3QmbqFSMRnI4+Y7WKEQnlApdjcZvHFcKa2Mx
+         zS/izEOucaVOvYnn6Bz5QgBgDOtM2JOnbsBnGON19BG3smFSuHea9Pv6R6VsRoKC/e9g
+         0soDzPFJNwG+/eDXDq3soATJ3M/ZYmG+spw2wu00RNNZY0M8TAZcs+5NH/vSbFqNFMGz
+         /o6q9X7QWFTUXVjC8YmxRTh9IgLy6i4i2KW92jipflokCWqz2kdsLLQFcID3Lxi1BUbB
+         cOKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=KlR4qU9hBCuQ74KphzVRoGfO3oGJiqCpm/51BEXB5eY=;
+        b=rnicdHOwfpAcQSOxdUDDQq4OtwgF4ylPxNxAkh6o8+/IAx2cxOTqB+zpL00sUQc/Dg
+         +hxIBOMP5MDyMetsRLJiUep0yNnfwbEv93LuHX7szk2y7Mhp+iKuZcRN/Ce4TCKbgjub
+         +w77ckYG0qM2TAnXxM/Fq9cVRVzzI8ksNXsIDoERgq1tij61ykcfT/CPfR2ZL1OfNUtD
+         6rpCPEK8fd13DaEdAft5uuO0ByCXcExwNxE6U1/gy5kvOITXBmMnLnZVBdr9HsJRNAOy
+         5uCGzQ31f5wFwfoogIAiOLbjLDt5tS0r+yr3xGKRn3MS7yYsOrqhLYz/FM6rAp/8Zswh
+         Pdcw==
+X-Gm-Message-State: ACgBeo1FTr8tnfyP/q/2YpI4jwnoKDjEIMhn/VEMC0VYm39p8wPdjr+w
+	o4m/7MXC+jvPurHtX5V3XbG2sCG0VUa83WVLsMY=
+X-Google-Smtp-Source: 
+ AA6agR4QpSFlCkxkCvqPNwIpdi2Hrm79RkDuGFFBSJRxpjI4jpbVIbKFDP8FLegODBaQ6ch5nBaoRH0lB1LwXns3hlY=
+X-Received: by 2002:a05:6870:d29d:b0:10e:747b:f87b with SMTP id
+ d29-20020a056870d29d00b0010e747bf87bmr2038812oae.6.1660156482621; Wed, 10 Aug
+ 2022 11:34:42 -0700 (PDT)
+MIME-Version: 1.0
 References: <20220810173927.36905-1-joe.slater@windriver.com>
  <CADkTA4OXy5e59OChKrwZLF8u-Nv0YCKLPWUxq18qOFTf7i=hyA@mail.gmail.com>
+ <BY5PR11MB3992A9E105CC35A418B7D03E88659@BY5PR11MB3992.namprd11.prod.outlook.com>
 In-Reply-To: 
- <CADkTA4OXy5e59OChKrwZLF8u-Nv0YCKLPWUxq18qOFTf7i=hyA@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 08187b98-4098-45a4-446c-08da7afdd41a
-x-ms-traffictypediagnostic: CH0PR11MB5332:EE_
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- abrBtA8TRhUWyXmE81lah2vEGMLyVyrntGCFW3+l5AVPncYHJFPoOticfpOyTl1nUu+u2Ru7DOL2a1vBUXwDsuEJCsFHhAJg96dP5f1KPUpRPrCn2VBEf0zYh8zhlIREYHI5psEk0oIAyhucxsE2e/7pG50XYl6ZT15kr+6DxuE3OhpklAgJazBsOb/fgoSgDQyh5zCzlhccW4btc9XgGvTDDDpBO2db1Ytta9f8n8+RoTJsWFXoYT7JWkd3c0rOSudHGHqpMjRoVSxOucmsZZET5n71pEJe2+Ut+eRPLjmG6GLP4BI0fCzo5uGnsPBEqOaSfmbhLvj3VfQE3h73Is+lebCmWxx4Azu21nI4dHuJtP96+8tsd+ZtMeISosWeXWBH37Fg0l1hiBW5fwTCOD4ufQslesClR3Gb53XuQwdVpNsILOScXnm/T/yKKLemYPn4MPSTcJEk44mOHjgTuBJmH0hvtK0fdoOZck065ZAJwcGkLVXK3LRXPDwpdzGSJxRHTKflvn8WIXtKSHbRoU3CyW0CHPEUR1zqcsBkBgh8ArjVUKDfj8wlLa6bvae7Ir1ocK2HDugVo831YVfLO1Q5i2OHBBquXpI23yX89/Uha6W07ZjwrkKDK0/jYDpVEgFNxD6uPN8CjUqm2Np3zPojzZ8tuLaKEVFCw/8t2jjp33sTUmdXeARRTpLwanqyWqEQq/UBhX219xbGzceqmbncVBTAR5vK9Cz+Fo0B0rv4I71iV2lVPs/3IQcH29YWo/bVbb0vrfPzxe8Ypr/vkMNGskkZkEtHFxqidsD5qN59w3QGvsdJRt1wqZAWTTmTsGjsDQNZX77IT2OcbMBAZyPg1KbAj2h/Ws2TToDCkPwt+1u9rYLZmNDi3pun4uyp
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB3992.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(366004)(376002)(396003)(39850400004)(136003)(346002)(6506007)(7696005)(5660300002)(71200400001)(4326008)(316002)(8676002)(8936002)(52536014)(66946007)(66476007)(66556008)(64756008)(41300700001)(66446008)(6916009)(54906003)(26005)(76116006)(9686003)(53546011)(33656002)(86362001)(107886003)(186003)(55016003)(84970400001)(83380400001)(478600001)(38100700002)(966005)(2906002)(38070700005)(122000001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?YWFvTWVrSkUrTnlsNTI0aHk5UGFqL2szNGptNkFoSUt5dHI1TTZLb2FzWWNF?=
- =?utf-8?B?cnZjYUdzZlMwSzVYOGhkMFhZS3FvSk9DSWYybEcrRUhZaDJPbFZST3BTeTNZ?=
- =?utf-8?B?MHI0WGw5Y0NMUlhXZFI0ZDIrWjhnc1YxT3gvUjdCNXNBVm9vREFUWDllRHNk?=
- =?utf-8?B?bWFuNGZmT1F6bXd1M1pLeE5xcEhjTThoakFZdy96MDhBQzdSOWlEWmRaS1Rl?=
- =?utf-8?B?QVRNN2hMSXhKZ05Db2Jrd09wWkx0NzBnUzBVSEJWWmhRWHZERXNKZ0tTN3JE?=
- =?utf-8?B?WXhESTluY2M4bTRvNjYyVkZNdHVXeldoclJWWnR4VTg2RHdMeW1ZWWRnMUdp?=
- =?utf-8?B?ZldlQ2E1MktBYzZBampMUVdxdStDS3BmMzd2WDRoNXJ3VXBaWGdyczBva2Yr?=
- =?utf-8?B?YUpVNVJCVlQ2UmFFM1AwUmRoL0JobDdjTkM5cXR1a0F4Z3F5UXdadk1qRGNC?=
- =?utf-8?B?Q0NNM3FGTHFMUlJmLzQ4ckhwb1B4WWNHL3FiNTFOQXl3a244TVdNanhrNnhz?=
- =?utf-8?B?Zk1NUURpQzZOTVpBOVVWbFBIWlIyMURFQktWMmFqQmZQM3IrRW5vRXl5ZGpC?=
- =?utf-8?B?TGRFOVBSLytwY25tTWxSb2lrQWZlYk5lcklaQVdEek0zSHFuL1FKUkhWZlFO?=
- =?utf-8?B?RnZzMWJYYkZFZy9sN0V1N21mUmdNSENNRWFhRTJrSVpxQlVqK0V1eUFneWh3?=
- =?utf-8?B?Qm1VTlMxaHFFL2VScVhOUkxYQ0RKbjFncUxQQk5PUENUMFc4RWl2YUU1R1d6?=
- =?utf-8?B?OHk1QWJGanRGWmNyRFdvV1QzMHRWZXFOM1kzL0dSMEttdlpLUU1pUlBLVk9V?=
- =?utf-8?B?RCtMd3BPMDY4WDBFUVFLR2RuTjBBTlo2dVhHc05FSVZ6OFNSdXVLRnU3Vmxz?=
- =?utf-8?B?dHBCdjRZQkpSb3VoTlJDdFArL084TXl2bGVHSEpUSis3eVdqc2pIRDVGdnNk?=
- =?utf-8?B?OCs2Z1lzeGJaQ1BNd1hVMFN0bXJPMXNGdlBBUXV3Q3V4N3ZRbGkvcFNxY0dj?=
- =?utf-8?B?VUY4M3lRTGl0WENuZDA0dGZMUEhsajloYWpGYTZFTXRPSGxiYjR3L0twdzdU?=
- =?utf-8?B?MlNUN1pDczVxSk03NUUrVzQwRVA4TGY2TWRaV3NaSXhZUkk0Q2dCRzUwQWJw?=
- =?utf-8?B?TGVETXFqZGZFVmxTREpZUldSb2diNjNhbVRBdUNsVzM5MWhNdVBacm82aC9D?=
- =?utf-8?B?SnlWd0tkbW9IQ3oxS1FPTHhuRWkvZHQ2M0l4OFkyME0xOVI3VGpBRlpOVmF1?=
- =?utf-8?B?SURaazIwZzYrMTE1VDFxYkpTYll3d2tNT25XdnhtdS9MRHRFaXRHcjRmOGVl?=
- =?utf-8?B?NjQvQlVHc096VFF0aFZnZDM4SmxqeUhFYURDakZzZGYrczVoRHJha2NDWVB1?=
- =?utf-8?B?djU3M3JBS093MHZhN0R5VEpmeDhpUTJFZ1BhcFYvalVURGhqZ0VyZEh6Z2dn?=
- =?utf-8?B?bmltb21NTDlYUGlsbExvK3U3cGdUdUw4U2xhZUdQNXp6QzhIY1Z2dnhzN0RE?=
- =?utf-8?B?Z0VRQ2dkckpTbmJmMGsydDk0Yzdaa0ZQcVJybXdENVU3amxUVkt4WW1zcnE0?=
- =?utf-8?B?U0xOTTJNaU5EaTVOZlJqNW1ObEtrUlZlYUJWQk5UYlRBdzRKMmJzRFI5dXFR?=
- =?utf-8?B?TE1wOUZYZVVsNDZSZW9XMVYzeXlDY0dXL1pPOFpEaEdLMDkwMG1XVG1SaCtV?=
- =?utf-8?B?azUzL25rNEVOZUZvOXJLYldackJBcUF2RlhSMVJpTWRELytJUjExWkFRVVFi?=
- =?utf-8?B?c08rdXBIZi85TVBnSUVicHFIUURXVTY5K2FJVDdiNkgybmhxNDZGc3VZM2dG?=
- =?utf-8?B?UHlEbW1vVnkrT3hCeDh4enA5YzNvNG1WUFhzSmFveFFDWnpuMzA3M3pZdE8z?=
- =?utf-8?B?c2ZCaVZ2QjZPSE9yUHJwZ01FWkZ1VU1uaUtpOUx0VXl5ZHNzQlNPam5PYzB1?=
- =?utf-8?B?K284TTdwU1R5S2QwajhjVWVQT0V1ZlZQZWNQL3RPMzRaeDJkaTI4d0RoS3hC?=
- =?utf-8?B?cXdadnNaTkdQWGdPRmdHdklpcE9LYXJ0Z1pnbGNPYkhxZnRuTTFZN0lPeXpn?=
- =?utf-8?B?cVRIN2ZLM09lZUJld0ZZQndyNDZRNGtwaGdnZEtmOTRqMFoxcEI1dVY0MitW?=
- =?utf-8?Q?Svgmx6vye2+U2HtGox4EP0hvs?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB3992.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 08187b98-4098-45a4-446c-08da7afdd41a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Aug 2022 18:26:22.9996
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 
- k7sL8UKRID19WbbXFdk9MrAZnmj98u4AvEM1vdF+vzl8YriNPGN4Usnw5DdaDM3aoigbgWCnaZwdwrH5vh9LGCnYxQDayVIpnrw5Un0GZWg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR11MB5332
-X-Proofpoint-GUID: olSEeUZBm8qItirXQU4HEZnPOPWD93mB
-X-Proofpoint-ORIG-GUID: olSEeUZBm8qItirXQU4HEZnPOPWD93mB
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-08-10_12,2022-08-10_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015
- priorityscore=1501 phishscore=0 impostorscore=0 spamscore=0 suspectscore=0
- malwarescore=0 bulkscore=0 mlxscore=0 adultscore=0 mlxlogscore=999
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2207270000 definitions=main-2208100056
+ <BY5PR11MB3992A9E105CC35A418B7D03E88659@BY5PR11MB3992.namprd11.prod.outlook.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Wed, 10 Aug 2022 14:34:30 -0400
+Message-ID: 
+ <CADkTA4O=OhAdKkoO0Mg+U00yxKGBQLbJN30G-tR5REtLVDPcWA@mail.gmail.com>
+Subject: Re: [meta-virtualization] [meta-virt][kirkstone][PATCH 1/1] ceph: Fix
+ CVE-1021-3979
+To: "Slater, Joseph" <joe.slater@windriver.com>
+Cc: "meta-virtualization@lists.yoctoproject.org"
+ <meta-virtualization@lists.yoctoproject.org>,
+	"MacLeod, Randy" <Randy.MacLeod@windriver.com>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Wed, 10 Aug 2022 18:26:35 -0000
+ <meta-virtualization@lists.yoctoproject.org>; Wed, 10 Aug 2022 18:34:45 -0000
 X-Groupsio-URL: 
- https://lists.yoctoproject.org/g/meta-virtualization/message/7516
+ https://lists.yoctoproject.org/g/meta-virtualization/message/7517
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogQnJ1Y2UgQXNoZmllbGQg
-PGJydWNlLmFzaGZpZWxkQGdtYWlsLmNvbT4NCj4gU2VudDogV2VkbmVzZGF5LCBBdWd1c3QgMTAs
-IDIwMjIgMTE6MDMgQU0NCj4gVG86IFNsYXRlciwgSm9zZXBoIDxqb2Uuc2xhdGVyQHdpbmRyaXZl
-ci5jb20+DQo+IENjOiBtZXRhLXZpcnR1YWxpemF0aW9uQGxpc3RzLnlvY3RvcHJvamVjdC5vcmc7
-IE1hY0xlb2QsIFJhbmR5DQo+IDxSYW5keS5NYWNMZW9kQHdpbmRyaXZlci5jb20+DQo+IFN1Ympl
-Y3Q6IFJlOiBbbWV0YS12aXJ0dWFsaXphdGlvbl0gW21ldGEtdmlydF1ba2lya3N0b25lXVtQQVRD
-SCAxLzFdIGNlcGg6IEZpeA0KPiBDVkUtMTAyMS0zOTc5DQo+IA0KPiBXaGF0IGFib3V0IG1hc3Rl
-ciA/IERvZXMgaXQgaGF2ZSB0aGUgc2FtZSBpc3N1ZSA/DQoNClllcywgYW5kIEkgaGF2ZSB0aGUg
-cGF0Y2ggZm9yIHRoYXQuICBZb3UgY2Fubm90IGNoZXJyeS1waWNrIGJldHdlZW4gdGhlIGJyYW5j
-aGVzIGJlY2F1c2UNCnJlY2lwZSBjb250ZXh0IGlzIGRpZmZlcmVudC4gIFRoZSBzb3VyY2UgcGF0
-Y2ggaXMgdGhlIHNhbWUuICBJIHVzZWQga2lya3N0b25lIGZpcnN0IGZvciBpbnRlcm5hbCByZWFz
-b25zLg0KDQpKb2UNCg0KPiANCj4gQnJ1Y2UNCj4gDQo+IE9uIFdlZCwgQXVnIDEwLCAyMDIyIGF0
-IDE6MzkgUE0gSm9lIFNsYXRlciA8am9lLnNsYXRlckB3aW5kcml2ZXIuY29tPiB3cm90ZToNCj4g
-Pg0KPiA+IENlcGgtdm9sdW1lIGRvZXMgbm90IHByb3Blcmx5IGNvbnRyb2wga2V5IHNpemVzLg0K
-PiA+DQo+ID4gQ2hlcnJ5LXBpY2sgZnJvbSBnaXRodWIuY29tL2NlcGgvY2VwaC5naXQuDQo+ID4N
-Cj4gPiBTaWduZWQtb2ZmLWJ5OiBKb2UgU2xhdGVyIDxqb2Uuc2xhdGVyQHdpbmRyaXZlci5jb20+
-DQo+ID4gLS0tDQo+ID4gIC4uLi9jZXBoL2NlcGgvQ1ZFLTIwMjEtMzk3OS5wYXRjaCAgICAgICAg
-ICAgICB8IDE1OCArKysrKysrKysrKysrKysrKysNCj4gPiAgcmVjaXBlcy1leHRlbmRlZC9jZXBo
-L2NlcGhfMTUuMi4xNS5iYiAgICAgICAgIHwgICAxICsNCj4gPiAgMiBmaWxlcyBjaGFuZ2VkLCAx
-NTkgaW5zZXJ0aW9ucygrKQ0KPiA+ICBjcmVhdGUgbW9kZSAxMDA2NDQgcmVjaXBlcy1leHRlbmRl
-ZC9jZXBoL2NlcGgvQ1ZFLTIwMjEtMzk3OS5wYXRjaA0KPiA+DQo+ID4gZGlmZiAtLWdpdCBhL3Jl
-Y2lwZXMtZXh0ZW5kZWQvY2VwaC9jZXBoL0NWRS0yMDIxLTM5NzkucGF0Y2gNCj4gPiBiL3JlY2lw
-ZXMtZXh0ZW5kZWQvY2VwaC9jZXBoL0NWRS0yMDIxLTM5NzkucGF0Y2gNCj4gPiBuZXcgZmlsZSBt
-b2RlIDEwMDY0NA0KPiA+IGluZGV4IDAwMDAwMDAwLi4wODFiMzJiYQ0KPiA+IC0tLSAvZGV2L251
-bGwNCj4gPiArKysgYi9yZWNpcGVzLWV4dGVuZGVkL2NlcGgvY2VwaC9DVkUtMjAyMS0zOTc5LnBh
-dGNoDQo+ID4gQEAgLTAsMCArMSwxNTggQEANCj4gPiArRnJvbSA0N2MzMzE3OWY5YTE1YWU5NWNj
-MTU3OWE0MjFiZTg5Mzc4NjAyNjU2IE1vbiBTZXAgMTcgMDA6MDA6MDANCj4gPiArMjAwMQ0KPiA+
-ICtGcm9tOiBHdWlsbGF1bWUgQWJyaW91eCA8Z2FicmlvdXhAcmVkaGF0LmNvbT4NCj4gPiArRGF0
-ZTogVHVlLCAyNSBKYW4gMjAyMiAxMDoyNTo1MyArMDEwMA0KPiA+ICtTdWJqZWN0OiBbUEFUQ0hd
-IGNlcGgtdm9sdW1lOiBob25vdXIgb3NkX2RtY3J5cHRfa2V5X3NpemUgb3B0aW9uDQo+ID4gKw0K
-PiA+ICtjZXBoLXZvbHVtZSBkb2Vzbid0IGhvbm91ciBvc2RfZG1jcnlwdF9rZXlfc2l6ZS4NCj4g
-PiArSXQgbWVhbnMgdGhlIGRlZmF1bHQgc2l6ZSBpcyBhbHdheXMgYXBwbGllZC4NCj4gPiArDQo+
-ID4gK0l0IGFsc28gY2hhbmdlcyB0aGUgZGVmYXVsdCB2YWx1ZSBpbiBgZ2V0X2tleV9zaXplX2Zy
-b21fY29uZigpYA0KPiA+ICsNCj4gPiArRnJvbSBjcnlwdHNldHVwIG1hbnBhZ2U6DQo+ID4gKw0K
-PiA+ICs+IEZvciBYVFMgbW9kZSB5b3UgY2FuIG9wdGlvbmFsbHkgc2V0IGEga2V5IHNpemUgb2Yg
-NTEyIGJpdHMgd2l0aCB0aGUgLXMNCj4gb3B0aW9uLg0KPiA+ICsNCj4gPiArVXNpbmcgbW9yZSB0
-aGFuIDUxMmJpdHMgd2lsbCBlbmQgdXAgd2l0aCB0aGUgZm9sbG93aW5nIGVycm9yIG1lc3NhZ2U6
-DQo+ID4gKw0KPiA+ICtgYGANCj4gPiArS2V5IHNpemUgaW4gWFRTIG1vZGUgbXVzdCBiZSAyNTYg
-b3IgNTEyIGJpdHMuDQo+ID4gK2BgYA0KPiA+ICsNCj4gPiArRml4ZXM6IGh0dHBzOi8vdHJhY2tl
-ci5jZXBoLmNvbS9pc3N1ZXMvNTQwMDYNCj4gPiArDQo+ID4gK1NpZ25lZC1vZmYtYnk6IEd1aWxs
-YXVtZSBBYnJpb3V4IDxnYWJyaW91eEByZWRoYXQuY29tPg0KPiA+ICsNCj4gPiArVXBzdHJlYW0t
-U3RhdHVzOiBCYWNrcG9ydA0KPiA+ICsgZ2l0aHViLmNvbS9jZXBoL2NlcGguZ2l0DQo+ID4gKyBl
-cXVpdmFsZW50IHRvIGNoZXJyeS1waWNrIG9mIGNvbW1pdA0KPiA+ICs0N2MzMzE3OWY5YTE1YWU5
-NWNjMTU3OWE0MjFiZTg5Mzc4NjAyNjU2DQo+ID4gKw0KPiA+ICtDVkU6IENWRS0yMDIxLTM5NzkN
-Cj4gPiArDQo+ID4gK1NpZ25lZC1vZmYtYnk6IEpvZSBTbGF0ZXIgPGpvZS5zbGF0ZXJAd2luZHJp
-dmVyLmNvbT4NCj4gPiArLS0tDQo+ID4gKyAuLi4vY2VwaF92b2x1bWUvdGVzdHMvdXRpbC90ZXN0
-X2VuY3J5cHRpb24ucHkgfCA0MSArKysrKysrKysrKysrLS0tLS0tDQo+ID4gKyAuLi4vY2VwaF92
-b2x1bWUvdXRpbC9lbmNyeXB0aW9uLnB5ICAgICAgICAgICAgfCAzNCArKysrKysrKysrLS0tLS0N
-Cj4gPiArIDIgZmlsZXMgY2hhbmdlZCwgNTEgaW5zZXJ0aW9ucygrKSwgMjQgZGVsZXRpb25zKC0p
-DQo+ID4gKw0KPiA+ICtkaWZmIC0tZ2l0DQo+ID4gK2Evc3JjL2NlcGgtdm9sdW1lL2NlcGhfdm9s
-dW1lL3Rlc3RzL3V0aWwvdGVzdF9lbmNyeXB0aW9uLnB5DQo+ID4gK2Ivc3JjL2NlcGgtdm9sdW1l
-L2NlcGhfdm9sdW1lL3Rlc3RzL3V0aWwvdGVzdF9lbmNyeXB0aW9uLnB5DQo+ID4gK2luZGV4IGUx
-NDIwYjQ0MGQzLi5jODZkYzUwYjdjNyAxMDA2NDQNCj4gPiArLS0tIGEvc3JjL2NlcGgtdm9sdW1l
-L2NlcGhfdm9sdW1lL3Rlc3RzL3V0aWwvdGVzdF9lbmNyeXB0aW9uLnB5DQo+ID4gKysrKyBiL3Ny
-Yy9jZXBoLXZvbHVtZS9jZXBoX3ZvbHVtZS90ZXN0cy91dGlsL3Rlc3RfZW5jcnlwdGlvbi5weQ0K
-PiA+ICtAQCAtMSw1ICsxLDMxIEBADQo+ID4gKyBmcm9tIGNlcGhfdm9sdW1lLnV0aWwgaW1wb3J0
-IGVuY3J5cHRpb24NCj4gPiArK2ltcG9ydCBiYXNlNjQNCj4gPiArDQo+ID4gKytjbGFzcyBUZXN0
-R2V0S2V5U2l6ZShvYmplY3QpOg0KPiA+ICsrICAgIGRlZiB0ZXN0X2dldF9zaXplX2Zyb21fY29u
-Zl9kZWZhdWx0KHNlbGYsIGNvbmZfY2VwaF9zdHViKToNCj4gPiArKyAgICAgICAgY29uZl9jZXBo
-X3N0dWIoJycnDQo+ID4gKysgICAgICAgIFtnbG9iYWxdDQo+ID4gKysgICAgICAgIGZzaWQ9YXNk
-Zg0KPiA+ICsrICAgICAgICAnJycpDQo+ID4gKysgICAgICAgIGFzc2VydCBlbmNyeXB0aW9uLmdl
-dF9rZXlfc2l6ZV9mcm9tX2NvbmYoKSA9PSAnNTEyJw0KPiA+ICsrDQo+ID4gKysgICAgZGVmIHRl
-c3RfZ2V0X3NpemVfZnJvbV9jb25mX2N1c3RvbShzZWxmLCBjb25mX2NlcGhfc3R1Yik6DQo+ID4g
-KysgICAgICAgIGNvbmZfY2VwaF9zdHViKCcnJw0KPiA+ICsrICAgICAgICBbZ2xvYmFsXQ0KPiA+
-ICsrICAgICAgICBmc2lkPWFzZGYNCj4gPiArKyAgICAgICAgW29zZF0NCj4gPiArKyAgICAgICAg
-b3NkX2RtY3J5cHRfa2V5X3NpemU9MjU2DQo+ID4gKysgICAgICAgICcnJykNCj4gPiArKyAgICAg
-ICAgYXNzZXJ0IGVuY3J5cHRpb24uZ2V0X2tleV9zaXplX2Zyb21fY29uZigpID09ICcyNTYnDQo+
-ID4gKysNCj4gPiArKyAgICBkZWYgdGVzdF9nZXRfc2l6ZV9mcm9tX2NvbmZfY3VzdG9tX2ludmFs
-aWQoc2VsZiwgY29uZl9jZXBoX3N0dWIpOg0KPiA+ICsrICAgICAgICBjb25mX2NlcGhfc3R1Yign
-JycNCj4gPiArKyAgICAgICAgW2dsb2JhbF0NCj4gPiArKyAgICAgICAgZnNpZD1hc2RmDQo+ID4g
-KysgICAgICAgIFtvc2RdDQo+ID4gKysgICAgICAgIG9zZF9kbWNyeXB0X2tleV9zaXplPTEwMjQN
-Cj4gPiArKyAgICAgICAgJycnKQ0KPiA+ICsrICAgICAgICBhc3NlcnQgZW5jcnlwdGlvbi5nZXRf
-a2V5X3NpemVfZnJvbV9jb25mKCkgPT0gJzUxMicNCj4gPiArDQo+ID4gKyBjbGFzcyBUZXN0U3Rh
-dHVzKG9iamVjdCk6DQo+ID4gKw0KPiA+ICtAQCAtMzcsMTcgKzYzLDYgQEAgY2xhc3MgVGVzdERt
-Y3J5cHRDbG9zZShvYmplY3QpOg0KPiA+ICsNCj4gPiArIGNsYXNzIFRlc3REbWNyeXB0S2V5KG9i
-amVjdCk6DQo+ID4gKw0KPiA+ICstICAgIGRlZiB0ZXN0X2RtY3J5cHRfd2l0aF9kZWZhdWx0X3Np
-emUoc2VsZiwgY29uZl9jZXBoX3N0dWIpOg0KPiA+ICstICAgICAgICBjb25mX2NlcGhfc3R1Yign
-W2dsb2JhbF1cbmZzaWQ9YXNkZi1sa2poJykNCj4gPiArLSAgICAgICAgcmVzdWx0ID0gZW5jcnlw
-dGlvbi5jcmVhdGVfZG1jcnlwdF9rZXkoKQ0KPiA+ICstICAgICAgICBhc3NlcnQgbGVuKHJlc3Vs
-dCkgPT0gMTcyDQo+ID4gKy0NCj4gPiArLSAgICBkZWYgdGVzdF9kbWNyeXB0X3dpdGhfY3VzdG9t
-X3NpemUoc2VsZiwgY29uZl9jZXBoX3N0dWIpOg0KPiA+ICstICAgICAgICBjb25mX2NlcGhfc3R1
-YignJycNCj4gPiArLSAgICAgICAgW2dsb2JhbF0NCj4gPiArLSAgICAgICAgZnNpZD1hc2RmDQo+
-ID4gKy0gICAgICAgIFtvc2RdDQo+ID4gKy0gICAgICAgIG9zZF9kbWNyeXB0X3NpemU9OA0KPiA+
-ICstICAgICAgICAnJycpDQo+ID4gKysgICAgZGVmIHRlc3RfZG1jcnlwdChzZWxmKToNCj4gPiAr
-ICAgICAgICAgcmVzdWx0ID0gZW5jcnlwdGlvbi5jcmVhdGVfZG1jcnlwdF9rZXkoKQ0KPiA+ICst
-ICAgICAgICBhc3NlcnQgbGVuKHJlc3VsdCkgPT0gMTcyDQo+ID4gKysgICAgICAgIGFzc2VydCBs
-ZW4oYmFzZTY0LmI2NGRlY29kZShyZXN1bHQpKSA9PSAxMjgNCj4gPiArZGlmZiAtLWdpdCBhL3Ny
-Yy9jZXBoLXZvbHVtZS9jZXBoX3ZvbHVtZS91dGlsL2VuY3J5cHRpb24ucHkNCj4gPiArYi9zcmMv
-Y2VwaC12b2x1bWUvY2VwaF92b2x1bWUvdXRpbC9lbmNyeXB0aW9uLnB5DQo+ID4gK2luZGV4IDcy
-YTBjY2YxMjFlLi4yYTJjMDMzMzdiNiAxMDA2NDQNCj4gPiArLS0tIGEvc3JjL2NlcGgtdm9sdW1l
-L2NlcGhfdm9sdW1lL3V0aWwvZW5jcnlwdGlvbi5weQ0KPiA+ICsrKysgYi9zcmMvY2VwaC12b2x1
-bWUvY2VwaF92b2x1bWUvdXRpbC9lbmNyeXB0aW9uLnB5DQo+ID4gK0BAIC05LDIxICs5LDI5IEBA
-IGZyb20gLmRpc2sgaW1wb3J0IGxzYmxrLCBkZXZpY2VfZmFtaWx5LA0KPiA+ICtnZXRfcGFydF9l
-bnRyeV90eXBlDQo+ID4gKw0KPiA+ICsgbG9nZ2VyID0gbG9nZ2luZy5nZXRMb2dnZXIoX19uYW1l
-X18pDQo+ID4gKw0KPiA+ICstDQo+ID4gKy1kZWYgY3JlYXRlX2RtY3J5cHRfa2V5KCk6DQo+ID4g
-KytkZWYgZ2V0X2tleV9zaXplX2Zyb21fY29uZigpOg0KPiA+ICsgICAgICIiIg0KPiA+ICstICAg
-IENyZWF0ZSB0aGUgc2VjcmV0IGRtLWNyeXB0IGtleSB1c2VkIHRvIGRlY3J5cHQgYSBkZXZpY2Uu
-DQo+ID4gKysgICAgUmV0dXJuIHRoZSBvc2QgZG1jcnlwdCBrZXkgc2l6ZSBmcm9tIGNvbmZpZyBm
-aWxlLg0KPiA+ICsrICAgIERlZmF1bHQgaXMgNTEyLg0KPiA+ICsgICAgICIiIg0KPiA+ICstICAg
-ICMgZ2V0IHRoZSBjdXN0b21pemFibGUgZG1jcnlwdCBrZXkgc2l6ZSAoaW4gYml0cykgZnJvbSBj
-ZXBoLmNvbmYgZmFsbGJhY2sNCj4gPiArLSAgICAjIHRvIHRoZSBkZWZhdWx0IG9mIDEwMjQNCj4g
-PiArLSAgICBkbWNyeXB0X2tleV9zaXplID0gY29uZi5jZXBoLmdldF9zYWZlKA0KPiA+ICsrICAg
-IGRlZmF1bHRfa2V5X3NpemUgPSAnNTEyJw0KPiA+ICsrICAgIGtleV9zaXplID0gY29uZi5jZXBo
-LmdldF9zYWZlKA0KPiA+ICsgICAgICAgICAnb3NkJywNCj4gPiArICAgICAgICAgJ29zZF9kbWNy
-eXB0X2tleV9zaXplJywNCj4gPiArLSAgICAgICAgZGVmYXVsdD0xMDI0LA0KPiA+ICstICAgICkN
-Cj4gPiArLSAgICAjIFRoZSBzaXplIG9mIHRoZSBrZXkgaXMgZGVmaW5lZCBpbiBiaXRzLCBzbyB3
-ZSBtdXN0IHRyYW5zZm9ybSB0aGF0DQo+ID4gKy0gICAgIyB2YWx1ZSB0byBieXRlcyAoZGl2aWRp
-bmcgYnkgOCkgYmVjYXVzZSB3ZSByZWFkIGluIGJ5dGVzLCBub3QgYml0cw0KPiA+ICstICAgIHJh
-bmRvbV9zdHJpbmcgPSBvcy51cmFuZG9tKGludChkbWNyeXB0X2tleV9zaXplIC8gOCkpDQo+ID4g
-KysgICAgICAgIGRlZmF1bHQ9JzUxMicpDQo+ID4gKysNCj4gPiArKyAgICBpZiBrZXlfc2l6ZSBu
-b3QgaW4gWycyNTYnLCAnNTEyJ106DQo+ID4gKysgICAgICAgIGxvZ2dlci53YXJuaW5nKCgiSW52
-YWxpZCB2YWx1ZSBzZXQgZm9yIG9zZF9kbWNyeXB0X2tleV9zaXplICh7fSkuICINCj4gPiArKyAg
-ICAgICAgICAgICAgICAgICAgICAgICJGYWxsaW5nIGJhY2sgdG8ge31iaXRzIi5mb3JtYXQoa2V5
-X3NpemUsIGRlZmF1bHRfa2V5X3NpemUpKSkNCj4gPiArKyAgICAgICAgcmV0dXJuIGRlZmF1bHRf
-a2V5X3NpemUNCj4gPiArKw0KPiA+ICsrICAgIHJldHVybiBrZXlfc2l6ZQ0KPiA+ICsrDQo+ID4g
-KytkZWYgY3JlYXRlX2RtY3J5cHRfa2V5KCk6DQo+ID4gKysgICAgIiIiDQo+ID4gKysgICAgQ3Jl
-YXRlIHRoZSBzZWNyZXQgZG0tY3J5cHQga2V5IChLRUspIHVzZWQgdG8gZW5jcnlwdC9kZWNyeXB0
-IHRoZSBWb2x1bWUNCj4gS2V5Lg0KPiA+ICsrICAgICIiIg0KPiA+ICsrICAgIHJhbmRvbV9zdHJp
-bmcgPSBvcy51cmFuZG9tKDEyOCkNCj4gPiArICAgICBrZXkgPSBiYXNlNjQuYjY0ZW5jb2RlKHJh
-bmRvbV9zdHJpbmcpLmRlY29kZSgndXRmLTgnKQ0KPiA+ICsgICAgIHJldHVybiBrZXkNCj4gPiAr
-DQo+ID4gK0BAIC0zOCw2ICs0Niw4IEBAIGRlZiBsdWtzX2Zvcm1hdChrZXksIGRldmljZSk6DQo+
-ID4gKyAgICAgY29tbWFuZCA9IFsNCj4gPiArICAgICAgICAgJ2NyeXB0c2V0dXAnLA0KPiA+ICsg
-ICAgICAgICAnLS1iYXRjaC1tb2RlJywgIyBkbyBub3QgcHJvbXB0DQo+ID4gKysgICAgICAgICct
-LWtleS1zaXplJywNCj4gPiArKyAgICAgICAgZ2V0X2tleV9zaXplX2Zyb21fY29uZigpLA0KPiA+
-ICsgICAgICAgICAnLS1rZXktZmlsZScsICMgbWlzbm9tZXIsIHNob3VsZCBiZSBrZXkNCj4gPiAr
-ICAgICAgICAgJy0nLCAgICAgICAgICAjIGJlY2F1c2Ugd2UgaW5kaWNhdGUgc3RkaW4gZm9yIHRo
-ZSBrZXkgaGVyZQ0KPiA+ICsgICAgICAgICAnbHVrc0Zvcm1hdCcsDQo+ID4gK0BAIC04Myw2ICs5
-Myw4IEBAIGRlZiBsdWtzX29wZW4oa2V5LCBkZXZpY2UsIG1hcHBpbmcpOg0KPiA+ICsgICAgICIi
-Ig0KPiA+ICsgICAgIGNvbW1hbmQgPSBbDQo+ID4gKyAgICAgICAgICdjcnlwdHNldHVwJywNCj4g
-PiArKyAgICAgICAgJy0ta2V5LXNpemUnLA0KPiA+ICsrICAgICAgICBnZXRfa2V5X3NpemVfZnJv
-bV9jb25mKCksDQo+ID4gKyAgICAgICAgICctLWtleS1maWxlJywNCj4gPiArICAgICAgICAgJy0n
-LA0KPiA+ICsgICAgICAgICAnLS1hbGxvdy1kaXNjYXJkcycsICAjIGFsbG93IGRpc2NhcmRzIChh
-a2EgVFJJTSkgcmVxdWVzdHMNCj4gPiArZm9yIGRldmljZQ0KPiA+ICstLQ0KPiA+ICsyLjM1LjEN
-Cj4gPiArDQo+ID4gZGlmZiAtLWdpdCBhL3JlY2lwZXMtZXh0ZW5kZWQvY2VwaC9jZXBoXzE1LjIu
-MTUuYmINCj4gPiBiL3JlY2lwZXMtZXh0ZW5kZWQvY2VwaC9jZXBoXzE1LjIuMTUuYmINCj4gPiBp
-bmRleCAxN2RiY2YzNS4uYjEzZWJiNzAgMTAwNjQ0DQo+ID4gLS0tIGEvcmVjaXBlcy1leHRlbmRl
-ZC9jZXBoL2NlcGhfMTUuMi4xNS5iYg0KPiA+ICsrKyBiL3JlY2lwZXMtZXh0ZW5kZWQvY2VwaC9j
-ZXBoXzE1LjIuMTUuYmINCj4gPiBAQCAtMTQsNiArMTQsNyBAQCBTUkNfVVJJID0gImh0dHA6Ly9k
-b3dubG9hZC5jZXBoLmNvbS90YXJiYWxscy9jZXBoLQ0KPiAke1BWfS50YXIuZ3ogXA0KPiA+ICAg
-ICAgICAgICAgIGZpbGU6Ly9jZXBoLmNvbmYgXA0KPiA+ICAgICAgICAgICAgIGZpbGU6Ly8wMDAx
-LWNtYWtlLWFkZC1zdXBwb3J0LWZvci1weXRob24zLjEwLnBhdGNoIFwNCj4gPg0KPiA+IGZpbGU6
-Ly8wMDAxLVNuYXBweUNvbXByZXNzb3IuaC1maXgtc25hcHB5LWNvbXBpbGVyLWVycm9yLnBhdGNo
-IFwNCj4gPiArICAgICAgICAgICBmaWxlOi8vQ1ZFLTIwMjEtMzk3OS5wYXRjaCBcDQo+ID4gICIN
-Cj4gPg0KPiA+ICBTUkNfVVJJW3NoYTI1NnN1bV0gPQ0KPiAiNWRjY2RhZmYyZWJlMThkNDM1YjMy
-YmZjMDZmOGI1ZjQ3NGJmNmFjMDQzMmE2YTA3ZDE0NGI3YzU2NzAwZDBiZiINCj4gPiAtLQ0KPiA+
-IDIuMzUuMQ0KPiA+DQo+ID4NCj4gPiAtPS09LT0tPS09LT0tPS09LT0tPS09LQ0KPiA+IExpbmtz
-OiBZb3UgcmVjZWl2ZSBhbGwgbWVzc2FnZXMgc2VudCB0byB0aGlzIGdyb3VwLg0KPiA+IFZpZXcv
-UmVwbHkgT25saW5lICgjNzUxNCk6DQo+ID4gaHR0cHM6Ly9saXN0cy55b2N0b3Byb2plY3Qub3Jn
-L2cvbWV0YS12aXJ0dWFsaXphdGlvbi9tZXNzYWdlLzc1MTQNCj4gPiBNdXRlIFRoaXMgVG9waWM6
-IGh0dHBzOi8vbGlzdHMueW9jdG9wcm9qZWN0Lm9yZy9tdC85Mjk0MTg3Ni8xMDUwODEwDQo+ID4g
-R3JvdXAgT3duZXI6IG1ldGEtdmlydHVhbGl6YXRpb24rb3duZXJAbGlzdHMueW9jdG9wcm9qZWN0
-Lm9yZw0KPiA+IFVuc3Vic2NyaWJlOg0KPiA+IGh0dHBzOi8vbGlzdHMueW9jdG9wcm9qZWN0Lm9y
-Zy9nL21ldGEtdmlydHVhbGl6YXRpb24vdW5zdWINCj4gPiBbYnJ1Y2UuYXNoZmllbGRAZ21haWwu
-Y29tXQ0KPiA+IC09LT0tPS09LT0tPS09LT0tPS09LT0tDQo+ID4NCj4gDQo+IA0KPiAtLQ0KPiAt
-IFRob3Ugc2hhbHQgbm90IGZvbGxvdyB0aGUgTlVMTCBwb2ludGVyLCBmb3IgY2hhb3MgYW5kIG1h
-ZG5lc3MgYXdhaXQgdGhlZSBhdA0KPiBpdHMgZW5kDQo+IC0gIlVzZSB0aGUgZm9yY2UgSGFycnki
-IC0gR2FuZGFsZiwgU3RhciBUcmVrIElJDQo=
+On Wed, Aug 10, 2022 at 2:26 PM Slater, Joseph <joe.slater@windriver.com> wrote:
+>
+>
+>
+> > -----Original Message-----
+> > From: Bruce Ashfield <bruce.ashfield@gmail.com>
+> > Sent: Wednesday, August 10, 2022 11:03 AM
+> > To: Slater, Joseph <joe.slater@windriver.com>
+> > Cc: meta-virtualization@lists.yoctoproject.org; MacLeod, Randy
+> > <Randy.MacLeod@windriver.com>
+> > Subject: Re: [meta-virtualization] [meta-virt][kirkstone][PATCH 1/1] ceph: Fix
+> > CVE-1021-3979
+> >
+> > What about master ? Does it have the same issue ?
+>
+> Yes, and I have the patch for that.  You cannot cherry-pick between the branches because
+> recipe context is different.  The source patch is the same.  I used kirkstone first for internal reasons.
+>
+
+In order to merge this to kirkstone, it needs to be on master first.
+
+So there should be two sends of the patch, one for master and then
+another for kirkstone (if it can't be cherry picked).
+
+If you sent the one to master and I missed it, my apologies ... gmail
+threads strangely at times.
+
+Bruce
+
+> Joe
+>
+> >
+> > Bruce
+> >
+> > On Wed, Aug 10, 2022 at 1:39 PM Joe Slater <joe.slater@windriver.com> wrote:
+> > >
+> > > Ceph-volume does not properly control key sizes.
+> > >
+> > > Cherry-pick from github.com/ceph/ceph.git.
+> > >
+> > > Signed-off-by: Joe Slater <joe.slater@windriver.com>
+> > > ---
+> > >  .../ceph/ceph/CVE-2021-3979.patch             | 158 ++++++++++++++++++
+> > >  recipes-extended/ceph/ceph_15.2.15.bb         |   1 +
+> > >  2 files changed, 159 insertions(+)
+> > >  create mode 100644 recipes-extended/ceph/ceph/CVE-2021-3979.patch
+> > >
+> > > diff --git a/recipes-extended/ceph/ceph/CVE-2021-3979.patch
+> > > b/recipes-extended/ceph/ceph/CVE-2021-3979.patch
+> > > new file mode 100644
+> > > index 00000000..081b32ba
+> > > --- /dev/null
+> > > +++ b/recipes-extended/ceph/ceph/CVE-2021-3979.patch
+> > > @@ -0,0 +1,158 @@
+> > > +From 47c33179f9a15ae95cc1579a421be89378602656 Mon Sep 17 00:00:00
+> > > +2001
+> > > +From: Guillaume Abrioux <gabrioux@redhat.com>
+> > > +Date: Tue, 25 Jan 2022 10:25:53 +0100
+> > > +Subject: [PATCH] ceph-volume: honour osd_dmcrypt_key_size option
+> > > +
+> > > +ceph-volume doesn't honour osd_dmcrypt_key_size.
+> > > +It means the default size is always applied.
+> > > +
+> > > +It also changes the default value in `get_key_size_from_conf()`
+> > > +
+> > > +From cryptsetup manpage:
+> > > +
+> > > +> For XTS mode you can optionally set a key size of 512 bits with the -s
+> > option.
+> > > +
+> > > +Using more than 512bits will end up with the following error message:
+> > > +
+> > > +```
+> > > +Key size in XTS mode must be 256 or 512 bits.
+> > > +```
+> > > +
+> > > +Fixes: https://tracker.ceph.com/issues/54006
+> > > +
+> > > +Signed-off-by: Guillaume Abrioux <gabrioux@redhat.com>
+> > > +
+> > > +Upstream-Status: Backport
+> > > + github.com/ceph/ceph.git
+> > > + equivalent to cherry-pick of commit
+> > > +47c33179f9a15ae95cc1579a421be89378602656
+> > > +
+> > > +CVE: CVE-2021-3979
+> > > +
+> > > +Signed-off-by: Joe Slater <joe.slater@windriver.com>
+> > > +---
+> > > + .../ceph_volume/tests/util/test_encryption.py | 41 +++++++++++++------
+> > > + .../ceph_volume/util/encryption.py            | 34 ++++++++++-----
+> > > + 2 files changed, 51 insertions(+), 24 deletions(-)
+> > > +
+> > > +diff --git
+> > > +a/src/ceph-volume/ceph_volume/tests/util/test_encryption.py
+> > > +b/src/ceph-volume/ceph_volume/tests/util/test_encryption.py
+> > > +index e1420b440d3..c86dc50b7c7 100644
+> > > +--- a/src/ceph-volume/ceph_volume/tests/util/test_encryption.py
+> > > ++++ b/src/ceph-volume/ceph_volume/tests/util/test_encryption.py
+> > > +@@ -1,5 +1,31 @@
+> > > + from ceph_volume.util import encryption
+> > > ++import base64
+> > > +
+> > > ++class TestGetKeySize(object):
+> > > ++    def test_get_size_from_conf_default(self, conf_ceph_stub):
+> > > ++        conf_ceph_stub('''
+> > > ++        [global]
+> > > ++        fsid=asdf
+> > > ++        ''')
+> > > ++        assert encryption.get_key_size_from_conf() == '512'
+> > > ++
+> > > ++    def test_get_size_from_conf_custom(self, conf_ceph_stub):
+> > > ++        conf_ceph_stub('''
+> > > ++        [global]
+> > > ++        fsid=asdf
+> > > ++        [osd]
+> > > ++        osd_dmcrypt_key_size=256
+> > > ++        ''')
+> > > ++        assert encryption.get_key_size_from_conf() == '256'
+> > > ++
+> > > ++    def test_get_size_from_conf_custom_invalid(self, conf_ceph_stub):
+> > > ++        conf_ceph_stub('''
+> > > ++        [global]
+> > > ++        fsid=asdf
+> > > ++        [osd]
+> > > ++        osd_dmcrypt_key_size=1024
+> > > ++        ''')
+> > > ++        assert encryption.get_key_size_from_conf() == '512'
+> > > +
+> > > + class TestStatus(object):
+> > > +
+> > > +@@ -37,17 +63,6 @@ class TestDmcryptClose(object):
+> > > +
+> > > + class TestDmcryptKey(object):
+> > > +
+> > > +-    def test_dmcrypt_with_default_size(self, conf_ceph_stub):
+> > > +-        conf_ceph_stub('[global]\nfsid=asdf-lkjh')
+> > > +-        result = encryption.create_dmcrypt_key()
+> > > +-        assert len(result) == 172
+> > > +-
+> > > +-    def test_dmcrypt_with_custom_size(self, conf_ceph_stub):
+> > > +-        conf_ceph_stub('''
+> > > +-        [global]
+> > > +-        fsid=asdf
+> > > +-        [osd]
+> > > +-        osd_dmcrypt_size=8
+> > > +-        ''')
+> > > ++    def test_dmcrypt(self):
+> > > +         result = encryption.create_dmcrypt_key()
+> > > +-        assert len(result) == 172
+> > > ++        assert len(base64.b64decode(result)) == 128
+> > > +diff --git a/src/ceph-volume/ceph_volume/util/encryption.py
+> > > +b/src/ceph-volume/ceph_volume/util/encryption.py
+> > > +index 72a0ccf121e..2a2c03337b6 100644
+> > > +--- a/src/ceph-volume/ceph_volume/util/encryption.py
+> > > ++++ b/src/ceph-volume/ceph_volume/util/encryption.py
+> > > +@@ -9,21 +9,29 @@ from .disk import lsblk, device_family,
+> > > +get_part_entry_type
+> > > +
+> > > + logger = logging.getLogger(__name__)
+> > > +
+> > > +-
+> > > +-def create_dmcrypt_key():
+> > > ++def get_key_size_from_conf():
+> > > +     """
+> > > +-    Create the secret dm-crypt key used to decrypt a device.
+> > > ++    Return the osd dmcrypt key size from config file.
+> > > ++    Default is 512.
+> > > +     """
+> > > +-    # get the customizable dmcrypt key size (in bits) from ceph.conf fallback
+> > > +-    # to the default of 1024
+> > > +-    dmcrypt_key_size = conf.ceph.get_safe(
+> > > ++    default_key_size = '512'
+> > > ++    key_size = conf.ceph.get_safe(
+> > > +         'osd',
+> > > +         'osd_dmcrypt_key_size',
+> > > +-        default=1024,
+> > > +-    )
+> > > +-    # The size of the key is defined in bits, so we must transform that
+> > > +-    # value to bytes (dividing by 8) because we read in bytes, not bits
+> > > +-    random_string = os.urandom(int(dmcrypt_key_size / 8))
+> > > ++        default='512')
+> > > ++
+> > > ++    if key_size not in ['256', '512']:
+> > > ++        logger.warning(("Invalid value set for osd_dmcrypt_key_size ({}). "
+> > > ++                        "Falling back to {}bits".format(key_size, default_key_size)))
+> > > ++        return default_key_size
+> > > ++
+> > > ++    return key_size
+> > > ++
+> > > ++def create_dmcrypt_key():
+> > > ++    """
+> > > ++    Create the secret dm-crypt key (KEK) used to encrypt/decrypt the Volume
+> > Key.
+> > > ++    """
+> > > ++    random_string = os.urandom(128)
+> > > +     key = base64.b64encode(random_string).decode('utf-8')
+> > > +     return key
+> > > +
+> > > +@@ -38,6 +46,8 @@ def luks_format(key, device):
+> > > +     command = [
+> > > +         'cryptsetup',
+> > > +         '--batch-mode', # do not prompt
+> > > ++        '--key-size',
+> > > ++        get_key_size_from_conf(),
+> > > +         '--key-file', # misnomer, should be key
+> > > +         '-',          # because we indicate stdin for the key here
+> > > +         'luksFormat',
+> > > +@@ -83,6 +93,8 @@ def luks_open(key, device, mapping):
+> > > +     """
+> > > +     command = [
+> > > +         'cryptsetup',
+> > > ++        '--key-size',
+> > > ++        get_key_size_from_conf(),
+> > > +         '--key-file',
+> > > +         '-',
+> > > +         '--allow-discards',  # allow discards (aka TRIM) requests
+> > > +for device
+> > > +--
+> > > +2.35.1
+> > > +
+> > > diff --git a/recipes-extended/ceph/ceph_15.2.15.bb
+> > > b/recipes-extended/ceph/ceph_15.2.15.bb
+> > > index 17dbcf35..b13ebb70 100644
+> > > --- a/recipes-extended/ceph/ceph_15.2.15.bb
+> > > +++ b/recipes-extended/ceph/ceph_15.2.15.bb
+> > > @@ -14,6 +14,7 @@ SRC_URI = "http://download.ceph.com/tarballs/ceph-
+> > ${PV}.tar.gz \
+> > >             file://ceph.conf \
+> > >             file://0001-cmake-add-support-for-python3.10.patch \
+> > >
+> > > file://0001-SnappyCompressor.h-fix-snappy-compiler-error.patch \
+> > > +           file://CVE-2021-3979.patch \
+> > >  "
+> > >
+> > >  SRC_URI[sha256sum] =
+> > "5dccdaff2ebe18d435b32bfc06f8b5f474bf6ac0432a6a07d144b7c56700d0bf"
+> > > --
+> > > 2.35.1
+> > >
+> > >
+> > > -=-=-=-=-=-=-=-=-=-=-=-
+> > > Links: You receive all messages sent to this group.
+> > > View/Reply Online (#7514):
+> > > https://lists.yoctoproject.org/g/meta-virtualization/message/7514
+> > > Mute This Topic: https://lists.yoctoproject.org/mt/92941876/1050810
+> > > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+> > > Unsubscribe:
+> > > https://lists.yoctoproject.org/g/meta-virtualization/unsub
+> > > [bruce.ashfield@gmail.com]
+> > > -=-=-=-=-=-=-=-=-=-=-=-
+> > >
+> >
+> >
+> > --
+> > - Thou shalt not follow the NULL pointer, for chaos and madness await thee at
+> > its end
+> > - "Use the force Harry" - Gandalf, Star Trek II
+
+
+
+-- 
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
