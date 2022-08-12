@@ -1,263 +1,93 @@
-Return-Path: <joe.slater@windriver.com>
+Return-Path: <Martin.Jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55EE5C00140
-	for <webhook@archiver.kernel.org>; Wed, 10 Aug 2022 20:18:56 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com
- [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web12.3257.1660162726350592005
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0E9AC00140
+	for <webhook@archiver.kernel.org>; Fri, 12 Aug 2022 08:25:24 +0000 (UTC)
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com
+ [209.85.208.47])
+ by mx.groups.io with SMTP id smtpd.web12.8406.1660292720282484369
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 10 Aug 2022 13:18:46 -0700
+ Fri, 12 Aug 2022 01:25:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=FaqAZdYa;
- spf=permerror,
- err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}:
- invalid domain name (domain: windriver.com, ip: 205.220.166.238,
- mailfrom: prvs=52213e9b55=joe.slater@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id
- 27AESowN024592
-	for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 10 Aug 2022 13:18:45 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
- h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding :
- content-type; s=PPS06212021;
- bh=95Srn8SxtujVSYYqW5ZubP4IkaTJGptcNTA1+RQZp68=;
- b=FaqAZdYa0E+/xNO0lQ6kbylaAJzorhKdWeEz4/h6zY6C0J2c3UC/JHSk0wRC3NVWBJTu
- fy94sBXNJg+/tDbgUpQ8cgWNfcOObgSvJrEglPzNqAU/ma0EEoXCFB3UizIfXuXn00S3
- mcOoVajlIBLq8PwVcFQu6IzhggLaIBJcJxVAISZA6k9mY+zEMrJd3SgflbVUGW9ytAln
- ZGkuvt62ZEqWEenSzK7DhLZPUCNSno4GW54kW+iZCUMQq3s9tRfvC5KCCX7aMIR9ghSH
- eX9REFGj1DzJnYbapQCIXMgviAcXR2rDN2JRIhUTZPUI7vkxzS+WroutL7klzl1gwhhq 1A==
-Received: from ala-exchng01.corp.ad.wrs.com (unknown-82-252.windriver.com
- [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3huwrcgwq9-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 10 Aug 2022 13:18:45 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Wed, 10 Aug 2022 13:18:45 -0700
-Received: from ala-lpggp5.wrs.com (147.11.105.121) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.12 via Frontend Transport; Wed, 10 Aug 2022 13:18:45 -0700
-From: Joe Slater <joe.slater@windriver.com>
-To: <meta-virtualization@lists.yoctoproject.org>
-CC: <joe.slater@windriver.com>, <randy.macleod@windriver.com>
-Subject: [meta-virt][PATCH 1/1] ceph: Fix CVE-2021-3979
-Date: Wed, 10 Aug 2022 13:18:44 -0700
-Message-ID: <20220810201844.30041-1-joe.slater@windriver.com>
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=IFnVkClR;
+ spf=pass (domain: gmail.com, ip: 209.85.208.47,
+ mailfrom: martin.jansa@gmail.com)
+Received: by mail-ed1-f47.google.com with SMTP id s11so425738edd.13
+        for <meta-virtualization@lists.yoctoproject.org>;
+ Fri, 12 Aug 2022 01:25:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc;
+        bh=nEBprr2CQKVDAYy4/OUitlM2bOrklKSQcM8oxfTp6dE=;
+        b=IFnVkClRylfEvgKJtIUi9JQ8bZ3Ns/d7gEN9P06tl/F3ucPSB6TLuuQRuDbHXilkjg
+         4ki2bbrtUs8kJbzmc/SSHfFnS9UwtccdC8R9MD9nafCmex/0OOclpaduLiOOR7XxFger
+         YC8lALmQhXN9KTxQoucZp/odGq5OVxyoGO2eeND+XCekSMgSonH4VW/+r1B2Y3YKJXpo
+         0B/r7eXhmXihSlMCqbedmRskvXWeKW+W+xp5oDRNm3EgHt2NuzbCBH7pQZS+Q5CwHqXJ
+         semXM1CrI05YolmT7HAZXRtD0M69PQHpT7p+c4EbPH/2K1nXJ0YynBWMt00QyIfGpLSq
+         SRvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc;
+        bh=nEBprr2CQKVDAYy4/OUitlM2bOrklKSQcM8oxfTp6dE=;
+        b=7nLRXe/Tl7LW0n0l8HZblDVWHF+PHSyRYdzVIi8K/ldrYX9Wrsawc0qLmESCmy3jAR
+         mkKOY/WWYX3mpX0zoouqEAZvf0JJBUyS3SwI41w0vUSzhEZsWs1IbtyIn6/M3Y3Q0Q79
+         C3M/UyBU8CwBBwiYozBxUDgMu54Nv06UETcnHeK5mxEYpGIVtDbEtiECOQlOoR/YoQUO
+         EPv0/9y6nhFfvxyHbAvycXxwCywr4upOakO3XJQtOhFnsQjHE+Sx7Z/vp7MmCneNI7aR
+         QY9EtxpOIWLgR3dZpA3gi6QthhJ84W3fCTEz5PPJsjFH+CUcOS2MCrcnAF9MtWtLeNtg
+         mlow==
+X-Gm-Message-State: ACgBeo3tb7w0NXSnS8/ErY/9VP5cQAnMAq1m0yUxwaqM1akB2USbcAs+
+	K6LCteSKxcHHnhww7jPRCII7llnqI6k=
+X-Google-Smtp-Source: 
+ AA6agR5XW0z5Ch8nuVqaiAgaK21ADw+IgwmLMqGqmvkfJeVdrmZJht4CRK4+YVBZfd0HVoNlnFPCVg==
+X-Received: by 2002:a50:ff13:0:b0:43e:76d3:63e1 with SMTP id
+ a19-20020a50ff13000000b0043e76d363e1mr2532773edu.271.1660292718731;
+        Fri, 12 Aug 2022 01:25:18 -0700 (PDT)
+Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
+        by smtp.gmail.com with ESMTPSA id
+ c21-20020a170906341500b00730cc173c6asm544190ejb.43.2022.08.12.01.25.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 12 Aug 2022 01:25:18 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: meta-virtualization@lists.yoctoproject.org
+Cc: Martin Jansa <Martin.Jansa@gmail.com>
+Subject: [PATCH] dynamic-layers/raspberrypi: drop linux-yocto 5.10 bbappend
+Date: Fri, 12 Aug 2022 10:24:35 +0200
+Message-Id: <20220812082435.99083-1-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: KDSM7XM8yVrX3YMQMZ0YhcTpdCTV5PQs
-X-Proofpoint-ORIG-GUID: KDSM7XM8yVrX3YMQMZ0YhcTpdCTV5PQs
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-08-10_14,2022-08-10_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- clxscore=1015 impostorscore=0 malwarescore=0 bulkscore=0 suspectscore=0
- spamscore=0 adultscore=0 mlxlogscore=999 phishscore=0 lowpriorityscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2207270000 definitions=main-2208100061
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Wed, 10 Aug 2022 20:18:56 -0000
+ <meta-virtualization@lists.yoctoproject.org>; Fri, 12 Aug 2022 08:25:24 -0000
 X-Groupsio-URL: 
- https://lists.yoctoproject.org/g/meta-virtualization/message/7519
+ https://lists.yoctoproject.org/g/meta-virtualization/message/7520
 
-Ceph-volume does not properly control key sizes.
-
-Cherry-pick from github.com/ceph/ceph.git.
-
-Signed-off-by: Joe Slater <joe.slater@windriver.com>
+* the inc file was dropped in:
+  58f5ac6 kernel: drop 5.10 .inc
+  but this .bbappend still causes parsing error, because 5.10 recipes
+  were removed from oe-core
 ---
- .../ceph/ceph/CVE-2021-3979.patch             | 158 ++++++++++++++++++
- recipes-extended/ceph/ceph_15.2.15.bb         |   1 +
- 2 files changed, 159 insertions(+)
- create mode 100644 recipes-extended/ceph/ceph/CVE-2021-3979.patch
+ .../recipes-kernel/linux/linux-yocto_5.10.bbappend          | 6 ------
+ 1 file changed, 6 deletions(-)
+ delete mode 100644 dynamic-layers/raspberrypi/recipes-kernel/linux/linux-yocto_5.10.bbappend
 
-diff --git a/recipes-extended/ceph/ceph/CVE-2021-3979.patch b/recipes-extended/ceph/ceph/CVE-2021-3979.patch
-new file mode 100644
-index 00000000..081b32ba
---- /dev/null
-+++ b/recipes-extended/ceph/ceph/CVE-2021-3979.patch
-@@ -0,0 +1,158 @@
-+From 47c33179f9a15ae95cc1579a421be89378602656 Mon Sep 17 00:00:00 2001
-+From: Guillaume Abrioux <gabrioux@redhat.com>
-+Date: Tue, 25 Jan 2022 10:25:53 +0100
-+Subject: [PATCH] ceph-volume: honour osd_dmcrypt_key_size option
-+
-+ceph-volume doesn't honour osd_dmcrypt_key_size.
-+It means the default size is always applied.
-+
-+It also changes the default value in `get_key_size_from_conf()`
-+
-+From cryptsetup manpage:
-+
-+> For XTS mode you can optionally set a key size of 512 bits with the -s option.
-+
-+Using more than 512bits will end up with the following error message:
-+
-+```
-+Key size in XTS mode must be 256 or 512 bits.
-+```
-+
-+Fixes: https://tracker.ceph.com/issues/54006
-+
-+Signed-off-by: Guillaume Abrioux <gabrioux@redhat.com>
-+
-+Upstream-Status: Backport
-+ github.com/ceph/ceph.git
-+ equivalent to cherry-pick of commit 47c33179f9a15ae95cc1579a421be89378602656
-+
-+CVE: CVE-2021-3979
-+
-+Signed-off-by: Joe Slater <joe.slater@windriver.com>
-+---
-+ .../ceph_volume/tests/util/test_encryption.py | 41 +++++++++++++------
-+ .../ceph_volume/util/encryption.py            | 34 ++++++++++-----
-+ 2 files changed, 51 insertions(+), 24 deletions(-)
-+
-+diff --git a/src/ceph-volume/ceph_volume/tests/util/test_encryption.py b/src/ceph-volume/ceph_volume/tests/util/test_encryption.py
-+index e1420b440d3..c86dc50b7c7 100644
-+--- a/src/ceph-volume/ceph_volume/tests/util/test_encryption.py
-++++ b/src/ceph-volume/ceph_volume/tests/util/test_encryption.py
-+@@ -1,5 +1,31 @@
-+ from ceph_volume.util import encryption
-++import base64
-+ 
-++class TestGetKeySize(object):
-++    def test_get_size_from_conf_default(self, conf_ceph_stub):
-++        conf_ceph_stub('''
-++        [global]
-++        fsid=asdf
-++        ''')
-++        assert encryption.get_key_size_from_conf() == '512'
-++
-++    def test_get_size_from_conf_custom(self, conf_ceph_stub):
-++        conf_ceph_stub('''
-++        [global]
-++        fsid=asdf
-++        [osd]
-++        osd_dmcrypt_key_size=256
-++        ''')
-++        assert encryption.get_key_size_from_conf() == '256'
-++
-++    def test_get_size_from_conf_custom_invalid(self, conf_ceph_stub):
-++        conf_ceph_stub('''
-++        [global]
-++        fsid=asdf
-++        [osd]
-++        osd_dmcrypt_key_size=1024
-++        ''')
-++        assert encryption.get_key_size_from_conf() == '512'
-+ 
-+ class TestStatus(object):
-+ 
-+@@ -37,17 +63,6 @@ class TestDmcryptClose(object):
-+ 
-+ class TestDmcryptKey(object):
-+ 
-+-    def test_dmcrypt_with_default_size(self, conf_ceph_stub):
-+-        conf_ceph_stub('[global]\nfsid=asdf-lkjh')
-+-        result = encryption.create_dmcrypt_key()
-+-        assert len(result) == 172
-+-
-+-    def test_dmcrypt_with_custom_size(self, conf_ceph_stub):
-+-        conf_ceph_stub('''
-+-        [global]
-+-        fsid=asdf
-+-        [osd]
-+-        osd_dmcrypt_size=8
-+-        ''')
-++    def test_dmcrypt(self):
-+         result = encryption.create_dmcrypt_key()
-+-        assert len(result) == 172
-++        assert len(base64.b64decode(result)) == 128
-+diff --git a/src/ceph-volume/ceph_volume/util/encryption.py b/src/ceph-volume/ceph_volume/util/encryption.py
-+index 72a0ccf121e..2a2c03337b6 100644
-+--- a/src/ceph-volume/ceph_volume/util/encryption.py
-++++ b/src/ceph-volume/ceph_volume/util/encryption.py
-+@@ -9,21 +9,29 @@ from .disk import lsblk, device_family, get_part_entry_type
-+ 
-+ logger = logging.getLogger(__name__)
-+ 
-+-
-+-def create_dmcrypt_key():
-++def get_key_size_from_conf():
-+     """
-+-    Create the secret dm-crypt key used to decrypt a device.
-++    Return the osd dmcrypt key size from config file.
-++    Default is 512.
-+     """
-+-    # get the customizable dmcrypt key size (in bits) from ceph.conf fallback
-+-    # to the default of 1024
-+-    dmcrypt_key_size = conf.ceph.get_safe(
-++    default_key_size = '512'
-++    key_size = conf.ceph.get_safe(
-+         'osd',
-+         'osd_dmcrypt_key_size',
-+-        default=1024,
-+-    )
-+-    # The size of the key is defined in bits, so we must transform that
-+-    # value to bytes (dividing by 8) because we read in bytes, not bits
-+-    random_string = os.urandom(int(dmcrypt_key_size / 8))
-++        default='512')
-++
-++    if key_size not in ['256', '512']:
-++        logger.warning(("Invalid value set for osd_dmcrypt_key_size ({}). "
-++                        "Falling back to {}bits".format(key_size, default_key_size)))
-++        return default_key_size
-++
-++    return key_size
-++
-++def create_dmcrypt_key():
-++    """
-++    Create the secret dm-crypt key (KEK) used to encrypt/decrypt the Volume Key.
-++    """
-++    random_string = os.urandom(128)
-+     key = base64.b64encode(random_string).decode('utf-8')
-+     return key
-+ 
-+@@ -38,6 +46,8 @@ def luks_format(key, device):
-+     command = [
-+         'cryptsetup',
-+         '--batch-mode', # do not prompt
-++        '--key-size',
-++        get_key_size_from_conf(),
-+         '--key-file', # misnomer, should be key
-+         '-',          # because we indicate stdin for the key here
-+         'luksFormat',
-+@@ -83,6 +93,8 @@ def luks_open(key, device, mapping):
-+     """
-+     command = [
-+         'cryptsetup',
-++        '--key-size',
-++        get_key_size_from_conf(),
-+         '--key-file',
-+         '-',
-+         '--allow-discards',  # allow discards (aka TRIM) requests for device
-+-- 
-+2.35.1
-+
-diff --git a/recipes-extended/ceph/ceph_15.2.15.bb b/recipes-extended/ceph/ceph_15.2.15.bb
-index 0fb32b26..f2ece8c7 100644
---- a/recipes-extended/ceph/ceph_15.2.15.bb
-+++ b/recipes-extended/ceph/ceph_15.2.15.bb
-@@ -16,6 +16,7 @@ SRC_URI = "http://download.ceph.com/tarballs/ceph-${PV}.tar.gz \
-            file://0001-SnappyCompressor.h-fix-snappy-compiler-error.patch \
-            file://0001-buffer.h-add-missing-header-file-due-to-gcc-upgrade.patch \
-            file://0002-common-fix-FTBFS-due-to-dout-need_dynamic-on-GCC-12.patch \
-+           file://CVE-2021-3979.patch \
- "
- 
- SRC_URI[sha256sum] = "5dccdaff2ebe18d435b32bfc06f8b5f474bf6ac0432a6a07d144b7c56700d0bf"
+diff --git a/dynamic-layers/raspberrypi/recipes-kernel/linux/linux-yocto_5.10.bbappend b/dynamic-layers/raspberrypi/recipes-kernel/linux/linux-yocto_5.10.bbappend
+deleted file mode 100644
+index f279ef7..0000000
+--- a/dynamic-layers/raspberrypi/recipes-kernel/linux/linux-yocto_5.10.bbappend
++++ /dev/null
+@@ -1,6 +0,0 @@
+-# Enable use of the linux-yocto 5.10 kernel for the Raspberry Pi 4
+-KBRANCH:raspberrypi4-64 ?= "v5.10/standard/bcm-2xxx-rpi"
+-KMACHINE:raspberrypi4-64 ?= "bcm-2xxx-rpi4"
+-COMPATIBLE_MACHINE:raspberrypi4-64 = "(raspberrypi4-64)"
+-
+-require linux-yocto_xen-rpi.inc
 -- 
 2.35.1
 
