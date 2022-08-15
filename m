@@ -2,113 +2,83 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F93EC25B08
-	for <webhook@archiver.kernel.org>; Fri, 12 Aug 2022 13:32:56 +0000 (UTC)
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com
- [209.85.160.181])
- by mx.groups.io with SMTP id smtpd.web12.10657.1660311174632239564
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA1E1C00140
+	for <webhook@archiver.kernel.org>; Mon, 15 Aug 2022 03:12:48 +0000 (UTC)
+Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com
+ [209.85.161.41])
+ by mx.groups.io with SMTP id smtpd.web12.12497.1660533162987547390
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 12 Aug 2022 06:32:54 -0700
+ Sun, 14 Aug 2022 20:12:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Nlj8eZsq;
- spf=pass (domain: gmail.com, ip: 209.85.160.181,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=eRKx1GMr;
+ spf=pass (domain: gmail.com, ip: 209.85.161.41,
  mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qt1-f181.google.com with SMTP id y18so743357qtv.5
+Received: by mail-oo1-f41.google.com with SMTP id
+ e2-20020a4ab982000000b004354ba9a591so1164155oop.0
         for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 12 Aug 2022 06:32:54 -0700 (PDT)
+ Sun, 14 Aug 2022 20:12:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc;
-        bh=4tsCTEm23b6A/GuqluIYuAErrlM+X2rfyaYNox33vFc=;
-        b=Nlj8eZsqgFzk66niKmLriDmx2QOMGspirKx4qKNajuIond/LH4Qrx0BOUI/Wgwd6fw
-         Epw2GF5gPGPp635XyfSPNrZSLF8JtNsjL+aUC1NWYjSh2lly/vOXSxroZZQ9CRVuNKok
-         8ib46kTOIDP3VsMpaq6U6Pd2qKyRnLwF7FBmedS3fXhQMEuIdSm7jaTZfl+LWz0fWZl/
-         Q8J4JpFc99ikJDl6w2uQlDw2G46igPr1D02Ioboqq1O+0vvWSDQJ91nLfaG5KXORLLDS
-         eAULPVxPYgwAjMmhWU2LvaEDX77ZjApG4Dmzru0J4wxhI/fImMW5s6l7sJVq69XwTTOE
-         p8gQ==
+        h=to:subject:message-id:date:from:mime-version:from:to:cc;
+        bh=R8JxyS/2sTQw2dimRoVlKH/4wfVSHsW2NmFAoEbBbPM=;
+        b=eRKx1GMrOJuyj6baPfgs3JHuMyCn9uk+BEYSAHsxVbfIfqYLjfpqOe/+3xMKPPXPkF
+         2Ff0U44J4pQhSyxUV+pyABsVqMXDThu+uoXZl6bFKCqOpFmgMct90G2lzXEuoEoHuCy1
+         NQtEBGj7y1CjssjLmLszOYgPNY4M/GHfMaRd7/DPrJ1GKKmlUIfxPjXlsPqw4WneIdAx
+         I2rLpyd67jh7jZ49mPLEuogilif5tQ+IiPP7Chq3yYkL7ykiXGGkI0Fdq/OWyNvPggFT
+         C82W9VVH3jv08/MdvqeWMih65SgyqqOQtuEFi0qI1Y51RvIhy+chf/ADEwfiraaBhpgY
+         RyfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
-        bh=4tsCTEm23b6A/GuqluIYuAErrlM+X2rfyaYNox33vFc=;
-        b=wH4aeZ6948EeYjPY/9w54jBPBcyTuGyX83vlgLqe6lpLEvVTS+MGn6cPE1D/6z1+dG
-         RVZu7+n7GEVN32PZdkLZmX1f5Kpxf1RMtTLac2wa1/Jvuxu3l4y2MCTn26wD0Ehfp0M0
-         5UfCgOkfAbA8yT+36cSgd8xD32dc2LUUQD8j4FwdgLVEzFFwZqP4kDaTT1oE2IR9PHR+
-         pw802AdP3ahLW3xBHIssDTaE0Oj4EdzvXHHJny8RWXa0Cd3IGdO5cWHKNPslmu7QiMr+
-         blpS+uOx+1Dr1CjQbWLBr4DpyHzho+iwxJxdlMGst2JWbEnzGYRVonCmgHvpe7s00QWE
-         NlCA==
-X-Gm-Message-State: ACgBeo3u5eapCBzYb2QI/cUDw+k1X34+HYQiH2drhnx0a7cBoV6zSkwt
-	Fu9RB4HZh7JDa0fo9osWcvw=
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc;
+        bh=R8JxyS/2sTQw2dimRoVlKH/4wfVSHsW2NmFAoEbBbPM=;
+        b=QvNOsWeiYiM+xCB0dv8qmUpwZHITQPGuPnTMsjzsMpaK3sOog4xdFUfQC+35HYZ/Ks
+         /Rk+gz0+0rdkcjIgISer6MdTvmaUqU/4TggwtESvAuiQ8GMmbzs2zrSFurHxzJsMiWVV
+         zRRSN3HbpTs1cJcNvsmdX4ezoPMOdDNSVlQ8+RG66XzLBOG0q24kjf7ydq6aP8umk3k6
+         8CeA7DSM4vwrADCU3OqIiroH4cjw+xkh9WPaRzvSXCgI5F64R7jl01yoUV820VYkPtgi
+         LQbg0unn9YjVd8uuuxZ6NJaXwo2pe4h1QUMEFW6C5IGtojFdYdawP+7AxDcUujxZTEJB
+         XYxg==
+X-Gm-Message-State: ACgBeo0roHMceBmJppJRiGNN36KkWC8d7hWapm671voZMVkoYbow8N3y
+	9uJ8KAuXh/6hwoZ7S7VDbCY+e4Yj40Vk3ltAG5gEU6pNA8o=
 X-Google-Smtp-Source: 
- AA6agR6VVUY1BQsNUfbSA7TZ3lSVogMxNFh8oQJ0Gff9wjXCRuIXC3yDcBQZ8MXA3T8rJuD9ErzgnA==
-X-Received: by 2002:ac8:5c4d:0:b0:31e:f794:1b18 with SMTP id
- j13-20020ac85c4d000000b0031ef7941b18mr3491368qtj.282.1660311173512;
-        Fri, 12 Aug 2022 06:32:53 -0700 (PDT)
-Received: from gmail.com ([173.34.88.218])
-        by smtp.gmail.com with ESMTPSA id
- do4-20020a05620a2b0400b006b640efe6dasm1661253qkb.132.2022.08.12.06.32.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Aug 2022 06:32:52 -0700 (PDT)
-Date: Fri, 12 Aug 2022 09:32:51 -0400
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Martin Jansa <Martin.Jansa@gmail.com>
-Cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [meta-virtualization] [PATCH] dynamic-layers/raspberrypi: drop
- linux-yocto 5.10 bbappend
-Message-ID: <20220812133251.GA530178@gmail.com>
-References: <20220812082435.99083-1-Martin.Jansa@gmail.com>
+ AA6agR5ji1xzOoa6NWeX4GASL/ybaRc35C0jkMChUYUctKeMlEkk47H89ErXlSasvx2BOJRXErCsWoH7OeMbJtXlH9U=
+X-Received: by 2002:a4a:434d:0:b0:441:9b4:ffad with SMTP id
+ l13-20020a4a434d000000b0044109b4ffadmr4274268ooj.31.1660533161463; Sun, 14
+ Aug 2022 20:12:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220812082435.99083-1-Martin.Jansa@gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Sun, 14 Aug 2022 23:12:30 -0400
+Message-ID: 
+ <CADkTA4MPeiP0Qj_pmTJQKed+c7J8Ju-YdySXjFtau9cwcQKz9w@mail.gmail.com>
+Subject: Request for test! ... lxc
+To: meta-virtualization@lists.yoctoproject.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Fri, 12 Aug 2022 13:32:56 -0000
+ <meta-virtualization@lists.yoctoproject.org>; Mon, 15 Aug 2022 03:12:48 -0000
 X-Groupsio-URL: 
- https://lists.yoctoproject.org/g/meta-virtualization/message/7521
+ https://lists.yoctoproject.org/g/meta-virtualization/message/7522
 
-merged.
+If anyone is a lxc user, I just worked through a sizable update from 4.x to 5.x.
+
+https://git.yoctoproject.org/meta-virtualization/commit/?h=master-next&id=67c13e9ec856ed3e9af0febad03d29581dd1f0ac
+
+In particular, the build is now meson based .. and a lot of the old
+options (and patches) don't really apply to the new structure.
+
+I've tested the update through a basic smoke test, in a systemd based image.
+
+So now is the heads up to test other workflows and send patches if
+something is broken!
+
+Cheers,
 
 Bruce
 
-In message: [meta-virtualization] [PATCH] dynamic-layers/raspberrypi: drop linux-yocto 5.10 bbappend
-on 12/08/2022 Martin Jansa wrote:
 
-> * the inc file was dropped in:
->   58f5ac6 kernel: drop 5.10 .inc
->   but this .bbappend still causes parsing error, because 5.10 recipes
->   were removed from oe-core
-> ---
->  .../recipes-kernel/linux/linux-yocto_5.10.bbappend          | 6 ------
->  1 file changed, 6 deletions(-)
->  delete mode 100644 dynamic-layers/raspberrypi/recipes-kernel/linux/linux-yocto_5.10.bbappend
-> 
-> diff --git a/dynamic-layers/raspberrypi/recipes-kernel/linux/linux-yocto_5.10.bbappend b/dynamic-layers/raspberrypi/recipes-kernel/linux/linux-yocto_5.10.bbappend
-> deleted file mode 100644
-> index f279ef7..0000000
-> --- a/dynamic-layers/raspberrypi/recipes-kernel/linux/linux-yocto_5.10.bbappend
-> +++ /dev/null
-> @@ -1,6 +0,0 @@
-> -# Enable use of the linux-yocto 5.10 kernel for the Raspberry Pi 4
-> -KBRANCH:raspberrypi4-64 ?= "v5.10/standard/bcm-2xxx-rpi"
-> -KMACHINE:raspberrypi4-64 ?= "bcm-2xxx-rpi4"
-> -COMPATIBLE_MACHINE:raspberrypi4-64 = "(raspberrypi4-64)"
-> -
-> -require linux-yocto_xen-rpi.inc
-> -- 
-> 2.35.1
-> 
-
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#7520): https://lists.yoctoproject.org/g/meta-virtualization/message/7520
-> Mute This Topic: https://lists.yoctoproject.org/mt/92976015/1050810
-> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
-
+-- 
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
