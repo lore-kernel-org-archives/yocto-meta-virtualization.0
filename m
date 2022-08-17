@@ -2,50 +2,49 @@ Return-Path: <andrei@gherzan.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3882EC25B08
-	for <webhook@archiver.kernel.org>; Wed, 17 Aug 2022 16:35:26 +0000 (UTC)
-Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com
- [64.147.123.19])
- by mx.groups.io with SMTP id smtpd.web12.31116.1660754119822259192
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A8AEC25B08
+	for <webhook@archiver.kernel.org>; Wed, 17 Aug 2022 16:36:26 +0000 (UTC)
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
+ [66.111.4.27])
+ by mx.groups.io with SMTP id smtpd.web11.30946.1660754179548510240
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 17 Aug 2022 09:35:20 -0700
+ Wed, 17 Aug 2022 09:36:19 -0700
 Authentication-Results: mx.groups.io;
  dkim=fail reason="signature has expired" header.i=@gherzan.com header.s=fm2
- header.b=XpPU9MLm;
- spf=pass (domain: gherzan.com, ip: 64.147.123.19,
- mailfrom: andrei@gherzan.com)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailout.west.internal (Postfix) with ESMTP id BFBEF3200908;
-	Wed, 17 Aug 2022 12:35:18 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Wed, 17 Aug 2022 12:35:19 -0400
+ header.b=D8p5W5Tw;
+ spf=pass (domain: gherzan.com, ip: 66.111.4.27, mailfrom: andrei@gherzan.com)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailout.nyi.internal (Postfix) with ESMTP id D35AB5C0143;
+	Wed, 17 Aug 2022 12:36:18 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute1.internal (MEProxy); Wed, 17 Aug 2022 12:36:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gherzan.com; h=
 	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
 	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
-	 s=fm2; t=1660754117; x=1660840517; bh=jZoZyujw2gonhsd992IHCi+aG
-	wYSZFl28iJco9K7OUk=; b=XpPU9MLmqhCBWChI4wGAtxBhSU6tBJTFGjBeG64/g
-	TOg3dpuZc65jzTYArkLnNTaFKnxIvoWzPRaRM9svqFo/hCHM6ljoG69XAYN6YSHe
-	2oZjCvxnXvC3IhHgMKbzvvPcXoB9GUex0npgeVEu1haZpmvw/lXGQdMXTm4plc0D
-	YRiMBsC+jIbvtC27Vu/tHWgMvgWDWKOxNiKdH4KJEXxTuHhiCH4dhEN17ssYDrQ4
-	fkM5w7mTf/lL00/SliNMzHvpRzCvFTLR1F2SgYKzcvFCNXuDrTVxkOcORJIL/ToW
-	IvB9hZh5VGZcN3vHoWijwkgSSLSkp4wPt8wenl/eBl8qg==
+	 s=fm2; t=1660754178; x=1660840578; bh=jZoZyujw2gonhsd992IHCi+aG
+	wYSZFl28iJco9K7OUk=; b=D8p5W5Tw+pk5bIDlxEBaJUPoR/EnzYZpRDRXlDZrC
+	gwy/IDQCLGdhz7BxRXV44Q4t01fJiTHPWNx1v3njzUUi6ab8GDjbeI/WEKnuogge
+	fdHSv2lLsnMjq87k8IWOEOIkYN9pO6sJ5/+v20YBzrQToSWaDhclen4PkN9+zolY
+	n/Xzw5B36chxKKEAY3+5T7qwQtHwmlSHZv8I5IeeNx+awnMwce2MIIZpiSNFxVr1
+	A7JCt68Ch+aVrdhq7otpFOOAXO0msfQbfnJMBbOPhEz7CwsDy+YwkKh3cVnkJO9+
+	pUDegpupK4xUh73b9hZe4k1VT1/Gut5O6bLW/7LieS89Q==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
 	:feedback-id:feedback-id:from:from:in-reply-to:message-id
 	:mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
 	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1660754117; x=1660840517; bh=jZoZyujw2gonhsd992IHCi+aGwYSZFl28iJ
-	co9K7OUk=; b=1k3xnUNELG0l0BwCl+OnjBQsRyL51/VgynOdRDCkMKX/9NnZlAO
-	Wq4P7A0+8mBv3bYunod9IWapro7qLY9FrOD+ZCe4h/Rt/VKaaUzGriJPncaloX4C
-	VYcsTUJtIAEBu7Ywpcr3VUynRPuUfBSLjTeAZQnfWO3RexPHiRdiBGOJ4oD/AEeA
-	DoLHnCMQpkSvXXtiigBFc+2ikDD6HYCXwJ2DMWCzAXu36vbsycH/OdwlEN/VCIYr
-	qhdhD6h/7yJC9nz62eqHNvcWbbvMpySAzHR+mzySy/qg2orFJxwTlm1h1l6ePANK
-	yE2I4EXIkVhsyDpSF1MKesldXR/ITeGbmEw==
-X-ME-Sender: <xms:xRj9YhNe7FVIOn87aIafhkK_AoNAO_arGNk1JriOlF9OlN-9aTVxMw>
-    <xme:xRj9Yj88o22yS2PYyX-_AVsWaDC2udw88TOa-h3ynV3QdiUQKGsXEsUqzpxaOEpue
-    87L8496mNj8wvUxCi0>
+	1660754178; x=1660840578; bh=jZoZyujw2gonhsd992IHCi+aGwYSZFl28iJ
+	co9K7OUk=; b=19lrB4Xv5QntEuiyr2LysGLufvEJ+J0SeI8c56FN4xutA3J2h1V
+	aC/oUelJHpXHelY1TgOljcvs7IHLv2z9TXd43XbE6ISeZihc8kZ6K02qSaBcMFSE
+	Qu062IVBcqVmX8Q9rzM9ATnv10NEaH3GX5aphuFh1ZJ8b89U7ogFbENVDLkJalxO
+	XblqPaCNzYMv22xVtq9vKIdJVO9/EmFET/dtzRqhSlxgzbfdFb5+p2EWIThXXTId
+	4AwDNZ2ybXVHnW0/wZ84yoZeQLebZ7FvtnAIhlMXP/x2XQA5HNUa+dEmK5iPo26K
+	y4jrIFCnO2mKOP87iGftOS/eByzW5moxacg==
+X-ME-Sender: <xms:ARn9YhBcLYJLaXtWhYuf9h1Fk3x6TrtLFXUhvo9-g_hWbZ090ndlvQ>
+    <xme:ARn9YviuvDRskDKCTJgU7rGgQFvKsX2_tYhIdWWORi0-cmOju800jD249dM3TE10K
+    A8SEFzu_BtG8ps3uh4>
 X-ME-Received: 
- <xmr:xRj9YgSZFXp1fMuePLztqS-EP_FGMAzF-f1HrlzNZoWF3Dd984iDT19PQeOzPzlyPKmZrtkmY_L_mQUiWvd7dAPsnHsvRRfZhvGaanPt1sHw_u5p_OvkkKSh>
+ <xmr:ARn9YsmniU0cMnZ2E3gh6ZXfxhjLyjnA9chotrhvPN9ZsMdJKUzExtEfeIZLgRp1li8EuOL5Kd8_W173kj8vKAbpCCdgm53Lv9-8NkKZeSbW2FowGqV6XBQp>
 X-ME-Proxy-Cause: 
  gggruggvucftvghtrhhoucdtuddrgedvfedrvdehiedguddtfecutefuodetggdotefrod
     ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
@@ -54,30 +53,30 @@ X-ME-Proxy-Cause:
     hhgvrhiirghnrdgtohhmqeenucggtffrrghtthgvrhhnpeeijeelhfevveelffevgeefte
     eljeetvdegjedttdehhffhtdeihfevgeffgeegkeenucevlhhushhtvghrufhiiigvpedt
     necurfgrrhgrmhepmhgrihhlfhhrohhmpegrnhgurhgvihesghhhvghriigrnhdrtghomh
-X-ME-Proxy: <xmx:xRj9YtsqPy_zaKeJk3HDRFkwnsgUSX4UPMBcy0mlfGiRDa6cqTiChQ>
-    <xmx:xRj9YpfFjYYLTFSXJTbJlacZNSXr_z3pKeXGCcopUJcZ2evZ6ebEWQ>
-    <xmx:xRj9Yp1n_UOVO44ZRfqqlGft4_PbZWLiXOb9fovbk_yDCNBVfBG2qQ>
-    <xmx:xRj9YpGWwKT2F0dQVvUeuj5tMG2QvqsAWCL4MGFvInahFSwBG1dmXg>
+X-ME-Proxy: <xmx:ARn9YrxyivAisAWnpUvQDtvXYRmukv66I85RSad10-ez8En2plJYHA>
+    <xmx:ARn9YmSGm9fNUv3PtemYdPTmkGiB2HUk3NrQ60lu5ha9ZEoI304Ucg>
+    <xmx:ARn9YuasDKVgXWR8F7ejm4Rb2ZLjYODzPcqy_5s1MptBPqIrXqPGCA>
+    <xmx:Ahn9YpKZnnN1YLDvz_3fphC2ZdQlaZDHPRPTSpKePI-Hlv1ZXfdfWg>
 Feedback-ID: i68994715:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 17 Aug 2022 12:35:16 -0400 (EDT)
+ 17 Aug 2022 12:36:17 -0400 (EDT)
 From: Andrei Gherzan <andrei@gherzan.com>
 To: meta-virtualization@lists.yoctoproject.org
 Cc: andrei@gherzan.com,
 	Andrei Gherzan <andrei.gherzan@huawei.com>
-Subject: [meta-virtualization][kirkstone][PATCH] singularity: Drop explicit
- runtime dep glibc
-Date: Wed, 17 Aug 2022 18:34:59 +0200
-Message-Id: <20220817163459.557437-1-andrei@gherzan.com>
+Subject: [meta-virtualization][PATCH] singularity: Drop explicit runtime dep
+ glibc
+Date: Wed, 17 Aug 2022 18:36:09 +0200
+Message-Id: <20220817163609.558405-1-andrei@gherzan.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Wed, 17 Aug 2022 16:35:26 -0000
+ <meta-virtualization@lists.yoctoproject.org>; Wed, 17 Aug 2022 16:36:26 -0000
 X-Groupsio-URL: 
- https://lists.yoctoproject.org/g/meta-virtualization/message/7536
+ https://lists.yoctoproject.org/g/meta-virtualization/message/7537
 
 From: Andrei Gherzan <andrei.gherzan@huawei.com>
 
