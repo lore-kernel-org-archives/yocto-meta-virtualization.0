@@ -1,116 +1,196 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <pascal.bach@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 478FBC25B08
-	for <webhook@archiver.kernel.org>; Wed, 17 Aug 2022 16:54:26 +0000 (UTC)
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com
- [209.85.128.169])
- by mx.groups.io with SMTP id smtpd.web12.31362.1660755261362130401
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EBA81C32772
+	for <webhook@archiver.kernel.org>; Thu, 18 Aug 2022 09:40:40 +0000 (UTC)
+Received: from mta-65-227.siemens.flowmailer.net
+ (mta-65-227.siemens.flowmailer.net [185.136.65.227])
+ by mx.groups.io with SMTP id smtpd.web09.40349.1660815633691830802
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 17 Aug 2022 09:54:21 -0700
+ Thu, 18 Aug 2022 02:40:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=heGCSNO0;
- spf=pass (domain: gmail.com, ip: 209.85.128.169,
- mailfrom: raj.khem@gmail.com)
-Received: by mail-yw1-f169.google.com with SMTP id
- 00721157ae682-333b049f231so135478757b3.1
+ dkim=pass header.i=pascal.bach@siemens.com header.s=fm1 header.b=qBsxCqN3;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.227,
+ mailfrom: fm-402798-2022081809403075fb78d4ca9fb93126-d_oucy@rts-flowmailer.siemens.com)
+Received: by mta-65-227.siemens.flowmailer.net with ESMTPSA id
+ 2022081809403075fb78d4ca9fb93126
         for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 17 Aug 2022 09:54:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=rWHQBIvkkcdpj2mOmB139bpXeonn+nGTVdD37T8GApE=;
-        b=heGCSNO0NyY2hkZfgA+myfpdOdunhEna9rBmXUzRuuK1+oAxRIj5kqcZfL5BSgTShi
-         SXQwSQXBmES/B45B9WBVyZIQ5NXm2IAmp90nB4fX3RhmOAQslXN1bedkfxY+1bkQlyXS
-         UvmIV5tx/x0y67Qx8k6EpD5nkMSNEt0hme2RB+JWHZ6IBCWfEtdEZg7nxqzkkX3nNemm
-         HgYpS0/faeDOG8t2miFdHhuwxfMB/3bBFeWZQQJh6tvkFkmS5rYwXsz1tDgYiIDdn0H6
-         6ZghXURyuoBroj6WZZhp8ty/WLNsCj29GEMRh2vvUcyDQFJjCk7n5KwAJMdKvWG+m94c
-         kWyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=rWHQBIvkkcdpj2mOmB139bpXeonn+nGTVdD37T8GApE=;
-        b=m51qT5h8B9sgeF0FK31ISg1eu3HD7uld4ew/PCzKe3XPXmGez3GXu6vsPkkfc2yhrO
-         qjth6yLdITGXfWL1CFilM63NHZTFMd9a6dmeZENYP22z876/1Q/bXcd6osIKbb/ITnIh
-         SFH9qfaW2a/+5bQjOmpTLJxDlSZ3rEAmAXbn22MiF6x13B3BLCKTpz3hq90UKRURZPUE
-         5yIeYwuVivcfKdqOHBBG7k1ZqHsXCP0DLCqSSUT9SWyQvTxqHNf1WLBaS16DMb1bnDXf
-         9lwdr5bzuHq4YYqlKDIVuZ6sHW2zOw6BSQR64QGmBFrsgfxCO8fY1lJAN8y+mXJO466i
-         e/cQ==
-X-Gm-Message-State: ACgBeo3Yaaf8JWasIZQJpQXuRUdfK+i1Y6Hjwf1YGIXD8dFYWhttt2RN
-	fEWvjKhdyZ7h3HY4IwLT+IpUKGII8W/bCXLXQgQ=
-X-Google-Smtp-Source: 
- AA6agR7iUZ1HiRQthUWl8kXqO/8yFu6BwchF6a5u422sUqFg9gaY9fEMpjYcy9hqn9bN35MOcLVcILAQGumB0dZSz+Q=
-X-Received: by 2002:a25:b985:0:b0:671:3386:8bf8 with SMTP id
- r5-20020a25b985000000b0067133868bf8mr20769937ybg.495.1660755260400; Wed, 17
- Aug 2022 09:54:20 -0700 (PDT)
+        Thu, 18 Aug 2022 11:40:31 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=pascal.bach@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=n3UzlWOo9TWzc6G416Hr3+ec7r3/7aLZv79N1Or52Zw=;
+ b=qBsxCqN352TjhnYjgPKh99GKj6JI5dNrxG6T7C81yzpAJGoVBNQvW1T1I8ctVmPu7sXqB8
+ UogVR3OZljgDQt3/hzyuELj4tBUkaMCEL/0JybrjyDHSxHXbH/Ua2kjm7rQJv2BwIlMHmimN
+ zGkOjSO0aqZUlhg41NdRSGsYnHDZY=;
+From: pascal.bach@siemens.com
+To: meta-virtualization@lists.yoctoproject.org
+Cc: Pascal Bach <pascal.bach@siemens.com>
+Subject: [meta-virtualization][PATCH] podman: replace GOBUILDFLAGS patch
+Date: Thu, 18 Aug 2022 11:40:26 +0200
+Message-Id: <20220818094026.1772745-1-pascal.bach@siemens.com>
 MIME-Version: 1.0
-References: <20220817115051.353409-1-andrei@gherzan.com>
- <CAMKF1sp61KuH21-T=Oqdq52DDAP6-uOjPbXZJQ1K-EGUL0Y0Aw@mail.gmail.com>
- <1a401d8a-cd6d-4948-ae9d-5baba6deca52@www.fastmail.com>
- <CAMKF1sr2EN_iZRKV6jpmR03Pvqs1=PNYR_1238xiOQWhErE-5A@mail.gmail.com>
- <6c9a52a0-8dc6-483a-9726-1a4f6fc829ec@www.fastmail.com>
-In-Reply-To: <6c9a52a0-8dc6-483a-9726-1a4f6fc829ec@www.fastmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 17 Aug 2022 09:53:53 -0700
-Message-ID: 
- <CAMKF1sqSWLvwac12ve=dk_zm5iEODWyp9dBhkHfuX3yJx+pfvw@mail.gmail.com>
-Subject: Re: [meta-virtualization][PATCH] singularity: Skip recipe on musl
- builds
-To: Andrei Gherzan <andrei@gherzan.com>
-Cc: meta-virtualization@lists.yoctoproject.org,
-	Andrei Gherzan <andrei.gherzan@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-402798:519-21489:flowmailer
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Wed, 17 Aug 2022 16:54:26 -0000
+ <meta-virtualization@lists.yoctoproject.org>; Thu, 18 Aug 2022 09:40:40 -0000
 X-Groupsio-URL: 
- https://lists.yoctoproject.org/g/meta-virtualization/message/7539
+ https://lists.yoctoproject.org/g/meta-virtualization/message/7540
 
-On Wed, Aug 17, 2022 at 9:38 AM Andrei Gherzan <andrei@gherzan.com> wrote:
->
-> On Wed, 17 Aug 2022, at 15:59, Khem Raj wrote:
-> > On Wed, Aug 17, 2022 at 7:15 AM Andrei Gherzan <andrei@gherzan.com> wrote:
-> >>
-> >> On Wed, 17 Aug 2022, at 15:09, Khem Raj wrote:
-> >> > On Wed, Aug 17, 2022 at 4:51 AM Andrei Gherzan <andrei@gherzan.com> wrote:
-> >> >>
-> >> >> From: Andrei Gherzan <andrei.gherzan@huawei.com>
-> >> >>
-> >> >> This recipe explicitely rdepends on glibc so trying to build this with
-> >> >> musl will break world builds.
-> >> >>
-> >> >
-> >> > do you know why is it marked as glibc only.
-> >>
-> >> I've tried to figure it out but I couldn't find anything obvious.
-> >>
-> >> https://git.yoctoproject.org/meta-virtualization/commit/recipes-containers/singularity/singularity_git.bb?id=06bc17d1f0650ad2cb134b09b25133bcd641d473
-> >>
-> >
-> > maybe that rdep on glibc is bogus. Its not normal to depends on glibc
-> > like that, in some cases e.g. locales etc it maybe that we need them
-> > but thats usually for ptests etc.
-> > can you try to remove the rdep and see if it builds ok with musl too ?
->
-> It built alright but I didn't check any runtime behaviour. I do find this a bit orthogonal at this point but I've sent both patches so Bruce can pick any - both approaches are working for me.
->
+From: Pascal Bach <pascal.bach@siemens.com>
 
-Well not orthogonal I would say but alternate solution to what this
-patch is trying to fix, if you remove glibc from the rdeps then this
-patch is not needed
+The GOBUILDFLAGS patch is replaced by explicitly setting BUILDFLAGS="${GOBUILDFLAGS}"
+in the recipe.
 
-> Andrei
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#7538): https://lists.yoctoproject.org/g/meta-virtualization/message/7538
-> Mute This Topic: https://lists.yoctoproject.org/mt/93078736/1997914
-> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [raj.khem@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
+---
+ ...01-Rename-BUILDFLAGS-to-GOBUILDFLAGS.patch | 109 ------------------
+ recipes-containers/podman/podman_git.bb       |   4 +-
+ 2 files changed, 3 insertions(+), 110 deletions(-)
+ delete mode 100644 recipes-containers/podman/podman/0001-Rename-BUILDFLAGS-to-GOBUILDFLAGS.patch
+
+diff --git a/recipes-containers/podman/podman/0001-Rename-BUILDFLAGS-to-GOBUILDFLAGS.patch b/recipes-containers/podman/podman/0001-Rename-BUILDFLAGS-to-GOBUILDFLAGS.patch
+deleted file mode 100644
+index 14b2714..0000000
+--- a/recipes-containers/podman/podman/0001-Rename-BUILDFLAGS-to-GOBUILDFLAGS.patch
++++ /dev/null
+@@ -1,109 +0,0 @@
+-From 3e18f3a4db638a3df48f49aa0a539f8bb048afc9 Mon Sep 17 00:00:00 2001
+-From: Andrei Gherzan <andrei.gherzan@huawei.com>
+-Date: Tue, 5 Jul 2022 11:51:56 +0200
+-Subject: [PATCH] Rename BUILDFLAGS to GOBUILDFLAGS
+-
+-Yocto uses GOBUILDFLAGS to pass the right build flags while the Makefile
+-uses BUILDFLAGS. Align them accordingly.
+-
+-See go.bbclass for more information.
+-
+-Upstream-Status: Inappropriate [OE specific]
+-Signed-off-by: Andrei Gherzan <andrei.gherzan@huawei.com>
+----
+- Makefile | 24 ++++++++++++------------
+- 1 file changed, 12 insertions(+), 12 deletions(-)
+-
+-Index: import/Makefile
+-===================================================================
+---- import.orig/Makefile
+-+++ import/Makefile
+-@@ -242,7 +242,7 @@
+- 
+- .PHONY: test/checkseccomp/checkseccomp
+- test/checkseccomp/checkseccomp: $(wildcard test/checkseccomp/*.go)
+--	$(GOCMD) build $(BUILDFLAGS) $(GO_LDFLAGS) '$(LDFLAGS_PODMAN)' -tags "$(BUILDTAGS)" -o $@ ./test/checkseccomp
+-+	$(GOCMD) build $(GOBUILDFLAGS) $(GO_LDFLAGS) '$(LDFLAGS_PODMAN)' -tags "$(BUILDTAGS)" -o $@ ./test/checkseccomp
+- 
+- .PHONY: test/testvol/testvol
+- test/testvol/testvol: $(wildcard test/testvol/*.go)
+-@@ -254,7 +254,7 @@
+- 
+- .PHONY: test/goecho/goecho
+- test/goecho/goecho: $(wildcard test/goecho/*.go)
+--	$(GOCMD) build $(BUILDFLAGS) $(GO_LDFLAGS) '$(LDFLAGS_PODMAN)' -o $@ ./test/goecho
+-+	$(GOCMD) build $(GOBUILDFLAGS) $(GO_LDFLAGS) '$(LDFLAGS_PODMAN)' -o $@ ./test/goecho
+- 
+- test/version/version: version/version.go
+- 	$(GO) build -o $@ ./test/version/
+-@@ -296,7 +296,7 @@
+- 		distro for journald support."
+- endif
+- 	$(GOCMD) build \
+--		$(BUILDFLAGS) \
+-+		$(GOBUILDFLAGS) \
+- 		$(GO_LDFLAGS) '$(LDFLAGS_PODMAN)' \
+- 		-tags "$(BUILDTAGS)" \
+- 		-o $@ ./cmd/podman
+-@@ -308,7 +308,7 @@
+- # '|' is to ignore SRCBINDIR mtime; see: info make 'Types of Prerequisites'
+- $(SRCBINDIR)/podman$(BINSFX): $(SOURCES) go.mod go.sum | $(SRCBINDIR)
+- 	$(GOCMD) build \
+--		$(BUILDFLAGS) \
+-+		$(GOBUILDFLAGS) \
+- 		$(GO_LDFLAGS) '$(LDFLAGS_PODMAN)' \
+- 		-tags "${REMOTETAGS}" \
+- 		-o $@ ./cmd/podman
+-@@ -318,7 +318,7 @@
+- 	GOOS=linux \
+- 	GOARCH=$(GOARCH) \
+- 	$(GO) build \
+--		$(BUILDFLAGS) \
+-+		$(GOBUILDFLAGS) \
+- 		$(GO_LDFLAGS) '$(LDFLAGS_PODMAN_STATIC)' \
+- 		-tags "${REMOTETAGS}" \
+- 		-o $@ ./cmd/podman
+-@@ -338,7 +338,7 @@
+- 	CGO_ENABLED=0 \
+- 		GOOS=windows \
+- 		$(GO) build \
+--		$(BUILDFLAGS) \
+-+		$(GOBUILDFLAGS) \
+- 		-ldflags -H=windowsgui \
+- 		-o bin/windows/winpath.exe \
+- 		./cmd/winpath
+-@@ -349,14 +349,14 @@
+- 		GOOS=darwin \
+- 		GOARCH=$(GOARCH) \
+- 		$(GO) build \
+--		$(BUILDFLAGS) \
+-+		$(GOBUILDFLAGS) \
+- 		-o bin/darwin/podman-mac-helper \
+- 		./cmd/podman-mac-helper
+- 
+- bin/rootlessport: $(SOURCES) go.mod go.sum
+- 	CGO_ENABLED=$(CGO_ENABLED) \
+- 		$(GO) build \
+--		$(BUILDFLAGS) \
+-+		$(GOBUILDFLAGS) \
+- 		-o $@ ./cmd/rootlessport
+- 
+- .PHONY: rootlessport
+-@@ -379,7 +379,7 @@
+- 	GOARCH="$${TARGET##*.}"; \
+- 	CGO_ENABLED=0 \
+- 		$(GO) build \
+--		$(BUILDFLAGS) \
+-+		$(GOBUILDFLAGS) \
+- 		$(GO_LDFLAGS) '$(LDFLAGS_PODMAN)' \
+- 		-tags '$(BUILDTAGS_CROSS)' \
+- 		-o "$@" ./cmd/podman
+-@@ -830,7 +830,7 @@
+- 
+- .PHONY: .install.ginkgo
+- .install.ginkgo:
+--	$(GO) install $(BUILDFLAGS) ./vendor/github.com/onsi/ginkgo/ginkgo
+-+	$(GO) install $(GOBUILDFLAGS) ./vendor/github.com/onsi/ginkgo/ginkgo
+- 
+- .PHONY: .install.golangci-lint
+- .install.golangci-lint:
+diff --git a/recipes-containers/podman/podman_git.bb b/recipes-containers/podman/podman_git.bb
+index 52ffa6c..f19d092 100644
+--- a/recipes-containers/podman/podman_git.bb
++++ b/recipes-containers/podman/podman_git.bb
+@@ -20,7 +20,6 @@ DEPENDS = " \
+ SRCREV = "754ec89a8a185d308ca5ed08afaf34d6cbda08da"
+ SRC_URI = " \
+     git://github.com/containers/libpod.git;branch=v4.2;protocol=https \
+-    file://0001-Rename-BUILDFLAGS-to-GOBUILDFLAGS.patch;patchdir=src/import \
+     ${@bb.utils.contains('PACKAGECONFIG', 'rootless', 'file://00-podman-rootless.conf', '', d)} \
+ "
+ 
+@@ -46,6 +45,9 @@ export LDFLAGS=""
+ # https://github.com/llvm/llvm-project/issues/53999
+ TOOLCHAIN = "gcc"
+ 
++# podmans Makefile expects BUILDFLAGS to be set but go.bbclass defines them in GOBUILDFLAGS
++export BUILDFLAGS="${GOBUILDFLAGS}"
++
+ inherit go goarch
+ inherit systemd pkgconfig
+ 
+-- 
+2.37.2
+
 
