@@ -1,177 +1,126 @@
-Return-Path: <vsuneja63@gmail.com>
+Return-Path: <andrei@gherzan.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54CDAC32774
-	for <webhook@archiver.kernel.org>; Tue, 23 Aug 2022 18:38:17 +0000 (UTC)
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com
- [209.85.218.42])
- by mx.groups.io with SMTP id smtpd.web12.1602.1661279892436816080
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2A58C32793
+	for <webhook@archiver.kernel.org>; Wed, 24 Aug 2022 00:07:48 +0000 (UTC)
+Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com
+ [64.147.123.25])
+ by mx.groups.io with SMTP id smtpd.web11.5355.1661299663019983661
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 23 Aug 2022 11:38:12 -0700
+ Tue, 23 Aug 2022 17:07:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=qYMnV/Cn;
- spf=pass (domain: gmail.com, ip: 209.85.218.42,
- mailfrom: vsuneja63@gmail.com)
-Received: by mail-ej1-f42.google.com with SMTP id bj12so12129931ejb.13;
-        Tue, 23 Aug 2022 11:38:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc;
-        bh=NeghtKQPjn6yHsd1YI2q3Skv4FswPS1+yFu3H/6Eufk=;
-        b=qYMnV/CnF3ka4Vo7NovkQfvloHGC33/0J7I16yVx/4rcq0zjLpEV6GJDG0oDUeByG5
-         K3TrNIUuo/aQbh+TGP8jq2QPech5+SKtIMm2mkqR+0hTw4hEW3DA8lU9R2o8DRu1fyPL
-         TIj0v8WtBxb3RAMtyp3uBfR4TGswnFCVFOwcU47fW+EfJYwqir8v68VSbX8eEozGELst
-         HR3ntci4Mv/GiEkq4xRsuLr1QgScenh1EdinmZs1rNaEmnU5xCRinFd/XIStdqbWgfYd
-         Zb9kgI5DouO7nQ+aGxnveXaP8WhQ9gsItPA+2M91GmlA6q1/V/2K/dcNVjEhRvcGZ/nH
-         8zMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc;
-        bh=NeghtKQPjn6yHsd1YI2q3Skv4FswPS1+yFu3H/6Eufk=;
-        b=G6Qzp3LAvghWfNn3/tsroM2EHKJjyMR9KhGIiP7iAgb9Gtb3+S1xCZFzcKw8pnaWFO
-         +PbAPYaeIBleoLSrYjxL/LmD62HwW/3Pkim4mxIYZfdTOSivgUG88rkupv7Nic0zd5RY
-         LH2MFm/eIKGkhUJJwBubci9xB7MJYhQx8IukuyRBSF1qcqUx0FJZIfijXaFGkhX6eBQv
-         UlzQ9gr7/EoHhD7WpW2oxeOGyAijl2+z/Qw0kCWOUlahO+PDshTt3wdlF6VugAnZQled
-         PhxSVbG61G33yeBefJwzfxWo3hkhWZh6OdfmW6em1j/HSaiQL2Qx9ufKHjNtD6NM6MEg
-         a5Jw==
-X-Gm-Message-State: ACgBeo3q9pSOUoUyzdd/JS8GI4SPESW0oBnr7LVkNWiYRntsfAks9d9b
-	7QzWSOVFWnQ0OnkERN4OCTfh1VctGYh7D4T3AvGDCdLLlUEimQ==
-X-Google-Smtp-Source: 
- AA6agR60ZQfJYmFUYRw2+GSlGnoZySVg0vxmLo16fzaM2VFLhp0nBLV6/q3sSxHrcjV//KJ9lUyTVTDFxBk5nEUKlpg=
-X-Received: by 2002:a17:907:9808:b0:73d:7f87:b626 with SMTP id
- ji8-20020a170907980800b0073d7f87b626mr612675ejc.118.1661279890245; Tue, 23
- Aug 2022 11:38:10 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gherzan.com header.s=fm2
+ header.b=vJ4VBzsx;
+ spf=pass (domain: gherzan.com, ip: 64.147.123.25,
+ mailfrom: andrei@gherzan.com)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+	by mailout.west.internal (Postfix) with ESMTP id 6D0793200754;
+	Tue, 23 Aug 2022 20:07:41 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute2.internal (MEProxy); Tue, 23 Aug 2022 20:07:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gherzan.com; h=
+	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
+	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
+	 s=fm2; t=1661299660; x=1661386060; bh=YXrWtAtrNG3Txq/776YM57tma
+	H7deDKxxeLOEc2je9w=; b=vJ4VBzsxCHYsoVxm74qCf0Gj9yPMUBLAKYWfskSez
+	dQiDp3YNeAtThqKtEcg6Yio7oDM4bH3pYaGsXi7p/1HzqHlLbdQCa8DxaRkCHDLw
+	FL2lbdGMHiu4h4oa4CKGer2NdvbPbR0NJ1Il2yMjF7U3Sh10bv4gOrc6iCEzAEHm
+	bLct1+3fW7KPjEP5EuPs6XZRyYl/ZfhklVWi0HffPpFl0auLrh6Hs6034e/rUC4J
+	D8myIrTsqnlPw+Vvhn4EDOWa9oAbBYhNvEiJi1F2YEKRW2AAh7OTRAQN1es+h6Zh
+	gQxP29K8U/FqZccp0IS/rnDmGbH0DzBGFtNhVVDjBSAXw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:message-id
+	:mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1661299660; x=1661386060; bh=YXrWtAtrNG3Txq/776YM57tmaH7deDKxxeL
+	OEc2je9w=; b=lmKxz6pGujXN4UUmnRnABqkXPTLxDBmveWEY+MElstnVv6znkrU
+	oRmhfYHTJE+iRWOykycfzFaBfmNUYbdkw556M5lCcgDgdowCEhf8ZYdxwada9yZ8
+	LjrauSCqkCV7LMVDeJ5KWOlQ8gzn57wfdCVS0Q6yXRszfJhm9TxVQUn8LfhEVjhF
+	bm9C7RLwSa2/x5eZykXRn4ZJSserWBTQLdrzQem25+ADKbHHQgvC08hVZFF8HeYy
+	DMswrj+AScbHHnDzbw9Oqapp4udS69cSXITQCH/GSrF1S8oJpbUcL1SNQpyg3l90
+	Y2OhpOgEljx9a0MrgeQiGRiZLOHLAJb+RBg==
+X-ME-Sender: <xms:zGsFY6z18mVJ_E6kQcnCoW7LQ6pHu1PVMpM9ZbHABoKB1IMowdMjKA>
+    <xme:zGsFY2Q-sZuVpu199L8X2aEX1aOYOIIPElYvjRv5myiWSxg_2-zznQI0sbzXY8zW8
+    4gFFp7s1k-NGPr_9tY>
+X-ME-Received: 
+ <xmr:zGsFY8XAFbzLXUJWGZelPmE1lvCfIeNYcC0b4FjmTKDFQRrLGtTopyy9ETKgAusoV3_w_SfOTkmK5u3Ls9JfU87zeYCFcjIdztSc9aKPsUoaw1msQZSxW2RR>
+X-ME-Proxy-Cause: 
+ gggruggvucftvghtrhhoucdtuddrgedvfedrvdejtddgfeduucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffoggfgsedtkeertd
+    ertddtnecuhfhrohhmpeetnhgurhgvihcuifhhvghriigrnhcuoegrnhgurhgvihesghhh
+    vghriigrnhdrtghomheqnecuggftrfgrthhtvghrnhepjeffveelleeigedvieeiuddvtd
+    ffleettdeitdfgffejhfeigeekvdduvefhtedtnecuffhomhgrihhnpehgihhthhhusgdr
+    tghomhenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    grnhgurhgvihesghhhvghriigrnhdrtghomh
+X-ME-Proxy: <xmx:zGsFYwh-83Cn1a7II_6JYPYZDNjlRFWDhB9dWxwGplR6VIqJsz5E6w>
+    <xmx:zGsFY8CdizZLHuary1v1FWEuNvRfWfEPGaCJglbD7Lfz0RBVFFYESQ>
+    <xmx:zGsFYxJHExdbyAVC2LbWoa6JYaPri0R4eG7fBixqHcgYZQgrjQceMg>
+    <xmx:zGsFY15CKRX4tbYC6duaPG3bmazNP7v1G7qNDk7DXjU3eWols65HrQ>
+Feedback-ID: i68994715:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 23 Aug 2022 20:07:39 -0400 (EDT)
+From: Andrei Gherzan <andrei@gherzan.com>
+To: meta-virtualization@lists.yoctoproject.org
+Cc: andrei@gherzan.com,
+	Andrei Gherzan <andrei.gherzan@huawei.com>
+Subject: [meta-virtualization][PATCH] podman: Rename podman-rootless.conf
+ sysctl file to aid overrides
+Date: Wed, 24 Aug 2022 02:07:19 +0200
+Message-Id: <20220824000719.2495588-1-andrei@gherzan.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-From: Vipul Suneja <vsuneja63@gmail.com>
-Date: Wed, 24 Aug 2022 00:06:58 +0530
-Message-ID: 
- <CALAP8f9CG3qkPUNQzebsc3TbY=+qunKzNR+Y-wymCzCdGrW19Q@mail.gmail.com>
-Subject: Porting xen on rpi4
-To: meta-virtualization@lists.yoctoproject.org, main@lists.yoctoproject.org
-Content-Type: multipart/alternative; boundary="000000000000bb0e3405e6ecdd73"
+Content-Transfer-Encoding: 8bit
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Tue, 23 Aug 2022 18:38:17 -0000
+ <meta-virtualization@lists.yoctoproject.org>; Wed, 24 Aug 2022 00:07:48 -0000
 X-Groupsio-URL: 
- https://lists.yoctoproject.org/g/meta-virtualization/message/7555
+ https://lists.yoctoproject.org/g/meta-virtualization/message/7556
 
---000000000000bb0e3405e6ecdd73
-Content-Type: text/plain; charset="UTF-8"
+From: Andrei Gherzan <andrei.gherzan@huawei.com>
 
-Hi,
+Files are sorted in lexicographic order. Moving podman-rootless.conf to
+something greater then '00' would help with systems providing default
+values in other configuration files that can be overridden by
+podman-rootless.conf.
 
-I am porting xen hypervisor on rpi4 with yocto kirkstone sources. Followed
-the basic steps to build xen-image-minimal & xen-guest-image-minimal. I
-could flash sd card with xen minimal image & could see dom0 up. I copied
-"Image", "xen-guest-image-minimal" .ext3 file & guest.cfg . After that
-created a bridge with below step:
+Signed-off-by: Andrei Gherzan <andrei.gherzan@huawei.com>
+---
+ .../{00-podman-rootless.conf => 50-podman-rootless.conf}      | 0
+ recipes-containers/podman/podman_git.bb                       | 4 ++--
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename recipes-containers/podman/podman/{00-podman-rootless.conf => 50-podman-rootless.conf} (100%)
 
-killall -SIGUSR2 udhcpc
-brctl addbr xenbr0
-brctl addif xenbr0 eth0
-killall udhcpc
-udhcpc -R -b -p /var/run/udhcpc.xenbr0.pid -i xenbr0
+diff --git a/recipes-containers/podman/podman/00-podman-rootless.conf b/recipes-containers/podman/podman/50-podman-rootless.conf
+similarity index 100%
+rename from recipes-containers/podman/podman/00-podman-rootless.conf
+rename to recipes-containers/podman/podman/50-podman-rootless.conf
+diff --git a/recipes-containers/podman/podman_git.bb b/recipes-containers/podman/podman_git.bb
+index 9b92094..e999192 100644
+--- a/recipes-containers/podman/podman_git.bb
++++ b/recipes-containers/podman/podman_git.bb
+@@ -22,7 +22,7 @@ SRC_URI = " \
+     git://github.com/containers/libpod.git;branch=v4.1;protocol=https \
+     file://0001-Rename-BUILDFLAGS-to-GOBUILDFLAGS.patch;patchdir=src/import \
+     file://0002-Define-ActKillThread-equal-to-ActKill.patch;patchdir=src/import/vendor/github.com/seccomp/libseccomp-golang \
+-    ${@bb.utils.contains('PACKAGECONFIG', 'rootless', 'file://00-podman-rootless.conf', '', d)} \
++    ${@bb.utils.contains('PACKAGECONFIG', 'rootless', 'file://50-podman-rootless.conf', '', d)} \
+ "
+ 
+ LICENSE = "Apache-2.0"
+@@ -105,7 +105,7 @@ do_install() {
+ 
+ 	if ${@bb.utils.contains('PACKAGECONFIG', 'rootless', 'true', 'false', d)}; then
+ 		install -d "${D}${sysconfdir}/sysctl.d"
+-		install -m 0644 "${WORKDIR}/00-podman-rootless.conf" "${D}${sysconfdir}/sysctl.d"
++		install -m 0644 "${WORKDIR}/50-podman-rootless.conf" "${D}${sysconfdir}/sysctl.d"
+ 	fi
+ }
+ 
+-- 
+2.25.1
 
-After that while mouting guest file system its showing no such file or
-directory.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-*[23:40:15] <Guest9046> root@raspberrypi4-64:~# ls -l[23:40:15] <Guest9046>
--rw-r--r--    1 root     root      24652288 Mar  9 12:36 Image[23:40:15]
-<Guest9046> -rw-r--r--    1 root     root           247 Mar  9 12:37
-guest1.cfg[23:40:15] <Guest9046> -rw-r--r--    1 root     root
-868220928 Mar  9 12:39
-xen-guest-image-minimal-raspberrypi4-64.ext3[23:40:15] <Guest9046>
-root@raspberrypi4-64:~# chmod 0777
-xen-guest-image-minimal-raspberrypi4-64.ext3[23:40:15] <Guest9046>
-root@raspberrypi4-64:~# ls -l[23:40:15] <Guest9046> -rw-r--r--    1 root
-  root      24652288 Mar  9 12:36 Image[23:40:15] <Guest9046> -rw-r--r--
- 1 root     root           247 Mar  9 12:37 guest1.cfg[23:40:15]
-<Guest9046> -rwxrwxrwx    1 root     root     868220928 Mar  9 12:39
-xen-guest-image-minimal-raspberrypi4-64.ext3[23:40:15] <Guest9046>
-root@raspberrypi4-64:~# losetup /dev/loop0
-xen-guest-image-minimal-raspberrypi4-64.ext3[23:40:15] <Guest9046> losetup:
-xen-guest-image-minimal-raspberrypi4-64.ext3: No such file or
-directory[23:40:15] <Guest9046> root@raspberrypi4-64:~# losetup /dev/loop0
-/home/root/xen-guest-image-minimal-raspberrypi4-64.ext3[23:40:15]
-<Guest9046> losetup:
-/home/root/xen-guest-image-minimal-raspberrypi4-64.ext3: No such file or
-directory[23:40:15] <Guest9046> root@raspberrypi4-64:~#[23:40:15]
-<Guest9046> root@raspberrypi4-64:~#[23:40:15] <Guest9046>
-root@raspberrypi4-64:~#[23:40:15] <Guest9046> root@raspberrypi4-64:~#
-losetup /dev/loop0
-/home/root/xen-guest-image-minimal-raspberrypi4-64.ext3[23:40:15]
-<Guest9046> losetup:
-/home/root/xen-guest-image-minimal-raspberrypi4-64.ext3: No such file or
-directory*
-
-*Any input on this issue will be really helpful, expecting response asap.*
-
-Thanks & Regards,
-Vipul Kumar
-
---000000000000bb0e3405e6ecdd73
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hi,<div><br></div><div>I am porting xen hypervisor on rpi4=
- with yocto kirkstone sources. Followed the basic steps to build xen-image-=
-minimal &amp; xen-guest-image-minimal. I could flash sd card with xen minim=
-al image &amp; could see dom0 up. I copied &quot;Image&quot;, &quot;xen-gue=
-st-image-minimal&quot; .ext3 file &amp; guest.cfg . After that created a br=
-idge with below step:</div><div><br></div>killall -SIGUSR2 udhcpc<br>brctl =
-addbr xenbr0<br>brctl addif xenbr0 eth0<br>killall udhcpc<br><div>udhcpc -R=
- -b -p /var/run/udhcpc.xenbr0.pid -i xenbr0=C2=A0</div><div><br></div><div>=
-After that while mouting=C2=A0guest file system its showing no such file or=
- directory.</div><div><b>[23:40:15] &lt;Guest9046&gt; root@raspberrypi4-64:=
-~# ls -l<br>[23:40:15] &lt;Guest9046&gt; -rw-r--r-- =C2=A0 =C2=A01 root =C2=
-=A0 =C2=A0 root =C2=A0 =C2=A0 =C2=A024652288 Mar =C2=A09 12:36 Image<br>[23=
-:40:15] &lt;Guest9046&gt; -rw-r--r-- =C2=A0 =C2=A01 root =C2=A0 =C2=A0 root=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 247 Mar =C2=A09 12:37 guest1.cfg<br>[23=
-:40:15] &lt;Guest9046&gt; -rw-r--r-- =C2=A0 =C2=A01 root =C2=A0 =C2=A0 root=
- =C2=A0 =C2=A0 868220928 Mar =C2=A09 12:39 xen-guest-image-minimal-raspberr=
-ypi4-64.ext3<br>[23:40:15] &lt;Guest9046&gt; root@raspberrypi4-64:~# chmod =
-0777 xen-guest-image-minimal-raspberrypi4-64.ext3<br>[23:40:15] &lt;Guest90=
-46&gt; root@raspberrypi4-64:~# ls -l<br>[23:40:15] &lt;Guest9046&gt; -rw-r-=
--r-- =C2=A0 =C2=A01 root =C2=A0 =C2=A0 root =C2=A0 =C2=A0 =C2=A024652288 Ma=
-r =C2=A09 12:36 Image<br>[23:40:15] &lt;Guest9046&gt; -rw-r--r-- =C2=A0 =C2=
-=A01 root =C2=A0 =C2=A0 root =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 247 Mar =C2=
-=A09 12:37 guest1.cfg<br>[23:40:15] &lt;Guest9046&gt; -rwxrwxrwx =C2=A0 =C2=
-=A01 root =C2=A0 =C2=A0 root =C2=A0 =C2=A0 868220928 Mar =C2=A09 12:39 xen-=
-guest-image-minimal-raspberrypi4-64.ext3<br>[23:40:15] &lt;Guest9046&gt; ro=
-ot@raspberrypi4-64:~# losetup /dev/loop0 xen-guest-image-minimal-raspberryp=
-i4-64.ext3<br>[23:40:15] &lt;Guest9046&gt; losetup: xen-guest-image-minimal=
--raspberrypi4-64.ext3: No such file or directory<br>[23:40:15] &lt;Guest904=
-6&gt; root@raspberrypi4-64:~# losetup /dev/loop0 /home/root/xen-guest-image=
--minimal-raspberrypi4-64.ext3<br>[23:40:15] &lt;Guest9046&gt; losetup: /hom=
-e/root/xen-guest-image-minimal-raspberrypi4-64.ext3: No such file or direct=
-ory<br>[23:40:15] &lt;Guest9046&gt; root@raspberrypi4-64:~#<br>[23:40:15] &=
-lt;Guest9046&gt; root@raspberrypi4-64:~#<br>[23:40:15] &lt;Guest9046&gt; ro=
-ot@raspberrypi4-64:~#<br>[23:40:15] &lt;Guest9046&gt; root@raspberrypi4-64:=
-~# losetup /dev/loop0 /home/root/xen-guest-image-minimal-raspberrypi4-64.ex=
-t3<br>[23:40:15] &lt;Guest9046&gt; losetup: /home/root/xen-guest-image-mini=
-mal-raspberrypi4-64.ext3: No such file or directory</b><br></div><div><b><b=
-r></b></div><div><b>Any input on this issue will be really helpful, expecti=
-ng response asap.</b></div><div><b><br></b></div><div>Thanks &amp; Regards,=
-</div><div>Vipul Kumar</div></div>
-
---000000000000bb0e3405e6ecdd73--
 
