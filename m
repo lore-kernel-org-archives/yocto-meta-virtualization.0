@@ -2,219 +2,92 @@ Return-Path: <andrei@gherzan.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE611ECAAD4
-	for <webhook@archiver.kernel.org>; Fri, 26 Aug 2022 11:33:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB841ECAAA3
+	for <webhook@archiver.kernel.org>; Fri, 26 Aug 2022 11:38:25 +0000 (UTC)
 Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
  [66.111.4.25])
- by mx.groups.io with SMTP id smtpd.web08.36094.1661513604276125293
+ by mx.groups.io with SMTP id smtpd.web09.36065.1661513900059321806
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 26 Aug 2022 04:33:24 -0700
+ Fri, 26 Aug 2022 04:38:20 -0700
 Authentication-Results: mx.groups.io;
  dkim=fail reason="signature has expired" header.i=@gherzan.com header.s=fm2
- header.b=tvono1vI;
+ header.b=np+fPsiY;
  spf=pass (domain: gherzan.com, ip: 66.111.4.25, mailfrom: andrei@gherzan.com)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailout.nyi.internal (Postfix) with ESMTP id 725455C02E1;
-	Fri, 26 Aug 2022 07:33:23 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Fri, 26 Aug 2022 07:33:23 -0400
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailout.nyi.internal (Postfix) with ESMTP id 66A605C03C0;
+	Fri, 26 Aug 2022 07:38:19 -0400 (EDT)
+Received: from imap41 ([10.202.2.91])
+  by compute3.internal (MEProxy); Fri, 26 Aug 2022 07:38:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gherzan.com; h=
-	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
-	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
-	 s=fm2; t=1661513603; x=1661600003; bh=zQhu6tZhjVASuCQzF2w3XF4yA
-	GBDeQVjG/FMhnFKHHI=; b=tvono1vIFoSNX0I9CaXFUzKK3Bs6UhsRIB1rKGSVF
-	i25jFLceaVuFtYhKhPi4q4i0RX2jEvPQrOoclbPPh/ij/UjmdtTu9lJd568f9ZID
-	kj5CFYnS4hOVgAo9axV1ATtf+u4kgr5F4bvxm+UpKetmtdoACntrbtODDhgLAUry
-	lxuLuz9ZKAm3ICeDEW4h5/Rs4CdvQbBpEacqBUU3+zRwovX2eY5PIvnGbbdCiIuA
-	4/8zND4t/Gi4PjeomGE0DwndT7YoRee5g+aErs2ChGAhgHqOFlDYeg1AN6Zs4pob
-	6ir/zS3fpTt9rJkCbjDmhcWfie0ibzNLTvqpZciEYiqug==
+	cc:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to; s=fm2; t=1661513899; x=1661600299; bh=YGJvQ1BBFV
+	3DKtemOzCRI5IlnvsCP2Xgi6FYsNjffB0=; b=np+fPsiY4kJebw4J2wjJUcEciZ
+	1Sc2PvBYWaSLJirsWXQf+Nw+B+EtLquoIHz2hz/4DHvJjAUXDvfyS19FMfL8QdyW
+	25t4k+Xk/hcvOe2eSdZ5ucS5rLJ0gzvxDAZV21BwIHD7yExqv6AGo88zBL6+lxdh
+	fxWF7IJY585FPxCqaXJvIyqVosg+Yok/2ZxBtNcqQPPQDojX+FsZGMLOJvuNupJU
+	y4DOY+jtIbu4Fv7VoTJb5auQKnnq4l54DbCunYKwlSivt+oY+UgzIRGJGv6kqsCA
+	qLWcSp6ZoATfhK7Az4sECgjAhrI4G+2Tml3H+AQgDNLU/XCNLOAIIYPmkLLQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:message-id
-	:mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1661513603; x=1661600003; bh=zQhu6tZhjVASuCQzF2w3XF4yAGBDeQVjG/F
-	MhnFKHHI=; b=rI09hb9Y6T5UMeovGRFWrVrC1h0Vt7n9Onjdevi37rYe0WmyhUT
-	ZCLwx4h3l1BrrbCbZaDpWF+pIzktlyQcANC6ixpRa0Bwz+32Og8XpFD8UvieiitM
-	MxaFPN4GB3AahK5rb9g48zfqYLOmdgcEwVlqvvnU7U68nu8VGXtYYG5pvYXIh3nQ
-	vbZ4AOXN8ILRQwG7sUIoFhgJBItVZiOUXKA/6ohJa7ZbdABFAfTymeb/Pr4EXx9c
-	6I9V3aqSQG1DwiGkYAMHtCmfX8WQSvm76MsFoKgMYqFGCfyBbGpMBQjZWOHsFrrU
-	GAR5WuVKcQLbNG4nGAVYmFGwcCch5H0idTw==
-X-ME-Sender: <xms:g68IY-uKitrw5MnMKZkGlg3wR6ykMAiHH5WEy2lvPIaz7aEzLETpSQ>
-    <xme:g68IYzdkZqireevdy--Lz8rMGOmhwgoZJl-TyotR4bWYIcwq537P0w1RBwyjcjGd6
-    5BEsRuqZFK1P_hcFsM>
-X-ME-Received: 
- <xmr:g68IY5xttr0-G_vdr3JYnzGrKb7zwcoD9ybEc-lcKYM72snEvSXTP4GeFToKNXd1tsxBX3DHtE3SvjY0UHHmRvFTxhkjbudbl-wmN1iiD8ATiU0_aCizNzdm>
+	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:sender:subject:subject:to:to
+	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1661513899; x=1661600299; bh=YGJvQ1BBFV3DKtemOzCRI5IlnvsC
+	P2Xgi6FYsNjffB0=; b=Wb6nv0lDS6z1MQ7FPiZ5HivK048ULu9RA/zieuifvkHb
+	VoLvj3q003yamagoncvIBwensjIV64W2o5wxag/4HBw9Dqpg7AwDqPGTCmYGc375
+	lL7dBdmptzoQqsPNchG8u7ai21+WkHw2XznXllad8/Mx+MSFpP7OxLCx/cJBtxzZ
+	zRmCvLlnzfTbjlURe/EMP+KbUWrbRq9RR1VJN5DX8ck0WAJO3oL+pwmnCp7svrSd
+	1z7U9DLTpTwzoYbd4GmMyXOfUtvbfqZjn9FwFz2dyxFE86mPkKKG/s1gU1MrwNc7
+	kcrekCQYAmZ1UCBhKlesp+qLyQGgQ7O2OwuB75NfMQ==
+X-ME-Sender: <xms:qrAIY4KsczDX94xwwbq8DRk-UaLa4oIEHw_CZWp3B5PefeRXfd_r8Q>
+    <xme:qrAIY4JbC5ob_jnAmezews2qrMFxOT_4nCJO-RnKhg3haGbOd4tgxs7MqCcV8fW8f
+    magbbPPm6NVllk_gM0>
 X-ME-Proxy-Cause: 
- gggruggvucftvghtrhhoucdtuddrgedvfedrvdejhedggedtucetufdoteggodetrfdotf
+ gggruggvucftvghtrhhoucdtuddrgedvfedrvdejhedggeduucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffoggfgsedtkeertd
-    ertddtnecuhfhrohhmpeetnhgurhgvihcuifhhvghriigrnhcuoegrnhgurhgvihesghhh
-    vghriigrnhdrtghomheqnecuggftrfgrthhtvghrnhepvdfgkeekfffggfekleefleeihf
-    dvgffgffffheefhefgleeiiedtgeeftdekkedtnecuffhomhgrihhnpehgihhthhhusgdr
-    tghomhdpohhuthhpuhhtthhoshhtrhhinhhgrdhtohenucevlhhushhtvghrufhiiigvpe
-    dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrnhgurhgvihesghhhvghriigrnhdrtgho
-    mh
-X-ME-Proxy: <xmx:g68IY5M_2kWzUSnjUECJrIWT0xznP_r0Z8ZAQBce8fy37hb5CojE4w>
-    <xmx:g68IY-_n0iQlJ-a0lGai66EkNcFjYhcaOO-sR_xtw3PU3-UHHWDauw>
-    <xmx:g68IYxUXaL3QNbda2aQEZURqhu3WukIfS8mNdykIVXx4cqNLwEHzMA>
-    <xmx:g68IY0mKNCf_TDETMriIn-CpMQtiB9izVT3XCTZkBflZBTVTvdzglA>
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehn
+    ughrvghiucfihhgvrhiirghnfdcuoegrnhgurhgvihesghhhvghriigrnhdrtghomheqne
+    cuggftrfgrthhtvghrnhepkeeggeefhffgheejffdtteekleekhfelffdvheejgeffueev
+    ffelkefhkeefheehnecuffhomhgrihhnpeihohgtthhophhrohhjvggtthdrohhrghenuc
+    evlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrnhgurhgv
+    ihesghhhvghriigrnhdrtghomh
+X-ME-Proxy: <xmx:qrAIY4saRdpydrQERjLspATCxUYk1R6AjpSSlmuZVtpJyxoie6KGHA>
+    <xmx:qrAIY1abTEyc4990aGBjPT6vtgqajqJnJNRKJci3KrLOeuatHhwDtA>
+    <xmx:qrAIY_YruVMKUpro-3zlIsv5pSjrXPfpJcqtiBCOsHp7dQlm1KGTjQ>
+    <xmx:q7AIYwDeyGHcYV1i9NRhShUp3l2bRj0n5F--kjIl0vGX_B9FlDqL_g>
 Feedback-ID: i68994715:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 26 Aug 2022 07:33:22 -0400 (EDT)
-From: Andrei Gherzan <andrei@gherzan.com>
-To: meta-virtualization@lists.yoctoproject.org
-Cc: andrei@gherzan.com,
-	Andrei Gherzan <andrei.gherzan@huawei.com>
-Subject: [kirkstone][PATCH v2] podman: Patch for CVE-2022-27649
-Date: Fri, 26 Aug 2022 13:33:19 +0200
-Message-Id: <20220826113319.1269257-1-andrei@gherzan.com>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id E4DEE2340077; Fri, 26 Aug 2022 07:38:18 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-841-g7899e99a45-fm-20220811.002-g7899e99a
+Mime-Version: 1.0
+Message-Id: <70bdaadb-e6a2-47ad-aefd-5aee5ec35b0b@www.fastmail.com>
+In-Reply-To: <20220826025610.GE23530@gmail.com>
+References: <20220825170933.1046874-1-andrei@gherzan.com>
+ <20220826025610.GE23530@gmail.com>
+Date: Fri, 26 Aug 2022 12:37:58 +0100
+From: "Andrei Gherzan" <andrei@gherzan.com>
+To: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+Cc: meta-virtualization@lists.yoctoproject.org,
+ "Andrei Gherzan" <andrei.gherzan@huawei.com>
+Subject: Re: [meta-virtualization] [kirkstone][PATCH] podman: Patch for
+ CVE-2022-27649
+Content-Type: text/plain
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Fri, 26 Aug 2022 11:33:25 -0000
+ <meta-virtualization@lists.yoctoproject.org>; Fri, 26 Aug 2022 11:38:25 -0000
 X-Groupsio-URL: 
- https://lists.yoctoproject.org/g/meta-virtualization/message/7573
+ https://lists.yoctoproject.org/g/meta-virtualization/message/7574
 
-From: Andrei Gherzan <andrei.gherzan@huawei.com>
+On Fri, 26 Aug 2022, at 03:56, Bruce Ashfield wrote:
+> This doesn't apply to my kirkstone branches, can you double
+> check the patch ?
 
-Signed-off-by: Andrei Gherzan <andrei.gherzan@huawei.com>
----
- .../podman/podman/CVE-2022-27649.patch        | 106 ++++++++++++++++++
- recipes-containers/podman/podman_git.bb       |   3 +-
- 2 files changed, 108 insertions(+), 1 deletion(-)
- create mode 100644 recipes-containers/podman/podman/CVE-2022-27649.patch
+Right. There was a conflict with the other commit I sent for podman (sysctl cfg ordering filename). Fixed and repushed as v2: https://lists.yoctoproject.org/g/meta-virtualization/message/7573
 
-diff --git a/recipes-containers/podman/podman/CVE-2022-27649.patch b/recipes-containers/podman/podman/CVE-2022-27649.patch
-new file mode 100644
-index 0000000..cb786ad
---- /dev/null
-+++ b/recipes-containers/podman/podman/CVE-2022-27649.patch
-@@ -0,0 +1,106 @@
-+From aafa80918a245edcbdaceb1191d749570f1872d0 Mon Sep 17 00:00:00 2001
-+From: Giuseppe Scrivano <gscrivan@redhat.com>
-+Date: Mon, 28 Feb 2022 09:48:52 +0100
-+Subject: [PATCH] do not set the inheritable capabilities
-+
-+The kernel never sets the inheritable capabilities for a process, they
-+are only set by userspace.  Emulate the same behavior.
-+
-+CVE: CVE-2022-27649
-+Upstream-Status: Backport [https://github.com/containers/podman/commit/aafa80918a245edcbdaceb1191d749570f1872d0]
-+Signed-off-by: Andrei Gherzan <andrei.gherzan@huawei.com>
-+---
-+ libpod/oci_conmon_exec_linux.go  | 7 +++++--
-+ pkg/specgen/generate/security.go | 7 +++++--
-+ test/e2e/run_test.go             | 6 +++---
-+ 3 files changed, 13 insertions(+), 7 deletions(-)
-+
-+diff --git a/libpod/oci_conmon_exec_linux.go b/libpod/oci_conmon_exec_linux.go
-+index aa970bbde28..65123b37e6a 100644
-+--- a/libpod/oci_conmon_exec_linux.go
-++++ b/libpod/oci_conmon_exec_linux.go
-+@@ -758,11 +758,14 @@ func prepareProcessExec(c *Container, options *ExecOptions, env []string, sessio
-+ 	} else {
-+ 		pspec.Capabilities.Bounding = ctrSpec.Process.Capabilities.Bounding
-+ 	}
-++
-++	// Always unset the inheritable capabilities similarly to what the Linux kernel does
-++	// They are used only when using capabilities with uid != 0.
-++	pspec.Capabilities.Inheritable = []string{}
-++
-+ 	if execUser.Uid == 0 {
-+ 		pspec.Capabilities.Effective = pspec.Capabilities.Bounding
-+-		pspec.Capabilities.Inheritable = pspec.Capabilities.Bounding
-+ 		pspec.Capabilities.Permitted = pspec.Capabilities.Bounding
-+-		pspec.Capabilities.Ambient = pspec.Capabilities.Bounding
-+ 	} else {
-+ 		if user == c.config.User {
-+ 			pspec.Capabilities.Effective = ctrSpec.Process.Capabilities.Effective
-+diff --git a/pkg/specgen/generate/security.go b/pkg/specgen/generate/security.go
-+index 9c67099054f..988c2983267 100644
-+--- a/pkg/specgen/generate/security.go
-++++ b/pkg/specgen/generate/security.go
-+@@ -146,6 +146,10 @@ func securityConfigureGenerator(s *specgen.SpecGenerator, g *generate.Generator,
-+ 
-+ 	configSpec := g.Config
-+ 	configSpec.Process.Capabilities.Ambient = []string{}
-++
-++	// Always unset the inheritable capabilities similarly to what the Linux kernel does
-++	// They are used only when using capabilities with uid != 0.
-++	configSpec.Process.Capabilities.Inheritable = []string{}
-+ 	configSpec.Process.Capabilities.Bounding = caplist
-+ 
-+ 	user := strings.Split(s.User, ":")[0]
-+@@ -153,7 +157,6 @@ func securityConfigureGenerator(s *specgen.SpecGenerator, g *generate.Generator,
-+ 	if (user == "" && s.UserNS.NSMode != specgen.KeepID) || user == "root" || user == "0" {
-+ 		configSpec.Process.Capabilities.Effective = caplist
-+ 		configSpec.Process.Capabilities.Permitted = caplist
-+-		configSpec.Process.Capabilities.Inheritable = caplist
-+ 	} else {
-+ 		mergedCaps, err := capabilities.MergeCapabilities(nil, s.CapAdd, nil)
-+ 		if err != nil {
-+@@ -175,12 +178,12 @@ func securityConfigureGenerator(s *specgen.SpecGenerator, g *generate.Generator,
-+ 		}
-+ 		configSpec.Process.Capabilities.Effective = userCaps
-+ 		configSpec.Process.Capabilities.Permitted = userCaps
-+-		configSpec.Process.Capabilities.Inheritable = userCaps
-+ 
-+ 		// Ambient capabilities were added to Linux 4.3.  Set ambient
-+ 		// capabilities only when the kernel supports them.
-+ 		if supportAmbientCapabilities() {
-+ 			configSpec.Process.Capabilities.Ambient = userCaps
-++			configSpec.Process.Capabilities.Inheritable = userCaps
-+ 		}
-+ 	}
-+ 
-+diff --git a/test/e2e/run_test.go b/test/e2e/run_test.go
-+index 91a2eddadf6..f4a6e573355 100644
-+--- a/test/e2e/run_test.go
-++++ b/test/e2e/run_test.go
-+@@ -498,7 +498,7 @@ var _ = Describe("Podman run", func() {
-+ 		session = podmanTest.Podman([]string{"run", "--rm", "--user", "root", ALPINE, "grep", "CapInh", "/proc/self/status"})
-+ 		session.WaitWithDefaultTimeout()
-+ 		Expect(session).Should(Exit(0))
-+-		Expect(session.OutputToString()).To(ContainSubstring("00000000a80425fb"))
-++		Expect(session.OutputToString()).To(ContainSubstring("0000000000000000"))
-+ 
-+ 		session = podmanTest.Podman([]string{"run", "--rm", ALPINE, "grep", "CapBnd", "/proc/self/status"})
-+ 		session.WaitWithDefaultTimeout()
-+@@ -533,7 +533,7 @@ var _ = Describe("Podman run", func() {
-+ 		session = podmanTest.Podman([]string{"run", "--user=0:0", "--cap-add=DAC_OVERRIDE", "--rm", ALPINE, "grep", "CapInh", "/proc/self/status"})
-+ 		session.WaitWithDefaultTimeout()
-+ 		Expect(session).Should(Exit(0))
-+-		Expect(session.OutputToString()).To(ContainSubstring("00000000a80425fb"))
-++		Expect(session.OutputToString()).To(ContainSubstring("0000000000000000"))
-+ 
-+ 		if os.Geteuid() > 0 {
-+ 			if os.Getenv("SKIP_USERNS") != "" {
-+@@ -550,7 +550,7 @@ var _ = Describe("Podman run", func() {
-+ 			session = podmanTest.Podman([]string{"run", "--userns=keep-id", "--privileged", "--rm", ALPINE, "grep", "CapInh", "/proc/self/status"})
-+ 			session.WaitWithDefaultTimeout()
-+ 			Expect(session).Should(Exit(0))
-+-			Expect(session.OutputToString()).To(ContainSubstring("0000000000000000"))
-++			Expect(session.OutputToString()).To(ContainSubstring("0000000000000002"))
-+ 
-+ 			session = podmanTest.Podman([]string{"run", "--userns=keep-id", "--cap-add=DAC_OVERRIDE", "--rm", ALPINE, "grep", "CapInh", "/proc/self/status"})
-+ 			session.WaitWithDefaultTimeout()
-diff --git a/recipes-containers/podman/podman_git.bb b/recipes-containers/podman/podman_git.bb
-index aedb988..65e0205 100644
---- a/recipes-containers/podman/podman_git.bb
-+++ b/recipes-containers/podman/podman_git.bb
-@@ -22,7 +22,8 @@ SRC_URI = " \
-     git://github.com/containers/libpod.git;branch=v4.0;protocol=https \
-     file://0001-Rename-BUILDFLAGS-to-GOBUILDFLAGS.patch;patchdir=src/import \
-     file://0002-Define-ActKillThread-equal-to-ActKill.patch;patchdir=src/import/vendor/github.com/seccomp/libseccomp-golang \
--    ${@bb.utils.contains('PACKAGECONFIG', 'rootless', 'file://50-podman-rootless.conf', '', d)} \
-+    file://CVE-2022-27649.patch;patchdir=src/import \
-+    ${@bb.utils.contains('PACKAGECONFIG', 'rootless', 'file://00-podman-rootless.conf', '', d)} \
- "
- 
- LICENSE = "Apache-2.0"
--- 
-2.25.1
-
+Thanks,
+Andrei
 
