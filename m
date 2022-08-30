@@ -1,136 +1,253 @@
-Return-Path: <vasileios.anagnostopoulos@siemens.com>
+Return-Path: <andrei@gherzan.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD74AECAAA1
-	for <webhook@archiver.kernel.org>; Tue, 30 Aug 2022 06:56:42 +0000 (UTC)
-Received: from EUR04-VI1-obe.outbound.protection.outlook.com
- (EUR04-VI1-obe.outbound.protection.outlook.com [40.107.8.71])
- by mx.groups.io with SMTP id smtpd.web08.8628.1661842594510518131
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4A44ECAAA1
+	for <webhook@archiver.kernel.org>; Tue, 30 Aug 2022 09:30:03 +0000 (UTC)
+Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
+ [64.147.123.21])
+ by mx.groups.io with SMTP id smtpd.web11.9564.1661851786336019449
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 29 Aug 2022 23:56:35 -0700
+ Tue, 30 Aug 2022 02:29:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@siemens.com
- header.s=selector2 header.b=js3yFbdN;
- spf=pass (domain: siemens.com, ip: 40.107.8.71,
- mailfrom: vasileios.anagnostopoulos@siemens.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=V0+vxRetC9TFBVg5MHPd9t+STHiFjUpxknXlZOQERFxFsvvFfV3Mya9r61FFXizY+EIpI/DteJVSsUJ4lKL4gBTpe3PQ2fsNbCXGpiFQSWACiKC2IsOoJeqnhplrQbv2P7TWxF0+NehoCF4nBTsMhygROABjgO3u2rVKy51Jl5Z+QLoQ5vB4hQrxltgJIiJY/MAKl9pFVzGQjAAm80tqRf/XCKsYGsvivXZ2058wtz/B0YW30DHOa0bwf3nyiM1gKZ9ymL7mG/vnyZ1sQHkMmvj9sBEm9QlLLFaKdOF7q+sAo7rkJ9wmRaWViRQZ+TC2oGL3HVrkgI5Upt7ljQFLhA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ieI0laksle7EL4kST2pFplujxSoG8X++n8hD3wNEi14=;
- b=TN82TLdhauUqjClUX1gSk8bCgDo4C+Cyv/mWWqJPjZ/5XupgEyQq46LVQmMAYEC+U80xG1uMnu+ncfvuqax7BhBOYWZNe7pUqYNJAJ6KN6NDPojc7f4nqFgfQ3nbNt+97IrD+Pavzg+JW9rcjXXlqSGgH+INoBPedxGy/ie74aO34okaN3En8iEScStDpEUGb3O5N6BS5w/+nv1rz0oDBRkxHw0C509Wo88dJSH/ueBl54B6j/ag6oEYKkQRo66qagWOAr7KeMamtIPORIbSH72GKZLgtYeg6taIRk5Nl35WVOLHpoleurpqXGS9mVALJ/fTq3PMI9+IwWn/vNDg6Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 194.138.21.74) smtp.rcpttodomain=lists.yoctoproject.org
- smtp.mailfrom=siemens.com; dmarc=pass (p=none sp=none pct=100) action=none
- header.from=siemens.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ieI0laksle7EL4kST2pFplujxSoG8X++n8hD3wNEi14=;
- b=js3yFbdN5AK8nlqKfUnbcQccRnYv4JaB5UTGCimyF0EBVKjjZi0fpZ/ufTuBs6IulrJTDWZ4u3V/XqvMYOXDY/zZUohR4P5tLgk53QblEjIVMxkbDb/bKv5eOj95BNM6D+LFBH/gkkSAAT19vHAxYLFftT8WqR4ebKA+hNhZS0HSHie9Z+t6675ULhcPHd18GniiIozZrRlZJQhbkrEGczPPy2mJ8IZQO7dHjrgS0hZVdrwzpwgSpEDMGSRPe0uQN4wSShX4+dhEnYLCRTQWKYlmvNDiEasR8eADIqEMd9LAGHK+TMLaXynbgSTbrKsNSy+Bz67vY2ATEjfGX7SGMQ==
-Received: from GVX0EPF000013EC.SWEP280.PROD.OUTLOOK.COM (2603:10a6:144:1::19)
- by AM0PR10MB2433.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:db::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5566.15; Tue, 30 Aug
- 2022 06:56:31 +0000
-Received: from HE1EUR01FT041.eop-EUR01.prod.protection.outlook.com
- (2a01:111:f400:7e1f::209) by GVX0EPF000013EC.outlook.office365.com
- (2603:1026:900:2::3) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5566.15 via Frontend
- Transport; Tue, 30 Aug 2022 06:56:31 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 194.138.21.74)
- smtp.mailfrom=siemens.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=siemens.com;
-Received-SPF: Pass (protection.outlook.com: domain of siemens.com designates
- 194.138.21.74 as permitted sender) receiver=protection.outlook.com;
- client-ip=194.138.21.74; helo=hybrid.siemens.com; pr=C
-Received: from hybrid.siemens.com (194.138.21.74) by
- HE1EUR01FT041.mail.protection.outlook.com (10.152.1.3) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5566.15 via Frontend Transport; Tue, 30 Aug 2022 06:56:30 +0000
-Received: from DEMCHDC8A0A.ad011.siemens.net (139.25.226.106) by
- DEMCHDC8VQA.ad011.siemens.net (194.138.21.74) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.12; Tue, 30 Aug 2022 08:56:29 +0200
-Received: from md3itd2c.ad001.siemens.net (144.145.220.66) by
- DEMCHDC8A0A.ad011.siemens.net (139.25.226.106) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.9; Tue, 30 Aug 2022 08:56:28 +0200
-From: Vasileios Anagnostopoulos <vasileios.anagnostopoulos@siemens.com>
-To: <meta-virtualization@lists.yoctoproject.org>
-CC: Vasileios Anagnostopoulos <vasileios.anagnostopoulos@siemens.com>
-Subject: [meta-virtualization][PATCH 2/2] k3s: sync the version with the
- upstream version
-Date: Tue, 30 Aug 2022 08:55:30 +0200
-Message-ID: <20220830065530.2418-2-vasileios.anagnostopoulos@siemens.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220830065530.2418-1-vasileios.anagnostopoulos@siemens.com>
-References: <20220830065530.2418-1-vasileios.anagnostopoulos@siemens.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+ dkim=fail reason="signature has expired" header.i=@gherzan.com header.s=fm2
+ header.b=sbBzK2uj;
+ spf=pass (domain: gherzan.com, ip: 64.147.123.21,
+ mailfrom: andrei@gherzan.com)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailout.west.internal (Postfix) with ESMTP id 7197432009B0
+	for <meta-virtualization@lists.yoctoproject.org>;
+ Tue, 30 Aug 2022 05:29:45 -0400 (EDT)
+Received: from imap41 ([10.202.2.91])
+  by compute3.internal (MEProxy); Tue, 30 Aug 2022 05:29:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gherzan.com; h=
+	cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to; s=fm2; t=1661851784; x=1661938184; bh=F3QWqHx/XW
+	liErsdZbCjjdEhOrwHOKi7H/xQdTA83Bg=; b=sbBzK2ujjF/whR1q5wfAkzJjZW
+	lBzmrl79L9Bf/G47wTPpi/LuDGYcfaHCuXF5WYD/W5vVv3HiQGeNWO/3N0vHeiAU
+	ZJKAtyhKoXiRxtQ6IhRBQcOgFPf0l6xuM7ZVJYEV80W4HP4PUMHx+8txM5nnj3/g
+	d9OMP0H6RtHOt5Q9yvFNb63eQRiRLtDZDlMtjeTvka+rKCTujZaavbbOqmsp2zuJ
+	UEm3sC5HvXowe6ptWiASiRV1IwsoPc+7hD+mZBNJ0eMIkyzlwZxcSeLlPTtKvdhh
+	gYpKeaYxgnDcJb/sDZaNh1WhzM0eRH7V8FMSyQSPyNNReD2za3NKl/HsKVsg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-type:date:date:feedback-id
+	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:sender:subject:subject:to:to
+	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1661851784; x=1661938184; bh=F3QWqHx/XWliErsdZbCjjdEhOrwH
+	OKi7H/xQdTA83Bg=; b=XnfEthIPZqycnp6pp/Hf/icNFtS9N15oyU7uhibUkwKE
+	3SpRLGaGB439ARrqCsRikPvf21AYfFmItqRUJg91w0xpSbI3dgm7l7+tqfF0BG62
+	jvoAM9vBYFOX4CILhX99ppKn46sgNRpg8RIBtJQpQyWPZmHOThaDJf1wQipfVjQR
+	gAu8AmFt6ddBqaT/a36x9TJK1SEiqvQ3knAz+RUezTi3a9ZQHZolclnhKWXpV/dt
+	cCwX4685J9FVZeG9f6C+BaniVCK/NPeqCCTdB96Duk2abDetO3x82RcwP2PY5t5A
+	5kQDi+YHPjoGtnyuJIpDXtDSfrYFgi1LNFKKwdbzhQ==
+X-ME-Sender: <xms:iNgNYwjMmK-XzJv5Hnum237qk-B8y4TICllSO4vWqJmFBVgPg8lIbw>
+    <xme:iNgNY5ArtFoA7qgprmXZ_Uw1EImhemiDQ6Egk5UPuyrwDR7MVGPzm4Z661E1-EK6C
+    dYuc_u6y5cHCl2TFyg>
+X-ME-Proxy-Cause: 
+ gggruggvucftvghtrhhoucdtuddrgedvfedrvdekfedgudeiucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucenucfjughrpefofgggkfgjfhffhffvufgtsehttd
+    ertderredtnecuhfhrohhmpedftehnughrvghiucfihhgvrhiirghnfdcuoegrnhgurhgv
+    ihesghhhvghriigrnhdrtghomheqnecuggftrfgrthhtvghrnhepfffggfeiueeuieeite
+    fhvedtueegledvvdeggeekheehueegfeetvddtudfhgffhnecuffhomhgrihhnpehgihht
+    hhhusgdrtghomhdpohhuthhpuhhtthhoshhtrhhinhhgrdhtohenucevlhhushhtvghruf
+    hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrnhgurhgvihesghhhvghriigr
+    nhdrtghomh
+X-ME-Proxy: <xmx:iNgNY4FE-n1cghvjg9Ov3_Ebc5B06DGIXlZui7bA5lkiaJ5XgX_Plg>
+    <xmx:iNgNYxR96sbjvYGpD1Yz0rhQzbUmBLx04Ub0aotEiidmAPNolDxb5w>
+    <xmx:iNgNY9z96kAUAdynFXLdVjKzr9zjIb--8sL5RY7qIafLxqV47fNLvA>
+    <xmx:iNgNY8-v44qMD-tjiPTvEkiOV5JBHYWOhEKYM6mQa5_P8kwDSrEKJg>
+Feedback-ID: i68994715:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id A95632340077; Tue, 30 Aug 2022 05:29:44 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-841-g7899e99a45-fm-20220811.002-g7899e99a
+Mime-Version: 1.0
+Message-Id: <29485dd0-ce72-421a-93f8-c9979647463e@www.fastmail.com>
+In-Reply-To: <20220826113319.1269257-1-andrei@gherzan.com>
+References: <20220826113319.1269257-1-andrei@gherzan.com>
+Date: Tue, 30 Aug 2022 10:29:24 +0100
+From: "Andrei Gherzan" <andrei@gherzan.com>
+To: meta-virtualization@lists.yoctoproject.org
+Subject: Re: [kirkstone][PATCH v2] podman: Patch for CVE-2022-27649
 Content-Type: text/plain
-X-Originating-IP: [144.145.220.66]
-X-ClientProxiedBy: DEMCHDC89XA.ad011.siemens.net (139.25.226.103) To
- DEMCHDC8A0A.ad011.siemens.net (139.25.226.106)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: f9a3e3ea-332a-468a-2609-08da8a54c4d4
-X-MS-TrafficTypeDiagnostic: AM0PR10MB2433:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	89/6GcmR2fegpUiOw/BzMhd7PN1feMyhhocbVthit0yxVsBNVtyqeSj85F84yr0x3rsbN32PJRaB13OwjJMNTqOxRIbsvQZLuY4j0Ap4CeWeCMI0eNeeWr36nS/cQOHCw6v54AXDxNIaG6GNjBMABoc9BWJS5UcWtgJA2euXbztvhetfCXJN2vZAMfBWIJxQXa0FwwoBoQS6NuPikr3/9vwt5BLwxJkt522o3LOIBxdOP/uuSwedTrnnqCFY4bSywtCY6U8h1BO4EXe4V10lKEe2fAc3mkC97051z/ZWFrIEQbF+ox3flsfPKU50L9G+moVbdM7/5j3KlrkXL6PcU1pgC0GXP6qVMaboY9FfNqBrfo8NNfFYLCncX34YTGraHCPH6tf/CyPJxtH4DuZPmqhZ1hHu4uSgHHcSDwTaJi4qSGrI8fHy+If4srQdfJ+3Fp5fi6RZaRIN5IWzLF3KoTf/n5iZY3YdOsHM590WFi8SqlShey6pWE5c27v1nD1/qhrHsfkyIN81IbmIl7CPmMsM+xFvGGdCMXtgUgQrkDi2oBIE5U6zABCW0O6CVWCpp+Ag0mPFSg/icrox1U2utYINw101ZiRThYWAL1uLKxfOeZWsR0RMrWaJRUowKx1RkVKrGKDfsydBzPOArJHxX5QpPlsrI1c+ze+1o3CtjveIx+nx28VM6a5uPa95xtFuUOc22/DPZ1ykBgRISJcrCQhGx5Uiok3GV+e/1oSktgWhIvl6AmyXeXG2LQycyF554g8kWOomVn5N8YkiATz74E5xqT80sHDb3h8Np0dLkx8=
-X-Forefront-Antispam-Report: 
-	CIP:194.138.21.74;CTRY:DE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:hybrid.siemens.com;PTR:hybrid.siemens.com;CAT:NONE;SFS:(13230016)(4636009)(346002)(396003)(136003)(39860400002)(376002)(36840700001)(46966006)(40470700004)(82310400005)(82740400003)(26005)(2906002)(6666004)(44832011)(2616005)(956004)(16526019)(83380400001)(336012)(40480700001)(1076003)(186003)(47076005)(36860700001)(4744005)(40460700003)(4326008)(6916009)(8676002)(70206006)(5660300002)(966005)(316002)(70586007)(107886003)(82960400001)(7596003)(7636003)(36756003)(86362001)(356005)(8936002)(41300700001)(478600001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Aug 2022 06:56:30.9376
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 
- f9a3e3ea-332a-468a-2609-08da8a54c4d4
-X-MS-Exchange-CrossTenant-Id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: 
- TenantId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;Ip=[194.138.21.74];Helo=[hybrid.siemens.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	HE1EUR01FT041.eop-EUR01.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR10MB2433
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Tue, 30 Aug 2022 06:56:42 -0000
+ <meta-virtualization@lists.yoctoproject.org>; Tue, 30 Aug 2022 09:30:03 -0000
 X-Groupsio-URL: 
- https://lists.yoctoproject.org/g/meta-virtualization/message/7580
+ https://lists.yoctoproject.org/g/meta-virtualization/message/7581
 
-The k3s project is using as version the git tag:
-https://github.com/k3s-io/k3s/blob/master/scripts/version.sh#L58
-This patch applies that logic in the build artifacts.
+On Fri, 26 Aug 2022, at 12:33, Andrei Gherzan wrote:
+> From: Andrei Gherzan <andrei.gherzan@huawei.com>
+>
+> Signed-off-by: Andrei Gherzan <andrei.gherzan@huawei.com>
+> ---
+>  .../podman/podman/CVE-2022-27649.patch        | 106 ++++++++++++++++++
+>  recipes-containers/podman/podman_git.bb       |   3 +-
+>  2 files changed, 108 insertions(+), 1 deletion(-)
+>  create mode 100644 recipes-containers/podman/podman/CVE-2022-27649.patch
+>
+> diff --git a/recipes-containers/podman/podman/CVE-2022-27649.patch 
+> b/recipes-containers/podman/podman/CVE-2022-27649.patch
+> new file mode 100644
+> index 0000000..cb786ad
+> --- /dev/null
+> +++ b/recipes-containers/podman/podman/CVE-2022-27649.patch
+> @@ -0,0 +1,106 @@
+> +From aafa80918a245edcbdaceb1191d749570f1872d0 Mon Sep 17 00:00:00 2001
+> +From: Giuseppe Scrivano <gscrivan@redhat.com>
+> +Date: Mon, 28 Feb 2022 09:48:52 +0100
+> +Subject: [PATCH] do not set the inheritable capabilities
+> +
+> +The kernel never sets the inheritable capabilities for a process, they
+> +are only set by userspace.  Emulate the same behavior.
+> +
+> +CVE: CVE-2022-27649
+> +Upstream-Status: Backport 
+> [https://github.com/containers/podman/commit/aafa80918a245edcbdaceb1191d749570f1872d0]
+> +Signed-off-by: Andrei Gherzan <andrei.gherzan@huawei.com>
+> +---
+> + libpod/oci_conmon_exec_linux.go  | 7 +++++--
+> + pkg/specgen/generate/security.go | 7 +++++--
+> + test/e2e/run_test.go             | 6 +++---
+> + 3 files changed, 13 insertions(+), 7 deletions(-)
+> +
+> +diff --git a/libpod/oci_conmon_exec_linux.go 
+> b/libpod/oci_conmon_exec_linux.go
+> +index aa970bbde28..65123b37e6a 100644
+> +--- a/libpod/oci_conmon_exec_linux.go
+> ++++ b/libpod/oci_conmon_exec_linux.go
+> +@@ -758,11 +758,14 @@ func prepareProcessExec(c *Container, options 
+> *ExecOptions, env []string, sessio
+> + 	} else {
+> + 		pspec.Capabilities.Bounding = ctrSpec.Process.Capabilities.Bounding
+> + 	}
+> ++
+> ++	// Always unset the inheritable capabilities similarly to what the 
+> Linux kernel does
+> ++	// They are used only when using capabilities with uid != 0.
+> ++	pspec.Capabilities.Inheritable = []string{}
+> ++
+> + 	if execUser.Uid == 0 {
+> + 		pspec.Capabilities.Effective = pspec.Capabilities.Bounding
+> +-		pspec.Capabilities.Inheritable = pspec.Capabilities.Bounding
+> + 		pspec.Capabilities.Permitted = pspec.Capabilities.Bounding
+> +-		pspec.Capabilities.Ambient = pspec.Capabilities.Bounding
+> + 	} else {
+> + 		if user == c.config.User {
+> + 			pspec.Capabilities.Effective = 
+> ctrSpec.Process.Capabilities.Effective
+> +diff --git a/pkg/specgen/generate/security.go 
+> b/pkg/specgen/generate/security.go
+> +index 9c67099054f..988c2983267 100644
+> +--- a/pkg/specgen/generate/security.go
+> ++++ b/pkg/specgen/generate/security.go
+> +@@ -146,6 +146,10 @@ func securityConfigureGenerator(s 
+> *specgen.SpecGenerator, g *generate.Generator,
+> + 
+> + 	configSpec := g.Config
+> + 	configSpec.Process.Capabilities.Ambient = []string{}
+> ++
+> ++	// Always unset the inheritable capabilities similarly to what the 
+> Linux kernel does
+> ++	// They are used only when using capabilities with uid != 0.
+> ++	configSpec.Process.Capabilities.Inheritable = []string{}
+> + 	configSpec.Process.Capabilities.Bounding = caplist
+> + 
+> + 	user := strings.Split(s.User, ":")[0]
+> +@@ -153,7 +157,6 @@ func securityConfigureGenerator(s 
+> *specgen.SpecGenerator, g *generate.Generator,
+> + 	if (user == "" && s.UserNS.NSMode != specgen.KeepID) || user == 
+> "root" || user == "0" {
+> + 		configSpec.Process.Capabilities.Effective = caplist
+> + 		configSpec.Process.Capabilities.Permitted = caplist
+> +-		configSpec.Process.Capabilities.Inheritable = caplist
+> + 	} else {
+> + 		mergedCaps, err := capabilities.MergeCapabilities(nil, s.CapAdd, 
+> nil)
+> + 		if err != nil {
+> +@@ -175,12 +178,12 @@ func securityConfigureGenerator(s 
+> *specgen.SpecGenerator, g *generate.Generator,
+> + 		}
+> + 		configSpec.Process.Capabilities.Effective = userCaps
+> + 		configSpec.Process.Capabilities.Permitted = userCaps
+> +-		configSpec.Process.Capabilities.Inheritable = userCaps
+> + 
+> + 		// Ambient capabilities were added to Linux 4.3.  Set ambient
+> + 		// capabilities only when the kernel supports them.
+> + 		if supportAmbientCapabilities() {
+> + 			configSpec.Process.Capabilities.Ambient = userCaps
+> ++			configSpec.Process.Capabilities.Inheritable = userCaps
+> + 		}
+> + 	}
+> + 
+> +diff --git a/test/e2e/run_test.go b/test/e2e/run_test.go
+> +index 91a2eddadf6..f4a6e573355 100644
+> +--- a/test/e2e/run_test.go
+> ++++ b/test/e2e/run_test.go
+> +@@ -498,7 +498,7 @@ var _ = Describe("Podman run", func() {
+> + 		session = podmanTest.Podman([]string{"run", "--rm", "--user", 
+> "root", ALPINE, "grep", "CapInh", "/proc/self/status"})
+> + 		session.WaitWithDefaultTimeout()
+> + 		Expect(session).Should(Exit(0))
+> +-		Expect(session.OutputToString()).To(ContainSubstring("00000000a80425fb"))
+> ++		Expect(session.OutputToString()).To(ContainSubstring("0000000000000000"))
+> + 
+> + 		session = podmanTest.Podman([]string{"run", "--rm", ALPINE, "grep", 
+> "CapBnd", "/proc/self/status"})
+> + 		session.WaitWithDefaultTimeout()
+> +@@ -533,7 +533,7 @@ var _ = Describe("Podman run", func() {
+> + 		session = podmanTest.Podman([]string{"run", "--user=0:0", 
+> "--cap-add=DAC_OVERRIDE", "--rm", ALPINE, "grep", "CapInh", 
+> "/proc/self/status"})
+> + 		session.WaitWithDefaultTimeout()
+> + 		Expect(session).Should(Exit(0))
+> +-		Expect(session.OutputToString()).To(ContainSubstring("00000000a80425fb"))
+> ++		Expect(session.OutputToString()).To(ContainSubstring("0000000000000000"))
+> + 
+> + 		if os.Geteuid() > 0 {
+> + 			if os.Getenv("SKIP_USERNS") != "" {
+> +@@ -550,7 +550,7 @@ var _ = Describe("Podman run", func() {
+> + 			session = podmanTest.Podman([]string{"run", "--userns=keep-id", 
+> "--privileged", "--rm", ALPINE, "grep", "CapInh", "/proc/self/status"})
+> + 			session.WaitWithDefaultTimeout()
+> + 			Expect(session).Should(Exit(0))
+> +-			Expect(session.OutputToString()).To(ContainSubstring("0000000000000000"))
+> ++			Expect(session.OutputToString()).To(ContainSubstring("0000000000000002"))
+> + 
+> + 			session = podmanTest.Podman([]string{"run", "--userns=keep-id", 
+> "--cap-add=DAC_OVERRIDE", "--rm", ALPINE, "grep", "CapInh", 
+> "/proc/self/status"})
+> + 			session.WaitWithDefaultTimeout()
+> diff --git a/recipes-containers/podman/podman_git.bb 
+> b/recipes-containers/podman/podman_git.bb
+> index aedb988..65e0205 100644
+> --- a/recipes-containers/podman/podman_git.bb
+> +++ b/recipes-containers/podman/podman_git.bb
+> @@ -22,7 +22,8 @@ SRC_URI = " \
+>      git://github.com/containers/libpod.git;branch=v4.0;protocol=https \
+>      
+> file://0001-Rename-BUILDFLAGS-to-GOBUILDFLAGS.patch;patchdir=src/import 
+> \
+>      
+> file://0002-Define-ActKillThread-equal-to-ActKill.patch;patchdir=src/import/vendor/github.com/seccomp/libseccomp-golang 
+> \
+> -    ${@bb.utils.contains('PACKAGECONFIG', 'rootless', 
+> 'file://50-podman-rootless.conf', '', d)} \
+> +    file://CVE-2022-27649.patch;patchdir=src/import \
+> +    ${@bb.utils.contains('PACKAGECONFIG', 'rootless', 
+> 'file://00-podman-rootless.conf', '', d)} \
+>  "
+> 
+>  LICENSE = "Apache-2.0"
+> -- 
+> 2.25.1
 
-Signed-off-by: Vasileios Anagnostopoulos <vasileios.anagnostopoulos@siemens=
-.com>
----
- recipes-containers/k3s/k3s_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Small reminder on this patch.
 
-diff --git a/recipes-containers/k3s/k3s_git.bb b/recipes-containers/k3s/k3s=
-_git.bb
-index 66ff523..23bd783 100644
---- a/recipes-containers/k3s/k3s_git.bb
-+++ b/recipes-containers/k3s/k3s_git.bb
-@@ -19,7 +19,7 @@ SRC_URI[k3s.md5sum] =3D "363d3a08dc0b72ba6e6577964f6e94a5=
-"
- SRCREV_k3s =3D "24da6adfa98cd05849edf1c42de3862f843a05f4"
-=20
- SRCREV_FORMAT =3D "k3s_fuse"
--PV =3D "v1.24.3+k3s1+git${SRCREV_k3s}"
-+PV =3D "v1.24.3+k3s1"
-=20
- include src_uri.inc
-=20
---=20
-2.34.1
-
+Thanks,
+Andrei
 
