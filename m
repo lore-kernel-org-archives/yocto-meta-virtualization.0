@@ -2,88 +2,105 @@ Return-Path: <andrei@gherzan.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BFB5ECAAD4
-	for <webhook@archiver.kernel.org>; Wed, 31 Aug 2022 10:36:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B19DEECAAD1
+	for <webhook@archiver.kernel.org>; Wed, 31 Aug 2022 11:06:10 +0000 (UTC)
 Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
  [66.111.4.26])
- by mx.groups.io with SMTP id smtpd.web10.24050.1661942153511776685
+ by mx.groups.io with SMTP id smtpd.web08.23933.1661943960502331613
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 31 Aug 2022 03:35:53 -0700
+ Wed, 31 Aug 2022 04:06:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gherzan.com header.s=fm2
- header.b=KU98YZeV;
+ dkim=pass header.i=@gherzan.com header.s=fm2 header.b=hUsqcp0Y;
  spf=pass (domain: gherzan.com, ip: 66.111.4.26, mailfrom: andrei@gherzan.com)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailout.nyi.internal (Postfix) with ESMTP id 968A15C00CB;
-	Wed, 31 Aug 2022 06:35:52 -0400 (EDT)
-Received: from imap41 ([10.202.2.91])
-  by compute3.internal (MEProxy); Wed, 31 Aug 2022 06:35:52 -0400
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.nyi.internal (Postfix) with ESMTP id 9B2D15C0069;
+	Wed, 31 Aug 2022 07:05:59 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Wed, 31 Aug 2022 07:05:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gherzan.com; h=
-	cc:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to; s=fm2; t=1661942152; x=1662028552; bh=v1Mjoa2Q4j
-	ePwmxvQn0UKwhyZXuFYTE8Jyjbs2WQpYo=; b=KU98YZeV2GGC8P4FGX6+RSoIpq
-	oK22UnQ1D0CE+QBstdnIwFgJyVIMn0rWJKI8HWvcSRbY4vVaqPjSnNBGCOpZvHcu
-	dqEEJE/qiCjFP4aqPNlzsSwfloDEcpHqpdRME/MEKZVSpYJUM43JAEpvoMJ2qoMJ
-	tIuZlQJmYH3UyxyJjLrSbLmvS+iDvf6t/vgiJ837FaTlEhK5y2iR/uBMC8+iLakm
-	siA/iGbtGNCtcOEirqBF7ERcB45WCuzYqrdFo60fRtnVjMRekOjzqAfwMCYoy8mE
-	UQmZJDhE0hJtTId1lG49BjoZVGLZJULT+MirfrsGkaGH9TDlT4eTaiPG6wRA==
+	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
+	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
+	 s=fm2; t=1661943959; x=1662030359; bh=iGeVkeaoQRRz7MyCEsy8xlTPd
+	TQ7YIbrqfPpbYNtAMk=; b=hUsqcp0Y/8hBDBfTHGELZjmI+5GXaLoaxGUXz1YoM
+	AI7cvdCpmQm7cdCOKlk1OHcK1Z7uAc6OOe4jJ6n2rflk6R+xhDcifStyOXh7KVTo
+	BULv+l1DDmDPe8NjOvG9XunIdk+i88Vs/NiOvTl4uhN7VhLQt5ic7CGlbcHTqMgj
+	XLnTpjFVwuCgxaFYwFx7NFAE7YBeAz7eDrg1XTkcjKcUFWkaGuhv9E9PCEopeaS6
+	c5+QF6u2hoORdrBGH4FQA7RKN5ogpmLs7pvn0ngPi/ePmuWZMryNFbcYkqRxCGru
+	+4oFW6ujKEKsmkhRMxN16ZuxVli6mDmgDkfDKIzFkPamw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:sender:subject:subject:to:to
-	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; t=1661942152; x=1662028552; bh=v1Mjoa2Q4jePwmxvQn0UKwhyZXuF
-	YTE8Jyjbs2WQpYo=; b=CvKwCJZNiC2wEcyInH62o6fAuzN/LwDwEeFithBL5vQX
-	XSl7X3DbF+GItfiX32rAvn/r7MMmvWJsbcEfiOfZOa6GWTr7+4YT48p7prbEyM7K
-	tQ9XArRZPJxxXwnOaBI1xkgrdYvhZ8on2+OrGZIj0L3wjTQZnxGjre5CmtIcAJ+l
-	EAj9rcndrB6XBthzqTFoNQsu16Hwy3wHRucKv7ohhhGJ/Vkn/3Bkhrz7dYci+pv8
-	vrgWQjAfrnHShWXbLn3Sa0o3KlR5aXrUHrFYWXGZ7/ywkdDhuAcK4E+VfbeCWYOl
-	ygsVplR7AqDdsLWCamfbE6RmfNxO9T78jMMyC2PpDw==
-X-ME-Sender: <xms:iDkPYzAZrokbfoQgvq0oCt9DuYNLZZEydGB6_3LYsSchG62zcM8m1w>
-    <xme:iDkPY5j19ykKFuHGfAdHhrWL5nBKadO8YxxrUlMhtX8CmQRLmtoEAfkB8IKDMco_b
-    suI6JFRIAmSb8xN1ok>
+	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:message-id
+	:mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1661943959; x=1662030359; bh=iGeVkeaoQRRz7MyCEsy8xlTPdTQ7YIbrqfP
+	pbYNtAMk=; b=hoVQU/QBvho80j9se1b8+9/4wyCI7evg7wcY8g9Q/s44E9/wZRd
+	zlyPtda1AXjP3EMw1ZiY/i8zsntLhLEPH4z0FgNYiB3p2ot1078U1oPiOj51EmE+
+	4qnrUA1D7yZpEvvso2fwOg1srVxbNVZlF/bvuQfFCSJVhBSV7Zn0prEvJYqF7b0E
+	Cgk/wiKf/ghAidJbDwQIbaopjtO4mlDkaIuIxLgJfb2UFAeM2sJhHuYPDIPDTMmy
+	4+wZl4vfZbaUTEByfO4ctM2kjUzGrs5xavoILNdrzfAfsq3Vij9LYeyonvJKL9Io
+	BWB4wwMkIu660dl1EdR5aPa8I4VP+VQOoSw==
+X-ME-Sender: <xms:l0APYyQGSa3hsotBIkFO7NRvfSQROrAVw-i2sKT0F9Fa2OPLI4ZzTA>
+    <xme:l0APY3wRwoy9Kbxitxn0uwgJoAZR0QjuTuazwRU5gHx13-mWN-uaDf_TMLhK81xBi
+    hnwayYwBl0NXK7jhf0>
+X-ME-Received: 
+ <xmr:l0APY_0xB-iFSu-oxsV2K1TqJ_WtC35NXjqLSsXP028ZVaHWNZ4ur5CxozY3G4omfX3HasZ4BVsAqbl5JjHtTn-djBTt4DMrDvKpznqIvBSklUqmuUpeeiHW>
 X-ME-Proxy-Cause: 
- gggruggvucftvghtrhhoucdtuddrgedvfedrvdekiedgtddvucetufdoteggodetrfdotf
+ gggruggvucftvghtrhhoucdtuddrgedvfedrvdekiedgtdekucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehn
-    ughrvghiucfihhgvrhiirghnfdcuoegrnhgurhgvihesghhhvghriigrnhdrtghomheqne
-    cuggftrfgrthhtvghrnheplefhleejteeuvdeuhfejffeigfduieelgfduueffueethfeg
-    geetvdevffffueffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
-    hfrhhomheprghnughrvghisehghhgvrhiirghnrdgtohhm
-X-ME-Proxy: <xmx:iDkPY-l5utTn6_6_hkOayAK-T1mh7IdeyCknbFL1JdXsXEahvFIqNQ>
-    <xmx:iDkPY1yqnNKspEryLf1sXog5FAdudWYry7FHc9wV2mokZQsWmj3evA>
-    <xmx:iDkPY4T11n7UWnyFcAKsVMOLNmy-yTDTLbd7quqtOxmec31dLxeI5Q>
-    <xmx:iDkPY3NDPMFWWX-2RSfo_9vpOgIUICiHLJ7gWwlhg72jddL70ibINg>
+    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffoggfgsedtkeertd
+    ertddtnecuhfhrohhmpeetnhgurhgvihcuifhhvghriigrnhcuoegrnhgurhgvihesghhh
+    vghriigrnhdrtghomheqnecuggftrfgrthhtvghrnhepjeffveelleeigedvieeiuddvtd
+    ffleettdeitdfgffejhfeigeekvdduvefhtedtnecuffhomhgrihhnpehgihhthhhusgdr
+    tghomhenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    grnhgurhgvihesghhhvghriigrnhdrtghomh
+X-ME-Proxy: <xmx:l0APY-ACGQL1raFNyWHGGfsMUW8kEX0L7x_doBluJtJ4Wz9eIRVprg>
+    <xmx:l0APY7g9_39yBfw_76fG9p9lFKBJR7mu6CJ3McwkbPWvBDy95eLaaw>
+    <xmx:l0APY6ozp8dQ4vFO0AC9eS3oer0kMs3PBn_A_UI6uE8s9i4-15FsRw>
+    <xmx:l0APYzaKuXNLLZ-HCREJK72XshdDvGJ38qzdiZsYCHwdaHnznIugzQ>
 Feedback-ID: i68994715:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 5AE942340077; Wed, 31 Aug 2022 06:35:52 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-841-g7899e99a45-fm-20220811.002-g7899e99a
-Mime-Version: 1.0
-Message-Id: <da953f67-644c-49e1-8446-407d5a1e023c@www.fastmail.com>
-In-Reply-To: <20220831014708.GA17114@gmail.com>
-References: <20220826113319.1269257-1-andrei@gherzan.com>
- <20220831014708.GA17114@gmail.com>
-Date: Wed, 31 Aug 2022 11:35:31 +0100
-From: "Andrei Gherzan" <andrei@gherzan.com>
-To: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [meta-virtualization] [kirkstone][PATCH v2] podman: Patch for
- CVE-2022-27649
-Content-Type: text/plain
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 31 Aug 2022 07:05:58 -0400 (EDT)
+From: Andrei Gherzan <andrei@gherzan.com>
+To: meta-virtualization@lists.yoctoproject.org
+Cc: andrei@gherzan.com,
+	Andrei Gherzan <andrei.gherzan@huawei.com>
+Subject: [meta-virtualization][kirkstone][PATCH] podman: Fix merge typo
+Date: Wed, 31 Aug 2022 13:05:46 +0200
+Message-Id: <20220831110546.3898236-1-andrei@gherzan.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Wed, 31 Aug 2022 10:36:10 -0000
+ <meta-virtualization@lists.yoctoproject.org>; Wed, 31 Aug 2022 11:06:10 -0000
 X-Groupsio-URL: 
- https://lists.yoctoproject.org/g/meta-virtualization/message/7586
+ https://lists.yoctoproject.org/g/meta-virtualization/message/7587
 
-On Wed, 31 Aug 2022, at 02:47, Bruce Ashfield wrote:
-> merged!
+From: Andrei Gherzan <andrei.gherzan@huawei.com>
 
-Very much appreciated.
+2b28d64667e4c22434b9db0a87a1265a0caedb66 brought a typo when resolving
+merge/rebase conflict. This fixes it.
 
-Andrei
+Signed-off-by: Andrei Gherzan <andrei.gherzan@huawei.com>
+---
+ recipes-containers/podman/podman_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/recipes-containers/podman/podman_git.bb b/recipes-containers/podman/podman_git.bb
+index 65e0205..09bf827 100644
+--- a/recipes-containers/podman/podman_git.bb
++++ b/recipes-containers/podman/podman_git.bb
+@@ -23,7 +23,7 @@ SRC_URI = " \
+     file://0001-Rename-BUILDFLAGS-to-GOBUILDFLAGS.patch;patchdir=src/import \
+     file://0002-Define-ActKillThread-equal-to-ActKill.patch;patchdir=src/import/vendor/github.com/seccomp/libseccomp-golang \
+     file://CVE-2022-27649.patch;patchdir=src/import \
+-    ${@bb.utils.contains('PACKAGECONFIG', 'rootless', 'file://00-podman-rootless.conf', '', d)} \
++    ${@bb.utils.contains('PACKAGECONFIG', 'rootless', 'file://50-podman-rootless.conf', '', d)} \
+ "
+ 
+ LICENSE = "Apache-2.0"
+-- 
+2.25.1
+
 
