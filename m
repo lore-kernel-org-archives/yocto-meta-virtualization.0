@@ -1,563 +1,183 @@
-Return-Path: <kai.kang@windriver.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 042C9C07E9D
-	for <webhook@archiver.kernel.org>; Thu, 29 Sep 2022 08:51:55 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com
- [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web08.8275.1664441507768237684
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7851DC433FE
+	for <webhook@archiver.kernel.org>; Thu, 29 Sep 2022 13:47:06 +0000 (UTC)
+Received: from mail-oo1-f48.google.com (mail-oo1-f48.google.com
+ [209.85.161.48])
+ by mx.groups.io with SMTP id smtpd.web09.10565.1664459217299249178
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 29 Sep 2022 01:51:48 -0700
+ Thu, 29 Sep 2022 06:46:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=iTz4SwqE;
- spf=permerror,
- err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}:
- invalid domain name (domain: windriver.com, ip: 205.220.178.238,
- mailfrom: prvs=727166c06f=kai.kang@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id
- 28T6pEb2009042;
-	Thu, 29 Sep 2022 08:51:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type; s=PPS06212021;
- bh=RY05RtxlSIFk4g1MpczgtB6nJHtSxbypEp90rU6KE1s=;
- b=iTz4SwqEv+rq1mkPF5MfPBYi5yvlgo9k6bJQUuW9bzaXaYq85x2A8SCoFkpWSAGXswWB
- 64IQ7w0F+xOwxWRhL69rDhHO1zn26wyf7YxQLSQ58gFJeXfGZQM7SAv9JGWdxbBT9V4L
- 4wrl6fsC64nNmLU93kgbziK6VHd8i1AO3XXQouD9Ebyvd0KwuBjOqBC3CGeZElGTeGa/
- HYl2FJCetAuo2o78ClUsrqMX4sOoY2zig4IU40I20HGppocA3KzhjJ7vYMugNWNRz7Nb
- iTR1zkiWRjLb256fgxBCId+562shLjatCj4haXJefHPir/6piWEy81lcJBE61KD0+uNm /g==
-Received: from ala-exchng01.corp.ad.wrs.com (unknown-82-252.windriver.com
- [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3jsq424bqq-2
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 29 Sep 2022 08:51:46 +0000
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Thu, 29 Sep 2022 01:51:45 -0700
-Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.12 via Frontend Transport; Thu, 29 Sep 2022 01:51:45 -0700
-From: <kai.kang@windriver.com>
-To: <bruce.ashfield@gmail.com>
-CC: <meta-virtualization@lists.yoctoproject.org>
-Subject: [PATCH 1/1] criu: 3.17 -> 3.17.1
-Date: Thu, 29 Sep 2022 16:51:41 +0800
-Message-ID: <20220929085141.19781-2-kai.kang@windriver.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220929085141.19781-1-kai.kang@windriver.com>
-References: <20220929085141.19781-1-kai.kang@windriver.com>
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=TY1Mpvvg;
+ spf=pass (domain: gmail.com, ip: 209.85.161.48,
+ mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-oo1-f48.google.com with SMTP id
+ d74-20020a4a524d000000b004755f8aae16so178753oob.11
+        for <meta-virtualization@lists.yoctoproject.org>;
+ Thu, 29 Sep 2022 06:46:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=dInNv7jevG/k5c4/JzbrSrFyeqdkXJZBkfHlFJuFS0k=;
+        b=TY1MpvvgKfDyp5APUNbH4HdISu9V0NGVNVtrd16TUEdX9bQCAn4Ztu3NXylnONxHeq
+         SzvyWjhAzywdyiCaWev7kH6u9rYaLC41AVNpXjgDcwDq0vsOhFIr/Di9ElV+/7frAHn1
+         y7Pt0GTZs7v1jIOYeBc1QMUXDq0aIHfxNS4xyWpwmAZfnnqyznO4FeZ5RbogEqkm9b9i
+         QokDT7Xy3hKtjUcL5wmYn3wtAjleX8b5n3myNYE8drSs0aSloUE0CoIurTO4R6CU0Dxj
+         rKLqZSU/1z3G8f0f8gA6A10J07O/QmNbU9xhiHnMquRpZfZglP2wpTxbQgnHZ5urJaC3
+         sDew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=dInNv7jevG/k5c4/JzbrSrFyeqdkXJZBkfHlFJuFS0k=;
+        b=WTJZFfWjGpfsgv7GQAsBzRR2jXeOEO3nyErik3fxwyVLo6fI3GwkVu/qV7f03zygkx
+         S//wR6KaMaHahFh7SJBbJy/7lsl9Onkni8RxQxQZG+Drf8OStl+Uq70j+MyzHzLZEXR5
+         yAlSJur2v4geGmKByh2nzkzm77UW2q7ql3Zpq2dVKnMPXREUg2LuJD1OE0LFGz9XEjHM
+         n/vwbSmB4zyZLpI8B+thA2bMoUovpo5lvyDKLk/ryGZ7NeakDBYk+I21d8rx0RvPeNSV
+         OaXLdgdKbxFNSZUNj23//rkQC+6p7wUDc+T8+2CZ7NTUu6hdd5w12DxgVigRTz3n/HGw
+         pozw==
+X-Gm-Message-State: ACrzQf2fqdHJDBpiMGF/yJAwbmpDzqe0Yeh1FYgEXR7eOwCZS/kR/WoU
+	UM/RbzLox0Tgm+tfXIJLsT5yUQYdj4sZocaUwN0Z9/q5A+E=
+X-Google-Smtp-Source: 
+ AMsMyM42sR9eAueyzra5f+zEl2cyl9cMQhrq3xLgfovBwVGixW5vGnxF2PkTHOTPlMvI9sNNiVwcWMS3rHA6kwJOGnM=
+X-Received: by 2002:a4a:8d57:0:b0:476:99ae:46a5 with SMTP id
+ x23-20020a4a8d57000000b0047699ae46a5mr1375878ook.51.1664459216441; Thu, 29
+ Sep 2022 06:46:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: B4Kslo16JF66LcsxvOSi8_n8Ima1eCqk
-X-Proofpoint-GUID: B4Kslo16JF66LcsxvOSi8_n8Ima1eCqk
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
- definitions=2022-09-29_04,2022-09-29_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 mlxlogscore=999
- malwarescore=0 adultscore=0 clxscore=1015 priorityscore=1501 spamscore=0
- phishscore=0 lowpriorityscore=0 impostorscore=0 bulkscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2209130000
- definitions=main-2209290053
+References: <20220929085141.19781-1-kai.kang@windriver.com>
+In-Reply-To: <20220929085141.19781-1-kai.kang@windriver.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Thu, 29 Sep 2022 09:46:44 -0400
+Message-ID: 
+ <CADkTA4PbHs90Ek5uBj_LtzAt5=ow+U3ZcOSzBK1a1zs5VBipQQ@mail.gmail.com>
+Subject: Re: [PATCH 0/1] Update criu to 3.17.1
+To: kai.kang@windriver.com
+Cc: meta-virtualization@lists.yoctoproject.org
+Content-Type: multipart/alternative; boundary="00000000000056d74205e9d11cbe"
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Thu, 29 Sep 2022 08:51:54 -0000
+ <meta-virtualization@lists.yoctoproject.org>; Thu, 29 Sep 2022 13:47:06 -0000
 X-Groupsio-URL: 
- https://lists.yoctoproject.org/g/meta-virtualization/message/7632
+ https://lists.yoctoproject.org/g/meta-virtualization/message/7633
 
-From: Kai Kang <kai.kang@windriver.com>
+--00000000000056d74205e9d11cbe
+Content-Type: text/plain; charset="UTF-8"
 
-Update criu from 3.17 to 3.17.1:
+On Thu, Sep 29, 2022 at 4:51 AM <kai.kang@windriver.com> wrote:
 
-* update file path and remove __pycache__ directory in do_install
-* rebase 0002-criu-Change-libraries-install-directory.patch
-* backport patches to fix build errors with glibc 2.36.
+> From: Kai Kang <kai.kang@windriver.com>
+>
+> Hi Bruce,
+>
+> The latest release is 3.17.1 but not include commits to fix for glibc
+> 2.36. So backport them at same time.
+>
+>
+I would have preferred not to have the patch, so I spent some time digging
+around the criu repository this morning.
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- recipes-containers/criu/criu_git.bb           |  12 +-
- ...u-Change-libraries-install-directory.patch |   6 +-
- .../0004-criu-fix-conflicting-headers.patch   | 288 ++++++++++++++++++
- ...nt-add-definition-for-FSOPEN_CLOEXEC.patch | 110 +++++++
- 4 files changed, 411 insertions(+), 5 deletions(-)
- create mode 100644 recipes-containers/criu/files/0004-criu-fix-conflicting-headers.patch
- create mode 100644 recipes-containers/criu/files/0005-mount-add-definition-for-FSOPEN_CLOEXEC.patch
+And yes indeed, it is on criu-dev, but not on master. And while criu-dev
+has the 3.17 "release" commit, it doesn't have the 3.17.1 commit .. while
+we could switch to criu-dev for the branch, and pickup this fix and a few
+others, that's more churn than just taking the patch. I'm not concerned
+about staying on the release commits, since they don't really do anything,
+so not having the 3.17.1 commit on criu-dev isn't a concern to me.
 
-diff --git a/recipes-containers/criu/criu_git.bb b/recipes-containers/criu/criu_git.bb
-index 46401f9..733e911 100644
---- a/recipes-containers/criu/criu_git.bb
-+++ b/recipes-containers/criu/criu_git.bb
-@@ -13,14 +13,16 @@ EXCLUDE_FROM_WORLD = "1"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=412de458544c1cb6a2b512cd399286e2"
- 
--SRCREV = "4f8f295e57e68740699479d12c1ad251e6dd859f"
--PV = "3.17+git${SRCPV}"
-+SRCREV = "d46f40f4ff0c724e0b9f0f8a2e8c043806897e94"
-+PV = "3.17.1+git${SRCPV}"
- 
- SRC_URI = "git://github.com/checkpoint-restore/criu.git;branch=master;protocol=https \
-            file://0001-criu-Skip-documentation-install.patch \
-            file://0002-criu-Change-libraries-install-directory.patch \
-            file://0003-lib-Makefile-overwrite-install-lib-to-allow-multiarc.patch \
--          "
-+           file://0004-criu-fix-conflicting-headers.patch \
-+           file://0005-mount-add-definition-for-FSOPEN_CLOEXEC.patch \
-+           "
- 
- COMPATIBLE_HOST = "(x86_64|arm|aarch64).*-linux"
- 
-@@ -81,7 +83,9 @@ do_install () {
-     # scripts. 'crit' is one of those scripts. The "executable" or "e" option to the
-     # setup call should fix it, but it is being ignored. So to avoid getting our native
-     # intepreter replaced in the script, we'll do an explicit update ourselves.
--    sed -i 's%^\#\!.*%\#\!/usr/bin/env python3%' ${D}/usr/bin/crit ${D}${libdir}/python3*/site-packages/crit-0.0.1-py3*.egg/EGG-INFO/scripts/crit
-+    sed -i 's%^\#\!.*%\#\!/usr/bin/env python3%' ${D}/usr/bin/crit ${D}${libdir}/python3*/site-packages/crit-*-py3*.egg/EGG-INFO/scripts/crit
-+
-+    rm -rf ${D}/__pycache__
- }
- 
- FILES:${PN} += "${systemd_unitdir}/ \
-diff --git a/recipes-containers/criu/files/0002-criu-Change-libraries-install-directory.patch b/recipes-containers/criu/files/0002-criu-Change-libraries-install-directory.patch
-index 453be13..ad8c9f1 100644
---- a/recipes-containers/criu/files/0002-criu-Change-libraries-install-directory.patch
-+++ b/recipes-containers/criu/files/0002-criu-Change-libraries-install-directory.patch
-@@ -7,6 +7,10 @@ Install the libraries into /usr/lib(or /usr/lib64)
- 
- Signed-off-by: Jianchuan Wang <jianchuan.wang@windriver.com>
- Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
-+
-+Rebase for criu 3.17.1.
-+
-+Signed-off-by: Kai Kang <kai.kang@windriver.com>
- ---
-  Makefile.install | 13 -------------
-  1 file changed, 13 deletions(-)
-@@ -17,7 +21,7 @@ index 1b02b70af..2839ef5fe 100644
- +++ b/Makefile.install
- @@ -9,19 +9,6 @@ LIBEXECDIR	?= $(PREFIX)/libexec
-  RUNDIR		?= /run
-- PLUGINDIR	?= /var/lib/criu
-+ PLUGINDIR	?= $(PREFIX)/lib/criu
-  
- -#
- -# For recent Debian/Ubuntu with multiarch support.
-diff --git a/recipes-containers/criu/files/0004-criu-fix-conflicting-headers.patch b/recipes-containers/criu/files/0004-criu-fix-conflicting-headers.patch
-new file mode 100644
-index 0000000..fa4cecd
---- /dev/null
-+++ b/recipes-containers/criu/files/0004-criu-fix-conflicting-headers.patch
-@@ -0,0 +1,288 @@
-+Backport patch to fix criu compile error with glibc 2.36. Update context
-+for Makefile.config.
-+
-+Upstream-Status: Backport [https://github.com/checkpoint-restore/criu/commit/4c86d6a7]
-+
-+Signed-off-by: Kai Kang <kai.kang@windriver.com>
-+
-+From 4c86d6a7d54abb64fc5a15131f3351224e8c071b Mon Sep 17 00:00:00 2001
-+From: Radostin Stoyanov <rstoyanov@fedoraproject.org>
-+Date: Sun, 31 Jul 2022 16:07:30 +0000
-+Subject: [PATCH] criu: fix conflicting headers
-+
-+There are several changes in glibc 2.36 that make sys/mount.h header
-+incompatible with kernel headers:
-+
-+https://sourceware.org/glibc/wiki/Release/2.36#Usage_of_.3Clinux.2Fmount.h.3E_and_.3Csys.2Fmount.h.3E
-+
-+This patch removes conflicting includes for `<linux/mount.h>` and
-+updates the content of `criu/include/linux/mount.h` to match
-+`/usr/include/sys/mount.h`. In addition, inline definitions sys_*()
-+functions have been moved from "linux/mount.h" to "syscall.h" to
-+avoid conflicts with `uapi/compel/plugins/std/syscall.h` and
-+`<unistd.h>`. The include for `<linux/aio_abi.h>` has been replaced
-+with local include to avoid conflicts with `<sys/mount.h>`.
-+
-+Fixes: #1949
-+
-+Signed-off-by: Radostin Stoyanov <rstoyanov@fedoraproject.org>
-+---
-+ Makefile.config              |  2 +-
-+ criu/cgroup.c                |  1 +
-+ criu/cr-check.c              |  2 +-
-+ criu/cr-restore.c            |  3 ++-
-+ criu/include/aio.h           |  2 +-
-+ criu/include/linux/aio_abi.h | 14 +++++++++++
-+ criu/include/linux/mount.h   | 48 +++++++++++++++++++-----------------
-+ criu/include/syscall.h       | 17 +++++++++++++
-+ criu/pie/parasite.c          |  2 +-
-+ criu/util.c                  |  1 +
-+ scripts/feature-tests.mak    | 13 ----------
-+ 11 files changed, 64 insertions(+), 41 deletions(-)
-+ create mode 100644 criu/include/linux/aio_abi.h
-+ create mode 100644 criu/include/syscall.h
-+
-+diff --git a/Makefile.config b/Makefile.config
-+index d113e2246..270ec61c0 100644
-+--- a/Makefile.config
-++++ b/Makefile.config
-+@@ -78,7 +78,7 @@ export DEFINES += $(FEATURE_DEFINES)
-+ export CFLAGS += $(FEATURE_DEFINES)
-+ 
-+ FEATURES_LIST	:= TCP_REPAIR STRLCPY STRLCAT PTRACE_PEEKSIGINFO \
-+-	SETPROCTITLE_INIT MEMFD TCP_REPAIR_WINDOW FSCONFIG MEMFD_CREATE OPENAT2
-++	SETPROCTITLE_INIT MEMFD TCP_REPAIR_WINDOW MEMFD_CREATE OPENAT2
-+ 
-+ # $1 - config name
-+ define gen-feature-test
-+diff --git a/criu/cgroup.c b/criu/cgroup.c
-+index e05b0832e..325df6a1d 100644
-+--- a/criu/cgroup.c
-++++ b/criu/cgroup.c
-+@@ -27,6 +27,7 @@
-+ #include "images/cgroup.pb-c.h"
-+ #include "kerndat.h"
-+ #include "linux/mount.h"
-++#include "syscall.h"
-+ 
-+ /*
-+  * This structure describes set of controller groups
-+diff --git a/criu/cr-check.c b/criu/cr-check.c
-+index f589a91da..0ca80192c 100644
-+--- a/criu/cr-check.c
-++++ b/criu/cr-check.c
-+@@ -21,7 +21,6 @@
-+ #include <sys/prctl.h>
-+ #include <sched.h>
-+ #include <sys/mount.h>
-+-#include <linux/aio_abi.h>
-+ 
-+ #include "../soccr/soccr.h"
-+ 
-+@@ -52,6 +51,7 @@
-+ #include "net.h"
-+ #include "restorer.h"
-+ #include "uffd.h"
-++#include "linux/aio_abi.h"
-+ 
-+ #include "images/inventory.pb-c.h"
-+ 
-+diff --git a/criu/cr-restore.c b/criu/cr-restore.c
-+index 279246c19..d11d28173 100644
-+--- a/criu/cr-restore.c
-++++ b/criu/cr-restore.c
-+@@ -22,7 +22,6 @@
-+ #include <compel/ptrace.h>
-+ #include "common/compiler.h"
-+ 
-+-#include "linux/mount.h"
-+ #include "linux/rseq.h"
-+ 
-+ #include "clone-noasan.h"
-+@@ -86,6 +85,8 @@
-+ #include <compel/plugins/std/syscall-codes.h>
-+ #include "compel/include/asm/syscall.h"
-+ 
-++#include "linux/mount.h"
-++
-+ #include "protobuf.h"
-+ #include "images/sa.pb-c.h"
-+ #include "images/timer.pb-c.h"
-+diff --git a/criu/include/aio.h b/criu/include/aio.h
-+index d1655739d..38e704020 100644
-+--- a/criu/include/aio.h
-++++ b/criu/include/aio.h
-+@@ -1,7 +1,7 @@
-+ #ifndef __CR_AIO_H__
-+ #define __CR_AIO_H__
-+ 
-+-#include <linux/aio_abi.h>
-++#include "linux/aio_abi.h"
-+ #include "images/mm.pb-c.h"
-+ unsigned int aio_estimate_nr_reqs(unsigned int size);
-+ int dump_aio_ring(MmEntry *mme, struct vma_area *vma);
-+diff --git a/criu/include/linux/aio_abi.h b/criu/include/linux/aio_abi.h
-+new file mode 100644
-+index 000000000..d9ce78720
-+--- /dev/null
-++++ b/criu/include/linux/aio_abi.h
-+@@ -0,0 +1,14 @@
-++#ifndef __LINUX__AIO_ABI_H
-++#define __LINUX__AIO_ABI_H
-++
-++typedef __kernel_ulong_t aio_context_t;
-++
-++/* read() from /dev/aio returns these structures. */
-++struct io_event {
-++	__u64 data; /* the data field from the iocb */
-++	__u64 obj;  /* what iocb this event came from */
-++	__s64 res;  /* result code for this event */
-++	__s64 res2; /* secondary result */
-++};
-++
-++#endif /* __LINUX__AIO_ABI_H */
-+diff --git a/criu/include/linux/mount.h b/criu/include/linux/mount.h
-+index 9a3a28b10..0d55a588c 100644
-+--- a/criu/include/linux/mount.h
-++++ b/criu/include/linux/mount.h
-+@@ -4,32 +4,34 @@
-+ #include "common/config.h"
-+ #include "compel/plugins/std/syscall-codes.h"
-+ 
-+-#ifdef CONFIG_HAS_FSCONFIG
-+-#include <linux/mount.h>
-+-#else
-++/* Copied from /usr/include/sys/mount.h */
-++
-++#ifndef FSCONFIG_CMD_CREATE
-++/* The type of fsconfig call made.   */
-+ enum fsconfig_command {
-+-	FSCONFIG_SET_FLAG = 0,	      /* Set parameter, supplying no value */
-+-	FSCONFIG_SET_STRING = 1,      /* Set parameter, supplying a string value */
-+-	FSCONFIG_SET_BINARY = 2,      /* Set parameter, supplying a binary blob value */
-+-	FSCONFIG_SET_PATH = 3,	      /* Set parameter, supplying an object by path */
-+-	FSCONFIG_SET_PATH_EMPTY = 4,  /* Set parameter, supplying an object by (empty) path */
-+-	FSCONFIG_SET_FD = 5,	      /* Set parameter, supplying an object by fd */
-+-	FSCONFIG_CMD_CREATE = 6,      /* Invoke superblock creation */
-++	FSCONFIG_SET_FLAG = 0, /* Set parameter, supplying no value */
-++#define FSCONFIG_SET_FLAG FSCONFIG_SET_FLAG
-++	FSCONFIG_SET_STRING = 1, /* Set parameter, supplying a string value */
-++#define FSCONFIG_SET_STRING FSCONFIG_SET_STRING
-++	FSCONFIG_SET_BINARY = 2, /* Set parameter, supplying a binary blob value */
-++#define FSCONFIG_SET_BINARY FSCONFIG_SET_BINARY
-++	FSCONFIG_SET_PATH = 3, /* Set parameter, supplying an object by path */
-++#define FSCONFIG_SET_PATH FSCONFIG_SET_PATH
-++	FSCONFIG_SET_PATH_EMPTY = 4, /* Set parameter, supplying an object by (empty) path */
-++#define FSCONFIG_SET_PATH_EMPTY FSCONFIG_SET_PATH_EMPTY
-++	FSCONFIG_SET_FD = 5, /* Set parameter, supplying an object by fd */
-++#define FSCONFIG_SET_FD FSCONFIG_SET_FD
-++	FSCONFIG_CMD_CREATE = 6, /* Invoke superblock creation */
-++#define FSCONFIG_CMD_CREATE FSCONFIG_CMD_CREATE
-+ 	FSCONFIG_CMD_RECONFIGURE = 7, /* Invoke superblock reconfiguration */
-++#define FSCONFIG_CMD_RECONFIGURE FSCONFIG_CMD_RECONFIGURE
-+ };
-+-#endif
-++#endif // FSCONFIG_CMD_CREATE
-+ 
-+-static inline int sys_fsopen(const char *fsname, unsigned int flags)
-+-{
-+-	return syscall(__NR_fsopen, fsname, flags);
-+-}
-+-static inline int sys_fsconfig(int fd, unsigned int cmd, const char *key, const char *value, int aux)
-+-{
-+-	return syscall(__NR_fsconfig, fd, cmd, key, value, aux);
-+-}
-+-static inline int sys_fsmount(int fd, unsigned int flags, unsigned int attr_flags)
-+-{
-+-	return syscall(__NR_fsmount, fd, flags, attr_flags);
-+-}
-++#ifndef MS_MGC_VAL
-++/* Magic mount flag number. Has to be or-ed to the flag values.  */
-++#define MS_MGC_VAL 0xc0ed0000 /* Magic flag number to indicate "new" flags */
-++#define MS_MGC_MSK 0xffff0000 /* Magic flag number mask */
-++#endif
-+ 
-+ #endif
-+diff --git a/criu/include/syscall.h b/criu/include/syscall.h
-+new file mode 100644
-+index 000000000..c38d6d971
-+--- /dev/null
-++++ b/criu/include/syscall.h
-+@@ -0,0 +1,17 @@
-++#ifndef __CR_SYSCALL_H__
-++#define __CR_SYSCALL_H__
-++
-++static inline int sys_fsopen(const char *fsname, unsigned int flags)
-++{
-++	return syscall(__NR_fsopen, fsname, flags);
-++}
-++static inline int sys_fsconfig(int fd, unsigned int cmd, const char *key, const char *value, int aux)
-++{
-++	return syscall(__NR_fsconfig, fd, cmd, key, value, aux);
-++}
-++static inline int sys_fsmount(int fd, unsigned int flags, unsigned int attr_flags)
-++{
-++	return syscall(__NR_fsmount, fd, flags, attr_flags);
-++}
-++
-++#endif /* __CR_SYSCALL_H__ */
-+\ No newline at end of file
-+diff --git a/criu/pie/parasite.c b/criu/pie/parasite.c
-+index e7eb1fcb6..f75fe13bb 100644
-+--- a/criu/pie/parasite.c
-++++ b/criu/pie/parasite.c
-+@@ -3,7 +3,6 @@
-+ #include <signal.h>
-+ #include <linux/limits.h>
-+ #include <linux/capability.h>
-+-#include <sys/mount.h>
-+ #include <stdarg.h>
-+ #include <sys/ioctl.h>
-+ #include <sys/uio.h>
-+@@ -14,6 +13,7 @@
-+ #include "int.h"
-+ #include "types.h"
-+ #include <compel/plugins/std/syscall.h>
-++#include "linux/mount.h"
-+ #include "parasite.h"
-+ #include "fcntl.h"
-+ #include "prctl.h"
-+diff --git a/criu/util.c b/criu/util.c
-+index 5f69465b4..060ca3bd4 100644
-+--- a/criu/util.c
-++++ b/criu/util.c
-+@@ -40,6 +40,7 @@
-+ #include "mem.h"
-+ #include "namespaces.h"
-+ #include "criu-log.h"
-++#include "syscall.h"
-+ 
-+ #include "clone-noasan.h"
-+ #include "cr_options.h"
-+diff --git a/scripts/feature-tests.mak b/scripts/feature-tests.mak
-+index 014e893a8..fb5d2ef7a 100644
-+--- a/scripts/feature-tests.mak
-++++ b/scripts/feature-tests.mak
-+@@ -137,19 +137,6 @@ ENTRY(main)
-+ END(main)
-+ endef
-+ 
-+-define FEATURE_TEST_FSCONFIG
-+-
-+-#include <linux/mount.h>
-+-
-+-int main(void)
-+-{
-+-	if (FSCONFIG_CMD_CREATE > 0)
-+-		return 0;
-+-	return 0;
-+-}
-+-
-+-endef
-+-
-+ define FEATURE_TEST_NFTABLES_LIB_API_0
-+ 
-+ #include <string.h>
-+-- 
-+2.34.1
-+
-diff --git a/recipes-containers/criu/files/0005-mount-add-definition-for-FSOPEN_CLOEXEC.patch b/recipes-containers/criu/files/0005-mount-add-definition-for-FSOPEN_CLOEXEC.patch
-new file mode 100644
-index 0000000..dc41d36
---- /dev/null
-+++ b/recipes-containers/criu/files/0005-mount-add-definition-for-FSOPEN_CLOEXEC.patch
-@@ -0,0 +1,110 @@
-+Upstream-Status: Backport [https://github.com/checkpoint-restore/criu/commit/517c0947]
-+
-+Signed-off-by: Kai Kang <kai.kang@windriver.com>
-+
-+From 517c0947050e63aac72f63a3bf373d76264723b9 Mon Sep 17 00:00:00 2001
-+From: Radostin Stoyanov <rstoyanov@fedoraproject.org>
-+Date: Wed, 24 Aug 2022 21:20:30 +0200
-+Subject: [PATCH 2/2] mount: add definition for FSOPEN_CLOEXEC
-+
-+A recent change in glibc introduced `enum fsconfig_command` [1] and as a
-+result the compilation of criu fails with the following errors
-+
-+In file included from criu/pie/util.c:3:
-+/usr/include/sys/mount.h:240:6: error: redeclaration of 'enum fsconfig_command'
-+  240 | enum fsconfig_command
-+      |      ^~~~~~~~~~~~~~~~
-+In file included from /usr/include/sys/mount.h:32:
-+criu/include/linux/mount.h:11:6: note: originally defined here
-+   11 | enum fsconfig_command {
-+      |      ^~~~~~~~~~~~~~~~
-+/usr/include/sys/mount.h:242:3: error: redeclaration of enumerator 'FSCONFIG_SET_FLAG'
-+  242 |   FSCONFIG_SET_FLAG       = 0,    /* Set parameter, supplying no value */
-+      |   ^~~~~~~~~~~~~~~~~
-+criu/include/linux/mount.h:12:9: note: previous definition of 'FSCONFIG_SET_FLAG' with type 'enum fsconfig_command'
-+   12 |         FSCONFIG_SET_FLAG = 0, /* Set parameter, supplying no value */
-+      |         ^~~~~~~~~~~~~~~~~
-+/usr/include/sys/mount.h:244:3: error: redeclaration of enumerator 'FSCONFIG_SET_STRING'
-+  244 |   FSCONFIG_SET_STRING     = 1,    /* Set parameter, supplying a string value */
-+      |   ^~~~~~~~~~~~~~~~~~~
-+criu/include/linux/mount.h:14:9: note: previous definition of 'FSCONFIG_SET_STRING' with type 'enum fsconfig_command'
-+   14 |         FSCONFIG_SET_STRING = 1, /* Set parameter, supplying a string value */
-+      |         ^~~~~~~~~~~~~~~~~~~
-+/usr/include/sys/mount.h:246:3: error: redeclaration of enumerator 'FSCONFIG_SET_BINARY'
-+  246 |   FSCONFIG_SET_BINARY     = 2,    /* Set parameter, supplying a binary blob value */
-+      |   ^~~~~~~~~~~~~~~~~~~
-+criu/include/linux/mount.h:16:9: note: previous definition of 'FSCONFIG_SET_BINARY' with type 'enum fsconfig_command'
-+   16 |         FSCONFIG_SET_BINARY = 2, /* Set parameter, supplying a binary blob value */
-+      |         ^~~~~~~~~~~~~~~~~~~
-+/usr/include/sys/mount.h:248:3: error: redeclaration of enumerator 'FSCONFIG_SET_PATH'
-+  248 |   FSCONFIG_SET_PATH       = 3,    /* Set parameter, supplying an object by path */
-+      |   ^~~~~~~~~~~~~~~~~
-+criu/include/linux/mount.h:18:9: note: previous definition of 'FSCONFIG_SET_PATH' with type 'enum fsconfig_command'
-+   18 |         FSCONFIG_SET_PATH = 3, /* Set parameter, supplying an object by path */
-+      |         ^~~~~~~~~~~~~~~~~
-+/usr/include/sys/mount.h:250:3: error: redeclaration of enumerator 'FSCONFIG_SET_PATH_EMPTY'
-+  250 |   FSCONFIG_SET_PATH_EMPTY = 4,    /* Set parameter, supplying an object by (empty) path */
-+      |   ^~~~~~~~~~~~~~~~~~~~~~~
-+criu/include/linux/mount.h:20:9: note: previous definition of 'FSCONFIG_SET_PATH_EMPTY' with type 'enum fsconfig_command'
-+   20 |         FSCONFIG_SET_PATH_EMPTY = 4, /* Set parameter, supplying an object by (empty) path */
-+      |         ^~~~~~~~~~~~~~~~~~~~~~~
-+/usr/include/sys/mount.h:252:3: error: redeclaration of enumerator 'FSCONFIG_SET_FD'
-+  252 |   FSCONFIG_SET_FD         = 5,    /* Set parameter, supplying an object by fd */
-+      |   ^~~~~~~~~~~~~~~
-+criu/include/linux/mount.h:22:9: note: previous definition of 'FSCONFIG_SET_FD' with type 'enum fsconfig_command'
-+   22 |         FSCONFIG_SET_FD = 5, /* Set parameter, supplying an object by fd */
-+      |         ^~~~~~~~~~~~~~~
-+/usr/include/sys/mount.h:254:3: error: redeclaration of enumerator 'FSCONFIG_CMD_CREATE'
-+  254 |   FSCONFIG_CMD_CREATE     = 6,    /* Invoke superblock creation */
-+      |   ^~~~~~~~~~~~~~~~~~~
-+criu/include/linux/mount.h:24:9: note: previous definition of 'FSCONFIG_CMD_CREATE' with type 'enum fsconfig_command'
-+   24 |         FSCONFIG_CMD_CREATE = 6, /* Invoke superblock creation */
-+      |         ^~~~~~~~~~~~~~~~~~~
-+/usr/include/sys/mount.h:256:3: error: redeclaration of enumerator 'FSCONFIG_CMD_RECONFIGURE'
-+  256 |   FSCONFIG_CMD_RECONFIGURE = 7,   /* Invoke superblock reconfiguration */
-+      |   ^~~~~~~~~~~~~~~~~~~~~~~~
-+criu/include/linux/mount.h:26:9: note: previous definition of 'FSCONFIG_CMD_RECONFIGURE' with type 'enum fsconfig_command'
-+   26 |         FSCONFIG_CMD_RECONFIGURE = 7, /* Invoke superblock reconfiguration */
-+
-+This patch adds definition for FSOPEN_CLOEXEC to solve this problem. In particular,
-+sys/mount.h includes ifndef check for FSOPEN_CLOEXEC surrounding `enum fsconfig_command`.
-+
-+[1] https://sourceware.org/git/?p=glibc.git;a=commitdiff;h=7eae6a91e9b1670330c9f15730082c91c0b1d570
-+
-+Reported-by: Younes Manton (@ymanton)
-+Signed-off-by: Radostin Stoyanov <rstoyanov@fedoraproject.org>
-+---
-+ criu/include/linux/mount.h | 10 ++++++++--
-+ 1 file changed, 8 insertions(+), 2 deletions(-)
-+
-+diff --git a/criu/include/linux/mount.h b/criu/include/linux/mount.h
-+index 0d55a588c..fefafa89e 100644
-+--- a/criu/include/linux/mount.h
-++++ b/criu/include/linux/mount.h
-+@@ -6,7 +6,7 @@
-+ 
-+ /* Copied from /usr/include/sys/mount.h */
-+ 
-+-#ifndef FSCONFIG_CMD_CREATE
-++#ifndef FSOPEN_CLOEXEC
-+ /* The type of fsconfig call made.   */
-+ enum fsconfig_command {
-+ 	FSCONFIG_SET_FLAG = 0, /* Set parameter, supplying no value */
-+@@ -26,7 +26,13 @@ enum fsconfig_command {
-+ 	FSCONFIG_CMD_RECONFIGURE = 7, /* Invoke superblock reconfiguration */
-+ #define FSCONFIG_CMD_RECONFIGURE FSCONFIG_CMD_RECONFIGURE
-+ };
-+-#endif // FSCONFIG_CMD_CREATE
-++
-++#endif // FSOPEN_CLOEXEC
-++
-++/* fsopen flags. With the redundant definition, we check if the kernel,
-++ * glibc value and our value still match.
-++ */
-++#define FSOPEN_CLOEXEC 0x00000001
-+ 
-+ #ifndef MS_MGC_VAL
-+ /* Magic mount flag number. Has to be or-ed to the flag values.  */
-+-- 
-+2.34.1
-+
+Summary: we'll keep the branch the same, and take this commit as-is, since
+it will be easy to fixup in the future.
+
+Bruce
+
+
+>
+>
+> Kai Kang (1):
+>   criu: 3.17 -> 3.17.1
+>
+>  recipes-containers/criu/criu_git.bb           |  12 +-
+>  ...u-Change-libraries-install-directory.patch |   6 +-
+>  .../0004-criu-fix-conflicting-headers.patch   | 288 ++++++++++++++++++
+>  ...nt-add-definition-for-FSOPEN_CLOEXEC.patch | 110 +++++++
+>  4 files changed, 411 insertions(+), 5 deletions(-)
+>  create mode 100644
+> recipes-containers/criu/files/0004-criu-fix-conflicting-headers.patch
+>  create mode 100644
+> recipes-containers/criu/files/0005-mount-add-definition-for-FSOPEN_CLOEXEC.patch
+>
+> --
+> 2.17.1
+>
+>
+
 -- 
-2.17.1
+- Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
+--00000000000056d74205e9d11cbe
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
+t-size:small"><br></div></div><br><div class=3D"gmail_quote"><div dir=3D"lt=
+r" class=3D"gmail_attr">On Thu, Sep 29, 2022 at 4:51 AM &lt;<a href=3D"mail=
+to:kai.kang@windriver.com" target=3D"_blank">kai.kang@windriver.com</a>&gt;=
+ wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">From: Ka=
+i Kang &lt;<a href=3D"mailto:kai.kang@windriver.com" target=3D"_blank">kai.=
+kang@windriver.com</a>&gt;<br>
+<br>
+Hi Bruce,<br>
+<br>
+The latest release is 3.17.1 but not include commits to fix for glibc<br>
+2.36. So backport them at same time.<br>
+<br></blockquote><div><br></div><div><div class=3D"gmail_default" style=3D"=
+font-size:small">I would have preferred not to have the patch, so I spent s=
+ome time digging around the criu repository this morning.</div></div><div c=
+lass=3D"gmail_default" style=3D"font-size:small"><br></div><div class=3D"gm=
+ail_default" style=3D"font-size:small">And yes indeed, it is on criu-dev, b=
+ut not on master. And while criu-dev has the 3.17 &quot;release&quot; commi=
+t, it doesn&#39;t have the 3.17.1 commit .. while we could switch to criu-d=
+ev for the branch, and pickup this fix and a few others, that&#39;s more ch=
+urn than just taking the patch. I&#39;m not concerned about staying on the =
+release commits, since they don&#39;t really do anything, so not having the=
+ 3.17.1 commit on criu-dev isn&#39;t a concern to me.=C2=A0</div><div class=
+=3D"gmail_default" style=3D"font-size:small"><br></div><div class=3D"gmail_=
+default" style=3D"font-size:small">Summary: we&#39;ll keep the branch the s=
+ame, and take this commit as-is, since it will be easy to fixup in the futu=
+re.</div><div class=3D"gmail_default" style=3D"font-size:small"><br></div><=
+div class=3D"gmail_default" style=3D"font-size:small">Bruce</div><div>=C2=
+=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
+x;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+<br>
+Kai Kang (1):<br>
+=C2=A0 criu: 3.17 -&gt; 3.17.1<br>
+<br>
+=C2=A0recipes-containers/criu/<a href=3D"http://criu_git.bb" rel=3D"norefer=
+rer" target=3D"_blank">criu_git.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0|=C2=A0 12 +-<br>
+=C2=A0...u-Change-libraries-install-directory.patch |=C2=A0 =C2=A06 +-<br>
+=C2=A0.../0004-criu-fix-conflicting-headers.patch=C2=A0 =C2=A0| 288 +++++++=
++++++++++++<br>
+=C2=A0...nt-add-definition-for-FSOPEN_CLOEXEC.patch | 110 +++++++<br>
+=C2=A04 files changed, 411 insertions(+), 5 deletions(-)<br>
+=C2=A0create mode 100644 recipes-containers/criu/files/0004-criu-fix-confli=
+cting-headers.patch<br>
+=C2=A0create mode 100644 recipes-containers/criu/files/0005-mount-add-defin=
+ition-for-FSOPEN_CLOEXEC.patch<br>
+<br>
+-- <br>
+2.17.1<br>
+<br>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
+>- Thou shalt not follow the NULL pointer, for chaos and madness await thee=
+ at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star Trek II<br=
+><br></div></div>
+
+--00000000000056d74205e9d11cbe--
 
