@@ -1,106 +1,103 @@
-Return-Path: <danismostlikely@gmail.com>
+Return-Path: <g.meyer@signum-media.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CA5BDC433FE
-	for <webhook@archiver.kernel.org>; Thu, 29 Sep 2022 21:42:48 +0000 (UTC)
-Received: from mail-io1-f44.google.com (mail-io1-f44.google.com
- [209.85.166.44])
- by mx.groups.io with SMTP id smtpd.web08.16457.1664487761084346756
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8BA5C433FE
+	for <webhook@archiver.kernel.org>; Fri, 30 Sep 2022 09:32:07 +0000 (UTC)
+Received: from mail.rpgmaster.net (mail.rpgmaster.net [78.46.222.82])
+ by mx.groups.io with SMTP id smtpd.web12.3618.1664530320066594285
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 29 Sep 2022 14:42:41 -0700
+ Fri, 30 Sep 2022 02:32:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=JnP6ob6X;
- spf=pass (domain: gmail.com, ip: 209.85.166.44,
- mailfrom: danismostlikely@gmail.com)
-Received: by mail-io1-f44.google.com with SMTP id e205so1964490iof.1
-        for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 29 Sep 2022 14:42:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
-        bh=ynD9n4X1jvj6xX1cV7Hgu9yba9OUkdZPYmsXU0XDP70=;
-        b=JnP6ob6XS+vAIq/VZsH4nSsOByWE5bKrvlKysltWLMPbzSpe1cy7DFAT5ebI69HQq+
-         CB6gkIxP2AeHvuTIylC5bY1cIJadzRmlNZXku7XiqipCs122cU7j4K2Z92DX4T5D1gev
-         WdBvjSBKSz/ABNOPFIwRsUBzb/TLH0G/pVtQvrheS7DEozNYC7cnhG7x5GezEY7/Q1Y9
-         o4sLBEygQGdYbffCGSs5WorhlXIPsF+JYKiMM5YKTN0gOZP3ghPSXkCGJwilsH5UEfvJ
-         oauGlnuIGMDDqV+DXfBydjMX/qs5fh4Q9lYrNSIsvpZrdn4KykjHEZB1xMDljtvfhwvd
-         /4RA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=ynD9n4X1jvj6xX1cV7Hgu9yba9OUkdZPYmsXU0XDP70=;
-        b=6N7mHklw1xpdImkrlH8hZJGzTUWKTzUXYcOHdDXqedqy/QQanUdBPwJYg/YsStg4q2
-         BJ3OvcjAXV8jSf2JWiiI64sTLeqRWBSatzyepvqHOD1vmDxC3YVJaQVi7HBcbBy08Dkm
-         mXKFWbsLw95+OSD1Yorxeg0JxDdD8o347xab6s3jkYWkjiTzb+pusKIR2he0qyvJJukq
-         EzGPVVJP/UNUTzcnjbsurbUN3MS8ltPJa8f8gKxe/TQ9e8GUcMTI6KIxQr49umsUUv10
-         1WZOSkVDbYL2LUbzHfFflAgwwHifpB2pRGtjADf+BcCGFrU7ZQRdOiHxOkTd7a8u2SuR
-         AOQg==
-X-Gm-Message-State: ACrzQf0Qz5VgrGmKlkcKz5MxrJwxhUgfOpyT+m4+3nV2hn1pzRHGyrWv
-	H6BjXHWdi0445R4TS7TPb/QOrJqET1E=
-X-Google-Smtp-Source: 
- AMsMyM5f4r3qXNNrNbzdgmJXLfzuajoNPgqED4HdtRzT08scb0KoVOAJmgMTsyj9LEynGYR4hTxtkw==
-X-Received: by 2002:a02:cb95:0:b0:358:324e:79ea with SMTP id
- u21-20020a02cb95000000b00358324e79eamr3002982jap.301.1664487760280;
-        Thu, 29 Sep 2022 14:42:40 -0700 (PDT)
-Received: from nebuchadnezzar.home.arpa ([204.83.204.143])
-        by smtp.gmail.com with ESMTPSA id
- x37-20020a0294a8000000b003583063a6cdsm204330jah.104.2022.09.29.14.42.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Sep 2022 14:42:39 -0700 (PDT)
-From: Dan McGregor <danismostlikely@gmail.com>
+ dkim=pass header.i=@signum-media.de header.s=rpgmaster header.b=q71zU0r3;
+ spf=pass (domain: signum-media.de, ip: 78.46.222.82,
+ mailfrom: g.meyer@signum-media.de)
+Received: from serenity (i5C7584D8.versanet.de [92.117.132.216])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits)
+ server-digest SHA256)
+	(No client certificate requested)
+	by mail.rpgmaster.net (Postfix) with ESMTPSA id 43E8F240DD
+	for <meta-virtualization@lists.yoctoproject.org>;
+ Fri, 30 Sep 2022 11:31:57 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=signum-media.de;
+	s=rpgmaster; t=1664530317;
+	bh=hUmwAqJ6j3+4V9f6GNfhUQOLHT9GPbW3EjkBHnabBcA=;
+	h=Date:From:To:Subject:In-Reply-To:References;
+	b=q71zU0r37ckE3+RMzNyIoWXTi4QelvmDn90HD2/FdpSOhd3+JpEfQNjy+n5oG88tP
+	 7tMNAgVqDVgEGRil9MUd/wce6MKTC9r9YxQQh0OFk+2hitDB3N1pfnbSAtaSTwUe6L
+	 lOkz60yf9S+9jv3h3b6Ey1IXa7/4uLgQDiXvsi0E=
+Date: Fri, 30 Sep 2022 11:31:46 +0200
+From: Guenther Meyer <g.meyer@signum-media.de>
 To: meta-virtualization@lists.yoctoproject.org
-Cc: Dan McGregor <dan.mcgregor@usask.ca>
-Subject: [meta-virtualization][PATCH 2/2] cloud-init: add Apache-2.0 as a
- LICENSE option
-Date: Thu, 29 Sep 2022 15:42:24 -0600
-Message-Id: <20220929214224.2054-2-danismostlikely@gmail.com>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20220929214224.2054-1-danismostlikely@gmail.com>
-References: <20220929214224.2054-1-danismostlikely@gmail.com>
+Subject: Re: [meta-virtualization] [PATCH] fixed typos in kubernetes recipe
+Message-ID: <20220930113146.62937a0f@serenity>
+In-Reply-To: 
+ <CADkTA4Pm9_Y0GVr6rbC33FqShBNCTM7usJiJ5esnSW6XY7u7Gg@mail.gmail.com>
+References: <20220920133406.26b27242@serenity>
+	<CADkTA4PZY7rBbQwN1AH2D+AWxAqYi5ndmvGwvxmL-xMdPtuFdg@mail.gmail.com>
+	<20220926102346.7a0d6fbb@serenity>
+	<CADkTA4Pm9_Y0GVr6rbC33FqShBNCTM7usJiJ5esnSW6XY7u7Gg@mail.gmail.com>
+Organization: Signum-Media Veranstaltungs- und Datentechnik
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; boundary="Sig_/eAc9+JAws.66UGLWYdeGZZX";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Thu, 29 Sep 2022 21:42:48 -0000
+ <meta-virtualization@lists.yoctoproject.org>; Fri, 30 Sep 2022 09:32:07 -0000
 X-Groupsio-URL: 
- https://lists.yoctoproject.org/g/meta-virtualization/message/7635
+ https://lists.yoctoproject.org/g/meta-virtualization/message/7636
 
-From: Dan McGregor <dan.mcgregor@usask.ca>
+--Sig_/eAc9+JAws.66UGLWYdeGZZX
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-cloud-init has been dual licensed for a while.  According to the
-LICENSE file this package is dual-licensed Apache 2 and GPL 3. This has
-been the case since commit b2a9f3361 in 2016. This has applied to every
-release since 17.1.
+On Mon, 26 Sep 2022 08:48:50 -0400
+"Bruce Ashfield" <bruce.ashfield@gmail.com> wrote:
 
-Signed-off-by: Dan McGregor <dan.mcgregor@usask.ca>
----
- recipes-extended/cloud-init/cloud-init_21.4.bb | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+> git send-email is heavily used, both in the OE ecosystem and many
+> others. I'm not sure I follow what security concerns you might have
+> with it .. but if you have anything specific let us know. Because it
+> would affect all projects using it!
 
-diff --git a/recipes-extended/cloud-init/cloud-init_21.4.bb b/recipes-extended/cloud-init/cloud-init_21.4.bb
-index 9c9b56f18e3..e5f5b79e52e 100644
---- a/recipes-extended/cloud-init/cloud-init_21.4.bb
-+++ b/recipes-extended/cloud-init/cloud-init_21.4.bb
-@@ -1,8 +1,11 @@
- DESCRIPTION = "Init scripts for use on cloud images"
- HOMEPAGE = "https://github.com/canonical/cloud-init"
- SECTION = "devel/python"
--LICENSE = "GPL-3.0-only"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=c6dd79b6ec2130a3364f6fa9d6380408"
-+LICENSE = "GPL-3.0-only | Apache-2.0"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=c6dd79b6ec2130a3364f6fa9d6380408 \
-+    file://LICENSE-GPLv3;md5=d32239bcb673463ab874e80d47fae504 \
-+    file://LICENSE-Apache2.0;md5=3b83ef96387f14655fc854ddc3c6bd57 \
-+"
- 
- SRCREV = "a97fd062f7dbd4b824fd006edd08927ef9dbf24a"
- SRC_URI = "git://github.com/canonical/cloud-init;branch=main;protocol=https \
--- 
-2.37.3
+Thank you for all the information!
 
+As I understand, git send-email connects directly to an SMTP server to
+send out the patch. Inside a company network this could be a problem
+because it's usually not allowed that an arbitrary binary can send
+emails directly, at least in my experience.
+
+
+> I consider this a request to backport, so I've cherry-picked the patch
+> and merged it to kirkstone.
+
+Thanks!
+
+Guenther
+
+
+--Sig_/eAc9+JAws.66UGLWYdeGZZX
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEzA/1q58SJcycb7/KVdabz09aRfwFAmM2t4IACgkQVdabz09a
+RfwvWA/9HaxUtb8rL8nrTXdgmPqVggcQj/ucw7PIlL3A4y8ViwfupIqsH9wQasQS
+xjTQy2eat4JPPyiwPVBmQRAHu6HnKCyOI49FhGWip9UNa9otPyYExfD+/h9Luw0j
+h0fVlSWlHX/4B050p7pi83Mncv7PbHhSESTxWN2s6Fp7PSk2l0pq7FwTM+QxTjTM
+QwpxtNXsqAZwoh7abgO25JCgt/FgKaFDP8VKr50BOzC9iac3XbZaWHLtdjyIR4tF
+UrddOwEZG6DNuhcVpqJUCLhj7haaOKrEnczhG2ycHvdawHbUTjiI83SwfwWVGYQ/
+/WsyXfj8vtLd8qtM4+88PY4ESrbTaRTYGxkcJr931jeISbl59TkAJT4fcdHS7dt1
+CaLxKoQ5a9y7knRhElr9COFm/KwtolkfTgQK1QnU+iiAoejEWPNVloN3FrDVIuWx
+mJaFJo4qcbFckcPI0XSGTYkGL+l563N+iZt88IzKMIBQzkjOdnHfc0v+FvFy8gdg
+frs3DjOdfefRLpKtucEWGEczTL8IsT0XUKuCb6OsIknDJf7w6hOEXUewhHoW3xnu
+nXgj6tifL2vJ9CKi4gtmJV4XTuoI5JwlyTvKvQSxbAMWpcCKK4FwiIeN6mRLsKIw
+FBhcR+jnDzldVWo4Jxrj/ilMsroIleg/5cBBDRKcudLo4qWxq+M=
+=DJj/
+-----END PGP SIGNATURE-----
+
+--Sig_/eAc9+JAws.66UGLWYdeGZZX--
 
