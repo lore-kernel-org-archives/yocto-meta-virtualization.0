@@ -1,240 +1,230 @@
-Return-Path: <vasileios.anagnostopoulos@siemens.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05D7DC433FE
-	for <webhook@archiver.kernel.org>; Mon, 17 Oct 2022 11:16:13 +0000 (UTC)
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com (EUR05-AM6-obe.outbound.protection.outlook.com [40.107.22.72])
- by mx.groups.io with SMTP id smtpd.web09.39638.1666005368641496610
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48C97C433FE
+	for <webhook@archiver.kernel.org>; Mon, 17 Oct 2022 12:06:13 +0000 (UTC)
+Received: from mail-io1-f53.google.com (mail-io1-f53.google.com [209.85.166.53])
+ by mx.groups.io with SMTP id smtpd.web10.39887.1666008369467278977
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 17 Oct 2022 04:16:09 -0700
+ Mon, 17 Oct 2022 05:06:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@siemens.com header.s=selector2 header.b=Al8WTI4U;
- spf=pass (domain: siemens.com, ip: 40.107.22.72, mailfrom: vasileios.anagnostopoulos@siemens.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=D0LPqhRzfx//qLZxeWNC3+BFQ3btBHctFBQx0Z9qWTBDlVAp8b/P6HWI94pxzhU4sdrf2M94yO1/B8exl7wc/HlUwPZCazcieD+AYSlhLLWhYN/f1LMu+Tg45XbQ9RELwcdA7heWfs3i14JhcuskznN1zUHgxkd1P7rTd3KugSrepxUhMf/9nNjV+vaTUjvN4tJp8b6BB/rohN3LbHXftaUPyhk6eWvao4Rd+2ha1NzicYuyltuUddvNiiC5uFUGDRNdMGTxXCeeT/Eu2M1oV1vUuMsI8z2KxZbfPuQJPpws5n6cPpxJWRqRXgF6YzYyMS0/jYkro3LlxUDPLg/b9w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XPAVe9EVJ0y9URRmYALmgF6ARPKU8DL3Snq73C5Ub9I=;
- b=O/dVl5rxg3NvCg2JM2fJn6FvwPZRii0DZCN3l/kFs97cgGR5JpLSEhm+N2PhfTZKXgT+b1/PhLpdN0YsleWcueh3GW2hFk2Q5ZYGVH78/oWIbF3xpOw3N1wZgN24LZQBPDTq1bAHvcDnl+nVu3QFK8HyaZ7ZyaRhiTKooeRwL39Yc0Xme6nUnvCUbR1kFzUcPh3nGOdlMmg/DKKElmeEV5tIy7bLpEPpDwWMwdfEiNSbOgOFFVDp0ZCKlSsoPGqtF6VhsHe/CFLoDDM1EDxhbRRsPVe4NRYahaZc2nkwFZK89D59eTpRyVmDsJ8Kk8ZS1qVRbqQi9HhWw+ulcDn3xA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
- dkim=pass header.d=siemens.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XPAVe9EVJ0y9URRmYALmgF6ARPKU8DL3Snq73C5Ub9I=;
- b=Al8WTI4U0fghMrA4L+jsoaN5zONBsNEuAbxgRoVVKOO0HBBAphaPJZJlwAfuaF+tQB732RIzn3yK7VmLfR4jtuAAXcJiBB9iWy7kGTRdjXdix7+qTAeuBAdOxW8WrJgI/uyPwQHhhjT47+U+SpPhK3EqxdzrpPx8Q7VKVGttFhWNRofcnpbVd2CyU7c6h9ZgpPyCY5JPH6Iqq0W9TG8NGNWVprziKtC4ndRKNsXwoNysUVbBDHPUSOhZyXdyAjfthf6M2RkixxxKGNykQxHPEzWcDDYiU6g95g17RKNLdp6YUWsy8m5IcuNNv8AZHYeYlKgyVYzQl39luI8qJJirQw==
-Received: from DB6PR1001MB1285.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:4:b6::18)
- by DB8PR10MB3689.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:13e::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.29; Mon, 17 Oct
- 2022 11:16:06 +0000
-Received: from DB6PR1001MB1285.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::25c9:37e2:180d:7dba]) by DB6PR1001MB1285.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::25c9:37e2:180d:7dba%9]) with mapi id 15.20.5723.033; Mon, 17 Oct 2022
- 11:16:06 +0000
-From: "Anagnostopoulos, Vasileios" <vasileios.anagnostopoulos@siemens.com>
-To: "meta-virtualization@lists.yoctoproject.org"
-	<meta-virtualization@lists.yoctoproject.org>
-Subject: RE: [meta-virtualization][PATCH 7/7] aardvark-dns: Add ptest support
-Thread-Topic: [meta-virtualization][PATCH 7/7] aardvark-dns: Add ptest support
-Thread-Index: AQHY4hmJFzR6DvvhHkeES+N5d9tLya4Sbvow
-Date: Mon, 17 Oct 2022 11:16:06 +0000
-Message-ID: 
- <DB6PR1001MB1285C664112541F2BCA24A60FA299@DB6PR1001MB1285.EURPRD10.PROD.OUTLOOK.COM>
-References: <20221017111121.25341-1-vasileios.anagnostopoulos@siemens.com>
- <171ED6ED0A693A56.19083@lists.yoctoproject.org>
-In-Reply-To: <171ED6ED0A693A56.19083@lists.yoctoproject.org>
-Accept-Language: de-DE, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;
- MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2022-10-17T11:16:04Z;
- MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;
- MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;
- MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;
- MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=04b80434-b3da-49c4-9440-044cb95e30fd;
- MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0
-document_confidentiality: Restricted
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siemens.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DB6PR1001MB1285:EE_|DB8PR10MB3689:EE_
-x-ms-office365-filtering-correlation-id: 0587f67d-aca1-4275-f5cb-08dab030fc27
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- TtTs3MIIoVp/G1h84mrNa3IDMLmEsvaDtybzlSRzLRhyC0Ao/UreJQ5eSAnBNUPlEB1aq2a2qY7SE+pdgG6xk5KdE945lF62EPYVntrDRLkVamW/ImzelMOl8HQqhJt75CVjUw5TTTrnXh89suQp5vV11QzSqKdSIOwWxhbN6gtEq5G6Bp6yHLKMPbh1eVyDLTrbbZQc+WlciXg7WylSi6d4POErb7EHpX8BcRztDEnJdrOvv7qk4ElAMcv+HA3xKxFz8QSEt8NoznnKga29yvWOyFvzfkhxiXP+77Cc13lenUYjDyCNE27NUtN0B1/CT91WH5TZ130iyctPVEiON1uI5NjU6jkLiUs7bi2657edDRFR2alKlq+ZrsDCD9y97xCx0BZ3pS10nKbV/8xwSJDSWDLBEfhT+kquN82Db4xj4VHRnddswo4078fcgxZlYLaO9iPFpyhLwmzjWwAgvAsyDQsyQWYE99/MUr2aWfnpSAk+CevbLtFf0rXc7EAaMsbqyTulnoxLlKB6gltOKxKkFOCNvy2pYb363eDCV3RE4AXqIiPkkBHmCDn7NrKlTeuMJIkwxesigNDlvRURQ9hi4Z3hbj8Rk10WKUhRt7J3yPT2BDuXntBUF8itSVnrTY9tPCnwcBFXBgcEO0uJk5RXNJCYgXe/OQ0dprP2OUHnlUXbIoWGwuuuwCkMb8L86UlVgmRhSci9V3qJqJaZH7pbW/b0OM/MKqozVdzT7mwQVTHCQrSrGas2/a3vTO3cZJUrRjtI1HLfyaV3egfkZw==
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB6PR1001MB1285.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230022)(4636009)(366004)(376002)(346002)(396003)(39860400002)(136003)(451199015)(186003)(83380400001)(38070700005)(86362001)(82960400001)(38100700002)(122000001)(5660300002)(2906002)(41300700001)(52536014)(8936002)(55016003)(8676002)(64756008)(478600001)(9686003)(26005)(53546011)(6506007)(7696005)(316002)(66446008)(66476007)(66556008)(66946007)(76116006)(6916009)(71200400001)(33656002);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?5Wwx5wqH/r+fi6dHjPmLZZtvfvXNMkKp8CcqKn9nwL0Vm4UQjWbLTBFNuuSk?=
- =?us-ascii?Q?psdnhXKAQEPGnBCGREjcdC578SCvBd5VXe3J0IT9OA9wplrmK613czke5dNz?=
- =?us-ascii?Q?05N5h9bgIO4mqkvaUpE+FcDHAmMkge3nUK47EcAPeDEXdR9fh0esnFMlQXpW?=
- =?us-ascii?Q?6flbSvVrIxZpCHmCATZIRIiQmeN/Do4/lzLs5jzNc6C1G05CQxk5T9te1p61?=
- =?us-ascii?Q?rFiUOOF1e+jjiCBN5dpzq6o0lPkGccR3UkCf1Y7wC21zQw5hCCBGbRgwTYKD?=
- =?us-ascii?Q?vsttrmSpRgu0jvB6jfTiiqxjxyz7ba6+IX4UbpD/DFJZ5cVMcJcSNaP/xbvU?=
- =?us-ascii?Q?SF4vnJDQrGIGLUsc+hs+Mcg4e73Nz58AWdyHk8gjQdGgEqmtu4eXTlMxOtd0?=
- =?us-ascii?Q?Y0+0QlPizu8RSdnjwXHIuAteWN6XVdcuBzRGwPmeNed+mD6kUGaUyBPY1sJq?=
- =?us-ascii?Q?TZEKH7m2PF8JUhPDt5yvgK7kvN25fL28Ps5PJ+qC75BCwKkHUptxe905GLsM?=
- =?us-ascii?Q?3yxvUQZhD8aYGh/eC9OkHIWSJXKO+9Hj140ygnDOBweyUAKQ4beX4ShX5TZ9?=
- =?us-ascii?Q?BUlXhaVs0AHRwBwohPgNdBL2PXYy1yYZ+2R27TAS0KR2Qpj8ZtcdAVIhTcj5?=
- =?us-ascii?Q?0Acs/r2SJdIAPqwC6h0RJIHquiydohmCe0XY1vTG7YaZ947TkcC/iL5JIruD?=
- =?us-ascii?Q?z4PCe/Ex8dCyVv4+Jt3MlVkV/DYr+QjEZ1nqyhNTyM5gsy9xJcdwAnZFMB7G?=
- =?us-ascii?Q?/KW18dJvOQjLr0hQ3sQ+yLPowM3PSpP+sgUe5zQvtSK+D3vQdhce5JNi/395?=
- =?us-ascii?Q?EA43Oyqiw8BBYr6GUGpURsOKNptzTyWdeVQJU/AWk50SEJc77lJ4MqwkJ6l4?=
- =?us-ascii?Q?i/9GIXsLJifg2bjbN7K0k1ok5OCGnGcaZw/MsFoAKMqtt9HFwaLJKfVT+rde?=
- =?us-ascii?Q?x8fnGgjY370WUkr4msJOXO/pKRPPNV+i+Ym9lvzgkgqU7XcsQRsdVO7QUUv+?=
- =?us-ascii?Q?4aV5VeOynpjFFQbVOw0kSfAlt9+vrFG7u8YAYQ9kCHUVM7UrSgVbqbWlpAst?=
- =?us-ascii?Q?PlRCO79FoNgBhgD+HqMdC8Yq34BqCcqVKy56z4kyET97Jm0qMJKo42LXeEQP?=
- =?us-ascii?Q?F6GPnCndQWoB8v7KYCHshKBIoyXWK8E1feaCvj20FblkpwDRUZgJ5nHFJz+A?=
- =?us-ascii?Q?Pao08G6ePVyND4KMJKB9dMX6Cl0sRaS1qugpQEwuZ11HJMuAwNy4yF61yn3z?=
- =?us-ascii?Q?nFhi2N+Vng132kInhbZs//jrmlTIMwXEoVSLbuk+63EAt3kAUzDgZPzqMFv1?=
- =?us-ascii?Q?b3tTvJ16tJYJrFeMWtWQmq+zA32CcKOvnRD5j58XgvZ4R47KslU37f4+hFHJ?=
- =?us-ascii?Q?4z7F0ZIi3lCRMssFeAB/VN2Idypxol+s4HnDKB/OWgjKMWrpFQ7NioxVXODh?=
- =?us-ascii?Q?daH45y4Zc8i5gBqzM4FYpaNqRZhHPvBcz4x6V3/b8oOatbn3D9JozwihSvMv?=
- =?us-ascii?Q?PnOFBMSm3Tt6e6g5mUmqbRjzzglj26tC8Vqx3viZreGJWsFvgwzgkA23FoBD?=
- =?us-ascii?Q?CMweUgejGPEJSMgJjWIonq/BOXqfUDHIS5OsMv5jzOW9P8dvQSX/Tjz6dAbS?=
- =?us-ascii?Q?3/Qw3qrO7BCbP5rhC+cq6e0=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=mMBMsY6K;
+ spf=pass (domain: gmail.com, ip: 209.85.166.53, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-io1-f53.google.com with SMTP id r142so8808970iod.11
+        for <meta-virtualization@lists.yoctoproject.org>; Mon, 17 Oct 2022 05:06:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=RWY4iKv7MoS1Ds1HaJI593pBKv+xTZkqohhUeqLmxhs=;
+        b=mMBMsY6KwEyBicQ/NvnTV7MTdXaNjI1ismnkVjPoUmXcUkS51y1sAZ/yJUgmXi2MP5
+         jLfQ/emMVUhmCHLEywlaj+LG9N5EOBDMRxnMowmwoFa2/a4gvItzw9GjuvsPvqrUblrD
+         CfskAnlVsfSlmHL549Ofk15L25hpBaJM8vJ/vsSmRvlSFxbBVb/Qs6uWRBxB0oYq+/hu
+         ba9ikJ80ihiz5MczWsKYq4ZrewEVv5dR/2bTAU1tNZIk8MnmBDbVLXpxi4KVQfihP04K
+         RONStjtseuX2+Q+s0FuUgqs/tErr1OFHsVp0pqXJc3QJBHyaQiUNfrBbRti9xXDf20+u
+         oU3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=RWY4iKv7MoS1Ds1HaJI593pBKv+xTZkqohhUeqLmxhs=;
+        b=clvFeeW8E3eotdLLQxvGeb83Bj8Q2iWYWuhOc0G96H2VBy9q3ImL/GyR5QcA91YY7G
+         uTGhrFMv82N9u0e38ivQ2QC4FfPnMCV+B9GNbHYzRm7+Ao3Li/CyxCXgLvllsv3nQrHz
+         ANe68yEg+FMllgEo49TQYKYlpEfqHIfIRH8gL3eNJ91+nNth0crbaV33LAZudNzDRFB3
+         zgAdsrwggA7l4UE9KeLINjX6E+hvvlBs66qVhDqjWVim7S35+BRMDn2HLB+p9QGs5u1/
+         i5iTA5uBXadk81dilUbWLXx364+J6R0aAvPSkmzTPfOhstb7k47TTEITaWD6b8aIIJKW
+         dNQQ==
+X-Gm-Message-State: ACrzQf2uHTFQzgfbNWkB8sobJYu72e7VBIXSJdmZWzMtJUu/olh3vcQ2
+	dH4nhc2UGowkwARLl8K5ienKPLYaozhrW8Mhh2s=
+X-Google-Smtp-Source: AMsMyM6E05NH6OjEsCV5fnIrteQ1ZrVo8bhkDmTT7pXfUcL6+nAkkRmuoiziMTkx57eTEHJaOb4L0S5BJZzg50DHG60=
+X-Received: by 2002:a02:cf05:0:b0:363:a207:c3ff with SMTP id
+ q5-20020a02cf05000000b00363a207c3ffmr5154865jar.178.1666008368750; Mon, 17
+ Oct 2022 05:06:08 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DB6PR1001MB1285.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0587f67d-aca1-4275-f5cb-08dab030fc27
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Oct 2022 11:16:06.1586
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Tu3daGEpTeN8waTVsi+FRxkTUmoD3f8D+mHAYBSvmvPTBnkRXtH5W7BmDwPdP542Nosd/I3pNHq/iUcZBmEvctdYZqbMjSLlpchBeqZxarySupj4HTZl3RzyZp0vidWv
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR10MB3689
+References: <20221017111121.25341-1-vasileios.anagnostopoulos@siemens.com>
+In-Reply-To: <20221017111121.25341-1-vasileios.anagnostopoulos@siemens.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Mon, 17 Oct 2022 08:05:57 -0400
+Message-ID: <CADkTA4PGeBhrfynE4zUE3tqiC6D8qpn-o12LtEfznMih3d+B6w@mail.gmail.com>
+Subject: Re: [meta-virtualization][PATCH 1/7] podman: allow overwriting the
+ container runtime
+To: Vasileios Anagnostopoulos <vasileios.anagnostopoulos@siemens.com>
+Cc: meta-virtualization@lists.yoctoproject.org
+Content-Type: multipart/alternative; boundary="0000000000000326ca05eb39cd09"
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Mon, 17 Oct 2022 11:16:13 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/7660
+ <meta-virtualization@lists.yoctoproject.org>; Mon, 17 Oct 2022 12:06:13 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/7661
 
-Hello Everyone,
+--0000000000000326ca05eb39cd09
+Content-Type: text/plain; charset="UTF-8"
 
-Some background for the patches that I send.
-I am continuing the initial work from Pascal with netavark and I adapted th=
-e podman recipe to integrate with netavark, aardvark-dns and crun. To activ=
-ate them, it has to be done probably from your distro overwrites and do som=
-ething like:
-```
-DEFAULT_CONTAINER_RUNTIME:pn-podman =3D "crun"
-DEFAULT_NETWORK_STACK:pn-podman =3D "netavark"
-```
-For the moment I kept the backwards compatibility and it is an opt-in chang=
-e. But maybe we should consider changing the default behaviour, because fed=
-ora is already shipping with crun, netavark, and aardvark-dns by default.
+There's already a mechanism that was being put into place for this, it is
+part of some container image
+and package group work that is pending (it didn't make this release), so
+for now, you'll have to carry
+this locally until the rework is refreshed.
 
-Furthermore, I had some problems with the tests (even without my changes). =
-When I tried to execute the podman tests in the device I was getting:
-```
-START: ptest-runner
-2022-10-17T09:38
-BEGIN: /usr/lib/podman/ptest
-Makefile:176: *** Required variable NATIVE_GOOS value is undefined, whitesp=
-ace, or empty.  Stop.
+That patch creates namesspaces for the cni, cri, etc, and I don't want any
+other variables introduced
+for this, since once they land in the tree, they are an interface to the
+recipes that I don't really change
+often.
 
-ERROR: Exit status is 2
-DURATION: 0
-END: /usr/lib/podman/ptest
-2022-10-17T09:38
-STOP: ptest-runner
-TOTAL: 1 FAIL: 1
-```
-It is a minor problem, but even when I executed the tests manually I still =
-had many of them failing
+Bruce
 
-```
-root@cxg3:~# cd /usr/lib/podman/ptest
-root@cxg3:/usr/lib/podman/ptest# bats ./test/system/ ...
-373 tests, 77 failures, 38 skipped, 15 not run
- ```=20
+On Mon, Oct 17, 2022 at 7:12 AM Vasileios Anagnostopoulos <
+vasileios.anagnostopoulos@siemens.com> wrote:
 
-Do we have to set up the device in a specific way? Is there an example on h=
-ow to deploy podman on a device?
+> Signed-off-by: Vasileios Anagnostopoulos <
+> vasileios.anagnostopoulos@siemens.com>
+> ---
+>  recipes-containers/podman/podman_git.bb | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+>
+> diff --git a/recipes-containers/podman/podman_git.bb
+> b/recipes-containers/podman/podman_git.bb
+> index e3bc908..dea14ba 100644
+> --- a/recipes-containers/podman/podman_git.bb
+> +++ b/recipes-containers/podman/podman_git.bb
+> @@ -65,6 +65,9 @@ EXTRA_OEMAKE = " \
+>  # packageconfig, the podman package will rconfict with docker.
+>  PACKAGECONFIG ?= "docker"
+>
+> +# Supported are: virtual-runc, crun
+> +DEFAULT_CONTAINER_RUNTIME ??= "virtual-runc"
+> +
+>  do_compile() {
+>         cd ${S}/src
+>         rm -rf .gopath
+> @@ -136,7 +139,7 @@ SYSTEMD_SERVICE:${PN} = "podman.service podman.socket"
+>  VIRTUAL-RUNTIME_base-utils-nsenter ?= "util-linux-nsenter"
+>
+>  RDEPENDS:${PN} += "\
+> -       conmon virtual-runc iptables cni skopeo
+> ${VIRTUAL-RUNTIME_base-utils-nsenter} \
+> +    conmon ${DEFAULT_CONTAINER_RUNTIME} iptables cni skopeo
+> ${VIRTUAL-RUNTIME_base-utils-nsenter} \
+>         ${@bb.utils.contains('PACKAGECONFIG', 'rootless', 'fuse-overlayfs
+> slirp4netns', '', d)} \
+>  "
+>  RRECOMMENDS:${PN} += "slirp4netns kernel-module-xt-masquerade
+> kernel-module-xt-comment"
+> --
+> 2.34.1
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#7653):
+> https://lists.yoctoproject.org/g/meta-virtualization/message/7653
+> Mute This Topic: https://lists.yoctoproject.org/mt/94381602/1050810
+> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [
+> bruce.ashfield@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+>
 
-Finally, I was wondering if there are any plans on back-porting podman 4.2 =
-to the kirkstone branch? Is that something of interest, or do we prefer to =
-avoid it?
+-- 
+- Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
-Kind regards,
-Vasileios
+--0000000000000326ca05eb39cd09
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
------Original Message-----
-From: meta-virtualization@lists.yoctoproject.org <meta-virtualization@lists=
-.yoctoproject.org> On Behalf Of Vasileios Anagnostopoulos via lists.yoctopr=
-oject.org
-Sent: Monday, 17 October 2022 13:11
-To: meta-virtualization@lists.yoctoproject.org
-Cc: Anagnostopoulos, Vasileios (SI BP R&D ZG FW ITW) <vasileios.anagnostopo=
-ulos@siemens.com>
-Subject: [meta-virtualization][PATCH 7/7] aardvark-dns: Add ptest support
+<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-size:small">The=
+re&#39;s already a mechanism that was being put into place for this, it is =
+part of some container image</div><div class=3D"gmail_default" style=3D"fon=
+t-size:small">and package group work that is pending (it didn&#39;t make th=
+is release), so for now, you&#39;ll have to carry</div><div class=3D"gmail_=
+default" style=3D"font-size:small">this locally until the rework is refresh=
+ed.</div><div class=3D"gmail_default" style=3D"font-size:small"><br></div><=
+div class=3D"gmail_default" style=3D"font-size:small">That patch creates na=
+messpaces=C2=A0for the cni, cri, etc, and I don&#39;t want any other variab=
+les introduced</div><div class=3D"gmail_default" style=3D"font-size:small">=
+for this, since once they land in the tree, they are an interface to the re=
+cipes that I don&#39;t really change</div><div class=3D"gmail_default" styl=
+e=3D"font-size:small">often.</div><div class=3D"gmail_default" style=3D"fon=
+t-size:small"><br></div><div class=3D"gmail_default" style=3D"font-size:sma=
+ll">Bruce</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Mon, Oct 17, 2022 at 7:12 AM Vasileios Anagnostopoulos &=
+lt;<a href=3D"mailto:vasileios.anagnostopoulos@siemens.com">vasileios.anagn=
+ostopoulos@siemens.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_q=
+uote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,2=
+04);padding-left:1ex">Signed-off-by: Vasileios Anagnostopoulos &lt;<a href=
+=3D"mailto:vasileios.anagnostopoulos@siemens.com" target=3D"_blank">vasilei=
+os.anagnostopoulos@siemens.com</a>&gt;<br>
+---<br>
+=C2=A0recipes-containers/podman/<a href=3D"http://podman_git.bb" rel=3D"nor=
+eferrer" target=3D"_blank">podman_git.bb</a> | 5 ++++-<br>
+=C2=A01 file changed, 4 insertions(+), 1 deletion(-)<br>
+<br>
+diff --git a/recipes-containers/podman/<a href=3D"http://podman_git.bb" rel=
+=3D"noreferrer" target=3D"_blank">podman_git.bb</a> b/recipes-containers/po=
+dman/<a href=3D"http://podman_git.bb" rel=3D"noreferrer" target=3D"_blank">=
+podman_git.bb</a><br>
+index e3bc908..dea14ba 100644<br>
+--- a/recipes-containers/podman/<a href=3D"http://podman_git.bb" rel=3D"nor=
+eferrer" target=3D"_blank">podman_git.bb</a><br>
++++ b/recipes-containers/podman/<a href=3D"http://podman_git.bb" rel=3D"nor=
+eferrer" target=3D"_blank">podman_git.bb</a><br>
+@@ -65,6 +65,9 @@ EXTRA_OEMAKE =3D &quot; \<br>
+=C2=A0# packageconfig, the podman package will rconfict with docker.<br>
+=C2=A0PACKAGECONFIG ?=3D &quot;docker&quot;<br>
+<br>
++# Supported are: virtual-runc, crun<br>
++DEFAULT_CONTAINER_RUNTIME ??=3D &quot;virtual-runc&quot;<br>
++<br>
+=C2=A0do_compile() {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 cd ${S}/src<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 rm -rf .gopath<br>
+@@ -136,7 +139,7 @@ SYSTEMD_SERVICE:${PN} =3D &quot;podman.service podman.s=
+ocket&quot;<br>
+=C2=A0VIRTUAL-RUNTIME_base-utils-nsenter ?=3D &quot;util-linux-nsenter&quot=
+;<br>
+<br>
+=C2=A0RDEPENDS:${PN} +=3D &quot;\<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0conmon virtual-runc iptables cni skopeo ${VIRTU=
+AL-RUNTIME_base-utils-nsenter} \<br>
++=C2=A0 =C2=A0 conmon ${DEFAULT_CONTAINER_RUNTIME} iptables cni skopeo ${VI=
+RTUAL-RUNTIME_base-utils-nsenter} \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 ${@bb.utils.contains(&#39;PACKAGECONFIG&#39;, &=
+#39;rootless&#39;, &#39;fuse-overlayfs slirp4netns&#39;, &#39;&#39;, d)} \<=
+br>
+=C2=A0&quot;<br>
+=C2=A0RRECOMMENDS:${PN} +=3D &quot;slirp4netns kernel-module-xt-masquerade =
+kernel-module-xt-comment&quot;<br>
+-- <br>
+2.34.1<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#7653): <a href=3D"https://lists.yoctoproject.org/g/meta=
+-virtualization/message/7653" rel=3D"noreferrer" target=3D"_blank">https://=
+lists.yoctoproject.org/g/meta-virtualization/message/7653</a><br>
+Mute This Topic: <a href=3D"https://lists.yoctoproject.org/mt/94381602/1050=
+810" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.org/mt=
+/94381602/1050810</a><br>
+Group Owner: <a href=3D"mailto:meta-virtualization%2Bowner@lists.yoctoproje=
+ct.org" target=3D"_blank">meta-virtualization+owner@lists.yoctoproject.org<=
+/a><br>
+Unsubscribe: <a href=3D"https://lists.yoctoproject.org/g/meta-virtualizatio=
+n/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.or=
+g/g/meta-virtualization/unsub</a> [<a href=3D"mailto:bruce.ashfield@gmail.c=
+om" target=3D"_blank">bruce.ashfield@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
+ class=3D"gmail_signature">- Thou shalt not follow the NULL pointer, for ch=
+aos and madness await thee at its end<br>- &quot;Use the force Harry&quot; =
+- Gandalf, Star Trek II<br><br></div>
 
----
- .../aardvark-dns/aardvark-dns.inc             | 24 +++++++++++++++++++
- .../aardvark-dns/files/run-ptest              |  3 +++
- 2 files changed, 27 insertions(+)
- create mode 100644 recipes-containers/aardvark-dns/files/run-ptest
-
-diff --git a/recipes-containers/aardvark-dns/aardvark-dns.inc b/recipes-con=
-tainers/aardvark-dns/aardvark-dns.inc
-index 4123a2d..70c94dd 100644
---- a/recipes-containers/aardvark-dns/aardvark-dns.inc
-+++ b/recipes-containers/aardvark-dns/aardvark-dns.inc
-@@ -1,6 +1,30 @@
-+inherit ptest
-+
-+SRC_URI +=3D " \
-+    file://run-ptest \
-+"
-+
- # Cargo installs the binary to bin so move it to where podman expects it
- do_install:append() {
-     install -d ${D}${libexecdir}/podman/
-     mv ${D}${bindir}/* ${D}${libexecdir}/podman/
-     rm -rf ${D}${bindir}/
- }
-+
-+
-+do_install_ptest () {
-+	cp -r ${S}/test ${D}${PTEST_PATH}
-+}
-+
-+RDEPENDS:${PN}-ptest +=3D " \
-+    bats \
-+    bash \
-+    coreutils \
-+    jq \
-+    iproute2 \
-+    slirp4netns \
-+    dbus-daemon-proxy \
-+    util-linux-unshare \
-+    bind-utils \
-+    ipcalc \
-+"
-diff --git a/recipes-containers/aardvark-dns/files/run-ptest b/recipes-cont=
-ainers/aardvark-dns/files/run-ptest
-new file mode 100644
-index 0000000..b33d8fd
---- /dev/null
-+++ b/recipes-containers/aardvark-dns/files/run-ptest
-@@ -0,0 +1,3 @@
-+#!/bin/bash
-+
-+NETAVARK=3D/usr/libexec/podman/netavark=20
-+AARDVARK=3D/usr/libexec/podman/aardvark-dns bats ./test/
---
-2.34.1
-
+--0000000000000326ca05eb39cd09--
 
