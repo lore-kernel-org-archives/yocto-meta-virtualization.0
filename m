@@ -1,103 +1,110 @@
-Return-Path: <g.meyer@signum-media.de>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7075BC4332F
-	for <webhook@archiver.kernel.org>; Wed, 16 Nov 2022 13:09:34 +0000 (UTC)
-Received: from srv.signum-media.de (srv.signum-media.de [159.69.219.184])
- by mx.groups.io with SMTP id smtpd.web12.6997.1668604170427486732
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42DA7C4332F
+	for <webhook@archiver.kernel.org>; Thu, 17 Nov 2022 18:23:22 +0000 (UTC)
+Received: from mail-il1-f179.google.com (mail-il1-f179.google.com [209.85.166.179])
+ by mx.groups.io with SMTP id smtpd.web10.154.1668709400787649706
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 16 Nov 2022 05:09:31 -0800
+ Thu, 17 Nov 2022 10:23:20 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="no key for verify" header.i=@signum-media.de header.s=20221012 header.b=IaZIde3o;
- spf=pass (domain: signum-media.de, ip: 159.69.219.184, mailfrom: g.meyer@signum-media.de)
-Received: from serenity.localnet (muedsl-82-207-228-093.citykom.de [82.207.228.93])
-	by srv.signum-media.de (Postfix) with ESMTPSA id E08EB1F4B5
-	for <meta-virtualization@lists.yoctoproject.org>; Wed, 16 Nov 2022 14:09:27 +0100 (CET)
-DKIM-Filter: OpenDKIM Filter v2.11.0 srv.signum-media.de E08EB1F4B5
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=signum-media.de;
-	s=20221012; t=1668604167;
-	bh=iMR/iCW4avrU3b47C4ZKh4Rf/jvueDh14YCE+si4T6w=;
-	h=From:To:Subject:Date:From;
-	b=IaZIde3oh9TVrixzRSiQ2eYqlSuLNspu/zPIl58XLtiUlql3AJflzCgdt8T6C2nwl
-	 np/V+2X4bageH1UD0lXuOaFArbBL4SgW96pn+XFozhdwgCe3OLj1VtqvASTOZOZVQl
-	 oWrqpBq7A4ZIqzg9OQGbUicPtdShA45mz8F3s5Z5J0iawQ0RQ+Qm/r88/4/qR4WABS
-	 Yc2HRGU0BxxFkzRg+IvqwblU6IXkCJygjjfBkekgLfaEnCKOrdedGm7WupIHUtpZK7
-	 nDDD4wfJDbHZqG1pjL3BYBc61cn4r03cSAOyPZbQgbwT4cp+IjXMTqQOjFiumxzsTd
-	 8czWhnCDmcWYQ==
-From: Guenther Meyer <g.meyer@signum-media.de>
-To: "meta-virtualization@lists.yoctoproject.org" <meta-virtualization@lists.yoctoproject.org>
-Subject: [PATCH] nerdctl: renamed upstream branch master to main
-Date: Wed, 16 Nov 2022 14:09:27 +0100
-Message-ID: <3130543.zt3vOreWX6@serenity>
-Organization: Signum Media
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=b6Dpb7cZ;
+ spf=pass (domain: gmail.com, ip: 209.85.166.179, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-il1-f179.google.com with SMTP id g7so1358818ile.0
+        for <meta-virtualization@lists.yoctoproject.org>; Thu, 17 Nov 2022 10:23:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=NxrvJyM5bE4oKwOJkvhAz8GjDbEE6tbgS+rcZ/GOWJI=;
+        b=b6Dpb7cZgnnvUw5e1oqIMuaqv6tZTxZ7qG/mgBdHNikF0v6/PWG7QTPXfKCWrXDApD
+         Urw8L2h39GsXcTaOz2xGxDBOF12FpGVRkqyr8zzmVjwWKOPoCFR/gyS17U4Om6tueql4
+         R05ltszpsrXGZPMFHolgcq4X/bhNKCFMohmoiRwB0fWaepaG0RwSt/rM4SyRk51WEf2D
+         QuIOuhRgwePeht3YUvJsUd04MTRHqG5OcZtn3qlgWHalYVLOvBkb1cYxjLq648encGbj
+         gOB9Q3onBCpYZEtt6RgCX/OFja5FK2NNoS6xeVgj11nJZzgfdzLMVBIg8skII3OAc9np
+         KskQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NxrvJyM5bE4oKwOJkvhAz8GjDbEE6tbgS+rcZ/GOWJI=;
+        b=vMfwBKYEBCNUChedpv2EAxeadDKx1BhXlwG/Mhz1InkjSxgMFtYX5FcoGa17KgpstM
+         uzCWU6i6LRq4NkuQQO/Dy+japmdl2GRO1C3+Y7i0rWEGwT+18RnLZUX4Sjfxw8MERjKU
+         dZdqwZADRcz7yLgcCpeQQejrRVOtVpvmaLpGV3l2cS8HkWP/uOrIeXHSipAVsrOj8L/J
+         1xxa5axM2Pw412eztnM8w1ofhPKDDdI+6q3ow0CXhQEDlO/wFDeUXCRMX/KbLbBpgNvK
+         xZStbveWI9FWLOiWofP8EShbgjBAHx0Mjgg8iXyrUZie+pG7yIjXRJfhmRyBiRW+GC48
+         ddow==
+X-Gm-Message-State: ANoB5pn42cQiZdYPReuaNR0kiHyOSTrLrzWBujgXhGX4/N3j+o/0JS1e
+	iJ7cAXr4lbDMAMRR2EM9Im5rRQfErbVaHyZQohLzLfv3MRc=
+X-Google-Smtp-Source: AA0mqf5n5e6CohBBIEWJ6fLscoKKkOWl/5kCBWsBSePiFwsAaCsnKxvBouhAdpizSIgz+LkbOTvVRZyrdTemGTRqCf4=
+X-Received: by 2002:a92:c204:0:b0:300:f59b:6d0c with SMTP id
+ j4-20020a92c204000000b00300f59b6d0cmr1808040ilo.107.1668709399897; Thu, 17
+ Nov 2022 10:23:19 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="nextPart5800054.Bz9BkYGCgj"; micalg="pgp-sha256"; protocol="application/pgp-signature"
+References: <3130543.zt3vOreWX6@serenity>
+In-Reply-To: <3130543.zt3vOreWX6@serenity>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Thu, 17 Nov 2022 13:23:08 -0500
+Message-ID: <CADkTA4O=km=BdAbC5=g6+e0eLgfJ2GGqc3QvkTTNkOZ0e4yYYQ@mail.gmail.com>
+Subject: Re: [meta-virtualization] [PATCH] nerdctl: renamed upstream branch
+ master to main
+To: Guenther Meyer <g.meyer@signum-media.de>
+Cc: "meta-virtualization@lists.yoctoproject.org" <meta-virtualization@lists.yoctoproject.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Wed, 16 Nov 2022 13:09:34 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/7683
+ <meta-virtualization@lists.yoctoproject.org>; Thu, 17 Nov 2022 18:23:22 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/7684
 
---nextPart5800054.Bz9BkYGCgj
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"; protected-headers="v1"
-From: Guenther Meyer <g.meyer@signum-media.de>
-Subject: [PATCH] nerdctl: renamed upstream branch master to main
-Date: Wed, 16 Nov 2022 14:09:27 +0100
-Message-ID: <3130543.zt3vOreWX6@serenity>
-Organization: Signum Media
-Disposition-Notification-To: Guenther Meyer <g.meyer@signum-media.de>
-MIME-Version: 1.0
+The change itself is fine, but your patch came through mangled, and it
+doesn't apply to the repository.
 
-Signed-off-by: Guenther Meyer <g.meyer@signum-media.de>
----
- recipes-containers/nerdctl/nerdctl_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I could make the change myself, but it is probably worth sorting out
+which part of the patch sending chain caused the corruption.
 
-diff --git a/recipes-containers/nerdctl/nerdctl_git.bb b/recipes-containers/
-nerdctl/nerdctl_git.bb
-index 5d4d827..343c85d 100644
---- a/recipes-containers/nerdctl/nerdctl_git.bb
-+++ b/recipes-containers/nerdctl/nerdctl_git.bb
-@@ -13,7 +13,7 @@ DEPENDS = " \
- SRCREV_FORMAT="nerdcli_cgroups"
- SRCREV_nerdcli = "48f189a53a24c12838433f5bb5dd57f536816a8a"
+Bruce
 
--SRC_URI = "git://github.com/containerd/
-nerdctl.git;name=nerdcli;branch=master;protocol=https"
-+SRC_URI = "git://github.com/containerd/
-nerdctl.git;name=nerdcli;branch=main;protocol=https"
+On Wed, Nov 16, 2022 at 8:09 AM Guenther Meyer <g.meyer@signum-media.de> wrote:
+>
+> Signed-off-by: Guenther Meyer <g.meyer@signum-media.de>
+> ---
+>  recipes-containers/nerdctl/nerdctl_git.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/recipes-containers/nerdctl/nerdctl_git.bb b/recipes-containers/
+> nerdctl/nerdctl_git.bb
+> index 5d4d827..343c85d 100644
+> --- a/recipes-containers/nerdctl/nerdctl_git.bb
+> +++ b/recipes-containers/nerdctl/nerdctl_git.bb
+> @@ -13,7 +13,7 @@ DEPENDS = " \
+>  SRCREV_FORMAT="nerdcli_cgroups"
+>  SRCREV_nerdcli = "48f189a53a24c12838433f5bb5dd57f536816a8a"
+>
+> -SRC_URI = "git://github.com/containerd/
+> nerdctl.git;name=nerdcli;branch=master;protocol=https"
+> +SRC_URI = "git://github.com/containerd/
+> nerdctl.git;name=nerdcli;branch=main;protocol=https"
+>
+>  include src_uri.inc
+>
+> --
+> 2.38.1
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#7683): https://lists.yoctoproject.org/g/meta-virtualization/message/7683
+> Mute This Topic: https://lists.yoctoproject.org/mt/95065671/1050810
+> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
- include src_uri.inc
 
 -- 
-2.38.1
-
---nextPart5800054.Bz9BkYGCgj
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part.
-Content-Transfer-Encoding: 7Bit
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEMriC4l7RumrDsZEievmd2d8CKRIFAmN04QcACgkQevmd2d8C
-KRIdPg/+MciyHF1c1SGr1WaZMnWkU7U8cMeDJnJmWhX/xjWg+18NF4OvAW89h9a7
-w9p/ChjqT9CKIjWmIIqC4niH45FSwlVejx0G37UkjdviIRJLk/8dogrCI7D1TLb/
-EDcBAOarW492jV/08jiE+DVD3GerEWqCeTJEk+PDuPapwrr3ZTByc1P4LxOHtkHO
-I5KEYYvgSoN5/tmTg7gNu67RsKhPPLTKDe1Ms0v+dCG3bGsS9+9MDdf52A5feG7o
-nEYBe9L89yWMSGJVtoLtGFJ4+fG3VMYesoQ8DzPTPtLytXyJ4+oMoZrZGDELjOXS
-GrfSMVhzcsSdt2vL8m+rBmiP7prEweowc8HktO1mvrMmkenrC6k+YuPKF2br+sqX
-J3eSlgQha6m47QSzStz3gNlXtG1B4fr1tgxIt5qmH4rTjfHwonPyfuk+W37pZXKc
-vBIv3+F6PiRhkW3t+fpCESKkhXxTqpHeQ4t/ETqvEaYi36kYsCr8MmPhbG0IIV8s
-nWv5w/IWB6MkL+oMaKHLpXnGJiiIoVnojSg2c3fU+es9AlDBpk6QM/Wocdf2ZZmu
-lUkKSwrFITCWuWFZIYzqxYK++UXW6mRm5vqMfkftZr8+/r6+al51XxhdDQwmpyUV
-il6PtRNQzhjeaODi+ijI1hlJpaBFMPKV7CwyF6cuyYB7LCGSfhw=
-=dVRv
------END PGP SIGNATURE-----
-
---nextPart5800054.Bz9BkYGCgj--
-
-
-
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
