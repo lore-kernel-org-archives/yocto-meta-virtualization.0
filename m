@@ -2,99 +2,124 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21C08C4332F
-	for <webhook@archiver.kernel.org>; Wed, 23 Nov 2022 13:59:45 +0000 (UTC)
-Received: from mail-il1-f181.google.com (mail-il1-f181.google.com [209.85.166.181])
- by mx.groups.io with SMTP id smtpd.web10.20554.1669211979791673299
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B3FDC4332F
+	for <webhook@archiver.kernel.org>; Wed, 23 Nov 2022 14:10:05 +0000 (UTC)
+Received: from mail-io1-f54.google.com (mail-io1-f54.google.com [209.85.166.54])
+ by mx.groups.io with SMTP id smtpd.web10.20829.1669212599654246893
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 23 Nov 2022 05:59:39 -0800
+ Wed, 23 Nov 2022 06:09:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=K6Mt6n9F;
- spf=pass (domain: gmail.com, ip: 209.85.166.181, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-il1-f181.google.com with SMTP id d12so551331ilv.4
-        for <meta-virtualization@lists.yoctoproject.org>; Wed, 23 Nov 2022 05:59:39 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=L4ZFLOSH;
+ spf=pass (domain: gmail.com, ip: 209.85.166.54, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-io1-f54.google.com with SMTP id d123so13205599iof.7
+        for <meta-virtualization@lists.yoctoproject.org>; Wed, 23 Nov 2022 06:09:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=MYBDenQfz+7UyyK8MnPJQo3GfiRFP7TQ20Y/dXdjTf4=;
-        b=K6Mt6n9FyT6CVtM9eF3Q+PTA2M4N99NvL8/Ppe9GqxPTbtbzq8vzVtN+wQIKnmX6Rp
-         87PDirCelJiMzAG5Ux3QLyUWUzJfAl4qPOvsf7s9hdwrF6ziI4z3MXshfLICq9p2gr4h
-         gSvJ5BFTSEfpBCK/GMAPAZyOqFd9kJ8xxFGYVUYX6CY8b8ytRaY+y7kacAjNvtdOPNpM
-         rEJO+IpYCDjouGNxp3ThA4+rGRfPSoiGVZbeB244nhiV7yC0UMuQ5KbvrnF+rUe/jSr+
-         AQDqrYoNnYzXEvSMuJB7W6RTicpBEs8w0b3RZ5r/9UQWz2jkOG369XBKxiYCbhofncjw
-         RpwA==
+        bh=oXv8ViVzv+3UC1dVN04wHxlIIX1xS5066tUsQP/DsGI=;
+        b=L4ZFLOSHHq2plSWJgx239xb9/4w7mdgoF1zbyg5ZkiuLV6Mybku2a8roPWNwygE5Yz
+         7hn4yZnNtz/th88DTzwMSFa2ajiYT33MSi2vZVlIBDkcVTCNnPFXtqqgNDzN9y8L5FDV
+         EXygfGSNWUUHNgFW7FF8FIIMTbqkS2AJT3gR4824JB9oxLNhe601KnX9nE1FLj5jua1o
+         5yi7Poejplnw6OZn0b4aDDAzPEIiMCmb4xRuV00njjVjBehS1W1oR12YtDOh/yoAWFc7
+         slAMyUHER33AGRwWzTJYxGSUkYfZx0slRuyz0ROnOoNj8B/VdkY06vhvI7ct0FbdQVE6
+         cA/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=MYBDenQfz+7UyyK8MnPJQo3GfiRFP7TQ20Y/dXdjTf4=;
-        b=b+mfLpJVN6DKsZ0FKskia3zU4KMXkuiP1aA+jetqPwpBjawfcGKUbyk9B5NVMV7cgz
-         Uk1YhTgNWcwV6YQl2PQ1IgbX2eOWfg5hYB51pQQIzVPMsW79+lkkOvcZBt+r2mn10iZc
-         PlI3yKp4Lv4iEG2xrXCthgUwt5KZktsiW25w5KXRdPyCOqDzQcY4xDmFxHUlPf6Xt7UD
-         eWHAL8EeErbpe+UJacU4NXjbOolN3dnhCLosXK65wsA2H9eROSHG3kADoMZaWlLwpkjQ
-         1MU4GdJkUz4AtwOFydVeR/UWAdz/NHHGgs+upesnEii2/npWs8MAEn/bXSc8EYPmWwCL
-         9WVw==
-X-Gm-Message-State: ANoB5pnFcYv+7s9T8QzSrJWL20X2Wf8jpz4xhrE412NsJ+Wm9yjU0bjy
-	aLfdHhzsycdZpeP0McBRWPYtEH9EwLYSLpG3Aaw=
-X-Google-Smtp-Source: AA0mqf7YLtmlZx7oTOnfgRO5dUxkc+BaNtThS3q1U9PW4FiAJi0as7b3xAMOiq/mQWLOeoVQ5FFjeI74valn3hdB6tA=
-X-Received: by 2002:a92:c14f:0:b0:300:e884:70a4 with SMTP id
- b15-20020a92c14f000000b00300e88470a4mr7283704ilh.263.1669211979059; Wed, 23
- Nov 2022 05:59:39 -0800 (PST)
+        bh=oXv8ViVzv+3UC1dVN04wHxlIIX1xS5066tUsQP/DsGI=;
+        b=a+nGPNvGtLvv9Z5JFlFBwM3ntVXajsky2EfQTVw4WphmZoF3R3+NY/2cwkmp7zro4D
+         Lna2gTvM4LXSFouTEcOf582txe7QdFONCDYWTqbpLjeaswLMbSkAQ4kSYPOoWA3Lnpj3
+         HXDWr0GgiNfnC98yzPgvtoHMRekuVNk/L9Nh8hld3NMEbRTCBQMEt2Ma+pdWJSKJJdd7
+         l1gcuYoTrdhgXNBAlzjP/dmf+7/TJEYdM0nZJ+lnF8xloSMT0/gAKysv12JvubPv2CFY
+         dotacC/LIPX5ozQDElYBBIjv3Jvx2YIcVaU+ByS6FySIIxELJPKXck/lictIJlRAzEvC
+         pWEg==
+X-Gm-Message-State: ANoB5pknXdaIGGJPkYByBvWuLapRSNEbRWrHPoCcnxKe/uKGFm8kDeqN
+	mSoG4hIgt5PZrim/3ueDkmiO2bbBYnqOe8C8ZXy/tm6/zo5yWA==
+X-Google-Smtp-Source: AA0mqf7k4pA9AIQeSK8RkFw6IPihFwaYgWFtmVKOZsY/e6cY1t9plURVe+ZfSczu4I+S4IGgfDWHQ5POiKLfyS21CvQ=
+X-Received: by 2002:a05:6602:180b:b0:6de:ef1:845 with SMTP id
+ t11-20020a056602180b00b006de0ef10845mr3637984ioh.98.1669212598917; Wed, 23
+ Nov 2022 06:09:58 -0800 (PST)
 MIME-Version: 1.0
-References: <20221123085534.3335479-1-mingli.yu@eng.windriver.com>
-In-Reply-To: <20221123085534.3335479-1-mingli.yu@eng.windriver.com>
+References: <20221030161333.12430-1-f_l_k@t-online.de> <20221030161333.12430-2-f_l_k@t-online.de>
+ <CADkTA4PfHFDrq5McxwSLg957MpFVjZgWpUiBzFm18AM4xUO-sg@mail.gmail.com>
+ <6GGOKR.9UDK9PG7M6LM3@t-online.de> <1723CB4C1BEE0B79.10635@lists.yoctoproject.org>
+ <CADkTA4N0z=j7AjV9g1-kHnTzX8vSgDSL_4Qj8iNZaeXjyQdtwQ@mail.gmail.com> <V6BTKR.V7B3NTHJZAU82@t-online.de>
+In-Reply-To: <V6BTKR.V7B3NTHJZAU82@t-online.de>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 23 Nov 2022 08:59:27 -0500
-Message-ID: <CADkTA4Mz1TngPwsc-ZcMUw87mmnPCMBPMbQsiv+=R4Q2sKpv-w@mail.gmail.com>
-Subject: Re: [meta-realtime][PATCH] README: Update the maintainer part
-To: mingli.yu@eng.windriver.com
+Date: Wed, 23 Nov 2022 09:09:47 -0500
+Message-ID: <CADkTA4NCtsL_X9arHs7z1F2-Tf_npbTqqcFWZUh=TBLXfdC_Yw@mail.gmail.com>
+Subject: Re: [meta-virtualization][PATCH 2/2] virt-viewer: add recipe
+To: Markus Volk <f_l_k@t-online.de>
 Cc: meta-virtualization@lists.yoctoproject.org
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Wed, 23 Nov 2022 13:59:45 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/7694
+ <meta-virtualization@lists.yoctoproject.org>; Wed, 23 Nov 2022 14:10:05 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/7695
 
-Wow!
+I had to put this aside for a bit, but am back looking at it.
 
-You'd think that I would have noticed that . Thanks for the patch.
+The build paths QA failure comes from the use of glib-mkenums, which
+definitely generates files with absolute paths. I don't see any
+options available in its documentation for sysroot or relative
+patches, so I'll need to come up with some sort of fixup.
+
+I'm also now seeing a failure on the latest OE core master (and
+master-next of meta-virt), like this:
+
+nfig-domain-capabilities-os.c.o.d -o
+libvirt-gconfig/libvirt-gconfig-1.0.so.0.4000.0.p/libvirt-gconfig-domain-capabilities-os.c.o
+-c ../git/libvirt-gconfig/libvirt-gconfig-domain-capabilities-os.c
+| In file included from
+/opt/poky/build/tmp/work/core2-64-poky-linux/libvirt-glib/4.0.0-r0/recipe-sysroot/usr/include/glib-2.0/glib.h:52,
+|                  from
+/opt/poky/build/tmp/work/core2-64-poky-linux/libvirt-glib/4.0.0-r0/recipe-sysroot/usr/include/glib-2.0/gobject/gbinding.h:30,
+|                  from
+/opt/poky/build/tmp/work/core2-64-poky-linux/libvirt-glib/4.0.0-r0/recipe-sysroot/usr/include/glib-2.0/glib-object.h:24,
+|                  from ../git/libvirt-gconfig/libvirt-gconfig.h:27,
+|                  from
+../git/libvirt-gconfig/libvirt-gconfig-domain-capabilities-os.c:23:
+| ../git/libvirt-gconfig/libvirt-gconfig-domain-capabilities-os.c: In
+function 'search_firmwares':
+| ../git/libvirt-gconfig/libvirt-gconfig-domain-capabilities-os.c:70:26:
+error: pointer targets in passing argument 1 of 'strcmp' differ in
+signedness [-Werror=pointer-sign]
+|    70 |     if (!g_str_equal(node->name, "enum"))
+| /opt/poky/build/tmp/work/core2-64-poky-linux/libvirt-glib/4.0.0-r0/recipe-sysroot/usr/include/glib-2.0/glib/ghash.h:165:39:
+note: in definition of macro 'g_str_equal'
+|   165 | #define g_str_equal(v1, v2) (strcmp ((v1), (v2)) == 0)
+|       |                                       ^~
+| In file included from
+/opt/poky/build/tmp/work/core2-64-poky-linux/libvirt-glib/4.0.0-r0/recipe-sysroot/usr/include/glib-2.0/glib/galloca.h:35,
+|                  from
+/opt/poky/build/tmp/work/core2-64-poky-linux/libvirt-glib/4.0.0-r0/recipe-sysroot/usr/include/glib-2.0/glib.h:32:
+| /opt/poky/build/tmp/work/core2-64-poky-linux/libvirt-glib/4.0.0-r0/recipe-sysroot/usr/include/string.h:156:32:
+note: expected 'const char *' but argument is of type 'const xmlChar
+*' {aka 'const unsigned char *'}
+|   156 | extern int strcmp (const char *__s1, const char *__s2)
+|       |                    ~~~~~~~~~~~~^~~~
+| cc1: all warnings being treated as errors
+
+If you have any cycles free, I'd be interested to know if this is
+specific to my builders, or if others are seeing the same thing.
 
 Bruce
 
-On Wed, Nov 23, 2022 at 3:55 AM <mingli.yu@eng.windriver.com> wrote:
+On Fri, Nov 4, 2022 at 3:23 AM Markus Volk <f_l_k@t-online.de> wrote:
 >
-> From: Mingli Yu <mingli.yu@windriver.com>
+> Am Do, 3. Nov 2022 um 11:23:25 -0400 schrieb Bruce Ashfield <bruce.ashfield@gmail.com>:
 >
-> Update the maintainer part to fix the yocto compliance.
->   INFO: test_readme (common.CommonCheckLayer)
->   INFO:  ... FAIL
->   INFO: Traceback (most recent call last):
->     File "/build/layers/oe-core/scripts/lib/checklayer/cases/common.py", line 38, in test_readme
->      self.assertTrue(email_regex.match(data))
->   AssertionError: None is not true
+> but libvirt still has other TMPDIR QA warnings that still haven't been fixed, so I don't consider this an absolute blocker. I'll have a look and try to fix it.
 >
-> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-> ---
->  README | 1 +
->  1 file changed, 1 insertion(+)
 >
-> diff --git a/README b/README
-> index 4fbc118..5ccbaf8 100644
-> --- a/README
-> +++ b/README
-> @@ -30,5 +30,6 @@ revision: HEAD
->  Maintenance
->  -----------
+> Thanks for the help!
 >
-> +Maintainer: Bruce Ashfield <bruce.ashfield@gmail.com>
->  Please see the MAINTAINERS file for information on contacting the
->  maintainers of this layer, as well as instructions for submitting patches.
-> --
-> 2.25.1
->
+> Markus
+
 
 
 -- 
