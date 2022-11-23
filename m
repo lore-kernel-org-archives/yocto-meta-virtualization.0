@@ -1,81 +1,104 @@
-Return-Path: <mingli.yu@eng.windriver.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A21F1C4332F
-	for <webhook@archiver.kernel.org>; Wed, 23 Nov 2022 08:55:43 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.15892.1669193739221146667
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21C08C4332F
+	for <webhook@archiver.kernel.org>; Wed, 23 Nov 2022 13:59:45 +0000 (UTC)
+Received: from mail-il1-f181.google.com (mail-il1-f181.google.com [209.85.166.181])
+ by mx.groups.io with SMTP id smtpd.web10.20554.1669211979791673299
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 23 Nov 2022 00:55:39 -0800
+ Wed, 23 Nov 2022 05:59:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=8326628f65=mingli.yu@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2AN8sHvo023244;
-	Wed, 23 Nov 2022 00:55:36 -0800
-Received: from ala-exchng01.corp.ad.wrs.com (unknown-82-252.windriver.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3kxua6b5b4-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 23 Nov 2022 00:55:36 -0800
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Wed, 23 Nov 2022 00:55:35 -0800
-Received: from pek-lpg-core2.wrs.com (128.224.153.41) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.12 via Frontend Transport; Wed, 23 Nov 2022 00:55:34 -0800
-From: <mingli.yu@eng.windriver.com>
-To: <meta-virtualization@lists.yoctoproject.org>, <bruce.ashfield@gmail.com>
-Subject: [meta-realtime][PATCH] README: Update the maintainer part
-Date: Wed, 23 Nov 2022 16:55:34 +0800
-Message-ID: <20221123085534.3335479-1-mingli.yu@eng.windriver.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=K6Mt6n9F;
+ spf=pass (domain: gmail.com, ip: 209.85.166.181, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-il1-f181.google.com with SMTP id d12so551331ilv.4
+        for <meta-virtualization@lists.yoctoproject.org>; Wed, 23 Nov 2022 05:59:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=MYBDenQfz+7UyyK8MnPJQo3GfiRFP7TQ20Y/dXdjTf4=;
+        b=K6Mt6n9FyT6CVtM9eF3Q+PTA2M4N99NvL8/Ppe9GqxPTbtbzq8vzVtN+wQIKnmX6Rp
+         87PDirCelJiMzAG5Ux3QLyUWUzJfAl4qPOvsf7s9hdwrF6ziI4z3MXshfLICq9p2gr4h
+         gSvJ5BFTSEfpBCK/GMAPAZyOqFd9kJ8xxFGYVUYX6CY8b8ytRaY+y7kacAjNvtdOPNpM
+         rEJO+IpYCDjouGNxp3ThA4+rGRfPSoiGVZbeB244nhiV7yC0UMuQ5KbvrnF+rUe/jSr+
+         AQDqrYoNnYzXEvSMuJB7W6RTicpBEs8w0b3RZ5r/9UQWz2jkOG369XBKxiYCbhofncjw
+         RpwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=MYBDenQfz+7UyyK8MnPJQo3GfiRFP7TQ20Y/dXdjTf4=;
+        b=b+mfLpJVN6DKsZ0FKskia3zU4KMXkuiP1aA+jetqPwpBjawfcGKUbyk9B5NVMV7cgz
+         Uk1YhTgNWcwV6YQl2PQ1IgbX2eOWfg5hYB51pQQIzVPMsW79+lkkOvcZBt+r2mn10iZc
+         PlI3yKp4Lv4iEG2xrXCthgUwt5KZktsiW25w5KXRdPyCOqDzQcY4xDmFxHUlPf6Xt7UD
+         eWHAL8EeErbpe+UJacU4NXjbOolN3dnhCLosXK65wsA2H9eROSHG3kADoMZaWlLwpkjQ
+         1MU4GdJkUz4AtwOFydVeR/UWAdz/NHHGgs+upesnEii2/npWs8MAEn/bXSc8EYPmWwCL
+         9WVw==
+X-Gm-Message-State: ANoB5pnFcYv+7s9T8QzSrJWL20X2Wf8jpz4xhrE412NsJ+Wm9yjU0bjy
+	aLfdHhzsycdZpeP0McBRWPYtEH9EwLYSLpG3Aaw=
+X-Google-Smtp-Source: AA0mqf7YLtmlZx7oTOnfgRO5dUxkc+BaNtThS3q1U9PW4FiAJi0as7b3xAMOiq/mQWLOeoVQ5FFjeI74valn3hdB6tA=
+X-Received: by 2002:a92:c14f:0:b0:300:e884:70a4 with SMTP id
+ b15-20020a92c14f000000b00300e88470a4mr7283704ilh.263.1669211979059; Wed, 23
+ Nov 2022 05:59:39 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: vLX37npa6jfPseg4M0Jnj_govdPuVA29
-X-Proofpoint-GUID: vLX37npa6jfPseg4M0Jnj_govdPuVA29
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-23_04,2022-11-18_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 adultscore=0
- spamscore=0 suspectscore=0 lowpriorityscore=0 bulkscore=0 phishscore=0
- clxscore=1011 impostorscore=0 priorityscore=1501 mlxlogscore=984
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2211230067
+References: <20221123085534.3335479-1-mingli.yu@eng.windriver.com>
+In-Reply-To: <20221123085534.3335479-1-mingli.yu@eng.windriver.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Wed, 23 Nov 2022 08:59:27 -0500
+Message-ID: <CADkTA4Mz1TngPwsc-ZcMUw87mmnPCMBPMbQsiv+=R4Q2sKpv-w@mail.gmail.com>
+Subject: Re: [meta-realtime][PATCH] README: Update the maintainer part
+To: mingli.yu@eng.windriver.com
+Cc: meta-virtualization@lists.yoctoproject.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Wed, 23 Nov 2022 08:55:43 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/7693
+ <meta-virtualization@lists.yoctoproject.org>; Wed, 23 Nov 2022 13:59:45 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/7694
 
-From: Mingli Yu <mingli.yu@windriver.com>
+Wow!
 
-Update the maintainer part to fix the yocto compliance.
-  INFO: test_readme (common.CommonCheckLayer)
-  INFO:  ... FAIL
-  INFO: Traceback (most recent call last):
-    File "/build/layers/oe-core/scripts/lib/checklayer/cases/common.py", line 38, in test_readme
-     self.assertTrue(email_regex.match(data))
-  AssertionError: None is not true
+You'd think that I would have noticed that . Thanks for the patch.
 
-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
----
- README | 1 +
- 1 file changed, 1 insertion(+)
+Bruce
 
-diff --git a/README b/README
-index 4fbc118..5ccbaf8 100644
---- a/README
-+++ b/README
-@@ -30,5 +30,6 @@ revision: HEAD
- Maintenance
- -----------
- 
-+Maintainer: Bruce Ashfield <bruce.ashfield@gmail.com>
- Please see the MAINTAINERS file for information on contacting the
- maintainers of this layer, as well as instructions for submitting patches. 
+On Wed, Nov 23, 2022 at 3:55 AM <mingli.yu@eng.windriver.com> wrote:
+>
+> From: Mingli Yu <mingli.yu@windriver.com>
+>
+> Update the maintainer part to fix the yocto compliance.
+>   INFO: test_readme (common.CommonCheckLayer)
+>   INFO:  ... FAIL
+>   INFO: Traceback (most recent call last):
+>     File "/build/layers/oe-core/scripts/lib/checklayer/cases/common.py", line 38, in test_readme
+>      self.assertTrue(email_regex.match(data))
+>   AssertionError: None is not true
+>
+> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+> ---
+>  README | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/README b/README
+> index 4fbc118..5ccbaf8 100644
+> --- a/README
+> +++ b/README
+> @@ -30,5 +30,6 @@ revision: HEAD
+>  Maintenance
+>  -----------
+>
+> +Maintainer: Bruce Ashfield <bruce.ashfield@gmail.com>
+>  Please see the MAINTAINERS file for information on contacting the
+>  maintainers of this layer, as well as instructions for submitting patches.
+> --
+> 2.25.1
+>
+
+
 -- 
-2.25.1
-
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
