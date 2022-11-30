@@ -2,208 +2,176 @@ Return-Path: <anthony.t.davies@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5971CC433FE
-	for <webhook@archiver.kernel.org>; Wed, 30 Nov 2022 04:24:30 +0000 (UTC)
-Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41])
- by mx.groups.io with SMTP id smtpd.web11.2925.1669782263902316182
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 923DCC46467
+	for <webhook@archiver.kernel.org>; Wed, 30 Nov 2022 12:10:03 +0000 (UTC)
+Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com [209.85.167.180])
+ by mx.groups.io with SMTP id smtpd.web10.9264.1669810200738362215
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 29 Nov 2022 20:24:24 -0800
+ Wed, 30 Nov 2022 04:10:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=NNhvsM50;
- spf=pass (domain: gmail.com, ip: 209.85.160.41, mailfrom: anthony.t.davies@gmail.com)
-Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-142faa7a207so19610405fac.13
-        for <meta-virtualization@lists.yoctoproject.org>; Tue, 29 Nov 2022 20:24:23 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Idu46zIM;
+ spf=pass (domain: gmail.com, ip: 209.85.167.180, mailfrom: anthony.t.davies@gmail.com)
+Received: by mail-oi1-f180.google.com with SMTP id v13so3705913oie.3
+        for <meta-virtualization@lists.yoctoproject.org>; Wed, 30 Nov 2022 04:10:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=r0gryJg2GyEdaCCyKN9K/SV+VRNue0OzmpLeSR/t+0Y=;
-        b=NNhvsM50XZiQRGg5HNM4PcrvQ5nB2t062DDUHEXlNBuGq6wOcK3uOcmrpfFLBRxfvf
-         YOhcGbVunwpRBt9wtKTqovw5KuZfBQ6dUUOYE2mnUK/1nxs5Qm3I3Y1j6/WmvFT71syS
-         RPpvSEnodrmyNLuN5O7WGu94JOCr50tspgzjSPcKV9Y2frSt6qylzx6UyrZGn2P/jXYE
-         Hzk/fvxCUz3NSbr7SZlpM/DdU1bhKCTJLVMPnRtGTdagje48UTR5eiSvoyTzpJJLmsWS
-         NxLT+iqwFTNs2feVzbMvspPLmigqtf8/+/c08F0tN1yBUq0O/nqZI7GOhDMgn/MUN7Lq
-         F5nw==
+        bh=GQutbx0mtnmYaDx+Yu2ZQzV8EIK5LRr+yANZr9cpd24=;
+        b=Idu46zIMq4UnOikmOuqSlfCweOr6WtCTUcC10SnNjmwzuuw58uwruD2POk9LoaP6zI
+         xiHqtuXvFqCfwdC3pW2z8Fg7MJPzXH49+JztOSRRxXzSGpW7yryEcb9exyNyUHVdvqBv
+         nXB80gFE/VHky3c4RggAJH97WcmHROTqqBYYLHC7DSZG2at6hCS9XmgAHlcpoe418Ga3
+         K+E8L7AlirjcHPTQ89bfmV2V48L3c1dUQ85DnhxFHMdAAuOvTWcVoGo1FbFOh6MB2ld6
+         KyjeCiUITSCVnPVNwqLrU1q7qxn++KpzXpp2Rik7/Bugm8YavCNruhqhRNvh2ir/d1QU
+         6+wA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=r0gryJg2GyEdaCCyKN9K/SV+VRNue0OzmpLeSR/t+0Y=;
-        b=sdGftNjpYWTgiFOeCga7LAD/yeIDuYdNQ5HyWUPj/qT95FnnlgP00Mr7HkXRK6XIfK
-         JugABWiT2+hbttaXqvAPf7nOOmiFIMFdOXdtnSFFR+CN5Zu/4wC8kQ2e3n0KaLPNizvt
-         PaL2x1n1UKZesoDhQmXagZZU+r7P9VWzfawsILdQAK9rDE8mgc6IuYsKtANyzf5e4zz3
-         6r/Gk0+VVnR2ZKJBxrPJ3PSX28pQ9c5zrtPGiV1t0NCf7b7ASFXIIvVOyJUIM1dRVKlu
-         9q4RqRY6besaF4jWDElTp/t2pCHD6x6oejjyJkhyb66aPRhUSYq/lx/BsH598XEvs+rT
-         NrJg==
-X-Gm-Message-State: ANoB5pm6xcy5BNk9mrKtyAF1X5n2O84KPIANcOj5qsb4TLjBnz7Hi6Kk
-	PJF5r8fhkSDczNcCSauyO5WnJikcsXqFSvjenYw=
-X-Google-Smtp-Source: AA0mqf4wG8Ajsb+cnGuGnLwPLaZYn77hoZlylEF3VfzspJmQnClGnHEc7KNwsx6NQrnlJFHqCPRq8ZyJDOdXJBzskpQ=
-X-Received: by 2002:a05:6870:bac9:b0:143:2f33:9c25 with SMTP id
- js9-20020a056870bac900b001432f339c25mr18370946oab.278.1669782263136; Tue, 29
- Nov 2022 20:24:23 -0800 (PST)
+        bh=GQutbx0mtnmYaDx+Yu2ZQzV8EIK5LRr+yANZr9cpd24=;
+        b=XuHYiSv4lklNc/CcdmhINdnwjsVT4ZQyhPYcNAQ4/qiFTUoW1zrpzBOlsSVQOEgNSm
+         O3GUP4qSyy7VqicLIbtKzd7WSFjL4Ny06Ox9S9YiQrmed2T4RPusQvD3tXTkMTOPvofS
+         5hztLmF03oiUYA/zbJj0Y/4vwl9nJcxKjUnYJI05S1T6JGBFxucuZBcE2MLzif6ljeT0
+         AhCWqkH6v0r8xFnfGNrLBXJiNEEag5cH87+v62NmqMJj99APWcqJJJqr9M2+gMS8kar5
+         rR7cohzLBvbwP64TjvW/lG4cHpDFAQeqhyEM6toor2clA7A6Oken6hkHFd0yV0YvmY3Z
+         z2Tg==
+X-Gm-Message-State: ANoB5pnAWdyDyCSilKQ9cS37IyvDM7MtPFYTh4htjtbxUwNReEBGOSfd
+	t/4m+DV+6hckSKJTDJu/TdwkX1VvJsYNu343MtI=
+X-Google-Smtp-Source: AA0mqf7kza4tMeK3EdVV3hWfAGz4XG3SC8MNaGywVPKMPt6ssi3X7GtuxAn0T82e0k6yYxEsptnp72wLPqF67wALFMU=
+X-Received: by 2002:aca:120d:0:b0:359:f8a7:c88 with SMTP id
+ 13-20020aca120d000000b00359f8a70c88mr28068941ois.278.1669810199933; Wed, 30
+ Nov 2022 04:09:59 -0800 (PST)
 MIME-Version: 1.0
-References: <CAL5F+o+wXUrREoX2N10ks3YDMmACex+xYi3d9XewTns==BntSw@mail.gmail.com>
- <CADkTA4MoryRn=OOOQL7j0BHkjrB5Tyd35T+=f9=AA7YOqfd32A@mail.gmail.com>
- <CAL5F+o+VmqasZyrpBpaP2xjdfF+Z8SWGebrJzLLKDNvzo88_Xw@mail.gmail.com> <CADkTA4OV3Gi28DKamNKHaK3veUEM-bvzQH1HSV533XvvkRJtZA@mail.gmail.com>
-In-Reply-To: <CADkTA4OV3Gi28DKamNKHaK3veUEM-bvzQH1HSV533XvvkRJtZA@mail.gmail.com>
+References: <CAL5F+oJ78-LCD44FjQrJzrjrVcN2m1bCqUv746HFVdMFuUvPgw@mail.gmail.com>
+ <CADkTA4OBu7UNq_mHWf8WCzW0Sev8Y2b6yGag5maCJfqzy3b_iQ@mail.gmail.com> <172C3ECB7FB2C3DA.1705@lists.yoctoproject.org>
+In-Reply-To: <172C3ECB7FB2C3DA.1705@lists.yoctoproject.org>
 From: Anthony Davies <anthony.t.davies@gmail.com>
-Date: Wed, 30 Nov 2022 15:24:11 +1100
-Message-ID: <CAL5F+oKukrU3W-u7+c3pRQu10=4_EYOAL8BCQzkQJSQ0HvzfdQ@mail.gmail.com>
-Subject: Re: [meta-virtualization] Backport Repo branch changes (master=>main)
- to Kirkstone branch
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: meta-virtualization@lists.yoctoproject.org
-Content-Type: multipart/alternative; boundary="000000000000a5884905eea87a97"
+Date: Wed, 30 Nov 2022 23:09:48 +1100
+Message-ID: <CAL5F+oK3990RMOQgaDZzU8fWen4mVFuz87BCSKOr3QAJAz=ogg@mail.gmail.com>
+Subject: Re: [meta-virtualization] k3s (kirkstone) segfaults when run on hardware
+To: anthony.t.davies@gmail.com
+Cc: Bruce Ashfield <bruce.ashfield@gmail.com>, meta-virtualization@lists.yoctoproject.org
+Content-Type: multipart/alternative; boundary="000000000000cf385a05eeaefb8d"
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Wed, 30 Nov 2022 04:24:30 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/7712
+ <meta-virtualization@lists.yoctoproject.org>; Wed, 30 Nov 2022 12:10:03 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/7713
 
---000000000000a5884905eea87a97
+--000000000000cf385a05eeaefb8d
 Content-Type: text/plain; charset="UTF-8"
 
-Thanks Bruce.
+I should also clarify I am building using musl.
 
-On Wed, 30 Nov 2022, 15:08 Bruce Ashfield, <bruce.ashfield@gmail.com> wrote:
+On Wed, 30 Nov 2022 at 14:23, Anthony Davies via lists.yoctoproject.org
+<anthony.t.davies=gmail.com@lists.yoctoproject.org> wrote:
 
-> Cherry-picked.
+> Hi Bruce,
 >
-> Hopefully it works now!
+> The board that is having problems is a Radxa Rock 3A
+> https://wiki.radxa.com/Rock3/3a
 >
-> Bruce
+> Regards,
 >
-> On Tue, Nov 29, 2022 at 10:56 PM Anthony Davies
-> <anthony.t.davies@gmail.com> wrote:
-> >
-> > Yq is the one I had issues with
-> >
-> > On Wed, 30 Nov 2022, 14:21 Bruce Ashfield, <bruce.ashfield@gmail.com>
+> Tony
+>
+> On Wed, 30 Nov 2022, 14:21 Bruce Ashfield, <bruce.ashfield@gmail.com>
 > wrote:
-> >>
-> >> Which recipes ?
-> >>
-> >> I normally port all branch changes as far back as possible, but I may
-> >> have missed some.
-> >>
-> >> Bruce
-> >>
-> >> On Tue, Nov 29, 2022 at 7:19 PM Anthony Davies
-> >> <anthony.t.davies@gmail.com> wrote:
-> >> >
-> >> > Hi,
-> >> >
-> >> > Is it possible to backport these patches from master to kirkstone?
-> >> >
-> >> > I could do it but I am not confident about submitting patches via
-> email.
-> >> >
-> >> > Regards,
-> >> >
-> >> > Tony Davies
-> >> >
-> >> > -=-=-=-=-=-=-=-=-=-=-=-
-> >> > Links: You receive all messages sent to this group.
-> >> > View/Reply Online (#7705):
-> https://lists.yoctoproject.org/g/meta-virtualization/message/7705
-> >> > Mute This Topic: https://lists.yoctoproject.org/mt/95348458/1050810
-> >> > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> >> > Unsubscribe:
-> https://lists.yoctoproject.org/g/meta-virtualization/unsub [
-> bruce.ashfield@gmail.com]
-> >> > -=-=-=-=-=-=-=-=-=-=-=-
-> >> >
-> >>
-> >>
-> >> --
-> >> - Thou shalt not follow the NULL pointer, for chaos and madness await
-> >> thee at its end
-> >> - "Use the force Harry" - Gandalf, Star Trek II
 >
+>> On Tue, Nov 29, 2022 at 7:28 PM Anthony Davies
+>> <anthony.t.davies@gmail.com> wrote:
+>> >
+>> > Hi,
+>> >
+>> > I have created an image that includes k3s. When my hardware boots and I
+>> attempt to execute k3s straight out segfaults, output from "k3s --debug"
+>> and no logs are created.
+>> >
+>>
+>> What are the details of your hardware ? k3s is running fine for me on
+>> everything that I have available. So we'll need to try and figure out
+>> some differences.
+>>
+>> Bruce
+>>
+>> > On #meta-virt it was suggested to try another go program on my image, I
+>> installed "go-helloworld" which runs successfully.
+>> >
+>> > Regards,
+>> >
+>> > Tony Davies
+>> >
+>> >
+>> >
+>>
+>>
+>> --
+>> - Thou shalt not follow the NULL pointer, for chaos and madness await
+>> thee at its end
+>> - "Use the force Harry" - Gandalf, Star Trek II
+>>
 >
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#7709):
+> https://lists.yoctoproject.org/g/meta-virtualization/message/7709
+> Mute This Topic: https://lists.yoctoproject.org/mt/95348603/7328908
+> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [
+> anthony.t.davies@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
 >
-> --
-> - Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at its end
-> - "Use the force Harry" - Gandalf, Star Trek II
 >
 
---000000000000a5884905eea87a97
+--000000000000cf385a05eeaefb8d
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"auto">Thanks Bruce.</div><br><div class=3D"gmail_quote"><div di=
-r=3D"ltr" class=3D"gmail_attr">On Wed, 30 Nov 2022, 15:08 Bruce Ashfield, &=
-lt;<a href=3D"mailto:bruce.ashfield@gmail.com">bruce.ashfield@gmail.com</a>=
-&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
-0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Cherry-picked.<br>
+<div dir=3D"ltr">I should also clarify=C2=A0I am building using musl.</div>=
+<br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed=
+, 30 Nov 2022 at 14:23, Anthony Davies via <a href=3D"http://lists.yoctopro=
+ject.org">lists.yoctoproject.org</a> &lt;anthony.t.davies=3D<a href=3D"mail=
+to:gmail.com@lists.yoctoproject.org">gmail.com@lists.yoctoproject.org</a>&g=
+t; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
+x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div d=
+ir=3D"auto">Hi Bruce,<div dir=3D"auto"><br></div><div dir=3D"auto">The boar=
+d that is having problems is a Radxa Rock 3A <a href=3D"https://wiki.radxa.=
+com/Rock3/3a" target=3D"_blank">https://wiki.radxa.com/Rock3/3a</a></div><d=
+iv dir=3D"auto"><br></div><div dir=3D"auto">Regards,</div><div dir=3D"auto"=
+><br></div><div dir=3D"auto">Tony=C2=A0</div></div><br><div class=3D"gmail_=
+quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, 30 Nov 2022, 14:21 Bru=
+ce Ashfield, &lt;<a href=3D"mailto:bruce.ashfield@gmail.com" target=3D"_bla=
+nk">bruce.ashfield@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"g=
+mail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204=
+,204,204);padding-left:1ex">On Tue, Nov 29, 2022 at 7:28 PM Anthony Davies<=
+br>
+&lt;<a href=3D"mailto:anthony.t.davies@gmail.com" rel=3D"noreferrer" target=
+=3D"_blank">anthony.t.davies@gmail.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; Hi,<br>
+&gt;<br>
+&gt; I have created an image that includes k3s. When my hardware boots and =
+I attempt to execute k3s straight out segfaults, output from &quot;k3s --de=
+bug&quot; and no logs are created.<br>
+&gt;<br>
 <br>
-Hopefully it works now!<br>
+What are the details of your hardware ? k3s is running fine for me on<br>
+everything that I have available. So we&#39;ll need to try and figure out<b=
+r>
+some differences.<br>
 <br>
 Bruce<br>
 <br>
-On Tue, Nov 29, 2022 at 10:56 PM Anthony Davies<br>
-&lt;<a href=3D"mailto:anthony.t.davies@gmail.com" target=3D"_blank" rel=3D"=
-noreferrer">anthony.t.davies@gmail.com</a>&gt; wrote:<br>
+&gt; On #meta-virt it was suggested to try another go program on my image, =
+I installed &quot;go-helloworld&quot; which runs successfully.<br>
 &gt;<br>
-&gt; Yq is the one I had issues with<br>
+&gt; Regards,<br>
 &gt;<br>
-&gt; On Wed, 30 Nov 2022, 14:21 Bruce Ashfield, &lt;<a href=3D"mailto:bruce=
-.ashfield@gmail.com" target=3D"_blank" rel=3D"noreferrer">bruce.ashfield@gm=
-ail.com</a>&gt; wrote:<br>
-&gt;&gt;<br>
-&gt;&gt; Which recipes ?<br>
-&gt;&gt;<br>
-&gt;&gt; I normally port all branch changes as far back as possible, but I =
-may<br>
-&gt;&gt; have missed some.<br>
-&gt;&gt;<br>
-&gt;&gt; Bruce<br>
-&gt;&gt;<br>
-&gt;&gt; On Tue, Nov 29, 2022 at 7:19 PM Anthony Davies<br>
-&gt;&gt; &lt;<a href=3D"mailto:anthony.t.davies@gmail.com" target=3D"_blank=
-" rel=3D"noreferrer">anthony.t.davies@gmail.com</a>&gt; wrote:<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; Hi,<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; Is it possible to backport these patches from master to kirks=
-tone?<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; I could do it but I am not confident about submitting patches=
- via email.<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; Regards,<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; Tony Davies<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt;&gt; &gt; Links: You receive all messages sent to this group.<br>
-&gt;&gt; &gt; View/Reply Online (#7705): <a href=3D"https://lists.yoctoproj=
-ect.org/g/meta-virtualization/message/7705" rel=3D"noreferrer noreferrer" t=
-arget=3D"_blank">https://lists.yoctoproject.org/g/meta-virtualization/messa=
-ge/7705</a><br>
-&gt;&gt; &gt; Mute This Topic: <a href=3D"https://lists.yoctoproject.org/mt=
-/95348458/1050810" rel=3D"noreferrer noreferrer" target=3D"_blank">https://=
-lists.yoctoproject.org/mt/95348458/1050810</a><br>
-&gt;&gt; &gt; Group Owner: <a href=3D"mailto:meta-virtualization%2Bowner@li=
-sts.yoctoproject.org" target=3D"_blank" rel=3D"noreferrer">meta-virtualizat=
-ion+owner@lists.yoctoproject.org</a><br>
-&gt;&gt; &gt; Unsubscribe: <a href=3D"https://lists.yoctoproject.org/g/meta=
--virtualization/unsub" rel=3D"noreferrer noreferrer" target=3D"_blank">http=
-s://lists.yoctoproject.org/g/meta-virtualization/unsub</a> [<a href=3D"mail=
-to:bruce.ashfield@gmail.com" target=3D"_blank" rel=3D"noreferrer">bruce.ash=
-field@gmail.com</a>]<br>
-&gt;&gt; &gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt;&gt; &gt;<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; --<br>
-&gt;&gt; - Thou shalt not follow the NULL pointer, for chaos and madness aw=
-ait<br>
-&gt;&gt; thee at its end<br>
-&gt;&gt; - &quot;Use the force Harry&quot; - Gandalf, Star Trek II<br>
-<br>
+&gt; Tony Davies<br>
+&gt;<br>
+&gt; <br>
+&gt;<br>
 <br>
 <br>
 -- <br>
@@ -211,6 +179,25 @@ ait<br>
 thee at its end<br>
 - &quot;Use the force Harry&quot; - Gandalf, Star Trek II<br>
 </blockquote></div>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#7709): <a href=3D"https://lists.yoctoproject.org/g/meta=
+-virtualization/message/7709" rel=3D"noreferrer" target=3D"_blank">https://=
+lists.yoctoproject.org/g/meta-virtualization/message/7709</a><br>
+Mute This Topic: <a href=3D"https://lists.yoctoproject.org/mt/95348603/7328=
+908" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.org/mt=
+/95348603/7328908</a><br>
+Group Owner: <a href=3D"mailto:meta-virtualization%2Bowner@lists.yoctoproje=
+ct.org" target=3D"_blank">meta-virtualization+owner@lists.yoctoproject.org<=
+/a><br>
+Unsubscribe: <a href=3D"https://lists.yoctoproject.org/g/meta-virtualizatio=
+n/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.or=
+g/g/meta-virtualization/unsub</a> [<a href=3D"mailto:anthony.t.davies@gmail=
+.com" target=3D"_blank">anthony.t.davies@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div>
 
---000000000000a5884905eea87a97--
+--000000000000cf385a05eeaefb8d--
 
