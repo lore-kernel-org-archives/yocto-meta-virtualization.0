@@ -2,77 +2,78 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC700C4167B
-	for <webhook@archiver.kernel.org>; Wed, 30 Nov 2022 03:21:09 +0000 (UTC)
-Received: from mail-io1-f51.google.com (mail-io1-f51.google.com [209.85.166.51])
- by mx.groups.io with SMTP id smtpd.web10.1852.1669778463188852208
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0FEDC433FE
+	for <webhook@archiver.kernel.org>; Wed, 30 Nov 2022 03:21:49 +0000 (UTC)
+Received: from mail-il1-f173.google.com (mail-il1-f173.google.com [209.85.166.173])
+ by mx.groups.io with SMTP id smtpd.web10.1863.1669778500089323228
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 29 Nov 2022 19:21:03 -0800
+ Tue, 29 Nov 2022 19:21:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=NgWOo8Od;
- spf=pass (domain: gmail.com, ip: 209.85.166.51, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-io1-f51.google.com with SMTP id i80so289919ioa.0
-        for <meta-virtualization@lists.yoctoproject.org>; Tue, 29 Nov 2022 19:21:03 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=S3qKeh4B;
+ spf=pass (domain: gmail.com, ip: 209.85.166.173, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-il1-f173.google.com with SMTP id z9so7592621ilu.10
+        for <meta-virtualization@lists.yoctoproject.org>; Tue, 29 Nov 2022 19:21:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=O46T9ymaRUAiEtqlni1ogNybeXRqi9h7iBakDWz/dMk=;
-        b=NgWOo8OdprcVPdwjCmwM6KPuD/P550DHOR6Lap/Edtv91V/MbbhVMH2g9so57e3Mkn
-         OZVaHyAHuq2p+YX2rI7bnhcgHYA+vK5DI0sb4HVwEWqLvVRyQbYjaY5WYC9dDdx/t7Xg
-         2Pr9d4s8TE54ZD3+k16Gptq0v1vis48ZbSBEaoOKAyQiDK4zDMTzkCbqpmO5zbzL5GKm
-         lYcHUrcbUWdEQzbBUAPKJ7X78NzdqPgzaSDtMoF6/QAwmcs42O40PzSB9ldnrUn9qe84
-         jkUYRjjBIYqdD/jhMu2KAUDZ1A7is1zA1bG5iG4LeD0mxYsjdcm7/W8b/rmIhIHNmPhu
-         Z0bg==
+        bh=vN5mdQyMZhBvQ0q+dIqsDRMioJtDy5m4GVkUM026020=;
+        b=S3qKeh4BTJ01srizt5pEo9mZeNKXc+/46V6WUuS/TLh4Ivvfcws+N5TTOdpXXm6qJO
+         or/R7Ab+1tMeltYp5uuwSXdKWWmyeiY/izH/2Lwf2vfCk3i2FcLSrs+r0/40afEZDvLm
+         SceRW8oWuxlbOpnUHx20EupeUkC8ers19GM5jx8LcKGCH+9fRKYLtG2/Ts39OG2HyS6E
+         lQW6BDGRJWvmZ6ONIahKa7TV+bxw5FspF6dFV2XdLBNxaXG63g4FJ//DWsuFE2E+v4ii
+         JUn4AYr6Gv8V80Y1tmspoClxPwCNV3+WdQ3LX7hKjvgAMivzpiLflJeHMc1MfL6ZCOcH
+         cqEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=O46T9ymaRUAiEtqlni1ogNybeXRqi9h7iBakDWz/dMk=;
-        b=vE6VGFEmeF6VlJS09peoUEulDjVLZPSsdZ6j1oYGx8y/gVVaEZ9K7xCHbrdsZNtUpp
-         JI1sgBR243IT3VspfXkWy/qMWrUBYNRms9U/0ZfpMaegq/ZrRULVrK6er7dNncNhWMzx
-         5MB6BBQRIPCmyW+Kg3Fuq+LbKEaZknjWl2TvsYfKhZPTib5LOACiBxXs4ZwdnTw4uAzS
-         5rqPY9KknmVM81FYY5DYSVFs6k4cVIkGK7df+wWAQKkUwWqi0WuN/FrCCDmXeHNA+G/L
-         bFh2B5bG4UYCLllJBbyZuYJ9l0w+iksX2V2hmwEFm5Oj9awtjXUbubfjOzayCeEs1Xtw
-         Xvwg==
-X-Gm-Message-State: ANoB5pkRMapaymcI5CEiTSYu5z3+UQ24fBqONjlHnp6f7aU0hoC4bJbQ
-	siFAQwxJb72O1aNEg1+hwH/KAbIrhvnPCtwgNUE=
-X-Google-Smtp-Source: AA0mqf6Jn+DglRBHoteq9vIC2HMOYKUgF7GHL5Y+hKUJlKGu6iPRtTg+oVQZl7f/SuvznR65SkBfPoBQFaHwYGQQ4Og=
-X-Received: by 2002:a02:6d53:0:b0:372:f7ed:9f78 with SMTP id
- e19-20020a026d53000000b00372f7ed9f78mr21640014jaf.245.1669778462362; Tue, 29
- Nov 2022 19:21:02 -0800 (PST)
+        bh=vN5mdQyMZhBvQ0q+dIqsDRMioJtDy5m4GVkUM026020=;
+        b=DNxV5+Qm/t8AJpcQkkeZMfYL2ahfPpzRQY6TPC2Pm2sJyHQv+jUVvYmyWl3jAB505S
+         H+zC+UEzrLyMUsCGzwohJPlMw8Vd1bRoQYIVrDPPjk8nVRRqgqfCiX0A7MTKfgN+92qZ
+         ve0D9DL1UmlPttNgZB4BdGdVmvsk5Cm4OBr8JhHmJNXuO8StA8/ZACghnXdjAOohlznC
+         VecjkCl7T2xS4mcHxUd5qgNMUIJYTrK/PauIRPj8UPgGACab9N9ai+ThNHlGDgCJosmz
+         juApjcQBjUZ4ZGD1Py0O2ImeD/Pdrc4fLrDDaRyp5x0NGLX3BCTZf/R2qnONX7Hd2RLm
+         QxjQ==
+X-Gm-Message-State: ANoB5pkng0yNt/0u18jKeNQJvsf9P/RZQV/wyAsOW0sJKg+vARLHBYti
+	Uutkwwqhm9nd+cEvh3VudKej4eKFqIH2KlsdlnQ=
+X-Google-Smtp-Source: AA0mqf6qsfo2PqeY4RtBj35RXoNQzFVFBaSnDHtmVAGESf5ng4CrYwHsVydox3xe6EFISfUVQgFxl8A7iEFebKrOUlg=
+X-Received: by 2002:a92:d7d0:0:b0:303:154e:333d with SMTP id
+ g16-20020a92d7d0000000b00303154e333dmr5840401ilq.107.1669778499411; Tue, 29
+ Nov 2022 19:21:39 -0800 (PST)
 MIME-Version: 1.0
-References: <CAL5F+oJ78-LCD44FjQrJzrjrVcN2m1bCqUv746HFVdMFuUvPgw@mail.gmail.com>
-In-Reply-To: <CAL5F+oJ78-LCD44FjQrJzrjrVcN2m1bCqUv746HFVdMFuUvPgw@mail.gmail.com>
+References: <CAL5F+o+wXUrREoX2N10ks3YDMmACex+xYi3d9XewTns==BntSw@mail.gmail.com>
+In-Reply-To: <CAL5F+o+wXUrREoX2N10ks3YDMmACex+xYi3d9XewTns==BntSw@mail.gmail.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Tue, 29 Nov 2022 22:20:51 -0500
-Message-ID: <CADkTA4OBu7UNq_mHWf8WCzW0Sev8Y2b6yGag5maCJfqzy3b_iQ@mail.gmail.com>
-Subject: Re: [meta-virtualization] k3s (kirkstone) segfaults when run on hardware
+Date: Tue, 29 Nov 2022 22:21:28 -0500
+Message-ID: <CADkTA4MoryRn=OOOQL7j0BHkjrB5Tyd35T+=f9=AA7YOqfd32A@mail.gmail.com>
+Subject: Re: [meta-virtualization] Backport Repo branch changes (master=>main)
+ to Kirkstone branch
 To: Anthony Davies <anthony.t.davies@gmail.com>
 Cc: meta-virtualization@lists.yoctoproject.org
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Wed, 30 Nov 2022 03:21:09 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/7707
+ <meta-virtualization@lists.yoctoproject.org>; Wed, 30 Nov 2022 03:21:49 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/7708
 
-On Tue, Nov 29, 2022 at 7:28 PM Anthony Davies
+Which recipes ?
+
+I normally port all branch changes as far back as possible, but I may
+have missed some.
+
+Bruce
+
+On Tue, Nov 29, 2022 at 7:19 PM Anthony Davies
 <anthony.t.davies@gmail.com> wrote:
 >
 > Hi,
 >
-> I have created an image that includes k3s. When my hardware boots and I attempt to execute k3s straight out segfaults, output from "k3s --debug" and no logs are created.
+> Is it possible to backport these patches from master to kirkstone?
 >
-
-What are the details of your hardware ? k3s is running fine for me on
-everything that I have available. So we'll need to try and figure out
-some differences.
-
-Bruce
-
-> On #meta-virt it was suggested to try another go program on my image, I installed "go-helloworld" which runs successfully.
+> I could do it but I am not confident about submitting patches via email.
 >
 > Regards,
 >
@@ -80,8 +81,8 @@ Bruce
 >
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#7706): https://lists.yoctoproject.org/g/meta-virtualization/message/7706
-> Mute This Topic: https://lists.yoctoproject.org/mt/95348603/1050810
+> View/Reply Online (#7705): https://lists.yoctoproject.org/g/meta-virtualization/message/7705
+> Mute This Topic: https://lists.yoctoproject.org/mt/95348458/1050810
 > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
 > Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
