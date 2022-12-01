@@ -1,91 +1,79 @@
-Return-Path: <changqing.li@eng.windriver.com>
+Return-Path: <joakim.roubert@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85543C43217
-	for <webhook@archiver.kernel.org>; Thu,  1 Dec 2022 08:40:50 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.38003.1669884045199842567
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F15DC43217
+	for <webhook@archiver.kernel.org>; Thu,  1 Dec 2022 13:46:22 +0000 (UTC)
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+ by mx.groups.io with SMTP id smtpd.web11.43655.1669902377991348391
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 01 Dec 2022 00:40:45 -0800
+ Thu, 01 Dec 2022 05:46:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=EtxKgQAB;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=9334f0b321=changqing.li@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2B18NFEC021975
-	for <meta-virtualization@lists.yoctoproject.org>; Thu, 1 Dec 2022 08:40:44 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to :
- subject : date : message-id : mime-version : content-transfer-encoding :
- content-type; s=PPS06212021;
- bh=QKEKKQLxg+obwc2DQw6oT1JnbPPK0ylCM9K3USk30Qs=;
- b=EtxKgQABYhMlw1p/aysKNyfOp9ySH0qsG3Fx03QBN1+LK0/oQ+HzjlcTJNxm+2s+osrt
- gmfG0ZL41jXFvU4haAUI8ZoLtAH7zFeIC1oBP8KZFzbaxPkJq/VHWVZoHWFLuhCP3Hvc
- exC6+CUzbDPdRJUUkmfb0Csr3PHoX4qWmobQjVuykCtn3HSP6sEXfcxaoQjSvGoHStMK
- G7CZgTHIXBpH3ZZOeEECd+CRbks90KrcLmzGAaV+DVOdaBprT+JpTQBGCriRErXSJKnu
- IA6PunaY80c4EN/7JXCkTAz+DtFzWQiAtqV8AVKHob2n+YhjDjhIybVyBZ1N6pv3QyWB jA== 
-Received: from ala-exchng02.corp.ad.wrs.com (unknown-82-254.windriver.com [147.11.82.254])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3m38134648-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <meta-virtualization@lists.yoctoproject.org>; Thu, 01 Dec 2022 08:40:44 +0000
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Thu, 1 Dec 2022 00:40:42 -0800
-Received: from pek-lpg-core2.wrs.com (128.224.153.41) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.12 via Frontend Transport; Thu, 1 Dec 2022 00:40:42 -0800
-From: <changqing.li@windriver.com>
-To: <meta-virtualization@lists.yoctoproject.org>
-Subject: [meta-virtualization][PATCH] conmon: avoid host contamination by GOCACHE
-Date: Thu, 1 Dec 2022 16:40:41 +0800
-Message-ID: <20221201084041.2312838-1-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=oxWC95rR;
+ spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: joakim.roubert@axis.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=axis.com; q=dns/txt; s=axis-central1; t=1669902378;
+  x=1701438378;
+  h=message-id:date:mime-version:from:to:subject:
+   content-transfer-encoding;
+  bh=6apPqgOcUB9jtjv19Sm209hJ2tBEkFA41MwgrMY1M/I=;
+  b=oxWC95rRr7dfNqHsLO0yGsSaBWfBSzN2U7mi8MPJMY5/+PtDVlG/uVKw
+   7OxagZAZtwjmNH2VgFdxMUbBiEvFw+4+G7dmyvXC7kD/ERKWxV/b1qRLR
+   eey00AUPa4n+mj0+Me8CDcHEtoFZbviAjhJfN0R8GsbasDTzLcZUNCO9w
+   qc+qMtHAp8U2yelfMu4jgmhBc+J+nVBe5A2CpSzCmV9ROFSwy0YMCegt6
+   seKJds7e3EFI2vcPaionBCvGUhp6rZIGEwEiqMgqXK4iq5kHNA5Ufb0SR
+   /sioOC/pdt4HwoUjrDM6kS99NNti62amffe6XuU9hqX5BFe/uZj50VmPM
+   g==;
+Message-ID: <ddf7cf66-0067-2ea9-dbad-a73bba79a5db@axis.com>
+Date: Thu, 1 Dec 2022 14:46:15 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: Cjpc4tQKigvYTBCxGUQiY129Nu5-1SNJ
-X-Proofpoint-ORIG-GUID: Cjpc4tQKigvYTBCxGUQiY129Nu5-1SNJ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-12-01_04,2022-11-30_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 bulkscore=0
- phishscore=0 spamscore=0 clxscore=1011 priorityscore=1501
- lowpriorityscore=0 mlxlogscore=962 impostorscore=0 adultscore=0
- malwarescore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2212010058
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.0
+Content-Language: en-US
+From: Joakim Roubert <joakim.roubert@axis.com>
+To: "meta-virtualization@lists.yoctoproject.org"
+	<meta-virtualization@lists.yoctoproject.org>
+Subject: [Question] upx: do_fetch: Bitbake Fetcher
+ Error:,FetchError('Submodule refers to the parent repository.
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.0.5.60]
+X-ClientProxiedBy: se-mail06w.axis.com (10.20.40.12) To se-mail07w.axis.com
+ (10.20.40.13)
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Thu, 01 Dec 2022 08:40:50 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/7719
+ <meta-virtualization@lists.yoctoproject.org>; Thu, 01 Dec 2022 13:46:22 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/7720
 
-From: Changqing Li <changqing.li@windriver.com>
+Hi!
 
-By default GOCACHE is set to $HOME/.cache.
+On Kirkstone, since Kirkstone 4.0.5 (commit 
+189a6d452e3037c9e94ccdf6af38359fc6058064, 
+https://git.yoctoproject.org/poky/commit/?h=kirkstone&id=189a6d452e3037c9e94ccdf6af38359fc6058064) 
+the added check gives me
 
-Fix:
-make[1]: Entering directory '/mnt/tmp-glibc/work/core2-64-wrs-linux/conmon/2.1.3+gitAUTOINC+19110c9746-r0/git/tools'
-| failed to initialize build cache at /home/build/.cache/go-build: mkdir /home/build: permission denied
+ERROR: upx-3.96+AUTOINC+4e1ae22a1a-r0 do_fetch: Bitbake Fetcher Error:
+FetchError('Submodule refers to the parent repository. This will cause
+deadlock situation in current version of Bitbake.Consider using git
+fetcher instead.', None)
 
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
----
- recipes-containers/conmon/conmon_git.bb | 2 ++
- 1 file changed, 2 insertions(+)
+(I noticed that latest master is identical with latest kirkstone.)
+I'm experimenting with using git:// instead of gitsm:// and adding a 
+suggested solution if found searching for documentation on how to 
+migitate this
 
-diff --git a/recipes-containers/conmon/conmon_git.bb b/recipes-containers/conmon/conmon_git.bb
-index a20af04..4c58dab 100644
---- a/recipes-containers/conmon/conmon_git.bb
-+++ b/recipes-containers/conmon/conmon_git.bb
-@@ -20,6 +20,8 @@ S = "${WORKDIR}/git"
- 
- inherit pkgconfig
- 
-+export GOCACHE = "${B}/.cache"
-+
- EXTRA_OEMAKE = "PREFIX=${prefix} BINDIR=${bindir} LIBEXECDIR=${libexecdir}"
- 
- PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)}"
--- 
-2.25.1
+do_configure:prepend() {
+     cd ${WORKDIR}/git
+     git submodule update --init --recursive
+}
+
+but I've not yet been able to make things work. Since I'm no power user 
+when it comes to Yocto magic perhaps someone already knows what would be 
+the best way forward on this (if I'm on the wrong path)?
+
+BR,
+
+/Joakim
 
 
