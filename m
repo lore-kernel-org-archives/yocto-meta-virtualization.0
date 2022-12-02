@@ -2,114 +2,88 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DB6BC4321E
-	for <webhook@archiver.kernel.org>; Thu,  1 Dec 2022 21:58:37 +0000 (UTC)
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
- by mx.groups.io with SMTP id smtpd.web11.58858.1669931916547479146
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5075CC4332F
+	for <webhook@archiver.kernel.org>; Fri,  2 Dec 2022 04:39:49 +0000 (UTC)
+Received: from mail-io1-f46.google.com (mail-io1-f46.google.com [209.85.166.46])
+ by mx.groups.io with SMTP id smtpd.web11.67404.1669955983522350891
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 01 Dec 2022 13:58:36 -0800
+ Thu, 01 Dec 2022 20:39:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=pKfNgWNP;
- spf=pass (domain: gmail.com, ip: 209.85.160.181, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qt1-f181.google.com with SMTP id fp23so2499056qtb.0
-        for <meta-virtualization@lists.yoctoproject.org>; Thu, 01 Dec 2022 13:58:36 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=bHGbdWXv;
+ spf=pass (domain: gmail.com, ip: 209.85.166.46, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-io1-f46.google.com with SMTP id y131so1771874iof.9
+        for <meta-virtualization@lists.yoctoproject.org>; Thu, 01 Dec 2022 20:39:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GuiNIVXK53CLBWL8cF7BXd5iwfYIuJCXYNyEGfL3zcw=;
-        b=pKfNgWNPBxNgVU23SIHP4yh8ohnZXJApAl8LKWQd58cZIqjIdyL4d0+jM7hlAEe+/C
-         i3jIVUcwud87TyMIYzjlU6eHKtlIGhxLh4GCVg93DaKlvyIEWG6ruDJ4RGR1Md3V/Cro
-         nWwXeEeBU5aMoSlWY/7KNMkhqEdamL/74ndCM/rVuf/+Xv5Nv/3827DnKJv0Lc1gAlXy
-         u0Svz+h08tiNcZP0kZtnR19zRdoOBKoTNrbz2923KQxgZf1z7Ctr7rgKlBAtlpUXjPti
-         qvxi5jF1cKobkSGB5osBMfXbbufhZvUYTd16JeQlcqrRXagog4pxGkM1NjdOlH+QvVty
-         oQ5A==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=BysuFmKxrumyXMxJg19iS+Ze6Sc35EUUy0C6bRO6FZA=;
+        b=bHGbdWXvypm9iO5go7kWbj5Z9ZzQg+j9DUHzYJeezMWFkhS1Mhr/aazGCYb2Xh4QTk
+         YMtxYuemXRefKOQ4aZ91myQmcwKq+kDq3/pwgzDj8al+Cr+/yw80bCRJAEX9QIc58c+S
+         GhesqkIpzqFyQ6qhvM+igDTFUId08e9IKT/7HpgLpK/NmsdEuXRu0EY9UsTB2ds+uLSs
+         VjbXWi30rGJX3uIKJHOBZV+mG89DhA99fSVCT5QyNLl8fT2KICU3aPmQrmgfDNcBvYUD
+         sUy1cDE4qPiOKUXhHZqogKGl9DRHTwddicatRzsPEg/YA6mOg8PLxQxHk+p0tXE1UF8e
+         w9dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GuiNIVXK53CLBWL8cF7BXd5iwfYIuJCXYNyEGfL3zcw=;
-        b=AzGs178/HG3jNqB7m9gALMt9JySoTpu8UrJvoHa5sjVu7g8BVS6FJWfKa/n7GrCtK5
-         8Ssk+6Q3Q/vNa+fk5NRl8fv8bPmqtacKXBx2KGR4hO9Hr8ev7tvtuoo6SrB2OLz6sLoK
-         fTw+t53+1clVOeLY3zc6rM5WRiYnAuqrgyAJxe8QlTpBSS9B8COVr3A7kgyceDQLasCT
-         ZdzM2uaNPFADQ4Sk1v4G71U9mRFifc1+LXHZB6+3ToxAOqMuroEye+vlK+abvGcDjaN4
-         9rm3fbSv0BQkYHygkdojovjaRBNUwnFtAo21aQVfqlx3nOpFUr6MYayxNADSj+JD3Vm3
-         tmrg==
-X-Gm-Message-State: ANoB5pnbiZbBf1/GOw3rzqzUv3CCUVix2Vel9zXlvStTBLDMHbzoEyme
-	pRWXZxYycJ2RAPL8tADmgQ7HdawuMbWfiA==
-X-Google-Smtp-Source: AA0mqf5S/vwLL/gClmaxynGtWdJ6RKZUpC7yPLPdpGpTbBpN3ViI7nYrcATHvRJSoufodpwBrD+qdw==
-X-Received: by 2002:a05:622a:4a11:b0:3a6:54da:ff58 with SMTP id fv17-20020a05622a4a1100b003a654daff58mr43373542qtb.220.1669931915567;
-        Thu, 01 Dec 2022 13:58:35 -0800 (PST)
-Received: from gmail.com (cpe7c9a54441c1f-cm7c9a54441c1d.cpe.net.cable.rogers.com. [173.34.238.88])
-        by smtp.gmail.com with ESMTPSA id az15-20020a05620a170f00b006ce1bfbd603sm4081043qkb.124.2022.12.01.13.58.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Dec 2022 13:58:35 -0800 (PST)
-Date: Thu, 1 Dec 2022 16:58:33 -0500
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Changqing Li <changqing.li@eng.windriver.com>
-Cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [meta-virtualization][PATCH] conmon: avoid host contamination by
- GOCACHE
-Message-ID: <20221201215831.GA31292@gmail.com>
-References: <20221201084041.2312838-1-changqing.li@windriver.com>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BysuFmKxrumyXMxJg19iS+Ze6Sc35EUUy0C6bRO6FZA=;
+        b=CTB2ZHdTD9BOB41cWQi9mYuFCAVpeTXaFYgFCmONrWLBAsjp5fk1my0OtM/QmR3Tzp
+         xdnOWne8ntzDAQ7UwiT0XWstM2uFBr0OEypouVUFBl4zwBVf/hTlhSQ9j76kOhgmUgWL
+         e4KDWHyzTlM1OmQ8p5v18F2+J+9v+zCtoLTKKbSBvtHAuyFmK7KNSPE3omFNNyG5X2Gj
+         lGfdDM6XQJnZAXVRML0XJ3pvHBaTn8sO6nhj55sVfEkYRpSu/O0GYvht1fbL3zwFLa2Q
+         qoCba2P+uWYVTKO3ZwQYhP2+N+a3gfOsjO6mybSXTTu0KcfcoOLW2WsC1muWm64Vx13J
+         mRCA==
+X-Gm-Message-State: ANoB5pmgzi0YeC+US3e26rvO9RoJgfX7rIgw85wWOd/9uSGcHjJUEOeb
+	ZQbt9eV2q5o9JgsFiyItXD18uiVHPt4vnqsyy0E=
+X-Google-Smtp-Source: AA0mqf7g9+yVU1i98jqYWd+TLgsNoTmVyUrdWBxu2ef6zYfs4a3P3mDDR+zjYTYHZ79OXAnXWsCP0KN/0cH1ygMhOUc=
+X-Received: by 2002:a05:6602:378f:b0:6db:7942:d64a with SMTP id
+ be15-20020a056602378f00b006db7942d64amr25892946iob.198.1669955982792; Thu, 01
+ Dec 2022 20:39:42 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221201084041.2312838-1-changqing.li@windriver.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20221030161333.12430-1-f_l_k@t-online.de> <20221030161333.12430-2-f_l_k@t-online.de>
+ <CADkTA4PfHFDrq5McxwSLg957MpFVjZgWpUiBzFm18AM4xUO-sg@mail.gmail.com>
+ <6GGOKR.9UDK9PG7M6LM3@t-online.de> <1723CB4C1BEE0B79.10635@lists.yoctoproject.org>
+ <CADkTA4N0z=j7AjV9g1-kHnTzX8vSgDSL_4Qj8iNZaeXjyQdtwQ@mail.gmail.com> <V6BTKR.V7B3NTHJZAU82@t-online.de>
+In-Reply-To: <V6BTKR.V7B3NTHJZAU82@t-online.de>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Thu, 1 Dec 2022 23:39:31 -0500
+Message-ID: <CADkTA4OLtXws3p3HDcpMgkgT2q7Ar558mJQ+7u7r-STdebbRcQ@mail.gmail.com>
+Subject: Re: [meta-virtualization][PATCH 2/2] virt-viewer: add recipe
+To: Markus Volk <f_l_k@t-online.de>
+Cc: meta-virtualization@lists.yoctoproject.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Thu, 01 Dec 2022 21:58:37 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/7726
+ <meta-virtualization@lists.yoctoproject.org>; Fri, 02 Dec 2022 04:39:49 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/7727
 
-merged.
+I finally managed to get enough time to look into this more, and I've
+pushed my fix to master-next.
+
+Everything should now build without QA errors, and I expect to have it
+merged over the weekend.
 
 Bruce
 
-In message: [meta-virtualization][PATCH] conmon: avoid host contamination by GOCACHE
-on 01/12/2022 Changqing Li wrote:
+On Fri, Nov 4, 2022 at 3:23 AM Markus Volk <f_l_k@t-online.de> wrote:
+>
+> Am Do, 3. Nov 2022 um 11:23:25 -0400 schrieb Bruce Ashfield <bruce.ashfield@gmail.com>:
+>
+> but libvirt still has other TMPDIR QA warnings that still haven't been fixed, so I don't consider this an absolute blocker. I'll have a look and try to fix it.
+>
+>
+> Thanks for the help!
+>
+> Markus
 
-> From: Changqing Li <changqing.li@windriver.com>
-> 
-> By default GOCACHE is set to $HOME/.cache.
-> 
-> Fix:
-> make[1]: Entering directory '/mnt/tmp-glibc/work/core2-64-wrs-linux/conmon/2.1.3+gitAUTOINC+19110c9746-r0/git/tools'
-> | failed to initialize build cache at /home/build/.cache/go-build: mkdir /home/build: permission denied
-> 
-> Signed-off-by: Changqing Li <changqing.li@windriver.com>
-> ---
->  recipes-containers/conmon/conmon_git.bb | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/recipes-containers/conmon/conmon_git.bb b/recipes-containers/conmon/conmon_git.bb
-> index a20af04..4c58dab 100644
-> --- a/recipes-containers/conmon/conmon_git.bb
-> +++ b/recipes-containers/conmon/conmon_git.bb
-> @@ -20,6 +20,8 @@ S = "${WORKDIR}/git"
->  
->  inherit pkgconfig
->  
-> +export GOCACHE = "${B}/.cache"
-> +
->  EXTRA_OEMAKE = "PREFIX=${prefix} BINDIR=${bindir} LIBEXECDIR=${libexecdir}"
->  
->  PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)}"
-> -- 
-> 2.25.1
-> 
 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#7719): https://lists.yoctoproject.org/g/meta-virtualization/message/7719
-> Mute This Topic: https://lists.yoctoproject.org/mt/95377985/1050810
-> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
 
+-- 
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
