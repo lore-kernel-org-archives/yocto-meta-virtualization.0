@@ -2,264 +2,213 @@ Return-Path: <adrian.freihofer@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7504C4332F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ADB6AC3A5A7
 	for <webhook@archiver.kernel.org>; Sun,  4 Dec 2022 21:38:48 +0000 (UTC)
 Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
- by mx.groups.io with SMTP id smtpd.web10.139151.1670189921225191444
+ by mx.groups.io with SMTP id smtpd.web10.139153.1670189921598182484
  for <meta-virtualization@lists.yoctoproject.org>;
  Sun, 04 Dec 2022 13:38:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=qAQLEJRz;
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=dPK8tBPt;
  spf=pass (domain: gmail.com, ip: 209.85.218.43, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-ej1-f43.google.com with SMTP id ml11so23589476ejb.6
-        for <meta-virtualization@lists.yoctoproject.org>; Sun, 04 Dec 2022 13:38:40 -0800 (PST)
+Received: by mail-ej1-f43.google.com with SMTP id n21so23539280ejb.9
+        for <meta-virtualization@lists.yoctoproject.org>; Sun, 04 Dec 2022 13:38:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Sv6b0IOUwZe4w6jD6fbvW/+ddth8eSNk6DMXPV4fJI0=;
-        b=qAQLEJRzoXYpm3dS/I/A/lbzV5boxBUdB6okNsCM67UhWxwoZyD7pVVDEhtkYAHF1P
-         oQaSauBmXNatKTn4UTEhjx2CnIaN2wHw+2eF6KAEOEMzxpbsNLJKDClyCZadN05IOeyk
-         zOBO1i0kjuxbhpSy0DnvzbFhGkFGl5nEldHdN3kD3Hy8Snx2C+sIb4XBxfvjIws9kQcT
-         6E2o7yKkVyXBGnKJ+3lX11yd119+71v3JmE81Xxzy9zx3U+hJhRa6kPtgZV8DVCF2Nyj
-         DZs8v+JGwAyIwYmi245UMdrk2PylSqpWhGzxy16HV4l0Dlex8Ny0rTKZ2P12O8JtJEO5
-         lJ4g==
+        bh=Vr+LfWjYiZiFHmWBuLiWlR1BDmdscFB7+bN9zyYt1kE=;
+        b=dPK8tBPtOQVzFxUgWh31PFlN+N1Aap3CUxVj+rGFDlIYWJD4oxfZ/Vl7uCbIEZbBNw
+         XNRVn8oa8hCNalPjGAutICX2ozc92BUd92Obw/BxGWh38aAG4pJfLu5dnwHqqDJjD3Fu
+         hbhmF/k74duElzS309VSuVFgRF1qBEewXQgYeuCIrfZP0VhO84M2eavirraqaTaPiBP8
+         44Ir8gOFbhDI0xT5rqG8TzAn3GOelR20ItviD51bamiwsibrhMh3px6r1WRdydvOTc7V
+         TZ5TNAjhBNijsBKtcjzfKQP9iw8yYEtkNK85tgduiFqLXn8ff84qyN7G6NAR5lYbicta
+         VLhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Sv6b0IOUwZe4w6jD6fbvW/+ddth8eSNk6DMXPV4fJI0=;
-        b=iFEphawSrBM1ysntzGSGBNAIvcrYw6D7tGLd5Cg2NamiX3oYBIg1nopjMcSmGnU2oO
-         LRVMpKuAaZ3HfGXhzIhAd5VQSgsmQM4UWN0oe3MVdLO/6GqSpVosrse0n+iwm/YzKCMO
-         ppqvQ7Q8eSg1U27PAMavZq1ViZry0wNFZMVSxPWHMguEXIjSuUHXmfg+/CuaXw0FWU9E
-         pv8ACDgP7lUZVWhEE6BT1GCGe5bpVtE83iSaGvP69A+OM1JHXfrZ6IrH0HxHSkEzjrmO
-         f03ehq+hUdbImfY+4cN6l7eSjwkf3LzF5aL1CfU86VppK4sZrXrvuaFyIxpt1XHreiPB
-         ZKmA==
-X-Gm-Message-State: ANoB5plYm0Dbk9mPdOll/Y8/LUNQJF4S7yXuelTsdmV6kypI9Iqm3eD3
-	nHT3fklsLKspGB2MWpdhH2r8APSsWys=
-X-Google-Smtp-Source: AA0mqf7UPp2+lgonT+oMVF3UkLgXvimXJ9E7w5RtnEXDv0TKVX8BYoahuJ8xjldSStp5TinHRlYKOA==
-X-Received: by 2002:a17:906:bcda:b0:7c0:80b0:7f67 with SMTP id lw26-20020a170906bcda00b007c080b07f67mr24964324ejb.462.1670189919352;
+        bh=Vr+LfWjYiZiFHmWBuLiWlR1BDmdscFB7+bN9zyYt1kE=;
+        b=x/9FtgkFie0sHBbPaVqt9nywkTD2Bc7++jivv/4jVCzCAlLpjpl/blamsMuwt2vskV
+         rqFS8fHH0mxS6VIAIfDS+Sy8u0BIN2aVIa/bIDiJuZI1+iJGDBqPXJMePpzgEx1f5Zc8
+         y+ECgDV73nw6fFnVirxmDwsmLDAPoRkunfigRZUzfBx1HFB6aqjWz7TB9Dng3w8KP/Xr
+         8cppTEyy6RtgZ5ZWuomZb8rWUWZ2rMWbKL4B0eaUKxXU81p2S2OZExsLGSnmZslHRlBe
+         4GaONMU2KZe9EOgsGSO96UKarTXjZZLMwdZXH6knA8SMPDSBhqUrDh1rVmr4eglWHPOX
+         KWfg==
+X-Gm-Message-State: ANoB5pn9RnVrzJ3rnedLJb7KpUoi2BwtXlVE+jFAwt0FBLC9v5BW1Z2Y
+	+mD7EGbq/rBgAMq8f6GPtDFGnF8C+aY=
+X-Google-Smtp-Source: AA0mqf7/FMwjRAnEUDpJqsgzLF8d9ktd6TvIldlNXTlDAND40biPhVqf1KcGSTxsoBZq5Kh2spI95Q==
+X-Received: by 2002:a17:906:5a8b:b0:7c0:bf7c:a56b with SMTP id l11-20020a1709065a8b00b007c0bf7ca56bmr10525471ejq.306.1670189919871;
         Sun, 04 Dec 2022 13:38:39 -0800 (PST)
 Received: from md2ramxc.ad001.siemens.net ([62.32.0.33])
-        by smtp.gmail.com with ESMTPSA id dt13-20020a170906b78d00b0078d3f96d293sm5544179ejb.30.2022.12.04.13.38.38
+        by smtp.gmail.com with ESMTPSA id dt13-20020a170906b78d00b0078d3f96d293sm5544179ejb.30.2022.12.04.13.38.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Sun, 04 Dec 2022 13:38:39 -0800 (PST)
 From: Adrian Freihofer <adrian.freihofer@gmail.com>
 X-Google-Original-From: Adrian Freihofer <adrian.freihofer@siemens.com>
 To: meta-virtualization@lists.yoctoproject.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [meta-virtualization][kirkstone][PATCH 1/3] runc-docker: update to 1.1.4-tip
-Date: Sun,  4 Dec 2022 22:38:07 +0100
-Message-Id: <20221204213809.483131-2-adrian.freihofer@siemens.com>
+Subject: [meta-virtualization][kirkstone][PATCH 2/3]  containerd-opencontainers: update to 1.6.9
+Date: Sun,  4 Dec 2022 22:38:08 +0100
+Message-Id: <20221204213809.483131-3-adrian.freihofer@siemens.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221204213809.483131-1-adrian.freihofer@siemens.com>
 References: <20221204213809.483131-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <meta-virtualization@lists.yoctoproject.org>; Sun, 04 Dec 2022 21:38:48 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/7734
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/7735
 
-Bumping runc to version v1.1.4-8-g974efd2d, which comprises the following commits:
-
-974efd2d Merge pull request #3620 from lab47/b-remove-udev-dep
-3b958289 Fixes inability to use /dev/null when inside a container
-28fa513e Merge pull request #3630 from kolyshkin/1.1-fix-centos-7-ci-again
-335ec376 cirrus-ci: install EPEL on CentOS 7 conditionally
-8523022e Merge pull request #3618 from kolyshkin/1.1-fix-centos-7-ci
-fb145a2f cirrus-ci: enable EPEL for CentOS 7
-d66943e6 merge branch 'pr-3564' into release-1.1
-276297b6 VERSION: back to development
-5fd4c4d1 (tag: v1.1.4) Release 1.1.4
-46a5a846 Merge pull request #3554 from kolyshkin/1.1-fix-dev-pts
-204c673c [1.1] fix failed exec after systemctl daemon-reload
-1c6dc765 Merge pull request #3562 from kolyshkin/1.1-ci-codespell-2.2
-ec2efc2c ci: fix for codespell 2.2
-7c69bcc6 Merge pull request #3558 from kolyshkin/1.1-fix-cross-386
-c778598c [1.1] ci/gha: fix cross-386 job vs go 1.19
-b54084fb Merge pull request #3541 from kolyshkin/1.1-exec-noexec
-d83a861d Fix error from runc run on noexec fs
-69734b99 merge branch 'pr-3536' into release-1.1
-d614445d [1.1] libct/nsenter: switch to sane_kill()
-f4aaf0d8 merge branch 'pr-3538' into release-1.1
-3ca5673f CI: workaround CentOS Stream 9 criu issue
-c3986e53 tests/int: don't use --criu
-f46c0dad [1.1] ci: fix delete.bats for GHA
-6b94849d tests/int: runc delete: fix flake, enable for rootless
-afda6b7c merge branch 'pr-3511' into release-1.1
-fa3354dc libct: fix mounting via wrong proc fd
-1e7bb5b7 merge branch 'pr-3490' into release-1.1
-eb1552a0 VERSION: back to development
-6724737f (tag: v1.1.3) VERSION: release 1.1.3
-91fa032d ci: add basic checks for CHANGELOG.md
-5d74e0f0 Merge pull request #3504 from cyphar/1.1-systemd-devices-nonexistent-files
-7219387e cgroups: systemd: skip adding device paths that don't exist
-da9b9d93 Merge pull request #3494 from eriksjolund/1.1-backport-3489
-93d1807b libcontainer: relax getenv_int sanity check
-ff14258e merge branch 'pr-3481' into release-1.1
-8242c05d script/seccomp.sh: check tarball sha256
-017cb29b Dockerfile,scripts/release: bump libseccomp to v2.5.4
-131222d6 Merge pull request #3493 from cyphar/1.1-ns_last_pid
-51649a7d Allow mounting of /proc/sys/kernel/ns_last_pid
-9d00472f merge branch 'pr-3479' into release-1.1
-3a09da6b ci: drop docker layer caching from release job
-fa7cca98 Merge pull request #3478 from cyphar/1.1-seccomp-enosys-setup
-8b93f9fb seccomp: enosys: always return -ENOSYS for setup(2) on s390(x)
-1839c392 Merge pull request #3476 from kolyshkin/1.1-dbus-err
-fc2a8fe1 libct/cg/sd: check dbus.ErrClosed instead of isDbusError
-13e164db merge branch 'pr-3477' into release-1.1
-d105e052 libct/seccomp/config: add missing KillThread, KillProcess
-e4474ef8 [1.1] vendor: bump seccomp/libseccomp-golang to f33da4d
-dc083b2b fix deprecated ActKill
+1c90a4424 (tag: v1.6.9) Merge pull request #7573 from samuelkarp/release/1.6.9
+96929a5d3 Merge pull request #7574 from swagatbora90/backport-cap-bpf-perfmon
+f1493f665 Prepare release notes for v1.6.9
+346412f5a adding support of CAP_BPF and CAP_PERFMON
+99578d1fc Update mailmap
+8b9c35a19 Merge pull request #7571 from sophieliu15/release/1.6
+a956d8415 Add logging volume metrics to Containerd CRI plugin
+8658d0b51 Merge pull request #7562 from dcantah/cp-concurrent-closech
+29e2dea50 fix pusher concurrent close channel
+9a194f78b Merge pull request #7557 from kzys/backport/1.6/stats-nil
+9edb14386 Merge pull request #7551 from samuelkarp/ip-leakage-flake/1.6
+8a9d69385 [release/1.6] Stats() shouldn't assume s.container is non-nil
+74e9e4c43 Merge pull request #7549 from SergeyKanzhelev/switchToRegistry
+a9adc7938 cri: PodSandboxStatus should tolerate missing task
+b66eb726a migrate from k8s.gcr.io to registry.k8s.io
+6afbeac96 Merge pull request #7518 from kzys/backport/1.6/continuity-fix
+5b40993a5 [release/1.6] upgrade containerd/continuity from v0.2.2 to v0.3.0
+dccb15294 Merge pull request #7505 from qiutongs/backport-netns-1.6
+f2376e659 Update container with sandbox metadata after NetNS is created
+d9e2ba255 Merge pull request #7490 from samuelkarp/archive-dgst-validate/1.6
+06f82efef archive: validate digests before use
+1eb637f95 Merge pull request #7475 from thaJeztah/1.6_bump_go_1.18.7
+6496ac61e Merge pull request #7461 from akhilerm/cherry-pick-6995-1.6
+28324c529 [release/1.6] Update go 1.18.7, addresses CVE-2022-2879, CVE-2022-2880, CVE-2022-41715
+0aeeb62cb [release/1.6] update golangci-lint to v1.19.0
+7db9d1f76 Fix linter warnings
+4dc932e62 [release/1.6] gofmt with go1.19
+7b8d679ad [release/1.6] integration: remove use of deprecated io/ioutil
+a91dd679b Merge pull request #7456 from qiutongs/backport-ip-leakage-1.6
+926b9c72f retry request on writer reset
+b9a35c6af Add integration tests with failpoint
+1f29fac48 Persist container and sandbox if resource cleanup fails, like teardownPodNetwork
+6338ef8d1 Merge pull request #7455 from qiutongs/backport-failpoint-1.6
+a85709c6c integration: simplify CNI-fp and add README.md
+d89a8d223 pkg/failpoint: add FreeBSD link and update pkg doc
+b0ce2965a integration: Add injected failpoint testing for RunPodSandbox
+a7f956d86 integration: CNI bridge wrapper with failpoint
+07c479471 pkg/failpoint: add DelegatedEval API
+4a5bc05aa runtime/v2/shim: return if error in load plugin
+71ee7de24 bin/ctr,integration: new runc-shim with failpoint
+3e2e77849 runtime/v2: manager supports server interceptor
+cb935bf49 pkg/failpoint: init failpoint package
+2cbb524b9 Merge pull request #7447 from estesp/cp-7094-1.6
+2fdfd564c make xattr EPERM non-fatal in createTarFile
+7b93a228e Merge pull request #7438 from Iceber/skip_verify_1.6
+89e49609d remotes/docker/config: Skipping TLS verification for localhost
+bf1b93eac Merge pull request #7427 from fuweid/16-cp-7369-7416
+b720be2ce remove stray .zuul.yaml
+6b30bc4b4 .zuul: remove the zuul because it is offline
+3228848c6 Merge pull request #7421 from ruiwen-zhao/release-1.6-grpc
+0f7e258ee Set grpc code for unimplemented cri-api methods
+462caf1eb Merge pull request #7410 from ruiwen-zhao/container_resource_1.6
+fb753e5cd update intergration
+6ee5bb7ea bump cri-api
+ae8598615 ContainerStatus to return container resources
+d3c7e31c8 Update CRI-API
+23d2278a2 Merge pull request #7340 from dcermak/backport-golang-x-crypto-vendor
+5b44c5271 vendor: golang.org/x/crypto v0.0.0-20220315160706-3147a52a75dd
+de1a1905d Merge pull request #7333 from thaJeztah/1.6_backport_runc
+3507d600b update runc binary to v1.1.4
+579a6380e Merge pull request #7299 from samuelkarp/ci-workflow-goproxy/1.6
+1be2cb348 Merge pull request #7298 from deckhouse/docker-compat-1.6
+1efd8b947 ci: remove GOPROXY environment variable due to https://github.com/go-yaml/yaml/issues/887
+0448673af Do not append []string{""} to command to preserve Docker compatibility
+9ff72800f Merge pull request #7274 from mxpv/critest
+5c230ece0 Fix cleanup in critest
+026ac1c17 Merge pull request #7268 from thaJeztah/1.6_backport_no_tun
+9cd3357b7 (tag: v1.6.8) Merge pull request #7263 from dmcgowan/prepare-1.6.8
+ed9d3dc37 oci: WithDefaultUnixDevices(): remove tun/tap from the default devices
+3364f411e Prepare release notes for v1.6.8
+a76f3c831 Merge pull request #7261 from samuelkarp/release-workflow/1.6
+390920429 release workflow: remove Go setup action
+cf48ba6e8 release workflow: increase timeout to 30 minutes
+76f5db42f Merge pull request #7260 from samuelkarp/fix-7255/1.6
+57873e652 release: rollback Ubuntu to 18.04 (except for riscv64)
+0197261a3 (tag: v1.6.7) Merge pull request #7250 from dmcgowan/release-1.6-update-build-timeout
+eccb82f6d Update release build timeout to 20 minutes
+5f242b5bf Merge pull request #7225 from dcantah/v1.6.7-rnotes
+6a854d4b5 Update mailmap
+61612e1a2 Prepare release notes for 1.6.7
+78f438957 Merge pull request #7244 from dcantah/update-go-1.17.13
+d199ee462 Update golang to 1.17.13
+d97553c9a Merge pull request #7242 from dcantah/cp-windows-svc-osstderr
+0578d20c5 Change os.Stderr reassign for Windows service
+7438c0a7b Merge pull request #7230 from estesp/cp-7206
+2e236d4fc Merge pull request #7227 from dcantah/cp-hpcstats-test
+12cae4961 Update Vagrant CI to macos-12
+bc4091aae chore: bump macos runner version
+cb73bd050 Windows HostProcess container CRI stats test
+ac388525a Add validations for Windows HostProcess CRI configs
+d97257190 Merge pull request #7200 from dcantah/1.6-hcsshim-v0.9.4
+0007f40fe [release/1.6] go.mod: Bump hcsshim to v0.9.4
+6ae451b97 Merge pull request #7217 from estesp/update-fedora
+c9607e78c Update Fedora version to 36
+1f5ca004e Merge pull request #7170 from AkihiroSuda/riscv64-1.6
+2952b66c0 CI: add riscv64 builds
+6b2dc9a37 release/Dockerfile: update Ubuntu to 22.04 for supporting riscv64
+745dc07c4 seccomp: support riscv64
+c2f841f21 Create ppc64le release
+73b85c0c5 Merge pull request #7171 from AkihiroSuda/cherrypick-6810-1.6
+0a0a154d6 Merge pull request #7172 from AkihiroSuda/cherrypick-7149-1.6
+86b55bd8d seccomp: allow clock_settime64 when CAP_SYS_TIME is added
+f3da3e51f allow ptrace(2) by default for kernel >= 4.8
+604d0bdf5 Merge pull request #7160 from thaJeztah/1.6_update_go
+aa1101068 [release/1.6] update golang to 1.17.12
+4e92d8e7e Merge pull request #7131 from kzys/backport/1.6/7126
+37dfc5c9d [release/1.6] Fix WWW-Authenticate parsing
+288440aad Merge pull request #7133 from kzys/backport/1.6/7106
+fa2016d58 [release/1.6] Downgrade MinGW to version 10.2.0
+6309dc487 Merge pull request #7051 from Iceber/fix-run-controller-manager-1.6
+99c56d217 ctr: fix label args used in NewContainer
+3dce36e42 Merge pull request #7045 from kzys/backport/1.6/7022
+51de785f8 [release/1.6] Make building static binaries simpler
+9abd4b3f3 Merge pull request #7036 from thaJeztah/1.6_update_runc2
+2ea4e6348 update runc binary to v1.1.3
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- ...efine-ActKillThread-equal-to-ActKill.patch | 90 -------------------
- recipes-containers/runc/runc-docker_git.bb    |  4 +-
- .../runc/runc-opencontainers_git.bb           |  6 +-
- 3 files changed, 5 insertions(+), 95 deletions(-)
- delete mode 100644 recipes-containers/runc/files/0002-Define-ActKillThread-equal-to-ActKill.patch
+ .../containerd/containerd-opencontainers_git.bb             | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/recipes-containers/runc/files/0002-Define-ActKillThread-equal-to-ActKill.patch b/recipes-containers/runc/files/0002-Define-ActKillThread-equal-to-ActKill.patch
-deleted file mode 100644
-index ba51d4a..0000000
---- a/recipes-containers/runc/files/0002-Define-ActKillThread-equal-to-ActKill.patch
-+++ /dev/null
-@@ -1,90 +0,0 @@
--From f2aa0359bcc776239bda8a4eb84957b97ef55c35 Mon Sep 17 00:00:00 2001
--From: Tonis Tiigi <tonistiigi@gmail.com>
--Date: Fri, 28 Jan 2022 14:44:56 -0800
--Subject: [PATCH] Define ActKillThread equal to ActKill
--MIME-Version: 1.0
--Content-Type: text/plain; charset=UTF-8
--Content-Transfer-Encoding: 8bit
--
--These constants are equal in libseccomp but Go definitions
--were defined separately. This resulted in dead code that
--never executed due to identical case statements in switch.
--Go can usually detect these error cases and refuses to build
--but for some reason this detection doesn’t work with cgo+gcc.
--Clang detects the equal constants correctly and therefore
--libseccomp-golang builds with clang broke after ActKillThread
--was added.
--
--In order to fix the clang build only removal of the
--switch case is needed. But I assumed that the setter/getter
--logic is supposed to work for ActKillThread as well
--and only way to ensure that is to set them equal like they
--are in C.
--
--Signed-off-by: Tonis Tiigi <tonistiigi@gmail.com>
--Signed-off-by: Sebastiaan van Stijn <github@gone.nl>
--Acked-by: Tom Hromatka <tom.hromatka@oracle.com>
--Signed-off-by: Paul Moore <paul@paul-moore.com>
--Signed-off-by: Andrei Gherzan <andrei.gherzan@huawei.com>
--Upstream-status: Backport [https://github.com/seccomp/libseccomp-golang/commit/c35397d0ea8f285a0be78693bb2fd37b06952453]
-----
-- seccomp.go          | 8 ++++----
-- seccomp_internal.go | 4 ----
-- 2 files changed, 4 insertions(+), 8 deletions(-)
--
--diff --git a/seccomp.go b/seccomp.go
--index e9b92e2..32f6ab2 100644
----- a/seccomp.go
--+++ b/seccomp.go
--@@ -214,14 +214,14 @@ const (
-- 	// This action is only usable when libseccomp API level 3 or higher is
-- 	// supported.
-- 	ActLog ScmpAction = iota
---	// ActKillThread kills the thread that violated the rule. It is the same as ActKill.
---	// All other threads from the same thread group will continue to execute.
---	ActKillThread ScmpAction = iota
-- 	// ActKillProcess kills the process that violated the rule.
-- 	// All threads in the thread group are also terminated.
-- 	// This action is only usable when libseccomp API level 3 or higher is
-- 	// supported.
-- 	ActKillProcess ScmpAction = iota
--+	// ActKillThread kills the thread that violated the rule. It is the same as ActKill.
--+	// All other threads from the same thread group will continue to execute.
--+	ActKillThread = ActKill
-- )
-- 
-- const (
--@@ -394,7 +394,7 @@ func (a ScmpCompareOp) String() string {
-- // String returns a string representation of a seccomp match action
-- func (a ScmpAction) String() string {
-- 	switch a & 0xFFFF {
---	case ActKill, ActKillThread:
--+	case ActKillThread:
-- 		return "Action: Kill thread"
-- 	case ActKillProcess:
-- 		return "Action: Kill process"
--diff --git a/seccomp_internal.go b/seccomp_internal.go
--index 8dc7b29..8fc9914 100644
----- a/seccomp_internal.go
--+++ b/seccomp_internal.go
--@@ -612,8 +612,6 @@ func (a ScmpCompareOp) toNative() C.int {
-- func actionFromNative(a C.uint32_t) (ScmpAction, error) {
-- 	aTmp := a & 0xFFFF
-- 	switch a & 0xFFFF0000 {
---	case C.C_ACT_KILL:
---		return ActKill, nil
-- 	case C.C_ACT_KILL_PROCESS:
-- 		return ActKillProcess, nil
-- 	case C.C_ACT_KILL_THREAD:
--@@ -638,8 +636,6 @@ func actionFromNative(a C.uint32_t) (ScmpAction, error) {
-- // Only use with sanitized actions, no error handling
-- func (a ScmpAction) toNative() C.uint32_t {
-- 	switch a & 0xFFFF {
---	case ActKill:
---		return C.C_ACT_KILL
-- 	case ActKillProcess:
-- 		return C.C_ACT_KILL_PROCESS
-- 	case ActKillThread:
---- 
--2.25.1
--
-diff --git a/recipes-containers/runc/runc-docker_git.bb b/recipes-containers/runc/runc-docker_git.bb
-index f2c0613..97373a7 100644
---- a/recipes-containers/runc/runc-docker_git.bb
-+++ b/recipes-containers/runc/runc-docker_git.bb
-@@ -2,13 +2,13 @@ include runc.inc
+diff --git a/recipes-containers/containerd/containerd-opencontainers_git.bb b/recipes-containers/containerd/containerd-opencontainers_git.bb
+index 35a27d4..6d0a287 100644
+--- a/recipes-containers/containerd/containerd-opencontainers_git.bb
++++ b/recipes-containers/containerd/containerd-opencontainers_git.bb
+@@ -5,7 +5,7 @@ DESCRIPTION = "containerd is a daemon to control runC, built for performance and
+                support as well as checkpoint and restore for cloning and live migration of containers."
  
- # Note: this rev is before the required protocol field, update when all components
- #       have been updated to match.
--SRCREV_runc-docker = "b507e2da6c6a3a328f208fa415a56ad7cd58761b"
-+SRCREV_runc-docker = "974efd2dfca0abec041a3708a2b66bfac6bd2484"
- SRC_URI = "git://github.com/opencontainers/runc;branch=release-1.1;name=runc-docker;protocol=https \
-            file://0001-runc-Add-console-socket-dev-null.patch \
-            file://0001-Makefile-respect-GOBUILDFLAGS-for-runc-and-remove-re.patch \
-            file://0001-runc-docker-SIGUSR1-daemonize.patch \
-           "
  
--RUNC_VERSION = "1.1.2"
-+RUNC_VERSION = "1.1.4"
+-SRCREV = "4e92d8e7e439530f5bb17e57a77481e9aa3da851"
++SRCREV = "6c41694da9eb09c2f1f49a5a5fbec4e970cfb460"
+ SRC_URI = "git://github.com/containerd/containerd;branch=release/1.6;protocol=https \
+            file://0001-Add-build-option-GODEBUG-1.patch \
+            file://0001-Makefile-allow-GO_BUILD_FLAGS-to-be-externally-speci.patch \
+@@ -15,8 +15,8 @@ SRC_URI = "git://github.com/containerd/containerd;branch=release/1.6;protocol=ht
+ LICENSE = "Apache-2.0"
+ LIC_FILES_CHKSUM = "file://src/import/LICENSE;md5=1269f40c0d099c21a871163984590d89"
  
- CVE_PRODUCT = "runc"
-diff --git a/recipes-containers/runc/runc-opencontainers_git.bb b/recipes-containers/runc/runc-opencontainers_git.bb
-index f9dae6a..350bfd7 100644
---- a/recipes-containers/runc/runc-opencontainers_git.bb
-+++ b/recipes-containers/runc/runc-opencontainers_git.bb
-@@ -1,11 +1,11 @@
- include runc.inc
+-CONTAINERD_VERSION = "v1.6.6"
+-CVE_VERSION = "1.6.6"
++CONTAINERD_VERSION = "v1.6.9"
++CVE_VERSION = "1.6.9"
  
--SRCREV = "b507e2da6c6a3a328f208fa415a56ad7cd58761b"
-+SRCREV = "974efd2dfca0abec041a3708a2b66bfac6bd2484"
- SRC_URI = " \
-     git://github.com/opencontainers/runc;branch=release-1.1;protocol=https \
-     file://0001-Makefile-respect-GOBUILDFLAGS-for-runc-and-remove-re.patch \
--    file://0002-Define-ActKillThread-equal-to-ActKill.patch;patchdir=src/import/vendor/github.com/seccomp/libseccomp-golang \
-     "
--RUNC_VERSION = "1.1.2"
-+
-+RUNC_VERSION = "1.1.4"
+ EXTRA_OEMAKE += "GODEBUG=1"
  
- CVE_PRODUCT = "runc"
 -- 
 2.38.1
 
