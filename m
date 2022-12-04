@@ -1,127 +1,102 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <adrian.freihofer@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A522C4321E
-	for <webhook@archiver.kernel.org>; Fri,  2 Dec 2022 14:58:52 +0000 (UTC)
-Received: from mail-io1-f44.google.com (mail-io1-f44.google.com [209.85.166.44])
- by mx.groups.io with SMTP id smtpd.web10.77468.1669993123123126951
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2A7CC4332F
+	for <webhook@archiver.kernel.org>; Sun,  4 Dec 2022 21:38:38 +0000 (UTC)
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+ by mx.groups.io with SMTP id smtpd.web10.139150.1670189915955967033
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 02 Dec 2022 06:58:43 -0800
+ Sun, 04 Dec 2022 13:38:36 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=A+FBINC8;
- spf=pass (domain: gmail.com, ip: 209.85.166.44, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-io1-f44.google.com with SMTP id p83so3212806iod.2
-        for <meta-virtualization@lists.yoctoproject.org>; Fri, 02 Dec 2022 06:58:43 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=enoqoDUA;
+ spf=pass (domain: gmail.com, ip: 209.85.208.45, mailfrom: adrian.freihofer@gmail.com)
+Received: by mail-ed1-f45.google.com with SMTP id f7so13352291edc.6
+        for <meta-virtualization@lists.yoctoproject.org>; Sun, 04 Dec 2022 13:38:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=m4u9sJvNYYdmOHklAddzU8Bp4IDY2qS6NniR8qlilXk=;
-        b=A+FBINC8IIqN8fMB3v4JS7xsNNby7TxkrY14OOmgSNytmLzkGUmTl3ljg3zRN2B964
-         ETkrEQxFIi9OdIcNtKnYVp7Ia2nv6Ybt/SPDnV1LEg6ypmGHK5tzxgiSslOtLjIDaZuc
-         4QoYKf5sUQajIRfidvkD5zPDMFJ6/btUFtkqSPc1oUWK1jYreZm93bpXCw6sl0UOB19i
-         zzBslP02iNYKJcb3HzS69b4UsQxiM/HvlYLfi4J2pp2I3lIh9PuiT6Nvmbz/XP3ppCnJ
-         rOy1s6lWyGHE18EOGI5YFxXGhSy6Btigfl66StfrfA3wjZsYZxg1R7iKPjizIAX4fE/s
-         0MPQ==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Qcqeb839NPOwIhndLhp9Ovo6J8qvSDDiKA8X7Pbhtao=;
+        b=enoqoDUAJ7RITg9JaJ7QuJBByvBWtQmlb3ta6K8L7f3Y4p6M9j7alFo9J1FGT2sDb3
+         MzYVQ7N1Fvo/ZdGBu86V4ro2sxQ0bw4VdzBmCENeYL6dhJOZtgFDi1O6mZ15h2S2QNee
+         3hoECOJ+50O2RBF869dGhS0exKFRCv6HhIIPZ5gFfkfEsWz/Uwe3bT33LBKcemmJ4+sM
+         xHL5z9J37lR0ZLqyWlUzBG9qhtFA/ZGywj9GdT5tXK5G9o3UFeXnhlrAdD4v5TBmznu6
+         B07yBjxBr2veNyen8YgE8po/unOeMyUqtvTmEjDe/2wWxc5KrBoz0KbGFi0htDf+yREq
+         MBkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=m4u9sJvNYYdmOHklAddzU8Bp4IDY2qS6NniR8qlilXk=;
-        b=f7wfTTV8nLleW38SjlKHkGAU9QMTbZXCP/xdW891CbJsQRkxvlSV6FAD14meyUHl/Q
-         L7SQ4gSr9DmnXBoiDDQpArjkpjUUmsuwWJWzwMFcpAs5jUx7pXJUjOGvdQZA8bqHRuBk
-         drFhmaptcj20XYlkC2j3T2eSA7ZISnohbecN528NIsgKY5dNEm+XPFCqQ3Ui8u4SEdXD
-         wtXGDguzGnqHq9wIARyB0TCc4mzzu7uqISbDsXlOEx+GN6QzXliGtw4dNA42tzC0yvTg
-         CdTE0BXPVU3CtA1oG+P96oquPCFTnrp+GD//1hheNGvCKb1TKbISwE7RUlc/UHK1L0pw
-         eHoQ==
-X-Gm-Message-State: ANoB5pkaHXJRHt9w8thwe6n1SFMkHUsVgr5zv8zOMZs1InvdkaG/JSKy
-	jHN4koax93rzTSNiqYA93H/hqWRvbxyYqOES/4E=
-X-Google-Smtp-Source: AA0mqf56psKqh86eGE4yj18JyXBZGhN9prMqiDaKFgTpumeqVajgS1C7owBRCqKCD4ka5ufAzX8Zf9CTuWbw9kniXYs=
-X-Received: by 2002:a5d:80ce:0:b0:6de:c30c:4d49 with SMTP id
- h14-20020a5d80ce000000b006dec30c4d49mr24955386ior.83.1669993122440; Fri, 02
- Dec 2022 06:58:42 -0800 (PST)
+        bh=Qcqeb839NPOwIhndLhp9Ovo6J8qvSDDiKA8X7Pbhtao=;
+        b=2p+anIrwVGws0CZth9IzoJaJHXx3meX4kowAq//wpjS866hfFfaPMDQ6dQyW6xU9rY
+         6m4bodvzA8vlO7xzdU9B4tO/+/t9JOWxWw5r0xsq/c4ho4F5s/N8H6HB9zWeMH8rw4wn
+         qxAUSMidjNh0PFnSiBTHBPWihi/vbNWP/avqEs2gakllaaZhJJnQRnUzXm0E5adpY3n9
+         iyvxL6oFpOY8u+UlkGFzL76SZdzjBW5yEgROanDF5E7hbUINGA+o6BQ2CnOg67hhoIjo
+         b2ehkSjxmq3SATi/7l0uryez3hOwRWW2uZVt0EOYR2aTewu4zEV0CPN/KfXzF7LVOuIG
+         groQ==
+X-Gm-Message-State: ANoB5pkU3e6eszTiiUglfarkOFcGYvsLqUidTDQKjOo5AXHLP88sCWvF
+	ZVkwYIITX6FgoAivh4xNsogg6AXqiAI=
+X-Google-Smtp-Source: AA0mqf4UcHijCKyMuQSx1R3Dj758hstdOr7CqDkytAxoo0EAgLgz7Oiy58EsvK2wgLwosi1EOMYPRA==
+X-Received: by 2002:a05:6402:22db:b0:46c:c16b:b4c4 with SMTP id dm27-20020a05640222db00b0046cc16bb4c4mr1464335edb.419.1670189914142;
+        Sun, 04 Dec 2022 13:38:34 -0800 (PST)
+Received: from md2ramxc.ad001.siemens.net ([62.32.0.33])
+        by smtp.gmail.com with ESMTPSA id dt13-20020a170906b78d00b0078d3f96d293sm5544179ejb.30.2022.12.04.13.38.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 04 Dec 2022 13:38:33 -0800 (PST)
+From: Adrian Freihofer <adrian.freihofer@gmail.com>
+X-Google-Original-From: Adrian Freihofer <adrian.freihofer@siemens.com>
+To: meta-virtualization@lists.yoctoproject.org
+Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
+Subject: [meta-virtualization][kirkstone][PATCH 0/3] docker updates
+Date: Sun,  4 Dec 2022 22:38:06 +0100
+Message-Id: <20221204213809.483131-1-adrian.freihofer@siemens.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-References: <ddf7cf66-0067-2ea9-dbad-a73bba79a5db@axis.com>
- <172CB2E0F08C4564.1705@lists.yoctoproject.org> <CADkTA4M=vRTm4Ty1Y1y_5Ehjb94Omk-MNeEFPtGZUsoS6xGsOw@mail.gmail.com>
- <75e9b925-a236-0809-49f1-f2f3cca0e263@axis.com> <172CFC133FAF0B2B.27320@lists.yoctoproject.org>
-In-Reply-To: <172CFC133FAF0B2B.27320@lists.yoctoproject.org>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Fri, 2 Dec 2022 09:58:31 -0500
-Message-ID: <CADkTA4OP5kfM69ONL1rdvvEkwFvF-s1NJ=PZbduoNHVT21aPmQ@mail.gmail.com>
-Subject: Re: [meta-virtualization] [Question] upx: do_fetch: Bitbake Fetcher
- Error:,FetchError('Submodule refers to the parent repository.
-To: bruce.ashfield@gmail.com
-Cc: Joakim Roubert <joakim.roubert@axis.com>, 
-	"meta-virtualization@lists.yoctoproject.org" <meta-virtualization@lists.yoctoproject.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Fri, 02 Dec 2022 14:58:52 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/7732
+ <meta-virtualization@lists.yoctoproject.org>; Sun, 04 Dec 2022 21:38:38 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/7733
 
-On Fri, Dec 2, 2022 at 8:12 AM Bruce Ashfield via
-lists.yoctoproject.org
-<bruce.ashfield=gmail.com@lists.yoctoproject.org> wrote:
->
-> On Fri, Dec 2, 2022 at 3:46 AM Joakim Roubert <joakim.roubert@axis.com> wrote:
-> >
-> > On 2022-12-01 16:08, Bruce Ashfield wrote:
-> > >
-> > > I did have some luck, and I pushed a proposed fix to master-next.
-> > >
-> > > Have a look, and see if it fixes the build for you.
-> >
-> > Thanks a lot; I tried it out immediately.
-> > It will, however, give me the same gitsm error:
-> >
-> > ERROR: upx-3.96+AUTOINC+8d1a98e03b-r0 do_fetch: Fetcher failure:
-> > Submodule refers to the parent repository. This will cause deadlock
-> > situation in current version of Bitbake.Consider using git fetcher instead.
-> >
->
-> I don't see this on my up to date master build (I'm always following tip).
->
-> Let me dig in a bit more.
->
-> That being said, I've written multiple recipes like your follow up
-> patch, and I do prefer the clarity of everything being directly in the
-> SRC_URI.
->
+Bring docker on the kirkstone branch to the same commits as they are on
+master-next. Just let me know if you think this is not the right way. I
+can easily maintain this on my own layer. But there are some bugs and
+CVEs in Docker which make this update kind of mandatory for the LTS
+branch as well.
 
-I still can't reproduce the issue here, but everything still works
-with your patch on top .. so I've added it to the queue on
-master-next.
+Some findings:
+* runc-docker RUNC_VERSION is on 1.1.2 on master-next. I set it to 1.1.4
+  bcause this looks correct to me.
+* docker: SRCREV_moby is used by do_compile. For docker-ce the variable
+  is undefined on master-next. Here it is initialized to SRCREV_docker.
+* docker: Upstream updated to go 1.8 which does no longer compile with
+  Yocto's go 1.7. There is a patch to revert the go update. It's working
+  but not sure how long this way will work.
+* Testing: docker-ce running on a arm64 device can run a Debian
+  container. We will do more tests in the future. But that's what I did
+  so far.
 
-Bruce
+Adrian Freihofer (3):
+  runc-docker: update to 1.1.4-tip
+  containerd-opencontainers: update to 1.6.9
+  docker: update from 20.10.12 to 20.10.21
 
-> Bruce
->
-> > BR,
-> >
-> > /Joakim
-> >
->
->
-> --
-> - Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at its end
-> - "Use the force Harry" - Gandalf, Star Trek II
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#7731): https://lists.yoctoproject.org/g/meta-virtualization/message/7731
-> Mute This Topic: https://lists.yoctoproject.org/mt/95382316/1050810
-> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
-
+ .../containerd-opencontainers_git.bb          |    6 +-
+ recipes-containers/docker/docker-ce_git.bb    |   30 +-
+ recipes-containers/docker/docker-moby_git.bb  |   27 +-
+ recipes-containers/docker/docker.inc          |    5 +-
+ .../files/0001-revert-go-1.8-update.patch     | 1218 +++++++++++++++++
+ ...efine-ActKillThread-equal-to-ActKill.patch |   90 --
+ recipes-containers/runc/runc-docker_git.bb    |    4 +-
+ .../runc/runc-opencontainers_git.bb           |    6 +-
+ 8 files changed, 1261 insertions(+), 125 deletions(-)
+ create mode 100644 recipes-containers/docker/files/0001-revert-go-1.8-update.patch
+ delete mode 100644 recipes-containers/runc/files/0002-Define-ActKillThread-equal-to-ActKill.patch
 
 -- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+2.38.1
+
 
