@@ -2,57 +2,57 @@ Return-Path: <adrian.freihofer@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93AACC25B04
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9963DC4708E
 	for <webhook@archiver.kernel.org>; Mon, 12 Dec 2022 07:59:58 +0000 (UTC)
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
- by mx.groups.io with SMTP id smtpd.web11.37856.1670831988598671637
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+ by mx.groups.io with SMTP id smtpd.web11.37855.1670831987304699300
  for <meta-virtualization@lists.yoctoproject.org>;
- Sun, 11 Dec 2022 23:59:55 -0800
+ Sun, 11 Dec 2022 23:59:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=BTig9sFM;
- spf=pass (domain: gmail.com, ip: 209.85.218.44, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-ej1-f44.google.com with SMTP id bj12so25754218ejb.13
-        for <meta-virtualization@lists.yoctoproject.org>; Sun, 11 Dec 2022 23:59:54 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=VtH+sxc/;
+ spf=pass (domain: gmail.com, ip: 209.85.218.49, mailfrom: adrian.freihofer@gmail.com)
+Received: by mail-ej1-f49.google.com with SMTP id vv4so25831405ejc.2
+        for <meta-virtualization@lists.yoctoproject.org>; Sun, 11 Dec 2022 23:59:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=wY4TJxDiS66E+p13AdhD4k5ki3OT8HAZaHXfgPXRXHQ=;
-        b=BTig9sFMzJtEX5dAXTq2jFTeGZQhjvFwLBsdqnVgxT6u53x13vOdkQbF0sRFrLqxao
-         dp1LVhNKpgeiL80FjgeSLDlex93J3vkm5DMZY2qBRHxVOi03rTxo3yx0M7lHA4BPDW6t
-         OBjIKbNNe8xQzGj9/UODQSUpqxWRf6RpjmqfxZVnifUQxBO1esqBSpsp0PCdASxsYU8e
-         G2ImvdgYioeB8oxswlDnmmr3XMeplGeigtyZl/yAZGb4SgCPgkil+n0aM93hliur7PRy
-         KubiEK5fIx9R65cHFww+k+ymvo/AB5NgttJgD54pRqnoqr7wA1rL2/SOIoIqlnDMXTYz
-         JDNQ==
+        bh=gDWen4Z5hXx0h58OaocS1Fl6K04fvRgScqu+FADr450=;
+        b=VtH+sxc/HnkBl0LfwLfoBye2szBbJ2l2Culh8fpaEt9OVWkLgWMFxoVOyMZw5K/X6k
+         LI9hnvrkN5mCQxd3pWusVKK1DieCLQ5Rmsx3WBA4Zlo2hou8HLuEgMyYyrd9bO7/udtE
+         T/fP0fs1Q1ml1uM1s6+gY+1sbd9uLDVztjeY4bkynv2yBjA0zMUR/ypPuPCcOCJoOWqq
+         P6CJdfJlZ/8ag11Or1mJ+PolE8jVXOHdm66dMmx4R9hHglqJ343tF14qCgSpQCvL5AZv
+         /bCr+xwgLlGs+2rtAXv1KqJLmb+sUeMtOqhZVzhAoKKbyC+CJvI3Zb9nnY2i0RYDjZHk
+         x1Ug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=wY4TJxDiS66E+p13AdhD4k5ki3OT8HAZaHXfgPXRXHQ=;
-        b=Q7B34GcsE8KOyD66B3XnvqGsxiBXl78TTQEKu3COya0QMLfaK8tJyh9mUpNRV2rQiH
-         0hGM1Yodnk72MxZxW0rJ6cxDVzKZwOzMS+VFUsIs5iN3H0myrUEWqVTQUqkzMiSoCq4W
-         GFBwdlrGxqj5qoGd4DH0uXLUMkDT+pIteeoUIhguaOu4QK5YXGZ728FRsd/3yvxCfV/e
-         fbgasixYsjlxU52FIZ/DYenGbXnGCfNZOJwUDyWNzg9cfxaT2RIUeoqrZkwb5c7nDkCm
-         ZNNEDlHurC6L/mBcfvC9O88WbNCz7AC1bymLPbR5oHG9z7cdeKzkEalUlOyURmQe6e0X
-         wauA==
-X-Gm-Message-State: ANoB5pnYNvYwqhAdFSpErCcWdEQS6tczfF6z/LNy5ssiY5d4BC+Vj0gV
-	7btjLH3/isVQd2v+DSzewReGnYkgFcE=
-X-Google-Smtp-Source: AA0mqf7cfpmar13IsFui2JZOYdrF7+8c0CTHuRD18gKxP/NEiVkqRJRNxnNJtoMVi6vXo5EldezQIA==
-X-Received: by 2002:a17:906:b181:b0:7c1:65f7:18d8 with SMTP id w1-20020a170906b18100b007c165f718d8mr4552208ejy.60.1670831994133;
-        Sun, 11 Dec 2022 23:59:54 -0800 (PST)
+        bh=gDWen4Z5hXx0h58OaocS1Fl6K04fvRgScqu+FADr450=;
+        b=tZt3hYtAOJP/YGEIoFeAQS1KduH4VGl/L0mWrcb6xVovN7cgeb0srcuQerQ6y19ivW
+         VtI0fAhsHtF69jHs5kSvj54PKvxjHVKUVzWeIFBalFKvKQk/NegVZVq7JChx1yg/+KZl
+         EyRkQzZKkci8YfS+gvPALLI62T2Syc4wyH1jt1VKWLDmjfqGHgCtoHod+85mtLc/Pe0b
+         oqz0JAdLcIaGHFIim2cMTKZIwY9qf9fW3mbQxywq8QQB0ppjB5BzZxnngHkmBjqPoPhM
+         47bycgLtQD8B1L6GZWi3o6hjbw0m9XDymW9iPJavAh8g+K+y/nzaSFFuDpO7CrSO9R3m
+         Yzug==
+X-Gm-Message-State: ANoB5pklkx2yTpybHFAUYj9wx6KBvkX0StgW56nyTospZmsfMh7o+Ndj
+	mOBiA2gvJ8hBClVUirDcdg4T6Wu9AXA=
+X-Google-Smtp-Source: AA0mqf46kkZ1XgRKWdSR3JS36ZjurCX6zIbwfNwKi5Ze3pfHNlkMa3vPU6vXZfkWwHJho3ESQ8YDWQ==
+X-Received: by 2002:a17:906:c054:b0:7ae:b637:633f with SMTP id bm20-20020a170906c05400b007aeb637633fmr17930871ejb.4.1670831991890;
+        Sun, 11 Dec 2022 23:59:51 -0800 (PST)
 Received: from md2ramxc.ad001.siemens.net ([62.32.0.33])
-        by smtp.gmail.com with ESMTPSA id ko5-20020a170907986500b007bd1ef2cccasm2952278ejc.48.2022.12.11.23.59.53
+        by smtp.gmail.com with ESMTPSA id ko5-20020a170907986500b007bd1ef2cccasm2952278ejc.48.2022.12.11.23.59.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 Dec 2022 23:59:53 -0800 (PST)
+        Sun, 11 Dec 2022 23:59:51 -0800 (PST)
 From: Adrian Freihofer <adrian.freihofer@gmail.com>
 X-Google-Original-From: Adrian Freihofer <adrian.freihofer@siemens.com>
 To: meta-virtualization@lists.yoctoproject.org
 Cc: Bruce Ashfield <bruce.ashfield@gmail.com>
-Subject: [meta-virtualization][kirkstone][PATCHv2 13/21] containerd: fix final TMDIR references
-Date: Mon, 12 Dec 2022 08:58:49 +0100
-Message-Id: <20221212075857.1065221-14-adrian.freihofer@siemens.com>
+Subject: [meta-virtualization][kirkstone][PATCHv2 10/21] containerd: update to 1.6.8
+Date: Mon, 12 Dec 2022 08:58:46 +0100
+Message-Id: <20221212075857.1065221-11-adrian.freihofer@siemens.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221212075857.1065221-1-adrian.freihofer@siemens.com>
 References: <20221212075857.1065221-1-adrian.freihofer@siemens.com>
@@ -62,177 +62,69 @@ List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <meta-virtualization@lists.yoctoproject.org>; Mon, 12 Dec 2022 07:59:58 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/7765
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/7763
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-restructure the containerd source layout to avoid symlinking vendor
-dependencies. This avoid go recording paths in the final binaries.
+Bumping containerd to version v1.6.8-8-g579a6380e, which comprises the following commits:
+
+    1efd8b947 ci: remove GOPROXY environment variable due to https://github.com/go-yaml/yaml/issues/887
+    0448673af Do not append []string{""} to command to preserve Docker compatibility
+    5c230ece0 Fix cleanup in critest
+    ed9d3dc37 oci: WithDefaultUnixDevices(): remove tun/tap from the default devices
+    3364f411e Prepare release notes for v1.6.8
+    390920429 release workflow: remove Go setup action
+    cf48ba6e8 release workflow: increase timeout to 30 minutes
+    57873e652 release: rollback Ubuntu to 18.04 (except for riscv64)
+    eccb82f6d Update release build timeout to 20 minutes
+    6a854d4b5 Update mailmap
+    61612e1a2 Prepare release notes for 1.6.7
+    d199ee462 Update golang to 1.17.13
+    0578d20c5 Change os.Stderr reassign for Windows service
+    12cae4961 Update Vagrant CI to macos-12
+    bc4091aae chore: bump macos runner version
+    cb73bd050 Windows HostProcess container CRI stats test
+    ac388525a Add validations for Windows HostProcess CRI configs
+    0007f40fe [release/1.6] go.mod: Bump hcsshim to v0.9.4
+    c9607e78c Update Fedora version to 36
+    2952b66c0 CI: add riscv64 builds
+    6b2dc9a37 release/Dockerfile: update Ubuntu to 22.04 for supporting riscv64
+    745dc07c4 seccomp: support riscv64
+    c2f841f21 Create ppc64le release
+    86b55bd8d seccomp: allow clock_settime64 when CAP_SYS_TIME is added
+    f3da3e51f allow ptrace(2) by default for kernel >= 4.8
+    aa1101068 [release/1.6] update golang to 1.17.12
+    37dfc5c9d [release/1.6] Fix WWW-Authenticate parsing
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- ...O_BUILD_FLAGS-to-be-externally-speci.patch |  6 +--
- ...don-t-use-gcflags-to-define-trimpath.patch |  6 +--
- .../containerd-opencontainers_git.bb          | 50 +++++--------------
- ...1-build-use-oe-provided-GO-and-flags.patch |  6 +--
- 4 files changed, 21 insertions(+), 47 deletions(-)
+ .../containerd/containerd-opencontainers_git.bb             | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/recipes-containers/containerd/containerd-opencontainers/0001-Makefile-allow-GO_BUILD_FLAGS-to-be-externally-speci.patch b/recipes-containers/containerd/containerd-opencontainers/0001-Makefile-allow-GO_BUILD_FLAGS-to-be-externally-speci.patch
-index 7f4d751..0ef0d38 100644
---- a/recipes-containers/containerd/containerd-opencontainers/0001-Makefile-allow-GO_BUILD_FLAGS-to-be-externally-speci.patch
-+++ b/recipes-containers/containerd/containerd-opencontainers/0001-Makefile-allow-GO_BUILD_FLAGS-to-be-externally-speci.patch
-@@ -19,10 +19,10 @@ Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-  Makefile | 3 ++-
-  1 file changed, 2 insertions(+), 1 deletion(-)
- 
--diff --git git.orig/src/import/Makefile  git.orig/src/import/Makefile
-+diff --git git.orig/Makefile  git.orig/Makefile
- index c61418e60..54a10eb42 100644
----- git.orig/src/import/Makefile
--+++ git.orig/src/import/Makefile
-+--- git.orig/Makefile
-++++ git.orig/Makefile
- @@ -112,7 +112,8 @@ endif
-  GOPATHS=$(shell echo ${GOPATH} | tr ":" "\n" | tr ";" "\n")
-  
-diff --git a/recipes-containers/containerd/containerd-opencontainers/0001-build-don-t-use-gcflags-to-define-trimpath.patch b/recipes-containers/containerd/containerd-opencontainers/0001-build-don-t-use-gcflags-to-define-trimpath.patch
-index f1dea5a..b499de5 100644
---- a/recipes-containers/containerd/containerd-opencontainers/0001-build-don-t-use-gcflags-to-define-trimpath.patch
-+++ b/recipes-containers/containerd/containerd-opencontainers/0001-build-don-t-use-gcflags-to-define-trimpath.patch
-@@ -13,10 +13,10 @@ Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-  Makefile | 1 -
-  1 file changed, 1 deletion(-)
- 
--diff --git git.orig/src/import/Makefile git.orig/src/import/Makefile
-+diff --git git.orig/Makefile git.orig/Makefile
- index 4a6c13042..debb57925 100644
----- git.orig/src/import/Makefile
--+++ git.orig/src/import/Makefile
-+--- git.orig/Makefile
-++++ git.orig/Makefile
- @@ -130,7 +130,6 @@ TESTFLAGS_RACE=
-  # See Golang issue re: '-trimpath': https://github.com/golang/go/issues/13809
-  GO_GCFLAGS=$(shell				\
 diff --git a/recipes-containers/containerd/containerd-opencontainers_git.bb b/recipes-containers/containerd/containerd-opencontainers_git.bb
-index edc3a5c..8847f31 100644
+index 35a27d4..af91a22 100644
 --- a/recipes-containers/containerd/containerd-opencontainers_git.bb
 +++ b/recipes-containers/containerd/containerd-opencontainers_git.bb
-@@ -6,14 +6,14 @@ DESCRIPTION = "containerd is a daemon to control runC, built for performance and
+@@ -5,7 +5,7 @@ DESCRIPTION = "containerd is a daemon to control runC, built for performance and
+                support as well as checkpoint and restore for cloning and live migration of containers."
  
  
- SRCREV = "579a6380ec93ab92a6e7f26167fe4f18dfcf2a4b"
--SRC_URI = "git://github.com/containerd/containerd;branch=release/1.6;protocol=https \
-+SRC_URI = "git://github.com/containerd/containerd;branch=release/1.6;protocol=https;destsuffix=git/src/github.com/containerd/containerd \
+-SRCREV = "4e92d8e7e439530f5bb17e57a77481e9aa3da851"
++SRCREV = "579a6380ec93ab92a6e7f26167fe4f18dfcf2a4b"
+ SRC_URI = "git://github.com/containerd/containerd;branch=release/1.6;protocol=https \
+            file://0001-Add-build-option-GODEBUG-1.patch \
             file://0001-Makefile-allow-GO_BUILD_FLAGS-to-be-externally-speci.patch \
-            file://0001-build-don-t-use-gcflags-to-define-trimpath.patch \
-           "
- 
- # Apache-2.0 for containerd
+@@ -15,8 +15,8 @@ SRC_URI = "git://github.com/containerd/containerd;branch=release/1.6;protocol=ht
  LICENSE = "Apache-2.0"
--LIC_FILES_CHKSUM = "file://src/import/LICENSE;md5=1269f40c0d099c21a871163984590d89"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=1269f40c0d099c21a871163984590d89"
+ LIC_FILES_CHKSUM = "file://src/import/LICENSE;md5=1269f40c0d099c21a871163984590d89"
  
- CONTAINERD_VERSION = "v1.6.8"
- CVE_VERSION = "1.6.8"
-@@ -23,7 +23,7 @@ CVE_VERSION = "1.6.8"
- PROVIDES += "virtual/containerd"
- RPROVIDES:${PN} = "virtual-containerd"
+-CONTAINERD_VERSION = "v1.6.6"
+-CVE_VERSION = "1.6.6"
++CONTAINERD_VERSION = "v1.6.8"
++CVE_VERSION = "1.6.8"
  
--S = "${WORKDIR}/git"
-+S = "${WORKDIR}/git/src/github.com/containerd/containerd"
+ EXTRA_OEMAKE += "GODEBUG=1"
  
- PV = "${CONTAINERD_VERSION}+git${SRCPV}"
- 
-@@ -41,34 +41,7 @@ do_configure[noexec] = "1"
- do_compile() {
-     export GOARCH="${TARGET_GOARCH}"
- 
--    # link fixups for compilation
--    rm -f ${S}/src/import/vendor/src
--    ln -sf ./ ${S}/src/import/vendor/src
--
--    mkdir -p ${S}/src/import/vendor/src/github.com/containerd/containerd/
--    mkdir -p ${S}/src/import/vendor/src/github.com/containerd/containerd/pkg/
--    mkdir -p ${S}/src/import/vendor/src/github.com/containerd/containerd/contrib/
--    # without this, the stress test parts of the build fail
--    cp ${S}/src/import/*.go ${S}/src/import/vendor/src/github.com/containerd/containerd
--
--    for c in content timeout ttrpcutil oom stdio process errdefs fs images mount snapshots linux api runtimes defaults progress \
--		     protobuf reference diff platforms runtime remotes version archive dialer gc metadata \
--		     metrics filters identifiers labels leases plugin server services \
--		     cmd cio containers namespaces oci events log reaper sys rootfs nvidia seed apparmor seccomp \
--		     cap cri userns atomic ioutil os registrar seutil runtimeoptions netns \
--                     shutdown schedcore tracing kmutex; do
--        if [ -d ${S}/src/import/${c} ]; then
--	    ln -sfn ${S}/src/import/${c} ${S}/src/import/vendor/github.com/containerd/containerd/${c}
--        fi
--        if [ -d ${S}/src/import/pkg/${c} ]; then
--            ln -sfn ${S}/src/import/pkg/${c} ${S}/src/import/vendor/github.com/containerd/containerd/pkg/${c}
--        fi
--        if [ -d ${S}/src/import/contrib/${c} ]; then
--            ln -sfn ${S}/src/import/contrib/${c} ${S}/src/import/vendor/github.com/containerd/containerd/contrib/${c}
--        fi
--    done
--
--    export GOPATH="${S}/src/import/.gopath:${S}/src/import/vendor:${STAGING_DIR_TARGET}/${prefix}/local/go"
-+    export GOPATH="${S}/src/import/.gopath:${S}/src/import/vendor:${STAGING_DIR_TARGET}/${prefix}/local/go:${WORKDIR}/git/"
-     export GOROOT="${STAGING_DIR_NATIVE}/${nonarch_libdir}/${HOST_SYS}/go"
- 
-     # Pass the needed cflags/ldflags so that cgo
-@@ -87,7 +60,8 @@ do_compile() {
-     export GO_BUILD_FLAGS="-trimpath -a -pkgdir dontusecurrentpkgs"
-     export GO111MODULE=off
- 
--    cd ${S}/src/import
-+    cd ${S}
-+
-     oe_runmake binaries
- }
- 
-@@ -98,11 +72,11 @@ SYSTEMD_SERVICE:${PN} = "${@bb.utils.contains('DISTRO_FEATURES','systemd','conta
- do_install() {
- 	mkdir -p ${D}/${bindir}
- 
--	cp ${S}/src/import/bin/containerd ${D}/${bindir}/containerd
--	cp ${S}/src/import/bin/containerd-shim ${D}/${bindir}/containerd-shim
--	cp ${S}/src/import/bin/containerd-shim-runc-v1 ${D}/${bindir}/containerd-shim-runc-v1
--	cp ${S}/src/import/bin/containerd-shim-runc-v2 ${D}/${bindir}/containerd-shim-runc-v2
--	cp ${S}/src/import/bin/ctr ${D}/${bindir}/containerd-ctr
-+	cp ${S}/bin/containerd ${D}/${bindir}/containerd
-+	cp ${S}/bin/containerd-shim ${D}/${bindir}/containerd-shim
-+	cp ${S}/bin/containerd-shim-runc-v1 ${D}/${bindir}/containerd-shim-runc-v1
-+	cp ${S}/bin/containerd-shim-runc-v2 ${D}/${bindir}/containerd-shim-runc-v2
-+	cp ${S}/bin/ctr ${D}/${bindir}/containerd-ctr
- 
- 	ln -sf containerd ${D}/${bindir}/docker-containerd
- 	ln -sf containerd-shim ${D}/${bindir}/docker-containerd-shim
-@@ -112,7 +86,7 @@ do_install() {
- 
- 	if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; then
- 		install -d ${D}${systemd_unitdir}/system
--		install -m 644 ${S}/src/import/containerd.service ${D}/${systemd_unitdir}/system
-+		install -m 644 ${S}/containerd.service ${D}/${systemd_unitdir}/system
- 	        # adjust from /usr/local/bin to /usr/bin/
- 		sed -e "s:/usr/local/bin/containerd:${bindir}/containerd:g" -i ${D}/${systemd_unitdir}/system/containerd.service
- 	fi
-diff --git a/recipes-containers/containerd/files/0001-build-use-oe-provided-GO-and-flags.patch b/recipes-containers/containerd/files/0001-build-use-oe-provided-GO-and-flags.patch
-index 544881e..95f2317 100644
---- a/recipes-containers/containerd/files/0001-build-use-oe-provided-GO-and-flags.patch
-+++ b/recipes-containers/containerd/files/0001-build-use-oe-provided-GO-and-flags.patch
-@@ -12,10 +12,10 @@ Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-  Makefile | 8 ++++----
-  1 file changed, 4 insertions(+), 4 deletions(-)
- 
--Index: git/src/import/Makefile
-+Index: git/Makefile
- ===================================================================
----- git.orig/src/import/Makefile
--+++ git/src/import/Makefile
-+--- git.orig/Makefile
-++++ git/Makefile
- @@ -121,7 +121,7 @@
-  TESTFLAGS_PARALLEL ?= 8
-  
 -- 
 2.38.1
 
