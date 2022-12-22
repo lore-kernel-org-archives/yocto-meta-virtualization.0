@@ -2,110 +2,109 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE27CC001B2
-	for <webhook@archiver.kernel.org>; Thu, 22 Dec 2022 15:33:41 +0000 (UTC)
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
- by mx.groups.io with SMTP id smtpd.web10.48031.1671723220573937377
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BBD6C4332F
+	for <webhook@archiver.kernel.org>; Thu, 22 Dec 2022 15:35:22 +0000 (UTC)
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+ by mx.groups.io with SMTP id smtpd.web10.48066.1671723318270368696
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 22 Dec 2022 07:33:40 -0800
+ Thu, 22 Dec 2022 07:35:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=hRsZdnEE;
- spf=pass (domain: gmail.com, ip: 209.85.160.180, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qt1-f180.google.com with SMTP id a16so1576530qtw.10
-        for <meta-virtualization@lists.yoctoproject.org>; Thu, 22 Dec 2022 07:33:40 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=LNsypkNX;
+ spf=pass (domain: gmail.com, ip: 209.85.160.173, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f173.google.com with SMTP id h21so1571798qta.12
+        for <meta-virtualization@lists.yoctoproject.org>; Thu, 22 Dec 2022 07:35:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=user-agent:in-reply-to:content-disposition:mime-version:references
          :message-id:subject:cc:to:from:date:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=wov3T9wsinLg+dLRY5Q/FC23foEmFxFQYcW8Eg3mWc4=;
-        b=hRsZdnEE+KKbRh413CkZ2nIyVFssaD/ObaNf3/trj93IfN3wf7TlmNYnDmYb1WMbHa
-         lIY3DKDL6Yh8yGUN9GKAKdJFefXukTgpKYus3owWOB4g8LJ78EsnKutE19jPuEvAPnMX
-         hxz2VXMi1N3Su6v5lHv47Pb8QyTorXLqSja1cwKKli7HnuS3j/VuKbQe6r6EWMRgNy7I
-         YB+O0p5VBmY1qrWC74zGpEg/6EuqMmlaoojQqmzOW7Rnyl2qvKCXOBjzv2otqQwBC1Aj
-         QWxftSg9+AK86ahZxuQbcxDmu7GKilyWZcZmdPQevbqnTn+pG4mRVvP90A9KZZSXjXvE
-         GBjw==
+        bh=q1XmM/aEx0qD+mf2HVgW2fFd3LjU3gFpuolz4ial0WE=;
+        b=LNsypkNX0NImnsHdnLHVN8vPdNin2Abw1W0iqyL0DxeSg4z9EADw18ORwVpgsb/xT9
+         88QaMqk3UwmgxoCHSOooi9ZnimISeq3EAviRPvv4P2t7VtSZ0/vFer2MGQOBBkgFVnFl
+         z4QRl1ev3gOO+37PJBIYZRukGz+nrG+vjNDqzOlOF1xxM74rC7SFMiqQPin/XMjvSpWh
+         xNes8hhWi3aKEYNYP8YRM3c69IKQmnfx2f41ZNPzfezaB0RlYmn3KrKK4dDQXrpIilk5
+         uF59KayUm+ceME1x6Fu+dgln9dFhXeLK6SEv/oCcarKIphqB3uoVuTG8b1Cg4Klu8ssy
+         H6zQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=user-agent:in-reply-to:content-disposition:mime-version:references
          :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=wov3T9wsinLg+dLRY5Q/FC23foEmFxFQYcW8Eg3mWc4=;
-        b=bas92RG8/I4tQG8y1UQGlPuoz0RbgXyEHVuEHjQoWDIROls/IYeOmTG7DVc9mfigCa
-         MRhHT+87A0zMdA6zXOKXLBmr49kso465yiR6HH01CLgJPhlutsMJ0BDZHFgKF2ASMZ0C
-         0stC9ucwZdRRxsaR+rtcSNNVrjow2H3MAVAVMzHTVntCepKMObI0LIx5MjdDHwzktCVH
-         1sveGRzrseDZX2KuLBxiwxp64VEnPg3bEBpYSBB0H3wiOprs6YXhX7Rhxo7cVqjvVsni
-         qLNVreEU9Y8Dh4hvLo4OJbp64H3xeM2SzTOdcMmCXEatBJ8Kp3L/LrsPT5VcJiKu7rtH
-         ZrCA==
-X-Gm-Message-State: AFqh2ko+/3GhU4otS6yd8hZiVMCia+lVtSGHsyRNIm7aJtlgG35jPOd5
-	ECNHBvUnOd5Qsf1a7eWXqHt52gcdezM=
-X-Google-Smtp-Source: AMrXdXviKeKAnEoeakss9lEA+WUIKAw+YJUh+t6fPrO1RQWzzIH4ussq0gMC3013CFYNURTeONs2OQ==
-X-Received: by 2002:ac8:760b:0:b0:39c:da20:683 with SMTP id t11-20020ac8760b000000b0039cda200683mr6579738qtq.38.1671723219564;
-        Thu, 22 Dec 2022 07:33:39 -0800 (PST)
+        bh=q1XmM/aEx0qD+mf2HVgW2fFd3LjU3gFpuolz4ial0WE=;
+        b=Q2+28KONVnL391q4BLifyCqe1RxCotum76SFn1dOXsm//R0WmsLgVD2CH8oRM0BEgK
+         v/NArIfHplVsoyAdqnbdqpGSOY5HSnb8NuwqJg3udg22OihzLh7JVcV2l7nSq8x5PdTW
+         iJyuJ/246AA7i50VTuz9XWZcUHonD7+Coc6ydyjP0K+IuEatjbk1CQCn37Mj6kLhqgmG
+         xjIjEdMluWW0FFsmEWrxf6YVAtg8XHgfBKlkYPBwswO29NEujnnnk6JsefSaTu0LxMKl
+         yL+S7a2hmrxbFVSWFGhvkovRPMK0HW86eocLEX2AHUKB2CCTYnG9t+/KPs2icvClhF/T
+         gWow==
+X-Gm-Message-State: AFqh2kpO1jR8uX4yAzfh9t4j+eDIzAvm+FDkg8tgTjHpTbGyg/HcUwsr
+	SppgF4xve+OE1DFhjm9nvS/lmK5IMtE=
+X-Google-Smtp-Source: AMrXdXvDgscc11lHxtevFJrnNQVjpBUKpebLFsAd4pD2q2REA0zMjeegDHlwpKQtls9J3isKi1nu3A==
+X-Received: by 2002:a05:622a:1c09:b0:3a8:1e9f:47f5 with SMTP id bq9-20020a05622a1c0900b003a81e9f47f5mr7040782qtb.45.1671723317091;
+        Thu, 22 Dec 2022 07:35:17 -0800 (PST)
 Received: from gmail.com (cpe7c9a54441c1f-cm7c9a54441c1d.cpe.net.cable.rogers.com. [173.34.238.88])
-        by smtp.gmail.com with ESMTPSA id g25-20020ac84b79000000b003a70a675066sm481859qts.79.2022.12.22.07.33.39
+        by smtp.gmail.com with ESMTPSA id t3-20020ac85303000000b0039cba52974fsm485572qtn.94.2022.12.22.07.35.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Dec 2022 07:33:39 -0800 (PST)
-Date: Thu, 22 Dec 2022 10:33:37 -0500
+        Thu, 22 Dec 2022 07:35:16 -0800 (PST)
+Date: Thu, 22 Dec 2022 10:35:15 -0500
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 To: mingli.yu@eng.windriver.com
 Cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [PATCH] virt-viewer: add opengl to REQUIRED_DISTRO_FEATURES
-Message-ID: <20221222153337.GB42362@gmail.com>
-References: <20221220131529.3468877-1-mingli.yu@eng.windriver.com>
+Subject: Re: [meta-cloud-services][PATCH] layer.conf: add meta-virtualization
+ to LAYERDEPENDS
+Message-ID: <20221222153512.GA42787@gmail.com>
+References: <20221212023520.2601170-1-mingli.yu@eng.windriver.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221220131529.3468877-1-mingli.yu@eng.windriver.com>
+In-Reply-To: <20221212023520.2601170-1-mingli.yu@eng.windriver.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Thu, 22 Dec 2022 15:33:41 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/7779
+ <meta-virtualization@lists.yoctoproject.org>; Thu, 22 Dec 2022 15:35:22 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/7780
 
-merged.
+I could have sworn that I already did this change .. but I can't
+find any record of it in my branches.
+
+So I've gone ahead and merged the change.
 
 Bruce
 
-In message: [PATCH] virt-viewer: add opengl to REQUIRED_DISTRO_FEATURES
-on 20/12/2022 mingli.yu@eng.windriver.com wrote:
+In message: [meta-cloud-services][PATCH] layer.conf: add meta-virtualization to LAYERDEPENDS
+on 12/12/2022 mingli.yu@eng.windriver.com wrote:
 
 > From: Mingli Yu <mingli.yu@windriver.com>
 > 
-> Fixes:
->   ERROR: Nothing PROVIDES 'spice-gtk' (but /build/layers/meta-virtualization/recipes-extended/virt-viewer/virt-viewer_11.0.bb DEPENDS on or otherwise requires it)
-> spice-gtk was skipped: missing required distro feature 'opengl' (not in DISTRO_FEATURES)
+> Fix the below yocto compliance issue, the libibverbs under
+> meta-virtualization provides virtual/libibverbs.
+>   ERROR: Nothing PROVIDES 'virtual/libibverbs' (but /build/layers/meta-cloud-services/recipes-extended/glusterfs/glusterfs_6.1.bb DEPENDS on or otherwise requires it). Close matches:
+>     virtual/libc
+>     virtual/libiconv
+>     virtual/librpc
 >   ERROR: Required build target 'meta-world-pkgdata' has no buildable providers.
->   Missing or unbuildable dependency chain was: ['meta-world-pkgdata', 'virt-viewer', 'spice-gtk']
+>   Missing or unbuildable dependency chain was: ['meta-world-pkgdata', 'glusterfs', 'virtual/libibverbs']
 > 
 > Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
 > ---
->  recipes-extended/virt-viewer/virt-viewer_11.0.bb | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+>  conf/layer.conf | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
 > 
-> diff --git a/recipes-extended/virt-viewer/virt-viewer_11.0.bb b/recipes-extended/virt-viewer/virt-viewer_11.0.bb
-> index 55ca57aa..5799f48f 100644
-> --- a/recipes-extended/virt-viewer/virt-viewer_11.0.bb
-> +++ b/recipes-extended/virt-viewer/virt-viewer_11.0.bb
-> @@ -16,6 +16,8 @@ SRCREV = "1e99e5e4f409da91638eb79067ec738994c28ef5"
->  PV = "11.0+git${SRCPV}"
->  S = "${WORKDIR}/git"
->  
-> +REQUIRED_DISTRO_FEATURES = "opengl"
-> +
->  PACKAGECONFIG ?= "libvirt spice vte"
->  
->  PACKAGECONFIG[libvirt] = "-Dlibvirt=enabled,-Dlibvirt=disabled,libvirt libvirt-glib"
-> @@ -23,7 +25,7 @@ PACKAGECONFIG[spice] = "-Dspice=enabled,-Dspice=disabled,spice-gtk spice-protoco
->  PACKAGECONFIG[vnc] = "-Dvnc=enabled,-Dvnc=disabled,gtk-vnc"
->  PACKAGECONFIG[vte] = "-Dvte=enabled,-Dvte=disabled,vte"
->  
-> -inherit meson pkgconfig gtk-icon-cache mime mime-xdg gobject-introspection
-> +inherit meson pkgconfig gtk-icon-cache mime mime-xdg gobject-introspection features_check
->  
->  FILES:${PN} += "${datadir}"
->  GIR_MESON_OPTION = ''
+> diff --git a/conf/layer.conf b/conf/layer.conf
+> index dca6a109..e089b7d1 100644
+> --- a/conf/layer.conf
+> +++ b/conf/layer.conf
+> @@ -8,4 +8,8 @@ BBFILE_COLLECTIONS += "cloud-services-layer"
+>  BBFILE_PATTERN_cloud-services-layer := "^${LAYERDIR}/"
+>  BBFILE_PRIORITY_cloud-services-layer = "5"
+>  LAYERSERIES_COMPAT_cloud-services-layer = "langdale"
+> -LAYERDEPENDS_cloud-services-layer = "core filesystems-layer networking-layer"
+> +LAYERDEPENDS_cloud-services-layer = "core \
+> +    filesystems-layer \
+> +    networking-layer \
+> +    virtualization-layer \
+> +"
 > -- 
 > 2.25.1
 > 
