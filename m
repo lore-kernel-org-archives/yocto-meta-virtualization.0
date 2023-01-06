@@ -2,126 +2,218 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34569C3DA7A
-	for <webhook@archiver.kernel.org>; Fri,  6 Jan 2023 15:39:21 +0000 (UTC)
-Received: from mail-io1-f51.google.com (mail-io1-f51.google.com [209.85.166.51])
- by mx.groups.io with SMTP id smtpd.web11.16586.1673019556087617522
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30A24C3DA7A
+	for <webhook@archiver.kernel.org>; Fri,  6 Jan 2023 15:42:33 +0000 (UTC)
+Received: from mail-il1-f179.google.com (mail-il1-f179.google.com [209.85.166.179])
+ by mx.groups.io with SMTP id smtpd.web10.16794.1673019748629971777
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 06 Jan 2023 07:39:16 -0800
+ Fri, 06 Jan 2023 07:42:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=TeTq1Gdr;
- spf=pass (domain: gmail.com, ip: 209.85.166.51, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-io1-f51.google.com with SMTP id d123so851776iof.6
-        for <meta-virtualization@lists.yoctoproject.org>; Fri, 06 Jan 2023 07:39:16 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=OmEMliNW;
+ spf=pass (domain: gmail.com, ip: 209.85.166.179, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-il1-f179.google.com with SMTP id u8so1127855ilq.13
+        for <meta-virtualization@lists.yoctoproject.org>; Fri, 06 Jan 2023 07:42:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=NwPKW8PGGUqWzdQcPAsP2IFPuMDaY1ntqx+g5/Wi1Nk=;
-        b=TeTq1Gdrgxyci1GhavrwPP8m1ECu6ksVad91GiWwJLwKXUPNxSFfGP9ntEsWRkyOEk
-         oVKQ1F5V7ZOAqyMMITiS9JdNeSYQ+IqD3fY0fSeTTlmrripRPgj8GnAhBqWZSVLJfUOg
-         TvGvD7yQWIYbFNMwFbOEeuekYFT45qtx44vkdbAIWf5cLwKlKe6UJOqPilH0a/rdaGRw
-         Otox7kM3mBECKcA16ty0GnRdO0bGjKJj99kOnhf90105wK4roHnU+33U9igYSsoe5ugX
-         7uXZSCOQBgF2vo+sXM6vPN53EVTctIxdkDqdfztmDtoXC4FdP4lTLrv3yrNT2T+k/8tE
-         I91g==
+        bh=NKdY6xyvbu6MHFkq83feeWK/9APwL7buy23kA09ILtQ=;
+        b=OmEMliNWVDDetCoMbdRLlS3QNKfYQGC7kdeWxKb4UaI1bSbjnJqnXqQCiY/VrXwcZb
+         3FWFbxVKE/NCfVeuf9hcbTocqTL77Nz8KkQdtiSVU3cu5vPi0Jmv8tO/NN8AXq+2hBJt
+         DFJ4DnjRr16JeX837gn8pRU6MY/ajtYMGt2v9eF+yvLEhP78dlX131vbVwDJJwjzrJtY
+         ct8O0WjoQYSImfGNELJ96a1T5IrwBktivvmDq9j3nRL6kbJOfEeW14S07f0FYuvK1HDv
+         h9CMNw8wBQJW2443543uiERoC5blu/UmPbQwaklYUnITNzRQtb3YRmKzzpW3+QfElBvR
+         Cysg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=NwPKW8PGGUqWzdQcPAsP2IFPuMDaY1ntqx+g5/Wi1Nk=;
-        b=Idw08N8bHmIgQsvljIeGc3OrdYzfwoSdQ6zyvcE0iWKfHZ7QZ05IyNHmeFDNiCD36t
-         c3E/KsrNBDqNBLGvkTBiqiQm+J1n/3tuumXqTcA8MA1xcTU5JWWK2iqkh0lipjyeEZD7
-         I7wXKd5qrSsKOwuqaKIqfczMbQa/3hLxTN2ABwAv6+2OsDXa4rIyPtMu2C0mFaBeQs9f
-         fUKpIRaqlIX7jyMuP7bHcIORka008OY5HR4x+T0eOc5NrqvP5d6QUl27Sd1j4DK+XqZa
-         dyupWKSaCMBvHljvJbP6Oqq9A8Ldz/Z9mnyAigDeNz/GM09YUZP7jETP40tU7RFVoUwS
-         sRog==
-X-Gm-Message-State: AFqh2koyPNII+K0UflmioPasNjngeF52pk04QczryVa1Ru769ZPpYaYn
-	ifAdxA2CR0t/gjX4w+FhP5jG71TUcLoFMlBURYa3ecgO
-X-Google-Smtp-Source: AMrXdXsmoh9vDeUmthJ9PSuMftBD1LlPSStB0R64fEhR+TQ+8T+VO/qLmqNyLSBrPQfF8kJdwP6DNdTC1Shbrf8LIL8=
-X-Received: by 2002:a05:6638:19ca:b0:375:1a70:9c5c with SMTP id
- bi10-20020a05663819ca00b003751a709c5cmr4419268jab.129.1673019555252; Fri, 06
- Jan 2023 07:39:15 -0800 (PST)
+        bh=NKdY6xyvbu6MHFkq83feeWK/9APwL7buy23kA09ILtQ=;
+        b=f8TDOEVuzm9XQh0jRJ3RtnT7K/V+VmBIrtqWWJSREQCnNJno+DszKp5gEFSJMzhNCq
+         HDDfQh09wE5keKIEpY2svHVpvS1cJRksmAzOfBpxELE7EYgIFMwe8eJ40UPAe2soMOqQ
+         9TVfP7iU5M6QTFbpkw7CrOqgplqW0dMPiwicyGP8A2x14dPzqW4bLmnHgDUW7fgfMcJ8
+         QyHwKb0/QwVjGYhASZksMDxTqAng8Z6gVV1H5rb3nh5lSCqGTWK3h9vZkQpkbUPVR09d
+         o3GfbLV9lLxmPav/TRHT7b3NNMF/yLLvjrnqpwAhw+XHJfyDKZr0MIZxDQe3OQC7Ejxd
+         a28g==
+X-Gm-Message-State: AFqh2kr68r/YSQDdDweGlyvD0y5s6cT/dvMEVrJ0IdJRbP9QhK7LuhWe
+	e56Cy7BlIRrcIcMvh0vlmO2fJWeTjcOLoL23ApWc72zN
+X-Google-Smtp-Source: AMrXdXuiTh3HfJM18tq4tqVtCdv2kknS0KI+D5L5110HoWPsI70/KwLH8SWiinHA88qNjLwEEoaCTa4eRPJVEs7JIG0=
+X-Received: by 2002:a92:cda1:0:b0:30c:21d5:5ce0 with SMTP id
+ g1-20020a92cda1000000b0030c21d55ce0mr3781191ild.28.1673019747954; Fri, 06 Jan
+ 2023 07:42:27 -0800 (PST)
 MIME-Version: 1.0
-References: <20230106101248.852370-1-mingli.yu@eng.windriver.com>
-In-Reply-To: <20230106101248.852370-1-mingli.yu@eng.windriver.com>
+References: <1734D8DBF4A40DBC.27785@lists.yoctoproject.org> <cd8582e2-5a67-d753-6ea1-5c181569f731@windriver.com>
+In-Reply-To: <cd8582e2-5a67-d753-6ea1-5c181569f731@windriver.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Fri, 6 Jan 2023 10:39:04 -0500
-Message-ID: <CADkTA4NktMhRCcHV6mYUCdY465zRaBy5GXmuW5NfBgva-S49qQ@mail.gmail.com>
-Subject: Re: [PATCH] libslirp: remove the recipe
-To: mingli.yu@eng.windriver.com
+Date: Fri, 6 Jan 2023 10:42:16 -0500
+Message-ID: <CADkTA4NgW4Y_RPO+2yObKEtpt1UWYtPwsp0-VFomSgGa1uWTWA@mail.gmail.com>
+Subject: Re: [meta-virtualization][master][langdale][kirkstone][PATCH]
+ openvswitch: backport patch to fix CVE-2022-4337 and CVE-2022-4338
+To: Xiangyu Chen <xiangyu.chen@eng.windriver.com>
 Cc: meta-virtualization@lists.yoctoproject.org
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Fri, 06 Jan 2023 15:39:21 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/7801
+ <meta-virtualization@lists.yoctoproject.org>; Fri, 06 Jan 2023 15:42:33 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/7802
 
-This is an already known issue.
+On Thu, Jan 5, 2023 at 11:09 PM Xiangyu Chen
+<xiangyu.chen@eng.windriver.com> wrote:
+>
+>
+> On 12/28/22 11:56, Xiangyu Chen wrote:
+> > From: Xiangyu Chen <xiangyu.chen@windriver.com>
+> >
+> > CVE-2022-4337: openvswitch: Out-of-Bounds Read in Organization Specific TLV
+> > CVE-2022-4338: openvswitch: Integer Underflow in Organization Specific TLV
+> >
+> > Reference:
+> > https://github.com/openvswitch/ovs/pull/405
+> > https://github.com/openvswitch/ovs/commit/7490f281f09a8455c48e19b0cf1b99ab758ee4f4
+> >
+> > Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
+>
+> Friendly ping, thanks ;)
 
-I'll be forking the recipe versus removing it, I'm just not back full
-time so haven't had a chance to do it yet.
+I've been on holidays, and won't be doing any merges until the start
+of next week.
+
+I only did a few very critical merges to keep the layer compatible
+with OE core master.
+
+So this has been noted and is in the queue.
 
 Bruce
 
-On Fri, Jan 6, 2023 at 5:12 AM <mingli.yu@eng.windriver.com> wrote:
 >
-> From: Mingli Yu <mingli.yu@windriver.com>
+> Br,
 >
-> The libslirp recipe is added in openembedded-core [1], so remove the
-> recipe in meta-virtualization to fix the below yocto compliance issue.
+> Xiangyu
 >
-> INFO: ======================================================================
-> INFO: FAIL: test_signatures (common.CommonCheckLayer)
-> INFO: ----------------------------------------------------------------------
-> INFO: Traceback (most recent call last):
->   File "/build/layers/oe-core/scripts/lib/checklayer/cases/common.py", line 84, in test_signatures
->     self.fail('Adding layer %s changed signatures.\n%s' % (self.tc.layer['name'], msg))
-> AssertionError: Adding layer meta-virtualization changed signatures.
-> 26 signatures changed, initial differences (first hash before, second after):
->    libslirp:do_fetch: ddef7cb42fde46edfd7be943eae54ddc2b27bc0af62f8cb6b31593cabb0d5925 -> b71e325b62905059e0cf07b61ee0a4db192d212ff56395d0d93702e525ef8d4a
->       bitbake-diffsigs --task libslirp do_fetch --signature ddef7cb42fde46edfd7be943eae54ddc2b27bc0af62f8cb6b31593cabb0d5925 b71e325b62905059e0cf07b61ee0a4db192d212ff56395d0d93702e525ef8d4a
->       NOTE: Starting bitbake server...
->       basehash changed from 50c45a6065da00132b899786d818a66f056190f6664fc4bfe974e8a9f70c7f78 to 3b4e51c0058462af0c141c974b2ea19a9efc51cb61ef26bc2b4367c1066ad8f9
->       Variable SRCREV value changed from '3ad1710a96678fe79066b1469cead4058713a1d9' to '888ddad6bde1dc6d7dbfc8daa7d015251b72e02c'
 >
->    libslirp:do_write_config: 8a3791774ea0f5793d1c14d0f3521582814420a057a2ee34488c8f868c7aacbb -> bdebe27987ebfdfdac9cf4c1af489f7aa674ef19454f7bf983549ae8ee2baf69
->       bitbake-diffsigs --task libslirp do_write_config --signature 8a3791774ea0f5793d1c14d0f3521582814420a057a2ee34488c8f868c7aacbb bdebe27987ebfdfdac9cf4c1af489f7aa674ef19454f7bf983549ae8ee2baf69
->       NOTE: Starting bitbake server...
->       basehash changed from 8e5d9803b05d9999dbd18f4dce549312dc908f475362e236db785c94c99c8d5d to 0870fb4d535f92b666ed5a78d46ef69acc292888399961a24547b22d82b26d84
->       Variable PV value changed from '4.7.0' to '4.6.1+gitAUTOINC+888ddad6bd'
+> > ---
+> >   ...gs-when-parsing-malformed-AutoAttach.patch | 86 +++++++++++++++++++
+> >   .../openvswitch/openvswitch_git.bb            |  1 +
+> >   2 files changed, 87 insertions(+)
+> >   create mode 100644 recipes-networking/openvswitch/files/0001-lldp-Fix-bugs-when-parsing-malformed-AutoAttach.patch
+> >
+> > diff --git a/recipes-networking/openvswitch/files/0001-lldp-Fix-bugs-when-parsing-malformed-AutoAttach.patch b/recipes-networking/openvswitch/files/0001-lldp-Fix-bugs-when-parsing-malformed-AutoAttach.patch
+> > new file mode 100644
+> > index 0000000..ec40106
+> > --- /dev/null
+> > +++ b/recipes-networking/openvswitch/files/0001-lldp-Fix-bugs-when-parsing-malformed-AutoAttach.patch
+> > @@ -0,0 +1,86 @@
+> > +From 7490f281f09a8455c48e19b0cf1b99ab758ee4f4 Mon Sep 17 00:00:00 2001
+> > +From: Qian Chen <cq674350529@163.com>
+> > +Date: Tue, 20 Dec 2022 09:36:08 -0500
+> > +Subject: [PATCH] lldp: Fix bugs when parsing malformed AutoAttach.
+> > +
+> > +The OVS LLDP implementation includes support for AutoAttach standard, which
+> > +the 'upstream' lldpd project does not include.  As part of adding this
+> > +support, the message parsing for these TLVs did not include proper length
+> > +checks for the LLDP_TLV_AA_ELEMENT_SUBTYPE and the
+> > +LLDP_TLV_AA_ISID_VLAN_ASGNS_SUBTYPE elements.  The result is that a message
+> > +without a proper boundary will cause an overread of memory, and lead to
+> > +undefined results, including crashes or other unidentified behavior.
+> > +
+> > +The fix is to introduce proper bounds checking for these elements.  Introduce
+> > +a unit test to ensure that we have some proper rejection in this code
+> > +base in the future.
+> > +
+> > +Fixes: be53a5c447c3 ("auto-attach: Initial support for Auto-Attach standard")
+> > +
+> > +Upstream-Status: Backport from upstream [https://github.com/openvswitch/ovs/commit/7490f281f09a8455c48e19b0cf1b99ab758ee4f4]
+> > +CVE: CVE-2022-4337 - openvswitch: Out-of-Bounds Read in Organization Specific TLV
+> > +CVE: CVE-2022-4338 - openvswitch: Integer Underflow in Organization Specific TLV
+> > +
+> > +Signed-off-by: Qian Chen <cq674350529@163.com>
+> > +Co-authored-by: Aaron Conole <aconole@redhat.com>
+> > +Signed-off-by: Aaron Conole <aconole@redhat.com>
+> > +Signed-off-by: Ilya Maximets <i.maximets@ovn.org>
+> > +Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
+> > +---
+> > + lib/lldp/lldp.c       |  2 ++
+> > + tests/ofproto-dpif.at | 19 +++++++++++++++++++
+> > + 2 files changed, 21 insertions(+)
+> > +
+> > +diff --git a/lib/lldp/lldp.c b/lib/lldp/lldp.c
+> > +index dfeb2a800..6fdcfef56 100644
+> > +--- a/lib/lldp/lldp.c
+> > ++++ b/lib/lldp/lldp.c
+> > +@@ -583,6 +583,7 @@ lldp_decode(struct lldpd *cfg OVS_UNUSED, char *frame, int s,
+> > +
+> > +                 switch(tlv_subtype) {
+> > +                 case LLDP_TLV_AA_ELEMENT_SUBTYPE:
+> > ++                    CHECK_TLV_SIZE(50, "ELEMENT");
+> > +                     PEEK_BYTES(&msg_auth_digest, sizeof msg_auth_digest);
+> > +
+> > +                     aa_element_dword = PEEK_UINT32;
+> > +@@ -629,6 +630,7 @@ lldp_decode(struct lldpd *cfg OVS_UNUSED, char *frame, int s,
+> > +                     break;
+> > +
+> > +                 case LLDP_TLV_AA_ISID_VLAN_ASGNS_SUBTYPE:
+> > ++                    CHECK_TLV_SIZE(36, "ISID_VLAN_ASGNS");
+> > +                     PEEK_BYTES(&msg_auth_digest, sizeof msg_auth_digest);
+> > +
+> > +                     /* Subtract off tlv type and length (2Bytes) + OUI (3B) +
+> > +diff --git a/tests/ofproto-dpif.at b/tests/ofproto-dpif.at
+> > +index eb4cd1896..fa6111c1e 100644
+> > +--- a/tests/ofproto-dpif.at
+> > ++++ b/tests/ofproto-dpif.at
+> > +@@ -62,6 +62,25 @@ AT_CHECK([ovs-appctl coverage/read-counter rev_reconfigure], [0], [dnl
+> > + OVS_VSWITCHD_STOP
+> > + AT_CLEANUP
+> > +
+> > ++AT_SETUP([ofproto-dpif - malformed lldp autoattach tlv])
+> > ++OVS_VSWITCHD_START()
+> > ++add_of_ports br0 1
+> > ++
+> > ++dnl Enable lldp
+> > ++AT_CHECK([ovs-vsctl set interface p1 lldp:enable=true])
+> > ++
+> > ++dnl Send a malformed lldp packet
+> > ++packet="0180c200000ef6b426aa5f0088cc020704f6b426aa5f000403057632060200780c"dnl
+> > ++"5044454144424545464445414442454546444541444245454644454144424545464445414"dnl
+> > ++"4424545464445414442454546444541444245454644454144424545464445414442454546"dnl
+> > ++"4445414442454546fe0500040d0c010000"
+> > ++AT_CHECK([ovs-appctl netdev-dummy/receive p1 "$packet"], [0], [stdout])
+> > ++
+> > ++OVS_WAIT_UNTIL([grep -q "ISID_VLAN_ASGNS TLV too short" ovs-vswitchd.log])
+> > ++
+> > ++OVS_VSWITCHD_STOP(["/|WARN|ISID_VLAN_ASGNS TLV too short received on/d"])
+> > ++AT_CLEANUP
+> > ++
+> > + AT_SETUP([ofproto-dpif - active-backup bonding (with primary)])
+> > +
+> > + dnl Create br0 with members p1, p2 and p7, creating bond0 with p1 and
+> > +--
+> > +2.34.1
+> > +
+> > diff --git a/recipes-networking/openvswitch/openvswitch_git.bb b/recipes-networking/openvswitch/openvswitch_git.bb
+> > index f5d85f3..4f4efe7 100644
+> > --- a/recipes-networking/openvswitch/openvswitch_git.bb
+> > +++ b/recipes-networking/openvswitch/openvswitch_git.bb
+> > @@ -27,6 +27,7 @@ SRC_URI += "git://github.com/openvswitch/ovs.git;protocol=https;branch=branch-2.
+> >               file://kernel_module.patch \
+> >               file://systemd-update-tool-paths.patch \
+> >               file://systemd-create-runtime-dirs.patch \
+> > +            file://0001-lldp-Fix-bugs-when-parsing-malformed-AutoAttach.patch \
+> >              "
+> >
+> >   LIC_FILES_CHKSUM = "file://LICENSE;md5=1ce5d23a6429dff345518758f13aaeab"
+> >
+> >
+> >
 >
-> [1] https://git.openembedded.org/openembedded-core/commit/?id=a4409583e0f8187b0c0cbf92fbddeffef12fd8f5
->
-> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-> ---
->  recipes-networking/slirp/libslirp_git.bb | 14 --------------
->  1 file changed, 14 deletions(-)
->  delete mode 100644 recipes-networking/slirp/libslirp_git.bb
->
-> diff --git a/recipes-networking/slirp/libslirp_git.bb b/recipes-networking/slirp/libslirp_git.bb
-> deleted file mode 100644
-> index aeb61f63..00000000
-> --- a/recipes-networking/slirp/libslirp_git.bb
-> +++ /dev/null
-> @@ -1,14 +0,0 @@
-> -SUMMARY = "A general purpose TCP-IP emulator"
-> -LICENSE = "BSD-3-Clause & MIT"
-> -LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=bca0186b14e6b05e338e729f106db727"
-> -
-> -SRC_URI = "git://gitlab.freedesktop.org/slirp/libslirp.git;protocol=https;branch=master"
-> -SRCREV = "888ddad6bde1dc6d7dbfc8daa7d015251b72e02c"
-> -PV = "4.6.1+git${SRCPV}"
-> -S = "${WORKDIR}/git"
-> -
-> -DEPENDS = " \
-> -    glib-2.0 \
-> -"
-> -
-> -inherit meson pkgconfig
-> --
-> 2.25.1
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#7793): https://lists.yoctoproject.org/g/meta-virtualization/message/7793
+> Mute This Topic: https://lists.yoctoproject.org/mt/95915106/1050810
+> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
 >
 
 
