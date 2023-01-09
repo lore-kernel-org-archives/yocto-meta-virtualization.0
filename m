@@ -2,104 +2,111 @@ Return-Path: <christopher.w.clark@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B26CC61DB3
-	for <webhook@archiver.kernel.org>; Mon,  9 Jan 2023 06:36:06 +0000 (UTC)
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
- by mx.groups.io with SMTP id smtpd.web10.65386.1673246164751751622
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7263C54EBD
+	for <webhook@archiver.kernel.org>; Mon,  9 Jan 2023 06:38:06 +0000 (UTC)
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+ by mx.groups.io with SMTP id smtpd.web11.65444.1673246276515830568
  for <meta-virtualization@lists.yoctoproject.org>;
- Sun, 08 Jan 2023 22:36:05 -0800
+ Sun, 08 Jan 2023 22:37:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=dfwf63gm;
- spf=pass (domain: gmail.com, ip: 209.85.218.46, mailfrom: christopher.w.clark@gmail.com)
-Received: by mail-ej1-f46.google.com with SMTP id u19so17528035ejm.8
-        for <meta-virtualization@lists.yoctoproject.org>; Sun, 08 Jan 2023 22:36:04 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=hcAKvMJz;
+ spf=pass (domain: gmail.com, ip: 209.85.218.50, mailfrom: christopher.w.clark@gmail.com)
+Received: by mail-ej1-f50.google.com with SMTP id ss4so10334414ejb.11
+        for <meta-virtualization@lists.yoctoproject.org>; Sun, 08 Jan 2023 22:37:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=87pStYFZxHLy1+GSlIPD8VY0Efgp2ZmLKmlBJFIzqvY=;
-        b=dfwf63gm1hbbLzKQVXUdkaULxOxJ+YLk8+cWAcBV5cGqLlVTv7XabbNssJzUFmHxOd
-         nU/xgcXJGoMbs7l3I24G/m8DG80DN5Hp08vU4tSLCu0T+j4L20O6dRBRsxsgTJW8XidM
-         +h0sMZHwsbNyoWqDnu1uVMEeKDKCrRl3kiwn/abbT4VB5ACogwarRAbcRQxlcFiN9YGp
-         sJhm/I7dpdUCJbckW1Ecs9kp0fxHIILJvGigeJ7zIrPquK9rORTluzL2tPxesCCbVSTp
-         P7qsMUZhHZqZOgQnfiWqjZjYnO/z51Tthf/Y/2WAQJ0B5vQyVPdKuhx/6tT+IV+fA9Gl
-         YBLw==
+        bh=jCMt3XsiIrTJsZDprxC7igJxtoKnyPNctejnLcTZNbE=;
+        b=hcAKvMJz/1Bs9GCm3v6ijVu9v4t7QABS5nYrr8XJq+DsjzEepsBzSN37BCF7Vtk7T2
+         WVbARaT/9Wq6sOu3ip8BqJwjH2tPStJWufUmZAYIZzJ+UouKBmME5jnGYKvNINqm+4ZC
+         18+PjkIX67giY0ZctdyO3A9aAEBYZ1Pxn5zFgu89qXTGsQYhmCvdE4UQSbT7sJ1torQI
+         oZJvtSf/msh0b0O4of+Wps4x/stOWcaxGpP9GDffWY+Pfa23kbcUxoxkWPzo8lhxIBlb
+         zNHbib0pMu4ealc9SyiEnH4HOFkY5ozUbdITQJu8R/A+cO4CBhhQr5/6l2O/waiCRngW
+         cIuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=87pStYFZxHLy1+GSlIPD8VY0Efgp2ZmLKmlBJFIzqvY=;
-        b=kZ15IfvkdQdtRxDbEGxTWGb8R5dM1nX0vNilc1KAfVml1k/VuNDAJ5N8VlEjQm/NnW
-         J6OMGhEltTc7IouGBToUv84o7u+94vz/BzGTxx7xyJea20h+2hj2hMmTGtrJ2c/ZdodJ
-         psWtTPEKjA/s3oHhZpqNOQhYWZvY9dw49L018syjYLeODWK4zKu3v98NWg4BeifFxDNk
-         GLhKRo8+x1xgdoBnol1KiwAVxGYndPk5tbMDvUzqPclHm4H8lBpC6HADerVmGQo/NRM8
-         D4oWQLCK0/Ubi9XUOyIJA5CTuywWiRbZkyeTAGgVKuaYxMa3HYxkuch7ChWmAlqlbtK+
-         xzxA==
-X-Gm-Message-State: AFqh2kqtc6Dxdhb41sHLMMtx8YkNxAtQU/8R/0qHcfZNBlZ8lYtPvYSI
-	trUU5L7Ma6QbLFxtFNKI+Cr4rZrItsIx5jdT8GQ=
-X-Google-Smtp-Source: AMrXdXuKUwCq8S10rjovbYi+zagKlKMsrsNS29PbnsoaTcYND8Eyi5T6EPan8Wg8ZaJHhUCilZvCSDr/l4WU+MkxbRU=
+        bh=jCMt3XsiIrTJsZDprxC7igJxtoKnyPNctejnLcTZNbE=;
+        b=SFAvpK5V+tupiMQ2zV+UEYu4GTICxsOYzQ4YLtvPCNDMk7nwpGlUGArAdgSu0mh8z4
+         wuVh8FHFLZ5lticKfXW5m/fDTdbilqjkw3Oc11We2t0OxEwMs/n/097bTTt5PJ2QCa0O
+         8iwWfkS8EoXOox6FVGM9ig7QDSoK6t2EigQi/EfS4XPYsXTtPJzhMBVX10nV9fjQ2PGh
+         ATGgyynwcFlaHwVAYhub3GPFAYFJwJFLxy04SLUEb+hOfA86lGfr8iZQwBwd2Y+z+wVA
+         vKuJl0opkwzfYXRC3tWqSgPny6QlQWzmQmIJIiwEfS3UXwjyaQBS9+bCLhdUk7UYw4a/
+         aaAw==
+X-Gm-Message-State: AFqh2kpd6w4/rY6r9lzf1ia5PTAzfZMiBaRHMdGYvOa40RnFgTc71AFt
+	AkVn7lAxgRAu2OuiJQAA0eCtvdgDya3h/1n5wkVgGAEI
+X-Google-Smtp-Source: AMrXdXvsQPBx8cGvgcJ2NQi/woz/p6VBXJvPvk1Aj9RKur3oLGOditgPYiQPJQO83iadat16C1R6L2o6Mcgx+SP+bJQ=
 X-Received: by 2002:a17:906:910:b0:7c1:136d:b841 with SMTP id
- i16-20020a170906091000b007c1136db841mr4383880ejd.216.1673246163299; Sun, 08
- Jan 2023 22:36:03 -0800 (PST)
+ i16-20020a170906091000b007c1136db841mr4384144ejd.216.1673246275097; Sun, 08
+ Jan 2023 22:37:55 -0800 (PST)
 MIME-Version: 1.0
-References: <20230106144630.23637-1-michal.orzel@amd.com> <20230106144630.23637-4-michal.orzel@amd.com>
-In-Reply-To: <20230106144630.23637-4-michal.orzel@amd.com>
+References: <20230106144630.23637-1-michal.orzel@amd.com>
+In-Reply-To: <20230106144630.23637-1-michal.orzel@amd.com>
 From: Christopher Clark <christopher.w.clark@gmail.com>
-Date: Sun, 8 Jan 2023 22:35:51 -0800
-Message-ID: <CACMJ4GYgr2-UGp29Lc2QPQ+0bBEEjEM7ieebTWgnM1+KO7PiQQ@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] xen: Bump default version to 4.17 stable
+Date: Sun, 8 Jan 2023 22:37:42 -0800
+Message-ID: <CACMJ4GbC8q9AOeiPwo0pRpBpAbV0=-KEpWh6SjuiF8X_f8R+BQ@mail.gmail.com>
+Subject: Re: [PATCH v2 0/3] xen: Update recipes for xen and xen-tools
 To: Michal Orzel <michal.orzel@amd.com>
 Cc: meta-virtualization@lists.yoctoproject.org, bertrand.marquis@arm.com, 
 	stefano.stabellini@amd.com, stewart.hildebrand@amd.com, 
 	bruce.ashfield@gmail.com
-Content-Type: multipart/alternative; boundary="0000000000002f737e05f1cefbab"
+Content-Type: multipart/alternative; boundary="000000000000d95f1b05f1cf01fd"
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Mon, 09 Jan 2023 06:36:06 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/7805
+ <meta-virtualization@lists.yoctoproject.org>; Mon, 09 Jan 2023 06:38:06 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/7806
 
---0000000000002f737e05f1cefbab
+--000000000000d95f1b05f1cf01fd
 Content-Type: text/plain; charset="UTF-8"
 
 On Fri, Jan 6, 2023 at 6:46 AM Michal Orzel <michal.orzel@amd.com> wrote:
 
-> Signed-off-by: Michal Orzel <michal.orzel@amd.com>
+> This patch series:
+>  - updates the 4.16 recipes to the latest 4.16.3 release,
+>  - adds 4.17 recipes, fixes conflicts and updates master,
+>  - bumps default version to 4.17.
+>
+> Tested by building all the available Xen versions on qemu{arm64/x86-64} and
+> running them using runqemu.
 >
 
-Reviewed-by: Christopher Clark <christopher.w.clark@gmail.com>
+Thanks for including testing - appreciated. The series is good.
 
-thanks
 Christopher
 
 
 
-> ---
-> Changes in v2:
->  - none
-> ---
->  conf/distro/include/meta-virt-default-versions.inc | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/conf/distro/include/meta-virt-default-versions.inc
-> b/conf/distro/include/meta-virt-default-versions.inc
-> index b2ce0210c05c..388eca90bed4 100644
-> --- a/conf/distro/include/meta-virt-default-versions.inc
-> +++ b/conf/distro/include/meta-virt-default-versions.inc
-> @@ -1,4 +1,4 @@
->  # Meta-virtuailization PREFERED_VERSION
+> Michal Orzel (3):
+>   xen: Bump SRCREV of 4.16 recipes to 4.16.3
+>   xen: Add recipes for stable Xen 4.17 release and update master
+>   xen: Bump default version to 4.17 stable
 >
-> -PREFERRED_VERSION_xen ?= "4.16+stable%"
-> -PREFERRED_VERSION_xen-tools ?= "4.16+stable%"
-> +PREFERRED_VERSION_xen ?= "4.17+stable%"
-> +PREFERRED_VERSION_xen-tools ?= "4.17+stable%"
+>  .../include/meta-virt-default-versions.inc    |   4 +-
+>  .../files/xen-fix-gcc12-build-issues.patch    | 433 ------------------
+>  recipes-extended/xen/xen-tools.inc            |   3 +
+>  recipes-extended/xen/xen-tools_4.16.bb        |   5 +-
+>  recipes-extended/xen/xen-tools_4.17.bb        |  19 +
+>  recipes-extended/xen/xen-tools_git.bb         |   8 +-
+>  recipes-extended/xen/xen_4.16.bb              |   5 +-
+>  recipes-extended/xen/xen_4.17.bb              |  19 +
+>  recipes-extended/xen/xen_git.bb               |   8 +-
+>  9 files changed, 55 insertions(+), 449 deletions(-)
+>  delete mode 100644
+> recipes-extended/xen/files/xen-fix-gcc12-build-issues.patch
+>  create mode 100644 recipes-extended/xen/xen-tools_4.17.bb
+>  create mode 100644 recipes-extended/xen/xen_4.17.bb
+>
 > --
 > 2.25.1
 >
 >
 
---0000000000002f737e05f1cefbab
+--000000000000d95f1b05f1cf01fd
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -107,37 +114,61 @@ Content-Transfer-Encoding: quoted-printable
 <div dir=3D"ltr" class=3D"gmail_attr">On Fri, Jan 6, 2023 at 6:46 AM Michal=
  Orzel &lt;<a href=3D"mailto:michal.orzel@amd.com">michal.orzel@amd.com</a>=
 &gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
-0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Sign=
-ed-off-by: Michal Orzel &lt;<a href=3D"mailto:michal.orzel@amd.com" target=
-=3D"_blank">michal.orzel@amd.com</a>&gt;<br></blockquote><div><br></div><di=
-v>Reviewed-by: Christopher Clark &lt;<a href=3D"mailto:christopher.w.clark@=
-gmail.com">christopher.w.clark@gmail.com</a>&gt;</div><div><br></div><div>t=
-hanks</div><div>Christopher</div><div><br></div><div>=C2=A0</div><blockquot=
-e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
-olid rgb(204,204,204);padding-left:1ex">
----<br>
-Changes in v2:<br>
-=C2=A0- none<br>
----<br>
-=C2=A0conf/distro/include/meta-virt-default-versions.inc | 4 ++--<br>
-=C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
+0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">This=
+ patch series:<br>
+=C2=A0- updates the 4.16 recipes to the latest 4.16.3 release,<br>
+=C2=A0- adds 4.17 recipes, fixes conflicts and updates master,<br>
+=C2=A0- bumps default version to 4.17.<br>
 <br>
-diff --git a/conf/distro/include/meta-virt-default-versions.inc b/conf/dist=
-ro/include/meta-virt-default-versions.inc<br>
-index b2ce0210c05c..388eca90bed4 100644<br>
---- a/conf/distro/include/meta-virt-default-versions.inc<br>
-+++ b/conf/distro/include/meta-virt-default-versions.inc<br>
-@@ -1,4 +1,4 @@<br>
-=C2=A0# Meta-virtuailization PREFERED_VERSION<br>
+Tested by building all the available Xen versions on qemu{arm64/x86-64} and=
 <br>
--PREFERRED_VERSION_xen ?=3D &quot;4.16+stable%&quot;<br>
--PREFERRED_VERSION_xen-tools ?=3D &quot;4.16+stable%&quot;<br>
-+PREFERRED_VERSION_xen ?=3D &quot;4.17+stable%&quot;<br>
-+PREFERRED_VERSION_xen-tools ?=3D &quot;4.17+stable%&quot;<br>
+running them using runqemu.<br></blockquote><div><br></div><div>Thanks for =
+including testing - appreciated. The series is good.</div><div><br></div><d=
+iv>Christopher</div><div><br></div><div>=C2=A0</div><blockquote class=3D"gm=
+ail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,=
+204,204);padding-left:1ex">
+<br>
+Michal Orzel (3):<br>
+=C2=A0 xen: Bump SRCREV of 4.16 recipes to 4.16.3<br>
+=C2=A0 xen: Add recipes for stable Xen 4.17 release and update master<br>
+=C2=A0 xen: Bump default version to 4.17 stable<br>
+<br>
+=C2=A0.../include/meta-virt-default-versions.inc=C2=A0 =C2=A0 |=C2=A0 =C2=
+=A04 +-<br>
+=C2=A0.../files/xen-fix-gcc12-build-issues.patch=C2=A0 =C2=A0 | 433 -------=
+-----------<br>
+=C2=A0recipes-extended/xen/xen-tools.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 |=C2=A0 =C2=A03 +<br>
+=C2=A0recipes-extended/xen/<a href=3D"http://xen-tools_4.16.bb" rel=3D"nore=
+ferrer" target=3D"_blank">xen-tools_4.16.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+|=C2=A0 =C2=A05 +-<br>
+=C2=A0recipes-extended/xen/<a href=3D"http://xen-tools_4.17.bb" rel=3D"nore=
+ferrer" target=3D"_blank">xen-tools_4.17.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+|=C2=A0 19 +<br>
+=C2=A0recipes-extended/xen/<a href=3D"http://xen-tools_git.bb" rel=3D"noref=
+errer" target=3D"_blank">xen-tools_git.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0|=C2=A0 =C2=A08 +-<br>
+=C2=A0recipes-extended/xen/<a href=3D"http://xen_4.16.bb" rel=3D"noreferrer=
+" target=3D"_blank">xen_4.16.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 |=C2=A0 =C2=A05 +-<br>
+=C2=A0recipes-extended/xen/<a href=3D"http://xen_4.17.bb" rel=3D"noreferrer=
+" target=3D"_blank">xen_4.17.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 |=C2=A0 19 +<br>
+=C2=A0recipes-extended/xen/<a href=3D"http://xen_git.bb" rel=3D"noreferrer"=
+ target=3D"_blank">xen_git.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0|=C2=A0 =C2=A08 +-<br>
+=C2=A09 files changed, 55 insertions(+), 449 deletions(-)<br>
+=C2=A0delete mode 100644 recipes-extended/xen/files/xen-fix-gcc12-build-iss=
+ues.patch<br>
+=C2=A0create mode 100644 recipes-extended/xen/<a href=3D"http://xen-tools_4=
+.17.bb" rel=3D"noreferrer" target=3D"_blank">xen-tools_4.17.bb</a><br>
+=C2=A0create mode 100644 recipes-extended/xen/<a href=3D"http://xen_4.17.bb=
+" rel=3D"noreferrer" target=3D"_blank">xen_4.17.bb</a><br>
+<br>
 -- <br>
 2.25.1<br>
 <br>
 </blockquote></div></div>
 
---0000000000002f737e05f1cefbab--
+--000000000000d95f1b05f1cf01fd--
 
