@@ -2,71 +2,79 @@ Return-Path: <christopher.w.clark@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AED6BC54EBD
-	for <webhook@archiver.kernel.org>; Mon,  9 Jan 2023 06:35:36 +0000 (UTC)
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
- by mx.groups.io with SMTP id smtpd.web10.65381.1673246131183261477
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F694C54EBD
+	for <webhook@archiver.kernel.org>; Mon,  9 Jan 2023 06:35:56 +0000 (UTC)
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+ by mx.groups.io with SMTP id smtpd.web10.65383.1673246148514912088
  for <meta-virtualization@lists.yoctoproject.org>;
- Sun, 08 Jan 2023 22:35:31 -0800
+ Sun, 08 Jan 2023 22:35:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=b3YFFl7Q;
- spf=pass (domain: gmail.com, ip: 209.85.208.46, mailfrom: christopher.w.clark@gmail.com)
-Received: by mail-ed1-f46.google.com with SMTP id v30so11072776edb.9
-        for <meta-virtualization@lists.yoctoproject.org>; Sun, 08 Jan 2023 22:35:30 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=mztgCNx/;
+ spf=pass (domain: gmail.com, ip: 209.85.218.45, mailfrom: christopher.w.clark@gmail.com)
+Received: by mail-ej1-f45.google.com with SMTP id jo4so17598029ejb.7
+        for <meta-virtualization@lists.yoctoproject.org>; Sun, 08 Jan 2023 22:35:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=seWzQSlwTxH8W9F5xquXT2hc6lWBHfNzMYqe0XtCPuo=;
-        b=b3YFFl7QPQmlZGMP8jqPBuyjXbj3qYgdOXXNuvZbpprv27POIgOWareTau70hQubEV
-         Lb0XYtK2KhoDphKlC3kY/HVIDRFjQsEEpZ4ARMv+be+Dj8hY8ASDBopPcir1mOaiRgWT
-         1u/73DWvr9p71O1e69VzqcKig5b7cc97gu90GFTGRrjttAWTb3jhkd+wq+V60Esm9YLu
-         Ut3MpHR2kgK8f9tHAl6o8vPqf38lBA6vsKKqsWnEITkezE4OXE8fvE+F6Tj5jdcL49F3
-         34Ij07JTo+sJhuSDyDoT2AY7gnV5tAIRmfoveeh7o7LP2BmU4jAjUGqdC2A1iXCpiXCh
-         pWqg==
+        bh=iJkAlX5rvKV8SrlDCr5oSfYwolgjDO2OKu7qTCgfJfU=;
+        b=mztgCNx/vvKRiBw33d5YXAVMbdozvTTl+viXCFxABCBx2s5ZgIgrmvAM2DQfNYjRko
+         irDy9OLL92/55DjEQnP2G2gfa+AzCI/OEzOOfSHkm3P4cXmQQbocKTR4gFI1JcOB9SCe
+         P93R5xpMHgSnAwmq8qzdvtjNcFsa0y0Lac0x/cJP8kwxPH90q96d52cYBbniehrCAoCl
+         z7Oc0C3ush64FGe+eVVLPNRGx87EnnjwThFXjYwwhL7HfVGRHXDmvMONMbuV2IBQFohj
+         T8Q6RosUStJNOQjjPxd7Zib4i82KcmhTkmqN7e/++0SJHxf2Oq+uW8yRGszkJR4yWW6q
+         uNFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=seWzQSlwTxH8W9F5xquXT2hc6lWBHfNzMYqe0XtCPuo=;
-        b=r3H/0efKXHvKW890D07qkQELI3Qv4AR6Jn2UFJs6FgXlXBtKMej7UiWXMTRp3h7UUq
-         9PB++r4fQxQRycFtHrv16TNLrMCEsvh2QpI6YriKdGLKVhIVMrCucWbpHXSnM9vQA+lm
-         YpPJ27EQsggSE6a+rlpij3ZUSmCwpBq1ZmxRDLmcHb/kQ626MZQQ+9axLrHGHp9YBGm+
-         QYlXLBgeQ4IEtfzmr+JTpU3El5fUMXdugvz2ORPcORywebNl+P7ljyJ3otsnVBrQggOU
-         9SFxyysLyDXBzHyM+JoOyLTOjF9cA7uvNkeD1Mi0csL+GoTtyY0eVNgpGNq8khLhY+ea
-         oosA==
-X-Gm-Message-State: AFqh2krU+gDObxp6anJed0iv9IqEJdjwzIUyWP3IpMPkSsHm0cfizwgn
-	j48obuWijTPuB81Pv6lIMW5PRRHnvZYFAuDiDxc=
-X-Google-Smtp-Source: AMrXdXtGv0cBbVxvFZ7PlUvpTT/z7YmNGB34vXa1CdnKuNEDzTNBgHxBcNs5/ZN+lUtN4CguSqGBUBp5pOytdfaMoV8=
-X-Received: by 2002:a50:ff09:0:b0:490:47c3:3d71 with SMTP id
- a9-20020a50ff09000000b0049047c33d71mr1557570edu.31.1673246129498; Sun, 08 Jan
- 2023 22:35:29 -0800 (PST)
+        bh=iJkAlX5rvKV8SrlDCr5oSfYwolgjDO2OKu7qTCgfJfU=;
+        b=7we2RMWv9CeHjiASgWk0O2tfDTOYKIPFxmqjpaKn0kvOmo3Rj5dVS/g8bOzAlrNhME
+         SkIxN1EwyZZ7Qq95D7Xy/bExU8Tm8/u4O/qE8/UpEjzvF10mDmnSr36gGtVN8Lm5fgcL
+         0IZoy1AJ27OJW1ZIjKB9MehSYNGU+j8l+wCjwnU5eBBQ/29pFNaGjjA4gUyUPJEMSvIK
+         VcqOQprDDkFePO2tpjebZlreMzqshTcvNMFsRCGEZIDjiJAjY3VBjx3ykSG0S0/o20s2
+         SduuIIoHh+2gSAnkJwzj4Ehml8g/X8e5W/k+3NPV19cdVa8zOn46eX7EhDZqBckB6Nkk
+         9Svg==
+X-Gm-Message-State: AFqh2krS1Gi4BkuOyjcOtGBMZInG2suoMVxic1Qsq568zqaPxx5O0Wcl
+	GxnPPa4jpy+pkZRfZNckA7AtGyVM9dEz9osJQbg=
+X-Google-Smtp-Source: AMrXdXtqSd6RRQVFV3f41MzIQM5TW9ZVgUDa/g19bQFle1cRVOnsbY1rKgkZG4fJfSHehWfTerL8ZpsifwNEHeaj0Ts=
+X-Received: by 2002:a17:907:215b:b0:7c1:1201:603a with SMTP id
+ rk27-20020a170907215b00b007c11201603amr3964029ejb.372.1673246147018; Sun, 08
+ Jan 2023 22:35:47 -0800 (PST)
 MIME-Version: 1.0
-References: <20230106144630.23637-1-michal.orzel@amd.com> <20230106144630.23637-2-michal.orzel@amd.com>
-In-Reply-To: <20230106144630.23637-2-michal.orzel@amd.com>
+References: <20230106144630.23637-1-michal.orzel@amd.com> <20230106144630.23637-3-michal.orzel@amd.com>
+In-Reply-To: <20230106144630.23637-3-michal.orzel@amd.com>
 From: Christopher Clark <christopher.w.clark@gmail.com>
-Date: Sun, 8 Jan 2023 22:35:17 -0800
-Message-ID: <CACMJ4Gbf=sVZfRb6=eipKziXBm7hJ864kwv19rCvjBgF2uTwoQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] xen: Bump SRCREV of 4.16 recipes to 4.16.3
+Date: Sun, 8 Jan 2023 22:35:34 -0800
+Message-ID: <CACMJ4Gb3=QcWy3ZFTca00cnoSGZefK2QdOi=0E+CfMuqhMw8Nw@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] xen: Add recipes for stable Xen 4.17 release and
+ update master
 To: Michal Orzel <michal.orzel@amd.com>
 Cc: meta-virtualization@lists.yoctoproject.org, bertrand.marquis@arm.com, 
 	stefano.stabellini@amd.com, stewart.hildebrand@amd.com, 
 	bruce.ashfield@gmail.com
-Content-Type: multipart/alternative; boundary="0000000000002baefa05f1cef96b"
+Content-Type: multipart/alternative; boundary="0000000000003705bc05f1cefae2"
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Mon, 09 Jan 2023 06:35:36 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/7803
+ <meta-virtualization@lists.yoctoproject.org>; Mon, 09 Jan 2023 06:35:56 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/7804
 
---0000000000002baefa05f1cef96b
+--0000000000003705bc05f1cefae2
 Content-Type: text/plain; charset="UTF-8"
 
 On Fri, Jan 6, 2023 at 6:46 AM Michal Orzel <michal.orzel@amd.com> wrote:
 
-> Update 4.16 recipes to use the latest 4.16.3 release.
-> Also, remove the GCC 12 fix patch as it seems to be no longer needed.
+> Add recipes for xen and tools for the newly released 4.17 version and
+> take the opportunity to update master recipes.
+>
+> Reflect 4.17 tools changes in xen-tools.inc:
+>  - add test-paging-mempool to test package,
+>  - add init-dom0less script to xl package,
+>  - add localstatedir to xencommons package (this is needed as from 4.17
+>    onwards, there is no /var/lib/xenstored resulting in /var being
+>    installed but not shipped in any package).
 >
 > Signed-off-by: Michal Orzel <michal.orzel@amd.com>
 >
@@ -78,517 +86,167 @@ Christopher
 
 
 
+
 > ---
 > Changes in v2:
->  - none
+>  - add init-dom0less to xl package
+>  - add localstatedir to xencommons package
 > ---
->  .../files/xen-fix-gcc12-build-issues.patch    | 433 ------------------
->  recipes-extended/xen/xen-tools_4.16.bb        |   5 +-
->  recipes-extended/xen/xen_4.16.bb              |   5 +-
->  3 files changed, 4 insertions(+), 439 deletions(-)
->  delete mode 100644
-> recipes-extended/xen/files/xen-fix-gcc12-build-issues.patch
+>  recipes-extended/xen/xen-tools.inc     |  3 +++
+>  recipes-extended/xen/xen-tools_4.17.bb | 19 +++++++++++++++++++
+>  recipes-extended/xen/xen-tools_git.bb  |  8 ++++----
+>  recipes-extended/xen/xen_4.17.bb       | 19 +++++++++++++++++++
+>  recipes-extended/xen/xen_git.bb        |  8 ++++----
+>  5 files changed, 49 insertions(+), 8 deletions(-)
+>  create mode 100644 recipes-extended/xen/xen-tools_4.17.bb
+>  create mode 100644 recipes-extended/xen/xen_4.17.bb
 >
-> diff --git a/recipes-extended/xen/files/xen-fix-gcc12-build-issues.patch
-> b/recipes-extended/xen/files/xen-fix-gcc12-build-issues.patch
-> deleted file mode 100644
-> index 6cdd312db110..000000000000
-> --- a/recipes-extended/xen/files/xen-fix-gcc12-build-issues.patch
-> +++ /dev/null
-> @@ -1,433 +0,0 @@
-> -References: bsc#1196545
-> -
-> -Compiling against gcc12.
-> -
-> -Many of the failures are -Werror=array-bounds where macros
-> -from mm.h are being used. Common Examples are,
-> -include/asm/mm.h:528:61: error: array subscript 0 is outside array bounds
-> of 'long unsigned int[0]' [-Werror=array-bounds]
-> -include/xen/mm.h:287:21: error: array subscript [0, 288230376151711743]
-> is outside array bounds of 'struct page_info[0]' [-Werror=array-bounds]
-> -
-> -There are also several other headers that generate array-bounds macro
-> failures.
-> -The pragmas to override are mostly in '.c' files with the exception of,
-> -xen/arch/x86/mm/shadow/private.h
-> -xen/include/asm-x86/paging.h
-> -
-> -[Upstream-Status: imported from:
-> https://build.opensuse.org/package/view_file/openSUSE:Factory/xen/gcc12-fixes.patch?expand=1
-> ]
-> -
-> -Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-> -
-> -
-> -Index: xen-4.16.1-testing/xen/drivers/passthrough/amd/iommu_intr.c
-> -===================================================================
-> ---- xen-4.16.1-testing.orig/xen/drivers/passthrough/amd/iommu_intr.c
-> -+++ xen-4.16.1-testing/xen/drivers/passthrough/amd/iommu_intr.c
-> -@@ -23,6 +23,10 @@
-> -
-> - #include "iommu.h"
-> -
-> -+#if __GNUC__ >= 12
-> -+#pragma GCC diagnostic ignored "-Warray-bounds"
-> -+#endif
-> -+
-> - union irte32 {
-> -     uint32_t raw;
-> -     struct {
-> -Index: xen-4.16.1-testing/xen/drivers/passthrough/x86/hvm.c
-> -===================================================================
-> ---- xen-4.16.1-testing.orig/xen/drivers/passthrough/x86/hvm.c
-> -+++ xen-4.16.1-testing/xen/drivers/passthrough/x86/hvm.c
-> -@@ -901,6 +901,9 @@ static void __hvm_dpci_eoi(struct domain
-> -     hvm_pirq_eoi(pirq);
-> - }
-> -
-> -+#if __GNUC__ >= 12
-> -+#pragma GCC diagnostic ignored "-Waddress"
-> -+#endif
-> - static void hvm_gsi_eoi(struct domain *d, unsigned int gsi)
-> - {
-> -     struct pirq *pirq = pirq_info(d, gsi);
-> -Index: xen-4.16.1-testing/xen/common/domctl.c
-> -===================================================================
-> ---- xen-4.16.1-testing.orig/xen/common/domctl.c
-> -+++ xen-4.16.1-testing/xen/common/domctl.c
-> -@@ -32,6 +32,10 @@
-> - #include <public/domctl.h>
-> - #include <xsm/xsm.h>
-> -
-> -+#if __GNUC__ >= 12
-> -+#pragma GCC diagnostic ignored "-Warray-bounds"
-> -+#endif
-> -+
-> - static DEFINE_SPINLOCK(domctl_lock);
-> -
-> - static int nodemask_to_xenctl_bitmap(struct xenctl_bitmap
-> *xenctl_nodemap,
-> -Index: xen-4.16.1-testing/xen/common/efi/boot.c
-> -===================================================================
-> ---- xen-4.16.1-testing.orig/xen/common/efi/boot.c
-> -+++ xen-4.16.1-testing/xen/common/efi/boot.c
-> -@@ -31,6 +31,10 @@
-> - #undef __ASSEMBLY__
-> - #endif
-> -
-> -+#if __GNUC__ >= 12
-> -+#pragma GCC diagnostic ignored "-Warray-bounds"
-> -+#endif
-> -+
-> - #define EFI_REVISION(major, minor) (((major) << 16) | (minor))
-> -
-> - #define SMBIOS3_TABLE_GUID \
-> -Index: xen-4.16.1-testing/xen/common/xmalloc_tlsf.c
-> -===================================================================
-> ---- xen-4.16.1-testing.orig/xen/common/xmalloc_tlsf.c
-> -+++ xen-4.16.1-testing/xen/common/xmalloc_tlsf.c
-> -@@ -28,6 +28,10 @@
-> - #include <xen/pfn.h>
-> - #include <asm/time.h>
-> -
-> -+#if __GNUC__ >= 12
-> -+#pragma GCC diagnostic ignored "-Warray-bounds"
-> -+#endif
-> -+
-> - #define MAX_POOL_NAME_LEN       16
-> -
-> - /* Some IMPORTANT TLSF parameters */
-> -Index: xen-4.16.1-testing/xen/common/memory.c
-> -===================================================================
-> ---- xen-4.16.1-testing.orig/xen/common/memory.c
-> -+++ xen-4.16.1-testing/xen/common/memory.c
-> -@@ -35,6 +35,10 @@
-> - #include <asm/guest.h>
-> - #endif
-> -
-> -+#if __GNUC__ >= 12
-> -+#pragma GCC diagnostic ignored "-Warray-bounds"
-> -+#endif
-> -+
-> - struct memop_args {
-> -     /* INPUT */
-> -     struct domain *domain;     /* Domain to be affected. */
-> -Index: xen-4.16.1-testing/xen/common/page_alloc.c
-> -===================================================================
-> ---- xen-4.16.1-testing.orig/xen/common/page_alloc.c
-> -+++ xen-4.16.1-testing/xen/common/page_alloc.c
-> -@@ -155,6 +155,10 @@
-> - #define PGC_reserved 0
-> - #endif
-> -
-> -+#if __GNUC__ >= 12
-> -+#pragma GCC diagnostic ignored "-Warray-bounds"
-> -+#endif
-> -+
-> - /*
-> -  * Comma-separated list of hexadecimal page numbers containing bad bytes.
-> -  * e.g. 'badpage=0x3f45,0x8a321'.
-> -@@ -1529,6 +1533,7 @@ static void free_heap_pages(
-> - }
-> -
-> -
-> -+
-> - /*
-> -  * Following rules applied for page offline:
-> -  * Once a page is broken, it can't be assigned anymore
-> -Index: xen-4.16.1-testing/xen/common/vmap.c
-> -===================================================================
-> ---- xen-4.16.1-testing.orig/xen/common/vmap.c
-> -+++ xen-4.16.1-testing/xen/common/vmap.c
-> -@@ -9,6 +9,10 @@
-> - #include <xen/vmap.h>
-> - #include <asm/page.h>
-> -
-> -+#if __GNUC__ >= 12
-> -+#pragma GCC diagnostic ignored "-Warray-bounds"
-> -+#endif
-> -+
-> - static DEFINE_SPINLOCK(vm_lock);
-> - static void *__read_mostly vm_base[VMAP_REGION_NR];
-> - #define vm_bitmap(x) ((unsigned long *)vm_base[x])
-> -Index: xen-4.16.1-testing/xen/include/asm-x86/paging.h
-> -===================================================================
-> ---- xen-4.16.1-testing.orig/xen/include/asm-x86/paging.h
-> -+++ xen-4.16.1-testing/xen/include/asm-x86/paging.h
-> -@@ -32,6 +32,10 @@
-> - #include <asm/flushtlb.h>
-> - #include <asm/domain.h>
-> -
-> -+#if __GNUC__ >= 12
-> -+#pragma GCC diagnostic ignored "-Warray-bounds"
-> -+#endif
-> -+
-> -
-> /*****************************************************************************
-> -  * Macros to tell which paging mode a domain is in */
-> -
-> -Index: xen-4.16.1-testing/xen/arch/x86/x86_64/traps.c
-> -===================================================================
-> ---- xen-4.16.1-testing.orig/xen/arch/x86/x86_64/traps.c
-> -+++ xen-4.16.1-testing/xen/arch/x86/x86_64/traps.c
-> -@@ -25,6 +25,9 @@
-> - #include <asm/hvm/hvm.h>
-> - #include <asm/hvm/support.h>
-> -
-> -+#if __GNUC__ >= 12
-> -+#pragma GCC diagnostic ignored "-Warray-bounds"
-> -+#endif
-> -
-> - static void print_xen_info(void)
-> - {
-> -Index: xen-4.16.1-testing/xen/arch/x86/cpu/mcheck/mcaction.c
-> -===================================================================
-> ---- xen-4.16.1-testing.orig/xen/arch/x86/cpu/mcheck/mcaction.c
-> -+++ xen-4.16.1-testing/xen/arch/x86/cpu/mcheck/mcaction.c
-> -@@ -4,6 +4,10 @@
-> - #include "vmce.h"
-> - #include "mce.h"
-> -
-> -+#if __GNUC__ >= 12
-> -+#pragma GCC diagnostic ignored "-Warray-bounds"
-> -+#endif
-> -+
-> - static struct mcinfo_recovery *
-> - mci_action_add_pageoffline(int bank, struct mc_info *mi,
-> -                            mfn_t mfn, uint32_t status)
-> -Index: xen-4.16.1-testing/xen/arch/x86/cpu/mcheck/mce.c
-> -===================================================================
-> ---- xen-4.16.1-testing.orig/xen/arch/x86/cpu/mcheck/mce.c
-> -+++ xen-4.16.1-testing/xen/arch/x86/cpu/mcheck/mce.c
-> -@@ -30,6 +30,10 @@
-> - #include "util.h"
-> - #include "vmce.h"
-> -
-> -+#if __GNUC__ >= 12
-> -+#pragma GCC diagnostic ignored "-Warray-bounds"
-> -+#endif
-> -+
-> - bool __read_mostly opt_mce = true;
-> - boolean_param("mce", opt_mce);
-> - bool __read_mostly mce_broadcast;
-> -Index: xen-4.16.1-testing/xen/arch/x86/hvm/hvm.c
-> -===================================================================
-> ---- xen-4.16.1-testing.orig/xen/arch/x86/hvm/hvm.c
-> -+++ xen-4.16.1-testing/xen/arch/x86/hvm/hvm.c
-> -@@ -81,6 +81,10 @@
-> -
-> - #include <compat/hvm/hvm_op.h>
-> -
-> -+#if __GNUC__ >= 12
-> -+#pragma GCC diagnostic ignored "-Warray-bounds"
-> -+#endif
-> -+
-> - bool_t __read_mostly hvm_enabled;
-> -
-> - #ifdef DBG_LEVEL_0
-> -Index: xen-4.16.1-testing/xen/arch/x86/pv/dom0_build.c
-> -===================================================================
-> ---- xen-4.16.1-testing.orig/xen/arch/x86/pv/dom0_build.c
-> -+++ xen-4.16.1-testing/xen/arch/x86/pv/dom0_build.c
-> -@@ -22,6 +22,10 @@
-> - #include <asm/pv/mm.h>
-> - #include <asm/setup.h>
-> -
-> -+#if __GNUC__ >= 12
-> -+#pragma GCC diagnostic ignored "-Warray-bounds"
-> -+#endif
-> -+
-> - /* Allow ring-3 access in long mode as guest cannot use ring 1 ... */
-> - #define BASE_PROT (_PAGE_PRESENT|_PAGE_RW|_PAGE_ACCESSED|_PAGE_USER)
-> - #define L1_PROT (BASE_PROT|_PAGE_GUEST_KERNEL)
-> -Index: xen-4.16.1-testing/xen/arch/x86/pv/ro-page-fault.c
-> -===================================================================
-> ---- xen-4.16.1-testing.orig/xen/arch/x86/pv/ro-page-fault.c
-> -+++ xen-4.16.1-testing/xen/arch/x86/pv/ro-page-fault.c
-> -@@ -26,6 +26,10 @@
-> - #include "emulate.h"
-> - #include "mm.h"
-> -
-> -+#if __GNUC__ >= 12
-> -+#pragma GCC diagnostic ignored "-Warray-bounds"
-> -+#endif
-> -+
-> - /*********************
-> -  * Writable Pagetables
-> -  */
-> -Index: xen-4.16.1-testing/xen/arch/x86/pv/emul-priv-op.c
-> -===================================================================
-> ---- xen-4.16.1-testing.orig/xen/arch/x86/pv/emul-priv-op.c
-> -+++ xen-4.16.1-testing/xen/arch/x86/pv/emul-priv-op.c
-> -@@ -40,6 +40,10 @@
-> - #include "emulate.h"
-> - #include "mm.h"
-> -
-> -+#if __GNUC__ >= 12
-> -+#pragma GCC diagnostic ignored "-Warray-bounds"
-> -+#endif
-> -+
-> - struct priv_op_ctxt {
-> -     struct x86_emulate_ctxt ctxt;
-> -     struct {
-> -Index: xen-4.16.1-testing/xen/arch/x86/pv/mm.c
-> -===================================================================
-> ---- xen-4.16.1-testing.orig/xen/arch/x86/pv/mm.c
-> -+++ xen-4.16.1-testing/xen/arch/x86/pv/mm.c
-> -@@ -26,6 +26,10 @@
-> -
-> - #include "mm.h"
-> -
-> -+#if __GNUC__ >= 12
-> -+#pragma GCC diagnostic ignored "-Warray-bounds"
-> -+#endif
-> -+
-> - /*
-> -  * Get a mapping of a PV guest's l1e for this linear address.  The return
-> -  * pointer should be unmapped using unmap_domain_page().
-> -Index: xen-4.16.1-testing/xen/arch/x86/domain_page.c
-> -===================================================================
-> ---- xen-4.16.1-testing.orig/xen/arch/x86/domain_page.c
-> -+++ xen-4.16.1-testing/xen/arch/x86/domain_page.c
-> -@@ -18,6 +18,10 @@
-> - #include <asm/hardirq.h>
-> - #include <asm/setup.h>
-> -
-> -+#if __GNUC__ >= 12
-> -+#pragma GCC diagnostic ignored "-Warray-bounds"
-> -+#endif
-> -+
-> - static DEFINE_PER_CPU(struct vcpu *, override);
-> -
-> - static inline struct vcpu *mapcache_current_vcpu(void)
-> -Index: xen-4.16.1-testing/xen/arch/x86/mm/shadow/private.h
-> -===================================================================
-> ---- xen-4.16.1-testing.orig/xen/arch/x86/mm/shadow/private.h
-> -+++ xen-4.16.1-testing/xen/arch/x86/mm/shadow/private.h
-> -@@ -33,6 +33,10 @@
-> -
-> - #include "../mm-locks.h"
-> -
-> -+#if __GNUC__ >= 12
-> -+#pragma GCC diagnostic ignored "-Warray-bounds"
-> -+#endif
-> -+
-> -
-> /******************************************************************************
-> -  * Levels of self-test and paranoia
-> -  */
-> -Index: xen-4.16.1-testing/xen/arch/x86/mm/hap/hap.c
-> -===================================================================
-> ---- xen-4.16.1-testing.orig/xen/arch/x86/mm/hap/hap.c
-> -+++ xen-4.16.1-testing/xen/arch/x86/mm/hap/hap.c
-> -@@ -42,6 +42,10 @@
-> -
-> - #include "private.h"
-> -
-> -+#if __GNUC__ >= 12
-> -+#pragma GCC diagnostic ignored "-Warray-bounds"
-> -+#endif
-> -+
-> - /************************************************/
-> - /*          HAP VRAM TRACKING SUPPORT           */
-> - /************************************************/
-> -Index: xen-4.16.1-testing/xen/arch/x86/mm/p2m-pod.c
-> -===================================================================
-> ---- xen-4.16.1-testing.orig/xen/arch/x86/mm/p2m-pod.c
-> -+++ xen-4.16.1-testing/xen/arch/x86/mm/p2m-pod.c
-> -@@ -31,6 +31,10 @@
-> -
-> - #include "mm-locks.h"
-> -
-> -+#if __GNUC__ >= 12
-> -+#pragma GCC diagnostic ignored "-Warray-bounds"
-> -+#endif
-> -+
-> - #define superpage_aligned(_x)  (((_x)&(SUPERPAGE_PAGES-1))==0)
-> -
-> - /* Enforce lock ordering when grabbing the "external" page_alloc lock */
-> -Index: xen-4.16.1-testing/xen/arch/x86/mm/p2m-ept.c
-> -===================================================================
-> ---- xen-4.16.1-testing.orig/xen/arch/x86/mm/p2m-ept.c
-> -+++ xen-4.16.1-testing/xen/arch/x86/mm/p2m-ept.c
-> -@@ -36,6 +36,10 @@
-> -
-> - #include "mm-locks.h"
-> -
-> -+#if __GNUC__ >= 12
-> -+#pragma GCC diagnostic ignored "-Warray-bounds"
-> -+#endif
-> -+
-> - #define atomic_read_ept_entry(__pepte)                              \
-> -     ( (ept_entry_t) { .epte = read_atomic(&(__pepte)->epte) } )
-> -
-> -Index: xen-4.16.1-testing/xen/arch/x86/mm/p2m.c
-> -===================================================================
-> ---- xen-4.16.1-testing.orig/xen/arch/x86/mm/p2m.c
-> -+++ xen-4.16.1-testing/xen/arch/x86/mm/p2m.c
-> -@@ -44,6 +44,10 @@
-> -
-> - #include "mm-locks.h"
-> -
-> -+#if __GNUC__ >= 12
-> -+#pragma GCC diagnostic ignored "-Warray-bounds"
-> -+#endif
-> -+
-> - /* Override macro from asm/page.h to make work with mfn_t */
-> - #undef virt_to_mfn
-> - #define virt_to_mfn(v) _mfn(__virt_to_mfn(v))
-> -Index: xen-4.16.1-testing/xen/arch/x86/tboot.c
-> -===================================================================
-> ---- xen-4.16.1-testing.orig/xen/arch/x86/tboot.c
-> -+++ xen-4.16.1-testing/xen/arch/x86/tboot.c
-> -@@ -16,6 +16,10 @@
-> - #include <asm/setup.h>
-> - #include <crypto/vmac.h>
-> -
-> -+#if __GNUC__ >= 12
-> -+#pragma GCC diagnostic ignored "-Warray-bounds"
-> -+#endif
-> -+
-> - /* tboot=<physical address of shared page> */
-> - static unsigned long __initdata opt_tboot_pa;
-> - integer_param("tboot", opt_tboot_pa);
-> -Index: xen-4.16.1-testing/tools/firmware/hvmloader/ovmf.c
-> -===================================================================
-> ---- xen-4.16.1-testing.orig/tools/firmware/hvmloader/ovmf.c
-> -+++ xen-4.16.1-testing/tools/firmware/hvmloader/ovmf.c
-> -@@ -34,6 +34,11 @@
-> - #include <xen/hvm/ioreq.h>
-> - #include <xen/memory.h>
-> -
-> -+#if __GNUC__ >= 12
-> -+#pragma GCC diagnostic ignored "-Warray-bounds"
-> -+#pragma GCC diagnostic ignored "-Wstringop-overflow"
-> -+#endif
-> -+
-> - #define OVMF_MAXOFFSET          0x000FFFFFULL
-> - #define OVMF_END                0x100000000ULL
-> - #define LOWCHUNK_BEGIN          0x000F0000
-> -Index: xen-4.16.1-testing/tools/firmware/hvmloader/seabios.c
-> -===================================================================
-> ---- xen-4.16.1-testing.orig/tools/firmware/hvmloader/seabios.c
-> -+++ xen-4.16.1-testing/tools/firmware/hvmloader/seabios.c
-> -@@ -29,6 +29,11 @@
-> - #include <acpi2_0.h>
-> - #include <libacpi.h>
-> -
-> -+#if __GNUC__ >= 12
-> -+#pragma GCC diagnostic ignored "-Warray-bounds"
-> -+#pragma GCC diagnostic ignored "-Wstringop-overflow"
-> -+#endif
-> -+
-> - struct seabios_info {
-> -     char signature[14]; /* XenHVMSeaBIOS\0 */
-> -     uint8_t length;     /* Length of this struct */
-> -Index: xen-4.16.1-testing/tools/firmware/hvmloader/util.c
-> -===================================================================
-> ---- xen-4.16.1-testing.orig/tools/firmware/hvmloader/util.c
-> -+++ xen-4.16.1-testing/tools/firmware/hvmloader/util.c
-> -@@ -31,6 +31,10 @@
-> - #include <xen/hvm/hvm_xs_strings.h>
-> - #include <xen/hvm/params.h>
-> -
-> -+#if __GNUC__ >= 12
-> -+#pragma GCC diagnostic ignored "-Warray-bounds"
-> -+#endif
-> -+
-> - /*
-> -  * Check whether there exists overlap in the specified memory range.
-> -  * Returns true if exists, else returns false.
-> -
-> diff --git a/recipes-extended/xen/xen-tools_4.16.bb
-> b/recipes-extended/xen/xen-tools_4.16.bb
-> index 2200a5a44abe..b5e555e6eabb 100644
-> --- a/recipes-extended/xen/xen-tools_4.16.bb
-> +++ b/recipes-extended/xen/xen-tools_4.16.bb
-> @@ -1,5 +1,5 @@
-> -# xen 4.16.2 release sha
-> -SRCREV ?= "cea5ed49bb5716698a11312a3f38bc8865cd1e67"
-> +# xen 4.16.3 release sha
-> +SRCREV ?= "556c2e817c9cf23b675eb4eaa2dc091f7bb3039f"
->
->  XEN_REL ?= "4.16"
->  XEN_BRANCH ?= "stable-${XEN_REL}"
-> @@ -7,7 +7,6 @@ XEN_BRANCH ?= "stable-${XEN_REL}"
->  SRC_URI = " \
->      git://xenbits.xen.org/xen.git;branch=${XEN_BRANCH}
-> <http://xenbits.xen.org/xen.git;branch=$%7BXEN_BRANCH%7D> \
->      file://0001-python-pygrub-pass-DISTUTILS-xen-4.15.patch \
-> -    file://xen-fix-gcc12-build-issues.patch \
+> diff --git a/recipes-extended/xen/xen-tools.inc
+> b/recipes-extended/xen/xen-tools.inc
+> index d47309a72b1c..95da2bfbb6ce 100644
+> --- a/recipes-extended/xen/xen-tools.inc
+> +++ b/recipes-extended/xen/xen-tools.inc
+> @@ -616,6 +616,7 @@ FILES:${PN}-xl = "\
+>      ${libdir}/xen/bin/libxl-save-helper \
+>      ${sbindir}/xl \
+>      ${libdir}/xen/bin/xen-init-dom0 \
+> +    ${libdir}/xen/bin/init-dom0less \
 >      "
 >
->  LIC_FILES_CHKSUM ?= "file://COPYING;md5=419739e325a50f3d7b4501338e44a4e5"
-> diff --git a/recipes-extended/xen/xen_4.16.bb b/recipes-extended/xen/
-> xen_4.16.bb
-> index 70e1d70e9c29..14a4fa79c5dd 100644
-> --- a/recipes-extended/xen/xen_4.16.bb
-> +++ b/recipes-extended/xen/xen_4.16.bb
-> @@ -1,5 +1,5 @@
-> -# xen 4.16.2 release sha
-> -SRCREV ?= "cea5ed49bb5716698a11312a3f38bc8865cd1e67"
-> +# xen 4.16.3 release sha
-> +SRCREV ?= "556c2e817c9cf23b675eb4eaa2dc091f7bb3039f"
+>  FILES:${PN}-xl-examples = "\
+> @@ -658,6 +659,7 @@ FILES:${PN}-xencommons += "\
+>      ${@bb.utils.contains('DISTRO_FEATURES', 'systemd',
+> '${systemd_unitdir}/system/xen-init-dom0.service', '', d)} \
+>      ${@bb.utils.contains('DISTRO_FEATURES', 'systemd',
+> '${systemd_unitdir}/system/xenstored.service', '', d)} \
+>      ${@bb.utils.contains('DISTRO_FEATURES', 'systemd',
+> '${systemd_unitdir}/system/var-lib-xenstored.mount', '', d)} \
+> +    ${localstatedir} \
+>      "
 >
->  XEN_REL ?= "4.16"
->  XEN_BRANCH ?= "stable-${XEN_REL}"
-> @@ -7,7 +7,6 @@ XEN_BRANCH ?= "stable-${XEN_REL}"
->  SRC_URI = " \
->      git://xenbits.xen.org/xen.git;branch=${XEN_BRANCH}
+>  FILES:${PN}-xend += " \
+> @@ -688,6 +690,7 @@ FILES:${PN}-test += "\
+>      ${libdir}/xen/bin/test-resource \
+>      ${libdir}/xen/bin/test-cpu-policy \
+>      ${libdir}/xen/bin/test-tsx \
+> +    ${libdir}/xen/bin/test-paging-mempool \
+>      "
+>
+>  # test-xenstore and test-resource currently only exist in 4.16
+> diff --git a/recipes-extended/xen/xen-tools_4.17.bb
+> b/recipes-extended/xen/xen-tools_4.17.bb
+> new file mode 100644
+> index 000000000000..0f323cb32aac
+> --- /dev/null
+> +++ b/recipes-extended/xen/xen-tools_4.17.bb
+> @@ -0,0 +1,19 @@
+> +# xen 4.17.0 release sha
+> +SRCREV ?= "11560248ffda3f00f20bbdf3ae088af474f7f2a3"
+> +
+> +XEN_REL ?= "4.17"
+> +XEN_BRANCH ?= "stable-${XEN_REL}"
+> +
+> +SRC_URI = " \
+> +    git://xenbits.xen.org/xen.git;branch=${XEN_BRANCH}
 > <http://xenbits.xen.org/xen.git;branch=$%7BXEN_BRANCH%7D> \
+> +    file://0001-python-pygrub-pass-DISTUTILS-xen-4.15.patch \
+> +    "
+> +
+> +LIC_FILES_CHKSUM ?= "file://COPYING;md5=d1a1e216f80b6d8da95fec897d0dbec9"
+> +
+> +PV = "${XEN_REL}+stable${SRCPV}"
+> +
+> +S = "${WORKDIR}/git"
+> +
+> +require xen.inc
+> +require xen-tools.inc
+> diff --git a/recipes-extended/xen/xen-tools_git.bb b/recipes-extended/xen/
+> xen-tools_git.bb
+> index a450a7d6574a..fd42cf2963b4 100644
+> --- a/recipes-extended/xen/xen-tools_git.bb
+> +++ b/recipes-extended/xen/xen-tools_git.bb
+> @@ -1,7 +1,7 @@
+> -# master status on 2022-04-05
+> -SRCREV ?= "14dd241aad8af447680ac73e8579990e2c09c1e7"
+> +# master status on 2022-12-29
+> +SRCREV ?= "7eef80e06ed2282bbcec3619d860c6aacb0515d8"
+>
+> -XEN_REL ?= "4.17"
+> +XEN_REL ?= "4.18"
+>  XEN_BRANCH ?= "master"
+>
+>  SRC_URI = " \
+> @@ -9,7 +9,7 @@ SRC_URI = " \
+>      file://0001-python-pygrub-pass-DISTUTILS-xen-4.15.patch \
+>      "
+>
+> -LIC_FILES_CHKSUM ?= "file://COPYING;md5=419739e325a50f3d7b4501338e44a4e5"
+> +LIC_FILES_CHKSUM ?= "file://COPYING;md5=d1a1e216f80b6d8da95fec897d0dbec9"
+>
+>  PV = "${XEN_REL}+git${SRCPV}"
+>
+> diff --git a/recipes-extended/xen/xen_4.17.bb b/recipes-extended/xen/
+> xen_4.17.bb
+> new file mode 100644
+> index 000000000000..f35689d4120f
+> --- /dev/null
+> +++ b/recipes-extended/xen/xen_4.17.bb
+> @@ -0,0 +1,19 @@
+> +# xen 4.17.0 release sha
+> +SRCREV ?= "11560248ffda3f00f20bbdf3ae088af474f7f2a3"
+> +
+> +XEN_REL ?= "4.17"
+> +XEN_BRANCH ?= "stable-${XEN_REL}"
+> +
+> +SRC_URI = " \
+> +    git://xenbits.xen.org/xen.git;branch=${XEN_BRANCH}
+> <http://xenbits.xen.org/xen.git;branch=$%7BXEN_BRANCH%7D> \
+> +
+> file://0001-menuconfig-mconf-cfg-Allow-specification-of-ncurses-location.patch
+> \
+> +    "
+> +
+> +LIC_FILES_CHKSUM ?= "file://COPYING;md5=d1a1e216f80b6d8da95fec897d0dbec9"
+> +
+> +PV = "${XEN_REL}+stable${SRCPV}"
+> +
+> +S = "${WORKDIR}/git"
+> +
+> +require xen.inc
+> +require xen-hypervisor.inc
+> diff --git a/recipes-extended/xen/xen_git.bb b/recipes-extended/xen/
+> xen_git.bb
+> index ebd1b76ff420..2138424406f9 100644
+> --- a/recipes-extended/xen/xen_git.bb
+> +++ b/recipes-extended/xen/xen_git.bb
+> @@ -1,7 +1,7 @@
+> -# master status on 2022-04-05
+> -SRCREV ?= "14dd241aad8af447680ac73e8579990e2c09c1e7"
+> +# master status on 2022-12-29
+> +SRCREV ?= "7eef80e06ed2282bbcec3619d860c6aacb0515d8"
+>
+> -XEN_REL ?= "4.17"
+> +XEN_REL ?= "4.18"
+>  XEN_BRANCH ?= "master"
+>
+>  SRC_URI = " \
+> @@ -9,7 +9,7 @@ SRC_URI = " \
 >
 >  file://0001-menuconfig-mconf-cfg-Allow-specification-of-ncurses-location.patch
 > \
-> -    file://xen-fix-gcc12-build-issues.patch \
 >      "
 >
->  LIC_FILES_CHKSUM ?= "file://COPYING;md5=419739e325a50f3d7b4501338e44a4e5"
+> -LIC_FILES_CHKSUM ?= "file://COPYING;md5=419739e325a50f3d7b4501338e44a4e5"
+> +LIC_FILES_CHKSUM ?= "file://COPYING;md5=d1a1e216f80b6d8da95fec897d0dbec9"
+>
+>  PV = "${XEN_REL}+git${SRCPV}"
+>
 > --
 > 2.25.1
 >
 >
 
---0000000000002baefa05f1cef96b
+--0000000000003705bc05f1cefae2
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -596,614 +254,218 @@ Content-Transfer-Encoding: quoted-printable
 <div dir=3D"ltr" class=3D"gmail_attr">On Fri, Jan 6, 2023 at 6:46 AM Michal=
  Orzel &lt;<a href=3D"mailto:michal.orzel@amd.com">michal.orzel@amd.com</a>=
 &gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
-0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Upda=
-te 4.16 recipes to use the latest 4.16.3 release.<br>
-Also, remove the GCC 12 fix patch as it seems to be no longer needed.<br>
+0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Add =
+recipes for xen and tools for the newly released 4.17 version and<br>
+take the opportunity to update master recipes.<br>
+<br>
+Reflect 4.17 tools changes in xen-tools.inc:<br>
+=C2=A0- add test-paging-mempool to test package,<br>
+=C2=A0- add init-dom0less script to xl package,<br>
+=C2=A0- add localstatedir to xencommons package (this is needed as from 4.1=
+7<br>
+=C2=A0 =C2=A0onwards, there is no /var/lib/xenstored resulting in /var bein=
+g<br>
+=C2=A0 =C2=A0installed but not shipped in any package).<br>
 <br>
 Signed-off-by: Michal Orzel &lt;<a href=3D"mailto:michal.orzel@amd.com" tar=
 get=3D"_blank">michal.orzel@amd.com</a>&gt;<br></blockquote><div><br></div>=
 <div>Reviewed-by: Christopher Clark &lt;<a href=3D"mailto:christopher.w.cla=
 rk@gmail.com">christopher.w.clark@gmail.com</a>&gt;</div><div><br></div><di=
-v>thanks</div><div>Christopher</div><div><br></div><div>=C2=A0</div><blockq=
-uote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1p=
-x solid rgb(204,204,204);padding-left:1ex">
+v>thanks</div><div>Christopher</div><div><br></div><div><br></div><div>=C2=
+=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
+x;border-left:1px solid rgb(204,204,204);padding-left:1ex">
 ---<br>
 Changes in v2:<br>
-=C2=A0- none<br>
+=C2=A0- add init-dom0less to xl package<br>
+=C2=A0- add localstatedir to xencommons package<br>
 ---<br>
-=C2=A0.../files/xen-fix-gcc12-build-issues.patch=C2=A0 =C2=A0 | 433 -------=
------------<br>
-=C2=A0recipes-extended/xen/<a href=3D"http://xen-tools_4.16.bb" rel=3D"nore=
-ferrer" target=3D"_blank">xen-tools_4.16.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-|=C2=A0 =C2=A05 +-<br>
-=C2=A0recipes-extended/xen/<a href=3D"http://xen_4.16.bb" rel=3D"noreferrer=
-" target=3D"_blank">xen_4.16.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 |=C2=A0 =C2=A05 +-<br>
-=C2=A03 files changed, 4 insertions(+), 439 deletions(-)<br>
-=C2=A0delete mode 100644 recipes-extended/xen/files/xen-fix-gcc12-build-iss=
-ues.patch<br>
-<br>
-diff --git a/recipes-extended/xen/files/xen-fix-gcc12-build-issues.patch b/=
-recipes-extended/xen/files/xen-fix-gcc12-build-issues.patch<br>
-deleted file mode 100644<br>
-index 6cdd312db110..000000000000<br>
---- a/recipes-extended/xen/files/xen-fix-gcc12-build-issues.patch<br>
-+++ /dev/null<br>
-@@ -1,433 +0,0 @@<br>
--References: bsc#1196545<br>
--<br>
--Compiling against gcc12.<br>
--<br>
--Many of the failures are -Werror=3Darray-bounds where macros<br>
--from mm.h are being used. Common Examples are,<br>
--include/asm/mm.h:528:61: error: array subscript 0 is outside array bounds =
-of &#39;long unsigned int[0]&#39; [-Werror=3Darray-bounds]<br>
--include/xen/mm.h:287:21: error: array subscript [0, 288230376151711743] is=
- outside array bounds of &#39;struct page_info[0]&#39; [-Werror=3Darray-bou=
-nds]<br>
--<br>
--There are also several other headers that generate array-bounds macro fail=
-ures.<br>
--The pragmas to override are mostly in &#39;.c&#39; files with the exceptio=
-n of,<br>
--xen/arch/x86/mm/shadow/private.h<br>
--xen/include/asm-x86/paging.h<br>
--<br>
--[Upstream-Status: imported from: <a href=3D"https://build.opensuse.org/pac=
-kage/view_file/openSUSE:Factory/xen/gcc12-fixes.patch?expand=3D1" rel=3D"no=
-referrer" target=3D"_blank">https://build.opensuse.org/package/view_file/op=
-enSUSE:Factory/xen/gcc12-fixes.patch?expand=3D1</a>]<br>
--<br>
--Signed-off-by: Bruce Ashfield &lt;<a href=3D"mailto:bruce.ashfield@gmail.c=
-om" target=3D"_blank">bruce.ashfield@gmail.com</a>&gt;<br>
--<br>
--<br>
--Index: xen-4.16.1-testing/xen/drivers/passthrough/amd/iommu_intr.c<br>
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
----- xen-4.16.1-testing.orig/xen/drivers/passthrough/amd/iommu_intr.c<br>
--+++ xen-4.16.1-testing/xen/drivers/passthrough/amd/iommu_intr.c<br>
--@@ -23,6 +23,10 @@<br>
-- <br>
-- #include &quot;iommu.h&quot;<br>
-- <br>
--+#if __GNUC__ &gt;=3D 12<br>
--+#pragma GCC diagnostic ignored &quot;-Warray-bounds&quot;<br>
--+#endif<br>
--+<br>
-- union irte32 {<br>
--=C2=A0 =C2=A0 =C2=A0uint32_t raw;<br>
--=C2=A0 =C2=A0 =C2=A0struct {<br>
--Index: xen-4.16.1-testing/xen/drivers/passthrough/x86/hvm.c<br>
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
----- xen-4.16.1-testing.orig/xen/drivers/passthrough/x86/hvm.c<br>
--+++ xen-4.16.1-testing/xen/drivers/passthrough/x86/hvm.c<br>
--@@ -901,6 +901,9 @@ static void __hvm_dpci_eoi(struct domain<br>
--=C2=A0 =C2=A0 =C2=A0hvm_pirq_eoi(pirq);<br>
-- }<br>
-- <br>
--+#if __GNUC__ &gt;=3D 12<br>
--+#pragma GCC diagnostic ignored &quot;-Waddress&quot;<br>
--+#endif<br>
-- static void hvm_gsi_eoi(struct domain *d, unsigned int gsi)<br>
-- {<br>
--=C2=A0 =C2=A0 =C2=A0struct pirq *pirq =3D pirq_info(d, gsi);<br>
--Index: xen-4.16.1-testing/xen/common/domctl.c<br>
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
----- xen-4.16.1-testing.orig/xen/common/domctl.c<br>
--+++ xen-4.16.1-testing/xen/common/domctl.c<br>
--@@ -32,6 +32,10 @@<br>
-- #include &lt;public/domctl.h&gt;<br>
-- #include &lt;xsm/xsm.h&gt;<br>
-- <br>
--+#if __GNUC__ &gt;=3D 12<br>
--+#pragma GCC diagnostic ignored &quot;-Warray-bounds&quot;<br>
--+#endif<br>
--+<br>
-- static DEFINE_SPINLOCK(domctl_lock);<br>
-- <br>
-- static int nodemask_to_xenctl_bitmap(struct xenctl_bitmap *xenctl_nodemap=
-,<br>
--Index: xen-4.16.1-testing/xen/common/efi/boot.c<br>
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
----- xen-4.16.1-testing.orig/xen/common/efi/boot.c<br>
--+++ xen-4.16.1-testing/xen/common/efi/boot.c<br>
--@@ -31,6 +31,10 @@<br>
-- #undef __ASSEMBLY__<br>
-- #endif<br>
-- <br>
--+#if __GNUC__ &gt;=3D 12<br>
--+#pragma GCC diagnostic ignored &quot;-Warray-bounds&quot;<br>
--+#endif<br>
--+<br>
-- #define EFI_REVISION(major, minor) (((major) &lt;&lt; 16) | (minor))<br>
-- <br>
-- #define SMBIOS3_TABLE_GUID \<br>
--Index: xen-4.16.1-testing/xen/common/xmalloc_tlsf.c<br>
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
----- xen-4.16.1-testing.orig/xen/common/xmalloc_tlsf.c<br>
--+++ xen-4.16.1-testing/xen/common/xmalloc_tlsf.c<br>
--@@ -28,6 +28,10 @@<br>
-- #include &lt;xen/pfn.h&gt;<br>
-- #include &lt;asm/time.h&gt;<br>
-- <br>
--+#if __GNUC__ &gt;=3D 12<br>
--+#pragma GCC diagnostic ignored &quot;-Warray-bounds&quot;<br>
--+#endif<br>
--+<br>
-- #define MAX_POOL_NAME_LEN=C2=A0 =C2=A0 =C2=A0 =C2=A016<br>
-- <br>
-- /* Some IMPORTANT TLSF parameters */<br>
--Index: xen-4.16.1-testing/xen/common/memory.c<br>
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
----- xen-4.16.1-testing.orig/xen/common/memory.c<br>
--+++ xen-4.16.1-testing/xen/common/memory.c<br>
--@@ -35,6 +35,10 @@<br>
-- #include &lt;asm/guest.h&gt;<br>
-- #endif<br>
-- <br>
--+#if __GNUC__ &gt;=3D 12<br>
--+#pragma GCC diagnostic ignored &quot;-Warray-bounds&quot;<br>
--+#endif<br>
--+<br>
-- struct memop_args {<br>
--=C2=A0 =C2=A0 =C2=A0/* INPUT */<br>
--=C2=A0 =C2=A0 =C2=A0struct domain *domain;=C2=A0 =C2=A0 =C2=A0/* Domain to=
- be affected. */<br>
--Index: xen-4.16.1-testing/xen/common/page_alloc.c<br>
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
----- xen-4.16.1-testing.orig/xen/common/page_alloc.c<br>
--+++ xen-4.16.1-testing/xen/common/page_alloc.c<br>
--@@ -155,6 +155,10 @@<br>
-- #define PGC_reserved 0<br>
-- #endif<br>
-- <br>
--+#if __GNUC__ &gt;=3D 12<br>
--+#pragma GCC diagnostic ignored &quot;-Warray-bounds&quot;<br>
--+#endif<br>
--+<br>
-- /*<br>
--=C2=A0 * Comma-separated list of hexadecimal page numbers containing bad b=
-ytes.<br>
--=C2=A0 * e.g. &#39;badpage=3D0x3f45,0x8a321&#39;.<br>
--@@ -1529,6 +1533,7 @@ static void free_heap_pages(<br>
-- }<br>
-- <br>
-- <br>
--+<br>
-- /*<br>
--=C2=A0 * Following rules applied for page offline:<br>
--=C2=A0 * Once a page is broken, it can&#39;t be assigned anymore<br>
--Index: xen-4.16.1-testing/xen/common/vmap.c<br>
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
----- xen-4.16.1-testing.orig/xen/common/vmap.c<br>
--+++ xen-4.16.1-testing/xen/common/vmap.c<br>
--@@ -9,6 +9,10 @@<br>
-- #include &lt;xen/vmap.h&gt;<br>
-- #include &lt;asm/page.h&gt;<br>
-- <br>
--+#if __GNUC__ &gt;=3D 12<br>
--+#pragma GCC diagnostic ignored &quot;-Warray-bounds&quot;<br>
--+#endif<br>
--+<br>
-- static DEFINE_SPINLOCK(vm_lock);<br>
-- static void *__read_mostly vm_base[VMAP_REGION_NR];<br>
-- #define vm_bitmap(x) ((unsigned long *)vm_base[x])<br>
--Index: xen-4.16.1-testing/xen/include/asm-x86/paging.h<br>
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
----- xen-4.16.1-testing.orig/xen/include/asm-x86/paging.h<br>
--+++ xen-4.16.1-testing/xen/include/asm-x86/paging.h<br>
--@@ -32,6 +32,10 @@<br>
-- #include &lt;asm/flushtlb.h&gt;<br>
-- #include &lt;asm/domain.h&gt;<br>
-- <br>
--+#if __GNUC__ &gt;=3D 12<br>
--+#pragma GCC diagnostic ignored &quot;-Warray-bounds&quot;<br>
--+#endif<br>
--+<br>
-- /************************************************************************=
-*****<br>
--=C2=A0 * Macros to tell which paging mode a domain is in */<br>
-- <br>
--Index: xen-4.16.1-testing/xen/arch/x86/x86_64/traps.c<br>
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
----- xen-4.16.1-testing.orig/xen/arch/x86/x86_64/traps.c<br>
--+++ xen-4.16.1-testing/xen/arch/x86/x86_64/traps.c<br>
--@@ -25,6 +25,9 @@<br>
-- #include &lt;asm/hvm/hvm.h&gt;<br>
-- #include &lt;asm/hvm/support.h&gt;<br>
-- <br>
--+#if __GNUC__ &gt;=3D 12<br>
--+#pragma GCC diagnostic ignored &quot;-Warray-bounds&quot;<br>
--+#endif<br>
-- <br>
-- static void print_xen_info(void)<br>
-- {<br>
--Index: xen-4.16.1-testing/xen/arch/x86/cpu/mcheck/mcaction.c<br>
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
----- xen-4.16.1-testing.orig/xen/arch/x86/cpu/mcheck/mcaction.c<br>
--+++ xen-4.16.1-testing/xen/arch/x86/cpu/mcheck/mcaction.c<br>
--@@ -4,6 +4,10 @@<br>
-- #include &quot;vmce.h&quot;<br>
-- #include &quot;mce.h&quot;<br>
-- <br>
--+#if __GNUC__ &gt;=3D 12<br>
--+#pragma GCC diagnostic ignored &quot;-Warray-bounds&quot;<br>
--+#endif<br>
--+<br>
-- static struct mcinfo_recovery *<br>
-- mci_action_add_pageoffline(int bank, struct mc_info *mi,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 mfn_t mfn, uint32_t status)<br>
--Index: xen-4.16.1-testing/xen/arch/x86/cpu/mcheck/mce.c<br>
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
----- xen-4.16.1-testing.orig/xen/arch/x86/cpu/mcheck/mce.c<br>
--+++ xen-4.16.1-testing/xen/arch/x86/cpu/mcheck/mce.c<br>
--@@ -30,6 +30,10 @@<br>
-- #include &quot;util.h&quot;<br>
-- #include &quot;vmce.h&quot;<br>
-- <br>
--+#if __GNUC__ &gt;=3D 12<br>
--+#pragma GCC diagnostic ignored &quot;-Warray-bounds&quot;<br>
--+#endif<br>
--+<br>
-- bool __read_mostly opt_mce =3D true;<br>
-- boolean_param(&quot;mce&quot;, opt_mce);<br>
-- bool __read_mostly mce_broadcast;<br>
--Index: xen-4.16.1-testing/xen/arch/x86/hvm/hvm.c<br>
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
----- xen-4.16.1-testing.orig/xen/arch/x86/hvm/hvm.c<br>
--+++ xen-4.16.1-testing/xen/arch/x86/hvm/hvm.c<br>
--@@ -81,6 +81,10 @@<br>
-- <br>
-- #include &lt;compat/hvm/hvm_op.h&gt;<br>
-- <br>
--+#if __GNUC__ &gt;=3D 12<br>
--+#pragma GCC diagnostic ignored &quot;-Warray-bounds&quot;<br>
--+#endif<br>
--+<br>
-- bool_t __read_mostly hvm_enabled;<br>
-- <br>
-- #ifdef DBG_LEVEL_0<br>
--Index: xen-4.16.1-testing/xen/arch/x86/pv/dom0_build.c<br>
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
----- xen-4.16.1-testing.orig/xen/arch/x86/pv/dom0_build.c<br>
--+++ xen-4.16.1-testing/xen/arch/x86/pv/dom0_build.c<br>
--@@ -22,6 +22,10 @@<br>
-- #include &lt;asm/pv/mm.h&gt;<br>
-- #include &lt;asm/setup.h&gt;<br>
-- <br>
--+#if __GNUC__ &gt;=3D 12<br>
--+#pragma GCC diagnostic ignored &quot;-Warray-bounds&quot;<br>
--+#endif<br>
--+<br>
-- /* Allow ring-3 access in long mode as guest cannot use ring 1 ... */<br>
-- #define BASE_PROT (_PAGE_PRESENT|_PAGE_RW|_PAGE_ACCESSED|_PAGE_USER)<br>
-- #define L1_PROT (BASE_PROT|_PAGE_GUEST_KERNEL)<br>
--Index: xen-4.16.1-testing/xen/arch/x86/pv/ro-page-fault.c<br>
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
----- xen-4.16.1-testing.orig/xen/arch/x86/pv/ro-page-fault.c<br>
--+++ xen-4.16.1-testing/xen/arch/x86/pv/ro-page-fault.c<br>
--@@ -26,6 +26,10 @@<br>
-- #include &quot;emulate.h&quot;<br>
-- #include &quot;mm.h&quot;<br>
-- <br>
--+#if __GNUC__ &gt;=3D 12<br>
--+#pragma GCC diagnostic ignored &quot;-Warray-bounds&quot;<br>
--+#endif<br>
--+<br>
-- /*********************<br>
--=C2=A0 * Writable Pagetables<br>
--=C2=A0 */<br>
--Index: xen-4.16.1-testing/xen/arch/x86/pv/emul-priv-op.c<br>
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
----- xen-4.16.1-testing.orig/xen/arch/x86/pv/emul-priv-op.c<br>
--+++ xen-4.16.1-testing/xen/arch/x86/pv/emul-priv-op.c<br>
--@@ -40,6 +40,10 @@<br>
-- #include &quot;emulate.h&quot;<br>
-- #include &quot;mm.h&quot;<br>
-- <br>
--+#if __GNUC__ &gt;=3D 12<br>
--+#pragma GCC diagnostic ignored &quot;-Warray-bounds&quot;<br>
--+#endif<br>
--+<br>
-- struct priv_op_ctxt {<br>
--=C2=A0 =C2=A0 =C2=A0struct x86_emulate_ctxt ctxt;<br>
--=C2=A0 =C2=A0 =C2=A0struct {<br>
--Index: xen-4.16.1-testing/xen/arch/x86/pv/mm.c<br>
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
----- xen-4.16.1-testing.orig/xen/arch/x86/pv/mm.c<br>
--+++ xen-4.16.1-testing/xen/arch/x86/pv/mm.c<br>
--@@ -26,6 +26,10 @@<br>
-- <br>
-- #include &quot;mm.h&quot;<br>
-- <br>
--+#if __GNUC__ &gt;=3D 12<br>
--+#pragma GCC diagnostic ignored &quot;-Warray-bounds&quot;<br>
--+#endif<br>
--+<br>
-- /*<br>
--=C2=A0 * Get a mapping of a PV guest&#39;s l1e for this linear address.=C2=
-=A0 The return<br>
--=C2=A0 * pointer should be unmapped using unmap_domain_page().<br>
--Index: xen-4.16.1-testing/xen/arch/x86/domain_page.c<br>
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
----- xen-4.16.1-testing.orig/xen/arch/x86/domain_page.c<br>
--+++ xen-4.16.1-testing/xen/arch/x86/domain_page.c<br>
--@@ -18,6 +18,10 @@<br>
-- #include &lt;asm/hardirq.h&gt;<br>
-- #include &lt;asm/setup.h&gt;<br>
-- <br>
--+#if __GNUC__ &gt;=3D 12<br>
--+#pragma GCC diagnostic ignored &quot;-Warray-bounds&quot;<br>
--+#endif<br>
--+<br>
-- static DEFINE_PER_CPU(struct vcpu *, override);<br>
-- <br>
-- static inline struct vcpu *mapcache_current_vcpu(void)<br>
--Index: xen-4.16.1-testing/xen/arch/x86/mm/shadow/private.h<br>
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
----- xen-4.16.1-testing.orig/xen/arch/x86/mm/shadow/private.h<br>
--+++ xen-4.16.1-testing/xen/arch/x86/mm/shadow/private.h<br>
--@@ -33,6 +33,10 @@<br>
-- <br>
-- #include &quot;../mm-locks.h&quot;<br>
-- <br>
--+#if __GNUC__ &gt;=3D 12<br>
--+#pragma GCC diagnostic ignored &quot;-Warray-bounds&quot;<br>
--+#endif<br>
--+<br>
-- /************************************************************************=
-******<br>
--=C2=A0 * Levels of self-test and paranoia<br>
--=C2=A0 */<br>
--Index: xen-4.16.1-testing/xen/arch/x86/mm/hap/hap.c<br>
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
----- xen-4.16.1-testing.orig/xen/arch/x86/mm/hap/hap.c<br>
--+++ xen-4.16.1-testing/xen/arch/x86/mm/hap/hap.c<br>
--@@ -42,6 +42,10 @@<br>
-- <br>
-- #include &quot;private.h&quot;<br>
-- <br>
--+#if __GNUC__ &gt;=3D 12<br>
--+#pragma GCC diagnostic ignored &quot;-Warray-bounds&quot;<br>
--+#endif<br>
--+<br>
-- /************************************************/<br>
-- /*=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 HAP VRAM TRACKING SUPPORT=C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
-- /************************************************/<br>
--Index: xen-4.16.1-testing/xen/arch/x86/mm/p2m-pod.c<br>
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
----- xen-4.16.1-testing.orig/xen/arch/x86/mm/p2m-pod.c<br>
--+++ xen-4.16.1-testing/xen/arch/x86/mm/p2m-pod.c<br>
--@@ -31,6 +31,10 @@<br>
-- <br>
-- #include &quot;mm-locks.h&quot;<br>
-- <br>
--+#if __GNUC__ &gt;=3D 12<br>
--+#pragma GCC diagnostic ignored &quot;-Warray-bounds&quot;<br>
--+#endif<br>
--+<br>
-- #define superpage_aligned(_x)=C2=A0 (((_x)&amp;(SUPERPAGE_PAGES-1))=3D=3D=
-0)<br>
-- <br>
-- /* Enforce lock ordering when grabbing the &quot;external&quot; page_allo=
-c lock */<br>
--Index: xen-4.16.1-testing/xen/arch/x86/mm/p2m-ept.c<br>
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
----- xen-4.16.1-testing.orig/xen/arch/x86/mm/p2m-ept.c<br>
--+++ xen-4.16.1-testing/xen/arch/x86/mm/p2m-ept.c<br>
--@@ -36,6 +36,10 @@<br>
-- <br>
-- #include &quot;mm-locks.h&quot;<br>
-- <br>
--+#if __GNUC__ &gt;=3D 12<br>
--+#pragma GCC diagnostic ignored &quot;-Warray-bounds&quot;<br>
--+#endif<br>
--+<br>
-- #define atomic_read_ept_entry(__pepte)=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br>
--=C2=A0 =C2=A0 =C2=A0( (ept_entry_t) { .epte =3D read_atomic(&amp;(__pepte)=
--&gt;epte) } )<br>
-- <br>
--Index: xen-4.16.1-testing/xen/arch/x86/mm/p2m.c<br>
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
----- xen-4.16.1-testing.orig/xen/arch/x86/mm/p2m.c<br>
--+++ xen-4.16.1-testing/xen/arch/x86/mm/p2m.c<br>
--@@ -44,6 +44,10 @@<br>
-- <br>
-- #include &quot;mm-locks.h&quot;<br>
-- <br>
--+#if __GNUC__ &gt;=3D 12<br>
--+#pragma GCC diagnostic ignored &quot;-Warray-bounds&quot;<br>
--+#endif<br>
--+<br>
-- /* Override macro from asm/page.h to make work with mfn_t */<br>
-- #undef virt_to_mfn<br>
-- #define virt_to_mfn(v) _mfn(__virt_to_mfn(v))<br>
--Index: xen-4.16.1-testing/xen/arch/x86/tboot.c<br>
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
----- xen-4.16.1-testing.orig/xen/arch/x86/tboot.c<br>
--+++ xen-4.16.1-testing/xen/arch/x86/tboot.c<br>
--@@ -16,6 +16,10 @@<br>
-- #include &lt;asm/setup.h&gt;<br>
-- #include &lt;crypto/vmac.h&gt;<br>
-- <br>
--+#if __GNUC__ &gt;=3D 12<br>
--+#pragma GCC diagnostic ignored &quot;-Warray-bounds&quot;<br>
--+#endif<br>
--+<br>
-- /* tboot=3D&lt;physical address of shared page&gt; */<br>
-- static unsigned long __initdata opt_tboot_pa;<br>
-- integer_param(&quot;tboot&quot;, opt_tboot_pa);<br>
--Index: xen-4.16.1-testing/tools/firmware/hvmloader/ovmf.c<br>
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
----- xen-4.16.1-testing.orig/tools/firmware/hvmloader/ovmf.c<br>
--+++ xen-4.16.1-testing/tools/firmware/hvmloader/ovmf.c<br>
--@@ -34,6 +34,11 @@<br>
-- #include &lt;xen/hvm/ioreq.h&gt;<br>
-- #include &lt;xen/memory.h&gt;<br>
-- <br>
--+#if __GNUC__ &gt;=3D 12<br>
--+#pragma GCC diagnostic ignored &quot;-Warray-bounds&quot;<br>
--+#pragma GCC diagnostic ignored &quot;-Wstringop-overflow&quot;<br>
--+#endif<br>
--+<br>
-- #define OVMF_MAXOFFSET=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 0x000FFFFFULL<br=
+=C2=A0recipes-extended/xen/xen-tools.inc=C2=A0 =C2=A0 =C2=A0|=C2=A0 3 +++<b=
+r>
+=C2=A0recipes-extended/xen/<a href=3D"http://xen-tools_4.17.bb" rel=3D"nore=
+ferrer" target=3D"_blank">xen-tools_4.17.bb</a> | 19 +++++++++++++++++++<br=
 >
-- #define OVMF_END=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 0=
-x100000000ULL<br>
-- #define LOWCHUNK_BEGIN=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 0x000F0000<br>
--Index: xen-4.16.1-testing/tools/firmware/hvmloader/seabios.c<br>
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
----- xen-4.16.1-testing.orig/tools/firmware/hvmloader/seabios.c<br>
--+++ xen-4.16.1-testing/tools/firmware/hvmloader/seabios.c<br>
--@@ -29,6 +29,11 @@<br>
-- #include &lt;acpi2_0.h&gt;<br>
-- #include &lt;libacpi.h&gt;<br>
-- <br>
--+#if __GNUC__ &gt;=3D 12<br>
--+#pragma GCC diagnostic ignored &quot;-Warray-bounds&quot;<br>
--+#pragma GCC diagnostic ignored &quot;-Wstringop-overflow&quot;<br>
--+#endif<br>
--+<br>
-- struct seabios_info {<br>
--=C2=A0 =C2=A0 =C2=A0char signature[14]; /* XenHVMSeaBIOS\0 */<br>
--=C2=A0 =C2=A0 =C2=A0uint8_t length;=C2=A0 =C2=A0 =C2=A0/* Length of this s=
-truct */<br>
--Index: xen-4.16.1-testing/tools/firmware/hvmloader/util.c<br>
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
----- xen-4.16.1-testing.orig/tools/firmware/hvmloader/util.c<br>
--+++ xen-4.16.1-testing/tools/firmware/hvmloader/util.c<br>
--@@ -31,6 +31,10 @@<br>
-- #include &lt;xen/hvm/hvm_xs_strings.h&gt;<br>
-- #include &lt;xen/hvm/params.h&gt;<br>
-- <br>
--+#if __GNUC__ &gt;=3D 12<br>
--+#pragma GCC diagnostic ignored &quot;-Warray-bounds&quot;<br>
--+#endif<br>
--+<br>
-- /*<br>
--=C2=A0 * Check whether there exists overlap in the specified memory range.=
+=C2=A0recipes-extended/xen/<a href=3D"http://xen-tools_git.bb" rel=3D"noref=
+errer" target=3D"_blank">xen-tools_git.bb</a>=C2=A0 |=C2=A0 8 ++++----<br>
+=C2=A0recipes-extended/xen/<a href=3D"http://xen_4.17.bb" rel=3D"noreferrer=
+" target=3D"_blank">xen_4.17.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0| 19 ++++++++=
++++++++++++<br>
+=C2=A0recipes-extended/xen/<a href=3D"http://xen_git.bb" rel=3D"noreferrer"=
+ target=3D"_blank">xen_git.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 8 ++++=
+----<br>
+=C2=A05 files changed, 49 insertions(+), 8 deletions(-)<br>
+=C2=A0create mode 100644 recipes-extended/xen/<a href=3D"http://xen-tools_4=
+.17.bb" rel=3D"noreferrer" target=3D"_blank">xen-tools_4.17.bb</a><br>
+=C2=A0create mode 100644 recipes-extended/xen/<a href=3D"http://xen_4.17.bb=
+" rel=3D"noreferrer" target=3D"_blank">xen_4.17.bb</a><br>
 <br>
--=C2=A0 * Returns true if exists, else returns false.<br>
--<br>
-diff --git a/recipes-extended/xen/<a href=3D"http://xen-tools_4.16.bb" rel=
-=3D"noreferrer" target=3D"_blank">xen-tools_4.16.bb</a> b/recipes-extended/=
-xen/<a href=3D"http://xen-tools_4.16.bb" rel=3D"noreferrer" target=3D"_blan=
-k">xen-tools_4.16.bb</a><br>
-index 2200a5a44abe..b5e555e6eabb 100644<br>
---- a/recipes-extended/xen/<a href=3D"http://xen-tools_4.16.bb" rel=3D"nore=
-ferrer" target=3D"_blank">xen-tools_4.16.bb</a><br>
-+++ b/recipes-extended/xen/<a href=3D"http://xen-tools_4.16.bb" rel=3D"nore=
-ferrer" target=3D"_blank">xen-tools_4.16.bb</a><br>
-@@ -1,5 +1,5 @@<br>
--# xen 4.16.2 release sha<br>
--SRCREV ?=3D &quot;cea5ed49bb5716698a11312a3f38bc8865cd1e67&quot;<br>
-+# xen 4.16.3 release sha<br>
-+SRCREV ?=3D &quot;556c2e817c9cf23b675eb4eaa2dc091f7bb3039f&quot;<br>
+diff --git a/recipes-extended/xen/xen-tools.inc b/recipes-extended/xen/xen-=
+tools.inc<br>
+index d47309a72b1c..95da2bfbb6ce 100644<br>
+--- a/recipes-extended/xen/xen-tools.inc<br>
++++ b/recipes-extended/xen/xen-tools.inc<br>
+@@ -616,6 +616,7 @@ FILES:${PN}-xl =3D &quot;\<br>
+=C2=A0 =C2=A0 =C2=A0${libdir}/xen/bin/libxl-save-helper \<br>
+=C2=A0 =C2=A0 =C2=A0${sbindir}/xl \<br>
+=C2=A0 =C2=A0 =C2=A0${libdir}/xen/bin/xen-init-dom0 \<br>
++=C2=A0 =C2=A0 ${libdir}/xen/bin/init-dom0less \<br>
+=C2=A0 =C2=A0 =C2=A0&quot;<br>
 <br>
-=C2=A0XEN_REL ?=3D &quot;4.16&quot;<br>
-=C2=A0XEN_BRANCH ?=3D &quot;stable-${XEN_REL}&quot;<br>
-@@ -7,7 +7,6 @@ XEN_BRANCH ?=3D &quot;stable-${XEN_REL}&quot;<br>
+=C2=A0FILES:${PN}-xl-examples =3D &quot;\<br>
+@@ -658,6 +659,7 @@ FILES:${PN}-xencommons +=3D &quot;\<br>
+=C2=A0 =C2=A0 =C2=A0${@bb.utils.contains(&#39;DISTRO_FEATURES&#39;, &#39;sy=
+stemd&#39;, &#39;${systemd_unitdir}/system/xen-init-dom0.service&#39;, &#39=
+;&#39;, d)} \<br>
+=C2=A0 =C2=A0 =C2=A0${@bb.utils.contains(&#39;DISTRO_FEATURES&#39;, &#39;sy=
+stemd&#39;, &#39;${systemd_unitdir}/system/xenstored.service&#39;, &#39;&#3=
+9;, d)} \<br>
+=C2=A0 =C2=A0 =C2=A0${@bb.utils.contains(&#39;DISTRO_FEATURES&#39;, &#39;sy=
+stemd&#39;, &#39;${systemd_unitdir}/system/var-lib-xenstored.mount&#39;, &#=
+39;&#39;, d)} \<br>
++=C2=A0 =C2=A0 ${localstatedir} \<br>
+=C2=A0 =C2=A0 =C2=A0&quot;<br>
+<br>
+=C2=A0FILES:${PN}-xend +=3D &quot; \<br>
+@@ -688,6 +690,7 @@ FILES:${PN}-test +=3D &quot;\<br>
+=C2=A0 =C2=A0 =C2=A0${libdir}/xen/bin/test-resource \<br>
+=C2=A0 =C2=A0 =C2=A0${libdir}/xen/bin/test-cpu-policy \<br>
+=C2=A0 =C2=A0 =C2=A0${libdir}/xen/bin/test-tsx \<br>
++=C2=A0 =C2=A0 ${libdir}/xen/bin/test-paging-mempool \<br>
+=C2=A0 =C2=A0 =C2=A0&quot;<br>
+<br>
+=C2=A0# test-xenstore and test-resource currently only exist in 4.16<br>
+diff --git a/recipes-extended/xen/<a href=3D"http://xen-tools_4.17.bb" rel=
+=3D"noreferrer" target=3D"_blank">xen-tools_4.17.bb</a> b/recipes-extended/=
+xen/<a href=3D"http://xen-tools_4.17.bb" rel=3D"noreferrer" target=3D"_blan=
+k">xen-tools_4.17.bb</a><br>
+new file mode 100644<br>
+index 000000000000..0f323cb32aac<br>
+--- /dev/null<br>
++++ b/recipes-extended/xen/<a href=3D"http://xen-tools_4.17.bb" rel=3D"nore=
+ferrer" target=3D"_blank">xen-tools_4.17.bb</a><br>
+@@ -0,0 +1,19 @@<br>
++# xen 4.17.0 release sha<br>
++SRCREV ?=3D &quot;11560248ffda3f00f20bbdf3ae088af474f7f2a3&quot;<br>
++<br>
++XEN_REL ?=3D &quot;4.17&quot;<br>
++XEN_BRANCH ?=3D &quot;stable-${XEN_REL}&quot;<br>
++<br>
++SRC_URI =3D &quot; \<br>
++=C2=A0 =C2=A0 git://<a href=3D"http://xenbits.xen.org/xen.git;branch=3D$%7=
+BXEN_BRANCH%7D" rel=3D"noreferrer" target=3D"_blank">xenbits.xen.org/xen.gi=
+t;branch=3D${XEN_BRANCH}</a> \<br>
++=C2=A0 =C2=A0 file://0001-python-pygrub-pass-DISTUTILS-xen-4.15.patch \<br=
+>
++=C2=A0 =C2=A0 &quot;<br>
++<br>
++LIC_FILES_CHKSUM ?=3D &quot;file://COPYING;md5=3Dd1a1e216f80b6d8da95fec897=
+d0dbec9&quot;<br>
++<br>
++PV =3D &quot;${XEN_REL}+stable${SRCPV}&quot;<br>
++<br>
++S =3D &quot;${WORKDIR}/git&quot;<br>
++<br>
++require xen.inc<br>
++require xen-tools.inc<br>
+diff --git a/recipes-extended/xen/<a href=3D"http://xen-tools_git.bb" rel=
+=3D"noreferrer" target=3D"_blank">xen-tools_git.bb</a> b/recipes-extended/x=
+en/<a href=3D"http://xen-tools_git.bb" rel=3D"noreferrer" target=3D"_blank"=
+>xen-tools_git.bb</a><br>
+index a450a7d6574a..fd42cf2963b4 100644<br>
+--- a/recipes-extended/xen/<a href=3D"http://xen-tools_git.bb" rel=3D"noref=
+errer" target=3D"_blank">xen-tools_git.bb</a><br>
++++ b/recipes-extended/xen/<a href=3D"http://xen-tools_git.bb" rel=3D"noref=
+errer" target=3D"_blank">xen-tools_git.bb</a><br>
+@@ -1,7 +1,7 @@<br>
+-# master status on 2022-04-05<br>
+-SRCREV ?=3D &quot;14dd241aad8af447680ac73e8579990e2c09c1e7&quot;<br>
++# master status on 2022-12-29<br>
++SRCREV ?=3D &quot;7eef80e06ed2282bbcec3619d860c6aacb0515d8&quot;<br>
+<br>
+-XEN_REL ?=3D &quot;4.17&quot;<br>
++XEN_REL ?=3D &quot;4.18&quot;<br>
+=C2=A0XEN_BRANCH ?=3D &quot;master&quot;<br>
+<br>
 =C2=A0SRC_URI =3D &quot; \<br>
-=C2=A0 =C2=A0 =C2=A0git://<a href=3D"http://xenbits.xen.org/xen.git;branch=
-=3D$%7BXEN_BRANCH%7D" rel=3D"noreferrer" target=3D"_blank">xenbits.xen.org/=
-xen.git;branch=3D${XEN_BRANCH}</a> \<br>
+@@ -9,7 +9,7 @@ SRC_URI =3D &quot; \<br>
 =C2=A0 =C2=A0 =C2=A0file://0001-python-pygrub-pass-DISTUTILS-xen-4.15.patch=
  \<br>
--=C2=A0 =C2=A0 file://xen-fix-gcc12-build-issues.patch \<br>
 =C2=A0 =C2=A0 =C2=A0&quot;<br>
 <br>
-=C2=A0LIC_FILES_CHKSUM ?=3D &quot;file://COPYING;md5=3D419739e325a50f3d7b45=
-01338e44a4e5&quot;<br>
-diff --git a/recipes-extended/xen/<a href=3D"http://xen_4.16.bb" rel=3D"nor=
-eferrer" target=3D"_blank">xen_4.16.bb</a> b/recipes-extended/xen/<a href=
-=3D"http://xen_4.16.bb" rel=3D"noreferrer" target=3D"_blank">xen_4.16.bb</a=
-><br>
-index 70e1d70e9c29..14a4fa79c5dd 100644<br>
---- a/recipes-extended/xen/<a href=3D"http://xen_4.16.bb" rel=3D"noreferrer=
-" target=3D"_blank">xen_4.16.bb</a><br>
-+++ b/recipes-extended/xen/<a href=3D"http://xen_4.16.bb" rel=3D"noreferrer=
-" target=3D"_blank">xen_4.16.bb</a><br>
-@@ -1,5 +1,5 @@<br>
--# xen 4.16.2 release sha<br>
--SRCREV ?=3D &quot;cea5ed49bb5716698a11312a3f38bc8865cd1e67&quot;<br>
-+# xen 4.16.3 release sha<br>
-+SRCREV ?=3D &quot;556c2e817c9cf23b675eb4eaa2dc091f7bb3039f&quot;<br>
+-LIC_FILES_CHKSUM ?=3D &quot;file://COPYING;md5=3D419739e325a50f3d7b4501338=
+e44a4e5&quot;<br>
++LIC_FILES_CHKSUM ?=3D &quot;file://COPYING;md5=3Dd1a1e216f80b6d8da95fec897=
+d0dbec9&quot;<br>
 <br>
-=C2=A0XEN_REL ?=3D &quot;4.16&quot;<br>
-=C2=A0XEN_BRANCH ?=3D &quot;stable-${XEN_REL}&quot;<br>
-@@ -7,7 +7,6 @@ XEN_BRANCH ?=3D &quot;stable-${XEN_REL}&quot;<br>
+=C2=A0PV =3D &quot;${XEN_REL}+git${SRCPV}&quot;<br>
+<br>
+diff --git a/recipes-extended/xen/<a href=3D"http://xen_4.17.bb" rel=3D"nor=
+eferrer" target=3D"_blank">xen_4.17.bb</a> b/recipes-extended/xen/<a href=
+=3D"http://xen_4.17.bb" rel=3D"noreferrer" target=3D"_blank">xen_4.17.bb</a=
+><br>
+new file mode 100644<br>
+index 000000000000..f35689d4120f<br>
+--- /dev/null<br>
++++ b/recipes-extended/xen/<a href=3D"http://xen_4.17.bb" rel=3D"noreferrer=
+" target=3D"_blank">xen_4.17.bb</a><br>
+@@ -0,0 +1,19 @@<br>
++# xen 4.17.0 release sha<br>
++SRCREV ?=3D &quot;11560248ffda3f00f20bbdf3ae088af474f7f2a3&quot;<br>
++<br>
++XEN_REL ?=3D &quot;4.17&quot;<br>
++XEN_BRANCH ?=3D &quot;stable-${XEN_REL}&quot;<br>
++<br>
++SRC_URI =3D &quot; \<br>
++=C2=A0 =C2=A0 git://<a href=3D"http://xenbits.xen.org/xen.git;branch=3D$%7=
+BXEN_BRANCH%7D" rel=3D"noreferrer" target=3D"_blank">xenbits.xen.org/xen.gi=
+t;branch=3D${XEN_BRANCH}</a> \<br>
++=C2=A0 =C2=A0 file://0001-menuconfig-mconf-cfg-Allow-specification-of-ncur=
+ses-location.patch \<br>
++=C2=A0 =C2=A0 &quot;<br>
++<br>
++LIC_FILES_CHKSUM ?=3D &quot;file://COPYING;md5=3Dd1a1e216f80b6d8da95fec897=
+d0dbec9&quot;<br>
++<br>
++PV =3D &quot;${XEN_REL}+stable${SRCPV}&quot;<br>
++<br>
++S =3D &quot;${WORKDIR}/git&quot;<br>
++<br>
++require xen.inc<br>
++require xen-hypervisor.inc<br>
+diff --git a/recipes-extended/xen/<a href=3D"http://xen_git.bb" rel=3D"nore=
+ferrer" target=3D"_blank">xen_git.bb</a> b/recipes-extended/xen/<a href=3D"=
+http://xen_git.bb" rel=3D"noreferrer" target=3D"_blank">xen_git.bb</a><br>
+index ebd1b76ff420..2138424406f9 100644<br>
+--- a/recipes-extended/xen/<a href=3D"http://xen_git.bb" rel=3D"noreferrer"=
+ target=3D"_blank">xen_git.bb</a><br>
++++ b/recipes-extended/xen/<a href=3D"http://xen_git.bb" rel=3D"noreferrer"=
+ target=3D"_blank">xen_git.bb</a><br>
+@@ -1,7 +1,7 @@<br>
+-# master status on 2022-04-05<br>
+-SRCREV ?=3D &quot;14dd241aad8af447680ac73e8579990e2c09c1e7&quot;<br>
++# master status on 2022-12-29<br>
++SRCREV ?=3D &quot;7eef80e06ed2282bbcec3619d860c6aacb0515d8&quot;<br>
+<br>
+-XEN_REL ?=3D &quot;4.17&quot;<br>
++XEN_REL ?=3D &quot;4.18&quot;<br>
+=C2=A0XEN_BRANCH ?=3D &quot;master&quot;<br>
+<br>
 =C2=A0SRC_URI =3D &quot; \<br>
-=C2=A0 =C2=A0 =C2=A0git://<a href=3D"http://xenbits.xen.org/xen.git;branch=
-=3D$%7BXEN_BRANCH%7D" rel=3D"noreferrer" target=3D"_blank">xenbits.xen.org/=
-xen.git;branch=3D${XEN_BRANCH}</a> \<br>
+@@ -9,7 +9,7 @@ SRC_URI =3D &quot; \<br>
 =C2=A0 =C2=A0 =C2=A0file://0001-menuconfig-mconf-cfg-Allow-specification-of=
 -ncurses-location.patch \<br>
--=C2=A0 =C2=A0 file://xen-fix-gcc12-build-issues.patch \ <br>
 =C2=A0 =C2=A0 =C2=A0&quot;<br>
 <br>
-=C2=A0LIC_FILES_CHKSUM ?=3D &quot;file://COPYING;md5=3D419739e325a50f3d7b45=
-01338e44a4e5&quot;<br>
+-LIC_FILES_CHKSUM ?=3D &quot;file://COPYING;md5=3D419739e325a50f3d7b4501338=
+e44a4e5&quot;<br>
++LIC_FILES_CHKSUM ?=3D &quot;file://COPYING;md5=3Dd1a1e216f80b6d8da95fec897=
+d0dbec9&quot;<br>
+<br>
+=C2=A0PV =3D &quot;${XEN_REL}+git${SRCPV}&quot;<br>
+<br>
 -- <br>
 2.25.1<br>
 <br>
 </blockquote></div></div>
 
---0000000000002baefa05f1cef96b--
+--0000000000003705bc05f1cefae2--
 
