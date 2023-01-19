@@ -2,100 +2,108 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E275C00A5A
-	for <webhook@archiver.kernel.org>; Thu, 19 Jan 2023 13:53:01 +0000 (UTC)
-Received: from mail-io1-f48.google.com (mail-io1-f48.google.com [209.85.166.48])
- by mx.groups.io with SMTP id smtpd.web11.45652.1674136374207749388
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CCCCC46467
+	for <webhook@archiver.kernel.org>; Thu, 19 Jan 2023 20:14:03 +0000 (UTC)
+Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com [209.85.219.182])
+ by mx.groups.io with SMTP id smtpd.web11.56429.1674159242722964112
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 19 Jan 2023 05:52:54 -0800
+ Thu, 19 Jan 2023 12:14:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=UkGRptM6;
- spf=pass (domain: gmail.com, ip: 209.85.166.48, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-io1-f48.google.com with SMTP id s26so975615ioa.11
-        for <meta-virtualization@lists.yoctoproject.org>; Thu, 19 Jan 2023 05:52:54 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Zj/B22/w;
+ spf=pass (domain: gmail.com, ip: 209.85.219.182, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-yb1-f182.google.com with SMTP id 66so4076083yba.4
+        for <meta-virtualization@lists.yoctoproject.org>; Thu, 19 Jan 2023 12:14:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=h3Gryc0Oy/fke+tAhjJ7K/Nb8jHBc+epR3Bieq5MMYI=;
-        b=UkGRptM6MsqDhmj61JTOG0ydDLLgbkNt62tugmMONCODQxaLwUVzh8ZlkAz736Odx5
-         zRV6+fZTSR7dd+WGjE14KJYnlLxJdphRnqwirvNNLCs1hKh3wRtrFMieHbtrqWI2Ft82
-         Ayo5w/QXW9M/6HArErrcbjb0IQH7YCTgytJsFFFftrW28pG5kDoH7T4WZQ5efDyh3k7J
-         gos4ASY524E1iMtEbUV4hm8LoV7O85Zr0OhteOhFHHLLSpmXqzWLSt3eZksSbVn8CA84
-         9a5IcGvmUkkszUKbtpvLSgdWGn+F2gePcWkfWOonxF0ddUBSkSrhtRHlhpUbseSm2VIi
-         Stpw==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=/iJWIipnuVoS1H+vZ3QJNYne3l1oWL0pE8Egdo4NINg=;
+        b=Zj/B22/wqRigTkWSPzWC6f//3N7GWL0RCsumzbUy5QZVc54sNGlMqjx0oDokdUguAi
+         YfoMafHpnBMNIvLJNWXLTDwwbaKC7Ljz58wj0+Wk4roJFABFjaUJiy9anog71VDv0tnY
+         TR3lCEeUvrS+BzbCVFLcUhauks1eeUE8j6lE18rtyUg2Q9cpAAsQ5C2aMDpXSiK+wuMn
+         J50+WpK+L4B3YI5lb8CBQYUcQmTWxSWl+CQZsoadEkm/ni0BpKKRNcL6jSGGke1vPc1G
+         XNI8ufp5g7yrD7hH+8+t9+IukjvA/KXHSQ6gYGYcaqhqU5w1G3G1YzvVY5Gvr1WX5vZz
+         s/FA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=h3Gryc0Oy/fke+tAhjJ7K/Nb8jHBc+epR3Bieq5MMYI=;
-        b=hXRBz22K7L3+cjA6hYPMA4HkkSeBUsTAZykf9ukxPR4YCXOe9G63S/JTbzGqYxtbY4
-         pj6exa0k5SED7b0/uwf3Bf9/dRrYWEPMgykMdeCivtgO/ZcnYOAhKNH128ufRy11QVG6
-         6e+RmBYm1QwcTI581DVvafJUZBfMiXEuYOjpkOJnVDyZkhXnhgdFPorfEcATAHKtGnXh
-         eg7lxzO53V4QcehSLG9lm1HcT7ten74bJ3h1ka0kBvcn9PfWyvMhTKQUUjOcR2Nzd4LM
-         2OAnsbD2WGIaqa+698/e3wO1nnFkl9EacWP6os1vVSkZsf3TnhkqSBWzIg9fFuPUJyYA
-         6nig==
-X-Gm-Message-State: AFqh2kp6q5NbZorV7qfK4dE87IAhwlR5ee/j1lx1VL4mzCa5cKy7WIIi
-	PdSNH1BIHcB+11isvz0ciHVJctXHqjyjL2lMsNU=
-X-Google-Smtp-Source: AMrXdXuFg8VUN7qkLDdkekZplYT8Hd/QploGHjBGChhl4mKFeAcLq8Ub6Jn3jY7SM68du/ER0MoPNCY49bZ3npXgOJA=
-X-Received: by 2002:a6b:640e:0:b0:704:d937:a458 with SMTP id
- t14-20020a6b640e000000b00704d937a458mr462159iog.98.1674136373560; Thu, 19 Jan
- 2023 05:52:53 -0800 (PST)
-MIME-Version: 1.0
-References: <20230119142202.594f36c9@booty>
-In-Reply-To: <20230119142202.594f36c9@booty>
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/iJWIipnuVoS1H+vZ3QJNYne3l1oWL0pE8Egdo4NINg=;
+        b=HurPnnfBKRBSdDX3lp6d0Gc3wpqssIWPThdAmd2WxsG7KltIj7D0z+e9mDNXWJVkZC
+         mhZhg8b1IVdZFVOku+s57WTDbrC+WXE/3QIDu/B1c01oSDnBJxAVfKbINmLJ6+YKyo7a
+         gpscM25SWcdfSOP0Ubt5bnwZfTCDKGmKnXjQ3CexekyHEKW8ZPhwp7nelfhMy1lX+Rcm
+         4AEuL02HFTzg6frMi0qrh0WY6yZIJ9Y43DmQMWwLzWQ25X8JsL0NeBrv9Pwd0T53qzYO
+         oTkozp2zPl7iElclrD5XaYAe7C2rWRNXVpLDg1iIVQ6Jm6E+jokpYxufZATRGr7g3u4w
+         C9DQ==
+X-Gm-Message-State: AFqh2kqc3u5AeA0BFDmzAE40WwMhk+x8e5/ivZJuO+pjemovFtikOCkA
+	zitIkSHJ0HL81RosROSaYi0=
+X-Google-Smtp-Source: AMrXdXvaCUY+gbV5/CGuR5S2OQzD1k4gukTa1OrcTBfZUnhS8jeM/XVlTlMTCQUYmrtd/IXqG6rpcA==
+X-Received: by 2002:a25:40d1:0:b0:7b0:f394:d521 with SMTP id n200-20020a2540d1000000b007b0f394d521mr10687471yba.14.1674159241690;
+        Thu, 19 Jan 2023 12:14:01 -0800 (PST)
+Received: from gmail.com (cpe7c9a54441c1f-cm7c9a54441c1d.cpe.net.cable.rogers.com. [173.34.238.88])
+        by smtp.gmail.com with ESMTPSA id s15-20020a05620a254f00b007056237b41bsm24698331qko.67.2023.01.19.12.14.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Jan 2023 12:14:01 -0800 (PST)
+Date: Thu, 19 Jan 2023 15:13:59 -0500
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Thu, 19 Jan 2023 08:52:42 -0500
-Message-ID: <CADkTA4OtoQAJuz5adeCWXYQCQrW3mtXz7ZSQw2m-O8yAFBzkDA@mail.gmail.com>
-Subject: Re: xen-4.17 build failure (av_permissions.h: No such file or directory)
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: meta-virtualization@lists.yoctoproject.org, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
+To: Xiangyu Chen <xiangyu.chen@eng.windriver.com>
+Cc: meta-virtualization@lists.yoctoproject.org
+Subject: Re: [meta-virtualization][master][PATCH] ovs: update CVE_VERSION to
+ 3.0.3
+Message-ID: <Y8mkh1Fv51UQ574K@gmail.com>
+References: <20230116053920.3547806-1-xiangyu.chen@eng.windriver.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230116053920.3547806-1-xiangyu.chen@eng.windriver.com>
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Thu, 19 Jan 2023 13:53:01 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/7820
+ <meta-virtualization@lists.yoctoproject.org>; Thu, 19 Jan 2023 20:14:03 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/7821
 
-On Thu, Jan 19, 2023 at 8:22 AM Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:
->
-> Hello Bruce,
->
-> we had this failure on the xen recipe during an AB meta-virt build:
->
-> | In file included from xsm/flask/ss/services.c:46:
-> | ./xsm/flask/include/avc.h:18:10: fatal error: av_permissions.h: No
-> such file or directory |    18 | #include "av_permissions.h"
-> |       |          ^~~~~~~~~~~~~~~~~~
->
-> See:
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/128/builds/1168/steps/17/logs/stdio
->
-> According to Alex's analysis it appears to be a race condition in the
-> xen makefile.
->
-> Could you check that?
+Good Catch!
 
-We'll have a look!
-
-Outside of doing a lot of builds, i don't suppose there's a specific
-way to reproduce the issue ?
+My package update scripts don't take that into account, so I missed it!
 
 Bruce
 
->
-> Best regards,
-> --
-> Luca Ceresoli, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
+In message: [meta-virtualization][master][PATCH] ovs: update CVE_VERSION to 3.0.3
+on 16/01/2023 Xiangyu Chen wrote:
 
+> From: Xiangyu Chen <xiangyu.chen@windriver.com>
+> 
+> Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
+> ---
+>  recipes-networking/openvswitch/openvswitch_git.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/recipes-networking/openvswitch/openvswitch_git.bb b/recipes-networking/openvswitch/openvswitch_git.bb
+> index 3dd7cf7..1ad3e57 100644
+> --- a/recipes-networking/openvswitch/openvswitch_git.bb
+> +++ b/recipes-networking/openvswitch/openvswitch_git.bb
+> @@ -15,7 +15,7 @@ RDEPENDS:${PN}-ptest += "\
+>  
+>  S = "${WORKDIR}/git"
+>  PV = "3.0.3+${SRCPV}"
+> -CVE_VERSION = "2.17.1"
+> +CVE_VERSION = "3.0.3"
+>  
+>  FILESEXTRAPATHS:append := "${THISDIR}/${PN}-git:"
+>  
+> -- 
+> 2.34.1
+> 
 
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#7814): https://lists.yoctoproject.org/g/meta-virtualization/message/7814
+> Mute This Topic: https://lists.yoctoproject.org/mt/96301725/1050810
+> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
--- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
 
