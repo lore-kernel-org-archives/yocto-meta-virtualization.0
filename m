@@ -1,192 +1,85 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <Martin.Jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F8D7C05027
-	for <webhook@archiver.kernel.org>; Mon, 23 Jan 2023 19:09:21 +0000 (UTC)
-Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com [209.85.160.52])
- by mx.groups.io with SMTP id smtpd.web10.51575.1674500954477023505
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 25DB7C05027
+	for <webhook@archiver.kernel.org>; Thu, 26 Jan 2023 18:24:55 +0000 (UTC)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.web11.81935.1674757491355773792
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 23 Jan 2023 11:09:14 -0800
+ Thu, 26 Jan 2023 10:24:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Ce/7BUf1;
- spf=pass (domain: gmail.com, ip: 209.85.160.52, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-15fe106c7c7so8992025fac.8
-        for <meta-virtualization@lists.yoctoproject.org>; Mon, 23 Jan 2023 11:09:14 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Ucdb8Eex;
+ spf=pass (domain: gmail.com, ip: 209.85.128.46, mailfrom: martin.jansa@gmail.com)
+Received: by mail-wm1-f46.google.com with SMTP id e19-20020a05600c439300b003db1cac0c1fso3783266wmn.5
+        for <meta-virtualization@lists.yoctoproject.org>; Thu, 26 Jan 2023 10:24:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=DzSaHq/VsDAtxsIUSrm/Kc7D51XDvd6VMJHJYWSJVVY=;
-        b=Ce/7BUf1Lip+34Qz1UmiglsTT+jR7TbP6/7KTeWoDTAkCYKmn0qtdmgvpt+u2Izu3+
-         jIbW+1aGg4/oj6LzoYiNx50WG9yl8ZYANAmQc5ETdBkkjf9ACvmG/8VZbFavCNcXJTym
-         vs08hBkaKhs6DWg6zDUVehMrhbcDqtalBdVN/HBguxJuGBxEJpxm3cdx/VGlG3XrAJuk
-         1r/oEM+NkNfS3qEs8LIUgeA/dCEdIlhzMfjP8kra4iBmjRMzG9wZk25PUS7Hc7hSNbug
-         DQUn5sAMZElCAFEOrlUL02WBGi02a/TIgV1L307AYlM5qjj8xOjKtNX377JTqHHBfpYN
-         GUMw==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=F7kndLirAXHiv7sHUUsa5sAUUswmP7yuFZvxI+Y+AU8=;
+        b=Ucdb8EexLheNsjRzRVu0UgjTpNB8FgE/ynmU+kJte1Wx+MDKosLzf8AJ+nTvPjXA98
+         cLoqqdBmQrTJisIg4xgSluB4X9euNVqGC0xXsglMNvgXjik7KIx07JUF/XkGaLaHdTM+
+         nG76CwRCQLFwklDaby2vo7T9SFfmRsO6y9G4vZ+aHwAPx21xod3VPe6b0d983cc61Ast
+         BSOTRxh5myPj+v1mfFs5aSMKhoi7PdEf+lFKBxHLlrmeyhzuMmqnJhUrWrWMhoNuGWJ+
+         KVXqmdNr92fHINeTnI9SHA7kezc5G1vOTdA6gGM5uM1lKZ315Yd0B72v0NzSMPdJU9bP
+         zd3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=DzSaHq/VsDAtxsIUSrm/Kc7D51XDvd6VMJHJYWSJVVY=;
-        b=vSXjPQrPP0qc644v+qUb0ScDbfuAridPgjvFtDbvYr4NSzzqUj13IXrVPaNcMI/al+
-         7H0wvDt8yV2g/4wk3WtWJGzrYkv59rRKPx404Halo6PU4W7zOjdE+wSysRobJGuHFDZ6
-         DCNMdVlqg4hKB/9vzNgdip4ptLMznunW6ARTQ56C7Ep1CPfIRQRccoSGYcJXvmcOcvQ0
-         tnJMKbG6vDoyEVpKzmiTDaKBSlEFD39WhbSYSzVLzNaz3vwMkEmyXZKngjdpUvjnKz7P
-         Ks+iUv0QXFZkwzUQBIPkChL3cjKX+EZ2Ym5rfVKauWkUnjRkGrmAzVHCbpadJrxUifPV
-         Tanw==
-X-Gm-Message-State: AFqh2krWlraGMD2jjoJRitxUr7pR772vdb/LcGnmtvxhh/Z6aQtkxs2M
-	Kq3+QgcNJAQ+v+HkKET2OdCxpJFNfOhJl5oiOAE=
-X-Google-Smtp-Source: AMrXdXsOdRU/AAUGCYMRigQNprRF9FZnGaCxemTG/1yMorxrKUBHcxSC9kJuzpjbm9V+nHZ4g72SvNolkPvQuAMbB2A=
-X-Received: by 2002:a05:6870:514a:b0:15e:d5b1:33df with SMTP id
- z10-20020a056870514a00b0015ed5b133dfmr1687458oak.55.1674500953510; Mon, 23
- Jan 2023 11:09:13 -0800 (PST)
+        bh=F7kndLirAXHiv7sHUUsa5sAUUswmP7yuFZvxI+Y+AU8=;
+        b=hnM5ot4BInMmJPl5RFyxPx5mt6T994x1U9r/mq/zx4xWV7lKyUsZpAHVR4CwbNgWvV
+         QpwKuh9JIN+hx7LIcLAP5yJ7yB6wXuym4c/bYVY684y7CiCFwUUbu8Joh6wUNk/1bewO
+         W/AZGNCIrvRUmxocm7F9qCGq4VgbzPbFSDjWwPze/SaGq2yMvUFH6o3PFD4Sk/rHuVDI
+         1jssrMoJ2LHS6Ts52AFlk95z0x7kRnyzo7OxUH89TIBunLe9xkJc5G2BKe5RkjNsCqP7
+         QurEwt8sMsxzLMlQIS1W97l8bVLvPQgN06Rk4tIQfDrEaHJc+WQwvLo9if98Q5YwgiXG
+         4eqw==
+X-Gm-Message-State: AFqh2kpuuAcN3Rh6FGyfvgSCUtImjf5ix7OszqVvE4SfK08srCjh+6WG
+	gjkEm2ECJOpLN9UTORxq3sWV46N94Kw=
+X-Google-Smtp-Source: AMrXdXsFgdhNjVTGbcrO9EtOmKMz7FIahbZ6+kDxrEX+KabhiQ5r3Sg+QlHrArlFGM640To7183ueg==
+X-Received: by 2002:a05:600c:3c92:b0:3d5:365b:773e with SMTP id bg18-20020a05600c3c9200b003d5365b773emr37847594wmb.39.1674757489756;
+        Thu, 26 Jan 2023 10:24:49 -0800 (PST)
+Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
+        by smtp.gmail.com with ESMTPSA id bi24-20020a05600c3d9800b003d1d5a83b2esm5263384wmb.35.2023.01.26.10.24.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Jan 2023 10:24:49 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: meta-virtualization@lists.yoctoproject.org
+Cc: Martin Jansa <Martin.Jansa@gmail.com>
+Subject: [meta-virtualization][PATCH] tiny: fix typo in Upstream-Status
+Date: Thu, 26 Jan 2023 19:24:47 +0100
+Message-Id: <20230126182447.184405-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-References: <20230123154454.1514564-1-jdmason@kudzu.us> <CAMKF1srz31kw5nEaPWSvH6RtdS6A2a9miDurDBszYFSemM=Tzw@mail.gmail.com>
- <CAPoiz9x-mvmUxhfqi4C97tE0YjNWNaxa0oHfESBRh2xUGh4iVw@mail.gmail.com>
-In-Reply-To: <CAPoiz9x-mvmUxhfqi4C97tE0YjNWNaxa0oHfESBRh2xUGh4iVw@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 23 Jan 2023 11:09:02 -0800
-Message-ID: <CAMKF1sprpC-nfZO2JOnjBWfyswuZjjpu037WCZ10xQtd_=t0pw@mail.gmail.com>
-Subject: Re: [PATCH] xen: force usage of gcc
-To: Jon Mason <jdmason@kudzu.us>
-Cc: meta-virtualization@lists.yoctoproject.org
-Content-Type: multipart/alternative; boundary="000000000000829b3f05f2f3224c"
+Content-Transfer-Encoding: 8bit
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Mon, 23 Jan 2023 19:09:21 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/7832
+ <meta-virtualization@lists.yoctoproject.org>; Thu, 26 Jan 2023 18:24:55 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/7833
 
---000000000000829b3f05f2f3224c
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ ...1-tini.c-a-function-declaration-without-a-prototype-is.patch | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-configure: line 2898: arm-poky-linux-gnueabi-gcc: command not found
+diff --git a/recipes-containers/tini/tini/0001-tini.c-a-function-declaration-without-a-prototype-is.patch b/recipes-containers/tini/tini/0001-tini.c-a-function-declaration-without-a-prototype-is.patch
+index 96f3625..8834f17 100644
+--- a/recipes-containers/tini/tini/0001-tini.c-a-function-declaration-without-a-prototype-is.patch
++++ b/recipes-containers/tini/tini/0001-tini.c-a-function-declaration-without-a-prototype-is.patch
+@@ -22,7 +22,7 @@ Subject: [PATCH] tini.c: a function declaration without a prototype is
+ |                    void
+ | 4 errors generated.
+ 
+-:Upstream-Status: Submitted [https://github.com/krallin/tini/pull/198]
++Upstream-Status: Submitted [https://github.com/krallin/tini/pull/198]
+ 
+ Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
+ ---
+-- 
+2.39.1
 
-So it seems this components build system does not respect CC and other
-bitbake environment variable
-
-On Mon, Jan 23, 2023 at 11:05 AM Jon Mason <jdmason@kudzu.us> wrote:
-
-> I'm attaching the failing logs to this email.  Let me know if it
-> doesn't go through.
->
-> On Mon, Jan 23, 2023 at 11:30 AM Khem Raj <raj.khem@gmail.com> wrote:
-> >
-> >
-> >
-> > On Mon, Jan 23, 2023 at 7:44 AM Jon Mason <jdmason@kudzu.us> wrote:
-> >>
-> >> xen-tools and xen (and possibly others) fail to compile with clang,
-> with the following error:
-> >>  configure: error: in
-> `/builder/meta-arm/build/tmp/work/cortexa15t2hf-neon-poky-linux-gnueabi/x=
-en-tools/4.17+stableAUTOINC+11560248ff-r0/git/tools':
-> >>  configure: error: C compiler cannot create executables
-> >>  See `config.log' for more details
-> >>  configure: error: ./configure failed for tools
-> >
-> >
-> >
-> > And what=E2=80=99s does config.log say ?
-> > Can you post this file somewhere
-> >
-> >>
-> >>
-> >> Force all of xen to use gcc until this issue can be resolved.
-> >>
-> >> Signed-off-by: Jon Mason <jdmason@kudzu.us>
-> >> ---
-> >>  recipes-extended/xen/xen.inc | 2 ++
-> >>  1 file changed, 2 insertions(+)
-> >>
-> >> diff --git a/recipes-extended/xen/xen.inc b/recipes-extended/xen/xen.i=
-nc
-> >> index 5937763a7ddf..dcd281b5a21b 100644
-> >> --- a/recipes-extended/xen/xen.inc
-> >> +++ b/recipes-extended/xen/xen.inc
-> >> @@ -2,6 +2,8 @@ HOMEPAGE =3D "http://xen.org"
-> >>  LICENSE =3D "GPL-2.0-only"
-> >>  SECTION =3D "console/tools"
-> >>
-> >> +TOOLCHAIN =3D "gcc"
-> >> +
-> >>  inherit autotools-brokensep pkgconfig
-> >>
-> >>  require xen-arch.inc
-> >> --
-> >> 2.30.2
-> >>
->
-
---000000000000829b3f05f2f3224c
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div>configure: line 2898: arm-poky-linux-gnueabi-gcc: command not found<br=
-></div><div dir=3D"auto"><br></div><div dir=3D"auto">So it seems this compo=
-nents build system does not respect CC and other bitbake environment variab=
-le=C2=A0</div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D=
-"gmail_attr">On Mon, Jan 23, 2023 at 11:05 AM Jon Mason &lt;<a href=3D"mail=
-to:jdmason@kudzu.us">jdmason@kudzu.us</a>&gt; wrote:<br></div><blockquote c=
-lass=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;=
-padding-left:1ex">I&#39;m attaching the failing logs to this email.=C2=A0 L=
-et me know if it<br>
-doesn&#39;t go through.<br>
-<br>
-On Mon, Jan 23, 2023 at 11:30 AM Khem Raj &lt;<a href=3D"mailto:raj.khem@gm=
-ail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt;<br>
-&gt;<br>
-&gt; On Mon, Jan 23, 2023 at 7:44 AM Jon Mason &lt;<a href=3D"mailto:jdmaso=
-n@kudzu.us" target=3D"_blank">jdmason@kudzu.us</a>&gt; wrote:<br>
-&gt;&gt;<br>
-&gt;&gt; xen-tools and xen (and possibly others) fail to compile with clang=
-, with the following error:<br>
-&gt;&gt;=C2=A0 configure: error: in `/builder/meta-arm/build/tmp/work/corte=
-xa15t2hf-neon-poky-linux-gnueabi/xen-tools/4.17+stableAUTOINC+11560248ff-r0=
-/git/tools&#39;:<br>
-&gt;&gt;=C2=A0 configure: error: C compiler cannot create executables<br>
-&gt;&gt;=C2=A0 See `config.log&#39; for more details<br>
-&gt;&gt;=C2=A0 configure: error: ./configure failed for tools<br>
-&gt;<br>
-&gt;<br>
-&gt;<br>
-&gt; And what=E2=80=99s does config.log say ?<br>
-&gt; Can you post this file somewhere<br>
-&gt;<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; Force all of xen to use gcc until this issue can be resolved.<br>
-&gt;&gt;<br>
-&gt;&gt; Signed-off-by: Jon Mason &lt;<a href=3D"mailto:jdmason@kudzu.us" t=
-arget=3D"_blank">jdmason@kudzu.us</a>&gt;<br>
-&gt;&gt; ---<br>
-&gt;&gt;=C2=A0 recipes-extended/xen/xen.inc | 2 ++<br>
-&gt;&gt;=C2=A0 1 file changed, 2 insertions(+)<br>
-&gt;&gt;<br>
-&gt;&gt; diff --git a/recipes-extended/xen/xen.inc b/recipes-extended/xen/x=
-en.inc<br>
-&gt;&gt; index 5937763a7ddf..dcd281b5a21b 100644<br>
-&gt;&gt; --- a/recipes-extended/xen/xen.inc<br>
-&gt;&gt; +++ b/recipes-extended/xen/xen.inc<br>
-&gt;&gt; @@ -2,6 +2,8 @@ HOMEPAGE =3D &quot;<a href=3D"http://xen.org" rel=
-=3D"noreferrer" target=3D"_blank">http://xen.org</a>&quot;<br>
-&gt;&gt;=C2=A0 LICENSE =3D &quot;GPL-2.0-only&quot;<br>
-&gt;&gt;=C2=A0 SECTION =3D &quot;console/tools&quot;<br>
-&gt;&gt;<br>
-&gt;&gt; +TOOLCHAIN =3D &quot;gcc&quot;<br>
-&gt;&gt; +<br>
-&gt;&gt;=C2=A0 inherit autotools-brokensep pkgconfig<br>
-&gt;&gt;<br>
-&gt;&gt;=C2=A0 require xen-arch.inc<br>
-&gt;&gt; --<br>
-&gt;&gt; 2.30.2<br>
-&gt;&gt;<br>
-</blockquote></div></div>
-
---000000000000829b3f05f2f3224c--
 
