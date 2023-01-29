@@ -1,115 +1,88 @@
-Return-Path: <Martin.Jansa@gmail.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C04CDC54EAA
-	for <webhook@archiver.kernel.org>; Thu, 26 Jan 2023 20:43:45 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web11.85840.1674765820099167231
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31CFAC38142
+	for <webhook@archiver.kernel.org>; Sun, 29 Jan 2023 02:00:48 +0000 (UTC)
+Received: from mail-io1-f43.google.com (mail-io1-f43.google.com [209.85.166.43])
+ by mx.groups.io with SMTP id smtpd.web11.8995.1674957642265968626
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 26 Jan 2023 12:43:40 -0800
+ Sat, 28 Jan 2023 18:00:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=kkaR+UCx;
- spf=pass (domain: gmail.com, ip: 209.85.128.42, mailfrom: martin.jansa@gmail.com)
-Received: by mail-wm1-f42.google.com with SMTP id d4-20020a05600c3ac400b003db1de2aef0so1996093wms.2
-        for <meta-virtualization@lists.yoctoproject.org>; Thu, 26 Jan 2023 12:43:39 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=eCIOFPHg;
+ spf=pass (domain: gmail.com, ip: 209.85.166.43, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-io1-f43.google.com with SMTP id j4so419419iog.8
+        for <meta-virtualization@lists.yoctoproject.org>; Sat, 28 Jan 2023 18:00:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=crFOkX0hJZwTX3wU9bNCFALt0kIYpy4NC1xT4/zoC9c=;
-        b=kkaR+UCxxMAsEDtON9HC1CAAhoo3VPzWkEy4zoDm8pAZcnUcc+mvrvO2y+FUiR20a5
-         SgCbC7gYmlO7H8TIWwtfvc/NUQ3tQuP3DqF9e7QIRSIfQDOmEFpsiwv4DRKehYnQqhjM
-         e7OaNEtvWTy4FXyVmcmPaGiey8Vse3JdhWGL23Qei0dMPHf25Wo8+xuaO4Q2hrfYIrxX
-         RNj17+B/6iHTuHLoR+a5xixxaVxg3VyaDytEK8zronGVMB5NQrQxF+jhQcCxcta1km3V
-         jrjEn9VZIJmlZfOkQzbVG9IIETVtG1OY0beCjqvfNU5lBpD4nFVLSrzUjhIldAbBLd4W
-         xJPQ==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=5HUCnCAedEMH2au+TY12G/NMpfkIg9ayAE5I+XdBJ/U=;
+        b=eCIOFPHgfJKvWjk+BBytdHy7pdPqcnUhSxjTjvkl+Y/wJwEK2orJNKh0rovQO8GxGy
+         xVZqj0A4jyC/D0xscZXTeu1mzI6HW1LOicJj/7AGo1+jG6bfnlX4eTLqjyvB0TtyDkeH
+         pj57gATuURIQ2fYlpibgDc4UmQpLZD7yJghOD4H1n3piNXIr1ZBOXLsYhXV1giRekuBV
+         mSLBuf6FbEJGBtc+eKs0OpFDSxr15lQsh0YbC4yOLOzGKC35KGufbbpX+cDAOt/qaGzX
+         IU7y3X1JnmTItw8roLoZkvriIf8AZHQA/NevpHpRE4Virc9ZLYkSuYY8tLnuvPwhu8A4
+         92ow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=crFOkX0hJZwTX3wU9bNCFALt0kIYpy4NC1xT4/zoC9c=;
-        b=JFKEC/FXfrfz0k85+Sg6EV+HvUZBUPi/wsEZgmBRDOjf4OV4B5F19N324IW/5moEWx
-         loK/mftaigDCYKGXwztQngSpYMlbalzxwjgzNFMJw1DPGLrRECbFWxoEi7cNevkEViy0
-         MTvs5zbMiIybKG6hgaf3I3uwiDy4gFpApZITWe1br0euAXEKjYwA85Qv59Ezf7E2L/lY
-         F/rpbeKGwqJs396iV9cUnyif9ltjgb5Q8U9SFpzDkPXEmmrjIDg+mq8RoTlHM7yWa0iV
-         fbVl+I8aACziqbzMYUC/sw3iLeIfvl3HJRSw/OXBkQ8S+Xj81/Mw4JyWnjupgt5ZPixq
-         rc0Q==
-X-Gm-Message-State: AFqh2kp8IkV2T9gXksjw18mhyvLxJ90TxFof/v0Qa29w/jJKaQZpEdH/
-	m49wn2g66YijZ3hC9zKZGp9MZjlCgkM=
-X-Google-Smtp-Source: AMrXdXsYt+HpJyjOZk6DER+jYHsuolC5WTcKR4+rtfyitJtnwE71DG9+pvOnYSYTZz9ajTOPEMfgBg==
-X-Received: by 2002:a05:600c:1e1d:b0:3cf:674a:aefe with SMTP id ay29-20020a05600c1e1d00b003cf674aaefemr36374828wmb.22.1674765818374;
-        Thu, 26 Jan 2023 12:43:38 -0800 (PST)
-Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id h18-20020a05600c30d200b003c21ba7d7d6sm2276617wmn.44.2023.01.26.12.43.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Jan 2023 12:43:37 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: meta-virtualization@lists.yoctoproject.org
-Cc: Martin Jansa <Martin.Jansa@gmail.com>
-Subject: [meta-virtualization][PATCH] xen: fix Upstream-Status formatting
-Date: Thu, 26 Jan 2023 21:43:33 +0100
-Message-Id: <20230126204333.3183171-1-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.39.1
+        bh=5HUCnCAedEMH2au+TY12G/NMpfkIg9ayAE5I+XdBJ/U=;
+        b=nwalJ4IEZzGkl6w7q6wTHxI7ild0TH3cojsCCd2B7gTy/hxFiNWRxlxrJR2GfdTfI1
+         2v1OKgLVNPNuqj50GS7Yi4mEi9PNggWj8K9+Vg589W6TrIXBMV5SI/FVCUgD84IJRyAE
+         fKe0coFdPjWg1mvAvPCLHJ+G1vqEbSL1m5mGfBYyxHfnL31Dyog4AGIm2vsv9f4IkKvF
+         xkaJpRr1uAZQU8zOoVHI8BWEzbXFIpMlco1WR0EEe9WqG/Z7l5mSgEnh0jLMD5WLE79t
+         K4AHxDt0+hu5uF0vUm8uG2J5IHIda2EkaGIe1j9Ntrvx7bW2X04YTzH7wDQLHXb5eDXK
+         Lc2g==
+X-Gm-Message-State: AO0yUKUIG1KDHAcoIVZJEGQZ2PUoryeQuv8GqaokW8jIe9Sp92sozUhb
+	mcw2GTIQcMbC531Ml4XMT/ljii0tAOAkaFBYQU1fNESx
+X-Google-Smtp-Source: AK7set9wSeEbTGRshOFwRGViYd4FSDD1PtVV+wTpyOw+T3RwUVdIpUDqvITD+i5OfH1FiGdjo6U3dEmFp+40rWXaIDw=
+X-Received: by 2002:a02:ad06:0:b0:3a9:5776:864 with SMTP id
+ s6-20020a02ad06000000b003a957760864mr2210436jan.67.1674957641380; Sat, 28 Jan
+ 2023 18:00:41 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <Y9TpEWXqIvE7MVDF@mail.local>
+In-Reply-To: <Y9TpEWXqIvE7MVDF@mail.local>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Sat, 28 Jan 2023 21:00:30 -0500
+Message-ID: <CADkTA4M+G5u6hQFQO_55hpJyOHByvXryZYTnnvhneUVX1DeX2w@mail.gmail.com>
+Subject: Re: busybox upgrade is going to break meta-virt
+To: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: meta-virtualization@lists.yoctoproject.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Thu, 26 Jan 2023 20:43:45 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/7836
+ <meta-virtualization@lists.yoctoproject.org>; Sun, 29 Jan 2023 02:00:48 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/7837
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- ...ig-mconf-cfg-Allow-specification-of-ncurses-location.patch | 4 ++--
- .../files/0001-python-pygrub-pass-DISTUTILS-xen-4.15.patch    | 2 +-
- recipes-extended/xen/files/xen-flask-race-fix.patch           | 2 +-
- 3 files changed, 4 insertions(+), 4 deletions(-)
+Thanks for the heads up!
 
-diff --git a/recipes-extended/xen/files/0001-menuconfig-mconf-cfg-Allow-specification-of-ncurses-location.patch b/recipes-extended/xen/files/0001-menuconfig-mconf-cfg-Allow-specification-of-ncurses-location.patch
-index 135860a..b871175 100644
---- a/recipes-extended/xen/files/0001-menuconfig-mconf-cfg-Allow-specification-of-ncurses-location.patch
-+++ b/recipes-extended/xen/files/0001-menuconfig-mconf-cfg-Allow-specification-of-ncurses-location.patch
-@@ -3,8 +3,8 @@ From: Bruce Ashfield <bruce.ashfield@windriver.com>
- Date: Mon, 2 Jul 2018 23:10:28 -0400
- Subject: [PATCH] xen: Fix menuconfig and add support for config fragments and
- 
--Upstream-Status: Xen: Inappropriate [oe specific, cross compile issue]
--Upstream-Status: Kernel: Pending
-+Upstream-Status: Inappropriate [oe specific, cross compile issue]
-+
- Signed-off-by: Diego Sueiro <diego.sueiro@arm.com>
- commit e6972e689a980ab28637e94e48c77eeace6abde5
- 
-diff --git a/recipes-extended/xen/files/0001-python-pygrub-pass-DISTUTILS-xen-4.15.patch b/recipes-extended/xen/files/0001-python-pygrub-pass-DISTUTILS-xen-4.15.patch
-index 35cd9a8..476f5dd 100644
---- a/recipes-extended/xen/files/0001-python-pygrub-pass-DISTUTILS-xen-4.15.patch
-+++ b/recipes-extended/xen/files/0001-python-pygrub-pass-DISTUTILS-xen-4.15.patch
-@@ -4,7 +4,7 @@ From: Maciej Pijanowski <maciej.pijanowski@3mdeb.com>
- Date: Fri, 19 Oct 2018 11:01:37 +0200
- Subject: [PATCH] python,pygrub: pass DISTUTILS env vars as setup.py args
- 
--Upstream-Status: Xen: Inappropriate [oe specific, python install issues]
-+Upstream-Status: Inappropriate [oe specific, python install issues]
- 
- Allow to respect the target install dir (PYTHON_SITEPACKAGES_DIR)
- as well as other parameters set by the OpenEmbedded build system.
-diff --git a/recipes-extended/xen/files/xen-flask-race-fix.patch b/recipes-extended/xen/files/xen-flask-race-fix.patch
-index fa2a82f..e4b0e9d 100644
---- a/recipes-extended/xen/files/xen-flask-race-fix.patch
-+++ b/recipes-extended/xen/files/xen-flask-race-fix.patch
-@@ -21,7 +21,7 @@ we need to ignore it in this case. $(MAKECMDGOALS) can't be used in
- this case as it is empty, but we can guess which operation is done by
- looking at the list of loaded makefiles.
- 
--Upstream-Status: backport [https://lore.kernel.org/xen-devel/20230120133626.55680-1-anthony.perard@citrix.com/T/#u]
-+Upstream-Status: Backport [https://lore.kernel.org/xen-devel/20230120133626.55680-1-anthony.perard@citrix.com/T/#u]
- 
- Fixes: 7a3bcd2babcc ("build: build everything from the root dir, use obj=$subdir")
- Reported-by: "Daniel P. Smith" <dpsmith@apertussolutions.com>
+I'll stage the fix on master-next.
+
+Bruce
+
+On Sat, Jan 28, 2023 at 4:21 AM Alexandre Belloni
+<alexandre.belloni@bootlin.com> wrote:
+>
+> Hi Bruce,
+>
+> Just a heads up that I have a busybox upgrade in master-next that is
+> going to break meta-virt:
+>
+> ERROR: ParseError at /home/pokybuild/yocto-worker/meta-virt/build/meta-virtualization/recipes-core/busybox/busybox-initrd_1.35.0.bb:3: Could not include required file recipes-core/busybox/busybox_1.35.0.bb
+>
+> --
+> Alexandre Belloni, co-owner and COO, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
+
+
+
 -- 
-2.39.1
-
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
