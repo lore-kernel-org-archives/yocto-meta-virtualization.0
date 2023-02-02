@@ -1,55 +1,87 @@
-Return-Path: <simonkbaby@gmail.com>
+Return-Path: <mark.hatle@kernel.crashing.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B120DC05027
-	for <webhook@archiver.kernel.org>; Wed,  1 Feb 2023 22:17:31 +0000 (UTC)
-Subject: query on adding docker container images into root file system in yocto build
-To: meta-virtualization@lists.yoctoproject.org
-From: "SIMON BABY" <simonkbaby@gmail.com>
-X-Originating-Location: San Diego, California, US (130.50.200.1)
-X-Originating-Platform: Windows Chrome 109
-User-Agent: GROUPS.IO Web Poster
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F95EC61DA4
+	for <webhook@archiver.kernel.org>; Thu,  2 Feb 2023 20:51:35 +0000 (UTC)
+Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
+ by mx.groups.io with SMTP id smtpd.web11.3277.1675371087051618104
+ for <meta-virtualization@lists.yoctoproject.org>;
+ Thu, 02 Feb 2023 12:51:27 -0800
+Authentication-Results: mx.groups.io;
+ dkim=missing; spf=pass (domain: kernel.crashing.org, ip: 63.228.1.57, mailfrom: mark.hatle@kernel.crashing.org)
+Received: from [192.168.2.41] ([70.99.78.137])
+	by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 312KpPsN004928
+	for <meta-virtualization@lists.yoctoproject.org>; Thu, 2 Feb 2023 14:51:26 -0600
+Message-ID: <dda91366-c250-a853-576c-388e8a168cab@kernel.crashing.org>
+Date: Thu, 2 Feb 2023 14:51:24 -0600
 MIME-Version: 1.0
-Date: Wed, 01 Feb 2023 14:17:27 -0800
-Message-ID: <XesG.1675289847204780228.Xz9C@lists.yoctoproject.org>
-Content-Type: multipart/alternative; boundary="irPuWMJc7eEq1FwBvX2A"
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.4.1
+Content-Language: en-US
+To: "meta-virtualization@lists.yoctoproject.org"
+ <meta-virtualization@lists.yoctoproject.org>
+From: Mark Hatle <mark.hatle@kernel.crashing.org>
+Subject: [meta-virtualization] QEMU vmsep/virtfs setting
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Wed, 01 Feb 2023 22:17:31 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/7841
+ <meta-virtualization@lists.yoctoproject.org>; Thu, 02 Feb 2023 20:51:35 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/7842
 
---irPuWMJc7eEq1FwBvX2A
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+I've encountered an issue.  When I build nativesdk-qemu for mingw32 target I'm 
+getting a failure.  Below is my attempt to figure out what is going wrong.
 
-Hello team,
-My name is simon and I am new to this group. I have a query below. Can some=
-one please help.
+nativesdk-qemu is depending on libcap-ng for some reason, which does not compile 
+for mingw32.  Looking into how this dependency is coming about what appears to 
+be happening is "virtfs" support is being enabled which triggers the dependency.
 
-My requirement is to create docker image from Dockerfile for some applicati=
-ons and add in to the root file system. Once the root file system is downoa=
-ded into the target , I could use docker load/import the image. I have othe=
-r applications also which are non containers. I would like to know the easi=
-set way to do this in yocto. It will be great to send some sample recipe as=
- well.
+Looking at the bitbake -e output, what I see is:
 
-Regards
-Simon
+https://git.yoctoproject.org/meta-virtualization/tree/recipes-devtools/qemu/qemu-package-split.inc#n46
 
---irPuWMJc7eEq1FwBvX2A
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+This is running for me in both the target and nativesdk configurations.  Trying 
+to understand why it's enable, go back to the caller:
 
-Hello team,<br />My name is simon and I am new to this group. I have a quer=
-y below. Can someone please help.<br /><br />My requirement is to create do=
-cker image from Dockerfile for some applications and add in to the root fil=
-e system. Once the root file system is downoaded into the target , I could =
-use docker load/import the image. I have other applications also which are =
-non containers. I would like to know the easiset way to do this in yocto. I=
-t will be great to send some sample recipe as well.<br /><br />Regards<br /=
->Simon<br />
+https://git.yoctoproject.org/meta-virtualization/tree/recipes-devtools/qemu/qemu_%25.bbappend
 
---irPuWMJc7eEq1FwBvX2A--
+It SHOULD only be loading that file if 'vmsep' is enabled, but I believe due to 
+the way bitbake, oe-core and BBCLASSEXTEND works, the nativesdk file includes 
+work the same way for both target and nativesdk.  Looking at my DISTRO_FEATURES, 
+my target does include 'vmsep', but my nativesdk does not.
+
+So hopefully this explains the failure, the target has vmsep, so the require 
+always kicks in, which causes 'virtfs' to always be added to the configuration.
+
+I see two possible solutions to this:
+
+1) Make the virtfs class-target specific.  This would match the prior lines and 
+how they are arranged.  However, it's unclear to me if this was intended to be 
+target specific or also alter and SDKs configuration.
+
+2) Only enable virtfs for a Linux system (target or nativesdk), I think this can 
+be done using an override one way or another.
+
+So for #1 the change would be something like:
+
+-PACKAGECONFIG:append = " virtfs"
++PACKAGECONFIG:append:class-target = " virtfs"
+
+
+So for #2 the change would be something like:
+
+-PACKAGECONFIG:append = " virtfs"
++ENABLE_VIRTFS = " virtfs"
++ENABLE_VRITFS:sdkmingw32 = ""
++
++PACKAGECONFIG:append = "${ENABLE_VIRTFS}"
+
+
+I'm happy to submit a proper pull request, but I'm not sure what direction to go 
+to fix this.
+
+Thanks!
+--Mark
 
