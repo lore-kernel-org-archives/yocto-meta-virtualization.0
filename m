@@ -1,174 +1,153 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <simonkbaby@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 429B6C05027
-	for <webhook@archiver.kernel.org>; Fri, 10 Feb 2023 14:29:56 +0000 (UTC)
-Received: from mail-io1-f53.google.com (mail-io1-f53.google.com [209.85.166.53])
- by mx.groups.io with SMTP id smtpd.web11.16179.1676039394667805528
- for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 10 Feb 2023 06:29:54 -0800
-Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=SxAjLD4A;
- spf=pass (domain: gmail.com, ip: 209.85.166.53, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-io1-f53.google.com with SMTP id y7so1987349iob.6
-        for <meta-virtualization@lists.yoctoproject.org>; Fri, 10 Feb 2023 06:29:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=zOQBJk2vaLizT1T9+v7bY2haQ5VJmoAcMy+Z70Zl2vg=;
-        b=SxAjLD4ABsj9/0E/FG7LV7lDXudagqcZpxSnoEGwfPV3uQfcIX1kpe8eDOhY+r/fs+
-         Ies+iJVGrWCuGKKqvxy9JzteTRsuJQNc4oVJbxLZNd7da+Nx+CDL/SMHgycU6KDjNgTw
-         8W3vbSfIG1kFUdP4JcqIUMzXZ/A4QncHBXrGlAFq1b03blMLparTKhPi3NywmF4i1EIs
-         PrbyhmQz6d0hm5DaWXXziRfait1ZcuuBJQ9lMDYKnZ7BZIcReoO6XeA/aFBwYzVob904
-         vyd6ZFCQwaWKwQPbDVP8KbJMqf9XITLkwZt8Svq1DtlabeCpGWSJzWeSZbexrxw0H2g2
-         qdzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=zOQBJk2vaLizT1T9+v7bY2haQ5VJmoAcMy+Z70Zl2vg=;
-        b=jeuoYOBieQnxankJgRZGf8GwLgBk8zYavNTN3YXyJ/4OZ9uiNehGH2zSiHsb1UL6K9
-         wUr60sfTo4JAgF2SKQBEyGJ0Mz6wPQxssFqav6hMb+T7c7xWDu851cJUoLvblOi7rGhJ
-         wnXRgx9fgkITc0fsOvmJ7gELorpD9Vl7TubmKcie9zfKNW9rFnX2oLYJXDRpdEHKIcnZ
-         Fgk+96v6dexv6fgFDg3Z3XTK+cmaDImhVUcLYyspyA0XOztrHOQidY3oWcjOfjBdOTrg
-         my3ViVC4jot9p1QSeJacJKkdXmFrwEgwoYljoJ5SPG/0CoX4Rg34ru9KkTCHJ9+rTy0q
-         GvxQ==
-X-Gm-Message-State: AO0yUKUp3KUlJW/E31SPWnOZPzmL/Tn2zttpOZNPGqSGdIPxL7hrbENQ
-	YV2nMsju3ay//mAYn2pyakBU/G0Mt9ieOVAoZLA=
-X-Google-Smtp-Source: AK7set9C7Nks1wrjVHWui/nMcucclqRvX6qGN43QRCcf1FV0aKjp/yt3DV9jE03tvcUL09yMgxOu3J9uLo8Nei0pDu8=
-X-Received: by 2002:a6b:e019:0:b0:717:58a7:a219 with SMTP id
- z25-20020a6be019000000b0071758a7a219mr7812380iog.24.1676039393815; Fri, 10
- Feb 2023 06:29:53 -0800 (PST)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BE6CC636CC
+	for <webhook@archiver.kernel.org>; Tue, 14 Feb 2023 00:51:11 +0000 (UTC)
+Subject: Re: query on container demo
+To: meta-virtualization@lists.yoctoproject.org
+From: "SIMON BABY" <simonkbaby@gmail.com>
+X-Originating-Location: San Diego, California, US (130.50.200.1)
+X-Originating-Platform: Windows Chrome 109
+User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-References: <CAEFUPH1Yj9ZmOHRfuaHHcUmFPC+kvxb0ebM5pjFS7Dhr4iuaMA@mail.gmail.com>
-In-Reply-To: <CAEFUPH1Yj9ZmOHRfuaHHcUmFPC+kvxb0ebM5pjFS7Dhr4iuaMA@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Fri, 10 Feb 2023 09:29:42 -0500
-Message-ID: <CADkTA4PKZpAkN=vtAdEkjWr+udfSHEg7NfyeOKcj8qQz27+yww@mail.gmail.com>
-Subject: Re: [meta-virtualization] query on container demo
-To: SIMON BABY <simonkbaby@gmail.com>
-Cc: meta-virtualization@lists.yoctoproject.org
-Content-Type: text/plain; charset="UTF-8"
+Date: Mon, 13 Feb 2023 16:51:10 -0800
+References: <CADkTA4PKZpAkN=vtAdEkjWr+udfSHEg7NfyeOKcj8qQz27+yww@mail.gmail.com>
+In-Reply-To: <CADkTA4PKZpAkN=vtAdEkjWr+udfSHEg7NfyeOKcj8qQz27+yww@mail.gmail.com>
+Message-ID: <21754.1676335870049801294@lists.yoctoproject.org>
+Content-Type: multipart/alternative; boundary="VhhvFpHt84RMHeshGKYQ"
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Fri, 10 Feb 2023 14:29:56 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/7850
+ <meta-virtualization@lists.yoctoproject.org>; Tue, 14 Feb 2023 00:51:11 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/7851
 
-On Thu, Feb 9, 2023 at 2:02 PM SIMON BABY <simonkbaby@gmail.com> wrote:
->
-> I was testing the meta-virtualization/recipes-demo/images/ app-container. I was able to build the container. But I am not sure where the image is created  and how we run the image using docker commands. I also see the .yaml files. Can you please help?
->
+--VhhvFpHt84RMHeshGKYQ
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-Those application containers are in the oci-image format. The yaml
-files are sample kubernetes deploy instructions, so unless you are
-using kubernetes, they won't be of any help.
+Hi bruce,
+I was able to build the container image in .tar.bz2 format and able to down=
+load into the target as part of root file system. When I tried to=C2=A0 run=
+ the image on the target, am getting the bloew error. I used docker import =
+command to get the image from .tar.bz2 file. Below is the error. Is this so=
+mething related wth permission issue?
 
-As for the OCI image files, how you get them onto the target is image
-and distro specific.
+[=C2=A0 790.575751] docker0: port 1(veth092c057) entered blocking state
 
-As of right now, we don't fully support (I have some work in progress
-code that I expect to get into the tree for the upcoming release)
-cross loading of containers. Mainly due to the need for root
-permissions on the build host, and other issues with namespaces,
-users, etc.
+[=C2=A0 790.575813] docker0: port 1(veth092c057) entered disabled state
 
-Some common ways to use the OCI images are by copying them to a
-registry via skopeo (or whatever tool you want), or you can arrange to
-have the containers installed into the image (via mulitconfig, or
-rootfs post processing), and load them via podman/docker/etc, on the
-first boot.
+[=C2=A0 790.576071] device veth092c057 entered promiscuous mode
 
-There are LOTS of different ways that you'll see the containers being
-manipulated, most of them are very specific to the requirements of a
-distro, or use some sort of workarounds to permissions issues.
+[=C2=A0 790.576258] audit: type=3D1700 audit(1676334388.308:51): dev=3Dveth=
+092c057 prom=3D256 old_prom=3D0 auid=3D4294967295 uid=3D0 gid=3D0 ses=3D429=
+4967295
 
-Again, I'm trying to introduce a supported / standard way to cross
-load our OCI generated containers, but that won't be ready for a bit
-yet.
+[=C2=A0 790.578895] audit: type=3D1300 audit(1676334388.308:51): arch=3Dc00=
+000b7 syscall=3D206 success=3Dyes exit=3D40 a0=3De a1=3D40004cdef0 a2=3D28 =
+a3=3D0 items=3D0 ppid=3D1 pid=3D435 auid=3D4294967295 uid=3D0 gid=3D0 euid=
+=3D0 suid=3D0 fsuid=3D0 egid=3D0 sgid=3D0 fsgid=3D0 tty=3D(none) ses=3D4294=
+967295 comm=3D"dockerd" exe=3D"/usr/bin/dockerd" key=3D(null)
 
-Bruce
+[=C2=A0 790.579931] audit: type=3D1327 audit(1676334388.308:51): proctitle=
+=3D2F7573722F62696E2F646F636B657264002D480066643A2F2F
 
-> On the target I can see /usr/bin/flask-app.
->
->
->
-> bitbake app-container
->
->
-> The generated build foles are below.
->
->
->
-> build/tmp/work/armv8a-poky-linux/helloworld-flask$ ls
->
-> 0.1-r0
->
-> /build/tmp/work/armv8a-poky-linux/helloworld-flask$ cd 0.1-r0/
->
-> build/tmp/work/armv8a-poky-linux/helloworld-flask/0.1-r0$ ls -ll
->
-> total 84
->
-> -rw-r--r--  1 tdydev tdydev    65 Feb  7 11:58 configure.sstate
->
-> drwxr-xr-x  3 tdydev tdydev  4096 Feb  7 12:10 deploy-debs
->
-> drwxr-xr-x  2 tdydev tdydev  4096 Feb  7 11:38 deploy-source-date-epoch
->
-> -rwxrwxr-x  1 tdydev tdydev   518 Feb  2 14:24 flask-app
->
-> -rw-r--r--  1 tdydev tdydev   511 Feb  7 11:58 flask-app-service.yaml
->
-> -rw-r--r--  1 tdydev tdydev   178 Feb  7 11:58 flask-app.yaml
->
-> drwxr-xr-x  2 tdydev tdydev  4096 Feb  7 11:35 helloworld-flask-0.1
->
-> drwxr-xr-x  4 tdydev tdydev  4096 Feb  7 11:58 image
->
-> drwxr-xr-x  3 tdydev tdydev  4096 Feb  7 11:38 license-destdir
->
-> drwxr-xr-x  4 tdydev tdydev  4096 Apr  5  2011 package
->
-> drwxr-xr-x 10 tdydev tdydev  4096 Feb  7 12:10 packages-split
->
-> drwxr-xr-x  7 tdydev tdydev  4096 Apr  5  2011 pkgdata
->
-> drwxr-xr-x  7 tdydev tdydev  4096 Feb  7 11:58 pkgdata-pdata-input
->
-> drwxr-xr-x  7 tdydev tdydev  4096 Feb  7 11:58 pkgdata-sysroot
->
-> drwxrwxr-x  2 tdydev tdydev  4096 Feb  7 12:10 pseudo
->
-> drwxr-xr-x  5 tdydev tdydev  4096 Feb  7 12:10 recipe-sysroot
->
-> drwxr-xr-x  8 tdydev tdydev  4096 Feb  7 12:10 recipe-sysroot-native
->
-> drwxr-xr-x  2 tdydev tdydev  4096 Feb  7 11:35 source-date-epoch
->
-> drwxr-xr-x  2 tdydev tdydev 12288
->
->
-> Regards
->
-> Simon
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#7849): https://lists.yoctoproject.org/g/meta-virtualization/message/7849
-> Mute This Topic: https://lists.yoctoproject.org/mt/96860300/1050810
-> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+[=C2=A0 790.818439] docker0: port 1(veth092c057) entered disabled state
 
+[=C2=A0 790.850282] device veth092c057 left promiscuous mode
 
---
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+[=C2=A0 790.850331] docker0: port 1(veth092c057) entered disabled state
+
+[=C2=A0 790.850350] audit: type=3D1700 audit(1676334388.544:52): dev=3Dveth=
+092c057 prom=3D0 old_prom=3D256 auid=3D4294967295 uid=3D0 gid=3D0 ses=3D429=
+4967295
+
+[=C2=A0 790.881294] audit: type=3D1300 audit(1676334388.544:52): arch=3Dc00=
+000b7 syscall=3D206 success=3Dyes exit=3D32 a0=3De a1=3D400014da20 a2=3D20 =
+a3=3D0 items=3D0 ppid=3D1 pid=3D435 auid=3D4294967295 uid=3D0 gid=3D0 euid=
+=3D0 suid=3D0 fsuid=3D0 egid=3D0 sgid=3D0 fsgid=3D0 tty=3D(none) ses=3D4294=
+967295 comm=3D"dockerd" exe=3D"/usr/bin/dockerd" key=3D(null)
+
+[=C2=A0 790.881312] audit: type=3D1327 audit(1676334388.544:52): proctitle=
+=3D2F7573722F62696E2F646F636B657264002D480066643A2F2F
+
+*docker: Error response from daemon: failed to create shim task: OCI runtim=
+e create failed: runc create failed: unable to start container process: can=
+'t get final child's PID from pipe: EOF: unknown.*
+
+ERRO[0000] error waiting for container: context canceled
+
+I notice that when I run docker load command, i got the below error. But do=
+cker import command was success.
+
+docker load < /usr/bin/container-test-imx8mpevk.tar.bz2
+
+open /var/lib/docker/tmp/docker-import-1198093330/etc/json: no such file or=
+ directory
+
+Regards
+Simon
+
+--VhhvFpHt84RMHeshGKYQ
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hi bruce,<br/>I was able to build the container image in .tar.bz2 format an=
+d able to download into the target as part of root file system. When I trie=
+d to=C2=A0 run the image on the target, am getting the bloew error. I used =
+docker import command to get the image from .tar.bz2 file. Below is the err=
+or. Is this something related wth permission issue?<br/><br/>
+<p class=3D"DefangedMsoNormal" style=3D"margin:0px;">[=C2=A0 790.575751] do=
+cker0: port 1(veth092c057) entered blocking state</p>
+<p class=3D"DefangedMsoNormal" style=3D"margin:0px;">[=C2=A0 790.575813] do=
+cker0: port 1(veth092c057) entered disabled state</p>
+<p class=3D"DefangedMsoNormal" style=3D"margin:0px;">[=C2=A0 790.576071] de=
+vice veth092c057 entered promiscuous mode</p>
+<p class=3D"DefangedMsoNormal" style=3D"margin:0px;">[=C2=A0 790.576258] au=
+dit: type=3D1700 audit(1676334388.308:51): dev=3Dveth092c057 prom=3D256 old=
+_prom=3D0 auid=3D4294967295 uid=3D0 gid=3D0 ses=3D4294967295</p>
+<p class=3D"DefangedMsoNormal" style=3D"margin:0px;">[=C2=A0 790.578895] au=
+dit: type=3D1300 audit(1676334388.308:51): arch=3Dc00000b7 syscall=3D206 su=
+ccess=3Dyes exit=3D40 a0=3De a1=3D40004cdef0 a2=3D28 a3=3D0 items=3D0 ppid=
+=3D1 pid=3D435 auid=3D4294967295 uid=3D0 gid=3D0 euid=3D0 suid=3D0 fsuid=3D=
+0 egid=3D0 sgid=3D0 fsgid=3D0 tty=3D(none) ses=3D4294967295 comm=3D&#34;doc=
+kerd&#34; exe=3D&#34;/usr/bin/dockerd&#34; key=3D(null)</p>
+<p class=3D"DefangedMsoNormal" style=3D"margin:0px;">[=C2=A0 790.579931] au=
+dit: type=3D1327 audit(1676334388.308:51): proctitle=3D2F7573722F62696E2F64=
+6F636B657264002D480066643A2F2F</p>
+<p class=3D"DefangedMsoNormal" style=3D"margin:0px;">[=C2=A0 790.818439] do=
+cker0: port 1(veth092c057) entered disabled state</p>
+<p class=3D"DefangedMsoNormal" style=3D"margin:0px;">[=C2=A0 790.850282] de=
+vice veth092c057 left promiscuous mode</p>
+<p class=3D"DefangedMsoNormal" style=3D"margin:0px;">[=C2=A0 790.850331] do=
+cker0: port 1(veth092c057) entered disabled state</p>
+<p class=3D"DefangedMsoNormal" style=3D"margin:0px;">[=C2=A0 790.850350] au=
+dit: type=3D1700 audit(1676334388.544:52): dev=3Dveth092c057 prom=3D0 old_p=
+rom=3D256 auid=3D4294967295 uid=3D0 gid=3D0 ses=3D4294967295</p>
+<p class=3D"DefangedMsoNormal" style=3D"margin:0px;">[=C2=A0 790.881294] au=
+dit: type=3D1300 audit(1676334388.544:52): arch=3Dc00000b7 syscall=3D206 su=
+ccess=3Dyes exit=3D32 a0=3De a1=3D400014da20 a2=3D20 a3=3D0 items=3D0 ppid=
+=3D1 pid=3D435 auid=3D4294967295 uid=3D0 gid=3D0 euid=3D0 suid=3D0 fsuid=3D=
+0 egid=3D0 sgid=3D0 fsgid=3D0 tty=3D(none) ses=3D4294967295 comm=3D&#34;doc=
+kerd&#34; exe=3D&#34;/usr/bin/dockerd&#34; key=3D(null)</p>
+<p class=3D"DefangedMsoNormal" style=3D"margin:0px;">[=C2=A0 790.881312] au=
+dit: type=3D1327 audit(1676334388.544:52): proctitle=3D2F7573722F62696E2F64=
+6F636B657264002D480066643A2F2F</p>
+<p class=3D"DefangedMsoNormal" style=3D"margin:0px;"><strong><span style=3D=
+"color: red;">docker: Error response from daemon: failed to create shim tas=
+k: OCI runtime create failed: runc create failed: unable to start container=
+ process: can&#39;t get final child&#39;s PID from pipe: EOF: unknown.</spa=
+n></strong></p>
+<p class=3D"DefangedMsoNormal" style=3D"margin:0px;">ERRO[0000] error waiti=
+ng for container: context canceled<br/><br/>I notice that when I run docker=
+ load command, i got the below error. But docker import command was success=
+.<br/><br/></p>
+<p class=3D"DefangedMsoNormal" style=3D"margin:0px;">docker load &lt; /usr/=
+bin/container-test-imx8mpevk.tar.bz2</p>
+<p class=3D"DefangedMsoNormal" style=3D"margin:0px;">open /var/lib/docker/t=
+mp/docker-import-1198093330/etc/json: no such file or directory</p>
+<p class=3D"DefangedMsoNormal" style=3D"margin:0px;"><br/>Regards<br/>Simon=
+</p>
+
+--VhhvFpHt84RMHeshGKYQ--
 
