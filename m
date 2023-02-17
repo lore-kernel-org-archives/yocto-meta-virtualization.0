@@ -1,152 +1,191 @@
-Return-Path: <Qi.Chen@windriver.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46C0DC05027
-	for <webhook@archiver.kernel.org>; Fri, 17 Feb 2023 14:25:04 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.7490.1676643897828521215
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66EA0C05027
+	for <webhook@archiver.kernel.org>; Fri, 17 Feb 2023 14:27:04 +0000 (UTC)
+Received: from mail-io1-f53.google.com (mail-io1-f53.google.com [209.85.166.53])
+ by mx.groups.io with SMTP id smtpd.web11.7529.1676644018397609461
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 17 Feb 2023 06:24:57 -0800
+ Fri, 17 Feb 2023 06:26:58 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=oiMboBD3;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=14120bd938=qi.chen@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 31HDO3mb005123
-	for <meta-virtualization@lists.yoctoproject.org>; Fri, 17 Feb 2023 06:24:57 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to :
- subject : date : message-id : content-transfer-encoding : content-type :
- mime-version; s=PPS06212021;
- bh=YUurlsDnmZe4MtIjsQzAQTSuEcsy6XvMtY3ld2p2w1w=;
- b=oiMboBD38F5/5y2RBle8UAwK+g5r32HkKAkGx4sbiIzWLkREWbAx9M11KMo0UV+SYJYd
- eQvu/tzQ1o16eT0Xc6qWUWd8U9+E+FakFEEMy+KILV3uURFoGbDtPVFjxtZPPHH6WIfm
- ZdNCqaKdPHI6WtrdRfL7ake6g64q9EMgyRrSdebOQwzk/EtbsSSJ1hvX0PwVywrwwgmW
- 8VWe3bY2O8qoRCg/flKZCs3kcUfgVqSEAcE2P9FmHpHZChEt3T82mOa/vccEy58H40BJ
- 96yfyjp7hA1sNnGU07A+LlSBVnZhQoI/rybAJ5DJJ5JshITGfP4AlBaPnqjSFaLBXbgt eQ== 
-Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10lp2109.outbound.protection.outlook.com [104.47.70.109])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3nsc111hkd-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <meta-virtualization@lists.yoctoproject.org>; Fri, 17 Feb 2023 06:24:57 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UdG0NmPDmiXd/U+2KlQIm6TeniGO8Ek4g73Rg1EiUxPOtWIAv41fS0+Q2FLvvBlqxpwFuN0HWa0/QDFEOYWN2POLSstxV7Ro4H8mwxaTYIzhJ9TOSnnZxl+IvtX5k3fqA9fCfeVtrb208B0PitPyaKPC1L/PWoB80UHK1pyjPD9k7seHYbnrmwcULZOAdbCbRtfubSJkPjV5VNA8vLvmeplLmpUuo9M9mCPvwGiooe9dizzouIBlDYe3vYJw6FxCy/bdRqMVvZbsJf56/nuXVZngVUFIw+Rz+/3akveNNHKZFCVj3MBzrax/uxCecgSUz0e4x1K3LUDwwUAZSABQcQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YUurlsDnmZe4MtIjsQzAQTSuEcsy6XvMtY3ld2p2w1w=;
- b=J0oHzjB3qUXMEW2ZKZshjZWFt+an0bo5h9ZV4AFut3u+yINWRKZMUVjiSc95UsdlKE2lh7heHUwWO5KkXwjLl7Uhxksb0HKoHU1V4A+tv3ozApVrymRlLjziR01F2eZTuDMk/rFiz9gtLoGbFAnOx0LptT4O6cEWymPPKAzfdX3u8ubmiGZJ1MoaO2brK/APPucgGpJgDgWyekGh4WOEyJGrWQ/z7XR4C99HuIL2vPFwho3ImrkYhU6UH4zkIJFNAZ6AvEh4nKkXy8qj/ikFgzwZgbFstbbAm3i3+bVRfAYqSZjKDWCQo/geaAT6QIoCqfFeoyWt+3nHuIov2ujHWg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
- by PH7PR11MB8010.namprd11.prod.outlook.com (2603:10b6:510:249::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.15; Fri, 17 Feb
- 2023 14:24:55 +0000
-Received: from CO6PR11MB5602.namprd11.prod.outlook.com
- ([fe80::7785:8a09:29b7:44a3]) by CO6PR11MB5602.namprd11.prod.outlook.com
- ([fe80::7785:8a09:29b7:44a3%6]) with mapi id 15.20.6111.017; Fri, 17 Feb 2023
- 14:24:55 +0000
-From: Chen Qi <Qi.Chen@windriver.com>
-To: meta-virtualization@lists.yoctoproject.org
-Subject: [meta-virtualization][PATCH V2] README: remove some cri-o specific layer dependencies
-Date: Fri, 17 Feb 2023 06:24:26 -0800
-Message-Id: <20230217142426.93531-1-Qi.Chen@windriver.com>
-X-Mailer: git-send-email 2.37.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: BY3PR04CA0018.namprd04.prod.outlook.com
- (2603:10b6:a03:217::23) To CO6PR11MB5602.namprd11.prod.outlook.com
- (2603:10b6:303:13a::5)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=SIXlFnnO;
+ spf=pass (domain: gmail.com, ip: 209.85.166.53, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-io1-f53.google.com with SMTP id 79so599615iou.12
+        for <meta-virtualization@lists.yoctoproject.org>; Fri, 17 Feb 2023 06:26:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=f7sATpQRLdZ4OfHgFy/LBFpzcpgOoghnODRkrBt5OJs=;
+        b=SIXlFnnOVCBePnQZxPgV/A4M4PJ2Fdzm0Z2zwRUBEUQvv4eRVnCbCaiJ+hx9wu9PDP
+         aCIp8P94+gb6Pd5TR3RGPCY/s2RdOq5YoZ85GdgY1aZPKvDLI5jTDgILWr/5/hu0BM19
+         TkAIzjWva9TUmlMEjMkX3XwJG3GMUh6Pe45tBEIXGaESXuKQPU2boGNbJSHZ8UhixKG1
+         wy/C7/CgSQg+sgQTjSUOULSIUe28dsoM2VX00leZS5tpb4qCSnP6+uDi5DZPjfcfRGVC
+         OCIeHoiYgnc93UryAn6/Zu36wHN7W4CBk/Y5okcFN5xjdUgrRcQV54IDNJvUzhHN/Mob
+         /KtQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=f7sATpQRLdZ4OfHgFy/LBFpzcpgOoghnODRkrBt5OJs=;
+        b=BcX6Kg9CyU/yYkY2djxjgHQ6i6oH8NcIv+rlEVsrZlTBkkEBDAmfQEVxRmaNKOWeBR
+         O4EP5vKYD12wD4d88DHBO96Fnu+REbl1gkx9mFZEIlB0lvwc8g3795q6oiGn+nJi01Z7
+         V/BsdRBdrUMq2P6iKTRKD8FTFXyvHwW/ifc35emQW6uaiAaBjdF1yATFYRK9hEE+592e
+         wITWP5FkLs28fOvqfYGMaZ74lkX8HBMg4Sc9bjl59r0bi76XkkZsf5Z+l9rU2ul2ULvX
+         S7pEgcIW9s0NPxhp9k6Uze1HY6kvFSGe6o39mH4FwyUyLLQidpKX+QGuvqeUYXVMTVsl
+         FZ+Q==
+X-Gm-Message-State: AO0yUKXoFmGHqZfWOpkowmS4Ly+tO1qanvG7/D3ndEryv0wD5H0z/8Z3
+	mdN3/qHX53YxBtAP3Amw29athtjsIv4LU39yCbQACpX1ptE=
+X-Google-Smtp-Source: AK7set/vlEjmdjYv3QYUCvLBnSVVxnMymffksFQAO7gYzYrwcgAWQI5ZpQDUdVqXyXAaWGlxTAMqq5XRmoDyYEmZbEM=
+X-Received: by 2002:a5d:8254:0:b0:71c:1bd4:b768 with SMTP id
+ n20-20020a5d8254000000b0071c1bd4b768mr2922939ioo.84.1676644017500; Fri, 17
+ Feb 2023 06:26:57 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO6PR11MB5602:EE_|PH7PR11MB8010:EE_
-X-MS-Office365-Filtering-Correlation-Id: 981ab950-103a-4a56-8d3b-08db10f2bdb9
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	Pk3nNUNwKOHGVeGb/1S7JGPmAArBL1ETvH/mvThrUv31wHrBuIpBEhc7pWgVwXhxtp483tpOvP2ZJjKd1H4pyidWCgY/mznE08s7K4cgFu0gl5R7BJEp/XhcR1hLXm6cYw55mYxugnsueXhRY8hILpfoReK0pfLJIZS3gBUnEVZqAYS0AKEt0WkMl/nQp5JekflbY80KUFdwK4qHJ3kPLZ0ZcunaMhCqWxJFNoAdDXiVQ+mbSsMYQco9ct8lcrveIAI084yrqOvsyG8GG8gUCv/VsGSS4Q/EsMTzTdsTae02u3g+6rSHM4SQ218SngXv/jZyP4VXYhh9svAKrz2GpmZ8CocXYoD/aUmx3ALEj9Bnz0KSkUcAy4lYoASnXuYdMneaYR59xkrZkSvDjdnJHQuQayWElDhghtC95aZQJtSY9xxqstm7GoM92Api0o5IfjBkSFPdbfQSt7LB/RVkMeNETbBPAOtKX8gqaW4Sof+rYda752NIHnHJg0ymYCxi9dfFZ8eSkkQ3T+bDJylRDcY1tm4nV0NREFI0fLrI2vmM1uGiANoiQZLuVRDvUEJLOpZQtUWVSR+3icONpGYLW8B0P0RWpvpaxJEmjhwDa/6Pohwhj5oUvpP+GuErSBqmMTFM1lRNvBx5mMGxGm/3bLXldTxoCfaiWhENCJkpUqXhaLEzR4s6YU6adHMS4w28bER848nrCSMSuXbt1Rq8sw==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(396003)(376002)(346002)(136003)(366004)(39850400004)(451199018)(38350700002)(38100700002)(36756003)(316002)(6486002)(478600001)(52116002)(83380400001)(6666004)(2616005)(6512007)(186003)(1076003)(6506007)(2906002)(4744005)(5660300002)(26005)(8936002)(41300700001)(6916009)(66946007)(8676002)(86362001)(66476007)(66556008);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?6T3ZNyi897jLTd8niavBm7UQfMKKo5fGX+JWVB3ytZ/4OtUH6VNcvFGuRazx?=
- =?us-ascii?Q?bXGzw+zcvxJJZFQRegc+JrDuVmSPlFUllyedWlrZmjmp9Yx3k6vpMsd9c03h?=
- =?us-ascii?Q?FSATNOzuNkei5YY4t25wt63YAsfVnF4AFXXWVadb9hrAF5fLX513qc1ivLo3?=
- =?us-ascii?Q?DXviSLNsgZ12TK8tLYinBMMh1Rggn5rImUlFoEvt3rJ9hcB+Ijuvl3xvpjaf?=
- =?us-ascii?Q?1wRnwzJvi1DAgxUTAXuq9MU5HUAhZZY0F8mP9r0FQ4XaIaUkCLFzj6QESG3P?=
- =?us-ascii?Q?0ZvQUOV1dMpAHNCd366qWUMHfyfgCloBAYkFksMFyE7BTUBO1vZKtnN22pqr?=
- =?us-ascii?Q?vx4xzVyRJvA8XWfStz1e/enAPlv5iF5r20VuDbslVehF/93GqVaQID9UUbHK?=
- =?us-ascii?Q?TvuidcQfEb7iUKeq7QlznyVFpnlae0G2ktnrXGA/giKB/OIv+PU8MDpgEowL?=
- =?us-ascii?Q?b8/WYK1ybVnfiFS8QGx1Csh5JVLPpJfZ1+KFcH/WR6rwvJtyHURpW5i3np+T?=
- =?us-ascii?Q?b1Nh25qsXs3a0k6oK+wfJ0r4zB62YJyxWN6PLNzEu25gOK3Xb159XiyQe9CE?=
- =?us-ascii?Q?NV1G0Rr+oRUmq7sjDGz1yOZTGcLoOsKXnFS7rAU3gsNm7AN/vOpfwPfUNpdL?=
- =?us-ascii?Q?2qsZHgdcWTMYNLwnN+Uqpr/cMOv5gVtvFjXv6mQNnkV7XrwH8cu9v7BKJfeh?=
- =?us-ascii?Q?o+F3fSrNRF3JkQH/OcNI0EZ2WqpeBJtLMs1OAbLrEdm3oaHWlLCvyR8FQVbd?=
- =?us-ascii?Q?ZOBhes3VquPqvvCyp267fUj3KorwCa53Yf9cCBshqe49uA+PJ/KpX4rwkM4T?=
- =?us-ascii?Q?ZdI7JGjA/Yb7wyZfjo2mvlgtbmLimVUmDKU30M7PBr3LGP8kksxT0Xfj6ioq?=
- =?us-ascii?Q?ODirV2M1wlriS+/zlo4wLwio4Lm6wbsY9lU5DZdErORxHxcQVN4Anu99C/vp?=
- =?us-ascii?Q?B4ypGLx7z+OdYXljaX1VkeDiOUP+6wvgZ5rB+pZ60ct2qH4T8MQBp+OaG7Ob?=
- =?us-ascii?Q?FldT8hzwTnrwwzE/NPi3fGWw4kiR+KEbfpPSNpOM71PlpgZtJMcO1KVbQKAZ?=
- =?us-ascii?Q?8eF+2aNIqm8Vkfyu535M+y5ugaTkwzgk5QWOJq12a/aGnc+QICm4wZhPLxs5?=
- =?us-ascii?Q?E5JlTglTz9dNHKN9nzin8GGtHyKukBg2dqq6OINUAj1zxcb8nuVuZwQE3LsW?=
- =?us-ascii?Q?6/CXVckIxqe39f1B8SuNLB2/NygQP5Z5tw3QLziM57lnrMQc450AXpctDgjy?=
- =?us-ascii?Q?odYa+ofgYQ/E+yw3FXiFDGqrWluYmVRC5zZ67leZci94DTeud4z91wIKRlZ0?=
- =?us-ascii?Q?/xQ6461gEIHi70doBbGnpebm9ZVOf4YLuPo9A6jHET9vLrOQAA0FRRH58tTN?=
- =?us-ascii?Q?K0gQMG/Adb0sAl/wUU7CpoJB+0o/z0BtellokZq4CuB22fai7rgRveETKhmO?=
- =?us-ascii?Q?aA0PmrK7HbA9hTJEjaPlDW2qDhKah1U2et7cIYgnuaKwU7pPd4fTGLJH4r1a?=
- =?us-ascii?Q?+jwHMbeOM353AxlXd0851pLmYyeHFyGrAPZVFoO0fN1MNR+U1slw83Rj1zns?=
- =?us-ascii?Q?H1VjLDZGMlkozV3nmJ0tCgjCvmzHpf/aI9VtuwbfJ5XF4PvHNx0s0Ihe9h5f?=
- =?us-ascii?Q?hg=3D=3D?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 981ab950-103a-4a56-8d3b-08db10f2bdb9
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Feb 2023 14:24:55.5959
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Q63ZMjrYqir0QmDGLMWshyIDcklsBJUuECFqvjL5Xa0W+fCJn9qCZWez2ucOauTy7kO+XU2cTOJOaj7QnjrqDg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB8010
-X-Proofpoint-ORIG-GUID: AN0owWyMlrF32nJzTtS99p_GiXk9ol_i
-X-Proofpoint-GUID: AN0owWyMlrF32nJzTtS99p_GiXk9ol_i
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
- definitions=2023-02-17_09,2023-02-17_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- lowpriorityscore=0 malwarescore=0 mlxscore=0 phishscore=0 adultscore=0
- mlxlogscore=653 clxscore=1015 suspectscore=0 bulkscore=0
- priorityscore=1501 spamscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2212070000 definitions=main-2302170130
+References: <20230217053224.3870-1-Qi.Chen@windriver.com> <20230217053224.3870-2-Qi.Chen@windriver.com>
+ <CADkTA4MNO3rffZvtO6X+kTfKdpjO40c24wL6KzNUxEiePjbU0Q@mail.gmail.com>
+ <CO6PR11MB5602600230D9DFFC40C23A48EDA19@CO6PR11MB5602.namprd11.prod.outlook.com>
+ <CADkTA4N0kJZUwgjXVwz4SZGtiQD=fB3j6mgNCPyqt-qLJwXjCw@mail.gmail.com> <CO6PR11MB560205CE9C63402E627E57F6EDA19@CO6PR11MB5602.namprd11.prod.outlook.com>
+In-Reply-To: <CO6PR11MB560205CE9C63402E627E57F6EDA19@CO6PR11MB5602.namprd11.prod.outlook.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Fri, 17 Feb 2023 09:26:46 -0500
+Message-ID: <CADkTA4MV=sLbOzdqLDaB48MDQt33=He48VcQp=AsN5E7jX=HOg@mail.gmail.com>
+Subject: Re: [meta-virtualization][PATCH 2/5] cri-o: use PACKAGECONFIG to
+ handle selinux
+To: "Chen, Qi" <Qi.Chen@windriver.com>
+Cc: "meta-virtualization@lists.yoctoproject.org" <meta-virtualization@lists.yoctoproject.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Fri, 17 Feb 2023 14:25:04 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/7873
+ <meta-virtualization@lists.yoctoproject.org>; Fri, 17 Feb 2023 14:27:04 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/7874
 
-ostree is in meta-oe, libseccomp is in oe-core. So remove these two.
+On Fri, Feb 17, 2023 at 9:24 AM Chen, Qi <Qi.Chen@windriver.com> wrote:
+>
+> OK, I see. Let's just drop this patch so that libselinux is still a dependency and the layer check is still there.
+> I'll send out V2 of the README change to match the current situation.
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- README | 2 --
- 1 file changed, 2 deletions(-)
+It would be nice to have the ability to disable the selinux support,
+for those that don't need it.
 
-diff --git a/README b/README
-index 1c75f4a..7a848bb 100644
---- a/README
-+++ b/README
-@@ -68,9 +68,7 @@ revision: HEAD
- prio: default
- 
- Required for cri-o:
--URI: git://github.com/advancedtelematic/meta-updater 
- URI: git://git.yoctoproject.org/meta-selinux
--URI: git://git.yoctoproject.org/meta-security
- branch: master
- revision: HEAD
- prio: default
+So triggering everything off the distro feature is fine, if you want
+to do that with the v2. No need to modify the crio.conf for now, as we
+don't have selinux policies to fully test it regardless.
+
+Bruce
+
+>
+> Regards,
+> Qi
+>
+> -----Original Message-----
+> From: Bruce Ashfield <bruce.ashfield@gmail.com>
+> Sent: Friday, February 17, 2023 10:11 PM
+> To: Chen, Qi <Qi.Chen@windriver.com>
+> Cc: meta-virtualization@lists.yoctoproject.org
+> Subject: Re: [meta-virtualization][PATCH 2/5] cri-o: use PACKAGECONFIG to handle selinux
+>
+> On Fri, Feb 17, 2023 at 8:56 AM Chen, Qi <Qi.Chen@windriver.com> wrote:
+> >
+> > I disable it by default to align with oe-core/meta-openembedded practice, although some of the recipes there are using DISTRO_FEATURES to determine the default value.
+> > Also, selinux is set to 'false' by default in crio.conf, both in the old crio.conf and the new one.
+> >
+>
+> There's no such policy in meta-virt.
+>
+> My point is that libselinux was previously a DEPENDS. Which means that it would always be available to be discovered/probed by the cri-o build. Which means that it is (at least theoretically) enabled by default when cri-o is used.
+>
+> By making this a packageconfig, and then not enabling it by default, means that we are changing the default behaviour.  Which we won't do unless something is broken.
+>
+> > Do you think the default value should be set according to DISTRO_FEATURES? Or we should just make selinux enabled by default?
+> >
+>
+> Doing it by distro feature check is acceptable, and in theory, we should take it a step further and do a sed operation to change the crio.conf at the same time.
+>
+> Bruce
+>
+> > Regards,
+> > Qi
+> >
+> > -----Original Message-----
+> > From: Bruce Ashfield <bruce.ashfield@gmail.com>
+> > Sent: Friday, February 17, 2023 9:48 PM
+> > To: Chen, Qi <Qi.Chen@windriver.com>
+> > Cc: meta-virtualization@lists.yoctoproject.org
+> > Subject: Re: [meta-virtualization][PATCH 2/5] cri-o: use PACKAGECONFIG
+> > to handle selinux
+> >
+> > This still needs to be enabled by default in the packageconfig, unless you can show that the existing builds were not detecting libselinux and using it.
+> >
+> > Bruce
+> >
+> > On Fri, Feb 17, 2023 at 12:32 AM Chen Qi <Qi.Chen@windriver.com> wrote:
+> > >
+> > > For cri-o, libselinux is optional, this can be seen from its Makefile.
+> > > So let's make selinux optional by using PACKAGECONFIG.
+> > > In this way, meta-selinux dependency could be removed.
+> > >
+> > > Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> > > ---
+> > >  recipes-containers/cri-o/cri-o_git.bb | 4 ++--
+> > >  1 file changed, 2 insertions(+), 2 deletions(-)
+> > >
+> > > diff --git a/recipes-containers/cri-o/cri-o_git.bb
+> > > b/recipes-containers/cri-o/cri-o_git.bb
+> > > index 66d1116..7af698f 100644
+> > > --- a/recipes-containers/cri-o/cri-o_git.bb
+> > > +++ b/recipes-containers/cri-o/cri-o_git.bb
+> > > @@ -39,14 +39,14 @@ DEPENDS = " \
+> > >      ostree \
+> > >      libdevmapper \
+> > >      libseccomp \
+> > > -    libselinux \
+> > >      "
+> > >  RDEPENDS:${PN} = " \
+> > >      cni \
+> > >      libdevmapper \
+> > >      "
+> > >
+> > > -SKIP_RECIPE[cri-o] ?= "${@bb.utils.contains('BBFILE_COLLECTIONS', 'selinux', '', 'Depends on libselinux from meta-selinux which is not included', d)}"
+> > > +PACKAGECONFIG ?= ""
+> > > +PACKAGECONFIG[selinux] = ",,libselinux"
+> > >
+> > >  PACKAGES =+ "${PN}-config"
+> > >
+> > > --
+> > > 2.37.1
+> > >
+> > >
+> > > -=-=-=-=-=-=-=-=-=-=-=-
+> > > Links: You receive all messages sent to this group.
+> > > View/Reply Online (#7861):
+> > > https://lists.yoctoproject.org/g/meta-virtualization/message/7861
+> > > Mute This Topic: https://lists.yoctoproject.org/mt/97023221/1050810
+> > > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+> > > Unsubscribe:
+> > > https://lists.yoctoproject.org/g/meta-virtualization/unsub
+> > > [bruce.ashfield@gmail.com]
+> > > -=-=-=-=-=-=-=-=-=-=-=-
+> > >
+> >
+> >
+> > --
+> > - Thou shalt not follow the NULL pointer, for chaos and madness await
+> > thee at its end
+> > - "Use the force Harry" - Gandalf, Star Trek II
+>
+>
+>
+> --
+> - Thou shalt not follow the NULL pointer, for chaos and madness await thee at its end
+> - "Use the force Harry" - Gandalf, Star Trek II
+
+
+
 -- 
-2.37.1
-
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
