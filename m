@@ -1,179 +1,162 @@
-Return-Path: <bindudaniel1996@gmail.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24A04C05027
-	for <webhook@archiver.kernel.org>; Mon, 20 Feb 2023 06:45:08 +0000 (UTC)
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
- by mx.groups.io with SMTP id smtpd.web10.7399.1676875499777781883
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4C40C636D7
+	for <webhook@archiver.kernel.org>; Tue, 21 Feb 2023 15:13:47 +0000 (UTC)
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+ by mx.groups.io with SMTP id smtpd.web10.44343.1676992420705909481
  for <meta-virtualization@lists.yoctoproject.org>;
- Sun, 19 Feb 2023 22:44:59 -0800
+ Tue, 21 Feb 2023 07:13:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=l3bw4+E8;
- spf=pass (domain: gmail.com, ip: 209.85.216.45, mailfrom: bindudaniel1996@gmail.com)
-Received: by mail-pj1-f45.google.com with SMTP id il18-20020a17090b165200b0023127b2d602so365839pjb.2
-        for <meta-virtualization@lists.yoctoproject.org>; Sun, 19 Feb 2023 22:44:59 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=JpPZqS8v;
+ spf=pass (domain: gmail.com, ip: 209.85.160.179, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f179.google.com with SMTP id w23so4610654qtn.6
+        for <meta-virtualization@lists.yoctoproject.org>; Tue, 21 Feb 2023 07:13:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=dZ6uhbyU4TBMXotSawXkZvn+z1EQmJqIRidenFDh+OE=;
-        b=l3bw4+E80hJ14rV/pazoEhkoiz+CUIPjxXIWlBWgk+0pEZYLAK4wM3ydeca+54bUYl
-         b+s+ulOvbqec1dElprGalfcgZxQIhk+bRSmbzCffPVYu/yIz0N9KLuxnopJqMx97ehxf
-         WmxUC09FgILk1qnwLDMr4he5GmNxvJ7G7yUPSbDpO/xchOhjIKpSBzkeZOXWvWr3Bj5A
-         TfxnVNrwnMg2xAP/Q/eJlil0GRzll5wNStwdRtDnThsbnKm3d0rpz7mkzcYZHtAabzSz
-         AXRfXsuPZfBhK2wjD4+tjjL0zyoYL3Pzi2EL0FyMVg6h7tsOmCqqrv6TgyePt2rF0KUd
-         tMVA==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=pvnl+XEpe4pZKnU0v/aAAg2q+94eJT5k/kiIB8mXrKs=;
+        b=JpPZqS8vdHoRNRvb59hGZMXIgqoDOR1eaAZFbn4ywo+ug6AaXfVRywzurCTbHN8Qku
+         H/P3eMtUwc9FCHWQeDBy06UKrBGlrhSzwVEMqHgP8wP1sD7pm2jDGbY1pj8ERAl6Ehv1
+         tGp+onk/FGKOjyKmZdmwdjE3NvG3g2UnOpSdOW0spHhTXddBz2i/5efB8X+KOKsAgcsr
+         UU+MohnhQSOdQBXzzunnjsBirSUcdpSwbwA4nURIBtogtKoneYj7Lu3B44oWNvA9ZByU
+         9ysJ8DLNWrg0RgW0Brs9iBzy7jCg45x2FReDrcGWJLztmPis2pYTSF9e7E1j+vrh+4m9
+         pkZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=dZ6uhbyU4TBMXotSawXkZvn+z1EQmJqIRidenFDh+OE=;
-        b=SRl+nvaN222b0Q3vJihSHm3terrYikOMo1Pcigc/ylbeHk+rI5/ZrtT4Bf9LmhX/dS
-         TlwySfY1k19O6QIxNlwYetcpOFsJyAZSjzUs7wsezs3uG0HyO1nNAayHZASjAi1Cs+qL
-         +hhv6lJw5ibzvrQW647Yv7dN//uU/jXmMgf3+CJP/M26GPBP36YpCT1whW9HQuTzrzdO
-         0QGQBolvuRGLuEIM1f9gbzTeaDoeYB4mxjKgHP0Wi3M/QNPO60HR6vIuLZehsGoH8U/1
-         j+nKvIfgkSOvoRvwrtxcOXEgJQUYME61Q6OAjlriWpUrMtUdIEFbJHnj4AcmnSMVLRbN
-         dT7w==
-X-Gm-Message-State: AO0yUKUhYthxJUV7XOT1WYpt7LZxK5R7cyJ0m6r4eF4CKuY9FrxpAB7l
-	2rgYlh72J8uY1tVlJcgnYczcKpP5k8JXOw==
-X-Google-Smtp-Source: AK7set87b287SXq3tg1MC9ldTnAfjQlASsiKuy6awuLgWKIWNgpCo2JRkyHKpNkpmBRATz5fVBjDNw==
-X-Received: by 2002:a17:902:f68f:b0:19c:1433:5fba with SMTP id l15-20020a170902f68f00b0019c14335fbamr710948plg.0.1676875498951;
-        Sun, 19 Feb 2023 22:44:58 -0800 (PST)
-Received: from localhost.localdomain ([122.171.165.129])
-        by smtp.gmail.com with ESMTPSA id p23-20020a170902a41700b0018099c9618esm1976078plq.231.2023.02.19.22.44.56
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pvnl+XEpe4pZKnU0v/aAAg2q+94eJT5k/kiIB8mXrKs=;
+        b=RFqPm81k9bJBhdCoUP36pf7jOju2v2KyrhOc9euFU/ZWkapoFpPHTcxSWj5LQpXUgZ
+         R9Wu4oNtF3Q+Fpj/nQVKJO6fSVq3dxp6+XoX909Kvy0mR4bNwewvdMPfmWfa9ycapu9x
+         GNEIjc2Rqm64Cj1WQBhiwwUkqQ4IafPjcOKvV6H5heK6zVufRh3xISbnGkrg9nvcnRFm
+         wsjvkWNn1hJTPVtcH59C6rsmgNGdoJmaUCxivDQQ5T6TO+VGGNxeBOshzjclC6fKJP4e
+         y0tTkwzWsJ1Pvsvwd5uIsJ+VjTAMpRnFSMKmZrfXIxqa2PvtTHWyrJrBYZp0F7quFxe8
+         cY1A==
+X-Gm-Message-State: AO0yUKVuSeZ9Oi3FljDmyl+GlH7kRmXw3TJ2d4HMo8iKdwRsRppAsd5q
+	UyeNdZPOsl8BMSJWxQxbNZE=
+X-Google-Smtp-Source: AK7set8yzW6WaGqQ9s1TapiDxH4gNCVN0DxhrDqzhSrPevWC6sn2sfPZdF9VCfNDrxffobtZaxdzug==
+X-Received: by 2002:a05:622a:54e:b0:3bf:a061:6cb1 with SMTP id m14-20020a05622a054e00b003bfa0616cb1mr5565737qtx.46.1676992419688;
+        Tue, 21 Feb 2023 07:13:39 -0800 (PST)
+Received: from gmail.com (cpe7c9a54441c1f-cm7c9a54441c1d.cpe.net.cable.rogers.com. [173.34.238.88])
+        by smtp.gmail.com with ESMTPSA id a17-20020ac80011000000b003b868cdc689sm1015996qtg.5.2023.02.21.07.13.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Feb 2023 22:44:58 -0800 (PST)
-From: Bhabu Bindu <bindudaniel1996@gmail.com>
-To: meta-virtualization@lists.yoctoproject.org,
-	virendrak@kpit.com
-Cc: akash.hadke@kpit.com,
-	bruce.ashfield@gmail.com,
-	Omkar Patil <omkar.patil@kpit.com>
-Subject: [meta-virtualization][dunfell][PATCH] lxc: Fix CVE-2022-47952
-Date: Mon, 20 Feb 2023 12:14:49 +0530
-Message-Id: <20230220064449.337-1-bindudaniel1996@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        Tue, 21 Feb 2023 07:13:39 -0800 (PST)
+Date: Tue, 21 Feb 2023 10:13:37 -0500
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Chen Qi <Qi.Chen@windriver.com>
+Cc: meta-virtualization@lists.yoctoproject.org
+Subject: Re: [meta-virtualization][master-next][PATCH 2/3]
+ container-host-config: provide /etc/containers/policy.json
+Message-ID: <Y/TfoRtVsvnB8Hbg@gmail.com>
+References: <20230220045423.84802-1-Qi.Chen@windriver.com>
+ <20230220045423.84802-2-Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230220045423.84802-2-Qi.Chen@windriver.com>
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Mon, 20 Feb 2023 06:45:08 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/7885
+ <meta-virtualization@lists.yoctoproject.org>; Tue, 21 Feb 2023 15:13:47 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/7886
 
-From: Omkar Patil <omkar.patil@kpit.com>
+Good catch, I had meant to include this in the configuration
+package and forgot.
 
-lxc-user-nic install setuid root, and may allow local users to infer
-whether any file exists, even within a protected directory tree, because
-“Failed to open” often indicates that a file does not exist, whereas
-“does not refer to a network namespace path” often indicates that a file
-exists.
+This is now staged on master-next.
 
-Reference: https://bugs.launchpad.net/ubuntu/+source/lxc/+bug/1783591
+Bruce
 
-Signed-off-by: Virendra Thakur <virendrak@kpit.com>
----
- .../lxc/files/CVE-2022-47952.patch            | 74 +++++++++++++++++++
- recipes-containers/lxc/lxc_4.0.9.bb           |  1 +
- 2 files changed, 75 insertions(+)
- create mode 100644 recipes-containers/lxc/files/CVE-2022-47952.patch
+In message: [meta-virtualization][master-next][PATCH 2/3] container-host-config: provide /etc/containers/policy.json
+on 19/02/2023 Chen Qi wrote:
 
-diff --git a/recipes-containers/lxc/files/CVE-2022-47952.patch b/recipes-containers/lxc/files/CVE-2022-47952.patch
-new file mode 100644
-index 0000000..eca2ad6
---- /dev/null
-+++ b/recipes-containers/lxc/files/CVE-2022-47952.patch
-@@ -0,0 +1,74 @@
-+From 1b0469530d7a38b8f8990e114b52530d1bf7f3b8 Mon Sep 17 00:00:00 2001
-+From: Maher Azzouzi <maherazz04@gmail.com>
-+Date: Sun, 25 Dec 2022 13:50:25 +0100
-+Subject: [PATCH] Patching an incoming CVE (CVE-2022-47952)
-+
-+lxc-user-nic in lxc through 5.0.1 is installed setuid root, and may
-+allow local users to infer whether any file exists, even within a
-+protected directory tree, because "Failed to open" often indicates
-+that a file does not exist, whereas "does not refer to a network
-+namespace path" often indicates that a file exists. NOTE: this is
-+different from CVE-2018-6556 because the CVE-2018-6556 fix design was
-+based on the premise that "we will report back to the user that the
-+open() failed but the user has no way of knowing why it failed";
-+however, in many realistic cases, there are no plausible reasons for
-+failing except that the file does not exist.
-+
-+PoC:
-+> % ls /l
-+> ls: cannot open directory '/l': Permission denied
-+> % /usr/lib/x86_64-linux-gnu/lxc/lxc-user-nic delete lol lol /l/h/tt h h
-+> cmd/lxc_user_nic.c: 1096: main: Failed to open "/l/h/tt" <----- file does not exist.
-+> % /usr/lib/x86_64-linux-gnu/lxc/lxc-user-nic delete lol lol /l/h/t h h
-+> cmd/lxc_user_nic.c: 1101: main: Path "/l/h/t" does not refer to a network namespace path <---- file exist!
-+
-+Signed-off-by: MaherAzzouzi <maherazz04@gmail.com>
-+Acked-by: Serge Hallyn <serge@hallyn.com>
-+
-+Upstream-Status: Backport [https://github.com/lxc/lxc/commit/1b0469530d7a38b8f8990e114b52530d1bf7f3b8]
-+CVE: CVE-2022-47952
-+Comment: No Hunk refreshed
-+Signed-off-by: Virendra Thakur <virendrak@kpit.com>
-+---
-+ src/lxc/cmd/lxc_user_nic.c | 15 ++++++---------
-+ 1 file changed, 6 insertions(+), 9 deletions(-)
-+
-+diff --git a/src/lxc/cmd/lxc_user_nic.c b/src/lxc/cmd/lxc_user_nic.c
-+index a91e2259d5..69bc6f17d1 100644
-+--- a/src/lxc/cmd/lxc_user_nic.c
-++++ b/src/lxc/cmd/lxc_user_nic.c
-+@@ -1085,20 +1085,17 @@ int main(int argc, char *argv[])
-+ 	} else if (request == LXC_USERNIC_DELETE) {
-+ 		char opath[LXC_PROC_PID_FD_LEN];
-+ 
-+-		/* Open the path with O_PATH which will not trigger an actual
-+-		 * open(). Don't report an errno to the caller to not leak
-+-		 * information whether the path exists or not.
-+-		 * When stracing setuid is stripped so this is not a concern
-+-		 * either.
-+-		 */
-++		// Keep in mind CVE-2022-47952: It's crucial not to leak any
-++		// information whether open() succeeded of failed.
-++
-+ 		netns_fd = open(args.pid, O_PATH | O_CLOEXEC);
-+ 		if (netns_fd < 0) {
-+-			usernic_error("Failed to open \"%s\"\n", args.pid);
-++			usernic_error("Failed while opening netns file for \"%s\"\n", args.pid);
-+ 			_exit(EXIT_FAILURE);
-+ 		}
-+ 
-+ 		if (!fhas_fs_type(netns_fd, NSFS_MAGIC)) {
-+-			usernic_error("Path \"%s\" does not refer to a network namespace path\n", args.pid);
-++			usernic_error("Failed while opening netns file for \"%s\"\n", args.pid);
-+ 			close(netns_fd);
-+ 			_exit(EXIT_FAILURE);
-+ 		}
-+@@ -1112,7 +1109,7 @@ int main(int argc, char *argv[])
-+ 		/* Now get an fd that we can use in setns() calls. */
-+ 		ret = open(opath, O_RDONLY | O_CLOEXEC);
-+ 		if (ret < 0) {
-+-			CMD_SYSERROR("Failed to open \"%s\"\n", args.pid);
-++			CMD_SYSERROR("Failed while opening netns file for \"%s\"\n", args.pid);
-+ 			close(netns_fd);
-+ 			_exit(EXIT_FAILURE);
-+ 		}
-diff --git a/recipes-containers/lxc/lxc_4.0.9.bb b/recipes-containers/lxc/lxc_4.0.9.bb
-index f7cab78..7240589 100644
---- a/recipes-containers/lxc/lxc_4.0.9.bb
-+++ b/recipes-containers/lxc/lxc_4.0.9.bb
-@@ -55,6 +55,7 @@ SRC_URI = "http://linuxcontainers.org/downloads/${BPN}/${BPN}-${PV}.tar.gz \
-         file://skip_rootfs_pinning_for_read_only_filesystem.patch \
-         file://add_lxc_init_groups_config_key.patch \
-         file://lxc-conf-improve-read-only-sys-with-read-write-sys-devic.patch \
-+        file://CVE-2022-47952.patch \
- 	"
- 
- SRC_URI[md5sum] = "365fcca985038910e19a1e0fff15ed07"
--- 
-2.17.1
+> The /etc/containers/policy.json[1] file is used to specify verification
+> policy. For now, we can see it's used by both cri-o and skopeo. To avoid
+> conflict, we use container-host-config to provide this file and make both
+> skopeo and cri-o depend on it.
+> 
+> [1] https://github.com/containers/image/blob/main/docs/containers-policy.json.5.md
+> 
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+>  .../container-host-config/container-host-config.bb         | 2 ++
+>  .../container-host-config/policy.json                      | 7 +++++++
+>  recipes-containers/cri-o/cri-o_git.bb                      | 1 +
+>  recipes-containers/skopeo/skopeo_git.bb                    | 1 -
+>  4 files changed, 10 insertions(+), 1 deletion(-)
+>  create mode 100755 recipes-containers/container-host-config/container-host-config/policy.json
+> 
+> diff --git a/recipes-containers/container-host-config/container-host-config.bb b/recipes-containers/container-host-config/container-host-config.bb
+> index c762dea..c2f17bf 100644
+> --- a/recipes-containers/container-host-config/container-host-config.bb
+> +++ b/recipes-containers/container-host-config/container-host-config.bb
+> @@ -8,6 +8,7 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384
+>  SRC_URI = " \
+>      file://storage.conf \
+>      file://registries.conf \
+> +    file://policy.json \
+>  "
+>  
+>  do_install() {
+> @@ -15,4 +16,5 @@ do_install() {
+>  
+>  	install ${WORKDIR}/storage.conf ${D}/${sysconfdir}/containers/storage.conf
+>  	install ${WORKDIR}/registries.conf ${D}/${sysconfdir}/containers/registries.conf
+> +	install ${WORKDIR}/policy.json ${D}/${sysconfdir}/containers/policy.json
+>  }
+> diff --git a/recipes-containers/container-host-config/container-host-config/policy.json b/recipes-containers/container-host-config/container-host-config/policy.json
+> new file mode 100755
+> index 0000000..bb26e57
+> --- /dev/null
+> +++ b/recipes-containers/container-host-config/container-host-config/policy.json
+> @@ -0,0 +1,7 @@
+> +{
+> +    "default": [
+> +        {
+> +            "type": "insecureAcceptAnything"
+> +        }
+> +    ]
+> +}
+> diff --git a/recipes-containers/cri-o/cri-o_git.bb b/recipes-containers/cri-o/cri-o_git.bb
+> index 9467cf1..2ae3303 100644
+> --- a/recipes-containers/cri-o/cri-o_git.bb
+> +++ b/recipes-containers/cri-o/cri-o_git.bb
+> @@ -57,6 +57,7 @@ inherit systemd
+>  inherit go
+>  inherit goarch
+>  inherit pkgconfig
+> +inherit container-host
+>  
+>  EXTRA_OEMAKE="BUILDTAGS=''"
+>  
+> diff --git a/recipes-containers/skopeo/skopeo_git.bb b/recipes-containers/skopeo/skopeo_git.bb
+> index 66168ca..4d062ed 100644
+> --- a/recipes-containers/skopeo/skopeo_git.bb
+> +++ b/recipes-containers/skopeo/skopeo_git.bb
+> @@ -82,7 +82,6 @@ do_install() {
+>  	install -d ${D}/${sysconfdir}/containers
+>  
+>  	install ${S}/src/import/bin/skopeo ${D}/${sbindir}/
+> -	install ${S}/src/import/default-policy.json ${D}/${sysconfdir}/containers/policy.json
+>  }
+>  
+>  do_install:append:class-native() {
+> -- 
+> 2.37.1
+> 
+
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#7883): https://lists.yoctoproject.org/g/meta-virtualization/message/7883
+> Mute This Topic: https://lists.yoctoproject.org/mt/97080776/1050810
+> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
 
