@@ -2,1084 +2,756 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ACE67C636D6
-	for <webhook@archiver.kernel.org>; Wed, 22 Feb 2023 11:41:36 +0000 (UTC)
-Received: from mail-il1-f169.google.com (mail-il1-f169.google.com [209.85.166.169])
- by mx.groups.io with SMTP id smtpd.web11.6667.1677066090170308570
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A951C61DA4
+	for <webhook@archiver.kernel.org>; Wed, 22 Feb 2023 13:41:17 +0000 (UTC)
+Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com [209.85.219.171])
+ by mx.groups.io with SMTP id smtpd.web11.8952.1677073270308469197
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 22 Feb 2023 03:41:30 -0800
+ Wed, 22 Feb 2023 05:41:10 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=him8B4Hr;
- spf=pass (domain: gmail.com, ip: 209.85.166.169, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-il1-f169.google.com with SMTP id i24so3209023ila.7
-        for <meta-virtualization@lists.yoctoproject.org>; Wed, 22 Feb 2023 03:41:30 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=At7KacUt;
+ spf=pass (domain: gmail.com, ip: 209.85.219.171, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-yb1-f171.google.com with SMTP id k199so5214097ybf.4
+        for <meta-virtualization@lists.yoctoproject.org>; Wed, 22 Feb 2023 05:41:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=GDtsikLWLMNkPzJKJ9qFxObxGpjsldYMZUKmzaAWV1w=;
-        b=him8B4HrLYL1hItQVWcifGgbiLMwqDNAuTOgIQh3PHp8c3QaXPK1gpEGrTKhjz6Sjo
-         4Uo1fuJOrBy6O66Swgi9x8YFNrR1KahLTomYDn71YKkNvVfNZoDimu6QG68tL+CMzG2W
-         CRX3CfAZmy1TgatPgxeOSWum7DIYLjYKycKQxfB1ydnty9LH2zsj1eZ5C2EkkwVN67m+
-         v6aYaq3UR6ar3+20g7zl4eeYlbpUez5n7N3NfmU25vZQyzeF1gZhSa5ZXTI5dDP5FEHk
-         rW9PgS2ZqmyPVwuLoIzNb7yI8gKV3GlCICgPm/w3HviOUDwgNHfSXd27kuVZrVAClpnX
-         yT8g==
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RHor5yVc86uXJ/6ni3RJ6dpEENxk3yvx/8QadMC1H1Q=;
+        b=At7KacUt4CFZkf17KofHaqKwlus5gETNqv7Wk/E11n5tXTTk7jGRFo/q3HylWyWYhI
+         iosJpIW4UbZnqdor06II2tJjOO9Svn28p+jGkne4j8aDOjyyE5B8vaLM+jJLsC2D/YMK
+         dv8BpWLWRo+AMWOiRr/Ifqqb7n84Nr+KuWwXwWxvbWCOQGy2bTn1vDeSL4+LJOHEx+vZ
+         7XZ4EuPckQ4Gt7r5qIDucTkzHB1M713X4D2mhCWqzsLAPQm8iawMiCIF8oHOx8aLa3FX
+         GB7aYHvLxT0Yic7ZUVJqNj1XAiOBvtXlMw9rP2qp0a7pKhuzeqNKy1JMNPGcKKu4OFYW
+         PZDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=GDtsikLWLMNkPzJKJ9qFxObxGpjsldYMZUKmzaAWV1w=;
-        b=IHh1GQCaiDrxAAmMEUUfXYDbP4HHSNtm4VCMf9rOUYRFQ0vBTEn3vLlsn/32r0HTQa
-         apfeIiWr1M+wS8nwaoDBu/UJkCfHK8d3MnKrYzvDxbZfni1PaJhqn1wlr84lQq1upxV9
-         c28wAo3trjd+PGmoHy2c+uy3HlU9CtpfpIfZsks1SX6fkwYC4YJOh2WyZUjl70SHTrq9
-         sWL70UXifaAua5sB1+68dT/kXjaS39zQ1EMdYViCPi05T1CyhiJJpA339wiQ2/cqEnXs
-         XZptktQkF9/h0I1qMTpjF8Cns6ECsHA+AwkWUz/5WNLuwBkRm99pyUNGIuVeZJU1Ecyb
-         eWHQ==
-X-Gm-Message-State: AO0yUKVehhFp5pqCoM/RWStZ9baW756UXXY+CULR6MTgWVnH24GsmeuY
-	cbKdVrWcYmLtFdqTJx9XqkHW49Pm2y/QheyseYo=
-X-Google-Smtp-Source: AK7set8LsfyY0MxvkYvoq8oSc7wCsZN05eDPcH2kcEA43bVLXrQoozm9GeAVTHB30N5nEY3Y7ddyExamkw5LtbGZxyk=
-X-Received: by 2002:a05:6e02:e07:b0:314:24e2:5189 with SMTP id
- a7-20020a056e020e0700b0031424e25189mr1966593ilk.0.1677066088962; Wed, 22 Feb
- 2023 03:41:28 -0800 (PST)
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=RHor5yVc86uXJ/6ni3RJ6dpEENxk3yvx/8QadMC1H1Q=;
+        b=TisXeBVyrV9PTzCYiIWXsRgxkwgPJQOKKvqZHJOc0jsn9cEdkX3Y4r11dXBVsvc/P+
+         QKzu/VDnu2JycAbR+W8mA4Abhn/zxkAOWBPGVnSUfdGkGOs8g+Bu5PlTV0pOgiyAZMM5
+         7+dUIQR6iMhiNnQzycWD86gzUWJnKjE60zRdKx7VJtw8+pooNQ16SuSUwYc6P3HP6+GP
+         9hRpBhj9EhS6/OBlu+ikYL3sMbGoFcEVrKzsuca+FYzn9AizLpSfT93gJYTr5McBiZXx
+         3ibOj0YX4hCQYlLs6C5WaPh/KMHahE4UPPBlF0j1jidmYHL5JIQPczms28KRQylqZm4U
+         kDzg==
+X-Gm-Message-State: AO0yUKUN8+7yBq6WHuIOSXTy8xxQOHdBeMKCdDV4e0i8ONtkMct6+6Rm
+	7irvxFNH+jH5g29VytwbHShatR2yJMrQ6Epxnrz7Q8D8f5U=
+X-Google-Smtp-Source: AK7set++oC9l/3kZSkMWZKkX1gC4x1fj4uNOWYv5tckCpu4D5QacucMDDCSOsnf5tTzA8hR8vnPC9/In1y3P50Rvqos=
+X-Received: by 2002:a5b:387:0:b0:916:20df:c31a with SMTP id
+ k7-20020a5b0387000000b0091620dfc31amr265795ybp.627.1677073268948; Wed, 22 Feb
+ 2023 05:41:08 -0800 (PST)
 MIME-Version: 1.0
-References: <PR3P192MB0714875B214757CD0A475B9DDAAA9@PR3P192MB0714.EURP192.PROD.OUTLOOK.COM>
-In-Reply-To: <PR3P192MB0714875B214757CD0A475B9DDAAA9@PR3P192MB0714.EURP192.PROD.OUTLOOK.COM>
+References: <PR3P192MB07146B2824AD9A0DD1E5E8E2DAAA9@PR3P192MB0714.EURP192.PROD.OUTLOOK.COM>
+In-Reply-To: <PR3P192MB07146B2824AD9A0DD1E5E8E2DAAA9@PR3P192MB0714.EURP192.PROD.OUTLOOK.COM>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 22 Feb 2023 06:41:17 -0500
-Message-ID: <CADkTA4Py_w_pTcTYJRQjwL_sorBJBYcAHMOf7WbSykgmXoUJNg@mail.gmail.com>
-Subject: Re: [meta-virtualization][dunfell][PATCH 3/3] containerd: upgrade to 1.4.13
+Date: Wed, 22 Feb 2023 08:40:57 -0500
+Message-ID: <CADkTA4Mzy0jzXJqiaRnfarAh71=mq9ASikitSmWuUqrMotcPhw@mail.gmail.com>
+Subject: Re: [meta-virtualization][dunfell][PATCH 1/3] runc: update to 1.0.3
 To: hsimeliere.opensource@witekio.com
-Cc: meta-virtualization@lists.yoctoproject.org
-Content-Type: multipart/alternative; boundary="0000000000007f62b005f5486069"
+Cc: "meta-virtualization@lists.yoctoproject.org" <meta-virtualization@lists.yoctoproject.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Wed, 22 Feb 2023 11:41:36 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/7893
+ <meta-virtualization@lists.yoctoproject.org>; Wed, 22 Feb 2023 13:41:17 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/7894
 
---0000000000007f62b005f5486069
-Content-Type: text/plain; charset="UTF-8"
-
-On Wed, Feb 22, 2023, 5:43 AM Hugo Simeliere via lists.yoctoproject.org
-<hsimeliere.opensource=witekio.com@lists.yoctoproject.org> wrote:
-
-> Fixes below CVEs:
-> * CVE-2020-15257
-> * CVE-2021-21334
-> * CVE-2021-32760
-> * CVE-2021-41103
-> * CVE-2022-23648
+On Wed, Feb 22, 2023 at 5:41 AM Hugo Simeliere via
+lists.yoctoproject.org
+<hsimeliere.opensource=3Dwitekio.com@lists.yoctoproject.org> wrote:
 >
-> Based on commit cd6feb72b84aab9655af6c8c0774a180ea2a4f60
->
-> Signed-off-by: Hugo SIMELIERE <hsimeliere.opensource@witekio.com>
-> ---
->  .../containerd/containerd-docker_git.bb       | 10 ++-
->  .../0001-Add-build-option-GODEBUG-1.patch     | 28 +++-----
->  ...1-build-use-oe-provided-GO-and-flags.patch | 42 -----------
->  .../containerd-opencontainers_git.bb          | 20 ++----
->  recipes-containers/containerd/containerd.inc  |  9 ++-
->  ...1-build-use-oe-provided-GO-and-flags.patch | 70 +++++++++++++++++++
->  6 files changed, 100 insertions(+), 79 deletions(-)
->  delete mode 100644
-> recipes-containers/containerd/containerd-opencontainers/0001-build-use-oe-provided-GO-and-flags.patch
->  create mode 100644
-> recipes-containers/containerd/files/0001-build-use-oe-provided-GO-and-flags.patch
->
-> diff --git a/recipes-containers/containerd/containerd-docker_git.bb
-> b/recipes-containers/containerd/containerd-docker_git.bb
-> index f6b0e28..8d1a27a 100644
-> --- a/recipes-containers/containerd/containerd-docker_git.bb
-> +++ b/recipes-containers/containerd/containerd-docker_git.bb
-> @@ -1,8 +1,11 @@
->  SRCREV = "3addd840653146c90a254301d6c3a663c7fd6429"
->  SRC_URI = "\
-> - git://
-> github.com/docker/containerd.git;branch=v0.2.x;destsuffix=git/src/github.com/containerd/containerd;protocol=https
-> \
-> + git://
-> github.com/docker/containerd.git;branch=v0.2.x;destsuffix=git/src/github.com/containerd/containerd
-> \
->   "
->
-> +
-> +LIC_FILES_CHKSUM =
-> "file://LICENSE.code;md5=aadc30f9c14d876ded7bedc0afd2d3d7"
-> +
->  include containerd.inc
->
->  CONTAINERD_VERSION = "v0.2.x"
-> @@ -12,3 +15,8 @@ PROVIDES += "virtual/containerd"
->  RPROVIDES_${PN} = "virtual/containerd"
->
->  DEPENDS += "btrfs-tools"
-> +
-> +do_compile_prepend() {
-> + bberror "${PN} is depreciated and will be removed in the future"
-> + bbfatal "use container-opencontainers for a working configuration"
-> +}
-> diff --git
-> a/recipes-containers/containerd/containerd-opencontainers/0001-Add-build-option-GODEBUG-1.patch
-> b/recipes-containers/containerd/containerd-opencontainers/0001-Add-build-option-GODEBUG-1.patch
-> index fec9ea6..8b43c8a 100644
-> ---
-> a/recipes-containers/containerd/containerd-opencontainers/0001-Add-build-option-GODEBUG-1.patch
-> +++
-> b/recipes-containers/containerd/containerd-opencontainers/0001-Add-build-option-GODEBUG-1.patch
-> @@ -15,28 +15,18 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
->   src/import/Makefile | 8 ++++++--
->   1 file changed, 6 insertions(+), 2 deletions(-)
->
-> -diff --git a/src/import/Makefile b/src/import/Makefile
-> -index 4355395..4fb5d3b 100644
-> ---- a/src/import/Makefile
-> -+++ b/src/import/Makefile
-> -@@ -75,11 +75,15 @@ TEST_REQUIRES_ROOT_PACKAGES=$(filter \
-> +Index: git/src/import/Makefile
-> +===================================================================
-> +--- git.orig/src/import/Makefile 2020-10-12 08:09:41.638977052 -0700
-> ++++ git/src/import/Makefile 2020-10-12 08:10:49.783074373 -0700
-> +@@ -72,6 +72,10 @@
->   COMMANDS=ctr containerd containerd-stress
-> - MANPAGES=ctr.1 containerd.1 containerd-config.1 containerd-config.toml.5
-> + MANPAGES=ctr.8 containerd.8 containerd-config.8 containerd-config.toml.5
->
->  +ifndef GODEBUG
->  +   EXTRA_LDFLAGS += -s -w
->  +endif
->  +
-> - # Build tags seccomp and apparmor are needed by CRI plugin.
-> - BUILDTAGS ?= seccomp apparmor
-> - GO_TAGS=$(if $(BUILDTAGS),-tags "$(BUILDTAGS)",)
-> --GO_LDFLAGS=-ldflags '-s -w -X $(PKG)/version.Version=$(VERSION) -X
-> $(PKG)/version.Revision=$(REVISION) -X $(PKG)/version.Package=$(PACKAGE)
-> $(EXTRA_LDFLAGS)'
-> --SHIM_GO_LDFLAGS=-ldflags '-s -w -X $(PKG)/version.Version=$(VERSION) -X
-> $(PKG)/version.Revision=$(REVISION) -X $(PKG)/version.Package=$(PACKAGE)
-> -extldflags "-static"'
-> -+GO_LDFLAGS=-ldflags '-X $(PKG)/version.Version=$(VERSION) -X
-> $(PKG)/version.Revision=$(REVISION) -X $(PKG)/version.Package=$(PACKAGE)
-> $(EXTRA_LDFLAGS)'
-> -+SHIM_GO_LDFLAGS=-ldflags '-X $(PKG)/version.Version=$(VERSION) -X
-> $(PKG)/version.Revision=$(REVISION) -X $(PKG)/version.Package=$(PACKAGE)
-> -extldflags "-static $(EXTRA_EXTLDFLAGS)" $(EXTRA_LDFLAGS)'
-> -
-> - #Replaces ":" (*nix), ";" (windows) with newline for easy parsing
-> - GOPATHS=$(shell echo ${GOPATH} | tr ":" "\n" | tr ";" "\n")
-> ---
-> -2.7.4
-> -
-> + ifdef BUILDTAGS
-> +     GO_BUILDTAGS = ${BUILDTAGS}
-> + endif
-> diff --git
-> a/recipes-containers/containerd/containerd-opencontainers/0001-build-use-oe-provided-GO-and-flags.patch
-> b/recipes-containers/containerd/containerd-opencontainers/0001-build-use-oe-provided-GO-and-flags.patch
-> deleted file mode 100644
-> index d4d5973..0000000
-> ---
-> a/recipes-containers/containerd/containerd-opencontainers/0001-build-use-oe-provided-GO-and-flags.patch
-> +++ /dev/null
-> @@ -1,42 +0,0 @@
-> -From 408e8b526d490af817a64b7220e8e2c3789de58f Mon Sep 17 00:00:00 2001
-> -From: Bruce Ashfield <bruce.ashfield@gmail.com>
-> -Date: Sun, 10 Feb 2019 23:46:06 +0000
-> -Subject: [PATCH] build: use oe provided GO and flags
-> -
-> -We want to use the go compiler as defined in the oe-enviroment, not the
-> -generic call to 'go'. Without changing this, we'll get things like cgo
-> -errors and invalid flag combos.
-> -
-> -Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-> ----
-> - Makefile | 8 ++++----
-> - 1 file changed, 4 insertions(+), 4 deletions(-)
-> -
-> -Index: git/src/import/Makefile
-> -===================================================================
-> ---- git.orig/src/import/Makefile
-> -+++ git/src/import/Makefile
-> -@@ -166,19 +166,19 @@
-> - # Build a binary from a cmd.
-> - bin/%: cmd/% FORCE
-> - @echo "$(WHALE) $@${BINARY_SUFFIX}"
-> -- @go build ${GO_GCFLAGS} ${GO_BUILD_FLAGS} -o $@${BINARY_SUFFIX}
-> ${GO_LDFLAGS} ${GO_TAGS}  ./$<
-> -+ @$(GO) build ${GO_GCFLAGS} ${GO_BUILD_FLAGS} -o $@${BINARY_SUFFIX}
-> ${GO_LDFLAGS} ${GO_TAGS}  ./$<
-> -
-> - bin/containerd-shim: cmd/containerd-shim FORCE # set !cgo and omit pie
-> for a static shim build:
-> https://github.com/golang/go/issues/17789#issuecomment-258542220
-> - @echo "$(WHALE) bin/containerd-shim"
-> -- @CGO_ENABLED=0 go build ${GO_BUILD_FLAGS} -o bin/containerd-shim
-> ${SHIM_GO_LDFLAGS} ${GO_TAGS} ./cmd/containerd-shim
-> -+ @$(GO) build ${GO_BUILD_FLAGS} -o bin/containerd-shim
-> ${SHIM_GO_LDFLAGS} ${GO_TAGS} ./cmd/containerd-shim
-> -
-> - bin/containerd-shim-runc-v1: cmd/containerd-shim-runc-v1 FORCE # set
-> !cgo and omit pie for a static shim build:
-> https://github.com/golang/go/issues/17789#issuecomment-258542220
-> - @echo "$(WHALE) bin/containerd-shim-runc-v1"
-> -- @CGO_ENABLED=0 go build ${GO_BUILD_FLAGS} -o
-> bin/containerd-shim-runc-v1 ${SHIM_GO_LDFLAGS} ${GO_TAGS}
-> ./cmd/containerd-shim-runc-v1
-> -+ @$(GO) build ${GO_BUILD_FLAGS} -o bin/containerd-shim-runc-v1
-> ${SHIM_GO_LDFLAGS} ${GO_TAGS} ./cmd/containerd-shim-runc-v1
-> -
-> - bin/containerd-shim-runhcs-v1: cmd/containerd-shim-runhcs-v1 FORCE # set
-> !cgo and omit pie for a static shim build:
-> https://github.com/golang/go/issues/17789#issuecomment-258542220
-> - @echo "$(WHALE) bin/containerd-shim-runhcs-v1${BINARY_SUFFIX}"
-> -- @CGO_ENABLED=0 go build ${GO_BUILD_FLAGS} -o
-> bin/containerd-shim-runhcs-v1${BINARY_SUFFIX} ${SHIM_GO_LDFLAGS} ${GO_TAGS}
-> ./cmd/containerd-shim-runhcs-v1
-> -+ @$(GO) build ${GO_BUILD_FLAGS} -o
-> bin/containerd-shim-runhcs-v1${BINARY_SUFFIX} ${SHIM_GO_LDFLAGS}
-> $(GOBUILDFLAGS) ${GO_TAGS} ./cmd/containerd-shim-runhcs-v1
-> -
-> - binaries: $(BINARIES) ## build binaries
-> - @echo "$(WHALE) $@"
-> diff --git a/recipes-containers/containerd/
-> containerd-opencontainers_git.bb b/recipes-containers/containerd/
-> containerd-opencontainers_git.bb
-> index 5f697ed..19a1e60 100644
-> --- a/recipes-containers/containerd/containerd-opencontainers_git.bb
-> +++ b/recipes-containers/containerd/containerd-opencontainers_git.bb
-> @@ -1,5 +1,5 @@
-> -SRCREV = "3b3e9d5f62a114153829f9fbe2781d27b0a2ddac"
-> -SRC_URI = "git://
-> github.com/containerd/containerd;branch=release/1.2;protocol=https \
-> +SRCREV = "9cc61520f4cd876b86e77edfeb88fbcd536d1f9d"
-> +SRC_URI = "git://github.com/containerd/containerd;branch=release/1.4 \
->             file://0001-build-use-oe-provided-GO-and-flags.patch \
->             file://0001-Add-build-option-GODEBUG-1.patch \
->            "
-> @@ -8,20 +8,10 @@ include containerd.inc
->
->  LIC_FILES_CHKSUM =
-> "file://src/import/LICENSE;md5=1269f40c0d099c21a871163984590d89"
->
-> -CONTAINERD_VERSION = "v1.2.14"
-> +CONTAINERD_VERSION = "v1.4.13"
-> +CVE_VERSION = "1.4.13"
+> Bumping runc to last release-1.0.
+> Upstream based on commit df3cc4955002b5057fba92f1fd8b6fd94af3eb0b
 >
 
-Thanks for the CVE efforts!
+So this is based off the meta-virt commit you list. Has anything
+changed from the original ?
 
-But we unfortunately don't do version bumps like this on the stable
-branches. Only a 1.2.x version bump would meet the bugfix only criteria
-that most layers in the yocto project ecosystem follow.
+If nothing has changed, then the original commit message should be
+maintained, with it noted that the commit is a cherry-pick of commit
+<x>
 
-If there aren't any minor releases upstream, then we are stuck with
-patches.
-
-If there's no other route to address bugs or security issues, then it isn't
-impossible to do a version bump like this, but it is rare and would need
-some runtime testing as these components can be quite sensitive to interop
-issues when versions change.
+If something has changed from the original commit, the original commit
+message should still be maintained, but any differences noted.
 
 Bruce
 
-
-> -# Work around internal error in gold triggered due to DWARF-5 by forcing
-> to use bfd even with ld-is-gold:
-> -#
-> _/OE/lge/build/webosose/dunfell/BUILD/work/qemux86_64-webos-linux/containerd-opencontainers/v1.2.14+gitAUTOINC+3b3e9d5f62-r0/git/src/import/cmd/containerd-shim
-> -#
-> /OE/lge/build/webosose/dunfell/BUILD/work/qemux86_64-webos-linux/containerd-opencontainers/v1.2.14+gitAUTOINC+3b3e9d5f62-r0/recipe-sysroot-native/usr/lib/x86_64-webos-linux/go/pkg/tool/linux_amd64/link:
-> running x86_64-webos-linux-gcc failed: exit status 1
-> -#
-> /OE/lge/build/webosose/dunfell/BUILD/work/qemux86_64-webos-linux/containerd-opencontainers/v1.2.14+gitAUTOINC+3b3e9d5f62-r0/recipe-sysroot-native/usr/bin/x86_64-webos-linux/../../libexec/x86_64-webos-linux/gcc/x86_64-webos-linux/9.3.0/ld:
-> internal error in read_header_prolog, at ../../gold/dwarf_reader.cc:1678
-> -# collect2: error: ld returned 1 exit status
-> -# alternatively we can backport DWARF-5 support to binutils-2.34 used in
-> dunfell like in:
-> -#
-> https://git.openembedded.org/openembedded-core/commit/?id=d07d4d739ae17787017f771dd2068fda0e836722
-> -EXTRA_EXTLDFLAGS = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold',
-> ' -fuse-ld=bfd ', '', d)}"
-> -
-> -EXTRA_OEMAKE += "GODEBUG=1 EXTRA_EXTLDFLAGS='${EXTRA_EXTLDFLAGS}'"
-> +EXTRA_OEMAKE += "GODEBUG=1"
+> Signed-off-by: Hugo SIMELIERE <hsimeliere.opensource@witekio.com>
+> ---
+>  ...-GOBUILDFLAGS-for-runc-and-remove-re.patch |  40 ++--
+>  ...nly-allow-proc-mount-if-it-is-procfs.patch | 201 ------------------
+>  ...001-runc-Add-console-socket-dev-null.patch |  19 +-
+>  .../0001-runc-docker-SIGUSR1-daemonize.patch  |  21 +-
+>  recipes-containers/runc/runc-docker_git.bb    |   7 +-
+>  .../runc/runc-opencontainers_git.bb           |   7 +-
+>  recipes-containers/runc/runc.inc              |  15 +-
+>  7 files changed, 60 insertions(+), 250 deletions(-)
+>  delete mode 100644 recipes-containers/runc/files/0001-Only-allow-proc-mo=
+unt-if-it-is-procfs.patch
 >
->  PROVIDES += "virtual/containerd"
->  RPROVIDES_${PN} = "virtual/containerd"
-> -
-> -CVE_PRODUCT = "containerd"
-> diff --git a/recipes-containers/containerd/containerd.inc
-> b/recipes-containers/containerd/containerd.inc
-> index e226edf..2a14a44 100644
-> --- a/recipes-containers/containerd/containerd.inc
-> +++ b/recipes-containers/containerd/containerd.inc
-> @@ -6,7 +6,7 @@ DESCRIPTION = "containerd is a daemon to control runC,
-> built for performance and
->
->  # Apache-2.0 for containerd
->  LICENSE = "Apache-2.0"
-> -LIC_FILES_CHKSUM =
-> "file://src/import/LICENSE.code;md5=aadc30f9c14d876ded7bedc0afd2d3d7"
-> +LIC_FILES_CHKSUM ?=
-> "file://src/import/LICENSE.code;md5=aadc30f9c14d876ded7bedc0afd2d3d7"
->
->  SRC_URI += "file://containerd.service"
->
-> @@ -38,7 +38,7 @@ do_compile() {
->      # without this, the stress test parts of the build fail
->      cp ${S}/src/import/*.go ${S}/src/import/vendor/src/
-> github.com/containerd/containerd
->
-> -    for c in content errdefs fs images mount snapshots linux api runtimes
-> defaults progress \
-> +    for c in content timeout ttrpcutil oom stdio process errdefs fs
-> images mount snapshots linux api runtimes defaults progress \
->       protobuf reference diff platforms runtime remotes version archive
-> dialer gc metadata \
->       metrics filters identifiers labels leases plugin server services \
->       cmd cio containers namespaces oci events log reaper sys rootfs
-> nvidia seed apparmor seccomp; do
-> @@ -64,6 +64,7 @@ do_compile() {
->      export BUILDTAGS="no_btrfs static_build netgo"
->      export CFLAGS="${CFLAGS}"
->      export LDFLAGS="${LDFLAGS}"
-> +    export SHIM_CGO_ENABLED="${CGO_ENABLED}"
->
->      cd ${S}/src/import
->      oe_runmake binaries
-> @@ -79,12 +80,16 @@ do_install() {
->
->   cp ${S}/src/import/bin/containerd ${D}/${bindir}/containerd
->   cp ${S}/src/import/bin/containerd-shim ${D}/${bindir}/containerd-shim
-> + cp ${S}/src/import/bin/containerd-shim-runc-v1
-> ${D}/${bindir}/containerd-shim-runc-v1
-> + cp ${S}/src/import/bin/containerd-shim-runc-v2
-> ${D}/${bindir}/containerd-shim-runc-v2
->   cp ${S}/src/import/bin/ctr ${D}/${bindir}/containerd-ctr
->
->   ln -sf containerd ${D}/${bindir}/docker-containerd
->   ln -sf containerd-shim ${D}/${bindir}/docker-containerd-shim
->   ln -sf containerd-ctr ${D}/${bindir}/docker-containerd-ctr
->
-> + ln -sf containerd-ctr ${D}/${bindir}/ctr
-> +
->   if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)};
-> then
->   install -d ${D}${systemd_unitdir}/system
->   install -m 644 ${WORKDIR}/containerd.service
-> ${D}/${systemd_unitdir}/system
-> diff --git
-> a/recipes-containers/containerd/files/0001-build-use-oe-provided-GO-and-flags.patch
-> b/recipes-containers/containerd/files/0001-build-use-oe-provided-GO-and-flags.patch
-> new file mode 100644
-> index 0000000..a58feed
-> --- /dev/null
-> +++
-> b/recipes-containers/containerd/files/0001-build-use-oe-provided-GO-and-flags.patch
-> @@ -0,0 +1,70 @@
-> +From 408e8b526d490af817a64b7220e8e2c3789de58f Mon Sep 17 00:00:00 2001
+> diff --git a/recipes-containers/runc/files/0001-Makefile-respect-GOBUILDF=
+LAGS-for-runc-and-remove-re.patch b/recipes-containers/runc/files/0001-Make=
+file-respect-GOBUILDFLAGS-for-runc-and-remove-re.patch
+> index 94cbb4c..c855d7b 100644
+> --- a/recipes-containers/runc/files/0001-Makefile-respect-GOBUILDFLAGS-fo=
+r-runc-and-remove-re.patch
+> +++ b/recipes-containers/runc/files/0001-Makefile-respect-GOBUILDFLAGS-fo=
+r-runc-and-remove-re.patch
+> @@ -1,35 +1,37 @@
+> -From d2c47a973f354ffd505bb4e809c59e57b543726d Mon Sep 17 00:00:00 2001
+> -From: Chen Qi <Qi.Chen@windriver.com>
+> -Date: Tue, 6 Aug 2019 19:01:45 +0800
+> +From 0fe50d2ca4517f5e3070585040f35ace413acd44 Mon Sep 17 00:00:00 2001
 > +From: Bruce Ashfield <bruce.ashfield@gmail.com>
-> +Date: Sun, 10 Feb 2019 23:46:06 +0000
-> +Subject: [PATCH] build: use oe provided GO and flags
-> +
-> +We want to use the go compiler as defined in the oe-enviroment, not the
-> +generic call to 'go'. Without changing this, we'll get things like cgo
-> +errors and invalid flag combos.
-> +
+> +Date: Tue, 24 Aug 2021 11:38:23 -0400
+>  Subject: [PATCH] Makefile: respect GOBUILDFLAGS for runc and remove recv=
+tty
+>   from static
+>
+>  Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> +[bva: refreshed for release 1.0.2]
 > +Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-> +---
-> + Makefile | 8 ++++----
-> + 1 file changed, 4 insertions(+), 4 deletions(-)
+>  ---
+>   Makefile | 3 +--
+>   1 file changed, 1 insertion(+), 2 deletions(-)
+>
+> -diff --git a/Makefile b/Makefile
+> -index 0f26a1c8..a0c6b40b 100644
+> +diff --git a/src/import/Makefile b/src/import/Makefile
+> +index efbddf0d..4b174c80 100644
+>  --- a/src/import/Makefile
+>  +++ b/src/import/Makefile
+> -@@ -30,7 +30,7 @@ SHELL :=3D $(shell command -v bash 2>/dev/null)
+> - .DEFAULT: runc
+> +@@ -24,7 +24,7 @@ ifeq ($(shell $(GO) env GOOS),linux)
+> + =E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82endif
+> + =E2=80=82=E2=80=82=E2=80=82=E2=80=82endif
+> + endif
+> +-GO_BUILD :=3D $(GO) build -trimpath $(MOD_VENDOR) $(GO_BUILDMODE) $(EXT=
+RA_FLAGS) -tags "$(BUILDTAGS)" \
+> ++GO_BUILD :=3D $(GO) build $(GOBUILDFLAGS) -trimpath $(MOD_VENDOR) $(GO_=
+BUILDMODE) $(EXTRA_FLAGS) -tags "$(BUILDTAGS)" \
+> + =E2=80=82=E2=80=82=E2=80=82=E2=80=82-ldflags "-X main.gitCommit=3D$(COM=
+MIT) -X main.version=3D$(VERSION) $(EXTRA_LDFLAGS)"
+> + GO_BUILD_STATIC :=3D CGO_ENABLED=3D1 $(GO) build -trimpath $(MOD_VENDOR=
+) $(EXTRA_FLAGS) -tags "$(BUILDTAGS) netgo osusergo" \
+> + =E2=80=82=E2=80=82=E2=80=82=E2=80=82-ldflags "-extldflags -static -X ma=
+in.gitCommit=3D$(COMMIT) -X main.version=3D$(VERSION) $(EXTRA_LDFLAGS)"
+> +@@ -41,7 +41,6 @@ recvtty:
+>
+> - runc: $(SOURCES)
+> --=E2=80=82=E2=80=82=E2=80=82=E2=80=82$(GO) build -buildmode=3Dpie $(EXTR=
+A_FLAGS) -ldflags "-X main.gitCommit=3D${COMMIT} -X main.version=3D${VERSIO=
+N} $(EXTRA_LDFLAGS)" -tags "$(BUILDTAGS)" -o runc .
+> -+=E2=80=82=E2=80=82=E2=80=82=E2=80=82$(GO) build $(GOBUILDFLAGS) $(EXTRA=
+_FLAGS) -ldflags "-X main.gitCommit=3D${COMMIT} -X main.version=3D${VERSION=
+} $(EXTRA_LDFLAGS)" -tags "$(BUILDTAGS)" -o runc .
+> -
+> - all: runc recvtty
+> -
+> -@@ -41,7 +41,6 @@ contrib/cmd/recvtty/recvtty: $(SOURCES)
+> -
+> - static: $(SOURCES)
+> - =E2=80=82=E2=80=82=E2=80=82=E2=80=82CGO_ENABLED=3D1 $(GO) build $(EXTRA=
+_FLAGS) -tags "$(BUILDTAGS) netgo osusergo static_build" -installsuffix net=
+go -ldflags "-w -extldflags -static -X main.gitCommit=3D${COMMIT} -X main.v=
+ersion=3D${VERSION} $(EXTRA_LDFLAGS)" -o runc .
+> --=E2=80=82=E2=80=82=E2=80=82=E2=80=82CGO_ENABLED=3D1 $(GO) build $(EXTRA=
+_FLAGS) -tags "$(BUILDTAGS) netgo osusergo static_build" -installsuffix net=
+go -ldflags "-w -extldflags -static -X main.gitCommit=3D${COMMIT} -X main.v=
+ersion=3D${VERSION} $(EXTRA_LDFLAGS)" -o contrib/cmd/recvtty/recvtty ./cont=
+rib/cmd/recvtty
+> + static:
+> + =E2=80=82=E2=80=82=E2=80=82=E2=80=82$(GO_BUILD_STATIC) -o runc .
+> +-=E2=80=82=E2=80=82=E2=80=82=E2=80=82$(GO_BUILD_STATIC) -o contrib/cmd/r=
+ecvtty/recvtty ./contrib/cmd/recvtty
+>
+>   release:
+>   =E2=80=82=E2=80=82=E2=80=82=E2=80=82script/release.sh -r release/$(VERS=
+ION) -v $(VERSION)
+>  --
+> -2.17.1
+> +2.19.1
+>
+> diff --git a/recipes-containers/runc/files/0001-Only-allow-proc-mount-if-=
+it-is-procfs.patch b/recipes-containers/runc/files/0001-Only-allow-proc-mou=
+nt-if-it-is-procfs.patch
+> deleted file mode 100644
+> index 5aca99e..0000000
+> --- a/recipes-containers/runc/files/0001-Only-allow-proc-mount-if-it-is-p=
+rocfs.patch
+> +++ /dev/null
+> @@ -1,201 +0,0 @@
+> -From d75b05441772417a0828465a9483f16287937724 Mon Sep 17 00:00:00 2001
+> -From: Michael Crosby <crosbymichael@gmail.com>
+> -Date: Mon, 23 Sep 2019 16:45:45 -0400
+> -Subject: [PATCH] Only allow proc mount if it is procfs
+> -
+> -Fixes #2128
+> -
+> -This allows proc to be bind mounted for host and rootless namespace usec=
+ases but
+> -it removes the ability to mount over the top of proc with a directory.
+> -
+> -```bash
+> -> sudo docker run --rm  apparmor
+> -docker: Error response from daemon: OCI runtime create failed:
+> -container_linux.go:346: starting container process caused "process_linux=
+.go:449:
+> -container init caused \"rootfs_linux.go:58: mounting
+> -\\\"/var/lib/docker/volumes/aae28ea068c33d60e64d1a75916cf3ec2dc3634f9757=
+1854c9ed30c8401460c1/_data\\\"
+> -to rootfs
+> -\\\"/var/lib/docker/overlay2/a6be5ae911bf19f8eecb23a295dec85be9a8ee8da66=
+e9fb55b47c841d1e381b7/merged\\\"
+> -at \\\"/proc\\\" caused
+> -\\\"\\\\\\\"/var/lib/docker/overlay2/a6be5ae911bf19f8eecb23a295dec85be9a=
+8ee8da66e9fb55b47c841d1e381b7/merged/proc\\\\\\\"
+> -cannot be mounted because it is not of type proc\\\"\"": unknown.
+> -
+> -> sudo docker run --rm -v /proc:/proc apparmor
+> -
+> -docker-default (enforce)        root     18989  0.9  0.0   1288     4 ?
+> -Ss   16:47   0:00 sleep 20
+> -```
+> -
+> -Signed-off-by: Michael Crosby <crosbymichael@gmail.com>
+> -
+> -Upstream-Status: Backport [https://github.com/opencontainers/runc/pull/2=
+129/commits/331692baa7afdf6c186f8667cb0e6362ea0802b3]
+> -
+> -CVE: CVE-2019-16884
+> -
+> -Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ----
+> - libcontainer/container_linux.go   |  4 +--
+> - libcontainer/rootfs_linux.go      | 50 +++++++++++++++++++++++--------
+> - libcontainer/rootfs_linux_test.go |  8 ++---
+> - 3 files changed, 43 insertions(+), 19 deletions(-)
+> -
+> -diff --git a/libcontainer/container_linux.go b/libcontainer/container_li=
+nux.go
+> -index 7e58e5e0..d51e35df 100644
+> ---- a/src/import/libcontainer/container_linux.go
+> -+++ b/src/import/libcontainer/container_linux.go
+> -@@ -19,7 +19,7 @@ import (
+> - =E2=80=82=E2=80=82=E2=80=82=E2=80=82"syscall" // only for SysProcAttr a=
+nd Signal
+> - =E2=80=82=E2=80=82=E2=80=82=E2=80=82"time"
+> -
+> --=E2=80=82=E2=80=82=E2=80=82=E2=80=82"github.com/cyphar/filepath-securej=
+oin"
+> -+=E2=80=82=E2=80=82=E2=80=82=E2=80=82securejoin "github.com/cyphar/filep=
+ath-securejoin"
+> - =E2=80=82=E2=80=82=E2=80=82=E2=80=82"github.com/opencontainers/runc/lib=
+container/cgroups"
+> - =E2=80=82=E2=80=82=E2=80=82=E2=80=82"github.com/opencontainers/runc/lib=
+container/configs"
+> - =E2=80=82=E2=80=82=E2=80=82=E2=80=82"github.com/opencontainers/runc/lib=
+container/intelrdt"
+> -@@ -1160,7 +1160,7 @@ func (c *linuxContainer) makeCriuRestoreMountpoint=
+s(m *configs.Mount) error {
+> - =E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82if err !=3D nil {
+> - =E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=
+return err
+> - =E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82}
+> --=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82if err :=3D checkMountDestination(c.config.Rootfs, des=
+t); err !=3D nil {
+> -+=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82if err :=3D checkProcMount(c.config.Rootfs, dest, "");=
+ err !=3D nil {
+> - =E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=
+return err
+> - =E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82}
+> - =E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82m.Destination =3D dest
+> -diff --git a/libcontainer/rootfs_linux.go b/libcontainer/rootfs_linux.go
+> -index f13b226e..5650b0ac 100644
+> ---- a/src/import/libcontainer/rootfs_linux.go
+> -+++ b/src/import/libcontainer/rootfs_linux.go
+> -@@ -13,7 +13,7 @@ import (
+> - =E2=80=82=E2=80=82=E2=80=82=E2=80=82"strings"
+> - =E2=80=82=E2=80=82=E2=80=82=E2=80=82"time"
+> -
+> --=E2=80=82=E2=80=82=E2=80=82=E2=80=82"github.com/cyphar/filepath-securej=
+oin"
+> -+=E2=80=82=E2=80=82=E2=80=82=E2=80=82securejoin "github.com/cyphar/filep=
+ath-securejoin"
+> - =E2=80=82=E2=80=82=E2=80=82=E2=80=82"github.com/mrunalp/fileutils"
+> - =E2=80=82=E2=80=82=E2=80=82=E2=80=82"github.com/opencontainers/runc/lib=
+container/cgroups"
+> - =E2=80=82=E2=80=82=E2=80=82=E2=80=82"github.com/opencontainers/runc/lib=
+container/configs"
+> -@@ -197,7 +197,7 @@ func prepareBindMount(m *configs.Mount, rootfs strin=
+g) error {
+> - =E2=80=82=E2=80=82=E2=80=82=E2=80=82if dest, err =3D securejoin.SecureJ=
+oin(rootfs, m.Destination); err !=3D nil {
+> - =E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82return err
+> - =E2=80=82=E2=80=82=E2=80=82=E2=80=82}
+> --=E2=80=82=E2=80=82=E2=80=82=E2=80=82if err :=3D checkMountDestination(r=
+ootfs, dest); err !=3D nil {
+> -+=E2=80=82=E2=80=82=E2=80=82=E2=80=82if err :=3D checkProcMount(rootfs, =
+dest, m.Source); err !=3D nil {
+> - =E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82return err
+> - =E2=80=82=E2=80=82=E2=80=82=E2=80=82}
+> - =E2=80=82=E2=80=82=E2=80=82=E2=80=82// update the mount with the correc=
+t dest after symlinks are resolved.
+> -@@ -388,7 +388,7 @@ func mountToRootfs(m *configs.Mount, rootfs, mountLa=
+bel string, enableCgroupns b
+> - =E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82if dest, err =3D securejoin.SecureJoin(rootfs, m.Desti=
+nation); err !=3D nil {
+> - =E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=
+return err
+> - =E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82}
+> --=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82if err :=3D checkMountDestination(rootfs, dest); err !=
+=3D nil {
+> -+=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82if err :=3D checkProcMount(rootfs, dest, m.Source); er=
+r !=3D nil {
+> - =E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=
+return err
+> - =E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82}
+> - =E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82// update the mount with the correct dest after symlin=
+ks are resolved.
+> -@@ -435,12 +435,12 @@ func getCgroupMounts(m *configs.Mount) ([]*configs=
+.Mount, error) {
+> - =E2=80=82=E2=80=82=E2=80=82=E2=80=82return binds, nil
+> - }
+> -
+> --// checkMountDestination checks to ensure that the mount destination is=
+ not over the top of /proc.
+> -+// checkProcMount checks to ensure that the mount destination is not ov=
+er the top of /proc.
+> - // dest is required to be an abs path and have any symlinks resolved be=
+fore calling this function.
+> --func checkMountDestination(rootfs, dest string) error {
+> --=E2=80=82=E2=80=82=E2=80=82=E2=80=82invalidDestinations :=3D []string{
+> --=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82"/proc",
+> --=E2=80=82=E2=80=82=E2=80=82=E2=80=82}
+> -+//
+> -+// if source is nil, don't stat the filesystem.  This is used for resto=
+re of a checkpoint.
+> -+func checkProcMount(rootfs, dest, source string) error {
+> -+=E2=80=82=E2=80=82=E2=80=82=E2=80=82const procPath =3D "/proc"
+> - =E2=80=82=E2=80=82=E2=80=82=E2=80=82// White list, it should be sub dir=
+ectories of invalid destinations
+> - =E2=80=82=E2=80=82=E2=80=82=E2=80=82validDestinations :=3D []string{
+> - =E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82// These entries can be bind mounted by files emulated=
+ by fuse,
+> -@@ -463,16 +463,40 @@ func checkMountDestination(rootfs, dest string) er=
+ror {
+> - =E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=
+return nil
+> - =E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82}
+> - =E2=80=82=E2=80=82=E2=80=82=E2=80=82}
+> --=E2=80=82=E2=80=82=E2=80=82=E2=80=82for _, invalid :=3D range invalidDe=
+stinations {
+> --=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82path, err :=3D filepath.Rel(filepath.Join(rootfs, inva=
+lid), dest)
+> -+=E2=80=82=E2=80=82=E2=80=82=E2=80=82path, err :=3D filepath.Rel(filepat=
+h.Join(rootfs, procPath), dest)
+> -+=E2=80=82=E2=80=82=E2=80=82=E2=80=82if err !=3D nil {
+> -+=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82return err
+> -+=E2=80=82=E2=80=82=E2=80=82=E2=80=82}
+> -+=E2=80=82=E2=80=82=E2=80=82=E2=80=82// pass if the mount path is locate=
+d outside of /proc
+> -+=E2=80=82=E2=80=82=E2=80=82=E2=80=82if strings.HasPrefix(path, "..") {
+> -+=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82return nil
+> -+=E2=80=82=E2=80=82=E2=80=82=E2=80=82}
+> -+=E2=80=82=E2=80=82=E2=80=82=E2=80=82if path =3D=3D "." {
+> -+=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82// an empty source is pasted on restore
+> -+=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82if source =3D=3D "" {
+> -+=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=
+return nil
+> -+=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82}
+> -+=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82// only allow a mount on-top of proc if it's source is=
+ "proc"
+> -+=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82isproc, err :=3D isProc(source)
+> - =E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82if err !=3D nil {
+> - =E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=
+return err
+> - =E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82}
+> --=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82if path !=3D "." && !strings.HasPrefix(path, "..") {
+> --=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=
+return fmt.Errorf("%q cannot be mounted because it is located inside %q", d=
+est, invalid)
+> -+=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82// pass if the mount is happening on top of /proc and =
+the source of
+> -+=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82// the mount is a proc filesystem
+> -+=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82if isproc {
+> -+=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=
+return nil
+> - =E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82}
+> -+=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82return fmt.Errorf("%q cannot be mounted because it is =
+not of type proc", dest)
+> - =E2=80=82=E2=80=82=E2=80=82=E2=80=82}
+> --=E2=80=82=E2=80=82=E2=80=82=E2=80=82return nil
+> -+=E2=80=82=E2=80=82=E2=80=82=E2=80=82return fmt.Errorf("%q cannot be mou=
+nted because it is inside /proc", dest)
+> -+}
+> -+
+> -+func isProc(path string) (bool, error) {
+> -+=E2=80=82=E2=80=82=E2=80=82=E2=80=82var s unix.Statfs_t
+> -+=E2=80=82=E2=80=82=E2=80=82=E2=80=82if err :=3D unix.Statfs(path, &s); =
+err !=3D nil {
+> -+=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82return false, err
+> -+=E2=80=82=E2=80=82=E2=80=82=E2=80=82}
+> -+=E2=80=82=E2=80=82=E2=80=82=E2=80=82return s.Type =3D=3D unix.PROC_SUPE=
+R_MAGIC, nil
+> - }
+> -
+> - func setupDevSymlinks(rootfs string) error {
+> -diff --git a/libcontainer/rootfs_linux_test.go b/libcontainer/rootfs_lin=
+ux_test.go
+> -index d755984b..1bfe7c66 100644
+> ---- a/src/import/libcontainer/rootfs_linux_test.go
+> -+++ b/src/import/libcontainer/rootfs_linux_test.go
+> -@@ -10,7 +10,7 @@ import (
+> -
+> - func TestCheckMountDestOnProc(t *testing.T) {
+> - =E2=80=82=E2=80=82=E2=80=82=E2=80=82dest :=3D "/rootfs/proc/sys"
+> --=E2=80=82=E2=80=82=E2=80=82=E2=80=82err :=3D checkMountDestination("/ro=
+otfs", dest)
+> -+=E2=80=82=E2=80=82=E2=80=82=E2=80=82err :=3D checkProcMount("/rootfs", =
+dest, "")
+> - =E2=80=82=E2=80=82=E2=80=82=E2=80=82if err =3D=3D nil {
+> - =E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82t.Fatal("destination inside proc should return an erro=
+r")
+> - =E2=80=82=E2=80=82=E2=80=82=E2=80=82}
+> -@@ -18,7 +18,7 @@ func TestCheckMountDestOnProc(t *testing.T) {
+> -
+> - func TestCheckMountDestOnProcChroot(t *testing.T) {
+> - =E2=80=82=E2=80=82=E2=80=82=E2=80=82dest :=3D "/rootfs/proc/"
+> --=E2=80=82=E2=80=82=E2=80=82=E2=80=82err :=3D checkMountDestination("/ro=
+otfs", dest)
+> -+=E2=80=82=E2=80=82=E2=80=82=E2=80=82err :=3D checkProcMount("/rootfs", =
+dest, "/proc")
+> - =E2=80=82=E2=80=82=E2=80=82=E2=80=82if err !=3D nil {
+> - =E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82t.Fatal("destination inside proc when using chroot sho=
+uld not return an error")
+> - =E2=80=82=E2=80=82=E2=80=82=E2=80=82}
+> -@@ -26,7 +26,7 @@ func TestCheckMountDestOnProcChroot(t *testing.T) {
+> -
+> - func TestCheckMountDestInSys(t *testing.T) {
+> - =E2=80=82=E2=80=82=E2=80=82=E2=80=82dest :=3D "/rootfs//sys/fs/cgroup"
+> --=E2=80=82=E2=80=82=E2=80=82=E2=80=82err :=3D checkMountDestination("/ro=
+otfs", dest)
+> -+=E2=80=82=E2=80=82=E2=80=82=E2=80=82err :=3D checkProcMount("/rootfs", =
+dest, "")
+> - =E2=80=82=E2=80=82=E2=80=82=E2=80=82if err !=3D nil {
+> - =E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82t.Fatal("destination inside /sys should not return an =
+error")
+> - =E2=80=82=E2=80=82=E2=80=82=E2=80=82}
+> -@@ -34,7 +34,7 @@ func TestCheckMountDestInSys(t *testing.T) {
+> -
+> - func TestCheckMountDestFalsePositive(t *testing.T) {
+> - =E2=80=82=E2=80=82=E2=80=82=E2=80=82dest :=3D "/rootfs/sysfiles/fs/cgro=
+up"
+> --=E2=80=82=E2=80=82=E2=80=82=E2=80=82err :=3D checkMountDestination("/ro=
+otfs", dest)
+> -+=E2=80=82=E2=80=82=E2=80=82=E2=80=82err :=3D checkProcMount("/rootfs", =
+dest, "")
+> - =E2=80=82=E2=80=82=E2=80=82=E2=80=82if err !=3D nil {
+> - =E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82t.Fatal(err)
+> - =E2=80=82=E2=80=82=E2=80=82=E2=80=82}
+> ---
+> -2.17.1
+> -
+> diff --git a/recipes-containers/runc/runc-docker/0001-runc-Add-console-so=
+cket-dev-null.patch b/recipes-containers/runc/runc-docker/0001-runc-Add-con=
+sole-socket-dev-null.patch
+> index 48c1250..bcf4c10 100644
+> --- a/recipes-containers/runc/runc-docker/0001-runc-Add-console-socket-de=
+v-null.patch
+> +++ b/recipes-containers/runc/runc-docker/0001-runc-Add-console-socket-de=
+v-null.patch
+> @@ -12,11 +12,11 @@ Signed-off-by: Jason Wessel <jason.wessel@windriver.c=
+om>
+>   utils_linux.go | 5 +++++
+>   1 file changed, 5 insertions(+)
+>
+> -diff --git a/utils_linux.go b/utils_linux.go
+> -index 8085f7fe..e6d31b35 100644
+> ---- a/src/import/utils_linux.go
+> -+++ b/src/import/utils_linux.go
+> -@@ -227,6 +227,11 @@ type runner struct {
+> +Index: git/src/import/utils_linux.go
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +--- git.orig/src/import/utils_linux.go
+> ++++ git/src/import/utils_linux.go
+> +@@ -267,6 +267,11 @@
+>   }
+>
+>   func (r *runner) run(config *specs.Process) (int, error) {
+> @@ -25,9 +25,6 @@ index 8085f7fe..e6d31b35 100644
+>  +=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82r.consoleSocket =3D ""
+>  +=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82config.Terminal =3D false
+>  +=E2=80=82=E2=80=82=E2=80=82=E2=80=82}
+> - =E2=80=82=E2=80=82=E2=80=82=E2=80=82if err :=3D r.checkTerminal(config)=
+; err !=3D nil {
+> - =E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82r.destroy()
+> - =E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82return -1, err
+> ---
+> -2.11.0
+> -
+> + =E2=80=82=E2=80=82=E2=80=82=E2=80=82var err error
+> + =E2=80=82=E2=80=82=E2=80=82=E2=80=82defer func() {
+> + =E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82if err !=3D nil {
+> diff --git a/recipes-containers/runc/runc-docker/0001-runc-docker-SIGUSR1=
+-daemonize.patch b/recipes-containers/runc/runc-docker/0001-runc-docker-SIG=
+USR1-daemonize.patch
+> index 0af7495..4350c40 100644
+> --- a/recipes-containers/runc/runc-docker/0001-runc-docker-SIGUSR1-daemon=
+ize.patch
+> +++ b/recipes-containers/runc/runc-docker/0001-runc-docker-SIGUSR1-daemon=
+ize.patch
+> @@ -33,15 +33,17 @@ Index: git/src/import/signals.go
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>  --- git.orig/src/import/signals.go
+>  +++ git/src/import/signals.go
+> -@@ -6,6 +6,7 @@
+> +@@ -5,7 +5,9 @@
+> + import (
+>   =E2=80=82=E2=80=82=E2=80=82=E2=80=82"os"
+>   =E2=80=82=E2=80=82=E2=80=82=E2=80=82"os/signal"
+> - =E2=80=82=E2=80=82=E2=80=82=E2=80=82"syscall" // only for Signal
+> -+=E2=80=82=E2=80=82=E2=80=82=E2=80=82"strconv"
+> ++=E2=80=82=E2=80=82=E2=80=82=E2=80=82"syscall" // only for Signal
+>
+> ++        "strconv"
+>   =E2=80=82=E2=80=82=E2=80=82=E2=80=82"github.com/opencontainers/runc/lib=
+container"
+>   =E2=80=82=E2=80=82=E2=80=82=E2=80=82"github.com/opencontainers/runc/lib=
+container/system"
+> -@@ -56,9 +57,6 @@
+> + =E2=80=82=E2=80=82=E2=80=82=E2=80=82"github.com/opencontainers/runc/lib=
+container/utils"
+> +@@ -55,9 +57,6 @@
+>   func (h *signalHandler) forward(process *libcontainer.Process, tty *tty=
+, detach bool) (int, error) {
+>   =E2=80=82=E2=80=82=E2=80=82=E2=80=82// make sure we know the pid of our=
+ main process so that we can return
+>   =E2=80=82=E2=80=82=E2=80=82=E2=80=82// after it dies.
+> @@ -51,13 +53,14 @@ Index: git/src/import/signals.go
+>
+>   =E2=80=82=E2=80=82=E2=80=82=E2=80=82pid1, err :=3D process.Pid()
+>   =E2=80=82=E2=80=82=E2=80=82=E2=80=82if err !=3D nil {
+> -@@ -68,11 +66,60 @@
+> +@@ -67,12 +66,61 @@
+>   =E2=80=82=E2=80=82=E2=80=82=E2=80=82if h.notifySocket !=3D nil {
+>   =E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82if detach {
+> - =E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=
+h.notifySocket.run(pid1)
+> + =E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=
+_ =3D h.notifySocket.run(pid1)
+>  -=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=
+return 0, nil
+>   =E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82}
+> - =E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82go h.notifySocket.run(0)
+> + =E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82_ =3D h.notifySocket.run(os.Getpid())
+> + =E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82go func() { _ =3D h.notifySocket.run(0) }()
+>   =E2=80=82=E2=80=82=E2=80=82=E2=80=82}
+>
+>  +=E2=80=82=E2=80=82=E2=80=82=E2=80=82if (detach) {
+> @@ -117,7 +120,7 @@ Index: git/src/import/utils_linux.go
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>  --- git.orig/src/import/utils_linux.go
+>  +++ git/src/import/utils_linux.go
+> -@@ -347,7 +347,7 @@
+> +@@ -345,7 +345,7 @@
+>   =E2=80=82=E2=80=82=E2=80=82=E2=80=82if err !=3D nil {
+>   =E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82r.terminate(process)
+>   =E2=80=82=E2=80=82=E2=80=82=E2=80=82}
+> @@ -125,4 +128,4 @@ Index: git/src/import/utils_linux.go
+>  +=E2=80=82=E2=80=82=E2=80=82=E2=80=82if (detach && os.Getenv("SIGUSR1_PA=
+RENT_PID") =3D=3D "") {
+>   =E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82return 0, nil
+>   =E2=80=82=E2=80=82=E2=80=82=E2=80=82}
+> - =E2=80=82=E2=80=82=E2=80=82=E2=80=82r.destroy()
+> + =E2=80=82=E2=80=82=E2=80=82=E2=80=82if err =3D=3D nil {
+> diff --git a/recipes-containers/runc/runc-docker_git.bb b/recipes-contain=
+ers/runc/runc-docker_git.bb
+> index 42b4cb5..2019ad3 100644
+> --- a/recipes-containers/runc/runc-docker_git.bb
+> +++ b/recipes-containers/runc/runc-docker_git.bb
+> @@ -2,14 +2,13 @@ include runc.inc
+>
+>  # Note: this rev is before the required protocol field, update when all =
+components
+>  #       have been updated to match.
+> -SRCREV_runc-docker =3D "425e105d5a03fabd737a126ad93d62a9eeede87f"
+> -SRC_URI =3D "git://github.com/opencontainers/runc;nobranch=3D1;name=3Dru=
+nc-docker;protocol=3Dhttps \
+> +SRCREV_runc-docker =3D "e0124d569cb2dfe93bd9fb8d7f4ade461e006464"
+> +SRC_URI =3D "git://github.com/opencontainers/runc;branch=3Drelease-1.0;n=
+ame=3Drunc-docker;protocol=3Dhttps \
+>             file://0001-runc-Add-console-socket-dev-null.patch \
+>             file://0001-Makefile-respect-GOBUILDFLAGS-for-runc-and-remove=
+-re.patch \
+>             file://0001-runc-docker-SIGUSR1-daemonize.patch \
+> -           file://0001-Only-allow-proc-mount-if-it-is-procfs.patch \
+>            "
+>
+> -RUNC_VERSION =3D "1.0.0-rc8"
+> +RUNC_VERSION =3D "1.0.3"
+>
+>  CVE_PRODUCT =3D "runc"
+> diff --git a/recipes-containers/runc/runc-opencontainers_git.bb b/recipes=
+-containers/runc/runc-opencontainers_git.bb
+> index ac6532c..4b1d0a0 100644
+> --- a/recipes-containers/runc/runc-opencontainers_git.bb
+> +++ b/recipes-containers/runc/runc-opencontainers_git.bb
+> @@ -1,11 +1,10 @@
+>  include runc.inc
+>
+> -SRCREV =3D "652297c7c7e6c94e8d064ad5916c32891a6fd388"
+> +SRCREV =3D "e0124d569cb2dfe93bd9fb8d7f4ade461e006464"
+>  SRC_URI =3D " \
+> -    git://github.com/opencontainers/runc;branch=3Dmain;protocol=3Dhttps =
+\
+> +    git://github.com/opencontainers/runc;branch=3Drelease-1.0;protocol=
+=3Dhttps \
+>      file://0001-Makefile-respect-GOBUILDFLAGS-for-runc-and-remove-re.pat=
+ch \
+> -    file://0001-Only-allow-proc-mount-if-it-is-procfs.patch \
+>      "
+> -RUNC_VERSION =3D "1.0.0-rc8"
+> +RUNC_VERSION =3D "1.0.3"
+>
+>  CVE_PRODUCT =3D "runc"
+> diff --git a/recipes-containers/runc/runc.inc b/recipes-containers/runc/r=
+unc.inc
+> index 41ea41b..eb8aa02 100644
+> --- a/recipes-containers/runc/runc.inc
+> +++ b/recipes-containers/runc/runc.inc
+> @@ -14,11 +14,17 @@ inherit go
+>  inherit goarch
+>  inherit pkgconfig
+>
+> -PACKAGECONFIG ??=3D "static"
+>  PACKAGECONFIG[seccomp] =3D "seccomp,,libseccomp"
+> +PACKAGECONFIG[selinux] =3D "selinux,,libselinux"
+>  # This PACKAGECONFIG serves the purpose of whether building runc as stat=
+ic or not
+>  PACKAGECONFIG[static] =3D ""
+>
+> +PACKAGECONFIG ??=3D "static \
+> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'seccomp', 's=
+eccomp', '', d)} \
+> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'selinux', 's=
+elinux', '', d)} \
+> +=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82          "
 > +
-> +Index: git/src/import/Makefile
-> +===================================================================
-> +--- git.orig/src/import/Makefile 2020-10-12 07:36:18.775820388 -0700
-> ++++ git/src/import/Makefile 2020-10-12 08:00:05.134151221 -0700
-> +@@ -163,19 +163,19 @@
 > +
-> + build: ## build the go packages
-> + @echo "$(WHALE) $@"
-> +- @go build ${DEBUG_GO_GCFLAGS} ${GO_GCFLAGS} ${GO_BUILD_FLAGS}
-> ${EXTRA_FLAGS} ${GO_LDFLAGS} ${PACKAGES}
-> ++ @$(GO) build ${DEBUG_GO_GCFLAGS} ${GO_GCFLAGS} ${GO_BUILD_FLAGS}
-> ${EXTRA_FLAGS} ${GO_LDFLAGS} ${PACKAGES}
+>  PROVIDES +=3D "virtual/runc"
+>  RPROVIDES_${PN} =3D "virtual/runc"
+>
+> @@ -27,7 +33,12 @@ GO_IMPORT =3D "import"
+>  LIBCONTAINER_PACKAGE=3D"github.com/opencontainers/runc/libcontainer"
+>
+>  do_configure[noexec] =3D "1"
+> -EXTRA_OEMAKE=3D"BUILDTAGS=3D'${PACKAGECONFIG_CONFARGS}' GO=3D${GO}"
 > +
-> + test: ## run tests, except integration tests and tests that require root
-> + @echo "$(WHALE) $@"
-> +- @go test ${TESTFLAGS} $(filter-out ${INTEGRATION_PACKAGE},${PACKAGES})
-> ++ @$(GO) test ${TESTFLAGS} $(filter-out
-> ${INTEGRATION_PACKAGE},${PACKAGES})
 > +
-> + root-test: ## run tests, except integration tests
-> + @echo "$(WHALE) $@"
-> +- @go test ${TESTFLAGS} $(filter-out
-> ${INTEGRATION_PACKAGE},${TEST_REQUIRES_ROOT_PACKAGES}) -test.root
-> ++ @$(GO) test ${TESTFLAGS} $(filter-out
-> ${INTEGRATION_PACKAGE},${TEST_REQUIRES_ROOT_PACKAGES}) -test.root
+> +DISTRO_BUILDTAGS ?=3D "${@bb.utils.contains('DISTRO_FEATURES', 'seccomp'=
+, 'seccomp', '', d)} \
+> +                     ${@bb.utils.contains('DISTRO_FEATURES', 'selinux', =
+'selinux', '', d)}"
 > +
-> + integration: ## run integration tests
-> + @echo "$(WHALE) $@"
-> +- @go test ${TESTFLAGS} -test.root -parallel ${TESTFLAGS_PARALLEL}
-> ++ @$(GO) test ${TESTFLAGS} -test.root -parallel ${TESTFLAGS_PARALLEL}
-> +
-> + benchmark: ## run benchmarks tests
-> + @echo "$(WHALE) $@"
-> +@@ -185,7 +185,7 @@
-> +
-> + define BUILD_BINARY =
-> + @echo "$(WHALE) $@"
-> +-@go build ${DEBUG_GO_GCFLAGS} ${GO_GCFLAGS} ${GO_BUILD_FLAGS} -o $@
-> ${GO_LDFLAGS} ${GO_TAGS}  ./$<
-> ++@$(GO) build ${DEBUG_GO_GCFLAGS} ${GO_GCFLAGS} ${GO_BUILD_FLAGS} -o $@
-> ${GO_LDFLAGS} ${GO_TAGS}  ./$<
-> + endef
-> +
-> + # Build a binary from a cmd.
-> +@@ -194,15 +194,15 @@
-> +
-> + bin/containerd-shim: cmd/containerd-shim FORCE # set !cgo and omit pie
-> for a static shim build:
-> https://github.com/golang/go/issues/17789#issuecomment-258542220
-> + @echo "$(WHALE) bin/containerd-shim"
-> +- @CGO_ENABLED=${SHIM_CGO_ENABLED} go build ${GO_BUILD_FLAGS} -o
-> bin/containerd-shim ${SHIM_GO_LDFLAGS} ${GO_TAGS} ./cmd/containerd-shim
-> ++ @CGO_ENABLED=${SHIM_CGO_ENABLED} $(GO) build -a -pkgdir
-> dontusecurrentpkgs ${GO_BUILD_FLAGS} -o bin/containerd-shim
-> ${SHIM_GO_LDFLAGS} ${GO_TAGS} ./cmd/containerd-shim
-> +
-> + bin/containerd-shim-runc-v1: cmd/containerd-shim-runc-v1 FORCE # set
-> !cgo and omit pie for a static shim build:
-> https://github.com/golang/go/issues/17789#issuecomment-258542220
-> + @echo "$(WHALE) bin/containerd-shim-runc-v1"
-> +- @CGO_ENABLED=${SHIM_CGO_ENABLED} go build ${GO_BUILD_FLAGS} -o
-> bin/containerd-shim-runc-v1 ${SHIM_GO_LDFLAGS} ${GO_TAGS}
-> ./cmd/containerd-shim-runc-v1
-> ++ @CGO_ENABLED=${SHIM_CGO_ENABLED} $(GO) build -a -pkgdir
-> dontusecurrentpkgs ${GO_BUILD_FLAGS} -o bin/containerd-shim-runc-v1
-> ${SHIM_GO_LDFLAGS} ${GO_TAGS} ./cmd/containerd-shim-runc-v1
-> +
-> + bin/containerd-shim-runc-v2: cmd/containerd-shim-runc-v2 FORCE # set
-> !cgo and omit pie for a static shim build:
-> https://github.com/golang/go/issues/17789#issuecomment-258542220
-> + @echo "$(WHALE) bin/containerd-shim-runc-v2"
-> +- @CGO_ENABLED=${SHIM_CGO_ENABLED} go build ${GO_BUILD_FLAGS} -o
-> bin/containerd-shim-runc-v2 ${SHIM_GO_LDFLAGS} ${GO_TAGS}
-> ./cmd/containerd-shim-runc-v2
-> ++ @CGO_ENABLED=${SHIM_CGO_ENABLED} $(GO) build -a -pkgdir
-> dontusecurrentpkgs ${GO_BUILD_FLAGS} -o bin/containerd-shim-runc-v2
-> ${SHIM_GO_LDFLAGS} ${GO_TAGS} ./cmd/containerd-shim-runc-v2
-> +
-> + binaries: $(BINARIES) ## build binaries
-> + @echo "$(WHALE) $@"
+> +EXTRA_OEMAKE=3D"BUILDTAGS=3D'${PACKAGECONFIG_CONFARGS} ${DISTRO_BUILDTAG=
+S}' GO=3D${GO}"
+>
+>  do_compile() {
+>  =E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82# Set GOPATH. See 'PACKAGER=
+S.md'. Don't rely on
 > --
 > 2.39.2
 >
 >
-> -=-=-=-=-=-=-=-=-=-=-=-
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#7892):
-> https://lists.yoctoproject.org/g/meta-virtualization/message/7892
-> Mute This Topic: https://lists.yoctoproject.org/mt/97157111/1050810
+> View/Reply Online (#7890): https://lists.yoctoproject.org/g/meta-virtuali=
+zation/message/7890
+> Mute This Topic: https://lists.yoctoproject.org/mt/97157077/1050810
 > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [
-> bruce.ashfield@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
+> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [=
+bruce.ashfield@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 >
->
-
---0000000000007f62b005f5486069
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Wed, Feb 22, 2023, 5:43 AM Hugo Simeliere via <a hr=
-ef=3D"http://lists.yoctoproject.org">lists.yoctoproject.org</a> &lt;hsimeli=
-ere.opensource=3D<a href=3D"mailto:witekio.com@lists.yoctoproject.org">wite=
-kio.com@lists.yoctoproject.org</a>&gt; wrote:<br></div><blockquote class=3D=
-"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding=
--left:1ex">
 
 
-
-
-<div dir=3D"ltr">
-<u></u>Fixes below CVEs:
-<div>* CVE-2020-15257</div>
-<div>* CVE-2021-21334</div>
-<div>* CVE-2021-32760</div>
-<div>* CVE-2021-41103</div>
-<div>* CVE-2022-23648</div>
-<div><br>
-</div>
-<div>Based on commit cd6feb72b84aab9655af6c8c0774a180ea2a4f60</div>
-<div><br>
-</div>
-<div>Signed-off-by: Hugo SIMELIERE &lt;<a href=3D"mailto:hsimeliere.opensou=
-rce@witekio.com" target=3D"_blank" rel=3D"noreferrer">hsimeliere.opensource=
-@witekio.com</a>&gt;</div>
-<div>---</div>
-<div>=C2=A0.../containerd/<a href=3D"http://containerd-docker_git.bb" targe=
-t=3D"_blank" rel=3D"noreferrer">containerd-docker_git.bb</a> =C2=A0 =C2=A0 =
-=C2=A0 | 10 ++-</div>
-<div>=C2=A0.../0001-Add-build-option-GODEBUG-1.patch =C2=A0 =C2=A0 | 28 +++=
------</div>
-<div>=C2=A0...1-build-use-oe-provided-GO-and-flags.patch | 42 -----------</=
-div>
-<div>=C2=A0.../<a href=3D"http://containerd-opencontainers_git.bb" target=
-=3D"_blank" rel=3D"noreferrer">containerd-opencontainers_git.bb</a> =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0| 20 ++----</div>
-<div>=C2=A0recipes-containers/containerd/containerd.inc =C2=A0| =C2=A09 ++-=
-</div>
-<div>=C2=A0...1-build-use-oe-provided-GO-and-flags.patch | 70 +++++++++++++=
-++++++</div>
-<div>=C2=A06 files changed, 100 insertions(+), 79 deletions(-)</div>
-<div>=C2=A0delete mode 100644 recipes-containers/containerd/containerd-open=
-containers/0001-build-use-oe-provided-GO-and-flags.patch</div>
-<div>=C2=A0create mode 100644 recipes-containers/containerd/files/0001-buil=
-d-use-oe-provided-GO-and-flags.patch</div>
-<div><br>
-</div>
-<div>diff --git a/recipes-containers/containerd/<a href=3D"http://container=
-d-docker_git.bb" target=3D"_blank" rel=3D"noreferrer">containerd-docker_git=
-.bb</a> b/recipes-containers/containerd/<a href=3D"http://containerd-docker=
-_git.bb" target=3D"_blank" rel=3D"noreferrer">containerd-docker_git.bb</a><=
-/div>
-<div>index f6b0e28..8d1a27a 100644</div>
-<div>--- a/recipes-containers/containerd/<a href=3D"http://containerd-docke=
-r_git.bb" target=3D"_blank" rel=3D"noreferrer">containerd-docker_git.bb</a>=
-</div>
-<div>+++ b/recipes-containers/containerd/<a href=3D"http://containerd-docke=
-r_git.bb" target=3D"_blank" rel=3D"noreferrer">containerd-docker_git.bb</a>=
-</div>
-<div>@@ -1,8 +1,11 @@</div>
-<div>=C2=A0SRCREV =3D &quot;3addd840653146c90a254301d6c3a663c7fd6429&quot;<=
-/div>
-<div>=C2=A0SRC_URI =3D &quot;\</div>
-<div>-=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82git://<a href=3D"http://=
-github.com/docker/containerd.git;branch=3Dv0.2.x;destsuffix=3Dgit/src/githu=
-b.com/containerd/containerd;protocol=3Dhttps" target=3D"_blank" rel=3D"nore=
-ferrer">github.com/docker/containerd.git;branch=3Dv0.2.x;destsuffix=3Dgit/s=
-rc/github.com/containerd/containerd;protocol=3Dhttps</a> \</div>
-<div>+=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82git://<a href=3D"http://=
-github.com/docker/containerd.git;branch=3Dv0.2.x;destsuffix=3Dgit/src/githu=
-b.com/containerd/containerd" target=3D"_blank" rel=3D"noreferrer">github.co=
-m/docker/containerd.git;branch=3Dv0.2.x;destsuffix=3Dgit/src/github.com/con=
-tainerd/containerd</a> \</div>
-<div>=C2=A0=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82&quot;</div>
-<div>=C2=A0</div>
-<div>+</div>
-<div>+LIC_FILES_CHKSUM =3D &quot;file://LICENSE.code;md5=3Daadc30f9c14d876d=
-ed7bedc0afd2d3d7&quot;</div>
-<div>+</div>
-<div>=C2=A0include containerd.inc</div>
-<div>=C2=A0</div>
-<div>=C2=A0CONTAINERD_VERSION =3D &quot;v0.2.x&quot;</div>
-<div>@@ -12,3 +15,8 @@ PROVIDES +=3D &quot;virtual/containerd&quot;</div>
-<div>=C2=A0RPROVIDES_${PN} =3D &quot;virtual/containerd&quot;</div>
-<div>=C2=A0</div>
-<div>=C2=A0DEPENDS +=3D &quot;btrfs-tools&quot;</div>
-<div>+</div>
-<div>+do_compile_prepend() {</div>
-<div>+=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82bberror &quot;${PN} is d=
-epreciated and will be removed in the future&quot;</div>
-<div>+=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82bbfatal &quot;use contai=
-ner-opencontainers for a working configuration&quot;</div>
-<div>+}</div>
-<div>diff --git a/recipes-containers/containerd/containerd-opencontainers/0=
-001-Add-build-option-GODEBUG-1.patch b/recipes-containers/containerd/contai=
-nerd-opencontainers/0001-Add-build-option-GODEBUG-1.patch</div>
-<div>index fec9ea6..8b43c8a 100644</div>
-<div>--- a/recipes-containers/containerd/containerd-opencontainers/0001-Add=
--build-option-GODEBUG-1.patch</div>
-<div>+++ b/recipes-containers/containerd/containerd-opencontainers/0001-Add=
--build-option-GODEBUG-1.patch</div>
-<div>@@ -15,28 +15,18 @@ Signed-off-by: Hongxu Jia &lt;<a href=3D"mailto:ho=
-ngxu.jia@windriver.com" target=3D"_blank" rel=3D"noreferrer">hongxu.jia@win=
-driver.com</a>&gt;</div>
-<div>=C2=A0 src/import/Makefile | 8 ++++++--</div>
-<div>=C2=A0 1 file changed, 6 insertions(+), 2 deletions(-)</div>
-<div>=C2=A0</div>
-<div>-diff --git a/src/import/Makefile b/src/import/Makefile</div>
-<div>-index 4355395..4fb5d3b 100644</div>
-<div>---- a/src/import/Makefile</div>
-<div>-+++ b/src/import/Makefile</div>
-<div>-@@ -75,11 +75,15 @@ TEST_REQUIRES_ROOT_PACKAGES=3D$(filter \</div>
-<div>+Index: git/src/import/Makefile</div>
-<div>+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D</div>
-<div>+--- git.orig/src/import/Makefile=E2=80=82=E2=80=82=E2=80=822020-10-12=
- 08:09:41.638977052 -0700</div>
-<div>++++ git/src/import/Makefile=E2=80=82=E2=80=822020-10-12 08:10:49.7830=
-74373 -0700</div>
-<div>+@@ -72,6 +72,10 @@</div>
-<div>=C2=A0 COMMANDS=3Dctr containerd containerd-stress</div>
-<div>- MANPAGES=3Dctr.1 containerd.1 containerd-config.1 containerd-config.=
-toml.5</div>
-<div>+ MANPAGES=3Dctr.8 containerd.8 containerd-config.8 containerd-config.=
-toml.5</div>
-<div>=C2=A0 </div>
-<div>=C2=A0+ifndef GODEBUG</div>
-<div>=C2=A0+ =C2=A0 EXTRA_LDFLAGS +=3D -s -w</div>
-<div>=C2=A0+endif</div>
-<div>=C2=A0+</div>
-<div>- # Build tags seccomp and apparmor are needed by CRI plugin.</div>
-<div>- BUILDTAGS ?=3D seccomp apparmor</div>
-<div>- GO_TAGS=3D$(if $(BUILDTAGS),-tags &quot;$(BUILDTAGS)&quot;,)</div>
-<div>--GO_LDFLAGS=3D-ldflags &#39;-s -w -X $(PKG)/version.Version=3D$(VERSI=
-ON) -X $(PKG)/version.Revision=3D$(REVISION) -X $(PKG)/version.Package=3D$(=
-PACKAGE) $(EXTRA_LDFLAGS)&#39;</div>
-<div>--SHIM_GO_LDFLAGS=3D-ldflags &#39;-s -w -X $(PKG)/version.Version=3D$(=
-VERSION) -X $(PKG)/version.Revision=3D$(REVISION) -X $(PKG)/version.Package=
-=3D$(PACKAGE) -extldflags &quot;-static&quot;&#39;</div>
-<div>-+GO_LDFLAGS=3D-ldflags &#39;-X $(PKG)/version.Version=3D$(VERSION) -X=
- $(PKG)/version.Revision=3D$(REVISION) -X $(PKG)/version.Package=3D$(PACKAG=
-E) $(EXTRA_LDFLAGS)&#39;</div>
-<div>-+SHIM_GO_LDFLAGS=3D-ldflags &#39;-X $(PKG)/version.Version=3D$(VERSIO=
-N) -X $(PKG)/version.Revision=3D$(REVISION) -X $(PKG)/version.Package=3D$(P=
-ACKAGE) -extldflags &quot;-static $(EXTRA_EXTLDFLAGS)&quot; $(EXTRA_LDFLAGS=
-)&#39;</div>
-<div>- </div>
-<div>- #Replaces &quot;:&quot; (*nix), &quot;;&quot; (windows) with newline=
- for easy parsing</div>
-<div>- GOPATHS=3D$(shell echo ${GOPATH} | tr &quot;:&quot; &quot;\n&quot; |=
- tr &quot;;&quot; &quot;\n&quot;)</div>
-<div>--- </div>
-<div>-2.7.4</div>
-<div>-</div>
-<div>+ ifdef BUILDTAGS</div>
-<div>+ =C2=A0 =C2=A0 GO_BUILDTAGS =3D ${BUILDTAGS}</div>
-<div>+ endif</div>
-<div>diff --git a/recipes-containers/containerd/containerd-opencontainers/0=
-001-build-use-oe-provided-GO-and-flags.patch b/recipes-containers/container=
-d/containerd-opencontainers/0001-build-use-oe-provided-GO-and-flags.patch</=
-div>
-<div>deleted file mode 100644</div>
-<div>index d4d5973..0000000</div>
-<div>--- a/recipes-containers/containerd/containerd-opencontainers/0001-bui=
-ld-use-oe-provided-GO-and-flags.patch</div>
-<div>+++ /dev/null</div>
-<div>@@ -1,42 +0,0 @@</div>
-<div>-From 408e8b526d490af817a64b7220e8e2c3789de58f Mon Sep 17 00:00:00 200=
-1</div>
-<div>-From: Bruce Ashfield &lt;<a href=3D"mailto:bruce.ashfield@gmail.com" =
-target=3D"_blank" rel=3D"noreferrer">bruce.ashfield@gmail.com</a>&gt;</div>
-<div>-Date: Sun, 10 Feb 2019 23:46:06 +0000</div>
-<div>-Subject: [PATCH] build: use oe provided GO and flags</div>
-<div>-</div>
-<div>-We want to use the go compiler as defined in the oe-enviroment, not t=
-he</div>
-<div>-generic call to &#39;go&#39;. Without changing this, we&#39;ll get th=
-ings like cgo</div>
-<div>-errors and invalid flag combos.</div>
-<div>-</div>
-<div>-Signed-off-by: Bruce Ashfield &lt;<a href=3D"mailto:bruce.ashfield@gm=
-ail.com" target=3D"_blank" rel=3D"noreferrer">bruce.ashfield@gmail.com</a>&=
-gt;</div>
-<div>----</div>
-<div>- Makefile | 8 ++++----</div>
-<div>- 1 file changed, 4 insertions(+), 4 deletions(-)</div>
-<div>-</div>
-<div>-Index: git/src/import/Makefile</div>
-<div>-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D</div>
-<div>---- git.orig/src/import/Makefile</div>
-<div>-+++ git/src/import/Makefile</div>
-<div>-@@ -166,19 +166,19 @@</div>
-<div>- # Build a binary from a cmd.</div>
-<div>- bin/%: cmd/% FORCE</div>
-<div>- =E2=80=82=E2=80=82=E2=80=82=E2=80=82@echo &quot;$(WHALE) $@${BINARY_=
-SUFFIX}&quot;</div>
-<div>--=E2=80=82=E2=80=82=E2=80=82=E2=80=82@go build ${GO_GCFLAGS} ${GO_BUI=
-LD_FLAGS} -o $@${BINARY_SUFFIX} ${GO_LDFLAGS} ${GO_TAGS} =C2=A0./$&lt;</div=
->
-<div>-+=E2=80=82=E2=80=82=E2=80=82=E2=80=82@$(GO) build ${GO_GCFLAGS} ${GO_=
-BUILD_FLAGS} -o $@${BINARY_SUFFIX} ${GO_LDFLAGS} ${GO_TAGS} =C2=A0./$&lt;</=
-div>
-<div>- </div>
-<div>- bin/containerd-shim: cmd/containerd-shim FORCE # set !cgo and omit p=
-ie for a static shim build: <a href=3D"https://github.com/golang/go/issues/=
-17789#issuecomment-258542220" target=3D"_blank" rel=3D"noreferrer">https://=
-github.com/golang/go/issues/17789#issuecomment-258542220</a></div>
-<div>- =E2=80=82=E2=80=82=E2=80=82=E2=80=82@echo &quot;$(WHALE) bin/contain=
-erd-shim&quot;</div>
-<div>--=E2=80=82=E2=80=82=E2=80=82=E2=80=82@CGO_ENABLED=3D0 go build ${GO_B=
-UILD_FLAGS} -o bin/containerd-shim ${SHIM_GO_LDFLAGS} ${GO_TAGS} ./cmd/cont=
-ainerd-shim</div>
-<div>-+=E2=80=82=E2=80=82=E2=80=82=E2=80=82@$(GO) build ${GO_BUILD_FLAGS} -=
-o bin/containerd-shim ${SHIM_GO_LDFLAGS} ${GO_TAGS} ./cmd/containerd-shim</=
-div>
-<div>- </div>
-<div>- bin/containerd-shim-runc-v1: cmd/containerd-shim-runc-v1 FORCE # set=
- !cgo and omit pie for a static shim build: <a href=3D"https://github.com/g=
-olang/go/issues/17789#issuecomment-258542220" target=3D"_blank" rel=3D"nore=
-ferrer">https://github.com/golang/go/issues/17789#issuecomment-258542220</a=
-></div>
-<div>- =E2=80=82=E2=80=82=E2=80=82=E2=80=82@echo &quot;$(WHALE) bin/contain=
-erd-shim-runc-v1&quot;</div>
-<div>--=E2=80=82=E2=80=82=E2=80=82=E2=80=82@CGO_ENABLED=3D0 go build ${GO_B=
-UILD_FLAGS} -o bin/containerd-shim-runc-v1 ${SHIM_GO_LDFLAGS} ${GO_TAGS} ./=
-cmd/containerd-shim-runc-v1</div>
-<div>-+=E2=80=82=E2=80=82=E2=80=82=E2=80=82@$(GO) build ${GO_BUILD_FLAGS} -=
-o bin/containerd-shim-runc-v1 ${SHIM_GO_LDFLAGS} ${GO_TAGS} ./cmd/container=
-d-shim-runc-v1</div>
-<div>- </div>
-<div>- bin/containerd-shim-runhcs-v1: cmd/containerd-shim-runhcs-v1 FORCE #=
- set !cgo and omit pie for a static shim build: <a href=3D"https://github.c=
-om/golang/go/issues/17789#issuecomment-258542220" target=3D"_blank" rel=3D"=
-noreferrer">https://github.com/golang/go/issues/17789#issuecomment-25854222=
-0</a></div>
-<div>- =E2=80=82=E2=80=82=E2=80=82=E2=80=82@echo &quot;$(WHALE) bin/contain=
-erd-shim-runhcs-v1${BINARY_SUFFIX}&quot;</div>
-<div>--=E2=80=82=E2=80=82=E2=80=82=E2=80=82@CGO_ENABLED=3D0 go build ${GO_B=
-UILD_FLAGS} -o bin/containerd-shim-runhcs-v1${BINARY_SUFFIX} ${SHIM_GO_LDFL=
-AGS} ${GO_TAGS} ./cmd/containerd-shim-runhcs-v1</div>
-<div>-+=E2=80=82=E2=80=82=E2=80=82=E2=80=82@$(GO) build ${GO_BUILD_FLAGS} -=
-o bin/containerd-shim-runhcs-v1${BINARY_SUFFIX} ${SHIM_GO_LDFLAGS} $(GOBUIL=
-DFLAGS) ${GO_TAGS} ./cmd/containerd-shim-runhcs-v1</div>
-<div>- </div>
-<div>- binaries: $(BINARIES) ## build binaries</div>
-<div>- =E2=80=82=E2=80=82=E2=80=82=E2=80=82@echo &quot;$(WHALE) $@&quot;</d=
-iv>
-<div>diff --git a/recipes-containers/containerd/<a href=3D"http://container=
-d-opencontainers_git.bb" target=3D"_blank" rel=3D"noreferrer">containerd-op=
-encontainers_git.bb</a> b/recipes-containers/containerd/<a href=3D"http://c=
-ontainerd-opencontainers_git.bb" target=3D"_blank" rel=3D"noreferrer">conta=
-inerd-opencontainers_git.bb</a></div>
-<div>index 5f697ed..19a1e60 100644</div>
-<div>--- a/recipes-containers/containerd/<a href=3D"http://containerd-openc=
-ontainers_git.bb" target=3D"_blank" rel=3D"noreferrer">containerd-openconta=
-iners_git.bb</a></div>
-<div>+++ b/recipes-containers/containerd/<a href=3D"http://containerd-openc=
-ontainers_git.bb" target=3D"_blank" rel=3D"noreferrer">containerd-openconta=
-iners_git.bb</a></div>
-<div>@@ -1,5 +1,5 @@</div>
-<div>-SRCREV =3D &quot;3b3e9d5f62a114153829f9fbe2781d27b0a2ddac&quot;</div>
-<div>-SRC_URI =3D &quot;git://<a href=3D"http://github.com/containerd/conta=
-inerd;branch=3Drelease/1.2;protocol=3Dhttps" target=3D"_blank" rel=3D"noref=
-errer">github.com/containerd/containerd;branch=3Drelease/1.2;protocol=3Dhtt=
-ps</a> \</div>
-<div>+SRCREV =3D &quot;9cc61520f4cd876b86e77edfeb88fbcd536d1f9d&quot;</div>
-<div>+SRC_URI =3D &quot;git://<a href=3D"http://github.com/containerd/conta=
-inerd;branch=3Drelease/1.4" target=3D"_blank" rel=3D"noreferrer">github.com=
-/containerd/containerd;branch=3Drelease/1.4</a> \</div>
-<div>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-build-use-oe-pro=
-vided-GO-and-flags.patch \</div>
-<div>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-Add-build-option=
--GODEBUG-1.patch \</div>
-<div>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;</div>
-<div>@@ -8,20 +8,10 @@ include containerd.inc</div>
-<div>=C2=A0</div>
-<div>=C2=A0LIC_FILES_CHKSUM =3D &quot;file://src/import/LICENSE;md5=3D1269f=
-40c0d099c21a871163984590d89&quot;</div>
-<div>=C2=A0</div>
-<div>-CONTAINERD_VERSION =3D &quot;v1.2.14&quot;</div>
-<div>+CONTAINERD_VERSION =3D &quot;v1.4.13&quot;</div>
-<div>+CVE_VERSION =3D &quot;1.4.13&quot;</div></div></blockquote></div></di=
-v><div dir=3D"auto"><br></div><div dir=3D"auto">Thanks for the CVE efforts!=
-</div><div dir=3D"auto"><br></div><div dir=3D"auto">But we unfortunately do=
-n&#39;t do version bumps like this on the stable branches. Only a 1.2.x ver=
-sion bump would meet the bugfix only criteria that most layers in the yocto=
- project ecosystem follow.</div><div dir=3D"auto"><br></div><div dir=3D"aut=
-o">If there aren&#39;t any minor releases upstream, then we are stuck with =
-patches.=C2=A0</div><div dir=3D"auto"><br></div><div dir=3D"auto">If there&=
-#39;s no other route to address bugs or security issues, then it isn&#39;t =
-impossible to do a version bump like this, but it is rare and would need so=
-me runtime testing as these components can be quite sensitive to interop is=
-sues when versions change.</div><div dir=3D"auto"><br></div><div dir=3D"aut=
-o">Bruce=C2=A0</div><div dir=3D"auto"><br></div><div dir=3D"auto"><div clas=
-s=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
-8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr">
-<div>=C2=A0</div>
-<div>-# Work around internal error in gold triggered due to DWARF-5 by forc=
-ing to use bfd even with ld-is-gold:</div>
-<div>-# _/OE/lge/build/webosose/dunfell/BUILD/work/qemux86_64-webos-linux/c=
-ontainerd-opencontainers/v1.2.14+gitAUTOINC+3b3e9d5f62-r0/git/src/import/cm=
-d/containerd-shim</div>
-<div>-# /OE/lge/build/webosose/dunfell/BUILD/work/qemux86_64-webos-linux/co=
-ntainerd-opencontainers/v1.2.14+gitAUTOINC+3b3e9d5f62-r0/recipe-sysroot-nat=
-ive/usr/lib/x86_64-webos-linux/go/pkg/tool/linux_amd64/link: running x86_64=
--webos-linux-gcc
- failed: exit status 1</div>
-<div>-# /OE/lge/build/webosose/dunfell/BUILD/work/qemux86_64-webos-linux/co=
-ntainerd-opencontainers/v1.2.14+gitAUTOINC+3b3e9d5f62-r0/recipe-sysroot-nat=
-ive/usr/bin/x86_64-webos-linux/../../libexec/x86_64-webos-linux/gcc/x86_64-=
-webos-linux/9.3.0/ld:
- internal error in read_header_prolog, at ../../gold/dwarf_reader.cc:1678</=
-div>
-<div>-# collect2: error: ld returned 1 exit status</div>
-<div>-# alternatively we can backport DWARF-5 support to binutils-2.34 used=
- in dunfell like in:</div>
-<div>-# <a href=3D"https://git.openembedded.org/openembedded-core/commit/?i=
-d=3Dd07d4d739ae17787017f771dd2068fda0e836722" target=3D"_blank" rel=3D"nore=
-ferrer">https://git.openembedded.org/openembedded-core/commit/?id=3Dd07d4d7=
-39ae17787017f771dd2068fda0e836722</a></div>
-<div>-EXTRA_EXTLDFLAGS =3D &quot;${@bb.utils.contains(&#39;DISTRO_FEATURES&=
-#39;, &#39;ld-is-gold&#39;, &#39; -fuse-ld=3Dbfd &#39;, &#39;&#39;, d)}&quo=
-t;</div>
-<div>-</div>
-<div>-EXTRA_OEMAKE +=3D &quot;GODEBUG=3D1 EXTRA_EXTLDFLAGS=3D&#39;${EXTRA_E=
-XTLDFLAGS}&#39;&quot;</div>
-<div>+EXTRA_OEMAKE +=3D &quot;GODEBUG=3D1&quot;</div>
-<div>=C2=A0</div>
-<div>=C2=A0PROVIDES +=3D &quot;virtual/containerd&quot;</div>
-<div>=C2=A0RPROVIDES_${PN} =3D &quot;virtual/containerd&quot;</div>
-<div>-</div>
-<div>-CVE_PRODUCT =3D &quot;containerd&quot;</div>
-<div>diff --git a/recipes-containers/containerd/containerd.inc b/recipes-co=
-ntainers/containerd/containerd.inc</div>
-<div>index e226edf..2a14a44 100644</div>
-<div>--- a/recipes-containers/containerd/containerd.inc</div>
-<div>+++ b/recipes-containers/containerd/containerd.inc</div>
-<div>@@ -6,7 +6,7 @@ DESCRIPTION =3D &quot;containerd is a daemon to contro=
-l runC, built for performance and</div>
-<div>=C2=A0</div>
-<div>=C2=A0# Apache-2.0 for containerd</div>
-<div>=C2=A0LICENSE =3D &quot;Apache-2.0&quot;</div>
-<div>-LIC_FILES_CHKSUM =3D &quot;file://src/import/LICENSE.code;md5=3Daadc3=
-0f9c14d876ded7bedc0afd2d3d7&quot;</div>
-<div>+LIC_FILES_CHKSUM ?=3D &quot;file://src/import/LICENSE.code;md5=3Daadc=
-30f9c14d876ded7bedc0afd2d3d7&quot;</div>
-<div>=C2=A0</div>
-<div>=C2=A0SRC_URI +=3D &quot;file://containerd.service&quot;</div>
-<div>=C2=A0</div>
-<div>@@ -38,7 +38,7 @@ do_compile() {</div>
-<div>=C2=A0 =C2=A0 =C2=A0# without this, the stress test parts of the build=
- fail</div>
-<div>=C2=A0 =C2=A0 =C2=A0cp ${S}/src/import/*.go ${S}/src/import/vendor/src=
-/<a href=3D"http://github.com/containerd/containerd" target=3D"_blank" rel=
-=3D"noreferrer">github.com/containerd/containerd</a></div>
-<div>=C2=A0</div>
-<div>- =C2=A0 =C2=A0for c in content errdefs fs images mount snapshots linu=
-x api runtimes defaults progress \</div>
-<div>+ =C2=A0 =C2=A0for c in content timeout ttrpcutil oom stdio process er=
-rdefs fs images mount snapshots linux api runtimes defaults progress \</div=
->
-<div>=C2=A0=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=
-=E2=80=82=E2=80=82=E2=80=82=E2=80=82 =C2=A0 =C2=A0 protobuf reference diff =
-platforms runtime remotes version archive dialer gc metadata \</div>
-<div>=C2=A0=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=
-=E2=80=82=E2=80=82=E2=80=82=E2=80=82 =C2=A0 =C2=A0 metrics filters identifi=
-ers labels leases plugin server services \</div>
-<div>=C2=A0=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=
-=E2=80=82=E2=80=82=E2=80=82=E2=80=82 =C2=A0 =C2=A0 cmd cio containers names=
-paces oci events log reaper sys rootfs nvidia seed apparmor seccomp; do</di=
-v>
-<div>@@ -64,6 +64,7 @@ do_compile() {</div>
-<div>=C2=A0 =C2=A0 =C2=A0export BUILDTAGS=3D&quot;no_btrfs static_build net=
-go&quot;</div>
-<div>=C2=A0 =C2=A0 =C2=A0export CFLAGS=3D&quot;${CFLAGS}&quot;</div>
-<div>=C2=A0 =C2=A0 =C2=A0export LDFLAGS=3D&quot;${LDFLAGS}&quot;</div>
-<div>+ =C2=A0 =C2=A0export SHIM_CGO_ENABLED=3D&quot;${CGO_ENABLED}&quot;</d=
-iv>
-<div>=C2=A0</div>
-<div>=C2=A0 =C2=A0 =C2=A0cd ${S}/src/import</div>
-<div>=C2=A0 =C2=A0 =C2=A0oe_runmake binaries</div>
-<div>@@ -79,12 +80,16 @@ do_install() {</div>
-<div>=C2=A0</div>
-<div>=C2=A0=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82cp ${S}/src/import/=
-bin/containerd ${D}/${bindir}/containerd</div>
-<div>=C2=A0=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82cp ${S}/src/import/=
-bin/containerd-shim ${D}/${bindir}/containerd-shim</div>
-<div>+=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82cp ${S}/src/import/bin/c=
-ontainerd-shim-runc-v1 ${D}/${bindir}/containerd-shim-runc-v1</div>
-<div>+=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82cp ${S}/src/import/bin/c=
-ontainerd-shim-runc-v2 ${D}/${bindir}/containerd-shim-runc-v2</div>
-<div>=C2=A0=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82cp ${S}/src/import/=
-bin/ctr ${D}/${bindir}/containerd-ctr</div>
-<div>=C2=A0=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82</div>
-<div>=C2=A0=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82ln -sf containerd $=
-{D}/${bindir}/docker-containerd</div>
-<div>=C2=A0=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82ln -sf containerd-s=
-him ${D}/${bindir}/docker-containerd-shim</div>
-<div>=C2=A0=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82ln -sf containerd-c=
-tr ${D}/${bindir}/docker-containerd-ctr</div>
-<div>=C2=A0</div>
-<div>+=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82ln -sf containerd-ctr ${=
-D}/${bindir}/ctr</div>
-<div>+</div>
-<div>=C2=A0=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82if ${@bb.utils.cont=
-ains(&#39;DISTRO_FEATURES&#39;,&#39;systemd&#39;,&#39;true&#39;,&#39;false&=
-#39;,d)}; then</div>
-<div>=C2=A0=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=
-=E2=80=82=E2=80=82=E2=80=82=E2=80=82install -d ${D}${systemd_unitdir}/syste=
-m</div>
-<div>=C2=A0=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=
-=E2=80=82=E2=80=82=E2=80=82=E2=80=82install -m 644 ${WORKDIR}/containerd.se=
-rvice ${D}/${systemd_unitdir}/system</div>
-<div>diff --git a/recipes-containers/containerd/files/0001-build-use-oe-pro=
-vided-GO-and-flags.patch b/recipes-containers/containerd/files/0001-build-u=
-se-oe-provided-GO-and-flags.patch</div>
-<div>new file mode 100644</div>
-<div>index 0000000..a58feed</div>
-<div>--- /dev/null</div>
-<div>+++ b/recipes-containers/containerd/files/0001-build-use-oe-provided-G=
-O-and-flags.patch</div>
-<div>@@ -0,0 +1,70 @@</div>
-<div>+From 408e8b526d490af817a64b7220e8e2c3789de58f Mon Sep 17 00:00:00 200=
-1</div>
-<div>+From: Bruce Ashfield &lt;<a href=3D"mailto:bruce.ashfield@gmail.com" =
-target=3D"_blank" rel=3D"noreferrer">bruce.ashfield@gmail.com</a>&gt;</div>
-<div>+Date: Sun, 10 Feb 2019 23:46:06 +0000</div>
-<div>+Subject: [PATCH] build: use oe provided GO and flags</div>
-<div>+</div>
-<div>+We want to use the go compiler as defined in the oe-enviroment, not t=
-he</div>
-<div>+generic call to &#39;go&#39;. Without changing this, we&#39;ll get th=
-ings like cgo</div>
-<div>+errors and invalid flag combos.</div>
-<div>+</div>
-<div>+Signed-off-by: Bruce Ashfield &lt;<a href=3D"mailto:bruce.ashfield@gm=
-ail.com" target=3D"_blank" rel=3D"noreferrer">bruce.ashfield@gmail.com</a>&=
-gt;</div>
-<div>+---</div>
-<div>+ Makefile | 8 ++++----</div>
-<div>+ 1 file changed, 4 insertions(+), 4 deletions(-)</div>
-<div>+</div>
-<div>+Index: git/src/import/Makefile</div>
-<div>+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D</div>
-<div>+--- git.orig/src/import/Makefile=E2=80=82=E2=80=82=E2=80=822020-10-12=
- 07:36:18.775820388 -0700</div>
-<div>++++ git/src/import/Makefile=E2=80=82=E2=80=822020-10-12 08:00:05.1341=
-51221 -0700</div>
-<div>+@@ -163,19 +163,19 @@</div>
-<div>+ </div>
-<div>+ build: ## build the go packages</div>
-<div>+ =E2=80=82=E2=80=82=E2=80=82=E2=80=82@echo &quot;$(WHALE) $@&quot;</d=
-iv>
-<div>+-=E2=80=82=E2=80=82=E2=80=82=E2=80=82@go build ${DEBUG_GO_GCFLAGS} ${=
-GO_GCFLAGS} ${GO_BUILD_FLAGS} ${EXTRA_FLAGS} ${GO_LDFLAGS} ${PACKAGES}</div=
->
-<div>++=E2=80=82=E2=80=82=E2=80=82=E2=80=82@$(GO) build ${DEBUG_GO_GCFLAGS}=
- ${GO_GCFLAGS} ${GO_BUILD_FLAGS} ${EXTRA_FLAGS} ${GO_LDFLAGS} ${PACKAGES}</=
-div>
-<div>+ </div>
-<div>+ test: ## run tests, except integration tests and tests that require =
-root</div>
-<div>+ =E2=80=82=E2=80=82=E2=80=82=E2=80=82@echo &quot;$(WHALE) $@&quot;</d=
-iv>
-<div>+-=E2=80=82=E2=80=82=E2=80=82=E2=80=82@go test ${TESTFLAGS} $(filter-o=
-ut ${INTEGRATION_PACKAGE},${PACKAGES})</div>
-<div>++=E2=80=82=E2=80=82=E2=80=82=E2=80=82@$(GO) test ${TESTFLAGS} $(filte=
-r-out ${INTEGRATION_PACKAGE},${PACKAGES})</div>
-<div>+ </div>
-<div>+ root-test: ## run tests, except integration tests</div>
-<div>+ =E2=80=82=E2=80=82=E2=80=82=E2=80=82@echo &quot;$(WHALE) $@&quot;</d=
-iv>
-<div>+-=E2=80=82=E2=80=82=E2=80=82=E2=80=82@go test ${TESTFLAGS} $(filter-o=
-ut ${INTEGRATION_PACKAGE},${TEST_REQUIRES_ROOT_PACKAGES}) -test.root</div>
-<div>++=E2=80=82=E2=80=82=E2=80=82=E2=80=82@$(GO) test ${TESTFLAGS} $(filte=
-r-out ${INTEGRATION_PACKAGE},${TEST_REQUIRES_ROOT_PACKAGES}) -test.root</di=
-v>
-<div>+ </div>
-<div>+ integration: ## run integration tests</div>
-<div>+ =E2=80=82=E2=80=82=E2=80=82=E2=80=82@echo &quot;$(WHALE) $@&quot;</d=
-iv>
-<div>+-=E2=80=82=E2=80=82=E2=80=82=E2=80=82@go test ${TESTFLAGS} -test.root=
- -parallel ${TESTFLAGS_PARALLEL}</div>
-<div>++=E2=80=82=E2=80=82=E2=80=82=E2=80=82@$(GO) test ${TESTFLAGS} -test.r=
-oot -parallel ${TESTFLAGS_PARALLEL}</div>
-<div>+ </div>
-<div>+ benchmark: ## run benchmarks tests</div>
-<div>+ =E2=80=82=E2=80=82=E2=80=82=E2=80=82@echo &quot;$(WHALE) $@&quot;</d=
-iv>
-<div>+@@ -185,7 +185,7 @@</div>
-<div>+ </div>
-<div>+ define BUILD_BINARY =3D</div>
-<div>+ @echo &quot;$(WHALE) $@&quot;</div>
-<div>+-@go build ${DEBUG_GO_GCFLAGS} ${GO_GCFLAGS} ${GO_BUILD_FLAGS} -o $@ =
-${GO_LDFLAGS} ${GO_TAGS} =C2=A0./$&lt;</div>
-<div>++@$(GO) build ${DEBUG_GO_GCFLAGS} ${GO_GCFLAGS} ${GO_BUILD_FLAGS} -o =
-$@ ${GO_LDFLAGS} ${GO_TAGS} =C2=A0./$&lt;</div>
-<div>+ endef</div>
-<div>+ </div>
-<div>+ # Build a binary from a cmd.</div>
-<div>+@@ -194,15 +194,15 @@</div>
-<div>+ </div>
-<div>+ bin/containerd-shim: cmd/containerd-shim FORCE # set !cgo and omit p=
-ie for a static shim build: <a href=3D"https://github.com/golang/go/issues/=
-17789#issuecomment-258542220" target=3D"_blank" rel=3D"noreferrer">https://=
-github.com/golang/go/issues/17789#issuecomment-258542220</a></div>
-<div>+ =E2=80=82=E2=80=82=E2=80=82=E2=80=82@echo &quot;$(WHALE) bin/contain=
-erd-shim&quot;</div>
-<div>+-=E2=80=82=E2=80=82=E2=80=82=E2=80=82@CGO_ENABLED=3D${SHIM_CGO_ENABLE=
-D} go build ${GO_BUILD_FLAGS} -o bin/containerd-shim ${SHIM_GO_LDFLAGS} ${G=
-O_TAGS} ./cmd/containerd-shim</div>
-<div>++=E2=80=82=E2=80=82=E2=80=82=E2=80=82@CGO_ENABLED=3D${SHIM_CGO_ENABLE=
-D} $(GO) build -a -pkgdir dontusecurrentpkgs ${GO_BUILD_FLAGS} -o bin/conta=
-inerd-shim ${SHIM_GO_LDFLAGS} ${GO_TAGS} ./cmd/containerd-shim</div>
-<div>+ </div>
-<div>+ bin/containerd-shim-runc-v1: cmd/containerd-shim-runc-v1 FORCE # set=
- !cgo and omit pie for a static shim build: <a href=3D"https://github.com/g=
-olang/go/issues/17789#issuecomment-258542220" target=3D"_blank" rel=3D"nore=
-ferrer">https://github.com/golang/go/issues/17789#issuecomment-258542220</a=
-></div>
-<div>+ =E2=80=82=E2=80=82=E2=80=82=E2=80=82@echo &quot;$(WHALE) bin/contain=
-erd-shim-runc-v1&quot;</div>
-<div>+-=E2=80=82=E2=80=82=E2=80=82=E2=80=82@CGO_ENABLED=3D${SHIM_CGO_ENABLE=
-D} go build ${GO_BUILD_FLAGS} -o bin/containerd-shim-runc-v1 ${SHIM_GO_LDFL=
-AGS} ${GO_TAGS} ./cmd/containerd-shim-runc-v1</div>
-<div>++=E2=80=82=E2=80=82=E2=80=82=E2=80=82@CGO_ENABLED=3D${SHIM_CGO_ENABLE=
-D} $(GO) build -a -pkgdir dontusecurrentpkgs ${GO_BUILD_FLAGS} -o bin/conta=
-inerd-shim-runc-v1 ${SHIM_GO_LDFLAGS} ${GO_TAGS} ./cmd/containerd-shim-runc=
--v1</div>
-<div>+ </div>
-<div>+ bin/containerd-shim-runc-v2: cmd/containerd-shim-runc-v2 FORCE # set=
- !cgo and omit pie for a static shim build: <a href=3D"https://github.com/g=
-olang/go/issues/17789#issuecomment-258542220" target=3D"_blank" rel=3D"nore=
-ferrer">https://github.com/golang/go/issues/17789#issuecomment-258542220</a=
-></div>
-<div>+ =E2=80=82=E2=80=82=E2=80=82=E2=80=82@echo &quot;$(WHALE) bin/contain=
-erd-shim-runc-v2&quot;</div>
-<div>+-=E2=80=82=E2=80=82=E2=80=82=E2=80=82@CGO_ENABLED=3D${SHIM_CGO_ENABLE=
-D} go build ${GO_BUILD_FLAGS} -o bin/containerd-shim-runc-v2 ${SHIM_GO_LDFL=
-AGS} ${GO_TAGS} ./cmd/containerd-shim-runc-v2</div>
-<div>++=E2=80=82=E2=80=82=E2=80=82=E2=80=82@CGO_ENABLED=3D${SHIM_CGO_ENABLE=
-D} $(GO) build -a -pkgdir dontusecurrentpkgs ${GO_BUILD_FLAGS} -o bin/conta=
-inerd-shim-runc-v2 ${SHIM_GO_LDFLAGS} ${GO_TAGS} ./cmd/containerd-shim-runc=
--v2</div>
-<div>+ </div>
-<div>+ binaries: $(BINARIES) ## build binaries</div>
-<div>+ =E2=80=82=E2=80=82=E2=80=82=E2=80=82@echo &quot;$(WHALE) $@&quot;</d=
-iv>
-<div>-- </div>
-<div>2.39.2</div>
-<div><br>
-</div>
-<u></u>
-<div>
-<div id=3D"m_6895269100824661304Signature">
-<div>
-<div></div>
-</div>
-</div>
-</div>
-</div>
-
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#7892): <a href=3D"https://lists.yoctoproject.org/g/meta=
--virtualization/message/7892" rel=3D"noreferrer noreferrer" target=3D"_blan=
-k">https://lists.yoctoproject.org/g/meta-virtualization/message/7892</a><br=
->
-Mute This Topic: <a href=3D"https://lists.yoctoproject.org/mt/97157111/1050=
-810" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lists.yoctopro=
-ject.org/mt/97157111/1050810</a><br>
-Group Owner: <a href=3D"mailto:meta-virtualization%2Bowner@lists.yoctoproje=
-ct.org" target=3D"_blank" rel=3D"noreferrer">meta-virtualization+owner@list=
-s.yoctoproject.org</a><br>
-Unsubscribe: <a href=3D"https://lists.yoctoproject.org/g/meta-virtualizatio=
-n/unsub" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lists.yoct=
-oproject.org/g/meta-virtualization/unsub</a> [<a href=3D"mailto:bruce.ashfi=
-eld@gmail.com" target=3D"_blank" rel=3D"noreferrer">bruce.ashfield@gmail.co=
-m</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div></div>
-
---0000000000007f62b005f5486069--
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
