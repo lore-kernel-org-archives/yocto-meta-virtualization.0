@@ -2,153 +2,177 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2F13C6FD20
-	for <webhook@archiver.kernel.org>; Wed, 22 Mar 2023 03:11:00 +0000 (UTC)
-Received: from mail-io1-f42.google.com (mail-io1-f42.google.com [209.85.166.42])
- by mx.groups.io with SMTP id smtpd.web10.34539.1679454656449006226
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06F45C74A5B
+	for <webhook@archiver.kernel.org>; Thu, 23 Mar 2023 23:09:23 +0000 (UTC)
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+ by mx.groups.io with SMTP id smtpd.web10.88813.1679612952805941104
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 21 Mar 2023 20:10:56 -0700
+ Thu, 23 Mar 2023 16:09:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=RzHE6CSL;
- spf=pass (domain: gmail.com, ip: 209.85.166.42, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-io1-f42.google.com with SMTP id bf15so7881166iob.7
-        for <meta-virtualization@lists.yoctoproject.org>; Tue, 21 Mar 2023 20:10:56 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=AWjkhoqZ;
+ spf=pass (domain: gmail.com, ip: 209.85.160.169, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f169.google.com with SMTP id t19so363qta.12
+        for <meta-virtualization@lists.yoctoproject.org>; Thu, 23 Mar 2023 16:09:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679454655;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZaL7+eE3n0jxcrruOj/wnnz+0FDpBpc6xWbl8TBlrCY=;
-        b=RzHE6CSLtY7SMysO9a6WyYs4eVtS13zeKnx/C/+wJX9XmbypGMt4wS/8V8ftVJLb4F
-         fPKpFAxPOF0J/VZ2HSkdxbGQ0bUF2VMKeXhgfo/1q9mMcjXeWEFEELxOPlUcUmzCVyug
-         5kn/jWjK1Ozq1FosVBtkix0oxrl5H0TqHMieoqKpCSTC9qAlesg52o2rBQEeGmg+G30d
-         CBDCF9oR8aFXHo80KUaxt+q9Pvemb5GCmZ4+xtnMORmQXTH1j8ZZbLf/BKeEHjMqvxKx
-         iBOJ2TXsSgRrFO0T4TL6U1AhJyCnUDzGjsSIO1KqRApbmCmHeurxerkqXowKfesyuuIK
-         y+EA==
+        d=gmail.com; s=20210112; t=1679612952;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Yj9fhmQwYbF1+T8Ml1q366P+O24p8qIGvrk27deV3Rc=;
+        b=AWjkhoqZ0/hcLNv42mUmf6u5a7pjTahVbw4YTY5EFU0uOhg+no2DcAS7QdzvTD/kRh
+         5+0EQh7nB1b0+343R5gXkXb8zQ9vsuQObfTV2mOohAvf3k7ovxWaIVLSLhlWBztHhvXw
+         1/9+TAMSGsl+GFM5HdhIPTgAHJBEplrcEjPBWvEY+YphQ3MJ6r8bak4ZeQtQtC9LkEqL
+         yZHyQABTQFRLQtf96FLoYLLc7rVBJpvC9EZ006eIZPDYAK1CztYdP0AdpdTg8/MDVhco
+         oruXu//zdV3WmwQl9D/N/2/rg50bbzy4k1slK5QyzM4WLfXn+UeRNAlbk+4g1lQ8p0PR
+         Orvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679454655;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ZaL7+eE3n0jxcrruOj/wnnz+0FDpBpc6xWbl8TBlrCY=;
-        b=rck/mpD4jUXf2YqG/XbE36CFvjc/+4wWjvnB1d1fbWPHOaxJhNHd+Jhm5r7WlveBTe
-         jOlIBUn6y5/S3m/1+Lm93E0qeQPhbmrqRAcR+7CbmAF1e+AzNWOk6jGp5Sv6V0NWK+vZ
-         GAQOQhAaU2P61vcTXCOgs5mngmZofb6VMsCfWAq9r1P1RFMhN+0GwOEIHKQh4+2xZe78
-         GArwmMtH2o2m/zOgCQxeeOpJ4XGystLrCv9+asN9qaTQoo3oS3hzJmEEUwUNe0D0VipA
-         l0umozwQRv1LJ8sGq96ocSASAM+pVqBavBS5MhAtxwLvRLmuZ2Ej547Se0OGoGp20E0f
-         IBKg==
-X-Gm-Message-State: AO0yUKUPVkvBrtKzy4l0VuHvGUzllh9Zp4GQrRa5SofXlPneRjtA3D08
-	jdEMKkOTYWpcUOKLm98sdXr1z3Ppl4nOCeQg16k=
-X-Google-Smtp-Source: AK7set+JI6XLiNUPll99x36uXtgsD7mkP1mtLdvC64LlmqwD2B9BozUK4K3BAvsAC2CdLKW6ZoPhtkFUiLpK3Vhgqpk=
-X-Received: by 2002:a6b:7a05:0:b0:744:f5bb:6e60 with SMTP id
- h5-20020a6b7a05000000b00744f5bb6e60mr2175872iom.1.1679454655610; Tue, 21 Mar
- 2023 20:10:55 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAEJU13K2p0aVdy5OY1pASDxC5_HLx1VAZE3m+eGxx5A5tRLNMA@mail.gmail.com>
- <174E6F79B1119D6D.22739@lists.yoctoproject.org> <CADkTA4PY5v=rN39V7zo20THoOsUkY0oyZn98TGwUuGu=n5VOCw@mail.gmail.com>
- <CAEJU13JHseZDdEV49KiorFnMWOBCnAmvDBJZ3d5oxQesX4sqDg@mail.gmail.com>
-In-Reply-To: <CAEJU13JHseZDdEV49KiorFnMWOBCnAmvDBJZ3d5oxQesX4sqDg@mail.gmail.com>
+        d=1e100.net; s=20210112; t=1679612952;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Yj9fhmQwYbF1+T8Ml1q366P+O24p8qIGvrk27deV3Rc=;
+        b=NEv2H5X+AviodkL8bghatFw20cUfbg/Fvdy3xAsIyVN+tjrmieLEhsHAjgEyy4lLPC
+         ol699ZtUbpy2E7k18xqPcip4ME/zpRArvtu3/29W1dpexbeC6JiHX7I0bbsEyrR91k89
+         c+dE1P4hSoo/UK1Gc2s1g7vkjj7oROyY96kLhHfi6/OW1fzXBGb6t/WS4WnrJXOf8zyE
+         mqkJ+fSgZfb3mUaEgB1+tGdnGKKNfbxTbva5lzyDX345tj7bACLvkRCjAqbHyIuQVRRq
+         7NfU/f5GUrdXj5mnaLxzDclWvV2y8JVMm5xDOASzsspjX+hnTbzrLLVmdVd1RNi9Ipbc
+         Og+g==
+X-Gm-Message-State: AO0yUKVdjzAroONqerzDqqVRu42HDj87wMoKC2seGoIIVLaIG0dlEI9W
+	DBG8oUGxSAxIbjVJUf84vktBtTpZ0zVkHQ==
+X-Google-Smtp-Source: AKy350Yf1PQmTHabmDDPOIyn6qOiLPZzr+ov2Cls2g1Ka6BgWaPkHZAE6iyrhDXq+x7EdUXxtZWHcw==
+X-Received: by 2002:ac8:5a48:0:b0:3d8:6b0d:f9a6 with SMTP id o8-20020ac85a48000000b003d86b0df9a6mr2058975qta.61.1679612951734;
+        Thu, 23 Mar 2023 16:09:11 -0700 (PDT)
+Received: from gmail.com (cpe7c9a54441c1f-cm7c9a54441c1d.cpe.net.cable.rogers.com. [173.34.238.88])
+        by smtp.gmail.com with ESMTPSA id x23-20020ac87317000000b003b63b8df24asm5669243qto.36.2023.03.23.16.09.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Mar 2023 16:09:11 -0700 (PDT)
+Date: Thu, 23 Mar 2023 19:09:09 -0400
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Tue, 21 Mar 2023 23:10:49 -0400
-Message-ID: <CADkTA4PoDbUSP77uwd0owMCE5xWp6Man+AqnFsGO=4EKwO-6FA@mail.gmail.com>
-Subject: Re: [meta-virtualization] busybox_1.36.0.bb doesn't exist
-To: Ze Zhang <zhangze.linux@gmail.com>
+To: Wentao Zhang <wentao.zhang@windriver.com>
 Cc: meta-virtualization@lists.yoctoproject.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: [meta-virtualization] [[PATCH] botocore: Fix rejecting URLs with
+ unsafe characters in is_valid_endpoint_url()
+Message-ID: <ZBzcFWsvOk8wbrns@gmail.com>
+References: <20230321062823.2778260-1-wentao.zhang@windriver.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230321062823.2778260-1-wentao.zhang@windriver.com>
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Wed, 22 Mar 2023 03:11:00 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/7953
+ <meta-virtualization@lists.yoctoproject.org>; Thu, 23 Mar 2023 23:09:23 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/7954
 
-mickledore hasn't been released, and will come from oe-core master. So
-I'm not sure what you are using, but it is 1.36.0 for the version
-there.
-
-I only branch meta-virt once I've stabilized post release of oe-core,
-which is typically a week or so after release.
+merged.
 
 Bruce
 
-On Tue, Mar 21, 2023 at 7:58=E2=80=AFPM Ze Zhang <zhangze.linux@gmail.com> =
-wrote:
->
-> hi,  I use the master branch of meta-virtualization,
-> my yocto version is : mickledore, but it has busybox version 1.35,
-> and there is no mickledore branch in meta-virtualization, maybe you shoul=
-d create a mickledore branch for meta-virtualization.
-> thanks a lot.
->
-> Bruce Ashfield <bruce.ashfield@gmail.com> =E4=BA=8E2023=E5=B9=B43=E6=9C=
-=8821=E6=97=A5=E5=91=A8=E4=BA=8C 20:45=E5=86=99=E9=81=93=EF=BC=9A
->>
->> On Tue, Mar 21, 2023 at 8:38=E2=80=AFAM Bruce Ashfield via
->> lists.yoctoproject.org
->> <bruce.ashfield=3Dgmail.com@lists.yoctoproject.org> wrote:
->> >
->> > This is a bump that I do everytime OE core updates their busybox, I'm
->> > just completing some runtime tests and should have it pushed today.
->> >
->>
->> Actually, cancel what I said above. I hadn't had my coffee yet, and I
->> thought this was about the runtime/init changes I have pending in
->> master.
->>
->> What meta-virtualization branch are you using ? My just updated
->> oe-core has busybox 1.36.0, which matches the PV in
->> meta-virtualization, so you should have no issues.
->>
->> Bruce
->>
->> > Bruce
->> >
->> > On Mon, Mar 20, 2023 at 10:29=E2=80=AFPM Ze Zhang <zhangze.linux@gmail=
-.com> wrote:
->> > >
->> > >
->> > > HI,
->> > >
->> > > in this file meta-virtualization/tree/master/recipes-core/busybox)/b=
-usybox-initrd_1.36.0.bb
->> > >
->> > > busybox-initrd_1.36.0.bb should not include busybox_${PV}.bb, becaus=
-e busybox_1.36.0.bb doesn't exist.
->> > >
->> > > require recipes-core/busybox/busybox_${PV}.bb
->> > >
->> > >
->> > >
->> > > https://github.com/lgirdk/meta-virtualization/issues/6
->> >
->> >
->> >
->> > --
->> > - Thou shalt not follow the NULL pointer, for chaos and madness await
->> > thee at its end
->> > - "Use the force Harry" - Gandalf, Star Trek II
->> >
->> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->> > Links: You receive all messages sent to this group.
->> > View/Reply Online (#7951): https://lists.yoctoproject.org/g/meta-virtu=
-alization/message/7951
->> > Mute This Topic: https://lists.yoctoproject.org/mt/97753644/1050810
->> > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
->> > Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/leav=
-e/6693017/1050810/978058475/xyzzy [bruce.ashfield@gmail.com]
->> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->> >
->>
->>
->> --
->> - Thou shalt not follow the NULL pointer, for chaos and madness await
->> thee at its end
->> - "Use the force Harry" - Gandalf, Star Trek II
+In message: [meta-virtualization] [[PATCH] botocore: Fix rejecting URLs with unsafe characters in is_valid_endpoint_url()
+on 21/03/2023 Wentao Zhang wrote:
 
+> The function is_valid_endpoint_url() in botocore is designed to validate
+> endpoint URLs, but it fails to detect unsafe characters with Python 3.9.5+
+> and other versions carrying bpo-43882 fix. The issue is caused by urlsplit()
+> silently stripping LF, CR, and HT characters while splitting the URL,
+> which disarms the validator in botocore.
+> 
+> This patch detects unsafe characters in is_valid_endpoint_url() and
+> is_valid_ipv6_endpoint_url() early, in order to fix rejecting invalid URLs
+> with unsafe characters.
+> 
+> Signed-off-by: Wentao Zhang <wentao.zhang@windriver.com>
+> ---
+>  ...Ls-with-unsafe-characters-in-is_vali.patch | 58 +++++++++++++++++++
+>  .../python/python3-botocore_1.20.51.bb        |  2 +
+>  2 files changed, 60 insertions(+)
+>  create mode 100644 recipes-devtools/python/python3-botocore/0001-Fix-rejecting-URLs-with-unsafe-characters-in-is_vali.patch
+> 
+> diff --git a/recipes-devtools/python/python3-botocore/0001-Fix-rejecting-URLs-with-unsafe-characters-in-is_vali.patch b/recipes-devtools/python/python3-botocore/0001-Fix-rejecting-URLs-with-unsafe-characters-in-is_vali.patch
+> new file mode 100644
+> index 0000000..6a43608
+> --- /dev/null
+> +++ b/recipes-devtools/python/python3-botocore/0001-Fix-rejecting-URLs-with-unsafe-characters-in-is_vali.patch
+> @@ -0,0 +1,58 @@
+> +From 370cdf7d708c92bf21a42f15392f7be330cf8f80 Mon Sep 17 00:00:00 2001
+> +From: =?UTF-8?q?Micha=C5=82=20G=C3=B3rny?= <mgorny@gentoo.org>
+> +Date: Fri, 7 May 2021 19:54:16 +0200
+> +Subject: [PATCH] Fix rejecting URLs with unsafe characters in
+> + is_valid_endpoint_url() (#2381)
+> +
+> +Detect unsafe characters in is_valid_endpoint_url()
+> +and is_valid_ipv6_endpoint_url() early, in order to fix rejecting
+> +invalid URLs with Python 3.9.5+ and other versions carrying bpo-43882
+> +fix.  In these versions, urlsplit() silently strips LF, CR and HT
+> +characters while splitting the URL, effectively disarming the validator
+> +in botocore.
+> +
+> +The solution is based on a similar fix in Django.
+> +
+> +Fixes #2377
+> +---
+> + botocore/utils.py | 10 ++++++++++
+> + 1 file changed, 10 insertions(+)
+> +
+> +diff --git a/botocore/utils.py b/botocore/utils.py
+> +index 378972248..d35dd64bb 100644
+> +--- a/botocore/utils.py
+> ++++ b/botocore/utils.py
+> +@@ -173,6 +173,10 @@ ZONE_ID_PAT = "(?:%25|%)(?:[" + UNRESERVED_PAT + "]|%[a-fA-F0-9]{2})+"
+> + IPV6_ADDRZ_PAT = r"\[" + IPV6_PAT + r"(?:" + ZONE_ID_PAT + r")?\]"
+> + IPV6_ADDRZ_RE = re.compile("^" + IPV6_ADDRZ_PAT + "$")
+> + 
+> ++# These are the characters that are stripped by post-bpo-43882 urlparse().
+> ++UNSAFE_URL_CHARS = frozenset('\t\r\n')
+> ++
+> ++
+> + def ensure_boolean(val):
+> +     """Ensures a boolean value if a string or boolean is provided
+> + 
+> +@@ -977,6 +981,8 @@ class ArgumentGenerator(object):
+> + 
+> + 
+> + def is_valid_ipv6_endpoint_url(endpoint_url):
+> ++    if UNSAFE_URL_CHARS.intersection(endpoint_url):
+> ++        return False
+> +     netloc = urlparse(endpoint_url).netloc
+> +     return IPV6_ADDRZ_RE.match(netloc) is not None
+> + 
+> +@@ -990,6 +996,10 @@ def is_valid_endpoint_url(endpoint_url):
+> +     :return: True if the endpoint url is valid. False otherwise.
+> + 
+> +     """
+> ++    # post-bpo-43882 urlsplit() strips unsafe characters from URL, causing
+> ++    # it to pass hostname validation below.  Detect them early to fix that.
+> ++    if UNSAFE_URL_CHARS.intersection(endpoint_url):
+> ++        return False
+> +     parts = urlsplit(endpoint_url)
+> +     hostname = parts.hostname
+> +     if hostname is None:
+> +-- 
+> +2.25.1
+> +
+> diff --git a/recipes-devtools/python/python3-botocore_1.20.51.bb b/recipes-devtools/python/python3-botocore_1.20.51.bb
+> index ca506f6..f71db1f 100644
+> --- a/recipes-devtools/python/python3-botocore_1.20.51.bb
+> +++ b/recipes-devtools/python/python3-botocore_1.20.51.bb
+> @@ -8,3 +8,5 @@ SRC_URI[sha256sum] = "c853d6c2321e2f2328282c7d49d7b1a06201826ba0e7049c6975ab5f22
+>  inherit pypi setuptools3
+>  
+>  RDEPENDS:${PN} += "python3-jmespath python3-dateutil python3-logging"
+> +
+> +SRC_URI += "file://0001-Fix-rejecting-URLs-with-unsafe-characters-in-is_vali.patch"
+> -- 
+> 2.25.1
+> 
 
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#7950): https://lists.yoctoproject.org/g/meta-virtualization/message/7950
+> Mute This Topic: https://lists.yoctoproject.org/mt/97749704/1050810
+> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
 
