@@ -1,101 +1,132 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73916C761AF
-	for <webhook@archiver.kernel.org>; Mon, 27 Mar 2023 08:21:18 +0000 (UTC)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.web10.29709.1679905272258344722
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 91479C76195
+	for <webhook@archiver.kernel.org>; Mon, 27 Mar 2023 12:21:39 +0000 (UTC)
+Received: from mail-il1-f180.google.com (mail-il1-f180.google.com [209.85.166.180])
+ by mx.groups.io with SMTP id smtpd.web11.33435.1679919693764827675
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 27 Mar 2023 01:21:12 -0700
+ Mon, 27 Mar 2023 05:21:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Yh/I8RFU;
- spf=pass (domain: gmail.com, ip: 209.85.128.51, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wm1-f51.google.com with SMTP id p34so4505764wms.3
-        for <meta-virtualization@lists.yoctoproject.org>; Mon, 27 Mar 2023 01:21:12 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=mISmj/YQ;
+ spf=pass (domain: gmail.com, ip: 209.85.166.180, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-il1-f180.google.com with SMTP id h11so4513677ild.11
+        for <meta-virtualization@lists.yoctoproject.org>; Mon, 27 Mar 2023 05:21:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679905270;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20210112; t=1679919693;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=2RtwwLGsedXYM6r2X7BDGluFs8w3CwGTlpwOp39BgB8=;
-        b=Yh/I8RFUdn7W+ZWeT9huXjXDYWCrKrzTl/+CT1R3Vf3TdHy3+cRnW/5cHiMMl5i4Nu
-         t+deR3jsTgQuIlCiKpib2QERu5fv1LD2MS+vQxY56wluTZU6afgvwqXSBQoRiELm7xub
-         Wt2++rxz2BZ9qw4rrrHgYSfhlbsvm1wP/16CumpAfHGLOCsWexU6gc2MZx8JWQrPAKNE
-         fh5DquHFp6Gx3NbIhQgnCrpmz/RfsSLeUcLxWBXIlzi6Eh4Tp2QgR4B2Z5QsIoAXzvu5
-         ZbaKmfWOjmK1w8eEyP2INKdstMGQkCQOSzyfGxCuveoSDtEM4fYJNH+77qLMjQXNrlG/
-         IpSg==
+        bh=WsUlrbdx6nUsC4ML90I19+1kUTrm72abxBAPh8mdaz8=;
+        b=mISmj/YQXRbzqfW4cIIyRGhrXQi4RlSoRPHR6YX6+uMmTPatbtjHWQykocniPEMwGt
+         R8mZqCWZoDr4LAdrf3e4rJ2emcu91l8AcNDq7WdUHlGhSrZhC8fyphgAgse8gqWG+xNJ
+         SXTxtQEluAaNwKiVygIXb8M33NSSaXflQVtpw8hOsl6wIdyfDUMn5cTJKiPfxgdERSdL
+         NZnjSOCbTXLqpmgILtmVT8uyIcr4G8eOBg71ixhxQ77ySCW99vDTo2bX7/WaIBOMMRS+
+         krvtMys6+ydEUyuQ3dUHvRFC9VYbnNlI+1yeQiqB8aNPYFCkwsG8y3sqI1VlzmuL68En
+         GTvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679905270;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20210112; t=1679919693;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=2RtwwLGsedXYM6r2X7BDGluFs8w3CwGTlpwOp39BgB8=;
-        b=pD6oHcjxRmFPPw/xD10kH7d+XC+9MAGmM2xzXiFCQLlGOhQWcUuRzY4HRsRCbVCGZZ
-         wUpKY4NRsYuMzUq79GQmOLOXqpAHB/CgJjCq/QXma3YGh+Sj5PUXOaMZZieDHIy+OYBa
-         twBgne0y7+dHQV+5jLjxM6oyhVaJhR+Tm1AE3RcusboxcJCCZA6nEOnuLB2S4sxUWdoe
-         TrFATjvl7Zwgx7s2oq5FQeUYNa+0gTs2XD3P/odVTUELOhsvj/1/7E0eK5HGQS5fUMvL
-         mPZfRRZakv/B6ffZIab6PLxDA9i8nuM9bzFUcXydioGmtJ2HVZNkKR9A0mMFrLjkZQXi
-         bNwg==
-X-Gm-Message-State: AO0yUKV46OlVs/pbgP/SBv70xQrU5TZHBT1U66GFHweU8GK8PWDZXSig
-	yMoTVRoi7fURGN5XzyutXdGIe+VUkIk=
-X-Google-Smtp-Source: AK7set/WYVty/+wnyKSgThY0Ho9mkTIgmBQAR0SigRPk1HXrs1jSoj1xMWYhetSITuurq6rtTo1IHg==
-X-Received: by 2002:a1c:f70c:0:b0:3ed:d261:50a6 with SMTP id v12-20020a1cf70c000000b003edd26150a6mr8453710wmh.9.1679905270304;
-        Mon, 27 Mar 2023 01:21:10 -0700 (PDT)
-Received: from og-worker-dev-01.infra.foundries.io.net (51-159-19-113.rev.poneytelecom.eu. [51.159.19.113])
-        by smtp.gmail.com with ESMTPSA id z4-20020a05600c0a0400b003ef4cd057f5sm8002842wmp.4.2023.03.27.01.21.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Mar 2023 01:21:09 -0700 (PDT)
-From: Jose Quaresma <quaresma.jose@gmail.com>
-X-Google-Original-From: Jose Quaresma <jose.quaresma@foundries.io>
-To: meta-virtualization@lists.yoctoproject.org
-Cc: Jose Quaresma <jose.quaresma@foundries.io>
-Subject: [meta-virtualization][PATCH 2/2] buildah: enable linkshared
-Date: Mon, 27 Mar 2023 08:20:37 +0000
-Message-Id: <20230327082037.3173653-2-jose.quaresma@foundries.io>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230327082037.3173653-1-jose.quaresma@foundries.io>
-References: <20230327082037.3173653-1-jose.quaresma@foundries.io>
+        bh=WsUlrbdx6nUsC4ML90I19+1kUTrm72abxBAPh8mdaz8=;
+        b=bYJDeU2msZlzbhubghI3RxwzuBqLlE+M2chPLefrULe5sNhea6v0rWzHBjyHL4uEIL
+         GClnIyBijbD5d98AMQFZ4Il259iLtBMxVpMd+aIhiVx5tmqqRPFEHl3I9noOWDJ6JwNm
+         ju7wfd/J4u3imwbzHFKNf6mL2y7cvy91b7G2adgJw594JsGnB8cjFMefyCr/zRW+GXLl
+         E7ow09MwyjyBWRZn+sLycVpmb20rIfcir65V0d1C4G2dhP/3FoMKYZ5d6U5g56eAz0ll
+         EaQpFAVBkF4nngmqSf4kxNyRyXnj9hAYuDMxwNbfQTvB33aiLiFGIpWceJRs2qGQpjJ6
+         k2EQ==
+X-Gm-Message-State: AAQBX9d+K0VNx8E9Iqu3j+YuuQT/BgEDvq0jIdvGoPK2oIeIj36vGCam
+	fQcR35mKgv3Ix6hOzgmI7/+hSq8q/1RdMTOedFc=
+X-Google-Smtp-Source: AKy350YniSbH+/HPJp0bq/5CYAdRnjdSpk10IuL+QzAxD9VvTvc1aTuLAwlVrXQ52++RqJxSUcGN4XqzjK7tgaXobu8=
+X-Received: by 2002:a92:c264:0:b0:323:17d:1e42 with SMTP id
+ h4-20020a92c264000000b00323017d1e42mr6171391ild.5.1679919692880; Mon, 27 Mar
+ 2023 05:21:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230327082037.3173653-1-jose.quaresma@foundries.io> <20230327082037.3173653-2-jose.quaresma@foundries.io>
+In-Reply-To: <20230327082037.3173653-2-jose.quaresma@foundries.io>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Mon, 27 Mar 2023 08:21:21 -0400
+Message-ID: <CADkTA4MLWur3FH-B1j83MP=JnUEHNTgq_jx3_bk1Nisa8A-1NA@mail.gmail.com>
+Subject: Re: [meta-virtualization][PATCH 2/2] buildah: enable linkshared
+To: Jose Quaresma <quaresma.jose@gmail.com>
+Cc: meta-virtualization@lists.yoctoproject.org, 
+	Jose Quaresma <jose.quaresma@foundries.io>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Mon, 27 Mar 2023 08:21:18 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/7957
+ <meta-virtualization@lists.yoctoproject.org>; Mon, 27 Mar 2023 12:21:39 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/7958
 
-The linkshared is fixed upstream and backported in oe-core.
-https://git.yoctoproject.org/poky/commit/?id=d5c79ca6a77af1a04992fff4300333e02d94d84d
+I'm going to keep this change as-is.
 
-Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
----
- recipes-containers/buildah/buildah_git.bb | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+The structure of the linkeshared building in buildah isn't well done,
+and the build -> rm -> build again is strange (to say the least).
 
-diff --git a/recipes-containers/buildah/buildah_git.bb b/recipes-containers/buildah/buildah_git.bb
-index 3c17c98..af340eb 100644
---- a/recipes-containers/buildah/buildah_git.bb
-+++ b/recipes-containers/buildah/buildah_git.bb
-@@ -40,9 +40,15 @@ do_compile:prepend() {
- go_do_compile() {
-         export TMPDIR="${GOTMPDIR}"
-         if [ -n "${GO_INSTALL}" ]; then
--                ${GO} install ${GOBUILDFLAGS} ./cmd/buildah
--                ${GO} install ${GOBUILDFLAGS} ./tests/imgtype/imgtype.go
--                ${GO} install ${GOBUILDFLAGS} ./tests/copy/copy.go
-+                if [ -n "${GO_LINKSHARED}" ]; then
-+                        ${GO} install ${GOBUILDFLAGS} ./cmd/buildah
-+                        ${GO} install ${GOBUILDFLAGS} ./tests/imgtype/imgtype.go
-+                        ${GO} install ${GOBUILDFLAGS} ./tests/copy/copy.go
-+                        rm -rf ${B}/bin
-+                fi
-+                ${GO} install ${GO_LINKSHARED} ${GOBUILDFLAGS} ./cmd/buildah
-+                ${GO} install ${GO_LINKSHARED} ${GOBUILDFLAGS} ./tests/imgtype/imgtype.go
-+                ${GO} install ${GO_LINKSHARED} ${GOBUILDFLAGS} ./tests/copy/copy.go
-         fi
- }
- 
--- 
-2.34.1
+Bruce
 
+On Mon, Mar 27, 2023 at 4:21=E2=80=AFAM Jose Quaresma <quaresma.jose@gmail.=
+com> wrote:
+>
+> The linkshared is fixed upstream and backported in oe-core.
+> https://git.yoctoproject.org/poky/commit/?id=3Dd5c79ca6a77af1a04992fff430=
+0333e02d94d84d
+>
+> Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
+> ---
+>  recipes-containers/buildah/buildah_git.bb | 12 +++++++++---
+>  1 file changed, 9 insertions(+), 3 deletions(-)
+>
+> diff --git a/recipes-containers/buildah/buildah_git.bb b/recipes-containe=
+rs/buildah/buildah_git.bb
+> index 3c17c98..af340eb 100644
+> --- a/recipes-containers/buildah/buildah_git.bb
+> +++ b/recipes-containers/buildah/buildah_git.bb
+> @@ -40,9 +40,15 @@ do_compile:prepend() {
+>  go_do_compile() {
+>          export TMPDIR=3D"${GOTMPDIR}"
+>          if [ -n "${GO_INSTALL}" ]; then
+> -                ${GO} install ${GOBUILDFLAGS} ./cmd/buildah
+> -                ${GO} install ${GOBUILDFLAGS} ./tests/imgtype/imgtype.go
+> -                ${GO} install ${GOBUILDFLAGS} ./tests/copy/copy.go
+> +                if [ -n "${GO_LINKSHARED}" ]; then
+> +                        ${GO} install ${GOBUILDFLAGS} ./cmd/buildah
+> +                        ${GO} install ${GOBUILDFLAGS} ./tests/imgtype/im=
+gtype.go
+> +                        ${GO} install ${GOBUILDFLAGS} ./tests/copy/copy.=
+go
+> +                        rm -rf ${B}/bin
+> +                fi
+> +                ${GO} install ${GO_LINKSHARED} ${GOBUILDFLAGS} ./cmd/bui=
+ldah
+> +                ${GO} install ${GO_LINKSHARED} ${GOBUILDFLAGS} ./tests/i=
+mgtype/imgtype.go
+> +                ${GO} install ${GO_LINKSHARED} ${GOBUILDFLAGS} ./tests/c=
+opy/copy.go
+>          fi
+>  }
+>
+> --
+> 2.34.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#7957): https://lists.yoctoproject.org/g/meta-virtuali=
+zation/message/7957
+> Mute This Topic: https://lists.yoctoproject.org/mt/97877470/1050810
+> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [=
+bruce.ashfield@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+
+
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
