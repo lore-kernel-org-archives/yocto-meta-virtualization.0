@@ -1,136 +1,109 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <Martin.Jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34B24C76196
-	for <webhook@archiver.kernel.org>; Fri, 31 Mar 2023 13:59:49 +0000 (UTC)
-Received: from mail-il1-f176.google.com (mail-il1-f176.google.com [209.85.166.176])
- by mx.groups.io with SMTP id smtpd.web11.55299.1680271183661469533
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55E5DC76196
+	for <webhook@archiver.kernel.org>; Sat,  1 Apr 2023 12:15:28 +0000 (UTC)
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+ by mx.groups.io with SMTP id smtpd.web10.19325.1680351324623384298
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 31 Mar 2023 06:59:43 -0700
+ Sat, 01 Apr 2023 05:15:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=cs1kr8+p;
- spf=pass (domain: gmail.com, ip: 209.85.166.176, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-il1-f176.google.com with SMTP id r19so288943ilj.6
-        for <meta-virtualization@lists.yoctoproject.org>; Fri, 31 Mar 2023 06:59:43 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20210112 header.b=A7ZtMfSN;
+ spf=pass (domain: gmail.com, ip: 209.85.208.51, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ed1-f51.google.com with SMTP id ew6so99860065edb.7
+        for <meta-virtualization@lists.yoctoproject.org>; Sat, 01 Apr 2023 05:15:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680271183;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=G0eYNTJDLbEkE0WSXgJyh6VtXpXVeQS/QfqGuMgDj6E=;
-        b=cs1kr8+pqBmcUCKc+Eqm1L8qWj46taJQ57qaYx19igW4f+NtwH7KT4vxES9Wu3JS4A
-         VAS3zjEoqP87fo5Zv15KatqW17UWEF63vwAzosNfKIy1YC0/dnVwLO/1EEJFc+yK34Uk
-         tdCksjoCv923E48Z1q0TTOCEuuXjgtayxUMZ8foaft8lsimbaHSVKxzA/w0RaFRAImtP
-         S4bvAETPUi48qmLpvz1ROpxQvJfkcvWRsGT0j4Cc/H8t5EIzZI1hscI8CKNW6hzn677e
-         PcjnIWUgqopXRKAPmA0kHf6JjCfJBM4iic+c8pcGgr5Q7TF7xy9FburATiV1yJdFNCjh
-         OR2Q==
+        d=gmail.com; s=20210112; t=1680351323; x=1682943323;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=wO8iFiHraAFKEI/PcF2ZUm//iCvir6MpcUveVMWnG5Q=;
+        b=A7ZtMfSNh4Dc9R6PreO2vM3AX/aDKl37s/mOgQW322Hynta1kEeyENSir+0NhDSbhU
+         HMjco7EWvIi/9TsBtSA9K/zExd/g8YZbas0rNV67/hbBD/GM3HLsWJjXF/tHW3jm4Jsv
+         Rx9Qw2+Y1PpHeKxYvGpqDbZHnd0rF0OH6k4ft1ecCeKPei0o982OEexkczfoXFiulL2n
+         9ZMZOaPWFyqS1aByMOSgtFunBES0U3Lp8erY2f6orZB/hEfNCjQ2KzUmGC37yFoe7Oi0
+         GqYrXFtTqIJMrUB6qbNNs5A6snQBqK5PEcVGRqCtEwMM0r+cYU2NgvDUnc9fS8dGky2h
+         tWkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680271183;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=G0eYNTJDLbEkE0WSXgJyh6VtXpXVeQS/QfqGuMgDj6E=;
-        b=b7TjL22KVr4SyhGfxuJEDTqgIE39gDr7eeMNuwIcr4YXbzs/5jmB/cx+0gHQW0gWa2
-         pBkFkeoLmneXnXWI4IzpRS9CU8CsM/FDmZ8nwaOar7/b1VdK0Vza6u4J2DlVMWsNiVzL
-         wYWkqqJ+5yNFPTbrT61q4+ZvfQF7otifrJ9WCR8VV+bIFaBV4mVgOmIHsPR81u8A5ziO
-         sDFgSq+p5ZRIRHEp2q3MamrnJ3OFnM9J5BcDVxeBLcCgTmMCuwabTPNHWqen74/+WLw1
-         pu6AsRrDsKNGU6sNfcINnndxYSXQZ4pp4mdkBFqQDBjRBfhl+5jVRRL5Yb+NaVLvd50T
-         d8NQ==
-X-Gm-Message-State: AAQBX9d/3jJP3ZkiEC3qDXIQ9BYdZQsUeqHtvbVoUqJDjY/sdRraF/ol
-	Q1z9bZybHvO8DQixDXAdmmaBzItPFGl1e8x3+FE=
-X-Google-Smtp-Source: AKy350Y40/4V7SEwKidEDfeVN/lJ/C6h62IyCP6rgRmpkxAuwaKkzIKD0VXahoEh3olNjEAFCqT7DSLsrcy7lFELUE4=
-X-Received: by 2002:a05:6e02:1d9d:b0:315:8de2:2163 with SMTP id
- h29-20020a056e021d9d00b003158de22163mr13969583ila.5.1680271182790; Fri, 31
- Mar 2023 06:59:42 -0700 (PDT)
+        d=1e100.net; s=20210112; t=1680351323; x=1682943323;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=wO8iFiHraAFKEI/PcF2ZUm//iCvir6MpcUveVMWnG5Q=;
+        b=UeymnPdkAPWRTXjv0Q5m8X2ugWyhrVGKqbqBV9AXP+FiTWHGn6H/a3Cdz5uBoMh85M
+         bsQYZkt1qwqL6KUkNMB2n63spOngHGUjSSajIncMUZTt9F3BGgm2cAt/wSn2Tm1Pry1U
+         WD24S8vbYzshElmYXjIV2cy7b39DpSEGtmovfSA56JPqnMnJCjVuAKU80ahQ+JeoNmFf
+         iRsPAWShY+PqeyPvjpvfdfrK5Wn+PNhW6JhyXrdF0hlM7wJp2tA7E3pzwnFEpKWIQ5XI
+         GD2fidVMQ+ARNXtGjW353kaV0Pu+9HgpwRr5ZTztr2rdVYHkg9tl7NS/ruoCxPI4l14U
+         chiw==
+X-Gm-Message-State: AAQBX9d/9ZEIkuj8SjqZFhZ9Ll7uFQwpLtj8ZiatuLuI1jLIUJt3yn6k
+	fIMP9LUSeqnjAkEHgLe8neXVI6ixdYQ=
+X-Google-Smtp-Source: AKy350Yf4hhMu30t4Z4VY3iiv7b7KqiXW4id/sz4A26lVWGfLiUzZRbNPSw8EIJNqW+e2LlLeASGlw==
+X-Received: by 2002:a17:907:a4c7:b0:947:80a4:5cce with SMTP id vq7-20020a170907a4c700b0094780a45ccemr7719328ejc.65.1680351322780;
+        Sat, 01 Apr 2023 05:15:22 -0700 (PDT)
+Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
+        by smtp.gmail.com with ESMTPSA id c10-20020a170906d18a00b00923f05b2931sm2016278ejz.118.2023.04.01.05.15.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 01 Apr 2023 05:15:22 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: meta-virtualization@lists.yoctoproject.org
+Cc: Martin Jansa <Martin.Jansa@gmail.com>
+Subject: [meta-virtualization][PATCH] buildah: add seccomp and ipv6 to REQUIRED_DISTRO_FEATURES
+Date: Sat,  1 Apr 2023 14:15:13 +0200
+Message-Id: <20230401121513.3779028-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-References: <20230329141847.337386-1-joakimr@axis.com> <CANPvuRnL62+UmHEBMkiSqadLD5HnoX=kiDkep-pXoxcox+KXgg@mail.gmail.com>
- <566ccb86-0063-832e-580a-c619bbd4d378@axis.com>
-In-Reply-To: <566ccb86-0063-832e-580a-c619bbd4d378@axis.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Fri, 31 Mar 2023 09:59:31 -0400
-Message-ID: <CADkTA4PeAmongW4DbbnaDfsJqFp8W2TiixdunzRYTL1VRNmHTQ@mail.gmail.com>
-Subject: Re: [meta-virtualization][PATCH] upx: Bump to v3.99
-To: Joakim Roubert <joakim.roubert@axis.com>
-Cc: Jose Quaresma <quaresma.jose@gmail.com>, meta-virtualization@lists.yoctoproject.org, 
-	Joakim Roubert <joakimr@axis.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Fri, 31 Mar 2023 13:59:49 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/7975
+ <meta-virtualization@lists.yoctoproject.org>; Sat, 01 Apr 2023 12:15:28 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/7976
 
-On Fri, Mar 31, 2023 at 4:07=E2=80=AFAM Joakim Roubert <joakim.roubert@axis=
-.com> wrote:
->
-> On 2023-03-29 19:18, Jose Quaresma wrote:
-> >
-> > The AUTOREV will break the reproducibility of this package.
->
-> How should we do here? If I checkout the tag v3.99 in for the UPX repo
-> and carry out the update submodules, I will end up with a different
-> commit ID for the submodules every time. How can we pinpoint one that
-> sticks and actually is the one that corresponds to the v3.99?
+* because it rdepends on podman with the same restriction
 
-The submodules shouldn't be changing when you check out the same tag.
+* BTW: .gitignore has:
+  build*/
+  which gets triggered for buildah as well:
+  meta-virtualization $ git add ./recipes-containers/buildah/buildah_git.bb
+  The following paths are ignored by one of your .gitignore files:
+  recipes-containers/buildah
 
-i.e. git submodule status
+  I've adjusted it to /build*/ only.
 
-Should always return the same commit IDs when you check out the same
-tag, since those hashes are recorded in the git repository.
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ .gitignore                                | 2 +-
+ recipes-containers/buildah/buildah_git.bb | 4 ++++
+ 2 files changed, 5 insertions(+), 1 deletion(-)
 
-It would obviously still be better if we could use the gitsm fetcher,
-but the way the repository is layed out was causing problems, so we've
-switched to this. It might be worth double checking if gitsm on master
-can handle the layout now, or if there's a way to fix things up to
-work.
+diff --git a/.gitignore b/.gitignore
+index a61332e..daeb43d 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -1,4 +1,4 @@
+-build*/
++/build*/
+ pyshtables.py
+ *.swp
+ *.orig
+diff --git a/recipes-containers/buildah/buildah_git.bb b/recipes-containers/buildah/buildah_git.bb
+index 3c17c98..8c6b8f3 100644
+--- a/recipes-containers/buildah/buildah_git.bb
++++ b/recipes-containers/buildah/buildah_git.bb
+@@ -16,6 +16,10 @@ inherit go
+ inherit goarch
+ inherit pkgconfig
+ 
++# Rdepends on podman which needs seccomp and ipv6
++inherit features_check
++REQUIRED_DISTRO_FEATURES = "seccomp ipv6"
++
+ GO_IMPORT = "github.com/containers/buildah"
+ GO_INSTALL = "${GO_IMPORT}"
+ GO_WORKDIR = "${GO_INSTALL}"
+-- 
+2.40.0
 
-But assuming that the hashes aren't changing, you can just capture the
-hashes reported by git submodule status, put those in the recipe and
-that will get us the same results as the gitsm fetches for that
-upstream project tag.
-
-Bruce
-
->
-> https://github.com/upx/upx/blob/devel/.gitmodules#L9
->
-> Or should we just go with the single commit (with the commit message
-> "Automatically created from git devel branch 4cbdb055db52") in upx-vendor=
-?
->
-> I believe that is what we had with v3.96, but now those commits seem to
-> have vanished from the git repos so 3.96 fails to download the sources.
->
-> BR,
->
-> /Joakim
-> --
-> Joakim Roubert
-> Senior Engineer
->
-> Axis Communications AB
-> Emdalav=C3=A4gen 14, SE-223 69 Lund, Sweden
-> Tel: +46 46 272 18 00, Tel (direct): +46 46 272 27 48
-> Fax: +46 46 13 61 30, www.axis.com
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#7974): https://lists.yoctoproject.org/g/meta-virtuali=
-zation/message/7974
-> Mute This Topic: https://lists.yoctoproject.org/mt/97929374/1050810
-> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [=
-bruce.ashfield@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
-
-
---
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
 
