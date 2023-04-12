@@ -1,177 +1,119 @@
-Return-Path: <soumya.sambu@windriver.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FAFCC7619A
-	for <webhook@archiver.kernel.org>; Tue, 11 Apr 2023 04:07:19 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.6080.1681186031241797840
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F3E5C7619A
+	for <webhook@archiver.kernel.org>; Wed, 12 Apr 2023 17:03:09 +0000 (UTC)
+Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
+ by mx.groups.io with SMTP id smtpd.web10.49618.1681318979505461185
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 10 Apr 2023 21:07:11 -0700
+ Wed, 12 Apr 2023 10:02:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=phWRJVz9;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=3465e4339b=soumya.sambu@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 33B3WBk1006442
-	for <meta-virtualization@lists.yoctoproject.org>; Tue, 11 Apr 2023 04:07:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding :
- content-type; s=PPS06212021;
- bh=0IhRnMAqIXmV4ILW9rZcSruwYvigxuWzGqUZfgF1nLQ=;
- b=phWRJVz9M/phsiTwh5oUtgz7ZoCPZvyoj8ccFiNnCNUapO40WCHZlM4bUbELw1lhDmor
- z8C8WqotO8ARXYceZRKWgNwxJ1O9f7CMqVLY8asp79q+cot0uaQa1gcMJWjcwbu80P9u
- jACFjv2BFSlu2/jXp6moiC2S1AQ9O9JI9sE1jkhuSuNUSW/rYz3XnMJouDcMO7nva7ys
- 6a9YWpulnf0wKUNTyLql5e9lFSENkjIDiZLfZbx4SS7p36F1fcgjkp3dDjyCFIuwWh/p
- RW9GHX0cBzdCnxU3KBx50vk8aF6qfgBHYno8b3DERt0h3YxfGNENTrMZ/E83HGPT2u2I Aw== 
-Received: from ala-exchng01.corp.ad.wrs.com (unknown-82-252.windriver.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3ptwg3tpj7-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <meta-virtualization@lists.yoctoproject.org>; Tue, 11 Apr 2023 04:07:10 +0000
-Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Mon, 10 Apr 2023 21:07:08 -0700
-Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
- 15.1.2507.23 via Frontend Transport; Mon, 10 Apr 2023 21:07:07 -0700
-From: Soumya <soumya.sambu@windriver.com>
-To: <meta-virtualization@lists.yoctoproject.org>
-CC: Soumya <soumya.sambu@windriver.com>
-Subject: [meta-virtualization][kirkstone][PATCH 1/1] fuse: Fix CVE-2023-26253
-Date: Tue, 11 Apr 2023 04:07:03 +0000
-Message-ID: <20230411040703.3632835-1-soumya.sambu@windriver.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=AVifK0WE;
+ spf=pass (domain: gmail.com, ip: 209.85.219.54, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qv1-f54.google.com with SMTP id z3so3916897qvs.8
+        for <meta-virtualization@lists.yoctoproject.org>; Wed, 12 Apr 2023 10:02:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1681318978; x=1683910978;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=NF6HYYxLhgI1iQ8u2EoBXq3dAc+r6ZsKQBm1lSa+aWo=;
+        b=AVifK0WE4vyzw+cAH/uA6k0D9/As/YJ0aZpwu7g3209DHLTha6HRLXyaxKDSslo5p9
+         eUAiOzKw+J5MtNOnyBPxSQLdVTLp1I4kPKFKLHLZA8IVRulg4t3DTdGfO98cdIm97v/z
+         kOLO2RRH7H1VLQRHNUS9Xs0eBsdMQZeEDwB53vgAolXUdNjMZxR5uCg3hkA86XVe2gTM
+         8D85XmpTZplow6IDOIrDEDeES5MM6kgxz2H8wCHXdJ9Pz7YOxR/EBB4MSYV6h03eDOlj
+         1jT7yRpN5WLsBKe8Ph3G9WXDi5ZkiTxopTyz8R89GNz3FFmqd7jTSJv1xBpnNADZdSR4
+         xyAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681318978; x=1683910978;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NF6HYYxLhgI1iQ8u2EoBXq3dAc+r6ZsKQBm1lSa+aWo=;
+        b=N4pDNpB/RvVfsyDz/WHqa0puYp10wUS/h37m9+JJHO061Ti66A7fzV3G42eGZpiIvn
+         lefsxrc3bt/IlCKNw5OEByP4XnapVlf0RNuTwE7QCiwWcXTPfLvm4xCrJ53l3DtS7wWF
+         CuoRTF58UcM18W5V6d4pmAdMJ8e4Y+DTFJPjaoRR+a+05uoaqA4zBsU3o64FW4yWuMld
+         bvOHzj44fj3+kNYAHi9ohkY6tgGBlH1pYgnyY3LeC8PLxu9FNI0gBIUva8CCVRx1gcYd
+         NoSNM4UDPVaEU41xMi2Pdld8lCGSCKA1m67GTKZ+MDejbdrwVZSe0IKndPPtONwYKfLG
+         UXfw==
+X-Gm-Message-State: AAQBX9f2BlrtwRVGRrAijpS0cAghpp7/pQnw1HHoCE8XGe5OrTARLsl5
+	1PKzKAMFZeGAg9EqusHIThcd9Wp5lJpj4A==
+X-Google-Smtp-Source: AKy350aCDq8KqAU1YYlNlrvqqmACQYLqTfNXnrFlg5K4O1qsVahnbAsSiGr5DRPSUcHg2tYh8YSn1w==
+X-Received: by 2002:ad4:4eec:0:b0:5ef:45a7:a3a5 with SMTP id dv12-20020ad44eec000000b005ef45a7a3a5mr2867876qvb.27.1681318978464;
+        Wed, 12 Apr 2023 10:02:58 -0700 (PDT)
+Received: from gmail.com ([174.112.183.231])
+        by smtp.gmail.com with ESMTPSA id j11-20020a056214032b00b005e379d2ef98sm4932257qvu.105.2023.04.12.10.02.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Apr 2023 10:02:58 -0700 (PDT)
+Date: Wed, 12 Apr 2023 13:02:56 -0400
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Chen Qi <Qi.Chen@windriver.com>
+Cc: meta-virtualization@lists.yoctoproject.org
+Subject: Re: [meta-virtualization][kirkstone][PATCH] containerd: upgrade to
+ 1.6.19
+Message-ID: <ZDbkQOKSfBwlRn0V@gmail.com>
+References: <20230329093815.46676-1-Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: IJtEAsVJURMKVMuqF4HhMTVpOYNvtxi2
-X-Proofpoint-ORIG-GUID: IJtEAsVJURMKVMuqF4HhMTVpOYNvtxi2
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-10_18,2023-04-06_03,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 mlxlogscore=999
- suspectscore=0 clxscore=1015 impostorscore=0 bulkscore=0 malwarescore=0
- mlxscore=0 spamscore=0 priorityscore=1501 adultscore=0 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303200000
- definitions=main-2304110037
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230329093815.46676-1-Qi.Chen@windriver.com>
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Tue, 11 Apr 2023 04:07:19 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/7982
+ <meta-virtualization@lists.yoctoproject.org>; Wed, 12 Apr 2023 17:03:09 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/7983
 
-Resolve asan bug in during receive event notification (#4024)
+merged to kirkstone.
 
-    The fuse xlator notify function tries to assign data object to graph
-    object without checking an event. In case of upcall event data object
-    represents upcall object so during access of graph object the process
-    crashed for asan build.
+Bruce
 
-    Solution: Access the graph->id only while an event is associated
-    specifically to fuse xlator
+In message: [meta-virtualization][kirkstone][PATCH] containerd: upgrade to 1.6.19
+on 29/03/2023 Chen Qi wrote:
 
-Signed-off-by: Soumya <soumya.sambu@windriver.com>
----
- .../glusterfs/files/CVE-2023-26253.patch      | 76 +++++++++++++++++++
- recipes-extended/glusterfs/glusterfs.inc      |  1 +
- 2 files changed, 77 insertions(+)
- create mode 100644 recipes-extended/glusterfs/files/CVE-2023-26253.patch
+> 1.6.19 is the latest release for 1.6 branch.
+> This upgrade fixes CVEs such as CVE-2023-25173 and CVE-2023-25153.
+> 
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+>  .../containerd/containerd-opencontainers_git.bb             | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/recipes-containers/containerd/containerd-opencontainers_git.bb b/recipes-containers/containerd/containerd-opencontainers_git.bb
+> index 5fe3e4fa..6c0266ac 100644
+> --- a/recipes-containers/containerd/containerd-opencontainers_git.bb
+> +++ b/recipes-containers/containerd/containerd-opencontainers_git.bb
+> @@ -5,7 +5,7 @@ DESCRIPTION = "containerd is a daemon to control runC, built for performance and
+>                 support as well as checkpoint and restore for cloning and live migration of containers."
+>  
+>  
+> -SRCREV = "ccfc27e30d9f599efe6a7471ea1932dedf2beec8"
+> +SRCREV = "1e1ea6e986c6c86565bc33d52e34b81b3e2bc71f"
+>  SRC_URI = "git://github.com/containerd/containerd;branch=release/1.6;protocol=https;destsuffix=git/src/github.com/containerd/containerd \
+>             file://0001-Makefile-allow-GO_BUILD_FLAGS-to-be-externally-speci.patch \
+>             file://0001-build-don-t-use-gcflags-to-define-trimpath.patch \
+> @@ -15,8 +15,8 @@ SRC_URI = "git://github.com/containerd/containerd;branch=release/1.6;protocol=ht
+>  LICENSE = "Apache-2.0"
+>  LIC_FILES_CHKSUM = "file://LICENSE;md5=1269f40c0d099c21a871163984590d89"
+>  
+> -CONTAINERD_VERSION = "v1.6.12"
+> -CVE_VERSION = "1.6.12"
+> +CONTAINERD_VERSION = "v1.6.19"
+> +CVE_VERSION = "1.6.19"
+>  
+>  # EXTRA_OEMAKE += "GODEBUG=1"
+>  
+> -- 
+> 2.37.1
+> 
 
-diff --git a/recipes-extended/glusterfs/files/CVE-2023-26253.patch b/recipes-extended/glusterfs/files/CVE-2023-26253.patch
-new file mode 100644
-index 00000000..828c1626
---- /dev/null
-+++ b/recipes-extended/glusterfs/files/CVE-2023-26253.patch
-@@ -0,0 +1,76 @@
-+commit 0cbf51a9827af0e3a35f5cfa823bfa39740bbc58
-+Author: mohit84 <moagrawa@redhat.com>
-+Date:   Thu Mar 30 13:02:19 2023 +0530
-+Subject: [PATCH] fuse: Resolve asan bug in during receive event notification
-+ (#4024)
-+
-+    The fuse xlator notify function tries to assign data object to graph
-+    object without checking an event. In case of upcall event data object
-+    represents upcall object so during access of graph object the process
-+    crashed for asan build.
-+
-+    Solution: Access the graph->id only while an event is associated
-+    specifically to fuse xlator
-+
-+    > Fixes: #3954
-+    > Change-Id: I6b2869256b26d22163879737dcf163510d1cd8bf
-+    > Signed-off-by: Mohit Agrawal moagrawa@redhat.com
-+    > (Reviewed on upstream link #4019)
-+
-+    Fixes: #3954
-+    Change-Id: I6b2869256b26d22163879737dcf163510d1cd8bf
-+
-+CVE: CVE-2023-26253
-+
-+Upstream-Status: Backport [https://github.com/gluster/glusterfs/commit/0cbf51a9827af0e3a35f5cfa823bfa39740bbc58]
-+
-+Signed-off-by: Soumya <soumya.sambu@windriver.com>
-+---
-+ xlators/mount/fuse/src/fuse-bridge.c | 14 +++++++++++---
-+ 1 file changed, 11 insertions(+), 3 deletions(-)
-+
-+diff --git a/xlators/mount/fuse/src/fuse-bridge.c b/xlators/mount/fuse/src/fuse-bridge.c
-+index c3945d7..0c01a43 100644
-+--- a/xlators/mount/fuse/src/fuse-bridge.c
-++++ b/xlators/mount/fuse/src/fuse-bridge.c
-+@@ -6198,6 +6198,7 @@ notify(xlator_t *this, int32_t event, void *data, ...)
-+     int32_t ret = 0;
-+     fuse_private_t *private = NULL;
-+     gf_boolean_t start_thread = _gf_false;
-++    gf_boolean_t event_graph = _gf_true;
-+     glusterfs_graph_t *graph = NULL;
-+ 
-+    private
-+@@ -6205,9 +6206,6 @@ notify(xlator_t *this, int32_t event, void *data, ...)
-+ 
-+     graph = data;
-+ 
-+-    gf_log("fuse", GF_LOG_DEBUG, "got event %d on graph %d", event,
-+-           ((graph) ? graph->id : 0));
-+-
-+     switch (event) {
-+         case GF_EVENT_GRAPH_NEW:
-+             break;
-+@@ -6271,9 +6269,19 @@ notify(xlator_t *this, int32_t event, void *data, ...)
-+         }
-+ 
-+         default:
-++            /* Set the event_graph to false so that event
-++               debug msg would not try to access invalid graph->id
-++               while data object is not matched to graph object
-++               for ex in case of upcall event data object represents
-++               gf_upcall object
-++            */
-++            event_graph = _gf_false;
-+             break;
-+     }
-+ 
-++    gf_log("fuse", GF_LOG_DEBUG, "got event %d on graph %d", event,
-++           ((graph && event_graph) ? graph->id : -1));
-++
-+     return ret;
-+ }
-+ 
-+-- 
-+2.35.5
-+
-diff --git a/recipes-extended/glusterfs/glusterfs.inc b/recipes-extended/glusterfs/glusterfs.inc
-index baa8962b..e5bedca1 100644
---- a/recipes-extended/glusterfs/glusterfs.inc
-+++ b/recipes-extended/glusterfs/glusterfs.inc
-@@ -20,6 +20,7 @@ SRC_URI += "file://glusterd.init \
-             file://glusterd-change-port-range.patch \
-             file://configure.ac-allow-PYTHON-values-to-be-passed-via-en.patch \
-             file://0001-cli-duplicate-defns-of-cli_default_conn_timeout-and-.patch \
-+            file://CVE-2023-26253.patch \
-            "
- 
- LICENSE = "(LGPL-3.0-or-later | GPL-2.0-only) & GPL-3.0-or-later & LGPL-3.0-or-later & GPL-2.0-or-later & LGPL-2.0-or-later & LGPL-2.1-or-later & Apache-2.0"
--- 
-2.35.5
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#7962): https://lists.yoctoproject.org/g/meta-virtualization/message/7962
+> Mute This Topic: https://lists.yoctoproject.org/mt/97924793/1050810
+> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
 
