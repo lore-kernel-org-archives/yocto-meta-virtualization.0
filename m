@@ -2,198 +2,167 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84B76C77B6E
-	for <webhook@archiver.kernel.org>; Wed, 12 Apr 2023 17:08:59 +0000 (UTC)
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
- by mx.groups.io with SMTP id smtpd.web10.49775.1681319331802998073
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D460C7619A
+	for <webhook@archiver.kernel.org>; Wed, 12 Apr 2023 17:11:09 +0000 (UTC)
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+ by mx.groups.io with SMTP id smtpd.web11.49586.1681319464690161842
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 12 Apr 2023 10:08:51 -0700
+ Wed, 12 Apr 2023 10:11:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=RiCB4RaZ;
- spf=pass (domain: gmail.com, ip: 209.85.160.171, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qt1-f171.google.com with SMTP id gb12so10478807qtb.6
-        for <meta-virtualization@lists.yoctoproject.org>; Wed, 12 Apr 2023 10:08:51 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=IR9oQg9c;
+ spf=pass (domain: gmail.com, ip: 209.85.160.170, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f170.google.com with SMTP id gb12so10485580qtb.6
+        for <meta-virtualization@lists.yoctoproject.org>; Wed, 12 Apr 2023 10:11:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1681319331; x=1683911331;
+        d=gmail.com; s=20221208; t=1681319464; x=1683911464;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=/iARnFveYkphhWbc9gUmqY8sspkM5T40fz1XDV6D47g=;
-        b=RiCB4RaZEglpXypJkDNYlc/WPwrKajoA3uwC0yRNloIYM/tL7my7hkrEXpuAYNwcAM
-         grapxckGShubb5Zizq/6mu55acZN4Mn9VmbZwzGtdM9tDPX9ZD62Mdh+ViI3pxPEgujp
-         sp4hKFmaBJCjiqJa2wcist/AH8aossocyFCHyifmdZE4FJxFIX85ihQZ6ji92UMa5mJ/
-         li8dpQYq0YPR16qid1Qzfi6pcM2hBa9oZG55apKp6IWQq88yU4dNMFnTkrqCGqzhCQQl
-         ywzQZJXZ9bJVS7dBnRc7r80516CVHfFihGMl1MvA16KP6jiTT6MgHkSOe2w4CTioLAQF
-         306w==
+        bh=laemn4yl1hjfE4HNH8vmglLZNBTc1YzoztjUOhr7hxM=;
+        b=IR9oQg9c7B9yyb1YXr1wU1/ORjyY+cC59yCgJyah//A0vCQ2ZTAZAcyXcmpaXEptEw
+         +57IyHVZzDHO2Dhoynx7bql+eWvlp2nEjQLe14/Rh3tqbd7eQDYzNq+IUZqPnzgBpJEO
+         2m0nZZ99LHghrUO4+EUeFbw4vkPcjKEiuQAoF6w4Mrl5d8n0ZbCU8cur8IZkggaYJ3IP
+         TQ8NjF4kgShn/AKqQxnGAwjqltDkKqQT8T889ITTLwXkEziakJMOG+w5eOxJ+Kq8aOfM
+         Uh9qPeldkeBO+gsnyfEipMUA9PcawZLarT29G2au+zcg3XKZ4k1zVA1FofHy/RfzfHDa
+         r1dA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681319331; x=1683911331;
+        d=1e100.net; s=20221208; t=1681319464; x=1683911464;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=/iARnFveYkphhWbc9gUmqY8sspkM5T40fz1XDV6D47g=;
-        b=cXtg2w8CCEsG5pbR+ZtOAEkX+Y7MymfrS2YuNHR15gPV+K382p/uiamnwE6mS+0OLk
-         jqqSdRhmlXIbPXV5KFbDVX4HBvEm1zKJvEhN7W7UvGyYNSlhW6NtMcZ4YjYxDfReFhgZ
-         6jlcMoCQdGESkt98Cpe3Vgkj91D6U/7sSmspzOry2YVWQdMLl6L4N+lQHSiwSNoydxWX
-         NLfY1C7sGY5jY/LNlB41zHFVlvsbKOsjQW4NCq0Tu7oVHCOMh1Z9AhHp9K2i5xx+sgTO
-         NfdW0BrGJsCOixLIzNF2a9inMGa5s434WLcGy+AA/EgPh6By+t+4RubyeZN52NgEzdDj
-         ThmQ==
-X-Gm-Message-State: AAQBX9f5nKx0j153N2VxuvUBdfZ+wnW16kOKAF+8gRS5XyEppMi1ImxX
-	XavZlRH+z0Ujw1tXqkzTzB5u9fcyYr/BeA==
-X-Google-Smtp-Source: AKy350YvSN3Wi8WicMTiX1HUE7BAm8qwTXa1+/wYoYFyXQ/zYJ2oa1lJwN+kow2i/ZQ9MIvvw2mTcg==
-X-Received: by 2002:a05:622a:293:b0:3e4:f0da:7086 with SMTP id z19-20020a05622a029300b003e4f0da7086mr5181497qtw.27.1681319330558;
-        Wed, 12 Apr 2023 10:08:50 -0700 (PDT)
+        bh=laemn4yl1hjfE4HNH8vmglLZNBTc1YzoztjUOhr7hxM=;
+        b=LVVQWsGfW8tDexJjKyHLFfEmNIaXgca2QOCfmk5NzVl5Uugk+HzISmrxzYLL7w5RVP
+         hPBPmoDVcLsoV2CwFGPFAA5qhC85zsz9rdPQmSOvaglw3ZmvCS4dcqS27jcaWVcaq6Gk
+         KDINc4KEKn7fXF5kczBtRQlQ7F14XIN4QjSiS6IO/Waff7qemc8V2OazqT3+i6rlw7um
+         Bm0fKeha4ZqBsUFiuzumDPOcR/AjFU1/1WKjBTOtt7jyLuwlnXIKmFg7g3P+8ZsG9IiF
+         jDUy+t7GgKtqdOGlCrG8IQa4dRHl1kQ8p/zX3w68fh/oXxvZ1Pww9hW2jXdaf5iWeAL9
+         1Rlg==
+X-Gm-Message-State: AAQBX9cGztl+BBwGd8/d9mW0C9vJGmI3YPgVJLFucnypjuC3tnVh01xX
+	1f+lH51PWUHzqdeEv/nBk2S04QEjOpSOng==
+X-Google-Smtp-Source: AKy350bWeNO742KuY3nSyQmT/g8erYVIcYU1OTl13sVAhtWQzTBNFU26oNZMidHv7ISA2WF5bPib/g==
+X-Received: by 2002:a05:622a:190a:b0:3b9:c889:ec24 with SMTP id w10-20020a05622a190a00b003b9c889ec24mr10021363qtc.12.1681319463738;
+        Wed, 12 Apr 2023 10:11:03 -0700 (PDT)
 Received: from gmail.com ([174.112.183.231])
-        by smtp.gmail.com with ESMTPSA id i18-20020ac860d2000000b003e45a39ed74sm4366097qtm.81.2023.04.12.10.08.49
+        by smtp.gmail.com with ESMTPSA id h7-20020ac846c7000000b003e3921077d9sm4346085qto.38.2023.04.12.10.11.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Apr 2023 10:08:50 -0700 (PDT)
-Date: Wed, 12 Apr 2023 13:08:48 -0400
+        Wed, 12 Apr 2023 10:11:03 -0700 (PDT)
+Date: Wed, 12 Apr 2023 13:11:01 -0400
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Soumya <soumya.sambu@windriver.com>
+To: Alexander Kanavin <alex@linutronix.de>
 Cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [meta-virtualization][kirkstone][PATCH 1/1] fuse: Fix
- CVE-2023-26253
-Message-ID: <ZDbloOG0a+AwHzX8@gmail.com>
-References: <20230411040703.3632835-1-soumya.sambu@windriver.com>
+Subject: Re: [meta-virtualization][PATCH] xen-tools: add a patch to address
+ failures on 32 bit systems with 64 bit time_t
+Message-ID: <ZDbmJc9ZJCO5HKpD@gmail.com>
+References: <20230412091543.1002187-1-alex@linutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230411040703.3632835-1-soumya.sambu@windriver.com>
+In-Reply-To: <20230412091543.1002187-1-alex@linutronix.de>
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Wed, 12 Apr 2023 17:08:59 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/7988
+ <meta-virtualization@lists.yoctoproject.org>; Wed, 12 Apr 2023 17:11:09 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/7989
 
-In message: [meta-virtualization][kirkstone][PATCH 1/1] fuse: Fix CVE-2023-26253
-on 11/04/2023 Soumya wrote:
-
-> Resolve asan bug in during receive event notification (#4024)
-> 
->     The fuse xlator notify function tries to assign data object to graph
->     object without checking an event. In case of upcall event data object
->     represents upcall object so during access of graph object the process
->     crashed for asan build.
-> 
->     Solution: Access the graph->id only while an event is associated
->     specifically to fuse xlator
-
-merged.
+staged on master-next.
 
 Bruce
 
-> 
-> Signed-off-by: Soumya <soumya.sambu@windriver.com>
+In message: [meta-virtualization][PATCH] xen-tools: add a patch to address failures on 32 bit systems with 64 bit time_t
+on 12/04/2023 Alexander Kanavin wrote:
+
+> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 > ---
->  .../glusterfs/files/CVE-2023-26253.patch      | 76 +++++++++++++++++++
->  recipes-extended/glusterfs/glusterfs.inc      |  1 +
->  2 files changed, 77 insertions(+)
->  create mode 100644 recipes-extended/glusterfs/files/CVE-2023-26253.patch
+>  ...enstored_control.c-correctly-print-t.patch | 34 +++++++++++++++++++
+>  recipes-extended/xen/xen-tools_4.16.bb        |  3 +-
+>  recipes-extended/xen/xen-tools_4.17.bb        |  1 +
+>  recipes-extended/xen/xen-tools_git.bb         |  1 +
+>  4 files changed, 38 insertions(+), 1 deletion(-)
+>  create mode 100644 recipes-extended/xen/files/0001-tools-xenstore-xenstored_control.c-correctly-print-t.patch
 > 
-> diff --git a/recipes-extended/glusterfs/files/CVE-2023-26253.patch b/recipes-extended/glusterfs/files/CVE-2023-26253.patch
+> diff --git a/recipes-extended/xen/files/0001-tools-xenstore-xenstored_control.c-correctly-print-t.patch b/recipes-extended/xen/files/0001-tools-xenstore-xenstored_control.c-correctly-print-t.patch
 > new file mode 100644
-> index 00000000..828c1626
+> index 0000000..bf99f5e
 > --- /dev/null
-> +++ b/recipes-extended/glusterfs/files/CVE-2023-26253.patch
-> @@ -0,0 +1,76 @@
-> +commit 0cbf51a9827af0e3a35f5cfa823bfa39740bbc58
-> +Author: mohit84 <moagrawa@redhat.com>
-> +Date:   Thu Mar 30 13:02:19 2023 +0530
-> +Subject: [PATCH] fuse: Resolve asan bug in during receive event notification
-> + (#4024)
+> +++ b/recipes-extended/xen/files/0001-tools-xenstore-xenstored_control.c-correctly-print-t.patch
+> @@ -0,0 +1,34 @@
+> +From c7c43c4531fe1cd188f62d9905c3f5c7a29a6fb0 Mon Sep 17 00:00:00 2001
+> +From: Alexander Kanavin <alex@linutronix.de>
+> +Date: Wed, 12 Apr 2023 10:30:18 +0200
+> +Subject: [PATCH] tools/xenstore/xenstored_control.c: correctly print time_t
 > +
-> +    The fuse xlator notify function tries to assign data object to graph
-> +    object without checking an event. In case of upcall event data object
-> +    represents upcall object so during access of graph object the process
-> +    crashed for asan build.
+> +On 32 bit systems with 64 bit time_t (hello, Y2038 problem),
+> +the following error occurs otherwise:
 > +
-> +    Solution: Access the graph->id only while an event is associated
-> +    specifically to fuse xlator
+> +| xenstored_control.c: In function 'lu_reject_reason':
+> +| xenstored_control.c:646:70: error: format '%ld' expects argument of type 'long int', but argument 5 has type 'time_t' {aka 'long long int'} [-Werror=format=]
 > +
-> +    > Fixes: #3954
-> +    > Change-Id: I6b2869256b26d22163879737dcf163510d1cd8bf
-> +    > Signed-off-by: Mohit Agrawal moagrawa@redhat.com
-> +    > (Reviewed on upstream link #4019)
-> +
-> +    Fixes: #3954
-> +    Change-Id: I6b2869256b26d22163879737dcf163510d1cd8bf
-> +
-> +CVE: CVE-2023-26253
-> +
-> +Upstream-Status: Backport [https://github.com/gluster/glusterfs/commit/0cbf51a9827af0e3a35f5cfa823bfa39740bbc58]
-> +
-> +Signed-off-by: Soumya <soumya.sambu@windriver.com>
+> +Upstream-Status: Submitted [by email to xen-devel@lists.xenproject.org and maintainers as suggested by add_maintainers.pl script]
+> +Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 > +---
-> + xlators/mount/fuse/src/fuse-bridge.c | 14 +++++++++++---
-> + 1 file changed, 11 insertions(+), 3 deletions(-)
+> + tools/xenstore/xenstored_control.c | 4 ++--
+> + 1 file changed, 2 insertions(+), 2 deletions(-)
 > +
-> +diff --git a/xlators/mount/fuse/src/fuse-bridge.c b/xlators/mount/fuse/src/fuse-bridge.c
-> +index c3945d7..0c01a43 100644
-> +--- a/xlators/mount/fuse/src/fuse-bridge.c
-> ++++ b/xlators/mount/fuse/src/fuse-bridge.c
-> +@@ -6198,6 +6198,7 @@ notify(xlator_t *this, int32_t event, void *data, ...)
-> +     int32_t ret = 0;
-> +     fuse_private_t *private = NULL;
-> +     gf_boolean_t start_thread = _gf_false;
-> ++    gf_boolean_t event_graph = _gf_true;
-> +     glusterfs_graph_t *graph = NULL;
+> +diff --git a/tools/xenstore/xenstored_control.c b/tools/xenstore/xenstored_control.c
+> +index d1aaa00bf4..8d318c0399 100644
+> +--- a/tools/xenstore/xenstored_control.c
+> ++++ b/tools/xenstore/xenstored_control.c
+> +@@ -643,10 +643,10 @@ static const char *lu_reject_reason(const void *ctx)
+> + 	list_for_each_entry(conn, &connections, list) {
+> + 		if (conn->ta_start_time &&
+> + 		    (now - conn->ta_start_time >= lu_status->timeout)) {
+> +-			ret = talloc_asprintf(ctx, "%s\nDomain %u: %ld s",
+> ++			ret = talloc_asprintf(ctx, "%s\nDomain %u: %jd s",
+> + 					      ret ? : "Domains with long running transactions:",
+> + 					      conn->id,
+> +-					      now - conn->ta_start_time);
+> ++					      (intmax_t)now - conn->ta_start_time);
+> + 		}
+> + 	}
 > + 
-> +    private
-> +@@ -6205,9 +6206,6 @@ notify(xlator_t *this, int32_t event, void *data, ...)
-> + 
-> +     graph = data;
-> + 
-> +-    gf_log("fuse", GF_LOG_DEBUG, "got event %d on graph %d", event,
-> +-           ((graph) ? graph->id : 0));
-> +-
-> +     switch (event) {
-> +         case GF_EVENT_GRAPH_NEW:
-> +             break;
-> +@@ -6271,9 +6269,19 @@ notify(xlator_t *this, int32_t event, void *data, ...)
-> +         }
-> + 
-> +         default:
-> ++            /* Set the event_graph to false so that event
-> ++               debug msg would not try to access invalid graph->id
-> ++               while data object is not matched to graph object
-> ++               for ex in case of upcall event data object represents
-> ++               gf_upcall object
-> ++            */
-> ++            event_graph = _gf_false;
-> +             break;
-> +     }
-> + 
-> ++    gf_log("fuse", GF_LOG_DEBUG, "got event %d on graph %d", event,
-> ++           ((graph && event_graph) ? graph->id : -1));
-> ++
-> +     return ret;
-> + }
-> + 
-> +-- 
-> +2.35.5
-> +
-> diff --git a/recipes-extended/glusterfs/glusterfs.inc b/recipes-extended/glusterfs/glusterfs.inc
-> index baa8962b..e5bedca1 100644
-> --- a/recipes-extended/glusterfs/glusterfs.inc
-> +++ b/recipes-extended/glusterfs/glusterfs.inc
-> @@ -20,6 +20,7 @@ SRC_URI += "file://glusterd.init \
->              file://glusterd-change-port-range.patch \
->              file://configure.ac-allow-PYTHON-values-to-be-passed-via-en.patch \
->              file://0001-cli-duplicate-defns-of-cli_default_conn_timeout-and-.patch \
-> +            file://CVE-2023-26253.patch \
->             "
+> diff --git a/recipes-extended/xen/xen-tools_4.16.bb b/recipes-extended/xen/xen-tools_4.16.bb
+> index 386e7dc..2861788 100644
+> --- a/recipes-extended/xen/xen-tools_4.16.bb
+> +++ b/recipes-extended/xen/xen-tools_4.16.bb
+> @@ -7,6 +7,7 @@ XEN_BRANCH ?= "stable-${XEN_REL}"
+>  SRC_URI = " \
+>      git://xenbits.xen.org/xen.git;branch=${XEN_BRANCH} \
+>      file://0001-python-pygrub-pass-DISTUTILS-xen-4.15.patch \
+> +    file://0001-tools-xenstore-xenstored_control.c-correctly-print-t.patch \
+>      "
 >  
->  LICENSE = "(LGPL-3.0-or-later | GPL-2.0-only) & GPL-3.0-or-later & LGPL-3.0-or-later & GPL-2.0-or-later & LGPL-2.0-or-later & LGPL-2.1-or-later & Apache-2.0"
+>  LIC_FILES_CHKSUM ?= "file://COPYING;md5=419739e325a50f3d7b4501338e44a4e5"
+> @@ -20,4 +21,4 @@ require xen-tools.inc
+>  
+>  SYSTEMD_SERVICE:${PN}-xencommons:append = " \
+>      var-lib-xenstored.mount \
+> -    "
+> \ No newline at end of file
+> +    "
+> diff --git a/recipes-extended/xen/xen-tools_4.17.bb b/recipes-extended/xen/xen-tools_4.17.bb
+> index 0f323cb..d0ab2db 100644
+> --- a/recipes-extended/xen/xen-tools_4.17.bb
+> +++ b/recipes-extended/xen/xen-tools_4.17.bb
+> @@ -7,6 +7,7 @@ XEN_BRANCH ?= "stable-${XEN_REL}"
+>  SRC_URI = " \
+>      git://xenbits.xen.org/xen.git;branch=${XEN_BRANCH} \
+>      file://0001-python-pygrub-pass-DISTUTILS-xen-4.15.patch \
+> +    file://0001-tools-xenstore-xenstored_control.c-correctly-print-t.patch \
+>      "
+>  
+>  LIC_FILES_CHKSUM ?= "file://COPYING;md5=d1a1e216f80b6d8da95fec897d0dbec9"
+> diff --git a/recipes-extended/xen/xen-tools_git.bb b/recipes-extended/xen/xen-tools_git.bb
+> index fd42cf2..7557081 100644
+> --- a/recipes-extended/xen/xen-tools_git.bb
+> +++ b/recipes-extended/xen/xen-tools_git.bb
+> @@ -7,6 +7,7 @@ XEN_BRANCH ?= "master"
+>  SRC_URI = " \
+>      git://xenbits.xen.org/xen.git;branch=${XEN_BRANCH} \
+>      file://0001-python-pygrub-pass-DISTUTILS-xen-4.15.patch \
+> +    file://0001-tools-xenstore-xenstored_control.c-correctly-print-t.patch \
+>      "
+>  
+>  LIC_FILES_CHKSUM ?= "file://COPYING;md5=d1a1e216f80b6d8da95fec897d0dbec9"
 > -- 
-> 2.35.5
+> 2.30.2
 > 
-
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#7982): https://lists.yoctoproject.org/g/meta-virtualization/message/7982
-> Mute This Topic: https://lists.yoctoproject.org/mt/98191421/1050810
-> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
-
 
