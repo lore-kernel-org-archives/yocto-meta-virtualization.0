@@ -2,221 +2,447 @@ Return-Path: <xiangyu.chen@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DDC0DC77B73
-	for <webhook@archiver.kernel.org>; Mon, 17 Apr 2023 02:15:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7125EC77B70
+	for <webhook@archiver.kernel.org>; Mon, 17 Apr 2023 04:36:10 +0000 (UTC)
 Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.45379.1681697747802041356
+ by mx.groups.io with SMTP id smtpd.web11.46377.1681706165104978297
  for <meta-virtualization@lists.yoctoproject.org>;
- Sun, 16 Apr 2023 19:15:47 -0700
+ Sun, 16 Apr 2023 21:36:05 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=347115525b=xiangyu.chen@windriver.com)
 Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 33H1wQEU028011;
-	Sun, 16 Apr 2023 19:15:46 -0700
-Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2175.outbound.protection.outlook.com [104.47.59.175])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3pyq76hwxp-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 16 Apr 2023 19:15:46 -0700
+	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 33H4PGCl022041
+	for <meta-virtualization@lists.yoctoproject.org>; Sun, 16 Apr 2023 21:36:04 -0700
+Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2175.outbound.protection.outlook.com [104.47.57.175])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3pyq76j19s-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <meta-virtualization@lists.yoctoproject.org>; Sun, 16 Apr 2023 21:36:04 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eN98WjbpfWSEmwxhUvAGMbh8Lb61ScHKg4XqCQrWCHE93uxNhNieJoyNZdvWx3nGd8Dp5FN454qVzaiBSUZhfCjwF561hpBfcK+qfzW2t7lnAjSoBQVA2tEYuRH7FFw7UOpgX5fTu1kJQTX9ahjfeNPm6lJqEdd9Y9MfjvKopqYFchgq2GWTO8OSRdExoHLjfeu+NiNTLXbIP39dWaAK3qSkg9/gC8KRP0MR+enWJKvG+s0p5kSb7vPH/5oOxS5tmxtPK28MgsQ7Z2P5L7Js4Vs4mvtoThHSfQ/7cfNbwMaVi7+ip5kqjjv+CbN8ZXWzWzRH/0CYr6WIZbcdDXJs+Q==
+ b=d6yMz7PnWsQ5UMRfM2HDl1Atx9R28+bGoi0Sbx2mpXU7r8A1K7f/G2tVlzrLZOryNjOSMYGZGSnb8d7PEiKkCei/cLBqOOEFNXMf4zrpUBkoJAwStli5CF+njpu5e837uNvIWduQoRZUSjw1y8LCs/1yRJ9pCbI3Nn1o4Ya89D25hZNmaWinJFhxklp8Qg7/6l6LUlfQMCfxjK74YuvuT59mu78aHB2SVJTCakIg8W0E3g8Yy5kOS/GwvNqHhN8zTIp1zJjYZ9gi4TDz6bm7NLuNZvlUA2Sd4Mg9Ln1wmpxRZMmcnjxgH0N8KEabMrQxFwZUW01di4UciY0TrmX3cQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hPhaWP/rc0MumSZTzsAnRDPuYoFS1vavRJKVzR4sfVs=;
- b=jSRZ+G9mSD0HEA3WiL0qVNDjNZ82qEGaMEpC4r7Hx9HwEZT148s799aWJ9yScsbQbx1wvLx3CADQLXKkLcHn+8a1N5u7x3ZjnZd8uAqROSGKQHTVATjrjrfx52fRiG74q5Li+WCjKr7fuxHS1ri5twOoF4rdv+QrGNu8WFC7i7bWbbYlfYYKQ96676LQf/DIkk3ju1JXPpFMvL3q/eYQhDETjpYLHPR3jzi7DWdeDTjgLdSJRyhyBWHa461g/sWeBioYz8xttHGuErP2Bi+NqJQkLP7HaRbxlO5kuUZnJafEC+Sx/cnb6aX/0P0oO8dNhmXw0oNOaJyt1bLCYGNkpA==
+ bh=EXSHKDP5kL/tvR/HXDY2AXSTgO20OrHwysOwkWwWjiE=;
+ b=HCRdOS+rUXti0vdDgPH+WGqtS3D0qxZ3m+rJ5wLa0eYArpfNfZMzEcK4cVbVSbB20UUoV94kaJS9AG310+9MeBw3es2RIDN1iQxoNYICxFicN1q0cSocHNJ5N09Xg4PjypU/fAf0+ez66Bxnz2UuZDCJVDtZUrTjJFKdkH/JOGoJtmhYrqigBfMWNxNMCXLC00I4o9yDlqQWX81lcfIYgAILL/mJP4KocT5zT+d/99zZDvCsZqzrH3OG1wBUMmFXE0sh1XgaUP+xRv1IJ9JauSvAbY179AGHg3b541NmjN6DcBmDFaY9Ecmah2gold3Sp6cW/1eTozKOHM+r+ma1xg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=eng.windriver.com; dkim=pass header.d=eng.windriver.com; arc=none
 Received: from MW4PR11MB5824.namprd11.prod.outlook.com (2603:10b6:303:187::19)
- by DS0PR11MB7405.namprd11.prod.outlook.com (2603:10b6:8:134::16) with
+ by MW4PR11MB8265.namprd11.prod.outlook.com (2603:10b6:303:1e1::16) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6277.49; Mon, 17 Apr
- 2023 02:15:44 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6298.30; Mon, 17 Apr
+ 2023 04:36:00 +0000
 Received: from MW4PR11MB5824.namprd11.prod.outlook.com
  ([fe80::631b:404:cc4e:8008]) by MW4PR11MB5824.namprd11.prod.outlook.com
  ([fe80::631b:404:cc4e:8008%8]) with mapi id 15.20.6298.030; Mon, 17 Apr 2023
- 02:15:43 +0000
-Message-ID: <21a0b758-1be5-86a3-4267-c3eecbfe1c67@windriver.com>
-Date: Mon, 17 Apr 2023 10:15:33 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [meta-virtualization][PATCH] ovs: Uprev from 3.0.3 to 3.0.4
-Content-Language: en-US
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: meta-virtualization@lists.yoctoproject.org
-References: <20230414070800.381040-1-xiangyu.chen@eng.windriver.com>
- <CADkTA4P8ZJ-wCoJdx8BfXbsQ+9-ixQDYKFmr8oa5FG4105imJg@mail.gmail.com>
-From: xiangyu.chen@eng.windriver.com
-In-Reply-To: <CADkTA4P8ZJ-wCoJdx8BfXbsQ+9-ixQDYKFmr8oa5FG4105imJg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-ClientProxiedBy: SG2PR02CA0022.apcprd02.prod.outlook.com
- (2603:1096:3:17::34) To MW4PR11MB5824.namprd11.prod.outlook.com
+ 04:36:00 +0000
+From: Xiangyu Chen <xiangyu.chen@eng.windriver.com>
+To: meta-virtualization@lists.yoctoproject.org
+Subject: [meta-virtualization][kirkstone][PATCH] ovs: update to 2.17.6
+Date: Mon, 17 Apr 2023 12:35:38 +0800
+Message-Id: <20230417043538.170500-1-xiangyu.chen@eng.windriver.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SI1PR02CA0054.apcprd02.prod.outlook.com
+ (2603:1096:4:1f5::13) To MW4PR11MB5824.namprd11.prod.outlook.com
  (2603:10b6:303:187::19)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW4PR11MB5824:EE_|DS0PR11MB7405:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2404f08d-b40b-4120-22c4-08db3ee9a5c8
+X-MS-TrafficTypeDiagnostic: MW4PR11MB5824:EE_|MW4PR11MB8265:EE_
+X-MS-Office365-Filtering-Correlation-Id: 30892115-484d-4e04-5cdf-08db3efd3e7c
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	rwhlAs232diT8QHRd8iTlycakyme4TFeOeM8Sjt8sEiy9xYZK1gaY1ARu9+nIrhkbjVK7eNXE/T/2HhShjhyekuq+955NN/TUyjL8l0ru3skjKXZ35CEnjVOMygmU9kAMo9DidxaturVZ7ZpEfsaao3tw/utWFtUk45sykMrF6Uuz5wafLxkY+oX4imFCmsFg28pmHaGmaOPOLGPbE/b1eltdp+d4DJydZZXCbvOde70WC66r8hNnQEgRd+v8T8LW0r1cWNVFt19LNsogeY0agFQQbNU4zYTULBZBb2OJX8uxgDmhU+QyjUIgKNce5AhxEv3mrrpcpLz4YDCnSZSvw4e9qn6ECbSYlTSri1slHhwHHPPqNVOaIFTlzfgc/b97a+kQtOm84Fn5GfxGOcbqvLnCCZATZaDSRu/k8c8zT0JdXGmWfwgb32oiZJrCGNxtYpBQIuv6bsqH0mqASO8yudl8Yfx27X9CBWhqZb7wPyatnB3E9t2rzwLpMoq7nZqNbz4SXRG2IZNs8wsVZd/5CpK7hVC4WJvMHDlyCLMaHnQ4/RxpheeEOgZ/wgjmckY40gzALU+RiZm2BuKqcT44qoPnR9NY+9j61FwYhaR1lRB87+hBTbkQZBs9ywxgBNozlEKQ1TxXEttBfXK0rlBbQ==
+	N0qW2TsYnxRhx4RlEFSwteeXOt/4GLgJluZEKrs/SPsH37PCf9Qodfj7layOb+JeLLo4OCp/v4SZQVVQDqzyeZ+ITT223900257cwQz5/OT4mcN3WUnGn5WFkWf1VGeHiB/qtl4BpG8h+IjgfksuwG8icnngICdj5OVqiz7jUWK/XQTiQEf47B5XqU37qMOjbv+BhwCcDUdSBywlQWurCcU5Wt4ULId7rBaelNC1ynpZG4He05ESjPyMTiAgA2nHobkolm9I6dzzOiZaELVUAjMn7cVPkeQgfnTDuakQUwVyPAmUCFYIRUz21Qb9MSs1YFX3/yYkWNH1thYp7y/xG4ScC7ZHgpxBC+eMub0rP0ivtkQR0gsLUkOYFYELd5iVh9d4f2fvg8GQ1YRPI51UywgpThQTFnry7YDRkmjvu3nmTCcjXSEqeTr9i6vjOAtlltrlqcWDU0Pp+HxDZ1+gyyK/DjocGbVu8hkxgp1q5q893KOm5rmQoOi9RD18sp9v6/F+XpIlRbfgp9jfdsZXJkUjzzvHwufyXfcJJUqXeJUcW9jtwrIj9xVgPLPXsoNwOXlCaRlgSIY4bMnBmI1rv4jIcnOpyQzQy4JswBr57Q4=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW4PR11MB5824.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(366004)(376002)(396003)(346002)(39840400004)(136003)(451199021)(6666004)(31686004)(8936002)(966005)(83380400001)(6486002)(316002)(186003)(83170400001)(4326008)(8676002)(6916009)(31696002)(66476007)(66946007)(41300700001)(36756003)(66556008)(66899021)(2906002)(478600001)(53546011)(5660300002)(6512007)(9686003)(6506007)(26005)(38100700002)(43740500002);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW4PR11MB5824.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(39850400004)(366004)(376002)(346002)(396003)(136003)(451199021)(26005)(1076003)(6506007)(6512007)(186003)(66574015)(83380400001)(2616005)(52116002)(6486002)(5660300002)(478600001)(41300700001)(38100700002)(38350700002)(8676002)(316002)(6666004)(8936002)(66946007)(66556008)(66476007)(6916009)(83170400001)(2906002)(30864003)(15650500001)(44832011);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?NTFaeUsyajV3WVFwQkhkK0JuTzFpMUdtWm4xdjFLZmJpOUhJRlhuL08vTDZa?=
- =?utf-8?B?VE52aXVzN2w3YWt0VFJCVStmM0pPZXEremNlMWVYMEpqQUNETytabmdUbEV2?=
- =?utf-8?B?NWJwK1FXOEYzbWNETmpsbUhGRW1HTVYzdXh1T1JQeHRLQ1Y5S25xUGVWbWVj?=
- =?utf-8?B?QS8xMllvcXZzeExubVp3VkI1d0UrU0xXanNEbTFqNXZHMk0xU20ydHJFMENX?=
- =?utf-8?B?azBJMDJ1K1FrOFpnVXRxazJXbldxQjAwYUgzL0dxVDRhSXp4V2d1VDBaNmxP?=
- =?utf-8?B?NURZTEJVelZpV1E3RjVON05hd3BMTE55WUlRdWxjVGN2Mnd0TXZqR0Vla1hV?=
- =?utf-8?B?akxzbDNpTmpZdkJzNXBTQWllREh2Q2pETkU5RGJZcGcxcVkzR200dVhZTkFs?=
- =?utf-8?B?WHZtYmxBdWRuMVc5UWxKU0hwbktURXhCTlJ0SkFCNmpiYXNyRFZoQU9yQmpQ?=
- =?utf-8?B?bDVhY0xHSVpHQUVxUWNFbWErSm9qaEpDSWIyVEx1N09FOWNGQUMyRGw4RlAw?=
- =?utf-8?B?ZFBCQUF4REVIbU1ad1NEUmFlQnBZUjNYSnlMZ1g5Qm5iMzg2SCs0WFF2QTZh?=
- =?utf-8?B?eTQxMUVHZCtVT2F6SDNQUnZ1Tk9tU3FWREJRTDFpSnpZbU9oUTc1TWRLV1Rj?=
- =?utf-8?B?b1IwTFk4c2UydVF2S1FQRkxNSmN5cDluMmRoZzNYSkVXOVE4dFBmenJSRVk4?=
- =?utf-8?B?aHg2Wksvd3BXbzU3Wkt5Qm9NWXFXL2VEMTFBY0lpWFFvU2tvdXlGemNQU1Ez?=
- =?utf-8?B?c3ZyZHIzRGI4NXdTakJHcmNVV1pjNHdJbU1jOVRRSlBhMUw4MU1BNDZlMGoz?=
- =?utf-8?B?L1lBeDRzbzdsaW5pek5vWkpzcWZDSjRPQms2MWtQR3BjOERjVXBiWldkRzJF?=
- =?utf-8?B?dWkrc2pHb200R0haczk5L3A2MXNyQ2NlTWlyemRUT0NIOC9MYVJKclExOW83?=
- =?utf-8?B?RGVONVhCMkZScDBFNE40bCtIYWVzeml2N3NSY1FOQnU0R3VUeWtndm5mSldw?=
- =?utf-8?B?c2xLeDA4UmdPdDg3cW5UcU8vbExDb1BTT3RSd21MMFJWb0dBUmxQbmt0SHlj?=
- =?utf-8?B?ejRScStDeWZ6ZzFITDNUQXI4K2E3Vk55VWRKZ0pmK2htazRmV1F5UWFVZUpF?=
- =?utf-8?B?SzMvaEF0dCtNZHRBZ2MvTUNaV1ZUOFF2OHh2dWh0bFNQWHNtVlMvcllrZHZR?=
- =?utf-8?B?UU1icFU3N2szVW5COHliUTBQZFJ6OVFVYkFRbm5Tbkk4Q2I3MWlMdEJnMkRT?=
- =?utf-8?B?R0MwcHBuck92TUhRUjdySnlUN2FTRVA5NUIyOGgwSlN5QkEwelYvK1dyU25V?=
- =?utf-8?B?ZlBQVnNmWFdyMzhycGQrTWFMQ2tFMEFkLzJYbjBnNmRJb0FRaEVxYWNCclVX?=
- =?utf-8?B?VklKRVJMVzBzZlJRRjUyNnJGUzk4dGVPeDFTRWlYbE1PSjY3akpzRCtiTGw0?=
- =?utf-8?B?QW92RHd6dDdHUnh3WjFZcVhmZXJPMlYvOExZd2dFeDI4ckJuclNHNSthVkxp?=
- =?utf-8?B?TEc4Qk1JYzc5QWU5YU1sQnlGT2lObnc1RmFYd1lUZzVOMnNlcDBKNDA0WmR3?=
- =?utf-8?B?cE54KzQxVCtnSk9YR3o1RWlMbXNUcTdORXd5blZsYVllS0E1WHBzS0tPVUc1?=
- =?utf-8?B?eHZpcFR4ZjMzSDc1VUR5cWMvU1ZRdzR0ZUlwZU4zZ0w3aUlYVWVabXBlUVN4?=
- =?utf-8?B?N1A4NDlMRFJ5bU5lSkZCSytQRzlwNkl6ZDZFR05rMVJna0puQmxaZTF5bVll?=
- =?utf-8?B?NURxRDFINS9saTB6QmVieUd0NzZvL254bWxPeWhHZGpqbTRYMjZ3YXV0c1JM?=
- =?utf-8?B?UFJLT0pFVmNGZTVaRndsZ3ZSb2I0ekR6MFZ1bmUxWHpENG8rVGtQSzR6UGk1?=
- =?utf-8?B?WkNyR3ovczlXcGN2STJ1dTB5RUlDaE1veHBYQkMzR21kU1lETWkrendNN09k?=
- =?utf-8?B?T1VjVGNXNFJkM0JVRlNRRVJpNmxxQVpBODRuVlVjMDhMYnlTUXh6ejJYaXBZ?=
- =?utf-8?B?aEljSkE4bWszNWx4VFA3Q2pNSXl6c3AzNGpGMUFzSXJIU3FjNUhWT291NWdT?=
- =?utf-8?B?SHhlY0RZaENjclBOYzZYaVJXdUZDMHZEL0ltNFFwS0R5SUYyY2FEbHZORkE0?=
- =?utf-8?B?R21qTERvR1hHclArRW9KY3NXWVNwOGNYdTVjZk4ybnl2MHl2UGJyN1ZITVBC?=
- =?utf-8?B?eVE9PQ==?=
+	=?us-ascii?Q?wYPrr4Vn0RkaDRz6NYp4oyNSPofcZxCgTbsa34K1dBSQd6Hk013qCJrnDsLq?=
+ =?us-ascii?Q?nwechpALhmxlEMGGdpdqo4cqbAONBGZMvsDPnHdfOOEHKrqIqs0gKjOWgA5i?=
+ =?us-ascii?Q?o9lF/mjZhiT4U3pKaubVP8SrQkYc1QaugG986/n35EqWWOpTLDq+V0D05oUn?=
+ =?us-ascii?Q?kzkWJzsZtB7zbs4PcnG0Fps+eRcs06COztsgHxTpksMJolm8mOcptt2mmYhO?=
+ =?us-ascii?Q?PoPmom+3gZPtFQ3RbpAnr0UESxkA3vr4PkzfVVaFIjLv/d1vzjMeBCyWTb45?=
+ =?us-ascii?Q?lMYQv77nrHg8C7Up6K2MXvdx/jXk3A7+xlTAA0kmVqX1zXXmxF5lvFFMrULN?=
+ =?us-ascii?Q?cseArgYEOwqAWY5PVApvmcmrLe2CSStF408u3ZcMyTXmrtBqBJT6u9qUazDf?=
+ =?us-ascii?Q?YrxsJ+aig7WZFJTWIs1DX1q+yvCNXsY8L/J979hmJdErFUk0ob0jtc4+pLPL?=
+ =?us-ascii?Q?mpCIJRZeTYxtStU89WKb0JVrzFmCdi684mxDhC5fjD8PG6Fidd20Jvndde9p?=
+ =?us-ascii?Q?Ns23AXEzlcLmkL3sVgPlDcsYZjygaavpoXZTNnhWmGKJFgmhx5gt15srXk/4?=
+ =?us-ascii?Q?RYVs+7bU126Ycsl39cwJmddylOLTOQEK6Hmv7i/aIFJSbDxpwFkwEPrWt5eB?=
+ =?us-ascii?Q?a3zVMRfVpbMV70yrPShavO1kE+KKP0oDDl7QvaLpa0a4eiilPVbGJNF9b1sU?=
+ =?us-ascii?Q?83pqmbxKOqZMfddfFEWriJpv3tme9ApbmiN5F+kOJFbj/k4+lwqWbqoRRCmm?=
+ =?us-ascii?Q?tOkfa9quH6lYvfCJazPQeYzLso86bBdQ2BFSOW+QH/8a/68M0zSn1Me4BUAZ?=
+ =?us-ascii?Q?VawNn1/2Mbsg6ZSVMwwos8JBR5JvcEDiT9VxdJffDrMcUdM7GcjVHfdwfnwI?=
+ =?us-ascii?Q?1s09/7ffrQdbkumj75R4SkLk3I/QDKe5f2VJUuH+uzqrPYvhiP69jZLaHqru?=
+ =?us-ascii?Q?vV16lG8s5MD9mueH/+81x6Lcm2yc6QKaIJzwBR+SJgx4s/dh5GGGb80lXr2Z?=
+ =?us-ascii?Q?5CtFJbUHW4eiQTT2CcWqblXDVAZ6WuwhvdAj+tpTEJzg0M0h2OBbU0ic24NW?=
+ =?us-ascii?Q?NzFbU0GNoMgje+8wr7E1TSCszjDwso+Rzc9LztS+g9CFmTvniRpThWej3D60?=
+ =?us-ascii?Q?1puaaO9XF4Z/bIHbLO1Id9Kfq3IC9PERqurxkBGg+60R+FjaaO1YbxxoDnz6?=
+ =?us-ascii?Q?lrpbw9XmBCdKvAm9rhAIP2ArbDqLtuDqlAeQ5yYTNVJGqHK5cfpc9JorQHFl?=
+ =?us-ascii?Q?WQnENihRQZG0Y3g7u0OqVrwwABXR1/iS7BWKwX4qHDgG8AiIB+U+s1khWd60?=
+ =?us-ascii?Q?dsd8J3LNozz75sIGk+RLWN+iAsXrpYYZzpYRASQev68tUX5WuYOSWvN4bUuI?=
+ =?us-ascii?Q?LyWga9HiN4Y5ErDKyXkAZj15SdrAkFn1Yk+cDl49o/6UhKHtRB6j0PVtwRr4?=
+ =?us-ascii?Q?Hevv77/IwZHDRlNass4WUy4qogzOgxY8rbslNdbqXkA7qb4XsAZ+GnOCv/KG?=
+ =?us-ascii?Q?u05E54E78MoQs+OWhouUrNDjI/L0a3w6FPzZ8ignOdWkasyZFqZyoHvR5FB/?=
+ =?us-ascii?Q?EmZaR6hGvBr9WJjoDprpqbSSuvvWobMINRyrRXdTseHZwC9TPcmOk2E2tOw/?=
+ =?us-ascii?Q?EQ=3D=3D?=
 X-OriginatorOrg: eng.windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2404f08d-b40b-4120-22c4-08db3ee9a5c8
+X-MS-Exchange-CrossTenant-Network-Message-Id: 30892115-484d-4e04-5cdf-08db3efd3e7c
 X-MS-Exchange-CrossTenant-AuthSource: MW4PR11MB5824.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Apr 2023 02:15:43.5664
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Apr 2023 04:36:00.2019
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: cs6fYvK0IKhGVzUePV0iY6PzE7YxHLClVaSDxO04Fsl8QynM0PCAWFz+87hpiAVwAKXyYsNCWeA8TIivGcKc6epdaK3o2tbZLuCMSGnun9M=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7405
-X-Proofpoint-ORIG-GUID: iC3SUPtikFe5tlzUP9ptKmu9q6iri5ip
-X-Proofpoint-GUID: iC3SUPtikFe5tlzUP9ptKmu9q6iri5ip
+X-MS-Exchange-CrossTenant-UserPrincipalName: a3xI0imZYSMPWnQixLOIPVsaIPMOPmaJDYwJ3fPhV0d1HGF3kziBNfSJGczdJJNmdoy3bCPb4arydUDj/YfVW5e1EhlL2ILGx8p4YoPMrZc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB8265
+X-Proofpoint-ORIG-GUID: K5C18wzfOxbb1bhXL3jgyW_8osjuwoxt
+X-Proofpoint-GUID: K5C18wzfOxbb1bhXL3jgyW_8osjuwoxt
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-16_16,2023-04-14_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=967 spamscore=0
+ definitions=2023-04-17_02,2023-04-14_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999 spamscore=0
  malwarescore=0 adultscore=0 bulkscore=0 mlxscore=0 impostorscore=0
- clxscore=1011 priorityscore=1501 suspectscore=0 phishscore=0
+ clxscore=1015 priorityscore=1501 suspectscore=0 phishscore=0
  lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2304170019
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 33H1wQEU028011
+ engine=8.12.0-2303200000 definitions=main-2304170040
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Mon, 17 Apr 2023 02:15:49 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/7994
+ <meta-virtualization@lists.yoctoproject.org>; Mon, 17 Apr 2023 04:36:10 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/7995
 
+From: Xiangyu Chen <xiangyu.chen@windriver.com>
 
-On 4/14/23 21:00, Bruce Ashfield wrote:
-> CAUTION: This email comes from a non Wind River email account!
-> Do not click links or open attachments unless you recognize the sender =
-and know the content is safe.
->
-> Note that I have a 3.1.x uprev for OVS prepared for post mickledore rel=
-ease.
->
-> But I'll stage this for now, pending the results of my testing.
->
-> I'll also regenerate the commit message, as we should be capturing the
-> shortlogs of commits that are part of a release.
+Updating openvswitch from 2.17.1 to 2.17.6, pickup the latest security and bug fixes.
 
-Hi Bruce,
+Changes:
+1. Removed the patch 0001-lldp-Fix-bugs-when-parsing-malformed-AutoAttach.patch.
+2. Update SRCREV PV-version and CVE_VERSION
 
-Thanks for your response,=C2=A0 this small version bump is fixing=20
-CVE-2023-1668 which was found recently, so I bump the latest 3.0.x=20
-version directly :p.
+Commit short log:
+a08bb41e3 Set release date for 2.17.6.
+27fb5db7f ofproto-dpif-xlate: Always mask ip proto field.
+c3684a060 conntrack-tp: Fix clang warning.
+be19308aa netdev-offload-tc: Del ufid mapping if device not exist.
+4f41e58bc netdev-tc-offloads: Fix misaligned 8 byte read.
+d6d1cad6a dpif-netlink: Always create at least 1 handler.
+09e6e1de7 ofproto-dpif-upcall: Wait for valid hw flow stats before applying min-revalidate-pps.
+691b9e514 system-traffic: Fix conntrack test cases which are failing with af_xdp.
+7aa314c9c netdev-windows: Add checking when creating netdev with system type on Windows
+215278bde ofproto-dpif-upcall: Include hardware offloaded flows in total flows.
+4a3f8845e ofproto-dpif-upcall: Reset ukey's last stats value if the datapath changed.
+132fa24b6 classifier: Fix missing masks on a final stage with ports trie.
+8661abd4c ofproto: Fix re-creation of tunnel backing interfaces on restart.
+638441e98 ovs-actions: Correct typo in ovs-actions man page.
+3c4bd63bc ofproto-ipfix: Use per-domain template timeouts.
+d2583ccb7 ofproto-dpif-upcall: Use last known stats ukey stats on revalidate missed dp flows.
+705190d88 conntrack: Properly unNAT inner header of related traffic.
+d87b6180e dpctl: Fix memory leak in flush conntrack.
+6626562c5 sparse: Fix build with DPDK and GCC 12.
+82dc71f80 ovsdb-server: Fix handling of DNS name for listener configuration.
+9b341844e netdev-offload-tc: If the flow has not been used, report it as such.
+adac28dcd netdev-offload-tc: Conntrack ALGs are not supported with tc.
+a1c2abba7 netdev-offload-tc: Fix tc conntrack force commit support.
+68a2818b0 ofproto-dpif-upcall: New ukey needs to take the old ukey's dump seq.
+2eb7a6066 netdev-offload-tc: Preserve tc statistics when flow gets modified.
+4f5140769 sparse: Fix numa.h for libnuma >= 2.0.13.
+32853c084 tc: Add TCA_KIND flower to delete and get operation to avoid rtnl_lock().
+037131229 netdev-offload-tc: Fix misaligned access to ct label.
+206409bb7 ovsdb: Fix database statistics during the database replacement.
+0f55eced1 cirrus: Update to use FreeBSD 12.4.
+e9336a91f tc: Add support for TCA_STATS_PKT64.
+ba62a1eae Documentation: Fix links in maintainers.rst.
+1b76faf8d Documentation: Fix links in the DPDK guide on physical ports.
+e1ee9c32a treewide: Don't use non-portable '==' with test command.
+a7d7c30c4 dpif: Fix tunnel key set for IPv6 tunnels with SLOW_ACTION.
+8d055809b ci: Fix overriding OPTS provided from the yml.
+0eb2aa46b Prepare for 2.17.6.
+08971e4b9 Set release date for 2.17.5.
+ecaacb01a lldp: Fix bugs when parsing malformed AutoAttach.
+ee002b351 dpif-netdev: Use unmasked key when adding datapath flows.
+18dcfda67 ovsdb-cs: Consider default conditions implicitly acked.
+793709a85 rculist: Use rculist_back_protected to access prev.
+abb9d3482 Prepare for 2.17.5.
+b6c3788fe Set release date for 2.17.4.
+b50f4e3d2 odp-util: Fix reporting unknown keys as keys with bad length.
+44012fccd ovs-dpctl-top: Fix ovs-dpctl-top via pipe.
+118e4349d rculist: Fix iteration macros.
+c9f10ae33 vswitchd: Publish per iface received multicast packets.
+4e3f9951f learn: Fix parsing immediate value for a field match.
+282ba24d9 datapath-windows: Check the condition to reset pseudo header checksum on Rx side
+ee0e1d0a5 netdev-offload-dpdk: Enhance the support of tunnel pop action
+4e3d762f0 ci: Update meson requirement for DPDK.
+0d1e425c7 ovsdb: transaction: Fix weak reference leak.
+ceab1ca1e ovsdb: transaction: Refactor assess_weak_refs.
+fa95bf962 ovs-tcpdump: Cleanup mirror port on SIGHUP/SIGTERM.
+7ebef81f9 netdev-linux: Fix inability to apply QoS on ports with custom qdiscs.
+037ef6301 tc: Fix misaligned writes while parsing pedit.
+869e2e1ba odp-util: Add missing separator in format_odp_conntrack_action().
+0aa55709f vswitch.xml: Fix the name of rstp-path-cost option.
+af459fa37 mac-learning: Fix learned fdb entries not age out issue.
+c4336a1f1 ofproto-dpif-xlate: Update tunnel neighbor when receive gratuitous ARP.
+683508cd4 bond: Fix crash while logging not yet enabled member.
+41b178d52 netdev-dpdk: Fix tx_dropped counters value.
+d0276481a unaligned: Correct the stats of packet_count and byte_count on Windows.
+71401199f tests: Fix filtering of whole-second durations.
+3c1c034e5 netdev-offload: Set 'miss_api_supported' to be under netdev.
+35615cd37 cmap: Add thread fence for slot update.
+5f8ba216a ofproto-dpif-xlate: Do not use zero-weight buckets in select groups.
+5e26f88b4 github: Update versions of action dependencies.
+afce3662f ovs-tcpdump: Fix bond port unable to capture jumbo frames.
+602a41bb3 json: Fix deep copy of objects and arrays.
+5dde4d748 Prepare for 2.17.4.
+2b4b4b868 Set release date for 2.17.3.
+fbc3b10e9 Add support for OpenSSL 3.0 functions.
+5a77d53b8 dhparams: Fix .c file generation with OpenSSL >= 3.0.
+09e22fec4 daemon-unix: Fix file descriptor leak when monitor restarts child.
+53df50db2 vconn: Allow ECONNREFUSED in refuse connection test.
+26a11ca61 dpdk: Use DPDK 21.11.2 release.
+edf699ec6 m4: Test avx512 for x86 only.
+1989caf9e ovsdb-idl: Preserve references for rows deleted in same IDL run as their insertion.
+db6a612cd python: idl: Fix idl.Row.__str__ method.
+73d7bf64a bond: Avoid deadlock while updating post recirculation rules.
+70a63391c ofproto-dpif-upcall: Add debug commands to pause/resume revalidators.
+cf0e12f8a test-list: Fix false-positive build failure with GCC 12.
+5cbed27c8 tests: Fix tests with GNU grep 3.8.
+a5cd60db0 cirrus: Upgrade to FreeBSD 13.1 image.
+43ece36f3 netdev-linux: Skip some internal kernel stats gathering.
+846d6a0c5 ofproto-dpif-xlate: Fix error messages for nonexistent ports/recirc_ids.
+e8814c9b8 ofproto-dpif-xlate: Clear tunnel wc bits if original packet is non-tunnel.
+dfc3e65c8 raft: Fix unnecessary periodic compactions.
+6f322ccf8 netdev-offload-tc: Parse tunnel options only for geneve ports.
+a9f10a2bd netdev-offload-tc: Add missing handling of the tunnel source port.
+ec2e967c1 netdev-offload-tc: Fix ignoring unknown tunnel keys.
+686984d9a netdev-offload-tc: Use masks instead of keys while parsing tunnel attributes.
+92c072d94 netdev-offload-tc: Explicitly handle mask for the tunnel destination port.
+87f191a3a netdev-offload-tc: Fix the mask for tunnel metadata length.
+cadcea6fe releases: Mark 2.17 as a new LTS release.
+8a1b73448 handlers: Fix handlers mapping.
+713072fda handlers: Create additional handler threads when using CPU isolation.
+84a8910ff packets: Fix misaligned access to ip6_hdr.
+fe27e0c88 python: Do not send non-zero flag for a SSL socket.
+729a872f1 dpif-netdev: Simplify AVX512 build time checks to enhance readability.
+1b566f8b8 github: Move CI to ubuntu 20.04 base image.
+86725abe1 netdev-offload-tc: Disable offload of IPv6 fragments.
+2276daf88 ovs-save: Use right OpenFlow version for add-tlv-map.
+c353e757d system-traffic: Fix IPv4 fragmentation test sequence for check-kernel.
+6f54dc134 system-traffic: Fix incorrect neigh entry in ipv6 header modification test.
+7848ae6ff system-traffic: Don't run IPv6 header modification test on kernels < 5.19.
+399185865 netdev-linux: set correct action for packets that passed policer
+cda60c855 python: Fix E275 missing whitespace after keyword.
+3678fb544 tc: Use sparse hex dump while printing inconsistencies.
+03a0ec82b netdev-offload-tc: Print unused mask bits on failure.
+5b8453a44 dynamic-string: Add function for a sparse hex dump.
+8d7cb1daf dpif-netlink: Fix incorrect bit shift in compat mode.
+d1cec2686 python: Use setuptools instead of distutils.
+8d6ecb259 packets: Re-calculate IPv6 checksum only for first frag upon modify.
+26dbc822d test-ovsdb: Fix false-positive leaks from LeakSanitizer.
+6eab10cf2 m4: Update ax_func_posix_memalign to the latest version.
+2f51bfd23 m4: Replace obsolete AC_HELP_STRING with AS_HELP_STRING.
+8ad325aab libopenvswitch.pc: Add missing libs for a static build.
+b64ff3f48 rhel: Stop installing internal headers.
+b63bbf2db python-c-ext: Handle initialization failures.
+4ad02ad04 netdev-linux: Do not touch LAG members if master is not attached to OVS.
+e6dcd07bc netdev: Clear auto_classified if netdev reopened with the type specified.
+1eedf45e8 system-traffic: Properly stop dangling ping after geneve test.
+fb8e34bdb conntrack: Fix conntrack multiple new state.
+af37f4118 python-c-ext: Fix a couple of build warnings.
+b7d9f7610 python-c-ext: Remove Python 2 support.
+02fb4bfb8 netdev-offload-dpdk: Setting RSS hash types in RSS action.
+8e8fcf7bd lib: Print nw_frag in flow key.
+29d8ce1ad ovsdb: Remove extra make target dependency for local-config.5.
+13ac0bc7c tc: Fix misaligned access while creating pedit actions.
+2c85d737a utilities/bashcomp: Fix incorrect file mode.
+05e9d2b7a Pmd.at: fix dpcls and dpif configuration test cases.
+45ecaa9e5 ovsdb: Add Local_Config schema.
+61d64d389 dpif-netdev: Fix leak of AVX512 DPIF scratch pad.
+a77ad9693 dpif-netdev: Refactor AVX512 runtime checks.
+ccea7df57 dpif-netdev-extract-avx512: Protect GCC builtin usage.
+807f7f994 ovs-tcpdump: Default to OVS_RUNDIR if present.
+ec13b03ca ovsdb: Fix memory leak on error path in ovsdb_file_read__().
+8b2dff2e3 odp-util: Ignore unknown attributes in parse_key_and_mask_to_match().
+13d97f663 ofproto-dpif: Avoid unneccesary backer revalidation.
+9b4035d69 lldp: Fix lldp memory leak.
+d9351febc ipfix: Trigger revalidation if ipfix options changes.
+5419b1de9 conntrack: Fix incorrect bit shift while hashing nat range.
+1ab5f94a1 packets: Fix misaligned write to MPLS lse.
+8e00be03c tc: Fix misaligned access to stats and time values.
+3a1f5341c odp-util: Fix unaligned access to tunnel id.
+0c54c43b8 ofpbuf: Fix offsetting a NULL pointer in ofpbuf_reserve.
+98edacb40 drop-stats.at: Fix frequent failures of the recursion too deep test.
+cbc13ce4f odp_util: Fix parse_key_and_mask_to_match() vlan parsing.
+73e6ce492 Prepare for 2.17.3.
+95979b0f0 Set release date for 2.17.2.
+250e1a6dd ofproto-dpif-xlate: Fix internal CT state for non-recirc traffic.
+fe870ee07 classifier: Adjust segment boundary to execute prerequisite processing.
+ec0ec464b ovs-tcpdump: Fix error when stopping ovs-tcpdump.
+420823e2a ofproto-dpif: Fix meter use-after-free.
+c762da262 ovs-rcu: Add ovsrcu_barrier.
+cd9b6b64f dpif-netdev: Fix ALB 'rebalance_intvl' max hard limit.
+64f6c49d2 dpif-netdev: Fix ALB parameters type mismatch.
+b11b84ea7 dpdk: Use DPDK 21.11.1 release.
+d3bf48e9a raft: Don't use HMAP_FOR_EACH_SAFE when logging commands.
+e07377bb4 ovsdb: raft: Fix transaction double commit due to lost leadership.
+5da86cb36 dynamic-string: Fix undefined behavior due to offsetting null pointer.
+369e68890 Revert "odp-util: Always report ODP_FIT_TOO_LITTLE for IGMP."
+18341166e ofproto-dpif-xlate: Fix netdev native tunnel neigh discovery spa.
+748e4b2b5 ovs-router: Expose the ovs_router_get_netdev_source_address function.
+34390bb35 ofproto-dpif: Trigger revalidation if ct tp changes.
+1adb07e20 Carefully release NBL in Windows
+1ccaba448 tests: Properly kill ovsdb test processes.
+260b091c2 ovs-save: Get highest ofp version error.
+7606bb121 netdev-linux: Properly access 32-bit aligned rtnl_link_stats64 structs.
+0688b9f27 treewide: Avoid offsetting NULL pointers.
+92bcf0a82 treewide: Fix invalid bit shift operations.
+7fa76371d utilities: Handle dumping packets in GDB TUI.
+8cac8baa8 ofproto-dpif-xlate: Remove mirror assert.
+e0e8f0c54 netdev-dpdk: Fix tx drops statistic for a down netdev.
+f9b5f8a78 netdev-dpdk: Remove a leftover lock annotation.
+4c3976ff2 netdev-dpdk: Refactor the DPDK transmit path.
+410b97c83 netdev-offload-dpdk: Fix ethernet type for VLANs.
+7948312fe netdev-offload-dpdk: Use has_vlan match attribute.
+522c46884 python: idl: Raise AttributeError from uuid_to_row.
+cb24c524e ofproto-dpif-xlate: Clear out vlan flow fields while processing native tunnel.
+a665b75de dpif-netdev-avx512: Fix overflow of UINT32_C(1).
+60e7badd6 dpif-netdev-avx512: Fix ubsan shift error in bitmasks.
+9cc329ec5 python: Politely handle misuse of table.condition.
+0631be2b5 ofproto-xlate: Fix crash when forwarding packet between legacy_l3 tunnels.
+df9790309 system-traffic: Fix fragment reassembly with L3 L4 protocol information.
+ba159ee0f cirrus: Update FreeBSD versions.
+bd1a3b6b4 Prepare for 2.17.2.
 
-Regarding "capturing the shortlogs of commit", may I refer to this=20
-commit as an example so that I will follow the rule in next patch?
+Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
+---
+ ...gs-when-parsing-malformed-AutoAttach.patch | 86 -------------------
+ .../openvswitch/openvswitch_git.bb            |  7 +-
+ 2 files changed, 3 insertions(+), 90 deletions(-)
+ delete mode 100644 recipes-networking/openvswitch/files/0001-lldp-Fix-bugs-when-parsing-malformed-AutoAttach.patch
 
-https://git.yoctoproject.org/meta-virtualization/commit/?h=3Dmaster-next&=
-id=3D28491d29ed5b77114822924b0a3c48a4573c9762
+diff --git a/recipes-networking/openvswitch/files/0001-lldp-Fix-bugs-when-parsing-malformed-AutoAttach.patch b/recipes-networking/openvswitch/files/0001-lldp-Fix-bugs-when-parsing-malformed-AutoAttach.patch
+deleted file mode 100644
+index ec40106..0000000
+--- a/recipes-networking/openvswitch/files/0001-lldp-Fix-bugs-when-parsing-malformed-AutoAttach.patch
++++ /dev/null
+@@ -1,86 +0,0 @@
+-From 7490f281f09a8455c48e19b0cf1b99ab758ee4f4 Mon Sep 17 00:00:00 2001
+-From: Qian Chen <cq674350529@163.com>
+-Date: Tue, 20 Dec 2022 09:36:08 -0500
+-Subject: [PATCH] lldp: Fix bugs when parsing malformed AutoAttach.
+-
+-The OVS LLDP implementation includes support for AutoAttach standard, which
+-the 'upstream' lldpd project does not include.  As part of adding this
+-support, the message parsing for these TLVs did not include proper length
+-checks for the LLDP_TLV_AA_ELEMENT_SUBTYPE and the
+-LLDP_TLV_AA_ISID_VLAN_ASGNS_SUBTYPE elements.  The result is that a message
+-without a proper boundary will cause an overread of memory, and lead to
+-undefined results, including crashes or other unidentified behavior.
+-
+-The fix is to introduce proper bounds checking for these elements.  Introduce
+-a unit test to ensure that we have some proper rejection in this code
+-base in the future.
+-
+-Fixes: be53a5c447c3 ("auto-attach: Initial support for Auto-Attach standard")
+-
+-Upstream-Status: Backport from upstream [https://github.com/openvswitch/ovs/commit/7490f281f09a8455c48e19b0cf1b99ab758ee4f4]
+-CVE: CVE-2022-4337 - openvswitch: Out-of-Bounds Read in Organization Specific TLV
+-CVE: CVE-2022-4338 - openvswitch: Integer Underflow in Organization Specific TLV
+-
+-Signed-off-by: Qian Chen <cq674350529@163.com>
+-Co-authored-by: Aaron Conole <aconole@redhat.com>
+-Signed-off-by: Aaron Conole <aconole@redhat.com>
+-Signed-off-by: Ilya Maximets <i.maximets@ovn.org>
+-Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
+----
+- lib/lldp/lldp.c       |  2 ++
+- tests/ofproto-dpif.at | 19 +++++++++++++++++++
+- 2 files changed, 21 insertions(+)
+-
+-diff --git a/lib/lldp/lldp.c b/lib/lldp/lldp.c
+-index dfeb2a800..6fdcfef56 100644
+---- a/lib/lldp/lldp.c
+-+++ b/lib/lldp/lldp.c
+-@@ -583,6 +583,7 @@ lldp_decode(struct lldpd *cfg OVS_UNUSED, char *frame, int s,
+- 
+-                 switch(tlv_subtype) {
+-                 case LLDP_TLV_AA_ELEMENT_SUBTYPE:
+-+                    CHECK_TLV_SIZE(50, "ELEMENT");
+-                     PEEK_BYTES(&msg_auth_digest, sizeof msg_auth_digest);
+- 
+-                     aa_element_dword = PEEK_UINT32;
+-@@ -629,6 +630,7 @@ lldp_decode(struct lldpd *cfg OVS_UNUSED, char *frame, int s,
+-                     break;
+- 
+-                 case LLDP_TLV_AA_ISID_VLAN_ASGNS_SUBTYPE:
+-+                    CHECK_TLV_SIZE(36, "ISID_VLAN_ASGNS");
+-                     PEEK_BYTES(&msg_auth_digest, sizeof msg_auth_digest);
+- 
+-                     /* Subtract off tlv type and length (2Bytes) + OUI (3B) +
+-diff --git a/tests/ofproto-dpif.at b/tests/ofproto-dpif.at
+-index eb4cd1896..fa6111c1e 100644
+---- a/tests/ofproto-dpif.at
+-+++ b/tests/ofproto-dpif.at
+-@@ -62,6 +62,25 @@ AT_CHECK([ovs-appctl coverage/read-counter rev_reconfigure], [0], [dnl
+- OVS_VSWITCHD_STOP
+- AT_CLEANUP
+- 
+-+AT_SETUP([ofproto-dpif - malformed lldp autoattach tlv])
+-+OVS_VSWITCHD_START()
+-+add_of_ports br0 1
+-+
+-+dnl Enable lldp
+-+AT_CHECK([ovs-vsctl set interface p1 lldp:enable=true])
+-+
+-+dnl Send a malformed lldp packet
+-+packet="0180c200000ef6b426aa5f0088cc020704f6b426aa5f000403057632060200780c"dnl
+-+"5044454144424545464445414442454546444541444245454644454144424545464445414"dnl
+-+"4424545464445414442454546444541444245454644454144424545464445414442454546"dnl
+-+"4445414442454546fe0500040d0c010000"
+-+AT_CHECK([ovs-appctl netdev-dummy/receive p1 "$packet"], [0], [stdout])
+-+
+-+OVS_WAIT_UNTIL([grep -q "ISID_VLAN_ASGNS TLV too short" ovs-vswitchd.log])
+-+
+-+OVS_VSWITCHD_STOP(["/|WARN|ISID_VLAN_ASGNS TLV too short received on/d"])
+-+AT_CLEANUP
+-+
+- AT_SETUP([ofproto-dpif - active-backup bonding (with primary)])
+- 
+- dnl Create br0 with members p1, p2 and p7, creating bond0 with p1 and
+--- 
+-2.34.1
+-
+diff --git a/recipes-networking/openvswitch/openvswitch_git.bb b/recipes-networking/openvswitch/openvswitch_git.bb
+index ac42026..a629f9b 100644
+--- a/recipes-networking/openvswitch/openvswitch_git.bb
++++ b/recipes-networking/openvswitch/openvswitch_git.bb
+@@ -14,12 +14,12 @@ RDEPENDS:${PN}-ptest += "\
+ 	"
+ 
+ S = "${WORKDIR}/git"
+-PV = "2.17.1+${SRCPV}"
+-CVE_VERSION = "2.17.1"
++PV = "2.17.6+${SRCPV}"
++CVE_VERSION = "2.17.6"
+ 
+ FILESEXTRAPATHS:append := "${THISDIR}/${PN}-git:"
+ 
+-SRCREV = "41bb202fb37f184b0a8820a029c62d03c118614e"
++SRCREV = "a08bb41e3c381f695b5ab62b0ab49b39c2b98727"
+ SRC_URI += "git://github.com/openvswitch/ovs.git;protocol=https;branch=branch-2.17 \
+             file://openvswitch-add-ptest-71d553b995d0bd527d3ab1e9fbaf5a2ae34de2f3.patch \
+             file://run-ptest \
+@@ -27,7 +27,6 @@ SRC_URI += "git://github.com/openvswitch/ovs.git;protocol=https;branch=branch-2.
+             file://kernel_module.patch \
+             file://systemd-update-tool-paths.patch \
+             file://systemd-create-runtime-dirs.patch \
+-            file://0001-lldp-Fix-bugs-when-parsing-malformed-AutoAttach.patch \
+            "
+ 
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=1ce5d23a6429dff345518758f13aaeab"
+-- 
+2.34.1
 
-
-Br,
-
-Xiangyu
-
-
-> Bruce
->
->
-> On Fri, Apr 14, 2023 at 3:09=E2=80=AFAM Xiangyu Chen
-> <xiangyu.chen@eng.windriver.com> wrote:
->> From: Xiangyu Chen <xiangyu.chen@windriver.com>
->>
->> Pickup the latest security and bug fixes for the ovs.
->>
->> Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
->> ---
->>   recipes-networking/openvswitch/openvswitch_git.bb | 6 +++---
->>   1 file changed, 3 insertions(+), 3 deletions(-)
->>
->> diff --git a/recipes-networking/openvswitch/openvswitch_git.bb b/recip=
-es-networking/openvswitch/openvswitch_git.bb
->> index 1ad3e57..798c7be 100644
->> --- a/recipes-networking/openvswitch/openvswitch_git.bb
->> +++ b/recipes-networking/openvswitch/openvswitch_git.bb
->> @@ -14,12 +14,12 @@ RDEPENDS:${PN}-ptest +=3D "\
->>          "
->>
->>   S =3D "${WORKDIR}/git"
->> -PV =3D "3.0.3+${SRCPV}"
->> -CVE_VERSION =3D "3.0.3"
->> +PV =3D "3.0.4+${SRCPV}"
->> +CVE_VERSION =3D "3.0.4"
->>
->>   FILESEXTRAPATHS:append :=3D "${THISDIR}/${PN}-git:"
->>
->> -SRCREV =3D "7b5c4240c1ed5f38e476cf08819869dc14f55e8a"
->> +SRCREV =3D "2a98be5adaa6b3bd6c71a0ee01fc2782c67e7c78"
->>   SRC_URI +=3D "git://github.com/openvswitch/ovs.git;protocol=3Dhttps;=
-branch=3Dbranch-3.0 \
->>               file://openvswitch-add-ptest-71d553b995d0bd527d3ab1e9fba=
-f5a2ae34de2f3.patch \
->>               file://run-ptest \
->> --
->> 2.34.1
->>
->>
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->> Links: You receive all messages sent to this group.
->> View/Reply Online (#7991): https://lists.yoctoproject.org/g/meta-virtu=
-alization/message/7991
->> Mute This Topic: https://lists.yoctoproject.org/mt/98257376/1050810
->> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
->> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsu=
-b [bruce.ashfield@gmail.com]
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->>
->
-> --
-> - Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at its end
-> - "Use the force Harry" - Gandalf, Star Trek II
 
