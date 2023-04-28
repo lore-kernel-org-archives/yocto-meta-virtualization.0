@@ -1,308 +1,332 @@
-Return-Path: <Qi.Chen@windriver.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9BFAC77B61
-	for <webhook@archiver.kernel.org>; Fri, 28 Apr 2023 03:11:35 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.11106.1682651492250517135
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BAED3C77B60
+	for <webhook@archiver.kernel.org>; Fri, 28 Apr 2023 12:27:48 +0000 (UTC)
+Received: from mail-il1-f174.google.com (mail-il1-f174.google.com [209.85.166.174])
+ by mx.groups.io with SMTP id smtpd.web10.18112.1682684867751042527
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 27 Apr 2023 20:11:32 -0700
+ Fri, 28 Apr 2023 05:27:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=DCjG7uCL;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=3482c0b599=qi.chen@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 33S3AiH3010057;
-	Thu, 27 Apr 2023 20:11:30 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=PPS06212021;
- bh=bRDNfsf8HuTQ7s3iifwksP2S+vREbwxIJqnp48/yiK8=;
- b=DCjG7uCLCris+JL95f9sdYqSc3aDCm0YYs29D/OWy74e9qTF9v2ncpf2LOOeRDPikj5Q
- 5m5kcX4lzzxfamoPCv5yy1SAMex9Y8277j8u7Ixu3GTZBMHr9HdvbWWyAC9oFVcO9rbE
- x41uvGtP/BEC/yo6YUT9hUMlcHGzXFncgHlbJhXVGlN5HBGFxkWErwTcs2Y1dGTmhy+q
- mMfPW4OSiQ7XT4RzBE1a+T9pZRyQSQwIu2MLmjlJT1DBx20HaRGRepG/3CIR7E73KN8s
- EZe4NMOtyp9WHKwJfMRGz+Tsys7n/yGMb39YUbJRbO1sd1bZrUW+52+YVQM/cgFQ/Y5c sw== 
-Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2173.outbound.protection.outlook.com [104.47.59.173])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3q4f3mnu79-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 27 Apr 2023 20:11:30 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HQHuZM6/BPblmLtwIlOHJHyNXCmwi5M8/OUkkuxH2kFVHyBTE9Asja6rQJLzGmejEC4eupJgP9QMxqxOaREzlLitXGgnILqYP/bBykxVnw2ug4mHPe+5w85qFXOTK75wp2D4Q1FDtqZ8Pt4G3Ybo+HtzATZUWpHKZgucaeyfF2Lsy87iFejMAq6PYAAOvcQ77lruSwrk2EKfi3T0V71kN1RkAvXvi4zjPlltQHAgETuXsTcL47jUhvlSTATBlwujhMlXOyNeLZGjA3HdqKqOX9ThR35zbSBMdfiRE7w9OWxNsw7LmbAmw7WVgoyOXfgvKUqmYgkDoUKgX24xPgsFPQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bRDNfsf8HuTQ7s3iifwksP2S+vREbwxIJqnp48/yiK8=;
- b=J2dfi/GecZqiTS7vPTmTbSF8tKSNnArcA0sPtrXL3vu7WpDGSXJeWYbjvCSNYoD9wlhSa2j3C4SinPIlaVe10RbkLtFxH5CiS4w0hVS8ix7J5hDZqLGmjCYuF3qqEG3i3HpYfJ99mu84oqToNbz7tPgATsy+2U2L+bq9UZMCcMAs8My8kU0llEp02vWaYYmhQYZc2dzXm7zDxXSeaonVq4261ShqD6nwMUKpkqgRgib7QLlysdjya77lHM4wc3x3XEvTADlgY+kknqRXHmUHRUzxNHn3pqzn22ifqhYlOc22DvfUEsftCwklp+fLA3JbdCEBlAMrDrGUQ4lGygb/gQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
- by PH0PR11MB7470.namprd11.prod.outlook.com (2603:10b6:510:288::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6340.22; Fri, 28 Apr
- 2023 03:11:26 +0000
-Received: from CO6PR11MB5602.namprd11.prod.outlook.com
- ([fe80::fa8:8cc5:a5da:7e07]) by CO6PR11MB5602.namprd11.prod.outlook.com
- ([fe80::fa8:8cc5:a5da:7e07%5]) with mapi id 15.20.6340.022; Fri, 28 Apr 2023
- 03:11:26 +0000
-From: "Chen, Qi" <Qi.Chen@windriver.com>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-CC: "meta-virtualization@lists.yoctoproject.org"
-	<meta-virtualization@lists.yoctoproject.org>
-Subject: RE: [meta-virtualization][PATCH 1/2] docker-moby/docker-ce: merge
- into one
-Thread-Topic: [meta-virtualization][PATCH 1/2] docker-moby/docker-ce: merge
- into one
-Thread-Index: AQHZeXMnw0D8W4V5skiLEH71phza3a8/+UGAgAAP9/A=
-Date: Fri, 28 Apr 2023 03:11:25 +0000
-Message-ID: 
- <CO6PR11MB560243047C8CF556BB0411C8ED6B9@CO6PR11MB5602.namprd11.prod.outlook.com>
-References: <20230428014534.2376049-1-Qi.Chen@windriver.com>
- <CADkTA4PssCvC3TXhFthgYX8QJ4fFtwQ83NEsFixo0L8OG5WNag@mail.gmail.com>
-In-Reply-To: 
- <CADkTA4PssCvC3TXhFthgYX8QJ4fFtwQ83NEsFixo0L8OG5WNag@mail.gmail.com>
-Accept-Language: en-US, zh-CN
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CO6PR11MB5602:EE_|PH0PR11MB7470:EE_
-x-ms-office365-filtering-correlation-id: 14f0fbf9-d887-4d14-3a4c-08db479640b8
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- wX5qFY/p5mQwiECqgs7CI8JIeUgbDO0T0JsBBrkGpui1BConQ6JHwic6EcjrZ9bqCzO2JEqzpwhNLkI8KOWibeypyGq2Vl0HWauX3S0+T76fBFO357r2qA4tTeybbh37Q5+j/s04ioD3794jrx8buYnkPd40aRvwsQxrUT517EAp7v+T9eYoRv4JMwIRzXgBB8x6KTJoybEhMd2/h9jjRVTmM9JOM4wAUcEmJBjvXBaGejsQ5YPov4tDD4d2b470qMVyCcOqgBvil3XjI40krQADcQCnAxCQhkg1VRzKbtaJEm5uIk0+7BwYPoPcjs0ZmedyWq4920+PoEo+ur5RWQQJcW0HGB4j8J5IDlrOVOqyX6v1BUvb80kStC/PqM+k3FF+dhf/clTuzG/l7HXb0HFhaJUqrCbtffmwReuFlx52dDkNg8Hzx/5+7vR5dGH6Izp3BxdQeQFuqWyJgNpW92xYYkdrWHbz4rz0qKZon+aVGEuffxDky2fTMuCk0VjQ18fVdv9qEOKuZVYWWmQZE1ZZY9qFYlXu+Ogmkju/dcnil4xWXdAI9i1htM/antQPhblH4tfL/4i2I28NvObiAKOQ4nRJttYNc+C9LuHU+KgenEVQHHH3m3Xe6oTDautG80Zxsaj4t5HX36rqX8zFnQ==
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(136003)(39850400004)(346002)(396003)(376002)(366004)(451199021)(966005)(66899021)(83380400001)(41300700001)(26005)(53546011)(6506007)(9686003)(186003)(33656002)(2906002)(71200400001)(7696005)(55016003)(86362001)(8676002)(52536014)(5660300002)(8936002)(38100700002)(4326008)(38070700005)(316002)(6916009)(64756008)(122000001)(66446008)(66476007)(66556008)(76116006)(478600001)(66946007);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?dk1DUU5VN2NrblAwWlFoRjI3QSsvSzhRSnkrWmJDbEUxZUZoSjlBb0oyM3Zn?=
- =?utf-8?B?cTZrSVlsbVBsaXNLNllLQzJsQ05vVEtlb1I3Si9oZFhCV0hpTWRJZlBRK0oy?=
- =?utf-8?B?VDZlajR4U2gzQnNuT3B3VnJLQWlXNUVKdmJBS3VHNjZpMUlMSXlEUzl4RFJj?=
- =?utf-8?B?Y2c1TDhOblBrbnNYUDlYMDF1TlppMVErYzJDaDJSWHhkVmQzOEVseWFCSmFj?=
- =?utf-8?B?TjR2ZkE1eTM4VDNQSDZvTGlNR09SR1QxVkkyUHVoSzkrYVdwZ3ZLaE45UUor?=
- =?utf-8?B?blBJeTJ5dlMwVlVsRXd6VXp5cnVYaEV5R0I3U1Y0SUl4T1QySHFVSU9qdnQy?=
- =?utf-8?B?YXBZZEtGeWVmUnI2a3h0Zk5CRXZNbXJnNzhIT05kV09rWS9mL2tRME1uNitE?=
- =?utf-8?B?a3JxU3V4QXdjdU16eVo3ZnJ5MW1mcjI1LzBjL3BoSUZtWjFWR1oyNk5zR1Mv?=
- =?utf-8?B?WUFZV1NENU5wOXUyYkV4bTkwODNVMncrNVNEbm52a3VWU0IzYjJVSmRXbFhF?=
- =?utf-8?B?WkJLb2U0RXlPTnNuZzdSVVkvT1VZVzZrY005dnUrQmJCVDVuQVVjQXhCMDQ2?=
- =?utf-8?B?blJBNnBZRWxqT2VLaG9hZkQ4WkxWK09MczJGRlJjWGdnQW1jRTV1aWZ2ZStw?=
- =?utf-8?B?RHgrZ0orQzJPZjloNk14Wis2cDhHY05VMHpLaHBMNGUvMkFFRjJLQlF3SWJ4?=
- =?utf-8?B?aG9QVjJuNUdGK3RnLzVUU2FNajBVcHp3dW85NHFBenJiVWJwdGtMUDVJNHRR?=
- =?utf-8?B?b2M4cE9HcEVCWGlGa2crSDZKYjhuM1ZvR3k3eEFONCtYaWlNdTVDb3pXNnRm?=
- =?utf-8?B?Z21GcXB2OUtBRFZ1K2ZVdlNhVnp3c2FWT1JSV29heGJUajZ4cENDK0d4RDZx?=
- =?utf-8?B?MUR1K1FSZEZZVzgvOEtvNkVTNlRIcXpoMFpRKzZlakpMaEJpbzFIbGNDYWhs?=
- =?utf-8?B?aEZwV0ozeU1RUGxCNS8xdGxMN2pEaGxjWnA3bmJvYTA1c1ZCYk5FeGlKemEz?=
- =?utf-8?B?K2p5ZVBua2JQZmN6Qzh2bjJvZm5nTWxkN3ZuM1cxS0JJaldWaEsvSlVOZCtP?=
- =?utf-8?B?bGJYWmx2c0Vyd1N2OG4zS2VCWVB0aWs4N3FYQm1tRy96U2ZHRlNVMzZweHU2?=
- =?utf-8?B?U2Yvb3RKU3psOVY2bldvVS9JSU5tZHFKT1NiVUl5UE00dkJYS0RHdlhRS2dJ?=
- =?utf-8?B?UzJrb1hmRE9yNDB2c2lkR2tQaWZHVkV3OERmREwvNms4SDlBek5XcTZhQ1ZX?=
- =?utf-8?B?WTJmWEVWMS9YSFNjU01QNzI5bE83OUlxazE1VmU0T3M5V2lYcC9naXlJU2ls?=
- =?utf-8?B?SENPT1hnM2JIamRhcVN3a0xobUZ2WXh0Q09TVGk0K0I4eHVXcG5xU0VHdTF2?=
- =?utf-8?B?QlF2TFh2cFpQRHRuemlrSWNtNDNlY0xTQUNieVcvckFPSVp0VVJwa3RmaS9w?=
- =?utf-8?B?UTdnU2Z5a0d0MVpVK204Qk1CcWZSTkgyQ1l5Z0dWWG0wQmsrK21DVUI5enFs?=
- =?utf-8?B?YkJhWkxpZkJCVjJsYjYwNmNtYkV3TFU5ejVjMEVOSmptVmVUWXFES2l2LzhX?=
- =?utf-8?B?NmI4bDF4Q29HSzU1NHA0RXE0bThmUnVReGxHQkVIN1lMTERlY0JBRGxyc1Za?=
- =?utf-8?B?T0taNkVJSzNVcW5tcFJsL3lDMnVMcjR0OHQyVVZSbDV4NU5EZDJnM01LaE95?=
- =?utf-8?B?M095d2hRRHBtcEZ6TFBqaThMKzhoQW9oUTQrWFUvdUw2dWt5SC9nVVJXNTk1?=
- =?utf-8?B?Y0RFZjdwVlg3WFlHMWhZZlVSdi9PRFZpc0s2UkxuT2dRRWI2eEVRZ3lEWXhW?=
- =?utf-8?B?UGxKcEVEN04wNDEweUtQdEdEbmJpeEhzdURHK25qdHphQ20vVWRTVmdINkEr?=
- =?utf-8?B?N2ZUdUxiZFpmN1RFdDdvTFRLbzJ4RnJRcmFQdElNYWZUZ1MydWw4NURVcVVl?=
- =?utf-8?B?YURMNDBZQU5QREQ5Y0hFSWlTRm13U1FTanBBUlVxUGVyYWl0U2hTVVM4dnNI?=
- =?utf-8?B?QUtLYWJlaUVDT2JuaE5lUTVtd3dqVXd0K3J1NEl3VHVKV29kM0EwS01IOUdn?=
- =?utf-8?B?MkpCR2d5WHd5L2NzQmNycm9yYVdwSWo1aElNeElYUnZTVnVrZEFrK3padE1R?=
- =?utf-8?Q?ls2yDwAMU+6Hl0EnCatquM+Zh?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=pkxqznMP;
+ spf=pass (domain: gmail.com, ip: 209.85.166.174, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-il1-f174.google.com with SMTP id e9e14a558f8ab-32b1ee270ebso24581185ab.0
+        for <meta-virtualization@lists.yoctoproject.org>; Fri, 28 Apr 2023 05:27:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1682684867; x=1685276867;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=S67/jaa398ZE5n8nUiPnEL+FubJ/tx8a0MoAk3IQSbY=;
+        b=pkxqznMPh1iRcsqBuXsGR5p95AaD52+05wtcv0tX3L7f4RtcuECp6WjpCuYgCdorPG
+         pYV0XoxzmxBmSV1aNN/7fBuV1JIM6Am6PQRmAPTjOjJ5fd3kqcogOJofFsLRHx5LlLVz
+         w/CUWzPId7V34y+MtQGH4nofDtzsPEHKCNpbpOIy6W/ppxEZcWGKlin4s11U4yw+7H6u
+         BRda9DHK6xiGkDWQrwDKuue+beboTj/2+d9jNXFalx7YMP6/+dsurTVBPAa3xMIhCKfT
+         Lky1flwiuI9z2wwN4Egg9Llr5oRgG0T1JZQinDrErTpwV16f3K5hbVvrlfJsxy/yqwXH
+         tkCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682684867; x=1685276867;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=S67/jaa398ZE5n8nUiPnEL+FubJ/tx8a0MoAk3IQSbY=;
+        b=NC60xa+UX5IlI68GiZLFioOc0fASbtfe2NpDQHz2i1mf2tm5V6YjnCG8XlXRwc5aMQ
+         sGILxsCbhZwCLw6jL0j2o2VC3WLbC0M1yt1JzHiAORb+HynosU+HPMU4a5JxAzyJVfEt
+         g0L2X3S3/Hy7igeG78wGKEPREB0yiMz8bnXgSBJCaFM1At1hQuPdrplEUHPLTT5Y0+wF
+         9AEbF5qAFpg7Y9aWE1J30WkhStg8Nf/xlH/tR3wc1Mm5llSjsNUcg/8FrXHsJho/8ok3
+         FnnZ6rwklc7TFd0YfSdmmFWmOybO9QZc63+JBTBfD+OklLNRl5SLGbYHtFL8WKAEuEQ/
+         BiTg==
+X-Gm-Message-State: AC+VfDw1o1YfoE0DbVCNVUE93Btea1YgyPmAslEjwZlaTbvycyIc7d/H
+	BKC242Oa7O051x8wM6KZnzzVHQmIsnh05ZHBvBD088I2kZs=
+X-Google-Smtp-Source: ACHHUZ7otlp202D8+lKaMH39Ckqjair9uIOimSL4cUC1x1Dq0sa2R8G26b8MMxpc7ByrAypOf0JUdGfrhqpL85ArG/A=
+X-Received: by 2002:a92:d6c4:0:b0:328:f4e8:8cfa with SMTP id
+ z4-20020a92d6c4000000b00328f4e88cfamr3159528ilp.32.1682684866801; Fri, 28 Apr
+ 2023 05:27:46 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 14f0fbf9-d887-4d14-3a4c-08db479640b8
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Apr 2023 03:11:25.9498
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: y47JH1ftPY+cwHE9/tNFnBUeauDri5WcLfHmHKH/rgpU/QIZmTVtg/aX3DavbSTlB/G3hV7MpS4oBvCkZOTG2w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB7470
-X-Proofpoint-ORIG-GUID: MaDPlZMD4WhK39VLydQFCVYmO4xYhWA7
-X-Proofpoint-GUID: MaDPlZMD4WhK39VLydQFCVYmO4xYhWA7
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-28_02,2023-04-27_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 phishscore=0
- mlxscore=0 priorityscore=1501 adultscore=0 spamscore=0 suspectscore=0
- mlxlogscore=999 impostorscore=0 malwarescore=0 bulkscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2304280024
+References: <20230428014534.2376049-1-Qi.Chen@windriver.com>
+ <CADkTA4PssCvC3TXhFthgYX8QJ4fFtwQ83NEsFixo0L8OG5WNag@mail.gmail.com> <CO6PR11MB560243047C8CF556BB0411C8ED6B9@CO6PR11MB5602.namprd11.prod.outlook.com>
+In-Reply-To: <CO6PR11MB560243047C8CF556BB0411C8ED6B9@CO6PR11MB5602.namprd11.prod.outlook.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Fri, 28 Apr 2023 08:27:35 -0400
+Message-ID: <CADkTA4PqzzRnfpyJX8MXNSVvTzQemQ7svnL+FJQ4SdeDS8-xLQ@mail.gmail.com>
+Subject: Re: [meta-virtualization][PATCH 1/2] docker-moby/docker-ce: merge
+ into one
+To: "Chen, Qi" <Qi.Chen@windriver.com>
+Cc: "meta-virtualization@lists.yoctoproject.org" <meta-virtualization@lists.yoctoproject.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Fri, 28 Apr 2023 03:11:35 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8016
+ <meta-virtualization@lists.yoctoproject.org>; Fri, 28 Apr 2023 12:27:48 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8017
 
-SGkgQnJ1Y2UsDQoNClNvcnJ5IGJ1dCBJJ20gYSBsaXR0bGUgY29uZnVzZWQsIGFzIGJvdGggcmVj
-aXBlcyBhcmUgbm93IG1vYnkgdHJhY2tlZC4gDQpJIGNhbiByZWNhbGwgdGhhdCBpbiB0aGUgcGFz
-dCB0aGUgbW9ieSByZXBvIGRpZCBub3QgaGF2ZSBhbGwgdGhvc2UgdGFncyBhbmQgYnJhbmNoZXMg
-d2hpbGUgdGhlIGRvY2tlciByZXBvIGRpZC4gTm93IHRoZSBkb2NrZXIgcmVwbyAoaHR0cHM6Ly9n
-aXRodWIuY29tL2RvY2tlci9kb2NrZXIpIGlzIG5vIGxvbmdlciBhdmFpbGFibGUsIGl0J3MgcmVk
-aXJlY3RlZCB0byB0aGUgbW9ieSByZXBvIChodHRwczovL2dpdGh1Yi5jb20vbW9ieS9tb2J5KS4g
-UGx1cyB0aGUgbW9ieSByZXBvIGdvdCBhbGwgdGhvc2UgdGFncyBhbmQgYnJhbmNoZXMuDQoNClNv
-IGRvZXMgaXQgbWVhbiB0aGF0IHRoZSBvbmx5IHJlcXVpcmVtZW50IGZyb20gdXNlIGNhc2VzIG91
-dHNpZGUgbWV0YS12aXJ0IGlzIHRoZSAnLWNlJyB0YWc/IFRoZXJlJ3MgcmVhbGx5IG5vIGRpZmZl
-cmVuY2UgYmV0d2VlbiB0aGVzZSB0d28gcmVjaXBlcyBleGNlcHQgZm9yIHRoYXQuDQoNClJlZ2Fy
-ZHMsDQpRaQ0KDQotLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KRnJvbTogQnJ1Y2UgQXNoZmll
-bGQgPGJydWNlLmFzaGZpZWxkQGdtYWlsLmNvbT4gDQpTZW50OiBGcmlkYXksIEFwcmlsIDI4LCAy
-MDIzIDEwOjA3IEFNDQpUbzogQ2hlbiwgUWkgPFFpLkNoZW5Ad2luZHJpdmVyLmNvbT4NCkNjOiBt
-ZXRhLXZpcnR1YWxpemF0aW9uQGxpc3RzLnlvY3RvcHJvamVjdC5vcmcNClN1YmplY3Q6IFJlOiBb
-bWV0YS12aXJ0dWFsaXphdGlvbl1bUEFUQ0ggMS8yXSBkb2NrZXItbW9ieS9kb2NrZXItY2U6IG1l
-cmdlIGludG8gb25lDQoNCk9uIFRodSwgQXByIDI3LCAyMDIzIGF0IDk6NDXigK9QTSBDaGVuIFFp
-IHZpYSBsaXN0cy55b2N0b3Byb2plY3Qub3JnIDxRaS5DaGVuPXdpbmRyaXZlci5jb21AbGlzdHMu
-eW9jdG9wcm9qZWN0Lm9yZz4gd3JvdGU6DQo+DQo+IEZyb206IENoZW4gUWkgPFFpLkNoZW5Ad2lu
-ZHJpdmVyLmNvbT4NCj4NCj4gVGhpbmdzIGhhdmUgY2hhbmdlZCBzaW5jZSB0aGVzZSB0d28gcmVj
-aXBlIHdlcmUgYWRkZWQuIE5vdyANCj4gaHR0cHM6Ly9naXRodWIuY29tL2RvY2tlci9kb2NrZXIg
-aGFzIGJlZW4gcmVkaXJlY3RlZCB0byANCj4gaHR0cHM6Ly9naXRodWIuY29tL21vYnkvbW9ieS4g
-VGhpcyBtZWFucyB0aGUgY29udGVudHMgb2YgDQo+IGRvY2tlci1jZV9naXQuYmIgYW5kIGRvY2tl
-ci1tb2J5X2dpdC5iYiBhcmUgZXNzZW50aWFsbHkgdGhlIHNhbWUgDQo+IGV4Y2VwdCBmb3Igc29t
-ZSBjb21tZW50cy4NCj4NCg0KSSdtIGdvaW5nIHRvIGtlZXAgdGhlbSBzZXBhcmF0ZSwgSSB3b3Vs
-ZCBoYXZlIG1lcmdlZCB0aGVtIHRvZ2V0aGVyIGxvbmcgYWdvIG90aGVyd2lzZS4NCg0KVGhlcmUg
-YXJlIHVzZSBjYXNlcyBvdXRzaWRlIG9mIHRoaXMgbGF5ZXIsIHRoYXQgbmVlZCB0aGUgc2VwYXJh
-dGUgLWNlIHRhZyBhbmQgZGlyZWN0aW9uICgrIHBhdGNoZXMpIGFuZCBub3QgdGhlIG1vYnkgdHJh
-Y2tpbmcgdmFyaWFudC4NCg0KQnJ1Y2UNCg0KPiBTbyBsZXQncyBtZXJnZSB0aGVtIGludG8gb25l
-IGFuZCBrZWVwIHRoZSBtZXJnZWQgcmVjaXBlJ3MgbmFtZSANCj4gZG9ja2VyLW1vYnksIGFzIHRo
-ZSByZXBvJ3MgbmFtZSBpcyBtb2J5Lg0KPg0KPiBUaGUgUFJPVklERVMgYW5kIFJQUk9WSURFUyBh
-cmUgYWRkZWQgJ2RvY2tlci1jZScgZm9yIGJhY2t3YXJkIA0KPiBjb21wYXRpYmlsaXR5Lg0KPg0K
-PiBTaWduZWQtb2ZmLWJ5OiBDaGVuIFFpIDxRaS5DaGVuQHdpbmRyaXZlci5jb20+DQo+IC0tLQ0K
-PiAgY29uZi9sYXllci5jb25mICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAgMSAtDQo+
-ICByZWNpcGVzLWNvbnRhaW5lcnMvZG9ja2VyL2RvY2tlci1jZV9naXQuYmIgICB8IDU5IC0tLS0t
-LS0tLS0tLS0tLS0tLS0tDQo+ICByZWNpcGVzLWNvbnRhaW5lcnMvZG9ja2VyL2RvY2tlci1tb2J5
-X2dpdC5iYiB8IDI3ICsrKystLS0tLQ0KPiAgcmVjaXBlcy1jb250YWluZXJzL2RvY2tlci9kb2Nr
-ZXIuaW5jICAgICAgICAgfCAgOCArKy0NCj4gIDQgZmlsZXMgY2hhbmdlZCwgMTcgaW5zZXJ0aW9u
-cygrKSwgNzggZGVsZXRpb25zKC0pICBkZWxldGUgbW9kZSANCj4gMTAwNjQ0IHJlY2lwZXMtY29u
-dGFpbmVycy9kb2NrZXIvZG9ja2VyLWNlX2dpdC5iYg0KPg0KPiBkaWZmIC0tZ2l0IGEvY29uZi9s
-YXllci5jb25mIGIvY29uZi9sYXllci5jb25mIGluZGV4IDg4YWMzOTAuLjlhMjZiY2MgDQo+IDEw
-MDY0NA0KPiAtLS0gYS9jb25mL2xheWVyLmNvbmYNCj4gKysrIGIvY29uZi9sYXllci5jb25mDQo+
-IEBAIC00MSw3ICs0MSw2IEBAIHJlcXVpcmUgY29uZi9kaXN0cm8vaW5jbHVkZS92aXJ0X3NlY3Vy
-aXR5X2ZsYWdzLmluYw0KPg0KPiAgUFJFRkVSUkVEX1BST1ZJREVSX3ZpcnR1YWwvcnVuYyA/PSAi
-cnVuYy1vcGVuY29udGFpbmVycyINCj4gIFBSRUZFUlJFRF9QUk9WSURFUl92aXJ0dWFsL2NvbnRh
-aW5lcmQgPz0gImNvbnRhaW5lcmQtb3BlbmNvbnRhaW5lcnMiDQo+IC1QUkVGRVJSRURfUFJPVklE
-RVJfdmlydHVhbC9kb2NrZXIgPz0gImRvY2tlci1jZSINCj4NCj4gICMgU2FuaXR5IGNoZWNrIGZv
-ciBtZXRhLXZpcnR1YWxpemF0aW9uIGxheWVyLg0KPiAgIyBTZXR0aW5nIFNLSVBfTUVUQV9WSVJU
-X1NBTklUWV9DSEVDSyB0byAiMSIgd291bGQgc2tpcCB0aGUgYmJhcHBlbmQgZmlsZXMgY2hlY2su
-DQo+IGRpZmYgLS1naXQgYS9yZWNpcGVzLWNvbnRhaW5lcnMvZG9ja2VyL2RvY2tlci1jZV9naXQu
-YmIgDQo+IGIvcmVjaXBlcy1jb250YWluZXJzL2RvY2tlci9kb2NrZXItY2VfZ2l0LmJiDQo+IGRl
-bGV0ZWQgZmlsZSBtb2RlIDEwMDY0NA0KPiBpbmRleCA2NzgxYzc3Li4wMDAwMDAwDQo+IC0tLSBh
-L3JlY2lwZXMtY29udGFpbmVycy9kb2NrZXIvZG9ja2VyLWNlX2dpdC5iYg0KPiArKysgL2Rldi9u
-dWxsDQo+IEBAIC0xLDU5ICswLDAgQEANCj4gLUhPTUVQQUdFID0gImh0dHA6Ly93d3cuZG9ja2Vy
-LmNvbSINCj4gLVNVTU1BUlkgPSAiTGludXggY29udGFpbmVyIHJ1bnRpbWUiDQo+IC1ERVNDUklQ
-VElPTiA9ICJMaW51eCBjb250YWluZXIgcnVudGltZSBcDQo+IC0gRG9ja2VyIGNvbXBsZW1lbnRz
-IGtlcm5lbCBuYW1lc3BhY2luZyB3aXRoIGEgaGlnaC1sZXZlbCBBUEkgd2hpY2ggXA0KPiAtIG9w
-ZXJhdGVzIGF0IHRoZSBwcm9jZXNzIGxldmVsLiBJdCBydW5zIHVuaXggcHJvY2Vzc2VzIHdpdGgg
-c3Ryb25nIFwNCj4gLSBndWFyYW50ZWVzIG9mIGlzb2xhdGlvbiBhbmQgcmVwZWF0YWJpbGl0eSBh
-Y3Jvc3Mgc2VydmVycy4gXA0KPiAtIC4gXA0KPiAtIERvY2tlciBpcyBhIGdyZWF0IGJ1aWxkaW5n
-IGJsb2NrIGZvciBhdXRvbWF0aW5nIGRpc3RyaWJ1dGVkIHN5c3RlbXM6IA0KPiBcDQo+IC0gbGFy
-Z2Utc2NhbGUgd2ViIGRlcGxveW1lbnRzLCBkYXRhYmFzZSBjbHVzdGVycywgY29udGludW91cyAN
-Cj4gZGVwbG95bWVudCBcDQo+IC0gc3lzdGVtcywgcHJpdmF0ZSBQYWFTLCBzZXJ2aWNlLW9yaWVu
-dGVkIGFyY2hpdGVjdHVyZXMsIGV0Yy4gXA0KPiAtIC4gXA0KPiAtIFRoaXMgcGFja2FnZSBjb250
-YWlucyB0aGUgZGFlbW9uIGFuZCBjbGllbnQsIHdoaWNoIGFyZSBcDQo+IC0gb2ZmaWNpYWxseSBz
-dXBwb3J0ZWQgb24geDg2XzY0IGFuZCBhcm0gaG9zdHMuIFwNCj4gLSBPdGhlciBhcmNoaXRlY3R1
-cmVzIGFyZSBjb25zaWRlcmVkIGV4cGVyaW1lbnRhbC4gXA0KPiAtIC4gXA0KPiAtIEFsc28sIG5v
-dGUgdGhhdCBrZXJuZWwgdmVyc2lvbiAzLjEwIG9yIGFib3ZlIGlzIHJlcXVpcmVkIGZvciBwcm9w
-ZXIgDQo+IFwNCj4gLSBvcGVyYXRpb24gb2YgdGhlIGRhZW1vbiBwcm9jZXNzLCBhbmQgdGhhdCBh
-bnkgbG93ZXIgdmVyc2lvbnMgbWF5IA0KPiBoYXZlIFwNCj4gLSBzdWJ0bGUgYW5kL29yIGdsYXJp
-bmcgaXNzdWVzLiBcDQo+IC0gIg0KPiAtDQo+IC0jDQo+IC0jIGh0dHBzOi8vZ2l0aHViLmNvbS9k
-b2NrZXIvZG9ja2VyLWNlLXBhY2thZ2luZy5naXQNCj4gLSMgIGNvbW1vbi5tazoNCj4gLSMgICAg
-RE9DS0VSX0NMSV9SRVBPICAgID89IGh0dHBzOi8vZ2l0aHViLmNvbS9kb2NrZXIvY2xpLmdpdA0K
-PiAtIyAgICBET0NLRVJfRU5HSU5FX1JFUE8gPz0gaHR0cHM6Ly9naXRodWIuY29tL2RvY2tlci9k
-b2NrZXIuZ2l0DQo+IC0jICAgIFJFRiAgICAgICAgICAgICAgICA/PSBIRUFEDQo+IC0jICAgIERP
-Q0tFUl9DTElfUkVGICAgICA/PSAkKFJFRikNCj4gLSMgICAgRE9DS0VSX0VOR0lORV9SRUYgID89
-ICQoUkVGKQ0KPiAtIw0KPiAtIyBUaGVzZSBmb2xsb3cgdGhlIHRhZ3MgZm9yIG91ciByZWxlYXNl
-cyBpbiB0aGUgbGlzdGVkIHJlcG9zaXRvcmllcyANCj4gLSMgc28gd2UgZ2V0IHRoYXQgdGFnLCBh
-bmQgbWFrZSBpdCBvdXIgU1JDUkVWUzoNCj4gLSMNCj4gLQ0KPiAtU1JDUkVWX2RvY2tlciA9ICIy
-MTlmMjFiZjA3NTAyYjQ0NzA5NTY0OWI1YTI3NjQ2NjE3MzdmMTY0Ig0KPiAtU1JDUkVWX2xpYm5l
-dHdvcmsgPSAiMjVlYzQ0OWM0NWQyMDc1Yzg1ZmIzNjg4ZWY0YzE3MzBiZTA0NjZlMCINCj4gLVNS
-Q1JFVl9jbGkgPSAiNTY5ZGQ3M2RiMTMwOTlhN2MzMTA0ZDczYWExNTExN2IzNTkwNDViYyINCj4g
-LVNSQ1JFVl9GT1JNQVQgPSAiZG9ja2VyX2xpYm5ldHdvcmsiDQo+IC1TUkNfVVJJID0gIlwNCj4g
-LSAgICAgICBnaXQ6Ly9naXRodWIuY29tL2RvY2tlci9kb2NrZXIuZ2l0O2JyYW5jaD0yMy4wO25h
-bWU9ZG9ja2VyO3Byb3RvY29sPWh0dHBzIFwNCj4gLSAgICAgICBnaXQ6Ly9naXRodWIuY29tL2Rv
-Y2tlci9saWJuZXR3b3JrLmdpdDticmFuY2g9bWFzdGVyO25hbWU9bGlibmV0d29yaztkZXN0c3Vm
-Zml4PWdpdC9saWJuZXR3b3JrO3Byb3RvY29sPWh0dHBzIFwNCj4gLSAgICAgICBnaXQ6Ly9naXRo
-dWIuY29tL2RvY2tlci9jbGk7YnJhbmNoPTIzLjA7bmFtZT1jbGk7ZGVzdHN1ZmZpeD1naXQvY2xp
-O3Byb3RvY29sPWh0dHBzIFwNCj4gLSAgICAgICBmaWxlOi8vMDAwMS1saWJuZXR3b3JrLXVzZS1H
-Ty1pbnN0ZWFkLW9mLWdvLnBhdGNoIFwNCj4gLSAgICAgICBmaWxlOi8vZG9ja2VyLmluaXQgXA0K
-PiAtICAgICAgICBmaWxlOi8vMDAwMS1keW5iaW5hcnktdXNlLWdvLWNyb3NzLWNvbXBpbGVyLnBh
-dGNoO3BhdGNoZGlyPXNyYy9pbXBvcnQgXA0KPiAtICAgICAgICBmaWxlOi8vMDAwMS1jbGktdXNl
-LWV4dGVybmFsLUdPMTExTU9EVUxFLWFuZC1jcm9zcy1jb21waWxlci5wYXRjaCBcDQo+IC0gICAg
-ICAgIg0KPiAtDQo+IC1ET0NLRVJfQ09NTUlUID0gIiR7U1JDUkVWX2RvY2tlcn0iDQo+IC0NCj4g
-LXJlcXVpcmUgZG9ja2VyLmluYw0KPiAtDQo+IC0jIEFwYWNoZS0yLjAgZm9yIGRvY2tlcg0KPiAt
-TElDRU5TRSA9ICJBcGFjaGUtMi4wIg0KPiAtTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vc3Jj
-L2ltcG9ydC9MSUNFTlNFO21kNT00ODU5ZTk3YTljNzc4MGU3Nzk3MmQ5ODlmMDgyM2YyOCINCj4g
-LQ0KPiAtRE9DS0VSX1ZFUlNJT04gPSAiMjMuMC4yLWNlIg0KPiAtUFYgPSAiJHtET0NLRVJfVkVS
-U0lPTn0rZ2l0JHtTUkNSRVZfZG9ja2VyfSINCj4gLQ0KPiAtQ1ZFX1BST0RVQ1QgPSAiZG9ja2Vy
-IG1vYnlwcm9qZWN0Om1vYnkiDQo+IGRpZmYgLS1naXQgYS9yZWNpcGVzLWNvbnRhaW5lcnMvZG9j
-a2VyL2RvY2tlci1tb2J5X2dpdC5iYiANCj4gYi9yZWNpcGVzLWNvbnRhaW5lcnMvZG9ja2VyL2Rv
-Y2tlci1tb2J5X2dpdC5iYg0KPiBpbmRleCBjZDZhNzQxLi45NGM3MmU3IDEwMDY0NA0KPiAtLS0g
-YS9yZWNpcGVzLWNvbnRhaW5lcnMvZG9ja2VyL2RvY2tlci1tb2J5X2dpdC5iYg0KPiArKysgYi9y
-ZWNpcGVzLWNvbnRhaW5lcnMvZG9ja2VyL2RvY2tlci1tb2J5X2dpdC5iYg0KPiBAQCAtMTgsMjEg
-KzE4LDE4IEBAIERFU0NSSVBUSU9OID0gIkxpbnV4IGNvbnRhaW5lciBydW50aW1lIFwNCj4gICBz
-dWJ0bGUgYW5kL29yIGdsYXJpbmcgaXNzdWVzLiBcDQo+ICAgIg0KPg0KPiAtIyBOb3RlczoNCj4g
-LSMgICAtIFRoaXMgZG9ja2VyIHZhcmlhbnQgdXNlcyBtb2J5IGFuZCB0aGUgb3RoZXIgaW5kaXZp
-ZHVhbGx5IG1haW50YWluZWQNCj4gLSMgICAgIHVwc3RyZWFtIHZhcmlhbnRzIGZvciBTUkNSRVZz
-DQo+IC0jICAgLSBJdCBpcyBhIHRydWUgY29tbXVuaXR5IC8gdXBzdHJlYW0gdHJhY2tpbmcgYnVp
-bGQsIGFuZCBpcyBub3QgYQ0KPiAtIyAgICAgZG9ja2VyIGN1cmF0ZWQgc2V0IG9mIGNvbW1pdHMg
-b3IgYWRkaXRpb25zDQo+IC0jICAgLSBUaGUgdmVyc2lvbiBudW1iZXIgb24gdGhpcyBwYWNrYWdl
-IHRyYWNrcyB0aGUgdmVyc2lvbnMgYXNzaWduZWQgdG8NCj4gLSMgICAgIHRoZSBjdXJhdGVkIGRv
-Y2tlci1jZSByZXBvc2l0b3J5LiBUaGlzIGFsbG93cyBjb21wYXRpYmlsaXR5IGFuZA0KPiAtIyAg
-ICAgZnVuY3Rpb25hbCBlcXVpdmFsZW5jZSwgd2hpbGUgYWxsb3dpbmcgbmV3IGZlYXR1cmVzIHRv
-IGJlIG1vcmUNCj4gLSMgICAgIGVhc2lseSBhZGRlZC4NCj4gLSMgICAtIFRoaXMgY291bGQgYmUg
-Y2FsbGVkICJkb2NrZXItbW9ieSIgb3IganVzdCAibW9ieSIgaW4gdGhlIGZ1dHVyZSwgYnV0DQo+
-IC0jICAgICB0aGF0IHdvdWxkIHJlcXVpcmUgdGhlIGNyZWF0aW9uIG9mIGEgdmlydHVhbC9kb2Nr
-ZXIgZGVwZW5kZW5jeSwgd2hpY2gNCj4gLSMgICAgIGlzIHBvc3NpYmxlLCBidXQgb3ZlcmtpbGwg
-YXQgdGhlIG1vbWVudCAod2hpbGUgd2Ugd2FpdCBmb3IgdGhlIHVwc3RyZWFtDQo+IC0jICAgICB0
-byBzdG9wIGNoYW5naW5nKS4NCj4gLSMgICAtIFRoZSBjb21tb24gY29tcG9uZW50cyBvZiB0aGlz
-IHJlY2lwZSBhbmQgZG9ja2VyLWNlIGRvIG5lZWQgdG8gYmUgbW92ZWQNCj4gLSMgICAgIHRvIGEg
-ZG9ja2VyLmluYyByZWNpcGUNCj4gKyMNCj4gKyMgaHR0cHM6Ly9naXRodWIuY29tL2RvY2tlci9k
-b2NrZXItY2UtcGFja2FnaW5nLmdpdA0KPiArIyAgY29tbW9uLm1rOg0KPiArIyAgICBET0NLRVJf
-Q0xJX1JFUE8gICAgPz0gaHR0cHM6Ly9naXRodWIuY29tL2RvY2tlci9jbGkuZ2l0DQo+ICsjICAg
-IERPQ0tFUl9FTkdJTkVfUkVQTyA/PSBodHRwczovL2dpdGh1Yi5jb20vZG9ja2VyL2RvY2tlci5n
-aXQNCj4gKyMgICAgUkVGICAgICAgICAgICAgICAgID89IEhFQUQNCj4gKyMgICAgRE9DS0VSX0NM
-SV9SRUYgICAgID89ICQoUkVGKQ0KPiArIyAgICBET0NLRVJfRU5HSU5FX1JFRiAgPz0gJChSRUYp
-DQo+ICsjDQo+ICsjIFRoZXNlIGZvbGxvdyB0aGUgdGFncyBmb3Igb3VyIHJlbGVhc2VzIGluIHRo
-ZSBsaXN0ZWQgcmVwb3NpdG9yaWVzICMgDQo+ICtzbyB3ZSBnZXQgdGhhdCB0YWcsIGFuZCBtYWtl
-IGl0IG91ciBTUkNSRVZTOg0KPiArIw0KPg0KPiAgU1JDUkVWX21vYnkgPSAiMjE5ZjIxYmYwNzUw
-MmI0NDcwOTU2NDliNWEyNzY0NjYxNzM3ZjE2NCINCj4gIFNSQ1JFVl9saWJuZXR3b3JrID0gIjI1
-ZWM0NDljNDVkMjA3NWM4NWZiMzY4OGVmNGMxNzMwYmUwNDY2ZTAiDQo+IGRpZmYgLS1naXQgYS9y
-ZWNpcGVzLWNvbnRhaW5lcnMvZG9ja2VyL2RvY2tlci5pbmMgDQo+IGIvcmVjaXBlcy1jb250YWlu
-ZXJzL2RvY2tlci9kb2NrZXIuaW5jDQo+IGluZGV4IDRhNGJjNGYuLjVjZDhiZGMgMTAwNjQ0DQo+
-IC0tLSBhL3JlY2lwZXMtY29udGFpbmVycy9kb2NrZXIvZG9ja2VyLmluYw0KPiArKysgYi9yZWNp
-cGVzLWNvbnRhaW5lcnMvZG9ja2VyL2RvY2tlci5pbmMNCj4gQEAgLTMxLDE1ICszMSwxNyBAQCBS
-REVQRU5EUzoke1BOfSArPSAidmlydHVhbC1jb250YWluZXJkICR7VklSVFVBTC1SVU5USU1FX2Nv
-bnRhaW5lcl9ydW50aW1lfSINCj4NCj4gIFJSRUNPTU1FTkRTOiR7UE59ID0gImtlcm5lbC1tb2R1
-bGUtZG0tdGhpbi1wb29sIGtlcm5lbC1tb2R1bGUtbmYtbmF0IGtlcm5lbC1tb2R1bGUtbmYtY29u
-bnRyYWNrLW5ldGxpbmsga2VybmVsLW1vZHVsZS14dC1hZGRydHlwZSBrZXJuZWwtbW9kdWxlLXh0
-LW1hc3F1ZXJhZGUiDQo+DQo+IC1QUk9WSURFUyArPSAidmlydHVhbC9kb2NrZXIiDQo+IC0NCj4g
-LSMgd2Ugd2FudCBhbGwgdGhlIGRvY2tlciB2YXJpYW50IHJlY3BlcyB0byBiZSBpbnN0YWxsYWJs
-ZSB2aWEgImRvY2tlciINCj4gKyMgbWFrZSBpdCBpbnN0YWxsYWJsZSB2aWEgImRvY2tlciINCj4g
-IFBBQ0tBR0VfTkFNRSA9ICJkb2NrZXIiDQo+ICBSUFJPVklERVM6JHtQTn0gKz0gImRvY2tlciIN
-Cj4gIFJQUk9WSURFUzoke1BOfS1kYmcgKz0gImRvY2tlci1kYmciDQo+ICBSUFJPVklERVM6JHtQ
-Tn0tZGV2ICs9ICJkb2NrZXItZGV2Ig0KPiAgUlBST1ZJREVTOiR7UE59LWNvbnRyaXAgKz0gImRv
-Y2tlci1kZXYiDQo+DQo+ICsjIEZvciBkb2NrZXItY2UgYmFja3dhcmQgY29tcGF0aWJpbGl0eSBQ
-Uk9WSURFUyArPSAiZG9ja2VyLWNlIg0KPiArUlBST1ZJREVTOiR7UE59ICs9ICJkb2NrZXItY2Ui
-DQo+ICsNCj4gIGluaGVyaXQgcGtnY29uZmlnDQo+ICBQQUNLQUdFQ09ORklHID8/PSAiZG9ja2Vy
-LWluaXQgc2VjY29tcCINCj4gIFBBQ0tBR0VDT05GSUdbc2VjY29tcF0gPSAic2VjY29tcCwsbGli
-c2VjY29tcCINCj4gLS0NCj4gMi40MC4wDQo+DQo+DQo+IC09LT0tPS09LT0tPS09LT0tPS09LT0t
-DQo+IExpbmtzOiBZb3UgcmVjZWl2ZSBhbGwgbWVzc2FnZXMgc2VudCB0byB0aGlzIGdyb3VwLg0K
-PiBWaWV3L1JlcGx5IE9ubGluZSAoIzgwMTQpOiANCj4gaHR0cHM6Ly9saXN0cy55b2N0b3Byb2pl
-Y3Qub3JnL2cvbWV0YS12aXJ0dWFsaXphdGlvbi9tZXNzYWdlLzgwMTQNCj4gTXV0ZSBUaGlzIFRv
-cGljOiBodHRwczovL2xpc3RzLnlvY3RvcHJvamVjdC5vcmcvbXQvOTg1NTA0OTkvMTA1MDgxMA0K
-PiBHcm91cCBPd25lcjogbWV0YS12aXJ0dWFsaXphdGlvbitvd25lckBsaXN0cy55b2N0b3Byb2pl
-Y3Qub3JnDQo+IFVuc3Vic2NyaWJlOiANCj4gaHR0cHM6Ly9saXN0cy55b2N0b3Byb2plY3Qub3Jn
-L2cvbWV0YS12aXJ0dWFsaXphdGlvbi91bnN1YiANCj4gW2JydWNlLmFzaGZpZWxkQGdtYWlsLmNv
-bV0NCj4gLT0tPS09LT0tPS09LT0tPS09LT0tPS0NCj4NCg0KDQotLQ0KLSBUaG91IHNoYWx0IG5v
-dCBmb2xsb3cgdGhlIE5VTEwgcG9pbnRlciwgZm9yIGNoYW9zIGFuZCBtYWRuZXNzIGF3YWl0IHRo
-ZWUgYXQgaXRzIGVuZA0KLSAiVXNlIHRoZSBmb3JjZSBIYXJyeSIgLSBHYW5kYWxmLCBTdGFyIFRy
-ZWsgSUkNCg==
+On Thu, Apr 27, 2023 at 11:11=E2=80=AFPM Chen, Qi <Qi.Chen@windriver.com> w=
+rote:
+>
+> Hi Bruce,
+>
+> Sorry but I'm a little confused, as both recipes are now moby tracked.
+> I can recall that in the past the moby repo did not have all those tags a=
+nd branches while the docker repo did. Now the docker repo (https://github.=
+com/docker/docker) is no longer available, it's redirected to the moby repo=
+ (https://github.com/moby/moby). Plus the moby repo got all those tags and =
+branches.
+>
+> So does it mean that the only requirement from use cases outside meta-vir=
+t is the '-ce' tag? There's really no difference between these two recipes =
+except for that.
+>
+
+It means there are use cases outside of meta-virt that have changes
+based on whether something is docker vs moby, and that capability is
+done via the different recipes at the moment.
+
+As I said, I would have merged them by now already, as clearly, I've
+been tracking and updating them for a lot of years now.
+
+For the next release, I'm going to have some depreciation warnings for
+a few legacy recipes and namespaces, but I need to do those in
+coordination with other changes around the variables selecting the
+CRI/CNI, etc.
+
+Bruce
+
+> Regards,
+> Qi
+>
+> -----Original Message-----
+> From: Bruce Ashfield <bruce.ashfield@gmail.com>
+> Sent: Friday, April 28, 2023 10:07 AM
+> To: Chen, Qi <Qi.Chen@windriver.com>
+> Cc: meta-virtualization@lists.yoctoproject.org
+> Subject: Re: [meta-virtualization][PATCH 1/2] docker-moby/docker-ce: merg=
+e into one
+>
+> On Thu, Apr 27, 2023 at 9:45=E2=80=AFPM Chen Qi via lists.yoctoproject.or=
+g <Qi.Chen=3Dwindriver.com@lists.yoctoproject.org> wrote:
+> >
+> > From: Chen Qi <Qi.Chen@windriver.com>
+> >
+> > Things have changed since these two recipe were added. Now
+> > https://github.com/docker/docker has been redirected to
+> > https://github.com/moby/moby. This means the contents of
+> > docker-ce_git.bb and docker-moby_git.bb are essentially the same
+> > except for some comments.
+> >
+>
+> I'm going to keep them separate, I would have merged them together long a=
+go otherwise.
+>
+> There are use cases outside of this layer, that need the separate -ce tag=
+ and direction (+ patches) and not the moby tracking variant.
+>
+> Bruce
+>
+> > So let's merge them into one and keep the merged recipe's name
+> > docker-moby, as the repo's name is moby.
+> >
+> > The PROVIDES and RPROVIDES are added 'docker-ce' for backward
+> > compatibility.
+> >
+> > Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> > ---
+> >  conf/layer.conf                              |  1 -
+> >  recipes-containers/docker/docker-ce_git.bb   | 59 --------------------
+> >  recipes-containers/docker/docker-moby_git.bb | 27 ++++-----
+> >  recipes-containers/docker/docker.inc         |  8 ++-
+> >  4 files changed, 17 insertions(+), 78 deletions(-)  delete mode
+> > 100644 recipes-containers/docker/docker-ce_git.bb
+> >
+> > diff --git a/conf/layer.conf b/conf/layer.conf index 88ac390..9a26bcc
+> > 100644
+> > --- a/conf/layer.conf
+> > +++ b/conf/layer.conf
+> > @@ -41,7 +41,6 @@ require conf/distro/include/virt_security_flags.inc
+> >
+> >  PREFERRED_PROVIDER_virtual/runc ?=3D "runc-opencontainers"
+> >  PREFERRED_PROVIDER_virtual/containerd ?=3D "containerd-opencontainers"
+> > -PREFERRED_PROVIDER_virtual/docker ?=3D "docker-ce"
+> >
+> >  # Sanity check for meta-virtualization layer.
+> >  # Setting SKIP_META_VIRT_SANITY_CHECK to "1" would skip the bbappend f=
+iles check.
+> > diff --git a/recipes-containers/docker/docker-ce_git.bb
+> > b/recipes-containers/docker/docker-ce_git.bb
+> > deleted file mode 100644
+> > index 6781c77..0000000
+> > --- a/recipes-containers/docker/docker-ce_git.bb
+> > +++ /dev/null
+> > @@ -1,59 +0,0 @@
+> > -HOMEPAGE =3D "http://www.docker.com"
+> > -SUMMARY =3D "Linux container runtime"
+> > -DESCRIPTION =3D "Linux container runtime \
+> > - Docker complements kernel namespacing with a high-level API which \
+> > - operates at the process level. It runs unix processes with strong \
+> > - guarantees of isolation and repeatability across servers. \
+> > - . \
+> > - Docker is a great building block for automating distributed systems:
+> > \
+> > - large-scale web deployments, database clusters, continuous
+> > deployment \
+> > - systems, private PaaS, service-oriented architectures, etc. \
+> > - . \
+> > - This package contains the daemon and client, which are \
+> > - officially supported on x86_64 and arm hosts. \
+> > - Other architectures are considered experimental. \
+> > - . \
+> > - Also, note that kernel version 3.10 or above is required for proper
+> > \
+> > - operation of the daemon process, and that any lower versions may
+> > have \
+> > - subtle and/or glaring issues. \
+> > - "
+> > -
+> > -#
+> > -# https://github.com/docker/docker-ce-packaging.git
+> > -#  common.mk:
+> > -#    DOCKER_CLI_REPO    ?=3D https://github.com/docker/cli.git
+> > -#    DOCKER_ENGINE_REPO ?=3D https://github.com/docker/docker.git
+> > -#    REF                ?=3D HEAD
+> > -#    DOCKER_CLI_REF     ?=3D $(REF)
+> > -#    DOCKER_ENGINE_REF  ?=3D $(REF)
+> > -#
+> > -# These follow the tags for our releases in the listed repositories
+> > -# so we get that tag, and make it our SRCREVS:
+> > -#
+> > -
+> > -SRCREV_docker =3D "219f21bf07502b447095649b5a2764661737f164"
+> > -SRCREV_libnetwork =3D "25ec449c45d2075c85fb3688ef4c1730be0466e0"
+> > -SRCREV_cli =3D "569dd73db13099a7c3104d73aa15117b359045bc"
+> > -SRCREV_FORMAT =3D "docker_libnetwork"
+> > -SRC_URI =3D "\
+> > -       git://github.com/docker/docker.git;branch=3D23.0;name=3Ddocker;=
+protocol=3Dhttps \
+> > -       git://github.com/docker/libnetwork.git;branch=3Dmaster;name=3Dl=
+ibnetwork;destsuffix=3Dgit/libnetwork;protocol=3Dhttps \
+> > -       git://github.com/docker/cli;branch=3D23.0;name=3Dcli;destsuffix=
+=3Dgit/cli;protocol=3Dhttps \
+> > -       file://0001-libnetwork-use-GO-instead-of-go.patch \
+> > -       file://docker.init \
+> > -        file://0001-dynbinary-use-go-cross-compiler.patch;patchdir=3Ds=
+rc/import \
+> > -        file://0001-cli-use-external-GO111MODULE-and-cross-compiler.pa=
+tch \
+> > -       "
+> > -
+> > -DOCKER_COMMIT =3D "${SRCREV_docker}"
+> > -
+> > -require docker.inc
+> > -
+> > -# Apache-2.0 for docker
+> > -LICENSE =3D "Apache-2.0"
+> > -LIC_FILES_CHKSUM =3D "file://src/import/LICENSE;md5=3D4859e97a9c7780e7=
+7972d989f0823f28"
+> > -
+> > -DOCKER_VERSION =3D "23.0.2-ce"
+> > -PV =3D "${DOCKER_VERSION}+git${SRCREV_docker}"
+> > -
+> > -CVE_PRODUCT =3D "docker mobyproject:moby"
+> > diff --git a/recipes-containers/docker/docker-moby_git.bb
+> > b/recipes-containers/docker/docker-moby_git.bb
+> > index cd6a741..94c72e7 100644
+> > --- a/recipes-containers/docker/docker-moby_git.bb
+> > +++ b/recipes-containers/docker/docker-moby_git.bb
+> > @@ -18,21 +18,18 @@ DESCRIPTION =3D "Linux container runtime \
+> >   subtle and/or glaring issues. \
+> >   "
+> >
+> > -# Notes:
+> > -#   - This docker variant uses moby and the other individually maintai=
+ned
+> > -#     upstream variants for SRCREVs
+> > -#   - It is a true community / upstream tracking build, and is not a
+> > -#     docker curated set of commits or additions
+> > -#   - The version number on this package tracks the versions assigned =
+to
+> > -#     the curated docker-ce repository. This allows compatibility and
+> > -#     functional equivalence, while allowing new features to be more
+> > -#     easily added.
+> > -#   - This could be called "docker-moby" or just "moby" in the future,=
+ but
+> > -#     that would require the creation of a virtual/docker dependency, =
+which
+> > -#     is possible, but overkill at the moment (while we wait for the u=
+pstream
+> > -#     to stop changing).
+> > -#   - The common components of this recipe and docker-ce do need to be=
+ moved
+> > -#     to a docker.inc recipe
+> > +#
+> > +# https://github.com/docker/docker-ce-packaging.git
+> > +#  common.mk:
+> > +#    DOCKER_CLI_REPO    ?=3D https://github.com/docker/cli.git
+> > +#    DOCKER_ENGINE_REPO ?=3D https://github.com/docker/docker.git
+> > +#    REF                ?=3D HEAD
+> > +#    DOCKER_CLI_REF     ?=3D $(REF)
+> > +#    DOCKER_ENGINE_REF  ?=3D $(REF)
+> > +#
+> > +# These follow the tags for our releases in the listed repositories #
+> > +so we get that tag, and make it our SRCREVS:
+> > +#
+> >
+> >  SRCREV_moby =3D "219f21bf07502b447095649b5a2764661737f164"
+> >  SRCREV_libnetwork =3D "25ec449c45d2075c85fb3688ef4c1730be0466e0"
+> > diff --git a/recipes-containers/docker/docker.inc
+> > b/recipes-containers/docker/docker.inc
+> > index 4a4bc4f..5cd8bdc 100644
+> > --- a/recipes-containers/docker/docker.inc
+> > +++ b/recipes-containers/docker/docker.inc
+> > @@ -31,15 +31,17 @@ RDEPENDS:${PN} +=3D "virtual-containerd ${VIRTUAL-R=
+UNTIME_container_runtime}"
+> >
+> >  RRECOMMENDS:${PN} =3D "kernel-module-dm-thin-pool kernel-module-nf-nat=
+ kernel-module-nf-conntrack-netlink kernel-module-xt-addrtype kernel-module=
+-xt-masquerade"
+> >
+> > -PROVIDES +=3D "virtual/docker"
+> > -
+> > -# we want all the docker variant recpes to be installable via "docker"
+> > +# make it installable via "docker"
+> >  PACKAGE_NAME =3D "docker"
+> >  RPROVIDES:${PN} +=3D "docker"
+> >  RPROVIDES:${PN}-dbg +=3D "docker-dbg"
+> >  RPROVIDES:${PN}-dev +=3D "docker-dev"
+> >  RPROVIDES:${PN}-contrip +=3D "docker-dev"
+> >
+> > +# For docker-ce backward compatibility PROVIDES +=3D "docker-ce"
+> > +RPROVIDES:${PN} +=3D "docker-ce"
+> > +
+> >  inherit pkgconfig
+> >  PACKAGECONFIG ??=3D "docker-init seccomp"
+> >  PACKAGECONFIG[seccomp] =3D "seccomp,,libseccomp"
+> > --
+> > 2.40.0
+> >
+> >
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#8014):
+> > https://lists.yoctoproject.org/g/meta-virtualization/message/8014
+> > Mute This Topic: https://lists.yoctoproject.org/mt/98550499/1050810
+> > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+> > Unsubscribe:
+> > https://lists.yoctoproject.org/g/meta-virtualization/unsub
+> > [bruce.ashfield@gmail.com]
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> >
+>
+>
+> --
+> - Thou shalt not follow the NULL pointer, for chaos and madness await the=
+e at its end
+> - "Use the force Harry" - Gandalf, Star Trek II
+
+
+
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
