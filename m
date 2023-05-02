@@ -1,158 +1,242 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7C1EC77B78
-	for <webhook@archiver.kernel.org>; Tue,  2 May 2023 20:55:45 +0000 (UTC)
-Received: from mail-il1-f172.google.com (mail-il1-f172.google.com [209.85.166.172])
- by mx.groups.io with SMTP id smtpd.web10.2237.1683060939860197137
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2D7DC19F20
+	for <webhook@archiver.kernel.org>; Tue,  2 May 2023 20:56:05 +0000 (UTC)
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+ by mx.groups.io with SMTP id smtpd.web10.2249.1683060961589059002
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 02 May 2023 13:55:40 -0700
+ Tue, 02 May 2023 13:56:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=I5icruv+;
- spf=pass (domain: gmail.com, ip: 209.85.166.172, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-il1-f172.google.com with SMTP id e9e14a558f8ab-3311482ae2cso4620605ab.2
-        for <meta-virtualization@lists.yoctoproject.org>; Tue, 02 May 2023 13:55:39 -0700 (PDT)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=IGnPoAAt;
+ spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683060939; x=1685652939;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0QER5WyR6vYfgDZv3yRRWnqZ27spjY2h3qPQ8xOlt5g=;
-        b=I5icruv+B3s5Vv5O7JERGPiJzRGVf/xbi94dtCKcCkhNeYyl/FKa5M8qByaQclauJv
-         O/lC1P3IWLZH29Qy5tfGCsrazomNavX6ewIH3cvQMn3nZZrybJax3FUWvBaCTMqP9OuI
-         gwUL5YiVaXYn6J0+IRUHY6TGP2tYehpgQ2+wilQO6g9fy+m6aVCn+U79sbqehXvOW+gw
-         F8tw0N61/b6rfozLQQPQUy+IgvbRQwgstmfkK7r1D294GftAf/uyMxwGbfGzZZH4g4DZ
-         Pjtn17oy3eS5iJK1+Mx3fl+5gZbAnyZ2CldxJxzup+J0caBhOP2SlvyDxAk1JjYxMmbg
-         AYtw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683060939; x=1685652939;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0QER5WyR6vYfgDZv3yRRWnqZ27spjY2h3qPQ8xOlt5g=;
-        b=fK9oUA4rZWkUvZymZWfbpopIR/2QbfNB9OteJV6W8jO6G+s3IZ6dj4BhSDep3nEhgu
-         JkD/xoreh3KROKXIiwOkZEdRasLb7iDCCdDnFCcGGmO28AkA4wWOKAotS5Xmh2FP2tzy
-         b0WXV0KW4n4/H651/pG8Cuk3AXuktuZZ+7/TKLga/dJHaB2vrneT29NgLW2vy9hL3Ajb
-         IfWRh4s7PZN8r/+Z5HIKG1TxJ3Qo/qk/1OjcyZNE9U4VifE4cwGSBKe/0s0ODuRDOTfr
-         dXdSXOgDushPUP+ugaeItZOLaJfgRldylvmPxBqwpEbIHw+GQp4mGpLNeQpbffSirzBB
-         oZhA==
-X-Gm-Message-State: AC+VfDxS2d7J40d2D2jyyKrAXHD3UarBajjXtqfHm4KHLzCbJjRY/jgT
-	Ibesj/w0HuK8siHL8dlobj6LShvfyr5cP6NwJ7c=
-X-Google-Smtp-Source: ACHHUZ4sYHavbwzFsrMROoRatj4+rjAp3li6Dyz0dY8aMtkRGhW3Ci701jWtEnLrKP/IEW6u94m/0+yq+VF1ZMY+b4o=
-X-Received: by 2002:a05:6e02:5cd:b0:325:b96e:6701 with SMTP id
- l13-20020a056e0205cd00b00325b96e6701mr13672124ils.2.1683060938935; Tue, 02
- May 2023 13:55:38 -0700 (PDT)
+  d=axis.com; q=dns/txt; s=axis-central1; t=1683060962;
+  x=1714596962;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=DhqEa8AISBqARQhrezsiMj/cvZFP+7kr3EaDT8p4XP0=;
+  b=IGnPoAAtFjYKOX3EZJ78hTbBul2KsvpQMWW2OqEl1BEt8YhYWT5KnKbG
+   kQwhfiFBf3jsFRE9LLr7CW+bz38ZNVJUbGFOX5xew89esT07guT8ZLCvB
+   6Uv9NDO+yKDocPIf2pcfkWsEkQoh+xqKvxzl6Lp8isnjPcy66mu90n+Rx
+   R6gCoY/3C+4PWXVcDRbA4Sg51c30wGRlCGZXGxUAHLGEFx+bXPR5OYU6I
+   H+RADFVcWbKiApUOPUGXxlmfvMhHCUTY8SGVVyWMx4Q+WShGF5fkIZt5N
+   O3EHQrUE7+fGhlBbmmyIiXZZs/1CvzT1ytcvtOGyufJHrQqI6Pw8gXLxL
+   w==;
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ISNF2UtibubCikrnZPj988R6ajNko9b73ZvUwGZ2tGzFoxa/rsvjJM05Jb1t6DQGUepS6mdA6QzbC/crm4wQwomw1P41vsgj9vpOjiA+ud17+qBLyboUiPdsND7vFfJb/nT314mKHXOj6rSKhFqItQPlJbg4tThubDcZFSpx8x1rU204oN6hmp06/ulY2m3neo8v2zJz4YfzC06j5crVasGhHJVqpOLz3Qgcft0oQ3MhiK7SLsbcOV2iNW8lVCF/jgAQsTxvvaRxbIjAfFzqqRF79BwCWp+XOFemYQeJCgIiJ6/fFvxvv8JcmZPz2SNgiQVJQISi6CbgA60Kjydbig==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=DhqEa8AISBqARQhrezsiMj/cvZFP+7kr3EaDT8p4XP0=;
+ b=HLPiTf9lN9q95Wl/VYeJjzgAouol4gkq/LfdjXdrHEok+iToiFt+g4lXgXsBKND64nwFyLf8MzteJ/R33GVc3Nr3xNwe+2UcssGkXSgNF66XI6XMprECZNzymfjaO6R+BfESaX/kJ2tzHJEWS/V6JmJ6tmshF9oC60LnS7iKd0Q2liUQIog/qdKq2J98cXqprUEGldXWqo0t9WN/kkeE5VWw/4DN8uD0DmJfeyug1CmV4ujoaXaBUXCFKeOczmYp/MyehkLpH3rORNdYltWG/H9oKi/6MIDkL+kZHK+7i957eoxXMKMBkja8/QEvQKWba2XIlaULqdHlIPiup5C3fw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=axis.com; dmarc=pass action=none header.from=axis.com;
+ dkim=pass header.d=axis.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=axis365.onmicrosoft.com; s=selector2-axis365-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DhqEa8AISBqARQhrezsiMj/cvZFP+7kr3EaDT8p4XP0=;
+ b=WwHvnswyqvfYTNXWC6GxPn2qlz6d7CZ+13dV6lAwojivepPasFiAcHCgV5nQ2ST3pTa6NAHf7Q1vk3QxBWEdbM9f/IIebTJ7OXvk5MLvoyYYsz5Vq3bAD3JZdrX3Iktl26ymDtbLObhqQPPev6IKTB1vSk19JCsIugYxxaXnvHU=
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+CC: "meta-virtualization@lists.yoctoproject.org"
+	<meta-virtualization@lists.yoctoproject.org>
+Subject: RE: [meta-virtualization] [PATCH 7/8] netavark: Rewrite the recipe
+Thread-Topic: [meta-virtualization] [PATCH 7/8] netavark: Rewrite the recipe
+Thread-Index: AQHZfTazFsztKIBNe0+RgxpgaQvwKq9HdOzg
+Date: Tue, 2 May 2023 20:55:57 +0000
+Message-ID: <DB5PR02MB102132A833BE12DA41DB92550EF6F9@DB5PR02MB10213.eurprd02.prod.outlook.com>
+References: <20230502202631.2102074-1-pkj@axis.com>
+ <20230502202631.2102074-7-pkj@axis.com>
+ <CADkTA4Mc4oEQmE32+Vj=PoVg2zxPnSvjZ0HK=9BxeyJovUirDw@mail.gmail.com>
+In-Reply-To: <CADkTA4Mc4oEQmE32+Vj=PoVg2zxPnSvjZ0HK=9BxeyJovUirDw@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=axis.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DB5PR02MB10213:EE_|PA4PR02MB6911:EE_
+x-ms-office365-filtering-correlation-id: 9d8a5f4c-9a5b-46f0-a7f6-08db4b4fa0a6
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: ZPw3DHTBAy7/deS1hYcqpfepSRbETZXfFSXGaXpqcb3h6Qlb8ZsdW2I+LdZrXel55kSfK+U2bvKd6IiIKl/WNSuADQodQfAi5GqWrG6olcpiDVOZBdVl6SgsiyFsFeWrYx4e9w6fWpqlc5fKsF9Q4TN1nX3LvBIhkUwPKDd+UtZksau5L/D6fYK8/kmG13RN+SqGOtgnmOERVPFORzDgxIFP6Lw5jx47JZoRLRv47Rk0whVTE2Cuvk5OU09SQD6nzQty1/jWCA4xHCza5d7m8K38SC9Wg4zdK57yPcUfZmGptgiTQ3LgscG9gOqe8cR7OgJEjw5YfV/XGpx9jpIxXOFxHwRxmrGvjjtZVIYLmRXRyzligXQ+45lVzWALE505iLxo6eR9PlO2BOiLKIl2UKvH/lFqZhiGMktH56WJxSPW3sUJpMzMOtbfVBpEiLhgEXfz27dncuvgHeDVytUq8/Vo/xy+4NR4CfpWIK14Uw97xJBl9fCCrPfUjeh/+mgFHNSvVv2xeI2PIreaaO8VN8R+LxbY5Euca2vKRs5DdHSJjMZL8DdytfVEtsDswPrZnnh6pYpAK3yHPCbKtCsXvYEBHZBV+bg3XFH0X8XDA+Q=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB5PR02MB10213.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(366004)(136003)(346002)(396003)(39860400002)(376002)(451199021)(7696005)(83380400001)(966005)(71200400001)(186003)(55016003)(26005)(6506007)(53546011)(9686003)(38070700005)(44832011)(8936002)(8676002)(38100700002)(478600001)(52536014)(66476007)(66446008)(86362001)(66556008)(76116006)(66946007)(316002)(4326008)(64756008)(41300700001)(33656002)(5660300002)(2906002)(122000001)(6916009);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?WWFma2JkY1VHZVE4UWJYRTJOVmhFZlZOdExQN1ZzUW03VHNFTzZsZ2QybVRY?=
+ =?utf-8?B?YjVNY1VidTBuZ1MzakpLcWdodVQ0cVRoUGhNMlNDNXlRSXBQR3J6eHpwSjZT?=
+ =?utf-8?B?dUJFUlRKVm44RkZ2cExoLzRUakpiYVRuK0thcEpNbnNIaHZXczJKOHJBVFZz?=
+ =?utf-8?B?bFc1M1U0Wm1TS24rTzZSMERoQW1WUmRIR3I3WnhCckxLZ1pxNVlnUUxiaFBw?=
+ =?utf-8?B?eVpVSjAvQmVMMHllamUybGU5OWJ3eE91N2lMcm9qZzNkdXdZNzRRZjZSaWRx?=
+ =?utf-8?B?NngvNjk0NTkzbFdyNUZRTml1UlJtUFhOYXJQdTRJaDFVSGErUXFVNkttOXdJ?=
+ =?utf-8?B?T2FCcHhsQXhlMGxYYktLVEoyRVBvOFNINHhlYjE1aW5mMmZrdkY5OGxwNldz?=
+ =?utf-8?B?bHErZkhYb1RwdWhNS2sxcENWMGFBcEpLR2M0dzVLOGFWYklwWEJPTXZ1Z3Fv?=
+ =?utf-8?B?clJwQXkrZzVmZ09JUTNRR3g2VDQyUStDdUZ2YjlxajhvTnozTTExT2RsaUlW?=
+ =?utf-8?B?bkZpTE1KTUdyaWxReGtFa0FoSlZqSmFKNEU2cHg1NklKaTh1TXgzZERXMjBm?=
+ =?utf-8?B?cDdyVWhmOXY5bTFKMUdTdm82SjU2QnhYN2prczRsNVNGMjIwZlJaR3pmM01k?=
+ =?utf-8?B?VkpLZlJUbU9YZmMxU2J1aDVJbTlWOFRGbjQ3dDZuSzc2N3c0aXV6aWFXY1h6?=
+ =?utf-8?B?VzA4cFBlbW82OWpPdThDTGFnUWUxRkdKc1FseUVvNDlqUkdweDRPQjNDSkZS?=
+ =?utf-8?B?K3lqcWpSU25CbU1UYnBSdVlWNHVGOERSQ29HMWRDUkw0Vk54S1FsdHQ2RDNw?=
+ =?utf-8?B?V2NMdTlEbkFPVklCZGRFbEhmdmM3MXNpYWZDNjVxcnBRY0ZFWXhwMFNSckZZ?=
+ =?utf-8?B?dVIyQ3NKYjZocFdMV3hpaGQ2VVArOFRkZ0VXbDVBYTRZRjBoOE9WTEh1Yzg5?=
+ =?utf-8?B?dHhpTlI0WXoxTVlJU1VjSjVVMEdHNTdZOXlpc0lOUWNCRVdTMmtvWncvTCtV?=
+ =?utf-8?B?ZXp0dE9DUlh4c01Ic1NVVUkwWDdKeXNLVC9kMnZrNXVqN3BTSG11d0ZlYStZ?=
+ =?utf-8?B?L2lPTjcreWpWVWx3TGN2cmtONTY2cUFQSVFDc241OG1Yd0VwbkU3bDdLeWtZ?=
+ =?utf-8?B?ZjY0ck1qSlRlWm5QcVdxYi81RGV0QmR6M2lITUdyTUw1Ny9XMXQ0T0pLTkxF?=
+ =?utf-8?B?N2h3dGRHVlUrSmpDejQ5N1k2cEZvWFNjUUl5REgrUThscWNtVjhuQlFEbndw?=
+ =?utf-8?B?UC8vNzIxTDhkVG5hRnNTYS9pSHZnYm9sLzFYMVZyc0RpRk45MER2cXVWNkVi?=
+ =?utf-8?B?c0lJY2pybFlwa0FnWHQxMEFEWjFNMW1qNDVtcVRTY3I5ZTdRUTZtbGs3Mkky?=
+ =?utf-8?B?ZWNjNTMvNzNSSjBmMjB6TXhKVlRUcGtEczZTdW12SStXNFFGeC96SElSN2Ez?=
+ =?utf-8?B?eURRZkU2VnZ5OTdGalhHdXR5Qmo0RDJBSUdzSU5iNmI4N1BvS3orZjR0N2FE?=
+ =?utf-8?B?bVZ1Y0lzSHI1TUJicFpGcjZvVk40bW5QZzBpYzFhWU5rYUVna0ZmaHpnSzJX?=
+ =?utf-8?B?RDlpTkZsN2ZZbjFwS2FERXVDbUFpdkZYZTR4QzV4K2ZaVHdEZldSSmtwTHZC?=
+ =?utf-8?B?VzlvUWxHeHdHOVNIcnJ1USs2K0w1Y1ovWXRWQUIzbUN1bGc3WHB5RG9wMGFZ?=
+ =?utf-8?B?ajJwMDRGQ1lJNXFyL3NXamZqMW5vVENNRUc5bWlNVHpqY09TMXhNNTlvTlNj?=
+ =?utf-8?B?cXZWdTJhd01tUkRFZmhnakhuMzF6QVJaZkhKZ2dsWVNKWG4xbTJqWjNaOHVM?=
+ =?utf-8?B?ci9oVU14Zm12Z3d5ZHV4aEhTVndiWnJYbFNQOXdtL2VSanhWUTI5Q3A0QXRa?=
+ =?utf-8?B?U2FSU0FidDJjcWo5ZU51K05JMERVaXdiN0NmR1NXWGhFSDdaMFgzRFcrMVJL?=
+ =?utf-8?B?WG1uNlNBc2dRSDU1WW8zVFMxMWVXaW9hZlFERGJTNDhKQTJUeWd1bTNWR21y?=
+ =?utf-8?B?TlVWb3dOdVR4QnBkd2hrODNXZ3pZNVN1S0Z1eXBTbGNGcmV0K1JSQzlpL2pr?=
+ =?utf-8?B?UE01OUxQRjFOYloraG5DK24zS1pCTis5cGlhTTUwU0NMeXlzemF6M2tKK0lX?=
+ =?utf-8?Q?SRVc=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20230502202631.2102074-1-pkj@axis.com> <20230502202631.2102074-4-pkj@axis.com>
- <CADkTA4MENogff6ezzKLjf4AY=4NanzAGT98H=WeHN9YxbsDMSw@mail.gmail.com> <DB5PR02MB102132B06A11ED31A99E7B751EF6F9@DB5PR02MB10213.eurprd02.prod.outlook.com>
-In-Reply-To: <DB5PR02MB102132B06A11ED31A99E7B751EF6F9@DB5PR02MB10213.eurprd02.prod.outlook.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Tue, 2 May 2023 16:55:31 -0400
-Message-ID: <CADkTA4NyX6qOzoiDrn_EX+MbdY7NV1TiS_uxT3=k--kSWeJMLA@mail.gmail.com>
-Subject: Re: [meta-virtualization] [PATCH 4/8] aardvark-dns: Fetch the crate
- instead of the Git repository
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: "meta-virtualization@lists.yoctoproject.org" <meta-virtualization@lists.yoctoproject.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DB5PR02MB10213.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9d8a5f4c-9a5b-46f0-a7f6-08db4b4fa0a6
+X-MS-Exchange-CrossTenant-originalarrivaltime: 02 May 2023 20:55:57.2319
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 78703d3c-b907-432f-b066-88f7af9ca3af
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: VzQazbe+hQr4XgpgecTG13BPj4LPy9OgB0ipIRu1gkUe15G/OiyZ1Br/aRdSxc22
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR02MB6911
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Tue, 02 May 2023 20:55:45 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8030
+ <meta-virtualization@lists.yoctoproject.org>; Tue, 02 May 2023 20:56:05 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8031
 
-On Tue, May 2, 2023 at 4:48=E2=80=AFPM Peter Kjellerstedt
-<peter.kjellerstedt@axis.com> wrote:
->
-> > -----Original Message-----
-> > From: Bruce Ashfield <bruce.ashfield@gmail.com>
-> > Sent: den 2 maj 2023 22:41
-> > To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> > Cc: meta-virtualization@lists.yoctoproject.org
-> > Subject: Re: [meta-virtualization] [PATCH 4/8] aardvark-dns: Fetch the =
-crate instead of the Git repository
-> >
-> > On Tue, May 2, 2023 at 4:26=E2=80=AFPM Peter Kjellerstedt <peter.kjelle=
-rstedt@axis.com> wrote:
-> > >
-> > > Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> > > ---
-> > >  recipes-containers/aardvark-dns/aardvark-dns_1.2.0.bb | 8 ++------
-> > >  1 file changed, 2 insertions(+), 6 deletions(-)
-> > >
-> > > diff --git a/recipes-containers/aardvark-dns/aardvark-dns_1.2.0.bb b/=
-recipes-containers/aardvark-dns/aardvark-dns_1.2.0.bb
-> > > index 10901eb..ac2fc6d 100644
-> > > --- a/recipes-containers/aardvark-dns/aardvark-dns_1.2.0.bb
-> > > +++ b/recipes-containers/aardvark-dns/aardvark-dns_1.2.0.bb
-> > > @@ -4,15 +4,11 @@ HOMEPAGE =3D "https://github.com/containers/aardvar=
-k-dns"
-> > >  LICENSE =3D "Apache-2.0"
-> > >  LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D86d3f3a95c324c9479bd89869=
-68f4327"
-> > >
-> > > -SRCREV =3D "cb1a462dd8427e33355f6907394a0646f5a26bf2"
-> > > -
-> > > -# how to get aardvark-dns could be as easy as but default to a git c=
-heckout:
-> > > -# SRC_URI +=3D "crate://crates.io/aardvark-dns/1.2.0"
-> > > -SRC_URI =3D "git://github.com/containers/aardvark-dns;protocol=3Dhtt=
-ps;nobranch=3D1 \
-> >
-> > I much prefer the git fetch, and am inclined to reject this part of the
-> > update.
-> >
-> > Is something actually broken with the git fetch ? If we can't mix the
-> > two, then I'm inclined to say the crates support is broken.
-> >
-> > Bruce
->
-> While this change is not strictly necessary, I was looking for
-> some recipe in the common layers to serve as example for how to
-> use the crate fetcher to fetch the source for the recipe's source,
-> and these two were the only ones I could find that fit the bill.
->
-> Be aware that this and the corresponding patch for netavark do
-> not work until the functionality in the crate fetcher has been
-> restored to support fetching the recipe's code using it (see my
-> patch to bitbake-devel from a couple of days ago).
-
-I'm not following the rust and crates discussions too closely, but I
-am always a supporter of the revision control history in the source.
-
-As the one who ends up fixing, bumping and otherwise maintaining, I
-need that granularity and insist on it when I can.
-
-So in this case, let's leave it as git and from my reading of the
-bitbake patches, we shouldn't see the issue as we have no crate
-matching the recipe name.
-
-I do appreciate the cleanups, but there are other things I'm putting
-as a higher importance (the revision control history).
-
-Perhaps leave the fetch-the-main-source-as-a-crate in the recipe as a comme=
-nt ?
-
-Bruce
-
->
-> //Peter
->
-> >
-> > > +SRC_URI =3D "crate://crates.io/${BPN}/${PV} \
-> > >             file://run-ptest"
-> > >  require ${BPN}-crates.inc
-> > >
-> > > -S =3D "${WORKDIR}/git"
-> > > +SRC_URI[aardvark-dns-1.2.0.sha256sum] =3D "1f9d011e5edaa6e0fa055e383=
-bec03a46c9ef35dfa346883aeb5bf86b794a949"
-> > >
-> > >  inherit cargo cargo-update-recipe-crates features_check ptest
->
-
---
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBCcnVjZSBBc2hmaWVsZCA8YnJ1
+Y2UuYXNoZmllbGRAZ21haWwuY29tPg0KPiBTZW50OiBkZW4gMiBtYWogMjAyMyAyMjo0Mw0KPiBU
+bzogUGV0ZXIgS2plbGxlcnN0ZWR0IDxwZXRlci5ramVsbGVyc3RlZHRAYXhpcy5jb20+DQo+IENj
+OiBtZXRhLXZpcnR1YWxpemF0aW9uQGxpc3RzLnlvY3RvcHJvamVjdC5vcmcNCj4gU3ViamVjdDog
+UmU6IFttZXRhLXZpcnR1YWxpemF0aW9uXSBbUEFUQ0ggNy84XSBuZXRhdmFyazogUmV3cml0ZSB0
+aGUNCj4gcmVjaXBlDQo+IA0KPiBPbiBUdWUsIE1heSAyLCAyMDIzIGF0IDQ6MjbigK9QTSBQZXRl
+ciBLamVsbGVyc3RlZHQNCj4gPHBldGVyLmtqZWxsZXJzdGVkdEBheGlzLmNvbT4gd3JvdGU6DQo+
+ID4NCj4gPiBTaW5jZSB0aGUgcmVjaXBlIGlzIG5vIGxvbmdlciBleHBlY3RlZCB0byBiZSB1cGRh
+dGVkIHVzaW5nDQo+IA0KPiBUaGUgd29yZGluZyBvbiB0aGlzIChhbmQgdGhlIG90aGVyIGNvbW1p
+dHMpIGlzbid0IGNvcnJlY3QuDQo+IA0KPiBUaGVyZSBpcyBubyBjb21wdWxzaW9uIHRvIHVzZSBh
+bnkgcGFydGljdWxhciBzZXQgb2YgdG9vbHMgdG8gdXBkYXRlDQo+IGFuZCBtYWludGFpbiByZWNp
+cGVzLg0KDQpObywgb2YgY291cnNlLCBidXQgdGhlIGNvbW1lbnRzIGxlZnQgaW4gdGhlIHJlY2lw
+ZSBieSBjYXJnby1iaXRiYWtlLCANCiJBdXRvLUdlbmVyYXRlZCBieSBjYXJnby1iaXRiYWtlIDAu
+My4xNiIgYXQgdGhlIHRvcCBhbmQgDQoiaW5jbHVkZXMgdGhpcyBmaWxlIGlmIGl0IGV4aXN0cyBi
+dXQgZG9lcyBub3QgZmFpbA0KdGhpcyBpcyB1c2VmdWwgZm9yIGFueXRoaW5nIHlvdSBtYXkgd2Fu
+dCB0byBvdmVycmlkZSBmcm9tDQp3aGF0IGNhcmdvLWJpdGJha2UgZ2VuZXJhdGVzLiIgYXQgdGhl
+IGVuZCwgYXQgbGVhc3QgdG8gbWUgaW5kaWNhdGVkIA0KdGhhdCB0aGVyZSBwcmV2aW91c2x5IHdh
+cyBhbiBleHBlY3RhdGlvbiB0byB1c2UgY2FyZ28tYml0YmFrZSB0byANCnVwZGF0ZSB0aGUgcmVj
+aXBlLg0KDQo+IA0KPiBQZXJoYXBzIGp1c3Qgc2F5ICJTd2l0Y2hpbmcgdG8gY2FyZ28tdXBkYXRl
+LXJlY2lwZS1jcmF0ZXMgZm9ybWF0LCBmb3IgdGhlDQo+IGZvbGxvd2luZyByZWFzb25zIC4uLiIN
+Cj4gDQo+IEJydWNlDQo+IA0KPiA+IGNhcmdvLWJpdGJha2UgYWZ0ZXIgc3dpdGNoaW5nIHRvIHVz
+aW5nIGNhcmdvLXVwZGF0ZS1yZWNpcGUtY3JhdGVzIHRvDQo+ID4gdXBkYXRlIHRoZSBjcmF0ZSBV
+UklzLCByZXdyaXRlIGl0IHRvIGJldHRlciBjb25mb3JtIHRvIGNvbW1vbiByZWNpcGUNCj4gPiBz
+dGFuZGFyZHMuIEFsc28gZm9sZCBuZXRhdmFyay5pbmMgaW50byBpdCBhcyB0aGVyZSBpcyBubyBs
+b25nZXIgYW55IG5lZWQNCj4gPiB0byBrZWVwIGl0IHNlcGFyYXRlIGZyb20gdGhlIG1haW4gcmVj
+aXBlLg0KPiA+DQo+ID4gU2lnbmVkLW9mZi1ieTogUGV0ZXIgS2plbGxlcnN0ZWR0IDxwZXRlci5r
+amVsbGVyc3RlZHRAYXhpcy5jb20+DQo+ID4gLS0tDQo+ID4gIHJlY2lwZXMtY29udGFpbmVycy9u
+ZXRhdmFyay9uZXRhdmFyay5pbmMgICAgICB8IDQ5IC0tLS0tLS0tLS0tLS0tDQo+ID4gIHJlY2lw
+ZXMtY29udGFpbmVycy9uZXRhdmFyay9uZXRhdmFya18xLjIuMC5iYiB8IDY2ICsrKysrKysrKysr
+KystLS0tLS0NCj4gPiAgMiBmaWxlcyBjaGFuZ2VkLCA0NiBpbnNlcnRpb25zKCspLCA2OSBkZWxl
+dGlvbnMoLSkNCj4gPiAgZGVsZXRlIG1vZGUgMTAwNjQ0IHJlY2lwZXMtY29udGFpbmVycy9uZXRh
+dmFyay9uZXRhdmFyay5pbmMNCj4gPg0KPiA+IGRpZmYgLS1naXQgYS9yZWNpcGVzLWNvbnRhaW5l
+cnMvbmV0YXZhcmsvbmV0YXZhcmsuaW5jIGIvcmVjaXBlcy1jb250YWluZXJzL25ldGF2YXJrL25l
+dGF2YXJrLmluYw0KPiA+IGRlbGV0ZWQgZmlsZSBtb2RlIDEwMDY0NA0KPiA+IGluZGV4IGMxNWJi
+ZWEuLjAwMDAwMDANCj4gPiAtLS0gYS9yZWNpcGVzLWNvbnRhaW5lcnMvbmV0YXZhcmsvbmV0YXZh
+cmsuaW5jDQo+ID4gKysrIC9kZXYvbnVsbA0KPiA+IEBAIC0xLDQ5ICswLDAgQEANCj4gPiAtaW5o
+ZXJpdCBwdGVzdA0KPiA+IC0NCj4gPiAtUEFDS0FHRUNPTkZJRyA/PSAiYWFyZHZhcmstZG5zIg0K
+PiA+IC0NCj4gPiAtIyBGcm9tIHRoZSBkb2N1bWVudGF0aW9uIG9mIG5ldGF2YXJrDQo+ID4gLSMg
+aHR0cHM6Ly9naXRodWIuY29tL2NvbnRhaW5lcnMvbmV0YXZhcmsvYmxvYi92MS4xLjAvRElTVFJP
+X1BBQ0tBR0UubWQjZGVwZW5kZW5jeS1vbi1hYXJkdmFyay1kbnMNCj4gPiAtIyBUaGUgYWFyZHZh
+cmstZG5zIHdpbGwgYmUgaW5zdGFsbGVkIGJ5IGRlZmF1bHQgd2l0aCBuZXRhdmFyaywgYnV0DQo+
+ID4gLSMgbmV0YXZhcmsgd2lsbCBiZSBmdW5jdGlvbmFsIHdpdGhvdXQgaXQuDQo+ID4gLVBBQ0tB
+R0VDT05GSUdbYWFyZHZhcmstZG5zXT0gIiAsICwgLCBhYXJkdmFyay1kbnMiDQo+ID4gLQ0KPiA+
+IC0jIFJkZXBlbmRzIG9uIGFhcmR2YXJrLWRucyB3aGljaCByZGVwZW5kcyBvbiBzbGlycDRuZXRu
+cw0KPiA+IC1pbmhlcml0IGZlYXR1cmVzX2NoZWNrDQo+ID4gLVJFUVVJUkVEX0RJU1RST19GRUFU
+VVJFUyA/PSAic2VjY29tcCINCj4gPiAtDQo+ID4gLVNSQ19VUkkgKz0gIiBcDQo+ID4gLSAgICBm
+aWxlOi8vcnVuLXB0ZXN0IFwNCj4gPiAtICAgIGZpbGU6Ly90ZXN0cy5wYXRjaCBcDQo+ID4gLSIN
+Cj4gPiAtDQo+ID4gLSMgQ2FyZ28gaW5zdGFsbHMgdGhlIGJpbmFyeSB0byBiaW4gc28gbW92ZSBp
+dCB0byB3aGVyZSBwb2RtYW4gZXhwZWN0cyBpdA0KPiA+IC1kb19pbnN0YWxsOmFwcGVuZCgpIHsN
+Cj4gPiAtICAgIGluc3RhbGwgLWQgJHtEfSR7bGliZXhlY2Rpcn0vcG9kbWFuLw0KPiA+IC0gICAg
+bXYgJHtEfSR7YmluZGlyfS8qICR7RH0ke2xpYmV4ZWNkaXJ9L3BvZG1hbi8NCj4gPiAtICAgIHJt
+IC1yZiAke0R9JHtiaW5kaXJ9Lw0KPiA+IC19DQo+ID4gLQ0KPiA+IC0NCj4gPiAtZG9faW5zdGFs
+bF9wdGVzdCAoKSB7DQo+ID4gLSAgICAgICBjcCAtciAke1N9L3Rlc3QgJHtEfSR7UFRFU1RfUEFU
+SH0NCj4gPiAtfQ0KPiA+IC0NCj4gPiAtUkRFUEVORFM6JHtQTn0tcHRlc3QgKz0gIiBcDQo+ID4g
+LSAgICBiYXRzIFwNCj4gPiAtICAgIGJhc2ggXA0KPiA+IC0gICAgY29yZXV0aWxzIFwNCj4gPiAt
+ICAgIGpxIFwNCj4gPiAtICAgIGlwcm91dGUyIFwNCj4gPiAtICAgIGRidXMtZGFlbW9uLXByb3h5
+IFwNCj4gPiAtICAgIHV0aWwtbGludXgtdW5zaGFyZSBcDQo+ID4gLSAgICBubWFwIFwNCj4gPiAt
+ICAgIHByb2Nwcy1wcyBcDQo+ID4gLSAgICB1dGlsLWxpbnV4LW5zZW50ZXIgXA0KPiA+IC0gICAg
+YmluZC11dGlscyBcDQo+ID4gLSINCj4gPiAtDQo+ID4gLQ0KPiA+IC0jIGJpbmQtdXRpbHMgaXMg
+dXNlZCB0byBpbnN0YWxsIGRpZw0KPiA+IC0jIHByb2NwcyBpcyBuZWNlc3NhcnkgYmVjYXVzZSB0
+aGUgcHMgZnJvbSBidXN5Ym94IGlzDQo+ID4gLSMgbm90IGhhdmluZyB0aGUgc2FtZSBiZWhhdmlv
+cg0KPiA+IGRpZmYgLS1naXQgYS9yZWNpcGVzLWNvbnRhaW5lcnMvbmV0YXZhcmsvbmV0YXZhcmtf
+MS4yLjAuYmIgYi9yZWNpcGVzLWNvbnRhaW5lcnMvbmV0YXZhcmsvbmV0YXZhcmtfMS4yLjAuYmIN
+Cj4gPiBpbmRleCBhM2FmMDgzLi5iZTdjZmY1IDEwMDY0NA0KPiA+IC0tLSBhL3JlY2lwZXMtY29u
+dGFpbmVycy9uZXRhdmFyay9uZXRhdmFya18xLjIuMC5iYg0KPiA+ICsrKyBiL3JlY2lwZXMtY29u
+dGFpbmVycy9uZXRhdmFyay9uZXRhdmFya18xLjIuMC5iYg0KPiA+IEBAIC0xLDMwICsxLDU2IEBA
+DQo+ID4gLSMgQXV0by1HZW5lcmF0ZWQgYnkgY2FyZ28tYml0YmFrZSAwLjMuMTYNCj4gPiAtIw0K
+PiA+IC1pbmhlcml0IGNhcmdvIGNhcmdvLXVwZGF0ZS1yZWNpcGUtY3JhdGVzDQo+ID4gK1NVTU1B
+UlkgPSAiQSBjb250YWluZXIgbmV0d29yayBzdGFjayINCj4gPiArSE9NRVBBR0UgPSAiaHR0cHM6
+Ly9naXRodWIuY29tL2NvbnRhaW5lcnMvbmV0YXZhcmsiDQo+ID4gKw0KPiA+ICtMSUNFTlNFID0g
+IkFwYWNoZS0yLjAiDQo+ID4gK0xJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7bWQ1
+PTg2ZDNmM2E5NWMzMjRjOTQ3OWJkODk4Njk2OGY0MzI3Ig0KPiA+DQo+ID4gLSMgSWYgdGhpcyBp
+cyBnaXQgYmFzZWQgcHJlZmVyIHZlcnNpb25lZCBvbmVzIGlmIHRoZXkgZXhpc3QNCj4gPiAtIyBE
+RUZBVUxUX1BSRUZFUkVOQ0UgPSAiLTEiDQo+ID4gK1NSQ1JFViA9ICI5MGNjY2MxYzIxZjI2ZmJj
+NDczYTIwMWNlM2IzMGQ3NzY2N2M3NjM1Ig0KPiA+DQo+ID4gICMgaG93IHRvIGdldCBuZXRhdmFy
+ayBjb3VsZCBiZSBhcyBlYXN5IGFzIGJ1dCBkZWZhdWx0IHRvIGEgZ2l0IGNoZWNrb3V0Og0KPiA+
+ICAjIFNSQ19VUkkgKz0gImNyYXRlOi8vY3JhdGVzLmlvL25ldGF2YXJrLzEuMi4wIg0KPiA+IC1T
+UkNfVVJJICs9ICJnaXQ6Ly9naXRodWIuY29tL2NvbnRhaW5lcnMvbmV0YXZhcmsuZ2l0O3Byb3Rv
+Y29sPWh0dHBzO25vYnJhbmNoPTEiDQo+ID4gK1NSQ19VUkkgPSAiZ2l0Oi8vZ2l0aHViLmNvbS9j
+b250YWluZXJzL25ldGF2YXJrLmdpdDtwcm90b2NvbD1odHRwcztub2JyYW5jaD0xIFwNCj4gPiAr
+ICAgICAgICAgICBmaWxlOi8vdGVzdHMucGF0Y2ggXA0KPiA+ICsgICAgICAgICAgIGZpbGU6Ly9y
+dW4tcHRlc3QiDQo+ID4gIHJlcXVpcmUgJHtCUE59LWNyYXRlcy5pbmMNCj4gPg0KPiA+IC1TUkNS
+RVYgPSAiOTBjY2NjMWMyMWYyNmZiYzQ3M2EyMDFjZTNiMzBkNzc2NjdjNzYzNSINCj4gPiAgUyA9
+ICIke1dPUktESVJ9L2dpdCINCj4gPiAtQ0FSR09fU1JDX0RJUiA9ICIiDQo+ID4NCj4gPiAtIyBG
+SVhNRTogdXBkYXRlIGdlbmVyYXRlbWUgd2l0aCB0aGUgcmVhbCBNRDUgb2YgdGhlIGxpY2Vuc2Ug
+ZmlsZQ0KPiA+IC1MSUNfRklMRVNfQ0hLU1VNID0gIiBcDQo+ID4gLSAgICBmaWxlOi8vTElDRU5T
+RTttZDU9ODZkM2YzYTk1YzMyNGM5NDc5YmQ4OTg2OTY4ZjQzMjcgXA0KPiA+IC0iDQo+ID4gK1BB
+Q0tBR0VDT05GSUcgPz0gImFhcmR2YXJrLWRucyINCj4gPg0KPiA+IC1TVU1NQVJZID0gIkEgY29u
+dGFpbmVyIG5ldHdvcmsgc3RhY2siDQo+ID4gLUhPTUVQQUdFID0gImh0dHBzOi8vZ2l0aHViLmNv
+bS9jb250YWluZXJzL25ldGF2YXJrIg0KPiA+IC1MSUNFTlNFID0gIkFwYWNoZS0yLjAiDQo+ID4g
+KyMgRnJvbSB0aGUgZG9jdW1lbnRhdGlvbiBvZiBuZXRhdmFyaw0KPiA+ICsjIGh0dHBzOi8vZ2l0
+aHViLmNvbS9jb250YWluZXJzL25ldGF2YXJrL2Jsb2IvdjEuMS4wL0RJU1RST19QQUNLQUdFLm1k
+I2RlcGVuZGVuY3ktb24tYWFyZHZhcmstZG5zDQo+ID4gKyMgVGhlIGFhcmR2YXJrLWRucyB3aWxs
+IGJlIGluc3RhbGxlZCBieSBkZWZhdWx0IHdpdGggbmV0YXZhcmssIGJ1dA0KPiA+ICsjIG5ldGF2
+YXJrIHdpbGwgYmUgZnVuY3Rpb25hbCB3aXRob3V0IGl0Lg0KPiA+ICtQQUNLQUdFQ09ORklHW2Fh
+cmR2YXJrLWRuc109ICIsLCwgYWFyZHZhcmstZG5zIg0KPiA+ICsNCj4gPiAraW5oZXJpdCBjYXJn
+byBjYXJnby11cGRhdGUtcmVjaXBlLWNyYXRlcyBmZWF0dXJlc19jaGVjayBwdGVzdA0KPiA+ICsN
+Cj4gPiArIyBDYXJnbyBpbnN0YWxscyB0aGUgYmluYXJ5IHRvIGJpbiBzbyBtb3ZlIGl0IHRvIHdo
+ZXJlIHBvZG1hbiBleHBlY3RzIGl0DQo+ID4gK2RvX2luc3RhbGw6YXBwZW5kKCkgew0KPiA+ICsg
+ICAgICAgaW5zdGFsbCAtZCAke0R9JHtsaWJleGVjZGlyfQ0KPiA+ICsgICAgICAgbXYgJHtEfSR7
+YmluZGlyfSAke0R9JHtsaWJleGVjZGlyfS9wb2RtYW4NCj4gPiArfQ0KPiA+DQo+ID4gLSMgaW5j
+bHVkZXMgdGhpcyBmaWxlIGlmIGl0IGV4aXN0cyBidXQgZG9lcyBub3QgZmFpbA0KPiA+IC0jIHRo
+aXMgaXMgdXNlZnVsIGZvciBhbnl0aGluZyB5b3UgbWF5IHdhbnQgdG8gb3ZlcnJpZGUgZnJvbQ0K
+PiA+IC0jIHdoYXQgY2FyZ28tYml0YmFrZSBnZW5lcmF0ZXMuDQo+ID4gLWluY2x1ZGUgbmV0YXZh
+cmstJHtQVn0uaW5jDQo+ID4gLWluY2x1ZGUgbmV0YXZhcmsuaW5jDQo+ID4gK2RvX2luc3RhbGxf
+cHRlc3QoKSB7DQo+ID4gKyAgICAgICBjcCAtciAke1N9L3Rlc3QgJHtEfSR7UFRFU1RfUEFUSH0N
+Cj4gPiArfQ0KPiA+ICsNCj4gPiArIyByZGVwZW5kcyBvbiBhYXJkdmFyay1kbnMgd2hpY2ggcmRl
+cGVuZHMgb24gc2xpcnA0bmV0bnMNCj4gPiArUkVRVUlSRURfRElTVFJPX0ZFQVRVUkVTID89ICJz
+ZWNjb21wIg0KPiA+ICsNCj4gPiArIyBiaW5kLXV0aWxzIGlzIHVzZWQgdG8gaW5zdGFsbCBkaWcN
+Cj4gPiArIyBwcm9jcHMtcHMgaXMgbmVjZXNzYXJ5IGJlY2F1c2UgdGhlIHBzIGZyb20gYnVzeWJv
+eCBpcw0KPiA+ICsjIG5vdCBoYXZpbmcgdGhlIHNhbWUgYmVoYXZpb3INCj4gPiArUkRFUEVORFM6
+JHtQTn0tcHRlc3QgKz0gIiBcDQo+ID4gKyAgICBiYXNoIFwNCj4gPiArICAgIGJhdHMgXA0KPiA+
+ICsgICAgYmluZC11dGlscyBcDQo+ID4gKyAgICBjb3JldXRpbHMgXA0KPiA+ICsgICAgZGJ1cy1k
+YWVtb24tcHJveHkgXA0KPiA+ICsgICAgaXByb3V0ZTIgXA0KPiA+ICsgICAganEgXA0KPiA+ICsg
+ICAgbm1hcCBcDQo+ID4gKyAgICBwcm9jcHMtcHMgXA0KPiA+ICsgICAgdXRpbC1saW51eC1uc2Vu
+dGVyIFwNCj4gPiArICAgIHV0aWwtbGludXgtdW5zaGFyZSBcDQo+ID4gKyINCg0KLy9QZXRlcg0K
+DQo=
 
