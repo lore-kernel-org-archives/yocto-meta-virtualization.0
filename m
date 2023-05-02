@@ -1,332 +1,332 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BAED3C77B60
-	for <webhook@archiver.kernel.org>; Fri, 28 Apr 2023 12:27:48 +0000 (UTC)
-Received: from mail-il1-f174.google.com (mail-il1-f174.google.com [209.85.166.174])
- by mx.groups.io with SMTP id smtpd.web10.18112.1682684867751042527
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 99237C7EE21
+	for <webhook@archiver.kernel.org>; Tue,  2 May 2023 20:26:45 +0000 (UTC)
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+ by mx.groups.io with SMTP id smtpd.web10.1431.1683059200075980734
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 28 Apr 2023 05:27:47 -0700
+ Tue, 02 May 2023 13:26:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=pkxqznMP;
- spf=pass (domain: gmail.com, ip: 209.85.166.174, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-il1-f174.google.com with SMTP id e9e14a558f8ab-32b1ee270ebso24581185ab.0
-        for <meta-virtualization@lists.yoctoproject.org>; Fri, 28 Apr 2023 05:27:47 -0700 (PDT)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=RixKUyvY;
+ spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682684867; x=1685276867;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=S67/jaa398ZE5n8nUiPnEL+FubJ/tx8a0MoAk3IQSbY=;
-        b=pkxqznMPh1iRcsqBuXsGR5p95AaD52+05wtcv0tX3L7f4RtcuECp6WjpCuYgCdorPG
-         pYV0XoxzmxBmSV1aNN/7fBuV1JIM6Am6PQRmAPTjOjJ5fd3kqcogOJofFsLRHx5LlLVz
-         w/CUWzPId7V34y+MtQGH4nofDtzsPEHKCNpbpOIy6W/ppxEZcWGKlin4s11U4yw+7H6u
-         BRda9DHK6xiGkDWQrwDKuue+beboTj/2+d9jNXFalx7YMP6/+dsurTVBPAa3xMIhCKfT
-         Lky1flwiuI9z2wwN4Egg9Llr5oRgG0T1JZQinDrErTpwV16f3K5hbVvrlfJsxy/yqwXH
-         tkCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682684867; x=1685276867;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=S67/jaa398ZE5n8nUiPnEL+FubJ/tx8a0MoAk3IQSbY=;
-        b=NC60xa+UX5IlI68GiZLFioOc0fASbtfe2NpDQHz2i1mf2tm5V6YjnCG8XlXRwc5aMQ
-         sGILxsCbhZwCLw6jL0j2o2VC3WLbC0M1yt1JzHiAORb+HynosU+HPMU4a5JxAzyJVfEt
-         g0L2X3S3/Hy7igeG78wGKEPREB0yiMz8bnXgSBJCaFM1At1hQuPdrplEUHPLTT5Y0+wF
-         9AEbF5qAFpg7Y9aWE1J30WkhStg8Nf/xlH/tR3wc1Mm5llSjsNUcg/8FrXHsJho/8ok3
-         FnnZ6rwklc7TFd0YfSdmmFWmOybO9QZc63+JBTBfD+OklLNRl5SLGbYHtFL8WKAEuEQ/
-         BiTg==
-X-Gm-Message-State: AC+VfDw1o1YfoE0DbVCNVUE93Btea1YgyPmAslEjwZlaTbvycyIc7d/H
-	BKC242Oa7O051x8wM6KZnzzVHQmIsnh05ZHBvBD088I2kZs=
-X-Google-Smtp-Source: ACHHUZ7otlp202D8+lKaMH39Ckqjair9uIOimSL4cUC1x1Dq0sa2R8G26b8MMxpc7ByrAypOf0JUdGfrhqpL85ArG/A=
-X-Received: by 2002:a92:d6c4:0:b0:328:f4e8:8cfa with SMTP id
- z4-20020a92d6c4000000b00328f4e88cfamr3159528ilp.32.1682684866801; Fri, 28 Apr
- 2023 05:27:46 -0700 (PDT)
+  d=axis.com; q=dns/txt; s=axis-central1; t=1683059200;
+  x=1714595200;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Q5lMYDGRc/FmQRchYGqG90Skrv+j3NxH1oKSqohzXxE=;
+  b=RixKUyvYZu0fuPeB3c+0RTTkxH5SjP/46blvFNOXNuIxjWGiQsCxe6yZ
+   cnKQ9jZPlfZySVNVcc26kungT8lKEi7ENobGOo//e0HnIYvinAwGE1GIr
+   9AJeFEW4L9bT+Le7Q3ygq5Yg22BdferNdeKm7kO0mb9o2m33M7VkdgetH
+   s9YAlH2tcZAPC4gmlPvXm5Ys4kDgenWLYp4Oz3cNToz1jW+DayQC8ev4e
+   7rwKiAzd4YyOUIhtdX148Mr0CGLf8fvKdKO9nozyYzuAMQm1iBmI+yphw
+   Aa5lvqAgNFBi11opdN8HFo8ee57hRmdyOhbgnQQzTp1M1+pAsXuniqxwy
+   w==;
+From: Peter Kjellerstedt <pkj@axis.com>
+To: <meta-virtualization@lists.yoctoproject.org>
+Subject: [PATCH 1/8] aardvark-dns: Move the crate URIs to a separate .inc file
+Date: Tue, 2 May 2023 22:26:24 +0200
+Message-ID: <20230502202631.2102074-1-pkj@axis.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-References: <20230428014534.2376049-1-Qi.Chen@windriver.com>
- <CADkTA4PssCvC3TXhFthgYX8QJ4fFtwQ83NEsFixo0L8OG5WNag@mail.gmail.com> <CO6PR11MB560243047C8CF556BB0411C8ED6B9@CO6PR11MB5602.namprd11.prod.outlook.com>
-In-Reply-To: <CO6PR11MB560243047C8CF556BB0411C8ED6B9@CO6PR11MB5602.namprd11.prod.outlook.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Fri, 28 Apr 2023 08:27:35 -0400
-Message-ID: <CADkTA4PqzzRnfpyJX8MXNSVvTzQemQ7svnL+FJQ4SdeDS8-xLQ@mail.gmail.com>
-Subject: Re: [meta-virtualization][PATCH 1/2] docker-moby/docker-ce: merge
- into one
-To: "Chen, Qi" <Qi.Chen@windriver.com>
-Cc: "meta-virtualization@lists.yoctoproject.org" <meta-virtualization@lists.yoctoproject.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Fri, 28 Apr 2023 12:27:48 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8017
+ <meta-virtualization@lists.yoctoproject.org>; Tue, 02 May 2023 20:26:45 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8018
 
-On Thu, Apr 27, 2023 at 11:11=E2=80=AFPM Chen, Qi <Qi.Chen@windriver.com> w=
-rote:
->
-> Hi Bruce,
->
-> Sorry but I'm a little confused, as both recipes are now moby tracked.
-> I can recall that in the past the moby repo did not have all those tags a=
-nd branches while the docker repo did. Now the docker repo (https://github.=
-com/docker/docker) is no longer available, it's redirected to the moby repo=
- (https://github.com/moby/moby). Plus the moby repo got all those tags and =
-branches.
->
-> So does it mean that the only requirement from use cases outside meta-vir=
-t is the '-ce' tag? There's really no difference between these two recipes =
-except for that.
->
+As a preparation for switching to using the cargo-update-recipe-crates
+bbclass to update the crate URIs, move the existing crate URIs to the
+aardvark-dns-crates.inc file that it expects.
 
-It means there are use cases outside of meta-virt that have changes
-based on whether something is docker vs moby, and that capability is
-done via the different recipes at the moment.
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+---
+ .../aardvark-dns/aardvark-dns-crates.inc      | 125 ++++++++++++++++
+ .../aardvark-dns/aardvark-dns_1.2.0.bb        | 133 +-----------------
+ 2 files changed, 127 insertions(+), 131 deletions(-)
+ create mode 100644 recipes-containers/aardvark-dns/aardvark-dns-crates.inc
 
-As I said, I would have merged them by now already, as clearly, I've
-been tracking and updating them for a lot of years now.
-
-For the next release, I'm going to have some depreciation warnings for
-a few legacy recipes and namespaces, but I need to do those in
-coordination with other changes around the variables selecting the
-CRI/CNI, etc.
-
-Bruce
-
-> Regards,
-> Qi
->
-> -----Original Message-----
-> From: Bruce Ashfield <bruce.ashfield@gmail.com>
-> Sent: Friday, April 28, 2023 10:07 AM
-> To: Chen, Qi <Qi.Chen@windriver.com>
-> Cc: meta-virtualization@lists.yoctoproject.org
-> Subject: Re: [meta-virtualization][PATCH 1/2] docker-moby/docker-ce: merg=
-e into one
->
-> On Thu, Apr 27, 2023 at 9:45=E2=80=AFPM Chen Qi via lists.yoctoproject.or=
-g <Qi.Chen=3Dwindriver.com@lists.yoctoproject.org> wrote:
-> >
-> > From: Chen Qi <Qi.Chen@windriver.com>
-> >
-> > Things have changed since these two recipe were added. Now
-> > https://github.com/docker/docker has been redirected to
-> > https://github.com/moby/moby. This means the contents of
-> > docker-ce_git.bb and docker-moby_git.bb are essentially the same
-> > except for some comments.
-> >
->
-> I'm going to keep them separate, I would have merged them together long a=
-go otherwise.
->
-> There are use cases outside of this layer, that need the separate -ce tag=
- and direction (+ patches) and not the moby tracking variant.
->
-> Bruce
->
-> > So let's merge them into one and keep the merged recipe's name
-> > docker-moby, as the repo's name is moby.
-> >
-> > The PROVIDES and RPROVIDES are added 'docker-ce' for backward
-> > compatibility.
-> >
-> > Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> > ---
-> >  conf/layer.conf                              |  1 -
-> >  recipes-containers/docker/docker-ce_git.bb   | 59 --------------------
-> >  recipes-containers/docker/docker-moby_git.bb | 27 ++++-----
-> >  recipes-containers/docker/docker.inc         |  8 ++-
-> >  4 files changed, 17 insertions(+), 78 deletions(-)  delete mode
-> > 100644 recipes-containers/docker/docker-ce_git.bb
-> >
-> > diff --git a/conf/layer.conf b/conf/layer.conf index 88ac390..9a26bcc
-> > 100644
-> > --- a/conf/layer.conf
-> > +++ b/conf/layer.conf
-> > @@ -41,7 +41,6 @@ require conf/distro/include/virt_security_flags.inc
-> >
-> >  PREFERRED_PROVIDER_virtual/runc ?=3D "runc-opencontainers"
-> >  PREFERRED_PROVIDER_virtual/containerd ?=3D "containerd-opencontainers"
-> > -PREFERRED_PROVIDER_virtual/docker ?=3D "docker-ce"
-> >
-> >  # Sanity check for meta-virtualization layer.
-> >  # Setting SKIP_META_VIRT_SANITY_CHECK to "1" would skip the bbappend f=
-iles check.
-> > diff --git a/recipes-containers/docker/docker-ce_git.bb
-> > b/recipes-containers/docker/docker-ce_git.bb
-> > deleted file mode 100644
-> > index 6781c77..0000000
-> > --- a/recipes-containers/docker/docker-ce_git.bb
-> > +++ /dev/null
-> > @@ -1,59 +0,0 @@
-> > -HOMEPAGE =3D "http://www.docker.com"
-> > -SUMMARY =3D "Linux container runtime"
-> > -DESCRIPTION =3D "Linux container runtime \
-> > - Docker complements kernel namespacing with a high-level API which \
-> > - operates at the process level. It runs unix processes with strong \
-> > - guarantees of isolation and repeatability across servers. \
-> > - . \
-> > - Docker is a great building block for automating distributed systems:
-> > \
-> > - large-scale web deployments, database clusters, continuous
-> > deployment \
-> > - systems, private PaaS, service-oriented architectures, etc. \
-> > - . \
-> > - This package contains the daemon and client, which are \
-> > - officially supported on x86_64 and arm hosts. \
-> > - Other architectures are considered experimental. \
-> > - . \
-> > - Also, note that kernel version 3.10 or above is required for proper
-> > \
-> > - operation of the daemon process, and that any lower versions may
-> > have \
-> > - subtle and/or glaring issues. \
-> > - "
-> > -
-> > -#
-> > -# https://github.com/docker/docker-ce-packaging.git
-> > -#  common.mk:
-> > -#    DOCKER_CLI_REPO    ?=3D https://github.com/docker/cli.git
-> > -#    DOCKER_ENGINE_REPO ?=3D https://github.com/docker/docker.git
-> > -#    REF                ?=3D HEAD
-> > -#    DOCKER_CLI_REF     ?=3D $(REF)
-> > -#    DOCKER_ENGINE_REF  ?=3D $(REF)
-> > -#
-> > -# These follow the tags for our releases in the listed repositories
-> > -# so we get that tag, and make it our SRCREVS:
-> > -#
-> > -
-> > -SRCREV_docker =3D "219f21bf07502b447095649b5a2764661737f164"
-> > -SRCREV_libnetwork =3D "25ec449c45d2075c85fb3688ef4c1730be0466e0"
-> > -SRCREV_cli =3D "569dd73db13099a7c3104d73aa15117b359045bc"
-> > -SRCREV_FORMAT =3D "docker_libnetwork"
-> > -SRC_URI =3D "\
-> > -       git://github.com/docker/docker.git;branch=3D23.0;name=3Ddocker;=
-protocol=3Dhttps \
-> > -       git://github.com/docker/libnetwork.git;branch=3Dmaster;name=3Dl=
-ibnetwork;destsuffix=3Dgit/libnetwork;protocol=3Dhttps \
-> > -       git://github.com/docker/cli;branch=3D23.0;name=3Dcli;destsuffix=
-=3Dgit/cli;protocol=3Dhttps \
-> > -       file://0001-libnetwork-use-GO-instead-of-go.patch \
-> > -       file://docker.init \
-> > -        file://0001-dynbinary-use-go-cross-compiler.patch;patchdir=3Ds=
-rc/import \
-> > -        file://0001-cli-use-external-GO111MODULE-and-cross-compiler.pa=
-tch \
-> > -       "
-> > -
-> > -DOCKER_COMMIT =3D "${SRCREV_docker}"
-> > -
-> > -require docker.inc
-> > -
-> > -# Apache-2.0 for docker
-> > -LICENSE =3D "Apache-2.0"
-> > -LIC_FILES_CHKSUM =3D "file://src/import/LICENSE;md5=3D4859e97a9c7780e7=
-7972d989f0823f28"
-> > -
-> > -DOCKER_VERSION =3D "23.0.2-ce"
-> > -PV =3D "${DOCKER_VERSION}+git${SRCREV_docker}"
-> > -
-> > -CVE_PRODUCT =3D "docker mobyproject:moby"
-> > diff --git a/recipes-containers/docker/docker-moby_git.bb
-> > b/recipes-containers/docker/docker-moby_git.bb
-> > index cd6a741..94c72e7 100644
-> > --- a/recipes-containers/docker/docker-moby_git.bb
-> > +++ b/recipes-containers/docker/docker-moby_git.bb
-> > @@ -18,21 +18,18 @@ DESCRIPTION =3D "Linux container runtime \
-> >   subtle and/or glaring issues. \
-> >   "
-> >
-> > -# Notes:
-> > -#   - This docker variant uses moby and the other individually maintai=
-ned
-> > -#     upstream variants for SRCREVs
-> > -#   - It is a true community / upstream tracking build, and is not a
-> > -#     docker curated set of commits or additions
-> > -#   - The version number on this package tracks the versions assigned =
-to
-> > -#     the curated docker-ce repository. This allows compatibility and
-> > -#     functional equivalence, while allowing new features to be more
-> > -#     easily added.
-> > -#   - This could be called "docker-moby" or just "moby" in the future,=
- but
-> > -#     that would require the creation of a virtual/docker dependency, =
-which
-> > -#     is possible, but overkill at the moment (while we wait for the u=
-pstream
-> > -#     to stop changing).
-> > -#   - The common components of this recipe and docker-ce do need to be=
- moved
-> > -#     to a docker.inc recipe
-> > +#
-> > +# https://github.com/docker/docker-ce-packaging.git
-> > +#  common.mk:
-> > +#    DOCKER_CLI_REPO    ?=3D https://github.com/docker/cli.git
-> > +#    DOCKER_ENGINE_REPO ?=3D https://github.com/docker/docker.git
-> > +#    REF                ?=3D HEAD
-> > +#    DOCKER_CLI_REF     ?=3D $(REF)
-> > +#    DOCKER_ENGINE_REF  ?=3D $(REF)
-> > +#
-> > +# These follow the tags for our releases in the listed repositories #
-> > +so we get that tag, and make it our SRCREVS:
-> > +#
-> >
-> >  SRCREV_moby =3D "219f21bf07502b447095649b5a2764661737f164"
-> >  SRCREV_libnetwork =3D "25ec449c45d2075c85fb3688ef4c1730be0466e0"
-> > diff --git a/recipes-containers/docker/docker.inc
-> > b/recipes-containers/docker/docker.inc
-> > index 4a4bc4f..5cd8bdc 100644
-> > --- a/recipes-containers/docker/docker.inc
-> > +++ b/recipes-containers/docker/docker.inc
-> > @@ -31,15 +31,17 @@ RDEPENDS:${PN} +=3D "virtual-containerd ${VIRTUAL-R=
-UNTIME_container_runtime}"
-> >
-> >  RRECOMMENDS:${PN} =3D "kernel-module-dm-thin-pool kernel-module-nf-nat=
- kernel-module-nf-conntrack-netlink kernel-module-xt-addrtype kernel-module=
--xt-masquerade"
-> >
-> > -PROVIDES +=3D "virtual/docker"
-> > -
-> > -# we want all the docker variant recpes to be installable via "docker"
-> > +# make it installable via "docker"
-> >  PACKAGE_NAME =3D "docker"
-> >  RPROVIDES:${PN} +=3D "docker"
-> >  RPROVIDES:${PN}-dbg +=3D "docker-dbg"
-> >  RPROVIDES:${PN}-dev +=3D "docker-dev"
-> >  RPROVIDES:${PN}-contrip +=3D "docker-dev"
-> >
-> > +# For docker-ce backward compatibility PROVIDES +=3D "docker-ce"
-> > +RPROVIDES:${PN} +=3D "docker-ce"
-> > +
-> >  inherit pkgconfig
-> >  PACKAGECONFIG ??=3D "docker-init seccomp"
-> >  PACKAGECONFIG[seccomp] =3D "seccomp,,libseccomp"
-> > --
-> > 2.40.0
-> >
-> >
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#8014):
-> > https://lists.yoctoproject.org/g/meta-virtualization/message/8014
-> > Mute This Topic: https://lists.yoctoproject.org/mt/98550499/1050810
-> > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> > Unsubscribe:
-> > https://lists.yoctoproject.org/g/meta-virtualization/unsub
-> > [bruce.ashfield@gmail.com]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >
->
->
-> --
-> - Thou shalt not follow the NULL pointer, for chaos and madness await the=
-e at its end
-> - "Use the force Harry" - Gandalf, Star Trek II
-
-
-
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+diff --git a/recipes-containers/aardvark-dns/aardvark-dns-crates.inc b/recipes-containers/aardvark-dns/aardvark-dns-crates.inc
+new file mode 100644
+index 0000000..d39c364
+--- /dev/null
++++ b/recipes-containers/aardvark-dns/aardvark-dns-crates.inc
+@@ -0,0 +1,125 @@
++SRC_URI += " \
++    crate://crates.io/anyhow/1.0.65 \
++    crate://crates.io/async-broadcast/0.4.1 \
++    crate://crates.io/async-trait/0.1.56 \
++    crate://crates.io/atty/0.2.14 \
++    crate://crates.io/autocfg/1.1.0 \
++    crate://crates.io/bitflags/1.3.2 \
++    crate://crates.io/bumpalo/3.10.0 \
++    crate://crates.io/bytes/1.1.0 \
++    crate://crates.io/cfg-if/1.0.0 \
++    crate://crates.io/chrono/0.4.20 \
++    crate://crates.io/clap/3.2.22 \
++    crate://crates.io/clap_derive/3.2.18 \
++    crate://crates.io/clap_lex/0.2.4 \
++    crate://crates.io/data-encoding/2.3.2 \
++    crate://crates.io/endian-type/0.1.2 \
++    crate://crates.io/enum-as-inner/0.3.4 \
++    crate://crates.io/enum-as-inner/0.5.1 \
++    crate://crates.io/error-chain/0.12.4 \
++    crate://crates.io/event-listener/2.5.2 \
++    crate://crates.io/form_urlencoded/1.0.1 \
++    crate://crates.io/futures-channel/0.3.21 \
++    crate://crates.io/futures-core/0.3.24 \
++    crate://crates.io/futures-executor/0.3.21 \
++    crate://crates.io/futures-io/0.3.21 \
++    crate://crates.io/futures-macro/0.3.24 \
++    crate://crates.io/futures-task/0.3.24 \
++    crate://crates.io/futures-util/0.3.24 \
++    crate://crates.io/getrandom/0.2.7 \
++    crate://crates.io/hashbrown/0.12.2 \
++    crate://crates.io/heck/0.4.0 \
++    crate://crates.io/hermit-abi/0.1.19 \
++    crate://crates.io/hostname/0.3.1 \
++    crate://crates.io/idna/0.2.3 \
++    crate://crates.io/indexmap/1.9.1 \
++    crate://crates.io/ipnet/2.5.0 \
++    crate://crates.io/itoa/1.0.2 \
++    crate://crates.io/js-sys/0.3.59 \
++    crate://crates.io/lazy_static/1.4.0 \
++    crate://crates.io/libc/0.2.133 \
++    crate://crates.io/lock_api/0.4.7 \
++    crate://crates.io/log/0.4.17 \
++    crate://crates.io/match_cfg/0.1.0 \
++    crate://crates.io/matches/0.1.9 \
++    crate://crates.io/memchr/2.5.0 \
++    crate://crates.io/memoffset/0.6.5 \
++    crate://crates.io/mio/0.8.4 \
++    crate://crates.io/nibble_vec/0.1.0 \
++    crate://crates.io/nix/0.25.0 \
++    crate://crates.io/num-integer/0.1.45 \
++    crate://crates.io/num-traits/0.2.15 \
++    crate://crates.io/num_cpus/1.13.1 \
++    crate://crates.io/num_threads/0.1.6 \
++    crate://crates.io/once_cell/1.13.0 \
++    crate://crates.io/os_str_bytes/6.1.0 \
++    crate://crates.io/parking_lot/0.12.1 \
++    crate://crates.io/parking_lot_core/0.9.3 \
++    crate://crates.io/percent-encoding/2.1.0 \
++    crate://crates.io/pin-project-lite/0.2.9 \
++    crate://crates.io/pin-utils/0.1.0 \
++    crate://crates.io/ppv-lite86/0.2.16 \
++    crate://crates.io/proc-macro-error-attr/1.0.4 \
++    crate://crates.io/proc-macro-error/1.0.4 \
++    crate://crates.io/proc-macro2/1.0.40 \
++    crate://crates.io/quick-error/1.2.3 \
++    crate://crates.io/quote/1.0.20 \
++    crate://crates.io/radix_trie/0.2.1 \
++    crate://crates.io/rand/0.8.5 \
++    crate://crates.io/rand_chacha/0.3.1 \
++    crate://crates.io/rand_core/0.6.3 \
++    crate://crates.io/redox_syscall/0.2.13 \
++    crate://crates.io/resolv-conf/0.7.0 \
++    crate://crates.io/scopeguard/1.1.0 \
++    crate://crates.io/serde/1.0.139 \
++    crate://crates.io/serde_derive/1.0.139 \
++    crate://crates.io/signal-hook-registry/1.4.0 \
++    crate://crates.io/signal-hook/0.3.14 \
++    crate://crates.io/slab/0.4.6 \
++    crate://crates.io/smallvec/1.9.0 \
++    crate://crates.io/socket2/0.4.4 \
++    crate://crates.io/strsim/0.10.0 \
++    crate://crates.io/syn/1.0.98 \
++    crate://crates.io/syslog/6.0.1 \
++    crate://crates.io/termcolor/1.1.3 \
++    crate://crates.io/textwrap/0.15.1 \
++    crate://crates.io/thiserror-impl/1.0.31 \
++    crate://crates.io/thiserror/1.0.31 \
++    crate://crates.io/time/0.1.44 \
++    crate://crates.io/time/0.3.11 \
++    crate://crates.io/tinyvec/1.6.0 \
++    crate://crates.io/tinyvec_macros/0.1.0 \
++    crate://crates.io/tokio-macros/1.8.0 \
++    crate://crates.io/tokio/1.21.1 \
++    crate://crates.io/toml/0.5.9 \
++    crate://crates.io/tracing-attributes/0.1.22 \
++    crate://crates.io/tracing-core/0.1.29 \
++    crate://crates.io/tracing/0.1.36 \
++    crate://crates.io/trust-dns-client/0.20.4 \
++    crate://crates.io/trust-dns-client/0.22.0 \
++    crate://crates.io/trust-dns-proto/0.20.4 \
++    crate://crates.io/trust-dns-proto/0.22.0 \
++    crate://crates.io/trust-dns-server/0.22.0 \
++    crate://crates.io/unicode-bidi/0.3.8 \
++    crate://crates.io/unicode-ident/1.0.1 \
++    crate://crates.io/unicode-normalization/0.1.21 \
++    crate://crates.io/url/2.2.2 \
++    crate://crates.io/version_check/0.9.4 \
++    crate://crates.io/wasi/0.10.0+wasi-snapshot-preview1 \
++    crate://crates.io/wasi/0.11.0+wasi-snapshot-preview1 \
++    crate://crates.io/wasm-bindgen-backend/0.2.82 \
++    crate://crates.io/wasm-bindgen-macro-support/0.2.82 \
++    crate://crates.io/wasm-bindgen-macro/0.2.82 \
++    crate://crates.io/wasm-bindgen-shared/0.2.82 \
++    crate://crates.io/wasm-bindgen/0.2.82 \
++    crate://crates.io/winapi-i686-pc-windows-gnu/0.4.0 \
++    crate://crates.io/winapi-util/0.1.5 \
++    crate://crates.io/winapi-x86_64-pc-windows-gnu/0.4.0 \
++    crate://crates.io/winapi/0.3.9 \
++    crate://crates.io/windows-sys/0.36.1 \
++    crate://crates.io/windows_aarch64_msvc/0.36.1 \
++    crate://crates.io/windows_i686_gnu/0.36.1 \
++    crate://crates.io/windows_i686_msvc/0.36.1 \
++    crate://crates.io/windows_x86_64_gnu/0.36.1 \
++    crate://crates.io/windows_x86_64_msvc/0.36.1 \
++"
+diff --git a/recipes-containers/aardvark-dns/aardvark-dns_1.2.0.bb b/recipes-containers/aardvark-dns/aardvark-dns_1.2.0.bb
+index 6fb4a81..ad03869 100644
+--- a/recipes-containers/aardvark-dns/aardvark-dns_1.2.0.bb
++++ b/recipes-containers/aardvark-dns/aardvark-dns_1.2.0.bb
+@@ -8,141 +8,12 @@ inherit cargo
+ # how to get aardvark-dns could be as easy as but default to a git checkout:
+ # SRC_URI += "crate://crates.io/aardvark-dns/1.2.0"
+ SRC_URI += "git://github.com/containers/aardvark-dns;protocol=https;nobranch=1"
++require ${BPN}-crates.inc
++
+ SRCREV = "cb1a462dd8427e33355f6907394a0646f5a26bf2"
+ S = "${WORKDIR}/git"
+ CARGO_SRC_DIR = ""
+ 
+-
+-# please note if you have entries that do not begin with crate://
+-# you must change them to how that package can be fetched
+-SRC_URI += " \
+-    crate://crates.io/anyhow/1.0.65 \
+-    crate://crates.io/async-broadcast/0.4.1 \
+-    crate://crates.io/async-trait/0.1.56 \
+-    crate://crates.io/atty/0.2.14 \
+-    crate://crates.io/autocfg/1.1.0 \
+-    crate://crates.io/bitflags/1.3.2 \
+-    crate://crates.io/bumpalo/3.10.0 \
+-    crate://crates.io/bytes/1.1.0 \
+-    crate://crates.io/cfg-if/1.0.0 \
+-    crate://crates.io/chrono/0.4.20 \
+-    crate://crates.io/clap/3.2.22 \
+-    crate://crates.io/clap_derive/3.2.18 \
+-    crate://crates.io/clap_lex/0.2.4 \
+-    crate://crates.io/data-encoding/2.3.2 \
+-    crate://crates.io/endian-type/0.1.2 \
+-    crate://crates.io/enum-as-inner/0.3.4 \
+-    crate://crates.io/enum-as-inner/0.5.1 \
+-    crate://crates.io/error-chain/0.12.4 \
+-    crate://crates.io/event-listener/2.5.2 \
+-    crate://crates.io/form_urlencoded/1.0.1 \
+-    crate://crates.io/futures-channel/0.3.21 \
+-    crate://crates.io/futures-core/0.3.24 \
+-    crate://crates.io/futures-executor/0.3.21 \
+-    crate://crates.io/futures-io/0.3.21 \
+-    crate://crates.io/futures-macro/0.3.24 \
+-    crate://crates.io/futures-task/0.3.24 \
+-    crate://crates.io/futures-util/0.3.24 \
+-    crate://crates.io/getrandom/0.2.7 \
+-    crate://crates.io/hashbrown/0.12.2 \
+-    crate://crates.io/heck/0.4.0 \
+-    crate://crates.io/hermit-abi/0.1.19 \
+-    crate://crates.io/hostname/0.3.1 \
+-    crate://crates.io/idna/0.2.3 \
+-    crate://crates.io/indexmap/1.9.1 \
+-    crate://crates.io/ipnet/2.5.0 \
+-    crate://crates.io/itoa/1.0.2 \
+-    crate://crates.io/js-sys/0.3.59 \
+-    crate://crates.io/lazy_static/1.4.0 \
+-    crate://crates.io/libc/0.2.133 \
+-    crate://crates.io/lock_api/0.4.7 \
+-    crate://crates.io/log/0.4.17 \
+-    crate://crates.io/match_cfg/0.1.0 \
+-    crate://crates.io/matches/0.1.9 \
+-    crate://crates.io/memchr/2.5.0 \
+-    crate://crates.io/memoffset/0.6.5 \
+-    crate://crates.io/mio/0.8.4 \
+-    crate://crates.io/nibble_vec/0.1.0 \
+-    crate://crates.io/nix/0.25.0 \
+-    crate://crates.io/num-integer/0.1.45 \
+-    crate://crates.io/num-traits/0.2.15 \
+-    crate://crates.io/num_cpus/1.13.1 \
+-    crate://crates.io/num_threads/0.1.6 \
+-    crate://crates.io/once_cell/1.13.0 \
+-    crate://crates.io/os_str_bytes/6.1.0 \
+-    crate://crates.io/parking_lot/0.12.1 \
+-    crate://crates.io/parking_lot_core/0.9.3 \
+-    crate://crates.io/percent-encoding/2.1.0 \
+-    crate://crates.io/pin-project-lite/0.2.9 \
+-    crate://crates.io/pin-utils/0.1.0 \
+-    crate://crates.io/ppv-lite86/0.2.16 \
+-    crate://crates.io/proc-macro-error-attr/1.0.4 \
+-    crate://crates.io/proc-macro-error/1.0.4 \
+-    crate://crates.io/proc-macro2/1.0.40 \
+-    crate://crates.io/quick-error/1.2.3 \
+-    crate://crates.io/quote/1.0.20 \
+-    crate://crates.io/radix_trie/0.2.1 \
+-    crate://crates.io/rand/0.8.5 \
+-    crate://crates.io/rand_chacha/0.3.1 \
+-    crate://crates.io/rand_core/0.6.3 \
+-    crate://crates.io/redox_syscall/0.2.13 \
+-    crate://crates.io/resolv-conf/0.7.0 \
+-    crate://crates.io/scopeguard/1.1.0 \
+-    crate://crates.io/serde/1.0.139 \
+-    crate://crates.io/serde_derive/1.0.139 \
+-    crate://crates.io/signal-hook-registry/1.4.0 \
+-    crate://crates.io/signal-hook/0.3.14 \
+-    crate://crates.io/slab/0.4.6 \
+-    crate://crates.io/smallvec/1.9.0 \
+-    crate://crates.io/socket2/0.4.4 \
+-    crate://crates.io/strsim/0.10.0 \
+-    crate://crates.io/syn/1.0.98 \
+-    crate://crates.io/syslog/6.0.1 \
+-    crate://crates.io/termcolor/1.1.3 \
+-    crate://crates.io/textwrap/0.15.1 \
+-    crate://crates.io/thiserror-impl/1.0.31 \
+-    crate://crates.io/thiserror/1.0.31 \
+-    crate://crates.io/time/0.1.44 \
+-    crate://crates.io/time/0.3.11 \
+-    crate://crates.io/tinyvec/1.6.0 \
+-    crate://crates.io/tinyvec_macros/0.1.0 \
+-    crate://crates.io/tokio-macros/1.8.0 \
+-    crate://crates.io/tokio/1.21.1 \
+-    crate://crates.io/toml/0.5.9 \
+-    crate://crates.io/tracing-attributes/0.1.22 \
+-    crate://crates.io/tracing-core/0.1.29 \
+-    crate://crates.io/tracing/0.1.36 \
+-    crate://crates.io/trust-dns-client/0.20.4 \
+-    crate://crates.io/trust-dns-client/0.22.0 \
+-    crate://crates.io/trust-dns-proto/0.20.4 \
+-    crate://crates.io/trust-dns-proto/0.22.0 \
+-    crate://crates.io/trust-dns-server/0.22.0 \
+-    crate://crates.io/unicode-bidi/0.3.8 \
+-    crate://crates.io/unicode-ident/1.0.1 \
+-    crate://crates.io/unicode-normalization/0.1.21 \
+-    crate://crates.io/url/2.2.2 \
+-    crate://crates.io/version_check/0.9.4 \
+-    crate://crates.io/wasi/0.10.0+wasi-snapshot-preview1 \
+-    crate://crates.io/wasi/0.11.0+wasi-snapshot-preview1 \
+-    crate://crates.io/wasm-bindgen-backend/0.2.82 \
+-    crate://crates.io/wasm-bindgen-macro-support/0.2.82 \
+-    crate://crates.io/wasm-bindgen-macro/0.2.82 \
+-    crate://crates.io/wasm-bindgen-shared/0.2.82 \
+-    crate://crates.io/wasm-bindgen/0.2.82 \
+-    crate://crates.io/winapi-i686-pc-windows-gnu/0.4.0 \
+-    crate://crates.io/winapi-util/0.1.5 \
+-    crate://crates.io/winapi-x86_64-pc-windows-gnu/0.4.0 \
+-    crate://crates.io/winapi/0.3.9 \
+-    crate://crates.io/windows-sys/0.36.1 \
+-    crate://crates.io/windows_aarch64_msvc/0.36.1 \
+-    crate://crates.io/windows_i686_gnu/0.36.1 \
+-    crate://crates.io/windows_i686_msvc/0.36.1 \
+-    crate://crates.io/windows_x86_64_gnu/0.36.1 \
+-    crate://crates.io/windows_x86_64_msvc/0.36.1 \
+-"
+-
+-
+-
+ # FIXME: update generateme with the real MD5 of the license file
+ LIC_FILES_CHKSUM = " \
+     file://LICENSE;md5=86d3f3a95c324c9479bd8986968f4327 \
 
