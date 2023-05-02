@@ -1,284 +1,266 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B88F5C77B78
-	for <webhook@archiver.kernel.org>; Tue,  2 May 2023 21:06:35 +0000 (UTC)
-Received: from mail-il1-f176.google.com (mail-il1-f176.google.com [209.85.166.176])
- by mx.groups.io with SMTP id smtpd.web10.2558.1683061592759360831
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C97F6C7EE24
+	for <webhook@archiver.kernel.org>; Tue,  2 May 2023 21:18:25 +0000 (UTC)
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+ by mx.groups.io with SMTP id smtpd.web10.2835.1683062296551378318
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 02 May 2023 14:06:32 -0700
+ Tue, 02 May 2023 14:18:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=ASop6x4S;
- spf=pass (domain: gmail.com, ip: 209.85.166.176, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-il1-f176.google.com with SMTP id e9e14a558f8ab-32f397b44dcso325965ab.1
-        for <meta-virtualization@lists.yoctoproject.org>; Tue, 02 May 2023 14:06:32 -0700 (PDT)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=A3uSoa/D;
+ spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683061592; x=1685653592;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=q/jTYl7ymcFjNUe9KU/BR6dmBva+Y+ZX8RIdY6bewMM=;
-        b=ASop6x4SStdiBxpSPdVmx3xFjbRrKuzKlYY5X7EDKyIxE9sl5zOoX8ZdWqMF7rYXQn
-         Ul/IdDnsMkkLtIdyd7V64Rqg9ZZLXXHtJhUTjijXJkZmkbjqMPxvs71i1Z+CanKxBTfH
-         jI6XXD5bEu6TmyCoduKJ1RQ8Z63x+NWNsPdqTVrYhLlWdrWg9RlQ67gJswL7ft56D1l8
-         chxST9jDJV8NQssIjBi9BEUpFWut/VBFGI60iOgmupKIxvsLyxCdws76D008tthELE6r
-         fFMEEhWI3kBS7nC1KskyHU6fm/gUqc/efV5/nlcjcFaaXHD/1cTQ47I1p6byHPoD1trL
-         6U0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683061592; x=1685653592;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=q/jTYl7ymcFjNUe9KU/BR6dmBva+Y+ZX8RIdY6bewMM=;
-        b=Bnc8FSGh/RXZeahDE5Ps+fLfbyy1i8ZzTPjFweaaVeFuGbSuCA0MONtlTQT6xQETkn
-         65covWIBxx7AFauTniaAMr4C3an3gyMVZQ2wFUgSdtdZN989MiMvK7djS/l9/TBdrTrd
-         mO2Ls/6/KMFmKfyrM1pKLjfAudcjSr4Bci6kO3/8OC7as3vmM10LT0JUdsF7EWF8/198
-         /9q6xUa3CStJaikmnWg/eBfDa8Swm/MtPDJmiwJwOZEXWserJu+hhsUqOvKvadKhf69j
-         NxTsOF4w5HYAsW3wInGpY1KO9YfyRHXnJj4VjTdeSnUWOBYQVcomdiVLy7BX3a7q+5Wl
-         Fg0g==
-X-Gm-Message-State: AC+VfDzYcOkTwxyLbgpXaouUj4upWlJI0nI94+mHFvyCnOlDGAR+2L9k
-	gHPqjc8DjpFW80+p6ALDsQ0rHJxd1hzWONqnLog=
-X-Google-Smtp-Source: ACHHUZ5X92gQ2qWuIsmQgVrsZMfS7vPydwiXncAfX7se7MN/b4Y0F2WRIbJqitYfqXFf6T++XXRZ0cTX/UaZgMk1Uuk=
-X-Received: by 2002:a05:6e02:18ce:b0:329:4142:e9ff with SMTP id
- s14-20020a056e0218ce00b003294142e9ffmr16313446ilu.10.1683061591872; Tue, 02
- May 2023 14:06:31 -0700 (PDT)
+  d=axis.com; q=dns/txt; s=axis-central1; t=1683062299;
+  x=1714598299;
+  h=from:to:subject:date:message-id:in-reply-to:references:
+   mime-version:content-transfer-encoding;
+  bh=uUFaFy3mlys6aG8/PAK7fuUMUC0/LlnG4bbLHrR7rFM=;
+  b=A3uSoa/DNWEusZCGLyN62xII5KzBNEt6eBzvmlfvSRaN7gmpVTbFLK+l
+   yN0XrsUuCbQ8wnIx+zgDhXpFU12G6Y/Faqo11fL78XGgnK2IrbEd3TgZD
+   TSTipuInM/pwYmJMdYataE0nP4tYCE1cRDPLkQTRlW/gQmeK8Tq5d9dJ3
+   P54j7J/YxnxpvRZwIl7nMliCZ8TNicgfOo71vg46R1lx8PCs3hCp8I0iO
+   IJjhk04+WQqv4v6MhULyYWOjQlxX1jmOujHr5ak9Z2vMjn+9qL2d/5BT5
+   Tn1hFGe4FDqt+17jt4h+INhagbFAyt95sglL3fG7lMGwhYWJaS2JO5Uk7
+   Q==;
+From: Peter Kjellerstedt <pkj@axis.com>
+To: <meta-virtualization@lists.yoctoproject.org>
+Subject: [PATCHv2 2/6] aardvark-dns: Add checksums for the crate URIs
+Date: Tue, 2 May 2023 23:18:08 +0200
+Message-ID: <20230502211812.2106891-2-pkj@axis.com>
+X-Mailer: git-send-email 2.40.0
+In-Reply-To: <20230502211812.2106891-1-pkj@axis.com>
+References: <20230502211812.2106891-1-pkj@axis.com>
 MIME-Version: 1.0
-References: <20230502202631.2102074-1-pkj@axis.com> <20230502202631.2102074-7-pkj@axis.com>
- <CADkTA4Mc4oEQmE32+Vj=PoVg2zxPnSvjZ0HK=9BxeyJovUirDw@mail.gmail.com> <DB5PR02MB102132A833BE12DA41DB92550EF6F9@DB5PR02MB10213.eurprd02.prod.outlook.com>
-In-Reply-To: <DB5PR02MB102132A833BE12DA41DB92550EF6F9@DB5PR02MB10213.eurprd02.prod.outlook.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Tue, 2 May 2023 17:06:24 -0400
-Message-ID: <CADkTA4PtdsGVsmhUPBu-mHUTi2J=TaBpqwvdqjNsP6=7kk88Cw@mail.gmail.com>
-Subject: Re: [meta-virtualization] [PATCH 7/8] netavark: Rewrite the recipe
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: "meta-virtualization@lists.yoctoproject.org" <meta-virtualization@lists.yoctoproject.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Tue, 02 May 2023 21:06:35 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8032
+ <meta-virtualization@lists.yoctoproject.org>; Tue, 02 May 2023 21:18:25 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8035
 
-On Tue, May 2, 2023 at 4:56=E2=80=AFPM Peter Kjellerstedt
-<peter.kjellerstedt@axis.com> wrote:
->
-> > -----Original Message-----
-> > From: Bruce Ashfield <bruce.ashfield@gmail.com>
-> > Sent: den 2 maj 2023 22:43
-> > To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> > Cc: meta-virtualization@lists.yoctoproject.org
-> > Subject: Re: [meta-virtualization] [PATCH 7/8] netavark: Rewrite the
-> > recipe
-> >
-> > On Tue, May 2, 2023 at 4:26=E2=80=AFPM Peter Kjellerstedt
-> > <peter.kjellerstedt@axis.com> wrote:
-> > >
-> > > Since the recipe is no longer expected to be updated using
-> >
-> > The wording on this (and the other commits) isn't correct.
-> >
-> > There is no compulsion to use any particular set of tools to update
-> > and maintain recipes.
->
-> No, of course, but the comments left in the recipe by cargo-bitbake,
-> "Auto-Generated by cargo-bitbake 0.3.16" at the top and
-> "includes this file if it exists but does not fail
-> this is useful for anything you may want to override from
-> what cargo-bitbake generates." at the end, at least to me indicated
-> that there previously was an expectation to use cargo-bitbake to
-> update the recipe.
+Use the cargo-update-recipe-crates bbclass to update the crate URIs
+including adding checksums for them, as they are now required by the
+crate fetcher.
 
-Agreed.
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+---
+ .../aardvark-dns/aardvark-dns-crates.inc      | 143 +++++++++++++++++-
+ .../aardvark-dns/aardvark-dns_1.2.0.bb        |   2 +-
+ 2 files changed, 136 insertions(+), 9 deletions(-)
 
-I just meant to say that the commit message could say something
-along the lines of:
-
-"Rather than generating the crates via cargo-bitbake, we switch to the more
-commonly used (and supported) cargo-update-recipe-crates."
-
-Versus the old phrasing which read (to me) that the switch was mandatory
-as opposed to something we are choosing.
-
-Bruce
-
-
->
-> >
-> > Perhaps just say "Switching to cargo-update-recipe-crates format, for t=
-he
-> > following reasons ..."
-> >
-> > Bruce
-> >
-> > > cargo-bitbake after switching to using cargo-update-recipe-crates to
-> > > update the crate URIs, rewrite it to better conform to common recipe
-> > > standards. Also fold netavark.inc into it as there is no longer any n=
-eed
-> > > to keep it separate from the main recipe.
-> > >
-> > > Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> > > ---
-> > >  recipes-containers/netavark/netavark.inc      | 49 --------------
-> > >  recipes-containers/netavark/netavark_1.2.0.bb | 66 +++++++++++++----=
---
-> > >  2 files changed, 46 insertions(+), 69 deletions(-)
-> > >  delete mode 100644 recipes-containers/netavark/netavark.inc
-> > >
-> > > diff --git a/recipes-containers/netavark/netavark.inc b/recipes-conta=
-iners/netavark/netavark.inc
-> > > deleted file mode 100644
-> > > index c15bbea..0000000
-> > > --- a/recipes-containers/netavark/netavark.inc
-> > > +++ /dev/null
-> > > @@ -1,49 +0,0 @@
-> > > -inherit ptest
-> > > -
-> > > -PACKAGECONFIG ?=3D "aardvark-dns"
-> > > -
-> > > -# From the documentation of netavark
-> > > -# https://github.com/containers/netavark/blob/v1.1.0/DISTRO_PACKAGE.=
-md#dependency-on-aardvark-dns
-> > > -# The aardvark-dns will be installed by default with netavark, but
-> > > -# netavark will be functional without it.
-> > > -PACKAGECONFIG[aardvark-dns]=3D " , , , aardvark-dns"
-> > > -
-> > > -# Rdepends on aardvark-dns which rdepends on slirp4netns
-> > > -inherit features_check
-> > > -REQUIRED_DISTRO_FEATURES ?=3D "seccomp"
-> > > -
-> > > -SRC_URI +=3D " \
-> > > -    file://run-ptest \
-> > > -    file://tests.patch \
-> > > -"
-> > > -
-> > > -# Cargo installs the binary to bin so move it to where podman expect=
-s it
-> > > -do_install:append() {
-> > > -    install -d ${D}${libexecdir}/podman/
-> > > -    mv ${D}${bindir}/* ${D}${libexecdir}/podman/
-> > > -    rm -rf ${D}${bindir}/
-> > > -}
-> > > -
-> > > -
-> > > -do_install_ptest () {
-> > > -       cp -r ${S}/test ${D}${PTEST_PATH}
-> > > -}
-> > > -
-> > > -RDEPENDS:${PN}-ptest +=3D " \
-> > > -    bats \
-> > > -    bash \
-> > > -    coreutils \
-> > > -    jq \
-> > > -    iproute2 \
-> > > -    dbus-daemon-proxy \
-> > > -    util-linux-unshare \
-> > > -    nmap \
-> > > -    procps-ps \
-> > > -    util-linux-nsenter \
-> > > -    bind-utils \
-> > > -"
-> > > -
-> > > -
-> > > -# bind-utils is used to install dig
-> > > -# procps is necessary because the ps from busybox is
-> > > -# not having the same behavior
-> > > diff --git a/recipes-containers/netavark/netavark_1.2.0.bb b/recipes-=
-containers/netavark/netavark_1.2.0.bb
-> > > index a3af083..be7cff5 100644
-> > > --- a/recipes-containers/netavark/netavark_1.2.0.bb
-> > > +++ b/recipes-containers/netavark/netavark_1.2.0.bb
-> > > @@ -1,30 +1,56 @@
-> > > -# Auto-Generated by cargo-bitbake 0.3.16
-> > > -#
-> > > -inherit cargo cargo-update-recipe-crates
-> > > +SUMMARY =3D "A container network stack"
-> > > +HOMEPAGE =3D "https://github.com/containers/netavark"
-> > > +
-> > > +LICENSE =3D "Apache-2.0"
-> > > +LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D86d3f3a95c324c9479bd89869=
-68f4327"
-> > >
-> > > -# If this is git based prefer versioned ones if they exist
-> > > -# DEFAULT_PREFERENCE =3D "-1"
-> > > +SRCREV =3D "90cccc1c21f26fbc473a201ce3b30d77667c7635"
-> > >
-> > >  # how to get netavark could be as easy as but default to a git check=
-out:
-> > >  # SRC_URI +=3D "crate://crates.io/netavark/1.2.0"
-> > > -SRC_URI +=3D "git://github.com/containers/netavark.git;protocol=3Dht=
-tps;nobranch=3D1"
-> > > +SRC_URI =3D "git://github.com/containers/netavark.git;protocol=3Dhtt=
-ps;nobranch=3D1 \
-> > > +           file://tests.patch \
-> > > +           file://run-ptest"
-> > >  require ${BPN}-crates.inc
-> > >
-> > > -SRCREV =3D "90cccc1c21f26fbc473a201ce3b30d77667c7635"
-> > >  S =3D "${WORKDIR}/git"
-> > > -CARGO_SRC_DIR =3D ""
-> > >
-> > > -# FIXME: update generateme with the real MD5 of the license file
-> > > -LIC_FILES_CHKSUM =3D " \
-> > > -    file://LICENSE;md5=3D86d3f3a95c324c9479bd8986968f4327 \
-> > > -"
-> > > +PACKAGECONFIG ?=3D "aardvark-dns"
-> > >
-> > > -SUMMARY =3D "A container network stack"
-> > > -HOMEPAGE =3D "https://github.com/containers/netavark"
-> > > -LICENSE =3D "Apache-2.0"
-> > > +# From the documentation of netavark
-> > > +# https://github.com/containers/netavark/blob/v1.1.0/DISTRO_PACKAGE.=
-md#dependency-on-aardvark-dns
-> > > +# The aardvark-dns will be installed by default with netavark, but
-> > > +# netavark will be functional without it.
-> > > +PACKAGECONFIG[aardvark-dns]=3D ",,, aardvark-dns"
-> > > +
-> > > +inherit cargo cargo-update-recipe-crates features_check ptest
-> > > +
-> > > +# Cargo installs the binary to bin so move it to where podman expect=
-s it
-> > > +do_install:append() {
-> > > +       install -d ${D}${libexecdir}
-> > > +       mv ${D}${bindir} ${D}${libexecdir}/podman
-> > > +}
-> > >
-> > > -# includes this file if it exists but does not fail
-> > > -# this is useful for anything you may want to override from
-> > > -# what cargo-bitbake generates.
-> > > -include netavark-${PV}.inc
-> > > -include netavark.inc
-> > > +do_install_ptest() {
-> > > +       cp -r ${S}/test ${D}${PTEST_PATH}
-> > > +}
-> > > +
-> > > +# rdepends on aardvark-dns which rdepends on slirp4netns
-> > > +REQUIRED_DISTRO_FEATURES ?=3D "seccomp"
-> > > +
-> > > +# bind-utils is used to install dig
-> > > +# procps-ps is necessary because the ps from busybox is
-> > > +# not having the same behavior
-> > > +RDEPENDS:${PN}-ptest +=3D " \
-> > > +    bash \
-> > > +    bats \
-> > > +    bind-utils \
-> > > +    coreutils \
-> > > +    dbus-daemon-proxy \
-> > > +    iproute2 \
-> > > +    jq \
-> > > +    nmap \
-> > > +    procps-ps \
-> > > +    util-linux-nsenter \
-> > > +    util-linux-unshare \
-> > > +"
->
-> //Peter
->
-
-
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+diff --git a/recipes-containers/aardvark-dns/aardvark-dns-crates.inc b/recipes-containers/aardvark-dns/aardvark-dns-crates.inc
+index d39c364..7e07d23 100644
+--- a/recipes-containers/aardvark-dns/aardvark-dns-crates.inc
++++ b/recipes-containers/aardvark-dns/aardvark-dns-crates.inc
+@@ -1,3 +1,6 @@
++# Autogenerated with 'bitbake -c update_crates aardvark-dns'
++
++# from Cargo.lock
+ SRC_URI += " \
+     crate://crates.io/anyhow/1.0.65 \
+     crate://crates.io/async-broadcast/0.4.1 \
+@@ -59,8 +62,8 @@ SRC_URI += " \
+     crate://crates.io/pin-project-lite/0.2.9 \
+     crate://crates.io/pin-utils/0.1.0 \
+     crate://crates.io/ppv-lite86/0.2.16 \
+-    crate://crates.io/proc-macro-error-attr/1.0.4 \
+     crate://crates.io/proc-macro-error/1.0.4 \
++    crate://crates.io/proc-macro-error-attr/1.0.4 \
+     crate://crates.io/proc-macro2/1.0.40 \
+     crate://crates.io/quick-error/1.2.3 \
+     crate://crates.io/quote/1.0.20 \
+@@ -73,8 +76,8 @@ SRC_URI += " \
+     crate://crates.io/scopeguard/1.1.0 \
+     crate://crates.io/serde/1.0.139 \
+     crate://crates.io/serde_derive/1.0.139 \
+-    crate://crates.io/signal-hook-registry/1.4.0 \
+     crate://crates.io/signal-hook/0.3.14 \
++    crate://crates.io/signal-hook-registry/1.4.0 \
+     crate://crates.io/slab/0.4.6 \
+     crate://crates.io/smallvec/1.9.0 \
+     crate://crates.io/socket2/0.4.4 \
+@@ -83,18 +86,18 @@ SRC_URI += " \
+     crate://crates.io/syslog/6.0.1 \
+     crate://crates.io/termcolor/1.1.3 \
+     crate://crates.io/textwrap/0.15.1 \
+-    crate://crates.io/thiserror-impl/1.0.31 \
+     crate://crates.io/thiserror/1.0.31 \
++    crate://crates.io/thiserror-impl/1.0.31 \
+     crate://crates.io/time/0.1.44 \
+     crate://crates.io/time/0.3.11 \
+     crate://crates.io/tinyvec/1.6.0 \
+     crate://crates.io/tinyvec_macros/0.1.0 \
+-    crate://crates.io/tokio-macros/1.8.0 \
+     crate://crates.io/tokio/1.21.1 \
++    crate://crates.io/tokio-macros/1.8.0 \
+     crate://crates.io/toml/0.5.9 \
++    crate://crates.io/tracing/0.1.36 \
+     crate://crates.io/tracing-attributes/0.1.22 \
+     crate://crates.io/tracing-core/0.1.29 \
+-    crate://crates.io/tracing/0.1.36 \
+     crate://crates.io/trust-dns-client/0.20.4 \
+     crate://crates.io/trust-dns-client/0.22.0 \
+     crate://crates.io/trust-dns-proto/0.20.4 \
+@@ -107,15 +110,15 @@ SRC_URI += " \
+     crate://crates.io/version_check/0.9.4 \
+     crate://crates.io/wasi/0.10.0+wasi-snapshot-preview1 \
+     crate://crates.io/wasi/0.11.0+wasi-snapshot-preview1 \
++    crate://crates.io/wasm-bindgen/0.2.82 \
+     crate://crates.io/wasm-bindgen-backend/0.2.82 \
+-    crate://crates.io/wasm-bindgen-macro-support/0.2.82 \
+     crate://crates.io/wasm-bindgen-macro/0.2.82 \
++    crate://crates.io/wasm-bindgen-macro-support/0.2.82 \
+     crate://crates.io/wasm-bindgen-shared/0.2.82 \
+-    crate://crates.io/wasm-bindgen/0.2.82 \
++    crate://crates.io/winapi/0.3.9 \
+     crate://crates.io/winapi-i686-pc-windows-gnu/0.4.0 \
+     crate://crates.io/winapi-util/0.1.5 \
+     crate://crates.io/winapi-x86_64-pc-windows-gnu/0.4.0 \
+-    crate://crates.io/winapi/0.3.9 \
+     crate://crates.io/windows-sys/0.36.1 \
+     crate://crates.io/windows_aarch64_msvc/0.36.1 \
+     crate://crates.io/windows_i686_gnu/0.36.1 \
+@@ -123,3 +126,127 @@ SRC_URI += " \
+     crate://crates.io/windows_x86_64_gnu/0.36.1 \
+     crate://crates.io/windows_x86_64_msvc/0.36.1 \
+ "
++
++SRC_URI[anyhow-1.0.65.sha256sum] = "98161a4e3e2184da77bb14f02184cdd111e83bbbcc9979dfee3c44b9a85f5602"
++SRC_URI[async-broadcast-0.4.1.sha256sum] = "6d26004fe83b2d1cd3a97609b21e39f9a31535822210fe83205d2ce48866ea61"
++SRC_URI[async-trait-0.1.56.sha256sum] = "96cf8829f67d2eab0b2dfa42c5d0ef737e0724e4a82b01b3e292456202b19716"
++SRC_URI[atty-0.2.14.sha256sum] = "d9b39be18770d11421cdb1b9947a45dd3f37e93092cbf377614828a319d5fee8"
++SRC_URI[autocfg-1.1.0.sha256sum] = "d468802bab17cbc0cc575e9b053f41e72aa36bfa6b7f55e3529ffa43161b97fa"
++SRC_URI[bitflags-1.3.2.sha256sum] = "bef38d45163c2f1dde094a7dfd33ccf595c92905c8f8f4fdc18d06fb1037718a"
++SRC_URI[bumpalo-3.10.0.sha256sum] = "37ccbd214614c6783386c1af30caf03192f17891059cecc394b4fb119e363de3"
++SRC_URI[bytes-1.1.0.sha256sum] = "c4872d67bab6358e59559027aa3b9157c53d9358c51423c17554809a8858e0f8"
++SRC_URI[cfg-if-1.0.0.sha256sum] = "baf1de4339761588bc0619e3cbc0120ee582ebb74b53b4efbf79117bd2da40fd"
++SRC_URI[chrono-0.4.20.sha256sum] = "6127248204b9aba09a362f6c930ef6a78f2c1b2215f8a7b398c06e1083f17af0"
++SRC_URI[clap-3.2.22.sha256sum] = "86447ad904c7fb335a790c9d7fe3d0d971dc523b8ccd1561a520de9a85302750"
++SRC_URI[clap_derive-3.2.18.sha256sum] = "ea0c8bce528c4be4da13ea6fead8965e95b6073585a2f05204bd8f4119f82a65"
++SRC_URI[clap_lex-0.2.4.sha256sum] = "2850f2f5a82cbf437dd5af4d49848fbdfc27c157c3d010345776f952765261c5"
++SRC_URI[data-encoding-2.3.2.sha256sum] = "3ee2393c4a91429dffb4bedf19f4d6abf27d8a732c8ce4980305d782e5426d57"
++SRC_URI[endian-type-0.1.2.sha256sum] = "c34f04666d835ff5d62e058c3995147c06f42fe86ff053337632bca83e42702d"
++SRC_URI[enum-as-inner-0.3.4.sha256sum] = "570d109b813e904becc80d8d5da38376818a143348413f7149f1340fe04754d4"
++SRC_URI[enum-as-inner-0.5.1.sha256sum] = "c9720bba047d567ffc8a3cba48bf19126600e249ab7f128e9233e6376976a116"
++SRC_URI[error-chain-0.12.4.sha256sum] = "2d2f06b9cac1506ece98fe3231e3cc9c4410ec3d5b1f24ae1c8946f0742cdefc"
++SRC_URI[event-listener-2.5.2.sha256sum] = "77f3309417938f28bf8228fcff79a4a37103981e3e186d2ccd19c74b38f4eb71"
++SRC_URI[form_urlencoded-1.0.1.sha256sum] = "5fc25a87fa4fd2094bffb06925852034d90a17f0d1e05197d4956d3555752191"
++SRC_URI[futures-channel-0.3.21.sha256sum] = "c3083ce4b914124575708913bca19bfe887522d6e2e6d0952943f5eac4a74010"
++SRC_URI[futures-core-0.3.24.sha256sum] = "4e5aa3de05362c3fb88de6531e6296e85cde7739cccad4b9dfeeb7f6ebce56bf"
++SRC_URI[futures-executor-0.3.21.sha256sum] = "9420b90cfa29e327d0429f19be13e7ddb68fa1cccb09d65e5706b8c7a749b8a6"
++SRC_URI[futures-io-0.3.21.sha256sum] = "fc4045962a5a5e935ee2fdedaa4e08284547402885ab326734432bed5d12966b"
++SRC_URI[futures-macro-0.3.24.sha256sum] = "42cd15d1c7456c04dbdf7e88bcd69760d74f3a798d6444e16974b505b0e62f17"
++SRC_URI[futures-task-0.3.24.sha256sum] = "a6508c467c73851293f390476d4491cf4d227dbabcd4170f3bb6044959b294f1"
++SRC_URI[futures-util-0.3.24.sha256sum] = "44fb6cb1be61cc1d2e43b262516aafcf63b241cffdb1d3fa115f91d9c7b09c90"
++SRC_URI[getrandom-0.2.7.sha256sum] = "4eb1a864a501629691edf6c15a593b7a51eebaa1e8468e9ddc623de7c9b58ec6"
++SRC_URI[hashbrown-0.12.2.sha256sum] = "607c8a29735385251a339424dd462993c0fed8fa09d378f259377df08c126022"
++SRC_URI[heck-0.4.0.sha256sum] = "2540771e65fc8cb83cd6e8a237f70c319bd5c29f78ed1084ba5d50eeac86f7f9"
++SRC_URI[hermit-abi-0.1.19.sha256sum] = "62b467343b94ba476dcb2500d242dadbb39557df889310ac77c5d99100aaac33"
++SRC_URI[hostname-0.3.1.sha256sum] = "3c731c3e10504cc8ed35cfe2f1db4c9274c3d35fa486e3b31df46f068ef3e867"
++SRC_URI[idna-0.2.3.sha256sum] = "418a0a6fab821475f634efe3ccc45c013f742efe03d853e8d3355d5cb850ecf8"
++SRC_URI[indexmap-1.9.1.sha256sum] = "10a35a97730320ffe8e2d410b5d3b69279b98d2c14bdb8b70ea89ecf7888d41e"
++SRC_URI[ipnet-2.5.0.sha256sum] = "879d54834c8c76457ef4293a689b2a8c59b076067ad77b15efafbb05f92a592b"
++SRC_URI[itoa-1.0.2.sha256sum] = "112c678d4050afce233f4f2852bb2eb519230b3cf12f33585275537d7e41578d"
++SRC_URI[js-sys-0.3.59.sha256sum] = "258451ab10b34f8af53416d1fdab72c22e805f0c92a1136d59470ec0b11138b2"
++SRC_URI[lazy_static-1.4.0.sha256sum] = "e2abad23fbc42b3700f2f279844dc832adb2b2eb069b2df918f455c4e18cc646"
++SRC_URI[libc-0.2.133.sha256sum] = "c0f80d65747a3e43d1596c7c5492d95d5edddaabd45a7fcdb02b95f644164966"
++SRC_URI[lock_api-0.4.7.sha256sum] = "327fa5b6a6940e4699ec49a9beae1ea4845c6bab9314e4f84ac68742139d8c53"
++SRC_URI[log-0.4.17.sha256sum] = "abb12e687cfb44aa40f41fc3978ef76448f9b6038cad6aef4259d3c095a2382e"
++SRC_URI[match_cfg-0.1.0.sha256sum] = "ffbee8634e0d45d258acb448e7eaab3fce7a0a467395d4d9f228e3c1f01fb2e4"
++SRC_URI[matches-0.1.9.sha256sum] = "a3e378b66a060d48947b590737b30a1be76706c8dd7b8ba0f2fe3989c68a853f"
++SRC_URI[memchr-2.5.0.sha256sum] = "2dffe52ecf27772e601905b7522cb4ef790d2cc203488bbd0e2fe85fcb74566d"
++SRC_URI[memoffset-0.6.5.sha256sum] = "5aa361d4faea93603064a027415f07bd8e1d5c88c9fbf68bf56a285428fd79ce"
++SRC_URI[mio-0.8.4.sha256sum] = "57ee1c23c7c63b0c9250c339ffdc69255f110b298b901b9f6c82547b7b87caaf"
++SRC_URI[nibble_vec-0.1.0.sha256sum] = "77a5d83df9f36fe23f0c3648c6bbb8b0298bb5f1939c8f2704431371f4b84d43"
++SRC_URI[nix-0.25.0.sha256sum] = "e322c04a9e3440c327fca7b6c8a63e6890a32fa2ad689db972425f07e0d22abb"
++SRC_URI[num-integer-0.1.45.sha256sum] = "225d3389fb3509a24c93f5c29eb6bde2586b98d9f016636dff58d7c6f7569cd9"
++SRC_URI[num-traits-0.2.15.sha256sum] = "578ede34cf02f8924ab9447f50c28075b4d3e5b269972345e7e0372b38c6cdcd"
++SRC_URI[num_cpus-1.13.1.sha256sum] = "19e64526ebdee182341572e50e9ad03965aa510cd94427a4549448f285e957a1"
++SRC_URI[num_threads-0.1.6.sha256sum] = "2819ce041d2ee131036f4fc9d6ae7ae125a3a40e97ba64d04fe799ad9dabbb44"
++SRC_URI[once_cell-1.13.0.sha256sum] = "18a6dbe30758c9f83eb00cbea4ac95966305f5a7772f3f42ebfc7fc7eddbd8e1"
++SRC_URI[os_str_bytes-6.1.0.sha256sum] = "21326818e99cfe6ce1e524c2a805c189a99b5ae555a35d19f9a284b427d86afa"
++SRC_URI[parking_lot-0.12.1.sha256sum] = "3742b2c103b9f06bc9fff0a37ff4912935851bee6d36f3c02bcc755bcfec228f"
++SRC_URI[parking_lot_core-0.9.3.sha256sum] = "09a279cbf25cb0757810394fbc1e359949b59e348145c643a939a525692e6929"
++SRC_URI[percent-encoding-2.1.0.sha256sum] = "d4fd5641d01c8f18a23da7b6fe29298ff4b55afcccdf78973b24cf3175fee32e"
++SRC_URI[pin-project-lite-0.2.9.sha256sum] = "e0a7ae3ac2f1173085d398531c705756c94a4c56843785df85a60c1a0afac116"
++SRC_URI[pin-utils-0.1.0.sha256sum] = "8b870d8c151b6f2fb93e84a13146138f05d02ed11c7e7c54f8826aaaf7c9f184"
++SRC_URI[ppv-lite86-0.2.16.sha256sum] = "eb9f9e6e233e5c4a35559a617bf40a4ec447db2e84c20b55a6f83167b7e57872"
++SRC_URI[proc-macro-error-1.0.4.sha256sum] = "da25490ff9892aab3fcf7c36f08cfb902dd3e71ca0f9f9517bea02a73a5ce38c"
++SRC_URI[proc-macro-error-attr-1.0.4.sha256sum] = "a1be40180e52ecc98ad80b184934baf3d0d29f979574e439af5a55274b35f869"
++SRC_URI[proc-macro2-1.0.40.sha256sum] = "dd96a1e8ed2596c337f8eae5f24924ec83f5ad5ab21ea8e455d3566c69fbcaf7"
++SRC_URI[quick-error-1.2.3.sha256sum] = "a1d01941d82fa2ab50be1e79e6714289dd7cde78eba4c074bc5a4374f650dfe0"
++SRC_URI[quote-1.0.20.sha256sum] = "3bcdf212e9776fbcb2d23ab029360416bb1706b1aea2d1a5ba002727cbcab804"
++SRC_URI[radix_trie-0.2.1.sha256sum] = "c069c179fcdc6a2fe24d8d18305cf085fdbd4f922c041943e203685d6a1c58fd"
++SRC_URI[rand-0.8.5.sha256sum] = "34af8d1a0e25924bc5b7c43c079c942339d8f0a8b57c39049bef581b46327404"
++SRC_URI[rand_chacha-0.3.1.sha256sum] = "e6c10a63a0fa32252be49d21e7709d4d4baf8d231c2dbce1eaa8141b9b127d88"
++SRC_URI[rand_core-0.6.3.sha256sum] = "d34f1408f55294453790c48b2f1ebbb1c5b4b7563eb1f418bcfcfdbb06ebb4e7"
++SRC_URI[redox_syscall-0.2.13.sha256sum] = "62f25bc4c7e55e0b0b7a1d43fb893f4fa1361d0abe38b9ce4f323c2adfe6ef42"
++SRC_URI[resolv-conf-0.7.0.sha256sum] = "52e44394d2086d010551b14b53b1f24e31647570cd1deb0379e2c21b329aba00"
++SRC_URI[scopeguard-1.1.0.sha256sum] = "d29ab0c6d3fc0ee92fe66e2d99f700eab17a8d57d1c1d3b748380fb20baa78cd"
++SRC_URI[serde-1.0.139.sha256sum] = "0171ebb889e45aa68b44aee0859b3eede84c6f5f5c228e6f140c0b2a0a46cad6"
++SRC_URI[serde_derive-1.0.139.sha256sum] = "dc1d3230c1de7932af58ad8ffbe1d784bd55efd5a9d84ac24f69c72d83543dfb"
++SRC_URI[signal-hook-0.3.14.sha256sum] = "a253b5e89e2698464fc26b545c9edceb338e18a89effeeecfea192c3025be29d"
++SRC_URI[signal-hook-registry-1.4.0.sha256sum] = "e51e73328dc4ac0c7ccbda3a494dfa03df1de2f46018127f60c693f2648455b0"
++SRC_URI[slab-0.4.6.sha256sum] = "eb703cfe953bccee95685111adeedb76fabe4e97549a58d16f03ea7b9367bb32"
++SRC_URI[smallvec-1.9.0.sha256sum] = "2fd0db749597d91ff862fd1d55ea87f7855a744a8425a64695b6fca237d1dad1"
++SRC_URI[socket2-0.4.4.sha256sum] = "66d72b759436ae32898a2af0a14218dbf55efde3feeb170eb623637db85ee1e0"
++SRC_URI[strsim-0.10.0.sha256sum] = "73473c0e59e6d5812c5dfe2a064a6444949f089e20eec9a2e5506596494e4623"
++SRC_URI[syn-1.0.98.sha256sum] = "c50aef8a904de4c23c788f104b7dddc7d6f79c647c7c8ce4cc8f73eb0ca773dd"
++SRC_URI[syslog-6.0.1.sha256sum] = "978044cc68150ad5e40083c9f6a725e6fd02d7ba1bcf691ec2ff0d66c0b41acc"
++SRC_URI[termcolor-1.1.3.sha256sum] = "bab24d30b911b2376f3a13cc2cd443142f0c81dda04c118693e35b3835757755"
++SRC_URI[textwrap-0.15.1.sha256sum] = "949517c0cf1bf4ee812e2e07e08ab448e3ae0d23472aee8a06c985f0c8815b16"
++SRC_URI[thiserror-1.0.31.sha256sum] = "bd829fe32373d27f76265620b5309d0340cb8550f523c1dda251d6298069069a"
++SRC_URI[thiserror-impl-1.0.31.sha256sum] = "0396bc89e626244658bef819e22d0cc459e795a5ebe878e6ec336d1674a8d79a"
++SRC_URI[time-0.1.44.sha256sum] = "6db9e6914ab8b1ae1c260a4ae7a49b6c5611b40328a735b21862567685e73255"
++SRC_URI[time-0.3.11.sha256sum] = "72c91f41dcb2f096c05f0873d667dceec1087ce5bcf984ec8ffb19acddbb3217"
++SRC_URI[tinyvec-1.6.0.sha256sum] = "87cc5ceb3875bb20c2890005a4e226a4651264a5c75edb2421b52861a0a0cb50"
++SRC_URI[tinyvec_macros-0.1.0.sha256sum] = "cda74da7e1a664f795bb1f8a87ec406fb89a02522cf6e50620d016add6dbbf5c"
++SRC_URI[tokio-1.21.1.sha256sum] = "0020c875007ad96677dcc890298f4b942882c5d4eb7cc8f439fc3bf813dc9c95"
++SRC_URI[tokio-macros-1.8.0.sha256sum] = "9724f9a975fb987ef7a3cd9be0350edcbe130698af5b8f7a631e23d42d052484"
++SRC_URI[toml-0.5.9.sha256sum] = "8d82e1a7758622a465f8cee077614c73484dac5b836c02ff6a40d5d1010324d7"
++SRC_URI[tracing-0.1.36.sha256sum] = "2fce9567bd60a67d08a16488756721ba392f24f29006402881e43b19aac64307"
++SRC_URI[tracing-attributes-0.1.22.sha256sum] = "11c75893af559bc8e10716548bdef5cb2b983f8e637db9d0e15126b61b484ee2"
++SRC_URI[tracing-core-0.1.29.sha256sum] = "5aeea4303076558a00714b823f9ad67d58a3bbda1df83d8827d21193156e22f7"
++SRC_URI[trust-dns-client-0.20.4.sha256sum] = "5b4ef9b9bde0559b78a4abb00339143750085f05e5a453efb7b8bef1061f09dc"
++SRC_URI[trust-dns-client-0.22.0.sha256sum] = "6c408c32e6a9dbb38037cece35740f2cf23c875d8ca134d33631cec83f74d3fe"
++SRC_URI[trust-dns-proto-0.20.4.sha256sum] = "ca94d4e9feb6a181c690c4040d7a24ef34018d8313ac5044a61d21222ae24e31"
++SRC_URI[trust-dns-proto-0.22.0.sha256sum] = "4f7f83d1e4a0e4358ac54c5c3681e5d7da5efc5a7a632c90bb6d6669ddd9bc26"
++SRC_URI[trust-dns-server-0.22.0.sha256sum] = "1583cf9f8a359c9f16fdf760b79cb2be3f261b98db8027f81959c7a4f6645e2c"
++SRC_URI[unicode-bidi-0.3.8.sha256sum] = "099b7128301d285f79ddd55b9a83d5e6b9e97c92e0ea0daebee7263e932de992"
++SRC_URI[unicode-ident-1.0.1.sha256sum] = "5bd2fe26506023ed7b5e1e315add59d6f584c621d037f9368fea9cfb988f368c"
++SRC_URI[unicode-normalization-0.1.21.sha256sum] = "854cbdc4f7bc6ae19c820d44abdc3277ac3e1b2b93db20a636825d9322fb60e6"
++SRC_URI[url-2.2.2.sha256sum] = "a507c383b2d33b5fc35d1861e77e6b383d158b2da5e14fe51b83dfedf6fd578c"
++SRC_URI[version_check-0.9.4.sha256sum] = "49874b5167b65d7193b8aba1567f5c7d93d001cafc34600cee003eda787e483f"
++SRC_URI[wasi-0.10.0+wasi-snapshot-preview1.sha256sum] = "1a143597ca7c7793eff794def352d41792a93c481eb1042423ff7ff72ba2c31f"
++SRC_URI[wasi-0.11.0+wasi-snapshot-preview1.sha256sum] = "9c8d87e72b64a3b4db28d11ce29237c246188f4f51057d65a7eab63b7987e423"
++SRC_URI[wasm-bindgen-0.2.82.sha256sum] = "fc7652e3f6c4706c8d9cd54832c4a4ccb9b5336e2c3bd154d5cccfbf1c1f5f7d"
++SRC_URI[wasm-bindgen-backend-0.2.82.sha256sum] = "662cd44805586bd52971b9586b1df85cdbbd9112e4ef4d8f41559c334dc6ac3f"
++SRC_URI[wasm-bindgen-macro-0.2.82.sha256sum] = "b260f13d3012071dfb1512849c033b1925038373aea48ced3012c09df952c602"
++SRC_URI[wasm-bindgen-macro-support-0.2.82.sha256sum] = "5be8e654bdd9b79216c2929ab90721aa82faf65c48cdf08bdc4e7f51357b80da"
++SRC_URI[wasm-bindgen-shared-0.2.82.sha256sum] = "6598dd0bd3c7d51095ff6531a5b23e02acdc81804e30d8f07afb77b7215a140a"
++SRC_URI[winapi-0.3.9.sha256sum] = "5c839a674fcd7a98952e593242ea400abe93992746761e38641405d28b00f419"
++SRC_URI[winapi-i686-pc-windows-gnu-0.4.0.sha256sum] = "ac3b87c63620426dd9b991e5ce0329eff545bccbbb34f3be09ff6fb6ab51b7b6"
++SRC_URI[winapi-util-0.1.5.sha256sum] = "70ec6ce85bb158151cae5e5c87f95a8e97d2c0c4b001223f33a334e3ce5de178"
++SRC_URI[winapi-x86_64-pc-windows-gnu-0.4.0.sha256sum] = "712e227841d057c1ee1cd2fb22fa7e5a5461ae8e48fa2ca79ec42cfc1931183f"
++SRC_URI[windows-sys-0.36.1.sha256sum] = "ea04155a16a59f9eab786fe12a4a450e75cdb175f9e0d80da1e17db09f55b8d2"
++SRC_URI[windows_aarch64_msvc-0.36.1.sha256sum] = "9bb8c3fd39ade2d67e9874ac4f3db21f0d710bee00fe7cab16949ec184eeaa47"
++SRC_URI[windows_i686_gnu-0.36.1.sha256sum] = "180e6ccf01daf4c426b846dfc66db1fc518f074baa793aa7d9b9aaeffad6a3b6"
++SRC_URI[windows_i686_msvc-0.36.1.sha256sum] = "e2e7917148b2812d1eeafaeb22a97e4813dfa60a3f8f78ebe204bcc88f12f024"
++SRC_URI[windows_x86_64_gnu-0.36.1.sha256sum] = "4dcd171b8776c41b97521e5da127a2d86ad280114807d0b2ab1e462bc764d9e1"
++SRC_URI[windows_x86_64_msvc-0.36.1.sha256sum] = "c811ca4a8c853ef420abd8592ba53ddbbac90410fab6903b3e79972a631f7680"
+diff --git a/recipes-containers/aardvark-dns/aardvark-dns_1.2.0.bb b/recipes-containers/aardvark-dns/aardvark-dns_1.2.0.bb
+index ad03869..a379301 100644
+--- a/recipes-containers/aardvark-dns/aardvark-dns_1.2.0.bb
++++ b/recipes-containers/aardvark-dns/aardvark-dns_1.2.0.bb
+@@ -1,6 +1,6 @@
+ # Auto-Generated by cargo-bitbake 0.3.16
+ #
+-inherit cargo
++inherit cargo cargo-update-recipe-crates
+ 
+ # If this is git based prefer versioned ones if they exist
+ # DEFAULT_PREFERENCE = "-1"
 
