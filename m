@@ -2,68 +2,65 @@ Return-Path: <Martin.Jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55798C7EE22
-	for <webhook@archiver.kernel.org>; Wed,  3 May 2023 06:39:08 +0000 (UTC)
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
- by mx.groups.io with SMTP id smtpd.web10.12767.1683095946876510816
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5B7AC77B75
+	for <webhook@archiver.kernel.org>; Wed,  3 May 2023 09:04:58 +0000 (UTC)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.web10.14449.1683104691804707930
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 02 May 2023 23:39:07 -0700
+ Wed, 03 May 2023 02:04:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=pZNLlU8I;
- spf=pass (domain: gmail.com, ip: 209.85.218.50, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-94ed7e49541so781957766b.1
-        for <meta-virtualization@lists.yoctoproject.org>; Tue, 02 May 2023 23:39:06 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=LCBwc84o;
+ spf=pass (domain: gmail.com, ip: 209.85.221.44, mailfrom: martin.jansa@gmail.com)
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-30644c18072so189479f8f.2
+        for <meta-virtualization@lists.yoctoproject.org>; Wed, 03 May 2023 02:04:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683095945; x=1685687945;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
+        d=gmail.com; s=20221208; t=1683104690; x=1685696690;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
         bh=Y4sNfdgrT1qb9Zz1I5XNdkYABlngYsVbAYppzPa+hbE=;
-        b=pZNLlU8Il9f3ABWVgPuyAahWDGssScBIdM/0Uq5AoJWVUW5v4+j/9T0iHyajmITCCb
-         CCsOPpKm223F80MZIn2SRbq0zamU8nJVSeQkh1keJE83PjNMnnXOPmkFHpd+1QsHdb+7
-         I0ln+kKAUsQoxSpGdnvIRB8yVfhpKFfD/ZeC8s2f6w4C2cPMNwH4Da5WVgkvQgdG6WMR
-         az88kfIog5QvyO0uVSE3DYzTLB1+VCW7K2Fj50ZkgznpDwiOSMmeUdC5Gn0Qus675rDf
-         0YPyDC4rF2jRx4WrtHHpiBPzm1aetF8xhdYd2tiYgyeI63DmttOV+AeZncGDqivMASn6
-         RClA==
+        b=LCBwc84oZMJhrmM8FD7BPzS8gCX6ZuvoppBnQct/4sQrh3405r6bwajItrSdU9K6Mi
+         hs6xv/n4T1nEANJ8Dy2k8JpTSHeOTp0H5HbOVVVXkOB6S8x70n6L5v2LZM2bLOkMAd5V
+         WoUQFSzqHzjbxmvL1YxB2bG6+nwG3jgjKfrNCUlBIXItqFkA0FPX8ZCmbU+XVYM/OiTg
+         LuESfe+AHKXnLjYUFVd+Omgzmy4YbqeHzjB6nobAvgMZVIHex/cwUZ8PgevXN9IFOiei
+         cUZWMtasLH+B10yRCfc04nUgpXpG+1k0FxboULWA8U8+YCjO+16m2ibhzaGid7YEIaSF
+         AF/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683095945; x=1685687945;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
+        d=1e100.net; s=20221208; t=1683104690; x=1685696690;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
         bh=Y4sNfdgrT1qb9Zz1I5XNdkYABlngYsVbAYppzPa+hbE=;
-        b=Mx8tFegBFzutByn2EqtOafx2cwXDDEkzt1QjFlKNnY2iRjKfs3VZ5EVAX80PGV7DY9
-         cwtCrFn7DxN462eJyUCZCeRz/fzp+VO3XYA9qefXoicEKjjBXDLnS7rtF51HPgyJXvzs
-         s3KesqvlQX9X3KuDWeRgLUhsfxWZq8HBaFOigNT9fb+zu15cRabnb7nRcJhafCq1x6sA
-         mUSWYegMVymfpqWjcUqywDX182vbqz7172kk1ljjchFSjOs0FuQySR3toBQsmILhQs9D
-         9CJt1UpeQ4GJHPzeE1ioFne39k8iVNQQecEwO8SdPMAYlBskp0wuTQpg0OS2No7CHC+9
-         GHLw==
-X-Gm-Message-State: AC+VfDxZaF4tqigB6loSjtqdbrUfsLbPcJ6o4hjnpXF5/QGdANWZbvTv
-	s7AwijW2a3pg1jA53cb71yNXCAw/2Dc=
-X-Google-Smtp-Source: ACHHUZ4ydNEEiPq5Rqdqevi0AroYfhxlELjnqC9MULMJn1I02AprI2V425QetBkwZdru0odv8muJkg==
-X-Received: by 2002:a17:906:99c2:b0:961:be96:b0e4 with SMTP id s2-20020a17090699c200b00961be96b0e4mr2479919ejn.13.1683095944869;
-        Tue, 02 May 2023 23:39:04 -0700 (PDT)
+        b=MMLzdSz5IjDvKExKhnghbuoEXtrYuw0Qin4//kNXSkHgh3i1xQzrZtVJnNHvEQ5Yuv
+         mRlaKEdd3lH2gPKEXcfeRBiq3Gg9T6nnxQAL6mOtOARXXo54zB4PJWGI+2a771KSFo8o
+         w+/qz4pErP+TS6F+njAhiGOaS58O98x5MXaUsmLI26cBFmFKEj4oUpYlUWqlIsWOSkge
+         6ikTDEWRBNgAmFZOSsBNDUHxEX6lOo4shv/sPjawmYF13HlrvbgwXnY5lDKunYD95OGR
+         UJZdZYrC2+aVETuvDd8NapFAbYt+onNg0AYAipkmAexVYmtCTVRRsxNpYrs+6VHlMjAh
+         viMA==
+X-Gm-Message-State: AC+VfDyJylYY0whtM227FeY6eWWKGYpQrawH7PcJ1Pw9BOMweY4fVGQq
+	v4VqBk2LKjSqL5cPhcaXhTWgSCqlnUA=
+X-Google-Smtp-Source: ACHHUZ6F8MWwDevQiLUexw8lXjvcysXDwPFqSYOiyp7zSXujj4VjlxRq4a0vRgkC4oL/sdBcUfm0UA==
+X-Received: by 2002:adf:ef8f:0:b0:2f8:e190:e719 with SMTP id d15-20020adfef8f000000b002f8e190e719mr14963140wro.65.1683104689952;
+        Wed, 03 May 2023 02:04:49 -0700 (PDT)
 Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id kw15-20020a170907770f00b0094f8ff0d899sm16596410ejc.45.2023.05.02.23.39.04
+        by smtp.gmail.com with ESMTPSA id z18-20020adfd0d2000000b002fae7408544sm32947482wrh.108.2023.05.03.02.04.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 May 2023 23:39:04 -0700 (PDT)
+        Wed, 03 May 2023 02:04:49 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: meta-virtualization@lists.yoctoproject.org
 Cc: Martin Jansa <Martin.Jansa@gmail.com>
-Subject: [PATCH 2/2] ceph: fix build with gcc-13
-Date: Wed,  3 May 2023 08:38:57 +0200
-Message-Id: <20230503063857.731912-2-Martin.Jansa@gmail.com>
+Subject: [PATCH] ceph: fix build with gcc-13
+Date: Wed,  3 May 2023 11:04:46 +0200
+Message-Id: <20230503090446.1149806-1-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230503063857.731912-1-Martin.Jansa@gmail.com>
-References: <20230503063857.731912-1-Martin.Jansa@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Wed, 03 May 2023 06:39:08 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8040
+ <meta-virtualization@lists.yoctoproject.org>; Wed, 03 May 2023 09:04:58 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8041
 
 * this isn't complete fix as there are still issues from new boost as in:
   https://github.com/boostorg/phoenix/issues/111
