@@ -1,364 +1,162 @@
-Return-Path: <Martin.Jansa@gmail.com>
+Return-Path: <Qi.Chen@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DDC47C77B7C
-	for <webhook@archiver.kernel.org>; Thu,  4 May 2023 13:19:26 +0000 (UTC)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web11.49284.1683206361745057525
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87D9CC77B7C
+	for <webhook@archiver.kernel.org>; Fri,  5 May 2023 02:28:31 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.18235.1683253702106178442
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 04 May 2023 06:19:22 -0700
+ Thu, 04 May 2023 19:28:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=l29HM8qL;
- spf=pass (domain: gmail.com, ip: 209.85.221.48, mailfrom: martin.jansa@gmail.com)
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-30771c68a9eso43624f8f.2
-        for <meta-virtualization@lists.yoctoproject.org>; Thu, 04 May 2023 06:19:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683206360; x=1685798360;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=xTJ5+3in3bPX2zxHu7Nq6Kf0WeMp1q/jONa3x15+9oE=;
-        b=l29HM8qLVpgSjEqtWMfuweJPtEu7zKUim9fG7FWvQ4/1+DPLJ5c38fY/7c0xYM1CvJ
-         UItKeF8nPhk77M61BE7YbiQlxB32wDzAX0MMe2I31cVm0q2aFR9lMxpaqxD+m9yaKuj9
-         Pt9wvftlGPlS2pLzO6Z6AutaIHFKGBkJB37W6AH4PL7zTFneukrHkv4TFxKLoBZkUfZf
-         uoM39+Ue1USrHFbvW3kTFVKCoeugbGGl8zwUoMdZCuKr5ifzhgGxpAOVlX2SvQBlCgke
-         /Fa+5E5aHWCAtYNzxh5g17gtmhvdGVMJ2DLZos7qOdhcLBipiiVp3r8doWN45dXlqDr/
-         6bzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683206360; x=1685798360;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=xTJ5+3in3bPX2zxHu7Nq6Kf0WeMp1q/jONa3x15+9oE=;
-        b=F0WImKG1t58QNSPOZAgqBNJf7OqPJVA9HEWdYRii7x9q+oVJ3KUipQb2OSWGGs7clF
-         0UI2uSeZmamiu+luhOZKtTav+nWzHY0gn+dOP28VNPdxf9p8xs8YxaKNXNYAmYg8+21L
-         48Y7JM7g7FGF4BBzXi2QAWhjqmsOStrT0j6/74Ww/fk66vww/CbvL9imcqQLPdoSAR67
-         FfCgmGem1H2Xxs8TVJ3kd0I+zWaFL4eurH3Q0ITk2TXXN5ikpmdtVLg1ebPSwm7+/n3c
-         pnmceC0HkPi9RJf3N09aC3zzg7updAE0KSXxrVZRoG5iCOsK7IdcjV3STMjjOQVR8I6+
-         cMiw==
-X-Gm-Message-State: AC+VfDycO3QcsuYz6q59HZSz0IORx65avonwdCAJ8WXib/5peqiY5Mhn
-	vArZnkZg56H41XPGPPRUAg+fS4zhma7lJsuDeNM=
-X-Google-Smtp-Source: ACHHUZ4ZAKSAytrS3J7vhjhAhaP98iSopa1pCog1tWZvIke9vjGgkpCrdSLbe28ulw4CGKaVXxyD4Ij/uCvlVJ1+lVE=
-X-Received: by 2002:a5d:4a85:0:b0:2ef:bc0b:e70 with SMTP id
- o5-20020a5d4a85000000b002efbc0b0e70mr2830478wrq.54.1683206359976; Thu, 04 May
- 2023 06:19:19 -0700 (PDT)
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=nGVYMq3/;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=4489daff9e=qi.chen@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3452SLLd018577
+	for <meta-virtualization@lists.yoctoproject.org>; Thu, 4 May 2023 19:28:21 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to :
+ subject : date : message-id : content-transfer-encoding : content-type :
+ mime-version; s=PPS06212021;
+ bh=2vu7+/RTshz6fCgNOdGYfb7Viqp4sssInoKH9xh75cs=;
+ b=nGVYMq3/akWr8COY/hJEmRQDln78fje0jZTA0j0LJSZvyZ61lrJ7wPKjV+WL2Y3CHl2w
+ l0v70WAnD2x69ZmYEE6Mmaf6n1rwvS/NqrE3NFMrDRSCXSbSotQWU7u+WFpg303wXjKo
+ KNz1WsOJtYRMpAOS0PRJobBUZBLAnrD3+oPCNjrPSXIhgu6EflY+zyNC4GAdFBh6fZkP
+ Y4laMhwHKKscG4AtAk+8ddvBWThCRIjxcS/f6fI4KiHS9KhUzt0T+GcHMeKpKNrLvzcs
+ hyoL5ZPWJkYwlK3XbsA3xCj/9tAzRmKjAuNdUjsXFs/AXn/aOaieBLhwW2ApkiNL7eIN eA== 
+Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11lp2176.outbound.protection.outlook.com [104.47.56.176])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3q8xh5n9dc-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <meta-virtualization@lists.yoctoproject.org>; Thu, 04 May 2023 19:28:21 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ogKFPkz9WKqLY55RCGJ8UQKq7S/yGqu/1k79bAjqQYI20pfkqNP9HR4gGIDU6RJ4icgkmwjC+XaZJ/a2yJhIuEg9bGb3uIxXX4okOQ2ivATBib92pQmA687wSNpjmc4iAnZa+XjKMkguzxJCqOB7+oh6OZhFGaOCY4YsCyLCcpJ0lKHqLk0J9yvrg/bQjjm3YnucPBImMKiW1/yKrw56aXad+3xFGih+v65/jDaE7uRRBzqM6z5KftaEAhV3v5NVLX9V8bPnBD8YjDO2AHblHDfwctUfcTGCNCme0X31I/FYBowlH/4TrMcRTdI4RoZnHtlbkqD/h3qjmu1fjK+3cw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2vu7+/RTshz6fCgNOdGYfb7Viqp4sssInoKH9xh75cs=;
+ b=hfA/M8R7cnYZC1xetyLNtfOMMxCyr9RdT9GkkUQ8w5xKtVK0pa3lF8Wo8bdIaWoAhtDtjBvFwuQKwStX8yn4HMex4qxPYiLs9MSHDe5FNZfbe2fd+nZTCympr0UYtj51d97wipPZmFoFP1UFuh5r/5pk7IhUjT6yHK7eebo4YM4sVFa+QfH78ZFaxF6woHaNyJ9FP9Yu8vI5L40o54c7pQO3maYDyN9L3Moh+nGcuBroYHeIsQzEAXBlmEu0Vbaa0BiclSBBGd1/N2B6sjzAJO3/LGnHuMUcj1M6KgLiZFlpqICiBB0aIGdSfbcixeS22d0GpdhyUIlhvXdA7s4qAQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
+ by DS0PR11MB8069.namprd11.prod.outlook.com (2603:10b6:8:12c::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6363.26; Fri, 5 May
+ 2023 02:28:17 +0000
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::fa8:8cc5:a5da:7e07]) by CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::fa8:8cc5:a5da:7e07%5]) with mapi id 15.20.6363.027; Fri, 5 May 2023
+ 02:28:17 +0000
+From: Qi.Chen@windriver.com
+To: meta-virtualization@lists.yoctoproject.org
+Subject: [meta-virtualization][PATCH] libvirt: fix package QA error
+Date: Thu,  4 May 2023 19:28:01 -0700
+Message-Id: <20230505022801.3072200-1-Qi.Chen@windriver.com>
+X-Mailer: git-send-email 2.40.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SJ0PR03CA0143.namprd03.prod.outlook.com
+ (2603:10b6:a03:33c::28) To CO6PR11MB5602.namprd11.prod.outlook.com
+ (2603:10b6:303:13a::5)
 MIME-Version: 1.0
-References: <20230504072905.1065116-1-Martin.Jansa@gmail.com> <CADkTA4OHOjCefJpxcGYVkKGC8zgR60fNcfq_XTfuqdBmhHkhVw@mail.gmail.com>
-In-Reply-To: <CADkTA4OHOjCefJpxcGYVkKGC8zgR60fNcfq_XTfuqdBmhHkhVw@mail.gmail.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Thu, 4 May 2023 15:19:06 +0200
-Message-ID: <CA+chaQc=u++P8enLdGGcC4X93GLkOZWjMbrM9ft2c1F58Wg7BA@mail.gmail.com>
-Subject: Re: [meta-virtualization] [PATCH] k3s, kubernetes, nagios-nrpe: fix
- Upstream-Status formatting
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: meta-virtualization@lists.yoctoproject.org
-Content-Type: multipart/alternative; boundary="0000000000002b8e3305fade0532"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO6PR11MB5602:EE_|DS0PR11MB8069:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6e4c63d7-0f53-4877-6ec4-08db4d106262
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	q3nqeZ+vu2MrA7TWHS9yT+2uhZNkyiDuP9Edj25gA3BokVNeWNylfi6wBRqpzeWlJUX4qsmiZnNyFt77/4GPsuaGfF63JaFwVA7LJ9zIHDdVBeSpRvrOMuqCgFzAPrxXKtbUxuxWyPG/QxGmh/WDaYacNFgpy07YEqleTnkdeEcvmBzsu2FwJj6H0qOo1EOzp1q1lBn5HWX2UaCbXhlDCV14DAlWiKnbOz6vMjhO7LBCw3zCGsmWX7yBs7PJW4+65aUWav5VbhNoJ20Ddrvplf+0R3GT52xf1+3CWSAY33EgmGmihF2Nyg4WA9Sdf9MWblcdgSLVDSEoM/iO1mODNShzU+yv1ZjC15Atcz0Mc9ANuZSOYRUlIHEqJXtiLcEZZIlR3+IckTaTGLndknoknG6DTKFVcUSucMnISfCJDsZfs1bqtP3/gdx8kLmv/DjhIyh2NbneouH8xzM6DR7lG1AKC0luXfY9VsTLpFS9qqF1RRWVCdq98fVh6BSn4r6f2rkDdJD+Zoham7EinWvwIRZOhMv0ynYtKaqXpXyzhW1VCYTI9rCCKBV6OhK5Yc2TbJS+/I8gYt5/WhZaH9N0+mfUK+RjUtaMh+MsICo8Q8bfYwLmAvaGpMKcQydQUxMb
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(39850400004)(346002)(366004)(376002)(136003)(396003)(451199021)(66946007)(66556008)(6916009)(6486002)(6666004)(52116002)(66476007)(316002)(86362001)(36756003)(478600001)(83380400001)(2616005)(1076003)(9686003)(6506007)(6512007)(26005)(8936002)(5660300002)(8676002)(2906002)(41300700001)(38100700002)(38350700002)(186003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?Fm0st/w+66AoJ1LLciw8nGAY1YB0R3Qr0YHaHPzVzesNQHR83j05Vs8FdKNO?=
+ =?us-ascii?Q?SbjBKNsp1e5lLl/iybqPmzU6KyQ8ShptmvsaMivS/cwAKSGJXQkpxniydmYW?=
+ =?us-ascii?Q?Gbq1fUg9IM+1kA17p5N+yDlaKXc288qVULb0xlk0Eg4iTNrklpiqmeAj6TR4?=
+ =?us-ascii?Q?ZsRPo8woVpR1zL0Sd29GKwaJwrxv00ETzwc2QpF3J+xX9zKbe5ebO4qypxE/?=
+ =?us-ascii?Q?Hj/UEcptaRxAhN0pHlrbX6zHQYkgM8YieJb0GMGj5IyTug+p6ZEO1YQNgmx8?=
+ =?us-ascii?Q?x8VqTw/M9x8u6l4MUoP9Qyyi/XCDirLMEHN5Sm82SO1bPD8n/LgT6Fz9TGAH?=
+ =?us-ascii?Q?j+4lUYH5MvuudCEDag3nv+NvbxmSmjH2hcux7Yden4HwdofYvk4L3p1XdFts?=
+ =?us-ascii?Q?GjkiEi88lb2rTteh39TquwyvlQVsRStQgZMzgq6RCKi5BycmQyOy/bY/kug/?=
+ =?us-ascii?Q?R9GBflS8A3aRzBUQ5zz3uMKlhx90DbC/wjS3jwvZw8qoGmSWkGmdRB8A0sa1?=
+ =?us-ascii?Q?jR8EyMBki4XG9tHheKA33ZoCu4LzTK5JXyognGeu9AkszGvDprsQwwRuRRiQ?=
+ =?us-ascii?Q?0fyl+cZzKI9KCBe+DAeqWeyzDpf9zZYjZ+ShVXXRVdK4d5GTDMBYQqqVTNW0?=
+ =?us-ascii?Q?hLI0f/MacL0GEuq748lHncysrscZIy1PpWNT7mfLVpVFka57jqIHD3RCBZm4?=
+ =?us-ascii?Q?7gX9X+Mv3kfZaUd0scJH9sd/Sr3NylfI51hI4gxqHktsxqDH5f8VOOUvTat7?=
+ =?us-ascii?Q?jk+pa8iH92k4tM0+eTHKJ7lBdcQYzTTGYQa/6gZivMpEUIDpS6+IaS7TWRmo?=
+ =?us-ascii?Q?n9Lnpuw4lam0GgYQLRrU2RJS/C11EVi7PcxYeYonfobySQ2xAnI1VSCqbO37?=
+ =?us-ascii?Q?gRWio52syBm/iELKYMjX8SPKmGH5Ek+bjCjGVNB3octOUpRoHOD1kH9lyl0F?=
+ =?us-ascii?Q?u+E6sgvQfaQZ3mBoQctRylrEziL8+LsKu8t3a1X9isWOBur8HWUF970RIq7k?=
+ =?us-ascii?Q?O/Mo0MPW7ecRHWwVvTHdceJ4dNz0CRUEHdSxV4EnIXPE5nLFChccl91HTckO?=
+ =?us-ascii?Q?C9/VRQl8ocGHDBkm2xpoyI2jYdnlgRTaDRNwnSR+LE27FoP9te0uyc6i/4mg?=
+ =?us-ascii?Q?m/S+2LEHc6PYeE694jU2F/kycjp0Evwfj6skYqLw7knNnNdJUSluCrLN+d6s?=
+ =?us-ascii?Q?ZUbmBP711iKqsJ5WOqGQjlKz3S87uds2xKyEgHkmurB16IQKWvDDUY1+Vw9h?=
+ =?us-ascii?Q?WDFpIXMjqTSMaxjjReddAsBnpDUUCn2pdhvVQ+Awsa9L216m1v8IfnxufJiq?=
+ =?us-ascii?Q?NWQygxAfbSMSP6Tjy5cBIPUsWiE7T8DgfioXjn5ai0hmweDfuCjAHid75ZjG?=
+ =?us-ascii?Q?DF75MbOI8diyQRQKz/LQOHE5r/9vHZSv2fKZzejT6qhLBWTBlyA6/vTrUw4D?=
+ =?us-ascii?Q?ienaO855xyBZzVX9F2OVJIrWVh4EdGTotxvQl1nhZVs90XxrhWNtDkycDcDa?=
+ =?us-ascii?Q?2zzyNV25SXxjWvzWCbPiETgzKiOOul3pe9nYmZArFtgzRdJtbvGOl4Q8BQTu?=
+ =?us-ascii?Q?gCUuGC0Yn55nIpZ5Qe0NFjzGYfd0r7Wr49Wb6+R7?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6e4c63d7-0f53-4877-6ec4-08db4d106262
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 May 2023 02:28:17.2692
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: /rm04I7AyysDobv2OSBQrSYaF46KSqRxYnTK9eKke/jIyk5SWjGK6Mt2uXi1dQnr9Tocytnh8ayygETC+pz4Ow==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB8069
+X-Proofpoint-ORIG-GUID: BPdMhlJJbv5HbB48nW72RphbgIaHkeRV
+X-Proofpoint-GUID: BPdMhlJJbv5HbB48nW72RphbgIaHkeRV
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-05-04_15,2023-05-04_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
+ lowpriorityscore=0 spamscore=0 clxscore=1015 suspectscore=0 mlxscore=0
+ phishscore=0 priorityscore=1501 mlxlogscore=660 adultscore=0 bulkscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2305050020
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Thu, 04 May 2023 13:19:26 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8045
+ <meta-virtualization@lists.yoctoproject.org>; Fri, 05 May 2023 02:28:31 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8046
 
---0000000000002b8e3305fade0532
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Chen Qi <Qi.Chen@windriver.com>
 
-On Thu, May 4, 2023 at 2:54=E2=80=AFPM Bruce Ashfield <bruce.ashfield@gmail=
-.com>
-wrote:
+When multilib is enabled we can see the following package QA error.
 
-> For my next presenter's gift, I want a regex that doesn't nitpick us
-> on capitals and dashes ;)
->
+  QA Issue: Files/directories were installed but not shipped in any package:
+    /usr/lib/firewalld/policies
+    /usr/lib/firewalld/zones/libvirt-routed.xml
+    /usr/lib/firewalld/policies/libvirt-to-host.xml
+    /usr/lib/firewalld/policies/libvirt-routed-out.xml
+    /usr/lib/firewalld/policies/libvirt-routed-in.xml
 
-I agree, but now when 99.9% of Upstream-Status have the right formatting
-and there is a QA check to keep or improve the percentage, it might be a
-step back to loosen the regexp.
+These files are now packaged into libvirt-python in case multilib is
+not enabled. This is also not correct.
 
-Funny that I'm not seeing this, I haven't inhibited the check completely
-> yet.
->
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ recipes-extended/libvirt/libvirt_9.2.0.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I've noticed because I was building kubernetes trying to figure out why in
-some builds it fails with:
-ERROR: QA Issue: File /usr/bin/kubelet in package lib32-kubelet doesn't
-have GNU_HASH (didn't pass LDFLAGS?) [ldflags]
-while in some other builds this isn't triggered.
+diff --git a/recipes-extended/libvirt/libvirt_9.2.0.bb b/recipes-extended/libvirt/libvirt_9.2.0.bb
+index 98f0941..5e70470 100644
+--- a/recipes-extended/libvirt/libvirt_9.2.0.bb
++++ b/recipes-extended/libvirt/libvirt_9.2.0.bb
+@@ -82,7 +82,7 @@ FILES:${PN} += "${libdir}/libvirt/connection-driver \
+ 	    ${@bb.utils.contains('PACKAGECONFIG', 'polkit', '${datadir}/polkit-1', '', d)} \
+ 	    ${datadir}/bash-completion/completions/vsh \
+ 	    ${datadir}/bash-completion/completions/virt-admin \
+-	    /usr/lib/firewalld/zones/libvirt.xml \
++	    /usr/lib/firewalld/ \
+ 	    "
+ 
+ FILES:${PN}-dbg += "${libdir}/libvirt/connection-driver/.debug ${libdir}/libvirt/lock-driver/.debug"
+-- 
+2.40.0
 
-Then I've noticed that since
-'make generated_files GO=3D"go"
-KUBE_BUILD_PLATFORMS=3D"${HOST_GOOS}/${BUILD_GOARCH}"' was commented out in=
-:
-https://git.yoctoproject.org/meta-virtualization/commit/?id=3D8fcd81741740b=
-d4702db999923160155f26e1f25
-a lot of *FLAGS* assignments in do_compile are now unnecessary as the later
-just overwrites the BUILD_* values set before, but that doesn't seem to be
-the root cause for missing GNU_HASH.
-
-At this point I admit that I've blacklisted kubernetes in my DISTRO as I
-don't normally build it and it was just showing up as failure in my bitbake
-world builds (similarly as ceph and other fixes I've sent earlier).
-
-And I do have patch-status-noncore in WARN_QA, but after noticing this,
-I've used patchreview script from oe-core to quickly check all .patch files
-in meta-virtualization - with small tweak from:
-https://patchwork.yoctoproject.org/project/oe-core/patch/20230215172041.636=
-292-3-Martin.Jansa@gmail.com/
-to make it as strict as insane.bbclass QA check is.
-
-Cheers,
-
-But my jest / complaint notwithstanding, thanks for the patch, I'll
-> queue it shortly.
->
-> Bruce
->
-> On Thu, May 4, 2023 at 3:29=E2=80=AFAM Martin Jansa <Martin.Jansa@gmail.c=
-om>
-> wrote:
-> >
-> > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> > ---
-> >  .../k3s/k3s/0001-Finding-host-local-in-usr-libexec.patch        | 2 +-
-> >  .../0001-hack-lib-golang.sh-use-CC-from-environment.patch       | 2 +-
-> >  ...1-Should-fix-235-nasty_metachars-was-not-being-returne.patch | 2 +-
-> >  3 files changed, 3 insertions(+), 3 deletions(-)
-> >
-> > diff --git
-> a/recipes-containers/k3s/k3s/0001-Finding-host-local-in-usr-libexec.patch
-> b/recipes-containers/k3s/k3s/0001-Finding-host-local-in-usr-libexec.patch
-> > index 524ac2c..12f9941 100644
-> > ---
-> a/recipes-containers/k3s/k3s/0001-Finding-host-local-in-usr-libexec.patch
-> > +++
-> b/recipes-containers/k3s/k3s/0001-Finding-host-local-in-usr-libexec.patch
-> > @@ -3,7 +3,7 @@ From: Erik Jansson <erikja@axis.com>
-> >  Date: Wed, 16 Oct 2019 15:07:48 +0200
-> >  Subject: [PATCH] Finding host-local in /usr/libexec
-> >
-> > -Upstream-status: Inappropriate [embedded specific]
-> > +Upstream-Status: Inappropriate [embedded specific]
-> >  Signed-off-by: <erikja@axis.com>
-> >  ---
-> >   pkg/agent/config/config.go | 2 +-
-> > diff --git
-> a/recipes-containers/kubernetes/kubernetes/0001-hack-lib-golang.sh-use-CC=
--from-environment.patch
-> b/recipes-containers/kubernetes/kubernetes/0001-hack-lib-golang.sh-use-CC=
--from-environment.patch
-> > index c81bd1a..15e8ffa 100644
-> > ---
-> a/recipes-containers/kubernetes/kubernetes/0001-hack-lib-golang.sh-use-CC=
--from-environment.patch
-> > +++
-> b/recipes-containers/kubernetes/kubernetes/0001-hack-lib-golang.sh-use-CC=
--from-environment.patch
-> > @@ -5,7 +5,7 @@ Subject: [PATCH 1/2] hack/lib/golang.sh: use CC from
-> environment
-> >
-> >  Toolchain tupples differs, especially when using vendor provides ones.
-> >
-> > -Upstream-status: Inappropriate [embedded specific]
-> > +Upstream-Status: Inappropriate [embedded specific]
-> >  Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
-> >  ---
-> >   hack/lib/golang.sh | 5 -----
-> > diff --git
-> a/recipes-extended/nagios/nagios-nrpe/0001-Should-fix-235-nasty_metachars=
--was-not-being-returne.patch
-> b/recipes-extended/nagios/nagios-nrpe/0001-Should-fix-235-nasty_metachars=
--was-not-being-returne.patch
-> > index 7a12e73..fb34c5c 100644
-> > ---
-> a/recipes-extended/nagios/nagios-nrpe/0001-Should-fix-235-nasty_metachars=
--was-not-being-returne.patch
-> > +++
-> b/recipes-extended/nagios/nagios-nrpe/0001-Should-fix-235-nasty_metachars=
--was-not-being-returne.patch
-> > @@ -5,7 +5,7 @@ Subject: [PATCH] Should fix #235 (nasty_metachars was
-> not being returned when
-> >   specified in cfg file
-> >
-> >  CVE: CVE-2020-6581
-> > -Upstream Status: Backport [4f7dd1199f1f3f72f9197e8565da339a4a2490b7]
-> > +Upstream-Status: Backport [4f7dd1199f1f3f72f9197e8565da339a4a2490b7]
-> >
-> >  Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
-> >  ---
-> > --
-> > 2.40.1
-> >
-> >
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#8043):
-> https://lists.yoctoproject.org/g/meta-virtualization/message/8043
-> > Mute This Topic: https://lists.yoctoproject.org/mt/98679455/1050810
-> > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> > Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub
-> [bruce.ashfield@gmail.com]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >
->
->
-> --
-> - Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at its end
-> - "Use the force Harry" - Gandalf, Star Trek II
->
-
---0000000000002b8e3305fade0532
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">On Thu, May 4, 2023 at 2:54=E2=80=AFPM Br=
-uce Ashfield &lt;<a href=3D"mailto:bruce.ashfield@gmail.com">bruce.ashfield=
-@gmail.com</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote c=
-lass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px soli=
-d rgb(204,204,204);padding-left:1ex">For my next presenter&#39;s gift, I wa=
-nt a regex that doesn&#39;t nitpick us<br>
-on capitals and dashes ;)<br></blockquote><div><br></div><div>I agree, but =
-now when 99.9% of Upstream-Status have the right formatting and there is a =
-QA check to keep or improve the percentage, it might be a step back to loos=
-en the regexp.</div><div><br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">
-Funny that I&#39;m not seeing this, I haven&#39;t inhibited the check compl=
-etely yet.<br></blockquote><div><br></div><div>I&#39;ve noticed because I w=
-as building=C2=A0kubernetes trying to figure out why in some builds it fail=
-s with:</div><div>ERROR: QA Issue: File /usr/bin/kubelet in package lib32-k=
-ubelet doesn&#39;t have GNU_HASH (didn&#39;t pass LDFLAGS?) [ldflags]<br></=
-div><div>while in some other builds this isn&#39;t triggered.</div><div><br=
-></div><div>Then I&#39;ve noticed that since</div><div>&#39;make generated_=
-files GO=3D&quot;go&quot; KUBE_BUILD_PLATFORMS=3D&quot;${HOST_GOOS}/${BUILD=
-_GOARCH}&quot;&#39; was commented out in:</div><div><a href=3D"https://git.=
-yoctoproject.org/meta-virtualization/commit/?id=3D8fcd81741740bd4702db99992=
-3160155f26e1f25">https://git.yoctoproject.org/meta-virtualization/commit/?i=
-d=3D8fcd81741740bd4702db999923160155f26e1f25</a><br></div><div>a lot of *FL=
-AGS* assignments in=C2=A0do_compile are now unnecessary as the later just o=
-verwrites the BUILD_* values set before, but that doesn&#39;t seem to be th=
-e root cause for missing=C2=A0GNU_HASH.<br></div><div><br></div><div>At thi=
-s point I admit that I&#39;ve blacklisted kubernetes in my DISTRO as I don&=
-#39;t normally build it and it was just showing up as failure in my bitbake=
- world builds (similarly as ceph and other fixes I&#39;ve sent earlier).</d=
-iv><div><br></div><div>And I do have=C2=A0patch-status-noncore in WARN_QA, =
-but after noticing this, I&#39;ve used patchreview script from oe-core to q=
-uickly check all .patch files in meta-virtualization - with small tweak fro=
-m:</div><div><a href=3D"https://patchwork.yoctoproject.org/project/oe-core/=
-patch/20230215172041.636292-3-Martin.Jansa@gmail.com/">https://patchwork.yo=
-ctoproject.org/project/oe-core/patch/20230215172041.636292-3-Martin.Jansa@g=
-mail.com/</a><br></div><div>to make it as strict as insane.bbclass QA check=
- is.</div><div><br></div><div>Cheers,</div><div><br></div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex">
-But my jest / complaint notwithstanding, thanks for the patch, I&#39;ll<br>
-queue it shortly.<br>
-<br>
-Bruce<br>
-<br>
-On Thu, May 4, 2023 at 3:29=E2=80=AFAM Martin Jansa &lt;<a href=3D"mailto:M=
-artin.Jansa@gmail.com" target=3D"_blank">Martin.Jansa@gmail.com</a>&gt; wro=
-te:<br>
-&gt;<br>
-&gt; Signed-off-by: Martin Jansa &lt;<a href=3D"mailto:Martin.Jansa@gmail.c=
-om" target=3D"_blank">Martin.Jansa@gmail.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 .../k3s/k3s/0001-Finding-host-local-in-usr-libexec.patch=C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 | 2 +-<br>
-&gt;=C2=A0 .../0001-hack-lib-golang.sh-use-CC-from-environment.patch=C2=A0 =
-=C2=A0 =C2=A0 =C2=A0| 2 +-<br>
-&gt;=C2=A0 ...1-Should-fix-235-nasty_metachars-was-not-being-returne.patch =
-| 2 +-<br>
-&gt;=C2=A0 3 files changed, 3 insertions(+), 3 deletions(-)<br>
-&gt;<br>
-&gt; diff --git a/recipes-containers/k3s/k3s/0001-Finding-host-local-in-usr=
--libexec.patch b/recipes-containers/k3s/k3s/0001-Finding-host-local-in-usr-=
-libexec.patch<br>
-&gt; index 524ac2c..12f9941 100644<br>
-&gt; --- a/recipes-containers/k3s/k3s/0001-Finding-host-local-in-usr-libexe=
-c.patch<br>
-&gt; +++ b/recipes-containers/k3s/k3s/0001-Finding-host-local-in-usr-libexe=
-c.patch<br>
-&gt; @@ -3,7 +3,7 @@ From: Erik Jansson &lt;<a href=3D"mailto:erikja@axis.c=
-om" target=3D"_blank">erikja@axis.com</a>&gt;<br>
-&gt;=C2=A0 Date: Wed, 16 Oct 2019 15:07:48 +0200<br>
-&gt;=C2=A0 Subject: [PATCH] Finding host-local in /usr/libexec<br>
-&gt;<br>
-&gt; -Upstream-status: Inappropriate [embedded specific]<br>
-&gt; +Upstream-Status: Inappropriate [embedded specific]<br>
-&gt;=C2=A0 Signed-off-by: &lt;<a href=3D"mailto:erikja@axis.com" target=3D"=
-_blank">erikja@axis.com</a>&gt;<br>
-&gt;=C2=A0 ---<br>
-&gt;=C2=A0 =C2=A0pkg/agent/config/config.go | 2 +-<br>
-&gt; diff --git a/recipes-containers/kubernetes/kubernetes/0001-hack-lib-go=
-lang.sh-use-CC-from-environment.patch b/recipes-containers/kubernetes/kuber=
-netes/0001-hack-lib-golang.sh-use-CC-from-environment.patch<br>
-&gt; index c81bd1a..15e8ffa 100644<br>
-&gt; --- a/recipes-containers/kubernetes/kubernetes/0001-hack-lib-golang.sh=
--use-CC-from-environment.patch<br>
-&gt; +++ b/recipes-containers/kubernetes/kubernetes/0001-hack-lib-golang.sh=
--use-CC-from-environment.patch<br>
-&gt; @@ -5,7 +5,7 @@ Subject: [PATCH 1/2] hack/lib/golang.sh: use CC from e=
-nvironment<br>
-&gt;<br>
-&gt;=C2=A0 Toolchain tupples differs, especially when using vendor provides=
- ones.<br>
-&gt;<br>
-&gt; -Upstream-status: Inappropriate [embedded specific]<br>
-&gt; +Upstream-Status: Inappropriate [embedded specific]<br>
-&gt;=C2=A0 Signed-off-by: Koen Kooi &lt;<a href=3D"mailto:koen.kooi@linaro.=
-org" target=3D"_blank">koen.kooi@linaro.org</a>&gt;<br>
-&gt;=C2=A0 ---<br>
-&gt;=C2=A0 =C2=A0hack/lib/golang.sh | 5 -----<br>
-&gt; diff --git a/recipes-extended/nagios/nagios-nrpe/0001-Should-fix-235-n=
-asty_metachars-was-not-being-returne.patch b/recipes-extended/nagios/nagios=
--nrpe/0001-Should-fix-235-nasty_metachars-was-not-being-returne.patch<br>
-&gt; index 7a12e73..fb34c5c 100644<br>
-&gt; --- a/recipes-extended/nagios/nagios-nrpe/0001-Should-fix-235-nasty_me=
-tachars-was-not-being-returne.patch<br>
-&gt; +++ b/recipes-extended/nagios/nagios-nrpe/0001-Should-fix-235-nasty_me=
-tachars-was-not-being-returne.patch<br>
-&gt; @@ -5,7 +5,7 @@ Subject: [PATCH] Should fix #235 (nasty_metachars was =
-not being returned when<br>
-&gt;=C2=A0 =C2=A0specified in cfg file<br>
-&gt;<br>
-&gt;=C2=A0 CVE: CVE-2020-6581<br>
-&gt; -Upstream Status: Backport [4f7dd1199f1f3f72f9197e8565da339a4a2490b7]<=
-br>
-&gt; +Upstream-Status: Backport [4f7dd1199f1f3f72f9197e8565da339a4a2490b7]<=
-br>
-&gt;<br>
-&gt;=C2=A0 Signed-off-by: Sakib Sajal &lt;<a href=3D"mailto:sakib.sajal@win=
-driver.com" target=3D"_blank">sakib.sajal@windriver.com</a>&gt;<br>
-&gt;=C2=A0 ---<br>
-&gt; --<br>
-&gt; 2.40.1<br>
-&gt;<br>
-&gt;<br>
-&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt; Links: You receive all messages sent to this group.<br>
-&gt; View/Reply Online (#8043): <a href=3D"https://lists.yoctoproject.org/g=
-/meta-virtualization/message/8043" rel=3D"noreferrer" target=3D"_blank">htt=
-ps://lists.yoctoproject.org/g/meta-virtualization/message/8043</a><br>
-&gt; Mute This Topic: <a href=3D"https://lists.yoctoproject.org/mt/98679455=
-/1050810" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.o=
-rg/mt/98679455/1050810</a><br>
-&gt; Group Owner: <a href=3D"mailto:meta-virtualization%2Bowner@lists.yocto=
-project.org" target=3D"_blank">meta-virtualization+owner@lists.yoctoproject=
-.org</a><br>
-&gt; Unsubscribe: <a href=3D"https://lists.yoctoproject.org/g/meta-virtuali=
-zation/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproje=
-ct.org/g/meta-virtualization/unsub</a> [<a href=3D"mailto:bruce.ashfield@gm=
-ail.com" target=3D"_blank">bruce.ashfield@gmail.com</a>]<br>
-&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt;<br>
-<br>
-<br>
--- <br>
-- Thou shalt not follow the NULL pointer, for chaos and madness await<br>
-thee at its end<br>
-- &quot;Use the force Harry&quot; - Gandalf, Star Trek II<br>
-</blockquote></div></div>
-
---0000000000002b8e3305fade0532--
 
