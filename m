@@ -1,166 +1,245 @@
-Return-Path: <adrian.freihofer@gmail.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 696C6C7EE23
-	for <webhook@archiver.kernel.org>; Mon, 15 May 2023 15:27:53 +0000 (UTC)
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
- by mx.groups.io with SMTP id smtpd.web11.91649.1684164469360672724
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A0B1C77B75
+	for <webhook@archiver.kernel.org>; Mon, 15 May 2023 16:00:03 +0000 (UTC)
+Received: from mail-io1-f46.google.com (mail-io1-f46.google.com [209.85.166.46])
+ by mx.groups.io with SMTP id smtpd.web11.92549.1684166402686280033
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 15 May 2023 08:27:49 -0700
+ Mon, 15 May 2023 09:00:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=G/Pdx/Vc;
- spf=pass (domain: gmail.com, ip: 209.85.218.48, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-965fc25f009so2095730166b.3
-        for <meta-virtualization@lists.yoctoproject.org>; Mon, 15 May 2023 08:27:49 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=RkpodWHh;
+ spf=pass (domain: gmail.com, ip: 209.85.166.46, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-io1-f46.google.com with SMTP id ca18e2360f4ac-76c5673330eso587502439f.2
+        for <meta-virtualization@lists.yoctoproject.org>; Mon, 15 May 2023 09:00:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684164467; x=1686756467;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20221208; t=1684166402; x=1686758402;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=RCpWvdHwNYULTwLdDic1kFRHRoScKr/LDEFQU7yGiwE=;
-        b=G/Pdx/VcmNL78aHmS68imPkH+3Gr/tbTkHy9Qq9PWkFQIZ3ct7xRF1FP2w97YDSMvR
-         KfBl20xAhYyeAw5G71XnI890NiLwWc9LKe/T+yoIIKA7DLg+mNOnCuOsG6RkFPAmVNlA
-         pixjeGmfcPX2C3hVLA3LXXBybNtpeWJEBQAdXVt0MrOlGJhwcttxMCgcneFO+qwOvS9n
-         rLt/7lRIjjbBVcoFN3mzv/Jbg23BT1x3kX6ZxTWCVWp86NlgULNlZ2QjCBQ3TtNXZ24x
-         DTz5teq8WVqBfssHhIyA/OPaXSKLlUXBYZQCU5ttgt04K/J++DZBVwS1/af6hlkiZp3/
-         MaBg==
+        bh=ev6wkqkbpe8/rHA7XuyAU+gNR3ITA3gqNAokwayAYIQ=;
+        b=RkpodWHhDSdcpwPqkimlD4C4B7JjRanNDZ/zO16B2Mvj9mmLfEOvjeQgCd6u1lgGey
+         RjbZgANWFi/shLPc2P5snq/rqQhSNqBkgEDR16i0Y793gX1c4TOYKjzLmx/PDP0wwmLs
+         UtG6gJYl0f/95IAhjBTNOfeRUjeBsNp8AkXJ6iqli3xlTl4In1PY8PBdtEmr6sXLnUyh
+         UI39BrtPX8rHv9UqBBR4AzJC/xlfkGhf6Tm1dNh9BayPim2mBE7cF+bH84jzsef9mOVh
+         eVoKUaQ9GZ0sKvtE1KExzGiWnklxjVFe7u92v/NzTd0xp7QiCmRL37/3AQ7tNtvytAyK
+         7/cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684164467; x=1686756467;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20221208; t=1684166402; x=1686758402;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=RCpWvdHwNYULTwLdDic1kFRHRoScKr/LDEFQU7yGiwE=;
-        b=YmeNxDWf9+GWZXEjjhADP95O5io33boupksUZRqMOwrsMp5SY/5bZ1bLA48zuAiZqd
-         JozAKF3Q+77EZWc18EPBI30c0klJDhE4UnLLvyoMSq5tWUB5kw9mjye4C1CF1zG7EJz5
-         HSDvlZ/guczEpTPRSWOx2HCgyVXT2E7owsPCGQTqRSBsEEEI4UAmzy7J4JZhucTKQ4jk
-         MCgiRJsCx9HrUDwGUkYYGpvkKfFUPpP9VUsFY3ZgSMNFhlhi/CE5XvRJDHznNfuHnZiB
-         HAdLhf1u8eRSDrQmGi2koBM0iuWZP0oiiRdE0/9Ts3F9ikpcsgOjG/q5X6jEh3+i8dtz
-         RnVQ==
-X-Gm-Message-State: AC+VfDwbMGB5coJICLbrz4wcA72mmipKGZbvgvAujf2ufYliHAjYoPiI
-	7HPErVwZ9YFtsvk9JPfBdv+jA/W3LUE=
-X-Google-Smtp-Source: ACHHUZ7qccSXLlmhXNQ4Y2jcpiIkiDGLzQ4228rYEh7D1bGWrRzDosR4Za8M+f+VqNdNVvyLaerZ4g==
-X-Received: by 2002:a17:907:9345:b0:958:4870:8d09 with SMTP id bv5-20020a170907934500b0095848708d09mr32592489ejc.37.1684164467440;
-        Mon, 15 May 2023 08:27:47 -0700 (PDT)
-Received: from t14s-af.fritz.box ([2a02:169:59a6:0:5488:f785:9061:cf6c])
-        by smtp.gmail.com with ESMTPSA id ze12-20020a170906ef8c00b009659fa6eeddsm9690128ejb.196.2023.05.15.08.27.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 May 2023 08:27:47 -0700 (PDT)
-From: Adrian Freihofer <adrian.freihofer@gmail.com>
-X-Google-Original-From: Adrian Freihofer <adrian.freihofer@siemens.com>
-To: meta-virtualization@lists.yoctoproject.org
-Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [meta-virtualization][PATCH 5/5] runc-docker: update to 1.1.7
-Date: Mon, 15 May 2023 17:26:24 +0200
-Message-Id: <20230515152624.138713-6-adrian.freihofer@siemens.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230515152624.138713-1-adrian.freihofer@siemens.com>
-References: <20230515152624.138713-1-adrian.freihofer@siemens.com>
+        bh=ev6wkqkbpe8/rHA7XuyAU+gNR3ITA3gqNAokwayAYIQ=;
+        b=MV5v55WS63A0n1Emh3LByBwSnQYgI1amhsQrhu24dxqlplOX/14G1A+I1+8x165Mb6
+         LGDxJegaV3kxt6062SuspI4Zl1PG+jxF23d3SQ4HtFE3s2Y6NitwzlYOM5F+vq5VvsKy
+         6RUdX+t+9gAIOlfxNOs+WRAa2TfJMi9syVz7WseZqY00qkzLUdBK+MAt23yIfvN1C5N4
+         qh0jswaYIMvFkKeE+9lPdlRJHiwjQVOlzZA6YjHaNPJI1mM8Yhb+94WFGs0p7Flnippt
+         NTG8+j2utMtrL4Dp92EKzOm0DNKiX7RJDf3bYXWySTBbVbZ2knoCSClk+Zwuh6QV9elj
+         6Gjw==
+X-Gm-Message-State: AC+VfDxeI/p76A2WVHPehG0JrIrBQ1S4/NNH4eCMY0gySCy44KrxvUJc
+	ftdd++cpI6qM6M6yUwMJB3vTV0M7L5dwYsIyHbU=
+X-Google-Smtp-Source: ACHHUZ7lHuIuwh85U9y7vRqw11uvaxRoGzedLUw+vWx6uynxZ0GKOm8LDgcCFq3+MME6uBEp9RCJuV2UYcRdF/P2btI=
+X-Received: by 2002:a5e:970b:0:b0:76c:826f:2188 with SMTP id
+ w11-20020a5e970b000000b0076c826f2188mr7604ioj.6.1684166401734; Mon, 15 May
+ 2023 09:00:01 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230515152624.138713-1-adrian.freihofer@siemens.com>
+In-Reply-To: <20230515152624.138713-1-adrian.freihofer@siemens.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Mon, 15 May 2023 11:59:50 -0400
+Message-ID: <CADkTA4PCch0eAbH5j1_P=izKSh4ciOqs4bSGvm1V=ERCH6AR8w@mail.gmail.com>
+Subject: Re: [meta-virtualization][PATCH 0/5] docker update to 23.0.6
+To: Adrian Freihofer <adrian.freihofer@gmail.com>
+Cc: meta-virtualization@lists.yoctoproject.org, 
+	Adrian Freihofer <adrian.freihofer@siemens.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Mon, 15 May 2023 15:27:53 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8056
+ <meta-virtualization@lists.yoctoproject.org>; Mon, 15 May 2023 16:00:03 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8057
 
-Bumping runc to version v1.1.7, which comprises the following commits:
+I already have a lot of in flight upgrades (these included), I just
+haven't had a chance to update master-next.
 
-    860f061b (HEAD -> release-1.1, tag: v1.1.7) VERSION: release 1.1.7
-    26480338 Merge pull request #3838 from cyphar/1.1-release-gpgkeys
-    f72cd0a6 Merge pull request #3845 from kolyshkin/1.1-rm-warning
-    c1063b1c runc.keyring: add Akihiro Suda
-    b0fae8c4 scripts: keyring validate: print some more information
-    79a52b43 libct/cg/sd: use systemd version when generating dev props
-    6a806d4d runc.keyring: add Kolyshkin
-    b6f686f2 keyring: add Aleksa's <cyphar@cyphar.com> signing key
-    63355bf8 keyring: add Aleksa's <asarai@suse.com> signing key
-    3bdb63bf keyring: verify runc.keyring has legitimate maintainer keys
-    853d5e38 scripts: release: add verification checks for signing keys
-    bd1d5370 release: add runc.keyring file and script
-    6ccf104a merge #3818 into release-1.1
-    7cd72cc3 VERSION: go back to development
-    0f48801a (tag: v1.1.6) VERSION: release 1.1.6
-    0690c4ec merge #3823 into release-1.1
-    e4ce94e2 libct/cg: add misc controller to v1 drivers
-    53333a55 Merge pull request #3811 from haircommander/root-cgroup-no-init-1.1
-    10cfd816 libctr/cgroups: don't take init's cgroup into account
-    9c1c8446 Merge pull request #3817 from kolyshkin/1.1-user-exec
-    d30d240b tests/int: test for CAP_DAC_OVERRIDE
-    840b9539 Fix runc run "permission denied" when rootless
-    c7a72aba Merge pull request #3808 from kolyshkin/1.1-cpuset-byte-order
-    165d2323 tests/int: add a "update cpuset cpus range via v2 unified map" test
-    26a58fdb cgroups: cpuset: fix byte order while parsing cpuset range to bits
-    add2f548 Merge pull request #3791 from kolyshkin/1.1-refresh-ci
-    c0647d3a Merge pull request #3807 from kolyshkin/1.1-skip-flaky-ce7
-    8d9d1d25 libct/int: make TestFdLeaks more robust
-    b66d6d56 libct/int: wording nits
-    ddbb6d41 libc/int: add/use runContainerOk wrapper
-    3531cc2d ci: add call to check-config.sh
-    ed9a0e1d ci/gha: bump actions/cache to v3
-    7683e508 ci/gha: switch to Go 1.19.x for validate
-    568d4407 ci/gha: bump golangci-lint to 1.48
-    1f9e36c0 libct: fixes for godoc 1.19
-    50f06554 ci: bump golangci-lint to 1.46
-    77472ef6 libct: fix staticcheck warning
-    9994fe3f libct: suppress strings.Title deprecation warning
-    403ea1f0 ci/gha: convert lint-extra from a job to a step
-    d2c83bdf ci/gha: switch to Go 1.18.x for validate
-    03a631df ci: switch to golangci-lint 1.45
-    e5a5522a Add supported Go releases (1.19, 1.20)
-    3ce12483 Dockerfile: fix build wrt new git
-    bac06cf6 ci/gha: remove stable: when installing Go
-    e74040e0 build(deps): bump actions/setup-go from 2 to 3
-    55462355 Require Go 1.17, bump x/sys and x/net
-    3ce9c1e2 tests: Fix weird error on centos-9
-    abd6adde ci: bump shfmt to 3.5.1, simplify CI setup
-    1a4bf049 man/*sh: fix shellcheck warnings, add to shellcheck
-    9201794a script/check-config.sh: fix remaining shellcheck warnings
-    8b976428 shfmt: add more files
-    b0fbd2f8 script/check-config.sh: fix SC2166 warnings
-    7f8cb3d6 script/check-config.sh: fix wrap_color usage
-    f6562f19 [1.1] libct/cg/dev: skip flaky test of CentOS 7
-    55b2dbf0 Merge pull request #3806 from kolyshkin/1.1-fix-sd-start
-    12f2f03f [1.1] runc run: refuse a non-empty cgroup for systemd driver
-    e618ec36 libct/cg/sd: reset-failed and retry startUnit on UnitExists
-    931b9bf3 libct/cg/sd: ignore UnitExists only for Apply(-1)
-    b46ac860 libct/cg/sd: refactor startUnit
-    060a61c6 merge branch 'pr-3796' into release-1.1
-    822623b6 CHANGELOG.md: move 1.1.5 CVEs to Security section
-    54cfb25d Makefile: add verify-changelog as release dependency
-    7b3ac330 verify-changelog: allow non-ASCII
-    37e586ab CHANGELOG: fix a typo
-    de0c2277 [1.1] CHANGELOG: fix 1.1.5 git compare link
-    16e5d1d4 merge branch 'pr-3799' into release-1.1
-    1fe2ec53 tests/int/mounts: only check non-shadowed mounts
-    9b8ebe4d tests/int/mount: fix issues with ro cgroup test
+Either way, thanks for the test status, I'll include it in my next
+round of updates.
 
-Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
----
- recipes-containers/runc/runc-docker_git.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+I'll consider the busybox pv change a bit more, but something similar
+was tried in the past and we ran into python -> variable -> parse time
+issues.
 
-diff --git a/recipes-containers/runc/runc-docker_git.bb b/recipes-containers/runc/runc-docker_git.bb
-index b74ffc3..c763d71 100644
---- a/recipes-containers/runc/runc-docker_git.bb
-+++ b/recipes-containers/runc/runc-docker_git.bb
-@@ -2,13 +2,13 @@ include runc.inc
- 
- # Note: this rev is before the required protocol field, update when all components
- #       have been updated to match.
--SRCREV_runc-docker = "17a2d451d635e5eda2e4902324428f1bc65b0364"
-+SRCREV_runc-docker = "860f061b76bb4fc671f0f9e900f7d80ff93d4eb7"
- SRC_URI = "git://github.com/opencontainers/runc;branch=release-1.1;name=runc-docker;protocol=https \
-            file://0001-runc-Add-console-socket-dev-null.patch \
-            file://0001-Makefile-respect-GOBUILDFLAGS-for-runc-and-remove-re.patch \
-            file://0001-runc-docker-SIGUSR1-daemonize.patch \
-           "
- 
--RUNC_VERSION = "1.1.5"
-+RUNC_VERSION = "1.1.7"
- 
- CVE_PRODUCT = "runc"
--- 
-2.40.1
+Bruce
 
+On Mon, May 15, 2023 at 11:27=E2=80=AFAM Adrian Freihofer
+<adrian.freihofer@gmail.com> wrote:
+>
+> Tested using the following layers:
+> - poky LTS, branch =3D kirkstone
+> - meta-lts-mixins, branch =3D kirkstone/go
+> - meta-lts-mixins, branch =3D kirkstone/rust
+> - meta-virtualization, branch =3D master
+>
+> To one of my layers.conf files I added a hack:
+>   LAYERSERIES_COMPAT_virtualization-layer +=3D "kirkstone"
+> Otherwise the mixin layers seams to work surpisingly well with
+> meta-virtualization master branch, at least for Docker.
+>
+> From target device:
+>
+> docker info
+>     Client:
+>     Context:    default
+>     Debug Mode: false
+>
+>     Server:
+>     Containers: 0
+>       Running: 0
+>       Paused: 0
+>       Stopped: 0
+>     Images: 0
+>     Server Version: 23.0.6
+>     Storage Driver: overlay2
+>       Backing Filesystem: extfs
+>       Supports d_type: true
+>       Using metacopy: false
+>       Native Overlay Diff: true
+>       userxattr: false
+>     Logging Driver: journald
+>     Cgroup Driver: systemd
+>     Cgroup Version: 2
+>     Plugins:
+>       Volume: local
+>       Network: bridge host ipvlan macvlan null overlay
+>       Log: awslogs fluentd gcplogs gelf journald json-file local logentri=
+es splunk syslog
+>     Swarm: active
+>       NodeID: 2e9d3m5f67wpovhnnttnj763z
+>       Is Manager: true
+>       ClusterID: ivh4ga9xrsu9js9ah6se8pg5n
+>       Managers: 1
+>       Nodes: 1
+>       Default Address Pool: 10.0.0.0/8
+>       SubnetSize: 24
+>       Data Path Port: 4789
+>       Orchestration:
+>       Task History Retention Limit: 1
+>       Raft:
+>       Snapshot Interval: 10000
+>       Number of Old Snapshots to Retain: 0
+>       Heartbeat Tick: 1
+>       Election Tick: 10
+>       Dispatcher:
+>       Heartbeat Period: 5 seconds
+>       CA Configuration:
+>       Expiry Duration: 3 months
+>       Force Rotate: 0
+>       Autolock Managers: false
+>       Root Rotation In Progress: false
+>       Node Address: 192.168...
+>       Manager Addresses:
+>       192.168...:2377
+>     Runtimes: io.containerd.runc.v2 runc
+>     Default Runtime: runc
+>     Init Binary: docker-init
+>     containerd version: 1677a17964311325ed1c31e2c0a3589ce6d5c30d.m
+>     runc version: v1.1.7-0-g860f061b-dirty
+>     init version: b9f42a0-dirty
+>     Security Options:
+>       seccomp
+>       Profile: builtin
+>       cgroupns
+>     Kernel Version: 5.15.71+gitb280d94
+>     Operating System: My Distro
+>     OSType: linux
+>     Architecture: aarch64
+>     CPUs: 2
+>     Total Memory: 1.784GiB
+>     Name: my-host
+>     ID: 612ad6f3-0694-4252-befe-fcfb1f804bdc
+>     Docker Root Dir: /data/lib/docker
+>     Debug Mode: false
+>     Registry: https://index.docker.io/v1/
+>     Experimental: false
+>     Insecure Registries:
+>       127.0.0.0/8
+>     Live Restore Enabled: false
+>
+>
+> docker run -it alpine /bin/sh
+>     Unable to find image 'alpine:latest' locally
+>     latest: Pulling from library/alpine
+>     08409d417260: Pull complete
+>     Digest: sha256:02bb6f428431fbc2809c5d1b41eab5a68350194fb508869a33cb1a=
+f4444c9b11
+>     Status: Downloaded newer image for alpine:latest
+>     / # cat /etc/os-release
+>     NAME=3D"Alpine Linux"
+>     ID=3Dalpine
+>     VERSION_ID=3D3.18.0
+>     PRETTY_NAME=3D"Alpine Linux v3.18"
+>     HOME_URL=3D"https://alpinelinux.org/"
+>     BUG_REPORT_URL=3D"https://gitlab.alpinelinux.org/alpine/aports/-/issu=
+es"
+>     / # exit
+>
+>
+> docker run -it debian /bin/bash
+>     Unable to find image 'debian:latest' locally
+>     latest: Pulling from library/debian
+>     d677c78be691: Pull complete
+>     Digest: sha256:63d62ae233b588d6b426b7b072d79d1306bfd02a72bff1fc045b85=
+11cc89ee09
+>     Status: Downloaded newer image for debian:latest
+>     root@84f1d770edfd:/# cat /etc/os-release
+>     PRETTY_NAME=3D"Debian GNU/Linux 11 (bullseye)"
+>     NAME=3D"Debian GNU/Linux"
+>     VERSION_ID=3D"11"
+>     VERSION=3D"11 (bullseye)"
+>     VERSION_CODENAME=3Dbullseye
+>     ID=3Ddebian
+>     HOME_URL=3D"https://www.debian.org/"
+>     SUPPORT_URL=3D"https://www.debian.org/support"
+>     BUG_REPORT_URL=3D"https://bugs.debian.org/"
+>     root@84f1d770edfd:/# exit
+>     exit
+>
+> Adrian Freihofer (5):
+>   busybox-initrd: auto pv from busybox
+>   containerd: update to 1.7.1
+>   moby: update to v23.0.6
+>   runc-opencontainers: update to 1.1.7
+>   runc-docker: update to 1.1.7
+>
+>  .../containerd/containerd-opencontainers_git.bb    |  6 +++---
+>  recipes-containers/docker/docker-moby_git.bb       |  8 ++++----
+>  recipes-containers/runc/runc-docker_git.bb         |  4 ++--
+>  recipes-containers/runc/runc-opencontainers_git.bb |  4 ++--
+>  ...{busybox-initrd_1.36.0.bb =3D> busybox-initrd.bb} | 14 ++++++++++++++
+>  5 files changed, 25 insertions(+), 11 deletions(-)
+>  rename recipes-core/busybox/{busybox-initrd_1.36.0.bb =3D> busybox-initr=
+d.bb} (59%)
+>
+> --
+> 2.40.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#8051): https://lists.yoctoproject.org/g/meta-virtuali=
+zation/message/8051
+> Mute This Topic: https://lists.yoctoproject.org/mt/98905945/1050810
+> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [=
+bruce.ashfield@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+
+
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
