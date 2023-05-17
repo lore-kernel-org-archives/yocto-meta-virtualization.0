@@ -1,87 +1,106 @@
-Return-Path: <christopher.w.clark@gmail.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3905CC77B7D
-	for <webhook@archiver.kernel.org>; Wed, 17 May 2023 03:33:47 +0000 (UTC)
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
- by mx.groups.io with SMTP id smtpd.web11.41531.1684294419908093371
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B99BAC77B75
+	for <webhook@archiver.kernel.org>; Wed, 17 May 2023 15:48:00 +0000 (UTC)
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
+ by mx.groups.io with SMTP id smtpd.web11.53883.1684338471762015031
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 16 May 2023 20:33:39 -0700
+ Wed, 17 May 2023 08:47:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=RbtCEd+W;
- spf=pass (domain: gmail.com, ip: 209.85.214.169, mailfrom: christopher.w.clark.io@gmail.com)
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1aaff9c93a5so2880835ad.2
-        for <meta-virtualization@lists.yoctoproject.org>; Tue, 16 May 2023 20:33:39 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=C5R3HtgP;
+ spf=pass (domain: gmail.com, ip: 209.85.222.175, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-759219bed84so55394685a.0
+        for <meta-virtualization@lists.yoctoproject.org>; Wed, 17 May 2023 08:47:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684294419; x=1686886419;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=eNrbMd+d/Zgc4umltyABl3amBzmX6ugnNQF7rDhp8Gc=;
-        b=RbtCEd+WcFIpsYxu2VrgXxwhRSXt96JkRPbWL9xUuvK4VtyYOaOn9/sqyDVWKRfgKu
-         gyjiJc8ovUr1a78PE5orJy/8o+b17IpzbOGKNIJ17McYvtwMcVmJgR8gB9BuRnJubpRa
-         tZUa8gvW531YrYjD14w+ainl56Jw3oJ3umTng2YDsXBt4rmiHqU5J3px9mswTbAVHuaB
-         hmcZBvBpPNg8rhGyhXWv3Azm7L92awn7pYWJ7DSWXWPuL7g79iURsQJWc5rfvl6LfM4c
-         ENSeSwwIrT4C0nvwC4Ee7+mcmaSsfMyHZDpz5B7ofYI6ylzEA79wtLaQm4sOfqJUhBS5
-         u4NQ==
+        d=gmail.com; s=20221208; t=1684338471; x=1686930471;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=VcJTxT5k8XZxEKfYkai699DYFDKV7ZtaUms5wHEj33E=;
+        b=C5R3HtgPK2fBSt9ysDJitZB0fe6pofX6Qc77FPR+hMzw7tMKHuRO1LCSTc7dQ1Y6oO
+         /W/mNqjiaJ+qhOJb6Kj3dIpDB0J6/ysHmkaAXvnpwblMfqw+o5OyMYBnfZfiVwY0aVCs
+         L0VBKEUxH1C0qII0AXRD4dnyRYNGmXDjLWc/uI2E+3phFwij/dvwCfs2JwXL95aZiLDh
+         DAEuYUbX7LfT91/ZkTERN3dMOO+tusgXpFQh2AbCU15A7n6k8n5M7jPGpQpCM+Q1s7gi
+         gdbKiEPMfZgf9g67/CeJQa4MASxkB32+/9EMFUALEPiZQTaEtR/GeCKUZhagCMYHF9QZ
+         ZGWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684294419; x=1686886419;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:sender:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20221208; t=1684338471; x=1686930471;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=eNrbMd+d/Zgc4umltyABl3amBzmX6ugnNQF7rDhp8Gc=;
-        b=GBQTaNQnju2k8VPfWcM4cNsX5+Sfys2EZTgyLREJhjL3/vDd5EKkiaQheR3W7v6Sbp
-         WpGO00q7KTvqHzk1EuQoXjBd+xV0tHcbaKJ3N0rDvzu1Qyq2tYyKsImTcrwwjbfTtQe5
-         JlJ/mQorU2YYXPCqinLNgMrO5gh6EwqnB1Rr5CuxT4tJnFVPxOttyi/I0DUDukxrCOIo
-         Cyk0GXJi2r3Qv3FipOjYxBCK3DNc/+3YPE/y6eoEu3XdiJirom3bEPvsLK4itamtSYMZ
-         LCcAJQ7nBZtk5qHTUZFNXlUt5OLoAorNfdTBM1cCrfQl+FJRJWfKLHE2kwEJN8CBz9kY
-         pdOw==
-X-Gm-Message-State: AC+VfDywMHSvTyLyE8fSEhD06/4tqua4wPza4m7FQ+IWIjfhS/n3Likb
-	Q9fWKnp0vxl1PNjIobQqJ0jLUlINXOA=
-X-Google-Smtp-Source: ACHHUZ5SIZlfOKRacjzEMzbnDJdplTGRs2hyRbKu68vfYgCjJqmPslK9zGM4syUMDYC87HLly6CyCA==
-X-Received: by 2002:a17:902:c945:b0:1a9:546c:1593 with SMTP id i5-20020a170902c94500b001a9546c1593mr50812480pla.14.1684294418877;
-        Tue, 16 May 2023 20:33:38 -0700 (PDT)
-Received: from cog-dev.home ([70.103.208.83])
-        by smtp.gmail.com with ESMTPSA id d12-20020a170902cecc00b001a6f7744a27sm16332827plg.87.2023.05.16.20.33.38
+        bh=VcJTxT5k8XZxEKfYkai699DYFDKV7ZtaUms5wHEj33E=;
+        b=Zbea4iygJv1KAffIRTd11sV/7lyYAlpbcchhrClnZP86iIdMycjURCNoq9StiBZEd+
+         1gQkF51eHygr3BJLEYp2M8BtWQy//1gcqxXrOa6Vv0rsFphtIASoost1ApkHI+qdxS3Z
+         a/rrwg+ZO1tsgft+q9OZww9fHgpgNELQzAqVGtL8p19lIYgTA/QYpP18jLY2VP7/qM6/
+         RVj613VIH9ONKnOfauCmkwJMoh4IBvR63HGmICRhC0P+qVqVYUESrQX6uZGuHUVM9pjH
+         TmlcRL4WwZNJa464IUimpJ/Si1Gk2XTWvbFI4zkHd4YIFJa3JapeOSwWRrvWjUltEw7Z
+         NhDA==
+X-Gm-Message-State: AC+VfDyAqhuBK0O8bxf6ByyZdH9425opuAnUAkRIOX/iMHbhKa9o56rg
+	OUkRb4VamJukmbUIAfCD3+VgRUqVuAJRkw==
+X-Google-Smtp-Source: ACHHUZ63r/UWuVsLffoY+Ciq5KABEa80/Fh6H40R04SNxFn65hEyLhuSya2t8Q6rH90Cmg1Je2B+mQ==
+X-Received: by 2002:ad4:5b85:0:b0:621:7d4:e068 with SMTP id 5-20020ad45b85000000b0062107d4e068mr17305qvp.52.1684338470684;
+        Wed, 17 May 2023 08:47:50 -0700 (PDT)
+Received: from gmail.com ([174.112.183.231])
+        by smtp.gmail.com with ESMTPSA id f8-20020a0cf3c8000000b0061b67ae2ff9sm6435086qvm.121.2023.05.17.08.47.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 May 2023 20:33:38 -0700 (PDT)
-Sender: Christopher Clark <christopher.w.clark.io@gmail.com>
-From: Christopher Clark <christopher.w.clark@gmail.com>
-To: meta-virtualization@lists.yoctoproject.org
-Cc: bruce.ashfield@gmail.com
-Subject: [meta-virtualization][PATCH] xtf: Supply DEBUG_PREFIX_MAP to the compiler flags
-Date: Tue, 16 May 2023 20:33:31 -0700
-Message-Id: <20230517033331.3565724-1-christopher.w.clark@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        Wed, 17 May 2023 08:47:50 -0700 (PDT)
+Date: Wed, 17 May 2023 11:47:48 -0400
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Xiangyu Chen <xiangyu.chen@eng.windriver.com>
+Cc: meta-virtualization@lists.yoctoproject.org
+Subject: Re: [meta-virtualization][master][kirkstone][PATCH] xtf: chang the
+ old override syntax
+Message-ID: <ZGT3JMOqK95lGEYf@gmail.com>
+References: <20230510022946.2327496-1-xiangyu.chen@eng.windriver.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230510022946.2327496-1-xiangyu.chen@eng.windriver.com>
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Wed, 17 May 2023 03:33:47 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8059
+ <meta-virtualization@lists.yoctoproject.org>; Wed, 17 May 2023 15:48:00 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8060
 
-Fixes the QA warnings about package contains reference to TMPDIR.
+Amazing that this has hidden for so long!
 
-Signed-off-by: Christopher Clark <christopher.w.clark@gmail.com>
----
- recipes-extended/xen/xtf_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This is now merged to master, mickledor and kirstone.
 
-diff --git a/recipes-extended/xen/xtf_git.bb b/recipes-extended/xen/xtf_git.bb
-index 537abc3..59f1cad 100644
---- a/recipes-extended/xen/xtf_git.bb
-+++ b/recipes-extended/xen/xtf_git.bb
-@@ -30,7 +30,7 @@ RDEPENDS:${PN} = " \
-     "
- 
- do_compile() {
--    oe_runmake CC="${TARGET_PREFIX}gcc ${TOOLCHAIN_OPTIONS}" \
-+    oe_runmake CC="${TARGET_PREFIX}gcc ${TOOLCHAIN_OPTIONS} ${DEBUG_PREFIX_MAP}" \
-                CPP="${CPP}" \
-                LD="${LD}" \
-                OBJCOPY="${OBJCOPY}" \
--- 
-2.25.1
+Bruce
+
+In message: [meta-virtualization][master][kirkstone][PATCH] xtf: chang the old override syntax
+on 10/05/2023 Xiangyu Chen wrote:
+
+> From: Xiangyu Chen <xiangyu.chen@windriver.com>
+> 
+> Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
+> ---
+>  recipes-extended/images/xtf-image.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/recipes-extended/images/xtf-image.bb b/recipes-extended/images/xtf-image.bb
+> index a78959d..f9ecea9 100644
+> --- a/recipes-extended/images/xtf-image.bb
+> +++ b/recipes-extended/images/xtf-image.bb
+> @@ -31,4 +31,4 @@ IMAGE_INSTALL:append = " xtf"
+>  
+>  DEFAULT_TEST_SUITES:append = " xtf_minimal"
+>  
+> -QB_DEFAULT_FSTYPE_x86-64 = "wic"
+> +QB_DEFAULT_FSTYPE:x86-64 = "wic"
+> -- 
+> 2.34.1
+> 
+
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#8048): https://lists.yoctoproject.org/g/meta-virtualization/message/8048
+> Mute This Topic: https://lists.yoctoproject.org/mt/98798654/1050810
+> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
 
