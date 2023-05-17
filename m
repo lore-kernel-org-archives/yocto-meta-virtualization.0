@@ -1,245 +1,186 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <christopher.w.clark@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A0B1C77B75
-	for <webhook@archiver.kernel.org>; Mon, 15 May 2023 16:00:03 +0000 (UTC)
-Received: from mail-io1-f46.google.com (mail-io1-f46.google.com [209.85.166.46])
- by mx.groups.io with SMTP id smtpd.web11.92549.1684166402686280033
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54206C77B7D
+	for <webhook@archiver.kernel.org>; Wed, 17 May 2023 03:23:07 +0000 (UTC)
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+ by mx.groups.io with SMTP id smtpd.web11.41385.1684293782109172662
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 15 May 2023 09:00:02 -0700
+ Tue, 16 May 2023 20:23:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=RkpodWHh;
- spf=pass (domain: gmail.com, ip: 209.85.166.46, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-io1-f46.google.com with SMTP id ca18e2360f4ac-76c5673330eso587502439f.2
-        for <meta-virtualization@lists.yoctoproject.org>; Mon, 15 May 2023 09:00:02 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=DB2wNQfc;
+ spf=pass (domain: gmail.com, ip: 209.85.218.53, mailfrom: christopher.w.clark@gmail.com)
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-9661a1ff1e9so28951466b.1
+        for <meta-virtualization@lists.yoctoproject.org>; Tue, 16 May 2023 20:23:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684166402; x=1686758402;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ev6wkqkbpe8/rHA7XuyAU+gNR3ITA3gqNAokwayAYIQ=;
-        b=RkpodWHhDSdcpwPqkimlD4C4B7JjRanNDZ/zO16B2Mvj9mmLfEOvjeQgCd6u1lgGey
-         RjbZgANWFi/shLPc2P5snq/rqQhSNqBkgEDR16i0Y793gX1c4TOYKjzLmx/PDP0wwmLs
-         UtG6gJYl0f/95IAhjBTNOfeRUjeBsNp8AkXJ6iqli3xlTl4In1PY8PBdtEmr6sXLnUyh
-         UI39BrtPX8rHv9UqBBR4AzJC/xlfkGhf6Tm1dNh9BayPim2mBE7cF+bH84jzsef9mOVh
-         eVoKUaQ9GZ0sKvtE1KExzGiWnklxjVFe7u92v/NzTd0xp7QiCmRL37/3AQ7tNtvytAyK
-         7/cw==
+        d=gmail.com; s=20221208; t=1684293780; x=1686885780;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=HhRONIq7b5PJkhlVADzhGIiV3l012v3/MWCLKt7ca34=;
+        b=DB2wNQfc7MkTik6+BnwMn2M8OFeXQK/RPl/aGyISCVRFwelUB8700pbhSl6eKAbsRT
+         dnTDImP3IiHqsK3DRN8j/NLeFwhBwYfHkf9EkxVOmQhJgWbdKRycrgLVCFEX6V7Ovo4T
+         YIzOaqIMrqxZMbFI6yhScA2wq96Cf+/H9rB4V9CEtF854D0wcXRom1skjXszdCTigKyX
+         5qpk4UmOwWcFXJpjeFg8J0FCyShTprJjkz7a968ZAr2mLgR97VH2X/0jADiQ0g4u0yjJ
+         dj40AuGyT4HCvsC6QoBxOn3o8qUE94J3CHmQPPtOSU5lhr25q4QA0TvCrQeJlouuKZEA
+         nSkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684166402; x=1686758402;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ev6wkqkbpe8/rHA7XuyAU+gNR3ITA3gqNAokwayAYIQ=;
-        b=MV5v55WS63A0n1Emh3LByBwSnQYgI1amhsQrhu24dxqlplOX/14G1A+I1+8x165Mb6
-         LGDxJegaV3kxt6062SuspI4Zl1PG+jxF23d3SQ4HtFE3s2Y6NitwzlYOM5F+vq5VvsKy
-         6RUdX+t+9gAIOlfxNOs+WRAa2TfJMi9syVz7WseZqY00qkzLUdBK+MAt23yIfvN1C5N4
-         qh0jswaYIMvFkKeE+9lPdlRJHiwjQVOlzZA6YjHaNPJI1mM8Yhb+94WFGs0p7Flnippt
-         NTG8+j2utMtrL4Dp92EKzOm0DNKiX7RJDf3bYXWySTBbVbZ2knoCSClk+Zwuh6QV9elj
-         6Gjw==
-X-Gm-Message-State: AC+VfDxeI/p76A2WVHPehG0JrIrBQ1S4/NNH4eCMY0gySCy44KrxvUJc
-	ftdd++cpI6qM6M6yUwMJB3vTV0M7L5dwYsIyHbU=
-X-Google-Smtp-Source: ACHHUZ7lHuIuwh85U9y7vRqw11uvaxRoGzedLUw+vWx6uynxZ0GKOm8LDgcCFq3+MME6uBEp9RCJuV2UYcRdF/P2btI=
-X-Received: by 2002:a5e:970b:0:b0:76c:826f:2188 with SMTP id
- w11-20020a5e970b000000b0076c826f2188mr7604ioj.6.1684166401734; Mon, 15 May
- 2023 09:00:01 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1684293780; x=1686885780;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=HhRONIq7b5PJkhlVADzhGIiV3l012v3/MWCLKt7ca34=;
+        b=fvjix4WMpgwYD3tYB8b7W3SEgL9m1O9Y+VbBVx14QEHSCoG9L6bpaOAF9E8l29rqc9
+         MVUcMXI0vgYquHEzEygJ5WFIZArRaSig0lTboDSoV+WttU1ngrmfRTzGpD8f0wcaplDa
+         R3TYNH45jT1JA9xrumoxSE5Odvg/FAdDvHpogbcqg137rM40nA/jDmY+pyPCVtUOphuU
+         OiKSEfKXhTusJWhXkbXZb3tYbaLqkqFxEwy1iUksdRH7f2vqYWE29276QEDgmU9C+X1Z
+         r2P1dQ9eLCUoBD32nDJr2MnA8+rMuTxaNAk2QpFVHuGhYbxNZpoKOmpLpWUUKTjcr7MI
+         SBVw==
+X-Gm-Message-State: AC+VfDzeKKxzj91u+2kMHWVx/1eL6cqZCuPeA0teMVJDr7r/jh4rA8Wn
+	mfn8yRNyEp5YlTvdblidboRQSKm8itZanMSrUTk=
+X-Google-Smtp-Source: ACHHUZ6kg/5O/gqHqqRBq3cDijEkaC22IEnZ9bWgs9i2BUJa0MouVVFzYv4CNL9lDnJ1Q/8O/qEBAwjZ8W8bPYiOWek=
+X-Received: by 2002:a17:906:db05:b0:959:18b2:454a with SMTP id
+ xj5-20020a170906db0500b0095918b2454amr31198935ejb.76.1684293780215; Tue, 16
+ May 2023 20:23:00 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230515152624.138713-1-adrian.freihofer@siemens.com>
-In-Reply-To: <20230515152624.138713-1-adrian.freihofer@siemens.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Mon, 15 May 2023 11:59:50 -0400
-Message-ID: <CADkTA4PCch0eAbH5j1_P=izKSh4ciOqs4bSGvm1V=ERCH6AR8w@mail.gmail.com>
-Subject: Re: [meta-virtualization][PATCH 0/5] docker update to 23.0.6
-To: Adrian Freihofer <adrian.freihofer@gmail.com>
+References: <20230510022946.2327496-1-xiangyu.chen@eng.windriver.com>
+In-Reply-To: <20230510022946.2327496-1-xiangyu.chen@eng.windriver.com>
+From: Christopher Clark <christopher.w.clark@gmail.com>
+Date: Tue, 16 May 2023 20:22:48 -0700
+Message-ID: <CACMJ4GYJ6+p=MJTbfFyqHMtYKNn2q1zGk8LRrx-mT1aWZicWnQ@mail.gmail.com>
+Subject: Re: [meta-virtualization][master][kirkstone][PATCH] xtf: chang the
+ old override syntax
+To: Xiangyu Chen <xiangyu.chen@eng.windriver.com>
 Cc: meta-virtualization@lists.yoctoproject.org, 
-	Adrian Freihofer <adrian.freihofer@siemens.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	Bruce Ashfield <bruce.ashfield@gmail.com>
+Content-Type: multipart/alternative; boundary="000000000000779ccf05fbdb342b"
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Mon, 15 May 2023 16:00:03 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8057
+ <meta-virtualization@lists.yoctoproject.org>; Wed, 17 May 2023 03:23:07 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8058
 
-I already have a lot of in flight upgrades (these included), I just
-haven't had a chance to update master-next.
+--000000000000779ccf05fbdb342b
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Either way, thanks for the test status, I'll include it in my next
-round of updates.
+On Tue, May 9, 2023 at 7:30=E2=80=AFPM Xiangyu Chen <xiangyu.chen@eng.windr=
+iver.com>
+wrote:
 
-I'll consider the busybox pv change a bit more, but something similar
-was tried in the past and we ran into python -> variable -> parse time
-issues.
+> From: Xiangyu Chen <xiangyu.chen@windriver.com>
+>
+> Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
+>
 
-Bruce
 
-On Mon, May 15, 2023 at 11:27=E2=80=AFAM Adrian Freihofer
-<adrian.freihofer@gmail.com> wrote:
+Reviewed-by: Christopher Clark <christopher.w.clark@gmail.com>
+
+Tested with mickledore and this fix could also go into langdale and
+mickledore branches in addition to master and kirkstone.
+
+thanks,
+
+Christopher
+
+
+
+> ---
+>  recipes-extended/images/xtf-image.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> Tested using the following layers:
-> - poky LTS, branch =3D kirkstone
-> - meta-lts-mixins, branch =3D kirkstone/go
-> - meta-lts-mixins, branch =3D kirkstone/rust
-> - meta-virtualization, branch =3D master
+> diff --git a/recipes-extended/images/xtf-image.bb
+> b/recipes-extended/images/xtf-image.bb
+> index a78959d..f9ecea9 100644
+> --- a/recipes-extended/images/xtf-image.bb
+> +++ b/recipes-extended/images/xtf-image.bb
+> @@ -31,4 +31,4 @@ IMAGE_INSTALL:append =3D " xtf"
 >
-> To one of my layers.conf files I added a hack:
->   LAYERSERIES_COMPAT_virtualization-layer +=3D "kirkstone"
-> Otherwise the mixin layers seams to work surpisingly well with
-> meta-virtualization master branch, at least for Docker.
+>  DEFAULT_TEST_SUITES:append =3D " xtf_minimal"
 >
-> From target device:
->
-> docker info
->     Client:
->     Context:    default
->     Debug Mode: false
->
->     Server:
->     Containers: 0
->       Running: 0
->       Paused: 0
->       Stopped: 0
->     Images: 0
->     Server Version: 23.0.6
->     Storage Driver: overlay2
->       Backing Filesystem: extfs
->       Supports d_type: true
->       Using metacopy: false
->       Native Overlay Diff: true
->       userxattr: false
->     Logging Driver: journald
->     Cgroup Driver: systemd
->     Cgroup Version: 2
->     Plugins:
->       Volume: local
->       Network: bridge host ipvlan macvlan null overlay
->       Log: awslogs fluentd gcplogs gelf journald json-file local logentri=
-es splunk syslog
->     Swarm: active
->       NodeID: 2e9d3m5f67wpovhnnttnj763z
->       Is Manager: true
->       ClusterID: ivh4ga9xrsu9js9ah6se8pg5n
->       Managers: 1
->       Nodes: 1
->       Default Address Pool: 10.0.0.0/8
->       SubnetSize: 24
->       Data Path Port: 4789
->       Orchestration:
->       Task History Retention Limit: 1
->       Raft:
->       Snapshot Interval: 10000
->       Number of Old Snapshots to Retain: 0
->       Heartbeat Tick: 1
->       Election Tick: 10
->       Dispatcher:
->       Heartbeat Period: 5 seconds
->       CA Configuration:
->       Expiry Duration: 3 months
->       Force Rotate: 0
->       Autolock Managers: false
->       Root Rotation In Progress: false
->       Node Address: 192.168...
->       Manager Addresses:
->       192.168...:2377
->     Runtimes: io.containerd.runc.v2 runc
->     Default Runtime: runc
->     Init Binary: docker-init
->     containerd version: 1677a17964311325ed1c31e2c0a3589ce6d5c30d.m
->     runc version: v1.1.7-0-g860f061b-dirty
->     init version: b9f42a0-dirty
->     Security Options:
->       seccomp
->       Profile: builtin
->       cgroupns
->     Kernel Version: 5.15.71+gitb280d94
->     Operating System: My Distro
->     OSType: linux
->     Architecture: aarch64
->     CPUs: 2
->     Total Memory: 1.784GiB
->     Name: my-host
->     ID: 612ad6f3-0694-4252-befe-fcfb1f804bdc
->     Docker Root Dir: /data/lib/docker
->     Debug Mode: false
->     Registry: https://index.docker.io/v1/
->     Experimental: false
->     Insecure Registries:
->       127.0.0.0/8
->     Live Restore Enabled: false
->
->
-> docker run -it alpine /bin/sh
->     Unable to find image 'alpine:latest' locally
->     latest: Pulling from library/alpine
->     08409d417260: Pull complete
->     Digest: sha256:02bb6f428431fbc2809c5d1b41eab5a68350194fb508869a33cb1a=
-f4444c9b11
->     Status: Downloaded newer image for alpine:latest
->     / # cat /etc/os-release
->     NAME=3D"Alpine Linux"
->     ID=3Dalpine
->     VERSION_ID=3D3.18.0
->     PRETTY_NAME=3D"Alpine Linux v3.18"
->     HOME_URL=3D"https://alpinelinux.org/"
->     BUG_REPORT_URL=3D"https://gitlab.alpinelinux.org/alpine/aports/-/issu=
-es"
->     / # exit
->
->
-> docker run -it debian /bin/bash
->     Unable to find image 'debian:latest' locally
->     latest: Pulling from library/debian
->     d677c78be691: Pull complete
->     Digest: sha256:63d62ae233b588d6b426b7b072d79d1306bfd02a72bff1fc045b85=
-11cc89ee09
->     Status: Downloaded newer image for debian:latest
->     root@84f1d770edfd:/# cat /etc/os-release
->     PRETTY_NAME=3D"Debian GNU/Linux 11 (bullseye)"
->     NAME=3D"Debian GNU/Linux"
->     VERSION_ID=3D"11"
->     VERSION=3D"11 (bullseye)"
->     VERSION_CODENAME=3Dbullseye
->     ID=3Ddebian
->     HOME_URL=3D"https://www.debian.org/"
->     SUPPORT_URL=3D"https://www.debian.org/support"
->     BUG_REPORT_URL=3D"https://bugs.debian.org/"
->     root@84f1d770edfd:/# exit
->     exit
->
-> Adrian Freihofer (5):
->   busybox-initrd: auto pv from busybox
->   containerd: update to 1.7.1
->   moby: update to v23.0.6
->   runc-opencontainers: update to 1.1.7
->   runc-docker: update to 1.1.7
->
->  .../containerd/containerd-opencontainers_git.bb    |  6 +++---
->  recipes-containers/docker/docker-moby_git.bb       |  8 ++++----
->  recipes-containers/runc/runc-docker_git.bb         |  4 ++--
->  recipes-containers/runc/runc-opencontainers_git.bb |  4 ++--
->  ...{busybox-initrd_1.36.0.bb =3D> busybox-initrd.bb} | 14 ++++++++++++++
->  5 files changed, 25 insertions(+), 11 deletions(-)
->  rename recipes-core/busybox/{busybox-initrd_1.36.0.bb =3D> busybox-initr=
-d.bb} (59%)
->
+> -QB_DEFAULT_FSTYPE_x86-64 =3D "wic"
+> +QB_DEFAULT_FSTYPE:x86-64 =3D "wic"
 > --
-> 2.40.1
+> 2.34.1
 >
 >
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#8051): https://lists.yoctoproject.org/g/meta-virtuali=
-zation/message/8051
-> Mute This Topic: https://lists.yoctoproject.org/mt/98905945/1050810
+> View/Reply Online (#8048):
+> https://lists.yoctoproject.org/g/meta-virtualization/message/8048
+> Mute This Topic: https://lists.yoctoproject.org/mt/98798654/3619036
 > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [=
-bruce.ashfield@gmail.com]
+> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [
+> christopher.w.clark+meta-virt@gmail.com]
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 >
+>
 
+--000000000000779ccf05fbdb342b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><div class=3D"gmail_quote"><div=
+ dir=3D"ltr" class=3D"gmail_attr">On Tue, May 9, 2023 at 7:30=E2=80=AFPM Xi=
+angyu Chen &lt;<a href=3D"mailto:xiangyu.chen@eng.windriver.com">xiangyu.ch=
+en@eng.windriver.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quo=
+te" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204=
+);padding-left:1ex">From: Xiangyu Chen &lt;<a href=3D"mailto:xiangyu.chen@w=
+indriver.com" target=3D"_blank">xiangyu.chen@windriver.com</a>&gt;<br>
+<br>
+Signed-off-by: Xiangyu Chen &lt;<a href=3D"mailto:xiangyu.chen@windriver.co=
+m" target=3D"_blank">xiangyu.chen@windriver.com</a>&gt;<br></blockquote><di=
+v><br></div><div><br></div><div>Reviewed-by: Christopher Clark &lt;<a href=
+=3D"mailto:christopher.w.clark@gmail.com">christopher.w.clark@gmail.com</a>=
+&gt;</div><div><br></div><div>Tested with mickledore and this fix could als=
+o go into langdale and mickledore branches in addition=C2=A0to master and k=
+irkstone.</div><div><br></div><div>thanks,</div><div><br></div><div>Christo=
+pher</div><div><br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
+adding-left:1ex">
+---<br>
+=C2=A0recipes-extended/images/<a href=3D"http://xtf-image.bb" rel=3D"norefe=
+rrer" target=3D"_blank">xtf-image.bb</a> | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/recipes-extended/images/<a href=3D"http://xtf-image.bb" rel=3D=
+"noreferrer" target=3D"_blank">xtf-image.bb</a> b/recipes-extended/images/<=
+a href=3D"http://xtf-image.bb" rel=3D"noreferrer" target=3D"_blank">xtf-ima=
+ge.bb</a><br>
+index a78959d..f9ecea9 100644<br>
+--- a/recipes-extended/images/<a href=3D"http://xtf-image.bb" rel=3D"norefe=
+rrer" target=3D"_blank">xtf-image.bb</a><br>
++++ b/recipes-extended/images/<a href=3D"http://xtf-image.bb" rel=3D"norefe=
+rrer" target=3D"_blank">xtf-image.bb</a><br>
+@@ -31,4 +31,4 @@ IMAGE_INSTALL:append =3D &quot; xtf&quot;<br>
+<br>
+=C2=A0DEFAULT_TEST_SUITES:append =3D &quot; xtf_minimal&quot;<br>
+<br>
+-QB_DEFAULT_FSTYPE_x86-64 =3D &quot;wic&quot;<br>
++QB_DEFAULT_FSTYPE:x86-64 =3D &quot;wic&quot;<br>
+-- <br>
+2.34.1<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#8048): <a href=3D"https://lists.yoctoproject.org/g/meta=
+-virtualization/message/8048" rel=3D"noreferrer" target=3D"_blank">https://=
+lists.yoctoproject.org/g/meta-virtualization/message/8048</a><br>
+Mute This Topic: <a href=3D"https://lists.yoctoproject.org/mt/98798654/3619=
+036" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.org/mt=
+/98798654/3619036</a><br>
+Group Owner: <a href=3D"mailto:meta-virtualization%2Bowner@lists.yoctoproje=
+ct.org" target=3D"_blank">meta-virtualization+owner@lists.yoctoproject.org<=
+/a><br>
+Unsubscribe: <a href=3D"https://lists.yoctoproject.org/g/meta-virtualizatio=
+n/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.or=
+g/g/meta-virtualization/unsub</a> [<a href=3D"mailto:christopher.w.clark%2B=
+meta-virt@gmail.com" target=3D"_blank">christopher.w.clark+meta-virt@gmail.=
+com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
+
+--000000000000779ccf05fbdb342b--
 
