@@ -2,120 +2,145 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1F31C77B7A
-	for <webhook@archiver.kernel.org>; Wed, 17 May 2023 15:49:20 +0000 (UTC)
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
- by mx.groups.io with SMTP id smtpd.web10.53810.1684338552967461084
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 94964C77B75
+	for <webhook@archiver.kernel.org>; Wed, 17 May 2023 15:52:00 +0000 (UTC)
+Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
+ by mx.groups.io with SMTP id smtpd.web11.54019.1684338714656143252
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 17 May 2023 08:49:13 -0700
+ Wed, 17 May 2023 08:51:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=XbtPTumU;
- spf=pass (domain: gmail.com, ip: 209.85.219.48, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-61b58779b93so8534456d6.0
-        for <meta-virtualization@lists.yoctoproject.org>; Wed, 17 May 2023 08:49:12 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=QixRmR44;
+ spf=pass (domain: gmail.com, ip: 209.85.219.41, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-62384e391e3so3820006d6.3
+        for <meta-virtualization@lists.yoctoproject.org>; Wed, 17 May 2023 08:51:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684338552; x=1686930552;
+        d=gmail.com; s=20221208; t=1684338713; x=1686930713;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=U9M2cq8kdyBsCqiakfeDbUaDR/ctS6GhfXH/2pVplcQ=;
-        b=XbtPTumUiCTHYHc9JsktjAvgPFfJSHzGHEqUoyQmKu5ALmv7wNdzufwoGmOJIi6oyi
-         /pe8ALfIYA1lMUKgb9EycZ+4ZoHWGRw04msAj0aJi2PutSI9ChlCKcWYFAYT+DIirb0t
-         1MjWFfAGOd73QdoCUjrgJdItnCTWW+7YhWq9lh5uPlYi2zQb7FFEuMb6jJI1Ki7uZAsl
-         IPfcsziqDDJc5jnRyg8N7ZAe4hoTG6PEoE/bdZMiIOER4KyF5zE4npmoaWKv2jc2TO46
-         IYm7Qc+2xfMXMJkDTi7C/D7CLu+qTW5JaxX/mxdSP7ij/0Yn0rglWLqcm8wu5RN+G6qS
-         KPBg==
+        bh=WLPwDmVOp/8jSDWN8WuxhOgCpjfTiOp0YkOxUMLlVr8=;
+        b=QixRmR44W1iAyDC6Q6shRlSDQxJPl8PAz58nxUqRYrTe6vX9lTwyTUKVH6ZK1kiBMK
+         IfuYPOs1v+WwWVcPGQ+WRTtxp4tPekpYvFdlPO7hhf2GFgCp13CtX8AzDYYf6LF+7RAm
+         PAjOJHnkpbyi9M6tdostQFJ2eApfdEqcxJUXnItEzf5WBRUp7eCE1HioRhssds/ZTvFm
+         XpiFjGqbbPNUOcMGnWf23CdhMx9qEI2AKAdep+o4fl/jcCnAY8rQNUvwlbIFAfkcMg5L
+         7Pq7/5bNVlOA8NSOJvcWqcgh+pa20ygFYZ8XQiMkZKlxE7hgHM5u/nHwVkzXDVCfLNeK
+         maPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684338552; x=1686930552;
+        d=1e100.net; s=20221208; t=1684338713; x=1686930713;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=U9M2cq8kdyBsCqiakfeDbUaDR/ctS6GhfXH/2pVplcQ=;
-        b=DUWSCUJNFCxua76sjVrdWjqpp2OAORvii+o2MbfdwSknLU0Y45AhUBYxpRswfg7vJ2
-         Sa9a25bvbOp71jEseF1PYpbWzSeB+LIBb3Ns39IXLbF1GR1TCIteKmxbtM8YBOkAJO7q
-         JekwEOP2fbN1WeKlohT4CBgOR4vg4t30KjKjj5FCRb/nLasR3fxBlEH41uXm3BlC3bzO
-         20JOOq5rIlb10D3UiUMHgP+YKimkxaTabvjWeZWiOCPJwLmk6dZ80W0WH2/iPFdExJ5H
-         g9isk9Z7zZIkRp2ONelcMpzsMxGaSuniXqUTvBYRSG96n7Q9DKfzZNew8HuoiK31ifTA
-         5Ekg==
-X-Gm-Message-State: AC+VfDyh8/0V8V3mAooUKAP0UmKHBp6/vPmC/wKlw9ZIkBOpDWKeih+G
-	PRPQlc7RtryOPiHy111ZpTQ=
-X-Google-Smtp-Source: ACHHUZ6m20Ze1KwMo7Eta9Orr1yaG67N+/qxHHKmdWda6oEnRGvEYV8KUCv5EleKtcB2ioMpcDVqYw==
-X-Received: by 2002:a05:6214:490:b0:622:7b7f:ed45 with SMTP id pt16-20020a056214049000b006227b7fed45mr94528qvb.46.1684338551623;
-        Wed, 17 May 2023 08:49:11 -0700 (PDT)
+        bh=WLPwDmVOp/8jSDWN8WuxhOgCpjfTiOp0YkOxUMLlVr8=;
+        b=iAg5fr7yVZjBjzVmWgBPIDBTH2zf/alEizur5I+AN8gPwXAVbi9eHOJukG2sLpBQhZ
+         JeeK2hVvIAPAjPwSKeq7a7korLdOLFyzh9kulx47nUu3o2Ox8/Mu/fmO/mg2R3NuhEVE
+         YmX/iKSjlk4J5whl/P6dtu88jbBYBAxP0m8V2d++tiuRLa/VdRYUK0vVTPoD4nZ+8Cf1
+         AzW1xk8G9TzkPX0NBMkOHOEAj9lNFgPBAuXxsQeFlZcrOiHVuc0I2TgNQI6BnXRgeN6R
+         2xAfAg/POLQVthZpwUta7GcPYKBCAAIZq5UAsopHEnuFfY9NjwnSCM36eEuChaIkduOM
+         Tjkg==
+X-Gm-Message-State: AC+VfDyAHoFxqZjJ/3XXd1M5HqyAnGcReycmVt2SZlfsAKwfkB7zewYX
+	yQew4K6aBgYHDuoGivRQoaU=
+X-Google-Smtp-Source: ACHHUZ7U020jJQNGF9cZ0aCFQ12KatM76pwB3yB3e4z1nQd0yDAEKmuv3YCsa09ULB0c0BvGH+5flw==
+X-Received: by 2002:a05:6214:2349:b0:5e8:3496:e641 with SMTP id hu9-20020a056214234900b005e83496e641mr174346qvb.13.1684338713469;
+        Wed, 17 May 2023 08:51:53 -0700 (PDT)
 Received: from gmail.com ([174.112.183.231])
-        by smtp.gmail.com with ESMTPSA id fh16-20020a0562141a1000b006215d0bdf37sm4896793qvb.16.2023.05.17.08.49.11
+        by smtp.gmail.com with ESMTPSA id h3-20020a05620a10a300b007579ded7a8asm699409qkk.54.2023.05.17.08.51.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 May 2023 08:49:11 -0700 (PDT)
-Date: Wed, 17 May 2023 11:49:09 -0400
+        Wed, 17 May 2023 08:51:53 -0700 (PDT)
+Date: Wed, 17 May 2023 11:51:51 -0400
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: "Yu, Mingli" <mingli.yu@eng.windriver.com>
-Cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [meta-virtualization] [PATCH] yq: Redefine do_compile
-Message-ID: <ZGT3dZ3rr1sKbw98@gmail.com>
-References: <20230512050404.1105546-1-mingli.yu@eng.windriver.com>
+To: Adrian Freihofer <adrian.freihofer@gmail.com>
+Cc: meta-virtualization@lists.yoctoproject.org,
+	Adrian Freihofer <adrian.freihofer@siemens.com>
+Subject: Re: [meta-virtualization][PATCH 1/5] busybox-initrd: auto pv from
+ busybox
+Message-ID: <ZGT4F9wplbSlOV6g@gmail.com>
+References: <20230515152624.138713-1-adrian.freihofer@siemens.com>
+ <20230515152624.138713-2-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230512050404.1105546-1-mingli.yu@eng.windriver.com>
+In-Reply-To: <20230515152624.138713-2-adrian.freihofer@siemens.com>
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Wed, 17 May 2023 15:49:20 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8061
+ <meta-virtualization@lists.yoctoproject.org>; Wed, 17 May 2023 15:52:00 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8062
 
-In message: [meta-virtualization] [PATCH] yq: Redefine do_compile
-on 12/05/2023 Yu, Mingli wrote:
+In message: [meta-virtualization][PATCH 1/5] busybox-initrd: auto pv from busybox
+on 15/05/2023 Adrian Freihofer wrote:
 
-> From: Mingli Yu <mingli.yu@windriver.com>
+> Not hardcoding the version of busybox from the core layer in this layer
+> is a small improvement for maintenance.
 > 
-> This reverts commit 9b87b12885243c8cbba933e218c325416ec4d19d
-> which states the linkshared issue is resolved. Actually the
-> issue still exists as build fails on qemuarm64 and we still
-> need the fix [1]. So add the fix [1] back and it's also better
-> define its own do_compile and not let the do_compile logic
-> in go.bbclass affect the build.
+> But the main motivation is to support the following layer combination
+> without getting a parse error from bitbake:
+> - poky LTS, branch = kirkstone
+> - meta-lts-mixins, branch = kirkstone/go
+> - meta-lts-mixins, branch = kirkstone/rust
+> - meta-virtualization, branch = master
 
-More yq and linkshared fun!
+While there's no "official" support for combinations like that, the
+patch passed my local testing, so I see no reason to break combinations
+like you've listed at the parse step.
 
-This is now merged to master and mickledore.
+The old parse issue was sort of "on purpose" as it was a signal that
+busybox had changed, and the rename triggered a re-validation of the
+functionality. With the automatic PV update, that won't happen, so there
+is a chance of runtime issues creeping it.
+
+If runtime issues do start appearing, I can always enahance this to
+take a list of supported / tested busybox versions and have the function
+check against those known versions before continuing.
+
+This is now merged to master.
+
+I'm doing more runtime and framework testing on other package updates
+now.
 
 Bruce
 
 > 
-> [1] https://git.yoctoproject.org/meta-virtualization/commit/?id=d2a630ce6cf67a145f218012fbf02e4d0d9648df
+> Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 > ---
->  recipes-devtools/yq/yq_git.bb | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+>  ...{busybox-initrd_1.36.0.bb => busybox-initrd.bb} | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
+>  rename recipes-core/busybox/{busybox-initrd_1.36.0.bb => busybox-initrd.bb} (59%)
 > 
-> diff --git a/recipes-devtools/yq/yq_git.bb b/recipes-devtools/yq/yq_git.bb
-> index 45f2f970..bd474a79 100644
-> --- a/recipes-devtools/yq/yq_git.bb
-> +++ b/recipes-devtools/yq/yq_git.bb
-> @@ -50,7 +50,7 @@ GO_IMPORT = "github.com/mikefarah/yq"
+> diff --git a/recipes-core/busybox/busybox-initrd_1.36.0.bb b/recipes-core/busybox/busybox-initrd.bb
+> similarity index 59%
+> rename from recipes-core/busybox/busybox-initrd_1.36.0.bb
+> rename to recipes-core/busybox/busybox-initrd.bb
+> index 6108e9a..513ed13 100644
+> --- a/recipes-core/busybox/busybox-initrd_1.36.0.bb
+> +++ b/recipes-core/busybox/busybox-initrd.bb
+> @@ -1,5 +1,19 @@
+>  FILESEXTRAPATHS:prepend := "${THISDIR}/busybox-initrd:${COREBASE}/meta/recipes-core/busybox/busybox:${COREBASE}/meta/recipes-core/busybox/files:"
 >  
->  inherit go ptest
+> +def get_busybox_pv(d):
+> +    import re
+> +    corebase = d.getVar('COREBASE')
+> +    bb_dir = os.path.join(corebase, 'meta', 'recipes-core', 'busybox')
+> +    if os.path.isdir(bb_dir):
+> +        re_bb_name = re.compile(r"busybox_([0-9.]*)\.bb")
+> +        for bb_file in os.listdir(bb_dir):
+> +            result = re_bb_name.match(bb_file)
+> +            if result:
+> +                return result.group(1)
+> +    bb.fatal("Cannot find busybox recipe in %s" % bb_dir)
+> +
+> +PV := "${@get_busybox_pv(d)}"
+> +
+>  require recipes-core/busybox/busybox_${PV}.bb
 >  
-> -do_compile:prepend() {
-> +do_compile() {
->      # arrange for some of the golang built ins to be found
->      (
->  	cd ${WORKDIR}/build/src/
-> @@ -60,6 +60,7 @@ do_compile:prepend() {
->      # arrange for the fetched dependencies to be found
->      export GOPATH="${GOPATH}:${WORKDIR}/build/vendor/"
->      export GO111MODULE=off
-> +    ${GO} install ${GOBUILDFLAGS} `go_list_packages`
->  }
->  
->  do_install:append() {
+>  SRC_URI += "file://init.cfg \
 > -- 
-> 2.25.1
+> 2.40.1
 > 
 
 > 
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#8049): https://lists.yoctoproject.org/g/meta-virtualization/message/8049
-> Mute This Topic: https://lists.yoctoproject.org/mt/98843722/1050810
+> View/Reply Online (#8052): https://lists.yoctoproject.org/g/meta-virtualization/message/8052
+> Mute This Topic: https://lists.yoctoproject.org/mt/98905946/1050810
 > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
 > Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
