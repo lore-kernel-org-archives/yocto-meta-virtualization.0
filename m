@@ -2,821 +2,478 @@ Return-Path: <thakur.virendra1810@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6218EC77B7A
-	for <webhook@archiver.kernel.org>; Fri, 19 May 2023 08:06:47 +0000 (UTC)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.web10.20760.1684483605239102318
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27F9EC77B7F
+	for <webhook@archiver.kernel.org>; Fri, 19 May 2023 08:07:47 +0000 (UTC)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.web10.20774.1684483665993284093
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 19 May 2023 01:06:45 -0700
+ Fri, 19 May 2023 01:07:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=PtFgf7Tl;
- spf=pass (domain: gmail.com, ip: 209.85.128.46, mailfrom: thakur.virendra1810@gmail.com)
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-3f475366514so19938755e9.2
-        for <meta-virtualization@lists.yoctoproject.org>; Fri, 19 May 2023 01:06:45 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=NR5K4dBN;
+ spf=pass (domain: gmail.com, ip: 209.85.128.49, mailfrom: thakur.virendra1810@gmail.com)
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-3f41dceb9caso3476475e9.0
+        for <meta-virtualization@lists.yoctoproject.org>; Fri, 19 May 2023 01:07:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684483603; x=1687075603;
+        d=gmail.com; s=20221208; t=1684483664; x=1687075664;
         h=to:subject:message-id:date:from:in-reply-to:references:mime-version
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=Mb38ptRvIdfZBqSmnPcsb6cxHy/3TkJCoqrrnUlcNm8=;
-        b=PtFgf7Tl6PMU1uK4JcdRWNoMYBMQp514RRut2k/1bCD7COpvNJF7kJqwsKEPaGlSy5
-         mjIaI+AWttzStGHowjWm/R1l2B6YXAQN9XQWgxW2sgiK5G7zR4R+hm0kc5OiD2T+5DN6
-         LxqifR/F9G4oAQk8iaj69gdw0yMATt3VXLsHzuJxOEo4wByI3eAQ3OMYH4NpcjpC7NBU
-         pGbejxbcNjE7j8sSt1eMq8l37o0TEsgkSbQ1rHW4FyN87ke6cN0+boer9Ik1daHLSUdU
-         yICRTiIi2JEvpmUXYxLRpXJZZsVPQVTRIkxKay4/qryinJXj8wh+sipDHwZfW8sZpVYP
-         IDSg==
+        bh=tRv1BZBhV+uLDx4XxeJJZJkPd6os+hCv4nLUeeTcZrY=;
+        b=NR5K4dBN2EDUPRlu4iCm2EZye1uhxd4Peb2WTAELQaeh92pbW3YRNnwF/CZgqHzMu+
+         T9Pke6n+JzM+vM4gD0NcizpjL/IGS/T1tjzq7zmNd4bEy0wrIq8UrcAcdyST9IIW/TfU
+         8WJ2GpKml7B7+orM2cHSGN2QmJ4+Y9/lwmGrO1fuu49yGCfubXgomWikGaznqn9+rC7D
+         I9hfE55gw6XnQwAA87/AV9peQuoXP1w2rydLX8Zt+/SKQITM+rxgVeuXvJ2/9I3JLe3q
+         pmwVvCQwqn9kKkCaznRtm2Spn0wH1xTb/f7G5YNGray0MSNletvwRgKo0RQRP9tIX4LW
+         D3Zw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684483603; x=1687075603;
+        d=1e100.net; s=20221208; t=1684483664; x=1687075664;
         h=to:subject:message-id:date:from:in-reply-to:references:mime-version
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Mb38ptRvIdfZBqSmnPcsb6cxHy/3TkJCoqrrnUlcNm8=;
-        b=d+6mT9UJFWiiJEjZtItFWECeskfTcQYHB1JWJreVYvValopos89YJ+7lGOZCmx5e5a
-         4OTJqDBfM1uFht98SLtAzDAtPf6yjGsD467SD7/qaf0VdGIcM8bv1PWKdYpvpGlzf73W
-         VMsnGDCSsjOP3ShWWMdYp0Z3Nj63nI63Pz9Vjk9HyxIir5OwEZRV/XEbyjV2/DcEKhok
-         wx96fOJ8O5TJkpTRkfc4K1QFpA4ylGTOI60BKzvu13QC5kS0Xfs5VnACwM9bhUSL8rlX
-         baVMBN2eAATBCyyLqCwak1kfRTgwz73K3U9S2DYMM7bKTScW37F+OhuVKIs2EMEBEXum
-         gHEg==
-X-Gm-Message-State: AC+VfDxHhVh2pLK1wTVASKrdlNWivLfx35HwlBcM3g0+IqJKWDmY/dkj
-	E0RRxOC2oyqpUBxqX7YrOq8jdLQSatkNrmHuekBKA/Mu
-X-Google-Smtp-Source: ACHHUZ4bw7kOYmr56t/v7dgD0uh8ZkTZTWaRnK/wSwWzU9Cm1Dkszf88S48PsnvazdS+chgE+nbtuTJuJFHMjL5H+DU=
-X-Received: by 2002:a05:600c:b58:b0:3f4:294d:8524 with SMTP id
- k24-20020a05600c0b5800b003f4294d8524mr622689wmr.22.1684483603119; Fri, 19 May
- 2023 01:06:43 -0700 (PDT)
+        bh=tRv1BZBhV+uLDx4XxeJJZJkPd6os+hCv4nLUeeTcZrY=;
+        b=hSlJXtcsNvHW1OeY0DYPlqZG9JGXyU5RqtPBXaOC9g3NVzImMbgnrhA7192xubKX4V
+         25VASzM+MDpSJ4kk3gTWLf7C9VqAT9u4KX1woGaG4h7xEhRWlUkgf20Pj9HaaLg/nAiy
+         5gIYPuoqVSr3/xp3feI2rCIFEJ8EEiXfm4sjRGdkFLecFUxriQLZHkM2pvxb54dcjY3g
+         7u5XglfRO1Zwslkows4uNUpqXut5O6WtqiIORbfyxFeQk7Aj8n72PFA/+t7MLGtgxmPy
+         OiCCe9K2wIc3iSu/EVcPpmkl07ROnYEQmtuOuKXWAM35gNuoUVfRZD6Q2InwFjIDJDVz
+         y/Fw==
+X-Gm-Message-State: AC+VfDzVpUjmSyhSNnT7MRDiV5cxbNukXe9GIJoTZjQaMnMtNNyPDU77
+	8hQTLlGDuANqISHNiWRLCDmNxONkkxMQC/c2YwtbJq7Z
+X-Google-Smtp-Source: ACHHUZ78xNewZWnfZjyEqjuFOlMDhA/BJl5766O0kBp7hWEewFoxOOEEBEMofWEIputxrLfnr4mrnokdyMKBYa/o6Z8=
+X-Received: by 2002:a05:600c:1da5:b0:3f1:6fb4:5645 with SMTP id
+ p37-20020a05600c1da500b003f16fb45645mr775797wms.1.1684483663960; Fri, 19 May
+ 2023 01:07:43 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230519073245.4702-1-thakur.virendra1810@gmail.com>
-In-Reply-To: <20230519073245.4702-1-thakur.virendra1810@gmail.com>
+References: <20230519073331.4868-1-thakur.virendra1810@gmail.com>
+In-Reply-To: <20230519073331.4868-1-thakur.virendra1810@gmail.com>
 From: virendra thakur <thakur.virendra1810@gmail.com>
-Date: Fri, 19 May 2023 13:36:31 +0530
-Message-ID: <CAJM8miVHrL3YM8Jh9eK1rEtvSbthWC0zQ0kNQG5uo1dXPPkmFw@mail.gmail.com>
-Subject: meta-virtualization][PATCH 5/7] lxc: update to 4.0.11
+Date: Fri, 19 May 2023 13:37:32 +0530
+Message-ID: <CAJM8miVUEqNhPLpYiC2K7ZDAaQrKDBCytOK2pX1+h8wVkEFtgQ@mail.gmail.com>
+Subject: meta-virtualization][PATCH 6/7] lxc: update to 4.0.12
 To: meta-virtualization@lists.yoctoproject.org
-Content-Type: multipart/alternative; boundary="000000000000cb43d505fc07662b"
+Content-Type: multipart/alternative; boundary="0000000000006b9cd605fc076a70"
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Fri, 19 May 2023 08:06:47 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8069
+ <meta-virtualization@lists.yoctoproject.org>; Fri, 19 May 2023 08:07:47 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8070
 
---000000000000cb43d505fc07662b
+--0000000000006b9cd605fc076a70
 Content-Type: text/plain; charset="UTF-8"
 
-From: "Xu, Yanfei" <yanfei.xu@windriver.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-update to 4.0.11
+We refresh our wget -> curl patch for context, but otherwise, no other
+changes are required.
 
-1.drop two patches that have been integrated to upstream repo.
-2.drop tests-add-no-validate-when-using-download-template.patch
-  because it is no longer appropriate as the "download" has been
-  replaced with "busybox"
-3.fix the apply failure of templates-use-curl-instead-of-wget.patch
-4.update lxc from 4.0.10 to 4.0.11
+Bumping lxc to version lxc-4.0.12-8-g5ba5725cb, which comprises the
+following commits:
 
-Signed-off-by: Yanfei Xu <yanfei.xu@windriver.com>
+    5ba5725cb cgroups: modify cgroup2 attach logic
+    1e4631641 ttys: ensure container_ttys= env variable is set correctly
+    8ef019a6c doc: Fix reverse allowlist/denylist in Japanese man page
+    f1c4a17e7 cgroups: log fd of newly created cgroup
+    f7446b4e1 cgroups: check that opened file descriptor is a cgroup
+filesystem
+    71ba7f656 doc: Fix reverse allowlist/denylist
+    f314419d1 lxc-checkconfig: Fix bashism
+    ca4c25c6e lxc-net: don't start by default inside lxc
+    7e37cc96b Release LXC 4.0.12
+    d678aa61e lxccontainer: allow xdev when creating the container dir
+    bc61d2354 github: Clear default ACL on /home
+    fb0e0b3dd github: add systemd-coredump
+    53e0d390c github: more detailed compilation instructions
+    db84a8b6b github: log system info
+    e9282b6a6 github: ensure system liblxc is wiped
+    ad8a3bd68 lxccontainer: properly wrap lxcapi_create()
+    bceb81cd2 build: simplify thread local storage handling
+    919da35b0 build: only enable LTO for regular builds
+    d0a1e9c44 lxccontainer: simplify partial file creation
+    62b5c0051 lxccontainer: improve create_partial()
+    bfe24cb6a lxccontainer: improve do_lxcapi_create()
+    1a5c236ac lxccontainer: improve do_lxcapi_save_config()
+    bae0d7196 conf: log termination status
+    4eb09aaad conf: improve userns_exec_mapped_root()
+    928943280 github: stop installing gnupg now that it's unused
+    7c70b0d14 lxc-download: Rely on HTTPS only
+    199d2077c Update README.md: Fix broken link (403 Forbidden)
+    0b6b230e3 attach: don't pointlessly call cgroup_init()
+    dbef704fb commands: log command during file descriptor retrieval
+    733f9c909 lxc-checkconfig.in: CONFIG_NF_NAT_IPV4 was removed from the
+kernel 2019-03-03
+    ce392e230 (trivial) Fix error message, failure was connect not bind
+    5628bff79 seccomp: close seccomp notifier fd in cleanup handler
+    1f2af83a9 seccomp: only guard seccomp notify behind
+HAVE_DECL_SECCOMP_NOTIFY_FD
+    9451303d5 api-extensions: don't advertise seccomp notify support if
+it's not compiled in
+    23d07c315 use 2 sysfs instances for sys:mixed
+    0dd3258bd Revert "api: ->save_config() doesn't need to create container
+dir"
+    93edd510a api: ->save_config() doesn't need to create container dir
+    28b2e04f1 cgroups: fix compiler warning
+    15515f9a3 Revert "initutils: use vfork() in lxc_container_init()"
+    41d2530d1 macro: ensure necessary io_uring flags are defined
+    fc4e948c9 autotools: Avoid multiple liblxc.so with --enable-pam
+    a616a311a build: refuse to compile with unsupported liburing version
+    93be4e512 tests: add lxc.proc.* test
+    d8027e49c tests: add lxc.sysctls.* test
+    6f580343e test: improve logging helpers
+    a10ff3418 conf: improve logging setting sysctl and /proc/<pid>/
+parameters
+    334cf7beb conf: apply /proc/sys and /proc/<pid>/ parameters
+    1b74e01ad tests: include config.h
+    c36379431 build: move _FILE_OFFSET_BITS to common option
+    f24c234ee start: log signal name and number
+    4915c9112 process_utils: add signal_name() helper
+    78baec37d build: improve liburing support detection
+    1a102b310 mainloop: make ifdefs easier to follow
+    cf931928f Replace last occurence of 'which' with 'command -v'
+    1ec5939b4 Replace deprecated backticks with $() construct
+    fdfb4a13d Replace 'which' with 'command -v' in tests too
+    71743e811 start: check event loop type before closing fd
+    f69e6b4d3 mainloop: make sure that descr->ring is allocated
+    1a8895855 Replace 'which' with 'command -v'
+    9219277cc build: add io-uring-event-loop option
+    d04eb166c build: add static libcap to output
+    bc51048b7 confile: don't use path_simplify() on lxc.{execute,init}.cmd
+    48728e988 conf: add cgroup2, cgroup2:ro, cgroup2:force,
+cgroup2:ro:force options
+    4d3aad49d AUTHORS: Update to point to git history
+    e328a988e conf: handle kernels without or not using SMT
+    d40b0deb4 doc: fix typo in English lxc.container.conf(5)
+    49fab27fc doc: Add lxc.sched.core to Japanese lxc.container.conf(5)
+    1ad1cab80 doc: add loglevels to ja and ko common options
+    1505f0780 conf: make it more obvious how auto-mount flags are defined
+    429233cf0 criu: support restoring containers with pre-created veth
+devices
+    48e079bf3 Release LXC 4.0.11
+
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-(cherry picked from commit 3bff112a44699e8df63e125580699cc5e288bf0f)
+(cherry picked from commit 3ca7a147e0e4cb6c9d39871b74a72e4fea5094ab)
 Signed-off-by: virendra thakur <virendrak@kpit.com>
 ---
- ...omp_profile_when_compiled_libseccomp.patch | 46 ----------
- .../lxc/files/fix_c_command.patch             | 36 --------
- .../templates-use-curl-instead-of-wget.patch  | 23 ++---
- ...alidate-when-using-download-template.patch | 85 -------------------
- recipes-containers/lxc/lxc_git.bb             |  7 +-
- 5 files changed, 15 insertions(+), 182 deletions(-)
- delete mode 100644
-recipes-containers/lxc/files/enable_seccomp_profile_when_compiled_libseccomp.patch
- delete mode 100644 recipes-containers/lxc/files/fix_c_command.patch
- delete mode 100644
-recipes-containers/lxc/files/tests-add-no-validate-when-using-download-template.patch
+ .../templates-use-curl-instead-of-wget.patch  | 26 +++++++++----------
+ recipes-containers/lxc/lxc_git.bb             |  4 +--
+ 2 files changed, 14 insertions(+), 16 deletions(-)
 
-diff --git
-a/recipes-containers/lxc/files/enable_seccomp_profile_when_compiled_libseccomp.patch
-b/recipes-containers/lxc/files/enable_seccomp_profile_when_compiled_libseccomp.patch
-deleted file mode 100644
-index f0a5813..0000000
----
-a/recipes-containers/lxc/files/enable_seccomp_profile_when_compiled_libseccomp.patch
-+++ /dev/null
-@@ -1,46 +0,0 @@
--From 3d46e1d1f8e904fddd4fab3e8d0c6cf57d2ddd4e Mon Sep 17 00:00:00 2001
--From: Maximilian Blenk <Maximilian.Blenk@bmw.de>
--Date: Mon, 23 Aug 2021 22:04:40 +0200
--Subject: [PATCH] config: enable seccomp profile only when compiled with
-- libseccomp
--
--Make lxc fail if seccomp.profile is specified but lxc is compiled
--without seccomp support. Currently, seccomp.profile is silently ignored
--if is specified in such a scenario. This could lead to the false
--impression that the seccomp filter is applied while it actually isn't.
--
--Signed-off-by: Maximilian Blenk <Maximilian.Blenk@bmw.de>
-----
-- src/lxc/confile.c | 8 ++++++++
-- 1 file changed, 8 insertions(+)
--
--Upstream-Status: Submitted [
-https://github.com/lxc/lxc/pull/3947/commits/3d46e1d1f8e904fddd4fab3e8d0c6cf57d2ddd4e
-]
--
--diff --git a/src/lxc/confile.c b/src/lxc/confile.c
--index d8b96c6921..1cc8da15f1 100644
----- a/src/lxc/confile.c
--+++ b/src/lxc/confile.c
--@@ -1211,7 +1211,11 @@ static int set_config_seccomp_notify_proxy(const
-char *key, const char *value,
-- static int set_config_seccomp_profile(const char *key, const char *value,
--                                     struct lxc_conf *lxc_conf, void *data)
-- {
--+#ifdef HAVE_SECCOMP
--       return set_config_path_item(&lxc_conf->seccomp.seccomp, value);
--+#else
--+      return ret_set_errno(-1, ENOSYS);
--+#endif
-- }
--
-- static int set_config_execute_cmd(const char *key, const char *value,
--@@ -4383,7 +4387,11 @@ static int get_config_seccomp_notify_proxy(const
-char *key, char *retv, int inle
-- static int get_config_seccomp_profile(const char *key, char *retv, int
-inlen,
--                                     struct lxc_conf *c, void *data)
-- {
--+#ifdef HAVE_SECCOMP
--       return lxc_get_conf_str(retv, inlen, c->seccomp.seccomp);
--+#else
--+      return ret_errno(ENOSYS);
--+#endif
-- }
--
-- static int get_config_autodev(const char *key, char *retv, int inlen,
-diff --git a/recipes-containers/lxc/files/fix_c_command.patch
-b/recipes-containers/lxc/files/fix_c_command.patch
-deleted file mode 100644
-index 1ed8daf..0000000
---- a/recipes-containers/lxc/files/fix_c_command.patch
-+++ /dev/null
-@@ -1,36 +0,0 @@
--From 9becf309a81806ef08acf9ca99ab95c1bcfa1f65 Mon Sep 17 00:00:00 2001
--From: Maximilian Blenk <Maximilian.Blenk@bmw.de>
--Date: Mon, 23 Aug 2021 15:39:28 +0200
--Subject: [PATCH] attach: Fix -c command
--
--Currently, the -c command (to set the selinux context) seems to be
--broken because the passed context is ignored and always overwritten by
--the context specified in the config file. The intention behind the -c
--imho was to be able to manually overwrite this behavior. This patch
--ensures that the selinux context will be set if passed via the command
--line.
--
--Signed-off-by: Maximilian Blenk <Maximilian.Blenk@bmw.de>
-----
-- src/lxc/tools/lxc_attach.c | 5 ++++-
-- 1 file changed, 4 insertions(+), 1 deletion(-)
--
--Upstream-Status: Backport [
-https://github.com/lxc/lxc/commit/9becf309a81806ef08acf9ca99ab95c1bcfa1f65.patch
-]
--Comment: No change in any hunk
--
--diff --git a/src/lxc/tools/lxc_attach.c b/src/lxc/tools/lxc_attach.c
--index 0374d980b4..e6b388b20c 100644
----- a/src/lxc/tools/lxc_attach.c
--+++ b/src/lxc/tools/lxc_attach.c
--@@ -379,7 +379,10 @@ int main(int argc, char *argv[])
--               attach_options.gid = my_args.gid;
--
--       // selinux_context will be NULL if not set
---      attach_options.lsm_label = selinux_context;
--+      if (selinux_context) {
--+              attach_options.attach_flags |= LXC_ATTACH_LSM_LABEL;
--+              attach_options.lsm_label = selinux_context;
--+      }
--
--       if (command.program) {
--               ret = c->attach_run_wait(c, &attach_options,
-command.program,
 diff --git
 a/recipes-containers/lxc/files/templates-use-curl-instead-of-wget.patch
 b/recipes-containers/lxc/files/templates-use-curl-instead-of-wget.patch
-index 156df82..4556293 100644
+index 4556293..f06e596 100644
 --- a/recipes-containers/lxc/files/templates-use-curl-instead-of-wget.patch
 +++ b/recipes-containers/lxc/files/templates-use-curl-instead-of-wget.patch
-@@ -1,4 +1,4 @@
--From 07890dd8ffdcd08b7be1ddbd9f56ac55482c76bb Mon Sep 17 00:00:00 2001
-+From 1db2db7783bd7ec2aa1da86e640019891634c659 Mon Sep 17 00:00:00 2001
- From: Joakim Roubert <joakimr@axis.com>
- Date: Fri, 16 Aug 2019 07:52:48 +0200
- Subject: [PATCH] Use curl instead of wget
-@@ -7,16 +7,16 @@ When curl's MIT license is preferable to wget's GPLv3.
-
- Change-Id: I4684ae7569704514fdcc63e0655c556efcaf44f8
- Signed-off-by: Joakim Roubert <joakimr@axis.com>
--
-+Signed-off-by: Yanfei Xu <yanfei.xu@windriver.com>
- ---
+@@ -12,11 +12,11 @@ Signed-off-by: Yanfei Xu <yanfei.xu@windriver.com>
   templates/lxc-download.in | 10 +++++-----
   1 file changed, 5 insertions(+), 5 deletions(-)
 
- diff --git a/templates/lxc-download.in b/templates/lxc-download.in
--index d7e6128..8a4b567 100644
-+index e8570692a..f7291b0cc 100755
- --- a/templates/lxc-download.in
- +++ b/templates/lxc-download.in
--@@ -74,9 +74,9 @@ cleanup() {
-+@@ -75,9 +75,9 @@ cleanup() {
+-diff --git a/templates/lxc-download.in b/templates/lxc-download.in
+-index e8570692a..f7291b0cc 100755
+---- a/templates/lxc-download.in
+-+++ b/templates/lxc-download.in
+-@@ -75,9 +75,9 @@ cleanup() {
++Index: git/templates/lxc-download.in
++===================================================================
++--- git.orig/templates/lxc-download.in
+++++ git/templates/lxc-download.in
++@@ -59,9 +59,9 @@
     fi
   }
 
-@@ -28,18 +28,18 @@ index d7e6128..8a4b567 100644
+@@ -28,18 +28,19 @@ index e8570692a..f7291b0cc 100755
         return 0
       fi
     done
--@@ -85,8 +85,8 @@ wget_wrapper() {
-+@@ -86,8 +86,8 @@ wget_wrapper() {
+-@@ -86,8 +86,8 @@ wget_wrapper() {
++@@ -70,8 +70,9 @@
   }
 
   download_file() {
---  if ! wget_wrapper -T 30 -q "https://${DOWNLOAD_SERVER}/$1" -O "$2"
->/dev/null 2>&1; then
---    if ! wget_wrapper -T 30 -q "http://${DOWNLOAD_SERVER}/$1" -O "$2"
->/dev/null 2>&1; then
--+  if ! curl_wrapper -m 30 -s "https://${DOWNLOAD_SERVER}/$1" -o "$2"
->/dev/null 2>&1; then
--+    if ! curl_wrapper -m 30 -s "http://${DOWNLOAD_SERVER}/$1" -o "$2"
->/dev/null 2>&1; then
-+-  if ! wget_wrapper --user-agent="lxc/@PACKAGE_VERSION@
+ -  if ! wget_wrapper --user-agent="lxc/@PACKAGE_VERSION@
 compat:${DOWNLOAD_COMPAT_LEVEL}" -T 30 -q "https://${DOWNLOAD_SERVER}/$1"
 -O "$2" >/dev/null 2>&1; then
-+-    if ! wget_wrapper --user-agent="lxc/@PACKAGE_VERSION@
+--    if ! wget_wrapper --user-agent="lxc/@PACKAGE_VERSION@
 compat:${DOWNLOAD_COMPAT_LEVEL}" -T 30 -q "http://${DOWNLOAD_SERVER}/$1" -O
 "$2" >/dev/null 2>&1; then
-++  if ! curl_wrapper --user-agent="lxc/@PACKAGE_VERSION@
++-    if [ "$3" = "noexit" ]; then
+ +  if ! curl_wrapper --user-agent="lxc/@PACKAGE_VERSION@
 compat:${DOWNLOAD_COMPAT_LEVEL}" -m 30 -s "https://${DOWNLOAD_SERVER}/$1"
 -o "$2" >/dev/null 2>&1; then
-++    if ! curl_wrapper --user-agent="lxc/@PACKAGE_VERSION@
+ +    if ! curl_wrapper --user-agent="lxc/@PACKAGE_VERSION@
 compat:${DOWNLOAD_COMPAT_LEVEL}" -m 30 -s "http://${DOWNLOAD_SERVER}/$1" -o
 "$2" >/dev/null 2>&1; then
-        if [ "$3" = "noexit" ]; then
-          return 1
-        else
--@@ -271,7 +271,7 @@ while :; do
-+@@ -277,7 +277,7 @@ while :; do
+-       if [ "$3" = "noexit" ]; then
+-         return 1
+-       else
+-@@ -277,7 +277,7 @@ while :; do
+++      if [ "$3" = "noexit" ]; then
++       return 1
++     else
++       echo "ERROR: Failed to download https://${DOWNLOAD_SERVER}/$1" 1>&2
++@@ -176,7 +177,7 @@
   done
 
   # Check for required binaries
-@@ -48,3 +48,6 @@ index d7e6128..8a4b567 100644
+@@ -48,6 +49,3 @@ index e8570692a..f7291b0cc 100755
     if ! command -V "${bin}" >/dev/null 2>&1; then
       echo "ERROR: Missing required tool: ${bin}" 1>&2
       exit 1
-+--
-+2.27.0
-+
-diff --git
-a/recipes-containers/lxc/files/tests-add-no-validate-when-using-download-template.patch
-b/recipes-containers/lxc/files/tests-add-no-validate-when-using-download-template.patch
-deleted file mode 100644
-index f335e79..0000000
 ---
-a/recipes-containers/lxc/files/tests-add-no-validate-when-using-download-template.patch
-+++ /dev/null
-@@ -1,85 +0,0 @@
--From 1c2506434e744d8c6a86e42c9d8bae4cde7553f6 Mon Sep 17 00:00:00 2001
--From: Mark Asselstine <mark.asselstine@windriver.com>
--Date: Thu, 31 May 2018 15:14:26 -0400
--Subject: [PATCH] tests: add '--no-validate' when using download template
--
--We are usually running the ptests with core-image-minimal which has no
--mechanism to validate the downloads. Validation isn't really of
--interest to this test at any rate so simply add '--no-validate' to
--avoid failing due to no GPG validation.
--
--Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
--
-----
-- src/tests/lxc-test-apparmor-mount | 2 +-
-- src/tests/lxc-test-autostart      | 2 +-
-- src/tests/lxc-test-no-new-privs   | 2 +-
-- src/tests/lxc-test-unpriv         | 2 +-
-- src/tests/lxc-test-usernic.in     | 2 +-
-- 5 files changed, 5 insertions(+), 5 deletions(-)
--
--Index: lxc-4.0.9/src/tests/lxc-test-apparmor-mount
--===================================================================
----- lxc-4.0.9.orig/src/tests/lxc-test-apparmor-mount
--+++ lxc-4.0.9/src/tests/lxc-test-apparmor-mount
--@@ -170,7 +170,7 @@
--     done
-- fi
--
---run_cmd lxc-create -t download -n $cname -- -d ubuntu -r $release -a $ARCH
--+run_cmd lxc-create -t download -n $cname -- --no-validate -d ubuntu -r
-$release -a $ARCH
--
-- echo "test default confined container"
-- run_cmd lxc-start -n $cname -d -lDEBUG -o "$logfile"
--Index: lxc-4.0.9/src/tests/lxc-test-autostart
--===================================================================
----- lxc-4.0.9.orig/src/tests/lxc-test-autostart
--+++ lxc-4.0.9/src/tests/lxc-test-autostart
--@@ -55,7 +55,7 @@
--     done
-- fi
--
---lxc-create -t download -n $CONTAINER_NAME -B dir -- -d ubuntu -r $release
--a $ARCH
--+lxc-create -t download -n $CONTAINER_NAME -B dir -- --no-validate -d
-ubuntu -r $release -a $ARCH
-- CONTAINER_PATH=$(dirname $(lxc-info -n $CONTAINER_NAME -c lxc.rootfs.path
--H) | sed -e 's/dir://')
-- cp $CONTAINER_PATH/config $CONTAINER_PATH/config.bak
--
--Index: lxc-4.0.9/src/tests/lxc-test-no-new-privs
--===================================================================
----- lxc-4.0.9.orig/src/tests/lxc-test-no-new-privs
--+++ lxc-4.0.9/src/tests/lxc-test-no-new-privs
--@@ -49,7 +49,7 @@
--       ARCH=$(dpkg --print-architecture)
-- fi
--
---lxc-create -t download -n c1 -- -d ubuntu -r xenial -a $ARCH
--+lxc-create -t download -n c1 -- --no-validate -d ubuntu -r xenial -a $ARCH
-- echo "lxc.no_new_privs = 1" >> /var/lib/lxc/c1/config
--
-- lxc-start -n c1
--Index: lxc-4.0.9/src/tests/lxc-test-unpriv
--===================================================================
----- lxc-4.0.9.orig/src/tests/lxc-test-unpriv
--+++ lxc-4.0.9/src/tests/lxc-test-unpriv
--@@ -178,7 +178,7 @@
--     cp -R /var/cache/lxc/download $HDIR/.cache/lxc && \
--     chown -R $TUSER: $HDIR/.cache/lxc
--
---run_cmd lxc-create -t download -n c1 -l trace -o "${UNPRIV_LOG}" -- -d
-ubuntu -r $release -a $ARCH
--+run_cmd lxc-create -t download -n c1 -l trace -o "${UNPRIV_LOG}" --
---no-validate -d ubuntu -r $release -a $ARCH
--
-- # Make sure we can start it - twice
--
--Index: lxc-4.0.9/src/tests/lxc-test-usernic.in
--===================================================================
----- lxc-4.0.9.orig/src/tests/lxc-test-usernic.in
--+++ lxc-4.0.9/src/tests/lxc-test-usernic.in
--@@ -147,7 +147,7 @@
-- fi
--
-- # Create three containers
---run_cmd "lxc-create -t download -n b1 -- -d ubuntu -r $release -a $ARCH"
--+run_cmd "lxc-create -t download -n b1 -- --no-validate -d ubuntu -r
-$release -a $ARCH"
-- run_cmd "lxc-start -n b1 -d"
-- p1=$(run_cmd "lxc-info -n b1 -p -H")
+-2.27.0
 -
 diff --git a/recipes-containers/lxc/lxc_git.bb b/recipes-containers/lxc/
 lxc_git.bb
-index f98cba0..94a1e1e 100644
+index 94a1e1e..397ff36 100644
 --- a/recipes-containers/lxc/lxc_git.bb
 +++ b/recipes-containers/lxc/lxc_git.bb
-@@ -46,15 +46,12 @@ SRC_URI = "git://
-github.com/lxc/lxc.git;branch=stable-4.0 \
-        file://template-make-busybox-template-compatible-with-core-.patch \
-        file://templates-use-curl-instead-of-wget.patch \
-        file://tests-our-init-is-not-busybox.patch \
--       file://tests-add-no-validate-when-using-download-template.patch \
-        file://dnsmasq.conf \
+@@ -50,8 +50,8 @@ SRC_URI = "git://github.com/lxc/lxc.git;branch=stable-4.0
+\
         file://lxc-net \
--        file://enable_seccomp_profile_when_compiled_libseccomp.patch \
--        file://fix_c_command.patch \
         "
 
--SRCREV = "cec7cb14b2a4367d4cb21a90e1b90d0f98a9d874"
--PV = "4.0.10+git${SRCPV}"
-+SRCREV = "48e079bf318982ae7d5684feeb7358870fa71c10"
-+PV = "4.0.11+git${SRCPV}"
+-SRCREV = "48e079bf318982ae7d5684feeb7358870fa71c10"
+-PV = "4.0.11+git${SRCPV}"
++SRCREV = "5ba5725cb4a210c25707beeca64fde5f561d1c71"
++PV = "4.0.12+git${SRCPV}"
 
  S = "${WORKDIR}/git"
 
 -- 
 2.17.1
 
---000000000000cb43d505fc07662b
+--0000000000006b9cd605fc076a70
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"auto"><div><div class=3D"gmail_quote">From: &quot;Xu, Yanfei&qu=
-ot; &lt;<a href=3D"mailto:yanfei.xu@windriver.com" target=3D"_blank" rel=3D=
-"noreferrer">yanfei.xu@windriver.com</a>&gt;<br>
+<div dir=3D"auto"><div><div class=3D"gmail_quote">From: Bruce Ashfield &lt;=
+<a href=3D"mailto:bruce.ashfield@gmail.com" target=3D"_blank" rel=3D"norefe=
+rrer">bruce.ashfield@gmail.com</a>&gt;<br>
 <br>
-update to 4.0.11<br>
+We refresh our wget -&gt; curl patch for context, but otherwise, no other<b=
+r>
+changes are required.<br>
 <br>
-1.drop two patches that have been integrated to upstream repo.<br>
-2.drop tests-add-no-validate-when-using-download-template.patch<br>
-=C2=A0 because it is no longer appropriate as the &quot;download&quot; has =
-been<br>
-=C2=A0 replaced with &quot;busybox&quot;<br>
-3.fix the apply failure of templates-use-curl-instead-of-wget.patch<br>
-4.update lxc from 4.0.10 to 4.0.11<br>
+Bumping lxc to version lxc-4.0.12-8-g5ba5725cb, which comprises the followi=
+ng commits:<br>
 <br>
-Signed-off-by: Yanfei Xu &lt;<a href=3D"mailto:yanfei.xu@windriver.com" tar=
-get=3D"_blank" rel=3D"noreferrer">yanfei.xu@windriver.com</a>&gt;<br>
+=C2=A0 =C2=A0 5ba5725cb cgroups: modify cgroup2 attach logic<br>
+=C2=A0 =C2=A0 1e4631641 ttys: ensure container_ttys=3D env variable is set =
+correctly<br>
+=C2=A0 =C2=A0 8ef019a6c doc: Fix reverse allowlist/denylist in Japanese man=
+ page<br>
+=C2=A0 =C2=A0 f1c4a17e7 cgroups: log fd of newly created cgroup<br>
+=C2=A0 =C2=A0 f7446b4e1 cgroups: check that opened file descriptor is a cgr=
+oup filesystem<br>
+=C2=A0 =C2=A0 71ba7f656 doc: Fix reverse allowlist/denylist<br>
+=C2=A0 =C2=A0 f314419d1 lxc-checkconfig: Fix bashism<br>
+=C2=A0 =C2=A0 ca4c25c6e lxc-net: don&#39;t start by default inside lxc<br>
+=C2=A0 =C2=A0 7e37cc96b Release LXC 4.0.12<br>
+=C2=A0 =C2=A0 d678aa61e lxccontainer: allow xdev when creating the containe=
+r dir<br>
+=C2=A0 =C2=A0 bc61d2354 github: Clear default ACL on /home<br>
+=C2=A0 =C2=A0 fb0e0b3dd github: add systemd-coredump<br>
+=C2=A0 =C2=A0 53e0d390c github: more detailed compilation instructions<br>
+=C2=A0 =C2=A0 db84a8b6b github: log system info<br>
+=C2=A0 =C2=A0 e9282b6a6 github: ensure system liblxc is wiped<br>
+=C2=A0 =C2=A0 ad8a3bd68 lxccontainer: properly wrap lxcapi_create()<br>
+=C2=A0 =C2=A0 bceb81cd2 build: simplify thread local storage handling<br>
+=C2=A0 =C2=A0 919da35b0 build: only enable LTO for regular builds<br>
+=C2=A0 =C2=A0 d0a1e9c44 lxccontainer: simplify partial file creation<br>
+=C2=A0 =C2=A0 62b5c0051 lxccontainer: improve create_partial()<br>
+=C2=A0 =C2=A0 bfe24cb6a lxccontainer: improve do_lxcapi_create()<br>
+=C2=A0 =C2=A0 1a5c236ac lxccontainer: improve do_lxcapi_save_config()<br>
+=C2=A0 =C2=A0 bae0d7196 conf: log termination status<br>
+=C2=A0 =C2=A0 4eb09aaad conf: improve userns_exec_mapped_root()<br>
+=C2=A0 =C2=A0 928943280 github: stop installing gnupg now that it&#39;s unu=
+sed<br>
+=C2=A0 =C2=A0 7c70b0d14 lxc-download: Rely on HTTPS only<br>
+=C2=A0 =C2=A0 199d2077c Update README.md: Fix broken link (403 Forbidden)<b=
+r>
+=C2=A0 =C2=A0 0b6b230e3 attach: don&#39;t pointlessly call cgroup_init()<br=
+>
+=C2=A0 =C2=A0 dbef704fb commands: log command during file descriptor retrie=
+val<br>
+=C2=A0 =C2=A0 733f9c909 <a href=3D"http://lxc-checkconfig.in" rel=3D"norefe=
+rrer noreferrer" target=3D"_blank">lxc-checkconfig.in</a>: CONFIG_NF_NAT_IP=
+V4 was removed from the kernel 2019-03-03<br>
+=C2=A0 =C2=A0 ce392e230 (trivial) Fix error message, failure was connect no=
+t bind<br>
+=C2=A0 =C2=A0 5628bff79 seccomp: close seccomp notifier fd in cleanup handl=
+er<br>
+=C2=A0 =C2=A0 1f2af83a9 seccomp: only guard seccomp notify behind HAVE_DECL=
+_SECCOMP_NOTIFY_FD<br>
+=C2=A0 =C2=A0 9451303d5 api-extensions: don&#39;t advertise seccomp notify =
+support if it&#39;s not compiled in<br>
+=C2=A0 =C2=A0 23d07c315 use 2 sysfs instances for sys:mixed<br>
+=C2=A0 =C2=A0 0dd3258bd Revert &quot;api: -&gt;save_config() doesn&#39;t ne=
+ed to create container dir&quot;<br>
+=C2=A0 =C2=A0 93edd510a api: -&gt;save_config() doesn&#39;t need to create =
+container dir<br>
+=C2=A0 =C2=A0 28b2e04f1 cgroups: fix compiler warning<br>
+=C2=A0 =C2=A0 15515f9a3 Revert &quot;initutils: use vfork() in lxc_containe=
+r_init()&quot;<br>
+=C2=A0 =C2=A0 41d2530d1 macro: ensure necessary io_uring flags are defined<=
+br>
+=C2=A0 =C2=A0 fc4e948c9 autotools: Avoid multiple liblxc.so with --enable-p=
+am<br>
+=C2=A0 =C2=A0 a616a311a build: refuse to compile with unsupported liburing =
+version<br>
+=C2=A0 =C2=A0 93be4e512 tests: add lxc.proc.* test<br>
+=C2=A0 =C2=A0 d8027e49c tests: add lxc.sysctls.* test<br>
+=C2=A0 =C2=A0 6f580343e test: improve logging helpers<br>
+=C2=A0 =C2=A0 a10ff3418 conf: improve logging setting sysctl and /proc/&lt;=
+pid&gt;/ parameters<br>
+=C2=A0 =C2=A0 334cf7beb conf: apply /proc/sys and /proc/&lt;pid&gt;/ parame=
+ters<br>
+=C2=A0 =C2=A0 1b74e01ad tests: include config.h<br>
+=C2=A0 =C2=A0 c36379431 build: move _FILE_OFFSET_BITS to common option<br>
+=C2=A0 =C2=A0 f24c234ee start: log signal name and number<br>
+=C2=A0 =C2=A0 4915c9112 process_utils: add signal_name() helper<br>
+=C2=A0 =C2=A0 78baec37d build: improve liburing support detection<br>
+=C2=A0 =C2=A0 1a102b310 mainloop: make ifdefs easier to follow<br>
+=C2=A0 =C2=A0 cf931928f Replace last occurence of &#39;which&#39; with &#39=
+;command -v&#39;<br>
+=C2=A0 =C2=A0 1ec5939b4 Replace deprecated backticks with $() construct<br>
+=C2=A0 =C2=A0 fdfb4a13d Replace &#39;which&#39; with &#39;command -v&#39; i=
+n tests too<br>
+=C2=A0 =C2=A0 71743e811 start: check event loop type before closing fd<br>
+=C2=A0 =C2=A0 f69e6b4d3 mainloop: make sure that descr-&gt;ring is allocate=
+d<br>
+=C2=A0 =C2=A0 1a8895855 Replace &#39;which&#39; with &#39;command -v&#39;<b=
+r>
+=C2=A0 =C2=A0 9219277cc build: add io-uring-event-loop option<br>
+=C2=A0 =C2=A0 d04eb166c build: add static libcap to output<br>
+=C2=A0 =C2=A0 bc51048b7 confile: don&#39;t use path_simplify() on lxc.{exec=
+ute,init}.cmd<br>
+=C2=A0 =C2=A0 48728e988 conf: add cgroup2, cgroup2:ro, cgroup2:force, cgrou=
+p2:ro:force options<br>
+=C2=A0 =C2=A0 4d3aad49d AUTHORS: Update to point to git history<br>
+=C2=A0 =C2=A0 e328a988e conf: handle kernels without or not using SMT<br>
+=C2=A0 =C2=A0 d40b0deb4 doc: fix typo in English lxc.container.conf(5)<br>
+=C2=A0 =C2=A0 49fab27fc doc: Add lxc.sched.core to Japanese lxc.container.c=
+onf(5)<br>
+=C2=A0 =C2=A0 1ad1cab80 doc: add loglevels to ja and ko common options<br>
+=C2=A0 =C2=A0 1505f0780 conf: make it more obvious how auto-mount flags are=
+ defined<br>
+=C2=A0 =C2=A0 429233cf0 criu: support restoring containers with pre-created=
+ veth devices<br>
+=C2=A0 =C2=A0 48e079bf3 Release LXC 4.0.11<br>
+<br>
 Signed-off-by: Bruce Ashfield &lt;<a href=3D"mailto:bruce.ashfield@gmail.co=
 m" target=3D"_blank" rel=3D"noreferrer">bruce.ashfield@gmail.com</a>&gt;<br=
 >
-(cherry picked from commit 3bff112a44699e8df63e125580699cc5e288bf0f)<br>
+(cherry picked from commit 3ca7a147e0e4cb6c9d39871b74a72e4fea5094ab)<br>
 Signed-off-by: virendra thakur &lt;<a href=3D"mailto:virendrak@kpit.com" ta=
 rget=3D"_blank" rel=3D"noreferrer">virendrak@kpit.com</a>&gt;<br>
 ---<br>
-=C2=A0...omp_profile_when_compiled_libseccomp.patch | 46 ----------<br>
-=C2=A0.../lxc/files/fix_c_command.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0| 36 --------<br>
-=C2=A0.../templates-use-curl-instead-of-wget.patch=C2=A0 | 23 ++---<br>
-=C2=A0...alidate-when-using-download-template.patch | 85 ------------------=
--<br>
+=C2=A0.../templates-use-curl-instead-of-wget.patch=C2=A0 | 26 +++++++++----=
+------<br>
 =C2=A0recipes-containers/lxc/<a href=3D"http://lxc_git.bb" rel=3D"noreferre=
 r noreferrer" target=3D"_blank">lxc_git.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0|=C2=A0 7 +-<br>
-=C2=A05 files changed, 15 insertions(+), 182 deletions(-)<br>
-=C2=A0delete mode 100644 recipes-containers/lxc/files/enable_seccomp_profil=
-e_when_compiled_libseccomp.patch<br>
-=C2=A0delete mode 100644 recipes-containers/lxc/files/fix_c_command.patch<b=
-r>
-=C2=A0delete mode 100644 recipes-containers/lxc/files/tests-add-no-validate=
--when-using-download-template.patch<br>
+=C2=A0 =C2=A0 =C2=A0|=C2=A0 4 +--<br>
+=C2=A02 files changed, 14 insertions(+), 16 deletions(-)<br>
 <br>
-diff --git a/recipes-containers/lxc/files/enable_seccomp_profile_when_compi=
-led_libseccomp.patch b/recipes-containers/lxc/files/enable_seccomp_profile_=
-when_compiled_libseccomp.patch<br>
-deleted file mode 100644<br>
-index f0a5813..0000000<br>
---- a/recipes-containers/lxc/files/enable_seccomp_profile_when_compiled_lib=
-seccomp.patch<br>
-+++ /dev/null<br>
-@@ -1,46 +0,0 @@<br>
--From 3d46e1d1f8e904fddd4fab3e8d0c6cf57d2ddd4e Mon Sep 17 00:00:00 2001<br>
--From: Maximilian Blenk &lt;<a href=3D"mailto:Maximilian.Blenk@bmw.de" targ=
-et=3D"_blank" rel=3D"noreferrer">Maximilian.Blenk@bmw.de</a>&gt;<br>
--Date: Mon, 23 Aug 2021 22:04:40 +0200<br>
--Subject: [PATCH] config: enable seccomp profile only when compiled with<br=
->
-- libseccomp<br>
--<br>
--Make lxc fail if seccomp.profile is specified but lxc is compiled<br>
--without seccomp support. Currently, seccomp.profile is silently ignored<br=
->
--if is specified in such a scenario. This could lead to the false<br>
--impression that the seccomp filter is applied while it actually isn&#39;t.=
-<br>
--<br>
--Signed-off-by: Maximilian Blenk &lt;<a href=3D"mailto:Maximilian.Blenk@bmw=
-.de" target=3D"_blank" rel=3D"noreferrer">Maximilian.Blenk@bmw.de</a>&gt;<b=
-r>
-----<br>
-- src/lxc/confile.c | 8 ++++++++<br>
-- 1 file changed, 8 insertions(+)<br>
--<br>
--Upstream-Status: Submitted [<a href=3D"https://github.com/lxc/lxc/pull/394=
-7/commits/3d46e1d1f8e904fddd4fab3e8d0c6cf57d2ddd4e" rel=3D"noreferrer noref=
-errer" target=3D"_blank">https://github.com/lxc/lxc/pull/3947/commits/3d46e=
-1d1f8e904fddd4fab3e8d0c6cf57d2ddd4e</a>]<br>
--<br>
--diff --git a/src/lxc/confile.c b/src/lxc/confile.c<br>
--index d8b96c6921..1cc8da15f1 100644<br>
----- a/src/lxc/confile.c<br>
--+++ b/src/lxc/confile.c<br>
--@@ -1211,7 +1211,11 @@ static int set_config_seccomp_notify_proxy(const ch=
-ar *key, const char *value,<br>
-- static int set_config_seccomp_profile(const char *key, const char *value,=
-<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct lxc_conf =
-*lxc_conf, void *data)<br>
-- {<br>
--+#ifdef HAVE_SECCOMP<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0return set_config_path_item(&amp;lxc_conf-&gt;s=
-eccomp.seccomp, value);<br>
--+#else<br>
--+=C2=A0 =C2=A0 =C2=A0 return ret_set_errno(-1, ENOSYS);<br>
--+#endif<br>
-- }<br>
-- <br>
-- static int set_config_execute_cmd(const char *key, const char *value,<br>
--@@ -4383,7 +4387,11 @@ static int get_config_seccomp_notify_proxy(const ch=
-ar *key, char *retv, int inle<br>
-- static int get_config_seccomp_profile(const char *key, char *retv, int in=
-len,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct lxc_conf =
-*c, void *data)<br>
-- {<br>
--+#ifdef HAVE_SECCOMP<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0return lxc_get_conf_str(retv, inlen, c-&gt;secc=
-omp.seccomp);<br>
--+#else<br>
--+=C2=A0 =C2=A0 =C2=A0 return ret_errno(ENOSYS);<br>
--+#endif<br>
-- }<br>
-- <br>
-- static int get_config_autodev(const char *key, char *retv, int inlen,<br>
-diff --git a/recipes-containers/lxc/files/fix_c_command.patch b/recipes-con=
-tainers/lxc/files/fix_c_command.patch<br>
-deleted file mode 100644<br>
-index 1ed8daf..0000000<br>
---- a/recipes-containers/lxc/files/fix_c_command.patch<br>
-+++ /dev/null<br>
-@@ -1,36 +0,0 @@<br>
--From 9becf309a81806ef08acf9ca99ab95c1bcfa1f65 Mon Sep 17 00:00:00 2001<br>
--From: Maximilian Blenk &lt;<a href=3D"mailto:Maximilian.Blenk@bmw.de" targ=
-et=3D"_blank" rel=3D"noreferrer">Maximilian.Blenk@bmw.de</a>&gt;<br>
--Date: Mon, 23 Aug 2021 15:39:28 +0200<br>
--Subject: [PATCH] attach: Fix -c command<br>
--<br>
--Currently, the -c command (to set the selinux context) seems to be<br>
--broken because the passed context is ignored and always overwritten by<br>
--the context specified in the config file. The intention behind the -c<br>
--imho was to be able to manually overwrite this behavior. This patch<br>
--ensures that the selinux context will be set if passed via the command<br>
--line.<br>
--<br>
--Signed-off-by: Maximilian Blenk &lt;<a href=3D"mailto:Maximilian.Blenk@bmw=
-.de" target=3D"_blank" rel=3D"noreferrer">Maximilian.Blenk@bmw.de</a>&gt;<b=
-r>
-----<br>
-- src/lxc/tools/lxc_attach.c | 5 ++++-<br>
-- 1 file changed, 4 insertions(+), 1 deletion(-)<br>
--<br>
--Upstream-Status: Backport [<a href=3D"https://github.com/lxc/lxc/commit/9b=
-ecf309a81806ef08acf9ca99ab95c1bcfa1f65.patch" rel=3D"noreferrer noreferrer"=
- target=3D"_blank">https://github.com/lxc/lxc/commit/9becf309a81806ef08acf9=
-ca99ab95c1bcfa1f65.patch</a>]<br>
--Comment: No change in any hunk<br>
--<br>
--diff --git a/src/lxc/tools/lxc_attach.c b/src/lxc/tools/lxc_attach.c<br>
--index 0374d980b4..e6b388b20c 100644<br>
----- a/src/lxc/tools/lxc_attach.c<br>
--+++ b/src/lxc/tools/lxc_attach.c<br>
--@@ -379,7 +379,10 @@ int main(int argc, char *argv[])<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0attach_options.gid =
-=3D my_args.gid;<br>
-- <br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0// selinux_context will be NULL if not set<br>
---=C2=A0 =C2=A0 =C2=A0 attach_options.lsm_label =3D selinux_context;<br>
--+=C2=A0 =C2=A0 =C2=A0 if (selinux_context) {<br>
--+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 attach_options.attach_fl=
-ags |=3D LXC_ATTACH_LSM_LABEL;<br>
--+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 attach_options.lsm_label=
- =3D selinux_context;<br>
--+=C2=A0 =C2=A0 =C2=A0 }<br>
-- <br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0if (command.program) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D c-&gt;attac=
-h_run_wait(c, &amp;attach_options, command.program,<br>
 diff --git a/recipes-containers/lxc/files/templates-use-curl-instead-of-wge=
 t.patch b/recipes-containers/lxc/files/templates-use-curl-instead-of-wget.p=
 atch<br>
-index 156df82..4556293 100644<br>
+index 4556293..f06e596 100644<br>
 --- a/recipes-containers/lxc/files/templates-use-curl-instead-of-wget.patch=
 <br>
 +++ b/recipes-containers/lxc/files/templates-use-curl-instead-of-wget.patch=
 <br>
-@@ -1,4 +1,4 @@<br>
--From 07890dd8ffdcd08b7be1ddbd9f56ac55482c76bb Mon Sep 17 00:00:00 2001<br>
-+From 1db2db7783bd7ec2aa1da86e640019891634c659 Mon Sep 17 00:00:00 2001<br>
-=C2=A0From: Joakim Roubert &lt;<a href=3D"mailto:joakimr@axis.com" target=
-=3D"_blank" rel=3D"noreferrer">joakimr@axis.com</a>&gt;<br>
-=C2=A0Date: Fri, 16 Aug 2019 07:52:48 +0200<br>
-=C2=A0Subject: [PATCH] Use curl instead of wget<br>
-@@ -7,16 +7,16 @@ When curl&#39;s MIT license is preferable to wget&#39;s G=
-PLv3.<br>
-<br>
-=C2=A0Change-Id: I4684ae7569704514fdcc63e0655c556efcaf44f8<br>
-=C2=A0Signed-off-by: Joakim Roubert &lt;<a href=3D"mailto:joakimr@axis.com"=
- target=3D"_blank" rel=3D"noreferrer">joakimr@axis.com</a>&gt;<br>
--<br>
-+Signed-off-by: Yanfei Xu &lt;<a href=3D"mailto:yanfei.xu@windriver.com" ta=
-rget=3D"_blank" rel=3D"noreferrer">yanfei.xu@windriver.com</a>&gt;<br>
-=C2=A0---<br>
+@@ -12,11 +12,11 @@ Signed-off-by: Yanfei Xu &lt;<a href=3D"mailto:yanfei.x=
+u@windriver.com" target=3D"_blank" rel=3D"noreferrer">yanfei.xu@windriver.c=
+om</a>&gt;<br>
 =C2=A0 templates/<a href=3D"http://lxc-download.in" rel=3D"noreferrer noref=
 errer" target=3D"_blank">lxc-download.in</a> | 10 +++++-----<br>
 =C2=A0 1 file changed, 5 insertions(+), 5 deletions(-)<br>
 <br>
-=C2=A0diff --git a/templates/<a href=3D"http://lxc-download.in" rel=3D"nore=
-ferrer noreferrer" target=3D"_blank">lxc-download.in</a> b/templates/<a hre=
-f=3D"http://lxc-download.in" rel=3D"noreferrer noreferrer" target=3D"_blank=
-">lxc-download.in</a><br>
--index d7e6128..8a4b567 100644<br>
-+index e8570692a..f7291b0cc 100755<br>
-=C2=A0--- a/templates/<a href=3D"http://lxc-download.in" rel=3D"noreferrer =
+-diff --git a/templates/<a href=3D"http://lxc-download.in" rel=3D"noreferre=
+r noreferrer" target=3D"_blank">lxc-download.in</a> b/templates/<a href=3D"=
+http://lxc-download.in" rel=3D"noreferrer noreferrer" target=3D"_blank">lxc=
+-download.in</a><br>
+-index e8570692a..f7291b0cc 100755<br>
+---- a/templates/<a href=3D"http://lxc-download.in" rel=3D"noreferrer noref=
+errer" target=3D"_blank">lxc-download.in</a><br>
+-+++ b/templates/<a href=3D"http://lxc-download.in" rel=3D"noreferrer noref=
+errer" target=3D"_blank">lxc-download.in</a><br>
+-@@ -75,9 +75,9 @@ cleanup() {<br>
++Index: git/templates/<a href=3D"http://lxc-download.in" rel=3D"noreferrer =
 noreferrer" target=3D"_blank">lxc-download.in</a><br>
-=C2=A0+++ b/templates/<a href=3D"http://lxc-download.in" rel=3D"noreferrer =
-noreferrer" target=3D"_blank">lxc-download.in</a><br>
--@@ -74,9 +74,9 @@ cleanup() {<br>
-+@@ -75,9 +75,9 @@ cleanup() {<br>
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
++--- git.orig/templates/<a href=3D"http://lxc-download.in" rel=3D"noreferre=
+r noreferrer" target=3D"_blank">lxc-download.in</a><br>
+++++ git/templates/<a href=3D"http://lxc-download.in" rel=3D"noreferrer nor=
+eferrer" target=3D"_blank">lxc-download.in</a><br>
++@@ -59,9 +59,9 @@<br>
 =C2=A0 =C2=A0 fi<br>
 =C2=A0 }<br>
 <br>
-@@ -28,18 +28,18 @@ index d7e6128..8a4b567 100644<br>
+@@ -28,18 +28,19 @@ index e8570692a..f7291b0cc 100755<br>
 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return 0<br>
 =C2=A0 =C2=A0 =C2=A0 fi<br>
 =C2=A0 =C2=A0 done<br>
--@@ -85,8 +85,8 @@ wget_wrapper() {<br>
-+@@ -86,8 +86,8 @@ wget_wrapper() {<br>
+-@@ -86,8 +86,8 @@ wget_wrapper() {<br>
++@@ -70,8 +70,9 @@<br>
 =C2=A0 }<br>
 <br>
 =C2=A0 download_file() {<br>
---=C2=A0 if ! wget_wrapper -T 30 -q &quot;https://${DOWNLOAD_SERVER}/$1&quo=
-t; -O &quot;$2&quot; &gt;/dev/null 2&gt;&amp;1; then<br>
---=C2=A0 =C2=A0 if ! wget_wrapper -T 30 -q &quot;http://${DOWNLOAD_SERVER}/=
-$1&quot; -O &quot;$2&quot; &gt;/dev/null 2&gt;&amp;1; then<br>
--+=C2=A0 if ! curl_wrapper -m 30 -s &quot;https://${DOWNLOAD_SERVER}/$1&quo=
-t; -o &quot;$2&quot; &gt;/dev/null 2&gt;&amp;1; then<br>
--+=C2=A0 =C2=A0 if ! curl_wrapper -m 30 -s &quot;http://${DOWNLOAD_SERVER}/=
-$1&quot; -o &quot;$2&quot; &gt;/dev/null 2&gt;&amp;1; then<br>
-+-=C2=A0 if ! wget_wrapper --user-agent=3D&quot;lxc/@PACKAGE_VERSION@ compa=
-t:${DOWNLOAD_COMPAT_LEVEL}&quot; -T 30 -q &quot;https://${DOWNLOAD_SERVER}/=
-$1&quot; -O &quot;$2&quot; &gt;/dev/null 2&gt;&amp;1; then<br>
-+-=C2=A0 =C2=A0 if ! wget_wrapper --user-agent=3D&quot;lxc/@PACKAGE_VERSION=
+=C2=A0-=C2=A0 if ! wget_wrapper --user-agent=3D&quot;lxc/@PACKAGE_VERSION@ =
+compat:${DOWNLOAD_COMPAT_LEVEL}&quot; -T 30 -q &quot;https://${DOWNLOAD_SER=
+VER}/$1&quot; -O &quot;$2&quot; &gt;/dev/null 2&gt;&amp;1; then<br>
+--=C2=A0 =C2=A0 if ! wget_wrapper --user-agent=3D&quot;lxc/@PACKAGE_VERSION=
 @ compat:${DOWNLOAD_COMPAT_LEVEL}&quot; -T 30 -q &quot;http://${DOWNLOAD_SE=
 RVER}/$1&quot; -O &quot;$2&quot; &gt;/dev/null 2&gt;&amp;1; then<br>
-++=C2=A0 if ! curl_wrapper --user-agent=3D&quot;lxc/@PACKAGE_VERSION@ compa=
-t:${DOWNLOAD_COMPAT_LEVEL}&quot; -m 30 -s &quot;https://${DOWNLOAD_SERVER}/=
-$1&quot; -o &quot;$2&quot; &gt;/dev/null 2&gt;&amp;1; then<br>
-++=C2=A0 =C2=A0 if ! curl_wrapper --user-agent=3D&quot;lxc/@PACKAGE_VERSION=
-@ compat:${DOWNLOAD_COMPAT_LEVEL}&quot; -m 30 -s &quot;http://${DOWNLOAD_SE=
-RVER}/$1&quot; -o &quot;$2&quot; &gt;/dev/null 2&gt;&amp;1; then<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if [ &quot;$3&quot; =3D &quot;noexit&quot; ]; t=
++-=C2=A0 =C2=A0 if [ &quot;$3&quot; =3D &quot;noexit&quot; ]; then<br>
+=C2=A0+=C2=A0 if ! curl_wrapper --user-agent=3D&quot;lxc/@PACKAGE_VERSION@ =
+compat:${DOWNLOAD_COMPAT_LEVEL}&quot; -m 30 -s &quot;https://${DOWNLOAD_SER=
+VER}/$1&quot; -o &quot;$2&quot; &gt;/dev/null 2&gt;&amp;1; then<br>
+=C2=A0+=C2=A0 =C2=A0 if ! curl_wrapper --user-agent=3D&quot;lxc/@PACKAGE_VE=
+RSION@ compat:${DOWNLOAD_COMPAT_LEVEL}&quot; -m 30 -s &quot;http://${DOWNLO=
+AD_SERVER}/$1&quot; -o &quot;$2&quot; &gt;/dev/null 2&gt;&amp;1; then<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0if [ &quot;$3&quot; =3D &quot;noexit&quot; ]; t=
 hen<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return 1<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 else<br>
--@@ -271,7 +271,7 @@ while :; do<br>
-+@@ -277,7 +277,7 @@ while :; do<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return 1<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0else<br>
+-@@ -277,7 +277,7 @@ while :; do<br>
+++=C2=A0 =C2=A0 =C2=A0 if [ &quot;$3&quot; =3D &quot;noexit&quot; ]; then<b=
+r>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0return 1<br>
++=C2=A0 =C2=A0 =C2=A0else<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0echo &quot;ERROR: Failed to download https://${=
+DOWNLOAD_SERVER}/$1&quot; 1&gt;&amp;2<br>
++@@ -176,7 +177,7 @@<br>
 =C2=A0 done<br>
 <br>
 =C2=A0 # Check for required binaries<br>
-@@ -48,3 +48,6 @@ index d7e6128..8a4b567 100644<br>
+@@ -48,6 +49,3 @@ index e8570692a..f7291b0cc 100755<br>
 =C2=A0 =C2=A0 if ! command -V &quot;${bin}&quot; &gt;/dev/null 2&gt;&amp;1;=
  then<br>
 =C2=A0 =C2=A0 =C2=A0 echo &quot;ERROR: Missing required tool: ${bin}&quot; =
 1&gt;&amp;2<br>
 =C2=A0 =C2=A0 =C2=A0 exit 1<br>
-+-- <br>
-+2.27.0<br>
-+<br>
-diff --git a/recipes-containers/lxc/files/tests-add-no-validate-when-using-=
-download-template.patch b/recipes-containers/lxc/files/tests-add-no-validat=
-e-when-using-download-template.patch<br>
-deleted file mode 100644<br>
-index f335e79..0000000<br>
---- a/recipes-containers/lxc/files/tests-add-no-validate-when-using-downloa=
-d-template.patch<br>
-+++ /dev/null<br>
-@@ -1,85 +0,0 @@<br>
--From 1c2506434e744d8c6a86e42c9d8bae4cde7553f6 Mon Sep 17 00:00:00 2001<br>
--From: Mark Asselstine &lt;<a href=3D"mailto:mark.asselstine@windriver.com"=
- target=3D"_blank" rel=3D"noreferrer">mark.asselstine@windriver.com</a>&gt;=
-<br>
--Date: Thu, 31 May 2018 15:14:26 -0400<br>
--Subject: [PATCH] tests: add &#39;--no-validate&#39; when using download te=
-mplate<br>
+--- <br>
+-2.27.0<br>
 -<br>
--We are usually running the ptests with core-image-minimal which has no<br>
--mechanism to validate the downloads. Validation isn&#39;t really of<br>
--interest to this test at any rate so simply add &#39;--no-validate&#39; to=
-<br>
--avoid failing due to no GPG validation.<br>
--<br>
--Signed-off-by: Mark Asselstine &lt;<a href=3D"mailto:mark.asselstine@windr=
-iver.com" target=3D"_blank" rel=3D"noreferrer">mark.asselstine@windriver.co=
-m</a>&gt;<br>
--<br>
-----<br>
-- src/tests/lxc-test-apparmor-mount | 2 +-<br>
-- src/tests/lxc-test-autostart=C2=A0 =C2=A0 =C2=A0 | 2 +-<br>
-- src/tests/lxc-test-no-new-privs=C2=A0 =C2=A0| 2 +-<br>
-- src/tests/lxc-test-unpriv=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 2 +-<br>
-- src/tests/<a href=3D"http://lxc-test-usernic.in" rel=3D"noreferrer norefe=
-rrer" target=3D"_blank">lxc-test-usernic.in</a>=C2=A0 =C2=A0 =C2=A0| 2 +-<b=
-r>
-- 5 files changed, 5 insertions(+), 5 deletions(-)<br>
--<br>
--Index: lxc-4.0.9/src/tests/lxc-test-apparmor-mount<br>
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
----- lxc-4.0.9.orig/src/tests/lxc-test-apparmor-mount<br>
--+++ lxc-4.0.9/src/tests/lxc-test-apparmor-mount<br>
--@@ -170,7 +170,7 @@<br>
--=C2=A0 =C2=A0 =C2=A0done<br>
-- fi<br>
-- <br>
---run_cmd lxc-create -t download -n $cname -- -d ubuntu -r $release -a $ARC=
-H<br>
--+run_cmd lxc-create -t download -n $cname -- --no-validate -d ubuntu -r $r=
-elease -a $ARCH<br>
-- <br>
-- echo &quot;test default confined container&quot;<br>
-- run_cmd lxc-start -n $cname -d -lDEBUG -o &quot;$logfile&quot;<br>
--Index: lxc-4.0.9/src/tests/lxc-test-autostart<br>
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
----- lxc-4.0.9.orig/src/tests/lxc-test-autostart<br>
--+++ lxc-4.0.9/src/tests/lxc-test-autostart<br>
--@@ -55,7 +55,7 @@<br>
--=C2=A0 =C2=A0 =C2=A0done<br>
-- fi<br>
-- <br>
---lxc-create -t download -n $CONTAINER_NAME -B dir -- -d ubuntu -r $release=
- -a $ARCH<br>
--+lxc-create -t download -n $CONTAINER_NAME -B dir -- --no-validate -d ubun=
-tu -r $release -a $ARCH<br>
-- CONTAINER_PATH=3D$(dirname $(lxc-info -n $CONTAINER_NAME -c lxc.rootfs.pa=
-th -H) | sed -e &#39;s/dir://&#39;)<br>
-- cp $CONTAINER_PATH/config $CONTAINER_PATH/config.bak<br>
-- <br>
--Index: lxc-4.0.9/src/tests/lxc-test-no-new-privs<br>
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
----- lxc-4.0.9.orig/src/tests/lxc-test-no-new-privs<br>
--+++ lxc-4.0.9/src/tests/lxc-test-no-new-privs<br>
--@@ -49,7 +49,7 @@<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0ARCH=3D$(dpkg --print-architecture)<br>
-- fi<br>
-- <br>
---lxc-create -t download -n c1 -- -d ubuntu -r xenial -a $ARCH<br>
--+lxc-create -t download -n c1 -- --no-validate -d ubuntu -r xenial -a $ARC=
-H<br>
-- echo &quot;lxc.no_new_privs =3D 1&quot; &gt;&gt; /var/lib/lxc/c1/config<b=
-r>
-- <br>
-- lxc-start -n c1<br>
--Index: lxc-4.0.9/src/tests/lxc-test-unpriv<br>
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
----- lxc-4.0.9.orig/src/tests/lxc-test-unpriv<br>
--+++ lxc-4.0.9/src/tests/lxc-test-unpriv<br>
--@@ -178,7 +178,7 @@<br>
--=C2=A0 =C2=A0 =C2=A0cp -R /var/cache/lxc/download $HDIR/.cache/lxc &amp;&a=
-mp; \<br>
--=C2=A0 =C2=A0 =C2=A0chown -R $TUSER: $HDIR/.cache/lxc<br>
-- <br>
---run_cmd lxc-create -t download -n c1 -l trace -o &quot;${UNPRIV_LOG}&quot=
-; -- -d ubuntu -r $release -a $ARCH<br>
--+run_cmd lxc-create -t download -n c1 -l trace -o &quot;${UNPRIV_LOG}&quot=
-; -- --no-validate -d ubuntu -r $release -a $ARCH<br>
-- <br>
-- # Make sure we can start it - twice<br>
-- <br>
--Index: lxc-4.0.9/src/tests/<a href=3D"http://lxc-test-usernic.in" rel=3D"n=
-oreferrer noreferrer" target=3D"_blank">lxc-test-usernic.in</a><br>
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
----- lxc-4.0.9.orig/src/tests/<a href=3D"http://lxc-test-usernic.in" rel=3D=
-"noreferrer noreferrer" target=3D"_blank">lxc-test-usernic.in</a><br>
--+++ lxc-4.0.9/src/tests/<a href=3D"http://lxc-test-usernic.in" rel=3D"nore=
-ferrer noreferrer" target=3D"_blank">lxc-test-usernic.in</a><br>
--@@ -147,7 +147,7 @@<br>
-- fi<br>
-- <br>
-- # Create three containers<br>
---run_cmd &quot;lxc-create -t download -n b1 -- -d ubuntu -r $release -a $A=
-RCH&quot;<br>
--+run_cmd &quot;lxc-create -t download -n b1 -- --no-validate -d ubuntu -r =
-$release -a $ARCH&quot;<br>
-- run_cmd &quot;lxc-start -n b1 -d&quot;<br>
-- p1=3D$(run_cmd &quot;lxc-info -n b1 -p -H&quot;)<br>
-- <br>
 diff --git a/recipes-containers/lxc/<a href=3D"http://lxc_git.bb" rel=3D"no=
 referrer noreferrer" target=3D"_blank">lxc_git.bb</a> b/recipes-containers/=
 lxc/<a href=3D"http://lxc_git.bb" rel=3D"noreferrer noreferrer" target=3D"_=
 blank">lxc_git.bb</a><br>
-index f98cba0..94a1e1e 100644<br>
+index 94a1e1e..397ff36 100644<br>
 --- a/recipes-containers/lxc/<a href=3D"http://lxc_git.bb" rel=3D"noreferre=
 r noreferrer" target=3D"_blank">lxc_git.bb</a><br>
 +++ b/recipes-containers/lxc/<a href=3D"http://lxc_git.bb" rel=3D"noreferre=
 r noreferrer" target=3D"_blank">lxc_git.bb</a><br>
-@@ -46,15 +46,12 @@ SRC_URI =3D &quot;git://<a href=3D"http://github.com/lx=
-c/lxc.git;branch=3Dstable-4.0" rel=3D"noreferrer noreferrer" target=3D"_bla=
-nk">github.com/lxc/lxc.git;branch=3Dstable-4.0</a> \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 file://template-make-busybox-template-compatibl=
-e-with-core-.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 file://templates-use-curl-instead-of-wget.patch=
- \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 file://tests-our-init-is-not-busybox.patch \<br=
->
--=C2=A0 =C2=A0 =C2=A0 =C2=A0file://tests-add-no-validate-when-using-downloa=
-d-template.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 file://dnsmasq.conf \<br>
+@@ -50,8 +50,8 @@ SRC_URI =3D &quot;git://<a href=3D"http://github.com/lxc/=
+lxc.git;branch=3Dstable-4.0" rel=3D"noreferrer noreferrer" target=3D"_blank=
+">github.com/lxc/lxc.git;branch=3Dstable-4.0</a> \<br>
 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://lxc-net \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 file://enable_seccomp_profile_when_compiled_li=
-bseccomp.patch \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 file://fix_c_command.patch \<br>
 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
 <br>
--SRCREV =3D &quot;cec7cb14b2a4367d4cb21a90e1b90d0f98a9d874&quot;<br>
--PV =3D &quot;4.0.10+git${SRCPV}&quot;<br>
-+SRCREV =3D &quot;48e079bf318982ae7d5684feeb7358870fa71c10&quot;<br>
-+PV =3D &quot;4.0.11+git${SRCPV}&quot;<br>
+-SRCREV =3D &quot;48e079bf318982ae7d5684feeb7358870fa71c10&quot;<br>
+-PV =3D &quot;4.0.11+git${SRCPV}&quot;<br>
++SRCREV =3D &quot;5ba5725cb4a210c25707beeca64fde5f561d1c71&quot;<br>
++PV =3D &quot;4.0.12+git${SRCPV}&quot;<br>
 <br>
 =C2=A0S =3D &quot;${WORKDIR}/git&quot;<br>
 <br>
@@ -825,5 +482,5 @@ bseccomp.patch \<br>
 <br>
 </div></div></div>
 
---000000000000cb43d505fc07662b--
+--0000000000006b9cd605fc076a70--
 
