@@ -2,158 +2,171 @@ Return-Path: <Qi.Chen@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 109D9EB64D9
-	for <webhook@archiver.kernel.org>; Wed, 28 Jun 2023 03:30:05 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.8126.1687922999276641916
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E0DCEB64D7
+	for <webhook@archiver.kernel.org>; Thu, 29 Jun 2023 02:17:32 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.647.1688005050616726080
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 27 Jun 2023 20:29:59 -0700
+ Wed, 28 Jun 2023 19:17:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=Boipiqbz;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=5543802a21=qi.chen@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 35S3SYHN031144
-	for <meta-virtualization@lists.yoctoproject.org>; Tue, 27 Jun 2023 20:29:59 -0700
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=CDMVcLkO;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=65441f2276=qi.chen@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 35T1eqQp026203
+	for <meta-virtualization@lists.yoctoproject.org>; Thu, 29 Jun 2023 02:17:30 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
 	 h=from:to:subject:date:message-id:content-transfer-encoding
-	:content-type:mime-version; s=PPS06212021; bh=vzPQpbC1XoqNYJlek3
-	QYwAmErPo1yeScO4+GYaE0x0s=; b=BoipiqbzXQEyUftVEUhZm4snqlcMMsFgFo
-	6s5njkonSNQmQKhyQp623EyHfN1593B7p5koVoxCwwVaMqrjSm9OSfBBAwzGYAjJ
-	quotaEM4FF7FDhmPiTcZtq+v5rtsm1svLSzRqQlgSppUF9ES9DJFQUS4UZLMfQ+w
-	cHtjFBOH6avDyg07J60kSVYM5TOU75Ko1NhITe7+6RzURdNJvfIt+d3qqw+x3C65
-	E32c5PRWz18ihqGnUKCJ4vQyQhVsQd70KFykR99oQ1rxozIGAUpmzwfn+VXRLGKx
-	cABo5cmpEjYtGlOpOnqWf2/1h44R5sHtzFradba1deys0moZ7WLA==
-Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2048.outbound.protection.outlook.com [104.47.66.48])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3regfb2p20-1
+	:content-type:mime-version; s=PPS06212021; bh=D/kb7nn/lLyzMfacFy
+	kTVxJcuIg5Lkqni0LPyKtaKIg=; b=CDMVcLkOOJwihmlHjKI05r2ltk5H/JJwF5
+	I4tPJawNk2UH6XhdRAusDwn6yGM98IdDfkW/1wZlmB3hJQzZMDQsUnB9KcJw7dx7
+	lt/KhJMwLPDrwlqsvSa0wq6bZbz8b5OkFzgC8qs2JPZjjzJLLZu8WoEKWh/NeyjB
+	4xM6sqRIT89M6ozjX6xq3YSZQAVA7h/WHTPTFislFzxqK6bnfEYUhs/Lp3x1EIjH
+	sRF3XuqD145l7W6MeaTKel/bNdlglG8j6nCUwo2pdHbs7EhxxpPNTSl3aeIAtaSs
+	g51RI8gkGByfGvGpLQodcqTNumVaJzvzY9+HHrF/MuhcaCfyazyw==
+Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2175.outbound.protection.outlook.com [104.47.55.175])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3rdpqb4exu-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <meta-virtualization@lists.yoctoproject.org>; Tue, 27 Jun 2023 20:29:58 -0700 (PDT)
+	for <meta-virtualization@lists.yoctoproject.org>; Thu, 29 Jun 2023 02:17:29 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ljD2NdNtB0/VrnhEnhl6jOHlBjriTR5m+kXg+uKJz3kjgSAyHMR6eRglQmWuU5czJg2phEXceF3UYBVv7jOnwyQqs0qkE6v7eCFM9D0GUfEUgRWAck5iuPWlDKjYo3EJ18WBI8Xjj/kEgpy2JSTFZdE3Fse6sWBdQ8vUz4eW9JJ2Dz/uEVd2WKz0kObwhgeCJ6jjTXf/6Zwj4nlqpW+z03P7cH1YTRkxLmCw2mBF9PsACQe7lyFF5Kqk8sGAUc84q0KGfZPH2lLvDt0CBu0RT2oOEX+kHU0yUIhPt/JD0BPw6ViTRjLhZ/JMunAbG2xaIvFE3uJN84F23rxkFXb9Og==
+ b=j5r9YZrdz0h7+FZPaGfX64lr6vKDPprG9dVqj1Qm88MdtwPUlKVJ+4MMcLwZ62H3XuhfZ0furGtRxUxFfzL1bg2lVtnJZVkcoy5kaqkO5cu4iVn7x2ih0/zDBoIQMTfiztudq0DAbnTwfNv0tNQdsI5s7Jj5bYSl+MhTwyykINtJRmjmt73Zy8f6KpndQsyGnf6mRTMSWBnMJtRTXvvSaabrMbTLRF1cnehDuNbdciigqoKwXDbqzQgqdi53P1Blb8+/Nd+Fwd3Vw7KVhV/MqmWQY7kcq+MRUwa//dNXi+b3qaVSXS1+cQiCrx88R8jM7qWsI0yXriV0pUC7XYl1oA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vzPQpbC1XoqNYJlek3QYwAmErPo1yeScO4+GYaE0x0s=;
- b=J46MrcGbzIj0C4UH9Pabh3A2fWeu0lcb8MyzJOVjbXxjGOMJ3rXDjM6x2zm90jgpVyQqqMj4nq514ojsJ2rrln4N14edeST5grfGPyhNGfx9tGWkEvNpjphakIPm/IItDqxmI0sjLMGm78tqo9eLM2JDRxh74+mhWW935N9B3DO0fY3Jd078M5Vp+UmxrKKAhlV0gJa0Ns/Sgpt8mV+4kItW2ECQdqUD0fmvTs0aGjShhQj6bLMAb54mbGpsrYgBJrIJ62nGDShtUVNXci88L1O7Lzte5cigHzhwbi2WlGN3QlJAU9em0xNnql1UnaSNBIMlndpqPwKftW3hjJQdwA==
+ bh=D/kb7nn/lLyzMfacFykTVxJcuIg5Lkqni0LPyKtaKIg=;
+ b=T/miDvUsYHIFEwQ6moC9T4bVGHXmA8RSGZwvNIr7tNjvb9+4NAaR9f9qdsiFmVBrglOFpv8UJcRJnn5xoPDJ5rNVKVeT0cWJ1KZfwJvl2LifPAKcfctWOSrzGN4XD6vfSJk8Sb/n3xIw0jjhom3xtjh4rL3uYPLm2qiK/YkxXmv2bGTgAvUV1cVx2YOs/tWWF3K4IsajXYuPtciR+beMCHZQiLDtsq9zF2lJjb7/0FvikKkoRf4f99vnruc88lORueNxYT7cYrXiC2y00E37zjjlwBSysILU2OTTr+qb67JdWMRVqwwXadq9+2kLP2V2jXQV2CIiG86y8fbhvXlRNg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
- by DM4PR11MB7184.namprd11.prod.outlook.com (2603:10b6:8:110::5) with
+ by CY5PR11MB6283.namprd11.prod.outlook.com (2603:10b6:930:21::19) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6521.26; Wed, 28 Jun
- 2023 03:29:55 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6521.24; Thu, 29 Jun
+ 2023 02:17:27 +0000
 Received: from CO6PR11MB5602.namprd11.prod.outlook.com
  ([fe80::b504:c7a0:9ce8:6f17]) by CO6PR11MB5602.namprd11.prod.outlook.com
- ([fe80::b504:c7a0:9ce8:6f17%3]) with mapi id 15.20.6544.012; Wed, 28 Jun 2023
- 03:29:55 +0000
+ ([fe80::b504:c7a0:9ce8:6f17%3]) with mapi id 15.20.6544.012; Thu, 29 Jun 2023
+ 02:17:27 +0000
 From: Qi.Chen@windriver.com
 To: meta-virtualization@lists.yoctoproject.org
-Subject: [meta-virtualization][PATCH] kubernetes: do not strip binaries at build
-Date: Wed, 28 Jun 2023 11:29:36 +0800
-Message-Id: <20230628032936.3257233-1-Qi.Chen@windriver.com>
+Subject: [meta-virtualization][PATCH] cni: fix textrel QA issue
+Date: Thu, 29 Jun 2023 10:17:09 +0800
+Message-Id: <20230629021709.1191263-1-Qi.Chen@windriver.com>
 X-Mailer: git-send-email 2.34.1
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: TYAPR01CA0071.jpnprd01.prod.outlook.com
- (2603:1096:404:2b::35) To CO6PR11MB5602.namprd11.prod.outlook.com
+X-ClientProxiedBy: SI1PR02CA0049.apcprd02.prod.outlook.com
+ (2603:1096:4:1f5::18) To CO6PR11MB5602.namprd11.prod.outlook.com
  (2603:10b6:303:13a::5)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO6PR11MB5602:EE_|DM4PR11MB7184:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5506d246-62db-4041-b609-08db7787f13e
+X-MS-TrafficTypeDiagnostic: CO6PR11MB5602:EE_|CY5PR11MB6283:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3bd7d4f5-90da-4753-8391-08db7846fb9c
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	CqLaLv7S+dturkid/X9JwbiBLD+sfFqgxSMN/+WuR8obA3DmXDOuu6Mrku5xobpmnkvzAprRn+8lixwXWLS0KH2IlXQqXPQb9LLUgKKsVKtDLMgY/KHU03jXU8hMjQhFldylNmpMpgKCPmd6yhLeUxCUopQoTASRNM/mZlQ3kOBY7QS9dKbym3FXGNaupJITSlaSpW+DwPmxh0dFDqWdAe3JsM6D4+SDvPUGLP9GbQGltpmdhOZhawKy403Rh7q93wPamsBymTy/JM3osyMZTit3P9MR/oM1WwJCbeAhfLbMgeNTNPAUAtYhLLiNR3FjFc9LhJ2GSbnmSWgub4wifhL4m2hUhjRRlMm0UvkkA9JDWPvLsT9ONe/Gg160lY9oYu0O03cLeFoKzl6pHYHl/YziJOXcM1M8KTolt3vXsnzG++gGAlNr7w0bzQRs4+ynuGg4Vib7+F1CTnqYFYeA6j+1MUyWfDZe521Bf7Qhbo668A+7kKlh+J4RdfxtpxK626Mq9eV7v18YxExsDIlYpz4zlaVntABRCDqGALQHgIX6EuSQvCo6JP34QLMsDMWuKBhAMdeOkeefYA1jCRdJk92JhO5UHoR4JssHF5tri09j51m22LcrzEqrdho3zWzo
+	cS3KG0VaNvptdIpUbmY02m1LricsbKLkOtR1PkpnvdEt4tSpy0ljwTCTNd9XWom8hkNu5/WnK2dhDDoYk5R0mIMDpfgScsMPDLrgwRLMB4cyOhH23+tJq37VXTbt8W/BQ9pbrCm1Qyw4N1tq8JOvY8hziVOUzZsaDGStj41CCPQ8gZdEf6iv3dFL9j56Cs9rFt2FlZ6FixwB58NTm+wPf01ULlQyCvef1zROc+rfLcT62ZOjLB521WgnEZX4/uN6JOGGHZ1JAm7iN7izeHAH6Wl6Aq/4sGzWncxJYP88/n+qQVhkJbRGOQ9q3lLc0iMzrRfTgv6L0+JTypxVGl+OxHBeX5bLS/ws8Pvpu6sQbwnIkxaJdwrKlv05UeGQj/YfeaPFw/wItL1PCFGg+PlR9S2STE/Bnm6SeelHTWtkvfNqcnbJM6fxdtPhAhhDjuIMdZiX+DhYsuj7F4392MNTRcae9pFav1vR6SvMb+eYYk4arn649ivOJVS0SWhrnYEPtsVOCg2bTKw5s1mQj1goTQtjUGxyrTeqSHgaeHF6Ad9pcGdTDrXsJv5oZGbSxec8Aw7hYQp5cMOPE0KDEw71575vCs4PRy41u6NtoGk9uQY=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(346002)(366004)(376002)(136003)(396003)(39850400004)(451199021)(38350700002)(38100700002)(36756003)(83380400001)(86362001)(2616005)(6486002)(52116002)(6666004)(41300700001)(66556008)(66946007)(316002)(66476007)(8676002)(1076003)(6916009)(26005)(9686003)(6512007)(186003)(6506007)(8936002)(2906002)(478600001)(5660300002);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(346002)(136003)(396003)(376002)(39850400004)(366004)(451199021)(1076003)(6666004)(6486002)(52116002)(83380400001)(9686003)(2906002)(26005)(2616005)(6512007)(186003)(478600001)(6506007)(5660300002)(36756003)(38350700002)(316002)(66946007)(38100700002)(8936002)(66556008)(8676002)(86362001)(66476007)(41300700001)(6916009)(84970400001);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?t2/Cs79Pz4LexgxHio8wUk4NlIWCe09Z31SOl3LdL/OJwoEXtYkpOdG8vFlw?=
- =?us-ascii?Q?qLO6mzoqSMcCW97mbyQfmrAY1yiUlpeto/x8b2rnwxlM8A1Yoc/L3H5wnI/R?=
- =?us-ascii?Q?R4QtfLvPLHhwDqA//Jy5RGgsVbX6OGooPcEhAk+ENW6OSnhBp750/P1Oe1JE?=
- =?us-ascii?Q?hADGY/jl8bnxnTKvByptmjeS1G5jIUerA9lY5ZKtCVNwGFJwyhhVJaKp4naQ?=
- =?us-ascii?Q?BjRcCEIaeRTJEvbCOuzpc7/e4nJyH2g+si+losYjCOtSGkdV9DYwQQp4icDo?=
- =?us-ascii?Q?Ftsi1rE6N4/ynfEDqTptSak9dHLtDcUx/F4FkxVC/tDvSvJmmr42AEHoWi4Q?=
- =?us-ascii?Q?EfZlqzvpJ9X+TjI3zapAkY7Wq6hofT1SFjCuyqaRf4rapdW7ZKVpwp7I4cis?=
- =?us-ascii?Q?0p1v19Rl225odFGcVfHMb2z+/kIVWl3QVtcwntThJifI9k5/Pvf+08V0Q5Dl?=
- =?us-ascii?Q?3wnwozU99KSjeoEOUdZcbK7v5WynhPkoWz7sWYGfkZ6tpFuAvRoqXXnAXgSS?=
- =?us-ascii?Q?a2coOdkbjkUO9Q+WCQsIGGUFaE66Aa1cTg1qa+IV6kLKOBNg+xGVmytURHZX?=
- =?us-ascii?Q?jtB7hb9wKxWANm/1sVSugd0B/PQ+RHgSlzPcTJ9wphXh3s5AuZeNyMd117b/?=
- =?us-ascii?Q?Pdl4BYRECsn9rhGCO7QkXYSHxK9pFrq1GXWsHOvMbsYziflyLd8DO4EO84aG?=
- =?us-ascii?Q?Z5iZYyc+1gt1oxPCPFt7kN98dsN+AR0B9iKgY0C2JtMSJJRX7F690Y95AD6h?=
- =?us-ascii?Q?qHupOSqwDYeEnW/KKaGlmvdl0bm9dTPgwTiCJ7xOcW0P4c/D5+Jr25jfZm+d?=
- =?us-ascii?Q?JDh0KZ3V/R0u42uXtoiF/Wh0ufP8or2uSjslvzdQ//GAfJLjPIjjZtHyaqZE?=
- =?us-ascii?Q?c6zyJQm3l7pN+pRKW0qpvmhlscYsU/PqlEES0mFPclMmzMhdEErD+IvE3D5g?=
- =?us-ascii?Q?y3JhfqiB41eXe71rAohGurIL990N5BQ9jLDkuzNHv/qweSGNUUrtD45PRJe+?=
- =?us-ascii?Q?q3WP0fDoPyh/nDIBm+24j2ujWaliVoECC9UWLCR5zUHLuemF/7YUrr3VkBz3?=
- =?us-ascii?Q?OyXj5MJ54xGikCc9CTp3h/ypLF3u2o8cYdQJXUbpL7sxLj+NKOBBkTplOINv?=
- =?us-ascii?Q?fjPeYeWdk9a7LdH6SnrumtH6iSE8JnB05mmBM8BWB5Wr0fRm8B40AuRnxfsg?=
- =?us-ascii?Q?EdQkL/wkNsXCmeMHcr16GnC1Aqv8ijqJjcVg7K4KVKWs8MxPjw4C6x62FVkj?=
- =?us-ascii?Q?lDTqCaq0xSQY+sYnop3tVRMh0jKlS2cIk9/YinzNEGBttpN2WS26ud8eikHQ?=
- =?us-ascii?Q?W3EL3ovqsYJ9Ql1n7W/FpoST3H3uxvmhazjMiMqMei9RMUkwvnmVq0MXrbIu?=
- =?us-ascii?Q?GUV4C61XnxvAYWlp8D3LLGKBsXUlPLkajR6bHKL4DI+YIYeTWR6RNlGR/yPY?=
- =?us-ascii?Q?HXeKqwmvwFrzFGvq9FaHIvvD6k3OTxXadLF/9gRtDu8FxUmRuLNnv+CWEuuE?=
- =?us-ascii?Q?clSvTre6PhxCzXfO3443QJddDtZvG0ddpl50zrzo4uU/LZ2lGykybxyNl7iK?=
- =?us-ascii?Q?5bzgsXXv1WF0D01iX9Ofi9vj5j5R/C+H/umpO2E/?=
+	=?us-ascii?Q?upD31/JC8D/aLb+vBBnHrR/l1hx08Ap9cb+uFh0W1bBywx6y3RYe9AEcpeZA?=
+ =?us-ascii?Q?73AdGw4ASn/7E4mPSb7IqfHkq2aFF3WgT770w5erx5BL9Ed+lWltZg1fRXDq?=
+ =?us-ascii?Q?j/McHD02/Yu5xWPpWHi2ZlcIh9XQ4/In7bAd7pIY/VH24USZglhKHSPyFb7W?=
+ =?us-ascii?Q?7CwWCDcgxs0eiGtdIXvEHayC0sR/fvIrqanJ6/EswNf6mKFEeVU8g0hwv5Ym?=
+ =?us-ascii?Q?ndf5g7VNx832R3PN2jIVN18Xv0rhCXuNWXjiJuU/t3qNgAmlA9II0qkbbjbw?=
+ =?us-ascii?Q?EYm93Z4ATNaGXVGXVNp4ZUFb8XVZXRIDdetVUhfKC0cSwzK8Yxuoi/IiLItp?=
+ =?us-ascii?Q?/b+edm+OLOYawIO0pgsJzUM0igP32uBpmYsIISteNTNIQMLa9JOfoZXYpNwI?=
+ =?us-ascii?Q?tGNqaYJPOsK/dJL4nI8eiHwzYGYnpsOjjCaqyC4Va/0f+FIraqWdybHUaE14?=
+ =?us-ascii?Q?ughxvCJz4B4ftYEFsnsB6wgbt0kZIhSztyGTeRxqPGgpxiwPY9UeArWW9OG9?=
+ =?us-ascii?Q?CXZXBgAJ+WAC+jrgaaI5sCv2ULaNHH0qR3nYXFCXlyoYf/nd08W9nUgM+JUf?=
+ =?us-ascii?Q?JwBc7DTWZVDXXcpHSFRgHpkDBmGArMPIat9nfmlb7lI1qQt4WU4TnqP0OOWF?=
+ =?us-ascii?Q?/JDz5xy1RyXYHN5HnCLDtj1w/TtWZV7qTLcYdo9Olzx6LPLXMj+73YWTn32h?=
+ =?us-ascii?Q?5dk2s93M+ECkUM2f+9QKalwRRuFXu51dBgSHK+VIyWJ7PgzojKCnZtWNeO+J?=
+ =?us-ascii?Q?JESSdarCTqvFmLfptuESeeYa8myzE9EbPa9ajNA1kAbXLr0B3FcBUkYeRxHR?=
+ =?us-ascii?Q?rsKhHcfEbaeNfcIuCjaP+hcsCpfHHRdOA4Ztk123X8inr0+XGwJxql/KxFqM?=
+ =?us-ascii?Q?8/S3xMgmUeiKeJwfwZ8VP6MmGHMVB+e/CxSo+0kNbiLpFKHGr0JRbxCpqMGB?=
+ =?us-ascii?Q?V7mp+qBxg0/lsXTSmKoj7HLQJEDXIm1+yuDHhC3egVcFk5OlyMh+DSKUlZ8i?=
+ =?us-ascii?Q?mccQq5t2vzSi0IhyX1T57VwfNwLsPfH7vWTyFno62xsPj7xLs07+iqknNAOo?=
+ =?us-ascii?Q?GW7BfjoPrv/n7gpaPWJnCpu6m71gzUX/Qj+oXvqoGaelD1Et8PwzP4me+Idk?=
+ =?us-ascii?Q?1VkXUr5WiTBOz6aZ8dAgZDyoDOQr9APwEOCX9Kwb+xCAUitw+NZXCdqGYGIs?=
+ =?us-ascii?Q?yIii4DxgM5Ya7w1K3O90yQvF9i4wFS7K8Pw3GfvciGqe4RlQPWK6GbzqvZSA?=
+ =?us-ascii?Q?bIi1Qv44E+QF4cRMubnVY00fPRiy+ebS4JCAn85fLk5F4pjSkxMa9pcXYjQz?=
+ =?us-ascii?Q?KaUJAs1bZwgJy6cCtQcdbYZu9kvjkVAUGwGts64icSFYxorIhocVBe61ohiA?=
+ =?us-ascii?Q?H0lPqkFNbIGhuKGCMm+HEccKdhI5TeI145Uc9IJeVIUhUPlWQLyikLYcT82o?=
+ =?us-ascii?Q?gtWNNOBr8EqMLbwcBF5gQqPrcYABM004OuBDLKLEA2m8pA1DGRwNw/GOUu/C?=
+ =?us-ascii?Q?LNWb4FTLCu0PUoAibW8WdmR2rujK2Q7B+CwpGNDFLPkXshXeJgIcpYWz32Ji?=
+ =?us-ascii?Q?cCZ9Mr1uMHj0AfKQs3Ueyq8yAaL75FhNNgsqDis1?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5506d246-62db-4041-b609-08db7787f13e
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3bd7d4f5-90da-4753-8391-08db7846fb9c
 X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jun 2023 03:29:55.6957
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jun 2023 02:17:26.9965
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: vOEQ0VTFAs+uGsGs9m+Ry99no09qA1N2ydlwmkiDO+nR8q9Q7QXE8n1FQ276dSiYE7bz1UZ5cVTlczeaWAOisA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB7184
-X-Proofpoint-GUID: GJPrrGpfjSSfJzXEJPi9wDMRodNGaELs
-X-Proofpoint-ORIG-GUID: GJPrrGpfjSSfJzXEJPi9wDMRodNGaELs
+X-MS-Exchange-CrossTenant-UserPrincipalName: ct+yzF7hx/aQyra4ikZQYSCJ2fKrTcTWxN7RP7o4xocA3Fs4IKJwzmoBLqGAY0DGvSO5xlGpmvD6Z64UFYdhNw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR11MB6283
+X-Proofpoint-ORIG-GUID: NRPYK8F0PZhouNxTibHWLsrzTOxyGYnH
+X-Proofpoint-GUID: NRPYK8F0PZhouNxTibHWLsrzTOxyGYnH
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-06-27_16,2023-06-27_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=527 spamscore=0
- clxscore=1015 priorityscore=1501 lowpriorityscore=0 phishscore=0
- bulkscore=0 impostorscore=0 mlxscore=0 suspectscore=0 malwarescore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2305260000 definitions=main-2306280031
+ definitions=2023-06-28_14,2023-06-27_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 adultscore=0
+ spamscore=0 phishscore=0 impostorscore=0 lowpriorityscore=0 malwarescore=0
+ suspectscore=0 clxscore=1015 mlxlogscore=649 bulkscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2305260000 definitions=main-2306290018
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Wed, 28 Jun 2023 03:30:05 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8113
+ <meta-virtualization@lists.yoctoproject.org>; Thu, 29 Jun 2023 02:17:32 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8114
 
 From: Chen Qi <Qi.Chen@windriver.com>
 
-Yocto/OE has its own way to control binary stripping. So don't do
-it in the go build process. Otherwise, we'll get empty dbg packages.
+When building cni, we get textrel QA issue like below:
 
-Setting DBG=1 solves this problem, as stated in comments in the Makefile.
-"""
-  # Note: Specify DBG=1 for building unstripped binaries, which allows you to use code debugging
-  # tools like delve. When DBG is unspecified, it defaults to "-s -w" which strips debug
-  # information.
-"""
+  cni: ELF binary /usr/libexec/cni/macvlan has relocations in .text
+
+The problem could be solved by adding '-buildmode=pie' to ${GO}.
+
+In go.bbclass, this flag is added to GOBUILDFLAGS conditionally,
+that is, if the arch is not mips nor riscv32, this '-buildmode=pie'
+is added to GOBUILDFLAGS. So make use of that.
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- recipes-containers/kubernetes/kubernetes_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ recipes-networking/cni/cni_git.bb | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/recipes-containers/kubernetes/kubernetes_git.bb b/recipes-containers/kubernetes/kubernetes_git.bb
-index 3a6e711..8b7c9e0 100644
---- a/recipes-containers/kubernetes/kubernetes_git.bb
-+++ b/recipes-containers/kubernetes/kubernetes_git.bb
-@@ -87,7 +87,7 @@ do_compile() {
- 	export GOBIN=""
+diff --git a/recipes-networking/cni/cni_git.bb b/recipes-networking/cni/cni_git.bb
+index 35aea39..06cef81 100644
+--- a/recipes-networking/cni/cni_git.bb
++++ b/recipes-networking/cni/cni_git.bb
+@@ -38,10 +38,10 @@ do_compile() {
+ 	export GO111MODULE=off
  
- 	# to limit what is built, use 'WHAT', i.e. make WHAT=cmd/kubelet
--	make cross CGO_FLAGS=${CGO_FLAGS} GO=${GO} KUBE_BUILD_PLATFORMS=${GOOS}/${GOARCH} GOLDFLAGS=""
-+	make cross CGO_FLAGS=${CGO_FLAGS} GO=${GO} KUBE_BUILD_PLATFORMS=${GOOS}/${GOARCH} GOLDFLAGS="" DBG=1
+ 	cd ${B}/src/github.com/containernetworking/cni/libcni
+-	${GO} build -trimpath
++	${GO} build ${GOBUILDFLAGS}
+ 
+ 	cd ${B}/src/github.com/containernetworking/cni/cnitool
+-	${GO} build -trimpath
++	${GO} build ${GOBUILDFLAGS}
+ 
+ 	cd ${B}/src/github.com/containernetworking/plugins
+ 	PLUGINS="$(ls -d plugins/meta/*; ls -d plugins/ipam/*; ls -d plugins/main/* | grep -v windows)"
+@@ -49,7 +49,7 @@ do_compile() {
+ 	for p in $PLUGINS; do
+ 	    plugin="$(basename "$p")"
+ 	    echo "building: $p"
+-	    ${GO} build -trimpath -o ${B}/plugins/bin/$plugin github.com/containernetworking/plugins/$p
++	    ${GO} build ${GOBUILDFLAGS} -o ${B}/plugins/bin/$plugin github.com/containernetworking/plugins/$p
+ 	done
  }
  
- do_install() {
 -- 
 2.34.1
 
