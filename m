@@ -1,112 +1,113 @@
-Return-Path: <Martin.Jansa@gmail.com>
+Return-Path: <maggu2810@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BAE52EB64D9
-	for <webhook@archiver.kernel.org>; Fri,  7 Jul 2023 08:45:08 +0000 (UTC)
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.web11.8311.1688719501189352791
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4260EB64D9
+	for <webhook@archiver.kernel.org>; Mon, 10 Jul 2023 11:37:49 +0000 (UTC)
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+ by mx.groups.io with SMTP id smtpd.web11.37210.1688989065627389177
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 07 Jul 2023 01:45:01 -0700
+ Mon, 10 Jul 2023 04:37:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=bL5riL7q;
- spf=pass (domain: gmail.com, ip: 209.85.128.50, mailfrom: martin.jansa@gmail.com)
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-3fbc5d5746cso17783045e9.2
-        for <meta-virtualization@lists.yoctoproject.org>; Fri, 07 Jul 2023 01:45:00 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=Zy9eATvl;
+ spf=pass (domain: gmail.com, ip: 209.85.218.52, mailfrom: maggu2810@gmail.com)
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-992b66e5affso560102366b.3
+        for <meta-virtualization@lists.yoctoproject.org>; Mon, 10 Jul 2023 04:37:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1688719499; x=1691311499;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=uHWhVjLtKBgDmIJD6/Gdvct2fhjSM4ShFToYYdGF8Y8=;
-        b=bL5riL7qxZbvV5JA6zLr71T7doeB9ORC+bWcajdzXt/ryqzlClm8kbHDjY+k2w7EUh
-         RWx5O5fj2qpO3VMyK3KMDxdW9JRAWzuFoAkX6HLbgUnyxZH/6ojb/rkrJGmIZYp1mPgm
-         EcfjOG90uY2om80YL51/xvaVUgD0QRJzIEu1kE+Tm25ckMAq0Zd/v4bk8pqSD6Db/Crj
-         OZCiW6VfAiDvVpYTUpXbfNlxbnnGusJUd3+FrLrBkX5RfCDdBNwSG9Vhen+l+LZA00ET
-         tipgTCErobK+IXTnJbgx1FRrORcL0bLwW5KxT+Qzg+c702GaESnxZkFFPyhw24gbwNsO
-         Vk3w==
+        d=gmail.com; s=20221208; t=1688989064; x=1691581064;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=AwjlOR0qv02rJIML1knlM2LKeA/KzKqLT1lRnqaXvHM=;
+        b=Zy9eATvlxrF4p0oODgw/vmHvSCa+XCCJnsHcdDv9QwlrMZngjyjVBacprYA7fqZRoi
+         bCc/AAgCXnK82zJjqGcrUev7PGyteV0eIYho3wYK6Lh2HEjI3xNuH5r9CGhT+Zy5jCzN
+         ANmgtw+VksLpH7llg18Motr/K8jH1O9M8uKZBFrzeZalLQpcGTnAxcghEFHIuwP5EpMh
+         KFTyNmE4b5d/hMcOdMqs0+5YO/fKh+mdzLVa7WNiFNiQOieehHlyv5jzrtbwnNrBEjRg
+         nVsO6WFFonl1p57iKai7fPdVothwk1AsPFdIWP6B0/C1H0IJ889hMgopRTVL5EGifZAY
+         LtJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688719499; x=1691311499;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=uHWhVjLtKBgDmIJD6/Gdvct2fhjSM4ShFToYYdGF8Y8=;
-        b=etzIbTKU5IrZVj0na9i++iZTgUouX2Chqhq1uMHRQziI7z+WbOZ6rYtU32djO0qXJt
-         sgTk24gulluLfNeb8S2VZ56FEa2ohjMitaEYJuVHDU2G9e3sA5MyyP959UXMq0uYCD3K
-         vykCo3cU5cQMyj2cuT9aIc2G2MXLkT1elLRaVErsx63ncj1qeLoKFkGB8nKrJIKB2mvx
-         CBMM0BBuhnYdiCsmIIF8g/FQmd+HXNdRfr59cu43i9x4R8HfH8VLmz0Sj1foaLN7e7YL
-         3rnuh3ekNsUd8bK8asIeu0L51aJsg8oFe5M07EkdAs5wlRTs6aAkP14zJi4DD3v+S8cU
-         412A==
-X-Gm-Message-State: ABy/qLZBSZKxMa/xLf80ljJXzOMtmKuiQxY1M/ZILS5sCEA5xKsHa0w2
-	gqDm//NCfvAMoXfZ2wgyWOfyuKgIX/g=
-X-Google-Smtp-Source: APBJJlHJNXiKogm5ep9MxEShI05a6fYApIVXbpbZAOxpTGWnHqeY5WAVWW9vRbPHkmZ9TNLc1y/t7A==
-X-Received: by 2002:a05:600c:2055:b0:3f7:4961:52ad with SMTP id p21-20020a05600c205500b003f7496152admr3627320wmg.3.1688719499423;
-        Fri, 07 Jul 2023 01:44:59 -0700 (PDT)
-Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id n10-20020a1c720a000000b003f733c1129fsm1787795wmc.33.2023.07.07.01.44.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Jul 2023 01:44:58 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: meta-virtualization@lists.yoctoproject.org
-Cc: Chen Qi <Qi.Chen@windriver.com>,
-	Bruce Ashfield <bruce.ashfield@gmail.com>
-Subject: [mickledore][PATCH] cni: fix textrel QA issue
-Date: Fri,  7 Jul 2023 10:44:24 +0200
-Message-ID: <20230707084424.2476021-1-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.41.0
+        d=1e100.net; s=20221208; t=1688989064; x=1691581064;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=AwjlOR0qv02rJIML1knlM2LKeA/KzKqLT1lRnqaXvHM=;
+        b=SSf7vliSZksEuo0hSJk865QLy1d3cZ9Sp4haXsW4VGYpaKV1pNNnLUGCiiAnBZPJGE
+         Y8+sl2GHlFZcQLCKh7RTVnR95vhhSof64JIKpRd38dbTRzfSHoVWazqRAZ8edFtnIrei
+         12snU+WN6aO04Vs/4/xJ2AuwUvGxmBTD0OHi9MyS1Ag7UhJgn7tBsTjwlbIeVLnNBywJ
+         YdpiUnmQ239M++VFuNkXhZIBH+AKcsPELInEKmEIhQkWCDg2CHGziXHYLxIkAi+XRo3T
+         eXwTcTmYVHcGZ/yWgfiHZ+bFJ5eUBPGDd+cYUSePFFi/ekMHdE6gNnEJ+dvz2c1s842o
+         nb9w==
+X-Gm-Message-State: ABy/qLbY30TIa2O3/h4Aomb7y2L/2rKnp0HRx7Vt0IamihUb4F3q3BjR
+	A9TxYPd2u0TunxNdFHvpxJztrwixvGYheBAKZb1/rpqziqQ=
+X-Google-Smtp-Source: APBJJlEtqxEsUTXRUtPte+1SUVTQHW1tITAe3oLrOVsUnBqZn1u2mKwROXyAEeY/McC/Qb7tAMAYcRW2ijsv2Ozxxxo=
+X-Received: by 2002:a17:906:728f:b0:993:dd1d:8258 with SMTP id
+ b15-20020a170906728f00b00993dd1d8258mr8474018ejl.17.1688989063938; Mon, 10
+ Jul 2023 04:37:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: Markus Rathgeb <maggu2810@gmail.com>
+Date: Mon, 10 Jul 2023 13:37:33 +0200
+Message-ID: <CAOcK=CMxS_n1kQcDTMO0DwXPVe=CcyfHDZqifOm9mjvO+X_KyA@mail.gmail.com>
+Subject: [kirkstone] docker-compose: missing dependency
+To: meta-virtualization@lists.yoctoproject.org
+Content-Type: multipart/alternative; boundary="0000000000002f858206002069ac"
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Fri, 07 Jul 2023 08:45:08 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8123
+ <meta-virtualization@lists.yoctoproject.org>; Mon, 10 Jul 2023 11:37:49 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8124
 
-From: Chen Qi <Qi.Chen@windriver.com>
+--0000000000002f858206002069ac
+Content-Type: text/plain; charset="UTF-8"
 
-When building cni, we get textrel QA issue like below:
+Hello,
+I am using your layer in a custom distribution.
+I am using the kirkstone branch.
 
-  cni: ELF binary /usr/libexec/cni/macvlan has relocations in .text
+I added python3-docker-compose to my image.
+The following recipe is used:
+meta-virtualization/recipes-containers/docker-compose/
+python3-docker-compose_1.29.2.bb
 
-The problem could be solved by adding '-buildmode=pie' to ${GO}.
+If I use the docker-compose command on my target machine the following
+error is shown:
 
-In go.bbclass, this flag is added to GOBUILDFLAGS conditionally,
-that is, if the arch is not mips nor riscv32, this '-buildmode=pie'
-is added to GOBUILDFLAGS. So make use of that.
+# docker-compose
+Traceback (most recent call last):
+  File "/usr/bin/docker-compose", line 5, in <module>
+    from compose.cli.main import main
+  File "/usr/lib/python3.10/site-packages/compose/cli/main.py", line 9, in
+<module>
+    from distutils.spawn import find_executable
+ModuleNotFoundError: No module named 'distutils'
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
----
- recipes-networking/cni/cni_git.bb | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+After adding "python3-distutils" to my image explicit the error is gone.
 
-diff --git a/recipes-networking/cni/cni_git.bb b/recipes-networking/cni/cni_git.bb
-index 35aea39..06cef81 100644
---- a/recipes-networking/cni/cni_git.bb
-+++ b/recipes-networking/cni/cni_git.bb
-@@ -38,10 +38,10 @@ do_compile() {
- 	export GO111MODULE=off
- 
- 	cd ${B}/src/github.com/containernetworking/cni/libcni
--	${GO} build -trimpath
-+	${GO} build ${GOBUILDFLAGS}
- 
- 	cd ${B}/src/github.com/containernetworking/cni/cnitool
--	${GO} build -trimpath
-+	${GO} build ${GOBUILDFLAGS}
- 
- 	cd ${B}/src/github.com/containernetworking/plugins
- 	PLUGINS="$(ls -d plugins/meta/*; ls -d plugins/ipam/*; ls -d plugins/main/* | grep -v windows)"
-@@ -49,7 +49,7 @@ do_compile() {
- 	for p in $PLUGINS; do
- 	    plugin="$(basename "$p")"
- 	    echo "building: $p"
--	    ${GO} build -trimpath -o ${B}/plugins/bin/$plugin github.com/containernetworking/plugins/$p
-+	    ${GO} build ${GOBUILDFLAGS} -o ${B}/plugins/bin/$plugin github.com/containernetworking/plugins/$p
- 	done
- }
- 
--- 
-2.41.0
+I assume the recipe "python3-docker-compose_1.29.2.bb" misses a RDEPEND for
+"python3-distutils".
 
+Best regards,
+Markus
+
+--0000000000002f858206002069ac
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hello,</div><div>I am using your layer in a custom di=
+stribution.</div><div>I am using the kirkstone branch.</div><div><br></div>=
+<div>I added python3-docker-compose to my image.</div><div>The following re=
+cipe is used: meta-virtualization/recipes-containers/docker-compose/<a href=
+=3D"http://python3-docker-compose_1.29.2.bb" target=3D"_blank">python3-dock=
+er-compose_1.29.2.bb</a></div><div><br></div><div>If I use the docker-compo=
+se command on my target machine the following error is shown:</div><div><br=
+></div><div># docker-compose<br>Traceback (most recent call last):<br>=C2=
+=A0 File &quot;/usr/bin/docker-compose&quot;, line 5, in &lt;module&gt;<br>=
+=C2=A0 =C2=A0 from compose.cli.main import main<br>=C2=A0 File &quot;/usr/l=
+ib/python3.10/site-packages/compose/cli/main.py&quot;, line 9, in &lt;modul=
+e&gt;<br>=C2=A0 =C2=A0 from distutils.spawn import find_executable<br>Modul=
+eNotFoundError: No module named &#39;distutils&#39;</div><div><br></div><di=
+v>After adding &quot;python3-distutils&quot; to my image explicit the error=
+ is gone.</div><div><br></div><div>I assume the recipe &quot;<a href=3D"htt=
+p://python3-docker-compose_1.29.2.bb" target=3D"_blank">python3-docker-comp=
+ose_1.29.2.bb</a>&quot; misses a RDEPEND for &quot;python3-distutils&quot;.=
+</div><div><br></div><div>Best regards,</div><div>Markus</div></div>
+
+--0000000000002f858206002069ac--
 
