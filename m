@@ -2,64 +2,64 @@ Return-Path: <narpat.mali@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 760BFC0015E
-	for <webhook@archiver.kernel.org>; Mon, 24 Jul 2023 08:43:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1433C0015E
+	for <webhook@archiver.kernel.org>; Tue, 25 Jul 2023 11:53:43 +0000 (UTC)
 Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.43853.1690188226549054508
+ by mx.groups.io with SMTP id smtpd.web10.18360.1690286022004155112
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 24 Jul 2023 01:43:46 -0700
+ Tue, 25 Jul 2023 04:53:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@windriver.com header.s=PPS06212021 header.b=l3vWHfvM;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=6569dd7269=narpat.mali@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 36O6vbln016184
-	for <meta-virtualization@lists.yoctoproject.org>; Mon, 24 Jul 2023 08:43:45 GMT
+ dkim=fail reason="dkim: body hash did not verify" header.i=@windriver.com header.s=PPS06212021 header.b=R0jaFMlG;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=6570dc87ec=narpat.mali@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 36P9cl4Q020938
+	for <meta-virtualization@lists.yoctoproject.org>; Tue, 25 Jul 2023 11:53:41 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
 	 h=from:to:cc:subject:date:message-id:mime-version:content-type
-	:content-transfer-encoding; s=PPS06212021; bh=XnLdGCSDk2aJeiw0wN
-	7PC3tW7+SAjG2xHX68U5crt4M=; b=l3vWHfvM0KY8DslMd7yDLhq+s1XqN7ghLU
-	cHiJV6V++pd8eRRaWCn/kwBigUfIu+fNAVhq/DSvR6F++xGyY2BJ/vvmKef9BT/J
-	C107pHIe5MqW+En4mHM0SkF/4SHFJ9gE7JsaQQJSMNh9NxDFhZr2DYbbXRKEx7+8
-	RlxlxsdilZedvMN0tmJMqek02y2I4vma5Mp6O5QmKfF3SzJ+Tp6LIBKD9nCmiNMn
-	OMjeSmTm1QTZRnU3uMUGYzyMr53T+c7uKskecjgoVVxrY7EeXEOWUtBxNCC6ril8
-	wtva8AW8Gl3H8dONBOhT0e0lui3TgzZu1pTLP7REuSwGRM7Uhnrw==
+	:content-transfer-encoding; s=PPS06212021; bh=LU8RWMhc/P1w6XR7dv
+	8LFcC++S6+m0KtIoAqbtmnw5k=; b=R0jaFMlG/4OpfE9Eb1cXQGlXbXt0h8m16l
+	8YT1s1sm8/CQbj5Pra6xxMWZDcupJofVUbbckjyattTdUbcobeAccrQbeU7C8ELl
+	ometwk963ms3s6CDJwrAquiIC39VuKC9FSJ0WQg3B3kVf79tzbPc+Ofi2QvAniI3
+	jvhmQLPqfWN4jd9LHlEHEWMajzzp8mzVpNuE2Dd0yWa2/FuUmP9LZYsZJ7B4NCIm
+	gEKzNPPZzDLwDmd9fuP7x6ov2YMM5UQb4fWoBWbgdXJivnhckEuJcDnWdXZWx2GJ
+	siOOW5e8y2nF9gfpcvNwCDe57s3/NGUDwXpuh1aLy8BnqmCpgWDg==
 Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3s1a78rbsw-1
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3s0636aejm-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <meta-virtualization@lists.yoctoproject.org>; Mon, 24 Jul 2023 08:43:45 +0000 (GMT)
+	for <meta-virtualization@lists.yoctoproject.org>; Tue, 25 Jul 2023 11:53:40 +0000 (GMT)
 Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Mon, 24 Jul 2023 01:43:42 -0700
+ 15.1.2507.27; Tue, 25 Jul 2023 04:53:38 -0700
 From: nmali <narpat.mali@windriver.com>
 To: <meta-virtualization@lists.yoctoproject.org>
 CC: <hari.gpillai@windriver.com>
-Subject: [meta-virtualization][mickledore][PATCH 1/1] docker-distribution: fix for CVE-2023-2253
-Date: Mon, 24 Jul 2023 08:43:18 +0000
-Message-ID: <20230724084318.1082352-1-narpat.mali@windriver.com>
+Subject: [meta-virtualization][kirkstone][PATCH 1/1] docker-distribution: fix for CVE-2023-2253
+Date: Tue, 25 Jul 2023 11:53:19 +0000
+Message-ID: <20230725115319.790276-1-narpat.mali@windriver.com>
 X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 X-Originating-IP: [147.11.136.210]
-X-ClientProxiedBy: ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) To
+X-ClientProxiedBy: ala-exchng01.corp.ad.wrs.com (147.11.82.252) To
  ala-exchng01.corp.ad.wrs.com (147.11.82.252)
-X-Proofpoint-ORIG-GUID: 5_aKZCc8kYva7i11ZBY-6ZcIJCIVOU2z
-X-Proofpoint-GUID: 5_aKZCc8kYva7i11ZBY-6ZcIJCIVOU2z
+X-Proofpoint-GUID: OPC91QQ3Bi5TEUUMwkmSH61r5TJzHLhp
+X-Proofpoint-ORIG-GUID: OPC91QQ3Bi5TEUUMwkmSH61r5TJzHLhp
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-24_06,2023-07-20_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 suspectscore=0
- mlxlogscore=999 mlxscore=0 malwarescore=0 clxscore=1011 priorityscore=1501
- phishscore=0 lowpriorityscore=0 bulkscore=0 impostorscore=0 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2306200000
- definitions=main-2307240077
+ definitions=2023-07-25_06,2023-07-25_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 malwarescore=0
+ suspectscore=0 mlxlogscore=999 clxscore=1015 mlxscore=0 bulkscore=0
+ impostorscore=0 priorityscore=1501 lowpriorityscore=0 spamscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2306200000 definitions=main-2307250104
 Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 36O6vbln016184
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 36P9cl4Q020938
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Mon, 24 Jul 2023 08:43:50 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8131
+ <meta-virtualization@lists.yoctoproject.org>; Tue, 25 Jul 2023 11:53:43 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8132
 
 From: Narpat Mali <narpat.mali@windriver.com>
 
@@ -90,11 +90,11 @@ Signed-off-by: Narpat Mali <narpat.mali@windriver.com>
 
 diff --git a/recipes-containers/docker-distribution/docker-distribution_g=
 it.bb b/recipes-containers/docker-distribution/docker-distribution_git.bb
-index d05d0131..74bc2cb5 100644
+index 859b27b8..8c7fefe3 100644
 --- a/recipes-containers/docker-distribution/docker-distribution_git.bb
 +++ b/recipes-containers/docker-distribution/docker-distribution_git.bb
-@@ -7,6 +7,7 @@ SRCREV_distribution=3D "dc5b207fdd294c57dfef59017df60088b=
-27d2668"
+@@ -7,6 +7,7 @@ SRCREV_distribution=3D "b5ca020cfbe998e5af3457fda087444cf=
+5116496"
  SRC_URI =3D "git://github.com/docker/distribution.git;branch=3Drelease/2=
 .8;name=3Ddistribution;destsuffix=3Dgit/src/github.com/docker/distributio=
 n;protocol=3Dhttps \
