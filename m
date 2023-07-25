@@ -2,76 +2,75 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C879EC001DE
-	for <webhook@archiver.kernel.org>; Tue, 25 Jul 2023 18:53:25 +0000 (UTC)
-Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169])
- by mx.groups.io with SMTP id smtpd.web11.28539.1690311204701774697
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DFF73EB64DD
+	for <webhook@archiver.kernel.org>; Tue, 25 Jul 2023 18:56:35 +0000 (UTC)
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+ by mx.groups.io with SMTP id smtpd.web10.28515.1690311386403173313
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 25 Jul 2023 11:53:24 -0700
+ Tue, 25 Jul 2023 11:56:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=HPC5UzA1;
- spf=pass (domain: gmail.com, ip: 209.85.167.169, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-oi1-f169.google.com with SMTP id 5614622812f47-3a36b30aa7bso3958821b6e.3
-        for <meta-virtualization@lists.yoctoproject.org>; Tue, 25 Jul 2023 11:53:24 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=HaGZaLWd;
+ spf=pass (domain: gmail.com, ip: 209.85.160.169, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-4053cc10debso35482101cf.2
+        for <meta-virtualization@lists.yoctoproject.org>; Tue, 25 Jul 2023 11:56:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690311204; x=1690916004;
+        d=gmail.com; s=20221208; t=1690311385; x=1690916185;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=g96C3bTBNRZRemDsX5J/+VRqY1QNpueJvnBbxcLOYdc=;
-        b=HPC5UzA1UqL+IXcduii9JUXFGuWXbfVgXE0QTzYbpcic6Vd/RmLSDd5okAwOAwUCir
-         GqqL9gtsanbO1HyHB8JOMRLgT/20j54S3jv4QUUs+pjCH+jxPQ5tNOcRRTsHCmd4Yf30
-         0ZYBoLxNwl2joMOiJPcWPKnvKzpRZYGLct5INHs3NcyoxSDvO0epUIKSZs10bva+OSVg
-         tAWrwZhl9BlFXPApJk+a5kO6o5b6PtgI3suusKwQcZhuyVYXfVQaRuzSV8nTjD5092gs
-         kAjdX2MvwBqqQ7LbRmSQ5XZXRVtyJrxLO7X17Fuy7EHJxrxsV5ACVOAANV/V8kIIAjeD
-         Edog==
+        bh=J8TfiTYQvtIEiRGS98XZi7OpDFkhhRkiBMBfnd4+SdQ=;
+        b=HaGZaLWdhW3WcmX27Bf1QUs8We8EPPM45kcwzJFFyw3axr+XiFK8t8qw0XIxY6WPRL
+         KSCERYoHc92OPmXBIRqwVbDjDx/Ra3piP1J+D45UvSTk2JdHLW4ylXT80rdXsqxuaed7
+         D60F/DlPD9nz3uh4GCzrQmIHemKDjc83QaG94Lhigmyokn4gQDvUYRro/LxFS/UbZ6BH
+         K5R6hB73IA+aoyugXNTm5arSOmrwCXIBcyF68mLRl36fhihlQ+X4+dY8GB1Cq0WMjFle
+         lArS9uEeHr7CDCYdbUe9EYIn4+4FDGeiaFmaCdjEAlcJzlOkxURVPOQ7+wyBqYaoljkT
+         ZpTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690311204; x=1690916004;
+        d=1e100.net; s=20221208; t=1690311385; x=1690916185;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=g96C3bTBNRZRemDsX5J/+VRqY1QNpueJvnBbxcLOYdc=;
-        b=avnjuTZzrrUPJb2w236KTy2/Laa9sE7hF8/KoxwS8eK158Pr75jSekev1fo/Uu5Vvv
-         wh/qOR8sfPazliiea6sljlt/GGLiucLM29gKcUkY6i1hfU7NEPIFsvzNEwBaX475slqA
-         imbbny7AzX4phrELbNlCzuHo2LhyBVxS1szAHN4veg7P3x9dbAQaqEuWRA8kHaBeTdEN
-         dPlOq0hvwarBgdATwulapcaNGZWNm+2Kpjre4jerXtS0JrwzzV6HvDQeptIu3NCcp5xE
-         Ss9i320PiqdH5L+79tp98hxIQRhaRZjhA+US62xIspi3MTtq8EtGOMO0ke4fTrhqBcId
-         DRvA==
-X-Gm-Message-State: ABy/qLZIaB1uun34if4Q46NNr6aQaEis8PI3Hroi4qqP1rxprQAqqv8x
-	Jk40zx27gYvqq//xlAraeB3rtFV118jfHg==
-X-Google-Smtp-Source: APBJJlHoBM78p7EPoUDm5EWePvEANatJK2vykSQMRGlM0kq+QDj2L3dl6GzL0gvTQ9pgoTfhqWWPDQ==
-X-Received: by 2002:a54:4784:0:b0:3a3:7b77:bb2d with SMTP id o4-20020a544784000000b003a37b77bb2dmr11466369oic.13.1690311203623;
-        Tue, 25 Jul 2023 11:53:23 -0700 (PDT)
+        bh=J8TfiTYQvtIEiRGS98XZi7OpDFkhhRkiBMBfnd4+SdQ=;
+        b=IgnC1T7Wth6o0bgY6DWcqMDUpx7PtwLBY9qtFQM/2fstBBMfFs9uIycgH6zmtWRRxx
+         GsKTnWR4AlbMsPaSxZhKe8xRNZT7jWY9926wyYVbYemdAsO4FlGHbjvOSmqrdOaLD6ll
+         XsMe4B44dJxoCgINacRM+HY4ZArpEb/V3Pb4NUg6wS5q9qKg+pwK2kNoPYzi4smULcbs
+         3AegyIfqF2Dov3VDFYkqu0EJIJTbbC4tJun4ZX+a8Nt5BN8wdXzZLT9+Aour3jh+dkPc
+         dRRwmnZq+lgsMFMnjwuaQH8v/foCLQo23Hys/JXSH5DdfrLe+o320Cx7NlWRhhevbdc1
+         NU+g==
+X-Gm-Message-State: ABy/qLZ8tt72Okk41dtM+1Eh3VgG53W9DPw08LDl+OmdgEwLq/Zi2dpt
+	I1uErF4j4O6gEdBwvRdftf51C4IJGOwIrQ==
+X-Google-Smtp-Source: APBJJlF4K/T0I0OBX3eVomILCR3tXsBtK077r33XjWCFLHiqCoG7EzckXrqLSgfX+VHPtE3J09gk5Q==
+X-Received: by 2002:a05:622a:1911:b0:403:ebb1:c70a with SMTP id w17-20020a05622a191100b00403ebb1c70amr3812035qtc.37.1690311385130;
+        Tue, 25 Jul 2023 11:56:25 -0700 (PDT)
 Received: from gmail.com ([174.112.183.231])
-        by smtp.gmail.com with ESMTPSA id w2-20020a0ce102000000b0063642bcc5e4sm4546964qvk.9.2023.07.25.11.53.21
+        by smtp.gmail.com with ESMTPSA id j7-20020ac84c87000000b00401e04c66fesm4240760qtv.37.2023.07.25.11.56.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Jul 2023 11:53:21 -0700 (PDT)
-Date: Tue, 25 Jul 2023 14:53:20 -0400
+        Tue, 25 Jul 2023 11:56:24 -0700 (PDT)
+Date: Tue, 25 Jul 2023 14:56:22 -0400
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 To: narpat.mali@windriver.com
 Cc: meta-virtualization@lists.yoctoproject.org, hari.gpillai@windriver.com
-Subject: Re: [meta-virtualization][mickledore][PATCH 1/1]
- docker-distribution: fix for CVE-2023-2253
-Message-ID: <ZMAaIEccTEeFgVNI@gmail.com>
-References: <20230724084318.1082352-1-narpat.mali@windriver.com>
+Subject: Re: [meta-virtualization][kirkstone][PATCH 1/1] docker-distribution:
+ fix for CVE-2023-2253
+Message-ID: <ZMAa1sQemS21xPFf@gmail.com>
+References: <20230725115319.790276-1-narpat.mali@windriver.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230724084318.1082352-1-narpat.mali@windriver.com>
+In-Reply-To: <20230725115319.790276-1-narpat.mali@windriver.com>
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Tue, 25 Jul 2023 18:53:25 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8134
+ <meta-virtualization@lists.yoctoproject.org>; Tue, 25 Jul 2023 18:56:35 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8135
 
 merged.
 
 Bruce
 
-
-In message: [meta-virtualization][mickledore][PATCH 1/1] docker-distribution: fix for CVE-2023-2253
-on 24/07/2023 Narpat Mali via lists.yoctoproject.org wrote:
+In message: [meta-virtualization][kirkstone][PATCH 1/1] docker-distribution: fix for CVE-2023-2253
+on 25/07/2023 Narpat Mali via lists.yoctoproject.org wrote:
 
 > From: Narpat Mali <narpat.mali@windriver.com>
 > 
@@ -93,10 +92,10 @@ on 24/07/2023 Narpat Mali via lists.yoctoproject.org wrote:
 >  create mode 100644 recipes-containers/docker-distribution/files/0001-Fix-runaway-allocation-on-v2-_catalog.patch
 > 
 > diff --git a/recipes-containers/docker-distribution/docker-distribution_git.bb b/recipes-containers/docker-distribution/docker-distribution_git.bb
-> index d05d0131..74bc2cb5 100644
+> index 859b27b8..8c7fefe3 100644
 > --- a/recipes-containers/docker-distribution/docker-distribution_git.bb
 > +++ b/recipes-containers/docker-distribution/docker-distribution_git.bb
-> @@ -7,6 +7,7 @@ SRCREV_distribution= "dc5b207fdd294c57dfef59017df60088b27d2668"
+> @@ -7,6 +7,7 @@ SRCREV_distribution= "b5ca020cfbe998e5af3457fda087444cf5116496"
 >  SRC_URI = "git://github.com/docker/distribution.git;branch=release/2.8;name=distribution;destsuffix=git/src/github.com/docker/distribution;protocol=https \
 >             file://docker-registry.service \
 >             file://0001-build-use-to-use-cross-go-compiler.patch \
@@ -786,8 +785,8 @@ on 24/07/2023 Narpat Mali via lists.yoctoproject.org wrote:
 > 
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#8131): https://lists.yoctoproject.org/g/meta-virtualization/message/8131
-> Mute This Topic: https://lists.yoctoproject.org/mt/100325361/1050810
+> View/Reply Online (#8132): https://lists.yoctoproject.org/g/meta-virtualization/message/8132
+> Mute This Topic: https://lists.yoctoproject.org/mt/100348523/1050810
 > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
 > Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
