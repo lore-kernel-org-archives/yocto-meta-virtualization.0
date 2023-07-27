@@ -1,105 +1,91 @@
-Return-Path: <Martin.Jansa@gmail.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DAAAC0015E
-	for <webhook@archiver.kernel.org>; Wed, 26 Jul 2023 13:45:40 +0000 (UTC)
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
- by mx.groups.io with SMTP id smtpd.web11.11431.1690379129980125640
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16AAEC04A6A
+	for <webhook@archiver.kernel.org>; Thu, 27 Jul 2023 13:12:30 +0000 (UTC)
+Received: from mail-io1-f45.google.com (mail-io1-f45.google.com [209.85.166.45])
+ by mx.groups.io with SMTP id smtpd.web10.6945.1690463548198595221
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 26 Jul 2023 06:45:30 -0700
+ Thu, 27 Jul 2023 06:12:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=kc57wZUs;
- spf=pass (domain: gmail.com, ip: 209.85.218.43, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-99bcfe28909so30445466b.3
-        for <meta-virtualization@lists.yoctoproject.org>; Wed, 26 Jul 2023 06:45:29 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=AzaI0fXK;
+ spf=pass (domain: gmail.com, ip: 209.85.166.45, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-io1-f45.google.com with SMTP id ca18e2360f4ac-7835e5fa459so33305239f.2;
+        Thu, 27 Jul 2023 06:12:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690379128; x=1690983928;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=GOq6pxTiml+OzFC7WWOS6Vpkx2j3gj5FRxl+8fk2d2k=;
-        b=kc57wZUstUJoYLlCrjmob/vS7hTWUzka8uD8ZeJGNyiLWD29jnt1u6jdhR77DDBNJ0
-         S5S8HIaw3OttTSQyEhnLZh016AqSg/gFBZ7Z6143WFNWreciwUESBdm3yz9ReY9CwdA4
-         PKfSpPrdidr9u83HUlvdKW8amycagUW3OogtbIMx+pUJRVrEWImpzwkdv9+vTyr8VHna
-         bF0xekYsOLi/k3S3VV3b5bdoAZOTn3pnxnIjf8fMsFbqk4zNZeTExbmckyNlODXGHXTY
-         9fwRnAcmnPfdrr2oiHALaKiFTsyqsUjJ+X2e409X+YRclIzI3X9Szsci1vmyQCAcdV4w
-         B5Yg==
+        d=gmail.com; s=20221208; t=1690463547; x=1691068347;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sGJR00qiW9UI+8buvyX4vLp68jyqzY7Y2TFUhBN5YEA=;
+        b=AzaI0fXKYBx5CkIT9nX2fQ5vBqgbDRxDzSJY0NyT6kXDw1ORAsslWiVZ6m/VTGA+IY
+         9eNLX7Vpn1ftfMFPflyRs1yJwCsO+IgweRGx8VAhferZ8k8PlFEAPxh5u62Pl0FXw2Oh
+         eIFVdzMYi+w7UI7f8FB/JIaiUhN8zmz/YQ3kLAbGxVO0ITSUJBTa9xyLyOjK3iy/pULo
+         jHU06nGqvwpfA3WCpHRHhXsvMv6kWvjVpHXZ66sMai0VnG036tMyxGJtyfu/h0F4c5/+
+         cWBPFPaTOKjaBoexrgzwFblU2JfVjy3yoGZzLG7vb/78uGV8CYkrE3QJCh0BI46FGzSV
+         +0IA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690379128; x=1690983928;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=GOq6pxTiml+OzFC7WWOS6Vpkx2j3gj5FRxl+8fk2d2k=;
-        b=W4fE3mgbBE5tBhf0XDc+9AisdnnDUY8/HiFdUB1jwaQMVyzY1/9csm9bgeTvUaghXi
-         w1kkHu0QE0riY7QCwXl4ibDC0BORYclu4K4TGwsRRFrrSGvarP344XF5DBr5SWci+jpF
-         OdHP4vF8ARhs1AX9dD4aZ34acxmAX2m1RHhHBe6Oj0uT1aPvCzgyiNEJgITvWcFyADxc
-         8KwW9wI1s6feaTpgbCnzHVHyjUoJoXzLxWU2GUI42ssjz+G3uF/+O/OmJmSR5/m7lk5x
-         rn0Hz+a8IZv7QkzvTg5jbZUUK0xHtRzul+WNb6Fa/+KcmZcsizfFYWse1X6DTk0Kgc7h
-         eFuw==
-X-Gm-Message-State: ABy/qLZ7B68gi2yz04s5xkJHDtnU7x2nVV0W3WYnGQEdKKouBtYjypxB
-	ql/2yAbkxMH6KqB/UQXECNfJXgRXKEI=
-X-Google-Smtp-Source: APBJJlHLPyigD3ru0HAHJlaW8EYfjjrJUTzMOeh24uFPuOeVKye0djO57JZx2ICePiaKFdo2seXXgw==
-X-Received: by 2002:a17:906:156:b0:99b:49ce:b4cc with SMTP id 22-20020a170906015600b0099b49ceb4ccmr1781106ejh.64.1690379128152;
-        Wed, 26 Jul 2023 06:45:28 -0700 (PDT)
-Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id j22-20020a170906831600b0098951bb4dc3sm9505081ejx.184.2023.07.26.06.45.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Jul 2023 06:45:27 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: meta-virtualization@lists.yoctoproject.org
-Cc: Martin Jansa <Martin.Jansa@gmail.com>
-Subject: [PATCH] runc-opencontainers: use bfd linker even when gold is selected by ls-is-gold
-Date: Wed, 26 Jul 2023 15:45:17 +0200
-Message-ID: <20230726134517.3415106-1-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.41.0
+        d=1e100.net; s=20221208; t=1690463547; x=1691068347;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=sGJR00qiW9UI+8buvyX4vLp68jyqzY7Y2TFUhBN5YEA=;
+        b=NObpK0aEIllBX/pBS7uugP+SeYqZrwgGziNUyf1jdUDzRKPhLqIfrER5bvBW8pQg7r
+         vAm4WsvyHA19DucNHDU/22NzkXgAeyTdJTKCltk5ZTp1+N4kJpWrkwvUkdKtrmhxcEV0
+         dprl2sBjGoIRxDwYm75d4gSVJ1N7NPPT2ZK2epxJrLHHK6krFJdsMyj6FBxFrp/oNYv0
+         LXhS29KpQSWjVRjvl/8HmwcfkfuzIIRltTPHNaTAbwnN9KdWRwaHCgA58ma4px1GkyJO
+         DOtIgIUdWnSwvI0D/LNsArsk+zmDu2rKhGOQU1HiBgpicZnk2ZGcm5M5ulcWlFV6GuvU
+         J+tQ==
+X-Gm-Message-State: ABy/qLYHwvndluDhCDjTQhI3WErYlu1hWGt7VNA50Vk9mIG+1JQKcJX5
+	dUDhCJt3K2+c3V/zeEWY0mXy0CJPiU0cOvVic90=
+X-Google-Smtp-Source: APBJJlEun5bnNe8bdoS5fXfLEfWpcVMl9kX+VDoeEdqGaClrbGDNFV4mf7sRgJv3npYsox8qjerHkScGz97gYuVv4q8=
+X-Received: by 2002:a5d:93da:0:b0:787:4b5f:b6cf with SMTP id
+ j26-20020a5d93da000000b007874b5fb6cfmr5136132ioo.5.1690463547286; Thu, 27 Jul
+ 2023 06:12:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230727091819043ca8d3@mail.local>
+In-Reply-To: <20230727091819043ca8d3@mail.local>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Thu, 27 Jul 2023 09:12:17 -0400
+Message-ID: <CADkTA4Po1gZaKpCyXcSqUxWvNHiVvo0SMtWDHKBw2YoisAidzQ@mail.gmail.com>
+Subject: Re: meta-virt fails check-layer-nightly
+To: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: meta-virtualization@lists.yoctoproject.org, swat@lists.yoctoproject.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Wed, 26 Jul 2023 13:45:40 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8140
+ <meta-virtualization@lists.yoctoproject.org>; Thu, 27 Jul 2023 13:12:30 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8141
 
-* fixes:
-  ld: --no-dynamic-linker: unknown option
-* you might need to clean the build for updated LDFLAGS to be corectly re-configured
+The removal is already queued in master-next, but needs a bit more testing =
+yet.
 
-* lld and bfd are fine:
+Bruce
 
-$ ld.gold --help | grep dynamic-linker
-  -I PROGRAM, --dynamic-linker PROGRAM
-$ ld.bfd --help | grep dynamic-linker
-  -I PROGRAM, --dynamic-linker PROGRAM
-  --no-dynamic-linker         Produce an executable with no program interpreter header
-$ ld.lld --help | grep dynamic-linker
-  --dynamic-linker=<value>
-  --no-dynamic-linker     Inhibit output of .interp section
+On Thu, Jul 27, 2023 at 5:18=E2=80=AFAM Alexandre Belloni
+<alexandre.belloni@bootlin.com> wrote:
+>
+> Hi Bruce,
+>
+> check-layer-nightly is failing for meta-virt now that python3-dtc is in
+> oe-core:
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/121/builds/1489/s=
+teps/23/logs/stdio
+>
+>
+> --
+> Alexandre Belloni, co-owner and COO, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
 
-* not sure where this came from only place where I see --no-dynamic-linker
-  in runc-opencontainers WORKDIR is:
-  aarch64-oe-linux/13.1.1/plugin/include/config/aarch64/aarch64-linux.h:   %{static-pie:-Bstatic -pie --no-dynamic-linker -z text} \
-  aarch64-oe-linux/13.1.1/plugin/include/aarch64-linux.h:   %{static-pie:-Bstatic -pie --no-dynamic-linker -z text} \
 
-  so my guess is:
-  923ae4da Makefile: add support for static PIE
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- recipes-containers/runc/runc-opencontainers_git.bb | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/recipes-containers/runc/runc-opencontainers_git.bb b/recipes-containers/runc/runc-opencontainers_git.bb
-index 7757baa..e411859 100644
---- a/recipes-containers/runc/runc-opencontainers_git.bb
-+++ b/recipes-containers/runc/runc-opencontainers_git.bb
-@@ -8,3 +8,5 @@ SRC_URI = " \
- RUNC_VERSION = "1.1.7"
- 
- CVE_PRODUCT = "runc"
-+
-+LDFLAGS += "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', ' -fuse-ld=bfd', '', d)}"
--- 
-2.41.0
-
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
