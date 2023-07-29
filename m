@@ -2,31 +2,31 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C83CC0015E
-	for <webhook@archiver.kernel.org>; Sat, 29 Jul 2023 21:25:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16A4DC00528
+	for <webhook@archiver.kernel.org>; Sat, 29 Jul 2023 21:25:56 +0000 (UTC)
 Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
- by mx.groups.io with SMTP id smtpd.web11.62496.1690665907979925482
+ by mx.groups.io with SMTP id smtpd.web10.61907.1690665951671156586
  for <meta-virtualization@lists.yoctoproject.org>;
- Sat, 29 Jul 2023 14:25:09 -0700
+ Sat, 29 Jul 2023 14:25:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=eZjEB52u;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-256628-202307292125049b9be01c47aae454c9-t_kk44@rts-flowmailer.siemens.com)
-Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 202307292125049b9be01c47aae454c9
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=SaQsaT7X;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-256628-20230729212549d896ec56c29a933439-1xx_zc@rts-flowmailer.siemens.com)
+Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 20230729212549d896ec56c29a933439
         for <meta-virtualization@lists.yoctoproject.org>;
-        Sat, 29 Jul 2023 23:25:05 +0200
+        Sat, 29 Jul 2023 23:25:50 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=vaAZREUp1FgCXWXzj8AoF/oT6hSkONP4OKFlIqeBoRA=;
- b=eZjEB52ubuNLgBtIXTG7eWrCq/tOP+ny3HL7UldQu2AIv05LElE6291a1Czgkgoi1vQNPe
- zOvw2dkZXvjHn92ZsQECWDgb2820i534Cs5kFY5lRokduLfVBI+8kTKuNCAGqQmMxjtn8Kax
- hKIZN2GmLMMN2gZxq9hf615AmbSOw=;
+ bh=bXzGqWBrO6Yk0U5yIWL9xklaJLje/hFPIng66Fi+LCI=;
+ b=SaQsaT7X+M13VZp3b2z6G3Y0ukrWTdpCZEcSpXlRR7ZCKhGx/aIWyAGXBS/GlB/4J8lCJj
+ nHb6mumqOfvBpo3jXaAEfewkidxIB5+hKDI/CJdHFi4B5c8MEHuIn8gCQSIrV0jl9OQecOCL
+ AdYQ9vViucjwazzzmUnOsc/U8Bq5c=;
 From: Peter Marko <peter.marko@siemens.com>
 To: meta-virtualization@lists.yoctoproject.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [meta-virtualization][PATCH] podman: ignore CVE-2022-2989 and CVE-2023-0778
-Date: Sat, 29 Jul 2023 23:24:28 +0200
-Message-Id: <20230729212428.1528245-1-peter.marko@siemens.com>
+Subject: [meta-virtualization][PATCH] skopeo: convert CVE_CHECK_IGNORE to new CVE_STATUS format
+Date: Sat, 29 Jul 2023 23:25:13 +0200
+Message-Id: <20230729212513.1528311-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
@@ -34,44 +34,35 @@ Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Sat, 29 Jul 2023 21:25:16 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8150
+ <meta-virtualization@lists.yoctoproject.org>; Sat, 29 Jul 2023 21:25:56 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8151
 
 From: Peter Marko <peter.marko@siemens.com>
 
-NVD shows only redhat links and does not mention fixed-in release
-se these CVEs will show-up in reports indefinitely.
-They are already fixed in current version, so ignore them.
-
-CVE-2022-2989
-* https://github.com/advisories/GHSA-4wjj-jwc9-2x96
-* https://github.com/containers/podman/pull/15618
-* commit d82a41687e614d9ac8b2d169dee47fe226835e4c Add container GID to additional groups
-
-CVE-2023-0778
-* https://github.com/advisories/GHSA-qwqv-rqgf-8qh8
-* https://github.com/containers/podman/pull/17528
-* commit 6ca857feb07a5fdc96fd947afef03916291673d8 volume,container: chroot to source before exporting content
+See https://git.openembedded.org/openembedded-core/commit/?id=34f682a24b7075b12ec308154b937ad118d69fe5
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- recipes-containers/podman/podman_git.bb | 3 +++
- 1 file changed, 3 insertions(+)
+ recipes-containers/skopeo/skopeo_git.bb | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/recipes-containers/podman/podman_git.bb b/recipes-containers/podman/podman_git.bb
-index 145b46f..9060e85 100644
---- a/recipes-containers/podman/podman_git.bb
-+++ b/recipes-containers/podman/podman_git.bb
-@@ -34,6 +34,9 @@ S = "${WORKDIR}/git"
+diff --git a/recipes-containers/skopeo/skopeo_git.bb b/recipes-containers/skopeo/skopeo_git.bb
+index e00fcc7..feff9df 100644
+--- a/recipes-containers/skopeo/skopeo_git.bb
++++ b/recipes-containers/skopeo/skopeo_git.bb
+@@ -35,11 +35,9 @@ inherit pkgconfig
  
- PV = "4.6.0-rc1+git${SRCPV}"
+ inherit container-host
  
-+CVE_STATUS[CVE-2022-2989] = "fixed-version: fixed since v4.3.0"
-+CVE_STATUS[CVE-2023-0778] = "fixed-version: fixed since v4.5.0"
-+
- PACKAGES =+ "${PN}-contrib"
+-# This CVE was fixed in the container image go library skopeo is using.
+-# See:
+ # https://bugzilla.redhat.com/show_bug.cgi?id=CVE-2019-10214
+ # https://github.com/containers/image/issues/654
+-CVE_CHECK_IGNORE += "CVE-2019-10214"
++CVE_STATUS[CVE-2019-10214] = "fixed-version: This CVE was fixed in the container image go library skopeo is using."
  
- PODMAN_PKG = "github.com/containers/libpod"
+ # This disables seccomp and apparmor, which are on by default in the
+ # go package. 
 -- 
 2.30.2
 
