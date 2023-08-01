@@ -1,91 +1,162 @@
-Return-Path: <joe.slater@windriver.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67299C04A94
-	for <webhook@archiver.kernel.org>; Mon, 31 Jul 2023 21:12:21 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.4565.1690837939610407696
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A45EC04A94
+	for <webhook@archiver.kernel.org>; Tue,  1 Aug 2023 00:34:16 +0000 (UTC)
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+ by mx.groups.io with SMTP id smtpd.web11.2207.1690850049740159735
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 31 Jul 2023 14:12:19 -0700
+ Mon, 31 Jul 2023 17:34:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=he+u1I/J;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=75768610ed=joe.slater@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 36VL214F021752
-	for <meta-virtualization@lists.yoctoproject.org>; Mon, 31 Jul 2023 21:12:18 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding:content-type; s=PPS06212021; bh=1V0NJ
-	qEBRlgoP6+5zntq6eQml+N1QUyLE+qDKM+ny+0=; b=he+u1I/JsrbAhUWRvkm2y
-	B4937iGOYgHQHQxhznknKhYfi1SNDrk3zpZ7w9jLkfs2duEbDJcK6tYZoLFAeBs9
-	t0X0W7Rtcz3X4jcsMhGInCHL7TSlfDinxPnjrfSszd3zeduLRmMS0bMy512uF10Q
-	3IdUI0hysS9gKLRNx5ZYohgsaLAlaOXqhoWoTGQzlQNkNwyAH4IA/ge8aIrdVuol
-	t2AkBmKP/IjGe393tPXYSQVmno2potuhJ+oWoNQHlFRZS8XM9a24coJlvHK0qH3R
-	GjnOrNy/l7n2SYzSGtMqH1am+vYh9ai+Egz1RbMN6U8zOcCxyKM3EQCCZyZPsrKX
-	A==
-Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3s4qyx24un-2
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <meta-virtualization@lists.yoctoproject.org>; Mon, 31 Jul 2023 21:12:18 +0000 (GMT)
-Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Mon, 31 Jul 2023 14:12:17 -0700
-Received: from ala-jslater-lx2.corp.ad.wrs.com (147.11.136.210) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
- 15.1.2507.27 via Frontend Transport; Mon, 31 Jul 2023 14:12:17 -0700
-From: <joe.slater@windriver.com>
-To: <meta-virtualization@lists.yoctoproject.org>
-CC: <joe.slater@windriver.com>, <randy.macleod@windriver.com>
-Subject: [meta-virt][PATCH 1/1] python3-nacl: add RCONFLICTS
-Date: Mon, 31 Jul 2023 14:12:17 -0700
-Message-ID: <20230731211217.2154738-1-joe.slater@windriver.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=UcmJSVLD;
+ spf=pass (domain: gmail.com, ip: 209.85.210.174, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-686bea20652so5250159b3a.1
+        for <meta-virtualization@lists.yoctoproject.org>; Mon, 31 Jul 2023 17:34:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1690850049; x=1691454849;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=F7LanM37N+C0kEjWkCijP/rj/T0InaZOU7E2LwPkpdI=;
+        b=UcmJSVLDka6c8kG3HafVg/AzcN0qzyaoDyiD3ZN4Vh6aO1opLx/G4Z9SkTsPus/aP5
+         491SKPNdiAUd5Ifpc+BXrrEFfTCcJbfyJTSr2FnBNogSq6y5+G/v5aNbT2AjbqFSq4ie
+         6Ev8gLWSCo8lV3iioJ82cg1xJOWE+RxMT/QLEhV54IcQ8TUrWzFb4EgYEM71VOz4joKS
+         44yBUjuruFPS9CLj3qnkPnWX+KAVat3dllTBLKi9EvcoKLeljWTYIgt5JlYEs3Fa1EDx
+         +yfU/+Y8MZ1a2Y/LDb2g3S733l51LGba7l9sWl23HyPSo+DBWxpQ7w5X++XtjQSbGrLX
+         STow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690850049; x=1691454849;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=F7LanM37N+C0kEjWkCijP/rj/T0InaZOU7E2LwPkpdI=;
+        b=QHrnR5b3NaMw1ZUTA8+dO6VC+ainTne0UtccE5+vd89MUNQ1zGM6W6/Z0uK/fEr1em
+         qwSndfegwcMkG4HmlmeN5IDqxjDnOcLKYLhHpPyohhwnV3/Kof7snWzgMpf7XrLNNmTK
+         eRDbogNglzW7/eExwrN4+R4J+SbDxH+bgbgIFTvfzQ3L3DCzZN+zz7U6sUt9ihnLENkU
+         Wj24Fb3V6M7EPOn0RkPMQBatUDGdOHT+4I/aXjoNqzClweaiaPWi+sogzoBOZEzlLpzg
+         VhwlZmWgT6jwul6iMZCU9QNMNg7N/qMFejtO+fnq/gtpnWwA+2mqaK+bQpACFiH3I67B
+         TQ5A==
+X-Gm-Message-State: ABy/qLam0ECBZbchGLw3Tt1x+3FwaK5Ct2l2ets4biQcXVJlgwAC96Xh
+	UOlbHtOd6ZvXLziphADOu3WD1IG92gxJZA==
+X-Google-Smtp-Source: APBJJlG/Jmew8B4hN6rVweXhdzaCs1/SpbJq5fFWu5Ml8B11aF3Snjmv6UBi4LWRawlOjDBLSKTOfw==
+X-Received: by 2002:a05:6a00:1ac9:b0:668:6445:8931 with SMTP id f9-20020a056a001ac900b0066864458931mr14441880pfv.29.1690850048851;
+        Mon, 31 Jul 2023 17:34:08 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9100:2cb0::61c9])
+        by smtp.gmail.com with ESMTPSA id a21-20020aa780d5000000b0067459e92801sm2597113pfn.64.2023.07.31.17.34.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 31 Jul 2023 17:34:08 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: meta-virtualization@lists.yoctoproject.org
+Cc: Khem Raj <raj.khem@gmail.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>
+Subject: [meta-virtualization][PATCH] xen: Fix build with gas/2.41
+Date: Mon, 31 Jul 2023 17:34:06 -0700
+Message-ID: <20230801003406.605140-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: ilc8o4P32UtoRohEe7qYU5qqzWpzbpDM
-X-Proofpoint-ORIG-GUID: ilc8o4P32UtoRohEe7qYU5qqzWpzbpDM
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-31_15,2023-07-31_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 spamscore=0
- priorityscore=1501 mlxlogscore=529 suspectscore=0 mlxscore=0
- impostorscore=0 lowpriorityscore=0 clxscore=1011 adultscore=0 bulkscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2306200000 definitions=main-2307310192
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Mon, 31 Jul 2023 21:12:21 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8153
+ <meta-virtualization@lists.yoctoproject.org>; Tue, 01 Aug 2023 00:34:16 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8154
 
-From: Joe Slater <joe.slater@windriver.com>
-
-We conflict with python3-pynacl in the meta-python layer.
-
-Signed-off-by: Joe Slater <joe.slater@windriver.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
 ---
- recipes-devtools/python/python3-nacl_1.3.0.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+ ...g-solaris-syntax-for-.section-direct.patch | 62 +++++++++++++++++++
+ recipes-extended/xen/xen_4.17.bb              |  4 ++
+ 2 files changed, 66 insertions(+)
+ create mode 100644 recipes-extended/xen/files/0001-arm32-Avoid-using-solaris-syntax-for-.section-direct.patch
 
-diff --git a/recipes-devtools/python/python3-nacl_1.3.0.bb b/recipes-devtools/python/python3-nacl_1.3.0.bb
-index 42a3cd9d..e6a844bc 100644
---- a/recipes-devtools/python/python3-nacl_1.3.0.bb
-+++ b/recipes-devtools/python/python3-nacl_1.3.0.bb
-@@ -21,6 +21,10 @@ RDEPENDS:${PN}:class-target += " \
-     python3-pycparser \
- "
- 
-+# We conflict with a package in meta-python.
-+#
-+RCONFLICTS:${PN} += "python3-pynacl"
+diff --git a/recipes-extended/xen/files/0001-arm32-Avoid-using-solaris-syntax-for-.section-direct.patch b/recipes-extended/xen/files/0001-arm32-Avoid-using-solaris-syntax-for-.section-direct.patch
+new file mode 100644
+index 0000000..c73bb27
+--- /dev/null
++++ b/recipes-extended/xen/files/0001-arm32-Avoid-using-solaris-syntax-for-.section-direct.patch
+@@ -0,0 +1,62 @@
++From 9add6f9aced42a76f6a2c124754bef6fde56fa05 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++To: xen-devel@lists.xenproject.org
++Cc: Stefano Stabellini <sstabellini@kernel.org>
++Cc: Julien Grall <julien@xen.org>
++Cc: Bertrand Marquis <bertrand.marquis@arm.com>
++Cc: Volodymyr Babchuk <Volodymyr_Babchuk@epam.com>
++Date: Mon, 31 Jul 2023 17:01:32 -0700
++Subject: [PATCH] arm32: Avoid using solaris syntax for .section directive
 +
- export SODIUM_INSTALL = "system"
++Assembler from binutils 2.41 rejects this syntax
++
++.section "name"[, flags...]
++
++where flags could be #alloc, #write, #execstr
++Switch to using ELF syntax
++
++.section name[, "flags"[, @type]]
++
++[1] https://ftp.gnu.org/old-gnu/Manuals/gas-2.9.1/html_chapter/as_7.html#SEC119
++
++Upstream-Status: Submitted [by email to xen-devel@lists.xenproject.org and maintainers]
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ xen/arch/arm/arm32/proc-v7.S | 6 +++---
++ 1 file changed, 3 insertions(+), 3 deletions(-)
++
++diff --git a/xen/arch/arm/arm32/proc-v7.S b/xen/arch/arm/arm32/proc-v7.S
++index c90a31d80f..6d3d19b873 100644
++--- a/xen/arch/arm/arm32/proc-v7.S
+++++ b/xen/arch/arm/arm32/proc-v7.S
++@@ -29,7 +29,7 @@ brahma15mp_init:
++         mcr   CP32(r0, ACTLR)
++         mov   pc, lr
++ 
++-        .section ".proc.info", #alloc
+++        .section .proc.info, "a"
++         .type __v7_ca15mp_proc_info, #object
++ __v7_ca15mp_proc_info:
++         .long 0x410FC0F0             /* Cortex-A15 */
++@@ -38,7 +38,7 @@ __v7_ca15mp_proc_info:
++         .long caxx_processor
++         .size __v7_ca15mp_proc_info, . - __v7_ca15mp_proc_info
++ 
++-        .section ".proc.info", #alloc
+++        .section .proc.info, "a"
++         .type __v7_ca7mp_proc_info, #object
++ __v7_ca7mp_proc_info:
++         .long 0x410FC070             /* Cortex-A7 */
++@@ -47,7 +47,7 @@ __v7_ca7mp_proc_info:
++         .long caxx_processor
++         .size __v7_ca7mp_proc_info, . - __v7_ca7mp_proc_info
++ 
++-        .section ".proc.info", #alloc
+++        .section .proc.info, "a"
++         .type __v7_brahma15mp_proc_info, #object
++ __v7_brahma15mp_proc_info:
++         .long 0x420F00F0             /* Broadcom Brahma-B15 */
++-- 
++2.41.0
++
+diff --git a/recipes-extended/xen/xen_4.17.bb b/recipes-extended/xen/xen_4.17.bb
+index 9da1b19..bd8f55b 100644
+--- a/recipes-extended/xen/xen_4.17.bb
++++ b/recipes-extended/xen/xen_4.17.bb
+@@ -7,6 +7,7 @@ XEN_BRANCH ?= "stable-${XEN_REL}"
+ SRC_URI = " \
+     git://xenbits.xen.org/xen.git;branch=${XEN_BRANCH} \
+     file://0001-menuconfig-mconf-cfg-Allow-specification-of-ncurses-location.patch \
++    file://0001-arm32-Avoid-using-solaris-syntax-for-.section-direct.patch \
+     "
  
- BBCLASSEXTEND = "native"
+ LIC_FILES_CHKSUM ?= "file://COPYING;md5=d1a1e216f80b6d8da95fec897d0dbec9"
+@@ -17,3 +18,6 @@ S = "${WORKDIR}/git"
+ 
+ require xen.inc
+ require xen-hypervisor.inc
++
++TOOLCHAIN = "gcc"
++LDFLAGS:remove = "-fuse-ld=lld"
 -- 
-2.25.1
+2.41.0
 
 
