@@ -2,178 +2,109 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB55BC00528
-	for <webhook@archiver.kernel.org>; Tue,  1 Aug 2023 18:43:24 +0000 (UTC)
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
- by mx.groups.io with SMTP id smtpd.web10.21152.1690915399419541791
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88FA0C0015E
+	for <webhook@archiver.kernel.org>; Tue,  1 Aug 2023 18:43:44 +0000 (UTC)
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
+ by mx.groups.io with SMTP id smtpd.web10.21164.1690915414706241919
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 01 Aug 2023 11:43:19 -0700
+ Tue, 01 Aug 2023 11:43:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=UeXB0MN8;
- spf=pass (domain: gmail.com, ip: 209.85.160.179, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-40694b191cfso45378221cf.3
-        for <meta-virtualization@lists.yoctoproject.org>; Tue, 01 Aug 2023 11:43:19 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=sdsqT45t;
+ spf=pass (domain: gmail.com, ip: 209.85.222.175, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-7658752ce2fso377052185a.1
+        for <meta-virtualization@lists.yoctoproject.org>; Tue, 01 Aug 2023 11:43:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690915398; x=1691520198;
+        d=gmail.com; s=20221208; t=1690915414; x=1691520214;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=IcKY8jBG5+K2KPYrlK5UyMvVnRSbN+BPY46LvJtY9aE=;
-        b=UeXB0MN8O5D3L28bfFoMXmoJ5zHp6yTbHj2wFzGoFizlBfbg6ewYGarlSdJJ//K5s7
-         qJeWvzPq/Mvsz0B8AuRVW6PQPCAjvQaD3GVHwKoWf7ZTuN6TOlTIkZsS80KIdyoR7X/L
-         +RH0BOJ73t2mvIBhBebbOCF/O0N7eI5wXeGq39/zAzDKBT1UahWMIb3ASJsrX6h1Qwvv
-         ypBt8rhe7U7hPdrmjGRSohWZJpHMSVbfXBVc3esrjN3OeC/aHxi2QVU/LYXi40Wi2SGh
-         HW4gEBNQVVJJWLBRkBrLAqZB/nEJRbPQ06fiYnCI4AIVGYIIEF+NJAdjGnvAbsTfUC02
-         V+7w==
+        bh=YkTMJhddeXphXEdOmQN/YdWPwodGhiBH5oUofo/bFeo=;
+        b=sdsqT45t2lIKXnG92kaLbPJG1XdtTnJsj1fUn9PmC9DwvpX0NGslMq1Z0uJ6CePoUy
+         XLvazj6IG1pZ9OSD5nwhy7eJLGcT77l3IMbh7SNl7J412WbeGunvFhPZZjkPUyduLbHg
+         n0rtcsgk8n+TOUecucMW9Sfga7hcUxsZ0G932u9C563wpbNbqHoLOdg89v2E3fYOpRK8
+         DEPWHJlA7Z2B98IJ0syvmXSxtE83OLwWfEBoBM/P/jIMNo/bMSJ40UmBCcBy593FRfh4
+         lDXnzype6QKKbE/dQQFe6SCyP2kLv+c67ssWE7yLzCm3huMHunDi8u9iHuaPu9lG+/y+
+         NsUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690915398; x=1691520198;
+        d=1e100.net; s=20221208; t=1690915414; x=1691520214;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=IcKY8jBG5+K2KPYrlK5UyMvVnRSbN+BPY46LvJtY9aE=;
-        b=UvC6/xlCDfpgcGB1b5H9wPXhuZDs5VkYrpodEqHjm/xQGSVhCE4vPFk1nSfMubwTpN
-         SA7gL8zUal0rvOm+aPmNTufqdeWCQqbiiB+wiAlbIhYITQgasnuHPTvLmHTelplulfnj
-         o30iN9PmjqES7d+NpjYN3EAUPjC4Zsd3E/CzUosURJqzZqvGIjXjDYZ9AYXzN9WmdDxe
-         HDKkm5irqSBOThfs1CUv0UOJfmBZSbqFAXbnVdakwKtJz5g/iIlQsGowpR0VI7sH5is/
-         2bvpdjvgTwDg0c1NY6Lg9HwoEgskFlNl7aKuMSzrdPvn4WkBMOyrmcbLu5LSSnPqBgjA
-         tjDg==
-X-Gm-Message-State: ABy/qLbYbM8YSbRknA42UkLM0vgS5n7xSIP8mSPy9jDrzimLm9Sbb69f
-	vg1LgOUQdBo9TFgF+trdTFI=
-X-Google-Smtp-Source: APBJJlFHKq8i+vusoWVe/bFgiafYcuSja12fSStVBWpu3NkuTs62wpE9cTDHRjIU5LhCUiTwAHx/oA==
-X-Received: by 2002:a05:622a:100b:b0:3fd:de11:d8e4 with SMTP id d11-20020a05622a100b00b003fdde11d8e4mr22051500qte.23.1690915398220;
-        Tue, 01 Aug 2023 11:43:18 -0700 (PDT)
+        bh=YkTMJhddeXphXEdOmQN/YdWPwodGhiBH5oUofo/bFeo=;
+        b=ejGubztPyFxqNUaO2S465y+tWcLTx2y6I0KA1yrx4xD+q7ZiKjEdWVWgb5jALaGuPk
+         kPGQZVzwVCKl5Q28pubvfME7ZSV8k/OOdQYn0D8cq1DAYyt1t18/q/RNddF4UsvPYyCA
+         A4qXnKreWlDpV4o7LkDsMtFJASnOFCBhkBFEL7mbYSoz/he0bXcTeBX1GpBJPV7xjIVJ
+         FHddj7TQGtP/55hgjzeVjEM54z9e7XbQCKe2CSNDayKHhrcXM05JG4AWemyOHt/ZmAxi
+         Pm+eDohHdl/YG0tqATFjxqYo6Lp8iJnIJ9fRsT0UsOCl6ERorxA8r1fiUqid13nSzVSv
+         vL9A==
+X-Gm-Message-State: ABy/qLY5IOX5Z7tTkI9L8axdsSC0mEw4vVgfDn3BjwfIpHHyzaNfDZSC
+	LKWtEERTR7e+ixYYs9Hhv3w=
+X-Google-Smtp-Source: APBJJlGh3Wz+bb+5IeG4Y5TOudSidaP9nrNajrBzAivdszVartuIRYXeLNC4Hoj7hC9Vo9McxRYNqQ==
+X-Received: by 2002:a05:620a:258a:b0:768:43df:529e with SMTP id x10-20020a05620a258a00b0076843df529emr13896076qko.58.1690915413510;
+        Tue, 01 Aug 2023 11:43:33 -0700 (PDT)
 Received: from gmail.com ([174.112.183.231])
-        by smtp.gmail.com with ESMTPSA id 3-20020ac85743000000b00403b44bc230sm4575807qtx.95.2023.08.01.11.43.17
+        by smtp.gmail.com with ESMTPSA id z8-20020a05620a100800b0076c70eccd05sm2595309qkj.108.2023.08.01.11.43.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Aug 2023 11:43:17 -0700 (PDT)
-Date: Tue, 1 Aug 2023 14:43:15 -0400
+        Tue, 01 Aug 2023 11:43:32 -0700 (PDT)
+Date: Tue, 1 Aug 2023 14:43:30 -0400
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: meta-virtualization@lists.yoctoproject.org,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>
-Subject: Re: [meta-virtualization][PATCH] xen: Fix build with gas/2.41
-Message-ID: <ZMlSQxGZrSb4PU0Q@gmail.com>
-References: <20230801003406.605140-1-raj.khem@gmail.com>
+To: peter.marko@siemens.com
+Cc: meta-virtualization@lists.yoctoproject.org
+Subject: Re: [meta-virtualization][PATCH] skopeo: convert CVE_CHECK_IGNORE to
+ new CVE_STATUS format
+Message-ID: <ZMlSUrOIF9CaJnfa@gmail.com>
+References: <20230729212513.1528311-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230801003406.605140-1-raj.khem@gmail.com>
+In-Reply-To: <20230729212513.1528311-1-peter.marko@siemens.com>
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Tue, 01 Aug 2023 18:43:24 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8160
+ <meta-virtualization@lists.yoctoproject.org>; Tue, 01 Aug 2023 18:43:44 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8161
 
 merged.
 
 Bruce
 
-In message: [meta-virtualization][PATCH] xen: Fix build with gas/2.41
-on 31/07/2023 Khem Raj wrote:
+In message: [meta-virtualization][PATCH] skopeo: convert CVE_CHECK_IGNORE to new CVE_STATUS format
+on 29/07/2023 Peter Marko via lists.yoctoproject.org wrote:
 
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
-> ---
->  ...g-solaris-syntax-for-.section-direct.patch | 62 +++++++++++++++++++
->  recipes-extended/xen/xen_4.17.bb              |  4 ++
->  2 files changed, 66 insertions(+)
->  create mode 100644 recipes-extended/xen/files/0001-arm32-Avoid-using-solaris-syntax-for-.section-direct.patch
+> From: Peter Marko <peter.marko@siemens.com>
 > 
-> diff --git a/recipes-extended/xen/files/0001-arm32-Avoid-using-solaris-syntax-for-.section-direct.patch b/recipes-extended/xen/files/0001-arm32-Avoid-using-solaris-syntax-for-.section-direct.patch
-> new file mode 100644
-> index 0000000..c73bb27
-> --- /dev/null
-> +++ b/recipes-extended/xen/files/0001-arm32-Avoid-using-solaris-syntax-for-.section-direct.patch
-> @@ -0,0 +1,62 @@
-> +From 9add6f9aced42a76f6a2c124754bef6fde56fa05 Mon Sep 17 00:00:00 2001
-> +From: Khem Raj <raj.khem@gmail.com>
-> +To: xen-devel@lists.xenproject.org
-> +Cc: Stefano Stabellini <sstabellini@kernel.org>
-> +Cc: Julien Grall <julien@xen.org>
-> +Cc: Bertrand Marquis <bertrand.marquis@arm.com>
-> +Cc: Volodymyr Babchuk <Volodymyr_Babchuk@epam.com>
-> +Date: Mon, 31 Jul 2023 17:01:32 -0700
-> +Subject: [PATCH] arm32: Avoid using solaris syntax for .section directive
-> +
-> +Assembler from binutils 2.41 rejects this syntax
-> +
-> +.section "name"[, flags...]
-> +
-> +where flags could be #alloc, #write, #execstr
-> +Switch to using ELF syntax
-> +
-> +.section name[, "flags"[, @type]]
-> +
-> +[1] https://ftp.gnu.org/old-gnu/Manuals/gas-2.9.1/html_chapter/as_7.html#SEC119
-> +
-> +Upstream-Status: Submitted [by email to xen-devel@lists.xenproject.org and maintainers]
-> +
-> +Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> +---
-> + xen/arch/arm/arm32/proc-v7.S | 6 +++---
-> + 1 file changed, 3 insertions(+), 3 deletions(-)
-> +
-> +diff --git a/xen/arch/arm/arm32/proc-v7.S b/xen/arch/arm/arm32/proc-v7.S
-> +index c90a31d80f..6d3d19b873 100644
-> +--- a/xen/arch/arm/arm32/proc-v7.S
-> ++++ b/xen/arch/arm/arm32/proc-v7.S
-> +@@ -29,7 +29,7 @@ brahma15mp_init:
-> +         mcr   CP32(r0, ACTLR)
-> +         mov   pc, lr
-> + 
-> +-        .section ".proc.info", #alloc
-> ++        .section .proc.info, "a"
-> +         .type __v7_ca15mp_proc_info, #object
-> + __v7_ca15mp_proc_info:
-> +         .long 0x410FC0F0             /* Cortex-A15 */
-> +@@ -38,7 +38,7 @@ __v7_ca15mp_proc_info:
-> +         .long caxx_processor
-> +         .size __v7_ca15mp_proc_info, . - __v7_ca15mp_proc_info
-> + 
-> +-        .section ".proc.info", #alloc
-> ++        .section .proc.info, "a"
-> +         .type __v7_ca7mp_proc_info, #object
-> + __v7_ca7mp_proc_info:
-> +         .long 0x410FC070             /* Cortex-A7 */
-> +@@ -47,7 +47,7 @@ __v7_ca7mp_proc_info:
-> +         .long caxx_processor
-> +         .size __v7_ca7mp_proc_info, . - __v7_ca7mp_proc_info
-> + 
-> +-        .section ".proc.info", #alloc
-> ++        .section .proc.info, "a"
-> +         .type __v7_brahma15mp_proc_info, #object
-> + __v7_brahma15mp_proc_info:
-> +         .long 0x420F00F0             /* Broadcom Brahma-B15 */
-> +-- 
-> +2.41.0
-> +
-> diff --git a/recipes-extended/xen/xen_4.17.bb b/recipes-extended/xen/xen_4.17.bb
-> index 9da1b19..bd8f55b 100644
-> --- a/recipes-extended/xen/xen_4.17.bb
-> +++ b/recipes-extended/xen/xen_4.17.bb
-> @@ -7,6 +7,7 @@ XEN_BRANCH ?= "stable-${XEN_REL}"
->  SRC_URI = " \
->      git://xenbits.xen.org/xen.git;branch=${XEN_BRANCH} \
->      file://0001-menuconfig-mconf-cfg-Allow-specification-of-ncurses-location.patch \
-> +    file://0001-arm32-Avoid-using-solaris-syntax-for-.section-direct.patch \
->      "
+> See https://git.openembedded.org/openembedded-core/commit/?id=34f682a24b7075b12ec308154b937ad118d69fe5
+> 
+> Signed-off-by: Peter Marko <peter.marko@siemens.com>
+> ---
+>  recipes-containers/skopeo/skopeo_git.bb | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+> 
+> diff --git a/recipes-containers/skopeo/skopeo_git.bb b/recipes-containers/skopeo/skopeo_git.bb
+> index e00fcc7..feff9df 100644
+> --- a/recipes-containers/skopeo/skopeo_git.bb
+> +++ b/recipes-containers/skopeo/skopeo_git.bb
+> @@ -35,11 +35,9 @@ inherit pkgconfig
 >  
->  LIC_FILES_CHKSUM ?= "file://COPYING;md5=d1a1e216f80b6d8da95fec897d0dbec9"
-> @@ -17,3 +18,6 @@ S = "${WORKDIR}/git"
+>  inherit container-host
 >  
->  require xen.inc
->  require xen-hypervisor.inc
-> +
-> +TOOLCHAIN = "gcc"
-> +LDFLAGS:remove = "-fuse-ld=lld"
+> -# This CVE was fixed in the container image go library skopeo is using.
+> -# See:
+>  # https://bugzilla.redhat.com/show_bug.cgi?id=CVE-2019-10214
+>  # https://github.com/containers/image/issues/654
+> -CVE_CHECK_IGNORE += "CVE-2019-10214"
+> +CVE_STATUS[CVE-2019-10214] = "fixed-version: This CVE was fixed in the container image go library skopeo is using."
+>  
+>  # This disables seccomp and apparmor, which are on by default in the
+>  # go package. 
 > -- 
-> 2.41.0
+> 2.30.2
 > 
 
 > 
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#8154): https://lists.yoctoproject.org/g/meta-virtualization/message/8154
-> Mute This Topic: https://lists.yoctoproject.org/mt/100474396/1050810
+> View/Reply Online (#8151): https://lists.yoctoproject.org/g/meta-virtualization/message/8151
+> Mute This Topic: https://lists.yoctoproject.org/mt/100434760/1050810
 > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
 > Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
