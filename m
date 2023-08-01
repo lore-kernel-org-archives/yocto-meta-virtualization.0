@@ -1,281 +1,191 @@
-Return-Path: <joe.slater@windriver.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5939C001DF
-	for <webhook@archiver.kernel.org>; Tue,  1 Aug 2023 14:49:50 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.14803.1690901389578134816
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A5E0C0015E
+	for <webhook@archiver.kernel.org>; Tue,  1 Aug 2023 16:58:14 +0000 (UTC)
+Received: from mail-io1-f53.google.com (mail-io1-f53.google.com [209.85.166.53])
+ by mx.groups.io with SMTP id smtpd.web10.18531.1690909091499705843
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 01 Aug 2023 07:49:49 -0700
+ Tue, 01 Aug 2023 09:58:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=eO8hatkQ;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=7577cc4595=joe.slater@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 371BeBWN005392
-	for <meta-virtualization@lists.yoctoproject.org>; Tue, 1 Aug 2023 07:49:49 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=from:to:subject:date:message-id:references:in-reply-to
-	:content-type:mime-version; s=PPS06212021; bh=+9jYwgLb7+f/KOQNlg
-	RoQkSLU7YfOX0C/HYBImDh3eo=; b=eO8hatkQR8PFuYPx6qY+UOrB7QFv7Z+Rcn
-	7eRSVxdPJCQSaFSkLzzX12OA/+x8cYsQSVXCPwLtHmgSrL2qUq+Hu8pBeXvDnTrE
-	/y9cDY3FonXSBtrTEY7Ifx5cMPkuI9959UlLH6PhXYtOUwMv2bnYwk3a0L/RsNpr
-	IB8pxvWJZ7NezkjQb3SheJg29FnTzJJNj84wgRT8uL+z0mf8TIjqB59lYMOM9rqC
-	aYtkPwLKXBxuaUg6E/JXZv609+8jQkrodEUMKi0swXHmi1DMPxIHKFEloDuhDth6
-	A34whMgLSe9v8Su92MZPSPSmOnn5RTwBYtbI3OImSW4tabdQP2AA==
-Received: from nam04-mw2-obe.outbound.protection.outlook.com (mail-mw2nam04lp2172.outbound.protection.outlook.com [104.47.73.172])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3s529fjj4c-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <meta-virtualization@lists.yoctoproject.org>; Tue, 01 Aug 2023 07:49:48 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FXpjd8JDiqVmneY1xF+3DiDsKFklzBHuII9viH7I5b+fDr/UJCwrf+7ZvBHTSyB/C7xHSCmF20x1wuvoZUj7MQq9kw3pUZngYYHR2ZvoUy98SvYn043tTkxRBW6BjuwpMHsLUlxNh6jRoofK5SoEy9hSN6BfxLaR2Bgn6ycz7WeEpjB46yuUNEJGvKl+nRacLcLMgweGeNfk4Wokunu1QcnWoqLQ13LMUJgzEakdgjMYvlx5gxoNZDLFqz8mAuKX8Drm58rzwL4vNZ9P/2tbwDC1yqHae7a2SyKUSmulFaInnYJJ56ZzcmYIYuEZwp3c8+xL6oR9q6Q4vOFScAEr7g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+9jYwgLb7+f/KOQNlgRoQkSLU7YfOX0C/HYBImDh3eo=;
- b=XCTBIgbbGDM2QNeegdq19CEw8PIj+9H72DGWTaUz0kO2upE6yq28vTpdhrkkTWSixFdGOu/SDmQvwZFeGdMmxC0JpEt8Vu0StNsboHpjAXmSR1NxQdKKaBXpjJQ4mVtREtjyylOYRp/kHiWAdSZ2MFQdAhIGcFOWWueI9nTegu30JWof0i69AcYPVkwyAaYVa7fCRn+m7ALbqVVfBrM0yhbuE/uUcFXtxiPKaoeffRA2fSYlGfU5FvlCnpa1rTJKiQMGWFDssHQdC/awG9AZc5rbioOD6LG/F4CyTN1gojTK8hzI0Z6jyjjnzbdUr1veMNhdDIbOCFpTbUXrwWZqFA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from DM6PR11MB3993.namprd11.prod.outlook.com (2603:10b6:5:19c::10)
- by DS7PR11MB7807.namprd11.prod.outlook.com (2603:10b6:8:e3::8) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6631.42; Tue, 1 Aug 2023 14:49:45 +0000
-Received: from DM6PR11MB3993.namprd11.prod.outlook.com
- ([fe80::cedd:bfe8:8bda:109e]) by DM6PR11MB3993.namprd11.prod.outlook.com
- ([fe80::cedd:bfe8:8bda:109e%7]) with mapi id 15.20.6631.043; Tue, 1 Aug 2023
- 14:49:45 +0000
-From: "Slater, Joseph" <joe.slater@windriver.com>
-To: "MacLeod, Randy" <Randy.MacLeod@windriver.com>,
-        "meta-virtualization@lists.yoctoproject.org"
-	<meta-virtualization@lists.yoctoproject.org>
-Subject: RE: [meta-virt][PATCH 1/1] python3-nacl: add RCONFLICTS
-Thread-Topic: [meta-virt][PATCH 1/1] python3-nacl: add RCONFLICTS
-Thread-Index: AQHZw/OyVvY3dMrph0qwnVTzLC66XK/Um5eAgADpqkA=
-Date: Tue, 1 Aug 2023 14:49:45 +0000
-Message-ID: 
- <DM6PR11MB3993DB0E0253481B0E1A9B20880AA@DM6PR11MB3993.namprd11.prod.outlook.com>
-References: <20230731211217.2154738-1-joe.slater@windriver.com>
- <3c950663-dae3-9043-e999-b3209cbf8ad7@windriver.com>
-In-Reply-To: <3c950663-dae3-9043-e999-b3209cbf8ad7@windriver.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM6PR11MB3993:EE_|DS7PR11MB7807:EE_
-x-ms-office365-filtering-correlation-id: 6c61d6d8-8b61-4a18-7a00-08db929e8bd6
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- yF9hFO2JNa9AjCrWw5jashDFATsYQYk6cqww8R47VIef/LoGMxduv3v4DeRt6vh13RhJf3pdyZUY6JE5sPFxM/ymlrJOLSbWky9QDkogCdhQ1pt9nNIYO5otREvtVWskK4O/xSg7PDQG489g60rz+xwHaQZ5nLNPiotxdGkRlnU/wNUpJPMz+32okZ8ZKqOyIj8jt2/8vfYDFaDFYhjlUliQ7RotTjmMWNLXvzgu7sVk48YVhaNKUDajFGJsh1PK0R/gQu6Y8qqiyAzoQxiVPqOScLh3DgfPCyA1KMLcXcTRMCcAqgPpBYPaDOy2wxOmcuok0WaBhx5mKVorZPBg2js5rKXUAs9zKE/j/C8WZboNHQruLGhiUjlCVzn0Z1vpn23QcMreCjeCxUZ8cJFbvX4ag6voi3gCuhtDVbFc+UmymYkg0/eNTMREoLLPgLSlG64EIFT0fxYhCAn6sgZ/AF/DaHqSGgb2iadw3TWg41m7iyABF/Jy0fz9gXHHa0wScArzIBrs7yxORluX6PPgEE4rEoKxGQVc2NWDS6/TqdUPMs4iKXzI6+iK/hMX3DvBNE1Nai5TxE1xsxhAceX/EoGocB7ZEVvS0GM9HQcteDNm4v1iS/5qIkPMmmFLJlmG
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3993.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(136003)(346002)(366004)(396003)(376002)(39850400004)(451199021)(64756008)(41300700001)(8936002)(5660300002)(76116006)(66946007)(8676002)(55016003)(52536014)(110136005)(2906002)(66556008)(478600001)(316002)(66476007)(66446008)(7696005)(9686003)(71200400001)(38100700002)(53546011)(6506007)(26005)(83380400001)(33656002)(38070700005)(122000001)(186003)(86362001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?SVczRHUreWVNOFBnc3dLUFFjRFBtTWFyc00vYUJrSVdYbFNrVVJMTkdYKzlU?=
- =?utf-8?B?ME5taWhRKzVQaWdKcVZ6ZjhFQkxKS1hGUCt3UGRSYUFjY200cUgvNmU1bnow?=
- =?utf-8?B?eXgwdko4a0xkZzd3TXV1OWVOMTRqNWxjMHRmeFIrQ3JRYWNVclBtd2d0SUJ3?=
- =?utf-8?B?QkNQQitndzZMN0ptemVVdnU4R20yUHVWTmxRZFU2UHRhaXBvNUFOUVZYY2Ez?=
- =?utf-8?B?SGNOSXNNTDFYU1ZpSzVrRFVuWjJ0S2toUTFKSTVpcnQ4cVR5SzEwZzBaWGNP?=
- =?utf-8?B?VitIWW9QVTArQzVQUDY4elpoV0xRanJWd2xDWlFkUytjNTNQZVVoTnRZdGpX?=
- =?utf-8?B?Wkg4TlBFOVZFNTRXOHcrbm9TcFNyelNFWFA1b3RGV2ltRnZLWHZEQ2FpZWhS?=
- =?utf-8?B?a01hSmVPQWtFUldncnJxUVlITjNKaElKdER1MnY4a3lHNFVxN0ZPZjdZOFVP?=
- =?utf-8?B?dGhWMUZVdWtIM0JRN2N3cyt6T0JnVWhXcXJvdzdzejcvQmVxc2J4ZEp4U0FR?=
- =?utf-8?B?a2ZpOVltQUNYOEJRU2h3MzNVYnMrRVdXUGZGT3Q3T2Z5T0RnOWpEb2VFYzdT?=
- =?utf-8?B?Vm1NWGVYTkR6QjhIRjdUL1BWWXkwbHQ0MTBGcmVRVlovRHl4blRjenhOZWUr?=
- =?utf-8?B?cXJ6ZDJUQlJQeTNWZzQ0alNidmJqR2c0Z0V5aW4wT05WaE1VR2NBT250ZERR?=
- =?utf-8?B?c2FWNkdnY0pPZTlZNFhFUnMrOGFScDUxcDMvSkV3R0Y3SDd5dlQyVGZhbzFS?=
- =?utf-8?B?Vkp1T1BERVIvdmhleWQ0SmxjcTBYTG1qcHJ1TzlVZEQ4ZFZqc2lFTmFwQllz?=
- =?utf-8?B?ZTRIbzlwczNwWnIycjVXUzJEeEZMWEVlRXVHUjVLMGV2SFlzSWhiT2lNSnZz?=
- =?utf-8?B?ZjhaRW8rOFZMUDVZTDFqeUZndWZ2c0sxTDFjeVQ0UUF1ZGRmeDZtMitnQlZ0?=
- =?utf-8?B?ZGFhRVhrSE5RYll1YlVLR2lSSXZkQ2JNeTJ5VWFkdnMxMjdJTjg1UmJTUGJD?=
- =?utf-8?B?ZUt0ekxhcldPOWFjNk02M0I5L05CME1EdTdrWjYyeHZETHhWWk9pQldBc1Y0?=
- =?utf-8?B?dW15ZWhtQUdsS25WTndaeWhtUXpzQ3U2NFk5ZkY4QlJIdElWeEpJUGpZVUNr?=
- =?utf-8?B?TkxzamxyUnlvZWZpSjJ6bG1SU2RmY1Z4QnVaeWJ2Q2Z1eEUwVk1XQ1hVKyth?=
- =?utf-8?B?N2lmb1lvZ2N5ZUhhTVhrbjFiSWtST2lRTlhrMlNqWEhxcTgrako4R0FhemhI?=
- =?utf-8?B?RnhkREVURUV5ZUY4NVVxU05LWjlTcFkxc21MS3c0RFFZdGk3L2ZNd3JhM292?=
- =?utf-8?B?bitOdS9tWndCZERvb2lieTJKaWdiL2RoaU8yTEZ2MEtGT1RRQW53aFUrTWo5?=
- =?utf-8?B?SGVMRGFUSmhKR3BpdkhlQnAwYkVXTU5rdVRUNC9OckhvSGtuSWFaMXdrelQz?=
- =?utf-8?B?dHhGVFZaZXdoZytGanMwZVNyb3pTZEZtbUdDS2NYL296L0hDWGFrYjA1Szl2?=
- =?utf-8?B?eC9TWnhVYW55NHU5dFl6SG1ybVpRWTZYQ3RPaFFNSk0vN2N4bTRuOHlmcEVB?=
- =?utf-8?B?c2s2OFN6cjdIQ3psNEs4cnNCU0FhcEVVaDRFdTVjeTJmTFRmOVhod203RG15?=
- =?utf-8?B?MENXR3dla3g4cERwL0xpV0lCV1REZm9EcC9GbHI1dGVpWUxVT0ZpNVk0K0Jr?=
- =?utf-8?B?K2p6U1lHOVZGNjNpU2Y1d1NFZnR5Vi9Vc0dONnBmb2xOTzRGaUhNa2t1L08v?=
- =?utf-8?B?MC90YkRZMVp2V2oySDQwK0RuQWdaRFkzSEE1czNSTWV1UEJ2bG9VbHBrMXFL?=
- =?utf-8?B?dDJmSlFHRFdwekJ1Zi9mcGt1eDZmZHEzdjZTUGp5cnBUTjJGUExTZjk3eTJF?=
- =?utf-8?B?b1Q4NEg2NEcwVTBzYTNGUzVNTDBVTWVDaCt3emhBcG1XN052NzNlNjh1UlN5?=
- =?utf-8?B?UXpzczhwTkpTR3dsN0NBQVZsQlhVZjVoTzIwbWJ2K0I3SnlDbVM1bGd4QzQ2?=
- =?utf-8?B?anBNMHNCRmZhVWhJRlZGOGJieTEzOVRjb0c4MTVNM05Eak5keHNLTjY3d1dJ?=
- =?utf-8?B?bTB4N0dTME5Xd0tYWnZoNmRiaHNpVmF2Nlc5c2cwSnMwZ2g0VHRsWFo3dWhu?=
- =?utf-8?Q?A2ZNBJ3wf0RPQSbqMIQuKyXmY?=
-Content-Type: multipart/alternative;
-	boundary="_000_DM6PR11MB3993DB0E0253481B0E1A9B20880AADM6PR11MB3993namp_"
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=DMow5/rs;
+ spf=pass (domain: gmail.com, ip: 209.85.166.53, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-io1-f53.google.com with SMTP id ca18e2360f4ac-790b95beeedso44156239f.0
+        for <meta-virtualization@lists.yoctoproject.org>; Tue, 01 Aug 2023 09:58:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1690909091; x=1691513891;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4eQL9KFwG52K4VVuEUtD3pKZfAdC6RYNUj/G3uwHOi0=;
+        b=DMow5/rsrFqYnDfDiHjnQsSztPGPzpjZ50eEUQxBUyYCdfK485JaRT+MrqgGBulwuf
+         WCfceL11JtK/4FpsoHyzJM/b+crSWsFJ64wN1EtvlbdaEsPZonTVmjXMbMfxFn8pPWR5
+         qHzlSnQmnNSi4tLD98ftsWFAeoLHCblwAheZo+1o0TFNbqnDRAr3YCVOmm3/JbjJOTJw
+         iXl0ftJZuSmwtN1RnuKu3bHgnDBOTWGc49kvthBV21VsySmNuLzHjLjopHGAO9Zv8d0Z
+         iM41jU6O0Vo5iolT1yXSC5cPyPE6d/X4jzUoOPNV5UEuqwMM+Wp7Gex8f5ADYTDXiJS+
+         lP1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690909091; x=1691513891;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=4eQL9KFwG52K4VVuEUtD3pKZfAdC6RYNUj/G3uwHOi0=;
+        b=jt2sFD6DIYO4myvCDCRZmyX5zsw+cALEG/C0xkRqaShv+cPB/KefY8Y4sx+Kw0hHnu
+         vEg7WXaP/CkuY0hnery4hB4UH9sznyokmEVnUqvW4wvOR2ZQCXfHkP7VZSo9oX2+6LzY
+         Ah8A/VWNkwFJ0nEX4tsWGDxJzYK4GGlFMmvhtPM9z61dhhFZJpxvzCJ4UYio0jx1dQ1a
+         9luhuxa0ginRQIE65TkdfNsD+0YIXADQCgqy34VyxlvE+bZTq8uwGpqaL/v8pAwmuavZ
+         i4iYQ6ypyMTh2s849K0koZKpW3Buc8wJlnXqIoJILY0nQAPrZ0tdGRue6fP7Z3bvDqil
+         BbGQ==
+X-Gm-Message-State: ABy/qLa5xWIscx64M8xy05ordDzsTfHshC6gktY2dILmqZnv07OkZBhy
+	rBBMUiuwM8s2lMbp0w+P+QsjMnPCoadGVnqWmDg=
+X-Google-Smtp-Source: APBJJlHtwrKpVXDKwzvkHsvH5hySbKeBkUXSdGg5lTRRuVSymuykvqzXCJAfgwGkgTXaqd6bGfd6U0Xq0DThWtb1b2o=
+X-Received: by 2002:a5e:a90f:0:b0:790:a23b:1dfc with SMTP id
+ c15-20020a5ea90f000000b00790a23b1dfcmr7652814iod.9.1690909090685; Tue, 01 Aug
+ 2023 09:58:10 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3993.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6c61d6d8-8b61-4a18-7a00-08db929e8bd6
-X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Aug 2023 14:49:45.1515
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: a+DsyNM7WS5sY6Ly/zN6X0Q3gjCY++Yj7fnlHw490o5PFIylMfMgrk7bCMLOt5eTopwFKzyUfFrKG9yLTwhdTC3oT6hPxfwAK0lCwpDYuas=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR11MB7807
-X-Proofpoint-ORIG-GUID: 6djmxHI6gR4524dYkmsJZ_9_sPr8DpfM
-X-Proofpoint-GUID: 6djmxHI6gR4524dYkmsJZ_9_sPr8DpfM
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-08-01_11,2023-08-01_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 adultscore=0
- spamscore=0 suspectscore=0 priorityscore=1501 malwarescore=0 bulkscore=0
- impostorscore=0 mlxlogscore=999 lowpriorityscore=0 mlxscore=0 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2306200000
- definitions=main-2308010133
+References: <20230731211217.2154738-1-joe.slater@windriver.com>
+ <3c950663-dae3-9043-e999-b3209cbf8ad7@windriver.com> <DM6PR11MB3993DB0E0253481B0E1A9B20880AA@DM6PR11MB3993.namprd11.prod.outlook.com>
+In-Reply-To: <DM6PR11MB3993DB0E0253481B0E1A9B20880AA@DM6PR11MB3993.namprd11.prod.outlook.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Tue, 1 Aug 2023 12:58:09 -0400
+Message-ID: <CADkTA4M33G-if1siCGYLcMP7hb5xEN7a_VwoApnM19_L6go_JA@mail.gmail.com>
+Subject: Re: [meta-virtualization] [meta-virt][PATCH 1/1] python3-nacl: add RCONFLICTS
+To: joe.slater@windriver.com
+Cc: "MacLeod, Randy" <Randy.MacLeod@windriver.com>, 
+	"meta-virtualization@lists.yoctoproject.org" <meta-virtualization@lists.yoctoproject.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Tue, 01 Aug 2023 14:49:50 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8156
+ <meta-virtualization@lists.yoctoproject.org>; Tue, 01 Aug 2023 16:58:14 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8157
 
---_000_DM6PR11MB3993DB0E0253481B0E1A9B20880AADM6PR11MB3993namp_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+On Tue, Aug 1, 2023 at 10:49=E2=80=AFAM Joe Slater via lists.yoctoproject.o=
+rg
+<joe.slater=3Dwindriver.com@lists.yoctoproject.org> wrote:
+>
+>
+>
+>
+>
+> From: MacLeod, Randy <Randy.MacLeod@windriver.com>
+> Sent: Monday, July 31, 2023 5:47 PM
+> To: Slater, Joseph <joe.slater@windriver.com>; meta-virtualization@lists.=
+yoctoproject.org
+> Subject: Re: [meta-virt][PATCH 1/1] python3-nacl: add RCONFLICTS
+>
+>
+>
+> On 2023-07-31 17:12, joe.slater@windriver.com wrote:
+>
+> From: Joe Slater <joe.slater@windriver.com>
+>
+>
+>
+> We conflict with python3-pynacl in the meta-python layer.
+>
+>
+>
+> Signed-off-by: Joe Slater <joe.slater@windriver.com>
+>
+> ---
+>
+>  recipes-devtools/python/python3-nacl_1.3.0.bb | 4 ++++
+>
+>  1 file changed, 4 insertions(+)
+>
+>
+>
+> diff --git a/recipes-devtools/python/python3-nacl_1.3.0.bb b/recipes-devt=
+ools/python/python3-nacl_1.3.0.bb
+>
+> index 42a3cd9d..e6a844bc 100644
+>
+> --- a/recipes-devtools/python/python3-nacl_1.3.0.bb
+>
+> +++ b/recipes-devtools/python/python3-nacl_1.3.0.bb
+>
+> @@ -21,6 +21,10 @@ RDEPENDS:${PN}:class-target +=3D " \
+>
+>      python3-pycparser \
+>
+>  "
+>
+>
+>
+> +# We conflict with a package in meta-python.
+>
+> +#
+>
+> +RCONFLICTS:${PN} +=3D "python3-pynacl"
+>
+> +
+>
+> Having one version of a package conflict with itself or another version i=
+n another layer seems wrong...
+>
+> Usually, if there are two versions we add PREFERRED_VERSION in say this f=
+ile or in a conf file.
+>
+> Since this is for the master development branch, why not update whatever =
+package is
+> encountering a problem? What is the issue that you're trying to solve?
+>
+> [Slater, Joseph]
+>
+> The problem is that one cannot put both python3-nacl and python3-pynacl i=
+nto an image, so at least one of them should point that out.  Since meta-vi=
+rt depends on meta-python, python3-nacl should probably disappear, but I th=
+ink that=E2=80=99s a call for the layer maintainers.
 
-DQoNCkZyb206IE1hY0xlb2QsIFJhbmR5IDxSYW5keS5NYWNMZW9kQHdpbmRyaXZlci5jb20+DQpT
-ZW50OiBNb25kYXksIEp1bHkgMzEsIDIwMjMgNTo0NyBQTQ0KVG86IFNsYXRlciwgSm9zZXBoIDxq
-b2Uuc2xhdGVyQHdpbmRyaXZlci5jb20+OyBtZXRhLXZpcnR1YWxpemF0aW9uQGxpc3RzLnlvY3Rv
-cHJvamVjdC5vcmcNClN1YmplY3Q6IFJlOiBbbWV0YS12aXJ0XVtQQVRDSCAxLzFdIHB5dGhvbjMt
-bmFjbDogYWRkIFJDT05GTElDVFMNCg0KT24gMjAyMy0wNy0zMSAxNzoxMiwgam9lLnNsYXRlckB3
-aW5kcml2ZXIuY29tPG1haWx0bzpqb2Uuc2xhdGVyQHdpbmRyaXZlci5jb20+IHdyb3RlOg0KDQpG
-cm9tOiBKb2UgU2xhdGVyIDxqb2Uuc2xhdGVyQHdpbmRyaXZlci5jb20+PG1haWx0bzpqb2Uuc2xh
-dGVyQHdpbmRyaXZlci5jb20+DQoNCg0KDQpXZSBjb25mbGljdCB3aXRoIHB5dGhvbjMtcHluYWNs
-IGluIHRoZSBtZXRhLXB5dGhvbiBsYXllci4NCg0KDQoNClNpZ25lZC1vZmYtYnk6IEpvZSBTbGF0
-ZXIgPGpvZS5zbGF0ZXJAd2luZHJpdmVyLmNvbT48bWFpbHRvOmpvZS5zbGF0ZXJAd2luZHJpdmVy
-LmNvbT4NCg0KLS0tDQoNCiByZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLW5hY2xfMS4z
-LjAuYmIgfCA0ICsrKysNCg0KIDEgZmlsZSBjaGFuZ2VkLCA0IGluc2VydGlvbnMoKykNCg0KDQoN
-CmRpZmYgLS1naXQgYS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLW5hY2xfMS4zLjAu
-YmIgYi9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLW5hY2xfMS4zLjAuYmINCg0KaW5k
-ZXggNDJhM2NkOWQuLmU2YTg0NGJjIDEwMDY0NA0KDQotLS0gYS9yZWNpcGVzLWRldnRvb2xzL3B5
-dGhvbi9weXRob24zLW5hY2xfMS4zLjAuYmINCg0KKysrIGIvcmVjaXBlcy1kZXZ0b29scy9weXRo
-b24vcHl0aG9uMy1uYWNsXzEuMy4wLmJiDQoNCkBAIC0yMSw2ICsyMSwxMCBAQCBSREVQRU5EUzok
-e1BOfTpjbGFzcy10YXJnZXQgKz0gIiBcDQoNCiAgICAgcHl0aG9uMy1weWNwYXJzZXIgXA0KDQog
-Ig0KDQoNCg0KKyMgV2UgY29uZmxpY3Qgd2l0aCBhIHBhY2thZ2UgaW4gbWV0YS1weXRob24uDQoN
-CisjDQoNCitSQ09ORkxJQ1RTOiR7UE59ICs9ICJweXRob24zLXB5bmFjbCINCg0KKw0KDQpIYXZp
-bmcgb25lIHZlcnNpb24gb2YgYSBwYWNrYWdlIGNvbmZsaWN0IHdpdGggaXRzZWxmIG9yIGFub3Ro
-ZXIgdmVyc2lvbiBpbiBhbm90aGVyIGxheWVyIHNlZW1zIHdyb25nLi4uDQoNClVzdWFsbHksIGlm
-IHRoZXJlIGFyZSB0d28gdmVyc2lvbnMgd2UgYWRkIFBSRUZFUlJFRF9WRVJTSU9OIGluIHNheSB0
-aGlzIGZpbGUgb3IgaW4gYSBjb25mIGZpbGUuDQoNClNpbmNlIHRoaXMgaXMgZm9yIHRoZSBtYXN0
-ZXIgZGV2ZWxvcG1lbnQgYnJhbmNoLCB3aHkgbm90IHVwZGF0ZSB3aGF0ZXZlciBwYWNrYWdlIGlz
-DQplbmNvdW50ZXJpbmcgYSBwcm9ibGVtPyBXaGF0IGlzIHRoZSBpc3N1ZSB0aGF0IHlvdSdyZSB0
-cnlpbmcgdG8gc29sdmU/DQoNCltTbGF0ZXIsIEpvc2VwaF0NCg0KVGhlIHByb2JsZW0gaXMgdGhh
-dCBvbmUgY2Fubm90IHB1dCBib3RoIHB5dGhvbjMtbmFjbCBhbmQgcHl0aG9uMy1weW5hY2wgaW50
-byBhbiBpbWFnZSwgc28gYXQgbGVhc3Qgb25lIG9mIHRoZW0gc2hvdWxkIHBvaW50IHRoYXQgb3V0
-LiAgU2luY2UgbWV0YS12aXJ0IGRlcGVuZHMgb24gbWV0YS1weXRob24sIHB5dGhvbjMtbmFjbCBz
-aG91bGQgcHJvYmFibHkgZGlzYXBwZWFyLCBidXQgSSB0aGluayB0aGF04oCZcyBhIGNhbGwgZm9y
-IHRoZSBsYXllciBtYWludGFpbmVycy4NCg0KSm9lDQoNCg0KDQogZXhwb3J0IFNPRElVTV9JTlNU
-QUxMID0gInN5c3RlbSINCg0KDQoNCiBCQkNMQVNTRVhURU5EID0gIm5hdGl2ZSINCg0KDQoNCi0t
-DQoNCiMgUmFuZHkgTWFjTGVvZA0KDQojIFdpbmQgUml2ZXIgTGludXgNCg==
 
---_000_DM6PR11MB3993DB0E0253481B0E1A9B20880AADM6PR11MB3993namp_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+Even if you are using outlook, it is possible to configure it for
+easier to read replies ... I suggest having a look at the settings!
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
-YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
-IDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseTpDb25zb2xhczsNCglwYW5vc2UtMToyIDEx
-IDYgOSAyIDIgNCAzIDIgNDt9DQovKiBTdHlsZSBEZWZpbml0aW9ucyAqLw0KcC5Nc29Ob3JtYWws
-IGxpLk1zb05vcm1hbCwgZGl2Lk1zb05vcm1hbA0KCXttYXJnaW46MGluOw0KCWZvbnQtc2l6ZTox
-MS4wcHQ7DQoJZm9udC1mYW1pbHk6IkNhbGlicmkiLHNhbnMtc2VyaWY7fQ0KYTpsaW5rLCBzcGFu
-Lk1zb0h5cGVybGluaw0KCXttc28tc3R5bGUtcHJpb3JpdHk6OTk7DQoJY29sb3I6Ymx1ZTsNCgl0
-ZXh0LWRlY29yYXRpb246dW5kZXJsaW5lO30NCnByZQ0KCXttc28tc3R5bGUtcHJpb3JpdHk6OTk7
-DQoJbXNvLXN0eWxlLWxpbms6IkhUTUwgUHJlZm9ybWF0dGVkIENoYXIiOw0KCW1hcmdpbjowaW47
-DQoJZm9udC1zaXplOjEwLjBwdDsNCglmb250LWZhbWlseToiQ291cmllciBOZXciO30NCnNwYW4u
-SFRNTFByZWZvcm1hdHRlZENoYXINCgl7bXNvLXN0eWxlLW5hbWU6IkhUTUwgUHJlZm9ybWF0dGVk
-IENoYXIiOw0KCW1zby1zdHlsZS1wcmlvcml0eTo5OTsNCgltc28tc3R5bGUtbGluazoiSFRNTCBQ
-cmVmb3JtYXR0ZWQiOw0KCWZvbnQtZmFtaWx5OkNvbnNvbGFzO30NCnNwYW4uRW1haWxTdHlsZTIx
-DQoJe21zby1zdHlsZS10eXBlOnBlcnNvbmFsLXJlcGx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJp
-IixzYW5zLXNlcmlmOw0KCWNvbG9yOndpbmRvd3RleHQ7fQ0KLk1zb0NocERlZmF1bHQNCgl7bXNv
-LXN0eWxlLXR5cGU6ZXhwb3J0LW9ubHk7DQoJZm9udC1zaXplOjEwLjBwdDt9DQpAcGFnZSBXb3Jk
-U2VjdGlvbjENCgl7c2l6ZTo4LjVpbiAxMS4waW47DQoJbWFyZ2luOjEuMGluIDEuMGluIDEuMGlu
-IDEuMGluO30NCmRpdi5Xb3JkU2VjdGlvbjENCgl7cGFnZTpXb3JkU2VjdGlvbjE7fQ0KLS0+PC9z
-dHlsZT48IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4NCjxvOnNoYXBlZGVmYXVsdHMgdjpleHQ9ImVk
-aXQiIHNwaWRtYXg9IjEwMjYiIC8+DQo8L3htbD48IVtlbmRpZl0tLT48IS0tW2lmIGd0ZSBtc28g
-OV0+PHhtbD4NCjxvOnNoYXBlbGF5b3V0IHY6ZXh0PSJlZGl0Ij4NCjxvOmlkbWFwIHY6ZXh0PSJl
-ZGl0IiBkYXRhPSIxIiAvPg0KPC9vOnNoYXBlbGF5b3V0PjwveG1sPjwhW2VuZGlmXS0tPg0KPC9o
-ZWFkPg0KPGJvZHkgbGFuZz0iRU4tVVMiIGxpbms9ImJsdWUiIHZsaW5rPSJwdXJwbGUiIHN0eWxl
-PSJ3b3JkLXdyYXA6YnJlYWstd29yZCI+DQo8ZGl2IGNsYXNzPSJXb3JkU2VjdGlvbjEiPg0KPHAg
-Y2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8cCBjbGFzcz0iTXNvTm9y
-bWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxkaXYgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRl
-ci1sZWZ0OnNvbGlkIGJsdWUgMS41cHQ7cGFkZGluZzowaW4gMGluIDBpbiA0LjBwdCI+DQo8ZGl2
-Pg0KPGRpdiBzdHlsZT0iYm9yZGVyOm5vbmU7Ym9yZGVyLXRvcDpzb2xpZCAjRTFFMUUxIDEuMHB0
-O3BhZGRpbmc6My4wcHQgMGluIDBpbiAwaW4iPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PGI+RnJv
-bTo8L2I+IE1hY0xlb2QsIFJhbmR5ICZsdDtSYW5keS5NYWNMZW9kQHdpbmRyaXZlci5jb20mZ3Q7
-IDxicj4NCjxiPlNlbnQ6PC9iPiBNb25kYXksIEp1bHkgMzEsIDIwMjMgNTo0NyBQTTxicj4NCjxi
-PlRvOjwvYj4gU2xhdGVyLCBKb3NlcGggJmx0O2pvZS5zbGF0ZXJAd2luZHJpdmVyLmNvbSZndDs7
-IG1ldGEtdmlydHVhbGl6YXRpb25AbGlzdHMueW9jdG9wcm9qZWN0Lm9yZzxicj4NCjxiPlN1Ympl
-Y3Q6PC9iPiBSZTogW21ldGEtdmlydF1bUEFUQ0ggMS8xXSBweXRob24zLW5hY2w6IGFkZCBSQ09O
-RkxJQ1RTPG86cD48L286cD48L3A+DQo8L2Rpdj4NCjwvZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1h
-bCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+T24g
-MjAyMy0wNy0zMSAxNzoxMiwgPGEgaHJlZj0ibWFpbHRvOmpvZS5zbGF0ZXJAd2luZHJpdmVyLmNv
-bSI+DQpqb2Uuc2xhdGVyQHdpbmRyaXZlci5jb208L2E+IHdyb3RlOjxvOnA+PC9vOnA+PC9wPg0K
-PC9kaXY+DQo8YmxvY2txdW90ZSBzdHlsZT0ibWFyZ2luLXRvcDo1LjBwdDttYXJnaW4tYm90dG9t
-OjUuMHB0Ij4NCjxwcmU+RnJvbTogSm9lIFNsYXRlciA8YSBocmVmPSJtYWlsdG86am9lLnNsYXRl
-ckB3aW5kcml2ZXIuY29tIj4mbHQ7am9lLnNsYXRlckB3aW5kcml2ZXIuY29tJmd0OzwvYT48bzpw
-PjwvbzpwPjwvcHJlPg0KPHByZT48bzpwPiZuYnNwOzwvbzpwPjwvcHJlPg0KPHByZT5XZSBjb25m
-bGljdCB3aXRoIHB5dGhvbjMtcHluYWNsIGluIHRoZSBtZXRhLXB5dGhvbiBsYXllci48bzpwPjwv
-bzpwPjwvcHJlPg0KPHByZT48bzpwPiZuYnNwOzwvbzpwPjwvcHJlPg0KPHByZT5TaWduZWQtb2Zm
-LWJ5OiBKb2UgU2xhdGVyIDxhIGhyZWY9Im1haWx0bzpqb2Uuc2xhdGVyQHdpbmRyaXZlci5jb20i
-PiZsdDtqb2Uuc2xhdGVyQHdpbmRyaXZlci5jb20mZ3Q7PC9hPjxvOnA+PC9vOnA+PC9wcmU+DQo8
-cHJlPi0tLTxvOnA+PC9vOnA+PC9wcmU+DQo8cHJlPiByZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9w
-eXRob24zLW5hY2xfMS4zLjAuYmIgfCA0ICsrKys8bzpwPjwvbzpwPjwvcHJlPg0KPHByZT4gMSBm
-aWxlIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKTxvOnA+PC9vOnA+PC9wcmU+DQo8cHJlPjxvOnA+
-Jm5ic3A7PC9vOnA+PC9wcmU+DQo8cHJlPmRpZmYgLS1naXQgYS9yZWNpcGVzLWRldnRvb2xzL3B5
-dGhvbi9weXRob24zLW5hY2xfMS4zLjAuYmIgYi9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRo
-b24zLW5hY2xfMS4zLjAuYmI8bzpwPjwvbzpwPjwvcHJlPg0KPHByZT5pbmRleCA0MmEzY2Q5ZC4u
-ZTZhODQ0YmMgMTAwNjQ0PG86cD48L286cD48L3ByZT4NCjxwcmU+LS0tIGEvcmVjaXBlcy1kZXZ0
-b29scy9weXRob24vcHl0aG9uMy1uYWNsXzEuMy4wLmJiPG86cD48L286cD48L3ByZT4NCjxwcmU+
-KysrIGIvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1uYWNsXzEuMy4wLmJiPG86cD48
-L286cD48L3ByZT4NCjxwcmU+QEAgLTIxLDYgKzIxLDEwIEBAIFJERVBFTkRTOiR7UE59OmNsYXNz
-LXRhcmdldCArPSAmcXVvdDsgXDxvOnA+PC9vOnA+PC9wcmU+DQo8cHJlPiZuYnNwOyZuYnNwOyZu
-YnNwOyZuYnNwOyBweXRob24zLXB5Y3BhcnNlciBcPG86cD48L286cD48L3ByZT4NCjxwcmU+ICZx
-dW90OzxvOnA+PC9vOnA+PC9wcmU+DQo8cHJlPiA8bzpwPjwvbzpwPjwvcHJlPg0KPHByZT4rIyBX
-ZSBjb25mbGljdCB3aXRoIGEgcGFja2FnZSBpbiBtZXRhLXB5dGhvbi48bzpwPjwvbzpwPjwvcHJl
-Pg0KPHByZT4rIzxvOnA+PC9vOnA+PC9wcmU+DQo8cHJlPitSQ09ORkxJQ1RTOiR7UE59ICs9ICZx
-dW90O3B5dGhvbjMtcHluYWNsJnF1b3Q7PG86cD48L286cD48L3ByZT4NCjxwcmU+KzxvOnA+PC9v
-OnA+PC9wcmU+DQo8L2Jsb2NrcXVvdGU+DQo8cD5IYXZpbmcgb25lIHZlcnNpb24gb2YgYSBwYWNr
-YWdlIGNvbmZsaWN0IHdpdGggaXRzZWxmIG9yIGFub3RoZXIgdmVyc2lvbiBpbiBhbm90aGVyIGxh
-eWVyIHNlZW1zIHdyb25nLi4uDQo8bzpwPjwvbzpwPjwvcD4NCjxwPlVzdWFsbHksIGlmIHRoZXJl
-IGFyZSB0d28gdmVyc2lvbnMgd2UgYWRkIFBSRUZFUlJFRF9WRVJTSU9OIGluIHNheSB0aGlzIGZp
-bGUgb3IgaW4gYSBjb25mIGZpbGUuPG86cD48L286cD48L3A+DQo8cD5TaW5jZSB0aGlzIGlzIGZv
-ciB0aGUgbWFzdGVyIGRldmVsb3BtZW50IGJyYW5jaCwgd2h5IG5vdCB1cGRhdGUgd2hhdGV2ZXIg
-cGFja2FnZSBpczxicj4NCmVuY291bnRlcmluZyBhIHByb2JsZW0/IFdoYXQgaXMgdGhlIGlzc3Vl
-IHRoYXQgeW91J3JlIHRyeWluZyB0byBzb2x2ZT88bzpwPjwvbzpwPjwvcD4NCjxwPjxiPjxpPltT
-bGF0ZXIsIEpvc2VwaF0gPG86cD48L286cD48L2k+PC9iPjwvcD4NCjxwPjxiPjxpPlRoZSBwcm9i
-bGVtIGlzIHRoYXQgb25lIGNhbm5vdCBwdXQgYm90aCBweXRob24zLW5hY2wgYW5kIHB5dGhvbjMt
-cHluYWNsIGludG8gYW4gaW1hZ2UsIHNvIGF0IGxlYXN0IG9uZSBvZiB0aGVtIHNob3VsZCBwb2lu
-dCB0aGF0IG91dC4mbmJzcDsgU2luY2UgbWV0YS12aXJ0IGRlcGVuZHMgb24gbWV0YS1weXRob24s
-IHB5dGhvbjMtbmFjbCBzaG91bGQgcHJvYmFibHkgZGlzYXBwZWFyLCBidXQgSSB0aGluayB0aGF0
-4oCZcyBhIGNhbGwgZm9yIHRoZQ0KIGxheWVyIG1haW50YWluZXJzLjxvOnA+PC9vOnA+PC9pPjwv
-Yj48L3A+DQo8cD48Yj48aT5Kb2U8L2k+PC9iPjxvOnA+PC9vOnA+PC9wPg0KPGJsb2NrcXVvdGUg
-c3R5bGU9Im1hcmdpbi10b3A6NS4wcHQ7bWFyZ2luLWJvdHRvbTo1LjBwdCI+DQo8cHJlPjxvOnA+
-Jm5ic3A7PC9vOnA+PC9wcmU+DQo8cHJlPiBleHBvcnQgU09ESVVNX0lOU1RBTEwgPSAmcXVvdDtz
-eXN0ZW0mcXVvdDs8bzpwPjwvbzpwPjwvcHJlPg0KPHByZT4gPG86cD48L286cD48L3ByZT4NCjxw
-cmU+Jm5ic3A7QkJDTEFTU0VYVEVORCA9ICZxdW90O25hdGl2ZSZxdW90OzxvOnA+PC9vOnA+PC9w
-cmU+DQo8L2Jsb2NrcXVvdGU+DQo8cD48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxwcmU+LS0gPG86
-cD48L286cD48L3ByZT4NCjxwcmU+IyBSYW5keSBNYWNMZW9kPG86cD48L286cD48L3ByZT4NCjxw
-cmU+IyBXaW5kIFJpdmVyIExpbnV4PG86cD48L286cD48L3ByZT4NCjwvZGl2Pg0KPC9kaXY+DQo8
-L2JvZHk+DQo8L2h0bWw+DQo=
+That being said, we've been testing against that module, so I'm
+inclined to leave it as-is.
 
---_000_DM6PR11MB3993DB0E0253481B0E1A9B20880AADM6PR11MB3993namp_--
+I'll take the RCONFLICTS patch, since it is non invasive and can
+prevent some misconfigurations.
+
+Bruce
+
+>
+> Joe
+>
+>
+>
+>  export SODIUM_INSTALL =3D "system"
+>
+>
+>
+>  BBCLASSEXTEND =3D "native"
+>
+>
+>
+> --
+>
+> # Randy MacLeod
+>
+> # Wind River Linux
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#8156): https://lists.yoctoproject.org/g/meta-virtuali=
+zation/message/8156
+> Mute This Topic: https://lists.yoctoproject.org/mt/100471112/1050810
+> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [=
+bruce.ashfield@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+
+
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
