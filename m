@@ -1,86 +1,94 @@
-Return-Path: <erik.schilling@linaro.org>
+Return-Path: <Martin.Jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A21AC001DB
-	for <webhook@archiver.kernel.org>; Mon, 14 Aug 2023 08:09:12 +0000 (UTC)
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
- by mx.groups.io with SMTP id smtpd.web11.102905.1692000542733019097
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B8B2C001B0
+	for <webhook@archiver.kernel.org>; Mon, 14 Aug 2023 11:21:53 +0000 (UTC)
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+ by mx.groups.io with SMTP id smtpd.web11.104995.1692012111605069468
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 14 Aug 2023 01:09:03 -0700
+ Mon, 14 Aug 2023 04:21:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=LySsmwNj;
- spf=pass (domain: linaro.org, ip: 209.85.208.51, mailfrom: erik.schilling@linaro.org)
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-5236a9788a7so5481857a12.0
-        for <meta-virtualization@lists.yoctoproject.org>; Mon, 14 Aug 2023 01:09:02 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=QAeVavte;
+ spf=pass (domain: gmail.com, ip: 209.85.218.47, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-99c136ee106so561611966b.1
+        for <meta-virtualization@lists.yoctoproject.org>; Mon, 14 Aug 2023 04:21:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1692000541; x=1692605341;
-        h=in-reply-to:references:message-id:from:to:cc:subject:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=26ZcJDsEjdoife284kKTfNuP95pN2agxcSUhjNqN4G4=;
-        b=LySsmwNjIu1A9hf9sZ7CmxRrqovUcvYZJitPicpcK66wF9Cwi6+Ng/RoT4BHV25N/p
-         4bM55BGi3hMaIaRa3ptdOHr58X+kqVCmcPU1ahSZ7oFhhismyjfG9yOKo8r4Ay78jbPJ
-         eMN4u8qoAWW21i6Ksv/mauBgyOlELjereONgYjOaWeKeke1I11WkE6JI7f/z5tir85F0
-         ZaUlJjLCdUSXWPMUjxCoqU/rXPGMwjTbp9dc3ZypFYYUecWSxgOMXCZTrftlHSnYCqhv
-         tjla2DGElNBQdBzaMCy418iwTfpU5bi/Vjw3OOAwMx3Ws5dGahwIUrFDjuWEU50IHzpP
-         p32g==
+        d=gmail.com; s=20221208; t=1692012110; x=1692616910;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=aR4Fh/CuDQfNWk7UAvP2/xDebeGPtTygl6ZDyucphKk=;
+        b=QAeVavtesVd7pk5/MrlXR2j7XJDUd5MpZQ9WctWvgG4RqSnJ7CGHrmwC18xorj2tLJ
+         S9LRzS1DzqnIZBBNHc021rVOzF3DOklQACfDuYcTIgsvRVCOHyI71T4GrmjU840ozmge
+         zOf5C0V4JhS+huD5ByKFI4AYGm55i+jKLh8Xp1fcaWo4zZA2atUGsbbUsw0i+uRiUc2L
+         NOVZSw5QsZFEjoosfar0aG2Q2gKpMKAQ8EUY1rg35L2zwn7eyx/rc/D2vrX9zC8UEINH
+         OA4nOxtZd9WEh1NYVXLIYSMhBPFl6krnp4c2cQmhXv6FuD6TY/l03zBuAvo17Ki6Pw5Z
+         zTFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692000541; x=1692605341;
-        h=in-reply-to:references:message-id:from:to:cc:subject:date
-         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=26ZcJDsEjdoife284kKTfNuP95pN2agxcSUhjNqN4G4=;
-        b=O5w8o+5MyaKABlBCukku6SZuL5BdK3coW1XQ9OFbMWvXDucE/0VL3gB7xrju+OJbhb
-         XCwlghJTTOqmpvCYZ9Pru4mk52aabsuRquzjs3k7chuNsZWdnSJVM1DnBbamx/otSvHB
-         FTM2XbAv0BqMD1/TxJ8N+rL3X2Mrbfh5U9wsGjgWrAUuMWIx5ihqet475OlU6jATlIRs
-         XdzRkaHZtqMgkPlMRSDpTyp72n5x+G/13geklGbAwMMqD14Oj5wBlia+bdyuIgD/uUyJ
-         5mC5Ljpd96nU2FqyL0q5RRFfdGsQbISBP2D8F+h8QhFruBnFvbyC8ZVhRqpHSFmx6p1m
-         zk5w==
-X-Gm-Message-State: AOJu0YyDTc94XxzSB8Iyt/90w2CaaFs7/NgACbNX7NFzcxWRpI/DPFnJ
-	Jrt9ZV8EquCGBNFufp0IDn6QMQ==
-X-Google-Smtp-Source: AGHT+IFCpN9Ukqic9oLSJvGEplFJuG6Ew4QZWg9a7uI7ZTdu9BdSaulh4Dwgf21CJlcB++2UZWXzyA==
-X-Received: by 2002:aa7:d914:0:b0:523:2919:635e with SMTP id a20-20020aa7d914000000b005232919635emr6974986edr.14.1692000541021;
-        Mon, 14 Aug 2023 01:09:01 -0700 (PDT)
-Received: from localhost (i5387890C.versanet.de. [83.135.137.12])
-        by smtp.gmail.com with ESMTPSA id i17-20020aa7c711000000b0052307566ed2sm5261591edq.14.2023.08.14.01.09.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 14 Aug 2023 01:09:00 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 14 Aug 2023 10:08:50 +0200
-Subject: Re: [meta-virtualization][PATCH] vhost-device: add recipes for
- vhost-device daemons
-Cc: "meta-virtualization" <meta-virtualization@lists.yoctoproject.org>
-To: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-From: "Erik Schilling" <erik.schilling@linaro.org>
-Message-Id: <CUS44P1QSMPE.1ECWF8S2MARHL@fedora>
-X-Mailer: aerc 0.15.2
-References: <20230728-vhost-device-v1-1-d9f81124b66a@linaro.org>
- <CADkTA4P7UOKSbocKWrQBGJTyHgDANXuatZs=17g9956Cs0ZaVQ@mail.gmail.com>
-In-Reply-To: <CADkTA4P7UOKSbocKWrQBGJTyHgDANXuatZs=17g9956Cs0ZaVQ@mail.gmail.com>
+        d=1e100.net; s=20221208; t=1692012110; x=1692616910;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=aR4Fh/CuDQfNWk7UAvP2/xDebeGPtTygl6ZDyucphKk=;
+        b=J5TSjBf+BKiK7eeXmnNRZcw/f9WwCZ3/Z4K4imOfhHZ0gb2OYQwF+ySNzQ/AmTk8lb
+         J3OexUuXPF5LaD6YQZU2bpE7McC0GAinNwTyuPIM3jtHVDeSnv69Vvo5apyaVU589sft
+         XQE9aQl3EWHoibfYTx3Ewo2Ni+3Y3gujEpTeWRetW+PLkYm+wGnS3NW0oTSZZLs0Ziu/
+         EO+EMyQwjB9/Z6q77iFSC9YwJiEvYgTWakhwF2lriY6HN/wZ67MjJXp7kDMRCwr0hKfO
+         afdtwpeNKMrb4HAj6j31XuHslWAs8zkop75vV7+3Fi9qZQvVAQHQJEul44i9ZH0aBP/8
+         p4ng==
+X-Gm-Message-State: AOJu0Yz4o72ZHuR7YKt7uOtwruodcNNfOEUbY6VDbIDQunTT9d3UA/iv
+	HIg1F9+0ZTzkI6PAB3NrZ+rhcgMiZZE=
+X-Google-Smtp-Source: AGHT+IHJ67kO3dnhF83o4ftbZBhNfiPxk5jbG23tgStoSQNx2706QJOvQxTBUABHrpSAtDq0CSqiTA==
+X-Received: by 2002:a17:906:73c7:b0:991:bf04:204f with SMTP id n7-20020a17090673c700b00991bf04204fmr8133930ejl.60.1692012109734;
+        Mon, 14 Aug 2023 04:21:49 -0700 (PDT)
+Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
+        by smtp.gmail.com with ESMTPSA id oq27-20020a170906cc9b00b0099ca4f61a8bsm5565935ejb.92.2023.08.14.04.21.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Aug 2023 04:21:49 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: meta-virtualization@lists.yoctoproject.org
+Cc: Martin Jansa <Martin.Jansa@gmail.com>
+Subject: [master-next][PATCH 1/3] nerdctl: fix installed-vs-shipped with usrmerge
+Date: Mon, 14 Aug 2023 13:21:38 +0200
+Message-ID: <20230814112140.1048354-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.41.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Mon, 14 Aug 2023 08:09:12 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8179
+ <meta-virtualization@lists.yoctoproject.org>; Mon, 14 Aug 2023 11:21:53 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8180
 
-On Tue Aug 1, 2023 at 8:35 PM CEST, Bruce Ashfield wrote:
-> I'm aware of the intricacies of rust support, and do watch the OE core
-> discussions closely, but that being said, the commands to both
-> generate and update these recipes are not something that I frequently
-> (ever) do, which leaves me trolling through old email and threads.
->
-> Would it be possible to document how they were generated in the commit
-> message, and also create a README in the recipes root directory for
-> how they should be updated ?
+* fixes:
+ERROR: nerdctl-v1.3.0-r0 do_package: QA Issue: nerdctl: Files/directories were installed but not shipped in any package:
+  /bin
+  /bin/nerdctl
+Please set FILES such that these items are packaged. Alternatively if they are unneeded, avoid installing them or delete them within do_install.
+nerdctl: 2 installed and not shipped files. [installed-vs-shipped]
 
-The generation and update process are identical :). The files are
-completely regenerated. I added a README.md to describe the process:
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ recipes-containers/nerdctl/nerdctl_git.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-https://lore.kernel.org/r/20230814-vhost-device-v2-1-4ec4b7a005a9@linaro.or=
-g
+diff --git a/recipes-containers/nerdctl/nerdctl_git.bb b/recipes-containers/nerdctl/nerdctl_git.bb
+index ca4d3c6..62460a5 100644
+--- a/recipes-containers/nerdctl/nerdctl_git.bb
++++ b/recipes-containers/nerdctl/nerdctl_git.bb
+@@ -75,8 +75,8 @@ do_compile() {
+ }
+ 
+ do_install() {
+-        install -d "${D}${BIN_PREFIX}/bin"
+-        install -m 755 "${S}/src/import/_output/nerdctl" "${D}${BIN_PREFIX}/bin"
++        install -d "${D}${BIN_PREFIX}${base_bindir}"
++        install -m 755 "${S}/src/import/_output/nerdctl" "${D}${BIN_PREFIX}${base_bindir}"
+ }
+ 
+ INHIBIT_PACKAGE_STRIP = "1"
+-- 
+2.41.0
 
-- Erik
 
