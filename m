@@ -2,66 +2,64 @@ Return-Path: <Martin.Jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B1D2C001B0
-	for <webhook@archiver.kernel.org>; Mon, 14 Aug 2023 15:12:54 +0000 (UTC)
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
- by mx.groups.io with SMTP id smtpd.web10.110223.1692025966028167024
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 398DCC001B0
+	for <webhook@archiver.kernel.org>; Mon, 14 Aug 2023 15:14:14 +0000 (UTC)
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+ by mx.groups.io with SMTP id smtpd.web10.110264.1692026045879424432
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 14 Aug 2023 08:12:46 -0700
+ Mon, 14 Aug 2023 08:14:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=WglqvuLB;
- spf=pass (domain: gmail.com, ip: 209.85.208.173, mailfrom: martin.jansa@gmail.com)
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2b9cbaee7a9so69107121fa.0
-        for <meta-virtualization@lists.yoctoproject.org>; Mon, 14 Aug 2023 08:12:45 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=J6plJmym;
+ spf=pass (domain: gmail.com, ip: 209.85.218.48, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-99c136ee106so592367066b.1
+        for <meta-virtualization@lists.yoctoproject.org>; Mon, 14 Aug 2023 08:14:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692025964; x=1692630764;
+        d=gmail.com; s=20221208; t=1692026044; x=1692630844;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Z0zvlRZaQhPjhTVCsVJJ93qdiYn36RTQpbIYDzOwNPw=;
-        b=WglqvuLBH2rbp6MIOJwYZQzvXnqOvTHyrFoFZSV22g1pHGztL+1Fwr9TAVEOYTRokB
-         lCCjCOzSQXP6a1bHgO0tPk9F/4WNlpA5p+f0rWxkqNT95hWunXfzVjTOkFGl+HScAAyR
-         +VqDNtdT5Z90w8BxKNm3XDpmR3b9WJBdeHa1nDsqTgqNdp3fu8MXnf9fo2XGC/COfPGo
-         Db+M3Ab2jsyk8Ci3UUm4ZNzNh+qqSdBKS4owUu56hQLz/qiOOuBdxiQrwWu+TJ8NSyJ3
-         yc2rjWSPwUjxmb1VE3QNZ+EJxAT/6Ij90qHt0HWB0GZUcn9Kj9TVGNCwRk46DCRLUhMM
-         sE/g==
+        bh=HJdzhcV40O4vOY+rS68bOABkJfRXvsR1t0+5M8c+I8k=;
+        b=J6plJmymu+UdwnsGTUUuRCw1AADXZivoInf2Fc+DqIArkdi4l+7rwv8RqxKOWV7hx4
+         uMwB3x7562t82zxjqZwjDE6mZhES7wrk/nG/+O9oi5V4IeC7Gjxd1RqSyilCi4THttav
+         bxDvZoy4++A7ovE/vdoGJVH+2rAXTtlsYjB/Rxok5NPvob3b1fsC9hEyiOBCx8ssB0XY
+         kDUntqm5ieS+JmyBj3zEvmhYgNpFOO7EIiHTQeStSKtPz+Tc285YzqIAAfdAk+ZV33xn
+         RQipjVQ7xt9ZjRjgbXkEJ517GNWR654LuxQ9fsUdS/lCtKKwmF/kfHpzYTGTWQb6U5Y8
+         MIMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692025964; x=1692630764;
+        d=1e100.net; s=20221208; t=1692026044; x=1692630844;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Z0zvlRZaQhPjhTVCsVJJ93qdiYn36RTQpbIYDzOwNPw=;
-        b=b1Ore49v1rmPSPqcf3QhpeJX0XB4zfN7qlF539Wn5m4SyuJyyNgjJYTYsDIk+8Hjx6
-         I6wdTaN6Cm1h2EbrD1q39eZcs+Lbzndra4J2mLJ7svagoPVqM5WJZMAijgy+3X37miMq
-         vMzo0501G3W1vLLpxKS5HvYV+AeJ69zWrtNB576woEMuRrp5MMBBZ3lxiW3gt23VFV2M
-         C+ZDFqF9jgK9wZXhe96hK2UyA02/c55rFIbnb+0uen7oD7M1ILx2tMf2qswvQW+9t2Jw
-         drh18LzTxr43PVb+eVkAYAJlEBn8bSE4Q/qawCosWCqSiiD/lcL/MOVI3szthh1JeXF1
-         W0bw==
-X-Gm-Message-State: AOJu0Yxggg9aIFsHn2sH68SCeVvhp4O5/3MCmTUtrwKRjfYMG0iOBE1k
-	UnnAjaMFcfjmWjPwGGm9ejdv8H/lxOY=
-X-Google-Smtp-Source: AGHT+IHqR9fXKgya+nRGfAGybdtmrREzVoYe3HILl+r6a5pVZMIhrXdcmXcJ2P6QORJsOMaDxBDsCQ==
-X-Received: by 2002:a2e:88d6:0:b0:2ba:18e5:106d with SMTP id a22-20020a2e88d6000000b002ba18e5106dmr7467815ljk.1.1692025963504;
-        Mon, 14 Aug 2023 08:12:43 -0700 (PDT)
+        bh=HJdzhcV40O4vOY+rS68bOABkJfRXvsR1t0+5M8c+I8k=;
+        b=LfBfSeQrQgDikeyPCqQiTxfvNtGMxAQWsPz7MLngxUjBkKECqfZ7XsJKC7iQdU6rRO
+         mRGgCuEjTljVoWOKlRUj70d9N55+JUo8SpPaU4ljEkv223b3GT6jqaoUh6ZLee7QAskZ
+         d+fEnXte8FQQznjPBZDxE/e9zha71xFpvzxG0/QUDPz36MUbSXWEf5iiTPz9+qcjHCDh
+         k9/Axw4YtherDlMKLMMaX0uumr5b2sOkEPX4kgCnLlbkx+kC5N6FGwcSyU3l7iCFTjt/
+         dofY0UK2MC4wXedK9WimmGlE5HxbFxgkFBMxL1A6OZL1dDMNjxTUKSXkjStuaKWNS/pe
+         si7g==
+X-Gm-Message-State: AOJu0YxVRTSL69wJhHNN9b3lGzJlk1/vHy/vkxDaTI66LJL29WVGgsso
+	qKqstTYDnG7cw5X0MnS0bNxnecSzjII=
+X-Google-Smtp-Source: AGHT+IFqIw6svx3TOIJhBvYoarSwEoWzSuWQV8QOrmCD+3xLf9L+Gl+4IuZen6waUP979Sa/38PCwg==
+X-Received: by 2002:a17:906:3284:b0:99c:570a:e23e with SMTP id 4-20020a170906328400b0099c570ae23emr8321020ejw.24.1692026043870;
+        Mon, 14 Aug 2023 08:14:03 -0700 (PDT)
 Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id b2-20020a17090691c200b009890e402a6bsm5744528ejx.221.2023.08.14.08.12.42
+        by smtp.gmail.com with ESMTPSA id b16-20020a170906d11000b00992b7ff3993sm5712023ejz.126.2023.08.14.08.14.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Aug 2023 08:12:42 -0700 (PDT)
+        Mon, 14 Aug 2023 08:14:03 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: meta-virtualization@lists.yoctoproject.org
-Cc: Martin Jansa <martin2.jansa@lgepartner.com>
-Subject: [kirkstone][RFC][PATCH] docker: update to v20.10.25 + 58 commits to fix compatibility with go currently in kirkstone
-Date: Mon, 14 Aug 2023 17:12:35 +0200
-Message-ID: <20230814151235.1001871-1-Martin.Jansa@gmail.com>
+Cc: Martin Jansa <Martin.Jansa@gmail.com>
+Subject: [kirkstone][RFC][PATCHv2] docker: update to v20.10.25 + 58 commits to fix compatibility with go currently in kirkstone
+Date: Mon, 14 Aug 2023 17:13:56 +0200
+Message-ID: <20230814151356.1001953-1-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Mon, 14 Aug 2023 15:12:54 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8187
-
-From: Martin Jansa <martin2.jansa@lgepartner.com>
+ <meta-virtualization@lists.yoctoproject.org>; Mon, 14 Aug 2023 15:14:14 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8188
 
 * since this backport:
   https://lists.openembedded.org/g/openembedded-core/message/185082
@@ -87,7 +85,7 @@ From: Martin Jansa <martin2.jansa@lgepartner.com>
 * update cli to latest in 20.10 branch as well:
   https://github.com/docker/cli/compare/baeda1f82a10204ec5708d5fbba130ad76cfee49..911449ca245308472a3d34a7f1a98b918e65c8c3
 
-Signed-off-by: Martin Jansa <martin2.jansa@lgepartner.com>
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
  recipes-containers/docker/docker-ce_git.bb    |  27 ++--
  recipes-containers/docker/docker-moby_git.bb  |  29 ++--
@@ -198,12 +196,12 @@ index b048208..5f8de07 100644
  CVE_PRODUCT = "docker mobyproject:moby"
 diff --git a/recipes-containers/docker/files/0001-Revert-go-updates-from-1.19.12-to-1.18.7.patch b/recipes-containers/docker/files/0001-Revert-go-updates-from-1.19.12-to-1.18.7.patch
 new file mode 100644
-index 0000000..64972e0
+index 0000000..2a3f3b9
 --- /dev/null
 +++ b/recipes-containers/docker/files/0001-Revert-go-updates-from-1.19.12-to-1.18.7.patch
 @@ -0,0 +1,144 @@
 +From 2cc349a336cd3cb4fa33554216a99dbce3879d29 Mon Sep 17 00:00:00 2001
-+From: Martin Jansa <martin2.jansa@lgepartner.com>
++From: Martin Jansa <Martin.Jansa@gmail.com>
 +Date: Mon, 14 Aug 2023 16:02:30 +0200
 +Subject: [PATCH] Revert go updates from 1.19.12 to 1.18.7
 +
@@ -457,12 +455,12 @@ index 0298c31..7cacccb 100644
 -
 diff --git a/recipes-containers/docker/files/0003-builder.go-avoid-using-strings.Cut-from-go-1.18.patch b/recipes-containers/docker/files/0003-builder.go-avoid-using-strings.Cut-from-go-1.18.patch
 new file mode 100644
-index 0000000..ca857cb
+index 0000000..0574d9e
 --- /dev/null
 +++ b/recipes-containers/docker/files/0003-builder.go-avoid-using-strings.Cut-from-go-1.18.patch
 @@ -0,0 +1,32 @@
 +From 6867fc1f6bd01596c2d3dc7bc07e26fa98965185 Mon Sep 17 00:00:00 2001
-+From: Martin Jansa <martin2.jansa@lgepartner.com>
++From: Martin Jansa <Martin.Jansa@gmail.com>
 +Date: Mon, 14 Aug 2023 16:41:42 +0200
 +Subject: [PATCH] builder.go: avoid using strings.Cut from go-1.18
 +
