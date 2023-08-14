@@ -2,777 +2,498 @@ Return-Path: <Martin.Jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC4C2C001B0
-	for <webhook@archiver.kernel.org>; Mon, 14 Aug 2023 13:12:33 +0000 (UTC)
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
- by mx.groups.io with SMTP id smtpd.web11.106897.1692018746434990515
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B1D2C001B0
+	for <webhook@archiver.kernel.org>; Mon, 14 Aug 2023 15:12:54 +0000 (UTC)
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
+ by mx.groups.io with SMTP id smtpd.web10.110223.1692025966028167024
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 14 Aug 2023 06:12:26 -0700
+ Mon, 14 Aug 2023 08:12:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=i5vjRdfb;
- spf=pass (domain: gmail.com, ip: 209.85.221.46, mailfrom: martin.jansa@gmail.com)
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-313e742a787so2479746f8f.1
-        for <meta-virtualization@lists.yoctoproject.org>; Mon, 14 Aug 2023 06:12:26 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=WglqvuLB;
+ spf=pass (domain: gmail.com, ip: 209.85.208.173, mailfrom: martin.jansa@gmail.com)
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2b9cbaee7a9so69107121fa.0
+        for <meta-virtualization@lists.yoctoproject.org>; Mon, 14 Aug 2023 08:12:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692018745; x=1692623545;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=k3hms6NFNlSHrHO5MdR0IH9H2ANIa/VEEIc86zaKonI=;
-        b=i5vjRdfbtsPpNEfLi03X7B2j4MkkuV9cUdJv/KAcHAm8iCxvIOnHrb5X14KbvUp4a+
-         AjurwZ5me7CvS0q2zZtDWdpbRoZdt2u4jGpyxSp6hiNkvhOE5ht5W2mSulUrj9rlBE8/
-         6t/lFVug5jY8Q0r/HmJmheFf4mc0ftdhe49mhVR4hZ7lhgQXiZh68eHDY7ahyN+xrweN
-         CDYJP82EQknPwoDsiTGQ7EDqwat7CGIumAWONbfs6rarN98LfK1ha+Fw6CjWBgrDf0Mr
-         NYYRrdaJj79xtW5N5S9IM7nnWAYV6McbsGZtk+b4ag+wPShcisfBlNGYivJ3yKTml3Ks
-         HQ6w==
+        d=gmail.com; s=20221208; t=1692025964; x=1692630764;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Z0zvlRZaQhPjhTVCsVJJ93qdiYn36RTQpbIYDzOwNPw=;
+        b=WglqvuLBH2rbp6MIOJwYZQzvXnqOvTHyrFoFZSV22g1pHGztL+1Fwr9TAVEOYTRokB
+         lCCjCOzSQXP6a1bHgO0tPk9F/4WNlpA5p+f0rWxkqNT95hWunXfzVjTOkFGl+HScAAyR
+         +VqDNtdT5Z90w8BxKNm3XDpmR3b9WJBdeHa1nDsqTgqNdp3fu8MXnf9fo2XGC/COfPGo
+         Db+M3Ab2jsyk8Ci3UUm4ZNzNh+qqSdBKS4owUu56hQLz/qiOOuBdxiQrwWu+TJ8NSyJ3
+         yc2rjWSPwUjxmb1VE3QNZ+EJxAT/6Ij90qHt0HWB0GZUcn9Kj9TVGNCwRk46DCRLUhMM
+         sE/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692018745; x=1692623545;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20221208; t=1692025964; x=1692630764;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=k3hms6NFNlSHrHO5MdR0IH9H2ANIa/VEEIc86zaKonI=;
-        b=gPwfJ3b/7uYhtdBFXX58u/ty5duk8wPDeGTJ4davMPzlqIL2SorDiT/JhJlWQxtwwJ
-         BgIiGhP87SlbT2feLstdCdCfhfdO61ApGMpHgLIcWk8cF5OiNsLjZdnZY428y4eSFGXa
-         2JGkYO6XfOsWFldTppatrW90/EP9U3c2yNYG0fddt/jdgLFVmo0AykkjpOOpd0fqYTdS
-         LYZjGlXRMSUARlCmPDsvm9HvOrm3XcQtpE4Cf/ztSMaq7hhPGeKrt4lm1RvFfWtr42Jk
-         HPlwuYICGR9gcYx2/epKsqyES7NDj+uy+3RLtUfBscjR3796/tERjUrzcNYeYWYiHI78
-         r/ag==
-X-Gm-Message-State: AOJu0YzUrstBnfcoo+mR37LYCOs6zEnY8XGH6TrWc3MUk/V9ENq3EBJE
-	RfU1A1+rwmEQQurW66jmF6u13+tq6bgadm4KdOs=
-X-Google-Smtp-Source: AGHT+IEHDd82nwjQ78DezxbkAm42zLDC4TponP83HeWjtanNAD835K7n/KsFhCoPtUnkou5A/oeKi0dlAtDJfVNwIlY=
-X-Received: by 2002:a5d:5088:0:b0:319:6ed2:a5c4 with SMTP id
- a8-20020a5d5088000000b003196ed2a5c4mr4104560wrt.26.1692018744606; Mon, 14 Aug
- 2023 06:12:24 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230802082210.1438735-1-mikko.rapeli@linaro.org>
- <CADkTA4OqTf4Z3kvdpnjjUHMKDnsfCpYWh0km-g7vaxu99X1x1w@mail.gmail.com>
- <ZNnFaZr31xzBO1Wa@nuoska> <CADkTA4MucbK9+1GHOHF0=OdU-3gdThQB6UziYLMhDud=dvL=NA@mail.gmail.com>
-In-Reply-To: <CADkTA4MucbK9+1GHOHF0=OdU-3gdThQB6UziYLMhDud=dvL=NA@mail.gmail.com>
+        bh=Z0zvlRZaQhPjhTVCsVJJ93qdiYn36RTQpbIYDzOwNPw=;
+        b=b1Ore49v1rmPSPqcf3QhpeJX0XB4zfN7qlF539Wn5m4SyuJyyNgjJYTYsDIk+8Hjx6
+         I6wdTaN6Cm1h2EbrD1q39eZcs+Lbzndra4J2mLJ7svagoPVqM5WJZMAijgy+3X37miMq
+         vMzo0501G3W1vLLpxKS5HvYV+AeJ69zWrtNB576woEMuRrp5MMBBZ3lxiW3gt23VFV2M
+         C+ZDFqF9jgK9wZXhe96hK2UyA02/c55rFIbnb+0uen7oD7M1ILx2tMf2qswvQW+9t2Jw
+         drh18LzTxr43PVb+eVkAYAJlEBn8bSE4Q/qawCosWCqSiiD/lcL/MOVI3szthh1JeXF1
+         W0bw==
+X-Gm-Message-State: AOJu0Yxggg9aIFsHn2sH68SCeVvhp4O5/3MCmTUtrwKRjfYMG0iOBE1k
+	UnnAjaMFcfjmWjPwGGm9ejdv8H/lxOY=
+X-Google-Smtp-Source: AGHT+IHqR9fXKgya+nRGfAGybdtmrREzVoYe3HILl+r6a5pVZMIhrXdcmXcJ2P6QORJsOMaDxBDsCQ==
+X-Received: by 2002:a2e:88d6:0:b0:2ba:18e5:106d with SMTP id a22-20020a2e88d6000000b002ba18e5106dmr7467815ljk.1.1692025963504;
+        Mon, 14 Aug 2023 08:12:43 -0700 (PDT)
+Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
+        by smtp.gmail.com with ESMTPSA id b2-20020a17090691c200b009890e402a6bsm5744528ejx.221.2023.08.14.08.12.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Aug 2023 08:12:42 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
-Date: Mon, 14 Aug 2023 15:12:09 +0200
-Message-ID: <CA+chaQdKNECJQ8or3W8m_Of2u=efhDA1bwrXZb3xvEHkY=su=A@mail.gmail.com>
-Subject: Re: [meta-virtualization][PATCH] docker: update from 24.0.2 to 24.0.5
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: Mikko Rapeli <mikko.rapeli@linaro.org>, meta-virtualization@lists.yoctoproject.org, 
-	Javier Tia <javier.tia@linaro.org>
-Content-Type: multipart/alternative; boundary="00000000000039c6cf0602e1d066"
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: meta-virtualization@lists.yoctoproject.org
+Cc: Martin Jansa <martin2.jansa@lgepartner.com>
+Subject: [kirkstone][RFC][PATCH] docker: update to v20.10.25 + 58 commits to fix compatibility with go currently in kirkstone
+Date: Mon, 14 Aug 2023 17:12:35 +0200
+Message-ID: <20230814151235.1001871-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.41.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Mon, 14 Aug 2023 13:12:33 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8186
+ <meta-virtualization@lists.yoctoproject.org>; Mon, 14 Aug 2023 15:12:54 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8187
 
---00000000000039c6cf0602e1d066
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Martin Jansa <martin2.jansa@lgepartner.com>
 
-I'll check latest v20.10.x release in kirkstone, but when I looked before
-sending the previous e-mail the change log in:
-https://github.com/moby/moby/compare/v20.10.21...v20.10.25
+* since this backport:
+  https://lists.openembedded.org/g/openembedded-core/message/185082
+  landed in kirkstone:
+  https://git.openembedded.org/openembedded-core/commit/?h=kirkstone&id=5dc74138649ab7a2c0158a43225dc7a8fd732355
 
-doesn't show neither
-https://github.com/moby/moby/pull/45962
-nor
-https://github.com/moby/moby/pull/45990
-commits backported to v20, but maybe I've overlooked them (or they look
-very different in v20).
+  docker cannot access network and fails with:
+  "http: invalid Host header"
 
-On Mon, Aug 14, 2023 at 3:09=E2=80=AFPM Bruce Ashfield <bruce.ashfield@gmai=
-l.com>
-wrote:
+  update to latest commit in 20.10 branch, because latest tag v20.10.25
+  have the fix yet:
+  https://github.com/moby/moby/compare/v20.10.21...v20.10.25
 
-> On Mon, Aug 14, 2023 at 2:10=E2=80=AFAM Mikko Rapeli <mikko.rapeli@linaro=
-.org>
-> wrote:
-> >
-> > Hi, would be nice to get this or similar change applied to master to ge=
-t
-> docker
-> > container network connections working again.
-> >
-> > FWIW, kirkstone branch suffers from same problem but docker and go
-> > versions are different. Point release update could fix the issue there
-> > too.
->
-> I'm running into some issues when testing the package upgrades you see
-> on master-next in some k8s, k3s and a custom container framework.
->
-> I'm unfortunately also working with Richard on OE-core to get some
-> remaining
-> 6.4 kernel issues fixed (if anyone has insight into clock issues at
-> bootup, we'd
-> be happy for ideas), so I'm bouncing between the two debug tasks.
->
-> With any luck, I'll get this sorted today/tomorrow and will move
-> master-next
-> into master.
->
-> I'll consider the -stable branch issues once I know I haven't broken mast=
-er
-> for everyone.
->
-> Bruce
->
-> >
-> > Cheers,
-> >
-> > -Mikko
-> >
-> > On Wed, Aug 02, 2023 at 09:12:25AM -0400, Bruce Ashfield wrote:
-> > > Thanks for the change, I'll double check my pending set of component
-> > > updates against this.
-> > >
-> > > I have a full set of updates under test, but have been out of the
-> > > office the last week, so they are a bit delayed in making it to
-> > > master-next.
-> > >
-> > > Bruce
-> > >
-> > > On Wed, Aug 2, 2023 at 4:22=E2=80=AFAM Mikko Rapeli <mikko.rapeli@lin=
-aro.org>
-> wrote:
-> > > >
-> > > > From: Mikko Rapeli <mikko.rapeli@linaro.org>
-> > > >
-> > > > go 1.20.6 from poky is not compatible with docker 24.0.2 and networ=
-k
-> > > > stack inside container is failing with "invalid Host header" error,
-> > > > see for example https://github.com/moby/moby/issues/45935
-> > > >
-> > > > 24.0.5 contains the fixes for go and also other bug fixes.
-> > > > Suggested by Javier Tia <javier.tia@linaro.org>.
-> > > >
-> > > > Changes listed in
-> > > > https://docs.docker.com/engine/release-notes/24.0/ are:
-> > > >
-> > > > 24.0.5
-> > > >
-> > > > 2023-07-24
-> > > >
-> > > > For a full list of pull requests and changes in this release, refer
-> to
-> > > > the relevant GitHub milestones:
-> > > >
-> > > >     docker/cli, 24.0.5 milestone
-> > > >     moby/moby, 24.0.5 milestone
-> > > >
-> > > > Bug fixes and enhancements
-> > > >
-> > > >     The Go client now avoids using UNIX socket paths in the HTTP
-> Host:
-> > > > header, in order to be compatible with changes introduced in
-> go1.20.6.
-> > > > moby/moby#45962, moby/moby#45990
-> > > >     containerd storage backend: Fix Variant not being included in
-> docker
-> > > > image inspect and GET /images/{name}/json. moby/moby#46025
-> > > >     containerd storage backend: Prevent potential garbage collectio=
-n
-> of
-> > > > content during image export. moby/moby#46021
-> > > >     containerd storage backend: Prevent duplicate digest entries in
-> > > > RepoDigests. moby/moby#46014
-> > > >     containerd storage backend: Fix operations taking place against
-> the
-> > > > incorrect tag when working with an image referenced by tag and
-> digest.
-> > > > moby/moby#46013
-> > > >     containerd storage backend: Fix a panic caused by EXPOSE when
-> > > > building containers with the legacy builder. moby/moby#45921
-> > > >     Fix a regression causing unintuitive errors to be returned when
-> > > > attempting to create an overlay network on a non-Swarm node.
-> > > > moby/moby#45974
-> > > >     Properly report errors parsing volume specifications from the
-> > > > command line. docker/cli#4423
-> > > >     Fix a panic caused when auths: null is found in the CLI config
-> file.
-> > > > docker/cli#4450
-> > > >
-> > > > Packaging updates
-> > > >
-> > > >     Use init scripts as provided by in moby/moby contrib/init.
-> > > > docker/docker-ce-packaging#914, docker/docker-ce-packaging#926
-> > > >     Drop Upstart from contrib/init. moby/moby#46044
-> > > >     Upgrade Go to go1.20.6. docker/cli#4428, moby/moby#45970,
-> > > > docker/docker-ce-packaging#921
-> > > >     Upgrade Compose to v2.20.2. docker/docker-ce-packaging#924
-> > > >     Upgrade buildx to v0.11.2. docker/docker-ce-packaging#922
-> > > >
-> > > > 24.0.4
-> > > >
-> > > > 2023-07-07
-> > > >
-> > > > For a full list of pull requests and changes in this release, refer
-> to
-> > > > the relevant GitHub milestones:
-> > > >
-> > > >     docker/cli, 24.0.4 milestone
-> > > >     moby/moby, 24.0.4 milestone
-> > > >
-> > > > Bug fixes and enhancements
-> > > >
-> > > >     Fix a regression introduced during 24.0.3 that causes a panic
-> during
-> > > > live-restore of containers with bind mounts. moby/moby#45903
-> > > >
-> > > > 24.0.3
-> > > >
-> > > > 2023-07-06
-> > > >
-> > > > For a full list of pull requests and changes in this release, refer
-> to
-> > > > the relevant GitHub milestones:
-> > > >
-> > > >     docker/cli, 24.0.3 milestone
-> > > >     moby/moby, 24.0.3 milestone
-> > > >
-> > > > Bug fixes and enhancements
-> > > >
-> > > >     containerd image store: Fix an issue where multi-platform image=
-s
-> > > > that did not include a manifest for the default platform could not =
-be
-> > > > interacted with. moby/moby#45849
-> > > >     containerd image store: Fix specious attempts to cache FROM
-> scratch
-> > > > in container builds. moby/moby#45822
-> > > >     containerd image store: Fix docker cp with snapshotters that
-> cannot
-> > > > mount the same content multiple times. moby/moby#45780,
-> moby/moby#45786
-> > > >     containerd image store: Fix builds with type=3Dimage not being
-> > > > correctly unpacked/stored. moby/moby#45692
-> > > >     containerd image store: Fix incorrectly attempting to unpack
-> > > > pseudo-images (including attestations) in docker load.
-> moby/moby#45688
-> > > >     containerd image store: Correctly set the user agent, and inclu=
-de
-> > > > additional information like the snapshotter when interacting with
-> > > > registries. moby/moby#45671, moby/moby#45684
-> > > >     containerd image store: Fix a failure to unpack already-pulled
-> > > > content after switching between snapshotters. moby/moby#45678
-> > > >     containerd image store: Fix images that have been re-tagged or
-> with
-> > > > all tags removed being pruned while still in use. moby/moby#45857
-> > > >     Fix a Swarm CSI issue where the Topology field was not propagat=
-ed
-> > > > into NodeCSIInfo. moby/moby#45810
-> > > >     Fix failures to add new Swarm managers caused by a very large
-> raft
-> > > > log. moby/moby#45703, moby/swarmkit#3122, moby/swarmkit#3128
-> > > >     name_to_handle_at(2) is now always allowed in the default secco=
-mp
-> > > > profile. moby/moby#45833
-> > > >     Fix an issue that prevented encrypted Swarm overlay networks fr=
-om
-> > > > working on ports other than the default (4789). moby/moby#45637
-> > > >     Fix a failure to restore mount reference-counts during
-> live-restore.
-> > > > moby/moby#45824
-> > > >     Fix various networking-related failures during live-restore.
-> > > > moby/moby#45658, moby/moby#45659
-> > > >     Fix running containers restoring with a zero (successful) exit
-> > > > status when the daemon is unexpectedly terminated. moby/moby#45801
-> > > >     Fix a potential panic while executing healthcheck probes.
-> > > > moby/moby#45798
-> > > >     Fix a panic caused by a race condition in container exec start.
-> > > > moby/moby#45794
-> > > >     Fix an exception caused by attaching a terminal to an exec with=
- a
-> > > > non-existent command. moby/moby#45643
-> > > >     Fix host-gateway with BuildKit by passing the IP as a label (al=
-so
-> > > > requires docker/buildx#1894). moby/moby#45790
-> > > >     Fix an issue where POST /containers/{id}/stop would forcefully
-> > > > terminate the container when the request was canceled, instead of
-> > > > waiting until the specified timeout for a =E2=80=98graceful=E2=80=
-=99 stop.
-> > > > moby/moby#45774
-> > > >     Fix an issue where docker cp -a from the root (/) directory wou=
-ld
-> > > > fail. moby/moby#45748
-> > > >     Improve compatibility with non-runc container runtimes by more
-> > > > correctly setting resource constraint parameters in the OCI config.
-> > > > moby/moby#45746
-> > > >     Fix an issue caused by overlapping subuid/subgid ranges in
-> certain
-> > > > configurations (e.g. LDAP) in rootless mode. moby/moby#45747,
-> > > > rootless-containers/rootlesskit#369
-> > > >     Greatly reduce CPU and memory usage while populating the Debug
-> > > > section of GET /info. moby/moby#45856
-> > > >     Fix an issue where debug information was not correctly printed
-> > > > during docker info when only the client is in debug mode.
-> > > > docker/cli#4393
-> > > >     Fix issues related to hung connections when connecting to hosts
-> over
-> > > > a SSH connection. docker/cli#4395
-> > > >
-> > > > Packaging updates
-> > > >
-> > > >     Upgrade Go to go1.20.5. moby/moby#45745, docker/cli#4351,
-> > > > docker/docker-ce-packaging#904
-> > > >     Upgrade Compose to v2.19.1. docker/docker-ce-packaging#916
-> > > >     Upgrade buildx to v0.11.1. docker/docker-ce-packaging#918
-> > > >
-> > > > Cc: Javier Tia <javier.tia@linaro.org>
-> > > > Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
-> > > > ---
-> > > >  recipes-containers/docker/docker-moby_git.bb | 6 +++---
-> > > >  1 file changed, 3 insertions(+), 3 deletions(-)
-> > > >
-> > > > diff --git a/recipes-containers/docker/docker-moby_git.bb
-> b/recipes-containers/docker/docker-moby_git.bb
-> > > > index 2fc11d0..de20aa6 100644
-> > > > --- a/recipes-containers/docker/docker-moby_git.bb
-> > > > +++ b/recipes-containers/docker/docker-moby_git.bb
-> > > > @@ -44,9 +44,9 @@ DESCRIPTION =3D "Linux container runtime \
-> > > >  # so we get that tag, and make it our SRCREVS:
-> > > >  #
-> > > >
-> > > > -SRCREV_moby =3D "d7aa1e14e521af24c0aca800a837866f514f46f7"
-> > > > +SRCREV_moby =3D "a61e2b4c9c5f7c241aeb37f389b4444aee26bea4"
-> > > >  SRCREV_libnetwork =3D "3f0048413d95802b9c6c836eba06bfc54f9dbd03"
-> > > > -SRCREV_cli =3D "0823df7daa197bba96f2f2a85b9cbe156df78d43"
-> > > > +SRCREV_cli =3D "ced099660009713e0e845eeb754e6050dbaa45d0"
-> > > >  SRCREV_FORMAT =3D "moby_libnetwork"
-> > > >  SRC_URI =3D "\
-> > > >         git://
-> github.com/moby/moby.git;branch=3D24.0;name=3Dmoby;protocol=3Dhttps \
-> > > > @@ -66,7 +66,7 @@ require docker.inc
-> > > >  LICENSE =3D "Apache-2.0"
-> > > >  LIC_FILES_CHKSUM =3D
-> "file://src/import/LICENSE;md5=3D4859e97a9c7780e77972d989f0823f28"
-> > > >
-> > > > -DOCKER_VERSION =3D "24.0.2"
-> > > > +DOCKER_VERSION =3D "24.0.5"
-> > > >  PV =3D "${DOCKER_VERSION}+git${SRCREV_moby}"
-> > > >
-> > > >  CVE_PRODUCT =3D "docker mobyproject:moby"
-> > > > --
-> > > > 2.34.1
-> > > >
-> > > >
-> > > >
-> > > >
-> > >
-> > >
-> > > --
-> > > - Thou shalt not follow the NULL pointer, for chaos and madness await
-> > > thee at its end
-> > > - "Use the force Harry" - Gandalf, Star Trek II
->
->
->
-> --
-> - Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at its end
-> - "Use the force Harry" - Gandalf, Star Trek II
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#8185):
-> https://lists.yoctoproject.org/g/meta-virtualization/message/8185
-> Mute This Topic: https://lists.yoctoproject.org/mt/100501205/3617156
-> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> Unsubscribe:
-> https://lists.yoctoproject.org/g/meta-virtualization/leave/7925988/361715=
-6/1068030116/xyzzy
-> [Martin.Jansa@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
+  so we need couple more commits from upstream:
+  https://github.com/moby/moby/compare/v20.10.25...791d8ab87747169b4cbfcdf2fd57c81952bae6d5
 
---00000000000039c6cf0602e1d066
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+  Adjust the go version revert which was here since the upgrade to v20.10.21:
+  https://git.yoctoproject.org/meta-virtualization/commit/?h=kirkstone&id=927537108bcf2b98859512ce3eae59a73439994d
 
-<div dir=3D"ltr">I&#39;ll check latest v20.10.x release in kirkstone, but w=
-hen I looked before sending the previous e-mail the change log in:<div><div=
-><a href=3D"https://github.com/moby/moby/compare/v20.10.21...v20.10.25">htt=
-ps://github.com/moby/moby/compare/v20.10.21...v20.10.25</a><br></div></div>=
-<div><br></div><div>doesn&#39;t show neither</div><div><a href=3D"https://g=
-ithub.com/moby/moby/pull/45962">https://github.com/moby/moby/pull/45962</a>=
-<br></div><div>nor</div><div><a href=3D"https://github.com/moby/moby/pull/4=
-5990">https://github.com/moby/moby/pull/45990</a><br></div><div>commits bac=
-kported to v20, but maybe I&#39;ve overlooked them (or they look very diffe=
-rent in v20).</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" cl=
-ass=3D"gmail_attr">On Mon, Aug 14, 2023 at 3:09=E2=80=AFPM Bruce Ashfield &=
-lt;<a href=3D"mailto:bruce.ashfield@gmail.com">bruce.ashfield@gmail.com</a>=
-&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
-0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On M=
-on, Aug 14, 2023 at 2:10=E2=80=AFAM Mikko Rapeli &lt;<a href=3D"mailto:mikk=
-o.rapeli@linaro.org" target=3D"_blank">mikko.rapeli@linaro.org</a>&gt; wrot=
-e:<br>
-&gt;<br>
-&gt; Hi, would be nice to get this or similar change applied to master to g=
-et docker<br>
-&gt; container network connections working again.<br>
-&gt;<br>
-&gt; FWIW, kirkstone branch suffers from same problem but docker and go<br>
-&gt; versions are different. Point release update could fix the issue there=
-<br>
-&gt; too.<br>
-<br>
-I&#39;m running into some issues when testing the package upgrades you see<=
-br>
-on master-next in some k8s, k3s and a custom container framework.<br>
-<br>
-I&#39;m unfortunately also working with Richard on OE-core to get some rema=
-ining<br>
-6.4 kernel issues fixed (if anyone has insight into clock issues at bootup,=
- we&#39;d<br>
-be happy for ideas), so I&#39;m bouncing between the two debug tasks.<br>
-<br>
-With any luck, I&#39;ll get this sorted today/tomorrow and will move master=
--next<br>
-into master.<br>
-<br>
-I&#39;ll consider the -stable branch issues once I know I haven&#39;t broke=
-n master<br>
-for everyone.<br>
-<br>
-Bruce<br>
-<br>
-&gt;<br>
-&gt; Cheers,<br>
-&gt;<br>
-&gt; -Mikko<br>
-&gt;<br>
-&gt; On Wed, Aug 02, 2023 at 09:12:25AM -0400, Bruce Ashfield wrote:<br>
-&gt; &gt; Thanks for the change, I&#39;ll double check my pending set of co=
-mponent<br>
-&gt; &gt; updates against this.<br>
-&gt; &gt;<br>
-&gt; &gt; I have a full set of updates under test, but have been out of the=
-<br>
-&gt; &gt; office the last week, so they are a bit delayed in making it to<b=
-r>
-&gt; &gt; master-next.<br>
-&gt; &gt;<br>
-&gt; &gt; Bruce<br>
-&gt; &gt;<br>
-&gt; &gt; On Wed, Aug 2, 2023 at 4:22=E2=80=AFAM Mikko Rapeli &lt;<a href=
-=3D"mailto:mikko.rapeli@linaro.org" target=3D"_blank">mikko.rapeli@linaro.o=
-rg</a>&gt; wrote:<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; From: Mikko Rapeli &lt;<a href=3D"mailto:mikko.rapeli@linaro=
-.org" target=3D"_blank">mikko.rapeli@linaro.org</a>&gt;<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; go 1.20.6 from poky is not compatible with docker 24.0.2 and=
- network<br>
-&gt; &gt; &gt; stack inside container is failing with &quot;invalid Host he=
-ader&quot; error,<br>
-&gt; &gt; &gt; see for example <a href=3D"https://github.com/moby/moby/issu=
-es/45935" rel=3D"noreferrer" target=3D"_blank">https://github.com/moby/moby=
-/issues/45935</a><br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; 24.0.5 contains the fixes for go and also other bug fixes.<b=
-r>
-&gt; &gt; &gt; Suggested by Javier Tia &lt;<a href=3D"mailto:javier.tia@lin=
-aro.org" target=3D"_blank">javier.tia@linaro.org</a>&gt;.<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; Changes listed in<br>
-&gt; &gt; &gt; <a href=3D"https://docs.docker.com/engine/release-notes/24.0=
-/" rel=3D"noreferrer" target=3D"_blank">https://docs.docker.com/engine/rele=
-ase-notes/24.0/</a> are:<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; 24.0.5<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; 2023-07-24<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; For a full list of pull requests and changes in this release=
-, refer to<br>
-&gt; &gt; &gt; the relevant GitHub milestones:<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0docker/cli, 24.0.5 milestone<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0moby/moby, 24.0.5 milestone<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; Bug fixes and enhancements<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0The Go client now avoids using UNIX socke=
-t paths in the HTTP Host:<br>
-&gt; &gt; &gt; header, in order to be compatible with changes introduced in=
- go1.20.6.<br>
-&gt; &gt; &gt; moby/moby#45962, moby/moby#45990<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0containerd storage backend: Fix Variant n=
-ot being included in docker<br>
-&gt; &gt; &gt; image inspect and GET /images/{name}/json. moby/moby#46025<b=
-r>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0containerd storage backend: Prevent poten=
-tial garbage collection of<br>
-&gt; &gt; &gt; content during image export. moby/moby#46021<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0containerd storage backend: Prevent dupli=
-cate digest entries in<br>
-&gt; &gt; &gt; RepoDigests. moby/moby#46014<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0containerd storage backend: Fix operation=
-s taking place against the<br>
-&gt; &gt; &gt; incorrect tag when working with an image referenced by tag a=
-nd digest.<br>
-&gt; &gt; &gt; moby/moby#46013<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0containerd storage backend: Fix a panic c=
-aused by EXPOSE when<br>
-&gt; &gt; &gt; building containers with the legacy builder. moby/moby#45921=
-<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0Fix a regression causing unintuitive erro=
-rs to be returned when<br>
-&gt; &gt; &gt; attempting to create an overlay network on a non-Swarm node.=
-<br>
-&gt; &gt; &gt; moby/moby#45974<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0Properly report errors parsing volume spe=
-cifications from the<br>
-&gt; &gt; &gt; command line. docker/cli#4423<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0Fix a panic caused when auths: null is fo=
-und in the CLI config file.<br>
-&gt; &gt; &gt; docker/cli#4450<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; Packaging updates<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0Use init scripts as provided by in moby/m=
-oby contrib/init.<br>
-&gt; &gt; &gt; docker/docker-ce-packaging#914, docker/docker-ce-packaging#9=
-26<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0Drop Upstart from contrib/init. moby/moby=
-#46044<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0Upgrade Go to go1.20.6. docker/cli#4428, =
-moby/moby#45970,<br>
-&gt; &gt; &gt; docker/docker-ce-packaging#921<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0Upgrade Compose to v2.20.2. docker/docker=
--ce-packaging#924<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0Upgrade buildx to v0.11.2. docker/docker-=
-ce-packaging#922<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; 24.0.4<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; 2023-07-07<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; For a full list of pull requests and changes in this release=
-, refer to<br>
-&gt; &gt; &gt; the relevant GitHub milestones:<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0docker/cli, 24.0.4 milestone<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0moby/moby, 24.0.4 milestone<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; Bug fixes and enhancements<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0Fix a regression introduced during 24.0.3=
- that causes a panic during<br>
-&gt; &gt; &gt; live-restore of containers with bind mounts. moby/moby#45903=
-<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; 24.0.3<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; 2023-07-06<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; For a full list of pull requests and changes in this release=
-, refer to<br>
-&gt; &gt; &gt; the relevant GitHub milestones:<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0docker/cli, 24.0.3 milestone<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0moby/moby, 24.0.3 milestone<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; Bug fixes and enhancements<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0containerd image store: Fix an issue wher=
-e multi-platform images<br>
-&gt; &gt; &gt; that did not include a manifest for the default platform cou=
-ld not be<br>
-&gt; &gt; &gt; interacted with. moby/moby#45849<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0containerd image store: Fix specious atte=
-mpts to cache FROM scratch<br>
-&gt; &gt; &gt; in container builds. moby/moby#45822<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0containerd image store: Fix docker cp wit=
-h snapshotters that cannot<br>
-&gt; &gt; &gt; mount the same content multiple times. moby/moby#45780, moby=
-/moby#45786<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0containerd image store: Fix builds with t=
-ype=3Dimage not being<br>
-&gt; &gt; &gt; correctly unpacked/stored. moby/moby#45692<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0containerd image store: Fix incorrectly a=
-ttempting to unpack<br>
-&gt; &gt; &gt; pseudo-images (including attestations) in docker load. moby/=
-moby#45688<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0containerd image store: Correctly set the=
- user agent, and include<br>
-&gt; &gt; &gt; additional information like the snapshotter when interacting=
- with<br>
-&gt; &gt; &gt; registries. moby/moby#45671, moby/moby#45684<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0containerd image store: Fix a failure to =
-unpack already-pulled<br>
-&gt; &gt; &gt; content after switching between snapshotters. moby/moby#4567=
-8<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0containerd image store: Fix images that h=
-ave been re-tagged or with<br>
-&gt; &gt; &gt; all tags removed being pruned while still in use. moby/moby#=
-45857<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0Fix a Swarm CSI issue where the Topology =
-field was not propagated<br>
-&gt; &gt; &gt; into NodeCSIInfo. moby/moby#45810<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0Fix failures to add new Swarm managers ca=
-used by a very large raft<br>
-&gt; &gt; &gt; log. moby/moby#45703, moby/swarmkit#3122, moby/swarmkit#3128=
-<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0name_to_handle_at(2) is now always allowe=
-d in the default seccomp<br>
-&gt; &gt; &gt; profile. moby/moby#45833<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0Fix an issue that prevented encrypted Swa=
-rm overlay networks from<br>
-&gt; &gt; &gt; working on ports other than the default (4789). moby/moby#45=
-637<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0Fix a failure to restore mount reference-=
-counts during live-restore.<br>
-&gt; &gt; &gt; moby/moby#45824<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0Fix various networking-related failures d=
-uring live-restore.<br>
-&gt; &gt; &gt; moby/moby#45658, moby/moby#45659<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0Fix running containers restoring with a z=
-ero (successful) exit<br>
-&gt; &gt; &gt; status when the daemon is unexpectedly terminated. moby/moby=
-#45801<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0Fix a potential panic while executing hea=
-lthcheck probes.<br>
-&gt; &gt; &gt; moby/moby#45798<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0Fix a panic caused by a race condition in=
- container exec start.<br>
-&gt; &gt; &gt; moby/moby#45794<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0Fix an exception caused by attaching a te=
-rminal to an exec with a<br>
-&gt; &gt; &gt; non-existent command. moby/moby#45643<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0Fix host-gateway with BuildKit by passing=
- the IP as a label (also<br>
-&gt; &gt; &gt; requires docker/buildx#1894). moby/moby#45790<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0Fix an issue where POST /containers/{id}/=
-stop would forcefully<br>
-&gt; &gt; &gt; terminate the container when the request was canceled, inste=
-ad of<br>
-&gt; &gt; &gt; waiting until the specified timeout for a =E2=80=98graceful=
-=E2=80=99 stop.<br>
-&gt; &gt; &gt; moby/moby#45774<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0Fix an issue where docker cp -a from the =
-root (/) directory would<br>
-&gt; &gt; &gt; fail. moby/moby#45748<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0Improve compatibility with non-runc conta=
-iner runtimes by more<br>
-&gt; &gt; &gt; correctly setting resource constraint parameters in the OCI =
-config.<br>
-&gt; &gt; &gt; moby/moby#45746<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0Fix an issue caused by overlapping subuid=
-/subgid ranges in certain<br>
-&gt; &gt; &gt; configurations (e.g. LDAP) in rootless mode. moby/moby#45747=
-,<br>
-&gt; &gt; &gt; rootless-containers/rootlesskit#369<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0Greatly reduce CPU and memory usage while=
- populating the Debug<br>
-&gt; &gt; &gt; section of GET /info. moby/moby#45856<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0Fix an issue where debug information was =
-not correctly printed<br>
-&gt; &gt; &gt; during docker info when only the client is in debug mode.<br=
->
-&gt; &gt; &gt; docker/cli#4393<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0Fix issues related to hung connections wh=
-en connecting to hosts over<br>
-&gt; &gt; &gt; a SSH connection. docker/cli#4395<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; Packaging updates<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0Upgrade Go to go1.20.5. moby/moby#45745, =
-docker/cli#4351,<br>
-&gt; &gt; &gt; docker/docker-ce-packaging#904<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0Upgrade Compose to v2.19.1. docker/docker=
--ce-packaging#916<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0Upgrade buildx to v0.11.1. docker/docker-=
-ce-packaging#918<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; Cc: Javier Tia &lt;<a href=3D"mailto:javier.tia@linaro.org" =
-target=3D"_blank">javier.tia@linaro.org</a>&gt;<br>
-&gt; &gt; &gt; Signed-off-by: Mikko Rapeli &lt;<a href=3D"mailto:mikko.rape=
-li@linaro.org" target=3D"_blank">mikko.rapeli@linaro.org</a>&gt;<br>
-&gt; &gt; &gt; ---<br>
-&gt; &gt; &gt;=C2=A0 recipes-containers/docker/<a href=3D"http://docker-mob=
-y_git.bb" rel=3D"noreferrer" target=3D"_blank">docker-moby_git.bb</a> | 6 +=
-++---<br>
-&gt; &gt; &gt;=C2=A0 1 file changed, 3 insertions(+), 3 deletions(-)<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; diff --git a/recipes-containers/docker/<a href=3D"http://doc=
-ker-moby_git.bb" rel=3D"noreferrer" target=3D"_blank">docker-moby_git.bb</a=
-> b/recipes-containers/docker/<a href=3D"http://docker-moby_git.bb" rel=3D"=
-noreferrer" target=3D"_blank">docker-moby_git.bb</a><br>
-&gt; &gt; &gt; index 2fc11d0..de20aa6 100644<br>
-&gt; &gt; &gt; --- a/recipes-containers/docker/<a href=3D"http://docker-mob=
-y_git.bb" rel=3D"noreferrer" target=3D"_blank">docker-moby_git.bb</a><br>
-&gt; &gt; &gt; +++ b/recipes-containers/docker/<a href=3D"http://docker-mob=
-y_git.bb" rel=3D"noreferrer" target=3D"_blank">docker-moby_git.bb</a><br>
-&gt; &gt; &gt; @@ -44,9 +44,9 @@ DESCRIPTION =3D &quot;Linux container runt=
-ime \<br>
-&gt; &gt; &gt;=C2=A0 # so we get that tag, and make it our SRCREVS:<br>
-&gt; &gt; &gt;=C2=A0 #<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; -SRCREV_moby =3D &quot;d7aa1e14e521af24c0aca800a837866f514f4=
-6f7&quot;<br>
-&gt; &gt; &gt; +SRCREV_moby =3D &quot;a61e2b4c9c5f7c241aeb37f389b4444aee26b=
-ea4&quot;<br>
-&gt; &gt; &gt;=C2=A0 SRCREV_libnetwork =3D &quot;3f0048413d95802b9c6c836eba=
-06bfc54f9dbd03&quot;<br>
-&gt; &gt; &gt; -SRCREV_cli =3D &quot;0823df7daa197bba96f2f2a85b9cbe156df78d=
-43&quot;<br>
-&gt; &gt; &gt; +SRCREV_cli =3D &quot;ced099660009713e0e845eeb754e6050dbaa45=
-d0&quot;<br>
-&gt; &gt; &gt;=C2=A0 SRCREV_FORMAT =3D &quot;moby_libnetwork&quot;<br>
-&gt; &gt; &gt;=C2=A0 SRC_URI =3D &quot;\<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0git://<a href=3D"http://git=
-hub.com/moby/moby.git;branch=3D24.0;name=3Dmoby;protocol=3Dhttps" rel=3D"no=
-referrer" target=3D"_blank">github.com/moby/moby.git;branch=3D24.0;name=3Dm=
-oby;protocol=3Dhttps</a> \<br>
-&gt; &gt; &gt; @@ -66,7 +66,7 @@ require docker.inc<br>
-&gt; &gt; &gt;=C2=A0 LICENSE =3D &quot;Apache-2.0&quot;<br>
-&gt; &gt; &gt;=C2=A0 LIC_FILES_CHKSUM =3D &quot;file://src/import/LICENSE;m=
-d5=3D4859e97a9c7780e77972d989f0823f28&quot;<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; -DOCKER_VERSION =3D &quot;24.0.2&quot;<br>
-&gt; &gt; &gt; +DOCKER_VERSION =3D &quot;24.0.5&quot;<br>
-&gt; &gt; &gt;=C2=A0 PV =3D &quot;${DOCKER_VERSION}+git${SRCREV_moby}&quot;=
-<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt;=C2=A0 CVE_PRODUCT =3D &quot;docker mobyproject:moby&quot;<br=
->
-&gt; &gt; &gt; --<br>
-&gt; &gt; &gt; 2.34.1<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; <br>
-&gt; &gt; &gt;<br>
-&gt; &gt;<br>
-&gt; &gt;<br>
-&gt; &gt; --<br>
-&gt; &gt; - Thou shalt not follow the NULL pointer, for chaos and madness a=
-wait<br>
-&gt; &gt; thee at its end<br>
-&gt; &gt; - &quot;Use the force Harry&quot; - Gandalf, Star Trek II<br>
-<br>
-<br>
-<br>
--- <br>
-- Thou shalt not follow the NULL pointer, for chaos and madness await<br>
-thee at its end<br>
-- &quot;Use the force Harry&quot; - Gandalf, Star Trek II<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#8185): <a href=3D"https://lists.yoctoproject.org/g/meta=
--virtualization/message/8185" rel=3D"noreferrer" target=3D"_blank">https://=
-lists.yoctoproject.org/g/meta-virtualization/message/8185</a><br>
-Mute This Topic: <a href=3D"https://lists.yoctoproject.org/mt/100501205/361=
-7156" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.org/m=
-t/100501205/3617156</a><br>
-Group Owner: <a href=3D"mailto:meta-virtualization%2Bowner@lists.yoctoproje=
-ct.org" target=3D"_blank">meta-virtualization+owner@lists.yoctoproject.org<=
-/a><br>
-Unsubscribe: <a href=3D"https://lists.yoctoproject.org/g/meta-virtualizatio=
-n/leave/7925988/3617156/1068030116/xyzzy" rel=3D"noreferrer" target=3D"_bla=
-nk">https://lists.yoctoproject.org/g/meta-virtualization/leave/7925988/3617=
-156/1068030116/xyzzy</a> [<a href=3D"mailto:Martin.Jansa@gmail.com" target=
-=3D"_blank">Martin.Jansa@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div>
+  and add another revert for the go upgrades from upstream for this older
+  patch to apply.
 
---00000000000039c6cf0602e1d066--
+* update cli to latest in 20.10 branch as well:
+  https://github.com/docker/cli/compare/baeda1f82a10204ec5708d5fbba130ad76cfee49..911449ca245308472a3d34a7f1a98b918e65c8c3
+
+Signed-off-by: Martin Jansa <martin2.jansa@lgepartner.com>
+---
+ recipes-containers/docker/docker-ce_git.bb    |  27 ++--
+ recipes-containers/docker/docker-moby_git.bb  |  29 ++--
+ ...rt-go-updates-from-1.19.12-to-1.18.7.patch | 144 ++++++++++++++++++
+ ...t-go-updates-from-1.18.7-to-1.17.13.patch} |  35 ++---
+ ...avoid-using-strings.Cut-from-go-1.18.patch |  32 ++++
+ 5 files changed, 218 insertions(+), 49 deletions(-)
+ create mode 100644 recipes-containers/docker/files/0001-Revert-go-updates-from-1.19.12-to-1.18.7.patch
+ rename recipes-containers/docker/files/{0001-revert-go-1.8-update.patch => 0002-Revert-go-updates-from-1.18.7-to-1.17.13.patch} (97%)
+ create mode 100644 recipes-containers/docker/files/0003-builder.go-avoid-using-strings.Cut-from-go-1.18.patch
+
+diff --git a/recipes-containers/docker/docker-ce_git.bb b/recipes-containers/docker/docker-ce_git.bb
+index a41e83a..76ac41e 100644
+--- a/recipes-containers/docker/docker-ce_git.bb
++++ b/recipes-containers/docker/docker-ce_git.bb
+@@ -33,18 +33,20 @@ DESCRIPTION = "Linux container runtime \
+ 
+ SRCREV_docker = "3056208812eb5e792fa99736c9167d1e10f4ab49"
+ SRCREV_libnetwork = "dcdf8f176d1e13ad719e913e796fb698d846de98"
+-SRCREV_cli = "baeda1f82a10204ec5708d5fbba130ad76cfee49"
++SRCREV_cli = "911449ca245308472a3d34a7f1a98b918e65c8c3"
+ SRCREV_FORMAT = "docker_libnetwork"
+ SRC_URI = "\
+-	git://github.com/docker/docker.git;branch=20.10;name=docker;protocol=https \
+-	git://github.com/docker/libnetwork.git;branch=master;name=libnetwork;destsuffix=git/libnetwork;protocol=https \
+-	git://github.com/docker/cli;branch=20.10;name=cli;destsuffix=git/cli;protocol=https \
+-	file://0001-libnetwork-use-GO-instead-of-go.patch \
+-	file://docker.init \
+-        file://0001-dynbinary-use-go-cross-compiler.patch \
+-        file://0001-cli-use-external-GO111MODULE-and-cross-compiler.patch \
+-    file://0001-revert-go-1.8-update.patch;patchdir=src/import \
+-	"
++    git://github.com/docker/docker.git;branch=20.10;name=docker;protocol=https \
++    git://github.com/docker/libnetwork.git;branch=master;name=libnetwork;destsuffix=git/libnetwork;protocol=https \
++    git://github.com/docker/cli;branch=20.10;name=cli;destsuffix=git/cli;protocol=https \
++    file://0001-libnetwork-use-GO-instead-of-go.patch \
++    file://docker.init \
++    file://0001-dynbinary-use-go-cross-compiler.patch \
++    file://0001-cli-use-external-GO111MODULE-and-cross-compiler.patch \
++    file://0001-Revert-go-updates-from-1.19.12-to-1.18.7.patch;patchdir=src/import \
++    file://0002-Revert-go-updates-from-1.18.7-to-1.17.13.patch;patchdir=src/import \
++    file://0003-builder.go-avoid-using-strings.Cut-from-go-1.18.patch;patchdir=src/import \
++"
+ 
+ DOCKER_COMMIT = "${SRCREV_docker}"
+ 
+@@ -54,7 +56,10 @@ require docker.inc
+ LICENSE = "Apache-2.0"
+ LIC_FILES_CHKSUM = "file://src/import/LICENSE;md5=4859e97a9c7780e77972d989f0823f28"
+ 
+-DOCKER_VERSION = "20.10.21-ce"
++# 58 commits after v20.10.25 to include the fixes for go compatibility after
++# https://lists.openembedded.org/g/openembedded-core/message/185082
++# https://github.com/moby/moby/compare/v20.10.25...791d8ab87747169b4cbfcdf2fd57c81952bae6d5
++DOCKER_VERSION = "20.10.25-ce"
+ PV = "${DOCKER_VERSION}+git${SRCREV_docker}"
+ 
+ CVE_PRODUCT = "docker mobyproject:moby"
+diff --git a/recipes-containers/docker/docker-moby_git.bb b/recipes-containers/docker/docker-moby_git.bb
+index b048208..5f8de07 100644
+--- a/recipes-containers/docker/docker-moby_git.bb
++++ b/recipes-containers/docker/docker-moby_git.bb
+@@ -34,20 +34,22 @@ DESCRIPTION = "Linux container runtime \
+ #   - The common components of this recipe and docker-ce do need to be moved
+ #     to a docker.inc recipe
+ 
+-SRCREV_moby = "3056208812eb5e792fa99736c9167d1e10f4ab49"
++SRCREV_moby = "791d8ab87747169b4cbfcdf2fd57c81952bae6d5"
+ SRCREV_libnetwork = "dcdf8f176d1e13ad719e913e796fb698d846de98"
+-SRCREV_cli = "baeda1f82a10204ec5708d5fbba130ad76cfee49"
++SRCREV_cli = "911449ca245308472a3d34a7f1a98b918e65c8c3"
+ SRCREV_FORMAT = "moby_libnetwork"
+ SRC_URI = "\
+-	git://github.com/moby/moby.git;branch=20.10;name=moby;protocol=https \
+-	git://github.com/docker/libnetwork.git;branch=master;name=libnetwork;destsuffix=git/libnetwork;protocol=https \
+-	git://github.com/docker/cli;branch=20.10;name=cli;destsuffix=git/cli;protocol=https \
+-	file://docker.init \
+-	file://0001-libnetwork-use-GO-instead-of-go.patch \
+-        file://0001-cli-use-external-GO111MODULE-and-cross-compiler.patch \
+-        file://0001-dynbinary-use-go-cross-compiler.patch \
+-    file://0001-revert-go-1.8-update.patch;patchdir=src/import \
+-	"
++    git://github.com/moby/moby.git;branch=20.10;name=moby;protocol=https \
++    git://github.com/docker/libnetwork.git;branch=master;name=libnetwork;destsuffix=git/libnetwork;protocol=https \
++    git://github.com/docker/cli;branch=20.10;name=cli;destsuffix=git/cli;protocol=https \
++    file://docker.init \
++    file://0001-libnetwork-use-GO-instead-of-go.patch \
++    file://0001-cli-use-external-GO111MODULE-and-cross-compiler.patch \
++    file://0001-dynbinary-use-go-cross-compiler.patch \
++    file://0001-Revert-go-updates-from-1.19.12-to-1.18.7.patch;patchdir=src/import \
++    file://0002-Revert-go-updates-from-1.18.7-to-1.17.13.patch;patchdir=src/import \
++    file://0003-builder.go-avoid-using-strings.Cut-from-go-1.18.patch;patchdir=src/import \
++"
+ 
+ DOCKER_COMMIT = "${SRCREV_moby}"
+ 
+@@ -57,7 +59,10 @@ require docker.inc
+ LICENSE = "Apache-2.0"
+ LIC_FILES_CHKSUM = "file://src/import/LICENSE;md5=4859e97a9c7780e77972d989f0823f28"
+ 
+-DOCKER_VERSION = "20.10.21"
++# 58 commits after v20.10.25 to include the fixes for go compatibility after
++# https://lists.openembedded.org/g/openembedded-core/message/185082
++# https://github.com/moby/moby/compare/v20.10.25...791d8ab87747169b4cbfcdf2fd57c81952bae6d5
++DOCKER_VERSION = "20.10.25"
+ PV = "${DOCKER_VERSION}+git${SRCREV_moby}"
+ 
+ CVE_PRODUCT = "docker mobyproject:moby"
+diff --git a/recipes-containers/docker/files/0001-Revert-go-updates-from-1.19.12-to-1.18.7.patch b/recipes-containers/docker/files/0001-Revert-go-updates-from-1.19.12-to-1.18.7.patch
+new file mode 100644
+index 0000000..64972e0
+--- /dev/null
++++ b/recipes-containers/docker/files/0001-Revert-go-updates-from-1.19.12-to-1.18.7.patch
+@@ -0,0 +1,144 @@
++From 2cc349a336cd3cb4fa33554216a99dbce3879d29 Mon Sep 17 00:00:00 2001
++From: Martin Jansa <martin2.jansa@lgepartner.com>
++Date: Mon, 14 Aug 2023 16:02:30 +0200
++Subject: [PATCH] Revert go updates from 1.19.12 to 1.18.7
++
++To continue using 1.17 version as implemented for some reason in:
++https://git.yoctoproject.org/meta-virtualization/commit/?h=kirkstone&id=927537108bcf2b98859512ce3eae59a73439994d
++with 0001-revert-go-1.8-update.patch
++
++Revert "update to go1.19.12"
++This reverts commit c42d7c7f6d0dccfe5d85f0126da2c8ec77573616.
++Revert "[20.10] update go to go1.19.11"
++This reverts commit 43fe787c232c54b53bda21301bbf3a463c4e4056.
++Revert "[20.10] update go to go1.19.10"
++This reverts commit 99f10dec91409c4f6ed2c4867638f4e5ea678f0a.
++Revert "Dockerfile: temporarily skip CRIU stage"
++This reverts commit af0477880cc8c0197517c0bc8de0cbd6cb9bd9a9.
++Revert "[20.10] update go to go1.19.9"
++This reverts commit 7f91a52b8969f5604fdca36ee30475cc9600be5b.
++Revert "[20.10] update go to go1.19.8"
++This reverts commit a09b3e9cf9de906438a6300760754fcb087f166a.
++Revert "update to go1.19.7"
++This reverts commit 9aa5d55a8ba8725133a6fbb5ac98d1fab341fdc7.
++Revert "update to go1.19.6"
++This reverts commit 98c9e3f43833bf87c21e02aca77c75c7a475ecd6.
++Revert "update to go1.19.5"
++This reverts commit 5b48f300dd0c6a2bbfc942408bc7e3fbc39609f0.
++Revert "update to go1.19.4"
++This reverts commit 82b0ac1166cc553e2757c5d490ce69078064ef6e.
++Revert "Update to Go 1.19.3 to address CVE-2022-41716"
++This reverts commit 4701ca9f719f5386d2ca2417b566b5950aa8a929.
++Revert "Update to go 1.19.2 to address CVE-2022-2879, CVE-2022-2880, CVE-2022-41715"
++This reverts commit 1c8c16524f94ae69eb33c5c9000e87615ce973a6.
++Revert "Update to go 1.19.1 to address CVE-2022-27664, CVE-2022-32190"
++This reverts commit 6cc1ef32a28e7e6e74383d4775bd178d36495181.
++Revert "update to golang 1.19"
++This reverts commit 5091f13a5d027b785084028aedb03beb5b0bd9a6.
++Revert "Dockerfile: configure code dir as "safe" directory"
++This reverts commit 0312e468da5c99267654d5c6b62785e29ffe6e0d.
++Revert "[20.10] update to go1.18.10"
++This reverts commit 625903f3fda862c69492256016b386628954b3a4.
++Revert "[20.10] update gotestsum to v1.8.2"
++This reverts commit edca413033cea5252f69bfc740e9450e5d0a0ef9.
++Revert "[20.10] update to go1.18.9"
++This reverts commit f8b0d77bfe109c5248ba6eb6c6db7f32e99a2e75.
++Revert "[20.10] update to Go 1.18.8 to address CVE-2022-41716"
++This reverts commit 0211f9e44dba888fa62dc2ba59ea573ad70e9708.
++
++Upstream-Status: Inapropriate
++---
++ Dockerfile                                  | 12 ++----------
++ Dockerfile.e2e                              |  2 +-
++ Dockerfile.simple                           |  2 +-
++ Dockerfile.windows                          |  4 ++--
++ hack/dockerfile/install/gotestsum.installer |  2 +-
++ 5 files changed, 7 insertions(+), 15 deletions(-)
++
++diff --git a/Dockerfile b/Dockerfile
++index 4ee4d8dd2c..9472c512a6 100644
++--- a/Dockerfile
+++++ b/Dockerfile
++@@ -3,7 +3,7 @@
++ ARG CROSS="false"
++ ARG SYSTEMD="false"
++ # IMPORTANT: When updating this please note that stdlib archive/tar pkg is vendored
++-ARG GO_VERSION=1.19.12
+++ARG GO_VERSION=1.18.7
++ ARG DEBIAN_FRONTEND=noninteractive
++ ARG VPNKIT_VERSION=0.5.0
++ ARG DOCKER_BUILDTAGS="apparmor seccomp"
++@@ -267,9 +267,6 @@ RUN ln -sfv /go/src/github.com/docker/docker/.bashrc ~/.bashrc
++ RUN echo "source /usr/share/bash-completion/bash_completion" >> /etc/bash.bashrc
++ RUN ln -s /usr/local/completion/bash/docker /etc/bash_completion.d/docker
++ RUN ldconfig
++-# Set dev environment as safe git directory to prevent "dubious ownership" errors
++-# when bind-mounting the source into the dev-container. See https://github.com/moby/moby/pull/44930
++-RUN git config --global --add safe.directory $GOPATH/src/github.com/docker/docker
++ # This should only install packages that are specifically needed for the dev environment and nothing else
++ # Do you really need to add another package here? Can it be done in a different build stage?
++ RUN --mount=type=cache,sharing=locked,id=moby-dev-aptlib,target=/var/lib/apt \
++@@ -316,12 +313,7 @@ COPY --from=swagger       /build/ /usr/local/bin/
++ COPY --from=tomlv         /build/ /usr/local/bin/
++ COPY --from=tini          /build/ /usr/local/bin/
++ COPY --from=registry      /build/ /usr/local/bin/
++-
++-# Skip the CRIU stage for now, as the opensuse package repository is sometimes
++-# unstable, and we're currently not using it in CI.
++-#
++-# FIXME(thaJeztah): re-enable this stage when https://github.com/moby/moby/issues/38963 is resolved (see https://github.com/moby/moby/pull/38984)
++-# COPY --from=criu          /build/ /usr/local/
+++COPY --from=criu          /build/ /usr/local/
++ COPY --from=vndr          /build/ /usr/local/bin/
++ COPY --from=gotestsum     /build/ /usr/local/bin/
++ COPY --from=golangci_lint /build/ /usr/local/bin/
++diff --git a/Dockerfile.e2e b/Dockerfile.e2e
++index 31f836fc16..f92bec85b0 100644
++--- a/Dockerfile.e2e
+++++ b/Dockerfile.e2e
++@@ -1,4 +1,4 @@
++-ARG GO_VERSION=1.19.12
+++ARG GO_VERSION=1.18.7
++ 
++ FROM golang:${GO_VERSION}-alpine AS base
++ ENV GO111MODULE=off
++diff --git a/Dockerfile.simple b/Dockerfile.simple
++index af5fc13c25..8aa6d7ff94 100644
++--- a/Dockerfile.simple
+++++ b/Dockerfile.simple
++@@ -5,7 +5,7 @@
++ 
++ # This represents the bare minimum required to build and test Docker.
++ 
++-ARG GO_VERSION=1.19.12
+++ARG GO_VERSION=1.18.7
++ 
++ FROM golang:${GO_VERSION}-buster
++ ENV GO111MODULE=off
++diff --git a/Dockerfile.windows b/Dockerfile.windows
++index 7c2fe66389..6f8242decc 100644
++--- a/Dockerfile.windows
+++++ b/Dockerfile.windows
++@@ -165,8 +165,8 @@ FROM microsoft/windowsservercore
++ # Use PowerShell as the default shell
++ SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
++ 
++-ARG GO_VERSION=1.19.12
++-ARG GOTESTSUM_VERSION=v1.8.2
+++ARG GO_VERSION=1.18.7
+++ARG GOTESTSUM_VERSION=v1.7.0
++ 
++ # Environment variable notes:
++ #  - GO_VERSION must be consistent with 'Dockerfile' used by Linux.
++diff --git a/hack/dockerfile/install/gotestsum.installer b/hack/dockerfile/install/gotestsum.installer
++index 8e88fec77b..5024179958 100755
++--- a/hack/dockerfile/install/gotestsum.installer
+++++ b/hack/dockerfile/install/gotestsum.installer
++@@ -1,6 +1,6 @@
++ #!/bin/sh
++ 
++-: ${GOTESTSUM_VERSION:=v1.8.2}
+++: ${GOTESTSUM_VERSION:=v1.7.0}
++ 
++ install_gotestsum() (
++ 	set -e
+diff --git a/recipes-containers/docker/files/0001-revert-go-1.8-update.patch b/recipes-containers/docker/files/0002-Revert-go-updates-from-1.18.7-to-1.17.13.patch
+similarity index 97%
+rename from recipes-containers/docker/files/0001-revert-go-1.8-update.patch
+rename to recipes-containers/docker/files/0002-Revert-go-updates-from-1.18.7-to-1.17.13.patch
+index 0298c31..7cacccb 100644
+--- a/recipes-containers/docker/files/0001-revert-go-1.8-update.patch
++++ b/recipes-containers/docker/files/0002-Revert-go-updates-from-1.18.7-to-1.17.13.patch
+@@ -1,8 +1,7 @@
+ From 575302e9c6567b8547b308b2b0c6a07b27e3be3b Mon Sep 17 00:00:00 2001
+ From: Adrian Freihofer <adrian.freihofer@siemens.com>
+ Date: Sun, 4 Dec 2022 18:02:54 +0100
+-Subject: [PATCH] Revert "Merge pull request #43976 from
+- thaJeztah/20.10_backport_bump_golang_1.18"
++Subject: [PATCH] Revert go updates from 1.18.7 to 1.17.13
+ 
+ Upstream-Status: Inapropriate
+ 
+@@ -25,12 +24,11 @@ changes made to 32debe0986f4516bfe17bf9122447f0c735e61b4.
+  vendor/archive/tar/reader_test.go     |  30 +++---
+  vendor/archive/tar/stat_actime1.go    |   1 +
+  vendor/archive/tar/stat_actime2.go    |   1 +
+- vendor/archive/tar/stat_unix.go       |   1 +
+  vendor/archive/tar/strconv.go         |  43 +++++---
+  vendor/archive/tar/tar_test.go        |   2 +-
+  vendor/archive/tar/writer.go          |  89 ++++++++---------
+  vendor/archive/tar/writer_test.go     |  24 +++--
+- 18 files changed, 251 insertions(+), 312 deletions(-)
++ 17 files changed, 250 insertions(+), 312 deletions(-)
+  delete mode 100644 vendor/archive/tar/fuzz_test.go
+ 
+ diff --git a/Dockerfile b/Dockerfile
+@@ -109,10 +107,10 @@ index c34a5add11..50ed9293c1 100644
+  
+  var generatedTempl = template.Must(template.New("rpc_cient").Funcs(templFuncs).Parse(`
+ diff --git a/vendor/archive/tar/common.go b/vendor/archive/tar/common.go
+-index c99b5c1920..c667cfc872 100644
++index f6d701d925..8706ede431 100644
+ --- a/vendor/archive/tar/common.go
+ +++ b/vendor/archive/tar/common.go
+-@@ -316,10 +316,10 @@ func invertSparseEntries(src []sparseEntry, size int64) []sparseEntry {
++@@ -319,10 +319,10 @@ func invertSparseEntries(src []sparseEntry, size int64) []sparseEntry {
+  // fileState tracks the number of logical (includes sparse holes) and physical
+  // (actual in tar archive) bytes remaining for the current file.
+  //
+@@ -126,7 +124,7 @@ index c99b5c1920..c667cfc872 100644
+  }
+  
+  // allowedFormats determines which formats can be used.
+-@@ -413,22 +413,22 @@ func (h Header) allowedFormats() (format Format, paxHdrs map[string]string, err
++@@ -416,22 +416,22 @@ func (h Header) allowedFormats() (format Format, paxHdrs map[string]string, err
+  
+  	// Check basic fields.
+  	var blk block
+@@ -165,7 +163,7 @@ index c99b5c1920..c667cfc872 100644
+  
+  	// Check for header-only types.
+  	var whyOnlyPAX, whyOnlyGNU string
+-@@ -538,7 +538,7 @@ type headerFileInfo struct {
++@@ -541,7 +541,7 @@ type headerFileInfo struct {
+  func (fi headerFileInfo) Size() int64        { return fi.h.Size }
+  func (fi headerFileInfo) IsDir() bool        { return fi.Mode().IsDir() }
+  func (fi headerFileInfo) ModTime() time.Time { return fi.h.ModTime }
+@@ -474,7 +472,7 @@ index e73e0d2609..0000000000
+ -	})
+ -}
+ diff --git a/vendor/archive/tar/reader.go b/vendor/archive/tar/reader.go
+-index e609c15f27..f645af8016 100644
++index 45848304ed..ca32bdea1f 100644
+ --- a/vendor/archive/tar/reader.go
+ +++ b/vendor/archive/tar/reader.go
+ @@ -65,7 +65,7 @@ func (tr *Reader) next() (*Header, error) {
+@@ -821,20 +819,8 @@ index f76d6be220..5a9a35cbb4 100644
+  
+  package tar
+  
+-diff --git a/vendor/archive/tar/stat_unix.go b/vendor/archive/tar/stat_unix.go
+-index b743c76b8c..4a5bca0312 100644
+---- a/vendor/archive/tar/stat_unix.go
+-+++ b/vendor/archive/tar/stat_unix.go
+-@@ -3,6 +3,7 @@
+- // license that can be found in the LICENSE file.
+- 
+- //go:build aix || linux || darwin || dragonfly || freebsd || openbsd || netbsd || solaris
+-+// +build aix linux darwin dragonfly freebsd openbsd netbsd solaris
+- 
+- package tar
+- 
+ diff --git a/vendor/archive/tar/strconv.go b/vendor/archive/tar/strconv.go
+-index 275db6f026..f0b61e6dba 100644
++index ac3196370e..fde45c9dbf 100644
+ --- a/vendor/archive/tar/strconv.go
+ +++ b/vendor/archive/tar/strconv.go
+ @@ -14,7 +14,7 @@ import (
+@@ -916,7 +902,7 @@ index 275db6f026..f0b61e6dba 100644
+  
+  	if !validPAXRecord(k, v) {
+  		return "", "", s, ErrHeader
+-@@ -314,7 +333,7 @@ func formatPAXRecord(k, v string) (string, error) {
++@@ -315,7 +334,7 @@ func formatPAXRecord(k, v string) (string, error) {
+  // for the PAX version of the USTAR string fields.
+  // The key must not contain an '=' character.
+  func validPAXRecord(k, v string) bool {
+@@ -1213,6 +1199,3 @@ index 640264984a..4e709e5cac 100644
+  				}
+  			default:
+  				t.Fatalf("test %d.%d, unknown test operation: %T", i, j, tf)
+--- 
+-2.38.1
+-
+diff --git a/recipes-containers/docker/files/0003-builder.go-avoid-using-strings.Cut-from-go-1.18.patch b/recipes-containers/docker/files/0003-builder.go-avoid-using-strings.Cut-from-go-1.18.patch
+new file mode 100644
+index 0000000..ca857cb
+--- /dev/null
++++ b/recipes-containers/docker/files/0003-builder.go-avoid-using-strings.Cut-from-go-1.18.patch
+@@ -0,0 +1,32 @@
++From 6867fc1f6bd01596c2d3dc7bc07e26fa98965185 Mon Sep 17 00:00:00 2001
++From: Martin Jansa <martin2.jansa@lgepartner.com>
++Date: Mon, 14 Aug 2023 16:41:42 +0200
++Subject: [PATCH] builder.go: avoid using strings.Cut from go-1.18
++
++* we're still using go-1.17
++
++Upstream-Status: Inapropriate
++---
++ builder/builder-next/builder.go | 7 +++++--
++ 1 file changed, 5 insertions(+), 2 deletions(-)
++
++diff --git a/builder/builder-next/builder.go b/builder/builder-next/builder.go
++index ee6b9f0fb1..a9bda8c370 100644
++--- a/builder/builder-next/builder.go
+++++ b/builder/builder-next/builder.go
++@@ -555,10 +555,13 @@ func toBuildkitExtraHosts(inp []string, hostGatewayIP net.IP) (string, error) {
++ 	}
++ 	hosts := make([]string, 0, len(inp))
++ 	for _, h := range inp {
++-		host, ip, ok := strings.Cut(h, ":")
++-		if !ok || host == "" || ip == "" {
+++		parts := strings.Split(h, ":")
+++
+++		if len(parts) != 2 || parts[0] == "" || parts[1] == "" {
++ 			return "", errors.Errorf("invalid host %s", h)
++ 		}
+++		host := parts[0]
+++		ip := parts[1]
++ 		// If the IP Address is a "host-gateway", replace this value with the
++ 		// IP address stored in the daemon level HostGatewayIP config variable.
++ 		if ip == opts.HostGatewayName {
+-- 
+2.41.0
+
 
