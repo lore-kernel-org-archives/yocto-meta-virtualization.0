@@ -1,123 +1,112 @@
-Return-Path: <sandeep.gundlupet-raju@amd.com>
+Return-Path: <erik.schilling@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 589B7C27C41
-	for <webhook@archiver.kernel.org>; Wed, 16 Aug 2023 20:43:11 +0000 (UTC)
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (NAM11-CO1-obe.outbound.protection.outlook.com [40.107.220.48])
- by mx.groups.io with SMTP id smtpd.web10.171726.1692218584882365947
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02560EB64DD
+	for <webhook@archiver.kernel.org>; Thu, 17 Aug 2023 08:13:48 +0000 (UTC)
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+ by mx.groups.io with SMTP id smtpd.web10.182462.1692260024048217661
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 16 Aug 2023 13:43:05 -0700
+ Thu, 17 Aug 2023 01:13:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@amd.com header.s=selector1 header.b=EJTYSYmd;
- spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: amd.com, ip: 40.107.220.48, mailfrom: sandeep.gundlupet-raju@amd.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QfG6CYCU4q9B4BF+gau24xUD0WDi6uKrRk9ha5omb3FR+hGleKSqxnFLhI1wxyB75XVDeYvDzP/2yvPWWAvhzmPfjRKRSM99SlO3Xb734xoag/PUfxJ+tIHV6/8AFBhiLEPgl7LnEn2k1nxZzI2TnmV02jnKwT9qTnd2CAYtuAA2YP2NZ6MdOuiwNOFIcMbHWRaQ9vCele5RonqgDxfCbLxEtF6QZL15RCnVpGtDrA0+wcsvzBpVuKPXB0GZ2wnzOKIORXHzTd6z9695zd2ARC0ziCktBXRawjYG7HYmpA66Nuxunl9sGwiWVpTjPN/HyxYRNjc3bsnfuDPISFmjvg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XxwF3ZzaCq0+Jfwwojqii/mmTCE3RaRw1AaEXbZ5ptw=;
- b=mrRpcfU7mDhDWYitEDdA0rYJtwC3aWK1QSY1zu8SHywoWQbqGQ7RqsG5PFPqSgpSFpH0F4jlfd/iepGXbBSWHOEv47kURVphtfY3v5WOAr2JgCuNuqyo+DLK672ZnQpdE8Xeo16hvRnMbaA2STrdOSbxYNkMf1P3GgG2q6y2p569r/QIpt+rYH0MPo1Frf7x2jHkyjudHSzCFqRnXZyIH7Y4YpG/cXc+ghleHEXZ+UP+jnkuswTE++sHmG9IiWcANkvRvZiM+RtwxwJkNhfBuwRBov+PjgS0D36jvO5qcVSM8SPcnb1Lp+AG+YD6v5jfwVfXwjAz4u6ya6BVtyWV8Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.yoctoproject.org
- smtp.mailfrom=amd.com; dmarc=pass (p=quarantine sp=quarantine pct=100)
- action=none header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XxwF3ZzaCq0+Jfwwojqii/mmTCE3RaRw1AaEXbZ5ptw=;
- b=EJTYSYmdDUajEC4/3nrkqCGuT/TsUsVYIV/EPuWqqVzAnw05GJDuHBB6gJmn7DPwut9fV6ymK4N+eVqyrfCRUYgn8Zfj/pSBR61DAa7i9OxTOLHDlwDeoDCje5uOSxmXOskRDyiUWkDji6cql5gZZ+3BWcyWaNhLRStrSYvMf8Y=
-Received: from SJ0PR03CA0347.namprd03.prod.outlook.com (2603:10b6:a03:39c::22)
- by MN2PR12MB4583.namprd12.prod.outlook.com (2603:10b6:208:26e::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6678.29; Wed, 16 Aug
- 2023 20:43:02 +0000
-Received: from SA2PEPF000015CB.namprd03.prod.outlook.com
- (2603:10b6:a03:39c:cafe::11) by SJ0PR03CA0347.outlook.office365.com
- (2603:10b6:a03:39c::22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.14 via Frontend
- Transport; Wed, 16 Aug 2023 20:43:02 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- SA2PEPF000015CB.mail.protection.outlook.com (10.167.241.201) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6699.14 via Frontend Transport; Wed, 16 Aug 2023 20:43:01 +0000
-Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Wed, 16 Aug
- 2023 15:43:01 -0500
-Received: from xcosandeepg41.xilinx.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server id 15.1.2507.27 via Frontend
- Transport; Wed, 16 Aug 2023 15:43:01 -0500
-From: Sandeep Gundlupet Raju <sandeep.gundlupet-raju@amd.com>
-To: <meta-virtualization@lists.yoctoproject.org>, <bruce.ashfield@gmail.com>,
-	<christopher.w.clark@gmail.com>
-CC: <mark.hatle@kernel.crashing.org>
-Subject: [meta-virtualization][master][PATCH] xen-boot-cmd: Remove hard assigment for ramdisk image
-Date: Wed, 16 Aug 2023 14:42:55 -0600
-Message-ID: <20230816204255.1120358-1-sandeep.gundlupet-raju@amd.com>
-X-Mailer: git-send-email 2.34.1
-MIME-Version: 1.0
+ dkim=pass header.i=@linaro.org header.s=google header.b=X4iYyqcv;
+ spf=pass (domain: linaro.org, ip: 209.85.218.44, mailfrom: erik.schilling@linaro.org)
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-99c3c8adb27so1004286866b.1
+        for <meta-virtualization@lists.yoctoproject.org>; Thu, 17 Aug 2023 01:13:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1692260022; x=1692864822;
+        h=in-reply-to:references:subject:from:to:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=juMYiIPV06zuQGsg/J4yHfA3Bb37Re5Scthg7zbR+8U=;
+        b=X4iYyqcvNVzkMtYeFYMY7nF47qOovCVrqlRMqpyXZ0wM30NLzYjj2Zbp3BEG/urGoF
+         IJT3cfEmPWkxBDpuvFhnBkwkb+vB3LaamcD2rg6rXfXQwLbnYK6FFfkImzRU65ae8Rpj
+         8xT4/GKT8uWR8qsGPIyqOdZMDBdNT1k6brcFYLBqKOf/LFyXpcKho38eeQLkZcX35p3o
+         tgHlkaPHT2T38ySB6JFQlc4GLXJWMWGNbKCqJ+nmpyTf4Fq6mufwqn2jszm76abiC+eh
+         amE+ugLx0kKUimOJHHfdSAbfL/uYr2u+YQQSq56CGu16ISxw2g/gm8p1CNbLXGECasGq
+         okcA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692260022; x=1692864822;
+        h=in-reply-to:references:subject:from:to:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=juMYiIPV06zuQGsg/J4yHfA3Bb37Re5Scthg7zbR+8U=;
+        b=K6lAzbODFMG0c9PWOEKu+DgGgGB8h23MvcZDQGbQb90oWPD+1dN5Z2KANcc7b8ZOZF
+         6G6ywXMZDp5r/WvqS11muR4E29OSo+WFcqIv6r+EyAzChnnYPJGLAXrvxvmQtMntOZ3x
+         SKLdhtjUB2Xrr/p5XPukhTihrEj12yJAfLajWRIvhBKSUV9fztUrI6OR70k16KPlKMlG
+         j3wmTvFEs32IZoBUPbt7RIkRaEaLf+eOqV7xIhTotUDyqNUHqKidHsEY3YGFovsmwfcb
+         p0SKI0N5y/vIZ0ZNJSyFTgr9Js5YDeI0zeyn8oXYdNgEHriJoJW/clSVYQQ3yisNX5rL
+         QHtQ==
+X-Gm-Message-State: AOJu0YxlRP2Vshsz8ThZNOGYPjAuU13w8ANXmxUGjFGQ0iNltuCrhWMC
+	NdA88KZuvIEkeiBIFHtVR4AOaA==
+X-Google-Smtp-Source: AGHT+IEzf/bHtBcZ14wUL/iAgZhoX4wZjKIOo9tHjYTim+HzjxBBHHjp7TvVRXkdb4Lx9Jo6IJ12yQ==
+X-Received: by 2002:a17:907:7706:b0:99b:c2b2:e4ac with SMTP id kw6-20020a170907770600b0099bc2b2e4acmr3124361ejc.33.1692260022352;
+        Thu, 17 Aug 2023 01:13:42 -0700 (PDT)
+Received: from localhost (i5387890C.versanet.de. [83.135.137.12])
+        by smtp.gmail.com with ESMTPSA id q12-20020a17090622cc00b009929d998abcsm9727772eja.209.2023.08.17.01.13.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 17 Aug 2023 01:13:42 -0700 (PDT)
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA2PEPF000015CB:EE_|MN2PR12MB4583:EE_
-X-MS-Office365-Filtering-Correlation-Id: 80f68b0b-3268-4ea6-d1f7-08db9e996249
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	x0RndYiBh3lnFylYeg8r/zyBC1bjddor/qbpVkNFumCaEikIdxjYwixLn1ygML9qGBXLcfgipThc2YKDoZiVXKr2ca55EGGgaWSMYte2zRBHySeEFawNceoWJ9S/Udggj7F3iVm4Rl3frCbD/Ff4eODiBWltjBKRUOpayBZgI6TJM3W50oxu2BGeVWLpaHaIeIE7tHxpryrwIrVgpqW8Hm7Aymmnbuxpx8Y+Q2bTp5P+zqKYVvgw93pB4DbIwryKjeLsDkrgEWlWWr8JlE82gLf7TWzzjZ1U0qRzXJ4whnUhA9H1+umyMbscXla90MEirkA82PAQnk8/jaxW1JPzUFHYq1VtVUPqC73SW3nfOxxC6nS2B7YC2124/zje3JpZfGzpNQzf0ApHc1lC+lDhSNWAS9c9OMgvTNIiRApR2u1VEKc5t5QSMv9Et97Qr4oJMCdIQv7S/dqX0kFz9U+1WZiwgJs62e+D17DaPL2TPlFLwTJoqKv7SNaz9a5SXv+/iimfMxDJrYwrAzzOmsUQGrPR5kYu/PpRa+DYUpaDAv2AxnLPdPk9FLQ1mADHIJVqY0z/9Ndis3NEVVojil8y+44bWb6HW0VjeSmpiart4/LIu584SqM35i2lcRB+Ijf0XPdyJ5QHBJDet2GKyGVNDvqWzJadyYt5/xy1v+fKQTDSfoITy17lUd5P3YSPpnkslVGkcSSk9yWW3XxFrOJ6ZQ2dKbA7HHlVGTIP8cmu3gJdXlaJjz8dqOqPrueMc0molt5rbAzzwutbs5J+zT4J0Q==
-X-Forefront-Antispam-Report: 
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(136003)(396003)(346002)(39860400002)(376002)(1800799009)(451199024)(82310400011)(186009)(40470700004)(36840700001)(46966006)(2906002)(40460700003)(83380400001)(4744005)(86362001)(40480700001)(478600001)(426003)(336012)(36756003)(2616005)(6666004)(1076003)(26005)(5660300002)(36860700001)(41300700001)(82740400003)(356005)(316002)(81166007)(70206006)(70586007)(110136005)(8676002)(8936002)(4326008)(47076005)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Aug 2023 20:43:01.8622
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 80f68b0b-3268-4ea6-d1f7-08db9e996249
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	SA2PEPF000015CB.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4583
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 17 Aug 2023 10:13:41 +0200
+Message-Id: <CUUO41I813NY.CPU5GWIZUCC4@fedora>
+Cc: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+To: "Erik Schilling" <erik.schilling@linaro.org>, "meta-virtualization"
+ <meta-virtualization@lists.yoctoproject.org>
+From: "Erik Schilling" <erik.schilling@linaro.org>
+Subject: Re: [meta-virtualization][PATCH v2] vhost-device: add recipes for
+ vhost-device daemons
+X-Mailer: aerc 0.15.2
+References: <20230814-vhost-device-v2-1-4ec4b7a005a9@linaro.org>
+In-Reply-To: <20230814-vhost-device-v2-1-4ec4b7a005a9@linaro.org>
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Wed, 16 Aug 2023 20:43:11 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8205
+ <meta-virtualization@lists.yoctoproject.org>; Thu, 17 Aug 2023 08:13:47 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8206
 
-Setting hard assignment for RAMDISK_IMAGE will take precedence during
-variable pre-expansion. Hence set RAMDISK_IMAGE variable with soft
-assignment.
+On Mon Aug 14, 2023 at 10:04 AM CEST, Erik Schilling wrote:
+> This adds recipes for the first tagged release of the vhost-device
+> daemons of the rust-vmm project.
+>
+> While the initial release was done for all daemons at the same time,
+> the daemons all have indepentend version numbers and will be released
+> on their own schedules in the future. Therefore, I splitted them into
+> independent recipes.
+>
+> Signed-off-by: Erik Schilling <erik.schilling@linaro.org>
+> ---
+> These are a bunch of daemons that implement various vhost-user virtio
+> devices. Currently, they are mostly tested with QEMU, but we are also
+> working on Xen support (most bits are upstream already).
+> ---
+> Changes in v2:
+> - Added README.md to explain generation of dependency .inc files
+> - Link to v1: https://lore.kernel.org/r/20230728-vhost-device-v1-1-d9f811=
+24b66a@linaro.org
+> ---
+>  README.md                                          |  14 ++
+>  .../vhost-device/vhost-device-gpio-crates.inc      | 184 +++++++++++++++
+>  .../vhost-device/vhost-device-gpio_0.1.0.bb        |  20 ++
+>  .../vhost-device/vhost-device-i2c-crates.inc       | 126 ++++++++++
+>  .../vhost-device/vhost-device-i2c_0.1.0.bb         |  16 ++
+>  .../vhost-device/vhost-device-rng-crates.inc       | 158 +++++++++++++
+>  .../vhost-device/vhost-device-rng_0.1.0.bb         |  17 ++
+>  .../vhost-device/vhost-device-scsi-crates.inc      | 166 +++++++++++++
+>  .../vhost-device/vhost-device-scsi_0.1.0.bb        |  16 ++
+>  .../vhost-device/vhost-device-vsock-crates.inc     | 258 +++++++++++++++=
+++++++
+>  .../vhost-device/vhost-device-vsock_0.1.0.bb       |  16 ++
+>  11 files changed, 991 insertions(+)
+>
+> diff --git a/README.md b/README.md
 
-Signed-off-by: Sandeep Gundlupet Raju <sandeep.gundlupet-raju@amd.com>
----
- dynamic-layers/xilinx/recipes-bsp/u-boot/xen-boot-cmd.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Eh... Not sure how this happened... This should obviously have gone to
+the vhost-device folder...
 
-diff --git a/dynamic-layers/xilinx/recipes-bsp/u-boot/xen-boot-cmd.inc b/dy=
-namic-layers/xilinx/recipes-bsp/u-boot/xen-boot-cmd.inc
-index 38f6f267..b2b76120 100644
---- a/dynamic-layers/xilinx/recipes-bsp/u-boot/xen-boot-cmd.inc
-+++ b/dynamic-layers/xilinx/recipes-bsp/u-boot/xen-boot-cmd.inc
-@@ -18,7 +18,7 @@ XEN_LOAD_ADDRESS ?=3D "${@append_baseaddr(d,d.getVar('XEN=
-_OFFSET'))}"
-=20
- # If dom0-ramdisk is used for Xen boot then set RAMDISK image to cpio.gz
- XEN_IMAGE_NAME ?=3D "xen"
--RAMDISK_IMAGE =3D "rootfs.cpio.gz"
-+RAMDISK_IMAGE ?=3D "rootfs.cpio.gz"
-=20
- # Set the amount of memory for dom0 depending on total available memory si=
-ze(DDR).
- DOM0_MEM ?=3D "1500M"
---=20
-2.34.1
+Will send a follow-up fix.
+
+- Erik
 
 
