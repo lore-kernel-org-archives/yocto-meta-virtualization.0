@@ -1,193 +1,126 @@
-Return-Path: <vanusuri@mvista.com>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C66DEE4993
-	for <webhook@archiver.kernel.org>; Tue, 22 Aug 2023 08:28:17 +0000 (UTC)
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
- by mx.groups.io with SMTP id smtpd.web10.3746.1692692887785263084
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA5D5EE49A5
+	for <webhook@archiver.kernel.org>; Tue, 22 Aug 2023 21:55:56 +0000 (UTC)
+Received: from mailout06.t-online.de (mailout06.t-online.de [194.25.134.19])
+ by mx.groups.io with SMTP id smtpd.web10.8933.1692741352082636176
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 22 Aug 2023 01:28:07 -0700
+ Tue, 22 Aug 2023 14:55:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=Qt8OyTNs;
- spf=pass (domain: mvista.com, ip: 209.85.214.172, mailfrom: vanusuri@mvista.com)
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-1bf0b24d925so26387275ad.3
-        for <meta-virtualization@lists.yoctoproject.org>; Tue, 22 Aug 2023 01:28:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1692692886; x=1693297686;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=fZpxfmpPpzzWEBbH1v0v/zKQDWsjKgXlZAdVWVzd2Ak=;
-        b=Qt8OyTNsrOts0tBZUK433bf2WqUowb88XQVgV05Gle83dH9Jj7O0jnKWIFOIVDj43e
-         YhVnMUwzkc0aMyae5xNo2ZS5WY2rjDeT5eQtqaZrTGkwq+BSTTTb0CsWuauPVtywnc94
-         /ykk3nKrrLbQDK+wzWv+P6wns0MmW2SDDmcRc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692692886; x=1693297686;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=fZpxfmpPpzzWEBbH1v0v/zKQDWsjKgXlZAdVWVzd2Ak=;
-        b=dJ7WKFGumDspPSaDQcX8ufjlneHg8ELym/YcJv6MBmzUgJoOrVV2wqPDSEqXx62MqX
-         V1UyNiqcFxWmleujPJEXB/YRzg0+gKDk4t39rDWnqmTecoV5LVFJV8kASDmXosTjRaTm
-         PbexO6PeJhkqS/mqaZ21oQeivQRI8yK7b0hrUdcumtntvpHFJhzcIRMW4xVL133Jay8+
-         8l3oj1669TrenJGBcHXEH+STk7KjrdIaUN9Hl+Y99lapUrSEayiEfou/VlznHQmoIwW5
-         r9WO1iIPtnqevJlPIi1Yj1yCrC4k3I4XDN3z0nQ59rEfGhD1ipSLv4cfbgt8bUt2KdV3
-         T/9A==
-X-Gm-Message-State: AOJu0Yw9b/+PWIUchDvZtBHR6808zK5LTjwRyO8b0Fzl4vX9XJL8Vy4+
-	d4Qj7NSL8kDLSqgIeirDE8JYBFuFHhd/E1CZ7lo=
-X-Google-Smtp-Source: AGHT+IGhlxl0lyr8M10BivTaf9hQAXQwQ9Xwm9+Du9DrEjNPWbu25aF52IBfkTnsG/AhqXvE9bjeig==
-X-Received: by 2002:a17:902:f54f:b0:1bd:f1ae:309d with SMTP id h15-20020a170902f54f00b001bdf1ae309dmr7009538plf.9.1692692886380;
-        Tue, 22 Aug 2023 01:28:06 -0700 (PDT)
-Received: from localhost.localdomain ([2405:201:c01c:78b9:2b44:fd11:3a8e:139c])
-        by smtp.gmail.com with ESMTPSA id i1-20020a170902c94100b001bdca6456b9sm8390397pla.17.2023.08.22.01.28.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Aug 2023 01:28:05 -0700 (PDT)
-From: vanusuri@mvista.com
+ dkim=none (message not signed); spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.19, mailfrom: f_l_k@t-online.de)
+Received: from fwd70.aul.t-online.de (fwd70.aul.t-online.de [10.223.144.96])
+	by mailout06.t-online.de (Postfix) with SMTP id 289EC1E7F0
+	for <meta-virtualization@lists.yoctoproject.org>; Tue, 22 Aug 2023 23:55:50 +0200 (CEST)
+Received: from intel-corei7-64.fritz.box ([79.219.228.72]) by fwd70.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1qYZLn-1mND6n0; Tue, 22 Aug 2023 23:55:47 +0200
+From: Markus Volk <f_l_k@t-online.de>
 To: meta-virtualization@lists.yoctoproject.org
-Cc: Vijay Anusuri <vanusuri@mvista.com>
-Subject: [meta-virtualization][dunfell][PATCH] kubernetes: Backport fix for CVE-2020-8565 & CVE-2020-8566
-Date: Tue, 22 Aug 2023 13:57:52 +0530
-Message-Id: <20230822082752.121479-1-vanusuri@mvista.com>
-X-Mailer: git-send-email 2.25.1
+Subject: [meta-virtualization][PATCH 1/2] libvirt-glib: fix introspection and documentation build
+Date: Tue, 22 Aug 2023 23:55:33 +0200
+Message-ID: <20230822215534.475219-1-f_l_k@t-online.de>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-TOI-EXPURGATEID: 150726::1692741347-7C9A9E98-BE0DDF56/0/0 CLEAN NORMAL
+X-TOI-MSGID: 6af3144e-0497-481b-aade-4741c0867723
+Content-Transfer-Encoding: quoted-printable
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Tue, 22 Aug 2023 08:28:17 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8218
+ <meta-virtualization@lists.yoctoproject.org>; Tue, 22 Aug 2023 21:55:56 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8219
 
-From: Vijay Anusuri <vanusuri@mvista.com>
-
-Upstream-commit:https://github.com/kubernetes/kubernetes/commit/f0f52255412cbc6834bd225a59608ebb4a0d399b
-& https://github.com/kubernetes/kubernetes/commit/e91ec4fad3366d2dee020919f7c2a0d7b52fd3ea
-
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+Signed-off-by: Markus Volk <f_l_k@t-online.de>
 ---
- .../kubernetes/kubernetes/CVE-2020-8565.patch | 24 +++++++
- .../kubernetes/kubernetes/CVE-2020-8566.patch | 67 +++++++++++++++++++
- .../kubernetes/kubernetes_git.bb              |  2 +
- 3 files changed, 93 insertions(+)
- create mode 100644 recipes-containers/kubernetes/kubernetes/CVE-2020-8565.patch
- create mode 100644 recipes-containers/kubernetes/kubernetes/CVE-2020-8566.patch
+ ...ild-allow-crosscompiling-gir-and-doc.patch | 37 +++++++++++++++++++
+ .../libvirt/libvirt-glib_4.0.0.bb             | 15 ++++++--
+ 2 files changed, 48 insertions(+), 4 deletions(-)
+ create mode 100644 recipes-extended/libvirt/libvirt-glib/0001-meson.buil=
+d-allow-crosscompiling-gir-and-doc.patch
 
-diff --git a/recipes-containers/kubernetes/kubernetes/CVE-2020-8565.patch b/recipes-containers/kubernetes/kubernetes/CVE-2020-8565.patch
+diff --git a/recipes-extended/libvirt/libvirt-glib/0001-meson.build-allow=
+-crosscompiling-gir-and-doc.patch b/recipes-extended/libvirt/libvirt-glib=
+/0001-meson.build-allow-crosscompiling-gir-and-doc.patch
 new file mode 100644
-index 0000000..c3772e9
+index 0000000..cd17bbb
 --- /dev/null
-+++ b/recipes-containers/kubernetes/kubernetes/CVE-2020-8565.patch
-@@ -0,0 +1,24 @@
-+From f0f52255412cbc6834bd225a59608ebb4a0d399b Mon Sep 17 00:00:00 2001
-+From: Sam Fowler <sfowler@redhat.com>
-+Date: Tue, 6 Oct 2020 11:10:38 +1000
-+Subject: [PATCH] Mask bearer token in logs when logLevel >= 9
++++ b/recipes-extended/libvirt/libvirt-glib/0001-meson.build-allow-crossc=
+ompiling-gir-and-doc.patch
+@@ -0,0 +1,37 @@
++From 019d727990d41b5d7911895b75bcb021e4cca3c6 Mon Sep 17 00:00:00 2001
++From: Markus Volk <f_l_k@t-online.de>
++Date: Mon, 21 Aug 2023 10:23:08 +0200
++Subject: [PATCH] meson.build: allow crosscompiling gir and doc
 +
-+Upstream-Status: Backport [https://github.com/kubernetes/kubernetes/commit/f0f52255412cbc6834bd225a59608ebb4a0d399b]
-+CVE: CVE-2020-8565
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++Upstream-Status: Inappropriate [oe specific]
++
++Signed-off-by: Markus Volk <f_l_k@t-online.de>
 +---
-+ staging/src/k8s.io/client-go/transport/round_trippers.go | 1 +
-+ 1 file changed, 1 insertion(+)
++ meson.build | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/staging/src/k8s.io/client-go/transport/round_trippers.go b/staging/src/k8s.io/client-go/transport/round_trippers.go
-+index a05208d924d3b..f4cfadbd3da8e 100644
-+--- a/src/import/staging/src/k8s.io/client-go/transport/round_trippers.go
-++++ b/src/import/staging/src/k8s.io/client-go/transport/round_trippers.go
-+@@ -340,6 +340,7 @@ func (r *requestInfo) toCurl() string {
-+ 	headers := ""
-+ 	for key, values := range r.RequestHeaders {
-+ 		for _, value := range values {
-++			value = maskValue(key, value)
-+ 			headers += fmt.Sprintf(` -H %q`, fmt.Sprintf("%s: %s", key, value))
-+ 		}
-+ 	}
-diff --git a/recipes-containers/kubernetes/kubernetes/CVE-2020-8566.patch b/recipes-containers/kubernetes/kubernetes/CVE-2020-8566.patch
-new file mode 100644
-index 0000000..7ed812d
---- /dev/null
-+++ b/recipes-containers/kubernetes/kubernetes/CVE-2020-8566.patch
-@@ -0,0 +1,67 @@
-+From e91ec4fad3366d2dee020919f7c2a0d7b52fd3ea Mon Sep 17 00:00:00 2001
-+From: Sam Fowler <sfowler@redhat.com>
-+Date: Fri, 2 Oct 2020 10:48:11 +1000
-+Subject: [PATCH] Mask Ceph RBD adminSecrets in logs when logLevel >= 4
++diff --git a/meson.build b/meson.build
++index 134feb6..a089f42 100644
++--- a/meson.build
+++++ b/meson.build
++@@ -58,7 +58,7 @@ includedir =3D join_paths(prefix, get_option('included=
+ir'))
++=20
++ # gobject introspection
++ gir =3D find_program('g-ir-scanner', required: get_option('introspectio=
+n'))
++-enable_introspection =3D gir.found() and not meson.is_cross_build()
+++enable_introspection =3D gir.found()
++=20
++ # vala
++ vapi_opt =3D get_option('vapi')
++@@ -73,7 +73,7 @@ endif
++ # gtk-doc
++ if not get_option('docs').disabled()
++   gtk_doc =3D find_program('gtkdoc-scan', required: get_option('docs'))
++-  enable_doc =3D gtk_doc.found() and not meson.is_cross_build()
+++  enable_doc =3D gtk_doc.found()
++ else
++   enable_doc =3D false
++ endif
++--=20
++2.41.0
 +
-+Upstream-Status: Backport [https://github.com/kubernetes/kubernetes/commit/e91ec4fad3366d2dee020919f7c2a0d7b52fd3ea]
-+CVE: CVE-2020-8566
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ pkg/volume/rbd/rbd_util.go | 12 ++++++------
-+ 1 file changed, 6 insertions(+), 6 deletions(-)
+diff --git a/recipes-extended/libvirt/libvirt-glib_4.0.0.bb b/recipes-ext=
+ended/libvirt/libvirt-glib_4.0.0.bb
+index a5cd827..7ca65a9 100644
+--- a/recipes-extended/libvirt/libvirt-glib_4.0.0.bb
++++ b/recipes-extended/libvirt/libvirt-glib_4.0.0.bb
+@@ -3,12 +3,19 @@ HOMEPAGE =3D "http://libvirt.org"
+ LICENSE =3D "LGPL-2.1-only"
+ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D4fbd65380cdd255951079008b3645=
+16c"
+=20
+-DEPENDS =3D "glib-2.0 libvirt libxml2"
++DEPENDS =3D "glib-2.0 libvirt libxml2 libxslt"
+=20
+-SRC_URI =3D "git://gitlab.com/libvirt/libvirt-glib;protocol=3Dhttps;bran=
+ch=3Dmaster"
++SRC_URI =3D " \
++	git://gitlab.com/libvirt/libvirt-glib;protocol=3Dhttps;branch=3Dmaster =
+\
++	file://0001-meson.build-allow-crosscompiling-gir-and-doc.patch \
++"
+=20
+ SRCREV =3D "e0bfc34682744a74b850fa217e9c206a9eb80612"
+ S =3D "${WORKDIR}/git"
+=20
+-inherit meson pkgconfig gobject-introspection vala
+-GIR_MESON_OPTION =3D ''
++inherit meson pkgconfig gobject-introspection gettext vala gtk-doc
 +
-+diff --git a/pkg/volume/rbd/rbd_util.go b/pkg/volume/rbd/rbd_util.go
-+index 85044e85fde..9593348de37 100644
-+--- a/src/import/pkg/volume/rbd/rbd_util.go
-++++ b/src/import/pkg/volume/rbd/rbd_util.go
-+@@ -592,9 +592,9 @@ func (util *RBDUtil) CreateImage(p *rbdVolumeProvisioner) (r *v1.RBDPersistentVo
-+ 	volSz := fmt.Sprintf("%d", sz)
-+ 	mon := util.kernelRBDMonitorsOpt(p.Mon)
-+ 	if p.rbdMounter.imageFormat == rbdImageFormat2 {
-+-		klog.V(4).Infof("rbd: create %s size %s format %s (features: %s) using mon %s, pool %s id %s key %s", p.rbdMounter.Image, volSz, p.rbdMounter.imageFormat, p.rbdMounter.imageFeatures, mon, p.rbdMounter.Pool, p.rbdMounter.adminId, p.rbdMounter.adminSecret)
-++		klog.V(4).Infof("rbd: create %s size %s format %s (features: %s) using mon %s, pool %s id %s key <masked>", p.rbdMounter.Image, volSz, p.rbdMounter.imageFormat, p.rbdMounter.imageFeatures, mon, p.rbdMounter.Pool, p.rbdMounter.adminId)
-+ 	} else {
-+-		klog.V(4).Infof("rbd: create %s size %s format %s using mon %s, pool %s id %s key %s", p.rbdMounter.Image, volSz, p.rbdMounter.imageFormat, mon, p.rbdMounter.Pool, p.rbdMounter.adminId, p.rbdMounter.adminSecret)
-++		klog.V(4).Infof("rbd: create %s size %s format %s using mon %s, pool %s id %s key <masked>", p.rbdMounter.Image, volSz, p.rbdMounter.imageFormat, mon, p.rbdMounter.Pool, p.rbdMounter.adminId)
-+ 	}
-+ 	args := []string{"create", p.rbdMounter.Image, "--size", volSz, "--pool", p.rbdMounter.Pool, "--id", p.rbdMounter.adminId, "-m", mon, "--key=" + p.rbdMounter.adminSecret, "--image-format", p.rbdMounter.imageFormat}
-+ 	if p.rbdMounter.imageFormat == rbdImageFormat2 {
-+@@ -629,7 +629,7 @@ func (util *RBDUtil) DeleteImage(p *rbdVolumeDeleter) error {
-+ 	}
-+ 	// rbd rm.
-+ 	mon := util.kernelRBDMonitorsOpt(p.rbdMounter.Mon)
-+-	klog.V(4).Infof("rbd: rm %s using mon %s, pool %s id %s key %s", p.rbdMounter.Image, mon, p.rbdMounter.Pool, p.rbdMounter.adminId, p.rbdMounter.adminSecret)
-++	klog.V(4).Infof("rbd: rm %s using mon %s, pool %s id %s key <masked>", p.rbdMounter.Image, mon, p.rbdMounter.Pool, p.rbdMounter.adminId)
-+ 	output, err = p.exec.Command("rbd",
-+ 		"rm", p.rbdMounter.Image, "--pool", p.rbdMounter.Pool, "--id", p.rbdMounter.adminId, "-m", mon, "--key="+p.rbdMounter.adminSecret).CombinedOutput()
-+ 	if err == nil {
-+@@ -661,7 +661,7 @@ func (util *RBDUtil) ExpandImage(rbdExpander *rbdVolumeExpander, oldSize resourc
-+ 
-+ 	// rbd resize.
-+ 	mon := util.kernelRBDMonitorsOpt(rbdExpander.rbdMounter.Mon)
-+-	klog.V(4).Infof("rbd: resize %s using mon %s, pool %s id %s key %s", rbdExpander.rbdMounter.Image, mon, rbdExpander.rbdMounter.Pool, rbdExpander.rbdMounter.adminId, rbdExpander.rbdMounter.adminSecret)
-++	klog.V(4).Infof("rbd: resize %s using mon %s, pool %s id %s key <masked>", rbdExpander.rbdMounter.Image, mon, rbdExpander.rbdMounter.Pool, rbdExpander.rbdMounter.adminId)
-+ 	output, err = rbdExpander.exec.Command("rbd",
-+ 		"resize", rbdExpander.rbdMounter.Image, "--size", newVolSz, "--pool", rbdExpander.rbdMounter.Pool, "--id", rbdExpander.rbdMounter.adminId, "-m", mon, "--key="+rbdExpander.rbdMounter.adminSecret).CombinedOutput()
-+ 	if err == nil {
-+@@ -703,7 +703,7 @@ func (util *RBDUtil) rbdInfo(b *rbdMounter) (int, error) {
-+ 	// # image does not exist (exit=2)
-+ 	// rbd: error opening image 1234: (2) No such file or directory
-+ 	//
-+-	klog.V(4).Infof("rbd: info %s using mon %s, pool %s id %s key %s", b.Image, mon, b.Pool, id, secret)
-++	klog.V(4).Infof("rbd: info %s using mon %s, pool %s id %s key <masked>", b.Image, mon, b.Pool, id)
-+ 	output, err = b.exec.Command("rbd",
-+ 		"info", b.Image, "--pool", b.Pool, "-m", mon, "--id", id, "--key="+secret, "-k=/dev/null", "--format=json").CombinedOutput()
-+ 
-+@@ -766,7 +766,7 @@ func (util *RBDUtil) rbdStatus(b *rbdMounter) (bool, string, error) {
-+ 	// # image does not exist (exit=2)
-+ 	// rbd: error opening image kubernetes-dynamic-pvc-<UUID>: (2) No such file or directory
-+ 	//
-+-	klog.V(4).Infof("rbd: status %s using mon %s, pool %s id %s key %s", b.Image, mon, b.Pool, id, secret)
-++	klog.V(4).Infof("rbd: status %s using mon %s, pool %s id %s key <masked>", b.Image, mon, b.Pool, id)
-+ 	cmd, err = b.exec.Command("rbd",
-+ 		"status", b.Image, "--pool", b.Pool, "-m", mon, "--id", id, "--key="+secret).CombinedOutput()
-+ 	output = string(cmd)
-+-- 
-+2.25.1
-+
-diff --git a/recipes-containers/kubernetes/kubernetes_git.bb b/recipes-containers/kubernetes/kubernetes_git.bb
-index c73f988..2b0bfb7 100644
---- a/recipes-containers/kubernetes/kubernetes_git.bb
-+++ b/recipes-containers/kubernetes/kubernetes_git.bb
-@@ -12,6 +12,8 @@ SRC_URI = "git://github.com/kubernetes/kubernetes.git;branch=release-1.17;name=k
-            file://0001-hack-lib-golang.sh-use-CC-from-environment.patch \
-            file://0001-cross-don-t-build-tests-by-default.patch \
-            file://CVE-2020-8564.patch \
-+           file://CVE-2020-8565.patch \
-+           file://CVE-2020-8566.patch \
-           "
- 
- DEPENDS += "rsync-native \
--- 
-2.25.1
++GIR_MESON_ENABLE_FLAG =3D 'enabled'
++GIR_MESON_DISABLE_FLAG =3D 'disabled'
++GTKDOC_MESON_ENABLE_FLAG =3D 'enabled'
++GTKDOC_MESON_DISABLE_FLAG =3D 'disabled'
+--=20
+2.41.0
 
 
