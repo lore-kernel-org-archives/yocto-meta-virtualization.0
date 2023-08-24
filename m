@@ -1,246 +1,136 @@
-Return-Path: <f_l_k@t-online.de>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 00C90EE49A5
-	for <webhook@archiver.kernel.org>; Tue, 22 Aug 2023 23:22:52 +0000 (UTC)
-Received: from mailout10.t-online.de (mailout10.t-online.de [194.25.134.21])
- by mx.groups.io with SMTP id smtpd.web11.56.1692746564118434565
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97CDFC3DA6F
+	for <webhook@archiver.kernel.org>; Thu, 24 Aug 2023 01:42:42 +0000 (UTC)
+Received: from mail-il1-f178.google.com (mail-il1-f178.google.com [209.85.166.178])
+ by mx.groups.io with SMTP id smtpd.web10.1694.1692841357709333715
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 22 Aug 2023 16:22:44 -0700
+ Wed, 23 Aug 2023 18:42:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.21, mailfrom: f_l_k@t-online.de)
-Received: from fwd71.aul.t-online.de (fwd71.aul.t-online.de [10.223.144.97])
-	by mailout10.t-online.de (Postfix) with SMTP id 497B132F9
-	for <meta-virtualization@lists.yoctoproject.org>; Wed, 23 Aug 2023 01:22:42 +0200 (CEST)
-Received: from [192.168.178.62] ([79.219.228.72]) by fwd71.t-online.de
-	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1qYaht-1pqnS40; Wed, 23 Aug 2023 01:22:41 +0200
-Date: Wed, 23 Aug 2023 00:53:20 +0200
-From: Markus Volk <f_l_k@t-online.de>
-Subject: Re: [meta-virtualization][PATCHv2] libvirt-glib: fix introspection
- and documentation build
-To: meta-virtualization@lists.yoctoproject.org
-Message-Id: <W8ETZR.TDO8J5B36D4N1@t-online.de>
-In-Reply-To: <177DD60BD2874A85.27837@lists.yoctoproject.org>
-References: <177DD60BD2874A85.27837@lists.yoctoproject.org>
-X-Mailer: geary/44.1
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=JVAEALNB;
+ spf=pass (domain: gmail.com, ip: 209.85.166.178, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-il1-f178.google.com with SMTP id e9e14a558f8ab-34cafafa50eso11432015ab.3;
+        Wed, 23 Aug 2023 18:42:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1692841357; x=1693446157;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3Tmugbu8Q+t6DXmASnUkjHKgWUQ7pL0CJPRksggHAt4=;
+        b=JVAEALNBmWi2ZcgHVhfWuwUzV3Mfd7rM/UToGGTkSLGJVdc1H/hvISAqZ9ypYm2F7Y
+         ujRIqzKdTUWECfK6gPyio/JYLiS8dG+4lNuoBzSvymh+ho/FJYCLa8M5ATD77r5co29s
+         ZnWV/grJj5z5YFWozhisySp7QxF+t4Jnm5vus5Ym7UzAMvrP85LcNb9fizBrjbnNCQpb
+         5ajvNnnHwifFlG5d6sekZhlcZyUkrdKsIGMreLlC2cX7bl/8oYqsffmP3W8xD4YV8+++
+         KVWhoX36RpF34ZRVgZS6biy0uz20iUjZm2hvYd52SPKNoK5WF+ZNY/TydNtIQNagIiij
+         YMkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692841357; x=1693446157;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3Tmugbu8Q+t6DXmASnUkjHKgWUQ7pL0CJPRksggHAt4=;
+        b=k6V67zGqCuBfQ+4D1+BdyRUTXRRGphYQIC0dk8RloSDjOAzHw24e+SReYNnjwphprm
+         vYnSTsQ9jwwzBDPYIcu7pnZTYEQJBRzBNfRzed94AoaTvQ6fR1tiNktkLr0sgZVwDJwu
+         uayBMl0dC1cdYpS/5+LjvfjJop4bg3QWv1IHhrc46UsfbelrQWZGgy/l7h+Ndpg9yxKp
+         /KiebnyFKisuCUttcSkqGuQxHwcuvTBgfhXY6D5PhRT8rpcdZPm/nJk7t3laAOpD4sVO
+         ErMQXSMyn9b0UHHXDqcgxikj4XMN2ex9+xOA+wkO0GnjKrTcVkizTm7BDNuEMg4as+6h
+         O+Rg==
+X-Gm-Message-State: AOJu0YwuaAmMCo0pM458I/meVqXxAtshCq1h9FvWMPV0QKTmmXbNnHG4
+	dbafn0e+XIZaS7YyV1PhYEmQs60ysJAvgQaWjhg=
+X-Google-Smtp-Source: AGHT+IGxaLrVZIzvVTcehJdtZV2uGNwUVatKnq2eW6eCMUW51rFB2gIhtN0PPnw0xzwpJpqJoKUp85LMUih+Ei0kyMg=
+X-Received: by 2002:a05:6e02:2199:b0:349:9956:e22b with SMTP id
+ j25-20020a056e02219900b003499956e22bmr5443543ila.20.1692841356788; Wed, 23
+ Aug 2023 18:42:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/alternative; boundary="=-iKuLbRPYQeU9A0zLzJq5"
-X-TOI-EXPURGATEID: 150726::1692746561-B0FF72DD-322CA3EB/0/0 CLEAN NORMAL
-X-TOI-MSGID: 90c549d9-c8f5-453b-a991-74f0c2b29341
+References: <20230817205239263dcbeb@mail.local> <CADkTA4P8UVP4kVXNAoV2rG+KrA2QZEKh_FTYr3psi9ASeveKOg@mail.gmail.com>
+ <20230823212318b673a862@mail.local>
+In-Reply-To: <20230823212318b673a862@mail.local>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Wed, 23 Aug 2023 21:42:21 -0400
+Message-ID: <CADkTA4Nmv92Ems9TH2aY_=kZgiPT_=byc59zPe9WzA3-_J2JNw@mail.gmail.com>
+Subject: Re: meta-virt fails check-layer-nightly
+To: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: meta-virtualization@lists.yoctoproject.org, swat@lists.yoctoproject.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Tue, 22 Aug 2023 23:22:52 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8222
+ <meta-virtualization@lists.yoctoproject.org>; Thu, 24 Aug 2023 01:42:42 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8223
 
---=-iKuLbRPYQeU9A0zLzJq5
-Content-Type: text/plain; charset=us-ascii; format=flowed
+On Wed, Aug 23, 2023 at 5:23=E2=80=AFPM Alexandre Belloni
+<alexandre.belloni@bootlin.com> wrote:
+>
+> Hello Bruce,
+>
+> On 17/08/2023 23:57:30-0400, Bruce Ashfield wrote:
+> > Richard reported this to us, and there's a thread on the list about it.
+> >
+> > I just merged a skip_recipe change that in theory,  should solve it.
+> >
+>
+> Just a quick note to let you know this is still happening:
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/121/builds/1543/s=
+teps/23/logs/stdio
+>
 
-v2 removes the unneeded dependency on libxslt
+Hmm. I'm not sure what happened, I was absolutely sure that I had pushed
+the SKIP_RECIPE fix after letting it soak in master-next for a bit .. and y=
+et,
+now I don't see it.
 
-On Wed, Aug 23 2023 at 12:46:04 AM +02:00:00, Markus Volk 
-<f_l_k@t-online.de> wrote:
-> Signed-off-by: Markus Volk <f_l_k@t-online.de 
-> <mailto:f_l_k@t-online.de>>
-> ---
->  ...ild-allow-crosscompiling-gir-and-doc.patch | 37 
-> +++++++++++++++++++
->  .../libvirt/libvirt-glib_4.0.0.bb             | 13 +++++--
->  2 files changed, 47 insertions(+), 3 deletions(-)
->  create mode 100644 
-> recipes-extended/libvirt/libvirt-glib/0001-meson.build-allow-crosscompiling-gir-and-doc.patch
-> 
-> diff --git 
-> a/recipes-extended/libvirt/libvirt-glib/0001-meson.build-allow-crosscompiling-gir-and-doc.patch 
-> b/recipes-extended/libvirt/libvirt-glib/0001-meson.build-allow-crosscompiling-gir-and-doc.patch
-> new file mode 100644
-> index 0000000..cd17bbb
-> --- /dev/null
-> +++ 
-> b/recipes-extended/libvirt/libvirt-glib/0001-meson.build-allow-crosscompiling-gir-and-doc.patch
-> @@ -0,0 +1,37 @@
-> +From 019d727990d41b5d7911895b75bcb021e4cca3c6 Mon Sep 17 00:00:00 
-> 2001
-> +From: Markus Volk <f_l_k@t-online.de <mailto:f_l_k@t-online.de>>
-> +Date: Mon, 21 Aug 2023 10:23:08 +0200
-> +Subject: [PATCH] meson.build: allow crosscompiling gir and doc
-> +
-> +Upstream-Status: Inappropriate [oe specific]
-> +
-> +Signed-off-by: Markus Volk <f_l_k@t-online.de 
-> <mailto:f_l_k@t-online.de>>
-> +---
-> + meson.build | 2 +-
-> + 1 file changed, 1 insertion(+), 1 deletion(-)
-> +
-> +diff --git a/meson.build b/meson.build
-> +index 134feb6..a089f42 100644
-> +--- a/meson.build
-> ++++ b/meson.build
-> +@@ -58,7 +58,7 @@ includedir = join_paths(prefix, 
-> get_option('includedir'))
-> +
-> + # gobject introspection
-> + gir = find_program('g-ir-scanner', required: 
-> get_option('introspection'))
-> +-enable_introspection = gir.found() and not meson.is_cross_build()
-> ++enable_introspection = gir.found()
-> +
-> + # vala
-> + vapi_opt = get_option('vapi')
-> +@@ -73,7 +73,7 @@ endif
-> + # gtk-doc
-> + if not get_option('docs').disabled()
-> +   gtk_doc = find_program('gtkdoc-scan', required: 
-> get_option('docs'))
-> +-  enable_doc = gtk_doc.found() and not meson.is_cross_build()
-> ++  enable_doc = gtk_doc.found()
-> + else
-> +   enable_doc = false
-> + endif
-> +--
-> +2.41.0
-> +
-> diff --git a/recipes-extended/libvirt/libvirt-glib_4.0.0.bb 
-> b/recipes-extended/libvirt/libvirt-glib_4.0.0.bb
-> index a5cd827..e6effaf 100644
-> --- a/recipes-extended/libvirt/libvirt-glib_4.0.0.bb
-> +++ b/recipes-extended/libvirt/libvirt-glib_4.0.0.bb
-> @@ -5,10 +5,17 @@ LIC_FILES_CHKSUM = 
-> "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
-> 
->  DEPENDS = "glib-2.0 libvirt libxml2"
-> 
-> -SRC_URI = 
-> "git://gitlab.com/libvirt/libvirt-glib;protocol=https;branch=master"
-> +SRC_URI = " \
-> +	git://gitlab.com/libvirt/libvirt-glib;protocol=https;branch=master \
-> +	file://0001-meson.build-allow-crosscompiling-gir-and-doc.patch 
-> <file://0001-meson.build-allow-crosscompiling-gir-and-doc.patch/> \
-> +"
-> 
->  SRCREV = "e0bfc34682744a74b850fa217e9c206a9eb80612"
->  S = "${WORKDIR}/git"
-> 
-> -inherit meson pkgconfig gobject-introspection vala
-> -GIR_MESON_OPTION = ''
-> +inherit meson pkgconfig gobject-introspection gettext vala gtk-doc
-> +
-> +GIR_MESON_ENABLE_FLAG = 'enabled'
-> +GIR_MESON_DISABLE_FLAG = 'disabled'
-> +GTKDOC_MESON_ENABLE_FLAG = 'enabled'
-> +GTKDOC_MESON_DISABLE_FLAG = 'disabled'
+I've cherry-picked it from my test branch and pushed it to master.
+
+Bruce
+
+> > Bruce
+> >
+> > On Thu, Aug 17, 2023 at 4:52=E2=80=AFPM Alexandre Belloni
+> > <alexandre.belloni@bootlin.com> wrote:
+> > >
+> > > Hi Bruce,
+> > >
+> > > check-layer-nightly is failing for meta-virt:
+> > >
+> > > ERROR: Nothing PROVIDES 'clang-native' (but /home/pokybuild/yocto-wor=
+ker/check-layer-nightly/build/meta-virtualization/recipes-extended/vhost-de=
+vice/vhost-device-gpio_0.1.0.bb DEPENDS on or otherwise requires it). Close=
+ matches:
+> > >   glslang-native
+> > >   slang-native
+> > >   tclap-native
+> > > ERROR: Required build target 'meta-world-pkgdata' has no buildable pr=
+oviders.
+> > > oe-core:
+> > >
+> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/121/builds/15=
+28/steps/23/logs/stdio
+> > >
+> > > --
+> > > Alexandre Belloni, co-owner and COO, Bootlin
+> > > Embedded Linux and Kernel engineering
+> > > https://bootlin.com
+> >
+> >
+> >
+> > --
+> > - Thou shalt not follow the NULL pointer, for chaos and madness await
+> > thee at its end
+> > - "Use the force Harry" - Gandalf, Star Trek II
+>
 > --
-> 2.41.0
-> 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#8221): 
-> <https://lists.yoctoproject.org/g/meta-virtualization/message/8221>
-> Mute This Topic: <https://lists.yoctoproject.org/mt/100904573/3618223>
-> Group Owner: meta-virtualization+owner@lists.yoctoproject.org 
-> <mailto:meta-virtualization+owner@lists.yoctoproject.org>
-> Unsubscribe: 
-> <https://lists.yoctoproject.org/g/meta-virtualization/unsub> 
-> [f_l_k@t-online.de <mailto:f_l_k@t-online.de>]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+> Alexandre Belloni, co-owner and COO, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
 
 
---=-iKuLbRPYQeU9A0zLzJq5
-Content-Type: text/html; charset=us-ascii
 
-<div id="geary-body" dir="auto"><div>v2 removes the unneeded dependency on libxslt</div></div><div id="geary-quote" dir="auto"><br>On Wed, Aug 23 2023 at 12:46:04 AM +02:00:00, Markus Volk &lt;f_l_k@t-online.de&gt; wrote:<br><blockquote type="cite"><div class="plaintext" style="white-space: break-spaces;">Signed-off-by: Markus Volk &lt;<a href="mailto:f_l_k@t-online.de">f_l_k@t-online.de</a>&gt;
----
- ...ild-allow-crosscompiling-gir-and-doc.patch | 37 +++++++++++++++++++
- .../libvirt/libvirt-glib_4.0.0.bb             | 13 +++++--
- 2 files changed, 47 insertions(+), 3 deletions(-)
- create mode 100644 recipes-extended/libvirt/libvirt-glib/0001-meson.build-allow-crosscompiling-gir-and-doc.patch
-
-diff --git a/recipes-extended/libvirt/libvirt-glib/0001-meson.build-allow-crosscompiling-gir-and-doc.patch b/recipes-extended/libvirt/libvirt-glib/0001-meson.build-allow-crosscompiling-gir-and-doc.patch
-new file mode 100644
-index 0000000..cd17bbb
---- /dev/null
-+++ b/recipes-extended/libvirt/libvirt-glib/0001-meson.build-allow-crosscompiling-gir-and-doc.patch
-@@ -0,0 +1,37 @@
-+From 019d727990d41b5d7911895b75bcb021e4cca3c6 Mon Sep 17 00:00:00 2001
-+From: Markus Volk &lt;<a href="mailto:f_l_k@t-online.de">f_l_k@t-online.de</a>&gt;
-+Date: Mon, 21 Aug 2023 10:23:08 +0200
-+Subject: [PATCH] meson.build: allow crosscompiling gir and doc
-+
-+Upstream-Status: Inappropriate [oe specific]
-+
-+Signed-off-by: Markus Volk &lt;<a href="mailto:f_l_k@t-online.de">f_l_k@t-online.de</a>&gt;
-+---
-+ meson.build | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/meson.build b/meson.build
-+index 134feb6..a089f42 100644
-+--- a/meson.build
-++++ b/meson.build
-+@@ -58,7 +58,7 @@ includedir = join_paths(prefix, get_option('includedir'))
-+ 
-+ # gobject introspection
-+ gir = find_program('g-ir-scanner', required: get_option('introspection'))
-+-enable_introspection = gir.found() and not meson.is_cross_build()
-++enable_introspection = gir.found()
-+ 
-+ # vala
-+ vapi_opt = get_option('vapi')
-+@@ -73,7 +73,7 @@ endif
-+ # gtk-doc
-+ if not get_option('docs').disabled()
-+   gtk_doc = find_program('gtkdoc-scan', required: get_option('docs'))
-+-  enable_doc = gtk_doc.found() and not meson.is_cross_build()
-++  enable_doc = gtk_doc.found()
-+ else
-+   enable_doc = false
-+ endif
-+-- 
-+2.41.0
-+
-diff --git a/recipes-extended/libvirt/libvirt-glib_4.0.0.bb b/recipes-extended/libvirt/libvirt-glib_4.0.0.bb
-index a5cd827..e6effaf 100644
---- a/recipes-extended/libvirt/libvirt-glib_4.0.0.bb
-+++ b/recipes-extended/libvirt/libvirt-glib_4.0.0.bb
-@@ -5,10 +5,17 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
- 
- DEPENDS = "glib-2.0 libvirt libxml2"
- 
--SRC_URI = "git://gitlab.com/libvirt/libvirt-glib;protocol=https;branch=master"
-+SRC_URI = " \
-+	git://gitlab.com/libvirt/libvirt-glib;protocol=https;branch=master \
-+	<a href="file://0001-meson.build-allow-crosscompiling-gir-and-doc.patch">file://0001-meson.build-allow-crosscompiling-gir-and-doc.patch</a> \
-+"
- 
- SRCREV = "e0bfc34682744a74b850fa217e9c206a9eb80612"
- S = "${WORKDIR}/git"
- 
--inherit meson pkgconfig gobject-introspection vala
--GIR_MESON_OPTION = ''
-+inherit meson pkgconfig gobject-introspection gettext vala gtk-doc
-+
-+GIR_MESON_ENABLE_FLAG = 'enabled'
-+GIR_MESON_DISABLE_FLAG = 'disabled'
-+GTKDOC_MESON_ENABLE_FLAG = 'enabled'
-+GTKDOC_MESON_DISABLE_FLAG = 'disabled'
-<div>-- 
-</div>2.41.0
-
-</div><div class="plaintext" style="white-space: break-spaces;">
--=-=-=-=-=-=-=-=-=-=-=-
-Links: You receive all messages sent to this group.
-View/Reply Online (#8221): <a href="https://lists.yoctoproject.org/g/meta-virtualization/message/8221">https://lists.yoctoproject.org/g/meta-virtualization/message/8221</a>
-Mute This Topic: <a href="https://lists.yoctoproject.org/mt/100904573/3618223">https://lists.yoctoproject.org/mt/100904573/3618223</a>
-Group Owner: <a href="mailto:meta-virtualization+owner@lists.yoctoproject.org">meta-virtualization+owner@lists.yoctoproject.org</a>
-Unsubscribe: <a href="https://lists.yoctoproject.org/g/meta-virtualization/unsub">https://lists.yoctoproject.org/g/meta-virtualization/unsub</a> [<a href="mailto:f_l_k@t-online.de">f_l_k@t-online.de</a>]
--=-=-=-=-=-=-=-=-=-=-=-
-
-</div></blockquote></div>
---=-iKuLbRPYQeU9A0zLzJq5--
-
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
