@@ -1,179 +1,88 @@
-Return-Path: <f_l_k@t-online.de>
+Return-Path: <mingli.yu@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5ABFDC27C40
-	for <webhook@archiver.kernel.org>; Thu, 24 Aug 2023 08:13:54 +0000 (UTC)
-Received: from mailout09.t-online.de (mailout09.t-online.de [194.25.134.84])
- by mx.groups.io with SMTP id smtpd.web10.6312.1692864833821239441
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17608C6FA8F
+	for <webhook@archiver.kernel.org>; Thu, 24 Aug 2023 10:06:15 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.7401.1692871567587341506
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 24 Aug 2023 01:13:54 -0700
+ Thu, 24 Aug 2023 03:06:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.84, mailfrom: f_l_k@t-online.de)
-Received: from fwd85.aul.t-online.de (fwd85.aul.t-online.de [10.223.144.111])
-	by mailout09.t-online.de (Postfix) with SMTP id CBF685E135;
-	Thu, 24 Aug 2023 10:13:50 +0200 (CEST)
-Received: from [192.168.178.62] ([84.163.33.18]) by fwd85.t-online.de
-	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1qZ5TQ-35eGKu0; Thu, 24 Aug 2023 10:13:48 +0200
-Date: Thu, 24 Aug 2023 10:13:43 +0200
-From: Markus Volk <f_l_k@t-online.de>
-Subject: Re: [meta-virtualization][PATCH 2/2] libvirt: update from fuse2 to
- fuse3
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: Markus Volk <f_l_k@t-online.de>,
-	meta-virtualization@lists.yoctoproject.org
-Message-Id: <VUYVZR.QDF6U5KVLHEQ2@t-online.de>
-In-Reply-To: <CADkTA4PbL2QQDJDS6Jwhc0cvUq-thQ1Bt3onDP5tXa7QAZk7_Q@mail.gmail.com>
-References: <20230822215534.475219-1-f_l_k@t-online.de>
-	<20230822215534.475219-2-f_l_k@t-online.de>
-	<CADkTA4PbL2QQDJDS6Jwhc0cvUq-thQ1Bt3onDP5tXa7QAZk7_Q@mail.gmail.com>
-X-Mailer: geary/44.1
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=Ay5wJunt;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=760001ddf9=mingli.yu@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 37O6qWoI017826
+	for <meta-virtualization@lists.yoctoproject.org>; Thu, 24 Aug 2023 03:06:07 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PPS06212021; bh=MYkgg
+	q2WAVur222DD93fU+/oLPywogQD5//jBiuwr2Y=; b=Ay5wJuntQk15AbXlI64ul
+	oXvMdPmf6zX3yaO8xz3E2ulVoBH/iZ+eYrrODz5gqUrlcXvU7vTtOzSQRKwIh+yR
+	K6K/H5LQ/fOQMmimpr6ZoVJSvxHsT3V+8TIf50F1OzVkRaifpIm1djQWSF0GMsak
+	60KhmErWw4TpsygJntGw4hxxwjwNY5CjDhR928zMfKu4pbayCbdlIUlmtKdjU1d/
+	Jnt3T8S03HQGHZVb4UbcnJ9cfQeyMuCYf8iZFI0SOF3G/hoo2qOjm0fYVXpiZyVQ
+	1fQRkPTNQMj1iRzbBv0BSQ8hFHNllmSKYgVekYFUEZlWiFJXtRqKdZP0ptmrngAH
+	A==
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3sn20e1nf5-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <meta-virtualization@lists.yoctoproject.org>; Thu, 24 Aug 2023 03:06:06 -0700 (PDT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Thu, 24 Aug 2023 03:06:05 -0700
+Received: from pek-lpg-core2.wrs.com (128.224.153.41) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.27 via Frontend Transport; Thu, 24 Aug 2023 03:06:05 -0700
+From: <mingli.yu@windriver.com>
+To: <meta-virtualization@lists.yoctoproject.org>
+Subject: [PATCH] go-mux: Switch to main branch
+Date: Thu, 24 Aug 2023 18:06:04 +0800
+Message-ID: <20230824100604.3935542-1-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/alternative; boundary="=-uX1k1HxPi15eQavM/cFg"
-X-TOI-EXPURGATEID: 150726::1692864828-BE7F7EAB-3AF8088D/0/0 CLEAN NORMAL
-X-TOI-MSGID: fdd18f55-98a3-487d-bff2-a54c1452afca
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: 9PdlmknNYRJ9Ure0WV6WcNIfqRaMkbVY
+X-Proofpoint-ORIG-GUID: 9PdlmknNYRJ9Ure0WV6WcNIfqRaMkbVY
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-08-24_06,2023-08-24_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 clxscore=1011
+ impostorscore=0 spamscore=0 malwarescore=0 mlxscore=0 suspectscore=0
+ priorityscore=1501 adultscore=0 lowpriorityscore=0 bulkscore=0
+ mlxlogscore=621 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2308100000 definitions=main-2308240082
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Thu, 24 Aug 2023 08:13:54 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8227
+ <meta-virtualization@lists.yoctoproject.org>; Thu, 24 Aug 2023 10:06:15 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8228
 
---=-uX1k1HxPi15eQavM/cFg
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+From: Mingli Yu <mingli.yu@windriver.com>
 
-I wrote a few lines about why I would like to do this.
+The project has renamed the master branch to main.
 
-On Wed, Aug 23 2023 at 10:28:02 PM -04:00:00, Bruce Ashfield=20
-<bruce.ashfield@gmail.com> wrote:
-> I'm ok with the change, but we need to document why we are making
-> the switch in the commit log.
->=20
-> Bruce
->=20
-> On Tue, Aug 22, 2023 at 5:55=E2=80=AFPM Markus Volk <f_l_k@t-online.de=20
-> <mailto:f_l_k@t-online.de>> wrote:
->>=20
->>  Signed-off-by: Markus Volk <f_l_k@t-online.de=20
->> <mailto:f_l_k@t-online.de>>
->>  ---
->>   recipes-extended/libvirt/libvirt_9.2.0.bb | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>=20
->>  diff --git a/recipes-extended/libvirt/libvirt_9.2.0.bb=20
->> b/recipes-extended/libvirt/libvirt_9.2.0.bb
->>  index 5e70470..9b5b2de 100644
->>  --- a/recipes-extended/libvirt/libvirt_9.2.0.bb
->>  +++ b/recipes-extended/libvirt/libvirt_9.2.0.bb
->>  @@ -156,7 +156,7 @@ PACKAGECONFIG[selinux] =3D=20
->> "-Dselinux=3Denabled,-Dselinux=3Ddisabled,libselinux,"
->>   PACKAGECONFIG[python] =3D ",,python3,"
->>   PACKAGECONFIG[sasl] =3D=20
->> "-Dsasl=3Denabled,-Dsasl=3Ddisabled,cyrus-sasl,cyrus-sasl"
->>   PACKAGECONFIG[numactl] =3D=20
->> "-Dnumactl=3Denabled,-Dnumactl=3Ddisabled,numactl,"
->>  -PACKAGECONFIG[fuse] =3D "-Dfuse=3Denabled,-Dfuse=3Ddisabled,fuse,"
->>  +PACKAGECONFIG[fuse] =3D "-Dfuse=3Denabled,-Dfuse=3Ddisabled,fuse3,"
->>   PACKAGECONFIG[audit] =3D "-Daudit=3Denabled,-Daudit=3Ddisabled,audit,"
->>   PACKAGECONFIG[libcap-ng] =3D=20
->> "-Dcapng=3Denabled,-Dcapng=3Ddisabled,libcap-ng,"
->>   PACKAGECONFIG[wireshark] =3D=20
->> "-Dwireshark_dissector=3Denabled,-Dwireshark_dissector=3Ddisabled,wiresh=
-ark=20
->> libwsutil,"
->>  --
->>  2.41.0
->>=20
->>=20
->>  -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->>  Links: You receive all messages sent to this group.
->>  View/Reply Online (#8220):=20
->> <https://lists.yoctoproject.org/g/meta-virtualization/message/8220>
->>  Mute This Topic:=20
->> <https://lists.yoctoproject.org/mt/100903758/1050810>
->>  Group Owner: meta-virtualization+owner@lists.yoctoproject.org=20
->> <mailto:meta-virtualization+owner@lists.yoctoproject.org>
->>  Unsubscribe:=20
->> <https://lists.yoctoproject.org/g/meta-virtualization/unsub>=20
->> [bruce.ashfield@gmail.com <mailto:bruce.ashfield@gmail.com>]
->>  -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->>=20
->=20
->=20
-> --
-> - Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at its end
-> - "Use the force Harry" - Gandalf, Star Trek II
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+---
+ recipes-devtools/go/go-mux_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-
---=-uX1k1HxPi15eQavM/cFg
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div id=3D"geary-body" dir=3D"auto"><div>I wrote a few lines about why I wo=
-uld like to do this.</div></div><div id=3D"geary-quote" dir=3D"auto"><br>On=
- Wed, Aug 23 2023 at 10:28:02 PM -04:00:00, Bruce Ashfield &lt;bruce.ashfie=
-ld@gmail.com&gt; wrote:<br><blockquote type=3D"cite"><div class=3D"plaintex=
-t" style=3D"white-space: break-spaces;">I'm ok with the change, but we need=
- to document why we are making
-the switch in the commit log.
-
-Bruce
-
-On Tue, Aug 22, 2023 at 5:55=E2=80=AFPM Markus Volk &lt;<a href=3D"mailto:f=
-_l_k@t-online.de">f_l_k@t-online.de</a>&gt; wrote:
-<blockquote>
- Signed-off-by: Markus Volk &lt;<a href=3D"mailto:f_l_k@t-online.de">f_l_k@=
-t-online.de</a>&gt;
- ---
-  recipes-extended/libvirt/libvirt_9.2.0.bb | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
-
- diff --git a/recipes-extended/libvirt/libvirt_9.2.0.bb b/recipes-extended/=
-libvirt/libvirt_9.2.0.bb
- index 5e70470..9b5b2de 100644
- --- a/recipes-extended/libvirt/libvirt_9.2.0.bb
- +++ b/recipes-extended/libvirt/libvirt_9.2.0.bb
- @@ -156,7 +156,7 @@ PACKAGECONFIG[selinux] =3D "-Dselinux=3Denabled,-Dseli=
-nux=3Ddisabled,libselinux,"
-  PACKAGECONFIG[python] =3D ",,python3,"
-  PACKAGECONFIG[sasl] =3D "-Dsasl=3Denabled,-Dsasl=3Ddisabled,cyrus-sasl,cy=
-rus-sasl"
-  PACKAGECONFIG[numactl] =3D "-Dnumactl=3Denabled,-Dnumactl=3Ddisabled,numa=
-ctl,"
- -PACKAGECONFIG[fuse] =3D "-Dfuse=3Denabled,-Dfuse=3Ddisabled,fuse,"
- +PACKAGECONFIG[fuse] =3D "-Dfuse=3Denabled,-Dfuse=3Ddisabled,fuse3,"
-  PACKAGECONFIG[audit] =3D "-Daudit=3Denabled,-Daudit=3Ddisabled,audit,"
-  PACKAGECONFIG[libcap-ng] =3D "-Dcapng=3Denabled,-Dcapng=3Ddisabled,libcap=
--ng,"
-  PACKAGECONFIG[wireshark] =3D "-Dwireshark_dissector=3Denabled,-Dwireshark=
-_dissector=3Ddisabled,wireshark libwsutil,"
- --
- 2.41.0
-
-
- -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
- Links: You receive all messages sent to this group.
- View/Reply Online (#8220): <a href=3D"https://lists.yoctoproject.org/g/met=
-a-virtualization/message/8220">https://lists.yoctoproject.org/g/meta-virtua=
-lization/message/8220</a>
- Mute This Topic: <a href=3D"https://lists.yoctoproject.org/mt/100903758/10=
-50810">https://lists.yoctoproject.org/mt/100903758/1050810</a>
- Group Owner: <a href=3D"mailto:meta-virtualization+owner@lists.yoctoprojec=
-t.org">meta-virtualization+owner@lists.yoctoproject.org</a>
- Unsubscribe: <a href=3D"https://lists.yoctoproject.org/g/meta-virtualizati=
-on/unsub">https://lists.yoctoproject.org/g/meta-virtualization/unsub</a> [<=
-a href=3D"mailto:bruce.ashfield@gmail.com">bruce.ashfield@gmail.com</a>]
- -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-
-</blockquote>
-
-<div>--=20
-</div>- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
-</div></blockquote></div>
---=-uX1k1HxPi15eQavM/cFg--
+diff --git a/recipes-devtools/go/go-mux_git.bb b/recipes-devtools/go/go-mux_git.bb
+index 3f939f45..fb4502b6 100644
+--- a/recipes-devtools/go/go-mux_git.bb
++++ b/recipes-devtools/go/go-mux_git.bb
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=c50f6bd9c1e15ed0bad3bea18e3c1b7f"
+ SRCNAME = "mux"
+ 
+ PKG_NAME = "github.com/gorilla/${SRCNAME}"
+-SRC_URI = "git://${PKG_NAME}.git;branch=master;protocol=https"
++SRC_URI = "git://${PKG_NAME}.git;branch=main;protocol=https"
+ 
+ SRCREV = "136d54f81f00414c45c3c68dd47e98cc97519c5e"
+ 
+-- 
+2.35.5
 
 
