@@ -2,115 +2,163 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68DF5C83F12
-	for <webhook@archiver.kernel.org>; Sun, 27 Aug 2023 13:23:23 +0000 (UTC)
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
- by mx.groups.io with SMTP id smtpd.web11.26965.1693142595568981037
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7147EC83F29
+	for <webhook@archiver.kernel.org>; Sun, 27 Aug 2023 13:27:03 +0000 (UTC)
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
+ by mx.groups.io with SMTP id smtpd.web11.27028.1693142819792738130
  for <meta-virtualization@lists.yoctoproject.org>;
- Sun, 27 Aug 2023 06:23:15 -0700
+ Sun, 27 Aug 2023 06:26:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=Kw0vl8Fp;
- spf=pass (domain: gmail.com, ip: 209.85.222.176, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-76ef03f76c7so162893685a.3
-        for <meta-virtualization@lists.yoctoproject.org>; Sun, 27 Aug 2023 06:23:15 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=JCXX9AOm;
+ spf=pass (domain: gmail.com, ip: 209.85.219.49, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-64a5bc52b0aso16679606d6.3
+        for <meta-virtualization@lists.yoctoproject.org>; Sun, 27 Aug 2023 06:26:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1693142594; x=1693747394;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=KanDbs4K8GMwuKjMBb5w5wWroignQN85CFcya0QXYx4=;
-        b=Kw0vl8FpYVQ1Q8SwkkOPSjFul91nx2ePwaGCk+eiY9U2/ufBDADx61DPii/dpsBnvY
-         5meX/doutehlqXCnymwg9WK+zSr8h9R7l3J/hZayYFSfXwD1b1UycThizsnvqpv/s4zZ
-         oQTkA2GrJSm+RH/uuksXU70R2Ar7rMy25E4rW+RypxgWnQ6i9SxHoYEdtxfADkAYRIAF
-         MGdlnHPlYM3nPxr0Miy+NztxvHXbnArdMe2oQ9d/ZBL3bloabBEqBFOP0qUyBvtfYulU
-         rZh5MBRny4c1nD1ZeZpxXLiVv04yJK27jbkGao9tTx9J27QqtKNv2tnVMosJ1MlpPf+b
-         H6Ug==
+        d=gmail.com; s=20221208; t=1693142819; x=1693747619;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=axAOubsMdzbk1u17jruomDOek3Q11NiJ4feP4oyaWH4=;
+        b=JCXX9AOmLN3bRVNEgshaTiYBrQy1wbp5QxBvxoXWutDedHPcsG9zyidncENHVrkCY7
+         avq9tr+5wd7K2ENRMgl8Fn6Dkp5VNe064JiJPWGI1lMXwvCcEaVwZIsqyBkTs1yrMfJE
+         DmhginqARi7/dtKstiYwcuDZXH3g/ZcD891VE9b3e28Z0IYPlQTtKkjggB6lxdUK7f6v
+         bpGa209p4TVUp/BDDgZ+CVk7W37Fckqm1NbZ7fdf5kg4n/PZ+b+gmWqktcS1ngICLyPP
+         uUx8X6EXRyI/8uyyAr1Nv0Ehm+LbxjCyluVv2vtbPP+uwVsoVgFKqTZL+yydWM6zVcB5
+         UtHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693142594; x=1693747394;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KanDbs4K8GMwuKjMBb5w5wWroignQN85CFcya0QXYx4=;
-        b=VvbURjYHjhkNPeVTgxZC61E0EoO2RgAhIt7IMJi6htRir7Xl7bHBJwtQhC1LrQtMNU
-         clFVLZhLDxCbMtcBVinDavYN85D7Muy6LBIpFgfvFJuu02/R65J4wfMcuwCjq2QDxgbj
-         jDtmZ6Y+IsjVBGbXn59KHz4ASikCWYv9ZSjhvTiZjnvS9HPJVTOXBDbgseQ+Oy+Di2Q1
-         GVQIFfqd3d7R227Qn33xXDqlVk9oyZLjwUv4c9eZL5Xb5axxtzMbOUli4bxaYfwpQd/d
-         W9WNSvIRwgs+zEz6R3EK1ymCX/dKYdQgUW9gBKl9m3mIjkjMfcB8JemtftU2QPthEYm3
-         4wAg==
-X-Gm-Message-State: AOJu0Ywf9wCM0nJ2w+c1BgHoh+TF/ltiNjKOF7DSfqjYK6bNpCetGUHC
-	fahfe2za5P1PYyGyi/ADMcU=
-X-Google-Smtp-Source: AGHT+IGuVuv5wOtxw5Z8OQ00P18U6fQh/pJoHEaVUxitSSOvXhoCRF2YHV7+E4c1cyfQFl54sz5lGQ==
-X-Received: by 2002:a05:620a:22e1:b0:765:7652:a61d with SMTP id p1-20020a05620a22e100b007657652a61dmr24371621qki.30.1693142594551;
-        Sun, 27 Aug 2023 06:23:14 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1693142819; x=1693747619;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=axAOubsMdzbk1u17jruomDOek3Q11NiJ4feP4oyaWH4=;
+        b=Gu1eP5YT8wxBjxNLCmWLAj9w5rwIyLTfA03fXMATHExLKnnCPqQ/U9mF+sLjScrasd
+         DVGKKrkt8cQkwgoTsYcIT8GqB83HFF1RQK/hlkyJhOSR129J9KcsOQ4HaMN2rxfJBr6W
+         hB7gGNN2ek1PlT8DEIxdJYVL3GN6kB/1mU7dWNq5tcgfjvf+ForfVO6xpLfHqbrFsNek
+         0Z5/fS2GqRaufzBlMtzTsQ3lK4LyOLxToSdac/ls2ZPqCGVB3VtS7YNjX+0BbKYtkTHP
+         n7K3b4mE3IaF4uN0QlqLIhHOz1s2TvieG3NevwXqKfBpBdmqvh59trJSLrYT4Zdwpn94
+         YrHQ==
+X-Gm-Message-State: AOJu0YzhzKKdk/OtFnum4wVadap7F0Uf2J6glDg/hh336ya4Xmzli+Ha
+	NfYURgD/zcl9m3dDF//BG7M=
+X-Google-Smtp-Source: AGHT+IG2DESO2vluBhZ09zeFfdppPGcZEU2L01LAm6yZ8dsxCR4YOzZV+MYW7bqAKtR1DsrlnTa22A==
+X-Received: by 2002:a0c:cb8a:0:b0:64b:997f:5a73 with SMTP id p10-20020a0ccb8a000000b0064b997f5a73mr23708348qvk.0.1693142818842;
+        Sun, 27 Aug 2023 06:26:58 -0700 (PDT)
 Received: from gmail.com ([174.112.183.231])
-        by smtp.gmail.com with ESMTPSA id w10-20020ae9e50a000000b00767cd764ecfsm1732197qkf.33.2023.08.27.06.23.13
+        by smtp.gmail.com with ESMTPSA id h3-20020a0cf203000000b0062ffbf23c22sm1891364qvk.131.2023.08.27.06.26.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Aug 2023 06:23:13 -0700 (PDT)
-Date: Sun, 27 Aug 2023 13:23:12 +0000
+        Sun, 27 Aug 2023 06:26:56 -0700 (PDT)
+Date: Sun, 27 Aug 2023 13:26:54 +0000
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Sandeep Gundlupet Raju <sandeep.gundlupet-raju@amd.com>
+To: patrick@subset.ch
 Cc: meta-virtualization@lists.yoctoproject.org,
-	christopher.w.clark@gmail.com, mark.hatle@kernel.crashing.org
-Subject: Re: [meta-virtualization][master][PATCH 1/2] xen-boot-cmd: Add xen
- variable as addendum
-Message-ID: <ZOtOQIeCfldaixvL@gmail.com>
-References: <20230825181811.3306054-1-sandeep.gundlupet-raju@amd.com>
- <20230825181811.3306054-2-sandeep.gundlupet-raju@amd.com>
+	Patrick Wicki <patrick.wicki@siemens.com>
+Subject: Re: [meta-virtualization][PATCH 1/2] netavark: require iputils for
+ ptest
+Message-ID: <ZOtPHp6uyMENtHyd@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230825181811.3306054-2-sandeep.gundlupet-raju@amd.com>
+In-Reply-To: <20230825145148.234559-2-patrick@subset.ch>
+ <20230825145148.234559-1-patrick@subset.ch>
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Sun, 27 Aug 2023 13:23:23 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8237
+ <meta-virtualization@lists.yoctoproject.org>; Sun, 27 Aug 2023 13:27:03 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8238
 
-In message: [meta-virtualization][master][PATCH 1/2] xen-boot-cmd: Add xen variable as addendum
-on 25/08/2023 Sandeep Gundlupet Raju wrote:
+Thanks for doing this against master-next!
 
-> Signed-off-by: Sandeep Gundlupet Raju <sandeep.gundlupet-raju@amd.com>
-> ---
->  .../xilinx/recipes-bsp/u-boot/xen-boot-cmd.inc       | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
-> 
-> diff --git a/dynamic-layers/xilinx/recipes-bsp/u-boot/xen-boot-cmd.inc b/dynamic-layers/xilinx/recipes-bsp/u-boot/xen-boot-cmd.inc
-> index b2b76120..6d113c9a 100644
-> --- a/dynamic-layers/xilinx/recipes-bsp/u-boot/xen-boot-cmd.inc
-> +++ b/dynamic-layers/xilinx/recipes-bsp/u-boot/xen-boot-cmd.inc
-> @@ -36,3 +36,15 @@ XEN_CMDLINE_APPEND ?= ""
->  # Specify the max number of vcpus for dom0
->  # Example usage: DOM0_MAX_VCPUS = "2" or DOM0_MAX_VCPUS = "2-4"
->  DOM0_MAX_VCPUS ?= "1"
-> +
-> +# Add xen variables as addendum.
-> +# Variable SCRIPT_SED_ADDENDUM id defined in meta-xilinx and set to null by
-> +# default and enable only for xen builds.
-
-s/id/is/
-
-This really entangles the meta-virt dynamic layer with the xilinx
-layers. You need to have an understanding of one, to really understand
-the other.
-
-If we are setting or appending to a variable, it really should be
-defined in meta-virtualization.
-
-Is there a way to move the functions that are using this variable
-into the main Xen meta-virt recipes, in such a way that this is
-a generic way to customize the boot ?
+I'm out of the office for another week, but have put
+this onto master-next and will complete the merges
+once I'm fully back to the office.
 
 Bruce
 
-> +SCRIPT_SED_ADDENDUM += "-e 's/@@XEN_IMAGE_NAME@@/${XEN_IMAGE_NAME}/' \
-> +        -e 's/@@XEN_OFFSET@@/${XEN_OFFSET}/' \
-> +        -e 's/@@XEN_LOAD_ADDRESS@@/${XEN_LOAD_ADDRESS}/' \
-> +        -e 's/@@DOM0_MEM@@/${DOM0_MEM}/' \
-> +        -e 's/@@DOM0_MAX_VCPUS@@/${DOM0_MAX_VCPUS}/' \
-> +        -e 's:@@XEN_SERIAL_CONSOLES@@:${XEN_SERIAL_CONSOLES}:' \
-> +        -e 's:@@XEN_CMDLINE_APPEND@@:${XEN_CMDLINE_APPEND}:' \
-> +"
-> \ No newline at end of file
-> -- 
-> 2.34.1
+In message: [meta-virtualization][PATCH 1/2] netavark: require iputils for ptest
+on 25/08/2023 patrick@subset.ch wrote:
+
+> From: Patrick Wicki <patrick.wicki@siemens.com>
 > 
+> Fixes ptest not working on systems using busybox ping.
+> 
+> Signed-off-by: Patrick Wicki <patrick.wicki@siemens.com>
+> ---
+>  recipes-containers/netavark/netavark_1.7.0.bb | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/recipes-containers/netavark/netavark_1.7.0.bb b/recipes-containers/netavark/netavark_1.7.0.bb
+> index 43c3ee5f..490d8762 100644
+> --- a/recipes-containers/netavark/netavark_1.7.0.bb
+> +++ b/recipes-containers/netavark/netavark_1.7.0.bb
+> @@ -44,6 +44,7 @@ DEPENDS += "protobuf-c-native protobuf-c"
+>  # bind-utils is used to install dig
+>  # procps-ps is necessary because the ps from busybox is
+>  # not having the same behavior
+> +# iputils is used because busybox ping behaves differently
+>  RDEPENDS:${PN}-ptest += " \
+>      bash \
+>      bats \
+> @@ -51,6 +52,7 @@ RDEPENDS:${PN}-ptest += " \
+>      coreutils \
+>      dbus-daemon-proxy \
+>      iproute2 \
+> +    iputils \
+>      jq \
+>      nmap \
+>      procps-ps \
+> -- 
+> 2.41.0
+> 
+
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#8231): https://lists.yoctoproject.org/g/meta-virtualization/message/8231
+> Mute This Topic: https://lists.yoctoproject.org/mt/100956964/1050810
+> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
+
+In message: [meta-virtualization][PATCH 2/2] netavark: skip plugins in ptest
+on 25/08/2023 patrick@subset.ch wrote:
+
+> From: Patrick Wicki <patrick.wicki@siemens.com>
+> 
+> Skip the plugin tests that were introduced in 1.6.0 and lead to ptest
+> failure.
+> 
+> Signed-off-by: Patrick Wicki <patrick.wicki@siemens.com>
+> ---
+>  recipes-containers/netavark/files/run-ptest | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
+> 
+> diff --git a/recipes-containers/netavark/files/run-ptest b/recipes-containers/netavark/files/run-ptest
+> index 41a37dce..7e017ae2 100644
+> --- a/recipes-containers/netavark/files/run-ptest
+> +++ b/recipes-containers/netavark/files/run-ptest
+> @@ -1,3 +1,8 @@
+>  #!/bin/bash
+>  
+> -NETAVARK=/usr/libexec/podman/netavark bats ./test/
+> +shopt -s extglob
+> +
+> +# Skip the plugin tests because those example plugins are built only while
+> +# running cargo test and for this to work as a ptest they would need to be cross
+> +# compiled and installed as part of the ptest.
+> +NETAVARK=/usr/libexec/podman/netavark bats test/!(*-plugin.bats)
+> -- 
+> 2.41.0
+> 
+
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#8232): https://lists.yoctoproject.org/g/meta-virtualization/message/8232
+> Mute This Topic: https://lists.yoctoproject.org/mt/100956965/1050810
+> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
+
 
