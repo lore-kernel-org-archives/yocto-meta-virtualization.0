@@ -2,108 +2,98 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7147EC83F29
-	for <webhook@archiver.kernel.org>; Sun, 27 Aug 2023 13:27:03 +0000 (UTC)
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
- by mx.groups.io with SMTP id smtpd.web11.27028.1693142819792738130
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69405C83F11
+	for <webhook@archiver.kernel.org>; Sun, 27 Aug 2023 13:28:23 +0000 (UTC)
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
+ by mx.groups.io with SMTP id smtpd.web10.27061.1693142893065858288
  for <meta-virtualization@lists.yoctoproject.org>;
- Sun, 27 Aug 2023 06:26:59 -0700
+ Sun, 27 Aug 2023 06:28:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=JCXX9AOm;
- spf=pass (domain: gmail.com, ip: 209.85.219.49, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-64a5bc52b0aso16679606d6.3
-        for <meta-virtualization@lists.yoctoproject.org>; Sun, 27 Aug 2023 06:26:59 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=k0GQgbUD;
+ spf=pass (domain: gmail.com, ip: 209.85.222.172, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-76da819edc7so143168685a.1
+        for <meta-virtualization@lists.yoctoproject.org>; Sun, 27 Aug 2023 06:28:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1693142819; x=1693747619;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=axAOubsMdzbk1u17jruomDOek3Q11NiJ4feP4oyaWH4=;
-        b=JCXX9AOmLN3bRVNEgshaTiYBrQy1wbp5QxBvxoXWutDedHPcsG9zyidncENHVrkCY7
-         avq9tr+5wd7K2ENRMgl8Fn6Dkp5VNe064JiJPWGI1lMXwvCcEaVwZIsqyBkTs1yrMfJE
-         DmhginqARi7/dtKstiYwcuDZXH3g/ZcD891VE9b3e28Z0IYPlQTtKkjggB6lxdUK7f6v
-         bpGa209p4TVUp/BDDgZ+CVk7W37Fckqm1NbZ7fdf5kg4n/PZ+b+gmWqktcS1ngICLyPP
-         uUx8X6EXRyI/8uyyAr1Nv0Ehm+LbxjCyluVv2vtbPP+uwVsoVgFKqTZL+yydWM6zVcB5
-         UtHA==
+        d=gmail.com; s=20221208; t=1693142892; x=1693747692;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ct7iWvZIZRkNKmwXt2m0HZkHDXgOJO26rI7yjlpys/Y=;
+        b=k0GQgbUDcfvc870NberbgFuJGtuN9bfgTmffhPMBYpxZZd5n3A7smLyUIDyRg2nPjs
+         tyYkuzUZSUey++Joy9YDZ2KBDHvx1ngiXmyKjUSyPtny/gCm3QClngAct3qv2TWRys6P
+         vtFa+BpClZwQuKCgE/qNPQCNDvsDeR5SPueoqQXnG7eSiCziDW6VZu81qtJe1LH2IsLk
+         orqZ+EL1hdhTAAME6ole8KWX9X63S8UTfP8IEOewjIVS2zokPOrv68sW093YXj1Vj479
+         fXacPQEYtvpf7VBuLuLcamTo/VsVCkDSX/cos0/SEVyVbQBJWizVJCoLGugf2PN6eO8s
+         MERw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693142819; x=1693747619;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=axAOubsMdzbk1u17jruomDOek3Q11NiJ4feP4oyaWH4=;
-        b=Gu1eP5YT8wxBjxNLCmWLAj9w5rwIyLTfA03fXMATHExLKnnCPqQ/U9mF+sLjScrasd
-         DVGKKrkt8cQkwgoTsYcIT8GqB83HFF1RQK/hlkyJhOSR129J9KcsOQ4HaMN2rxfJBr6W
-         hB7gGNN2ek1PlT8DEIxdJYVL3GN6kB/1mU7dWNq5tcgfjvf+ForfVO6xpLfHqbrFsNek
-         0Z5/fS2GqRaufzBlMtzTsQ3lK4LyOLxToSdac/ls2ZPqCGVB3VtS7YNjX+0BbKYtkTHP
-         n7K3b4mE3IaF4uN0QlqLIhHOz1s2TvieG3NevwXqKfBpBdmqvh59trJSLrYT4Zdwpn94
-         YrHQ==
-X-Gm-Message-State: AOJu0YzhzKKdk/OtFnum4wVadap7F0Uf2J6glDg/hh336ya4Xmzli+Ha
-	NfYURgD/zcl9m3dDF//BG7M=
-X-Google-Smtp-Source: AGHT+IG2DESO2vluBhZ09zeFfdppPGcZEU2L01LAm6yZ8dsxCR4YOzZV+MYW7bqAKtR1DsrlnTa22A==
-X-Received: by 2002:a0c:cb8a:0:b0:64b:997f:5a73 with SMTP id p10-20020a0ccb8a000000b0064b997f5a73mr23708348qvk.0.1693142818842;
-        Sun, 27 Aug 2023 06:26:58 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1693142892; x=1693747692;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Ct7iWvZIZRkNKmwXt2m0HZkHDXgOJO26rI7yjlpys/Y=;
+        b=BuIx2RxWV8B43UhRrcZQdkeIVXbt0GtcqXHR2Fgs/i8fkTAOVxrKJz0bxQcGWukrfG
+         fRNQdSSvSk2FguFr5x7CuluRoND9fyTyLztRcEIS2sK3/XwOZ4Ct34XzJJiuzcwTjJRV
+         ejoLRcLvpNEgtKUQzwUdN2nPHx02GjZ5Eu4mRV6nMJGqPxDfhY8VnTZmqjttvNRkZ2j2
+         /1mBsv3vCH147pVYlMe/HI593I3CaIu6sWGp82laIiZPfO/HQzN60Q+Lexkg1oQAfZ2d
+         X0AxMamajqygVhi7N6tobbBKOTTtLMgkhkKQ4SIzOLuE5QIMu2miOE9a9GC0ctnVr63X
+         yPMg==
+X-Gm-Message-State: AOJu0YwLZQRyl3CpSTjLUSfeeoCs1r+HMyO9oSaPpc7CuH3e0hfetaf0
+	DGtPOht7Loj43AQgjGXnX7M=
+X-Google-Smtp-Source: AGHT+IH+r8ackrssT+tTLfIEkKNC8avalv75oLfsKTVvuqMsPXvkOnY7Hi7gNa/hQlzoZsQJsZuaVA==
+X-Received: by 2002:a05:620a:4084:b0:76c:e83d:2fb9 with SMTP id f4-20020a05620a408400b0076ce83d2fb9mr31272521qko.12.1693142892113;
+        Sun, 27 Aug 2023 06:28:12 -0700 (PDT)
 Received: from gmail.com ([174.112.183.231])
-        by smtp.gmail.com with ESMTPSA id h3-20020a0cf203000000b0062ffbf23c22sm1891364qvk.131.2023.08.27.06.26.56
+        by smtp.gmail.com with ESMTPSA id t11-20020a0ce2cb000000b0064c9f754794sm1920058qvl.86.2023.08.27.06.28.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Aug 2023 06:26:56 -0700 (PDT)
-Date: Sun, 27 Aug 2023 13:26:54 +0000
+        Sun, 27 Aug 2023 06:28:07 -0700 (PDT)
+Date: Sun, 27 Aug 2023 13:28:05 +0000
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: patrick@subset.ch
-Cc: meta-virtualization@lists.yoctoproject.org,
-	Patrick Wicki <patrick.wicki@siemens.com>
-Subject: Re: [meta-virtualization][PATCH 1/2] netavark: require iputils for
- ptest
-Message-ID: <ZOtPHp6uyMENtHyd@gmail.com>
+To: Markus Volk <f_l_k@t-online.de>
+Cc: meta-virtualization@lists.yoctoproject.org
+Subject: Re: [meta-virtualization][PATCHv2] libvirt: update from fuse2 to
+ fuse3
+Message-ID: <ZOtPZfZHPxgUd45t@gmail.com>
+References: <20230824081002.6730-1-f_l_k@t-online.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230825145148.234559-2-patrick@subset.ch>
- <20230825145148.234559-1-patrick@subset.ch>
+In-Reply-To: <20230824081002.6730-1-f_l_k@t-online.de>
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Sun, 27 Aug 2023 13:27:03 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8238
+ <meta-virtualization@lists.yoctoproject.org>; Sun, 27 Aug 2023 13:28:23 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8239
 
-Thanks for doing this against master-next!
 
-I'm out of the office for another week, but have put
-this onto master-next and will complete the merges
-once I'm fully back to the office.
 
-Bruce
+In message: [meta-virtualization][PATCHv2] libvirt: update from fuse2 to fuse3
+on 24/08/2023 Markus Volk wrote:
 
-In message: [meta-virtualization][PATCH 1/2] netavark: require iputils for ptest
-on 25/08/2023 patrick@subset.ch wrote:
-
-> From: Patrick Wicki <patrick.wicki@siemens.com>
+> Using fuse2 and fuse3 in the same environment can be problematic. Most
+> projects I know of now support fuse3. ostree, flatpak, xdg-desktop-portal
+> and some other recipes in meta-openembedded are configured to use fuse3 and
+> libvirt is also able to do so.
 > 
-> Fixes ptest not working on systems using busybox ping.
+> This commit switches libvirt to fuse3 to reduce the number of recipes that still use
+> the old version.
 > 
-> Signed-off-by: Patrick Wicki <patrick.wicki@siemens.com>
+> Signed-off-by: Markus Volk <f_l_k@t-online.de>
 > ---
->  recipes-containers/netavark/netavark_1.7.0.bb | 2 ++
->  1 file changed, 2 insertions(+)
+>  recipes-extended/libvirt/libvirt_9.2.0.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/recipes-containers/netavark/netavark_1.7.0.bb b/recipes-containers/netavark/netavark_1.7.0.bb
-> index 43c3ee5f..490d8762 100644
-> --- a/recipes-containers/netavark/netavark_1.7.0.bb
-> +++ b/recipes-containers/netavark/netavark_1.7.0.bb
-> @@ -44,6 +44,7 @@ DEPENDS += "protobuf-c-native protobuf-c"
->  # bind-utils is used to install dig
->  # procps-ps is necessary because the ps from busybox is
->  # not having the same behavior
-> +# iputils is used because busybox ping behaves differently
->  RDEPENDS:${PN}-ptest += " \
->      bash \
->      bats \
-> @@ -51,6 +52,7 @@ RDEPENDS:${PN}-ptest += " \
->      coreutils \
->      dbus-daemon-proxy \
->      iproute2 \
-> +    iputils \
->      jq \
->      nmap \
->      procps-ps \
+> diff --git a/recipes-extended/libvirt/libvirt_9.2.0.bb b/recipes-extended/libvirt/libvirt_9.2.0.bb
+> index 5e70470..9b5b2de 100644
+> --- a/recipes-extended/libvirt/libvirt_9.2.0.bb
+> +++ b/recipes-extended/libvirt/libvirt_9.2.0.bb
+> @@ -156,7 +156,7 @@ PACKAGECONFIG[selinux] = "-Dselinux=enabled,-Dselinux=disabled,libselinux,"
+>  PACKAGECONFIG[python] = ",,python3,"
+>  PACKAGECONFIG[sasl] = "-Dsasl=enabled,-Dsasl=disabled,cyrus-sasl,cyrus-sasl"
+>  PACKAGECONFIG[numactl] = "-Dnumactl=enabled,-Dnumactl=disabled,numactl,"
+> -PACKAGECONFIG[fuse] = "-Dfuse=enabled,-Dfuse=disabled,fuse,"
+> +PACKAGECONFIG[fuse] = "-Dfuse=enabled,-Dfuse=disabled,fuse3,"
+>  PACKAGECONFIG[audit] = "-Daudit=enabled,-Daudit=disabled,audit,"
+>  PACKAGECONFIG[libcap-ng] = "-Dcapng=enabled,-Dcapng=disabled,libcap-ng,"
+>  PACKAGECONFIG[wireshark] = "-Dwireshark_dissector=enabled,-Dwireshark_dissector=disabled,wireshark libwsutil,"
 > -- 
 > 2.41.0
 > 
@@ -111,54 +101,11 @@ on 25/08/2023 patrick@subset.ch wrote:
 > 
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#8231): https://lists.yoctoproject.org/g/meta-virtualization/message/8231
-> Mute This Topic: https://lists.yoctoproject.org/mt/100956964/1050810
+> View/Reply Online (#8226): https://lists.yoctoproject.org/g/meta-virtualization/message/8226
+> Mute This Topic: https://lists.yoctoproject.org/mt/100931588/1050810
 > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
 > Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
 > 
-
-
-In message: [meta-virtualization][PATCH 2/2] netavark: skip plugins in ptest
-on 25/08/2023 patrick@subset.ch wrote:
-
-> From: Patrick Wicki <patrick.wicki@siemens.com>
-> 
-> Skip the plugin tests that were introduced in 1.6.0 and lead to ptest
-> failure.
-> 
-> Signed-off-by: Patrick Wicki <patrick.wicki@siemens.com>
-> ---
->  recipes-containers/netavark/files/run-ptest | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
-> 
-> diff --git a/recipes-containers/netavark/files/run-ptest b/recipes-containers/netavark/files/run-ptest
-> index 41a37dce..7e017ae2 100644
-> --- a/recipes-containers/netavark/files/run-ptest
-> +++ b/recipes-containers/netavark/files/run-ptest
-> @@ -1,3 +1,8 @@
->  #!/bin/bash
->  
-> -NETAVARK=/usr/libexec/podman/netavark bats ./test/
-> +shopt -s extglob
-> +
-> +# Skip the plugin tests because those example plugins are built only while
-> +# running cargo test and for this to work as a ptest they would need to be cross
-> +# compiled and installed as part of the ptest.
-> +NETAVARK=/usr/libexec/podman/netavark bats test/!(*-plugin.bats)
-> -- 
-> 2.41.0
-> 
-
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#8232): https://lists.yoctoproject.org/g/meta-virtualization/message/8232
-> Mute This Topic: https://lists.yoctoproject.org/mt/100956965/1050810
-> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
-
 
 
