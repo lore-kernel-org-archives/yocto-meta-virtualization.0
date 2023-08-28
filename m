@@ -1,122 +1,109 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <narpat.mali@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72E4FC71153
-	for <webhook@archiver.kernel.org>; Mon, 28 Aug 2023 10:17:38 +0000 (UTC)
-Received: from mail-io1-f41.google.com (mail-io1-f41.google.com [209.85.166.41])
- by mx.groups.io with SMTP id smtpd.web10.10252.1693217850602800892
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FAB1C83F12
+	for <webhook@archiver.kernel.org>; Mon, 28 Aug 2023 12:56:49 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.12791.1693227402699290038
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 28 Aug 2023 03:17:30 -0700
+ Mon, 28 Aug 2023 05:56:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=pUIr6Sid;
- spf=pass (domain: gmail.com, ip: 209.85.166.41, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-io1-f41.google.com with SMTP id ca18e2360f4ac-794d98181f0so22021639f.2
-        for <meta-virtualization@lists.yoctoproject.org>; Mon, 28 Aug 2023 03:17:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1693217850; x=1693822650;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=4YX3ZaaFpaRhiKlo1nGmdejS90vXl4KptZ9KfhsvlqM=;
-        b=pUIr6Sidf5Xm3340HEc4Zmap07UBsKHclgBtPquYMFbSCJeoJ2R4nQ1HSTEkOi75dQ
-         bpYhQM9VyZm8xvgrGWVciz6xQsDrlCYQjLCEYXvAxImZb7ZcfDVXEB830t4JTVtWP/UQ
-         BihKc4vXGbb7XsR9xv1Ktnd7vHfoiyXRAt+uXkU/L2eDm/oC1YSYdVLi3SgzUnfXKe8p
-         jj9oCNe/pHrXB91vVgzej1zRosQrQiA8lSRXzrICUiWxzrHNodNJcsh8Q8+1eZj7iiy5
-         lgMfAxP0UyeDmhEQhHH1hgDYzTN4gs5ZHwuiGUDcJ5HMnnxWwGlRWRD6+w2wBpyZo6JW
-         F7jA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693217850; x=1693822650;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=4YX3ZaaFpaRhiKlo1nGmdejS90vXl4KptZ9KfhsvlqM=;
-        b=iqPz2DUxkqfd2KOqVwmD2kv71ttHeivF9m70M/Ksac6fxrQGm982NRVUaR8kj0Id23
-         n1eIesGq8mhEIH6UZyHh/p2MkZvzl+WdINiFSqamSd7hvrLNdR5PvDK3D4TIdtH6e8A5
-         ekAMK3bT0diaqIzsUOphYa6icK2yE1AbUjFt4kd9B1CLqNrogmLgixAjJlUIDgYK5Q+u
-         UUeqe1rCQZP5t/wzWiWosi7AeEnBnuynuBfI65d3CQXJqsqmqg+042NcpRzEtzZrZ8GZ
-         iL+h+tSf9ILT1srRNXBIPetMGhqncmgd3zPjJ1jQLdFv7VXkNB4nwDMQx2suP8Xdk7TN
-         o9Gw==
-X-Gm-Message-State: AOJu0YzvHmPjoUpJUvDXl7xvMiJwb4N+oFkduD9AyF8KoklxIRyW8ik5
-	IaJgjhGSaoNPeK/pcQp2JQIrFKoNqzz19/xysfM=
-X-Google-Smtp-Source: AGHT+IH67Iv94UbK1oIqoWtowol0P0Blda/xdXnxKRtvaVYOGzuDtoDsjifKeNE6uygtG0peciMtLpYEUy9rfMXL8Pk=
-X-Received: by 2002:a5e:8c18:0:b0:785:d4f5:2225 with SMTP id
- n24-20020a5e8c18000000b00785d4f52225mr17132865ioj.19.1693217849640; Mon, 28
- Aug 2023 03:17:29 -0700 (PDT)
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=BjE6SZZU;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=7604b8b7da=narpat.mali@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 37SCTO1q024644
+	for <meta-virtualization@lists.yoctoproject.org>; Mon, 28 Aug 2023 12:56:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PPS06212021; bh=1LMeM
+	XPPLPBmRpC8VsVOWpjrbesebWu8EK1Hx8hw+t0=; b=BjE6SZZUYzuue59UOh1xE
+	KvmfV6Kr1at8HzCfwRwEvQ2JfCvWIb5D9/i9ldehOstZNSW8l6l1UGh2a1y3nnA0
+	1aoxPAX/O/CyqO6upnPfn5ht8HnachQIM/QQlN794yiDpvVEf0MaFoCkR402IQon
+	fi/tym6LjZTISTAe8woEmGScEd4Awi2esKumRFDm9BF70a/Q+HoigqomR0M5gYZ8
+	CmvQvbFvYBVL3umAMwkJLeu1t2yHKCmifNBteKAog1tWsijhgpJbHoSYK42L6dFR
+	KTBgvYMuOCfMNg0Kfg6m1Nz78oWoQod1Lw4/Eb8WOAxM/mvKFoziEP5HeqAeI7x2
+	g==
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3sq8c61mw4-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <meta-virtualization@lists.yoctoproject.org>; Mon, 28 Aug 2023 12:56:41 +0000 (GMT)
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Mon, 28 Aug 2023 05:56:38 -0700
+From: nmali <narpat.mali@windriver.com>
+To: <meta-virtualization@lists.yoctoproject.org>
+Subject: [meta-virtualization][PATCH 1/1] docker-distribution: upgrade to 2.8.2
+Date: Mon, 28 Aug 2023 12:56:19 +0000
+Message-ID: <20230828125619.3221366-1-narpat.mali@windriver.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-References: <20230824081002.6730-1-f_l_k@t-online.de> <ZOtP7s2ivBE4sp+A@gmail.com>
- <V7Y20S.DEMNSEGCSDXK3@t-online.de>
-In-Reply-To: <V7Y20S.DEMNSEGCSDXK3@t-online.de>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Mon, 28 Aug 2023 07:17:21 -0300
-Message-ID: <CADkTA4MpeKhmt=p2cfYu8GorSgQ-k5+ezVje41DfO5FV2Tf1Cg@mail.gmail.com>
-Subject: Re: [meta-virtualization][PATCHv2] libvirt: update from fuse2 to fuse3
-To: Markus Volk <f_l_k@t-online.de>
-Cc: meta-virtualization <meta-virtualization@lists.yoctoproject.org>
-Content-Type: multipart/alternative; boundary="000000000000748f790603f900f7"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [147.11.136.210]
+X-ClientProxiedBy: ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) To
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252)
+X-Proofpoint-ORIG-GUID: tIae4upkbaGWftGGnhs1FBPsiWzEh2jx
+X-Proofpoint-GUID: tIae4upkbaGWftGGnhs1FBPsiWzEh2jx
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-08-28_09,2023-08-28_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ impostorscore=0 phishscore=0 spamscore=0 malwarescore=0 mlxscore=0
+ adultscore=0 priorityscore=1501 bulkscore=0 suspectscore=0 clxscore=1015
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2308100000 definitions=main-2308280113
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Mon, 28 Aug 2023 10:17:38 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8245
+ <meta-virtualization@lists.yoctoproject.org>; Mon, 28 Aug 2023 12:56:49 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8246
 
---000000000000748f790603f900f7
-Content-Type: text/plain; charset="UTF-8"
+From: Narpat Mali <narpat.mali@windriver.com>
 
-On Sun, Aug 27, 2023, 11:43 PM Markus Volk <f_l_k@t-online.de> wrote:
+Changelog:
+https://github.com/distribution/distribution/releases
 
-> On Sun, Aug 27 2023 at 01:30:22 PM +00:00:00, Bruce Ashfield <
-> bruce.ashfield@gmail.com> wrote:
->
-> It is worth re-testing master-next and 9.6.0 to see if everything still
-> works as you expect.
->
->
-> Thanks, I will do the tests with the master-next branch.
->
-> One question about the other patch I sent. Do you have build issues with
-> it or do you not want to support introspection at all?
-> I ask because the "gnome-boxes" recipe I recently sent to meta-gnome
-> depends on vala bindings for libvirt-glib and cannot be built without the
-> patch. For the latter case, it would be better to remove gnome-boxes from
-> meta-gnome again.
->
+- Revert registry/client: set Accept: identity header when getting layers by @ndeloof in #3783
+- Parse http forbidden as denied by @vvoland in #3914
+- Fix CVE-2022-28391 by bumping alpine from 3.14 to 3.16 by @thaJeztah (#3650)
+- Fix CVE-2023-2253 runaway allocation on /v2/_catalog by @josegomezr 521ea3d9
+- Fix panic in inmemory driver by @wy65701436 in #3815
+- bump up golang version (alternative) by @thaJeztah in #3903
+- Dockerfile: update xx to v1.2.1 by @thaJeztah in #3907
+- update to go1.19.9 by @thaJeztah in #3908
+- Add code to handle pagination of parts. Fixes max layer size of 10GB bug by @DavidSpek in #3893
+- Dockerfile: fix filenames of artifacts by @thaJeztah in #3911
 
+Signed-off-by: Narpat Mali <narpat.mali@windriver.com>
+---
+ .../docker-distribution/docker-distribution_git.bb            | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-I have no objections to introspection. I'm still out of the office, so I'm
-only getting a few minutes here and there for email. Did I miss a patch ?
-If so, feel free to point it out and I'll queue a build test!
+diff --git a/recipes-containers/docker-distribution/docker-distribution_git.bb b/recipes-containers/docker-distribution/docker-distribution_git.bb
+index d05d0131..1aad06dc 100644
+--- a/recipes-containers/docker-distribution/docker-distribution_git.bb
++++ b/recipes-containers/docker-distribution/docker-distribution_git.bb
+@@ -3,7 +3,7 @@ SUMMARY = "The Docker toolset to pack, ship, store, and deliver content"
+ LICENSE = "Apache-2.0"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=d2794c0df5b907fdace235a619d80314"
+ 
+-SRCREV_distribution= "dc5b207fdd294c57dfef59017df60088b27d2668"
++SRCREV_distribution= "7c354a4b40feeea21d7eeae4de91c8ff7951e672"
+ SRC_URI = "git://github.com/docker/distribution.git;branch=release/2.8;name=distribution;destsuffix=git/src/github.com/docker/distribution;protocol=https \
+            file://docker-registry.service \
+            file://0001-build-use-to-use-cross-go-compiler.patch \
+@@ -11,7 +11,7 @@ SRC_URI = "git://github.com/docker/distribution.git;branch=release/2.8;name=dist
+ 
+ PACKAGES =+ "docker-registry"
+ 
+-PV = "v2.8.1+git${SRCPV}"
++PV = "v2.8.2+git${SRCPV}"
+ S = "${WORKDIR}/git/src/github.com/docker/distribution"
+ 
+ GO_IMPORT = "import"
+-- 
+2.40.0
 
-Bruce
-
---000000000000748f790603f900f7
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Sun, Aug 27, 2023, 11:43 PM Markus Volk &lt;<a href=
-=3D"mailto:f_l_k@t-online.de" target=3D"_blank" rel=3D"noreferrer">f_l_k@t-=
-online.de</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=
-=3D"m_-3677905704893885977m_-2403426850288002288geary-body" dir=3D"auto">On=
- Sun, Aug 27 2023 at 01:30:22 PM +00:00:00, Bruce Ashfield &lt;<a href=3D"m=
-ailto:bruce.ashfield@gmail.com" rel=3D"noreferrer noreferrer" target=3D"_bl=
-ank">bruce.ashfield@gmail.com</a>&gt; wrote:<br><blockquote type=3D"cite"><=
-div style=3D"white-space:break-spaces">It is worth re-testing master-next a=
-nd 9.6.0 to see if
-everything still works as you expect.</div></blockquote><div><br></div><div=
-><div>Thanks, I will do the tests with the master-next branch.</div><div><b=
-r></div><div>One question about the other patch I sent. Do you have build i=
-ssues with it or do you not want to support introspection at all?</div><div=
->I ask because the &quot;gnome-boxes&quot; recipe I recently sent to meta-g=
-nome depends on vala bindings for libvirt-glib and cannot be built without =
-the patch. For the latter case, it would be better to remove gnome-boxes fr=
-om meta-gnome again.</div></div></div></blockquote></div></div><div dir=3D"=
-auto"><br></div><div dir=3D"auto"><br></div><div dir=3D"auto">I have no obj=
-ections to introspection. I&#39;m still out of the office, so I&#39;m only =
-getting a few minutes here and there for email. Did I miss a patch ? If so,=
- feel free to point it out and I&#39;ll queue a build test!</div><div dir=
-=3D"auto"><br></div><div dir=3D"auto">Bruce=C2=A0</div><div dir=3D"auto"><b=
-r></div><div dir=3D"auto"><br></div><div dir=3D"auto"></div></div>
-
---000000000000748f790603f900f7--
 
