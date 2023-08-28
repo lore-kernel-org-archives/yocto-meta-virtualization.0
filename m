@@ -1,109 +1,170 @@
-Return-Path: <narpat.mali@windriver.com>
+Return-Path: <Martin.Jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FAB1C83F12
-	for <webhook@archiver.kernel.org>; Mon, 28 Aug 2023 12:56:49 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.12791.1693227402699290038
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A909CC71153
+	for <webhook@archiver.kernel.org>; Mon, 28 Aug 2023 14:39:19 +0000 (UTC)
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+ by mx.groups.io with SMTP id smtpd.web11.15648.1693233555822987593
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 28 Aug 2023 05:56:42 -0700
+ Mon, 28 Aug 2023 07:39:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=BjE6SZZU;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=7604b8b7da=narpat.mali@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 37SCTO1q024644
-	for <meta-virtualization@lists.yoctoproject.org>; Mon, 28 Aug 2023 12:56:42 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding:content-type; s=PPS06212021; bh=1LMeM
-	XPPLPBmRpC8VsVOWpjrbesebWu8EK1Hx8hw+t0=; b=BjE6SZZUYzuue59UOh1xE
-	KvmfV6Kr1at8HzCfwRwEvQ2JfCvWIb5D9/i9ldehOstZNSW8l6l1UGh2a1y3nnA0
-	1aoxPAX/O/CyqO6upnPfn5ht8HnachQIM/QQlN794yiDpvVEf0MaFoCkR402IQon
-	fi/tym6LjZTISTAe8woEmGScEd4Awi2esKumRFDm9BF70a/Q+HoigqomR0M5gYZ8
-	CmvQvbFvYBVL3umAMwkJLeu1t2yHKCmifNBteKAog1tWsijhgpJbHoSYK42L6dFR
-	KTBgvYMuOCfMNg0Kfg6m1Nz78oWoQod1Lw4/Eb8WOAxM/mvKFoziEP5HeqAeI7x2
-	g==
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3sq8c61mw4-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <meta-virtualization@lists.yoctoproject.org>; Mon, 28 Aug 2023 12:56:41 +0000 (GMT)
-Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Mon, 28 Aug 2023 05:56:38 -0700
-From: nmali <narpat.mali@windriver.com>
-To: <meta-virtualization@lists.yoctoproject.org>
-Subject: [meta-virtualization][PATCH 1/1] docker-distribution: upgrade to 2.8.2
-Date: Mon, 28 Aug 2023 12:56:19 +0000
-Message-ID: <20230828125619.3221366-1-narpat.mali@windriver.com>
-X-Mailer: git-send-email 2.40.0
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=jnj/vd0z;
+ spf=pass (domain: gmail.com, ip: 209.85.208.51, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-51e28cac164so8785037a12.1
+        for <meta-virtualization@lists.yoctoproject.org>; Mon, 28 Aug 2023 07:39:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1693233554; x=1693838354;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=X9RhC9OVuvJza4s+UgBQLoNjkjixQUXJKxXQM1w3pgw=;
+        b=jnj/vd0zwUOqZom61sblTayMpe1YdWYbzWupKX9soyUfN3WHdjpIK47pbI4vIfRDNz
+         AZL+f0i0d/I4dnuZz8bFcvALTAnPefOmnQvIPT0H3SL2UiAoOcXI7kaAaQgZT65wnTwc
+         ScwcZl9ijmizPy1joDxPN4Olbl26PfjtYZA6kbn2CTQ9rr6HvUn0XFB62DPEr5eaPkZK
+         GY+t/Va5UrJwQBjklx9rATCRvFWfq3NCmXOob4EPf2Rs+/NiAC7APw9kxpahjWpvovzi
+         Cm4Pk9R+8kcmQvn09yeq0CPSOqw+Fek40mvKN+Ky+Ym3iwuvxhoXS8xq3qa5lAiWRlB1
+         wWOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693233554; x=1693838354;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=X9RhC9OVuvJza4s+UgBQLoNjkjixQUXJKxXQM1w3pgw=;
+        b=Ioz3OAZ8wkbEzinfDRRCIVqzkTZvMNYAS5OvGXWP6E38I8R+hvMDjiOVRMAqiFJZ7W
+         z2o1l/B951rf7cKWsXYgI2mMuDWqfwLSs3vf1sqnMmh0zmqlHPGi/XvNTKnq6Kawo4C8
+         4Blg/DskF1vKHU/AHDO+tmPOzZWdVBEoPQQqtPcURvpuExOw+naIOmh+SFOLUjv/NhnR
+         6SUJYphkf0W+GA/iQoh9MVohufZUQH9/lsUBnSAN324LTpcvNtX1STqqYj0dq7S6DaOY
+         WWvparS5YGTlh9+x1VSl813nDWgksNpSgtYFRlqWc2KJE/IEhHnBaJCQ8EBL0O82/v+w
+         3bJg==
+X-Gm-Message-State: AOJu0Ywio6SL3N4tfiDuZ+gJzREZfby2wcR+XTY6igDSAZEs1gqu+VhG
+	QSRDC5iv9k/NUPjq/TZBAxQHBXOg5YE=
+X-Google-Smtp-Source: AGHT+IGvm5ug/JnoK3Oe+ObDf3/WQ0rvz3gQlsspExLxrPD6ojp2WKTghuNPQAqZZhdCsi1w10n+Tg==
+X-Received: by 2002:a05:6402:440f:b0:525:4696:336d with SMTP id y15-20020a056402440f00b005254696336dmr31136202eda.8.1693233554030;
+        Mon, 28 Aug 2023 07:39:14 -0700 (PDT)
+Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
+        by smtp.gmail.com with ESMTPSA id n25-20020aa7c459000000b005259dd903e5sm4487923edr.67.2023.08.28.07.39.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Aug 2023 07:39:13 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: meta-virtualization@lists.yoctoproject.org
+Cc: Martin Jansa <Martin.Jansa@gmail.com>
+Subject: [PATCH] cloud-init: bump SRCREV to fix update to 23.2.2
+Date: Mon, 28 Aug 2023 16:38:56 +0200
+Message-ID: <20230828143856.549539-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [147.11.136.210]
-X-ClientProxiedBy: ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) To
- ala-exchng01.corp.ad.wrs.com (147.11.82.252)
-X-Proofpoint-ORIG-GUID: tIae4upkbaGWftGGnhs1FBPsiWzEh2jx
-X-Proofpoint-GUID: tIae4upkbaGWftGGnhs1FBPsiWzEh2jx
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
- definitions=2023-08-28_09,2023-08-28_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- impostorscore=0 phishscore=0 spamscore=0 malwarescore=0 mlxscore=0
- adultscore=0 priorityscore=1501 bulkscore=0 suspectscore=0 clxscore=1015
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2308100000 definitions=main-2308280113
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Mon, 28 Aug 2023 12:56:49 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8246
+ <meta-virtualization@lists.yoctoproject.org>; Mon, 28 Aug 2023 14:39:19 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8247
 
-From: Narpat Mali <narpat.mali@windriver.com>
+* the update from
+  commit 0f1601d98f2c926a109b7beb7df21a5dfe6188d9
+  Author: Bruce Ashfield <bruce.ashfield@gmail.com>
+  Date:   Thu Aug 3 20:15:04 2023 +0000
+  Subject: cloud-init: update to 23.2.2
 
-Changelog:
-https://github.com/distribution/distribution/releases
+    Bumping cloud-init to version 23.2.2, which comprises the following commits:
 
-- Revert registry/client: set Accept: identity header when getting layers by @ndeloof in #3783
-- Parse http forbidden as denied by @vvoland in #3914
-- Fix CVE-2022-28391 by bumping alpine from 3.14 to 3.16 by @thaJeztah (#3650)
-- Fix CVE-2023-2253 runaway allocation on /v2/_catalog by @josegomezr 521ea3d9
-- Fix panic in inmemory driver by @wy65701436 in #3815
-- bump up golang version (alternative) by @thaJeztah in #3903
-- Dockerfile: update xx to v1.2.1 by @thaJeztah in #3907
-- update to go1.19.9 by @thaJeztah in #3908
-- Add code to handle pagination of parts. Fixes max layer size of 10GB bug by @DavidSpek in #3893
-- Dockerfile: fix filenames of artifacts by @thaJeztah in #3911
+        e65a715d Release 23.2.2
 
-Signed-off-by: Narpat Mali <narpat.mali@windriver.com>
+  was missing the SRCREV update, so it was still 23.1:
+
+  cloud-init/v23.2.2+git/git $ git describe --tags
+  23.1-52-ge02c46079
+
+  fix that by using the right one of the 23.2.2 tag:
+
+  cloud-init/v23.2.2+git/git $ git show-ref -d 23.2.2
+  293c6546f038ef4da98910dfeb8d0ade65707952 refs/tags/23.2.2
+  e65a715d524456285e07ac521457424713ea4aa5 refs/tags/23.2.2^{}
+
+* this fix also allows up to drop the patch backported from 23.2
+
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- .../docker-distribution/docker-distribution_git.bb            | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ ...-pkg-config-for-udev-rules-path-2137.patch | 50 -------------------
+ recipes-extended/cloud-init/cloud-init_git.bb |  3 +-
+ 2 files changed, 1 insertion(+), 52 deletions(-)
+ delete mode 100644 recipes-extended/cloud-init/cloud-init/0002-setup.py-use-pkg-config-for-udev-rules-path-2137.patch
 
-diff --git a/recipes-containers/docker-distribution/docker-distribution_git.bb b/recipes-containers/docker-distribution/docker-distribution_git.bb
-index d05d0131..1aad06dc 100644
---- a/recipes-containers/docker-distribution/docker-distribution_git.bb
-+++ b/recipes-containers/docker-distribution/docker-distribution_git.bb
-@@ -3,7 +3,7 @@ SUMMARY = "The Docker toolset to pack, ship, store, and deliver content"
- LICENSE = "Apache-2.0"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=d2794c0df5b907fdace235a619d80314"
+diff --git a/recipes-extended/cloud-init/cloud-init/0002-setup.py-use-pkg-config-for-udev-rules-path-2137.patch b/recipes-extended/cloud-init/cloud-init/0002-setup.py-use-pkg-config-for-udev-rules-path-2137.patch
+deleted file mode 100644
+index 9f3760c..0000000
+--- a/recipes-extended/cloud-init/cloud-init/0002-setup.py-use-pkg-config-for-udev-rules-path-2137.patch
++++ /dev/null
+@@ -1,50 +0,0 @@
+-From 57752970ebea017820343aadf11b65c537bef336 Mon Sep 17 00:00:00 2001
+-From: dankm <dan.mcgregor@usask.ca>
+-Date: Fri, 28 Apr 2023 15:10:34 -0600
+-Subject: [PATCH] setup.py: use pkg-config for udev/rules path (#2137)
+-
+-Distributions other than RHEL also use /usr/lib/udev for the rules
+-path. Instead of hardcoding the udev rules path for RedHat, check
+-pkg-config for the proper location.
+-
+-Upstream-Status: Backport [23.2 https://github.com/canonical/cloud-init/commit/5abf5f5f2cf93c57ac74220251d2a2acce5f7099]
+-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+----
+- setup.py | 14 ++++++++------
+- 1 file changed, 8 insertions(+), 6 deletions(-)
+-
+-diff --git a/setup.py b/setup.py
+-index a6dbc5c23..66e618d3a 100644
+---- a/setup.py
+-+++ b/setup.py
+-@@ -46,7 +46,10 @@ def pkg_config_read(library, var):
+-             "systemdsystemconfdir": "/etc/systemd/system",
+-             "systemdsystemunitdir": "/lib/systemd/system",
+-             "systemdsystemgeneratordir": "/lib/systemd/system-generators",
+--        }
+-+        },
+-+        "udev": {
+-+            "udevdir": "/lib/udev",
+-+        },
+-     }
+-     cmd = ["pkg-config", "--variable=%s" % var, library]
+-     try:
+-@@ -309,14 +312,13 @@ data_files = [
+-     ),
+- ]
+- if not platform.system().endswith("BSD"):
+--
+--    RULES_PATH = LIB
+--    if os.path.isfile("/etc/redhat-release"):
+--        RULES_PATH = "/usr/lib"
+-+    RULES_PATH = pkg_config_read("udev", "udevdir")
+-+    if not in_virtualenv():
+-+        RULES_PATH = "/" + RULES_PATH
+- 
+-     data_files.extend(
+-         [
+--            (RULES_PATH + "/udev/rules.d", [f for f in glob("udev/*.rules")]),
+-+            (RULES_PATH + "/rules.d", [f for f in glob("udev/*.rules")]),
+-             (
+-                 ETC + "/systemd/system/sshd-keygen@.service.d/",
+-                 ["systemd/disable-sshd-keygen-if-cloud-init-active.conf"],
+diff --git a/recipes-extended/cloud-init/cloud-init_git.bb b/recipes-extended/cloud-init/cloud-init_git.bb
+index b5c2d71..9d84f47 100644
+--- a/recipes-extended/cloud-init/cloud-init_git.bb
++++ b/recipes-extended/cloud-init/cloud-init_git.bb
+@@ -7,11 +7,10 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=c6dd79b6ec2130a3364f6fa9d6380408 \
+     file://LICENSE-Apache2.0;md5=3b83ef96387f14655fc854ddc3c6bd57 \
+ "
  
--SRCREV_distribution= "dc5b207fdd294c57dfef59017df60088b27d2668"
-+SRCREV_distribution= "7c354a4b40feeea21d7eeae4de91c8ff7951e672"
- SRC_URI = "git://github.com/docker/distribution.git;branch=release/2.8;name=distribution;destsuffix=git/src/github.com/docker/distribution;protocol=https \
-            file://docker-registry.service \
-            file://0001-build-use-to-use-cross-go-compiler.patch \
-@@ -11,7 +11,7 @@ SRC_URI = "git://github.com/docker/distribution.git;branch=release/2.8;name=dist
+-SRCREV = "e02c4607923af64311c70ae9a06d6794355e9a61"
++SRCREV = "293c6546f038ef4da98910dfeb8d0ade65707952"
+ SRC_URI = "git://github.com/canonical/cloud-init;branch=23.2.x;protocol=https \
+     file://cloud-init-source-local-lsb-functions.patch \
+     file://0001-setup.py-check-for-install-anywhere-in-args.patch \
+-    file://0002-setup.py-use-pkg-config-for-udev-rules-path-2137.patch \
+ "
  
- PACKAGES =+ "docker-registry"
- 
--PV = "v2.8.1+git${SRCPV}"
-+PV = "v2.8.2+git${SRCPV}"
- S = "${WORKDIR}/git/src/github.com/docker/distribution"
- 
- GO_IMPORT = "import"
+ PV = "v23.2.2+git"
 -- 
-2.40.0
+2.42.0
 
 
