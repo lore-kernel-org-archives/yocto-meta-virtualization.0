@@ -1,87 +1,93 @@
-Return-Path: <Martin.Jansa@gmail.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D2B7C83F12
-	for <webhook@archiver.kernel.org>; Mon, 28 Aug 2023 22:07:26 +0000 (UTC)
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
- by mx.groups.io with SMTP id smtpd.web10.4530.1693260444954925949
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EDE8DC83F12
+	for <webhook@archiver.kernel.org>; Tue, 29 Aug 2023 01:49:56 +0000 (UTC)
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com [209.85.219.169])
+ by mx.groups.io with SMTP id smtpd.web10.8525.1693273788907092845
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 28 Aug 2023 15:07:25 -0700
+ Mon, 28 Aug 2023 18:49:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=I1yS1kYD;
- spf=pass (domain: gmail.com, ip: 209.85.208.169, mailfrom: martin.jansa@gmail.com)
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2bb9a063f26so56857341fa.2
-        for <meta-virtualization@lists.yoctoproject.org>; Mon, 28 Aug 2023 15:07:24 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=Ex5OcMSj;
+ spf=pass (domain: gmail.com, ip: 209.85.219.169, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-d746ea563f9so3673431276.1
+        for <meta-virtualization@lists.yoctoproject.org>; Mon, 28 Aug 2023 18:49:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1693260443; x=1693865243;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=7vAf2/tJL9Lq2C+8ZvVXSBpqgeQxSa6uxPI/9SbQox0=;
-        b=I1yS1kYDEja4toY9zZbhuy1cupFXgNTw9p/i71lmMKvqq5w4mUZviV0uaPaEVPx0Zh
-         wqo9+mgqPFtS7Ewks4EG7kCJtjNuVbP0ecAVN46PE699Wz0H1OJpgO559dx+/O1k7a1L
-         eY1uz5LdBr4+wOmHCoky2DIgzLxHUFh83SH/g22Iav9Oksahx2l6OTAFHF640Fp+D2LR
-         LRvsIu0bfWtHB63kwzy+Wvh8KHWJvXNtsFOgcytFLitWHl/3gvM2kVpXYwEcf0tHEItA
-         2/XzblR0JhJmEdNSJ/hgP1Ts/RDFVOKreUJPGlynEKIvMdDOVPKTgzZuZ5yeqK0kdvO4
-         zq0A==
+        d=gmail.com; s=20221208; t=1693273788; x=1693878588;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XNT2dS4Px9QrlFUe4UJE1tjo380ctY0bwq57SVtyZ3M=;
+        b=Ex5OcMSjiVMjmHJlQ8IEZWuL9q/bby6DBriZOBv0hjFv4MVwfJPLlTEgPA8NSWXoy0
+         eTqGSX/BzSrQHMctPH+nyPM1HBX5OFkGmpjYOGhLWAWy4XTtUjr4mVkObdPoPD3EeT7U
+         ie8iC/XXmAGYd0i0xvgjR67oigni6nAi3FHgYITOtdUxv3mKoe1m7PoV6dIzIMDplY9T
+         5W6c0jKZgWpoEsOcrvSo+X62JHzn/5/05Lc2GshG3Afey+bw9lzgQ7QqVCkkPYtPBhBy
+         9683WL0YgRiPML8swWFA/6gJJEzBsmPJLPuw0DuDao+9oQiy6h2yWUhlo/LPtSO5+M1T
+         EW2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693260443; x=1693865243;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7vAf2/tJL9Lq2C+8ZvVXSBpqgeQxSa6uxPI/9SbQox0=;
-        b=RCjX/0/CGQ1J2/mWYibOq6SiASk2ctV5N7twqAHcMvdPfGLSO/JMEAmXhwa/Fp9zYO
-         /duzMIXIDgp5esiKUYY+YXQgp4dt1rjCj8EcY8xxFCy/aQanC96M1/c18C/EBBMpJU74
-         spL631uK/6AZxp8qE3uSzwpUke/GuTL18FROLju93bJfuodegN51T21GJpFPXD5k3QWT
-         ooSe7my0peZYXO7d6XBVAhRFng84aanBN2UI9K4jCcexx9I2I9y+FJ4VD+En/68P2Z3l
-         BLv4C84n+uFEAZ7dN215a1VZZdmU/1AuLzpUoaqtVk9zVz6S9xmEALV26iBvi889V5SS
-         zwYA==
-X-Gm-Message-State: AOJu0YySq58XnJLO9oBVOf2M8D+vTATBeWw5wtY2pH1I9o1IIPU9Fbif
-	RSn9J3GSRPzuQ9SeQhzO97TPnphF0LE=
-X-Google-Smtp-Source: AGHT+IH3FUYEyY+eHOsRzy4G5jUvn/U75s7fQEzxqAyui+v0eV7sHB6LXbdXOwqm375NSYw75T30/A==
-X-Received: by 2002:a05:651c:1027:b0:2b6:bc30:7254 with SMTP id w7-20020a05651c102700b002b6bc307254mr18866262ljm.13.1693260442968;
-        Mon, 28 Aug 2023 15:07:22 -0700 (PDT)
-Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id z6-20020a170906814600b00992d70f8078sm5157946ejw.106.2023.08.28.15.07.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Aug 2023 15:07:22 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: meta-virtualization@lists.yoctoproject.org
-Cc: Martin Jansa <Martin.Jansa@gmail.com>
-Subject: [PATCH] go-mux: Switch to main branch
-Date: Tue, 29 Aug 2023 00:07:10 +0200
-Message-ID: <20230828220710.2689454-1-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.42.0
+        d=1e100.net; s=20221208; t=1693273788; x=1693878588;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=XNT2dS4Px9QrlFUe4UJE1tjo380ctY0bwq57SVtyZ3M=;
+        b=bnhSo6hJZKnwoyHw6Ox/Sn2qATc9zpOoDbIj0gIZETJA3FNoIr5bTQvV3zB2qB9oUs
+         0cSPKytgI22o6yjJMQgm9V+Eaj7zDskCjy2T0gz9Fxow1ENK+fHJqbIKopKjJxTHOkF+
+         zaRwFE535Lf2lngIFrwwBk2jrTpF6nrPGN/m77/c8CNK1jUocTLdyxsvY34UqQZaWx5B
+         WVwl+A7uPRd4S8BxDOiBr22Y1pcnzXu59/qxESGEg5eOdt0IW1VghlJSyf+L4/xAWIPc
+         5yB3EK4I91MvdjoaXZQV4g1tX4s0zkQXg9wA2uOj+RkG8MjOFWPGZnAVxIPAel9pgLBz
+         sGHw==
+X-Gm-Message-State: AOJu0YzjM71p/Jz3F5nj3gEFerq4c4fPE7Ji5SjjukIUei+lZ95B2K/G
+	mrU3dHZkMextTrwAiRwkjRL7hmI5AYnK0jpffiw=
+X-Google-Smtp-Source: AGHT+IGG8ZcOi5IwOPD3z1+/18OwTwTTKor3F26uFeL1FIG7a8d8jJb9jdw03aYmU9rBx5hdqdIaXDU1xgj6TrnQoRg=
+X-Received: by 2002:a25:509:0:b0:d43:a84f:a6aa with SMTP id
+ 9-20020a250509000000b00d43a84fa6aamr27864186ybf.39.1693273788017; Mon, 28 Aug
+ 2023 18:49:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230824081002.6730-1-f_l_k@t-online.de> <ZOtP7s2ivBE4sp+A@gmail.com>
+ <V7Y20S.DEMNSEGCSDXK3@t-online.de> <CADkTA4MpeKhmt=p2cfYu8GorSgQ-k5+ezVje41DfO5FV2Tf1Cg@mail.gmail.com>
+ <A2440S.ZJJYBEG8TE2P3@t-online.de>
+In-Reply-To: <A2440S.ZJJYBEG8TE2P3@t-online.de>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Mon, 28 Aug 2023 21:49:36 -0400
+Message-ID: <CADkTA4P6AKA+OWWrxs6XxpoQDojC2jqFxcQD0hMqshikywqhfg@mail.gmail.com>
+Subject: Re: [meta-virtualization][PATCHv2] libvirt: update from fuse2 to fuse3
+To: Markus Volk <f_l_k@t-online.de>
+Cc: meta-virtualization <meta-virtualization@lists.yoctoproject.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Mon, 28 Aug 2023 22:07:26 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8251
+ <meta-virtualization@lists.yoctoproject.org>; Tue, 29 Aug 2023 01:49:56 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8252
 
-The project has renamed the master branch to main.
+On Mon, Aug 28, 2023 at 2:17=E2=80=AFPM Markus Volk <f_l_k@t-online.de> wro=
+te:
+>
+> On Mon, Aug 28 2023 at 07:17:21 AM -03:00:00, Bruce Ashfield <bruce.ashfi=
+eld@gmail.com> wrote:
+>
+> Did I miss a patch ? If so, feel free to point it out and I'll queue a bu=
+ild test!
+>
+>
+> I didn't want to rush. I have sent 2 patches and the second was to fix bu=
+ild for introspection/vala for libvirt-glib. I sent it again and also pushe=
+d it here on github.
+>
+> https://github.com/MarkusVolk/meta-virtualization/commit/ce5f953c09fadba1=
+f6e0014106adb4b23beef747
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- recipes-devtools/go/go-mux_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Right. This is the patch that I was asking about how the documentation
+was going to be used and packaged.
 
-diff --git a/recipes-devtools/go/go-mux_git.bb b/recipes-devtools/go/go-mux_git.bb
-index 3f939f4..fb4502b 100644
---- a/recipes-devtools/go/go-mux_git.bb
-+++ b/recipes-devtools/go/go-mux_git.bb
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=c50f6bd9c1e15ed0bad3bea18e3c1b7f"
- SRCNAME = "mux"
- 
- PKG_NAME = "github.com/gorilla/${SRCNAME}"
--SRC_URI = "git://${PKG_NAME}.git;branch=master;protocol=https"
-+SRC_URI = "git://${PKG_NAME}.git;branch=main;protocol=https"
- 
- SRCREV = "136d54f81f00414c45c3c68dd47e98cc97519c5e"
- 
--- 
-2.42.0
+I didn't see a reply, did I miss that ?
 
+Bruce
+
+--
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
