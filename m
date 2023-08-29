@@ -1,90 +1,116 @@
-Return-Path: <Martin.Jansa@gmail.com>
+Return-Path: <javier.tia@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 951B9C71153
-	for <webhook@archiver.kernel.org>; Tue, 29 Aug 2023 14:05:40 +0000 (UTC)
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
- by mx.groups.io with SMTP id smtpd.web10.18281.1693317933128392165
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E37B1C83F12
+	for <webhook@archiver.kernel.org>; Tue, 29 Aug 2023 18:05:50 +0000 (UTC)
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
+ by mx.groups.io with SMTP id smtpd.web11.4002.1693332341454029096
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 29 Aug 2023 07:05:33 -0700
+ Tue, 29 Aug 2023 11:05:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=QKhmkbb0;
- spf=pass (domain: gmail.com, ip: 209.85.208.53, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-523100882f2so5787183a12.2
-        for <meta-virtualization@lists.yoctoproject.org>; Tue, 29 Aug 2023 07:05:32 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=ns6g0Mob;
+ spf=pass (domain: linaro.org, ip: 209.85.128.179, mailfrom: javier.tia@linaro.org)
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-59209b12c50so56871857b3.0
+        for <meta-virtualization@lists.yoctoproject.org>; Tue, 29 Aug 2023 11:05:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1693317931; x=1693922731;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=3/dCmgpbvmRkMxk3kNRUYhJLUUfjSkUxd+VQdOKvlC8=;
-        b=QKhmkbb0GsncgbHyu+ufphrHTyiSD5p7oWt6Hni+QOnup8MkLHZg8RRJucB8FfC7TB
-         Cj9fiH1VeF+KMA96Hrp4zKFZHYHeqNpjVi/IJkqCNVVkPooZDBPXNS1RbMG5K7lTkkq6
-         4rtea2dKLlwBmkVzv5VYDX/a4npUR1dYqyj6jXWRQptfqc3GZALpnVZbz3gCGzSU8AyP
-         EfuvqUaHeDV5USgikfL+zOwZ3Uu0eAz872goJs9ygM7gAn9lw7OQqMhYace1A9yitw6/
-         5u73MPpfRp0S3ixYpmKFuzUIwVZ058IsFdKc3xks42Ebm0w9ewxwr6buvG8Z7GBBdKZd
-         HCQw==
+        d=linaro.org; s=google; t=1693332340; x=1693937140;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=bWdwUO2xRwKSWd4qORO0a8CKFBNE8whtZHfoRs4J0P8=;
+        b=ns6g0MobTVjbhwhKTbMos9uuMiG+UFhlPYMY5fPcxt2AvO90fzEics0lI9z35qsZIK
+         dGaB5CEHcacwuWycWvAbcge3I6RpcPqwkjhlyD6R7PrMLuRWuQQDxxXRr5G61rw/05k+
+         vdPviBAlS6l5SQoeXYIhmmhOJD0Va/Ce3NZKTtYgtqXYHVDRUmgQyXvv3Xf7EoOeBIze
+         ydFPV81RSxrLM4Qu43QVr9c1cZbpxjwrjxo0aWwmCw5DiOFNYgXE0ft9kLTPkrqK2tBB
+         fhRg+nXnJNcH1M77WL11JeHZCCv0Ex6d6J2us0v6LsLfS0sd5KNQpY7rgeWSwDofhf6+
+         5dxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693317931; x=1693922731;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3/dCmgpbvmRkMxk3kNRUYhJLUUfjSkUxd+VQdOKvlC8=;
-        b=Srimq5NNRlMzOTzr9ti3MfeyNkiczLbc5jJvFH8hKGZNQ8cTgq3BH7ByotOH4o2nBo
-         GoqqPYBvdCUeFC0jk8h3/YFQwEnVWb1VIFQES90VtXaLxfRU0SsEENw5rFDtMNs8W9jA
-         VmSa7CymGFipECTxp2FiX+GI6CiPUzj2GcL8tcQVFQ+AoP6SeIODudDvEzSbhbCh2Qsu
-         jkA6/Zp5NBum0py3rz5oR6op34/4hFvWAFBzdYo/k6bvDYsifRRUBM8g1lJAu8z4cL8x
-         omR0r8xfe8YzZtAoKWLcQB7YKOpTPRPkolXB3tPFKUahaX6HTb26DOZxV0lRKL2ePdqR
-         JTYA==
-X-Gm-Message-State: AOJu0YzCVa2vItfkbX+syZn+bNE9yFQ0+sq9pMgMQeIjNUdNysMm1Q6L
-	WmAotts6T4TX3aFcvSc2W26jZwSwazE=
-X-Google-Smtp-Source: AGHT+IFW+1Kj5udlvEvF7p7mRVFJuHBaa+ENwOh2KzRdH1BhB5DpwrlxtX9048F4/0HdSjn3bb1iZQ==
-X-Received: by 2002:a05:6402:380b:b0:52a:6497:d02b with SMTP id es11-20020a056402380b00b0052a6497d02bmr5786189edb.16.1693317930523;
-        Tue, 29 Aug 2023 07:05:30 -0700 (PDT)
-Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id b21-20020aa7c915000000b0052540e85390sm5649932edt.43.2023.08.29.07.05.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Aug 2023 07:05:28 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: meta-virtualization@lists.yoctoproject.org
-Cc: Martin Jansa <Martin.Jansa@gmail.com>
-Subject: [PATCH] go-context: add CLEANBROKEN
-Date: Tue, 29 Aug 2023 16:05:11 +0200
-Message-ID: <20230829140511.1932772-1-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.42.0
+        d=1e100.net; s=20221208; t=1693332340; x=1693937140;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bWdwUO2xRwKSWd4qORO0a8CKFBNE8whtZHfoRs4J0P8=;
+        b=ENy00kV4YeEkocQzsBaEZJsg9RDxa4b47xkvaeacCYPbOc9QkuDTrQV3zIIzfcNh7A
+         qEIh1b8ge3TAyj5p9mQoQaeybqjcWYjw2/aJhIe5yStLimETPoU+B5o3Mb9kkhvMZfiH
+         9i/j4VW/e/PEIAhbB8LdF702z4/orMs6GG/Gue1NMjro/PbzVx/6OdWkRTGHpT47QivX
+         tLqoMomSXpSuxR8M987Hb7hZI+fcYIZ2ALs9ypQjmFvdoddQLmblaWVRS1GLIxmP1J8s
+         Bbc4/ElxleUjwIEw4adJJ0WWRqTw5iRqnwrzdXGf6kC4dlg7QfXHEKAcrJ8Kk2OcbZEl
+         TlSw==
+X-Gm-Message-State: AOJu0Yx0ivDkDbWnRBG6Vf/pwYhJkmhsEH8U3qzmtcDOMOdzFJiDwj9j
+	nN6tgMqhK6Ex0uo//ZbwhDv0NQ==
+X-Google-Smtp-Source: AGHT+IF3ogMLtcfZR+fPaQ6RfcUo/8rah+AFQYrAI97o4Grpqwr4C4Mtn+ssj2uiZwjOwRyb0nu0Nw==
+X-Received: by 2002:a81:a883:0:b0:595:640d:9f61 with SMTP id f125-20020a81a883000000b00595640d9f61mr3815873ywh.6.1693332340646;
+        Tue, 29 Aug 2023 11:05:40 -0700 (PDT)
+Received: from [10.59.32.33] ([190.171.102.33])
+        by smtp.gmail.com with ESMTPSA id v184-20020a8185c1000000b005837fe8dbe8sm2883841ywf.8.2023.08.29.11.05.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 29 Aug 2023 11:05:40 -0700 (PDT)
+Message-ID: <d94c5a56-8d48-4083-8d97-3c9721304f37@linaro.org>
+Date: Tue, 29 Aug 2023 12:05:38 -0600
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [meta-virtualization] [PATCH] go-build: add SRCREV_FORMAT
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: meta-virtualization@lists.yoctoproject.org
+References: <20230828202834.2981605-1-javier.tia@linaro.org>
+ <CADkTA4PcfD4PzoFpncuOfo7zCptnXKKSxQTyk-ngG76cvQbgfw@mail.gmail.com>
+Content-Language: en-US-large, es
+From: Javier Tia <javier.tia@linaro.org>
+Autocrypt: addr=javier.tia@linaro.org; keydata=
+ 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
+ WdJQjTu3/NJR54YogRY=
+In-Reply-To: <CADkTA4PcfD4PzoFpncuOfo7zCptnXKKSxQTyk-ngG76cvQbgfw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Tue, 29 Aug 2023 14:05:40 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8261
+ <meta-virtualization@lists.yoctoproject.org>; Tue, 29 Aug 2023 18:05:50 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8262
 
-* fixes:
+On 8/28/23 20:20, Bruce Ashfield wrote:
+> There's some extra whitespace and formatting changes in the patch, it's 
+> a good policy to not mix them in with a fix. In a scenario like this, I 
+> tend to use the representative SCMs in the format. So in this case it 
+> should be runx_runc. There are some exceptions to this in the tree, and 
+> I need to fix them. I've spun a patch with just that for master-next.
 
-DEBUG: Executing shell function do_configure
-NOTE: make clean
-make: *** No rule to make target 'clean'.  Stop.
-ERROR: oe_runmake failed
-WARNING: exit code 1 from a shell command.
+Thank you, Bruce, for taking care of that.
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- recipes-devtools/go/go-context_git.bb | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/recipes-devtools/go/go-context_git.bb b/recipes-devtools/go/go-context_git.bb
-index 132da98..580463d 100644
---- a/recipes-devtools/go/go-context_git.bb
-+++ b/recipes-devtools/go/go-context_git.bb
-@@ -30,3 +30,5 @@ go_context_sysroot_preprocess () {
- }
- 
- FILES:${PN} += "${prefix}/local/go/src/${PKG_NAME}/*"
-+
-+CLEANBROKEN = "1"
--- 
-2.42.0
+Regards,
+» Javier Tia 🖋
 
 
