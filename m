@@ -1,140 +1,142 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 484AAC83F15
-	for <webhook@archiver.kernel.org>; Tue, 29 Aug 2023 02:20:37 +0000 (UTC)
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
- by mx.groups.io with SMTP id smtpd.web10.8993.1693275627999610300
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52047C6FA8F
+	for <webhook@archiver.kernel.org>; Tue, 29 Aug 2023 06:08:08 +0000 (UTC)
+Received: from mailout04.t-online.de (mailout04.t-online.de [194.25.134.18])
+ by mx.groups.io with SMTP id smtpd.web11.11534.1693289287244710009
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 28 Aug 2023 19:20:28 -0700
+ Mon, 28 Aug 2023 23:08:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=dDkkSmqX;
- spf=pass (domain: gmail.com, ip: 209.85.128.182, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-59234aaca15so45174817b3.3
-        for <meta-virtualization@lists.yoctoproject.org>; Mon, 28 Aug 2023 19:20:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1693275627; x=1693880427;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DhBImum7d+9Sur1xcr1BFqY7WBqUPs2jFO1wakzor/M=;
-        b=dDkkSmqXUYWdmFukaSgPAZTrnfbUWwp6BGKn9m6dh1ilQaiT2ybhR4R6puMhwuw2mW
-         V9N6pcGTYKuHxNrDvAngxvZWh9n+ldM+srFKM/6zeKMjJuiLyWqSYM4V4xO7HICJlNx9
-         L+jNNtMUznzcLauig6EpqEn30p3bI8+aNgX0Ur0jebnlecqMfce1MJ5z5lA2PxexT04P
-         sQmPqSQe92yqScuDaUoVEPAhERIh42tAPColAZHGFaNlVlHnUvymmaVsyG8SPKuu3bBp
-         rGd2bqZdM8zbbiMrkDYouF0rRecOQp/iB9B22Vng1TXcgicFCH2g/8L9Xu436uyr8H3a
-         hrng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693275627; x=1693880427;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=DhBImum7d+9Sur1xcr1BFqY7WBqUPs2jFO1wakzor/M=;
-        b=CEwRm1usdqkv5YFrBhs5zj3oJZQgOSR4dge6cWWUdm5WKyqRTmPShjXVrfx98gWEAr
-         tqpwpwFHYhun0f5/hWFm2yKT4mVDFkVgGvecHlJbDaekxSSr9ZZBWZEvZnsUTZIJAqIS
-         WQsxfT+Qql5o55Z7CKpm8K1gXjpsf1+Wjc7SR/oohvQyAvX+K3Qv+mj0lqv/8kXvS5t5
-         t3RYUHVSsKqJ2WYAt+sxHSC4OTSMTsAT9fkaBYFNU+UmXz7Sm7MdoKYP5DdBIgnmUvjr
-         Djt8aPxUwGnjm555pBM8jH/75J0vpaaqUhgTuwYr35jnkTB49wxh8GNtM7UuFHh1QG70
-         yxaQ==
-X-Gm-Message-State: AOJu0YxMKDwsmN88k9UUWpl7ZmkyW2A3ymvxc3F8BZ6/NUurI4W0sooD
-	lx9ZcRbDz5nucN3tLk6/mYodfnPMbtB93AS3wO8=
-X-Google-Smtp-Source: AGHT+IGgkYVsN8gsl1sVH4oU9OtRTcpIxIg3GNfBb/3vUgI6Hgi2SqKBydd2vgn9I5K0mTwSKzFEeOzsGpcqF681JfI=
-X-Received: by 2002:a25:9cc5:0:b0:d68:8a7f:127f with SMTP id
- z5-20020a259cc5000000b00d688a7f127fmr10393994ybo.52.1693275627115; Mon, 28
- Aug 2023 19:20:27 -0700 (PDT)
+ dkim=none (message not signed); spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.18, mailfrom: f_l_k@t-online.de)
+Received: from fwd71.aul.t-online.de (fwd71.aul.t-online.de [10.223.144.97])
+	by mailout04.t-online.de (Postfix) with SMTP id 29F9F14374
+	for <meta-virtualization@lists.yoctoproject.org>; Tue, 29 Aug 2023 08:08:05 +0200 (CEST)
+Received: from intel-corei7-64.fritz.box ([84.154.173.90]) by fwd71.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1qartU-3Z5Jw10; Tue, 29 Aug 2023 08:08:04 +0200
+From: Markus Volk <f_l_k@t-online.de>
+To: meta-virtualization@lists.yoctoproject.org
+Subject: [meta-virtualization][PATCHv2] libvirt-glib: fix introspection and documentation build
+Date: Tue, 29 Aug 2023 08:07:59 +0200
+Message-ID: <20230829060759.80856-1-f_l_k@t-online.de>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-References: <20230828202834.2981605-1-javier.tia@linaro.org>
-In-Reply-To: <20230828202834.2981605-1-javier.tia@linaro.org>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Mon, 28 Aug 2023 22:20:15 -0400
-Message-ID: <CADkTA4PcfD4PzoFpncuOfo7zCptnXKKSxQTyk-ngG76cvQbgfw@mail.gmail.com>
-Subject: Re: [meta-virtualization] [PATCH] go-build: add SRCREV_FORMAT
-To: Javier Tia <javier.tia@linaro.org>
-Cc: meta-virtualization@lists.yoctoproject.org
-Content-Type: text/plain; charset="UTF-8"
+X-TOI-EXPURGATEID: 150726::1693289285-D25C12DD-9635907E/0/0 CLEAN NORMAL
+X-TOI-MSGID: 43e1eeaf-2771-4986-8722-f525544a6390
 Content-Transfer-Encoding: quoted-printable
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Tue, 29 Aug 2023 02:20:37 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8258
+ <meta-virtualization@lists.yoctoproject.org>; Tue, 29 Aug 2023 06:08:08 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8259
 
-On Mon, Aug 28, 2023 at 4:28=E2=80=AFPM Javier Tia <javier.tia@linaro.org> =
-wrote:
->
-> Recipes that use multiple SCMs in the SRC_URI, must supply SRCREV_FORMAT
-> to avoid an expansion error.
->
-> Signed-off-by: Javier Tia <javier.tia@linaro.org>
-> ---
->  recipes-devtools/go/go-build_git.bb | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
->
-> diff --git a/recipes-devtools/go/go-build_git.bb b/recipes-devtools/go/go=
--build_git.bb
-> index 2337c9e1..2a78be01 100644
-> --- a/recipes-devtools/go/go-build_git.bb
-> +++ b/recipes-devtools/go/go-build_git.bb
-> @@ -4,12 +4,12 @@ DESCRIPTION =3D "Xen Runtime for OCI"
->
->  SRCREV_runx =3D "f24efd33fb18469e9cfe4d1bfe8e2c90ec8c4e93"
->  SRCREV_runc =3D "1e7bb5b773162b57333d57f612fd72e3f8612d94"
-> -
-> +SRCREV_FORMAT =3D "runx"
->  SRC_URI =3D "\
-> -         git://github.com/lf-edge/runx;nobranch=3D1;name=3Drunx;protocol=
-=3Dhttps \
-> -          git://github.com/opencontainers/runc;branch=3Drelease-1.1;name=
-=3Drunc;protocol=3Dhttps;destsuffix=3Dgit/src/import/gobuild/go/src/github.=
-com/opencontainers/runc \
-> -          file://0001-build-use-instead-of-go.patch \
-> -         "
-> +    git://github.com/lf-edge/runx;nobranch=3D1;name=3Drunx;protocol=3Dht=
-tps \
-> +    git://github.com/opencontainers/runc;branch=3Drelease-1.1;name=3Drun=
-c;protocol=3Dhttps;destsuffix=3Dgit/src/import/gobuild/go/src/github.com/op=
-encontainers/runc \
-> +    file://0001-build-use-instead-of-go.patch \
-> +"
+Building Gobject introspection during cross-compilation is not an easy ta=
+sk.
+Therefore, the meson.build file disables the build for introspection and
+also for gtkdoc by default.
+This commit adds a patch to enable this, as introspection can be easily b=
+uilt
+on newer platforms with yocto/oe.
 
-There's some extra whitespace and formatting changes in the patch, it's a g=
-ood
-policy to not mix them in with a fix.
+The options to enable/disable introspection/doc are defined as feature
+while the corresponding bbclass defines it as a boolean.
+Override this so that it should be possible to be enabled/disabled by usi=
+ng DISTRO_FEATURES.
 
-In a scenario like this, I tend to use the representative SCMs in the
-format. So in this
-case it should be runx_runc. There are some exceptions to this in the
-tree, and I need
-to fix them.
+Inherit  gettext bbclass as used in libvirt-glib.
 
-I've spun a patch with just that for master-next.
+Add a missing dependency on libxslt.
+Signed-off-by: Markus Volk <f_l_k@t-online.de>
+---
+ ...ild-allow-crosscompiling-gir-and-doc.patch | 37 +++++++++++++++++++
+ .../libvirt/libvirt-glib_4.0.0.bb             | 15 ++++++--
+ 2 files changed, 48 insertions(+), 4 deletions(-)
+ create mode 100644 recipes-extended/libvirt/libvirt-glib/0001-meson.buil=
+d-allow-crosscompiling-gir-and-doc.patch
 
-Bruce
+diff --git a/recipes-extended/libvirt/libvirt-glib/0001-meson.build-allow=
+-crosscompiling-gir-and-doc.patch b/recipes-extended/libvirt/libvirt-glib=
+/0001-meson.build-allow-crosscompiling-gir-and-doc.patch
+new file mode 100644
+index 00000000..cd17bbbf
+--- /dev/null
++++ b/recipes-extended/libvirt/libvirt-glib/0001-meson.build-allow-crossc=
+ompiling-gir-and-doc.patch
+@@ -0,0 +1,37 @@
++From 019d727990d41b5d7911895b75bcb021e4cca3c6 Mon Sep 17 00:00:00 2001
++From: Markus Volk <f_l_k@t-online.de>
++Date: Mon, 21 Aug 2023 10:23:08 +0200
++Subject: [PATCH] meson.build: allow crosscompiling gir and doc
++
++Upstream-Status: Inappropriate [oe specific]
++
++Signed-off-by: Markus Volk <f_l_k@t-online.de>
++---
++ meson.build | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/meson.build b/meson.build
++index 134feb6..a089f42 100644
++--- a/meson.build
+++++ b/meson.build
++@@ -58,7 +58,7 @@ includedir =3D join_paths(prefix, get_option('included=
+ir'))
++=20
++ # gobject introspection
++ gir =3D find_program('g-ir-scanner', required: get_option('introspectio=
+n'))
++-enable_introspection =3D gir.found() and not meson.is_cross_build()
+++enable_introspection =3D gir.found()
++=20
++ # vala
++ vapi_opt =3D get_option('vapi')
++@@ -73,7 +73,7 @@ endif
++ # gtk-doc
++ if not get_option('docs').disabled()
++   gtk_doc =3D find_program('gtkdoc-scan', required: get_option('docs'))
++-  enable_doc =3D gtk_doc.found() and not meson.is_cross_build()
+++  enable_doc =3D gtk_doc.found()
++ else
++   enable_doc =3D false
++ endif
++--=20
++2.41.0
++
+diff --git a/recipes-extended/libvirt/libvirt-glib_4.0.0.bb b/recipes-ext=
+ended/libvirt/libvirt-glib_4.0.0.bb
+index a5cd8276..7ca65a95 100644
+--- a/recipes-extended/libvirt/libvirt-glib_4.0.0.bb
++++ b/recipes-extended/libvirt/libvirt-glib_4.0.0.bb
+@@ -3,12 +3,19 @@ HOMEPAGE =3D "http://libvirt.org"
+ LICENSE =3D "LGPL-2.1-only"
+ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D4fbd65380cdd255951079008b3645=
+16c"
+=20
+-DEPENDS =3D "glib-2.0 libvirt libxml2"
++DEPENDS =3D "glib-2.0 libvirt libxml2 libxslt"
+=20
+-SRC_URI =3D "git://gitlab.com/libvirt/libvirt-glib;protocol=3Dhttps;bran=
+ch=3Dmaster"
++SRC_URI =3D " \
++	git://gitlab.com/libvirt/libvirt-glib;protocol=3Dhttps;branch=3Dmaster =
+\
++	file://0001-meson.build-allow-crosscompiling-gir-and-doc.patch \
++"
+=20
+ SRCREV =3D "e0bfc34682744a74b850fa217e9c206a9eb80612"
+ S =3D "${WORKDIR}/git"
+=20
+-inherit meson pkgconfig gobject-introspection vala
+-GIR_MESON_OPTION =3D ''
++inherit meson pkgconfig gobject-introspection gettext vala gtk-doc
++
++GIR_MESON_ENABLE_FLAG =3D 'enabled'
++GIR_MESON_DISABLE_FLAG =3D 'disabled'
++GTKDOC_MESON_ENABLE_FLAG =3D 'enabled'
++GTKDOC_MESON_DISABLE_FLAG =3D 'disabled'
+--=20
+2.41.0
 
-
->  SRC_URI[md5sum] =3D "0d701ac1e2a67d47ce7127432df2c32b"
->  SRC_URI[sha256sum] =3D "5a26478906d5005f4f809402e981518d2b8844949199f60c=
-4b6e1f986ca2a769"
->
-> --
-> 2.42.0
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#8250): https://lists.yoctoproject.org/g/meta-virtuali=
-zation/message/8250
-> Mute This Topic: https://lists.yoctoproject.org/mt/101018420/1050810
-> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [=
-bruce.ashfield@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
-
-
---
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
 
