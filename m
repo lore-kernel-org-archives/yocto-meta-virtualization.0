@@ -1,105 +1,126 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95C21C83F2D
-	for <webhook@archiver.kernel.org>; Mon,  4 Sep 2023 03:06:30 +0000 (UTC)
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
- by mx.groups.io with SMTP id smtpd.web10.40781.1693796784922843838
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF824C71153
+	for <webhook@archiver.kernel.org>; Mon,  4 Sep 2023 06:39:31 +0000 (UTC)
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
+ by mx.groups.io with SMTP id smtpd.web10.42570.1693809561867326082
  for <meta-virtualization@lists.yoctoproject.org>;
- Sun, 03 Sep 2023 20:06:25 -0700
+ Sun, 03 Sep 2023 23:39:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=iwhu3d71;
- spf=pass (domain: gmail.com, ip: 209.85.160.175, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-412137ae07aso5347851cf.2
-        for <meta-virtualization@lists.yoctoproject.org>; Sun, 03 Sep 2023 20:06:24 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=o0QrLpCW;
+ spf=pass (domain: linaro.org, ip: 209.85.208.178, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2bd3f629c76so17258661fa.0
+        for <meta-virtualization@lists.yoctoproject.org>; Sun, 03 Sep 2023 23:39:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1693796784; x=1694401584; darn=lists.yoctoproject.org;
+        d=linaro.org; s=google; t=1693809560; x=1694414360; darn=lists.yoctoproject.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=UMp2aZBgGju9oCLeXUOcDoD1O46igf9UPP1Q3b2Xskg=;
-        b=iwhu3d71yCTBDYYSb02rGBGCxd4Rwb1TPGq70bDZpYxS/f5ADW1l+0B0ljGtGznnCh
-         HE/OeiKcsQnbnm7Q2HzOGUPFVXmDgy9IrdhG1gAqsEg5nrg3cO3QGojBGwpoWgOrNmeM
-         iBcoKfVWftKyaPpUkWdDIgAdy8g5+bek3SNHtEEZug34vTvkaFgRM0lw9cyX/d9pJ/tO
-         yFMf4OZvfB7XZkLMwwP5Ma5F19YuzIbKw+lIrqpM6uq5PNz5ST/bRX5NiKVpTL39uAr6
-         HWdgqyN3FyAtkT9Plszwja4zqzRHFy9GRiPcxP9M5FMeiJdzanPvsKYur9qxTnh2Mcfz
-         lZjA==
+        bh=f96XcYjGfaT98BkKDdaq9SMqVwwTXJk4hd+nxEoyan8=;
+        b=o0QrLpCWXS1jlYkVdBidQg0FbcWDVsJMKm6SEV6nyXI8ha+TYRa5r+ia/aWWk0XoMh
+         BEJHyIMiThou+5CSIEHL9AIZl6gZTJUKABTBoGxB+B7Xq75jhWmij7uAfRbXmagIW7h1
+         OQI63/mbqmXKXuDvjHsdY6bY89yvnG8hPzxybO7hoK6rgLh57IOtdb251FgS7jBiHFfy
+         2Gs6QlukI+3RKrFOSbJPLUWpA5qySJmEfph98Q5hGyZTIqdAy1Al2bGjKjZccwKQ2cOg
+         bLbtCFJzgFjObUB8202cZ+vgnc2faba/ia1FFSOwO6+UQLU7eb+WSgblNrYWzEqQlCHF
+         uFtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693796784; x=1694401584;
+        d=1e100.net; s=20221208; t=1693809560; x=1694414360;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=UMp2aZBgGju9oCLeXUOcDoD1O46igf9UPP1Q3b2Xskg=;
-        b=hAYyMwOY13DlAO80/OngUGTCvqxIrZA20aOeWHHQ8jf68EeWMZadyITkHuLNod35Ha
-         9eof7sGwtJXKuZuABlq8i/g0O8XkkYDt9UNlzmDUbs6xA0snAj3+AFZQ2VBE7Gvtr5Uc
-         0m6hdon7Qlj8V7RWMRStO5RZWFYZFg+s0ly8RH4/1jdHp5x4bN0ExGtbbZQHCMj5GgYm
-         /XWCBfSl6MDqL7xxexqtW9r2WVEx71Mguzs7WN4kShcKspPVGSS0JEC2XXhT0n4Hed/I
-         8jg0SbzPd0WY45irqD9sqkWVKKp1Xe0+YGUNa+PHyxgfgfZ92KLu4CHYYJVLGdd09U78
-         E+iQ==
-X-Gm-Message-State: AOJu0Yzspl4V2aJf7jTuLaND54Md6I2/KOiFIcu9XfSyH9vVuSPrViV7
-	aC7gjHpOJTbVNV/PzgwF/NgEa97VBkY=
-X-Google-Smtp-Source: AGHT+IGrAF+IaeAodtRfWi1H+JB4OLc7NZYI/3rUX84mZYZ+yPPY8zdoLvTsrNEVN2TVvMhJuQ05aQ==
-X-Received: by 2002:ac8:5815:0:b0:412:1aa7:795 with SMTP id g21-20020ac85815000000b004121aa70795mr8394967qtg.19.1693796783828;
-        Sun, 03 Sep 2023 20:06:23 -0700 (PDT)
-Received: from gmail.com ([174.112.183.231])
-        by smtp.gmail.com with ESMTPSA id d7-20020a05620a158700b0076cb3690ae7sm3068697qkk.68.2023.09.03.20.06.23
+        bh=f96XcYjGfaT98BkKDdaq9SMqVwwTXJk4hd+nxEoyan8=;
+        b=I5b8BS5/6bTKEiIVwZJaUiENpglq8gPsmeslQ86IPCocGfMfRGhccS8h/q++02KI7k
+         LpxJIbYGeD9mMw1E1dU8y00+0jW/fFINW7pIHcKmgMVOtE4ddSHuNMB1c28reKnwWTCL
+         JJ6pg1+ZShK40iUKHmxHCfDr50ezVKrANTiWnZRTRl6mBJ05E5uq2iLMJrsYNwTcNkec
+         pVRp+ZsxGUsN2GC/m38x0dNbo6NOLq4FO93fT4NaByDy5AtOt9zGBeygRtd/lvSwOeT+
+         KOuhxPmv1qSqvNxo+m5HO8I7ftkzbaliFrkC5dIx2OCqNOy9BAxMYIxsZdrtWtXFIEdH
+         HyXA==
+X-Gm-Message-State: AOJu0YywntzE61H9g+sibKmWiHOr/1sa9JJQjFFvtYugCZq3OHKCXhcv
+	a8SoBRUoPqTHpTmtXgHECh6MbFH6kqRn0+eBu7M=
+X-Google-Smtp-Source: AGHT+IFRulCuj5Yx/FiZOaG9AxMXE6WdhbT3EyuzDWGjmcSVvrOby8nYDDdzTrHnhiJfOjkWoR4l7w==
+X-Received: by 2002:a2e:350e:0:b0:2b9:ed84:b2bf with SMTP id z14-20020a2e350e000000b002b9ed84b2bfmr5855439ljz.33.1693809560001;
+        Sun, 03 Sep 2023 23:39:20 -0700 (PDT)
+Received: from nuoska (dc7g6tyjby-d304c4945t-3.rev.dnainternet.fi. [2001:14ba:16cb:a800:e107:c77f:6058:ee33])
+        by smtp.gmail.com with ESMTPSA id k16-20020a05651c10b000b002b9e6d7f72fsm1912422ljn.5.2023.09.03.23.39.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 Sep 2023 20:06:23 -0700 (PDT)
-Date: Mon, 4 Sep 2023 03:06:21 +0000
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Martin Jansa <Martin.Jansa@gmail.com>
-Cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [meta-virtualization] [master-next][PATCH] virtiofsd: add
- seccomp to REQUIRED_DISTRO_FEATURES
-Message-ID: <ZPVJraZB5laJIJBV@gmail.com>
-References: <20230901190101.3898929-1-Martin.Jansa@gmail.com>
+        Sun, 03 Sep 2023 23:39:19 -0700 (PDT)
+Date: Mon, 4 Sep 2023 09:39:17 +0300
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
+To: meta-virtualization@lists.yoctoproject.org
+Cc: Javier Tia <javier.tia@linaro.org>
+Subject: Re: [meta-virtualization] [PATCH] go-build: add SRCREV_FORMAT
+Message-ID: <ZPV7letLuc9IeUJs@nuoska>
+References: <20230828202834.2981605-1-javier.tia@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230901190101.3898929-1-Martin.Jansa@gmail.com>
+In-Reply-To: <20230828202834.2981605-1-javier.tia@linaro.org>
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Mon, 04 Sep 2023 03:06:30 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8268
+ <meta-virtualization@lists.yoctoproject.org>; Mon, 04 Sep 2023 06:39:31 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8269
 
-Thanks Martin,
+Hi, would be nice to get this applied as it fixes this parsing
+error from latest poky master branch:
 
-This is on master-next (soon to become master)
+Parsing recipes...WARNING: /oe/build/../meta-virtualization/recipes-devtools/go/go-build_git.bb: Exception during build_dependencies for fetcher_hashes_dummyfunc
+WARNING: /oe/build/../meta-virtualization/recipes-devtools/go/go-build_git.bb: Error during finalise of /oe/build/../meta-virtualization/recipes-devtools/go/go-build_git.bb
+ERROR: ExpansionError during parsing /oe/build/../meta-virtualization/recipes-devtools/go/go-build_git.bb
+Traceback (most recent call last):
+  File "Var <fetcher_hashes_dummyfunc[vardepvalue]>", line 1, in <module>
+  File "/oe/poky/bitbake/lib/bb/fetch2/__init__.py", line 834, in get_hashvalue(d=<bb.data_smart.DataSmart object at 0x7f0fd64ce640>, method_name='sortable_revision'):
+     def get_hashvalue(d, method_name='sortable_revision'):
+    >    pkgv, revs = _get_srcrev(d, method_name=method_name)
+         return " ".join(revs)
+  File "/oe/poky/bitbake/lib/bb/fetch2/__init__.py", line 804, in _get_srcrev(d=<bb.data_smart.DataSmart object at 0x7f0fd64ce640>, method_name='sortable_revision'):
+         if not format:
+    >        raise FetchError("The SRCREV_FORMAT variable must be set when multiple SCMs are used.\n"\
+                              "The SCMs are:\n%s" % '\n'.join(scms))
+bb.data_smart.ExpansionError: Failure expanding variable fetcher_hashes_dummyfunc[vardepvalue], expression was ${@bb.fetch.get_hashvalue(d)} which triggered exception FetchError: Fetcher failure: The SRCREV_FORMAT variable must be set when multiple SCMs are used.
+The SCMs are:
+git://github.com/lf-edge/runx;nobranch=1;name=runx;protocol=https
+git://github.com/opencontainers/runc;branch=release-1.1;name=runc;protocol=https;destsuffix=git/src/import/gobuild/go/src/github.com/opencontainers/runc
+The variable dependency chain for the failure is: fetcher_hashes_dummyfunc[vardepvalue]
 
-Bruce
+ERROR: Parsing halted due to errors, see error messages above
 
-In message: [meta-virtualization] [master-next][PATCH] virtiofsd: add seccomp to REQUIRED_DISTRO_FEATURES
-on 01/09/2023 Martin Jansa wrote:
+Cheers,
 
-> * otherwise causes world build failures for DISTROs without seccomp:
+-Mikko
+
+On Mon, Aug 28, 2023 at 02:28:34PM -0600, Javier Tia wrote:
+> Recipes that use multiple SCMs in the SRC_URI, must supply SRCREV_FORMAT
+> to avoid an expansion error.
 > 
->   ERROR: Nothing PROVIDES 'libseccomp' (but meta-virtualization/recipes-extended/virtiofsd/virtiofsd_1.7.0.bb DEPENDS on or otherwise requires it)
->   libseccomp was skipped: missing required distro feature 'seccomp' (not in DISTRO_FEATURES)
-> 
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> Signed-off-by: Javier Tia <javier.tia@linaro.org>
 > ---
->  recipes-extended/virtiofsd/virtiofsd_1.7.0.bb | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
+>  recipes-devtools/go/go-build_git.bb | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
 > 
-> diff --git a/recipes-extended/virtiofsd/virtiofsd_1.7.0.bb b/recipes-extended/virtiofsd/virtiofsd_1.7.0.bb
-> index 7224888..b8a9382 100644
-> --- a/recipes-extended/virtiofsd/virtiofsd_1.7.0.bb
-> +++ b/recipes-extended/virtiofsd/virtiofsd_1.7.0.bb
-> @@ -6,8 +6,11 @@ LIC_FILES_CHKSUM = " \
->      file://LICENSE-APACHE;md5=3b83ef96387f14655fc854ddc3c6bd57 \
->      file://LICENSE-BSD-3-Clause;md5=b1ed361f9fc790c1054d81a7ef041a34 \
->  "
-> -DEPENDS += "libseccomp"
-> -DEPENDS += "libcap-ng"
-> +
-> +DEPENDS = "libseccomp libcap-ng"
-> +
-> +inherit features_check
-> +REQUIRED_DISTRO_FEATURES = "seccomp"
+> diff --git a/recipes-devtools/go/go-build_git.bb b/recipes-devtools/go/go-build_git.bb
+> index 2337c9e1..2a78be01 100644
+> --- a/recipes-devtools/go/go-build_git.bb
+> +++ b/recipes-devtools/go/go-build_git.bb
+> @@ -4,12 +4,12 @@ DESCRIPTION = "Xen Runtime for OCI"
 >  
->  SRC_URI += "crate://crates.io/virtiofsd/1.7.0"
->  SRC_URI[virtiofsd-1.7.0.sha256sum] = "6f043afa23aedbb18f36084b9df831796a9e4c62e73a16fe557de0cf30d7708d"
+>  SRCREV_runx = "f24efd33fb18469e9cfe4d1bfe8e2c90ec8c4e93"
+>  SRCREV_runc = "1e7bb5b773162b57333d57f612fd72e3f8612d94"
+> -
+> +SRCREV_FORMAT = "runx"
+>  SRC_URI = "\
+> -	  git://github.com/lf-edge/runx;nobranch=1;name=runx;protocol=https \
+> -          git://github.com/opencontainers/runc;branch=release-1.1;name=runc;protocol=https;destsuffix=git/src/import/gobuild/go/src/github.com/opencontainers/runc \
+> -          file://0001-build-use-instead-of-go.patch \
+> -	  "
+> +    git://github.com/lf-edge/runx;nobranch=1;name=runx;protocol=https \
+> +    git://github.com/opencontainers/runc;branch=release-1.1;name=runc;protocol=https;destsuffix=git/src/import/gobuild/go/src/github.com/opencontainers/runc \
+> +    file://0001-build-use-instead-of-go.patch \
+> +"
+>  SRC_URI[md5sum] = "0d701ac1e2a67d47ce7127432df2c32b"
+>  SRC_URI[sha256sum] = "5a26478906d5005f4f809402e981518d2b8844949199f60c4b6e1f986ca2a769"
+>  
 > -- 
 > 2.42.0
 > 
@@ -107,10 +128,10 @@ on 01/09/2023 Martin Jansa wrote:
 > 
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#8264): https://lists.yoctoproject.org/g/meta-virtualization/message/8264
-> Mute This Topic: https://lists.yoctoproject.org/mt/101101651/1050810
+> View/Reply Online (#8250): https://lists.yoctoproject.org/g/meta-virtualization/message/8250
+> Mute This Topic: https://lists.yoctoproject.org/mt/101018420/7159507
 > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
+> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [mikko.rapeli@linaro.org]
 > -=-=-=-=-=-=-=-=-=-=-=-
 > 
 
