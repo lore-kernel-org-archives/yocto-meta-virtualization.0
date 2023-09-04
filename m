@@ -2,145 +2,113 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8D02C83F2D
-	for <webhook@archiver.kernel.org>; Mon,  4 Sep 2023 03:05:30 +0000 (UTC)
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
- by mx.groups.io with SMTP id smtpd.web11.41122.1693796727992700507
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95C21C83F2D
+	for <webhook@archiver.kernel.org>; Mon,  4 Sep 2023 03:06:30 +0000 (UTC)
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+ by mx.groups.io with SMTP id smtpd.web10.40781.1693796784922843838
  for <meta-virtualization@lists.yoctoproject.org>;
- Sun, 03 Sep 2023 20:05:28 -0700
+ Sun, 03 Sep 2023 20:06:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=doWzNo4l;
- spf=pass (domain: gmail.com, ip: 209.85.222.174, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-76f036041b4so34968685a.1
-        for <meta-virtualization@lists.yoctoproject.org>; Sun, 03 Sep 2023 20:05:27 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=iwhu3d71;
+ spf=pass (domain: gmail.com, ip: 209.85.160.175, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-412137ae07aso5347851cf.2
+        for <meta-virtualization@lists.yoctoproject.org>; Sun, 03 Sep 2023 20:06:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1693796727; x=1694401527; darn=lists.yoctoproject.org;
+        d=gmail.com; s=20221208; t=1693796784; x=1694401584; darn=lists.yoctoproject.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Exgz0svmbc5ZjohqDz2wFT0/jvDyNVlD4GtGdNvzPB8=;
-        b=doWzNo4lqb9w+ulx9+0YH+L7kSYvcDVa5ATgrnJ12xa7L8s2c9SasV+Kw04LpianCm
-         GwYKMJPbEU8/rP0ys8h05GP2o6/XvGfIfj5JKdJOc5w/ajI5mvVtr+6LrTGvNxMFoqZC
-         7yImyTGkvFckXs6QfmZFe5AV9XLq/a+OjF8VSvhjnBAqh4LFrusZyExH/xFa5lnQAlb2
-         sT6ft6HSV4fp+FhpInS+JschbM7o5BVcQeDj8EzGBoI4dAMewpfPpR6AXQqOjnm2lGSK
-         OEwdROwgC8q5aJPofjzCil0mr1YD3NvCU2bhxWA4PLWm86ch9tAhHmsDVUnoVqAJiCdx
-         Nd4w==
+        bh=UMp2aZBgGju9oCLeXUOcDoD1O46igf9UPP1Q3b2Xskg=;
+        b=iwhu3d71yCTBDYYSb02rGBGCxd4Rwb1TPGq70bDZpYxS/f5ADW1l+0B0ljGtGznnCh
+         HE/OeiKcsQnbnm7Q2HzOGUPFVXmDgy9IrdhG1gAqsEg5nrg3cO3QGojBGwpoWgOrNmeM
+         iBcoKfVWftKyaPpUkWdDIgAdy8g5+bek3SNHtEEZug34vTvkaFgRM0lw9cyX/d9pJ/tO
+         yFMf4OZvfB7XZkLMwwP5Ma5F19YuzIbKw+lIrqpM6uq5PNz5ST/bRX5NiKVpTL39uAr6
+         HWdgqyN3FyAtkT9Plszwja4zqzRHFy9GRiPcxP9M5FMeiJdzanPvsKYur9qxTnh2Mcfz
+         lZjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693796727; x=1694401527;
+        d=1e100.net; s=20221208; t=1693796784; x=1694401584;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Exgz0svmbc5ZjohqDz2wFT0/jvDyNVlD4GtGdNvzPB8=;
-        b=fBNTbnu+3/3IpCOGe5XtRtIW53k9HhAjslI1uAG7npbDHX2FfLNtxzwxCQV8GgeZ1T
-         DxYr+4clmV23T4SBG+zOkXXSfMayiH/1fzVZFllRGFWKUC41fRiC2qTPNrjsbGI33s9O
-         024pHgWR1pOTwZz4EBxYb41DtZKwEvyfuOQtNXCIIlq3d1N5jnBD+H3JbRnlNNILWWXj
-         Y+8BYSM4bS0ldX2A/5tTlNxKVYDJJzezENCfuvyDp45NCWMiiSyFDjhxFOw+tsVkTG98
-         QgYemhWT4QVqC/Xgd9XyrvB5DqQ4d9A+wLeOJ1dWkJ7yN7rerMCahmhY7rd2DAdwa8wV
-         02pw==
-X-Gm-Message-State: AOJu0Yx+ttVE5I919Sth3qbksGmYj1NwvebKuZ/w02nxHJJzmSQQnZNQ
-	htuFfrVgi0/0zUChDYxs6Y+dR8MLVIs=
-X-Google-Smtp-Source: AGHT+IHdXItdj9V6VvsKTwDiV7zjkpXB4zgTjr8Dqlg/0va7eEuLKmk7BcHkzt42I3CgcdEMHEyC+w==
-X-Received: by 2002:a05:620a:4412:b0:767:ca49:bacd with SMTP id v18-20020a05620a441200b00767ca49bacdmr14670139qkp.30.1693796726933;
-        Sun, 03 Sep 2023 20:05:26 -0700 (PDT)
+        bh=UMp2aZBgGju9oCLeXUOcDoD1O46igf9UPP1Q3b2Xskg=;
+        b=hAYyMwOY13DlAO80/OngUGTCvqxIrZA20aOeWHHQ8jf68EeWMZadyITkHuLNod35Ha
+         9eof7sGwtJXKuZuABlq8i/g0O8XkkYDt9UNlzmDUbs6xA0snAj3+AFZQ2VBE7Gvtr5Uc
+         0m6hdon7Qlj8V7RWMRStO5RZWFYZFg+s0ly8RH4/1jdHp5x4bN0ExGtbbZQHCMj5GgYm
+         /XWCBfSl6MDqL7xxexqtW9r2WVEx71Mguzs7WN4kShcKspPVGSS0JEC2XXhT0n4Hed/I
+         8jg0SbzPd0WY45irqD9sqkWVKKp1Xe0+YGUNa+PHyxgfgfZ92KLu4CHYYJVLGdd09U78
+         E+iQ==
+X-Gm-Message-State: AOJu0Yzspl4V2aJf7jTuLaND54Md6I2/KOiFIcu9XfSyH9vVuSPrViV7
+	aC7gjHpOJTbVNV/PzgwF/NgEa97VBkY=
+X-Google-Smtp-Source: AGHT+IGrAF+IaeAodtRfWi1H+JB4OLc7NZYI/3rUX84mZYZ+yPPY8zdoLvTsrNEVN2TVvMhJuQ05aQ==
+X-Received: by 2002:ac8:5815:0:b0:412:1aa7:795 with SMTP id g21-20020ac85815000000b004121aa70795mr8394967qtg.19.1693796783828;
+        Sun, 03 Sep 2023 20:06:23 -0700 (PDT)
 Received: from gmail.com ([174.112.183.231])
-        by smtp.gmail.com with ESMTPSA id d3-20020a37c403000000b0076dba7c70ecsm3095075qki.123.2023.09.03.20.05.26
+        by smtp.gmail.com with ESMTPSA id d7-20020a05620a158700b0076cb3690ae7sm3068697qkk.68.2023.09.03.20.06.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 Sep 2023 20:05:26 -0700 (PDT)
-Date: Mon, 4 Sep 2023 03:05:24 +0000
+        Sun, 03 Sep 2023 20:06:23 -0700 (PDT)
+Date: Mon, 4 Sep 2023 03:06:21 +0000
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Changqing Li <changqing.li@eng.windriver.com>
+To: Martin Jansa <Martin.Jansa@gmail.com>
 Cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [meta-virtualization] [PATCH] oci-image-tools: don't build for
- riscv64
-Message-ID: <ZPVJdC6MVeoKurB+@gmail.com>
-References: <20230901090308.3242531-1-changqing.li@windriver.com>
+Subject: Re: [meta-virtualization] [master-next][PATCH] virtiofsd: add
+ seccomp to REQUIRED_DISTRO_FEATURES
+Message-ID: <ZPVJraZB5laJIJBV@gmail.com>
+References: <20230901190101.3898929-1-Martin.Jansa@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230901090308.3242531-1-changqing.li@windriver.com>
+In-Reply-To: <20230901190101.3898929-1-Martin.Jansa@gmail.com>
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Mon, 04 Sep 2023 03:05:30 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8267
+ <meta-virtualization@lists.yoctoproject.org>; Mon, 04 Sep 2023 03:06:30 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8268
 
-Since riscv isn't tested with meta-virt at all, this isn't
-the only recipe that has either build or runtime issues.
+Thanks Martin,
 
-This is staged to master-next.
+This is on master-next (soon to become master)
 
 Bruce
 
-In message: [meta-virtualization] [PATCH] oci-image-tools: don't build for riscv64
-on 01/09/2023 Changqing Li wrote:
+In message: [meta-virtualization] [master-next][PATCH] virtiofsd: add seccomp to REQUIRED_DISTRO_FEATURES
+on 01/09/2023 Martin Jansa wrote:
 
-> From: Changqing Li <changqing.li@windriver.com>
+> * otherwise causes world build failures for DISTROs without seccomp:
 > 
-> Currently oci-image-tools has a do_compile error for riscv64. The
-> problem could be reproduced by:
->     MACHINE=qemuriscv64 bitbake oci-image-tools
+>   ERROR: Nothing PROVIDES 'libseccomp' (but meta-virtualization/recipes-extended/virtiofsd/virtiofsd_1.7.0.bb DEPENDS on or otherwise requires it)
+>   libseccomp was skipped: missing required distro feature 'seccomp' (not in DISTRO_FEATURES)
 > 
-> So explicitly set COMPATIBLE_HOST here to avoid it building for riscv64.
-> When someone interested in using this recipe for riscv64 fixes the
-> compile issue, this setting could be removed.
-> 
-> Also don't build packagegroup-container/packagegroup-kubernetes since
-> they depends on oci-image-tools
-> 
-> Signed-off-by: Changqing Li <changqing.li@windriver.com>
+> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 > ---
->  recipes-containers/oci-image-tools/oci-image-tools_git.bb | 2 ++
->  recipes-core/packagegroups/packagegroup-container.bb      | 2 ++
->  recipes-core/packagegroups/packagegroup-kubernetes.bb     | 2 ++
->  3 files changed, 6 insertions(+)
+>  recipes-extended/virtiofsd/virtiofsd_1.7.0.bb | 7 +++++--
+>  1 file changed, 5 insertions(+), 2 deletions(-)
 > 
-> diff --git a/recipes-containers/oci-image-tools/oci-image-tools_git.bb b/recipes-containers/oci-image-tools/oci-image-tools_git.bb
-> index 4beb3a63..8c5020b3 100644
-> --- a/recipes-containers/oci-image-tools/oci-image-tools_git.bb
-> +++ b/recipes-containers/oci-image-tools/oci-image-tools_git.bb
-> @@ -29,6 +29,8 @@ EXTRA_OEMAKE="BUILDTAGS=''"
->  
->  S = "${WORKDIR}/git/src/github.com/opencontainers/image-tools"
->  
-> +COMPATIBLE_HOST:riscv64 = "null"
+> diff --git a/recipes-extended/virtiofsd/virtiofsd_1.7.0.bb b/recipes-extended/virtiofsd/virtiofsd_1.7.0.bb
+> index 7224888..b8a9382 100644
+> --- a/recipes-extended/virtiofsd/virtiofsd_1.7.0.bb
+> +++ b/recipes-extended/virtiofsd/virtiofsd_1.7.0.bb
+> @@ -6,8 +6,11 @@ LIC_FILES_CHKSUM = " \
+>      file://LICENSE-APACHE;md5=3b83ef96387f14655fc854ddc3c6bd57 \
+>      file://LICENSE-BSD-3-Clause;md5=b1ed361f9fc790c1054d81a7ef041a34 \
+>  "
+> -DEPENDS += "libseccomp"
+> -DEPENDS += "libcap-ng"
 > +
->  do_compile() {
->  	export GOARCH="${TARGET_GOARCH}"
->  	export GOROOT="${STAGING_LIBDIR}/go"
-> diff --git a/recipes-core/packagegroups/packagegroup-container.bb b/recipes-core/packagegroups/packagegroup-container.bb
-> index 8d418e95..c41576a3 100644
-> --- a/recipes-core/packagegroups/packagegroup-container.bb
-> +++ b/recipes-core/packagegroups/packagegroup-container.bb
-> @@ -4,6 +4,8 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
->  
->  inherit packagegroup
->  
-> +COMPATIBLE_HOST:riscv64 = "null"
+> +DEPENDS = "libseccomp libcap-ng"
 > +
->  PACKAGES = "\
->      packagegroup-container \
->      packagegroup-lxc \
-> diff --git a/recipes-core/packagegroups/packagegroup-kubernetes.bb b/recipes-core/packagegroups/packagegroup-kubernetes.bb
-> index 70dc9713..7e6937b1 100644
-> --- a/recipes-core/packagegroups/packagegroup-kubernetes.bb
-> +++ b/recipes-core/packagegroups/packagegroup-kubernetes.bb
-> @@ -4,6 +4,8 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
+> +inherit features_check
+> +REQUIRED_DISTRO_FEATURES = "seccomp"
 >  
->  inherit packagegroup
->  
-> +COMPATIBLE_HOST:riscv64 = "null"
-> +
->  # k3s has this restriction
->  inherit features_check
->  REQUIRED_DISTRO_FEATURES ?= "seccomp"
+>  SRC_URI += "crate://crates.io/virtiofsd/1.7.0"
+>  SRC_URI[virtiofsd-1.7.0.sha256sum] = "6f043afa23aedbb18f36084b9df831796a9e4c62e73a16fe557de0cf30d7708d"
 > -- 
-> 2.25.1
+> 2.42.0
 > 
 
 > 
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#8263): https://lists.yoctoproject.org/g/meta-virtualization/message/8263
-> Mute This Topic: https://lists.yoctoproject.org/mt/101090972/1050810
+> View/Reply Online (#8264): https://lists.yoctoproject.org/g/meta-virtualization/message/8264
+> Mute This Topic: https://lists.yoctoproject.org/mt/101101651/1050810
 > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
 > Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
