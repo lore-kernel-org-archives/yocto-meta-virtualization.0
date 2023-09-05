@@ -1,1761 +1,2385 @@
-Return-Path: <Qi.Chen@windriver.com>
+Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C73FAC001DB
-	for <webhook@archiver.kernel.org>; Tue,  5 Sep 2023 03:22:29 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.13773.1693884143795255689
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0548C83F33
+	for <webhook@archiver.kernel.org>; Tue,  5 Sep 2023 09:32:41 +0000 (UTC)
+Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com [209.85.217.41])
+ by mx.groups.io with SMTP id smtpd.web10.17451.1693906352805931293
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 04 Sep 2023 20:22:24 -0700
+ Tue, 05 Sep 2023 02:32:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=J5wm+fqp;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=761265d233=qi.chen@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 3852eYPl020295
-	for <meta-virtualization@lists.yoctoproject.org>; Tue, 5 Sep 2023 03:22:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=from:to:subject:date:message-id:in-reply-to:references
-	:content-transfer-encoding:content-type:mime-version; s=
-	PPS06212021; bh=dn8FvZfCCHPBXOF0+THYXEG9OMhiRQBZ2StyoKiN0iQ=; b=
-	J5wm+fqpxb4pHTtdf5P6LyAiKC0BEhhxDEoYIl88Ra8e9/7Z4aGd8/DPhfGdHB34
-	N8zk8lfLqRqYIyvq/5vE//AChXSFL1sUUiU0SPuymL/XD371tHZym9JAMOgg1UiY
-	S0xT1WS9JXGAKr6023UGjL/AEi5rIdsS4PEVNqn0sgyrqBuaxgSA7RZZ1AWc46hC
-	RsmhOVuSf164TTmu7ZZM3KhsjM0hL3zuYPxN6S7Z2hGqCM9rRWcai/TDnUzyuGcb
-	88NuMQeVDSK+kpg7kFH790D40ew97i24hqFK2dzsp3usYNCqZijQbYPkeOj51NvE
-	uYxK9z0ri0XlQcMzQduQqQ==
-Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2040.outbound.protection.outlook.com [104.47.66.40])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3sw33k0wqr-3
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <meta-virtualization@lists.yoctoproject.org>; Tue, 05 Sep 2023 03:22:22 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=c+VjgWa92bD6vbhZ445xYVSlJQnBzk7J8iyyMdf8MwqdEDavfVwv4Tf6GbpxtOt5cE3QxtpMJrN0dj3gdR1dXDH+Gwx4A3JmaJwh9Ebv3BlVeQ0v09/4mQRyhq+ELvhxVVricto6TzBNiT8buH+AxkLrEcz73iV+Ym4lyawVYq+eufSMgzeIU/ACGsb2hhxFxqZsMx1e9fen487W7hmN99FwPcJhggQfRqInJ9ELpww9A7BHHyLtOsGzhqqyjWGt5Zc5SP0i2ByulflYXbQYoZNIdQKLezlAySi6dHZrSz1qVBl/nKk7qIAlVgv8e7xXsUKHikwD8QRLBZDl3O1i1Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dn8FvZfCCHPBXOF0+THYXEG9OMhiRQBZ2StyoKiN0iQ=;
- b=fny7nhsLQQMXAeN2D/Y4Q389343JwkrlXd3VTiaDzuHoKGRB3OwntDgwNGsdzUPKV48+srXeD5LajvPtX8jGcY8KZzA73MwtAsDYM6uoK1YE4XXppdkljEbbZV66iyVqUXh7P35wnPRiAYDWX8rH3/ZEfyGFkGVNEuk4jTdExWqyMfTdtX7n2xI1JsBGUMPIT1IpfFbLV9gd6aNRYWFE9oG/sHlUmZepUT5m1k4CZo8C6c2nVh7N8q945OHOrg/8gUuQN7czz7Ox5PgKdbkApd8lKkyDtAQo4/+MO8XxmyZVGCHueOfmh9kz4ke9H2EjzGsFsTDCMUGDsaRNXFBQ8Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
- by IA1PR11MB7773.namprd11.prod.outlook.com (2603:10b6:208:3f0::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.33; Tue, 5 Sep
- 2023 03:22:17 +0000
-Received: from CO6PR11MB5602.namprd11.prod.outlook.com
- ([fe80::da88:58a3:bc6b:2e3d]) by CO6PR11MB5602.namprd11.prod.outlook.com
- ([fe80::da88:58a3:bc6b:2e3d%6]) with mapi id 15.20.6745.030; Tue, 5 Sep 2023
- 03:22:17 +0000
-From: Qi.Chen@windriver.com
-To: meta-virtualization@lists.yoctoproject.org
-Subject: [meta-virtualization][PATCH 4/4] nerdctl: upgrade to v1.5.0
-Date: Mon,  4 Sep 2023 20:22:03 -0700
-Message-Id: <20230905032203.1896328-4-Qi.Chen@windriver.com>
-X-Mailer: git-send-email 2.40.0
-In-Reply-To: <20230905032203.1896328-1-Qi.Chen@windriver.com>
-References: <20230905032203.1896328-1-Qi.Chen@windriver.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SJ0PR13CA0133.namprd13.prod.outlook.com
- (2603:10b6:a03:2c6::18) To CO6PR11MB5602.namprd11.prod.outlook.com
- (2603:10b6:303:13a::5)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=AVMWDUW4;
+ spf=pass (domain: gmail.com, ip: 209.85.217.41, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-vs1-f41.google.com with SMTP id ada2fe7eead31-45070739316so97427137.1
+        for <meta-virtualization@lists.yoctoproject.org>; Tue, 05 Sep 2023 02:32:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1693906351; x=1694511151; darn=lists.yoctoproject.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=JBxys3nLQtOtX8t+JZWxvWtDVj/WMhlwvrNYWZYFzAw=;
+        b=AVMWDUW4s0hk6mdopStTp0EUNzmENAw4WY+lSIo4qSp9wGKnHJZPJYKca7wsLRigr1
+         0sdU8Rywjo5rbOHa3vw7skMFBebTWWH14IEScgIHqmYxYpeiIJxQeLNoquaYNREcUqZ+
+         Tv7L8mMF/l9eeTOM2yhFM0zD8DBIPXtV5kW3MTh6iJBy+FKHkMg7TOtGRNEIVJZbU3uo
+         wD2g4Uik6qZ2+6nGyMGa/53pvg2IaZ5rKv8WSeitRPQFT3EM8Ua39hvvmkVHt/+xyuxr
+         zC+NPfa7nj8UugrzhUsA7dCeTzt83UR3lLuRlRxttV0gdAXHvFcehaM9RPmaDraJ4mFi
+         ORRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693906351; x=1694511151;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=JBxys3nLQtOtX8t+JZWxvWtDVj/WMhlwvrNYWZYFzAw=;
+        b=k5OriACRvCDmG4jRHC1Vgx18TxJvnEmjTqI2UvZiciMgnJU6gvsnTQg1HrNWYZL+IB
+         eoxBOGEdyBUNlOAOsscxGe+H0dILQSmi+yRAeQCCL4/drZBadOfpMPXkqs2YrnICs54U
+         aTjr60xjersuukGsLsGEsHXIs71Xt8blpbccmkgoaT154Iqj7MerXqlkZVkSqr1n6g2O
+         DdVoLdzwBpsomtmz2UJwULomAXowJqTI9GHWiql6mZ4Zm+ynYQxwNR1vD1vAtvP7VyZL
+         0xt+B6dO2h7fDfVJZvy1sd6Mjbqf3mZhz+oWLSvrmCkzGBYwJSRyaQKYlaru3rq2wr4M
+         0y1A==
+X-Gm-Message-State: AOJu0YzpQDOFrro0aH9YGt50zqM9wxrCoC8lxCx66V0abLide5KNXlX6
+	d9JgXnRLex3f0Ho19w/1fz7whDJqekgIL5Kka1wZXfJncxc=
+X-Google-Smtp-Source: AGHT+IG293Ez3rS31HjTSUTmT5Wdh+f8uKyIwiF88g3/91ShJcH2Ul30p04zw60/S+r7/5mKPPg1dSn+MI1LP80w1P0=
+X-Received: by 2002:a67:f947:0:b0:44d:5718:d72a with SMTP id
+ u7-20020a67f947000000b0044d5718d72amr10437045vsq.11.1693906350549; Tue, 05
+ Sep 2023 02:32:30 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO6PR11MB5602:EE_|IA1PR11MB7773:EE_
-X-MS-Office365-Filtering-Correlation-Id: d7a89f5f-df7c-4635-8903-08dbadbf4cf2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	TvgSJuEaUdt9BTzleVkKDxL6A5G61P78QwQj4bd7VoNkHYCyYuPm3cLusXTKqmIogQC8N5z1nE/miQG5iQtMk/YX6tZcBfKrn4MoA3KWfrJPU710Upy76yS9eVHfQAOyP+P8SgkT9CfJEviePUNgGryGvB4gn1SuxCekTu09TfwRKBUV4S0XD8te2zDIpcgYxhHedcnmZSfWP4XCh8KqRev1Pqzj5BJQXuwjGLMKjIhPFmwld1K1H12Aac21k+e1Gcysl0AtX8xeECqP6AUzDDRpBxwfvaomafCvJQo5RR0r7ACgD63yci9sw85NngNgsz8hfBexxHU4xgf2Vz/2DK5ZSu/xNjkdmZDLduhKSPh7mIe6yEl0cEJhjSxVe4icUCudDDQyWKHsceLoKISOSQg5KMq65cbsycfV8EecIsw/VilQh6XaEra7ujR+f/8YYfhyNWVhgGWjDHoLylG4z/SNXYq08CUFarfwCwN3YHXlksmuRLRcYRHoKtPjKxgDPQamINWNN2yA1U6rjWbXRCOHh1KR1n2b+bq3vi2ssScHxATeCGbxQ/aa4cWYgv5vA5P0OEl+nds2jWsJP77at+UNKfmTpLeEXRHCTq1nc3A=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(376002)(136003)(396003)(39850400004)(366004)(1800799009)(186009)(451199024)(41300700001)(38350700002)(38100700002)(45080400002)(6666004)(19627235002)(86362001)(478600001)(966005)(2616005)(83380400001)(1076003)(26005)(9686003)(6512007)(52116002)(6506007)(6486002)(66476007)(66556008)(36756003)(2906002)(6916009)(316002)(66946007)(30864003)(8936002)(5660300002)(84970400001)(8676002)(579004)(559001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?Q3IM7RY3Fy8BNWfSA6MMVVFG38mSpsj1V4KJyDDrbqwVveQHBL/Q7DWJjOIa?=
- =?us-ascii?Q?18wuy+l4+R/aNxk8G1qTD7nBlXAYtwyHCXkmu/Y0wTi8DooOFU54HGC2Aef6?=
- =?us-ascii?Q?an2bgGX2MlDg3d7vaqt2m2sXubYU5VemJd5TKU/Ex/EbBQ0POb4fz6kuPEfm?=
- =?us-ascii?Q?nLlzK2sekSWg6QpjHyqbPCiLm9vcFjVwTJD0eKLggR6ivEa8i3h41YlE9Yeb?=
- =?us-ascii?Q?a7KNTQnvOzP9yv/c8RcIw7ktQS7OWQW7g8F0HMgQJilMn0t0GoOkZ7wM65CL?=
- =?us-ascii?Q?XbrUikAnJrH89tLOjQkZTIxt1luo/RFKrUrGNPwBrPDnh30V+9sVKmkKvn4v?=
- =?us-ascii?Q?Dfy6toRZ8npMZqKci51Jq1Av/m94n+rKpc9irsfp4vNGBd5Ybabu32SZED/x?=
- =?us-ascii?Q?qwO9LpwgpTz5MYhcI57UE2osZ39+v4tFPwP1oihlQhlTwWKwsbb7ii7UqHsA?=
- =?us-ascii?Q?k0kSkQQdCjyzerkFUCZPCaH7IpSg9eKENkZWfUNDoxmbjx6s9sI4sMxVtDgQ?=
- =?us-ascii?Q?xg7AZMPPR4leDPIyYDodi8Qn0BjAv/OsAw7VgOwK8MY4aXhDjPZuiWONVtVH?=
- =?us-ascii?Q?n4W5srWD96jl9oX4FgT47TGhv32x9wiaUlxX1O1akSU1cQqexh3Xa5J/HYlc?=
- =?us-ascii?Q?mIOuIus9StUBlMF68PmxIFPmSVI1xW1OqsHQRT/zYhMLXMoGh8cDVhdAaEV2?=
- =?us-ascii?Q?LLWdxEk2SZxxpic7/5RvZk4362Kx64xGLbBT8MX3PwzJ1PCsUs8Iv5SXg8an?=
- =?us-ascii?Q?OwMMxlGlkee9x315hHQFTEyblH38X3opRaIAZXirTxxMxCTPUR5XcEoOE/Kp?=
- =?us-ascii?Q?F5wf/iUGFxsa69LTuUgeIsTkV16Z6IBpUU6J6cYs/Hm4yTCMbkC4rzMjvhwi?=
- =?us-ascii?Q?277CMQtAsHEma2q/5yG3ksl07At70H4HlBxnAqnlF4vJ9nItWNIFmjpE9Kxi?=
- =?us-ascii?Q?Fl3uJ6SUtA+PqCKuMlAfe3L+SfA+8gaH/U7CCfXXKkJeLTv5PXH6ls6/Kl+0?=
- =?us-ascii?Q?lwHOf7wnydz9pjMmxJVD0Kki/KxSCNJlS/kkIp5mvAr3mk6PazadZSxdAD/X?=
- =?us-ascii?Q?lTtMqC8ad+ye542Tf2oKYzrGoiSvHvDRSLbm8hsUzQjteeTHo1bGa6A3C8rI?=
- =?us-ascii?Q?nYdk2yZRdzN46DKP6bXoy+dNa+mIEZFkhWe7FDf+T1JhQLZLjNQizzL69zd0?=
- =?us-ascii?Q?lJo3eYc4xzoWJRjOrLghXE/8ZHbe812fhb0CWh1HQzPOs7K7tJmHilTsoDnn?=
- =?us-ascii?Q?J2T/Titxs6XbydDCOVJKEiGrO+Rmlq05oqAL/E8S8i+Z0XkuBP6DFCuM2pYx?=
- =?us-ascii?Q?v29g8PUeYR1L2pWz46hZuj36cA7OKy8ipF8hVKoUuC6PmzrLuDPw1Bn4d7uv?=
- =?us-ascii?Q?IaMX0mouGkxb0cgWQOklQfOg04uj4wBXXlMQj1gjzplZJ+jxpI5elCYbML/a?=
- =?us-ascii?Q?HPFWfc/nFv4m2Y6jkFprB6E9EaQbBPrR2gr2PGd0uFxcQoC+EkZk9QwoumCT?=
- =?us-ascii?Q?2rEB2mSKIzRT1u08qvIa0h70MgKKr2Aj8WhVq8fk8RSdyJuPGVPvnKaoOR63?=
- =?us-ascii?Q?/eA5i7uZGIo9NbsbEtnG1npsyPMLWaf4rfPhYBHg/djlDDr4nGjy/kTVLpm9?=
- =?us-ascii?Q?sw=3D=3D?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d7a89f5f-df7c-4635-8903-08dbadbf4cf2
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Sep 2023 03:22:14.6293
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: DuTgch/q+qh/3TfUOQXfV+s6O2ARudKF2WMJCC6IYCNLNA2dWNRQtOhKLuhuFu5d8R+3zodjetig40KLs4VNYA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB7773
-X-Proofpoint-GUID: yKzL1rBfmPxXAWNgeHeCdaeaxNF1QY2_
-X-Proofpoint-ORIG-GUID: yKzL1rBfmPxXAWNgeHeCdaeaxNF1QY2_
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
- definitions=2023-09-05_01,2023-08-31_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxlogscore=999
- clxscore=1015 malwarescore=0 bulkscore=0 spamscore=0 phishscore=0
- impostorscore=0 suspectscore=0 priorityscore=1501 mlxscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2308100000 definitions=main-2309050028
+References: <20230905032203.1896328-1-Qi.Chen@windriver.com>
+In-Reply-To: <20230905032203.1896328-1-Qi.Chen@windriver.com>
+From: Jose Quaresma <quaresma.jose@gmail.com>
+Date: Tue, 5 Sep 2023 10:32:19 +0100
+Message-ID: <CANPvuRmQEz=Hh6bSkdRj=ZT7v7R0S-J+14g=8i=YC2fNzd-rZQ@mail.gmail.com>
+Subject: Re: [meta-virtualization][PATCH 1/4] oe-go-mod-autogen.py: add script
+ to help adding/upgrading go mod recipes
+To: Qi.Chen@windriver.com
+Cc: meta-virtualization@lists.yoctoproject.org
+Content-Type: multipart/alternative; boundary="0000000000004eafb40604994efb"
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Tue, 05 Sep 2023 03:22:29 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8273
+ <meta-virtualization@lists.yoctoproject.org>; Tue, 05 Sep 2023 09:32:41 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8275
 
-From: Chen Qi <Qi.Chen@windriver.com>
+--0000000000004eafb40604994efb
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- .../nerdctl/nerdctl/modules.txt               |  96 +-
- recipes-containers/nerdctl/nerdctl_git.bb     |   6 +-
- recipes-containers/nerdctl/relocation.inc     | 245 ++---
- recipes-containers/nerdctl/src_uri.inc        | 973 +++++++++---------
- 4 files changed, 682 insertions(+), 638 deletions(-)
+Chen Qi via lists.yoctoproject.org <Qi.Chen=3D
+windriver.com@lists.yoctoproject.org> escreveu no dia ter=C3=A7a, 5/09/2023=
+ =C3=A0(s)
+04:22:
 
-diff --git a/recipes-containers/nerdctl/nerdctl/modules.txt b/recipes-containers/nerdctl/nerdctl/modules.txt
-index 01e34f5f..deafa0dc 100644
---- a/recipes-containers/nerdctl/nerdctl/modules.txt
-+++ b/recipes-containers/nerdctl/nerdctl/modules.txt
-@@ -1,26 +1,28 @@
--# github.com/Masterminds/semver/v3 v3.2.0
-+# github.com/Masterminds/semver/v3 v3.2.1
- ## explicit
--# github.com/Microsoft/go-winio v0.6.0
-+# github.com/Microsoft/go-winio v0.6.1
- ## explicit
--# github.com/Microsoft/hcsshim v0.10.0-rc.7
-+# github.com/Microsoft/hcsshim v0.10.0
- ## explicit
--# github.com/compose-spec/compose-go v1.13.2
-+# github.com/awslabs/soci-snapshotter v0.3.0
- ## explicit
--# github.com/containerd/accelerated-container-image v0.6.0
-+# github.com/compose-spec/compose-go v1.17.0
- ## explicit
--# github.com/containerd/cgroups v1.1.0
-+# github.com/containerd/accelerated-container-image v0.6.7
-+## explicit
-+# github.com/containerd/cgroups/v3 v3.0.2
- ## explicit
- # github.com/containerd/console v1.0.3
- ## explicit
--# github.com/containerd/containerd v1.7.0
-+# github.com/containerd/containerd v1.7.3
- ## explicit
--# github.com/containerd/continuity v0.3.0
-+# github.com/containerd/continuity v0.4.1
- ## explicit
- # github.com/containerd/go-cni v1.1.9
- ## explicit
- # github.com/containerd/imgcrypt v1.1.7
- ## explicit
--# github.com/containerd/nydus-snapshotter v0.7.1
-+# github.com/containerd/nydus-snapshotter v0.10.0
- ## explicit
- # github.com/containerd/stargz-snapshotter v0.14.3
- ## explicit
-@@ -28,19 +30,21 @@
- ## explicit
- # github.com/containerd/stargz-snapshotter/ipfs v0.14.3
- ## explicit
--# github.com/containerd/typeurl/v2 v2.1.0
-+# github.com/containerd/typeurl/v2 v2.1.1
- ## explicit
- # github.com/containernetworking/cni v1.1.2
- ## explicit
--# github.com/containernetworking/plugins v1.2.0
-+# github.com/containernetworking/plugins v1.3.0
-+## explicit
-+# github.com/coreos/go-iptables v0.6.0
- ## explicit
- # github.com/coreos/go-systemd/v22 v22.5.0
- ## explicit
- # github.com/cyphar/filepath-securejoin v0.2.3
- ## explicit
--# github.com/docker/cli v23.0.3+incompatible
-+# github.com/docker/cli v24.0.5+incompatible
- ## explicit
--# github.com/docker/docker v23.0.3+incompatible
-+# github.com/docker/docker v24.0.5+incompatible
- ## explicit
- # github.com/docker/go-connections v0.4.0
- ## explicit
-@@ -56,7 +60,7 @@
- ## explicit
- # github.com/ipfs/go-cid v0.4.1
- ## explicit
--# github.com/mattn/go-isatty v0.0.18
-+# github.com/mattn/go-isatty v0.0.19
- ## explicit
- # github.com/mitchellh/mapstructure v1.5.0
- ## explicit
-@@ -64,25 +68,27 @@
- ## explicit
- # github.com/moby/sys/signal v0.7.0
- ## explicit
-+# github.com/moby/term v0.5.0
-+## explicit
- # github.com/opencontainers/go-digest v1.0.0
- ## explicit
--# github.com/opencontainers/image-spec v1.1.0-rc2.0.20221005185240-3a7f492d3f1b
-+# github.com/opencontainers/image-spec v1.1.0-rc4
- ## explicit
--# github.com/opencontainers/runtime-spec v1.1.0-rc.1
-+# github.com/opencontainers/runtime-spec v1.1.0
- ## explicit
- # github.com/pelletier/go-toml v1.9.5
- ## explicit
- # github.com/rootless-containers/bypass4netns v0.3.0
- ## explicit
--# github.com/rootless-containers/rootlesskit v1.1.0
-+# github.com/rootless-containers/rootlesskit v1.1.1
- ## explicit
--# github.com/sirupsen/logrus v1.9.0
-+# github.com/sirupsen/logrus v1.9.3
- ## explicit
- # github.com/spf13/cobra v1.7.0
- ## explicit
- # github.com/spf13/pflag v1.0.5
- ## explicit
--# github.com/tidwall/gjson v1.14.4
-+# github.com/tidwall/gjson v1.15.0
- ## explicit
- # github.com/vishvananda/netlink v1.2.1-beta.2
- ## explicit
-@@ -90,37 +96,39 @@
- ## explicit
- # github.com/yuchanns/srslog v1.1.0
- ## explicit
--# golang.org/x/crypto v0.7.0
-+# golang.org/x/crypto v0.11.0
- ## explicit
--# golang.org/x/net v0.8.0
-+# golang.org/x/net v0.12.0
- ## explicit
--# golang.org/x/sync v0.1.0
-+# golang.org/x/sync v0.3.0
- ## explicit
--# golang.org/x/sys v0.7.0
-+# golang.org/x/sys v0.10.0
- ## explicit
--# golang.org/x/term v0.7.0
-+# golang.org/x/term v0.10.0
- ## explicit
--# golang.org/x/text v0.8.0
-+# golang.org/x/text v0.11.0
- ## explicit
- # gopkg.in/yaml.v3 v3.0.1
- ## explicit
--# gotest.tools/v3 v3.4.0
-+# gotest.tools/v3 v3.5.0
-+## explicit
-+# golang.org/x/exp v0.0.0-20230713183714-613f0c0eb8a1
- ## explicit
- # github.com/AdaLogics/go-fuzz-headers v0.0.0-20230106234847-43070de90fa1
- ## explicit
--# github.com/AdamKorcz/go-118-fuzz-build v0.0.0-20221215162035-5330a85ea652
-+# github.com/AdamKorcz/go-118-fuzz-build v0.0.0-20230306123547-8075edf89bb0
- ## explicit
--# github.com/cilium/ebpf v0.9.1
-+# github.com/Azure/go-ansiterm v0.0.0-20210617225240-d185dfc1b5a1
- ## explicit
--# github.com/containerd/cgroups/v3 v3.0.1
-+# github.com/cilium/ebpf v0.9.1
- ## explicit
- # github.com/containerd/fifo v1.1.0
- ## explicit
--# github.com/containerd/ttrpc v1.2.1
-+# github.com/containerd/ttrpc v1.2.2
- ## explicit
- # github.com/containerd/typeurl v1.0.3-0.20220422153119-7f6e6d160d67
- ## explicit
--# github.com/containers/ocicrypt v1.1.6
-+# github.com/containers/ocicrypt v1.1.7
- ## explicit
- # github.com/distribution/distribution/v3 v3.0.0-20230214150026-36d8c594d7aa
- ## explicit
-@@ -132,7 +140,7 @@
- ## explicit
- # github.com/frankban/quicktest v1.14.2
- ## explicit
--# github.com/go-logr/logr v1.2.3
-+# github.com/go-logr/logr v1.2.4
- ## explicit
- # github.com/go-logr/stdr v1.2.2
- ## explicit
-@@ -142,7 +150,7 @@
- ## explicit
- # github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da
- ## explicit
--# github.com/golang/protobuf v1.5.2
-+# github.com/golang/protobuf v1.5.3
- ## explicit
- # github.com/google/go-cmp v0.5.9
- ## explicit
-@@ -150,11 +158,11 @@
- ## explicit
- # github.com/hashicorp/errwrap v1.1.0
- ## explicit
--# github.com/imdario/mergo v0.3.14
-+# github.com/imdario/mergo v0.3.16
- ## explicit
- # github.com/inconshreveable/mousetrap v1.1.0
- ## explicit
--# github.com/klauspost/compress v1.16.3
-+# github.com/klauspost/compress v1.16.7
- ## explicit
- # github.com/klauspost/cpuid/v2 v2.1.1
- ## explicit
-@@ -190,7 +198,7 @@
- ## explicit
- # github.com/multiformats/go-varint v0.0.6
- ## explicit
--# github.com/opencontainers/runc v1.1.5
-+# github.com/opencontainers/runc v1.1.7
- ## explicit
- # github.com/opencontainers/selinux v1.11.0
- ## explicit
-@@ -208,7 +216,7 @@
- ## explicit
- # github.com/tinylib/msgp v1.1.6
- ## explicit
--# github.com/vbatts/tar-split v0.11.2
-+# github.com/vbatts/tar-split v0.11.3
- ## explicit
- # github.com/xeipuuv/gojsonpointer v0.0.0-20190905194746-02993c407bfb
- ## explicit
-@@ -220,19 +228,19 @@
- ## explicit
- # go.opencensus.io v0.24.0
- ## explicit
--# go.opentelemetry.io/otel v1.14.0
-+# go.opentelemetry.io/otel v1.15.1
- ## explicit
--# go.opentelemetry.io/otel/trace v1.14.0
-+# go.opentelemetry.io/otel/trace v1.15.1
- ## explicit
--# golang.org/x/mod v0.9.0
-+# golang.org/x/mod v0.11.0
- ## explicit
--# golang.org/x/tools v0.6.0
-+# golang.org/x/tools v0.9.1
- ## explicit
--# google.golang.org/genproto v0.0.0-20230306155012-7f2fa6fef1f4
-+# google.golang.org/genproto v0.0.0-20230410155749-daa745c078e1
- ## explicit
--# google.golang.org/grpc v1.53.0
-+# google.golang.org/grpc v1.56.2
- ## explicit
--# google.golang.org/protobuf v1.28.1
-+# google.golang.org/protobuf v1.31.0
- ## explicit
- # gopkg.in/square/go-jose.v2 v2.5.1
- ## explicit
-diff --git a/recipes-containers/nerdctl/nerdctl_git.bb b/recipes-containers/nerdctl/nerdctl_git.bb
-index 62460a52..892629fe 100644
---- a/recipes-containers/nerdctl/nerdctl_git.bb
-+++ b/recipes-containers/nerdctl/nerdctl_git.bb
-@@ -11,7 +11,7 @@ DEPENDS = " \
- 
- # Specify the first two important SRCREVs as the format
- SRCREV_FORMAT="nerdcli_cgroups"
--SRCREV_nerdcli = "1525035ce9aec89a796f6f15c7537db2448f88b9"
-+SRCREV_nerdcli = "b33a58f288bc42351404a016e694190b897cd252"
- 
- SRC_URI = "git://github.com/containerd/nerdctl.git;name=nerdcli;branch=main;protocol=https"
- 
-@@ -22,8 +22,6 @@ SRC_URI += "file://0001-Makefile-allow-external-specification-of-build-setti.pat
-             file://modules.txt \
-            "
- 
--SRC_URI[sha256sum] = "d7b05a9bff34dfb25abe7e5b1e54cf2607f953d91cb33fb231a4775a1a4afa3d"
--
- LICENSE = "Apache-2.0"
- LIC_FILES_CHKSUM = "file://src/import/LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
- 
-@@ -31,7 +29,7 @@ GO_IMPORT = "import"
- 
- # S = "${WORKDIR}/git"
- 
--PV = "v1.3.0"
-+PV = "v1.5.0"
- 
- NERDCTL_PKG = "github.com/containerd/nerdctl"
- 
-diff --git a/recipes-containers/nerdctl/relocation.inc b/recipes-containers/nerdctl/relocation.inc
-index 451a4504..401a980c 100644
---- a/recipes-containers/nerdctl/relocation.inc
-+++ b/recipes-containers/nerdctl/relocation.inc
-@@ -1,124 +1,127 @@
--export sites="github.com/Masterminds/semver/v3:github.com/Masterminds/semver/v3 \
--           github.com/Microsoft/go-winio:github.com/Microsoft/go-winio \
--           github.com/Microsoft/hcsshim:github.com/Microsoft/hcsshim \
--           github.com/compose-spec/compose-go:github.com/compose-spec/compose-go \
--           github.com/containerd/accelerated-container-image:github.com/containerd/accelerated-container-image \
--           github.com/containerd/cgroups:github.com/containerd/cgroups \
--           github.com/containerd/cgroups/v3:github.com/containerd/cgroups/v3 \
--           github.com/containerd/console:github.com/containerd/console \
--           github.com/containerd/containerd:github.com/containerd/containerd \
--           github.com/containerd/continuity:github.com/containerd/continuity \
--           github.com/containerd/go-cni:github.com/containerd/go-cni \
--           github.com/containerd/imgcrypt:github.com/containerd/imgcrypt \
--           github.com/containerd/nydus-snapshotter:github.com/containerd/nydus-snapshotter \
--           github.com/containerd/stargz-snapshotter:github.com/containerd/stargz-snapshotter \
--           github.com/containerd/stargz-snapshotter/estargz:github.com/containerd/stargz-snapshotter//estargz \
--           github.com/containerd/stargz-snapshotter/ipfs:github.com/containerd/stargz-snapshotter//ipfs \
--           github.com/containerd/typeurl/v2:github.com/containerd/typeurlv2 \
--           github.com/containerd/typeurl:github.com/containerd/typeurl \
--           github.com/containernetworking/cni:github.com/containernetworking/cni \
--           github.com/containernetworking/plugins:github.com/containernetworking/plugins \
--           github.com/coreos/go-systemd/v22:github.com/coreos/go-systemd/v22 \
--           github.com/cyphar/filepath-securejoin:github.com/cyphar/filepath-securejoin \
--           github.com/docker/cli:github.com/docker/cli \
--           github.com/docker/docker:github.com/docker/docker \
--           github.com/docker/go-connections:github.com/docker/go-connections \
--           github.com/docker/go-units:github.com/docker/go-units \
--           github.com/fahedouch/go-logrotate:github.com/fahedouch/go-logrotate \
--           github.com/fatih/color:github.com/fatih/color \
--           github.com/fluent/fluent-logger-golang:github.com/fluent/fluent-logger-golang \
--           github.com/hashicorp/go-multierror:github.com/hashicorp/go-multierror \
--           github.com/ipfs/go-cid:github.com/ipfs/go-cid \
--           github.com/mattn/go-isatty:github.com/mattn/go-isatty \
--           github.com/mitchellh/mapstructure:github.com/mitchellh/mapstructure \
--           github.com/moby/sys/mount:github.com/moby/sys/mount//mount \
--           github.com/moby/sys/signal:github.com/moby/sys/signal//signal \
--           github.com/moby/sys/mountinfo:github.com/moby/sys/mountinfo//mountinfo \
--           github.com/moby/sys/sequential:github.com/moby/sys/sequential//sequential \
--           github.com/moby/sys/symlink:github.com/moby/sys/symlink//symlink \
--           github.com/opencontainers/go-digest:github.com/opencontainers/go-digest \
--           github.com/opencontainers/image-spec:github.com/opencontainers/image-spec \
--           github.com/opencontainers/runtime-spec:github.com/opencontainers/runtime-spec \
--           github.com/pelletier/go-toml:github.com/pelletier/go-toml \
--           github.com/rootless-containers/bypass4netns:github.com/rootless-containers/bypass4netns \
--           github.com/rootless-containers/rootlesskit:github.com/rootless-containers/rootlesskit \
--           github.com/sirupsen/logrus:github.com/sirupsen/logrus \
--           github.com/spf13/cobra:github.com/spf13/cobra \
--           github.com/spf13/pflag:github.com/spf13/pflag \
--           github.com/tidwall/gjson:github.com/tidwall/gjson \
--           github.com/vishvananda/netlink:github.com/vishvananda/netlink \
--           github.com/vishvananda/netns:github.com/vishvananda/netns \
--           github.com/yuchanns/srslog:github.com/yuchanns/srslog \
--           golang.org/x/crypto:golang.org/x/crypto \
--           golang.org/x/net:golang.org/x/net \
--           golang.org/x/sync:golang.org/x/sync \
--           golang.org/x/sys:golang.org/x/sys \
--           golang.org/x/term:golang.org/x/term \
--           golang.org/x/text:golang.org/x/text \
--           gopkg.in/yaml.v3:gopkg.in/yaml.v3 \
--           gotest.tools/v3:github.com/gotestyourself/gotest.tools \
--           github.com/AdaLogics/go-fuzz-headers:github.com/AdaLogics/go-fuzz-headers \
--           github.com/AdamKorcz/go-118-fuzz-build:github.com/AdamKorcz/go-118-fuzz-build \
--           github.com/cilium/ebpf:github.com/cilium/ebpf \
--           github.com/containerd/fifo:github.com/containerd/fifo \
--           github.com/containerd/ttrpc:github.com/containerd/ttrpc \
--           github.com/containers/ocicrypt:github.com/containers/ocicrypt \
--           github.com/distribution/distribution/v3:github.com/distribution/distribution/v3 \
--           github.com/djherbis/times:github.com/djherbis/times \
--           github.com/docker/docker-credential-helpers:github.com/docker/docker-credential-helpers \
--           github.com/docker/go-events:github.com/docker/go-events \
--           github.com/frankban/quicktest:github.com/frankban/quicktest \
--           github.com/go-logr/logr:github.com/go-logr/logr \
--           github.com/go-logr/stdr:github.com/go-logr/stdr \
--           github.com/godbus/dbus/v5:github.com/godbus/dbus/v5 \
--           github.com/gogo/protobuf:github.com/gogo/protobuf \
--           github.com/golang/groupcache:github.com/golang/groupcache \
--           github.com/golang/protobuf:github.com/golang/protobuf \
--           github.com/google/go-cmp:github.com/google/go-cmp \
--           github.com/google/uuid:github.com/google/uuid \
--           github.com/hashicorp/errwrap:github.com/hashicorp/errwrap \
--           github.com/imdario/mergo:github.com/imdario/mergo \
--           github.com/inconshreveable/mousetrap:github.com/inconshreveable/mousetrap \
--           github.com/klauspost/compress:github.com/klauspost/compress \
--           github.com/klauspost/cpuid/v2:github.com/klauspost/cpuid/v2 \
--           github.com/mattn/go-colorable:github.com/mattn/go-colorable \
--           github.com/mattn/go-shellwords:github.com/mattn/go-shellwords \
--           github.com/miekg/pkcs11:github.com/miekg/pkcs11 \
--           github.com/minio/sha256-simd:github.com/minio/sha256-simd \
--           github.com/mitchellh/go-homedir:github.com/mitchellh/go-homedir \
--           github.com/moby/locker:github.com/moby/locker \
--           github.com/mr-tron/base58:github.com/mr-tron/base58 \
--           github.com/multiformats/go-base32:github.com/multiformats/go-base32 \
--           github.com/multiformats/go-base36:github.com/multiformats/go-base36 \
--           github.com/multiformats/go-multiaddr:github.com/multiformats/go-multiaddr \
--           github.com/multiformats/go-multibase:github.com/multiformats/go-multibase \
--           github.com/multiformats/go-multihash:github.com/multiformats/go-multihash \
--           github.com/multiformats/go-varint:github.com/multiformats/go-varint \
--           github.com/opencontainers/runc:github.com/opencontainers/runc \
--           github.com/opencontainers/selinux:github.com/opencontainers/selinux \
--           github.com/philhofer/fwd:github.com/philhofer/fwd \
--           github.com/pkg/errors:github.com/pkg/errors \
--           github.com/spaolacci/murmur3:github.com/spaolacci/murmur3 \
--           github.com/stefanberger/go-pkcs11uri:github.com/stefanberger/go-pkcs11uri \
--           github.com/tidwall/match:github.com/tidwall/match \
--           github.com/tidwall/pretty:github.com/tidwall/pretty \
--           github.com/tinylib/msgp:github.com/tinylib/msgp \
--           github.com/vbatts/tar-split:github.com/vbatts/tar-split \
--           github.com/xeipuuv/gojsonpointer:github.com/xeipuuv/gojsonpointer \
--           github.com/xeipuuv/gojsonreference:github.com/xeipuuv/gojsonreference \
--           github.com/xeipuuv/gojsonschema:github.com/xeipuuv/gojsonschema \
--           go.mozilla.org/pkcs7:go.mozilla.org/pkcs7 \
--           go.opencensus.io:go.opencensus.io \
--           go.opentelemetry.io/otel:go.opentelemetry.io/otel \
--           go.opentelemetry.io/otel/trace:go.opentelemetry.io/otel//trace \
--           golang.org/x/mod:golang.org/x/mod \
--           golang.org/x/tools:golang.org/x/tools \
--           google.golang.org/genproto:github.com/googleapis/go-genproto \
--           google.golang.org/grpc:github.com/grpc/grpc-go \
--           google.golang.org/protobuf:github.com/protocolbuffers/protobuf-go \
--           gopkg.in/square/go-jose.v2:gopkg.in/square/go-jose.v2 \
--           lukechampine.com/blake3:lukechampine.com/blake3"
--
-+export sites="gotest.tools/v3:gotest.tools/v3:force \
-+           golang.org/x/net:golang.org/x/net:force \
-+           golang.org/x/sys:golang.org/x/sys:force \
-+           gopkg.in/yaml.v3:gopkg.in/yaml.v3:force \
-+           golang.org/x/exp:golang.org/x/exp:force \
-+           go.opencensus.io:go.opencensus.io:force \
-+           golang.org/x/mod:golang.org/x/mod:force \
-+           golang.org/x/sync:golang.org/x/sync:force \
-+           golang.org/x/term:golang.org/x/term:force \
-+           golang.org/x/text:golang.org/x/text:force \
-+           golang.org/x/tools:golang.org/x/tools:force \
-+           golang.org/x/crypto:golang.org/x/crypto:force \
-+           github.com/moby/term:github.com/moby/term:force \
-+           go.mozilla.org/pkcs7:go.mozilla.org/pkcs7:force \
-+           github.com/docker/cli:github.com/docker/cli:force \
-+           github.com/pkg/errors:github.com/pkg/errors:force \
-+           github.com/fatih/color:github.com/fatih/color:force \
-+           github.com/ipfs/go-cid:github.com/ipfs/go-cid:force \
-+           github.com/spf13/cobra:github.com/spf13/cobra:force \
-+           github.com/spf13/pflag:github.com/spf13/pflag:force \
-+           github.com/cilium/ebpf:github.com/cilium/ebpf:force \
-+           github.com/google/uuid:github.com/google/uuid:force \
-+           github.com/moby/locker:github.com/moby/locker:force \
-+           google.golang.org/grpc:google.golang.org/grpc:force \
-+           github.com/go-logr/logr:github.com/go-logr/logr:force \
-+           github.com/go-logr/stdr:github.com/go-logr/stdr:force \
-+           github.com/miekg/pkcs11:github.com/miekg/pkcs11:force \
-+           github.com/tinylib/msgp:github.com/tinylib/msgp:force \
-+           lukechampine.com/blake3:lukechampine.com/blake3:force \
-+           github.com/docker/docker:github.com/docker/docker:force \
-+           github.com/tidwall/gjson:github.com/tidwall/gjson:force \
-+           github.com/gogo/protobuf:github.com/gogo/protobuf:force \
-+           github.com/google/go-cmp:github.com/google/go-cmp:force \
-+           github.com/imdario/mergo:github.com/imdario/mergo:force \
-+           github.com/philhofer/fwd:github.com/philhofer/fwd:force \
-+           github.com/tidwall/match:github.com/tidwall/match:force \
-+           go.opentelemetry.io/otel:go.opentelemetry.io/otel:force \
-+           github.com/djherbis/times:github.com/djherbis/times:force \
-+           github.com/godbus/dbus/v5:github.com/godbus/dbus/v5:force \
-+           github.com/mr-tron/base58:github.com/mr-tron/base58:force \
-+           github.com/tidwall/pretty:github.com/tidwall/pretty:force \
-+           github.com/docker/go-units:github.com/docker/go-units:force \
-+           github.com/mattn/go-isatty:github.com/mattn/go-isatty:force \
-+           github.com/sirupsen/logrus:github.com/sirupsen/logrus:force \
-+           github.com/yuchanns/srslog:github.com/yuchanns/srslog:force \
-+           github.com/containerd/fifo:github.com/containerd/fifo:force \
-+           github.com/golang/protobuf:github.com/golang/protobuf:force \
-+           google.golang.org/genproto:google.golang.org/genproto:force \
-+           google.golang.org/protobuf:google.golang.org/protobuf:force \
-+           gopkg.in/square/go-jose.v2:gopkg.in/square/go-jose.v2:force \
-+           github.com/containerd/ttrpc:github.com/containerd/ttrpc:force \
-+           github.com/docker/go-events:github.com/docker/go-events:force \
-+           github.com/vbatts/tar-split:github.com/vbatts/tar-split:force \
-+           github.com/Microsoft/hcsshim:github.com/Microsoft/hcsshim:force \
-+           github.com/containerd/go-cni:github.com/containerd/go-cni:force \
-+           github.com/moby/sys/mount:github.com/moby/sys/mount/mount:force \
-+           github.com/pelletier/go-toml:github.com/pelletier/go-toml:force \
-+           github.com/vishvananda/netns:github.com/vishvananda/netns:force \
-+           github.com/Azure/go-ansiterm:github.com/Azure/go-ansiterm:force \
-+           github.com/golang/groupcache:github.com/golang/groupcache:force \
-+           github.com/hashicorp/errwrap:github.com/hashicorp/errwrap:force \
-+           github.com/minio/sha256-simd:github.com/minio/sha256-simd:force \
-+           github.com/spaolacci/murmur3:github.com/spaolacci/murmur3:force \
-+           github.com/Microsoft/go-winio:github.com/Microsoft/go-winio:force \
-+           github.com/containerd/console:github.com/containerd/console:force \
-+           github.com/coreos/go-iptables:github.com/coreos/go-iptables:force \
-+           github.com/containerd/typeurl:github.com/containerd/typeurl:force \
-+           github.com/frankban/quicktest:github.com/frankban/quicktest:force \
-+           github.com/klauspost/compress:github.com/klauspost/compress:force \
-+           github.com/klauspost/cpuid/v2:github.com/klauspost/cpuid/v2:force \
-+           github.com/mattn/go-colorable:github.com/mattn/go-colorable:force \
-+           github.com/moby/sys/signal:github.com/moby/sys/signal/signal:force \
-+           github.com/containerd/imgcrypt:github.com/containerd/imgcrypt:force \
-+           github.com/vishvananda/netlink:github.com/vishvananda/netlink:force \
-+           github.com/containers/ocicrypt:github.com/containers/ocicrypt:force \
-+           github.com/mattn/go-shellwords:github.com/mattn/go-shellwords:force \
-+           github.com/opencontainers/runc:github.com/opencontainers/runc:force \
-+           github.com/mitchellh/go-homedir:github.com/mitchellh/go-homedir:force \
-+           github.com/moby/sys/symlink:github.com/moby/sys/symlink/symlink:force \
-+           github.com/xeipuuv/gojsonschema:github.com/xeipuuv/gojsonschema:force \
-+           github.com/Masterminds/semver/v3:github.com/Masterminds/semver/v3:force \
-+           github.com/containerd/cgroups/v3:github.com/containerd/cgroups/v3:force \
-+           github.com/containerd/containerd:github.com/containerd/containerd:force \
-+           github.com/containerd/continuity:github.com/containerd/continuity:force \
-+           github.com/containerd/typeurl/v2:github.com/containerd/typeurl/v2:force \
-+           github.com/coreos/go-systemd/v22:github.com/coreos/go-systemd/v22:force \
-+           github.com/docker/go-connections:github.com/docker/go-connections:force \
-+           github.com/xeipuuv/gojsonpointer:github.com/xeipuuv/gojsonpointer:force \
-+           github.com/fahedouch/go-logrotate:github.com/fahedouch/go-logrotate:force \
-+           github.com/mitchellh/mapstructure:github.com/mitchellh/mapstructure:force \
-+           github.com/multiformats/go-base32:github.com/multiformats/go-base32:force \
-+           github.com/multiformats/go-base36:github.com/multiformats/go-base36:force \
-+           github.com/multiformats/go-varint:github.com/multiformats/go-varint:force \
-+           github.com/opencontainers/selinux:github.com/opencontainers/selinux:force \
-+           go.opentelemetry.io/otel/trace:go.opentelemetry.io/otel/trace/trace:force \
-+           github.com/compose-spec/compose-go:github.com/compose-spec/compose-go:force \
-+           github.com/containernetworking/cni:github.com/containernetworking/cni:force \
-+           github.com/hashicorp/go-multierror:github.com/hashicorp/go-multierror:force \
-+           github.com/moby/sys/mountinfo:github.com/moby/sys/mountinfo/mountinfo:force \
-+           github.com/xeipuuv/gojsonreference:github.com/xeipuuv/gojsonreference:force \
-+           github.com/awslabs/soci-snapshotter:github.com/awslabs/soci-snapshotter:force \
-+           github.com/opencontainers/go-digest:github.com/opencontainers/go-digest:force \
-+           github.com/moby/sys/sequential:github.com/moby/sys/sequential/sequential:force \
-+           github.com/opencontainers/image-spec:github.com/opencontainers/image-spec:force \
-+           github.com/AdaLogics/go-fuzz-headers:github.com/AdaLogics/go-fuzz-headers:force \
-+           github.com/inconshreveable/mousetrap:github.com/inconshreveable/mousetrap:force \
-+           github.com/multiformats/go-multiaddr:github.com/multiformats/go-multiaddr:force \
-+           github.com/multiformats/go-multibase:github.com/multiformats/go-multibase:force \
-+           github.com/multiformats/go-multihash:github.com/multiformats/go-multihash:force \
-+           github.com/stefanberger/go-pkcs11uri:github.com/stefanberger/go-pkcs11uri:force \
-+           github.com/cyphar/filepath-securejoin:github.com/cyphar/filepath-securejoin:force \
-+           github.com/containernetworking/plugins:github.com/containernetworking/plugins:force \
-+           github.com/fluent/fluent-logger-golang:github.com/fluent/fluent-logger-golang:force \
-+           github.com/opencontainers/runtime-spec:github.com/opencontainers/runtime-spec:force \
-+           github.com/AdamKorcz/go-118-fuzz-build:github.com/AdamKorcz/go-118-fuzz-build:force \
-+           github.com/containerd/nydus-snapshotter:github.com/containerd/nydus-snapshotter:force \
-+           github.com/distribution/distribution/v3:github.com/distribution/distribution/v3:force \
-+           github.com/containerd/stargz-snapshotter:github.com/containerd/stargz-snapshotter:force \
-+           github.com/rootless-containers/rootlesskit:github.com/rootless-containers/rootlesskit:force \
-+           github.com/rootless-containers/bypass4netns:github.com/rootless-containers/bypass4netns:force \
-+           github.com/docker/docker-credential-helpers:github.com/docker/docker-credential-helpers:force \
-+           github.com/containerd/stargz-snapshotter/ipfs:github.com/containerd/stargz-snapshotter/ipfs/ipfs:force \
-+           github.com/containerd/accelerated-container-image:github.com/containerd/accelerated-container-image:force \
-+           github.com/containerd/stargz-snapshotter/estargz:github.com/containerd/stargz-snapshotter/estargz/estargz:force"
- 
- do_compile:prepend() {
-     cd ${S}/src/import
-diff --git a/recipes-containers/nerdctl/src_uri.inc b/recipes-containers/nerdctl/src_uri.inc
-index 149bc3c0..0fc89701 100644
---- a/recipes-containers/nerdctl/src_uri.inc
-+++ b/recipes-containers/nerdctl/src_uri.inc
-@@ -1,585 +1,620 @@
--# 	github.com/Masterminds/semver/v3 v3.2.0
--# [1] git ls-remote https://github.com/Masterminds/semver 4694ab0ad3c9477a17e347d828d2aca9ef7130f0 
--SRCREV_v3="4694ab0ad3c9477a17e347d828d2aca9ef7130f0"
--SRC_URI += "git://github.com/Masterminds/semver;name=v3;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/Masterminds/semver/v3"
--
--# 	github.com/Microsoft/go-winio v0.6.0
--# [1] git ls-remote https://github.com/Microsoft/go-winio 376b2013fee695d54f9b21db81716426a8a736d9 
--SRCREV_go-winio="376b2013fee695d54f9b21db81716426a8a736d9"
--SRC_URI += "git://github.com/Microsoft/go-winio;name=go-winio;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/Microsoft/go-winio"
--
--# 	github.com/Microsoft/hcsshim v0.10.0-rc.7
--# [1] git ls-remote https://github.com/Microsoft/hcsshim 5871d0c4436f131c377655a3eb09fc9b5065f11d 
--SRCREV_hcsshim="5871d0c4436f131c377655a3eb09fc9b5065f11d"
--SRC_URI += "git://github.com/Microsoft/hcsshim;name=hcsshim;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/Microsoft/hcsshim"
-+#       gotest.tools/v3 v3.5.0
-+# [1] git ls-remote https://github.com/gotestyourself/gotest.tools a80f057529047c44e1a85d0d017b200787e537e0
-+SRCREV_gotest.tools-v3="a80f057529047c44e1a85d0d017b200787e537e0"
-+SRC_URI += "git://github.com/gotestyourself/gotest.tools;name=gotest.tools-v3;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/gotest.tools/v3"
-+
-+#       golang.org/x/net v0.12.0
-+# [1] git ls-remote https://go.googlesource.com/net c73c09c3904ce6a210970374bd1bc507ef1f8cc2
-+SRCREV_net="c73c09c3904ce6a210970374bd1bc507ef1f8cc2"
-+SRC_URI += "git://go.googlesource.com/net;name=net;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/golang.org/x/net"
-+
-+#       golang.org/x/sys v0.10.0
-+# [1] git ls-remote https://go.googlesource.com/sys a1a9c4b846b3a485ba94fede5b50579c7f432759
-+SRCREV_sys="a1a9c4b846b3a485ba94fede5b50579c7f432759"
-+SRC_URI += "git://go.googlesource.com/sys;name=sys;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/golang.org/x/sys"
-+
-+#       gopkg.in/yaml.v3 v3.0.1
-+# [1] git ls-remote https://github.com/go-yaml/yaml f6f7691b1fdeb513f56608cd2c32c51f8194bf51
-+SRCREV_yaml.v3="f6f7691b1fdeb513f56608cd2c32c51f8194bf51"
-+SRC_URI += "git://github.com/go-yaml/yaml;name=yaml.v3;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/gopkg.in/yaml.v3"
- 
--# 	github.com/compose-spec/compose-go v1.13.2
--# [1] git ls-remote https://github.com/compose-spec/compose-go 4d6b286b976c3f3aafcf422d56f0b552f4559589 
--SRCREV_compose-go="4d6b286b976c3f3aafcf422d56f0b552f4559589"
--SRC_URI += "git://github.com/compose-spec/compose-go;name=compose-go;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/compose-spec/compose-go"
-+#       golang.org/x/exp v0.0.0-20230713183714-613f0c0eb8a1
-+# [1] git ls-remote https://go.googlesource.com/exp 613f0c0eb8a17a98ecdb096a7f9f7d5053c1c963
-+SRCREV_exp="613f0c0eb8a17a98ecdb096a7f9f7d5053c1c963"
-+SRC_URI += "git://go.googlesource.com/exp;name=exp;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/golang.org/x/exp"
- 
--# 	github.com/containerd/accelerated-container-image v0.6.0
--# [1] git ls-remote https://github.com/containerd/accelerated-container-image 7540814873f0b3917b57396cc18386e08e0e0f70 
--SRCREV_accelerated-container-image="7540814873f0b3917b57396cc18386e08e0e0f70"
--SRC_URI += "git://github.com/containerd/accelerated-container-image;name=accelerated-container-image;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/containerd/accelerated-container-image"
-+#       go.opencensus.io v0.24.0
-+# [1] git ls-remote https://github.com/census-instrumentation/opencensus-go b1a01ee95db0e690d91d7193d037447816fae4c5
-+SRCREV_go.opencensus.io="b1a01ee95db0e690d91d7193d037447816fae4c5"
-+SRC_URI += "git://github.com/census-instrumentation/opencensus-go;name=go.opencensus.io;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/go.opencensus.io"
- 
--# 	github.com/containerd/cgroups v1.1.0
--# [1] git ls-remote https://github.com/containerd/cgroups fe7323f622bc222e72473679f12a9089aeeda177 
--SRCREV_cgroups="fe7323f622bc222e72473679f12a9089aeeda177"
--SRC_URI += "git://github.com/containerd/cgroups;name=cgroups;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/containerd/cgroups"
-+#       golang.org/x/mod v0.11.0
-+# [1] git ls-remote https://go.googlesource.com/mod 62c7e578f1a7275d934c99dd48715525bd52b17e
-+SRCREV_mod="62c7e578f1a7275d934c99dd48715525bd52b17e"
-+SRC_URI += "git://go.googlesource.com/mod;name=mod;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/golang.org/x/mod"
-+
-+#       golang.org/x/sync v0.3.0
-+# [1] git ls-remote https://go.googlesource.com/sync 93782cc822b6b554cb7df40332fd010f0473cbc8
-+SRCREV_sync="93782cc822b6b554cb7df40332fd010f0473cbc8"
-+SRC_URI += "git://go.googlesource.com/sync;name=sync;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/golang.org/x/sync"
-+
-+#       golang.org/x/term v0.10.0
-+# [1] git ls-remote https://go.googlesource.com/term edd9fb7f4aabf5aa4c7bca2146907778a2af0321
-+SRCREV_x-term="edd9fb7f4aabf5aa4c7bca2146907778a2af0321"
-+SRC_URI += "git://go.googlesource.com/term;name=x-term;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/golang.org/x/term"
-+
-+#       golang.org/x/text v0.11.0
-+# [1] git ls-remote https://go.googlesource.com/text e50348080f29449bcd6808c11400b3d45f08b09d
-+SRCREV_text="e50348080f29449bcd6808c11400b3d45f08b09d"
-+SRC_URI += "git://go.googlesource.com/text;name=text;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/golang.org/x/text"
-+
-+#       golang.org/x/tools v0.9.1
-+# [1] git ls-remote https://go.googlesource.com/tools 4609d79b05b5ef86867bd70209b7077e22d30cb2
-+SRCREV_tools="4609d79b05b5ef86867bd70209b7077e22d30cb2"
-+SRC_URI += "git://go.googlesource.com/tools;name=tools;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/golang.org/x/tools"
-+
-+#       golang.org/x/crypto v0.11.0
-+# [1] git ls-remote https://go.googlesource.com/crypto e98487292dcad4efaa6033b245ee014f90d177a2
-+SRCREV_crypto="e98487292dcad4efaa6033b245ee014f90d177a2"
-+SRC_URI += "git://go.googlesource.com/crypto;name=crypto;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/golang.org/x/crypto"
-+
-+#       github.com/moby/term v0.5.0
-+# [1] git ls-remote https://github.com/moby/term 9c3c875fad924eb6c9dd32a361b5fc0a49a4feb9
-+SRCREV_term="9c3c875fad924eb6c9dd32a361b5fc0a49a4feb9"
-+SRC_URI += "git://github.com/moby/term;name=term;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/moby/term"
-+
-+#       go.mozilla.org/pkcs7 v0.0.0-20200128120323-432b2356ecb1
-+# [1] git ls-remote https://github.com/mozilla-services/pkcs7 432b2356ecb18209c1cec25680b8a23632794f21
-+SRCREV_pkcs7="432b2356ecb18209c1cec25680b8a23632794f21"
-+SRC_URI += "git://github.com/mozilla-services/pkcs7;name=pkcs7;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/go.mozilla.org/pkcs7"
- 
--# 	github.com/containerd/console v1.0.3
--# [1] git ls-remote https://github.com/containerd/console b5cb846c9186d67bcae3ce3c324e47cd317d9527 
--SRCREV_console="b5cb846c9186d67bcae3ce3c324e47cd317d9527"
--SRC_URI += "git://github.com/containerd/console;name=console;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/containerd/console"
-+#       github.com/docker/cli v24.0.5+incompatible
-+# [1] git ls-remote https://github.com/docker/cli ced099660009713e0e845eeb754e6050dbaa45d0
-+SRCREV_cli="ced099660009713e0e845eeb754e6050dbaa45d0"
-+SRC_URI += "git://github.com/docker/cli;name=cli;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/docker/cli"
- 
--# 	github.com/containerd/containerd v1.7.0
--# [1] git ls-remote https://github.com/containerd/containerd 1fbd70374134b891f97ce19c70b6e50c7b9f4e0d 
--SRCREV_containerd="1fbd70374134b891f97ce19c70b6e50c7b9f4e0d"
--SRC_URI += "git://github.com/containerd/containerd;name=containerd;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/containerd/containerd"
-+#       github.com/pkg/errors v0.9.1
-+# [1] git ls-remote https://github.com/pkg/errors 614d223910a179a466c1767a985424175c39b465
-+SRCREV_errors="614d223910a179a466c1767a985424175c39b465"
-+SRC_URI += "git://github.com/pkg/errors;name=errors;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/pkg/errors"
- 
--# 	github.com/containerd/continuity v0.3.0
--# [1] git ls-remote https://github.com/containerd/continuity 5ad51c7aca47b8e742f5e6e7dc841d50f5f6affd 
--SRCREV_continuity="5ad51c7aca47b8e742f5e6e7dc841d50f5f6affd"
--SRC_URI += "git://github.com/containerd/continuity;name=continuity;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/containerd/continuity"
-+#       github.com/fatih/color v1.15.0
-+# [1] git ls-remote https://github.com/fatih/color 12126ed593697635c525b302836b292b657ea573
-+SRCREV_color="12126ed593697635c525b302836b292b657ea573"
-+SRC_URI += "git://github.com/fatih/color;name=color;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/fatih/color"
- 
--# 	github.com/containerd/go-cni v1.1.9
--# [1] git ls-remote https://github.com/containerd/go-cni 6603d5bd8941d7f2026bb5627f6aa4ff434f859a 
--SRCREV_go-cni="6603d5bd8941d7f2026bb5627f6aa4ff434f859a"
--SRC_URI += "git://github.com/containerd/go-cni;name=go-cni;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/containerd/go-cni"
-+#       github.com/ipfs/go-cid v0.4.1
-+# [1] git ls-remote https://github.com/ipfs/go-cid d46e7f28669cd2c463bc68fe86e7dbe4f8240ab7
-+SRCREV_go-cid="d46e7f28669cd2c463bc68fe86e7dbe4f8240ab7"
-+SRC_URI += "git://github.com/ipfs/go-cid;name=go-cid;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/ipfs/go-cid"
- 
--# 	github.com/containerd/imgcrypt v1.1.7
--# [1] git ls-remote https://github.com/containerd/imgcrypt 01a05dffff35aadeb0a3008016ed745e7ff6beda 
--SRCREV_imgcrypt="01a05dffff35aadeb0a3008016ed745e7ff6beda"
--SRC_URI += "git://github.com/containerd/imgcrypt;name=imgcrypt;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/containerd/imgcrypt"
-+#       github.com/spf13/cobra v1.7.0
-+# [1] git ls-remote https://github.com/spf13/cobra 4dd4b25de38418174a6e859e8a32eaccca32dccc
-+SRCREV_cobra="4dd4b25de38418174a6e859e8a32eaccca32dccc"
-+SRC_URI += "git://github.com/spf13/cobra;name=cobra;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/spf13/cobra"
- 
--# 	github.com/containerd/nydus-snapshotter v0.7.1
--# [1] git ls-remote https://github.com/containerd/nydus-snapshotter cde243fcb806b33c2ab0252257a2391e24d3ecad 
--SRCREV_nydus-snapshotter="cde243fcb806b33c2ab0252257a2391e24d3ecad"
--SRC_URI += "git://github.com/containerd/nydus-snapshotter;name=nydus-snapshotter;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/containerd/nydus-snapshotter"
-+#       github.com/spf13/pflag v1.0.5
-+# [1] git ls-remote https://github.com/spf13/pflag 2e9d26c8c37aae03e3f9d4e90b7116f5accb7cab
-+SRCREV_pflag="2e9d26c8c37aae03e3f9d4e90b7116f5accb7cab"
-+SRC_URI += "git://github.com/spf13/pflag;name=pflag;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/spf13/pflag"
- 
--# 	github.com/containerd/stargz-snapshotter v0.14.3
--# [1] git ls-remote https://github.com/containerd/stargz-snapshotter 6ee6fa1a88df6ea098f6b7dddde29e33f09d5331 
--SRCREV_stargz-snapshotter="6ee6fa1a88df6ea098f6b7dddde29e33f09d5331"
--SRC_URI += "git://github.com/containerd/stargz-snapshotter;name=stargz-snapshotter;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/containerd/stargz-snapshotter"
-+#       github.com/cilium/ebpf v0.9.1
-+# [1] git ls-remote https://github.com/cilium/ebpf d560e4479b395c4523851a4571b04ba0b3846cd1
-+SRCREV_ebpf="d560e4479b395c4523851a4571b04ba0b3846cd1"
-+SRC_URI += "git://github.com/cilium/ebpf;name=ebpf;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/cilium/ebpf"
- 
--# 	github.com/containerd/typeurl/v2 v2.1.0
--# [1] git ls-remote https://github.com/containerd/typeurl 2a94991bd2295cc8158a425fa0ac227204c6dd01 
--SRCREV_v2="2a94991bd2295cc8158a425fa0ac227204c6dd01"
--SRC_URI += "git://github.com/containerd/typeurl;name=v2;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/containerd/typeurlv2"
-+#       github.com/google/uuid v1.3.0
-+# [1] git ls-remote https://github.com/google/uuid 44b5fee7c49cf3bcdf723f106b36d56ef13ccc88
-+SRCREV_uuid="44b5fee7c49cf3bcdf723f106b36d56ef13ccc88"
-+SRC_URI += "git://github.com/google/uuid;name=uuid;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/google/uuid"
- 
--# 	github.com/containernetworking/cni v1.1.2
--# [1] git ls-remote https://github.com/containernetworking/cni 3363d143688bb83ca18489ac8b9dc204c1d49c4a 
--SRCREV_cni="3363d143688bb83ca18489ac8b9dc204c1d49c4a"
--SRC_URI += "git://github.com/containernetworking/cni;name=cni;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/containernetworking/cni"
-+#       github.com/moby/locker v1.0.1
-+# [1] git ls-remote https://github.com/moby/locker 281af2d563954745bea9d1487c965f24d30742fe
-+SRCREV_locker="281af2d563954745bea9d1487c965f24d30742fe"
-+SRC_URI += "git://github.com/moby/locker;name=locker;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/moby/locker"
- 
--# 	github.com/containernetworking/plugins v1.2.0
--# [1] git ls-remote https://github.com/containernetworking/plugins c4d24e80d64393d2c632a825a3486d1c2c0248ec 
--SRCREV_plugins="c4d24e80d64393d2c632a825a3486d1c2c0248ec"
--SRC_URI += "git://github.com/containernetworking/plugins;name=plugins;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/containernetworking/plugins"
-+#       google.golang.org/grpc v1.56.2
-+# [1] git ls-remote https://github.com/grpc/grpc-go faab8736bf73291f92b867d5dae31c927d53d508
-+SRCREV_grpc="faab8736bf73291f92b867d5dae31c927d53d508"
-+SRC_URI += "git://github.com/grpc/grpc-go;name=grpc;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/google.golang.org/grpc"
- 
--# 	github.com/coreos/go-systemd/v22 v22.5.0
--# [1] git ls-remote https://github.com/coreos/go-systemd d5623bf85e8e73ae6352f78ee6b55a287619dd4e 
--SRCREV_v22="d5623bf85e8e73ae6352f78ee6b55a287619dd4e"
--SRC_URI += "git://github.com/coreos/go-systemd;name=v22;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/coreos/go-systemd/v22"
-+#       github.com/go-logr/logr v1.2.4
-+# [1] git ls-remote https://github.com/go-logr/logr 4da5305ff29a64c62f54ad43ebbfcb5e1b015fb2
-+SRCREV_logr="4da5305ff29a64c62f54ad43ebbfcb5e1b015fb2"
-+SRC_URI += "git://github.com/go-logr/logr;name=logr;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/go-logr/logr"
- 
--# 	github.com/cyphar/filepath-securejoin v0.2.3
--# [1] git ls-remote https://github.com/cyphar/filepath-securejoin 8f267f5ea675a20a2cb5e91011d063721f53bf79 
--SRCREV_filepath-securejoin="8f267f5ea675a20a2cb5e91011d063721f53bf79"
--SRC_URI += "git://github.com/cyphar/filepath-securejoin;name=filepath-securejoin;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/cyphar/filepath-securejoin"
-+#       github.com/go-logr/stdr v1.2.2
-+# [1] git ls-remote https://github.com/go-logr/stdr 521af2addfa7c81c8a65d0e85ed34bb6bb6dc262
-+SRCREV_stdr="521af2addfa7c81c8a65d0e85ed34bb6bb6dc262"
-+SRC_URI += "git://github.com/go-logr/stdr;name=stdr;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/go-logr/stdr"
- 
--# 	github.com/docker/cli v23.0.3+incompatible
--# [1] git ls-remote https://github.com/docker/cli 3e7cbfdee1eb5be2ac23ed3668c654362dcd29b5 
--SRCREV_cli="3e7cbfdee1eb5be2ac23ed3668c654362dcd29b5"
--SRC_URI += "git://github.com/docker/cli;name=cli;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/docker/cli"
-+#       github.com/miekg/pkcs11 v1.1.1
-+# [1] git ls-remote https://github.com/miekg/pkcs11 f3481918a208bd212aa995a41f92d786eb418a7d
-+SRCREV_pkcs11="f3481918a208bd212aa995a41f92d786eb418a7d"
-+SRC_URI += "git://github.com/miekg/pkcs11;name=pkcs11;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/miekg/pkcs11"
- 
--# 	github.com/docker/docker v23.0.3+incompatible
--# [1] git ls-remote https://github.com/docker/docker 59118bff500fc0d95d0560a9788735a8d89568ce 
--SRCREV_docker="59118bff500fc0d95d0560a9788735a8d89568ce"
--SRC_URI += "git://github.com/docker/docker;name=docker;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/docker/docker"
-+#       github.com/tinylib/msgp v1.1.6
-+# [1] git ls-remote https://github.com/tinylib/msgp 205265da651409c54677b486e350b4d105da6d8b
-+SRCREV_msgp="205265da651409c54677b486e350b4d105da6d8b"
-+SRC_URI += "git://github.com/tinylib/msgp;name=msgp;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/tinylib/msgp"
- 
--# 	github.com/docker/go-connections v0.4.0
--# [1] git ls-remote https://github.com/docker/go-connections 7395e3f8aa162843a74ed6d48e79627d9792ac55 
--SRCREV_go-connections="7395e3f8aa162843a74ed6d48e79627d9792ac55"
--SRC_URI += "git://github.com/docker/go-connections;name=go-connections;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/docker/go-connections"
-+#       lukechampine.com/blake3 v1.1.7
-+# [1] git ls-remote https://github.com/lukechampine/blake3 bb7ece4161ea910c6c385c17799b17d658075fcd
-+SRCREV_blake3="bb7ece4161ea910c6c385c17799b17d658075fcd"
-+SRC_URI += "git://github.com/lukechampine/blake3;name=blake3;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/lukechampine.com/blake3"
- 
--# 	github.com/docker/go-units v0.5.0
--# [1] git ls-remote https://github.com/docker/go-units e682442797b36348f8e1f98defdbf32bac0b6c6f 
--SRCREV_go-units="e682442797b36348f8e1f98defdbf32bac0b6c6f"
--SRC_URI += "git://github.com/docker/go-units;name=go-units;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/docker/go-units"
-+#       github.com/docker/docker v24.0.5+incompatible
-+# [1] git ls-remote https://github.com/moby/moby a61e2b4c9c5f7c241aeb37f389b4444aee26bea4
-+SRCREV_docker="a61e2b4c9c5f7c241aeb37f389b4444aee26bea4"
-+SRC_URI += "git://github.com/moby/moby;name=docker;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/docker/docker"
- 
--# 	github.com/fahedouch/go-logrotate v0.1.3
--# [1] git ls-remote https://github.com/fahedouch/go-logrotate 8d5cc0d08c8653a794ad7bfe7c4d8150b2179aa1 
--SRCREV_go-logrotate="8d5cc0d08c8653a794ad7bfe7c4d8150b2179aa1"
--SRC_URI += "git://github.com/fahedouch/go-logrotate;name=go-logrotate;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/fahedouch/go-logrotate"
-+#       github.com/tidwall/gjson v1.15.0
-+# [1] git ls-remote https://github.com/tidwall/gjson 8d2c36ffa41368759c3bcb25b8790c8ce1e5562d
-+SRCREV_gjson="8d2c36ffa41368759c3bcb25b8790c8ce1e5562d"
-+SRC_URI += "git://github.com/tidwall/gjson;name=gjson;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/tidwall/gjson"
- 
--# 	github.com/fatih/color v1.15.0
--# [1] git ls-remote https://github.com/fatih/color 12126ed593697635c525b302836b292b657ea573 
--SRCREV_color="12126ed593697635c525b302836b292b657ea573"
--SRC_URI += "git://github.com/fatih/color;name=color;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/fatih/color"
-+#       github.com/gogo/protobuf v1.3.2
-+# [1] git ls-remote https://github.com/gogo/protobuf b03c65ea87cdc3521ede29f62fe3ce239267c1bc
-+SRCREV_protobuf="b03c65ea87cdc3521ede29f62fe3ce239267c1bc"
-+SRC_URI += "git://github.com/gogo/protobuf;name=protobuf;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/gogo/protobuf"
- 
--# 	github.com/fluent/fluent-logger-golang v1.9.0
--# [1] git ls-remote https://github.com/fluent/fluent-logger-golang 5538e904aeb515c10a624da620581bdf420d4b8a 
--SRCREV_fluent-logger-golang="5538e904aeb515c10a624da620581bdf420d4b8a"
--SRC_URI += "git://github.com/fluent/fluent-logger-golang;name=fluent-logger-golang;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/fluent/fluent-logger-golang"
-+#       github.com/google/go-cmp v0.5.9
-+# [1] git ls-remote https://github.com/google/go-cmp a97318bf6562f2ed2632c5f985db51b1bc5bdcd0
-+SRCREV_go-cmp="a97318bf6562f2ed2632c5f985db51b1bc5bdcd0"
-+SRC_URI += "git://github.com/google/go-cmp;name=go-cmp;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/google/go-cmp"
- 
--# 	github.com/hashicorp/go-multierror v1.1.1
--# [1] git ls-remote https://github.com/hashicorp/go-multierror 9974e9ec57696378079ecc3accd3d6f29401b3a0 
--SRCREV_go-multierror="9974e9ec57696378079ecc3accd3d6f29401b3a0"
--SRC_URI += "git://github.com/hashicorp/go-multierror;name=go-multierror;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/hashicorp/go-multierror"
-+#       github.com/imdario/mergo v0.3.16
-+# [1] git ls-remote https://github.com/darccio/mergo 14fe2b165b83359196f820886a2b24f2771729e9
-+SRCREV_mergo="14fe2b165b83359196f820886a2b24f2771729e9"
-+SRC_URI += "git://github.com/darccio/mergo;name=mergo;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/imdario/mergo"
- 
--# 	github.com/ipfs/go-cid v0.4.1
--# [1] git ls-remote https://github.com/ipfs/go-cid d46e7f28669cd2c463bc68fe86e7dbe4f8240ab7 
--SRCREV_go-cid="d46e7f28669cd2c463bc68fe86e7dbe4f8240ab7"
--SRC_URI += "git://github.com/ipfs/go-cid;name=go-cid;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/ipfs/go-cid"
-+#       github.com/philhofer/fwd v1.1.1
-+# [1] git ls-remote https://github.com/philhofer/fwd 9bcb9cab1b0394d8516a132ec243ba944efdb644
-+SRCREV_fwd="9bcb9cab1b0394d8516a132ec243ba944efdb644"
-+SRC_URI += "git://github.com/philhofer/fwd;name=fwd;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/philhofer/fwd"
- 
--# 	github.com/mattn/go-isatty v0.0.18
--# [1] git ls-remote https://github.com/mattn/go-isatty 72a590e157f100a8191f6a086e84d5f6f73da9d6 
--SRCREV_go-isatty="72a590e157f100a8191f6a086e84d5f6f73da9d6"
--SRC_URI += "git://github.com/mattn/go-isatty;name=go-isatty;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/mattn/go-isatty"
-+#       github.com/tidwall/match v1.1.1
-+# [1] git ls-remote https://github.com/tidwall/match 4c9fc61b493b7aa0a3d347e9190aa78c5bec09cf
-+SRCREV_match="4c9fc61b493b7aa0a3d347e9190aa78c5bec09cf"
-+SRC_URI += "git://github.com/tidwall/match;name=match;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/tidwall/match"
- 
--# 	github.com/mitchellh/mapstructure v1.5.0
--# [1] git ls-remote https://github.com/mitchellh/mapstructure ab69d8d93410fce4361f4912bb1ff88110a81311 
--SRCREV_mapstructure="ab69d8d93410fce4361f4912bb1ff88110a81311"
--SRC_URI += "git://github.com/mitchellh/mapstructure;name=mapstructure;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/mitchellh/mapstructure"
-+#       go.opentelemetry.io/otel v1.15.1
-+# [1] git ls-remote https://github.com/open-telemetry/opentelemetry-go fc96138629cecdcc04dd5cb65559ead9e485d927
-+SRCREV_otel="fc96138629cecdcc04dd5cb65559ead9e485d927"
-+SRC_URI += "git://github.com/open-telemetry/opentelemetry-go;name=otel;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/go.opentelemetry.io/otel"
- 
--# 	github.com/moby/sys/mount v0.3.3
--# [1] git ls-remote https://github.com/moby/sys 416188aff8404d549e1e34a50e513befeb11c3b9 
-+#       github.com/moby/sys/mount v0.3.3
-+# [1] git ls-remote https://github.com/moby/sys 416188aff8404d549e1e34a50e513befeb11c3b9
- SRCREV_mount="416188aff8404d549e1e34a50e513befeb11c3b9"
- SRC_URI += "git://github.com/moby/sys;name=mount;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/moby/sys/mount"
- 
--# 	github.com/moby/sys/signal v0.7.0
--# [1] git ls-remote https://github.com/moby/sys b8d8fabf1fa5cf0de7c1a1729145eee854ea31f5 
--SRCREV_signal="b8d8fabf1fa5cf0de7c1a1729145eee854ea31f5"
--SRC_URI += "git://github.com/moby/sys;name=signal;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/moby/sys/signal"
-+#       github.com/djherbis/times v1.5.0
-+# [1] git ls-remote https://github.com/djherbis/times a1edc5dc082a710e4a808e99c78989b8d04e3025
-+SRCREV_times="a1edc5dc082a710e4a808e99c78989b8d04e3025"
-+SRC_URI += "git://github.com/djherbis/times;name=times;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/djherbis/times"
- 
--# 	github.com/opencontainers/go-digest v1.0.0
--# [1] git ls-remote https://github.com/opencontainers/go-digest ea51bea511f75cfa3ef6098cc253c5c3609b037a 
--SRCREV_go-digest="ea51bea511f75cfa3ef6098cc253c5c3609b037a"
--SRC_URI += "git://github.com/opencontainers/go-digest;name=go-digest;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/opencontainers/go-digest"
-+#       github.com/godbus/dbus/v5 v5.1.0
-+# [1] git ls-remote https://github.com/godbus/dbus e523abc905595cf17fb0001a7d77eaaddfaa216d
-+SRCREV_v5="e523abc905595cf17fb0001a7d77eaaddfaa216d"
-+SRC_URI += "git://github.com/godbus/dbus;name=v5;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/godbus/dbus/v5"
- 
--# 	github.com/opencontainers/image-spec v1.1.0-rc2.0.20221005185240-3a7f492d3f1b
--# [1] git ls-remote https://github.com/opencontainers/image-spec 3a7f492d3f1bcada656a7d8c08f3f9bbd05e7406 
--SRCREV_image-spec="3a7f492d3f1bcada656a7d8c08f3f9bbd05e7406"
--SRC_URI += "git://github.com/opencontainers/image-spec;name=image-spec;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/opencontainers/image-spec"
-+#       github.com/mr-tron/base58 v1.2.0
-+# [1] git ls-remote https://github.com/mr-tron/base58 cd0e5141f51dfcadb8311fd8e495eb11126a8010
-+SRCREV_base58="cd0e5141f51dfcadb8311fd8e495eb11126a8010"
-+SRC_URI += "git://github.com/mr-tron/base58;name=base58;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/mr-tron/base58"
- 
--# 	github.com/opencontainers/runtime-spec v1.1.0-rc.1
--# [1] git ls-remote https://github.com/opencontainers/runtime-spec 3e013c2729f542c16c7483ffc2fe06ba96b53e5b 
--SRCREV_runtime-spec="3e013c2729f542c16c7483ffc2fe06ba96b53e5b"
--SRC_URI += "git://github.com/opencontainers/runtime-spec;name=runtime-spec;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/opencontainers/runtime-spec"
-+#       github.com/tidwall/pretty v1.2.0
-+# [1] git ls-remote https://github.com/tidwall/pretty aaa765e7476acb0028a854b85675801362cbdaa2
-+SRCREV_pretty="aaa765e7476acb0028a854b85675801362cbdaa2"
-+SRC_URI += "git://github.com/tidwall/pretty;name=pretty;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/tidwall/pretty"
- 
--# 	github.com/pelletier/go-toml v1.9.5
--# [1] git ls-remote https://github.com/pelletier/go-toml fed1464066413075eac02cd4dc368b5221845541 
--SRCREV_go-toml="fed1464066413075eac02cd4dc368b5221845541"
--SRC_URI += "git://github.com/pelletier/go-toml;name=go-toml;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/pelletier/go-toml"
-+#       github.com/docker/go-units v0.5.0
-+# [1] git ls-remote https://github.com/docker/go-units e682442797b36348f8e1f98defdbf32bac0b6c6f
-+SRCREV_go-units="e682442797b36348f8e1f98defdbf32bac0b6c6f"
-+SRC_URI += "git://github.com/docker/go-units;name=go-units;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/docker/go-units"
- 
--# 	github.com/rootless-containers/bypass4netns v0.3.0
--# [1] git ls-remote https://github.com/rootless-containers/bypass4netns 8175487972621850933a7bd6c6924a16569ba435 
--SRCREV_bypass4netns="8175487972621850933a7bd6c6924a16569ba435"
--SRC_URI += "git://github.com/rootless-containers/bypass4netns;name=bypass4netns;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/rootless-containers/bypass4netns"
-+#       github.com/mattn/go-isatty v0.0.19
-+# [1] git ls-remote https://github.com/mattn/go-isatty c067b4f3df49dfc0f376d884e16cfd784ea1874b
-+SRCREV_go-isatty="c067b4f3df49dfc0f376d884e16cfd784ea1874b"
-+SRC_URI += "git://github.com/mattn/go-isatty;name=go-isatty;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/mattn/go-isatty"
- 
--# 	github.com/rootless-containers/rootlesskit v1.1.0
--# [1] git ls-remote https://github.com/rootless-containers/rootlesskit 6222b477d4c3ce6eea2bcff0586e43c95d1c0bb7 
--SRCREV_rootlesskit="6222b477d4c3ce6eea2bcff0586e43c95d1c0bb7"
--SRC_URI += "git://github.com/rootless-containers/rootlesskit;name=rootlesskit;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/rootless-containers/rootlesskit"
-+#       github.com/moby/sys/signal v0.7.0
-+# [1] git ls-remote https://github.com/moby/sys b8d8fabf1fa5cf0de7c1a1729145eee854ea31f5
-+SRCREV_signal="b8d8fabf1fa5cf0de7c1a1729145eee854ea31f5"
-+SRC_URI += "git://github.com/moby/sys;name=signal;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/moby/sys/signal"
- 
--# 	github.com/sirupsen/logrus v1.9.0
--# [1] git ls-remote https://github.com/sirupsen/logrus f8bf7650dccb756cea26edaf9217aab85500fe07 
--SRCREV_logrus="f8bf7650dccb756cea26edaf9217aab85500fe07"
-+#       github.com/sirupsen/logrus v1.9.3
-+# [1] git ls-remote https://github.com/sirupsen/logrus d40e25cd45ed9c6b2b66e6b97573a0413e4c23bd
-+SRCREV_logrus="d40e25cd45ed9c6b2b66e6b97573a0413e4c23bd"
- SRC_URI += "git://github.com/sirupsen/logrus;name=logrus;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/sirupsen/logrus"
- 
--# 	github.com/spf13/cobra v1.7.0
--# [1] git ls-remote https://github.com/spf13/cobra 4dd4b25de38418174a6e859e8a32eaccca32dccc 
--SRCREV_cobra="4dd4b25de38418174a6e859e8a32eaccca32dccc"
--SRC_URI += "git://github.com/spf13/cobra;name=cobra;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/spf13/cobra"
--
--# 	github.com/spf13/pflag v1.0.5
--# [1] git ls-remote https://github.com/spf13/pflag 2e9d26c8c37aae03e3f9d4e90b7116f5accb7cab 
--SRCREV_pflag="2e9d26c8c37aae03e3f9d4e90b7116f5accb7cab"
--SRC_URI += "git://github.com/spf13/pflag;name=pflag;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/spf13/pflag"
--
--# 	github.com/tidwall/gjson v1.14.4
--# [1] git ls-remote https://github.com/tidwall/gjson e14b8d37087f5774d3d4dce0b0b708cbc32015f7 
--SRCREV_gjson="e14b8d37087f5774d3d4dce0b0b708cbc32015f7"
--SRC_URI += "git://github.com/tidwall/gjson;name=gjson;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/tidwall/gjson"
--
--# 	github.com/vishvananda/netlink v1.2.1-beta.2
--# [1] git ls-remote https://github.com/vishvananda/netlink 5e915e0149386ce3d02379ff93f4c0a5601779d5 
--SRCREV_netlink="5e915e0149386ce3d02379ff93f4c0a5601779d5"
--SRC_URI += "git://github.com/vishvananda/netlink;name=netlink;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/vishvananda/netlink"
--
--# 	github.com/vishvananda/netns v0.0.4
--# [1] git ls-remote https://github.com/vishvananda/netns 7a452d2d15292b2bfb2a2d88e6bdeac156a761b9 
--SRCREV_netns="7a452d2d15292b2bfb2a2d88e6bdeac156a761b9"
--SRC_URI += "git://github.com/vishvananda/netns;name=netns;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/vishvananda/netns"
--
--# 	github.com/yuchanns/srslog v1.1.0
--# [1] git ls-remote https://github.com/yuchanns/srslog becd9b11119269a7928ae89fde90784335c1d016 
-+#       github.com/yuchanns/srslog v1.1.0
-+# [1] git ls-remote https://github.com/yuchanns/srslog becd9b11119269a7928ae89fde90784335c1d016
- SRCREV_srslog="becd9b11119269a7928ae89fde90784335c1d016"
- SRC_URI += "git://github.com/yuchanns/srslog;name=srslog;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/yuchanns/srslog"
- 
--# 	golang.org/x/crypto v0.7.0
--# [1] git ls-remote https://github.com/golang/crypto 776e461a4e6d8b372a43c72122c5c28cfc40dca2 
--SRCREV_crypto="776e461a4e6d8b372a43c72122c5c28cfc40dca2"
--SRC_URI += "git://github.com/golang/crypto;name=crypto;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/golang.org/x/crypto"
--
--# 	golang.org/x/net v0.8.0
--# [1] git ls-remote https://github.com/golang/net dfa2b5dffd96fb2ae13e7d182501f0bce044a0a4 
--SRCREV_net="dfa2b5dffd96fb2ae13e7d182501f0bce044a0a4"
--SRC_URI += "git://github.com/golang/net;name=net;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/golang.org/x/net"
--
--# 	golang.org/x/sync v0.1.0
--# [1] git ls-remote https://github.com/golang/sync 8fcdb60fdcc0539c5e357b2308249e4e752147f1 
--SRCREV_sync="8fcdb60fdcc0539c5e357b2308249e4e752147f1"
--SRC_URI += "git://github.com/golang/sync;name=sync;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/golang.org/x/sync"
--
--# 	golang.org/x/sys v0.7.0
--# [1] git ls-remote https://github.com/golang/sys 64840c112d2335ed9874114aed48f946e778a769 
--SRCREV_sys="64840c112d2335ed9874114aed48f946e778a769"
--SRC_URI += "git://github.com/golang/sys;name=sys;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/golang.org/x/sys"
--
--# 	golang.org/x/term v0.7.0
--# [1] git ls-remote https://github.com/golang/term 7ae6be6d0150527c2c41e70586b9ade6a972a186 
--SRCREV_term="7ae6be6d0150527c2c41e70586b9ade6a972a186"
--SRC_URI += "git://github.com/golang/term;name=term;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/golang.org/x/term"
--
--# 	golang.org/x/text v0.8.0
--# [1] git ls-remote https://github.com/golang/text 9db913aaf20ced01b7a130d9fb222d74a1339fa6 
--SRCREV_text="9db913aaf20ced01b7a130d9fb222d74a1339fa6"
--SRC_URI += "git://github.com/golang/text;name=text;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/golang.org/x/text"
--
--# 	gopkg.in/yaml.v3 v3.0.1
--# [1] git ls-remote https://gopkg.in/yaml.v3 f6f7691b1fdeb513f56608cd2c32c51f8194bf51 
--SRCREV_yaml.v3="f6f7691b1fdeb513f56608cd2c32c51f8194bf51"
--SRC_URI += "git://gopkg.in/yaml.v3;name=yaml.v3;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/gopkg.in/yaml.v3"
--
--# 	gotest.tools/v3 v3.4.0
--# [1] git ls-remote https://github.com/gotestyourself/gotest.tools f086d2783c5b3a2a21b482ec19c1c310e68f4d18 
--SRCREV_v31="f086d2783c5b3a2a21b482ec19c1c310e68f4d18"
--SRC_URI += "git://github.com/gotestyourself/gotest.tools;name=v31;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/gotestyourself/gotest.tools"
--
--# 	github.com/AdaLogics/go-fuzz-headers v0.0.0-20230106234847-43070de90fa1
--# [1] git ls-remote https://github.com/AdaLogics/go-fuzz-headers 43070de90fa134c9ea55cd6de4308a2ae59658d3 
--SRCREV_go-fuzz-headers="43070de90fa134c9ea55cd6de4308a2ae59658d3"
--SRC_URI += "git://github.com/AdaLogics/go-fuzz-headers;name=go-fuzz-headers;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/AdaLogics/go-fuzz-headers"
--
--# 	github.com/AdamKorcz/go-118-fuzz-build v0.0.0-20221215162035-5330a85ea652
--# [1] git ls-remote https://github.com/AdamKorcz/go-118-fuzz-build 5330a85ea6528bb00bea0417b6d61f30deb61f2c 
--SRCREV_go-118-fuzz-build="5330a85ea6528bb00bea0417b6d61f30deb61f2c"
--SRC_URI += "git://github.com/AdamKorcz/go-118-fuzz-build;name=go-118-fuzz-build;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/AdamKorcz/go-118-fuzz-build"
--
--# 	github.com/cilium/ebpf v0.9.1
--# [1] git ls-remote https://github.com/cilium/ebpf d560e4479b395c4523851a4571b04ba0b3846cd1 
--SRCREV_ebpf="d560e4479b395c4523851a4571b04ba0b3846cd1"
--SRC_URI += "git://github.com/cilium/ebpf;name=ebpf;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/cilium/ebpf"
--
--# 	github.com/containerd/cgroups/v3 v3.0.1
--# [1] git ls-remote https://github.com/containerd/cgroups 960ef05a33a09fe4f432683d3cbb4bb96e89d537 
--SRCREV_v312="960ef05a33a09fe4f432683d3cbb4bb96e89d537"
--SRC_URI += "git://github.com/containerd/cgroups;name=v312;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/containerd/cgroups/v3"
--
--# 	github.com/containerd/fifo v1.1.0
--# [1] git ls-remote https://github.com/containerd/fifo 151b205263c29d471e0d55c787d2ce9f5343fd46 
-+#       github.com/containerd/fifo v1.1.0
-+# [1] git ls-remote https://github.com/containerd/fifo 151b205263c29d471e0d55c787d2ce9f5343fd46
- SRCREV_fifo="151b205263c29d471e0d55c787d2ce9f5343fd46"
- SRC_URI += "git://github.com/containerd/fifo;name=fifo;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/containerd/fifo"
- 
--# 	github.com/containerd/ttrpc v1.2.1
--# [1] git ls-remote https://github.com/containerd/ttrpc 36fd7c3f33441e5f0ee5388d55a68019417c91a2 
--SRCREV_ttrpc="36fd7c3f33441e5f0ee5388d55a68019417c91a2"
--SRC_URI += "git://github.com/containerd/ttrpc;name=ttrpc;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/containerd/ttrpc"
--
--# 	github.com/containerd/typeurl v1.0.3-0.20220422153119-7f6e6d160d67
--# [1] git ls-remote https://github.com/containerd/typeurl 7f6e6d160d675241af388d5cf1b90814786bac40 
--SRCREV_typeurl="7f6e6d160d675241af388d5cf1b90814786bac40"
--SRC_URI += "git://github.com/containerd/typeurl;name=typeurl;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/containerd/typeurl"
-+#       github.com/golang/protobuf v1.5.3
-+# [1] git ls-remote https://github.com/golang/protobuf 5d5e8c018a13017f9d5b8bf4fad64aaa42a87308
-+SRCREV_golang-protobuf="5d5e8c018a13017f9d5b8bf4fad64aaa42a87308"
-+SRC_URI += "git://github.com/golang/protobuf;name=golang-protobuf;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/golang/protobuf"
- 
--# 	github.com/containers/ocicrypt v1.1.6
--# [1] git ls-remote https://github.com/containers/ocicrypt c61dfa5ee6c2ac10004c4e156d1a435f11c444cf 
--SRCREV_ocicrypt="c61dfa5ee6c2ac10004c4e156d1a435f11c444cf"
--SRC_URI += "git://github.com/containers/ocicrypt;name=ocicrypt;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/containers/ocicrypt"
-+#       google.golang.org/genproto v0.0.0-20230410155749-daa745c078e1
-+# [1] git ls-remote https://github.com/googleapis/go-genproto daa745c078e18def54ea6b63235554b59c97f01d
-+SRCREV_genproto="daa745c078e18def54ea6b63235554b59c97f01d"
-+SRC_URI += "git://github.com/googleapis/go-genproto;name=genproto;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/google.golang.org/genproto"
- 
--# 	github.com/distribution/distribution/v3 v3.0.0-20230214150026-36d8c594d7aa
--# [1] git ls-remote https://github.com/distribution/distribution 36d8c594d7aa4fb0b9b927fb1edf4171b36f361b 
--SRCREV_v3123="36d8c594d7aa4fb0b9b927fb1edf4171b36f361b"
--SRC_URI += "git://github.com/distribution/distribution;name=v3123;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/distribution/distribution/v3"
-+#       google.golang.org/protobuf v1.31.0
-+# [1] git ls-remote https://github.com/protocolbuffers/protobuf-go 68463f0e96c93bc19ef36ccd3adfe690bfdb568c
-+SRCREV_google.golang.org-protobuf="68463f0e96c93bc19ef36ccd3adfe690bfdb568c"
-+SRC_URI += "git://github.com/protocolbuffers/protobuf-go;name=google.golang.org-protobuf;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/google.golang.org/protobuf"
- 
--# 	github.com/djherbis/times v1.5.0
--# [1] git ls-remote https://github.com/djherbis/times a1edc5dc082a710e4a808e99c78989b8d04e3025 
--SRCREV_times="a1edc5dc082a710e4a808e99c78989b8d04e3025"
--SRC_URI += "git://github.com/djherbis/times;name=times;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/djherbis/times"
-+#       gopkg.in/square/go-jose.v2 v2.5.1
-+# [1] git ls-remote https://github.com/square/go-jose 3a5ee095dcb5030a9de84fb92c222ac652fff176
-+SRCREV_go-jose.v2="3a5ee095dcb5030a9de84fb92c222ac652fff176"
-+SRC_URI += "git://github.com/square/go-jose;name=go-jose.v2;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/gopkg.in/square/go-jose.v2"
- 
--# 	github.com/docker/docker-credential-helpers v0.7.0
--# [1] git ls-remote https://github.com/docker/docker-credential-helpers ac5992b5f4756fc0398a7d0c93c609e624368bde 
--SRCREV_docker-credential-helpers="ac5992b5f4756fc0398a7d0c93c609e624368bde"
--SRC_URI += "git://github.com/docker/docker-credential-helpers;name=docker-credential-helpers;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/docker/docker-credential-helpers"
-+#       github.com/containerd/ttrpc v1.2.2
-+# [1] git ls-remote https://github.com/containerd/ttrpc ac26f8cbea1c440d451dd19a4a1b847fd073f3c3
-+SRCREV_ttrpc="ac26f8cbea1c440d451dd19a4a1b847fd073f3c3"
-+SRC_URI += "git://github.com/containerd/ttrpc;name=ttrpc;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/containerd/ttrpc"
- 
--# 	github.com/docker/go-events v0.0.0-20190806004212-e31b211e4f1c
--# [1] git ls-remote https://github.com/docker/go-events e31b211e4f1cd09aa76fe4ac244571fab96ae47f 
-+#       github.com/docker/go-events v0.0.0-20190806004212-e31b211e4f1c
-+# [1] git ls-remote https://github.com/docker/go-events e31b211e4f1cd09aa76fe4ac244571fab96ae47f
- SRCREV_go-events="e31b211e4f1cd09aa76fe4ac244571fab96ae47f"
- SRC_URI += "git://github.com/docker/go-events;name=go-events;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/docker/go-events"
- 
--# 	github.com/frankban/quicktest v1.14.2
--# [1] git ls-remote https://github.com/frankban/quicktest 9f3c63cd6950868c53a96aa4bf4cda5ca1d2e857 
--SRCREV_quicktest="9f3c63cd6950868c53a96aa4bf4cda5ca1d2e857"
--SRC_URI += "git://github.com/frankban/quicktest;name=quicktest;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/frankban/quicktest"
-+#       github.com/moby/sys/symlink v0.2.0
-+# [1] git ls-remote https://github.com/moby/sys 03b9f8d59a07f5206a2264105f4903a222aea964
-+SRCREV_symlink="03b9f8d59a07f5206a2264105f4903a222aea964"
-+SRC_URI += "git://github.com/moby/sys;name=symlink;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/moby/sys/symlink"
- 
--# 	github.com/go-logr/logr v1.2.3
--# [1] git ls-remote https://github.com/go-logr/logr 47e013cee9b1f91c987cc70a218639655431b607 
--SRCREV_logr="47e013cee9b1f91c987cc70a218639655431b607"
--SRC_URI += "git://github.com/go-logr/logr;name=logr;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/go-logr/logr"
-+#       github.com/vbatts/tar-split v0.11.3
-+# [1] git ls-remote https://github.com/vbatts/tar-split 3cdf99b6d45a47170f0092f1f3c0bbf2aca55db6
-+SRCREV_tar-split="3cdf99b6d45a47170f0092f1f3c0bbf2aca55db6"
-+SRC_URI += "git://github.com/vbatts/tar-split;name=tar-split;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/vbatts/tar-split"
- 
--# 	github.com/go-logr/stdr v1.2.2
--# [1] git ls-remote https://github.com/go-logr/stdr 521af2addfa7c81c8a65d0e85ed34bb6bb6dc262 
--SRCREV_stdr="521af2addfa7c81c8a65d0e85ed34bb6bb6dc262"
--SRC_URI += "git://github.com/go-logr/stdr;name=stdr;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/go-logr/stdr"
-+#       github.com/Microsoft/hcsshim v0.10.0
-+# [1] git ls-remote https://github.com/microsoft/hcsshim 28cce9cea720462e4b84498f9f79fdb836454ba0
-+SRCREV_hcsshim="28cce9cea720462e4b84498f9f79fdb836454ba0"
-+SRC_URI += "git://github.com/microsoft/hcsshim;name=hcsshim;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/Microsoft/hcsshim"
- 
--# 	github.com/godbus/dbus/v5 v5.1.0
--# [1] git ls-remote https://github.com/godbus/dbus e523abc905595cf17fb0001a7d77eaaddfaa216d 
--SRCREV_v5="e523abc905595cf17fb0001a7d77eaaddfaa216d"
--SRC_URI += "git://github.com/godbus/dbus;name=v5;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/godbus/dbus/v5"
-+#       github.com/containerd/go-cni v1.1.9
-+# [1] git ls-remote https://github.com/containerd/go-cni 6603d5bd8941d7f2026bb5627f6aa4ff434f859a
-+SRCREV_go-cni="6603d5bd8941d7f2026bb5627f6aa4ff434f859a"
-+SRC_URI += "git://github.com/containerd/go-cni;name=go-cni;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/containerd/go-cni"
- 
--# 	github.com/gogo/protobuf v1.3.2
--# [1] git ls-remote https://github.com/gogo/protobuf b03c65ea87cdc3521ede29f62fe3ce239267c1bc 
--SRCREV_protobuf="b03c65ea87cdc3521ede29f62fe3ce239267c1bc"
--SRC_URI += "git://github.com/gogo/protobuf;name=protobuf;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/gogo/protobuf"
-+#       github.com/pelletier/go-toml v1.9.5
-+# [1] git ls-remote https://github.com/pelletier/go-toml fed1464066413075eac02cd4dc368b5221845541
-+SRCREV_go-toml="fed1464066413075eac02cd4dc368b5221845541"
-+SRC_URI += "git://github.com/pelletier/go-toml;name=go-toml;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/pelletier/go-toml"
-+
-+#       github.com/vishvananda/netns v0.0.4
-+# [1] git ls-remote https://github.com/vishvananda/netns 7a452d2d15292b2bfb2a2d88e6bdeac156a761b9
-+SRCREV_netns="7a452d2d15292b2bfb2a2d88e6bdeac156a761b9"
-+SRC_URI += "git://github.com/vishvananda/netns;name=netns;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/vishvananda/netns"
-+
-+#       github.com/Azure/go-ansiterm v0.0.0-20210617225240-d185dfc1b5a1
-+# [1] git ls-remote https://github.com/Azure/go-ansiterm d185dfc1b5a126116ea5a19e148e29d16b4574c9
-+SRCREV_go-ansiterm="d185dfc1b5a126116ea5a19e148e29d16b4574c9"
-+SRC_URI += "git://github.com/Azure/go-ansiterm;name=go-ansiterm;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/Azure/go-ansiterm"
- 
--# 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da
--# [1] git ls-remote https://github.com/golang/groupcache 41bb18bfe9da5321badc438f91158cd790a33aa3 
-+#       github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da
-+# [1] git ls-remote https://github.com/golang/groupcache 41bb18bfe9da5321badc438f91158cd790a33aa3
- SRCREV_groupcache="41bb18bfe9da5321badc438f91158cd790a33aa3"
- SRC_URI += "git://github.com/golang/groupcache;name=groupcache;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/golang/groupcache"
- 
--# 	github.com/golang/protobuf v1.5.2
--# [1] git ls-remote https://github.com/golang/protobuf ae97035608a719c7a1c1c41bed0ae0744bdb0c6f 
--SRCREV_protobuf1="ae97035608a719c7a1c1c41bed0ae0744bdb0c6f"
--SRC_URI += "git://github.com/golang/protobuf;name=protobuf1;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/golang/protobuf"
-+#       github.com/hashicorp/errwrap v1.1.0
-+# [1] git ls-remote https://github.com/hashicorp/errwrap 7b00e5db719c64d14dd0caaacbd13e76254d02c0
-+SRCREV_errwrap="7b00e5db719c64d14dd0caaacbd13e76254d02c0"
-+SRC_URI += "git://github.com/hashicorp/errwrap;name=errwrap;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/hashicorp/errwrap"
- 
--# 	github.com/google/go-cmp v0.5.9
--# [1] git ls-remote https://github.com/google/go-cmp a97318bf6562f2ed2632c5f985db51b1bc5bdcd0 
--SRCREV_go-cmp="a97318bf6562f2ed2632c5f985db51b1bc5bdcd0"
--SRC_URI += "git://github.com/google/go-cmp;name=go-cmp;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/google/go-cmp"
-+#       github.com/minio/sha256-simd v1.0.0
-+# [1] git ls-remote https://github.com/minio/sha256-simd 6a57409d8e0fa3ae883aee331b71aaa40d5a7dd9
-+SRCREV_sha256-simd="6a57409d8e0fa3ae883aee331b71aaa40d5a7dd9"
-+SRC_URI += "git://github.com/minio/sha256-simd;name=sha256-simd;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/minio/sha256-simd"
- 
--# 	github.com/google/uuid v1.3.0
--# [1] git ls-remote https://github.com/google/uuid 44b5fee7c49cf3bcdf723f106b36d56ef13ccc88 
--SRCREV_uuid="44b5fee7c49cf3bcdf723f106b36d56ef13ccc88"
--SRC_URI += "git://github.com/google/uuid;name=uuid;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/google/uuid"
-+#       github.com/spaolacci/murmur3 v1.1.0
-+# [1] git ls-remote https://github.com/spaolacci/murmur3 f09979ecbc725b9e6d41a297405f65e7e8804acc
-+SRCREV_murmur3="f09979ecbc725b9e6d41a297405f65e7e8804acc"
-+SRC_URI += "git://github.com/spaolacci/murmur3;name=murmur3;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/spaolacci/murmur3"
- 
--# 	github.com/hashicorp/errwrap v1.1.0
--# [1] git ls-remote https://github.com/hashicorp/errwrap 7b00e5db719c64d14dd0caaacbd13e76254d02c0 
--SRCREV_errwrap="7b00e5db719c64d14dd0caaacbd13e76254d02c0"
--SRC_URI += "git://github.com/hashicorp/errwrap;name=errwrap;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/hashicorp/errwrap"
-+#       github.com/Microsoft/go-winio v0.6.1
-+# [1] git ls-remote https://github.com/microsoft/go-winio 070c828abb873da9e71c7247740253b50f7cf049
-+SRCREV_go-winio="070c828abb873da9e71c7247740253b50f7cf049"
-+SRC_URI += "git://github.com/microsoft/go-winio;name=go-winio;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/Microsoft/go-winio"
- 
--# 	github.com/imdario/mergo v0.3.14
--# [1] git ls-remote https://github.com/imdario/mergo d19834bb682056bd1eec5dfe6d9ec9bd9d6ba58f 
--SRCREV_mergo="d19834bb682056bd1eec5dfe6d9ec9bd9d6ba58f"
--SRC_URI += "git://github.com/imdario/mergo;name=mergo;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/imdario/mergo"
-+#       github.com/containerd/console v1.0.3
-+# [1] git ls-remote https://github.com/containerd/console b5cb846c9186d67bcae3ce3c324e47cd317d9527
-+SRCREV_console="b5cb846c9186d67bcae3ce3c324e47cd317d9527"
-+SRC_URI += "git://github.com/containerd/console;name=console;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/containerd/console"
- 
--# 	github.com/inconshreveable/mousetrap v1.1.0
--# [1] git ls-remote https://github.com/inconshreveable/mousetrap 4e8053ee7ef85a6bd26368364a6d27f1641c1d21 
--SRCREV_mousetrap="4e8053ee7ef85a6bd26368364a6d27f1641c1d21"
--SRC_URI += "git://github.com/inconshreveable/mousetrap;name=mousetrap;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/inconshreveable/mousetrap"
-+#       github.com/coreos/go-iptables v0.6.0
-+# [1] git ls-remote https://github.com/coreos/go-iptables 14d56d57c892f27a717aa6026fd2d3293221395b
-+SRCREV_go-iptables="14d56d57c892f27a717aa6026fd2d3293221395b"
-+SRC_URI += "git://github.com/coreos/go-iptables;name=go-iptables;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/coreos/go-iptables"
-+
-+#       github.com/containerd/typeurl v1.0.3-0.20220422153119-7f6e6d160d67
-+# [1] git ls-remote https://github.com/containerd/typeurl 7f6e6d160d675241af388d5cf1b90814786bac40
-+SRCREV_typeurl="7f6e6d160d675241af388d5cf1b90814786bac40"
-+SRC_URI += "git://github.com/containerd/typeurl;name=typeurl;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/containerd/typeurl"
-+
-+#       github.com/frankban/quicktest v1.14.2
-+# [1] git ls-remote https://github.com/frankban/quicktest 9f3c63cd6950868c53a96aa4bf4cda5ca1d2e857
-+SRCREV_quicktest="9f3c63cd6950868c53a96aa4bf4cda5ca1d2e857"
-+SRC_URI += "git://github.com/frankban/quicktest;name=quicktest;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/frankban/quicktest"
- 
--# 	github.com/klauspost/compress v1.16.3
--# [1] git ls-remote https://github.com/klauspost/compress 8183f00311278ccf61e1805b35db90052d333d64 
--SRCREV_compress="8183f00311278ccf61e1805b35db90052d333d64"
-+#       github.com/klauspost/compress v1.16.7
-+# [1] git ls-remote https://github.com/klauspost/compress 67a538e2b4df11f8ec7139388838a13bce84b5d5
-+SRCREV_compress="67a538e2b4df11f8ec7139388838a13bce84b5d5"
- SRC_URI += "git://github.com/klauspost/compress;name=compress;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/klauspost/compress"
- 
--# 	github.com/klauspost/cpuid/v2 v2.1.1
--# [1] git ls-remote https://github.com/klauspost/cpuid 976c6486fb9f5d9ef7354ef9c2819b1ffcda73a9 
--SRCREV_v21="976c6486fb9f5d9ef7354ef9c2819b1ffcda73a9"
--SRC_URI += "git://github.com/klauspost/cpuid;name=v21;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/klauspost/cpuid/v2"
-+#       github.com/klauspost/cpuid/v2 v2.1.1
-+# [1] git ls-remote https://github.com/klauspost/cpuid 976c6486fb9f5d9ef7354ef9c2819b1ffcda73a9
-+SRCREV_cpuid-v2="976c6486fb9f5d9ef7354ef9c2819b1ffcda73a9"
-+SRC_URI += "git://github.com/klauspost/cpuid;name=cpuid-v2;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/klauspost/cpuid/v2"
- 
--# 	github.com/mattn/go-colorable v0.1.13
--# [1] git ls-remote https://github.com/mattn/go-colorable 11a925cff3d38c293ddc8c05a16b504e3e2c63be 
-+#       github.com/mattn/go-colorable v0.1.13
-+# [1] git ls-remote https://github.com/mattn/go-colorable 11a925cff3d38c293ddc8c05a16b504e3e2c63be
- SRCREV_go-colorable="11a925cff3d38c293ddc8c05a16b504e3e2c63be"
- SRC_URI += "git://github.com/mattn/go-colorable;name=go-colorable;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/mattn/go-colorable"
- 
--# 	github.com/mattn/go-shellwords v1.0.12
--# [1] git ls-remote https://github.com/mattn/go-shellwords 973b9d5391598d4ee601db46fa32f6e186a356ac 
-+#       github.com/moby/sys/mountinfo v0.6.2
-+# [1] git ls-remote https://github.com/moby/sys 1bf36f7188c31f2797c556c4c4d7d9af7a6a965b
-+SRCREV_mountinfo="1bf36f7188c31f2797c556c4c4d7d9af7a6a965b"
-+SRC_URI += "git://github.com/moby/sys;name=mountinfo;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/moby/sys/mountinfo"
-+
-+#       github.com/containerd/imgcrypt v1.1.7
-+# [1] git ls-remote https://github.com/containerd/imgcrypt 01a05dffff35aadeb0a3008016ed745e7ff6beda
-+SRCREV_imgcrypt="01a05dffff35aadeb0a3008016ed745e7ff6beda"
-+SRC_URI += "git://github.com/containerd/imgcrypt;name=imgcrypt;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/containerd/imgcrypt"
-+
-+#       github.com/vishvananda/netlink v1.2.1-beta.2
-+# [1] git ls-remote https://github.com/vishvananda/netlink 5e915e0149386ce3d02379ff93f4c0a5601779d5
-+SRCREV_netlink="5e915e0149386ce3d02379ff93f4c0a5601779d5"
-+SRC_URI += "git://github.com/vishvananda/netlink;name=netlink;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/vishvananda/netlink"
-+
-+#       github.com/containers/ocicrypt v1.1.7
-+# [1] git ls-remote https://github.com/containers/ocicrypt ee4e19a2ec93f08262499bc9521c751f4a1d935c
-+SRCREV_ocicrypt="ee4e19a2ec93f08262499bc9521c751f4a1d935c"
-+SRC_URI += "git://github.com/containers/ocicrypt;name=ocicrypt;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/containers/ocicrypt"
-+
-+#       github.com/mattn/go-shellwords v1.0.12
-+# [1] git ls-remote https://github.com/mattn/go-shellwords 973b9d5391598d4ee601db46fa32f6e186a356ac
- SRCREV_go-shellwords="973b9d5391598d4ee601db46fa32f6e186a356ac"
- SRC_URI += "git://github.com/mattn/go-shellwords;name=go-shellwords;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/mattn/go-shellwords"
- 
--# 	github.com/miekg/pkcs11 v1.1.1
--# [1] git ls-remote https://github.com/miekg/pkcs11 f3481918a208bd212aa995a41f92d786eb418a7d 
--SRCREV_pkcs11="f3481918a208bd212aa995a41f92d786eb418a7d"
--SRC_URI += "git://github.com/miekg/pkcs11;name=pkcs11;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/miekg/pkcs11"
-+#       github.com/moby/sys/sequential v0.5.0
-+# [1] git ls-remote https://github.com/moby/sys b22ba8a69b306f0b4adbbe2a529457e6283ed9f7
-+SRCREV_sequential="b22ba8a69b306f0b4adbbe2a529457e6283ed9f7"
-+SRC_URI += "git://github.com/moby/sys;name=sequential;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/moby/sys/sequential"
- 
--# 	github.com/minio/sha256-simd v1.0.0
--# [1] git ls-remote https://github.com/minio/sha256-simd 6a57409d8e0fa3ae883aee331b71aaa40d5a7dd9 
--SRCREV_sha256-simd="6a57409d8e0fa3ae883aee331b71aaa40d5a7dd9"
--SRC_URI += "git://github.com/minio/sha256-simd;name=sha256-simd;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/minio/sha256-simd"
-+#       github.com/opencontainers/runc v1.1.7
-+# [1] git ls-remote https://github.com/opencontainers/runc 860f061b76bb4fc671f0f9e900f7d80ff93d4eb7
-+SRCREV_runc="860f061b76bb4fc671f0f9e900f7d80ff93d4eb7"
-+SRC_URI += "git://github.com/opencontainers/runc;name=runc;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/opencontainers/runc"
- 
--# 	github.com/mitchellh/go-homedir v1.1.0
--# [1] git ls-remote https://github.com/mitchellh/go-homedir af06845cf3004701891bf4fdb884bfe4920b3727 
-+#       go.opentelemetry.io/otel/trace v1.15.1
-+# [1] git ls-remote https://github.com/open-telemetry/opentelemetry-go fc96138629cecdcc04dd5cb65559ead9e485d927
-+SRCREV_trace="fc96138629cecdcc04dd5cb65559ead9e485d927"
-+SRC_URI += "git://github.com/open-telemetry/opentelemetry-go;name=trace;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/go.opentelemetry.io/otel/trace"
-+
-+#       github.com/mitchellh/go-homedir v1.1.0
-+# [1] git ls-remote https://github.com/mitchellh/go-homedir af06845cf3004701891bf4fdb884bfe4920b3727
- SRCREV_go-homedir="af06845cf3004701891bf4fdb884bfe4920b3727"
- SRC_URI += "git://github.com/mitchellh/go-homedir;name=go-homedir;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/mitchellh/go-homedir"
- 
--# 	github.com/moby/locker v1.0.1
--# [1] git ls-remote https://github.com/moby/locker 281af2d563954745bea9d1487c965f24d30742fe 
--SRCREV_locker="281af2d563954745bea9d1487c965f24d30742fe"
--SRC_URI += "git://github.com/moby/locker;name=locker;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/moby/locker"
-+#       github.com/xeipuuv/gojsonschema v1.2.0
-+# [1] git ls-remote https://github.com/xeipuuv/gojsonschema 82fcdeb203eb6ab2a67d0a623d9c19e5e5a64927
-+SRCREV_gojsonschema="82fcdeb203eb6ab2a67d0a623d9c19e5e5a64927"
-+SRC_URI += "git://github.com/xeipuuv/gojsonschema;name=gojsonschema;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/xeipuuv/gojsonschema"
- 
--# 	github.com/moby/sys/mountinfo v0.6.2
--# [1] git ls-remote https://github.com/moby/sys 1bf36f7188c31f2797c556c4c4d7d9af7a6a965b 
--SRCREV_mountinfo="1bf36f7188c31f2797c556c4c4d7d9af7a6a965b"
--SRC_URI += "git://github.com/moby/sys;name=mountinfo;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/moby/sys/mountinfo"
-+#       github.com/Masterminds/semver/v3 v3.2.1
-+# [1] git ls-remote https://github.com/Masterminds/semver e06051f8fcc4c8b4a4990c337b9862a2448722e5
-+SRCREV_v3="e06051f8fcc4c8b4a4990c337b9862a2448722e5"
-+SRC_URI += "git://github.com/Masterminds/semver;name=v3;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/Masterminds/semver/v3"
- 
--# 	github.com/moby/sys/sequential v0.5.0
--# [1] git ls-remote https://github.com/moby/sys b22ba8a69b306f0b4adbbe2a529457e6283ed9f7 
--SRCREV_sequential="b22ba8a69b306f0b4adbbe2a529457e6283ed9f7"
--SRC_URI += "git://github.com/moby/sys;name=sequential;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/moby/sys/sequential"
-+#       github.com/containerd/cgroups/v3 v3.0.2
-+# [1] git ls-remote https://github.com/containerd/cgroups 8fa64246e17ceea54277b3ad7139d9ec17545bfa
-+SRCREV_cgroups-v3="8fa64246e17ceea54277b3ad7139d9ec17545bfa"
-+SRC_URI += "git://github.com/containerd/cgroups;name=cgroups-v3;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/containerd/cgroups/v3"
- 
--# 	github.com/moby/sys/symlink v0.2.0
--# [1] git ls-remote https://github.com/moby/sys 03b9f8d59a07f5206a2264105f4903a222aea964 
--SRCREV_symlink="03b9f8d59a07f5206a2264105f4903a222aea964"
--SRC_URI += "git://github.com/moby/sys;name=symlink;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/moby/sys/symlink"
-+#       github.com/containerd/containerd v1.7.3
-+# [1] git ls-remote https://github.com/containerd/containerd 7880925980b188f4c97b462f709d0db8e8962aff
-+SRCREV_containerd="7880925980b188f4c97b462f709d0db8e8962aff"
-+SRC_URI += "git://github.com/containerd/containerd;name=containerd;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/containerd/containerd"
- 
--# 	github.com/mr-tron/base58 v1.2.0
--# [1] git ls-remote https://github.com/mr-tron/base58 cd0e5141f51dfcadb8311fd8e495eb11126a8010 
--SRCREV_base58="cd0e5141f51dfcadb8311fd8e495eb11126a8010"
--SRC_URI += "git://github.com/mr-tron/base58;name=base58;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/mr-tron/base58"
-+#       github.com/containerd/continuity v0.4.1
-+# [1] git ls-remote https://github.com/containerd/continuity 25762ef7c27a37645197ed6d1d708e55a230e35d
-+SRCREV_continuity="25762ef7c27a37645197ed6d1d708e55a230e35d"
-+SRC_URI += "git://github.com/containerd/continuity;name=continuity;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/containerd/continuity"
-+
-+#       github.com/containerd/typeurl/v2 v2.1.1
-+# [1] git ls-remote https://github.com/containerd/typeurl 7ef6316b771f959cbb208b229e3423a466947df3
-+SRCREV_v2="7ef6316b771f959cbb208b229e3423a466947df3"
-+SRC_URI += "git://github.com/containerd/typeurl;name=v2;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/containerd/typeurl/v2"
- 
--# 	github.com/multiformats/go-base32 v0.1.0
--# [1] git ls-remote https://github.com/multiformats/go-base32 a16b66327f327428b32b919939b8c93482507e1f 
-+#       github.com/coreos/go-systemd/v22 v22.5.0
-+# [1] git ls-remote https://github.com/coreos/go-systemd d5623bf85e8e73ae6352f78ee6b55a287619dd4e
-+SRCREV_v22="d5623bf85e8e73ae6352f78ee6b55a287619dd4e"
-+SRC_URI += "git://github.com/coreos/go-systemd;name=v22;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/coreos/go-systemd/v22"
-+
-+#       github.com/docker/go-connections v0.4.0
-+# [1] git ls-remote https://github.com/docker/go-connections 7395e3f8aa162843a74ed6d48e79627d9792ac55
-+SRCREV_go-connections="7395e3f8aa162843a74ed6d48e79627d9792ac55"
-+SRC_URI += "git://github.com/docker/go-connections;name=go-connections;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/docker/go-connections"
-+
-+#       github.com/xeipuuv/gojsonpointer v0.0.0-20190905194746-02993c407bfb
-+# [1] git ls-remote https://github.com/xeipuuv/gojsonpointer 02993c407bfbf5f6dae44c4f4b1cf6a39b5fc5bb
-+SRCREV_gojsonpointer="02993c407bfbf5f6dae44c4f4b1cf6a39b5fc5bb"
-+SRC_URI += "git://github.com/xeipuuv/gojsonpointer;name=gojsonpointer;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/xeipuuv/gojsonpointer"
-+
-+#       github.com/fahedouch/go-logrotate v0.1.3
-+# [1] git ls-remote https://github.com/fahedouch/go-logrotate 8d5cc0d08c8653a794ad7bfe7c4d8150b2179aa1
-+SRCREV_go-logrotate="8d5cc0d08c8653a794ad7bfe7c4d8150b2179aa1"
-+SRC_URI += "git://github.com/fahedouch/go-logrotate;name=go-logrotate;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/fahedouch/go-logrotate"
-+
-+#       github.com/mitchellh/mapstructure v1.5.0
-+# [1] git ls-remote https://github.com/mitchellh/mapstructure ab69d8d93410fce4361f4912bb1ff88110a81311
-+SRCREV_mapstructure="ab69d8d93410fce4361f4912bb1ff88110a81311"
-+SRC_URI += "git://github.com/mitchellh/mapstructure;name=mapstructure;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/mitchellh/mapstructure"
-+
-+#       github.com/multiformats/go-base32 v0.1.0
-+# [1] git ls-remote https://github.com/multiformats/go-base32 a16b66327f327428b32b919939b8c93482507e1f
- SRCREV_go-base32="a16b66327f327428b32b919939b8c93482507e1f"
- SRC_URI += "git://github.com/multiformats/go-base32;name=go-base32;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/multiformats/go-base32"
- 
--# 	github.com/multiformats/go-base36 v0.1.0
--# [1] git ls-remote https://github.com/multiformats/go-base36 dc4afa6ad3b0720f4a1b282776db2a59ca9c8be7 
-+#       github.com/multiformats/go-base36 v0.1.0
-+# [1] git ls-remote https://github.com/multiformats/go-base36 dc4afa6ad3b0720f4a1b282776db2a59ca9c8be7
- SRCREV_go-base36="dc4afa6ad3b0720f4a1b282776db2a59ca9c8be7"
- SRC_URI += "git://github.com/multiformats/go-base36;name=go-base36;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/multiformats/go-base36"
- 
--# 	github.com/multiformats/go-multiaddr v0.8.0
--# [1] git ls-remote https://github.com/multiformats/go-multiaddr f317559337171436148d927749f783f33b82a698 
--SRCREV_go-multiaddr="f317559337171436148d927749f783f33b82a698"
--SRC_URI += "git://github.com/multiformats/go-multiaddr;name=go-multiaddr;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/multiformats/go-multiaddr"
--
--# 	github.com/multiformats/go-multibase v0.1.1
--# [1] git ls-remote https://github.com/multiformats/go-multibase c1bc15b22eedb45f9205f3b60ce5fcb8fca93e08 
--SRCREV_go-multibase="c1bc15b22eedb45f9205f3b60ce5fcb8fca93e08"
--SRC_URI += "git://github.com/multiformats/go-multibase;name=go-multibase;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/multiformats/go-multibase"
--
--# 	github.com/multiformats/go-multihash v0.2.1
--# [1] git ls-remote https://github.com/multiformats/go-multihash 16974ad98ab1fb19eb756919f55373b39cc80bec 
--SRCREV_go-multihash="16974ad98ab1fb19eb756919f55373b39cc80bec"
--SRC_URI += "git://github.com/multiformats/go-multihash;name=go-multihash;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/multiformats/go-multihash"
--
--# 	github.com/multiformats/go-varint v0.0.6
--# [1] git ls-remote https://github.com/multiformats/go-varint a3ded45ab16ca9f2f2a516e68053ffa7ebd9bb0e 
-+#       github.com/multiformats/go-varint v0.0.6
-+# [1] git ls-remote https://github.com/multiformats/go-varint a3ded45ab16ca9f2f2a516e68053ffa7ebd9bb0e
- SRCREV_go-varint="a3ded45ab16ca9f2f2a516e68053ffa7ebd9bb0e"
- SRC_URI += "git://github.com/multiformats/go-varint;name=go-varint;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/multiformats/go-varint"
- 
--# 	github.com/opencontainers/runc v1.1.5
--# [1] git ls-remote https://github.com/opencontainers/runc f19387a6bec4944c770f7668ab51c4348d9c2f38 
--SRCREV_runc="f19387a6bec4944c770f7668ab51c4348d9c2f38"
--SRC_URI += "git://github.com/opencontainers/runc;name=runc;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/opencontainers/runc"
--
--# 	github.com/opencontainers/selinux v1.11.0
--# [1] git ls-remote https://github.com/opencontainers/selinux b68c45eb2df48c6b0c949901ccda90c8e65fe677 
-+#       github.com/opencontainers/selinux v1.11.0
-+# [1] git ls-remote https://github.com/opencontainers/selinux b68c45eb2df48c6b0c949901ccda90c8e65fe677
- SRCREV_selinux="b68c45eb2df48c6b0c949901ccda90c8e65fe677"
- SRC_URI += "git://github.com/opencontainers/selinux;name=selinux;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/opencontainers/selinux"
- 
--# 	github.com/philhofer/fwd v1.1.1
--# [1] git ls-remote https://github.com/philhofer/fwd 9bcb9cab1b0394d8516a132ec243ba944efdb644 
--SRCREV_fwd="9bcb9cab1b0394d8516a132ec243ba944efdb644"
--SRC_URI += "git://github.com/philhofer/fwd;name=fwd;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/philhofer/fwd"
-+#       github.com/compose-spec/compose-go v1.17.0
-+# [1] git ls-remote https://github.com/compose-spec/compose-go 95ac1be8bfdc4dc21cdfb14e37b52c31275046a3
-+SRCREV_compose-go="95ac1be8bfdc4dc21cdfb14e37b52c31275046a3"
-+SRC_URI += "git://github.com/compose-spec/compose-go;name=compose-go;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/compose-spec/compose-go"
- 
--# 	github.com/pkg/errors v0.9.1
--# [1] git ls-remote https://github.com/pkg/errors 614d223910a179a466c1767a985424175c39b465 
--SRCREV_errors="614d223910a179a466c1767a985424175c39b465"
--SRC_URI += "git://github.com/pkg/errors;name=errors;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/pkg/errors"
-+#       github.com/containernetworking/cni v1.1.2
-+# [1] git ls-remote https://github.com/containernetworking/cni 3363d143688bb83ca18489ac8b9dc204c1d49c4a
-+SRCREV_cni="3363d143688bb83ca18489ac8b9dc204c1d49c4a"
-+SRC_URI += "git://github.com/containernetworking/cni;name=cni;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/containernetworking/cni"
- 
--# 	github.com/spaolacci/murmur3 v1.1.0
--# [1] git ls-remote https://github.com/spaolacci/murmur3 f09979ecbc725b9e6d41a297405f65e7e8804acc 
--SRCREV_murmur3="f09979ecbc725b9e6d41a297405f65e7e8804acc"
--SRC_URI += "git://github.com/spaolacci/murmur3;name=murmur3;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/spaolacci/murmur3"
-+#       github.com/hashicorp/go-multierror v1.1.1
-+# [1] git ls-remote https://github.com/hashicorp/go-multierror 9974e9ec57696378079ecc3accd3d6f29401b3a0
-+SRCREV_go-multierror="9974e9ec57696378079ecc3accd3d6f29401b3a0"
-+SRC_URI += "git://github.com/hashicorp/go-multierror;name=go-multierror;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/hashicorp/go-multierror"
-+
-+#       github.com/xeipuuv/gojsonreference v0.0.0-20180127040603-bd5ef7bd5415
-+# [1] git ls-remote https://github.com/xeipuuv/gojsonreference bd5ef7bd5415a7ac448318e64f11a24cd21e594b
-+SRCREV_gojsonreference="bd5ef7bd5415a7ac448318e64f11a24cd21e594b"
-+SRC_URI += "git://github.com/xeipuuv/gojsonreference;name=gojsonreference;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/xeipuuv/gojsonreference"
-+
-+#       github.com/awslabs/soci-snapshotter v0.3.0
-+# [1] git ls-remote https://github.com/awslabs/soci-snapshotter 2574f6466b4a148be04f8f79c6e71167994452a7
-+SRCREV_soci-snapshotter="2574f6466b4a148be04f8f79c6e71167994452a7"
-+SRC_URI += "git://github.com/awslabs/soci-snapshotter;name=soci-snapshotter;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/awslabs/soci-snapshotter"
-+
-+#       github.com/opencontainers/go-digest v1.0.0
-+# [1] git ls-remote https://github.com/opencontainers/go-digest ea51bea511f75cfa3ef6098cc253c5c3609b037a
-+SRCREV_go-digest="ea51bea511f75cfa3ef6098cc253c5c3609b037a"
-+SRC_URI += "git://github.com/opencontainers/go-digest;name=go-digest;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/opencontainers/go-digest"
-+
-+#       github.com/opencontainers/image-spec v1.1.0-rc4
-+# [1] git ls-remote https://github.com/opencontainers/image-spec 82e8329f7eb6df5c62924f2792d285ba276ae876
-+SRCREV_image-spec="82e8329f7eb6df5c62924f2792d285ba276ae876"
-+SRC_URI += "git://github.com/opencontainers/image-spec;name=image-spec;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/opencontainers/image-spec"
-+
-+#       github.com/AdaLogics/go-fuzz-headers v0.0.0-20230106234847-43070de90fa1
-+# [1] git ls-remote https://github.com/AdaLogics/go-fuzz-headers 43070de90fa134c9ea55cd6de4308a2ae59658d3
-+SRCREV_go-fuzz-headers="43070de90fa134c9ea55cd6de4308a2ae59658d3"
-+SRC_URI += "git://github.com/AdaLogics/go-fuzz-headers;name=go-fuzz-headers;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/AdaLogics/go-fuzz-headers"
-+
-+#       github.com/inconshreveable/mousetrap v1.1.0
-+# [1] git ls-remote https://github.com/inconshreveable/mousetrap 4e8053ee7ef85a6bd26368364a6d27f1641c1d21
-+SRCREV_mousetrap="4e8053ee7ef85a6bd26368364a6d27f1641c1d21"
-+SRC_URI += "git://github.com/inconshreveable/mousetrap;name=mousetrap;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/inconshreveable/mousetrap"
-+
-+#       github.com/multiformats/go-multiaddr v0.8.0
-+# [1] git ls-remote https://github.com/multiformats/go-multiaddr f317559337171436148d927749f783f33b82a698
-+SRCREV_go-multiaddr="f317559337171436148d927749f783f33b82a698"
-+SRC_URI += "git://github.com/multiformats/go-multiaddr;name=go-multiaddr;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/multiformats/go-multiaddr"
-+
-+#       github.com/multiformats/go-multibase v0.1.1
-+# [1] git ls-remote https://github.com/multiformats/go-multibase c1bc15b22eedb45f9205f3b60ce5fcb8fca93e08
-+SRCREV_go-multibase="c1bc15b22eedb45f9205f3b60ce5fcb8fca93e08"
-+SRC_URI += "git://github.com/multiformats/go-multibase;name=go-multibase;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/multiformats/go-multibase"
-+
-+#       github.com/multiformats/go-multihash v0.2.1
-+# [1] git ls-remote https://github.com/multiformats/go-multihash 16974ad98ab1fb19eb756919f55373b39cc80bec
-+SRCREV_go-multihash="16974ad98ab1fb19eb756919f55373b39cc80bec"
-+SRC_URI += "git://github.com/multiformats/go-multihash;name=go-multihash;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/multiformats/go-multihash"
- 
--# 	github.com/stefanberger/go-pkcs11uri v0.0.0-20201008174630-78d3cae3a980
--# [1] git ls-remote https://github.com/stefanberger/go-pkcs11uri 78d3cae3a9805d89aa4fa80a362ca944c89a1b99 
-+#       github.com/stefanberger/go-pkcs11uri v0.0.0-20201008174630-78d3cae3a980
-+# [1] git ls-remote https://github.com/stefanberger/go-pkcs11uri 78d3cae3a9805d89aa4fa80a362ca944c89a1b99
- SRCREV_go-pkcs11uri="78d3cae3a9805d89aa4fa80a362ca944c89a1b99"
- SRC_URI += "git://github.com/stefanberger/go-pkcs11uri;name=go-pkcs11uri;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/stefanberger/go-pkcs11uri"
- 
--# 	github.com/tidwall/match v1.1.1
--# [1] git ls-remote https://github.com/tidwall/match 4c9fc61b493b7aa0a3d347e9190aa78c5bec09cf 
--SRCREV_match="4c9fc61b493b7aa0a3d347e9190aa78c5bec09cf"
--SRC_URI += "git://github.com/tidwall/match;name=match;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/tidwall/match"
-+#       github.com/cyphar/filepath-securejoin v0.2.3
-+# [1] git ls-remote https://github.com/cyphar/filepath-securejoin 8f267f5ea675a20a2cb5e91011d063721f53bf79
-+SRCREV_filepath-securejoin="8f267f5ea675a20a2cb5e91011d063721f53bf79"
-+SRC_URI += "git://github.com/cyphar/filepath-securejoin;name=filepath-securejoin;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/cyphar/filepath-securejoin"
- 
--# 	github.com/tidwall/pretty v1.2.0
--# [1] git ls-remote https://github.com/tidwall/pretty aaa765e7476acb0028a854b85675801362cbdaa2 
--SRCREV_pretty="aaa765e7476acb0028a854b85675801362cbdaa2"
--SRC_URI += "git://github.com/tidwall/pretty;name=pretty;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/tidwall/pretty"
-+#       github.com/containernetworking/plugins v1.3.0
-+# [1] git ls-remote https://github.com/containernetworking/plugins 38f18d26ecfef550b8bac02656cc11103fd7cff1
-+SRCREV_plugins="38f18d26ecfef550b8bac02656cc11103fd7cff1"
-+SRC_URI += "git://github.com/containernetworking/plugins;name=plugins;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/containernetworking/plugins"
- 
--# 	github.com/tinylib/msgp v1.1.6
--# [1] git ls-remote https://github.com/tinylib/msgp 205265da651409c54677b486e350b4d105da6d8b 
--SRCREV_msgp="205265da651409c54677b486e350b4d105da6d8b"
--SRC_URI += "git://github.com/tinylib/msgp;name=msgp;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/tinylib/msgp"
-+#       github.com/fluent/fluent-logger-golang v1.9.0
-+# [1] git ls-remote https://github.com/fluent/fluent-logger-golang 5538e904aeb515c10a624da620581bdf420d4b8a
-+SRCREV_fluent-logger-golang="5538e904aeb515c10a624da620581bdf420d4b8a"
-+SRC_URI += "git://github.com/fluent/fluent-logger-golang;name=fluent-logger-golang;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/fluent/fluent-logger-golang"
- 
--# 	github.com/vbatts/tar-split v0.11.2
--# [1] git ls-remote https://github.com/vbatts/tar-split 80a436fd6164c557b131f7c59ed69bd81af69761 
--SRCREV_tar-split="80a436fd6164c557b131f7c59ed69bd81af69761"
--SRC_URI += "git://github.com/vbatts/tar-split;name=tar-split;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/vbatts/tar-split"
-+#       github.com/opencontainers/runtime-spec v1.1.0
-+# [1] git ls-remote https://github.com/opencontainers/runtime-spec 06252546d1cabcd924a5fb3cb0177178d5e3082f
-+SRCREV_runtime-spec="06252546d1cabcd924a5fb3cb0177178d5e3082f"
-+SRC_URI += "git://github.com/opencontainers/runtime-spec;name=runtime-spec;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/opencontainers/runtime-spec"
- 
--# 	github.com/xeipuuv/gojsonpointer v0.0.0-20190905194746-02993c407bfb
--# [1] git ls-remote https://github.com/xeipuuv/gojsonpointer 02993c407bfbf5f6dae44c4f4b1cf6a39b5fc5bb 
--SRCREV_gojsonpointer="02993c407bfbf5f6dae44c4f4b1cf6a39b5fc5bb"
--SRC_URI += "git://github.com/xeipuuv/gojsonpointer;name=gojsonpointer;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/xeipuuv/gojsonpointer"
-+#       github.com/AdamKorcz/go-118-fuzz-build v0.0.0-20230306123547-8075edf89bb0
-+# [1] git ls-remote https://github.com/AdamKorcz/go-118-fuzz-build 8075edf89bb034603c758f28fe93143047ac5677
-+SRCREV_go-118-fuzz-build="8075edf89bb034603c758f28fe93143047ac5677"
-+SRC_URI += "git://github.com/AdamKorcz/go-118-fuzz-build;name=go-118-fuzz-build;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/AdamKorcz/go-118-fuzz-build"
- 
--# 	github.com/xeipuuv/gojsonreference v0.0.0-20180127040603-bd5ef7bd5415
--# [1] git ls-remote https://github.com/xeipuuv/gojsonreference bd5ef7bd5415a7ac448318e64f11a24cd21e594b 
--SRCREV_gojsonreference="bd5ef7bd5415a7ac448318e64f11a24cd21e594b"
--SRC_URI += "git://github.com/xeipuuv/gojsonreference;name=gojsonreference;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/xeipuuv/gojsonreference"
-+#       github.com/containerd/nydus-snapshotter v0.10.0
-+# [1] git ls-remote https://github.com/containerd/nydus-snapshotter 8ca9591ac87cd816783d58ce0c07f6747b9f1282
-+SRCREV_nydus-snapshotter="8ca9591ac87cd816783d58ce0c07f6747b9f1282"
-+SRC_URI += "git://github.com/containerd/nydus-snapshotter;name=nydus-snapshotter;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/containerd/nydus-snapshotter"
- 
--# 	github.com/xeipuuv/gojsonschema v1.2.0
--# [1] git ls-remote https://github.com/xeipuuv/gojsonschema 82fcdeb203eb6ab2a67d0a623d9c19e5e5a64927 
--SRCREV_gojsonschema="82fcdeb203eb6ab2a67d0a623d9c19e5e5a64927"
--SRC_URI += "git://github.com/xeipuuv/gojsonschema;name=gojsonschema;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/xeipuuv/gojsonschema"
-+#       github.com/distribution/distribution/v3 v3.0.0-20230214150026-36d8c594d7aa
-+# [1] git ls-remote https://github.com/distribution/distribution 36d8c594d7aa4fb0b9b927fb1edf4171b36f361b
-+SRCREV_distribution-v3="36d8c594d7aa4fb0b9b927fb1edf4171b36f361b"
-+SRC_URI += "git://github.com/distribution/distribution;name=distribution-v3;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/distribution/distribution/v3"
- 
--# 	go.mozilla.org/pkcs7 v0.0.0-20200128120323-432b2356ecb1
--# [1] git ls-remote https://github.com/mozilla-services/pkcs7 432b2356ecb18209c1cec25680b8a23632794f21 
--SRCREV_pkcs7="432b2356ecb18209c1cec25680b8a23632794f21"
--SRC_URI += "git://github.com/mozilla-services/pkcs7;name=pkcs7;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/go.mozilla.org/pkcs7"
-+#       github.com/containerd/stargz-snapshotter v0.14.3
-+# [1] git ls-remote https://github.com/containerd/stargz-snapshotter 6ee6fa1a88df6ea098f6b7dddde29e33f09d5331
-+SRCREV_stargz-snapshotter="6ee6fa1a88df6ea098f6b7dddde29e33f09d5331"
-+SRC_URI += "git://github.com/containerd/stargz-snapshotter;name=stargz-snapshotter;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/containerd/stargz-snapshotter"
- 
--# 	go.opencensus.io v0.24.0
--# [1] git ls-remote https://github.com/census-instrumentation/opencensus-go b1a01ee95db0e690d91d7193d037447816fae4c5 
--SRCREV_go.opencensus.io="b1a01ee95db0e690d91d7193d037447816fae4c5"
--SRC_URI += "git://github.com/census-instrumentation/opencensus-go;name=go.opencensus.io;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/go.opencensus.io"
-+#       github.com/rootless-containers/rootlesskit v1.1.1
-+# [1] git ls-remote https://github.com/rootless-containers/rootlesskit a2c596ff9b3fddc0c2becb38f2ef4004f15765b5
-+SRCREV_rootlesskit="a2c596ff9b3fddc0c2becb38f2ef4004f15765b5"
-+SRC_URI += "git://github.com/rootless-containers/rootlesskit;name=rootlesskit;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/rootless-containers/rootlesskit"
- 
--# 	go.opentelemetry.io/otel v1.14.0
--# [1] git ls-remote https://github.com/open-telemetry/opentelemetry-go 2e54fbb3fede5b54f316b3a08eab236febd854e0 
--SRCREV_otel="2e54fbb3fede5b54f316b3a08eab236febd854e0"
--SRC_URI += "git://github.com/open-telemetry/opentelemetry-go;name=otel;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/go.opentelemetry.io/otel"
-+#       github.com/rootless-containers/bypass4netns v0.3.0
-+# [1] git ls-remote https://github.com/rootless-containers/bypass4netns 8175487972621850933a7bd6c6924a16569ba435
-+SRCREV_bypass4netns="8175487972621850933a7bd6c6924a16569ba435"
-+SRC_URI += "git://github.com/rootless-containers/bypass4netns;name=bypass4netns;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/rootless-containers/bypass4netns"
- 
--# 	golang.org/x/mod v0.9.0
--# [1] git ls-remote https://github.com/golang/mod 69aa7acea306dfd277ec48fcc687ef8fa0f2bdb4 
--SRCREV_mod="69aa7acea306dfd277ec48fcc687ef8fa0f2bdb4"
--SRC_URI += "git://github.com/golang/mod;name=mod;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/golang.org/x/mod"
--
--# 	golang.org/x/tools v0.6.0
--# [1] git ls-remote https://github.com/golang/tools d0863f03daeff79ab917de5768285bb077f77b20 
--SRCREV_tools="d0863f03daeff79ab917de5768285bb077f77b20"
--SRC_URI += "git://github.com/golang/tools;name=tools;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/golang.org/x/tools"
--
--# 	google.golang.org/genproto v0.0.0-20230306155012-7f2fa6fef1f4
--# [1] git ls-remote https://github.com/googleapis/go-genproto 7f2fa6fef1f44d4d1e9f75b0eff784d1466e53d7 
--SRCREV_genproto="7f2fa6fef1f44d4d1e9f75b0eff784d1466e53d7"
--SRC_URI += "git://github.com/googleapis/go-genproto;name=genproto;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/googleapis/go-genproto"
--
--# 	google.golang.org/grpc v1.53.0
--# [1] git ls-remote https://github.com/grpc/grpc-go dba26e15a07f43875ccf806a2dd6cbcbc1c12eab 
--SRCREV_grpc="dba26e15a07f43875ccf806a2dd6cbcbc1c12eab"
--SRC_URI += "git://github.com/grpc/grpc-go;name=grpc;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/grpc/grpc-go"
--
--# 	google.golang.org/protobuf v1.28.1
--# [1] git ls-remote https://github.com/protocolbuffers/protobuf-go 6875c3d7242d1a3db910ce8a504f124cb840c23a 
--SRCREV_protobuf12="6875c3d7242d1a3db910ce8a504f124cb840c23a"
--SRC_URI += "git://github.com/protocolbuffers/protobuf-go;name=protobuf12;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/protocolbuffers/protobuf-go"
--
--# 	gopkg.in/square/go-jose.v2 v2.5.1
--# [1] git ls-remote https://gopkg.in/square/go-jose.v2 3a5ee095dcb5030a9de84fb92c222ac652fff176 
--SRCREV_go-jose.v2="3a5ee095dcb5030a9de84fb92c222ac652fff176"
--SRC_URI += "git://gopkg.in/square/go-jose.v2;name=go-jose.v2;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/gopkg.in/square/go-jose.v2"
-+#       github.com/docker/docker-credential-helpers v0.7.0
-+# [1] git ls-remote https://github.com/docker/docker-credential-helpers ac5992b5f4756fc0398a7d0c93c609e624368bde
-+SRCREV_docker-credential-helpers="ac5992b5f4756fc0398a7d0c93c609e624368bde"
-+SRC_URI += "git://github.com/docker/docker-credential-helpers;name=docker-credential-helpers;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/docker/docker-credential-helpers"
- 
--# 	lukechampine.com/blake3 v1.1.7
--# [1] git ls-remote https://github.com/lukechampine/blake3 bb7ece4161ea910c6c385c17799b17d658075fcd 
--SRCREV_blake3="bb7ece4161ea910c6c385c17799b17d658075fcd"
--SRC_URI += "git://github.com/lukechampine/blake3;name=blake3;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/lukechampine.com/blake3"
-+#       github.com/containerd/stargz-snapshotter/ipfs v0.14.3
-+# [1] git ls-remote https://github.com/containerd/stargz-snapshotter 6ee6fa1a88df6ea098f6b7dddde29e33f09d5331
-+SRCREV_ipfs="6ee6fa1a88df6ea098f6b7dddde29e33f09d5331"
-+SRC_URI += "git://github.com/containerd/stargz-snapshotter;name=ipfs;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/containerd/stargz-snapshotter/ipfs"
-+
-+#       github.com/containerd/stargz-snapshotter/estargz v0.14.3
-+# [1] git ls-remote https://github.com/containerd/stargz-snapshotter 6ee6fa1a88df6ea098f6b7dddde29e33f09d5331
-+SRCREV_estargz="6ee6fa1a88df6ea098f6b7dddde29e33f09d5331"
-+SRC_URI += "git://github.com/containerd/stargz-snapshotter;name=estargz;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/containerd/stargz-snapshotter/estargz"
-+
-+#       github.com/containerd/accelerated-container-image v0.6.7
-+# [1] git ls-remote https://github.com/containerd/accelerated-container-image aabf505074e0a31879bf004ec400c659ff046b70
-+SRCREV_accelerated-container-image="aabf505074e0a31879bf004ec400c659ff046b70"
-+SRC_URI += "git://github.com/containerd/accelerated-container-image;name=accelerated-container-image;protocol=https;nobranch=1;destsuffix=${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/containerd/accelerated-container-image"
- 
--- 
-2.40.0
+> From: Chen Qi <Qi.Chen@windriver.com>
+>
+> oe-go-mod-autogen.py is a helper script for go mod recipes. It follows
+> Bruce's initiative about how to deal with go mod recipes in OE.
+>
 
+Place the below description on some README file or commented itself inside
+the script can be useful for others.
+
+Jose
+
+Example:
+> cmd: <path_to>/meta-virtualization/scripts/oe-go-mod-autogen.py \
+>      --repo https://github.com/docker/compose --rev v2.20.3
+> output: src_uri.inc, relocation.inc, modules.txt
+>
+> Copy these three generated files to replace the original ones,
+> then we only need update PV and SRCREV, and docker-compose is upgraded.
+>
+> Below are some technical details.
+>
+> * get module's repo from module name
+>
+>   This script checks the following two URLs to determine the module's rep=
+o.
+>   1. https://<module_name_tweaked>?=3Dgo-get=3D1
+>   2. https://pkg.go.dev/<module_name_tweaked>
+>
+>   The module_name_tweaked is derived from module_name, with the last
+> components
+>   removed one by one. Let me use two examples to explain this.
+>
+>   For module_name sigs.k8s.io/json, the sigs.k8s.io/json is first used as
+>   module_name_tweaked for searching. And we can correctly get the repo
+> URL, so
+>   the search stops.
+>
+>   For module_name github.com/k3s-io/etcd/api/v3, the following ones are
+> used
+>   as module_name_tweaked:
+>   github.com/k3s-io/etcd/api/v3
+>   github.com/k3s-io/etcd/api
+>   github.com/k3s-io/etcd
+>   And when searching 'github.com/k3s-io/etcd', we get the repo URL, so
+> the search
+>   stops.
+>
+> * determine the srcdir:destdir mapping in 'vendor' creation
+>
+>   To correctly form the 'vendor' directory, the mapping is critical.
+>   This script makes use of tag matching and path matching to determine
+>   the subpath in the repo for the module.
+>
+> * avoid subpath being overriden by parent path
+>
+>   We need to avoid subpath being overriden by parent path. This is needed
+>   for both SRC_URI ordering in src_uri.inc and the sites mapping ordering
+>   in relocation.inc. This script simply uses the length as the ordering
+> key,
+>   simply for the reason that if a path is a subpath of another path, it
+> must
+>   be longer.
+>
+> * the .git suffix is removed to sync with each other
+>
+>   Unlike normal recipes, go mod recipe usually have many SRC_URIs. This
+> script
+>   remove the '.git' suffix from repo URL so that the repo URLs are in syn=
+c
+>   with each.
+>
+> * basic directory hierarchy and caching mechanism
+>
+>   <cwd>/repos: hold the repos downloaded and checked
+>   <cwd>/wget-contents: hold the contents to determine the module's repo
+>   <cwd>/wget-contents/<module_name>.repo_url.cache: the repo value cache
+>   This is to avoid unnecessary URL fetching and repo cloning.
+>
+> * the ERROR_OUT_ON_FETCH_AND_CHECKOUT_FAILURE switch in script
+>
+>   The script must get the correct repo_url, fullsrc_rev and subpath for
+>   each required module in go.mod to correctly generate the src_uri.inc an=
+d
+>   relocation.inc files. If this process fails for any required module, th=
+is
+>   script stop immediately, as I deliberately set
+> ERROR_OUT_ON_FETCH_AND_CHECKOUT_FAILURE
+>   to True in this script. The purpose is to encourage people to report
+>   problems to meta-virt so that we can improve this script according to
+>   these feedbacks. But this variable can set to False, then the script
+>   only records the failed modules in self.modules_unhandled with reasons
+>   added, people can modify the generated src_uri.inc and relocation.inc
+>   to manually handle these unhandled modules if they are urgent to
+>   add/upgrade some go mod recipes.
+>
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+>  scripts/oe-go-mod-autogen.py | 663 +++++++++++++++++++++++++++++++++++
+>  1 file changed, 663 insertions(+)
+>  create mode 100755 scripts/oe-go-mod-autogen.py
+>
+> diff --git a/scripts/oe-go-mod-autogen.py b/scripts/oe-go-mod-autogen.py
+> new file mode 100755
+> index 00000000..09d6133b
+> --- /dev/null
+> +++ b/scripts/oe-go-mod-autogen.py
+> @@ -0,0 +1,663 @@
+> +#!/usr/bin/env python3
+> +
+> +import os
+> +import sys
+> +import logging
+> +import argparse
+> +from collections import OrderedDict
+> +import subprocess
+> +
+> +# This switch is used to make this script error out ASAP, mainly for
+> debugging purpose
+> +ERROR_OUT_ON_FETCH_AND_CHECKOUT_FAILURE =3D True
+> +
+> +logger =3D logging.getLogger('oe-go-mod-autogen')
+> +loggerhandler =3D logging.StreamHandler()
+> +loggerhandler.setFormatter(logging.Formatter("%(levelname)s:
+> %(message)s"))
+> +logger.addHandler(loggerhandler)
+> +logger.setLevel(logging.INFO)
+> +
+> +class GoModTool(object):
+> +    def __init__(self, repo, rev, workdir):
+> +        self.repo =3D repo
+> +        self.rev =3D rev
+> +        self.workdir =3D workdir
+> +
+> +        # Stores the actual module name and its related information
+> +        # {module: (repo_url, repo_dest_dir, fullsrcrev)}
+> +        self.modules_repoinfo =3D {}
+> +
+> +        # {module_name: (url, version, destdir, fullsrcrev)}
+> +        #
+> +        # url: place to get the source codes, we only support git repo
+> +        # version: module version, git tag or git rev
+> +        # destdir: place to put the fetched source codes
+> +        # fullsrcrev: full src rev which is the value of SRC_REV
+> +        #
+> +        # e.g.
+> +        # For 'github.com/Masterminds/semver/v3 v3.1.1' in go.mod:
+> +        # module_name =3D github.com/Masterminds/semver/v3
+> +        # url =3D https://github.com/Masterminds/semver
+> +        # version =3D v3.1.1
+> +        # destdir =3D ${WORKDIR}/${BP}/src/${GO_IMPORT}/vendor/
+> github.com/Masterminds/semver/v3
+> +        # fullsrcrev =3D d387ce7889a157b19ad7694dba39a562051f41b0
+> +        self.modules_require =3D OrderedDict()
+> +
+> +        # {orig_module: (actual_module, actual_version)}
+> +        self.modules_replace =3D OrderedDict()
+> +
+> +        # Unhandled modules
+> +        self.modules_unhandled =3D OrderedDict()
+> +
+> +        # store subpaths used to form srcpath
+> +        # {actual_module_name: subpath}
+> +        self.modules_subpaths =3D OrderedDict()
+> +
+> +        # modules's actual source paths, record those that are not the
+> same with the module itself
+> +        self.modules_srcpaths =3D OrderedDict()
+> +
+> +        # store lines, comment removed
+> +        self.require_lines =3D []
+> +        self.replace_lines =3D []
+> +
+> +        # fetch repo
+> +        self.fetch_and_checkout_repo(self.repo.split('://')[1],
+> self.repo, self.rev, checkout=3DTrue, get_subpath=3DFalse)
+> +
+> +    def show_go_mod_info(self):
+> +        # Print modules_require, modules_replace and modules_unhandled
+> +        print("modules required:")
+> +        for m in self.modules_require:
+> +            url, version, destdir, fullrev =3D self.modules_require[m]
+> +            print("%s %s %s %s" % (m, version, url, fullrev))
+> +
+> +        print("modules replace:")
+> +        for m in self.modules_replace:
+> +            actual_module, actual_version =3D self.modules_replace[m]
+> +            print("%s =3D> %s %s" % (m, actual_module, actual_version))
+> +
+> +        print("modules unhandled:")
+> +        for m in self.modules_unhandled:
+> +            reason =3D self.modules_unhandled[m]
+> +            print("%s unhandled: %s" % (m, reason))
+> +
+> +    def parse(self):
+> +        # check if this repo needs autogen
+> +        repo_url, repo_dest_dir, repo_fullrev =3D
+> self.modules_repoinfo[self.repo.split('://')[1]]
+> +        if os.path.isdir(os.path.join(repo_dest_dir, 'vendor')):
+> +            logger.info("vendor direcotry has already existed for %s, no
+> need to add other repos" % self.repo)
+> +            return
+> +        go_mod_file =3D os.path.join(repo_dest_dir, 'go.mod')
+> +        if not os.path.exists(go_mod_file):
+> +            logger.info("go.mod file does not exist for %s, no need to
+> add otehr repos" % self.repo)
+> +            return
+> +        self.parse_go_mod(go_mod_file)
+> +        self.show_go_mod_info()
+> +
+> +    def fetch_and_checkout_repo(self, module_name, repo_url, rev,
+> default_protocol=3D'https://', checkout=3DFalse, get_subpath=3DTrue):
+> +        """
+> +        Fetch repo_url to <workdir>/repos/repo_base_name
+> +        """
+> +        protocol =3D default_protocol
+> +        if '://' in repo_url:
+> +            repo_url_final =3D repo_url
+> +        else:
+> +            repo_url_final =3D default_protocol + repo_url
+> +        logger.debug("fetch and checkout %s %s" % (repo_url_final, rev))
+> +        repos_dir =3D os.path.join(self.workdir, 'repos')
+> +        if not os.path.exists(repos_dir):
+> +            os.makedirs(repos_dir)
+> +        repo_basename =3D repo_url.split('/')[-1].split('.git')[0]
+> +        repo_dest_dir =3D os.path.join(repos_dir, repo_basename)
+> +        module_last_name =3D module_name.split('/')[-1]
+> +        git_action =3D "fetch"
+> +        if os.path.exists(repo_dest_dir):
+> +            if checkout:
+> +                # check if current HEAD is rev
+> +                try:
+> +                    headrev =3D subprocess.check_output('git rev-list -1
+> HEAD', shell=3DTrue, cwd=3Drepo_dest_dir).decode('utf-8').strip()
+> +                    requiredrev =3D subprocess.check_output('git rev-lis=
+t
+> -1 %s 2>/dev/null || git rev-list -1 %s/%s' % (rev, module_last_name, rev=
+),
+> shell=3DTrue, cwd=3Drepo_dest_dir).decode('utf-8').strip()
+> +                    if headrev =3D=3D requiredrev:
+> +                        logger.info("%s has already been fetched and
+> checked out as required, skipping" % repo_url)
+> +                        self.modules_repoinfo[module_name] =3D (repo_url=
+,
+> repo_dest_dir, requiredrev)
+> +                        return
+> +                    else:
+> +                        logger.info("HEAD of %s is not %s, will do a
+> clean clone" % (repo_dest_dir, requiredrev))
+> +                        git_action =3D "clone"
+> +                except:
+> +                    logger.info("'git rev-list' in %s failed, will do a
+> clean clone" % repo_dest_dir)
+> +                    git_action =3D "clone"
+> +            else:
+> +                # determine if the current repo points to the desired
+> remote repo
+> +                try:
+> +                    remote_origin_url =3D subprocess.check_output('git
+> config --get remote.origin.url', shell=3DTrue,
+> cwd=3Drepo_dest_dir).decode('utf-8').strip()
+> +                    if remote_origin_url.endswith('.git'):
+> +                        if not repo_url_final.endswith('.git'):
+> +                            remote_origin_url =3D remote_origin_url[:-4]
+> +                    else:
+> +                        if repo_url_final.endswith('.git'):
+> +                            remote_origin_url =3D remote_origin_url + '.=
+git'
+> +                    if remote_origin_url !=3D repo_url_final:
+> +                        logger.info("remote.origin.url for %s is not %s,
+> will do a clean clone" % (repo_dest_dir, repo_url_final))
+> +                        git_action =3D "clone"
+> +                except:
+> +                    logger.info("'git config --get remote.origin.url' in
+> %s failed, will do a clean clone" % repo_dest_dir)
+> +                    git_action =3D "clone"
+> +        else:
+> +            # No local repo, clone it.
+> +            git_action =3D "clone"
+> +
+> +        if git_action =3D=3D "clone":
+> +            logger.info("Removing %s" % repo_dest_dir)
+> +            subprocess.check_call('rm -rf %s' % repo_dest_dir, shell=3DT=
+rue)
+> +
+> +        # clone/fetch repo
+> +        try:
+> +            git_cwd =3D repos_dir if git_action =3D=3D "clone" else
+> repo_dest_dir
+> +            logger.info("git %s %s in %s" % (git_action, repo_url_final,
+> git_cwd))
+> +            subprocess.check_call('git %s %s >/dev/null 2>&1' %
+> (git_action, repo_url_final), shell=3DTrue, cwd=3Dgit_cwd)
+> +        except:
+> +            logger.warning("Failed to %s %s in %s" % (git_action,
+> repo_url_final, git_cwd))
+> +            return
+> +
+> +        def get_requiredrev(get_subpath):
+> +            import re
+> +            # check if rev is a revision or a version
+> +            if len(rev) =3D=3D 12 and re.match('[0-9a-f]+', rev):
+> +                rev_is_version =3D False
+> +            else:
+> +                rev_is_version =3D True
+> +
+> +            # if rev is not a version, 'git rev-list -1 <rev>' should
+> just succeed!
+> +            if not rev_is_version:
+> +                try:
+> +                    rev_return =3D subprocess.check_output('git rev-list=
+ -1
+> %s 2>/dev/null' % rev, shell=3DTrue,
+> cwd=3Drepo_dest_dir).decode('utf-8').strip()
+> +                    if get_subpath:
+> +                        cmd =3D 'git branch -M toremove && git checkout =
+-b
+> check_subpath %s && git branch -D toremove' % rev_return
+> +                        subprocess.check_call(cmd, shell=3DTrue,
+> cwd=3Drepo_dest_dir)
+> +                        # try to get the subpath for this module
+> +                        module_name_parts =3D module_name.split('/')
+> +                        while (len(module_name_parts) > 0):
+> +                            subpath =3D '/'.join(module_name_parts)
+> +                            dir_to_check =3D repo_dest_dir + '/' +
+> '/'.join(module_name_parts)
+> +                            if os.path.isdir(dir_to_check):
+> +                                self.modules_subpaths[module_name] =3D
+> subpath
+> +                                break
+> +                            else:
+> +                                module_name_parts.pop(0)
+> +                    return rev_return
+> +                except:
+> +                    logger.warning("Revision (%s) not in repo(%s)" %
+> (rev, repo_dest_dir))
+> +                    return None
+> +
+> +            # the following codes deals with case where rev is a version
+> +            # determine the longest match tag, in this way, we can get
+> the current srcpath to be used in relocation.inc
+> +            # we first get the initial tag, which is formed from
+> module_name and rev
+> +            module_parts =3D module_name.split('/')
+> +            if rev.startswith(module_parts[-1] + '.'):
+> +                tag =3D '/'.join(module_parts[:-1]) + '/' + rev
+> +                last_module_part_replaced =3D True
+> +            else:
+> +                tag =3D '/'.join(module_parts) + '/' + rev
+> +                last_module_part_replaced =3D False
+> +            logger.debug("use %s as the initial tag for %s" % (tag,
+> module_name))
+> +            tag_parts =3D tag.split('/')
+> +            while(len(tag_parts) > 0):
+> +                try:
+> +                    rev_return =3D subprocess.check_output('git rev-list=
+ -1
+> %s 2>/dev/null' % tag, shell=3DTrue,
+> cwd=3Drepo_dest_dir).decode('utf-8').strip()
+> +                    if len(tag_parts) > 1:
+> +                        # ensure that the subpath exists
+> +                        if get_subpath:
+> +                            cmd =3D 'git branch -M toremove && git check=
+out
+> -b check_subpath %s && git branch -D toremove' % rev_return
+> +                            subprocess.check_call(cmd, shell=3DTrue,
+> cwd=3Drepo_dest_dir)
+> +                            # get subpath for the actual_module_name
+> +                            if last_module_part_replaced:
+> +                                subpath =3D '/'.join(tag_parts[:-1]) + '=
+/'
+> + module_parts[-1]
+> +                                if not os.path.isdir(repo_dest_dir + '/'
+> + subpath):
+> +                                    subpath =3D '/'.join(tag_parts[:-1])
+> +                            else:
+> +                                subpath =3D '/'.join(tag_parts[:-1])
+> +                            if not os.path.isdir(repo_dest_dir + '/' +
+> subpath):
+> +                                logger.warning("subpath (%s) derived fro=
+m
+> tag matching does not exist in %s" % (subpath, repo_dest_dir))
+> +                                return None
+> +                            self.modules_subpaths[module_name] =3D subpa=
+th
+> +                            logger.info("modules_subpath[%s] =3D %s" %
+> (module_name, subpath))
+> +                    return rev_return
+> +                except:
+> +                    tag_parts.pop(0)
+> +                    tag =3D '/'.join(tag_parts)
+> +            logger.warning("No tag matching %s" % rev)
+> +            return None
+> +
+> +        requiredrev =3D get_requiredrev(get_subpath)
+> +        if requiredrev:
+> +            logger.info("Got module(%s) requiredrev: %s" % (module_name,
+> requiredrev))
+> +            if checkout:
+> +                subprocess.check_call('git checkout -b gomodautogen %s' =
+%
+> requiredrev, shell=3DTrue, cwd=3Drepo_dest_dir)
+> +            self.modules_repoinfo[module_name] =3D (repo_url,
+> repo_dest_dir, requiredrev)
+> +        else:
+> +            logger.warning("Failed to get requiredrev, repo_url =3D %s, =
+rev
+> =3D %s, module_name =3D %s" % (repo_url, rev, module_name))
+> +
+> +    def parse_go_mod(self, go_mod_path):
+> +        """
+> +        Parse go.mod file to get the modules info
+> +        """
+> +        # First we get the require and replace lines
+> +        # The parsing logic assumes the replace lines come *after* the
+> require lines
+> +        inrequire =3D False
+> +        inreplace =3D False
+> +        with open(go_mod_path, 'r') as f:
+> +            lines =3D f.readlines()
+> +            for line in lines:
+> +                if line.startswith('require ('):
+> +                    inrequire =3D True
+> +                    continue
+> +                if line.startswith(')'):
+> +                    inrequire =3D False
+> +                    continue
+> +                if line.startswith('require ') or inrequire:
+> +                    # we have one line require
+> +                    require_line =3D line.lstrip('require
+> ').split('//')[0].strip()
+> +                    if require_line:
+> +                        self.require_lines.append(require_line)
+> +                    continue
+> +                # we can deal with requires and replaces separately
+> because go.mod always writes requires before replaces
+> +                if line.startswith('replace ('):
+> +                    inreplace =3D True
+> +                    continue
+> +                if line.startswith(')'):
+> +                    inreplace =3D False
+> +                    continue
+> +                if line.startswith('replace ') or inreplace:
+> +                    replace_line =3D line.lstrip('replace
+> ').split('//')[0].strip()
+> +                    if replace_line:
+> +                        self.replace_lines.append(replace_line)
+> +                    continue
+> +        #
+> +        # parse the require_lines and replace_lines to form
+> self.modules_require and self.modules_replace
+> +        #
+> +        logger.debug("Parsing require_lines and replace_lines ...")
+> +        # A typical replace line is as below:
+> +        #   github.com/hashicorp/golang-lru =3D>
+> github.com/ktock/golang-lru v0.5.5-0.20211029085301-ec551be6f75c
+> +        # It means that the github.com/hashicorp/golang-lru module is
+> replaced by github.com/ktock/golang-lru
+> +        # with the version 'v0.5.5-0.20211029085301-ec551be6f75c'.
+> +        # So the destdir is vendor/github.com/hashicorp/golang-lru while
+> the contents are from github.com/ktock/golang-lru
+> +        for line in self.replace_lines:
+> +            orig_module, actual =3D line.split('=3D>')
+> +            actual_module, actual_version =3D actual.split()
+> +            orig_module =3D orig_module.strip()
+> +            actual_module =3D actual_module.strip()
+> +            actual_version =3D actual_version.strip()
+> +            self.modules_replace[orig_module] =3D (actual_module,
+> actual_version)
+> +        #
+> +        # Typical require lines are as below:
+> +        #   github.com/Masterminds/semver/v3 v3.1.1
+> +        #   golang.org/x/crypto v0.0.0-20220321153916-2c7772ba3064
+> +        #
+> +        # We need to first try https://<module_name>?=3Dgo-get=3D1 to se=
+e it
+> contains
+> +        # line starting with '<meta name=3D"go-import" content=3D'.
+> +        #
+> +        # If so, get root-path vcs repo-url from content. See
+> https://go.dev/ref/mod#vcs-find
+> +        # For example, the above 'wget
+> https://golang.org/x/crypto?go-get=3D1' gives you
+> +        # <meta name=3D"go-import" content=3D"golang.org/x/crypto git
+> https://go.googlesource.com/crypto">
+> +        # In such case, the self.modules_require has the following
+> contents:
+> +        # module_name: golang.org/x/crypto
+> +        # url: https://go.googlesource.com/crypto
+> +        # version: v0.0.0-20220321153916-2c7772ba3064
+> +        # destdir: ${WORKDIR}/${BP}/src/import/vendor.fetch/
+> golang.org/x/crypto
+> +        # fullsrcrev: 2c7772ba30643b7a2026cbea938420dce7c6384d (git
+> rev-list -1 2c7772ba3064)
+> +        #
+> +        # If not, try https://pkg.go.dev/<module_name>, and find the
+> 'Repository'.
+> +        # For example, 'wget
+> https://pkg.go.dev/github.com/Masterminds/semver/v3' gives:
+> +        # github.com/Masterminds/semver
+> +        # In such case, the self.modules has the following contents:
+> +        # module_name: github.com/Masterminds/semver/v3
+> +        # url: https://github.com/Masterminds/semver
+> +        # version: v3.1.1
+> +        # destdir: ${WORKDIR}/${BP}/src/import/vendor.fetch/
+> github.com/Masterminds/semver/v3
+> +        # fullsrcrev: 7bb0c843b53d6ad21a3f619cb22c4b442bb3ef3e (git
+> rev-list -1 v3.1.1)
+> +        #
+> +        # As a last resort, if the last component of <module_name>
+> matches 'v[0-9]+',
+> +        # remove the last component and try wget https://
+> <module_name_with_last_component_removed>?go-get=3D1,
+> +        # then try using the above matching method.
+> +        #
+> +        for line in self.require_lines:
+> +            module_name, version =3D line.strip().split()
+> +            logger.debug("require line: %s" % line)
+> +            logger.debug("module_name =3D %s; version =3D %s" % (module_=
+name,
+> version))
+> +            # take the modules_replace into consideration to get the
+> actual version and actual module name
+> +            # note that the module_name is used in destdir, and the
+> actual_module_name and actual_version
+> +            # are used to determine the url and fullsrcrev
+> +            destdir =3D '${WORKDIR}/${BP}/src/import/vendor.fetch/%s' %
+> module_name
+> +            actual_module_name =3D module_name
+> +            actual_version =3D version
+> +            if module_name in self.modules_replace:
+> +                actual_module_name, actual_version =3D
+> self.modules_replace[module_name]
+> +            logger.debug("actual_module_name =3D %s; actual_version =3D =
+%s" %
+> (actual_module_name, actual_version))
+> +            url, fullsrcrev =3D self.get_url_srcrev(actual_module_name,
+> actual_version)
+> +            logger.debug("url =3D %s; fullsrcrev =3D %s" % (url, fullsrc=
+rev))
+> +            if url and fullsrcrev:
+> +                self.modules_require[module_name] =3D (url, version,
+> destdir, fullsrcrev)
+> +                # form srcpath, actual_module_name/<subpath>
+> +                if actual_module_name in self.modules_subpaths:
+> +                    subpath =3D self.modules_subpaths[actual_module_name=
+]
+> +                    srcpath =3D '%s/%s' % (actual_module_name, subpath)
+> +                    self.modules_srcpaths[module_name] =3D srcpath
+> +                    logger.info("self.modules_srcpaths[%s] =3D %s" %
+> (module_name, srcpath))
+> +                else:
+> +                    self.modules_srcpaths[module_name] =3D
+> actual_module_name
+> +            else:
+> +                logger.warning("get_url_srcrev(%s, %s) failed" %
+> (actual_module_name, actual_version))
+> +                if ERROR_OUT_ON_FETCH_AND_CHECKOUT_FAILURE:
+> +                    sys.exit(1)
+> +
+> +    def use_wget_to_get_repo_url(self, wget_content_file, url_cache_file=
+,
+> module_name):
+> +        """
+> +        Use wget to get repo_url for module_name, return None if not fou=
+nd
+> +        """
+> +        try:
+> +            logger.info("wget -O %s https://%s?=3Dgo-get=3D1" %
+> (wget_content_file, module_name))
+> +            subprocess.check_call('wget -O %s https://%s?=3Dgo-get=3D1' =
+%
+> (wget_content_file, module_name), shell=3DTrue)
+> +            with open(wget_content_file, 'r') as f:
+> +                for line in f.readlines():
+> +                    if '<meta name=3D"go-import" content=3D' in line:
+> +                        logger.info("Succeed to find go-import content
+> for %s" % module_name)
+> +                        logger.debug("The line is %s" % line)
+> +                        root_path, vcs, repo_url =3D
+> line.split('content=3D')[1].split('"')[1].split()
+> +                        logger.info("%s: %s %s %s" % (module_name,
+> root_path, vcs, repo_url))
+> +                        if vcs !=3D 'git':
+> +                            logger.warning('%s unhandled as its vcs is %=
+s
+> which is not supported by this script.' % (module_name, vcs))
+> +                            unhandled_reason =3D 'vcs %s is not supporte=
+d
+> by this script' % vcs
+> +                            self.modules_unhandled[module_name] =3D
+> unhandled_reason
+> +                            return None
+> +                        with open(url_cache_file, 'w') as f:
+> +                            f.write(repo_url)
+> +                        return repo_url
+> +        except:
+> +            logger.info("wget -O %s https://%s?=3Dgo-get=3D1 failed" %
+> (wget_content_file, module_name))
+> +        # if we cannot find repo url from https://<module_name>?=3Dgo-ge=
+t=3D1,
+> try https://pkg.go/dev/<module_name>
+> +        try:
+> +            logger.info("wget -O %s https://pkg.go.dev/%s" %
+> (wget_content_file, module_name))
+> +            subprocess.check_call("wget -O %s https://pkg.go.dev/%s" %
+> (wget_content_file, module_name), shell=3DTrue)
+> +            repo_url_found =3D False
+> +            with open(wget_content_file, 'r') as f:
+> +                in_repo_section =3D False
+> +                for line in f.readlines():
+> +                    if '>Repository<' in line:
+> +                        in_repo_section =3D True
+> +                        continue
+> +                    if in_repo_section:
+> +                        newline =3D line.strip()
+> +                        if newline !=3D '' and not newline.startswith('<=
+'):
+> +                            repo_url =3D newline
+> +                            repo_url_found =3D True
+> +                            break
+> +            if repo_url_found:
+> +                logger.info("repo url for %s: %s" % (module_name,
+> repo_url))
+> +                with open(url_cache_file, 'w') as f:
+> +                    f.write(repo_url)
+> +                return repo_url
+> +            else:
+> +                unhandled_reason =3D 'cannot determine repo_url for %s' =
+%
+> module_name
+> +                self.modules_unhandled[module_name] =3D unhandled_reason
+> +                return None
+> +        except:
+> +            logger.info("wget -O %s https://pkg.go.dev/%s failed" %
+> (wget_content_file, module_name))
+> +            return None
+> +
+> +
+> +    def get_repo_url_rev(self, module_name, version):
+> +        """
+> +        Return (repo_url, rev)
+> +        """
+> +        import re
+> +        # First get rev from version
+> +        v =3D version.split('+incompatible')[0]
+> +        version_components =3D v.split('-')
+> +        if len(version_components) =3D=3D 1:
+> +            rev =3D v
+> +        elif len(version_components) =3D=3D 3:
+> +            if len(version_components[2]) =3D=3D 12:
+> +                rev =3D version_components[2]
+> +            else:
+> +                rev =3D v
+> +        else:
+> +            rev =3D v
+> +
+> +        #
+> +        # Get repo_url
+> +        # We put a cache mechanism here,
+> <wget_content_file>.repo_url.cache is used to store the repo url fetch
+> before
+> +        #
+> +        wget_dir =3D os.path.join(self.workdir, 'wget-contents')
+> +        if not os.path.exists(wget_dir):
+> +            os.makedirs(wget_dir)
+> +        wget_content_file =3D os.path.join(wget_dir,
+> module_name.replace('/', '_'))
+> +        url_cache_file =3D "%s.repo_url.cache" % wget_content_file
+> +        if os.path.exists(url_cache_file):
+> +            with open(url_cache_file, 'r') as f:
+> +                repo_url =3D f.readline().strip()
+> +                return (repo_url, rev)
+> +        module_name_parts =3D module_name.split('/')
+> +        while (len(module_name_parts) > 0):
+> +            module_name_to_check =3D '/'.join(module_name_parts)
+> +            logger.info("module_name_to_check: %s" %
+> module_name_to_check)
+> +            repo_url =3D self.use_wget_to_get_repo_url(wget_content_file=
+,
+> url_cache_file, module_name_to_check)
+> +            if repo_url:
+> +                return (repo_url, rev)
+> +            else:
+> +                if module_name in self.modules_unhandled:
+> +                    return (None, rev)
+> +                else:
+> +                    module_name_parts.pop(-1)
+> +
+> +        unhandled_reason =3D 'cannot determine the repo for %s' %
+> module_name
+> +        self.modules_unhandled[module_name] =3D unhandled_reason
+> +        return (None, rev)
+> +
+> +    def get_url_srcrev(self, module_name, version):
+> +        """
+> +        Return url and fullsrcrev according to module_name and version
+> +        """
+> +        repo_url, rev =3D self.get_repo_url_rev(module_name, version)
+> +        if not repo_url or not rev:
+> +            return (None, None)
+> +        self.fetch_and_checkout_repo(module_name, repo_url, rev)
+> +        if module_name in self.modules_repoinfo:
+> +            repo_url, repo_dest_dir, repo_fullrev =3D
+> self.modules_repoinfo[module_name]
+> +            # remove the .git suffix to sync repos across modules with
+> different versions and across recipes
+> +            if repo_url.endswith('.git'):
+> +                repo_url =3D repo_url[:-len('.git')]
+> +            return (repo_url, repo_fullrev)
+> +        else:
+> +            unhandled_reason =3D 'fetch_and_checkout_repo(%s, %s, %s)
+> failed' % (module_name, repo_url, rev)
+> +            self.modules_unhandled[module_name] =3D unhandled_reason
+> +            return (None, None)
+> +
+> +    def gen_src_uri_inc(self):
+> +        """
+> +        Generate src_uri.inc file containing SRC_URIs
+> +        """
+> +        src_uri_inc_file =3D os.path.join(self.workdir, 'src_uri.inc')
+> +        # record the <name> after writting SRCREV_<name>, this is to
+> avoid modules having the same basename resulting in same SRCREV_xxx
+> +        srcrev_name_recorded =3D []
+> +        template =3D """#       %s %s
+> +# [1] git ls-remote %s %s
+> +SRCREV_%s=3D"%s"
+> +SRC_URI +=3D
+> "git://%s;name=3D%s;protocol=3Dhttps;nobranch=3D1;destsuffix=3D${WORKDIR}=
+/${BP}/src/import/vendor.fetch/%s"
+> +
+> +"""
+> +        # We can't simply write SRC_URIs one by one in the order that
+> go.mod specify them.
+> +        # Because the latter one might clean things up for the former on=
+e
+> if the former one is a subpath of the latter one.
+> +        def take_first_len(elem):
+> +            return len(elem[0])
+> +
+> +        src_uri_contents =3D []
+> +        with open(src_uri_inc_file, 'w') as f:
+> +            for module in self.modules_require:
+> +                # {module_name: (url, version, destdir, fullsrcrev)}
+> +                repo_url, version, destdir, fullrev =3D
+> self.modules_require[module]
+> +                if module in self.modules_replace:
+> +                    actual_module_name, actual_version =3D
+> self.modules_replace[module]
+> +                else:
+> +                    actual_module_name, actual_version =3D (module, vers=
+ion)
+> +                if '://' in repo_url:
+> +                    repo_url_noprotocol =3D repo_url.split('://')[1]
+> +                else:
+> +                    repo_url_noprotocol =3D repo_url
+> +                if not repo_url.startswith('https://'):
+> +                    repo_url =3D 'https://' + repo_url
+> +                name =3D module.split('/')[-1]
+> +                if name in srcrev_name_recorded:
+> +                    name =3D '-'.join(module.split('/')[-2:])
+> +                src_uri_contents.append((actual_module_name,
+> actual_version, repo_url, fullrev, name, fullrev, repo_url_noprotocol,
+> name, actual_module_name))
+> +                srcrev_name_recorded.append(name)
+> +            # sort the src_uri_contents and then write it
+> +            src_uri_contents.sort(key=3Dtake_first_len)
+> +            for content in src_uri_contents:
+> +                f.write(template % content)
+> +        logger.info("%s generated" % src_uri_inc_file)
+> +
+> +    def gen_relocation_inc(self):
+> +        """
+> +        Generate relocation.inc file
+> +        """
+> +        relocation_inc_file =3D os.path.join(self.workdir, 'relocation.i=
+nc')
+> +        template =3D """export sites=3D"%s"
+> +
+> +do_compile:prepend() {
+> +    cd ${S}/src/import
+> +    for s in $sites; do
+> +        site_dest=3D$(echo $s | cut -d: -f1)
+> +        site_source=3D$(echo $s | cut -d: -f2)
+> +        force_flag=3D$(echo $s | cut -d: -f3)
+> +        mkdir -p vendor.copy/$site_dest
+> +        if [ -n "$force_flag" ]; then
+> +           echo "[INFO] $site_dest: force copying .go files"
+> +           rm -rf vendor.copy/$site_dest
+> +           rsync -a --exclude=3D'vendor/' --exclude=3D'.git/'
+> vendor.fetch/$site_source/ vendor.copy/$site_dest
+> +        else
+> +            [ -n "$(ls -A vendor.copy/$site_dest/*.go 2> /dev/null)" ] &=
+&
+> { echo "[INFO] vendor.fetch/$site_source -> $site_dest: go copy skipped
+> (files present)" ; true ; } || { echo "[INFO] $site_dest: copying .go
+> files" ; rsync -a --exclude=3D'vendor/' --exclude=3D'.git/'
+> vendor.fetch/$site_source/ vendor.copy/$site_dest ; }
+> +        fi
+> +    done
+> +}
+> +"""
+> +        sites =3D []
+> +        for module in self.modules_require:
+> +            # <dest>:<source>[:force]
+> +            if module in self.modules_srcpaths:
+> +                srcpath =3D self.modules_srcpaths[module]
+> +                logger.debug("Using %s as srcpath of module (%s)" %
+> (srcpath, module))
+> +            else:
+> +                srcpath =3D module
+> +            sites.append("%s:%s:force" % (module, srcpath))
+> +        # To avoid the former one being overriden by the latter one when
+> the former one is a subpath of the latter one, sort sites
+> +        sites.sort(key=3Dlen)
+> +        with open(relocation_inc_file, 'w') as f:
+> +            sites_str =3D ' \\\n           '.join(sites)
+> +            f.write(template % sites_str)
+> +        logger.info("%s generated" % relocation_inc_file)
+> +
+> +    def gen_modules_txt(self):
+> +        """
+> +        Generate modules.txt file
+> +        """
+> +        modules_txt_file =3D os.path.join(self.workdir, 'modules.txt')
+> +        with open(modules_txt_file, 'w') as f:
+> +            for l in self.require_lines:
+> +                f.write('# %s\n' % l)
+> +                f.write('## explicit\n')
+> +            for l in self.replace_lines:
+> +                f.write('# %s\n' %l)
+> +        logger.info("%s generated" % modules_txt_file)
+> +
+> +    def sanity_check(self):
+> +        """
+> +        Various anity checks
+> +        """
+> +        sanity_check_ok =3D True
+> +        #
+> +        # Sanity Check 1:
+> +        #     For modules having the same repo, at most one is allowed t=
+o
+> not have subpath.
+> +        #     This check operates on self.modules_repoinfo and
+> self.modules_subpaths
+> +        #
+> +        repo_modules =3D {}
+> +        for module in self.modules_repoinfo:
+> +            # first form {repo: [module1, module2, ...]}
+> +            repo_url, repo_dest_dir, fullsrcrev =3D
+> self.modules_repoinfo[module]
+> +            if repo_url not in repo_modules:
+> +                repo_modules[repo_url] =3D [module]
+> +            else:
+> +                repo_modules[repo_url].append(module)
+> +        for repo in repo_modules:
+> +            modules =3D repo_modules[repo]
+> +            if len(modules) =3D=3D 1:
+> +                continue
+> +            # for modules sharing the same repo, at most one is allowed
+> to not have subpath
+> +            nosubpath_modules =3D []
+> +            for m in modules:
+> +                if m not in self.modules_subpaths:
+> +                    nosubpath_modules.append(m)
+> +            if len(nosubpath_modules) =3D=3D 0:
+> +                continue
+> +            if len(nosubpath_modules) > 1:
+> +                logger.warning("Multiple modules sharing %s, but they
+> don't have subpath: %s. Please double check." % (repo, nosubpath_modules)=
+)
+> +            if len(nosubpath_modules) =3D=3D 1:
+> +                # do further check, OK if the module is the prefix for
+> other modules sharing the same repo
+> +                module_to_check =3D nosubpath_modules[0]
+> +                for m in modules:
+> +                    if module_to_check =3D=3D m:
+> +                        continue
+> +                    if not m.startswith('%s/' % module_to_check):
+> +                        logger.warning("%s is sharing repo (%s) with
+> other modules, and it might need a subpath. Please double check" %
+> (module_to_check, repo))
+> +                        continue
+> +
+> +        #
+> +        # End of Sanity Check
+> +        #
+> +        if not sanity_check_ok:
+> +            sys.exit(1)
+> +        return
+> +
+> +def main():
+> +    parser =3D argparse.ArgumentParser(
+> +        description=3D"oe-go-mod-autogen.py is used to generate
+> src_uri.inc, relocation.inc and modules.txt to be used by go mod recipes"=
+,
+> +        epilog=3D"Use %(prog)s --help to get help")
+> +    parser.add_argument("--repo", help =3D "Repo for the recipe.",
+> required=3DTrue)
+> +    parser.add_argument("--rev", help =3D "Revision for the recipe.",
+> required=3DTrue)
+> +    parser.add_argument("--module", help =3D "Go module name. To be used
+> with '--test'")
+> +    parser.add_argument("--version", help =3D "Go module version. To be
+> used with '--test'")
+> +    parser.add_argument("--test", help =3D "Test to get repo url and
+> fullsrcrev, used together with --module and --version.",
+> action=3D"store_true")
+> +    parser.add_argument("--workdir", help =3D "Working directory to hold
+> intermediate results and output.", default=3Dos.getcwd())
+> +    parser.add_argument("-d", "--debug",
+> +                        help =3D "Enable debug output",
+> +                        action=3D"store_const", const=3Dlogging.DEBUG,
+> dest=3D"loglevel", default=3Dlogging.INFO)
+> +    parser.add_argument("-q", "--quiet",
+> +                        help =3D "Hide all output except error messages"=
+,
+> +                        action=3D"store_const", const=3Dlogging.ERROR,
+> dest=3D"loglevel")
+> +    args =3D parser.parse_args()
+> +
+> +    logger.setLevel(args.loglevel)
+> +    logger.debug("oe-go-mod-autogen.py running for %s:%s in %s" %
+> (args.repo, args.rev, args.workdir))
+> +    gomodtool =3D GoModTool(args.repo, args.rev, args.workdir)
+> +    if args.test:
+> +        if not args.module or not args.version:
+> +            print("Please specify --module and --version")
+> +            sys.exit(1)
+> +        url, srcrev =3D gomodtool.get_url_srcrev(args.module, args.versi=
+on)
+> +        print("url =3D %s, srcrev =3D %s" % (url, srcrev))
+> +        if not url or not srcrev:
+> +            print("Failed to get url & srcrev for %s:%s" % (args.module,
+> args.version))
+> +    else:
+> +        gomodtool.parse()
+> +        gomodtool.sanity_check()
+> +        gomodtool.gen_src_uri_inc()
+> +        gomodtool.gen_relocation_inc()
+> +        gomodtool.gen_modules_txt()
+> +
+> +
+> +if __name__ =3D=3D "__main__":
+> +    try:
+> +        ret =3D main()
+> +    except Exception as esc:
+> +        ret =3D 1
+> +        import traceback
+> +        traceback.print_exc()
+> +    sys.exit(ret)
+> --
+> 2.40.0
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#8272):
+> https://lists.yoctoproject.org/g/meta-virtualization/message/8272
+> Mute This Topic: https://lists.yoctoproject.org/mt/101162746/5052612
+> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [
+> quaresma.jose@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
+--=20
+Best regards,
+
+Jos=C3=A9 Quaresma
+
+--0000000000004eafb40604994efb
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">Chen Qi via <a href=3D"http://lists.y=
+octoproject.org">lists.yoctoproject.org</a> &lt;Qi.Chen=3D<a href=3D"mailto=
+:windriver.com@lists.yoctoproject.org">windriver.com@lists.yoctoproject.org=
+</a>&gt; escreveu no dia ter=C3=A7a, 5/09/2023 =C3=A0(s) 04:22:<br></div><b=
+lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
+ft:1px solid rgb(204,204,204);padding-left:1ex">From: Chen Qi &lt;<a href=
+=3D"mailto:Qi.Chen@windriver.com" target=3D"_blank">Qi.Chen@windriver.com</=
+a>&gt;<br>
+<br>
+oe-go-mod-autogen.py is a helper script for go mod recipes. It follows<br>
+Bruce&#39;s initiative about how to deal with go mod recipes in OE.<br></bl=
+ockquote><div><br></div><div>Place the below description on some README fil=
+e or commented=C2=A0itself inside the script can be useful=C2=A0for others.=
+<br><br>Jose<br><br></div><blockquote class=3D"gmail_quote" style=3D"margin=
+:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
+>
+Example:<br>
+cmd: &lt;path_to&gt;/meta-virtualization/scripts/oe-go-mod-autogen.py \<br>
+=C2=A0 =C2=A0 =C2=A0--repo <a href=3D"https://github.com/docker/compose" re=
+l=3D"noreferrer" target=3D"_blank">https://github.com/docker/compose</a> --=
+rev v2.20.3<br>
+output: src_uri.inc, relocation.inc, modules.txt<br>
+<br>
+Copy these three generated files to replace the original ones,<br>
+then we only need update PV and SRCREV, and docker-compose is upgraded.<br>
+<br>
+Below are some technical details.<br>
+<br>
+* get module&#39;s repo from module name<br>
+<br>
+=C2=A0 This script checks the following two URLs to determine the module&#3=
+9;s repo.<br>
+=C2=A0 1. https://&lt;module_name_tweaked&gt;?=3Dgo-get=3D1<br>
+=C2=A0 2. <a href=3D"https://pkg.go.dev/" rel=3D"noreferrer" target=3D"_bla=
+nk">https://pkg.go.dev/</a>&lt;module_name_tweaked&gt;<br>
+<br>
+=C2=A0 The module_name_tweaked is derived from module_name, with the last c=
+omponents<br>
+=C2=A0 removed one by one. Let me use two examples to explain this.<br>
+<br>
+=C2=A0 For module_name <a href=3D"http://sigs.k8s.io/json" rel=3D"noreferre=
+r" target=3D"_blank">sigs.k8s.io/json</a>, the <a href=3D"http://sigs.k8s.i=
+o/json" rel=3D"noreferrer" target=3D"_blank">sigs.k8s.io/json</a> is first =
+used as<br>
+=C2=A0 module_name_tweaked for searching. And we can correctly get the repo=
+ URL, so<br>
+=C2=A0 the search stops.<br>
+<br>
+=C2=A0 For module_name <a href=3D"http://github.com/k3s-io/etcd/api/v3" rel=
+=3D"noreferrer" target=3D"_blank">github.com/k3s-io/etcd/api/v3</a>, the fo=
+llowing ones are used<br>
+=C2=A0 as module_name_tweaked:<br>
+=C2=A0 <a href=3D"http://github.com/k3s-io/etcd/api/v3" rel=3D"noreferrer" =
+target=3D"_blank">github.com/k3s-io/etcd/api/v3</a><br>
+=C2=A0 <a href=3D"http://github.com/k3s-io/etcd/api" rel=3D"noreferrer" tar=
+get=3D"_blank">github.com/k3s-io/etcd/api</a><br>
+=C2=A0 <a href=3D"http://github.com/k3s-io/etcd" rel=3D"noreferrer" target=
+=3D"_blank">github.com/k3s-io/etcd</a><br>
+=C2=A0 And when searching &#39;<a href=3D"http://github.com/k3s-io/etcd" re=
+l=3D"noreferrer" target=3D"_blank">github.com/k3s-io/etcd</a>&#39;, we get =
+the repo URL, so the search<br>
+=C2=A0 stops.<br>
+<br>
+* determine the srcdir:destdir mapping in &#39;vendor&#39; creation<br>
+<br>
+=C2=A0 To correctly form the &#39;vendor&#39; directory, the mapping is cri=
+tical.<br>
+=C2=A0 This script makes use of tag matching and path matching to determine=
+<br>
+=C2=A0 the subpath in the repo for the module.<br>
+<br>
+* avoid subpath being overriden by parent path<br>
+<br>
+=C2=A0 We need to avoid subpath being overriden by parent path. This is nee=
+ded<br>
+=C2=A0 for both SRC_URI ordering in src_uri.inc and the sites mapping order=
+ing<br>
+=C2=A0 in relocation.inc. This script simply uses the length as the orderin=
+g key,<br>
+=C2=A0 simply for the reason that if a path is a subpath of another path, i=
+t must<br>
+=C2=A0 be longer.<br>
+<br>
+* the .git suffix is removed to sync with each other<br>
+<br>
+=C2=A0 Unlike normal recipes, go mod recipe usually have many SRC_URIs. Thi=
+s script<br>
+=C2=A0 remove the &#39;.git&#39; suffix from repo URL so that the repo URLs=
+ are in sync<br>
+=C2=A0 with each.<br>
+<br>
+* basic directory hierarchy and caching mechanism<br>
+<br>
+=C2=A0 &lt;cwd&gt;/repos: hold the repos downloaded and checked<br>
+=C2=A0 &lt;cwd&gt;/wget-contents: hold the contents to determine the module=
+&#39;s repo<br>
+=C2=A0 &lt;cwd&gt;/wget-contents/&lt;module_name&gt;.repo_url.cache: the re=
+po value cache<br>
+=C2=A0 This is to avoid unnecessary URL fetching and repo cloning.<br>
+<br>
+* the ERROR_OUT_ON_FETCH_AND_CHECKOUT_FAILURE switch in script<br>
+<br>
+=C2=A0 The script must get the correct repo_url, fullsrc_rev and subpath fo=
+r<br>
+=C2=A0 each required module in go.mod to correctly generate the src_uri.inc=
+ and<br>
+=C2=A0 relocation.inc files. If this process fails for any required module,=
+ this<br>
+=C2=A0 script stop immediately, as I deliberately set ERROR_OUT_ON_FETCH_AN=
+D_CHECKOUT_FAILURE<br>
+=C2=A0 to True in this script. The purpose is to encourage people to report=
+<br>
+=C2=A0 problems to meta-virt so that we can improve this script according t=
+o<br>
+=C2=A0 these feedbacks. But this variable can set to False, then the script=
+<br>
+=C2=A0 only records the failed modules in self.modules_unhandled with reaso=
+ns<br>
+=C2=A0 added, people can modify the generated src_uri.inc and relocation.in=
+c<br>
+=C2=A0 to manually handle these unhandled modules if they are urgent to<br>
+=C2=A0 add/upgrade some go mod recipes.<br>
+<br>
+Signed-off-by: Chen Qi &lt;<a href=3D"mailto:Qi.Chen@windriver.com" target=
+=3D"_blank">Qi.Chen@windriver.com</a>&gt;<br>
+---<br>
+=C2=A0scripts/oe-go-mod-autogen.py | 663 ++++++++++++++++++++++++++++++++++=
++<br>
+=C2=A01 file changed, 663 insertions(+)<br>
+=C2=A0create mode 100755 scripts/oe-go-mod-autogen.py<br>
+<br>
+diff --git a/scripts/oe-go-mod-autogen.py b/scripts/oe-go-mod-autogen.py<br=
+>
+new file mode 100755<br>
+index 00000000..09d6133b<br>
+--- /dev/null<br>
++++ b/scripts/oe-go-mod-autogen.py<br>
+@@ -0,0 +1,663 @@<br>
++#!/usr/bin/env python3<br>
++<br>
++import os<br>
++import sys<br>
++import logging<br>
++import argparse<br>
++from collections import OrderedDict<br>
++import subprocess<br>
++<br>
++# This switch is used to make this script error out ASAP, mainly for debug=
+ging purpose<br>
++ERROR_OUT_ON_FETCH_AND_CHECKOUT_FAILURE =3D True<br>
++<br>
++logger =3D logging.getLogger(&#39;oe-go-mod-autogen&#39;)<br>
++loggerhandler =3D logging.StreamHandler()<br>
++loggerhandler.setFormatter(logging.Formatter(&quot;%(levelname)s: %(messag=
+e)s&quot;))<br>
++logger.addHandler(loggerhandler)<br>
++logger.setLevel(logging.INFO)<br>
++<br>
++class GoModTool(object):<br>
++=C2=A0 =C2=A0 def __init__(self, repo, rev, workdir):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.repo =3D repo<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.rev =3D rev<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.workdir =3D workdir<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Stores the actual module name and its relate=
+d information<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # {module: (repo_url, repo_dest_dir, fullsrcre=
+v)}<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.modules_repoinfo =3D {}<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # {module_name: (url, version, destdir, fullsr=
+crev)}<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 #<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # url: place to get the source codes, we only =
+support git repo<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # version: module version, git tag or git rev<=
+br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # destdir: place to put the fetched source cod=
+es<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # fullsrcrev: full src rev which is the value =
+of SRC_REV<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 #<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # e.g.<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # For &#39;<a href=3D"http://github.com/Master=
+minds/semver/v3" rel=3D"noreferrer" target=3D"_blank">github.com/Mastermind=
+s/semver/v3</a> v3.1.1&#39; in go.mod:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # module_name =3D <a href=3D"http://github.com=
+/Masterminds/semver/v3" rel=3D"noreferrer" target=3D"_blank">github.com/Mas=
+terminds/semver/v3</a><br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # url =3D <a href=3D"https://github.com/Master=
+minds/semver" rel=3D"noreferrer" target=3D"_blank">https://github.com/Maste=
+rminds/semver</a><br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # version =3D v3.1.1<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # destdir =3D ${WORKDIR}/${BP}/src/${GO_IMPORT=
+}/vendor/<a href=3D"http://github.com/Masterminds/semver/v3" rel=3D"norefer=
+rer" target=3D"_blank">github.com/Masterminds/semver/v3</a><br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # fullsrcrev =3D d387ce7889a157b19ad7694dba39a=
+562051f41b0<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.modules_require =3D OrderedDict()<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # {orig_module: (actual_module, actual_version=
+)}<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.modules_replace =3D OrderedDict()<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Unhandled modules<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.modules_unhandled =3D OrderedDict()<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # store subpaths used to form srcpath<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # {actual_module_name: subpath}<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.modules_subpaths =3D OrderedDict()<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 <br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # modules&#39;s actual source paths, record th=
+ose that are not the same with the module itself<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.modules_srcpaths =3D OrderedDict()<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # store lines, comment removed<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.require_lines =3D []<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.replace_lines =3D []<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 <br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # fetch repo<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.fetch_and_checkout_repo(self.repo.split(&=
+#39;://&#39;)[1], self.repo, self.rev, checkout=3DTrue, get_subpath=3DFalse=
+)<br>
++<br>
++=C2=A0 =C2=A0 def show_go_mod_info(self):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Print modules_require, modules_replace and m=
+odules_unhandled<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 print(&quot;modules required:&quot;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 for m in self.modules_require:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 url, version, destdir, fullrev =
+=3D self.modules_require[m]<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 print(&quot;%s %s %s %s&quot; % =
+(m, version, url, fullrev))<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 print(&quot;modules replace:&quot;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 for m in self.modules_replace:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 actual_module, actual_version =
+=3D self.modules_replace[m]<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 print(&quot;%s =3D&gt; %s %s&quo=
+t; % (m, actual_module, actual_version))<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 print(&quot;modules unhandled:&quot;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 for m in self.modules_unhandled:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 reason =3D self.modules_unhandle=
+d[m]<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 print(&quot;%s unhandled: %s&quo=
+t; % (m, reason))<br>
++<br>
++=C2=A0 =C2=A0 def parse(self):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # check if this repo needs autogen<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 repo_url, repo_dest_dir, repo_fullrev =3D self=
+.modules_repoinfo[self.repo.split(&#39;://&#39;)[1]]<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if os.path.isdir(os.path.join(repo_dest_dir, &=
+#39;vendor&#39;)):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"http://logger.info" r=
+el=3D"noreferrer" target=3D"_blank">logger.info</a>(&quot;vendor direcotry =
+has already existed for %s, no need to add other repos&quot; % self.repo)<b=
+r>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 go_mod_file =3D os.path.join(repo_dest_dir, &#=
+39;go.mod&#39;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if not os.path.exists(go_mod_file):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"http://logger.info" r=
+el=3D"noreferrer" target=3D"_blank">logger.info</a>(&quot;go.mod file does =
+not exist for %s, no need to add otehr repos&quot; % self.repo)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.parse_go_mod(go_mod_file)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.show_go_mod_info()<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 <br>
++=C2=A0 =C2=A0 def fetch_and_checkout_repo(self, module_name, repo_url, rev=
+, default_protocol=3D&#39;https://&#39;, checkout=3DFalse, get_subpath=3DTr=
+ue):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 Fetch repo_url to &lt;workdir&gt;/repos/repo_b=
+ase_name<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 protocol =3D default_protocol<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if &#39;://&#39; in repo_url:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 repo_url_final =3D repo_url<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 else:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 repo_url_final =3D default_proto=
+col + repo_url<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 logger.debug(&quot;fetch and checkout %s %s&qu=
+ot; % (repo_url_final, rev))<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 repos_dir =3D os.path.join(self.workdir, &#39;=
+repos&#39;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if not os.path.exists(repos_dir):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 os.makedirs(repos_dir)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 repo_basename =3D repo_url.split(&#39;/&#39;)[=
+-1].split(&#39;.git&#39;)[0]<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 repo_dest_dir =3D os.path.join(repos_dir, repo=
+_basename)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 module_last_name =3D module_name.split(&#39;/&=
+#39;)[-1]<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 git_action =3D &quot;fetch&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if os.path.exists(repo_dest_dir):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if checkout:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # check if current=
+ HEAD is rev<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 try:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 head=
+rev =3D subprocess.check_output(&#39;git rev-list -1 HEAD&#39;, shell=3DTru=
+e, cwd=3Drepo_dest_dir).decode(&#39;utf-8&#39;).strip()<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 requ=
+iredrev =3D subprocess.check_output(&#39;git rev-list -1 %s 2&gt;/dev/null =
+|| git rev-list -1 %s/%s&#39; % (rev, module_last_name, rev), shell=3DTrue,=
+ cwd=3Drepo_dest_dir).decode(&#39;utf-8&#39;).strip()<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if h=
+eadrev =3D=3D requiredrev:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 <a href=3D"http://logger.info" rel=3D"noreferrer" target=3D"_bla=
+nk">logger.info</a>(&quot;%s has already been fetched and checked out as re=
+quired, skipping&quot; % repo_url)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 self.modules_repoinfo[module_name] =3D (repo_url, repo_dest_dir,=
+ requiredrev)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 return<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 else=
+:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 <a href=3D"http://logger.info" rel=3D"noreferrer" target=3D"_bla=
+nk">logger.info</a>(&quot;HEAD of %s is not %s, will do a clean clone&quot;=
+ % (repo_dest_dir, requiredrev))<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 git_action =3D &quot;clone&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 except:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 <a h=
+ref=3D"http://logger.info" rel=3D"noreferrer" target=3D"_blank">logger.info=
+</a>(&quot;&#39;git rev-list&#39; in %s failed, will do a clean clone&quot;=
+ % repo_dest_dir)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 git_=
+action =3D &quot;clone&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 else:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # determine if the=
+ current repo points to the desired remote repo<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 try:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 remo=
+te_origin_url =3D subprocess.check_output(&#39;git config --get remote.orig=
+in.url&#39;, shell=3DTrue, cwd=3Drepo_dest_dir).decode(&#39;utf-8&#39;).str=
+ip()<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if r=
+emote_origin_url.endswith(&#39;.git&#39;):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 if not repo_url_final.endswith(&#39;.git&#39;):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 remote_origin_url =3D remote_origin_url[:-4]<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 else=
+:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 if repo_url_final.endswith(&#39;.git&#39;):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 remote_origin_url =3D remote_origin_url + &#39;.gi=
+t&#39;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if r=
+emote_origin_url !=3D repo_url_final:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 <a href=3D"http://logger.info" rel=3D"noreferrer" target=3D"_bla=
+nk">logger.info</a>(&quot;remote.origin.url for %s is not %s, will do a cle=
+an clone&quot; % (repo_dest_dir, repo_url_final))<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 git_action =3D &quot;clone&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 except:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 <a h=
+ref=3D"http://logger.info" rel=3D"noreferrer" target=3D"_blank">logger.info=
+</a>(&quot;&#39;git config --get remote.origin.url&#39; in %s failed, will =
+do a clean clone&quot; % repo_dest_dir)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 git_=
+action =3D &quot;clone&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 else:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # No local repo, clone it.<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 git_action =3D &quot;clone&quot;=
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 <br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if git_action =3D=3D &quot;clone&quot;:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"http://logger.info" r=
+el=3D"noreferrer" target=3D"_blank">logger.info</a>(&quot;Removing %s&quot;=
+ % repo_dest_dir)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 subprocess.check_call(&#39;rm -r=
+f %s&#39; % repo_dest_dir, shell=3DTrue)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 <br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # clone/fetch repo<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 try:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 git_cwd =3D repos_dir if git_act=
+ion =3D=3D &quot;clone&quot; else repo_dest_dir<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"http://logger.info" r=
+el=3D"noreferrer" target=3D"_blank">logger.info</a>(&quot;git %s %s in %s&q=
+uot; % (git_action, repo_url_final, git_cwd))<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 subprocess.check_call(&#39;git %=
+s %s &gt;/dev/null 2&gt;&amp;1&#39; % (git_action, repo_url_final), shell=
+=3DTrue, cwd=3Dgit_cwd)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 except:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 logger.warning(&quot;Failed to %=
+s %s in %s&quot; % (git_action, repo_url_final, git_cwd))<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 def get_requiredrev(get_subpath):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 import re<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # check if rev is a revision or =
+a version<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if len(rev) =3D=3D 12 and re.mat=
+ch(&#39;[0-9a-f]+&#39;, rev):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 rev_is_version =3D=
+ False<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 else:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 rev_is_version =3D=
+ True<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # if rev is not a version, &#39;=
+git rev-list -1 &lt;rev&gt;&#39; should just succeed!<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if not rev_is_version:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 try:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 rev_=
+return =3D subprocess.check_output(&#39;git rev-list -1 %s 2&gt;/dev/null&#=
+39; % rev, shell=3DTrue, cwd=3Drepo_dest_dir).decode(&#39;utf-8&#39;).strip=
+()<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if g=
+et_subpath:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 cmd =3D &#39;git branch -M toremove &amp;&amp; git checkout -b c=
+heck_subpath %s &amp;&amp; git branch -D toremove&#39; % rev_return<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 subprocess.check_call(cmd, shell=3DTrue, cwd=3Drepo_dest_dir)<br=
+>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 # try to get the subpath for this module<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 module_name_parts =3D module_name.split(&#39;/&#39;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 while (len(module_name_parts) &gt; 0):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 subpath =3D &#39;/&#39;.join(module_name_parts)<br=
+>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 dir_to_check =3D repo_dest_dir + &#39;/&#39; + &#3=
+9;/&#39;.join(module_name_parts)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 if os.path.isdir(dir_to_check):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.modules_subpaths[module_name] =
+=3D subpath<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 else:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 module_name_parts.pop(0)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 retu=
+rn rev_return<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 except:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 logg=
+er.warning(&quot;Revision (%s) not in repo(%s)&quot; % (rev, repo_dest_dir)=
+)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 retu=
+rn None<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # the following codes deals with=
+ case where rev is a version<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # determine the longest match ta=
+g, in this way, we can get the current srcpath to be used in relocation.inc=
+<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # we first get the initial tag, =
+which is formed from module_name and rev<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 module_parts =3D module_name.spl=
+it(&#39;/&#39;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if rev.startswith(module_parts[-=
+1] + &#39;.&#39;):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tag =3D &#39;/&#39=
+;.join(module_parts[:-1]) + &#39;/&#39; + rev<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 last_module_part_r=
+eplaced =3D True<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 else:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tag =3D &#39;/&#39=
+;.join(module_parts) + &#39;/&#39; + rev<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 last_module_part_r=
+eplaced =3D False<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 logger.debug(&quot;use %s as the=
+ initial tag for %s&quot; % (tag, module_name))<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tag_parts =3D tag.split(&#39;/&#=
+39;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 while(len(tag_parts) &gt; 0):<br=
+>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 try:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 rev_=
+return =3D subprocess.check_output(&#39;git rev-list -1 %s 2&gt;/dev/null&#=
+39; % tag, shell=3DTrue, cwd=3Drepo_dest_dir).decode(&#39;utf-8&#39;).strip=
+()<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if l=
+en(tag_parts) &gt; 1:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 # ensure that the subpath exists<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 if get_subpath:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 cmd =3D &#39;git branch -M toremove &amp;&amp; git=
+ checkout -b check_subpath %s &amp;&amp; git branch -D toremove&#39; % rev_=
+return<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 subprocess.check_call(cmd, shell=3DTrue, cwd=3Drep=
+o_dest_dir)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 # get subpath for the actual_module_name<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 if last_module_part_replaced:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 subpath =3D &#39;/&#39;.join(tag_par=
+ts[:-1]) + &#39;/&#39; + module_parts[-1]<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if not os.path.isdir(repo_dest_dir +=
+ &#39;/&#39; + subpath):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 subpath =3D &#39;/&#39=
+;.join(tag_parts[:-1])<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 else:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 subpath =3D &#39;/&#39;.join(tag_par=
+ts[:-1])<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 if not os.path.isdir(repo_dest_dir + &#39;/&#39; +=
+ subpath):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 logger.warning(&quot;subpath (%s) de=
+rived from tag matching does not exist in %s&quot; % (subpath, repo_dest_di=
+r))<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return None<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 self.modules_subpaths[module_name] =3D subpath<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"http://logger.info" rel=3D"noreferrer" =
+target=3D"_blank">logger.info</a>(&quot;modules_subpath[%s] =3D %s&quot; % =
+(module_name, subpath))<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 retu=
+rn rev_return<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 except:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tag_=
+parts.pop(0)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tag =
+=3D &#39;/&#39;.join(tag_parts)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 logger.warning(&quot;No tag matc=
+hing %s&quot; % rev)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return None<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 requiredrev =3D get_requiredrev(get_subpath)<b=
+r>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if requiredrev:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"http://logger.info" r=
+el=3D"noreferrer" target=3D"_blank">logger.info</a>(&quot;Got module(%s) re=
+quiredrev: %s&quot; % (module_name, requiredrev))<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if checkout:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 subprocess.check_c=
+all(&#39;git checkout -b gomodautogen %s&#39; % requiredrev, shell=3DTrue, =
+cwd=3Drepo_dest_dir)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.modules_repoinfo[module_nam=
+e] =3D (repo_url, repo_dest_dir, requiredrev)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 else:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 logger.warning(&quot;Failed to g=
+et requiredrev, repo_url =3D %s, rev =3D %s, module_name =3D %s&quot; % (re=
+po_url, rev, module_name))<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 <br>
++=C2=A0 =C2=A0 def parse_go_mod(self, go_mod_path):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 Parse go.mod file to get the modules info<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # First we get the require and replace lines<b=
+r>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # The parsing logic assumes the replace lines =
+come *after* the require lines<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 inrequire =3D False<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 inreplace =3D False<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 with open(go_mod_path, &#39;r&#39;) as f:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 lines =3D f.readlines()<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for line in lines:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if line.startswith=
+(&#39;require (&#39;):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 inre=
+quire =3D True<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cont=
+inue<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if line.startswith=
+(&#39;)&#39;):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 inre=
+quire =3D False<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cont=
+inue<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if line.startswith=
+(&#39;require &#39;) or inrequire:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # we=
+ have one line require<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 requ=
+ire_line =3D line.lstrip(&#39;require &#39;).split(&#39;//&#39;)[0].strip()=
+<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if r=
+equire_line:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 self.require_lines.append(require_line)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cont=
+inue<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # we can deal with=
+ requires and replaces separately because go.mod always writes requires bef=
+ore replaces<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if line.startswith=
+(&#39;replace (&#39;):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 inre=
+place =3D True<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cont=
+inue<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if line.startswith=
+(&#39;)&#39;):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 inre=
+place =3D False<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cont=
+inue<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if line.startswith=
+(&#39;replace &#39;) or inreplace:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 repl=
+ace_line =3D line.lstrip(&#39;replace &#39;).split(&#39;//&#39;)[0].strip()=
+<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if r=
+eplace_line:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 self.replace_lines.append(replace_line)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cont=
+inue<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 #<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # parse the require_lines and replace_lines to=
+ form self.modules_require and self.modules_replace<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 #<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 logger.debug(&quot;Parsing require_lines and r=
+eplace_lines ...&quot;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # A typical replace line is as below:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 #=C2=A0 =C2=A0<a href=3D"http://github.com/has=
+hicorp/golang-lru" rel=3D"noreferrer" target=3D"_blank">github.com/hashicor=
+p/golang-lru</a> =3D&gt; <a href=3D"http://github.com/ktock/golang-lru" rel=
+=3D"noreferrer" target=3D"_blank">github.com/ktock/golang-lru</a> v0.5.5-0.=
+20211029085301-ec551be6f75c<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # It means that the <a href=3D"http://github.c=
+om/hashicorp/golang-lru" rel=3D"noreferrer" target=3D"_blank">github.com/ha=
+shicorp/golang-lru</a> module is replaced by <a href=3D"http://github.com/k=
+tock/golang-lru" rel=3D"noreferrer" target=3D"_blank">github.com/ktock/gola=
+ng-lru</a><br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # with the version &#39;v0.5.5-0.2021102908530=
+1-ec551be6f75c&#39;.<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # So the destdir is vendor/<a href=3D"http://g=
+ithub.com/hashicorp/golang-lru" rel=3D"noreferrer" target=3D"_blank">github=
+.com/hashicorp/golang-lru</a> while the contents are from <a href=3D"http:/=
+/github.com/ktock/golang-lru" rel=3D"noreferrer" target=3D"_blank">github.c=
+om/ktock/golang-lru</a><br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 for line in self.replace_lines:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 orig_module, actual =3D line.spl=
+it(&#39;=3D&gt;&#39;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 actual_module, actual_version =
+=3D actual.split()<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 orig_module =3D orig_module.stri=
+p()<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 actual_module =3D actual_module.=
+strip()<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 actual_version =3D actual_versio=
+n.strip()<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.modules_replace[orig_module=
+] =3D (actual_module, actual_version)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 #<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Typical require lines are as below:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 #=C2=A0 =C2=A0<a href=3D"http://github.com/Mas=
+terminds/semver/v3" rel=3D"noreferrer" target=3D"_blank">github.com/Masterm=
+inds/semver/v3</a> v3.1.1<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 #=C2=A0 =C2=A0<a href=3D"http://golang.org/x/c=
+rypto" rel=3D"noreferrer" target=3D"_blank">golang.org/x/crypto</a> v0.0.0-=
+20220321153916-2c7772ba3064<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 #<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # We need to first try https://&lt;module_name=
+&gt;?=3Dgo-get=3D1 to see it contains<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # line starting with &#39;&lt;meta name=3D&quo=
+t;go-import&quot; content=3D&#39;.<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 #<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # If so, get root-path vcs repo-url from conte=
+nt. See <a href=3D"https://go.dev/ref/mod#vcs-find" rel=3D"noreferrer" targ=
+et=3D"_blank">https://go.dev/ref/mod#vcs-find</a><br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # For example, the above &#39;wget <a href=3D"=
+https://golang.org/x/crypto?go-get=3D1" rel=3D"noreferrer" target=3D"_blank=
+">https://golang.org/x/crypto?go-get=3D1</a>&#39; gives you<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # &lt;meta name=3D&quot;go-import&quot; conten=
+t=3D&quot;<a href=3D"http://golang.org/x/crypto" rel=3D"noreferrer" target=
+=3D"_blank">golang.org/x/crypto</a> git <a href=3D"https://go.googlesource.=
+com/crypto" rel=3D"noreferrer" target=3D"_blank">https://go.googlesource.co=
+m/crypto</a>&quot;&gt;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # In such case, the self.modules_require has t=
+he following contents:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # module_name: <a href=3D"http://golang.org/x/=
+crypto" rel=3D"noreferrer" target=3D"_blank">golang.org/x/crypto</a><br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # url: <a href=3D"https://go.googlesource.com/=
+crypto" rel=3D"noreferrer" target=3D"_blank">https://go.googlesource.com/cr=
+ypto</a><br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # version: v0.0.0-20220321153916-2c7772ba3064<=
+br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # destdir: ${WORKDIR}/${BP}/src/import/vendor.=
+fetch/<a href=3D"http://golang.org/x/crypto" rel=3D"noreferrer" target=3D"_=
+blank">golang.org/x/crypto</a><br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # fullsrcrev: 2c7772ba30643b7a2026cbea938420dc=
+e7c6384d (git rev-list -1 2c7772ba3064)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 #<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # If not, try <a href=3D"https://pkg.go.dev/" =
+rel=3D"noreferrer" target=3D"_blank">https://pkg.go.dev/</a>&lt;module_name=
+&gt;, and find the &#39;Repository&#39;.<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # For example, &#39;wget <a href=3D"https://pk=
+g.go.dev/github.com/Masterminds/semver/v3" rel=3D"noreferrer" target=3D"_bl=
+ank">https://pkg.go.dev/github.com/Masterminds/semver/v3</a>&#39; gives:<br=
+>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # <a href=3D"http://github.com/Masterminds/sem=
+ver" rel=3D"noreferrer" target=3D"_blank">github.com/Masterminds/semver</a>=
+<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # In such case, the self.modules has the follo=
+wing contents:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # module_name: <a href=3D"http://github.com/Ma=
+sterminds/semver/v3" rel=3D"noreferrer" target=3D"_blank">github.com/Master=
+minds/semver/v3</a><br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # url: <a href=3D"https://github.com/Mastermin=
+ds/semver" rel=3D"noreferrer" target=3D"_blank">https://github.com/Mastermi=
+nds/semver</a><br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # version: v3.1.1<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # destdir: ${WORKDIR}/${BP}/src/import/vendor.=
+fetch/<a href=3D"http://github.com/Masterminds/semver/v3" rel=3D"noreferrer=
+" target=3D"_blank">github.com/Masterminds/semver/v3</a><br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # fullsrcrev: 7bb0c843b53d6ad21a3f619cb22c4b44=
+2bb3ef3e (git rev-list -1 v3.1.1)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 #<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # As a last resort, if the last component of &=
+lt;module_name&gt; matches &#39;v[0-9]+&#39;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # remove the last component and try wget https=
+://&lt;module_name_with_last_component_removed&gt;?go-get=3D1,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # then try using the above matching method.<br=
+>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 #<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 for line in self.require_lines:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 module_name, version =3D line.st=
+rip().split()<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 logger.debug(&quot;require line:=
+ %s&quot; % line)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 logger.debug(&quot;module_name =
+=3D %s; version =3D %s&quot; % (module_name, version))<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # take the modules_replace into =
+consideration to get the actual version and actual module name<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # note that the module_name is u=
+sed in destdir, and the actual_module_name and actual_version<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # are used to determine the url =
+and fullsrcrev<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 destdir =3D &#39;${WORKDIR}/${BP=
+}/src/import/vendor.fetch/%s&#39; % module_name<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 actual_module_name =3D module_na=
+me<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 actual_version =3D version<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if module_name in self.modules_r=
+eplace:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 actual_module_name=
+, actual_version =3D self.modules_replace[module_name]<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 logger.debug(&quot;actual_module=
+_name =3D %s; actual_version =3D %s&quot; % (actual_module_name, actual_ver=
+sion))<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 url, fullsrcrev =3D self.get_url=
+_srcrev(actual_module_name, actual_version)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 logger.debug(&quot;url =3D %s; f=
+ullsrcrev =3D %s&quot; % (url, fullsrcrev))<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if url and fullsrcrev:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.modules_requi=
+re[module_name] =3D (url, version, destdir, fullsrcrev)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # form srcpath, ac=
+tual_module_name/&lt;subpath&gt;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if actual_module_n=
+ame in self.modules_subpaths:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 subp=
+ath =3D self.modules_subpaths[actual_module_name]<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 srcp=
+ath =3D &#39;%s/%s&#39; % (actual_module_name, subpath)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self=
+.modules_srcpaths[module_name] =3D srcpath<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 <a h=
+ref=3D"http://logger.info" rel=3D"noreferrer" target=3D"_blank">logger.info=
+</a>(&quot;self.modules_srcpaths[%s] =3D %s&quot; % (module_name, srcpath))=
+<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 else:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self=
+.modules_srcpaths[module_name] =3D actual_module_name<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 else:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 logger.warning(&qu=
+ot;get_url_srcrev(%s, %s) failed&quot; % (actual_module_name, actual_versio=
+n))<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if ERROR_OUT_ON_FE=
+TCH_AND_CHECKOUT_FAILURE:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sys.=
+exit(1)<br>
++<br>
++=C2=A0 =C2=A0 def use_wget_to_get_repo_url(self, wget_content_file, url_ca=
+che_file, module_name):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 Use wget to get repo_url for module_name, retu=
+rn None if not found<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 try:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"http://logger.info" r=
+el=3D"noreferrer" target=3D"_blank">logger.info</a>(&quot;wget -O %s https:=
+//%s?=3Dgo-get=3D1&quot; % (wget_content_file, module_name))<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 subprocess.check_call(&#39;wget =
+-O %s https://%s?=3Dgo-get=3D1&#39; % (wget_content_file, module_name), she=
+ll=3DTrue)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 with open(wget_content_file, &#3=
+9;r&#39;) as f:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for line in f.read=
+lines():<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if &=
+#39;&lt;meta name=3D&quot;go-import&quot; content=3D&#39; in line:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 <a href=3D"http://logger.info" rel=3D"noreferrer" target=3D"_bla=
+nk">logger.info</a>(&quot;Succeed to find go-import content for %s&quot; % =
+module_name)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 logger.debug(&quot;The line is %s&quot; % line)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 root_path, vcs, repo_url =3D line.split(&#39;content=3D&#39;)[1]=
+.split(&#39;&quot;&#39;)[1].split()<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 <a href=3D"http://logger.info" rel=3D"noreferrer" target=3D"_bla=
+nk">logger.info</a>(&quot;%s: %s %s %s&quot; % (module_name, root_path, vcs=
+, repo_url))<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 if vcs !=3D &#39;git&#39;:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 logger.warning(&#39;%s unhandled as its vcs is %s =
+which is not supported by this script.&#39; % (module_name, vcs))<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 unhandled_reason =3D &#39;vcs %s is not supported =
+by this script&#39; % vcs<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 self.modules_unhandled[module_name] =3D unhandled_=
+reason<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 return None<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 with open(url_cache_file, &#39;w&#39;) as f:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 f.write(repo_url)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 return repo_url<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 except:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"http://logger.info" r=
+el=3D"noreferrer" target=3D"_blank">logger.info</a>(&quot;wget -O %s https:=
+//%s?=3Dgo-get=3D1 failed&quot; % (wget_content_file, module_name))<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # if we cannot find repo url from https://&lt;=
+module_name&gt;?=3Dgo-get=3D1, try <a href=3D"https://pkg.go/dev/" rel=3D"n=
+oreferrer" target=3D"_blank">https://pkg.go/dev/</a>&lt;module_name&gt;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 try:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"http://logger.info" r=
+el=3D"noreferrer" target=3D"_blank">logger.info</a>(&quot;wget -O %s <a hre=
+f=3D"https://pkg.go.dev/%s" rel=3D"noreferrer" target=3D"_blank">https://pk=
+g.go.dev/%s</a>&quot; % (wget_content_file, module_name))<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 subprocess.check_call(&quot;wget=
+ -O %s <a href=3D"https://pkg.go.dev/%s" rel=3D"noreferrer" target=3D"_blan=
+k">https://pkg.go.dev/%s</a>&quot; % (wget_content_file, module_name), shel=
+l=3DTrue)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 repo_url_found =3D False<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 with open(wget_content_file, &#3=
+9;r&#39;) as f:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 in_repo_section =
+=3D False<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for line in f.read=
+lines():<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if &=
+#39;&gt;Repository&lt;&#39; in line:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 in_repo_section =3D True<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 continue<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if i=
+n_repo_section:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 newline =3D line.strip()<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 if newline !=3D &#39;&#39; and not newline.startswith(&#39;&lt;&=
+#39;):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 repo_url =3D newline<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 repo_url_found =3D True<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 break<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if repo_url_found:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"http://=
+logger.info" rel=3D"noreferrer" target=3D"_blank">logger.info</a>(&quot;rep=
+o url for %s: %s&quot; % (module_name, repo_url))<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 with open(url_cach=
+e_file, &#39;w&#39;) as f:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 f.wr=
+ite(repo_url)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return repo_url<br=
+>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 else:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 unhandled_reason =
+=3D &#39;cannot determine repo_url for %s&#39; % module_name<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.modules_unhan=
+dled[module_name] =3D unhandled_reason<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return None<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 except:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"http://logger.info" r=
+el=3D"noreferrer" target=3D"_blank">logger.info</a>(&quot;wget -O %s <a hre=
+f=3D"https://pkg.go.dev/%s" rel=3D"noreferrer" target=3D"_blank">https://pk=
+g.go.dev/%s</a> failed&quot; % (wget_content_file, module_name))<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return None<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 <br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 <br>
++=C2=A0 =C2=A0 def get_repo_url_rev(self, module_name, version):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 Return (repo_url, rev)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 import re<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # First get rev from version<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 v =3D version.split(&#39;+incompatible&#39;)[0=
+]<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 version_components =3D v.split(&#39;-&#39;)<br=
+>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if len(version_components) =3D=3D 1:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 rev =3D v<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 elif len(version_components) =3D=3D 3:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if len(version_components[2]) =
+=3D=3D 12:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 rev =3D version_co=
+mponents[2]<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 else:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 rev =3D v<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 else:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 rev =3D v<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 <br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 #<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Get repo_url<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # We put a cache mechanism here, &lt;wget_cont=
+ent_file&gt;.repo_url.cache is used to store the repo url fetch before<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # <br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 wget_dir =3D os.path.join(self.workdir, &#39;w=
+get-contents&#39;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if not os.path.exists(wget_dir):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 os.makedirs(wget_dir)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 wget_content_file =3D os.path.join(wget_dir, m=
+odule_name.replace(&#39;/&#39;, &#39;_&#39;))<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 url_cache_file =3D &quot;%s.repo_url.cache&quo=
+t; % wget_content_file<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if os.path.exists(url_cache_file):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 with open(url_cache_file, &#39;r=
+&#39;) as f:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 repo_url =3D f.rea=
+dline().strip()<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return (repo_url, =
+rev)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 module_name_parts =3D module_name.split(&#39;/=
+&#39;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 while (len(module_name_parts) &gt; 0):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 module_name_to_check =3D &#39;/&=
+#39;.join(module_name_parts)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"http://logger.info" r=
+el=3D"noreferrer" target=3D"_blank">logger.info</a>(&quot;module_name_to_ch=
+eck: %s&quot; % module_name_to_check)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 repo_url =3D self.use_wget_to_ge=
+t_repo_url(wget_content_file, url_cache_file, module_name_to_check)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if repo_url:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return (repo_url, =
+rev)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 else:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if module_name in =
+self.modules_unhandled:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 retu=
+rn (None, rev)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 else:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 modu=
+le_name_parts.pop(-1)<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 unhandled_reason =3D &#39;cannot determine the=
+ repo for %s&#39; % module_name<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.modules_unhandled[module_name] =3D unhand=
+led_reason<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return (None, rev)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 <br>
++=C2=A0 =C2=A0 def get_url_srcrev(self, module_name, version):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 Return url and fullsrcrev according to module_=
+name and version<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 repo_url, rev =3D self.get_repo_url_rev(module=
+_name, version)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if not repo_url or not rev:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return (None, None)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.fetch_and_checkout_repo(module_name, repo=
+_url, rev)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if module_name in self.modules_repoinfo:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 repo_url, repo_dest_dir, repo_fu=
+llrev =3D self.modules_repoinfo[module_name]<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # remove the .git suffix to sync=
+ repos across modules with different versions and across recipes<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if repo_url.endswith(&#39;.git&#=
+39;):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 repo_url =3D repo_=
+url[:-len(&#39;.git&#39;)]<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return (repo_url, repo_fullrev)<=
+br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 else:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 unhandled_reason =3D &#39;fetch_=
+and_checkout_repo(%s, %s, %s) failed&#39; % (module_name, repo_url, rev)<br=
+>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.modules_unhandled[module_na=
+me] =3D unhandled_reason<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return (None, None)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 <br>
++=C2=A0 =C2=A0 def gen_src_uri_inc(self):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 Generate src_uri.inc file containing SRC_URIs =
+<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 src_uri_inc_file =3D os.path.join(self.workdir=
+, &#39;src_uri.inc&#39;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # record the &lt;name&gt; after writting SRCRE=
+V_&lt;name&gt;, this is to avoid modules having the same basename resulting=
+ in same SRCREV_xxx<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 srcrev_name_recorded =3D []<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 template =3D &quot;&quot;&quot;#=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0%s %s<br>
++# [1] git ls-remote %s %s<br>
++SRCREV_%s=3D&quot;%s&quot;<br>
++SRC_URI +=3D &quot;git://%s;name=3D%s;protocol=3Dhttps;nobranch=3D1;destsu=
+ffix=3D${WORKDIR}/${BP}/src/import/vendor.fetch/%s&quot;<br>
++<br>
++&quot;&quot;&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # We can&#39;t simply write SRC_URIs one by on=
+e in the order that go.mod specify them.<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Because the latter one might clean things up=
+ for the former one if the former one is a subpath of the latter one.<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 def take_first_len(elem):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return len(elem[0])<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 src_uri_contents =3D []<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 with open(src_uri_inc_file, &#39;w&#39;) as f:=
+<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for module in self.modules_requi=
+re:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # {module_name: (u=
+rl, version, destdir, fullsrcrev)}<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 repo_url, version,=
+ destdir, fullrev =3D self.modules_require[module]<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if module in self.=
+modules_replace:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 actu=
+al_module_name, actual_version =3D self.modules_replace[module]<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 else:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 actu=
+al_module_name, actual_version =3D (module, version)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if &#39;://&#39; i=
+n repo_url:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 repo=
+_url_noprotocol =3D repo_url.split(&#39;://&#39;)[1]<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 else:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 repo=
+_url_noprotocol =3D repo_url<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if not repo_url.st=
+artswith(&#39;https://&#39;):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 repo=
+_url =3D &#39;https://&#39; + repo_url<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 name =3D module.sp=
+lit(&#39;/&#39;)[-1]<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if name in srcrev_=
+name_recorded:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 name=
+ =3D &#39;-&#39;.join(module.split(&#39;/&#39;)[-2:])<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 src_uri_contents.a=
+ppend((actual_module_name, actual_version, repo_url, fullrev, name, fullrev=
+, repo_url_noprotocol, name, actual_module_name))<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 srcrev_name_record=
+ed.append(name)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # sort the src_uri_contents and =
+then write it<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 src_uri_contents.sort(key=3Dtake=
+_first_len)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for content in src_uri_contents:=
+<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 f.write(template %=
+ content)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"http://logger.info" rel=3D"noreferr=
+er" target=3D"_blank">logger.info</a>(&quot;%s generated&quot; % src_uri_in=
+c_file)<br>
++<br>
++=C2=A0 =C2=A0 def gen_relocation_inc(self):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 Generate relocation.inc file<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 relocation_inc_file =3D os.path.join(self.work=
+dir, &#39;relocation.inc&#39;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 template =3D &quot;&quot;&quot;export sites=3D=
+&quot;%s&quot;<br>
++<br>
++do_compile:prepend() {<br>
++=C2=A0 =C2=A0 cd ${S}/src/import<br>
++=C2=A0 =C2=A0 for s in $sites; do<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 site_dest=3D$(echo $s | cut -d: -f1)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 site_source=3D$(echo $s | cut -d: -f2)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 force_flag=3D$(echo $s | cut -d: -f3)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 mkdir -p vendor.copy/$site_dest<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if [ -n &quot;$force_flag&quot; ]; then<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0echo &quot;[INFO] $site_dest: for=
+ce copying .go files&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0rm -rf vendor.copy/$site_dest<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0rsync -a --exclude=3D&#39;vendor/=
+&#39; --exclude=3D&#39;.git/&#39; vendor.fetch/$site_source/ vendor.copy/$s=
+ite_dest<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 else<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 [ -n &quot;$(ls -A vendor.copy/$=
+site_dest/*.go 2&gt; /dev/null)&quot; ] &amp;&amp; { echo &quot;[INFO] vend=
+or.fetch/$site_source -&gt; $site_dest: go copy skipped (files present)&quo=
+t; ; true ; } || { echo &quot;[INFO] $site_dest: copying .go files&quot; ; =
+rsync -a --exclude=3D&#39;vendor/&#39; --exclude=3D&#39;.git/&#39; vendor.f=
+etch/$site_source/ vendor.copy/$site_dest ; }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
++=C2=A0 =C2=A0 done<br>
++}<br>
++&quot;&quot;&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 sites =3D []<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 for module in self.modules_require:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # &lt;dest&gt;:&lt;source&gt;[:f=
+orce]<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if module in self.modules_srcpat=
+hs:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 srcpath =3D self.m=
+odules_srcpaths[module]<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 logger.debug(&quot=
+;Using %s as srcpath of module (%s)&quot; % (srcpath, module))<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 else:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 srcpath =3D module=
+<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sites.append(&quot;%s:%s:force&q=
+uot; % (module, srcpath))<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # To avoid the former one being overriden by t=
+he latter one when the former one is a subpath of the latter one, sort site=
+s<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 sites.sort(key=3Dlen)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 with open(relocation_inc_file, &#39;w&#39;) as=
+ f:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sites_str =3D &#39; \\\n=C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;.join(sites)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 f.write(template % sites_str)<br=
+>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"http://logger.info" rel=3D"noreferr=
+er" target=3D"_blank">logger.info</a>(&quot;%s generated&quot; % relocation=
+_inc_file)<br>
++<br>
++=C2=A0 =C2=A0 def gen_modules_txt(self):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 Generate modules.txt file<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 modules_txt_file =3D os.path.join(self.workdir=
+, &#39;modules.txt&#39;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 with open(modules_txt_file, &#39;w&#39;) as f:=
+<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for l in self.require_lines:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 f.write(&#39;# %s\=
+n&#39; % l)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 f.write(&#39;## ex=
+plicit\n&#39;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for l in self.replace_lines:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 f.write(&#39;# %s\=
+n&#39; %l)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"http://logger.info" rel=3D"noreferr=
+er" target=3D"_blank">logger.info</a>(&quot;%s generated&quot; % modules_tx=
+t_file)<br>
++<br>
++=C2=A0 =C2=A0 def sanity_check(self):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 Various anity checks<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 sanity_check_ok =3D True<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 #<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Sanity Check 1:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 #=C2=A0 =C2=A0 =C2=A0For modules having the sa=
+me repo, at most one is allowed to not have subpath.<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 #=C2=A0 =C2=A0 =C2=A0This check operates on se=
+lf.modules_repoinfo and self.modules_subpaths<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 #<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 repo_modules =3D {}<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 for module in self.modules_repoinfo:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # first form {repo: [module1, mo=
+dule2, ...]}<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 repo_url, repo_dest_dir, fullsrc=
+rev =3D self.modules_repoinfo[module]<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if repo_url not in repo_modules:=
+<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 repo_modules[repo_=
+url] =3D [module]<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 else:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 repo_modules[repo_=
+url].append(module)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 for repo in repo_modules:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 modules =3D repo_modules[repo]<b=
+r>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if len(modules) =3D=3D 1:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 continue<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # for modules sharing the same r=
+epo, at most one is allowed to not have subpath<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 nosubpath_modules =3D []<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for m in modules:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if m not in self.m=
+odules_subpaths:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 nosu=
+bpath_modules.append(m)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if len(nosubpath_modules) =3D=3D=
+ 0:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 continue<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if len(nosubpath_modules) &gt; 1=
+:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 logger.warning(&qu=
+ot;Multiple modules sharing %s, but they don&#39;t have subpath: %s. Please=
+ double check.&quot; % (repo, nosubpath_modules))<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if len(nosubpath_modules) =3D=3D=
+ 1:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # do further check=
+, OK if the module is the prefix for other modules sharing the same repo<br=
+>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 module_to_check =
+=3D nosubpath_modules[0]<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for m in modules:<=
+br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if m=
+odule_to_check =3D=3D m:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 continue<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if n=
+ot m.startswith(&#39;%s/&#39; % module_to_check):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 logger.warning(&quot;%s is sharing repo (%s) with other modules,=
+ and it might need a subpath. Please double check&quot; % (module_to_check,=
+ repo))<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 continue<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 #<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # End of Sanity Check<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 #<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if not sanity_check_ok:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sys.exit(1)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return<br>
++<br>
++def main():<br>
++=C2=A0 =C2=A0 parser =3D argparse.ArgumentParser(<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 description=3D&quot;oe-go-mod-autogen.py is us=
+ed to generate src_uri.inc, relocation.inc and modules.txt to be used by go=
+ mod recipes&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 epilog=3D&quot;Use %(prog)s --help to get help=
+&quot;)<br>
++=C2=A0 =C2=A0 parser.add_argument(&quot;--repo&quot;, help =3D &quot;Repo =
+for the recipe.&quot;, required=3DTrue)<br>
++=C2=A0 =C2=A0 parser.add_argument(&quot;--rev&quot;, help =3D &quot;Revisi=
+on for the recipe.&quot;, required=3DTrue)<br>
++=C2=A0 =C2=A0 parser.add_argument(&quot;--module&quot;, help =3D &quot;Go =
+module name. To be used with &#39;--test&#39;&quot;)<br>
++=C2=A0 =C2=A0 parser.add_argument(&quot;--version&quot;, help =3D &quot;Go=
+ module version. To be used with &#39;--test&#39;&quot;)<br>
++=C2=A0 =C2=A0 parser.add_argument(&quot;--test&quot;, help =3D &quot;Test =
+to get repo url and fullsrcrev, used together with --module and --version.&=
+quot;, action=3D&quot;store_true&quot;)<br>
++=C2=A0 =C2=A0 parser.add_argument(&quot;--workdir&quot;, help =3D &quot;Wo=
+rking directory to hold intermediate results and output.&quot;, default=3Do=
+s.getcwd())<br>
++=C2=A0 =C2=A0 parser.add_argument(&quot;-d&quot;, &quot;--debug&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 help =3D &quot;Enable debug output&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 action=3D&quot;store_const&quot;, const=3Dlogging.DEBUG, dest=3D=
+&quot;loglevel&quot;, default=3Dlogging.INFO)<br>
++=C2=A0 =C2=A0 parser.add_argument(&quot;-q&quot;, &quot;--quiet&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 help =3D &quot;Hide all output except error messages&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 action=3D&quot;store_const&quot;, const=3Dlogging.ERROR, dest=3D=
+&quot;loglevel&quot;)<br>
++=C2=A0 =C2=A0 args =3D parser.parse_args()<br>
++<br>
++=C2=A0 =C2=A0 logger.setLevel(args.loglevel)<br>
++=C2=A0 =C2=A0 logger.debug(&quot;oe-go-mod-autogen.py running for %s:%s in=
+ %s&quot; % (args.repo, args.rev, args.workdir))<br>
++=C2=A0 =C2=A0 gomodtool =3D GoModTool(args.repo, args.rev, args.workdir)<b=
+r>
++=C2=A0 =C2=A0 if args.test:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if not args.module or not args.version:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 print(&quot;Please specify --mod=
+ule and --version&quot;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sys.exit(1)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 url, srcrev =3D gomodtool.get_url_srcrev(args.=
+module, args.version)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 print(&quot;url =3D %s, srcrev =3D %s&quot; % =
+(url, srcrev))<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if not url or not srcrev:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 print(&quot;Failed to get url &a=
+mp; srcrev for %s:%s&quot; % (args.module, args.version))<br>
++=C2=A0 =C2=A0 else:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 gomodtool.parse()<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 gomodtool.sanity_check()<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 gomodtool.gen_src_uri_inc()<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 gomodtool.gen_relocation_inc()<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 gomodtool.gen_modules_txt()<br>
++=C2=A0 =C2=A0 <br>
++<br>
++if __name__ =3D=3D &quot;__main__&quot;:<br>
++=C2=A0 =C2=A0 try:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D main()<br>
++=C2=A0 =C2=A0 except Exception as esc:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D 1<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 import traceback<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 traceback.print_exc()<br>
++=C2=A0 =C2=A0 sys.exit(ret)<br>
+-- <br>
+2.40.0<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#8272): <a href=3D"https://lists.yoctoproject.org/g/meta=
+-virtualization/message/8272" rel=3D"noreferrer" target=3D"_blank">https://=
+lists.yoctoproject.org/g/meta-virtualization/message/8272</a><br>
+Mute This Topic: <a href=3D"https://lists.yoctoproject.org/mt/101162746/505=
+2612" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.org/m=
+t/101162746/5052612</a><br>
+Group Owner: <a href=3D"mailto:meta-virtualization%2Bowner@lists.yoctoproje=
+ct.org" target=3D"_blank">meta-virtualization+owner@lists.yoctoproject.org<=
+/a><br>
+Unsubscribe: <a href=3D"https://lists.yoctoproject.org/g/meta-virtualizatio=
+n/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.or=
+g/g/meta-virtualization/unsub</a> [<a href=3D"mailto:quaresma.jose@gmail.co=
+m" target=3D"_blank">quaresma.jose@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div><br clear=3D"all"><div><br></div><span class=3D"gmail_si=
+gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
+iv dir=3D"ltr">Best regards,<div><br>Jos=C3=A9 Quaresma</div></div></div></=
+div>
+
+--0000000000004eafb40604994efb--
 
