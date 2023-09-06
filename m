@@ -1,373 +1,194 @@
-Return-Path: <randy.macleod@windriver.com>
+Return-Path: <sandeep.gundlupet-raju@amd.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EBC22EB8FD9
-	for <webhook@archiver.kernel.org>; Wed,  6 Sep 2023 14:25:03 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.10445.1694010302098096212
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 300AFEE14D0
+	for <webhook@archiver.kernel.org>; Wed,  6 Sep 2023 21:31:35 +0000 (UTC)
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (NAM11-BN8-obe.outbound.protection.outlook.com [40.107.236.40])
+ by mx.groups.io with SMTP id smtpd.web10.2214.1694035890659622927
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 06 Sep 2023 07:25:02 -0700
+ Wed, 06 Sep 2023 14:31:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=DdLrT+HT;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=7613f548c4=randy.macleod@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 386BioHQ022549;
-	Wed, 6 Sep 2023 07:24:57 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=content-type:message-id:date:subject:to:cc:references:from
-	:in-reply-to:mime-version; s=PPS06212021; bh=7KYLO4TlvWFXgF87ANw
-	A6BL2iWpiaNs8wGx+kRWBk1w=; b=DdLrT+HTnhHlAAjW1Kny3f2c5D/JEHtYbH8
-	eeZO6/vbx8b+J36KRnc8ujKKslFMB9sCWz9a+bvhJ8BFSDs6wz1tvf+15ZDWmw0B
-	rWftC9f/iks3PjCHQ5xvMCZRmaKkPUiFTKhJyy7Deod57NBHBjtuLHowcm/B/Nix
-	y8jF6gDttYLfQMal550m9xD0HkxRPMyyoGsZmIBrdgDWJ63fLjB5yvBWiJ/H/ZMr
-	LQRSfJU85PtzGFTHZqR/1ayIHhzZSMhCoNXE91wludl39k+0cnopCDM3hRCBlmFz
-	3vk9VoB/ypafpEQlyZxQHdW71SSveOkIxUCnGwiTi44eWDZW8jw==
-Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2174.outbound.protection.outlook.com [104.47.55.174])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3sv0b03h11-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 06 Sep 2023 07:24:57 -0700 (PDT)
+ dkim=pass header.i=@amd.com header.s=selector1 header.b=Oeeg6uLV;
+ spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: amd.com, ip: 40.107.236.40, mailfrom: sandeep.gundlupet-raju@amd.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kcbP/utUtSIenvgAhrB1QcEoyFB5nqJr3EMFXJMj5Wb8o7/VSShc9KwdOOoKBnSkwdU8EW5SZ6VG6BAqTWQEvSpSWexWjrKyh1owFkpB6cuL2Pltfnk1DhjtDzUaxh+vtkPSWV7DqYLxOhNJDJmEtGU7iH8KCjZ++P92r3BZskgg5JjjOkzL7G91YRqTHneFIfYg9KhEyDWjuptnb/tPAA8YKbwVUSu8lJhIXOrTaDI50OjbXt48IGUOLeYiI/lg3TlnUKRbVXfaJ6Eau3BeEoagE5uJHYKthoqyT+D93dT+E2FcSmy9qpfWktUl14HFO0XQFbyDtonS4WXU/pKduw==
+ b=fcHhxTl9sqLyG1sBsnLt92srsXz5SnCGAQeyDTqjlHEq+5mrkiyg8HNgtUu6NpIe8I767Jv2i6JMhVPeuY+YjBjYcq43innF8doa700NdH4IBV5xQMAAhCuy1SchKkLkvBkS3jaYVmntwKUOkMFEjW4TyuuBeIw/5o6ilWWSnhysipIGHE1dNgUhEhjc9wiS854+vd89rvhvdojufjKTD8SSXk6KRN2MfPv4Ks1zXSBBt0Zh2jjMB99moW7YUf9eOj1N4vYKL2t4KpXu1WpQaNVLCvIDgHyH/krFwB2p8SbU/OXTxm2f+G3pFGOqcQrims78oosjY7l2Hi3XVoLdAg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7KYLO4TlvWFXgF87ANwA6BL2iWpiaNs8wGx+kRWBk1w=;
- b=ILYhhBkFFP7OsklfHZnXEqHl9XiaokHmS0bF6mvdECasG63183xn6qNBrV8MgaaTuiULYmwLWKn2eNhRGMj2HRMLpsHUTQIv/ju/SbMyXe0FMIgMdmOFftbu+YFy/HlyRTemPhW9f3rHPGkhkVEbpHzREfuCubNvn52/rTTHr7MfLVAfA1TLtDwY2JDZog+37ppSdAVhVs6Lg9QiMwcCpgPAo0QBDAiP7xeMLVcgmsAWAZjuFRjfIdBsPeklFXAaxuBJJoKSz5oPG8noa1fe+AOHmW5YupaIvWyNCfJ7D6K2cFOMyz0qUN7Mc5yowJQf6nk4eXN47KrwACKjndBeVg==
+ bh=armIfniD5ud4SLlvMDAbW0OK7wXb75RsG8fCdNxFyRg=;
+ b=KEYP5aPAKt8rDZHxpU47NwKvrc0hemcjjNj1VxMQA6ViWMdJslgbh5qXOtADcZebxIGaBzo4OwIhQKpyZXzoMDUsmx9HCRhWCmmOehwXZeSG9TTw9hI92/2bLa43V5Z2YVoclzHr0m9g5kCQGS/lcxeszGpeLmshYFNAaMl5kxtEGu6spy90XRHlNYBGgWsW/6Mvy/5J/AB3o7KpNDJpixbFAnqL/6DUtMFlZqiVn6FKZfYDbmi5KyjEJSU1pla1u0udKJBZSdfrfY9ASAHzAmitEsyiUFowUUV6GGRS+mlnx6Mc/mSLo3ZJNE+GYpw9XofHHcNuOkQrMat28+m1Dg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from DM6PR11MB3994.namprd11.prod.outlook.com (2603:10b6:5:193::19)
- by DM4PR11MB6096.namprd11.prod.outlook.com (2603:10b6:8:af::16) with
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=armIfniD5ud4SLlvMDAbW0OK7wXb75RsG8fCdNxFyRg=;
+ b=Oeeg6uLVztB3aaTlJcg1AdyVZSs1DuKvijVAL3VQS9iY7PHgeeZDBhUVN6QXphAPOgAbhBaciRCxhz+ubOSwAFvPeJjGn8EY4ow2qxGWmp+NW1Qyej6mxSbiFzHrPDLeTEO0ktZXc0LwEMuY2kfPwvlQ3d0SClYZmLg3M5wcB3w=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from SA0PR12MB4367.namprd12.prod.outlook.com (2603:10b6:806:94::13)
+ by SJ1PR12MB6194.namprd12.prod.outlook.com (2603:10b6:a03:458::12) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.34; Wed, 6 Sep
- 2023 14:24:54 +0000
-Received: from DM6PR11MB3994.namprd11.prod.outlook.com
- ([fe80::d2d8:3f97:b35:ee7d]) by DM6PR11MB3994.namprd11.prod.outlook.com
- ([fe80::d2d8:3f97:b35:ee7d%3]) with mapi id 15.20.6745.030; Wed, 6 Sep 2023
- 14:24:54 +0000
-Content-Type: multipart/alternative;
- boundary="------------5fHW8dEFvyo5P617qcjM0k8m"
-Message-ID: <9c5a6ba1-f1c0-2aa0-9143-e40e4285b828@windriver.com>
-Date: Wed, 6 Sep 2023 10:24:50 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.33; Wed, 6 Sep
+ 2023 21:31:28 +0000
+Received: from SA0PR12MB4367.namprd12.prod.outlook.com
+ ([fe80::8bcf:a1ee:afe8:ea4c]) by SA0PR12MB4367.namprd12.prod.outlook.com
+ ([fe80::8bcf:a1ee:afe8:ea4c%7]) with mapi id 15.20.6745.035; Wed, 6 Sep 2023
+ 21:31:28 +0000
+Message-ID: <3248da58-3271-37fe-c60f-ad9217d9ae5f@amd.com>
+Date: Wed, 6 Sep 2023 15:31:24 -0600
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.15.0
-Subject: Re: [meta-virtualization] [PATCH] oci-image-tools: don't build for
- riscv64
-Content-Language: en-CA
-To: Changqing Li <changqing.li@eng.windriver.com>
-Cc: meta-virtualization@lists.yoctoproject.org, bruce.ashfield@gmail.com
-References: <20230901090308.3242531-1-changqing.li@windriver.com>
- <ZPVJdC6MVeoKurB+@gmail.com>
-From: Randy MacLeod <randy.macleod@windriver.com>
-In-Reply-To: <ZPVJdC6MVeoKurB+@gmail.com>
-X-ClientProxiedBy: BY5PR13CA0006.namprd13.prod.outlook.com
- (2603:10b6:a03:180::19) To DM6PR11MB3994.namprd11.prod.outlook.com
- (2603:10b6:5:193::19)
+Subject: Re: [meta-virtualization][master][PATCH 1/2] xen-boot-cmd: Add xen
+ variable as addendum
+Content-Language: en-US
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: meta-virtualization@lists.yoctoproject.org,
+ christopher.w.clark@gmail.com, mark.hatle@kernel.crashing.org
+References: <20230825181811.3306054-1-sandeep.gundlupet-raju@amd.com>
+ <20230825181811.3306054-2-sandeep.gundlupet-raju@amd.com>
+ <ZOtOQIeCfldaixvL@gmail.com>
+From: "Gundlupet Raju, Sandeep" <sandeep.gundlupet-raju@amd.com>
+In-Reply-To: <ZOtOQIeCfldaixvL@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SJ0PR03CA0051.namprd03.prod.outlook.com
+ (2603:10b6:a03:33e::26) To SA0PR12MB4367.namprd12.prod.outlook.com
+ (2603:10b6:806:94::13)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR11MB3994:EE_|DM4PR11MB6096:EE_
-X-MS-Office365-Filtering-Correlation-Id: 54f1b1af-b816-403b-f40f-08dbaee509e5
+X-MS-TrafficTypeDiagnostic: SA0PR12MB4367:EE_|SJ1PR12MB6194:EE_
+X-MS-Office365-Filtering-Correlation-Id: 95d76210-c81e-4545-7479-08dbaf20a105
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	MSASDJUfrlJn2ra+BNPAmUJgRTJNB2qXJu7eZ/NmLEUNaysxIZgj+sXzZ1WVTRMsWtvh1fgGWXHZdGY9Ia56RSXz9/CI3YBoq/Fngmf/qsAAVljMkLnj8ivOLrGVLoDaiQOtS4fVxi4T43uJ9Iu9+liT5mS8S/SGThghUKT8OdplFkaFmAZlM0HfYS2B18H9v0BJV5ikTfzDZwDGcdBjl/gRRxb2sBxgX1poeYmG24AOFuUs+2qCGeyes8hz3CLXwL7rVurwuoncZyWrCxkVU4GXkcelul0upvJaoeCU8s9z5l7S6tWNepu/NXMdCvtYRG/5/PInQI19HzoXOTTvySgo4wyJ9qq1DVuUqEyKkoCO4rtByr8UBVXenjqwH/szzbJ8DO6pfKxIQd18Oqx5hNwF4RWDOzHDhnP89UnqGjXIez3PVpVQbI2eviuShDHlTcGUKNZ0SdCUtmjqVxWCpbYaW5jUAk53c7pFcEJkm2HxQum4JzghvSIZq7Qk9ctuVeFo+BQUXLkInsNBQBP3yM3OOIvyAr4G2uhq8oiQto+blGcxOZ1MlpBQ1zDc1+KFbuAv04fKZhj1iAV1P1rUu5agzOfQ0+JoA+wgMiZOakHqLv2R3/G+ke4RmlrPcR5Hmv8Wvwv4zCyvnhZK8/u4eg==
+	LbXneqbsz9ZEp13jQJE3y8PIV7ZxK4n99YnpyMqW6zSIUW8B0MU0Mng8n9yWq+cF2j9j0U73DS9vAySl8xPivgE/IQqUywRn7u1NXTVl0146pXjKmI/BJeNRqOJy44LAlatus/wJPUcSPDaW2ZneZgrY/Ttv9v/WrfizKX+R2PEijMa27LKPj94JZ9X7gZtCaIWJtaHr0jNFvFrR5qpvebk+bvsT6sWZ0hkC8HE8+d4cx8V14BCovSAaAvXY9yR/XhgRJVoQQER8EWtCeGYzmghUWcKRA7roVymfTKaIioqnJ0sGuin77X/WyyNOeA4aNvRbQs3k4idYv1asXQVeVI7g0BZGcoq5D9FS+Pin42KtgRlOmvuMMtCFMS6r6MCkh2RGYj4Rdoz8p7ZFQMoOCWUSkMp30BNjaP1W6YGXuog1ZY4IO6EGoz1TVSlRuEQ6neBwYCng2gwiUiYDh/M+glKBaQ9AkKGONPcyb4d/0J3TrbW+ZYh1hBou+Uk3siyQIZQoCWGGnI4t4c+M4BeJc85E3Kiwr1GgG4uKemzsKeggJlAztGW4TJ4xTSgCGeXMhCM46QKnUgzrR1CEBCTwCt200RbTL1fZOjik1OKkODdcpquYByjeliR/qiBMGM4XOfs2Mk4Nsj5gMvHJMRZ0Kg==
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3994.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(136003)(396003)(366004)(346002)(39840400004)(451199024)(1800799009)(186009)(53546011)(6486002)(6666004)(33964004)(6506007)(6512007)(966005)(478600001)(83380400001)(2616005)(2906002)(26005)(316002)(66556008)(66946007)(66476007)(41300700001)(6862004)(5660300002)(4326008)(8936002)(8676002)(31696002)(36756003)(86362001)(166002)(38100700002)(31686004)(66899024)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA0PR12MB4367.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(136003)(366004)(346002)(39860400002)(376002)(1800799009)(451199024)(186009)(6506007)(6486002)(6512007)(41300700001)(66946007)(66556008)(66476007)(6666004)(53546011)(316002)(6916009)(26005)(2616005)(966005)(5660300002)(8936002)(86362001)(31696002)(4326008)(8676002)(478600001)(31686004)(36756003)(83380400001)(38100700002)(2906002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?U09TRG0vdkd0QVBvSFJ1aWw3QWxNSGkwNGNtd1gyKzJnblVzdm4yTzg2RWNV?=
- =?utf-8?B?b3lPbitsL0xzWWtrYTV1S3YvMnJ5TzVJUTMvbThGZS9EWFNhS0RBT0NGcm9W?=
- =?utf-8?B?MGZvRVArWEFYOWhET0NSVC91blFoRWg1SjM5bjFlaEJXVllyS3NVL0cxTVN3?=
- =?utf-8?B?TW1reCtPQzlreUdkU1h5bXV0d0tEbDJNOFRKK2VpdDhSajhFNldvVTlCdDYy?=
- =?utf-8?B?VWUvblVIakFxYnI2RnNXaTVEVkEyUHlZUEJZMHE4ZEkvendnUkdnaGhOZ3dG?=
- =?utf-8?B?dVR3U0pOejU5QldiQUZYQlJPbTV0Slh3NERWTXZtWGE5RURLNzBMSEx3L0ps?=
- =?utf-8?B?RTBlNmdJSkM4UjQ5M1JkVWlaOVJXamJjTEdCSmVsbFNhTk8rRUdrUkp5TEwr?=
- =?utf-8?B?c1JoSk5JK1ZHQmtXYVlvZ3VGYTk0NWpuMnNqYzlIMDlnbUpuUXJHdTBGRkJN?=
- =?utf-8?B?Zmc0cnJRVHhwY3VaYUNHTDdiekdhQUlrcndhcFpXaGZHaG90RkN5Sy9EWE5n?=
- =?utf-8?B?ckJQNGdJVEl4SFRjTUdjdjJnc1kzVnJZcGJRTUFOVmVlTmZOSnZNUjlSWmRH?=
- =?utf-8?B?bkIzejB0VnpXRkJkUkdyZUYvY2I0aENlOXNrT2hmTFpLYTRnais3eERJUkln?=
- =?utf-8?B?L084QWFKdmtyQTR3UFNyM0hZUjdhRnI0MXh0SGt3elFYQVB5S2hrcjMwZ09q?=
- =?utf-8?B?bExhWjdGaDBBYWovYzZWYm5KZkVPNi9xWWR3T1BUMlpDcnFXSlFkT2NvLy9t?=
- =?utf-8?B?YjJWaksxcWNSVWdaclZwK1Bsay9LNVh5RkJXZS9raTJEaDdRc0NEK3VCUG5p?=
- =?utf-8?B?NkgwakFyTHRqWVY2ZTdoWmN1dnlZczJnVzVaclNlSGNZUXNrUjlLVTBKQlNh?=
- =?utf-8?B?WjB0SHY3aWpXMEplZ2xPNG11UkVkaHJSVG4rVFF0YkRXOWlrUHBZVDZOWlNT?=
- =?utf-8?B?SjFQVmdaSGN3d0kzYUhoMEM4U29aUzJPeGkwKzg4cUlyNFYxWnNFeEQ2cGk0?=
- =?utf-8?B?WUc1WEhSK1o1ZUs0REJMR2RBN0tvQ2oxVWVjditoTXdORVFZSXo5RmE5elJm?=
- =?utf-8?B?YitJVGNiakM4ZzVMc1B0NTdaRjhUNkVIR1IvaWY2UnREelNSckFtVXVWbDg2?=
- =?utf-8?B?RjBCbkFDOHRyemZKbmlTS1ZEN3lVUW5iNWtFb0J4Q1BkRGtPdzBRRFc4TDlQ?=
- =?utf-8?B?cWk5aDZXOFFMYmtuWEMwSkhaY3VDUzg1alBpRmxmcXFqaVR2Y1JSN3Ryakpt?=
- =?utf-8?B?Um8za0lsYWlGTHZmTE5FK3pmbzJoMS9hbXFxalpjWS9pa1owam5tUVRzV2FZ?=
- =?utf-8?B?cUIzV2gzTEU5RUliU051V2lqSUVCN0p1UmhSZktJemZCZHBPLzI5NHdESFp6?=
- =?utf-8?B?Y2RPaUdETVMyd1l4dGQycTFJMm80MDJxaEpVY3AwWkVldy92SjkyY1N6R0pu?=
- =?utf-8?B?ZlJ0eWVHY2x6ZUd5MC9kczhqSm01TXFzcEwyMkg3dGEyZjllK1VkQm1jcEZT?=
- =?utf-8?B?VEt0ZTBmVDJCcnV2WU5FUzN2UEVCenRxNE9lenBiK0o2V3hXSmphd0FFY3F3?=
- =?utf-8?B?ZFBNR1AxUkN4bEF1MmJRVGQwNXZVZUR2dTNyWUNIVW16cGNKSXByWE4vMjlD?=
- =?utf-8?B?VENZZVI2ZkFwdkdLQWUzY3VrMGN2MXZqZzRFb0pmMFdVWnZ3NnBoK056dVda?=
- =?utf-8?B?MTBzZWM5M0RFamFmOGMzNHJrcktNVVBwYkUrSnhNSGtPUC9WMUxjcVBDR1p0?=
- =?utf-8?B?eSs2RjB3UTJwMTE4ZjYyZ0xTNXhBNCtRaWpGVVk2TW0vY1plWDRNcUZwNGYv?=
- =?utf-8?B?TDVFclhaL1RuMkNZRXF6QUZJdHBNQWtVVDlTdDk0NkJUZWJzL1djWFkwNGN0?=
- =?utf-8?B?cUFXWjJ3SzRRbHprNFM4MzNTdXJJczZXWDc1NU5VVWR4alhjNUdvQlczd1dh?=
- =?utf-8?B?aS9DV3pVWWd2WjgwbktDRE9FU3Y3Y3pUZ20zaFptQ1h3MkIvckZQdkdscTdH?=
- =?utf-8?B?T3RJRFFWSDljaFEvZk1jWlFOWkt2UFJZempEcERFNjhXOVYzeklEODJvUFFH?=
- =?utf-8?B?SkdJTExpTmNCejhHbWJmWGdiM3QxSEhkRDJveFFyUGNtZ0tocitzMnh2d2VP?=
- =?utf-8?B?djlCS1QxVzlLK2hsQlRiK1BtQUpvT255cXNuRVY5UlNWNjJxakxpckkyT0Mz?=
- =?utf-8?B?SUE9PQ==?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 54f1b1af-b816-403b-f40f-08dbaee509e5
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3994.namprd11.prod.outlook.com
+	=?utf-8?B?d3oxV3dkY3lFQk1Cb2NVeXkrQ1FMQjgyVEZqRHRocWFIaCtLTGJPcjdaZFp0?=
+ =?utf-8?B?YjRDSWhEU3F3U0kwZnNrK0h5eVo5OXhMR3Fqb1dxSG53S1lKbzE3dk16Zml1?=
+ =?utf-8?B?OUN2L09kNnJtL0ZieHFlV3FheHowYlJsQ3h3akkzVUJIbHdhVUpINGdXMnYr?=
+ =?utf-8?B?MjVURzNjUEZrc1FkUEl3aXJ6TjhxUnNYV3RoMExZbnpZTmE2azJ2QlVTT3JQ?=
+ =?utf-8?B?ZWpJNFQ4Z0Q0Ujh6d1c0RVFTUlZSRHdqbjdSbjRudVVuYmdIWkUxcTZRdWdG?=
+ =?utf-8?B?cGFITUFKb2VpektrcW5EOVB2R2JWSGp5cmNLTzNhWTF2cS9hdmgyaCt0RzJJ?=
+ =?utf-8?B?NVN3SCt4RXdiY2JFYnVCVklRZ2tjTVVJbW54Ri9HVUJJNTBSbkhZU0o1Yzdv?=
+ =?utf-8?B?N1U3ZWNxNktsZWZ2R2hQZVluU2V6MmZjRkNLdWZteEFQajk5M285cU1sNE5W?=
+ =?utf-8?B?UHNiZ0tIb0FZMk9tYUZEMVpBUVA4VkM3QStFVGliL2s0WWl1MWRwZStuci8z?=
+ =?utf-8?B?a3ZIK3kwUllNekZmNlowbVNmZTlZM1paNkhNbytiNUhZU1pPOVRkVWRFQ3Ey?=
+ =?utf-8?B?dWVja2UzNVBZaitnUjYyWDUyYjBhWmJGWE9vbG1aSy9LSkMwcC9YT3NRYk4y?=
+ =?utf-8?B?djdaY2JsWnplcGRGU1lEZENkcmZWd1NrOVZGaXhENVFlLzZyUmpqYUpEMzcx?=
+ =?utf-8?B?clRqQVRQU0xYQTBFVXlTazA1cUxmQzRNajBScTRVN1hJZzFNeXczRUExeHpY?=
+ =?utf-8?B?dUtVSjFtSXpZMndHY2VLT21wSHZSaDlHbzdlV0JnTFNZdEltMGZVdWlWOGRw?=
+ =?utf-8?B?d1FqL083aVhWQjFGYlExeW4xVFpBVU9ZL1NobHhsVkpwMWg5Q2l5WVhZMnV4?=
+ =?utf-8?B?WUdaS1ZKWjZFYUVwSFljNmZ3R1ZocjJsYkpia1NhckdoV1FqOW9pNnVTYk40?=
+ =?utf-8?B?c0paS0ZGcTREVzNPTlhhZUVUMTZnTkowZ3NDekdsZjh1bVgwSHVtb3ZGV3Fo?=
+ =?utf-8?B?UFRBNXBCRmhIMWR3cEIrMmJPbTVDaVZjUWNpSFV6c1VWOFVXeWJUZEgvQ3ho?=
+ =?utf-8?B?dHMyWldqeGx6RFFpSkUvSGVLVTZabTlDclphSGFmdVpiQ1E0RXNmMFpHMmJE?=
+ =?utf-8?B?dGxsMFhCMWt6UE9LcHU5SkdzUTdOVlpjbWdybXNRcVRCeGliK3ZDNnQ0NFVq?=
+ =?utf-8?B?OEVjNjhpcWxXK1pMMWJvSThIRmFpZHhLZzZRL0RtMmJWa0NEWmdkNGVVN01Z?=
+ =?utf-8?B?SG5pdWU4QVpEdU1Cc0RTZis3ZEpzYkhEZSs0aGw2QTd2aHNONWhNTSthdVFS?=
+ =?utf-8?B?RVlkT3BJNGV1eXN2ZTB4Q1V6K3RyUWR2Q05QdHpNcWkxN2ZFeE5IVEhoSjZ4?=
+ =?utf-8?B?ejF1b2VTdkxBY0QwVFFTNHlRbnBHUTNmKzQvOVNpZnpiVk1IZHFrZzlpbEF3?=
+ =?utf-8?B?STVON1NmRDFWRjdrdnBtMllEekI0VXBXc1RucmZWdkxjbStwalZmL2lpeXBF?=
+ =?utf-8?B?Sll5Sk9ZcFZPTUVIdEYwY1MwdWVyOU5PRXBoYjRDY01vL1NONlVWVWovYWd6?=
+ =?utf-8?B?aFhXc2V0d21xVm4xbWl6YjZHTm5kZi9XUm9PbHNaeHBnK0NMa2pzMWV5eXY4?=
+ =?utf-8?B?SzJXOEJRaGQvME1jeC9GL0R6aENBYVM3NS9zZ1VtMHVkcXVYZkk0YUY2VkVh?=
+ =?utf-8?B?WnMwN2o1WER5b1RGbXg5eVQ2eXBWMzB0TlFVKzFLMnN5RVBjNFM3Q3plemg0?=
+ =?utf-8?B?ZFZHajhGb1VyTVZYWmhsT2l1VkdESTVYdmtSQ3o5VmQzRzM5OGFVSjJYOUk2?=
+ =?utf-8?B?REhUdGdieXpyd1k2QmVzdTdvNnlTN1BnSFdOTnVQbE9CY0ovejA2TzBOaklZ?=
+ =?utf-8?B?VFpKZTcwMHBsdTNtdkdOb0lJMm5SZ0w5ZHl2aDg3c1UvN0ZWTW9ZOWpHNmxE?=
+ =?utf-8?B?bURKZ2tzWlRzazVVVFlPWjE1UWNSc25Od3BWZWNBeTZEWGRvQWVHU0FqWjNH?=
+ =?utf-8?B?bysxejJwRm5qNEU0Z3R2ZHU2bVltVDFhclljZnJMU1JYYnFlemNpOWUvVnFz?=
+ =?utf-8?B?TFJxcVgvTXdnVjdhU25RK1ZPUkwzb244NFl2VmpkK1ZXd2dMZk1XUGNIekVY?=
+ =?utf-8?Q?/ECb2KUeTN7psTRR4RdQSJOKp?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 95d76210-c81e-4545-7479-08dbaf20a105
+X-MS-Exchange-CrossTenant-AuthSource: SA0PR12MB4367.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Sep 2023 14:24:54.1614
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Sep 2023 21:31:27.9563
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: X2jTayLo+QO3QkTE2gAY2vgv6Wm29IqVZN36D+6CZBasyFpHd+Vud1Ot8mc4gX4vyq4GF6Tg1TQSbzlCEFTU9ZCBXaWq0mKGPBVrmsb4ZtI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB6096
-X-Proofpoint-ORIG-GUID: SyhqXzMJ8IhvbdCUvXkv_pZYawfU0K1Y
-X-Proofpoint-GUID: SyhqXzMJ8IhvbdCUvXkv_pZYawfU0K1Y
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
- definitions=2023-09-06_06,2023-09-05_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 mlxlogscore=889
- bulkscore=0 adultscore=0 phishscore=0 lowpriorityscore=0 spamscore=0
- mlxscore=0 impostorscore=0 malwarescore=0 suspectscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2308100000 definitions=main-2309060124
+X-MS-Exchange-CrossTenant-UserPrincipalName: c/UIeKDSwX1/MZ1ieuooPPRlcO7UVb9qZcKaQ99X0D5mE3qghj1cAUdwdBJYQMKHehviEOAmM1i+I5u9yATPqg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6194
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Wed, 06 Sep 2023 14:25:03 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8280
+ <meta-virtualization@lists.yoctoproject.org>; Wed, 06 Sep 2023 21:31:35 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8281
 
---------------5fHW8dEFvyo5P617qcjM0k8m
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Hi Bruce,
 
-On 2023-09-03 11:05 p.m., Bruce Ashfield via lists.yoctoproject.org wrote:
-> Since riscv isn't tested with meta-virt at all, this isn't
-> the only recipe that has either build or runtime issues.
+Sorry I totally missed replying to this email.
+
+On 8/27/2023 7:23 AM, Bruce Ashfield wrote:
+> In message: [meta-virtualization][master][PATCH 1/2] xen-boot-cmd: Add xen variable as addendum
+> on 25/08/2023 Sandeep Gundlupet Raju wrote:
 >
-> This is staged to master-next.
->
-> Bruce
-
-Changqing,
-
-Should we report the issue to the upstream maintainers so that
-should riscv64 actually become well-supported in meta-virt
-over the coming years, this particular issue stands a chance
-of being resolved or are 'go' packages just not there yet for riscv64 ?
-
-
-Thanks,
-
-../Randy
-
-
-> In message: [meta-virtualization] [PATCH] oci-image-tools: don't build for riscv64
-> on 01/09/2023 Changqing Li wrote:
->
->> From: Changqing Li<changqing.li@windriver.com>
->>
->> Currently oci-image-tools has a do_compile error for riscv64. The
->> problem could be reproduced by:
->>      MACHINE=qemuriscv64 bitbake oci-image-tools
->>
->> So explicitly set COMPATIBLE_HOST here to avoid it building for riscv64.
->> When someone interested in using this recipe for riscv64 fixes the
->> compile issue, this setting could be removed.
->>
->> Also don't build packagegroup-container/packagegroup-kubernetes since
->> they depends on oci-image-tools
->>
->> Signed-off-by: Changqing Li<changqing.li@windriver.com>
+>> Signed-off-by: Sandeep Gundlupet Raju <sandeep.gundlupet-raju@amd.com>
 >> ---
->>   recipes-containers/oci-image-tools/oci-image-tools_git.bb | 2 ++
->>   recipes-core/packagegroups/packagegroup-container.bb      | 2 ++
->>   recipes-core/packagegroups/packagegroup-kubernetes.bb     | 2 ++
->>   3 files changed, 6 insertions(+)
+>>   .../xilinx/recipes-bsp/u-boot/xen-boot-cmd.inc       | 12 ++++++++++++
+>>   1 file changed, 12 insertions(+)
 >>
->> diff --git a/recipes-containers/oci-image-tools/oci-image-tools_git.bb b/recipes-containers/oci-image-tools/oci-image-tools_git.bb
->> index 4beb3a63..8c5020b3 100644
->> --- a/recipes-containers/oci-image-tools/oci-image-tools_git.bb
->> +++ b/recipes-containers/oci-image-tools/oci-image-tools_git.bb
->> @@ -29,6 +29,8 @@ EXTRA_OEMAKE="BUILDTAGS=''"
->>   
->>   S = "${WORKDIR}/git/src/github.com/opencontainers/image-tools"
->>   
->> +COMPATIBLE_HOST:riscv64 = "null"
+>> diff --git a/dynamic-layers/xilinx/recipes-bsp/u-boot/xen-boot-cmd.inc b/dynamic-layers/xilinx/recipes-bsp/u-boot/xen-boot-cmd.inc
+>> index b2b76120..6d113c9a 100644
+>> --- a/dynamic-layers/xilinx/recipes-bsp/u-boot/xen-boot-cmd.inc
+>> +++ b/dynamic-layers/xilinx/recipes-bsp/u-boot/xen-boot-cmd.inc
+>> @@ -36,3 +36,15 @@ XEN_CMDLINE_APPEND ?= ""
+>>   # Specify the max number of vcpus for dom0
+>>   # Example usage: DOM0_MAX_VCPUS = "2" or DOM0_MAX_VCPUS = "2-4"
+>>   DOM0_MAX_VCPUS ?= "1"
 >> +
->>   do_compile() {
->>   	export GOARCH="${TARGET_GOARCH}"
->>   	export GOROOT="${STAGING_LIBDIR}/go"
->> diff --git a/recipes-core/packagegroups/packagegroup-container.bb b/recipes-core/packagegroups/packagegroup-container.bb
->> index 8d418e95..c41576a3 100644
->> --- a/recipes-core/packagegroups/packagegroup-container.bb
->> +++ b/recipes-core/packagegroups/packagegroup-container.bb
->> @@ -4,6 +4,8 @@ LIC_FILES_CHKSUM ="file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda inherit 
->> packagegroup +COMPATIBLE_HOST:riscv64 = "null"
->> +
->>   PACKAGES = "\
->>       packagegroup-container \
->>       packagegroup-lxc \
->> diff --git a/recipes-core/packagegroups/packagegroup-kubernetes.bb b/recipes-core/packagegroups/packagegroup-kubernetes.bb
->> index 70dc9713..7e6937b1 100644
->> --- a/recipes-core/packagegroups/packagegroup-kubernetes.bb
->> +++ b/recipes-core/packagegroups/packagegroup-kubernetes.bb
->> @@ -4,6 +4,8 @@ LIC_FILES_CHKSUM ="file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda inherit 
->> packagegroup +COMPATIBLE_HOST:riscv64 = "null"
->> +
->>   # k3s has this restriction
->>   inherit features_check
->>   REQUIRED_DISTRO_FEATURES ?= "seccomp"
+>> +# Add xen variables as addendum.
+>> +# Variable SCRIPT_SED_ADDENDUM id defined in meta-xilinx and set to null by
+>> +# default and enable only for xen builds.
+> s/id/is/
+>
+> This really entangles the meta-virt dynamic layer with the xilinx
+> layers. You need to have an understanding of one, to really understand
+> the other.
+[Sandeep]: I understand the problem is there is no standard way of doing 
+this.
+> If we are setting or appending to a variable, it really should be
+> defined in meta-virtualization.
+>
+> Is there a way to move the functions that are using this variable
+> into the main Xen meta-virt recipes, in such a way that this is
+> a generic way to customize the boot ?
+
+[Sandeep]: We can move the xen specific variables(such as DOM0_MEM, 
+XEN_CMDLINE_APPEND, DOM0_MAX_VCPUS etc...) to main xen meta-virt 
+inclusion files. Then using SCRIPT_SED_ADDEDUM approach in dynamic layer 
+we can append to existing soc vendor boot script recipe do_compile task 
+or a separate xen boot script recipe similar to RPI. I will prepare a 
+RFC patch and send it for review.
+
+I'm open if you have any better idea or way of handling this.
+
+We can also explore on image builder tool 
+https://gitlab.com/ViryaOS/imagebuilder/-/tree/master, We can create a 
+imagebuilder.bbclass and user can input the cfg and generate the right 
+u-boot scripts. It's VERY unclear to me that this is useful for anyone? 
+we need to better understand this component, how it's configured and 
+it's general purpose usage.
+
+> Bruce
+>
+>> +SCRIPT_SED_ADDENDUM += "-e 's/@@XEN_IMAGE_NAME@@/${XEN_IMAGE_NAME}/' \
+>> +        -e 's/@@XEN_OFFSET@@/${XEN_OFFSET}/' \
+>> +        -e 's/@@XEN_LOAD_ADDRESS@@/${XEN_LOAD_ADDRESS}/' \
+>> +        -e 's/@@DOM0_MEM@@/${DOM0_MEM}/' \
+>> +        -e 's/@@DOM0_MAX_VCPUS@@/${DOM0_MAX_VCPUS}/' \
+>> +        -e 's:@@XEN_SERIAL_CONSOLES@@:${XEN_SERIAL_CONSOLES}:' \
+>> +        -e 's:@@XEN_CMDLINE_APPEND@@:${XEN_CMDLINE_APPEND}:' \
+>> +"
+>> \ No newline at end of file
 >> -- 
->> 2.25.1
+>> 2.34.1
 >>
->>
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#8267):https://lists.yoctoproject.org/g/meta-virtualization/message/8267
-> Mute This Topic:https://lists.yoctoproject.org/mt/101090972/3616765
-> Group Owner:meta-virtualization+owner@lists.yoctoproject.org
-> Unsubscribe:https://lists.yoctoproject.org/g/meta-virtualization/leave/6693109/3616765/950573401/xyzzy  [randy.macleod@windriver.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
-
--- 
-# Randy MacLeod
-# Wind River Linux
-
---------------5fHW8dEFvyo5P617qcjM0k8m
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-
-<html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body>
-    <div class="moz-cite-prefix">On 2023-09-03 11:05 p.m., Bruce
-      Ashfield via lists.yoctoproject.org wrote:<br>
-    </div>
-    <blockquote type="cite" cite="mid:ZPVJdC6MVeoKurB+@gmail.com">
-      <pre class="moz-quote-pre" wrap="">Since riscv isn't tested with meta-virt at all, this isn't
-the only recipe that has either build or runtime issues.
-
-This is staged to master-next.
-
-Bruce</pre>
-    </blockquote>
-    <p>Changqing,</p>
-    <p>Should we report the issue to the upstream maintainers so that<br>
-      should riscv64 actually become well-supported in meta-virt<br>
-      over the coming years, this particular issue stands a chance<br>
-      of being resolved or are 'go' packages just not there yet for
-      riscv64 ?<br>
-    </p>
-    <p><br>
-      Thanks,</p>
-    <p>../Randy</p>
-    <p><br>
-    </p>
-    <blockquote type="cite" cite="mid:ZPVJdC6MVeoKurB+@gmail.com">
-      <pre class="moz-quote-pre" wrap="">
-In message: [meta-virtualization] [PATCH] oci-image-tools: don't build for riscv64
-on 01/09/2023 Changqing Li wrote:
-
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">From: Changqing Li <a class="moz-txt-link-rfc2396E" href="mailto:changqing.li@windriver.com">&lt;changqing.li@windriver.com&gt;</a>
-
-Currently oci-image-tools has a do_compile error for riscv64. The
-problem could be reproduced by:
-    MACHINE=qemuriscv64 bitbake oci-image-tools
-
-So explicitly set COMPATIBLE_HOST here to avoid it building for riscv64.
-When someone interested in using this recipe for riscv64 fixes the
-compile issue, this setting could be removed.
-
-Also don't build packagegroup-container/packagegroup-kubernetes since
-they depends on oci-image-tools
-
-Signed-off-by: Changqing Li <a class="moz-txt-link-rfc2396E" href="mailto:changqing.li@windriver.com">&lt;changqing.li@windriver.com&gt;</a>
----
- recipes-containers/oci-image-tools/oci-image-tools_git.bb | 2 ++
- recipes-core/packagegroups/packagegroup-container.bb      | 2 ++
- recipes-core/packagegroups/packagegroup-kubernetes.bb     | 2 ++
- 3 files changed, 6 insertions(+)
-
-diff --git a/recipes-containers/oci-image-tools/oci-image-tools_git.bb b/recipes-containers/oci-image-tools/oci-image-tools_git.bb
-index 4beb3a63..8c5020b3 100644
---- a/recipes-containers/oci-image-tools/oci-image-tools_git.bb
-+++ b/recipes-containers/oci-image-tools/oci-image-tools_git.bb
-@@ -29,6 +29,8 @@ EXTRA_OEMAKE=&quot;BUILDTAGS=''&quot;
- 
- S = &quot;${WORKDIR}/git/src/github.com/opencontainers/image-tools&quot;
- 
-+COMPATIBLE_HOST:riscv64 = &quot;null&quot;
-+
- do_compile() {
- 	export GOARCH=&quot;${TARGET_GOARCH}&quot;
- 	export GOROOT=&quot;${STAGING_LIBDIR}/go&quot;
-diff --git a/recipes-core/packagegroups/packagegroup-container.bb b/recipes-core/packagegroups/packagegroup-container.bb
-index 8d418e95..c41576a3 100644
---- a/recipes-core/packagegroups/packagegroup-container.bb
-+++ b/recipes-core/packagegroups/packagegroup-container.bb
-@@ -4,6 +4,8 @@ LIC_FILES_CHKSUM = <a class="moz-txt-link-rfc2396E" href="file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecdainheritpackagegroup+COMPATIBLE_HOST:riscv64=">&quot;file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
- 
- inherit packagegroup
- 
-+COMPATIBLE_HOST:riscv64 = &quot;</a>null&quot;
-+
- PACKAGES = &quot;\
-     packagegroup-container \
-     packagegroup-lxc \
-diff --git a/recipes-core/packagegroups/packagegroup-kubernetes.bb b/recipes-core/packagegroups/packagegroup-kubernetes.bb
-index 70dc9713..7e6937b1 100644
---- a/recipes-core/packagegroups/packagegroup-kubernetes.bb
-+++ b/recipes-core/packagegroups/packagegroup-kubernetes.bb
-@@ -4,6 +4,8 @@ LIC_FILES_CHKSUM = <a class="moz-txt-link-rfc2396E" href="file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecdainheritpackagegroup+COMPATIBLE_HOST:riscv64=">&quot;file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
- 
- inherit packagegroup
- 
-+COMPATIBLE_HOST:riscv64 = &quot;</a>null&quot;
-+
- # k3s has this restriction
- inherit features_check
- REQUIRED_DISTRO_FEATURES ?= &quot;seccomp&quot;
--- 
-2.25.1
-
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap=""></pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">
-
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap=""></pre>
-      <br>
-      <fieldset class="moz-mime-attachment-header"></fieldset>
-      <pre class="moz-quote-pre" wrap="">-=-=-=-=-=-=-=-=-=-=-=-
-Links: You receive all messages sent to this group.
-View/Reply Online (#8267): <a class="moz-txt-link-freetext" href="https://lists.yoctoproject.org/g/meta-virtualization/message/8267">https://lists.yoctoproject.org/g/meta-virtualization/message/8267</a>
-Mute This Topic: <a class="moz-txt-link-freetext" href="https://lists.yoctoproject.org/mt/101090972/3616765">https://lists.yoctoproject.org/mt/101090972/3616765</a>
-Group Owner: <a class="moz-txt-link-abbreviated" href="mailto:meta-virtualization+owner@lists.yoctoproject.org">meta-virtualization+owner@lists.yoctoproject.org</a>
-Unsubscribe: <a class="moz-txt-link-freetext" href="https://lists.yoctoproject.org/g/meta-virtualization/leave/6693109/3616765/950573401/xyzzy">https://lists.yoctoproject.org/g/meta-virtualization/leave/6693109/3616765/950573401/xyzzy</a> [<a class="moz-txt-link-abbreviated" href="mailto:randy.macleod@windriver.com">randy.macleod@windriver.com</a>]
--=-=-=-=-=-=-=-=-=-=-=-
-
-</pre>
-    </blockquote>
-    <p><br>
-    </p>
-    <pre class="moz-signature" cols="72">-- 
-# Randy MacLeod
-# Wind River Linux</pre>
-  </body>
-</html>
-
---------------5fHW8dEFvyo5P617qcjM0k8m--
 
