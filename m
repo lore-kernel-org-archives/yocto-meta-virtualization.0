@@ -2,118 +2,136 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A3EDEEB56D
-	for <webhook@archiver.kernel.org>; Fri,  8 Sep 2023 20:05:50 +0000 (UTC)
-Received: from mail-il1-f180.google.com (mail-il1-f180.google.com [209.85.166.180])
- by mx.groups.io with SMTP id smtpd.web10.3291.1694203546628859304
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB2C2EEB56E
+	for <webhook@archiver.kernel.org>; Fri,  8 Sep 2023 20:08:10 +0000 (UTC)
+Received: from mail-io1-f54.google.com (mail-io1-f54.google.com [209.85.166.54])
+ by mx.groups.io with SMTP id smtpd.web11.3454.1694203685249376522
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 08 Sep 2023 13:05:46 -0700
+ Fri, 08 Sep 2023 13:08:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=PHTlaNK/;
- spf=pass (domain: gmail.com, ip: 209.85.166.180, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-il1-f180.google.com with SMTP id e9e14a558f8ab-34e15f33a72so8037355ab.3
-        for <meta-virtualization@lists.yoctoproject.org>; Fri, 08 Sep 2023 13:05:46 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=Xv6zBZVa;
+ spf=pass (domain: gmail.com, ip: 209.85.166.54, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-io1-f54.google.com with SMTP id ca18e2360f4ac-792726d3aeeso88304939f.0
+        for <meta-virtualization@lists.yoctoproject.org>; Fri, 08 Sep 2023 13:08:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1694203546; x=1694808346; darn=lists.yoctoproject.org;
+        d=gmail.com; s=20221208; t=1694203684; x=1694808484; darn=lists.yoctoproject.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=LNOa9FbWf3A7yfnIII16nG3sp7hMlxZMfQY045KToFI=;
-        b=PHTlaNK/thJUOrL/dzfxp7EXHDw+lBAI7JA1Whho+6k20XhV+OPhzXocBwxn4UJ4T8
-         VdX3oNTImXfHsgDPkPsHVRPMXAf/d+BuLyG1GZ0btPOopXKUIrlYi4fr2aV0r2O2T3DF
-         mVqJaiexie9Cv7EMf41r57PED5Ft9H4boSLrIeUTlscdJZxFoWpKo+DkCj+Nn19/46Ie
-         1FX0OvRDLV0MEfbzWo3A0h1GlXK1KS1g2qiyhj8vr2vHpWxl2+snxifs1JluwrVxtVwX
-         E4gchTI+hxjXyPFpbekqUgkNPOGMAiDXd0jT/5ydgp3O2dz4dbUX2wXlDq1gwt5ux9BI
-         6mlA==
+        bh=lAP7bC99JrR4g6UWAy0avIaIwxct54N3qWLJmENz2d8=;
+        b=Xv6zBZVa5dWaM9Mit/lEsdMhNGJK5CH4tqY2nLiMFUbcNl9ipgAymrE7/9Hi/EYreb
+         qJhGyUAgoWW8pvASAG7n0MwFOCrgMEGfaCKxo5Z9x9HxyLHYvGyPR0OYU5+WSIkZ5cBC
+         fwEnG+DKusLGNWMVHpyyQCV+fQ76XA9nqKzAuZyz5dh0U1YAjuMwl3KGQ29l7ZS3KgFe
+         faJ7UYQpiINPy3wVE6faLZ7T3HAgQ33+hjWG9k0xexM1PbmYxgmSmrXydbauGeLEKSc/
+         acUYXVTSNkOz5K7Zg84AMbJh8av2yRT+OrR8ikOlYfm0f5CbM2UClEVaCCjJxzAUtwxT
+         Kq2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694203546; x=1694808346;
+        d=1e100.net; s=20230601; t=1694203684; x=1694808484;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=LNOa9FbWf3A7yfnIII16nG3sp7hMlxZMfQY045KToFI=;
-        b=RoXEmeOY6eGvNEuhL2G7kopRJ7z6vZwrM/9O42yxaJfizRfS9EGYkcdxEXQe70FEJJ
-         mB/0K+gUojzfJW+AXNNfSKlGdvVD8G4nsMUobbwcsvQk9i86Idujl7lHGoIInmBihZ1M
-         Xl7SuPty89iYUr1tYvufaCSZSuygOemBuzcL+0KqO4hRRBf+hqB3wJF6F2oH1wRHTtw0
-         KVxDbyRFjwyMu2+KxvBJ+kwDOW81+GFQ0uUPV6l4jKABpV7ZNjZ/VgWYZvYL6InmjKTk
-         QR4SaaKv5zOR/FCdLD+rX5Qw0aq43ChlaEO55vzZW9kvJHQf2zM7i85KIbnZmNU4qgj5
-         6Mmg==
-X-Gm-Message-State: AOJu0YxInHA/ycXvBKi1kwcjU8YmVmqks28KvGLPf4Ar4fOv8zN/0b39
-	W1DEvJ8/zidrm+R18uVrhkL4FBf/r2zzr8GRz3j0w1dCG9s=
-X-Google-Smtp-Source: AGHT+IGP0P5Ss3ZW8RsCeXaWm20pURCHaqL/+draxGl7mcuEYm/ZPjZm0pI/8D8XPy1sXJN08z83UQ/OlgT6C/olTNA=
-X-Received: by 2002:a05:6e02:d54:b0:346:6afb:c9f5 with SMTP id
- h20-20020a056e020d5400b003466afbc9f5mr3410062ilj.1.1694203545810; Fri, 08 Sep
- 2023 13:05:45 -0700 (PDT)
+        bh=lAP7bC99JrR4g6UWAy0avIaIwxct54N3qWLJmENz2d8=;
+        b=rDF6dmta6Buny8cVLyuuiPwcVEuR7QmLWUXwpG4HVDJfl1RB0v/bj/jF+yNz4HYpzx
+         U/3k1nKgC7M4WKze8ZaN+ivZeCMS/BCtJI2YkwP3heXv9mhlcPSJlqkv52bACVGMWUOi
+         mevJbKqV0rXBi/DVg6PEaL3YBTu86yZ52DbTFG8AYx5HoY/IxdIjf0jo22P/aUmMr3GH
+         Tz64dqNHtcLDxwoht4e1S+GYxNK8VAaGjdAbaRLVp0rPDju9hoOYEnnMF7aWNi3cV+Z4
+         IrZ/O8CTQ/Ktz/J4LEvXp0Han+16YSprQDm5XE5Gy+54rL8zgLTZuzCMGfnudKja43Nr
+         fb0g==
+X-Gm-Message-State: AOJu0YwbfCbInr68kJL38BfPvMya04Q5Fv7JxQYXiuVZMr2J7ZFPXI6a
+	IMIKbm9Cva/blCs91uvyOLwwv4mRhOflM2+hVJ0A8aPA85w=
+X-Google-Smtp-Source: AGHT+IFuf0bB6LMmfMI04a3rhMmzkvKXUE5rOGlwee60NCecwauzK5HhaoJ/0ddje2x99prG9o4PWBDe0n3WyQzRPn4=
+X-Received: by 2002:a05:6602:2776:b0:787:822:30f1 with SMTP id
+ l22-20020a056602277600b00787082230f1mr3774076ioe.1.1694203684497; Fri, 08 Sep
+ 2023 13:08:04 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230907061114.35142-1-Qi.Chen@windriver.com>
-In-Reply-To: <20230907061114.35142-1-Qi.Chen@windriver.com>
+References: <20230908024243.222363-1-leimaohui@fujitsu.com>
+In-Reply-To: <20230908024243.222363-1-leimaohui@fujitsu.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Fri, 8 Sep 2023 16:05:34 -0400
-Message-ID: <CADkTA4PNg4m+6caqKs4mpwa2j0FM7n0F2JhRZaWLMf2hnSHZXQ@mail.gmail.com>
-Subject: Re: [meta-virtualization][PATCH] docker-compose: fix installation
- location for multilib
-To: Qi.Chen@windriver.com
+Date: Fri, 8 Sep 2023 16:07:53 -0400
+Message-ID: <CADkTA4MN+Pqiqd9ffYab98UYj6=o-8a2JrHXOfNKFJL=jV0cmg@mail.gmail.com>
+Subject: Re: [meta-virtualization] [meta-cloud-services][PATCH]
+ open-iscsi-user: Fix do_package error after usrmerge was enabled.
+To: leimaohui <leimaohui@fujitsu.com>
 Cc: meta-virtualization@lists.yoctoproject.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Fri, 08 Sep 2023 20:05:50 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8289
+ <meta-virtualization@lists.yoctoproject.org>; Fri, 08 Sep 2023 20:08:10 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8290
 
-merged to master-next.
+merged!
 
 Bruce
 
-On Thu, Sep 7, 2023 at 2:11=E2=80=AFAM Chen Qi via lists.yoctoproject.org
-<Qi.Chen=3Dwindriver.com@lists.yoctoproject.org> wrote:
+On Thu, Sep 7, 2023 at 10:42=E2=80=AFPM leimaohui <leimaohui@fujitsu.com> w=
+rote:
 >
-> From: Chen Qi <Qi.Chen@windriver.com>
+> From: Lei Maohui <leimaohui@fujitsu.com>
 >
-> In case of multilib, the location is /usr/lib64/docker/cli-plugins,
-> which cannot be recognized by docker. We should use nonarch_libdir
-> instead.
+> ERROR: open-iscsi-user-2.1.7-r1 do_package: QA Issue: open-iscsi-user: Fi=
+les/directories were installed but not shipped in any package:
+>   /lib
+>   /sbin/iscsiuio
+>   /sbin/brcm_iscsiuio
+>   /lib/systemd
+>   /lib/systemd/system-generators
+>   /lib/systemd/system
+>   /lib/systemd/system-generators/ibft-rule-generator
+>   /lib/systemd/system/iscsi-init.service
+>   /lib/systemd/system/iscsi.service
+>   /lib/systemd/system/iscsid.service
+>   /lib/systemd/system/iscsid.socket
+>   /lib/systemd/system/iscsiuio.socket
+>   /lib/systemd/system/iscsiuio.service
+> Please set FILES such that these items are packaged. Alternatively if the=
+y are unneeded, avoid installing them or delete them within do_install.
+> open-iscsi-user: 13 installed and not shipped files. [installed-vs-shippe=
+d]
 >
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> Signed-off-by: Lei Maohui <leimaohui@fujitsu.com>
 > ---
->  recipes-containers/docker-compose/docker-compose_git.bb | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  .../open-iscsi/open-iscsi-user_2.1.7.bb                | 10 ++--------
+>  1 file changed, 2 insertions(+), 8 deletions(-)
 >
-> diff --git a/recipes-containers/docker-compose/docker-compose_git.bb b/re=
-cipes-containers/docker-compose/docker-compose_git.bb
-> index 5777eeba..ab85a103 100644
-> --- a/recipes-containers/docker-compose/docker-compose_git.bb
-> +++ b/recipes-containers/docker-compose/docker-compose_git.bb
-> @@ -66,14 +66,14 @@ do_install() {
->          #install -m 755 "${S}/src/import/bin/docker-compose" "${D}${BIN_=
-PREFIX}/bin"
+> diff --git a/meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-us=
+er_2.1.7.bb b/meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-use=
+r_2.1.7.bb
+> index 8cedff4..1f84508 100644
+> --- a/meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-user_2.1.=
+7.bb
+> +++ b/meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-user_2.1.=
+7.bb
+> @@ -44,12 +44,6 @@ FILES:${PN} +=3D " \
+>      ${systemd_unitdir}/system-generators/ibft-rule-generator \
+>  "
 >
->         # commonly installed to: /usr/lib/docker/cli-plugins/
-> -       install -d "${D}${libdir}/docker/cli-plugins/"
-> -       install -m 755 "${S}/src/import/bin/docker-compose" "${D}${libdir=
-}/docker/cli-plugins/"
-> +       install -d "${D}${nonarch_libdir}/docker/cli-plugins/"
-> +       install -m 755 "${S}/src/import/bin/docker-compose" "${D}${nonarc=
-h_libdir}/docker/cli-plugins/"
->
+> -do_install:append() {
+> -    rm -rf ${D}${systemd_unitdir}/
+> -
+> -    install -d ${D}${systemd_unitdir}/system
+> -    install -d ${D}${systemd_unitdir}/system-generators
+> -    install -m 0644 ${S}/etc/systemd/*.service ${D}${systemd_unitdir}/sy=
+stem/
+> -    install -m 0644 ${S}/etc/systemd/*.socket ${D}${systemd_unitdir}/sys=
+tem/
+> -    install -m 0644 ${S}/etc/systemd/ibft-rule-generator ${D}${systemd_u=
+nitdir}/system-generators/
+> +do_install() {
+> +    oe_runmake install DESTDIR=3D${D} prefix=3D${exec_prefix} LIBDIR=3D$=
+{libdir} sbindir=3D${sbindir} SBINDIR=3D${sbindir} systemddir=3D${systemd_u=
+nitdir}
 >  }
->
->  RDEPENDS:${PN} +=3D " docker"
->
-> -FILES:${PN} +=3D " ${libdir}/docker/cli-plugins/"
-> +FILES:${PN} +=3D " ${nonarch_libdir}/docker/cli-plugins/"
->
->  INHIBIT_PACKAGE_STRIP =3D "1"
->  INSANE_SKIP:${PN} +=3D "ldflags already-stripped"
 > --
-> 2.40.0
+> 2.34.1
 >
 >
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#8282): https://lists.yoctoproject.org/g/meta-virtuali=
-zation/message/8282
-> Mute This Topic: https://lists.yoctoproject.org/mt/101209753/1050810
+> View/Reply Online (#8286): https://lists.yoctoproject.org/g/meta-virtuali=
+zation/message/8286
+> Mute This Topic: https://lists.yoctoproject.org/mt/101230101/1050810
 > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
 > Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [=
 bruce.ashfield@gmail.com]
