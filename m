@@ -2,175 +2,140 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41B31EE3F0C
-	for <webhook@archiver.kernel.org>; Tue, 12 Sep 2023 18:33:03 +0000 (UTC)
-Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com [209.85.219.170])
- by mx.groups.io with SMTP id smtpd.web11.2438.1694543578755686719
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B019EE3F12
+	for <webhook@archiver.kernel.org>; Tue, 12 Sep 2023 19:46:55 +0000 (UTC)
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
+ by mx.groups.io with SMTP id smtpd.web11.133.1694548012139649145
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 12 Sep 2023 11:32:58 -0700
+ Tue, 12 Sep 2023 12:46:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=Ajs/xmfg;
- spf=pass (domain: gmail.com, ip: 209.85.219.170, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-yb1-f170.google.com with SMTP id 3f1490d57ef6-d77ad095f13so5099293276.2
-        for <meta-virtualization@lists.yoctoproject.org>; Tue, 12 Sep 2023 11:32:58 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=bTBdGzyb;
+ spf=pass (domain: gmail.com, ip: 209.85.219.51, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-64b3ae681d1so32727536d6.0
+        for <meta-virtualization@lists.yoctoproject.org>; Tue, 12 Sep 2023 12:46:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1694543578; x=1695148378; darn=lists.yoctoproject.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HNYeLzEf8LiLsZXgNbV//ydboJ5zxJJ3+LWDl3kBPAo=;
-        b=Ajs/xmfgYdYX0XJBr/w8MXSMEWw7co+5yNamcpkXv1l6p/U5i5v/T4QvqIrnUQApaz
-         bgvDadr0gS4OXR0Kg/t6KcWa/hglClNdkxfLHnCEaBRo4iBd27tu+PF4rxpYeR7WfaXE
-         s9kpD548jP0Dumjyuvx1K3G5SnXe0mB4oQKtxEuR2yjVRxbLOs8L2lqQI7BFzdCHv6Py
-         NdNm4qYwxJ+POnpm3jSlfJN5utTEZo9MOFuoH/dzhqTAIQ8g2coMFlvc1j8eVmHlgzLh
-         UpYjrTr2B8td4Cfx0IWLmLd+LIwE4glRwwvMYVFQaqzM3S0xQ2SEEAxXszW7Tj9IiSzS
-         65Zg==
+        d=gmail.com; s=20221208; t=1694548011; x=1695152811; darn=lists.yoctoproject.org;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=oLt7RfgvDD8HcBBd782Y/cb3T4G4FGo4jwsR/ujtOwU=;
+        b=bTBdGzybUztQvLFO+lCDklTjHL8fjFkoa8ziaJeeRLbQRiub2IxrVL28SFnzF8zOY1
+         vUNfi8fS6KwUCrSipZoi6/CYvXyij7iY9nL5ho1UtATA+vX6wYHvBFz+Yz5AaqsLnbcG
+         D+3b2QGihTOODAxtlIRR9Mg/93C02USPQ8/EiL6diinn+EvJbDhCcDTq8SXmiGpObUXB
+         C5rWW8jJW/lD6sORCQt7M9RXIipaqvE/NWEF8CFq6ig/yq+1ygreldFScsZT7adWReGV
+         jlS+K/hV3N1WidJHsomWdDRUz/m6u1w8AqaYZfmhrpVcBdBQByJ7pL7I+ASllbSMHR3B
+         jhTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694543578; x=1695148378;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HNYeLzEf8LiLsZXgNbV//ydboJ5zxJJ3+LWDl3kBPAo=;
-        b=g6wrqfnPAT9eTceI0QIOqGyaSXTzm+5wp1LftFJU+49qstbkG0ei+pkAhJ8qQxsDl8
-         59l0uIA3y1asNNrG/+scSt0NZsopTooV6o7tBex4uPtil0JW0n7jxRVgcJpGVGWyvfYl
-         Oq8WFGKT4f7q+65Cfctjk8cGsXZgALxl083kIkl8gfB83N2RjfRb7yWjopS+F2Yl2sQU
-         YByETiGgQ5S6Wpp94005+4lrW0zLA8lGmIWw93HHaNM/V4gUvaJQExAQnVvOT+kzZLSe
-         yXSJeiP/zhHmEtBxm5QflyvizEOSZ4V8krthPPlIcLLlRhSe8BwEjgO+KDoUxCsYl9+P
-         o0zQ==
-X-Gm-Message-State: AOJu0YyyLStF8FuOCcVJ+2YKoc64KBm/b87dhEDHdYQbFr2QpF4Rp6Qu
-	0HcM0mGF4dE+KOj7K1hxadSGl+bPj1rI2yJ4pwc=
-X-Google-Smtp-Source: AGHT+IG9YK1OAKaJNRYBS46Wp5hGVBDys0ISO+FXJddcpm5Qc1RE+vXpRIsUeZeHw0Kzd0pHumCyzjLietDpSxvKOYU=
-X-Received: by 2002:a25:6b50:0:b0:d78:2cdc:4d2 with SMTP id
- o16-20020a256b50000000b00d782cdc04d2mr162012ybm.6.1694543577799; Tue, 12 Sep
- 2023 11:32:57 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAAfyv34+oTQaT=9-QGkTdCFSJaC6CS=RB6SF=FQrOUssntoBSA@mail.gmail.com>
- <CAAfyv35VDffm9nLeYP4yb+pvdPBaS0jQ8_1bZ-KaUq28RBBJ1A@mail.gmail.com>
-In-Reply-To: <CAAfyv35VDffm9nLeYP4yb+pvdPBaS0jQ8_1bZ-KaUq28RBBJ1A@mail.gmail.com>
+        d=1e100.net; s=20230601; t=1694548011; x=1695152811;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=oLt7RfgvDD8HcBBd782Y/cb3T4G4FGo4jwsR/ujtOwU=;
+        b=OTr9HSaIGDGP2aot8i4TsOLDdfO9ud50/fwmezWnNTfMjAkca8zxvSwN1pZX/BwjAN
+         fT5ZS3w2c1lPNF5xZ7jSj1Rft4p1Rrm20QoEoxywyO62h0BdJQNZSpcAii2vsx3LknR1
+         7BNwpAgYiTtzRgGhfMg4INIZd3RZPd/PcQHO49raTIv+6HEjtuUnwMRT/ptJZVPE6d2k
+         m6VbEwfFTm7RAsmHgFeUY+jfY6TyFqXOWS9xnWA2ab/oeGKAFxnYe15v+aJ2j1j2cj9l
+         PuP6BPX6bG9UfanUMhh5UXVSgtHy6wf/vFMERsm5HJPU8eNtlg8CyNf0mdSH9gzIxgOU
+         RTiw==
+X-Gm-Message-State: AOJu0YyxAvIIFHqJ7HuPfZT1uNyhXSOzbZKjPU1u2JxiPKHXlgKmvVHf
+	OIXnBZhYLOajx2zETt5z1GU=
+X-Google-Smtp-Source: AGHT+IG1Y4q2AeZyFkqwf6owlbsoIW+/siLzJwG5ACF4S2JNSvSpymDrYDagQpYONOku2t098L2Z1A==
+X-Received: by 2002:a05:6214:29ee:b0:64f:8213:197d with SMTP id jv14-20020a05621429ee00b0064f8213197dmr581353qvb.33.1694548011098;
+        Tue, 12 Sep 2023 12:46:51 -0700 (PDT)
+Received: from gmail.com ([174.112.183.231])
+        by smtp.gmail.com with ESMTPSA id u11-20020ae9c00b000000b0076aeeb69cb1sm3415929qkk.4.2023.09.12.12.46.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 Sep 2023 12:46:50 -0700 (PDT)
+Date: Tue, 12 Sep 2023 19:46:49 +0000
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Tue, 12 Sep 2023 14:32:48 -0400
-Message-ID: <CADkTA4MVScs1TPQfM+35kxx3y0Jniz-q_neqy+ooSWwsjrzbow@mail.gmail.com>
-Subject: Re: [meta-virtualization] nerdctl broken in kirkstone
-To: Marek Belisko <marek.belisko@gmail.com>
-Cc: meta-virtualization@lists.yoctoproject.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: meta-virtualization@lists.yoctoproject.org,
+	Mingli Yu <mingli.yu@windriver.com>
+Subject: Re: [meta-virtualization] [kirkstone][PATCH 1/2] go-context: Switch
+ to main branch
+Message-ID: <ZQDAKQuTe4G0qNFz@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230912072034.89009-2-martin.jansa@gmail.com>
+ <20230912072034.89009-1-martin.jansa@gmail.com>
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Tue, 12 Sep 2023 18:33:03 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8297
+ <meta-virtualization@lists.yoctoproject.org>; Tue, 12 Sep 2023 19:46:55 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8298
 
-On Tue, Sep 12, 2023 at 3:26=E2=80=AFAM Marek Belisko <marek.belisko@gmail.=
-com> wrote:
->
-> Hi,
->
-> Forwarding in proper mailing list.
->
-> I'm trying to add nerdctl to an image using kirkstone release for meta-vi=
-rtualization.
-> I've added bbappend with following fix:
->
-> SRC_URI =3D "git://github.com/containerd/nerdctl.git;name=3Dnerdcli;branc=
-h=3Dmain;protocol=3Dhttps"
->
-> (branch name in original recipe is master but main is required)
-
-Right, we have a fix in new release for that:
-
-commit cb5dfda6f6d862a575f029ee8ded0bc3db6bc766
-Author: Guenther Meyer <g.meyer@signum-media.de>
-Date:   Fri Nov 18 11:55:46 2022 +0100
-
-    nerdctl: renamed upstream branch master to main
-
-    Signed-off-by: Guenther Meyer <g.meyer@signum-media.de>
-    Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-
-diff --git a/recipes-containers/nerdctl/nerdctl_git.bb
-b/recipes-containers/nerdctl/nerdctl_git.bb
-index 4a749b2..8fe5e7d 100644
---- a/recipes-containers/nerdctl/nerdctl_git.bb
-+++ b/recipes-containers/nerdctl/nerdctl_git.bb
-@@ -13,7 +13,7 @@ DEPENDS =3D " \
- SRCREV_FORMAT=3D"nerdcli_cgroups"
- SRCREV_nerdcli =3D "e084a2df4a8861eb5f0b0d32df0643ef24b81093"
-
--SRC_URI =3D "git://github.com/containerd/nerdctl.git;name=3Dnerdcli;branch=
-=3Dmaster;protocol=3Dhttps"
-+SRC_URI =3D "git://github.com/containerd/nerdctl.git;name=3Dnerdcli;branch=
-=3Dmain;protocol=3Dhttps"
-
- include src_uri.inc
-
----------
-
-it could be cherry-picked to kirkstone, there's just no proactive
-cherry picking that
-is done, and I typically wait for someone with a real issue on the branch t=
-o ask
-for it.
-
-I can take this email as that request.
-
->
-> but then anyways it fails with:
->
-> rsync: [sender] change_dir "/data/projects/test/build/tmp/work/cortexa53-=
-crypto-poky-linux/nerdctl/v0.18.0-r0/nerdctl-v0.18.0/src/import/vendor.fetc=
-h/github.com/Masterminds/semver/v3" failed: No such file or directory (2)
-> | rsync error: some files/attrs were not transferred (see previous errors=
-) (code 23) at main.c(1327) [sender=3D3.2.5]
->
-> And in ${BP} I cannot see any of those vendor stuff which should be prese=
-nt. Is there some fix for that already pending or its known issue?
-
-That would mean that one of the clones in the SRC_URI is now failing,
-usually by something
-that shouldn't have been changed in the upstream repository that was
-change (a branch
-deleted, directories removed, some other repo now clobbering the dir, etc).
-
-It worked on release, so it was valid then.
-
-If the hash or branch is bad, bitbake should have thrown an error or warnin=
-g.
-
-I just did a manual clone of that repository, and the result looked ok
-for being able to
-copy that directory into a fully constructed vendor/ tree.
-
-We've changed the format of the src_uri and relocation files in newer
-releases and
-there's an improved script on master-next. If pointing that script at
-the same major
-release of nerdctl works, we could update the recipe to the more
-reliable format,
-as the actual nerdctl target executable would be unchanged.
+merged to kirkstone.
 
 Bruce
 
->
-> Thanks and BR,
->
-> marek
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+In message: [meta-virtualization] [kirkstone][PATCH 1/2] go-context: Switch to main branch
+on 12/09/2023 Martin Jansa wrote:
+
+> From: Mingli Yu <mingli.yu@windriver.com>
+> 
+> The project has renamed the master branch to main.
+> 
+> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+> ---
+>  recipes-devtools/go/go-context_git.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/recipes-devtools/go/go-context_git.bb b/recipes-devtools/go/go-context_git.bb
+> index 37f39b38..0959054b 100644
+> --- a/recipes-devtools/go/go-context_git.bb
+> +++ b/recipes-devtools/go/go-context_git.bb
+> @@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=c50f6bd9c1e15ed0bad3bea18e3c1b7f"
+>  SRCNAME = "context"
+>  
+>  PKG_NAME = "github.com/gorilla/${SRCNAME}"
+> -SRC_URI = "git://${PKG_NAME}.git;branch=master;protocol=https"
+> +SRC_URI = "git://${PKG_NAME}.git;branch=main;protocol=https"
+>  
+>  SRCREV = "14f550f51af52180c2eefed15e5fd18d63c0a64a"
+>  
+> -- 
+> 2.42.0
+> 
+
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#8296): https://lists.yoctoproject.org/g/meta-virtuali=
-zation/message/8296
-> Mute This Topic: https://lists.yoctoproject.org/mt/101310644/1050810
+> View/Reply Online (#8294): https://lists.yoctoproject.org/g/meta-virtualization/message/8294
+> Mute This Topic: https://lists.yoctoproject.org/mt/101310625/1050810
 > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [=
-bruce.ashfield@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
 
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+In message: [kirkstone][PATCH 2/2] go-mux: Switch to main branch
+on 12/09/2023 Martin Jansa wrote:
+
+> From: Mingli Yu <mingli.yu@windriver.com>
+> 
+> The project has renamed the master branch to main.
+> 
+> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+> Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+> ---
+>  recipes-devtools/go/go-mux_git.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/recipes-devtools/go/go-mux_git.bb b/recipes-devtools/go/go-mux_git.bb
+> index 3f939f45..fb4502b6 100644
+> --- a/recipes-devtools/go/go-mux_git.bb
+> +++ b/recipes-devtools/go/go-mux_git.bb
+> @@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=c50f6bd9c1e15ed0bad3bea18e3c1b7f"
+>  SRCNAME = "mux"
+>  
+>  PKG_NAME = "github.com/gorilla/${SRCNAME}"
+> -SRC_URI = "git://${PKG_NAME}.git;branch=master;protocol=https"
+> +SRC_URI = "git://${PKG_NAME}.git;branch=main;protocol=https"
+>  
+>  SRCREV = "136d54f81f00414c45c3c68dd47e98cc97519c5e"
+>  
+> -- 
+> 2.42.0
+> 
+
 
