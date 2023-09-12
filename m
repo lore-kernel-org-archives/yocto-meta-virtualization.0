@@ -1,93 +1,116 @@
-Return-Path: <martin.jansa@gmail.com>
+Return-Path: <marek.belisko@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B43DCA0EC3
-	for <webhook@archiver.kernel.org>; Tue, 12 Sep 2023 07:20:55 +0000 (UTC)
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
- by mx.groups.io with SMTP id smtpd.web11.19829.1694503249019878183
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BCE3CA0ECE
+	for <webhook@archiver.kernel.org>; Tue, 12 Sep 2023 07:26:25 +0000 (UTC)
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
+ by mx.groups.io with SMTP id smtpd.web10.19710.1694503576974941462
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 12 Sep 2023 00:20:49 -0700
+ Tue, 12 Sep 2023 00:26:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=NZaeea/6;
- spf=pass (domain: gmail.com, ip: 209.85.218.51, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-99c3d3c3db9so698088866b.3
-        for <meta-virtualization@lists.yoctoproject.org>; Tue, 12 Sep 2023 00:20:48 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=EftS312t;
+ spf=pass (domain: gmail.com, ip: 209.85.208.178, mailfrom: marek.belisko@gmail.com)
+Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2bcb54226e7so64022661fa.1
+        for <meta-virtualization@lists.yoctoproject.org>; Tue, 12 Sep 2023 00:26:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1694503247; x=1695108047; darn=lists.yoctoproject.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FlN0p3tJVqO/RVY77B1a1V90SBIjjsRUGC2QIwVl0Jg=;
-        b=NZaeea/6c4miigouunmijZH0pkZdTmY31HLKiiZu/w3bsNRkiDnSxwELkkODsTXBD7
-         Fu3Q/nBeEr5ygx+UPAb+H0zKRqH+uQDsYl/7j4yGG/P13pDtZC669wVqnD8+Rr1dcOpJ
-         YWTEDcc9jDriZmoX8V4RtzH4UA4/ESpx2ayAaWMGQHEwuX/XEfQiVCxh914MsKHtkFrZ
-         AzdIClkrNHlCMtBoKuVnOPaTZy4YV2sfexJG4k4kr7LOBX4QTymQw9X6Sq1nNnE3BNgj
-         uwPHVxkMwJG8H7/tfZ2h3Zfx3pEacVUjvFbKZMYjt5dZO8oLsRS29JWBFVUST2+7pnhh
-         W2ZA==
+        d=gmail.com; s=20221208; t=1694503575; x=1695108375; darn=lists.yoctoproject.org;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=lWyc+0W18yKVDJ7IPJL7yxAIYpkjcrKjQvR7h9ctDXo=;
+        b=EftS312t4OaZazP5aOqRd+cvLiqr8VNabKRAoBv02oWyitwQOJ+favmrrqcm43i5ng
+         989YH0zzCrAgFs/VTRwL6LRNwH7c8VGE0SAmJyNH9hIwkuBFDZ81AI8P/kWJSJh2UxKQ
+         Wdyz1dN7Ja5xsYLm1LRHI+rPYP+NIdtjIi0k8KIhDplgO3OVo4ExKkRGCY63EGM3aKXM
+         KbaF3Vyzkr77tbBO/MserKqCWCwMDK7G/4MaNeyKjGS5NSOHnGZgPhax0IQNi2rbBQ31
+         46cg2kg/hiPnd+UFMThGDUn5csu7T13/9yxOnYrnyUXAm819/MaPkU/Zonovcv0X71Ks
+         IN2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694503247; x=1695108047;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FlN0p3tJVqO/RVY77B1a1V90SBIjjsRUGC2QIwVl0Jg=;
-        b=lQoxnig8m4CeKgbKqkVlOpZojyO27CQ3YxFIRWwi28CA2zDC1vctFVfaBvUT+S/zjz
-         oJwbewe85Ha5Jw5CIROZpsLFVn3QuRA+dYeJBBXPrqQJo9Rb9N8UZATR0tVXf/m9+oog
-         bNk6j2C00Cmisf+zzVzILMCQ0BTtq2/o8qKr6B+qcu6qL5cZQNFt1LDZuFt+Sz8P22+o
-         WauO9sYS2+PthQoBYgZt/YBUz9Iv9lWVN6AjkK5SEljv9agUJ2RMO96gYQDglm4v7lU2
-         kMkDNURD/R5rxmImPHpDuLTtlyWfpT6d22HoyxfJLvx8jjo7ST8Fut2tAkFbxOM9Vmp2
-         FsTQ==
-X-Gm-Message-State: AOJu0YyQWmornwQJ9awOWXW2H+mOQZZ0cQqTuyXdbBwiBo40i56C1D5a
-	UprvVVZXwzv+kvJz3vprhw+Ydek96OI=
-X-Google-Smtp-Source: AGHT+IG4ZHcDSR50SqRPyDd8GaBOgOSGqxpaDQV/+3NLNG0IIZFC0thNGMQ43XvgKHmP0YQUptAgxg==
-X-Received: by 2002:a17:907:2c62:b0:9a5:ed5b:241e with SMTP id ib2-20020a1709072c6200b009a5ed5b241emr9038279ejc.25.1694503247047;
-        Tue, 12 Sep 2023 00:20:47 -0700 (PDT)
-Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id z17-20020a1709064e1100b009944e955e19sm6371805eju.30.2023.09.12.00.20.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Sep 2023 00:20:46 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: meta-virtualization@lists.yoctoproject.org
-Cc: Mingli Yu <mingli.yu@windriver.com>,
-	Bruce Ashfield <bruce.ashfield@gmail.com>
-Subject: [kirkstone][PATCH 2/2] go-mux: Switch to main branch
-Date: Tue, 12 Sep 2023 09:20:34 +0200
-Message-ID: <20230912072034.89009-2-martin.jansa@gmail.com>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20230912072034.89009-1-martin.jansa@gmail.com>
-References: <20230912072034.89009-1-martin.jansa@gmail.com>
+        d=1e100.net; s=20230601; t=1694503575; x=1695108375;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=lWyc+0W18yKVDJ7IPJL7yxAIYpkjcrKjQvR7h9ctDXo=;
+        b=oH72WYbwypmUdwLuIumGeWwdmxQdLdw3F78dULGihXhc3lzCCQMQr6W77RGTDWAJBQ
+         vzqonOC/KWSyBKWsqiXDez1hLgcst2Xjntnp7mIcpXPDQPwYdu0Eb+2R9ynkCHzhLrDT
+         qvf0pxJJHenoB/DJcnVdiEdMHN+D4/1s9svU8NaY9E3loB1XCQTd2CkD9zGVMgRWyTPP
+         ++ytV9qIKELrcLeXJvm2Ly8Pzxy56+FkZzRycunJcGqEm5tGFH5A0ceMBdxBqqTAMfgm
+         0OqhJWNj67yW4ZGpnJwU6TAyu01IZyigMMYRBCL8OlEzYz9xyXlukP2F47dBU/M3bgLS
+         3FxA==
+X-Gm-Message-State: AOJu0YxOLdRdPbpdnDGLmFlgDHHIGWO/rJMGm5hm7AABgMPYyMAvuwrO
+	Vj5FhH9Hnd3CEXvJpFSYpTIrGYdTb1lUgG35QKHl4Bj0s0s=
+X-Google-Smtp-Source: AGHT+IEvfMFGYO1rjyBbl0lsougA0+mA8kTw11hXN/W4E0ygvMnnfx/mJel89tD8+GEbSFOif1ndXjKxIcE629q7poM=
+X-Received: by 2002:a2e:3204:0:b0:2bf:7513:2 with SMTP id y4-20020a2e3204000000b002bf75130002mr606804ljy.4.1694503574305;
+ Tue, 12 Sep 2023 00:26:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CAAfyv34+oTQaT=9-QGkTdCFSJaC6CS=RB6SF=FQrOUssntoBSA@mail.gmail.com>
+In-Reply-To: <CAAfyv34+oTQaT=9-QGkTdCFSJaC6CS=RB6SF=FQrOUssntoBSA@mail.gmail.com>
+From: Belisko Marek <marek.belisko@gmail.com>
+Date: Tue, 12 Sep 2023 09:26:02 +0200
+Message-ID: <CAAfyv35VDffm9nLeYP4yb+pvdPBaS0jQ8_1bZ-KaUq28RBBJ1A@mail.gmail.com>
+Subject: nerdctl broken in kirkstone
+To: meta-virtualization@lists.yoctoproject.org
+Content-Type: multipart/alternative; boundary="0000000000009e00890605245b87"
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Tue, 12 Sep 2023 07:20:55 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8295
+ <meta-virtualization@lists.yoctoproject.org>; Tue, 12 Sep 2023 07:26:25 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8296
 
-From: Mingli Yu <mingli.yu@windriver.com>
+--0000000000009e00890605245b87
+Content-Type: text/plain; charset="UTF-8"
 
-The project has renamed the master branch to main.
+Hi,
 
-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
----
- recipes-devtools/go/go-mux_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Forwarding in proper mailing list.
 
-diff --git a/recipes-devtools/go/go-mux_git.bb b/recipes-devtools/go/go-mux_git.bb
-index 3f939f45..fb4502b6 100644
---- a/recipes-devtools/go/go-mux_git.bb
-+++ b/recipes-devtools/go/go-mux_git.bb
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=c50f6bd9c1e15ed0bad3bea18e3c1b7f"
- SRCNAME = "mux"
- 
- PKG_NAME = "github.com/gorilla/${SRCNAME}"
--SRC_URI = "git://${PKG_NAME}.git;branch=master;protocol=https"
-+SRC_URI = "git://${PKG_NAME}.git;branch=main;protocol=https"
- 
- SRCREV = "136d54f81f00414c45c3c68dd47e98cc97519c5e"
- 
--- 
-2.42.0
+I'm trying to add nerdctl to an image using kirkstone release for
+meta-virtualization.
+I've added bbappend with following fix:
 
+SRC_URI = "git://
+github.com/containerd/nerdctl.git;name=nerdcli;branch=main;protocol=https"
+
+(branch name in original recipe is master but main is required)
+
+but then anyways it fails with:
+
+rsync: [sender] change_dir
+"/data/projects/test/build/tmp/work/cortexa53-crypto-poky-linux/nerdctl/v0.18.0-r0/nerdctl-v0.18.0/src/import/vendor.fetch/
+github.com/Masterminds/semver/v3" failed: No such file or directory (2)
+| rsync error: some files/attrs were not transferred (see previous errors)
+(code 23) at main.c(1327) [sender=3.2.5]
+
+And in ${BP} I cannot see any of those vendor stuff which should be
+present. Is there some fix for that already pending or its known issue?
+
+Thanks and BR,
+
+marek
+
+--0000000000009e00890605245b87
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
+_attr">Hi,<br></div><div dir=3D"ltr" class=3D"gmail_attr"><br></div><div cl=
+ass=3D"gmail_attr">Forwarding in proper mailing list.</div><div dir=3D"ltr"=
+><div><br></div><div>I&#39;m trying to add nerdctl=C2=A0to an image using k=
+irkstone release=C2=A0for meta-virtualization.</div><div>I&#39;ve added bba=
+ppend with following fix:</div><div><br></div><div>SRC_URI =3D &quot;git://=
+<a href=3D"http://github.com/containerd/nerdctl.git;name=3Dnerdcli;branch=
+=3Dmain;protocol=3Dhttps" target=3D"_blank">github.com/containerd/nerdctl.g=
+it;name=3Dnerdcli;branch=3Dmain;protocol=3Dhttps</a>&quot;<br></div><div><b=
+r></div><div>(branch name in original recipe is master but main is required=
+)</div><div><br></div><div>but then anyways it fails with:</div><div><br></=
+div><div>rsync: [sender] change_dir &quot;/data/projects/test/build/tmp/wor=
+k/cortexa53-crypto-poky-linux/nerdctl/v0.18.0-r0/nerdctl-v0.18.0/src/import=
+/vendor.fetch/<a href=3D"http://github.com/Masterminds/semver/v3" target=3D=
+"_blank">github.com/Masterminds/semver/v3</a>&quot; failed: No such file or=
+ directory (2)<br>| rsync error: some files/attrs were not transferred (see=
+ previous errors) (code 23) at main.c(1327) [sender=3D3.2.5]<br></div><div>=
+<br></div><div>And in ${BP} I cannot see any of those vendor stuff which sh=
+ould be present. Is there some fix for that already pending or its known is=
+sue?</div><div><br></div><div>Thanks=C2=A0and BR,</div><div><br></div><div>=
+marek</div><div><br></div></div></div></div>
+
+--0000000000009e00890605245b87--
 
