@@ -2,8 +2,8 @@ Return-Path: <adam.johnston@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 755B0E7107A
-	for <webhook@archiver.kernel.org>; Thu, 21 Sep 2023 14:12:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6255FE71072
+	for <webhook@archiver.kernel.org>; Thu, 21 Sep 2023 14:13:02 +0000 (UTC)
 Subject: Re: [PATCH] docker: update from 24.0.2 to 24.0.5
 To: meta-virtualization@lists.yoctoproject.org
 From: "Adam Johnston" <adam.johnston@arm.com>
@@ -11,19 +11,21 @@ X-Originating-Location: Cambridge, England, GB (217.140.106.13)
 X-Originating-Platform: Windows Chrome 116
 User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-Date: Thu, 21 Sep 2023 07:12:28 -0700
+Date: Thu, 21 Sep 2023 07:12:55 -0700
 References: <ZQw/9kbKangmiM34@nuoska>
 In-Reply-To: <ZQw/9kbKangmiM34@nuoska>
 Message-ID: <558.1695305548586655871@lists.yoctoproject.org>
+X-Old-Date: Thu, 21 Sep 2023 07:12:28 -0700
 Content-Type: multipart/alternative; boundary="XKDJh8oYFv2IAreF04nH"
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Thu, 21 Sep 2023 14:12:32 -0000
+ <meta-virtualization@lists.yoctoproject.org>; Thu, 21 Sep 2023 14:13:02 -0000
 X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8316
+Message-ID: <20230921141255.kRAjB9iPwJW0b7iAjwiCGQ005ngIAabBJ-vltgnabxo@z>
 
 --XKDJh8oYFv2IAreF04nH
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 On Thu, Sep 21, 2023 at 02:07 PM, Mikko Rapeli wrote:
@@ -38,8 +40,12 @@ referred for stable/mickledore
 
 Am I right/wrong?
 
+Regards
+
+Adam
+
 --XKDJh8oYFv2IAreF04nH
-Content-Type: text/html; charset="utf-8"
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 On Thu, Sep 21, 2023 at 02:07 PM, Mikko Rapeli wrote:<br />
@@ -49,7 +55,7 @@ ockquote>
 <p>We've already tested v24.0.5 (with mickledore) and can confirm it does f=
 ix the issue, however my assumption was that sticking with docker 23.x.x wa=
 s preferred for stable/mickledore</p>
-<p>Am I right/wrong?</p>
+<p>Am I right/wrong?<br /><br />Regards<br /><br />Adam</p>
 
 --XKDJh8oYFv2IAreF04nH--
 
