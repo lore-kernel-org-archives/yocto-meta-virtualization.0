@@ -1,94 +1,183 @@
-Return-Path: <patrick@subset.ch>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EB8AE7AD43
-	for <webhook@archiver.kernel.org>; Tue,  3 Oct 2023 13:25:00 +0000 (UTC)
-Received: from st43p00im-ztbu10063601.me.com (st43p00im-ztbu10063601.me.com [17.58.63.174])
- by mx.groups.io with SMTP id smtpd.web11.107790.1696339494922263243
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EDDB3E7C4CB
+	for <webhook@archiver.kernel.org>; Wed,  4 Oct 2023 14:55:03 +0000 (UTC)
+Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
+ by mx.groups.io with SMTP id smtpd.web11.20612.1696431296188895731
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 03 Oct 2023 06:24:55 -0700
+ Wed, 04 Oct 2023 07:54:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@subset.ch header.s=sig1 header.b=A7JhiW4W;
- spf=pass (domain: subset.ch, ip: 17.58.63.174, mailfrom: patrick@subset.ch)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=subset.ch; s=sig1;
-	t=1696339493; bh=TtNxnPetuFPryQKKVCgFi/jgMkb9k2Sw0NNPIA4zffU=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=A7JhiW4WM0PzCbus7f1a60Hsj9YjSOcBYobI/0N4IuQ9lU2VmpGQhpp1MzK+XdPI+
-	 ssiPl/X0GHqP6mWAt0LD0R0XFQP4okT8jz0MhxEziDr0O8SLBEhP21Gh5UQlrduVQR
-	 y+1+MBszqMHmeUz6ui0tQdf6Aouw5wUCwfPKn8+e0DUOXMM9DQPBckwcITh2X2HGLw
-	 as2xRwR0jz0uYrQeXGuK1njFJ0Z7Iw52+PZUvqD3ntOwwf4TmECSe5oMjranV/sk4Y
-	 QkETQWiwgO7nDQzRhimy2rwD5bMXuaUto/MjlYzULu0xOtGHNlakd93X6uE+K+4x2X
-	 q5YnWwqmY0low==
-Received: from thinkpad.. (st43p00im-dlb-asmtp-mailmevip.me.com [17.42.251.41])
-	by st43p00im-ztbu10063601.me.com (Postfix) with ESMTPSA id E10AF8C01CC;
-	Tue,  3 Oct 2023 13:24:49 +0000 (UTC)
-From: patrick@subset.ch
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=fbxO7FHP;
+ spf=pass (domain: gmail.com, ip: 209.85.210.46, mailfrom: jpewhacker@gmail.com)
+Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-6c64c2c0f97so1448547a34.3
+        for <meta-virtualization@lists.yoctoproject.org>; Wed, 04 Oct 2023 07:54:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1696431295; x=1697036095; darn=lists.yoctoproject.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=24m2sfVRccRpglM6JVnvrft64NI9cvDrwOHrXcMR5ug=;
+        b=fbxO7FHPI5aIzRDkSNgx3jbea2dkGI140ESZjkt20/6ViIexLaRWqZz2mSwy3F3w3K
+         zJOsd5HDqyP7T7MSsbeuRVaWMRAwSrO0ITZAHgf9KdlrYmLulASauF1AnihPO2dN45M8
+         lLUb2CS1LE5ecezb+EQiHrPLT0PjYr3pAjEWANydHmXUJYBrgRgwQGTrXcNVBchf8azj
+         rtD3Hag9Bl2H9+IApN+zy+WHNj2UzRo20cbwZONQy5DMuLwSTAXSr1YCOdio80fTii5h
+         dBaWdvijF4voQlAmitXj6ZESXsRREfMKGdVsLCtnuJja/jN63hM2EEg2ZL8vOtxdJN2r
+         yKAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696431295; x=1697036095;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=24m2sfVRccRpglM6JVnvrft64NI9cvDrwOHrXcMR5ug=;
+        b=XdexcczVruQTi56kEstLKha2PsI/fm++dgJtHCl/I+EWoao6nnLQ6MJNbBOVEwwfa0
+         CAemCQ834I2QeZWt6srRNOIukDzITno/+8C4gCTUZAxp4TV3okuOkj4jZ9VvDoEiNbSI
+         qvi/guugKk3fDVOFMXofG+dqnEvDlVDPTX+A5+maObAP+o1qLUggklQfb5af3EEfrC7f
+         vCi+Q3qzNGdrcTGxd5DjzxABXzBPftKaRa8bpp9MVmDIWWeU64ljGfOVVSWTLzo98dV9
+         WnGYK+HorErro7MkmLuIaENpL7S9AoZyE9nG7wqjZ+FUuqX51izQBhWTBOexl4grdvkJ
+         S8cQ==
+X-Gm-Message-State: AOJu0YxyYvIe1R1r/XKaRWzopurmSlDpVxoUOMFTtjgLloiqkGuhTYn1
+	FVKNEXy92C1le/RSKIluWdJFsUPmWdQ=
+X-Google-Smtp-Source: AGHT+IGi/ugIT3G5Ht5awZ1sX2gQeMWPgplQ8BuSjKBDsOdN3DAzhzlH4EsTOdNF61JD7jRXAtBC5A==
+X-Received: by 2002:a9d:5e97:0:b0:6be:fd51:cb6d with SMTP id f23-20020a9d5e97000000b006befd51cb6dmr2325076otl.31.1696431294842;
+        Wed, 04 Oct 2023 07:54:54 -0700 (PDT)
+Received: from localhost.localdomain ([2601:282:4300:19e0::589])
+        by smtp.gmail.com with ESMTPSA id h9-20020a9d6f89000000b006c4d56392f4sm487101otq.24.2023.10.04.07.54.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Oct 2023 07:54:54 -0700 (PDT)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: meta-virtualization@lists.yoctoproject.org
-Cc: Patrick Wicki <patrick.wicki@siemens.com>
-Subject: [meta-virtualization][PATCH] catatonit: update to version 0.2.0
-Date: Tue,  3 Oct 2023 15:24:35 +0200
-Message-ID: <20231003132435.3846212-1-patrick@subset.ch>
-X-Mailer: git-send-email 2.41.0
+Cc: Joshua Watt <JPEWhacker@gmail.com>
+Subject: [meta-virtualization][RFC] image-oci-umoci: Set image name and tag
+Date: Wed,  4 Oct 2023 08:54:33 -0600
+Message-Id: <20231004145433.3544915-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-Proofpoint-GUID: GNFYNPPgTjAEtmfMFaZSt8ZI10P8z7GF
-X-Proofpoint-ORIG-GUID: GNFYNPPgTjAEtmfMFaZSt8ZI10P8z7GF
-X-Proofpoint-Virus-Version: =?UTF-8?Q?vendor=3Dfsecure_engine=3D1.1.170-22c6f66c430a71ce266a39bfe25bc?=
- =?UTF-8?Q?2903e8d5c8f:6.0.591,18.0.572,17.11.176.26.0000000_definitions?=
- =?UTF-8?Q?=3D2023-07-31=5F02:2023-07-31=5F02,2020-02-14=5F11,2023-05-22?=
- =?UTF-8?Q?=5F02_signatures=3D0?=
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 clxscore=1030
- mlxlogscore=999 malwarescore=0 bulkscore=0 mlxscore=0 phishscore=0
- suspectscore=0 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2212070000 definitions=main-2310030098
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Tue, 03 Oct 2023 13:25:00 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8334
+ <meta-virtualization@lists.yoctoproject.org>; Wed, 04 Oct 2023 14:55:03 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8335
 
-From: Patrick Wicki <patrick.wicki@siemens.com>
+umoci treats the --image parameter as <DIRECTORY>:<NAME>, where the OCI
+spec ref.name for the image it set to <NAME>. Therefore, if the
+intention is for the ref.name to be in the format <IMAGE_NAME>:<TAG> (as
+is expected by e.g. `podman load`, then the complete argument that is
+passed to umoci must be `--image <DIRECTORY>:<IMAGE_NAME>:<TAG>`
 
-Main change is the relicense from GPL-3 to GPL-2, which will allow
-catatonit (and hence podman) to be used in deployments where the license
-previously posed an issue.
-
-Signed-off-by: Patrick Wicki <patrick.wicki@siemens.com>
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- .../catatonit/{catatonit_0.1.7.bb =3D> catatonit_0.2.0.bb}    | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename recipes-containers/catatonit/{catatonit_0.1.7.bb =3D> catatonit_0=
-.2.0.bb} (69%)
+ classes/image-oci-umoci.inc | 52 +++++++++++++++++++------------------
+ 1 file changed, 27 insertions(+), 25 deletions(-)
 
-diff --git a/recipes-containers/catatonit/catatonit_0.1.7.bb b/recipes-co=
-ntainers/catatonit/catatonit_0.2.0.bb
-similarity index 69%
-rename from recipes-containers/catatonit/catatonit_0.1.7.bb
-rename to recipes-containers/catatonit/catatonit_0.2.0.bb
-index da3973de..13537a4a 100644
---- a/recipes-containers/catatonit/catatonit_0.1.7.bb
-+++ b/recipes-containers/catatonit/catatonit_0.2.0.bb
-@@ -6,11 +6,11 @@ SUMMARY =3D "A container init that is so simple it's ef=
-fectively brain-dead."
- HOMEPAGE =3D "https://github.com/openSUSE/catatonit"
- DESCRIPTION =3D "${SUMMARY}"
- SECTION =3D "base"
--LICENSE =3D "GPL-3.0-or-later"
--LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D1ebbd3e34237af26da5dc08a4e440=
-464"
-+LICENSE =3D "GPL-2.0-or-later"
-+LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Db234ee4d69f5fce4486a80fdaf4a4=
-263"
-=20
- SRC_URI =3D "git://github.com/openSUSE/${BPN};protocol=3Dhttps;branch=3D=
-main"
--SRCREV =3D "d8d72fea155c144ed3bf298a35a1aba5625a5656"
-+SRCREV =3D "7f0c9bb45d3490c3e7f579833c9b0689f78c8923"
- S =3D "${WORKDIR}/git"
-=20
- inherit autotools
---=20
-2.41.0
+diff --git a/classes/image-oci-umoci.inc b/classes/image-oci-umoci.inc
+index 58e4668..a58cb4c 100644
+--- a/classes/image-oci-umoci.inc
++++ b/classes/image-oci-umoci.inc
+@@ -35,14 +35,16 @@ IMAGE_CMD:oci() {
+     fi
+ 
+     if [ -z "${OCI_IMAGE_TAG}" ]; then
+-	OCI_IMAGE_TAG="initial-tag"
+-    fi
++	image_spec="$image_name:${IMAGE_BASENAME}:initial-tag"
++    else
++	image_spec="$image_name:${IMAGE_BASENAME}:${OCI_IMAGE_TAG}"
++   fi
+ 
+     if [ -n "$new_image" ]; then
+ 	bbdebug 1 "OCI: umoci init --layout $image_name"
+ 	umoci init --layout $image_name
+-	umoci new --image $image_name:${OCI_IMAGE_TAG}
+-	umoci unpack --rootless --image $image_name:${OCI_IMAGE_TAG} $image_bundle_name
++	umoci new --image $image_spec
++	umoci unpack --rootless --image $image_spec $image_bundle_name
+     else
+ 	# todo: create a different tag, after checking if the passed one exists
+ 	true
+@@ -52,58 +54,58 @@ IMAGE_CMD:oci() {
+     bbdebug 1 "OCI: cp -r ${IMAGE_ROOTFS}/* $image_bundle_name/rootfs/"
+     cp -r ${IMAGE_ROOTFS}/* $image_bundle_name/rootfs
+ 
+-    bbdebug 1 "OCI: umoci repack --image $image_name:${OCI_IMAGE_TAG} $image_bundle_name"
+-    umoci repack --image $image_name:${OCI_IMAGE_TAG} $image_bundle_name
++    bbdebug 1 "OCI: umoci repack --image $image_spec $image_bundle_name"
++    umoci repack --image $image_spec $image_bundle_name
+ 
+     bbdebug 1 "OCI: configuring image"
+     if [ -n "${OCI_IMAGE_LABELS}" ]; then
+ 	for l in ${OCI_IMAGE_LABELS}; do
+-	    bbdebug 1 "OCI: umoci config --image $image_name:${OCI_IMAGE_TAG} --config.label $l"
+-	    umoci config --image $image_name:${OCI_IMAGE_TAG} --config.label $l
++	    bbdebug 1 "OCI: umoci config --image $image_spec --config.label $l"
++	    umoci config --image $image_spec --config.label $l
+ 	done
+     fi
+     if [ -n "${OCI_IMAGE_ENV_VARS}" ]; then
+ 	for l in ${OCI_IMAGE_ENV_VARS}; do
+-	    bbdebug 1 "umoci config --image $image_name:${OCI_IMAGE_TAG} --config.env $l"
+-	    umoci config --image $image_name:${OCI_IMAGE_TAG} --config.env $l
++	    bbdebug 1 "umoci config --image $image_spec --config.env $l"
++	    umoci config --image $image_spec --config.env $l
+ 	done
+     fi
+     if [ -n "${OCI_IMAGE_PORTS}" ]; then
+ 	for l in ${OCI_IMAGE_PORTS}; do
+-	    bbdebug 1 "umoci config --image $image_name:${OCI_IMAGE_TAG} --config.exposedports $l"
+-	    umoci config --image $image_name:${OCI_IMAGE_TAG} --config.exposedports $l
++	    bbdebug 1 "umoci config --image $image_spec --config.exposedports $l"
++	    umoci config --image $image_spec --config.exposedports $l
+ 	done
+     fi
+     if [ -n "${OCI_IMAGE_RUNTIME_UID}" ]; then
+-	bbdebug 1 "umoci config --image $image_name:${OCI_IMAGE_TAG}  --config.user ${OCI_IMAGE_RUNTIME_UID}"
+-	umoci config --image $image_name:${OCI_IMAGE_TAG} --config.user ${OCI_IMAGE_RUNTIME_UID}
++	bbdebug 1 "umoci config --image $image_spec  --config.user ${OCI_IMAGE_RUNTIME_UID}"
++	umoci config --image $image_spec --config.user ${OCI_IMAGE_RUNTIME_UID}
+     fi
+     if [ -n "${OCI_IMAGE_WORKINGDIR}" ]; then
+-	bbdebug 1 "umoci config --image $image_name:${OCI_IMAGE_TAG}  --config.workingdir ${OCI_IMAGE_WORKINGDIR}"
+-	umoci config --image $image_name:${OCI_IMAGE_TAG} --config.workingdir ${OCI_IMAGE_WORKINGDIR}
++	bbdebug 1 "umoci config --image $image_spec  --config.workingdir ${OCI_IMAGE_WORKINGDIR}"
++	umoci config --image $image_spec --config.workingdir ${OCI_IMAGE_WORKINGDIR}
+     fi
+     if [ -n "${OCI_IMAGE_STOPSIGNAL}" ]; then
+-	bbdebug 1 "umoci config --image $image_name:${OCI_IMAGE_TAG}  --config.stopsignal ${OCI_IMAGE_STOPSIGNAL}"
+-	umoci config --image $image_name:${OCI_IMAGE_TAG} --config.stopsignal ${OCI_IMAGE_STOPSIGNAL}
++	bbdebug 1 "umoci config --image $image_spec  --config.stopsignal ${OCI_IMAGE_STOPSIGNAL}"
++	umoci config --image $image_spec --config.stopsignal ${OCI_IMAGE_STOPSIGNAL}
+     fi
+     if [ -n "${OCI_IMAGE_OS}" ]; then
+-	bbdebug 1 "umoci config --image $image_name:${OCI_IMAGE_TAG}  --os ${OCI_IMAGE_OS}"
+-	umoci config --image $image_name:${OCI_IMAGE_TAG} --os ${OCI_IMAGE_OS}
++	bbdebug 1 "umoci config --image $image_spec  --os ${OCI_IMAGE_OS}"
++	umoci config --image $image_spec --os ${OCI_IMAGE_OS}
+     fi
+ 
+-    bbdebug 1 "umoci config --image $image_name:${OCI_IMAGE_TAG}  --architecture ${OCI_IMAGE_ARCH}"
+-    umoci config --image $image_name:${OCI_IMAGE_TAG} --architecture ${OCI_IMAGE_ARCH}
++    bbdebug 1 "umoci config --image $image_spec  --architecture ${OCI_IMAGE_ARCH}"
++    umoci config --image $image_spec --architecture ${OCI_IMAGE_ARCH}
+     # NOTE: umoci doesn't currently expose setting the architecture variant,
+     #       so if you need it use sloci instead
+     if [ -n "${OCI_IMAGE_SUBARCH}" ]; then
+ 	bbnote "OCI: image subarch is set to: ${OCI_IMAGE_SUBARCH}, but umoci does not"
+ 	bbnote "     expose variants. use sloci instead if this is important"
+     fi
+-    umoci config --image $image_name:${OCI_IMAGE_TAG} --config.entrypoint ${OCI_IMAGE_ENTRYPOINT}
++    umoci config --image $image_spec --config.entrypoint ${OCI_IMAGE_ENTRYPOINT}
+     if [ -n "${OCI_IMAGE_ENTRYPOINT_ARGS}" ]; then
+-	umoci config --image $image_name:${OCI_IMAGE_TAG} --config.cmd "${OCI_IMAGE_ENTRYPOINT_ARGS}"
++	umoci config --image $image_spec --config.cmd "${OCI_IMAGE_ENTRYPOINT_ARGS}"
+     fi
+-    umoci config --image $image_name:${OCI_IMAGE_TAG} --author ${OCI_IMAGE_AUTHOR_EMAIL}
++    umoci config --image $image_spec --author ${OCI_IMAGE_AUTHOR_EMAIL}
+ 
+     # make a tar version of the image direcotry
+     #  1) image_name.tar: compatible with oci tar format, blobs and rootfs
+-- 
+2.34.1
 
 
