@@ -1,238 +1,88 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <mingli.yu@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D5D9E9413D
-	for <webhook@archiver.kernel.org>; Sat,  7 Oct 2023 00:53:32 +0000 (UTC)
-Received: from mail-io1-f49.google.com (mail-io1-f49.google.com [209.85.166.49])
- by mx.groups.io with SMTP id smtpd.web10.9916.1696640011127274258
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4D84E95A82
+	for <webhook@archiver.kernel.org>; Sun,  8 Oct 2023 08:03:07 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.34222.1696752182279020985
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 06 Oct 2023 17:53:31 -0700
+ Sun, 08 Oct 2023 01:03:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=XwGFiAlb;
- spf=pass (domain: gmail.com, ip: 209.85.166.49, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-io1-f49.google.com with SMTP id ca18e2360f4ac-79f82b26abfso101595039f.1
-        for <meta-virtualization@lists.yoctoproject.org>; Fri, 06 Oct 2023 17:53:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1696640010; x=1697244810; darn=lists.yoctoproject.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=mblwhVI5DQPa/T7ISpJKDk/j2sBJJUFGAEqjfT7Edio=;
-        b=XwGFiAlba+k0j3iL5/gBWEVQw2/kLnW3QyCeBxRE0u9jfkZ4cFpfLJXp3VKrkQjUE5
-         KVHUf7pU92nAsmmkuEbfTc2V5HmbYD1rV/sXtgW6uuHBZeTbgp+APRlJUe0PY5VDufvs
-         PB2SkzPUEfFnwv9O6r5HViNNiauykBgfgBufRmcQP4uefKonNzvFLTj+qsyiD5X95CVp
-         8bMQPREKG46E4JJeI+sMULUNcpHiluPJBAEAnkR+rJjrQnbrIOr0erKBJemepZgGVsPB
-         56CsecYXL/maYZ9ehjW4OjhLPQJR0MNUtCEaUZNEQ8EmCCqRCzSajrbNoej5zzbw/tmM
-         1sdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696640010; x=1697244810;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=mblwhVI5DQPa/T7ISpJKDk/j2sBJJUFGAEqjfT7Edio=;
-        b=Nz6L2cq628goo3Uly5aLF5fznoFtBWeNuvGe+Gk9sMTleBBKqxsDCdREdrZ6+W8kRF
-         cvXxlnDS40G6ThmoEQnvNym9q+BfwNFAYgguFo5tr38cXyTcwdzKAP12o2GrCfh/3OB3
-         C5YizMxie1mTzonVsBUxZwzH2T4Ux57Jg5xb7adIeg5HE1LkiJmodm8GoWNQZNTRmqbU
-         F2KzaMsXNw6S565isKsqzJlGJ9BPQxwWVWKQE78yfpdGn96vF+OkpJc2yKHIfeOCpAQu
-         JUg+UTmEFQ4Tw5oFckQ92rC5hnklZYeE1zy5SNxkoLtclF4pgitQcCdklGF7XhTXKVcc
-         N6lQ==
-X-Gm-Message-State: AOJu0YwUGTGxdOv02hvdVi1uAdKU3DwUYNF+QvQJPlyrbTILWXL1eKCA
-	og1BQk5H+eXNVEqxpoxbnJE0SwcjOK7YpU1YMcU=
-X-Google-Smtp-Source: AGHT+IHlP0XdRZizK1j3wGw3LjZ3Lu90+HB7Um2q8jpRbiNjptXvShPdudhac3n+j0/yhJTVV9fAq92LM5l9vTXcIwY=
-X-Received: by 2002:a5d:96cc:0:b0:795:1a7c:486f with SMTP id
- r12-20020a5d96cc000000b007951a7c486fmr10201863iol.14.1696640010213; Fri, 06
- Oct 2023 17:53:30 -0700 (PDT)
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=JYtn82V8;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=8645fd0012=mingli.yu@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 3987w2Ej017335
+	for <meta-virtualization@lists.yoctoproject.org>; Sun, 8 Oct 2023 01:03:01 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PPS06212021; bh=YGwvL
+	O3bXokBU2KeEBkTwdDEgLyeaJ+amTnadxY83Wc=; b=JYtn82V8VDionzdfem1W5
+	tZ2PnrIjkaxfNaIxEhp6eHk7r4vBMu72BVubbtUiUQ3mDUO1XNLJvijbRL2VKIhw
+	jyRMlehPVWKD35eAvUJzQnzzThTQY3NtKBR7vQ5skhrPuJhSRoc98f+BTOLdqQUy
+	L54D5RSVapBUZPhHRSl0nIUGIXNWZmKzpWTGFCwqJgob7QyeeSAA9e6yh2H0Un3W
+	Ztac69aMdfNKo/AKPY3pL5+QYR8WicBe7NkZBDpJk2v3SNSV3to4FHhdGTSCWRho
+	UDLhPakAoOac70RL3t204B2TKcoioYqv6pdyLtyR2k6Y7JdD6qfy+PlOU8FzabtY
+	Q==
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3tk6ufgjm7-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <meta-virtualization@lists.yoctoproject.org>; Sun, 08 Oct 2023 01:03:01 -0700 (PDT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Sun, 8 Oct 2023 01:03:00 -0700
+Received: from pek-lpg-core2.wrs.com (128.224.153.41) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.32 via Frontend Transport; Sun, 8 Oct 2023 01:03:00 -0700
+From: <mingli.yu@windriver.com>
+To: <meta-virtualization@lists.yoctoproject.org>
+Subject: [PATCH] umoci: Remove the buildpath issue
+Date: Sun, 8 Oct 2023 16:02:59 +0800
+Message-ID: <20231008080259.3346765-1-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <1D32D17E-126F-413C-9F22-2E5CCF20E61F@gmail.com> <AS1PR10MB5697BD98F27E7C45E4D4C4E8FDC9A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-In-Reply-To: <AS1PR10MB5697BD98F27E7C45E4D4C4E8FDC9A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Fri, 6 Oct 2023 20:53:19 -0400
-Message-ID: <CADkTA4P=iuTAbZyk=g=Z_oCZOS8i1GXKNDrPgU1U7CmrMZoW6g@mail.gmail.com>
-Subject: Re: [meta-virtualization] Docker-compose Go update on kirkstone
-To: peter.marko@siemens.com
-Cc: "przemekchwiala@gmail.com" <przemekchwiala@gmail.com>, 
-	"meta-virtualization@lists.yoctoproject.org" <meta-virtualization@lists.yoctoproject.org>
-Content-Type: multipart/alternative; boundary="0000000000001ee035060715c9ad"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: 4sLjSavZ1Uw0nH10ctxdzWDdLsfpiGGU
+X-Proofpoint-ORIG-GUID: 4sLjSavZ1Uw0nH10ctxdzWDdLsfpiGGU
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-10-08_06,2023-10-06_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=629 clxscore=1011
+ lowpriorityscore=0 suspectscore=0 malwarescore=0 adultscore=0 spamscore=0
+ priorityscore=1501 impostorscore=0 bulkscore=0 mlxscore=0 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2309180000
+ definitions=main-2310080071
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Sat, 07 Oct 2023 00:53:32 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8339
+ <meta-virtualization@lists.yoctoproject.org>; Sun, 08 Oct 2023 08:03:07 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8340
 
---0000000000001ee035060715c9ad
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Mingli Yu <mingli.yu@windriver.com>
 
-Peter is correct, the issue with the build is very likely due to the golang
-version, and we've had good success in supporting m-virt master on old
-releases using the newer golang.
+Pass -trimpath to the build to fix the below build path issue:
+  WARNING: umoci-v0.4.7+git-r0 do_package_qa: QA Issue: File /usr/sbin/umoci in package umoci contains reference to TMPDIR [buildpaths]
 
-As for getting the package officially in the older branch, that's a
-different question. It technically is a new package, so it isn't a major
-version jump in the same sense as if we backported the same recipe/package
-from master to the old branch. That being said, adding a new feature to a
-released branch is also not something we typically do.
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+---
+ recipes-containers/umoci/umoci_git.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-Bruce
+diff --git a/recipes-containers/umoci/umoci_git.bb b/recipes-containers/umoci/umoci_git.bb
+index feaf6dff..e2116892 100644
+--- a/recipes-containers/umoci/umoci_git.bb
++++ b/recipes-containers/umoci/umoci_git.bb
+@@ -68,6 +68,7 @@ do_compile() {
+ 
+     export GO111MODULE=off
+ 
++    export BUILD_FLAGS="-trimpath"
+     cd ${S}
+ 
+     oe_runmake umoci
+-- 
+2.25.1
 
-On Fri, Oct 6, 2023 at 2:21=E2=80=AFPM Peter Marko via lists.yoctoproject.o=
-rg
-<peter.marko=3Dsiemens.com@lists.yoctoproject.org> wrote:
-
-> You will probably need new golang version.
->
-> Mixin layer kirkstone/go is working pretty well with meta-virtualization
-> master.
->
-> https://git.yoctoproject.org/meta-lts-mixins/tree/?h=3Dkirkstone/go
->
->
->
-> Peter
->
->
->
-> *From:* meta-virtualization@lists.yoctoproject.org <
-> meta-virtualization@lists.yoctoproject.org> *On Behalf Of *Przemyslaw
-> Chwiala via lists.yoctoproject.org
-> *Sent:* Friday, October 6, 2023 17:23
-> *To:* meta-virtualization@lists.yoctoproject.org
-> *Subject:* [meta-virtualization] Docker-compose Go update on kirkstone
->
->
->
-> > Hello,
-> >
-> > I'm working on the kirkstone branch, where we still have
-> python3-docker-compose_1.29.2.bb. I am wondering if there is any chance
-> to upgrade to the Go version of docker-compose from the main branch? I
-> tried to build the recipe from the main branch, but got some errors. Befo=
-re
-> I dig into fixing them, I'd like to ask if you see any additional issues
-> that might block building docker-compose_git.bb from the main branch on
-> kirkstone?
-> >
-> > Thank you
-> > Przemek
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#8338):
-> https://lists.yoctoproject.org/g/meta-virtualization/message/8338
-> Mute This Topic: https://lists.yoctoproject.org/mt/101799787/1050810
-> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [
-> bruce.ashfield@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
-
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end
-- "Use the force Harry" - Gandalf, Star Trek II
-
---0000000000001ee035060715c9ad
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-size:small">Peter is correct, the issue with the build is very likely due=
- to the golang version, and we&#39;ve had good success=C2=A0in supporting m=
--virt master on old releases using the newer golang.</div><div class=3D"gma=
-il_default" style=3D"font-size:small"><br></div><div class=3D"gmail_default=
-" style=3D"font-size:small">As for getting the package officially=C2=A0in t=
-he older branch, that&#39;s a different question. It technically is a new p=
-ackage, so it isn&#39;t a major version jump in the same sense as if we bac=
-kported the same recipe/package from master to the old branch. That being s=
-aid, adding a new feature to a released branch is also not something we typ=
-ically do.</div><div class=3D"gmail_default" style=3D"font-size:small"><br>=
-</div><div class=3D"gmail_default" style=3D"font-size:small">Bruce</div></d=
-iv><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On =
-Fri, Oct 6, 2023 at 2:21=E2=80=AFPM Peter Marko via <a href=3D"http://lists=
-.yoctoproject.org">lists.yoctoproject.org</a> &lt;peter.marko=3D<a href=3D"=
-mailto:siemens.com@lists.yoctoproject.org">siemens.com@lists.yoctoproject.o=
-rg</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
-"><div class=3D"msg1067042315536724852">
-
-
-
-
-
-<div lang=3D"EN-US" style=3D"overflow-wrap: break-word;">
-<div class=3D"m_1067042315536724852WordSection1">
-<p class=3D"MsoNormal">You will probably need new golang version.<u></u><u>=
-</u></p>
-<p class=3D"MsoNormal">Mixin layer kirkstone/go is working pretty well with=
- meta-virtualization master.<u></u><u></u></p>
-<p class=3D"MsoNormal"><a href=3D"https://git.yoctoproject.org/meta-lts-mix=
-ins/tree/?h=3Dkirkstone/go" target=3D"_blank">https://git.yoctoproject.org/=
-meta-lts-mixins/tree/?h=3Dkirkstone/go</a><u></u><u></u></p>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-<p class=3D"MsoNormal">Peter<u></u><u></u></p>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-<div>
-<div style=3D"border-right:none;border-bottom:none;border-left:none;border-=
-top:1pt solid rgb(225,225,225);padding:3pt 0in 0in">
-<p class=3D"MsoNormal"><b>From:</b> <a href=3D"mailto:meta-virtualization@l=
-ists.yoctoproject.org" target=3D"_blank">meta-virtualization@lists.yoctopro=
-ject.org</a> &lt;<a href=3D"mailto:meta-virtualization@lists.yoctoproject.o=
-rg" target=3D"_blank">meta-virtualization@lists.yoctoproject.org</a>&gt;
-<b>On Behalf Of </b>Przemyslaw Chwiala via <a href=3D"http://lists.yoctopro=
-ject.org" target=3D"_blank">lists.yoctoproject.org</a><br>
-<b>Sent:</b> Friday, October 6, 2023 17:23<br>
-<b>To:</b> <a href=3D"mailto:meta-virtualization@lists.yoctoproject.org" ta=
-rget=3D"_blank">meta-virtualization@lists.yoctoproject.org</a><br>
-<b>Subject:</b> [meta-virtualization] Docker-compose Go update on kirkstone=
-<u></u><u></u></p>
-</div>
-</div>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-<div>
-<div>
-<p class=3D"MsoNormal">&gt; Hello,<br>
-&gt;<br>
-&gt; I&#39;m working on the kirkstone branch, where we still have <a href=
-=3D"http://python3-docker-compose_1.29.2.bb" target=3D"_blank">python3-dock=
-er-compose_1.29.2.bb</a>. I am wondering if there is any chance to upgrade =
-to the Go version of docker-compose from the main branch? I tried to build =
-the recipe from the main branch, but got
- some errors. Before I dig into fixing them, I&#39;d like to ask if you see=
- any additional issues that might block building <a href=3D"http://docker-c=
-ompose_git.bb" target=3D"_blank">docker-compose_git.bb</a> from the main br=
-anch on kirkstone?<br>
-&gt;<br>
-&gt; Thank you<br>
-&gt; Przemek<u></u><u></u></p>
-</div>
-</div>
-</div>
-</div>
-
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#8338): <a href=3D"https://lists.yoctoproject.org/g/meta=
--virtualization/message/8338" rel=3D"noreferrer" target=3D"_blank">https://=
-lists.yoctoproject.org/g/meta-virtualization/message/8338</a><br>
-Mute This Topic: <a href=3D"https://lists.yoctoproject.org/mt/101799787/105=
-0810" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.org/m=
-t/101799787/1050810</a><br>
-Group Owner: <a href=3D"mailto:meta-virtualization%2Bowner@lists.yoctoproje=
-ct.org" target=3D"_blank">meta-virtualization+owner@lists.yoctoproject.org<=
-/a><br>
-Unsubscribe: <a href=3D"https://lists.yoctoproject.org/g/meta-virtualizatio=
-n/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.or=
-g/g/meta-virtualization/unsub</a> [<a href=3D"mailto:bruce.ashfield@gmail.c=
-om" target=3D"_blank">bruce.ashfield@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</div></blockquote></div><br clear=3D"all"><div><br></div><span class=3D"gm=
-ail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signatu=
-re">- Thou shalt not follow the NULL pointer, for chaos and madness await t=
-hee at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star Trek II=
-<br><br></div></div>
-
---0000000000001ee035060715c9ad--
 
