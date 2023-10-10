@@ -1,246 +1,343 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EB1CCD80D2
-	for <webhook@archiver.kernel.org>; Tue, 10 Oct 2023 13:37:19 +0000 (UTC)
-Received: from mail-io1-f42.google.com (mail-io1-f42.google.com [209.85.166.42])
- by mx.groups.io with SMTP id smtpd.web10.91698.1696945038464863737
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3932ECD8C8F
+	for <webhook@archiver.kernel.org>; Tue, 10 Oct 2023 14:30:30 +0000 (UTC)
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com (EUR05-AM6-obe.outbound.protection.outlook.com [40.107.22.88])
+ by mx.groups.io with SMTP id smtpd.web10.93227.1696948221422762421
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 10 Oct 2023 06:37:18 -0700
+ Tue, 10 Oct 2023 07:30:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=D69T1+i/;
- spf=pass (domain: gmail.com, ip: 209.85.166.42, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-io1-f42.google.com with SMTP id ca18e2360f4ac-79faf4210b2so214375939f.2
-        for <meta-virtualization@lists.yoctoproject.org>; Tue, 10 Oct 2023 06:37:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1696945037; x=1697549837; darn=lists.yoctoproject.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=N3tzPcuh8nzu9J6Ncff/Zsxl/2xmlvrzecZBORbjeUY=;
-        b=D69T1+i/StVafQZRFv/C5S8z2KhcItaqfC0FXiao8AFU3A6eKE9YIE5KlRXdYYR9wg
-         7voJ/ZNCJ3GqwS/8F49rrlWtxrdZvUI5HeDtZBSL8BRtPo/8EMPA+d0cXo+1LvrmYE+S
-         FWdd6E9EUO5erGm12mMXucKf3jW+uKPuyI1kw8mjPi70kfpWapgraGitZyL0/E/1S1i7
-         M/b5UyaB6fe5y5vP2Pt/tSFYyDCl2i57Mvwjq5HNW2DsU7CGQPa1NkgOq/djrbg65AvA
-         u7GckuV6Pk2B+yJwusmUUOSOc6nEt/64z+GBvHaYDy/VLbu6oa5ApLh89HU2wGIGxRTC
-         G1IA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696945037; x=1697549837;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=N3tzPcuh8nzu9J6Ncff/Zsxl/2xmlvrzecZBORbjeUY=;
-        b=IA74yZdqI9Cw9RVcJBZuXZUNRyY6YSYfcKDQLthsykUIwk4kNDC65m8dF4iOQNMuKn
-         xxSFku8uM0gMq0VMT0g4uXZud8xr0tPsF7oqmdGUEh2n2K7nmVEkxeRAyggC3P+/gV+J
-         CicxV/hU5LuO8aFeO2oQ7sJvZRQ0x9V9pCTLCNT13AnWKcr/Excb3yD0uAX6byqUsZee
-         WrIWNX/sAWC83vaGBP29A2bWFczNNd3iHUsjphEHUJmeK4sGw3bjndGeGF5DmZfAOnSc
-         EuHSVu6gxMWaqn4Hl+wDzD7ri4ny0qyGMMuzuhgdPtCFgd6ARuavrguRHjba8V/Bqk9k
-         SlQw==
-X-Gm-Message-State: AOJu0YxcMVCKdWxA5MGa7TNqGFPQQy8VB/+RuqWcBSesAOOygqp8V1u8
-	YXNrXldSj3kJ6hFWaX9AbkS4cCKTMhKdTY5+pORkO0ks6nQ=
-X-Google-Smtp-Source: AGHT+IHpAnmlKpTHC/OFepL6nNRy/bn7okMOc8HwQYOI3BsJfqpbORgkPy3bwuwY09kfj1YMDWl7FxmyVBggU5Dnc/A=
-X-Received: by 2002:a6b:919:0:b0:790:6629:b222 with SMTP id
- t25-20020a6b0919000000b007906629b222mr19812374ioi.5.1696945037552; Tue, 10
- Oct 2023 06:37:17 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAAfyv36CATBWC1vL6Bucq-JsJW4djFK50-kRHX6MxwizV9m2+g@mail.gmail.com>
-In-Reply-To: <CAAfyv36CATBWC1vL6Bucq-JsJW4djFK50-kRHX6MxwizV9m2+g@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Tue, 10 Oct 2023 09:37:06 -0400
-Message-ID: <CADkTA4NfPeSYpr7e+3ysgkidE3uN991GuxozOCwy-ANW-mN4Gg@mail.gmail.com>
-Subject: Re: [meta-virtualization] backporting netavark from master to kirkstone
+ dkim=pass header.i=@siemens.com header.s=selector2 header.b=eG7Jh40H;
+ spf=pass (domain: siemens.com, ip: 40.107.22.88, mailfrom: peter.marko@siemens.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=VNjdh54ufoM1sUvtcuDHulQYnp/AtyUejjB84sitxbuxIbORr6JpS1RQTs9+cdF6P+i3+j8P5yRy1260sgZ7Iuq/XciPtzgLiHBW4+K/3/FO7+Nvp4tcRpVf99/uFOUVGTOqUQZABNGoTdXMj8BzyraFhZ70FID6PqdEw7tilnxwudjVpn0i/N/duytr4+TEqwXHg9/Bfi66v4No+lVLzbiFXIfKpf0Bjg+Tm+T33HUgYVw9y8b/LKDqAiQV9kJuTp4PZI9Rmcwzz090terebWJ9dxAQUp6ioHuNYaeWn/CI6m1b0/KZ0YqHnEojJDrQW631+eGPoe5qooosptSIqA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=qWbeZ4HieMunlZEADKUQEhmxoGn+PQgFaPsDw2eMc+8=;
+ b=C36z3bjyYYb4nBaY65wftDFSmPXP8yyjx51Y6yODBq6cIvVrCeOG0xzjSPhM0qgAJ3LvE0CxeoAnxi5dLAaEPEn+9O+288DD3CmcOzkwTfFhaHYT4Xpi4saoN2U3izzK2H3/5k7sXS/3d2FTydzATQGkiGN0y2t4tm0uMv4ZPcrRG6I35aPJSi4fer4pwrI9H35XneQqI3O0QvHITzdBnHEODEke977q6y6lSJW2/2FANdiIQbBXS+LRmqGJ0B3uKTdtdToTk6Rsv0y8PVfJnugHZyruwPKPK+2S/VNFxhAmteDG/NazgBudKz0aH2TcnHqUAJLoYSc2AguGtHgdug==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
+ dkim=pass header.d=siemens.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qWbeZ4HieMunlZEADKUQEhmxoGn+PQgFaPsDw2eMc+8=;
+ b=eG7Jh40HhKhb27Uv9JgAyiM2eY+d4jc3CELMbpM4ukVbi6QTvBwGOYbrwdXL2ny4AxBKhg7ZligQLbfLMq+zJgDdrxzaZzLInHVBR3ZNgwNz7D3tQI2/HakaPhxx0Vxk0fRKTET4LkTAdCnKsY8FzyFmWJ/rkgmWDdFpIUwjrsv8tm2Q0UD50dFdbKS+PKdKcZbDdwhQzkewGG9QR181kggv+BrEAs5j9ahz5LxMAJjZujhaJAg3JVCwIzCSxnG2R8J46tBKr9RYBL6mQ9nqc2ZkqRb1D8ead09XtvRdToWK+z4rtyGAkO0okwpn89vH6sdgAkVITUweG0qXxOPjJQ==
+Received: from PA4PR10MB5707.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:266::11)
+ by AS2PR10MB6733.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:55d::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6863.38; Tue, 10 Oct
+ 2023 14:30:18 +0000
+Received: from PA4PR10MB5707.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::4763:43af:4c8a:aea7]) by PA4PR10MB5707.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::4763:43af:4c8a:aea7%4]) with mapi id 15.20.6863.032; Tue, 10 Oct 2023
+ 14:30:17 +0000
+From: "Marko, Peter" <Peter.Marko@siemens.com>
 To: Marek Belisko <marek.belisko@gmail.com>
-Cc: meta-virtualization@lists.yoctoproject.org
-Content-Type: multipart/alternative; boundary="0000000000002ab07206075cce2c"
+CC: "meta-virtualization@lists.yoctoproject.org"
+	<meta-virtualization@lists.yoctoproject.org>, "bruce.ashfield@gmail.com"
+	<bruce.ashfield@gmail.com>
+Subject: RE: [meta-virtualization] backporting netavark from master to
+ kirkstone
+Thread-Topic: [meta-virtualization] backporting netavark from master to
+ kirkstone
+Thread-Index: AQHZ+3wlKJmEe9nT9EKALEJWbxUQq7BDBr8AgAAORxA=
+Date: Tue, 10 Oct 2023 14:30:17 +0000
+Message-ID: 
+ <PA4PR10MB5707243108C2CABDE9879D6AFDCDA@PA4PR10MB5707.EURPRD10.PROD.OUTLOOK.COM>
+References: 
+ <CAAfyv36CATBWC1vL6Bucq-JsJW4djFK50-kRHX6MxwizV9m2+g@mail.gmail.com>
+ <CADkTA4NfPeSYpr7e+3ysgkidE3uN991GuxozOCwy-ANW-mN4Gg@mail.gmail.com>
+In-Reply-To: 
+ <CADkTA4NfPeSYpr7e+3ysgkidE3uN991GuxozOCwy-ANW-mN4Gg@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+ MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=98e56e05-955b-46aa-ae07-dc6f5a54a2b8;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2023-10-10T14:28:12Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siemens.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PA4PR10MB5707:EE_|AS2PR10MB6733:EE_
+x-ms-office365-filtering-correlation-id: c1797b58-1826-4387-13df-08dbc99d6cfe
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ HaqBj/JSnQ60Ij9/hFYlIpP6uICd+Ivz7+4uI4gcydPn286vN4TMV8SXLDC1svWWe8cxqqb69RF7GpTwb2T/kzcaVtFlrhelgpJbhfNnJE6d44kOtMytgYH7tofEk81R/5DwYFTOGh+j65U1mVvNJA3hIBn809NCAIGUpqBiurIGEfCjHnclqDj3MOgYYwzLiGifDGNp/wIsaZNG6QPwIKXCz7IacT3elwv5K4HtrXGvz9yiLAlgFv57DylJuQ8dpJOGal+h82YWfHGQzi4u1hAwKyVYcxgnAxYegXQPuj6tDxRGOVTL+9PfiGQcROYAv3aYAaBmVy6jHP628DG1T9EFSFBEX2o3mGKMALEdKBKAMRplLvAJ1PAWFNAK2N4TR8hakyBibMNDZgsbVNufTSCXJBGy+mkc4tfFGzlXSwT+WsoIhi7YXGO2U2eUvJqVtf2kAmk7Ilw0lLZWXUlMteG31pkO+Q4Qx0vAbB7ZIEZPRUYpNcQF+tRnNQvllSLQis73h7rPSu+vuL7rH5BE6+FOS0sf4SmVcCHmVvIHZC8jsafDb9FM/F4tVL4DM+J2Slh84JZaEpLg6lmPubeFnUuP3rvxD3c4HrNGoZF43K4=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR10MB5707.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(136003)(376002)(39860400002)(396003)(366004)(346002)(230922051799003)(64100799003)(451199024)(1800799009)(186009)(4326008)(5660300002)(52536014)(8676002)(8936002)(41300700001)(316002)(66556008)(54906003)(6916009)(64756008)(76116006)(66476007)(66946007)(66446008)(2906002)(83380400001)(53546011)(55236004)(6506007)(7696005)(966005)(26005)(9686003)(38100700002)(38070700005)(166002)(122000001)(478600001)(86362001)(33656002)(82960400001)(55016003)(71200400001);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?RG5NSTUyRHRyRHpmZ2pTL2xwVnJ5a1h1empmdWRMZVNNNjN1aG13VUxkT2lh?=
+ =?utf-8?B?VTBvdklFU1VOVS9CeExHTkhXN20yL2dlS2t3c1g0NmtJdXRld0ZRaHAvN1pN?=
+ =?utf-8?B?dGlEc1p5Y0d5UmRaNzI2cHZvaGVRU3FqL3huTnUrT1FIVGtwdVRRMm1TM3N2?=
+ =?utf-8?B?MUg3SzVoeUJOQkYxb1pJUjFQays5NUJpM2lJWjIrbEF0QUliczNjS1ZJQXJz?=
+ =?utf-8?B?cGVWbEQvYTZuYnZkQWhGZVB4LzN5TjBsMy9OemhWUHhxVW1mNzJIbjJvNGc5?=
+ =?utf-8?B?YStCb0NmMGIrZW9XaEZhRDc4L0VsQWUraDNUYUtMeWdYUzFQSjBHMkFxOGtJ?=
+ =?utf-8?B?MHp1anQvZzhmMEIxU2s3QVNlYWhiUE9hSXhCZ2w4OVhtbG53YVNzMDVubXFn?=
+ =?utf-8?B?Rnp3QVZQZ0hNYm84WlJBV2N6M0locW1ZWmtjVE5ZdU9IWWhZMy90WTJSM3hm?=
+ =?utf-8?B?a1p3eDIrNVBFOG5naW9IaTVFUHRGMkQrbytTK3B2cklWRDFuRUJGWFlGS1l1?=
+ =?utf-8?B?eno0a3M5YlUvckg4VWYxRVZ6REVacENDNGVnRGV3K0l2VXBtRjkxd3JXMVBv?=
+ =?utf-8?B?QlBBaUN3d2JXWll1NnJNZzZGakV5ay8xa3o3REtIM3BiV1RDOTJGQmlvbkd0?=
+ =?utf-8?B?RkczdEVDZVpLdUI2eTB0YkhLM09hVWxSckk0MzN0ZFhYT29zczhxOWtLVk9p?=
+ =?utf-8?B?TU00VGMvNE5wdFRwUUx0cEJxL3Z5VTZNdGE0b0tkdmRBYTdXNFQzS3NKaGkw?=
+ =?utf-8?B?dHF5dVNPNEtkeTMrUng5eGhLT0VqZTFvNWIva3YzazdZTGx3UDdlSWo1dm81?=
+ =?utf-8?B?bUdqRE1mUng3Rld0UXdKazJGcTcwSWFtbUtydlZYV2NHUURoN3l2ODRsQWNY?=
+ =?utf-8?B?L3BNbTY4Qld1aVlXYWdVaU9sUXZkTXNLUE5pbEczTG1MKzNlTGpkN1dLU3Zp?=
+ =?utf-8?B?Y3dVaE0yTVJmNCs1WTRsODhabUtma3U1RUtXbmcvem9aNVpkTldZTVNCVEVC?=
+ =?utf-8?B?bEswZG5hRkJXazJMLzZPNXlrMytHcmM3S1RWVGlWdmpubk14WVpZeUJ0aThh?=
+ =?utf-8?B?RldOYXhEa0N1R0hNa0FEdnZwUnJFZmNTWmFxQ2xUV25sLzFiRHArOUNhQ0dD?=
+ =?utf-8?B?WE1FUEkwcFBUZXd5eWt4Q0lIT0Y2WW1sVE1lcFJRZWVXWnd4QUtGVW5PK1ZK?=
+ =?utf-8?B?MCtFWmdLR0RKOEhaVHlFYmZsOFVyNHZ6SlRUdVMraWJUNmkzK3RISnRKaS9w?=
+ =?utf-8?B?ZXNHK3JJckNjQkhFUkFhWFk0ZXZPWE8yNTREQjBXQzVPVlFKaVEwVFUxMEZj?=
+ =?utf-8?B?RmYrRzQvQndNTkZ4dFF6OXJLNHFYbHo5RkkwSEorOWMwT1lQaEtadCt5c3pa?=
+ =?utf-8?B?YTlmZ3h4anJ6WEE3RzR6YkdxQkRVbVlpUDFvQkRpZHByZTE2TFJtMHQrV3dh?=
+ =?utf-8?B?bHN0TVlmVnE4VERKd0M4bkJsU3RnY1BaZUtvUVB0bGNMMmZaYlkvVzRyUG5x?=
+ =?utf-8?B?clhWMGNqOWdFZllDdlpXVjZEbzRsRWdBeTVFQTJleGFSS3pLSC9xUlhHTkFK?=
+ =?utf-8?B?clhvVHdlNHJiUjRRckNCVmdOOHdtWUVjOTRVRHp3UDlxc01RNzcwRlRKMGw1?=
+ =?utf-8?B?MnpSOFZGWmhONEJZWXhuMHl6ZjhSR1JDNzUzZVJZUlczWVpMdEZvQUZjQUYy?=
+ =?utf-8?B?Ri8wUThkTmgxSzVZV0hWcEVKcEU3YW5xSEhYcjd1T0ZJRE1xTzdGWXpaNVdM?=
+ =?utf-8?B?OWxLcTdTYTdsODhLZ0VTR0FncVVnY3FPN1V6Ymd6RFROUDRvWml0REVMNGFo?=
+ =?utf-8?B?aVdzaEZ1QXdrdjNFQ0ozWEpnSDNQVlJtSXBsbmZ6ZlkrWldEMkVqVW5LUFBz?=
+ =?utf-8?B?TjFEZVB1RVJMTUwzcUJWb2QxaHBpVVdXeE9wVW9vc2FldHltTjQ1VWhCUmZN?=
+ =?utf-8?B?T0VvTUk0SzdHa3pJMGZoMW9JeFU2ZVoyaGcyMFROcFFncTN1SEJxbmdRb3BQ?=
+ =?utf-8?B?UHlJdXFSOHFSZ1ltd1o1S1lpOFdiTlFudzcweERTcWZpVWFHM09US1hCMVlK?=
+ =?utf-8?B?ZWpHaDJoUlpRZ0J1bHJrNTNGODNqRTF3OHowbEloQkEzOE5penAxUVB6aDFr?=
+ =?utf-8?Q?d30HfZZQHBSiz33FxIz/HAR0H?=
+Content-Type: multipart/alternative;
+	boundary="_000_PA4PR10MB5707243108C2CABDE9879D6AFDCDAPA4PR10MB5707EURP_"
+MIME-Version: 1.0
+X-OriginatorOrg: siemens.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PA4PR10MB5707.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: c1797b58-1826-4387-13df-08dbc99d6cfe
+X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Oct 2023 14:30:17.8141
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 77a7Th4P+lL9nzVya8yuF2eazWFLcn5OKDtZCmO5nxmLdknJIkABo4cHOQPMcHbhAO3cwUr+vZ7gn2fEjlmO2Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR10MB6733
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Tue, 10 Oct 2023 13:37:19 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8345
+ <meta-virtualization@lists.yoctoproject.org>; Tue, 10 Oct 2023 14:30:30 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8346
 
---0000000000002ab07206075cce2c
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+--_000_PA4PR10MB5707243108C2CABDE9879D6AFDCDAPA4PR10MB5707EURP_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Tue, Oct 10, 2023 at 9:17=E2=80=AFAM Marek Belisko <marek.belisko@gmail.=
-com>
-wrote:
+WW91IHNob3VsZCB0cnkgaHR0cHM6Ly9naXQueW9jdG9wcm9qZWN0Lm9yZy9tZXRhLWx0cy1taXhp
+bnMvbG9nLz9oPWtpcmtzdG9uZS9ydXN0LTEuNjgNClRoYXQgd29ya3Mgd2VsbCB3aXRoIGN1cnJl
+bnQgbWV0YS12aXJ0dWFsaXphdGlvbiBtYXN0ZXIgaW5jbHVkaW5nIG5ldGF2YXJrIChjdXJyZW50
+bHkgYXQgMS43LjApLg0KDQpQZXRlcg0KDQpGcm9tOiBtZXRhLXZpcnR1YWxpemF0aW9uQGxpc3Rz
+LnlvY3RvcHJvamVjdC5vcmcgPG1ldGEtdmlydHVhbGl6YXRpb25AbGlzdHMueW9jdG9wcm9qZWN0
+Lm9yZz4gT24gQmVoYWxmIE9mIEJydWNlIEFzaGZpZWxkIHZpYSBsaXN0cy55b2N0b3Byb2plY3Qu
+b3JnDQpTZW50OiBUdWVzZGF5LCBPY3RvYmVyIDEwLCAyMDIzIDE1OjM3DQpUbzogTWFyZWsgQmVs
+aXNrbyA8bWFyZWsuYmVsaXNrb0BnbWFpbC5jb20+DQpDYzogbWV0YS12aXJ0dWFsaXphdGlvbkBs
+aXN0cy55b2N0b3Byb2plY3Qub3JnDQpTdWJqZWN0OiBSZTogW21ldGEtdmlydHVhbGl6YXRpb25d
+IGJhY2twb3J0aW5nIG5ldGF2YXJrIGZyb20gbWFzdGVyIHRvIGtpcmtzdG9uZQ0KDQoNCg0KT24g
+VHVlLCBPY3QgMTAsIDIwMjMgYXQgOToxN+KAr0FNIE1hcmVrIEJlbGlza28gPG1hcmVrLmJlbGlz
+a29AZ21haWwuY29tPG1haWx0bzptYXJlay5iZWxpc2tvQGdtYWlsLmNvbT4+IHdyb3RlOg0KSGks
+DQoNCkknbSB0cnlpbmcgdG8gYmFja3BvcnQgbmV0YXZhcmsgcmVjaXBlIDEuOC4wIHRvIGtpcmtz
+dG9uZSAod2hlcmUgaXMgMS4xLjAgcHJlc2VudCkgYnV0IGZhY2luZyBzb21lIGlzc3Vlcy4gSSd2
+ZSB1c2VkIGNhcmdvIGJpdGJha2UgdG8gZ2VuZXJhdGUgcmVjaXBlIGJ1dCB3aGVuIHJ1biBidWls
+ZCBpdCBmYWlscyB3aXRoOg0KfCBERUJVRzogRXhlY3V0aW5nIHNoZWxsIGZ1bmN0aW9uIGRvX2Nv
+bXBpbGUNCnwgTk9URTogY2FyZ28gPSAvZGF0YS9wcm9qZWN0cy90ZXN0L3Byb2plY3QvYnVpbGQv
+dG1wL3dvcmsvY29ydGV4YTUzLWNyeXB0by1wb2t5LWxpbnV4L25ldGF2YXJrLzEuOC4wLXIwL3Jl
+Y2lwZS1zeXNyb290LW5hdGl2ZS91c3IvYmluL2NhcmdvDQp8IE5PVEU6IHJ1c3RjID0NCnwgTk9U
+RTogY2FyZ28gYnVpbGQgLXYgLS10YXJnZXQgYWFyY2g2NC1wb2t5LWxpbnV4IC0tcmVsZWFzZSAt
+LW1hbmlmZXN0LXBhdGg9L2RhdGEvcHJvamVjdHMvdGVzdC9wcm9qZWN0L2J1aWxkL3RtcC93b3Jr
+L2NvcnRleGE1My1jcnlwdG8tcG9reS1saW51eC9uZXRhdmFyay8xLjguMC1yMC9naXQvL0Nhcmdv
+LnRvbWwNCnwgZXJyb3I6IGZhaWxlZCB0byBnZXQgYGFueWhvd2AgYXMgYSBkZXBlbmRlbmN5IG9m
+IHBhY2thZ2UgYG5ldGF2YXJrIHYxLjguMCAoL2RhdGEvcHJvamVjdHMvdGVzdC9wcm9qZWN0L2J1
+aWxkL3RtcC93b3JrL2NvcnRleGE1My1jcnlwdG8tcG9reS1saW51eC9uZXRhdmFyay8xLjguMC1y
+MC9naXQpYA0KfA0KfCBDYXVzZWQgYnk6DQp8ICAgZmFpbGVkIHRvIGxvYWQgc291cmNlIGZvciBk
+ZXBlbmRlbmN5IGBhbnlob3dgDQp8DQp8IENhdXNlZCBieToNCnwgICBVbmFibGUgdG8gdXBkYXRl
+IHJlZ2lzdHJ5IGBjcmF0ZXMtaW9gDQp8DQp8IENhdXNlZCBieToNCnwgICBmYWlsZWQgdG8gdXBk
+YXRlIHJlcGxhY2VkIHNvdXJjZSByZWdpc3RyeSBgY3JhdGVzLWlvYA0KfA0KfCBDYXVzZWQgYnk6
+DQp8ICAgZmFpbGVkIHRvIHBhcnNlIG1hbmlmZXN0IGF0IGAvZGF0YS9wcm9qZWN0cy90ZXN0L3By
+b2plY3QvYnVpbGQvdG1wL3dvcmsvY29ydGV4YTUzLWNyeXB0by1wb2t5LWxpbnV4L25ldGF2YXJr
+LzEuOC4wLXIwL2NhcmdvX2hvbWUvYml0YmFrZS9yZWdleC0xLjkuNS9DYXJnby50b21sYA0KfA0K
+fCBDYXVzZWQgYnk6DQp8ICAgbmFtZXNwYWNlZCBmZWF0dXJlcyB3aXRoIHRoZSBgZGVwOmAgcHJl
+Zml4IGFyZSBvbmx5IGFsbG93ZWQgb24gdGhlIG5pZ2h0bHkgY2hhbm5lbCBhbmQgcmVxdWlyZXMg
+dGhlIGAtWiBuYW1lc3BhY2VkLWZlYXR1cmVzYCBmbGFnIG9uIHRoZSBjb21tYW5kLWxpbmUNCnwg
+V0FSTklORzogZXhpdCBjb2RlIDEwMSBmcm9tIGEgc2hlbGwgY29tbWFuZC4NCg0KDQpEb2VzIHRo
+YXQgbWVhbiBJIHdvdWxkIGFsc28gbmVlZCB0byBiYWNrcG9ydCBuZXcgY2FyZ28gb3Igc28gdG8g
+Y29tcGlsZSBpdD8gSXMgaXMgZXZlbiBwb3NzaWJsZSBwbGVhc2U/DQoNCllvdSdkIHByb2JhYmx5
+IGdldCBhIGJldHRlciBhbnN3ZXIgYnkgZmluZGluZyB0aGUgY2FyZ28tYml0YmFrZSBtYWludGFp
+bmVycyBhbmQgc2VlaW5nIGlmIHRoZXkndmUgcnVuIGludG8gYSBzaW1pbGFyIHNpdHVhdGlvbiBv
+ciBoYXZlIGFueSBhZHZpY2UuDQoNCldlIGRlZmluaXRlbHkgdXNlIHRoZSB0b29sIHRvIGdlbmVy
+YXRlIHRoZSBjcmF0ZXMgZm9yIG1ldGEtdmlydCwgYnV0IHRoYXQgdW5mb3J0dW5hdGVseSBkb2Vz
+bid0IGdpdmUgbXVjaCBpbnNpZ2h0IGludG8gdGhlIHJ1c3Qgb3IgY2FyZ28gaW5uZXIgd29ya2lu
+Z3MuIEl0IGlzIHNpbWlsYXIgd2l0aCBnb2xhbmcgLi4gaXQgaXMgZXh0ZW5zaXZlbHkgdXNlZCBp
+biBtZXRhLXZpcnQgZm9yIHJlY2lwZXMsIGV0YywgYnV0IHRoYXQgZG9lc24ndCBtZWFuIHRoZXJl
+J3MgYSBsb3Qgb2YgZXhwZXJ0IGFkdmljZSBvbiBpbnRlcm5hbHMgb2YgZ29sYW5nLg0KDQpQZXJo
+YXBzIHRoZSBzdWJtaXR0ZXIgb2YgdGhlIHJlY2lwZSB3aWxsIGhhdmUgYWR2aWNlIChtYXliZSB0
+aGV5IHVzZWQgaXQgb24gdGhlIG9sZGVyIHJlbGVhc2UgYXMgd2VsbCksIGJ1dCBvdGhlcndpc2Us
+IEkgZG8gc3VnZ2VzdCB0cnlpbmcgb2UtY29yZSBhbmQvb3IgdGhlIGNhcmdvLWJpdGJha2UgbWFp
+bnRhaW5lcnMuDQoNCkJydWNlDQoNCg0KDQpUaGFua3MgYW5kIEJSLA0KDQptYXJlaw0KDQotLQ0K
+YXMgc2ltcGxlIGFuZCBwcmltaXRpdmUgYXMgcG9zc2libGUNCi0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCk1hcmVrIEJlbGlza28gLSBPUEVOLU5BTkRS
+QQ0KRnJlZWxhbmNlIERldmVsb3Blcg0KDQpSdXNrYSBOb3ZhIFZlcyAyMTkgfCBQcmVzb3YsIDA4
+MDA1IFNsb3ZhayBSZXB1YmxpYw0KVGVsOiArNDIxIDkxNSAwNTIgMTg0DQpza3lwZTogbWFyZWt3
+aGl0ZQ0KdHdpdHRlcjogI29wZW5uYW5kcmENCndlYjogaHR0cDovL29wZW4tbmFuZHJhLmNvbQ0K
+DQoNCg0KDQotLQ0KLSBUaG91IHNoYWx0IG5vdCBmb2xsb3cgdGhlIE5VTEwgcG9pbnRlciwgZm9y
+IGNoYW9zIGFuZCBtYWRuZXNzIGF3YWl0IHRoZWUgYXQgaXRzIGVuZA0KLSAiVXNlIHRoZSBmb3Jj
+ZSBIYXJyeSIgLSBHYW5kYWxmLCBTdGFyIFRyZWsgSUkNCg==
 
-> Hi,
->
-> I'm trying to backport netavark recipe 1.8.0 to kirkstone (where is 1.1.0
-> present) but facing some issues. I've used cargo bitbake to generate reci=
-pe
-> but when run build it fails with:
-> | DEBUG: Executing shell function do_compile
-> | NOTE: cargo =3D
-> /data/projects/test/project/build/tmp/work/cortexa53-crypto-poky-linux/ne=
-tavark/1.8.0-r0/recipe-sysroot-native/usr/bin/cargo
-> | NOTE: rustc =3D
-> | NOTE: cargo build -v --target aarch64-poky-linux --release
-> --manifest-path=3D/data/projects/test/project/build/tmp/work/cortexa53-cr=
-ypto-poky-linux/netavark/1.8.0-r0/git//Cargo.toml
-> | error: failed to get `anyhow` as a dependency of package `netavark
-> v1.8.0
-> (/data/projects/test/project/build/tmp/work/cortexa53-crypto-poky-linux/n=
-etavark/1.8.0-r0/git)`
-> |
-> | Caused by:
-> |   failed to load source for dependency `anyhow`
-> |
-> | Caused by:
-> |   Unable to update registry `crates-io`
-> |
-> | Caused by:
-> |   failed to update replaced source registry `crates-io`
-> |
-> | Caused by:
-> |   failed to parse manifest at
-> `/data/projects/test/project/build/tmp/work/cortexa53-crypto-poky-linux/n=
-etavark/1.8.0-r0/cargo_home/bitbake/regex-1.9.5/Cargo.toml`
-> |
-> | Caused by:
-> |   namespaced features with the `dep:` prefix are only allowed on the
-> nightly channel and requires the `-Z namespaced-features` flag on the
-> command-line
-> | WARNING: exit code 101 from a shell command.
->
->
-> Does that mean I would also need to backport new cargo or so to compile
-> it? Is is even possible please?
->
+--_000_PA4PR10MB5707243108C2CABDE9879D6AFDCDAPA4PR10MB5707EURP_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-You'd probably get a better answer by finding the cargo-bitbake maintainers
-and seeing if they've run into a similar situation or have any advice.
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
+YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
+IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
+IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBpbjsNCglmb250LXNpemU6MTEuMHB0Ow0KCWZvbnQt
+ZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmO30NCmE6bGluaywgc3Bhbi5Nc29IeXBlcmxpbmsN
+Cgl7bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOmJsdWU7DQoJdGV4dC1kZWNvcmF0aW9u
+OnVuZGVybGluZTt9DQpzcGFuLmdtYWlsc2lnbmF0dXJlcHJlZml4DQoJe21zby1zdHlsZS1uYW1l
+OmdtYWlsX3NpZ25hdHVyZV9wcmVmaXg7fQ0Kc3Bhbi5FbWFpbFN0eWxlMTkNCgl7bXNvLXN0eWxl
+LXR5cGU6cGVyc29uYWwtcmVwbHk7DQoJZm9udC1mYW1pbHk6IkNhbGlicmkiLHNhbnMtc2VyaWY7
+DQoJY29sb3I6d2luZG93dGV4dDt9DQouTXNvQ2hwRGVmYXVsdA0KCXttc28tc3R5bGUtdHlwZTpl
+eHBvcnQtb25seTsNCglmb250LWZhbWlseToiQ2FsaWJyaSIsc2Fucy1zZXJpZjt9DQpAcGFnZSBX
+b3JkU2VjdGlvbjENCgl7c2l6ZTo4LjVpbiAxMS4waW47DQoJbWFyZ2luOjEuMGluIDEuMGluIDEu
+MGluIDEuMGluO30NCmRpdi5Xb3JkU2VjdGlvbjENCgl7cGFnZTpXb3JkU2VjdGlvbjE7fQ0KLS0+
+PC9zdHlsZT48IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4NCjxvOnNoYXBlZGVmYXVsdHMgdjpleHQ9
+ImVkaXQiIHNwaWRtYXg9IjEwMjYiIC8+DQo8L3htbD48IVtlbmRpZl0tLT48IS0tW2lmIGd0ZSBt
+c28gOV0+PHhtbD4NCjxvOnNoYXBlbGF5b3V0IHY6ZXh0PSJlZGl0Ij4NCjxvOmlkbWFwIHY6ZXh0
+PSJlZGl0IiBkYXRhPSIxIiAvPg0KPC9vOnNoYXBlbGF5b3V0PjwveG1sPjwhW2VuZGlmXS0tPg0K
+PC9oZWFkPg0KPGJvZHkgbGFuZz0iRU4tVVMiIGxpbms9ImJsdWUiIHZsaW5rPSJwdXJwbGUiIHN0
+eWxlPSJ3b3JkLXdyYXA6YnJlYWstd29yZCI+DQo8ZGl2IGNsYXNzPSJXb3JkU2VjdGlvbjEiPg0K
+PHAgY2xhc3M9Ik1zb05vcm1hbCI+WW91IHNob3VsZCB0cnkgPGEgaHJlZj0iaHR0cHM6Ly9naXQu
+eW9jdG9wcm9qZWN0Lm9yZy9tZXRhLWx0cy1taXhpbnMvbG9nLz9oPWtpcmtzdG9uZS9ydXN0LTEu
+NjgiPg0KaHR0cHM6Ly9naXQueW9jdG9wcm9qZWN0Lm9yZy9tZXRhLWx0cy1taXhpbnMvbG9nLz9o
+PWtpcmtzdG9uZS9ydXN0LTEuNjg8L2E+PG86cD48L286cD48L3A+DQo8cCBjbGFzcz0iTXNvTm9y
+bWFsIj5UaGF0IHdvcmtzIHdlbGwgd2l0aCBjdXJyZW50IG1ldGEtdmlydHVhbGl6YXRpb24gbWFz
+dGVyIGluY2x1ZGluZyBuZXRhdmFyayAoY3VycmVudGx5IGF0IDEuNy4wKS48bzpwPjwvbzpwPjwv
+cD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPHAgY2xhc3M9
+Ik1zb05vcm1hbCI+UGV0ZXI8bzpwPjwvbzpwPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxv
+OnA+Jm5ic3A7PC9vOnA+PC9wPg0KPGRpdiBzdHlsZT0iYm9yZGVyOm5vbmU7Ym9yZGVyLXRvcDpz
+b2xpZCAjRTFFMUUxIDEuMHB0O3BhZGRpbmc6My4wcHQgMGluIDBpbiAwaW4iPg0KPHAgY2xhc3M9
+Ik1zb05vcm1hbCI+PGI+RnJvbTo8L2I+IG1ldGEtdmlydHVhbGl6YXRpb25AbGlzdHMueW9jdG9w
+cm9qZWN0Lm9yZyAmbHQ7bWV0YS12aXJ0dWFsaXphdGlvbkBsaXN0cy55b2N0b3Byb2plY3Qub3Jn
+Jmd0Ow0KPGI+T24gQmVoYWxmIE9mIDwvYj5CcnVjZSBBc2hmaWVsZCB2aWEgbGlzdHMueW9jdG9w
+cm9qZWN0Lm9yZzxicj4NCjxiPlNlbnQ6PC9iPiBUdWVzZGF5LCBPY3RvYmVyIDEwLCAyMDIzIDE1
+OjM3PGJyPg0KPGI+VG86PC9iPiBNYXJlayBCZWxpc2tvICZsdDttYXJlay5iZWxpc2tvQGdtYWls
+LmNvbSZndDs8YnI+DQo8Yj5DYzo8L2I+IG1ldGEtdmlydHVhbGl6YXRpb25AbGlzdHMueW9jdG9w
+cm9qZWN0Lm9yZzxicj4NCjxiPlN1YmplY3Q6PC9iPiBSZTogW21ldGEtdmlydHVhbGl6YXRpb25d
+IGJhY2twb3J0aW5nIG5ldGF2YXJrIGZyb20gbWFzdGVyIHRvIGtpcmtzdG9uZTxvOnA+PC9vOnA+
+PC9wPg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4N
+CjxkaXY+DQo8ZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJm
+b250LXNpemU6MTIuMHB0Ij48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8L2Rpdj4NCjwv
+ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8ZGl2Pg0K
+PGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPk9uIFR1ZSwgT2N0IDEwLCAyMDIzIGF0IDk6MTfi
+gK9BTSBNYXJlayBCZWxpc2tvICZsdDs8YSBocmVmPSJtYWlsdG86bWFyZWsuYmVsaXNrb0BnbWFp
+bC5jb20iPm1hcmVrLmJlbGlza29AZ21haWwuY29tPC9hPiZndDsgd3JvdGU6PG86cD48L286cD48
+L3A+DQo8L2Rpdj4NCjxibG9ja3F1b3RlIHN0eWxlPSJib3JkZXI6bm9uZTtib3JkZXItbGVmdDpz
+b2xpZCAjQ0NDQ0NDIDEuMHB0O3BhZGRpbmc6MGluIDBpbiAwaW4gNi4wcHQ7bWFyZ2luLWxlZnQ6
+NC44cHQ7bWFyZ2luLXJpZ2h0OjBpbiI+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+SGks
+PG86cD48L286cD48L3A+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8
+L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5JJ20gdHJ5aW5n
+IHRvIGJhY2twb3J0IG5ldGF2YXJrIHJlY2lwZSAxLjguMCB0byBraXJrc3RvbmUgKHdoZXJlIGlz
+IDEuMS4wIHByZXNlbnQpIGJ1dCBmYWNpbmcgc29tZSBpc3N1ZXMuIEkndmUgdXNlZCBjYXJnbyBi
+aXRiYWtlIHRvIGdlbmVyYXRlIHJlY2lwZSBidXQgd2hlbiBydW4gYnVpbGQgaXQgZmFpbHMgd2l0
+aDo8YnI+DQp8IERFQlVHOiBFeGVjdXRpbmcgc2hlbGwgZnVuY3Rpb24gZG9fY29tcGlsZTxicj4N
+CnwgTk9URTogY2FyZ28gPSAvZGF0YS9wcm9qZWN0cy90ZXN0L3Byb2plY3QvYnVpbGQvdG1wL3dv
+cmsvY29ydGV4YTUzLWNyeXB0by1wb2t5LWxpbnV4L25ldGF2YXJrLzEuOC4wLXIwL3JlY2lwZS1z
+eXNyb290LW5hdGl2ZS91c3IvYmluL2NhcmdvPGJyPg0KfCBOT1RFOiBydXN0YyA9PGJyPg0KfCBO
+T1RFOiBjYXJnbyBidWlsZCAtdiAtLXRhcmdldCBhYXJjaDY0LXBva3ktbGludXggLS1yZWxlYXNl
+IC0tbWFuaWZlc3QtcGF0aD0vZGF0YS9wcm9qZWN0cy90ZXN0L3Byb2plY3QvYnVpbGQvdG1wL3dv
+cmsvY29ydGV4YTUzLWNyeXB0by1wb2t5LWxpbnV4L25ldGF2YXJrLzEuOC4wLXIwL2dpdC8vQ2Fy
+Z28udG9tbDxicj4NCnwgZXJyb3I6IGZhaWxlZCB0byBnZXQgYGFueWhvd2AgYXMgYSBkZXBlbmRl
+bmN5IG9mIHBhY2thZ2UgYG5ldGF2YXJrIHYxLjguMCAoL2RhdGEvcHJvamVjdHMvdGVzdC9wcm9q
+ZWN0L2J1aWxkL3RtcC93b3JrL2NvcnRleGE1My1jcnlwdG8tcG9reS1saW51eC9uZXRhdmFyay8x
+LjguMC1yMC9naXQpYDxicj4NCnwgPGJyPg0KfCBDYXVzZWQgYnk6PGJyPg0KfCAmbmJzcDsgZmFp
+bGVkIHRvIGxvYWQgc291cmNlIGZvciBkZXBlbmRlbmN5IGBhbnlob3dgPGJyPg0KfCA8YnI+DQp8
+IENhdXNlZCBieTo8YnI+DQp8ICZuYnNwOyBVbmFibGUgdG8gdXBkYXRlIHJlZ2lzdHJ5IGBjcmF0
+ZXMtaW9gPGJyPg0KfCA8YnI+DQp8IENhdXNlZCBieTo8YnI+DQp8ICZuYnNwOyBmYWlsZWQgdG8g
+dXBkYXRlIHJlcGxhY2VkIHNvdXJjZSByZWdpc3RyeSBgY3JhdGVzLWlvYDxicj4NCnwgPGJyPg0K
+fCBDYXVzZWQgYnk6PGJyPg0KfCAmbmJzcDsgZmFpbGVkIHRvIHBhcnNlIG1hbmlmZXN0IGF0IGAv
+ZGF0YS9wcm9qZWN0cy90ZXN0L3Byb2plY3QvYnVpbGQvdG1wL3dvcmsvY29ydGV4YTUzLWNyeXB0
+by1wb2t5LWxpbnV4L25ldGF2YXJrLzEuOC4wLXIwL2NhcmdvX2hvbWUvYml0YmFrZS9yZWdleC0x
+LjkuNS9DYXJnby50b21sYDxicj4NCnwgPGJyPg0KfCBDYXVzZWQgYnk6PGJyPg0KfCAmbmJzcDsg
+bmFtZXNwYWNlZCBmZWF0dXJlcyB3aXRoIHRoZSBgZGVwOmAgcHJlZml4IGFyZSBvbmx5IGFsbG93
+ZWQgb24gdGhlIG5pZ2h0bHkgY2hhbm5lbCBhbmQgcmVxdWlyZXMgdGhlIGAtWiBuYW1lc3BhY2Vk
+LWZlYXR1cmVzYCBmbGFnIG9uIHRoZSBjb21tYW5kLWxpbmU8YnI+DQp8IFdBUk5JTkc6IGV4aXQg
+Y29kZSAxMDEgZnJvbSBhIHNoZWxsIGNvbW1hbmQuPG86cD48L286cD48L3A+DQo8ZGl2Pg0KPHAg
+Y2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8
+cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4N
+CjxwIGNsYXNzPSJNc29Ob3JtYWwiPkRvZXMgdGhhdCBtZWFuIEkgd291bGQgYWxzbyBuZWVkIHRv
+IGJhY2twb3J0IG5ldyBjYXJnbyBvciBzbyB0byBjb21waWxlIGl0PyBJcyBpcyBldmVuIHBvc3Np
+YmxlIHBsZWFzZT88bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvYmxv
+Y2txdW90ZT4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwv
+cD4NCjwvZGl2Pg0KPGRpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHls
+ZT0iZm9udC1zaXplOjEyLjBwdCI+WW91J2QgcHJvYmFibHkgZ2V0IGEgYmV0dGVyIGFuc3dlciBi
+eSBmaW5kaW5nIHRoZSBjYXJnby1iaXRiYWtlIG1haW50YWluZXJzIGFuZCBzZWVpbmcgaWYgdGhl
+eSd2ZSBydW4gaW50byBhIHNpbWlsYXIgc2l0dWF0aW9uIG9yIGhhdmUgYW55IGFkdmljZS48bzpw
+PjwvbzpwPjwvc3Bhbj48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48
+c3BhbiBzdHlsZT0iZm9udC1zaXplOjEyLjBwdCI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9w
+Pg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQt
+c2l6ZToxMi4wcHQiPldlIGRlZmluaXRlbHkgdXNlIHRoZSB0b29sIHRvIGdlbmVyYXRlIHRoZSBj
+cmF0ZXMgZm9yIG1ldGEtdmlydCwgYnV0IHRoYXQgdW5mb3J0dW5hdGVseSBkb2Vzbid0IGdpdmUg
+bXVjaCBpbnNpZ2h0IGludG8gdGhlIHJ1c3Qgb3IgY2FyZ28gaW5uZXIgd29ya2luZ3MuIEl0IGlz
+IHNpbWlsYXIgd2l0aCBnb2xhbmcgLi4gaXQgaXMgZXh0ZW5zaXZlbHkgdXNlZA0KIGluIG1ldGEt
+dmlydCBmb3IgcmVjaXBlcywgZXRjLCBidXQgdGhhdCBkb2Vzbid0IG1lYW4gdGhlcmUncyBhIGxv
+dCBvZiBleHBlcnQgYWR2aWNlIG9uIGludGVybmFscyBvZiBnb2xhbmcuPG86cD48L286cD48L3Nw
+YW4+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9
+ImZvbnQtc2l6ZToxMi4wcHQiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjwvZGl2Pg0K
+PGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTIuMHB0
+Ij5QZXJoYXBzIHRoZSBzdWJtaXR0ZXIgb2YgdGhlIHJlY2lwZSB3aWxsIGhhdmUgYWR2aWNlICht
+YXliZSB0aGV5IHVzZWQgaXQgb24gdGhlIG9sZGVyIHJlbGVhc2UgYXMgd2VsbCksIGJ1dCBvdGhl
+cndpc2UsIEkgZG8gc3VnZ2VzdCB0cnlpbmcgb2UtY29yZSBhbmQvb3IgdGhlIGNhcmdvLWJpdGJh
+a2UgbWFpbnRhaW5lcnMuPG86cD48L286cD48L3NwYW4+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAg
+Y2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMi4wcHQiPjxvOnA+Jm5i
+c3A7PC9vOnA+PC9zcGFuPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwi
+PjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTIuMHB0Ij5CcnVjZTxvOnA+PC9vOnA+PC9zcGFuPjwv
+cD4NCjwvZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8
+L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj4mbmJzcDs8bzpwPjwvbzpwPjwvcD4N
+CjwvZGl2Pg0KPGJsb2NrcXVvdGUgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci1sZWZ0OnNvbGlk
+ICNDQ0NDQ0MgMS4wcHQ7cGFkZGluZzowaW4gMGluIDBpbiA2LjBwdDttYXJnaW4tbGVmdDo0Ljhw
+dDttYXJnaW4tcmlnaHQ6MGluIj4NCjxkaXY+DQo8ZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29O
+b3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1z
+b05vcm1hbCI+VGhhbmtzIGFuZCBCUiw8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxw
+IGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0K
+PHAgY2xhc3M9Ik1zb05vcm1hbCI+bWFyZWs8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4N
+CjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPC9kaXY+DQo8cCBj
+bGFzcz0iTXNvTm9ybWFsIj48c3BhbiBjbGFzcz0iZ21haWxzaWduYXR1cmVwcmVmaXgiPi0tIDwv
+c3Bhbj48bzpwPjwvbzpwPjwvcD4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5hcyBzaW1w
+bGUgYW5kIHByaW1pdGl2ZSBhcyBwb3NzaWJsZTxicj4NCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS08YnI+DQpNYXJlayBCZWxpc2tvIC0gT1BFTi1OQU5E
+UkE8YnI+DQpGcmVlbGFuY2UgRGV2ZWxvcGVyPGJyPg0KPGJyPg0KUnVza2EgTm92YSBWZXMgMjE5
+IHwgUHJlc292LCAwODAwNSBTbG92YWsgUmVwdWJsaWM8YnI+DQpUZWw6ICs0MjEgOTE1IDA1MiAx
+ODQ8YnI+DQpza3lwZTogbWFyZWt3aGl0ZTxicj4NCnR3aXR0ZXI6ICNvcGVubmFuZHJhPGJyPg0K
+d2ViOiA8YSBocmVmPSJodHRwOi8vb3Blbi1uYW5kcmEuY29tIiB0YXJnZXQ9Il9ibGFuayI+aHR0
+cDovL29wZW4tbmFuZHJhLmNvbTwvYT48bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8
+L2Rpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJtYXJnaW4tYm90dG9tOjEyLjBwdCI+
+PGJyPg0KPGJyPg0KPG86cD48L286cD48L3A+DQo8L2Jsb2NrcXVvdGU+DQo8L2Rpdj4NCjxwIGNs
+YXNzPSJNc29Ob3JtYWwiPjxiciBjbGVhcj0iYWxsIj4NCjxvOnA+PC9vOnA+PC9wPg0KPGRpdj4N
+CjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPC9kaXY+DQo8cCBj
+bGFzcz0iTXNvTm9ybWFsIj48c3BhbiBjbGFzcz0iZ21haWxzaWduYXR1cmVwcmVmaXgiPi0tIDwv
+c3Bhbj48bzpwPjwvbzpwPjwvcD4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIiBzdHlsZT0i
+bWFyZ2luLWJvdHRvbToxMi4wcHQiPi0gVGhvdSBzaGFsdCBub3QgZm9sbG93IHRoZSBOVUxMIHBv
+aW50ZXIsIGZvciBjaGFvcyBhbmQgbWFkbmVzcyBhd2FpdCB0aGVlIGF0IGl0cyBlbmQ8YnI+DQot
+ICZxdW90O1VzZSB0aGUgZm9yY2UgSGFycnkmcXVvdDsgLSBHYW5kYWxmLCBTdGFyIFRyZWsgSUk8
+bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvYm9keT4NCjwvaHRtbD4N
+Cg==
 
-We definitely use the tool to generate the crates for meta-virt, but that
-unfortunately doesn't give much insight into the rust or cargo inner
-workings. It is similar with golang .. it is extensively used in meta-virt
-for recipes, etc, but that doesn't mean there's a lot of expert advice on
-internals of golang.
-
-Perhaps the submitter of the recipe will have advice (maybe they used it on
-the older release as well), but otherwise, I do suggest trying oe-core
-and/or the cargo-bitbake maintainers.
-
-Bruce
-
-
-
->
-> Thanks and BR,
->
-> marek
->
-> --
-> as simple and primitive as possible
-> -------------------------------------------------
-> Marek Belisko - OPEN-NANDRA
-> Freelance Developer
->
-> Ruska Nova Ves 219 | Presov, 08005 Slovak Republic
-> Tel: +421 915 052 184
-> skype: marekwhite
-> twitter: #opennandra
-> web: http://open-nandra.com
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#8344):
-> https://lists.yoctoproject.org/g/meta-virtualization/message/8344
-> Mute This Topic: https://lists.yoctoproject.org/mt/101874620/1050810
-> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [
-> bruce.ashfield@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
-
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end
-- "Use the force Harry" - Gandalf, Star Trek II
-
---0000000000002ab07206075cce2c
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-size:small"><br></div></div><br><div class=3D"gmail_quote"><div dir=3D"lt=
-r" class=3D"gmail_attr">On Tue, Oct 10, 2023 at 9:17=E2=80=AFAM Marek Belis=
-ko &lt;<a href=3D"mailto:marek.belisko@gmail.com">marek.belisko@gmail.com</=
-a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
-x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><d=
-iv dir=3D"ltr">Hi,<div><br></div><div>I&#39;m trying to backport netavark r=
-ecipe 1.8.0 to kirkstone (where is 1.1.0 present) but facing some issues. I=
-&#39;ve used cargo bitbake to generate recipe but when run build it fails w=
-ith:<br>| DEBUG: Executing shell function do_compile<br>| NOTE: cargo =3D /=
-data/projects/test/project/build/tmp/work/cortexa53-crypto-poky-linux/netav=
-ark/1.8.0-r0/recipe-sysroot-native/usr/bin/cargo<br>| NOTE: rustc =3D<br>| =
-NOTE: cargo build -v --target aarch64-poky-linux --release --manifest-path=
-=3D/data/projects/test/project/build/tmp/work/cortexa53-crypto-poky-linux/n=
-etavark/1.8.0-r0/git//Cargo.toml<br>| error: failed to get `anyhow` as a de=
-pendency of package `netavark v1.8.0 (/data/projects/test/project/build/tmp=
-/work/cortexa53-crypto-poky-linux/netavark/1.8.0-r0/git)`<br>| <br>| Caused=
- by:<br>| =C2=A0 failed to load source for dependency `anyhow`<br>| <br>| C=
-aused by:<br>| =C2=A0 Unable to update registry `crates-io`<br>| <br>| Caus=
-ed by:<br>| =C2=A0 failed to update replaced source registry `crates-io`<br=
->| <br>| Caused by:<br>| =C2=A0 failed to parse manifest at `/data/projects=
-/test/project/build/tmp/work/cortexa53-crypto-poky-linux/netavark/1.8.0-r0/=
-cargo_home/bitbake/regex-1.9.5/Cargo.toml`<br>| <br>| Caused by:<br>| =C2=
-=A0 namespaced features with the `dep:` prefix are only allowed on the nigh=
-tly channel and requires the `-Z namespaced-features` flag on the command-l=
-ine<br>| WARNING: exit code 101 from a shell command.<br><div><br></div><di=
-v><br></div><div>Does that mean I would also need to backport new cargo or =
-so to compile it? Is is even possible please?</div></div></div></blockquote=
-><div><br></div><div><div class=3D"gmail_default" style=3D"font-size:small"=
->You&#39;d probably get a better answer by finding the cargo-bitbake mainta=
-iners and seeing if they&#39;ve run into a similar situation or have any ad=
-vice.</div><div class=3D"gmail_default" style=3D"font-size:small"><br></div=
-><div class=3D"gmail_default" style=3D"font-size:small">We definitely use t=
-he tool to generate the crates for meta-virt, but that unfortunately doesn&=
-#39;t give much insight into the rust or cargo inner workings. It is simila=
-r with golang .. it is extensively used in meta-virt for recipes, etc, but =
-that doesn&#39;t mean there&#39;s a lot of expert advice on internals of go=
-lang.</div><div class=3D"gmail_default" style=3D"font-size:small"><br></div=
-><div class=3D"gmail_default" style=3D"font-size:small">Perhaps the submitt=
-er of the recipe will have advice (maybe they used it on the older release =
-as well), but otherwise, I do suggest trying oe-core and/or the cargo-bitba=
-ke maintainers.</div><div class=3D"gmail_default" style=3D"font-size:small"=
-><br></div><div class=3D"gmail_default" style=3D"font-size:small">Bruce</di=
-v><br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"mar=
-gin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1=
-ex"><div dir=3D"ltr"><div><div><br></div><div>Thanks and BR,</div><div><br>=
-</div><div>marek</div><div><br></div><span class=3D"gmail_signature_prefix"=
->-- </span><br><div dir=3D"ltr" class=3D"gmail_signature">as simple and pri=
-mitive as possible<br>-------------------------------------------------<br>=
-Marek Belisko - OPEN-NANDRA<br>Freelance Developer<br><br>Ruska Nova Ves 21=
-9 | Presov, 08005 Slovak Republic<br>Tel: +421 915 052 184<br>skype: marekw=
-hite<br>twitter: #opennandra<br>web: <a href=3D"http://open-nandra.com" tar=
-get=3D"_blank">http://open-nandra.com</a></div></div></div>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#8344): <a href=3D"https://lists.yoctoproject.org/g/meta=
--virtualization/message/8344" rel=3D"noreferrer" target=3D"_blank">https://=
-lists.yoctoproject.org/g/meta-virtualization/message/8344</a><br>
-Mute This Topic: <a href=3D"https://lists.yoctoproject.org/mt/101874620/105=
-0810" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.org/m=
-t/101874620/1050810</a><br>
-Group Owner: <a href=3D"mailto:meta-virtualization%2Bowner@lists.yoctoproje=
-ct.org" target=3D"_blank">meta-virtualization+owner@lists.yoctoproject.org<=
-/a><br>
-Unsubscribe: <a href=3D"https://lists.yoctoproject.org/g/meta-virtualizatio=
-n/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.or=
-g/g/meta-virtualization/unsub</a> [<a href=3D"mailto:bruce.ashfield@gmail.c=
-om" target=3D"_blank">bruce.ashfield@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div><span class=3D"gmail_si=
-gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature">- =
-Thou shalt not follow the NULL pointer, for chaos and madness await thee at=
- its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star Trek II<br><b=
-r></div></div>
-
---0000000000002ab07206075cce2c--
+--_000_PA4PR10MB5707243108C2CABDE9879D6AFDCDAPA4PR10MB5707EURP_--
 
