@@ -2,88 +2,103 @@ Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2340ECDB46E
-	for <webhook@archiver.kernel.org>; Thu, 12 Oct 2023 16:25:53 +0000 (UTC)
-Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
- by mx.groups.io with SMTP id smtpd.web10.16549.1697127952547216239
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EA14CDB46E
+	for <webhook@archiver.kernel.org>; Thu, 12 Oct 2023 16:52:03 +0000 (UTC)
+Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
+ by mx.groups.io with SMTP id smtpd.web11.17314.1697129520386021085
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 12 Oct 2023 09:25:52 -0700
+ Thu, 12 Oct 2023 09:52:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=hJ8ppJTN;
- spf=pass (domain: gmail.com, ip: 209.85.210.49, mailfrom: jpewhacker@gmail.com)
-Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-6c7b3adbeb6so794458a34.0
-        for <meta-virtualization@lists.yoctoproject.org>; Thu, 12 Oct 2023 09:25:52 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=MnsbL1Vp;
+ spf=pass (domain: gmail.com, ip: 209.85.210.53, mailfrom: jpewhacker@gmail.com)
+Received: by mail-ot1-f53.google.com with SMTP id 46e09a7af769-6c4fc2ce697so803180a34.0
+        for <meta-virtualization@lists.yoctoproject.org>; Thu, 12 Oct 2023 09:52:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697127951; x=1697732751; darn=lists.yoctoproject.org;
+        d=gmail.com; s=20230601; t=1697129519; x=1697734319; darn=lists.yoctoproject.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=TKwgB4tBwMyux0YX4yR+UngpzRCfuw+0mB/2ML6Cs/I=;
-        b=hJ8ppJTN0dBNTn+KNkj7cC5YSR3hvfBtEGYASWvGR4RENIvtw2Dhlyh7IR6UFaI3Ep
-         Gn+7rPmBG8/OabUBm4WcXnygoNd5NBE0Kly/AFy+n+BoaxVAaa0fXEV8vwUabY1JuKs0
-         0eh9Uef5BQNyc2wNb7vo7SpWNVP9PfsuAecCCx4oULw4HKAE+H7cNrRvRUSfdrBw6UC7
-         otyslCqb9ephOYYGEqF2pwpLzte9daEqQwpB3UJmODznk9UK8oYVsm4KBc+6XWBttRUF
-         5DWTp9qLoRljHaAweO/1Y2uztpzSax0a+75Vs9H6BkuKz6cAqBJVS8L9MmkPT/IdKKCK
-         IfpA==
+        bh=KgAK8Tg4H8D3+nxqCsx/RnB6saf1ZInMeSsdrVFTzAI=;
+        b=MnsbL1Vp+QdSD6xZcv7JhAR+iUsWe0gtmV1hWeiuMkaZkH5fCUlKMtIWdF29aT9AVV
+         3mFpRUPS+C55x/ugJiSRfm2VqO1Y79S8QKzigppHZRULLVM3GAC5hldutIb3iv6vwXOu
+         tEoigsjl29GfsszhPf0RybuHvnjmlpCY5WRXY8FxOSP6qk6nGMJX51qz9dVVk9g9BE3K
+         FAsa0+9bWcbq8Z8EHscLbf4TO13+4M2G7uIRyW1CqpSGEMhANyaVFamj8R2kfBnVoS9x
+         /L+PpOOuMlMFOGRgB9dfk5VOzG/5uWa29bRWS3WuBjNPJgOckgiBGTxHUuNkjLKIpBXU
+         e9DA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697127951; x=1697732751;
+        d=1e100.net; s=20230601; t=1697129519; x=1697734319;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=TKwgB4tBwMyux0YX4yR+UngpzRCfuw+0mB/2ML6Cs/I=;
-        b=e1pCiq4xztSj30+w5uxllB3Gd7wXiySrBoFbHCbCCqx/yMMheXCqxXfZO9I/B6pCma
-         KqEOq2TERe+ggozkUgdBcm0Hkc9jhE/N13ZwXNg1h4HSasDAuR1QNV7dZoJ9eJzG6QwA
-         iuUd0SjteVHtXP76a7LBTlfdB4fsR4YyhGUrOERT3dN82q9jZzASD81GMAIlPzcUwpyd
-         DdGGJMN6nGjGhIoqN5s88CMnQdBPOyOlBeDGxLuKQDJ5XCGcup2u8aLsAyDBHWqT3yGX
-         IUiUTld/s6u3iIPZGSCWRPPxvCsmVO25ZeM4szMZnPhwgnfQJ7I09ocTfaN6npoPB6+H
-         44qA==
-X-Gm-Message-State: AOJu0Yy1H01lwTxW7hWg9gt54uBd/pIbYMRxbAtg3IhqLT3iv+Zelo+J
-	xP4ovJizq6cUR0T8UaOVj0qIicUqWA0=
-X-Google-Smtp-Source: AGHT+IGf+cyWfxsmWsG73U302lCk6MOe2DAPARZMmFVCHFCVr8pX+HbNQvg8n1xml1mPTfEdmsl3DA==
-X-Received: by 2002:a9d:6194:0:b0:6b5:ee8f:73af with SMTP id g20-20020a9d6194000000b006b5ee8f73afmr28372219otk.5.1697127951092;
-        Thu, 12 Oct 2023 09:25:51 -0700 (PDT)
+        bh=KgAK8Tg4H8D3+nxqCsx/RnB6saf1ZInMeSsdrVFTzAI=;
+        b=b/N9C1eaVVm/UMHJKjMhj/8CrGhesikHFS/VrH16a6Ys+yU8Y6a36s/qDjXL75KQ9J
+         OZpB15X3+kZEbleQVx44L7waDBFVM7jWrGT2xw82m7ltgHfs/TWMP6xh4BuATVPB3VLn
+         sTtWQ0rQd1izFrz8EohIfN03KvwQUv1jjKw81G8WhlOS1XZILJPBGOixYbV32vSy0D9Q
+         /iI2H1OtElltxBFOCJVpnaDa8+9zh/EpFHeidMecXcfOOZYGr7eDnpixRzgIKmumADPn
+         G72KsI10BdsMohu/Qb5A//utbotVyuhIekTN04/WHm27G9ugrKbt1R6DsiK6DOQgeG+Z
+         20mQ==
+X-Gm-Message-State: AOJu0YypRue0dbDtrzrBhby/JwivfvAdk/JFAhPelA2sJIOTCWMjehSh
+	T/D2F5LL5t2pz2qK/xsYzzfEg93+uJQ=
+X-Google-Smtp-Source: AGHT+IHnMIwYoP+xqBcuuLWM4naugN1XTLtXI/wcUjGj9nZWsaMhE4nxbRwSrCtgi6q3twBVbnuoIQ==
+X-Received: by 2002:a05:6830:1459:b0:6b9:3f64:4e8c with SMTP id w25-20020a056830145900b006b93f644e8cmr27798314otp.9.1697129519072;
+        Thu, 12 Oct 2023 09:51:59 -0700 (PDT)
 Received: from localhost.localdomain ([2601:282:4300:19e0::8282])
-        by smtp.gmail.com with ESMTPSA id p26-20020a056830131a00b006b87f593877sm353297otq.37.2023.10.12.09.25.50
+        by smtp.gmail.com with ESMTPSA id m15-20020a9d6acf000000b006b92509e76esm362710otq.32.2023.10.12.09.51.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Oct 2023 09:25:50 -0700 (PDT)
+        Thu, 12 Oct 2023 09:51:58 -0700 (PDT)
 From: Joshua Watt <jpewhacker@gmail.com>
 X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: meta-virtualization@lists.yoctoproject.org
 Cc: Joshua Watt <JPEWhacker@gmail.com>
-Subject: [meta-virtualization][PATCH] classes/image-oci-umoci: Handle mutliple entrypoint arguments
-Date: Thu, 12 Oct 2023 10:25:48 -0600
-Message-Id: <20231012162548.329780-1-JPEWhacker@gmail.com>
+Subject: [meta-virtualization][PATCH] classes/image-oci: Add OCI_IMAGE_ENTRYPOINT_ARG_LIST
+Date: Thu, 12 Oct 2023 10:51:56 -0600
+Message-Id: <20231012165156.357269-1-JPEWhacker@gmail.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Thu, 12 Oct 2023 16:25:53 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8352
+ <meta-virtualization@lists.yoctoproject.org>; Thu, 12 Oct 2023 16:52:03 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8353
 
-The entrypoint to a container is actually an array of the command with
-arguments to run, not just as single scalar. To handle this in umoci,
-the --config.entrypoint is passed multiple times in a single invocation,
-so implement that in the image class
+The "entrypoint arguments" (command) is allowed to be a list of
+arguments to pass to the entrypoint. However, the current
+OCI_IMAGE_ENTRYPOINT_ARGS variables doesn't support however. In order to
+maintain backward compatibility, a new variable has to be introduced to
+that can be split into the multiple arguments required
 
 Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- classes/image-oci-umoci.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ classes/image-oci-umoci.inc | 3 +++
+ classes/image-oci.bbclass   | 1 +
+ 2 files changed, 4 insertions(+)
 
 diff --git a/classes/image-oci-umoci.inc b/classes/image-oci-umoci.inc
-index 58e4668..6c7f244 100644
+index 6c7f244..da93570 100644
 --- a/classes/image-oci-umoci.inc
 +++ b/classes/image-oci-umoci.inc
-@@ -99,7 +99,7 @@ IMAGE_CMD:oci() {
- 	bbnote "OCI: image subarch is set to: ${OCI_IMAGE_SUBARCH}, but umoci does not"
- 	bbnote "     expose variants. use sloci instead if this is important"
-     fi
--    umoci config --image $image_name:${OCI_IMAGE_TAG} --config.entrypoint ${OCI_IMAGE_ENTRYPOINT}
-+    umoci config --image $image_name:${OCI_IMAGE_TAG} ${@" ".join("--config.entrypoint %s" % s for s in d.getVar("OCI_IMAGE_ENTRYPOINT").split())}
+@@ -103,6 +103,9 @@ IMAGE_CMD:oci() {
      if [ -n "${OCI_IMAGE_ENTRYPOINT_ARGS}" ]; then
  	umoci config --image $image_name:${OCI_IMAGE_TAG} --config.cmd "${OCI_IMAGE_ENTRYPOINT_ARGS}"
      fi
++    if [ -n "${OCI_IMAGE_ENTRYPOINT_ARG_LIST}" ]; then
++	umoci config --image $image_name:${OCI_IMAGE_TAG} ${@" ".join("--config.cmd %s" % s for s in d.getVar("OCI_IMAGE_ENTRYPOINT_ARG_LIST").split())}
++    fi
+     umoci config --image $image_name:${OCI_IMAGE_TAG} --author ${OCI_IMAGE_AUTHOR_EMAIL}
+ 
+     # make a tar version of the image direcotry
+diff --git a/classes/image-oci.bbclass b/classes/image-oci.bbclass
+index 9ddb88b..68045ad 100644
+--- a/classes/image-oci.bbclass
++++ b/classes/image-oci.bbclass
+@@ -57,6 +57,7 @@ OCI_IMAGE_SUBARCH ?= "${@oci_map_subarch(d.getVar('TARGET_ARCH'), d.getVar('TUNE
+ 
+ OCI_IMAGE_ENTRYPOINT ?= "sh"
+ OCI_IMAGE_ENTRYPOINT_ARGS ?= ""
++OCI_IMAGE_ENTRYPOINT_ARG_LIST ?=""
+ OCI_IMAGE_WORKINGDIR ?= ""
+ OCI_IMAGE_STOPSIGNAL ?= ""
+ 
 -- 
 2.34.1
 
