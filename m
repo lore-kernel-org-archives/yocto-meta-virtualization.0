@@ -2,148 +2,243 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6EE7BCDB465
-	for <webhook@archiver.kernel.org>; Mon, 16 Oct 2023 18:06:32 +0000 (UTC)
-Received: from mail-io1-f49.google.com (mail-io1-f49.google.com [209.85.166.49])
- by mx.groups.io with SMTP id smtpd.web10.134523.1697479588009102685
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52161CDB482
+	for <webhook@archiver.kernel.org>; Mon, 16 Oct 2023 18:16:32 +0000 (UTC)
+Received: from mail-io1-f52.google.com (mail-io1-f52.google.com [209.85.166.52])
+ by mx.groups.io with SMTP id smtpd.web10.134778.1697480185922103728
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 16 Oct 2023 11:06:28 -0700
+ Mon, 16 Oct 2023 11:16:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=WtPcALdu;
- spf=pass (domain: gmail.com, ip: 209.85.166.49, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-io1-f49.google.com with SMTP id ca18e2360f4ac-79fe6da0049so195077839f.1
-        for <meta-virtualization@lists.yoctoproject.org>; Mon, 16 Oct 2023 11:06:27 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=gyoLE8tX;
+ spf=pass (domain: gmail.com, ip: 209.85.166.52, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-io1-f52.google.com with SMTP id ca18e2360f4ac-7a2a9e5451bso187278639f.1
+        for <meta-virtualization@lists.yoctoproject.org>; Mon, 16 Oct 2023 11:16:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697479587; x=1698084387; darn=lists.yoctoproject.org;
+        d=gmail.com; s=20230601; t=1697480185; x=1698084985; darn=lists.yoctoproject.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ztvzauPJKG8ZhKpNTfHhETETMJ8SZCj3W6l2cJ3AwnQ=;
-        b=WtPcALduvCQqr6F0Zajn1Rmv7Rc5Wnwee+SJHbv9TflRtrxokY1qiZhy5PI2z/1hXw
-         ccfayLafab26PO8gpd8T8MBOb1MAtXy+GsfFO7jreohAaQeM38TeczcAYMM4P1SZzHTT
-         q0hLgFK3FCBKdhWZguq9xQlVj8E/EmOsb8eWp27JdBdIlPzGZ4ijCd2K6Za3hiJjIqaJ
-         nWtmfMfjQTWa4yF0vus3k2L9Tp0aRhw7OTkRb8NR6yGRPzp+P+gTvHKrLs9pGvjxbBuo
-         /EDJIqS+EcbF5OALn+IOpvVXeEwBLdEh6hCNYYr+YOBgksZ9oSyGVzOSiKjuFxDm50hR
-         O06A==
+        bh=9VVlN+bDGrpG7/agqIBFD+cj/VQzsO6U8H5GR/xyUPY=;
+        b=gyoLE8tXsc0mNex+r8bmobTfzVY4yD7afRIxRzMxRgotKO5JzADaMxaH+MHT53FoUf
+         B4+ufSh5LO73KBtw8F9UntGZ66VVtpyJYGgOHk/c/Yz1mdAPYVMbhqmWT3nBmWLoGDhQ
+         n3ehGF/7m43PjSmphVhTLiQKxyUqQsI3Gmt1GiB/FNxQdUZYAU5s/4eMbDgvmVcCuJCA
+         G2ugdTWoh0f/5c8YOVUwcxKEUmfmK1YXKZ4vEsiiC7rwemoZTBH8cso9p23w1VPLAg5r
+         2ulFDmoJHg2VPXD8CYQuncvnu8oEcpFNb0z0EDScJVcT/Qubqlh3wak11L4lHksTQvfR
+         5fAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697479587; x=1698084387;
+        d=1e100.net; s=20230601; t=1697480185; x=1698084985;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ztvzauPJKG8ZhKpNTfHhETETMJ8SZCj3W6l2cJ3AwnQ=;
-        b=E7SSGg9bfnpno1AZ4RqHhQ2JRHkc6VmZ2Kq1Hn96x5peB74BfDDKk7PdwBP8dfIvtj
-         6BAzsdNAHnW88GJVzM7lP8JX5AaIdi7A1hanYbFPGZVYL470qJJcw40dE/kMPV9Hl1h4
-         CyAyj0HLsbAatluK9svvCASQpoF62RpD271vBS1E5YkBcoRFPRucsO/WvIve4sG2OuSR
-         kGuoxxakDhZZ98vEdUuVStc35mh4KUPH/bXYO5hwSbxG35DKgCxSdBDCWF8r1JcGE6E2
-         1mJgQLn0eeLWiTWyHd9QGcAzhOd/nevAF+k18FVEPKvlxInFOrk+kpyJfLFb8Id/dXUB
-         X5rA==
-X-Gm-Message-State: AOJu0YzomtevbXkHIDr0DRGbRUdtnzn9QwOHiGU7LqE0HCpVXn/Y/seh
-	wtxpysZBENAI43C9nFFPr6selvLCA8V/rMY3X14=
-X-Google-Smtp-Source: AGHT+IGA8A2QgYMHA0Dv1r/MBdqWjzlW+btCjr2eG+tikOy67F+AtJy8LxebffauBMKVwzy4SFZ2sq407pwbesLUSvA=
-X-Received: by 2002:a6b:5b16:0:b0:7a2:a6db:9a58 with SMTP id
- v22-20020a6b5b16000000b007a2a6db9a58mr40387923ioh.15.1697479587159; Mon, 16
- Oct 2023 11:06:27 -0700 (PDT)
+        bh=9VVlN+bDGrpG7/agqIBFD+cj/VQzsO6U8H5GR/xyUPY=;
+        b=afxf7xXUeARoHU9lA7hWQhbHKCKY+9KnYRJ0uM/hb1NgFjD+HWccdyP16A7nlemfJi
+         rlWqVKlluIktX9PY+O/PxyW4JqVeCbcGqTbBihillxtAJjJcq4BeJws0mZ95n+05ej+L
+         TbLolwaeeGSSl+wxzEEKsu6JtDFA8dfIuBlNsL06uk11YetJRi74VYHdNvyEVeMaVeaL
+         Fx+A1858ZFSNLBCmdHX6PnML3b/r7J4NARDF3PXyu+2eZ7NzZISmlHVOlt4Z5KpU+FHL
+         oS4eKlFmVPEedSL4p+oIKUYb6lKm7wKmBe3nmIIS97hRRIRVSRKWFkRAd36Fi34nYReU
+         fkbQ==
+X-Gm-Message-State: AOJu0YxJXQeZTwfFsaBM1SSKR69nsJJ2A0nN+fIcBPy0RTTCjrH3+5mB
+	MbRy1aXiiCnLgvUCaKm9NhnhNKwR9w6Ecch7Th8=
+X-Google-Smtp-Source: AGHT+IH/GKhNfZBo/CDdXJcuMq32Dd6MtgGFCw6fZUm+BdyiimLG0IdE1TXbWGDmBQItR24ZVEeT0UUbjCiI5/2ou/A=
+X-Received: by 2002:a6b:d81a:0:b0:792:82f8:749d with SMTP id
+ y26-20020a6bd81a000000b0079282f8749dmr42355740iob.10.1697480185025; Mon, 16
+ Oct 2023 11:16:25 -0700 (PDT)
 MIME-Version: 1.0
-References: <20231004160212.3574826-1-JPEWhacker@gmail.com>
-In-Reply-To: <20231004160212.3574826-1-JPEWhacker@gmail.com>
+References: <20231012162548.329780-1-JPEWhacker@gmail.com> <20231013153807.906542-1-JPEWhacker@gmail.com>
+ <CADkTA4O-9_7c6iKoHP_vfDhfojqoY19VHK5p_kt7Ktybm1s2_w@mail.gmail.com>
+ <CAJdd5GYtQci3+sk3J1HGL8fMvJob=KW7o6TdqABCU6G-=_j7hA@mail.gmail.com> <178DC83238988A4B.8679@lists.yoctoproject.org>
+In-Reply-To: <178DC83238988A4B.8679@lists.yoctoproject.org>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Mon, 16 Oct 2023 14:06:30 -0400
-Message-ID: <CADkTA4PN1AHnObAX+p+rR0fCH+yj+q6O9SArs22-XZQpzfEU0Q@mail.gmail.com>
-Subject: Re: [meta-virtualization][PATCH] classes/image-oci-umoci: Replace ":"
- in image file name
-To: Joshua Watt <JPEWhacker@gmail.com>
-Cc: meta-virtualization@lists.yoctoproject.org
+Date: Mon, 16 Oct 2023 14:16:28 -0400
+Message-ID: <CADkTA4OCAzhASkMv0umKOgqNc9bbaMZV5cjaVko7S_oQ1OE9Ag@mail.gmail.com>
+Subject: Re: [meta-virtualization][PATCH v2] classes/image-oci-umoci: Handle
+ mutliple entrypoint arguments
+To: bruce.ashfield@gmail.com
+Cc: Joshua Watt <jpewhacker@gmail.com>, meta-virtualization@lists.yoctoproject.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Mon, 16 Oct 2023 18:06:32 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8369
+ <meta-virtualization@lists.yoctoproject.org>; Mon, 16 Oct 2023 18:16:32 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8370
 
-On Wed, Oct 4, 2023 at 12:02=E2=80=AFPM Joshua Watt <JPEWhacker@gmail.com> =
-wrote:
+On Fri, Oct 13, 2023 at 5:32=E2=80=AFPM Bruce Ashfield via
+lists.yoctoproject.org
+<bruce.ashfield=3Dgmail.com@lists.yoctoproject.org> wrote:
 >
-> The OCI_IMAGE_TAG variable can contain a ":" if the user wants to give
-> the image a name and a tag, as in:
+> On Fri, Oct 13, 2023 at 3:32=E2=80=AFPM Joshua Watt <jpewhacker@gmail.com=
+> wrote:
+> >
+> > On Fri, Oct 13, 2023 at 10:58=E2=80=AFAM Bruce Ashfield
+> > <bruce.ashfield@gmail.com> wrote:
+> > >
+> > > On Fri, Oct 13, 2023 at 11:38=E2=80=AFAM Joshua Watt <JPEWhacker@gmai=
+l.com> wrote:
+> > > >
+> > > > The entrypoint to a container is actually an array of the executabl=
+e to
+> > > > run and the arguments to pass to it. It is useful to be able to spe=
+cify
+> > > > the entire list as the entrypoint when creating containers so that
+> > > > then entrypoint can be encoded with argument, e.g.
+> > > >
+> > > >     ENTRYPOINT ["/usr/bin/python3", "my-script"]
+> > > >
+> > > > The current way that image-oci-umoci.bbclass handles this is equiva=
+lent
+> > > > to:
+> > > >
+> > > >     ENTRYPOINT ["/usr/bin/python3"]
+> > > >     CMD ["my-script"]
+> > > >
+> > > > But this is undesirable as it means if the user passes arguments wh=
+en
+> > > > running the container, it will override the "my-script" argument an=
+d the
+> > > > arguments will instead get passed to the python interpreter, which =
+may
+> > > > not be desired.
+> > > >
+> > > > Instead, pass all the entry point arguments to umoci in a single
+> > > > invocation using multiple --config.entrypoint arguments, which corr=
+ectly
+> > > > make the list as described above. The entire ENTRYPOINT list will s=
+tart
+> > > > with OCI_IMAGE_ENTRYPOINT, then have OCI_IMAGE_ENRTYPOINT_ARGS spli=
+t by
+> > > > spaces concatenated after it.
+> > > >
+> > > > Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+> > > > ---
+> > > >  classes/image-oci-umoci.inc | 8 ++++----
+> > > >  1 file changed, 4 insertions(+), 4 deletions(-)
+> > > >
+> > > > diff --git a/classes/image-oci-umoci.inc b/classes/image-oci-umoci.=
+inc
+> > > > index 58e4668..245dae5 100644
+> > > > --- a/classes/image-oci-umoci.inc
+> > > > +++ b/classes/image-oci-umoci.inc
+> > > > @@ -99,10 +99,10 @@ IMAGE_CMD:oci() {
+> > > >         bbnote "OCI: image subarch is set to: ${OCI_IMAGE_SUBARCH},=
+ but umoci does not"
+> > > >         bbnote "     expose variants. use sloci instead if this is =
+important"
+> > > >      fi
+> > > > -    umoci config --image $image_name:${OCI_IMAGE_TAG} --config.ent=
+rypoint ${OCI_IMAGE_ENTRYPOINT}
+> > > > -    if [ -n "${OCI_IMAGE_ENTRYPOINT_ARGS}" ]; then
+> > > > -       umoci config --image $image_name:${OCI_IMAGE_TAG} --config.=
+cmd "${OCI_IMAGE_ENTRYPOINT_ARGS}"
+> > > > -    fi
+> > > > +    umoci config --image $image_name:${OCI_IMAGE_TAG} \
+> > > > +       --config.entrypoint "${OCI_IMAGE_ENTRYPOINT}" \
+> > > > +       ${@" ".join("--config.entrypoint %s" % s for s in d.getVar(=
+"OCI_IMAGE_ENTRYPOINT_ARGS").split())}
+> > > > +
+> > >
+> > >
+> > > This is super close to what I badly tried to describe. I realize I co=
+uld have
+> > >  just done a patch to be clear, but it was a bit late and I just
+> > > wanted to get something out.
+> > >
+> > > Do you think something like the following would meet your use case :
+> > >
+> > > diff --git a/classes/image-oci-umoci.inc b/classes/image-oci-umoci.in=
+c
+> > > index 58e4668..0d6c712 100644
+> > > --- a/classes/image-oci-umoci.inc
+> > > +++ b/classes/image-oci-umoci.inc
+> > > @@ -99,9 +99,10 @@ IMAGE_CMD:oci() {
+> > >         bbnote "OCI: image subarch is set to: ${OCI_IMAGE_SUBARCH},
+> > > but umoci does not"
+> > >         bbnote "     expose variants. use sloci instead if this is im=
+portant"
+> > >      fi
+> > > -    umoci config --image $image_name:${OCI_IMAGE_TAG}
+> > > --config.entrypoint ${OCI_IMAGE_ENTRYPOINT}
+> > > +    umoci config --image $image_name:${OCI_IMAGE_TAG} \
+> > > +         ${@" ".join("--config.entrypoint %s" % s for s in
+> > > d.getVar("OCI_IMAGE_ENTRYPOINT").split())}
+> > >      if [ -n "${OCI_IMAGE_ENTRYPOINT_ARGS}" ]; then
+> > > -       umoci config --image $image_name:${OCI_IMAGE_TAG} --config.cm=
+d
+> > > "${OCI_IMAGE_ENTRYPOINT_ARGS}"
+> > > +       umoci config --image $image_name:${OCI_IMAGE_TAG} ${@"
+> > > ".join("--config.cmd %s" % s for s in
+> > > d.getVar("OCI_IMAGE_ENTRYPOINT_ARGS").split())}
+> > >      fi
+> > >
+> > > That way you aren't forced to split your multi argument entrypoint
+> > > over two variables, and
+> > > we can still have arguments in that ARGS variable available to be
+> > > clobbered on container
+> > > start, etc.
+> > >
+> > > I realize this is probably where you would have started if not for
+> > > concerns about backward compatibility, etc.
+> > > But looking at it more, it is easier to just convert both variables t=
+o
+> > > the repeated call to umoci. We are
+> > > leaving the variables themselves the same with space separated
+> > > arguments/entrypoint, so that is enough
+> > > backward compatibility for me.
+> >
+> > Ah, yes. That is even better.
+> >
+> > I like how you can set both entrypoint and command as lists this way.
 >
->     OCI_IMAGE_TAG =3D "${IMAGE_BASENAME}:latest"
+> I can make the commit here, and add your signed-off-by, since we can
+> take your reply as you being ok with this change, derived from your
+> patches.
 >
-> However, while this is valid for tag name, the ":" is illegal in OCI
-> image file names so replace it with "_" when naming the symlinks
 
-I haven't experimented with this yet, but as I mentioned on IRC
-some time ago, we really don't want to change the symlinks
-unless absolutely possible.
-
-I'm still trying to understand the first RFC patch before getting into
-the question of the symlink.
-
-But my question on this is ... who / what is declaring it illegal to
-have a : on the symlink name ? Is one of the OE/bitbake
-components ? umoci ? podman ? something else ?
+My version of this is on master-next. I passed creation and skopeo copy
+to dockerhub, pull and run, so it appears to be sane :)
 
 Bruce
 
+> Bruce
 >
-> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-> ---
->  classes/image-oci-umoci.inc | 10 +++++++---
->  1 file changed, 7 insertions(+), 3 deletions(-)
+> >
+> > >
+> > > Bruce
+> > >
+> > >
+> > > >
+> > > >      umoci config --image $image_name:${OCI_IMAGE_TAG} --author ${O=
+CI_IMAGE_AUTHOR_EMAIL}
+> > > >
+> > > >      # make a tar version of the image direcotry
+> > > > --
+> > > > 2.34.1
+> > > >
+> > > >
+> > > >
+> > > >
+> > >
+> > >
+> > > --
+> > > - Thou shalt not follow the NULL pointer, for chaos and madness await
+> > > thee at its end
+> > > - "Use the force Harry" - Gandalf, Star Trek II
 >
-> diff --git a/classes/image-oci-umoci.inc b/classes/image-oci-umoci.inc
-> index 58e4668..adca6c1 100644
-> --- a/classes/image-oci-umoci.inc
-> +++ b/classes/image-oci-umoci.inc
-> @@ -105,6 +105,10 @@ IMAGE_CMD:oci() {
->      fi
->      umoci config --image $image_name:${OCI_IMAGE_TAG} --author ${OCI_IMA=
-GE_AUTHOR_EMAIL}
 >
-> +    # OCI_IMAGE_TAG may contain ":", but these are not allowed in OCI fi=
-le
-> +    # names so replace them
-> +    image_tag=3D"${@d.getVar("OCI_IMAGE_TAG").replace(":", "_")}"
-> +
->      # make a tar version of the image direcotry
->      #  1) image_name.tar: compatible with oci tar format, blobs and root=
-fs
->      #     are at the top level. Can load directly from something like po=
-dman
-> @@ -118,13 +122,13 @@ IMAGE_CMD:oci() {
->         tar -cf "$image_name-dir.tar" "$image_name"
 >
->         # create a convenience symlink
-> -       ln -sf "$image_name.tar" "${IMAGE_BASENAME}-${OCI_IMAGE_TAG}-oci.=
-tar"
-> -       ln -sf "$image_name-dir.tar" "${IMAGE_BASENAME}-${OCI_IMAGE_TAG}-=
-oci-dir.tar"
-> +       ln -sf "$image_name.tar" "${IMAGE_BASENAME}-$image_tag-oci.tar"
-> +       ln -sf "$image_name-dir.tar" "${IMAGE_BASENAME}-$image_tag-oci-di=
-r.tar"
->      fi
->
->      # We could make this optional, since the bundle is directly runnable=
- via runc
->      rm -rf $image_bundle_name
->
->      # This is the OCI image directory, which is technically the "image" =
-as specified
-> -    ln -sf $image_name ${IMAGE_BASENAME}-${OCI_IMAGE_TAG}-oci
-> +    ln -sf $image_name ${IMAGE_BASENAME}-$image_tag-oci
->  }
 > --
-> 2.34.1
->
+> - Thou shalt not follow the NULL pointer, for chaos and madness await
+> thee at its end
+> - "Use the force Harry" - Gandalf, Star Trek II
 >
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#8336): https://lists.yoctoproject.org/g/meta-virtuali=
-zation/message/8336
-> Mute This Topic: https://lists.yoctoproject.org/mt/101758365/1050810
+> View/Reply Online (#8365): https://lists.yoctoproject.org/g/meta-virtuali=
+zation/message/8365
+> Mute This Topic: https://lists.yoctoproject.org/mt/101942798/1050810
 > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [=
-bruce.ashfield@gmail.com]
+> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/leave/6=
+693017/1050810/978058475/xyzzy [bruce.ashfield@gmail.com]
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 >
 
