@@ -2,162 +2,291 @@ Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6988DCDB465
-	for <webhook@archiver.kernel.org>; Mon, 16 Oct 2023 18:35:52 +0000 (UTC)
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
- by mx.groups.io with SMTP id smtpd.web11.135246.1697481351176580555
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3841CDB465
+	for <webhook@archiver.kernel.org>; Mon, 16 Oct 2023 19:34:02 +0000 (UTC)
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+ by mx.groups.io with SMTP id smtpd.web11.177614.1697484841995452507
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 16 Oct 2023 11:35:51 -0700
+ Mon, 16 Oct 2023 12:34:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=I77r/MMy;
- spf=pass (domain: gmail.com, ip: 209.85.167.41, mailfrom: jpewhacker@gmail.com)
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-507962561adso5210541e87.0
-        for <meta-virtualization@lists.yoctoproject.org>; Mon, 16 Oct 2023 11:35:50 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=W3YZccdd;
+ spf=pass (domain: gmail.com, ip: 209.85.208.174, mailfrom: jpewhacker@gmail.com)
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2b95d5ee18dso65552171fa.1
+        for <meta-virtualization@lists.yoctoproject.org>; Mon, 16 Oct 2023 12:34:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697481349; x=1698086149; darn=lists.yoctoproject.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=X24bkxZJCYscpCT2t0VCmtQIVGyw+A4y0s35R5eZoI0=;
-        b=I77r/MMybGkw3U1IW8VMPzUKxWzJqWiYQfmNVWqa4VBpWhw/aVdRt31KtQQLXlTuDO
-         eaJ6IiGj4ceJJ0XG1WZVs8QUK2Lcw94TF3d+LcYS82gPz8H2pEzBPZXNEbXAkhxuSWzv
-         h8kQ1ZIWV98RE9F1+yatodsn/+tpSaNCbqFpxsBb7y+Lm6DA+gmaZsW5pCyRvn3rS8+z
-         HbBUde6gmG1O14zrIDlwlJEeFflNqHc5olfJU5dWaillk0Jb34poFx7ybO3I6+vc+RL3
-         Nn0XQcQ6Ai8MLRUZRzP+46anTh7BI3eEuIGPcM6uPK24uEmoqjj6PCHXb9dluDg8yFzS
-         kIGg==
+        d=gmail.com; s=20230601; t=1697484840; x=1698089640; darn=lists.yoctoproject.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XXP+52SrcQXghcIoWMwq7B8D93ES2jHrOPx4QixKC8w=;
+        b=W3YZccddFloKwGOxfnADSiopkvJOfoz7YxYCl7V/yE5QakLRlqmZkrooYXbT2qXozX
+         4f96FXIr0uxBnROcFKhEP2jvI0NHM3Vk/Qed6LtV/GpjHiNY6sSs+WJYCiB0Xl2YkGJk
+         HEHBJ7z+SM75Bj6JKwcf7sUp+tjuZNAkRejd57Co8oX6s50fzb+ONp1QiPTHnLb6pZRh
+         tHII4uhLs8lnYOR5CR12n1FZS3dQWjWGyW+1O37Y89U0vRvm0sNC6F29/uvXEXy422iD
+         R/8BpDzWlqttd/tAQe5FtjEiAEbNjGkQK3gmwKvFeC9IineJJ5WJbFjoBmTKYHinLhj7
+         xKLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697481349; x=1698086149;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=X24bkxZJCYscpCT2t0VCmtQIVGyw+A4y0s35R5eZoI0=;
-        b=WRoKvvAgx9Cvf1CO9IUNNg7i5D1rt4TYDfXmOHZHkNAcB0eEFR0nlgrl16gTzS0Nso
-         Lzua+GKG/DYh4OfKo+gsNVn1vNDzBaqTkQT+ZLPPL1qWBbsqlb6OHlxrkMADnRGuhtO8
-         Pey9VLF/NwvAqpf58WzGtyOqN9/R5kVP2l5u2wgLEomOZpSv8CBnVhJXzACspfJgvb+M
-         +8DZogxRytseOFrtYf/2BRcbbYnpbR9oo7mFKZIVblscfeC86bUReL6frMjhFqqO3EIb
-         t4J+0/riykWLEegsRaeYQR4LvLR9wWkmxfNK5nDbjQHgrPugHF1nJmHAJ5vOgDXelZ80
-         FzkA==
-X-Gm-Message-State: AOJu0Yzcc9ndFSYxi+wpF8q2ITj1xaH53vntCTOiM0dKv6k6FEF7rzrc
-	iznwKFr4EJfQ9vikWomOn6WNY2lz3680lnvgKuw=
-X-Google-Smtp-Source: AGHT+IHmVkLNHhyNt8WbyBVqObE84+6cksPsvXbhnurmDGN4dcmHh6eQ+UOJyUAqSecnwZ7FUbE2GHqLiHnEZhQxe0Q=
-X-Received: by 2002:a19:2d49:0:b0:4fb:8f79:631 with SMTP id
- t9-20020a192d49000000b004fb8f790631mr92842lft.46.1697481348967; Mon, 16 Oct
- 2023 11:35:48 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1697484840; x=1698089640;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=XXP+52SrcQXghcIoWMwq7B8D93ES2jHrOPx4QixKC8w=;
+        b=Pfij8ggmbmKquFZ78FRTImE6dNDZOTVxvs0mNGI4PJFnGV3STVe89H/ND9fkTp82f9
+         E4eG3No26CnyOTUBuDihh+RkiGkHpNTlfIMlN7dvu0fuuEfzFqs+T+6JbE//zhfnNg0p
+         XhwQegHiqwk4xL3ICCvZ72mH2YKTxssOoa62IvcGne08ExJrEmd8v5qITLW9lyNQrpYE
+         YNL1POBGCxburSXTdt8RNQgOj6n5ejg+3+T6ycro9/zDBSnA5waEfDYEwKoRDMsTyDdn
+         h4BvO9RL7cHD/6yMbmrM12KxTLsWVJx0DTTy+Y/17AaB3nJzFW7YvH1wVcX5WjhLQBsv
+         5ELQ==
+X-Gm-Message-State: AOJu0Yw+R39mB0InHKKihlDhBcdubGiDsOdCP+PLwbUnHImhS4u7fLhB
+	kHydcPcy6K5+J9Q4y/dgkpOtGxu9eirMYbQT7wo=
+X-Google-Smtp-Source: AGHT+IFgfp24oq902/p+1Q0Lmu5G0PqrpaypGfNHoswch5pgsLwX5u94sPuhf8e8CPl9Py+z+eSv13P1Ax0JBOhttIA=
+X-Received: by 2002:a2e:b538:0:b0:2c5:1d95:f7a1 with SMTP id
+ z24-20020a2eb538000000b002c51d95f7a1mr144328ljm.27.1697484839820; Mon, 16 Oct
+ 2023 12:33:59 -0700 (PDT)
 MIME-Version: 1.0
-References: <20231004160212.3574826-1-JPEWhacker@gmail.com> <CADkTA4PN1AHnObAX+p+rR0fCH+yj+q6O9SArs22-XZQpzfEU0Q@mail.gmail.com>
-In-Reply-To: <CADkTA4PN1AHnObAX+p+rR0fCH+yj+q6O9SArs22-XZQpzfEU0Q@mail.gmail.com>
+References: <20231004145433.3544915-1-JPEWhacker@gmail.com> <CADkTA4NcZv6uw=KDGcpUObSYbYnz1qOkCPE5irZQnuZBzALyvw@mail.gmail.com>
+In-Reply-To: <CADkTA4NcZv6uw=KDGcpUObSYbYnz1qOkCPE5irZQnuZBzALyvw@mail.gmail.com>
 From: Joshua Watt <jpewhacker@gmail.com>
-Date: Mon, 16 Oct 2023 12:35:37 -0600
-Message-ID: <CAJdd5GZi3=XLOAJ0o1jOyq_-+MkwLqFp137_vy5wf0S4QBRLZA@mail.gmail.com>
-Subject: Re: [meta-virtualization][PATCH] classes/image-oci-umoci: Replace ":"
- in image file name
+Date: Mon, 16 Oct 2023 13:33:48 -0600
+Message-ID: <CAJdd5GZNUW9K+h9npDk+NM1PTs8Rexvg+Bwjia1yc-WtzoNbZw@mail.gmail.com>
+Subject: Re: [meta-virtualization][RFC] image-oci-umoci: Set image name and tag
 To: Bruce Ashfield <bruce.ashfield@gmail.com>
 Cc: meta-virtualization@lists.yoctoproject.org
-Content-Type: multipart/alternative; boundary="000000000000d172f00607d9ac0f"
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Mon, 16 Oct 2023 18:35:52 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8373
+ <meta-virtualization@lists.yoctoproject.org>; Mon, 16 Oct 2023 19:34:02 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8374
 
---000000000000d172f00607d9ac0f
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Oct 16, 2023, 12:06=E2=80=AFPM Bruce Ashfield <bruce.ashfield@gmail=
-.com>
-wrote:
-
-> On Wed, Oct 4, 2023 at 12:02=E2=80=AFPM Joshua Watt <JPEWhacker@gmail.com=
+On Mon, Oct 16, 2023 at 12:04=E2=80=AFPM Bruce Ashfield
+<bruce.ashfield@gmail.com> wrote:
+>
+> On Wed, Oct 4, 2023 at 10:54=E2=80=AFAM Joshua Watt <JPEWhacker@gmail.com=
 > wrote:
 > >
-> > The OCI_IMAGE_TAG variable can contain a ":" if the user wants to give
-> > the image a name and a tag, as in:
-> >
-> >     OCI_IMAGE_TAG =3D "${IMAGE_BASENAME}:latest"
-> >
-> > However, while this is valid for tag name, the ":" is illegal in OCI
-> > image file names so replace it with "_" when naming the symlinks
+> > umoci treats the --image parameter as <DIRECTORY>:<NAME>, where the OCI
+> > spec ref.name for the image it set to <NAME>. Therefore, if the
+> > intention is for the ref.name to be in the format <IMAGE_NAME>:<TAG> (a=
+s
+> > is expected by e.g. `podman load`, then the complete argument that is
+> > passed to umoci must be `--image <DIRECTORY>:<IMAGE_NAME>:<TAG>`
 >
-> I haven't experimented with this yet, but as I mentioned on IRC
-> some time ago, we really don't want to change the symlinks
-> unless absolutely possible.
+> This is going to take a few iterations as well, the changing spec
+> and umoci uses have made this a non-trivial area to modify.
 >
-> I'm still trying to understand the first RFC patch before getting into
-> the question of the symlink.
->
-> But my question on this is ... who / what is declaring it illegal to
-> have a : on the symlink name ? Is one of the OE/bitbake
-> components ? umoci ? podman ? something else ?
->
+> I assume you are talking about the oci ref.name annotation ?
 
-Skopeo and podman both have this restriction. They allow specifying a tag
-inside an image with a :tag suffix, so you can't have an OCI file/directory
-named "foo:latest" because they assume that means a file/directory named
-"foo" and the tag "latest" inside it.
+Correct. If you pass <DIRECTORY>:<IMAGE_NAME>:<TAG> to umoci, ref.name
+will be <IMAGE_NAME>:<TAG>
 
-
-> Bruce
 >
 > >
 > > Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 > > ---
-> >  classes/image-oci-umoci.inc | 10 +++++++---
-> >  1 file changed, 7 insertions(+), 3 deletions(-)
+> >  classes/image-oci-umoci.inc | 52 +++++++++++++++++++------------------
+> >  1 file changed, 27 insertions(+), 25 deletions(-)
 > >
 > > diff --git a/classes/image-oci-umoci.inc b/classes/image-oci-umoci.inc
-> > index 58e4668..adca6c1 100644
+> > index 58e4668..a58cb4c 100644
 > > --- a/classes/image-oci-umoci.inc
 > > +++ b/classes/image-oci-umoci.inc
-> > @@ -105,6 +105,10 @@ IMAGE_CMD:oci() {
-> >      fi
-> >      umoci config --image $image_name:${OCI_IMAGE_TAG} --author
-> ${OCI_IMAGE_AUTHOR_EMAIL}
-> >
-> > +    # OCI_IMAGE_TAG may contain ":", but these are not allowed in OCI
-> file
-> > +    # names so replace them
-> > +    image_tag=3D"${@d.getVar("OCI_IMAGE_TAG").replace(":", "_")}"
-> > +
-> >      # make a tar version of the image direcotry
-> >      #  1) image_name.tar: compatible with oci tar format, blobs and
-> rootfs
-> >      #     are at the top level. Can load directly from something like
-> podman
-> > @@ -118,13 +122,13 @@ IMAGE_CMD:oci() {
-> >         tar -cf "$image_name-dir.tar" "$image_name"
-> >
-> >         # create a convenience symlink
-> > -       ln -sf "$image_name.tar"
-> "${IMAGE_BASENAME}-${OCI_IMAGE_TAG}-oci.tar"
-> > -       ln -sf "$image_name-dir.tar"
-> "${IMAGE_BASENAME}-${OCI_IMAGE_TAG}-oci-dir.tar"
-> > +       ln -sf "$image_name.tar" "${IMAGE_BASENAME}-$image_tag-oci.tar"
-> > +       ln -sf "$image_name-dir.tar"
-> "${IMAGE_BASENAME}-$image_tag-oci-dir.tar"
+> > @@ -35,14 +35,16 @@ IMAGE_CMD:oci() {
 > >      fi
 > >
-> >      # We could make this optional, since the bundle is directly
-> runnable via runc
-> >      rm -rf $image_bundle_name
+> >      if [ -z "${OCI_IMAGE_TAG}" ]; then
+> > -       OCI_IMAGE_TAG=3D"initial-tag"
+> > -    fi
+> > +       image_spec=3D"$image_name:${IMAGE_BASENAME}:initial-tag"
+> > +    else
+> > +       image_spec=3D"$image_name:${IMAGE_BASENAME}:${OCI_IMAGE_TAG}"
+>
+> I'm not seeing any examples in the umoci documentation that shows
+> a "triplet" of values for the image.
+>
+> It is always image-path[:image-tag] in what I've read and see in the sour=
+ce.
+
+Ya, I've noticed that. I think the reason for that is that ref.name
+being in the format "NAME:TAG" is a OCI convention that umoci doesn't
+_actually_ really need to care about. umoci cares about what directory
+the image is in (image-path) and what the ref.name should be set to
+(image-tag). Whether image-tag contains a ":" is irrelevant to umoci
+since it just copies whatever comes after the first ":" into ref.name.
+
+Importantly, image-path is never encoded in the JSON anywhere, so it's
+not equivalent to the container name.
+
+>
+> Are you saying that what is written into th oci spec json file should be
+> different ? and that encoding what you want in the image-path portion
+> of the umoci --image parameter makes it pass through correctly ?
+
+Ya. I can get containers that have a "nice" ref.name encoded in them by doi=
+ng:
+
+OCI_IMAGE_TAG =3D "${IMAGE_BASENAME}:latest"
+
+Which then sets `ref.name =3D "${IMAGE_BASENAME}:latest"` and everything
+is happy with this. My suggestion is that the default behavior should
+be to encode a nice ref.name like this. Otherwise, tools can (and do)
+weird things when loading an OCI image. For example, in the current
+implementation, `podmain load -i <IMAGE>` will import the container
+_name_ as `latest`, then give it a `latest` tag since none was
+specified, so you end up with a `podman run localhost/latest:latest`
+which is just weird (and IMHO, a bad experience).
+
+>
+> Bruce
+>
+> > +   fi
 > >
-> >      # This is the OCI image directory, which is technically the "image=
+> >      if [ -n "$new_image" ]; then
+> >         bbdebug 1 "OCI: umoci init --layout $image_name"
+> >         umoci init --layout $image_name
+> > -       umoci new --image $image_name:${OCI_IMAGE_TAG}
+> > -       umoci unpack --rootless --image $image_name:${OCI_IMAGE_TAG} $i=
+mage_bundle_name
+> > +       umoci new --image $image_spec
+> > +       umoci unpack --rootless --image $image_spec $image_bundle_name
+> >      else
+> >         # todo: create a different tag, after checking if the passed on=
+e exists
+> >         true
+> > @@ -52,58 +54,58 @@ IMAGE_CMD:oci() {
+> >      bbdebug 1 "OCI: cp -r ${IMAGE_ROOTFS}/* $image_bundle_name/rootfs/=
 "
-> as specified
-> > -    ln -sf $image_name ${IMAGE_BASENAME}-${OCI_IMAGE_TAG}-oci
-> > +    ln -sf $image_name ${IMAGE_BASENAME}-$image_tag-oci
-> >  }
+> >      cp -r ${IMAGE_ROOTFS}/* $image_bundle_name/rootfs
+> >
+> > -    bbdebug 1 "OCI: umoci repack --image $image_name:${OCI_IMAGE_TAG} =
+$image_bundle_name"
+> > -    umoci repack --image $image_name:${OCI_IMAGE_TAG} $image_bundle_na=
+me
+> > +    bbdebug 1 "OCI: umoci repack --image $image_spec $image_bundle_nam=
+e"
+> > +    umoci repack --image $image_spec $image_bundle_name
+> >
+> >      bbdebug 1 "OCI: configuring image"
+> >      if [ -n "${OCI_IMAGE_LABELS}" ]; then
+> >         for l in ${OCI_IMAGE_LABELS}; do
+> > -           bbdebug 1 "OCI: umoci config --image $image_name:${OCI_IMAG=
+E_TAG} --config.label $l"
+> > -           umoci config --image $image_name:${OCI_IMAGE_TAG} --config.=
+label $l
+> > +           bbdebug 1 "OCI: umoci config --image $image_spec --config.l=
+abel $l"
+> > +           umoci config --image $image_spec --config.label $l
+> >         done
+> >      fi
+> >      if [ -n "${OCI_IMAGE_ENV_VARS}" ]; then
+> >         for l in ${OCI_IMAGE_ENV_VARS}; do
+> > -           bbdebug 1 "umoci config --image $image_name:${OCI_IMAGE_TAG=
+} --config.env $l"
+> > -           umoci config --image $image_name:${OCI_IMAGE_TAG} --config.=
+env $l
+> > +           bbdebug 1 "umoci config --image $image_spec --config.env $l=
+"
+> > +           umoci config --image $image_spec --config.env $l
+> >         done
+> >      fi
+> >      if [ -n "${OCI_IMAGE_PORTS}" ]; then
+> >         for l in ${OCI_IMAGE_PORTS}; do
+> > -           bbdebug 1 "umoci config --image $image_name:${OCI_IMAGE_TAG=
+} --config.exposedports $l"
+> > -           umoci config --image $image_name:${OCI_IMAGE_TAG} --config.=
+exposedports $l
+> > +           bbdebug 1 "umoci config --image $image_spec --config.expose=
+dports $l"
+> > +           umoci config --image $image_spec --config.exposedports $l
+> >         done
+> >      fi
+> >      if [ -n "${OCI_IMAGE_RUNTIME_UID}" ]; then
+> > -       bbdebug 1 "umoci config --image $image_name:${OCI_IMAGE_TAG}  -=
+-config.user ${OCI_IMAGE_RUNTIME_UID}"
+> > -       umoci config --image $image_name:${OCI_IMAGE_TAG} --config.user=
+ ${OCI_IMAGE_RUNTIME_UID}
+> > +       bbdebug 1 "umoci config --image $image_spec  --config.user ${OC=
+I_IMAGE_RUNTIME_UID}"
+> > +       umoci config --image $image_spec --config.user ${OCI_IMAGE_RUNT=
+IME_UID}
+> >      fi
+> >      if [ -n "${OCI_IMAGE_WORKINGDIR}" ]; then
+> > -       bbdebug 1 "umoci config --image $image_name:${OCI_IMAGE_TAG}  -=
+-config.workingdir ${OCI_IMAGE_WORKINGDIR}"
+> > -       umoci config --image $image_name:${OCI_IMAGE_TAG} --config.work=
+ingdir ${OCI_IMAGE_WORKINGDIR}
+> > +       bbdebug 1 "umoci config --image $image_spec  --config.workingdi=
+r ${OCI_IMAGE_WORKINGDIR}"
+> > +       umoci config --image $image_spec --config.workingdir ${OCI_IMAG=
+E_WORKINGDIR}
+> >      fi
+> >      if [ -n "${OCI_IMAGE_STOPSIGNAL}" ]; then
+> > -       bbdebug 1 "umoci config --image $image_name:${OCI_IMAGE_TAG}  -=
+-config.stopsignal ${OCI_IMAGE_STOPSIGNAL}"
+> > -       umoci config --image $image_name:${OCI_IMAGE_TAG} --config.stop=
+signal ${OCI_IMAGE_STOPSIGNAL}
+> > +       bbdebug 1 "umoci config --image $image_spec  --config.stopsigna=
+l ${OCI_IMAGE_STOPSIGNAL}"
+> > +       umoci config --image $image_spec --config.stopsignal ${OCI_IMAG=
+E_STOPSIGNAL}
+> >      fi
+> >      if [ -n "${OCI_IMAGE_OS}" ]; then
+> > -       bbdebug 1 "umoci config --image $image_name:${OCI_IMAGE_TAG}  -=
+-os ${OCI_IMAGE_OS}"
+> > -       umoci config --image $image_name:${OCI_IMAGE_TAG} --os ${OCI_IM=
+AGE_OS}
+> > +       bbdebug 1 "umoci config --image $image_spec  --os ${OCI_IMAGE_O=
+S}"
+> > +       umoci config --image $image_spec --os ${OCI_IMAGE_OS}
+> >      fi
+> >
+> > -    bbdebug 1 "umoci config --image $image_name:${OCI_IMAGE_TAG}  --ar=
+chitecture ${OCI_IMAGE_ARCH}"
+> > -    umoci config --image $image_name:${OCI_IMAGE_TAG} --architecture $=
+{OCI_IMAGE_ARCH}
+> > +    bbdebug 1 "umoci config --image $image_spec  --architecture ${OCI_=
+IMAGE_ARCH}"
+> > +    umoci config --image $image_spec --architecture ${OCI_IMAGE_ARCH}
+> >      # NOTE: umoci doesn't currently expose setting the architecture va=
+riant,
+> >      #       so if you need it use sloci instead
+> >      if [ -n "${OCI_IMAGE_SUBARCH}" ]; then
+> >         bbnote "OCI: image subarch is set to: ${OCI_IMAGE_SUBARCH}, but=
+ umoci does not"
+> >         bbnote "     expose variants. use sloci instead if this is impo=
+rtant"
+> >      fi
+> > -    umoci config --image $image_name:${OCI_IMAGE_TAG} --config.entrypo=
+int ${OCI_IMAGE_ENTRYPOINT}
+> > +    umoci config --image $image_spec --config.entrypoint ${OCI_IMAGE_E=
+NTRYPOINT}
+> >      if [ -n "${OCI_IMAGE_ENTRYPOINT_ARGS}" ]; then
+> > -       umoci config --image $image_name:${OCI_IMAGE_TAG} --config.cmd =
+"${OCI_IMAGE_ENTRYPOINT_ARGS}"
+> > +       umoci config --image $image_spec --config.cmd "${OCI_IMAGE_ENTR=
+YPOINT_ARGS}"
+> >      fi
+> > -    umoci config --image $image_name:${OCI_IMAGE_TAG} --author ${OCI_I=
+MAGE_AUTHOR_EMAIL}
+> > +    umoci config --image $image_spec --author ${OCI_IMAGE_AUTHOR_EMAIL=
+}
+> >
+> >      # make a tar version of the image direcotry
+> >      #  1) image_name.tar: compatible with oci tar format, blobs and ro=
+otfs
 > > --
 > > 2.34.1
 > >
 > >
 > > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > > Links: You receive all messages sent to this group.
-> > View/Reply Online (#8336):
-> https://lists.yoctoproject.org/g/meta-virtualization/message/8336
-> > Mute This Topic: https://lists.yoctoproject.org/mt/101758365/1050810
+> > View/Reply Online (#8335): https://lists.yoctoproject.org/g/meta-virtua=
+lization/message/8335
+> > Mute This Topic: https://lists.yoctoproject.org/mt/101756743/1050810
 > > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> > Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub
-> [bruce.ashfield@gmail.com]
+> > Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub=
+ [bruce.ashfield@gmail.com]
 > > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > >
 >
@@ -166,139 +295,4 @@ named "foo:latest" because they assume that means a file/directory named
 > - Thou shalt not follow the NULL pointer, for chaos and madness await
 > thee at its end
 > - "Use the force Harry" - Gandalf, Star Trek II
->
-
---000000000000d172f00607d9ac0f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"auto"><div><br><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Oct 16, 2023, 12:06=E2=80=AFP=
-M Bruce Ashfield &lt;<a href=3D"mailto:bruce.ashfield@gmail.com" target=3D"=
-_blank">bruce.ashfield@gmail.com</a>&gt; wrote:<br></div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
-ing-left:1ex">On Wed, Oct 4, 2023 at 12:02=E2=80=AFPM Joshua Watt &lt;<a hr=
-ef=3D"mailto:JPEWhacker@gmail.com" rel=3D"noreferrer" target=3D"_blank">JPE=
-Whacker@gmail.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; The OCI_IMAGE_TAG variable can contain a &quot;:&quot; if the user wan=
-ts to give<br>
-&gt; the image a name and a tag, as in:<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0OCI_IMAGE_TAG =3D &quot;${IMAGE_BASENAME}:latest&qu=
-ot;<br>
-&gt;<br>
-&gt; However, while this is valid for tag name, the &quot;:&quot; is illega=
-l in OCI<br>
-&gt; image file names so replace it with &quot;_&quot; when naming the syml=
-inks<br>
-<br>
-I haven&#39;t experimented with this yet, but as I mentioned on IRC<br>
-some time ago, we really don&#39;t want to change the symlinks<br>
-unless absolutely possible.<br>
-<br>
-I&#39;m still trying to understand the first RFC patch before getting into<=
-br>
-the question of the symlink.<br>
-<br>
-But my question on this is ... who / what is declaring it illegal to<br>
-have a : on the symlink name ? Is one of the OE/bitbake<br>
-components ? umoci ? podman ? something else ?<br></blockquote></div></div>=
-<div dir=3D"auto"><br></div><div dir=3D"auto">Skopeo and podman both have t=
-his restriction. They allow specifying a tag inside an image with a :tag su=
-ffix, so you can&#39;t have an OCI file/directory named &quot;foo:latest&qu=
-ot; because they assume that means a file/directory named &quot;foo&quot; a=
-nd the tag &quot;latest&quot; inside it.<br></div><div dir=3D"auto"><br></d=
-iv><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_=
-quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1=
-ex">
-<br>
-Bruce<br>
-<br>
-&gt;<br>
-&gt; Signed-off-by: Joshua Watt &lt;<a href=3D"mailto:JPEWhacker@gmail.com"=
- rel=3D"noreferrer" target=3D"_blank">JPEWhacker@gmail.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 classes/image-oci-umoci.inc | 10 +++++++---<br>
-&gt;=C2=A0 1 file changed, 7 insertions(+), 3 deletions(-)<br>
-&gt;<br>
-&gt; diff --git a/classes/image-oci-umoci.inc b/classes/image-oci-umoci.inc=
-<br>
-&gt; index 58e4668..adca6c1 100644<br>
-&gt; --- a/classes/image-oci-umoci.inc<br>
-&gt; +++ b/classes/image-oci-umoci.inc<br>
-&gt; @@ -105,6 +105,10 @@ IMAGE_CMD:oci() {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 fi<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 umoci config --image $image_name:${OCI_IMAGE_TAG} =
---author ${OCI_IMAGE_AUTHOR_EMAIL}<br>
-&gt;<br>
-&gt; +=C2=A0 =C2=A0 # OCI_IMAGE_TAG may contain &quot;:&quot;, but these ar=
-e not allowed in OCI file<br>
-&gt; +=C2=A0 =C2=A0 # names so replace them<br>
-&gt; +=C2=A0 =C2=A0 image_tag=3D&quot;${@d.getVar(&quot;OCI_IMAGE_TAG&quot;=
-).replace(&quot;:&quot;, &quot;_&quot;)}&quot;<br>
-&gt; +<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 # make a tar version of the image direcotry<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 #=C2=A0 1) image_name.tar: compatible with oci tar=
- format, blobs and rootfs<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 #=C2=A0 =C2=A0 =C2=A0are at the top level. Can loa=
-d directly from something like podman<br>
-&gt; @@ -118,13 +122,13 @@ IMAGE_CMD:oci() {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tar -cf &quot;$image_name-dir.tar&quo=
-t; &quot;$image_name&quot;<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# create a convenience symlink<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sf &quot;$image_name.tar&quot; &quot;$=
-{IMAGE_BASENAME}-${OCI_IMAGE_TAG}-oci.tar&quot;<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sf &quot;$image_name-dir.tar&quot; &qu=
-ot;${IMAGE_BASENAME}-${OCI_IMAGE_TAG}-oci-dir.tar&quot;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sf &quot;$image_name.tar&quot; &quot;$=
-{IMAGE_BASENAME}-$image_tag-oci.tar&quot;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sf &quot;$image_name-dir.tar&quot; &qu=
-ot;${IMAGE_BASENAME}-$image_tag-oci-dir.tar&quot;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 fi<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 # We could make this optional, since the bundle is=
- directly runnable via runc<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 rm -rf $image_bundle_name<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 # This is the OCI image directory, which is techni=
-cally the &quot;image&quot; as specified<br>
-&gt; -=C2=A0 =C2=A0 ln -sf $image_name ${IMAGE_BASENAME}-${OCI_IMAGE_TAG}-o=
-ci<br>
-&gt; +=C2=A0 =C2=A0 ln -sf $image_name ${IMAGE_BASENAME}-$image_tag-oci<br>
-&gt;=C2=A0 }<br>
-&gt; --<br>
-&gt; 2.34.1<br>
-&gt;<br>
-&gt;<br>
-&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt; Links: You receive all messages sent to this group.<br>
-&gt; View/Reply Online (#8336): <a href=3D"https://lists.yoctoproject.org/g=
-/meta-virtualization/message/8336" rel=3D"noreferrer noreferrer" target=3D"=
-_blank">https://lists.yoctoproject.org/g/meta-virtualization/message/8336</=
-a><br>
-&gt; Mute This Topic: <a href=3D"https://lists.yoctoproject.org/mt/10175836=
-5/1050810" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lists.yo=
-ctoproject.org/mt/101758365/1050810</a><br>
-&gt; Group Owner: <a href=3D"mailto:meta-virtualization%2Bowner@lists.yocto=
-project.org" rel=3D"noreferrer" target=3D"_blank">meta-virtualization+owner=
-@lists.yoctoproject.org</a><br>
-&gt; Unsubscribe: <a href=3D"https://lists.yoctoproject.org/g/meta-virtuali=
-zation/unsub" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lists=
-.yoctoproject.org/g/meta-virtualization/unsub</a> [<a href=3D"mailto:bruce.=
-ashfield@gmail.com" rel=3D"noreferrer" target=3D"_blank">bruce.ashfield@gma=
-il.com</a>]<br>
-&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt;<br>
-<br>
-<br>
--- <br>
-- Thou shalt not follow the NULL pointer, for chaos and madness await<br>
-thee at its end<br>
-- &quot;Use the force Harry&quot; - Gandalf, Star Trek II<br>
-</blockquote></div></div></div>
-</div>
-
---000000000000d172f00607d9ac0f--
 
