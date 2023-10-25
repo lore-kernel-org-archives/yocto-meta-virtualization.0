@@ -1,307 +1,261 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <kai.kang@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66C44C07545
-	for <webhook@archiver.kernel.org>; Tue, 24 Oct 2023 19:03:02 +0000 (UTC)
-Received: from mail-il1-f178.google.com (mail-il1-f178.google.com [209.85.166.178])
- by mx.groups.io with SMTP id smtpd.web11.26630.1698174178667473700
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 688B2C25B48
+	for <webhook@archiver.kernel.org>; Wed, 25 Oct 2023 01:23:44 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.34619.1698197019089974037
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 24 Oct 2023 12:02:58 -0700
+ Tue, 24 Oct 2023 18:23:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=CDddKEXz;
- spf=pass (domain: gmail.com, ip: 209.85.166.178, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-il1-f178.google.com with SMTP id e9e14a558f8ab-357d6489a47so9354895ab.1
-        for <meta-virtualization@lists.yoctoproject.org>; Tue, 24 Oct 2023 12:02:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698174178; x=1698778978; darn=lists.yoctoproject.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KeVO4pjW5xQa/89nsEwHmtBSQJkNJBuoE7QSU1C5O4g=;
-        b=CDddKEXzruL2/NAzZOKQkKMjMSMDvd1hHzNUszpkV+ZgyGV/yVack+Jg1CCZLVmZP0
-         e3VqHF5DFV4+QzTATmi7mGv2ecF8ZSI1LKLPp8SQcNvByJy13Yu5I3wVCh6nDqvWcYJC
-         SgQsazyazrOfAG0g491K7JkF49QMzObjZjdCSpV9avUYycCS5GBCJuAm7dVxoaXb5Y4D
-         msgQ3oSIaJJuEUW94M0v2fJ4Ypws70o9wHYu9bH3d3ebiZkcpypm8cf39so16zdZh6uu
-         xKgxRWEoMy+XNHNrxM1R3W33tdBglqNS4sE3crCHeYKzbrNl9xtIvl9iPl91IoDoLqJq
-         XtiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698174178; x=1698778978;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=KeVO4pjW5xQa/89nsEwHmtBSQJkNJBuoE7QSU1C5O4g=;
-        b=qItgfS7IArqj93vP3k4PatGWupOWC+7xtV7QLfiZNEGcys5Zl1g2TI6vhvao0qfyvl
-         h6fjP44V0LXJ7U9iVWxjG22tfSJMvNVT9rn/IZjS60VE5fgnx1eqjJQWuxmrDR0lgxA4
-         1WubraSlNmmi2wjO2WjTPPPiYvh08pphqs/i10Y+sDA2yLC60RdifyQ25tHKD05AA/UE
-         Yni05+IkMaUBbQhY3FJSDdicZWDiLc0w9MCK/m1i7Vw145wQSwLx98GwpQpG0ntWbpxt
-         FLEjldatT/r6TmNQNUU1hABn3YAb9nf8jS8O5SBoTbf7TX3yI846Wl8CwpElb/70ni+2
-         wZLA==
-X-Gm-Message-State: AOJu0YzNKhY1OFovHgxxzuyz5a091VFhn11hXvIuqAUycQZyy6sdRVtf
-	UeM2SIgwtvbLqm3bJF/as/7bw4UMksnvNW2jRDRJIUah
-X-Google-Smtp-Source: AGHT+IFbQyNo69N+0rEWuedLPmB8PoVZcaKIWNsoVTRrouXdDaIOXRThDP5KJ2+G0FX5x6lBbXlJsXPt3aQvfqb/Dyg=
-X-Received: by 2002:a05:6e02:1c2f:b0:357:4fa0:a52 with SMTP id
- m15-20020a056e021c2f00b003574fa00a52mr17027135ilh.7.1698174177699; Tue, 24
- Oct 2023 12:02:57 -0700 (PDT)
-MIME-Version: 1.0
-References: <20231023115518.3349027-1-soumya.sambu@windriver.com>
-In-Reply-To: <20231023115518.3349027-1-soumya.sambu@windriver.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Tue, 24 Oct 2023 15:02:46 -0400
-Message-ID: <CADkTA4Pc8PN-JK99L8EoHJgW75feNS+b=4pjUJZQS3CkxJv6Fg@mail.gmail.com>
-Subject: Re: [meta-virtualization][mickledore][PATCH v2 1/1] kubernetes:
- Upgrade v1.27.1 -> v1.27.5
-To: soumya.sambu@windriver.com
+ dkim=fail reason="dkim: body hash did not verify" header.i=@windriver.com header.s=PPS06212021 header.b=iT92aZTT;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=86627674a5=kai.kang@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 39P1322R006302;
+	Tue, 24 Oct 2023 18:23:37 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=message-id:date:subject:to:cc:references:from:in-reply-to
+	:content-type:content-transfer-encoding:mime-version; s=
+	PPS06212021; bh=3fOCqaYfA8MwLILXdmrwH4XS3VUZ4SVdaKRzvSDds9A=; b=
+	iT92aZTTEW8g/ZZai1/ZZuGMtNBDwHzN1M7tbltPo70O7gJf+HPoOS8PT3Rrxa97
+	IjuG4kD7lWo9+nlz/QGuKj0VCA33y5qvHICRjjm9petE8/1p3FksAhWqAmfBS31d
+	G8mGdKn0mLN9TAZSeRiK2ALft8QQTAlxQCXwODchSgDjI+zHZjHIF17oSi4zKULh
+	6eNpdjU6MqnkIKAlJhE06B/RovaxTEGCAYU8pBrJSD3Un3DrdIfKmExZZFYpEKn6
+	4F+GadHAjTxSsoUT6kl6a3u8EwMW4Yye+B6bgnBHCn1iv/FnNsyQF15cNTqu3uFq
+	DcWa7vijmSO3vMBQVJK+Eg==
+Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11lp2168.outbound.protection.outlook.com [104.47.56.168])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3tv9x03tbb-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 24 Oct 2023 18:23:37 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QL1aRfgWMnetpsbHlz8m65vYWI1htLwynqmsu+Rq9g7J8dTyPYYeSbOUQIXbg6uWnv7wIWutQ1MgWDmm/ofQxS53c6CN8lw6R0Ho64yb/ucE1PULgzk+mb5Gs2r2FFqEx3jK9N3x9n+X9zfKgY2U/+yMXTbAbMyjZ0xmgtxqMMP+TBVTRJQBytTgblqHd7SmGbPY+8vCkQ/TdHJLPj2mnTopah+0q3TrSr757lCWbji5NcRUlcTFuXXIb2j7raW0L6r9eNOZOROl1lH3QwaO/zY28a2pB1epzFlaw3M/Nvzfl2AGgBTy2ZXjhbR8DGYdMlDdZ0aOTSzmLqZtCUZyCg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3fOCqaYfA8MwLILXdmrwH4XS3VUZ4SVdaKRzvSDds9A=;
+ b=AOBdfALB7tvOZ1J6xgdtDWuxS8aF+AIH6DyFGvainWTvFoFh14K32KiNAoXKoQKK5AOcyQagRQSwPASjyE3pepQMP/4qyGTVXk3dPHVL8Wgu/sQ87LZeBJWiI1CEN1VMtW3+gIq631sS50WZW7gbt5oJVcl5w1Epc0EaFKxZKPkP1rGz0Msjt5is0+67vnLGyIoFRMywJCE6isKX+BzFHtlwId+wWpgnvk21Q4tr7dl2ZkZjX54T5nHG+v83zN/GvHuJuRgu/zOHTQjDaJMkCWycI1UK2Gxyrwz1bWPe4Jp/pS5Ai6+hHKLEG3ITmyWlcmV484Vs0KqyFgD3BeOZZQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from DS7PR11MB6064.namprd11.prod.outlook.com (2603:10b6:8:77::14) by
+ PH7PR11MB6007.namprd11.prod.outlook.com (2603:10b6:510:1e2::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6907.26; Wed, 25 Oct
+ 2023 01:23:32 +0000
+Received: from DS7PR11MB6064.namprd11.prod.outlook.com
+ ([fe80::4657:c76c:d491:3c23]) by DS7PR11MB6064.namprd11.prod.outlook.com
+ ([fe80::4657:c76c:d491:3c23%6]) with mapi id 15.20.6907.032; Wed, 25 Oct 2023
+ 01:23:32 +0000
+Message-ID: <497f912d-93ed-2d45-5841-d5aa96e8a6bb@windriver.com>
+Date: Wed, 25 Oct 2023 09:23:21 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [meta-virtualization] [PATCH 1/2] podman & umoci: mark
+ incompatible with mips
+Content-Language: en-US
+To: Bruce Ashfield <bruce.ashfield@gmail.com>,
+        Kai Kang <kai.kang@eng.windriver.com>
 Cc: meta-virtualization@lists.yoctoproject.org
-Content-Type: text/plain; charset="UTF-8"
+References: <20231024152415.1259420-1-kai.kang@windriver.com>
+ <CADkTA4NHqeJS0NG7a-vQkt7MAmeVqoide=sPE3YeAwDEtwT0Sg@mail.gmail.com>
+From: Kai <kai.kang@windriver.com>
+In-Reply-To: <CADkTA4NHqeJS0NG7a-vQkt7MAmeVqoide=sPE3YeAwDEtwT0Sg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+X-ClientProxiedBy: TYAPR01CA0235.jpnprd01.prod.outlook.com
+ (2603:1096:404:11e::31) To DS7PR11MB6064.namprd11.prod.outlook.com
+ (2603:10b6:8:77::14)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS7PR11MB6064:EE_|PH7PR11MB6007:EE_
+X-MS-Office365-Filtering-Correlation-Id: b731d940-e530-472e-39f0-08dbd4f9006f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	WuTvhsUvdwhHFH0s/4YCo9tgzRPQE6RHIXqT87oCdV5Htbbtbewxopcj/FzAqINdUChzwI/ANlAL/y0gOr+CZfSHbrb0veI4G9dvG5eGoBRyCb+HOEcEhsuQHXDGu2yAkombj6HWjjn3Kx10zuDmfCt5WsuqQ5oe4zySpaggOVrpV2UwxXXUhXazcBabDF9K+D9VCOODnAu/CHtahtrYigW2s34uouz3VC+PMRzBZ4YwwQtfqVQv2Zguvcj5icVjIvzmMndw+W4micYPucB/3ceNTTP9aC2Bix3yCRsQIa+ZhnA6DKGqzmzMTDrIh8ShAAuO162jSYklWc8b0rYpydLNVvfRtyDVlRpR7qe9vp7C6149eWVUZNavFF8rKH7JyiQWVC5BZjof80w2DpwCyp9DWvzXMnqrM3q+avM9KDUf8cODnl0ll9KrOn2C1EJGFUGl6ZExgQhUdSLPRhx3cSoCizyPUCTg9AZRh+y5IJP7hqxeXfVcJY8CasntnAWwQ8E+SngwjIaLsnh0VIhRS+9yqYDfO/SWq4w3rv4XW3/nEL65P5472xh2oKKMPgYGvf1hyfBjSD1DCGXhkb7N1DHibT9b6ZWCVF8UPa+qoHenZRrq/XtdAxya6hh8xyaY+ZMXZAzJLdZ7qByGYWHiAq9lLz5UsZNteWlFyKO8iyQ=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR11MB6064.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39850400004)(366004)(136003)(376002)(396003)(346002)(230922051799003)(1800799009)(451199024)(64100799003)(186009)(6666004)(6512007)(6506007)(53546011)(83380400001)(2906002)(26005)(5660300002)(4326008)(478600001)(8676002)(41300700001)(966005)(8936002)(6486002)(66556008)(66476007)(86362001)(2616005)(316002)(31696002)(110136005)(66946007)(38100700002)(36756003)(31686004)(66899024)(43740500002)(45980500001)(473944003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?WnM3VVRPNi9sVDVaQjNFQno3RmtJZkpEeWlQdkJGQmJlb1kzUmY4T25rbk9Z?=
+ =?utf-8?B?Mis5SHd6N3N5djZoUUoyRE16Y0xNM1RBNy90Z2ZTaUNaQzc4MHlxYzcwMlh2?=
+ =?utf-8?B?MEVUcUIwb1ppclJwc0g2dW5XemlNd2tkbjBWb0ZmQTc1SVBybnZPc3l2MktI?=
+ =?utf-8?B?a0xHZzFmUVpTKzNURXF5dmtnWHplcmZXQ0s1WGVJMmRsZnNlTXpmY0lzYzE5?=
+ =?utf-8?B?cjBEZDUxZmt1bytSemVLdjlWcHdhUEl2WjVibUNMYlYxTGN0WStUQXhvS2xH?=
+ =?utf-8?B?TkJLcWNpemJaSk82TFpLNzI1OVFKY3NaTUJNZUhEZkxveC93ZmNDQjh0N2Mz?=
+ =?utf-8?B?VC9TeCtRL3hDM1kwZlg4K21RNFpkc1VYM3RzNWNYQlJnR2t2TjNRUnI5NlN2?=
+ =?utf-8?B?OUZGMGV2T0NjU05IQXU1ZFJvdmNCWFNvQ25IRktKWW5IOHY4RmtqQTdVMDFK?=
+ =?utf-8?B?aVdCK3BNSkU4dDdzSjU0WUVWblhtVk5hZHZ1U3JOcXhzSGx6dDZiSzA0bjRv?=
+ =?utf-8?B?Q0tjQVBRa1J5Mmswby8rVzhkQURZK0IwclpLVHVseHEyblFYdzg3UkFUY3d0?=
+ =?utf-8?B?d2VkT09DZWorYzFzUUNUQmlqckhKU0pyMmtFWkYrdnVNbER3a2dGMG9oRWcv?=
+ =?utf-8?B?cGgxYWd5SUZURUxLU2lhc25BYWwrdWRNUHlRSkNja1hpMUZRSldtaUVYc3N2?=
+ =?utf-8?B?ekJsMVpTdHVETzJ2V2U1OFR2Y1Rxam5QNmR2N3hCNXdvSXhzMEMyVkpEc1Q2?=
+ =?utf-8?B?RHZFckprSENzWGgwTklNdk5BVEZDZ1pWOFl4UzZHQ3RWc2hES0NWRGFpOVEx?=
+ =?utf-8?B?bE45VDVzbzcyM0lMYjFsQkF0TVhhMkdMQVBSZ1d6bjJweTBWUHN0WlFuSm14?=
+ =?utf-8?B?OHdQajllRkpNWVhWL3grbjNWVk0wS0NlckRQZytpTHBuK1I3TGo2TEZTY1FT?=
+ =?utf-8?B?c0Fkc25zelhGTzk3R3BoNGN1bW4vOWplUE9ncmJEcDAyZ2Z3T3Q4UzdUNHV1?=
+ =?utf-8?B?c05EOUVlcXB4VVNiY2xNOUh6SU8yUXorVEdESkF1YVZxSldEWCtQMkZJVGZU?=
+ =?utf-8?B?enQ3cmFWSkU1MStiSkd3YmgrL3hqNXVLVEMvdm9GemRVZnZXdm9CYk1ldzdo?=
+ =?utf-8?B?OFJDTFRhK1ppdExseWZDVmU3K3lTT2NIUDlrMyt5dmxGTUpTbXpJcWNNaWxN?=
+ =?utf-8?B?LzVBZmNTWmJlYXU2RjYvcDVIalB2a0VFUVFscmtoT2dxTjN2WnllakdMNng1?=
+ =?utf-8?B?VWh3Yi8vT1kzWmY2RThxZkhEL1lpM2VYV3hVSE5CSFN2Ty8vVXpZMncwTll3?=
+ =?utf-8?B?QnIwRmpGdVRpRTE3TGEzZkk5dzNycTNUTFd2aittM1BFSFIzWGZLaTJkcy9W?=
+ =?utf-8?B?S2tYcGp3ck8zNUY4a3dNMDVsazRJN0F6aGs4Q1NTQVVlenhTN1ZKRnhQSk1I?=
+ =?utf-8?B?ajVwSTZiamtPencvUW5INitXQzVYc0d5WG83dit5WklBeFh5QUFIQ3FibTFv?=
+ =?utf-8?B?OUxtVVNZQ1E5NnlmUlFOclVZWlp2MDhMNUJyRjQ2ZUxPNUlyTXhMK1R0aS9Q?=
+ =?utf-8?B?NDlVelRMWjJpeGRSS2xsNU8xMHY3WUpMOVhGUUdxbkdIZkZEMXRPWXd5MFVr?=
+ =?utf-8?B?YmU5T3VTWUpGUjhUNUpVNHRDZXVTdW1XUzRvR1lkRWN3OXNIS0NOSWdFRDlY?=
+ =?utf-8?B?VTNqbkZFdWx5alBLV2Z2OUVWcjQ0cTljcXpZbk0wRTkwWGQ5NTQxaXhCc3FW?=
+ =?utf-8?B?dTZ0V1oxWmF3VDlzcHA1VHRMOXBQU2I1SzBsRTRPOUp1cWFhUGJGaHdldDc1?=
+ =?utf-8?B?aHpVY0pwVmVVdWljZmE0bkZ2eUNac1JaTUNKVUttd0FWNDJ3WGxHWW1xVWZK?=
+ =?utf-8?B?QXA1VnZyN3pmSGN3b3hHQWJtakhnc1cxbnRvTGtGb0hOb0k0dzJvcjE3aExY?=
+ =?utf-8?B?ZlAxcW5NM2YxREJvMytPdFUxaTZHVTg5MmRtK0JHTmxsa29OM2F3aWpvSmN0?=
+ =?utf-8?B?ZFJ0RUl4YzZndC9KU1Bvc3F1Rjd5ejViNmUxaUNTV3duZW9teVZNaHFCaVY5?=
+ =?utf-8?B?cmVwMm9MUVhsTTBFN3RlaTlUZmJRc1B5aUo4TGpDa25wL01nb21pOENMZmVX?=
+ =?utf-8?Q?Y8G93H7SSroZQclVHx5V7sYjP?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b731d940-e530-472e-39f0-08dbd4f9006f
+X-MS-Exchange-CrossTenant-AuthSource: DS7PR11MB6064.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Oct 2023 01:23:32.5319
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: zmYsZ8Ozo4KSGrNyVGOLawQrgvKgJDHMu1s0BBIP6+WZuzWJGgdLRRPsbkH4ovzrG/EXHHgRBxc9+KC/VNDm0w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB6007
+X-Proofpoint-ORIG-GUID: 3dOreRVGi75BaoozONHFN53iB2RwuZse
+X-Proofpoint-GUID: 3dOreRVGi75BaoozONHFN53iB2RwuZse
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-10-25_01,2023-10-24_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ lowpriorityscore=0 suspectscore=0 adultscore=0 bulkscore=0 mlxlogscore=999
+ spamscore=0 phishscore=0 malwarescore=0 impostorscore=0 clxscore=1011
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2310170000 definitions=main-2310250010
 Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 39P1322R006302
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Tue, 24 Oct 2023 19:03:02 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8393
+ <meta-virtualization@lists.yoctoproject.org>; Wed, 25 Oct 2023 01:23:44 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8394
 
-This is better, but I didn't have any issues with the CVE notation you
-had in the v1 of the patch.
+On 10/24/23 23:45, Bruce Ashfield wrote:
+> podman has already been marked as incompatible with mips on master.
+>
+> Is your branch out of date, or did you miss where it was in the recipe =
+?
 
-Both the explicit CVE mentions and the changelog should be in the patch.
+There is a local podman recipe with specific version and causes the=20
+issue. When reproduce
+with Yocto & meta-virt, I didn't check the error messages carefully.
 
-And a 3rd element should be to mention which versions are impacted by
-the CVEs, so I can check that the version in master is safe (or you
-can indicate that in your patch: " version <x> master is not impacted
-by these CVEs"
+Sorry for inconvenience, v2 will be sent.
 
-Bruce
+Regards,
+Kai
 
-On Mon, Oct 23, 2023 at 7:55=E2=80=AFAM Soumya via lists.yoctoproject.org
-<soumya.sambu=3Dwindriver.com@lists.yoctoproject.org> wrote:
->
-> From: Soumya Sambu <soumya.sambu@windriver.com>
->
-> Bumping kubernetes to version v1.27.5, which comprises the following comm=
-its:
->
->     38c97fa67ed Merge pull request #120135 from ritazh/cherry-pick-cve-20=
-23-3955-1.27
->     89048339422 Merge pull request #120130 from ritazh/cherry-pick-cve-20=
-23-3676-1.27
->     acc29048e6d Use environment varaibles for parameters in Powershell
->     172644fb55d Use env varaibles for passing path
->     00dfa0634be Merge pull request #119868 from liggitt/automated-cherry-=
-pick-of-#119835-upstream-release-1.27
->     3b6bcaa0b96 Avoid returning nil responseKind in v1beta1 aggregated di=
-scovery
->     bd722aa3ff5 Merge pull request #119828 from jeremyrickard/go1207-1.27
->     94b3e00eef0 [release-1.27] releng/go: Bump images, versions and deps =
-to use Go 1.20.7
->     de56018f04a Merge pull request #117269 from tnqn/automated-cherry-pic=
-k-of-#117245-#117249-upstream-release-1.27
->     521580378aa Merge pull request #119363 from jsafrane/automated-cherry=
--pick-of-#117804-upstream-release-1.27
->     d35a1c8a7a7 Merge pull request #119620 from liggitt/automated-cherry-=
-pick-of-#117710-upstream-release-1.27
->     579208d9616 Merge pull request #117486 from TommyStarK/automated-cher=
-ry-pick-of-#117449-upstream-release-1.27
->     2ac615ccde3 Merge pull request #117235 from cvvz/automated-cherry-pic=
-k-of-#116134-origin-release-1.27
->     559f43d49c6 Merge pull request #119466 from mimowo/automated-cherry-p=
-ick-of-#119434-upstream-release-1.27
->     382c283f339 Merge pull request #119113 from champtar/automated-cherry=
--pick-of-#118922-upstream-release-1.27
->     05b64c6b5e1 Merge pull request #119604 from a7i/automated-cherry-pick=
--of-#118549-upstream-release-1.27
->     ecd45047e45 Merge pull request #119572 from andrewsykim/automated-che=
-rry-pick-of-#118601-origin-release-1.27
->     927dba2589a e2e_node: move getSampleDevicePluginPod to device_plugin_=
-test.go
->     db832fdfa67 fix 'pod' in kubelet prober metrics
->     4c67c5d5e76 priority & fairness: support dynamically configuring work=
- estimator max seats
->     6d31f4b31ba Merge pull request #119519 from jingxu97/automated-cherry=
--pick-of-#118451-upstream-release-1.27
->     17c98720e84 Add mininumKubelet tag into ReadWriteOncePod test
->     ed0cdc9e0b2 Include ignored pods when computing backoff delay for Job=
- pod failures
->     ae24a5cf74b Remarks
->     9e1050b4d90 Adjust the algorithm for computing the pod finish time
->     fa950050cc9 Update CHANGELOG/CHANGELOG-1.27.md for v1.27.4
->     fa3d7990104 Release commit for Kubernetes v1.27.4
->     d794e0e5cf8 Merge pull request #119366 from xmudrii/go1206-1.27
->     a1b127ca7a1 [release-1.27] releng/go: Bump images, versions and deps =
-to use Go 1.20.6
->     aefc4d0392a Rename updateReconstructedFromAPIServer
->     eeba02fc625 Rename volumesNeedDevicePath
->     5eb3b748e8e Update volumesInUse after attachability is confirmed
->     f8bb161ab55 Add uncertain state of volume attach-ability
->     08b7937d256 Refactor FindAttachablePluginBySpec out of CSI code path
->     16fc1c954ce Merge pull request #119262 from HirazawaUi/automated-cher=
-ry-pick-of-#119229-upstream-release-1.27
->     3ca3e0ad484 Merge pull request #118947 from Evan-Reilly/automated-che=
-rry-pick-of-#118237-upstream-release-1.27
->     5ee5d7346e1 Merge pull request #119096 from aleksandra-malinowska/aut=
-omated-cherry-pick-of-#117865-upstream-release-1.27
->     1484a5c32f0 Fix the converts an empty string to nil.
->     b5c876a05b7 Merge pull request #117226 from princepereira/automated-c=
-herry-pick-of-#116749-upstream-release-1.27
->     d98c5b8a026 Merge pull request #119160 from alculquicondor/automated-=
-cherry-pick-of-#119159-upstream-release-1.27
->     28c79be6747 Add unit tests for parallel StatefulSet create & delete
->     66f980be120 Parallel StatefulSet pod create & delete
->     288504fbf8d Refactor StatefulSet controller update logic
->     92a0f58e2bf Only declare job as finished after removing all finalizer=
-s
->     c655001fa48 Automated cherry pick of #118716 upstream release 1.27 (#=
-118911)
->     052ac3eb1bf Merge pull request #119065 from xmudrii/automated-cherry-=
-pick-of-#118899-upstream-release-1.27
->     b667da8e08a Merge pull request #118683 from serathius/automated-cherr=
-y-pick-of-#118460-origin-release-1.27
->     f8c1cc33cb6 Merge pull request #119139 from kmala/1.27
->     5bbacb11989 Merge pull request #118290 from HirazawaUi/automated-cher=
-ry-pick-of-#118177-upstream-release-1.27
->     b383755e462 Hide numberOfMissedSchedules as an algorithm internal num=
-ber
->     26db84e04c7 Update schedule logic to properly calculate missed schedu=
-les
->     fe4e288bcdd Merge pull request #118855 from aojea/automated-cherry-pi=
-ck-of-#118686-upstream-release-1.27
->     a54590f218d Merge pull request #117936 from jsafrane/automated-cherry=
--pick-of-#117243-upstream-release-1.27
->     ad569aec159 kubeadm: backdate generated CAs by 5 minutes
->     0fc5c972129 client-go: allow to set NotBefore in NewSelfSignedCACert(=
-)
->     0ed276fb568 Merge pull request #118199 from aleskandro/automated-cher=
-ry-pick-of-#118053-origin-release-1.27
->     04e86095d38 Merge pull request #118930 from atiratree/automated-cherr=
-y-pick-of-#118876-upstream-release-1.27
->     3c115eec0b9 Automated cherry pick of #118805: test comment should mat=
-ch the code in podgc (#118913)
->     db247e1df34 Merge pull request #118969 from champtar/automated-cherry=
--pick-of-#117791-upstream-release-1.27
->     55872a8eb12 Merge pull request #119086 from neolit123/automated-cherr=
-y-pick-of-#118150-origin-release-1.27
->     39a4cd1a083 call ./hack/update-vendor.sh
->     33af2a45f53 kubeadm: remove function pointer comparison in phase test
->     3f4643682e3 CHANGELOG-1.27: Add note for AWS in-tree provider removal
->     703edddae4e Updating the nodeAffinity of gated pods having nil affini=
-ty should be allowed
->     3b874af3878 Merge pull request #118662 from mkowalski/automated-cherr=
-y-pick-of-#118329-upstream-release-1.27
->     d936e6669bb Merge pull request #118841 from bobbypage/automated-cherr=
-y-pick-of-#118497-upstream-release-1.27
->     3aa21cec0ec fix the existing problem (0 SerialNumber in all certifica=
-te) as part of this PR in a separate commit
->     cd08820ba9a update serial number to a valid non-zero number in ca cer=
-tificate
->     5253d8e02c7 Merge pull request #118664 from pohly/automated-cherry-pi=
-ck-of-#118524-origin-release-1.27
->     76b9400cea3 Merge pull request #118283 from pohly/automated-cherry-pi=
-ck-of-#118257-origin-release-1.27
->     1260b845752 Delete CRDs created during field validation tests.
->     f689046fb6b kubectl explain should work for both cluster and namespac=
-e resources and without a GET method
->     f7d82bfdffe Merge pull request #118797 from harche/1.27_cadvisor_bump
->     59cd1d0b3bb always execute condition for wait.PollUntilContextTimeout=
- with immediate=3Dtrue
->     5423fffca9d Review remarks to improve HandlePodCleanups in kubelet
->     24c67c15240 Fix the deletion of rejected pods
->     0539a6a194a Merge pull request #118821 from helayoty/automated-cherry=
--pick-of-#118049-upstream-release-1.27
->     62cf5ee1cdb Unset gated pod info timestamp in addToActiveQ
->     027b4632bbb deps: Bump to cAdvisor v0.47.2
->     ea2af58b5bd Make etcd component status consistent with health probes
->     f2548642c4e e2e storage: terminate worker quietly on test completion
->     9a001cea215 Fix flaky persistent volumes e2e test
->     eb5825b3a3c Set the node-ips annotation correctly with CloudDualStack=
-NodeIPs
->     a2ba2626e85 Update CHANGELOG/CHANGELOG-1.27.md for v1.27.3
->     25b4e43193b Release commit for Kubernetes v1.27.3
->     aae883e5fa7 Merge pull request #118553 from puerco/bump-1.27-go1.20.5
->     e13e5915a78 Merge pull request #118307 from SataQiu/automated-cherry-=
-pick-of-#117169-upstream-release-1.27
->     e0a2a6efdd1 update-vendor: update vendored go.sums
->     82b2c5aefa3 releng/go: Update images, dependencies and version to Go =
-1.20.5
->     e2cc1a3b21b Merge pull request #118515 from aojea/automated-cherry-pi=
-ck-of-#118499-upstream-release-1.27
->     3a77d5a59f0 Merge pull request #118471 from ritazh/automated-cherry-p=
-ick-of-#118356-upstream-release-1.27
->     b30e94b1253 kube-proxy avoid race condition using LocalModeNodeCIDR
->     5e00018fccf Merge pull request #117948 from dlipovetsky/automated-che=
-rry-pick-of-#117792-#117724-upstream-release-1.27
->     76f14499624 Merge pull request #118281 from aojea/automated-cherry-pi=
-ck-of-#118256-upstream-release-1.27
->     d59b91d97b4 Add ephemeralcontainer to imagepolicy securityaccount adm=
-ission plugin
->     d71d96a5d24 Merge pull request #118219 from mimowo/automated-cherry-p=
-ick-of-#117586-upstream-release-1.27
->     c48bdec2ced Merge pull request #118279 from aojea/automated-cherry-pi=
-ck-of-#118200-upstream-release-1.27
->     c345ce91a03 supported version of etcd 3.5.7-0 for Kubernetes v1.27.0-=
-rc.0
->     22e8a99ec6e Fix the git-repo test error caused by the correct use of =
-loop variables
->     009a7a6fb9f dra scheduler plugin test: fix loopvar bug and "reserve" =
-expected data
->     7888798873e e2e framework retry on Service unavailable errors
->     f41a169a354 e2e: apply timeout for CSI Storage Capacity test only to =
-node
->     916bc55a7bf Merge pull request #118178 from HirazawaUi/automated-cher=
-ry-pick-of-#118156-upstream-release-1.27
->     e407c2b4b02 Add DisruptionTarget condition when preempting for critic=
-al pod
->     d2bd738e274 update webhook test to go 1.21
->     4025005877a Merge pull request #118105 from SataQiu/automated-cherry-=
-pick-of-#118069-upstream-release-1.27
->     af024b2a086 Merge pull request #118111 from liggitt/automated-cherry-=
-pick-of-#118104-upstream-release-1.27
->     9107eee6583 Test APIService safe handling at startup
->     0bff4e35669 Fix waiting for CRD sync at server start
->     1ae728f4344 kubeadm: fix a bug where the static pod changes detection=
- logic is inconsistent with kubelet
->     f404d1c4d3c Update CHANGELOG/CHANGELOG-1.27.md for v1.27.2
->     7f6f68fdabc Release commit for Kubernetes v1.27.2
->
-> Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
-> ---
->  recipes-containers/kubernetes/kubernetes_git.bb | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/recipes-containers/kubernetes/kubernetes_git.bb b/recipes-co=
-ntainers/kubernetes/kubernetes_git.bb
-> index 3a6e7119..560fd8b7 100644
-> --- a/recipes-containers/kubernetes/kubernetes_git.bb
-> +++ b/recipes-containers/kubernetes/kubernetes_git.bb
-> @@ -5,8 +5,8 @@ applications across multiple hosts, providing basic mecha=
-nisms for deployment, \
->  maintenance, and scaling of applications. \
->  "
->
-> -PV =3D "v1.27.1+git${SRCREV_kubernetes}"
-> -SRCREV_kubernetes =3D "2555e0f90e80a13628f47eca5cde34decc89babb"
-> +PV =3D "v1.27.5+git${SRCREV_kubernetes}"
-> +SRCREV_kubernetes =3D "93e0d7146fb9c3e9f68aa41b2b4265b2fcdb0a4c"
->  SRCREV_kubernetes-release =3D "21382abdbfa8e6a43fd417306fa649cb651cc06e"
->  PE =3D "1"
->
-> --
-> 2.40.0
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#8384): https://lists.yoctoproject.org/g/meta-virtuali=
-zation/message/8384
-> Mute This Topic: https://lists.yoctoproject.org/mt/102133424/1050810
-> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [=
-bruce.ashfield@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
 
+>
+> Bruce
+>
+> On Tue, Oct 24, 2023 at 11:29=E2=80=AFAM Kai Kang <kai.kang@eng.windriv=
+er.com> wrote:
+>> From: Kai Kang <kai.kang@windriver.com>
+>>
+>> Since runtime dependency skopeo has been marked incompatible with mips=
+,
+>> set for podman and umoci accordingly.
+>>
+>> buildah and podman-tui rdepends on podman, so mark for them too.
+>>
+>> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+>> ---
+>>   recipes-containers/buildah/buildah_git.bb       | 2 ++
+>>   recipes-containers/podman-tui/podman-tui_git.bb | 2 ++
+>>   recipes-containers/podman/podman_git.bb         | 2 ++
+>>   recipes-containers/umoci/umoci_git.bb           | 2 ++
+>>   4 files changed, 8 insertions(+)
+>>
+>> diff --git a/recipes-containers/buildah/buildah_git.bb b/recipes-conta=
+iners/buildah/buildah_git.bb
+>> index 5155cbb1..ef1feead 100644
+>> --- a/recipes-containers/buildah/buildah_git.bb
+>> +++ b/recipes-containers/buildah/buildah_git.bb
+>> @@ -20,6 +20,8 @@ inherit pkgconfig
+>>   inherit features_check
+>>   REQUIRED_DISTRO_FEATURES =3D "seccomp ipv6"
+>>
+>> +COMPATIBLE_HOST =3D "^(?!mips).*"
+>> +
+>>   GO_IMPORT =3D "github.com/containers/buildah"
+>>   GO_INSTALL =3D "${GO_IMPORT}"
+>>   GO_WORKDIR =3D "${GO_INSTALL}"
+>> diff --git a/recipes-containers/podman-tui/podman-tui_git.bb b/recipes=
+-containers/podman-tui/podman-tui_git.bb
+>> index 1a40d0ec..0b1924f9 100644
+>> --- a/recipes-containers/podman-tui/podman-tui_git.bb
+>> +++ b/recipes-containers/podman-tui/podman-tui_git.bb
+>> @@ -41,6 +41,8 @@ PODMAN_PKG =3D "github.com/containers/podman-tui"
+>>   inherit go goarch
+>>   inherit pkgconfig
+>>
+>> +COMPATIBLE_HOST =3D "^(?!mips).*"
+>> +
+>>   do_configure[noexec] =3D "1"
+>>
+>>   BUILD_TAGS ?=3D "exclude_graphdriver_btrfs exclude_graphdriver_devic=
+emapper"
+>> diff --git a/recipes-containers/podman/podman_git.bb b/recipes-contain=
+ers/podman/podman_git.bb
+>> index dc80eb6c..3e9fec33 100644
+>> --- a/recipes-containers/podman/podman_git.bb
+>> +++ b/recipes-containers/podman/podman_git.bb
+>> @@ -9,6 +9,8 @@ DESCRIPTION =3D "Podman is a daemonless container engi=
+ne for developing, \
+>>   inherit features_check
+>>   REQUIRED_DISTRO_FEATURES ?=3D "seccomp ipv6"
+>>
+>> +COMPATIBLE_HOST =3D "^(?!mips).*"
+>> +
+>>   DEPENDS =3D " \
+>>       go-metalinter-native \
+>>       go-md2man-native \
+>> diff --git a/recipes-containers/umoci/umoci_git.bb b/recipes-container=
+s/umoci/umoci_git.bb
+>> index feaf6dff..62b42b8e 100644
+>> --- a/recipes-containers/umoci/umoci_git.bb
+>> +++ b/recipes-containers/umoci/umoci_git.bb
+>> @@ -17,6 +17,8 @@ GO_IMPORT =3D "github.com/opencontainers/umoci"
+>>   inherit goarch
+>>   inherit go
+>>
+>> +COMPATIBLE_HOST =3D "^(?!mips).*"
+>> +
+>>   # This disables seccomp and apparmor, which are on by default in the
+>>   # go package.
+>>   EXTRA_OEMAKE=3D"BUILDTAGS=3D''"
+>> --
+>> 2.34.1
+>>
+>>
+>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>> Links: You receive all messages sent to this group.
+>> View/Reply Online (#8386): https://lists.yoctoproject.org/g/meta-virtu=
+alization/message/8386
+>> Mute This Topic: https://lists.yoctoproject.org/mt/102160041/1050810
+>> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+>> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsu=
+b [bruce.ashfield@gmail.com]
+>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>>
+>
 
 --=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+Kai Kang
+Wind River Linux
+
 
