@@ -1,226 +1,405 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 399CDC25B47
-	for <webhook@archiver.kernel.org>; Fri, 27 Oct 2023 03:22:55 +0000 (UTC)
-Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
- by mx.groups.io with SMTP id smtpd.web11.89086.1698376969378504540
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E092C25B48
+	for <webhook@archiver.kernel.org>; Fri, 27 Oct 2023 15:26:17 +0000 (UTC)
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+ by mx.groups.io with SMTP id smtpd.web10.9686.1698420367547202918
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 26 Oct 2023 20:22:49 -0700
+ Fri, 27 Oct 2023 08:26:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=EF8Cm75H;
- spf=pass (domain: gmail.com, ip: 209.85.219.41, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-65af7d102b3so11092236d6.1
-        for <meta-virtualization@lists.yoctoproject.org>; Thu, 26 Oct 2023 20:22:49 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=ZNqx6eoh;
+ spf=pass (domain: gmail.com, ip: 209.85.167.50, mailfrom: jpewhacker@gmail.com)
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-507bd644a96so3200677e87.3
+        for <meta-virtualization@lists.yoctoproject.org>; Fri, 27 Oct 2023 08:26:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698376968; x=1698981768; darn=lists.yoctoproject.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=KdHptdvuJUHGkgZYx3kX/p2lj8ij86fpnupEPjoYDcI=;
-        b=EF8Cm75HemfPj6W9s548ptcIZkDh4zv3ygv+5pR7eBtOwkg+AlQ8Mt55G/3pjOmkGu
-         BNIU2QYK2yCrf6Cf2oNnRyB3AZ6H8KsQTpTu4P0hEluA0foAmnR44V8EPpkujUR/97Td
-         qprLrUMFOqa33hD+tpqu4aegHqxG6kbkOLbV2nGchQBF3T0u5XefoCVNGCPSX+OK7MkS
-         1eUOTtbgHjR3vmekIF7WA5CSYld8vMV8aqBh3Oo1/ICEDrPmx4EKzJSa0chz2t+RSvMJ
-         UcSl9/0sbcgKbzFtRzPl4nWhCAPOPMTFlSuqBVw4ArqJ8BbujkD1mVcSxE26xPP4MTzu
-         c97Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698376968; x=1698981768;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1698420365; x=1699025165; darn=lists.yoctoproject.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=KdHptdvuJUHGkgZYx3kX/p2lj8ij86fpnupEPjoYDcI=;
-        b=Q0VPLrtM0MqLOF7CZGxsLkiGgtggcRdytHl+LiLx7caHPPCwsS7S6oKnO060Cv2rLB
-         YhZVXB/TIxuuvv6IyPg+9Vjmh7I4SaLl6prYV84/UiCxOjZvkDh8dvWxbYHjLMYCYYmC
-         pT4MQIsm9HLFsJbLhmUR4svNJby/T5j9JhTQm+5dWG8q/GtDOL6/oN9DSlfYlaNVWADq
-         kEnr8dj7paiqzdJCcBVY0muLSB/9ChsujMsGfv3rMesBOpZBYkEmxIriRixfDkHy+oxz
-         IFv5fdvPxdTpAK3rt3j4p0FC+ZOnikAS/rzj/Jv3DTX6I8kfiqUK5VdVo6c/2PuetJKT
-         1xJw==
-X-Gm-Message-State: AOJu0YxraZvbjHEyhHHWvfBJgjmsZzkXeB8whwzryIJH+LKjzoZDulCS
-	UNHiIu8mRIIU6++pphcL/QrsRuM0wkfsZY2j
-X-Google-Smtp-Source: AGHT+IEuvo5C9H6trgif/9+bpdCYGioQhj8StIyOa9TH+MYlUbUEAi5nskvMPwWgBQ2cwVAZI73x5w==
-X-Received: by 2002:a05:6214:dc7:b0:66d:2ae0:44cc with SMTP id 7-20020a0562140dc700b0066d2ae044ccmr2456919qvt.21.1698376968108;
-        Thu, 26 Oct 2023 20:22:48 -0700 (PDT)
-Received: from gmail.com ([174.112.183.231])
-        by smtp.gmail.com with ESMTPSA id di12-20020ad458ec000000b0066d02f0af01sm290969qvb.72.2023.10.26.20.22.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Oct 2023 20:22:47 -0700 (PDT)
-Date: Fri, 27 Oct 2023 03:22:46 +0000
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: soumya.sambu@windriver.com
-Cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [meta-virtualization][mickledore][PATCH v3 1/1] kubernetes:
- Upgrade v1.27.1 -> v1.27.5
-Message-ID: <ZTstBhAI1x7a1Ct7@gmail.com>
-References: <20231026111322.2845410-1-soumya.sambu@windriver.com>
+        bh=wm+rHRFob1/WDpJjIhVZSdWrsbVyIHBXpWohNy4Q7Rg=;
+        b=ZNqx6eohibqZ2Wl9Wc/VqIGbiBxsNqnGg8ZaopEuBRmEItiPJcHe4yY3KllttDWXuT
+         pnLnSyeb74JRa7PS5HNT0u5ep2pvHfwPaQ6QOYFcxp0xcalV9FUEHlQv+8kwaxQqj+7L
+         661usHxDM9CnoDc4ARsZgxFSY3Dyu9OZFHiuKLY1fA7TbNKXR6I6tSpoQxShQk0lYznJ
+         vx9ZJxekNsf6KexvA8tSHnakmb5QEEy+JQcngAoav0PyKj/SNNZIrY7eGhyGkeVW9GvR
+         L5K2ceqdjB/CmRQQdardXbsnc0oakA3PYEX/JX6rr/od66p1FAujpj/smdbK4uQbFxj0
+         3Saw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698420365; x=1699025165;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=wm+rHRFob1/WDpJjIhVZSdWrsbVyIHBXpWohNy4Q7Rg=;
+        b=Q02aPAbBNINLoB30DqlSPbGMi3J1/KIFjDtggB+5lwcAjv718rYUNiSmyQfWPcyyFd
+         nLDk9CXWuffIBb4ASLk2KWZ5ztrGUG+m7nIrsvC0Z91yeZB3t3KU4wZh+fKnf2hVTUpw
+         mcHC0yVm9uGmAwDNQYfvcKRObz2fgrZk1axeQIj8FgzZrbPkFBhtp/v2f0o9lagfMIs7
+         ZGHTef3xsnyKENHj7cQJL199kStNa0owEDSENKGo5apaEhs1vTNfWoYul8i7CxsuKAYs
+         ufW1H0Y8Zfd7BLPCcmWGGzBmUepN9bwNJbmvzjC60YS+wI+YS2Puq5Dk5NAVBIYC2sFM
+         UCTg==
+X-Gm-Message-State: AOJu0Yxdrd/1J4HYBL65lKD9qDY41vAIsRwh2UHYKNKvME2BcSUWQrTz
+	p+iiYMk0Qf/Oc2nVnHup2ixSiobdBMUQsIeQH2E=
+X-Google-Smtp-Source: AGHT+IFWcPcs17JC5Z/aW17ZjaJIrqF5ZRQulZ0r1ipJKeWov5Xj71cdmr0DT1XgtmpS84jRrStVcYjwgVqHMjAfIBM=
+X-Received: by 2002:ac2:4c83:0:b0:500:b553:c09e with SMTP id
+ d3-20020ac24c83000000b00500b553c09emr1924592lfl.32.1698420364991; Fri, 27 Oct
+ 2023 08:26:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231026111322.2845410-1-soumya.sambu@windriver.com>
+References: <20231004145433.3544915-1-JPEWhacker@gmail.com>
+ <CADkTA4NcZv6uw=KDGcpUObSYbYnz1qOkCPE5irZQnuZBzALyvw@mail.gmail.com>
+ <CAJdd5GZNUW9K+h9npDk+NM1PTs8Rexvg+Bwjia1yc-WtzoNbZw@mail.gmail.com> <CADkTA4OvyOv0L_tD7-HkC2=_i1MFHGtn+TB6EC7hnLuZGibQDw@mail.gmail.com>
+In-Reply-To: <CADkTA4OvyOv0L_tD7-HkC2=_i1MFHGtn+TB6EC7hnLuZGibQDw@mail.gmail.com>
+From: Joshua Watt <jpewhacker@gmail.com>
+Date: Fri, 27 Oct 2023 09:25:52 -0600
+Message-ID: <CAJdd5GaVHa7sBwF78L7Uu3VmYitq3GPXP6wGKoK-KSXdkOKwzw@mail.gmail.com>
+Subject: Re: [meta-virtualization][RFC] image-oci-umoci: Set image name and tag
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: meta-virtualization@lists.yoctoproject.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Fri, 27 Oct 2023 03:22:55 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8403
+ <meta-virtualization@lists.yoctoproject.org>; Fri, 27 Oct 2023 15:26:17 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8404
 
-merged.
+On Tue, Oct 24, 2023 at 12:58=E2=80=AFPM Bruce Ashfield
+<bruce.ashfield@gmail.com> wrote:
+>
+> On Mon, Oct 16, 2023 at 3:34=E2=80=AFPM Joshua Watt <jpewhacker@gmail.com=
+> wrote:
+> >
+> > On Mon, Oct 16, 2023 at 12:04=E2=80=AFPM Bruce Ashfield
+> > <bruce.ashfield@gmail.com> wrote:
+> > >
+> > > On Wed, Oct 4, 2023 at 10:54=E2=80=AFAM Joshua Watt <JPEWhacker@gmail=
+.com> wrote:
+> > > >
+> > > > umoci treats the --image parameter as <DIRECTORY>:<NAME>, where the=
+ OCI
+> > > > spec ref.name for the image it set to <NAME>. Therefore, if the
+> > > > intention is for the ref.name to be in the format <IMAGE_NAME>:<TAG=
+> (as
+> > > > is expected by e.g. `podman load`, then the complete argument that =
+is
+> > > > passed to umoci must be `--image <DIRECTORY>:<IMAGE_NAME>:<TAG>`
+> > >
+> > > This is going to take a few iterations as well, the changing spec
+> > > and umoci uses have made this a non-trivial area to modify.
+> > >
+> > > I assume you are talking about the oci ref.name annotation ?
+> >
+> > Correct. If you pass <DIRECTORY>:<IMAGE_NAME>:<TAG> to umoci, ref.name
+> > will be <IMAGE_NAME>:<TAG>
+> >
+> > >
+> > > >
+> > > > Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+> > > > ---
+> > > >  classes/image-oci-umoci.inc | 52 +++++++++++++++++++--------------=
+----
+> > > >  1 file changed, 27 insertions(+), 25 deletions(-)
+> > > >
+> > > > diff --git a/classes/image-oci-umoci.inc b/classes/image-oci-umoci.=
+inc
+> > > > index 58e4668..a58cb4c 100644
+> > > > --- a/classes/image-oci-umoci.inc
+> > > > +++ b/classes/image-oci-umoci.inc
+> > > > @@ -35,14 +35,16 @@ IMAGE_CMD:oci() {
+> > > >      fi
+> > > >
+> > > >      if [ -z "${OCI_IMAGE_TAG}" ]; then
+> > > > -       OCI_IMAGE_TAG=3D"initial-tag"
+> > > > -    fi
+> > > > +       image_spec=3D"$image_name:${IMAGE_BASENAME}:initial-tag"
+> > > > +    else
+> > > > +       image_spec=3D"$image_name:${IMAGE_BASENAME}:${OCI_IMAGE_TAG=
+}"
+> > >
+> > > I'm not seeing any examples in the umoci documentation that shows
+> > > a "triplet" of values for the image.
+> > >
+> > > It is always image-path[:image-tag] in what I've read and see in the =
+source.
+> >
+> > Ya, I've noticed that. I think the reason for that is that ref.name
+> > being in the format "NAME:TAG" is a OCI convention that umoci doesn't
+> > _actually_ really need to care about. umoci cares about what directory
+> > the image is in (image-path) and what the ref.name should be set to
+> > (image-tag). Whether image-tag contains a ":" is irrelevant to umoci
+> > since it just copies whatever comes after the first ":" into ref.name.
+> >
+> > Importantly, image-path is never encoded in the JSON anywhere, so it's
+> > not equivalent to the container name.
+> >
+> > >
+> > > Are you saying that what is written into th oci spec json file should=
+ be
+> > > different ? and that encoding what you want in the image-path portion
+> > > of the umoci --image parameter makes it pass through correctly ?
+> >
+> > Ya. I can get containers that have a "nice" ref.name encoded in them by=
+ doing:
+> >
+> > OCI_IMAGE_TAG =3D "$image_name:${IMAGE_BASENAME}:latest"
+> >
+> > Which then sets `ref.name =3D "${IMAGE_BASENAME}:latest"` and everythin=
+g
+> > is happy with this. My suggestion is that the default behavior should
+> > be to encode a nice ref.name like this. Otherwise, tools can (and do)
+> > weird things when loading an OCI image. For example, in the current
+> > implementation, `podmain load -i <IMAGE>` will import the container
+> > _name_ as `latest`, then give it a `latest` tag since none was
+> > specified, so you end up with a `podman run localhost/latest:latest`
+> > which is just weird (and IMHO, a bad experience).
+>
+> Finally back to this.
+>
+> Can you send me a link to the spec you are reading ? Because from
+> what I've been reading; ref.name has no semantic restrictions within
+> the specified grammar. I just want to be sure that I'm not missing
+> something.
 
-Bruce
+The OCI spec doesn't really seem to concern itself with the concept of
+image labels (e.g. "latest") at all. It's silent on them, so this is
+just an emperical observation that behavior of importing images
+created by the oci classes is terrible, unless you use a tool that
+forces you to explicitly specify the destination name (like skopeo
+copy)
 
-In message: [meta-virtualization][mickledore][PATCH v3 1/1] kubernetes: Upgrade v1.27.1 -> v1.27.5
-on 26/10/2023 Soumya via lists.yoctoproject.org wrote:
+>
+> I'm of course talking about: org.opencontainers.image.ref.name
+> and I'm using the oci image-spec repository.
 
-> From: Soumya Sambu <soumya.sambu@windriver.com>
-> 
-> Addresses CVE-2023-2431, CVE-2023-2727, CVE-2023-2728, CVE-2023-3676, CVE-2023-3955 and few other bugs.
-> 
-> Bumping kubernetes to version v1.27.5, which comprises the following commits:
-> 
->     38c97fa67ed Merge pull request #120135 from ritazh/cherry-pick-cve-2023-3955-1.27
->     89048339422 Merge pull request #120130 from ritazh/cherry-pick-cve-2023-3676-1.27
->     acc29048e6d Use environment varaibles for parameters in Powershell
->     172644fb55d Use env varaibles for passing path
->     00dfa0634be Merge pull request #119868 from liggitt/automated-cherry-pick-of-#119835-upstream-release-1.27
->     3b6bcaa0b96 Avoid returning nil responseKind in v1beta1 aggregated discovery
->     bd722aa3ff5 Merge pull request #119828 from jeremyrickard/go1207-1.27
->     94b3e00eef0 [release-1.27] releng/go: Bump images, versions and deps to use Go 1.20.7
->     de56018f04a Merge pull request #117269 from tnqn/automated-cherry-pick-of-#117245-#117249-upstream-release-1.27
->     521580378aa Merge pull request #119363 from jsafrane/automated-cherry-pick-of-#117804-upstream-release-1.27
->     d35a1c8a7a7 Merge pull request #119620 from liggitt/automated-cherry-pick-of-#117710-upstream-release-1.27
->     579208d9616 Merge pull request #117486 from TommyStarK/automated-cherry-pick-of-#117449-upstream-release-1.27
->     2ac615ccde3 Merge pull request #117235 from cvvz/automated-cherry-pick-of-#116134-origin-release-1.27
->     559f43d49c6 Merge pull request #119466 from mimowo/automated-cherry-pick-of-#119434-upstream-release-1.27
->     382c283f339 Merge pull request #119113 from champtar/automated-cherry-pick-of-#118922-upstream-release-1.27
->     05b64c6b5e1 Merge pull request #119604 from a7i/automated-cherry-pick-of-#118549-upstream-release-1.27
->     ecd45047e45 Merge pull request #119572 from andrewsykim/automated-cherry-pick-of-#118601-origin-release-1.27
->     927dba2589a e2e_node: move getSampleDevicePluginPod to device_plugin_test.go
->     db832fdfa67 fix 'pod' in kubelet prober metrics
->     4c67c5d5e76 priority & fairness: support dynamically configuring work estimator max seats
->     6d31f4b31ba Merge pull request #119519 from jingxu97/automated-cherry-pick-of-#118451-upstream-release-1.27
->     17c98720e84 Add mininumKubelet tag into ReadWriteOncePod test
->     ed0cdc9e0b2 Include ignored pods when computing backoff delay for Job pod failures
->     ae24a5cf74b Remarks
->     9e1050b4d90 Adjust the algorithm for computing the pod finish time
->     fa950050cc9 Update CHANGELOG/CHANGELOG-1.27.md for v1.27.4
->     fa3d7990104 Release commit for Kubernetes v1.27.4
->     d794e0e5cf8 Merge pull request #119366 from xmudrii/go1206-1.27
->     a1b127ca7a1 [release-1.27] releng/go: Bump images, versions and deps to use Go 1.20.6
->     aefc4d0392a Rename updateReconstructedFromAPIServer
->     eeba02fc625 Rename volumesNeedDevicePath
->     5eb3b748e8e Update volumesInUse after attachability is confirmed
->     f8bb161ab55 Add uncertain state of volume attach-ability
->     08b7937d256 Refactor FindAttachablePluginBySpec out of CSI code path
->     16fc1c954ce Merge pull request #119262 from HirazawaUi/automated-cherry-pick-of-#119229-upstream-release-1.27
->     3ca3e0ad484 Merge pull request #118947 from Evan-Reilly/automated-cherry-pick-of-#118237-upstream-release-1.27
->     5ee5d7346e1 Merge pull request #119096 from aleksandra-malinowska/automated-cherry-pick-of-#117865-upstream-release-1.27
->     1484a5c32f0 Fix the converts an empty string to nil.
->     b5c876a05b7 Merge pull request #117226 from princepereira/automated-cherry-pick-of-#116749-upstream-release-1.27
->     d98c5b8a026 Merge pull request #119160 from alculquicondor/automated-cherry-pick-of-#119159-upstream-release-1.27
->     28c79be6747 Add unit tests for parallel StatefulSet create & delete
->     66f980be120 Parallel StatefulSet pod create & delete
->     288504fbf8d Refactor StatefulSet controller update logic
->     92a0f58e2bf Only declare job as finished after removing all finalizers
->     c655001fa48 Automated cherry pick of #118716 upstream release 1.27 (#118911)
->     052ac3eb1bf Merge pull request #119065 from xmudrii/automated-cherry-pick-of-#118899-upstream-release-1.27
->     b667da8e08a Merge pull request #118683 from serathius/automated-cherry-pick-of-#118460-origin-release-1.27
->     f8c1cc33cb6 Merge pull request #119139 from kmala/1.27
->     5bbacb11989 Merge pull request #118290 from HirazawaUi/automated-cherry-pick-of-#118177-upstream-release-1.27
->     b383755e462 Hide numberOfMissedSchedules as an algorithm internal number
->     26db84e04c7 Update schedule logic to properly calculate missed schedules
->     fe4e288bcdd Merge pull request #118855 from aojea/automated-cherry-pick-of-#118686-upstream-release-1.27
->     a54590f218d Merge pull request #117936 from jsafrane/automated-cherry-pick-of-#117243-upstream-release-1.27
->     ad569aec159 kubeadm: backdate generated CAs by 5 minutes
->     0fc5c972129 client-go: allow to set NotBefore in NewSelfSignedCACert()
->     0ed276fb568 Merge pull request #118199 from aleskandro/automated-cherry-pick-of-#118053-origin-release-1.27
->     04e86095d38 Merge pull request #118930 from atiratree/automated-cherry-pick-of-#118876-upstream-release-1.27
->     3c115eec0b9 Automated cherry pick of #118805: test comment should match the code in podgc (#118913)
->     db247e1df34 Merge pull request #118969 from champtar/automated-cherry-pick-of-#117791-upstream-release-1.27
->     55872a8eb12 Merge pull request #119086 from neolit123/automated-cherry-pick-of-#118150-origin-release-1.27
->     39a4cd1a083 call ./hack/update-vendor.sh
->     33af2a45f53 kubeadm: remove function pointer comparison in phase test
->     3f4643682e3 CHANGELOG-1.27: Add note for AWS in-tree provider removal
->     703edddae4e Updating the nodeAffinity of gated pods having nil affinity should be allowed
->     3b874af3878 Merge pull request #118662 from mkowalski/automated-cherry-pick-of-#118329-upstream-release-1.27
->     d936e6669bb Merge pull request #118841 from bobbypage/automated-cherry-pick-of-#118497-upstream-release-1.27
->     3aa21cec0ec fix the existing problem (0 SerialNumber in all certificate) as part of this PR in a separate commit
->     cd08820ba9a update serial number to a valid non-zero number in ca certificate
->     5253d8e02c7 Merge pull request #118664 from pohly/automated-cherry-pick-of-#118524-origin-release-1.27
->     76b9400cea3 Merge pull request #118283 from pohly/automated-cherry-pick-of-#118257-origin-release-1.27
->     1260b845752 Delete CRDs created during field validation tests.
->     f689046fb6b kubectl explain should work for both cluster and namespace resources and without a GET method
->     f7d82bfdffe Merge pull request #118797 from harche/1.27_cadvisor_bump
->     59cd1d0b3bb always execute condition for wait.PollUntilContextTimeout with immediate=true
->     5423fffca9d Review remarks to improve HandlePodCleanups in kubelet
->     24c67c15240 Fix the deletion of rejected pods
->     0539a6a194a Merge pull request #118821 from helayoty/automated-cherry-pick-of-#118049-upstream-release-1.27
->     62cf5ee1cdb Unset gated pod info timestamp in addToActiveQ
->     027b4632bbb deps: Bump to cAdvisor v0.47.2
->     ea2af58b5bd Make etcd component status consistent with health probes
->     f2548642c4e e2e storage: terminate worker quietly on test completion
->     9a001cea215 Fix flaky persistent volumes e2e test
->     eb5825b3a3c Set the node-ips annotation correctly with CloudDualStackNodeIPs
->     a2ba2626e85 Update CHANGELOG/CHANGELOG-1.27.md for v1.27.3
->     25b4e43193b Release commit for Kubernetes v1.27.3
->     aae883e5fa7 Merge pull request #118553 from puerco/bump-1.27-go1.20.5
->     e13e5915a78 Merge pull request #118307 from SataQiu/automated-cherry-pick-of-#117169-upstream-release-1.27
->     e0a2a6efdd1 update-vendor: update vendored go.sums
->     82b2c5aefa3 releng/go: Update images, dependencies and version to Go 1.20.5
->     e2cc1a3b21b Merge pull request #118515 from aojea/automated-cherry-pick-of-#118499-upstream-release-1.27
->     3a77d5a59f0 Merge pull request #118471 from ritazh/automated-cherry-pick-of-#118356-upstream-release-1.27
->     b30e94b1253 kube-proxy avoid race condition using LocalModeNodeCIDR
->     5e00018fccf Merge pull request #117948 from dlipovetsky/automated-cherry-pick-of-#117792-#117724-upstream-release-1.27
->     76f14499624 Merge pull request #118281 from aojea/automated-cherry-pick-of-#118256-upstream-release-1.27
->     d59b91d97b4 Add ephemeralcontainer to imagepolicy securityaccount admission plugin
->     d71d96a5d24 Merge pull request #118219 from mimowo/automated-cherry-pick-of-#117586-upstream-release-1.27
->     c48bdec2ced Merge pull request #118279 from aojea/automated-cherry-pick-of-#118200-upstream-release-1.27
->     c345ce91a03 supported version of etcd 3.5.7-0 for Kubernetes v1.27.0-rc.0
->     22e8a99ec6e Fix the git-repo test error caused by the correct use of loop variables
->     009a7a6fb9f dra scheduler plugin test: fix loopvar bug and "reserve" expected data
->     7888798873e e2e framework retry on Service unavailable errors
->     f41a169a354 e2e: apply timeout for CSI Storage Capacity test only to node
->     916bc55a7bf Merge pull request #118178 from HirazawaUi/automated-cherry-pick-of-#118156-upstream-release-1.27
->     e407c2b4b02 Add DisruptionTarget condition when preempting for critical pod
->     d2bd738e274 update webhook test to go 1.21
->     4025005877a Merge pull request #118105 from SataQiu/automated-cherry-pick-of-#118069-upstream-release-1.27
->     af024b2a086 Merge pull request #118111 from liggitt/automated-cherry-pick-of-#118104-upstream-release-1.27
->     9107eee6583 Test APIService safe handling at startup
->     0bff4e35669 Fix waiting for CRD sync at server start
->     1ae728f4344 kubeadm: fix a bug where the static pod changes detection logic is inconsistent with kubelet
->     f404d1c4d3c Update CHANGELOG/CHANGELOG-1.27.md for v1.27.2
->     7f6f68fdabc Release commit for Kubernetes v1.27.2
-> 
-> Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
-> ---
->  recipes-containers/kubernetes/kubernetes_git.bb | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/recipes-containers/kubernetes/kubernetes_git.bb b/recipes-containers/kubernetes/kubernetes_git.bb
-> index 3a6e7119..560fd8b7 100644
-> --- a/recipes-containers/kubernetes/kubernetes_git.bb
-> +++ b/recipes-containers/kubernetes/kubernetes_git.bb
-> @@ -5,8 +5,8 @@ applications across multiple hosts, providing basic mechanisms for deployment, \
->  maintenance, and scaling of applications. \
->  "
->  
-> -PV = "v1.27.1+git${SRCREV_kubernetes}"
-> -SRCREV_kubernetes = "2555e0f90e80a13628f47eca5cde34decc89babb"
-> +PV = "v1.27.5+git${SRCREV_kubernetes}"
-> +SRCREV_kubernetes = "93e0d7146fb9c3e9f68aa41b2b4265b2fcdb0a4c"
->  SRCREV_kubernetes-release = "21382abdbfa8e6a43fd417306fa649cb651cc06e"
->  PE = "1"
->  
-> -- 
-> 2.40.0
-> 
+Yep
 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#8397): https://lists.yoctoproject.org/g/meta-virtualization/message/8397
-> Mute This Topic: https://lists.yoctoproject.org/mt/102197592/1050810
-> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+>
+> That lack of semantics means we are just chasing whatever tools
+> have decided is their default, and there is no right choice IMHO.
 
+Maybe, but again, the default experience of `podman load`, which is
+IMHO the one we probably _really_ care about, is terrible.
+
+Based on the extra work the OCI class is doing to construct a
+directory name that looks like an image name, I had sort of assumed
+that it was trying (and failing) to encode the image name into the
+image so it would load nicely. Otherwise all the logic to construct
+the directory name could just be simplified to use a fixed name
+(like... "image") because the name of the directory has no affect on
+the name of the image. Maybe I'm reading too much into the tea leaves
+here :)
+
+
+>
+> It (ref.name) is most often just a tag (in the OCI examples), which is
+> why I was just setting it to the tag, and not containing the image
+> name in it at all, and also why I always check the variable to be
+> empty before assigning a simple default .. there's no way to get
+> it right for all consumers.
+>
+> Whatever is inheriting the class can tune it for the intended
+> container runtime. That being said, I'm ok with a bit more complexity
+> in the class to avoid everyone carrying more information than required
+> outside of the class.
+>
+> i.e. I don't really want to change the default, or more specifically forc=
+e
+> the <image name>:<tag>, since with the proposed change, there's no
+> way to pass in an OCI_IMAGE_TAG and not have it somehow modified.
+> But I also don't need to compose some of the values each time, if there's
+> a single variable it is easier to override and make sure it is consistent=
+ly
+> used (like your patch using the local variable image_spec).
+>
+> In this case, is something breaking if you make sure your tag is
+> encoded as "${IMAGE_BASENAME}:latest" before letting the image
+> class do its work ? From a glance, it will be consistently composed
+> as "$image_name:${IMAGE_BASENAME}:latest" and then passed
+> via --image.
+
+Ya, this works fine and I'll do that. Figured I'd at least make the
+case that the default is perhaps not particularly great.... It was
+really confusing to me (as a new person to meta-virt) why it was
+generating such bad names when I imported the images. If we don't
+change it, perhaps a least a warning against using `podman load` to
+load images in the README?
+
+>
+> I'm building some oci-images now and having a look at the different
+> runtimes and copies of the images .. to see what happens with the
+> ref.name. and I'm going to experiment with some ways we can hint
+> about the format as an input.
+>
+> Bruce
+>
+>
+> >
+> > >
+> > > Bruce
+> > >
+> > > > +   fi
+> > > >
+> > > >      if [ -n "$new_image" ]; then
+> > > >         bbdebug 1 "OCI: umoci init --layout $image_name"
+> > > >         umoci init --layout $image_name
+> > > > -       umoci new --image $image_name:${OCI_IMAGE_TAG}
+> > > > -       umoci unpack --rootless --image $image_name:${OCI_IMAGE_TAG=
+} $image_bundle_name
+> > > > +       umoci new --image $image_spec
+> > > > +       umoci unpack --rootless --image $image_spec $image_bundle_n=
+ame
+> > > >      else
+> > > >         # todo: create a different tag, after checking if the passe=
+d one exists
+> > > >         true
+> > > > @@ -52,58 +54,58 @@ IMAGE_CMD:oci() {
+> > > >      bbdebug 1 "OCI: cp -r ${IMAGE_ROOTFS}/* $image_bundle_name/roo=
+tfs/"
+> > > >      cp -r ${IMAGE_ROOTFS}/* $image_bundle_name/rootfs
+> > > >
+> > > > -    bbdebug 1 "OCI: umoci repack --image $image_name:${OCI_IMAGE_T=
+AG} $image_bundle_name"
+> > > > -    umoci repack --image $image_name:${OCI_IMAGE_TAG} $image_bundl=
+e_name
+> > > > +    bbdebug 1 "OCI: umoci repack --image $image_spec $image_bundle=
+_name"
+> > > > +    umoci repack --image $image_spec $image_bundle_name
+> > > >
+> > > >      bbdebug 1 "OCI: configuring image"
+> > > >      if [ -n "${OCI_IMAGE_LABELS}" ]; then
+> > > >         for l in ${OCI_IMAGE_LABELS}; do
+> > > > -           bbdebug 1 "OCI: umoci config --image $image_name:${OCI_=
+IMAGE_TAG} --config.label $l"
+> > > > -           umoci config --image $image_name:${OCI_IMAGE_TAG} --con=
+fig.label $l
+> > > > +           bbdebug 1 "OCI: umoci config --image $image_spec --conf=
+ig.label $l"
+> > > > +           umoci config --image $image_spec --config.label $l
+> > > >         done
+> > > >      fi
+> > > >      if [ -n "${OCI_IMAGE_ENV_VARS}" ]; then
+> > > >         for l in ${OCI_IMAGE_ENV_VARS}; do
+> > > > -           bbdebug 1 "umoci config --image $image_name:${OCI_IMAGE=
+_TAG} --config.env $l"
+> > > > -           umoci config --image $image_name:${OCI_IMAGE_TAG} --con=
+fig.env $l
+> > > > +           bbdebug 1 "umoci config --image $image_spec --config.en=
+v $l"
+> > > > +           umoci config --image $image_spec --config.env $l
+> > > >         done
+> > > >      fi
+> > > >      if [ -n "${OCI_IMAGE_PORTS}" ]; then
+> > > >         for l in ${OCI_IMAGE_PORTS}; do
+> > > > -           bbdebug 1 "umoci config --image $image_name:${OCI_IMAGE=
+_TAG} --config.exposedports $l"
+> > > > -           umoci config --image $image_name:${OCI_IMAGE_TAG} --con=
+fig.exposedports $l
+> > > > +           bbdebug 1 "umoci config --image $image_spec --config.ex=
+posedports $l"
+> > > > +           umoci config --image $image_spec --config.exposedports =
+$l
+> > > >         done
+> > > >      fi
+> > > >      if [ -n "${OCI_IMAGE_RUNTIME_UID}" ]; then
+> > > > -       bbdebug 1 "umoci config --image $image_name:${OCI_IMAGE_TAG=
+}  --config.user ${OCI_IMAGE_RUNTIME_UID}"
+> > > > -       umoci config --image $image_name:${OCI_IMAGE_TAG} --config.=
+user ${OCI_IMAGE_RUNTIME_UID}
+> > > > +       bbdebug 1 "umoci config --image $image_spec  --config.user =
+${OCI_IMAGE_RUNTIME_UID}"
+> > > > +       umoci config --image $image_spec --config.user ${OCI_IMAGE_=
+RUNTIME_UID}
+> > > >      fi
+> > > >      if [ -n "${OCI_IMAGE_WORKINGDIR}" ]; then
+> > > > -       bbdebug 1 "umoci config --image $image_name:${OCI_IMAGE_TAG=
+}  --config.workingdir ${OCI_IMAGE_WORKINGDIR}"
+> > > > -       umoci config --image $image_name:${OCI_IMAGE_TAG} --config.=
+workingdir ${OCI_IMAGE_WORKINGDIR}
+> > > > +       bbdebug 1 "umoci config --image $image_spec  --config.worki=
+ngdir ${OCI_IMAGE_WORKINGDIR}"
+> > > > +       umoci config --image $image_spec --config.workingdir ${OCI_=
+IMAGE_WORKINGDIR}
+> > > >      fi
+> > > >      if [ -n "${OCI_IMAGE_STOPSIGNAL}" ]; then
+> > > > -       bbdebug 1 "umoci config --image $image_name:${OCI_IMAGE_TAG=
+}  --config.stopsignal ${OCI_IMAGE_STOPSIGNAL}"
+> > > > -       umoci config --image $image_name:${OCI_IMAGE_TAG} --config.=
+stopsignal ${OCI_IMAGE_STOPSIGNAL}
+> > > > +       bbdebug 1 "umoci config --image $image_spec  --config.stops=
+ignal ${OCI_IMAGE_STOPSIGNAL}"
+> > > > +       umoci config --image $image_spec --config.stopsignal ${OCI_=
+IMAGE_STOPSIGNAL}
+> > > >      fi
+> > > >      if [ -n "${OCI_IMAGE_OS}" ]; then
+> > > > -       bbdebug 1 "umoci config --image $image_name:${OCI_IMAGE_TAG=
+}  --os ${OCI_IMAGE_OS}"
+> > > > -       umoci config --image $image_name:${OCI_IMAGE_TAG} --os ${OC=
+I_IMAGE_OS}
+> > > > +       bbdebug 1 "umoci config --image $image_spec  --os ${OCI_IMA=
+GE_OS}"
+> > > > +       umoci config --image $image_spec --os ${OCI_IMAGE_OS}
+> > > >      fi
+> > > >
+> > > > -    bbdebug 1 "umoci config --image $image_name:${OCI_IMAGE_TAG}  =
+--architecture ${OCI_IMAGE_ARCH}"
+> > > > -    umoci config --image $image_name:${OCI_IMAGE_TAG} --architectu=
+re ${OCI_IMAGE_ARCH}
+> > > > +    bbdebug 1 "umoci config --image $image_spec  --architecture ${=
+OCI_IMAGE_ARCH}"
+> > > > +    umoci config --image $image_spec --architecture ${OCI_IMAGE_AR=
+CH}
+> > > >      # NOTE: umoci doesn't currently expose setting the architectur=
+e variant,
+> > > >      #       so if you need it use sloci instead
+> > > >      if [ -n "${OCI_IMAGE_SUBARCH}" ]; then
+> > > >         bbnote "OCI: image subarch is set to: ${OCI_IMAGE_SUBARCH},=
+ but umoci does not"
+> > > >         bbnote "     expose variants. use sloci instead if this is =
+important"
+> > > >      fi
+> > > > -    umoci config --image $image_name:${OCI_IMAGE_TAG} --config.ent=
+rypoint ${OCI_IMAGE_ENTRYPOINT}
+> > > > +    umoci config --image $image_spec --config.entrypoint ${OCI_IMA=
+GE_ENTRYPOINT}
+> > > >      if [ -n "${OCI_IMAGE_ENTRYPOINT_ARGS}" ]; then
+> > > > -       umoci config --image $image_name:${OCI_IMAGE_TAG} --config.=
+cmd "${OCI_IMAGE_ENTRYPOINT_ARGS}"
+> > > > +       umoci config --image $image_spec --config.cmd "${OCI_IMAGE_=
+ENTRYPOINT_ARGS}"
+> > > >      fi
+> > > > -    umoci config --image $image_name:${OCI_IMAGE_TAG} --author ${O=
+CI_IMAGE_AUTHOR_EMAIL}
+> > > > +    umoci config --image $image_spec --author ${OCI_IMAGE_AUTHOR_E=
+MAIL}
+> > > >
+> > > >      # make a tar version of the image direcotry
+> > > >      #  1) image_name.tar: compatible with oci tar format, blobs an=
+d rootfs
+> > > > --
+> > > > 2.34.1
+> > > >
+> > > >
+> > > > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > > > Links: You receive all messages sent to this group.
+> > > > View/Reply Online (#8335): https://lists.yoctoproject.org/g/meta-vi=
+rtualization/message/8335
+> > > > Mute This Topic: https://lists.yoctoproject.org/mt/101756743/105081=
+0
+> > > > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+> > > > Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/u=
+nsub [bruce.ashfield@gmail.com]
+> > > > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > > >
+> > >
+> > >
+> > > --
+> > > - Thou shalt not follow the NULL pointer, for chaos and madness await
+> > > thee at its end
+> > > - "Use the force Harry" - Gandalf, Star Trek II
+>
+>
+>
+> --
+> - Thou shalt not follow the NULL pointer, for chaos and madness await
+> thee at its end
+> - "Use the force Harry" - Gandalf, Star Trek II
 
