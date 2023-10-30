@@ -1,121 +1,94 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A6A5C4332F
-	for <webhook@archiver.kernel.org>; Mon, 30 Oct 2023 02:46:49 +0000 (UTC)
-Received: from mail-il1-f170.google.com (mail-il1-f170.google.com [209.85.166.170])
- by mx.groups.io with SMTP id smtpd.web11.141291.1698633998789080745
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E49B3C4332F
+	for <webhook@archiver.kernel.org>; Mon, 30 Oct 2023 19:08:23 +0000 (UTC)
+Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
+ by mx.groups.io with SMTP id smtpd.web10.158111.1698692894311314096
  for <meta-virtualization@lists.yoctoproject.org>;
- Sun, 29 Oct 2023 19:46:38 -0700
+ Mon, 30 Oct 2023 12:08:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Mc4LdOtS;
- spf=pass (domain: gmail.com, ip: 209.85.166.170, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-il1-f170.google.com with SMTP id e9e14a558f8ab-3580b94ac2eso14229575ab.0
-        for <meta-virtualization@lists.yoctoproject.org>; Sun, 29 Oct 2023 19:46:38 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=CayFqvhG;
+ spf=pass (domain: gmail.com, ip: 209.85.210.49, mailfrom: jpewhacker@gmail.com)
+Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-6ce31c4a653so3243972a34.3
+        for <meta-virtualization@lists.yoctoproject.org>; Mon, 30 Oct 2023 12:08:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698633998; x=1699238798; darn=lists.yoctoproject.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1698692893; x=1699297693; darn=lists.yoctoproject.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=9FlywW56MdAeg3HClAHIeYYarzmt9YaPsX8oktBZ93A=;
-        b=Mc4LdOtSff2GDWXE74qOHhAhuPWWr4xg2vqtU6pfcx6WaMdsAzlqfFXaoq2qHsGJiY
-         soPIB8WUnBqFqpXoRVlWgPbmNdsniLuf/SDYxixysB8sUlj2LKFjqoabDhu/CEMyjHln
-         mCzgjMGeXrXd1z9CbCkbUvX8WcaPckAVYAWXrSGzr78BOkZS38greI9NYPz3sDtfXiwa
-         3vcZGfKea3Yya1vGuHhr1ho4RNHOFLPdgNjejdl4L9OUxtCa7jWyayb/311XSvnkNtf2
-         c1LfrEz1m0WWnqA7sfPTRusLE62P+oXKMBjtOacxWO08l4bc2fsBdIFIkDK2FY9KbsPh
-         qZRA==
+        bh=z8hdbp0WgHQHrCDvdmq6zS3yY0dTnSt88hFO0GRQGzI=;
+        b=CayFqvhGT/5XiYnM1ZKzxJzg5aP+L0zCtHJ9/MS9dEjDmuovV/hxuWWOKyylq+61x/
+         RGN7xZAlY6tk00mNv8Au1xGhh+smUQFin2qqlR/jDdYA9DQFFKg5kUByne1Hmb2RA3tt
+         iOuAq8EnuR4AcmulljTCG0ePeTCbjyhd2MqYkWyrqItczRrCW33Z/joOBQJU/OApCXEs
+         cVZs6vHPpSvD0IMd1cijOO+fsGDpcbLnf6qZsKfB6K7xF5Tt2fARQvSs0Ss86PX2UI+R
+         rV3adjpww4iEguOxJUL68oYh2NBzYpTFGiRCY5LUR9KO3jfZNPOCV4Db25jtILNXoEp7
+         ZnBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698633998; x=1699238798;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1698692893; x=1699297693;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=9FlywW56MdAeg3HClAHIeYYarzmt9YaPsX8oktBZ93A=;
-        b=jQ9OSffnJF0u4UtJL/TEQGPicT+HY7nkxmsHNsF1qDq9PhBweYoSmnCif6dFTH1eDF
-         tA1Ota7gfwv7yL4reu9CQeg+zIFDLToygytBcXAEMQA8vyolrIh4cS75gzOlZOuGjgE0
-         NrDiMOgLVI8HlRCn2/F8vMprYE2GrYBJvwuv26r2Ypl4f7UAjv9GFUAOn2goHc1v2xp6
-         RstCOvcV8oUlapqFxx8S+06aGk62nIeqmcCDPZtLIHaopqevMVYeyidHop6OxH4zuPeM
-         gUWlV6Mi5odL+YiS3gpe0AYYRqnEUgK48xWGVLp/9qApTglyIygoUJaWTCMsSfhYkGBn
-         rR1w==
-X-Gm-Message-State: AOJu0Yx5wJqqUpLGtOujI4nnF5HW0hrvAwGvoL/j/zs2voSiFb/vNk4Y
-	uPtt8PB9dl+a3uN0H9KNpzLYHNfGui5r4FKX++FMXRir0AA=
-X-Google-Smtp-Source: AGHT+IFlxcbF0DpQSHrYS7ycgRuigCgNIsgWvvDx6ookeIHJ0EtuR2DdM+ZE8oRuAvHpiOuO4mB4B0rqDQZBvqs5yEA=
-X-Received: by 2002:a05:6e02:1c2c:b0:351:4f0c:b95c with SMTP id
- m12-20020a056e021c2c00b003514f0cb95cmr12356610ilh.24.1698633997904; Sun, 29
- Oct 2023 19:46:37 -0700 (PDT)
+        bh=z8hdbp0WgHQHrCDvdmq6zS3yY0dTnSt88hFO0GRQGzI=;
+        b=T9Ar36z4McnfWIQDIbUAXaqAHkIsWB7IVytWgIr9/0dTaIKhgv1GEMSQnR+RWXRyNL
+         2l6CBi0CijJkW+3bL2IA3iQMahxM399jDX8XLIQkVFZsUNMBe08evzuek4EvkfvExkqd
+         i0y/D74GeXns5Q8vfLN4yoy+UmnilFIKljfMXEk2IjJlIKEXs1DKtfLzFQL8slTelxOd
+         kXl3ZEMs6blrj196YQN2lQ4mdAv6BZYFGnRJ1ylJ5WmXxcpHI39NCqJs4HS/FPfX52S+
+         ERLSW2kntelqa7HpHOhn5ccwI0lo4uICNSm1Ceadi+Mc1ZL2Qr8nVfBmHWyPZocugm4Y
+         YAkw==
+X-Gm-Message-State: AOJu0YwNqtPy7voWSwo5INN3E90wGwdXjtrdFKztV8DP+m5mHKUD90f+
+	BZkLxCDhrzHBUH61mY1CwXDX/Hb4+H0=
+X-Google-Smtp-Source: AGHT+IFygB4An8PfasqtT8BAqSFBagOPbWOJ83DC8LpUY1AiHABZCOrCSd0MKeKt1ujkmN+RHGM92Q==
+X-Received: by 2002:a05:6830:12d5:b0:6ce:ca0:eaef with SMTP id a21-20020a05683012d500b006ce0ca0eaefmr11907069otq.26.1698692892926;
+        Mon, 30 Oct 2023 12:08:12 -0700 (PDT)
+Received: from localhost.localdomain ([2601:282:4300:19e0::6aa6])
+        by smtp.gmail.com with ESMTPSA id g39-20020a05683030a700b006ce342a5dbdsm1499599ots.13.2023.10.30.12.08.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Oct 2023 12:08:12 -0700 (PDT)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: meta-virtualization@lists.yoctoproject.org
+Cc: Joshua Watt <JPEWhacker@gmail.com>
+Subject: [meta-virtualization][PATCH v2] classes/image-oci: Map image architecture correctly
+Date: Mon, 30 Oct 2023 13:08:02 -0600
+Message-Id: <20231030190802.1275280-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20231016212626.2146963-1-JPEWhacker@gmail.com>
+References: <20231016212626.2146963-1-JPEWhacker@gmail.com>
 MIME-Version: 1.0
-References: <CAAhKrJ3FEs2Fo0D0gY3UNRMZ4tm3gR5L2-7jMtckWgoviJCwSg@mail.gmail.com>
-In-Reply-To: <CAAhKrJ3FEs2Fo0D0gY3UNRMZ4tm3gR5L2-7jMtckWgoviJCwSg@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Sun, 29 Oct 2023 22:46:27 -0400
-Message-ID: <CADkTA4NGWaGf_naOr59raA5M2EDXj3shCXsB_GrmWoAhiHyTxg@mail.gmail.com>
-Subject: Re: [meta-virtualization] dunfell docker builds broken after go CVE-2023-29406
-To: Dan Walkes <danwalkes@trellis-logic.com>
-Cc: meta-virtualization@lists.yoctoproject.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Mon, 30 Oct 2023 02:46:49 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8407
+ <meta-virtualization@lists.yoctoproject.org>; Mon, 30 Oct 2023 19:08:23 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8408
 
-On Sun, Oct 29, 2023 at 9:37=E2=80=AFPM Dan Walkes <danwalkes@trellis-logic=
-.com> wrote:
->
-> Hi Everyone,
->
-> I've noticed that dunfell docker-ce builds are broken with the latest
-> poky dunfell branch when testing with tegra.  Full details at [1].
->
-> Attempts to start any container fail with `http:invalid Host header`
->
-> I see a relevant discussion at [2] which mentions docker 19.03 from
-> the dunfell branch no longer being maintained, so it seems unlikely
-> the fix at [3] will be backported.
->
-> I have a workaround for the time being to revert the patch at [4] in
-> poky but I'm wondering if there's any better suggestion/option for
-> dealing with this on the dunfell branch.
+OCI requires that the architecture [1] be a valid GOARCH [2]. To
+correctly perform this mapping, use the go library code from OE core.
 
-Probably the best bet is to build a newer docker against the old
-release. You'd also need a newer golang.
+[1]: https://github.com/opencontainers/image-spec/blob/main/config.md#properties
+[2]: https://go.dev/doc/install/source#environment
 
-IIRC there's a mixin layer to provide the newer golang, and as
-for docker, that's something that can also be done in a separate layer
-(or shared via a mixin).
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+---
+ classes/image-oci.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-As for what I can do in the dunfell meta-virt layer itself, that answer
-isn't so clear as we don't jump forward major versions in the
-maintained branches, and it would also run into the golan version
-issues.
+diff --git a/classes/image-oci.bbclass b/classes/image-oci.bbclass
+index 9ddb88b..0ec5c48 100644
+--- a/classes/image-oci.bbclass
++++ b/classes/image-oci.bbclass
+@@ -52,7 +52,7 @@ OCI_IMAGE_AUTHOR_EMAIL ?= "${PATCH_GIT_USER_EMAIL}"
+ OCI_IMAGE_TAG ?= "latest"
+ OCI_IMAGE_RUNTIME_UID ?= ""
+ 
+-OCI_IMAGE_ARCH ?= "${TARGET_ARCH}"
++OCI_IMAGE_ARCH ?= "${@oe.go.map_arch(d.getVar('TARGET_ARCH'))}"
+ OCI_IMAGE_SUBARCH ?= "${@oci_map_subarch(d.getVar('TARGET_ARCH'), d.getVar('TUNE_FEATURES'), d)}"
+ 
+ OCI_IMAGE_ENTRYPOINT ?= "sh"
+-- 
+2.34.1
 
-Bruce
-
->
-> Thank you,
-> Dan Walkes
->
-> 1: https://github.com/OE4T/tegra-demo-distro/issues/277
-> 2: https://lists.yoctoproject.org/g/meta-virtualization/message/8184
-> 3: https://github.com/docker/cli/issues/4437#issuecomment-1637715017
-> 4: https://github.com/yoctoproject/poky/commit/f7f7d5514cf0f63a34d1c75efb=
-031829808ddf2e
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#8406): https://lists.yoctoproject.org/g/meta-virtuali=
-zation/message/8406
-> Mute This Topic: https://lists.yoctoproject.org/mt/102267438/1050810
-> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [=
-bruce.ashfield@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
-
-
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
 
