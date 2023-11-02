@@ -1,669 +1,162 @@
-Return-Path: <soumya.sambu@windriver.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D094AC4332F
-	for <webhook@archiver.kernel.org>; Thu,  2 Nov 2023 13:10:17 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.30256.1698930611789460301
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2781C4332F
+	for <webhook@archiver.kernel.org>; Thu,  2 Nov 2023 19:13:40 +0000 (UTC)
+Received: from mail-io1-f45.google.com (mail-io1-f45.google.com [209.85.166.45])
+ by mx.groups.io with SMTP id smtpd.web10.41276.1698952420072481194
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 02 Nov 2023 06:10:11 -0700
+ Thu, 02 Nov 2023 12:13:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=pQdil8+c;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=967046b255=soumya.sambu@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 3A2CF1Mt020992
-	for <meta-virtualization@lists.yoctoproject.org>; Thu, 2 Nov 2023 13:10:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding:content-type; s=PPS06212021; bh=ThK2R
-	QvnowUL1GYgSrKkTkGTTipxz4tkfO2CmzdCn18=; b=pQdil8+c/dEQ3JuHBwoMG
-	GnMudEFbpYoo+y3t6dOZSPVXDEqhKWq57HWgtPRWsUFSD73NlqANhE5MbL7MmSkh
-	ka7+pSYH26GRGe5r2+NTdD2nGdBOqz743nZVn68vRr0c/ccYpqwIQyFvK9t8/DCT
-	533tDxZYAl2pltrkYOc4ICdSqxo0eKQptPypqfjA3TlysKIn9scUUT8QSh8XFngf
-	9z8U6fLAJ0cUyIxIbEso+cyFFEx9sIugkiKlnc5RwM6mFCb+CgLcytb3xcrCz8SD
-	1FuR6PYp+4C2rdXExeAbeXU67QdE4nr9Y12Gu7PXimD7JiP8fPHsRseGOErTaOwh
-	w==
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3u430h8dq4-2
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <meta-virtualization@lists.yoctoproject.org>; Thu, 02 Nov 2023 13:10:10 +0000 (GMT)
-Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34; Thu, 2 Nov 2023 06:09:55 -0700
-From: ssambu <soumya.sambu@windriver.com>
-To: <meta-virtualization@lists.yoctoproject.org>
-Subject: [meta-virtualization][kirkstone][PATCH 2/3] kubernetes: Fix CVE-2023-2727, CVE-2023-2728
-Date: Thu, 2 Nov 2023 13:09:36 +0000
-Message-ID: <20231102130936.1285566-1-soumya.sambu@windriver.com>
-X-Mailer: git-send-email 2.40.0
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=W/rJdDVp;
+ spf=pass (domain: gmail.com, ip: 209.85.166.45, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-io1-f45.google.com with SMTP id ca18e2360f4ac-7ad1236c419so10605539f.0
+        for <meta-virtualization@lists.yoctoproject.org>; Thu, 02 Nov 2023 12:13:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1698952419; x=1699557219; darn=lists.yoctoproject.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BiVu4YuZ+e19Gt5+8dH/cF5bRaVNBiEsGAGz14MF60Y=;
+        b=W/rJdDVpEUYwD87czm4KYNICbzuxGmrw0OTIW7MwGN+thejFbfdQPopXWkt88HCrNG
+         5dSCA+KmIKkbf1KuU4iaVLObf7Wb9FWOKWcUapt+iJSiVOwaA1Pnv6D9z+7xL+gXfm+h
+         kxjP1W2zl7A6VY0ls6lmPRK2eopekdGTZmNUN3gugKcgXVACpC6R6aYG3fIZx5GqRbC5
+         RrjlDVgTLAwpk7kB1Qk0/ZnLBYcnEBNj/pv4mqj7fRM7Ofy55x0uvsElKNwjHsJb/8DJ
+         H2ir0O/fk3Km4caYiM4aoD+JoCVUnq3ukrP38fabGkGN+3+RGXUs8fbJS4qY+UIm4/7Y
+         zjOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698952419; x=1699557219;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=BiVu4YuZ+e19Gt5+8dH/cF5bRaVNBiEsGAGz14MF60Y=;
+        b=VsRqWKDCBgJledV3PQLsYQBhh21V/1vNf7tyVE++17QuF2UswPa2umtImk1eldBaN2
+         cyrdmOmiADweA5EZPNJrkfYcNhrBYDT38+hJY6XGVfOGeV5UyT1X7+Zre/4Ja089svLv
+         7rV7KTb0uge1EPHhygVQBqEC7f155ZdI/hVvm4WjnxA+ZYOIjjL9sK0pEEyQLfMN05o0
+         /NsrDzjCSR/OAez2WHDkkTTGcccyVhZbRgdw5Rf+oTvUJOhNYgYcrexWrUl+ts7bp44I
+         rOADsRgUxX50BSTJgpsVLYyU/Jt+2vPI67dHGDluLIhOx4BEJyRxCUCCuWSpRip+iXz7
+         5P9g==
+X-Gm-Message-State: AOJu0Yw8AJRVpUAp4rqNH6gzZZqszDW681mQPeJnO2VYBdvRPdFyYz2G
+	0StWBf5VSINtMI01ZyL4TQRKIn1mwEsTrgsKFnw=
+X-Google-Smtp-Source: AGHT+IHTrauPWD/2ZQkFlM7F4ZAtUSN91FRh7nXqHXQjiMAxXPBz7yirMn8NUQdKjENwVM5QjvFWQcKD0XbjsEIfYjA=
+X-Received: by 2002:a05:6602:1589:b0:7a2:dee5:84b6 with SMTP id
+ e9-20020a056602158900b007a2dee584b6mr23429743iow.21.1698952419186; Thu, 02
+ Nov 2023 12:13:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [147.11.136.210]
-X-ClientProxiedBy: ala-exchng01.corp.ad.wrs.com (147.11.82.252) To
- ala-exchng01.corp.ad.wrs.com (147.11.82.252)
-X-Proofpoint-GUID: MULGaRlUjHq4rfGqDwDYEjk24ARZMlCd
-X-Proofpoint-ORIG-GUID: MULGaRlUjHq4rfGqDwDYEjk24ARZMlCd
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-11-02_03,2023-11-02_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 suspectscore=0
- spamscore=0 phishscore=0 priorityscore=1501 lowpriorityscore=0
- mlxlogscore=999 adultscore=0 mlxscore=0 clxscore=1015 impostorscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2310240000 definitions=main-2311020105
+References: <06ec1922fd901a02d492158a995cfbeeb158e379.camel@siemens.com>
+In-Reply-To: <06ec1922fd901a02d492158a995cfbeeb158e379.camel@siemens.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Thu, 2 Nov 2023 15:13:27 -0400
+Message-ID: <CADkTA4Mgak8=Hg1eFjUfXiskt5=QO0-cGyOA6zLn4Ck9EUn3GA@mail.gmail.com>
+Subject: Re: use of yocto-cfg-fragments
+To: "Sverdlin, Alexander" <alexander.sverdlin@siemens.com>
+Cc: "meta-virtualization@lists.yoctoproject.org" <meta-virtualization@lists.yoctoproject.org>, 
+	"adrian.freihofer@gmail.com" <adrian.freihofer@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Thu, 02 Nov 2023 13:10:17 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8412
+ <meta-virtualization@lists.yoctoproject.org>; Thu, 02 Nov 2023 19:13:40 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8413
 
-From: Soumya Sambu <soumya.sambu@windriver.com>
+Hi Alexander!
 
-Users may be able to launch containers using images that are restricted by
-ImagePolicyWebhook when using ephemeral containers, Kubernetes clusters are
-only affected if the ImagePolicyWebhook admission plugin is used together
-with ephemeral containers.
+On Thu, Nov 2, 2023 at 6:24=E2=80=AFAM Sverdlin, Alexander
+<alexander.sverdlin@siemens.com> wrote:
+>
+> Hello Bruce!
+>
+> Trying to understand the usage of SRC_URI type=3Dkmeta/kernel-cache in
+> commits
+> 5c2129118797 ("virtualization/config: allow conditional use of yocto-cfg-=
+fragments")
+> and 5be8686e659c ("kernel: fix conditional application of fragments").
+>
+> I have an issue implementing some locally-maintained fragments, I'm addin=
+g
+> "file://features/debug;type=3Dkmeta;destsuffix=3Dfeatures/debug" to SRC_U=
+RI in my
+> kernel recipe derived from kernel-yocto class and this actually works
+> fine for me until I try to combine this with meta-virtualization.
+>
+> My current understanding is that
+> meta-virtualization/recipes-kernel/linux/linux-yocto_virtualization.inc
+> makes an assumption that any type=3Dkmeta will point to upstream
+> git://git.yoctoproject.org/yocto-kernel-cache but this doesn't hold
+> for my use case.
 
-Users may be able to launch containers that bypass the mountable secrets
-policy enforced by the ServiceAccount admission plugin when using ephemeral
-containers. The policy ensures pods running with a service account may only
-reference secrets specified in the service account's secrets field. Kuberenetes
-clusters are only affected if the ServiceAccount admission plugin and the
-`kubernetes.io/enforce-mountab'le-secrets` annotation are used teogether with
-ephemeralcontainers.
+close.
 
-References:
-https://nvd.nist.gov/vuln/detail/CVE-2023-2727
-https://nvd.nist.gov/vuln/detail/CVE-2023-2728
+The support assumes that if something is on the src_uri named
+"kernel-cache" that it is a complete, similarly formatted repository
+to the upstream / centralized one that I maintain
 
-Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
----
- .../CVE-2023-2727-CVE-2023-2728.patch         | 559 ++++++++++++++++++
- .../kubernetes/kubernetes_git.bb              |   1 +
- 2 files changed, 560 insertions(+)
- create mode 100644 recipes-containers/kubernetes/kubernetes/CVE-2023-2727-CVE-2023-2728.patch
+If that is found, it is preferred over the yocto-kernel-cache provided
+by the yocto-cfg-fragments recipe.
 
-diff --git a/recipes-containers/kubernetes/kubernetes/CVE-2023-2727-CVE-2023-2728.patch b/recipes-containers/kubernetes/kubernetes/CVE-2023-2727-CVE-2023-2728.patch
-new file mode 100644
-index 00000000..2a9e8489
---- /dev/null
-+++ b/recipes-containers/kubernetes/kubernetes/CVE-2023-2727-CVE-2023-2728.patch
-@@ -0,0 +1,559 @@
-+From f754a4dee31455a0d7fc0f51cb85348af9ea5e1f Mon Sep 17 00:00:00 2001
-+From: Rita Zhang <rita.z.zhang@gmail.com>
-+Date: Tue, 30 May 2023 20:35:33 +0000
-+Subject: [PATCH] Add ephemeralcontainer to imagepolicy securityaccount
-+ admission plugin
-+
-+Signed-off-by: Rita Zhang <rita.z.zhang@gmail.com>
-+
-+CVE: CVE-2023-2727, CVE-2023-2728
-+
-+Upstream-Status: Backport [https://github.com/kubernetes/kubernetes/commit/f754a4dee31455a0d7fc0f51cb85348af9ea5e1f]
-+
-+Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
-+---
-+ plugin/pkg/admission/imagepolicy/admission.go |  28 ++--
-+ .../admission/imagepolicy/admission_test.go   | 148 +++++++++++++++++-
-+ .../pkg/admission/serviceaccount/admission.go |  57 ++++++-
-+ .../serviceaccount/admission_test.go          |  88 +++++++++++
-+ 4 files changed, 297 insertions(+), 24 deletions(-)
-+
-+diff --git a/plugin/pkg/admission/imagepolicy/admission.go b/plugin/pkg/admission/imagepolicy/admission.go
-+index aea4f713eb5..3dfcbf95eef 100644
-+--- a/plugin/pkg/admission/imagepolicy/admission.go
-++++ b/plugin/pkg/admission/imagepolicy/admission.go
-+@@ -46,6 +46,7 @@ import (
-+
-+ // PluginName indicates name of admission plugin.
-+ const PluginName = "ImagePolicyWebhook"
-++const ephemeralcontainers = "ephemeralcontainers"
-+
-+ // AuditKeyPrefix is used as the prefix for all audit keys handled by this
-+ // pluggin. Some well known suffixes are listed below.
-+@@ -132,8 +133,9 @@ func (a *Plugin) webhookError(pod *api.Pod, attributes admission.Attributes, err
-+
-+ // Validate makes an admission decision based on the request attributes
-+ func (a *Plugin) Validate(ctx context.Context, attributes admission.Attributes, o admission.ObjectInterfaces) (err error) {
-+-	// Ignore all calls to subresources or resources other than pods.
-+-	if attributes.GetSubresource() != "" || attributes.GetResource().GroupResource() != api.Resource("pods") {
-++	// Ignore all calls to subresources other than ephemeralcontainers or calls to resources other than pods.
-++	subresource := attributes.GetSubresource()
-++	if (subresource != "" && subresource != ephemeralcontainers) || attributes.GetResource().GroupResource() != api.Resource("pods") {
-+		return nil
-+	}
-+
-+@@ -144,13 +146,21 @@ func (a *Plugin) Validate(ctx context.Context, attributes admission.Attributes,
-+
-+	// Build list of ImageReviewContainerSpec
-+	var imageReviewContainerSpecs []v1alpha1.ImageReviewContainerSpec
-+-	containers := make([]api.Container, 0, len(pod.Spec.Containers)+len(pod.Spec.InitContainers))
-+-	containers = append(containers, pod.Spec.Containers...)
-+-	containers = append(containers, pod.Spec.InitContainers...)
-+-	for _, c := range containers {
-+-		imageReviewContainerSpecs = append(imageReviewContainerSpecs, v1alpha1.ImageReviewContainerSpec{
-+-			Image: c.Image,
-+-		})
-++	if subresource == "" {
-++		containers := make([]api.Container, 0, len(pod.Spec.Containers)+len(pod.Spec.InitContainers))
-++		containers = append(containers, pod.Spec.Containers...)
-++		containers = append(containers, pod.Spec.InitContainers...)
-++		for _, c := range containers {
-++			imageReviewContainerSpecs = append(imageReviewContainerSpecs, v1alpha1.ImageReviewContainerSpec{
-++				Image: c.Image,
-++			})
-++		}
-++	} else if subresource == ephemeralcontainers {
-++		for _, c := range pod.Spec.EphemeralContainers {
-++			imageReviewContainerSpecs = append(imageReviewContainerSpecs, v1alpha1.ImageReviewContainerSpec{
-++				Image: c.Image,
-++			})
-++		}
-+	}
-+	imageReview := v1alpha1.ImageReview{
-+		Spec: v1alpha1.ImageReviewSpec{
-+diff --git a/plugin/pkg/admission/imagepolicy/admission_test.go b/plugin/pkg/admission/imagepolicy/admission_test.go
-+index d1f81d51950..a9188462fb9 100644
-+--- a/plugin/pkg/admission/imagepolicy/admission_test.go
-++++ b/plugin/pkg/admission/imagepolicy/admission_test.go
-+@@ -37,7 +37,6 @@ import (
-+	api "k8s.io/kubernetes/pkg/apis/core"
-+
-+	"fmt"
-+-	"io/ioutil"
-+	"os"
-+	"path/filepath"
-+	"text/template"
-+@@ -67,7 +66,7 @@ imagePolicy:
-+ `
-+
-+ func TestNewFromConfig(t *testing.T) {
-+-	dir, err := ioutil.TempDir("", "")
-++	dir, err := os.MkdirTemp("", "")
-+	if err != nil {
-+		t.Fatal(err)
-+	}
-+@@ -92,7 +91,7 @@ func TestNewFromConfig(t *testing.T) {
-+		{data.Key, clientKey},
-+	}
-+	for _, file := range files {
-+-		if err := ioutil.WriteFile(file.name, file.data, 0400); err != nil {
-++		if err := os.WriteFile(file.name, file.data, 0400); err != nil {
-+			t.Fatal(err)
-+		}
-+	}
-+@@ -196,7 +195,7 @@ current-context: default
-+		// Use a closure so defer statements trigger between loop iterations.
-+		t.Run(tt.msg, func(t *testing.T) {
-+			err := func() error {
-+-				tempfile, err := ioutil.TempFile("", "")
-++				tempfile, err := os.CreateTemp("", "")
-+				if err != nil {
-+					return err
-+				}
-+@@ -211,7 +210,7 @@ current-context: default
-+					return fmt.Errorf("failed to execute test template: %v", err)
-+				}
-+
-+-				tempconfigfile, err := ioutil.TempFile("", "")
-++				tempconfigfile, err := os.CreateTemp("", "")
-+				if err != nil {
-+					return err
-+				}
-+@@ -359,7 +358,7 @@ func (m *mockService) HTTPStatusCode() int { return m.statusCode }
-+ // newImagePolicyWebhook creates a temporary kubeconfig file from the provided arguments and attempts to load
-+ // a new newImagePolicyWebhook from it.
-+ func newImagePolicyWebhook(callbackURL string, clientCert, clientKey, ca []byte, cacheTime time.Duration, defaultAllow bool) (*Plugin, error) {
-+-	tempfile, err := ioutil.TempFile("", "")
-++	tempfile, err := os.CreateTemp("", "")
-+	if err != nil {
-+		return nil, err
-+	}
-+@@ -381,7 +380,7 @@ func newImagePolicyWebhook(callbackURL string, clientCert, clientKey, ca []byte,
-+		return nil, err
-+	}
-+
-+-	tempconfigfile, err := ioutil.TempFile("", "")
-++	tempconfigfile, err := os.CreateTemp("", "")
-+	if err != nil {
-+		return nil, err
-+	}
-+@@ -595,17 +594,23 @@ func TestContainerCombinations(t *testing.T) {
-+		test                 string
-+		pod                  *api.Pod
-+		wantAllowed, wantErr bool
-++		subresource          string
-++		operation            admission.Operation
-+	}{
-+		{
-+			test:        "Single container allowed",
-+			pod:         goodPod("good"),
-+			wantAllowed: true,
-++			subresource: "",
-++			operation:   admission.Create,
-+		},
-+		{
-+			test:        "Single container denied",
-+			pod:         goodPod("bad"),
-+			wantAllowed: false,
-+			wantErr:     true,
-++			subresource: "",
-++			operation:   admission.Create,
-+		},
-+		{
-+			test: "One good container, one bad",
-+@@ -627,6 +632,8 @@ func TestContainerCombinations(t *testing.T) {
-+			},
-+			wantAllowed: false,
-+			wantErr:     true,
-++			subresource: "",
-++			operation:   admission.Create,
-+		},
-+		{
-+			test: "Multiple good containers",
-+@@ -648,6 +655,8 @@ func TestContainerCombinations(t *testing.T) {
-+			},
-+			wantAllowed: true,
-+			wantErr:     false,
-++			subresource: "",
-++			operation:   admission.Create,
-+		},
-+		{
-+			test: "Multiple bad containers",
-+@@ -669,6 +678,8 @@ func TestContainerCombinations(t *testing.T) {
-+			},
-+			wantAllowed: false,
-+			wantErr:     true,
-++			subresource: "",
-++			operation:   admission.Create,
-+		},
-+		{
-+			test: "Good container, bad init container",
-+@@ -692,6 +703,8 @@ func TestContainerCombinations(t *testing.T) {
-+			},
-+			wantAllowed: false,
-+			wantErr:     true,
-++			subresource: "",
-++			operation:   admission.Create,
-+		},
-+		{
-+			test: "Bad container, good init container",
-+@@ -715,6 +728,8 @@ func TestContainerCombinations(t *testing.T) {
-+			},
-+			wantAllowed: false,
-+			wantErr:     true,
-++			subresource: "",
-++			operation:   admission.Create,
-+		},
-+		{
-+			test: "Good container, good init container",
-+@@ -738,6 +753,123 @@ func TestContainerCombinations(t *testing.T) {
-+			},
-+			wantAllowed: true,
-+			wantErr:     false,
-++			subresource: "",
-++			operation:   admission.Create,
-++		},
-++		{
-++			test: "Good container, good init container, bad ephemeral container when updating ephemeralcontainers subresource",
-++			pod: &api.Pod{
-++				Spec: api.PodSpec{
-++					ServiceAccountName: "default",
-++					SecurityContext:    &api.PodSecurityContext{},
-++					Containers: []api.Container{
-++						{
-++							Image:           "good",
-++							SecurityContext: &api.SecurityContext{},
-++						},
-++					},
-++					InitContainers: []api.Container{
-++						{
-++							Image:           "good",
-++							SecurityContext: &api.SecurityContext{},
-++						},
-++					},
-++					EphemeralContainers: []api.EphemeralContainer{
-++						{
-++							EphemeralContainerCommon: api.EphemeralContainerCommon{
-++								Image:           "bad",
-++								SecurityContext: &api.SecurityContext{},
-++							},
-++						},
-++					},
-++				},
-++			},
-++			wantAllowed: false,
-++			wantErr:     true,
-++			subresource: "ephemeralcontainers",
-++			operation:   admission.Update,
-++		},
-++		{
-++			test: "Good container, good init container, bad ephemeral container when updating subresource=='' which sets initContainer and container only",
-++			pod: &api.Pod{
-++				Spec: api.PodSpec{
-++					ServiceAccountName: "default",
-++					SecurityContext:    &api.PodSecurityContext{},
-++					Containers: []api.Container{
-++						{
-++							Image:           "good",
-++							SecurityContext: &api.SecurityContext{},
-++						},
-++					},
-++					InitContainers: []api.Container{
-++						{
-++							Image:           "good",
-++							SecurityContext: &api.SecurityContext{},
-++						},
-++					},
-++					EphemeralContainers: []api.EphemeralContainer{
-++						{
-++							EphemeralContainerCommon: api.EphemeralContainerCommon{
-++								Image:           "bad",
-++								SecurityContext: &api.SecurityContext{},
-++							},
-++						},
-++					},
-++				},
-++			},
-++			wantAllowed: true,
-++			wantErr:     false,
-++			subresource: "",
-++			operation:   admission.Update,
-++		},
-++
-++		{
-++			test: "Bad container, good ephemeral container when updating subresource=='ephemeralcontainers' which sets ephemeralcontainers only",
-++			pod: &api.Pod{
-++				Spec: api.PodSpec{
-++					ServiceAccountName: "default",
-++					SecurityContext:    &api.PodSecurityContext{},
-++					Containers: []api.Container{
-++						{
-++							Image:           "bad",
-++							SecurityContext: &api.SecurityContext{},
-++						},
-++					},
-++					EphemeralContainers: []api.EphemeralContainer{
-++						{
-++							EphemeralContainerCommon: api.EphemeralContainerCommon{
-++								Image:           "good",
-++								SecurityContext: &api.SecurityContext{},
-++							},
-++						},
-++					},
-++				},
-++			},
-++			wantAllowed: true,
-++			wantErr:     false,
-++			subresource: "ephemeralcontainers",
-++			operation:   admission.Update,
-++		},
-++		{
-++			test: "Good ephemeral container",
-++			pod: &api.Pod{
-++				Spec: api.PodSpec{
-++					ServiceAccountName: "default",
-++					SecurityContext:    &api.PodSecurityContext{},
-++					EphemeralContainers: []api.EphemeralContainer{
-++						{
-++							EphemeralContainerCommon: api.EphemeralContainerCommon{
-++								Image:           "good",
-++								SecurityContext: &api.SecurityContext{},
-++							},
-++						},
-++					},
-++				},
-++			},
-++			wantAllowed: true,
-++			wantErr:     false,
-++			subresource: "ephemeralcontainers",
-++			operation:   admission.Update,
-+		},
-+	}
-+	for _, tt := range tests {
-+@@ -759,7 +891,7 @@ func TestContainerCombinations(t *testing.T) {
-+				return
-+			}
-+
-+-			attr := admission.NewAttributesRecord(tt.pod, nil, api.Kind("Pod").WithVersion("version"), "namespace", "", api.Resource("pods").WithVersion("version"), "", admission.Create, &metav1.CreateOptions{}, false, &user.DefaultInfo{})
-++			attr := admission.NewAttributesRecord(tt.pod, nil, api.Kind("Pod").WithVersion("version"), "namespace", "", api.Resource("pods").WithVersion("version"), tt.subresource, tt.operation, &metav1.CreateOptions{}, false, &user.DefaultInfo{})
-+
-+			err = wh.Validate(context.TODO(), attr, nil)
-+			if tt.wantAllowed {
-+diff --git a/plugin/pkg/admission/serviceaccount/admission.go b/plugin/pkg/admission/serviceaccount/admission.go
-+index 035d54ea8ea..f6e25f3c19d 100644
-+--- a/plugin/pkg/admission/serviceaccount/admission.go
-++++ b/plugin/pkg/admission/serviceaccount/admission.go
-+@@ -100,7 +100,7 @@ var _ = genericadmissioninitializer.WantsExternalKubeInformerFactory(&Plugin{})
-+ // 5. If MountServiceAccountToken is true, it adds a VolumeMount with the pod's ServiceAccount's api token secret to containers
-+ func NewServiceAccount() *Plugin {
-+	return &Plugin{
-+-		Handler: admission.NewHandler(admission.Create),
-++		Handler: admission.NewHandler(admission.Create, admission.Update),
-+		// TODO: enable this once we've swept secret usage to account for adding secret references to service accounts
-+		LimitSecretReferences: false,
-+		// Auto mount service account API token secrets
-+@@ -140,7 +140,10 @@ func (s *Plugin) Admit(ctx context.Context, a admission.Attributes, o admission.
-+	if shouldIgnore(a) {
-+		return nil
-+	}
-+-
-++	if a.GetOperation() != admission.Create {
-++		// we only mutate pods during create requests
-++		return nil
-++	}
-+	pod := a.GetObject().(*api.Pod)
-+
-+	// Don't modify the spec of mirror pods.
-+@@ -157,7 +160,7 @@ func (s *Plugin) Admit(ctx context.Context, a admission.Attributes, o admission.
-+
-+	serviceAccount, err := s.getServiceAccount(a.GetNamespace(), pod.Spec.ServiceAccountName)
-+	if err != nil {
-+-		return admission.NewForbidden(a, fmt.Errorf("error looking up service account %s/%s: %v", a.GetNamespace(), pod.Spec.ServiceAccountName, err))
-++		return admission.NewForbidden(a, fmt.Errorf("error looking up service account %s/%s: %w", a.GetNamespace(), pod.Spec.ServiceAccountName, err))
-+	}
-+	if s.MountServiceAccountToken && shouldAutomount(serviceAccount, pod) {
-+		s.mountServiceAccountToken(serviceAccount, pod)
-+@@ -180,6 +183,15 @@ func (s *Plugin) Validate(ctx context.Context, a admission.Attributes, o admissi
-+
-+	pod := a.GetObject().(*api.Pod)
-+
-++	if a.GetOperation() == admission.Update && a.GetSubresource() == "ephemeralcontainers" {
-++		return s.limitEphemeralContainerSecretReferences(pod, a)
-++	}
-++
-++	if a.GetOperation() != admission.Create {
-++		// we only validate pod specs during create requests
-++		return nil
-++	}
-++
-+	// Mirror pods have restrictions on what they can reference
-+	if _, isMirrorPod := pod.Annotations[api.MirrorPodAnnotationKey]; isMirrorPod {
-+		if len(pod.Spec.ServiceAccountName) != 0 {
-+@@ -205,6 +217,10 @@ func (s *Plugin) Validate(ctx context.Context, a admission.Attributes, o admissi
-+		return nil
-+	}
-+
-++	// Require container pods to have service accounts
-++	if len(pod.Spec.ServiceAccountName) == 0 {
-++		return admission.NewForbidden(a, fmt.Errorf("no service account specified for pod %s/%s", a.GetNamespace(), pod.Name))
-++	}
-+	// Ensure the referenced service account exists
-+	serviceAccount, err := s.getServiceAccount(a.GetNamespace(), pod.Spec.ServiceAccountName)
-+	if err != nil {
-+@@ -221,10 +237,7 @@ func (s *Plugin) Validate(ctx context.Context, a admission.Attributes, o admissi
-+ }
-+
-+ func shouldIgnore(a admission.Attributes) bool {
-+-	if a.GetResource().GroupResource() != api.Resource("pods") {
-+-		return true
-+-	}
-+-	if a.GetSubresource() != "" {
-++	if a.GetResource().GroupResource() != api.Resource("pods") || (a.GetSubresource() != "" && a.GetSubresource() != "ephemeralcontainers") {
-+		return true
-+	}
-+	obj := a.GetObject()
-+@@ -350,6 +363,36 @@ func (s *Plugin) limitSecretReferences(serviceAccount *corev1.ServiceAccount, po
-+	return nil
-+ }
-+
-++func (s *Plugin) limitEphemeralContainerSecretReferences(pod *api.Pod, a admission.Attributes) error {
-++	// Require ephemeral container pods to have service accounts
-++	if len(pod.Spec.ServiceAccountName) == 0 {
-++		return admission.NewForbidden(a, fmt.Errorf("no service account specified for pod %s/%s", a.GetNamespace(), pod.Name))
-++	}
-++	// Ensure the referenced service account exists
-++	serviceAccount, err := s.getServiceAccount(a.GetNamespace(), pod.Spec.ServiceAccountName)
-++	if err != nil {
-++		return admission.NewForbidden(a, fmt.Errorf("error looking up service account %s/%s: %w", a.GetNamespace(), pod.Spec.ServiceAccountName, err))
-++	}
-++	if !s.enforceMountableSecrets(serviceAccount) {
-++		return nil
-++	}
-++	// Ensure all secrets the ephemeral containers reference are allowed by the service account
-++	mountableSecrets := sets.NewString()
-++	for _, s := range serviceAccount.Secrets {
-++		mountableSecrets.Insert(s.Name)
-++	}
-++	for _, container := range pod.Spec.EphemeralContainers {
-++		for _, env := range container.Env {
-++			if env.ValueFrom != nil && env.ValueFrom.SecretKeyRef != nil {
-++				if !mountableSecrets.Has(env.ValueFrom.SecretKeyRef.Name) {
-++					return fmt.Errorf("ephemeral container %s with envVar %s referencing secret.secretName=\"%s\" is not allowed because service account %s does not reference that secret", container.Name, env.Name, env.ValueFrom.SecretKeyRef.Name, serviceAccount.Name)
-++				}
-++			}
-++		}
-++	}
-++	return nil
-++}
-++
-+ func (s *Plugin) mountServiceAccountToken(serviceAccount *corev1.ServiceAccount, pod *api.Pod) {
-+	// Find the volume and volume name for the ServiceAccountTokenSecret if it already exists
-+	tokenVolumeName := ""
-+diff --git a/plugin/pkg/admission/serviceaccount/admission_test.go b/plugin/pkg/admission/serviceaccount/admission_test.go
-+index ca43abf9c3f..f5359253985 100644
-+--- a/plugin/pkg/admission/serviceaccount/admission_test.go
-++++ b/plugin/pkg/admission/serviceaccount/admission_test.go
-+@@ -545,6 +545,34 @@ func TestAllowsReferencedSecret(t *testing.T) {
-+	if err := admissiontesting.WithReinvocationTesting(t, admit).Admit(context.TODO(), attrs, nil); err != nil {
-+		t.Errorf("Unexpected error: %v", err)
-+	}
-++
-++	pod2 = &api.Pod{
-++		Spec: api.PodSpec{
-++			ServiceAccountName: DefaultServiceAccountName,
-++			EphemeralContainers: []api.EphemeralContainer{
-++				{
-++					EphemeralContainerCommon: api.EphemeralContainerCommon{
-++						Name: "container-2",
-++						Env: []api.EnvVar{
-++							{
-++								Name: "env-1",
-++								ValueFrom: &api.EnvVarSource{
-++									SecretKeyRef: &api.SecretKeySelector{
-++										LocalObjectReference: api.LocalObjectReference{Name: "foo"},
-++									},
-++								},
-++							},
-++						},
-++					},
-++				},
-++			},
-++		},
-++	}
-++	// validate enforces restrictions on secret mounts when operation==create and subresource=='' or operation==update and subresource==ephemeralcontainers"
-++	attrs = admission.NewAttributesRecord(pod2, nil, api.Kind("Pod").WithVersion("version"), ns, "myname", api.Resource("pods").WithVersion("version"), "ephemeralcontainers", admission.Update, &metav1.UpdateOptions{}, false, nil)
-++	if err := admit.Validate(context.TODO(), attrs, nil); err != nil {
-++		t.Errorf("Unexpected error: %v", err)
-++	}
-+ }
-+
-+ func TestRejectsUnreferencedSecretVolumes(t *testing.T) {
-+@@ -622,6 +650,66 @@ func TestRejectsUnreferencedSecretVolumes(t *testing.T) {
-+	if err := admissiontesting.WithReinvocationTesting(t, admit).Admit(context.TODO(), attrs, nil); err == nil || !strings.Contains(err.Error(), "with envVar") {
-+		t.Errorf("Unexpected error: %v", err)
-+	}
-++
-++	pod2 = &api.Pod{
-++		Spec: api.PodSpec{
-++			ServiceAccountName: DefaultServiceAccountName,
-++			InitContainers: []api.Container{
-++				{
-++					Name: "container-1",
-++					Env: []api.EnvVar{
-++						{
-++							Name: "env-1",
-++							ValueFrom: &api.EnvVarSource{
-++								SecretKeyRef: &api.SecretKeySelector{
-++									LocalObjectReference: api.LocalObjectReference{Name: "foo"},
-++								},
-++							},
-++						},
-++					},
-++				},
-++			},
-++		},
-++	}
-++	attrs = admission.NewAttributesRecord(pod2, nil, api.Kind("Pod").WithVersion("version"), ns, "myname", api.Resource("pods").WithVersion("version"), "", admission.Update, &metav1.UpdateOptions{}, false, nil)
-++	if err := admissiontesting.WithReinvocationTesting(t, admit).Admit(context.TODO(), attrs, nil); err != nil {
-++		t.Errorf("admit only enforces restrictions on secret mounts when operation==create. Unexpected error: %v", err)
-++	}
-++	attrs = admission.NewAttributesRecord(pod2, nil, api.Kind("Pod").WithVersion("version"), ns, "myname", api.Resource("pods").WithVersion("version"), "", admission.Create, &metav1.CreateOptions{}, false, nil)
-++	if err := admit.Validate(context.TODO(), attrs, nil); err == nil || !strings.Contains(err.Error(), "with envVar") {
-++		t.Errorf("validate only enforces restrictions on secret mounts when operation==create and subresource==''. Unexpected error: %v", err)
-++	}
-++
-++	pod2 = &api.Pod{
-++		Spec: api.PodSpec{
-++			ServiceAccountName: DefaultServiceAccountName,
-++			EphemeralContainers: []api.EphemeralContainer{
-++				{
-++					EphemeralContainerCommon: api.EphemeralContainerCommon{
-++						Name: "container-2",
-++						Env: []api.EnvVar{
-++							{
-++								Name: "env-1",
-++								ValueFrom: &api.EnvVarSource{
-++									SecretKeyRef: &api.SecretKeySelector{
-++										LocalObjectReference: api.LocalObjectReference{Name: "foo"},
-++									},
-++								},
-++							},
-++						},
-++					},
-++				},
-++			},
-++		},
-++	}
-++	attrs = admission.NewAttributesRecord(pod2, nil, api.Kind("Pod").WithVersion("version"), ns, "myname", api.Resource("pods").WithVersion("version"), "", admission.Update, &metav1.UpdateOptions{}, false, nil)
-++	if err := admissiontesting.WithReinvocationTesting(t, admit).Admit(context.TODO(), attrs, nil); err != nil {
-++		t.Errorf("admit only enforces restrictions on secret mounts when operation==create and subresource==''. Unexpected error: %v", err)
-++	}
-++	attrs = admission.NewAttributesRecord(pod2, nil, api.Kind("Pod").WithVersion("version"), ns, "myname", api.Resource("pods").WithVersion("version"), "ephemeralcontainers", admission.Update, &metav1.UpdateOptions{}, false, nil)
-++	if err := admit.Validate(context.TODO(), attrs, nil); err == nil || !strings.Contains(err.Error(), "with envVar") {
-++		t.Errorf("validate enforces restrictions on secret mounts when operation==update and subresource==ephemeralcontainers. Unexpected error: %v", err)
-++	}
-+ }
-+
-+ func TestAllowUnreferencedSecretVolumesForPermissiveSAs(t *testing.T) {
-+--
-+2.40.0
-diff --git a/recipes-containers/kubernetes/kubernetes_git.bb b/recipes-containers/kubernetes/kubernetes_git.bb
-index dc741bbf..b0c87c47 100644
---- a/recipes-containers/kubernetes/kubernetes_git.bb
-+++ b/recipes-containers/kubernetes/kubernetes_git.bb
-@@ -31,6 +31,7 @@ SRC_URI:append = " \
-            file://0001-build-golang.sh-convert-remaining-go-calls-to-use.patch;patchdir=src/import \
-            file://0001-Makefile.generated_files-Fix-race-issue-for-installi.patch;patchdir=src/import \
-            file://CVE-2023-2431.patch;patchdir=src/import \
-+           file://CVE-2023-2727-CVE-2023-2728.patch;patchdir=src/import \
-            file://cni-containerd-net.conflist \
-            file://k8s-init \
-            file://99-kubernetes.conf \
--- 
-2.40.0
+That's why I have the similarly formatted stipulation above, since
+it is locating a fragment based on a name and relative path. I could
+easily drop that stipulation by doing more advanced searching,
+but that hasn't been required so far.
 
+All the above assumes that I don't have bugs in the implementation :)
+
+side note: I just updated the yocto-cfg-fragments recipe to the latest
+6.5 SRCREVs.
+
+>
+> The only type=3Dkmeta is my local file:// storage and the following
+> linux-yocto_virtualization.inc part leads to fetch failure (fetch
+> from Internet not expected/forbidden):
+>
+> # if kernel-yocto has been inherited (how we can check for configuration
+> # fragment merging suport at the moment, then add a dependency on the
+> # configuration fragment repository. This allows us to be sure that our
+> # features can be enabled via the fragments
+> do_kernel_metadata[depends] +=3D "${@['', 'yocto-cfg-fragments-native:do_=
+populate_sysroot'][(bb.data.inherits_class('kernel-yocto', d))]}"
+>
+> Summary: 1 task failed:
+> virtual:native:.../projects/ccp-sd-virt/../../meta-virtualization/recipes=
+-kernel/linux/yocto-cfg-fragments.bb:do_fetch
+
+At a glance, I'm not seeing how your local kmeta is causing
+the full fragments recipe to fail to fetch.
+
+>
+> When I read the comment "if the kernel-yocto meta-data routine automatica=
+lly
+> starts to add the recipe-sysroot-native..." I get a feeling that
+> this feature is still "work in progress". Are there any further developme=
+nts
+> I could test in this direction?
+
+There's nothing that would fix that issue. The in-progress part of that
+is that I plan to remove all of the local fragments in the virtualization
+layer and rely on the cloned kernel-cache from that recipe.
+
+I don't suppose there's a layer I can look at which has your fragments
+and the related kernel bbappend ? I'd like to reproduce the issue
+locally so I can debug it in more detail.
+
+Bruce
+
+>
+> What would be a proper resolution of the above type=3Dkmeta usage conflic=
+t from
+> your PoV?
+>
+> --
+> Alexander Sverdlin
+> Siemens AG
+> www.siemens.com
+
+
+
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
