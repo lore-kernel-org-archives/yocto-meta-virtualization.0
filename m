@@ -1,160 +1,276 @@
-Return-Path: <alexander.sverdlin@siemens.com>
+Return-Path: <soumya.sambu@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12C2FC4167B
-	for <webhook@archiver.kernel.org>; Thu,  2 Nov 2023 10:24:37 +0000 (UTC)
-Received: from EUR01-VE1-obe.outbound.protection.outlook.com (EUR01-VE1-obe.outbound.protection.outlook.com [40.107.14.79])
- by mx.groups.io with SMTP id smtpd.web11.27453.1698920673407000831
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ECAEAC4332F
+	for <webhook@archiver.kernel.org>; Thu,  2 Nov 2023 13:08:27 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.30212.1698930505203430713
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 02 Nov 2023 03:24:34 -0700
+ Thu, 02 Nov 2023 06:08:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@siemens.com header.s=selector2 header.b=hIXc+Jhh;
- spf=pass (domain: siemens.com, ip: 40.107.14.79, mailfrom: alexander.sverdlin@siemens.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KXJvOj33v2dYodBarmE4y4AlyFitOMt77uxHKmx6p1+iR2Gdl7y0TkJ8ku5vQxGv3sLB6r0rFMvy9Owzeb2qrcCCRz6czHxMtAcVkrvVde/d/SemSg5k3uTJbY2/7motO/zN0+ys4DAETjmGVoalo8Vyt/mw9yOSV4+LhlH+uNYJ7WVbmR3NJdb/uLxY5VK4LZpPQCI6zFtoV7bF0ZlliPyPyPhIN6pOkTvmYyzhfoFalOLCD3wrYTLCNXvK5+fGzgRvGDMu7pnLWdMhNwl638uIMqpRv9uHWsd98AIvweJbL0LBv2W4C0I65BzddDb4V7lI++3nsEoO+gmyla22kA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kepWVE8Bem7L0eMEUsKvu3kJsRQrfbLAUeWIStrzNiE=;
- b=Rh1TeOj9ygz0BmmDieYwzDsvisstStHQF6y1F/Unisy8sC4I20K8S6TXtusy4saoRhCkEZ7zJ9ff+1KrVoevne6L0duWG0IeEx3cP7hlqYNW2HqJq5cxuO7q+cZbwOJOijazsObZJdDq9R2YnAH3OnO2kS4ksu6/ev/8R+l74mjW7F71szmGyiWnvc4USPMqiLssbuG8vj1aDIFvHKJtRdgS7uglKHpg9rgpV+LUyqQ7+fBRbyYZoaQfUBalmA9UVofe4rc2ntmshkPIlVELnr+CbBdtg8eKVqXnQ/pGmwsBonJZ/36ww7VrCrAxYDqPnR1hhBpye01kTH+4EsFGbA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
- dkim=pass header.d=siemens.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kepWVE8Bem7L0eMEUsKvu3kJsRQrfbLAUeWIStrzNiE=;
- b=hIXc+JhhvGh2c4NLXmszf28MKwJB9fPLLpskincKUAa4NOZTA/v7NAPOsDSyHL6usSmXngndnV1PGaNIi9lPqqz1CYDRi+rLBI0O9FGNetWFH3RT1DsMJnDePPuuELq8qWB8eCcKfLnyxLSN3H0IMkIt4fnADoVBVbL2vQbbQ/ur0xtlXCuLDH2SWh0t2IIwmbB6NYHzEUhnjqaeCYbV5Xtfn2dNfDrviUCg7Nd5mGchaCOPk07bYiUKyidYYr5NlR0oO0uayiI/J/0ipihyd7oCrMxFWQmC2WttinGSSPl1v2ph85IlvSgTfrbPLJrEO4aR4SB4E6d8BjI/RzpfjQ==
-Received: from AS8PR10MB6867.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:5b6::22)
- by GVXPR10MB8106.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:150:116::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6933.26; Thu, 2 Nov
- 2023 10:24:29 +0000
-Received: from AS8PR10MB6867.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::f1e6:2701:4840:b64f]) by AS8PR10MB6867.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::f1e6:2701:4840:b64f%4]) with mapi id 15.20.6954.021; Thu, 2 Nov 2023
- 10:24:29 +0000
-From: "Sverdlin, Alexander" <alexander.sverdlin@siemens.com>
-To: "bruce.ashfield@gmail.com" <bruce.ashfield@gmail.com>,
-	"meta-virtualization@lists.yoctoproject.org"
-	<meta-virtualization@lists.yoctoproject.org>
-CC: "adrian.freihofer@gmail.com" <adrian.freihofer@gmail.com>
-Subject: use of yocto-cfg-fragments
-Thread-Topic: use of yocto-cfg-fragments
-Thread-Index: AQHaDXbDLSVFxUD5HE+bclx//pSk0A==
-Date: Thu, 2 Nov 2023 10:24:29 +0000
-Message-ID: <06ec1922fd901a02d492158a995cfbeeb158e379.camel@siemens.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siemens.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AS8PR10MB6867:EE_|GVXPR10MB8106:EE_
-x-ms-office365-filtering-correlation-id: a962ecea-207e-4e67-d127-08dbdb8de5bf
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- +z0MQR58cj01KCh+YT3Gi8Cx77UT1L9craOV7rA0ahAihlCTZd1Wkk8kRcLJ21As9/RMx0ItH0EyEo/crGXjW79krwwz5fKoyVb9veg8CBFUGPN8SHzzR6g3OhwE4D2tz9VdJvvgr3w8cmd6W0cxseeDieYPzvJs/xgnSfGPZqQvp5eUSASS8KiDN5bwVWLbqQ5oqgSrTg5Qjw/v6kvQEVH6iGg3B2L4xjXUkG3JzIrxYlBbxkkSGiXHSbq99soV05rXqZyBk6pcsA1hdQ4rsK1mmg/waFUTGC3iuNtIToleFr88W0OnjjtaVEaMKi7BMtn24RCC/C+eoS/mO7u5HSeyoDvES2/PJkVfa3ka8ezSvsjnlZHSjosrBnag8VtC1bnSUQB0dYdqkNiQybT+NWoP3F4u3am84etjPyqP4gkeayKOlNJK6Cmx4oPq8nacqRLxRPFhdlT3JGYQNV1yUU3CbKhv64iYjahUvjTyngtQku7L4e7cGDHcYgk4a52Z0N7AAgsQZhkciKrK975GJ3EehIwzsa6JkuR8UZv6WpyBK6obf//la5/y/od3xaQ4ye+CFYL+Uta0ysMlksw+g7iyLj9Z/fBfvKUJTcFiE+pOgg3I1ZNmXbaK0CpM22puPv1QWcYCiScoeHrHbP9cQw==
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR10MB6867.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(366004)(396003)(136003)(346002)(376002)(39860400002)(230922051799003)(186009)(1800799009)(64100799003)(451199024)(66446008)(316002)(66556008)(66476007)(64756008)(122000001)(41300700001)(38070700009)(82960400001)(8936002)(15974865002)(8676002)(478600001)(86362001)(91956017)(110136005)(6486002)(38100700002)(4326008)(76116006)(2906002)(66946007)(66574015)(5660300002)(36756003)(6512007)(83380400001)(2616005)(6506007)(71200400001)(18886075002);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?ckpydHFSNVp3VEk0c1owYlpVWTVZYUdjbDMvS3RPdzd5R3playthcWo3MW1V?=
- =?utf-8?B?V2JpUG9MMHAwbHBPd0NwTkhHcjFlMWliVFpVRVR2K0tLeVY3ZFJsQ3BuWkRy?=
- =?utf-8?B?YStzZGp3YVkrM1JkenR0eFFEZklVME1kbkl3K0VKVnROMG9LNDFTWENYY3pU?=
- =?utf-8?B?YkRNNnhSTDMxV0NiOEEvQ2pzRUhwb1VUUld0TnBETUxqWEVkc3crVFVvV29E?=
- =?utf-8?B?UmVxOU1FcnB3TXBZanhOdjR6YzJlcFg1bkI5bG9OeC84WUxNZk5BV2FwZnFD?=
- =?utf-8?B?TDFmSkd2L2x1NTZMZXY5U3NWTTV5OWQ0OTNUU2pFeUw1a2dRRFBPcUlicjZo?=
- =?utf-8?B?dE1GME52dU02OE1KOEtMVEU5emxOQkp0bDZwcytrUmhxSDBwbVkyMzVzWmxP?=
- =?utf-8?B?QWRmS1U4RmtEQWhhT051S1pXbnEwRTlrVzFaTDhSdWFmeHFyWUh2bmk2SmdO?=
- =?utf-8?B?UkQ5azZGcGk3c0RNL3NSOE15UWMvYjV5Wk5KMllwNjh6c0dBQlFSalYrMGdx?=
- =?utf-8?B?MFpBWWpnbkpNMnJjN1pveXlra0Ird3RDUFN3dWVmdERkUTBTVGd5NVY3N2M3?=
- =?utf-8?B?R01qV0xUeElXdXhTeGF6V05PWjJmUkQxKzVMd0QxcmNIMlE0RFJBZFBHYkwv?=
- =?utf-8?B?YVVwOWQ4Q3NONlI2bDloSW1CMTViU05XYWtCY0lTYXNQK2Fsb09IR05haGFm?=
- =?utf-8?B?NmtMZW9rd1Z4ZTFzMTVROHFxbVlxNVlQZjRUNGd6YUxaMi8wNFROY0VSZmdO?=
- =?utf-8?B?clFKNFlDMzVnUW1iWGV4M3hNbjZ0K1JsWnlKM09MakJ4Q0hORmpWRloxYzdH?=
- =?utf-8?B?Nk8xTlB1SEdmbzEzRmRHNC9RU3dOeXJ0SGM4RnVGMmE3aFJNVm1yM2tMa0Y4?=
- =?utf-8?B?THpONXk4cXZyVU9MbnkxZ0prdHlVTlhZK1JzWGZ1dkhndTNsZXRaclNVTFA4?=
- =?utf-8?B?bzNVemtIaTU0T1VkRTVIRGZHc2Zpc08wSjk2bEtzUWRYWkFZazcwUHdaeDFN?=
- =?utf-8?B?U2ltN1djbUp6WHRVMkZCZENGenZzZGZHOXhrSk5yejZRQkJtTFFwWjRQRjJT?=
- =?utf-8?B?aC95T1BpZlhEWnV2V0lreDBmNDNGM1UvbDZsOUNZL0pRMUttS05yZlZmSXFJ?=
- =?utf-8?B?Zm1SbG5hTmEwdEhZNUdBeC9PVEdlREw1cFpkYmNJNC9nM0dybW82a3RINUpU?=
- =?utf-8?B?NmxTN09TdXBZaFMzL1ZlY1E1QnRiWStYRFhqR2ZsU2FBemNZYlBzZkxnRENS?=
- =?utf-8?B?Wm1PZ0dGaUN0ZjFRZHRyK28yU1l3R0gzOURNckt0alBOUUZjOHZGRTRQcTFF?=
- =?utf-8?B?bW16Q1JLeDl6K2w4YUNJMy9mZ3FycHlQOGZGUXoyQU40ekJkMDMrQnZWYmRT?=
- =?utf-8?B?UGhyZ0VYR0NlSHhqSTk5ZjJ5WTZHSGFyVmpRdG5WTkU5VjdGZndLcTgrY0dz?=
- =?utf-8?B?WDY0SDhzWHJyc2lGS214QlFNeU42VUZKNlNOcndwOStqUXpweUp0eDlPVVhB?=
- =?utf-8?B?UGJyVEtkejNEbVQrNW5pc25XYkE0SWRpaitWQ3RuQjJwdVNQZm94TDRqMDNX?=
- =?utf-8?B?MFhPRnp6cnJMTGljSFpMV1RycFg5Y2JQTmdRR2xUR2ZMaHdEVk9SV0xUNlJn?=
- =?utf-8?B?b1JKL1NXNTAyRWxNWUJWZnFVWmRZL202czJjaHdKTmd3cTdnYW9RUDFMSm8z?=
- =?utf-8?B?MTVNQk9nOXFBZHNvdkdCRnB5SzM2SStpQzR0dndLaXNQT254UHdNZVp3RHA1?=
- =?utf-8?B?ZW1taTluMmJvdlUwVUxOOXROdCtzc00yeThubmJQMGEySzBWMVlRRDJDdllN?=
- =?utf-8?B?c0FLWW42a0JwZW9wNUEzRnhpTVBkTksveGwvcUhvbVpRZU04aGNjTDRHTmRF?=
- =?utf-8?B?RjRMdnhzaUhzU3hOdmE2SUxvM09Za0ZKY0RKTlRCK2hrTkViRlcrRGV4UVJ6?=
- =?utf-8?B?QnVjdjJCQ2JIc1QxZzZUM21EOW8reUU3aVBpRmM3aUdWakUxaXdQL0pDeXF3?=
- =?utf-8?B?blN1TVZGdFhWMzEveERMeW5USzZESmxjK2V0eFlidlNjazJqQW5oSlRqajFn?=
- =?utf-8?B?SGRmd0hVTEtFYk5SckVRUzZ4clhwU21za1ptY0pjVStUMGNGWkRSUExyQU5h?=
- =?utf-8?B?d1B3QlNuQ3NqVXQ3TlNERUJPSzAvWjBScnFuVFd2MXdZKzEzbi82SVo1VVZ5?=
- =?utf-8?B?WE1OUE4rS2R5YXVMdDVuR2Z5NHRDZU9HL1dVWFdMdmZ6R29tYS9MUEp3Q3l4?=
- =?utf-8?Q?nLP2kig61+gE42tkHpNJE10utpEgyflUejKEMWD28Y=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <C4789E6DF8EA1D42B560F687D5F176EE@EURPRD10.PROD.OUTLOOK.COM>
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=m/LwTsjh;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=967046b255=soumya.sambu@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 3A2BL3E9001003
+	for <meta-virtualization@lists.yoctoproject.org>; Thu, 2 Nov 2023 06:08:24 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PPS06212021; bh=Dm0eF
+	s+ZT3i253nKIJqFEsDg1t2Gqj3m7irfitPpCPo=; b=m/LwTsjhzKTS8yIRbwRpV
+	UlbYEqRgqrodROOknb+BvwSpM9JcSN3vUNAROtlkpSoUyCbQPHpbjxyas91gpE/w
+	HseMmZ7SuFhsUBEdoPky0QV1I7LwM4in9da3Vp+pxNeiJCKNM6ftajcrlcO5nAG4
+	9OL1I15lldFg3eqH1viZFuZdHSlL7f8taYvfCGDB2Ooa9Z9quwbH8m6TE0gXQAh/
+	+bg2ErLJ6B0yqs6oq1gKHZCaC/dXxyxIdlLZECTSdcstgdnjvz55OF3HEgRc4PCO
+	ETMd4bIB1hm+0ljQBF5+IeQbo82ofoEndJca8d8YrDVC0tqJdj34INuoDH/PI6+D
+	Q==
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3u434agd8c-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <meta-virtualization@lists.yoctoproject.org>; Thu, 02 Nov 2023 06:08:24 -0700 (PDT)
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34; Thu, 2 Nov 2023 06:08:24 -0700
+From: ssambu <soumya.sambu@windriver.com>
+To: <meta-virtualization@lists.yoctoproject.org>
+Subject: [meta-virtualization][kirkstone][PATCH 1/1] kubernetes: Adjust patches to resolve error that occur with devtool
+Date: Thu, 2 Nov 2023 13:08:05 +0000
+Message-ID: <20231102130805.1285325-1-soumya.sambu@windriver.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AS8PR10MB6867.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: a962ecea-207e-4e67-d127-08dbdb8de5bf
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Nov 2023 10:24:29.4217
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Q4GR8o5tipvN0HLbjRquzNoTuEHgHPLsODCzgcOLWW5/n8jtM4YPL1WgPIEgCkzjLKbb3cn3hduOkoWc6tCjs6wjO3reygYre5uaFudkNKs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR10MB8106
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [147.11.136.210]
+X-ClientProxiedBy: ala-exchng01.corp.ad.wrs.com (147.11.82.252) To
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252)
+X-Proofpoint-GUID: MP5Jqf1cbklchMGKgQfDThpksQYjFNw_
+X-Proofpoint-ORIG-GUID: MP5Jqf1cbklchMGKgQfDThpksQYjFNw_
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-02_03,2023-11-02_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 bulkscore=0
+ spamscore=0 adultscore=0 malwarescore=0 mlxlogscore=999 lowpriorityscore=0
+ impostorscore=0 suspectscore=0 priorityscore=1501 phishscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2310240000 definitions=main-2311020105
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Thu, 02 Nov 2023 10:24:37 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8409
+ <meta-virtualization@lists.yoctoproject.org>; Thu, 02 Nov 2023 13:08:27 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8410
 
-SGVsbG8gQnJ1Y2UhDQoNClRyeWluZyB0byB1bmRlcnN0YW5kIHRoZSB1c2FnZSBvZiBTUkNfVVJJ
-IHR5cGU9a21ldGEva2VybmVsLWNhY2hlIGluDQpjb21taXRzDQo1YzIxMjkxMTg3OTcgKCJ2aXJ0
-dWFsaXphdGlvbi9jb25maWc6IGFsbG93IGNvbmRpdGlvbmFsIHVzZSBvZiB5b2N0by1jZmctZnJh
-Z21lbnRzIikNCmFuZCA1YmU4Njg2ZTY1OWMgKCJrZXJuZWw6IGZpeCBjb25kaXRpb25hbCBhcHBs
-aWNhdGlvbiBvZiBmcmFnbWVudHMiKS4NCg0KSSBoYXZlIGFuIGlzc3VlIGltcGxlbWVudGluZyBz
-b21lIGxvY2FsbHktbWFpbnRhaW5lZCBmcmFnbWVudHMsIEknbSBhZGRpbmcNCiJmaWxlOi8vZmVh
-dHVyZXMvZGVidWc7dHlwZT1rbWV0YTtkZXN0c3VmZml4PWZlYXR1cmVzL2RlYnVnIiB0byBTUkNf
-VVJJIGluIG15DQprZXJuZWwgcmVjaXBlIGRlcml2ZWQgZnJvbSBrZXJuZWwteW9jdG8gY2xhc3Mg
-YW5kIHRoaXMgYWN0dWFsbHkgd29ya3MNCmZpbmUgZm9yIG1lIHVudGlsIEkgdHJ5IHRvIGNvbWJp
-bmUgdGhpcyB3aXRoIG1ldGEtdmlydHVhbGl6YXRpb24uDQoNCk15IGN1cnJlbnQgdW5kZXJzdGFu
-ZGluZyBpcyB0aGF0DQptZXRhLXZpcnR1YWxpemF0aW9uL3JlY2lwZXMta2VybmVsL2xpbnV4L2xp
-bnV4LXlvY3RvX3ZpcnR1YWxpemF0aW9uLmluYw0KbWFrZXMgYW4gYXNzdW1wdGlvbiB0aGF0IGFu
-eSB0eXBlPWttZXRhIHdpbGwgcG9pbnQgdG8gdXBzdHJlYW0NCmdpdDovL2dpdC55b2N0b3Byb2pl
-Y3Qub3JnL3lvY3RvLWtlcm5lbC1jYWNoZSBidXQgdGhpcyBkb2Vzbid0IGhvbGQNCmZvciBteSB1
-c2UgY2FzZS4NCg0KVGhlIG9ubHkgdHlwZT1rbWV0YSBpcyBteSBsb2NhbCBmaWxlOi8vIHN0b3Jh
-Z2UgYW5kIHRoZSBmb2xsb3dpbmcNCmxpbnV4LXlvY3RvX3ZpcnR1YWxpemF0aW9uLmluYyBwYXJ0
-IGxlYWRzIHRvIGZldGNoIGZhaWx1cmUgKGZldGNoDQpmcm9tIEludGVybmV0IG5vdCBleHBlY3Rl
-ZC9mb3JiaWRkZW4pOg0KDQojIGlmIGtlcm5lbC15b2N0byBoYXMgYmVlbiBpbmhlcml0ZWQgKGhv
-dyB3ZSBjYW4gY2hlY2sgZm9yIGNvbmZpZ3VyYXRpb24NCiMgZnJhZ21lbnQgbWVyZ2luZyBzdXBv
-cnQgYXQgdGhlIG1vbWVudCwgdGhlbiBhZGQgYSBkZXBlbmRlbmN5IG9uIHRoZQ0KIyBjb25maWd1
-cmF0aW9uIGZyYWdtZW50IHJlcG9zaXRvcnkuIFRoaXMgYWxsb3dzIHVzIHRvIGJlIHN1cmUgdGhh
-dCBvdXINCiMgZmVhdHVyZXMgY2FuIGJlIGVuYWJsZWQgdmlhIHRoZSBmcmFnbWVudHMNCmRvX2tl
-cm5lbF9tZXRhZGF0YVtkZXBlbmRzXSArPSAiJHtAWycnLCAneW9jdG8tY2ZnLWZyYWdtZW50cy1u
-YXRpdmU6ZG9fcG9wdWxhdGVfc3lzcm9vdCddWyhiYi5kYXRhLmluaGVyaXRzX2NsYXNzKCdrZXJu
-ZWwteW9jdG8nLCBkKSldfSINCg0KU3VtbWFyeTogMSB0YXNrIGZhaWxlZDoNCnZpcnR1YWw6bmF0
-aXZlOi4uLi9wcm9qZWN0cy9jY3Atc2QtdmlydC8uLi8uLi9tZXRhLXZpcnR1YWxpemF0aW9uL3Jl
-Y2lwZXMta2VybmVsL2xpbnV4L3lvY3RvLWNmZy1mcmFnbWVudHMuYmI6ZG9fZmV0Y2gNCg0KV2hl
-biBJIHJlYWQgdGhlIGNvbW1lbnQgImlmIHRoZSBrZXJuZWwteW9jdG8gbWV0YS1kYXRhIHJvdXRp
-bmUgYXV0b21hdGljYWxseQ0Kc3RhcnRzIHRvIGFkZCB0aGUgcmVjaXBlLXN5c3Jvb3QtbmF0aXZl
-Li4uIiBJIGdldCBhIGZlZWxpbmcgdGhhdA0KdGhpcyBmZWF0dXJlIGlzIHN0aWxsICJ3b3JrIGlu
-IHByb2dyZXNzIi4gQXJlIHRoZXJlIGFueSBmdXJ0aGVyIGRldmVsb3BtZW50cw0KSSBjb3VsZCB0
-ZXN0IGluIHRoaXMgZGlyZWN0aW9uPw0KDQpXaGF0IHdvdWxkIGJlIGEgcHJvcGVyIHJlc29sdXRp
-b24gb2YgdGhlIGFib3ZlIHR5cGU9a21ldGEgdXNhZ2UgY29uZmxpY3QgZnJvbQ0KeW91ciBQb1Y/
-DQoNCi0tIA0KQWxleGFuZGVyIFN2ZXJkbGluDQpTaWVtZW5zIEFHDQp3d3cuc2llbWVucy5jb20N
-Cg==
+From: Soumya Sambu <soumya.sambu@windriver.com>
+
+Adjust patches and .bb to fix  below error which occurs with devtool modify command -
+
+ERROR: Applying patch '0001-hack-lib-golang.sh-use-CC-from-environment.patch' on
+target directory
+CmdError('sh -c \'PATCHFILE="0001-hack-lib-golang.sh-use-CC-from-environment.patch"
+git -c user.name="OpenEmbedded" -c user.email="oe.patch@oe" commit -F /tmp/tmp_ptvioq3
+--author="Koen Kooi <koen.kooi@linaro.org>"
+--date="Mon, 23 Jul 2018 15:28:02 +0200"\'', 0, 'stdout: On branch devtool
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+  (commit or discard the untracked or modified content in submodules)
+\tmodified:   src/import (modified content)
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+stderr: ')
+
+Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
+---
+ ...ed_files-Fix-race-issue-for-installi.patch | 20 +++++++++++--------
+ ...sh-convert-remaining-go-calls-to-use.patch | 18 +++++++++--------
+ ...1-cross-don-t-build-tests-by-default.patch | 12 ++++++-----
+ ...ib-golang.sh-use-CC-from-environment.patch | 14 ++++++++-----
+ .../kubernetes/kubernetes_git.bb              |  8 ++++----
+ 5 files changed, 42 insertions(+), 30 deletions(-)
+
+diff --git a/recipes-containers/kubernetes/kubernetes/0001-Makefile.generated_files-Fix-race-issue-for-installi.patch b/recipes-containers/kubernetes/kubernetes/0001-Makefile.generated_files-Fix-race-issue-for-installi.patch
+index 02bb5e91..e0ef04dc 100644
+--- a/recipes-containers/kubernetes/kubernetes/0001-Makefile.generated_files-Fix-race-issue-for-installi.patch
++++ b/recipes-containers/kubernetes/kubernetes/0001-Makefile.generated_files-Fix-race-issue-for-installi.patch
+@@ -1,8 +1,8 @@
+ From 441df8a24a2c80e320f140b5d9bc352c7ce8a64a Mon Sep 17 00:00:00 2001
+ From: Robert Yang <liezhi.yang@windriver.com>
+ Date: Thu, 15 Oct 2020 07:27:35 +0000
+-Subject: [PATCH] src/import/build/root/Makefile.generated_files: Fix race issue for installing
+- go2make
++Subject: [PATCH] src/import/build/root/Makefile.generated_files: Fix race
++ issue for installing go2make
+ 
+ The src/import/build/root/Makefile.generated_files are called several times during the build, so the
+ following target which installs go2make will also run several times:
+@@ -24,15 +24,17 @@ problem.
+ Upstream-Status: Pending
+ 
+ Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
++
++Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
+ ---
+- src/import/build/root/Makefile.generated_files | 4 +++-
++ build/root/Makefile.generated_files | 4 +++-
+  1 file changed, 3 insertions(+), 1 deletion(-)
+ 
+-Index: kubernetes-v1.21.1+git45da3fc33872083fb225c1a8c4d03e530d6f7630/src/import/build/root/Makefile.generated_files
+-===================================================================
+---- kubernetes-v1.21.1+git45da3fc33872083fb225c1a8c4d03e530d6f7630.orig/src/import/build/root/Makefile.generated_files
+-+++ kubernetes-v1.21.1+git45da3fc33872083fb225c1a8c4d03e530d6f7630/src/import/build/root/Makefile.generated_files
+-@@ -67,7 +67,9 @@
++diff --git a/build/root/Makefile.generated_files b/build/root/Makefile.generated_files
++index d86a90cbb39..19a3d332476 100644
++--- a/build/root/Makefile.generated_files
+++++ b/build/root/Makefile.generated_files
++@@ -67,7 +67,9 @@ $(META_DIR)/$(GO_PKGDEPS_FILE): FORCE
+  	if [[ "$(DBG_CODEGEN)" == 1 ]]; then          \
+  	    echo "DBG: calculating Go dependencies";  \
+  	fi
+@@ -43,3 +45,5 @@ Index: kubernetes-v1.21.1+git45da3fc33872083fb225c1a8c4d03e530d6f7630/src/import
+  	hack/run-in-gopath.sh go2make                       \
+  	    k8s.io/kubernetes/...                           \
+  	    --prune  k8s.io/kubernetes/staging              \
++--
++2.40.0
+diff --git a/recipes-containers/kubernetes/kubernetes/0001-build-golang.sh-convert-remaining-go-calls-to-use.patch b/recipes-containers/kubernetes/kubernetes/0001-build-golang.sh-convert-remaining-go-calls-to-use.patch
+index 8adbafb3..39fdac54 100644
+--- a/recipes-containers/kubernetes/kubernetes/0001-build-golang.sh-convert-remaining-go-calls-to-use.patch
++++ b/recipes-containers/kubernetes/kubernetes/0001-build-golang.sh-convert-remaining-go-calls-to-use.patch
+@@ -4,15 +4,17 @@ Date: Wed, 12 Aug 2020 16:01:49 +0000
+ Subject: [PATCH] build/golang.sh: convert remaining 'go' calls to use
+ 
+ Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
++
++Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
+ ---
+  hack/lib/golang.sh | 8 ++++----
+  1 file changed, 4 insertions(+), 4 deletions(-)
+ 
+-diff --git a/src/import/hack/lib/golang.sh b/src/import/hack/lib/golang.sh
+-index e9148ec08fa..71d3c987563 100755
+---- a/src/import/hack/lib/golang.sh
+-+++ b/src/import/hack/lib/golang.sh
+-@@ -651,7 +651,7 @@ kube::golang::build_some_binaries() {
++diff --git a/hack/lib/golang.sh b/hack/lib/golang.sh
++index d0f4b00dadf..cef0c2075a3 100755
++--- a/hack/lib/golang.sh
+++++ b/hack/lib/golang.sh
++@@ -654,7 +654,7 @@ kube::golang::build_some_binaries() {
+          kube::golang::create_coverage_dummy_test "${package}"
+          kube::util::trap_add "kube::golang::delete_coverage_dummy_test \"${package}\"" EXIT
+  
+@@ -21,7 +23,7 @@ index e9148ec08fa..71d3c987563 100755
+            -covermode count \
+            -coverpkg k8s.io/...,k8s.io/kubernetes/vendor/k8s.io/... \
+            "${build_args[@]}" \
+-@@ -663,13 +663,13 @@ kube::golang::build_some_binaries() {
++@@ -666,13 +666,13 @@ kube::golang::build_some_binaries() {
+      done
+      if [[ "${#uncovered[@]}" != 0 ]]; then
+        V=2 kube::log::info "Building ${uncovered[*]} without coverage..."
+@@ -37,7 +39,7 @@ index e9148ec08fa..71d3c987563 100755
+     fi
+  }
+  
+-@@ -725,7 +725,7 @@ kube::golang::build_binaries_for_platform() {
++@@ -730,7 +730,7 @@ kube::golang::build_binaries_for_platform() {
+      testpkg=$(dirname "${test}")
+  
+      mkdir -p "$(dirname "${outfile}")"
+@@ -47,5 +49,5 @@ index e9148ec08fa..71d3c987563 100755
+        -gcflags "${gogcflags:-}" \
+        -asmflags "${goasmflags:-}" \
+ -- 
+-2.19.1
++2.40.0
+ 
+diff --git a/recipes-containers/kubernetes/kubernetes/0001-cross-don-t-build-tests-by-default.patch b/recipes-containers/kubernetes/kubernetes/0001-cross-don-t-build-tests-by-default.patch
+index 659e3013..26a9b726 100644
+--- a/recipes-containers/kubernetes/kubernetes/0001-cross-don-t-build-tests-by-default.patch
++++ b/recipes-containers/kubernetes/kubernetes/0001-cross-don-t-build-tests-by-default.patch
+@@ -11,14 +11,16 @@ components without error. As such, we patch the targets out of the
+ script to allow a successful build.
+ 
+ Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
++
++Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
+ ---
+  hack/make-rules/cross.sh | 4 ++--
+  1 file changed, 2 insertions(+), 2 deletions(-)
+ 
+-diff --git a/src/import/hack/make-rules/cross.sh b/hack/make-rules/cross.sh
+-index 8e1e938..0898c5c 100755
+---- a/src/import/hack/make-rules/cross.sh
+-+++ b/src/import/hack/make-rules/cross.sh
++diff --git a/hack/make-rules/cross.sh b/hack/make-rules/cross.sh
++index f8a6d0dbf5e..d22bf52b1cc 100755
++--- a/hack/make-rules/cross.sh
+++++ b/hack/make-rules/cross.sh
+ @@ -33,6 +33,6 @@ make all WHAT="${KUBE_NODE_TARGETS[*]}" KUBE_BUILD_PLATFORMS="${KUBE_NODE_PLATFO
+  
+  make all WHAT="${KUBE_CLIENT_TARGETS[*]}" KUBE_BUILD_PLATFORMS="${KUBE_CLIENT_PLATFORMS[*]}"
+@@ -29,5 +31,5 @@ index 8e1e938..0898c5c 100755
+ -make all WHAT="${KUBE_TEST_SERVER_TARGETS[*]}" KUBE_BUILD_PLATFORMS="${KUBE_TEST_SERVER_PLATFORMS[*]}"
+ +#make all WHAT="${KUBE_TEST_SERVER_TARGETS[*]}" KUBE_BUILD_PLATFORMS="${KUBE_TEST_SERVER_PLATFORMS[*]}"
+ -- 
+-2.7.4
++2.40.0
+ 
+diff --git a/recipes-containers/kubernetes/kubernetes/0001-hack-lib-golang.sh-use-CC-from-environment.patch b/recipes-containers/kubernetes/kubernetes/0001-hack-lib-golang.sh-use-CC-from-environment.patch
+index 3a22a2ef..d3b71aef 100644
+--- a/recipes-containers/kubernetes/kubernetes/0001-hack-lib-golang.sh-use-CC-from-environment.patch
++++ b/recipes-containers/kubernetes/kubernetes/0001-hack-lib-golang.sh-use-CC-from-environment.patch
+@@ -7,15 +7,17 @@ Toolchain tupples differs, especially when using vendor provides ones.
+ 
+ Upstream-status: Inappropriate [embedded specific]
+ Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
++
++Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
+ ---
+  hack/lib/golang.sh | 4 ----
+  1 file changed, 4 deletions(-)
+ 
+-Index: kubernetes-v1.21.1+git45da3fc33872083fb225c1a8c4d03e530d6f7630/src/import/hack/lib/golang.sh
+-===================================================================
+---- kubernetes-v1.21.1+git45da3fc33872083fb225c1a8c4d03e530d6f7630.orig/src/import/hack/lib/golang.sh
+-+++ kubernetes-v1.21.1+git45da3fc33872083fb225c1a8c4d03e530d6f7630/src/import/hack/lib/golang.sh
+-@@ -414,19 +414,15 @@
++diff --git a/hack/lib/golang.sh b/hack/lib/golang.sh
++index e16a60d1867..d0f4b00dadf 100755
++--- a/hack/lib/golang.sh
+++++ b/hack/lib/golang.sh
++@@ -420,19 +420,15 @@ kube::golang::set_platform_envs() {
+          ;;
+        "linux/arm")
+          export CGO_ENABLED=1
+@@ -35,3 +37,5 @@ Index: kubernetes-v1.21.1+git45da3fc33872083fb225c1a8c4d03e530d6f7630/src/import
+          ;;
+      esac
+    fi
++--
++2.40.0
+diff --git a/recipes-containers/kubernetes/kubernetes_git.bb b/recipes-containers/kubernetes/kubernetes_git.bb
+index f475bd73..59892c92 100644
+--- a/recipes-containers/kubernetes/kubernetes_git.bb
++++ b/recipes-containers/kubernetes/kubernetes_git.bb
+@@ -26,10 +26,10 @@ SRC_URI = "git://github.com/kubernetes/kubernetes.git;branch=release-1.23;name=k
+            git://github.com/kubernetes/release;branch=master;name=kubernetes-release;destsuffix=git/release;protocol=https"
+ 
+ SRC_URI:append = " \
+-           file://0001-hack-lib-golang.sh-use-CC-from-environment.patch \
+-           file://0001-cross-don-t-build-tests-by-default.patch \
+-           file://0001-build-golang.sh-convert-remaining-go-calls-to-use.patch \
+-           file://0001-Makefile.generated_files-Fix-race-issue-for-installi.patch \
++           file://0001-hack-lib-golang.sh-use-CC-from-environment.patch;patchdir=src/import \
++           file://0001-cross-don-t-build-tests-by-default.patch;patchdir=src/import \
++           file://0001-build-golang.sh-convert-remaining-go-calls-to-use.patch;patchdir=src/import \
++           file://0001-Makefile.generated_files-Fix-race-issue-for-installi.patch;patchdir=src/import \
+            file://cni-containerd-net.conflist \
+            file://k8s-init \
+            file://99-kubernetes.conf \
+-- 
+2.40.0
+
 
