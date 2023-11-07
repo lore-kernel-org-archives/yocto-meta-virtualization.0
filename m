@@ -2,107 +2,127 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EAB7C4332F
-	for <webhook@archiver.kernel.org>; Tue,  7 Nov 2023 13:10:24 +0000 (UTC)
-Received: from mail-io1-f44.google.com (mail-io1-f44.google.com [209.85.166.44])
- by mx.groups.io with SMTP id smtpd.web10.10178.1699362620723393585
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 251A9C4332F
+	for <webhook@archiver.kernel.org>; Tue,  7 Nov 2023 13:23:34 +0000 (UTC)
+Received: from mail-io1-f46.google.com (mail-io1-f46.google.com [209.85.166.46])
+ by mx.groups.io with SMTP id smtpd.web11.10184.1699363409181187540
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 07 Nov 2023 05:10:20 -0800
+ Tue, 07 Nov 2023 05:23:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=VOr94Qdp;
- spf=pass (domain: gmail.com, ip: 209.85.166.44, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-io1-f44.google.com with SMTP id ca18e2360f4ac-7a93df91813so206583939f.2
-        for <meta-virtualization@lists.yoctoproject.org>; Tue, 07 Nov 2023 05:10:20 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=j85P78Fo;
+ spf=pass (domain: gmail.com, ip: 209.85.166.46, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-io1-f46.google.com with SMTP id ca18e2360f4ac-7a692658181so188095939f.1
+        for <meta-virtualization@lists.yoctoproject.org>; Tue, 07 Nov 2023 05:23:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699362620; x=1699967420; darn=lists.yoctoproject.org;
+        d=gmail.com; s=20230601; t=1699363408; x=1699968208; darn=lists.yoctoproject.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=NmwVvectWhVJKPE1hFHwreV+UKHL4F+0UhJaMEcg2XY=;
-        b=VOr94Qdpq213tig09BRIc5nfZ90GJm4VHsZp+TXnN+d4zGS/6cwlCR+JasYpNp262c
-         6NLXOaJvvjb8Pv461bXzwxpY5QqPvYNe0zw3AmnpwlHqGSrsKWxApwuUagPMr9cVu/b1
-         LV3sXRIQtXeKlow/524brcP2xhfmuI10pmTjz0hcsZWNk9yyLgU7MwTG2Puk4YW2yB1b
-         yIWVtt8AkKs1pWLzmlY/RclZfdNA+sUy0A51AQqrBKuK7TUBGyIczMI0ehjghBz70V5B
-         zL0qC9HnLpFYzlge5QQbMjN4x9wJ4cOg8aJv9oLrJfROjCZompp1L+dbEzES4Sgvn7AV
-         GPLw==
+        bh=X8xKL9MWOrc3QdglOPUxb4mZoLFePiSEo3hGAzyFtAA=;
+        b=j85P78FoZhZx0NMy9NvPnomqDyxJUbg4KuiZoMvNvblm0FKaIEzCRXB7hrb4sY6DtM
+         qleygUy4hrsDQpyAP/LbkOH2sVabSOrqMn0P5YtfvnmXEuT7i2anvMYmb0NeOacvq/K6
+         Z2yJUEoAIevopduzbd4OcCRs10v9Pwduv0u7EIjRyD+LhCK3wHwam0sDx40f/nVRwn2X
+         d/ee8ImGcFWs673fda+yuvvgZXxi0nBnUtXsrIS5o/NB2+pPMLDuGrDOyuYs3KRKYzyr
+         MDBIKCn3OYLr48d5n2lXoo5jyUrM9G1vUtf0dSagwlGEal7zFMI2RxgagTdS63u6LK+r
+         wbeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699362620; x=1699967420;
+        d=1e100.net; s=20230601; t=1699363408; x=1699968208;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=NmwVvectWhVJKPE1hFHwreV+UKHL4F+0UhJaMEcg2XY=;
-        b=EwwfTbKlevZzZWxDRT+lPUAwAJ7v8pi7V1KvHC5z88lEb76ApwEjvcjTVLmgj6ozMc
-         +ZqE3byk1JfGShNvECyVm3hEQnuKv8hvMGVs379RnxbpRbYqdGmOKrBtPkT5aPhdrHjW
-         emmV81IXPGNSvOva8N3EG8sGN9wdirefXq5jkBLpzQoDJCwH8+DnHET87W4bCcfRHzxX
-         KgBu15GR5i+1UpDpUh25ai3Nz2k2NbZBUQPKcD0DNzuI8qkw2oFqv6keyaJ8C1Xa2Aki
-         dGvO62De2A/SIgtCMNHTGzXZPhAfWLdzBHRw8QroAi7C/+peax60rrsVtx+KXcvWGA78
-         ln2w==
-X-Gm-Message-State: AOJu0YxC9Pr+nLlf3WwMYjtbDfWJdXcOl4hTdJQx0gjXwgJZdscgHM7g
-	tvWS75Txuz32SgZegvfGYHgKY+FB4LmgBEVUkt0=
-X-Google-Smtp-Source: AGHT+IFOX8FkYTc9cjK+Ok2h2gOgDfhDHaRe5dPRRRxVJaeWD8KzcspMk1fA8POwIO4OBun20jLpD3eq0gofS3gLjhE=
-X-Received: by 2002:a05:6602:1506:b0:7a9:945f:e46 with SMTP id
- g6-20020a056602150600b007a9945f0e46mr43003349iow.13.1699362619939; Tue, 07
- Nov 2023 05:10:19 -0800 (PST)
+        bh=X8xKL9MWOrc3QdglOPUxb4mZoLFePiSEo3hGAzyFtAA=;
+        b=T+5eW9UE+ZaRLAbEaAAkPYZ1LlfVhWMac8UiDrYbx1eVpg3dIxvT6t6k53MNXfweul
+         ZvRlY75/ZMUyy5i7nCBo60puz+UpTa15vbiyEP1yyGcLkXCl2Ot6ytYeq0WXRDo4xmY1
+         Qg0slZt+ZoXDHnRzcvXUYT7VHBSiwxTuwQH3h0ZL9gL535RiZNE/V++1RQYMd67yv3Fu
+         LS/+nHJ0Ug2QXsXcCP5Zs0S5nrD/Fjmuw4PrjIj+X0wTmAt73F2nPq0Gi7wvPKwbrqfK
+         A2kYoOswRtdYS+lhLZ3/apvvZldOFtTZRJa/hvy9Va3PMqIcKLgo79zneWVehBYNZqYZ
+         kwbA==
+X-Gm-Message-State: AOJu0Yx6lGDZkR5TaYWcyvBCgqZKRU7kRAbMT9NWGUguqsfocCB19hWC
+	h4VxDKsJtkxogqPC45yFEFZMC5SMphOxiJQ3jd8=
+X-Google-Smtp-Source: AGHT+IGl1g9Ns/iSGylkna4+5CAophf/11Vzun0ClRdzucOYsJKhFaD+EJDeLdKNGTUW8Q05+sYjY4AGothQHF534Ow=
+X-Received: by 2002:a05:6602:168c:b0:7a9:77ac:5446 with SMTP id
+ s12-20020a056602168c00b007a977ac5446mr38586922iow.21.1699363408416; Tue, 07
+ Nov 2023 05:23:28 -0800 (PST)
 MIME-Version: 1.0
-References: <179550144DFF7F38.20624@lists.yoctoproject.org> <B11R3S.54HAT2F7D7MQ1@t-online.de>
-In-Reply-To: <B11R3S.54HAT2F7D7MQ1@t-online.de>
+References: <CADkTA4ORrENvzkPYG_1EnDca-BQjhm4L3nj9e+ZfNer4wcd0Yw@mail.gmail.com>
+ <20231106092058.1209687-1-alexander.sverdlin@siemens.com> <17950C6F5A95F7ED.26468@lists.yoctoproject.org>
+ <CADkTA4P3NK9JQvsOX5729Le=NGLwG7LqGUVxq1KFn90RMMxfXQ@mail.gmail.com> <8b75984f95e392f776d732e43bcf60fbc7573b44.camel@siemens.com>
+In-Reply-To: <8b75984f95e392f776d732e43bcf60fbc7573b44.camel@siemens.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Tue, 7 Nov 2023 08:10:08 -0500
-Message-ID: <CADkTA4PPsEbS5Nz7Y-YGN2G24R2LF8+K=_nA+dxxpkqVCSPiKw@mail.gmail.com>
-Subject: Re: [meta-virtualization][PATCH] libvirt-glib: add
- VALA_MESON_ENABLE_FLAG and VALA_MESON_DISABLE_FLAG
-To: Markus Volk <f_l_k@t-online.de>
-Cc: meta-virtualization@lists.yoctoproject.org
+Date: Tue, 7 Nov 2023 08:23:17 -0500
+Message-ID: <CADkTA4NK7z7obH3-9OE8LRRKNJ=7mJVz5XFbn36Nog4OkfS0Qg@mail.gmail.com>
+Subject: Re: [meta-virtualization] [PATCH RFC] kernel: allow KERNEL_META_TYPE redefinition
+To: "Sverdlin, Alexander" <alexander.sverdlin@siemens.com>
+Cc: "meta-virtualization@lists.yoctoproject.org" <meta-virtualization@lists.yoctoproject.org>, 
+	"adrian.freihofer@gmail.com" <adrian.freihofer@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Tue, 07 Nov 2023 13:10:24 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8439
+ <meta-virtualization@lists.yoctoproject.org>; Tue, 07 Nov 2023 13:23:34 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8440
 
-I had just read the OE-core thread after seeing this, and assumed that
-it is dependent on your other change.
+On Tue, Nov 7, 2023 at 5:10=E2=80=AFAM Sverdlin, Alexander
+<alexander.sverdlin@siemens.com> wrote:
+>
+> Hi Bruce!
+>
+> On Mon, 2023-11-06 at 19:57 -0500, Bruce Ashfield wrote:
+> > > As I keep looking at it, there's very little in the .inc file that is=
+n't
+> > > controlled by a distro feature, so there's only small tweaks needed
+> > > to make sure that only fragments and kernel features that are
+> > > quite well targeted are enabled.
+> > >
+> > > Having the kernel-cache as a dependency is not much to ask,
+> > > combined with the ability to use them to configure kernels
+> > > properly and audit the results.
+> > >
+> > > The hours (more like weeks and months) spent debugging runtime
+> > > issues due to incorrectly configured kernels has been huge over
+> > > the lifetime of meta-virtualization. Asking for a few fragments to
+> > > be downloaded (which can be mirrored) is minor in the scope of
+> > > things.
+> > >
+> > > Which is why if a kernel type that can merge fragments, but yet
+> > > is disabling the feature specification, the layer should emit a
+> > > warning. I'd then have another variable which inhibits the warning
+> > > message. Since that is something I can ask about in bug reports
+> > > and until the warning message is re-enabled, the reporter is on
+> > > their own.
+> >
+> > My solution is now in master-next:
+> >
+> > https://git.yoctoproject.org/meta-virtualization/commit/?h=3Dmaster-nex=
+t&id=3D45c2297a916516e5fc7b82dab46c4719590813b7
+>
+> I've tested your solution and it solves the issue on my side,
+> thank you for addressing it so quickly!
+>
+> There is a problem in the warning code though, namely a typo here:
+>
+> skip_kernel_include_enabled =3D d.getVar('SKIP_META_VIRT_KERNEL_INLUDE')
+>
+> if it would be
+>
+> skip_kernel_include_enabled =3D d.getVar('SKIP_META_VIRT_KERNEL_INCLUDE')
+>
+> the warning would be emitted as expected. After the change both emitting
+> and silencing the warning works fine.
 
-I won't actively notice when that change merges to oe-core, so you'll
-need to bump the RFC to let me know it is safe to merge.
+oops!
 
-I don't have any issues with the patch.
+I just force pushed the fix to master-next.
 
 Bruce
 
-On Tue, Nov 7, 2023 at 8:05=E2=80=AFAM Markus Volk <f_l_k@t-online.de> wrot=
-e:
 >
-> This patch is RFC. I missed to mark it like this, sorry
->
-> On Tue, Nov 7 2023 at 11:21:29 AM +01:00:00, Markus Volk <f_l_k@t-online.=
-de> wrote:
->
-> According to changes in vala.bbclass we need to add them Signed-off-by: M=
-arkus Volk <f_l_k@t-online.de> --- recipes-extended/libvirt/libvirt-glib_4.=
-0.0.bb | 2 ++ 1 file changed, 2 insertions(+) diff --git a/recipes-extended=
-/libvirt/libvirt-glib_4.0.0.bb b/recipes-extended/libvirt/libvirt-glib_4.0.=
-0.bb index 7ca65a95..22b02d42 100644 --- a/recipes-extended/libvirt/libvirt=
--glib_4.0.0.bb +++ b/recipes-extended/libvirt/libvirt-glib_4.0.0.bb @@ -19,=
-3 +19,5 @@ GIR_MESON_ENABLE_FLAG =3D 'enabled' GIR_MESON_DISABLE_FLAG =3D '=
-disabled' GTKDOC_MESON_ENABLE_FLAG =3D 'enabled' GTKDOC_MESON_DISABLE_FLAG =
-=3D 'disabled' +VALA_MESON_ENABLE_FLAG =3D 'enabled' +VALA_MESON_DISABLE_FL=
-AG =3D 'disabled'
 > --
-> 2.42.0
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#8438): https://lists.yoctoproject.org/g/meta-virtuali=
-zation/message/8438
-> Mute This Topic: https://lists.yoctoproject.org/mt/102440144/1050810
-> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [=
-bruce.ashfield@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+> Alexander Sverdlin
+> Siemens AG
+> www.siemens.com
+
 
 
 --=20
