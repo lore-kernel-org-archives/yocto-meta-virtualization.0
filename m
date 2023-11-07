@@ -1,990 +1,166 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <alexander.sverdlin@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09A53C4332F
-	for <webhook@archiver.kernel.org>; Tue,  7 Nov 2023 01:57:00 +0000 (UTC)
-Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
- by mx.groups.io with SMTP id smtpd.web10.1517.1699322219355453724
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56EDBC4332F
+	for <webhook@archiver.kernel.org>; Tue,  7 Nov 2023 10:10:54 +0000 (UTC)
+Received: from EUR02-DB5-obe.outbound.protection.outlook.com (EUR02-DB5-obe.outbound.protection.outlook.com [40.107.249.78])
+ by mx.groups.io with SMTP id smtpd.web11.7044.1699351844539777353
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 06 Nov 2023 17:56:59 -0800
+ Tue, 07 Nov 2023 02:10:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=lJunFDdZ;
- spf=pass (domain: gmail.com, ip: 209.85.222.182, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-7789a4c01ddso341389385a.1
-        for <meta-virtualization@lists.yoctoproject.org>; Mon, 06 Nov 2023 17:56:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699322218; x=1699927018; darn=lists.yoctoproject.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=j2F6D6k0384Kg5BRlLFbWY3n9ifSsA+9Z7f6jF/lkcE=;
-        b=lJunFDdZd4itSaOU2oHP2sHVeqUgLoYkplobuwx4Mgtc4BF5NO/Kg67EbrYZpxlcMq
-         JYO3lREa6CBMtjq/cCDEOf2KA5+WPfpR5lARGvUhoTJbUq6nHQEXFlnE42PiP+1oW3DN
-         6b8S0beVOZS0lWGbl4yGsYqNAwoS12FIy4v9pzB3m8yfQuXLThTYi7G+r68uIkUoIN3v
-         HkHNytKysF63TFBEvnuUO1883v/omrGaBtDExaO55A8HM52723lvpgdFHBvMlBXlgLDU
-         eRoTbV143X81RP3XO3SOC/ZbyCAphoyeAiNmBAM5Q1T8KqaGrABu/WjtcXzW6N+yF3I3
-         7oTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699322218; x=1699927018;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=j2F6D6k0384Kg5BRlLFbWY3n9ifSsA+9Z7f6jF/lkcE=;
-        b=BqfUmIs6DIiSTQLP8JxiBWACEBjRojRvhKOfZc/IcmlrhPwM2L5/gswHnoOclpZYad
-         xtzCoVmM5oZgAjFMJta1kgEA6vdydpb0cwUYRtTWjdYi8n2OoCdVQC+yiKJKqUbuBJSM
-         ehEGQmTzt6nnuPpmNszyrm+dtNDhsG2ddQz0PqCh3Fh8vwA2ugGjIbCf8f0ekm4WT2bm
-         IER8KNiAZAbuJnIfYOh/nVi8liycqyzBjG22wBCc9HLpKZjH3KzcWBu+zp/4aHfcdrMD
-         mBEw2pL0zrz9BThUxzDX4RFxzOIP3Bun3fO5uOjszPbyUbHq59VZ2MPaOhHeqmrrQWcr
-         oMbw==
-X-Gm-Message-State: AOJu0YwvhTl+mEE+qKbwsY7F/613FnzRJbXng1cR5j4zM142+8iKciXT
-	a/3ov741zdgb1DLz1Q2bWXu37/sv0bgOA+Bu
-X-Google-Smtp-Source: AGHT+IFxdtQWxivSFw97Jylvmqn2gKHJPeScAdmdbSbcdr5326FtIHAup/h85+hwwRUvH+3wf/Hsfw==
-X-Received: by 2002:a05:620a:bca:b0:77a:565e:3fd3 with SMTP id s10-20020a05620a0bca00b0077a565e3fd3mr20873705qki.59.1699322218121;
-        Mon, 06 Nov 2023 17:56:58 -0800 (PST)
-Received: from gmail.com ([174.112.183.231])
-        by smtp.gmail.com with ESMTPSA id p25-20020a05620a22f900b007671cfe8a18sm3858053qki.13.2023.11.06.17.56.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Nov 2023 17:56:57 -0800 (PST)
-Date: Tue, 7 Nov 2023 01:56:55 +0000
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: soumya.sambu@windriver.com
-Cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [meta-virtualization][kirkstone][PATCH 1/3] kubernetes: Fix
- CVE-2023-2431
-Message-ID: <ZUmZZ3fYI7pduRHd@gmail.com>
-References: <20231102130853.1285455-1-soumya.sambu@windriver.com>
+ dkim=pass header.i=@siemens.com header.s=selector2 header.b=UC6J2Y1e;
+ spf=pass (domain: siemens.com, ip: 40.107.249.78, mailfrom: alexander.sverdlin@siemens.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=eWGmMFOKjrnga9EDEKY/kuTG952UDICVdSpOwqtsXiQmGl40P5G0T+UkPyIcGhogAekd0qXWq3fOVfNot8aXzCp7EfF2gSMZLNrcRommTvE1AhU8lzNqnlhGUnBKdk/2pPuRDUKSEAdJMNfxrh6YOf9RIEUq1awjZ8rEZiEIlit4ZMeBQvtGfFWEJqfrmiyxUBtnXA24dqaoR5NLUOIoVBo2aJEOlIIHsC5SC+fL3ICaCE3TXVqcKdqQ8ki9n+DbhhuDd3Gv0DVvflG45wbujxzXxPNSiFUuTn1uOefi5ixMdTqz6fs+KYiXEq/a9Wi+0Txh/0T9i/kmQmoEVK1NQw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=LjniH/P5JROes8QeXW80su8VP+mYljqQr0ErvfA9FnI=;
+ b=fWQstm2Id8fN8IuNIng6aHaoAtn8ChtCxziL90vuGPyOZi5ghE++idxUt7Cbp6o9yuDyPvMVnCTMk71Dq0QA8IDCsraga43BxgVMYI+Bwv9Y/osyCHlGxd9Yyf5ksx6juYqs/wz0vb0TF39e2kIwhGxFZFNPz2cYluVXi7pWeKjSr3DRmcJEJByu99VtajQ8auHpkA3aD1J1jr7nkuwQwo2ZFBPi+TCvu5P0GCfptkY5YjTi6qGydmBSCOYYUZraA0dqAtNUqpN2F6LhTUlSkIYWH9lI2DpqkFgyGJ/jhTXpxBvQl07khhtdirGTtfRjOdhuWP/L01o2873Kjhb+gw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
+ dkim=pass header.d=siemens.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LjniH/P5JROes8QeXW80su8VP+mYljqQr0ErvfA9FnI=;
+ b=UC6J2Y1eGnw6V/TGnJ4e9fspjP7VjEnuKjc7HWt1hDQh8C3du0AfaJQQTfKvTcal8vFVlam6e/u1rxppb1un0ypz3OL/kQvf8tbex5frSkpnHDdLCKGF0wwoP3Y26bRwhy1Uy62dUqtEU/lIZuW/8rQFTdXrlXG4cvWAt/0ZgPH7LF6YV8pAxSZK6LAR1xb/DWg229z1SzUjvVYkMd5NgRIzMj4iGOdQkAAz/VZplYJRAeN/+FJ8FT6Vd4y/a1T7n6dFzllaaAkldeuIdt3eUKejXSZJK1oSBERXAzNjDyT8tiXTFaJXO8cL+BEllIco+CZVBPdnR2xoQuf1u22ogg==
+Received: from AS8PR10MB6867.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:5b6::22)
+ by DB9PR10MB5571.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:30b::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.28; Tue, 7 Nov
+ 2023 10:10:41 +0000
+Received: from AS8PR10MB6867.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::f1e6:2701:4840:b64f]) by AS8PR10MB6867.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::f1e6:2701:4840:b64f%4]) with mapi id 15.20.6954.029; Tue, 7 Nov 2023
+ 10:10:41 +0000
+From: "Sverdlin, Alexander" <alexander.sverdlin@siemens.com>
+To: "bruce.ashfield@gmail.com" <bruce.ashfield@gmail.com>
+CC: "meta-virtualization@lists.yoctoproject.org"
+	<meta-virtualization@lists.yoctoproject.org>, "adrian.freihofer@gmail.com"
+	<adrian.freihofer@gmail.com>
+Subject: Re: [meta-virtualization] [PATCH RFC] kernel: allow KERNEL_META_TYPE
+ redefinition
+Thread-Topic: [meta-virtualization] [PATCH RFC] kernel: allow KERNEL_META_TYPE
+ redefinition
+Thread-Index: AQHaEJKa1mPxXUZD10eoHO87VOmOV7BuCdGDgACaWQA=
+Date: Tue, 7 Nov 2023 10:10:40 +0000
+Message-ID: <8b75984f95e392f776d732e43bcf60fbc7573b44.camel@siemens.com>
+References: 
+ <CADkTA4ORrENvzkPYG_1EnDca-BQjhm4L3nj9e+ZfNer4wcd0Yw@mail.gmail.com>
+	 <20231106092058.1209687-1-alexander.sverdlin@siemens.com>
+	 <17950C6F5A95F7ED.26468@lists.yoctoproject.org>
+	 <CADkTA4P3NK9JQvsOX5729Le=NGLwG7LqGUVxq1KFn90RMMxfXQ@mail.gmail.com>
+In-Reply-To: 
+ <CADkTA4P3NK9JQvsOX5729Le=NGLwG7LqGUVxq1KFn90RMMxfXQ@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siemens.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AS8PR10MB6867:EE_|DB9PR10MB5571:EE_
+x-ms-office365-filtering-correlation-id: 5c8f782e-5cb6-4cdd-5d7f-08dbdf79cc10
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ l6BEpd+1dqPDfNl4lgd/vyDP5mvqy3zlgUBkwzJE8kBZjzBD481KzEOfn81O+CKR5lVQ4aiJwtFPqH0zItdMDz3R6jwWPrYCv5m2uzmJyE7uqummuhKSXvPIcOn7YJVJg5hblDGRC7AtMvvEXV5TPlJGkXmRSMPS7MXfNf2rXHVc7hbwnsKBNJdxYFr+yZPmFo46SksKqaO2badxhRvH8jI9332fnRyrLZwq9NJQECKtaroYk9WD+HUS9Bvr0CQGho5qnrVqXW7vl+dDLwuCWsqYe2Y+6YRjyEbbkbRU5bnFqyb+Vj/KQsrXdCoUT7WdI2liXZ+SvU0MVEgDZmQmqwVSNUKnaLRQ0PEb3W+xe1iVWjj99/ooeCxXhEqyvQSeK6aEooD+6xY9d485XPpnnmYGbLtWsQgpJneSn7nsLn/9N0OzrZOYbN3n5haPtY1WYR0EWM2LTDw9eENcmyzdDXr0+/sftbZHDyf8ZKFQC0UOIfVs8//le/F/5GNrmCfW3Hq/dfdV81KwNOvc0AxCJKj4vKLZuKvO9ULxWk7jT0+4DZgZYq2hFDeeArwv+KYmIDoDlMRTT3K8TsbtoXMOEf4m1BGwV0Wrv8RUX0L62eR/K/uUkj+BXBlDqC3pLSwGyHKmwWjU1vJ34wY2EBsHaaEdur3IdzL54IvD9123hpZ2edz/1g57cDKG4aJ5hE5E
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR10MB6867.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(136003)(396003)(366004)(346002)(39860400002)(376002)(230922051799003)(230273577357003)(230173577357003)(64100799003)(451199024)(1800799009)(186009)(2906002)(5660300002)(8676002)(4326008)(86362001)(83380400001)(38100700002)(15974865002)(41300700001)(82960400001)(76116006)(122000001)(6512007)(8936002)(2616005)(91956017)(66946007)(316002)(66556008)(64756008)(66476007)(66446008)(54906003)(6916009)(6506007)(55236004)(71200400001)(38070700009)(6486002)(26005)(966005)(478600001)(36756003)(18886075002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?WGg2WjlraDRjZXZNWnBvVEpkZzhTOVFFaEI4WEh1Ly9XZDJMVURheStjQVIv?=
+ =?utf-8?B?a1FaalR3SDZFZEwrMThCQWVDcW1aeGZoTlpGWXFML1V4aHlpUU5rRjFGYUQ3?=
+ =?utf-8?B?VTc0NGROYU0rVjVudHB2dmlzNkhGUDZpL3E2NG5nanRzbzZVSUJnSzdMSVZv?=
+ =?utf-8?B?d2RSK1J6RFdJWS9hYU43Umc5TjVvdktLSXlnQTU4VUdwY0w2MmVPVE11TVBI?=
+ =?utf-8?B?a3ZJTWVHd3ZyU1VabXZOWXgyM2RHazBtbGgxV3U5QXVPS1VBZURLVC91Tkk2?=
+ =?utf-8?B?RXMvTG5NSUVqekNpcGJFMCtadVNta0VuNnJhMHZmZkZudm12RU1FWG5WUzUv?=
+ =?utf-8?B?aUpDUlIrN1JNV0FzWnV5RXQxMzE4WExyWGo5OStCNjRkK3IzZHo2bDB4YktU?=
+ =?utf-8?B?akladFcvcitqNkV3WmIrcnlVWGowR3BrZ2Z6cWh0Ui9Ub0o5clRQbGZyZ0o2?=
+ =?utf-8?B?VmFCUXJLOWFXMnFrNjVJQ0duVGlpRTVxWExBNXQ0QUF6Zy9LbmY5MnlYVFdr?=
+ =?utf-8?B?Rk80YzNxUk1KckQyUmo5RUFiZTJxdFZZWkdjcUo2dnhJc0RMcVdKNlEyZytD?=
+ =?utf-8?B?YUdlRmtjKzgyT05KQ1NMVjltdU1sOCtwbGxwQ0U2clZMeGNNMk9McjU4c3Ja?=
+ =?utf-8?B?TC9ZYUg4blJtTElTYjByT1BUdGNwSWJYU3hsU3pqQ0pWKzZvWTRXTFJGTG53?=
+ =?utf-8?B?OXdNN1oxZEQwVE9MTG42ZWJrT0JrZHBxcVh4Zm0zdVBSVzZWcFczL0IrMGp2?=
+ =?utf-8?B?bmx4MzU3Y0diU2l0bVNwSEFDZ0lKVE8zalVNM0czSkVYWTZNMUFQQk1kQW1B?=
+ =?utf-8?B?QUdNOHdCamFZTHZYcmxNcnZKR0VVZ3E3eTFmMU5GaWI1cjkzM3dieDNyd295?=
+ =?utf-8?B?aFVhSkExejQxNllHdXdNMVcvQmx5eEZXbnBJc0N0QjM0LzFSYTZaNjlnZGNp?=
+ =?utf-8?B?MzlvaGw2bVFkeDFpbXRPazdNUnZmMUhJQTY4dUo3RGV0SHRWUCtFNGRjN3lD?=
+ =?utf-8?B?VDZoQk83bmMrSmZnQ2hDL2hKUlUzYzNFMi95S3p0NTZrblRIMzcvcGk2QXhJ?=
+ =?utf-8?B?UnB1Tm91dlZBTUIzK1FlYnpzRHc5N1JsZ0hRUlpmc0VHa3dGNEloTjVCczk1?=
+ =?utf-8?B?THovTzViNW9zdmxjM25lT0xUOGpHNkFvdmliZXAybWpvMnhTbUlFTERCbStW?=
+ =?utf-8?B?dWtNT0hZOVl0dnRFTmZwNDFqMkZ3OG94ZmRqYnFnbTdtRzBSUE43ZzFMY09o?=
+ =?utf-8?B?N2hoc2hrWXhjdU1PM2dZNUNsZE41MXVlLzFNQTdtZDlsT0JEcUg1MTdHK0Ns?=
+ =?utf-8?B?V1l6OGhSUUd2YWJqVzIraFhpbU1ocTdWSnNjenE4R3RPM0VtRU5td3pPQ3dr?=
+ =?utf-8?B?Kzh5NFJRVHNaRGU2TDlUREVIYzZSeVlUOGNTVHhYRFVoMThXbHlyQ1dwRzNY?=
+ =?utf-8?B?TlJrak1lcndlWm4zWm9lb3dXcy8zUlRXaEt6ektQeEhrOVdDTjRiMFVkM095?=
+ =?utf-8?B?YWI0U2JuRTlXZm04UmJIajZWbnVId0NFRkRnY0ovbmh0OHRPa1hseHJjMlBT?=
+ =?utf-8?B?TUlaRzhtdU4wR2hBVjJGWGhpREROUk9aUlFiMmYvOHdNMVBxTVpLTFIrbC9o?=
+ =?utf-8?B?Z2dxbVdFd09KZVJGWm9DNnQwb2JWOHcyNm5hclV1b01DbWR1UjdqL1htdnBl?=
+ =?utf-8?B?UnUxdTdvZGRraTN5VXM5K2FLd09oOTJuTk9GMDBQUWlJSm45MmJKdm5Vc25m?=
+ =?utf-8?B?VUVzVWlUTmRBOThmd0FZZzZ3RWUrb1k3MG1zeHRqTmdzUkNGaFhHVVFCSjFQ?=
+ =?utf-8?B?ZW9SVVVlajB2aVIrMFZ2N2pSUU1rcDF4YzZVV25vRzNDUHNXMEZiZkhFcDU4?=
+ =?utf-8?B?dnhGanVTUzVlUWZTWktkZ2FYdjN6K0VEeGdtY2U5YVJkSkxrODdlcGRXcFF5?=
+ =?utf-8?B?Q0FCM0xnc3lhbTh1RlJqdE9tUEFqV2FFZWF2a1Vjb1FVYSttN0d3STNXZFFw?=
+ =?utf-8?B?c3E4MjV2bU5KOWk0ZHFKTFZBSlVYeXpnQ1o5bTdhQzg3ZGxxY2pvZDV2Mm5Q?=
+ =?utf-8?B?dDFOclZyUGU4T1R4TCsvM3VORzNrd3VNaGo3YS8rcU0xWlFyTzV5QXZPY3o0?=
+ =?utf-8?B?dzhGTmhJYWgzMEQwNGFNeExqemFTTkppYS85ck5zSXRuVlFDenpoK3dlNTI5?=
+ =?utf-8?Q?X0I7KYtj7GBh7Sllp90Oc2Q=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <1414AE476537B549BE7C0AA2F5BF2B0D@EURPRD10.PROD.OUTLOOK.COM>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231102130853.1285455-1-soumya.sambu@windriver.com>
+X-OriginatorOrg: siemens.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AS8PR10MB6867.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5c8f782e-5cb6-4cdd-5d7f-08dbdf79cc10
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Nov 2023 10:10:41.0149
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Ci1TN0XRHE5i7Si3jiYGyuIu/kiqmeFEN+53+qnrBF1mUVTcbsw/6DfMB0QKJZqs5cMbXU+10l76lVEeKie/T0/dLT3CiU+C4z/+sL5pGUk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR10MB5571
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Tue, 07 Nov 2023 01:57:00 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8433
+ <meta-virtualization@lists.yoctoproject.org>; Tue, 07 Nov 2023 10:10:54 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8434
 
-I think I've mentioned this before, but these CVE patches should
-also confirm that the versions in other supported branches are
-not impacted by the CVE.
-
-I'll wait for a v2 before merging.
-
-Bruce
-
-In message: [meta-virtualization][kirkstone][PATCH 1/3] kubernetes: Fix CVE-2023-2431
-on 02/11/2023 Soumya via lists.yoctoproject.org wrote:
-
-> From: Soumya Sambu <soumya.sambu@windriver.com>
-> 
-> A security issue was discovered in Kubelet that allows pods to bypass the
-> seccomp profile enforcement. Pods that use localhost type for seccomp profile
-> but specify an empty profile field, are affected by this issue. In this
-> scenario, this vulnerability allows the pod to run in unconfined (seccomp
-> disabled) mode. This bug affects Kubelet.
-> 
-> References:
-> https://nvd.nist.gov/vuln/detail/CVE-2023-2431
-> 
-> Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
-> ---
->  .../kubernetes/kubernetes/CVE-2023-2431.patch | 863 ++++++++++++++++++
->  .../kubernetes/kubernetes_git.bb              |   1 +
->  2 files changed, 864 insertions(+)
->  create mode 100644 recipes-containers/kubernetes/kubernetes/CVE-2023-2431.patch
-> 
-> diff --git a/recipes-containers/kubernetes/kubernetes/CVE-2023-2431.patch b/recipes-containers/kubernetes/kubernetes/CVE-2023-2431.patch
-> new file mode 100644
-> index 00000000..56c3a6e1
-> --- /dev/null
-> +++ b/recipes-containers/kubernetes/kubernetes/CVE-2023-2431.patch
-> @@ -0,0 +1,863 @@
-> +From 73174f870735251e7d4240cdc36983d1bef7db5f Mon Sep 17 00:00:00 2001
-> +From: Craig Ingram <cjingram@google.com>
-> +Date: Fri, 24 Feb 2023 15:24:49 -0500
-> +Subject: [PATCH] Return error for localhost seccomp type with no localhost
-> + profile defined
-> +
-> +CVE: CVE-2023-2431
-> +
-> +Upstream-Status: Backport [https://github.com/kubernetes/kubernetes/commit/73174f870735251e7d4240cdc36983d1bef7db5f]
-> +
-> +Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
-> +---
-> + pkg/kubelet/kuberuntime/helpers.go            |  66 ++--
-> + pkg/kubelet/kuberuntime/helpers_test.go       | 350 ++++--------------
-> + .../kuberuntime_container_linux.go            |  16 +-
-> + .../kuberuntime_container_linux_test.go       |  22 +-
-> + pkg/kubelet/kuberuntime/security_context.go   |  15 +-
-> + 5 files changed, 153 insertions(+), 316 deletions(-)
-> +
-> +diff --git a/pkg/kubelet/kuberuntime/helpers.go b/pkg/kubelet/kuberuntime/helpers.go
-> +index fa580335cf8..b36e01166f8 100644
-> +--- a/pkg/kubelet/kuberuntime/helpers.go
-> ++++ b/pkg/kubelet/kuberuntime/helpers.go
-> +@@ -209,28 +209,32 @@ func toKubeRuntimeStatus(status *runtimeapi.RuntimeStatus) *kubecontainer.Runtim
-> +	return &kubecontainer.RuntimeStatus{Conditions: conditions}
-> + }
-> +
-> +-func fieldProfile(scmp *v1.SeccompProfile, profileRootPath string, fallbackToRuntimeDefault bool) string {
-> ++func fieldProfile(scmp *v1.SeccompProfile, profileRootPath string, fallbackToRuntimeDefault bool) (string, error) {
-> +	if scmp == nil {
-> +		if fallbackToRuntimeDefault {
-> +-			return v1.SeccompProfileRuntimeDefault
-> ++			return v1.SeccompProfileRuntimeDefault, nil
-> +		}
-> +-		return ""
-> ++		return "", nil
-> +	}
-> +	if scmp.Type == v1.SeccompProfileTypeRuntimeDefault {
-> +-		return v1.SeccompProfileRuntimeDefault
-> +-	}
-> +-	if scmp.Type == v1.SeccompProfileTypeLocalhost && scmp.LocalhostProfile != nil && len(*scmp.LocalhostProfile) > 0 {
-> +-		fname := filepath.Join(profileRootPath, *scmp.LocalhostProfile)
-> +-		return v1.SeccompLocalhostProfileNamePrefix + fname
-> ++		return v1.SeccompProfileRuntimeDefault, nil
-> ++	}
-> ++	if scmp.Type == v1.SeccompProfileTypeLocalhost {
-> ++		if scmp.LocalhostProfile != nil && len(*scmp.LocalhostProfile) > 0 {
-> ++			fname := filepath.Join(profileRootPath, *scmp.LocalhostProfile)
-> ++			return v1.SeccompLocalhostProfileNamePrefix + fname, nil
-> ++		} else {
-> ++			return "", fmt.Errorf("localhostProfile must be set if seccompProfile type is Localhost.")
-> ++		}
-> +	}
-> +	if scmp.Type == v1.SeccompProfileTypeUnconfined {
-> +-		return v1.SeccompProfileNameUnconfined
-> ++		return v1.SeccompProfileNameUnconfined, nil
-> +	}
-> +
-> +	if fallbackToRuntimeDefault {
-> +-		return v1.SeccompProfileRuntimeDefault
-> ++		return v1.SeccompProfileRuntimeDefault, nil
-> +	}
-> +-	return ""
-> ++	return "", nil
-> + }
-> +
-> + func annotationProfile(profile, profileRootPath string) string {
-> +@@ -243,7 +247,7 @@ func annotationProfile(profile, profileRootPath string) string {
-> + }
-> +
-> + func (m *kubeGenericRuntimeManager) getSeccompProfilePath(annotations map[string]string, containerName string,
-> +-	podSecContext *v1.PodSecurityContext, containerSecContext *v1.SecurityContext, fallbackToRuntimeDefault bool) string {
-> ++	podSecContext *v1.PodSecurityContext, containerSecContext *v1.SecurityContext, fallbackToRuntimeDefault bool) (string, error) {
-> +	// container fields are applied first
-> +	if containerSecContext != nil && containerSecContext.SeccompProfile != nil {
-> +		return fieldProfile(containerSecContext.SeccompProfile, m.seccompProfileRoot, fallbackToRuntimeDefault)
-> +@@ -252,7 +256,7 @@ func (m *kubeGenericRuntimeManager) getSeccompProfilePath(annotations map[string
-> +	// if container field does not exist, try container annotation (deprecated)
-> +	if containerName != "" {
-> +		if profile, ok := annotations[v1.SeccompContainerAnnotationKeyPrefix+containerName]; ok {
-> +-			return annotationProfile(profile, m.seccompProfileRoot)
-> ++			return annotationProfile(profile, m.seccompProfileRoot), nil
-> +		}
-> +	}
-> +
-> +@@ -263,46 +267,50 @@ func (m *kubeGenericRuntimeManager) getSeccompProfilePath(annotations map[string
-> +
-> +	// as last resort, try to apply pod annotation (deprecated)
-> +	if profile, ok := annotations[v1.SeccompPodAnnotationKey]; ok {
-> +-		return annotationProfile(profile, m.seccompProfileRoot)
-> ++		return annotationProfile(profile, m.seccompProfileRoot), nil
-> +	}
-> +
-> +	if fallbackToRuntimeDefault {
-> +-		return v1.SeccompProfileRuntimeDefault
-> ++		return v1.SeccompProfileRuntimeDefault, nil
-> +	}
-> +
-> +-	return ""
-> ++	return "", nil
-> + }
-> +
-> +-func fieldSeccompProfile(scmp *v1.SeccompProfile, profileRootPath string, fallbackToRuntimeDefault bool) *runtimeapi.SecurityProfile {
-> ++func fieldSeccompProfile(scmp *v1.SeccompProfile, profileRootPath string, fallbackToRuntimeDefault bool) (*runtimeapi.SecurityProfile, error) {
-> +	if scmp == nil {
-> +		if fallbackToRuntimeDefault {
-> +			return &runtimeapi.SecurityProfile{
-> +				ProfileType: runtimeapi.SecurityProfile_RuntimeDefault,
-> +-			}
-> ++			}, nil
-> +		}
-> +		return &runtimeapi.SecurityProfile{
-> +			ProfileType: runtimeapi.SecurityProfile_Unconfined,
-> +-		}
-> ++		}, nil
-> +	}
-> +	if scmp.Type == v1.SeccompProfileTypeRuntimeDefault {
-> +		return &runtimeapi.SecurityProfile{
-> +			ProfileType: runtimeapi.SecurityProfile_RuntimeDefault,
-> +-		}
-> ++		}, nil
-> +	}
-> +-	if scmp.Type == v1.SeccompProfileTypeLocalhost && scmp.LocalhostProfile != nil && len(*scmp.LocalhostProfile) > 0 {
-> +-		fname := filepath.Join(profileRootPath, *scmp.LocalhostProfile)
-> +-		return &runtimeapi.SecurityProfile{
-> +-			ProfileType:  runtimeapi.SecurityProfile_Localhost,
-> +-			LocalhostRef: fname,
-> ++	if scmp.Type == v1.SeccompProfileTypeLocalhost {
-> ++		if scmp.LocalhostProfile != nil && len(*scmp.LocalhostProfile) > 0 {
-> ++			fname := filepath.Join(profileRootPath, *scmp.LocalhostProfile)
-> ++			return &runtimeapi.SecurityProfile{
-> ++				ProfileType:  runtimeapi.SecurityProfile_Localhost,
-> ++				LocalhostRef: fname,
-> ++			}, nil
-> ++		} else {
-> ++			return nil, fmt.Errorf("localhostProfile must be set if seccompProfile type is Localhost.")
-> +		}
-> +	}
-> +	return &runtimeapi.SecurityProfile{
-> +		ProfileType: runtimeapi.SecurityProfile_Unconfined,
-> +-	}
-> ++	}, nil
-> + }
-> +
-> + func (m *kubeGenericRuntimeManager) getSeccompProfile(annotations map[string]string, containerName string,
-> +-	podSecContext *v1.PodSecurityContext, containerSecContext *v1.SecurityContext, fallbackToRuntimeDefault bool) *runtimeapi.SecurityProfile {
-> ++	podSecContext *v1.PodSecurityContext, containerSecContext *v1.SecurityContext, fallbackToRuntimeDefault bool) (*runtimeapi.SecurityProfile, error) {
-> +	// container fields are applied first
-> +	if containerSecContext != nil && containerSecContext.SeccompProfile != nil {
-> +		return fieldSeccompProfile(containerSecContext.SeccompProfile, m.seccompProfileRoot, fallbackToRuntimeDefault)
-> +@@ -316,12 +324,12 @@ func (m *kubeGenericRuntimeManager) getSeccompProfile(annotations map[string]str
-> +	if fallbackToRuntimeDefault {
-> +		return &runtimeapi.SecurityProfile{
-> +			ProfileType: runtimeapi.SecurityProfile_RuntimeDefault,
-> +-		}
-> ++		}, nil
-> +	}
-> +
-> +	return &runtimeapi.SecurityProfile{
-> +		ProfileType: runtimeapi.SecurityProfile_Unconfined,
-> +-	}
-> ++	}, nil
-> + }
-> +
-> + func ipcNamespaceForPod(pod *v1.Pod) runtimeapi.NamespaceMode {
-> +diff --git a/pkg/kubelet/kuberuntime/helpers_test.go b/pkg/kubelet/kuberuntime/helpers_test.go
-> +index 25065f30411..70ad7250ce2 100644
-> +--- a/pkg/kubelet/kuberuntime/helpers_test.go
-> ++++ b/pkg/kubelet/kuberuntime/helpers_test.go
-> +@@ -242,17 +242,18 @@ func TestFieldProfile(t *testing.T) {
-> +		scmpProfile     *v1.SeccompProfile
-> +		rootPath        string
-> +		expectedProfile string
-> ++		expectedError   string
-> +	}{
-> +		{
-> +			description:     "no seccompProfile should return empty",
-> +			expectedProfile: "",
-> +		},
-> +		{
-> +-			description: "type localhost without profile should return empty",
-> ++			description: "type localhost without profile should return error",
-> +			scmpProfile: &v1.SeccompProfile{
-> +				Type: v1.SeccompProfileTypeLocalhost,
-> +			},
-> +-			expectedProfile: "",
-> ++			expectedError: "localhostProfile must be set if seccompProfile type is Localhost.",
-> +		},
-> +		{
-> +			description: "unknown type should return empty",
-> +@@ -279,7 +280,7 @@ func TestFieldProfile(t *testing.T) {
-> +			description: "SeccompProfileTypeLocalhost should return localhost",
-> +			scmpProfile: &v1.SeccompProfile{
-> +				Type:             v1.SeccompProfileTypeLocalhost,
-> +-				LocalhostProfile: utilpointer.StringPtr("profile.json"),
-> ++				LocalhostProfile: utilpointer.String("profile.json"),
-> +			},
-> +			rootPath:        "/test/",
-> +			expectedProfile: "localhost//test/profile.json",
-> +@@ -287,8 +288,13 @@ func TestFieldProfile(t *testing.T) {
-> +	}
-> +
-> +	for i, test := range tests {
-> +-		seccompProfile := fieldProfile(test.scmpProfile, test.rootPath, false)
-> +-		assert.Equal(t, test.expectedProfile, seccompProfile, "TestCase[%d]: %s", i, test.description)
-> ++		seccompProfile, err := fieldProfile(test.scmpProfile, test.rootPath, false)
-> ++		if test.expectedError != "" {
-> ++			assert.EqualError(t, err, test.expectedError, "TestCase[%d]: %s", i, test.description)
-> ++		} else {
-> ++			assert.NoError(t, err, "TestCase[%d]: %s", i, test.description)
-> ++			assert.Equal(t, test.expectedProfile, seccompProfile, "TestCase[%d]: %s", i, test.description)
-> ++		}
-> +	}
-> + }
-> +
-> +@@ -298,17 +304,18 @@ func TestFieldProfileDefaultSeccomp(t *testing.T) {
-> +		scmpProfile     *v1.SeccompProfile
-> +		rootPath        string
-> +		expectedProfile string
-> ++		expectedError   string
-> +	}{
-> +		{
-> +			description:     "no seccompProfile should return runtime/default",
-> +			expectedProfile: v1.SeccompProfileRuntimeDefault,
-> +		},
-> +		{
-> +-			description: "type localhost without profile should return runtime/default",
-> ++			description: "type localhost without profile should return error",
-> +			scmpProfile: &v1.SeccompProfile{
-> +				Type: v1.SeccompProfileTypeLocalhost,
-> +			},
-> +-			expectedProfile: v1.SeccompProfileRuntimeDefault,
-> ++			expectedError: "localhostProfile must be set if seccompProfile type is Localhost.",
-> +		},
-> +		{
-> +			description: "unknown type should return runtime/default",
-> +@@ -335,7 +342,7 @@ func TestFieldProfileDefaultSeccomp(t *testing.T) {
-> +			description: "SeccompProfileTypeLocalhost should return localhost",
-> +			scmpProfile: &v1.SeccompProfile{
-> +				Type:             v1.SeccompProfileTypeLocalhost,
-> +-				LocalhostProfile: utilpointer.StringPtr("profile.json"),
-> ++				LocalhostProfile: utilpointer.String("profile.json"),
-> +			},
-> +			rootPath:        "/test/",
-> +			expectedProfile: "localhost//test/profile.json",
-> +@@ -343,8 +350,13 @@ func TestFieldProfileDefaultSeccomp(t *testing.T) {
-> +	}
-> +
-> +	for i, test := range tests {
-> +-		seccompProfile := fieldProfile(test.scmpProfile, test.rootPath, true)
-> +-		assert.Equal(t, test.expectedProfile, seccompProfile, "TestCase[%d]: %s", i, test.description)
-> ++		seccompProfile, err := fieldProfile(test.scmpProfile, test.rootPath, true)
-> ++		if test.expectedError != "" {
-> ++			assert.EqualError(t, err, test.expectedError, "TestCase[%d]: %s", i, test.description)
-> ++		} else {
-> ++			assert.NoError(t, err, "TestCase[%d]: %s", i, test.description)
-> ++			assert.Equal(t, test.expectedProfile, seccompProfile, "TestCase[%d]: %s", i, test.description)
-> ++		}
-> +	}
-> + }
-> +
-> +@@ -359,6 +371,7 @@ func TestGetSeccompProfilePath(t *testing.T) {
-> +		containerSc     *v1.SecurityContext
-> +		containerName   string
-> +		expectedProfile string
-> ++		expectedError   string
-> +	}{
-> +		{
-> +			description:     "no seccomp should return empty",
-> +@@ -369,91 +382,6 @@ func TestGetSeccompProfilePath(t *testing.T) {
-> +			containerName:   "container1",
-> +			expectedProfile: "",
-> +		},
-> +-		{
-> +-			description: "annotations: pod runtime/default seccomp profile should return runtime/default",
-> +-			annotation: map[string]string{
-> +-				v1.SeccompPodAnnotationKey: v1.SeccompProfileRuntimeDefault,
-> +-			},
-> +-			expectedProfile: "runtime/default",
-> +-		},
-> +-		{
-> +-			description: "annotations: pod docker/default seccomp profile should return docker/default",
-> +-			annotation: map[string]string{
-> +-				v1.SeccompPodAnnotationKey: v1.DeprecatedSeccompProfileDockerDefault,
-> +-			},
-> +-			expectedProfile: "docker/default",
-> +-		},
-> +-		{
-> +-			description: "annotations: pod runtime/default seccomp profile with containerName should return runtime/default",
-> +-			annotation: map[string]string{
-> +-				v1.SeccompPodAnnotationKey: v1.SeccompProfileRuntimeDefault,
-> +-			},
-> +-			containerName:   "container1",
-> +-			expectedProfile: "runtime/default",
-> +-		},
-> +-		{
-> +-			description: "annotations: pod docker/default seccomp profile with containerName should return docker/default",
-> +-			annotation: map[string]string{
-> +-				v1.SeccompPodAnnotationKey: v1.DeprecatedSeccompProfileDockerDefault,
-> +-			},
-> +-			containerName:   "container1",
-> +-			expectedProfile: "docker/default",
-> +-		},
-> +-		{
-> +-			description: "annotations: pod unconfined seccomp profile should return unconfined",
-> +-			annotation: map[string]string{
-> +-				v1.SeccompPodAnnotationKey: v1.SeccompProfileNameUnconfined,
-> +-			},
-> +-			expectedProfile: "unconfined",
-> +-		},
-> +-		{
-> +-			description: "annotations: pod unconfined seccomp profile with containerName should return unconfined",
-> +-			annotation: map[string]string{
-> +-				v1.SeccompPodAnnotationKey: v1.SeccompProfileNameUnconfined,
-> +-			},
-> +-			containerName:   "container1",
-> +-			expectedProfile: "unconfined",
-> +-		},
-> +-		{
-> +-			description: "annotations: pod localhost seccomp profile should return local profile path",
-> +-			annotation: map[string]string{
-> +-				v1.SeccompPodAnnotationKey: "localhost/chmod.json",
-> +-			},
-> +-			expectedProfile: seccompLocalhostPath("chmod.json"),
-> +-		},
-> +-		{
-> +-			description: "annotations: pod localhost seccomp profile with containerName should return local profile path",
-> +-			annotation: map[string]string{
-> +-				v1.SeccompPodAnnotationKey: "localhost/chmod.json",
-> +-			},
-> +-			containerName:   "container1",
-> +-			expectedProfile: seccompLocalhostPath("chmod.json"),
-> +-		},
-> +-		{
-> +-			description: "annotations: container localhost seccomp profile with containerName should return local profile path",
-> +-			annotation: map[string]string{
-> +-				v1.SeccompContainerAnnotationKeyPrefix + "container1": "localhost/chmod.json",
-> +-			},
-> +-			containerName:   "container1",
-> +-			expectedProfile: seccompLocalhostPath("chmod.json"),
-> +-		},
-> +-		{
-> +-			description: "annotations: container localhost seccomp profile should override pod profile",
-> +-			annotation: map[string]string{
-> +-				v1.SeccompPodAnnotationKey:                            v1.SeccompProfileNameUnconfined,
-> +-				v1.SeccompContainerAnnotationKeyPrefix + "container1": "localhost/chmod.json",
-> +-			},
-> +-			containerName:   "container1",
-> +-			expectedProfile: seccompLocalhostPath("chmod.json"),
-> +-		},
-> +-		{
-> +-			description: "annotations: container localhost seccomp profile with unmatched containerName should return empty",
-> +-			annotation: map[string]string{
-> +-				v1.SeccompContainerAnnotationKeyPrefix + "container1": "localhost/chmod.json",
-> +-			},
-> +-			containerName:   "container2",
-> +-			expectedProfile: "",
-> +-		},
-> +		{
-> +			description:     "pod seccomp profile set to unconfined returns unconfined",
-> +			podSc:           &v1.PodSecurityContext{SeccompProfile: &v1.SeccompProfile{Type: v1.SeccompProfileTypeUnconfined}},
-> +@@ -480,14 +408,14 @@ func TestGetSeccompProfilePath(t *testing.T) {
-> +			expectedProfile: seccompLocalhostPath("filename"),
-> +		},
-> +		{
-> +-			description:     "pod seccomp profile set to SeccompProfileTypeLocalhost with empty LocalhostProfile returns empty",
-> +-			podSc:           &v1.PodSecurityContext{SeccompProfile: &v1.SeccompProfile{Type: v1.SeccompProfileTypeLocalhost}},
-> +-			expectedProfile: "",
-> ++			description:   "pod seccomp profile set to SeccompProfileTypeLocalhost with empty LocalhostProfile returns error",
-> ++			podSc:         &v1.PodSecurityContext{SeccompProfile: &v1.SeccompProfile{Type: v1.SeccompProfileTypeLocalhost}},
-> ++			expectedError: "localhostProfile must be set if seccompProfile type is Localhost.",
-> +		},
-> +		{
-> +-			description:     "container seccomp profile set to SeccompProfileTypeLocalhost with empty LocalhostProfile returns empty",
-> +-			containerSc:     &v1.SecurityContext{SeccompProfile: &v1.SeccompProfile{Type: v1.SeccompProfileTypeLocalhost}},
-> +-			expectedProfile: "",
-> ++			description:   "container seccomp profile set to SeccompProfileTypeLocalhost with empty LocalhostProfile returns error",
-> ++			containerSc:   &v1.SecurityContext{SeccompProfile: &v1.SeccompProfile{Type: v1.SeccompProfileTypeLocalhost}},
-> ++			expectedError: "localhostProfile must be set if seccompProfile type is Localhost.",
-> +		},
-> +		{
-> +			description:     "container seccomp profile set to SeccompProfileTypeLocalhost returns 'localhost/' + LocalhostProfile",
-> +@@ -500,41 +428,16 @@ func TestGetSeccompProfilePath(t *testing.T) {
-> +			containerSc:     &v1.SecurityContext{SeccompProfile: &v1.SeccompProfile{Type: v1.SeccompProfileTypeRuntimeDefault}},
-> +			expectedProfile: "runtime/default",
-> +		},
-> +-		{
-> +-			description: "prioritise container field over container annotation, pod field and pod annotation",
-> +-			podSc:       &v1.PodSecurityContext{SeccompProfile: &v1.SeccompProfile{Type: v1.SeccompProfileTypeLocalhost, LocalhostProfile: getLocal("field-pod-profile.json")}},
-> +-			containerSc: &v1.SecurityContext{SeccompProfile: &v1.SeccompProfile{Type: v1.SeccompProfileTypeLocalhost, LocalhostProfile: getLocal("field-cont-profile.json")}},
-> +-			annotation: map[string]string{
-> +-				v1.SeccompPodAnnotationKey:                            "localhost/annota-pod-profile.json",
-> +-				v1.SeccompContainerAnnotationKeyPrefix + "container1": "localhost/annota-cont-profile.json",
-> +-			},
-> +-			containerName:   "container1",
-> +-			expectedProfile: seccompLocalhostPath("field-cont-profile.json"),
-> +-		},
-> +-		{
-> +-			description: "prioritise container annotation over pod field",
-> +-			podSc:       &v1.PodSecurityContext{SeccompProfile: &v1.SeccompProfile{Type: v1.SeccompProfileTypeLocalhost, LocalhostProfile: getLocal("field-pod-profile.json")}},
-> +-			annotation: map[string]string{
-> +-				v1.SeccompPodAnnotationKey:                            "localhost/annota-pod-profile.json",
-> +-				v1.SeccompContainerAnnotationKeyPrefix + "container1": "localhost/annota-cont-profile.json",
-> +-			},
-> +-			containerName:   "container1",
-> +-			expectedProfile: seccompLocalhostPath("annota-cont-profile.json"),
-> +-		},
-> +-		{
-> +-			description: "prioritise pod field over pod annotation",
-> +-			podSc:       &v1.PodSecurityContext{SeccompProfile: &v1.SeccompProfile{Type: v1.SeccompProfileTypeLocalhost, LocalhostProfile: getLocal("field-pod-profile.json")}},
-> +-			annotation: map[string]string{
-> +-				v1.SeccompPodAnnotationKey: "localhost/annota-pod-profile.json",
-> +-			},
-> +-			containerName:   "container1",
-> +-			expectedProfile: seccompLocalhostPath("field-pod-profile.json"),
-> +-		},
-> +	}
-> +
-> +	for i, test := range tests {
-> +-		seccompProfile := m.getSeccompProfilePath(test.annotation, test.containerName, test.podSc, test.containerSc, false)
-> +-		assert.Equal(t, test.expectedProfile, seccompProfile, "TestCase[%d]: %s", i, test.description)
-> ++		seccompProfile, err := m.getSeccompProfilePath(test.annotation, test.containerName, test.podSc, test.containerSc, false)
-> ++		if test.expectedError != "" {
-> ++			assert.EqualError(t, err, test.expectedError, "TestCase[%d]: %s", i, test.description)
-> ++		} else {
-> ++			assert.NoError(t, err, "TestCase[%d]: %s", i, test.description)
-> ++			assert.Equal(t, test.expectedProfile, seccompProfile, "TestCase[%d]: %s", i, test.description)
-> ++		}
-> +	}
-> + }
-> +
-> +@@ -549,6 +452,7 @@ func TestGetSeccompProfilePathDefaultSeccomp(t *testing.T) {
-> +		containerSc     *v1.SecurityContext
-> +		containerName   string
-> +		expectedProfile string
-> ++		expectedError   string
-> +	}{
-> +		{
-> +			description:     "no seccomp should return runtime/default",
-> +@@ -559,91 +463,6 @@ func TestGetSeccompProfilePathDefaultSeccomp(t *testing.T) {
-> +			containerName:   "container1",
-> +			expectedProfile: v1.SeccompProfileRuntimeDefault,
-> +		},
-> +-		{
-> +-			description: "annotations: pod runtime/default seccomp profile should return runtime/default",
-> +-			annotation: map[string]string{
-> +-				v1.SeccompPodAnnotationKey: v1.SeccompProfileRuntimeDefault,
-> +-			},
-> +-			expectedProfile: v1.SeccompProfileRuntimeDefault,
-> +-		},
-> +-		{
-> +-			description: "annotations: pod docker/default seccomp profile should return docker/default",
-> +-			annotation: map[string]string{
-> +-				v1.SeccompPodAnnotationKey: v1.DeprecatedSeccompProfileDockerDefault,
-> +-			},
-> +-			expectedProfile: "docker/default",
-> +-		},
-> +-		{
-> +-			description: "annotations: pod runtime/default seccomp profile with containerName should return runtime/default",
-> +-			annotation: map[string]string{
-> +-				v1.SeccompPodAnnotationKey: v1.SeccompProfileRuntimeDefault,
-> +-			},
-> +-			containerName:   "container1",
-> +-			expectedProfile: v1.SeccompProfileRuntimeDefault,
-> +-		},
-> +-		{
-> +-			description: "annotations: pod docker/default seccomp profile with containerName should return docker/default",
-> +-			annotation: map[string]string{
-> +-				v1.SeccompPodAnnotationKey: v1.DeprecatedSeccompProfileDockerDefault,
-> +-			},
-> +-			containerName:   "container1",
-> +-			expectedProfile: "docker/default",
-> +-		},
-> +-		{
-> +-			description: "annotations: pod unconfined seccomp profile should return unconfined",
-> +-			annotation: map[string]string{
-> +-				v1.SeccompPodAnnotationKey: v1.SeccompProfileNameUnconfined,
-> +-			},
-> +-			expectedProfile: "unconfined",
-> +-		},
-> +-		{
-> +-			description: "annotations: pod unconfined seccomp profile with containerName should return unconfined",
-> +-			annotation: map[string]string{
-> +-				v1.SeccompPodAnnotationKey: v1.SeccompProfileNameUnconfined,
-> +-			},
-> +-			containerName:   "container1",
-> +-			expectedProfile: "unconfined",
-> +-		},
-> +-		{
-> +-			description: "annotations: pod localhost seccomp profile should return local profile path",
-> +-			annotation: map[string]string{
-> +-				v1.SeccompPodAnnotationKey: "localhost/chmod.json",
-> +-			},
-> +-			expectedProfile: seccompLocalhostPath("chmod.json"),
-> +-		},
-> +-		{
-> +-			description: "annotations: pod localhost seccomp profile with containerName should return local profile path",
-> +-			annotation: map[string]string{
-> +-				v1.SeccompPodAnnotationKey: "localhost/chmod.json",
-> +-			},
-> +-			containerName:   "container1",
-> +-			expectedProfile: seccompLocalhostPath("chmod.json"),
-> +-		},
-> +-		{
-> +-			description: "annotations: container localhost seccomp profile with containerName should return local profile path",
-> +-			annotation: map[string]string{
-> +-				v1.SeccompContainerAnnotationKeyPrefix + "container1": "localhost/chmod.json",
-> +-			},
-> +-			containerName:   "container1",
-> +-			expectedProfile: seccompLocalhostPath("chmod.json"),
-> +-		},
-> +-		{
-> +-			description: "annotations: container localhost seccomp profile should override pod profile",
-> +-			annotation: map[string]string{
-> +-				v1.SeccompPodAnnotationKey:                            v1.SeccompProfileNameUnconfined,
-> +-				v1.SeccompContainerAnnotationKeyPrefix + "container1": "localhost/chmod.json",
-> +-			},
-> +-			containerName:   "container1",
-> +-			expectedProfile: seccompLocalhostPath("chmod.json"),
-> +-		},
-> +-		{
-> +-			description: "annotations: container localhost seccomp profile with unmatched containerName should return runtime/default",
-> +-			annotation: map[string]string{
-> +-				v1.SeccompContainerAnnotationKeyPrefix + "container1": "localhost/chmod.json",
-> +-			},
-> +-			containerName:   "container2",
-> +-			expectedProfile: v1.SeccompProfileRuntimeDefault,
-> +-		},
-> +		{
-> +			description:     "pod seccomp profile set to unconfined returns unconfined",
-> +			podSc:           &v1.PodSecurityContext{SeccompProfile: &v1.SeccompProfile{Type: v1.SeccompProfileTypeUnconfined}},
-> +@@ -670,14 +489,14 @@ func TestGetSeccompProfilePathDefaultSeccomp(t *testing.T) {
-> +			expectedProfile: seccompLocalhostPath("filename"),
-> +		},
-> +		{
-> +-			description:     "pod seccomp profile set to SeccompProfileTypeLocalhost with empty LocalhostProfile returns runtime/default",
-> +-			podSc:           &v1.PodSecurityContext{SeccompProfile: &v1.SeccompProfile{Type: v1.SeccompProfileTypeLocalhost}},
-> +-			expectedProfile: v1.SeccompProfileRuntimeDefault,
-> ++			description:   "pod seccomp profile set to SeccompProfileTypeLocalhost with empty LocalhostProfile returns error",
-> ++			podSc:         &v1.PodSecurityContext{SeccompProfile: &v1.SeccompProfile{Type: v1.SeccompProfileTypeLocalhost}},
-> ++			expectedError: "localhostProfile must be set if seccompProfile type is Localhost.",
-> +		},
-> +		{
-> +-			description:     "container seccomp profile set to SeccompProfileTypeLocalhost with empty LocalhostProfile returns runtime/default",
-> +-			containerSc:     &v1.SecurityContext{SeccompProfile: &v1.SeccompProfile{Type: v1.SeccompProfileTypeLocalhost}},
-> +-			expectedProfile: v1.SeccompProfileRuntimeDefault,
-> ++			description:   "container seccomp profile set to SeccompProfileTypeLocalhost with empty LocalhostProfile returns error",
-> ++			containerSc:   &v1.SecurityContext{SeccompProfile: &v1.SeccompProfile{Type: v1.SeccompProfileTypeLocalhost}},
-> ++			expectedError: "localhostProfile must be set if seccompProfile type is Localhost.",
-> +		},
-> +		{
-> +			description:     "container seccomp profile set to SeccompProfileTypeLocalhost returns 'localhost/' + LocalhostProfile",
-> +@@ -690,41 +509,16 @@ func TestGetSeccompProfilePathDefaultSeccomp(t *testing.T) {
-> +			containerSc:     &v1.SecurityContext{SeccompProfile: &v1.SeccompProfile{Type: v1.SeccompProfileTypeRuntimeDefault}},
-> +			expectedProfile: "runtime/default",
-> +		},
-> +-		{
-> +-			description: "prioritise container field over container annotation, pod field and pod annotation",
-> +-			podSc:       &v1.PodSecurityContext{SeccompProfile: &v1.SeccompProfile{Type: v1.SeccompProfileTypeLocalhost, LocalhostProfile: getLocal("field-pod-profile.json")}},
-> +-			containerSc: &v1.SecurityContext{SeccompProfile: &v1.SeccompProfile{Type: v1.SeccompProfileTypeLocalhost, LocalhostProfile: getLocal("field-cont-profile.json")}},
-> +-			annotation: map[string]string{
-> +-				v1.SeccompPodAnnotationKey:                            "localhost/annota-pod-profile.json",
-> +-				v1.SeccompContainerAnnotationKeyPrefix + "container1": "localhost/annota-cont-profile.json",
-> +-			},
-> +-			containerName:   "container1",
-> +-			expectedProfile: seccompLocalhostPath("field-cont-profile.json"),
-> +-		},
-> +-		{
-> +-			description: "prioritise container annotation over pod field",
-> +-			podSc:       &v1.PodSecurityContext{SeccompProfile: &v1.SeccompProfile{Type: v1.SeccompProfileTypeLocalhost, LocalhostProfile: getLocal("field-pod-profile.json")}},
-> +-			annotation: map[string]string{
-> +-				v1.SeccompPodAnnotationKey:                            "localhost/annota-pod-profile.json",
-> +-				v1.SeccompContainerAnnotationKeyPrefix + "container1": "localhost/annota-cont-profile.json",
-> +-			},
-> +-			containerName:   "container1",
-> +-			expectedProfile: seccompLocalhostPath("annota-cont-profile.json"),
-> +-		},
-> +-		{
-> +-			description: "prioritise pod field over pod annotation",
-> +-			podSc:       &v1.PodSecurityContext{SeccompProfile: &v1.SeccompProfile{Type: v1.SeccompProfileTypeLocalhost, LocalhostProfile: getLocal("field-pod-profile.json")}},
-> +-			annotation: map[string]string{
-> +-				v1.SeccompPodAnnotationKey: "localhost/annota-pod-profile.json",
-> +-			},
-> +-			containerName:   "container1",
-> +-			expectedProfile: seccompLocalhostPath("field-pod-profile.json"),
-> +-		},
-> +	}
-> +
-> +	for i, test := range tests {
-> +-		seccompProfile := m.getSeccompProfilePath(test.annotation, test.containerName, test.podSc, test.containerSc, true)
-> +-		assert.Equal(t, test.expectedProfile, seccompProfile, "TestCase[%d]: %s", i, test.description)
-> ++		seccompProfile, err := m.getSeccompProfilePath(test.annotation, test.containerName, test.podSc, test.containerSc, true)
-> ++		if test.expectedError != "" {
-> ++			assert.EqualError(t, err, test.expectedError, "TestCase[%d]: %s", i, test.description)
-> ++		} else {
-> ++			assert.NoError(t, err, "TestCase[%d]: %s", i, test.description)
-> ++			assert.Equal(t, test.expectedProfile, seccompProfile, "TestCase[%d]: %s", i, test.description)
-> ++		}
-> +	}
-> + }
-> +
-> +@@ -747,6 +541,7 @@ func TestGetSeccompProfile(t *testing.T) {
-> +		containerSc     *v1.SecurityContext
-> +		containerName   string
-> +		expectedProfile *runtimeapi.SecurityProfile
-> ++		expectedError   string
-> +	}{
-> +		{
-> +			description:     "no seccomp should return unconfined",
-> +@@ -781,14 +576,14 @@ func TestGetSeccompProfile(t *testing.T) {
-> +			},
-> +		},
-> +		{
-> +-			description:     "pod seccomp profile set to SeccompProfileTypeLocalhost with empty LocalhostProfile returns unconfined",
-> +-			podSc:           &v1.PodSecurityContext{SeccompProfile: &v1.SeccompProfile{Type: v1.SeccompProfileTypeLocalhost}},
-> +-			expectedProfile: unconfinedProfile,
-> ++			description:   "pod seccomp profile set to SeccompProfileTypeLocalhost with empty LocalhostProfile returns error",
-> ++			podSc:         &v1.PodSecurityContext{SeccompProfile: &v1.SeccompProfile{Type: v1.SeccompProfileTypeLocalhost}},
-> ++			expectedError: "localhostProfile must be set if seccompProfile type is Localhost.",
-> +		},
-> +		{
-> +-			description:     "container seccomp profile set to SeccompProfileTypeLocalhost with empty LocalhostProfile returns unconfined",
-> +-			containerSc:     &v1.SecurityContext{SeccompProfile: &v1.SeccompProfile{Type: v1.SeccompProfileTypeLocalhost}},
-> +-			expectedProfile: unconfinedProfile,
-> ++			description:   "container seccomp profile set to SeccompProfileTypeLocalhost with empty LocalhostProfile returns error",
-> ++			containerSc:   &v1.SecurityContext{SeccompProfile: &v1.SeccompProfile{Type: v1.SeccompProfileTypeLocalhost}},
-> ++			expectedError: "localhostProfile must be set if seccompProfile type is Localhost.",
-> +		},
-> +		{
-> +			description: "container seccomp profile set to SeccompProfileTypeLocalhost returns 'localhost/' + LocalhostProfile",
-> +@@ -817,8 +612,13 @@ func TestGetSeccompProfile(t *testing.T) {
-> +	}
-> +
-> +	for i, test := range tests {
-> +-		seccompProfile := m.getSeccompProfile(test.annotation, test.containerName, test.podSc, test.containerSc, false)
-> +-		assert.Equal(t, test.expectedProfile, seccompProfile, "TestCase[%d]: %s", i, test.description)
-> ++		seccompProfile, err := m.getSeccompProfile(test.annotation, test.containerName, test.podSc, test.containerSc, false)
-> ++		if test.expectedError != "" {
-> ++			assert.EqualError(t, err, test.expectedError, "TestCase[%d]: %s", i, test.description)
-> ++		} else {
-> ++			assert.NoError(t, err, "TestCase[%d]: %s", i, test.description)
-> ++			assert.Equal(t, test.expectedProfile, seccompProfile, "TestCase[%d]: %s", i, test.description)
-> ++		}
-> +	}
-> + }
-> +
-> +@@ -841,6 +641,7 @@ func TestGetSeccompProfileDefaultSeccomp(t *testing.T) {
-> +		containerSc     *v1.SecurityContext
-> +		containerName   string
-> +		expectedProfile *runtimeapi.SecurityProfile
-> ++		expectedError   string
-> +	}{
-> +		{
-> +			description:     "no seccomp should return RuntimeDefault",
-> +@@ -875,14 +676,14 @@ func TestGetSeccompProfileDefaultSeccomp(t *testing.T) {
-> +			},
-> +		},
-> +		{
-> +-			description:     "pod seccomp profile set to SeccompProfileTypeLocalhost with empty LocalhostProfile returns unconfined",
-> +-			podSc:           &v1.PodSecurityContext{SeccompProfile: &v1.SeccompProfile{Type: v1.SeccompProfileTypeLocalhost}},
-> +-			expectedProfile: unconfinedProfile,
-> ++			description:   "pod seccomp profile set to SeccompProfileTypeLocalhost with empty LocalhostProfile returns error",
-> ++			podSc:         &v1.PodSecurityContext{SeccompProfile: &v1.SeccompProfile{Type: v1.SeccompProfileTypeLocalhost}},
-> ++			expectedError: "localhostProfile must be set if seccompProfile type is Localhost.",
-> +		},
-> +		{
-> +-			description:     "container seccomp profile set to SeccompProfileTypeLocalhost with empty LocalhostProfile returns unconfined",
-> +-			containerSc:     &v1.SecurityContext{SeccompProfile: &v1.SeccompProfile{Type: v1.SeccompProfileTypeLocalhost}},
-> +-			expectedProfile: unconfinedProfile,
-> ++			description:   "container seccomp profile set to SeccompProfileTypeLocalhost with empty LocalhostProfile returns error",
-> ++			containerSc:   &v1.SecurityContext{SeccompProfile: &v1.SeccompProfile{Type: v1.SeccompProfileTypeLocalhost}},
-> ++			expectedError: "localhostProfile must be set if seccompProfile type is Localhost.",
-> +		},
-> +		{
-> +			description: "container seccomp profile set to SeccompProfileTypeLocalhost returns 'localhost/' + LocalhostProfile",
-> +@@ -911,8 +712,13 @@ func TestGetSeccompProfileDefaultSeccomp(t *testing.T) {
-> +	}
-> +
-> +	for i, test := range tests {
-> +-		seccompProfile := m.getSeccompProfile(test.annotation, test.containerName, test.podSc, test.containerSc, true)
-> +-		assert.Equal(t, test.expectedProfile, seccompProfile, "TestCase[%d]: %s", i, test.description)
-> ++		seccompProfile, err := m.getSeccompProfile(test.annotation, test.containerName, test.podSc, test.containerSc, true)
-> ++		if test.expectedError != "" {
-> ++			assert.EqualError(t, err, test.expectedError, "TestCase[%d]: %s", i, test.description)
-> ++		} else {
-> ++			assert.NoError(t, err, "TestCase[%d]: %s", i, test.description)
-> ++			assert.Equal(t, test.expectedProfile, seccompProfile, "TestCase[%d]: %s", i, test.description)
-> ++		}
-> +	}
-> + }
-> +
-> +diff --git a/pkg/kubelet/kuberuntime/kuberuntime_container_linux.go b/pkg/kubelet/kuberuntime/kuberuntime_container_linux.go
-> +index 6cb9e54729e..54670673bcd 100644
-> +--- a/pkg/kubelet/kuberuntime/kuberuntime_container_linux.go
-> ++++ b/pkg/kubelet/kuberuntime/kuberuntime_container_linux.go
-> +@@ -46,15 +46,23 @@ func (m *kubeGenericRuntimeManager) applyPlatformSpecificContainerConfig(config
-> +		libcontainercgroups.IsCgroup2UnifiedMode() {
-> +		enforceMemoryQoS = true
-> +	}
-> +-	config.Linux = m.generateLinuxContainerConfig(container, pod, uid, username, nsTarget, enforceMemoryQoS)
-> ++	cl, err := m.generateLinuxContainerConfig(container, pod, uid, username, nsTarget, enforceMemoryQoS)
-> ++	if err != nil {
-> ++		return err
-> ++	}
-> ++	config.Linux = cl
-> +	return nil
-> + }
-> +
-> + // generateLinuxContainerConfig generates linux container config for kubelet runtime v1.
-> +-func (m *kubeGenericRuntimeManager) generateLinuxContainerConfig(container *v1.Container, pod *v1.Pod, uid *int64, username string, nsTarget *kubecontainer.ContainerID, enforceMemoryQoS bool) *runtimeapi.LinuxContainerConfig {
-> ++func (m *kubeGenericRuntimeManager) generateLinuxContainerConfig(container *v1.Container, pod *v1.Pod, uid *int64, username string, nsTarget *kubecontainer.ContainerID, enforceMemoryQoS bool) (*runtimeapi.LinuxContainerConfig, error) {
-> ++	sc, err := m.determineEffectiveSecurityContext(pod, container, uid, username)
-> ++	if err != nil {
-> ++		return nil, err
-> ++	}
-> +	lc := &runtimeapi.LinuxContainerConfig{
-> +		Resources:       &runtimeapi.LinuxContainerResources{},
-> +-		SecurityContext: m.determineEffectiveSecurityContext(pod, container, uid, username),
-> ++		SecurityContext: sc,
-> +	}
-> +
-> +	if nsTarget != nil && lc.SecurityContext.NamespaceOptions.Pid == runtimeapi.NamespaceMode_CONTAINER {
-> +@@ -125,7 +133,7 @@ func (m *kubeGenericRuntimeManager) generateLinuxContainerConfig(container *v1.C
-> +		}
-> +	}
-> +
-> +-	return lc
-> ++	return lc, nil
-> + }
-> +
-> + // calculateLinuxResources will create the linuxContainerResources type based on the provided CPU and memory resource requests, limits
-> +diff --git a/pkg/kubelet/kuberuntime/kuberuntime_container_linux_test.go b/pkg/kubelet/kuberuntime/kuberuntime_container_linux_test.go
-> +index 46817e00fb0..98f635cc932 100644
-> +--- a/pkg/kubelet/kuberuntime/kuberuntime_container_linux_test.go
-> ++++ b/pkg/kubelet/kuberuntime/kuberuntime_container_linux_test.go
-> +@@ -47,6 +47,8 @@ func makeExpectedConfig(m *kubeGenericRuntimeManager, pod *v1.Pod, containerInde
-> +	restartCountUint32 := uint32(restartCount)
-> +	envs := make([]*runtimeapi.KeyValue, len(opts.Envs))
-> +
-> ++	l, _ := m.generateLinuxContainerConfig(container, pod, new(int64), "", nil, enforceMemoryQoS)
-> ++
-> +	expectedConfig := &runtimeapi.ContainerConfig{
-> +		Metadata: &runtimeapi.ContainerMetadata{
-> +			Name:    container.Name,
-> +@@ -64,7 +66,7 @@ func makeExpectedConfig(m *kubeGenericRuntimeManager, pod *v1.Pod, containerInde
-> +		Stdin:       container.Stdin,
-> +		StdinOnce:   container.StdinOnce,
-> +		Tty:         container.TTY,
-> +-		Linux:       m.generateLinuxContainerConfig(container, pod, new(int64), "", nil, enforceMemoryQoS),
-> ++		Linux:       l,
-> +		Envs:        envs,
-> +	}
-> +	return expectedConfig
-> +@@ -215,7 +217,8 @@ func TestGenerateLinuxContainerConfigResources(t *testing.T) {
-> +			},
-> +		}
-> +
-> +-		linuxConfig := m.generateLinuxContainerConfig(&pod.Spec.Containers[0], pod, new(int64), "", nil, false)
-> ++		linuxConfig, err := m.generateLinuxContainerConfig(&pod.Spec.Containers[0], pod, new(int64), "", nil, false)
-> ++		assert.NoError(t, err)
-> +		assert.Equal(t, test.expected.CpuPeriod, linuxConfig.GetResources().CpuPeriod, test.name)
-> +		assert.Equal(t, test.expected.CpuQuota, linuxConfig.GetResources().CpuQuota, test.name)
-> +		assert.Equal(t, test.expected.CpuShares, linuxConfig.GetResources().CpuShares, test.name)
-> +@@ -329,6 +332,8 @@ func TestGenerateContainerConfigWithMemoryQoSEnforced(t *testing.T) {
-> +		memoryLow       int64
-> +		memoryHigh      int64
-> +	}
-> ++	l1, _ := m.generateLinuxContainerConfig(&pod1.Spec.Containers[0], pod1, new(int64), "", nil, true)
-> ++	l2, _ := m.generateLinuxContainerConfig(&pod2.Spec.Containers[0], pod2, new(int64), "", nil, true)
-> +	tests := []struct {
-> +		name     string
-> +		pod      *v1.Pod
-> +@@ -338,7 +343,7 @@ func TestGenerateContainerConfigWithMemoryQoSEnforced(t *testing.T) {
-> +			name: "Request128MBLimit256MB",
-> +			pod:  pod1,
-> +			expected: &expectedResult{
-> +-				m.generateLinuxContainerConfig(&pod1.Spec.Containers[0], pod1, new(int64), "", nil, true),
-> ++				l1,
-> +				128 * 1024 * 1024,
-> +				int64(float64(256*1024*1024) * m.memoryThrottlingFactor),
-> +			},
-> +@@ -347,7 +352,7 @@ func TestGenerateContainerConfigWithMemoryQoSEnforced(t *testing.T) {
-> +			name: "Request128MBWithoutLimit",
-> +			pod:  pod2,
-> +			expected: &expectedResult{
-> +-				m.generateLinuxContainerConfig(&pod2.Spec.Containers[0], pod2, new(int64), "", nil, true),
-> ++				l2,
-> +				128 * 1024 * 1024,
-> +				int64(pod2MemoryHigh),
-> +			},
-> +@@ -355,7 +360,8 @@ func TestGenerateContainerConfigWithMemoryQoSEnforced(t *testing.T) {
-> +	}
-> +
-> +	for _, test := range tests {
-> +-		linuxConfig := m.generateLinuxContainerConfig(&test.pod.Spec.Containers[0], test.pod, new(int64), "", nil, true)
-> ++		linuxConfig, err := m.generateLinuxContainerConfig(&test.pod.Spec.Containers[0], test.pod, new(int64), "", nil, true)
-> ++		assert.NoError(t, err)
-> +		assert.Equal(t, test.expected.containerConfig, linuxConfig, test.name)
-> +		assert.Equal(t, linuxConfig.GetResources().GetUnified()["memory.min"], strconv.FormatInt(test.expected.memoryLow, 10), test.name)
-> +		assert.Equal(t, linuxConfig.GetResources().GetUnified()["memory.high"], strconv.FormatInt(test.expected.memoryHigh, 10), test.name)
-> +@@ -578,7 +584,8 @@ func TestGenerateLinuxContainerConfigNamespaces(t *testing.T) {
-> +		},
-> +	} {
-> +		t.Run(tc.name, func(t *testing.T) {
-> +-			got := m.generateLinuxContainerConfig(&tc.pod.Spec.Containers[0], tc.pod, nil, "", tc.target, false)
-> ++			got, err := m.generateLinuxContainerConfig(&tc.pod.Spec.Containers[0], tc.pod, nil, "", tc.target, false)
-> ++			assert.NoError(t, err)
-> +			if diff := cmp.Diff(tc.want, got.SecurityContext.NamespaceOptions); diff != "" {
-> +				t.Errorf("%v: diff (-want +got):\n%v", t.Name(), diff)
-> +			}
-> +@@ -669,7 +676,8 @@ func TestGenerateLinuxContainerConfigSwap(t *testing.T) {
-> +	} {
-> +		t.Run(tc.name, func(t *testing.T) {
-> +			m.memorySwapBehavior = tc.swapSetting
-> +-			actual := m.generateLinuxContainerConfig(&tc.pod.Spec.Containers[0], tc.pod, nil, "", nil, false)
-> ++			actual, err := m.generateLinuxContainerConfig(&tc.pod.Spec.Containers[0], tc.pod, nil, "", nil, false)
-> ++			assert.NoError(t, err)
-> +			assert.Equal(t, tc.expected, actual.Resources.MemorySwapLimitInBytes, "memory swap config for %s", tc.name)
-> +		})
-> +	}
-> +diff --git a/pkg/kubelet/kuberuntime/security_context.go b/pkg/kubelet/kuberuntime/security_context.go
-> +index c9d33e44305..3b575c8e974 100644
-> +--- a/pkg/kubelet/kuberuntime/security_context.go
-> ++++ b/pkg/kubelet/kuberuntime/security_context.go
-> +@@ -24,7 +24,7 @@ import (
-> + )
-> +
-> + // determineEffectiveSecurityContext gets container's security context from v1.Pod and v1.Container.
-> +-func (m *kubeGenericRuntimeManager) determineEffectiveSecurityContext(pod *v1.Pod, container *v1.Container, uid *int64, username string) *runtimeapi.LinuxContainerSecurityContext {
-> ++func (m *kubeGenericRuntimeManager) determineEffectiveSecurityContext(pod *v1.Pod, container *v1.Container, uid *int64, username string) (*runtimeapi.LinuxContainerSecurityContext, error) {
-> +	effectiveSc := securitycontext.DetermineEffectiveSecurityContext(pod, container)
-> +	synthesized := convertToRuntimeSecurityContext(effectiveSc)
-> +	if synthesized == nil {
-> +@@ -36,9 +36,16 @@ func (m *kubeGenericRuntimeManager) determineEffectiveSecurityContext(pod *v1.Po
-> +
-> +	// TODO: Deprecated, remove after we switch to Seccomp field
-> +	// set SeccompProfilePath.
-> +-	synthesized.SeccompProfilePath = m.getSeccompProfilePath(pod.Annotations, container.Name, pod.Spec.SecurityContext, container.SecurityContext, m.seccompDefault)
-> ++	var err error
-> ++	synthesized.SeccompProfilePath, err = m.getSeccompProfilePath(pod.Annotations, container.Name, pod.Spec.SecurityContext, container.SecurityContext, m.seccompDefault)
-> ++	if err != nil {
-> ++		return nil, err
-> ++	}
-> +
-> +-	synthesized.Seccomp = m.getSeccompProfile(pod.Annotations, container.Name, pod.Spec.SecurityContext, container.SecurityContext, m.seccompDefault)
-> ++	synthesized.Seccomp, err = m.getSeccompProfile(pod.Annotations, container.Name, pod.Spec.SecurityContext, container.SecurityContext, m.seccompDefault)
-> ++	if err != nil {
-> ++		return nil, err
-> ++	}
-> +
-> +	// set ApparmorProfile.
-> +	synthesized.ApparmorProfile = apparmor.GetProfileNameFromPodAnnotations(pod.Annotations, container.Name)
-> +@@ -74,7 +81,7 @@ func (m *kubeGenericRuntimeManager) determineEffectiveSecurityContext(pod *v1.Po
-> +	synthesized.MaskedPaths = securitycontext.ConvertToRuntimeMaskedPaths(effectiveSc.ProcMount)
-> +	synthesized.ReadonlyPaths = securitycontext.ConvertToRuntimeReadonlyPaths(effectiveSc.ProcMount)
-> +
-> +-	return synthesized
-> ++	return synthesized, nil
-> + }
-> +
-> + // convertToRuntimeSecurityContext converts v1.SecurityContext to runtimeapi.SecurityContext.
-> +--
-> +2.40.0
-> diff --git a/recipes-containers/kubernetes/kubernetes_git.bb b/recipes-containers/kubernetes/kubernetes_git.bb
-> index 59892c92..dc741bbf 100644
-> --- a/recipes-containers/kubernetes/kubernetes_git.bb
-> +++ b/recipes-containers/kubernetes/kubernetes_git.bb
-> @@ -30,6 +30,7 @@ SRC_URI:append = " \
->             file://0001-cross-don-t-build-tests-by-default.patch;patchdir=src/import \
->             file://0001-build-golang.sh-convert-remaining-go-calls-to-use.patch;patchdir=src/import \
->             file://0001-Makefile.generated_files-Fix-race-issue-for-installi.patch;patchdir=src/import \
-> +           file://CVE-2023-2431.patch;patchdir=src/import \
->             file://cni-containerd-net.conflist \
->             file://k8s-init \
->             file://99-kubernetes.conf \
-> -- 
-> 2.40.0
-> 
-
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#8411): https://lists.yoctoproject.org/g/meta-virtualization/message/8411
-> Mute This Topic: https://lists.yoctoproject.org/mt/102341409/1050810
-> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
-
+SGkgQnJ1Y2UhDQoNCk9uIE1vbiwgMjAyMy0xMS0wNiBhdCAxOTo1NyAtMDUwMCwgQnJ1Y2UgQXNo
+ZmllbGQgd3JvdGU6DQo+ID4gQXMgSSBrZWVwIGxvb2tpbmcgYXQgaXQsIHRoZXJlJ3MgdmVyeSBs
+aXR0bGUgaW4gdGhlIC5pbmMgZmlsZSB0aGF0IGlzbid0DQo+ID4gY29udHJvbGxlZCBieSBhIGRp
+c3RybyBmZWF0dXJlLCBzbyB0aGVyZSdzIG9ubHkgc21hbGwgdHdlYWtzIG5lZWRlZA0KPiA+IHRv
+IG1ha2Ugc3VyZSB0aGF0IG9ubHkgZnJhZ21lbnRzIGFuZCBrZXJuZWwgZmVhdHVyZXMgdGhhdCBh
+cmUNCj4gPiBxdWl0ZSB3ZWxsIHRhcmdldGVkIGFyZSBlbmFibGVkLg0KPiA+IA0KPiA+IEhhdmlu
+ZyB0aGUga2VybmVsLWNhY2hlIGFzIGEgZGVwZW5kZW5jeSBpcyBub3QgbXVjaCB0byBhc2ssDQo+
+ID4gY29tYmluZWQgd2l0aCB0aGUgYWJpbGl0eSB0byB1c2UgdGhlbSB0byBjb25maWd1cmUga2Vy
+bmVscw0KPiA+IHByb3Blcmx5IGFuZCBhdWRpdCB0aGUgcmVzdWx0cy4NCj4gPiANCj4gPiBUaGUg
+aG91cnMgKG1vcmUgbGlrZSB3ZWVrcyBhbmQgbW9udGhzKSBzcGVudCBkZWJ1Z2dpbmcgcnVudGlt
+ZQ0KPiA+IGlzc3VlcyBkdWUgdG8gaW5jb3JyZWN0bHkgY29uZmlndXJlZCBrZXJuZWxzIGhhcyBi
+ZWVuIGh1Z2Ugb3Zlcg0KPiA+IHRoZSBsaWZldGltZSBvZiBtZXRhLXZpcnR1YWxpemF0aW9uLiBB
+c2tpbmcgZm9yIGEgZmV3IGZyYWdtZW50cyB0bw0KPiA+IGJlIGRvd25sb2FkZWQgKHdoaWNoIGNh
+biBiZSBtaXJyb3JlZCkgaXMgbWlub3IgaW4gdGhlIHNjb3BlIG9mDQo+ID4gdGhpbmdzLg0KPiA+
+IA0KPiA+IFdoaWNoIGlzIHdoeSBpZiBhIGtlcm5lbCB0eXBlIHRoYXQgY2FuIG1lcmdlIGZyYWdt
+ZW50cywgYnV0IHlldA0KPiA+IGlzIGRpc2FibGluZyB0aGUgZmVhdHVyZSBzcGVjaWZpY2F0aW9u
+LCB0aGUgbGF5ZXIgc2hvdWxkIGVtaXQgYQ0KPiA+IHdhcm5pbmcuIEknZCB0aGVuIGhhdmUgYW5v
+dGhlciB2YXJpYWJsZSB3aGljaCBpbmhpYml0cyB0aGUgd2FybmluZw0KPiA+IG1lc3NhZ2UuIFNp
+bmNlIHRoYXQgaXMgc29tZXRoaW5nIEkgY2FuIGFzayBhYm91dCBpbiBidWcgcmVwb3J0cw0KPiA+
+IGFuZCB1bnRpbCB0aGUgd2FybmluZyBtZXNzYWdlIGlzIHJlLWVuYWJsZWQsIHRoZSByZXBvcnRl
+ciBpcyBvbg0KPiA+IHRoZWlyIG93bi4NCj4gDQo+IE15IHNvbHV0aW9uIGlzIG5vdyBpbiBtYXN0
+ZXItbmV4dDoNCj4gDQo+IGh0dHBzOi8vZ2l0LnlvY3RvcHJvamVjdC5vcmcvbWV0YS12aXJ0dWFs
+aXphdGlvbi9jb21taXQvP2g9bWFzdGVyLW5leHQmaWQ9NDVjMjI5N2E5MTY1MTZlNWZjN2I4MmRh
+YjQ2YzQ3MTk1OTA4MTNiNw0KDQpJJ3ZlIHRlc3RlZCB5b3VyIHNvbHV0aW9uIGFuZCBpdCBzb2x2
+ZXMgdGhlIGlzc3VlIG9uIG15IHNpZGUsDQp0aGFuayB5b3UgZm9yIGFkZHJlc3NpbmcgaXQgc28g
+cXVpY2tseSENCg0KVGhlcmUgaXMgYSBwcm9ibGVtIGluIHRoZSB3YXJuaW5nIGNvZGUgdGhvdWdo
+LCBuYW1lbHkgYSB0eXBvIGhlcmU6DQoNCnNraXBfa2VybmVsX2luY2x1ZGVfZW5hYmxlZCA9IGQu
+Z2V0VmFyKCdTS0lQX01FVEFfVklSVF9LRVJORUxfSU5MVURFJykNCg0KaWYgaXQgd291bGQgYmUN
+Cg0Kc2tpcF9rZXJuZWxfaW5jbHVkZV9lbmFibGVkID0gZC5nZXRWYXIoJ1NLSVBfTUVUQV9WSVJU
+X0tFUk5FTF9JTkNMVURFJykNCg0KdGhlIHdhcm5pbmcgd291bGQgYmUgZW1pdHRlZCBhcyBleHBl
+Y3RlZC4gQWZ0ZXIgdGhlIGNoYW5nZSBib3RoIGVtaXR0aW5nDQphbmQgc2lsZW5jaW5nIHRoZSB3
+YXJuaW5nIHdvcmtzIGZpbmUuDQoNCi0tIA0KQWxleGFuZGVyIFN2ZXJkbGluDQpTaWVtZW5zIEFH
+DQp3d3cuc2llbWVucy5jb20NCg==
 
