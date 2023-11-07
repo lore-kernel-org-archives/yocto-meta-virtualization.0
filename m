@@ -1,115 +1,169 @@
-Return-Path: <narpat.mali@windriver.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2486EC4332F
-	for <webhook@archiver.kernel.org>; Mon,  6 Nov 2023 14:51:41 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.56480.1699282291521774109
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8386AC4332F
+	for <webhook@archiver.kernel.org>; Tue,  7 Nov 2023 00:58:19 +0000 (UTC)
+Received: from mail-io1-f47.google.com (mail-io1-f47.google.com [209.85.166.47])
+ by mx.groups.io with SMTP id smtpd.web11.113.1699318690410618746
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 06 Nov 2023 06:51:31 -0800
+ Mon, 06 Nov 2023 16:58:10 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=DzffrMK8;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=96743c33b2=narpat.mali@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 3A6BXnD0005594
-	for <meta-virtualization@lists.yoctoproject.org>; Mon, 6 Nov 2023 14:51:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=from:to:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding:content-type; s=
-	PPS06212021; bh=/uWyUEUl2/R4SRpjiKEdz9xXVTTcKEJMcFu5BavJANc=; b=
-	DzffrMK8Xdlt0KpcuJs49Kv/ruxjPEmSWPZ6hOkolhgSXWShSIxNTxxIDluOxjyM
-	7/EVCNHdHjCNFwLX2rYdwkgco5Q+RefTeZcLDXZ3cLRPnQCVZDVSi8bMBiKMS1hq
-	tsG1E2Q559gx6+yWcx0q/mcmTL0mjNCw9ZzRGrK6DASnR0NcCnVrscPMmmNKlmIj
-	DDgiX2MGbP8XRl6C2fPKDo4yIZJ6TQrmm9ZBaiNKqhruvYfCDhdjTardXiJGAREQ
-	VpdCXbKQwlDI82OpNF36dLfwxSEDJyCMRQrECtDXaHrJYT4Mrc9i4b0WQuLT2q3x
-	B3/aspX6DwLiyFnbF5ZLHg==
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3u5cx69q0y-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <meta-virtualization@lists.yoctoproject.org>; Mon, 06 Nov 2023 14:51:30 +0000 (GMT)
-Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34; Mon, 6 Nov 2023 06:51:31 -0800
-From: nmali <narpat.mali@windriver.com>
-To: <meta-virtualization@lists.yoctoproject.org>
-Subject: [meta-virtualization][kirkstone][PATCH 2/2] python3-ansible: Add locale-base-en-us to RDEPENDS
-Date: Mon, 6 Nov 2023 14:51:06 +0000
-Message-ID: <20231106145106.2671320-2-narpat.mali@windriver.com>
-X-Mailer: git-send-email 2.40.0
-In-Reply-To: <20231106145106.2671320-1-narpat.mali@windriver.com>
-References: <20231106145106.2671320-1-narpat.mali@windriver.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=MhxiHaNq;
+ spf=pass (domain: gmail.com, ip: 209.85.166.47, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-io1-f47.google.com with SMTP id ca18e2360f4ac-7a66b5f7ea7so195297839f.2
+        for <meta-virtualization@lists.yoctoproject.org>; Mon, 06 Nov 2023 16:58:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1699318689; x=1699923489; darn=lists.yoctoproject.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SEfcNoRyZHwCosn+ioH8VuaPXLrMf2MXAS0FtW83ylk=;
+        b=MhxiHaNq6tuyCtNMclCo4A35yxIyAkrdgUf7HbGzR7IEx3JzBuZFT0slXCPmlk3C7l
+         L0o+eMcb5HzaKkw23T48hc+ebYgPc9GrSAhB2Bc08/3Ep+ldhxRRG3oKNxE/13nTH1Rz
+         JC9Jsrmw+bMox9A2U/H2unTa2jnMMsEC03xnMs66T8UVmHlt2KiMLzNz7RHMW4fy5Qi+
+         g7TP9XYRTfJTtcdKTdfLYQj8Y1e9LXlsliLQegx/BECnCsYIIkPKQlOwM4buqKoqknlw
+         qSfj1IKQlVSuIVYwWjHU6RgM8e5TUiOG+D8TGhwUECfI/iFbNQis7ruMi18e6klXwh6F
+         UQqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699318689; x=1699923489;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=SEfcNoRyZHwCosn+ioH8VuaPXLrMf2MXAS0FtW83ylk=;
+        b=wyT5ctwlwM8e9rnjBgrBhg8xuAtRKyOlsgIJ8vWvN7HguEcd6hEaB98jlKGOG2J4oZ
+         mhg9XsmsmPmdnciS36VJEzi7buyKDOx0df1+tL0feWWf9Ssem0goQ6I2QRASV2UrZyGU
+         BHGUtNKCUz8Z4fb5KLohllTEZ3VNvNWq423IQ2W1gNQyyhy1kLjrI++7LAiflxGZGx9v
+         Tfy5CQ4soCuHrAVEYexdOG7M9YYBTfGUA9DgQIjdsgGdguyRVARYKs23gzzM6ETu+Rgd
+         J8gq//qQG1qNCPEu+8mN/+Du3aH00rlKrIlLi7AmoeMsoFTRDTiKb5NDAK0+nrl0hR4g
+         43kQ==
+X-Gm-Message-State: AOJu0YzFHDNAk5/xUYx80XZ/EH+BJt2q+GNfFwijk+nkZTAZyUiltMDA
+	K7A9OJ/NCjUUcH9isq2w81fXikHEbwHQPNo9k0Y=
+X-Google-Smtp-Source: AGHT+IEi/hOlVoELG5vadaVNfQJkhqWp+Rw08O/qrJKbfZHjhkkY1PM9Ddzbow6UjGXOjf2rU9CtoVeLzCpUhxgGTHc=
+X-Received: by 2002:a05:6602:1492:b0:7a6:a166:dcac with SMTP id
+ a18-20020a056602149200b007a6a166dcacmr36524430iow.20.1699318689481; Mon, 06
+ Nov 2023 16:58:09 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [147.11.136.210]
-X-ClientProxiedBy: ala-exchng01.corp.ad.wrs.com (147.11.82.252) To
- ala-exchng01.corp.ad.wrs.com (147.11.82.252)
-X-Proofpoint-GUID: XMAWjZ4PpzrKzev1gcJaEpckQmI_wDcz
-X-Proofpoint-ORIG-GUID: XMAWjZ4PpzrKzev1gcJaEpckQmI_wDcz
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-11-06_12,2023-11-02_03,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- priorityscore=1501 lowpriorityscore=0 spamscore=0 suspectscore=0
- malwarescore=0 bulkscore=0 clxscore=1015 mlxscore=0 adultscore=0
- phishscore=0 mlxlogscore=967 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2310240000 definitions=main-2311060119
+References: <CADkTA4ORrENvzkPYG_1EnDca-BQjhm4L3nj9e+ZfNer4wcd0Yw@mail.gmail.com>
+ <20231106092058.1209687-1-alexander.sverdlin@siemens.com> <17950C6F5A95F7ED.26468@lists.yoctoproject.org>
+In-Reply-To: <17950C6F5A95F7ED.26468@lists.yoctoproject.org>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Mon, 6 Nov 2023 19:57:58 -0500
+Message-ID: <CADkTA4P3NK9JQvsOX5729Le=NGLwG7LqGUVxq1KFn90RMMxfXQ@mail.gmail.com>
+Subject: Re: [meta-virtualization] [PATCH RFC] kernel: allow KERNEL_META_TYPE redefinition
+To: bruce.ashfield@gmail.com
+Cc: "A. Sverdlin" <alexander.sverdlin@siemens.com>, 
+	meta-virtualization@lists.yoctoproject.org, adrian.freihofer@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Mon, 06 Nov 2023 14:51:41 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8427
+ <meta-virtualization@lists.yoctoproject.org>; Tue, 07 Nov 2023 00:58:19 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8428
 
-From: Narpat Mali <narpat.mali@windriver.com>
+On Mon, Nov 6, 2023 at 8:41=E2=80=AFAM Bruce Ashfield via
+lists.yoctoproject.org
+<bruce.ashfield=3Dgmail.com@lists.yoctoproject.org> wrote:
+>
+> On Mon, Nov 6, 2023 at 4:21=E2=80=AFAM A. Sverdlin
+> <alexander.sverdlin@siemens.com> wrote:
+> >
+> > From: Alexander Sverdlin <alexander.sverdlin@siemens.com>
+> >
+> > There are use cases for type=3Dkmeta in kernel-yocto.bbclass-derived SR=
+C_URI
+> > which do not point to git://git.yoctoproject.org/yocto-kernel-cache but=
+ to
+> > file:// local storage containing just some .scc files. It's not obvious
+> > that they shall pull in the whole automatic kernel configuration of
+> > meta-virtualization. Make this behaviour configurable by allowing
+> > KERNEL_META_TYPE to be defined in local.conf or distro config.
+>
+> This is an ok temporary solution, but I'd only merge something like
+> this with a bbwarning also being emitted at the same time.
+>
+> As I keep looking at it, there's very little in the .inc file that isn't
+> controlled by a distro feature, so there's only small tweaks needed
+> to make sure that only fragments and kernel features that are
+> quite well targeted are enabled.
+>
+> Having the kernel-cache as a dependency is not much to ask,
+> combined with the ability to use them to configure kernels
+> properly and audit the results.
+>
+> The hours (more like weeks and months) spent debugging runtime
+> issues due to incorrectly configured kernels has been huge over
+> the lifetime of meta-virtualization. Asking for a few fragments to
+> be downloaded (which can be mirrored) is minor in the scope of
+> things.
+>
+> Which is why if a kernel type that can merge fragments, but yet
+> is disabling the feature specification, the layer should emit a
+> warning. I'd then have another variable which inhibits the warning
+> message. Since that is something I can ask about in bug reports
+> and until the warning message is re-enabled, the reporter is on
+> their own.
 
-Fixes:
-   # export LANG='en_US.UTF-8'
-   # ansible --version
-   ERROR: Ansible requires the locale encoding to be UTF-8; Detected None.
+My solution is now in master-next:
 
-  #  python3
-  Python 3.10.9 (main, Dec  6 2022, 18:44:57) [GCC 11.3.0] on linux
-  Type "help", "copyright", "credits" or "license" for more information.
-  >>> import locale
-  >>> locale.setlocale(locale.LC_CTYPE, ("en_US", "UTF-8"))
-  Traceback (most recent call last):
-    File "<stdin>", line 1, in <module>
-    File "/usr/lib64/python3.10/locale.py", line 620, in setlocale
-      return _setlocale(category, locale)
-  locale.Error: unsupported locale setting
-  >>>
+https://git.yoctoproject.org/meta-virtualization/commit/?h=3Dmaster-next&id=
+=3D45c2297a916516e5fc7b82dab46c4719590813b7
 
-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+Bruce
 
-Upstream master commit:
-https://git.yoctoproject.org/meta-cloud-services/commit/?id=cd048e11c4600636714051c787264a52be19c3f8
+>
+> Cheers,
+>
+> Bruce
+>
+> > ---
+> >  recipes-kernel/linux/linux-%.bbappend | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/recipes-kernel/linux/linux-%.bbappend b/recipes-kernel/lin=
+ux/linux-%.bbappend
+> > index 5f31578..c2fc91c 100644
+> > --- a/recipes-kernel/linux/linux-%.bbappend
+> > +++ b/recipes-kernel/linux/linux-%.bbappend
+> > @@ -5,6 +5,6 @@ LINUX_MAJOR =3D "${@(d.getVar('LINUX_VERSION') or "x.y"=
+).split('.')[0]}"
+> >  LINUX_MINOR =3D "${@(d.getVar('LINUX_VERSION') or "x.y").split('.')[1]=
+}"
+> >
+> >
+> > -KERNEL_META_TYPE =3D "${@'yocto' if d.getVar('SRC_URI').find('type=3Dk=
+meta') > 0 else 'none'}"
+> > +KERNEL_META_TYPE ?=3D "${@'yocto' if d.getVar('SRC_URI').find('type=3D=
+kmeta') > 0 else 'none'}"
+> >
+> >  include ${@bb.utils.contains('DISTRO_FEATURES', 'virtualization', 'lin=
+ux-${KERNEL_META_TYPE}_${LINUX_MAJOR}.${LINUX_MINOR}_virtualization.inc', '=
+', d)}
+> > --
+> > 2.41.0
+> >
+>
+>
+> --
+> - Thou shalt not follow the NULL pointer, for chaos and madness await
+> thee at its end
+> - "Use the force Harry" - Gandalf, Star Trek II
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#8425): https://lists.yoctoproject.org/g/meta-virtuali=
+zation/message/8425
+> Mute This Topic: https://lists.yoctoproject.org/mt/102416724/1050810
+> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/leave/6=
+693017/1050810/978058475/xyzzy [bruce.ashfield@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
-Signed-off-by: Narpat Mali <narpat.mali@windriver.com>
----
- recipes-devtools/python/python3-ansible_2.14.11.bb | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/recipes-devtools/python/python3-ansible_2.14.11.bb b/recipes-devtools/python/python3-ansible_2.14.11.bb
-index ea0fdbe5..f3ab2377 100644
---- a/recipes-devtools/python/python3-ansible_2.14.11.bb
-+++ b/recipes-devtools/python/python3-ansible_2.14.11.bb
-@@ -1,7 +1,11 @@
- inherit setuptools3
- require python-ansible.inc
- 
--RDEPENDS:${PN} += "python3-pyyaml python3-jinja2 python3-modules"
-+RDEPENDS:${PN} += "python3-pyyaml \
-+    python3-jinja2 \
-+    python3-modules \
-+    locale-base-en-us \
-+"
- 
- SRC_URI += " \
-     file://python3-ensure-py-scripts-use-py3-for-shebang.patch \
--- 
-2.40.0
-
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
