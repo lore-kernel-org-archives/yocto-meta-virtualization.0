@@ -2,40 +2,40 @@ Return-Path: <Michal.Orzel@amd.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 38D4FC46CA3
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 38D1CC4167B
 	for <webhook@archiver.kernel.org>; Mon, 27 Nov 2023 10:38:38 +0000 (UTC)
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (NAM12-DM6-obe.outbound.protection.outlook.com [40.107.243.43])
- by mx.groups.io with SMTP id smtpd.web11.91863.1701081513614003220
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (NAM10-MW2-obe.outbound.protection.outlook.com [40.107.94.72])
+ by mx.groups.io with SMTP id smtpd.web11.91865.1701081515878616012
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 27 Nov 2023 02:38:33 -0800
+ Mon, 27 Nov 2023 02:38:36 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@amd.com header.s=selector1 header.b=DVd8dmAr;
- spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: amd.com, ip: 40.107.243.43, mailfrom: michal.orzel@amd.com)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@amd.com header.s=selector1 header.b=tBuZdfZI;
+ spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: amd.com, ip: 40.107.94.72, mailfrom: michal.orzel@amd.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Psk3+Bl3Ewz5m36Zztko9FnPlGG4oUg54lwr5ZBmmql9uvsZzVMmEUTsNeB/me+PUc1XSy0s8YXHRAmWo3Bu3Y0d8MV1M9F5eqPFP0qn89pDoFKlfPQTqtuJLBY/dUMTa9Egg4FNJvWZbsR78JPH5QwVw83EpuxWUzDm2uskdlclXZgI9E+EYyhvN0OH/zbIqmOfFD+Mv3zEABa8m45XQx5TQRJzLwZi1t00Av5f3Fq3S2HartVRKyNWFc3tqCbYFm02HpnfDgjELaVxY1/aI9O6M9yXkrGHmojmbzFRv4g669vSfksemSzPm6RzRWjaT1w+bGL//5ELKrDg4vSoUg==
+ b=CiymCjQ3ecM2dIZWzhJI/Fl3MM0QKbn6AZeYYoDTgFUVQDtciwIvFmqf4HwvhTUm9SoH43kT/dOcxk7/MmheJr5aWINXXC11kZ7OjaolM0t1pCLKXK0X9Lg+5rwg5WNQzAT9UyFz11p477ex9PVpDhkmn71BtkELoPyOG3vKpiFrg6CYxtkmshOMOo3Ry69ri7Ksqx8eGCWmWjH+kkHgFcliCa/WJedBaBUlbNXh6UMHpQTNBDpxdTrYWOEoCORVh4eGkAAalsStTkBQqdNeP/L4V0BwinCEk2LHfD8xIqd+aCtTiBu2e53n+sEtJraTwi8+3AoIA5XZNgzohu1k+w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QSMtAc7RzI2sf/tGnDtBIj/zAqFboxo6cAGfu1x4e60=;
- b=jUUWgV0RzVzF3RboEvNP6RiFyjX118KG4hwkkcCj0qoSFvvA6/Lns4JerJukynLs+LPOSr01eW3X9Uyz8d2EEcfQ87QnE+WBRCFuBGGokuWO1FzAg6EM59UAMq9YQUrkrZ2Fgw7JbPCEqUR3BSF8gN8r1xHsj6+fTdTnPczFfa29kI5mk83Q040pa3S3FH/ffvPrKHcOhN/Y1ablLhQ+YJzXDLTgdgxfYA288eyEuXbcRJmIMv96LOk9l7EDrDTKamTnStrVnDnYZ4QYvx0K3aomQGPFFxrUmWMZRzya6nn4koldsuOXIEgPffLbtOJCgG6YWQl4ztngxWA2eVAOWg==
+ bh=L+hgjPE6TcB1xEWGr5MSoMdCPN9RfRPf7ni/xbPJeGo=;
+ b=UKAXEbP8VQQvPcvwfc4W5jZVZoChJv7pG1NxfhgYb2bsdOhiUDqUtXEreLs/IALJvMDd71vWWvvgNr0hz8K2Fja6NUIcjMSSox0W8mJAo9DkdrYRRC2qOAIejJDt2U4eMfpviGyuEx6YlDRrP/fTf7INXKK/htTjVSdkxRQPZEdPd44Rw1we+paKRsPWhXoSxRUwK+4VMb86wpMVB67qKR7NGHvHUZKgVF6F72HbPHpQvb7ZKiECSha6mdjSSjXhpLmUfK+r+KZxIjzJtekIMQYlzI3Kg2QHgoXiKYtESoGkxDbUVf95xQmQ57cQGnfNiQH6hz00DZ4tJDwm0XbpFw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lists.yoctoproject.org
  smtp.mailfrom=amd.com; dmarc=pass (p=quarantine sp=quarantine pct=100)
  action=none header.from=amd.com; dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QSMtAc7RzI2sf/tGnDtBIj/zAqFboxo6cAGfu1x4e60=;
- b=DVd8dmArrR9ovk3a1n3GUDYjSIQ/naspt+lje+geetyCyG9gRTekAw2GaiYD2WzkWm1iMtlKD4A0H7197oLTeGcOIvJP8EIY8PbMcCFg8bw7LAmtfSdegSbbnEA0v7E0EJ8c5gmXFHxB+xeTtcyLwAnY7fujhf+UZGCF3T5YE7Y=
-Received: from CH0PR04CA0090.namprd04.prod.outlook.com (2603:10b6:610:74::35)
- by DM4PR12MB6182.namprd12.prod.outlook.com (2603:10b6:8:a8::15) with
+ bh=L+hgjPE6TcB1xEWGr5MSoMdCPN9RfRPf7ni/xbPJeGo=;
+ b=tBuZdfZIoyLoIPXRQ5jUL62oUI18aRfx0r6hzFitAgEgIfGYk0PvIgVuaQSAO+z0EZBcFdzCD/Fm6z+SsT6nbcthpnLPmL281p0UjoWVJHDjGVf/nmCr4Nrvdp7WEnJmv0HyuHPZQjJ17xmIoSQJI4p527meF2qUFUsCkZk5Iiw=
+Received: from CH0PR04CA0069.namprd04.prod.outlook.com (2603:10b6:610:74::14)
+ by BN9PR12MB5116.namprd12.prod.outlook.com (2603:10b6:408:119::16) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7025.29; Mon, 27 Nov
- 2023 10:38:30 +0000
+ 2023 10:38:32 +0000
 Received: from DS2PEPF00003440.namprd02.prod.outlook.com
- (2603:10b6:610:74:cafe::eb) by CH0PR04CA0090.outlook.office365.com
- (2603:10b6:610:74::35) with Microsoft SMTP Server (version=TLS1_2,
+ (2603:10b6:610:74:cafe::4a) by CH0PR04CA0069.outlook.office365.com
+ (2603:10b6:610:74::14) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7025.27 via Frontend
- Transport; Mon, 27 Nov 2023 10:38:30 +0000
+ Transport; Mon, 27 Nov 2023 10:38:31 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -45,71 +45,184 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
  DS2PEPF00003440.mail.protection.outlook.com (10.167.18.43) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7046.17 via Frontend Transport; Mon, 27 Nov 2023 10:38:30 +0000
+ 15.20.7046.17 via Frontend Transport; Mon, 27 Nov 2023 10:38:31 +0000
 Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.34; Mon, 27 Nov
- 2023 04:38:25 -0600
+ 2023 04:38:26 -0600
 Received: from XIR-MICHALO-L1.xilinx.com (10.180.168.240) by
  SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server id 15.1.2507.34
- via Frontend Transport; Mon, 27 Nov 2023 04:38:24 -0600
+ via Frontend Transport; Mon, 27 Nov 2023 04:38:25 -0600
 From: Michal Orzel <michal.orzel@amd.com>
 To: <meta-virtualization@lists.yoctoproject.org>
 CC: Michal Orzel <michal.orzel@amd.com>, <christopher.w.clark@gmail.com>,
 	<bruce.ashfield@gmail.com>
-Subject: [meta-virtualization][PATCH 0/2] xen: follow-up to recent recipes update
-Date: Mon, 27 Nov 2023 11:38:09 +0100
-Message-ID: <20231127103811.319149-1-michal.orzel@amd.com>
+Subject: [meta-virtualization][PATCH 1/2] xen: Bump SRCREV of 4.17 recipes to 4.17.2
+Date: Mon, 27 Nov 2023 11:38:10 +0100
+Message-ID: <20231127103811.319149-2-michal.orzel@amd.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20231127103811.319149-1-michal.orzel@amd.com>
+References: <20231127103811.319149-1-michal.orzel@amd.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS2PEPF00003440:EE_|DM4PR12MB6182:EE_
-X-MS-Office365-Filtering-Correlation-Id: b4f4db27-c408-443b-0c04-08dbef34ff56
+X-MS-TrafficTypeDiagnostic: DS2PEPF00003440:EE_|BN9PR12MB5116:EE_
+X-MS-Office365-Filtering-Correlation-Id: 29ed8a8b-af2f-4b1b-ef0e-08dbef35001b
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	V+5ijCCMOOF3xF3kew0AcUsJO8I448jsXsDsvXrIgdRoKZ+dLY4/PPXGWV0DBawxX0zViotk3GSPrRwliDMLzU9mMYh6rE7o7MCFcG8zr3ap/NzFC9va+47nAAYr1M+nXelB2utlxCNVFZ08Esu6WM0AhSTLkQkBGHRY0a8luQGgcfcS7p9TinhUKwqbc/Fo6sPCilkzdlciPL7ZjpzbCIDmuYAQfuSH3pfXqY0eu1OD0GkwasTm82jpDXEMxWZwfU2QnIlqE+FRZjXOvH2FqZQepFADwbMMLS+r/8+lsg65NoYYTQP/JLwirks7bJPdEQ241apoJ/5onOvWFwS3Ur7g5nQYnEHbJYyaG8O9f4P48Nxw+l6APMU7cwllS95PbUcQMjuXNVzwX4DrQi5eO1Jd36UwVa+hjoc7VbEtMDJoqCnloHtfmK2ILdPDolxb2doCQxQ+ua1i6rBlwnlucwniXBNSWDNlxERTlm9O2VoWo9CKzC+XT1NP5UPHqDIkda0C1Kt3VA4xk10V2ZAOSQ8qfrWlq6KIgqKzhjENbvV0dZow8iGVpW4Akh0nVcmSSALBUQeLUtBOOOk4DxTL0HsA9cjtEvQyp/aNvv3BoKnBjHQr0XUxrTWUACAYNMeA0sMGQITzwTftEZlWuE+gkeUU1U15UOKuWWRUnAwQT8ux1o+uyJaPs+S3JwHnbt2px4D8zSmC1x1mblDFTpyMpalVdWBWvwHe0bOvF6aVKb+tDDI0CPvBZahAZQThtEoPtdtX8XYzIUayfw6gr3WD6Q==
+	uZah3DeRR/2V7wqIc4lzyypInZvB36sfZ2eW0wYNFIubQ/PQp3wTliXrVIr+6PfeJ6SkcbfptTJkNFHm5+H5tFfdA1iqd9IjXFiUzR4g639OYuASGiw+eP1lmy71Kzx9K5rQ7G71EYPxgJ7DZ8SJ+iTaYF4YadO7wbRoB8fYRozVAwUX0G4JSWdNwL6MOGbahZTQleeGMBOg68V14oNyVeKuCTtwXc5XU/GAUTQnW66Qlwhhq7tnGqWCLfiTsSOgN3i/Gk2pKJ6qir0lZx34ZtjVgGeOR/uQGHa+e/Izk1MBE0tMYTxhKavZ+CrMyFBn2C2YJ0yaJduWJvskcGYcH/EpQieNUI7nRWoShmwfQUO48lkMjjUN4eEvki/k98JsUt/Qoe6X6aw1gl9JczgQdznPKzgE5YRySYDt4wPTZD9wqGuV2GP6fPSDcb60sC2Wlh33c8/ZxaC/Y44y3wKqIczsZr1/tMouoM13V2Y6MSiDELggxF9qsO77Wlj5rSKF2gUZg8OaiBfJAeCb7bk8YdY9VWt+nPAvDPqykbQ7VGIHUBun9CgIrus1nmPdtLzjTMGopwnIFTR02fSJ7xjqdvE1sdqLU64bVkEU/sz6PlR9A31dPGAB3fyoozPe83bnsS33ouM3pvycu9tqoUkd90YBuW5nwaPx0/66lf77duLlshri8EyU9m0qd6tuWqvQB0Vj3w++TJ1svIQkh6wbTP354CczXk0vegyuXLDA0DuiWzfOFyoqi1AY663JSQPN44ZoIi6LNCgLdOtJxW1xnYn0AF4b+sPEvffus07YPgw=
 X-Forefront-Antispam-Report: 
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(136003)(39860400002)(376002)(396003)(346002)(230922051799003)(451199024)(186009)(64100799003)(82310400011)(1800799012)(36840700001)(46966006)(40470700004)(6666004)(8936002)(8676002)(4326008)(54906003)(70586007)(70206006)(6916009)(316002)(478600001)(40460700003)(2906002)(36860700001)(15650500001)(81166007)(4744005)(356005)(47076005)(36756003)(41300700001)(1076003)(86362001)(26005)(44832011)(40480700001)(2616005)(83380400001)(336012)(426003)(82740400003)(5660300002)(36900700001);DIR:OUT;SFP:1101;
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(39860400002)(136003)(396003)(346002)(376002)(230922051799003)(64100799003)(1800799012)(186009)(82310400011)(451199024)(36840700001)(46966006)(40470700004)(5660300002)(40460700003)(2906002)(6666004)(86362001)(478600001)(2616005)(1076003)(26005)(316002)(54906003)(6916009)(70206006)(70586007)(8676002)(4326008)(36756003)(8936002)(966005)(47076005)(82740400003)(336012)(426003)(81166007)(83380400001)(356005)(44832011)(36860700001)(40480700001)(41300700001)(36900700001);DIR:OUT;SFP:1101;
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Nov 2023 10:38:30.3443
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Nov 2023 10:38:31.6255
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b4f4db27-c408-443b-0c04-08dbef34ff56
+X-MS-Exchange-CrossTenant-Network-Message-Id: 29ed8a8b-af2f-4b1b-ef0e-08dbef35001b
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource: 
 	DS2PEPF00003440.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6182
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5116
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <meta-virtualization@lists.yoctoproject.org>; Mon, 27 Nov 2023 10:38:38 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8465
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8467
 
-Some follow-up patches after a recent Xen recipes update.
+Update Xen and tools 4.17 recipes to use the latest 4.17.2 release.
+Remove no longer needed solaris syntax patch.
 
-Open question:
-Shouldn't we set 4.18 as a default version?
-
-Michal Orzel (2):
-  xen: Bump SRCREV of 4.17 recipes to 4.17.2
-  xen: Set XEN_REL to 4.19 for master recipes
-
+Signed-off-by: Michal Orzel <michal.orzel@amd.com>
+---
  ...g-solaris-syntax-for-.section-direct.patch | 70 -------------------
  recipes-extended/xen/xen-tools_4.17.bb        |  4 +-
- recipes-extended/xen/xen-tools_git.bb         |  6 +-
  recipes-extended/xen/xen_4.17.bb              |  5 +-
- recipes-extended/xen/xen_git.bb               |  2 +-
- 5 files changed, 8 insertions(+), 79 deletions(-)
+ 3 files changed, 4 insertions(+), 75 deletions(-)
  delete mode 100644 recipes-extended/xen/files/0001-arm32-Avoid-using-solar=
 is-syntax-for-.section-direct.patch
 
+diff --git a/recipes-extended/xen/files/0001-arm32-Avoid-using-solaris-synt=
+ax-for-.section-direct.patch b/recipes-extended/xen/files/0001-arm32-Avoid-=
+using-solaris-syntax-for-.section-direct.patch
+deleted file mode 100644
+index a4038dda0826..000000000000
+--- a/recipes-extended/xen/files/0001-arm32-Avoid-using-solaris-syntax-for-=
+.section-direct.patch
++++ /dev/null
+@@ -1,70 +0,0 @@
+-From dfc490a3740bb7d6889939934afadcb58891fbce Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Tue, 1 Aug 2023 10:49:30 -0700
+-Subject: [PATCH] arm: Avoid using solaris syntax for .section directive
+-
+-Assembler from binutils 2.41 will rejects ([1], [2]) the following
+-syntax
+-
+-.section "name", #alloc
+-
+-for any other any target other than ELF SPARC. This means we can't use
+-it in the Arm code.
+-
+-So switch to the GNU syntax
+-
+-.section name [, "flags"[, @type]]
+-
+-[1] https://sourceware.org/bugzilla/show_bug.cgi?id=3D11601
+-[2] https://sourceware.org/binutils/docs-2.41/as.html#Section
+-
+-Upstream-Status: Backport [https://github.com/xen-project/xen/commit/dfc49=
+0a3740bb7d6889939934afadcb58891fbce]
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-Reviewed-by: Michal Orzel <michal.orzel@amd.com>
+-[jgrall: Reword commit message]
+-Acked-by: Julien Grall <jgrall@amazon.com>
+----
+- xen/arch/arm/arm32/proc-v7.S | 6 +++---
+- xen/arch/arm/dtb.S           | 2 +-
+- 2 files changed, 4 insertions(+), 4 deletions(-)
+-
+-diff --git a/xen/arch/arm/arm32/proc-v7.S b/xen/arch/arm/arm32/proc-v7.S
+-index c90a31d80fc5..6d3d19b87354 100644
+---- a/xen/arch/arm/arm32/proc-v7.S
+-+++ b/xen/arch/arm/arm32/proc-v7.S
+-@@ -29,7 +29,7 @@ brahma15mp_init:
+-         mcr   CP32(r0, ACTLR)
+-         mov   pc, lr
+-=20
+--        .section ".proc.info", #alloc
+-+        .section .proc.info, "a"
+-         .type __v7_ca15mp_proc_info, #object
+- __v7_ca15mp_proc_info:
+-         .long 0x410FC0F0             /* Cortex-A15 */
+-@@ -38,7 +38,7 @@ __v7_ca15mp_proc_info:
+-         .long caxx_processor
+-         .size __v7_ca15mp_proc_info, . - __v7_ca15mp_proc_info
+-=20
+--        .section ".proc.info", #alloc
+-+        .section .proc.info, "a"
+-         .type __v7_ca7mp_proc_info, #object
+- __v7_ca7mp_proc_info:
+-         .long 0x410FC070             /* Cortex-A7 */
+-@@ -47,7 +47,7 @@ __v7_ca7mp_proc_info:
+-         .long caxx_processor
+-         .size __v7_ca7mp_proc_info, . - __v7_ca7mp_proc_info
+-=20
+--        .section ".proc.info", #alloc
+-+        .section .proc.info, "a"
+-         .type __v7_brahma15mp_proc_info, #object
+- __v7_brahma15mp_proc_info:
+-         .long 0x420F00F0             /* Broadcom Brahma-B15 */
+-diff --git a/xen/arch/arm/dtb.S b/xen/arch/arm/dtb.S
+-index c39f3a095c58..386f83ba649e 100644
+---- a/xen/arch/arm/dtb.S
+-+++ b/xen/arch/arm/dtb.S
+-@@ -1,3 +1,3 @@
+--        .section .dtb,#alloc
+-+        .section .dtb, "a"
+-         GLOBAL(_sdtb)
+-         .incbin CONFIG_DTB_FILE
+diff --git a/recipes-extended/xen/xen-tools_4.17.bb b/recipes-extended/xen/=
+xen-tools_4.17.bb
+index 8309342542ea..c6a3052cd8e1 100644
+--- a/recipes-extended/xen/xen-tools_4.17.bb
++++ b/recipes-extended/xen/xen-tools_4.17.bb
+@@ -1,5 +1,5 @@
+-# stable-4.17 status on 5/26/2023
+-SRCREV ?=3D "47eb94123035a2987dd1e328e9adec6db36e7fb3"
++# xen 4.17.2 release sha
++SRCREV ?=3D "322a20add00a4687cd46d9183616fa6fecbef81f"
+=20
+ XEN_REL ?=3D "4.17"
+ XEN_BRANCH ?=3D "stable-${XEN_REL}"
+diff --git a/recipes-extended/xen/xen_4.17.bb b/recipes-extended/xen/xen_4.=
+17.bb
+index 54da7baf9cc6..8fae2c378933 100644
+--- a/recipes-extended/xen/xen_4.17.bb
++++ b/recipes-extended/xen/xen_4.17.bb
+@@ -1,5 +1,5 @@
+-# stable-4.17 status on 5/26/2023
+-SRCREV ?=3D "47eb94123035a2987dd1e328e9adec6db36e7fb3"
++# xen 4.17.2 release sha
++SRCREV ?=3D "322a20add00a4687cd46d9183616fa6fecbef81f"
+=20
+ XEN_REL ?=3D "4.17"
+ XEN_BRANCH ?=3D "stable-${XEN_REL}"
+@@ -7,7 +7,6 @@ XEN_BRANCH ?=3D "stable-${XEN_REL}"
+ SRC_URI =3D " \
+     git://xenbits.xen.org/xen.git;branch=3D${XEN_BRANCH} \
+     file://0001-menuconfig-mconf-cfg-Allow-specification-of-ncurses-locati=
+on.patch \
+-    file://0001-arm32-Avoid-using-solaris-syntax-for-.section-direct.patch=
+ \
+     "
+=20
+ LIC_FILES_CHKSUM ?=3D "file://COPYING;md5=3Dd1a1e216f80b6d8da95fec897d0dbe=
+c9"
 --=20
 2.25.1
 
