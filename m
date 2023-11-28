@@ -1,182 +1,179 @@
-Return-Path: <Michal.Orzel@amd.com>
+Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE9B0C4167B
-	for <webhook@archiver.kernel.org>; Tue, 28 Nov 2023 08:42:14 +0000 (UTC)
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (NAM11-BN8-obe.outbound.protection.outlook.com [40.107.236.41])
- by mx.groups.io with SMTP id smtpd.web11.28559.1701160931284724734
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83F01C07CA9
+	for <webhook@archiver.kernel.org>; Tue, 28 Nov 2023 10:36:05 +0000 (UTC)
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+ by mx.groups.io with SMTP id smtpd.web10.29733.1701167762094285944
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 28 Nov 2023 00:42:11 -0800
+ Tue, 28 Nov 2023 02:36:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@amd.com header.s=selector1 header.b=DsZ5AMPU;
- spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: amd.com, ip: 40.107.236.41, mailfrom: michal.orzel@amd.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VILamiMrarPipf/iR37VHDWE6FK4odPLZ5f30bzZyAU8cSGXFUBd3vbGQocxH9La4+8rWFCptn4SjHIPMHaPZMVh6XnOXfBCOg2wMJUlqYL9iN6J+BXGudsKV6+AZh8YzwmcP7jI2lYC9hsjT9rNvyoC8ZdeabVbpWgDcfW3hjauQz8PEGIgd71sJg8sbUVFmm2C8kfebZA2NT1B53jlRXT4MbVl+oQc5k4YDqb795LqCG3fEFTQk9nRCCbyeTFUZxdZnc1y0RsOo/XEmYiivxPwK/hFjDdsqDBfZhxksf+Uc76k1TMb3xAEq7O3hPluUkznu11jvBnK5Kq8IOBf2w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=E4L/ESBRcTzNFyss8YzyUFi8voLRBfp3zUezM+iNsH4=;
- b=YSB6DuGq7JOipYNsRLPjsgGnHHh5Awq85JeZs22iIn1hbR/r9C9//eSLiZ4v3oXO/5UARkQY+hIEgQQWX+/bJbt0hrPGSFheC0IVcw93uiM72v3rkr0LsvOEVoXw8KJvAHM7KCVB9WFkk6OY3ZWzHZdb/JVBg5fSXveTVYAJJ4SaaYnqAdoeNHjnqhOjMCSe1Twyb+lOh7FvbkUw/vHZuubLDTL/ijLWArrAyw6IzQsy4btM9pGiXc/O1qlXB9Z9YKvVhp/Zrsq9r7tQ86LZ+lQg3CtZOvw6p5fxNhcZ02aRQEM/v/dff9TftQm8MzvNnp6JVsBM6dxEWCvhQotaew==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=gmail.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=E4L/ESBRcTzNFyss8YzyUFi8voLRBfp3zUezM+iNsH4=;
- b=DsZ5AMPUCCrCWoGQ0bCyKyE+z9nkwfH0RBtS7oi//K1qW999CIxtUG6hLR4praISOxSy8l52wYmFMaLEHk//2H5pDc2okp7oZRUEJmsD7XuXY1D2p+pMOEu8Cfpmdrt7EFbqU7yHuhTM9qwlV9WOp05J5Hkb4waZ+JiAAmVvjXM=
-Received: from DS0PR17CA0001.namprd17.prod.outlook.com (2603:10b6:8:191::19)
- by SA1PR12MB7247.namprd12.prod.outlook.com (2603:10b6:806:2bb::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.25; Tue, 28 Nov
- 2023 08:42:08 +0000
-Received: from DS2PEPF0000343D.namprd02.prod.outlook.com
- (2603:10b6:8:191:cafe::c3) by DS0PR17CA0001.outlook.office365.com
- (2603:10b6:8:191::19) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7025.29 via Frontend
- Transport; Tue, 28 Nov 2023 08:42:08 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
-Received: from SATLEXMB03.amd.com (165.204.84.17) by
- DS2PEPF0000343D.mail.protection.outlook.com (10.167.18.40) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7046.17 via Frontend Transport; Tue, 28 Nov 2023 08:42:08 +0000
-Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.34; Tue, 28 Nov
- 2023 02:41:54 -0600
-Received: from [10.252.147.188] (10.180.168.240) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.34 via Frontend
- Transport; Tue, 28 Nov 2023 02:41:53 -0600
-Message-ID: <e4512578-4783-4ea2-943e-4187bda3184b@amd.com>
-Date: Tue, 28 Nov 2023 09:41:52 +0100
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=miySbcv2;
+ spf=pass (domain: gmail.com, ip: 209.85.221.42, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-32fdc5be26dso3268254f8f.2
+        for <meta-virtualization@lists.yoctoproject.org>; Tue, 28 Nov 2023 02:36:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701167760; x=1701772560; darn=lists.yoctoproject.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=YDf0fLd5bOnP6U8xED3E1Td9bikEsbffRtmUVV5lmpU=;
+        b=miySbcv2f5uotrWBIGfAfgwNO0xBNcaLQFlU59tJrSykzMllKGW+GU7Io48r+gujYf
+         0F7utu6Y5a+CXYA1jDTgZPkdLQBMI11IdZ1kuOoPhmYWi1FOx+eoVJNIcu9VjA7f+1PD
+         A3UY477RDNspxXyR23qf6kr4XKvY2WyldkK1hKiVysMyBcGhl+kmr0uvLrXwziGP0U25
+         otxnXUPpv1vm7BG+jlCgQ3qLB1HPspFoAqHMjUIqaHCmLh0lhi3hfivWv1frfKHvHC75
+         Q4BhFPONBAz3QRVjEl8dKtvTlisnPB8OgIRViTPzwjXeImue5ea3EjuzIPVVQCMuLJxN
+         QJMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701167760; x=1701772560;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=YDf0fLd5bOnP6U8xED3E1Td9bikEsbffRtmUVV5lmpU=;
+        b=kMb4HPH2j8LVelQRGOo2M+CITtW/u7GfNWT0Is5ALA5Uigqh+NRdsCQKWaKJtSJ7oE
+         ItxPQxuo5EUiL29PKP/439pLT4relVb2p438BBVO1UuwJMZ9ibzt1nmutwbBY/rQfz5t
+         RcMCWimPpL1ZEPYTSpNikSLCZsHOod1tuMEXIsTqACDWlrC39dzNAvlK1ndy57hBXGAt
+         Ug3CjJqI7IgvcoScVCcDSffEYfEkOrQjMFRgcjXVdrn9xghDP21PProDCoJgGKkWAkWn
+         uWz0V9L7LC92TOwMTfMi0xQoiS6EKSq/xTh4XLgzHb+xd0QSv91K8jbxlrNTOowpaU0U
+         u2hA==
+X-Gm-Message-State: AOJu0YzumqYsYgLQuMvL9MVeZpzUbj8Hon3OHUL4jTGU7GtR8DZhEICF
+	s5hF7vgZzcgTOgo71WSx9+ULij55uujfow==
+X-Google-Smtp-Source: AGHT+IEZ1uXrREGgb5tKFZtrNUmYeBmjjyheUSY0lF+Ucs3KD+3lMS0/WR3p5kMtdu8WPF12iVmx5g==
+X-Received: by 2002:a5d:6f1d:0:b0:333:12e8:8ff4 with SMTP id ay29-20020a5d6f1d000000b0033312e88ff4mr64821wrb.27.1701167759855;
+        Tue, 28 Nov 2023 02:35:59 -0800 (PST)
+Received: from localhost.localdomain ([2001:8a0:fa50:db00:862f:283e:2d66:4a27])
+        by smtp.gmail.com with ESMTPSA id g10-20020a5d64ea000000b003330f9287a8sm1194044wri.51.2023.11.28.02.35.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Nov 2023 02:35:59 -0800 (PST)
+From: Jose Quaresma <quaresma.jose@gmail.com>
+X-Google-Original-From: Jose Quaresma <jose.quaresma@foundries.io>
+To: meta-virtualization@lists.yoctoproject.org
+Cc: Jose Quaresma <jose.quaresma@foundries.io>
+Subject: [meta-virtualization][PATCH 1/2] docker-compose: drop patches from the removed python version
+Date: Tue, 28 Nov 2023 10:35:48 +0000
+Message-ID: <20231128103549.2088530-1-jose.quaresma@foundries.io>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [meta-virtualization][PATCH 0/2] xen: follow-up to recent recipes
- update
-To: Christopher Clark <christopher.w.clark@gmail.com>
-CC: Bruce Ashfield <bruce.ashfield@gmail.com>,
-	<meta-virtualization@lists.yoctoproject.org>
-References: <20231127103811.319149-1-michal.orzel@amd.com>
- <CADkTA4P7xjs7Db+_j6NTde3j0gyKS0R5kGYm9O5pPp+Vu54mMA@mail.gmail.com>
- <7f42849e-6ea3-4530-9a73-f1bc1bcc61be@amd.com>
- <CACMJ4GYJdMYGgQSoTUzD7MLu+U11Xd4H2ccYjpJDg_y64W4HbQ@mail.gmail.com>
-Content-Language: en-US
-From: Michal Orzel <michal.orzel@amd.com>
-In-Reply-To: <CACMJ4GYJdMYGgQSoTUzD7MLu+U11Xd4H2ccYjpJDg_y64W4HbQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS2PEPF0000343D:EE_|SA1PR12MB7247:EE_
-X-MS-Office365-Filtering-Correlation-Id: c5b2c774-1219-48ad-4d31-08dbefede819
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	7nSKF2Y+lk+4uPg4ItbjOX4XMbdqwwR9vbym1VWSI53p2m7a6qK47jv0Syw+xkNNktQktKob8j2me1fNCMmIqjV5LT2XgaJKrITSIxTtnB3d7nX9jrnxAVcf3ibS+hBXqEfsGA4hTfDLMuDwOP3lpEm4BRzyHmb3OTZb66AKyhdQ69qgbqQyPf0ODkSCgjWGz2T1dre+rZVo2yxbWXe3fN93GyE8RjG4iYWrO0irim3rxHhDue16XwEkbSFQ249ply8v11SsrpAsf0mvUunPWEvSiZCh6eRW4tZ9mvqpdDC0BNeNSjKViL73b2ot/hYg+JGVGdSUvk6Xr20rVYKnzQfPSArEw++fA5qIo8NbBQhpXBT+18/14XMfsBEkbGjZ+FsUrfYguxD5HJdtLiTQ9lECMkRQA3NySbRjcrmMf75DvH7JEj2AXHfWBH3anJwM+qxidH3FtaGKuieEDE1dywkgC6366wKuDefPjMKhOFjJTrmH5ClQ+nfAHAD3AcEdSQEPwAvPX5eVSHynAcD5WgUs0UlO3DiUwYcPZIelU0BVOxyzoJ3zyHT58tJOEpOBWQCOyHuRxvqorGLBXjlT1XikNtncmX583Y5eCwASq3/7+LBpBbB0540l9EDN/MLAGnVuO0MWAu3NsCrLXMcnfKc7KxNQ6TpTrvEfWZlnwHsJf20+ifnWAtYdWAa+TIylZIEn0dI+a5Ur7bcTRGCsQLOWAUH4eERDX9N6ZUQ7ZgGVUkc73zaNgpEj/RFAIDIreFD+EiLQueUYqlW5U9pv4GjT4d6bHKb7iW7l+bsobrZ2yDCZp+nH+18KFo9ksgCP
-X-Forefront-Antispam-Report: 
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB03.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(396003)(39860400002)(376002)(136003)(346002)(230922051799003)(64100799003)(186009)(82310400011)(451199024)(1800799012)(36840700001)(40470700004)(46966006)(54906003)(36860700001)(15650500001)(5660300002)(40460700003)(478600001)(2906002)(8936002)(8676002)(44832011)(86362001)(31696002)(70586007)(4326008)(70206006)(6916009)(40480700001)(2616005)(16576012)(336012)(82740400003)(426003)(83380400001)(316002)(41300700001)(26005)(53546011)(356005)(81166007)(36756003)(31686004)(47076005)(36900700001)(43740500002);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Nov 2023 08:42:08.2692
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: c5b2c774-1219-48ad-4d31-08dbefede819
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB03.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	DS2PEPF0000343D.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB7247
+Content-Transfer-Encoding: 8bit
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Tue, 28 Nov 2023 08:42:14 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8476
+ <meta-virtualization@lists.yoctoproject.org>; Tue, 28 Nov 2023 10:36:05 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8477
 
-Hello,
+Drop unused patches from the python version removed in 7bd56074.
 
-On 28/11/2023 04:11, Christopher Clark wrote:
-> =09
->=20
->=20
->=20
->=20
-> On Mon, Nov 27, 2023 at 6:08=E2=80=AFAM Michal Orzel <michal.orzel@amd.co=
-m <mailto:michal.orzel@amd.com>> wrote:
->=20
->     Hi Bruce,
->=20
->     On 27/11/2023 14:55, Bruce Ashfield wrote:
->     >
->     >
->     > On Mon, Nov 27, 2023 at 5:38=E2=80=AFAM Michal Orzel <michal.orzel@=
-amd.com <mailto:michal.orzel@amd.com>> wrote:
->     >>
->     >> Some follow-up patches after a recent Xen recipes update.
->     >>
->     >> Open question:
->     >> Shouldn't we set 4.18 as a default version?
->     >
->     > Not yet (and definitely not for nanbield). Perhaps once it has been=
- under
->     > test for a few weeks. I did the updates to get them some extra soak=
- time
->     > and make them available in both the upcoming release (nanbield) and
->     > master for those that want to use the latest, without making it a d=
-efault
->     > version jump so late in the cycle.
->     Ok.
->=20
->=20
-> Thanks, Bruce.
-> =C2=A0
->=20
->=20
->     >
->     > As for the changes in master, the 4.18 version on the _git recipes =
-is
->     > intentional, as there's been no 4.19 tag that I can find and I don'=
-t bump
->     > versions until I see that in the repo .. so for now, it is just the=
- +git
->     > and +stable that is the difference between the 4.18 and _git versio=
-ns.
->     You won't see any 4.19 tag until the next release. The version is adv=
-ertised in
->     the main Makefile [1] and this is what user can see in the system
->     (e.g. in the boot log, xl info, xen_version hypercall).
->     Bumping the XEN_REL of master recipes=20
->=20
->=20
-> I think it could be helpful for the=C2=A0context of this thread to descri=
-be them as the "git recipes" rather than using the term "master recipe", be=
-cause the latter unfortunately seems to convey that they are somehow superi=
-or to the other, versioned, Xen recipes, when in practice they are not -- t=
-hey are deliberately not the default version of Xen that is built since, as=
- you note, they are defined:
-> =C2=A0
->=20
->     to reflect the current development version
->=20
->=20
-> of Xen. ie. The git recipes are present alongside the other recipes that =
-provide the stable release version(s) of Xen.
->=20
-> As Michal has noted above, putting 4.19 for XEN_REL into the git recipe d=
-oes look right from a Xen source tree perspective for that SRCREV, even tho=
-ugh there is not a 4.19 Xen release, but the proposed commit message should=
- be updated to avoid the term "master recipe".
-Sounds good to me.
+https://git.yoctoproject.org/meta-virtualization/commit/recipes-containers/docker-compose?id=7bd56074fece944ef9279d87106eb16452ec6338
 
-@Bruce, may I please ask you to take my patch modifying XEN_REL and do s/ma=
-ster/git in title on commit?
-If not, I will push a v2 of this patch.
+Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
+---
 
-~Michal
+v2: tweak the commit message
+
+ ...0001-setup.py-import-fastentrypoints.patch | 28 ---------
+ ...-remove-maximum-version-requirements.patch | 57 -------------------
+ 2 files changed, 85 deletions(-)
+ delete mode 100644 recipes-containers/docker-compose/files/0001-setup.py-import-fastentrypoints.patch
+ delete mode 100644 recipes-containers/docker-compose/files/0001-setup.py-remove-maximum-version-requirements.patch
+
+diff --git a/recipes-containers/docker-compose/files/0001-setup.py-import-fastentrypoints.patch b/recipes-containers/docker-compose/files/0001-setup.py-import-fastentrypoints.patch
+deleted file mode 100644
+index df613e8..0000000
+--- a/recipes-containers/docker-compose/files/0001-setup.py-import-fastentrypoints.patch
++++ /dev/null
+@@ -1,28 +0,0 @@
+-From f3a22f0f14a4b3313e6405dfb6c97df949493a34 Mon Sep 17 00:00:00 2001
+-From: Ming Liu <liu.ming50@gmail.com>
+-Date: Thu, 30 Jan 2020 17:22:19 +0100
+-Subject: [PATCH] setup.py: import fastentrypoints
+-
+-Upstream-Status: Inappropriate [OE specific configuration]
+-
+-Signed-off-by: Ming Liu <liu.ming50@gmail.com>
+----
+- setup.py | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/setup.py b/setup.py
+-index ad57969..3cccffc 100644
+---- a/setup.py
+-+++ b/setup.py
+-@@ -12,7 +12,7 @@ import sys
+- import pkg_resources
+- from setuptools import find_packages
+- from setuptools import setup
+--
+-+import fastentrypoints
+- 
+- def read(*parts):
+-     path = os.path.join(os.path.dirname(__file__), *parts)
+--- 
+-2.7.4
+-
+diff --git a/recipes-containers/docker-compose/files/0001-setup.py-remove-maximum-version-requirements.patch b/recipes-containers/docker-compose/files/0001-setup.py-remove-maximum-version-requirements.patch
+deleted file mode 100644
+index 7205d3b..0000000
+--- a/recipes-containers/docker-compose/files/0001-setup.py-remove-maximum-version-requirements.patch
++++ /dev/null
+@@ -1,57 +0,0 @@
+-From e3aca6421e003d03d119e69bf3d6b30bb5c662c9 Mon Sep 17 00:00:00 2001
+-From: Chen Qi <Qi.Chen@windriver.com>
+-Date: Fri, 22 Nov 2019 09:24:58 +0800
+-Subject: [PATCH] setup.py: remove maximum version requirements
+-
+-Remove maximum version requirements so that docker-compose will not
+-require old version recipes.
+-
+-Upstream-Status: Inappropriate [OE Specific]
+-
+-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+-Signed-off-by: Ming Liu <liu.ming50@gmail.com>
+----
+- setup.py | 24 ++++++++++++------------
+- 1 file changed, 12 insertions(+), 12 deletions(-)
+-
+-Index: docker-compose-1.29.1/setup.py
+-===================================================================
+---- docker-compose-1.29.1.orig/setup.py
+-+++ docker-compose-1.29.1/setup.py
+-@@ -25,16 +25,21 @@
+- 
+- 
+- install_requires = [
+--    'docopt >= 0.6.1, < 1',
+--    'PyYAML >= 3.10, < 6',
+--    'requests >= 2.20.0, < 3',
+--    'texttable >= 0.9.0, < 2',
+-+    'docopt >= 0.6.1',
+-+    'PyYAML >= 3.10',
+-+    'requests >= 2.20.0',
+-+    'texttable >= 0.9.0',
+-     'websocket-client >= 0.32.0, < 1',
+-     'distro >= 1.5.0, < 2',
+--    'docker[ssh] >= 5',
+-+    'docker[ssh] >= 4.4.0, < 5',
+-     'dockerpty >= 0.4.1, < 1',
+-     'jsonschema >= 2.5.1, < 4',
+--    'python-dotenv >= 0.13.0, < 1',
+-+    'websocket-client >= 0.32.0',
+-+    'distro >= 1.5.0',
+-+    'docker[ssh] >= 5',
+-+    'dockerpty >= 0.4.1',
+-+    'jsonschema >= 2.5.1',
+-+    'python-dotenv >= 0.13.0',
+- ]
+- 
+- 
+-@@ -51,7 +56,7 @@
+-     ':python_version < "3.5"': ['backports.ssl_match_hostname >= 3.5, < 4'],
+-     ':python_version < "3.8"': ['cached-property >= 1.2.0, < 2'],
+-     ':sys_platform == "win32"': ['colorama >= 0.4, < 1'],
+--    'socks': ['PySocks >= 1.5.6, != 1.5.7, < 2'],
+-+    'socks': ['PySocks >= 1.5.6, != 1.5.7'],
+-     'tests': tests_require,
+- }
+- 
+-- 
+2.43.0
+
 
