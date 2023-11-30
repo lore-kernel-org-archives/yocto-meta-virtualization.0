@@ -1,447 +1,149 @@
-Return-Path: <christopher.w.clark@gmail.com>
+Return-Path: <xiangyu.chen@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A4563C4167B
-	for <webhook@archiver.kernel.org>; Tue, 28 Nov 2023 17:45:27 +0000 (UTC)
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
- by mx.groups.io with SMTP id smtpd.web11.40406.1701193523930343305
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A1A0C4167B
+	for <webhook@archiver.kernel.org>; Thu, 30 Nov 2023 05:45:51 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.66241.1701323144455668277
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 28 Nov 2023 09:45:24 -0800
+ Wed, 29 Nov 2023 21:45:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=I/qhRZXz;
- spf=pass (domain: gmail.com, ip: 209.85.208.48, mailfrom: christopher.w.clark@gmail.com)
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-549070a04baso7800605a12.3
-        for <meta-virtualization@lists.yoctoproject.org>; Tue, 28 Nov 2023 09:45:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701193522; x=1701798322; darn=lists.yoctoproject.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=IRnPsWQjwO7+TBnCJ9FBNTwMUHgv364RkpNPGovx+oc=;
-        b=I/qhRZXzq+ST1E3lLvMMNHqIy3d4NJtJDXWPHXWVRBcz07yF2bzN40dr4b2NBc5W77
-         YBihhSapJJGSJVfbRUSvLhH5PY+AVdR8+yt5rlrfn8am3z/tym+om3shfgBW9UV3soOX
-         ruq1wdtYqeFZ12i988EhCshnKB7+UN2rcZCQ/4T5yjSjUYlKp/2eNThtnvYb3hC7Ecjj
-         6Dd5BYk0cDrrPUKi+Gt8VMko39AVRJXFshpbqXyd44isQqZgxabD3jhKOkF/yuNfRUnG
-         Ve8Kd33TGO+wTnT9reEZhQGhPuw0sjs9cm/L6zeqXVc0HPVX989EjdF0kv0sTSG1O7IW
-         ebvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701193522; x=1701798322;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=IRnPsWQjwO7+TBnCJ9FBNTwMUHgv364RkpNPGovx+oc=;
-        b=pA34AwRoNutdXCcyNHcUta8ywjAMFf5kM1BcXpcnC4fSdQJeJWiXodO9yr6cJG4SpV
-         4ruPLn12u6bHYQ95T6aGLpe1wyL3UbamlTASSuTKa9nC8USh2pQxV3fJfWQinJUv5Tot
-         edcustJe338MW4+VW66XaZ/ywnUFCXKJK37BDgL84kSFsLwiWCP6yVP+QeYnjSpVLB/v
-         u4TFo+eXRRK/ObteMIcxF67f3tUGSeC41RgjCo5hT0q44xDhM/gu48UuyzEVoiLwDg9J
-         Bd0v0Ua+QDRKRCCDoUX9ZwW73gJXvh48TojfXVYXusD+jMP33eBLf+foQ1skEWYFI1n1
-         RIpg==
-X-Gm-Message-State: AOJu0YxnfkKvpL8pybYHoiUt8BsfKhKs1eruraVv/2rhMv9h0nTixYdO
-	/xINgnSRf6VA+JdEQmdyUP5jbpKW3qQgFR57uEY=
-X-Google-Smtp-Source: AGHT+IGq1jsAIMnsb0+7JyfGAZ5d+jCmyIHAE+do/BV8MWoCe/SANLTyeZsur9LKnxH/UYNDOaANeLactp2ob5Vjfro=
-X-Received: by 2002:a05:6402:1a38:b0:54b:922:1f4f with SMTP id
- be24-20020a0564021a3800b0054b09221f4fmr9500466edb.28.1701193522052; Tue, 28
- Nov 2023 09:45:22 -0800 (PST)
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=0698bd4b2f=xiangyu.chen@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3AU4e2H2028505
+	for <meta-virtualization@lists.yoctoproject.org>; Thu, 30 Nov 2023 05:45:43 GMT
+Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2169.outbound.protection.outlook.com [104.47.57.169])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3uph0w857g-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <meta-virtualization@lists.yoctoproject.org>; Thu, 30 Nov 2023 05:45:43 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dZsCu3PRuaCSGMH4PqtQo480bnACtWz5YCb10OUC2BrSzPFCTj/sFfNl5C8MqvU0dsqaQrltYXMrNFp/CdzTaYRjF+Kwx6aDK2g3rg/iFUWZNi3rafLaVUPYVD9fK0u6m5FoxnjtFoyL36vmDDmlXOqDjZwIy61wK3Fz+4p5TtsoT7CmDi1+AWnK1aBMY4/FXnQwWkmUPrGqQRP2ukxDFouELYET2b89vJPOK2NJD4i8RlsIfsgmtd8N5TVlGszV7z9poQG0/vclSZKs5FH8ohT5gFeGDXpcbUBotKO1Lst1HkwCQo7QTwII89kBfz4bOUkEu7dUk9Jl1/PPmTNaiQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=LWL5Y5TiGfsZrxOzSaP/+zuOiQSEGkpBtNmYTWoHiW0=;
+ b=g9+xv2wMAXRePcWUI1yNi2c6YT18XOrlWmJIj5c+RyWPi1sf9NW02x3+NA/4u+gawhPVM4Ko8ltch7zPcEmx9chSC8iKW/CwlGSYTA81YxAgD4kB6FAEi5T1Tqx6Gr8j8lMby8EE14KOyLyKN8efv35I3x5utGnEh2sHKtlqO4vwnW2GN3/JteJFTvzch8jYYZ/S6S5KPy9DSaLqek68Asx8289b4+tZWOgVxO/RY92e283SFh4bE0v0Y9G8k7O2icJy/PbqBcIZBQn/DyOd0S2+aVImbVTSeL//yHp4Tpl6HggQH150PexAgsKieK+Hq+Mg5aDcJpPq95k+bHngPQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=eng.windriver.com; dkim=pass header.d=eng.windriver.com; arc=none
+Received: from MW4PR11MB5824.namprd11.prod.outlook.com (2603:10b6:303:187::19)
+ by SN7PR11MB6797.namprd11.prod.outlook.com (2603:10b6:806:263::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7046.23; Thu, 30 Nov
+ 2023 05:45:41 +0000
+Received: from MW4PR11MB5824.namprd11.prod.outlook.com
+ ([fe80::6162:ed58:51f5:efd]) by MW4PR11MB5824.namprd11.prod.outlook.com
+ ([fe80::6162:ed58:51f5:efd%4]) with mapi id 15.20.7025.022; Thu, 30 Nov 2023
+ 05:45:41 +0000
+From: Xiangyu Chen <xiangyu.chen@eng.windriver.com>
+To: meta-virtualization@lists.yoctoproject.org
+Subject: [meta-virtualization][PATCH] lxc: add distrosysconfdir option to make sure the lxc configuration in correct folder
+Date: Thu, 30 Nov 2023 13:45:24 +0800
+Message-Id: <20231130054524.1125012-1-xiangyu.chen@eng.windriver.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SG2PR04CA0172.apcprd04.prod.outlook.com (2603:1096:4::34)
+ To MW4PR11MB5824.namprd11.prod.outlook.com (2603:10b6:303:187::19)
 MIME-Version: 1.0
-References: <20231127103811.319149-1-michal.orzel@amd.com> <CADkTA4P7xjs7Db+_j6NTde3j0gyKS0R5kGYm9O5pPp+Vu54mMA@mail.gmail.com>
- <7f42849e-6ea3-4530-9a73-f1bc1bcc61be@amd.com> <CACMJ4GYJdMYGgQSoTUzD7MLu+U11Xd4H2ccYjpJDg_y64W4HbQ@mail.gmail.com>
- <e4512578-4783-4ea2-943e-4187bda3184b@amd.com> <179BCAB522548B7D.22216@lists.yoctoproject.org>
- <CADkTA4OhvqXU432-x0J6n2bods+rDorC03fGY4Vjinxnca+UQA@mail.gmail.com>
-In-Reply-To: <CADkTA4OhvqXU432-x0J6n2bods+rDorC03fGY4Vjinxnca+UQA@mail.gmail.com>
-From: Christopher Clark <christopher.w.clark@gmail.com>
-Date: Tue, 28 Nov 2023 09:45:09 -0800
-Message-ID: <CACMJ4GZAXXVpiaAXJZt_z6Ev1bw1AieG2_Qotgtx3RUpVm83Sw@mail.gmail.com>
-Subject: Re: [meta-virtualization][PATCH 0/2] xen: follow-up to recent recipes update
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: Michal.Orzel@amd.com, meta-virtualization@lists.yoctoproject.org
-Content-Type: multipart/alternative; boundary="0000000000009383e2060b39fbeb"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW4PR11MB5824:EE_|SN7PR11MB6797:EE_
+X-MS-Office365-Filtering-Correlation-Id: 31bc4fb5-8cf5-4e46-d915-08dbf167961e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	DzlmfY2uONDKdKz7jD39bui4gOX3sQSa102K4UAVHe12Kgnx55CPe4yBfWLQbwkIinWq2kyzSI1885XwJ6wZxCT1xF4T2z1pYwnVujOJkEZfJP0uIFu8ueHyBlJpwamzwpQcQApa9hq9gQCugKtpYd+pJVDhji1DgkF6EDJ4OG0N7LDrshaomzbGcif0NJM7H9Sa4/M60MexB2vsQRNCbzBZmlY3n/eGi0EDQyYs2ds1F0LenuCIj0s7cJpK732t08CWXHAJEXVlghQSUVngX1idUA0hFkcpdmiY/5hVT/e3bKhmtVV6CS94Ti8GaLPwmEju1U4mE6p2/ZWz2jVd9E9uVGGbaV/C8+E/WW4R14cYRtrlJD56h0cZX/ivGoKhsgYac3P9S8k06gLHI+yohcwmaOP9KHfrNXRm+sOFCwnj9bq6ENLXg1+gin7OokE87LMX/fj93cGBgGqFtjAOQbiKZuDbO6Rawm6R6FKFmiVpuV481dCizpsWAYYuG1RruiOIko16wmECo5NjDfD7+eqJxYmzj/GKQ7IISyFnIwelr/XLZBVXMxwzBM5izLwQhlTIu7j63hLYRWrPuSdv+YHGzVBp09ob6m0FKZwW8d6/GDtFqrhtHxpGAd2xxX8RZvdiCcbnnmrEoLk1gAtMJpPTumV8HlRIjt1E9SUoz1xTNK6gkSar8w5srlCfOMLj
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW4PR11MB5824.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(346002)(396003)(376002)(136003)(39850400004)(230922051799003)(1800799012)(186009)(64100799003)(451199024)(44832011)(41300700001)(66946007)(66556008)(6916009)(66476007)(83380400001)(38100700002)(8676002)(478600001)(966005)(6486002)(2906002)(5660300002)(316002)(8936002)(202311291699003)(6666004)(83170400001)(52116002)(6506007)(6512007)(2616005)(1076003)(26005)(38350700005);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?g4wTVAv8GlP9IsJxTnt2ot3YsfTuHD1qBtckGS5Au2L5KFI3k5mnd6muToMe?=
+ =?us-ascii?Q?waJdHOj7PqgNfBackbeUbKxVR/ytyrfNlRkgqEHeIbDf9Fz5VKTLppsPo1P+?=
+ =?us-ascii?Q?HawTraUnDqjupqplRQK/+6GnqGuogoq9PGCqmnIUAdWIu+UbArQvyItv3J3z?=
+ =?us-ascii?Q?z1OiKsFeK/3TjFKqJqy2NsjrwG9pWtq8S7zokm8u7IbY1HmAgz3lOwr05LIU?=
+ =?us-ascii?Q?LE7pvmFbD5gxh2bfdrm6g8ccoQSlg4h5aqejnz/frXln3aTpZ+h1p0yicSu7?=
+ =?us-ascii?Q?5sZUKtgNz1qk49xteAkAIneQtGVBqEYvW4xCoThwjQ7k1qviPKsmwhziEpFu?=
+ =?us-ascii?Q?4XkBg0paXTDsGIgRlU5qTGqGaIbrG4m57k4tRjWBoISrTq91vofjzNUtxH3w?=
+ =?us-ascii?Q?jspmy4WNW5C1x0W66mCTYaCXi4uS0tnaSiEW5h+Hx13tO6F4x437S7HORbnX?=
+ =?us-ascii?Q?pUPFsHiRw62ch+zsrQT5j8Bckle8OTOBoYi3O1DbvKJe62bOnHg1mv8rzCC1?=
+ =?us-ascii?Q?SLVE45PLo0kWscF3BS10ccNxBGH8jxdsVzldNeGNEj++kzl+DokSJyiM5l/z?=
+ =?us-ascii?Q?KYyRLU+83LTfRxFS1dTuRcyoVkfpfq1rw7zCl5heWm1Rm2pTxH8ha2S7KVIh?=
+ =?us-ascii?Q?OE2fFqxtppK2pSMUvCMcDyhrGvGwhuq7Y/BglTo89GtwenAXdv99uYbYsYGm?=
+ =?us-ascii?Q?HeISCNl7hJU6fJS1zXHldBs//I2by7eUnjzzFNkPaZqVu/Vea98U9c+nKY3W?=
+ =?us-ascii?Q?Zb9ldjtZkD4+RKE3dagfqy3SLFQujcOS+u86WcO4VbJHsbkovBLtaitfPWfn?=
+ =?us-ascii?Q?FkVMoMm5fxLvV1+eJFgX6k7EQHObJKiUmTxl5aBBYnonCH4+4DInLdjVP7n3?=
+ =?us-ascii?Q?FGm6bsRTp3vaaGkdQPxkVQxNniZHCNrrE+cBAotzozZQl1Pvp/2h47mg/Hw1?=
+ =?us-ascii?Q?5EqM+GI/ge8WsA98WlO+2xCA0rOZmPtCuk6tg7KZAyGc3Uv3R5y0g2xrz7Rw?=
+ =?us-ascii?Q?CiIorU+E/2TUQA8Q3FDOF8ZKB0Lr7TJtNmC0VSHhqhFw036oaj/cin5kPP9H?=
+ =?us-ascii?Q?BtdXBYlkx5hoYXS5zQkmwaIQDXIVjsqw5O24qpKOUDBvz8D4M7cF6TXWqgEk?=
+ =?us-ascii?Q?cUUX8ur5XcoXLXsdQJoxry41DJkHyOhKt5wAyAQqjMl77d2z1ruYfGtiIfqX?=
+ =?us-ascii?Q?ln6q2Y5fgrymn9fNIP/u3QKe1vRrhAAINt6KX7LzdBn/4eLKpmL2l/v6GC9/?=
+ =?us-ascii?Q?KcQBfmvSTo7nQzNP5pwMXr25jyzfAX44gRNfUEyLCziyvNYTbS2W2giQk4sj?=
+ =?us-ascii?Q?+nbtt9ArrVR3d0xUcJUDYpL/ngm7m40SnRo3c5NLwi7HUo2Lm8W42HfQyutd?=
+ =?us-ascii?Q?ibxywGBAJQKVB3iRz9NaXGfPMUELhFVMVyUwnEXoJM9bn3qScxvJ20uil1aA?=
+ =?us-ascii?Q?1giYJn5Uphfg2SiYRT0sshEE8A0bJpSFrCBcP2ziCoRFJkePOU2L90kO1G/d?=
+ =?us-ascii?Q?uRTO9hs9CioIeH8xzTUTezzVzntJUnZg0FKwgHtyNrk36fK20WaNOfKD/+mU?=
+ =?us-ascii?Q?FjiV4oo3RZFr8iMtCHYau28ymThwDNOuuGHHprJpBl8mm+tCphPiDu+tYWmy?=
+ =?us-ascii?Q?KQ=3D=3D?=
+X-OriginatorOrg: eng.windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 31bc4fb5-8cf5-4e46-d915-08dbf167961e
+X-MS-Exchange-CrossTenant-AuthSource: MW4PR11MB5824.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Nov 2023 05:45:41.3517
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: dJ3xJcHs2KlrgFcwpxl4tG93Vw5vunw33LltlIAai1CvEpAi6UQmXLoU87e9fR+pDU7OIfUDpRCYocLN09is6ZprxmFMhOocvUxfZRQNa1I=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB6797
+X-Proofpoint-ORIG-GUID: e0ahl--biBUlbpbtaatuz0rOmlVNsD8O
+X-Proofpoint-GUID: e0ahl--biBUlbpbtaatuz0rOmlVNsD8O
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-16_25,2023-11-16_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 spamscore=0 mlxlogscore=999 impostorscore=0 bulkscore=0
+ phishscore=0 clxscore=1011 suspectscore=0 adultscore=0 lowpriorityscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2311060001 definitions=main-2311300042
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Tue, 28 Nov 2023 17:45:27 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8481
+ <meta-virtualization@lists.yoctoproject.org>; Thu, 30 Nov 2023 05:45:51 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8482
 
---0000000000009383e2060b39fbeb
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Xiangyu Chen <xiangyu.chen@windriver.com>
 
-On Tue, Nov 28, 2023 at 5:49=E2=80=AFAM Bruce Ashfield <bruce.ashfield@gmai=
-l.com>
-wrote:
+After the commit[1] "meson.build: allow explicit distrosysconfdir", the config of lxc would install
+to distrosysconfdir[2], if this value not set, it might set to /etc/sysconfig, that cause lxc-net
+configuration cannot be found[3] due to our bb file install the lxc-net to /etc/default folder.
 
-> On Tue, Nov 28, 2023 at 7:56=E2=80=AFAM Bruce Ashfield via
-> lists.yoctoproject.org
-> <bruce.ashfield=3Dgmail.com@lists.yoctoproject.org> wrote:
-> >
-> > On Tue, Nov 28, 2023 at 3:42=E2=80=AFAM Orzel, Michal via
-> > lists.yoctoproject.org <Michal.Orzel=3Damd.com@lists.yoctoproject.org>
-> > wrote:
-> > >
-> > > On 28/11/2023 04:11, Christopher Clark wrote:
-> > > >
-> > > > On Mon, Nov 27, 2023 at 6:08=E2=80=AFAM Michal Orzel <michal.orzel@=
-amd.com
-> <mailto:michal.orzel@amd.com>> wrote:
-> > > >
-> > > >     On 27/11/2023 14:55, Bruce Ashfield wrote:
-> > > >     >
-> > > >     > On Mon, Nov 27, 2023 at 5:38=E2=80=AFAM Michal Orzel <
-> michal.orzel@amd.com <mailto:michal.orzel@amd.com>> wrote:
-> > > >     >>
-> > > >     >> Some follow-up patches after a recent Xen recipes update.
-> > > >     >>
-> > > >     >> Open question:
-> > > >     >> Shouldn't we set 4.18 as a default version?
-> > > >     >
-> > > >     > Not yet (and definitely not for nanbield). Perhaps once it ha=
-s
-> been under
-> > > >     > test for a few weeks. I did the updates to get them some extr=
-a
-> soak time
-> > > >     > and make them available in both the upcoming release
-> (nanbield) and
-> > > >     > master for those that want to use the latest, without making
-> it a default
-> > > >     > version jump so late in the cycle.
-> > > >     Ok.
-> > > >
-> > > > Thanks, Bruce.
-> > > >
-> > > >     > As for the changes in master, the 4.18 version on the _git
-> recipes is
-> > > >     > intentional, as there's been no 4.19 tag that I can find and =
-I
-> don't bump
-> > > >     > versions until I see that in the repo .. so for now, it is
-> just the +git
-> > > >     > and +stable that is the difference between the 4.18 and _git
-> versions.
-> > > >     You won't see any 4.19 tag until the next release. The version
-> is advertised in
-> > > >     the main Makefile [1] and this is what user can see in the syst=
-em
-> > > >     (e.g. in the boot log, xl info, xen_version hypercall).
-> > > >     Bumping the XEN_REL of master recipes
-> > > >
-> > > > I think it could be helpful for the context of this thread to
-> describe them as the "git recipes" rather than using the term "master
-> recipe", because the latter unfortunately seems to convey that they are
-> somehow superior to the other, versioned, Xen recipes, when in practice
-> they are not -- they are deliberately not the default version of Xen that
-> is built since, as you note, they are defined:
-> > > >
-> > > >     to reflect the current development version
-> > > >
-> > > > of Xen. ie. The git recipes are present alongside the other recipes
-> that provide the stable release version(s) of Xen.
-> > > >
-> > > > As Michal has noted above, putting 4.19 for XEN_REL into the git
-> recipe does look right from a Xen source tree perspective for that SRCREV=
-,
-> even though there is not a 4.19 Xen release, but the proposed commit
-> message should be updated to avoid the term "master recipe".
-> > > Sounds good to me.
-> > >
-> > > @Bruce, may I please ask you to take my patch modifying XEN_REL and d=
-o
-> s/master/git in title on commit?
-> > > If not, I will push a v2 of this patch.
-> >
-> > Regardless of what I've done in the past, I'm still inclined to hold
-> > the line on the versioning until at least the first -rc is released.
-> >
->
-> FWIW, I also don't change the version of the linux-yocto-dev kernels
-> until a valid
-> -rc1 is released, even though the "version' has moved on from the previou=
-s
-> release.
->
-> That being said, until I find a better option to keep the versions
-> reported via
-> the runtime to match the package version, I can either bump the version o=
-r
-> hold / revert the _git recipe until the first release candidates are out.
->
-> I'll go ahead and stage the change with the fixup, even if I don't like t=
-he
-> version management scheme :)
->
+Ref:
+[1] https://github.com/lxc/lxc/commit/16ebb29dccb35bf74e8a19e8c45d2513f927476f
+[2] https://github.com/lxc/lxc/blob/main/config/sysconfig/meson.build#L9
+[3] https://github.com/lxc/lxc/blob/main/config/sysconfig/lxc.in#L28
 
-Thanks for the extra info, Bruce. So there is still a way to meet your
-versioning scheme and have the runtime version match the package version by
-changing the default Xen branch selector in the git recipe via the
-XEN_BRANCH variable to the latest stable branch, thus:
+Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
+---
+ recipes-containers/lxc/lxc_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/recipes-extended/xen/xen_git.bb b/recipes-extended/xen/
-xen_git.bb
-index 784e71ce..547a7943 100644
---- a/recipes-extended/xen/xen_git.bb
-+++ b/recipes-extended/xen/xen_git.bb
-@@ -2,7 +2,7 @@
- SRCREV ?=3D "f96e2f64576cdbb147391c7cb399d393385719a9"
+diff --git a/recipes-containers/lxc/lxc_git.bb b/recipes-containers/lxc/lxc_git.bb
+index 94e71087..33ea4ee7 100644
+--- a/recipes-containers/lxc/lxc_git.bb
++++ b/recipes-containers/lxc/lxc_git.bb
+@@ -60,7 +60,7 @@ PTEST_CONF = "${@bb.utils.contains('DISTRO_FEATURES', 'ptest', '-Dtests=true', '
+ 
+ # No meson equivalent for --with-distro
+ # EXTRA_OECONF += "--with-distro=${DISTRO} ${PTEST_CONF}"
+-EXTRA_OEMESON += "${PTEST_CONF}"
++EXTRA_OEMESON += "${PTEST_CONF} -Ddistrosysconfdir=${sysconfdir}/default"
+ # No meson equivalent for these yet
+ # EXTRA_OECONF += "--enable-log-src-basename --disable-werror"
+ 
+-- 
+2.34.1
 
- XEN_REL ?=3D "4.18"
--XEN_BRANCH ?=3D "master"
-+XEN_BRANCH ?=3D "stable-4.18"
-
- SRC_URI =3D " \
-     git://xenbits.xen.org/xen.git;branch=3D${XEN_BRANCH} \
-
-and then anyone building a development version of Xen can update both the
-XEN_BRANCH and XEN_REL variables to match the revision that they are
-choosing to build.
-Does that look OK?
-
-Or another option is to use the XEN_REL value to select the default stable
-branch to use:
-
-diff --git a/recipes-extended/xen/xen_git.bb b/recipes-extended/xen/
-xen_git.bb
-index 784e71ce..35e6b859 100644
---- a/recipes-extended/xen/xen_git.bb
-+++ b/recipes-extended/xen/xen_git.bb
-@@ -2,7 +2,7 @@
- SRCREV ?=3D "f96e2f64576cdbb147391c7cb399d393385719a9"
-
- XEN_REL ?=3D "4.18"
--XEN_BRANCH ?=3D "master"
-+XEN_BRANCH ?=3D "stable-${XEN_REL}"
-
- SRC_URI =3D " \
-     git://xenbits.xen.org/xen.git;branch=3D${XEN_BRAN
-
-Christopher
-
-
-
->
-> Bruce
->
-> > Bruce
-> >
-> > >
-> > > ~Michal
-> > >
-> > >
-> > >
-> >
-> >
-> > --
-> > - Thou shalt not follow the NULL pointer, for chaos and madness await
-> > thee at its end
-> > - "Use the force Harry" - Gandalf, Star Trek II
-> >
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#8479):
-> https://lists.yoctoproject.org/g/meta-virtualization/message/8479
-> > Mute This Topic: https://lists.yoctoproject.org/mt/102826507/1050810
-> > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> > Unsubscribe:
-> https://lists.yoctoproject.org/g/meta-virtualization/leave/6693017/105081=
-0/978058475/xyzzy
-> [bruce.ashfield@gmail.com]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >
->
->
-> --
-> - Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at its end
-> - "Use the force Harry" - Gandalf, Star Trek II
->
-
---0000000000009383e2060b39fbeb
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">On Tue, Nov 28, 2023 at 5:49=E2=80=AFAM B=
-ruce Ashfield &lt;<a href=3D"mailto:bruce.ashfield@gmail.com">bruce.ashfiel=
-d@gmail.com</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote =
-class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px sol=
-id rgb(204,204,204);padding-left:1ex">On Tue, Nov 28, 2023 at 7:56=E2=80=AF=
-AM Bruce Ashfield via<br>
-<a href=3D"http://lists.yoctoproject.org" rel=3D"noreferrer" target=3D"_bla=
-nk">lists.yoctoproject.org</a><br>
-&lt;bruce.ashfield=3D<a href=3D"mailto:gmail.com@lists.yoctoproject.org" ta=
-rget=3D"_blank">gmail.com@lists.yoctoproject.org</a>&gt; wrote:<br>
-&gt;<br>
-&gt; On Tue, Nov 28, 2023 at 3:42=E2=80=AFAM Orzel, Michal via<br>
-&gt; <a href=3D"http://lists.yoctoproject.org" rel=3D"noreferrer" target=3D=
-"_blank">lists.yoctoproject.org</a> &lt;Michal.Orzel=3D<a href=3D"mailto:am=
-d.com@lists.yoctoproject.org" target=3D"_blank">amd.com@lists.yoctoproject.=
-org</a>&gt;<br>
-&gt; wrote:<br>
-&gt; &gt;<br>&gt; &gt; On 28/11/2023 04:11, Christopher Clark wrote:<br>&gt=
-; &gt; &gt;<br>
-&gt; &gt; &gt; On Mon, Nov 27, 2023 at 6:08=E2=80=AFAM Michal Orzel &lt;<a =
-href=3D"mailto:michal.orzel@amd.com" target=3D"_blank">michal.orzel@amd.com=
-</a> &lt;mailto:<a href=3D"mailto:michal.orzel@amd.com" target=3D"_blank">m=
-ichal.orzel@amd.com</a>&gt;&gt; wrote:<br>
-&gt; &gt; &gt;<br>&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0On 27/11/2023 14:55, Br=
-uce Ashfield wrote:<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0&gt;<br>&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=
-=A0&gt; On Mon, Nov 27, 2023 at 5:38=E2=80=AFAM Michal Orzel &lt;<a href=3D=
-"mailto:michal.orzel@amd.com" target=3D"_blank">michal.orzel@amd.com</a> &l=
-t;mailto:<a href=3D"mailto:michal.orzel@amd.com" target=3D"_blank">michal.o=
-rzel@amd.com</a>&gt;&gt; wrote:<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt;<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt; Some follow-up patches after a r=
-ecent Xen recipes update.<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt;<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt; Open question:<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt; Shouldn&#39;t we set 4.18 as a d=
-efault version?<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0&gt;<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0&gt; Not yet (and definitely not for nanb=
-ield). Perhaps once it has been under<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0&gt; test for a few weeks. I did the upda=
-tes to get them some extra soak time<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0&gt; and make them available in both the =
-upcoming release (nanbield) and<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0&gt; master for those that want to use th=
-e latest, without making it a default<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0&gt; version jump so late in the cycle.<b=
-r>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0Ok.<br>
-&gt; &gt; &gt;<br>&gt; &gt; &gt; Thanks, Bruce.<br>&gt; &gt; &gt;<br>&gt; &=
-gt; &gt;=C2=A0 =C2=A0 =C2=A0&gt; As for the changes in master, the 4.18 ver=
-sion on the _git recipes is<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0&gt; intentional, as there&#39;s been no =
-4.19 tag that I can find and I don&#39;t bump<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0&gt; versions until I see that in the rep=
-o .. so for now, it is just the +git<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0&gt; and +stable that is the difference b=
-etween the 4.18 and _git versions.<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0You won&#39;t see any 4.19 tag until the =
-next release. The version is advertised in<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0the main Makefile [1] and this is what us=
-er can see in the system<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0(e.g. in the boot log, xl info, xen_versi=
-on hypercall).<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0Bumping the XEN_REL of master recipes<br>=
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; I think it could be helpful for the context of this thread t=
-o describe them as the &quot;git recipes&quot; rather than using the term &=
-quot;master recipe&quot;, because the latter unfortunately seems to convey =
-that they are somehow superior to the other, versioned, Xen recipes, when i=
-n practice they are not -- they are deliberately not the default version of=
- Xen that is built since, as you note, they are defined:<br>
-&gt; &gt; &gt;<br>&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0to reflect the current =
-development version<br>&gt; &gt; &gt;<br>
-&gt; &gt; &gt; of Xen. ie. The git recipes are present alongside the other =
-recipes that provide the stable release version(s) of Xen.<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; As Michal has noted above, putting 4.19 for XEN_REL into the=
- git recipe does look right from a Xen source tree perspective for that SRC=
-REV, even though there is not a 4.19 Xen release, but the proposed commit m=
-essage should be updated to avoid the term &quot;master recipe&quot;.<br>
-&gt; &gt; Sounds good to me.<br>
-&gt; &gt;<br>
-&gt; &gt; @Bruce, may I please ask you to take my patch modifying XEN_REL a=
-nd do s/master/git in title on commit?<br>
-&gt; &gt; If not, I will push a v2 of this patch.<br>
-&gt;<br>
-&gt; Regardless of what I&#39;ve done in the past, I&#39;m still inclined t=
-o hold<br>
-&gt; the line on the versioning until at least the first -rc is released.<b=
-r>
-&gt;<br>
-<br>
-FWIW, I also don&#39;t change the version of the linux-yocto-dev kernels<br=
->
-until a valid<br>
--rc1 is released, even though the &quot;version&#39; has moved on from the =
-previous<br>
-release.<br>
-<br>
-That being said, until I find a better option to keep the versions reported=
- via<br>
-the runtime to match the package version, I can either bump the version or<=
-br>
-hold / revert the _git recipe until the first release candidates are out.<b=
-r>
-<br>
-I&#39;ll go ahead and stage the change with the fixup, even if I don&#39;t =
-like the<br>
-version management scheme :)<br></blockquote><div><br></div><div>Thanks for=
- the extra info, Bruce. So there is still a way to meet your versioning sch=
-eme and have the runtime version match the package version by changing the =
-default Xen branch selector in the git recipe via the XEN_BRANCH variable t=
-o the latest stable branch, thus:</div><div><br></div><div>diff --git a/rec=
-ipes-extended/xen/<a href=3D"http://xen_git.bb">xen_git.bb</a> b/recipes-ex=
-tended/xen/<a href=3D"http://xen_git.bb">xen_git.bb</a><br>index 784e71ce..=
-547a7943 100644<br>--- a/recipes-extended/xen/<a href=3D"http://xen_git.bb"=
->xen_git.bb</a><br>+++ b/recipes-extended/xen/<a href=3D"http://xen_git.bb"=
->xen_git.bb</a><br>@@ -2,7 +2,7 @@<br>=C2=A0SRCREV ?=3D &quot;f96e2f64576cd=
-bb147391c7cb399d393385719a9&quot;<br>=C2=A0<br>=C2=A0XEN_REL ?=3D &quot;4.1=
-8&quot;<br>-XEN_BRANCH ?=3D &quot;master&quot;<br>+XEN_BRANCH ?=3D &quot;st=
-able-4.18&quot;<br>=C2=A0<br>=C2=A0SRC_URI =3D &quot; \<br>=C2=A0 =C2=A0 =
-=C2=A0git://<a href=3D"http://xenbits.xen.org/xen.git;branch=3D${XEN_BRANCH=
-}">xenbits.xen.org/xen.git;branch=3D${XEN_BRANCH}</a> \<br></div><div><br><=
-/div><div>and then anyone building a development version of Xen can update =
-both the XEN_BRANCH and XEN_REL variables to match the revision that they a=
-re choosing to build.<br></div><div>Does that look OK?</div><div><br></div>=
-<div>Or another option is to use the XEN_REL value to select the default st=
-able branch to use:</div><div><br></div><div>diff --git a/recipes-extended/=
-xen/<a href=3D"http://xen_git.bb">xen_git.bb</a> b/recipes-extended/xen/<a =
-href=3D"http://xen_git.bb">xen_git.bb</a><br>index 784e71ce..35e6b859 10064=
-4<br>--- a/recipes-extended/xen/<a href=3D"http://xen_git.bb">xen_git.bb</a=
-><br>+++ b/recipes-extended/xen/<a href=3D"http://xen_git.bb">xen_git.bb</a=
-><br>@@ -2,7 +2,7 @@<br>=C2=A0SRCREV ?=3D &quot;f96e2f64576cdbb147391c7cb39=
-9d393385719a9&quot;<br>=C2=A0<br>=C2=A0XEN_REL ?=3D &quot;4.18&quot;<br>-XE=
-N_BRANCH ?=3D &quot;master&quot;<br>+XEN_BRANCH ?=3D &quot;stable-${XEN_REL=
-}&quot;<br>=C2=A0<br>=C2=A0SRC_URI =3D &quot; \<br>=C2=A0 =C2=A0 =C2=A0git:=
-//<a href=3D"http://xenbits.xen.org/xen.git;branch=3D${XEN_BRAN">xenbits.xe=
-n.org/xen.git;branch=3D${XEN_BRAN</a><br></div><div><br></div><div>Christop=
-her</div><div><br></div><div>=C2=A0<br></div><blockquote class=3D"gmail_quo=
-te" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204=
-);padding-left:1ex">
-<br>
-Bruce<br>
-<br>
-&gt; Bruce<br>
-&gt;<br>
-&gt; &gt;<br>
-&gt; &gt; ~Michal<br>
-&gt; &gt;<br>
-&gt; &gt;<br>
-&gt; &gt;<br>
-&gt;<br>
-&gt;<br>
-&gt; --<br>
-&gt; - Thou shalt not follow the NULL pointer, for chaos and madness await<=
-br>
-&gt; thee at its end<br>
-&gt; - &quot;Use the force Harry&quot; - Gandalf, Star Trek II<br>
-&gt;<br>
-&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt; Links: You receive all messages sent to this group.<br>
-&gt; View/Reply Online (#8479): <a href=3D"https://lists.yoctoproject.org/g=
-/meta-virtualization/message/8479" rel=3D"noreferrer" target=3D"_blank">htt=
-ps://lists.yoctoproject.org/g/meta-virtualization/message/8479</a><br>
-&gt; Mute This Topic: <a href=3D"https://lists.yoctoproject.org/mt/10282650=
-7/1050810" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.=
-org/mt/102826507/1050810</a><br>
-&gt; Group Owner: <a href=3D"mailto:meta-virtualization%2Bowner@lists.yocto=
-project.org" target=3D"_blank">meta-virtualization+owner@lists.yoctoproject=
-.org</a><br>
-&gt; Unsubscribe: <a href=3D"https://lists.yoctoproject.org/g/meta-virtuali=
-zation/leave/6693017/1050810/978058475/xyzzy" rel=3D"noreferrer" target=3D"=
-_blank">https://lists.yoctoproject.org/g/meta-virtualization/leave/6693017/=
-1050810/978058475/xyzzy</a> [<a href=3D"mailto:bruce.ashfield@gmail.com" ta=
-rget=3D"_blank">bruce.ashfield@gmail.com</a>]<br>
-&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt;<br>
-<br>
-<br>
--- <br>
-- Thou shalt not follow the NULL pointer, for chaos and madness await<br>
-thee at its end<br>
-- &quot;Use the force Harry&quot; - Gandalf, Star Trek II<br>
-</blockquote></div></div>
-
---0000000000009383e2060b39fbeb--
 
