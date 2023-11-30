@@ -2,147 +2,152 @@ Return-Path: <xiangyu.chen@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A1A0C4167B
-	for <webhook@archiver.kernel.org>; Thu, 30 Nov 2023 05:45:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06DEEC4167B
+	for <webhook@archiver.kernel.org>; Thu, 30 Nov 2023 08:54:02 +0000 (UTC)
 Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.66241.1701323144455668277
+ by mx.groups.io with SMTP id smtpd.web11.68184.1701334434024103266
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 29 Nov 2023 21:45:44 -0800
+ Thu, 30 Nov 2023 00:53:54 -0800
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=0698bd4b2f=xiangyu.chen@windriver.com)
 Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3AU4e2H2028505
-	for <meta-virtualization@lists.yoctoproject.org>; Thu, 30 Nov 2023 05:45:43 GMT
-Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2169.outbound.protection.outlook.com [104.47.57.169])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3uph0w857g-1
+	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3AU5LeC4026126
+	for <meta-virtualization@lists.yoctoproject.org>; Thu, 30 Nov 2023 08:53:53 GMT
+Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2101.outbound.protection.outlook.com [104.47.58.101])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3uph0w8af8-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <meta-virtualization@lists.yoctoproject.org>; Thu, 30 Nov 2023 05:45:43 +0000 (GMT)
+	for <meta-virtualization@lists.yoctoproject.org>; Thu, 30 Nov 2023 08:53:53 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dZsCu3PRuaCSGMH4PqtQo480bnACtWz5YCb10OUC2BrSzPFCTj/sFfNl5C8MqvU0dsqaQrltYXMrNFp/CdzTaYRjF+Kwx6aDK2g3rg/iFUWZNi3rafLaVUPYVD9fK0u6m5FoxnjtFoyL36vmDDmlXOqDjZwIy61wK3Fz+4p5TtsoT7CmDi1+AWnK1aBMY4/FXnQwWkmUPrGqQRP2ukxDFouELYET2b89vJPOK2NJD4i8RlsIfsgmtd8N5TVlGszV7z9poQG0/vclSZKs5FH8ohT5gFeGDXpcbUBotKO1Lst1HkwCQo7QTwII89kBfz4bOUkEu7dUk9Jl1/PPmTNaiQ==
+ b=jEmtYH3KInFIhDh4L5hYvxBZTEK3OAOFEMQeFGZKjbmjvdSWSbLQqvuBy36+Pd0NuwS4HEnOrPtUt3Fiesy3zSrK8cGABZEPTOLXycx6RjNSk2/T+GTAxdCkmyAtheIRr8XffM3kvI4XOB4Wjlhj7XxtY+vpiYuC2A2DXPanTiEhtsHJBz/aNOCVMCg4/Gag9ROk9p7p59sxGA774krExMNXERSwZjdZxjG2lHBTBNf6H/81Sdbp+DtHFkjP29ulPY59i7Hfi9SvlIFqVOxqPgHtsXBLSTrOoz1q6IDNB/+OzQwVsJM6yG4h5i8kITmCNktT9FsUWOF636XeJOkKSg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LWL5Y5TiGfsZrxOzSaP/+zuOiQSEGkpBtNmYTWoHiW0=;
- b=g9+xv2wMAXRePcWUI1yNi2c6YT18XOrlWmJIj5c+RyWPi1sf9NW02x3+NA/4u+gawhPVM4Ko8ltch7zPcEmx9chSC8iKW/CwlGSYTA81YxAgD4kB6FAEi5T1Tqx6Gr8j8lMby8EE14KOyLyKN8efv35I3x5utGnEh2sHKtlqO4vwnW2GN3/JteJFTvzch8jYYZ/S6S5KPy9DSaLqek68Asx8289b4+tZWOgVxO/RY92e283SFh4bE0v0Y9G8k7O2icJy/PbqBcIZBQn/DyOd0S2+aVImbVTSeL//yHp4Tpl6HggQH150PexAgsKieK+Hq+Mg5aDcJpPq95k+bHngPQ==
+ bh=l4PoydPR97I6TL1bLCjLz4QDTPh25ry0f2ZXyluV15U=;
+ b=PgzCWk7U3GXXCej73BGcmButkmcuN9YfgpqA160TTyxnqf/zhbri/5D2dLt0z+wLHbGe1bHR/4SUBgMz1i8ddSiTwMWXz21JX9N4frqYtqxR6tmgHWUUTDA60n6g1+gXji33Ao3u1jghrS1jW82NBqPVSqeY/+OLknFnQXY1ia7rX0hBiJ5pKdc8/czmr3Zc5/l9njGEZ4xjGkv9zpx5e/a1EMyJC+s3YrZ5w/FA9Ai8RJ8aO4+5x4Cmkv1YQzSY3jGV3Evmt2aSdtWSlk5vWoaV1oOClKshcw/zIf08GXnJfMN8PGcluKFGYxe/jnFwEnMJ9fS270cvJ2kleCuFsw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=eng.windriver.com; dkim=pass header.d=eng.windriver.com; arc=none
 Received: from MW4PR11MB5824.namprd11.prod.outlook.com (2603:10b6:303:187::19)
- by SN7PR11MB6797.namprd11.prod.outlook.com (2603:10b6:806:263::6) with
+ by SA1PR11MB6783.namprd11.prod.outlook.com (2603:10b6:806:25f::15) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7046.23; Thu, 30 Nov
- 2023 05:45:41 +0000
+ 2023 08:53:51 +0000
 Received: from MW4PR11MB5824.namprd11.prod.outlook.com
  ([fe80::6162:ed58:51f5:efd]) by MW4PR11MB5824.namprd11.prod.outlook.com
- ([fe80::6162:ed58:51f5:efd%4]) with mapi id 15.20.7025.022; Thu, 30 Nov 2023
- 05:45:41 +0000
+ ([fe80::6162:ed58:51f5:efd%4]) with mapi id 15.20.7046.024; Thu, 30 Nov 2023
+ 08:53:50 +0000
 From: Xiangyu Chen <xiangyu.chen@eng.windriver.com>
 To: meta-virtualization@lists.yoctoproject.org
-Subject: [meta-virtualization][PATCH] lxc: add distrosysconfdir option to make sure the lxc configuration in correct folder
-Date: Thu, 30 Nov 2023 13:45:24 +0800
-Message-Id: <20231130054524.1125012-1-xiangyu.chen@eng.windriver.com>
+Subject: [meta-virtualization][PATCH] libvirt: fix missing dmidecode on arm/aarch64 platform
+Date: Thu, 30 Nov 2023 16:53:32 +0800
+Message-Id: <20231130085332.1352490-1-xiangyu.chen@eng.windriver.com>
 X-Mailer: git-send-email 2.34.1
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: SG2PR04CA0172.apcprd04.prod.outlook.com (2603:1096:4::34)
- To MW4PR11MB5824.namprd11.prod.outlook.com (2603:10b6:303:187::19)
+X-ClientProxiedBy: TYCP286CA0132.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:2b6::15) To PH7PR11MB5820.namprd11.prod.outlook.com
+ (2603:10b6:510:133::17)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW4PR11MB5824:EE_|SN7PR11MB6797:EE_
-X-MS-Office365-Filtering-Correlation-Id: 31bc4fb5-8cf5-4e46-d915-08dbf167961e
+X-MS-TrafficTypeDiagnostic: MW4PR11MB5824:EE_|SA1PR11MB6783:EE_
+X-MS-Office365-Filtering-Correlation-Id: 39df3b0f-9683-4f45-10fa-08dbf181deb5
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	DzlmfY2uONDKdKz7jD39bui4gOX3sQSa102K4UAVHe12Kgnx55CPe4yBfWLQbwkIinWq2kyzSI1885XwJ6wZxCT1xF4T2z1pYwnVujOJkEZfJP0uIFu8ueHyBlJpwamzwpQcQApa9hq9gQCugKtpYd+pJVDhji1DgkF6EDJ4OG0N7LDrshaomzbGcif0NJM7H9Sa4/M60MexB2vsQRNCbzBZmlY3n/eGi0EDQyYs2ds1F0LenuCIj0s7cJpK732t08CWXHAJEXVlghQSUVngX1idUA0hFkcpdmiY/5hVT/e3bKhmtVV6CS94Ti8GaLPwmEju1U4mE6p2/ZWz2jVd9E9uVGGbaV/C8+E/WW4R14cYRtrlJD56h0cZX/ivGoKhsgYac3P9S8k06gLHI+yohcwmaOP9KHfrNXRm+sOFCwnj9bq6ENLXg1+gin7OokE87LMX/fj93cGBgGqFtjAOQbiKZuDbO6Rawm6R6FKFmiVpuV481dCizpsWAYYuG1RruiOIko16wmECo5NjDfD7+eqJxYmzj/GKQ7IISyFnIwelr/XLZBVXMxwzBM5izLwQhlTIu7j63hLYRWrPuSdv+YHGzVBp09ob6m0FKZwW8d6/GDtFqrhtHxpGAd2xxX8RZvdiCcbnnmrEoLk1gAtMJpPTumV8HlRIjt1E9SUoz1xTNK6gkSar8w5srlCfOMLj
+	ZvKd77Vbo5dzqXwMYKs0JeCcdzRkyEXNgI1VdZAMrhL8lShexX4JD3rcwa3zZWrDUi/GEC/ox2adVlNpGPYu9LO8scnY2jwU9cHi/6qAe/twSvMhxJbM+T6RnZWRn1g3wv9i5uYzBzcq2qjDcw+Bx6qcfciSuad4t2kcbD0vJR8z6w1MSbbigOZ8t4iVHTcVtkoEStkMAR8PJRu8+A87Gcis6oy0G6hIXUhjCbNa4LuQJeElrcr/G9KBCEG89xpR4O7ckm6DmXNDO5wP8PjPQme3gyfTFjW/j4PyI/6rTYMKilWSkDZT6lER4/iZ9qgGRR6xoG08snMlGQX+7AN5IzmVGDQWYRXfui7JIS5hvddUIk6gcjI3Tcrni2rd+GrCPKEop4KKTbwXOcfE6vr9Ljh3JM6MuOiysM5Vh+iNRKyGmOn8pgkTlWEpA5fna8hNWikC07HLb3qxO8tR2/RqXtC0Vn+ogNoyxUV104mCY3Xl9kVufnt/UB23n1aWEYc/R1HPR8Mw4fzt2gtkXMvrS1sxhA3V3gMq0TYK71UXi/MCuRYcR3Rs0Cvx/TZDHJKX3RXsJHVoHPd9fB6fePlo+o21Kk++W4e2T6bpbMHWthBpnh8A/DSoVM+xRCFuzbxXWC5/E1pUH3HGae/uqzN1RQ==
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW4PR11MB5824.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(346002)(396003)(376002)(136003)(39850400004)(230922051799003)(1800799012)(186009)(64100799003)(451199024)(44832011)(41300700001)(66946007)(66556008)(6916009)(66476007)(83380400001)(38100700002)(8676002)(478600001)(966005)(6486002)(2906002)(5660300002)(316002)(8936002)(202311291699003)(6666004)(83170400001)(52116002)(6506007)(6512007)(2616005)(1076003)(26005)(38350700005);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW4PR11MB5824.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(376002)(366004)(346002)(396003)(39850400004)(230922051799003)(1800799012)(451199024)(186009)(64100799003)(83380400001)(83170400001)(1076003)(2616005)(26005)(38350700005)(66476007)(66556008)(6916009)(66946007)(2906002)(8676002)(8936002)(5660300002)(44832011)(41300700001)(6506007)(6512007)(6666004)(52116002)(316002)(478600001)(6486002)(966005)(202311291699003)(38100700002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?g4wTVAv8GlP9IsJxTnt2ot3YsfTuHD1qBtckGS5Au2L5KFI3k5mnd6muToMe?=
- =?us-ascii?Q?waJdHOj7PqgNfBackbeUbKxVR/ytyrfNlRkgqEHeIbDf9Fz5VKTLppsPo1P+?=
- =?us-ascii?Q?HawTraUnDqjupqplRQK/+6GnqGuogoq9PGCqmnIUAdWIu+UbArQvyItv3J3z?=
- =?us-ascii?Q?z1OiKsFeK/3TjFKqJqy2NsjrwG9pWtq8S7zokm8u7IbY1HmAgz3lOwr05LIU?=
- =?us-ascii?Q?LE7pvmFbD5gxh2bfdrm6g8ccoQSlg4h5aqejnz/frXln3aTpZ+h1p0yicSu7?=
- =?us-ascii?Q?5sZUKtgNz1qk49xteAkAIneQtGVBqEYvW4xCoThwjQ7k1qviPKsmwhziEpFu?=
- =?us-ascii?Q?4XkBg0paXTDsGIgRlU5qTGqGaIbrG4m57k4tRjWBoISrTq91vofjzNUtxH3w?=
- =?us-ascii?Q?jspmy4WNW5C1x0W66mCTYaCXi4uS0tnaSiEW5h+Hx13tO6F4x437S7HORbnX?=
- =?us-ascii?Q?pUPFsHiRw62ch+zsrQT5j8Bckle8OTOBoYi3O1DbvKJe62bOnHg1mv8rzCC1?=
- =?us-ascii?Q?SLVE45PLo0kWscF3BS10ccNxBGH8jxdsVzldNeGNEj++kzl+DokSJyiM5l/z?=
- =?us-ascii?Q?KYyRLU+83LTfRxFS1dTuRcyoVkfpfq1rw7zCl5heWm1Rm2pTxH8ha2S7KVIh?=
- =?us-ascii?Q?OE2fFqxtppK2pSMUvCMcDyhrGvGwhuq7Y/BglTo89GtwenAXdv99uYbYsYGm?=
- =?us-ascii?Q?HeISCNl7hJU6fJS1zXHldBs//I2by7eUnjzzFNkPaZqVu/Vea98U9c+nKY3W?=
- =?us-ascii?Q?Zb9ldjtZkD4+RKE3dagfqy3SLFQujcOS+u86WcO4VbJHsbkovBLtaitfPWfn?=
- =?us-ascii?Q?FkVMoMm5fxLvV1+eJFgX6k7EQHObJKiUmTxl5aBBYnonCH4+4DInLdjVP7n3?=
- =?us-ascii?Q?FGm6bsRTp3vaaGkdQPxkVQxNniZHCNrrE+cBAotzozZQl1Pvp/2h47mg/Hw1?=
- =?us-ascii?Q?5EqM+GI/ge8WsA98WlO+2xCA0rOZmPtCuk6tg7KZAyGc3Uv3R5y0g2xrz7Rw?=
- =?us-ascii?Q?CiIorU+E/2TUQA8Q3FDOF8ZKB0Lr7TJtNmC0VSHhqhFw036oaj/cin5kPP9H?=
- =?us-ascii?Q?BtdXBYlkx5hoYXS5zQkmwaIQDXIVjsqw5O24qpKOUDBvz8D4M7cF6TXWqgEk?=
- =?us-ascii?Q?cUUX8ur5XcoXLXsdQJoxry41DJkHyOhKt5wAyAQqjMl77d2z1ruYfGtiIfqX?=
- =?us-ascii?Q?ln6q2Y5fgrymn9fNIP/u3QKe1vRrhAAINt6KX7LzdBn/4eLKpmL2l/v6GC9/?=
- =?us-ascii?Q?KcQBfmvSTo7nQzNP5pwMXr25jyzfAX44gRNfUEyLCziyvNYTbS2W2giQk4sj?=
- =?us-ascii?Q?+nbtt9ArrVR3d0xUcJUDYpL/ngm7m40SnRo3c5NLwi7HUo2Lm8W42HfQyutd?=
- =?us-ascii?Q?ibxywGBAJQKVB3iRz9NaXGfPMUELhFVMVyUwnEXoJM9bn3qScxvJ20uil1aA?=
- =?us-ascii?Q?1giYJn5Uphfg2SiYRT0sshEE8A0bJpSFrCBcP2ziCoRFJkePOU2L90kO1G/d?=
- =?us-ascii?Q?uRTO9hs9CioIeH8xzTUTezzVzntJUnZg0FKwgHtyNrk36fK20WaNOfKD/+mU?=
- =?us-ascii?Q?FjiV4oo3RZFr8iMtCHYau28ymThwDNOuuGHHprJpBl8mm+tCphPiDu+tYWmy?=
- =?us-ascii?Q?KQ=3D=3D?=
+	=?us-ascii?Q?roJa3XW75BrQBFG5hLoi6OfLKCWPAy1IilVNY7nyMLZ/C4uyGE1BbJcyjmc9?=
+ =?us-ascii?Q?tuPt3ER2w/wfeULt2vudgaQM8OMIPYlTBnqGAXas/sFTEF6q7OnMBWkbXR3g?=
+ =?us-ascii?Q?SKAubDSsnyhs/13RpsllSS6FmcGLh1ksIaCSHUGXC8V4DspYy7TOPzF+KvQ4?=
+ =?us-ascii?Q?D5Th+9tm7+XleitSHSqWhG6gJO5WI9D71sBZJJuUoSlgHnk73UWxnplxPznd?=
+ =?us-ascii?Q?XT0+l4l5PqkYAMG1GJPYtqyG/dCAGJhjmis5CdrpNdFvSj0EOfrc50XfMtL/?=
+ =?us-ascii?Q?sPEvUdQRVNvB5T1DSLlWb6FcPQc3VAuB4iVN7Q2XHr5pNSqiRcjEg4tIUaX2?=
+ =?us-ascii?Q?xEnqcklf4/O6j1T1kHmJ+8dorlwK9xAxXNzQJ1yxPo8imux5KaycQcraNxGu?=
+ =?us-ascii?Q?dn2Go7NJaKBEEFUzd6DIbEUctmFr/jU9XiTV84tsbiVDCtD6TT7ytGJgCBig?=
+ =?us-ascii?Q?L/Wo5+EGbE3xERWLnibKf8OsrAleuU4eMzH2czUIeCQmXPGEGbjSSmjA7/l5?=
+ =?us-ascii?Q?T35dQ6JgiuLrzjeDcdhkxSuvbAwJSLjEgQyZaJ27nFFArPMuTtHIJyaCM9gR?=
+ =?us-ascii?Q?n6KPAU6FtgO2IzY6weUwSdQUGr+X8hKTc+ax8y/qszqF6GLIpbyPOkfK4Q6O?=
+ =?us-ascii?Q?Gf4uMwD5dZOgChAX9TrmS0m1trBV07BcMA9yrthkfztDZyNckIVFN7luqBVC?=
+ =?us-ascii?Q?k3X+qbqgACTyrkAA3o+IfjLC1kIN4pL+T62XrXLMP43Xicj4HYnmcDz1L3j5?=
+ =?us-ascii?Q?vlthejxQ0DI2U6NFE4kucWHRUU3TujQqTY1IL6r1ClxOtvLmZKFqaUmv8R4b?=
+ =?us-ascii?Q?MQauvq+94C9i4I2tIuizdpkbGlVvKWv6ParYocg5dfRFgq1ohqvxkNLFQFCH?=
+ =?us-ascii?Q?ccU/NSjS1OTbEPAdl4RaiNuCz4U8xrSAeZYmU2Vp2OFB5HUaYdZrbA1Dl25A?=
+ =?us-ascii?Q?5NQh7ahQGAHnhNUFiigu8oRNdDnxr+jpqWqcBVVSE+n2+rgaFM83ZIQAKKrY?=
+ =?us-ascii?Q?mmrclbhPiY8BMOE/fEnINyRmtmVxTcK3O8eixKrjP1EDhXW+bk4Ji/HeAX6x?=
+ =?us-ascii?Q?SzkFO9Qyb/PKM44jBGogoANTR2JgToeAyteN3t1t+eO77dBS4UN+Z9wvpJi2?=
+ =?us-ascii?Q?kbo6ow+7TluRe227DgNQ46+fVomsXUrpcZ9FrVm691j70PwWvnAsydYLgLK1?=
+ =?us-ascii?Q?lYyvaSRFWrBnwPYAUaCyqwn5wNjclAANmAMLCppfSvXYMZg99WqkCSnd0BbP?=
+ =?us-ascii?Q?tATgU/xeMQtsH//Gp91od2tYCRm7VCkiJctTpeYOia7FdPsV6icXwVfOoOKo?=
+ =?us-ascii?Q?poex8mMLa5fqrx+LmyOEHKPbdRUb6ynF1ULssuobWI8zSwbzNYO2pLJFX0nj?=
+ =?us-ascii?Q?EYHu0/MTMBQtUyQ7JLSfQy1nRLICue0G9U5E/4wYp4OfBzsb0ghBZoqPOgE9?=
+ =?us-ascii?Q?B/1l8GUfKLtavrxpZHm92O9ZXfT5gbd5/3r95Z1Sl4VsQQClPDaIm+6oxZwQ?=
+ =?us-ascii?Q?/hkto06BdxgUmsNzbEDNjGT1LrGv8qxULqhjE9PG/G46B6vrAVPIlKgQ7aZM?=
+ =?us-ascii?Q?A0wouKt5pNVlgWGXqUo6rNNAbUHe/nwzHs1Qkq3Swp0T4F4w+58nF1SfZ9an?=
+ =?us-ascii?Q?8w=3D=3D?=
 X-OriginatorOrg: eng.windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 31bc4fb5-8cf5-4e46-d915-08dbf167961e
-X-MS-Exchange-CrossTenant-AuthSource: MW4PR11MB5824.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 39df3b0f-9683-4f45-10fa-08dbf181deb5
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB5820.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Nov 2023 05:45:41.3517
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Nov 2023 08:53:50.8532
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dJ3xJcHs2KlrgFcwpxl4tG93Vw5vunw33LltlIAai1CvEpAi6UQmXLoU87e9fR+pDU7OIfUDpRCYocLN09is6ZprxmFMhOocvUxfZRQNa1I=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB6797
-X-Proofpoint-ORIG-GUID: e0ahl--biBUlbpbtaatuz0rOmlVNsD8O
-X-Proofpoint-GUID: e0ahl--biBUlbpbtaatuz0rOmlVNsD8O
+X-MS-Exchange-CrossTenant-UserPrincipalName: E4AaDn7FnUW0aAJc8np7w4vsXijkKSohaghyDaIaf+MM0QQpL7dU0mbFRb4OGdPS3+Hta6GWCWyhWWLEc34F2/VOZQd9VJDWXZqDoIs5hpQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB6783
+X-Proofpoint-ORIG-GUID: 9R5gxu8bzI0OsaW2HpBpmkmLz22oi3cE
+X-Proofpoint-GUID: 9R5gxu8bzI0OsaW2HpBpmkmLz22oi3cE
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2023-11-16_25,2023-11-16_01,2023-05-22_02
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 spamscore=0 mlxlogscore=999 impostorscore=0 bulkscore=0
- phishscore=0 clxscore=1011 suspectscore=0 adultscore=0 lowpriorityscore=0
+ malwarescore=0 spamscore=0 mlxlogscore=748 impostorscore=0 bulkscore=0
+ phishscore=0 clxscore=1015 suspectscore=0 adultscore=0 lowpriorityscore=0
  mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2311060001 definitions=main-2311300042
+ engine=8.19.0-2311060001 definitions=main-2311300065
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Thu, 30 Nov 2023 05:45:51 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8482
+ <meta-virtualization@lists.yoctoproject.org>; Thu, 30 Nov 2023 08:54:02 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8483
 
 From: Xiangyu Chen <xiangyu.chen@windriver.com>
 
-After the commit[1] "meson.build: allow explicit distrosysconfdir", the config of lxc would install
-to distrosysconfdir[2], if this value not set, it might set to /etc/sysconfig, that cause lxc-net
-configuration cannot be found[3] due to our bb file install the lxc-net to /etc/default folder.
+When using libvirtd on aarch64 platform, after system bootup, the log of libvirtd
+contains an error as below:
+
+libvirtd[417]: internal error: Child process (/usr/sbin/dmidecode -q -t 0,1,2,3,4,11,17) 
+unexpected exit status 127: 
+libvirt:  error : cannot execute binary /usr/sbin/dmidecode: No such file or directory
+
+After checking the libvirt source code, the arm/aarch64 also try to call dmidecode to get
+the system information[1], so add the dmidecode as depends under arm and aarch64 platform.
 
 Ref:
-[1] https://github.com/lxc/lxc/commit/16ebb29dccb35bf74e8a19e8c45d2513f927476f
-[2] https://github.com/lxc/lxc/blob/main/config/sysconfig/meson.build#L9
-[3] https://github.com/lxc/lxc/blob/main/config/sysconfig/lxc.in#L28
+[1] https://github.com/libvirt/libvirt/blob/master/src/util/virsysinfo.c#L429
 
 Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
 ---
- recipes-containers/lxc/lxc_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ recipes-extended/libvirt/libvirt_9.6.0.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/recipes-containers/lxc/lxc_git.bb b/recipes-containers/lxc/lxc_git.bb
-index 94e71087..33ea4ee7 100644
---- a/recipes-containers/lxc/lxc_git.bb
-+++ b/recipes-containers/lxc/lxc_git.bb
-@@ -60,7 +60,7 @@ PTEST_CONF = "${@bb.utils.contains('DISTRO_FEATURES', 'ptest', '-Dtests=true', '
+diff --git a/recipes-extended/libvirt/libvirt_9.6.0.bb b/recipes-extended/libvirt/libvirt_9.6.0.bb
+index c5d0d2cd..b63087e8 100644
+--- a/recipes-extended/libvirt/libvirt_9.6.0.bb
++++ b/recipes-extended/libvirt/libvirt_9.6.0.bb
+@@ -18,6 +18,8 @@ RDEPENDS:${PN} = "gettext-runtime"
+ RDEPENDS:libvirt-libvirtd += "bridge-utils iptables pm-utils dnsmasq netcat-openbsd ebtables"
+ RDEPENDS:libvirt-libvirtd:append:x86-64 = " dmidecode"
+ RDEPENDS:libvirt-libvirtd:append:x86 = " dmidecode"
++RDEPENDS:libvirt-libvirtd:append:arm = " dmidecode"
++RDEPENDS:libvirt-libvirtd:append:aarch64 = " dmidecode"
  
- # No meson equivalent for --with-distro
- # EXTRA_OECONF += "--with-distro=${DISTRO} ${PTEST_CONF}"
--EXTRA_OEMESON += "${PTEST_CONF}"
-+EXTRA_OEMESON += "${PTEST_CONF} -Ddistrosysconfdir=${sysconfdir}/default"
- # No meson equivalent for these yet
- # EXTRA_OECONF += "--enable-log-src-basename --disable-werror"
- 
+ #connman blocks the 53 port and libvirtd can't start its DNS service
+ RCONFLICTS:${PN}_libvirtd = "connman"
 -- 
 2.34.1
 
