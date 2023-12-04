@@ -1,154 +1,267 @@
-Return-Path: <xiangyu.chen@eng.windriver.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 06DEEC4167B
-	for <webhook@archiver.kernel.org>; Thu, 30 Nov 2023 08:54:02 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.68184.1701334434024103266
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5849CC10DC3
+	for <webhook@archiver.kernel.org>; Mon,  4 Dec 2023 20:36:24 +0000 (UTC)
+Received: from mail-io1-f43.google.com (mail-io1-f43.google.com [209.85.166.43])
+ by mx.groups.io with SMTP id smtpd.web11.80794.1701722181810569696
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 30 Nov 2023 00:53:54 -0800
+ Mon, 04 Dec 2023 12:36:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=0698bd4b2f=xiangyu.chen@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3AU5LeC4026126
-	for <meta-virtualization@lists.yoctoproject.org>; Thu, 30 Nov 2023 08:53:53 GMT
-Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2101.outbound.protection.outlook.com [104.47.58.101])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3uph0w8af8-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <meta-virtualization@lists.yoctoproject.org>; Thu, 30 Nov 2023 08:53:53 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jEmtYH3KInFIhDh4L5hYvxBZTEK3OAOFEMQeFGZKjbmjvdSWSbLQqvuBy36+Pd0NuwS4HEnOrPtUt3Fiesy3zSrK8cGABZEPTOLXycx6RjNSk2/T+GTAxdCkmyAtheIRr8XffM3kvI4XOB4Wjlhj7XxtY+vpiYuC2A2DXPanTiEhtsHJBz/aNOCVMCg4/Gag9ROk9p7p59sxGA774krExMNXERSwZjdZxjG2lHBTBNf6H/81Sdbp+DtHFkjP29ulPY59i7Hfi9SvlIFqVOxqPgHtsXBLSTrOoz1q6IDNB/+OzQwVsJM6yG4h5i8kITmCNktT9FsUWOF636XeJOkKSg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=l4PoydPR97I6TL1bLCjLz4QDTPh25ry0f2ZXyluV15U=;
- b=PgzCWk7U3GXXCej73BGcmButkmcuN9YfgpqA160TTyxnqf/zhbri/5D2dLt0z+wLHbGe1bHR/4SUBgMz1i8ddSiTwMWXz21JX9N4frqYtqxR6tmgHWUUTDA60n6g1+gXji33Ao3u1jghrS1jW82NBqPVSqeY/+OLknFnQXY1ia7rX0hBiJ5pKdc8/czmr3Zc5/l9njGEZ4xjGkv9zpx5e/a1EMyJC+s3YrZ5w/FA9Ai8RJ8aO4+5x4Cmkv1YQzSY3jGV3Evmt2aSdtWSlk5vWoaV1oOClKshcw/zIf08GXnJfMN8PGcluKFGYxe/jnFwEnMJ9fS270cvJ2kleCuFsw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=eng.windriver.com; dkim=pass header.d=eng.windriver.com; arc=none
-Received: from MW4PR11MB5824.namprd11.prod.outlook.com (2603:10b6:303:187::19)
- by SA1PR11MB6783.namprd11.prod.outlook.com (2603:10b6:806:25f::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7046.23; Thu, 30 Nov
- 2023 08:53:51 +0000
-Received: from MW4PR11MB5824.namprd11.prod.outlook.com
- ([fe80::6162:ed58:51f5:efd]) by MW4PR11MB5824.namprd11.prod.outlook.com
- ([fe80::6162:ed58:51f5:efd%4]) with mapi id 15.20.7046.024; Thu, 30 Nov 2023
- 08:53:50 +0000
-From: Xiangyu Chen <xiangyu.chen@eng.windriver.com>
-To: meta-virtualization@lists.yoctoproject.org
-Subject: [meta-virtualization][PATCH] libvirt: fix missing dmidecode on arm/aarch64 platform
-Date: Thu, 30 Nov 2023 16:53:32 +0800
-Message-Id: <20231130085332.1352490-1-xiangyu.chen@eng.windriver.com>
-X-Mailer: git-send-email 2.34.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: TYCP286CA0132.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:2b6::15) To PH7PR11MB5820.namprd11.prod.outlook.com
- (2603:10b6:510:133::17)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=RKspFbTu;
+ spf=pass (domain: gmail.com, ip: 209.85.166.43, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-io1-f43.google.com with SMTP id ca18e2360f4ac-7b060378c47so159144539f.1
+        for <meta-virtualization@lists.yoctoproject.org>; Mon, 04 Dec 2023 12:36:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701722181; x=1702326981; darn=lists.yoctoproject.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sNLBgaFYMf/RiVqoLvi5lenfsFcM2OKECcN1PR+Rvnc=;
+        b=RKspFbTuZOEjkTHbCHcsrmmuTZYN3Yzyr1kGSh0UvKVIfQrTcvt3WuD4RSWE7wFW3/
+         MrkFRx4fvfi1OJvRPDiZ73Fnr/urdmAIOtuOVVA9viQsd/TLqU3chav+Mwr6hgFWeKzJ
+         H0vrsj3i9L8UIHccNpGzH3duRPW5hXJ/7myqzAOKkw0XtWS6TkBRO7aLX3gO0Yj0ilF6
+         ++IabZH4qmm3QXKcjONrEw0iQfG1AU8Mgs+PTQX7Kx4bIi32+vShFOUGE6K45CgWk9Gk
+         vMsOkts4IItiWhk2iu/uzleRM0APb3kKv96ktJIwbA6coBGXcFTTZqFSiSx+SEdBPy/1
+         vz6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701722181; x=1702326981;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=sNLBgaFYMf/RiVqoLvi5lenfsFcM2OKECcN1PR+Rvnc=;
+        b=peUtRiBXAK1idKAkukFjOzkoYfHkd95qF5CX32cSH6Z9pAY1ww6fnRr2uCyLYtNpSM
+         fRb3tNKtATLC2GuD/kKQHlqLpKg3g3y/C5zWoy4swvNusZ4qGMPmxfXTixrBQheraNeb
+         bRbByWs+dq5wCA2X+vH6s/TaZSjm2ENTryRT+V+JXrHOYv+ancKeN70XTeRDmZkirkbL
+         9FWu4Cyd6xLn6zno3kBQpnCiq3QDVZWg5XMUxNH4wHYXYIcVC5GwmmzHbuO8CZRn383g
+         5cFf07CBWtU4HriG3phsRxQxQ8MPTTQavBsF1sN7zi3EX3jD86TMhDVEwYyhqG9bx3QR
+         uByA==
+X-Gm-Message-State: AOJu0YwrOiG95xInf7/2QRnWh9rbB/3L+/mH+04UFea/gE9YmsaUXVm6
+	uDE4yMnApuqZgS+I4v1DTjxb+7fCi/rPbxxlhGc=
+X-Google-Smtp-Source: AGHT+IH9ECYvMAj6Pa0SMSK4ubK2onsT3nYTvmx/G3cDZlOEidxVnjUO+hAW57q6E2LniC5R8QbJEaeQuF7ylTd6XIg=
+X-Received: by 2002:a6b:3116:0:b0:7b3:6791:f2a3 with SMTP id
+ j22-20020a6b3116000000b007b36791f2a3mr4749298ioa.20.1701722180666; Mon, 04
+ Dec 2023 12:36:20 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW4PR11MB5824:EE_|SA1PR11MB6783:EE_
-X-MS-Office365-Filtering-Correlation-Id: 39df3b0f-9683-4f45-10fa-08dbf181deb5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	ZvKd77Vbo5dzqXwMYKs0JeCcdzRkyEXNgI1VdZAMrhL8lShexX4JD3rcwa3zZWrDUi/GEC/ox2adVlNpGPYu9LO8scnY2jwU9cHi/6qAe/twSvMhxJbM+T6RnZWRn1g3wv9i5uYzBzcq2qjDcw+Bx6qcfciSuad4t2kcbD0vJR8z6w1MSbbigOZ8t4iVHTcVtkoEStkMAR8PJRu8+A87Gcis6oy0G6hIXUhjCbNa4LuQJeElrcr/G9KBCEG89xpR4O7ckm6DmXNDO5wP8PjPQme3gyfTFjW/j4PyI/6rTYMKilWSkDZT6lER4/iZ9qgGRR6xoG08snMlGQX+7AN5IzmVGDQWYRXfui7JIS5hvddUIk6gcjI3Tcrni2rd+GrCPKEop4KKTbwXOcfE6vr9Ljh3JM6MuOiysM5Vh+iNRKyGmOn8pgkTlWEpA5fna8hNWikC07HLb3qxO8tR2/RqXtC0Vn+ogNoyxUV104mCY3Xl9kVufnt/UB23n1aWEYc/R1HPR8Mw4fzt2gtkXMvrS1sxhA3V3gMq0TYK71UXi/MCuRYcR3Rs0Cvx/TZDHJKX3RXsJHVoHPd9fB6fePlo+o21Kk++W4e2T6bpbMHWthBpnh8A/DSoVM+xRCFuzbxXWC5/E1pUH3HGae/uqzN1RQ==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW4PR11MB5824.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(376002)(366004)(346002)(396003)(39850400004)(230922051799003)(1800799012)(451199024)(186009)(64100799003)(83380400001)(83170400001)(1076003)(2616005)(26005)(38350700005)(66476007)(66556008)(6916009)(66946007)(2906002)(8676002)(8936002)(5660300002)(44832011)(41300700001)(6506007)(6512007)(6666004)(52116002)(316002)(478600001)(6486002)(966005)(202311291699003)(38100700002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?roJa3XW75BrQBFG5hLoi6OfLKCWPAy1IilVNY7nyMLZ/C4uyGE1BbJcyjmc9?=
- =?us-ascii?Q?tuPt3ER2w/wfeULt2vudgaQM8OMIPYlTBnqGAXas/sFTEF6q7OnMBWkbXR3g?=
- =?us-ascii?Q?SKAubDSsnyhs/13RpsllSS6FmcGLh1ksIaCSHUGXC8V4DspYy7TOPzF+KvQ4?=
- =?us-ascii?Q?D5Th+9tm7+XleitSHSqWhG6gJO5WI9D71sBZJJuUoSlgHnk73UWxnplxPznd?=
- =?us-ascii?Q?XT0+l4l5PqkYAMG1GJPYtqyG/dCAGJhjmis5CdrpNdFvSj0EOfrc50XfMtL/?=
- =?us-ascii?Q?sPEvUdQRVNvB5T1DSLlWb6FcPQc3VAuB4iVN7Q2XHr5pNSqiRcjEg4tIUaX2?=
- =?us-ascii?Q?xEnqcklf4/O6j1T1kHmJ+8dorlwK9xAxXNzQJ1yxPo8imux5KaycQcraNxGu?=
- =?us-ascii?Q?dn2Go7NJaKBEEFUzd6DIbEUctmFr/jU9XiTV84tsbiVDCtD6TT7ytGJgCBig?=
- =?us-ascii?Q?L/Wo5+EGbE3xERWLnibKf8OsrAleuU4eMzH2czUIeCQmXPGEGbjSSmjA7/l5?=
- =?us-ascii?Q?T35dQ6JgiuLrzjeDcdhkxSuvbAwJSLjEgQyZaJ27nFFArPMuTtHIJyaCM9gR?=
- =?us-ascii?Q?n6KPAU6FtgO2IzY6weUwSdQUGr+X8hKTc+ax8y/qszqF6GLIpbyPOkfK4Q6O?=
- =?us-ascii?Q?Gf4uMwD5dZOgChAX9TrmS0m1trBV07BcMA9yrthkfztDZyNckIVFN7luqBVC?=
- =?us-ascii?Q?k3X+qbqgACTyrkAA3o+IfjLC1kIN4pL+T62XrXLMP43Xicj4HYnmcDz1L3j5?=
- =?us-ascii?Q?vlthejxQ0DI2U6NFE4kucWHRUU3TujQqTY1IL6r1ClxOtvLmZKFqaUmv8R4b?=
- =?us-ascii?Q?MQauvq+94C9i4I2tIuizdpkbGlVvKWv6ParYocg5dfRFgq1ohqvxkNLFQFCH?=
- =?us-ascii?Q?ccU/NSjS1OTbEPAdl4RaiNuCz4U8xrSAeZYmU2Vp2OFB5HUaYdZrbA1Dl25A?=
- =?us-ascii?Q?5NQh7ahQGAHnhNUFiigu8oRNdDnxr+jpqWqcBVVSE+n2+rgaFM83ZIQAKKrY?=
- =?us-ascii?Q?mmrclbhPiY8BMOE/fEnINyRmtmVxTcK3O8eixKrjP1EDhXW+bk4Ji/HeAX6x?=
- =?us-ascii?Q?SzkFO9Qyb/PKM44jBGogoANTR2JgToeAyteN3t1t+eO77dBS4UN+Z9wvpJi2?=
- =?us-ascii?Q?kbo6ow+7TluRe227DgNQ46+fVomsXUrpcZ9FrVm691j70PwWvnAsydYLgLK1?=
- =?us-ascii?Q?lYyvaSRFWrBnwPYAUaCyqwn5wNjclAANmAMLCppfSvXYMZg99WqkCSnd0BbP?=
- =?us-ascii?Q?tATgU/xeMQtsH//Gp91od2tYCRm7VCkiJctTpeYOia7FdPsV6icXwVfOoOKo?=
- =?us-ascii?Q?poex8mMLa5fqrx+LmyOEHKPbdRUb6ynF1ULssuobWI8zSwbzNYO2pLJFX0nj?=
- =?us-ascii?Q?EYHu0/MTMBQtUyQ7JLSfQy1nRLICue0G9U5E/4wYp4OfBzsb0ghBZoqPOgE9?=
- =?us-ascii?Q?B/1l8GUfKLtavrxpZHm92O9ZXfT5gbd5/3r95Z1Sl4VsQQClPDaIm+6oxZwQ?=
- =?us-ascii?Q?/hkto06BdxgUmsNzbEDNjGT1LrGv8qxULqhjE9PG/G46B6vrAVPIlKgQ7aZM?=
- =?us-ascii?Q?A0wouKt5pNVlgWGXqUo6rNNAbUHe/nwzHs1Qkq3Swp0T4F4w+58nF1SfZ9an?=
- =?us-ascii?Q?8w=3D=3D?=
-X-OriginatorOrg: eng.windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 39df3b0f-9683-4f45-10fa-08dbf181deb5
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB5820.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Nov 2023 08:53:50.8532
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: E4AaDn7FnUW0aAJc8np7w4vsXijkKSohaghyDaIaf+MM0QQpL7dU0mbFRb4OGdPS3+Hta6GWCWyhWWLEc34F2/VOZQd9VJDWXZqDoIs5hpQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB6783
-X-Proofpoint-ORIG-GUID: 9R5gxu8bzI0OsaW2HpBpmkmLz22oi3cE
-X-Proofpoint-GUID: 9R5gxu8bzI0OsaW2HpBpmkmLz22oi3cE
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-11-16_25,2023-11-16_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 spamscore=0 mlxlogscore=748 impostorscore=0 bulkscore=0
- phishscore=0 clxscore=1015 suspectscore=0 adultscore=0 lowpriorityscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2311060001 definitions=main-2311300065
+References: <20231127103811.319149-1-michal.orzel@amd.com> <CADkTA4P7xjs7Db+_j6NTde3j0gyKS0R5kGYm9O5pPp+Vu54mMA@mail.gmail.com>
+ <7f42849e-6ea3-4530-9a73-f1bc1bcc61be@amd.com> <CACMJ4GYJdMYGgQSoTUzD7MLu+U11Xd4H2ccYjpJDg_y64W4HbQ@mail.gmail.com>
+ <e4512578-4783-4ea2-943e-4187bda3184b@amd.com> <179BCAB522548B7D.22216@lists.yoctoproject.org>
+ <CADkTA4OhvqXU432-x0J6n2bods+rDorC03fGY4Vjinxnca+UQA@mail.gmail.com> <CACMJ4GZAXXVpiaAXJZt_z6Ev1bw1AieG2_Qotgtx3RUpVm83Sw@mail.gmail.com>
+In-Reply-To: <CACMJ4GZAXXVpiaAXJZt_z6Ev1bw1AieG2_Qotgtx3RUpVm83Sw@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Mon, 4 Dec 2023 15:36:08 -0500
+Message-ID: <CADkTA4PniZvWt_ZFZeDrs1ED+TdHu2DYypgoUVMEJWSJSui1UQ@mail.gmail.com>
+Subject: Re: [meta-virtualization][PATCH 0/2] xen: follow-up to recent recipes update
+To: Christopher Clark <christopher.w.clark@gmail.com>
+Cc: Michal.Orzel@amd.com, meta-virtualization@lists.yoctoproject.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Thu, 30 Nov 2023 08:54:02 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8483
+ <meta-virtualization@lists.yoctoproject.org>; Mon, 04 Dec 2023 20:36:24 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8484
 
-From: Xiangyu Chen <xiangyu.chen@windriver.com>
+On Tue, Nov 28, 2023 at 12:45=E2=80=AFPM Christopher Clark
+<christopher.w.clark@gmail.com> wrote:
+>
+> On Tue, Nov 28, 2023 at 5:49=E2=80=AFAM Bruce Ashfield <bruce.ashfield@gm=
+ail.com> wrote:
+>>
+>> On Tue, Nov 28, 2023 at 7:56=E2=80=AFAM Bruce Ashfield via
+>> lists.yoctoproject.org
+>> <bruce.ashfield=3Dgmail.com@lists.yoctoproject.org> wrote:
+>> >
+>> > On Tue, Nov 28, 2023 at 3:42=E2=80=AFAM Orzel, Michal via
+>> > lists.yoctoproject.org <Michal.Orzel=3Damd.com@lists.yoctoproject.org>
+>> > wrote:
+>> > >
+>> > > On 28/11/2023 04:11, Christopher Clark wrote:
+>> > > >
+>> > > > On Mon, Nov 27, 2023 at 6:08=E2=80=AFAM Michal Orzel <michal.orzel=
+@amd.com <mailto:michal.orzel@amd.com>> wrote:
+>> > > >
+>> > > >     On 27/11/2023 14:55, Bruce Ashfield wrote:
+>> > > >     >
+>> > > >     > On Mon, Nov 27, 2023 at 5:38=E2=80=AFAM Michal Orzel <michal=
+.orzel@amd.com <mailto:michal.orzel@amd.com>> wrote:
+>> > > >     >>
+>> > > >     >> Some follow-up patches after a recent Xen recipes update.
+>> > > >     >>
+>> > > >     >> Open question:
+>> > > >     >> Shouldn't we set 4.18 as a default version?
+>> > > >     >
+>> > > >     > Not yet (and definitely not for nanbield). Perhaps once it h=
+as been under
+>> > > >     > test for a few weeks. I did the updates to get them some ext=
+ra soak time
+>> > > >     > and make them available in both the upcoming release (nanbie=
+ld) and
+>> > > >     > master for those that want to use the latest, without making=
+ it a default
+>> > > >     > version jump so late in the cycle.
+>> > > >     Ok.
+>> > > >
+>> > > > Thanks, Bruce.
+>> > > >
+>> > > >     > As for the changes in master, the 4.18 version on the _git r=
+ecipes is
+>> > > >     > intentional, as there's been no 4.19 tag that I can find and=
+ I don't bump
+>> > > >     > versions until I see that in the repo .. so for now, it is j=
+ust the +git
+>> > > >     > and +stable that is the difference between the 4.18 and _git=
+ versions.
+>> > > >     You won't see any 4.19 tag until the next release. The version=
+ is advertised in
+>> > > >     the main Makefile [1] and this is what user can see in the sys=
+tem
+>> > > >     (e.g. in the boot log, xl info, xen_version hypercall).
+>> > > >     Bumping the XEN_REL of master recipes
+>> > > >
+>> > > > I think it could be helpful for the context of this thread to desc=
+ribe them as the "git recipes" rather than using the term "master recipe", =
+because the latter unfortunately seems to convey that they are somehow supe=
+rior to the other, versioned, Xen recipes, when in practice they are not --=
+ they are deliberately not the default version of Xen that is built since, =
+as you note, they are defined:
+>> > > >
+>> > > >     to reflect the current development version
+>> > > >
+>> > > > of Xen. ie. The git recipes are present alongside the other recipe=
+s that provide the stable release version(s) of Xen.
+>> > > >
+>> > > > As Michal has noted above, putting 4.19 for XEN_REL into the git r=
+ecipe does look right from a Xen source tree perspective for that SRCREV, e=
+ven though there is not a 4.19 Xen release, but the proposed commit message=
+ should be updated to avoid the term "master recipe".
+>> > > Sounds good to me.
+>> > >
+>> > > @Bruce, may I please ask you to take my patch modifying XEN_REL and =
+do s/master/git in title on commit?
+>> > > If not, I will push a v2 of this patch.
+>> >
+>> > Regardless of what I've done in the past, I'm still inclined to hold
+>> > the line on the versioning until at least the first -rc is released.
+>> >
+>>
+>> FWIW, I also don't change the version of the linux-yocto-dev kernels
+>> until a valid
+>> -rc1 is released, even though the "version' has moved on from the previo=
+us
+>> release.
+>>
+>> That being said, until I find a better option to keep the versions repor=
+ted via
+>> the runtime to match the package version, I can either bump the version =
+or
+>> hold / revert the _git recipe until the first release candidates are out=
+.
+>>
+>> I'll go ahead and stage the change with the fixup, even if I don't like =
+the
+>> version management scheme :)
+>
+>
+> Thanks for the extra info, Bruce. So there is still a way to meet your ve=
+rsioning scheme and have the runtime version match the package version by c=
+hanging the default Xen branch selector in the git recipe via the XEN_BRANC=
+H variable to the latest stable branch, thus:
+>
 
-When using libvirtd on aarch64 platform, after system bootup, the log of libvirtd
-contains an error as below:
+After some additional poking around, I do want the recipe to follow master,
+since I should be keeping the 4.18 recipes up with the latest tip (I don't
+typically wait for releases to bump SRCREVs) of the same branch.
 
-libvirtd[417]: internal error: Child process (/usr/sbin/dmidecode -q -t 0,1,2,3,4,11,17) 
-unexpected exit status 127: 
-libvirt:  error : cannot execute binary /usr/sbin/dmidecode: No such file or directory
+Even though I don't like not having a -rc tag before bumping the version,
+there's no way around it in this case.
 
-After checking the libvirt source code, the arm/aarch64 also try to call dmidecode to get
-the system information[1], so add the dmidecode as depends under arm and aarch64 platform.
+I've tweaked the message and pushed this to master and nanbield.
 
-Ref:
-[1] https://github.com/libvirt/libvirt/blob/master/src/util/virsysinfo.c#L429
+Bruce
 
-Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
----
- recipes-extended/libvirt/libvirt_9.6.0.bb | 2 ++
- 1 file changed, 2 insertions(+)
 
-diff --git a/recipes-extended/libvirt/libvirt_9.6.0.bb b/recipes-extended/libvirt/libvirt_9.6.0.bb
-index c5d0d2cd..b63087e8 100644
---- a/recipes-extended/libvirt/libvirt_9.6.0.bb
-+++ b/recipes-extended/libvirt/libvirt_9.6.0.bb
-@@ -18,6 +18,8 @@ RDEPENDS:${PN} = "gettext-runtime"
- RDEPENDS:libvirt-libvirtd += "bridge-utils iptables pm-utils dnsmasq netcat-openbsd ebtables"
- RDEPENDS:libvirt-libvirtd:append:x86-64 = " dmidecode"
- RDEPENDS:libvirt-libvirtd:append:x86 = " dmidecode"
-+RDEPENDS:libvirt-libvirtd:append:arm = " dmidecode"
-+RDEPENDS:libvirt-libvirtd:append:aarch64 = " dmidecode"
- 
- #connman blocks the 53 port and libvirtd can't start its DNS service
- RCONFLICTS:${PN}_libvirtd = "connman"
--- 
-2.34.1
+> diff --git a/recipes-extended/xen/xen_git.bb b/recipes-extended/xen/xen_g=
+it.bb
+> index 784e71ce..547a7943 100644
+> --- a/recipes-extended/xen/xen_git.bb
+> +++ b/recipes-extended/xen/xen_git.bb
+> @@ -2,7 +2,7 @@
+>  SRCREV ?=3D "f96e2f64576cdbb147391c7cb399d393385719a9"
+>
+>  XEN_REL ?=3D "4.18"
+> -XEN_BRANCH ?=3D "master"
+> +XEN_BRANCH ?=3D "stable-4.18"
+>
+>  SRC_URI =3D " \
+>      git://xenbits.xen.org/xen.git;branch=3D${XEN_BRANCH} \
+>
+> and then anyone building a development version of Xen can update both the=
+ XEN_BRANCH and XEN_REL variables to match the revision that they are choos=
+ing to build.
+> Does that look OK?
+>
+> Or another option is to use the XEN_REL value to select the default stabl=
+e branch to use:
+>
+> diff --git a/recipes-extended/xen/xen_git.bb b/recipes-extended/xen/xen_g=
+it.bb
+> index 784e71ce..35e6b859 100644
+> --- a/recipes-extended/xen/xen_git.bb
+> +++ b/recipes-extended/xen/xen_git.bb
+> @@ -2,7 +2,7 @@
+>  SRCREV ?=3D "f96e2f64576cdbb147391c7cb399d393385719a9"
+>
+>  XEN_REL ?=3D "4.18"
+> -XEN_BRANCH ?=3D "master"
+> +XEN_BRANCH ?=3D "stable-${XEN_REL}"
+>
+>  SRC_URI =3D " \
+>      git://xenbits.xen.org/xen.git;branch=3D${XEN_BRAN
+>
+> Christopher
+>
+>
+>>
+>>
+>> Bruce
+>>
+>> > Bruce
+>> >
+>> > >
+>> > > ~Michal
+>> > >
+>> > >
+>> > >
+>> >
+>> >
+>> > --
+>> > - Thou shalt not follow the NULL pointer, for chaos and madness await
+>> > thee at its end
+>> > - "Use the force Harry" - Gandalf, Star Trek II
+>> >
+>> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>> > Links: You receive all messages sent to this group.
+>> > View/Reply Online (#8479): https://lists.yoctoproject.org/g/meta-virtu=
+alization/message/8479
+>> > Mute This Topic: https://lists.yoctoproject.org/mt/102826507/1050810
+>> > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+>> > Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/leav=
+e/6693017/1050810/978058475/xyzzy [bruce.ashfield@gmail.com]
+>> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>> >
+>>
+>>
+>> --
+>> - Thou shalt not follow the NULL pointer, for chaos and madness await
+>> thee at its end
+>> - "Use the force Harry" - Gandalf, Star Trek II
 
+
+
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
