@@ -1,139 +1,384 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <vkumbhar@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 635E1C35274
-	for <webhook@archiver.kernel.org>; Tue, 19 Dec 2023 03:04:24 +0000 (UTC)
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
- by mx.groups.io with SMTP id smtpd.web10.4220.1702955060270252422
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 11743C46CD2
+	for <webhook@archiver.kernel.org>; Tue, 19 Dec 2023 05:02:45 +0000 (UTC)
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+ by mx.groups.io with SMTP id smtpd.web11.5916.1702962157142827988
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 18 Dec 2023 19:04:20 -0800
+ Mon, 18 Dec 2023 21:02:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=JY3Qt4u2;
- spf=pass (domain: gmail.com, ip: 209.85.222.177, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-78102c516a7so4642285a.2
-        for <meta-virtualization@lists.yoctoproject.org>; Mon, 18 Dec 2023 19:04:20 -0800 (PST)
+ dkim=pass header.i=@mvista.com header.s=google header.b=WBOTiil9;
+ spf=pass (domain: mvista.com, ip: 209.85.210.177, mailfrom: vkumbhar@mvista.com)
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-6d728c75240so1808813b3a.1
+        for <meta-virtualization@lists.yoctoproject.org>; Mon, 18 Dec 2023 21:02:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702955059; x=1703559859; darn=lists.yoctoproject.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=NVcrb7p5xtQrSrwq3yDI5+fjnjyhl07HSQgGaaRENZY=;
-        b=JY3Qt4u2ljXg8ZGqfJWO7l0dXXvtHuCUnvdgGU9QQB46nVlt+PH/ZR7JLvRiIXYRD2
-         iF4ChxRRqsVQottsI/m5n6B66hx/qwpg43+Ypoyl039BoPwvSyKpVmk2pk/8M59+olLb
-         6A/W+a2NlxbuuiD+wy4oj3Kizz44rzKdPNPHnoKbi1T5g33rpkn1hMCoYLVcl6GzDFhu
-         19YZ3SvM7NYciBu3EL265BMyW1NwNlNo/fe0cwGyqwnsUSw0Ae06sdZ6OcLTqHOGwhuV
-         8EUn5ihBWrJ2oyIEMYovLoiF1WrPTCW+GN1hnD/u1apjCzFP8/CCcuY/xLP1zMyoC3Zf
-         LFlQ==
+        d=mvista.com; s=google; t=1702962155; x=1703566955; darn=lists.yoctoproject.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=hMKvCY/ACdeniC8s1ISWx9APL5D87K6sL/E2J3g8xn8=;
+        b=WBOTiil9pyaktHpNAX0vljAIYMAV74DJAuWGASDWH5Qc5LoDiqK2KlFbLxCYInAJgF
+         T6Hs+MYW1D8JYr6f5QWg73A9o/hhs6eD4iqmrKED/9NCz6OOcew9jby1TjDAuzA3QTTN
+         DQPKjNpGHIs9NXY8iQAhyxcZ+RK3rZigVJqoM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702955059; x=1703559859;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NVcrb7p5xtQrSrwq3yDI5+fjnjyhl07HSQgGaaRENZY=;
-        b=vhB1/Sjl1Sk8ozuporMH2sBCm7Ir4dRiDNa7G0n1DY0Uid5z971YLyEN1cgLO+nN4Z
-         MKYj4KyZl9RuIGYCjGL8CL7GA+WZpHMLFxhIBoyvvQ7daGbPm1mOtBDlXt+8NHBl9fYN
-         GIpZ4fn9Dn6ss7VHAaGGGUQ3aBeLDna40nosCiQPQa4oni3QDrYCfO7y5gQ77rhR7rnq
-         VLPuPSxKM8fj/ivibadtpHnGlV2E2WVL54EO5uulOISrbhk2mxtEVQVxVCov+Vb6EWMg
-         rb3kxgngzAQ9py0H9ADCnqK1XAfjksfO217oxaJC6LmlEvuuDuXe7BO/5EOrb9i29OnT
-         NJWQ==
-X-Gm-Message-State: AOJu0YyyxBwNKikC7ADSZoT1uJh0EDByRz2guQsh7e0FzReX0CJ7yQCR
-	KgGppHZcHCUS8+CvmpmrzVo=
-X-Google-Smtp-Source: AGHT+IEo/P2Iu5gR9isyY8lDp2NzktUZBWACrUyF4SuRg1jmiv7CXFnvW1mSA+/LE3MRoxOBDPM5ZQ==
-X-Received: by 2002:a05:620a:1244:b0:77f:3126:c016 with SMTP id a4-20020a05620a124400b0077f3126c016mr19740600qkl.124.1702955059160;
-        Mon, 18 Dec 2023 19:04:19 -0800 (PST)
-Received: from gmail.com ([174.112.183.231])
-        by smtp.gmail.com with ESMTPSA id uw2-20020a05620a4d8200b0077f103c8ad6sm8813231qkn.82.2023.12.18.19.04.18
+        d=1e100.net; s=20230601; t=1702962155; x=1703566955;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hMKvCY/ACdeniC8s1ISWx9APL5D87K6sL/E2J3g8xn8=;
+        b=kpTUBg8KfIL8MQs/FO8CFE6NPzskAunZ45YRbYOyhrGRNsodnsQ0GGb8YfXPgxCWP5
+         RfFRi+0hlLPz3k+VUQGIfRkNmA4BhiAI0avPG4sdL6j51Jk6Fi/Hw/Vky23GpqhHBM88
+         8dHCggfZY80k5IdumXpmqnM1zkXrbVg7mTuyPKp1n0cwC6lm/O/EL50tkMjWeFr5kyvC
+         slqgZNZn5tbyCAe+XENudJom4Xn+3qi0ljE5ZDwjq74Le98urQfwdSnYng8PpkoWycTm
+         E5AXA6MjZfjijftQHGkfY0wQ4hkxczN/2kZgxDZ4VI5SNNhBs39BscX88eoyyHRG3UHG
+         i/ig==
+X-Gm-Message-State: AOJu0YyEMl+0z1Boa/3GtB14gF9+P+wmrYQ634wHWhGkxG76H15LJ01s
+	WLWG2fdj2Z5pkgY+s4svw2wfoyVhu3nC+BaQm6c=
+X-Google-Smtp-Source: AGHT+IHMCFoolMvs9ECsywsPtUTisTGakrIGMYotXfe8nge40FJVquZNiU+/YCQ+6FAE1+1lOmQoDw==
+X-Received: by 2002:a05:6a20:914f:b0:18b:92b1:37b8 with SMTP id x15-20020a056a20914f00b0018b92b137b8mr22272554pzc.33.1702962155431;
+        Mon, 18 Dec 2023 21:02:35 -0800 (PST)
+Received: from localhost.localdomain ([116.75.160.244])
+        by smtp.gmail.com with ESMTPSA id w22-20020a63c116000000b005cd9bc22bdfsm2732220pgf.87.2023.12.18.21.02.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Dec 2023 19:04:18 -0800 (PST)
-Date: Tue, 19 Dec 2023 03:04:17 +0000
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: sandeep.gundlupet-raju@amd.com
-Cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [meta-virtualization][PATCH] zynqmp-xen-qemu.dtsi: Remove
- device_type dt nodes
-Message-ID: <ZYEIMaQFGHLqzq17@gmail.com>
-References: <20231213010029.2111483-1-sandeep.gundlupet-raju@amd.com>
- <ZXte4Xc5wn89MFlU@gmail.com>
- <a5aa7075-f6f5-4029-b301-d36ca47a56b2@amd.com>
+        Mon, 18 Dec 2023 21:02:34 -0800 (PST)
+From: Vivek Kumbhar <vkumbhar@mvista.com>
+To: meta-virtualization@lists.yoctoproject.org
+Cc: Vivek Kumbhar <vkumbhar@mvista.com>
+Subject: [meta-virtualization][kirkstone][PATCH v2] cloud-init: fix CVE-2023-1786 sensitive data could be exposed in logs
+Date: Tue, 19 Dec 2023 10:32:17 +0530
+Message-Id: <20231219050217.4693-1-vkumbhar@mvista.com>
+X-Mailer: git-send-email 2.39.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a5aa7075-f6f5-4029-b301-d36ca47a56b2@amd.com>
+Content-Transfer-Encoding: 8bit
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Tue, 19 Dec 2023 03:04:24 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8514
+ <meta-virtualization@lists.yoctoproject.org>; Tue, 19 Dec 2023 05:02:45 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8515
 
+Upstream-Status: Backport from https://github.com/canonical/cloud-init/commit/a378b7e4f47375458651c0972e7cd813f6fe0a6b
 
-In message: Re: [meta-virtualization][PATCH] zynqmp-xen-qemu.dtsi: Remove device_type dt nodes
-on 15/12/2023 Sandeep Gundlupet Raju via lists.yoctoproject.org wrote:
+Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
+---
+ .../cloud-init/cloud-init/CVE-2023-1786.patch | 294 ++++++++++++++++++
+ .../cloud-init/cloud-init_21.4.bb             |   1 +
+ 2 files changed, 295 insertions(+)
+ create mode 100644 recipes-extended/cloud-init/cloud-init/CVE-2023-1786.patch
 
-> Hi Bruce,
-> 
-> Can you apply this patch to Nanbield?
-
-No problem. This is now merged.
-
-Bruce
-
-> 
-> Thanks,
-> 
-> Sandeep
-> 
-> On 12/14/2023 1:00 PM, Bruce Ashfield via lists.yoctoproject.org wrote:
-> > merged to master.
-> > 
-> > Bruce
-> > 
-> > In message: [meta-virtualization][PATCH] zynqmp-xen-qemu.dtsi: Remove device_type dt nodes
-> > on 12/12/2023 Sandeep Gundlupet Raju wrote:
-> > 
-> > > Remove device_type device tree nodes as these nodes are no longer
-> > > required for Xen qemu boot.
-> > > 
-> > > Signed-off-by: Sandeep Gundlupet Raju <sandeep.gundlupet-raju@amd.com>
-> > > ---
-> > >   .../device-tree/files/zynqmp-xen-qemu.dtsi         | 14 --------------
-> > >   1 file changed, 14 deletions(-)
-> > > 
-> > > diff --git a/dynamic-layers/xilinx/recipes-bsp/device-tree/files/zynqmp-xen-qemu.dtsi b/dynamic-layers/xilinx/recipes-bsp/device-tree/files/zynqmp-xen-qemu.dtsi
-> > > index 249a786b..336d7a25 100644
-> > > --- a/dynamic-layers/xilinx/recipes-bsp/device-tree/files/zynqmp-xen-qemu.dtsi
-> > > +++ b/dynamic-layers/xilinx/recipes-bsp/device-tree/files/zynqmp-xen-qemu.dtsi
-> > > @@ -1,16 +1,2 @@
-> > >   / {
-> > > -        cpus {
-> > > -                cpu@1 {
-> > > -                        //compatible = "disabled";
-> > > -                        device_type = "none";
-> > > -                };
-> > > -                cpu@2 {
-> > > -                        //compatible = "disabled";
-> > > -                        device_type = "none";
-> > > -                };
-> > > -                cpu@3 {
-> > > -                        //compatible = "disabled";
-> > > -                        device_type = "none";
-> > > -                };
-> > > -        };
-> > >   };
-> > > -- 
-> > > 2.34.1
-> > > 
-> > > 
-> > > 
-> > > 
-
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#8509): https://lists.yoctoproject.org/g/meta-virtualization/message/8509
-> Mute This Topic: https://lists.yoctoproject.org/mt/103141849/1050810
-> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+diff --git a/recipes-extended/cloud-init/cloud-init/CVE-2023-1786.patch b/recipes-extended/cloud-init/cloud-init/CVE-2023-1786.patch
+new file mode 100644
+index 00000000..425edd97
+--- /dev/null
++++ b/recipes-extended/cloud-init/cloud-init/CVE-2023-1786.patch
+@@ -0,0 +1,294 @@
++From a378b7e4f47375458651c0972e7cd813f6fe0a6b Mon Sep 17 00:00:00 2001
++From: James Falcon <james.falcon@canonical.com>
++Date: Wed, 26 Apr 2023 15:11:55 -0500
++Subject: [PATCH] Make user/vendor data sensitive and remove log permissions
++(#2144)
++
++Because user data and vendor data may contain sensitive information,
++this commit ensures that any user data or vendor data written to
++instance-data.json gets redacted and is only available to root user.
++
++Also, modify the permissions of cloud-init.log to be 640, so that
++sensitive data leaked to the log isn't world readable.
++Additionally, remove the logging of user data and vendor data to
++cloud-init.log from the Vultr datasource.
++
++LP: #2013967
++CVE: CVE-2023-1786
++
++Upstream-Status: Backport [https://github.com/canonical/cloud-init/commit/a378b7e4f47375458651c0972e7cd813f6fe0a6b]
++CVE: CVE-2023-1786
++Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
++---
++ cloudinit/sources/DataSourceLXD.py   |  8 ++++++--
++ cloudinit/sources/DataSourceVultr.py | 14 ++++++--------
++ cloudinit/sources/__init__.py        | 28 +++++++++++++++++++++++++---
++ cloudinit/stages.py                  |  4 +++-
++ tests/unittests/sources/test_init.py | 27 ++++++++++++++++++++++++++-
++ tests/unittests/test_stages.py       | 16 +++++++++-------
++ 6 files changed, 75 insertions(+), 22 deletions(-)
++
++diff --git a/cloudinit/sources/DataSourceLXD.py b/cloudinit/sources/DataSourceLXD.py
++index 071ea87cf..ea81ccb42 100644
++--- a/cloudinit/sources/DataSourceLXD.py
+++++ b/cloudinit/sources/DataSourceLXD.py
++@@ -13,6 +13,7 @@ import os
++ import socket
++ import stat
++ from json.decoder import JSONDecodeError
+++from typing import Any, Dict, List, Optional, Tuple, Union, cas
++
++ import requests
++ from requests.adapters import HTTPAdapter
++@@ -170,11 +171,14 @@ class DataSourceLXD(sources.DataSource):
++     _network_config = sources.UNSET
++     _crawled_metadata = sources.UNSET
++
++-    sensitive_metadata_keys = (
++-        "merged_cfg",
+++    sensitive_metadata_keys: Tuple[
+++        str, ...
+++    ] = sources.DataSource.sensitive_metadata_keys + (
++         "user.meta-data",
++         "user.vendor-data",
++         "user.user-data",
+++        "cloud-init.user-data",
+++        "cloud-init.vendor-data",
++     )
++
++     def _is_platform_viable(self) -> bool:
++diff --git a/cloudinit/sources/DataSourceVultr.py b/cloudinit/sources/DataSourceVultr.py
++index 13f7c24d6..debebc0d7 100644
++--- a/cloudinit/sources/DataSourceVultr.py
+++++ b/cloudinit/sources/DataSourceVultr.py
++@@ -5,6 +5,8 @@
++ # Vultr Metadata API:
++ # https://www.vultr.com/metadata/
++
+++from typing import Tuple
+++
++ import cloudinit.sources.helpers.vultr as vultr
++ from cloudinit import log as log
++ from cloudinit import sources, util, version
++@@ -28,6 +30,10 @@ class DataSourceVultr(sources.DataSource):
++
++     dsname = "Vultr"
++
+++    sensitive_metadata_keys: Tuple[
+++        str, ...
+++    ] = sources.DataSource.sensitive_metadata_keys + ("startup-script",)
+++
++     def __init__(self, sys_cfg, distro, paths):
++         super(DataSourceVultr, self).__init__(sys_cfg, distro, paths)
++         self.ds_cfg = util.mergemanydict(
++@@ -56,13 +62,8 @@ class DataSourceVultr(sources.DataSource):
++         self.get_datasource_data(self.metadata)
++
++         # Dump some data so diagnosing failures is manageable
++-        LOG.debug("Vultr Vendor Config:")
++-        LOG.debug(util.json_dumps(self.metadata["vendor-data"]))
++         LOG.debug("SUBID: %s", self.metadata["instance-id"])
++         LOG.debug("Hostname: %s", self.metadata["local-hostname"])
++-        if self.userdata_raw is not None:
++-            LOG.debug("User-Data:")
++-            LOG.debug(self.userdata_raw)
++
++         return True
++
++@@ -147,7 +148,4 @@ if __name__ == "__main__":
++     config = md["vendor-data"]
++     sysinfo = vultr.get_sysinfo()
++
++-    print(util.json_dumps(sysinfo))
++-    print(util.json_dumps(config))
++-
++ # vi: ts=4 expandtab
++diff --git a/cloudinit/sources/__init__.py b/cloudinit/sources/__init__.py
++index 9083f3995..8fb9d4cba 100644
++--- a/cloudinit/sources/__init__.py
+++++ b/cloudinit/sources/__init__.py
++@@ -103,7 +103,10 @@ def process_instance_metadata(metadata, key_path="", sensitive_keys=()):
++             sub_key_path = key_path + "/" + key
++         else:
++             sub_key_path = key
++-        if key in sensitive_keys or sub_key_path in sensitive_keys:
+++        if (
+++            key.lower() in sensitive_keys
+++            or sub_key_path.lower() in sensitive_keys
+++        ):
++             sens_keys.append(sub_key_path)
++         if isinstance(val, str) and val.startswith("ci-b64:"):
++             base64_encoded_keys.append(sub_key_path)
++@@ -125,6 +128,12 @@ def redact_sensitive_keys(metadata, redact_value=REDACT_SENSITIVE_VALUE):
++
++     Replace any keys values listed in 'sensitive_keys' with redact_value.
++     """
+++    # While 'sensitive_keys' should already sanitized to only include what
+++    # is in metadata, it is possible keys will overlap. For example, if
+++    # "merged_cfg" and "merged_cfg/ds/userdata" both match, it's possible that
+++    # "merged_cfg" will get replaced first, meaning "merged_cfg/ds/userdata"
+++    # no longer represents a valid key.
+++    # Thus, we still need to do membership checks in this function.
++     if not metadata.get("sensitive_keys", []):
++         return metadata
++     md_copy = copy.deepcopy(metadata)
++@@ -132,9 +141,14 @@ def redact_sensitive_keys(metadata, redact_value=REDACT_SENSITIVE_VALUE):
++         path_parts = key_path.split("/")
++         obj = md_copy
++         for path in path_parts:
++-            if isinstance(obj[path], dict) and path != path_parts[-1]:
+++            if (
+++                path in obj
+++                and isinstance(obj[path], dict)
+++                and path != path_parts[-1]
+++            ):
++                 obj = obj[path]
++-        obj[path] = redact_value
+++        if path in obj:
+++            obj[path] = redact_value
++     return md_copy
++
++
++@@ -237,6 +251,14 @@ class DataSource(CloudInitPickleMixin, metaclass=abc.ABCMeta):
++     sensitive_metadata_keys = (
++         "merged_cfg",
++         "security-credentials",
+++        "userdata",
+++        "user-data",
+++        "user_data",
+++        "vendordata",
+++        "vendor-data",
+++        # Provide ds/vendor_data to avoid redacting top-level
+++        #  "vendor_data": {enabled: True}
+++        "ds/vendor_data",
++     )
++
++     _ci_pkl_version = 1
++diff --git a/cloudinit/stages.py b/cloudinit/stages.py
++index b1a6bc495..85db6bec8 100644
++--- a/cloudinit/stages.py
+++++ b/cloudinit/stages.py
++@@ -202,7 +202,9 @@ class Init(object):
++         util.ensure_dirs(self._initial_subdirs())
++         log_file = util.get_cfg_option_str(self.cfg, "def_log_file")
++         if log_file:
++-            util.ensure_file(log_file, mode=0o640, preserve_mode=True)
+++            # At this point the log file should have already been created
+++            # in the setupLogging function of log.py
+++            util.ensure_file(log_file, mode=0o640, preserve_mode=False)
++             perms = self.cfg.get("syslog_fix_perms")
++             if not perms:
++                 perms = {}
++diff --git a/tests/unittests/sources/test_init.py b/tests/unittests/sources/test_init.py
++index 745a7fa6b..6eebb512d 100644
++--- a/tests/unittests/sources/test_init.py
+++++ b/tests/unittests/sources/test_init.py
++@@ -442,12 +442,24 @@ class TestDataSource(CiTestCase):
++                         "cred2": "othersekret",
++                     }
++                 },
+++                "someother": {
+++                    "nested": {
+++                        "userData": "HIDE ME",
+++                    }
+++                },
+++                "VENDOR-DAta": "HIDE ME TOO",
++             },
++         )
++         self.assertCountEqual(
++             (
++                 "merged_cfg",
++                 "security-credentials",
+++                "userdata",
+++                "user-data",
+++                "user_data",
+++                "vendordata",
+++                "vendor-data",
+++                "ds/vendor_data",
++             ),
++             datasource.sensitive_metadata_keys,
++         )
++@@ -474,7 +486,9 @@ class TestDataSource(CiTestCase):
++             "base64_encoded_keys": [],
++             "merged_cfg": REDACT_SENSITIVE_VALUE,
++             "sensitive_keys": [
+++                "ds/meta_data/VENDOR-DAta",
++                 "ds/meta_data/some/security-credentials",
+++                "ds/meta_data/someother/nested/userData",
++                 "merged_cfg",
++             ],
++             "sys_info": sys_info,
++@@ -484,6 +498,7 @@ class TestDataSource(CiTestCase):
++                 "availability_zone": "myaz",
++                 "cloud-name": "subclasscloudname",
++                 "cloud_name": "subclasscloudname",
+++                "cloud_id": "subclasscloudname",
++                 "distro": "ubuntu",
++                 "distro_release": "focal",
++                 "distro_version": "20.04",
++@@ -506,14 +521,18 @@ class TestDataSource(CiTestCase):
++             "ds": {
++                 "_doc": EXPERIMENTAL_TEXT,
++                 "meta_data": {
+++                    "VENDOR-DAta": REDACT_SENSITIVE_VALUE,
++                     "availability_zone": "myaz",
++                     "local-hostname": "test-subclass-hostname",
++                     "region": "myregion",
++                     "some": {"security-credentials": REDACT_SENSITIVE_VALUE},
+++                    "someother": {
+++                        "nested": {"userData": REDACT_SENSITIVE_VALUE}
+++                    },
++                 },
++             },
++         }
++-        self.assertCountEqual(expected, redacted)
+++        self.assertEqual(expected, redacted)
++         file_stat = os.stat(json_file)
++         self.assertEqual(0o644, stat.S_IMODE(file_stat.st_mode))
++
++@@ -558,6 +577,12 @@ class TestDataSource(CiTestCase):
++             (
++                 "merged_cfg",
++                 "security-credentials",
+++                "userdata",
+++                "user-data",
+++                "user_data",
+++                "vendordata",
+++                "vendor-data",
+++                "ds/vendor_data",
++             ),
++             datasource.sensitive_metadata_keys,
++         )
++diff --git a/tests/unittests/test_stages.py b/tests/unittests/test_stages.py
++index be1a07870..2a9593f61 100644
++--- a/tests/unittests/test_stages.py
+++++ b/tests/unittests/test_stages.py
++@@ -547,17 +547,19 @@ class TestInit_InitializeFilesystem:
++         # Assert we create it 0o640  by default if it doesn't already exist
++         assert 0o640 == stat.S_IMODE(log_file.stat().mode)
++
++-    def test_existing_file_permissions_are_not_modified(self, init, tmpdir):
++-        """If the log file already exists, we should not modify its permissions
++-
+++    def test_existing_file_permissions(self, init, tmpdir):
+++        """Test file permissions are set as expected.
+++        CIS Hardening requires 640 permissions. These permissions are
+++        currently hardcoded on every boot, but if there's ever a reason
+++        to change this, we need to then ensure that they
+++        are *not* set every boot.
++         See https://bugs.launchpad.net/cloud-init/+bug/1900837.
++         """
++-        # Use a mode that will never be made the default so this test will
++-        # always be valid
++-        mode = 0o606
++         log_file = tmpdir.join("cloud-init.log")
++         log_file.ensure()
++-        log_file.chmod(mode)
+++        # Use a mode that will never be made the default so this test will
+++        # always be valid
+++        log_file.chmod(0o606)
++         init._cfg = {"def_log_file": str(log_file)}
++
++         init._initialize_filesystem()
++--
++2.35.7
+diff --git a/recipes-extended/cloud-init/cloud-init_21.4.bb b/recipes-extended/cloud-init/cloud-init_21.4.bb
+index 5cb62272..b9573420 100644
+--- a/recipes-extended/cloud-init/cloud-init_21.4.bb
++++ b/recipes-extended/cloud-init/cloud-init_21.4.bb
+@@ -9,6 +9,7 @@ SRC_URI = "git://github.com/canonical/cloud-init;branch=main;protocol=https \
+     file://cloud-init-source-local-lsb-functions.patch \
+     file://0001-setup.py-check-for-install-anywhere-in-args.patch \
+     file://0001-setup.py-respect-udevdir-variable.patch \
++    file://CVE-2023-1786.patch \
+ "
+ 
+ S = "${WORKDIR}/git"
+-- 
+2.39.3
 
 
