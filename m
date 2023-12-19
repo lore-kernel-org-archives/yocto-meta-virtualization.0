@@ -1,384 +1,296 @@
-Return-Path: <vkumbhar@mvista.com>
+Return-Path: <liu.ming50@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11743C46CD2
-	for <webhook@archiver.kernel.org>; Tue, 19 Dec 2023 05:02:45 +0000 (UTC)
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
- by mx.groups.io with SMTP id smtpd.web11.5916.1702962157142827988
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C5E5C41535
+	for <webhook@archiver.kernel.org>; Tue, 19 Dec 2023 08:34:58 +0000 (UTC)
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+ by mx.groups.io with SMTP id smtpd.web11.8025.1702974897125247759
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 18 Dec 2023 21:02:37 -0800
+ Tue, 19 Dec 2023 00:34:57 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=WBOTiil9;
- spf=pass (domain: mvista.com, ip: 209.85.210.177, mailfrom: vkumbhar@mvista.com)
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-6d728c75240so1808813b3a.1
-        for <meta-virtualization@lists.yoctoproject.org>; Mon, 18 Dec 2023 21:02:37 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Zb3bDq6J;
+ spf=pass (domain: gmail.com, ip: 209.85.214.181, mailfrom: liu.ming50@gmail.com)
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-1d3dee5f534so2113135ad.1
+        for <meta-virtualization@lists.yoctoproject.org>; Tue, 19 Dec 2023 00:34:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1702962155; x=1703566955; darn=lists.yoctoproject.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=hMKvCY/ACdeniC8s1ISWx9APL5D87K6sL/E2J3g8xn8=;
-        b=WBOTiil9pyaktHpNAX0vljAIYMAV74DJAuWGASDWH5Qc5LoDiqK2KlFbLxCYInAJgF
-         T6Hs+MYW1D8JYr6f5QWg73A9o/hhs6eD4iqmrKED/9NCz6OOcew9jby1TjDAuzA3QTTN
-         DQPKjNpGHIs9NXY8iQAhyxcZ+RK3rZigVJqoM=
+        d=gmail.com; s=20230601; t=1702974896; x=1703579696; darn=lists.yoctoproject.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=9w5C3r5lsR9gwB+IIPto37RyCWSKDXpQ49Exz+MzIjw=;
+        b=Zb3bDq6J5w3Qcz1P7Kp4DGu71YbxSyTgQbycDd1Tu1LyK6rRjW93LeBupmr5x8xQsE
+         ngWR/Jl8PLwwfl2lymgBJQEsb2mUq67zXG7PQtaAJ3vThARyxIPmSgGbgckAdd5ksvaa
+         CUnWlx4x3DlSffFxHO1ASdXq7CX+ZVZUSU7Chnnqjx2mbfXQpC+tWJszd13WTlK3EdJX
+         fkO8viL5EFs5kNzto6pp4KPi53ZZWjwHmDbFFcMGoDy6RYNuYIzeJ2eATA5/wdPVDghd
+         0qmVPIboqSPztfp8kNG/3N6GSq+Kd4OCZM/xu87JIxp9l36w/vT+o3SIrFzs4dAU5WYM
+         gpYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702962155; x=1703566955;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1702974896; x=1703579696;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=hMKvCY/ACdeniC8s1ISWx9APL5D87K6sL/E2J3g8xn8=;
-        b=kpTUBg8KfIL8MQs/FO8CFE6NPzskAunZ45YRbYOyhrGRNsodnsQ0GGb8YfXPgxCWP5
-         RfFRi+0hlLPz3k+VUQGIfRkNmA4BhiAI0avPG4sdL6j51Jk6Fi/Hw/Vky23GpqhHBM88
-         8dHCggfZY80k5IdumXpmqnM1zkXrbVg7mTuyPKp1n0cwC6lm/O/EL50tkMjWeFr5kyvC
-         slqgZNZn5tbyCAe+XENudJom4Xn+3qi0ljE5ZDwjq74Le98urQfwdSnYng8PpkoWycTm
-         E5AXA6MjZfjijftQHGkfY0wQ4hkxczN/2kZgxDZ4VI5SNNhBs39BscX88eoyyHRG3UHG
-         i/ig==
-X-Gm-Message-State: AOJu0YyEMl+0z1Boa/3GtB14gF9+P+wmrYQ634wHWhGkxG76H15LJ01s
-	WLWG2fdj2Z5pkgY+s4svw2wfoyVhu3nC+BaQm6c=
-X-Google-Smtp-Source: AGHT+IHMCFoolMvs9ECsywsPtUTisTGakrIGMYotXfe8nge40FJVquZNiU+/YCQ+6FAE1+1lOmQoDw==
-X-Received: by 2002:a05:6a20:914f:b0:18b:92b1:37b8 with SMTP id x15-20020a056a20914f00b0018b92b137b8mr22272554pzc.33.1702962155431;
-        Mon, 18 Dec 2023 21:02:35 -0800 (PST)
-Received: from localhost.localdomain ([116.75.160.244])
-        by smtp.gmail.com with ESMTPSA id w22-20020a63c116000000b005cd9bc22bdfsm2732220pgf.87.2023.12.18.21.02.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Dec 2023 21:02:34 -0800 (PST)
-From: Vivek Kumbhar <vkumbhar@mvista.com>
-To: meta-virtualization@lists.yoctoproject.org
-Cc: Vivek Kumbhar <vkumbhar@mvista.com>
-Subject: [meta-virtualization][kirkstone][PATCH v2] cloud-init: fix CVE-2023-1786 sensitive data could be exposed in logs
-Date: Tue, 19 Dec 2023 10:32:17 +0530
-Message-Id: <20231219050217.4693-1-vkumbhar@mvista.com>
-X-Mailer: git-send-email 2.39.3
+        bh=9w5C3r5lsR9gwB+IIPto37RyCWSKDXpQ49Exz+MzIjw=;
+        b=dB0+vs3Ra2nI0X9PWM29sPPO8CiFbYbu23fA0fEr3ELxLvzorzEyZeJ1x9TKSzkgoL
+         Kv1G75v3yYr0x5WNj2ORZmgo3fWm3iFL6OXAWv+J10tb1jY2lqGVZe+P28UabTJ/3HjX
+         ZK9Z8M+g1eIEvDD3WJtHs6jc88XynuReiB5R43JdxgOtp3c5j3/Ju9MaJbQROolwqyjb
+         Uh9bxAzAOyMvYigIWPC42h/AwRfApa2ddpyVJmuPk8kGah6zXlG5yyFSZMQ5LMZ9heqn
+         WDlnNNl4NkmR9eiggSkKfG2SYNMN2lMfo/XPi+HQ2UUyC16NFSJtcPjV5MOUGGmAL1LX
+         HXrg==
+X-Gm-Message-State: AOJu0Yx6pj04uNVJn4LzEzHLpDC6VzNtDv7PUu/tuJ5GIbQAEviVDNhN
+	VQ1Yl1imxkoFolfmLbsn3Rw8vKcm2RBufFCn4yE=
+X-Google-Smtp-Source: AGHT+IEzz8GBPVmQm6ikt/mua3xQrMRUs8DSDM7rYrVooworUHG2lHmSubhXyj5V6bU/h2F2JXUv4qzK7nOdsfgCklU=
+X-Received: by 2002:a17:90a:6f06:b0:28b:c1a9:97c2 with SMTP id
+ d6-20020a17090a6f0600b0028bc1a997c2mr158021pjk.12.1702974895633; Tue, 19 Dec
+ 2023 00:34:55 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20231216102601.54277-1-liu.ming50@gmail.com> <ZYEH8GQs9IbnUptj@gmail.com>
+In-Reply-To: <ZYEH8GQs9IbnUptj@gmail.com>
+From: Ming Liu <liu.ming50@gmail.com>
+Date: Tue, 19 Dec 2023 09:34:44 +0100
+Message-ID: <CALatG=6otBjmxvtkvr04XZ_5Yyuux40jT7Z31B9j4fD_e+sceg@mail.gmail.com>
+Subject: Re: [meta-virtualization][PATCH] docker-compose: introduce pkgconfig docker-plugin
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: meta-virtualization@lists.yoctoproject.org
+Content-Type: multipart/alternative; boundary="000000000000b73a36060cd8bdff"
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Tue, 19 Dec 2023 05:02:45 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8515
+ <meta-virtualization@lists.yoctoproject.org>; Tue, 19 Dec 2023 08:34:58 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8516
 
-Upstream-Status: Backport from https://github.com/canonical/cloud-init/commit/a378b7e4f47375458651c0972e7cd813f6fe0a6b
+--000000000000b73a36060cd8bdff
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
----
- .../cloud-init/cloud-init/CVE-2023-1786.patch | 294 ++++++++++++++++++
- .../cloud-init/cloud-init_21.4.bb             |   1 +
- 2 files changed, 295 insertions(+)
- create mode 100644 recipes-extended/cloud-init/cloud-init/CVE-2023-1786.patch
+Hi, Bruce:
 
-diff --git a/recipes-extended/cloud-init/cloud-init/CVE-2023-1786.patch b/recipes-extended/cloud-init/cloud-init/CVE-2023-1786.patch
-new file mode 100644
-index 00000000..425edd97
---- /dev/null
-+++ b/recipes-extended/cloud-init/cloud-init/CVE-2023-1786.patch
-@@ -0,0 +1,294 @@
-+From a378b7e4f47375458651c0972e7cd813f6fe0a6b Mon Sep 17 00:00:00 2001
-+From: James Falcon <james.falcon@canonical.com>
-+Date: Wed, 26 Apr 2023 15:11:55 -0500
-+Subject: [PATCH] Make user/vendor data sensitive and remove log permissions
-+(#2144)
-+
-+Because user data and vendor data may contain sensitive information,
-+this commit ensures that any user data or vendor data written to
-+instance-data.json gets redacted and is only available to root user.
-+
-+Also, modify the permissions of cloud-init.log to be 640, so that
-+sensitive data leaked to the log isn't world readable.
-+Additionally, remove the logging of user data and vendor data to
-+cloud-init.log from the Vultr datasource.
-+
-+LP: #2013967
-+CVE: CVE-2023-1786
-+
-+Upstream-Status: Backport [https://github.com/canonical/cloud-init/commit/a378b7e4f47375458651c0972e7cd813f6fe0a6b]
-+CVE: CVE-2023-1786
-+Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
-+---
-+ cloudinit/sources/DataSourceLXD.py   |  8 ++++++--
-+ cloudinit/sources/DataSourceVultr.py | 14 ++++++--------
-+ cloudinit/sources/__init__.py        | 28 +++++++++++++++++++++++++---
-+ cloudinit/stages.py                  |  4 +++-
-+ tests/unittests/sources/test_init.py | 27 ++++++++++++++++++++++++++-
-+ tests/unittests/test_stages.py       | 16 +++++++++-------
-+ 6 files changed, 75 insertions(+), 22 deletions(-)
-+
-+diff --git a/cloudinit/sources/DataSourceLXD.py b/cloudinit/sources/DataSourceLXD.py
-+index 071ea87cf..ea81ccb42 100644
-+--- a/cloudinit/sources/DataSourceLXD.py
-++++ b/cloudinit/sources/DataSourceLXD.py
-+@@ -13,6 +13,7 @@ import os
-+ import socket
-+ import stat
-+ from json.decoder import JSONDecodeError
-++from typing import Any, Dict, List, Optional, Tuple, Union, cas
-+
-+ import requests
-+ from requests.adapters import HTTPAdapter
-+@@ -170,11 +171,14 @@ class DataSourceLXD(sources.DataSource):
-+     _network_config = sources.UNSET
-+     _crawled_metadata = sources.UNSET
-+
-+-    sensitive_metadata_keys = (
-+-        "merged_cfg",
-++    sensitive_metadata_keys: Tuple[
-++        str, ...
-++    ] = sources.DataSource.sensitive_metadata_keys + (
-+         "user.meta-data",
-+         "user.vendor-data",
-+         "user.user-data",
-++        "cloud-init.user-data",
-++        "cloud-init.vendor-data",
-+     )
-+
-+     def _is_platform_viable(self) -> bool:
-+diff --git a/cloudinit/sources/DataSourceVultr.py b/cloudinit/sources/DataSourceVultr.py
-+index 13f7c24d6..debebc0d7 100644
-+--- a/cloudinit/sources/DataSourceVultr.py
-++++ b/cloudinit/sources/DataSourceVultr.py
-+@@ -5,6 +5,8 @@
-+ # Vultr Metadata API:
-+ # https://www.vultr.com/metadata/
-+
-++from typing import Tuple
-++
-+ import cloudinit.sources.helpers.vultr as vultr
-+ from cloudinit import log as log
-+ from cloudinit import sources, util, version
-+@@ -28,6 +30,10 @@ class DataSourceVultr(sources.DataSource):
-+
-+     dsname = "Vultr"
-+
-++    sensitive_metadata_keys: Tuple[
-++        str, ...
-++    ] = sources.DataSource.sensitive_metadata_keys + ("startup-script",)
-++
-+     def __init__(self, sys_cfg, distro, paths):
-+         super(DataSourceVultr, self).__init__(sys_cfg, distro, paths)
-+         self.ds_cfg = util.mergemanydict(
-+@@ -56,13 +62,8 @@ class DataSourceVultr(sources.DataSource):
-+         self.get_datasource_data(self.metadata)
-+
-+         # Dump some data so diagnosing failures is manageable
-+-        LOG.debug("Vultr Vendor Config:")
-+-        LOG.debug(util.json_dumps(self.metadata["vendor-data"]))
-+         LOG.debug("SUBID: %s", self.metadata["instance-id"])
-+         LOG.debug("Hostname: %s", self.metadata["local-hostname"])
-+-        if self.userdata_raw is not None:
-+-            LOG.debug("User-Data:")
-+-            LOG.debug(self.userdata_raw)
-+
-+         return True
-+
-+@@ -147,7 +148,4 @@ if __name__ == "__main__":
-+     config = md["vendor-data"]
-+     sysinfo = vultr.get_sysinfo()
-+
-+-    print(util.json_dumps(sysinfo))
-+-    print(util.json_dumps(config))
-+-
-+ # vi: ts=4 expandtab
-+diff --git a/cloudinit/sources/__init__.py b/cloudinit/sources/__init__.py
-+index 9083f3995..8fb9d4cba 100644
-+--- a/cloudinit/sources/__init__.py
-++++ b/cloudinit/sources/__init__.py
-+@@ -103,7 +103,10 @@ def process_instance_metadata(metadata, key_path="", sensitive_keys=()):
-+             sub_key_path = key_path + "/" + key
-+         else:
-+             sub_key_path = key
-+-        if key in sensitive_keys or sub_key_path in sensitive_keys:
-++        if (
-++            key.lower() in sensitive_keys
-++            or sub_key_path.lower() in sensitive_keys
-++        ):
-+             sens_keys.append(sub_key_path)
-+         if isinstance(val, str) and val.startswith("ci-b64:"):
-+             base64_encoded_keys.append(sub_key_path)
-+@@ -125,6 +128,12 @@ def redact_sensitive_keys(metadata, redact_value=REDACT_SENSITIVE_VALUE):
-+
-+     Replace any keys values listed in 'sensitive_keys' with redact_value.
-+     """
-++    # While 'sensitive_keys' should already sanitized to only include what
-++    # is in metadata, it is possible keys will overlap. For example, if
-++    # "merged_cfg" and "merged_cfg/ds/userdata" both match, it's possible that
-++    # "merged_cfg" will get replaced first, meaning "merged_cfg/ds/userdata"
-++    # no longer represents a valid key.
-++    # Thus, we still need to do membership checks in this function.
-+     if not metadata.get("sensitive_keys", []):
-+         return metadata
-+     md_copy = copy.deepcopy(metadata)
-+@@ -132,9 +141,14 @@ def redact_sensitive_keys(metadata, redact_value=REDACT_SENSITIVE_VALUE):
-+         path_parts = key_path.split("/")
-+         obj = md_copy
-+         for path in path_parts:
-+-            if isinstance(obj[path], dict) and path != path_parts[-1]:
-++            if (
-++                path in obj
-++                and isinstance(obj[path], dict)
-++                and path != path_parts[-1]
-++            ):
-+                 obj = obj[path]
-+-        obj[path] = redact_value
-++        if path in obj:
-++            obj[path] = redact_value
-+     return md_copy
-+
-+
-+@@ -237,6 +251,14 @@ class DataSource(CloudInitPickleMixin, metaclass=abc.ABCMeta):
-+     sensitive_metadata_keys = (
-+         "merged_cfg",
-+         "security-credentials",
-++        "userdata",
-++        "user-data",
-++        "user_data",
-++        "vendordata",
-++        "vendor-data",
-++        # Provide ds/vendor_data to avoid redacting top-level
-++        #  "vendor_data": {enabled: True}
-++        "ds/vendor_data",
-+     )
-+
-+     _ci_pkl_version = 1
-+diff --git a/cloudinit/stages.py b/cloudinit/stages.py
-+index b1a6bc495..85db6bec8 100644
-+--- a/cloudinit/stages.py
-++++ b/cloudinit/stages.py
-+@@ -202,7 +202,9 @@ class Init(object):
-+         util.ensure_dirs(self._initial_subdirs())
-+         log_file = util.get_cfg_option_str(self.cfg, "def_log_file")
-+         if log_file:
-+-            util.ensure_file(log_file, mode=0o640, preserve_mode=True)
-++            # At this point the log file should have already been created
-++            # in the setupLogging function of log.py
-++            util.ensure_file(log_file, mode=0o640, preserve_mode=False)
-+             perms = self.cfg.get("syslog_fix_perms")
-+             if not perms:
-+                 perms = {}
-+diff --git a/tests/unittests/sources/test_init.py b/tests/unittests/sources/test_init.py
-+index 745a7fa6b..6eebb512d 100644
-+--- a/tests/unittests/sources/test_init.py
-++++ b/tests/unittests/sources/test_init.py
-+@@ -442,12 +442,24 @@ class TestDataSource(CiTestCase):
-+                         "cred2": "othersekret",
-+                     }
-+                 },
-++                "someother": {
-++                    "nested": {
-++                        "userData": "HIDE ME",
-++                    }
-++                },
-++                "VENDOR-DAta": "HIDE ME TOO",
-+             },
-+         )
-+         self.assertCountEqual(
-+             (
-+                 "merged_cfg",
-+                 "security-credentials",
-++                "userdata",
-++                "user-data",
-++                "user_data",
-++                "vendordata",
-++                "vendor-data",
-++                "ds/vendor_data",
-+             ),
-+             datasource.sensitive_metadata_keys,
-+         )
-+@@ -474,7 +486,9 @@ class TestDataSource(CiTestCase):
-+             "base64_encoded_keys": [],
-+             "merged_cfg": REDACT_SENSITIVE_VALUE,
-+             "sensitive_keys": [
-++                "ds/meta_data/VENDOR-DAta",
-+                 "ds/meta_data/some/security-credentials",
-++                "ds/meta_data/someother/nested/userData",
-+                 "merged_cfg",
-+             ],
-+             "sys_info": sys_info,
-+@@ -484,6 +498,7 @@ class TestDataSource(CiTestCase):
-+                 "availability_zone": "myaz",
-+                 "cloud-name": "subclasscloudname",
-+                 "cloud_name": "subclasscloudname",
-++                "cloud_id": "subclasscloudname",
-+                 "distro": "ubuntu",
-+                 "distro_release": "focal",
-+                 "distro_version": "20.04",
-+@@ -506,14 +521,18 @@ class TestDataSource(CiTestCase):
-+             "ds": {
-+                 "_doc": EXPERIMENTAL_TEXT,
-+                 "meta_data": {
-++                    "VENDOR-DAta": REDACT_SENSITIVE_VALUE,
-+                     "availability_zone": "myaz",
-+                     "local-hostname": "test-subclass-hostname",
-+                     "region": "myregion",
-+                     "some": {"security-credentials": REDACT_SENSITIVE_VALUE},
-++                    "someother": {
-++                        "nested": {"userData": REDACT_SENSITIVE_VALUE}
-++                    },
-+                 },
-+             },
-+         }
-+-        self.assertCountEqual(expected, redacted)
-++        self.assertEqual(expected, redacted)
-+         file_stat = os.stat(json_file)
-+         self.assertEqual(0o644, stat.S_IMODE(file_stat.st_mode))
-+
-+@@ -558,6 +577,12 @@ class TestDataSource(CiTestCase):
-+             (
-+                 "merged_cfg",
-+                 "security-credentials",
-++                "userdata",
-++                "user-data",
-++                "user_data",
-++                "vendordata",
-++                "vendor-data",
-++                "ds/vendor_data",
-+             ),
-+             datasource.sensitive_metadata_keys,
-+         )
-+diff --git a/tests/unittests/test_stages.py b/tests/unittests/test_stages.py
-+index be1a07870..2a9593f61 100644
-+--- a/tests/unittests/test_stages.py
-++++ b/tests/unittests/test_stages.py
-+@@ -547,17 +547,19 @@ class TestInit_InitializeFilesystem:
-+         # Assert we create it 0o640  by default if it doesn't already exist
-+         assert 0o640 == stat.S_IMODE(log_file.stat().mode)
-+
-+-    def test_existing_file_permissions_are_not_modified(self, init, tmpdir):
-+-        """If the log file already exists, we should not modify its permissions
-+-
-++    def test_existing_file_permissions(self, init, tmpdir):
-++        """Test file permissions are set as expected.
-++        CIS Hardening requires 640 permissions. These permissions are
-++        currently hardcoded on every boot, but if there's ever a reason
-++        to change this, we need to then ensure that they
-++        are *not* set every boot.
-+         See https://bugs.launchpad.net/cloud-init/+bug/1900837.
-+         """
-+-        # Use a mode that will never be made the default so this test will
-+-        # always be valid
-+-        mode = 0o606
-+         log_file = tmpdir.join("cloud-init.log")
-+         log_file.ensure()
-+-        log_file.chmod(mode)
-++        # Use a mode that will never be made the default so this test will
-++        # always be valid
-++        log_file.chmod(0o606)
-+         init._cfg = {"def_log_file": str(log_file)}
-+
-+         init._initialize_filesystem()
-+--
-+2.35.7
-diff --git a/recipes-extended/cloud-init/cloud-init_21.4.bb b/recipes-extended/cloud-init/cloud-init_21.4.bb
-index 5cb62272..b9573420 100644
---- a/recipes-extended/cloud-init/cloud-init_21.4.bb
-+++ b/recipes-extended/cloud-init/cloud-init_21.4.bb
-@@ -9,6 +9,7 @@ SRC_URI = "git://github.com/canonical/cloud-init;branch=main;protocol=https \
-     file://cloud-init-source-local-lsb-functions.patch \
-     file://0001-setup.py-check-for-install-anywhere-in-args.patch \
-     file://0001-setup.py-respect-udevdir-variable.patch \
-+    file://CVE-2023-1786.patch \
- "
- 
- S = "${WORKDIR}/git"
--- 
-2.39.3
+Yes, I tested it for both docker and podman, will update readme file.
 
+the best,
+thank you
+
+Bruce Ashfield <bruce.ashfield@gmail.com> =E6=96=BC 2023=E5=B9=B412=E6=9C=
+=8819=E6=97=A5 =E9=80=B1=E4=BA=8C =E4=B8=8A=E5=8D=884:03=E5=AF=AB=E9=81=93=
+=EF=BC=9A
+
+> In message: [meta-virtualization][PATCH] docker-compose: introduce
+> pkgconfig docker-plugin
+> on 16/12/2023 Ming Liu wrote:
+>
+> > From: Ming Liu <liu.ming50@gmail.com>
+> >
+> > This allows docker-compose choose to be built as a docker plugin or a
+> > standalone binary, in the later case, docker-compose does not have to
+> > rdepends on docker, so nother container tools like podman can also use
+> > it.
+>
+> That's how it used to be installed, but upstream broke it for a bit.
+>
+> Did you test both modes ? If so, it would be nice to get a follow up
+> patch in the form of a README in the recipe directory that indicates
+> the test steps. That'll allow me to automate it in the future.
+>
+> For now, I've staged this on master next, while we wait for those
+> test instructions.
+>
+> Bruce
+>
+> >
+> > Signed-off-by: Ming Liu <liu.ming50@gmail.com>
+> > ---
+> >  .../docker-compose/docker-compose_git.bb       | 18 +++++++++---------
+> >  1 file changed, 9 insertions(+), 9 deletions(-)
+> >
+> > diff --git a/recipes-containers/docker-compose/docker-compose_git.bb
+> b/recipes-containers/docker-compose/docker-compose_git.bb
+> > index 092ce3d2..b7745f2b 100644
+> > --- a/recipes-containers/docker-compose/docker-compose_git.bb
+> > +++ b/recipes-containers/docker-compose/docker-compose_git.bb
+> > @@ -34,7 +34,8 @@ COMPATIBLE_HOST =3D "^(?!mips).*"
+> >
+> >  do_configure[noexec] =3D "1"
+> >
+> > -PACKAGECONFIG ?=3D ""
+> > +PACKAGECONFIG ?=3D "docker-plugin"
+> > +PACKAGECONFIG[docker-plugin] =3D ",,,docker"
+> >
+> >  include relocation.inc
+> >
+> > @@ -63,16 +64,15 @@ do_compile() {
+> >  }
+> >
+> >  do_install() {
+> > -        #install -d "${D}${BIN_PREFIX}/bin"
+> > -        #install -m 755 "${S}/src/import/bin/docker-compose"
+> "${D}${BIN_PREFIX}/bin"
+> > -
+> > -     # commonly installed to: /usr/lib/docker/cli-plugins/
+> > -     install -d "${D}${nonarch_libdir}/docker/cli-plugins/"
+> > -     install -m 755 "${S}/src/import/bin/docker-compose"
+> "${D}${nonarch_libdir}/docker/cli-plugins/"
+> > -
+> > +     if ${@bb.utils.contains('PACKAGECONFIG', 'docker-plugin', 'true',
+> 'false', d)}; then
+> > +             install -d ${D}${nonarch_libdir}/docker/cli-plugins
+> > +             install -m 755 ${S}/src/import/bin/docker-compose
+> ${D}${nonarch_libdir}/docker/cli-plugins
+> > +     else
+> > +             install -d ${D}${bindir}
+> > +             install -m 755 ${S}/src/import/bin/docker-compose
+> ${D}${bindir}
+> > +     fi
+> >  }
+> >
+> > -RDEPENDS:${PN} +=3D " docker"
+> >
+> >  FILES:${PN} +=3D " ${nonarch_libdir}/docker/cli-plugins/"
+> >
+> > --
+> > 2.34.1
+> >
+>
+> >
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#8510):
+> https://lists.yoctoproject.org/g/meta-virtualization/message/8510
+> > Mute This Topic: https://lists.yoctoproject.org/mt/103206987/1050810
+> > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+> > Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub
+> [bruce.ashfield@gmail.com]
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> >
+>
+>
+
+--000000000000b73a36060cd8bdff
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hi, Bruce:<div><br></div><div>Yes, I tested it for both do=
+cker and podman, will update readme file.</div><div><br></div><div>the best=
+,</div><div>thank you</div></div><br><div class=3D"gmail_quote"><div dir=3D=
+"ltr" class=3D"gmail_attr">Bruce Ashfield &lt;<a href=3D"mailto:bruce.ashfi=
+eld@gmail.com">bruce.ashfield@gmail.com</a>&gt; =E6=96=BC 2023=E5=B9=B412=
+=E6=9C=8819=E6=97=A5 =E9=80=B1=E4=BA=8C =E4=B8=8A=E5=8D=884:03=E5=AF=AB=E9=
+=81=93=EF=BC=9A<br></div><blockquote class=3D"gmail_quote" style=3D"margin:=
+0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">=
+In message: [meta-virtualization][PATCH] docker-compose: introduce pkgconfi=
+g docker-plugin<br>
+on 16/12/2023 Ming Liu wrote:<br>
+<br>
+&gt; From: Ming Liu &lt;<a href=3D"mailto:liu.ming50@gmail.com" target=3D"_=
+blank">liu.ming50@gmail.com</a>&gt;<br>
+&gt; <br>
+&gt; This allows docker-compose choose to be built as a docker plugin or a<=
+br>
+&gt; standalone binary, in the later case, docker-compose does not have to<=
+br>
+&gt; rdepends on docker, so nother container tools like podman can also use=
+<br>
+&gt; it.<br>
+<br>
+That&#39;s how it used to be installed, but upstream broke it for a bit.<br=
+>
+<br>
+Did you test both modes ? If so, it would be nice to get a follow up<br>
+patch in the form of a README in the recipe directory that indicates<br>
+the test steps. That&#39;ll allow me to automate it in the future.<br>
+<br>
+For now, I&#39;ve staged this on master next, while we wait for those<br>
+test instructions.<br>
+<br>
+Bruce<br>
+<br>
+&gt; <br>
+&gt; Signed-off-by: Ming Liu &lt;<a href=3D"mailto:liu.ming50@gmail.com" ta=
+rget=3D"_blank">liu.ming50@gmail.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 .../docker-compose/<a href=3D"http://docker-compose_git.bb" rel=
+=3D"noreferrer" target=3D"_blank">docker-compose_git.bb</a>=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0| 18 +++++++++---------<br>
+&gt;=C2=A0 1 file changed, 9 insertions(+), 9 deletions(-)<br>
+&gt; <br>
+&gt; diff --git a/recipes-containers/docker-compose/<a href=3D"http://docke=
+r-compose_git.bb" rel=3D"noreferrer" target=3D"_blank">docker-compose_git.b=
+b</a> b/recipes-containers/docker-compose/<a href=3D"http://docker-compose_=
+git.bb" rel=3D"noreferrer" target=3D"_blank">docker-compose_git.bb</a><br>
+&gt; index 092ce3d2..b7745f2b 100644<br>
+&gt; --- a/recipes-containers/docker-compose/<a href=3D"http://docker-compo=
+se_git.bb" rel=3D"noreferrer" target=3D"_blank">docker-compose_git.bb</a><b=
+r>
+&gt; +++ b/recipes-containers/docker-compose/<a href=3D"http://docker-compo=
+se_git.bb" rel=3D"noreferrer" target=3D"_blank">docker-compose_git.bb</a><b=
+r>
+&gt; @@ -34,7 +34,8 @@ COMPATIBLE_HOST =3D &quot;^(?!mips).*&quot;<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 do_configure[noexec] =3D &quot;1&quot;<br>
+&gt;=C2=A0 <br>
+&gt; -PACKAGECONFIG ?=3D &quot;&quot;<br>
+&gt; +PACKAGECONFIG ?=3D &quot;docker-plugin&quot;<br>
+&gt; +PACKAGECONFIG[docker-plugin] =3D &quot;,,,docker&quot;<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 include relocation.inc<br>
+&gt;=C2=A0 <br>
+&gt; @@ -63,16 +64,15 @@ do_compile() {<br>
+&gt;=C2=A0 }<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 do_install() {<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 #install -d &quot;${D}${BIN_PREFIX}/bin&q=
+uot;<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 #install -m 755 &quot;${S}/src/import/bin=
+/docker-compose&quot; &quot;${D}${BIN_PREFIX}/bin&quot;<br>
+&gt; -<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0# commonly installed to: /usr/lib/docker/cli-plug=
+ins/<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0install -d &quot;${D}${nonarch_libdir}/docker/cli=
+-plugins/&quot;<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0install -m 755 &quot;${S}/src/import/bin/docker-c=
+ompose&quot; &quot;${D}${nonarch_libdir}/docker/cli-plugins/&quot;<br>
+&gt; -<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0if ${@bb.utils.contains(&#39;PACKAGECONFIG&#39;, =
+&#39;docker-plugin&#39;, &#39;true&#39;, &#39;false&#39;, d)}; then<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0install -d ${D}${nona=
+rch_libdir}/docker/cli-plugins<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0install -m 755 ${S}/s=
+rc/import/bin/docker-compose ${D}${nonarch_libdir}/docker/cli-plugins<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0else<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0install -d ${D}${bind=
+ir}<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0install -m 755 ${S}/s=
+rc/import/bin/docker-compose ${D}${bindir}<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0fi<br>
+&gt;=C2=A0 }<br>
+&gt;=C2=A0 <br>
+&gt; -RDEPENDS:${PN} +=3D &quot; docker&quot;<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 FILES:${PN} +=3D &quot; ${nonarch_libdir}/docker/cli-plugins/&qu=
+ot;<br>
+&gt;=C2=A0 <br>
+&gt; -- <br>
+&gt; 2.34.1<br>
+&gt; <br>
+<br>
+&gt; <br>
+&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt; Links: You receive all messages sent to this group.<br>
+&gt; View/Reply Online (#8510): <a href=3D"https://lists.yoctoproject.org/g=
+/meta-virtualization/message/8510" rel=3D"noreferrer" target=3D"_blank">htt=
+ps://lists.yoctoproject.org/g/meta-virtualization/message/8510</a><br>
+&gt; Mute This Topic: <a href=3D"https://lists.yoctoproject.org/mt/10320698=
+7/1050810" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.=
+org/mt/103206987/1050810</a><br>
+&gt; Group Owner: <a href=3D"mailto:meta-virtualization%2Bowner@lists.yocto=
+project.org" target=3D"_blank">meta-virtualization+owner@lists.yoctoproject=
+.org</a><br>
+&gt; Unsubscribe: <a href=3D"https://lists.yoctoproject.org/g/meta-virtuali=
+zation/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproje=
+ct.org/g/meta-virtualization/unsub</a> [<a href=3D"mailto:bruce.ashfield@gm=
+ail.com" target=3D"_blank">bruce.ashfield@gmail.com</a>]<br>
+&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt; <br>
+<br>
+</blockquote></div>
+
+--000000000000b73a36060cd8bdff--
 
