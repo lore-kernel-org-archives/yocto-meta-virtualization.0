@@ -1,130 +1,217 @@
-Return-Path: <alex.stewart@ni.com>
+Return-Path: <liu.ming50@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA5E1C48285
-	for <webhook@archiver.kernel.org>; Fri, 26 Jan 2024 17:31:56 +0000 (UTC)
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com (NAM04-BN8-obe.outbound.protection.outlook.com [40.107.100.117])
- by mx.groups.io with SMTP id smtpd.web11.105.1706290313043565159
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C1FDC48285
+	for <webhook@archiver.kernel.org>; Mon, 29 Jan 2024 17:41:46 +0000 (UTC)
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+ by mx.groups.io with SMTP id smtpd.web11.1106.1706550100915103831
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 26 Jan 2024 09:31:53 -0800
+ Mon, 29 Jan 2024 09:41:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@ni.com header.s=selector1 header.b=B9bR2Sj1;
- spf=pass (domain: ni.com, ip: 40.107.100.117, mailfrom: alex.stewart@ni.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Dlr155k9MTk+Hp/PBjfZZnhis3eISU4m3wzQXUioTnTQStofGkPfyxfLp5LOthdp2DxiiWpG/JIFLoaYEIEg7zpV5Yo/zz2E31n3WAxmaThbWIJycLH+sNqXRKpLOugjJCnf5jS7vh5Y5URLNyv9YeplGgZjuhLMcS9o6bkzSSbs1epGzBAbSBaDzcV1v4Na7h4dgyJa3wyq+yAoDcgUVkcQLCNSCvpqSSvwDqGVyap+OEVipJZX9Liu2rr8D6f/evzjZW9d0iy+FTzbP9mkkth1ASneeHwtc2j9bvrOu5bottSByEkEXQpo34Jt8xHGJ4Syt3hAGt0XAX5ODrISGQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LEHOlI/0ba+iLQSqlH1qXd897VsnbQ/Fo/xwfd2t5fE=;
- b=aBfXVLdAl6gy7VAi8qsmmE+YD3wBX9m5D3nvHDSIA9IR+ZfwOBU83iAvsDcGjCndG2GaSc0SqI025y2glksp7Ar6AcFR7xg7yGiuXSJEAsjfAYxS7r/9GdCsNmLm2sVs+F7mdDECB3kwmp7w1RSDgeYA+CsWmzyMiVbccmmdGb2NPNkOG4RFZqXpvBPOL4SsLjWViC9ZTWsGECy81SJwprE4O35Q5OR1n1noU26Lk0oNzemUbFDjeZq5lstuYDT1v9MhuYjzFsbaEloeqCVm0dnOnuDRGsqrn2ENOB7A3SbZG3zLq32JezzITygz72Pdabm40JLejFPjJdBA0ijLkw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=ni.com; dmarc=pass action=none header.from=ni.com; dkim=pass
- header.d=ni.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ni.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LEHOlI/0ba+iLQSqlH1qXd897VsnbQ/Fo/xwfd2t5fE=;
- b=B9bR2Sj1v8nPEvvFLmuFSDfGgTmuGBmrsO5rBW96U/absxn8q2BXK0Jy76uvr1YWanNEv2nLvBZl7/Zd2T7rLlCYlXpgxiYTAH+Y/AoQJDEcHgwASI6aFASXl6RHz5nHIqzEieP2h1vZ/x+XWnikY67iOFdcgluXIS04iUWVLAg=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=ni.com;
-Received: from DM6PR04MB5292.namprd04.prod.outlook.com (2603:10b6:5:107::25)
- by MW4PR04MB7313.namprd04.prod.outlook.com (2603:10b6:303:7b::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7228.27; Fri, 26 Jan
- 2024 17:31:50 +0000
-Received: from DM6PR04MB5292.namprd04.prod.outlook.com
- ([fe80::2ca6:7e51:b54d:c163]) by DM6PR04MB5292.namprd04.prod.outlook.com
- ([fe80::2ca6:7e51:b54d:c163%4]) with mapi id 15.20.7228.026; Fri, 26 Jan 2024
- 17:31:50 +0000
-From: Alex Stewart <alex.stewart@ni.com>
-To: meta-virtualization@lists.yoctoproject.org,
-	bruce.ashfield@gmail.com
-CC: Alex Stewart <alex.stewart@ni.com>
-Subject: [meta-virtualization][m-c-s][PATCH 3/3] iproute2: upgrade bbappend to 6.%
-Date: Fri, 26 Jan 2024 12:30:50 -0500
-Message-ID: <20240126173050.1137474-4-alex.stewart@ni.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20240126173050.1137474-1-alex.stewart@ni.com>
-References: <20240126173050.1137474-1-alex.stewart@ni.com>
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: BLAPR03CA0133.namprd03.prod.outlook.com
- (2603:10b6:208:32e::18) To DM6PR04MB5292.namprd04.prod.outlook.com
- (2603:10b6:5:107::25)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=SAgzuN+T;
+ spf=pass (domain: gmail.com, ip: 209.85.167.54, mailfrom: liu.ming50@gmail.com)
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-51032e62171so2671051e87.3
+        for <meta-virtualization@lists.yoctoproject.org>; Mon, 29 Jan 2024 09:41:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1706550098; x=1707154898; darn=lists.yoctoproject.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=micdPaMwBqWJ41HeXHOiYQg88loATVmhLNs5YqNc1ck=;
+        b=SAgzuN+Tk3oE2z74n9KDOuNI79LpeF8vdEv0t1ynukcSwEaJiX3MXjZ0na2m86B8F+
+         n53tYJmySYz/idkP5fFs8h7zdFlbQYFMdybi5K5wkhPTLb+NUM0RgDBNN/E8hYpHUeLw
+         HdVjDg+6gzdnIfPkeRj+1qD1+naVGfPk9bcgf2FI1u2bv8JC8evqF1XKNqxZg/QYtU73
+         gCFP42ucRSETEG+2h05pSGXKbca9crsueclW5sYF5zd/v6U7a7e5BV4OlnGdfOr2PhZx
+         H+sxQKDJtArMlL/j71q1LRqSivPNLc3UBYnfh0j8DAmwB85VKufqpIw1xS9gC1kAfQK1
+         ArRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706550098; x=1707154898;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=micdPaMwBqWJ41HeXHOiYQg88loATVmhLNs5YqNc1ck=;
+        b=MbJZPIxpOBCmQuXXd05cAlTKDAqaUJrDCJ2IMCG3j3jLkbJ6BysZIjnFV2gzy1h46/
+         s7/5CwXmuQCxQaJpGnirW186u7aWSkNdfPH0JIlV2aoIMVHTgKrby5n4IOt+QJay9i/b
+         siYAWFe9GPrw0eaLBXwjomjdFXJDMrHB6NcPAnSs7Vv/RC0hi00thkSe5AFmoE/kOB2Q
+         zfGN+v5JIzg3lXW5ppsuWgrnFW8D8UWWiP5H1sWSBgOOPggMEXpxmSy5gv2FnaRCaEjx
+         dL17Ka6y3SQ+KX9sqcwZyJOGAi5YU0OeGENqLDYnx3fQfdeXaQ1zp25xnz2x0ePeXBnO
+         9O6Q==
+X-Gm-Message-State: AOJu0YyQwHMSq8Wc2c79+eMPr5LT/5q0WsTNvoWD6f4W7kHRcwZPh6UB
+	3FTGieU98DWNkbNLHHFSN1EOmshiFWiHTHn3lehQAndM4jCl1yKx/D1d6IiX
+X-Google-Smtp-Source: AGHT+IGwl98HtIwDzymrwvpR7NpChiiYKCeycctyjmr3uxDubmScSOE48W0SLfHeFy7Y+0pfpNkHtA==
+X-Received: by 2002:a05:6512:3241:b0:510:1799:b1fd with SMTP id c1-20020a056512324100b005101799b1fdmr3618120lfr.27.1706550098007;
+        Mon, 29 Jan 2024 09:41:38 -0800 (PST)
+Received: from peterliu-Precision-7530.. (customer-212-100-112-191.stosn.net. [212.100.112.191])
+        by smtp.gmail.com with ESMTPSA id o17-20020a056512231100b00510f52c332fsm663661lfu.213.2024.01.29.09.41.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Jan 2024 09:41:37 -0800 (PST)
+From: liu.ming50@gmail.com
+To: meta-virtualization@lists.yoctoproject.org
+Cc: Ming Liu <liu.ming50@gmail.com>
+Subject: [meta-virtualization][PATCH] container-host-config:storage.conf: sync with libpod v4.8.2
+Date: Mon, 29 Jan 2024 18:41:32 +0100
+Message-Id: <20240129174132.24445-1-liu.ming50@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR04MB5292:EE_|MW4PR04MB7313:EE_
-X-MS-Office365-Filtering-Correlation-Id: b861e80f-ea85-467b-f976-08dc1e94adce
-x-ni-monitor: EOP Exclude NI Domains ETR True
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	EIUn5XuzQklgwJUi2jScp5EMVEB/GvDs9Q50R2WXoeDNwklXg48v7fnVTRY8uXGwPkoEzPdE6y/elQ/OkVqgUZaq0mw1q8QMiuOSVYBEKhoxUfWTc1eYsub644JLuYl7CQA1LKLW3/lIWVjVLlsDMJh7gF3M6119nB2+SdkMaLYQoEBFIeJUL7epQ6vs/N+rFE7xm5VWnU6Mx2pNXyyqwGJbEZrPMYGoC5RbD5SWP/8aTf1v/aTxCvEX5yxnt1Vs0uRk8Yh6zEcB1kP7Re8TSBNNIUxDS/2hiabL/hLBdjLT/6EbtB9bH3ApxKK6Mqplg0vtxn+VAHHlnMMjRspgWxPG5nj8qpOq1TjMFHbl0MUUh6S5jJUKK5S1u9fHACdoI4bXidywwDEr3MNFvHI6zhGZbsNw75cVnMhwiZ/u+erBgNH5es7hpFIkanXCF3de3BtBjd4+XLCWYXd515oVpkcqOek1ctlC9lHobtIzW9uD3cWkUojVMk1rHq6/omyYGUoMLzXyMui/Y34e0mGKxIVwOOkqyYv5XeQk/URGuwiF4Sf1d3TKTVg/gwp6tJYp
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR04MB5292.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(346002)(376002)(396003)(39860400002)(366004)(230922051799003)(64100799003)(451199024)(1800799012)(186009)(4744005)(2906002)(38100700002)(5660300002)(44832011)(41300700001)(36756003)(6486002)(478600001)(6512007)(6506007)(1076003)(2616005)(83380400001)(8676002)(4326008)(8936002)(66476007)(66946007)(86362001)(316002)(66556008);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?ZJs+2Hnzm332txNHj38GNqOo65Zc3LMzEaXpmTucCyCdSdVvPeC0MHOzpjCB?=
- =?us-ascii?Q?zmKrV3adiTsK04m0yAicGEdNdvOd/Hy1zPDRs84jFxN0LFTl+sJ3aS0Rd73d?=
- =?us-ascii?Q?icFMRSWxZm+P6MRDfUxLOo6g/Gr0b8i3qsnZFROeYfcVpelF7rpb7qXvuwHb?=
- =?us-ascii?Q?7iCE6yW68br10Sg65AicBRYaut3NdpUV9LZoDaBvCSik3Ww4VBew9a5WahY7?=
- =?us-ascii?Q?GZ+ezunPbTMG2a1Md3fS3pEXjvhdi9IjpZw1jW8uugF8DCjWdG13QHf21RAV?=
- =?us-ascii?Q?bnjTccIt/rNGPzkzVpikoxDbKUSiw58dkjdOYANWOx5kuOMUN6NV8DcUtQ/9?=
- =?us-ascii?Q?1aljIFMeO5dnYnP1BPOCpnTnevuKg0CJElrFhC7yY2TCJhw2agKl514inmK7?=
- =?us-ascii?Q?pTKTZm+cBybxHQ6FdBuHn3aiiv3DEuKYC7wBfRoW0Ors5IyIjxM+mbd385Nd?=
- =?us-ascii?Q?B7aGddxys6g5GQAcaQq6YQ73dBzpsDy2eOAqr6oC3BxXoJhFXBzC8Y1bZd5M?=
- =?us-ascii?Q?JnOazu6hxuKMpygW2aL6xYEPut2O05OazTcc0L8Xbt6cgvrSSV6AE9keWmgp?=
- =?us-ascii?Q?njJbmwE8ns+7lnIessvufkEVQICSva5bv8sf/3KsVe8WsTBBO5YzPYhcPMnb?=
- =?us-ascii?Q?qtqPOHbVOcH/n4DtBugIwAoz7cNf+cXwwBVyyRCQFYslkTTeAebaVtZU6pgQ?=
- =?us-ascii?Q?n3mse2k8YUBkC2+j/FwPSEjcX9h9a9NN79Cv3JzetcHjYsZssyhrkK7bp7It?=
- =?us-ascii?Q?5mDaFMzSo/k6oHbAhje0hvkozYM+dW2wnTu/UovDpKUs0YeWHL7ZIYJf7krq?=
- =?us-ascii?Q?/DDg0Heolpk/dzuch8LgAmzLTXjTN4pUJ03954TS/0V2lw7ibaSbBbp6Z287?=
- =?us-ascii?Q?btlqQ0Wxu6u2ODzTMRmMlq7rsct6o6SgaU5s0zsB9XHYugL0e90NfTiezD5d?=
- =?us-ascii?Q?dWK5D0h2lMvfSBAhL3BDfJD/wy0cOVuLXgY6A8KahNBJoU5SGHqlOSPdrekK?=
- =?us-ascii?Q?CU+KIhoTveW+vlgZqoJCdGcEBzJfdEnFvrYGbfTda85uiw0bh2oQhsgduXUt?=
- =?us-ascii?Q?dRnzfVFD1l5DCNVHq9d0+HP7KsU1Td8C/ZWA+a597ILq88hXWgxamekjpQzV?=
- =?us-ascii?Q?ChDdnBm2zXDi8jeyaMm8vrWum+kxf94HMUPoZLYGOsK+pkUiSnEVkYQMZTTv?=
- =?us-ascii?Q?vZfv24G+CrNKk5e9D/fkGFXsFuiVX0EgwBbmsUpxCLG+hk9X94w7wfWJIAzf?=
- =?us-ascii?Q?fO3rSAoHBdheDyn3FXhCig6cngCco8fHtMgN1zabCUmP5UmecmFk1paVcWgp?=
- =?us-ascii?Q?9Zxp5B8TzeG3L17CIpWILxTebRgUpl6V0UXJHXfI5kzafrnicyIZmDsU6lxV?=
- =?us-ascii?Q?JE4qSNM4qhRdTHPdVU+JQ+stUt35OIox8xNrSKuv9T/iVfDB7ridHD7O3+0l?=
- =?us-ascii?Q?dNHIjE0fR31F5bCQzhrcBToEzI6oazqSdAXTx2iNykZ24KNs4wH9iADF+3mK?=
- =?us-ascii?Q?KhbNEzEI/+0xs7TOVJm+WFb9y/x6cefa/qLB+L4rrsvlAekDG3QcbJ6RxBQv?=
- =?us-ascii?Q?7+vKJLFLvnduNf9kBCQ2C/nDVVYX9fIXzjmXyYMbF87tEzwF0GzjnhsEH6T9?=
- =?us-ascii?Q?yF2nymqmwrARzRkLjwnXaek=3D?=
-X-OriginatorOrg: ni.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b861e80f-ea85-467b-f976-08dc1e94adce
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR04MB5292.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jan 2024 17:31:50.0877
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 87ba1f9a-44cd-43a6-b008-6fdb45a5204e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ezlDDclVtVyDipvkK1RahHPWcy3R+YUWZMKf0zR93XhDqXmm0uWAGEoLZ40N3/ppANFxw+TvoC4L/7kTNFS6VQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR04MB7313
+Content-Transfer-Encoding: 8bit
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Fri, 26 Jan 2024 17:31:56 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8555
+ <meta-virtualization@lists.yoctoproject.org>; Mon, 29 Jan 2024 17:41:46 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8556
 
-Compatibility with OE-core nanbield.
+From: Ming Liu <liu.ming50@gmail.com>
 
-Signed-off-by: Alex Stewart <alex.stewart@ni.com>
+The current storage.conf is based on v1.33.0 of:
+https://github.com/containers/storage.git
+
+while in podman v4.8.2, it has been upgraded to
+v1.50.3-0.20231005112617-44418abb2d89 of:
+https://github.com/containers/storage.git
+
+let's sync it with podman v4.8.2.
+
+which comprises the following commits in storage.conf:
+
+```
+42d1d9637 Run codespell on code
+91da0c2be add documentation on imagestore and add a warning if set
+01fccaa58 options: enable Remap-User/Group setting
+e125790e9 Fix typo in storage.conf
+57582350c Document transient_store in man page
+522b67c94 Add new storage.conf option "transient_store"
+5e9e2ba6b Revert incorrect "heeded" -> "needed" typo fix
+cffa19709 fix typos and spelling
+268af0001 chunked: drop host dedup feature
+b64cfb4f4 Document the pull_options
+17fccdc2d Clearup inheritance rules for storage.conf
+3c76f174d Tell users who change graphroot location to fix the SELinux labels
+```
+
+Signed-off-by: Ming Liu <liu.ming50@gmail.com>
 ---
- .../iproute2/{iproute2_5.%.bbappend =3D> iproute2_6.%.bbappend}     | 0
- 1 file changed, 0 insertions(+), 0 deletions(-)
- rename meta-openstack/recipes-support/iproute2/{iproute2_5.%.bbappend =3D>=
- iproute2_6.%.bbappend} (100%)
+ .../container-host-config/storage.conf        | 62 ++++++++++++++++---
+ 1 file changed, 55 insertions(+), 7 deletions(-)
 
-diff --git a/meta-openstack/recipes-support/iproute2/iproute2_5.%.bbappend =
-b/meta-openstack/recipes-support/iproute2/iproute2_6.%.bbappend
-similarity index 100%
-rename from meta-openstack/recipes-support/iproute2/iproute2_5.%.bbappend
-rename to meta-openstack/recipes-support/iproute2/iproute2_6.%.bbappend
---=20
-2.40.1
+diff --git a/recipes-containers/container-host-config/container-host-config/storage.conf b/recipes-containers/container-host-config/container-host-config/storage.conf
+index 722750c0..cb4525f2 100644
+--- a/recipes-containers/container-host-config/container-host-config/storage.conf
++++ b/recipes-containers/container-host-config/container-host-config/storage.conf
+@@ -1,5 +1,14 @@
+-# This file is is the configuration file for all tools
+-# that use the containers/storage library.
++# This file is the configuration file for all tools
++# that use the containers/storage library. The storage.conf file
++# overrides all other storage.conf files. Container engines using the
++# container/storage library do not inherit fields from other storage.conf
++# files.
++#
++#  Note: The storage.conf file overrides other storage.conf files based on this precedence:
++#      /usr/containers/storage.conf
++#      /etc/containers/storage.conf
++#      $HOME/.config/containers/storage.conf
++#      $XDG_CONFIG_HOME/containers/storage.conf (If XDG_CONFIG_HOME is set)
+ # See man 5 containers-storage.conf for more information
+ # The "container storage" table contains all of the server options.
+ [storage]
+@@ -11,12 +20,28 @@ driver = "overlay"
+ runroot = "/run/containers/storage"
+ 
+ # Primary Read/Write location of container storage
++# When changing the graphroot location on an SELINUX system, you must
++# ensure  the labeling matches the default locations labels with the
++# following commands:
++# semanage fcontext -a -e /var/lib/containers/storage /NEWSTORAGEPATH
++# restorecon -R -v /NEWSTORAGEPATH
+ graphroot = "/var/lib/containers/storage"
+ 
++# Optional alternate location of image store if a location separate from the
++# container store is required. If set, it must be different than graphroot.
++# imagestore = ""
++
++
+ # Storage path for rootless users
+ #
+ # rootless_storage_path = "$HOME/.local/share/containers/storage"
+ 
++# Transient store mode makes all container metadata be saved in temporary storage
++# (i.e. runroot above). This is faster, but doesn't persist across reboots.
++# Additional garbage collection must also be performed at boot-time, so this
++# option should remain disabled in most configurations.
++# transient_store = true
++
+ [storage.options]
+ # Storage options to be passed to underlying storage drivers
+ 
+@@ -25,6 +50,28 @@ graphroot = "/var/lib/containers/storage"
+ additionalimagestores = [
+ ]
+ 
++# Allows specification of how storage is populated when pulling images. This
++# option can speed the pulling process of images compressed with format
++# zstd:chunked. Containers/storage looks for files within images that are being
++# pulled from a container registry that were previously pulled to the host.  It
++# can copy or create a hard link to the existing file when it finds them,
++# eliminating the need to pull them from the container registry. These options
++# can deduplicate pulling of content, disk storage of content and can allow the
++# kernel to use less memory when running containers.
++
++# containers/storage supports three keys
++#   * enable_partial_images="true" | "false"
++#     Tells containers/storage to look for files previously pulled in storage
++#     rather then always pulling them from the container registry.
++#   * use_hard_links = "false" | "true"
++#     Tells containers/storage to use hard links rather then create new files in
++#     the image, if an identical file already existed in storage.
++#   * ostree_repos = ""
++#     Tells containers/storage where an ostree repository exists that might have
++#     previously pulled content which can be used when attempting to avoid
++#     pulling content from the container registry
++pull_options = {enable_partial_images = "false", use_hard_links = "false", ostree_repos=""}
++
+ # Remap-UIDs/GIDs is the mapping from UIDs/GIDs as they should appear inside of
+ # a container, to the UIDs/GIDs as they should appear outside of the container,
+ # and the length of the range of UIDs/GIDs.  Additional mapped sets can be
+@@ -32,8 +79,8 @@ additionalimagestores = [
+ # mappings which the kernel will allow when you later attempt to run a
+ # container.
+ #
+-# remap-uids = 0:1668442479:65536
+-# remap-gids = 0:1668442479:65536
++# remap-uids = "0:1668442479:65536"
++# remap-gids = "0:1668442479:65536"
+ 
+ # Remap-User/Group is a user name which can be used to look up one or more UID/GID
+ # ranges in the /etc/subuid or /etc/subgid file.  Mappings are set up starting
+@@ -41,7 +88,8 @@ additionalimagestores = [
+ # range that matches the specified name, and using the length of that range.
+ # Additional ranges are then assigned, using the ranges which specify the
+ # lowest host-level IDs first, to the lowest not-yet-mapped in-container ID,
+-# until all of the entries have been used for maps.
++# until all of the entries have been used for maps. This setting overrides the
++# Remap-UIDs/GIDs setting.
+ #
+ # remap-user = "containers"
+ # remap-group = "containers"
+@@ -57,7 +105,7 @@ additionalimagestores = [
+ # Auto-userns-min-size is the minimum size for a user namespace created automatically.
+ # auto-userns-min-size=1024
+ #
+-# Auto-userns-max-size is the minimum size for a user namespace created automatically.
++# Auto-userns-max-size is the maximum size for a user namespace created automatically.
+ # auto-userns-max-size=65536
+ 
+ [storage.options.overlay]
+@@ -113,7 +161,7 @@ mountopt = "nodev"
+ #  future.  When "force_mask" is set the original permission mask is stored in
+ #  the "user.containers.override_stat" xattr and the "mount_program" option must
+ #  be specified. Mount programs like "/usr/bin/fuse-overlayfs" present the
+-#  extended attribute permissions to processes within containers rather then the
++#  extended attribute permissions to processes within containers rather than the
+ #  "force_mask"  permissions.
+ #
+ # force_mask = ""
+-- 
+2.34.1
 
 
