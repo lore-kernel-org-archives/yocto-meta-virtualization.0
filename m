@@ -1,124 +1,208 @@
-Return-Path: <sandeep.gundlupet-raju@amd.com>
+Return-Path: <fathi.boudra@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2648CC48BF6
-	for <webhook@archiver.kernel.org>; Thu, 22 Feb 2024 01:32:44 +0000 (UTC)
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (NAM12-DM6-obe.outbound.protection.outlook.com [40.107.243.64])
- by mx.groups.io with SMTP id smtpd.web11.3555.1708565559533406243
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B762C48BEB
+	for <webhook@archiver.kernel.org>; Thu, 22 Feb 2024 12:33:57 +0000 (UTC)
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+ by mx.groups.io with SMTP id smtpd.web10.11657.1708605233538148715
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 21 Feb 2024 17:32:39 -0800
+ Thu, 22 Feb 2024 04:33:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@amd.com header.s=selector1 header.b=3vdQRznb;
- spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: amd.com, ip: 40.107.243.64, mailfrom: sandeep.gundlupet-raju@amd.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eGkC6mmilzwNeDUAgJ5TKfk8MDYCh0hU2tfv6Y9lszYW24V5kBTUpQvrZFFAZuppwh34+AZEPECUWMafMLvPky8AJWbfWBvjPYrlOiyEUVAwQaFQ9kF5QjjB3r15u2x9LyakQZSkvqmENHOMkqzicbqaW045zIgTFc0yV5d9jPLOGBTkDpnHo/C/qAyRmH6b6C+SRpoO87gSH8O3rlvsqePZB3vwVDc45i22wZFxDpXmO6bfcJikcEB7+EjTC5LQyNvZZx9AcBOzjvsuvyhn+EzzYw7raAAvIkOW16mQurDbF2NEHQXRbVEh++juXD0g7W8/QW8N8gLubNpi53HG9Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8T5Gef2odWwsdQgHYLPT6HfSGV/PpiB1tGO2L74NVTo=;
- b=WwKcmajc5tt6lcOOxv3sO2mwIEzRSZjFMZhMlv1TZSnXv8UY5ElKIb8FNwl1MKlekOO0QwXJ+ysXlJ6g7crIbOR5xhrv6uesOK4z9+5pIQ18yho0s1V1ZYfZPc4JClzDvtXrkqC6yY8LkZhDIC/lPOT+cgVYtz68R288cUK5hAI7O4iz6W7LeVeN1N2ICNKdy2mbnqnpzsRgCW7MErgRospaVOJRh4fwe/OJPMkZ0SAmf6UJ8biyNuosxcINrDWKideI2umT4qdDTYtayOt85rMSgpD11+SeUET+O0houQp44BkCIOI6NtQmRCpKMOAux3b34UiS7cHyDwXc+B3U2g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.yoctoproject.org
- smtp.mailfrom=amd.com; dmarc=pass (p=quarantine sp=quarantine pct=100)
- action=none header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8T5Gef2odWwsdQgHYLPT6HfSGV/PpiB1tGO2L74NVTo=;
- b=3vdQRznbAr96lbCoED+1A4ZeCfMZFCvGvPx5gWBSm7bkMbxIAQ7AJZgXkfZVl7wMajbcQCDMN+69YnUpZuxLPukrTAyltgapJfKisHvH4b02L0aehllE7bS7RhOsFVaL3eL6ATWvmif0o+xfUQ1PvzsU+lzMEBjgUqiUwZjjfDQ=
-Received: from BYAPR01CA0012.prod.exchangelabs.com (2603:10b6:a02:80::25) by
- MN2PR12MB4454.namprd12.prod.outlook.com (2603:10b6:208:26c::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.23; Thu, 22 Feb
- 2024 01:32:37 +0000
-Received: from SJ5PEPF000001D5.namprd05.prod.outlook.com
- (2603:10b6:a02:80:cafe::29) by BYAPR01CA0012.outlook.office365.com
- (2603:10b6:a02:80::25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.42 via Frontend
- Transport; Thu, 22 Feb 2024 01:32:36 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- SJ5PEPF000001D5.mail.protection.outlook.com (10.167.242.57) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7292.25 via Frontend Transport; Thu, 22 Feb 2024 01:32:36 +0000
-Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Wed, 21 Feb
- 2024 19:32:35 -0600
-Received: from xcosswyocto01.xilinx.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server id 15.1.2507.35 via Frontend
- Transport; Wed, 21 Feb 2024 19:32:35 -0600
-From: Sandeep Gundlupet Raju <sandeep.gundlupet-raju@amd.com>
-To: <meta-virtualization@lists.yoctoproject.org>, <bruce.ashfield@gmail.com>
-Subject: [meta-virtualization][PATCH] xen-boot-cmd.inc: Fix initrd boot issue with 6.6 kernel
-Date: Wed, 21 Feb 2024 18:32:30 -0700
-Message-ID: <20240222013230.1183593-1-sandeep.gundlupet-raju@amd.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@linaro.org header.s=google header.b=cX0DSGBg;
+ spf=pass (domain: linaro.org, ip: 209.85.167.49, mailfrom: fathi.boudra@linaro.org)
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-512d5744290so1683446e87.2
+        for <meta-virtualization@lists.yoctoproject.org>; Thu, 22 Feb 2024 04:33:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1708605231; x=1709210031; darn=lists.yoctoproject.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=AaApOaIDbKSuPEoDI/3fhLEukzqERbFb9wa7XdIF9m8=;
+        b=cX0DSGBgnrrGx5mvuBkrvc5LVOvMpVW9WXE0yACrvFCmswSjD7/9ZVnPigVZEfAw7Z
+         XsbZ4gobsE1r2YwLjXuQDKK6LaOQtuPpMG+ZSueT2ZjTxtqBNB0XdZhSJgZuF5KlNsJS
+         Q2zXFz6/fFbP2Y0nsVz7rMATchHLAXeRWfYwLPAq2FukRUxqGFikAIvqxryMbDvniIz2
+         /BBMDI79/5+o133K/Xea8MBiG6qQPPCAXHJkU5j223JmOk+l7z5k2w6WrVEIa6Zl7tgi
+         uNJMzKhcXHtmNSSzzhVTWZMWtYHTR19Cl4IVHEwlPrNg50as/OCNboqW3TWhGBxZNfnx
+         j5XA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708605231; x=1709210031;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=AaApOaIDbKSuPEoDI/3fhLEukzqERbFb9wa7XdIF9m8=;
+        b=wRpffSHX/ny/KL9GVVr7ahXSFww7jKD/Nz6MgqMfaq6vMrWqHkmpLu58zDCe9LTCzk
+         AhgpXqAaK7pK24k7ajximtslfaAlMC/+clm7osKeQ/HCyG9ntFlYEiONWkVBVxZ/TJyF
+         hVGdQc9wMeXIQHxwmpCppCRI3VEUotep6fOMj3LhnTIXh9dubAAswEFJXs2/oD1xy9T3
+         OqVNURCHGzxj0HsM8zveFaBxhCsCv9G07BTb/6f5SC3r+5RpARJM4gFMvJEORuNnJ1Es
+         qy5lc3hoVh750zUFpYkCrftUlr0fZLf7Xp767MmYQI/uR1m14hkR+IWcEUxNGlzMiJAT
+         rLLA==
+X-Gm-Message-State: AOJu0Yzhu3cxciWKW57XEplUS5IMxkb8Pnuvx+XEHE6xN+AmVwqUt2d2
+	os7Y7G5f1hp+2t6Akya/r1eFfVPA6rLGnRcAITVX7fkMmWWh1Cmxn28YBPN9kUoBh3A0VSnra91
+	1fL4=
+X-Google-Smtp-Source: AGHT+IEpShdGfITqn0BL0Q3l+EZ8gStvOc3LVH3voUT8NxbpRAO0tMBKSTngo1sd1UJEfAAcbTI70w==
+X-Received: by 2002:a05:6512:1287:b0:512:c4b4:bfc9 with SMTP id u7-20020a056512128700b00512c4b4bfc9mr7716658lfs.8.1708605230872;
+        Thu, 22 Feb 2024 04:33:50 -0800 (PST)
+Received: from corsair.. (88-169-167-85.subs.proxad.net. [88.169.167.85])
+        by smtp.gmail.com with ESMTPSA id l12-20020a05600c4f0c00b004122b7a680dsm21671983wmq.21.2024.02.22.04.33.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 Feb 2024 04:33:50 -0800 (PST)
+From: Fathi Boudra <fathi.boudra@linaro.org>
+To: meta-virtualization@lists.yoctoproject.org
+Cc: Fathi Boudra <fathi.boudra@linaro.org>
+Subject: [meta-virtualization][kirkstone][PATCH] upx: bump to 4.2.2 release - fixes various CVEs
+Date: Thu, 22 Feb 2024 13:33:46 +0100
+Message-ID: <20240222123346.1928883-1-fathi.boudra@linaro.org>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-Received-SPF: None (SATLEXMB04.amd.com: sandeep.gundlupet-raju@amd.com does
- not designate permitted sender hosts)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ5PEPF000001D5:EE_|MN2PR12MB4454:EE_
-X-MS-Office365-Filtering-Correlation-Id: 059c791a-1e5f-455e-a247-08dc3346264f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	jniBAXzsqoKlwJR0nka+53A+pBb/xirwxpspT9UEdD6Dqx3YxUwU6SBTDSVIrAgdXwJgPMnw43j++sSN30VK6gbIY+SXZHoznkhCHTfSl+n4Wg76j//D7ZSAFhNttvrjZCLKY4g/3w4D7/HRqIXGPrA24BizlWlcdUv3Q83TTOVHIXyIft5D1+W3/6jiHWU7PMdA2UnAoWgYx9BRoqmufSAZ88lO1B6o+LzY+2hbs9V/BYz0DFllFnI0jI6HS2UdeGkOwqlf6KuNTtVoffTz6GEOrwSQIMlyUDvG+HwzrqVxveKsrr60p4hvg8TP8IBfPpCz+xNArS3nI+iqKxQ0nDqN17a8HNGA1ym8DsV98dCufWAkj5gjYrYLNWiuXGbVa3wJjmk50XRXAy+NWcBK+pjdWO4+d41k2ZgUlJQNrYs80p7+esLM4/69aoWjUcsO6KvDr5SkoKDfOgMAFjbPN3tvya7/VA2PlPL0SzgnfTebqBuqRY4lHMRpS/Y4SV+Cy5mCbg39wrglUXgG/lWyplezbMrU3wfZZrvNU9c3fycLULJATXrQVo3J8+q6Fk2NOe7UeMv7KUx1xSJs2ghF7HRBIePPrABQLSHVkn3FHfdbGUh0SjKPy3ck0Bq1Bw8tSNNTVYT2w3VeUBykYz6HfWVF9DGrBj3hDSgeaX7ruVA=
-X-Forefront-Antispam-Report: 
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(36860700004)(46966006)(40470700004);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Feb 2024 01:32:36.1998
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 059c791a-1e5f-455e-a247-08dc3346264f
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	SJ5PEPF000001D5.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4454
+Content-Transfer-Encoding: 8bit
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Thu, 22 Feb 2024 01:32:44 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8569
+ <meta-virtualization@lists.yoctoproject.org>; Thu, 22 Feb 2024 12:33:57 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8570
 
-Due to increase in 6.6 kernel image size xen ramdisk offset was
-overlapping with kernel image. This causes xen randisk image boot
-failures. Hence increase the ramdisk offset to fix initrd boot
-issue.
+Update upx recipe from 3.96 to 4.2.2 release:
+ * Use the gitsm fetcher to get the source code.
+ * Add a note to keep using the git repository.
+ * Update the homepage.
+ * Drop the build dependencies as they're useless. UPX builds using the
+   vendor subdirectory, statically linking the libraries.
 
-Signed-off-by: Sandeep Gundlupet Raju <sandeep.gundlupet-raju@amd.com>
+Fixes CVEs:
+* https://www.cve.org/CVERecord?id=CVE-2023-23456 A heap-based buffer overflow
+issue was discovered in UPX in PackTmt::pack() in p_tmt.cpp file. The flow
+allows an attacker to cause a denial of service (abort) via a crafted file.
+* https://www.cve.org/CVERecord?id=CVE-2023-23457 A Segmentation fault was found
+in UPX in PackLinuxElf64::invert_pt_dynamic() in p_lx_elf.cpp. An attacker with
+a crafted input file allows invalid memory address access that could lead to a
+denial of service.
+* https://www.cve.org/CVERecord?id=CVE-2021-46179 Reachable Assertion
+vulnerability in upx before 4.0.0 allows attackers to cause a denial of service
+via crafted file passed to the the readx function.
+* https://www.cve.org/CVERecord?id=CVE-2021-43317 A heap-based buffer overflows
+was discovered in upx, during the generic pointer 'p' points to an inaccessible
+address in func get_le32(). The problem is essentially caused in
+PackLinuxElf64::elf_lookup() at p_lx_elf.cpp:5404
+* https://www.cve.org/CVERecord?id=CVE-2021-43316 A heap-based buffer overflow
+was discovered in upx, during the generic pointer 'p' points to an inaccessible
+address in func get_le64().
+* https://www.cve.org/CVERecord?id=CVE-2021-43315 A heap-based buffer overflows
+was discovered in upx, during the generic pointer 'p' points to an inaccessible
+address in func get_le32(). The problem is essentially caused in
+PackLinuxElf32::elf_lookup() at p_lx_elf.cpp:5349
+* https://www.cve.org/CVERecord?id=CVE-2021-43314 A heap-based buffer overflows
+was discovered in upx, during the generic pointer 'p' points to an inaccessible
+address in func get_le32(). The problem is essentially caused in
+PackLinuxElf32::elf_lookup() at p_lx_elf.cpp:5368
+* https://www.cve.org/CVERecord?id=CVE-2021-43313 A heap-based buffer overflow
+was discovered in upx, during the variable 'bucket' points to an inaccessible
+address. The issue is being triggered in the function
+PackLinuxElf32::invert_pt_dynamic at p_lx_elf.cpp:1688.
+* https://www.cve.org/CVERecord?id=CVE-2021-43312 A heap-based buffer overflow
+was discovered in upx, during the variable 'bucket' points to an inaccessible
+address. The issue is being triggered in the function
+PackLinuxElf64::invert_pt_dynamic at p_lx_elf.cpp:5239.
+* https://www.cve.org/CVERecord?id=CVE-2021-43311 A heap-based buffer overflow
+was discovered in upx, during the generic pointer 'p' points to an inaccessible
+address in func get_le32(). The problem is essentially caused in
+PackLinuxElf32::elf_lookup() at p_lx_elf.cpp:5382.
+* https://www.cve.org/CVERecord?id=CVE-2021-30501 An assertion abort was found
+in upx MemBuffer::alloc() in mem.cpp, in version UPX 4.0.0. The flow allows
+attackers to cause a denial of service (abort) via a crafted file.
+* https://www.cve.org/CVERecord?id=CVE-2021-30500 Null pointer dereference was
+found in upx PackLinuxElf::canUnpack() in p_lx_elf.cpp,in version UPX 4.0.0.
+That allow attackers to execute arbitrary code and cause a denial of service
+via a crafted file.
+* https://www.cve.org/CVERecord?id=CVE-2021-20285 A flaw was found in upx
+canPack in p_lx_elf.cpp in UPX 3.96. This flaw allows attackers to cause a
+denial of service (SEGV or buffer overflow and application crash) or possibly
+have unspecified other impacts via a crafted ELF. The highest threat from this
+vulnerability is to system availability.
+* https://www.cve.org/CVERecord?id=CVE-2020-27802 An floating point exception
+was discovered in the elf_lookup function in p_lx_elf.cpp in UPX 4.0.0 via a
+crafted Mach-O file.
+* https://www.cve.org/CVERecord?id=CVE-2020-27801 A heap-based buffer over-read
+was discovered in the get_le64 function in bele.h in UPX 4.0.0 via a crafted
+Mach-O file.
+* https://www.cve.org/CVERecord?id=CVE-2020-27800 A heap-based buffer over-read
+was discovered in the get_le32 function in bele.h in UPX 4.0.0 via a crafted
+Mach-O file.
+* https://www.cve.org/CVERecord?id=CVE-2020-27799 A heap-based buffer over-read
+was discovered in the acc_ua_get_be32 function in miniacc.h in UPX 4.0.0 via a
+crafted Mach-O file.
+* https://www.cve.org/CVERecord?id=CVE-2020-27798 An invalid memory address
+reference was discovered in the adjABS function in p_lx_elf.cpp in UPX 4.0.0
+via a crafted Mach-O file.
+* https://www.cve.org/CVERecord?id=CVE-2020-27797 An invalid memory address
+reference was discovered in the elf_lookup function in p_lx_elf.cpp in UPX
+4.0.0 via a crafted Mach-O file.
+* https://www.cve.org/CVERecord?id=CVE-2020-27796 A heap-based buffer over-read
+was discovered in the invert_pt_dynamic function in p_lx_elf.cpp in UPX 4.0.0
+via a crafted Mach-O file.
+
+Signed-off-by: Fathi Boudra <fathi.boudra@linaro.org>
 ---
- dynamic-layers/xilinx/recipes-bsp/u-boot/xen-boot-cmd.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ recipes-extended/upx/upx_git.bb | 43 ++++++---------------------------
+ 1 file changed, 7 insertions(+), 36 deletions(-)
 
-diff --git a/dynamic-layers/xilinx/recipes-bsp/u-boot/xen-boot-cmd.inc b/dy=
-namic-layers/xilinx/recipes-bsp/u-boot/xen-boot-cmd.inc
-index b2b76120..7a4e41a6 100644
---- a/dynamic-layers/xilinx/recipes-bsp/u-boot/xen-boot-cmd.inc
-+++ b/dynamic-layers/xilinx/recipes-bsp/u-boot/xen-boot-cmd.inc
-@@ -9,8 +9,8 @@ KERNEL_OFFSET:versal ?=3D "0xE00000"
- DEVICETREE_OFFSET:zynqmp ?=3D "0xC000000"
- DEVICETREE_OFFSET:versal ?=3D "0xC000000"
-=20
--RAMDISK_OFFSET:zynqmp ?=3D "0x2400000"
--RAMDISK_OFFSET:versal ?=3D "0x2400000"
-+RAMDISK_OFFSET:zynqmp ?=3D "0x2600000"
-+RAMDISK_OFFSET:versal ?=3D "0x2600000"
-=20
- XEN_OFFSET:zynqmp ?=3D "0xBA00000"
- XEN_OFFSET:versal ?=3D "0xBA00000"
---=20
-2.34.1
+diff --git a/recipes-extended/upx/upx_git.bb b/recipes-extended/upx/upx_git.bb
+index bb8004c6..02e70ffe 100644
+--- a/recipes-extended/upx/upx_git.bb
++++ b/recipes-extended/upx/upx_git.bb
+@@ -1,45 +1,16 @@
+-HOMEPAGE = "http://upx.sourceforge.net"
+ SUMMARY = "Ultimate executable compressor."
+-
+-SRCREV_upx = "8d1a98e03bf281b2cee459b6c27347e56d13c6a8"
+-SRCREV_vendor_doctest = "666e648b68fda2deb141a1fe93e3fd1e2795dd0f"
+-SRCREV_vendor_lzma_sdk = "9ebf8f468c689d83504e6c08c6bc26c4a1cf180f"
+-SRCREV_vendor_ucl = "4b58d592199dc1e5db691e1a54fb0e5e9af0ecaf"
+-SRCREV_vendor_zlib = "2a5b338eb173a701ed179e951d4c390e75e8d4c7"
+-SRCREV_FORMAT = "upx"
+-SRC_URI = "git://github.com/upx/upx;name=upx;branch=devel;protocol=https \
+-           git://github.com/upx/upx-vendor-doctest;name=vendor_doctest;subdir=git/vendor/doctest;branch=upx-vendor;protocol=https \
+-           git://github.com/upx/upx-vendor-lzma-sdk;name=vendor_lzma_sdk;subdir=git/vendor/lzma-sdk;branch=upx-vendor;protocol=https \
+-           git://github.com/upx/upx-vendor-ucl;name=vendor_ucl;subdir=git/vendor/ucl;branch=upx-vendor;protocol=https \
+-           git://github.com/upx/upx-vendor-zlib;name=vendor_zlib;subdir=git/vendor/zlib;branch=upx-vendor;protocol=https \
+-"
+-
++HOMEPAGE = "* https://upx.github.io/"
+ LICENSE = "GPL-2.0-only"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=353753597aa110e0ded3508408c6374a"
++SRCREV_upx = "099c3d829e80488af7395a4242b318877e980da4"
++PV = "4.2.2+git${SRCPV}"
+ 
+-DEPENDS = "zlib libucl xz cmake-native"
+-
+-# inherit cmake
++# Note: DO NOT use released tarball in favor of the git repository with submodules.
++# it makes maintenance easier for CVEs or other issues.
++SRC_URI = "gitsm://github.com/upx/upx;protocol=https;;name=upx;branch=devel"
+ 
+ S = "${WORKDIR}/git"
+ 
+-PV = "3.96+${SRCPV}"
+-
+-EXTRA_OEMAKE += " \
+-    UPX_UCLDIR=${STAGING_DIR_TARGET} \
+-    UPX_LZMADIR=${STAGING_DIR_TARGET} \
+-"
+-
+-# FIXME: The build fails if security flags are enabled
+-SECURITY_CFLAGS = ""
+-
+-do_compile() {
+-    oe_runmake -C src all
+-}
+-
+-do_install:append() {
+-    install -d ${D}${bindir}
+-    install -m 755 ${B}/build/release/upx ${D}${bindir}/upx
+-}
++inherit pkgconfig cmake
+ 
+ BBCLASSEXTEND = "native"
+-- 
+2.43.0
 
 
