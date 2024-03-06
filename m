@@ -1,137 +1,149 @@
-Return-Path: <christian.taedcke-oss@weidmueller.com>
+Return-Path: <xiangyu.chen@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BFD90C54E4A
-	for <webhook@archiver.kernel.org>; Mon,  4 Mar 2024 15:52:50 +0000 (UTC)
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com (EUR05-DB8-obe.outbound.protection.outlook.com [40.107.20.93])
- by mx.groups.io with SMTP id smtpd.web11.102518.1709567562185040596
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08215C54798
+	for <webhook@archiver.kernel.org>; Wed,  6 Mar 2024 02:00:46 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.2578.1709690437729565783
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 04 Mar 2024 07:52:42 -0800
+ Tue, 05 Mar 2024 18:00:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@weidmueller.onmicrosoft.com header.s=selector1-weidmueller-onmicrosoft-com header.b=H2P9zNe0;
- spf=pass (domain: weidmueller.com, ip: 40.107.20.93, mailfrom: christian.taedcke-oss@weidmueller.com)
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=3795de5e65=xiangyu.chen@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 4261o3dU027706
+	for <meta-virtualization@lists.yoctoproject.org>; Wed, 6 Mar 2024 02:00:36 GMT
+Received: from nam11-bn8-obe.outbound.protection.outlook.com (mail-bn8nam11lp2168.outbound.protection.outlook.com [104.47.58.168])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3wksawuggc-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <meta-virtualization@lists.yoctoproject.org>; Wed, 06 Mar 2024 02:00:35 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=P7D6c0b3EZmGCldSnHgxW/DNHkDRKHjtOBzjn4O31xdNbCMNklRe+aF3T7Fi4PeSx8TZFObzSaE3dqfIkXxR3FmXzQtoyMgQFNT8EpE+W3jYG+zo2Yg6V+fovqY3RUzPw357jpTKrQTvXZOwUT5iF4H7po2tF3NHsSWMsqgZAqRVu504RkKOwpfWlnHixdwrJG3uEGQXM6L59UKgB6X3aGcCBwWoesvcm/dPe9I5n1kSHQQ2WhbSIVqQZ+bdbd0hEtH69c/ZfcFoIMx3JneY8h8qjxstCDBbjdu0lB4h4R4NmwYJIIriP7J5ylvoc/edu60SCQnEefZWF9cchoIpmg==
+ b=dFpLvd9Ht9mRRPl2KACey2BsYmTrkuEPXZIgjnvvhY9L6omxMr/g6AHZ+ZTo2gPiXR9C5Z7xKTTfi9RiaXKJMGxtZBAjUmvMzMYsUOBDaqntPBGCEC8EsSnQGCOkdyvdjjAAoYuFju1dzHqHyJBrTh/cGgVF/Vz3nxODjjvrzN7xb9wmXYwbkROuXsIuh8hnoRBhLLHhPt3Kig35v74bDGgDJG6NNLJTbGpi7vVGy4b/RMqY+ROAj7onvlNb2MAKil5k5jCcHT8dIasuFTAjdgbOvZaynxlLFHorcL6va8OfxEJpcGiVDR5xNN9cvFotAmASjkNeWzGcQgK2zTUPZw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rIYez55V7ctrTAwtI8lYzmQR7KMBlXc3P34/J1EFSBs=;
- b=DxkojD57K3NOIFf9ext6ywzg8zzO8W5t7o8Wd/W8qrlw8+QKBkI3zLgfqS3DHa+IlCZEUBdxFjOnKe0onVvYbVEBoxB2mS9mL4w2OPm4Isy4xTfHKaSiv0kO1IaSM6R6LtZEKZzcaGCTJztVv9xQA7cuHz+6ve3mUr2ITYUD8Pjo6kYedRssL044fjA/XeeqaeMp8Iq1KQi8nPIGqGzXhO5uB9dBF5FZbj9EC+OuPf+fyR4lZnkulcNytFm2YVLXSAFxzvsEdVTF4RPsRHce1YZatlSCP/gteE6PR0XEeALahiOd+CQkTJxVmV+hNeM07LfpYS+jIn/LcJrFxvf30g==
+ bh=Y3Om+cUtUSuh7wZDjSs8/rTO0iVdND4fk12Oq3PIEIM=;
+ b=h4ZhXcZVUG2spRISaq0pYIoiJtbTCgFLVQACIJkvyme0v0BUl3mM1lon/I1mVwIIfpdfi+090yHpqZ/bAfsc54MiFr9aKUpYO/bL35oLG9IPokvpJ6r4lM9Itek6HBMBmBydlsVF7Uq7R3mLDzPLD5FOeAWZOYGjzpPkw1y+w0eQjOgvdXpqYFG5RVcUqcpnvFzV6QFPE+E9nIKjx2kTUMNoA0Peup22I7Io/l2DGswO31b+HRPEIEiPPC57qvBkxdnoGeRdu+1rUVInj58/iakbK5i4zqb5/XMBPvMKKjZVDgozk9KIaJflJeB6ek33szbG6CK8eOefu/BjHcNyRg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=weidmueller.com; dmarc=pass action=none
- header.from=weidmueller.com; dkim=pass header.d=weidmueller.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=weidmueller.onmicrosoft.com; s=selector1-weidmueller-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rIYez55V7ctrTAwtI8lYzmQR7KMBlXc3P34/J1EFSBs=;
- b=H2P9zNe0TltqSWJ91T6Wjy7QwVFu4J2ovu9De7NGQWcpUSzhPqi0ye3yN0UclvNhPLPRz0b2FTGftgqZ5Fc0analnlM/MHeDaut9g5nZUcL1CeoohA2wQMN3tBeWo2ArFrnlLILn6qhtBbQGQ6ZhM3Zj+nMbzwDYEYm8PG1IEqY=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=weidmueller.com;
-Received: from AS2PR08MB9199.eurprd08.prod.outlook.com (2603:10a6:20b:578::22)
- by AM9PR08MB6642.eurprd08.prod.outlook.com (2603:10a6:20b:2ff::9) with
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=eng.windriver.com; dkim=pass header.d=eng.windriver.com; arc=none
+Received: from MW4PR11MB5824.namprd11.prod.outlook.com (2603:10b6:303:187::19)
+ by SJ2PR11MB7519.namprd11.prod.outlook.com (2603:10b6:a03:4c0::10) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7339.38; Mon, 4 Mar
- 2024 15:52:39 +0000
-Received: from AS2PR08MB9199.eurprd08.prod.outlook.com
- ([fe80::f092:6b68:ac4e:ff7f]) by AS2PR08MB9199.eurprd08.prod.outlook.com
- ([fe80::f092:6b68:ac4e:ff7f%7]) with mapi id 15.20.7339.035; Mon, 4 Mar 2024
- 15:52:39 +0000
-From: christian.taedcke-oss@weidmueller.com
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7362.24; Wed, 6 Mar
+ 2024 02:00:34 +0000
+Received: from MW4PR11MB5824.namprd11.prod.outlook.com
+ ([fe80::5dcc:ddee:208a:33b5]) by MW4PR11MB5824.namprd11.prod.outlook.com
+ ([fe80::5dcc:ddee:208a:33b5%4]) with mapi id 15.20.7362.019; Wed, 6 Mar 2024
+ 02:00:33 +0000
+From: Xiangyu Chen <xiangyu.chen@eng.windriver.com>
 To: meta-virtualization@lists.yoctoproject.org
-CC: Christian Taedcke <christian.taedcke@weidmueller.com>
-Subject: [meta-virtualization][PATCH] kernel: lxc: drop HVC_DRIVER
-Date: Mon,  4 Mar 2024 16:52:27 +0100
-Message-ID: <20240304155227.613062-1-christian.taedcke-oss@weidmueller.com>
-X-Mailer: git-send-email 2.34.1
-Content-Transfer-Encoding: quoted-printable
+Subject: [meta-virtualization][PATCH] kernel/cfg: add CONFIG_CGROUP_BPF to docker config
+Date: Wed,  6 Mar 2024 10:39:58 +0800
+Message-Id: <20240306023958.3779337-1-xiangyu.chen@eng.windriver.com>
+X-Mailer: git-send-email 2.25.1
+Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: FR2P281CA0010.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a::20) To AS2PR08MB9199.eurprd08.prod.outlook.com
- (2603:10a6:20b:578::22)
+X-ClientProxiedBy: SG2PR02CA0129.apcprd02.prod.outlook.com
+ (2603:1096:4:188::19) To MW4PR11MB5824.namprd11.prod.outlook.com
+ (2603:10b6:303:187::19)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS2PR08MB9199:EE_|AM9PR08MB6642:EE_
-X-MS-Office365-Filtering-Correlation-Id: 81345083-9efc-49da-cb4e-08dc3c631ec9
+X-MS-TrafficTypeDiagnostic: MW4PR11MB5824:EE_|SJ2PR11MB7519:EE_
+X-MS-Office365-Filtering-Correlation-Id: 07db8654-068a-4f3d-fb90-08dc3d81356d
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	71KqpH3JPI8bY4LL9XAiwCxvwVuH7XSlxxVJ58hHluMJRjioXOT9LWN+C4k0aLH0d8xq9VVb1/SzsfLdVRQhR/SIbrD83p3JwLM9b3holFBAJihUBuyPfdUs7FQSz0d7AMAtYbc47UPN2X8PreLY8O4hnbV0ca6RU4Mp129p/cVoQVm9hmWGeC18MdIkusUx2tfkFN6hn0gx1Y8UaDixmsHKqBp2m3Rmm61LQ9Da51xKtfq6vyvdMrCKU2cWOdX9CleRS/qkXbkUtHHYerFQMkMtAR0hTCOJ0fvKhj+6NZZe++dtfPMSfBWKs3yARSYvre3K6lJXDX61SAurMfMCd9FYktuEGQC3ivRzSdpJn1WBuPQaiy6ROwAPThUHOC6WbptmOKortxjXbwnvt0y9rUgFUPrbqFB4+hh4WojOQ6jrkoTXLcSTq5SzT4AxiNnJw84iOnlAdo4N3gyZ80bE7Hovuri5c1PtDvfT4ftKcoou0PnfV+51Fc9HxyTkfLv+qZJSC7MLDsnRGonuSalyM0sJAuuMsHfapO8gNvdCVkYxMxUwoQW3+rHVhWatnWW8apqigzAlCaKon/dCuA0kozLpa7YB4i6UYZfcIxRXMuBndSRw+DwQ2nK2MVDd42bXl4rt5XNTpTS1DNeHsSBakOl+zVHiM5Z0IjnFxZHBEZxhmcDJ+r7KEAg5vsI+SH8rTZEsuqFp4Y2LxvfYL7Mvipm3iiXQM4Vj2a7FesJPTMA=
+	1wMnQwypZDfRZlcjmMvA9VO7004kT0cdmGqiQ/10hJSfe/nkYmFDe9cCwCcddQO+aRlgMWM53dddWhRyFygCXFekA5wgBcr99zEDfViXK3ADz8f3K7aCzqXLm9iLE487ZLhm2bsi8Rc9dn4RdVUbRYLgP7AN19KsOMY3BwVG1+XzK5rxj96vccjwextSn8Pbp0ePP8c94HLMlhrINKCyJCtc589ejHYKOgxxOSBuruFHETgTZlZVvCG5u+N9oEGL3R9UmGVUbQBCQ+P+OY0tLYPcrD251pYwXSp2yoaYGLavRzrunJTwfPAJ1RsDE7Hiol43ECZV1DSH4w+GrwhCPsdbADzisVYUHaJqQiTzydgt4SAjVhPLPA/qcnwJMc1h7JB8jMH6sYtOZSr8hm80yodjGqDlqkUY7QjgTfO0sXVCHyqVicV89PDMJNKEKrYSZvpgvmBN0BNu8ltJYW3eHvNacLFKg9238tW3ROlm6oPVoMbH1DwwFglYItCD66CLKLQnT6pE7l5vINetmKPXn1Gj84SXmtBE1zAfEn4BTG2ng9gQo0JLHgw/3l9YG4c7l+QBcH4EQHM2HaibMvqpwuRSELLlw8Gm1oFn4Stq+I0VpXp27QurLICa63MBV/HE3sAsSROT5dihQ/r0ta6jgaVi2QHsIA6by6D01HE6GwQuZ+rdkXQ7KTjJDTRXIQJ8ETKJHYDmmPnM878m7sG9+g==
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS2PR08MB9199.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(38350700005);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW4PR11MB5824.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(38350700005);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?0Bo5TRylekXCaXtadNGWQh+u7jZP0flyq6ZzZwxU7ohGzFRLhnMZfrxriJst?=
- =?us-ascii?Q?8WJ3tgfFknunOJDUCw77SPn9ltYd9GZYikHrcCw8Hud/5WZ5sGhh5rgcuH46?=
- =?us-ascii?Q?yj4uk9taYHb3xvrqomVZA4e/Tj8WTFGK7KFpmUu1R7m/5y2/ec5H59DDrtxE?=
- =?us-ascii?Q?Fo4TmlgGdHfO37qGBqI6f+vWT5+UnynqLBglCOs82LjDDJIUZbq8W08t4kEO?=
- =?us-ascii?Q?RpjOyvbjElzOYd2i9MLbe0PthLoiVBtJM7E2toltacu7v3PsWGJijUHCVKVv?=
- =?us-ascii?Q?I7jvDruKKc5d3uOLy+EZdnCG32OKJeOkvVrTx+ha6inwaTdCcOjiwcLNhjSF?=
- =?us-ascii?Q?Sw3ks5RGFa7tr4lV2wcVcwlpSLkrcYxcUc3/cwtJJ14qcijyJHYCECH+7SyM?=
- =?us-ascii?Q?g+wAeSb+s7NZ8FUW6+4W6MlfDbOb8cBtnHUyV9GFoll3cgen7jUsIWiCMQWv?=
- =?us-ascii?Q?DGdcnrXUIj23+QqFlO1l3sohXooE1yFIE8lJn4Al8MCIVMyx4hYbhLT47W6c?=
- =?us-ascii?Q?LSgdToJ9IrjUQ15ojvWXbruxBe7sFzRGLv4bpB5l8swTJMSpPMLmjyyZg1TL?=
- =?us-ascii?Q?hENGrqdaUR8JEnTKSDyZaNqc+JzV4hMfGe9M6dbnaL+Onx3ce18x1rc9w3hT?=
- =?us-ascii?Q?cMU0RWtW6xsnRmrbbfSZLFFoUNUVZov3fVWAd+JhK3yqDs4a7ClN/cLeYngk?=
- =?us-ascii?Q?mRbaZWYqVMd7S3nBCjYCfnEdNTjHsnX4i1l0l+/7Rn7vIW9u9MupTV/fkA1K?=
- =?us-ascii?Q?ucsGf9JdHC45VG6wth+vOjtcAhRO1KsScz47dBCnxoOxR6MzlRno024QWQfa?=
- =?us-ascii?Q?yngNqUVHBYZzaLOEzOyAa/+Sqt6F1ZwZACrXpOzhmvC/eWuMKKjUf+Y7ky0p?=
- =?us-ascii?Q?0ud+GiOZQA2GCsU63D2UITBFg0uT0Ck35Z5YAAxRwDy4V5COY6UNeVtb39F7?=
- =?us-ascii?Q?RAB/NGSgb+PpL8lodcapWyeVzBQZkYyVr67zHWee3Q/vAz4HOQ7aj6Ujh1lC?=
- =?us-ascii?Q?VMbhzy3HUVjgTePxibhzsSo0cMy+Qe/U9f7q8zFhC9fZk97QrCi3mBNIbBnj?=
- =?us-ascii?Q?lrxxtOjKEuHNltZw+gSz93KmPyTjgrg2ep5mTK5MNdq9qUw9uH3zDaqWT3I/?=
- =?us-ascii?Q?pO9WeIi9x8HfBu1OTrhcBzdmhEA6SqptqkyCBEpfbH827vVPO414MsIpq6UR?=
- =?us-ascii?Q?3W96RYiqEOYcrb2u8eDjC6CfjkAjvbLnV0IlMtK9p1qmaegtrTpE4JAR9mHe?=
- =?us-ascii?Q?KmRbBo3oXLcBNEspFj9a3bB6avJJxfq/CunP6oHltDVNJ1Htzm4MtuQu4fPY?=
- =?us-ascii?Q?58BEiEdYY8ST8x3nf6DL3CvVTSQ1qlfxyIJ7O4yAhPl/a3K+8Q8A6IDfkfm1?=
- =?us-ascii?Q?2s8Z4M3KoxrmqxrmVJowmWtsLxon8QoJRIai6grGG7875m8ll4BaWc2OKBaI?=
- =?us-ascii?Q?/+a8G8Mbbb59k+1Yj7HH01IEELyt7AdfZaeYboObFb6Pd5/dj8wGLAdGp1FY?=
- =?us-ascii?Q?jeK293BF6fwW3WQMtE1qEE/905WmznrcmUhEu5+6opZ7u9EpXtjyB9pfYoY2?=
- =?us-ascii?Q?W+CWn7XAo4qwGInJVUv9QMA6PVnfPcYBaewj4aU2noK+dnB2UAJS8Aa5pYMl?=
- =?us-ascii?Q?/FUOjCp6CzBs76AhVxb+ma4q04nbOShZNuYuQaFoK4AH?=
-X-OriginatorOrg: weidmueller.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 81345083-9efc-49da-cb4e-08dc3c631ec9
-X-MS-Exchange-CrossTenant-AuthSource: AS2PR08MB9199.eurprd08.prod.outlook.com
+	=?us-ascii?Q?biIkbBpNUkeW7XAFWpcUx13P5BHRLPhOHABHBxaY35u75ptMIJBF89O44dKs?=
+ =?us-ascii?Q?+TiOZrDT88Bh+VyZK5DAFLsvbs2qZo7m27mIzsxsPW3GQEVcLDAX0FvKXEkq?=
+ =?us-ascii?Q?EmfRt0ZEg3Hxao8mToOkdz4UrPS0xPR5MlGNnBexsMNWFQgcNLpR4mGkbfM5?=
+ =?us-ascii?Q?4YXZKTYiiPeNAW2R8QvpPJtzvRUfiWxF5WMBWBkOdC/jf5dmUma8ut0O7hEG?=
+ =?us-ascii?Q?TMWK2OOXgERdvZkSNzkJBTCTujbkdjYF55ixwYqTmnaOWcCU2uVMkEPoFJTi?=
+ =?us-ascii?Q?QCXpuC4do5xMFSr7m2RY1uY0zTqoq23Y6PEWaWnrl1e/RBTcGSqdrEs4mRyt?=
+ =?us-ascii?Q?ZLQjq/ger1YhaIh5MjZlHvlP2eI2qglmgdhkMqIkXmt9+DZJzdv0JMDbfAoQ?=
+ =?us-ascii?Q?F2EDnlICc1guzZpuqU+06o12iat233thQzy2rWgjVhydR+uPWhuC6mOfjZpy?=
+ =?us-ascii?Q?Vb5H8zKmgrQcv3s/Aams+bgfs3oF1Coev8rvyaErLZReoqIdigUzudp3W6ye?=
+ =?us-ascii?Q?wpbBTs4M/yUffKKkBjTDl3KAkacyi4ie2KWR4Q2uwRV/YRfBD9llfjSAuWTq?=
+ =?us-ascii?Q?3yFTjLTnKkPZud2ZqePlRRuF/rxcmY6fqXsiK4SI+JD4uRvJob72V6mcCVnr?=
+ =?us-ascii?Q?4kfmpwxDv/45jQ70u2s6TkRV9SyGjxzYHjUQ9t6RNM6DOLWVrKMUTI+2R2+W?=
+ =?us-ascii?Q?aKY4AjUJl+tXvziol9ufEpK1+ZMTdodSz6ij5HaIDMruEVNfXEGvIzyqhBjA?=
+ =?us-ascii?Q?dyykSgRo+nAKFU+GLBaOmdqH9duHoJAcvpPCxvqXIT/FYjx4+c0GQGH1CLDZ?=
+ =?us-ascii?Q?OISSxYF8/i5Upn3n70FtgGUj9sFF/1zwbGfgweNjJ6Eo2azxHqh5fNm/XWkv?=
+ =?us-ascii?Q?kdYeJ1C7e3gi24REJMSOnHnLlyB7GNAdOB55VwXsBTQkhKTRmxR6t1itCqGg?=
+ =?us-ascii?Q?65FN4lzIl7PxQzFz6EHTyNjg0aUxSQrz1giBVx1A1yQH+jMYE/D2r3mlP3Ps?=
+ =?us-ascii?Q?TbYwBJ/fvApT7wmWMs68iBv6DPKyUNR4wKjDyo/OKMaQuX3sZ6XbT2WDxka5?=
+ =?us-ascii?Q?FcbthaqmiSyyV+41DVN+gTtSkqF1E3AaAkVFJJgid6Rs5QSxHUoREHo8EGTw?=
+ =?us-ascii?Q?igcBWtFEHBJNiRVhqRLfhfZld1IZVo8EdlzYwKti2YveKi9rN9/lkZDrd8ar?=
+ =?us-ascii?Q?cPN8H2jKul7xYE0YBr7BXlpgXn8ZFl8Du+sJrFjjXoikWwonXN2cbW2DHzhJ?=
+ =?us-ascii?Q?4gtUk8pwjcbpGe7/RoZEd3SI47/JNRdp+vXRO6B5dud4nxY9X2TX+tKDjLjH?=
+ =?us-ascii?Q?l9MCe17Di0M59V3lqAJVzMWbjhMoZmdlqeYUmRqlQwrbdYjwgn6mDl5xcWel?=
+ =?us-ascii?Q?7Qi2TAeKZ7ef1ooZRsNzdx18ZTTe1HhHiTcMu00GplWBOuUT7eFEEpu+xBQD?=
+ =?us-ascii?Q?liA292xSK5N6oQUvU5yOISkpYwBLVpagQM/dtxxcskohZq2FyWMk8YZhthto?=
+ =?us-ascii?Q?sE9ktY73eFrCNSpkWEISXEw9Xror3FNHn+37yTkuly/2T3I9YB16cMY9qQ3F?=
+ =?us-ascii?Q?4FaT7uHG8iPY0twmuxpKZQGNlYMgevjjxylLoCNc/hpy4NoYLgwcQuM8nwX8?=
+ =?us-ascii?Q?OQ=3D=3D?=
+X-OriginatorOrg: eng.windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 07db8654-068a-4f3d-fb90-08dc3d81356d
+X-MS-Exchange-CrossTenant-AuthSource: MW4PR11MB5824.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Mar 2024 15:52:39.6562
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Mar 2024 02:00:33.9302
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: e4289438-1c5f-4c95-a51a-ee553b8b18ec
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: IIErlpsujd/jOJvKHBw1HVEWvLLgeHzmMdi4ZfFdj0sW/MkJ1gWFbvbZyrbJ9h2IJqtV8LwhkBDzw621qvg0wDVGQBp8n2p7FxkUtdiBy16+HnkCfPpJqilOljj3+c7z
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR08MB6642
+X-MS-Exchange-CrossTenant-UserPrincipalName: xOSzHukj20EhyzVDQgmyUKh+7zxtvBcS+Ir4SSmxKGtBSmDc0tSyMkkQjSPUIib+TN3DkIlw+5K9Ne5HZxmj0PiTmdY4deWOFogRQvXDUUE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR11MB7519
+X-Proofpoint-ORIG-GUID: pNE3qfoCJiMNJ706J9EHvaPVbcPrnkHS
+X-Proofpoint-GUID: pNE3qfoCJiMNJ706J9EHvaPVbcPrnkHS
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-03-05_20,2024-03-05_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 malwarescore=0
+ suspectscore=0 lowpriorityscore=0 spamscore=0 impostorscore=0
+ priorityscore=1501 adultscore=0 bulkscore=0 clxscore=1015 mlxlogscore=914
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2402120000 definitions=main-2403060015
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Mon, 04 Mar 2024 15:52:50 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8602
+ <meta-virtualization@lists.yoctoproject.org>; Wed, 06 Mar 2024 02:00:46 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8603
 
-From: Christian Taedcke <christian.taedcke@weidmueller.com>
+From: Xiangyu Chen <xiangyu.chen@windriver.com>
 
-HVC_DRIVER cannot be selected directly since it has no prompt.
+Add CONFIG_CGROUP_BPF to ensure docker can be started under cgroup v2,
+otherwise it would report the following error:
 
-Signed-off-by: Christian Taedcke <christian.taedcke@weidmueller.com>
+     Error: for ... error setting cgroup config for procHooks process:
+     bpf_prog_query(BPF_CGROUP_DEVICE) failed: invalid argument: unknown
+
+Cgroup v2 device controller has no interface files and is implemented on top
+of cgroup BPF. To control access to device files, a user may create bpf programs
+of type BPF_PROG_TYPE_CGROUP_DEVICE and attach them to cgroups with
+BPF_CGROUP_DEVICE flag.
+
+Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
 ---
- recipes-kernel/linux/linux-yocto/lxc.cfg | 3 ---
- 1 file changed, 3 deletions(-)
+ recipes-kernel/linux/linux-yocto/docker.cfg | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/recipes-kernel/linux/linux-yocto/lxc.cfg b/recipes-kernel/linu=
-x/linux-yocto/lxc.cfg
-index e195c15b..ab75cbf0 100644
---- a/recipes-kernel/linux/linux-yocto/lxc.cfg
-+++ b/recipes-kernel/linux/linux-yocto/lxc.cfg
-@@ -16,9 +16,6 @@ CONFIG_NET_CLS_CGROUP=3Dm
- CONFIG_BLK_CGROUP=3Dy
- CONFIG_CGROUP_NET_PRIO=3Dy
-=20
--# Virtual drivers
--CONFIG_HVC_DRIVER=3Dy
--
- # Base support for live boot
- CONFIG_BLK_DEV_LOOP=3Dy
- CONFIG_NLS_CODEPAGE_437=3Dy
---=20
-2.34.1
+diff --git a/recipes-kernel/linux/linux-yocto/docker.cfg b/recipes-kernel/linux/linux-yocto/docker.cfg
+index eeeaa242..4d8d7e04 100644
+--- a/recipes-kernel/linux/linux-yocto/docker.cfg
++++ b/recipes-kernel/linux/linux-yocto/docker.cfg
+@@ -11,3 +11,5 @@ CONFIG_IP_NF_TARGET_MASQUERADE=m
+ CONFIG_NETFILTER_XT_MATCH_IPVS=m
+ 
+ CONFIG_OVERLAY_FS=y
++
++CONFIG_CGROUP_BPF=y
+-- 
+2.25.1
 
 
