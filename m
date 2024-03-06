@@ -2,135 +2,129 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EFFBC54E41
-	for <webhook@archiver.kernel.org>; Wed,  6 Mar 2024 14:25:19 +0000 (UTC)
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
- by mx.groups.io with SMTP id smtpd.web11.12913.1709735112332443946
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D618EC5475B
+	for <webhook@archiver.kernel.org>; Wed,  6 Mar 2024 20:22:54 +0000 (UTC)
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+ by mx.groups.io with SMTP id smtpd.web10.6074.1709756574198930831
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 06 Mar 2024 06:25:12 -0800
+ Wed, 06 Mar 2024 12:22:54 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Ss2aoVYP;
- spf=pass (domain: gmail.com, ip: 209.85.214.178, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1dcb3e6ff3fso40394285ad.2
-        for <meta-virtualization@lists.yoctoproject.org>; Wed, 06 Mar 2024 06:25:12 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=UESmhtCJ;
+ spf=pass (domain: gmail.com, ip: 209.85.216.50, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-29a74c88f74so17443a91.3
+        for <meta-virtualization@lists.yoctoproject.org>; Wed, 06 Mar 2024 12:22:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709735112; x=1710339912; darn=lists.yoctoproject.org;
+        d=gmail.com; s=20230601; t=1709756574; x=1710361374; darn=lists.yoctoproject.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=wP4OC2H1isZfqejFpNu2EOYnFlUd81yqJRpW430dBhg=;
-        b=Ss2aoVYPc/nrFRNf6AoyEPhsUsf4+7W8vHz2n4NGPdFOpplvOOOFJ5DZextgE0BrkL
-         5HJOw/iGLp7lmixlmKuSnBRc9OYl7aJYHtlRDOmWEMv9uCsFSWu+M6bq7SBee/sQjF8T
-         CXUDWXcRSz1M1LZ7zoq/hUtnLedB+dCtLYsWo9twwbwCg/mePEOPUzDPc7MoQBgEJG+c
-         GZPf2fURBskFZhyVXeNJ/0xkD4c//DTgtr98LKefVi5hsjn/gC0k7MvY7Slnik499TCD
-         RkHgWwh13kfgm4pzhF4RkGlMVsBNvMf2O9946eqfypGOpI2j6YG72RyoOPm0PN5MVDKv
-         gyJQ==
+        bh=VcAG9ysgyiO5MnK5l9Zpz4SIhGZKLBPUayRcU0PfwC4=;
+        b=UESmhtCJfMPf8kLAULo8ofabZB27MUEHe1hR7odiXbqS+9Rp8ZbA3Vi8BViwGMHouz
+         puqoAWpZYa9IFlzVduxMgck4oEkoSNZGkcm27WPUGMhXNBj3woRQlVF9PdyOhQIU8gz3
+         UM5rz9dti1zjMkN3mj7HvNf78tPo78xA8cM35mabR3NOI+Apiw7dRu8Znm6oz36H6MPt
+         wxpBNdWlIvHtwIQtBhqUx/pyGGjM2XSjUaz//sAqeKj+UDvJe2op2N/C2p5hNRGr1WBO
+         pwMher4Hws2gt4PS+UL0bZwauSlQAZfB/HugjsylESApXerDe+B7vwUuOtwfBWUMRTJ/
+         0j+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709735112; x=1710339912;
+        d=1e100.net; s=20230601; t=1709756574; x=1710361374;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=wP4OC2H1isZfqejFpNu2EOYnFlUd81yqJRpW430dBhg=;
-        b=JzUl1ZY5stKwb6q99a1CpudWmUk/CP24PNRZe5KPfztf0IfOUSWJoyuToTT4LszIwJ
-         2I9qEGh2Fhy1CY2wbvW04CnvzyNd8ns/lcU10Jjt050sR1JMCSYyKelkbJ/c7vteYpUm
-         ZG4PwIamfXb8LW5VLyeIo47Gz/VIsTU5LNGOIbEnJTB+daIlEwsnQw9LdufR/AhLHrm4
-         D6pTlvksCqlbNPkocatX/EvK7C0GjCRyP0iAVjJS6otXuQZTOvnneF6Fj5CkCltPbBfr
-         qt2VHpPnqZncXWumTshHrVNpNVg1+4tbY6ZWCGMCOEDF/kVkVxve6k9LmkaPOS39eSTW
-         lI+g==
-X-Gm-Message-State: AOJu0Yw6goRY7BvwAlBwwog+SDPw1YgQSqU22qG6uT2uRXt2RslsP/p/
-	HIRN4nKFxN96Spzuoeua3wIU2tt5XbRfV2LyMaPTIhHBSp3uPgvuj9D8iukkFjdTUVVHpaT3i3+
-	40J95uOkustno5uLWbxUkkummlcc=
-X-Google-Smtp-Source: AGHT+IEvsqvxPAx5wTWvhEPgpWyLJsnGz2gjQMkzxkCADbjleLRNtpWG3WOADLWlVVaAbfFyq/5qGALAx1EOWBk8zp0=
-X-Received: by 2002:a17:90a:17e9:b0:299:bade:ed0b with SMTP id
- q96-20020a17090a17e900b00299badeed0bmr10937173pja.45.1709735111546; Wed, 06
- Mar 2024 06:25:11 -0800 (PST)
+        bh=VcAG9ysgyiO5MnK5l9Zpz4SIhGZKLBPUayRcU0PfwC4=;
+        b=VNM9DJwqIqnCehlzOyliKCaEPfL1vxTl5Lhu4QUib6DNpXhw7A5C9A6ZWS9naHWl5N
+         KoaJorw7CFpd49jmEKz/a2IxMJgP59ApRyPgQ2EwnRC8SAniaBFh/fVt/0m1ijyRoL3e
+         fqCErEkrKsiGTwz9P4lsYZn15N10E4i83dHWhWLDKoSt2ApokN9iC7VGn3Aq3ta/tUYJ
+         LCK6Ep/nKfyzKl34cUnOrlixpjFHaU8AJmu6JUsYngGLPKC8yT7+erYXBLnmBp3li5vE
+         sjxaYmlpCiQGl44p6DFEYncR7PASInJPRfdHj8Z4/r1Gwkgpqmnv7Dtch9Ye3w72Zk1p
+         6eKw==
+X-Gm-Message-State: AOJu0Yw/1LDS7zhyUJ42aguh37HJTSCm41ethuF3AcM621t9dO7phwVR
+	SnE2ZY6o9BP+SmF/2KNoQFuyWHz/eKd2XeESFhWNVRg9pUaxdO8fK0rlKz64Ns5yrEATcB0IuIP
+	wbah+yD0UOjTDjIaBp9FBxdbwj8w=
+X-Google-Smtp-Source: AGHT+IH4FY2EzmDzg+5OgIj5H9so/+XnwI9JkNrJ0MblHgT0Vja+5tyJddJ/cwz40S2gmWjZOyHAg+hc2TGYEGThW24=
+X-Received: by 2002:a17:90a:9ef:b0:29a:eb0f:e356 with SMTP id
+ 102-20020a17090a09ef00b0029aeb0fe356mr13565738pjo.37.1709756573520; Wed, 06
+ Mar 2024 12:22:53 -0800 (PST)
 MIME-Version: 1.0
-References: <CADkTA4Pu+VRU=nOazQGrCdJcTriVDatUOnG7P6DVi9T1AOTOBw@mail.gmail.com>
- <CAMKF1so3wHCg=Vsv8-=Pgu=P5xE1CqEb9PCg4bkaYTOnrU43ww@mail.gmail.com>
-In-Reply-To: <CAMKF1so3wHCg=Vsv8-=Pgu=P5xE1CqEb9PCg4bkaYTOnrU43ww@mail.gmail.com>
+References: <20240306023958.3779337-1-xiangyu.chen@eng.windriver.com>
+In-Reply-To: <20240306023958.3779337-1-xiangyu.chen@eng.windriver.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 6 Mar 2024 09:24:59 -0500
-Message-ID: <CADkTA4NJ--Y4AGKUjZ28_=gL+TstFUCdMPV-BRP73mOPZr3JzA@mail.gmail.com>
-Subject: Re: [meta-virtualization] ceph upgrade
-To: Khem Raj <raj.khem@gmail.com>
-Cc: meta-virtualization <meta-virtualization@lists.yoctoproject.org>
+Date: Wed, 6 Mar 2024 15:22:42 -0500
+Message-ID: <CADkTA4PtcSfQhx3hUSVVCwnxiT+HBogVfUaiY+GH++vCop6fMA@mail.gmail.com>
+Subject: Re: [meta-virtualization][PATCH] kernel/cfg: add CONFIG_CGROUP_BPF to
+ docker config
+To: Xiangyu Chen <xiangyu.chen@eng.windriver.com>
+Cc: meta-virtualization@lists.yoctoproject.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Wed, 06 Mar 2024 14:25:19 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8606
+ <meta-virtualization@lists.yoctoproject.org>; Wed, 06 Mar 2024 20:22:54 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8607
 
-On Wed, Mar 6, 2024 at 1:38=E2=80=AFAM Khem Raj <raj.khem@gmail.com> wrote:
+On Tue, Mar 5, 2024 at 9:00=E2=80=AFPM Xiangyu Chen
+<xiangyu.chen@eng.windriver.com> wrote:
 >
+> From: Xiangyu Chen <xiangyu.chen@windriver.com>
 >
+> Add CONFIG_CGROUP_BPF to ensure docker can be started under cgroup v2,
+> otherwise it would report the following error:
 >
-> On Tue, Mar 5, 2024 at 6:22=E2=80=AFPM Bruce Ashfield <bruce.ashfield@gma=
-il.com> wrote:
->>
->> Hi all,
->>
->> If anyone has experience with Cmake, I could use a hand completing the
->> ceph upgrade that is marked as WIP in master-next.
->>
->> It took me a few hours today, but I managed to get past python3
->> detection issues, but now I'm running into a compiler test failure
->> during the build.
->>
->> To me, it looks like our sysroot isn't being passed, which could be
->> related to the toolchain.cmake not being used (since the compiler test
->> is being launched by a sub component).
+>      Error: for ... error setting cgroup config for procHooks process:
+>      bpf_prog_query(BPF_CGROUP_DEVICE) failed: invalid argument: unknown
 >
->
-> Post the cmake error logs this might give some hints
+> Cgroup v2 device controller has no interface files and is implemented on =
+top
+> of cgroup BPF. To control access to device files, a user may create bpf p=
+rograms
+> of type BPF_PROG_TYPE_CGROUP_DEVICE and attach them to cgroups with
+> BPF_CGROUP_DEVICE flag.
 
-Instead of that, I've pushed the broken recipe to master-next. The logs are=
-n't
-very useful because they are missing the important details.
+related to this, check out my latest push to master-next. I've not taken tw=
+eaks
+to the fragments in meta-virt lately, as I really want to get rid of
+the duplicate
+fragments between the main kernel-cache and the layer.
 
-CMake is failing a "working c compiler" test on one of the nested modules
-it builds.  In particular it can't find things lke libgcc, etc.
+So I finally took the time to do the sync and removal in meta-virt.
 
-That of course implies that the sysroot and our other toolchain options are
-not making it to that level of the build. That's about all that the logs wi=
-ll
-tell someone.
-
-That's the part I need help with, I have no idea how to (and everything
-I've tried has failed) to get those flags picked up by that part of the
-build. Other components are building file, so the toolchain environment
-is not completely broken.
-
-Assistance in that area, really does need to hands on since the logs
-don't show nearly enough to debug it.
+See what you get when building against meta-virt with that change, and
+then we can do this same change in the kernel-cache and bump the
+yocto-cfg-fragments SRCREV in meta-virt.
 
 Bruce
 
-
->>
->>
->> I'm inclined to be stubborn about this, and keep working on getting
->> the package bumped, as it has missed a few upgrades and is in need of
->> some love.
->>
->> Bruce
->>
->> --
->> - Thou shalt not follow the NULL pointer, for chaos and madness await
->> thee at its end
->> - "Use the force Harry" - Gandalf, Star Trek II
->>
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->> Links: You receive all messages sent to this group.
->> View/Reply Online (#8604): https://lists.yoctoproject.org/g/meta-virtual=
-ization/message/8604
->> Mute This Topic: https://lists.yoctoproject.org/mt/104759213/1997914
->> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
->> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub =
-[raj.khem@gmail.com]
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->>
+>
+> Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
+> ---
+>  recipes-kernel/linux/linux-yocto/docker.cfg | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/recipes-kernel/linux/linux-yocto/docker.cfg b/recipes-kernel=
+/linux/linux-yocto/docker.cfg
+> index eeeaa242..4d8d7e04 100644
+> --- a/recipes-kernel/linux/linux-yocto/docker.cfg
+> +++ b/recipes-kernel/linux/linux-yocto/docker.cfg
+> @@ -11,3 +11,5 @@ CONFIG_IP_NF_TARGET_MASQUERADE=3Dm
+>  CONFIG_NETFILTER_XT_MATCH_IPVS=3Dm
+>
+>  CONFIG_OVERLAY_FS=3Dy
+> +
+> +CONFIG_CGROUP_BPF=3Dy
+> --
+> 2.25.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#8603): https://lists.yoctoproject.org/g/meta-virtuali=
+zation/message/8603
+> Mute This Topic: https://lists.yoctoproject.org/mt/104758931/1050810
+> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [=
+bruce.ashfield@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
 
 --=20
