@@ -2,111 +2,141 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA13CC5475B
-	for <webhook@archiver.kernel.org>; Fri,  8 Mar 2024 18:59:04 +0000 (UTC)
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
- by mx.groups.io with SMTP id smtpd.web11.1478.1709924340139688107
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C10FC5475B
+	for <webhook@archiver.kernel.org>; Fri,  8 Mar 2024 19:37:35 +0000 (UTC)
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com [209.85.219.169])
+ by mx.groups.io with SMTP id smtpd.web10.2308.1709926650544052813
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 08 Mar 2024 10:59:00 -0800
+ Fri, 08 Mar 2024 11:37:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=TtOz293t;
- spf=pass (domain: gmail.com, ip: 209.85.219.43, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-68f9c01a148so9689106d6.3
-        for <meta-virtualization@lists.yoctoproject.org>; Fri, 08 Mar 2024 10:59:00 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=GmP8OSUq;
+ spf=pass (domain: gmail.com, ip: 209.85.219.169, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-dcbc6a6808fso2543821276.2
+        for <meta-virtualization@lists.yoctoproject.org>; Fri, 08 Mar 2024 11:37:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709924339; x=1710529139; darn=lists.yoctoproject.org;
+        d=gmail.com; s=20230601; t=1709926650; x=1710531450; darn=lists.yoctoproject.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=3l2oSmFKztzZp+n1bZJVCtm+FXksR6DXtJ18pho8Dx8=;
-        b=TtOz293tBP9v5EYWisNCqzrIcdhKHWF2Z/wb2NNxCKvMs8UW+4q3OsZml7rLWfd0Kr
-         w9qfV6v9S1rEXeBZxW3/YzCrLXhJPt36coxSPJXLRyNZmI1Jkip7k/8L/PBOVfiDJkmZ
-         pH5mlbWbdV4H50asV+xXHZ//wvCFrCbJaSvSpYgYqklo0AfytUFscHS+1a6+ngdL3M2m
-         BvXYgaXlLqflE+XRIkT/V4t44hz0BNagCGIsrqLaKa4I/R+kx7l3u7L58nuTJjShDw2q
-         yMfpWBmhscu902vOWkRt2cWJaG1Ef+f+OjZ1irOK/tPfwjYNz+Kxke2n1hJIpMzYLz55
-         H+uw==
+        bh=31lJmiaIZcA0Xc3GOmeTL0dT7EJQTe3TfMPkCsqDKr4=;
+        b=GmP8OSUqxuRVWwO3XWTJ69gMYe7E+srdts1Ca/zBe5shL3rwFJGolvE5aUpUam0WBV
+         hHSxOxHnQQUaCzKjDLfeq+GmNdis9Wqe+VdTo/AMW5zdmrajizbPXUhK+GtrhgKfWgAh
+         Kzxpcjj3q47J5xOBfcj2Mr3wtTOVbll0kQ4/88cd1kzeBvx6cyBPnVJY+NP41I6mzLnb
+         5iff6iX5tEeSoC8NNXvXZsynDwHkI1vsFYWLDicPyMONOsGlzaXawHAUcNNJ6rYAHGcP
+         RAiQC15BgJ72aIbqbChEwzyjjlDOGDlUx2FYS7JgsuRRTyLQ5xGKP95TYo9epF1MvtrR
+         O3IA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709924339; x=1710529139;
+        d=1e100.net; s=20230601; t=1709926650; x=1710531450;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=3l2oSmFKztzZp+n1bZJVCtm+FXksR6DXtJ18pho8Dx8=;
-        b=WKRm+7uXusp7J9hmei4CRa/Czm6TNPrbAI1655CoQeZ1R6HsxGQM/i1RBTM/xUjdio
-         O7TRbGN22wwB8ZBg7CS5bkHYOzYSDH0LIIrJRz/AcwWOv7KmeYyTAkrUzP8E+KOAcQWw
-         2PMUzFiTl9qMr16PmZzX8h3D8au6doMi242xSJRr3I6SegnaTSP+NSzOwosNhnKKhndx
-         j/lAbT6OBOLNebnCx/EkAADLK4zIS57uusBn5+6cBIoDKvo1j9bx39tAyO+OyUUk9dqu
-         L/L1YroNhcYStR8kGt+sE8YKNAsBwMDwN95CI8eh9UhrzbwXPkd5ktP7v9uA0uQFHvju
-         LMnw==
-X-Gm-Message-State: AOJu0YwbK1QIgoKlHi0zlWVqBYGBp1RvkgC9fryezIjH9h8xlgWY7Nks
-	j6OJWdsPpRX8N4d8EHcv53hnRWSXZmwCRHJGzThTogaZzN640gor
-X-Google-Smtp-Source: AGHT+IF6HAUMtx0Ywufw0FQOgLvO60H+Y6+2ntAg/zcfCafNXZmehQKIycE37YGfRErQENhlPCzqPg==
-X-Received: by 2002:a05:6214:809:b0:690:b523:7a40 with SMTP id df9-20020a056214080900b00690b5237a40mr2532662qvb.35.1709924339198;
-        Fri, 08 Mar 2024 10:58:59 -0800 (PST)
+        bh=31lJmiaIZcA0Xc3GOmeTL0dT7EJQTe3TfMPkCsqDKr4=;
+        b=XL1jQBlzL7f97qxaodxYY9fJd7zC4QmqI66p1YEcqFU55MR8lDKt4DEB6PZ0lir9BC
+         ZqKamGpzUsgW7gcJa96zKE01pCZhykQDysv4lvErF+sKb43W2AMtHesRTvYrTqwooCx7
+         O8uC4M3FyQkBoOGFayCe/0s3e/l++uoBqr3lFfUUz9nY3EVH3/hDABq8OUMm6YqVDueX
+         EKNHTpXdVyehMCGCwwhMAn7UUy2+R7JB35nT9K124WuSEx3RFZp7+17zAvh91w33LFa6
+         3Wr3pFIElF3kDbTi0GRfEZlZEUcjCBJW11UIK0jVU21iAo/Yg8XFo7EOgOY/T6ZOp5pW
+         kxvQ==
+X-Gm-Message-State: AOJu0YyTa+qCZpQAWkmrA8qS6aXDZVHYXpTZ8VeCdKpvnAtPagh9Sbgx
+	A1U2w+kUQT1NZYngV1HCuCEarX1lTJUi/3+w/3hEXS5DLtDjf0XN
+X-Google-Smtp-Source: AGHT+IETcDy+ttl1lUlMK6kHxexbZI4f05anrxUfF+QfmuG2cFv8njM4/grsWIviEF4LiRtgdx1nPA==
+X-Received: by 2002:a5b:a04:0:b0:dcd:741f:490a with SMTP id k4-20020a5b0a04000000b00dcd741f490amr19358013ybq.7.1709926649563;
+        Fri, 08 Mar 2024 11:37:29 -0800 (PST)
 Received: from gmail.com ([174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id b17-20020a0c9b11000000b00690494d2766sm13092qve.96.2024.03.08.10.58.58
+        by smtp.gmail.com with ESMTPSA id l9-20020ac84cc9000000b0042f068d3d8asm73890qtv.43.2024.03.08.11.37.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Mar 2024 10:58:58 -0800 (PST)
-Date: Fri, 8 Mar 2024 18:58:57 +0000
+        Fri, 08 Mar 2024 11:37:29 -0800 (PST)
+Date: Fri, 8 Mar 2024 19:37:27 +0000
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: "Taedcke, Christian" <christian.taedcke-oss@weidmueller.com>
-Cc: meta-virtualization@lists.yoctoproject.org,
-	Christian Taedcke <christian.taedcke@weidmueller.com>
-Subject: Re: [meta-virtualization][PATCH] kernel: lxc: drop HVC_DRIVER
-Message-ID: <Zetf8XzD8Gw8azjc@gmail.com>
-References: <20240304155227.613062-1-christian.taedcke-oss@weidmueller.com>
+To: Markus Volk <f_l_k@t-online.de>
+Cc: meta-virtualization@lists.yoctoproject.org
+Subject: Re: [meta-virtualization][PATCHv2] libvirt-glib: update 4.0.0 ->
+ 5.0.0
+Message-ID: <Zeto95GGjbyWs6Lg@gmail.com>
+References: <20240308183029.2280173-1-f_l_k@t-online.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240304155227.613062-1-christian.taedcke-oss@weidmueller.com>
+In-Reply-To: <20240308183029.2280173-1-f_l_k@t-online.de>
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Fri, 08 Mar 2024 18:59:04 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8615
+ <meta-virtualization@lists.yoctoproject.org>; Fri, 08 Mar 2024 19:37:35 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8616
 
-In message: [meta-virtualization][PATCH] kernel: lxc: drop HVC_DRIVER
-on 04/03/2024 Taedcke, Christian wrote:
+v2 is staged on master-next.
 
-> From: Christian Taedcke <christian.taedcke@weidmueller.com>
-> 
-> HVC_DRIVER cannot be selected directly since it has no prompt.
-
-I'm attempting to move all of the fragments to the centralized
-kernel-cache repository.
-
-I'll take care of synchronizing this change with the repo, since
-the lxc fragments I moved there didn't have this patch applied.
+I'm still pending the content of master-next on getting
+the ceph upgrade finished. Hopefully the slowing down
+of patches will help find someone willing to help with
+it ! (this statement is not directed at you, it is directed
+at the list :))
 
 Bruce
 
+In message: [meta-virtualization][PATCHv2] libvirt-glib: update 4.0.0 -> 5.0.0
+on 08/03/2024 Markus Volk wrote:
+
+> 5.0.0 - Nov 28, 2023
+> ====================
 > 
-> Signed-off-by: Christian Taedcke <christian.taedcke@weidmueller.com>
+> - Fix compatiblity with libxml2 >= 2.12.0
+> - Bump min libvirt version to 2.3.0
+> - Bump min meson to 0.56.0
+> - Require use of GCC >= 4.8 / CLang > 3.4 / XCode CLang > 5.1
+> - Mark USB disks as removable by default
+> - Add support for audio device backend config
+> - Add support for DBus graphics backend config
+> - Add support for controlling firmware feature flags
+> - Improve compiler flag handling in meson
+> - Extend library version script handling to FreeBSD
+> - Fix pointer sign issue in capabilities config API
+> - Fix compat with gnome.mkenums() in Meson 0.60.0
+> - Avoid compiler warnings from gi-ir-scanner generated
+>   code by not setting glib version constraints
+> - Be more robust about NULL GError parameters
+> - Disable unimportant cast alignment compiler warnings
+> - Use 'pragma once' in all header files
+> - Updated translations
+> 
+> This fixes build after libxml update:
+> ../git/libvirt-gconfig/libvirt-gconfig-object.c:200:37: error: passing argument 2 of 'xmlSetStructuredErrorFunc' from incompatible pointer type [-Werror=incompatible-pointer-types]
+>   200 |     xmlSetStructuredErrorFunc(NULL, gvir_xml_structured_error_nop);
+>       |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>       |                                     |
+>       |                                     void (*)(void *, xmlError *) {aka void (*)(void *, struct _xmlError *)}
+> In file included from /home/flk/poky/build/tmp/work/corei7-64-poky-linux/libvirt-glib/4.0.0/recipe-sysroot/usr/include/libxml2/libxml/relaxng.h:14,
+> 
+> Signed-off-by: Markus Volk <f_l_k@t-online.de>
 > ---
->  recipes-kernel/linux/linux-yocto/lxc.cfg | 3 ---
->  1 file changed, 3 deletions(-)
+>  .../libvirt/{libvirt-glib_4.0.0.bb => libvirt-glib_5.0.0.bb}    | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>  rename recipes-extended/libvirt/{libvirt-glib_4.0.0.bb => libvirt-glib_5.0.0.bb} (92%)
 > 
-> diff --git a/recipes-kernel/linux/linux-yocto/lxc.cfg b/recipes-kernel/linux/linux-yocto/lxc.cfg
-> index e195c15b..ab75cbf0 100644
-> --- a/recipes-kernel/linux/linux-yocto/lxc.cfg
-> +++ b/recipes-kernel/linux/linux-yocto/lxc.cfg
-> @@ -16,9 +16,6 @@ CONFIG_NET_CLS_CGROUP=m
->  CONFIG_BLK_CGROUP=y
->  CONFIG_CGROUP_NET_PRIO=y
+> diff --git a/recipes-extended/libvirt/libvirt-glib_4.0.0.bb b/recipes-extended/libvirt/libvirt-glib_5.0.0.bb
+> similarity index 92%
+> rename from recipes-extended/libvirt/libvirt-glib_4.0.0.bb
+> rename to recipes-extended/libvirt/libvirt-glib_5.0.0.bb
+> index 7ca65a95..4435ca0b 100644
+> --- a/recipes-extended/libvirt/libvirt-glib_4.0.0.bb
+> +++ b/recipes-extended/libvirt/libvirt-glib_5.0.0.bb
+> @@ -10,7 +10,7 @@ SRC_URI = " \
+>  	file://0001-meson.build-allow-crosscompiling-gir-and-doc.patch \
+>  "
 >  
-> -# Virtual drivers
-> -CONFIG_HVC_DRIVER=y
-> -
->  # Base support for live boot
->  CONFIG_BLK_DEV_LOOP=y
->  CONFIG_NLS_CODEPAGE_437=y
+> -SRCREV = "e0bfc34682744a74b850fa217e9c206a9eb80612"
+> +SRCREV = "9b26bec8828a38fcb3bc0e5f6f33b03fa99c4b68"
+>  S = "${WORKDIR}/git"
+>  
+>  inherit meson pkgconfig gobject-introspection gettext vala gtk-doc
 > -- 
-> 2.34.1
+> 2.44.0
 > 
 
 > 
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#8602): https://lists.yoctoproject.org/g/meta-virtualization/message/8602
-> Mute This Topic: https://lists.yoctoproject.org/mt/104724750/1050810
+> View/Reply Online (#8613): https://lists.yoctoproject.org/g/meta-virtualization/message/8613
+> Mute This Topic: https://lists.yoctoproject.org/mt/104814529/1050810
 > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
 > Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
