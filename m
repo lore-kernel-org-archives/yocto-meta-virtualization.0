@@ -2,252 +2,517 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE86FC5475B
-	for <webhook@archiver.kernel.org>; Mon, 11 Mar 2024 12:35:40 +0000 (UTC)
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
- by mx.groups.io with SMTP id smtpd.web11.61705.1710160533615373247
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C16B9C54E58
+	for <webhook@archiver.kernel.org>; Mon, 11 Mar 2024 12:37:00 +0000 (UTC)
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+ by mx.groups.io with SMTP id smtpd.web11.61742.1710160615317899728
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 11 Mar 2024 05:35:33 -0700
+ Mon, 11 Mar 2024 05:36:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=lwVCRYzo;
- spf=pass (domain: gmail.com, ip: 209.85.216.44, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-29a5f100c1aso2282370a91.0
-        for <meta-virtualization@lists.yoctoproject.org>; Mon, 11 Mar 2024 05:35:33 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=KYZOMaw6;
+ spf=pass (domain: gmail.com, ip: 209.85.215.169, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-5d4d15ec7c5so3787280a12.1
+        for <meta-virtualization@lists.yoctoproject.org>; Mon, 11 Mar 2024 05:36:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710160533; x=1710765333; darn=lists.yoctoproject.org;
+        d=gmail.com; s=20230601; t=1710160615; x=1710765415; darn=lists.yoctoproject.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=u4boYF2XpGGa+AcHP1TlcJR+fRFrzPLsq/D6SrOIAbk=;
-        b=lwVCRYzoz8PmNzwS5kDY7g2/7AfLOL5LvA7rjaZlp6j+qDW2MhjR3CVOuKBGtxqxvT
-         /4S67tM8KfJQ9D2WyWAMMi4ZepTpP8j3dq+toJoSTkj5v5DHBWBFNPXvVVVKVaOuoTVM
-         VLEoq/2dmfztRva0QdjiNvlS10T1/81Da7byxSxb8qM4SdZhAm1jL+tmxtF7gZ4LT/OG
-         W5m3kMk0NNPucogvl7Vs5mv0CNTykovqm2BMW0PZlYBxILD3f/I86UIQ1HwuxIw2U3Ge
-         OhOjjDBj+YqW/RLQPIvWwhtUzfowFCPBO/eea+SDCJBwDux330yEXl4GPLB75JYhfdIs
-         2FKg==
+        bh=yjXEGKelTR+ww60xrYnKVUSCHpzhjBNXIT+CKSL1E08=;
+        b=KYZOMaw6jT+K5ia0ay8zNkP+GIu0sUwBr/lBzexaQuoVwDel3D4dtaA9Co+1PxjRzr
+         HykC3XcCXaktovEXb/YkznDF5yyAGyMPQLAXGUv/ipOzVQMOn6Y6VqG71zrF3dN/GWfv
+         YEO+flp/kNrrWpCCYDrwTQtCnkIY/oAQIOMy0OmycM+LSNi0mJEjjvaSg63T83L25NVn
+         m1bAWoxF++aecZFjIQplVblnSuHM3EbSy12+7/crTcF9FnG6UaFwW74BZ8OKUKJZpqpg
+         4MbadnfE4SOsRnvbAw0B7vzAdNWFfu45YwRBmnO6W7nZrozY7Hgqnp+QBBvXWQyZv2q1
+         m/9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710160533; x=1710765333;
+        d=1e100.net; s=20230601; t=1710160615; x=1710765415;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=u4boYF2XpGGa+AcHP1TlcJR+fRFrzPLsq/D6SrOIAbk=;
-        b=YssTt5nAF9j5/KvqqHDUdpKS2ii/dOZwcy8H+NHtUR4pbsJby29uwR1f2diNg70amH
-         dYJTQP75FhYBeNNEA8kU2E8ftQzlwJ/2YhPE+rVWyT0OLFwS0luo4P4c/tj+YJpRMDbd
-         GB2+pVoBaFVBq/p8fwrl508DAA3RlB20tQFinqEYP+7gD2u8tpxOYz1Dxaop1xxtbEGn
-         5Gn4uI9pv1tFPkJCEyYpHgvXGZ2dw146gJjqF9SX1tHmBlJvEylalP/7aBAF+qBmshep
-         K7lAfOJyc3+8Gbts8RTftRrLmsGhyfNGjca+CUC9CwVL0rWi4oM5YB1F0pyM8d5pqyRz
-         YAzQ==
-X-Gm-Message-State: AOJu0YxpVxt/ZGwZjEBr8vmfHD5OBY91cp9EkOwwLpzvlt9dJBf2o2Pd
-	YDXAuz9vfUP9n7Ny0PuXTJJ05H6KiU+6lJB9P8RO9nN9MHAavqyPxbDxhIAy7lvB4MoHms4pQzv
-	G8d3QqF1bn9HqiujmPeCw4o3Paqg=
-X-Google-Smtp-Source: AGHT+IGfutoZRdXzy9KO4YIOIr/4h2ag+pIjUXYs7j4KVpJxX7fQ2Zlkv7Jyn1yHug7XnlHyhUx/02cxUGROPtNOyLY=
-X-Received: by 2002:a17:90a:d610:b0:29b:c4b7:34fd with SMTP id
- w16-20020a17090ad61000b0029bc4b734fdmr350671pju.41.1710160532606; Mon, 11 Mar
- 2024 05:35:32 -0700 (PDT)
+        bh=yjXEGKelTR+ww60xrYnKVUSCHpzhjBNXIT+CKSL1E08=;
+        b=tmrDK8gm5B+ZzAQ1EoMcmHHwzYtu5RjqLzILdo7jlVR7gYPdWbrWNaakx4G1mgxLWQ
+         xh59CdJ0XlkA4ZgMWeu8pSMQBccCqNRxggd9dfDqULEODvd3CA8Rkh2E9zwPi08Y9akC
+         dAkVQqysGtPWalrvHYxfpB8CgBJtO69ytqsZf3W0mnQlcIle8XTeDS9dq+Mz2chA6QhF
+         Uvo2Rgn8F/Y2ErROJo204MLuB6x6fDa+2tWyEEiyRvVbDClJ9QU2pTWqQ7rLW2MzXkmx
+         TNrXeMXchLuSvuKzPoeLJ0nrBpR61lJGE5yqLvDmSYIr5X3QsbDkKFSsxw609HvMgbS9
+         m4dw==
+X-Gm-Message-State: AOJu0Yw2cYUWcSCUuCfaYAKJ3rRyqd2luUEsAl5GuA9A16yC5AEQw8/3
+	uQuAOzraKXDKLVcXMYd7HkydhgnXy9ufjYJwC+G4E8ZVdGppuv4U2t4RdUgsCZj9oJ6wGK62/9v
+	Xgc3TqR1MjsRJrx+kDXGO0zI68KpJE2Xs9hk=
+X-Google-Smtp-Source: AGHT+IGn71Y1rHXkdJvyi/clRwseZlFl3+yLV42PkbyMk4QcMOwUnUhazj2N0P7fAOfd5nhpm4PWD4Cw6ocox+VfvfM=
+X-Received: by 2002:a05:6a20:6a21:b0:1a3:14b5:cad7 with SMTP id
+ p33-20020a056a206a2100b001a314b5cad7mr3599006pzk.27.1710160614454; Mon, 11
+ Mar 2024 05:36:54 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240311105352.112166-1-yogita.urade@windriver.com>
-In-Reply-To: <20240311105352.112166-1-yogita.urade@windriver.com>
+References: <20240311122435.1480985-1-olani@axis.com>
+In-Reply-To: <20240311122435.1480985-1-olani@axis.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Mon, 11 Mar 2024 08:35:20 -0400
-Message-ID: <CADkTA4M8=Vj7i-5fccwgsbJJjM5DwLj2_4_D_LUgJViCcgDphg@mail.gmail.com>
-Subject: Re: [meta-virtualization][kirkstone][PATCH 1/1] openvswitch: Upgrade
- 2.17.6 -> 2.17.9
-To: Yogita.Urade@windriver.com
-Cc: meta-virtualization@lists.yoctoproject.org
+Date: Mon, 11 Mar 2024 08:36:43 -0400
+Message-ID: <CADkTA4N+WcqAx9ofBHR+Mn=8fcFGb=O112qRPdqfNmEnJCxd8A@mail.gmail.com>
+Subject: Re: [meta-virtualization][PATCH] diod: Update to b4b5e8e00ed11b21d7fcf05a080dc054a8eac2d6
+To: Ola x Nilsson <ola.x.nilsson@axis.com>
+Cc: meta-virtualization@lists.yoctoproject.org, Ola x Nilsson <olani@axis.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Mon, 11 Mar 2024 12:35:40 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8620
+ <meta-virtualization@lists.yoctoproject.org>; Mon, 11 Mar 2024 12:37:00 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8621
 
-I'm not taking anymore upgrades at this time.
+On Mon, Mar 11, 2024 at 8:24=E2=80=AFAM Ola x Nilsson <ola.x.nilsson@axis.c=
+om> wrote:
+>
+> Just needs a single patch to handle the lua feature in configure when
+> cross-compiling.
+>
 
-Post release, I'll start another round of bumps.
+This needs a listing of the changes between the two SRCREVs.
 
-Cheers,
+I haven't gotten around to updating diod for the release, so I'll consider
+this once ceph is working again, but for now, it will probably wait until
+my round of package bumps post release.
 
 Bruce
 
-On Mon, Mar 11, 2024 at 6:54=E2=80=AFAM Urade, Yogita via
-lists.yoctoproject.org
-<Yogita.Urade=3Dwindriver.com@lists.yoctoproject.org> wrote:
->
-> From: Yogita Urade <yogita.urade@windriver.com>
->
-> Includes security fixes for - CVE-2023-3966 and CVE-2023-5366
->
-> commits short logs:
-> 0bea06d99 (tag: v2.17.9) Set release date for 2.17.9.
-> b8657dada netdev-offload-tc: Check geneve metadata length.
-> e235a421f odp: ND: Follow Open Flow spec converting from OF to DP.
-> 002cba9f1 dpdk: Use DPDK 21.11.6 release for OVS 2.17.
-> ee889659d github: Update versions of action dependencies (Node.js 20).
-> bf717d0f3 ovs-atomic: Fix inclusion of Clang header by GCC 14.
-> 9bbc2cf8a ovsdb-idl.at: Test IDL behavior during database conversion.
-> 049189584 tests: Use _DAEMONIZE macro's to start tcpdump.
-> 30099c5d9 tests-ovsdb: Switch OVSDB_START_IDLTEST to macro.
-> f4b4d650a python: idl: Handle monitor_canceled.
-> d6caa6ed0 vconn: Count vconn_sent regardless of log level.
-> b0eb66a69 backtrace: Fix error in log_backtrace() documentation.
-> bb89735b2 ovsdb: trigger: Do not allow conversion in read-only mode.
-> a79ee883a ovsdb: jsonrpc-server: Fix the DSCP value in default options.
-> 4f01f2f7d jsonrpc: Sort JSON objects while printing debug messages.
-> 3cae42bc5 tests: ovsdb: Use diff -up format for replay test.
-> a7036f6a1 ovsdb-server.at: Enbale debug logs in active-backup tests.
-> c944a30fe ovsdb: transaction: Don't try to diff unchanged columns.
-> 5c0dc9602 ovsdb: transaction: Avoid diffs for different type references.
-> eabd4cb2f ci: Update the GitHub Ubuntu runner image to Ubuntu 22.04.
-> c462aabb3 netdev-afxdp: Disable -Wfree-nonheap-object on receive.
-> b3f8c32ed ovsdb-idl: Preserve change_seqno when deleting rows.
-> d254aedad tunnel: Do not carry source port from a previous tunnel.
-> 1857c569e netdev-offload-tc: Fix offload of tunnel key tp_src.
-> 0a0c500d7 cirrus: Update from FreeBSD 12 to 14.
-> 74633888d dpdk: Use DPDK 21.11.5 release for OVS 2.17.
-> b5e54aa16 ovs-ofctl: Correctly mark the CT flush commands.
-> 1d3609a48 mcast-snooping: Flush flood and report ports when deleting inte=
-rfaces.
-> df101fe1e mcast-snooping: Test per port explicit flooding.
-> 8313ebbb3 flake8: Fix E721 check failures.
-> f73208151 build-aux: Enable flake8 checks for python extraction scripts.
-> 8b6a8fcb0 build-aux/extract-ofp-msgs: Fix flake8 and syntax errors.
-> 80e922644 build-aux/extract-ofp-fields: Fix flake8 and syntax errors.
-> 1508e7abc build-aux/extract-ofp-errors: Fix flake8 and syntax errors.
-> 98fc48e4d build-aux/extract-ofp-actions: Fix flake8 and syntax errors.
-> d52231171 automake: Move build-aux EXTRA_DIST updates to their own file.
-> 8868756b8 netdev-offload: Fix Clang's static analyzer 'Division by zero' =
-warnings.
-> 46e9cacaa ofp-table: Fix count_common_prefix_run() function.
-> 8e6d1cd04 vswitch.xml: Add entry for dpdkvhostuser userspace-tso.
-> 7838778ad vswitch.xml: Add dpdkvhostuser group status.
-> a3a039507 tests: Use ping timeout instead of deadline.
-> 3351b149c tests/system-traffic: Ensure no name resolution for tcpdump.
-> bce17b0bb tc: Improve logging of mismatched actions.
-> af934924f ofproto-dpif-upcall: Pause revalidators when purging.
-> 48fa54747 db-ctl-base: Fix memory leak of db commands.
-> 7fb2197e1 Prepare for 2.17.9.
-> 275be1eb9 (tag: v2.17.8) Set release date for 2.17.8.
-> be1a8f7ec conntrack: Remove nat_conn introducing key directionality.
-> f179c7c07 conntrack: simplify cleanup path
-> fac770a0a netdev-dpdk: Document status options for VF MAC address.
-> 79ab2eeb1 netdev-offload-dpdk: Fix flushing of a physdev.
-> 4ced485f8 connmgr: Fix ofconn configuration on vswitchd startup.
-> 3c39cfe03 python: idl: Fix last-id update from a monitor reply.
-> a6207b2bc ofproto-dpif-xlate: Fix recirculation with patch port and contr=
-oller.
-> a141b62c2 ofproto-dpif-xlate: Don't reinstall removed XC_LEARN rule.
-> 586e73dac configure: Avoid deprecated AC_PROG_CC_C99 if possible.
-> bd95fe3d7 tests: Fix time dependency in overlapping flows modification te=
-st.
-> 123b7aaa7 python: Use build to generate PEP517 compatible archives.
-> 41d2e7e9a python: Use twine to upload sdist package to pypi.org.
-> 66d5562e3 python: Rename build related code to ovs_build_helpers.
-> c880faea8 dpif-netdev: Fix length calculation of netdet_flow_key.
-> 8c7aa5f58 doc: Fix description of max_len for controller action.
-> 34ff03c3c docs: Fix rendering of VLAN Comparison Chart.
-> 93412e00e docs: Run tbl preprocessor in manpage-check rule.
-> 6929485d3 docs: Add `nowarn` region option to tables.
-> 08b6b83a3 tests: Add clang-analyzer-results to gitignore.
-> c252b1f8a ci: Add jobs to test -std=3Dc99 builds.
-> 242bb2624 tests: Fix order of includes in barrier/id-fpool/mpsc-queue tes=
-ts.
-> 292eca58c sflow: Always enable _BSD_SOURCE.
-> 82aa3fb01 compiler.h: Don't use asm and typeof with non-GNU compilers.
-> a45b3afbf ovs.tmac: Fix troff warning in versions above groff-1.23.
-> a336ef712 connmgr: Count unsent async messages.
-> a74b7dfb9 dpif-netdev: Fix dpif_netdev_flow_put.
-> f04bfd5e4 ofproto-dpif-xlate: Reduce stack usage in recursive xlate funct=
-ions.
-> 29990edbc cirrus: Update to FreeBSD 13.2.
-> 65bb82369 ci: Fix OPTS not being passed to OSX builds.
-> fe98b0c1f ovsdb-tool: Fix json leak while showing clustered log.
-> 44722bbda ovsdb-server: Fix excessive memory usage on DB open.
-> 9db221fcd tests: Add ovsdb execution cases for set size constraints.
-> 3cfe388cb ovsdb: relay: Fix handling of XOR updates with size constraints=
-.
-> f4d15497f ovsdb: file: Fix diff application to a default column value.
-> 7864ed557 ovsdb: file: Fix inability to read diffs that violate type size=
-.
-> 97d91ad2d ovs-tcpdump: Clear auto-assigned ipv6 address of mirror port.
-> dba7482e0 ofproto-dpif: Fix removal of renamed datapath ports.
-> a1ca9e589 ofproto-dpif-upcall: Mirror packets that are modified.
-> 5d976536b vswitchd: Wait for a bridge exit before replying to exit unixct=
-l.
-> e206df08d Prepare for 2.17.8.
-> f15de6508 (tag: v2.17.7) Set release date for 2.17.7.
-> 4b10b0b87 fatal-signal: Don't share signal fds/handles with forked proces=
-s.
-> e01ea8e7e cpu: Fix cpuid check for some AMD processors.
-> 111c7be31 tc: Fix crash on malformed reply from kernel.
-> 75152d3d6 netdev-dpdk: Fix warning with gcc 13.
-> 5285dad18 utilities/bashcomp: Fix PS1 generation on new bash.
-> ebe7bd7b6 netdev-offload-dpdk: Fix crash in debug log.
-> 4937a5341 stream-ssl: Disable alerts on unexpected EOF.
-> fe99e6b97 tests: layer3-tunnels: Skip bareudp tests if not supported by k=
-ernel.
-> a375055f2 ovs-fields: Modify the width of tpa and spa.
-> 749769be3 netdev-vport: RCU-fy tunnel config.
-> c423fa5f6 smap: Make argument of smap_add_ipv6 constant.
-> 2db06ee6f netdev-vport: Fix unsafe handling of GRE sequence number.
-> 51d804aa4 dpctl: Fix dereferencing null pointer in parse_ct_limit_zones()=
-.
-> 80b15d142 netdev-offload: Fix deadlock/recursive use of the netdev_hmap_r=
-wlock rwlock.
-> 0d3c27e90 ofproto-dpif-xlate: Fix use-after-free when xlate_actions().
-> 8eb24943c tc: Fix cleaning chains.
-> cbe5852d7 python-stream: Handle SSL error in do_handshake.
-> be3caf455 dpif-netlink: Fix memory leak dpif_netlink_open().
-> b7e1593f4 ofp-parse: Check ranges on string to uint32_t conversion.
-> 70cb45c66 learning-switch: Fix coredump of OpenFlow15 learning-switch.
-> b08224194 ovsdb: Allow conversion records with no data in a clustered sto=
-rage.
-> efcdf6c0d ovsdb: Check for ephemeral columns before writing a new schema.
-> bf39ea3c7 ovsdb-tool: Fix cluster-to-standalone for DB conversion records=
-.
-> 4f82f8903 ovs-tcpdump: Stdout is shutdown before ovs-tcpdump exit.
-> 77116d990 Prepare for 2.17.7.
->
-> Reference:
-> https://www.openvswitch.org/releases/NEWS-2.17.9.txt
->
-> Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
+> Signed-off-by: Ola x Nilsson <olani@axis.com>
 > ---
->  recipes-networking/openvswitch/openvswitch_git.bb | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  recipes-extended/diod/diod_1.0.24.bb          |  13 +-
+>  .../0001-build-Find-lua-with-pkg-config.patch |  50 +++++++
+>  ...ilds-to-work-with-separate-build-dir.patch | 126 ------------------
+>  ...od-ops.c-add-header-file-for-makedev.patch |  37 -----
+>  ...drod-add-option-to-config-systemddir.patch |  51 -------
+>  .../0002-auto.diod.in-remove-bashisms.patch   |  47 -------
+>  6 files changed, 55 insertions(+), 269 deletions(-)
+>  create mode 100644 recipes-extended/diod/files/0001-build-Find-lua-with-=
+pkg-config.patch
+>  delete mode 100644 recipes-extended/diod/files/0001-build-allow-builds-t=
+o-work-with-separate-build-dir.patch
+>  delete mode 100644 recipes-extended/diod/files/0001-diod-ops.c-add-heade=
+r-file-for-makedev.patch
+>  delete mode 100644 recipes-extended/diod/files/0001-drod-add-option-to-c=
+onfig-systemddir.patch
+>  delete mode 100644 recipes-extended/diod/files/0002-auto.diod.in-remove-=
+bashisms.patch
 >
-> diff --git a/recipes-networking/openvswitch/openvswitch_git.bb b/recipes-=
-networking/openvswitch/openvswitch_git.bb
-> index a629f9ba..08a34440 100644
-> --- a/recipes-networking/openvswitch/openvswitch_git.bb
-> +++ b/recipes-networking/openvswitch/openvswitch_git.bb
-> @@ -14,12 +14,12 @@ RDEPENDS:${PN}-ptest +=3D "\
->         "
+> diff --git a/recipes-extended/diod/diod_1.0.24.bb b/recipes-extended/diod=
+/diod_1.0.24.bb
+> index 2b87a8ae..5e191dc0 100644
+> --- a/recipes-extended/diod/diod_1.0.24.bb
+> +++ b/recipes-extended/diod/diod_1.0.24.bb
+> @@ -9,22 +9,19 @@ LICENSE =3D "GPL-2.0-only"
+>  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D59530bdf33659b29e73d4adb9f9f6=
+552"
+>
+>  PV =3D "1.0.24+git"
+> -SRCREV =3D "0ea3fe3d829b5085307cd27a512708d99ef48199"
+> +SRCREV =3D "b4b5e8e00ed11b21d7fcf05a080dc054a8eac2d6"
+>  SRC_URI =3D "git://github.com/chaos/diod.git;protocol=3Dhttps;branch=3Dm=
+aster \
+>             file://diod \
+>             file://diod.conf \
+> -           file://0001-build-allow-builds-to-work-with-separate-build-di=
+r.patch \
+> -           file://0002-auto.diod.in-remove-bashisms.patch \
+> -           file://0001-diod-ops.c-add-header-file-for-makedev.patch \
+> -           file://0001-drod-add-option-to-config-systemddir.patch \
+> -          "
+> +           file://0001-build-Find-lua-with-pkg-config.patch \
+> +           "
+>  DEPENDS =3D "libcap ncurses tcp-wrappers lua"
+>
+> -EXTRA_OECONF =3D "--with-systemddir=3D${systemd_unitdir}/system"
+> +EXTRA_OEMAKE +=3D "systemddir=3D${systemd_unitdir}/system"
 >
 >  S =3D "${WORKDIR}/git"
-> -PV =3D "2.17.6+${SRCPV}"
-> -CVE_VERSION =3D "2.17.6"
-> +PV =3D "2.17.9+${SRCPV}"
-> +CVE_VERSION =3D "2.17.9"
 >
->  FILESEXTRAPATHS:append :=3D "${THISDIR}/${PN}-git:"
+> -inherit autotools systemd
+> +inherit autotools pkgconfig systemd
 >
-> -SRCREV =3D "a08bb41e3c381f695b5ab62b0ab49b39c2b98727"
-> +SRCREV =3D "0bea06d9957e3966d94c48873cd9afefba1c2677"
->  SRC_URI +=3D "git://github.com/openvswitch/ovs.git;protocol=3Dhttps;bran=
-ch=3Dbranch-2.17 \
->              file://openvswitch-add-ptest-71d553b995d0bd527d3ab1e9fbaf5a2=
-ae34de2f3.patch \
->              file://run-ptest \
+>  do_install:append () {
+>          # install our init based on start-stop-daemon
+> diff --git a/recipes-extended/diod/files/0001-build-Find-lua-with-pkg-con=
+fig.patch b/recipes-extended/diod/files/0001-build-Find-lua-with-pkg-config=
+.patch
+> new file mode 100644
+> index 00000000..9f61792a
+> --- /dev/null
+> +++ b/recipes-extended/diod/files/0001-build-Find-lua-with-pkg-config.pat=
+ch
+> @@ -0,0 +1,50 @@
+> +From 8124eec4e59222f1c3f3dc4d7e6706e13c33755c Mon Sep 17 00:00:00 2001
+> +From: Ola x Nilsson <olani@axis.com>
+> +Date: Wed, 6 Mar 2024 18:40:16 +0100
+> +Subject: [PATCH] build: Find lua with pkg-config
+> +
+> +ax_lua.m4 does not support cross compilation.
+> +
+> +Upstream-Status: Inappropriate (Embedded specific)
+> +
+> +---
+> + configure.ac | 26 +++++++++++++++++++++++++-
+> + 1 file changed, 25 insertions(+), 1 deletion(-)
+> +
+> +diff --git a/configure.ac b/configure.ac
+> +index e8fcdb2..f3ebdc5 100644
+> +--- a/configure.ac
+> ++++ b/configure.ac
+> +@@ -121,7 +121,31 @@ AC_ARG_ENABLE([config],
+> +   [AS_HELP_STRING([--disable-config], [disable lua config file support]=
+)])
+> +
+> + AS_IF([test "x$enable_config" !=3D "xno"], [
+> +-  AX_PROG_LUA([5.1],[5.5])
+> ++  dnl Use pkg_config to check for lua settings.  This is not standard
+> ++  dnl as lua typically does not distribute a pc file.  The
+> ++  dnl OpenEmbedded recipe adds one that can be used.  Reuse/replicate
+> ++  dnl as much of AX_PROG_LUA as possible so AX_LUA_HEADERS and
+> ++  dnl AX_LUA_LIBS are still usable.
+> ++  PKG_CHECK_EXISTS([lua], [
+> ++    AS_IF([
+> ++      $PKG_CONFIG --atleast-version=3D5.1 lua && $PKG_CONFIG --max-vers=
+ion=3D5.5 lua
+> ++    ],[
+> ++      AC_ARG_VAR([LUA], [The LUA interpreter, e.g. /usr/bin/lua5.1])
+> ++        dnl should really check that the file exists ...
+> ++      AC_SUBST([LUA], [${bindir}/lua])
+> ++        AC_CACHE_CHECK([for $LUA version], [ax_cv_lua_version], [
+> ++          ax_cv_lua_version=3D[`$PKG_CONFIG --modversion lua | $SED 's/=
+^\([0-9]\+\.[0-9]\+\).*/\1/'`]
+> ++      ])
+> ++        AS_IF([test "x$ax_cv_lua_version" =3D 'x'],
+> ++       [AC_MSG_ERROR([invalid Lua version number])])
+> ++      AC_SUBST([LUA_VERSION], [$ax_cv_lua_version])
+> ++      AC_SUBST([LUA_SHORT_VERSION], [`echo "$LUA_VERSION" | $SED 's|\.|=
+|'`])
+> ++    ],[
+> ++        AC_MSG_ERROR([Incorrect lua version])
+> ++      ])
+> ++  ],[
+> ++    AX_PROG_LUA([5.1],[5.5])
+> ++  ])
+> +   AX_LUA_HEADERS([],[
+> +     AC_MSG_ERROR([Install lua headers or configure with --disable-confi=
+g])
+> +   ])
+> diff --git a/recipes-extended/diod/files/0001-build-allow-builds-to-work-=
+with-separate-build-dir.patch b/recipes-extended/diod/files/0001-build-allo=
+w-builds-to-work-with-separate-build-dir.patch
+> deleted file mode 100644
+> index f40e0eb5..00000000
+> --- a/recipes-extended/diod/files/0001-build-allow-builds-to-work-with-se=
+parate-build-dir.patch
+> +++ /dev/null
+> @@ -1,126 +0,0 @@
+> -From 43403468298ef4167baa5d84de2ee2eaf7f4007a Mon Sep 17 00:00:00 2001
+> -From: Mark Asselstine <mark.asselstine@windriver.com>
+> -Date: Fri, 9 Jan 2015 18:34:04 +0000
+> -Subject: [PATCH 1/2] build: allow builds to work with separate build dir
+> -
+> -Remove assumptions in include paths that assume the build
+> -is happening in the source directories.
+> -
+> -Upstream-Status: Inappropriate [embedded specific]
+> -
+> -Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+> ----
+> - diod/Makefile.am              | 2 +-
+> - libdiod/Makefile.am           | 2 +-
+> - liblsd/Makefile.am            | 2 +-
+> - libnpclient/Makefile.am       | 2 +-
+> - scripts/Makefile.am           | 6 +++---
+> - tests/kern/dbench/Makefile.am | 4 ++--
+> - utils/Makefile.am             | 2 +-
+> - 7 files changed, 10 insertions(+), 10 deletions(-)
+> -
+> -diff --git a/diod/Makefile.am b/diod/Makefile.am
+> -index 7644be7..fdaf130 100644
+> ---- a/diod/Makefile.am
+> -+++ b/diod/Makefile.am
+> -@@ -1,7 +1,7 @@
+> - AM_CFLAGS =3D @GCCWARN@
+> -
+> - AM_CPPFLAGS =3D \
+> --      -I../libnpfs -I../liblsd -I../libdiod
+> -+      -I$(srcdir)/../libnpfs -I$(srcdir)/../liblsd -I$(srcdir)/../libdi=
+od
+> -
+> - sbin_PROGRAMS =3D diod
+> -
+> -diff --git a/libdiod/Makefile.am b/libdiod/Makefile.am
+> -index 4810e14..6905cdd 100644
+> ---- a/libdiod/Makefile.am
+> -+++ b/libdiod/Makefile.am
+> -@@ -1,7 +1,7 @@
+> - AM_CFLAGS =3D @GCCWARN@
+> -
+> - AM_CPPFLAGS =3D \
+> --      -I../libnpfs -I../libnpclient -I../liblsd
+> -+      -I$(srcdir)/../libnpfs -I$(srcdir)/../libnpclient -I$(srcdir)/../=
+liblsd
+> -
+> - noinst_LIBRARIES =3D libdiod.a
+> -
+> -diff --git a/liblsd/Makefile.am b/liblsd/Makefile.am
+> -index c3e5658..7e18bf8 100644
+> ---- a/liblsd/Makefile.am
+> -+++ b/liblsd/Makefile.am
+> -@@ -1,6 +1,6 @@
+> - AM_CFLAGS =3D @GCCWARN@
+> -
+> --AM_CPPFLAGS =3D -I../libdiod
+> -+AM_CPPFLAGS =3D -I$(srcdir)/../libdiod
+> -
+> - noinst_LIBRARIES =3D liblsd.a
+> -
+> -diff --git a/libnpclient/Makefile.am b/libnpclient/Makefile.am
+> -index 5305df9..cbaf266 100644
+> ---- a/libnpclient/Makefile.am
+> -+++ b/libnpclient/Makefile.am
+> -@@ -1,7 +1,7 @@
+> - AM_CFLAGS =3D @GCCWARN@
+> -
+> - AM_CPPFLAGS =3D \
+> --      -I../libnpfs
+> -+      -I$(srcdir)/../libnpfs
+> -
+> - noinst_LIBRARIES =3D libnpclient.a
+> -
+> -diff --git a/scripts/Makefile.am b/scripts/Makefile.am
+> -index 51c24a3..2aba728 100644
+> ---- a/scripts/Makefile.am
+> -+++ b/scripts/Makefile.am
+> -@@ -1,9 +1,9 @@
+> --systemddir=3D$(sysconfdir)/systemd/system
+> -+systemddir=3D/lib/systemd/system
+> -
+> - install-data-local:
+> --      $(top_srcdir)/config/install-sh -m 755 $(srcdir)/auto.diod \
+> -+      $(top_srcdir)/config/install-sh -m 755 ./auto.diod \
+> -               $(DESTDIR)$(sysconfdir)/auto.diod
+> --      $(top_srcdir)/config/install-sh -m 755 $(srcdir)/diod.service \
+> -+      $(top_srcdir)/config/install-sh -m 644 ./diod.service \
+> -               $(DESTDIR)$(systemddir)/diod.service
+> -
+> - uninstall-local:
+> -diff --git a/tests/kern/dbench/Makefile.am b/tests/kern/dbench/Makefile.=
+am
+> -index e0cdefa..1704f9f 100644
+> ---- a/tests/kern/dbench/Makefile.am
+> -+++ b/tests/kern/dbench/Makefile.am
+> -@@ -2,7 +2,7 @@ AM_CFLAGS =3D -w
+> -
+> - # VERSION=3D4.00
+> -
+> --AM_CPPFLAGS =3D -DDATADIR=3D\"$(X_DATADIR)\"
+> -+AM_CPPFLAGS =3D -I. -DDATADIR=3D\"$(X_DATADIR)\"
+> -
+> - LDADD =3D $(LIBPOPT)
+> -
+> -@@ -25,6 +25,6 @@ BUILT_SOURCES =3D proto.h
+> - CLEANFILES =3D proto.h
+> -
+> - proto.h: $(dbench_SOURCES) mkproto.pl
+> --      perl mkproto.pl $(dbench_SOURCES) > proto.h
+> -+      $(srcdir)/mkproto.pl $(patsubst %,$(srcdir),$(dbench_SOURCES)) > =
+proto.h
+> -
+> - EXTRA_DIST =3D mkproto.pl
+> -diff --git a/utils/Makefile.am b/utils/Makefile.am
+> -index 169b6c4..91d571d 100644
+> ---- a/utils/Makefile.am
+> -+++ b/utils/Makefile.am
+> -@@ -1,7 +1,7 @@
+> - AM_CFLAGS =3D @GCCWARN@
+> -
+> - AM_CPPFLAGS =3D \
+> --      -I../libnpfs -I../liblsd -I../libdiod -I../libnpclient
+> -+      -I$(srcdir)/../libnpfs -I$(srcdir)/../liblsd -I$(srcdir)/../libdi=
+od -I$(srcdir)/../libnpclient
+> -
+> - sbin_PROGRAMS =3D diodmount diodcat dtop diodload diodls diodshowmount =
+dioddate
+> -
+> ---
+> -2.11.0
+> -
+> diff --git a/recipes-extended/diod/files/0001-diod-ops.c-add-header-file-=
+for-makedev.patch b/recipes-extended/diod/files/0001-diod-ops.c-add-header-=
+file-for-makedev.patch
+> deleted file mode 100644
+> index 49bc507b..00000000
+> --- a/recipes-extended/diod/files/0001-diod-ops.c-add-header-file-for-mak=
+edev.patch
+> +++ /dev/null
+> @@ -1,37 +0,0 @@
+> -From f75836731d6051d85e6317eb4c12465bafb4973e Mon Sep 17 00:00:00 2001
+> -From: "Hongzhi.Song" <hongzhi.song@windriver.com>
+> -Date: Fri, 31 Aug 2018 05:47:02 -0400
+> -Subject: [PATCH] diod/ops.c: add header file for makedev
+> -
+> -Error:
+> -diod/ops.c:845: undefined reference to `makedev'
+> -
+> -Fixed:
+> -Glibc removes sys/sysmacros.h which defines makedev from sys/types.h
+> -since v2.28. [Commit ID: e16deca62e16f]
+> -
+> -And then glibc suggestions us to include <sys/sysmacros.h> directly if
+> -code needs it.
+> -
+> -Upstream-Status: Submitted
+> -
+> -Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
+> ----
+> - diod/ops.c | 1 +
+> - 1 file changed, 1 insertion(+)
+> -
+> -diff --git a/diod/ops.c b/diod/ops.c
+> -index c6c8291..469a502 100644
+> ---- a/diod/ops.c
+> -+++ b/diod/ops.c
+> -@@ -74,6 +74,7 @@
+> - #include <pthread.h>
+> - #include <errno.h>
+> - #include <sys/types.h>
+> -+#include <sys/sysmacros.h>
+> -
+> - #ifdef __FreeBSD__
+> - #if !__BSD_VISIBLE
+> ---
+> -2.8.1
+> -
+> diff --git a/recipes-extended/diod/files/0001-drod-add-option-to-config-s=
+ystemddir.patch b/recipes-extended/diod/files/0001-drod-add-option-to-confi=
+g-systemddir.patch
+> deleted file mode 100644
+> index 4931a19b..00000000
+> --- a/recipes-extended/diod/files/0001-drod-add-option-to-config-systemdd=
+ir.patch
+> +++ /dev/null
+> @@ -1,51 +0,0 @@
+> -From 365159534b1981dfe291ecc05d2455f32652a166 Mon Sep 17 00:00:00 2001
+> -From: Changqing Li <changqing.li@windriver.com>
+> -Date: Mon, 26 Aug 2019 18:00:39 +0800
+> -Subject: [PATCH] drod: add option to config systemddir
+> -
+> -Not need to send upstream, since upstream have refactor
+> -related code, but not released. and this version release
+> -4 years ago, not proper to just backport one or more
+> -commits, this patch maybe could be dropped after upgrade.
+> -
+> -Upstream-Status: Inappropriate [embedded specific]
+> -
+> -Signed-off-by: Changqing Li <changqing.li@windriver.com>
+> ----
+> - configure.ac        | 9 +++++++++
+> - scripts/Makefile.am | 2 +-
+> - 2 files changed, 10 insertions(+), 1 deletion(-)
+> -
+> -diff --git a/configure.ac b/configure.ac
+> -index 1cb8579..3e4a5ec 100644
+> ---- a/configure.ac
+> -+++ b/configure.ac
+> -@@ -25,6 +25,15 @@ AC_DEFINE([_GNU_SOURCE], 1,
+> -           [Define _GNU_SOURCE so that we get all necessary prototypes])
+> -
+> - ##
+> -+#Add option to config systemddir
+> -+##
+> -+AC_ARG_WITH([systemddir],
+> -+  [AS_HELP_STRING([--with-systemddir=3DDIR], [systemd dir])],
+> -+  [systemddir=3D$withval],
+> -+  [systemddir=3D"/lib/systemd/system"])
+> -+AC_SUBST([systemddir], [$systemddir])
+> -+
+> -+##
+> - # Checks for programs
+> - ##
+> - AC_PROG_CC
+> -diff --git a/scripts/Makefile.am b/scripts/Makefile.am
+> -index 2aba728..40822b7 100644
+> ---- a/scripts/Makefile.am
+> -+++ b/scripts/Makefile.am
+> -@@ -1,4 +1,4 @@
+> --systemddir=3D/lib/systemd/system
+> -+systemddir=3D@systemddir@
+> -
+> - install-data-local:
+> -       $(top_srcdir)/config/install-sh -m 755 ./auto.diod \
+> ---
+> -2.7.4
+> -
+> diff --git a/recipes-extended/diod/files/0002-auto.diod.in-remove-bashism=
+s.patch b/recipes-extended/diod/files/0002-auto.diod.in-remove-bashisms.pat=
+ch
+> deleted file mode 100644
+> index 13e0a86e..00000000
+> --- a/recipes-extended/diod/files/0002-auto.diod.in-remove-bashisms.patch
+> +++ /dev/null
+> @@ -1,47 +0,0 @@
+> -From 5a9e09dc5de833db11607530351cd87cecbfd17e Mon Sep 17 00:00:00 2001
+> -From: Roy Li <rongqing.li@windriver.com>
+> -Date: Thu, 22 Jun 2017 06:32:30 +0000
+> -Subject: [PATCH 2/2] auto.diod.in: remove bashisms
+> -
+> -Upstream-Status: Inappropriate [embedded specific]
+> -
+> -Signed-off-by: Roy Li <rongqing.li@windriver.com>
+> ----
+> - scripts/auto.diod.in | 14 +++++++-------
+> - 1 file changed, 7 insertions(+), 7 deletions(-)
+> -
+> -diff --git a/scripts/auto.diod.in b/scripts/auto.diod.in
+> -index f63e004..4d5fc3a 100755
+> ---- a/scripts/auto.diod.in
+> -+++ b/scripts/auto.diod.in
+> -@@ -1,4 +1,4 @@
+> --#!/bin/bash
+> -+#!/bin/sh
+> - #
+> - # auto.diod - executable automounter map for diod file systems
+> - #
+> -@@ -41,15 +41,15 @@ dcatopts=3D"${DIOD_TIMEOUT:+-t $DIOD_TIMEOUT}"
+> - for server in $DIOD_SERVERS; do
+> -     $DIOD_DIODCAT -s $server $dcatopts exports | awk '{print $1}' |\
+> -     while read path; do
+> --        if [ "$path" =3D=3D "/" ]; then
+> --            if [ "$key" =3D=3D "ROOT" ]; then
+> -+        if [ "$path" =3D "/" ]; then
+> -+            if [ "$key" =3D "ROOT" ]; then
+> -                 echo "$prefix $server:$path"
+> -                 exit 0
+> -             fi
+> --        elif [ "$key" =3D=3D "$(echo $path|sed -e's/^\///' -e's/\//./g'=
+)" ] \
+> --          || [ "$key" =3D=3D "$(echo $path|sed -e's/^\///' -e's/\//_/g'=
+)" ] \
+> --          || [ "$key" =3D=3D "$(echo $path|sed -e's/^\///' -e's/\//-/g'=
+)" ] \
+> --          || [ "$key" =3D=3D "$(basename $path)" ]; then
+> -+        elif [ "$key" =3D "$(echo $path|sed -e's/^\///' -e's/\//./g')" =
+] \
+> -+          || [ "$key" =3D "$(echo $path|sed -e's/^\///' -e's/\//_/g')" =
+] \
+> -+          || [ "$key" =3D "$(echo $path|sed -e's/^\///' -e's/\//-/g')" =
+] \
+> -+          || [ "$key" =3D "$(basename $path)" ]; then
+> -             echo "$prefix $server:$path"
+> -             exit 0
+> -         fi
+> ---
+> -2.11.0
+> -
 > --
-> 2.40.0
+> 2.39.2
 >
 >
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#8618): https://lists.yoctoproject.org/g/meta-virtuali=
-zation/message/8618
-> Mute This Topic: https://lists.yoctoproject.org/mt/104860555/1050810
+> View/Reply Online (#8619): https://lists.yoctoproject.org/g/meta-virtuali=
+zation/message/8619
+> Mute This Topic: https://lists.yoctoproject.org/mt/104861806/1050810
 > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
 > Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [=
 bruce.ashfield@gmail.com]
