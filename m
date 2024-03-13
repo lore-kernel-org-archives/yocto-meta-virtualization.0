@@ -2,218 +2,599 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 429C9C54E58
-	for <webhook@archiver.kernel.org>; Tue, 12 Mar 2024 18:44:13 +0000 (UTC)
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
- by mx.groups.io with SMTP id smtpd.web10.4738.1710269051891551974
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8725C54E5D
+	for <webhook@archiver.kernel.org>; Wed, 13 Mar 2024 03:19:57 +0000 (UTC)
+Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
+ by mx.groups.io with SMTP id smtpd.web10.7964.1710299987421938481
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 12 Mar 2024 11:44:11 -0700
+ Tue, 12 Mar 2024 20:19:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=mE4msfRJ;
- spf=pass (domain: gmail.com, ip: 209.85.216.41, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-29c078370aaso1840108a91.2
-        for <meta-virtualization@lists.yoctoproject.org>; Tue, 12 Mar 2024 11:44:11 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=FOk70elx;
+ spf=pass (domain: gmail.com, ip: 209.85.219.50, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-690c43c5b5aso25936576d6.1
+        for <meta-virtualization@lists.yoctoproject.org>; Tue, 12 Mar 2024 20:19:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710269051; x=1710873851; darn=lists.yoctoproject.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Mra/Zw5FgH7CnvVvQgJR6dDfIuGVfDzvOPNsdi9rAgM=;
-        b=mE4msfRJwqlHz+/6KxVgDVCn223EXA6Twyw//cuKwu42Qu6ljdA4V3TPPio7ydVT2Z
-         xefTaWLZw3oZqcef2wzKHY/OgDVuikZH9J+y4lxiPo8h9Xnx9nmm4Am76GMc796+91n3
-         +uAT+PBA/0fyj9/DCu2ZJ0ra5vXuaIY7AU2KgtZlfIkXvJqqH0B0tGNJFOP1EXwN+sSg
-         mGbIGZL4NTourrCGxIdo2JLymLrp5513bJXfxddQ45vEqXSZe0uofEhg6LCxZXFXehz9
-         rEYfe+s7H/4FwySggxksplxi1kK+de60/op+bklcy27QsrLRaPMy2kgyLOMBJhJcpvey
-         /c2w==
+        d=gmail.com; s=20230601; t=1710299986; x=1710904786; darn=lists.yoctoproject.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=V74W71lIKkwEAFHkOu1zBMqWQ0Gsyg9FSXV10wN6BuE=;
+        b=FOk70elxZF+gZfsWVRnOq36fnbTFyJccTUMtJHY79+NKypi1hX62ZkjIeRFo1ajGm+
+         nq+XdUI8ZMTdVIWq7gSsEHU1cBT5U4OJR5xmTcmjKG2HelWegTyD/BuTR86K49IxRU8P
+         rFUPQ6vBCQNz2whdRi9QivZtA4DSHnPAVFMy0ISJ5dlIHPnauTOxHJpl6rnFDfT16PU1
+         6JKuYB9KRNDZdZo1RWXhs3SkonK4pcUnMdpFl6MTajLjzNh0o7AFXjCuw0OcrG8PPGvZ
+         v07rr+MXo2+7rt+tTA4huNIleiVKRn875FvQYv3+SOK7Uzzmuv3m07Ynz+QCffxG3h7G
+         rawg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710269051; x=1710873851;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Mra/Zw5FgH7CnvVvQgJR6dDfIuGVfDzvOPNsdi9rAgM=;
-        b=byBfVoRSmiJmJLNv1ugBbUmmTG9k9YnpfDmQvAb2H0GvtMd64G4eIkzDF07i5u91LB
-         AisSKmxYlagVYCuUoWXOOp0zbs3e9oPs3eHrqf7WaOAGBdZW9iyteu+G9B/Ks2kKNCm+
-         YAx64dfASY7gKU0jdjs1j0yepOI+dMVsfmdw2vDoFG0U2DYjjd7XYz7AyQS5nLOcJWBO
-         zXsypvl/11cMqI6dipRq2mzBRun7YkKBhzSZkqMfBF5+KJECi+kt75y2DzUjl8U8EM7T
-         7Ox5uqYbKVi9gftD9L6nQTkNgGNiiqGnCA5UeN97SZfvHtnLdkfd4ueZMIdsW/NunmUb
-         btjg==
-X-Forwarded-Encrypted: i=1; AJvYcCV6Zwubtn5iTsWG2WFLnxxQdf/9b0ovZBUVmRamG+R5G9RFYMuFjpn+3uFXhp+xfTDshSAJJwZAaPPCndVd9MxqQwuyULPYBuwO1Y+CWeHP90JZNREN2p4S29U=
-X-Gm-Message-State: AOJu0YyuxfoQPhQ8jwT00RvqLAhAoOPDdmj/iB09qiIlPUn16XEtLX9e
-	XCQbNm3dbZPXaN/+fzSGB/2gVdu4aky1yK4Vs99nN4NV2b1aWqHynWY8O9sTY3rRCkM/yxaJ6h/
-	KLecaJ4vv3vgQxwtpfRjKdGmGZso=
-X-Google-Smtp-Source: AGHT+IFXMqNxSo+otbpJyy2QhUjZTBwWHZUTVbKTOuA98DkoBmf9F+2eSXLxcfLLAARbUxFS5qKObPebAulMBZ5Wp38=
-X-Received: by 2002:a17:90a:fd01:b0:29b:a149:2fe4 with SMTP id
- cv1-20020a17090afd0100b0029ba1492fe4mr8881214pjb.34.1710269051146; Tue, 12
- Mar 2024 11:44:11 -0700 (PDT)
-MIME-Version: 1.0
-References: <17BA0B9342C35A1E.21429@lists.yoctoproject.org>
- <CADkTA4M9w2W+7Cio6x2DBsHf+i6TPtrodVB4p5it_oGbh0bO-w@mail.gmail.com>
- <CANx9H-B2RS3CP6xg+R3QFCYUO0a6NYTzAgjhaJuoWRjw8dq2jA@mail.gmail.com>
- <CADkTA4Nu=+-2Vj16G=v_tMoL+Z+SKOaMSM9VzfD5jkf0XqcUSw@mail.gmail.com> <CACMJ4Ga8A-nkYq6BcyWF9Ar9NTKePaqmmkj7ii0wMkS8g1770A@mail.gmail.com>
-In-Reply-To: <CACMJ4Ga8A-nkYq6BcyWF9Ar9NTKePaqmmkj7ii0wMkS8g1770A@mail.gmail.com>
+        d=1e100.net; s=20230601; t=1710299986; x=1710904786;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=V74W71lIKkwEAFHkOu1zBMqWQ0Gsyg9FSXV10wN6BuE=;
+        b=pp/8r92IbdE4YpueISMKKH9wQe3hU4e6evkLXbie5wsBxAWlRu7Uhlc5Y6MgBi0D7s
+         q3Yn9KV/z2g6Gu5GHhzyN+exeYjTD5kxKE0RH/GiYTs8aDIi0Xwaf+SNFtm+VHiR0Tmc
+         wuNfd5hylFX0VdyY8Ta02ALYImEuKFL+V2++yynD5GkXxB2bbrtU7dIos9Wj1kuSJRhJ
+         Cy11C1SWHvJcwdr7duK71UGHXpDukic+9Rd6rd2m8jhsKkK0e8OPSxp7X/JuXnCmxpiM
+         GNFamVZKKEsmog2dlskozDoXKoZDc9xNZkgEZpZDsmxvZ1nFpI6Ecm5+Mn9Cm0lZCsnv
+         Najw==
+X-Gm-Message-State: AOJu0YydlnU1C7GbiLDRHf3JdJQ5bl5lzAs3sUOp+fFz1V5ELvwqOdHo
+	bXNkyPnCyP2xrPdFREE9tGNF6WJBxDgQGImvmZl7GcHE2Lbj5VlbTiT6IYV7
+X-Google-Smtp-Source: AGHT+IH+4BSu+JBVL+Th6OgnS2vpvb1dVCGycSbEsFENgcvi2KJyWhw+AgZ9G4fse7ck8PX4KivJWA==
+X-Received: by 2002:a0c:f2cc:0:b0:690:452b:ecbb with SMTP id c12-20020a0cf2cc000000b00690452becbbmr2244376qvm.39.1710299986162;
+        Tue, 12 Mar 2024 20:19:46 -0700 (PDT)
+Received: from gmail.com ([174.112.62.108])
+        by smtp.gmail.com with ESMTPSA id g22-20020a0caad6000000b00690f4a73726sm1023402qvb.61.2024.03.12.20.19.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 Mar 2024 20:19:45 -0700 (PDT)
+Date: Wed, 13 Mar 2024 03:19:43 +0000
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Tue, 12 Mar 2024 14:43:59 -0400
-Message-ID: <CADkTA4M1_a+E11jTbFQTuxvUaPR=+TE+rNOo4+46B3f4_ed8Bg@mail.gmail.com>
-Subject: Re: [meta-virtualization] ceph upgrade
-To: Christopher Clark <christopher.w.clark@gmail.com>
-Cc: Tim Orling <ticotimo@gmail.com>, 
-	meta-virtualization <meta-virtualization@lists.yoctoproject.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To: Ola x Nilsson <ola.x.nilsson@axis.com>
+Cc: meta-virtualization@lists.yoctoproject.org,
+	Ola x Nilsson <olani@axis.com>
+Subject: Re: [meta-virtualization][PATCH v2] diod: Update to
+ b4b5e8e00ed11b21d7fcf05a080dc054a8eac2d6
+Message-ID: <ZfEbTwArbLLgSee7@gmail.com>
+References: <20240311145709.2526951-1-olani@axis.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240311145709.2526951-1-olani@axis.com>
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Tue, 12 Mar 2024 18:44:13 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8629
+ <meta-virtualization@lists.yoctoproject.org>; Wed, 13 Mar 2024 03:19:57 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8630
 
-On Tue, Mar 12, 2024 at 1:58=E2=80=AFPM Christopher Clark
-<christopher.w.clark@gmail.com> wrote:
->
-> On Mon, Mar 11, 2024 at 6:56=E2=80=AFPM Bruce Ashfield <bruce.ashfield@gm=
-ail.com> wrote:
-> > On Mon, Mar 11, 2024 at 8:41=E2=80=AFPM Tim Orling <ticotimo@gmail.com>=
- wrote:
-> > > On Mon, Mar 11, 2024 at 2:11=E2=80=AFPM Bruce Ashfield <bruce.ashfiel=
-d@gmail.com> wrote:
-> > >>
-> > >> Hi all,
-> > >>
-> > >> I'm still looking for help with this.
-> > >>
-> > >> It's all fine and well that folks have packages that they are
-> > >> interested in more than others, but it needs to be more than
-> > >> maintainers that step up and fix the niche packages.
-> > >>
-> > >> I'm still holding the meta-virt master-next -> master push until Cep=
-h
-> > >> is upgraded and working.
-> > >>
-> > >> I know absolutely nothing about CMake, so I'm flailing around in the
-> > >> build of Ceph and have gotten no further since I last asked for help=
-.
-> > >
-> > > Well I did try, but I am no CMake expert nor ceph expert either. I go=
-t stalled on it detecting =E2=80=9Cthrift=E2=80=9D in one of the vendored l=
-ibraries.
-> >
-> > I ended up with that as well (just a few minutes ago), I tried setting
-> > some Thrift variables, but it refuses to detect those as well.
-> >
-> > The errors seem to rotate .. and it isn't even obvious if some are
-> > really fatal, or not.
-> >
-> > Perhaps it just isn't something that cross builds anymore, and I'll
-> > just blacklist it with the broken
-> > recipe.
-> >
-> > I'll have one more try with it tomorrow before giving up.
->
-> Hi Bruce, Tim,
->
-> I had a look at this yesterday, and I (possibly?) made some progress
-> with it but wanted to ask before getting too far with an approach:
-> would it be OK to pull out at least some of those vendored components
-> into some new separate recipes, so that rebuilding that compile stage
-> when it needs it is faster?
->
-
-I'm fine with stripping it down to the bare minimum to be buildable.
-
-I'd rather have a building (but small) recipe, and then we can see if there=
-'s
-demand for more components.
-
-I was also poking at this today, and I'm still seeing dramatically differen=
-t
-results when I call compile multiple times .. all the way back to cmake
-complaining it can't find the python3 interpreter, which was a problem
-I thought I had solved!
-
-Feel free to grab me on the #meta-virt channel if you have any interactive
-questions.
+Staged on master-next (it will be in the upcoming release branch)
 
 Bruce
 
-> Christopher
->
->
-> >
-> > Bruce
-> >
-> > > We can only take so much abuse from upstream ;)
-> > >
-> > >
-> > >>
-> > >> Bruce
-> > >>
-> > >> On Tue, Mar 5, 2024 at 9:22=E2=80=AFPM Bruce Ashfield via
-> > >> lists.yoctoproject.org
-> > >> <bruce.ashfield=3Dgmail.com@lists.yoctoproject.org> wrote:
-> > >> >
-> > >> > Hi all,
-> > >> >
-> > >> > If anyone has experience with Cmake, I could use a hand completing=
- the
-> > >> > ceph upgrade that is marked as WIP in master-next.
-> > >> >
-> > >> > It took me a few hours today, but I managed to get past python3
-> > >> > detection issues, but now I'm running into a compiler test failure
-> > >> > during the build.
-> > >> >
-> > >> > To me, it looks like our sysroot isn't being passed, which could b=
-e
-> > >> > related to the toolchain.cmake not being used (since the compiler =
-test
-> > >> > is being launched by a sub component).
-> > >> >
-> > >> > I'm inclined to be stubborn about this, and keep working on gettin=
-g
-> > >> > the package bumped, as it has missed a few upgrades and is in need=
- of
-> > >> > some love.
-> > >> >
-> > >> > Bruce
-> > >> >
-> > >> > --
-> > >> > - Thou shalt not follow the NULL pointer, for chaos and madness aw=
-ait
-> > >> > thee at its end
-> > >> > - "Use the force Harry" - Gandalf, Star Trek II
-> > >> >
-> > >> >
-> > >> >
-> > >>
-> > >>
-> > >> --
-> > >> - Thou shalt not follow the NULL pointer, for chaos and madness awai=
-t
-> > >> thee at its end
-> > >> - "Use the force Harry" - Gandalf, Star Trek II
-> > >>
-> > >>
-> > >>
-> >
-> >
-> > --
-> > - Thou shalt not follow the NULL pointer, for chaos and madness await
-> > thee at its end
-> > - "Use the force Harry" - Gandalf, Star Trek II
-> >
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#8626): https://lists.yoctoproject.org/g/meta-virtua=
-lization/message/8626
-> > Mute This Topic: https://lists.yoctoproject.org/mt/104759213/3619036
-> > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> > Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub=
- [christopher.w.clark+meta-virt@gmail.com]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >
+In message: [meta-virtualization][PATCH v2] diod: Update to b4b5e8e00ed11b21d7fcf05a080dc054a8eac2d6
+on 11/03/2024 Ola x Nilsson wrote:
 
+> Just needs a single patch to handle the lua feature in configure when
+> cross-compiling.
+> 
+> f732f19 auto.diod.in: remove bashisms
+> 7e0df4c build: Update ax_compiler_vendor.m4 from autoconf-archive 2023.02.20
+> 7e56831 build: Update ax_lua.m4 from autoconf-archive 2023.02.20
+> 76c7c18 build: Install diod.service and auto.diod without install-data-local
+> af5972f build: Add missing , to AS_CASE in configure.ac
+> 6cbbacf diodmount: update man page with privport option
+> 3777ea1 libdiod: Support ipv6 in diod_sock_connect
+> ddf6071 libdiod: Set global options on exports specified on
+> 1db9e57 libdiod: support privport on ipv6
+> ae7c536 diodmount: Add option to set privport
+> 66652bf diod: allow walk on open fids
+> 2822ea6 tests: disable open-walk test
+> 56f24b2 diod: fix incompatible-pointer-types warning
+> ab03b7f utils/diodls: fix error-format warnings
+> 84d4e51 github: extend build matrix to include ubuntu18
+> 203b4c7 README: reference SPDX identifier
+> d5444ce license: update 9p.h kernel header
+> 0a5c80e license: update npfs source headers
+> 88350f3 license: update license header to abbreivated one
+> 57a621d protocol: fix plan9 manual links
+> ee95dd9 tests/misc: fix distcheck problems
+> d8e1e67 README: update dependencies
+> 5425713 ci: install lua interpreter as prereq
+> 25bebfb build: add configure --disable-config
+> e7f9df9 build: fix lua detection
+> 3eabd5d ci: create build matrix with clang, gcc
+> 20ca897 build: conditional use of gcc warning flags is broken
+> 16f8da4 build: turn all compiler warnings into errors
+> 59bdaa1 tests/kern/tfcntl3: drop dead code
+> 7a0f557 tests/kern/tfcntl2: drop dead code
+> dd4d4c0 tests/kern/misc: ignore stringop-truncation warnings
+> 3a05837 tests/kern/fsx: ignore unused-result warnings
+> c918476 tests/kern/postmark: ignore format-overflow warn
+> b20268c tests/kern/fsx: fix incorrect message
+> 7ee5b68 tests/kern/pathwalk: check snprintf return value
+> 657dc10 diod: use readdir(3) in ioctx_readdir()
+> cba3834 diod: normalize whitespace in ioctx_readdir_r()
+> 3e8ed95 diod: use readdir() not deprecated readdir_r()
+> 194416d diod: define _DEFAULT_SOURCE not _BSD_SOURCE
+> ddcbd3b diodmount: initialized variable
+> 698d055 diodmount: check system() return value
+> 787994e build: suppress liblsd errors
+> 192229f build: enable automake "maintainer mode"
+> 0086b9b libnpfs: don't call snprintf() with NULL %s arg
+> 620792d ci: add basic github workflow
+> 530e2d5 move main.yml into the correct directory
+> 783cb8c ci: add github workflow stub
+> c7eccf9 ci: drop travis config
+> ff26333 Use PKG_CHECK_MODULES for ncurses, drop legacy curses
+> 91d8966 Silence warnings when compiling with clang
+> 3bb5798 Increase diod server maximum msize setting to 1MB
+> 896f37c Add option to disable hostname lookups
+> cdd12f2 Remove empty README
+> c2cd87c Document IPv6 address format
+> 899306b diod: Add support for IPv6 addresses
+> 1878ce9 diodmount: Add support for IPv6 addresses
+> 82b819f Splits the package in diod, and diod-utils.
+> cf33c8e Fixes spec file for systemd build on CentOS 7.
+> 9af7d94 Travis-ci: added support for ppc64le
+> 550ba49 document the FreeBSD changes
+> bfe6c4b implement impersonation on FreeBSD
+> c28286f restore user-linux.c from user-linux-0.c
+> 2624b4f copy user-linux.c to user-freebsd.c
+> f4ae6ef save a copy of user-linux.c as user-linux-0.c
+> 228c2d2 minor cleanup in liblsd/hostlist.c
+> f325ad5 fix the help message
+> e20572a finish the split of user.c
+> 11ed83c remove non-shared code from user.c
+> 929276d move common code from user.c out of the way
+> 7d3d01a leave only a stub in user-stub.c
+> d7abf6f create user-stub.c from user.c
+> 828cf89 remove non-Linux bits from user-linux.c
+> 3eb807c create user-linux.c from user.c
+> 490d7bc add a setting to configure access=user API
+> 243b0b3 disable diodmount and tests except on Linux
+> 1ece6d7 make building tests configurable
+> a3610ca make building diodmount configurable
+> 13eace1 do not special-case Linux to do the same thing
+> 33cd2b0 FreeBSD does not have ENODATA
+> e6ecd06 remove unused ifdefs
+> 42958d2 check for missing defines directly
+> 244adc7 use autoconf to detect headers
+> f3b9cae small fixes for FreeBSD
+> 73fe9a6 Update protocol.md
+> f0f7d0d Fix systemd unit dir and file permissions
+> 81eef82 Fix autoconf failure: Ensure m4 macro inclusion
+> ca1b0f5 Place systemd unit into $(libdir)/systemd/system
+> 5551dbc libnpclient/read.c: fix out-of-bounds write
+> 50bc4ea libdiod/diod_sock.c: zero initialize sockaddr
+> 1d40ba5 diod/ops.c: distinguish opened and unopened Fids in {set,get}attr
+> d1d31c9 diod/ioctx.c: add stat, chmod, chown, truncate, utimensat
+> 6749db3 diod/ops.c: disallow walk on opened fids
+> f1f1b38 tests/user: add tests for operations on opened fids
+> 6fbe656 tests: fix xattr test build
+> d3946ca tests: check for daemon user
+> ff730b1 Fix typo in P9_TRENAME format
+> 9690086 add git to debian dependencies
+> 0498089 diod/ops.c: add header file for makedev
+> 043f1ea cleanup: remove files that should not have been committed
+> 0dd51c5 travis-ci: begin building under travis
+> fb191b7 tests/kern: avoid use of relative paths
+> 47c63b0 tests/user: avoid use of relative paths
+> 320eb5a tests/misc: avoid use of relative paths
+> 74bfd84 test/misc: include test.h in dist target
+> 89fb32d tests/kern/dbench: fix distcheck problem
+> d6881e0 build: fix source references in tests/misc
+> 2379e20 build: include from $(srcdir) not relative path
+> f86b24e test/user: skip t18,19 if xattr not enabled
+> fc02397 test/user/attach: reduce number of threads
+> 2f92e04 cleanup: drop trailing whitespace from test source
+> f958117 build: drop META
+> f33d72a libnpfs: use PACKAGE_NAME-PACKAGE_VERSION not META_ALIAS
+> 5add7d2 dtop: show PACKAGE_VERSION not META_VERSION.RELEASE
+> 3a51ec0 man: use PACKAGE not META macros
+> 1fd1b11 spec: use PACKAGE not META macros
+> cf3247a cleanup: drop trailing whitespace from source
+> 7ca7f56 protocol.md: fix typos and markdown errors
+> d04c39e README.md: trivial fixes
+> 9d37f4a protocol.md: fix typos
+> 
+> Change-Id: I5f06ccaa86f935d5f32a0800c0edb49b9d17b0ff
+> Signed-off-by: Ola x Nilsson <olani@axis.com>
+> ---
+>  recipes-extended/diod/diod_1.0.24.bb          |  13 +-
+>  .../0001-build-Find-lua-with-pkg-config.patch |  50 +++++++
+>  ...ilds-to-work-with-separate-build-dir.patch | 126 ------------------
+>  ...od-ops.c-add-header-file-for-makedev.patch |  37 -----
+>  ...drod-add-option-to-config-systemddir.patch |  51 -------
+>  .../0002-auto.diod.in-remove-bashisms.patch   |  47 -------
+>  6 files changed, 55 insertions(+), 269 deletions(-)
+>  create mode 100644 recipes-extended/diod/files/0001-build-Find-lua-with-pkg-config.patch
+>  delete mode 100644 recipes-extended/diod/files/0001-build-allow-builds-to-work-with-separate-build-dir.patch
+>  delete mode 100644 recipes-extended/diod/files/0001-diod-ops.c-add-header-file-for-makedev.patch
+>  delete mode 100644 recipes-extended/diod/files/0001-drod-add-option-to-config-systemddir.patch
+>  delete mode 100644 recipes-extended/diod/files/0002-auto.diod.in-remove-bashisms.patch
+> 
+> diff --git a/recipes-extended/diod/diod_1.0.24.bb b/recipes-extended/diod/diod_1.0.24.bb
+> index 2b87a8ae..5e191dc0 100644
+> --- a/recipes-extended/diod/diod_1.0.24.bb
+> +++ b/recipes-extended/diod/diod_1.0.24.bb
+> @@ -9,22 +9,19 @@ LICENSE = "GPL-2.0-only"
+>  LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552"
+>  
+>  PV = "1.0.24+git"
+> -SRCREV = "0ea3fe3d829b5085307cd27a512708d99ef48199"
+> +SRCREV = "b4b5e8e00ed11b21d7fcf05a080dc054a8eac2d6"
+>  SRC_URI = "git://github.com/chaos/diod.git;protocol=https;branch=master \
+>             file://diod \
+>             file://diod.conf \
+> -           file://0001-build-allow-builds-to-work-with-separate-build-dir.patch \
+> -           file://0002-auto.diod.in-remove-bashisms.patch \
+> -           file://0001-diod-ops.c-add-header-file-for-makedev.patch \
+> -           file://0001-drod-add-option-to-config-systemddir.patch \
+> -          "
+> +           file://0001-build-Find-lua-with-pkg-config.patch \
+> +           "
+>  DEPENDS = "libcap ncurses tcp-wrappers lua"
+>  
+> -EXTRA_OECONF = "--with-systemddir=${systemd_unitdir}/system"
+> +EXTRA_OEMAKE += "systemddir=${systemd_unitdir}/system"
+>  
+>  S = "${WORKDIR}/git"
+>  
+> -inherit autotools systemd
+> +inherit autotools pkgconfig systemd
+>  
+>  do_install:append () {
+>          # install our init based on start-stop-daemon
+> diff --git a/recipes-extended/diod/files/0001-build-Find-lua-with-pkg-config.patch b/recipes-extended/diod/files/0001-build-Find-lua-with-pkg-config.patch
+> new file mode 100644
+> index 00000000..9f61792a
+> --- /dev/null
+> +++ b/recipes-extended/diod/files/0001-build-Find-lua-with-pkg-config.patch
+> @@ -0,0 +1,50 @@
+> +From 8124eec4e59222f1c3f3dc4d7e6706e13c33755c Mon Sep 17 00:00:00 2001
+> +From: Ola x Nilsson <olani@axis.com>
+> +Date: Wed, 6 Mar 2024 18:40:16 +0100
+> +Subject: [PATCH] build: Find lua with pkg-config
+> +
+> +ax_lua.m4 does not support cross compilation.
+> +
+> +Upstream-Status: Inappropriate (Embedded specific)
+> +
+> +---
+> + configure.ac | 26 +++++++++++++++++++++++++-
+> + 1 file changed, 25 insertions(+), 1 deletion(-)
+> +
+> +diff --git a/configure.ac b/configure.ac
+> +index e8fcdb2..f3ebdc5 100644
+> +--- a/configure.ac
+> ++++ b/configure.ac
+> +@@ -121,7 +121,31 @@ AC_ARG_ENABLE([config],
+> +   [AS_HELP_STRING([--disable-config], [disable lua config file support])])
+> + 
+> + AS_IF([test "x$enable_config" != "xno"], [
+> +-  AX_PROG_LUA([5.1],[5.5])
+> ++  dnl Use pkg_config to check for lua settings.  This is not standard
+> ++  dnl as lua typically does not distribute a pc file.  The
+> ++  dnl OpenEmbedded recipe adds one that can be used.  Reuse/replicate
+> ++  dnl as much of AX_PROG_LUA as possible so AX_LUA_HEADERS and
+> ++  dnl AX_LUA_LIBS are still usable.
+> ++  PKG_CHECK_EXISTS([lua], [
+> ++    AS_IF([
+> ++      $PKG_CONFIG --atleast-version=5.1 lua && $PKG_CONFIG --max-version=5.5 lua
+> ++    ],[
+> ++      AC_ARG_VAR([LUA], [The LUA interpreter, e.g. /usr/bin/lua5.1])
+> ++	  dnl should really check that the file exists ...
+> ++      AC_SUBST([LUA], [${bindir}/lua])
+> ++	  AC_CACHE_CHECK([for $LUA version], [ax_cv_lua_version], [
+> ++	    ax_cv_lua_version=[`$PKG_CONFIG --modversion lua | $SED 's/^\([0-9]\+\.[0-9]\+\).*/\1/'`]
+> ++      ])
+> ++	  AS_IF([test "x$ax_cv_lua_version" = 'x'],
+> ++       [AC_MSG_ERROR([invalid Lua version number])])
+> ++      AC_SUBST([LUA_VERSION], [$ax_cv_lua_version])
+> ++      AC_SUBST([LUA_SHORT_VERSION], [`echo "$LUA_VERSION" | $SED 's|\.||'`])
+> ++    ],[
+> ++	  AC_MSG_ERROR([Incorrect lua version])
+> ++	])
+> ++  ],[
+> ++    AX_PROG_LUA([5.1],[5.5])
+> ++  ])
+> +   AX_LUA_HEADERS([],[
+> +     AC_MSG_ERROR([Install lua headers or configure with --disable-config])
+> +   ])
+> diff --git a/recipes-extended/diod/files/0001-build-allow-builds-to-work-with-separate-build-dir.patch b/recipes-extended/diod/files/0001-build-allow-builds-to-work-with-separate-build-dir.patch
+> deleted file mode 100644
+> index f40e0eb5..00000000
+> --- a/recipes-extended/diod/files/0001-build-allow-builds-to-work-with-separate-build-dir.patch
+> +++ /dev/null
+> @@ -1,126 +0,0 @@
+> -From 43403468298ef4167baa5d84de2ee2eaf7f4007a Mon Sep 17 00:00:00 2001
+> -From: Mark Asselstine <mark.asselstine@windriver.com>
+> -Date: Fri, 9 Jan 2015 18:34:04 +0000
+> -Subject: [PATCH 1/2] build: allow builds to work with separate build dir
+> -
+> -Remove assumptions in include paths that assume the build
+> -is happening in the source directories.
+> -
+> -Upstream-Status: Inappropriate [embedded specific]
+> -
+> -Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+> ----
+> - diod/Makefile.am              | 2 +-
+> - libdiod/Makefile.am           | 2 +-
+> - liblsd/Makefile.am            | 2 +-
+> - libnpclient/Makefile.am       | 2 +-
+> - scripts/Makefile.am           | 6 +++---
+> - tests/kern/dbench/Makefile.am | 4 ++--
+> - utils/Makefile.am             | 2 +-
+> - 7 files changed, 10 insertions(+), 10 deletions(-)
+> -
+> -diff --git a/diod/Makefile.am b/diod/Makefile.am
+> -index 7644be7..fdaf130 100644
+> ---- a/diod/Makefile.am
+> -+++ b/diod/Makefile.am
+> -@@ -1,7 +1,7 @@
+> - AM_CFLAGS = @GCCWARN@
+> - 
+> - AM_CPPFLAGS = \
+> --	-I../libnpfs -I../liblsd -I../libdiod
+> -+	-I$(srcdir)/../libnpfs -I$(srcdir)/../liblsd -I$(srcdir)/../libdiod
+> - 
+> - sbin_PROGRAMS = diod
+> - 
+> -diff --git a/libdiod/Makefile.am b/libdiod/Makefile.am
+> -index 4810e14..6905cdd 100644
+> ---- a/libdiod/Makefile.am
+> -+++ b/libdiod/Makefile.am
+> -@@ -1,7 +1,7 @@
+> - AM_CFLAGS = @GCCWARN@
+> - 
+> - AM_CPPFLAGS = \
+> --	-I../libnpfs -I../libnpclient -I../liblsd
+> -+	-I$(srcdir)/../libnpfs -I$(srcdir)/../libnpclient -I$(srcdir)/../liblsd
+> - 
+> - noinst_LIBRARIES = libdiod.a
+> - 
+> -diff --git a/liblsd/Makefile.am b/liblsd/Makefile.am
+> -index c3e5658..7e18bf8 100644
+> ---- a/liblsd/Makefile.am
+> -+++ b/liblsd/Makefile.am
+> -@@ -1,6 +1,6 @@
+> - AM_CFLAGS = @GCCWARN@
+> - 
+> --AM_CPPFLAGS = -I../libdiod
+> -+AM_CPPFLAGS = -I$(srcdir)/../libdiod
+> - 
+> - noinst_LIBRARIES = liblsd.a
+> - 
+> -diff --git a/libnpclient/Makefile.am b/libnpclient/Makefile.am
+> -index 5305df9..cbaf266 100644
+> ---- a/libnpclient/Makefile.am
+> -+++ b/libnpclient/Makefile.am
+> -@@ -1,7 +1,7 @@
+> - AM_CFLAGS = @GCCWARN@
+> - 
+> - AM_CPPFLAGS = \
+> --	-I../libnpfs
+> -+	-I$(srcdir)/../libnpfs
+> - 
+> - noinst_LIBRARIES = libnpclient.a
+> - 
+> -diff --git a/scripts/Makefile.am b/scripts/Makefile.am
+> -index 51c24a3..2aba728 100644
+> ---- a/scripts/Makefile.am
+> -+++ b/scripts/Makefile.am
+> -@@ -1,9 +1,9 @@
+> --systemddir=$(sysconfdir)/systemd/system
+> -+systemddir=/lib/systemd/system
+> - 
+> - install-data-local:
+> --	$(top_srcdir)/config/install-sh -m 755 $(srcdir)/auto.diod \
+> -+	$(top_srcdir)/config/install-sh -m 755 ./auto.diod \
+> - 		$(DESTDIR)$(sysconfdir)/auto.diod
+> --	$(top_srcdir)/config/install-sh -m 755 $(srcdir)/diod.service \
+> -+	$(top_srcdir)/config/install-sh -m 644 ./diod.service \
+> - 		$(DESTDIR)$(systemddir)/diod.service
+> - 
+> - uninstall-local:
+> -diff --git a/tests/kern/dbench/Makefile.am b/tests/kern/dbench/Makefile.am
+> -index e0cdefa..1704f9f 100644
+> ---- a/tests/kern/dbench/Makefile.am
+> -+++ b/tests/kern/dbench/Makefile.am
+> -@@ -2,7 +2,7 @@ AM_CFLAGS = -w
+> - 
+> - # VERSION=4.00
+> - 
+> --AM_CPPFLAGS = -DDATADIR=\"$(X_DATADIR)\"
+> -+AM_CPPFLAGS = -I. -DDATADIR=\"$(X_DATADIR)\"
+> - 
+> - LDADD = $(LIBPOPT)
+> - 
+> -@@ -25,6 +25,6 @@ BUILT_SOURCES = proto.h
+> - CLEANFILES = proto.h
+> - 
+> - proto.h: $(dbench_SOURCES) mkproto.pl
+> --	perl mkproto.pl $(dbench_SOURCES) > proto.h
+> -+	$(srcdir)/mkproto.pl $(patsubst %,$(srcdir),$(dbench_SOURCES)) > proto.h
+> - 
+> - EXTRA_DIST = mkproto.pl
+> -diff --git a/utils/Makefile.am b/utils/Makefile.am
+> -index 169b6c4..91d571d 100644
+> ---- a/utils/Makefile.am
+> -+++ b/utils/Makefile.am
+> -@@ -1,7 +1,7 @@
+> - AM_CFLAGS = @GCCWARN@
+> - 
+> - AM_CPPFLAGS = \
+> --	-I../libnpfs -I../liblsd -I../libdiod -I../libnpclient
+> -+	-I$(srcdir)/../libnpfs -I$(srcdir)/../liblsd -I$(srcdir)/../libdiod -I$(srcdir)/../libnpclient
+> - 
+> - sbin_PROGRAMS = diodmount diodcat dtop diodload diodls diodshowmount dioddate
+> - 
+> --- 
+> -2.11.0
+> -
+> diff --git a/recipes-extended/diod/files/0001-diod-ops.c-add-header-file-for-makedev.patch b/recipes-extended/diod/files/0001-diod-ops.c-add-header-file-for-makedev.patch
+> deleted file mode 100644
+> index 49bc507b..00000000
+> --- a/recipes-extended/diod/files/0001-diod-ops.c-add-header-file-for-makedev.patch
+> +++ /dev/null
+> @@ -1,37 +0,0 @@
+> -From f75836731d6051d85e6317eb4c12465bafb4973e Mon Sep 17 00:00:00 2001
+> -From: "Hongzhi.Song" <hongzhi.song@windriver.com>
+> -Date: Fri, 31 Aug 2018 05:47:02 -0400
+> -Subject: [PATCH] diod/ops.c: add header file for makedev
+> -
+> -Error:
+> -diod/ops.c:845: undefined reference to `makedev'
+> -
+> -Fixed:
+> -Glibc removes sys/sysmacros.h which defines makedev from sys/types.h
+> -since v2.28. [Commit ID: e16deca62e16f]
+> -
+> -And then glibc suggestions us to include <sys/sysmacros.h> directly if
+> -code needs it.
+> -
+> -Upstream-Status: Submitted
+> -
+> -Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
+> ----
+> - diod/ops.c | 1 +
+> - 1 file changed, 1 insertion(+)
+> -
+> -diff --git a/diod/ops.c b/diod/ops.c
+> -index c6c8291..469a502 100644
+> ---- a/diod/ops.c
+> -+++ b/diod/ops.c
+> -@@ -74,6 +74,7 @@
+> - #include <pthread.h>
+> - #include <errno.h>
+> - #include <sys/types.h>
+> -+#include <sys/sysmacros.h>
+> - 
+> - #ifdef __FreeBSD__
+> - #if !__BSD_VISIBLE
+> --- 
+> -2.8.1
+> -
+> diff --git a/recipes-extended/diod/files/0001-drod-add-option-to-config-systemddir.patch b/recipes-extended/diod/files/0001-drod-add-option-to-config-systemddir.patch
+> deleted file mode 100644
+> index 4931a19b..00000000
+> --- a/recipes-extended/diod/files/0001-drod-add-option-to-config-systemddir.patch
+> +++ /dev/null
+> @@ -1,51 +0,0 @@
+> -From 365159534b1981dfe291ecc05d2455f32652a166 Mon Sep 17 00:00:00 2001
+> -From: Changqing Li <changqing.li@windriver.com>
+> -Date: Mon, 26 Aug 2019 18:00:39 +0800
+> -Subject: [PATCH] drod: add option to config systemddir
+> -
+> -Not need to send upstream, since upstream have refactor
+> -related code, but not released. and this version release 
+> -4 years ago, not proper to just backport one or more
+> -commits, this patch maybe could be dropped after upgrade.
+> -
+> -Upstream-Status: Inappropriate [embedded specific]
+> -
+> -Signed-off-by: Changqing Li <changqing.li@windriver.com>
+> ----
+> - configure.ac        | 9 +++++++++
+> - scripts/Makefile.am | 2 +-
+> - 2 files changed, 10 insertions(+), 1 deletion(-)
+> -
+> -diff --git a/configure.ac b/configure.ac
+> -index 1cb8579..3e4a5ec 100644
+> ---- a/configure.ac
+> -+++ b/configure.ac
+> -@@ -25,6 +25,15 @@ AC_DEFINE([_GNU_SOURCE], 1,
+> -           [Define _GNU_SOURCE so that we get all necessary prototypes])
+> - 
+> - ##
+> -+#Add option to config systemddir
+> -+##
+> -+AC_ARG_WITH([systemddir],
+> -+  [AS_HELP_STRING([--with-systemddir=DIR], [systemd dir])],
+> -+  [systemddir=$withval],
+> -+  [systemddir="/lib/systemd/system"])
+> -+AC_SUBST([systemddir], [$systemddir])
+> -+
+> -+##
+> - # Checks for programs
+> - ##
+> - AC_PROG_CC
+> -diff --git a/scripts/Makefile.am b/scripts/Makefile.am
+> -index 2aba728..40822b7 100644
+> ---- a/scripts/Makefile.am
+> -+++ b/scripts/Makefile.am
+> -@@ -1,4 +1,4 @@
+> --systemddir=/lib/systemd/system
+> -+systemddir=@systemddir@
+> - 
+> - install-data-local:
+> - 	$(top_srcdir)/config/install-sh -m 755 ./auto.diod \
+> --- 
+> -2.7.4
+> -
+> diff --git a/recipes-extended/diod/files/0002-auto.diod.in-remove-bashisms.patch b/recipes-extended/diod/files/0002-auto.diod.in-remove-bashisms.patch
+> deleted file mode 100644
+> index 13e0a86e..00000000
+> --- a/recipes-extended/diod/files/0002-auto.diod.in-remove-bashisms.patch
+> +++ /dev/null
+> @@ -1,47 +0,0 @@
+> -From 5a9e09dc5de833db11607530351cd87cecbfd17e Mon Sep 17 00:00:00 2001
+> -From: Roy Li <rongqing.li@windriver.com>
+> -Date: Thu, 22 Jun 2017 06:32:30 +0000
+> -Subject: [PATCH 2/2] auto.diod.in: remove bashisms
+> -
+> -Upstream-Status: Inappropriate [embedded specific]
+> -
+> -Signed-off-by: Roy Li <rongqing.li@windriver.com>
+> ----
+> - scripts/auto.diod.in | 14 +++++++-------
+> - 1 file changed, 7 insertions(+), 7 deletions(-)
+> -
+> -diff --git a/scripts/auto.diod.in b/scripts/auto.diod.in
+> -index f63e004..4d5fc3a 100755
+> ---- a/scripts/auto.diod.in
+> -+++ b/scripts/auto.diod.in
+> -@@ -1,4 +1,4 @@
+> --#!/bin/bash
+> -+#!/bin/sh
+> - #
+> - # auto.diod - executable automounter map for diod file systems
+> - #
+> -@@ -41,15 +41,15 @@ dcatopts="${DIOD_TIMEOUT:+-t $DIOD_TIMEOUT}"
+> - for server in $DIOD_SERVERS; do
+> -     $DIOD_DIODCAT -s $server $dcatopts exports | awk '{print $1}' |\
+> -     while read path; do
+> --        if [ "$path" == "/" ]; then
+> --            if [ "$key" == "ROOT" ]; then
+> -+        if [ "$path" = "/" ]; then
+> -+            if [ "$key" = "ROOT" ]; then
+> -                 echo "$prefix $server:$path"
+> -                 exit 0
+> -             fi
+> --        elif [ "$key" == "$(echo $path|sed -e's/^\///' -e's/\//./g')" ] \
+> --          || [ "$key" == "$(echo $path|sed -e's/^\///' -e's/\//_/g')" ] \
+> --          || [ "$key" == "$(echo $path|sed -e's/^\///' -e's/\//-/g')" ] \
+> --          || [ "$key" == "$(basename $path)" ]; then
+> -+        elif [ "$key" = "$(echo $path|sed -e's/^\///' -e's/\//./g')" ] \
+> -+          || [ "$key" = "$(echo $path|sed -e's/^\///' -e's/\//_/g')" ] \
+> -+          || [ "$key" = "$(echo $path|sed -e's/^\///' -e's/\//-/g')" ] \
+> -+          || [ "$key" = "$(basename $path)" ]; then
+> -             echo "$prefix $server:$path"
+> -             exit 0
+> -         fi
+> --- 
+> -2.11.0
+> -
+> -- 
+> 2.39.2
+> 
 
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#8622): https://lists.yoctoproject.org/g/meta-virtualization/message/8622
+> Mute This Topic: https://lists.yoctoproject.org/mt/104864596/1050810
+> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
 
