@@ -1,120 +1,183 @@
-Return-Path: <kamalgmbh32@gmail.com>
+Return-Path: <bruce.ashfield@gmail.com>
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D97DC54E58
-	for <webhook@archiver.kernel.org>; Tue, 26 Mar 2024 04:08:07 +0000 (UTC)
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
- by mx.groups.io with SMTP id smtpd.web10.520.1711426076292484737
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86172C6FD1F
+	for <webhook@archiver.kernel.org>; Tue, 26 Mar 2024 12:45:19 +0000 (UTC)
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+ by mx.groups.io with SMTP id smtpd.web10.7872.1711457115488816427
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 25 Mar 2024 21:07:57 -0700
+ Tue, 26 Mar 2024 05:45:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=I5yhak5Z;
- spf=pass (domain: gmail.com, ip: 209.85.167.45, mailfrom: kamalgmbh32@gmail.com)
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-513d3746950so6238064e87.1
-        for <meta-virtualization@lists.yoctoproject.org>; Mon, 25 Mar 2024 21:07:56 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=QyquyAo7;
+ spf=pass (domain: gmail.com, ip: 209.85.216.53, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-2a0292c4df5so3686271a91.0
+        for <meta-virtualization@lists.yoctoproject.org>; Tue, 26 Mar 2024 05:45:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711426074; x=1712030874; darn=lists.yoctoproject.org;
+        d=gmail.com; s=20230601; t=1711457115; x=1712061915; darn=lists.yoctoproject.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=YttqCiLDgHddW0IUIH5tmeP/bwk2s9zF+6KJy8fuA4s=;
-        b=I5yhak5ZvXk57XXm536nD65Em0l/tCQppAlRXIp8X5ThnKufV27D+79xHcsnTZEOEB
-         ugG7CFx4tTlV8/4rFOeDRkVHDKWKVO0gVeljWr0PemJrSQxEbqnJkxxp8La1qltOBSM+
-         RBHrTMUkQ0/JaYVMjJHgVfmL5Y4NSSg/OE2oreYNqLoiY+4LZ/hkn/TjfxLOIQpwzNpj
-         lZ73kGYG4JcmOivHo38fEOOHtzqdF5q1nI4dVyi2dsjMe45UerKxg5Hy/scfZ/m62lwq
-         JmAjpTLVrbfIEflQty3EQOn7aKXPrvgudH6ANhiA03MdeGxWI3gL2UycdPqtfOOA2uZw
-         ID/w==
+        bh=SXNlySgTNDTWK/xT9ojB7s4/4hA52LhqzsCm9iK7hQw=;
+        b=QyquyAo7+3ApTFJn4pKzZCH9he2xnu/MlVoC+So2K3kPlYpU4qPxVqZqfKlOM2C3xU
+         wzdOglTm6hga+5ggn4avWoUipB/nFnKZ3Qh4pyxYXgXFhipDJ6fA56TELy9WwA/cZODq
+         30/igojMB/fv/TAYePGOvtIUnyvrJ+3hjxrXU/JuWlJGesSlPyATfg3+OaIvn7NaWkhV
+         sn+UQ759jc9r0UyvDBYm9OvCXROU5GpP+Haq8NX2n//RdADmYFCyqH4DK4XisamD+OSX
+         nIFdWG7PC6HPo26TmcMK/pbPe6KWd4Y675AhL9nwiY0h+Hym5LF9PgNIRx0cwMPMpAwq
+         FxEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711426074; x=1712030874;
+        d=1e100.net; s=20230601; t=1711457115; x=1712061915;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=YttqCiLDgHddW0IUIH5tmeP/bwk2s9zF+6KJy8fuA4s=;
-        b=ZuQCQdhqrOaoAl1ChzbiU1uoE4TpjYQE8filN5cYE+3vL/WDhdEsBWVuiZjM0z3H3D
-         Z+XKiHnXga78Q5s422DFdugpypWq/jLcOcGhDR7fX3nI3cwQ35WMBIbWDZKTWsXsEUaD
-         lzL0RFEjHY+MgbJEeUPrh6g+jT3l854MukAaEciEP3dTAjwU2yoE/ac7j/gNkfbUPeX9
-         8f17SrFzhyrhQfooClARCL0OtFsRPWipHdtkmXkHTKkqJc+R2pduusSeoqlDAjcCPHCH
-         wNO+yVuar/T8lzdih6GAJkeEMFF9nniWYYRKmz+XFo8ndyG/28n5XUWoLsz8RnIej0TQ
-         p9Xg==
-X-Gm-Message-State: AOJu0Ywr+TMF0qivhawAo3zxLuPcK6PLW92ycOue815O+lSztBx1zt6K
-	pqJDc77v/BgtYLNqJsJYJI9bCY2IkGuSzExixeI5Bx5ayUW4botR1t0qrNFcEPDZw1I5d7WzULr
-	40b8AMXOiht7JricIiHPDuNV2fhI=
-X-Google-Smtp-Source: AGHT+IGELH8CxYdnd0cfhuszbykQF1erUhrRX961nS5itIoCtadUpD3+w79c8UPp6l6OCH02CWKxfnz4OOKxwIbC3S4=
-X-Received: by 2002:ac2:5e3a:0:b0:513:cf61:6847 with SMTP id
- o26-20020ac25e3a000000b00513cf616847mr4812095lfg.22.1711426073738; Mon, 25
- Mar 2024 21:07:53 -0700 (PDT)
+        bh=SXNlySgTNDTWK/xT9ojB7s4/4hA52LhqzsCm9iK7hQw=;
+        b=f5TSyvU9Bk4gc65Qf+0sJ+nwFj8chQVc71mRDIJqSxrAjAFtr5ChV4BxKvhDXX9L7N
+         LgItTD+2Le2StLlMl2NPX6/xxRvvFMj8o9t4yG7DgKlamG9+kyPFvAomcnw9Y7bs1wDI
+         lzNmPvggFvlQlOvfnBK0MYXkcDLuAe2V0wB4cA18/WFlVEadrJr/HTW18OkAYDX0jM+C
+         YBNJsD/pGrcX6KQwriGHmiVitOfKxyj2MbL1HBC5fm4AlPrv4MJILfGhKbbnme7RRQBU
+         mMp7HxOPMBmRqiyWUwNsd7wYTYsOSYxKe7nZNlMnlo72ve1vEAT06cipKdkNMYHNmGvb
+         qhqw==
+X-Forwarded-Encrypted: i=1; AJvYcCU7lyFmdxAr3JzkyJwaBixfXWrWM1Ad2NHAN3rLVUc28KXRfcOlhh1i5/yt5yhuqI9ZB56LI5TZIPVeoaBEAoHhR5cEVThbEH95TtHE1oLR6tB63lwbz+yHe6g=
+X-Gm-Message-State: AOJu0YxnOO9h5R/7ONI1E9JVfn2Vwxp2N3NkHXsoDNRq4t1Ap9ZZuuRD
+	RQVsWgJZiYAnjUzLFplbsjlKAHsBjXMV5/tmJfcWwW3FLmt3eX72B+FyBfja5Del9tn/KAgFiWX
+	40HcSdN3afUnm+cDt4WG9Q3k1glI=
+X-Google-Smtp-Source: AGHT+IHcRlSaIPw+dNeDRkbivERWW3SFBtsvpZpQg/fBUak20uN6mu76OIjll3I6Eazp0f/LSMF175vvrwQTIozhHVo=
+X-Received: by 2002:a17:90a:c20a:b0:2a0:38f0:dc4b with SMTP id
+ e10-20020a17090ac20a00b002a038f0dc4bmr910609pjt.7.1711457113795; Tue, 26 Mar
+ 2024 05:45:13 -0700 (PDT)
 MIME-Version: 1.0
 References: <CA+u1R=SecJj4yY_Lu9SmQUyLa-qisJmyLuaxTP9HOBCZ=8DVYQ@mail.gmail.com>
- <CACMJ4GbBieBMV4PsPA-4PhnwG1MYq-FUO_TTf3=ui=i3E_ZqWg@mail.gmail.com>
-In-Reply-To: <CACMJ4GbBieBMV4PsPA-4PhnwG1MYq-FUO_TTf3=ui=i3E_ZqWg@mail.gmail.com>
-From: Kamal GMBH <kamalgmbh32@gmail.com>
-Date: Tue, 26 Mar 2024 09:37:42 +0530
-Message-ID: <CA+u1R=SitnBsyd4REgz-bqS3=B972BEeoPHxtXVC8P35qV2B-Q@mail.gmail.com>
+ <CACMJ4GbBieBMV4PsPA-4PhnwG1MYq-FUO_TTf3=ui=i3E_ZqWg@mail.gmail.com> <CA+u1R=SitnBsyd4REgz-bqS3=B972BEeoPHxtXVC8P35qV2B-Q@mail.gmail.com>
+In-Reply-To: <CA+u1R=SitnBsyd4REgz-bqS3=B972BEeoPHxtXVC8P35qV2B-Q@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Tue, 26 Mar 2024 08:45:01 -0400
+Message-ID: <CADkTA4OVtAuZ1Ay6aCrtFBJpnKZXDH_SFeUMVi=Yk4tDL9Cd0A@mail.gmail.com>
 Subject: Re: [meta-virtualization] Need Support: XEN is not installing and not
  booting in yocto!!
-To: Christopher Clark <christopher.w.clark@gmail.com>
-Cc: meta-virtualization@lists.yoctoproject.org
-Content-Type: multipart/related; boundary="0000000000002f79140614886fa8"
+To: Kamal GMBH <kamalgmbh32@gmail.com>
+Cc: Christopher Clark <christopher.w.clark@gmail.com>, 
+	meta-virtualization@lists.yoctoproject.org
+Content-Type: multipart/related; boundary="00000000000051948706148fa9b0"
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Tue, 26 Mar 2024 04:08:07 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8654
+ <meta-virtualization@lists.yoctoproject.org>; Tue, 26 Mar 2024 12:45:19 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8657
 
---0000000000002f79140614886fa8
-Content-Type: multipart/alternative; boundary="0000000000002f79130614886fa7"
+--00000000000051948706148fa9b0
+Content-Type: multipart/alternative; boundary="00000000000051948506148fa9af"
 
---0000000000002f79130614886fa7
+--00000000000051948506148fa9af
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
->
+I can't comment on your particular board, or what might be wrong with
+the configuration for grub/EFI, but I can confirm that I have boot tested
+Xen on master-next with both qemux86-64 and qemuarm64.
+
+Bruce
+
+On Tue, Mar 26, 2024 at 12:07=E2=80=AFAM Kamal GMBH <kamalgmbh32@gmail.com>=
+ wrote:
+
 > Hello Chris,
+>>>
 >>
+> I used *DISTRO_FEATURES:append =3D " virtualization xen systemd"  in my
+> local.conf file *
 >
-I used *DISTRO_FEATURES:append = " virtualization xen systemd"  in my
-local.conf file *
+> [image: image.png]
+>
+>
+> [image: image.png]
+>
+> *when i use xen-image-minimal image i am not getting UI...only black
+> screen is coming .*
+> [image: image.png]
+> normal linux is booting xen is not booting in above image .
+>
+> *how to add multiboot  and boot xen  using grub file chnage ?*
+>
+> Please support on this.
+>
+>  Regards,
+> Kamal
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#8654):
+> https://lists.yoctoproject.org/g/meta-virtualization/message/8654
+> Mute This Topic: https://lists.yoctoproject.org/mt/105020854/1050810
+> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [
+> bruce.ashfield@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
 
-[image: image.png]
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
-
-[image: image.png]
-
-*when i use xen-image-minimal image i am not getting UI...only black screen
-is coming .*
-[image: image.png]
-normal linux is booting xen is not booting in above image .
-
-*how to add multiboot  and boot xen  using grub file chnage ?*
-
-Please support on this.
-
- Regards,
-Kamal
-
---0000000000002f79130614886fa7
+--00000000000051948506148fa9af
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
-;padding-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_quote"><blockquote =
-class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px sol=
-id rgb(204,204,204);padding-left:1ex">Hello Chris,<br></blockquote></div></=
-div></blockquote><div><br></div><div>I used=C2=A0<b>DISTRO_FEATURES:append =
-=3D &quot; virtualization xen systemd&quot;=C2=A0 in my local.conf file=C2=
-=A0</b></div><div><b><br></b></div><div><img src=3D"cid:ii_lu7ssc8a2" alt=
-=3D"image.png" width=3D"472" height=3D"186"><br></div><div><br></div><div><=
-br></div><div><img src=3D"cid:ii_lu7tvw1v3" alt=3D"image.png" width=3D"472"=
- height=3D"219"><br></div><div><br></div><div><div><b>when i use xen-image-=
-minimal image i am not getting UI...only black screen is coming=C2=A0.</b><=
-/div></div><div><img src=3D"cid:ii_lu7usoh92" alt=3D"image.png" width=3D"47=
-2" height=3D"251"><br></div><div>normal linux is booting xen is not booting=
- in above image .</div><div><br></div><div><b>how to add multiboot=C2=A0 an=
-d boot xen=C2=A0 using grub file chnage ?</b></div><div><br></div><div>Plea=
-se support on this.</div><div><br style=3D"color:rgb(80,0,80)"></div><div>=
-=C2=A0Regards,</div><div>Kamal</div></div></div>
+<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
+t-size:small">I can&#39;t comment on your particular board, or what might b=
+e wrong with</div><div class=3D"gmail_default" style=3D"font-size:small">th=
+e configuration for grub/EFI, but I can confirm that I have boot tested</di=
+v><div class=3D"gmail_default" style=3D"font-size:small">Xen on master-next=
+ with both qemux86-64 and qemuarm64.</div><div class=3D"gmail_default" styl=
+e=3D"font-size:small"><br></div><div class=3D"gmail_default" style=3D"font-=
+size:small">Bruce</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr=
+" class=3D"gmail_attr">On Tue, Mar 26, 2024 at 12:07=E2=80=AFAM Kamal GMBH =
+&lt;<a href=3D"mailto:kamalgmbh32@gmail.com">kamalgmbh32@gmail.com</a>&gt; =
+wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
+px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=
+=3D"ltr"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_quote"><blockquote class=3D=
+"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(2=
+04,204,204);padding-left:1ex">Hello Chris,<br></blockquote></div></div></bl=
+ockquote><div><br></div><div>I used=C2=A0<b>DISTRO_FEATURES:append =3D &quo=
+t; virtualization xen systemd&quot;=C2=A0 in my local.conf file=C2=A0</b></=
+div><div><b><br></b></div><div><img src=3D"cid:ii_lu7ssc8a2" alt=3D"image.p=
+ng" width=3D"472" height=3D"186"><br></div><div><br></div><div><br></div><d=
+iv><img src=3D"cid:ii_lu7tvw1v3" alt=3D"image.png" width=3D"472" height=3D"=
+219"><br></div><div><br></div><div><div><b>when i use xen-image-minimal ima=
+ge i am not getting UI...only black screen is coming=C2=A0.</b></div></div>=
+<div><img src=3D"cid:ii_lu7usoh92" alt=3D"image.png" width=3D"472" height=
+=3D"251"><br></div><div>normal linux is booting xen is not booting in above=
+ image .</div><div><br></div><div><b>how to add multiboot=C2=A0 and boot xe=
+n=C2=A0 using grub file chnage ?</b></div><div><br></div><div>Please suppor=
+t on this.</div><div><br style=3D"color:rgb(80,0,80)"></div><div>=C2=A0Rega=
+rds,</div><div>Kamal</div></div></div>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#8654): <a href=3D"https://lists.yoctoproject.org/g/meta=
+-virtualization/message/8654" rel=3D"noreferrer" target=3D"_blank">https://=
+lists.yoctoproject.org/g/meta-virtualization/message/8654</a><br>
+Mute This Topic: <a href=3D"https://lists.yoctoproject.org/mt/105020854/105=
+0810" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.org/m=
+t/105020854/1050810</a><br>
+Group Owner: <a href=3D"mailto:meta-virtualization%2Bowner@lists.yoctoproje=
+ct.org" target=3D"_blank">meta-virtualization+owner@lists.yoctoproject.org<=
+/a><br>
+Unsubscribe: <a href=3D"https://lists.yoctoproject.org/g/meta-virtualizatio=
+n/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.or=
+g/g/meta-virtualization/unsub</a> [<a href=3D"mailto:bruce.ashfield@gmail.c=
+om" target=3D"_blank">bruce.ashfield@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div><br clear=3D"all"><div><br></div><span class=3D"gmail_si=
+gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature">- =
+Thou shalt not follow the NULL pointer, for chaos and madness await thee at=
+ its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star Trek II<br><b=
+r></div></div>
 
---0000000000002f79130614886fa7--
+--00000000000051948506148fa9af--
 
---0000000000002f79140614886fa8
+--00000000000051948706148fa9b0
 Content-Type: image/png; name="image.png"
 Content-Disposition: inline; filename="image.png"
 Content-Transfer-Encoding: base64
@@ -1997,7 +2060,7 @@ xLnMkasbutjlvE3z/ki7dNxSdsDWmj3p+CDH+DaU32WeYW/a591ij7XwArvatn08w/ZY+1p/6R9v
 2+wOYwps0ufAsp5ynLuYQc7N8ntk09CIa7Bjj8Hc8numN75lfZzGmtODWO2sah3Ehx4+vZY9/b1j
 PAmaIn7gW/uJfUHLHt7kt13b740zeh4ck5xfcn+Db/a+vvoRrx59SjyUfv+4NhAfZ1/KmO3Lka/c
 T93IABkgA2SADJABMkAGyMCnMPCqxYV/1Ee2yZEE7OYAAAAASUVORK5CYII=
---0000000000002f79140614886fa8
+--00000000000051948706148fa9b0
 Content-Type: image/png; name="image.png"
 Content-Disposition: inline; filename="image.png"
 Content-Transfer-Encoding: base64
@@ -5690,7 +5753,7 @@ J2/BX3Hg7q+X8N/Lg0/vbURHgZMKuTYGX143fke9yAAZIANkoJ2B7va9I35AjJDGgKuuIEYcyvh/
 3FJG4ljoD1/7+NBrlSw20zGFTzPfn/L1zv+mki+u4dPO5z9rfy3WLvTXvM16QZ7qC0C7kK69bunf
 oC4U+xW7sBBnTKNs8P9b/aNamTffH0GsHyY0RTOvValvAXbktcLPqH9Fn3hB4DK/ah/zPTUkA2SA
 DJCBcxn4V5MK/wcsXg2EckumTwAAAABJRU5ErkJggg==
---0000000000002f79140614886fa8
+--00000000000051948706148fa9b0
 Content-Type: image/png; name="image.png"
 Content-Disposition: inline; filename="image.png"
 Content-Transfer-Encoding: base64
@@ -26618,5 +26681,5 @@ Vk6k83LC4aWvuvRVk23JMkAkuncj59WUCSotu66xTtqcyrduj0sTHambI5KmY5Jl+hlffemrM9HB
 uwRKwGVzCM8BMHWcliRpufnmEIBz79mVFiPrXIfg8hi6W+NMSURjRI7jjMkGMDOfC+QQXGIuBoce
 KwGL+mzI5419Y5tQ5eVB4iUqE0vgI/L55jdoeOPREfDYHxoS+8cxuIzj5X4AsxIvAZdF6M+UfwYH
 lx4tjw4OCaIeXObr/+d4+S9fGVUtoAXr4wAAAABJRU5ErkJggg==
---0000000000002f79140614886fa8--
+--00000000000051948706148fa9b0--
 
