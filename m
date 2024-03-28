@@ -1,322 +1,275 @@
-Return-Path: <xiangyu.chen@eng.windriver.com>
+Return-Path: <kamalgmbh32@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 50CF0CD11DC
-	for <webhook@archiver.kernel.org>; Tue, 26 Mar 2024 09:03:28 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.4175.1711443802954162049
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D953C54E67
+	for <webhook@archiver.kernel.org>; Thu, 28 Mar 2024 12:35:08 +0000 (UTC)
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+ by mx.groups.io with SMTP id smtpd.web11.14519.1711629298885561593
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 26 Mar 2024 02:03:23 -0700
+ Thu, 28 Mar 2024 05:34:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=38153c7406=xiangyu.chen@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 42Q5xAs4032380
-	for <meta-virtualization@lists.yoctoproject.org>; Tue, 26 Mar 2024 02:03:22 -0700
-Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2041.outbound.protection.outlook.com [104.47.66.41])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3x1xkgu6ed-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <meta-virtualization@lists.yoctoproject.org>; Tue, 26 Mar 2024 02:03:22 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Vr7qTXsZAIJ+5OZJeWywaspv8xc3eHyPXhzB5q9bw2eZO1K1NTcmSLpIPo7HsHFZ68LdguNfBuZtm+afB88WE2/vxgy0jDH21TitOqVQpmbMdA5t3Lb62tojatxWh6lrEAnlVp0ZxDUlfKfq4Sy1dSodHlACPBNfuwqwgeLD9tUrrsOO+3TVF2BD1RtESYTt/XSgfUGGQfteTA437IqLZErkUhPd+RPpn4TOKiZ2z+kmmTfgOUwuisn+cCryu9kDWBYCPW6lmd0TPuwC+QM6pgCEo82SScYByebwC9unCo0e+wKEK6EqjgmLBCa5aOdd2UcZd/EpbiA9MvzvzxK+nA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=u/66zCN+OooMP7n+wDedcZBLaGO926nlW6zeSeEQS9Y=;
- b=OEm+Cv+fY0Liq3bSc65hKpri9gEhuJkAtcUOtsd4oZpzlZ+xjriuKXzTvCIF4+OO0wtsmuI1UMgc4ov1UCPi+8F5D02Vnwns8zQNAH6LYpJv/avwLynm4GrxSs110F3Nf7uwQywygOhWJcvKCaBiOzHlFJoqNV1XIoaqOAXKhua+BGmqtLxJWSTED2TN3Mepa27JxGQgbvlMI+OJV/lEHagOAkpyK/fyzw56Vxgd0Q0Stl+1yJwBl5OjStFySSjQr14hVdJAxnqBbVAzYr/RaA1sMfcGu8jyvHRYfjpaFxRxWdcW5V7UpObra5xanCC2tgeaJl1GihVVm5WGs+Y3Yg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=eng.windriver.com; dkim=pass header.d=eng.windriver.com; arc=none
-Received: from MW4PR11MB5824.namprd11.prod.outlook.com (2603:10b6:303:187::19)
- by SN7PR11MB6993.namprd11.prod.outlook.com (2603:10b6:806:2ac::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7386.18; Tue, 26 Mar
- 2024 09:03:19 +0000
-Received: from MW4PR11MB5824.namprd11.prod.outlook.com
- ([fe80::5dcc:ddee:208a:33b5]) by MW4PR11MB5824.namprd11.prod.outlook.com
- ([fe80::5dcc:ddee:208a:33b5%4]) with mapi id 15.20.7409.031; Tue, 26 Mar 2024
- 09:03:17 +0000
-From: Xiangyu Chen <xiangyu.chen@eng.windriver.com>
-To: meta-virtualization@lists.yoctoproject.org
-Subject: [meta-virtualization][PATCH] lxc: fix broken test cases
-Date: Tue, 26 Mar 2024 17:42:58 +0800
-Message-Id: <20240326094258.1138548-1-xiangyu.chen@eng.windriver.com>
-X-Mailer: git-send-email 2.35.5
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SG2P153CA0028.APCP153.PROD.OUTLOOK.COM (2603:1096:4:c7::15)
- To MW4PR11MB5824.namprd11.prod.outlook.com (2603:10b6:303:187::19)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=JO5Vrx8a;
+ spf=pass (domain: gmail.com, ip: 209.85.208.172, mailfrom: kamalgmbh32@gmail.com)
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2d4a8bddc21so11135701fa.0
+        for <meta-virtualization@lists.yoctoproject.org>; Thu, 28 Mar 2024 05:34:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1711629297; x=1712234097; darn=lists.yoctoproject.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=uv43rK4BN3bft89TIRIEm7M9XqeIidDTwzhoQ+Hecds=;
+        b=JO5Vrx8ah6hjX5B/74UVjmb/QesOW/OVciMxjqYcPoDoBYfhcEXzlPK4iNXFPHxMa6
+         +mR/WDAxyvJYSCIraqvUOsJfqNpZXkhnXjGpKQPy/ey/5HcgjCmJCl+pnZze8vJyNLVT
+         n0cmW1lAc57KD8x+cX8daTMKw2a9O+j+13VV80Z8/8sbmDC5lVbAdP5yPGInLkRthGsv
+         pMn6HpsFE5iWuynrOOqbtGsai9OPNm56YRefV/2DQKNufWZKpfknTuHqCL6SIZU5exQL
+         JgneaBR1dIpLXGED0aLcrLCWYGM/E/iIbhAuGP83X4AcEG8AIMhZi/1xuGpzfxntgcxU
+         qmBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711629297; x=1712234097;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=uv43rK4BN3bft89TIRIEm7M9XqeIidDTwzhoQ+Hecds=;
+        b=eB5kJ4iI/Kl2kq6YvksqIWo4TCw9PsZh0g0fDvCr10WdkZiUJrzutJycFKZNLLrZzp
+         BQqy7WJBtIB6Y118l4/9sUG7hmLQUUOtU3xouJcG9rpCVUfjPkGqWZ9rtozMUDdUkSEp
+         tloY4Yfc6uxQ/NeTBWizksoV6bxw6gmCa3Pfb91ra7r5JLZqx+JMWLWM+TdgorCwmsKM
+         2MbU0+fZyJ4UjfvznVMVUA1U2VU9FC7EL/aYuihxS5e2jMEr9okE5aVIdSPovrWOJ92H
+         mvrFnSKrTHrPtp1B6yZbn0UOo2FnDUVzWhVyoQt0Mb5KzUBZnFT5Lq9FZz4QwPF6v99V
+         bhIg==
+X-Forwarded-Encrypted: i=1; AJvYcCWw0EPkxs/RJHY1ENnmgrhxXD/RXv4GUdXSnboMjas0yOUhN86bHOTY77bsFrRXa4Bkjx0di+SKONHbLbuOWNTGgL/C/sC5zTLVERrspACPMCRL6aPKs/YJI0M=
+X-Gm-Message-State: AOJu0YyPcTg+kyf0qKRpLWflJ3NDRNTGFRbG9ACFq+xzb2FpDShev0Cp
+	4YZ8fxERwLj6iMC6bJsqCt2QCFhI29b5HTWkFuxpI5mU7TEdTe/VgvgoUdyLCU1uWeURhqoiS8g
+	/Zcf9UImmjDQj/QgpNrAtgtVcbMU=
+X-Google-Smtp-Source: AGHT+IEnAQsrYsF8LpmViS1Wj9gnqgFI6NmDbWy/iIJ+w+dxZmgpEb/goKdC/v7z2kYcWHo8LhUxjPzMxDPNJZqTVls=
+X-Received: by 2002:a2e:7e12:0:b0:2d2:ed31:9fb7 with SMTP id
+ z18-20020a2e7e12000000b002d2ed319fb7mr2526709ljc.4.1711629296577; Thu, 28 Mar
+ 2024 05:34:56 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW4PR11MB5824:EE_|SN7PR11MB6993:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	cVPTczunFePxn+9hF+Q+RbF6ZMK+lVOQSbNPCT0fi25dcLudliBBaZn33TmV+7jGXWkQsl+p0xpacjjpTpBfzizSqzlIzxUuLSYuNk4a0O8BFEuCd+gEItjTCvb1TVmGLsM4ykAIRTt98Hxho6tfkXrsGNCFQz4VGeTprbv0gG5n20wAcMcYsPROfETZs8NrDJn1rkdTMs/0+7CVAAqcQVAq3YaGjX1QIfXZuMpHqKkxP/oI0Y3HuTRBddH2QMGt/H1uoiyxp7gKx8RMxL6sBRyrD6AZXJp06izXZP2YAXDyDlH34ufXAqNHYFHMhp+vQieBO5CNGYwBxkABYtucpjWZzZIAkp/FSrb5HMSBtJ2rxjCNDQcwF1lFffoRfKXr3zLc9mzLr47EjQQ2m27g8lSKpVokLfyaruwa2/nbTqbneCI6kB7C0XJzR/f7InceXIhlq6ZES2HQPJSq0erThQIkaXptg8OUhjwxcJkEQzO4T9v6dj+Vj8cu5dR6JIB8xb0Qvv6bmI0FfSiSRPuv0uOi4bS03ol4qNQ5Ah0I6GKBSFmxPhcmBWNYD0Hb42xLkItYS1CWPg71FgzMsVczx1FoF9RqHFB05DIo5Orp9qjBu2VeIPX9O1taCxxQjkBLlB6NyT9KiyWAoWTVzLlHBJOYftKHbW4QPkzGqXqjk0JiEOEk1cts0+sP1Ap2s0rd
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW4PR11MB5824.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(52116005)(366007)(1800799015)(38350700005);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?CblTcBsKLutIk8Y29VMHuQfRTuKl0h3t4T7Nkk3AKXWJw31c5tyHlKTxpJlJ?=
- =?us-ascii?Q?zfS36jMV1PM1ieRoWoFn59L/hJSaTzqu8N07tQtq3FWeVcKIKAvLxiXLc5UL?=
- =?us-ascii?Q?JLoOwnqLtL6vy7PKVIF1vjubiOL1IGsD3sn/7lf9PUK+G7fFsvoTVYWSsdfx?=
- =?us-ascii?Q?yuXdf8VgYNLXgw8uCjZGJj+eDxFPO/qPTKlh7aKfjutxiyBwDWW6edDwttBf?=
- =?us-ascii?Q?bNYFr3OZve7TkivVTSHKHPGCZaDQa3Gc8SL9QkXmmCyHf4hXmxxx8MeFdVDp?=
- =?us-ascii?Q?nCpudSxvwpVRAtTN44ppdYOMOpMAFKBGuANFjdbQFzY4FqpEIuEF5cNDb7k+?=
- =?us-ascii?Q?XEzZr8uT57nxT+qTkPft/PVyO61xEOwca37WXzaWxbMQhd2hpvCq5nup/B7Y?=
- =?us-ascii?Q?NFYyaQw1R6vKsohLCqZh9ZP7v1P9I5EGh6j2IZsCkMWPutAAkT4D8i+PXASm?=
- =?us-ascii?Q?52Xi08fZG/UidaxUKidr/qJVyacDami75riwKB815NIbVHbJxYkOcOFTiiwG?=
- =?us-ascii?Q?uMxBwItSHkKWc+92K7rNT1MX0EKsJC1KNT/g/6tcK5S92Xo1J79QtjY5Oe4D?=
- =?us-ascii?Q?3nXvU+91pa6nw+Q5YgfXlKocZ3UqVCJ7J5k2TW/5SHQnm1cId2I4WPAsJXi8?=
- =?us-ascii?Q?6decLYAB8t4ACaUWT3ZPMKjT/W7IsMHFS79rtjgjbTAbcljGOBKh0P8M2cat?=
- =?us-ascii?Q?dyfltzOxHzeow+xWamy5SZai72z6XglbcqH7B+Ly+s7W2YuEeGwxC0Z7IVEe?=
- =?us-ascii?Q?V5JgukEiKfEVhGHZtV317W8zy+2+HKq8/DGMCws7sr50gQ2oTOh+shTMj1IY?=
- =?us-ascii?Q?4+wCh8pxvrqKYrDuau/hoAwCJxrrbGReLHNPluak0/fi9hKY5BeqiWweOnxw?=
- =?us-ascii?Q?sala7Xmo+I8Dmzu4WRaDC/SoD0VgswugH3pLLxmG2Z/obOgpQYKDnpSn7xFP?=
- =?us-ascii?Q?82zezPY5U8dcsdlA0psM/achL8MS3m24Nvh148bARcLqtn2Eq/yzCZVBsgZk?=
- =?us-ascii?Q?JMttiWnrxmpF+aJb+7XU8uH3nHvSIIdOjj0UICoHgF5lPuIjOCj+R0aW6kCO?=
- =?us-ascii?Q?OwYJeW3Otrj/fxz83sduXqv/O48z8GTVmH7u05WPYYnV0cOYZQhLKC3ju5ue?=
- =?us-ascii?Q?u4LajXCphT8lvXbePxZeV6wv6VyOIgYuDIVXFJ7SBcZYvNCCgY5HgIfjdwpG?=
- =?us-ascii?Q?sWDu+2AWgI9UGIFb2XEZfncTov5fXCsyl04qnirl1mR06uOntFpqNLvak7Ot?=
- =?us-ascii?Q?aOgK6KThIQfGdWyZHneFnIWuwneb2FoYn5FLmzy/wkpini+TWD0Cy+W6l9Ip?=
- =?us-ascii?Q?FZ1ea2NA4ZTgY4O+QCd+XAPTHeXSrJRHwbDE+5UAwCwvHTwFTodlbTEIOeQS?=
- =?us-ascii?Q?wQAMF8QqzL3ZnzI0NUX+gyqFAYRP5lOeJT8dZMO9247gotHSW39pT/+fzmR6?=
- =?us-ascii?Q?vwbw9I5Qt0CwFeq5CJJdL4UsQBW/WcNPBVGjFEEmGJqm8tocPEEtnzPfCwad?=
- =?us-ascii?Q?/DR2+7NIXyYlA7RP2p8CR3rzUBsbHg3zfbm4JPviwHUqugFhw+D632r2l9Cc?=
- =?us-ascii?Q?gVtH64qVq+jzkGI1fYliPc9Jq+UDxOV6s1HNgFY3BusheuIaBAWhnYv/tBSq?=
- =?us-ascii?Q?sQ=3D=3D?=
-X-OriginatorOrg: eng.windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1386c27c-11e9-41b6-2719-08dc4d7393c1
-X-MS-Exchange-CrossTenant-AuthSource: MW4PR11MB5824.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Mar 2024 09:03:17.7192
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Xng+dPV5lQNAIf7GmkC/a4YrEiwh7c/ZGNNYQao8WWUEq4iqnxsNDqdqSGI6QL9BeSDntEaMVz6riaihqRIoHOvfNP4CUNm2i0MzvKToJPU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB6993
-X-Proofpoint-ORIG-GUID: JzqeMLOp47oyhlOT-n_5bkbyz--4SUBZ
-X-Proofpoint-GUID: JzqeMLOp47oyhlOT-n_5bkbyz--4SUBZ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-03-26_04,2024-03-21_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- adultscore=0 impostorscore=0 spamscore=0 priorityscore=1501 bulkscore=0
- suspectscore=0 mlxscore=0 mlxlogscore=999 phishscore=0 malwarescore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2403210001 definitions=main-2403260061
+References: <CA+u1R=SecJj4yY_Lu9SmQUyLa-qisJmyLuaxTP9HOBCZ=8DVYQ@mail.gmail.com>
+ <CACMJ4GbBieBMV4PsPA-4PhnwG1MYq-FUO_TTf3=ui=i3E_ZqWg@mail.gmail.com>
+ <CA+u1R=SitnBsyd4REgz-bqS3=B972BEeoPHxtXVC8P35qV2B-Q@mail.gmail.com> <CADkTA4OVtAuZ1Ay6aCrtFBJpnKZXDH_SFeUMVi=Yk4tDL9Cd0A@mail.gmail.com>
+In-Reply-To: <CADkTA4OVtAuZ1Ay6aCrtFBJpnKZXDH_SFeUMVi=Yk4tDL9Cd0A@mail.gmail.com>
+From: Kamal GMBH <kamalgmbh32@gmail.com>
+Date: Thu, 28 Mar 2024 18:04:45 +0530
+Message-ID: <CA+u1R=Q2QXgMQONFgY4zboY3Ec_VqZhyS0SFJGxOkt3QKq0UZg@mail.gmail.com>
+Subject: Re: [meta-virtualization] Need Support: XEN is not installing and not
+ booting in yocto!!
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: Christopher Clark <christopher.w.clark@gmail.com>, 
+	meta-virtualization@lists.yoctoproject.org
+Content-Type: multipart/alternative; boundary="00000000000035b8220614b7c075"
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Tue, 26 Mar 2024 09:03:28 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8656
+ <meta-virtualization@lists.yoctoproject.org>; Thu, 28 Mar 2024 12:35:08 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8658
 
-From: Xiangyu Chen <xiangyu.chen@windriver.com>
+--00000000000035b8220614b7c075
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Upstream dropped cgroup handling in lxc-test-usernic lxc-test-unpriv and
-lxc-test-apparmor-mount to fix the broken cases.
+>
+>
+> Kamal GMBH <kamalgmbh32@gmail.com>
+> Wed, Mar 27, 11:30=E2=80=AFPM (18 hours ago)
+> to Bruce
+> Hello Bruce,
+>
+> I am building using below command
+>
+> bitbake-layers add-layer ../meta-openembedded/meta-oe
+> bitbake-layers add-layer ../meta-openembedded/meta-python
+> bitbake-layers add-layer ../meta-openembedded/meta-networking
+> bitbake-layers add-layer ../meta-dpdk
+> bitbake-layers add-layer ../meta-amd/meta-amd-distro
+> bitbake-layers add-layer ../meta-amd/meta-amd-bsp
+> bitbake-layers add-layer ../meta-openembedded/meta-filesystems
+> bitbake-layers add-layer ../meta-virtualization
+> bitbake-layers add-layer ../meta-security/meta-tpm/
+> bitbake core-image-sato -k
+>
+> I am trying to  install xen and boot xen in x86_64 hardware.
+>
+> how can i change grub configuration in yocto inside meta-amd folder ?
+>
+> how can i enable multiboot and module and change grub file?
+>
+> how can I change local.conf file for grub below change? can you please
+> provide step.
+>
+> *in the target HW:*
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> root@v3000:/boot/EFI/BOOT# *vi grub.cfg (My expected grub.cfg file)*
+>
+> serial --unit=3D0 --speed=3D115200 --word=3D8 --parity=3Dno --stop=3D1
+> default=3Dboot
+> timeout=3D10
+> menuentry 'boot'{
+> multiboot2 /xen dom0=3Dpvh dom0_mem=3D8G dom0_max_vcpus=3D4 dom0_vcpus_pi=
+n
+> loglvl=3Dall guest_loglvl=3Dall
+> com1=3D115200/3000000,8n1,0xfedc9000,4,reg-width=3D4,reg-shift=3D2
+> console=3Dcom1,vga console_timestamps=3Dboot
+> module2 /bzImage ramdisk_size=3D32768
+> root=3DPARTUUID=3Dcc63eebd-9861-4ec8-a941-a0e5b80374dd rw rootwait quiet
+>  console=3Dhvc0 earlyprintk=3Dxen console=3DttyS0 panic=3D10 LABEL=3Dboot=
+ debugshell=3D5
+> module2 /initrd
+> }
+> root@v3000:/boot/EFI/BOOT#
+>
+>
+> NOTE:
+> i am building using bitbake  core-image-sato.
+>
+> Regards,
+> Kamal
+>
+>
 
-Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
----
- ...xc-test-usernic-drop-cgroup-handling.patch |  61 +++++++++++
- ...-and-broken-cgroup-handling-code-fro.patch | 103 ++++++++++++++++++
- recipes-containers/lxc/lxc_git.bb             |   2 +
- 3 files changed, 166 insertions(+)
- create mode 100644 recipes-containers/lxc/files/0001-lxc-test-usernic-drop-cgroup-handling.patch
- create mode 100644 recipes-containers/lxc/files/0001-tests-remove-old-and-broken-cgroup-handling-code-fro.patch
+--00000000000035b8220614b7c075
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/recipes-containers/lxc/files/0001-lxc-test-usernic-drop-cgroup-handling.patch b/recipes-containers/lxc/files/0001-lxc-test-usernic-drop-cgroup-handling.patch
-new file mode 100644
-index 00000000..162e8f9d
---- /dev/null
-+++ b/recipes-containers/lxc/files/0001-lxc-test-usernic-drop-cgroup-handling.patch
-@@ -0,0 +1,61 @@
-+From ec85e5ca4953292c4341497704ce738669a79b64 Mon Sep 17 00:00:00 2001
-+From: Serge Hallyn <serge@hallyn.com>
-+Date: Fri, 2 Feb 2024 10:41:11 -0600
-+Subject: [PATCH] lxc-test-usernic: drop cgroup handling
-+
-+This stuff is not needed in a modern systemd based system, and in fact
-+breaks.  It would probably be better to detect such a system so that a
-+non-systemd box can still run this test.  But I'm not sure what would be
-+reliable.
-+
-+Upstream-Status: Backport from
-+[https://github.com/lxc/lxc/commit/ec85e5ca4953292c4341497704ce738669a79b64]
-+
-+Signed-off-by: Serge Hallyn <serge@hallyn.com>
-+Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
-+---
-+ src/tests/lxc-test-usernic.in | 28 ----------------------------
-+ 1 file changed, 28 deletions(-)
-+
-+diff --git a/src/tests/lxc-test-usernic.in b/src/tests/lxc-test-usernic.in
-+index 9af8678f3..49fd5e3f7 100755
-+--- a/src/tests/lxc-test-usernic.in
-++++ b/src/tests/lxc-test-usernic.in
-+@@ -80,34 +80,6 @@ lxc.idmap = u 0 910000 10000
-+ lxc.idmap = g 0 910000 10000
-+ EOF
-+ 
-+-if command -v cgm >/dev/null 2>&1; then
-+-	cgm create all usernic-user
-+-	cgm chown all usernic-user $(id -u usernic-user) $(id -g usernic-user)
-+-	cgm movepid all usernic-user $$
-+-elif [ -e /sys/fs/cgroup/cgmanager/sock ]; then
-+-	for d in $(cut -d : -f 2 /proc/self/cgroup); do
-+-		dbus-send --print-reply --address=unix:path=/sys/fs/cgroup/cgmanager/sock \
-+-			--type=method_call /org/linuxcontainers/cgmanager org.linuxcontainers.cgmanager0_0.Create \
-+-			string:$d string:usernic-user >/dev/null
-+-
-+-		dbus-send --print-reply --address=unix:path=/sys/fs/cgroup/cgmanager/sock \
-+-			--type=method_call /org/linuxcontainers/cgmanager org.linuxcontainers.cgmanager0_0.Chown \
-+-			string:$d string:usernic-user int32:$(id -u usernic-user) int32:$(id -g usernic-user) >/dev/null
-+-
-+-		dbus-send --print-reply --address=unix:path=/sys/fs/cgroup/cgmanager/sock \
-+-			--type=method_call /org/linuxcontainers/cgmanager org.linuxcontainers.cgmanager0_0.MovePid \
-+-			string:$d string:usernic-user int32:$$ >/dev/null
-+-	done
-+-else
-+-	for d in /sys/fs/cgroup/*; do
-+-		[ "$d" = "/sys/fs/cgroup/unified" ] && continue
-+-		[ -f $d/cgroup.clone_children ] && echo 1 > $d/cgroup.clone_children
-+-		[ ! -d $d/lxctest ] && mkdir $d/lxctest
-+-		chown -R usernic-user: $d/lxctest
-+-		echo $$ > $d/lxctest/tasks
-+-	done
-+-fi
-+-
-+ mkdir -p /run/user/$(id -u usernic-user)
-+ chown -R usernic-user: /run/user/$(id -u usernic-user) /home/usernic-user
-+ 
-+-- 
-+2.35.5
-+
-diff --git a/recipes-containers/lxc/files/0001-tests-remove-old-and-broken-cgroup-handling-code-fro.patch b/recipes-containers/lxc/files/0001-tests-remove-old-and-broken-cgroup-handling-code-fro.patch
-new file mode 100644
-index 00000000..bf8df795
---- /dev/null
-+++ b/recipes-containers/lxc/files/0001-tests-remove-old-and-broken-cgroup-handling-code-fro.patch
-@@ -0,0 +1,103 @@
-+From 8f9733d756361ff8f8d8d589f286c0e064b1195d Mon Sep 17 00:00:00 2001
-+From: Alexander Mikhalitsyn <aleksandr.mikhalitsyn@canonical.com>
-+Date: Thu, 15 Feb 2024 18:13:05 +0100
-+Subject: [PATCH] tests: remove old and broken cgroup handling code from tests
-+
-+We have removed the same piece of code in
-+ec85e5ca495 ("lxc-test-usernic: drop cgroup handling")
-+let's do the same for two other tests.
-+
-+This fixes autopkgtests.
-+
-+Upstream-Status: Backport from
-+[https://github.com/lxc/lxc/commit/8f9733d756361ff8f8d8d589f286c0e064b1195d]
-+
-+Signed-off-by: Alexander Mikhalitsyn <aleksandr.mikhalitsyn@canonical.com>
-+Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
-+---
-+ src/tests/lxc-test-apparmor-mount | 29 -----------------------------
-+ src/tests/lxc-test-unpriv         | 28 ----------------------------
-+ 2 files changed, 57 deletions(-)
-+
-+diff --git a/src/tests/lxc-test-apparmor-mount b/src/tests/lxc-test-apparmor-mount
-+index 7c9d9ad50..ddf783d4b 100755
-+--- a/src/tests/lxc-test-apparmor-mount
-++++ b/src/tests/lxc-test-apparmor-mount
-+@@ -119,35 +119,6 @@ chown -R $TUSER: /run/user/$(id -u $TUSER)
-+ 
-+ cd $HDIR
-+ 
-+-if command -v cgm >/dev/null 2>&1; then
-+-	cgm create all $TUSER
-+-	cgm chown all $TUSER $(id -u $TUSER) $(id -g $TUSER)
-+-	cgm movepid all $TUSER $$
-+-elif [ -e /sys/fs/cgroup/cgmanager/sock ]; then
-+-	for d in $(cut -d : -f 2 /proc/self/cgroup); do
-+-		dbus-send --print-reply --address=unix:path=/sys/fs/cgroup/cgmanager/sock \
-+-			--type=method_call /org/linuxcontainers/cgmanager org.linuxcontainers.cgmanager0_0.Create \
-+-			string:$d string:$TUSER >/dev/null
-+-
-+-		dbus-send --print-reply --address=unix:path=/sys/fs/cgroup/cgmanager/sock \
-+-			--type=method_call /org/linuxcontainers/cgmanager org.linuxcontainers.cgmanager0_0.Chown \
-+-			string:$d string:$TUSER int32:$(id -u $TUSER) int32:$(id -g $TUSER) >/dev/null
-+-
-+-		dbus-send --print-reply --address=unix:path=/sys/fs/cgroup/cgmanager/sock \
-+-			--type=method_call /org/linuxcontainers/cgmanager org.linuxcontainers.cgmanager0_0.MovePid \
-+-			string:$d string:$TUSER int32:$$ >/dev/null
-+-	done
-+-else
-+-	for d in /sys/fs/cgroup/*; do
-+-		[ "$d" = "/sys/fs/cgroup/unified" ] && continue
-+-		[ -f $d/cgroup.clone_children ] && echo 1 > $d/cgroup.clone_children
-+-		[ ! -d $d/lxctest ] && mkdir $d/lxctest
-+-		chown -R $TUSER: $d/lxctest
-+-		echo $$ > $d/lxctest/tasks
-+-	done
-+-fi
-+-
-+-
-+ run_cmd lxc-create -t busybox -n $cname
-+ 
-+ echo "test default confined container"
-+diff --git a/src/tests/lxc-test-unpriv b/src/tests/lxc-test-unpriv
-+index 8fb9106d6..426add9da 100755
-+--- a/src/tests/lxc-test-unpriv
-++++ b/src/tests/lxc-test-unpriv
-+@@ -130,34 +130,6 @@ chown -R $TUSER: /run/user/$(id -u $TUSER)
-+ 
-+ cd $HDIR
-+ 
-+-if command -v cgm >/dev/null 2>&1; then
-+-	cgm create all $TUSER
-+-	cgm chown all $TUSER $(id -u $TUSER) $(id -g $TUSER)
-+-	cgm movepid all $TUSER $$
-+-elif [ -e /sys/fs/cgroup/cgmanager/sock ]; then
-+-	for d in $(cut -d : -f 2 /proc/self/cgroup); do
-+-		dbus-send --print-reply --address=unix:path=/sys/fs/cgroup/cgmanager/sock \
-+-			--type=method_call /org/linuxcontainers/cgmanager org.linuxcontainers.cgmanager0_0.Create \
-+-			string:$d string:$TUSER >/dev/null
-+-
-+-		dbus-send --print-reply --address=unix:path=/sys/fs/cgroup/cgmanager/sock \
-+-			--type=method_call /org/linuxcontainers/cgmanager org.linuxcontainers.cgmanager0_0.Chown \
-+-			string:$d string:$TUSER int32:$(id -u $TUSER) int32:$(id -g $TUSER) >/dev/null
-+-
-+-		dbus-send --print-reply --address=unix:path=/sys/fs/cgroup/cgmanager/sock \
-+-			--type=method_call /org/linuxcontainers/cgmanager org.linuxcontainers.cgmanager0_0.MovePid \
-+-			string:$d string:$TUSER int32:$$ >/dev/null
-+-	done
-+-else
-+-	for d in /sys/fs/cgroup/*; do
-+-		[ "$d" = "/sys/fs/cgroup/unified" ] && continue
-+-		[ -f $d/cgroup.clone_children ] && echo 1 > $d/cgroup.clone_children
-+-		[ ! -d $d/lxctest ] && mkdir $d/lxctest
-+-		chown -R $TUSER: $d/lxctest
-+-		echo $$ > $d/lxctest/tasks
-+-	done
-+-fi
-+-
-+ run_cmd lxc-create -t busybox -n c1 -l trace -o "${UNPRIV_LOG}"
-+ 
-+ # Make sure we can start it - twice
-+-- 
-+2.35.5
-+
-diff --git a/recipes-containers/lxc/lxc_git.bb b/recipes-containers/lxc/lxc_git.bb
-index 33ea4ee7..ee0e442f 100644
---- a/recipes-containers/lxc/lxc_git.bb
-+++ b/recipes-containers/lxc/lxc_git.bb
-@@ -47,6 +47,8 @@ SRC_URI = "git://github.com/lxc/lxc.git;branch=stable-5.0;protocol=https \
- 	file://0001-template-if-busybox-contains-init-use-it-in-containe.patch \
- 	file://dnsmasq.conf \
- 	file://lxc-net \
-+	file://0001-lxc-test-usernic-drop-cgroup-handling.patch \
-+	file://0001-tests-remove-old-and-broken-cgroup-handling-code-fro.patch \
- 	"
- 
- SRCREV = "cb8e38aca27a23964941f0f011a8919aab8bebab"
--- 
-2.35.5
+<div dir=3D"ltr"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quot=
+e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
+;padding-left:1ex"><div dir=3D"ltr"><div dir=3D"ltr" class=3D"gmail_signatu=
+re"><br><div class=3D"gmail-aju" style=3D"display:flex;float:none;height:80=
+px;padding:0px 16px;min-width:40px"><div class=3D"gmail-aCi" style=3D""><im=
+g id=3D"gmail-:m7_9-e" name=3D"gmail-:m7" src=3D"https://lh3.googleusercont=
+ent.com/a/ACg8ocJJvndhsxaarRp64KRf0q4xmVwqSOWZ7p5yFMAm0kJl=3Ds80-p-mo" clas=
+s=3D"gmail-ajn" aria-hidden=3D"true" style=3D"width: 40px; height: 40px; bo=
+rder-radius: 50%; display: block; background-color: rgb(204, 204, 204);"></=
+div></div><div class=3D"gmail-gs" style=3D"margin:0px;min-width:0px;padding=
+:0px 0px 20px;width:initial"><div class=3D"gmail-gE gmail-iv gmail-gt" styl=
+e=3D"font-size:0.875rem;padding:20px 0px 0px"><table cellpadding=3D"0" clas=
+s=3D"gmail-cf gmail-gJ" style=3D"border-collapse:collapse;margin-top:0px;wi=
+dth:auto;font-family:&quot;Google Sans&quot;,Roboto,RobotoDraft,Helvetica,A=
+rial,sans-serif;font-size:0.875rem;display:block"><tbody style=3D"display:b=
+lock"><tr class=3D"gmail-acZ" style=3D"display:flex;height:auto"><td class=
+=3D"gmail-gF gmail-gK" style=3D"padding:0px;vertical-align:top;width:506.33=
+3px;line-height:20px;display:block;max-height:20px"><table cellpadding=3D"0=
+" class=3D"gmail-cf gmail-ix" style=3D"border-collapse:collapse;table-layou=
+t:fixed;width:506.333px"><tbody><tr><td class=3D"gmail-c2" style=3D"display=
+:flex"><h3 class=3D"gmail-iw" style=3D"overflow:hidden;font-size:0.75rem;fo=
+nt-weight:inherit;margin:inherit;text-overflow:ellipsis;color:rgb(95,99,104=
+);line-height:20px"><span class=3D"gmail-qu" role=3D"gridcell" tabindex=3D"=
+-1"><span name=3D"Kamal GMBH" class=3D"gmail-gD" style=3D"color:rgb(31,31,3=
+1);font-size:0.875rem;font-weight:bold;display:inline;vertical-align:top;li=
+ne-height:20px"><span style=3D"vertical-align:top">Kamal GMBH</span></span>=
+=C2=A0<span class=3D"gmail-cfXrwd"></span><span class=3D"gmail-go" style=3D=
+"vertical-align:top;color:rgb(94,94,94)"><span aria-hidden=3D"true">&lt;</s=
+pan><a href=3D"mailto:kamalgmbh32@gmail.com">kamalgmbh32@gmail.com</a><span=
+ aria-hidden=3D"true">&gt;</span></span></span></h3></td></tr></tbody></tab=
+le></td><td class=3D"gmail-gH gmail-bAk" style=3D"text-align:right;vertical=
+-align:top;display:block;max-height:20px"><div class=3D"gmail-gK" style=3D"=
+padding:0px;display:flex"><span id=3D"gmail-:173" class=3D"gmail-g3" title=
+=3D"Mar 27, 2024, 11:30=E2=80=AFPM" alt=3D"Mar 27, 2024, 11:30=E2=80=AFPM" =
+role=3D"gridcell" tabindex=3D"-1" style=3D"vertical-align:top;margin:0px;fo=
+nt-size:0.75rem;color:rgb(94,94,94);display:block;line-height:20px">Wed, Ma=
+r 27, 11:30=E2=80=AFPM (18 hours ago)</span><div class=3D"gmail-zd gmail-bi=
+4" aria-label=3D"Not starred" tabindex=3D"0" role=3D"checkbox" aria-checked=
+=3D"false" style=3D"display:inline-block;height:20px;margin-left:20px;outli=
+ne:0px"><span class=3D"gmail-T-KT" style=3D"display:inline-flex;height:20px=
+;text-align:center;width:20px;padding:0px;margin:0px;border:none;outline:no=
+ne"></span></div></div></td><td class=3D"gmail-gH" style=3D"text-align:righ=
+t;vertical-align:top;display:flex"></td><td class=3D"gmail-gH gmail-acX gma=
+il-bAm" rowspan=3D"2" style=3D"text-align:right;vertical-align:top;display:=
+block;max-height:20px"><div class=3D"gmail-T-I gmail-J-J5-Ji gmail-T-I-Js-I=
+F gmail-R1Zuwf gmail-T-I-ax7 gmail-L3" role=3D"button" tabindex=3D"0" aria-=
+label=3D"Add reaction" style=3D"display:inline-flex;border-radius:2px 0px 0=
+px 2px;font-size:0.875rem;text-align:center;margin:0px 0px 0px 20px;height:=
+20px;line-height:18px;min-width:auto;outline:none;padding:0px;background:tr=
+ansparent;color:rgb(68,68,68);border:none"><img class=3D"gmail-qfynfc gmail=
+-T-I-J3" role=3D"button" src=3D"https://mail.google.com/mail/u/0/images/cle=
+ardot.gif" alt=3D"" style=3D"background-image: url(&quot;//ssl.gstatic.com/=
+ui/v1/icons/mail/gm3/2x/mood_baseline_nv700_20dp.png&quot;); background-pos=
+ition: 50% 50%; background-repeat: no-repeat; background-size: 20px; margin=
+: 0px; vertical-align: middle; opacity: 1; display: inline-block; height: 2=
+0px; padding: 0px; transition: opacity 0.15s cubic-bezier(0.4, 0, 0.2, 1) 0=
+s; width: 20px;"></div><div class=3D"gmail-T-I gmail-J-J5-Ji gmail-T-I-Js-I=
+F gmail-aaq gmail-T-I-ax7 gmail-L3" role=3D"button" tabindex=3D"0" aria-lab=
+el=3D"Reply" style=3D"display:inline-flex;border-radius:2px 0px 0px 2px;fon=
+t-size:0.875rem;text-align:center;margin:0px 0px 0px 20px;height:20px;line-=
+height:18px;min-width:0px;outline:none;padding:0px;background:transparent;c=
+olor:rgb(68,68,68);border:none"><img class=3D"gmail-hB gmail-T-I-J3" role=
+=3D"button" src=3D"https://mail.google.com/mail/u/0/images/cleardot.gif" al=
+t=3D"" style=3D"background: url(&quot;//ssl.gstatic.com/ui/v1/icons/mail/gm=
+3/2x/reply_baseline_nv700_20dp.png&quot;) 50% 50% / 20px no-repeat; height:=
+ 20px; margin: 0px; vertical-align: middle; width: 20px; opacity: 1; displa=
+y: inline-block; padding: 0px; transition: opacity 0.15s cubic-bezier(0.4, =
+0, 0.2, 1) 0s;"></div><div id=3D"gmail-:17d" class=3D"gmail-T-I gmail-J-J5-=
+Ji gmail-T-I-Js-Gs gmail-aap gmail-T-I-awG gmail-T-I-ax7 gmail-L3" role=3D"=
+button" tabindex=3D"0" aria-expanded=3D"false" aria-haspopup=3D"true" aria-=
+label=3D"More message options" style=3D"display:inline-flex;border-radius:0=
+px 2px 2px 0px;font-size:0.875rem;text-align:center;margin:0px 0px 0px 20px=
+;height:20px;line-height:18px;min-width:0px;outline:none;padding:0px;backgr=
+ound:transparent;color:rgb(68,68,68);border:none"><img class=3D"gmail-hA gm=
+ail-T-I-J3" role=3D"menu" src=3D"https://mail.google.com/mail/u/0/images/cl=
+eardot.gif" alt=3D"" style=3D"background: url(&quot;//ssl.gstatic.com/ui/v1=
+/icons/mail/gm3/2x/more_vert_baseline_nv700_20dp.png&quot;) 50% 50% / 20px =
+no-repeat; height: 20px; width: 20px; margin: 0px; vertical-align: middle; =
+opacity: 1; display: inline-block; padding: 0px; transition: opacity 0.15s =
+cubic-bezier(0.4, 0, 0.2, 1) 0s;"></div></td></tr><tr class=3D"gmail-acZ gm=
+ail-xD" style=3D"display:flex;height:auto"><td colspan=3D"3"><table cellpad=
+ding=3D"0" class=3D"gmail-cf gmail-adz" style=3D"border-collapse:collapse;t=
+able-layout:fixed;width:864.042px"><tbody><tr><td class=3D"gmail-ady" style=
+=3D"overflow:visible;text-overflow:ellipsis;display:flex;line-height:20px">=
+<div class=3D"gmail-iw gmail-ajw" style=3D"overflow:hidden;max-width:92%;di=
+splay:inline-block"><span class=3D"gmail-hb" style=3D"vertical-align:top;co=
+lor:rgb(94,94,94);font-size:0.75rem;line-height:20px">to=C2=A0<span name=3D=
+"Bruce" class=3D"gmail-g2" style=3D"vertical-align:top">Bruce</span></span>=
+</div><div id=3D"gmail-:17c" aria-haspopup=3D"true" class=3D"gmail-ajy" rol=
+e=3D"button" tabindex=3D"0" aria-label=3D"Show details" style=3D"display:in=
+line-flex;margin-left:4px;vertical-align:top;border:none;outline:none"><img=
+ class=3D"gmail-ajz" src=3D"https://mail.google.com/mail/u/0/images/cleardo=
+t.gif" alt=3D"" style=3D"background: url(&quot;https://www.gstatic.com/imag=
+es/icons/material/system_gm/2x/arrow_drop_down_black_20dp.png&quot;) 50% 50=
+% / 20px no-repeat; cursor: pointer; padding: 0px; vertical-align: baseline=
+; height: 20px; width: 20px; border: none; margin: 0px 0px 0px auto; right:=
+ 0px; top: 0px; display: flex; opacity: 0.71;"></div></td></tr></tbody></ta=
+ble></td></tr></tbody></table></div><div id=3D"gmail-:16z"><div class=3D"gm=
+ail-qQVYZb"></div><div class=3D"gmail-utdU2e"></div><div class=3D"gmail-lQs=
+8Hd"></div><div class=3D"gmail-wl4W9b" style=3D"display:flex"></div></div><=
+div class=3D"gmail-"><div class=3D"gmail-aHl" style=3D""></div><div id=3D"g=
+mail-:17b" tabindex=3D"-1"></div><div id=3D"gmail-:171" class=3D"gmail-ii g=
+mail-gt" style=3D"direction:ltr;margin:8px 0px 0px;padding:0px;font-size:0.=
+875rem;overflow-x:hidden"><div id=3D"gmail-:170" class=3D"gmail-a3s gmail-a=
+iL" style=3D"direction:initial;font-variant-numeric:normal;font-variant-eas=
+t-asian:normal;font-variant-alternates:normal;font-kerning:auto;font-featur=
+e-settings:normal;font-stretch:normal;font-size:small;line-height:1.5;overf=
+low:auto hidden"><div dir=3D"ltr">Hello Bruce,<div><br></div><div>I am buil=
+ding=C2=A0using below command</div><div><br></div><div>bitbake-layers add-l=
+ayer ../meta-openembedded/meta-oe<span class=3D"gmail-im" style=3D"color:rg=
+b(80,0,80)"><br>bitbake-layers add-layer ../meta-openembedded/meta-python<b=
+r>bitbake-layers add-layer ../meta-openembedded/meta-networking<br></span>b=
+itbake-layers add-layer ../meta-dpdk<br>bitbake-layers add-layer ../meta-am=
+d/meta-amd-distro<br>bitbake-layers add-layer ../meta-amd/meta-amd-bsp<span=
+ class=3D"gmail-im" style=3D"color:rgb(80,0,80)"><br>bitbake-layers add-lay=
+er ../meta-openembedded/meta-filesystems<br>bitbake-layers add-layer ../met=
+a-virtualization<br></span>bitbake-layers add-layer ../meta-security/meta-t=
+pm/<br>bitbake core-image-sato -k<br></div><div><br></div><div>I am trying =
+to=C2=A0 install xen and boot xen in=C2=A0x86_64 hardware.</div><div><br></=
+div><div>how can i change=C2=A0grub configuration=C2=A0in yocto inside meta=
+-amd=C2=A0folder ?</div><div><br></div><div>how can i enable multiboot and =
+module=C2=A0and change=C2=A0grub file?</div><div><br></div><div><div>how ca=
+n I change=C2=A0local.conf file for grub below change? can you please provi=
+de step.</div><div><br></div><div><b>in the target HW:</b></div><div>=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D</div><div></div></div><div>root@v3000:=
+/boot/EFI/BOOT#=C2=A0<b>vi grub.cfg (My expected grub.cfg file)</b><br><br>=
+serial --unit=3D0 --speed=3D115200 --word=3D8 --parity=3Dno --stop=3D1<br>d=
+efault=3Dboot<br>timeout=3D10<br>menuentry &#39;boot&#39;{<br>multiboot2 /x=
+en dom0=3Dpvh dom0_mem=3D8G dom0_max_vcpus=3D4 dom0_vcpus_pin loglvl=3Dall =
+guest_loglvl=3Dall com1=3D115200/3000000,8n1,0xfedc9000,4,reg-width=3D4,reg=
+-shift=3D2 console=3Dcom1,vga console_timestamps=3Dboot<br>module2 /bzImage=
+ ramdisk_size=3D32768 root=3DPARTUUID=3Dcc63eebd-9861-4ec8-a941-a0e5b80374d=
+d rw rootwait quiet =C2=A0console=3Dhvc0 earlyprintk=3Dxen console=3DttyS0 =
+panic=3D10 LABEL=3Dboot debugshell=3D5<br>module2 /initrd<br>}<br>root@v300=
+0:/boot/EFI/BOOT#<br></div><div><br></div><div><br></div><div>NOTE:</div><d=
+iv>i am building using bitbake=C2=A0 core-image-sato.</div><div><br></div><=
+div>Regards,</div><div>Kamal</div><div class=3D"gmail-yj6qo"></div><div cla=
+ss=3D"gmail-adL"><br></div></div></div></div></div></div></div></div>
+</blockquote></div></div>
 
+--00000000000035b8220614b7c075--
 
