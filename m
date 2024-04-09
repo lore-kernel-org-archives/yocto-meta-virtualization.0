@@ -2,70 +2,86 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9B08C67861
-	for <webhook@archiver.kernel.org>; Tue,  9 Apr 2024 14:02:11 +0000 (UTC)
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
- by mx.groups.io with SMTP id smtpd.web10.137095.1712671324741899320
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 03807CD1284
+	for <webhook@archiver.kernel.org>; Tue,  9 Apr 2024 14:07:32 +0000 (UTC)
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+ by mx.groups.io with SMTP id smtpd.web10.137226.1712671642616570895
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 09 Apr 2024 07:02:04 -0700
+ Tue, 09 Apr 2024 07:07:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=WceViZzZ;
- spf=pass (domain: gmail.com, ip: 209.85.214.178, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1e3ff14f249so16372455ad.1
-        for <meta-virtualization@lists.yoctoproject.org>; Tue, 09 Apr 2024 07:02:04 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=mQsgLnZy;
+ spf=pass (domain: gmail.com, ip: 209.85.210.170, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-6ecd957f949so5458889b3a.0
+        for <meta-virtualization@lists.yoctoproject.org>; Tue, 09 Apr 2024 07:07:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1712671324; x=1713276124; darn=lists.yoctoproject.org;
+        d=gmail.com; s=20230601; t=1712671642; x=1713276442; darn=lists.yoctoproject.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Inf7hc3+dEa6L/3Vgy079eZ3rkvXthPZT0fozsJxucg=;
-        b=WceViZzZYvyFdGR+klp4G/X+XSn5/Pr2E0m+ibTueT8BQhU1ahpKjJ6YRVK8mjGfYD
-         JPnUg4SwCjS+OZf8XD+3IVhSP35NmgZs6Dn0o1KlA4cbmpSmVQ/0b9T68XnEscn2B2yE
-         AQKdk+TLxxGShsHobTX+QlsIzo8tGk3NV8MxMTLs409cTZ85aoUPQMF5hwTjCUNthUll
-         mhl3mhXs554fNSQvNMiknsKrYyNpKdNXlrsIkhzOPk1kUvnIPVkC6dbGi/yoVbAyHWkG
-         DyKoeZud6ZW9v5uUpHLlEhFkmtx5pm76NoFlK8ILPK+Ql47wIdR1PN1NIWtsGy10bnEx
-         GPoQ==
+        bh=nOUsQQzUHSvTdcfMXSv58+u9yu9CdrjVqmx8AxuTMWU=;
+        b=mQsgLnZyFig4TAkLFqu4ecMHZ+yi/95X5XyEspR3uXjQrEHN1J6jmhWgyIwBP2vogP
+         Vcv6IPa7bcWJSGMM/jKdkvB0Oe4iVJEu4KHaAo0HoXM4KGUymghWUE3doWwtOKi7vdRg
+         W7CEqUrN4zTKc4gYPi2GokmL24cWdPSGaIxFl9Fyv2hkfrjvWLMZD8o5IPQPQ8KeGARw
+         TaCipvuE34Lou24XOUDxSms34UvhbH9qCMBwC8r8C5cqqjWCAbRtW9RblMwmsHtIiZ6G
+         0jpUpVf/yKGdmiOOq5n+BfFK0XO7jfrwt3dDfAyYJqUInK0XCO5CgpNGcRN1fbgi2hEJ
+         FFIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712671324; x=1713276124;
+        d=1e100.net; s=20230601; t=1712671642; x=1713276442;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Inf7hc3+dEa6L/3Vgy079eZ3rkvXthPZT0fozsJxucg=;
-        b=C7Us4//8JAbTYokfer6NdFWRCqY/iwIJfE/2gHaSghollzctQbIJmsmmVoRzPsre2q
-         v8UXF9O46RUrLJzDgvZI4J0QotixGdhd/R+ScYlIDoTtgTyuOais3XC6QbhGscUf26MD
-         C4s5URb3cBXiX7yYr6sgNrYmQAtApftyaOiA6Zn0+tgJcdd6Hk9wiPFnThJcPJbMESxi
-         1hlI9mGfjW6DgH40bw5ziNFRoez1WbOAiW9jKPGocZk64RcgV6gkrKzyZtkwJzpB3ovn
-         9o4h2zwrL9lb2mEQZueezVAPjgrjI8fXS2Gg5Y8AJizLPLXJikhavW0WGxguQD1HXmNF
-         DgbA==
-X-Gm-Message-State: AOJu0YwMangVtbcb3W/unHX/GuUWa9IyG/vw0opefwbFhSgdjYlpaGcF
-	iGcMdHuGwQ5ar1CJR0ZNU2W6hfV3QllCoqQF/EFZrq+ZBWaZoRgjkxn7VvQwgzx0HjNDgLjQv89
-	z71WrFVn/hCO27Lec541vdyDj4/I=
-X-Google-Smtp-Source: AGHT+IFkJ6rQtYFE/RPLIdu44IOnr0vopejLyo1GIPXCJBqysmr856UzeFFVHUH9YXoQAZXE8bgOfYthey8VKk2hp0U=
-X-Received: by 2002:a17:902:c94d:b0:1e2:a1a8:5f49 with SMTP id
- i13-20020a170902c94d00b001e2a1a85f49mr2891075pla.24.1712671323690; Tue, 09
- Apr 2024 07:02:03 -0700 (PDT)
+        bh=nOUsQQzUHSvTdcfMXSv58+u9yu9CdrjVqmx8AxuTMWU=;
+        b=K16uAUEKeo2tJD/qDNQKI2bJ37Chfl2N7w40fFPVWCRtjKUk5Wrg4aTLlp/GvoNbjs
+         X7/FraDGWwszKTYxmBxWVdc0nN3KQjMB5k/1mXpL0pIVWobDzMVklrhjCSCdXnQ1GLOt
+         g+D81jndoDQuoRM5nwtacZviQSC1Ipnff3+NVOb4Zphi5N1OkCJCTeAlYcmWeErN0j7c
+         CmzFG8C2uHoBovuo5jRL136NfHMaPv+Ec/+/MEIVo7COb6yd6cNRJCd6bbBz6tRuLnk0
+         V1iXUzArWLNeQ+iAVbpgvglU6XzHbyStgV3zhFb9TtFr+C1yBYr/kQBXYH6R+rpKXzHr
+         u6Tw==
+X-Gm-Message-State: AOJu0YxryAlrw/5BJQITwda2NXofN1QfnhWIanRcW17UjfoZfMUUmQzW
+	cRVvT5ojmUxgERxgvbgLOd5vAGVmkesvIeTajODaC3HlSw09csqZMMQi1EukokiQpltiRPgoqym
+	KnnCZM2SByXtlljeej0rN2JgLuJSrxm/eWjI=
+X-Google-Smtp-Source: AGHT+IFb23Adn5c+pa95TbYNqiTGRmYTWL5CukwEO5+MAxHcwUpPuszOHxwfX5BDmLUENUJ9NzEdMq5xq5W2QtPT5ec=
+X-Received: by 2002:a17:902:b287:b0:1e2:3e08:2c2f with SMTP id
+ u7-20020a170902b28700b001e23e082c2fmr10726128plr.25.1712671641777; Tue, 09
+ Apr 2024 07:07:21 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240325143729.11867-1-asharma@mvista.com>
-In-Reply-To: <20240325143729.11867-1-asharma@mvista.com>
+References: <20240326083521.28230-1-asharma@mvista.com>
+In-Reply-To: <20240326083521.28230-1-asharma@mvista.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Tue, 9 Apr 2024 10:01:52 -0400
-Message-ID: <CADkTA4NwaG5bbZKZFK44gFufAiwi+h1qx+yET762p=L0+2G9Jw@mail.gmail.com>
-Subject: Re: [meta-virtualization][dunfell][PATCH V2] libvirt: Backport fix
- for CVE-2024-2494
+Date: Tue, 9 Apr 2024 10:07:10 -0400
+Message-ID: <CADkTA4P19ohN04CgO1oxss74F1WkC051S=_FWYNEFXLs0BFK_w@mail.gmail.com>
+Subject: Re: [meta-virtualization][kirkstone][PATCH] libvirt: Backport fix for CVE-2024-2494
 To: asharma@mvista.com
 Cc: meta-virtualization@lists.yoctoproject.org
-Content-Type: multipart/alternative; boundary="000000000000dda22b0615aa5d11"
+Content-Type: multipart/alternative; boundary="000000000000d3404e0615aa7061"
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Tue, 09 Apr 2024 14:02:11 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8665
+ <meta-virtualization@lists.yoctoproject.org>; Tue, 09 Apr 2024 14:07:32 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8666
 
---000000000000dda22b0615aa5d11
+--000000000000d3404e0615aa7061
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Mar 25, 2024 at 10:37=E2=80=AFAM Ashish Sharma via lists.yoctoproje=
-ct.org
+Your git and mail client are misconfigured:
+
+remote: ##############################################
+remote: Invalid author Ashish Sharma via lists.yoctoproject.org
+remote: ##############################################
+To ssh://push.yoctoproject.org/meta-virtualization
+! [remote rejected] kirkstone -> kirkstone (pre-receive hook declined)
+
+Information on how to fix it is here:
+
+https://docs.yoctoproject.org/dev/contributor-guide/submit-changes.html#tro=
+ubleshooting-email-issues
+
+Send a v2 with a fixed up author and I'll get it merged.
+
+Bruce
+
+On Tue, Mar 26, 2024 at 4:35=E2=80=AFAM Ashish Sharma via lists.yoctoprojec=
+t.org
 <asharma=3Dmvista.com@lists.yoctoproject.org> wrote:
 
 > Upstream-Status: Backport [
@@ -75,14 +91,14 @@ ct.org
 > Signed-off-by: Ashish Sharma <asharma@mvista.com>
 > ---
 >  .../libvirt/libvirt/CVE-2024-2494.patch       | 220 ++++++++++++++++++
->  recipes-extended/libvirt/libvirt_6.1.0.bb     |   1 +
+>  recipes-extended/libvirt/libvirt_8.1.0.bb     |   1 +
 >  2 files changed, 221 insertions(+)
 >  create mode 100644 recipes-extended/libvirt/libvirt/CVE-2024-2494.patch
 >
 > diff --git a/recipes-extended/libvirt/libvirt/CVE-2024-2494.patch
 > b/recipes-extended/libvirt/libvirt/CVE-2024-2494.patch
 > new file mode 100644
-> index 00000000..99c5eec9
+> index 000000000..99c5eec98
 > --- /dev/null
 > +++ b/recipes-extended/libvirt/libvirt/CVE-2024-2494.patch
 > @@ -0,0 +1,220 @@
@@ -368,40 +384,31 @@ r
 > +--
 > +GitLab
 > +
-> diff --git a/recipes-extended/libvirt/libvirt_6.1.0.bb
-> b/recipes-extended/libvirt/libvirt_6.1.0.bb
-> index 6843f532..d3f875a1 100644
-> --- a/recipes-extended/libvirt/libvirt_6.1.0.bb
-> +++ b/recipes-extended/libvirt/libvirt_6.1.0.bb
-> @@ -51,6 +51,7 @@ SRC_URI =3D "
+> diff --git a/recipes-extended/libvirt/libvirt_8.1.0.bb
+> b/recipes-extended/libvirt/libvirt_8.1.0.bb
+> index 63cf49146..a88e0ee31 100644
+> --- a/recipes-extended/libvirt/libvirt_8.1.0.bb
+> +++ b/recipes-extended/libvirt/libvirt_8.1.0.bb
+> @@ -30,6 +30,7 @@ SRC_URI =3D "
 > http://libvirt.org/sources/libvirt-${PV}.tar.xz;name=3Dlibvirt \
->             file://CVE-2022-0897.patch \
->             file://CVE-2021-3975.patch \
->             file://CVE-2021-4147.patch \
-> +           file://CVE-2024-2494.patch \
+>             file://gnutls-helper.py \
 >
-
-You have a CVE patch in your list that isn't merged into meta-virt
-dunfell.
-
-Can you send a v3 with both of those CVE patches ?
-
-Bruce
-
-
+> file://0001-qemu-segmentation-fault-in-virtqemud-executing-qemuD.patch \
+>             file://CVE-2023-2700.patch \
+> +           file://CVE-2024-2494.patch \
 >            "
->  SRC_URI[libvirt.md5sum] =3D "a870e63f20fac2ccf98e716d05256145"
+>
 >  SRC_URI[libvirt.sha256sum] =3D
-> "167c185be45560e73dd3e14ed375778b555c01455192de2dafc4d0f74fabebc0"
+> "3c6c43becffeb34a3f397c616206aa69a893ff8bf5e8208393c84e8e75352934"
 > --
-> 2.24.4
+> 2.35.7
 >
 >
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#8653):
-> https://lists.yoctoproject.org/g/meta-virtualization/message/8653
-> Mute This Topic: https://lists.yoctoproject.org/mt/105138979/1050810
+> View/Reply Online (#8655):
+> https://lists.yoctoproject.org/g/meta-virtualization/message/8655
+> Mute This Topic: https://lists.yoctoproject.org/mt/105154754/1050810
 > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
 > Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [
 > bruce.ashfield@gmail.com]
@@ -414,28 +421,48 @@ Bruce
 at its end
 - "Use the force Harry" - Gandalf, Star Trek II
 
---000000000000dda22b0615aa5d11
+--000000000000d3404e0615aa7061
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-size:small"><br></div></div><br><div class=3D"gmail_quote"><div dir=3D"lt=
-r" class=3D"gmail_attr">On Mon, Mar 25, 2024 at 10:37=E2=80=AFAM Ashish Sha=
-rma via <a href=3D"http://lists.yoctoproject.org">lists.yoctoproject.org</a=
-> &lt;asharma=3D<a href=3D"mailto:mvista.com@lists.yoctoproject.org">mvista=
-.com@lists.yoctoproject.org</a>&gt; wrote:<br></div><blockquote class=3D"gm=
-ail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,=
-204,204);padding-left:1ex">Upstream-Status: Backport [<a href=3D"https://gi=
-tlab.com/libvirt/libvirt/-/commit/8a3f8d957507c1f8223fdcf25a3ff885b15557f2"=
- rel=3D"noreferrer" target=3D"_blank">https://gitlab.com/libvirt/libvirt/-/=
-commit/8a3f8d957507c1f8223fdcf25a3ff885b15557f2</a>]<br>
+<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-size:small">You=
+r git and mail client are misconfigured:</div><div class=3D"gmail_default" =
+style=3D"font-size:small"><br></div><div class=3D"gmail_default" style=3D"f=
+ont-size:small">remote: ##############################################<br>r=
+emote: Invalid author Ashish Sharma via <a href=3D"http://lists.yoctoprojec=
+t.org" target=3D"_blank">lists.yoctoproject.org</a><br>remote: ############=
+##################################<br>To ssh://<a href=3D"http://push.yocto=
+project.org/meta-virtualization" target=3D"_blank">push.yoctoproject.org/me=
+ta-virtualization</a><br>! [remote rejected] kirkstone -&gt; kirkstone (pre=
+-receive hook declined)<br></div><div class=3D"gmail_default" style=3D"font=
+-size:small"><br></div><div class=3D"gmail_default" style=3D"font-size:smal=
+l">Information on how to fix it is here:</div><div class=3D"gmail_default" =
+style=3D"font-size:small"><br></div><div class=3D"gmail_default" style=3D"f=
+ont-size:small"><a href=3D"https://docs.yoctoproject.org/dev/contributor-gu=
+ide/submit-changes.html#troubleshooting-email-issues" rel=3D"noreferrer" ta=
+rget=3D"_blank">https://docs.yoctoproject.org/dev/contributor-guide/submit-=
+changes.html#troubleshooting-email-issues</a><br></div><div class=3D"gmail_=
+default" style=3D"font-size:small"><br></div><div class=3D"gmail_default" s=
+tyle=3D"font-size:small">Send a v2 with a fixed up author and I&#39;ll get =
+it merged.</div><div class=3D"gmail_default" style=3D"font-size:small"><br>=
+</div><div class=3D"gmail_default" style=3D"font-size:small">Bruce</div></d=
+iv><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On =
+Tue, Mar 26, 2024 at 4:35=E2=80=AFAM Ashish Sharma via <a href=3D"http://li=
+sts.yoctoproject.org" target=3D"_blank">lists.yoctoproject.org</a> &lt;asha=
+rma=3D<a href=3D"mailto:mvista.com@lists.yoctoproject.org" target=3D"_blank=
+">mvista.com@lists.yoctoproject.org</a>&gt; wrote:<br></div><blockquote cla=
+ss=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid =
+rgb(204,204,204);padding-left:1ex">Upstream-Status: Backport [<a href=3D"ht=
+tps://gitlab.com/libvirt/libvirt/-/commit/8a3f8d957507c1f8223fdcf25a3ff885b=
+15557f2" rel=3D"noreferrer" target=3D"_blank">https://gitlab.com/libvirt/li=
+bvirt/-/commit/8a3f8d957507c1f8223fdcf25a3ff885b15557f2</a>]<br>
 Signed-off-by: Ashish Sharma &lt;<a href=3D"mailto:asharma@mvista.com" targ=
 et=3D"_blank">asharma@mvista.com</a>&gt;<br>
 ---<br>
 =C2=A0.../libvirt/libvirt/CVE-2024-2494.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0| 2=
 20 ++++++++++++++++++<br>
-=C2=A0recipes-extended/libvirt/<a href=3D"http://libvirt_6.1.0.bb" rel=3D"n=
-oreferrer" target=3D"_blank">libvirt_6.1.0.bb</a>=C2=A0 =C2=A0 =C2=A0|=C2=
+=C2=A0recipes-extended/libvirt/<a href=3D"http://libvirt_8.1.0.bb" rel=3D"n=
+oreferrer" target=3D"_blank">libvirt_8.1.0.bb</a>=C2=A0 =C2=A0 =C2=A0|=C2=
 =A0 =C2=A01 +<br>
 =C2=A02 files changed, 221 insertions(+)<br>
 =C2=A0create mode 100644 recipes-extended/libvirt/libvirt/CVE-2024-2494.pat=
@@ -444,7 +471,7 @@ ch<br>
 diff --git a/recipes-extended/libvirt/libvirt/CVE-2024-2494.patch b/recipes=
 -extended/libvirt/libvirt/CVE-2024-2494.patch<br>
 new file mode 100644<br>
-index 00000000..99c5eec9<br>
+index 000000000..99c5eec98<br>
 --- /dev/null<br>
 +++ b/recipes-extended/libvirt/libvirt/CVE-2024-2494.patch<br>
 @@ -0,0 +1,220 @@<br>
@@ -758,49 +785,39 @@ ine\&quot;));\n&quot;;<br>
 +-- <br>
 +GitLab<br>
 +<br>
-diff --git a/recipes-extended/libvirt/<a href=3D"http://libvirt_6.1.0.bb" r=
-el=3D"noreferrer" target=3D"_blank">libvirt_6.1.0.bb</a> b/recipes-extended=
-/libvirt/<a href=3D"http://libvirt_6.1.0.bb" rel=3D"noreferrer" target=3D"_=
-blank">libvirt_6.1.0.bb</a><br>
-index 6843f532..d3f875a1 100644<br>
---- a/recipes-extended/libvirt/<a href=3D"http://libvirt_6.1.0.bb" rel=3D"n=
-oreferrer" target=3D"_blank">libvirt_6.1.0.bb</a><br>
-+++ b/recipes-extended/libvirt/<a href=3D"http://libvirt_6.1.0.bb" rel=3D"n=
-oreferrer" target=3D"_blank">libvirt_6.1.0.bb</a><br>
-@@ -51,6 +51,7 @@ SRC_URI =3D &quot;<a href=3D"http://libvirt.org/sources/l=
+diff --git a/recipes-extended/libvirt/<a href=3D"http://libvirt_8.1.0.bb" r=
+el=3D"noreferrer" target=3D"_blank">libvirt_8.1.0.bb</a> b/recipes-extended=
+/libvirt/<a href=3D"http://libvirt_8.1.0.bb" rel=3D"noreferrer" target=3D"_=
+blank">libvirt_8.1.0.bb</a><br>
+index 63cf49146..a88e0ee31 100644<br>
+--- a/recipes-extended/libvirt/<a href=3D"http://libvirt_8.1.0.bb" rel=3D"n=
+oreferrer" target=3D"_blank">libvirt_8.1.0.bb</a><br>
++++ b/recipes-extended/libvirt/<a href=3D"http://libvirt_8.1.0.bb" rel=3D"n=
+oreferrer" target=3D"_blank">libvirt_8.1.0.bb</a><br>
+@@ -30,6 +30,7 @@ SRC_URI =3D &quot;<a href=3D"http://libvirt.org/sources/l=
 ibvirt-$%7BPV%7D.tar.xz;name=3Dlibvirt" rel=3D"noreferrer" target=3D"_blank=
 ">http://libvirt.org/sources/libvirt-${PV}.tar.xz;name=3Dlibvirt</a> \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://CVE-2022-0897.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://CVE-2021-3975.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://CVE-2021-4147.patch \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://CVE-2024-2494.patch \<br><=
-/blockquote><div><br></div><div><div class=3D"gmail_default" style=3D"font-=
-size:small">You have a CVE patch in your list that isn&#39;t merged into me=
-ta-virt</div><div class=3D"gmail_default" style=3D"font-size:small">dunfell=
-.</div><div class=3D"gmail_default" style=3D"font-size:small"><br></div><di=
-v class=3D"gmail_default" style=3D"font-size:small">Can you send a v3 with =
-both of those CVE patches ?</div><div class=3D"gmail_default" style=3D"font=
--size:small"><br></div><div class=3D"gmail_default" style=3D"font-size:smal=
-l">Bruce</div></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" styl=
-e=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddin=
-g-left:1ex">
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://gnutls-helper.py \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-qemu-segmentation-fau=
+lt-in-virtqemud-executing-qemuD.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://CVE-2023-2700.patch \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://CVE-2024-2494.patch \<br>
 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
-=C2=A0SRC_URI[libvirt.md5sum] =3D &quot;a870e63f20fac2ccf98e716d05256145&qu=
-ot;<br>
-=C2=A0SRC_URI[libvirt.sha256sum] =3D &quot;167c185be45560e73dd3e14ed375778b=
-555c01455192de2dafc4d0f74fabebc0&quot;<br>
+<br>
+=C2=A0SRC_URI[libvirt.sha256sum] =3D &quot;3c6c43becffeb34a3f397c616206aa69=
+a893ff8bf5e8208393c84e8e75352934&quot;<br>
 -- <br>
-2.24.4<br>
+2.35.7<br>
 <br>
 <br>
 -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
 Links: You receive all messages sent to this group.<br>
-View/Reply Online (#8653): <a href=3D"https://lists.yoctoproject.org/g/meta=
--virtualization/message/8653" rel=3D"noreferrer" target=3D"_blank">https://=
-lists.yoctoproject.org/g/meta-virtualization/message/8653</a><br>
-Mute This Topic: <a href=3D"https://lists.yoctoproject.org/mt/105138979/105=
+View/Reply Online (#8655): <a href=3D"https://lists.yoctoproject.org/g/meta=
+-virtualization/message/8655" rel=3D"noreferrer" target=3D"_blank">https://=
+lists.yoctoproject.org/g/meta-virtualization/message/8655</a><br>
+Mute This Topic: <a href=3D"https://lists.yoctoproject.org/mt/105154754/105=
 0810" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.org/m=
-t/105138979/1050810</a><br>
+t/105154754/1050810</a><br>
 Group Owner: <a href=3D"mailto:meta-virtualization%2Bowner@lists.yoctoproje=
 ct.org" target=3D"_blank">meta-virtualization+owner@lists.yoctoproject.org<=
 /a><br>
@@ -814,7 +831,7 @@ om" target=3D"_blank">bruce.ashfield@gmail.com</a>]<br>
 gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature">- =
 Thou shalt not follow the NULL pointer, for chaos and madness await thee at=
  its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star Trek II<br><b=
-r></div></div>
+r></div>
 
---000000000000dda22b0615aa5d11--
+--000000000000d3404e0615aa7061--
 
