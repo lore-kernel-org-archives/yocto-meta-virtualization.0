@@ -1,134 +1,86 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <zboszor@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BA68C4345F
-	for <webhook@archiver.kernel.org>; Mon, 15 Apr 2024 20:59:44 +0000 (UTC)
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
- by mx.groups.io with SMTP id smtpd.web10.4158.1713214778542429918
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80FFBC04FF6
+	for <webhook@archiver.kernel.org>; Tue, 16 Apr 2024 05:15:16 +0000 (UTC)
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+ by mx.groups.io with SMTP id smtpd.web10.13044.1713244507776317573
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 15 Apr 2024 13:59:38 -0700
+ Mon, 15 Apr 2024 22:15:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=huFuF0o5;
- spf=pass (domain: gmail.com, ip: 209.85.128.173, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-61ae4743d36so8591947b3.2
-        for <meta-virtualization@lists.yoctoproject.org>; Mon, 15 Apr 2024 13:59:38 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=MzAyLINk;
+ spf=pass (domain: gmail.com, ip: 209.85.221.48, mailfrom: zboszor@gmail.com)
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-343bccc0b2cso2607864f8f.1
+        for <meta-virtualization@lists.yoctoproject.org>; Mon, 15 Apr 2024 22:15:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713214778; x=1713819578; darn=lists.yoctoproject.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=1Gca9d2bpxHQe+L8w7QbcMnbrUMzCGhKphyobNHN6ps=;
-        b=huFuF0o5AL0YBra5xDCWv0KoRzkXfHqFNMN8IAETyoXW+CSOJzlM3QBgdGT57ivgmz
-         iaXnxdIjs1heR/VDKo2C+b/K21OLPj0os/NfOOV9r0XZjf1TD3EyJQwfxmp3s6vo2KUL
-         JHmy+9sfAC95Qze9Okca+0UDcLlhvk1Slh7KAc7/sHmSZfM9mbuCGg+5iOHfiOduXO+3
-         oMbBSQalo0jcj7fg5IJGp4gz++No23PwwOpc1gs87Ub0nmkZqHUvKkzhJCHGMk2NPyLI
-         k680l/KzRLQWDFV7W7J2icQNDogrta8LhDTA2XRO0U8Kax9kPQjAae9+r8s1ccuMU8vv
-         BzhA==
+        d=gmail.com; s=20230601; t=1713244505; x=1713849305; darn=lists.yoctoproject.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=8DAg+iozhGOgnLFTZWZG4oXPC6ICJUe7kzSeDTY6DWg=;
+        b=MzAyLINk6ASJ1I+sCpCqToKIHppHIu06X6cIgg6u9i54FUUh9Yn33RiDbrMRQu9mnP
+         c1tAo7gSr4Ao155upQTuDJfLXKFLpSqSsg5C8OI0qcg+/WvQDuFV31BvuWPF/UeEAe87
+         sAgwpdcbwOjY6QJf6eOjR8kjqOMWtPRHn7Hv9+fm64ovOlvqXFZWA7YoiBZaz9S+C4rQ
+         WGxaUV6KzTlXLJ7i70VWtBIcJSWgbsJKmyMBbiVCyqv3F2dOg64pnsIDPUXEex4eKM9A
+         769JllYzVDozu5N1NEdpLqN6xqc0GPdagNdV2WLsHmOM4u8GRYsiLWYp4EDZ3cuu5Omj
+         PQ9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713214778; x=1713819578;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1Gca9d2bpxHQe+L8w7QbcMnbrUMzCGhKphyobNHN6ps=;
-        b=IJs1v+nRt6T50sJo9f1OkRiFMfK3eMjnzhlpAUYvtw/515ZxTLDrNZH1fnTXhDEH0e
-         EvCmOoDqNB/3LbEhkXl1vW74gmFOAvoF5QItWE0pgIawO9M1lF1dtx7a2DHr8+IaD6/M
-         5j5k7Hq0nU5SawJDHW1TMYF0hsuRnaoJ+wgqVrbEh77ZAnM8SWGY4bVdttrlZMiEum8K
-         vvOW3y4lr/Pe5SHwcwaB51c4iqO2D3yZtqeyVv9WLKEROr+lpwB9PGU5LyuJLCxU851Z
-         OxEd8RmF31OZYederyTOb4TohmzVQ3sFeAJzi1peyibIMEYJyvZf9DBbHtX1DJUxBQNf
-         DX2Q==
-X-Gm-Message-State: AOJu0YxLw+xo7Cu80JkN5HsjI9HzioTMIsgmtcDi4hToDmuK46EupcrE
-	Y6zU6Ai64clD5BaXEMt16hoqaIAt09GZg+vt1XqZAux+fPM/avFoaWR4fg==
-X-Google-Smtp-Source: AGHT+IHoNmXJ+qpQK8FZ1+llSGvbpcHy+xjSv7eCA31OwaU7XLY0D6891MARNtkE9I+eXIJiTIHPHw==
-X-Received: by 2002:a25:905:0:b0:de0:d497:1ba7 with SMTP id 5-20020a250905000000b00de0d4971ba7mr9538108ybj.39.1713214777578;
-        Mon, 15 Apr 2024 13:59:37 -0700 (PDT)
-Received: from gmail.com (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id px11-20020a056214050b00b0069b534fb8b0sm5766106qvb.59.2024.04.15.13.59.36
+        d=1e100.net; s=20230601; t=1713244505; x=1713849305;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8DAg+iozhGOgnLFTZWZG4oXPC6ICJUe7kzSeDTY6DWg=;
+        b=TJ10PytX7Vg9wSMMI+tgyeZ1zTxtecV+AMrQZfljPFUOcO5twIyGifmYhjfoZWaxp7
+         F4GzaSVquNjygsLo1M+jih6/kv+RHit4MPXyi9fBzOTAxtfD7QRXQ3p9GGXFEMt3PuCQ
+         w6oW8gB7mXGy39Ur2wgF9z8fZCcPzQcHEmpT9zTnAWD7qBeRaGtwS3Sba73SMBpWnPbk
+         tBRCFB5+rpTc4EO9Ffj01q0RcGPWG2q8Qc+BPyPaDCUfRoRQl/e+tXyZfVwQqHebqKlX
+         S3/NnSZ/SR6NL1IOhjrEwDopnp9ivMauH41BfnH+53ujEHr/zDUpGtdiYpZT43Ti2Afg
+         Sedw==
+X-Gm-Message-State: AOJu0Yw3hkG/3jppLZqOGWZ6pTcPSlt8QgAYaPx/TKxKXQgytB1D7VVp
+	q23ZsgU2a6EOnIFHAsu4c35fF+QOqeOVbyRBy9+KcJHyeJWrUpmnyhT5IQ==
+X-Google-Smtp-Source: AGHT+IGMn6iD+dtIZs5lnDcglSrRlN3sEuO/VxkpKjkU2nE+j60L86cJY7b3mbJkokSwEWVhIHGSRw==
+X-Received: by 2002:adf:e80b:0:b0:345:f96e:39b4 with SMTP id o11-20020adfe80b000000b00345f96e39b4mr6673335wrm.8.1713244505431;
+        Mon, 15 Apr 2024 22:15:05 -0700 (PDT)
+Received: from localhost.lan (dsl51B7D2F9.fixip.t-online.hu. [81.183.210.249])
+        by smtp.gmail.com with ESMTPSA id w6-20020a5d4b46000000b00341c7129e28sm13707478wrs.91.2024.04.15.22.15.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Apr 2024 13:59:36 -0700 (PDT)
-Date: Mon, 15 Apr 2024 20:59:34 +0000
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: "Yu, Mingli" <mingli.yu@eng.windriver.com>
-Cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [meta-virtualization] [meta-cloud-services][PATCH]
- python3-ansible-collections: Add new recipe
-Message-ID: <Zh2VNjqd+uWGp42N@gmail.com>
-References: <20240411030349.3378190-1-mingli.yu@windriver.com>
+        Mon, 15 Apr 2024 22:15:05 -0700 (PDT)
+From: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
+To: meta-virtualization@lists.yoctoproject.org,
+	Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
+Subject: [meta-virtualization][m-c-s][PATCH] python3-os-brick: Fix syntax error
+Date: Tue, 16 Apr 2024 07:15:00 +0200
+Message-ID: <20240416051500.1077950-1-zboszor@gmail.com>
+X-Mailer: git-send-email 2.44.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240411030349.3378190-1-mingli.yu@windriver.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Mon, 15 Apr 2024 20:59:44 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8679
+ <meta-virtualization@lists.yoctoproject.org>; Tue, 16 Apr 2024 05:15:16 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8680
 
-merged!
+RDEPENDS:${PN} must have a closing quotation mark.
+This error was present since the recipe was added.
+Scarthgap catches it as a syntax error.
 
-Thanks for the contribution.
+Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
+---
+ meta-openstack/recipes-devtools/python/python3-os-brick_git.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-Bruce
-
-In message: [meta-virtualization] [meta-cloud-services][PATCH] python3-ansible-collections: Add new recipe
-on 11/04/2024 Yu, Mingli wrote:
-
-> From: Mingli Yu <mingli.yu@windriver.com>
-> 
-> Ansible is a radically simple model-driven configuration management,
-> multi-node deployment, and remote task execution system. Ansible works
-> over SSH and does not require any software or daemons to be installed
-> on remote nodes. Extension modules can be written in any language and
-> are transferred to managed machines automatically.
-> 
-> This recipe provides a curated set of Ansible collections included in
-> addition to ansible-core which provided by python3-ansible.
-> 
-> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-> ---
->  .../python3-ansible-collections_9.4.0.bb      | 22 +++++++++++++++++++
->  1 file changed, 22 insertions(+)
->  create mode 100644 recipes-devtools/python/python3-ansible-collections_9.4.0.bb
-> 
-> diff --git a/recipes-devtools/python/python3-ansible-collections_9.4.0.bb b/recipes-devtools/python/python3-ansible-collections_9.4.0.bb
-> new file mode 100644
-> index 00000000..94f1af05
-> --- /dev/null
-> +++ b/recipes-devtools/python/python3-ansible-collections_9.4.0.bb
-> @@ -0,0 +1,22 @@
-> +SUMMARY = "Curated set of Ansible collections included in addition to ansible-core"
-> +DESCRIPTION = "Ansible is a radically simple model-driven configuration management, \
-> +multi-node deployment, and remote task execution system. Ansible works \
-> +over SSH and does not require any software or daemons to be installed \
-> +on remote nodes. Extension modules can be written in any language and \
-> +are transferred to managed machines automatically. \
-> +This package provides a curated set of Ansible collections included in addition \
-> +to ansible-core."
-> +HOMEPAGE = "https://pypi.org/project/ansible/"
-> +LICENSE = "GPL-3.0-or-later"
-> +LIC_FILES_CHKSUM = "file://COPYING;md5=8f0e2cd40e05189ec81232da84bd6e1a"
-> +
-> +PYPI_PACKAGE = "ansible"
-> +
-> +inherit pypi setuptools3
-> +
-> +SRC_URI[sha256sum] = "dd431c63380e18c3faca3288ebde8ce2f4f992363ab558a3c11c8f2032d90867"
-> +
-> +RDEPENDS:${PN} = " \
-> +    bash \
-> +    python3-ansible \
-> +"
-> -- 
-> 2.25.1
-> 
-
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#8673): https://lists.yoctoproject.org/g/meta-virtualization/message/8673
-> Mute This Topic: https://lists.yoctoproject.org/mt/105456110/1050810
-> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+diff --git a/meta-openstack/recipes-devtools/python/python3-os-brick_git.bb b/meta-openstack/recipes-devtools/python/python3-os-brick_git.bb
+index 093b673e..cef666d4 100644
+--- a/meta-openstack/recipes-devtools/python/python3-os-brick_git.bb
++++ b/meta-openstack/recipes-devtools/python/python3-os-brick_git.bb
+@@ -40,3 +40,4 @@ RDEPENDS:${PN} += " \
+         python3-retrying \
+         python3-six \
+         python3-os-win \
++"
+-- 
+2.44.0
 
 
