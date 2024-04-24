@@ -1,259 +1,222 @@
-Return-Path: <ola.x.nilsson@axis.com>
+Return-Path: <mingli.yu@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B44FDC41513
-	for <webhook@archiver.kernel.org>; Wed, 24 Apr 2024 08:34:53 +0000 (UTC)
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com (EUR05-AM6-obe.outbound.protection.outlook.com [40.107.22.79])
- by mx.groups.io with SMTP id smtpd.web11.11636.1713947686093334973
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96095C4345F
+	for <webhook@archiver.kernel.org>; Wed, 24 Apr 2024 08:58:05 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web10.11996.1713949078781239704
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 24 Apr 2024 01:34:46 -0700
+ Wed, 24 Apr 2024 01:57:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@axis.com header.s=selector1 header.b=CvrzuOjD;
- spf=pass (domain: axis.com, ip: 40.107.22.79, mailfrom: ola.x.nilsson@axis.com)
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=opfldUWL;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=4844322108=mingli.yu@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 43O6U2Es024726;
+	Wed, 24 Apr 2024 01:57:58 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=message-id:date:subject:to:cc:references:from:in-reply-to
+	:content-type:content-transfer-encoding:mime-version; s=
+	PPS06212021; bh=VPoKWwBqXhFm6WYKldHQHottQW9W0KagaInSsP3CoTw=; b=
+	opfldUWLSFnzHJzzV0Z4S7PIIjN43y8Um9GwzfkXZC+onR7BpgaAsgrb6NFoJt/q
+	N+/LYUKaFiltvEO6X4o0TzdgcGOKE72VhVJpyW3BwS8YA/ZoaWm0renLAziZGutb
+	uozB7alfS6CYZ1lqQ0pFoo3Jb6dikClUpAA0famirAgZTURMDxOLi0/us0pN0Kyv
+	P1pQBxWjna9YVS40TeW/Uw21DBeieYzmAy4bC4/z/I/nmqvfZCBJx8OAm44FEX0i
+	W5WMweWcLkNiX1+JinOdDICsE3KNM+hHbpftL9CHspHpPj9ptVp7tIdSKLL6A6kB
+	CK3lR3xMIFhwlcnIgWZTtw==
+Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2101.outbound.protection.outlook.com [104.47.58.101])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3xmd7gkkch-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 24 Apr 2024 01:57:58 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LIw1Tn483VCi3q0EJOb7ne5XpKZxqVFUlZ/h0SAob9yvXdJJHevbumjSw0ADD9w4KCjkplePWgQ6fnCM7s49WPm2dJ8f/oKujGSGVGw/8gUdJjXwyU3s6PHvCCUbKJD9FmCvUGUT4V9eVx5cs+shlc5ta1WWByXyW3KF1fLYutfwWn5kea0D3DD3SRHVDIpkYR8RhCHEtNJ4cidr7Q2MfIvUXAVzOA2ngohN2oekINsw3Zbh9K/w7TUTK2vGjami/2iauwfTHM5uMowQnehFZaOWFoBwD2iB9no9lPue+T2/Hx42nw3ovb66qLTRXJLdIXuXIgfpCK4JBDNH8j+OOw==
+ b=FyIHMTEmt9/FX85UtaqLE14lta+5IB5o6M0T8cVjoqTUGEoZs0qfwwe0hJnl1fznrCyXL0qEjVk2lvGsLgjYptzpRTQ2eTAwCUvWUAS/hWJbLKR2/kJpYEDD296SBsWiG8gEhODIVS7L93a7TRdy6JlWXGx+1NqPNvuKPstvzHkirXhg7JoLRYThI0DGGlbg2DHEPAxuq57TENNRd45RhJvubjHx5dmFj48CWYLF5x8kC+GwS2IS1lJIWDlua4Ko4rHHh2sM6bOEBxdq71s79zH/4ZKWzcZAU5JATt1zgxasoPlQQTI6L2TmMFLhA0LoLJNB4jqo/6HYk4ofxcCEGg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=y/z29p81w8qe+vogII3CW3lyrnzgvpy9G4q3XcV8qb0=;
- b=TH1dNtUdaf4xuYAgK5MPD7aKGEFcO+8cyOKVX/EXpRL58J2ElUC6B0LzAQmJOJOyjNrCNiTIY89fnzedYpQlXxMPJcM8uZdNa1ZAdfgUpunIqUefDdoV5f/BAfG2UT3GqLCiAhKLxgTXCl2PNHouvoLp+yI2Q9dPPXtWEqSphlITM4Qc2+BvHx9S4nlQYgBfEVdqjdNnMFlT45RrvtoxnOqGrkZAUpGBcBfkollMgTsyuHdUYU+y2mNLhK0cxAA3Kms90qA/m5PxUVwom/3tqg0FR+/Eh4XaRMNjb87jfI74grHhpsY++vAX7upRUtc3oXV5JlOiJARu7uObRPEgfw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 195.60.68.100) smtp.rcpttodomain=lists.yoctoproject.org
- smtp.mailfrom=axis.com; dmarc=pass (p=none sp=none pct=100) action=none
- header.from=axis.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=y/z29p81w8qe+vogII3CW3lyrnzgvpy9G4q3XcV8qb0=;
- b=CvrzuOjDtjUfiTrRHDPkCgRcROgY/Urv/aV0NPdLZleJKFYs0+ReDMART5DqADSFRvFvdhru8JgSJfG18lWGxYthnSoTQohTlxtXx6gA/VGDlSCYiPTzUi4teIO45NsZTzDhrOaIYi7p2/GW2n907dxylHO3IFfJWzTqppigP6E=
-Received: from AS8PR04CA0144.eurprd04.prod.outlook.com (2603:10a6:20b:127::29)
- by AM9PR02MB7043.eurprd02.prod.outlook.com (2603:10a6:20b:264::13) with
+ bh=VPoKWwBqXhFm6WYKldHQHottQW9W0KagaInSsP3CoTw=;
+ b=LoFUs+Pr66PLo9PCn3n6qUqMLIwZN+yL6JCHhWDiJRaaCylmr8hXmkQSAjt2tNz27vAmKQ1v3/cBRtPj7gt2EcFKqK40dkLYscjI6KyA+pRmP9X0Id+jcvDBiXZFiTJIkOtvQ5HcAsi1/IJ8hbk1kawjx2mC/SPabTYfMyRC8Jdp/5rmHGARlUb/jfOQoCWRqnwiI9EgOGrvsRIf5BYqL7ir1PXYmfAK4EsHJBY9UNZX02N1DOdirQNnssuQdEL0gZD/1Zu+nBThL32AIevxLB7C0j8ib/2gR6W3tCEoaMFadFMB9ooutwKduKkuGH0zX0on8jA1ciBPG7D2/VGOUQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from CO1PR11MB5009.namprd11.prod.outlook.com (2603:10b6:303:9e::11)
+ by CH0PR11MB8086.namprd11.prod.outlook.com (2603:10b6:610:190::8) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7472.44; Wed, 24 Apr
- 2024 08:34:42 +0000
-Received: from AMS1EPF00000047.eurprd04.prod.outlook.com
- (2603:10a6:20b:127:cafe::c6) by AS8PR04CA0144.outlook.office365.com
- (2603:10a6:20b:127::29) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7495.34 via Frontend
- Transport; Wed, 24 Apr 2024 08:34:42 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 195.60.68.100)
- smtp.mailfrom=axis.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=axis.com;
-Received-SPF: Pass (protection.outlook.com: domain of axis.com designates
- 195.60.68.100 as permitted sender) receiver=protection.outlook.com;
- client-ip=195.60.68.100; helo=mail.axis.com; pr=C
-Received: from mail.axis.com (195.60.68.100) by
- AMS1EPF00000047.mail.protection.outlook.com (10.167.16.135) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7519.19 via Frontend Transport; Wed, 24 Apr 2024 08:34:41 +0000
-Received: from se-mail01w.axis.com (10.20.40.7) by se-mail02w.axis.com
- (10.20.40.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Wed, 24 Apr
- 2024 10:34:41 +0200
-Received: from se-intmail01x.se.axis.com (10.0.5.60) by se-mail01w.axis.com
- (10.20.40.7) with Microsoft SMTP Server id 15.1.2375.34 via Frontend
- Transport; Wed, 24 Apr 2024 10:34:41 +0200
-Received: from pc58073-2410.se.axis.com (pc58073-2410.se.axis.com [10.88.67.1])
-	by se-intmail01x.se.axis.com (Postfix) with ESMTP id 264122170
-	for <meta-virtualization@lists.yoctoproject.org>; Wed, 24 Apr 2024 10:34:41 +0200 (CEST)
-Received: by pc58073-2410.se.axis.com (Postfix, from userid 20853)
-	id 8533B410ECF9; Wed, 24 Apr 2024 10:35:08 +0200 (CEST)
-From: <olani@axis.com>
-To: <meta-virtualization@lists.yoctoproject.org>
-Subject: [meta-virtualization][PATCH v3] diod: Build in 32bit systems with 64bit time_t
-Date: Wed, 24 Apr 2024 10:35:08 +0200
-Message-ID: <20240424083508.824061-1-olani@axis.com>
-X-Mailer: git-send-email 2.39.2
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7519.21; Wed, 24 Apr
+ 2024 08:57:54 +0000
+Received: from CO1PR11MB5009.namprd11.prod.outlook.com
+ ([fe80::b792:3207:f838:98a1]) by CO1PR11MB5009.namprd11.prod.outlook.com
+ ([fe80::b792:3207:f838:98a1%4]) with mapi id 15.20.7519.021; Wed, 24 Apr 2024
+ 08:57:53 +0000
+Message-ID: <aeab5ac4-2f68-4271-881c-bd52a14d7a71@windriver.com>
+Date: Wed, 24 Apr 2024 16:57:47 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [meta-virtualization][PATCH 2/2] netavark: skip plugins in ptest
+To: patrick@subset.ch, meta-virtualization@lists.yoctoproject.org
+Cc: Patrick Wicki <patrick.wicki@siemens.com>
+References: <20230825145148.234559-1-patrick@subset.ch>
+ <20230825145148.234559-2-patrick@subset.ch>
+Content-Language: en-US
+From: "Yu, Mingli" <mingli.yu@windriver.com>
+In-Reply-To: <20230825145148.234559-2-patrick@subset.ch>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SG2PR02CA0123.apcprd02.prod.outlook.com
+ (2603:1096:4:188::22) To CO1PR11MB5009.namprd11.prod.outlook.com
+ (2603:10b6:303:9e::11)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AMS1EPF00000047:EE_|AM9PR02MB7043:EE_
-X-MS-Office365-Filtering-Correlation-Id: a51ff88a-9661-4f74-226e-08dc643962fa
+X-MS-TrafficTypeDiagnostic: CO1PR11MB5009:EE_|CH0PR11MB8086:EE_
+X-MS-Office365-Filtering-Correlation-Id: f3095562-b177-460f-0093-08dc643ca06a
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam: BCL:0;ARA:13230031|1800799015|376005|366007;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?K+/P0kM8nYYgUOAQz4NuGuZGp0pXLq2fCnXdS8gH+OoFGUmU1eDEyut/7Pig?=
- =?us-ascii?Q?YAbb3WBF7l/nRARVqCoRQ86P8PyQvuIH02leKzIlVndga9A7DrF6cvsNgD+2?=
- =?us-ascii?Q?q3aEQPYH362eZp4mIqlIH8XOv/R/vshXGF091sM45rhYRwvukzIm1B1taafo?=
- =?us-ascii?Q?ZIRrKHHoy5f4yy+9nIw0FgHW8BZauhXyEk+V46MBHMq8f1XCpVD9iBrz3kO2?=
- =?us-ascii?Q?j59y+bZE4kVzMDNDH3uCIkbANmBby3WZsv4mC7csUt74c00u0/cLq/we6ESQ?=
- =?us-ascii?Q?CltgcOiudUwFIPcEafJRBKSUg58aE0y/hqEMapq8TAQfuz8PrOLOGDG2iRIk?=
- =?us-ascii?Q?2zt5+LNrXVg9M/V4IXYFZCrS3joDbOPhU+DjoE2iMZOzcNwHZsBBtzeq4mxd?=
- =?us-ascii?Q?kaI9K4jDQqpp/dXbp3zpaOeu0EQdh3ZwCbZhz/R7RGyTEkoipJShpDGQpJA8?=
- =?us-ascii?Q?YDE0vvjjwcbp83rpHToNvscouf9jPb1tIs1ngbbUxex/QKEk8JFBRPqcO3sG?=
- =?us-ascii?Q?+bf4dXnlvDs2noo9SE8I+Bd9oANIcuLrpO7YeSstHyZCchAbcYYQqQkYFoHP?=
- =?us-ascii?Q?6zvRSRAiCOHGOF139u9WWMF/9I6UC7H36TSjhTDoX4r6+bwbdVRmygqGyzPt?=
- =?us-ascii?Q?fAqJj7Xl4zEm08n/sufy7EaF64bn2NZ3jSm5BhV7/mm0w51OfZ/7P+SyRqDu?=
- =?us-ascii?Q?eKx3rYkn5FwqKnMS3oPcXME+wGatZ/gmMQ7P6GbMzIi1/nynn3+frLf5ckqs?=
- =?us-ascii?Q?aHFPgIgnMn+UMHE2GJrVPp7h818ZIXxT17UZ3mJ+Rj1jeuGJ8WE8+V3hul9X?=
- =?us-ascii?Q?lDe5ZjagoHyW7P2qftVZDW2YNdJ++0TZEk6ZKfgMO0qVcmr6HVLXgJ5QF5Ut?=
- =?us-ascii?Q?DEvr+5nQwG+iGLy1YNjarNFRCVZvAmv89gNzK/bybOtVB7NfLSQX8Q0iPtil?=
- =?us-ascii?Q?8mRMYbg81jr/BT2PtJ5WfRWCFJoVcAP+Z1KFkc4mcZFNU8DX90OK08apAeO9?=
- =?us-ascii?Q?0tx6cgd3yOMRMqNNXz31+E2oKi7UWvGc8HG93Ah47cQy763tXTEd0kS6LIGX?=
- =?us-ascii?Q?wQqpCiqxj13qA1VFPENtrXmKrmhk8Ex5Du9iP0iQnQwe7/rpifI3AKDknHIe?=
- =?us-ascii?Q?BgjrIr/f1gpBZ/v8uL+0SshT7kcxqc5c/tH7JQbMLZlm/cnlXxzWB+/0URuo?=
- =?us-ascii?Q?Cj+mqgPb4ZmIvoXZOkiMUCVQXn4D6OE+0UZTZkjKHQgtjrV06i6WPS/omRc4?=
- =?us-ascii?Q?RDjPk3ps7LISDKUIImCZ2E7uqbAyy1Is0pJG8+/8bSXkvhlX+s5KWqD9EgPd?=
- =?us-ascii?Q?1Qq4T9O7R8x1c9yTLd0YZd0p6uNeCOOID6AeKc9GM/uIf3nEighCCSCFdMEg?=
- =?us-ascii?Q?oa4P9oqf0Jb3Eug5iOOW18rUtI0y?=
+	=?utf-8?B?SVM1LzgwaTdJYUlEaC9EcEVXUnltdE54U1FiVGZUNDBDTWcxcy9lRmV5TDVT?=
+ =?utf-8?B?b0Zjck1HaDFCd1dybERmS255VlR0SitmdVl3Si9vNk9RSzlHQk1VN2d4bzRI?=
+ =?utf-8?B?TGluRzJ2cHAzWjVZc2pRY0FhTk1ZZFkrbG5DeXM0UUNET1pXSWpRVC9Qa0cx?=
+ =?utf-8?B?VGJ0TjZXdWdxd25JdmVZa3pEazgyZFFhK2Z4S2pycFViZ1N1OUNZZnFWay9D?=
+ =?utf-8?B?dzVNdlFvWHpsb0NkMTMwY2NYdUQ0cEVUeHZIa2d2ZVlsL29iRkxrTmcxcXdq?=
+ =?utf-8?B?dXNkWTgxT2tCVGJHTER6ZEoyVlUwY1o4L0JIRFJPa3hiWWFhelFqS20wMThN?=
+ =?utf-8?B?Zmd4ZURaMDUxQm82VGdxeEd2L3VZY1hyUk9RRDlVVk1IUFJRSFpncFhVRmxo?=
+ =?utf-8?B?U1NNOHlHYlBmQnYzWmtzTHhDSGM0YWFnZXVLejhjZWVNZWM3a3ZuMjVqMlFL?=
+ =?utf-8?B?cGNNZmFPRm1BYTAxRGlENFNhYW12SHV2QmxBbFQzTG5pMzhjNnJad2wzTllB?=
+ =?utf-8?B?Tmp4aWVsVThLMEtrNDBmbCtraG54dFpjWjJibGljL0VCcjdaZGM1elFrR3Zw?=
+ =?utf-8?B?MzVrOHFCRE1JcGxoMUk5eFNaeWZCZG1QZ293ZWhPb05iUGd3TkEvMVQwSjdR?=
+ =?utf-8?B?S3pYVzZOTlFNM2xmSGVXendFSDFITW00UmhmcnVzTUJMOUh2Q1BqNGRYV3da?=
+ =?utf-8?B?UHBkRk9jcHVIbnR6bW9XdWRwZUJTL0tzNG9zTkduK2FmOHF2dzFrOEYvd1di?=
+ =?utf-8?B?V0FEL2NIcHRIYVpsUnIvbnNZajNDVXdWU3BidXZYWmxTTGZ5TDMxMTNpM3RO?=
+ =?utf-8?B?UUZQSzIvbExweHllVEYvQU9SaXFwQVU5YXNsOGhwVk9GL1NTdlQ1VkZ5WXUw?=
+ =?utf-8?B?QWFYY2diNE9rRFpXUnUrSE9WOC9MekQzR0xQdHEvWmJMczByWG9kdC9lcG9s?=
+ =?utf-8?B?cW1vaWRNNEE0cVdUaXVveTFyYVlMQWdoa0J0bGtCLy9FcDZMclNNVUhnZUlZ?=
+ =?utf-8?B?Q0pJVUV2V0wvdlNoRlNSY1pGVUs2UmxaZEFXc2VOUEtyekp2NHFwOS8rSmZn?=
+ =?utf-8?B?a3IxS21MSktxVk9jc2NpK3Fnbm5xUW5vTk9IVmVVRmJkc3BJck1WOEM3VUJr?=
+ =?utf-8?B?TncyV3RxKzlZN0tnSXVJVEdmcXE0L1g0ZWRvNVNOcjVOcmZnTXF6WHI4UzJS?=
+ =?utf-8?B?REdPeWRLcDdYamt1M0g3R2MvS0g5ZU1CbW9UVk1uN3RSQkxidlM3R0JnWDBx?=
+ =?utf-8?B?QUpjTHliM21VSDRCSGU2L0RxdzBWTjRKQzRVVkl4Q3RqREUrREJmMm5lbnpG?=
+ =?utf-8?B?bUtZcEZKd1dZM0ZDUlpwelN6N1crRnRoUEdXSG5GYWhDTHFyUGNUY1Mxa2pW?=
+ =?utf-8?B?SFNVNHB2ci9wQ3lBQ1M5elcrZVZWWWtjeWY4VmFOU2lyK001ZkNWMDFEbmNI?=
+ =?utf-8?B?T01kV28yTXBFMTduN0JRVEZGZ2hnWFVGQzU0QmhMQ3NiQWpkeTNKakdTZk5x?=
+ =?utf-8?B?cEZCYmhVUkN5eUxyK2pUWWs5WFdvQnEyUVlHVklYVDZuMUlhNFZCall4Yjdq?=
+ =?utf-8?B?aStBWC8xUldUS3J4cHY2cUlxWG5vUUJUREZGQnI1Y3lMSjFoQVNKMzBsUFYv?=
+ =?utf-8?Q?Qgw9x9XYBy+H201PSQyzCI8+YY76vKV3iMfSh82wG2aM=3D?=
 X-Forefront-Antispam-Report: 
-	CIP:195.60.68.100;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.axis.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(376005)(1800799015)(36860700004)(82310400014);DIR:OUT;SFP:1101;
-X-OriginatorOrg: axis.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Apr 2024 08:34:41.5773
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB5009.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(376005)(366007);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?OXo5SndJQldTOVh6Vjk0M3lSRnRvcE9TWmFYbkZyWTZKL1d5cWpQZXIvZnRw?=
+ =?utf-8?B?QnVjQW10WE9ISFVsSHRtZnN5WTRLTlJjT0J1Y1lmMWtFb0dzM1dTemp4Z3dJ?=
+ =?utf-8?B?OWxTdGZWOVpRbzJsQ25kOUxxYkppMktQV0drcEc0L2hDZHY4YkpET1ltSjJE?=
+ =?utf-8?B?Z2JJaW5KR2sxNlVJRHVNYUd1MUNqUGFoRkN2QUN5ZVRjTTBKK01UU0x1WFRD?=
+ =?utf-8?B?Rm80R0Zoa2VEUEx0VkRjUWRTMGg4dmpTWW5iNCtWU2RseXBTSEw3V3pnOW1h?=
+ =?utf-8?B?YlRoSzhkcW9TYTNSd1dUbitPaElISzJlRzV0R3JmWFNwOG0rK0hsS2l6dGor?=
+ =?utf-8?B?OFNrUDZQZ3Q3QlhYOUc0cnRtamQrdUo5UW1FTmpuN1FuT21FNWxFalY4S3Np?=
+ =?utf-8?B?S29xSnRIazhMU09UMnptY1J1WEJPNkVJckhWcnRjTVdZZHh6WktJTzN2N2hU?=
+ =?utf-8?B?Tkd2dkk2TUFxbW5yYVlmLy9aaHZBMm4zR0tMRGFSQUhDaW9udDVUTEI0OEJz?=
+ =?utf-8?B?VkFXQUcvSG9HcWdtbjBjZW9xOCtLbDZiWkExLzh4WlgxR3JuRGZZK3p4QjZi?=
+ =?utf-8?B?MEdvc3lIck1FeTFVMVVTa3RzcmNSWjErN0tQQ21OKy94WGN3QUVxYmkwNzN4?=
+ =?utf-8?B?MTRvbU5tZFUyVEJPYW5DbTZWbWcvNHMxb1N0UmZlb2ViVStjbGUvSCtRREtO?=
+ =?utf-8?B?VGp2VXVUOXNxTzZRWGRQb3pVbm1jUHRha0UxT0xrUHRqRWxyd0tPRWJKb3gy?=
+ =?utf-8?B?Y0l3eEE0N0RoSkNVQzNFSnRkZmFrbWhSazhWZHdZUDJNSTdZTk5NVTBFaEZu?=
+ =?utf-8?B?Tk1tU0RkNkFTTVlJSHFtTy9URW9tN2JnQ2p6QVlxZFltcmhZN0g0YS94aHlX?=
+ =?utf-8?B?ZCtOTnh0MGUrbG5mUXA4Ykc2c2duTEc1b3N6M2VHeW4xNVZzOGlYYUpaV2hs?=
+ =?utf-8?B?SW5kRkdTM1VsbG16QmI2VkJyZGJQcmRXNHB2S3J2blJNZFh6QlduZVZ0TXdW?=
+ =?utf-8?B?T1UxTnZxUWFwOHNuK29OVHl5Y3ZKWjBEcXJEeTNJdFNlcE1acE03NkhTb3h4?=
+ =?utf-8?B?UUtBZ0ZOV2gxclFpMmVnRVB0aEFoTG8yenk2emN0ci8vVERydFJvaGxwVyt3?=
+ =?utf-8?B?MVU3VXVqY2pZQWMyalVjV3V1R1QvNmcyeUdQYjQya3A2dVJqVlQvSFVaRjRV?=
+ =?utf-8?B?R3NBVDdiaTc0Yis1ZWt1dTQydkVMZmM3dEZOZzFhYTRUWlFGTGMwN0dRejZM?=
+ =?utf-8?B?NkttclM2WkZrV1hid0k5V2Y2U0JxREtLL0M2eUNGRnBqeGRzZWU1MnpHZzBI?=
+ =?utf-8?B?QklXU1E0bU1ZL1p3bjFXZjFOdXhwZFJ5S0ZpSmZXdm1aZVhXa2dVM1RLNzVD?=
+ =?utf-8?B?TUlkT0pmdjVmYnFkdGhJQUtlNStvaVNzNHFMT1p2RlhOakUyaTJ1emZlMUpR?=
+ =?utf-8?B?ZE1PaTZPSVBBS3NvWlZIL0tsd2x3TGcrMVFRMFVhdzY4ZHRUQzhHZWx5MGFW?=
+ =?utf-8?B?WjNPZWYwWlhuc3lGOGswcmtwbnJWTWRVY3hRNFhRZWZ5dHpIMktScVNsNnpq?=
+ =?utf-8?B?TnJ0bXVHMmhtMzVPNkNLcytaR2MxTEpJR1oydSs1ZEM0MGh5bXZ4Slhpb3dw?=
+ =?utf-8?B?bWw1YjY2RmtzeENxeWJ2UlNPcTYvOXgwSGFkWU1qak5ERUxsUzNrSmNic0gw?=
+ =?utf-8?B?WkM4MHdZaUg4YmxsYXZjU00weHZwS0FmNEs5UlhOdUl1dEJITnRzSWczQzdT?=
+ =?utf-8?B?RW5ldFNaUEQwTzBQODBqUTljWERJN01mc2JLcjRwd0lwNFpLTFI4cUhKbjRj?=
+ =?utf-8?B?VzhCSTRvcTU0YkJDTjRsYXFLYVVwclprcGc5dU5RRTBwMDg1NndJYlRrS09N?=
+ =?utf-8?B?VVBMcXhxTzN3c2M0M3pVQ0tLbEdleUUxeVFjcTJnSHVnbEljSmdLUzY2eTZn?=
+ =?utf-8?B?Y0ZjUzlXUHRjOC8vaXFQWFFTTmlpSEt2WXFGM3h6UUR6RDVJQ0dUUjh0am52?=
+ =?utf-8?B?T3ljUlZuaFZVKzRTd2p0NlE2dWtZQmVCSmw1ZDBPZ0krckhnZmxiR3dQdXJW?=
+ =?utf-8?B?ZHk3dEE3cTVjek56MHl6T2Vwb2dReWxQQ1BQNlRwekNmYzZoZFAzTnM1N1VB?=
+ =?utf-8?Q?Rjsk7wrvmVu0KOZ6xCoxEygDE?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f3095562-b177-460f-0093-08dc643ca06a
+X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB5009.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Apr 2024 08:57:53.4469
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: a51ff88a-9661-4f74-226e-08dc643962fa
-X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=78703d3c-b907-432f-b066-88f7af9ca3af;Ip=[195.60.68.100];Helo=[mail.axis.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	AMS1EPF00000047.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR02MB7043
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: LFBYPtC8NglgDdmvclr39Qt1nZWHUtUZadwKD0MsnQzolGt0yaE/y1V2RhIcPK5A6UckjYogPSwYLf/vFekOrA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR11MB8086
+X-Proofpoint-ORIG-GUID: n1tR_Zojep9Ld20fVHcKuykUh4s9vAep
+X-Proofpoint-GUID: n1tR_Zojep9Ld20fVHcKuykUh4s9vAep
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.650,FMLib:17.11.176.26
+ definitions=2024-04-24_06,2024-04-23_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0 mlxscore=0
+ phishscore=0 spamscore=0 malwarescore=0 mlxlogscore=999 impostorscore=0
+ bulkscore=0 priorityscore=1501 suspectscore=0 clxscore=1011 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2404010003
+ definitions=main-2404240038
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Wed, 24 Apr 2024 08:34:53 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8699
+ <meta-virtualization@lists.yoctoproject.org>; Wed, 24 Apr 2024 08:58:05 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8700
 
-From: Ola x Nilsson <olani@axis.com>
+The ptest fails as below:
 
-Signed-off-by: Ola x Nilsson <olani@axis.com>
----
- recipes-extended/diod/diod_1.0.24.bb          |   1 +
- ...ous-time_t-sizes-in-printf-and-scanf.patch | 100 ++++++++++++++++++
- 2 files changed, 101 insertions(+)
- create mode 100644 recipes-extended/diod/files/0002-Handle-various-time_t-=
-sizes-in-printf-and-scanf.patch
+# ./run-ptest
+/tmp/bats-run-ELGGaA/bats.18820.src: line 5: To: command not found
+1..1
+not ok 1 bats-gather-tests
+# (in test file test/README.md, line 5)
+#   `To run the tests locally in your sandbox, you can use one of these 
+methods:' failed with status 127
 
-diff --git a/recipes-extended/diod/diod_1.0.24.bb b/recipes-extended/diod/d=
-iod_1.0.24.bb
-index 5e191dc0..6019fbfb 100644
---- a/recipes-extended/diod/diod_1.0.24.bb
-+++ b/recipes-extended/diod/diod_1.0.24.bb
-@@ -14,6 +14,7 @@ SRC_URI =3D "git://github.com/chaos/diod.git;protocol=3Dh=
-ttps;branch=3Dmaster \
-            file://diod \
-            file://diod.conf \
-            file://0001-build-Find-lua-with-pkg-config.patch \
-+           file://0002-Handle-various-time_t-sizes-in-printf-and-scanf.pat=
-ch \
-            "
- DEPENDS =3D "libcap ncurses tcp-wrappers lua"
-=20
-diff --git a/recipes-extended/diod/files/0002-Handle-various-time_t-sizes-i=
-n-printf-and-scanf.patch b/recipes-extended/diod/files/0002-Handle-various-=
-time_t-sizes-in-printf-and-scanf.patch
-new file mode 100644
-index 00000000..3c13c101
---- /dev/null
-+++ b/recipes-extended/diod/files/0002-Handle-various-time_t-sizes-in-print=
-f-and-scanf.patch
-@@ -0,0 +1,100 @@
-+From 04b0c5a5cb9e32090b177ff7327ad3260783abe0 Mon Sep 17 00:00:00 2001
-+From: Ola x Nilsson <olani@axis.com>
-+Date: Mon, 15 Apr 2024 17:31:44 +0200
-+Subject: [PATCH] Handle various time_t sizes in printf and scanf
-+
-+The members of the timeval struct are both signed (defined by POSIX)
-+and typically both 64 bits on a system where time_t is 64 bits.  This
-+is possible also on 32 bit systems where time_t is larger to handle
-+the 2038 problem.
-+
-+It's practically impossible to find a type and printf format that
-+works even on all glibc systems.  Play it safe and always use printf
-+with intmax_t and explict int64_t variables for scanf.
-+
-+Upstream-Status: Submitted [https://github.com/chaos/diod/pull/100]
-+Signed-off-by: Ola x Nilsson <olani@axis.com>
-+---
-+ libnpfs/conn.c   | 5 +++--
-+ libnpfs/ctl.c    | 7 ++++---
-+ utils/dioddate.c | 8 +++++++-
-+ 3 files changed, 14 insertions(+), 6 deletions(-)
-+
-+diff --git a/libnpfs/conn.c b/libnpfs/conn.c
-+index 6e85fff..c34c840 100644
-+--- a/libnpfs/conn.c
-++++ b/libnpfs/conn.c
-+@@ -16,6 +16,7 @@
-+ #include <stdio.h>
-+ #include <string.h>
-+ #include <stdint.h>
-++#include <inttypes.h>
-+ #include <stdarg.h>
-+ #include <errno.h>
-+ #include <pthread.h>
-+@@ -133,8 +134,8 @@ _debug_trace (Npsrv *srv, Npfcall *fc)
-+ 				(void)gettimeofday(&b, NULL);
-+ 			(void)gettimeofday(&a, NULL);
-+ 			timersub(&a, &b, &c);
-+-			np_logmsg(srv, "[%lu.%-3lu] %s",
-+-				  c.tv_sec, c.tv_usec/1000, s);
-++			np_logmsg(srv, "[%"PRIdMAX".%-3"PRIdMAX"] %s",
-++				  (intmax_t)c.tv_sec, (intmax_t)c.tv_usec/1000, s);
-+ 		} else
-+ 			np_logmsg(srv, "%s", s);
-+ 	}
-+diff --git a/libnpfs/ctl.c b/libnpfs/ctl.c
-+index f40cde4..317a22e 100644
-+--- a/libnpfs/ctl.c
-++++ b/libnpfs/ctl.c
-+@@ -16,6 +16,7 @@
-+ #include <stdio.h>
-+ #include <string.h>
-+ #include <stdint.h>
-++#include <inttypes.h>
-+ #include <stdarg.h>
-+ #include <pthread.h>
-+ #include <errno.h>
-+@@ -291,9 +292,9 @@ _ctl_get_date (char *name, void *a)
-+ 		np_uerror (errno);
-+ 		goto error;
-+ 	}
-+-	if (aspf (&s, &len, "%lu.%lu %d.%d\n",
-+-					tv.tv_sec,         tv.tv_usec,
-+-					tz.tz_minuteswest, tz.tz_dsttime) < 0) {
-++	if (aspf (&s, &len, "%"PRIdMAX".%"PRIdMAX" %d.%d\n",
-++					(uintmax_t)tv.tv_sec, (uintmax_t)tv.tv_usec,
-++					tz.tz_minuteswest,    tz.tz_dsttime) < 0) {
-+ 		np_uerror (ENOMEM);
-+ 		goto error;
-+ 	}
-+diff --git a/utils/dioddate.c b/utils/dioddate.c
-+index bde002f..f392792 100644
-+--- a/utils/dioddate.c
-++++ b/utils/dioddate.c
-+@@ -21,6 +21,7 @@
-+ #include <unistd.h>
-+ #include <stdlib.h>
-+ #include <stdint.h>
-++#include <inttypes.h>
-+ #include <stdarg.h>
-+ #include <stdio.h>
-+ #if HAVE_GETOPT_H
-+@@ -142,11 +143,16 @@ main (int argc, char *argv[])
-+         errn (np_rerror (), "error reading date");
-+         goto done;
-+     }
-+-    if (sscanf (buf, "%lu.%lu %d.%d", &tv.tv_sec, &tv.tv_usec,
-++
-++    int64_t sec =3D 0, usec =3D 0;
-++    if (sscanf (buf, "%"SCNd64".%"SCNd64" %d.%d", &sec, &usec,
-+                                     &tz.tz_minuteswest, &tz.tz_dsttime) !=
-=3D 4) {
-+         msg ("error scanning returned date: %s", buf);
-+         goto done;
-+     }
-++    tv.tv_sec =3D sec;
-++    tv.tv_usec =3D usec;
-++
-+     if (Sopt) {
-+         if (settimeofday (&tv, &tz) < 0)
-+             err_exit ("settimeofday");
---=20
-2.39.2
+Thanks,
 
+On 8/25/23 22:51, patrick@subset.ch wrote:
+> CAUTION: This email comes from a non Wind River email account!
+> Do not click links or open attachments unless you recognize the sender and know the content is safe.
+> 
+> From: Patrick Wicki <patrick.wicki@siemens.com>
+> 
+> Skip the plugin tests that were introduced in 1.6.0 and lead to ptest
+> failure.
+> 
+> Signed-off-by: Patrick Wicki <patrick.wicki@siemens.com>
+> ---
+>   recipes-containers/netavark/files/run-ptest | 7 ++++++-
+>   1 file changed, 6 insertions(+), 1 deletion(-)
+> 
+> diff --git a/recipes-containers/netavark/files/run-ptest b/recipes-containers/netavark/files/run-ptest
+> index 41a37dce..7e017ae2 100644
+> --- a/recipes-containers/netavark/files/run-ptest
+> +++ b/recipes-containers/netavark/files/run-ptest
+> @@ -1,3 +1,8 @@
+>   #!/bin/bash
+> 
+> -NETAVARK=/usr/libexec/podman/netavark bats ./test/
+> +shopt -s extglob
+> +
+> +# Skip the plugin tests because those example plugins are built only while
+> +# running cargo test and for this to work as a ptest they would need to be cross
+> +# compiled and installed as part of the ptest.
+> +NETAVARK=/usr/libexec/podman/netavark bats test/!(*-plugin.bats)
+> --
+> 2.41.0
+> 
+> 
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#8232): https://lists.yoctoproject.org/g/meta-virtualization/message/8232
+> Mute This Topic: https://lists.yoctoproject.org/mt/100956965/3618448
+> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [mingli.yu@eng.windriver.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
