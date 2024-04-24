@@ -2,22 +2,22 @@ Return-Path: <ola.x.nilsson@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C6D5CC07E8E
-	for <webhook@archiver.kernel.org>; Wed, 24 Apr 2024 08:34:13 +0000 (UTC)
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com (EUR05-VI1-obe.outbound.protection.outlook.com [40.107.21.61])
- by mx.groups.io with SMTP id smtpd.web11.11632.1713947643819351273
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B44FDC41513
+	for <webhook@archiver.kernel.org>; Wed, 24 Apr 2024 08:34:53 +0000 (UTC)
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com (EUR05-AM6-obe.outbound.protection.outlook.com [40.107.22.79])
+ by mx.groups.io with SMTP id smtpd.web11.11636.1713947686093334973
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 24 Apr 2024 01:34:04 -0700
+ Wed, 24 Apr 2024 01:34:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@axis.com header.s=selector1 header.b=WuUJnF8W;
- spf=pass (domain: axis.com, ip: 40.107.21.61, mailfrom: ola.x.nilsson@axis.com)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@axis.com header.s=selector1 header.b=CvrzuOjD;
+ spf=pass (domain: axis.com, ip: 40.107.22.79, mailfrom: ola.x.nilsson@axis.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=B6G5DMoz+t+w+w208B33Ouo6WDlRyNCqbg3tlxYsvY7Fk+NjVKGPP6LY2Cp4FU4hNAWIygzZ/sJfj4OKcgaP1eQ40V5ZmnuMZ3b9X3wjba4Y9BkgBZzeGSOi0apWkelKPz+KwoHIZ/Lxg+mLxIKMlUJlvq4FuJBWKE65OkMTlZBBRizk770zrstEKmMTfPz3Ic2uX+7J0FBGcCbO2s7iujabIm9TZ1r86+0Cka2VRGVy92WX8ozu7XOgGvdUVc0u1AKeTEQyyGIyrmEBg3ZVQIdqeGqXH2QfVQIP2kRAiuhEaHH3pixe6OAzkBriYbiSSw3J653vWpxl/nPlFkn6Fg==
+ b=LIw1Tn483VCi3q0EJOb7ne5XpKZxqVFUlZ/h0SAob9yvXdJJHevbumjSw0ADD9w4KCjkplePWgQ6fnCM7s49WPm2dJ8f/oKujGSGVGw/8gUdJjXwyU3s6PHvCCUbKJD9FmCvUGUT4V9eVx5cs+shlc5ta1WWByXyW3KF1fLYutfwWn5kea0D3DD3SRHVDIpkYR8RhCHEtNJ4cidr7Q2MfIvUXAVzOA2ngohN2oekINsw3Zbh9K/w7TUTK2vGjami/2iauwfTHM5uMowQnehFZaOWFoBwD2iB9no9lPue+T2/Hx42nw3ovb66qLTRXJLdIXuXIgfpCK4JBDNH8j+OOw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
  bh=y/z29p81w8qe+vogII3CW3lyrnzgvpy9G4q3XcV8qb0=;
- b=SHVI53EpGvYpaFck6db33oeGZWdGRztgQKHzyfvTeIZqCKHQCmbwmuWrQosGiUf3hpM66Dzi7jPHMYgnWgsYjamnqnG2t1Y2njc8sc3DWnzWtAD6LtTXMd+hIoed6UoHRgLC2i9kXI0cKGPLPSb7MqWVFffaIuu+8Bmh86gA/hw7fqNAQSce2H/i/WBIqCJNy4PS0dgg8W9hwFQ4Mn4bzJo18YeKz9H+N58Y49ZrjAC9gJe2ANWUCeptHlPJ1jg/ZFVFFlHFltnDFrFasoVCeA8nq/RJMP4hV3CAus3P2gl+XEYXd+2mVLjMj4LFVufW4mhtsx3ZP4rwW5xMpg04Zw==
+ b=TH1dNtUdaf4xuYAgK5MPD7aKGEFcO+8cyOKVX/EXpRL58J2ElUC6B0LzAQmJOJOyjNrCNiTIY89fnzedYpQlXxMPJcM8uZdNa1ZAdfgUpunIqUefDdoV5f/BAfG2UT3GqLCiAhKLxgTXCl2PNHouvoLp+yI2Q9dPPXtWEqSphlITM4Qc2+BvHx9S4nlQYgBfEVdqjdNnMFlT45RrvtoxnOqGrkZAUpGBcBfkollMgTsyuHdUYU+y2mNLhK0cxAA3Kms90qA/m5PxUVwom/3tqg0FR+/Eh4XaRMNjb87jfI74grHhpsY++vAX7upRUtc3oXV5JlOiJARu7uObRPEgfw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  195.60.68.100) smtp.rcpttodomain=lists.yoctoproject.org
  smtp.mailfrom=axis.com; dmarc=pass (p=none sp=none pct=100) action=none
@@ -25,17 +25,17 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
  bh=y/z29p81w8qe+vogII3CW3lyrnzgvpy9G4q3XcV8qb0=;
- b=WuUJnF8Wn+J8K591ACQWr4UVLfplaby6LRBXZfRWH7xLTRhG8O7MH2TClKSgkdTg8fHqPJPkOu8/k9rv2pJmpMYaSFtgEMJ4zJcLhHSHIrSF5K64vGmGdiofvdl+soy5vTwNb313LhSVXNoUUeA5BY9cBWCi4JMHViRo7l8OdRg=
-Received: from AS9PR06CA0391.eurprd06.prod.outlook.com (2603:10a6:20b:461::13)
- by DB9PR02MB9754.eurprd02.prod.outlook.com (2603:10a6:10:452::5) with
+ b=CvrzuOjDtjUfiTrRHDPkCgRcROgY/Urv/aV0NPdLZleJKFYs0+ReDMART5DqADSFRvFvdhru8JgSJfG18lWGxYthnSoTQohTlxtXx6gA/VGDlSCYiPTzUi4teIO45NsZTzDhrOaIYi7p2/GW2n907dxylHO3IFfJWzTqppigP6E=
+Received: from AS8PR04CA0144.eurprd04.prod.outlook.com (2603:10a6:20b:127::29)
+ by AM9PR02MB7043.eurprd02.prod.outlook.com (2603:10a6:20b:264::13) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7519.22; Wed, 24 Apr
- 2024 08:33:57 +0000
-Received: from AMS1EPF00000049.eurprd04.prod.outlook.com
- (2603:10a6:20b:461:cafe::4a) by AS9PR06CA0391.outlook.office365.com
- (2603:10a6:20b:461::13) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7495.32 via Frontend
- Transport; Wed, 24 Apr 2024 08:33:57 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7472.44; Wed, 24 Apr
+ 2024 08:34:42 +0000
+Received: from AMS1EPF00000047.eurprd04.prod.outlook.com
+ (2603:10a6:20b:127:cafe::c6) by AS8PR04CA0144.outlook.office365.com
+ (2603:10a6:20b:127::29) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7495.34 via Frontend
+ Transport; Wed, 24 Apr 2024 08:34:42 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 195.60.68.100)
  smtp.mailfrom=axis.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=axis.com;
@@ -43,81 +43,80 @@ Received-SPF: Pass (protection.outlook.com: domain of axis.com designates
  195.60.68.100 as permitted sender) receiver=protection.outlook.com;
  client-ip=195.60.68.100; helo=mail.axis.com; pr=C
 Received: from mail.axis.com (195.60.68.100) by
- AMS1EPF00000049.mail.protection.outlook.com (10.167.16.133) with Microsoft
+ AMS1EPF00000047.mail.protection.outlook.com (10.167.16.135) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7519.19 via Frontend Transport; Wed, 24 Apr 2024 08:33:57 +0000
+ 15.20.7519.19 via Frontend Transport; Wed, 24 Apr 2024 08:34:41 +0000
 Received: from se-mail01w.axis.com (10.20.40.7) by se-mail02w.axis.com
  (10.20.40.8) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Wed, 24 Apr
- 2024 10:33:56 +0200
+ 2024 10:34:41 +0200
 Received: from se-intmail01x.se.axis.com (10.0.5.60) by se-mail01w.axis.com
  (10.20.40.7) with Microsoft SMTP Server id 15.1.2375.34 via Frontend
- Transport; Wed, 24 Apr 2024 10:33:56 +0200
+ Transport; Wed, 24 Apr 2024 10:34:41 +0200
 Received: from pc58073-2410.se.axis.com (pc58073-2410.se.axis.com [10.88.67.1])
-	by se-intmail01x.se.axis.com (Postfix) with ESMTP id B059F2170
-	for <meta-virtualization@lists.yoctoproject.org>; Wed, 24 Apr 2024 10:33:56 +0200 (CEST)
+	by se-intmail01x.se.axis.com (Postfix) with ESMTP id 264122170
+	for <meta-virtualization@lists.yoctoproject.org>; Wed, 24 Apr 2024 10:34:41 +0200 (CEST)
 Received: by pc58073-2410.se.axis.com (Postfix, from userid 20853)
-	id 1A68E410ECF9; Wed, 24 Apr 2024 10:34:24 +0200 (CEST)
+	id 8533B410ECF9; Wed, 24 Apr 2024 10:35:08 +0200 (CEST)
 From: <olani@axis.com>
 To: <meta-virtualization@lists.yoctoproject.org>
-Subject: [meta-virtualization][PATCH] diod: Build in 32bit systems with 64bit time_t
-Date: Wed, 24 Apr 2024 10:34:24 +0200
-Message-ID: <20240424083424.823829-1-olani@axis.com>
+Subject: [meta-virtualization][PATCH v3] diod: Build in 32bit systems with 64bit time_t
+Date: Wed, 24 Apr 2024 10:35:08 +0200
+Message-ID: <20240424083508.824061-1-olani@axis.com>
 X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AMS1EPF00000049:EE_|DB9PR02MB9754:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2fe2dc2c-9bf1-4834-7c0b-08dc64394874
+X-MS-TrafficTypeDiagnostic: AMS1EPF00000047:EE_|AM9PR02MB7043:EE_
+X-MS-Office365-Filtering-Correlation-Id: a51ff88a-9661-4f74-226e-08dc643962fa
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230031|36860700004|1800799015|82310400014|376005;
+X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?bDzTZPcF2EkrG9tmuL+UOWcCmT3K0qyO6f13slcZzTq/ZFRGCvYqP9e/ifEK?=
- =?us-ascii?Q?KLbuIjNtFz+c/ik2XK9AhTZ4i/eOuMib/i+fLg6V/lpN2guE/bz7bfSeHavF?=
- =?us-ascii?Q?K8GbyGjbsfQdVxeRmU2+pft1hmGMO6QaySgAYIpXvcFgK0FdkSHnU8evHMHX?=
- =?us-ascii?Q?Sdv494WZW86hJZtIWGH4/4qY1uy82msfBMWjG+J4zN/dotPeumry3jXiCgrN?=
- =?us-ascii?Q?b/mrR34wEk0xjmiuKzGSE6hX7m2LtofzhA9CTTK3L7AGgBLBeTkDBF+Mpjhj?=
- =?us-ascii?Q?zdJDF8lUEBInF3Zv3+QVp89qGmZS5sqMqLQH+8k4O2xyeMO55CfsgPJfK6EN?=
- =?us-ascii?Q?PLvgaIyHfH4GMf5jTrHOA9zShpConPEBjOhZmVM/yrySWNdjuTndEmO40jzX?=
- =?us-ascii?Q?hdS5xDPF4dcR0HP2mm8RWpgZNCMkFhuhDBfjewf8GAQEf/nXHzo8xyUVEEfr?=
- =?us-ascii?Q?lRQRxHMFUc9PqkyTZeBckuDU3yGI+P8YVgyq91dQb8VTlKnhqkHl0ChP3vJk?=
- =?us-ascii?Q?7pL57BWv9kpVeoc0q49LqNzIyY4ZgY0budIWnog6Zq8ny/aj89iMgWm3ZiWq?=
- =?us-ascii?Q?Uo1p22TyINcYw1i0HKF/DJkolCPEh2W/v7lhndJ9Uaipmn4e6rLbI1NoJpqu?=
- =?us-ascii?Q?p6fQEy61p4Tp93rrdMLt5MMzpl1nHvOhKocjoLLOTAmhOm5pHygJejIXB/mr?=
- =?us-ascii?Q?DArGW3zpg80GfQ/FE1GTWNKKaBPI6trIlR7e7Z0LjsGTuwQgLktahLxmbpFz?=
- =?us-ascii?Q?hDbDjYmgL8Bu2pcNOO3qMAyWR5i8Yhe7wH/LaF/3lp1ymW5qyKIInYXyXA+8?=
- =?us-ascii?Q?CZ5y9bvE5fq/J05kfLQ/w2a8x+2YrsWgaoE9FzVRr79Bq7z3ru3yiPvfHEV7?=
- =?us-ascii?Q?1FSeiXnax9zUjJWWjfCNL/94gUVwIsNgf1TbX6Q9HTCHpjYHlKM8Vz/Nxekg?=
- =?us-ascii?Q?PY6oKD4PoyIeDF8QKrFbs1PKl8MvK1VAYL7lJtMz4dTLx1DNhPzRP5n4S7kj?=
- =?us-ascii?Q?cKAFJHb+Er70o062qMnyTDT9mS/2kormMB2ZzUvLgckTX4L2dnPduX5qccZx?=
- =?us-ascii?Q?QTnhPH9ATelpHrf9bjYhl1J1GNsdqShq41SMrJL4aU9d03mUZ8NO2f/YADWx?=
- =?us-ascii?Q?lR2aykr412TA3ahSaVKWz/+JN7KElx7zjggiUfCTBMjAEnazUq4jN77uAttT?=
- =?us-ascii?Q?ZH0wxoFzxmEh/zkMrbewV58a4d7eKvMqTStXdzN61NhjgyMED9txqpaRRGQH?=
- =?us-ascii?Q?SveKdToZz6Iq5M9VJ94l1DPUV12jFb07QaihFX94ZM6hSzJL8+l2q/TdcCZD?=
- =?us-ascii?Q?vJC75vFHHzp7cb3IoGwgtKYXQPdqOlXmfVS6Pmp35jjqHOf3U5JN/bP8QZEX?=
- =?us-ascii?Q?2d7DNUffm0MQ3JdacrrYyHrsvkow?=
+	=?us-ascii?Q?K+/P0kM8nYYgUOAQz4NuGuZGp0pXLq2fCnXdS8gH+OoFGUmU1eDEyut/7Pig?=
+ =?us-ascii?Q?YAbb3WBF7l/nRARVqCoRQ86P8PyQvuIH02leKzIlVndga9A7DrF6cvsNgD+2?=
+ =?us-ascii?Q?q3aEQPYH362eZp4mIqlIH8XOv/R/vshXGF091sM45rhYRwvukzIm1B1taafo?=
+ =?us-ascii?Q?ZIRrKHHoy5f4yy+9nIw0FgHW8BZauhXyEk+V46MBHMq8f1XCpVD9iBrz3kO2?=
+ =?us-ascii?Q?j59y+bZE4kVzMDNDH3uCIkbANmBby3WZsv4mC7csUt74c00u0/cLq/we6ESQ?=
+ =?us-ascii?Q?CltgcOiudUwFIPcEafJRBKSUg58aE0y/hqEMapq8TAQfuz8PrOLOGDG2iRIk?=
+ =?us-ascii?Q?2zt5+LNrXVg9M/V4IXYFZCrS3joDbOPhU+DjoE2iMZOzcNwHZsBBtzeq4mxd?=
+ =?us-ascii?Q?kaI9K4jDQqpp/dXbp3zpaOeu0EQdh3ZwCbZhz/R7RGyTEkoipJShpDGQpJA8?=
+ =?us-ascii?Q?YDE0vvjjwcbp83rpHToNvscouf9jPb1tIs1ngbbUxex/QKEk8JFBRPqcO3sG?=
+ =?us-ascii?Q?+bf4dXnlvDs2noo9SE8I+Bd9oANIcuLrpO7YeSstHyZCchAbcYYQqQkYFoHP?=
+ =?us-ascii?Q?6zvRSRAiCOHGOF139u9WWMF/9I6UC7H36TSjhTDoX4r6+bwbdVRmygqGyzPt?=
+ =?us-ascii?Q?fAqJj7Xl4zEm08n/sufy7EaF64bn2NZ3jSm5BhV7/mm0w51OfZ/7P+SyRqDu?=
+ =?us-ascii?Q?eKx3rYkn5FwqKnMS3oPcXME+wGatZ/gmMQ7P6GbMzIi1/nynn3+frLf5ckqs?=
+ =?us-ascii?Q?aHFPgIgnMn+UMHE2GJrVPp7h818ZIXxT17UZ3mJ+Rj1jeuGJ8WE8+V3hul9X?=
+ =?us-ascii?Q?lDe5ZjagoHyW7P2qftVZDW2YNdJ++0TZEk6ZKfgMO0qVcmr6HVLXgJ5QF5Ut?=
+ =?us-ascii?Q?DEvr+5nQwG+iGLy1YNjarNFRCVZvAmv89gNzK/bybOtVB7NfLSQX8Q0iPtil?=
+ =?us-ascii?Q?8mRMYbg81jr/BT2PtJ5WfRWCFJoVcAP+Z1KFkc4mcZFNU8DX90OK08apAeO9?=
+ =?us-ascii?Q?0tx6cgd3yOMRMqNNXz31+E2oKi7UWvGc8HG93Ah47cQy763tXTEd0kS6LIGX?=
+ =?us-ascii?Q?wQqpCiqxj13qA1VFPENtrXmKrmhk8Ex5Du9iP0iQnQwe7/rpifI3AKDknHIe?=
+ =?us-ascii?Q?BgjrIr/f1gpBZ/v8uL+0SshT7kcxqc5c/tH7JQbMLZlm/cnlXxzWB+/0URuo?=
+ =?us-ascii?Q?Cj+mqgPb4ZmIvoXZOkiMUCVQXn4D6OE+0UZTZkjKHQgtjrV06i6WPS/omRc4?=
+ =?us-ascii?Q?RDjPk3ps7LISDKUIImCZ2E7uqbAyy1Is0pJG8+/8bSXkvhlX+s5KWqD9EgPd?=
+ =?us-ascii?Q?1Qq4T9O7R8x1c9yTLd0YZd0p6uNeCOOID6AeKc9GM/uIf3nEighCCSCFdMEg?=
+ =?us-ascii?Q?oa4P9oqf0Jb3Eug5iOOW18rUtI0y?=
 X-Forefront-Antispam-Report: 
-	CIP:195.60.68.100;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.axis.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(36860700004)(1800799015)(82310400014)(376005);DIR:OUT;SFP:1101;
+	CIP:195.60.68.100;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.axis.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(376005)(1800799015)(36860700004)(82310400014);DIR:OUT;SFP:1101;
 X-OriginatorOrg: axis.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Apr 2024 08:33:57.0806
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Apr 2024 08:34:41.5773
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2fe2dc2c-9bf1-4834-7c0b-08dc64394874
+X-MS-Exchange-CrossTenant-Network-Message-Id: a51ff88a-9661-4f74-226e-08dc643962fa
 X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=78703d3c-b907-432f-b066-88f7af9ca3af;Ip=[195.60.68.100];Helo=[mail.axis.com]
 X-MS-Exchange-CrossTenant-AuthSource: 
-	AMS1EPF00000049.eurprd04.prod.outlook.com
+	AMS1EPF00000047.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR02MB9754
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR02MB7043
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Wed, 24 Apr 2024 08:34:13 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8698
+ <meta-virtualization@lists.yoctoproject.org>; Wed, 24 Apr 2024 08:34:53 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8699
 
 From: Ola x Nilsson <olani@axis.com>
 
