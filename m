@@ -1,214 +1,93 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <mingli.yu@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0B61C10F15
-	for <webhook@archiver.kernel.org>; Thu, 25 Apr 2024 17:52:06 +0000 (UTC)
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
- by mx.groups.io with SMTP id smtpd.web10.23716.1714067517726219385
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35266C4345F
+	for <webhook@archiver.kernel.org>; Mon, 29 Apr 2024 08:57:07 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.15954.1714381021542165315
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 25 Apr 2024 10:51:57 -0700
+ Mon, 29 Apr 2024 01:57:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=JadmdsE/;
- spf=pass (domain: gmail.com, ip: 209.85.160.174, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-434c695ec3dso7233921cf.0
-        for <meta-virtualization@lists.yoctoproject.org>; Thu, 25 Apr 2024 10:51:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714067517; x=1714672317; darn=lists.yoctoproject.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=BzOix1VTjmUNwMkkL/z3Aw5SWb0VfVFXZEO+jWTLD+s=;
-        b=JadmdsE//HQk76kZxYn3LIMUBBBWcaKTLRkmN3YRDUhV7vj8CLbNzGkKu+4hxtBQR+
-         ARNwsiEW7F31HrKgSNrtHt0UFEzUK6oPQNZDkfOxowPyypor3VZIR2Cck1GpwOPja6u+
-         eTbd3TD6TgaU1fgM5te5msiCWioVTVTqex4CxZ49AemJoN3gg2Q00Aa4SlL/Ol3a8Yg/
-         Ds/9dNAsr0NziBnrogxMxox9OTmuhiUVqp72sC+2cU7t6RVAG3wZcXSHLSUlBU00UXKE
-         ohQsT4ee4AWdjyO/RbArnXIRlr7F8m2BZmNoXwl+B5A4H6F2kPqQxi+1LVAHbRiuZP5d
-         eNgg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714067517; x=1714672317;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BzOix1VTjmUNwMkkL/z3Aw5SWb0VfVFXZEO+jWTLD+s=;
-        b=oD/ijyM2E8zHdIcmH0DsGdHzpU9WndVLgitc1SiOuQfXwwP1lFD+A+NHNUFYnaXT94
-         qiahSexx/FceDBmDv/zrirAdiECXGgP0gQ6KJ14JJApUehhfkHEtaGxrV7NjEHtHw6/w
-         uIlXd32FQ5AhuHs+yhU5izM+iCtMH+BqxoTQKAsMlZnakMUitV6nOa0WryFEskzYjSfx
-         abnoSnGHtZik4zCjBCFKFJwyZZa5X3B8AQIIkzDJDNdTcY6jZ5Mlal6T6xAdva4Rf3mw
-         QZgegwnim1ESGVSGVg/h0uHPZxxT8SBCFp26DUtNeQeiMxKoN1auH/mt8g2LTmKe7iHz
-         oO4g==
-X-Gm-Message-State: AOJu0YyLUze5Ueg9wa3tGDIB3BchGTDLGjWWCcyqvGrLr1kV2aNL2aAb
-	Ntty2x+RCp7sj5f/hKvylwKjfOQ4C9tJ2X0mlM4Uk7FCvUGyRXBe
-X-Google-Smtp-Source: AGHT+IGWuvMdiGArFbPC+jyUd7wsU+l8+epJ8ssLztmBqVoXfNUQmFBU/Lz7G3AbQYG7OWtjCxtgcA==
-X-Received: by 2002:a05:622a:1a1b:b0:437:bfea:1f43 with SMTP id f27-20020a05622a1a1b00b00437bfea1f43mr491416qtb.32.1714067516581;
-        Thu, 25 Apr 2024 10:51:56 -0700 (PDT)
-Received: from gmail.com (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id h10-20020ac8138a000000b00439a9319a4fsm4069042qtj.48.2024.04.25.10.51.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Apr 2024 10:51:56 -0700 (PDT)
-Date: Thu, 25 Apr 2024 17:51:54 +0000
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: ola.x.nilsson@axis.com
-Cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [meta-virtualization][PATCH v3] diod: Build in 32bit systems
- with 64bit time_t
-Message-ID: <ZiqYOuvCbmfWKjHZ@gmail.com>
-References: <20240424083508.824061-1-olani@axis.com>
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=Yo42DYM2;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=584906f8e5=mingli.yu@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 43T7CWq4008095
+	for <meta-virtualization@lists.yoctoproject.org>; Mon, 29 Apr 2024 08:57:00 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PPS06212021; bh=EOAMN
+	OllvbHU+pycVvogMxGnzIQfyLbHNr7Cb10fUAw=; b=Yo42DYM2goaeyT/VCaSop
+	T6UbExDVsyuEGkHlBoHZcevT4V8b5QSYd7yRA/Zyy12sLbFcIG0/oDcEGQkw+IUu
+	Ihbdz0iNBgwsW9Pj+UrkuGam/M4jWplyh8Z7NPlh2dhrLar8pSaNn9b7ST7uWE4e
+	M/euk6VXvd/uS6ZGQH3Ucy0ud6AgoSODE+FaLOGMUuiA5HpkFk74xAgpWYfZnv8G
+	IyhivHOT76HBIw55Pez+afJ+iUEVErkbO6B4RM1qjpZX9UF0gB2h4UYCaW9xhUbj
+	knaxXPn2YtQRvlhXQO8INq+5q3FgVf1pRyBm7uteWcBoGz5NNjcQoUv+/DXTmjGa
+	w==
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3xrrb69gha-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <meta-virtualization@lists.yoctoproject.org>; Mon, 29 Apr 2024 08:57:00 +0000 (GMT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.37; Mon, 29 Apr 2024 01:56:59 -0700
+Received: from pek-lpg-core2.wrs.com (128.224.153.41) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.37 via Frontend Transport; Mon, 29 Apr 2024 01:56:58 -0700
+From: <mingli.yu@windriver.com>
+To: <meta-virtualization@lists.yoctoproject.org>
+Subject: [PATCH] ceph: Add the missing Upstream-Status Field
+Date: Mon, 29 Apr 2024 16:56:57 +0800
+Message-ID: <20240429085657.1280729-1-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240424083508.824061-1-olani@axis.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: qH5dbRk7VjccSYTM7qIB3tyRTaBe170Y
+X-Proofpoint-GUID: qH5dbRk7VjccSYTM7qIB3tyRTaBe170Y
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.650,FMLib:17.11.176.26
+ definitions=2024-04-29_06,2024-04-26_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 bulkscore=0
+ mlxlogscore=813 suspectscore=0 phishscore=0 impostorscore=0 spamscore=0
+ clxscore=1015 mlxscore=0 priorityscore=1501 adultscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2404010003 definitions=main-2404290055
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Thu, 25 Apr 2024 17:52:06 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8702
+ <meta-virtualization@lists.yoctoproject.org>; Mon, 29 Apr 2024 08:57:07 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8703
 
-v3 looks good and is now merged to master and scarthgap.
+From: Mingli Yu <mingli.yu@windriver.com>
 
-Bruce
+Fixes:
+  INFO: Traceback (most recent call last):
+    File "/build/layers/oe-core/scripts/lib/checklayer/cases/common.py", line 87, in test_patches_upstream_status
+      self.assertEqual(len(patches), 0 , \
+  AssertionError: 1 != 0 : Found following patches with malformed or missing upstream status:
+/build/layers/meta-virtualization/recipes-extended/ceph/ceph/0001-delete-install-layout-deb.patch
 
-In message: [meta-virtualization][PATCH v3] diod: Build in 32bit systems with 64bit time_t
-on 24/04/2024 Ola x Nilsson via lists.yoctoproject.org wrote:
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+---
+ recipes-extended/ceph/ceph/0001-delete-install-layout-deb.patch | 2 ++
+ 1 file changed, 2 insertions(+)
 
-> From: Ola x Nilsson <olani@axis.com>
-> 
-> Signed-off-by: Ola x Nilsson <olani@axis.com>
-> ---
->  recipes-extended/diod/diod_1.0.24.bb          |   1 +
->  ...ous-time_t-sizes-in-printf-and-scanf.patch | 100 ++++++++++++++++++
->  2 files changed, 101 insertions(+)
->  create mode 100644 recipes-extended/diod/files/0002-Handle-various-time_t-sizes-in-printf-and-scanf.patch
-> 
-> diff --git a/recipes-extended/diod/diod_1.0.24.bb b/recipes-extended/diod/diod_1.0.24.bb
-> index 5e191dc0..6019fbfb 100644
-> --- a/recipes-extended/diod/diod_1.0.24.bb
-> +++ b/recipes-extended/diod/diod_1.0.24.bb
-> @@ -14,6 +14,7 @@ SRC_URI = "git://github.com/chaos/diod.git;protocol=https;branch=master \
->             file://diod \
->             file://diod.conf \
->             file://0001-build-Find-lua-with-pkg-config.patch \
-> +           file://0002-Handle-various-time_t-sizes-in-printf-and-scanf.patch \
->             "
->  DEPENDS = "libcap ncurses tcp-wrappers lua"
->  
-> diff --git a/recipes-extended/diod/files/0002-Handle-various-time_t-sizes-in-printf-and-scanf.patch b/recipes-extended/diod/files/0002-Handle-various-time_t-sizes-in-printf-and-scanf.patch
-> new file mode 100644
-> index 00000000..3c13c101
-> --- /dev/null
-> +++ b/recipes-extended/diod/files/0002-Handle-various-time_t-sizes-in-printf-and-scanf.patch
-> @@ -0,0 +1,100 @@
-> +From 04b0c5a5cb9e32090b177ff7327ad3260783abe0 Mon Sep 17 00:00:00 2001
-> +From: Ola x Nilsson <olani@axis.com>
-> +Date: Mon, 15 Apr 2024 17:31:44 +0200
-> +Subject: [PATCH] Handle various time_t sizes in printf and scanf
-> +
-> +The members of the timeval struct are both signed (defined by POSIX)
-> +and typically both 64 bits on a system where time_t is 64 bits.  This
-> +is possible also on 32 bit systems where time_t is larger to handle
-> +the 2038 problem.
-> +
-> +It's practically impossible to find a type and printf format that
-> +works even on all glibc systems.  Play it safe and always use printf
-> +with intmax_t and explict int64_t variables for scanf.
-> +
-> +Upstream-Status: Submitted [https://github.com/chaos/diod/pull/100]
-> +Signed-off-by: Ola x Nilsson <olani@axis.com>
-> +---
-> + libnpfs/conn.c   | 5 +++--
-> + libnpfs/ctl.c    | 7 ++++---
-> + utils/dioddate.c | 8 +++++++-
-> + 3 files changed, 14 insertions(+), 6 deletions(-)
-> +
-> +diff --git a/libnpfs/conn.c b/libnpfs/conn.c
-> +index 6e85fff..c34c840 100644
-> +--- a/libnpfs/conn.c
-> ++++ b/libnpfs/conn.c
-> +@@ -16,6 +16,7 @@
-> + #include <stdio.h>
-> + #include <string.h>
-> + #include <stdint.h>
-> ++#include <inttypes.h>
-> + #include <stdarg.h>
-> + #include <errno.h>
-> + #include <pthread.h>
-> +@@ -133,8 +134,8 @@ _debug_trace (Npsrv *srv, Npfcall *fc)
-> + 				(void)gettimeofday(&b, NULL);
-> + 			(void)gettimeofday(&a, NULL);
-> + 			timersub(&a, &b, &c);
-> +-			np_logmsg(srv, "[%lu.%-3lu] %s",
-> +-				  c.tv_sec, c.tv_usec/1000, s);
-> ++			np_logmsg(srv, "[%"PRIdMAX".%-3"PRIdMAX"] %s",
-> ++				  (intmax_t)c.tv_sec, (intmax_t)c.tv_usec/1000, s);
-> + 		} else
-> + 			np_logmsg(srv, "%s", s);
-> + 	}
-> +diff --git a/libnpfs/ctl.c b/libnpfs/ctl.c
-> +index f40cde4..317a22e 100644
-> +--- a/libnpfs/ctl.c
-> ++++ b/libnpfs/ctl.c
-> +@@ -16,6 +16,7 @@
-> + #include <stdio.h>
-> + #include <string.h>
-> + #include <stdint.h>
-> ++#include <inttypes.h>
-> + #include <stdarg.h>
-> + #include <pthread.h>
-> + #include <errno.h>
-> +@@ -291,9 +292,9 @@ _ctl_get_date (char *name, void *a)
-> + 		np_uerror (errno);
-> + 		goto error;
-> + 	}
-> +-	if (aspf (&s, &len, "%lu.%lu %d.%d\n",
-> +-					tv.tv_sec,         tv.tv_usec,
-> +-					tz.tz_minuteswest, tz.tz_dsttime) < 0) {
-> ++	if (aspf (&s, &len, "%"PRIdMAX".%"PRIdMAX" %d.%d\n",
-> ++					(uintmax_t)tv.tv_sec, (uintmax_t)tv.tv_usec,
-> ++					tz.tz_minuteswest,    tz.tz_dsttime) < 0) {
-> + 		np_uerror (ENOMEM);
-> + 		goto error;
-> + 	}
-> +diff --git a/utils/dioddate.c b/utils/dioddate.c
-> +index bde002f..f392792 100644
-> +--- a/utils/dioddate.c
-> ++++ b/utils/dioddate.c
-> +@@ -21,6 +21,7 @@
-> + #include <unistd.h>
-> + #include <stdlib.h>
-> + #include <stdint.h>
-> ++#include <inttypes.h>
-> + #include <stdarg.h>
-> + #include <stdio.h>
-> + #if HAVE_GETOPT_H
-> +@@ -142,11 +143,16 @@ main (int argc, char *argv[])
-> +         errn (np_rerror (), "error reading date");
-> +         goto done;
-> +     }
-> +-    if (sscanf (buf, "%lu.%lu %d.%d", &tv.tv_sec, &tv.tv_usec,
-> ++
-> ++    int64_t sec = 0, usec = 0;
-> ++    if (sscanf (buf, "%"SCNd64".%"SCNd64" %d.%d", &sec, &usec,
-> +                                     &tz.tz_minuteswest, &tz.tz_dsttime) != 4) {
-> +         msg ("error scanning returned date: %s", buf);
-> +         goto done;
-> +     }
-> ++    tv.tv_sec = sec;
-> ++    tv.tv_usec = usec;
-> ++
-> +     if (Sopt) {
-> +         if (settimeofday (&tv, &tz) < 0)
-> +             err_exit ("settimeofday");
-> -- 
-> 2.39.2
-> 
-
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#8699): https://lists.yoctoproject.org/g/meta-virtualization/message/8699
-> Mute This Topic: https://lists.yoctoproject.org/mt/105706610/1050810
-> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+diff --git a/recipes-extended/ceph/ceph/0001-delete-install-layout-deb.patch b/recipes-extended/ceph/ceph/0001-delete-install-layout-deb.patch
+index 91eacfa9..3cd8edba 100644
+--- a/recipes-extended/ceph/ceph/0001-delete-install-layout-deb.patch
++++ b/recipes-extended/ceph/ceph/0001-delete-install-layout-deb.patch
+@@ -3,6 +3,8 @@ From: Chen Qi <Qi.Chen@windriver.com>
+ Date: Wed, 13 Mar 2024 03:41:47 -0700
+ Subject: [PATCH] delete install-layout=deb
+ 
++Upstream-Status: Pending
++
+ Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+ ---
+  cmake/modules/Distutils.cmake | 6 ------
+-- 
+2.25.1
 
 
