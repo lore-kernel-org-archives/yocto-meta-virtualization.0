@@ -1,92 +1,96 @@
-Return-Path: <patrick.wicki@subset.ch>
+Return-Path: <changqing.li@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 169D1C4345F
-	for <webhook@archiver.kernel.org>; Mon, 29 Apr 2024 17:26:00 +0000 (UTC)
-Received: from st43p00im-ztdg10073201.me.com (st43p00im-ztdg10073201.me.com [17.58.63.177])
- by mx.groups.io with SMTP id smtpd.web11.27614.1714411549938745157
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00AFDC4345F
+	for <webhook@archiver.kernel.org>; Tue, 30 Apr 2024 06:17:47 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.8812.1714457857032601562
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 29 Apr 2024 10:25:50 -0700
+ Mon, 29 Apr 2024 23:17:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@subset.ch header.s=sig1 header.b=AEUIJ1hs;
- spf=pass (domain: subset.ch, ip: 17.58.63.177, mailfrom: patrick.wicki@subset.ch)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=subset.ch; s=sig1;
-	t=1714411549; bh=tLdqI3KgNQwkciZ9GQAyEbS7xNS/NSXOtw4zprd0+3M=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=AEUIJ1hsigIFruaPHpHR66rndcsH8zbzvp9M/2etRTPJNb4eMv+x91W7kVuc2zM1l
-	 gqy4YchHGwmBFOJRQfY6+0RILtdppFefUH/v5rUDz8kCXUe2QkJAXzMx3EdI/3Zcpw
-	 xXR0XDYOr4tK2UohqY4rz1yG6LgeLyGWZT+rIcKJcqgIMXN9t5SNMqh1mmuVsWTa6t
-	 vTALELeADRuBjc+xt+W7RUh7R6Cp2Wzm6i4sT8Y/IBrRUJ9NB4QvMEgRZbdbPU4j96
-	 EeYM0S+5oTUDAPx9BspPnvK3zmbbIAgAXNZQSsm6EFG1WxqbJvJMENfVB1MA6uWvtO
-	 FN1P7+MnWf6tg==
-Received: from localhost.localdomain (st43p00im-dlb-asmtp-mailmevip.me.com [17.42.251.41])
-	by st43p00im-ztdg10073201.me.com (Postfix) with ESMTPSA id 7D9CE9C03DB;
-	Mon, 29 Apr 2024 17:25:47 +0000 (UTC)
-From: patrick.wicki@subset.ch
-To: meta-virtualization@lists.yoctoproject.org
-Cc: Patrick Wicki <patrick.wicki@siemens.com>
-Subject: [meta-virtualization][PATCH 2/2] podman: require catatonit
-Date: Mon, 29 Apr 2024 19:25:23 +0200
-Message-ID: <20240429172523.1635019-2-patrick.wicki@subset.ch>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240429172523.1635019-1-patrick.wicki@subset.ch>
-References: <20240429172523.1635019-1-patrick.wicki@subset.ch>
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=JCcTBsF+;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=5850838629=changqing.li@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 43U4upde029611
+	for <meta-virtualization@lists.yoctoproject.org>; Tue, 30 Apr 2024 06:17:36 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PPS06212021; bh=QDGb0
+	DQ1l8Es3C837A0ANAbWhhCnrrli8cLcRoylNxA=; b=JCcTBsF+Wa38AaKhHYF18
+	NrnD2xZ9A68v9ip49sLJt9IhhbjRuDIwoy2FZubeggwIuTLyfuGnZaZLf98G6xRK
+	kAaPFDJ2IQmPETmzwVtMK5WBeqrXj0GBFNU0y1ncIISsjpJdnO1j3rdxozSLXUx+
+	TsXdALDB2EFGg+dy7tjmEqj2rCuP3Itn0V+mG/0yYh9g/2xPN+bMQ6iXGPYcUuHp
+	UvhuNYoeiA1W+4gZ8zSy37hHrBYgKRF7NUCfDdLcS83q9ICwFwDc7bFpk3kvv3cl
+	VskzG+LYATHN9hqkSvQ9oFF/Y5dyVICzjezAl7dqFC4ghP8g4qeZpUGGBlU9qCHK
+	w==
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3xrpjxb64t-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <meta-virtualization@lists.yoctoproject.org>; Tue, 30 Apr 2024 06:17:36 +0000 (GMT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.37; Mon, 29 Apr 2024 23:17:34 -0700
+Received: from pek-lpg-core2.wrs.com (128.224.153.41) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.37 via Frontend Transport; Mon, 29 Apr 2024 23:17:34 -0700
+From: <changqing.li@windriver.com>
+To: <meta-virtualization@lists.yoctoproject.org>
+Subject: [master][scarthgap][meta-virtualization][PATCH] kubernetes: skip textrel QA warning
+Date: Tue, 30 Apr 2024 14:17:33 +0800
+Message-ID: <20240430061733.3518484-1-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Proofpoint-GUID: DGv3_rgHLW4gtryPZnfKTu72qiWRiMKI
-X-Proofpoint-ORIG-GUID: DGv3_rgHLW4gtryPZnfKTu72qiWRiMKI
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: 05Dh7q8u14vt88r3pcC6gBYs-QAeOiDu
+X-Proofpoint-GUID: 05Dh7q8u14vt88r3pcC6gBYs-QAeOiDu
 X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.650,FMLib:17.11.176.26
- definitions=2024-04-29_15,2024-04-29_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 adultscore=0 suspectscore=0
- mlxlogscore=802 clxscore=1030 phishscore=0 bulkscore=0 malwarescore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2308100000 definitions=main-2404290113
-Content-Transfer-Encoding: quoted-printable
+ engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.650,FMLib:17.11.176.26
+ definitions=2024-04-30_02,2024-04-29_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 mlxlogscore=999
+ clxscore=1015 mlxscore=0 spamscore=0 impostorscore=0 suspectscore=0
+ adultscore=0 lowpriorityscore=0 priorityscore=1501 bulkscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2404010003 definitions=main-2404300044
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Mon, 29 Apr 2024 17:26:00 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8705
+ <meta-virtualization@lists.yoctoproject.org>; Tue, 30 Apr 2024 06:17:46 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8706
 
-From: Patrick Wicki <patrick.wicki@siemens.com>
+From: Changqing Li <changqing.li@windriver.com>
 
-Alternatively, we could add it to RRECOMMENDS. But I would say, given
-its name, managing pods is part of podman's core functionality and that
-requires catatonit, which is currently only pulled in for the ptest:
+-buildmode=pie need cgo is enabled, but for kubernetes, some build
+targets are static, and cgo is disable in build script directly, refer
+[1]. If we add -buildmode=pie by default, will cause these static target
+build failed with error "-buildmode=pie requires external (cgo) linking,
+but cgo is not enabled".
 
-root@qemux86-64:~# podman pod create
-Error: building local pause image: finding pause binary: exec: "catatonit=
-": executable file not found in $PATH
+This warning is acceptable, so just skip it.
 
-Signed-off-by: Patrick Wicki <patrick.wicki@siemens.com>
+[1] https://github.com/kubernetes/kubernetes/blob/master/hack/lib/golang.sh#L811
+
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
 ---
- recipes-containers/podman/podman_git.bb | 2 +-
+ recipes-containers/kubernetes/kubernetes_git.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/recipes-containers/podman/podman_git.bb b/recipes-containers=
-/podman/podman_git.bb
-index 41f090f0..7bdefba5 100644
---- a/recipes-containers/podman/podman_git.bb
-+++ b/recipes-containers/podman/podman_git.bb
-@@ -150,6 +150,7 @@ VIRTUAL-RUNTIME_base-utils-nsenter ?=3D "util-linux-n=
-senter"
- COMPATIBLE_HOST =3D "^(?!mips).*"
-=20
- RDEPENDS:${PN} +=3D " \
-+	catatonit \
- 	conmon \
- 	iptables \
- 	libdevmapper \
-@@ -172,7 +173,6 @@ RDEPENDS:${PN}-ptest +=3D " \
- 	bash \
- 	bats \
- 	buildah \
--	catatonit \
- 	coreutils \
- 	file \
- 	gnupg \
---=20
-2.44.0
+diff --git a/recipes-containers/kubernetes/kubernetes_git.bb b/recipes-containers/kubernetes/kubernetes_git.bb
+index d7874dfa..044175eb 100644
+--- a/recipes-containers/kubernetes/kubernetes_git.bb
++++ b/recipes-containers/kubernetes/kubernetes_git.bb
+@@ -126,7 +126,7 @@ PACKAGES =+ "kubeadm kubectl kubelet kube-proxy ${PN}-misc ${PN}-host"
+ ALLOW_EMPTY:${PN} = "1"
+ INSANE_SKIP:${PN} += "ldflags already-stripped"
+ INSANE_SKIP:${PN}-misc += "ldflags already-stripped textrel"
+-INSANE_SKIP:kubelet += "ldflags already-stripped"
++INSANE_SKIP:${MLPREFIX}kubelet += "ldflags already-stripped textrel"
+ 
+ # Note: we are explicitly *not* adding docker to the rdepends, since we allow
+ #       backends like cri-o to be used.
+-- 
+2.25.1
 
 
