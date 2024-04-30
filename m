@@ -1,96 +1,200 @@
-Return-Path: <changqing.li@eng.windriver.com>
+Return-Path: <troth@openavr.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 00AFDC4345F
-	for <webhook@archiver.kernel.org>; Tue, 30 Apr 2024 06:17:47 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.8812.1714457857032601562
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AEC57C4345F
+	for <webhook@archiver.kernel.org>; Tue, 30 Apr 2024 14:45:30 +0000 (UTC)
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+ by mx.groups.io with SMTP id smtpd.web10.17544.1714488323175117688
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 29 Apr 2024 23:17:37 -0700
+ Tue, 30 Apr 2024 07:45:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=JCcTBsF+;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=5850838629=changqing.li@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 43U4upde029611
-	for <meta-virtualization@lists.yoctoproject.org>; Tue, 30 Apr 2024 06:17:36 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding:content-type; s=PPS06212021; bh=QDGb0
-	DQ1l8Es3C837A0ANAbWhhCnrrli8cLcRoylNxA=; b=JCcTBsF+Wa38AaKhHYF18
-	NrnD2xZ9A68v9ip49sLJt9IhhbjRuDIwoy2FZubeggwIuTLyfuGnZaZLf98G6xRK
-	kAaPFDJ2IQmPETmzwVtMK5WBeqrXj0GBFNU0y1ncIISsjpJdnO1j3rdxozSLXUx+
-	TsXdALDB2EFGg+dy7tjmEqj2rCuP3Itn0V+mG/0yYh9g/2xPN+bMQ6iXGPYcUuHp
-	UvhuNYoeiA1W+4gZ8zSy37hHrBYgKRF7NUCfDdLcS83q9ICwFwDc7bFpk3kvv3cl
-	VskzG+LYATHN9hqkSvQ9oFF/Y5dyVICzjezAl7dqFC4ghP8g4qeZpUGGBlU9qCHK
-	w==
-Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3xrpjxb64t-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <meta-virtualization@lists.yoctoproject.org>; Tue, 30 Apr 2024 06:17:36 +0000 (GMT)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.37; Mon, 29 Apr 2024 23:17:34 -0700
-Received: from pek-lpg-core2.wrs.com (128.224.153.41) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.37 via Frontend Transport; Mon, 29 Apr 2024 23:17:34 -0700
-From: <changqing.li@windriver.com>
-To: <meta-virtualization@lists.yoctoproject.org>
-Subject: [master][scarthgap][meta-virtualization][PATCH] kubernetes: skip textrel QA warning
-Date: Tue, 30 Apr 2024 14:17:33 +0800
-Message-ID: <20240430061733.3518484-1-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@openavr-org.20230601.gappssmtp.com header.s=20230601 header.b=Lsn4oVWt;
+ spf=none, err=permanent DNS error (domain: openavr.org, ip: 209.85.208.169, mailfrom: troth@openavr.org)
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2d8a24f8a3cso71739831fa.1
+        for <meta-virtualization@lists.yoctoproject.org>; Tue, 30 Apr 2024 07:45:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=openavr-org.20230601.gappssmtp.com; s=20230601; t=1714488321; x=1715093121; darn=lists.yoctoproject.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=8/EJUFl6ZK5jjBI8dgGS8+IxG+0H/2cBJTmECSwStpQ=;
+        b=Lsn4oVWtSjXR9My4WJudCOaNdWqnJ+L3lW0RslN8iYzAbNWVRJLma5e/sbYzfjZg0k
+         uC0WYDUbzD4/I2U5gdU0H3MAf3o+MCHUAywYOvv2b7wT+Izy1RfKbY28TSmRluobRbYJ
+         AZtkc5hLtt7nt8vH1zhT2Ot6kXncfSWOHIt+Qr/qo04obBklb/uNnTsqO1Rcc/gK3LwX
+         WhaxfnZGnzfU8K3smzWqP3S25EcZnzommrkXhDxEkPY5NdIPrfhtw4tUatjMl/sJNRMM
+         qL4SJqGVAKZg6KMjMH7ISG5gCAU2m1qRj7fTrPOZYaKT2qC2Urx76eBwM3bK1WhsmZk4
+         2xzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714488321; x=1715093121;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8/EJUFl6ZK5jjBI8dgGS8+IxG+0H/2cBJTmECSwStpQ=;
+        b=GL+6ueD5dazBo+AG9sUlCJ4AMyyyghggOjGlLMB35Hzx/2rroCIr2EmZdHDLCDO90L
+         Z+ccSHPPhY7pn+hWYExgbqD8IF9Z9FdycGBVbRL/TsPdCZbXrDXY1g35t+JElRQiAFyR
+         BbwaeL3wHze5llmay6z+stAf461t01yYpJwVLHzHK35LJHT0HS5uuaoRzmx4abXBlKZg
+         68XpipEB1wScIdBfFecqPR8TAbuHvR4ZBU+cZ8jfzjro6RAAgI8pumWPcUYg89AH6XHd
+         9oTCWnBe/ya9Xd0eAogcp2B47kuaUxEgQMbwybv6Xd6pQCPG4HbGDksR4TcMMNY0kOTm
+         I/qA==
+X-Forwarded-Encrypted: i=1; AJvYcCWuu5aqbpZwpA9KXCcyNOnJ/Ephtd2A9BcG2apBdeLZICF+UQ7vsYSxKnPD3XTTWCAFdIBSNRS8rUMl1jJ87EZMunqPq4VWCYrVssnlEE3hBmmWgBZjafhG5vQ=
+X-Gm-Message-State: AOJu0YznYhoFrKglBx+EKcWzYv20KaaCm0K7CN4Yo1Wmnritb7MwRHj6
+	FsLacjoTMhVw4TRzxCAqzxhuxBxbTlWFWRRqUi8+Pyt1A+yC5naaalSeqULOftYr9ZN/LJ5Od1F
+	IXywezUE7Lx/xNZAgrBvv5VxwybagtHhIMF39kA==
+X-Google-Smtp-Source: AGHT+IEBBkupXidBwat3dBOO7a/pCBkqdH9SC9J7u/oYFYJERYWB12RsRWw39bHZ9FQbfAWFR+OHwS48plCnNb7s6b0=
+X-Received: by 2002:a05:6512:3294:b0:51b:567e:7ea4 with SMTP id
+ p20-20020a056512329400b0051b567e7ea4mr2042309lfe.26.1714488321104; Tue, 30
+ Apr 2024 07:45:21 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: 05Dh7q8u14vt88r3pcC6gBYs-QAeOiDu
-X-Proofpoint-GUID: 05Dh7q8u14vt88r3pcC6gBYs-QAeOiDu
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.650,FMLib:17.11.176.26
- definitions=2024-04-30_02,2024-04-29_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 mlxlogscore=999
- clxscore=1015 mlxscore=0 spamscore=0 impostorscore=0 suspectscore=0
- adultscore=0 lowpriorityscore=0 priorityscore=1501 bulkscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2404010003 definitions=main-2404300044
+References: <20240416225615.165473-1-lukasz.czechowski@thaumatec.com> <ZiZ8UpRSfDbkzocJ@gmail.com>
+In-Reply-To: <ZiZ8UpRSfDbkzocJ@gmail.com>
+From: "Theodore A. Roth" <troth@openavr.org>
+Date: Tue, 30 Apr 2024 08:45:09 -0600
+Message-ID: <CAFMvBt0fxFbmJwnXr1LSCyK2o+DK=tmBzfzQNQ8qiROaiXb-VQ@mail.gmail.com>
+Subject: Re: [meta-virtualization][PATCH v2] podman: fix location of user
+ systemd service units
+To: bruce.ashfield@gmail.com
+Cc: lukasz.czechowski@thaumatec.com, 
+	meta-virtualization@lists.yoctoproject.org
+Content-Type: multipart/alternative; boundary="0000000000005a015b0617516ba1"
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Tue, 30 Apr 2024 06:17:46 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8706
+ <meta-virtualization@lists.yoctoproject.org>; Tue, 30 Apr 2024 14:45:30 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8707
 
-From: Changqing Li <changqing.li@windriver.com>
+--0000000000005a015b0617516ba1
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
--buildmode=pie need cgo is enabled, but for kubernetes, some build
-targets are static, and cgo is disable in build script directly, refer
-[1]. If we add -buildmode=pie by default, will cause these static target
-build failed with error "-buildmode=pie requires external (cgo) linking,
-but cgo is not enabled".
+On Mon, Apr 22, 2024 at 9:03=E2=80=AFAM Bruce Ashfield via lists.yoctoproje=
+ct.org
+<bruce.ashfield=3Dgmail.com@lists.yoctoproject.org> wrote:
 
-This warning is acceptable, so just skip it.
+> merged to master and scarthgap.
+>
+> Bruce
+>
+> In message: [meta-virtualization][PATCH v2] podman: fix location of user
+> systemd service units
+> on 17/04/2024 lukasz.czechowski@thaumatec.com wrote:
+>
+> > From: Lukasz Czechowski <lukasz.czechowski@thaumatec.com>
+> >
+> > The value of USERSYSTEMDDIR is currently set to
+> > ${systemd_unitdir}/user, which might not be present in user unit
+> > search path.
+> > Use dedicated bitbake variable ${systemd_user_unitdir} instead.
+> >
+> > Signed-off-by: Lukasz Czechowski <lukasz.czechowski@thaumatec.com>
+> > Cc: Bruce Ashfield <bruce.ashfield@gmail.com>
+> > ---
+> >  recipes-containers/podman/podman_git.bb | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/recipes-containers/podman/podman_git.bb
+> b/recipes-containers/podman/podman_git.bb
+> > index 3eadd202..f69dec16 100644
+> > --- a/recipes-containers/podman/podman_git.bb
+> > +++ b/recipes-containers/podman/podman_git.bb
+> > @@ -62,7 +62,7 @@ do_configure[noexec] =3D "1"
+> >  EXTRA_OEMAKE =3D " \
+> >       PREFIX=3D${prefix} BINDIR=3D${bindir} LIBEXECDIR=3D${libexecdir} =
+\
+> >       ETCDIR=3D${sysconfdir} TMPFILESDIR=3D${nonarch_libdir}/tmpfiles.d=
+ \
+> > -     SYSTEMDDIR=3D${systemd_unitdir}/system
+> USERSYSTEMDDIR=3D${systemd_unitdir}/user \
+> > +     SYSTEMDDIR=3D${systemd_unitdir}/system
+> USERSYSTEMDDIR=3D${systemd_user_unitdir} \
+> >  "
+> >
+> >  # remove 'docker' from the packageconfig if you don't want podman to
+> > @@ -134,7 +134,7 @@ do_install_ptest () {
+> >  FILES:${PN} +=3D " \
+> >      ${systemd_unitdir}/system/* \
+> >      ${nonarch_libdir}/systemd/* \
+> > -    ${systemd_unitdir}/user/* \
+> > +    ${systemd_user_unitdir/* \
+>
 
-[1] https://github.com/kubernetes/kubernetes/blob/master/hack/lib/golang.sh#L811
+Just noticed that this is missing the closing brace. This typo is on master
+and scarthgap branches.
 
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
----
- recipes-containers/kubernetes/kubernetes_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Would you like me to send a patch?
 
-diff --git a/recipes-containers/kubernetes/kubernetes_git.bb b/recipes-containers/kubernetes/kubernetes_git.bb
-index d7874dfa..044175eb 100644
---- a/recipes-containers/kubernetes/kubernetes_git.bb
-+++ b/recipes-containers/kubernetes/kubernetes_git.bb
-@@ -126,7 +126,7 @@ PACKAGES =+ "kubeadm kubectl kubelet kube-proxy ${PN}-misc ${PN}-host"
- ALLOW_EMPTY:${PN} = "1"
- INSANE_SKIP:${PN} += "ldflags already-stripped"
- INSANE_SKIP:${PN}-misc += "ldflags already-stripped textrel"
--INSANE_SKIP:kubelet += "ldflags already-stripped"
-+INSANE_SKIP:${MLPREFIX}kubelet += "ldflags already-stripped textrel"
- 
- # Note: we are explicitly *not* adding docker to the rdepends, since we allow
- #       backends like cri-o to be used.
--- 
-2.25.1
+Ted Roth
 
+--0000000000005a015b0617516ba1
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Apr 22, 2024 at 9:03=E2=80=AF=
+AM Bruce Ashfield via <a href=3D"http://lists.yoctoproject.org" target=3D"_=
+blank">lists.yoctoproject.org</a> &lt;bruce.ashfield=3D<a href=3D"mailto:gm=
+ail.com@lists.yoctoproject.org" target=3D"_blank">gmail.com@lists.yoctoproj=
+ect.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"=
+margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
+t:1ex">merged to master and scarthgap.<br>
+<br>
+Bruce<br>
+<br>
+In message: [meta-virtualization][PATCH v2] podman: fix location of user sy=
+stemd service units<br>
+on 17/04/2024 <a href=3D"mailto:lukasz.czechowski@thaumatec.com" target=3D"=
+_blank">lukasz.czechowski@thaumatec.com</a> wrote:<br>
+<br>
+&gt; From: Lukasz Czechowski &lt;<a href=3D"mailto:lukasz.czechowski@thauma=
+tec.com" target=3D"_blank">lukasz.czechowski@thaumatec.com</a>&gt;<br>
+&gt; <br>
+&gt; The value of USERSYSTEMDDIR is currently set to<br>
+&gt; ${systemd_unitdir}/user, which might not be present in user unit<br>
+&gt; search path.<br>
+&gt; Use dedicated bitbake variable ${systemd_user_unitdir} instead.<br>
+&gt; <br>
+&gt; Signed-off-by: Lukasz Czechowski &lt;<a href=3D"mailto:lukasz.czechows=
+ki@thaumatec.com" target=3D"_blank">lukasz.czechowski@thaumatec.com</a>&gt;=
+<br>
+&gt; Cc: Bruce Ashfield &lt;<a href=3D"mailto:bruce.ashfield@gmail.com" tar=
+get=3D"_blank">bruce.ashfield@gmail.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 recipes-containers/podman/<a href=3D"http://podman_git.bb" rel=
+=3D"noreferrer" target=3D"_blank">podman_git.bb</a> | 4 ++--<br>
+&gt;=C2=A0 1 file changed, 2 insertions(+), 2 deletions(-)<br>
+&gt; <br>
+&gt; diff --git a/recipes-containers/podman/<a href=3D"http://podman_git.bb=
+" rel=3D"noreferrer" target=3D"_blank">podman_git.bb</a> b/recipes-containe=
+rs/podman/<a href=3D"http://podman_git.bb" rel=3D"noreferrer" target=3D"_bl=
+ank">podman_git.bb</a><br>
+&gt; index 3eadd202..f69dec16 100644<br>
+&gt; --- a/recipes-containers/podman/<a href=3D"http://podman_git.bb" rel=
+=3D"noreferrer" target=3D"_blank">podman_git.bb</a><br>
+&gt; +++ b/recipes-containers/podman/<a href=3D"http://podman_git.bb" rel=
+=3D"noreferrer" target=3D"_blank">podman_git.bb</a><br>
+&gt; @@ -62,7 +62,7 @@ do_configure[noexec] =3D &quot;1&quot;<br>
+&gt;=C2=A0 EXTRA_OEMAKE =3D &quot; \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0PREFIX=3D${prefix} BINDIR=3D${bindir} LIBEXE=
+CDIR=3D${libexecdir} \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0ETCDIR=3D${sysconfdir} TMPFILESDIR=3D${nonar=
+ch_libdir}/tmpfiles.d \<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0SYSTEMDDIR=3D${systemd_unitdir}/system USERSYSTEM=
+DDIR=3D${systemd_unitdir}/user \<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0SYSTEMDDIR=3D${systemd_unitdir}/system USERSYSTEM=
+DDIR=3D${systemd_user_unitdir} \<br>
+&gt;=C2=A0 &quot;<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 # remove &#39;docker&#39; from the packageconfig if you don&#39;=
+t want podman to<br>
+&gt; @@ -134,7 +134,7 @@ do_install_ptest () {<br>
+&gt;=C2=A0 FILES:${PN} +=3D &quot; \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 ${systemd_unitdir}/system/* \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 ${nonarch_libdir}/systemd/* \<br>
+&gt; -=C2=A0 =C2=A0 ${systemd_unitdir}/user/* \<br>
+&gt; +=C2=A0 =C2=A0 ${systemd_user_unitdir/* \<br></blockquote><div><br></d=
+iv><div>Just noticed that this is missing the closing brace. This typo is o=
+n master and scarthgap branches.</div><div><br></div><div>Would you like me=
+ to send a patch?<br></div><div><br></div><div>Ted Roth<br></div></div></di=
+v>
+
+--0000000000005a015b0617516ba1--
 
