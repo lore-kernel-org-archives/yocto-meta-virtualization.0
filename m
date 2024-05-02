@@ -2,113 +2,144 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54E35C4345F
-	for <webhook@archiver.kernel.org>; Thu,  2 May 2024 17:50:30 +0000 (UTC)
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
- by mx.groups.io with SMTP id smtpd.web11.1226.1714672227026865213
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62004C4345F
+	for <webhook@archiver.kernel.org>; Thu,  2 May 2024 17:56:50 +0000 (UTC)
+Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
+ by mx.groups.io with SMTP id smtpd.web11.1383.1714672607537434095
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 02 May 2024 10:50:27 -0700
+ Thu, 02 May 2024 10:56:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=T0COrA+j;
- spf=pass (domain: gmail.com, ip: 209.85.160.179, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-437c32af2efso50813231cf.3
-        for <meta-virtualization@lists.yoctoproject.org>; Thu, 02 May 2024 10:50:26 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=ZaSuZ2Z/;
+ spf=pass (domain: gmail.com, ip: 209.85.222.180, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-790ff1fa7b3so370740685a.2
+        for <meta-virtualization@lists.yoctoproject.org>; Thu, 02 May 2024 10:56:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714672226; x=1715277026; darn=lists.yoctoproject.org;
+        d=gmail.com; s=20230601; t=1714672606; x=1715277406; darn=lists.yoctoproject.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=70ga+dVhaU2V/ZZVvmkH9qLZJ8Eyhi4XJ45P/4NXEog=;
-        b=T0COrA+jyhyXrEeTlIXrs6exKty99EIOfb3WCMLWG33wlabpNlgEdxVW0USf8ABHfC
-         aZpTgm80vF9V8IrpisShoD1C13fXxfmwEmHB3nMTloMQPsFefREflkbn9oSC/cUa9t1V
-         s9QLYhoJtKZl47TCgWXetbk4psfCP6ri1IZlIRp2ovbtsEiYMNL0YRfzn14SbNQKz4KE
-         p7cgvBuGLgKh0bewGe+2HarxFEmTccf80BfLf2cHpWZWzvh6ec/XM8Xt6D2K5ah/Srh7
-         Tp/XfbD3X50sHguU0Z1KC0FUSv9hW7k3fSsbsmqW5CJ9G5uwKIYrmrYZx0VuGGJ7Ff54
-         PErw==
+        bh=wGxI7lh2GyQi0EBUnhHKxMAswWF5VFo3RASDiI+0a+w=;
+        b=ZaSuZ2Z/yIdLVTztBpWqJ4JyAaLOeznAEPn6p4wojt8zSVYx8o3NCb6vDCnrNqpJYY
+         lrW/QlhB+mioZqDoaap/4bStzZWNlgCrwq93PaRpehGoDdjLMowwZqj8kh5PdbFNeixL
+         RZiGasH0kavIZAD1qqnPkjNxj1EZ4MGJV2X4N22iPrOZnBlXMQPY3HrlaHx8NuB0tXdP
+         Tv3qfAWAHwmYm3cTYmgC5ElA80A/x2ZR1yMNsrZ6bpraOq7SzRRc+H6BluPd4PdZ4ZMZ
+         EfwUxe0phSA31+5AGzRkzDvMplIRxLROXgxh1jB5EqOGEJcxoIZvC+5Nk+uoKXIMqIBU
+         ickQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714672226; x=1715277026;
+        d=1e100.net; s=20230601; t=1714672606; x=1715277406;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=70ga+dVhaU2V/ZZVvmkH9qLZJ8Eyhi4XJ45P/4NXEog=;
-        b=dRu8USjgOD2siiDuta30PiKwO7aFOhgRzKuPEQ6gJ6cB3xEG+4yFsvi94HqI0muLEz
-         OpIgko0C2Qg7/K6aP/PtrcNei9ehmm17lDhpvSl13Ed+q/iGucduDOa8ARzaymqzpwtj
-         8Fp7aSeS1LFUpxRUuHryESdZB02Jj4/KcT6xKrMJPeSO8KMdj29QupEGA+z1bVyy0Ndq
-         XvNFlDEkeLaVbOWm0S2vgWEkiItM6rwsOVDKNDSUYjI56U5iYabT4/5BhSbwGZ3h+EeW
-         QOCBF0gIFj0EGvlKKKxe7CgGpL2zX518qGuEqDyFHg6//ec6u+7mMZ+fCafYTqt8Z1HS
-         i61w==
-X-Gm-Message-State: AOJu0YwT3AEZdsv0AzQwwVZCwIIfa4PxFwlPXE4eH7sUStZPDk/8s6Jj
-	g89NIUsmcsGexWMBkhWIJHS65vqDINpDCwmtWZye5dKHX1vOWl+krbhNng==
-X-Google-Smtp-Source: AGHT+IFL9GCXHBqst837EUlTtMwJL75G22TQ8IZmL1Tn2Vf7cpEfpR5kUx2vRQi2n5d+xvXOP2lxLQ==
-X-Received: by 2002:ac8:7dcd:0:b0:43a:bec1:37c with SMTP id c13-20020ac87dcd000000b0043abec1037cmr250584qte.66.1714672225841;
-        Thu, 02 May 2024 10:50:25 -0700 (PDT)
+        bh=wGxI7lh2GyQi0EBUnhHKxMAswWF5VFo3RASDiI+0a+w=;
+        b=pkhNyeKaRT/ZwI74lbPoKStjw3amzpl9gvwXA3UsljFgpPe25PBPr4FERAe9B4sHuv
+         VhYv18RjR3niJuS9FixNjqV51kEKJU8ZQxWPEOHOBhRDCeCdJIdYTukyEQtpjpYfOZIs
+         e91eJktDoffUWZwC12QnuQcrSoK1LdHEVAtct68cCIs63Aw8kUkNcZEYQTmEND2rZT/D
+         fG07y2HVx9jX/4L8ifkfasJ84Kr8rQCgk+lsHh/WaxOu6gA2+gI0OaikTlRlfKwSH0TE
+         IobSNRJGsp3JBxzxOmScP178IBC6bTrVWurXLv5G5WjgFD9tGBsAlE4HkbOIbWpG8iLu
+         2XKQ==
+X-Gm-Message-State: AOJu0YyJITyhC1ZnJN5vPEEK9Uvjo5yTwgQ551K/q80rQR68FP1ag9dq
+	q9a/8iTN4/Vzf9JH+sowV6iltfkK6oPIQChOgT+2H+yKBJCkN8MI4gfRGg==
+X-Google-Smtp-Source: AGHT+IF7xu3PIHTg0CNpDhYNfzL2CGFP75Gb1PvpbZvNUgLt4woaglNWZwk3kgTlvXeBM/QUvlkybA==
+X-Received: by 2002:ac8:5a83:0:b0:43c:56c6:b489 with SMTP id c3-20020ac85a83000000b0043c56c6b489mr267774qtc.59.1714672606410;
+        Thu, 02 May 2024 10:56:46 -0700 (PDT)
 Received: from gmail.com (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id ex8-20020a05622a518800b0043a51b452a3sm672226qtb.20.2024.05.02.10.50.25
+        by smtp.gmail.com with ESMTPSA id fw4-20020a05622a4a8400b00434b1f4e371sm674457qtb.13.2024.05.02.10.56.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 May 2024 10:50:25 -0700 (PDT)
-Date: Thu, 2 May 2024 17:50:23 +0000
+        Thu, 02 May 2024 10:56:45 -0700 (PDT)
+Date: Thu, 2 May 2024 17:56:44 +0000
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: mingli.yu@eng.windriver.com
-Cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [meta-virtualization] [PATCH] ceph: Add the missing
- Upstream-Status Field
-Message-ID: <ZjPSX7UPOKXs81em@gmail.com>
-References: <20240429085657.1280729-1-mingli.yu@windriver.com>
+To: patrick.wicki@subset.ch
+Cc: meta-virtualization@lists.yoctoproject.org,
+	Patrick Wicki <patrick.wicki@siemens.com>
+Subject: Re: [meta-virtualization][PATCH 1/2] podman: remove skopeo rdepends
+Message-ID: <ZjPT3GyNRMsCJoxi@gmail.com>
+References: <20240429172523.1635019-1-patrick.wicki@subset.ch>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240429085657.1280729-1-mingli.yu@windriver.com>
+In-Reply-To: <20240429172523.1635019-1-patrick.wicki@subset.ch>
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Thu, 02 May 2024 17:50:30 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8710
+ <meta-virtualization@lists.yoctoproject.org>; Thu, 02 May 2024 17:56:50 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8711
 
-I'm not sure how that slipped through my tests, but I can also
-see the issue now.
+Hi Patrick,
 
-This is merged to master and scarthgap.
+In message: [meta-virtualization][PATCH 1/2] podman: remove skopeo rdepends
+on 29/04/2024 Patrick Wicki via lists.yoctoproject.org wrote:
+
+> From: Patrick Wicki <patrick.wicki@siemens.com>
+> 
+> Podman does not require skopeo to run. They are both independent tools.
+> In distros like Debian, Fedora and Arch they don't depend on it either.
+> 
+> We do require some of its dependencies, so include those directly.
+> Skopeo also seems to be used in some of podman's tests, so it makes
+> sense to keep it around for the ptest.
+> 
+> Signed-off-by: Patrick Wicki <patrick.wicki@siemens.com>
+> ---
+>  recipes-containers/podman/podman_git.bb | 11 +++++++++--
+>  1 file changed, 9 insertions(+), 2 deletions(-)
+> 
+> diff --git a/recipes-containers/podman/podman_git.bb b/recipes-containers/podman/podman_git.bb
+> index f69dec16..41f090f0 100644
+> --- a/recipes-containers/podman/podman_git.bb
+> +++ b/recipes-containers/podman/podman_git.bb
+> @@ -55,6 +55,7 @@ TOOLCHAIN = "gcc"
+>  export BUILDFLAGS="${GOBUILDFLAGS}"
+>  
+>  inherit go goarch
+> +inherit container-host
+
+The addition of container-host configuration should be mentioned
+in the commit log.
+
+>  inherit systemd pkgconfig ptest
+>  
+>  do_configure[noexec] = "1"
+> @@ -148,8 +149,13 @@ VIRTUAL-RUNTIME_base-utils-nsenter ?= "util-linux-nsenter"
+>  
+>  COMPATIBLE_HOST = "^(?!mips).*"
+>  
+> -RDEPENDS:${PN} += "\
+> -	conmon ${VIRTUAL-RUNTIME_container_runtime} iptables ${VIRTUAL-RUNTIME_container_networking} skopeo ${VIRTUAL-RUNTIME_base-utils-nsenter} \
+> +RDEPENDS:${PN} += " \
+> +	conmon \
+> +	iptables \
+> +	libdevmapper \
+> +	${VIRTUAL-RUNTIME_base-utils-nsenter} \
+> +	${VIRTUAL-RUNTIME_container_networking} \
+> +	${VIRTUAL-RUNTIME_container_runtime} \
+>  	${@bb.utils.contains('PACKAGECONFIG', 'rootless', 'fuse-overlayfs slirp4netns', '', d)} \
+
+Many people know that I don't like mixing formatting and functional
+changes. So in a v2, keep the formatting as is and make the change
+without sorting or changing the list of rdepends.
+
+Other than that, I agree with the logic of the change and thanks
+for the patch!
 
 Bruce
 
-In message: [meta-virtualization] [PATCH] ceph: Add the missing Upstream-Status Field
-on 29/04/2024 Yu, Mingli via lists.yoctoproject.org wrote:
-
-> From: Mingli Yu <mingli.yu@windriver.com>
-> 
-> Fixes:
->   INFO: Traceback (most recent call last):
->     File "/build/layers/oe-core/scripts/lib/checklayer/cases/common.py", line 87, in test_patches_upstream_status
->       self.assertEqual(len(patches), 0 , \
->   AssertionError: 1 != 0 : Found following patches with malformed or missing upstream status:
-> /build/layers/meta-virtualization/recipes-extended/ceph/ceph/0001-delete-install-layout-deb.patch
-> 
-> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-> ---
->  recipes-extended/ceph/ceph/0001-delete-install-layout-deb.patch | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/recipes-extended/ceph/ceph/0001-delete-install-layout-deb.patch b/recipes-extended/ceph/ceph/0001-delete-install-layout-deb.patch
-> index 91eacfa9..3cd8edba 100644
-> --- a/recipes-extended/ceph/ceph/0001-delete-install-layout-deb.patch
-> +++ b/recipes-extended/ceph/ceph/0001-delete-install-layout-deb.patch
-> @@ -3,6 +3,8 @@ From: Chen Qi <Qi.Chen@windriver.com>
->  Date: Wed, 13 Mar 2024 03:41:47 -0700
->  Subject: [PATCH] delete install-layout=deb
->  
-> +Upstream-Status: Pending
-> +
->  Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
->  ---
->   cmake/modules/Distutils.cmake | 6 ------
+>  "
+>  RRECOMMENDS:${PN} += "slirp4netns \
+> @@ -172,5 +178,6 @@ RDEPENDS:${PN}-ptest += " \
+>  	gnupg \
+>  	jq \
+>  	make \
+> +	skopeo \
+>  	tar \
+>  "
 > -- 
-> 2.25.1
+> 2.44.0
 > 
 
 > 
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#8703): https://lists.yoctoproject.org/g/meta-virtualization/message/8703
-> Mute This Topic: https://lists.yoctoproject.org/mt/105797118/1050810
+> View/Reply Online (#8704): https://lists.yoctoproject.org/g/meta-virtualization/message/8704
+> Mute This Topic: https://lists.yoctoproject.org/mt/105805579/1050810
 > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
 > Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
