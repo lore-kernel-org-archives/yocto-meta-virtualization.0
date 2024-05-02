@@ -1,94 +1,117 @@
-Return-Path: <troth@openavr.org>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8886C25B4F
-	for <webhook@archiver.kernel.org>; Wed,  1 May 2024 17:04:05 +0000 (UTC)
-Received: from mail-oa1-f47.google.com (mail-oa1-f47.google.com [209.85.160.47])
- by mx.groups.io with SMTP id smtpd.web11.1860.1714583044674486226
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54E35C4345F
+	for <webhook@archiver.kernel.org>; Thu,  2 May 2024 17:50:30 +0000 (UTC)
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+ by mx.groups.io with SMTP id smtpd.web11.1226.1714672227026865213
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 01 May 2024 10:04:04 -0700
+ Thu, 02 May 2024 10:50:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@openavr-org.20230601.gappssmtp.com header.s=20230601 header.b=c6HvdZDW;
- spf=none, err=permanent DNS error (domain: openavr.org, ip: 209.85.160.47, mailfrom: troth@openavr.org)
-Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-22fa7e4b0beso2815817fac.1
-        for <meta-virtualization@lists.yoctoproject.org>; Wed, 01 May 2024 10:04:04 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=T0COrA+j;
+ spf=pass (domain: gmail.com, ip: 209.85.160.179, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-437c32af2efso50813231cf.3
+        for <meta-virtualization@lists.yoctoproject.org>; Thu, 02 May 2024 10:50:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=openavr-org.20230601.gappssmtp.com; s=20230601; t=1714583043; x=1715187843; darn=lists.yoctoproject.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=JitfObcskMC1MTs9jz8FkX6VEABcQC/77Za2xoIjwMk=;
-        b=c6HvdZDWouH7Wf+373sD9N5ioJBfL0qI6IztiEo95A+qVGzXNSLa4BAQqEya6khwkL
-         fvdknkFoW9sWdbBRROdWCT+2SssohmuzBe8VyGo+ISThH0DC10PauAEJt6yaGkpJKagn
-         N9ecVTjFDmbg2ZWvGiJWc9DO1pnFL/VBcNACpsgQbKMkFBFSNR4RJfO2MWamzuwKc6Mn
-         oS0OQAzuDw9nh9OkWt5CWLnp2vmXXyHVdSoXMXktIu1PKfncQguNkJvyQLRZMvzcwN/h
-         PRuy3ATz5RWWn0tnXf44mirAV5c9Pod42InL8D3+85xnCENhj8rygx2HEIlgiH5QoGPw
-         Os/Q==
+        d=gmail.com; s=20230601; t=1714672226; x=1715277026; darn=lists.yoctoproject.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=70ga+dVhaU2V/ZZVvmkH9qLZJ8Eyhi4XJ45P/4NXEog=;
+        b=T0COrA+jyhyXrEeTlIXrs6exKty99EIOfb3WCMLWG33wlabpNlgEdxVW0USf8ABHfC
+         aZpTgm80vF9V8IrpisShoD1C13fXxfmwEmHB3nMTloMQPsFefREflkbn9oSC/cUa9t1V
+         s9QLYhoJtKZl47TCgWXetbk4psfCP6ri1IZlIRp2ovbtsEiYMNL0YRfzn14SbNQKz4KE
+         p7cgvBuGLgKh0bewGe+2HarxFEmTccf80BfLf2cHpWZWzvh6ec/XM8Xt6D2K5ah/Srh7
+         Tp/XfbD3X50sHguU0Z1KC0FUSv9hW7k3fSsbsmqW5CJ9G5uwKIYrmrYZx0VuGGJ7Ff54
+         PErw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714583043; x=1715187843;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=JitfObcskMC1MTs9jz8FkX6VEABcQC/77Za2xoIjwMk=;
-        b=AENdb5gBoU82Rerx0m7GoDOjkWkHesL1/0uokFWYhzL9OZYOPfS8e/L0Q038XTtPBL
-         oflufpzerUTZv1v26ZLOK2dm9tGixNJtBkUW/p+1QQNIive5y6+UiDqxgeSreURG7G92
-         MGz6I4rRZNOyExXGeBuEAK3vPVLCYdYDn/xF6PXLLQmxy7quYk5P+OP4bKc0OYDwI671
-         ST6WmeB+Qy/DYevOIgnNTyaq24AAQlEu3kX2T9o1g2shwhI+EiMRUD5bplIW8uGRkt/X
-         s5S9PV9MJa/bX1iMmbL4mrZWK20icTJnS7sJoXwd3js/Bfbl0VP3tml5PRcXLcyLOJP7
-         9EZA==
-X-Gm-Message-State: AOJu0Yy7yE8zCUWjQkEif80u1nMj0ipBJ1O0iaYSOCXH5ZU3uYIjxAz0
-	Ut40SAmH5ASp61YndHCbL/mn5HGZG2twqERiBWhRxDVrUuuBv99E/DP6Mu5F6FoMI1ewI0Z2gKG
-	XURFsQg==
-X-Google-Smtp-Source: AGHT+IGXW3NmRIdZ0mE6CHa4/B2LYDtKu3wwof/cDUo+AQwfSXRyA3AWawjgYSUs/Qc8m+5ZMRHxjA==
-X-Received: by 2002:a05:6870:ac12:b0:22a:1cd5:dc5 with SMTP id kw18-20020a056870ac1200b0022a1cd50dc5mr3344840oab.20.1714583043026;
-        Wed, 01 May 2024 10:04:03 -0700 (PDT)
-Received: from tas-troth.am.trimblecorp.net ([155.63.136.49])
-        by smtp.gmail.com with ESMTPSA id cy9-20020a056830698900b006ee17b2ee0csm1525300otb.70.2024.05.01.10.04.02
+        d=1e100.net; s=20230601; t=1714672226; x=1715277026;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=70ga+dVhaU2V/ZZVvmkH9qLZJ8Eyhi4XJ45P/4NXEog=;
+        b=dRu8USjgOD2siiDuta30PiKwO7aFOhgRzKuPEQ6gJ6cB3xEG+4yFsvi94HqI0muLEz
+         OpIgko0C2Qg7/K6aP/PtrcNei9ehmm17lDhpvSl13Ed+q/iGucduDOa8ARzaymqzpwtj
+         8Fp7aSeS1LFUpxRUuHryESdZB02Jj4/KcT6xKrMJPeSO8KMdj29QupEGA+z1bVyy0Ndq
+         XvNFlDEkeLaVbOWm0S2vgWEkiItM6rwsOVDKNDSUYjI56U5iYabT4/5BhSbwGZ3h+EeW
+         QOCBF0gIFj0EGvlKKKxe7CgGpL2zX518qGuEqDyFHg6//ec6u+7mMZ+fCafYTqt8Z1HS
+         i61w==
+X-Gm-Message-State: AOJu0YwT3AEZdsv0AzQwwVZCwIIfa4PxFwlPXE4eH7sUStZPDk/8s6Jj
+	g89NIUsmcsGexWMBkhWIJHS65vqDINpDCwmtWZye5dKHX1vOWl+krbhNng==
+X-Google-Smtp-Source: AGHT+IFL9GCXHBqst837EUlTtMwJL75G22TQ8IZmL1Tn2Vf7cpEfpR5kUx2vRQi2n5d+xvXOP2lxLQ==
+X-Received: by 2002:ac8:7dcd:0:b0:43a:bec1:37c with SMTP id c13-20020ac87dcd000000b0043abec1037cmr250584qte.66.1714672225841;
+        Thu, 02 May 2024 10:50:25 -0700 (PDT)
+Received: from gmail.com (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
+        by smtp.gmail.com with ESMTPSA id ex8-20020a05622a518800b0043a51b452a3sm672226qtb.20.2024.05.02.10.50.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 May 2024 10:04:02 -0700 (PDT)
-From: "Theodore A. Roth" <troth@openavr.org>
-X-Google-Original-From: "Theodore A. Roth" <theodore_roth@trimble.com>
-To: meta-virtualization@lists.yoctoproject.org
-Cc: Bruce Ashfield <bruce.ashfield@gmail.com>,
-	"Theodore A. Roth" <troth@openavr.org>,
-	"Theodore A . Roth" <theodore_roth@trimble.com>
-Subject: [master][scarthgap][meta-virtualization][PATCH] podman: Fix missing brace in FILES
-Date: Wed,  1 May 2024 11:03:43 -0600
-Message-Id: <20240501170343.1036664-1-theodore_roth@trimble.com>
-X-Mailer: git-send-email 2.34.1
+        Thu, 02 May 2024 10:50:25 -0700 (PDT)
+Date: Thu, 2 May 2024 17:50:23 +0000
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: mingli.yu@eng.windriver.com
+Cc: meta-virtualization@lists.yoctoproject.org
+Subject: Re: [meta-virtualization] [PATCH] ceph: Add the missing
+ Upstream-Status Field
+Message-ID: <ZjPSX7UPOKXs81em@gmail.com>
+References: <20240429085657.1280729-1-mingli.yu@windriver.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240429085657.1280729-1-mingli.yu@windriver.com>
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Wed, 01 May 2024 17:04:05 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8709
+ <meta-virtualization@lists.yoctoproject.org>; Thu, 02 May 2024 17:50:30 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8710
 
-From: "Theodore A. Roth" <troth@openavr.org>
+I'm not sure how that slipped through my tests, but I can also
+see the issue now.
 
-When converting to use {systemd_user_unitdir}, the closing brace was
-omitted
+This is merged to master and scarthgap.
 
-Signed-off-by: Theodore A. Roth <theodore_roth@trimble.com>
-Signed-off-by: Theodore A. Roth <troth@openavr.org>
----
- recipes-containers/podman/podman_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Bruce
 
-diff --git a/recipes-containers/podman/podman_git.bb b/recipes-containers/podman/podman_git.bb
-index f69dec16..32de3f0c 100644
---- a/recipes-containers/podman/podman_git.bb
-+++ b/recipes-containers/podman/podman_git.bb
-@@ -134,7 +134,7 @@ do_install_ptest () {
- FILES:${PN} += " \
-     ${systemd_unitdir}/system/* \
-     ${nonarch_libdir}/systemd/* \
--    ${systemd_user_unitdir/* \
-+    ${systemd_user_unitdir}/* \
-     ${nonarch_libdir}/tmpfiles.d/* \
-     ${datadir}/user-tmpfiles.d/* \
-     ${sysconfdir}/cni \
--- 
-2.34.1
+In message: [meta-virtualization] [PATCH] ceph: Add the missing Upstream-Status Field
+on 29/04/2024 Yu, Mingli via lists.yoctoproject.org wrote:
+
+> From: Mingli Yu <mingli.yu@windriver.com>
+> 
+> Fixes:
+>   INFO: Traceback (most recent call last):
+>     File "/build/layers/oe-core/scripts/lib/checklayer/cases/common.py", line 87, in test_patches_upstream_status
+>       self.assertEqual(len(patches), 0 , \
+>   AssertionError: 1 != 0 : Found following patches with malformed or missing upstream status:
+> /build/layers/meta-virtualization/recipes-extended/ceph/ceph/0001-delete-install-layout-deb.patch
+> 
+> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+> ---
+>  recipes-extended/ceph/ceph/0001-delete-install-layout-deb.patch | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/recipes-extended/ceph/ceph/0001-delete-install-layout-deb.patch b/recipes-extended/ceph/ceph/0001-delete-install-layout-deb.patch
+> index 91eacfa9..3cd8edba 100644
+> --- a/recipes-extended/ceph/ceph/0001-delete-install-layout-deb.patch
+> +++ b/recipes-extended/ceph/ceph/0001-delete-install-layout-deb.patch
+> @@ -3,6 +3,8 @@ From: Chen Qi <Qi.Chen@windriver.com>
+>  Date: Wed, 13 Mar 2024 03:41:47 -0700
+>  Subject: [PATCH] delete install-layout=deb
+>  
+> +Upstream-Status: Pending
+> +
+>  Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+>  ---
+>   cmake/modules/Distutils.cmake | 6 ------
+> -- 
+> 2.25.1
+> 
+
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#8703): https://lists.yoctoproject.org/g/meta-virtualization/message/8703
+> Mute This Topic: https://lists.yoctoproject.org/mt/105797118/1050810
+> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
 
