@@ -1,98 +1,84 @@
-Return-Path: <patrick.wicki@subset.ch>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46D55C4345F
-	for <webhook@archiver.kernel.org>; Mon,  6 May 2024 08:28:23 +0000 (UTC)
-Received: from qs51p00im-qukt01072701.me.com (qs51p00im-qukt01072701.me.com [17.57.155.16])
- by mx.groups.io with SMTP id smtpd.web11.15851.1714984102387677147
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34B71C04FFE
+	for <webhook@archiver.kernel.org>; Wed,  8 May 2024 19:00:29 +0000 (UTC)
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.web11.5606.1715194819490146059
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 06 May 2024 01:28:22 -0700
+ Wed, 08 May 2024 12:00:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@subset.ch header.s=sig1 header.b=p3xta1cj;
- spf=pass (domain: subset.ch, ip: 17.57.155.16, mailfrom: patrick.wicki@subset.ch)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=subset.ch; s=sig1;
-	t=1714984101; bh=D4WbAuy9jcPKpf7MmMcTNk7ztItIfMfNdkHXV15LwmA=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=p3xta1cjt8ZO5v7xzb1/UP8z0A2RaQB12zmftjUQf/nk2rIg4+8gpWB651K+4n9J4
-	 XVE6DfzGQSsjSUCsaYSLBQpO2A/3dfa7KQxOd0XUlX1th+OO+ZfvxO2jGMji4+T7NK
-	 EDZvcWqjj0/rc3pl5b1yVOFj+Qwa+ZiF0dDNiS5TJaVa8Sjq+9j4TRhWlBOf9HXk0Y
-	 g8qCfDrRSfsFgm1AZa77EoLx32uwIdrsK07T7Oy0DSIWVeDwjzyOVE+IY5NNZZNqTC
-	 l6PB7k0DgnYgThbsjd8H4SWfrBKlVhLhIdPk2xVBOO00bibT+dFep8CkM9muDXgEEp
-	 cWYoQ5wCJsdiA==
-Received: from localhost.localdomain (qs51p00im-dlb-asmtp-mailmevip.me.com [17.57.155.28])
-	by qs51p00im-qukt01072701.me.com (Postfix) with ESMTPSA id D4EE715C013A;
-	Mon,  6 May 2024 08:28:20 +0000 (UTC)
-From: patrick.wicki@subset.ch
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=X5wHCz1l;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-34d7d04808bso34171f8f.0
+        for <meta-virtualization@lists.yoctoproject.org>; Wed, 08 May 2024 12:00:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1715194818; x=1715799618; darn=lists.yoctoproject.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=LK/0dpFtdSLINNcNQl3Jf8cHjpEMCn0/wg2YarRfUTk=;
+        b=X5wHCz1l3eHXl0joKFoWSbNusGGr1kA3oSKB5kH9uKbcasVkO+MIIEHbSu2RaGZt8G
+         VRQHJXtjGuQNuMxC+9C3XX05Je9FXuxEI0GSeDl0skeL+ks53crEO6Fa6vIrC2zhZeHE
+         5EVWL1bjz8uV+v2b3++x5isZzb/K0hogdJRgE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715194818; x=1715799618;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=LK/0dpFtdSLINNcNQl3Jf8cHjpEMCn0/wg2YarRfUTk=;
+        b=wHRoaU2i6CzinbOTYMrJt9QGOwSqVamcKxh/NhhrnTLFtp0eO2bQP8mpcc2fIUfr9E
+         CjHoEK0b3KrcOz+aUM+LmmWmuu60ISEEhNwYn73KFw7BbzlKU9IetxdFls3HRmTLlMm/
+         Q3sDapMbPfys4TVe9L22bKapLllUpPAZ3tEOKHdhpghmPzmGgXXBWWbf62VBQjCpUk4z
+         8GzyBzALcWbB7hzKR8K3QO+j3Yk2NpQC4INH87geOJ29YJs5gRrh30Ws8thcIXJpcdzy
+         OqjrY6qMX3BYXnSYLsky+a/iNTyq7sph20NjguhrVdTpB28YYTEnIET1u387+/4XhljD
+         Gxig==
+X-Gm-Message-State: AOJu0YzXmn/jb0XxaYVm4rEggubrxiGEbupZ3TEspMO2AuzOj0tXoPR6
+	IupgAzZoWr5qsrPmKfz5ZvacPirAaXiVy25si1hdZ0Xs9KIpOVmcMFIoYuBS2mqugj1RQf2xsSa
+	uZew=
+X-Google-Smtp-Source: AGHT+IHrOxPuYZNxE83mmIX+SOVtta7mjsB3ph3jjASb8xXCLMO51QSlooPMAZ6pVcOv/ZdVCKtSXA==
+X-Received: by 2002:a5d:6507:0:b0:34d:9c8f:61a1 with SMTP id ffacd0b85a97d-34fcabefd83mr3032907f8f.60.1715194817521;
+        Wed, 08 May 2024 12:00:17 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:5b88:fab8:c8fc:9dd2])
+        by smtp.gmail.com with ESMTPSA id w18-20020adfec52000000b0034dd8356028sm15915966wrn.26.2024.05.08.12.00.16
+        for <meta-virtualization@lists.yoctoproject.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 May 2024 12:00:17 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: meta-virtualization@lists.yoctoproject.org
-Cc: Patrick Wicki <patrick.wicki@siemens.com>
-Subject: [meta-virtualization][PATCH v2 2/2] podman: require catatonit
-Date: Mon,  6 May 2024 10:28:06 +0200
-Message-ID: <20240506082806.292832-2-patrick.wicki@subset.ch>
-X-Mailer: git-send-email 2.45.0
-In-Reply-To: <20240506082806.292832-1-patrick.wicki@subset.ch>
-References: <20240506082806.292832-1-patrick.wicki@subset.ch>
+Subject: [meta-virtualization] [PATCH] sysvinit-inittab: Use UNPACKDIR instead of WORKDIR
+Date: Wed,  8 May 2024 20:00:16 +0100
+Message-Id: <20240508190016.3865000-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-X-Proofpoint-ORIG-GUID: HlemrwG1b6eNHofzRblU3aij5a1glJac
-X-Proofpoint-GUID: HlemrwG1b6eNHofzRblU3aij5a1glJac
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.650,FMLib:17.11.176.26
- definitions=2024-05-06_04,2024-05-03_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=820 adultscore=0 mlxscore=0
- phishscore=0 suspectscore=0 spamscore=0 bulkscore=0 malwarescore=0
- clxscore=1030 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2308100000 definitions=main-2405060056
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Mon, 06 May 2024 08:28:23 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8717
+ <meta-virtualization@lists.yoctoproject.org>; Wed, 08 May 2024 19:00:29 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8718
 
-From: Patrick Wicki <patrick.wicki@siemens.com>
+Now that UNPACKDIR has been introduced to OE-Core, use it in the
+do_install fuction so that as/when things move around and UNPACKDIR
+is no longer WORKDIR, it continues to work correctly.
 
-Alternatively, we could add it to RRECOMMENDS. But I would say, given
-its name, managing pods is part of podman's core functionality and that
-requires catatonit, which is currently only pulled in for the ptest:
-
-root@qemux86-64:~# podman pod create
-Error: building local pause image: finding pause binary: exec: "catatonit=
-": executable file not found in $PATH
-
-Signed-off-by: Patrick Wicki <patrick.wicki@siemens.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- recipes-containers/podman/podman_git.bb | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ recipes-core/sysvinit/sysvinit-inittab_virtualization.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/recipes-containers/podman/podman_git.bb b/recipes-containers=
-/podman/podman_git.bb
-index 07c17449..cba685c0 100644
---- a/recipes-containers/podman/podman_git.bb
-+++ b/recipes-containers/podman/podman_git.bb
-@@ -150,7 +150,7 @@ VIRTUAL-RUNTIME_base-utils-nsenter ?=3D "util-linux-n=
-senter"
- COMPATIBLE_HOST =3D "^(?!mips).*"
-=20
- RDEPENDS:${PN} +=3D "\
--	conmon ${VIRTUAL-RUNTIME_container_runtime} iptables libdevmapper ${VIR=
-TUAL-RUNTIME_container_networking} ${VIRTUAL-RUNTIME_base-utils-nsenter} =
-\
-+	catatonit conmon ${VIRTUAL-RUNTIME_container_runtime} iptables libdevma=
-pper ${VIRTUAL-RUNTIME_container_networking} ${VIRTUAL-RUNTIME_base-utils=
--nsenter} \
- 	${@bb.utils.contains('PACKAGECONFIG', 'rootless', 'fuse-overlayfs slirp=
-4netns', '', d)} \
- "
- RRECOMMENDS:${PN} +=3D "slirp4netns \
-@@ -167,7 +167,6 @@ RDEPENDS:${PN}-ptest +=3D " \
- 	bash \
- 	bats \
- 	buildah \
--	catatonit \
- 	coreutils \
- 	file \
- 	gnupg \
---=20
-2.45.0
+diff --git a/recipes-core/sysvinit/sysvinit-inittab_virtualization.inc b/recipes-core/sysvinit/sysvinit-inittab_virtualization.inc
+index bf52da0e..5010dfd3 100644
+--- a/recipes-core/sysvinit/sysvinit-inittab_virtualization.inc
++++ b/recipes-core/sysvinit/sysvinit-inittab_virtualization.inc
+@@ -4,6 +4,6 @@ SRC_URI += "file://getty-wrapper"
+ 
+ do_install:append() {
+     install -d ${D}${base_sbindir}
+-    install -m 0755 ${WORKDIR}/getty-wrapper ${D}${base_sbindir}/getty-wrapper
++    install -m 0755 ${UNPACKDIR}/getty-wrapper ${D}${base_sbindir}/getty-wrapper
+ }
+ FILES:${PN} += "${base_sbindir}/getty-wrapper"
+-- 
+2.40.1
 
 
