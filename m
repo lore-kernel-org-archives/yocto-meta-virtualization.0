@@ -1,84 +1,243 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34B71C04FFE
-	for <webhook@archiver.kernel.org>; Wed,  8 May 2024 19:00:29 +0000 (UTC)
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.web11.5606.1715194819490146059
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C53BDC10F1A
+	for <webhook@archiver.kernel.org>; Thu,  9 May 2024 12:18:40 +0000 (UTC)
+Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com [209.85.161.44])
+ by mx.groups.io with SMTP id smtpd.web11.8665.1715257114667645036
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 08 May 2024 12:00:19 -0700
+ Thu, 09 May 2024 05:18:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=X5wHCz1l;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.53, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-34d7d04808bso34171f8f.0
-        for <meta-virtualization@lists.yoctoproject.org>; Wed, 08 May 2024 12:00:19 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=Bp7rzCAb;
+ spf=pass (domain: mvista.com, ip: 209.85.161.44, mailfrom: hprajapati@mvista.com)
+Received: by mail-oo1-f44.google.com with SMTP id 006d021491bc7-5aa1bf6cb40so509291eaf.1
+        for <meta-virtualization@lists.yoctoproject.org>; Thu, 09 May 2024 05:18:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1715194818; x=1715799618; darn=lists.yoctoproject.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=LK/0dpFtdSLINNcNQl3Jf8cHjpEMCn0/wg2YarRfUTk=;
-        b=X5wHCz1l3eHXl0joKFoWSbNusGGr1kA3oSKB5kH9uKbcasVkO+MIIEHbSu2RaGZt8G
-         VRQHJXtjGuQNuMxC+9C3XX05Je9FXuxEI0GSeDl0skeL+ks53crEO6Fa6vIrC2zhZeHE
-         5EVWL1bjz8uV+v2b3++x5isZzb/K0hogdJRgE=
+        d=mvista.com; s=google; t=1715257114; x=1715861914; darn=lists.yoctoproject.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=0yca4gV1mhvJj3GfM3ZSyWRA77LX8JFJCmLV0eo9JyM=;
+        b=Bp7rzCAbZaoqUjnbNh8u8q3N+o40Wt52xTrzHH2iss4Mq55VVvLH66EbXd35Do0Dj+
+         NxSPBvO3lylaDFcJCHk767sv4lINH65Hy0wQl8kMrAAxnTYOqBBpaa88azg2I8lkirJ+
+         14A8sdwSGzPeK2slc9f/ZB/q22etqOE6jPKLI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715194818; x=1715799618;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LK/0dpFtdSLINNcNQl3Jf8cHjpEMCn0/wg2YarRfUTk=;
-        b=wHRoaU2i6CzinbOTYMrJt9QGOwSqVamcKxh/NhhrnTLFtp0eO2bQP8mpcc2fIUfr9E
-         CjHoEK0b3KrcOz+aUM+LmmWmuu60ISEEhNwYn73KFw7BbzlKU9IetxdFls3HRmTLlMm/
-         Q3sDapMbPfys4TVe9L22bKapLllUpPAZ3tEOKHdhpghmPzmGgXXBWWbf62VBQjCpUk4z
-         8GzyBzALcWbB7hzKR8K3QO+j3Yk2NpQC4INH87geOJ29YJs5gRrh30Ws8thcIXJpcdzy
-         OqjrY6qMX3BYXnSYLsky+a/iNTyq7sph20NjguhrVdTpB28YYTEnIET1u387+/4XhljD
-         Gxig==
-X-Gm-Message-State: AOJu0YzXmn/jb0XxaYVm4rEggubrxiGEbupZ3TEspMO2AuzOj0tXoPR6
-	IupgAzZoWr5qsrPmKfz5ZvacPirAaXiVy25si1hdZ0Xs9KIpOVmcMFIoYuBS2mqugj1RQf2xsSa
-	uZew=
-X-Google-Smtp-Source: AGHT+IHrOxPuYZNxE83mmIX+SOVtta7mjsB3ph3jjASb8xXCLMO51QSlooPMAZ6pVcOv/ZdVCKtSXA==
-X-Received: by 2002:a5d:6507:0:b0:34d:9c8f:61a1 with SMTP id ffacd0b85a97d-34fcabefd83mr3032907f8f.60.1715194817521;
-        Wed, 08 May 2024 12:00:17 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:5b88:fab8:c8fc:9dd2])
-        by smtp.gmail.com with ESMTPSA id w18-20020adfec52000000b0034dd8356028sm15915966wrn.26.2024.05.08.12.00.16
-        for <meta-virtualization@lists.yoctoproject.org>
+        d=1e100.net; s=20230601; t=1715257114; x=1715861914;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0yca4gV1mhvJj3GfM3ZSyWRA77LX8JFJCmLV0eo9JyM=;
+        b=D7Pdx+orqSLm6ekkl3iPu7eHLpKIfwhSmKUWOdNC9jzx2xrDqHRVLj4xe4hx4ijAqk
+         /pK9srg9TKtZTkNOIlIbc4sLxOdvY4wmRH8fGdJqUVRTPf8SbpxUD+Qh7jXNcata67Jy
+         etfYVTry0x7Jcjn3qyhyzghyvnT9Iek018OSV2E0V4+Pl6VU+kVLytfxjpxLyOIF1eXo
+         kc1751zHeMpny92Seqgu3nHXUrKLhyIajMN9gKjJeYNBcKq78C/ITiMVZiuLw90UoW/H
+         cDdC7QuXS9HI6xZOGRULK0WCq2UkzizSb0FmHx9+vBoSzojJjQrGP0BUUmhp/ZhAoDaX
+         xzMg==
+X-Gm-Message-State: AOJu0YwJf7AKL9SYtRL55zb2D0I8bqMo/em6hO1CwZ5wg8EMqwdhSmTq
+	GDG5LmtOdj5+Vo1FJOnJsG5MwMZ7vUYdScvc8H4YQAol8uIkWNU7MslBvj8yX2ASSF+Q8M5waNU
+	v
+X-Google-Smtp-Source: AGHT+IGx0ZLckpd6ymUqg9Xrde0JGAV7U8pNf1bmcK82swzNDeXWafoC+EZkbLmo/2OA1PX0sbKxnA==
+X-Received: by 2002:a05:6871:2b24:b0:22e:ca72:faad with SMTP id 586e51a60fabf-24098933ccamr5714150fac.43.1715257113346;
+        Thu, 09 May 2024 05:18:33 -0700 (PDT)
+Received: from MVIN00016.mvista.com ([103.250.136.140])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2412a51b6e0sm245274fac.18.2024.05.09.05.18.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 May 2024 12:00:17 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+        Thu, 09 May 2024 05:18:33 -0700 (PDT)
+From: Hitendra Prajapati <hprajapati@mvista.com>
 To: meta-virtualization@lists.yoctoproject.org
-Subject: [meta-virtualization] [PATCH] sysvinit-inittab: Use UNPACKDIR instead of WORKDIR
-Date: Wed,  8 May 2024 20:00:16 +0100
-Message-Id: <20240508190016.3865000-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.40.1
+Cc: bruce.ashfield@gmail.com,
+	Hitendra Prajapati <hprajapati@mvista.com>
+Subject: [meta-virtualization][dunfell][PATCH] openvswitch: fix CVE-2020-35498 limitation in the OVS packet parsing
+Date: Thu,  9 May 2024 17:48:24 +0530
+Message-Id: <20240509121824.82134-1-hprajapati@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Wed, 08 May 2024 19:00:29 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8718
+ <meta-virtualization@lists.yoctoproject.org>; Thu, 09 May 2024 12:18:40 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8719
 
-Now that UNPACKDIR has been introduced to OE-Core, use it in the
-do_install fuction so that as/when things move around and UNPACKDIR
-is no longer WORKDIR, it continues to work correctly.
+Upstream-Status: Backport https://github.com/openvswitch/ovs/commit/0625dc79aec73b966f206e55655a2816696246d0
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 ---
- recipes-core/sysvinit/sysvinit-inittab_virtualization.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../openvswitch-git/CVE-2020-35498.patch      | 151 ++++++++++++++++++
+ .../openvswitch/openvswitch_git.bb            |   1 +
+ 2 files changed, 152 insertions(+)
+ create mode 100644 recipes-networking/openvswitch/openvswitch-git/CVE-2020-35498.patch
 
-diff --git a/recipes-core/sysvinit/sysvinit-inittab_virtualization.inc b/recipes-core/sysvinit/sysvinit-inittab_virtualization.inc
-index bf52da0e..5010dfd3 100644
---- a/recipes-core/sysvinit/sysvinit-inittab_virtualization.inc
-+++ b/recipes-core/sysvinit/sysvinit-inittab_virtualization.inc
-@@ -4,6 +4,6 @@ SRC_URI += "file://getty-wrapper"
+diff --git a/recipes-networking/openvswitch/openvswitch-git/CVE-2020-35498.patch b/recipes-networking/openvswitch/openvswitch-git/CVE-2020-35498.patch
+new file mode 100644
+index 00000000..5093f077
+--- /dev/null
++++ b/recipes-networking/openvswitch/openvswitch-git/CVE-2020-35498.patch
+@@ -0,0 +1,151 @@
++rom 0625dc79aec73b966f206e55655a2816696246d0 Mon Sep 17 00:00:00 2001
++From: Flavio Leitner <fbl@sysclose.org>
++Date: Mon, 26 Oct 2020 16:03:19 -0300
++Subject: [PATCH] flow: Support extra padding length.
++
++Although not required, padding can be optionally added until
++the packet length is MTU bytes. A packet with extra padding
++currently fails sanity checks.
++
++Vulnerability: CVE-2020-35498
++Fixes: fa8d9001a624 ("miniflow_extract: Properly handle small IP packets.")
++Reported-by: Joakim Hindersson <joakim.hindersson@elastx.se>
++Acked-by: Ilya Maximets <i.maximets@ovn.org>
++Signed-off-by: Flavio Leitner <fbl@sysclose.org>
++Signed-off-by: Ilya Maximets <i.maximets@ovn.org>
++
++Upstream-Status: Backport [https://github.com/openvswitch/ovs/commit/0625dc79aec73b966f206e55655a2816696246d0]
++CVE: CVE-2020-35498
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ lib/conntrack.c     |  2 +-
++ lib/dp-packet.h     | 10 +++++-----
++ lib/flow.c          |  6 +++---
++ tests/classifier.at | 36 ++++++++++++++++++++++++++++++++++++
++ 4 files changed, 45 insertions(+), 9 deletions(-)
++
++diff --git a/lib/conntrack.c b/lib/conntrack.c
++index ff5a89457..0f486d74c 100644
++--- a/lib/conntrack.c
+++++ b/lib/conntrack.c
++@@ -813,7 +813,7 @@ static void
++ reverse_nat_packet(struct dp_packet *pkt, const struct conn *conn)
++ {
++     char *tail = dp_packet_tail(pkt);
++-    uint8_t pad = dp_packet_l2_pad_size(pkt);
+++    uint16_t pad = dp_packet_l2_pad_size(pkt);
++     struct conn_key inner_key;
++     const char *inner_l4 = NULL;
++     uint16_t orig_l3_ofs = pkt->l3_ofs;
++diff --git a/lib/dp-packet.h b/lib/dp-packet.h
++index 9f8991faa..45655af46 100644
++--- a/lib/dp-packet.h
+++++ b/lib/dp-packet.h
++@@ -81,7 +81,7 @@ struct dp_packet {
++ 
++     /* All the following elements of this struct are copied in a single call
++      * of memcpy in dp_packet_clone_with_headroom. */
++-    uint8_t l2_pad_size;           /* Detected l2 padding size.
+++    uint16_t l2_pad_size;          /* Detected l2 padding size.
++                                     * Padding is non-pullable. */
++     uint16_t l2_5_ofs;             /* MPLS label stack offset, or UINT16_MAX */
++     uint16_t l3_ofs;               /* Network-level header offset,
++@@ -118,8 +118,8 @@ void *dp_packet_resize_l2(struct dp_packet *, int increment);
++ void *dp_packet_resize_l2_5(struct dp_packet *, int increment);
++ static inline void *dp_packet_eth(const struct dp_packet *);
++ static inline void dp_packet_reset_offsets(struct dp_packet *);
++-static inline uint8_t dp_packet_l2_pad_size(const struct dp_packet *);
++-static inline void dp_packet_set_l2_pad_size(struct dp_packet *, uint8_t);
+++static inline uint16_t dp_packet_l2_pad_size(const struct dp_packet *);
+++static inline void dp_packet_set_l2_pad_size(struct dp_packet *, uint16_t);
++ static inline void *dp_packet_l2_5(const struct dp_packet *);
++ static inline void dp_packet_set_l2_5(struct dp_packet *, void *);
++ static inline void *dp_packet_l3(const struct dp_packet *);
++@@ -327,14 +327,14 @@ dp_packet_reset_offsets(struct dp_packet *b)
++     b->l4_ofs = UINT16_MAX;
++ }
++ 
++-static inline uint8_t
+++static inline uint16_t
++ dp_packet_l2_pad_size(const struct dp_packet *b)
++ {
++     return b->l2_pad_size;
++ }
++ 
++ static inline void
++-dp_packet_set_l2_pad_size(struct dp_packet *b, uint8_t pad_size)
+++dp_packet_set_l2_pad_size(struct dp_packet *b, uint16_t pad_size)
++ {
++     ovs_assert(pad_size <= dp_packet_size(b));
++     b->l2_pad_size = pad_size;
++diff --git a/lib/flow.c b/lib/flow.c
++index 45bb96b54..353d5cd3e 100644
++--- a/lib/flow.c
+++++ b/lib/flow.c
++@@ -655,7 +655,7 @@ ipv4_sanity_check(const struct ip_header *nh, size_t size,
++ 
++     tot_len = ntohs(nh->ip_tot_len);
++     if (OVS_UNLIKELY(tot_len > size || ip_len > tot_len ||
++-                size - tot_len > UINT8_MAX)) {
+++                size - tot_len > UINT16_MAX)) {
++         return false;
++     }
++ 
++@@ -693,8 +693,8 @@ ipv6_sanity_check(const struct ovs_16aligned_ip6_hdr *nh, size_t size)
++     if (OVS_UNLIKELY(plen + IPV6_HEADER_LEN > size)) {
++         return false;
++     }
++-    /* Jumbo Payload option not supported yet. */
++-    if (OVS_UNLIKELY(size - (plen + IPV6_HEADER_LEN) > UINT8_MAX)) {
+++
+++    if (OVS_UNLIKELY(size - (plen + IPV6_HEADER_LEN) > UINT16_MAX)) {
++         return false;
++     }
++ 
++diff --git a/tests/classifier.at b/tests/classifier.at
++index 88818618b..cdcd72c15 100644
++--- a/tests/classifier.at
+++++ b/tests/classifier.at
++@@ -304,3 +304,39 @@ ovs-ofctl: "conjunction" actions may be used along with "note" but not any other
++ ])
++ OVS_VSWITCHD_STOP
++ AT_CLEANUP
+++
+++# Flow classifier a packet with excess of padding.
+++AT_SETUP([flow classifier - packet with extra padding])
+++OVS_VSWITCHD_START
+++add_of_ports br0 1 2
+++AT_DATA([flows.txt], [dnl
+++priority=5,ip,ip_dst=1.1.1.1,actions=1
+++priority=5,ip,ip_dst=1.1.1.2,actions=2
+++priority=0,actions=drop
+++])
+++AT_CHECK([ovs-ofctl add-flows br0 flows.txt])
+++packet=00020202020000010101010008004500001c00010000401176cc01010101010101020d6a00350008ee3a
+++AT_CHECK([ovs-appctl ofproto/trace br0 in_port=1 $packet] , [0], [stdout])
+++AT_CHECK([tail -2 stdout], [0],
+++  [Megaflow: recirc_id=0,eth,ip,in_port=1,nw_dst=1.1.1.2,nw_frag=no
+++Datapath actions: 2
+++])
+++# normal packet plus 255 bytes of padding (8bit padding).
+++# 255 * 2 = 510
+++padding=$(printf '%*s' 510 | tr ' ' '0')
+++AT_CHECK([ovs-appctl ofproto/trace br0 in_port=1 ${packet}${padding}] , [0], [stdout])
+++AT_CHECK([tail -2 stdout], [0],
+++  [Megaflow: recirc_id=0,eth,ip,in_port=1,nw_dst=1.1.1.2,nw_frag=no
+++Datapath actions: 2
+++])
+++# normal packet plus padding up to 65535 bytes of length (16bit limit).
+++# 65535 - 43 = 65492
+++# 65492 * 2 = 130984
+++padding=$(printf '%*s' 130984 | tr ' ' '0')
+++AT_CHECK([ovs-appctl ofproto/trace br0 in_port=1 ${packet}${padding}], [0], [stdout])
+++AT_CHECK([tail -2 stdout], [0],
+++  [Megaflow: recirc_id=0,eth,ip,in_port=1,nw_dst=1.1.1.2,nw_frag=no
+++Datapath actions: 2
+++])
+++OVS_VSWITCHD_STOP
+++AT_CLEANUP
++-- 
++2.25.1
++
+diff --git a/recipes-networking/openvswitch/openvswitch_git.bb b/recipes-networking/openvswitch/openvswitch_git.bb
+index 56a9c25f..c1cc23c0 100644
+--- a/recipes-networking/openvswitch/openvswitch_git.bb
++++ b/recipes-networking/openvswitch/openvswitch_git.bb
+@@ -32,6 +32,7 @@ SRC_URI = "file://openvswitch-switch \
+            file://systemd-update-tool-paths.patch \
+            file://systemd-create-runtime-dirs.patch \
+            file://CVE-2021-3905.patch \
++           file://CVE-2020-35498.patch \
+            "
  
- do_install:append() {
-     install -d ${D}${base_sbindir}
--    install -m 0755 ${WORKDIR}/getty-wrapper ${D}${base_sbindir}/getty-wrapper
-+    install -m 0755 ${UNPACKDIR}/getty-wrapper ${D}${base_sbindir}/getty-wrapper
- }
- FILES:${PN} += "${base_sbindir}/getty-wrapper"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=1ce5d23a6429dff345518758f13aaeab"
 -- 
-2.40.1
+2.25.1
 
 
