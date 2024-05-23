@@ -1,252 +1,219 @@
-Return-Path: <martin.jansa@gmail.com>
+Return-Path: <troth@openavr.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE3CFC25B75
-	for <webhook@archiver.kernel.org>; Thu, 23 May 2024 08:34:19 +0000 (UTC)
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
- by mx.groups.io with SMTP id smtpd.web11.12103.1716453258580358123
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 11C12C25B75
+	for <webhook@archiver.kernel.org>; Thu, 23 May 2024 18:24:02 +0000 (UTC)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+ by mx.groups.io with SMTP id smtpd.web11.66.1716488635534019078
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 23 May 2024 01:34:18 -0700
+ Thu, 23 May 2024 11:23:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=IZpOBwY5;
- spf=pass (domain: gmail.com, ip: 209.85.208.171, mailfrom: martin.jansa@gmail.com)
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2e6f33150bcso77034781fa.2
-        for <meta-virtualization@lists.yoctoproject.org>; Thu, 23 May 2024 01:34:18 -0700 (PDT)
+ dkim=pass header.i=@openavr-org.20230601.gappssmtp.com header.s=20230601 header.b=ojLEayE4;
+ spf=none, err=permanent DNS error (domain: openavr.org, ip: 209.85.221.46, mailfrom: troth@openavr.org)
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-354f51ac110so1702771f8f.0
+        for <meta-virtualization@lists.yoctoproject.org>; Thu, 23 May 2024 11:23:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1716453256; x=1717058056; darn=lists.yoctoproject.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7lT6YQ+HwLJz/rXhqrl8ZiGQCY9zOF1BzCg1ZiIkMfI=;
-        b=IZpOBwY5qZfaLMdUKrcdSLbDT4LM9LEF3SxXztf2Rb+c+3gXiTVkqCJK94RjOgJkMV
-         n4kwFJDw3raxqFUuqg6W6w6xL06OAskUN5dYsSovcDlkD92n7K7GDdl6Vv+0U+IcHhCt
-         glPo9r1FPRyC2L0lo9tWiCq3C6h0lEDeB8+frtI1Z+CigQWasdqm37W6LiecizccEoit
-         PK1MFjbakZtgqm757IpBe9gVmUK+SPRzKTLgOZEeg8EYzWzmpMpWiZ7hX5HT7vZjiPMo
-         nZcWkbrkXPW4kEt+NoYJ82N3qFrxEqd969YzMn8y3hy1/LGbpkJViZS+/29hzAiEXihh
-         0W+A==
+        d=openavr-org.20230601.gappssmtp.com; s=20230601; t=1716488634; x=1717093434; darn=lists.yoctoproject.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=cWG6J4muLBDKMIWvn1bPQViReNDJ3rh1QhmaYkRlh6w=;
+        b=ojLEayE4R9UuH9iYLtVb+sY1DN1d54rNUTUPrGUGT5gCWfN697Bhs1oGBw36ru7eH3
+         ECqQjvaJIcjS2+33DpAAUyKvqoOEKjqXBj0uzDnLTnow0y3cEASt1VM7j4RWf/ZgpcwM
+         PSXHqJF3lFt9wnGldr0dXAIosm0XgXaVJ94b2WmRKYl7PjM0EbEGthl9wCPZhrt7swe6
+         ZI9+E+seRTWU8Hz+rzOIeeSMdJ2L48OB2dtc6eSDWcScNM32lVZJR/LoscCRvYujtQYE
+         QsxezMmLUdMIQ/PgLZScOI4iZN9JJFXqeqQP2TVtvbM+TIjnngpHu/WHvanDYerxFUg9
+         3Fyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716453256; x=1717058056;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=7lT6YQ+HwLJz/rXhqrl8ZiGQCY9zOF1BzCg1ZiIkMfI=;
-        b=rMd4K5mUXMCqWGbTFWf8KZouEwX/GYWNCEpyb8GHaCeu+zzD6F2v73ukqXDzBIlTCw
-         Ve5sw964K01xwinFsowxe+/Chqk9qlPgKYNwgkuIQ/tPl8GCcnUtoQeYG3HC5FqdIf52
-         RB0TGiUtADdxoXZJgpLV3+mmXLx7SpRWazX13NRsGrnFoBlDZl9wJDJJEKKipqHBMOn3
-         wZHzrApCCRnbbY8VaUIIc6gFr++NCXPoxqR6qEoOrEDl7wS+H4Au4KFLuqz4Za67pAqb
-         G2BnQYfL8eadXwkllrEUGbrJ9702tGCpVgQ75TY22csT1AUMTS4YgvPV9oCmYKRH4BC6
-         RaSg==
-X-Forwarded-Encrypted: i=1; AJvYcCUZTPhEPDaEYmlVOD1KQ3uHrqPDaqh0AKLLNA+4SIG+jVJnpbSo/zb6I2wN4+dwTCReBox8Niq80yAYXUN01xfqpem+tSuexpImul+5B6u8GYn/P+hoM9rP5+0=
-X-Gm-Message-State: AOJu0Yx7xlcsgcsmiVst5rrmwVSEnHyTTplrJ7nWCka7iaKMs6+Rqu47
-	2VLIUv0JIsdOmHpQ7XghnPh3V63nMuIk03hD/BJwGdcvSlewVBue0FSDydQQsQ5cjMRpOBIGMA0
-	2kvro+Pe3S9wOwP2ZFIbfPcInjIU=
-X-Google-Smtp-Source: AGHT+IHczJKPJ0f7bldTTgZd92C7mw8xyqHwd8jb1/k31hDxoGWojAmMm3bCGpu41BQ0SnvUu7lFbuoPXgT3t1U62Jw=
-X-Received: by 2002:a2e:2e17:0:b0:2d8:408c:3f5b with SMTP id
- 38308e7fff4ca-2e94949c503mr28011651fa.5.1716453256221; Thu, 23 May 2024
- 01:34:16 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1716488634; x=1717093434;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=cWG6J4muLBDKMIWvn1bPQViReNDJ3rh1QhmaYkRlh6w=;
+        b=Ox0VlrZ4qCfoYJp7zhlC3RJy0mqH0ok1HuRm4SW6mDvEZKXRRQbB1sSLXsEKNbQOBJ
+         XX/D4cJj/xhjGvEHmNB2CP1nA87baYwlczM/GUHGZoxbIPJMZo1siL/qDEqBaLKudrOm
+         QgWLPUtb3/FQRGrX2l0mWhjqVbwJgd+btR3+27fE++hiUMfWeWzAbTTPneOvtrXCeqIG
+         q1gnJowrm4MQDoYVmjkwhSKquqsG63hneRvAZGDjW++z3iwC8hDh6LiVyxq74CrTRuT0
+         3D5IZIUbSIhfnPtAKzaeQdn2iP6w+6v+dQvN0ITELXfTzdLy8iz7o5vp/ljoLMHR39cI
+         tang==
+X-Forwarded-Encrypted: i=1; AJvYcCUKdfrV78kF/5KeAIcoky2pUq9sXXu6l28S2ZSvcfvIR1to09RswizrGmYxKLwrw6gStU3j4SQ2Cnl4b00ya6/awlrA+90t6V8qzhuvzyZAmPx4itT0vDaoZHs=
+X-Gm-Message-State: AOJu0YxuB4f35fIF88Rq3nw3mx3gU7lfv8QaTGCf4x5riNLg9OTJPhHw
+	5WxE6fezpqIhmeJiv+TavyDBA2JVqClNhwiZ3q8h/VYlfEXDwwqv4VN1ryqhg4aJjXUOpVp99IU
+	wX/iaXvZeMQtpucxw122JmlALoml13WFaULl5+Q==
+X-Google-Smtp-Source: AGHT+IGaeC5RChhGcjljof7kdxz6DLxqpaBWT9AFuNXA5A7Mf0ZwyOLd+lnXlC0+B/aeoinZofYfw/ByhaSZdHWldPo=
+X-Received: by 2002:a05:6000:1cc3:b0:34d:9456:b8d6 with SMTP id
+ ffacd0b85a97d-354d8cf4582mr5274926f8f.42.1716488633797; Thu, 23 May 2024
+ 11:23:53 -0700 (PDT)
 MIME-Version: 1.0
 References: <CAFMvBt2+s5a9BCnkYgmXvL9P83JDgkg5hg41q936JuEXHy568g@mail.gmail.com>
  <CA+chaQdXNXd_B3YiKXnvt0eV-i24hS1g7Jm6zW0buqN9n_3sZQ@mail.gmail.com>
  <CAFMvBt1p7DHLfeiNPA=F5__kkSyW9Z8Ouhkhpg9Kptnt=R-PQA@mail.gmail.com>
- <CA+chaQd=BcD17hyZg5VDCSajtQ56aG=YJeRmGr3s+tsRsRkS9g@mail.gmail.com> <CADkTA4P5u3NVBO-3itqOE931ik68caKdR-2kXgdseADr9v=9GQ@mail.gmail.com>
-In-Reply-To: <CADkTA4P5u3NVBO-3itqOE931ik68caKdR-2kXgdseADr9v=9GQ@mail.gmail.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Thu, 23 May 2024 10:33:59 +0200
-Message-ID: <CA+chaQc94P6-yfmJRhM4Mi5gK9MVkq3MFGw4Z_Nvns_U78TdAw@mail.gmail.com>
+ <CA+chaQd=BcD17hyZg5VDCSajtQ56aG=YJeRmGr3s+tsRsRkS9g@mail.gmail.com>
+ <CADkTA4P5u3NVBO-3itqOE931ik68caKdR-2kXgdseADr9v=9GQ@mail.gmail.com> <CA+chaQc94P6-yfmJRhM4Mi5gK9MVkq3MFGw4Z_Nvns_U78TdAw@mail.gmail.com>
+In-Reply-To: <CA+chaQc94P6-yfmJRhM4Mi5gK9MVkq3MFGw4Z_Nvns_U78TdAw@mail.gmail.com>
+From: "Theodore A. Roth" <troth@openavr.org>
+Date: Thu, 23 May 2024 12:23:42 -0600
+Message-ID: <CAFMvBt2Rk1BBVWnqJaLmmVtbi2Dpb_cMQvnY6FVjMfbXdhEh6Q@mail.gmail.com>
 Subject: Re: [meta-virtualization] breakages in go recipes
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: "Theodore A. Roth" <troth@openavr.org>, meta-virtualization@lists.yoctoproject.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: Bruce Ashfield <bruce.ashfield@gmail.com>, meta-virtualization@lists.yoctoproject.org
+Content-Type: multipart/alternative; boundary="00000000000047720a06192327b5"
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Thu, 23 May 2024 08:34:19 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8742
+ <meta-virtualization@lists.yoctoproject.org>; Thu, 23 May 2024 18:24:02 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8743
 
-FWIW: My world build with oe-core
-master:094273bd7d1768e14fbdcd2f239bee14c630a625 (so before the main
-UNPACKDIR changes) finished with these failures from
-meta-virtualization:
+--00000000000047720a06192327b5
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Thu, May 23, 2024 at 2:34=E2=80=AFAM Martin Jansa <martin.jansa@gmail.co=
+m> wrote:
+
+> FWIW: My world build with oe-core
+> master:094273bd7d1768e14fbdcd2f239bee14c630a625 (so before the main
+> UNPACKDIR changes) finished with these failures from
+> meta-virtualization:
+>
+> ERROR: Task
+> (meta-virtualization/recipes-containers/cri-tools/cri-tools_git.bb:
+> do_patch)
+> failed with exit code '1'
+> ERROR: Task
+> (meta-virtualization/recipes-containers/docker-compose/docker-compose_git=
+.bb:
+> do_populate_lic)
+> failed with exit code '1'
+> ERROR: Task
+> (meta-virtualization/recipes-containers/docker/docker-moby_git.bb:
+> do_patch)
+> failed with exit code '1'
+> ERROR: Task (meta-virtualization/recipes-containers/nerdctl/nerdctl_git.b=
+b:
+> do_patch)
+> failed with exit code '1'
+> ERROR: Task
+> (meta-virtualization/recipes-containers/runc/runc-opencontainers_git.bb:
+> do_patch)
+> failed with exit code '1'
+> ERROR: Task (meta-virtualization/recipes-devtools/go/go-md2man_git.bb:
+> do_compile)
+> failed with exit code '1'
+> ERROR: Task (meta-virtualization/recipes-devtools/go/go-md2man_git.bb:
+> do_populate_lic)
+> failed with exit code '1'
+> ERROR: Task (meta-virtualization/recipes-devtools/yq/yq_git.bb:do_compile=
+)
+> failed with exit code '1'
+> ERROR: Task (meta-virtualization/recipes-devtools/yq/yq_git.bb:
+> do_populate_lic)
+> failed with exit code '1'
+> ERROR: Task (meta-virtualization/recipes-networking/cni/cni_git.bb:
+> do_compile)
+> failed with exit code '1'
+> ERROR: Task (meta-virtualization/recipes-networking/cni/cni_git.bb:
+> do_populate_lic)
+> failed with exit code '1'
+> ERROR: Task (meta-virtualization/recipes-networking/netns/netns_git.bb
+> :do_patch)
+> failed with exit code '1'
+>
+> the UNPACKDIR changes will probably cause few more issues, I've
+> already noticed one with linux-yocto_virtualization.inc and added
+> temporary work around here:
+> https://github.com/shr-project/meta-virtualization/commits/jansa/master/
+>
+> will send what I have later today as a RFC (as I cannot even build
+> whole image yet) unless Theodore gets to it sooner.
+>
+
+Martin:
+
+Spent most of the day fighting with UNPACKDIR breakages outside of
+meta-virtualization.
+Finally got to the point where I could build your WIP changes. Found some
+issues with the
+runc recipes and have pushed fixes here:
+
+https://github.com/troth/meta-virtualization/commit/f604f1fb39fad9f496700be=
+59333edcdc3e7a633
+
+I'm still waiting for a full build to complete, so I have not completely
+verified the rest of your changes.
+
+Ted Roth
+
+--00000000000047720a06192327b5
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"></div><br><div class=3D"gmail_quote"><div=
+ dir=3D"ltr" class=3D"gmail_attr">On Thu, May 23, 2024 at 2:34=E2=80=AFAM M=
+artin Jansa &lt;<a href=3D"mailto:martin.jansa@gmail.com">martin.jansa@gmai=
+l.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"ma=
+rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
+1ex">FWIW: My world build with oe-core<br>
+master:094273bd7d1768e14fbdcd2f239bee14c630a625 (so before the main<br>
+UNPACKDIR changes) finished with these failures from<br>
+meta-virtualization:<br>
+<br>
 ERROR: Task (meta-virtualization/recipes-containers/cri-tools/cri-tools_git=
-.bb:do_patch)
-failed with exit code '1'
+.bb:do_patch)<br>
+failed with exit code &#39;1&#39;<br>
 ERROR: Task (meta-virtualization/recipes-containers/docker-compose/docker-c=
-ompose_git.bb:do_populate_lic)
-failed with exit code '1'
+ompose_git.bb:do_populate_lic)<br>
+failed with exit code &#39;1&#39;<br>
 ERROR: Task (meta-virtualization/recipes-containers/docker/docker-moby_git.=
-bb:do_patch)
-failed with exit code '1'
+bb:do_patch)<br>
+failed with exit code &#39;1&#39;<br>
 ERROR: Task (meta-virtualization/recipes-containers/nerdctl/nerdctl_git.bb:=
-do_patch)
-failed with exit code '1'
+do_patch)<br>
+failed with exit code &#39;1&#39;<br>
 ERROR: Task (meta-virtualization/recipes-containers/runc/runc-opencontainer=
-s_git.bb:do_patch)
-failed with exit code '1'
+s_git.bb:do_patch)<br>
+failed with exit code &#39;1&#39;<br>
 ERROR: Task (meta-virtualization/recipes-devtools/go/go-md2man_git.bb:do_co=
-mpile)
-failed with exit code '1'
+mpile)<br>
+failed with exit code &#39;1&#39;<br>
 ERROR: Task (meta-virtualization/recipes-devtools/go/go-md2man_git.bb:do_po=
-pulate_lic)
-failed with exit code '1'
-ERROR: Task (meta-virtualization/recipes-devtools/yq/yq_git.bb:do_compile)
-failed with exit code '1'
+pulate_lic)<br>
+failed with exit code &#39;1&#39;<br>
+ERROR: Task (meta-virtualization/recipes-devtools/yq/yq_git.bb:do_compile)<=
+br>
+failed with exit code &#39;1&#39;<br>
 ERROR: Task (meta-virtualization/recipes-devtools/yq/yq_git.bb:do_populate_=
-lic)
-failed with exit code '1'
+lic)<br>
+failed with exit code &#39;1&#39;<br>
 ERROR: Task (meta-virtualization/recipes-networking/cni/cni_git.bb:do_compi=
-le)
-failed with exit code '1'
+le)<br>
+failed with exit code &#39;1&#39;<br>
 ERROR: Task (meta-virtualization/recipes-networking/cni/cni_git.bb:do_popul=
-ate_lic)
-failed with exit code '1'
-ERROR: Task (meta-virtualization/recipes-networking/netns/netns_git.bb:do_p=
-atch)
-failed with exit code '1'
+ate_lic)<br>
+failed with exit code &#39;1&#39;<br>
+ERROR: Task (meta-virtualization/recipes-networking/netns/<a href=3D"http:/=
+/netns_git.bb" target=3D"_blank">netns_git.bb</a>:do_patch)<br>
+failed with exit code &#39;1&#39;<br>
+<br>
+the UNPACKDIR changes will probably cause few more issues, I&#39;ve<br>
+already noticed one with linux-yocto_virtualization.inc and added<br>
+temporary work around here:<br>
+<a href=3D"https://github.com/shr-project/meta-virtualization/commits/jansa=
+/master/" rel=3D"noreferrer" target=3D"_blank">https://github.com/shr-proje=
+ct/meta-virtualization/commits/jansa/master/</a><br>
+<br>
+will send what I have later today as a RFC (as I cannot even build<br>
+whole image yet) unless Theodore gets to it sooner.<br></blockquote><div><b=
+r></div><div>Martin:</div><div><br></div><div>Spent most of the day fightin=
+g with UNPACKDIR breakages outside of meta-virtualization.</div><div>Finall=
+y got to the point where I could build your WIP changes. Found some issues =
+with the</div><div>runc recipes and have pushed fixes here:</div><div><br><=
+/div><div><a href=3D"https://github.com/troth/meta-virtualization/commit/f6=
+04f1fb39fad9f496700be59333edcdc3e7a633">https://github.com/troth/meta-virtu=
+alization/commit/f604f1fb39fad9f496700be59333edcdc3e7a633</a></div><div><br=
+></div><div>I&#39;m still waiting for a full build to complete, so I have n=
+ot completely verified the rest of your changes.</div><div><br></div><div>T=
+ed Roth<br></div></div></div>
 
-the UNPACKDIR changes will probably cause few more issues, I've
-already noticed one with linux-yocto_virtualization.inc and added
-temporary work around here:
-https://github.com/shr-project/meta-virtualization/commits/jansa/master/
-
-will send what I have later today as a RFC (as I cannot even build
-whole image yet) unless Theodore gets to it sooner.
-
-On Thu, May 23, 2024 at 6:04=E2=80=AFAM Bruce Ashfield <bruce.ashfield@gmai=
-l.com> wrote:
->
-> Martin's advice is on point (as usual).
->
-> I'll be travelling all day tomorrow, so I won't even have time to
-> review or merge until Friday.
->
-> I was aware of the pending changes, but I've been on the road for a
-> bit now, and didn't have a chance to complete my changes.
->
-> Bruce
->
-> On Wed, May 22, 2024 at 6:54=E2=80=AFPM Martin Jansa via
-> lists.yoctoproject.org <martin.jansa=3Dgmail.com@lists.yoctoproject.org>
-> wrote:
-> >
-> > I think one per recipe (or few related ones like runc*bb) would be
-> > easier to review in this case.
-> >
-> > On Thu, May 23, 2024 at 12:51=E2=80=AFAM Theodore A. Roth <troth@openav=
-r.org> wrote:
-> > >
-> > >
-> > > On Wed, May 22, 2024 at 4:05=E2=80=AFPM Martin Jansa <martin.jansa@gm=
-ail.com> wrote:
-> > >>
-> > >> Hi,
-> > >>
-> > >> I can confirm that I'm seeing the same build failures since this
-> > >> morning and agree that the recipes need to adapt to:
-> > >> https://git.openembedded.org/openembedded-core/commit/?id=3Dcc4ec43a=
-2b657fb4c58429ab14f1edc2473c1327
-> > >>
-> > >> I've started with some WIP changes and fixed some of them in:
-> > >> https://github.com/shr-project/meta-virtualization/commit/30a85c0319=
-c253632206b0d2c2c483f11a490939
-> > >> but than got side tracked by some other build failures and not sure
-> > >> when I'll be able to get back to it.
-> > >>
-> > >> I've also asked Bruce on IRC and he is aware of the issues, but migh=
-t
-> > >> not have time to resolve it soon, so if you have the changes ready,
-> > >> then please send them to ML for Bruce to review when he has time and
-> > >> I'll happily build test them as well.
-> > >>
-> > >> Cheers,
-> > >
-> > >
-> > > Should I send a single patch fixing a bunch of recipes (aka many dest=
-suffix fixes at once) or one patch per recipe?
-> > >
-> > > Ted Roth
-> > >
-> > >>
-> > >>
-> > >> On Wed, May 22, 2024 at 11:52=E2=80=AFPM Theodore A. Roth via
-> > >> lists.yoctoproject.org <troth=3Dopenavr.org@lists.yoctoproject.org>
-> > >> wrote:
-> > >> >
-> > >> > Hi,
-> > >> >
-> > >> > In our CI builds for multiple projects using meta-virtualization m=
-aster branch, we are
-> > >> > seeing some build failures for some recipes that use GO:
-> > >> >
-> > >> > * go-md2man
-> > >> > * runc-opencontainers
-> > >> > * docker-moby
-> > >> > * podman
-> > >> > * buildah
-> > >> > * cni
-> > >> >
-> > >> > I think I've narrowed the breakages down to this commit to oe-core=
- from Richard Purdie:
-> > >> >
-> > >> > * https://lists.openembedded.org/g/openembedded-core/message/19961=
-4
-> > >> >
-> > >> > The fixes for our builds seem simple enough. Just add ';destsuffix=
-=3D${GO_SRCURI_DESTSUFFIX}'
-> > >> > to the SRC_URI. For example:
-> > >> >
-> > >> > ---
-> > >> >
-> > >> > diff --git a/recipes-devtools/go/go-md2man_git.bb b/recipes-devtoo=
-ls/go/go-md2man_git.bb
-> > >> > index 1d96bb1b..73d8d167 100644
-> > >> > --- a/recipes-devtools/go/go-md2man_git.bb
-> > >> > +++ b/recipes-devtools/go/go-md2man_git.bb
-> > >> > @@ -9,7 +9,7 @@ BBCLASSEXTEND =3D "native"
-> > >> >  GO_IMPORT =3D "github.com/cpuguy83/go-md2man"
-> > >> >  #GO_INSTALL =3D "${GO_IMPORT}/bin/go-md2man"
-> > >> >
-> > >> > -SRC_URI =3D "git://${GO_IMPORT}.git;branch=3Dmaster;protocol=3Dht=
-tps"
-> > >> > +SRC_URI =3D "git://${GO_IMPORT}.git;branch=3Dmaster;protocol=3Dht=
-tps;destsuffix=3D${GO_SRCURI_DESTSUFFIX}"
-> > >> >
-> > >> >  SRCREV =3D "f79a8a8ca69da163eee19ab442bedad7a35bba5a"
-> > >> >  PV =3D "1.0.10+git"
-> > >> >
-> > >> > ---
-> > >> >
-> > >> > I plan to finish my testing for our breakages and submit some patc=
-hes, but it feels like there are many
-> > >> > more recipes that will need this change made (basically anything t=
-hat is using 'inherit go').
-> > >> >
-> > >> > I'm a bit reluctant to submit patches for recipes we are not using=
- (and testing) even if they seem like
-> > >> > mechanical changes, but I wanted to let the list know what I have =
-found.
-> > >> >
-> > >> > Ted Roth
-> > >> >
-> > >> >
-> > >> >
-> >
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#8740): https://lists.yoctoproject.org/g/meta-virtua=
-lization/message/8740
-> > Mute This Topic: https://lists.yoctoproject.org/mt/106252100/1050810
-> > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> > Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub=
- [bruce.ashfield@gmail.com]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >
->
->
-> --
-> - Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at its end
-> - "Use the force Harry" - Gandalf, Star Trek II
+--00000000000047720a06192327b5--
 
