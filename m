@@ -1,95 +1,127 @@
-Return-Path: <martin.jansa@gmail.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B004C41513
-	for <webhook@archiver.kernel.org>; Fri, 24 May 2024 19:09:31 +0000 (UTC)
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
- by mx.groups.io with SMTP id smtpd.web11.3524.1716577769453159484
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3AC6FC25B74
+	for <webhook@archiver.kernel.org>; Fri, 24 May 2024 19:21:51 +0000 (UTC)
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+ by mx.groups.io with SMTP id smtpd.web10.3768.1716578508327031872
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 24 May 2024 12:09:29 -0700
+ Fri, 24 May 2024 12:21:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=dJJerBIy;
- spf=pass (domain: gmail.com, ip: 209.85.208.177, mailfrom: martin.jansa@gmail.com)
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2e6f51f9de4so107440591fa.3
-        for <meta-virtualization@lists.yoctoproject.org>; Fri, 24 May 2024 12:09:29 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=VgiPPBxt;
+ spf=pass (domain: gmail.com, ip: 209.85.214.169, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1f44b51b367so7688205ad.1
+        for <meta-virtualization@lists.yoctoproject.org>; Fri, 24 May 2024 12:21:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1716577767; x=1717182567; darn=lists.yoctoproject.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1716578508; x=1717183308; darn=lists.yoctoproject.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=B/TVbOR2VwPaZLrlvkGL5YROU4JU5No4ASybLivAiSE=;
-        b=dJJerBIyCzyue6Nzhjs6CpRx59ENww0TACXUkvckxfdZK3kY+E4WpveR7piO1zL7VK
-         PXbWF6BKYSjpZ2+U+ASOACsB2YYeZ9pLcEbY3ZT0D9mdmQMLtUH1jomm/xsnw3H97zrb
-         KoLJpE8GYG2onQyJi/3oaYFlAD7IFEFCzaGLBAT7ts1uXyr77Z2gIgIYT6hJD8lbeyrB
-         xEid9ns7bEg9U7UDOcD+Xt93kGDeX1Hpid21eoPbE0C03zXgv3N0sgbHTjGihT1OR9ZF
-         I/OtekSlC1PiLqOfD8R7gIPQ4aoiF32bn/9Ibod8MK0UgQTVRuuwkKnUuPJrzalWXOvc
-         7UNg==
+        bh=CqYEK3glwScecoOqKf9/6jPbo+n6m5Lomy78f9Hz7kk=;
+        b=VgiPPBxtxv0yibVB6DssHJ1oHrh9RnLThVebA2s79wRdpq0lY8cNXPQt9e5QE5N8jp
+         F7LlkDUGo71lMUjouMHQmdHPCR61t+75DrduTStXA7qzW3GbotYq2Y84wOFb/VegRIm1
+         Z41MJaPBSUW6tlImv59NK3o1WqpNoHBfKTUsENpGDdaK/n2f+nH2ii/V4TcKE7vys/uQ
+         H/itjZjpWeh/l9Qf/Xs8zLjtN6/D3ArsSh8mHncpO4IYIQvdq1tO/W53B0t4/t5NzfVn
+         FN6htBFRVWS52rpbv6Z3bQfoMuKPYCFx/au3GGxqQUAY3r3WWo2seCYEVixcanhqAscf
+         UlFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716577767; x=1717182567;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1716578508; x=1717183308;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=B/TVbOR2VwPaZLrlvkGL5YROU4JU5No4ASybLivAiSE=;
-        b=An4dSfpj8KVpfeYogAh4+tbjUiLb/+/GbTCnPwDc2Dy3wRWWwUofihgJ3GW3HPu/rm
-         gtG350RXbCg5hu/SI6DXoq0xwaW4RVTWtf35izR5baw4hThO1DEtA4YPQyfXhvHeSxD9
-         ogGWJjEleCzs4Hj/cAusjJJ2Q83h+ldfz1pHpRqyGEhLu8UWueJe7+CVi33MALIS+6lJ
-         rolbzKUi/CDeFy6cEX1kxQO2Uf3d0P/xveaKEZyLaYNMxgEZxyiuTJrk+eK0S4U3xlsl
-         NIeAGHGVuZ7KwcbnmAWjZpL2Xr0jMs4hXi1U40a3nPdHQkoIqrhLliwmKWsnWeCphqNI
-         8nUA==
-X-Gm-Message-State: AOJu0YymU2WwuoZzb1dDLl77JBPBq/6CVbPP7M9qVIk66jtusLiGKtE3
-	YPjbxgoTL0f9qbsKaC2liEA3LtZHImB+tgWiNzyV49flX3uNIx60ycbxyA==
-X-Google-Smtp-Source: AGHT+IEGfpC9e0oLEEpxrsyqQJd2jr4pdJiKcGUhIRlHQslwcp4q6bsXOBV/Ba/JMmI/YZ0H9YS4cg==
-X-Received: by 2002:a2e:7808:0:b0:2e7:134d:f7ac with SMTP id 38308e7fff4ca-2e95b27b0a6mr26607161fa.44.1716577767375;
-        Fri, 24 May 2024 12:09:27 -0700 (PDT)
-Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5785240ea59sm2133141a12.54.2024.05.24.12.09.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 May 2024 12:09:26 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: meta-virtualization@lists.yoctoproject.org
-Cc: Martin Jansa <martin.jansa@gmail.com>
-Subject: [RFC][PATCH 2/3] cni: use GO_SRCURI_DESTSUFFIX
-Date: Fri, 24 May 2024 21:09:14 +0200
-Message-ID: <20240524190915.1241716-2-martin.jansa@gmail.com>
-X-Mailer: git-send-email 2.45.1
-In-Reply-To: <20240524190915.1241716-1-martin.jansa@gmail.com>
-References: <20240524190915.1241716-1-martin.jansa@gmail.com>
+        bh=CqYEK3glwScecoOqKf9/6jPbo+n6m5Lomy78f9Hz7kk=;
+        b=CxP+A7Hm2/OCo9ykhW0hMT3CQNgGMVgfASjvVQedxQBprPaHCu0ZPQDJVMI+AEq+SE
+         b/Ve6pqn8Ly/FiT1+vRSyU3iQkKpEFukNJ0aynGDZQ3sy9XMX/B52PWVlMGURJUJswBy
+         dm9fzjHTX5bmj5euWvQiqMn1O/xg/BFc4hn7Wv/CKHB+OAS7egQUBkfnbtemSdilC84D
+         D1i5GMh649ObIKxVn2qsLJZlrUbxPOTvaRqkJl7ltFi7IY9nFVVkNH3Ql8iXSkW+VUih
+         4NHQK7kD/inoN2pvu6FrkKW7OI/ovCyl91gKvC+tjdrU66zmQJYFeezccZv6ee/6y1rQ
+         IBjQ==
+X-Gm-Message-State: AOJu0YyK1Kfw+ao3HTMMrpbjyYAZ4JM5mlk0ALoKXfM13EUa1N9Tm0Bg
+	BtwALCRYyDmqzSPLK1oKm1mU/5la2GV2x0ZzUVib+bQzwGeO654szFYn6FHwVQCjhtl99ep+KID
+	5WsfxIwys4xAtO50BFF4d8PNQAD8=
+X-Google-Smtp-Source: AGHT+IHC/W+bclhga4nwxkMEF/tWaFjBlcRKwQEFbR+d3BZEl9FyTZXfvUJ3t47af4E1T2md2sA1Q6v6VOuGBnvDeMU=
+X-Received: by 2002:a17:903:294d:b0:1f3:2c64:bbf4 with SMTP id
+ d9443c01a7336-1f4498ec096mr27155845ad.53.1716578507668; Fri, 24 May 2024
+ 12:21:47 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240524190915.1241716-1-martin.jansa@gmail.com>
+In-Reply-To: <20240524190915.1241716-1-martin.jansa@gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Fri, 24 May 2024 15:21:36 -0400
+Message-ID: <CADkTA4Pb85Zakj8LxfFrYhaxL1S0N4qjHpt=DKg3ZADLbbw1VA@mail.gmail.com>
+Subject: Re: [meta-virtualization] [RFC][PATCH 1/3] netns: use GO_SRCURI_DESTSUFFIX
+To: martin.jansa@gmail.com
+Cc: meta-virtualization@lists.yoctoproject.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Fri, 24 May 2024 19:09:31 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8756
+ <meta-virtualization@lists.yoctoproject.org>; Fri, 24 May 2024 19:21:51 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8758
 
-* see:
-  https://lists.openembedded.org/g/openembedded-architecture/message/2007
-  https://git.openembedded.org/openembedded-core/commit/?id=cc4ec43a2b657fb4c58429ab14f1edc2473c1327
+Thanks!
 
-* fixes:
-  http://errors.yoctoproject.org/Errors/Details/772691/
-  ERROR: QA Issue: cni: LIC_FILES_CHKSUM points to an invalid file: TOPDIR/tmp-glibc/work/core2-64-oe-linux/cni/v1.2.0-rc0+gitb62753aa2bfa365c1ceaff6f25774a8047c896b5/cni-v1.2.0-rc0+gitb62753aa2bfa365c1ceaff6f25774a8047c896b5/src/import/LICENSE [license-checksum]
+I've already fixed this one locally, will push everything once my
+image testing is done
 
-Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
----
- recipes-networking/cni/cni_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Bruce
 
-diff --git a/recipes-networking/cni/cni_git.bb b/recipes-networking/cni/cni_git.bb
-index b41b47cf..c0f316ec 100644
---- a/recipes-networking/cni/cni_git.bb
-+++ b/recipes-networking/cni/cni_git.bb
-@@ -14,7 +14,7 @@ SRCREV_plugins = "b6a0e0bc96906f0d3bd6bfcaab0b5ae72292f46c"
- SRCREV_flannel_plugin = "6464faacf5c00e25321573225d74638455ef03a0"
- SRCREV_FORMAT = "cni_plugins"
- SRC_URI = "\
--	git://github.com/containernetworking/cni.git;branch=main;name=cni;protocol=https \
-+	git://github.com/containernetworking/cni.git;branch=main;name=cni;protocol=https;destsuffix=${GO_SRCURI_DESTSUFFIX} \
-         git://github.com/containernetworking/plugins.git;branch=main;destsuffix=${S}/src/github.com/containernetworking/plugins;name=plugins;protocol=https \
-         git://github.com/flannel-io/cni-plugin;branch=main;name=flannel_plugin;protocol=https;destsuffix=${S}/src/github.com/containernetworking/plugins/plugins/meta/flannel \
-         file://modules.txt \
--- 
-2.45.1
+On Fri, May 24, 2024 at 3:09=E2=80=AFPM Martin Jansa via
+lists.yoctoproject.org <martin.jansa=3Dgmail.com@lists.yoctoproject.org>
+wrote:
+>
+> * see:
+>   https://lists.openembedded.org/g/openembedded-architecture/message/2007
+>   https://git.openembedded.org/openembedded-core/commit/?id=3Dcc4ec43a2b6=
+57fb4c58429ab14f1edc2473c1327
+>
+> * fixes:
+>   http://errors.yoctoproject.org/Errors/Details/772686/
+>
+> Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
+> ---
+>  recipes-networking/netns/netns_git.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/recipes-networking/netns/netns_git.bb b/recipes-networking/n=
+etns/netns_git.bb
+> index 357275c1..be41d2b8 100644
+> --- a/recipes-networking/netns/netns_git.bb
+> +++ b/recipes-networking/netns/netns_git.bb
+> @@ -3,7 +3,7 @@ SUMMARY =3D "Runc hook for setting up default bridge netw=
+orking."
+>  LICENSE =3D "MIT"
+>  LIC_FILES_CHKSUM =3D "file://src/import/LICENSE;md5=3D7bac31faf84a2d7e88=
+972f562a3ebbe5"
+>
+> -SRC_URI =3D "git://github.com/genuinetools/netns;branch=3Dmaster;protoco=
+l=3Dhttps \
+> +SRC_URI =3D "git://github.com/genuinetools/netns;branch=3Dmaster;protoco=
+l=3Dhttps;destsuffix=3D${GO_SRCURI_DESTSUFFIX} \
+>             file://Makefile-force-rebuilding-all-packages-to-avoid-cgo.pa=
+tch \
+>            "
+>  SRCREV =3D "00d5d07ab1c8afcf481ffa5958719943b6ecfde4"
+> --
+> 2.45.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#8755): https://lists.yoctoproject.org/g/meta-virtuali=
+zation/message/8755
+> Mute This Topic: https://lists.yoctoproject.org/mt/106287450/1050810
+> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [=
+bruce.ashfield@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
+
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
