@@ -1,182 +1,106 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <martin.jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62AD0C25B7A
-	for <webhook@archiver.kernel.org>; Fri, 24 May 2024 05:30:28 +0000 (UTC)
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
- by mx.groups.io with SMTP id smtpd.web11.9198.1716528620026655121
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6329C41513
+	for <webhook@archiver.kernel.org>; Fri, 24 May 2024 06:28:08 +0000 (UTC)
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+ by mx.groups.io with SMTP id smtpd.web11.9806.1716532081599555540
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 23 May 2024 22:30:20 -0700
+ Thu, 23 May 2024 23:28:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=A+N1t9kf;
- spf=pass (domain: gmail.com, ip: 209.85.216.50, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-2bf5e177ebdso372764a91.1
-        for <meta-virtualization@lists.yoctoproject.org>; Thu, 23 May 2024 22:30:19 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=aMp0vAe1;
+ spf=pass (domain: gmail.com, ip: 209.85.208.48, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-5785e443cf4so139294a12.3
+        for <meta-virtualization@lists.yoctoproject.org>; Thu, 23 May 2024 23:28:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1716528619; x=1717133419; darn=lists.yoctoproject.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1716532080; x=1717136880; darn=lists.yoctoproject.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ncbKp98KOc41nNf4FgVzbe1eo0F/BvQbme9k0sjvavE=;
-        b=A+N1t9kfeWGQ6ty0YaBaX2ofOFlr+dOZdfG2e/ctg6zLjdEL3lVmLoT7Mgw+4/L8vO
-         gigY821zRk+RIhR5hEzyjKI4eJKlUKFHXEvAcL3Vu5MLSEXohW61Mh9OMsDpC3lqVV9f
-         h7crnMAq/lAjIT5GkaTrLFwXgkjGD2jZg/JSu8JsGIs8MD6Hpt2O1FZGBoV14mhY4yJx
-         3jPoTjo0eavfgaLsN/7WPUvUF56RLxjQwIgFMyQHljtzzruwJ5N1tEZD6mbx+z/UW9F/
-         aCN+yBBkIFNOyq3V/enSk+znj+QckQm4YJgIzf6gkDHcOtriMzmEJUZVU1mu4PQTCsxz
-         tSIQ==
+        bh=QpRW37jylVaq1tK85Jp+dfhjVd+L5M0w+3sZvSxD23o=;
+        b=aMp0vAe1niLwQzoZzpATJxVeXkl9JyyOKtYzQZZy5rrNbn4oCmF9gMKjiWP3AFhWRZ
+         gBhVPBFopBc3uFlLsdh/pbodmXRjrOtLLV3Xz3+dDvnY2CLo0AL73iP3ipGnd5LsW5E+
+         bU3DMwsyQbB9mE15HcGrtvvsyRwSGG2F40oSjPsI53RmKchLnWM/1tw3/2MjvxJhOOqC
+         x+72d+iv8rHIBlenPWkL/ny7xsRVu7Czk2U3AD8yR429BepFZUGISMcX2H+l8pW9PDdh
+         Si7+uRyD5Q2UqDZIxhbhpXM0J4Lbb7Uy23KA/HL/h3W8YMpxJvCPd7o2PjQ2ELj+FAVK
+         Me6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716528619; x=1717133419;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1716532080; x=1717136880;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ncbKp98KOc41nNf4FgVzbe1eo0F/BvQbme9k0sjvavE=;
-        b=l13Ubwgv5TH/sd7BOelUVkHP2wX/rFtncdBTMJkXVKxy5B/cJzres1Tq5ROrpw+CRM
-         JWRTpBwdVPXH5u+kRIvgTVSmhGII9pULZ17hu2kyhVCqHa18oGBo8oxHJA12q4SqXreH
-         0T/YOffmhMttNavM177adazlQra63NCpX89RFRFJzFsQpCk+uymmcWIol5zIEIVcVkw8
-         oQkwg7qi7TcU6FXCtYVtR7drML15bwEr6dd3pJ2SZumfrmY+cqnnqcGK1dsmHZzhrvnM
-         GvEvVmKvRgI+cIAxDqYd9uSGxQS+C7VbUzA6pYFkr6ruBxeiDN5JXNqBT9q3HGFSleQo
-         aqpg==
-X-Forwarded-Encrypted: i=1; AJvYcCX4whoNc9go8mRfVgKt47vkGeWqEHoXEuDw9kE6m/x9liB2SU9uGwqvcMzu8Nq1D0o/I8vjAcx3maE8AhHBQgsmL2uCoyS/paFzuVmzpsEhGncRZ2SomyM5r/E=
-X-Gm-Message-State: AOJu0YxXU5ZEbS+zbzB450+7lxwYyjuvdhtyDH5J/fwvXxG3TCiWoYj8
-	oWP2SfqTtmojR5yAhiWUiE+AGCtg2sMApt6DuHetScJmYjOONlhPFYPEW0ywYeT301FbeDIKoSk
-	FsBZfs5ACpG06IFbKsKBWUfXx2sI=
-X-Google-Smtp-Source: AGHT+IHLgopmnivbZxhfjECDcBlUzph3Ggq6qr5TBm7wOYB+cGfvvBcDRIY20sBgIQv+D2K6SupU0Wb9hyFogGGn2AE=
-X-Received: by 2002:a17:90a:bc83:b0:2bd:d877:cf7a with SMTP id
- 98e67ed59e1d1-2bf5ed202eamr1450119a91.14.1716528619045; Thu, 23 May 2024
- 22:30:19 -0700 (PDT)
+        bh=QpRW37jylVaq1tK85Jp+dfhjVd+L5M0w+3sZvSxD23o=;
+        b=IcmrNdenFku4xwe9jLVnieXZ+BRQfGmQ2gyJH4574HlasqlrVA9FtPl0/WIq1Tn8KF
+         f0wMnrBFOksGKD+4J0WVbkHvh0fs0EXu1rmLO3t9fgIIwvv6pfzIcu7Hx1gIE+JaAtDt
+         31dEff+T3t0U208EYLAHjInoxWtMvTTua4mRFeW8SqEzXesRYDkAgFT8LENJPWf0diXB
+         s6u4CQWuI9lnr99Od+3jW+gyaQJ6E+n+U7WlwgDzhaSVIUfWO1GBIjBh8SkPCQN21mjl
+         EKT16xctUJFpiMFg7khdR+v+5JBsROy6HT1Hq2uvTSlYnBHmG86RyOklbmfROLSULes0
+         blYQ==
+X-Gm-Message-State: AOJu0YxXd9ep4rcXQpT44nKoxASuA50GRug6+aUvhOAcOyYdpsmLHBxl
+	sn6ubAnFqS/aR1QZDdF/vwuKFb1XvLuZcyce/1unVVlPmwvrnuxU/jZtNg==
+X-Google-Smtp-Source: AGHT+IHWmXjY4TvoSTfxfswjiUqDBiYVG5KijHJqmNqtLpFvDs3NxGfHfcfYDzNkrdJEX8aRT2wtYA==
+X-Received: by 2002:a50:f69c:0:b0:578:6092:dd21 with SMTP id 4fb4d7f45d1cf-5786092e085mr4521a12.26.1716532079680;
+        Thu, 23 May 2024 23:27:59 -0700 (PDT)
+Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-578523d5b90sm1040310a12.43.2024.05.23.23.27.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 May 2024 23:27:59 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+To: meta-virtualization@lists.yoctoproject.org
+Cc: Martin Jansa <martin.jansa@gmail.com>
+Subject: [RFC][PATCH 4/4] linux-yocto_virtualization.inc: adjust path to kcfg for UNPACKDIR
+Date: Fri, 24 May 2024 08:27:46 +0200
+Message-ID: <20240524062746.232409-4-martin.jansa@gmail.com>
+X-Mailer: git-send-email 2.45.1
+In-Reply-To: <20240524062746.232409-1-martin.jansa@gmail.com>
+References: <20240524062746.232409-1-martin.jansa@gmail.com>
 MIME-Version: 1.0
-References: <CAFMvBt2+s5a9BCnkYgmXvL9P83JDgkg5hg41q936JuEXHy568g@mail.gmail.com>
- <CA+chaQdXNXd_B3YiKXnvt0eV-i24hS1g7Jm6zW0buqN9n_3sZQ@mail.gmail.com>
- <CAFMvBt1p7DHLfeiNPA=F5__kkSyW9Z8Ouhkhpg9Kptnt=R-PQA@mail.gmail.com>
- <CA+chaQd=BcD17hyZg5VDCSajtQ56aG=YJeRmGr3s+tsRsRkS9g@mail.gmail.com>
- <CADkTA4P5u3NVBO-3itqOE931ik68caKdR-2kXgdseADr9v=9GQ@mail.gmail.com>
- <CA+chaQc94P6-yfmJRhM4Mi5gK9MVkq3MFGw4Z_Nvns_U78TdAw@mail.gmail.com>
- <CAFMvBt2Rk1BBVWnqJaLmmVtbi2Dpb_cMQvnY6FVjMfbXdhEh6Q@mail.gmail.com> <CA+chaQd+ZSZQxXeSSu=Hcgy81Yd+tb7Ag5NA-e6emR5nyzioeA@mail.gmail.com>
-In-Reply-To: <CA+chaQd+ZSZQxXeSSu=Hcgy81Yd+tb7Ag5NA-e6emR5nyzioeA@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Fri, 24 May 2024 01:30:07 -0400
-Message-ID: <CADkTA4OrEvCK=y73KxK0sZwJHj_BNtdN-yJ=txfLeLyHpAQtaw@mail.gmail.com>
-Subject: Re: [meta-virtualization] breakages in go recipes
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: "Theodore A. Roth" <troth@openavr.org>, meta-virtualization@lists.yoctoproject.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Fri, 24 May 2024 05:30:28 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8745
+ <meta-virtualization@lists.yoctoproject.org>; Fri, 24 May 2024 06:28:08 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8749
 
-Hi all,
+* UNPACKDIR added one more level
 
-I'm back from my travels and have already fixed a bunch of the issues.
+* this needs some more robust solution, but now with UNPACKDIR changes
+  this was failing in do_kernel_metadata:
 
-I'll push my WIP changes to master-next by end of day Friday, and then
-I suggest we jump off those changes.
+| NOTE: do_kernel_metadata: for summary/debug, set KCONF_AUDIT_LEVEL > 0
+| ERROR: Feature '../recipe-sysroot-native/kcfg/cfg/virtio.scc' not found, this will cause configuration failures.
+| ERROR: Check the SRC_URI for meta-data repositories or directories that may be missing
+| ERROR: Set KERNEL_DANGLING_FEATURES_WARN_ONLY to ignore this issue
 
-The ones on master-next are based on what I was doing before I headed
-out for vacation.
+* fixes:
+  http://errors.yoctoproject.org/Errors/Details/772680/
 
-I'm mainly sorting out some remaining issues on the more complex
-recipes (cni, etc) and I'll be good to share the progress.
+Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
+---
+ recipes-kernel/linux/linux-yocto_virtualization.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Bruce
+diff --git a/recipes-kernel/linux/linux-yocto_virtualization.inc b/recipes-kernel/linux/linux-yocto_virtualization.inc
+index 9a6554d1..5edaef94 100644
+--- a/recipes-kernel/linux/linux-yocto_virtualization.inc
++++ b/recipes-kernel/linux/linux-yocto_virtualization.inc
+@@ -21,12 +21,12 @@ def kernel_cache_cond_feature(src_uri,feature):
+     if kernel_cache:
+        return feature
+ 
+-    return "../recipe-sysroot-native/kcfg/" + feature
++    return "../../recipe-sysroot-native/kcfg/" + feature
+ 
+ # no conditional, just use the yocto-kernel-cache addition, yes
+ # the src_uri isn't used, but we may need to check it in the future
+ def kernel_cache_feature(src_uri,feature):
+-    return "../recipe-sysroot-native/kcfg/" + feature
++    return "../../recipe-sysroot-native/kcfg/" + feature
+ 
+ def distro_cond_feature(feature_fragment,distro_feature,d):
+     import bb
+-- 
+2.45.1
 
-On Thu, May 23, 2024 at 4:10=E2=80=AFPM Martin Jansa <martin.jansa@gmail.co=
-m> wrote:
->
-> Hi Theodore,
->
-> yes, I'm fighting similar issues in our layers today as well.
->
-> I've integrated your change and checked that runc builds now.
->
-> Here are the public logs for all the meta-virtualzation issues
-> http://errors.yoctoproject.org/Errors/Build/184253/
-> I'll update the WIP changes with these and send what I have after
-> checking at least buildhistory-diff.
->
->
-> On Thu, May 23, 2024 at 8:23=E2=80=AFPM Theodore A. Roth <troth@openavr.o=
-rg> wrote:
-> >
-> >
-> > On Thu, May 23, 2024 at 2:34=E2=80=AFAM Martin Jansa <martin.jansa@gmai=
-l.com> wrote:
-> >>
-> >> FWIW: My world build with oe-core
-> >> master:094273bd7d1768e14fbdcd2f239bee14c630a625 (so before the main
-> >> UNPACKDIR changes) finished with these failures from
-> >> meta-virtualization:
-> >>
-> >> ERROR: Task (meta-virtualization/recipes-containers/cri-tools/cri-tool=
-s_git.bb:do_patch)
-> >> failed with exit code '1'
-> >> ERROR: Task (meta-virtualization/recipes-containers/docker-compose/doc=
-ker-compose_git.bb:do_populate_lic)
-> >> failed with exit code '1'
-> >> ERROR: Task (meta-virtualization/recipes-containers/docker/docker-moby=
-_git.bb:do_patch)
-> >> failed with exit code '1'
-> >> ERROR: Task (meta-virtualization/recipes-containers/nerdctl/nerdctl_gi=
-t.bb:do_patch)
-> >> failed with exit code '1'
-> >> ERROR: Task (meta-virtualization/recipes-containers/runc/runc-opencont=
-ainers_git.bb:do_patch)
-> >> failed with exit code '1'
-> >> ERROR: Task (meta-virtualization/recipes-devtools/go/go-md2man_git.bb:=
-do_compile)
-> >> failed with exit code '1'
-> >> ERROR: Task (meta-virtualization/recipes-devtools/go/go-md2man_git.bb:=
-do_populate_lic)
-> >> failed with exit code '1'
-> >> ERROR: Task (meta-virtualization/recipes-devtools/yq/yq_git.bb:do_comp=
-ile)
-> >> failed with exit code '1'
-> >> ERROR: Task (meta-virtualization/recipes-devtools/yq/yq_git.bb:do_popu=
-late_lic)
-> >> failed with exit code '1'
-> >> ERROR: Task (meta-virtualization/recipes-networking/cni/cni_git.bb:do_=
-compile)
-> >> failed with exit code '1'
-> >> ERROR: Task (meta-virtualization/recipes-networking/cni/cni_git.bb:do_=
-populate_lic)
-> >> failed with exit code '1'
-> >> ERROR: Task (meta-virtualization/recipes-networking/netns/netns_git.bb=
-:do_patch)
-> >> failed with exit code '1'
-> >>
-> >> the UNPACKDIR changes will probably cause few more issues, I've
-> >> already noticed one with linux-yocto_virtualization.inc and added
-> >> temporary work around here:
-> >> https://github.com/shr-project/meta-virtualization/commits/jansa/maste=
-r/
-> >>
-> >> will send what I have later today as a RFC (as I cannot even build
-> >> whole image yet) unless Theodore gets to it sooner.
-> >
-> >
-> > Martin:
-> >
-> > Spent most of the day fighting with UNPACKDIR breakages outside of meta=
--virtualization.
-> > Finally got to the point where I could build your WIP changes. Found so=
-me issues with the
-> > runc recipes and have pushed fixes here:
-> >
-> > https://github.com/troth/meta-virtualization/commit/f604f1fb39fad9f4967=
-00be59333edcdc3e7a633
-> >
-> > I'm still waiting for a full build to complete, so I have not completel=
-y verified the rest of your changes.
-> >
-> > Ted Roth
-
-
-
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
 
