@@ -2,143 +2,120 @@ Return-Path: <martin.jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3921CC25B74
-	for <webhook@archiver.kernel.org>; Fri, 24 May 2024 19:27:01 +0000 (UTC)
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
- by mx.groups.io with SMTP id smtpd.web10.3878.1716578817010575463
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F8ACC25B74
+	for <webhook@archiver.kernel.org>; Fri, 24 May 2024 19:30:11 +0000 (UTC)
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+ by mx.groups.io with SMTP id smtpd.web11.3922.1716579007704461905
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 24 May 2024 12:26:57 -0700
+ Fri, 24 May 2024 12:30:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Bv96D0tB;
- spf=pass (domain: gmail.com, ip: 209.85.167.42, mailfrom: martin.jansa@gmail.com)
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-52961b77655so1385035e87.2
-        for <meta-virtualization@lists.yoctoproject.org>; Fri, 24 May 2024 12:26:56 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Zy4vOG3p;
+ spf=pass (domain: gmail.com, ip: 209.85.208.175, mailfrom: martin.jansa@gmail.com)
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2e95a75a90eso13889361fa.2
+        for <meta-virtualization@lists.yoctoproject.org>; Fri, 24 May 2024 12:30:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1716578815; x=1717183615; darn=lists.yoctoproject.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1716579006; x=1717183806; darn=lists.yoctoproject.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=eDpelWN4W7UwpbTVjXnPcwqbnQV2GGmJFd2x8OS+wSI=;
-        b=Bv96D0tB2sowiIZF/5dSHylQ4jHGDjXS6dYjq7Dh7AkDowDI4t6HuZl4RYncwZ3uG6
-         Fk1YV7MZ8xm9fLNN2NexPyDs3bwKJ+JvMiZmCggM1JCgqJn29o5xf/TmiJ7sM/gEayQT
-         GxU1JEeymYI8FaV6m+l2fR9Oez3ZoFo8uSiCgfJvwsAaDOHPMfb68cPLDoXtLvcsWweP
-         DsNSEIVPOyXFDTfgFxtuuOF8gXbCH5+e0Nb6k4ufpHANL28l7Y4CbICiAalSYykCm35X
-         upsqUE0cJLr8fNQrshvatg/aicLNCrYek9tYGE2+egGtAowdoqm8cUMToaK0E23kdGfX
-         sL4w==
+        bh=T8f2nhi0HGCAn3Dvo8XjE+FuDJO4k71L7SdR5tOeR8g=;
+        b=Zy4vOG3pZvTUM2cMWs+hSl4Dp2TJvofd8Cyc3BcP6v3ZGHewQHb87bK2znWxGtNPRI
+         RLjPcNdIqPNWI4LopewLhk2qMje+TEEfHrtE/8Gyi+xM/1oXAlewsXOeqQXDoG0VCztZ
+         YOyUoRlgCWstImOpHTLEGQ4hpmfr2HwL+TVgUFMvZ4LhoZokMEJXx5+LF/V2bUJsMjxQ
+         UMSfMgshkxUTVGrlDUzUhTE3TLuJbkJOhtioku4zqT47LGAdpofcWeAELbVFkpdNJsf0
+         oAN5isnGW/mMRZBv4SoZzCa3x3Bl4DDqnZ+WT34/MpkF17l0Vqm1LC1W8BUDnHADvgu+
+         WLDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716578815; x=1717183615;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1716579006; x=1717183806;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=eDpelWN4W7UwpbTVjXnPcwqbnQV2GGmJFd2x8OS+wSI=;
-        b=D1yQPgfqmhEjei3ArR113HULpq4WDnyrVFuV2NNALm+md/uf0TbgpqyWs+lhxs3vN7
-         TK4BJ5KtObzM3z9NH0Lj2FY58OTpyjaNLsoywXASnKJtfDv0qXl5M7BL29LAbrFxtD2P
-         vZ7YqVfR3UByF8Lt63KDBJM0Ukjs7alY3VB567wtnDNFjUw+8/VV98BzKIRuteSF/9Ul
-         EoqWHsK/JdSAOhFte1n7Vk/s+fdmYqcEoqlqrhFHXxR1mrxts6YOtFntr5igz4uVzFXL
-         h+uDbXbNZnt5Bu6OFY11WVFv+fdHucCLbZy8rQzmUj0+Howh4Kuk1H+WWC5yTfwN+No6
-         G+vg==
-X-Gm-Message-State: AOJu0Yxnc2IeeiKO42UUSnQGcN5w7q0Azp0/NCSbF41hN8+hjmtKEVIc
-	INEOYEzE2erwoLQdvvPGt8t6J7cPqDtXvumOhINNbUk0If2NXNStWi/cS39isSWJZl4qKzduey0
-	1QA1/B72NW8gdoCjcfKf4X8HQtv4=
-X-Google-Smtp-Source: AGHT+IFrlzxAcDIdc/Wo1Uusj5hfpyJHPUChVPRauBMnOPtx2o/ySaWF8tmLOLRz0mnp0IrLj44WWw8mIUsK6d05zzs=
-X-Received: by 2002:ac2:4daf:0:b0:518:9cbf:cd6b with SMTP id
- 2adb3069b0e04-529644ec06bmr2002377e87.13.1716578814759; Fri, 24 May 2024
- 12:26:54 -0700 (PDT)
-MIME-Version: 1.0
-References: <20240524190915.1241716-1-martin.jansa@gmail.com>
- <20240524190915.1241716-2-martin.jansa@gmail.com> <CADkTA4MJRMzVBZ7vksRw_+oHusHvGJhu9dQaL3HbwNKTvfaNJA@mail.gmail.com>
-In-Reply-To: <CADkTA4MJRMzVBZ7vksRw_+oHusHvGJhu9dQaL3HbwNKTvfaNJA@mail.gmail.com>
+        bh=T8f2nhi0HGCAn3Dvo8XjE+FuDJO4k71L7SdR5tOeR8g=;
+        b=PbpDu8wLGqFSgkXuFbkZQI5B4pi06/ebAZWa01Bb55S41DbUYQIS8H8a6caUQT/vW+
+         8WEt5dHR2fJvBxvoEzF/Q+8uUqEizbKAhZ/gotEJcEHJrjfmazQpyIze869fSo1X7Vq4
+         /48Qa3WViwiaf+Z6pDn2EA9DI/cOArJ4iZyqYwRhfK/+/9H/5uj1nDR+KLHBGds2oPeI
+         YMgQAXZEH3IdAaETs5t6ieZYyvC7iDDh2ePqe8cMBtS0bBi67RX4IKzZw4n1ktwmHxxF
+         5Xxe8qUVErHpmZKjLEPhJUyX3SBtP6JAPYtP3Fgfom+n60Ks7iqIbi8rb/XnaYPvjUm8
+         YrHg==
+X-Gm-Message-State: AOJu0YyDPaj/G0K6QE/fRE79MvQlLNl2NPPZk8WEc5kbOIdPxVnQRbWW
+	kj2NMRRFRZduY5mfRiSn9Ij3uZGx1bMNau9+maRGJNqZFUQdABM+tFx6Nw==
+X-Google-Smtp-Source: AGHT+IG3CJAV3lPe64sGFKNZzev3bDVYzBTIkgoa4uQiyKLUdOj3G3BRtZpNXjzLDYUJEpxejWtfFQ==
+X-Received: by 2002:a2e:88d5:0:b0:2e6:bb81:ba0b with SMTP id 38308e7fff4ca-2e95b1cd676mr19156811fa.25.1716579005653;
+        Fri, 24 May 2024 12:30:05 -0700 (PDT)
+Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-578524bbb5dsm2112274a12.95.2024.05.24.12.30.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 May 2024 12:30:05 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
-Date: Fri, 24 May 2024 21:26:35 +0200
-Message-ID: <CA+chaQeNR23+LHGka=cyQzkE-2s5+Fo7qjrPKp_8QTb64F1rSw@mail.gmail.com>
-Subject: Re: [meta-virtualization] [RFC][PATCH 2/3] cni: use GO_SRCURI_DESTSUFFIX
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: meta-virtualization@lists.yoctoproject.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To: meta-virtualization@lists.yoctoproject.org
+Cc: Martin Jansa <martin.jansa@gmail.com>
+Subject: [RFC][PATCH 2/2] cri-tools: use GO_SRCURI_DESTSUFFIX
+Date: Fri, 24 May 2024 21:29:55 +0200
+Message-ID: <20240524192955.2497200-2-martin.jansa@gmail.com>
+X-Mailer: git-send-email 2.45.1
+In-Reply-To: <20240524192955.2497200-1-martin.jansa@gmail.com>
+References: <20240524192955.2497200-1-martin.jansa@gmail.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Fri, 24 May 2024 19:27:01 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8761
+ <meta-virtualization@lists.yoctoproject.org>; Fri, 24 May 2024 19:30:11 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8763
 
-It was failing yesterday, but today it built OK, I didn't do any
-runtime testing (only checked buildhistory-diff).
+* see:
+  https://lists.openembedded.org/g/openembedded-architecture/message/2007
+  https://git.openembedded.org/openembedded-core/commit/?id=cc4ec43a2b657fb4c58429ab14f1edc2473c1327
 
-Have similar change for nerdctl cri-tools, only yq and docker-moby are
-still failing for me.
+* fixes:
+  http://errors.yoctoproject.org/Errors/Details/772685/
 
-On Fri, May 24, 2024 at 9:22=E2=80=AFPM Bruce Ashfield <bruce.ashfield@gmai=
-l.com> wrote:
->
-> Did you get this to build with just that change ?
->
-> My patches to cni are significantly larger to get it to build and
-> create binaries.
->
-> Bruce
->
-> On Fri, May 24, 2024 at 3:09=E2=80=AFPM Martin Jansa via
-> lists.yoctoproject.org <martin.jansa=3Dgmail.com@lists.yoctoproject.org>
-> wrote:
-> >
-> > * see:
-> >   https://lists.openembedded.org/g/openembedded-architecture/message/20=
-07
-> >   https://git.openembedded.org/openembedded-core/commit/?id=3Dcc4ec43a2=
-b657fb4c58429ab14f1edc2473c1327
-> >
-> > * fixes:
-> >   http://errors.yoctoproject.org/Errors/Details/772691/
-> >   ERROR: QA Issue: cni: LIC_FILES_CHKSUM points to an invalid file: TOP=
-DIR/tmp-glibc/work/core2-64-oe-linux/cni/v1.2.0-rc0+gitb62753aa2bfa365c1cea=
-ff6f25774a8047c896b5/cni-v1.2.0-rc0+gitb62753aa2bfa365c1ceaff6f25774a8047c8=
-96b5/src/import/LICENSE [license-checksum]
-> >
-> > Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
-> > ---
-> >  recipes-networking/cni/cni_git.bb | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/recipes-networking/cni/cni_git.bb b/recipes-networking/cni=
-/cni_git.bb
-> > index b41b47cf..c0f316ec 100644
-> > --- a/recipes-networking/cni/cni_git.bb
-> > +++ b/recipes-networking/cni/cni_git.bb
-> > @@ -14,7 +14,7 @@ SRCREV_plugins =3D "b6a0e0bc96906f0d3bd6bfcaab0b5ae72=
-292f46c"
-> >  SRCREV_flannel_plugin =3D "6464faacf5c00e25321573225d74638455ef03a0"
-> >  SRCREV_FORMAT =3D "cni_plugins"
-> >  SRC_URI =3D "\
-> > -       git://github.com/containernetworking/cni.git;branch=3Dmain;name=
-=3Dcni;protocol=3Dhttps \
-> > +       git://github.com/containernetworking/cni.git;branch=3Dmain;name=
-=3Dcni;protocol=3Dhttps;destsuffix=3D${GO_SRCURI_DESTSUFFIX} \
-> >          git://github.com/containernetworking/plugins.git;branch=3Dmain=
-;destsuffix=3D${S}/src/github.com/containernetworking/plugins;name=3Dplugin=
-s;protocol=3Dhttps \
-> >          git://github.com/flannel-io/cni-plugin;branch=3Dmain;name=3Dfl=
-annel_plugin;protocol=3Dhttps;destsuffix=3D${S}/src/github.com/containernet=
-working/plugins/plugins/meta/flannel \
-> >          file://modules.txt \
-> > --
-> > 2.45.1
-> >
-> >
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#8756): https://lists.yoctoproject.org/g/meta-virtua=
-lization/message/8756
-> > Mute This Topic: https://lists.yoctoproject.org/mt/106287452/1050810
-> > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> > Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub=
- [bruce.ashfield@gmail.com]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >
->
->
-> --
-> - Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at its end
-> - "Use the force Harry" - Gandalf, Star Trek II
+Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
+---
+ ...d-allow-environmental-CGO-settings-and-pass-dont.patch | 6 +++---
+ recipes-containers/cri-tools/cri-tools_git.bb             | 8 ++++----
+ 2 files changed, 7 insertions(+), 7 deletions(-)
+
+diff --git a/recipes-containers/cri-tools/cri-tools/0001-build-allow-environmental-CGO-settings-and-pass-dont.patch b/recipes-containers/cri-tools/cri-tools/0001-build-allow-environmental-CGO-settings-and-pass-dont.patch
+index 29e0367b..5b25c7c8 100644
+--- a/recipes-containers/cri-tools/cri-tools/0001-build-allow-environmental-CGO-settings-and-pass-dont.patch
++++ b/recipes-containers/cri-tools/cri-tools/0001-build-allow-environmental-CGO-settings-and-pass-dont.patch
+@@ -35,10 +35,10 @@ Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+  src/import/Makefile | 3 ++-
+  1 file changed, 2 insertions(+), 1 deletion(-)
+ 
+-Index: cri-tools-1.27.0+gite73a7139ed4986d6a0db784ae7a036841a02b351/src/import/Makefile
++Index: Makefile
+ ===================================================================
+---- cri-tools-1.27.0+gite73a7139ed4986d6a0db784ae7a036841a02b351.orig/src/import/Makefile
+-+++ cri-tools-1.27.0+gite73a7139ed4986d6a0db784ae7a036841a02b351/src/import/Makefile
++--- a/Makefile
+++++ b/Makefile
+ @@ -74,7 +74,8 @@
+  	@$(MAKE) -B $(CRICTL)
+  
+diff --git a/recipes-containers/cri-tools/cri-tools_git.bb b/recipes-containers/cri-tools/cri-tools_git.bb
+index e0caf740..bfaacdd0 100644
+--- a/recipes-containers/cri-tools/cri-tools_git.bb
++++ b/recipes-containers/cri-tools/cri-tools_git.bb
+@@ -18,12 +18,12 @@ What is not in scope for this project? \
+ 
+ SRCREV_cri-tools = "17b4dd65d660fec94d7a5a070e3e89ef640f1087"
+ SRC_URI = "\
+-	git://github.com/kubernetes-sigs/cri-tools.git;branch=master;name=cri-tools;protocol=https \
+-        file://0001-build-allow-environmental-CGO-settings-and-pass-dont.patch \
+-	"
++    git://github.com/kubernetes-sigs/cri-tools.git;branch=master;name=cri-tools;protocol=https;destsuffix=${GO_SRCURI_DESTSUFFIX} \
++    file://0001-build-allow-environmental-CGO-settings-and-pass-dont.patch;patchdir=src/${GO_IMPORT}/ \
++"
+ 
+ LICENSE = "Apache-2.0"
+-LIC_FILES_CHKSUM = "file://src/import/LICENSE;md5=e3fc50a88d0a364313df4b21ef20c29e"
++LIC_FILES_CHKSUM = "file://src/${GO_IMPORT}/LICENSE;md5=e3fc50a88d0a364313df4b21ef20c29e"
+ 
+ GO_IMPORT = "import"
+ 
+-- 
+2.45.1
+
 
