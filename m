@@ -2,333 +2,115 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DCAE5C25B78
-	for <webhook@archiver.kernel.org>; Tue, 28 May 2024 19:12:18 +0000 (UTC)
-Received: from mail-oo1-f52.google.com (mail-oo1-f52.google.com [209.85.161.52])
- by mx.groups.io with SMTP id smtpd.web10.565.1716923534906883743
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE997C25B7E
+	for <webhook@archiver.kernel.org>; Tue, 28 May 2024 19:14:08 +0000 (UTC)
+Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
+ by mx.groups.io with SMTP id smtpd.web10.600.1716923645878495013
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 28 May 2024 12:12:15 -0700
+ Tue, 28 May 2024 12:14:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=HDvoHyc4;
- spf=pass (domain: gmail.com, ip: 209.85.161.52, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-oo1-f52.google.com with SMTP id 006d021491bc7-5b97648b38eso674427eaf.3
-        for <meta-virtualization@lists.yoctoproject.org>; Tue, 28 May 2024 12:12:14 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=nlJb23WZ;
+ spf=pass (domain: gmail.com, ip: 209.85.167.181, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-oi1-f181.google.com with SMTP id 5614622812f47-3d1b587910fso661125b6e.3
+        for <meta-virtualization@lists.yoctoproject.org>; Tue, 28 May 2024 12:14:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1716923534; x=1717528334; darn=lists.yoctoproject.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Fh1ubd3BAXBjAec4Ao5l1evnSdXJMcBs0UWT1R0soew=;
-        b=HDvoHyc4NJ/JmlYIxNba6j4A8IS1SMsZ1EWJjbs/4GS7Ty7aMe8hx6PSn5dy1ogrGf
-         UjiJ/RnLAOQJs2DPelpCoRqmxiESC2jL8lLpcGyVPHss5lRy/9lWUjTaGoCxKsjyLs9M
-         dppLViiQ4j4FHWbYpH49uobk/W2APYkZgLyjJnb9HGCk9ALw3CL4AO3PEYWJ70d7nhRd
-         In1h2q03UADpXvMH/I4HCo94qaMmXXtl5a2tVC6wIDXpGgsOW9DXuAFiuHuKskYAIyqu
-         oU7Waw1sYSR9ua+OEPPoFkbLCMupaYNlkI09II7iIWgldU9xJI+nm7b4IOvzAUqMwXTu
-         LOsA==
+        d=gmail.com; s=20230601; t=1716923645; x=1717528445; darn=lists.yoctoproject.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=XH6x6dq2mLhcNByu78TsPhZTroPxP3J0vLVOWkivnW8=;
+        b=nlJb23WZhH2cXN4w5PrTzN7ofKqLQL6gNX/DCGnfGVP9P4pG+QhGgSZHmSJnQjl7oQ
+         klxgHctNhwWgSwa6HTHTqJE4M6GsbB1fG4012b+R6QwQxbxUV+bZHVBIy4/YFZLV8sCG
+         fxZU1LTtTwGFVn9rD3WQQjuk1/AJiEy0f2un57EVjxNpeOQbPM4nWWM83UisqQGdmBMg
+         Q1axIpkKgfSLvBllU4a30VDHPO085GUMSn9hLGAOfGSoKUPxfth+hILoJ+NldkL2B4uv
+         pSRhRi2EUo0rIMKO54CFZK3h7nlGivGb2TD1FHvLJq6NQXir4UDbkNRNbq2nox8R3I0d
+         0LpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716923534; x=1717528334;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Fh1ubd3BAXBjAec4Ao5l1evnSdXJMcBs0UWT1R0soew=;
-        b=VXgw0e10Xjs0itoLFFpBKkBZEJyJHV0P6J36aetWXccIKV1jbi9bizdIjoPzY18pXB
-         zX+9rRCqq52RGiA92LvBiPO1D6p42F1ms8kFFmjWvBdt2I8ykO0CI3Nb2EgvBywDUwmo
-         495HvNYyCWRJI8tdMr+tKBMIIjZPvMP3PbFK14Ij7q4tIfyyYJPt01ZEM7KHV6UvspGn
-         6GdfMHG7WGYHlVE3nckHjwW1xn6rzxWNasau7Z/3nGsY/iGETZ1WZSLzE5c4AsvLJSN1
-         t5VXBmbuXYi0eCnd9/KqvUTrvkCmkPMrCrRHok57a75uftUZ8aL7zRE/VDFT63Z74Cqf
-         M1IQ==
-X-Gm-Message-State: AOJu0YwBDKq3rtzHMxBKZRDL9XwncpjynUmeeNo2TwokUVuyymDo9qTA
-	XGxcNOvlBvsJzVZgUujjOWnpXgHN9a5tKAmAlPujpZVOJo30fkEfARZ4Lg==
-X-Google-Smtp-Source: AGHT+IGyPqk+NOJjM6jUE1Ho1vkMwXp81MGylnSTttEKa279T9lclCZZi7IXUS6PvKjvvlqIDv1OXA==
-X-Received: by 2002:a05:6358:1229:b0:192:84cb:925d with SMTP id e5c5f4694b2df-197e50f5169mr1033616955d.8.1716923533658;
-        Tue, 28 May 2024 12:12:13 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1716923645; x=1717528445;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XH6x6dq2mLhcNByu78TsPhZTroPxP3J0vLVOWkivnW8=;
+        b=bpaL2xpxVKQAQPOR2QT+TTBOGMB1joYaaFAaztPbC69G1tv5Sm9dPz9BjCSCwQzWbJ
+         oY0hqcBXL5pB4QbVHpkve4+6Tt9iy7G3K9o6GMYxD1xDZL41L0kRd7/iP2zWhaUAK1OP
+         qUUV8tJRfsBUd/fUl5Q6QRVWZjgv+LP4ULBWyxfVR4unA6nhqx64eams7EaAJoyvn0i/
+         7g8t8t44L5Xb+Vyg1D2GhGsBUda/Qv71szVX2aan6Jx+e4JS7FcfeRMdWzkIoIKNN8aT
+         Q2+T+RK0/xaKIIL75/7UTckVKUPeUyIsfvwdOgnZ7mDVQ5pB9NdqKQDNsBVhhDY/hlqj
+         5Imw==
+X-Gm-Message-State: AOJu0YzOAfohkG7ekq7u+QHQqQoSZaI4lPNsSIgrZXylvWvj8l1lTzgr
+	o5gDCuv/ot5/N+YaY3ZFqTyIqzNk9J/QRsu8ibov1enaRj2V7eHB
+X-Google-Smtp-Source: AGHT+IGIsBWSpyfKDftc95sKsVnJrcVdm2fsAW0H6QQ2/UoegwOYferOg+3rINh578r79uWO0gy9sA==
+X-Received: by 2002:a05:6808:23c7:b0:3c9:6fe4:91b0 with SMTP id 5614622812f47-3d1a74597a4mr15927890b6e.41.1716923645055;
+        Tue, 28 May 2024 12:14:05 -0700 (PDT)
 Received: from gmail.com (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-794d50177dcsm62769685a.1.2024.05.28.12.12.12
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6ac78b2773asm46583886d6.118.2024.05.28.12.14.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 May 2024 12:12:13 -0700 (PDT)
-Date: Tue, 28 May 2024 19:12:11 +0000
+        Tue, 28 May 2024 12:14:04 -0700 (PDT)
+Date: Tue, 28 May 2024 19:14:02 +0000
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: asharma@mvista.com
-Cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [meta-virtualization][dunfell][kirkstone][PATCH V2] libvirt:
- Backport fix for CVE-2024-2494
-Message-ID: <ZlYsiy0wJzJ+enoi@gmail.com>
-References: <20240522015833.18685-1-asharma@mvista.com>
+To: mingli.yu@eng.windriver.com
+Cc: meta-virtualization@lists.yoctoproject.org, patrick.wicki@siemens.com
+Subject: Re: [meta-virtualization] [PATCH] netavark: Make ptest run
+Message-ID: <ZlYs+j0If2MpoQuw@gmail.com>
+References: <17C92B9B397D8953.1247@lists.yoctoproject.org>
+ <20240515025431.3049144-1-mingli.yu@windriver.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240522015833.18685-1-asharma@mvista.com>
+In-Reply-To: <20240515025431.3049144-1-mingli.yu@windriver.com>
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Tue, 28 May 2024 19:12:18 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8772
+ <meta-virtualization@lists.yoctoproject.org>; Tue, 28 May 2024 19:14:08 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8773
 
-merged to kirkstne, but the libvirt version is different
-in dunfell, so this can't be applied there.
+I've queued this for testing along with my other UNPACKDIR and
+go fetcher fixes.
 
 Bruce
 
-In message: [meta-virtualization][dunfell][kirkstone][PATCH V2] libvirt: Backport fix for CVE-2024-2494
-on 22/05/2024 Ashish Sharma via lists.yoctoproject.org wrote:
+In message: [meta-virtualization] [PATCH] netavark: Make ptest run
+on 15/05/2024 Yu, Mingli via lists.yoctoproject.org wrote:
 
-> Upstream-Status: Backport [https://gitlab.com/libvirt/libvirt/-/commit/8a3f8d957507c1f8223fdcf25a3ff885b15557f2]
+> From: Mingli Yu <mingli.yu@windriver.com>
 > 
-> Signed-off-by: Ashish Sharma <asharma@mvista.com>
+> Fixes:
+>   # ./run-ptest
+>   /tmp/bats-run-ELGGaA/bats.18820.src: line 5: To: command not found
+>   1..1
+>   not ok 1 bats-gather-tests
+>   # (in test file test/README.md, line 5)
+>   #   `To run the tests locally in your sandbox, you can use one of these methods:' failed with status 127
+> 
+> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
 > ---
->  .../libvirt/libvirt/CVE-2024-2494.patch       | 220 ++++++++++++++++++
->  recipes-extended/libvirt/libvirt_8.1.0.bb     |   1 +
->  2 files changed, 221 insertions(+)
->  create mode 100644 recipes-extended/libvirt/libvirt/CVE-2024-2494.patch
+>  recipes-containers/netavark/files/run-ptest | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
 > 
-> diff --git a/recipes-extended/libvirt/libvirt/CVE-2024-2494.patch b/recipes-extended/libvirt/libvirt/CVE-2024-2494.patch
-> new file mode 100644
-> index 00000000..99c5eec9
-> --- /dev/null
-> +++ b/recipes-extended/libvirt/libvirt/CVE-2024-2494.patch
-> @@ -0,0 +1,220 @@
-> +From 8a3f8d957507c1f8223fdcf25a3ff885b15557f2 Mon Sep 17 00:00:00 2001
-> +From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-> +Date: Fri, 15 Mar 2024 10:47:50 +0000
-> +Subject: [PATCH] remote: check for negative array lengths before allocation
-> +MIME-Version: 1.0
-> +Content-Type: text/plain; charset=UTF-8
-> +Content-Transfer-Encoding: 8bit
+> diff --git a/recipes-containers/netavark/files/run-ptest b/recipes-containers/netavark/files/run-ptest
+> index 7e017ae2..f6f90b15 100644
+> --- a/recipes-containers/netavark/files/run-ptest
+> +++ b/recipes-containers/netavark/files/run-ptest
+> @@ -5,4 +5,10 @@ shopt -s extglob
+>  # Skip the plugin tests because those example plugins are built only while
+>  # running cargo test and for this to work as a ptest they would need to be cross
+>  # compiled and installed as part of the ptest.
+> -NETAVARK=/usr/libexec/podman/netavark bats test/!(*-plugin.bats)
+> +for i in `ls test`; do
+> +     if [ $i == "200-bridge-firewalld.bats" ] || [ $i == "500-plugin.bats" ] ; then
+> +         continue
+> +     fi
+> +     [ ${i: -4 -1} == ".bats" ] && NETAVARK=/usr/libexec/podman/netavark bats test/$i
+> +done
 > +
-> +While the C API entry points will validate non-negative lengths
-> +for various parameters, the RPC server de-serialization code
-> +will need to allocate memory for arrays before entering the C
-> +API. These allocations will thus happen before the non-negative
-> +length check is performed.
-> +
-> +Passing a negative length to the g_new0 function will usually
-> +result in a crash due to the negative length being treated as
-> +a huge positive number.
-> +
-> +This was found and diagnosed by ALT Linux Team with AFLplusplus.
-> +
-> +CVE-2024-2494
-> +Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
-> +Found-by: Alexandr Shashkin <dutyrok@altlinux.org>
-> +Co-developed-by: Alexander Kuznetsov <kuznetsovam@altlinux.org>
-> +Signed-off-by: Daniel P. Berrang� <berrange@redhat.com>
-> +
-> +CVE: CVE-2024-2494
-> +Upstream-Status: Backport [https://gitlab.com/libvirt/libvirt/-/commit/8a3f8d957507c1f8223fdcf25a3ff885b15557f2]
-> +Signed-off-by: Ashish Sharma <asharma@mvista.com>
-> +
-> + src/remote/remote_daemon_dispatch.c | 65 +++++++++++++++++++++++++++++
-> + src/rpc/gendispatch.pl              |  5 +++
-> + 2 files changed, 70 insertions(+)
-> +
-> +diff --git a/src/remote/remote_daemon_dispatch.c b/src/remote/remote_daemon_dispatch.c
-> +index aaabd1e56c..01dcac4b12 100644
-> +--- a/src/remote/remote_daemon_dispatch.c
-> ++++ b/src/remote/remote_daemon_dispatch.c
-> +@@ -2291,6 +2291,10 @@ remoteDispatchDomainGetSchedulerParameters(virNetServer *server G_GNUC_UNUSED,
-> +     if (!conn)
-> +         goto cleanup;
-> + 
-> ++    if (args->nparams < 0) {
-> ++        virReportError(VIR_ERR_INTERNAL_ERROR, "%s", _("nparams must be non-negative"));
-> ++        goto cleanup;
-> ++    }
-> +     if (args->nparams > REMOTE_DOMAIN_SCHEDULER_PARAMETERS_MAX) {
-> +         virReportError(VIR_ERR_INTERNAL_ERROR, "%s", _("nparams too large"));
-> +         goto cleanup;
-> +@@ -2339,6 +2343,10 @@ remoteDispatchDomainGetSchedulerParametersFlags(virNetServer *server G_GNUC_UNUS
-> +     if (!conn)
-> +         goto cleanup;
-> + 
-> ++    if (args->nparams < 0) {
-> ++        virReportError(VIR_ERR_INTERNAL_ERROR, "%s", _("nparams must be non-negative"));
-> ++        goto cleanup;
-> ++    }
-> +     if (args->nparams > REMOTE_DOMAIN_SCHEDULER_PARAMETERS_MAX) {
-> +         virReportError(VIR_ERR_INTERNAL_ERROR, "%s", _("nparams too large"));
-> +         goto cleanup;
-> +@@ -2497,6 +2505,10 @@ remoteDispatchDomainBlockStatsFlags(virNetServer *server G_GNUC_UNUSED,
-> +         goto cleanup;
-> +     flags = args->flags;
-> + 
-> ++    if (args->nparams < 0) {
-> ++        virReportError(VIR_ERR_INTERNAL_ERROR, "%s", _("nparams must be non-negative"));
-> ++        goto cleanup;
-> ++    }
-> +     if (args->nparams > REMOTE_DOMAIN_BLOCK_STATS_PARAMETERS_MAX) {
-> +         virReportError(VIR_ERR_INTERNAL_ERROR, "%s", _("nparams too large"));
-> +         goto cleanup;
-> +@@ -2717,6 +2729,14 @@ remoteDispatchDomainGetVcpuPinInfo(virNetServer *server G_GNUC_UNUSED,
-> +     if (!(dom = get_nonnull_domain(conn, args->dom)))
-> +         goto cleanup;
-> + 
-> ++    if (args->ncpumaps < 0) {
-> ++        virReportError(VIR_ERR_INTERNAL_ERROR, "%s", _("ncpumaps must be non-negative"));
-> ++        goto cleanup;
-> ++    }
-> ++    if (args->maplen < 0) {
-> ++        virReportError(VIR_ERR_INTERNAL_ERROR, "%s", _("maplen must be non-negative"));
-> ++        goto cleanup;
-> ++    }
-> +     if (args->ncpumaps > REMOTE_VCPUINFO_MAX) {
-> +         virReportError(VIR_ERR_INTERNAL_ERROR, "%s", _("ncpumaps > REMOTE_VCPUINFO_MAX"));
-> +         goto cleanup;
-> +@@ -2811,6 +2831,11 @@ remoteDispatchDomainGetEmulatorPinInfo(virNetServer *server G_GNUC_UNUSED,
-> +     if (!(dom = get_nonnull_domain(conn, args->dom)))
-> +         goto cleanup;
-> + 
-> ++    if (args->maplen < 0) {
-> ++        virReportError(VIR_ERR_INTERNAL_ERROR, "%s", _("maplen must be non-negative"));
-> ++        goto cleanup;
-> ++    }
-> ++
-> +     /* Allocate buffers to take the results */
-> +     if (args->maplen > 0)
-> +         cpumaps = g_new0(unsigned char, args->maplen);
-> +@@ -2858,6 +2883,14 @@ remoteDispatchDomainGetVcpus(virNetServer *server G_GNUC_UNUSED,
-> +     if (!(dom = get_nonnull_domain(conn, args->dom)))
-> +         goto cleanup;
-> + 
-> ++    if (args->maxinfo < 0) {
-> ++        virReportError(VIR_ERR_INTERNAL_ERROR, "%s", _("maxinfo must be non-negative"));
-> ++        goto cleanup;
-> ++    }
-> ++    if (args->maplen < 0) {
-> ++        virReportError(VIR_ERR_INTERNAL_ERROR, "%s", _("maxinfo must be non-negative"));
-> ++        goto cleanup;
-> ++    }
-> +     if (args->maxinfo > REMOTE_VCPUINFO_MAX) {
-> +         virReportError(VIR_ERR_INTERNAL_ERROR, "%s", _("maxinfo > REMOTE_VCPUINFO_MAX"));
-> +         goto cleanup;
-> +@@ -3096,6 +3129,10 @@ remoteDispatchDomainGetMemoryParameters(virNetServer *server G_GNUC_UNUSED,
-> + 
-> +     flags = args->flags;
-> + 
-> ++    if (args->nparams < 0) {
-> ++        virReportError(VIR_ERR_INTERNAL_ERROR, "%s", _("nparams must be non-negative"));
-> ++        goto cleanup;
-> ++    }
-> +     if (args->nparams > REMOTE_DOMAIN_MEMORY_PARAMETERS_MAX) {
-> +         virReportError(VIR_ERR_INTERNAL_ERROR, "%s", _("nparams too large"));
-> +         goto cleanup;
-> +@@ -3156,6 +3193,10 @@ remoteDispatchDomainGetNumaParameters(virNetServer *server G_GNUC_UNUSED,
-> + 
-> +     flags = args->flags;
-> + 
-> ++    if (args->nparams < 0) {
-> ++        virReportError(VIR_ERR_INTERNAL_ERROR, "%s", _("nparams must be non-negative"));
-> ++        goto cleanup;
-> ++    }
-> +     if (args->nparams > REMOTE_DOMAIN_NUMA_PARAMETERS_MAX) {
-> +         virReportError(VIR_ERR_INTERNAL_ERROR, "%s", _("nparams too large"));
-> +         goto cleanup;
-> +@@ -3216,6 +3257,10 @@ remoteDispatchDomainGetBlkioParameters(virNetServer *server G_GNUC_UNUSED,
-> + 
-> +     flags = args->flags;
-> + 
-> ++    if (args->nparams < 0) {
-> ++        virReportError(VIR_ERR_INTERNAL_ERROR, "%s", _("nparams must be non-negative"));
-> ++        goto cleanup;
-> ++    }
-> +     if (args->nparams > REMOTE_DOMAIN_BLKIO_PARAMETERS_MAX) {
-> +         virReportError(VIR_ERR_INTERNAL_ERROR, "%s", _("nparams too large"));
-> +         goto cleanup;
-> +@@ -3277,6 +3322,10 @@ remoteDispatchNodeGetCPUStats(virNetServer *server G_GNUC_UNUSED,
-> + 
-> +     flags = args->flags;
-> + 
-> ++    if (args->nparams < 0) {
-> ++        virReportError(VIR_ERR_INTERNAL_ERROR, "%s", _("nparams must be non-negative"));
-> ++        goto cleanup;
-> ++    }
-> +     if (args->nparams > REMOTE_NODE_CPU_STATS_MAX) {
-> +         virReportError(VIR_ERR_INTERNAL_ERROR, "%s", _("nparams too large"));
-> +         goto cleanup;
-> +@@ -3339,6 +3388,10 @@ remoteDispatchNodeGetMemoryStats(virNetServer *server G_GNUC_UNUSED,
-> + 
-> +     flags = args->flags;
-> + 
-> ++    if (args->nparams < 0) {
-> ++        virReportError(VIR_ERR_INTERNAL_ERROR, "%s", _("nparams must be non-negative"));
-> ++        goto cleanup;
-> ++    }
-> +     if (args->nparams > REMOTE_NODE_MEMORY_STATS_MAX) {
-> +         virReportError(VIR_ERR_INTERNAL_ERROR, "%s", _("nparams too large"));
-> +         goto cleanup;
-> +@@ -3514,6 +3567,10 @@ remoteDispatchDomainGetBlockIoTune(virNetServer *server G_GNUC_UNUSED,
-> +     if (!conn)
-> +         goto cleanup;
-> + 
-> ++    if (args->nparams < 0) {
-> ++        virReportError(VIR_ERR_INTERNAL_ERROR, "%s", _("nparams must be non-negative"));
-> ++        goto cleanup;
-> ++    }
-> +     if (args->nparams > REMOTE_DOMAIN_BLOCK_IO_TUNE_PARAMETERS_MAX) {
-> +         virReportError(VIR_ERR_INTERNAL_ERROR, "%s", _("nparams too large"));
-> +         goto cleanup;
-> +@@ -5081,6 +5138,10 @@ remoteDispatchDomainGetInterfaceParameters(virNetServer *server G_GNUC_UNUSED,
-> + 
-> +     flags = args->flags;
-> + 
-> ++    if (args->nparams < 0) {
-> ++        virReportError(VIR_ERR_INTERNAL_ERROR, "%s", _("nparams must be non-negative"));
-> ++        goto cleanup;
-> ++    }
-> +     if (args->nparams > REMOTE_DOMAIN_INTERFACE_PARAMETERS_MAX) {
-> +         virReportError(VIR_ERR_INTERNAL_ERROR, "%s", _("nparams too large"));
-> +         goto cleanup;
-> +@@ -5301,6 +5362,10 @@ remoteDispatchNodeGetMemoryParameters(virNetServer *server G_GNUC_UNUSED,
-> + 
-> +     flags = args->flags;
-> + 
-> ++    if (args->nparams < 0) {
-> ++        virReportError(VIR_ERR_INTERNAL_ERROR, "%s", _("nparams must be non-negative"));
-> ++        goto cleanup;
-> ++    }
-> +     if (args->nparams > REMOTE_NODE_MEMORY_PARAMETERS_MAX) {
-> +         virReportError(VIR_ERR_INTERNAL_ERROR, "%s", _("nparams too large"));
-> +         goto cleanup;
-> +diff --git a/src/rpc/gendispatch.pl b/src/rpc/gendispatch.pl
-> +index 5ce988c5ae..c5842dc796 100755
-> +--- a/src/rpc/gendispatch.pl
-> ++++ b/src/rpc/gendispatch.pl
-> +@@ -1070,6 +1070,11 @@ elsif ($mode eq "server") {
-> +         print "\n";
-> + 
-> +         if ($single_ret_as_list) {
-> ++            print "    if (args->$single_ret_list_max_var < 0) {\n";
-> ++            print "        virReportError(VIR_ERR_RPC,\n";
-> ++            print "                       \"%s\", _(\"max$single_ret_list_name must be non-negative\"));\n";
-> ++            print "        goto cleanup;\n";
-> ++            print "    }\n";
-> +             print "    if (args->$single_ret_list_max_var > $single_ret_list_max_define) {\n";
-> +             print "        virReportError(VIR_ERR_RPC,\n";
-> +             print "                       \"%s\", _(\"max$single_ret_list_name > $single_ret_list_max_define\"));\n";
-> +-- 
-> +GitLab
-> +
-> diff --git a/recipes-extended/libvirt/libvirt_8.1.0.bb b/recipes-extended/libvirt/libvirt_8.1.0.bb
-> index 63cf4914..a88e0ee3 100644
-> --- a/recipes-extended/libvirt/libvirt_8.1.0.bb
-> +++ b/recipes-extended/libvirt/libvirt_8.1.0.bb
-> @@ -30,6 +30,7 @@ SRC_URI = "http://libvirt.org/sources/libvirt-${PV}.tar.xz;name=libvirt \
->             file://gnutls-helper.py \
->             file://0001-qemu-segmentation-fault-in-virtqemud-executing-qemuD.patch \
->             file://CVE-2023-2700.patch \
-> +           file://CVE-2024-2494.patch \
->            "
->  
->  SRC_URI[libvirt.sha256sum] = "3c6c43becffeb34a3f397c616206aa69a893ff8bf5e8208393c84e8e75352934"
 > -- 
-> 2.35.7
+> 2.25.1
 > 
 
 > 
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#8736): https://lists.yoctoproject.org/g/meta-virtualization/message/8736
-> Mute This Topic: https://lists.yoctoproject.org/mt/106236215/1050810
+> View/Reply Online (#8724): https://lists.yoctoproject.org/g/meta-virtualization/message/8724
+> Mute This Topic: https://lists.yoctoproject.org/mt/106107836/1050810
 > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
 > Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
