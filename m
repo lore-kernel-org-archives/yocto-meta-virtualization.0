@@ -1,119 +1,166 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <Qi.Chen@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE997C25B7E
-	for <webhook@archiver.kernel.org>; Tue, 28 May 2024 19:14:08 +0000 (UTC)
-Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
- by mx.groups.io with SMTP id smtpd.web10.600.1716923645878495013
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B252AC25B7C
+	for <webhook@archiver.kernel.org>; Wed, 29 May 2024 09:31:58 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.9635.1716975109577636186
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 28 May 2024 12:14:05 -0700
+ Wed, 29 May 2024 02:31:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=nlJb23WZ;
- spf=pass (domain: gmail.com, ip: 209.85.167.181, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-oi1-f181.google.com with SMTP id 5614622812f47-3d1b587910fso661125b6e.3
-        for <meta-virtualization@lists.yoctoproject.org>; Tue, 28 May 2024 12:14:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1716923645; x=1717528445; darn=lists.yoctoproject.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=XH6x6dq2mLhcNByu78TsPhZTroPxP3J0vLVOWkivnW8=;
-        b=nlJb23WZhH2cXN4w5PrTzN7ofKqLQL6gNX/DCGnfGVP9P4pG+QhGgSZHmSJnQjl7oQ
-         klxgHctNhwWgSwa6HTHTqJE4M6GsbB1fG4012b+R6QwQxbxUV+bZHVBIy4/YFZLV8sCG
-         fxZU1LTtTwGFVn9rD3WQQjuk1/AJiEy0f2un57EVjxNpeOQbPM4nWWM83UisqQGdmBMg
-         Q1axIpkKgfSLvBllU4a30VDHPO085GUMSn9hLGAOfGSoKUPxfth+hILoJ+NldkL2B4uv
-         pSRhRi2EUo0rIMKO54CFZK3h7nlGivGb2TD1FHvLJq6NQXir4UDbkNRNbq2nox8R3I0d
-         0LpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716923645; x=1717528445;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XH6x6dq2mLhcNByu78TsPhZTroPxP3J0vLVOWkivnW8=;
-        b=bpaL2xpxVKQAQPOR2QT+TTBOGMB1joYaaFAaztPbC69G1tv5Sm9dPz9BjCSCwQzWbJ
-         oY0hqcBXL5pB4QbVHpkve4+6Tt9iy7G3K9o6GMYxD1xDZL41L0kRd7/iP2zWhaUAK1OP
-         qUUV8tJRfsBUd/fUl5Q6QRVWZjgv+LP4ULBWyxfVR4unA6nhqx64eams7EaAJoyvn0i/
-         7g8t8t44L5Xb+Vyg1D2GhGsBUda/Qv71szVX2aan6Jx+e4JS7FcfeRMdWzkIoIKNN8aT
-         Q2+T+RK0/xaKIIL75/7UTckVKUPeUyIsfvwdOgnZ7mDVQ5pB9NdqKQDNsBVhhDY/hlqj
-         5Imw==
-X-Gm-Message-State: AOJu0YzOAfohkG7ekq7u+QHQqQoSZaI4lPNsSIgrZXylvWvj8l1lTzgr
-	o5gDCuv/ot5/N+YaY3ZFqTyIqzNk9J/QRsu8ibov1enaRj2V7eHB
-X-Google-Smtp-Source: AGHT+IGIsBWSpyfKDftc95sKsVnJrcVdm2fsAW0H6QQ2/UoegwOYferOg+3rINh578r79uWO0gy9sA==
-X-Received: by 2002:a05:6808:23c7:b0:3c9:6fe4:91b0 with SMTP id 5614622812f47-3d1a74597a4mr15927890b6e.41.1716923645055;
-        Tue, 28 May 2024 12:14:05 -0700 (PDT)
-Received: from gmail.com (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6ac78b2773asm46583886d6.118.2024.05.28.12.14.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 May 2024 12:14:04 -0700 (PDT)
-Date: Tue, 28 May 2024 19:14:02 +0000
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: mingli.yu@eng.windriver.com
-Cc: meta-virtualization@lists.yoctoproject.org, patrick.wicki@siemens.com
-Subject: Re: [meta-virtualization] [PATCH] netavark: Make ptest run
-Message-ID: <ZlYs+j0If2MpoQuw@gmail.com>
-References: <17C92B9B397D8953.1247@lists.yoctoproject.org>
- <20240515025431.3049144-1-mingli.yu@windriver.com>
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=6879a5a475=qi.chen@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 44T4U3oO012698
+	for <meta-virtualization@lists.yoctoproject.org>; Wed, 29 May 2024 09:31:47 GMT
+Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2169.outbound.protection.outlook.com [104.47.59.169])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3yb6y5m0bp-2
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <meta-virtualization@lists.yoctoproject.org>; Wed, 29 May 2024 09:31:47 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=YeEjtYcnFazHdNlUbyWHrrFgvsf2AtoQLzm/1XwkhOxCCj5tEAWrP1zj9VnmnDsBDsdJjf+of0URfdTqEnpS3TasNQEknbW5fNsP36ZIpxS50SmPz5QZg9CHr4+5mPODndlLNtRsPQ0qOAo0KGzSJCEsYykrcTYTHyhxfe5GVSUUdR34rbvdowZ+hkRB5fyiRfQPeRmEzKtQE/CfoJOiQ/cBakMNO2jQZhAS4FYbE+AGVtCyou9zSS+SSVJPYXBlWTlPWL0lQYGOCFp+1Y29w/AVFJV1QaEyR+ZiZuiGLgLcNxUxWvx65RSUYsKQkj6zKHjaEJO20p/IKN3qS8qtaQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=EGntxAcEtM0AsO33KTGEJBtz/0pAYn7hPoY7vR6vyFU=;
+ b=glnNIQxV8sN2eGDWk6CN28KkVjfatAYkuscy7fmB2TAWCOMZ02T7sj7q+JYvlxeZzUG6ir0XFzOIrVL3JM2hVAwm2zWgQwYDSSlexl3U7if2UM2md+ByV8/FRbSTPaAV09WMQMgMDzVWg5P8GVMlDr58jlrlex4RcEee1lp1157FIksYjalmfdmavj2PlEY6KP0qgrtciTi6ndeNCZQfll6nSRab4D81FFyS8yhDgL2MNuUSrxDeQWhGw0nV76ryKBxNJNvpXKRz1bWXsuLa7rwpUsiP/2EnTovR3FkwfcPTTiL8fiOo9ew4cFQg/NBv+VAo+a3RRF7ARe7e0r2Klw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
+ by PH0PR11MB7424.namprd11.prod.outlook.com (2603:10b6:510:287::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7611.29; Wed, 29 May
+ 2024 09:31:43 +0000
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::a7e3:721d:9cec:6093]) by CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::a7e3:721d:9cec:6093%4]) with mapi id 15.20.7611.030; Wed, 29 May 2024
+ 09:31:43 +0000
+From: Qi.Chen@windriver.com
+To: meta-virtualization@lists.yoctoproject.org
+Subject: [meta-virtualization][PATCH 3/4] docker-moby: use GO_SRCURI_DESTSUFFIX
+Date: Wed, 29 May 2024 02:31:29 -0700
+Message-ID: <20240529093130.72277-3-Qi.Chen@windriver.com>
+X-Mailer: git-send-email 2.45.1
+In-Reply-To: <20240529093130.72277-1-Qi.Chen@windriver.com>
+References: <20240529093130.72277-1-Qi.Chen@windriver.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: BYAPR04CA0019.namprd04.prod.outlook.com
+ (2603:10b6:a03:40::32) To CO6PR11MB5602.namprd11.prod.outlook.com
+ (2603:10b6:303:13a::5)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240515025431.3049144-1-mingli.yu@windriver.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO6PR11MB5602:EE_|PH0PR11MB7424:EE_
+X-MS-Office365-Filtering-Correlation-Id: 95372042-375b-42f7-41e4-08dc7fc22693
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230031|376005|366007|1800799015|52116005|38350700005;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?viVv1+jhLjwL1KtYnc39H2YlaEU7KgP82hDByPBbx3ptG02RCM6BTHc0pRAQ?=
+ =?us-ascii?Q?Dm4y6t1LtfcQbXNYGvZ84tmOwpRSKnykjxdUm8xFsLtwrt9/WIT++W9yEBJV?=
+ =?us-ascii?Q?SgdrZVs8YxRCGVnZae9eywyAYlV+pWUDqklIg4Df8xSLYecDIu7TUNFRNYAX?=
+ =?us-ascii?Q?5KxXdHngXolbWqZ9MuJ/CgY+f640ZXSoQOqUBvmN7Pc6TBfPb6WR25fLjU92?=
+ =?us-ascii?Q?62vLzsK3Wp9ixO6Vu3KVmzsaT/OjQOjnKHdT6MC/XwmR4Xv7zrnP7DyWbxC6?=
+ =?us-ascii?Q?LRAQU9SA72uhb5p2etl5RpZaHL6QaYswOWgINSHDWGwmBaqhZYiuYewW55BC?=
+ =?us-ascii?Q?XmuQk9H7Rztu4hVx9AQNROzcKRBtSnKVDlV3Fm7q39CxDomxDg+zNCitwAAR?=
+ =?us-ascii?Q?2OWEh1C42F6rO+3Wp8kLPLTvYOVtmBvdXb6DpmlaVg/FnpU10Xr9U3YPGg0T?=
+ =?us-ascii?Q?ILzq3WC+A2tORyCbEWWHAhse/zk1Pv1hTLArFcALi50GU6twvhZj2cGq5hvG?=
+ =?us-ascii?Q?cyfwijQjTfApckPERHc4xU28Ic9SCEDSfFtMiNTBlKYw2CBs1Z4yRfP/LrJk?=
+ =?us-ascii?Q?7TpkDpP8gonuCj3iU//Y0Zun2ARDakUO05ir+d9jxxUDZf1q1yTShXXp7Xlf?=
+ =?us-ascii?Q?bfpRWgR6ZHU0P38JXUEb+738nyR/SpYWzpFxX5ifZHgkNi8qc0lSsl3FvVWO?=
+ =?us-ascii?Q?wyaH4tdjSVuUR4TdDLs2Kp0t/Xmv0bGSoopKWafFUYk74MVB2OUDwy0dFQ0s?=
+ =?us-ascii?Q?NVZNJtIF172ickxh1P6QsWyJy4lhz/eLdyx+PPZz10mVUT7+e8hy+ebHXMgx?=
+ =?us-ascii?Q?yJoixujzdqcl+YJui6fh/wvfaMQgmsD2wQaMeNhwPZV7ea93WFzyiSNanNqq?=
+ =?us-ascii?Q?fH0D7dVNVDN2jVFbqQEcSLWQ1Zxg8wVbczB5pyVs+n1P3R9vJ8rn9Zvm1G0n?=
+ =?us-ascii?Q?Gj6IQHbBTRocpnyCnX3CKljm/xxrJnCTl8rOmT0xHW2fCUE7wwLbtNf+uFPP?=
+ =?us-ascii?Q?1FCRshIMHkYhE8Zs0NDqWo86oWTFf98XOeEYsJwg2L15e/8XmbCbF2lWyLPW?=
+ =?us-ascii?Q?auPQ/cZBIKskTtp/cgtiwXPkoqVs8p1wugaA1y8IZF3kikj9Yz1Dymy4o91f?=
+ =?us-ascii?Q?xmayuxHpegqx7CmOXlvbgg0Pom7jQSW5Z4/m1C/OGykJbqYgdNTwOcmICi2k?=
+ =?us-ascii?Q?NhIXUzM0t2IytcG0hHBVAUTJ6Yheik2Tgvt1cBpgcx82HF6y9AgyvdmfLG0Y?=
+ =?us-ascii?Q?d1o6VUISOL6pGY61awmgfWmtmVujAZ2mFuRNvAGQkj3QCrzRyXLyKFxTwOcZ?=
+ =?us-ascii?Q?cY8sscWuszHvVSsmYDYrpWQYlZAV8EgrHYUsCYBmMsKfFQ=3D=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(366007)(1800799015)(52116005)(38350700005);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?e46Zk38MFIqdiqhpxkJDhr2TLvkObIwIecFow22U+9tai2RvNJcT8YLVqLuP?=
+ =?us-ascii?Q?ACJJFI4567wP3oZvHfiGFnSJwBJGOgO477T+wrvS64Cx9AQa1RkkTiPKP8Ju?=
+ =?us-ascii?Q?bVxkjaWFTkailSxQsOj38dX6GkmKh5Ah85lbkAdS+6EqV3RKAaWbu3kctEkm?=
+ =?us-ascii?Q?tWjVL28r9frowiqtC/rV6OQHw5HL6y5jSzga7fVAhKef5VLKo8EBHdzXRzVQ?=
+ =?us-ascii?Q?Zir+zQgU0bpielcDgOx4XDqsw8rxKBdWZjapsLD6j2GKJREbI1i3H8LY1ZPG?=
+ =?us-ascii?Q?JQDzv6heKq0Edl1n2V06AZXZlnP3pzotk3uLnFeJg5kmhskgx8HM1Lxcaw3N?=
+ =?us-ascii?Q?IG+VWlv22XeGfw5oTO1CdADLU1YvD9zUaE4yINwvcrbQ9xNPYYJabkYrAqzr?=
+ =?us-ascii?Q?dxwLRLDqJ2+1S5c6IzDBcdLWqV3OEMuNjqIoZYhfp9/p1G4fcnMq7Yqc3Sl0?=
+ =?us-ascii?Q?2KrhUuBfaUEU3MDNglloJffteepw0Y5rMRyO9GbZGdtXG95ST6dx7fMPPg/R?=
+ =?us-ascii?Q?C0UdflksbXPAv98InnIHjEDe9z72YY49O0DNep628CwNYiB10HX39wc8e2it?=
+ =?us-ascii?Q?pzHMqgIDGkzKdJ4MJ16JpXv6YsorjaxS0DIEVkF0nhqobzBQFj3SXXDgINvm?=
+ =?us-ascii?Q?+pNuhFwflDvV2WHDkHVPt585Tk+x6Xwh9Zln+a2aM9fKTSD8mYnm3pKtCHtp?=
+ =?us-ascii?Q?pFrD6v/WMcZiXeVfj2TaaQtB6T/uzQO25EwxBPVz87e6FXnckQPdueAEbGHr?=
+ =?us-ascii?Q?uXiu0xG1L9dxnAn6zDtpgJPo7Z6VC2Fl9m+lcovbOZb3PDQEYDGEGrixfFnK?=
+ =?us-ascii?Q?Nj6S00qLgVtNqDQj8FBMUzq6o7XJn7bRSRZUxhsU6fTmC1uO4Gg5c5gLOsPv?=
+ =?us-ascii?Q?uLut+PykzMfMm1PItGsLKQSa7uB9VBk+iTbRB17dOi4/TDfVDXo0scSirK6I?=
+ =?us-ascii?Q?Ss/X1iuTOpthDOYcWryEBOxbIPwaDpZR8mZLx6Ys06QYwcSJxcoLt8w+1SkB?=
+ =?us-ascii?Q?K5QNdfYmeM+HMF9vMM+g4USI5EQ6STM33RSI5UT4bibBqyYNd6L265c1aB8v?=
+ =?us-ascii?Q?T/FlT8iYXLQmsIk/dHLIJop4yWHfRHJ/9MwCBA5QEM5+ULxfwoS7vZGhoTbn?=
+ =?us-ascii?Q?Qf2xdRM/VOeDsEl3AHipo199qDxSEzWWIHq9BqO6dAbMgSBQFaJD0XUjpSEZ?=
+ =?us-ascii?Q?dCsbGuWWfgML9OXy4/dXLVnZMRd8i/aA7oFaiE0clnhrvtG6Nz+lMWCK1N70?=
+ =?us-ascii?Q?ksWpphnDQbGj7ZkPFZ16O0tMWIWrOteWhZkSNaGJUDvx5yZX3oc7ZJxvAHce?=
+ =?us-ascii?Q?1qAOJzifpr24BQrH6k/N3MZRN7mXKrSBSv5XFcBKVGtZtwTTvZvMlZAxPejf?=
+ =?us-ascii?Q?DHV6DjlWs2drRCe6hdTEEsjzuFgjIIFDO6he0seD6dtSyBFYMoX7ws54rPhW?=
+ =?us-ascii?Q?HpeYIoeu5QO5VutNmtFeeeWaa4VO8eLLuZSBrpXX4KXqRNmYZmKCvk7wKRNo?=
+ =?us-ascii?Q?DAiH7XDed1VCD6vcJp+nV2BsgJkPbHhXKPe/Y0Je60KG2vimFNNPjoxJjOY4?=
+ =?us-ascii?Q?t77Lq2V5HpAOpIuCFyKvJ/Ot1Gf21d8ySW98xkKDdc2udHE/Yx+YcWI6EB0I?=
+ =?us-ascii?Q?kA=3D=3D?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 95372042-375b-42f7-41e4-08dc7fc22693
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 May 2024 09:31:42.9228
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: tPwPM/HtnCkcUp67V6c9UDrv/6Fics8Arqt50DY/FGcpyS1AuoWksFBu4jKr6/FgxanEUcMu8ixY/7FWkJiPCg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB7424
+X-Proofpoint-ORIG-GUID: krPpVWFTqdthGBM02LvteqO4evIQMTwH
+X-Proofpoint-GUID: krPpVWFTqdthGBM02LvteqO4evIQMTwH
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.12.28.16
+ definitions=2024-05-28_14,2024-05-28_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 adultscore=0
+ malwarescore=0 lowpriorityscore=0 mlxscore=0 phishscore=0
+ priorityscore=1501 clxscore=1015 mlxlogscore=719 bulkscore=0
+ impostorscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2405170001 definitions=main-2405290063
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Tue, 28 May 2024 19:14:08 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8773
+ <meta-virtualization@lists.yoctoproject.org>; Wed, 29 May 2024 09:31:58 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8776
 
-I've queued this for testing along with my other UNPACKDIR and
-go fetcher fixes.
+From: Chen Qi <Qi.Chen@windriver.com>
 
-Bruce
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ recipes-containers/docker/docker-moby_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-In message: [meta-virtualization] [PATCH] netavark: Make ptest run
-on 15/05/2024 Yu, Mingli via lists.yoctoproject.org wrote:
-
-> From: Mingli Yu <mingli.yu@windriver.com>
-> 
-> Fixes:
->   # ./run-ptest
->   /tmp/bats-run-ELGGaA/bats.18820.src: line 5: To: command not found
->   1..1
->   not ok 1 bats-gather-tests
->   # (in test file test/README.md, line 5)
->   #   `To run the tests locally in your sandbox, you can use one of these methods:' failed with status 127
-> 
-> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-> ---
->  recipes-containers/netavark/files/run-ptest | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
-> 
-> diff --git a/recipes-containers/netavark/files/run-ptest b/recipes-containers/netavark/files/run-ptest
-> index 7e017ae2..f6f90b15 100644
-> --- a/recipes-containers/netavark/files/run-ptest
-> +++ b/recipes-containers/netavark/files/run-ptest
-> @@ -5,4 +5,10 @@ shopt -s extglob
->  # Skip the plugin tests because those example plugins are built only while
->  # running cargo test and for this to work as a ptest they would need to be cross
->  # compiled and installed as part of the ptest.
-> -NETAVARK=/usr/libexec/podman/netavark bats test/!(*-plugin.bats)
-> +for i in `ls test`; do
-> +     if [ $i == "200-bridge-firewalld.bats" ] || [ $i == "500-plugin.bats" ] ; then
-> +         continue
-> +     fi
-> +     [ ${i: -4 -1} == ".bats" ] && NETAVARK=/usr/libexec/podman/netavark bats test/$i
-> +done
-> +
-> -- 
-> 2.25.1
-> 
-
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#8724): https://lists.yoctoproject.org/g/meta-virtualization/message/8724
-> Mute This Topic: https://lists.yoctoproject.org/mt/106107836/1050810
-> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+diff --git a/recipes-containers/docker/docker-moby_git.bb b/recipes-containers/docker/docker-moby_git.bb
+index 0abb0b3f..41a6823d 100644
+--- a/recipes-containers/docker/docker-moby_git.bb
++++ b/recipes-containers/docker/docker-moby_git.bb
+@@ -49,7 +49,7 @@ SRCREV_libnetwork = "67e0588f1ddfaf2faf4c8cae8b7ea2876434d91c"
+ SRCREV_cli = "01f933261885c0126edb3f47fd56d048ae31265a"
+ SRCREV_FORMAT = "moby_libnetwork"
+ SRC_URI = "\
+-	git://github.com/moby/moby.git;branch=25.0;name=moby;protocol=https \
++	git://github.com/moby/moby.git;branch=25.0;name=moby;protocol=https;destsuffix=${GO_SRCURI_DESTSUFFIX} \
+ 	git://github.com/docker/libnetwork.git;branch=master;name=libnetwork;destsuffix=git/libnetwork;protocol=https \
+ 	git://github.com/docker/cli;branch=25.0;name=cli;destsuffix=git/cli;protocol=https \
+ 	file://docker.init \
+-- 
+2.45.1
 
 
