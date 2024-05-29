@@ -1,231 +1,704 @@
-Return-Path: <martin.jansa@gmail.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 097EBC27C43
-	for <webhook@archiver.kernel.org>; Wed, 29 May 2024 10:04:49 +0000 (UTC)
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
- by mx.groups.io with SMTP id smtpd.web11.10152.1716977085079562854
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DAED4C25B75
+	for <webhook@archiver.kernel.org>; Wed, 29 May 2024 13:08:39 +0000 (UTC)
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+ by mx.groups.io with SMTP id smtpd.web11.13641.1716988117307333305
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 29 May 2024 03:04:45 -0700
+ Wed, 29 May 2024 06:08:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=NZRcO1LE;
- spf=pass (domain: gmail.com, ip: 209.85.167.41, mailfrom: martin.jansa@gmail.com)
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-52962423ed8so2214843e87.2
-        for <meta-virtualization@lists.yoctoproject.org>; Wed, 29 May 2024 03:04:44 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=KMm1fxGf;
+ spf=pass (domain: gmail.com, ip: 209.85.216.41, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-2bf59381a11so1767872a91.1
+        for <meta-virtualization@lists.yoctoproject.org>; Wed, 29 May 2024 06:08:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1716977083; x=1717581883; darn=lists.yoctoproject.org;
+        d=gmail.com; s=20230601; t=1716988117; x=1717592917; darn=lists.yoctoproject.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=i8dGp0OBtZTz6GATg6ff3AiJyWx1/M/SgBt1V6tuh2E=;
-        b=NZRcO1LErIuLTmJw+oQ79ZsHdwuPrYuukENlLUL8JXqB14zVxLrQcq+sq83yIF1ufy
-         Eiv0CcbgUNJkWaaDHNebgb657W19qVQBx4L813nO9chEvE8kqpzkuZ0VgtD5uAzh1NjT
-         rGfuYqw73vOOiPJPhLVhQzAqMx05i/A89xGkWZNtyPv1gTzHMKoQWkNcPgQINnFEtNJ/
-         NMd20XW+nk8GKM1lreia7W1mrwIlNboIxpcUXm3wvUnO7Z2bPU4f+Ag3K/bW94k1u7tn
-         FVf35nf6i1WwDUyxoDUmf+eRcQTYI88ie5LFaI3nGWjm6ol+ftXshhXVUmJ8DkJGeN9K
-         wysw==
+        bh=m9Fp5UL5vNK+Gjcei7dOqm6cj/nG+27hdAE0H5awhvQ=;
+        b=KMm1fxGfBpMWNuWmWymKLz8UfUuvjTOIEXiGDsPOGHpdX8BdAC2RtlEg5UF2AmdMc/
+         kVKzghwzEnd2osBKjlisqfM3nyfb7kCOE6avtroy0tYryr6KVXCblROD9T7smMHS1roP
+         LEm1EdJEhoO3TRBssX66AkTLYTr1aqaC+hVSgOjk7B9gvbV4YI0mixenoLr7GFFCzO2F
+         tZgjZG/AP5iNVk1rMPSajogZVlHrTfFC5VU6my/KszDbblK93j5ya26Api5D7GoOZVmM
+         9vqc1juuMbQ4620ZMKfO0STT2+phBjYAkh9Esy59BGPZSX+6bg4KzHAFFSlxbponWMd9
+         /K2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716977083; x=1717581883;
+        d=1e100.net; s=20230601; t=1716988117; x=1717592917;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=i8dGp0OBtZTz6GATg6ff3AiJyWx1/M/SgBt1V6tuh2E=;
-        b=ABKtRpnB0W9UC1plkAe6rU052bjJe3P35ootJ3D6MMkJsuhI+jBQ5MbDGLEjxGsNkv
-         XQnWMJZI5T8QgxJsWhtrVdca6VrGlEenaZMhM1bZUSODiuuTeRPcTZanEP3WkAziBp6z
-         kaT1ixkqT3arqxn6D/9YalzNgTf1dMhhcdB67oGdmx1RF1+EOrulJBDDImeI2d4yagCh
-         mCeqVrXkKprLentTx64zmEIWqp6pSyIJIS+gVdRlkL2d5Ll+jWuBY343j5RWCWo5vGy5
-         ofXz0elXwT/6w/h3d87kB3SMkN3uKoYSvT64DsNozIbY1h5KfmzwF5DYuwPU8JMaBcMv
-         tAzQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWaf0/0mw1XMwNl/rq1YbHDOTzZ624KqkNfwsjvMou0SlcQx+De09Kub2xbxJNlM9LU/iiha0YTngzSbR+IR/OoMQCDj4l0jiWa6o0OVT/dfjLgjdvpT/tALWg=
-X-Gm-Message-State: AOJu0Yy6VA9keT6gz7lEf5nvzhcOrp8x42wxNt/9yZkpbnh+5BRkQccM
-	ja6gaXhbPf5ubG2hESrqOZ6ezn2PXuudk5VDZakrNPvrYCq2tRgZkoCGngjRx6WNEViIy1K51+Z
-	7LIK6VOvYLZ9QPE7c2xFJGNHzWsE=
-X-Google-Smtp-Source: AGHT+IGnqhB6LUDqLNbxaeQQuMkNPnE457NkhWGbwRYbm6sjP++/smYrtVud+l8uBSxCRQ5ToPyLMRr0dELQtOz66IM=
-X-Received: by 2002:ac2:4f8a:0:b0:519:6953:2ffc with SMTP id
- 2adb3069b0e04-52966ca64bbmr8391900e87.42.1716977083010; Wed, 29 May 2024
- 03:04:43 -0700 (PDT)
+        bh=m9Fp5UL5vNK+Gjcei7dOqm6cj/nG+27hdAE0H5awhvQ=;
+        b=k2IpzhS4EA86IYhC9kCwsg5rMQZ8fQBF6KrdQplPECscdPJGezAftgO8js5kvarHi3
+         3RWykVhFCY9MQUUaOCFjwOivLcrcYY98cJllrOYsdNGvV9RWJD3Z/cxMm1IqfXOo5mlk
+         3Qw6lsoy4plcvXuvQQkDoKS7MRUmrIH2DQJUQOqkZzUKvfAG6QoFaVbLn7uAr9ckCKHO
+         QuAJ4Oe4dpwNuZ0TGeiM0Smi6Ces5R8wz7PaXdZvMqvF8e5e+z7UrRlqhx2C3z+kN2x9
+         Z4i7CayVb7rvNEi9EntXdZBiE7FT98LgetGmyCROOcrbWkdR2aLbC65i+qxL1ye8F4xB
+         dA4Q==
+X-Gm-Message-State: AOJu0YzPdsyGqSsg1JERpBl4T+eQ+dz6+qgr+1jF0hGz5dTUdrDpQnK2
+	PhCdr1ZctKS7XvQ+F4naj9v/eHV/LqlKrHR0Cj0N0h85eJSbW4a+CD8ZYr23lGFHZtfWZaT/NdI
+	iz6+6xDXwnXg/G0qUVzmGVzLtUqE=
+X-Google-Smtp-Source: AGHT+IEmS4Hb4w4zulm2UiSCOTUThAylFe75cpYMlGBwwUoviXbPqdOChsigqM4Dv4zccwK4uhKO1786xD49gR9BRKc=
+X-Received: by 2002:a17:90a:e501:b0:2bd:9256:8ce0 with SMTP id
+ 98e67ed59e1d1-2bf5ea3c2f8mr13690252a91.14.1716988116193; Wed, 29 May 2024
+ 06:08:36 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240524190915.1241716-1-martin.jansa@gmail.com>
- <20240524190915.1241716-2-martin.jansa@gmail.com> <CADkTA4MJRMzVBZ7vksRw_+oHusHvGJhu9dQaL3HbwNKTvfaNJA@mail.gmail.com>
- <CA+chaQeNR23+LHGka=cyQzkE-2s5+Fo7qjrPKp_8QTb64F1rSw@mail.gmail.com>
- <CADkTA4Pnpohs_L7_fyu+XLKZLNPF6j=YW+5GHb-duPR__5M7Yg@mail.gmail.com>
- <CA+chaQe9dY205PvWwyPBHe0cYJs7it1OrL25F7+xhtoW42Z=4g@mail.gmail.com>
- <CADkTA4OVX8p1bU5nRKT3LBUvfHJ3aCA1ZbAcUpEbFXQwMBYY=w@mail.gmail.com> <3da1f706-e892-aff5-0577-8e91b6c3e58f@windriver.com>
-In-Reply-To: <3da1f706-e892-aff5-0577-8e91b6c3e58f@windriver.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Wed, 29 May 2024 12:04:20 +0200
-Message-ID: <CA+chaQd4j=n0r9-1sh_G4-h4Md78SmZDCVpUsjYDOOiw=A=1PA@mail.gmail.com>
-Subject: Re: [meta-virtualization] [RFC][PATCH 2/3] cni: use GO_SRCURI_DESTSUFFIX
-To: ChenQi <Qi.Chen@windriver.com>
-Cc: bruce.ashfield@gmail.com, meta-virtualization@lists.yoctoproject.org
+References: <20240529093130.72277-1-Qi.Chen@windriver.com>
+In-Reply-To: <20240529093130.72277-1-Qi.Chen@windriver.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Wed, 29 May 2024 09:08:24 -0400
+Message-ID: <CADkTA4Nv7OfCMA1JKW=uW3BWB7m=qWJ_zmQS7vr+c+nQxtU3fw@mail.gmail.com>
+Subject: Re: [meta-virtualization][PATCH 1/4] meta-virt: adjust for UNPACKDIR
+ and GO_SRCURI_DESTSUFFIX
+To: Qi.Chen@windriver.com
+Cc: meta-virtualization@lists.yoctoproject.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Wed, 29 May 2024 10:04:49 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8779
+ <meta-virtualization@lists.yoctoproject.org>; Wed, 29 May 2024 13:08:39 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8780
 
-FWIW: my colleague sent me some fixes for my WIP jansa/master branch in:
-https://github.com/shr-project/meta-virtualization/pull/1
-https://github.com/shr-project/meta-virtualization/pull/2
-I haven't shared them as I'm waiting for master-next branch to be
-updated to see what's left to fix (and hard to guess what Bruce is
-cooking)
+As I mentioned on the list earlier this week, I've already dealt with
+these issues.
 
-On Wed, May 29, 2024 at 11:34=E2=80=AFAM ChenQi <Qi.Chen@windriver.com> wro=
-te:
+I'm just finalizing a few runtime issues and everything will be pushed
+to master-next.
+
+Bruce
+
+On Wed, May 29, 2024 at 5:31=E2=80=AFAM Chen Qi via lists.yoctoproject.org
+<Qi.Chen=3Dwindriver.com@lists.yoctoproject.org> wrote:
 >
-> Hi Bruce,
+> From: Chen Qi <Qi.Chen@windriver.com>
 >
-> I did some investigation this afternoon. A patch series has been sent,
-> which mostly comes from 'grep + sed', and also includes a patch from Mart=
-in.
-> I did build tests, the result looks good to me. I think the only
-> remaining recipes that need to be dealt with are: yq and possibly runv.
-> I'll need to do something else tomorrow. Hope you or someone else could
-> check more.
-> Hope this would help a little bit.
+> The patch is generated by the following commands:
 >
-> Regards,
-> Qi
+>   grep -rl WORKDIR * | xargs sed -i -e 's#${WORKDIR}/${BP}/src/import#${G=
+O_SRCURI_DESTSUFFIX}#g'
+>   grep -rl WORKDIR * | xargs sed -i -e 's#${UNPACKDIR}#${UNPACKDIR}#g'
+>   grep -rEl 'inherit.* go( |$)' * | xargs sed -i -e '/destsuffix/!s/proto=
+col=3Dhttps/protocol=3Dhttps;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/g'
+>   grep -rl destsuffix * | xargs sed -i -e 's#destsuffix=3D${S}/#destsuffi=
+x=3D${GO_SRCURI_DESTSUFFIX}/../../#g'
+>   grep -rl UNPACKDIR * | xargs sed -i -e 's#S =3D "${UNPACKDIR}#S =3D "${=
+WORKDIR}#g'
+>   grep -rl GOPATH * | xargs sed -i -e '/GOPATH/ s#UNPACKDIR#WORKDIR#g'
+>   grep -rl '\${UNPACKDIR}/git' * | xargs sed -i -e 's#${UNPACKDIR}/git#${=
+WORKDIR}/git#g'
+>   grep -rl 'toolchain.cmake' * | xargs sed -i -e 's#${UNPACKDIR}/toolchai=
+n.cmake#${WORKDIR}/toolchain.cmake#g'
 >
-> On 5/28/24 04:37, Bruce Ashfield via lists.yoctoproject.org wrote:
-> > As an update. My patience is wearing thin.
-> >
-> > The posted patches don't build for me, my changes don't build for me,
-> > if I hack things, the runtime is broken.
-> >
-> > I'm seeing different fetching and source management based on the
-> > number of git repositories in the SCR_URI, which means I'm running
-> > into everything from missing source to license checksum failures when
-> > I reorganize the code.
-> >
-> > I'm stubborn about this sort of thing, there's no sense in me just
-> > merging patches that don't build on my machines, and/or patches that I
-> > don't understand how they fix issues, since I'll never be able to
-> > maintain things afterwards.
-> >
-> > I am still working on this, but I'm no debugging oe-core code to try
-> > and understand what is happening and why the behaviour is changing, so
-> > everything is extremely hacked up and I'm not even near a RFT branch
-> > yet.
-> >
-> > Summary: it will be quite some time before I have meta-virt working
-> > again, since I feel like I've had a bag of rocks dumped right on top
-> > of me and changes to core that I don't have straight in my head yet.
-> >
-> > Bruce
-> >
-> > On Fri, May 24, 2024 at 3:40=E2=80=AFPM Martin Jansa <martin.jansa@gmai=
-l.com> wrote:
-> >> On Fri, May 24, 2024 at 9:32=E2=80=AFPM Bruce Ashfield <bruce.ashfield=
-@gmail.com> wrote:
-> >>> Interesting.
-> >>>
-> >>> I've been through the layer now and have done all the simple semantic
-> >>> changes to adjust things.
-> >>>
-> >>> I'm almost to runtime testing, but expect that by Monday I'll have
-> >>> everything sorted.
-> >> OK, looking forward to the master-next update (and kirkstone update)
-> >> to have a bit greener world builds again :).
-> >>
-> >>> Bruce
-> >>>
-> >>> On Fri, May 24, 2024 at 3:26=E2=80=AFPM Martin Jansa <martin.jansa@gm=
-ail.com> wrote:
-> >>>> It was failing yesterday, but today it built OK, I didn't do any
-> >>>> runtime testing (only checked buildhistory-diff).
-> >>>>
-> >>>> Have similar change for nerdctl cri-tools, only yq and docker-moby a=
-re
-> >>>> still failing for me.
-> >>>>
-> >>>> On Fri, May 24, 2024 at 9:22=E2=80=AFPM Bruce Ashfield <bruce.ashfie=
-ld@gmail.com> wrote:
-> >>>>> Did you get this to build with just that change ?
-> >>>>>
-> >>>>> My patches to cni are significantly larger to get it to build and
-> >>>>> create binaries.
-> >>>>>
-> >>>>> Bruce
-> >>>>>
-> >>>>> On Fri, May 24, 2024 at 3:09=E2=80=AFPM Martin Jansa via
-> >>>>> lists.yoctoproject.org <martin.jansa=3Dgmail.com@lists.yoctoproject=
-.org>
-> >>>>> wrote:
-> >>>>>> * see:
-> >>>>>>    https://lists.openembedded.org/g/openembedded-architecture/mess=
-age/2007
-> >>>>>>    https://git.openembedded.org/openembedded-core/commit/?id=3Dcc4=
-ec43a2b657fb4c58429ab14f1edc2473c1327
-> >>>>>>
-> >>>>>> * fixes:
-> >>>>>>    http://errors.yoctoproject.org/Errors/Details/772691/
-> >>>>>>    ERROR: QA Issue: cni: LIC_FILES_CHKSUM points to an invalid fil=
-e: TOPDIR/tmp-glibc/work/core2-64-oe-linux/cni/v1.2.0-rc0+gitb62753aa2bfa36=
-5c1ceaff6f25774a8047c896b5/cni-v1.2.0-rc0+gitb62753aa2bfa365c1ceaff6f25774a=
-8047c896b5/src/import/LICENSE [license-checksum]
-> >>>>>>
-> >>>>>> Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
-> >>>>>> ---
-> >>>>>>   recipes-networking/cni/cni_git.bb | 2 +-
-> >>>>>>   1 file changed, 1 insertion(+), 1 deletion(-)
-> >>>>>>
-> >>>>>> diff --git a/recipes-networking/cni/cni_git.bb b/recipes-networkin=
-g/cni/cni_git.bb
-> >>>>>> index b41b47cf..c0f316ec 100644
-> >>>>>> --- a/recipes-networking/cni/cni_git.bb
-> >>>>>> +++ b/recipes-networking/cni/cni_git.bb
-> >>>>>> @@ -14,7 +14,7 @@ SRCREV_plugins =3D "b6a0e0bc96906f0d3bd6bfcaab0b=
-5ae72292f46c"
-> >>>>>>   SRCREV_flannel_plugin =3D "6464faacf5c00e25321573225d74638455ef0=
-3a0"
-> >>>>>>   SRCREV_FORMAT =3D "cni_plugins"
-> >>>>>>   SRC_URI =3D "\
-> >>>>>> -       git://github.com/containernetworking/cni.git;branch=3Dmain=
-;name=3Dcni;protocol=3Dhttps \
-> >>>>>> +       git://github.com/containernetworking/cni.git;branch=3Dmain=
-;name=3Dcni;protocol=3Dhttps;destsuffix=3D${GO_SRCURI_DESTSUFFIX} \
-> >>>>>>           git://github.com/containernetworking/plugins.git;branch=
-=3Dmain;destsuffix=3D${S}/src/github.com/containernetworking/plugins;name=
-=3Dplugins;protocol=3Dhttps \
-> >>>>>>           git://github.com/flannel-io/cni-plugin;branch=3Dmain;nam=
-e=3Dflannel_plugin;protocol=3Dhttps;destsuffix=3D${S}/src/github.com/contai=
-nernetworking/plugins/plugins/meta/flannel \
-> >>>>>>           file://modules.txt \
-> >>>>>> --
-> >>>>>> 2.45.1
-> >>>>>>
-> >>>>>>
-> >>>>>>
-> >>>>>>
-> >>>>>
-> >>>>> --
-> >>>>> - Thou shalt not follow the NULL pointer, for chaos and madness awa=
-it
-> >>>>> thee at its end
-> >>>>> - "Use the force Harry" - Gandalf, Star Trek II
-> >>>
-> >>>
-> >>> --
-> >>> - Thou shalt not follow the NULL pointer, for chaos and madness await
-> >>> thee at its end
-> >>> - "Use the force Harry" - Gandalf, Star Trek II
-> >
-> >
-> >
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#8769): https://lists.yoctoproject.org/g/meta-virtua=
-lization/message/8769
-> > Mute This Topic: https://lists.yoctoproject.org/mt/106287452/3618072
-> > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> > Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub=
- [Qi.Chen@windriver.com]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >
+> What these commands do is:
+> 1) use GO_SRCURI_DESTSUFFIX to adapt to latest oe-core change
+> 2) avoid absolute path in destsuffix
+>    This will unnecessarily create ${S} diretory, causing a chaos when doi=
+ng shutil.move.
+>    The unpack codes in base.bbclass remove ${S} in most cases and then do=
+es a move.
+> 3) Use UNPACKDIR to replace WORKDIR.
 >
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+>  .../xen-rpi-u-boot-scr/xen-rpi-u-boot-scr.bb  |   4 +-
+>  recipes-containers/buildah/buildah_git.bb     |   2 +-
+>  .../cgroup-lite/cgroup-lite_1.15.bb           |   2 +-
+>  .../container-host-config.bb                  |   6 +-
+>  recipes-containers/cri-o/cri-o_git.bb         |   4 +-
+>  recipes-containers/cri-tools/cri-tools_git.bb |   2 +-
+>  .../docker-compose/docker-compose_git.bb      |   4 +-
+>  recipes-containers/docker-compose/src_uri.inc | 372 ++++----
+>  .../docker-distribution_git.bb                |   2 +-
+>  recipes-containers/docker/docker.inc          |   2 +-
+>  recipes-containers/k3s/k3s_git.bb             |  16 +-
+>  recipes-containers/k3s/src_uri.inc            | 860 +++++++++---------
+>  .../kubernetes/kubernetes_git.bb              |  10 +-
+>  recipes-containers/lxc/lxc_git.bb             |   4 +-
+>  recipes-containers/nerdctl/nerdctl_git.bb     |   4 +-
+>  recipes-containers/nerdctl/src_uri.inc        | 270 +++---
+>  .../podman-tui/podman-tui_git.bb              |   2 +-
+>  recipes-containers/podman/podman_git.bb       |   4 +-
+>  .../kata-containers/kata-agent_git.bb         |   2 +-
+>  .../kata-containers/kata-proxy_git.bb         |   2 +-
+>  .../kata-containers/kata-runtime_git.bb       |   2 +-
+>  recipes-core/kata-containers/kata-shim_git.bb |   2 +-
+>  recipes-core/runv/runv_git.bb                 |   2 +-
+>  recipes-core/runx/runx_git.bb                 |   8 +-
+>  .../helloworld-flask/helloworld-flask_0.1.bb  |  18 +-
+>  recipes-devtools/go/go-build_git.bb           |   2 +-
+>  recipes-devtools/go/go-md2man_git.bb          |   2 +-
+>  recipes-devtools/yq/yq_git.bb                 |   4 +-
+>  recipes-extended/ceph/ceph_18.2.2.bb          |   6 +-
+>  recipes-extended/diod/diod_1.0.24.bb          |   4 +-
+>  recipes-extended/images/xtf-image.bb          |   4 +-
+>  recipes-extended/libvirt/libvirt-python.inc   |   4 +-
+>  recipes-extended/libvirt/libvirt_10.0.0.bb    |  30 +-
+>  recipes-extended/nagios/nagios-core_4.4.6.bb  |   6 +-
+>  recipes-extended/nagios/nagios-nrpe_4.0.2.bb  |   4 +-
+>  recipes-extended/nagios/nagios-nsca_2.9.2.bb  |   4 +-
+>  .../uxen/uxen-guest-tools_4.1.8.bb            |   2 +-
+>  .../virt-viewer/virt-viewer_11.0.bb           |   2 +-
+>  recipes-extended/xen/xen.inc                  |   6 +-
+>  recipes-networking/cni/cni_git.bb             |   8 +-
+>  recipes-networking/cni/src_uri.inc            |  26 +-
+>  recipes-networking/netns/netns_git.bb         |   2 +-
+>  .../openvswitch/openvswitch.inc               |   8 +-
+>  scripts/oe-go-mod-autogen.py                  |  12 +-
+>  44 files changed, 871 insertions(+), 871 deletions(-)
+>
+> diff --git a/dynamic-layers/raspberrypi/recipes-bsp/xen-rpi-u-boot-scr/xe=
+n-rpi-u-boot-scr.bb b/dynamic-layers/raspberrypi/recipes-bsp/xen-rpi-u-boot=
+-scr/xen-rpi-u-boot-scr.bb
+> index 87619d01..f1d3189d 100644
+> --- a/dynamic-layers/raspberrypi/recipes-bsp/xen-rpi-u-boot-scr/xen-rpi-u=
+-boot-scr.bb
+> +++ b/dynamic-layers/raspberrypi/recipes-bsp/xen-rpi-u-boot-scr/xen-rpi-u=
+-boot-scr.bb
+> @@ -17,9 +17,9 @@ do_compile() {
+>          -e 's/@@KERNEL_BOOTCMD@@/${KERNEL_BOOTCMD}/' \
+>          -e 's/@@RPI_DOM0_MEM@@/${RPI_DOM0_MEM}/' \
+>          -e 's/@@RPI_DEBUG_XEN_ARGS@@/${RPI_DEBUG_XEN_ARGS}/' \
+> -        "${WORKDIR}/boot.cmd.xen.in" > "${WORKDIR}/boot.cmd"
+> +        "${UNPACKDIR}/boot.cmd.xen.in" > "${UNPACKDIR}/boot.cmd"
+>
+> -    mkimage -A ${UBOOT_ARCH} -T script -C none -n "Boot script" -d "${WO=
+RKDIR}/boot.cmd" boot.scr
+> +    mkimage -A ${UBOOT_ARCH} -T script -C none -n "Boot script" -d "${UN=
+PACKDIR}/boot.cmd" boot.scr
+>  }
+>
+>  inherit kernel-arch deploy nopackages
+> diff --git a/recipes-containers/buildah/buildah_git.bb b/recipes-containe=
+rs/buildah/buildah_git.bb
+> index 64ee4f7d..40950fa9 100644
+> --- a/recipes-containers/buildah/buildah_git.bb
+> +++ b/recipes-containers/buildah/buildah_git.bb
+> @@ -32,7 +32,7 @@ SRCREV_buildah =3D "dbeb097c6fbf4bfd643f096992da572a97a=
+8ec12"
+>  SRCREV_storage =3D "246ba3062e8b551026aef2708eee747014ce5c52"
+>
+>  SRC_URI =3D " \
+> -    git://github.com/containers/buildah;branch=3Drelease-1.34;name=3Dbui=
+ldah;protocol=3Dhttps \
+> +    git://github.com/containers/buildah;branch=3Drelease-1.34;name=3Dbui=
+ldah;protocol=3Dhttps;destsuffix=3D${GO_SRCURI_DESTSUFFIX} \
+>      "
+>
+>  DEPENDS =3D "libdevmapper btrfs-tools gpgme"
+> diff --git a/recipes-containers/cgroup-lite/cgroup-lite_1.15.bb b/recipes=
+-containers/cgroup-lite/cgroup-lite_1.15.bb
+> index 23ecfa4a..7d1ca23d 100644
+> --- a/recipes-containers/cgroup-lite/cgroup-lite_1.15.bb
+> +++ b/recipes-containers/cgroup-lite/cgroup-lite_1.15.bb
+> @@ -27,7 +27,7 @@ do_install() {
+>         install -m 0755 ${S}/scripts/cgroups-umount ${D}/${base_bindir}
+>
+>         install -d ${D}${sysconfdir}/init.d
+> -       install -m 0755 ${WORKDIR}/cgroups-init ${D}${sysconfdir}/init.d/=
+cgroups-init
+> +       install -m 0755 ${UNPACKDIR}/cgroups-init ${D}${sysconfdir}/init.=
+d/cgroups-init
+>
+>         install -d ${D}${systemd_unitdir}/system
+>         ln -sf /dev/null ${D}${systemd_unitdir}/system/cgroups-init.servi=
+ce
+> diff --git a/recipes-containers/container-host-config/container-host-conf=
+ig.bb b/recipes-containers/container-host-config/container-host-config.bb
+> index 80abddf0..3d962ffc 100644
+> --- a/recipes-containers/container-host-config/container-host-config.bb
+> +++ b/recipes-containers/container-host-config/container-host-config.bb
+> @@ -14,9 +14,9 @@ SRC_URI =3D " \
+>  do_install() {
+>         install -d ${D}/${sysconfdir}/containers
+>
+> -       install ${WORKDIR}/storage.conf ${D}/${sysconfdir}/containers/sto=
+rage.conf
+> -       install ${WORKDIR}/registries.conf ${D}/${sysconfdir}/containers/=
+registries.conf
+> -       install ${WORKDIR}/policy.json ${D}/${sysconfdir}/containers/poli=
+cy.json
+> +       install ${UNPACKDIR}/storage.conf ${D}/${sysconfdir}/containers/s=
+torage.conf
+> +       install ${UNPACKDIR}/registries.conf ${D}/${sysconfdir}/container=
+s/registries.conf
+> +       install ${UNPACKDIR}/policy.json ${D}/${sysconfdir}/containers/po=
+licy.json
+>  }
+>
+>  BBCLASSEXTEND =3D "native nativesdk"
+> diff --git a/recipes-containers/cri-o/cri-o_git.bb b/recipes-containers/c=
+ri-o/cri-o_git.bb
+> index 4e17a7cd..0255aa0a 100644
+> --- a/recipes-containers/cri-o/cri-o_git.bb
+> +++ b/recipes-containers/cri-o/cri-o_git.bb
+> @@ -16,7 +16,7 @@ At a high level, we expect the scope of cri-o to be res=
+tricted to the following
+>
+>  SRCREV_cri-o =3D "5aff11c7c1afdc785adafd7da3c3f2a6ac51b88d"
+>  SRC_URI =3D "\
+> -       git://github.com/kubernetes-sigs/cri-o.git;branch=3Drelease-1.30;=
+name=3Dcri-o;protocol=3Dhttps \
+> +       git://github.com/kubernetes-sigs/cri-o.git;branch=3Drelease-1.30;=
+name=3Dcri-o;protocol=3Dhttps;destsuffix=3D${GO_SRCURI_DESTSUFFIX} \
+>          file://crio.conf \
+>         "
+>
+> @@ -83,7 +83,7 @@ do_install() {
+>      install -d ${D}${systemd_unitdir}/system/
+>      install -d ${D}/usr/share/containers/oci/hooks.d
+>
+> -    install ${WORKDIR}/crio.conf ${D}/${sysconfdir}/crio/crio.conf
+> +    install ${UNPACKDIR}/crio.conf ${D}/${sysconfdir}/crio/crio.conf
+>
+>      # sample config files, they'll go in the ${PN}-config below
+>      install -d ${D}/${sysconfdir}/crio/config/
+> diff --git a/recipes-containers/cri-tools/cri-tools_git.bb b/recipes-cont=
+ainers/cri-tools/cri-tools_git.bb
+> index e0caf740..f9b60bbf 100644
+> --- a/recipes-containers/cri-tools/cri-tools_git.bb
+> +++ b/recipes-containers/cri-tools/cri-tools_git.bb
+> @@ -18,7 +18,7 @@ What is not in scope for this project? \
+>
+>  SRCREV_cri-tools =3D "17b4dd65d660fec94d7a5a070e3e89ef640f1087"
+>  SRC_URI =3D "\
+> -       git://github.com/kubernetes-sigs/cri-tools.git;branch=3Dmaster;na=
+me=3Dcri-tools;protocol=3Dhttps \
+> +       git://github.com/kubernetes-sigs/cri-tools.git;branch=3Dmaster;na=
+me=3Dcri-tools;protocol=3Dhttps;destsuffix=3D${GO_SRCURI_DESTSUFFIX} \
+>          file://0001-build-allow-environmental-CGO-settings-and-pass-dont=
+.patch \
+>         "
+>
+> diff --git a/recipes-containers/docker-compose/docker-compose_git.bb b/re=
+cipes-containers/docker-compose/docker-compose_git.bb
+> index 07650126..316bf29d 100644
+> --- a/recipes-containers/docker-compose/docker-compose_git.bb
+> +++ b/recipes-containers/docker-compose/docker-compose_git.bb
+> @@ -11,7 +11,7 @@ DEPENDS =3D " \
+>  SRCREV_FORMAT=3D"compose_survey"
+>  SRCREV_compose =3D "3371227794f5f3645f4f19829c60a741635ed329"
+>
+> -SRC_URI =3D "git://github.com/docker/compose;name=3Dcompose;branch=3Dmai=
+n;protocol=3Dhttps"
+> +SRC_URI =3D "git://github.com/docker/compose;name=3Dcompose;branch=3Dmai=
+n;protocol=3Dhttps;destsuffix=3D${GO_SRCURI_DESTSUFFIX}"
+>
+>  include src_uri.inc
+>
+> @@ -55,7 +55,7 @@ do_compile() {
+>         # our copied .go files are to be used for the build
+>         ln -sf vendor.copy vendor
+>         # inform go that we know what we are doing
+> -       cp ${WORKDIR}/modules.txt vendor/
+> +       cp ${UNPACKDIR}/modules.txt vendor/
+>
+>         GO_LDFLAGS=3D"-s -w -X internal.Version=3D${PV} -X ${COMPOSE_PKG}=
+/internal.Version=3D${PV}"
+>         GO_BUILDTAGS=3D""
+> diff --git a/recipes-containers/docker-compose/src_uri.inc b/recipes-cont=
+ainers/docker-compose/src_uri.inc
+> index 1978abc7..8327cb0e 100644
+> --- a/recipes-containers/docker-compose/src_uri.inc
+> +++ b/recipes-containers/docker-compose/src_uri.inc
+> @@ -1,930 +1,930 @@
+>  #       k8s.io/api v0.29.2
+>  # [1] git ls-remote https://github.com/kubernetes/api d47313059888ec984b=
+f8432ed155fae5be935c31
+>  SRCREV_k8s.io-api=3D"d47313059888ec984bf8432ed155fae5be935c31"
+> -SRC_URI +=3D "git://github.com/kubernetes/api;name=3Dk8s.io-api;protocol=
+=3Dhttps;nobranch=3D1;destsuffix=3D${WORKDIR}/${BP}/src/import/vendor.fetch=
+/k8s.io/api"
+> +SRC_URI +=3D "git://github.com/kubernetes/api;name=3Dk8s.io-api;protocol=
+=3Dhttps;nobranch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendor.fetch/k8s=
+.io/api"
+>
+>  #       k8s.io/utils v0.0.0-20230726121419-3b25d923346b
+>  # [1] git ls-remote https://github.com/kubernetes/utils 3b25d923346b3814=
+e0898684c97390092f31a61e
+>  SRCREV_utils=3D"3b25d923346b3814e0898684c97390092f31a61e"
+> -SRC_URI +=3D "git://github.com/kubernetes/utils;name=3Dutils;protocol=3D=
+https;nobranch=3D1;destsuffix=3D${WORKDIR}/${BP}/src/import/vendor.fetch/k8=
+s.io/utils"
+> +SRC_URI +=3D "git://github.com/kubernetes/utils;name=3Dutils;protocol=3D=
+https;nobranch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendor.fetch/k8s.io=
+/utils"
+>
+>  #       k8s.io/klog/v2 v2.110.1
+>  # [1] git ls-remote https://github.com/kubernetes/klog e3f75b8af2707d64b=
+5dd4c440ae8384ed2f2c386
+>  SRCREV_klog-v2=3D"e3f75b8af2707d64b5dd4c440ae8384ed2f2c386"
+> -SRC_URI +=3D "git://github.com/kubernetes/klog;name=3Dklog-v2;protocol=
+=3Dhttps;nobranch=3D1;destsuffix=3D${WORKDIR}/${BP}/src/import/vendor.fetch=
+/k8s.io/klog/v2"
+> +SRC_URI +=3D "git://github.com/kubernetes/klog;name=3Dklog-v2;protocol=
+=3Dhttps;nobranch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendor.fetch/k8s=
+.io/klog/v2"
+>
+>  #       gotest.tools/v3 v3.5.1
+>  # [1] git ls-remote https://github.com/gotestyourself/gotest.tools 81cea=
+1abc596b025bf2573c7fdf97740512e4c6c
+>  SRCREV_v3=3D"81cea1abc596b025bf2573c7fdf97740512e4c6c"
+> -SRC_URI +=3D "git://github.com/gotestyourself/gotest.tools;name=3Dv3;pro=
+tocol=3Dhttps;nobranch=3D1;destsuffix=3D${WORKDIR}/${BP}/src/import/vendor.=
+fetch/gotest.tools/v3"
+> +SRC_URI +=3D "git://github.com/gotestyourself/gotest.tools;name=3Dv3;pro=
+tocol=3Dhttps;nobranch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendor.fetc=
+h/gotest.tools/v3"
+>
+>  #       dario.cat/mergo v1.0.0
+>  # [1] git ls-remote https://github.com/imdario/mergo 131de815afc35a77c41=
+ae99da6c8f4288b6cb513
+>  SRCREV_mergo=3D"131de815afc35a77c41ae99da6c8f4288b6cb513"
+> -SRC_URI +=3D "git://github.com/imdario/mergo;name=3Dmergo;protocol=3Dhtt=
+ps;nobranch=3D1;destsuffix=3D${WORKDIR}/${BP}/src/import/vendor.fetch/dario=
+.cat/mergo"
+> +SRC_URI +=3D "git://github.com/imdario/mergo;name=3Dmergo;protocol=3Dhtt=
+ps;nobranch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendor.fetch/dario.cat=
+/mergo"
+>
+>  #       gopkg.in/inf.v0 v0.9.1
+>  # [1] git ls-remote https://github.com/go-inf/inf d2d2541c53f18d2a059457=
+998ce2876cc8e67cbf
+>  SRCREV_inf.v0=3D"d2d2541c53f18d2a059457998ce2876cc8e67cbf"
+> -SRC_URI +=3D "git://github.com/go-inf/inf;name=3Dinf.v0;protocol=3Dhttps=
+;nobranch=3D1;destsuffix=3D${WORKDIR}/${BP}/src/import/vendor.fetch/gopkg.i=
+n/inf.v0"
+> +SRC_URI +=3D "git://github.com/go-inf/inf;name=3Dinf.v0;protocol=3Dhttps=
+;nobranch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendor.fetch/gopkg.in/in=
+f.v0"
+>
+>  #       go.uber.org/mock v0.4.0
+>  # [1] git ls-remote https://github.com/uber/mock 74a29c6e6c2cbb8ccee94db=
+061c1604ff33fd188
+>  SRCREV_mock=3D"74a29c6e6c2cbb8ccee94db061c1604ff33fd188"
+> -SRC_URI +=3D "git://github.com/uber/mock;name=3Dmock;protocol=3Dhttps;no=
+branch=3D1;destsuffix=3D${WORKDIR}/${BP}/src/import/vendor.fetch/go.uber.or=
+g/mock"
+> +SRC_URI +=3D "git://github.com/uber/mock;name=3Dmock;protocol=3Dhttps;no=
+branch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendor.fetch/go.uber.org/mo=
+ck"
+>
+>  #       golang.org/x/exp v0.0.0-20240112132812-db7319d0e0e3
+>  # [1] git ls-remote https://go.googlesource.com/exp db7319d0e0e361ccef5c=
+449b760df8e5f2d5087c
+>  SRCREV_exp=3D"db7319d0e0e361ccef5c449b760df8e5f2d5087c"
+> -SRC_URI +=3D "git://go.googlesource.com/exp;name=3Dexp;protocol=3Dhttps;=
+nobranch=3D1;destsuffix=3D${WORKDIR}/${BP}/src/import/vendor.fetch/golang.o=
+rg/x/exp"
+> +SRC_URI +=3D "git://go.googlesource.com/exp;name=3Dexp;protocol=3Dhttps;=
+nobranch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendor.fetch/golang.org/x=
+/exp"
+>
+>  #       golang.org/x/sys v0.16.0
+>  # [1] git ls-remote https://go.googlesource.com/sys 0829ab15b6946f47c400=
+12db2e0c04772730317d
+>  SRCREV_sys=3D"0829ab15b6946f47c40012db2e0c04772730317d"
+> -SRC_URI +=3D "git://go.googlesource.com/sys;name=3Dsys;protocol=3Dhttps;=
+nobranch=3D1;destsuffix=3D${WORKDIR}/${BP}/src/import/vendor.fetch/golang.o=
+rg/x/sys"
+> +SRC_URI +=3D "git://go.googlesource.com/sys;name=3Dsys;protocol=3Dhttps;=
+nobranch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendor.fetch/golang.org/x=
+/sys"
+>
+>  #       gopkg.in/yaml.v3 v3.0.1
+>  # [1] git ls-remote https://github.com/go-yaml/yaml f6f7691b1fdeb513f566=
+08cd2c32c51f8194bf51
+>  SRCREV_yaml.v3=3D"f6f7691b1fdeb513f56608cd2c32c51f8194bf51"
+> -SRC_URI +=3D "git://github.com/go-yaml/yaml;name=3Dyaml.v3;protocol=3Dht=
+tps;nobranch=3D1;destsuffix=3D${WORKDIR}/${BP}/src/import/vendor.fetch/gopk=
+g.in/yaml.v3"
+> +SRC_URI +=3D "git://github.com/go-yaml/yaml;name=3Dyaml.v3;protocol=3Dht=
+tps;nobranch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendor.fetch/gopkg.in=
+/yaml.v3"
+>
+>  #       golang.org/x/mod v0.14.0
+>  # [1] git ls-remote https://go.googlesource.com/mod 6e58e47c7bd6672665dc=
+35cce7b1f325d2addd67
+>  SRCREV_mod=3D"6e58e47c7bd6672665dc35cce7b1f325d2addd67"
+> -SRC_URI +=3D "git://go.googlesource.com/mod;name=3Dmod;protocol=3Dhttps;=
+nobranch=3D1;destsuffix=3D${WORKDIR}/${BP}/src/import/vendor.fetch/golang.o=
+rg/x/mod"
+> +SRC_URI +=3D "git://go.googlesource.com/mod;name=3Dmod;protocol=3Dhttps;=
+nobranch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendor.fetch/golang.org/x=
+/mod"
+>
+>  #       golang.org/x/net v0.20.0
+>  # [1] git ls-remote https://go.googlesource.com/net cb5b10f0bbc51089bf49=
+030ce3bd43bbfee08c23
+>  SRCREV_net=3D"cb5b10f0bbc51089bf49030ce3bd43bbfee08c23"
+> -SRC_URI +=3D "git://go.googlesource.com/net;name=3Dnet;protocol=3Dhttps;=
+nobranch=3D1;destsuffix=3D${WORKDIR}/${BP}/src/import/vendor.fetch/golang.o=
+rg/x/net"
+> +SRC_URI +=3D "git://go.googlesource.com/net;name=3Dnet;protocol=3Dhttps;=
+nobranch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendor.fetch/golang.org/x=
+/net"
+>
+>  #       gopkg.in/yaml.v2 v2.4.0
+>  # [1] git ls-remote https://github.com/go-yaml/yaml 7649d4548cb53a614db1=
+33b2a8ac1f31859dda8c
+>  SRCREV_yaml.v2=3D"7649d4548cb53a614db133b2a8ac1f31859dda8c"
+> -SRC_URI +=3D "git://github.com/go-yaml/yaml;name=3Dyaml.v2;protocol=3Dht=
+tps;nobranch=3D1;destsuffix=3D${WORKDIR}/${BP}/src/import/vendor.fetch/gopk=
+g.in/yaml.v2"
+> +SRC_URI +=3D "git://github.com/go-yaml/yaml;name=3Dyaml.v2;protocol=3Dht=
+tps;nobranch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendor.fetch/gopkg.in=
+/yaml.v2"
+>
+>  #       k8s.io/apiserver v0.29.2
+>  # [1] git ls-remote https://github.com/kubernetes/apiserver 4c39f36a732c=
+fb11f3fc75110c7301336b6b64e3
+>  SRCREV_apiserver=3D"4c39f36a732cfb11f3fc75110c7301336b6b64e3"
+> -SRC_URI +=3D "git://github.com/kubernetes/apiserver;name=3Dapiserver;pro=
+tocol=3Dhttps;nobranch=3D1;destsuffix=3D${WORKDIR}/${BP}/src/import/vendor.=
+fetch/k8s.io/apiserver"
+> +SRC_URI +=3D "git://github.com/kubernetes/apiserver;name=3Dapiserver;pro=
+tocol=3Dhttps;nobranch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendor.fetc=
+h/k8s.io/apiserver"
+>
+>  #       k8s.io/client-go v0.29.2
+>  # [1] git ls-remote https://github.com/kubernetes/client-go 62c5e9e7b4bd=
+09d2b43dcad1464376322398e994
+>  SRCREV_client-go=3D"62c5e9e7b4bd09d2b43dcad1464376322398e994"
+> -SRC_URI +=3D "git://github.com/kubernetes/client-go;name=3Dclient-go;pro=
+tocol=3Dhttps;nobranch=3D1;destsuffix=3D${WORKDIR}/${BP}/src/import/vendor.=
+fetch/k8s.io/client-go"
+> +SRC_URI +=3D "git://github.com/kubernetes/client-go;name=3Dclient-go;pro=
+tocol=3Dhttps;nobranch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendor.fetc=
+h/k8s.io/client-go"
+>
+>  #       sigs.k8s.io/json v0.0.0-20221116044647-bc3834ca7abd
+>  # [1] git ls-remote https://github.com/kubernetes-sigs/json bc3834ca7abd=
+3a90f03ef00a27ad80cb892f9c21
+>  SRCREV_json=3D"bc3834ca7abd3a90f03ef00a27ad80cb892f9c21"
+> -SRC_URI +=3D "git://github.com/kubernetes-sigs/json;name=3Djson;protocol=
+=3Dhttps;nobranch=3D1;destsuffix=3D${WORKDIR}/${BP}/src/import/vendor.fetch=
+/sigs.k8s.io/json"
+> +SRC_URI +=3D "git://github.com/kubernetes-sigs/json;name=3Djson;protocol=
+=3Dhttps;nobranch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendor.fetch/sig=
+s.k8s.io/json"
+>
+>  #       sigs.k8s.io/yaml v1.3.0
+>  # [1] git ls-remote https://github.com/kubernetes-sigs/yaml 9535b3b1e289=
+3fe44efb37c5c9f5665e245d786a
+>  SRCREV_yaml=3D"9535b3b1e2893fe44efb37c5c9f5665e245d786a"
+> -SRC_URI +=3D "git://github.com/kubernetes-sigs/yaml;name=3Dyaml;protocol=
+=3Dhttps;nobranch=3D1;destsuffix=3D${WORKDIR}/${BP}/src/import/vendor.fetch=
+/sigs.k8s.io/yaml"
+> +SRC_URI +=3D "git://github.com/kubernetes-sigs/yaml;name=3Dyaml;protocol=
+=3Dhttps;nobranch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendor.fetch/sig=
+s.k8s.io/yaml"
+>
+>  #       golang.org/x/sync v0.6.0
+>  # [1] git ls-remote https://go.googlesource.com/sync 59c1ca1e4661ed4452b=
+e4069ceea3c233f4deec1
+>  SRCREV_sync=3D"59c1ca1e4661ed4452be4069ceea3c233f4deec1"
+> -SRC_URI +=3D "git://go.googlesource.com/sync;name=3Dsync;protocol=3Dhttp=
+s;nobranch=3D1;destsuffix=3D${WORKDIR}/${BP}/src/import/vendor.fetch/golang=
+.org/x/sync"
+> +SRC_URI +=3D "git://go.googlesource.com/sync;name=3Dsync;protocol=3Dhttp=
+s;nobranch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendor.fetch/golang.org=
+/x/sync"
+>
+>  #       golang.org/x/term v0.16.0
+>  # [1] git ls-remote https://go.googlesource.com/term ae941452f58ff9bf62f=
+7e9dca3ea6ae3d214a68b
+>  SRCREV_x-term=3D"ae941452f58ff9bf62f7e9dca3ea6ae3d214a68b"
+> -SRC_URI +=3D "git://go.googlesource.com/term;name=3Dx-term;protocol=3Dht=
+tps;nobranch=3D1;destsuffix=3D${WORKDIR}/${BP}/src/import/vendor.fetch/gola=
+ng.org/x/term"
+> +SRC_URI +=3D "git://go.googlesource.com/term;name=3Dx-term;protocol=3Dht=
+tps;nobranch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendor.fetch/golang.o=
+rg/x/term"
+>
+>  #       golang.org/x/text v0.14.0
+>  # [1] git ls-remote https://go.googlesource.com/text 6c97a165dd661335ff7=
+bce6104a008558123c353
+>  SRCREV_text=3D"6c97a165dd661335ff7bce6104a008558123c353"
+> -SRC_URI +=3D "git://go.googlesource.com/text;name=3Dtext;protocol=3Dhttp=
+s;nobranch=3D1;destsuffix=3D${WORKDIR}/${BP}/src/import/vendor.fetch/golang=
+.org/x/text"
+> +SRC_URI +=3D "git://go.googlesource.com/text;name=3Dtext;protocol=3Dhttp=
+s;nobranch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendor.fetch/golang.org=
+/x/text"
+>
+>  #       golang.org/x/time v0.3.0
+>  # [1] git ls-remote https://go.googlesource.com/time 2c09566ef13fb555640=
+1ddff3c53c3dbc2a42dac
+>  SRCREV_time=3D"2c09566ef13fb5556401ddff3c53c3dbc2a42dac"
+> -SRC_URI +=3D "git://go.googlesource.com/time;name=3Dtime;protocol=3Dhttp=
+s;nobranch=3D1;destsuffix=3D${WORKDIR}/${BP}/src/import/vendor.fetch/golang=
+.org/x/time"
+> +SRC_URI +=3D "git://go.googlesource.com/time;name=3Dtime;protocol=3Dhttp=
+s;nobranch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendor.fetch/golang.org=
+/x/time"
+>
+>  #       go.uber.org/goleak v1.3.0
+>  # [1] git ls-remote https://github.com/uber-go/goleak 31095c657c34bba405=
+a8d480db27989aa5f60b9c
+>  SRCREV_goleak=3D"31095c657c34bba405a8d480db27989aa5f60b9c"
+> -SRC_URI +=3D "git://github.com/uber-go/goleak;name=3Dgoleak;protocol=3Dh=
+ttps;nobranch=3D1;destsuffix=3D${WORKDIR}/${BP}/src/import/vendor.fetch/go.=
+uber.org/goleak"
+> +SRC_URI +=3D "git://github.com/uber-go/goleak;name=3Dgoleak;protocol=3Dh=
+ttps;nobranch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendor.fetch/go.uber=
+.org/goleak"
+>
+>  #       golang.org/x/tools v0.17.0
+>  # [1] git ls-remote https://go.googlesource.com/tools 0b1f1d4bc227cc2e61=
+0854f23e14696becb9e46c
+>  SRCREV_tools=3D"0b1f1d4bc227cc2e610854f23e14696becb9e46c"
+> -SRC_URI +=3D "git://go.googlesource.com/tools;name=3Dtools;protocol=3Dht=
+tps;nobranch=3D1;destsuffix=3D${WORKDIR}/${BP}/src/import/vendor.fetch/gola=
+ng.org/x/tools"
+> +SRC_URI +=3D "git://go.googlesource.com/tools;name=3Dtools;protocol=3Dht=
+tps;nobranch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendor.fetch/golang.o=
+rg/x/tools"
+>
+>  #       golang.org/x/crypto v0.18.0
+>  # [1] git ls-remote https://go.googlesource.com/crypto dbb6ec16ecef7a666=
+38d8514be54b13660551b0a
+>  SRCREV_crypto=3D"dbb6ec16ecef7a66638d8514be54b13660551b0a"
+> -SRC_URI +=3D "git://go.googlesource.com/crypto;name=3Dcrypto;protocol=3D=
+https;nobranch=3D1;destsuffix=3D${WORKDIR}/${BP}/src/import/vendor.fetch/go=
+lang.org/x/crypto"
+> +SRC_URI +=3D "git://go.googlesource.com/crypto;name=3Dcrypto;protocol=3D=
+https;nobranch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendor.fetch/golang=
+.org/x/crypto"
+>
+>  #       golang.org/x/oauth2 v0.11.0
+>  # [1] git ls-remote https://go.googlesource.com/oauth2 2e4a4e2bfb69ca760=
+9cb423438c55caa131431c1
+>  SRCREV_oauth2=3D"2e4a4e2bfb69ca7609cb423438c55caa131431c1"
+> -SRC_URI +=3D "git://go.googlesource.com/oauth2;name=3Doauth2;protocol=3D=
+https;nobranch=3D1;destsuffix=3D${WORKDIR}/${BP}/src/import/vendor.fetch/go=
+lang.org/x/oauth2"
+> +SRC_URI +=3D "git://go.googlesource.com/oauth2;name=3Doauth2;protocol=3D=
+https;nobranch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendor.fetch/golang=
+.org/x/oauth2"
+>
+>  #       k8s.io/apimachinery v0.29.2
+>  # [1] git ls-remote https://github.com/kubernetes/apimachinery dc7e034c8=
+6479d49be4b0eefad307621e10caa0e
+>  SRCREV_apimachinery=3D"dc7e034c86479d49be4b0eefad307621e10caa0e"
+> -SRC_URI +=3D "git://github.com/kubernetes/apimachinery;name=3Dapimachine=
+ry;protocol=3Dhttps;nobranch=3D1;destsuffix=3D${WORKDIR}/${BP}/src/import/v=
+endor.fetch/k8s.io/apimachinery"
+> +SRC_URI +=3D "git://github.com/kubernetes/apimachinery;name=3Dapimachine=
+ry;protocol=3Dhttps;nobranch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendo=
+r.fetch/k8s.io/apimachinery"
+>
+>  #       k8s.io/kube-openapi v0.0.0-20231010175941-2dd684a91f00
+>  # [1] git ls-remote https://github.com/kubernetes/kube-openapi 2dd684a91=
+f00351087fe2f4ed5408d4d2f3775ab
+>  SRCREV_kube-openapi=3D"2dd684a91f00351087fe2f4ed5408d4d2f3775ab"
+> -SRC_URI +=3D "git://github.com/kubernetes/kube-openapi;name=3Dkube-opena=
+pi;protocol=3Dhttps;nobranch=3D1;destsuffix=3D${WORKDIR}/${BP}/src/import/v=
+endor.fetch/k8s.io/kube-openapi"
+> +SRC_URI +=3D "git://github.com/kubernetes/kube-openapi;name=3Dkube-opena=
+pi;protocol=3Dhttps;nobranch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendo=
+r.fetch/k8s.io/kube-openapi"
+>
+>  #       github.com/moby/term v0.5.0
+>  # [1] git ls-remote https://github.com/moby/term 9c3c875fad924eb6c9dd32a=
+361b5fc0a49a4feb9
+>  SRCREV_term=3D"9c3c875fad924eb6c9dd32a361b5fc0a49a4feb9"
+> -SRC_URI +=3D "git://github.com/moby/term;name=3Dterm;protocol=3Dhttps;no=
+branch=3D1;destsuffix=3D${WORKDIR}/${BP}/src/import/vendor.fetch/github.com=
+/moby/term"
+> +SRC_URI +=3D "git://github.com/moby/term;name=3Dterm;protocol=3Dhttps;no=
+branch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendor.fetch/github.com/mob=
+y/term"
+>
+>  #       github.com/docker/go v1.5.1-1.0.20160303222718-d30aec9fd63c
+>  # [1] git ls-remote https://github.com/docker/go d30aec9fd63c35133f8f79c=
+3412ad91a3b08be06
+>  SRCREV_go=3D"d30aec9fd63c35133f8f79c3412ad91a3b08be06"
+> -SRC_URI +=3D "git://github.com/docker/go;name=3Dgo;protocol=3Dhttps;nobr=
+anch=3D1;destsuffix=3D${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/d=
+ocker/go"
+> +SRC_URI +=3D "git://github.com/docker/go;name=3Dgo;protocol=3Dhttps;nobr=
+anch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendor.fetch/github.com/docke=
+r/go"
+>
+>  #       github.com/docker/cli v26.0.0+incompatible
+>  # [1] git ls-remote https://github.com/docker/cli 2ae903e86cab51f694c819=
+721cdfdf5eec693720
+>  SRCREV_cli=3D"2ae903e86cab51f694c819721cdfdf5eec693720"
+> -SRC_URI +=3D "git://github.com/docker/cli;name=3Dcli;protocol=3Dhttps;no=
+branch=3D1;destsuffix=3D${WORKDIR}/${BP}/src/import/vendor.fetch/github.com=
+/docker/cli"
+> +SRC_URI +=3D "git://github.com/docker/cli;name=3Dcli;protocol=3Dhttps;no=
+branch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendor.fetch/github.com/doc=
+ker/cli"
+>
+>  #       github.com/r3labs/sse v0.0.0-20210224172625-26fe804710bc
+>  # [1] git ls-remote https://github.com/r3labs/sse 26fe804710bc39ea7ea663=
+6d36f27c438bd2c06f
+>  SRCREV_sse=3D"26fe804710bc39ea7ea6636d36f27c438bd2c06f"
+> -SRC_URI +=3D "git://github.com/r3labs/sse;name=3Dsse;protocol=3Dhttps;no=
+branch=3D1;destsuffix=3D${WORKDIR}/${BP}/src/import/vendor.fetch/github.com=
+/r3labs/sse"
+> +SRC_URI +=3D "git://github.com/r3labs/sse;name=3Dsse;protocol=3Dhttps;no=
+branch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendor.fetch/github.com/r3l=
+abs/sse"
+>
+>  #       github.com/mgutz/ansi v0.0.0-20170206155736-9520e82c474b
+>  # [1] git ls-remote https://github.com/mgutz/ansi 9520e82c474b0a04dd04f8=
+a40959027271bab992
+>  SRCREV_ansi=3D"9520e82c474b0a04dd04f8a40959027271bab992"
+> -SRC_URI +=3D "git://github.com/mgutz/ansi;name=3Dansi;protocol=3Dhttps;n=
+obranch=3D1;destsuffix=3D${WORKDIR}/${BP}/src/import/vendor.fetch/github.co=
+m/mgutz/ansi"
+> +SRC_URI +=3D "git://github.com/mgutz/ansi;name=3Dansi;protocol=3Dhttps;n=
+obranch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendor.fetch/github.com/mg=
+utz/ansi"
+>
+>  #       github.com/pkg/errors v0.9.1
+>  # [1] git ls-remote https://github.com/pkg/errors 614d223910a179a466c176=
+7a985424175c39b465
+>  SRCREV_errors=3D"614d223910a179a466c1767a985424175c39b465"
+> -SRC_URI +=3D "git://github.com/pkg/errors;name=3Derrors;protocol=3Dhttps=
+;nobranch=3D1;destsuffix=3D${WORKDIR}/${BP}/src/import/vendor.fetch/github.=
+com/pkg/errors"
+> +SRC_URI +=3D "git://github.com/pkg/errors;name=3Derrors;protocol=3Dhttps=
+;nobranch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendor.fetch/github.com/=
+pkg/errors"
+>
+>  #       github.com/spf13/cobra v1.8.0
+>  # [1] git ls-remote https://github.com/spf13/cobra a0a6ae020bb3899ff0276=
+067863e50523f897370
+>  SRCREV_cobra=3D"a0a6ae020bb3899ff0276067863e50523f897370"
+> -SRC_URI +=3D "git://github.com/spf13/cobra;name=3Dcobra;protocol=3Dhttps=
+;nobranch=3D1;destsuffix=3D${WORKDIR}/${BP}/src/import/vendor.fetch/github.=
+com/spf13/cobra"
+> +SRC_URI +=3D "git://github.com/spf13/cobra;name=3Dcobra;protocol=3Dhttps=
+;nobranch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendor.fetch/github.com/=
+spf13/cobra"
+>
+>  #       github.com/spf13/pflag v1.0.5
+>  # [1] git ls-remote https://github.com/spf13/pflag 2e9d26c8c37aae03e3f9d=
+4e90b7116f5accb7cab
+>  SRCREV_pflag=3D"2e9d26c8c37aae03e3f9d4e90b7116f5accb7cab"
+> -SRC_URI +=3D "git://github.com/spf13/pflag;name=3Dpflag;protocol=3Dhttps=
+;nobranch=3D1;destsuffix=3D${WORKDIR}/${BP}/src/import/vendor.fetch/github.=
+com/spf13/pflag"
+> +SRC_URI +=3D "git://github.com/spf13/pflag;name=3Dpflag;protocol=3Dhttps=
+;nobranch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendor.fetch/github.com/=
+spf13/pflag"
+>
+>  #       google.golang.org/grpc v1.59.0
+>  # [1] git ls-remote https://github.com/grpc/grpc-go 7765221f4bf6104973db=
+7946d56936cf838cad46
+>  SRCREV_grpc=3D"7765221f4bf6104973db7946d56936cf838cad46"
+> -SRC_URI +=3D "git://
+
+
+
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
