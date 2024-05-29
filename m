@@ -2,699 +2,591 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DAED4C25B75
-	for <webhook@archiver.kernel.org>; Wed, 29 May 2024 13:08:39 +0000 (UTC)
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
- by mx.groups.io with SMTP id smtpd.web11.13641.1716988117307333305
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23BA2C25B75
+	for <webhook@archiver.kernel.org>; Wed, 29 May 2024 13:38:10 +0000 (UTC)
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+ by mx.groups.io with SMTP id smtpd.web11.14455.1716989884340086040
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 29 May 2024 06:08:37 -0700
+ Wed, 29 May 2024 06:38:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=KMm1fxGf;
- spf=pass (domain: gmail.com, ip: 209.85.216.41, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-2bf59381a11so1767872a91.1
-        for <meta-virtualization@lists.yoctoproject.org>; Wed, 29 May 2024 06:08:37 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=OixfiNdq;
+ spf=pass (domain: gmail.com, ip: 209.85.215.182, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-66629f45359so1727911a12.3
+        for <meta-virtualization@lists.yoctoproject.org>; Wed, 29 May 2024 06:38:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1716988117; x=1717592917; darn=lists.yoctoproject.org;
+        d=gmail.com; s=20230601; t=1716989883; x=1717594683; darn=lists.yoctoproject.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=m9Fp5UL5vNK+Gjcei7dOqm6cj/nG+27hdAE0H5awhvQ=;
-        b=KMm1fxGfBpMWNuWmWymKLz8UfUuvjTOIEXiGDsPOGHpdX8BdAC2RtlEg5UF2AmdMc/
-         kVKzghwzEnd2osBKjlisqfM3nyfb7kCOE6avtroy0tYryr6KVXCblROD9T7smMHS1roP
-         LEm1EdJEhoO3TRBssX66AkTLYTr1aqaC+hVSgOjk7B9gvbV4YI0mixenoLr7GFFCzO2F
-         tZgjZG/AP5iNVk1rMPSajogZVlHrTfFC5VU6my/KszDbblK93j5ya26Api5D7GoOZVmM
-         9vqc1juuMbQ4620ZMKfO0STT2+phBjYAkh9Esy59BGPZSX+6bg4KzHAFFSlxbponWMd9
-         /K2w==
+        bh=q6CmaART6MlBDdcbtRmjhNpwPOCeLKASWf1+0AyWQSY=;
+        b=OixfiNdqDcOtOkTEo4RqPLKozS3T4z4QYtIqJYN6cCAdJJctSiy4wjU4SOSMG7aIQR
+         TJKJ7hwlpuniKxmdtuQtwPOWAszmzMf8oiCrsCd4EujFzlQTlhh9/A4UtOkEK021/teQ
+         k5ODHf9KFo/pfxrRv2GOwwCelOxTMgicRPJk2VsxuoVh3evBAWk625NuhlwIgd4uN3uZ
+         SFeZT9JeTukjC9QFx6QTJ5UNssDPWynsgl/WY92DmRimSeMHCKOsFR3WH+dPWWvkfRwL
+         bIfXedqW401ofby/4m6SgSUz2rc1boE/rvsjc4rB3k0C1r3Iu9apLOzkFTBsc8ZpkFJD
+         hr0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716988117; x=1717592917;
+        d=1e100.net; s=20230601; t=1716989883; x=1717594683;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=m9Fp5UL5vNK+Gjcei7dOqm6cj/nG+27hdAE0H5awhvQ=;
-        b=k2IpzhS4EA86IYhC9kCwsg5rMQZ8fQBF6KrdQplPECscdPJGezAftgO8js5kvarHi3
-         3RWykVhFCY9MQUUaOCFjwOivLcrcYY98cJllrOYsdNGvV9RWJD3Z/cxMm1IqfXOo5mlk
-         3Qw6lsoy4plcvXuvQQkDoKS7MRUmrIH2DQJUQOqkZzUKvfAG6QoFaVbLn7uAr9ckCKHO
-         QuAJ4Oe4dpwNuZ0TGeiM0Smi6Ces5R8wz7PaXdZvMqvF8e5e+z7UrRlqhx2C3z+kN2x9
-         Z4i7CayVb7rvNEi9EntXdZBiE7FT98LgetGmyCROOcrbWkdR2aLbC65i+qxL1ye8F4xB
-         dA4Q==
-X-Gm-Message-State: AOJu0YzPdsyGqSsg1JERpBl4T+eQ+dz6+qgr+1jF0hGz5dTUdrDpQnK2
-	PhCdr1ZctKS7XvQ+F4naj9v/eHV/LqlKrHR0Cj0N0h85eJSbW4a+CD8ZYr23lGFHZtfWZaT/NdI
-	iz6+6xDXwnXg/G0qUVzmGVzLtUqE=
-X-Google-Smtp-Source: AGHT+IEmS4Hb4w4zulm2UiSCOTUThAylFe75cpYMlGBwwUoviXbPqdOChsigqM4Dv4zccwK4uhKO1786xD49gR9BRKc=
-X-Received: by 2002:a17:90a:e501:b0:2bd:9256:8ce0 with SMTP id
- 98e67ed59e1d1-2bf5ea3c2f8mr13690252a91.14.1716988116193; Wed, 29 May 2024
- 06:08:36 -0700 (PDT)
+        bh=q6CmaART6MlBDdcbtRmjhNpwPOCeLKASWf1+0AyWQSY=;
+        b=ho9H0k9GpegeB90dFH07nLxwJ7dqJ5aeGEdiXKVlhkuXfkPTGmCbiZ3pUFl6uneopY
+         DxkhQ7Svgy3e2wIchFkZJNM1g2glDhq+Rvi3rPmFKBP9sIp1pXnxIcHThk44lNy4VMLT
+         OE+WNmMxS67RsUTqMorpq5bB9RMzCq2UhNCj1K224Og0LTDt5amYkaguhSTBO0DydRe7
+         ptslsTfsa9aMYfW0mmP/iTw1h7ObuAlx22gZWgbow3atnuQAcJYA+WTXMTHu4jWSgkQv
+         2OQ3M+8dVjDBKGm0ns1j6YU4ktzUWC9XKDJ8DsT7BMlnnwCRDuFGRQYqJMicE2yd4X25
+         IPYg==
+X-Forwarded-Encrypted: i=1; AJvYcCWMjwZMYXsj+xEXg/h3APQeH/coJVZkeWZq0MU46+6Z9YhhTIOgEI3CYpQuU8FinLOUqu+DrUu5WNKgVozQLy6hLOvf2Od1F6k/sgzfZCeYnNitr///JDARYJA=
+X-Gm-Message-State: AOJu0YyMsKusX08f2K1kDQVkzd6xXTHodPxPtXdHE5HZ8rJiFMg6QBmE
+	wYrrbotnRHTLRgdKx4szm6E4CwdmxDg2iq5gXgzrBswoAcNDRy47lkbgvVVeiGdXnyAKrlkHARB
+	GwzqRSmszigIEPaTa5rEnEJrJeyA=
+X-Google-Smtp-Source: AGHT+IFH3fTvyRNCGSrShHqGD+xFKv1IyrO2DnG01XR4uM7Xr1p+3KNvJn/OWAEsHh+KWI2Vk9ApOks0Zhay2m9VfPk=
+X-Received: by 2002:a17:90b:894:b0:2c0:1dd7:4221 with SMTP id
+ 98e67ed59e1d1-2c01dd74385mr3549348a91.10.1716989883270; Wed, 29 May 2024
+ 06:38:03 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240529093130.72277-1-Qi.Chen@windriver.com>
-In-Reply-To: <20240529093130.72277-1-Qi.Chen@windriver.com>
+References: <20240418083047.628481-1-xiangyu.chen@eng.windriver.com> <17C75EBD44309AA6.15491@lists.yoctoproject.org>
+In-Reply-To: <17C75EBD44309AA6.15491@lists.yoctoproject.org>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 29 May 2024 09:08:24 -0400
-Message-ID: <CADkTA4Nv7OfCMA1JKW=uW3BWB7m=qWJ_zmQS7vr+c+nQxtU3fw@mail.gmail.com>
-Subject: Re: [meta-virtualization][PATCH 1/4] meta-virt: adjust for UNPACKDIR
- and GO_SRCURI_DESTSUFFIX
-To: Qi.Chen@windriver.com
-Cc: meta-virtualization@lists.yoctoproject.org
+Date: Wed, 29 May 2024 09:37:52 -0400
+Message-ID: <CADkTA4Mg_MJSNEzfJTNd8PjHGMxGDO1Tqku9wmsCyTHffdK5FA@mail.gmail.com>
+Subject: Re: [meta-virtualization][PATCH] lxc: update to 6.0.0
+To: bruce.ashfield@gmail.com
+Cc: xiangyu.chen@eng.windriver.com, meta-virtualization@lists.yoctoproject.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Wed, 29 May 2024 13:08:39 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8780
+ <meta-virtualization@lists.yoctoproject.org>; Wed, 29 May 2024 13:38:10 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8781
 
-As I mentioned on the list earlier this week, I've already dealt with
-these issues.
+As part of my fixing of the UNPACKDIR and other recent breakages due to oe-=
+core
+changes, I did a couple of early package updates. I included lxc, and
+just let my scripts
+do the uprev work.
 
-I'm just finalizing a few runtime issues and everything will be pushed
-to master-next.
+Could you break the ptest parts out of this and re-submit them on top
+of master-next ?
 
 Bruce
 
-On Wed, May 29, 2024 at 5:31=E2=80=AFAM Chen Qi via lists.yoctoproject.org
-<Qi.Chen=3Dwindriver.com@lists.yoctoproject.org> wrote:
+On Thu, Apr 18, 2024 at 8:12=E2=80=AFAM Bruce Ashfield via
+lists.yoctoproject.org
+<bruce.ashfield=3Dgmail.com@lists.yoctoproject.org> wrote:
 >
-> From: Chen Qi <Qi.Chen@windriver.com>
+> I'm not taking any package updates at this time, but I'll look at this wh=
+en I do go through the next update cycle.
 >
-> The patch is generated by the following commands:
+> Bruce
 >
->   grep -rl WORKDIR * | xargs sed -i -e 's#${WORKDIR}/${BP}/src/import#${G=
-O_SRCURI_DESTSUFFIX}#g'
->   grep -rl WORKDIR * | xargs sed -i -e 's#${UNPACKDIR}#${UNPACKDIR}#g'
->   grep -rEl 'inherit.* go( |$)' * | xargs sed -i -e '/destsuffix/!s/proto=
-col=3Dhttps/protocol=3Dhttps;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/g'
->   grep -rl destsuffix * | xargs sed -i -e 's#destsuffix=3D${S}/#destsuffi=
-x=3D${GO_SRCURI_DESTSUFFIX}/../../#g'
->   grep -rl UNPACKDIR * | xargs sed -i -e 's#S =3D "${UNPACKDIR}#S =3D "${=
-WORKDIR}#g'
->   grep -rl GOPATH * | xargs sed -i -e '/GOPATH/ s#UNPACKDIR#WORKDIR#g'
->   grep -rl '\${UNPACKDIR}/git' * | xargs sed -i -e 's#${UNPACKDIR}/git#${=
-WORKDIR}/git#g'
->   grep -rl 'toolchain.cmake' * | xargs sed -i -e 's#${UNPACKDIR}/toolchai=
-n.cmake#${WORKDIR}/toolchain.cmake#g'
->
-> What these commands do is:
-> 1) use GO_SRCURI_DESTSUFFIX to adapt to latest oe-core change
-> 2) avoid absolute path in destsuffix
->    This will unnecessarily create ${S} diretory, causing a chaos when doi=
-ng shutil.move.
->    The unpack codes in base.bbclass remove ${S} in most cases and then do=
-es a move.
-> 3) Use UNPACKDIR to replace WORKDIR.
->
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> ---
->  .../xen-rpi-u-boot-scr/xen-rpi-u-boot-scr.bb  |   4 +-
->  recipes-containers/buildah/buildah_git.bb     |   2 +-
->  .../cgroup-lite/cgroup-lite_1.15.bb           |   2 +-
->  .../container-host-config.bb                  |   6 +-
->  recipes-containers/cri-o/cri-o_git.bb         |   4 +-
->  recipes-containers/cri-tools/cri-tools_git.bb |   2 +-
->  .../docker-compose/docker-compose_git.bb      |   4 +-
->  recipes-containers/docker-compose/src_uri.inc | 372 ++++----
->  .../docker-distribution_git.bb                |   2 +-
->  recipes-containers/docker/docker.inc          |   2 +-
->  recipes-containers/k3s/k3s_git.bb             |  16 +-
->  recipes-containers/k3s/src_uri.inc            | 860 +++++++++---------
->  .../kubernetes/kubernetes_git.bb              |  10 +-
->  recipes-containers/lxc/lxc_git.bb             |   4 +-
->  recipes-containers/nerdctl/nerdctl_git.bb     |   4 +-
->  recipes-containers/nerdctl/src_uri.inc        | 270 +++---
->  .../podman-tui/podman-tui_git.bb              |   2 +-
->  recipes-containers/podman/podman_git.bb       |   4 +-
->  .../kata-containers/kata-agent_git.bb         |   2 +-
->  .../kata-containers/kata-proxy_git.bb         |   2 +-
->  .../kata-containers/kata-runtime_git.bb       |   2 +-
->  recipes-core/kata-containers/kata-shim_git.bb |   2 +-
->  recipes-core/runv/runv_git.bb                 |   2 +-
->  recipes-core/runx/runx_git.bb                 |   8 +-
->  .../helloworld-flask/helloworld-flask_0.1.bb  |  18 +-
->  recipes-devtools/go/go-build_git.bb           |   2 +-
->  recipes-devtools/go/go-md2man_git.bb          |   2 +-
->  recipes-devtools/yq/yq_git.bb                 |   4 +-
->  recipes-extended/ceph/ceph_18.2.2.bb          |   6 +-
->  recipes-extended/diod/diod_1.0.24.bb          |   4 +-
->  recipes-extended/images/xtf-image.bb          |   4 +-
->  recipes-extended/libvirt/libvirt-python.inc   |   4 +-
->  recipes-extended/libvirt/libvirt_10.0.0.bb    |  30 +-
->  recipes-extended/nagios/nagios-core_4.4.6.bb  |   6 +-
->  recipes-extended/nagios/nagios-nrpe_4.0.2.bb  |   4 +-
->  recipes-extended/nagios/nagios-nsca_2.9.2.bb  |   4 +-
->  .../uxen/uxen-guest-tools_4.1.8.bb            |   2 +-
->  .../virt-viewer/virt-viewer_11.0.bb           |   2 +-
->  recipes-extended/xen/xen.inc                  |   6 +-
->  recipes-networking/cni/cni_git.bb             |   8 +-
->  recipes-networking/cni/src_uri.inc            |  26 +-
->  recipes-networking/netns/netns_git.bb         |   2 +-
->  .../openvswitch/openvswitch.inc               |   8 +-
->  scripts/oe-go-mod-autogen.py                  |  12 +-
->  44 files changed, 871 insertions(+), 871 deletions(-)
->
-> diff --git a/dynamic-layers/raspberrypi/recipes-bsp/xen-rpi-u-boot-scr/xe=
-n-rpi-u-boot-scr.bb b/dynamic-layers/raspberrypi/recipes-bsp/xen-rpi-u-boot=
--scr/xen-rpi-u-boot-scr.bb
-> index 87619d01..f1d3189d 100644
-> --- a/dynamic-layers/raspberrypi/recipes-bsp/xen-rpi-u-boot-scr/xen-rpi-u=
--boot-scr.bb
-> +++ b/dynamic-layers/raspberrypi/recipes-bsp/xen-rpi-u-boot-scr/xen-rpi-u=
--boot-scr.bb
-> @@ -17,9 +17,9 @@ do_compile() {
->          -e 's/@@KERNEL_BOOTCMD@@/${KERNEL_BOOTCMD}/' \
->          -e 's/@@RPI_DOM0_MEM@@/${RPI_DOM0_MEM}/' \
->          -e 's/@@RPI_DEBUG_XEN_ARGS@@/${RPI_DEBUG_XEN_ARGS}/' \
-> -        "${WORKDIR}/boot.cmd.xen.in" > "${WORKDIR}/boot.cmd"
-> +        "${UNPACKDIR}/boot.cmd.xen.in" > "${UNPACKDIR}/boot.cmd"
->
-> -    mkimage -A ${UBOOT_ARCH} -T script -C none -n "Boot script" -d "${WO=
-RKDIR}/boot.cmd" boot.scr
-> +    mkimage -A ${UBOOT_ARCH} -T script -C none -n "Boot script" -d "${UN=
-PACKDIR}/boot.cmd" boot.scr
->  }
->
->  inherit kernel-arch deploy nopackages
-> diff --git a/recipes-containers/buildah/buildah_git.bb b/recipes-containe=
-rs/buildah/buildah_git.bb
-> index 64ee4f7d..40950fa9 100644
-> --- a/recipes-containers/buildah/buildah_git.bb
-> +++ b/recipes-containers/buildah/buildah_git.bb
-> @@ -32,7 +32,7 @@ SRCREV_buildah =3D "dbeb097c6fbf4bfd643f096992da572a97a=
-8ec12"
->  SRCREV_storage =3D "246ba3062e8b551026aef2708eee747014ce5c52"
->
->  SRC_URI =3D " \
-> -    git://github.com/containers/buildah;branch=3Drelease-1.34;name=3Dbui=
-ldah;protocol=3Dhttps \
-> +    git://github.com/containers/buildah;branch=3Drelease-1.34;name=3Dbui=
-ldah;protocol=3Dhttps;destsuffix=3D${GO_SRCURI_DESTSUFFIX} \
->      "
->
->  DEPENDS =3D "libdevmapper btrfs-tools gpgme"
-> diff --git a/recipes-containers/cgroup-lite/cgroup-lite_1.15.bb b/recipes=
--containers/cgroup-lite/cgroup-lite_1.15.bb
-> index 23ecfa4a..7d1ca23d 100644
-> --- a/recipes-containers/cgroup-lite/cgroup-lite_1.15.bb
-> +++ b/recipes-containers/cgroup-lite/cgroup-lite_1.15.bb
-> @@ -27,7 +27,7 @@ do_install() {
->         install -m 0755 ${S}/scripts/cgroups-umount ${D}/${base_bindir}
->
->         install -d ${D}${sysconfdir}/init.d
-> -       install -m 0755 ${WORKDIR}/cgroups-init ${D}${sysconfdir}/init.d/=
-cgroups-init
-> +       install -m 0755 ${UNPACKDIR}/cgroups-init ${D}${sysconfdir}/init.=
-d/cgroups-init
->
->         install -d ${D}${systemd_unitdir}/system
->         ln -sf /dev/null ${D}${systemd_unitdir}/system/cgroups-init.servi=
-ce
-> diff --git a/recipes-containers/container-host-config/container-host-conf=
-ig.bb b/recipes-containers/container-host-config/container-host-config.bb
-> index 80abddf0..3d962ffc 100644
-> --- a/recipes-containers/container-host-config/container-host-config.bb
-> +++ b/recipes-containers/container-host-config/container-host-config.bb
-> @@ -14,9 +14,9 @@ SRC_URI =3D " \
->  do_install() {
->         install -d ${D}/${sysconfdir}/containers
->
-> -       install ${WORKDIR}/storage.conf ${D}/${sysconfdir}/containers/sto=
-rage.conf
-> -       install ${WORKDIR}/registries.conf ${D}/${sysconfdir}/containers/=
-registries.conf
-> -       install ${WORKDIR}/policy.json ${D}/${sysconfdir}/containers/poli=
-cy.json
-> +       install ${UNPACKDIR}/storage.conf ${D}/${sysconfdir}/containers/s=
-torage.conf
-> +       install ${UNPACKDIR}/registries.conf ${D}/${sysconfdir}/container=
-s/registries.conf
-> +       install ${UNPACKDIR}/policy.json ${D}/${sysconfdir}/containers/po=
-licy.json
->  }
->
->  BBCLASSEXTEND =3D "native nativesdk"
-> diff --git a/recipes-containers/cri-o/cri-o_git.bb b/recipes-containers/c=
-ri-o/cri-o_git.bb
-> index 4e17a7cd..0255aa0a 100644
-> --- a/recipes-containers/cri-o/cri-o_git.bb
-> +++ b/recipes-containers/cri-o/cri-o_git.bb
-> @@ -16,7 +16,7 @@ At a high level, we expect the scope of cri-o to be res=
-tricted to the following
->
->  SRCREV_cri-o =3D "5aff11c7c1afdc785adafd7da3c3f2a6ac51b88d"
->  SRC_URI =3D "\
-> -       git://github.com/kubernetes-sigs/cri-o.git;branch=3Drelease-1.30;=
-name=3Dcri-o;protocol=3Dhttps \
-> +       git://github.com/kubernetes-sigs/cri-o.git;branch=3Drelease-1.30;=
-name=3Dcri-o;protocol=3Dhttps;destsuffix=3D${GO_SRCURI_DESTSUFFIX} \
->          file://crio.conf \
->         "
->
-> @@ -83,7 +83,7 @@ do_install() {
->      install -d ${D}${systemd_unitdir}/system/
->      install -d ${D}/usr/share/containers/oci/hooks.d
->
-> -    install ${WORKDIR}/crio.conf ${D}/${sysconfdir}/crio/crio.conf
-> +    install ${UNPACKDIR}/crio.conf ${D}/${sysconfdir}/crio/crio.conf
->
->      # sample config files, they'll go in the ${PN}-config below
->      install -d ${D}/${sysconfdir}/crio/config/
-> diff --git a/recipes-containers/cri-tools/cri-tools_git.bb b/recipes-cont=
-ainers/cri-tools/cri-tools_git.bb
-> index e0caf740..f9b60bbf 100644
-> --- a/recipes-containers/cri-tools/cri-tools_git.bb
-> +++ b/recipes-containers/cri-tools/cri-tools_git.bb
-> @@ -18,7 +18,7 @@ What is not in scope for this project? \
->
->  SRCREV_cri-tools =3D "17b4dd65d660fec94d7a5a070e3e89ef640f1087"
->  SRC_URI =3D "\
-> -       git://github.com/kubernetes-sigs/cri-tools.git;branch=3Dmaster;na=
-me=3Dcri-tools;protocol=3Dhttps \
-> +       git://github.com/kubernetes-sigs/cri-tools.git;branch=3Dmaster;na=
-me=3Dcri-tools;protocol=3Dhttps;destsuffix=3D${GO_SRCURI_DESTSUFFIX} \
->          file://0001-build-allow-environmental-CGO-settings-and-pass-dont=
+> On Thu, Apr 18, 2024 at 4:31=E2=80=AFAM Xiangyu Chen via lists.yoctoproje=
+ct.org <xiangyu.chen=3Deng.windriver.com@lists.yoctoproject.org> wrote:
+>>
+>> From: Xiangyu Chen <xiangyu.chen@windriver.com>
+>>
+>> Changes:
+>> 17ac6f691 lxc.spec: Align SPDX license id
+>> 5fe2de84c Makefile: Align SPDX license id
+>> 97f93be72 meson: Align SPDX license id
+>> d4cd3741d COPYING: Clarify licensing of files without SPDX
+>> 8e67eb07c doc: Add SPDX headers and remove Author field
+>> cb94edf53 src/include: Add SPDX headers
+>> 7bc33ef6e src/tests: Add SPDX headers
+>> 007642c89 hooks: Add SPDX headers
+>> 1e9e66be3 lxc.spec: Clear default changelog
+>> 202d649d1 lxc.spec: Use SPDX
+>> 85abd4026 template: Use SPDX
+>> a074b3d27 config/yum: Use SPDX header
+>> 7ed43e5e9 COPYING: Remove whitespace
+>> 522721216 MAINTAINERS: Remove Dwight from the maintainer list
+>> 08bf8b9e2 lxc-checkconfig: Fix shellcheck
+>> 0f18db543 lxc-checkconfig: Show namespace limits
+>> f71b8e3f8 lxc-ls: list names with whitespaces in `--active`.
+>> 816b8973d lxc/tools: set default log_priority to ERROR
+>> 989ea3969 tools/lxc_autostart: don't fail when there are no containers
+>> dc4df2335 lxc/lxccontainer: specify file mode in open() call inside mod_=
+rdep
+>> 630b46ed2 lxc/confile: do not print excess space before scale suffix for=
+ time.offset.boot
+>> 796f2ccb7 lxc/confile: do not print newline symbol in getter for lxc.tim=
+e.offset.*
+>> dcc4fb929 tests/parse_config_file: fix some typos
+>> 6fea67429 tests/parse_config_file: add tests for lxc.time.offset.*
+>> ad8f55445 tree-wide: replace multiply_overflow with check_mul_overflow
+>> 4464cee19 lxccontainer: rework copy_file()
+>> 9d1aa932d lxccontainer: improve mod_rdep()
+>> 81c1bbf45 Revert "lxccontainer: fixes"
+>> 82fe01821 src/lxc/syscall_numbers.h: drop define -1
+>> 590a95d83 rexec: Avoid invalid free in rexec failure path
+>> f9978b179 README: Correct 'armvl7' to 'armv7l'
+>> 046b63cd2 unshare: simplify lookup_name
+>> 7452ee8ab lxc-unshare: fix an buffer overflow issue in lxc_unshare
+>> e88883445 lxc-net: Enable IPv6 by default
+>> d78ca00bc tests/meson: attempt to fix ossfuzz builds
+>> d18f993b3 github: master -> main
+>> 86799f554 meson: link with liblxc dynamically everywhere if possible
+>> b90fecfda network: use IN_LIBLXC
+>> 9eee450d2 storage_utils: move get_fssize to utils
+>> 6eb0a73e2 storage_utils: unhide and rename is_valid_storage_type to lxc_=
+is_valid_storage_type
+>> 42eeffcb0 confile: unhide lxc_config_parse_arch() helper
+>> 9bb318881 conf: reorganize/split code to utils.c
+>> 863c59dc3 conf: reorganize/split code to idmap_utils.c
+>> b7591ad49 confile: unhide lxc_config_define*() helpers
+>> f14656ebf meson: introduce IN_LIBLXC preprocessor macro
+>> 672b2172d confile: move lxc_fill_elevated_privileges() to tools/lxc_atta=
+ch
+>> 8f9733d75 tests: remove old and broken cgroup handling code from tests
+>> d51ea224e config: apparmor: add AppArmor profile for lxc-copy
+>> 627bb9460 tests: lxc-test-usernic: use iproute tool instead of brctl
+>> df0665b6d oci: resolve cross-filesystem blob caching failure
+>> ec85e5ca4 lxc-test-usernic: drop cgroup handling
+>> 27ec0b0f6 test-usernic: don't use ifconfig
+>> 44e845b3c Add x32 to the list of recognized architectures
+>> 07e3a516e lxc-download, lxc-local: preserve xattrs on unpack
+>> 9ac7c4895 tree-wide: use container_uses_namespace() in less trivial case=
+s
+>> 64341ce7b tree-wide: use container_uses_namespace() helper
+>> 6b40e66c1 Fix error message.
+>> c8189ee2a Add verbose output in download template.
+>> 84cc3155a Align columns in lxc-download.in template
+>> 872db5424 build: add more options for customizing install
+>> df17ac417 Add loongarch64 support
+>> 112d5615e build(deps): bump actions/upload-artifact from 3 to 4
+>> 789457f1a config: try to create workdir if not exist
+>> 86f5c1226 lxc-local: Add --no-dev option to exclude /dev from the fstree
+>> f885a3c56 lxc-local: Re-organize code to use more functions
+>> 7c025072e lxc-local: Improve usage info
+>> faa38a197 lxc-local: Change LXC_CONFIG to LXC_METADATA to match args and=
+ be more clear
+>> d65fe1b27 Disable IPv6 link-local addresses for bridged veth
+>> 8cff8fa1a don't try to delete vlan 0 from veth
+>> 0e932812a conf: fix ephemeral copies
+>> abffab441 config/init: Drop upstart files
+>> 79a4a3cf8 doc: remove the warning mentionning upstart
+>> 7bf1695d0 hooks/ubuntu-cloud-prep: remove upstart handling
+>> fb73c18d2 meson: Remove support for upstart
+>> cc6819c69 reset root_nsuid_map and root_nsgid_map when idmaps is cleared
+>> a87d6fcc9 lxc/checkconfig: use multiline `echo`
+>> f3e01fa80 lxc/checkconfig: replace `echo -n` by printf
+>> ba4f810bc lxc/checkconfig: minor cosmetic change
+>> d52c345c8 lxc/checkconfig: avoid subshell (SC2235)
+>> f84f03d1d lxc/checkconfig: remove superfluous (..) around test command (=
+SC2234)
+>> 74b9faa64 lxc/checkconfig: check exit code directly (SC2181)
+>> 5cc69e440 lxc/checkconfig: replace `! -z` by `-n` (SC2236)
+>> a4684eb11 lxc/checkconfig: add missing quotes to please shellcheck
+>> 8a611c0b2 lxc/checkconfig: remove some unneeded `echo -n`
+>> cb2574319 lxc/checkconfig: replace `type` by `command`
+>> 003efe6db lxc/checkconfig: replace `cat | grep` with `grep`
+>> adadfa372 lxc/lxccontainer: fix do_lxcapi_set_timeout retval
+>> c02367e59 containers in the FREEZING state also need to be unfreeze
+>> aca53bcf7 build(deps): bump actions/checkout from 3 to 4
+>> 84169158f lxccontainer.h: Move new fields to the end
+>> e2696df93 Remove references to LXD
+>> 7cec54455 Update console perms to 0600
+>> 3f45443fd Fix start api call to split quoted strings in execute or init =
+command.
+>>
+>> Local patches modification:
+>> Removed two patches due to they are available in the code:
+>> 0001-lxc-test-usernic-drop-cgroup-handling.patch
+>> 0001-tests-remove-old-and-broken-cgroup-handling-code-fro.patch
+>>
+>> Refreshed templates-use-curl-instead-of-wget.patch
+>>
+>> Ptest modification:
+>> Released lxc-test-shutdowntest and lxc-test-state-server due to
+>> those back to normal
+>> lxc-test-no-new-privs and lxc-test-checkpoint-restore are
+>> broken test, already reported to upstream[1][2], move them to blacklist
+>> until upstream fixed them.
+>> lxc-test-usernic always fails when use ptest-runner, but normal with
+>> run-ptest by manual.
+>>
+>> Ref:
+>> [1] https://github.com/lxc/lxc/issues/4296
+>> [2] https://github.com/lxc/lxc/issues/4435
+>>
+>> Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
+>> ---
+>>  ...xc-test-usernic-drop-cgroup-handling.patch |  61 -----------
+>>  ...-and-broken-cgroup-handling-code-fro.patch | 103 ------------------
+>>  recipes-containers/lxc/files/run-ptest        |  12 +-
+>>  .../templates-use-curl-instead-of-wget.patch  |  13 ++-
+>>  recipes-containers/lxc/lxc_git.bb             |  10 +-
+>>  5 files changed, 20 insertions(+), 179 deletions(-)
+>>  delete mode 100644 recipes-containers/lxc/files/0001-lxc-test-usernic-d=
+rop-cgroup-handling.patch
+>>  delete mode 100644 recipes-containers/lxc/files/0001-tests-remove-old-a=
+nd-broken-cgroup-handling-code-fro.patch
+>>
+>> diff --git a/recipes-containers/lxc/files/0001-lxc-test-usernic-drop-cgr=
+oup-handling.patch b/recipes-containers/lxc/files/0001-lxc-test-usernic-dro=
+p-cgroup-handling.patch
+>> deleted file mode 100644
+>> index 162e8f9d..00000000
+>> --- a/recipes-containers/lxc/files/0001-lxc-test-usernic-drop-cgroup-han=
+dling.patch
+>> +++ /dev/null
+>> @@ -1,61 +0,0 @@
+>> -From ec85e5ca4953292c4341497704ce738669a79b64 Mon Sep 17 00:00:00 2001
+>> -From: Serge Hallyn <serge@hallyn.com>
+>> -Date: Fri, 2 Feb 2024 10:41:11 -0600
+>> -Subject: [PATCH] lxc-test-usernic: drop cgroup handling
+>> -
+>> -This stuff is not needed in a modern systemd based system, and in fact
+>> -breaks.  It would probably be better to detect such a system so that a
+>> -non-systemd box can still run this test.  But I'm not sure what would b=
+e
+>> -reliable.
+>> -
+>> -Upstream-Status: Backport from
+>> -[https://github.com/lxc/lxc/commit/ec85e5ca4953292c4341497704ce738669a7=
+9b64]
+>> -
+>> -Signed-off-by: Serge Hallyn <serge@hallyn.com>
+>> -Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
+>> ----
+>> - src/tests/lxc-test-usernic.in | 28 ----------------------------
+>> - 1 file changed, 28 deletions(-)
+>> -
+>> -diff --git a/src/tests/lxc-test-usernic.in b/src/tests/lxc-test-usernic=
+.in
+>> -index 9af8678f3..49fd5e3f7 100755
+>> ---- a/src/tests/lxc-test-usernic.in
+>> -+++ b/src/tests/lxc-test-usernic.in
+>> -@@ -80,34 +80,6 @@ lxc.idmap =3D u 0 910000 10000
+>> - lxc.idmap =3D g 0 910000 10000
+>> - EOF
+>> -
+>> --if command -v cgm >/dev/null 2>&1; then
+>> --      cgm create all usernic-user
+>> --      cgm chown all usernic-user $(id -u usernic-user) $(id -g usernic=
+-user)
+>> --      cgm movepid all usernic-user $$
+>> --elif [ -e /sys/fs/cgroup/cgmanager/sock ]; then
+>> --      for d in $(cut -d : -f 2 /proc/self/cgroup); do
+>> --              dbus-send --print-reply --address=3Dunix:path=3D/sys/fs/=
+cgroup/cgmanager/sock \
+>> --                      --type=3Dmethod_call /org/linuxcontainers/cgmana=
+ger org.linuxcontainers.cgmanager0_0.Create \
+>> --                      string:$d string:usernic-user >/dev/null
+>> --
+>> --              dbus-send --print-reply --address=3Dunix:path=3D/sys/fs/=
+cgroup/cgmanager/sock \
+>> --                      --type=3Dmethod_call /org/linuxcontainers/cgmana=
+ger org.linuxcontainers.cgmanager0_0.Chown \
+>> --                      string:$d string:usernic-user int32:$(id -u user=
+nic-user) int32:$(id -g usernic-user) >/dev/null
+>> --
+>> --              dbus-send --print-reply --address=3Dunix:path=3D/sys/fs/=
+cgroup/cgmanager/sock \
+>> --                      --type=3Dmethod_call /org/linuxcontainers/cgmana=
+ger org.linuxcontainers.cgmanager0_0.MovePid \
+>> --                      string:$d string:usernic-user int32:$$ >/dev/nul=
+l
+>> --      done
+>> --else
+>> --      for d in /sys/fs/cgroup/*; do
+>> --              [ "$d" =3D "/sys/fs/cgroup/unified" ] && continue
+>> --              [ -f $d/cgroup.clone_children ] && echo 1 > $d/cgroup.cl=
+one_children
+>> --              [ ! -d $d/lxctest ] && mkdir $d/lxctest
+>> --              chown -R usernic-user: $d/lxctest
+>> --              echo $$ > $d/lxctest/tasks
+>> --      done
+>> --fi
+>> --
+>> - mkdir -p /run/user/$(id -u usernic-user)
+>> - chown -R usernic-user: /run/user/$(id -u usernic-user) /home/usernic-u=
+ser
+>> -
+>> ---
+>> -2.35.5
+>> -
+>> diff --git a/recipes-containers/lxc/files/0001-tests-remove-old-and-brok=
+en-cgroup-handling-code-fro.patch b/recipes-containers/lxc/files/0001-tests=
+-remove-old-and-broken-cgroup-handling-code-fro.patch
+>> deleted file mode 100644
+>> index bf8df795..00000000
+>> --- a/recipes-containers/lxc/files/0001-tests-remove-old-and-broken-cgro=
+up-handling-code-fro.patch
+>> +++ /dev/null
+>> @@ -1,103 +0,0 @@
+>> -From 8f9733d756361ff8f8d8d589f286c0e064b1195d Mon Sep 17 00:00:00 2001
+>> -From: Alexander Mikhalitsyn <aleksandr.mikhalitsyn@canonical.com>
+>> -Date: Thu, 15 Feb 2024 18:13:05 +0100
+>> -Subject: [PATCH] tests: remove old and broken cgroup handling code from=
+ tests
+>> -
+>> -We have removed the same piece of code in
+>> -ec85e5ca495 ("lxc-test-usernic: drop cgroup handling")
+>> -let's do the same for two other tests.
+>> -
+>> -This fixes autopkgtests.
+>> -
+>> -Upstream-Status: Backport from
+>> -[https://github.com/lxc/lxc/commit/8f9733d756361ff8f8d8d589f286c0e064b1=
+195d]
+>> -
+>> -Signed-off-by: Alexander Mikhalitsyn <aleksandr.mikhalitsyn@canonical.c=
+om>
+>> -Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
+>> ----
+>> - src/tests/lxc-test-apparmor-mount | 29 -----------------------------
+>> - src/tests/lxc-test-unpriv         | 28 ----------------------------
+>> - 2 files changed, 57 deletions(-)
+>> -
+>> -diff --git a/src/tests/lxc-test-apparmor-mount b/src/tests/lxc-test-app=
+armor-mount
+>> -index 7c9d9ad50..ddf783d4b 100755
+>> ---- a/src/tests/lxc-test-apparmor-mount
+>> -+++ b/src/tests/lxc-test-apparmor-mount
+>> -@@ -119,35 +119,6 @@ chown -R $TUSER: /run/user/$(id -u $TUSER)
+>> -
+>> - cd $HDIR
+>> -
+>> --if command -v cgm >/dev/null 2>&1; then
+>> --      cgm create all $TUSER
+>> --      cgm chown all $TUSER $(id -u $TUSER) $(id -g $TUSER)
+>> --      cgm movepid all $TUSER $$
+>> --elif [ -e /sys/fs/cgroup/cgmanager/sock ]; then
+>> --      for d in $(cut -d : -f 2 /proc/self/cgroup); do
+>> --              dbus-send --print-reply --address=3Dunix:path=3D/sys/fs/=
+cgroup/cgmanager/sock \
+>> --                      --type=3Dmethod_call /org/linuxcontainers/cgmana=
+ger org.linuxcontainers.cgmanager0_0.Create \
+>> --                      string:$d string:$TUSER >/dev/null
+>> --
+>> --              dbus-send --print-reply --address=3Dunix:path=3D/sys/fs/=
+cgroup/cgmanager/sock \
+>> --                      --type=3Dmethod_call /org/linuxcontainers/cgmana=
+ger org.linuxcontainers.cgmanager0_0.Chown \
+>> --                      string:$d string:$TUSER int32:$(id -u $TUSER) in=
+t32:$(id -g $TUSER) >/dev/null
+>> --
+>> --              dbus-send --print-reply --address=3Dunix:path=3D/sys/fs/=
+cgroup/cgmanager/sock \
+>> --                      --type=3Dmethod_call /org/linuxcontainers/cgmana=
+ger org.linuxcontainers.cgmanager0_0.MovePid \
+>> --                      string:$d string:$TUSER int32:$$ >/dev/null
+>> --      done
+>> --else
+>> --      for d in /sys/fs/cgroup/*; do
+>> --              [ "$d" =3D "/sys/fs/cgroup/unified" ] && continue
+>> --              [ -f $d/cgroup.clone_children ] && echo 1 > $d/cgroup.cl=
+one_children
+>> --              [ ! -d $d/lxctest ] && mkdir $d/lxctest
+>> --              chown -R $TUSER: $d/lxctest
+>> --              echo $$ > $d/lxctest/tasks
+>> --      done
+>> --fi
+>> --
+>> --
+>> - run_cmd lxc-create -t busybox -n $cname
+>> -
+>> - echo "test default confined container"
+>> -diff --git a/src/tests/lxc-test-unpriv b/src/tests/lxc-test-unpriv
+>> -index 8fb9106d6..426add9da 100755
+>> ---- a/src/tests/lxc-test-unpriv
+>> -+++ b/src/tests/lxc-test-unpriv
+>> -@@ -130,34 +130,6 @@ chown -R $TUSER: /run/user/$(id -u $TUSER)
+>> -
+>> - cd $HDIR
+>> -
+>> --if command -v cgm >/dev/null 2>&1; then
+>> --      cgm create all $TUSER
+>> --      cgm chown all $TUSER $(id -u $TUSER) $(id -g $TUSER)
+>> --      cgm movepid all $TUSER $$
+>> --elif [ -e /sys/fs/cgroup/cgmanager/sock ]; then
+>> --      for d in $(cut -d : -f 2 /proc/self/cgroup); do
+>> --              dbus-send --print-reply --address=3Dunix:path=3D/sys/fs/=
+cgroup/cgmanager/sock \
+>> --                      --type=3Dmethod_call /org/linuxcontainers/cgmana=
+ger org.linuxcontainers.cgmanager0_0.Create \
+>> --                      string:$d string:$TUSER >/dev/null
+>> --
+>> --              dbus-send --print-reply --address=3Dunix:path=3D/sys/fs/=
+cgroup/cgmanager/sock \
+>> --                      --type=3Dmethod_call /org/linuxcontainers/cgmana=
+ger org.linuxcontainers.cgmanager0_0.Chown \
+>> --                      string:$d string:$TUSER int32:$(id -u $TUSER) in=
+t32:$(id -g $TUSER) >/dev/null
+>> --
+>> --              dbus-send --print-reply --address=3Dunix:path=3D/sys/fs/=
+cgroup/cgmanager/sock \
+>> --                      --type=3Dmethod_call /org/linuxcontainers/cgmana=
+ger org.linuxcontainers.cgmanager0_0.MovePid \
+>> --                      string:$d string:$TUSER int32:$$ >/dev/null
+>> --      done
+>> --else
+>> --      for d in /sys/fs/cgroup/*; do
+>> --              [ "$d" =3D "/sys/fs/cgroup/unified" ] && continue
+>> --              [ -f $d/cgroup.clone_children ] && echo 1 > $d/cgroup.cl=
+one_children
+>> --              [ ! -d $d/lxctest ] && mkdir $d/lxctest
+>> --              chown -R $TUSER: $d/lxctest
+>> --              echo $$ > $d/lxctest/tasks
+>> --      done
+>> --fi
+>> --
+>> - run_cmd lxc-create -t busybox -n c1 -l trace -o "${UNPRIV_LOG}"
+>> -
+>> - # Make sure we can start it - twice
+>> ---
+>> -2.35.5
+>> -
+>> diff --git a/recipes-containers/lxc/files/run-ptest b/recipes-containers=
+/lxc/files/run-ptest
+>> index 196adb04..278107d9 100644
+>> --- a/recipes-containers/lxc/files/run-ptest
+>> +++ b/recipes-containers/lxc/files/run-ptest
+>> @@ -12,9 +12,15 @@ blacklist=3D"$blacklist lxc-test-apparmor"
+>>  blacklist=3D"$blacklist lxc-test-apparmor-mount"
+>>  #lxc-test-get_item would report Built without AppArmor support error
+>>  blacklist=3D"$blacklist lxc-test-get_item"
+>> -# These currently hang so skip them until someone fixes them up
+>> -blacklist=3D"$blacklist lxc-test-shutdowntest"
+>> -blacklist=3D"$blacklist lxc-test-state-server"
+>> +# This is a broken case, also fails on opensuse, already reported to
+>> +# upstream https://github.com/lxc/lxc/issues/4296
+>> +blacklist=3D"$blacklist lxc-test-no-new-privs"
+>> +# lxc doesn't adapt the criu's new mount flag, that cause restore fails
+>> +# already reported to upstream https://github.com/lxc/lxc/issues/4435
+>> +blacklist=3D"$blacklist lxc-test-checkpoint-restore"
+>> +# if we run "run-ptest" under /usr/lib64/lxc/ptest, the result is norma=
+l
+>> +# but it would be failed when using "ptest-runner lxc"
+>> +blacklist=3D"$blacklist lxc-test-usernic"
+>>
+>>  # Tests in firstrunlist will be run first
+>>  firstrunlist=3D""
+>> diff --git a/recipes-containers/lxc/files/templates-use-curl-instead-of-=
+wget.patch b/recipes-containers/lxc/files/templates-use-curl-instead-of-wge=
+t.patch
+>> index e9af8335..3ef66138 100644
+>> --- a/recipes-containers/lxc/files/templates-use-curl-instead-of-wget.pa=
+tch
+>> +++ b/recipes-containers/lxc/files/templates-use-curl-instead-of-wget.pa=
+tch
+>> @@ -10,6 +10,7 @@ Upstream-Status: Inappropriate [embedded specific]
+>>  Signed-off-by: Joakim Roubert <joakimr@axis.com>
+>>  Signed-off-by: Yanfei Xu <yanfei.xu@windriver.com>
+>>  Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+>> +Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
+>>  ---
+>>   templates/lxc-download.in | 8 ++++----
+>>   1 file changed, 4 insertions(+), 4 deletions(-)
+>> @@ -18,7 +19,7 @@ diff --git a/templates/lxc-download.in b/templates/lxc=
+-download.in
+>>  index a62ddf482..690307338 100755
+>>  --- a/templates/lxc-download.in
+>>  +++ b/templates/lxc-download.in
+>> -@@ -59,9 +59,9 @@ cleanup() {
+>> +@@ -45,9 +45,9 @@ cleanup() {
+>>     fi
+>>   }
+>>
+>> @@ -30,16 +31,16 @@ index a62ddf482..690307338 100755
+>>         return 0
+>>       fi
+>>     done
+>> -@@ -70,7 +70,7 @@ wget_wrapper() {
+>> - }
+>> -
+>> - download_file() {
+>> +@@ -59,7 +59,7 @@ download_file() {
+>> +   if [ "${DOWNLOAD_VERBOSE}" =3D "true" ]; then
+>> +     echo "Download file: https://${DOWNLOAD_SERVER}$1"
+>> +   fi
+>>  -  if ! wget_wrapper --user-agent=3D"lxc/@PACKAGE_VERSION@ compat:${DOW=
+NLOAD_COMPAT_LEVEL}" -T 30 -q "https://${DOWNLOAD_SERVER}/$1" -O "$2" >/dev=
+/null 2>&1; then
+>>  +  if ! curl_wrapper -L --user-agent "lxc/@PACKAGE_VERSION@ compat:${DO=
+WNLOAD_COMPAT_LEVEL}" -m 30 -s "https://${DOWNLOAD_SERVER}/$1" -o "$2" >/de=
+v/null 2>&1; then
+>>       if [ "$3" =3D "noexit" ]; then
+>>         return 1
+>>       else
+>> -@@ -176,7 +176,7 @@ while :; do
+>> +@@ -167,7 +167,7 @@ while :; do
+>>   done
+>>
+>>   # Check for required binaries
+>> diff --git a/recipes-containers/lxc/lxc_git.bb b/recipes-containers/lxc/=
+lxc_git.bb
+>> index ee0e442f..379b4ecd 100644
+>> --- a/recipes-containers/lxc/lxc_git.bb
+>> +++ b/recipes-containers/lxc/lxc_git.bb
+>> @@ -5,7 +5,7 @@ LIC_FILES_CHKSUM =3D "file://LICENSE.LGPL2.1;md5=3D4fbd6=
+5380cdd255951079008b364516c
+>>                      file://LICENSE.GPL2;md5=3D751419260aa954499f7abaaba=
+a882bbe \
+>>  "
+>>
+>> -DEPENDS =3D "libxml2 libcap"
+>> +DEPENDS =3D "libxml2 libcap dbus"
+>>  RDEPENDS:${PN} =3D " \
+>>                 rsync \
+>>                 curl \
+>> @@ -36,7 +36,7 @@ RDEPENDS:${PN}-ptest +=3D "file make gmp nettle gnutls=
+ bash libgcc"
+>>
+>>  RDEPENDS:${PN}-networking +=3D "iptables"
+>>
+>> -SRC_URI =3D "git://github.com/lxc/lxc.git;branch=3Dstable-5.0;protocol=
+=3Dhttps \
+>> +SRC_URI =3D "git://github.com/lxc/lxc.git;branch=3Dstable-6.0;protocol=
+=3Dhttps \
+>>         file://lxc-1.0.0-disable-udhcp-from-busybox-template.patch \
+>>         file://run-ptest \
+>>         file://templates-actually-create-DOWNLOAD_TEMP-directory.patch \
+>> @@ -47,12 +47,10 @@ SRC_URI =3D "git://github.com/lxc/lxc.git;branch=3Ds=
+table-5.0;protocol=3Dhttps \
+>>         file://0001-template-if-busybox-contains-init-use-it-in-containe=
 .patch \
->         "
+>>         file://dnsmasq.conf \
+>>         file://lxc-net \
+>> -       file://0001-lxc-test-usernic-drop-cgroup-handling.patch \
+>> -       file://0001-tests-remove-old-and-broken-cgroup-handling-code-fro=
+.patch \
+>>         "
+>>
+>> -SRCREV =3D "cb8e38aca27a23964941f0f011a8919aab8bebab"
+>> -PV =3D "5.0.3+git"
+>> +SRCREV =3D "3dee5fb88c6f77496dbcab46f31bcd891c9ee4e0"
+>> +PV =3D "6.0.0+git"
+>>
+>>  S =3D "${WORKDIR}/git"
+>>
+>> --
+>> 2.25.1
+>>
+>>
+>>
+>>
 >
-> diff --git a/recipes-containers/docker-compose/docker-compose_git.bb b/re=
-cipes-containers/docker-compose/docker-compose_git.bb
-> index 07650126..316bf29d 100644
-> --- a/recipes-containers/docker-compose/docker-compose_git.bb
-> +++ b/recipes-containers/docker-compose/docker-compose_git.bb
-> @@ -11,7 +11,7 @@ DEPENDS =3D " \
->  SRCREV_FORMAT=3D"compose_survey"
->  SRCREV_compose =3D "3371227794f5f3645f4f19829c60a741635ed329"
 >
-> -SRC_URI =3D "git://github.com/docker/compose;name=3Dcompose;branch=3Dmai=
-n;protocol=3Dhttps"
-> +SRC_URI =3D "git://github.com/docker/compose;name=3Dcompose;branch=3Dmai=
-n;protocol=3Dhttps;destsuffix=3D${GO_SRCURI_DESTSUFFIX}"
+> --
+> - Thou shalt not follow the NULL pointer, for chaos and madness await the=
+e at its end
+> - "Use the force Harry" - Gandalf, Star Trek II
 >
->  include src_uri.inc
 >
-> @@ -55,7 +55,7 @@ do_compile() {
->         # our copied .go files are to be used for the build
->         ln -sf vendor.copy vendor
->         # inform go that we know what we are doing
-> -       cp ${WORKDIR}/modules.txt vendor/
-> +       cp ${UNPACKDIR}/modules.txt vendor/
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#8685): https://lists.yoctoproject.org/g/meta-virtuali=
+zation/message/8685
+> Mute This Topic: https://lists.yoctoproject.org/mt/105594307/1050810
+> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [=
+bruce.ashfield@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 >
->         GO_LDFLAGS=3D"-s -w -X internal.Version=3D${PV} -X ${COMPOSE_PKG}=
-/internal.Version=3D${PV}"
->         GO_BUILDTAGS=3D""
-> diff --git a/recipes-containers/docker-compose/src_uri.inc b/recipes-cont=
-ainers/docker-compose/src_uri.inc
-> index 1978abc7..8327cb0e 100644
-> --- a/recipes-containers/docker-compose/src_uri.inc
-> +++ b/recipes-containers/docker-compose/src_uri.inc
-> @@ -1,930 +1,930 @@
->  #       k8s.io/api v0.29.2
->  # [1] git ls-remote https://github.com/kubernetes/api d47313059888ec984b=
-f8432ed155fae5be935c31
->  SRCREV_k8s.io-api=3D"d47313059888ec984bf8432ed155fae5be935c31"
-> -SRC_URI +=3D "git://github.com/kubernetes/api;name=3Dk8s.io-api;protocol=
-=3Dhttps;nobranch=3D1;destsuffix=3D${WORKDIR}/${BP}/src/import/vendor.fetch=
-/k8s.io/api"
-> +SRC_URI +=3D "git://github.com/kubernetes/api;name=3Dk8s.io-api;protocol=
-=3Dhttps;nobranch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendor.fetch/k8s=
-.io/api"
->
->  #       k8s.io/utils v0.0.0-20230726121419-3b25d923346b
->  # [1] git ls-remote https://github.com/kubernetes/utils 3b25d923346b3814=
-e0898684c97390092f31a61e
->  SRCREV_utils=3D"3b25d923346b3814e0898684c97390092f31a61e"
-> -SRC_URI +=3D "git://github.com/kubernetes/utils;name=3Dutils;protocol=3D=
-https;nobranch=3D1;destsuffix=3D${WORKDIR}/${BP}/src/import/vendor.fetch/k8=
-s.io/utils"
-> +SRC_URI +=3D "git://github.com/kubernetes/utils;name=3Dutils;protocol=3D=
-https;nobranch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendor.fetch/k8s.io=
-/utils"
->
->  #       k8s.io/klog/v2 v2.110.1
->  # [1] git ls-remote https://github.com/kubernetes/klog e3f75b8af2707d64b=
-5dd4c440ae8384ed2f2c386
->  SRCREV_klog-v2=3D"e3f75b8af2707d64b5dd4c440ae8384ed2f2c386"
-> -SRC_URI +=3D "git://github.com/kubernetes/klog;name=3Dklog-v2;protocol=
-=3Dhttps;nobranch=3D1;destsuffix=3D${WORKDIR}/${BP}/src/import/vendor.fetch=
-/k8s.io/klog/v2"
-> +SRC_URI +=3D "git://github.com/kubernetes/klog;name=3Dklog-v2;protocol=
-=3Dhttps;nobranch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendor.fetch/k8s=
-.io/klog/v2"
->
->  #       gotest.tools/v3 v3.5.1
->  # [1] git ls-remote https://github.com/gotestyourself/gotest.tools 81cea=
-1abc596b025bf2573c7fdf97740512e4c6c
->  SRCREV_v3=3D"81cea1abc596b025bf2573c7fdf97740512e4c6c"
-> -SRC_URI +=3D "git://github.com/gotestyourself/gotest.tools;name=3Dv3;pro=
-tocol=3Dhttps;nobranch=3D1;destsuffix=3D${WORKDIR}/${BP}/src/import/vendor.=
-fetch/gotest.tools/v3"
-> +SRC_URI +=3D "git://github.com/gotestyourself/gotest.tools;name=3Dv3;pro=
-tocol=3Dhttps;nobranch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendor.fetc=
-h/gotest.tools/v3"
->
->  #       dario.cat/mergo v1.0.0
->  # [1] git ls-remote https://github.com/imdario/mergo 131de815afc35a77c41=
-ae99da6c8f4288b6cb513
->  SRCREV_mergo=3D"131de815afc35a77c41ae99da6c8f4288b6cb513"
-> -SRC_URI +=3D "git://github.com/imdario/mergo;name=3Dmergo;protocol=3Dhtt=
-ps;nobranch=3D1;destsuffix=3D${WORKDIR}/${BP}/src/import/vendor.fetch/dario=
-.cat/mergo"
-> +SRC_URI +=3D "git://github.com/imdario/mergo;name=3Dmergo;protocol=3Dhtt=
-ps;nobranch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendor.fetch/dario.cat=
-/mergo"
->
->  #       gopkg.in/inf.v0 v0.9.1
->  # [1] git ls-remote https://github.com/go-inf/inf d2d2541c53f18d2a059457=
-998ce2876cc8e67cbf
->  SRCREV_inf.v0=3D"d2d2541c53f18d2a059457998ce2876cc8e67cbf"
-> -SRC_URI +=3D "git://github.com/go-inf/inf;name=3Dinf.v0;protocol=3Dhttps=
-;nobranch=3D1;destsuffix=3D${WORKDIR}/${BP}/src/import/vendor.fetch/gopkg.i=
-n/inf.v0"
-> +SRC_URI +=3D "git://github.com/go-inf/inf;name=3Dinf.v0;protocol=3Dhttps=
-;nobranch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendor.fetch/gopkg.in/in=
-f.v0"
->
->  #       go.uber.org/mock v0.4.0
->  # [1] git ls-remote https://github.com/uber/mock 74a29c6e6c2cbb8ccee94db=
-061c1604ff33fd188
->  SRCREV_mock=3D"74a29c6e6c2cbb8ccee94db061c1604ff33fd188"
-> -SRC_URI +=3D "git://github.com/uber/mock;name=3Dmock;protocol=3Dhttps;no=
-branch=3D1;destsuffix=3D${WORKDIR}/${BP}/src/import/vendor.fetch/go.uber.or=
-g/mock"
-> +SRC_URI +=3D "git://github.com/uber/mock;name=3Dmock;protocol=3Dhttps;no=
-branch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendor.fetch/go.uber.org/mo=
-ck"
->
->  #       golang.org/x/exp v0.0.0-20240112132812-db7319d0e0e3
->  # [1] git ls-remote https://go.googlesource.com/exp db7319d0e0e361ccef5c=
-449b760df8e5f2d5087c
->  SRCREV_exp=3D"db7319d0e0e361ccef5c449b760df8e5f2d5087c"
-> -SRC_URI +=3D "git://go.googlesource.com/exp;name=3Dexp;protocol=3Dhttps;=
-nobranch=3D1;destsuffix=3D${WORKDIR}/${BP}/src/import/vendor.fetch/golang.o=
-rg/x/exp"
-> +SRC_URI +=3D "git://go.googlesource.com/exp;name=3Dexp;protocol=3Dhttps;=
-nobranch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendor.fetch/golang.org/x=
-/exp"
->
->  #       golang.org/x/sys v0.16.0
->  # [1] git ls-remote https://go.googlesource.com/sys 0829ab15b6946f47c400=
-12db2e0c04772730317d
->  SRCREV_sys=3D"0829ab15b6946f47c40012db2e0c04772730317d"
-> -SRC_URI +=3D "git://go.googlesource.com/sys;name=3Dsys;protocol=3Dhttps;=
-nobranch=3D1;destsuffix=3D${WORKDIR}/${BP}/src/import/vendor.fetch/golang.o=
-rg/x/sys"
-> +SRC_URI +=3D "git://go.googlesource.com/sys;name=3Dsys;protocol=3Dhttps;=
-nobranch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendor.fetch/golang.org/x=
-/sys"
->
->  #       gopkg.in/yaml.v3 v3.0.1
->  # [1] git ls-remote https://github.com/go-yaml/yaml f6f7691b1fdeb513f566=
-08cd2c32c51f8194bf51
->  SRCREV_yaml.v3=3D"f6f7691b1fdeb513f56608cd2c32c51f8194bf51"
-> -SRC_URI +=3D "git://github.com/go-yaml/yaml;name=3Dyaml.v3;protocol=3Dht=
-tps;nobranch=3D1;destsuffix=3D${WORKDIR}/${BP}/src/import/vendor.fetch/gopk=
-g.in/yaml.v3"
-> +SRC_URI +=3D "git://github.com/go-yaml/yaml;name=3Dyaml.v3;protocol=3Dht=
-tps;nobranch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendor.fetch/gopkg.in=
-/yaml.v3"
->
->  #       golang.org/x/mod v0.14.0
->  # [1] git ls-remote https://go.googlesource.com/mod 6e58e47c7bd6672665dc=
-35cce7b1f325d2addd67
->  SRCREV_mod=3D"6e58e47c7bd6672665dc35cce7b1f325d2addd67"
-> -SRC_URI +=3D "git://go.googlesource.com/mod;name=3Dmod;protocol=3Dhttps;=
-nobranch=3D1;destsuffix=3D${WORKDIR}/${BP}/src/import/vendor.fetch/golang.o=
-rg/x/mod"
-> +SRC_URI +=3D "git://go.googlesource.com/mod;name=3Dmod;protocol=3Dhttps;=
-nobranch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendor.fetch/golang.org/x=
-/mod"
->
->  #       golang.org/x/net v0.20.0
->  # [1] git ls-remote https://go.googlesource.com/net cb5b10f0bbc51089bf49=
-030ce3bd43bbfee08c23
->  SRCREV_net=3D"cb5b10f0bbc51089bf49030ce3bd43bbfee08c23"
-> -SRC_URI +=3D "git://go.googlesource.com/net;name=3Dnet;protocol=3Dhttps;=
-nobranch=3D1;destsuffix=3D${WORKDIR}/${BP}/src/import/vendor.fetch/golang.o=
-rg/x/net"
-> +SRC_URI +=3D "git://go.googlesource.com/net;name=3Dnet;protocol=3Dhttps;=
-nobranch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendor.fetch/golang.org/x=
-/net"
->
->  #       gopkg.in/yaml.v2 v2.4.0
->  # [1] git ls-remote https://github.com/go-yaml/yaml 7649d4548cb53a614db1=
-33b2a8ac1f31859dda8c
->  SRCREV_yaml.v2=3D"7649d4548cb53a614db133b2a8ac1f31859dda8c"
-> -SRC_URI +=3D "git://github.com/go-yaml/yaml;name=3Dyaml.v2;protocol=3Dht=
-tps;nobranch=3D1;destsuffix=3D${WORKDIR}/${BP}/src/import/vendor.fetch/gopk=
-g.in/yaml.v2"
-> +SRC_URI +=3D "git://github.com/go-yaml/yaml;name=3Dyaml.v2;protocol=3Dht=
-tps;nobranch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendor.fetch/gopkg.in=
-/yaml.v2"
->
->  #       k8s.io/apiserver v0.29.2
->  # [1] git ls-remote https://github.com/kubernetes/apiserver 4c39f36a732c=
-fb11f3fc75110c7301336b6b64e3
->  SRCREV_apiserver=3D"4c39f36a732cfb11f3fc75110c7301336b6b64e3"
-> -SRC_URI +=3D "git://github.com/kubernetes/apiserver;name=3Dapiserver;pro=
-tocol=3Dhttps;nobranch=3D1;destsuffix=3D${WORKDIR}/${BP}/src/import/vendor.=
-fetch/k8s.io/apiserver"
-> +SRC_URI +=3D "git://github.com/kubernetes/apiserver;name=3Dapiserver;pro=
-tocol=3Dhttps;nobranch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendor.fetc=
-h/k8s.io/apiserver"
->
->  #       k8s.io/client-go v0.29.2
->  # [1] git ls-remote https://github.com/kubernetes/client-go 62c5e9e7b4bd=
-09d2b43dcad1464376322398e994
->  SRCREV_client-go=3D"62c5e9e7b4bd09d2b43dcad1464376322398e994"
-> -SRC_URI +=3D "git://github.com/kubernetes/client-go;name=3Dclient-go;pro=
-tocol=3Dhttps;nobranch=3D1;destsuffix=3D${WORKDIR}/${BP}/src/import/vendor.=
-fetch/k8s.io/client-go"
-> +SRC_URI +=3D "git://github.com/kubernetes/client-go;name=3Dclient-go;pro=
-tocol=3Dhttps;nobranch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendor.fetc=
-h/k8s.io/client-go"
->
->  #       sigs.k8s.io/json v0.0.0-20221116044647-bc3834ca7abd
->  # [1] git ls-remote https://github.com/kubernetes-sigs/json bc3834ca7abd=
-3a90f03ef00a27ad80cb892f9c21
->  SRCREV_json=3D"bc3834ca7abd3a90f03ef00a27ad80cb892f9c21"
-> -SRC_URI +=3D "git://github.com/kubernetes-sigs/json;name=3Djson;protocol=
-=3Dhttps;nobranch=3D1;destsuffix=3D${WORKDIR}/${BP}/src/import/vendor.fetch=
-/sigs.k8s.io/json"
-> +SRC_URI +=3D "git://github.com/kubernetes-sigs/json;name=3Djson;protocol=
-=3Dhttps;nobranch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendor.fetch/sig=
-s.k8s.io/json"
->
->  #       sigs.k8s.io/yaml v1.3.0
->  # [1] git ls-remote https://github.com/kubernetes-sigs/yaml 9535b3b1e289=
-3fe44efb37c5c9f5665e245d786a
->  SRCREV_yaml=3D"9535b3b1e2893fe44efb37c5c9f5665e245d786a"
-> -SRC_URI +=3D "git://github.com/kubernetes-sigs/yaml;name=3Dyaml;protocol=
-=3Dhttps;nobranch=3D1;destsuffix=3D${WORKDIR}/${BP}/src/import/vendor.fetch=
-/sigs.k8s.io/yaml"
-> +SRC_URI +=3D "git://github.com/kubernetes-sigs/yaml;name=3Dyaml;protocol=
-=3Dhttps;nobranch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendor.fetch/sig=
-s.k8s.io/yaml"
->
->  #       golang.org/x/sync v0.6.0
->  # [1] git ls-remote https://go.googlesource.com/sync 59c1ca1e4661ed4452b=
-e4069ceea3c233f4deec1
->  SRCREV_sync=3D"59c1ca1e4661ed4452be4069ceea3c233f4deec1"
-> -SRC_URI +=3D "git://go.googlesource.com/sync;name=3Dsync;protocol=3Dhttp=
-s;nobranch=3D1;destsuffix=3D${WORKDIR}/${BP}/src/import/vendor.fetch/golang=
-.org/x/sync"
-> +SRC_URI +=3D "git://go.googlesource.com/sync;name=3Dsync;protocol=3Dhttp=
-s;nobranch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendor.fetch/golang.org=
-/x/sync"
->
->  #       golang.org/x/term v0.16.0
->  # [1] git ls-remote https://go.googlesource.com/term ae941452f58ff9bf62f=
-7e9dca3ea6ae3d214a68b
->  SRCREV_x-term=3D"ae941452f58ff9bf62f7e9dca3ea6ae3d214a68b"
-> -SRC_URI +=3D "git://go.googlesource.com/term;name=3Dx-term;protocol=3Dht=
-tps;nobranch=3D1;destsuffix=3D${WORKDIR}/${BP}/src/import/vendor.fetch/gola=
-ng.org/x/term"
-> +SRC_URI +=3D "git://go.googlesource.com/term;name=3Dx-term;protocol=3Dht=
-tps;nobranch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendor.fetch/golang.o=
-rg/x/term"
->
->  #       golang.org/x/text v0.14.0
->  # [1] git ls-remote https://go.googlesource.com/text 6c97a165dd661335ff7=
-bce6104a008558123c353
->  SRCREV_text=3D"6c97a165dd661335ff7bce6104a008558123c353"
-> -SRC_URI +=3D "git://go.googlesource.com/text;name=3Dtext;protocol=3Dhttp=
-s;nobranch=3D1;destsuffix=3D${WORKDIR}/${BP}/src/import/vendor.fetch/golang=
-.org/x/text"
-> +SRC_URI +=3D "git://go.googlesource.com/text;name=3Dtext;protocol=3Dhttp=
-s;nobranch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendor.fetch/golang.org=
-/x/text"
->
->  #       golang.org/x/time v0.3.0
->  # [1] git ls-remote https://go.googlesource.com/time 2c09566ef13fb555640=
-1ddff3c53c3dbc2a42dac
->  SRCREV_time=3D"2c09566ef13fb5556401ddff3c53c3dbc2a42dac"
-> -SRC_URI +=3D "git://go.googlesource.com/time;name=3Dtime;protocol=3Dhttp=
-s;nobranch=3D1;destsuffix=3D${WORKDIR}/${BP}/src/import/vendor.fetch/golang=
-.org/x/time"
-> +SRC_URI +=3D "git://go.googlesource.com/time;name=3Dtime;protocol=3Dhttp=
-s;nobranch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendor.fetch/golang.org=
-/x/time"
->
->  #       go.uber.org/goleak v1.3.0
->  # [1] git ls-remote https://github.com/uber-go/goleak 31095c657c34bba405=
-a8d480db27989aa5f60b9c
->  SRCREV_goleak=3D"31095c657c34bba405a8d480db27989aa5f60b9c"
-> -SRC_URI +=3D "git://github.com/uber-go/goleak;name=3Dgoleak;protocol=3Dh=
-ttps;nobranch=3D1;destsuffix=3D${WORKDIR}/${BP}/src/import/vendor.fetch/go.=
-uber.org/goleak"
-> +SRC_URI +=3D "git://github.com/uber-go/goleak;name=3Dgoleak;protocol=3Dh=
-ttps;nobranch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendor.fetch/go.uber=
-.org/goleak"
->
->  #       golang.org/x/tools v0.17.0
->  # [1] git ls-remote https://go.googlesource.com/tools 0b1f1d4bc227cc2e61=
-0854f23e14696becb9e46c
->  SRCREV_tools=3D"0b1f1d4bc227cc2e610854f23e14696becb9e46c"
-> -SRC_URI +=3D "git://go.googlesource.com/tools;name=3Dtools;protocol=3Dht=
-tps;nobranch=3D1;destsuffix=3D${WORKDIR}/${BP}/src/import/vendor.fetch/gola=
-ng.org/x/tools"
-> +SRC_URI +=3D "git://go.googlesource.com/tools;name=3Dtools;protocol=3Dht=
-tps;nobranch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendor.fetch/golang.o=
-rg/x/tools"
->
->  #       golang.org/x/crypto v0.18.0
->  # [1] git ls-remote https://go.googlesource.com/crypto dbb6ec16ecef7a666=
-38d8514be54b13660551b0a
->  SRCREV_crypto=3D"dbb6ec16ecef7a66638d8514be54b13660551b0a"
-> -SRC_URI +=3D "git://go.googlesource.com/crypto;name=3Dcrypto;protocol=3D=
-https;nobranch=3D1;destsuffix=3D${WORKDIR}/${BP}/src/import/vendor.fetch/go=
-lang.org/x/crypto"
-> +SRC_URI +=3D "git://go.googlesource.com/crypto;name=3Dcrypto;protocol=3D=
-https;nobranch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendor.fetch/golang=
-.org/x/crypto"
->
->  #       golang.org/x/oauth2 v0.11.0
->  # [1] git ls-remote https://go.googlesource.com/oauth2 2e4a4e2bfb69ca760=
-9cb423438c55caa131431c1
->  SRCREV_oauth2=3D"2e4a4e2bfb69ca7609cb423438c55caa131431c1"
-> -SRC_URI +=3D "git://go.googlesource.com/oauth2;name=3Doauth2;protocol=3D=
-https;nobranch=3D1;destsuffix=3D${WORKDIR}/${BP}/src/import/vendor.fetch/go=
-lang.org/x/oauth2"
-> +SRC_URI +=3D "git://go.googlesource.com/oauth2;name=3Doauth2;protocol=3D=
-https;nobranch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendor.fetch/golang=
-.org/x/oauth2"
->
->  #       k8s.io/apimachinery v0.29.2
->  # [1] git ls-remote https://github.com/kubernetes/apimachinery dc7e034c8=
-6479d49be4b0eefad307621e10caa0e
->  SRCREV_apimachinery=3D"dc7e034c86479d49be4b0eefad307621e10caa0e"
-> -SRC_URI +=3D "git://github.com/kubernetes/apimachinery;name=3Dapimachine=
-ry;protocol=3Dhttps;nobranch=3D1;destsuffix=3D${WORKDIR}/${BP}/src/import/v=
-endor.fetch/k8s.io/apimachinery"
-> +SRC_URI +=3D "git://github.com/kubernetes/apimachinery;name=3Dapimachine=
-ry;protocol=3Dhttps;nobranch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendo=
-r.fetch/k8s.io/apimachinery"
->
->  #       k8s.io/kube-openapi v0.0.0-20231010175941-2dd684a91f00
->  # [1] git ls-remote https://github.com/kubernetes/kube-openapi 2dd684a91=
-f00351087fe2f4ed5408d4d2f3775ab
->  SRCREV_kube-openapi=3D"2dd684a91f00351087fe2f4ed5408d4d2f3775ab"
-> -SRC_URI +=3D "git://github.com/kubernetes/kube-openapi;name=3Dkube-opena=
-pi;protocol=3Dhttps;nobranch=3D1;destsuffix=3D${WORKDIR}/${BP}/src/import/v=
-endor.fetch/k8s.io/kube-openapi"
-> +SRC_URI +=3D "git://github.com/kubernetes/kube-openapi;name=3Dkube-opena=
-pi;protocol=3Dhttps;nobranch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendo=
-r.fetch/k8s.io/kube-openapi"
->
->  #       github.com/moby/term v0.5.0
->  # [1] git ls-remote https://github.com/moby/term 9c3c875fad924eb6c9dd32a=
-361b5fc0a49a4feb9
->  SRCREV_term=3D"9c3c875fad924eb6c9dd32a361b5fc0a49a4feb9"
-> -SRC_URI +=3D "git://github.com/moby/term;name=3Dterm;protocol=3Dhttps;no=
-branch=3D1;destsuffix=3D${WORKDIR}/${BP}/src/import/vendor.fetch/github.com=
-/moby/term"
-> +SRC_URI +=3D "git://github.com/moby/term;name=3Dterm;protocol=3Dhttps;no=
-branch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendor.fetch/github.com/mob=
-y/term"
->
->  #       github.com/docker/go v1.5.1-1.0.20160303222718-d30aec9fd63c
->  # [1] git ls-remote https://github.com/docker/go d30aec9fd63c35133f8f79c=
-3412ad91a3b08be06
->  SRCREV_go=3D"d30aec9fd63c35133f8f79c3412ad91a3b08be06"
-> -SRC_URI +=3D "git://github.com/docker/go;name=3Dgo;protocol=3Dhttps;nobr=
-anch=3D1;destsuffix=3D${WORKDIR}/${BP}/src/import/vendor.fetch/github.com/d=
-ocker/go"
-> +SRC_URI +=3D "git://github.com/docker/go;name=3Dgo;protocol=3Dhttps;nobr=
-anch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendor.fetch/github.com/docke=
-r/go"
->
->  #       github.com/docker/cli v26.0.0+incompatible
->  # [1] git ls-remote https://github.com/docker/cli 2ae903e86cab51f694c819=
-721cdfdf5eec693720
->  SRCREV_cli=3D"2ae903e86cab51f694c819721cdfdf5eec693720"
-> -SRC_URI +=3D "git://github.com/docker/cli;name=3Dcli;protocol=3Dhttps;no=
-branch=3D1;destsuffix=3D${WORKDIR}/${BP}/src/import/vendor.fetch/github.com=
-/docker/cli"
-> +SRC_URI +=3D "git://github.com/docker/cli;name=3Dcli;protocol=3Dhttps;no=
-branch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendor.fetch/github.com/doc=
-ker/cli"
->
->  #       github.com/r3labs/sse v0.0.0-20210224172625-26fe804710bc
->  # [1] git ls-remote https://github.com/r3labs/sse 26fe804710bc39ea7ea663=
-6d36f27c438bd2c06f
->  SRCREV_sse=3D"26fe804710bc39ea7ea6636d36f27c438bd2c06f"
-> -SRC_URI +=3D "git://github.com/r3labs/sse;name=3Dsse;protocol=3Dhttps;no=
-branch=3D1;destsuffix=3D${WORKDIR}/${BP}/src/import/vendor.fetch/github.com=
-/r3labs/sse"
-> +SRC_URI +=3D "git://github.com/r3labs/sse;name=3Dsse;protocol=3Dhttps;no=
-branch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendor.fetch/github.com/r3l=
-abs/sse"
->
->  #       github.com/mgutz/ansi v0.0.0-20170206155736-9520e82c474b
->  # [1] git ls-remote https://github.com/mgutz/ansi 9520e82c474b0a04dd04f8=
-a40959027271bab992
->  SRCREV_ansi=3D"9520e82c474b0a04dd04f8a40959027271bab992"
-> -SRC_URI +=3D "git://github.com/mgutz/ansi;name=3Dansi;protocol=3Dhttps;n=
-obranch=3D1;destsuffix=3D${WORKDIR}/${BP}/src/import/vendor.fetch/github.co=
-m/mgutz/ansi"
-> +SRC_URI +=3D "git://github.com/mgutz/ansi;name=3Dansi;protocol=3Dhttps;n=
-obranch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendor.fetch/github.com/mg=
-utz/ansi"
->
->  #       github.com/pkg/errors v0.9.1
->  # [1] git ls-remote https://github.com/pkg/errors 614d223910a179a466c176=
-7a985424175c39b465
->  SRCREV_errors=3D"614d223910a179a466c1767a985424175c39b465"
-> -SRC_URI +=3D "git://github.com/pkg/errors;name=3Derrors;protocol=3Dhttps=
-;nobranch=3D1;destsuffix=3D${WORKDIR}/${BP}/src/import/vendor.fetch/github.=
-com/pkg/errors"
-> +SRC_URI +=3D "git://github.com/pkg/errors;name=3Derrors;protocol=3Dhttps=
-;nobranch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendor.fetch/github.com/=
-pkg/errors"
->
->  #       github.com/spf13/cobra v1.8.0
->  # [1] git ls-remote https://github.com/spf13/cobra a0a6ae020bb3899ff0276=
-067863e50523f897370
->  SRCREV_cobra=3D"a0a6ae020bb3899ff0276067863e50523f897370"
-> -SRC_URI +=3D "git://github.com/spf13/cobra;name=3Dcobra;protocol=3Dhttps=
-;nobranch=3D1;destsuffix=3D${WORKDIR}/${BP}/src/import/vendor.fetch/github.=
-com/spf13/cobra"
-> +SRC_URI +=3D "git://github.com/spf13/cobra;name=3Dcobra;protocol=3Dhttps=
-;nobranch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendor.fetch/github.com/=
-spf13/cobra"
->
->  #       github.com/spf13/pflag v1.0.5
->  # [1] git ls-remote https://github.com/spf13/pflag 2e9d26c8c37aae03e3f9d=
-4e90b7116f5accb7cab
->  SRCREV_pflag=3D"2e9d26c8c37aae03e3f9d4e90b7116f5accb7cab"
-> -SRC_URI +=3D "git://github.com/spf13/pflag;name=3Dpflag;protocol=3Dhttps=
-;nobranch=3D1;destsuffix=3D${WORKDIR}/${BP}/src/import/vendor.fetch/github.=
-com/spf13/pflag"
-> +SRC_URI +=3D "git://github.com/spf13/pflag;name=3Dpflag;protocol=3Dhttps=
-;nobranch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendor.fetch/github.com/=
-spf13/pflag"
->
->  #       google.golang.org/grpc v1.59.0
->  # [1] git ls-remote https://github.com/grpc/grpc-go 7765221f4bf6104973db=
-7946d56936cf838cad46
->  SRCREV_grpc=3D"7765221f4bf6104973db7946d56936cf838cad46"
-> -SRC_URI +=3D "git://
-
 
 
 --=20
