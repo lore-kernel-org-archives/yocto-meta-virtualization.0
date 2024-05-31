@@ -1,94 +1,206 @@
-Return-Path: <marcus.flyckt@gmail.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62D98C27C44
-	for <webhook@archiver.kernel.org>; Fri, 31 May 2024 09:13:24 +0000 (UTC)
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
- by mx.groups.io with SMTP id smtpd.web11.7394.1717146801904036993
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2542FC25B75
+	for <webhook@archiver.kernel.org>; Fri, 31 May 2024 15:03:57 +0000 (UTC)
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
+ by mx.groups.io with SMTP id smtpd.web10.14831.1717167830206738446
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 31 May 2024 02:13:22 -0700
+ Fri, 31 May 2024 08:03:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=D0Ov78py;
- spf=pass (domain: gmail.com, ip: 209.85.208.172, mailfrom: marcus.flyckt@gmail.com)
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2e95a74d51fso27397081fa.2
-        for <meta-virtualization@lists.yoctoproject.org>; Fri, 31 May 2024 02:13:21 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=f8QSeG1v;
+ spf=pass (domain: gmail.com, ip: 209.85.219.49, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-6ae0c4d23ddso10701986d6.0
+        for <meta-virtualization@lists.yoctoproject.org>; Fri, 31 May 2024 08:03:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717146800; x=1717751600; darn=lists.yoctoproject.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=nhd4hs9vlvqJLqVo1gioPVSRfEL7kcYTCD9KEwhPdZY=;
-        b=D0Ov78pygpDUtZy/JtXWh/C4mj/b6kA6A/lTEtB5kb5ct8+ATjxEUL2g8DgfwSrQTb
-         DWj7286DDPWeU9T/MRfJPBeH/Koq6lMwO5xgU1ZkhuPlTibOP7n76xCfZWFBf8OBDRrJ
-         gectRIVKMX/vmaYfkQQGCdC+T95YiL2sP5HXfYCngOulVrh0wZrFXIFSZeIPeKXanQku
-         gKIlJ88ce1dGW00u7W9qEPz6+RmgjcWbh0vv7xTMvj3qHX8r+JRfU0YqVrk4jUJxsdJj
-         R2Gam3BcqQpM7KTkku4c+Q/+zwH1GovSaiNRHRH9xvyb4kc/kQ4KCeNNHtVtDBrgvfQl
-         Icsg==
+        d=gmail.com; s=20230601; t=1717167829; x=1717772629; darn=lists.yoctoproject.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=hz1QscDy2Du/A7TKa4lIAviL2FL/U+t7DE+82vxz1JQ=;
+        b=f8QSeG1vVub69jajlCwbNSq8aYKw/FFtOGcuoJ7CndtFqStIBd1QngZztQB4SPK5dj
+         ChTOe0mOHOicNMgNgTIH64hYTQa+Krs5YrbPfWO9vzA20MQVc5P6r1x/aDd+UjdeERPQ
+         X36v3vKB3YKXNre0gleuRLU2DnV28hrkqTOCPnAEcA/0xo8GBxyYQdxlvsK5mZTWQemK
+         UWUE0kJYjFrgPU6FWINKifdHOavwUqd4rSUnaow9VdbjChZ5penWfCMvJ83ouX+9pkXY
+         LeV5uRFfVwStSCITUuh+sLLTg9Fu7o6TyD70vQxxaHlISND4KbS41OfjMtItMBX4J1iy
+         xaWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717146800; x=1717751600;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=nhd4hs9vlvqJLqVo1gioPVSRfEL7kcYTCD9KEwhPdZY=;
-        b=D5iTLk6X2yhK5W04HBOFjYiR2iFFtdymMauBZqqWdBeLqRgQvlHax99VhUSiZiarIX
-         rgWUSug9250Gps2B1DkXW1MY+UbmGHmfBic2iqk5rZnibvooMVb0e2e/4R7RPJBvC5Md
-         X2hpAEjeLMVYdlWzaTRwrS4zRQ3SyyrDfHGb+hUCbh415Is/JeupW3KaqouID8CMNogo
-         XpKJXwcew5q5WguH82DGcx4LUpiptkRDGOflgNNuDCLaJcq6JPB202Zi9AZGry1M2cer
-         Nj5kG4upENZyCzWJgTGNyNa/sj1oC/V9QCpfs/adNa/HmJKW6nkkS/anvYtzarUmhz1m
-         KweQ==
-X-Gm-Message-State: AOJu0YyzsDwGUCLCnWPs0OX61gdsklQSD31hq8DcTw2s89Na+iY7MDC4
-	//LKcwqfeWzwVlT4q+cdc3Myhnl0LKrYRhduZnhC4bbXRNOihSS0xCg8CQ==
-X-Google-Smtp-Source: AGHT+IEKutti9bZ6q3gIMczy7ufSbtZ9/dwRw7egfKOOnKNEq2jIkveEP5VzzXC1LT50rWhQMNZ0UA==
-X-Received: by 2002:a2e:b6ce:0:b0:2e5:566:c752 with SMTP id 38308e7fff4ca-2ea951f5d74mr11467651fa.48.1717146799324;
-        Fri, 31 May 2024 02:13:19 -0700 (PDT)
-Received: from Flyckt-Ubuntu.kvaser.se (83-233-138-78.cust.bredband2.com. [83.233.138.78])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2ea91cc6401sm2397011fa.96.2024.05.31.02.13.18
+        d=1e100.net; s=20230601; t=1717167829; x=1717772629;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hz1QscDy2Du/A7TKa4lIAviL2FL/U+t7DE+82vxz1JQ=;
+        b=F4TOYJPznM2QQ+1R5M0XVvRCS14/b6vtJBOZkmtw/xga8YpsSlUjJ1FA34+niBfpy+
+         3WOH2mmSUf31U9PovxXS9I2WLU4sVlO7QH6Kg8zMSFAY59MnykFR+FAT1Rv+CC3d4N4q
+         KXwd2MHp7PjkUnJnKE+6xqCRRLffby2MsdSyU5fBgkaRHFsaeBb8ZClG7ziPPcq+yg71
+         N/jfXcrjCBwlvA+CTkIaV1U8FbW6u5FaNTyOIcN7UTStPUb3XPLZb/1NF18EeO8v9sTU
+         y+0mGjfCgXSj8LW9doI/wDZFTzvOlJ5l2W3Wo/FcfOTPtUktbRDwpsWIMKXo/Uued4c9
+         1zrw==
+X-Gm-Message-State: AOJu0Yw2K4xQtlvKjtGsL2EXM1uQjxC0xznekfXVyxizmSmn2asYKrdt
+	jDApfvE/mUDc3381kmTVGAZB+FvaevghCeuVJRlCG1iLOLAy1rTj
+X-Google-Smtp-Source: AGHT+IFL+K//MaI4htS+0K0oBoi9yGZKh8HjEf+7OCzbaiv4MGtPkdPrp1L5jbccPe9ssG1KCL2y1w==
+X-Received: by 2002:a0c:c787:0:b0:6ae:d35c:5464 with SMTP id 6a1803df08f44-6aed35c54c4mr17087656d6.10.1717167829083;
+        Fri, 31 May 2024 08:03:49 -0700 (PDT)
+Received: from gmail.com (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6ae4b4195f7sm7006516d6.126.2024.05.31.08.03.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 31 May 2024 02:13:19 -0700 (PDT)
-From: Marcus Flyckt <marcus.flyckt@gmail.com>
-X-Google-Original-From: Marcus Flyckt <mafl@kvaser.com>
-To: meta-virtualization@lists.yoctoproject.org
-Cc: Marcus Flyckt <mafl@kvaser.com>
-Subject: [meta-virtualization][PATCH] podman: Use slirp4netns instead of pasta
-Date: Fri, 31 May 2024 11:13:16 +0200
-Message-ID: <20240531091316.339912-1-mafl@kvaser.com>
-X-Mailer: git-send-email 2.43.0
+        Fri, 31 May 2024 08:03:48 -0700 (PDT)
+Date: Fri, 31 May 2024 15:03:46 +0000
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: martin.jansa@gmail.com
+Cc: meta-virtualization@lists.yoctoproject.org,
+	Hieu Van Nguyen <hieu2.nguyen@lge.com>
+Subject: Re: [meta-virtualization] [master-next][PATCH v2] libvirt: convert
+ more WORKDIR references to UNPACKDIR
+Message-ID: <Zlnm0uHVibnTPKLZ@gmail.com>
+References: <20240530142845.1822812-1-martin.jansa@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240530142845.1822812-1-martin.jansa@gmail.com>
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Fri, 31 May 2024 09:13:24 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8789
+ <meta-virtualization@lists.yoctoproject.org>; Fri, 31 May 2024 15:03:57 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8790
 
-podman uses pasta as the default rootless network command since 5.0.0,
-but only slirp4netns is available when building for Yocto.
+In message: [meta-virtualization] [master-next][PATCH v2] libvirt: convert more WORKDIR references to UNPACKDIR
+on 30/05/2024 Martin Jansa via lists.yoctoproject.org wrote:
 
-This commit adds a containers.conf file setting slirp4netns as default
-rootless command if 'rootless' is set in PACKAGECONFIG
+> From: Hieu Van Nguyen <hieu2.nguyen@lge.com>
+> 
+> unpacked source files are now in UNPACKDIR, so we adjust our
+> operations to match.
+> 
+> Some references were missed in previous commit as they
+> are behind conditional.
+> 
+> Use BP subdir for python, to build it inside ${S}.
+> 
+> Need cd - to go back to $${B} so that gnutls-helper.py
+> is executed there instead of python subdirectory.
+> 
+> Use mix of tabs and spaces for indentation like other lines
+> around :).
 
-Signed-off-by: Marcus Flyckt <mafl@kvaser.com>
----
- recipes-containers/podman/podman_git.bb | 5 +++++
- 1 file changed, 5 insertions(+)
+It depends on the weather and day of the week whether
+spaces or tabs are used!
 
-diff --git a/recipes-containers/podman/podman_git.bb b/recipes-containers/podman/podman_git.bb
-index 32de3f0c..b8e90406 100644
---- a/recipes-containers/podman/podman_git.bb
-+++ b/recipes-containers/podman/podman_git.bb
-@@ -117,6 +117,11 @@ do_install() {
- 	if ${@bb.utils.contains('PACKAGECONFIG', 'rootless', 'true', 'false', d)}; then
- 		install -d "${D}${sysconfdir}/sysctl.d"
- 		install -m 0644 "${WORKDIR}/50-podman-rootless.conf" "${D}${sysconfdir}/sysctl.d"
-+		install -d "${D}${sysconfdir}/containers"
-+		cat <<-EOF >> "${D}${sysconfdir}/containers/containers.conf"
-+		[NETWORK]
-+		default_rootless_network_cmd="slirp4netns"
-+		EOF
- 	fi
- }
- 
--- 
-2.43.0
+> 
+> Signed-off-by: Hieu Van Nguyen <hieu2.nguyen@lge.com>
+> Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
+> ---
+>  recipes-extended/libvirt/libvirt-python.inc |  8 +++++---
+>  recipes-extended/libvirt/libvirt_10.0.0.bb  | 21 ++++++++++-----------
+>  2 files changed, 15 insertions(+), 14 deletions(-)
+> 
+> diff --git a/recipes-extended/libvirt/libvirt-python.inc b/recipes-extended/libvirt/libvirt-python.inc
+> index 6fb2b68c..40c362d6 100644
+> --- a/recipes-extended/libvirt/libvirt-python.inc
+> +++ b/recipes-extended/libvirt/libvirt-python.inc
+> @@ -18,7 +18,7 @@ FILES:${PN}-python = "${bindir}/* ${libdir}/* ${libdir}/${PYTHON_DIR}/*"
+>  # Currently the libvirt-python debug libraries contain buildpaths
+>  INSANE_SKIP:${PN}-dbg += "buildpaths"
+>  
+> -SRC_URI += "http://libvirt.org/sources/python/libvirt-python-${PV}.tar.gz;name=libvirt_python"
+> +SRC_URI += "http://libvirt.org/sources/python/${BPN}-python-${PV}.tar.gz;name=libvirt_python;subdir=${BP}"
+>  
+>  SRC_URI[libvirt_python.sha256sum] = "a82588f0e7db53eda7b7dbcbc448b0ec43e00a8c77cac69644495299b410c20d"
+>  
+> @@ -46,8 +46,9 @@ do_compile:append() {
+>  		# the syroot staged pkgconfig entries. So we clear the sysroot
+>  		# for just this portion.
+>  		export PKG_CONFIG_SYSROOT_DIR=
+> -		cd ${WORKDIR}/${BPN}-python-${PV} && \
+> +		cd ${S}/${BPN}-python-${PV} && \
+>  		  ${STAGING_BINDIR_NATIVE}/python3-native/python3 setup.py build
+> +		cd -
+
+Alternatively we could wrap this in a subshell (), which is
+what I normally do to avoid needing to change back.
+
+But that's something I can tweak after this patch if any
+issues pop up.
+
+I've got this under test now, and expect to push it shortly.
+
+Bruce
+
+>  	fi
+>  }
+>  
+> @@ -57,8 +58,9 @@ do_install:append() {
+>  		# the syroot staged pkgconfig entries. So we clear the sysroot
+>  		# for just this portion.
+>  		export PKG_CONFIG_SYSROOT_DIR=
+> -		cd ${WORKDIR}/${BPN}-python-${PV} && \
+> +		cd ${S}/${BPN}-python-${PV} && \
+>  		  ${STAGING_BINDIR_NATIVE}/python3-native/python3 setup.py install \
+>                         --install-lib=${D}/${PYTHON_SITEPACKAGES_DIR} ${LIBVIRT_INSTALL_ARGS}
+> +		cd -
+>  	fi
+>  }
+> diff --git a/recipes-extended/libvirt/libvirt_10.0.0.bb b/recipes-extended/libvirt/libvirt_10.0.0.bb
+> index 9ad1f798..8e54406a 100644
+> --- a/recipes-extended/libvirt/libvirt_10.0.0.bb
+> +++ b/recipes-extended/libvirt/libvirt_10.0.0.bb
+> @@ -24,12 +24,12 @@ RDEPENDS:libvirt-libvirtd:append:aarch64 = " dmidecode"
+>  #connman blocks the 53 port and libvirtd can't start its DNS service
+>  RCONFLICTS:${PN}_libvirtd = "connman"
+>  
+> -SRC_URI = "http://libvirt.org/sources/libvirt-${PV}.tar.xz;name=libvirt \
+> +SRC_URI = "http://libvirt.org/sources/${BP}.tar.xz;name=libvirt \
+>             file://libvirtd.sh \
+>             file://libvirtd.conf \
+>             file://dnsmasq.conf \
+>             file://hook_support.py \
+> -           file://gnutls-helper.py \
+> +           file://gnutls-helper.py;subdir=${BP} \
+>             file://0001-prevent-gendispatch.pl-generating-build-path-in-code.patch \
+>             file://0001-messon.build-remove-build-path-information-to-avoid-.patch \
+>            "
+> @@ -286,21 +286,20 @@ do_install:append() {
+>  
+>  	if ${@bb.utils.contains('PACKAGECONFIG','gnutls','true','false',d)}; then
+>  	    # Generate sample keys and certificates.
+> -	    cd ${WORKDIR}
+> -	    ${WORKDIR}/gnutls-helper.py -y
+> +	    ${S}/gnutls-helper.py -y
+>  
+>  	    # Deploy all sample keys and certificates of CA, server and client
+>  	    # to target so that libvirtd is able to boot successfully and local
+>  	    # connection via 127.0.0.1 is available out of box.
+>  	    install -d ${D}/etc/pki/CA
+>  	    install -d ${D}/etc/pki/libvirt/private
+> -            install -m 0755 ${WORKDIR}/gnutls-helper.py ${D}/${bindir}
+> -	    install -m 0644 ${WORKDIR}/cakey.pem ${D}/${sysconfdir}/pki/libvirt/private/cakey.pem
+> -	    install -m 0644 ${WORKDIR}/cacert.pem ${D}/${sysconfdir}/pki/CA/cacert.pem
+> -	    install -m 0644 ${WORKDIR}/serverkey.pem ${D}/${sysconfdir}/pki/libvirt/private/serverkey.pem
+> -	    install -m 0644 ${WORKDIR}/servercert.pem ${D}/${sysconfdir}/pki/libvirt/servercert.pem
+> -	    install -m 0644 ${WORKDIR}/clientkey.pem ${D}/${sysconfdir}/pki/libvirt/private/clientkey.pem
+> -	    install -m 0644 ${WORKDIR}/clientcert.pem ${D}/${sysconfdir}/pki/libvirt/clientcert.pem
+> +	    install -m 0755 ${S}/gnutls-helper.py ${D}/${bindir}
+> +	    install -m 0644 cakey.pem ${D}/${sysconfdir}/pki/libvirt/private/cakey.pem
+> +	    install -m 0644 cacert.pem ${D}/${sysconfdir}/pki/CA/cacert.pem
+> +	    install -m 0644 serverkey.pem ${D}/${sysconfdir}/pki/libvirt/private/serverkey.pem
+> +	    install -m 0644 servercert.pem ${D}/${sysconfdir}/pki/libvirt/servercert.pem
+> +	    install -m 0644 clientkey.pem ${D}/${sysconfdir}/pki/libvirt/private/clientkey.pem
+> +	    install -m 0644 clientcert.pem ${D}/${sysconfdir}/pki/libvirt/clientcert.pem
+>  
+>  	    # Force the connection to be tls.
+>  	    sed -i -e 's/^\(listen_tls\ =\ .*\)/#\1/' -e 's/^\(listen_tcp\ =\ .*\)/#\1/' ${D}/etc/libvirt/libvirtd.conf
+> -- 
+> 2.45.1
+> 
+
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#8788): https://lists.yoctoproject.org/g/meta-virtualization/message/8788
+> Mute This Topic: https://lists.yoctoproject.org/mt/106389420/1050810
+> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
 
