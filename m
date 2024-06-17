@@ -1,103 +1,129 @@
-Return-Path: <wangmy@fujitsu.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B119AC27C6E
-	for <webhook@archiver.kernel.org>; Mon, 17 Jun 2024 08:13:53 +0000 (UTC)
-Received: from esa8.hc1455-7.c3s2.iphmx.com (esa8.hc1455-7.c3s2.iphmx.com [139.138.61.253])
- by mx.groups.io with SMTP id smtpd.web10.51660.1718612023197195593
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FC3CC27C79
+	for <webhook@archiver.kernel.org>; Mon, 17 Jun 2024 13:10:46 +0000 (UTC)
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+ by mx.groups.io with SMTP id smtpd.web10.56377.1718629837531413950
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 17 Jun 2024 01:13:43 -0700
+ Mon, 17 Jun 2024 06:10:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=aoolWnnz;
- spf=pass (domain: fujitsu.com, ip: 139.138.61.253, mailfrom: wangmy@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1718612023; x=1750148023;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references;
-  bh=r+63g/+WyTF7yig2a+g/8Y8IE1rZcA3RXOLZSauVLeg=;
-  b=aoolWnnziGZwLOCjkSBOjgaBShF0DQIF6IRx9OSoQIuIaiFycFFtYmpZ
-   rtafX8QYi3p72k1KyF9RaVJsFhr7tQpACzN0kIKSmlKid0kvRqg7XIL8C
-   EyqHWErS7n5+XY9FdTKJa3TZhRIslES7n6OUYbuljS13iWIBzVaQico3J
-   wfF3yahL++VvbROEuo41OyR2EYN/53n0tQg5BxhE46USK6NCnwa9cGFGd
-   3DPGdIht4CCO2ZAuk0Mf08LpcmoYUlcqffrR6mD0OFFE2NWBsson5rE5p
-   FQavuhr6MNC3n/khbpMQIE3kqSXZUyG1LZuKQk8VAELERwhlO3725dP4d
-   A==;
-X-IronPort-AV: E=McAfee;i="6700,10204,11105"; a="151688916"
-X-IronPort-AV: E=Sophos;i="6.08,244,1712588400"; 
-   d="scan'208";a="151688916"
-Received: from unknown (HELO oym-r2.gw.nic.fujitsu.com) ([210.162.30.90])
-  by esa8.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2024 17:13:40 +0900
-Received: from oym-m3.gw.nic.fujitsu.com (oym-nat-oym-m3.gw.nic.fujitsu.com [192.168.87.60])
-	by oym-r2.gw.nic.fujitsu.com (Postfix) with ESMTP id CD58AD4255
-	for <meta-virtualization@lists.yoctoproject.org>; Mon, 17 Jun 2024 17:13:38 +0900 (JST)
-Received: from kws-ab4.gw.nic.fujitsu.com (kws-ab4.gw.nic.fujitsu.com [192.51.206.22])
-	by oym-m3.gw.nic.fujitsu.com (Postfix) with ESMTP id 229D7D7743
-	for <meta-virtualization@lists.yoctoproject.org>; Mon, 17 Jun 2024 17:13:38 +0900 (JST)
-Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
-	by kws-ab4.gw.nic.fujitsu.com (Postfix) with ESMTP id B433D6B5C5
-	for <meta-virtualization@lists.yoctoproject.org>; Mon, 17 Jun 2024 17:13:37 +0900 (JST)
-Received: from vm4860.g01.fujitsu.local (unknown [10.193.128.200])
-	by edo.cn.fujitsu.com (Postfix) with ESMTP id 649EC1A0002;
-	Mon, 17 Jun 2024 16:13:37 +0800 (CST)
-From: wangmy@fujitsu.com
-To: meta-virtualization@lists.yoctoproject.org
-Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [meta-virtualization] [PATCH 2/2] openvswitch: Start WORKDIR -> UNPACKDIR transition
-Date: Mon, 17 Jun 2024 16:13:19 +0800
-Message-Id: <1718611999-8852-3-git-send-email-wangmy@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1718611999-8852-1-git-send-email-wangmy@fujitsu.com>
-References: <1718611999-8852-1-git-send-email-wangmy@fujitsu.com>
-X-TM-AS-GCONF: 00
-X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-28458.006
-X-TM-AS-User-Approved-Sender: Yes
-X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-28458.006
-X-TMASE-Result: 10--1.836700-10.000000
-X-TMASE-MatchedRID: lS1RyDVQvTVAJjQFQUSfYfLeH1FBnhK0wTlc9CcHMZerwqxtE531VOgV
-	4TkxLE0x4vM1YF6AJbbCCfuIMF6xLSdET58jp62S708WhkTVVVt8uaclutQybwIHbd5wlOF4Hd8
-	h36kvwL23Poq03wufQ/zcp6W50h5BUaJq5wh2+yS0OinDc6QY3oTcajesOJbHS7+RMq/2CK6rA4
-	c7UV2fQpvi2PQO/FFQiz2ujrPVx9yEIU1NtMkm0Q==
-X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=ORLwo436;
+ spf=pass (domain: gmail.com, ip: 209.85.216.42, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-2c1a4192d55so3486304a91.2
+        for <meta-virtualization@lists.yoctoproject.org>; Mon, 17 Jun 2024 06:10:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1718629837; x=1719234637; darn=lists.yoctoproject.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oAT9piTauzTv5vCaw494P9tqNQx5pybHl0AIfkKCYHs=;
+        b=ORLwo436RcnmTmaezqAE1VcmzxRTQLVG4+I9IddnpEUhNDoxxlieEMh+47XYIzWBsK
+         nMPwCw8AKyzUm1gDzZSGHq6TiJ3shma+eNr4dtllbGs8j45w0AsdIdF+1oJbkJ/WpfZP
+         T+dLe+x+L75eWmwRur2A3ZNeZyzuraVAcvti4KiNZXQau1TIkuwYqTyr6fyDMiv5bF/U
+         UOFArheIoHLGfKc8LJ//yItdkPrYp8pmRnA4ObkpZzd+O9aaqn69xYg6xM1Eo+McqK1M
+         Hu0s55XM+0JrzW9VR2XxjeAM4ns13zc4POz/T/vNDQIhBtW5nVvooP6SuBnIuawTU5Hz
+         ez+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718629837; x=1719234637;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=oAT9piTauzTv5vCaw494P9tqNQx5pybHl0AIfkKCYHs=;
+        b=jfDo4Y3djjd5P8Z64vLzhyZe59Avpa9vmBklBxtrZRyJSZmEyI4Gr2qjHSLw9Iyhah
+         dE7acmwlxhVTUuLL5SiEU3hyIoK+yZ+3YInLbeyoXDomxn1ST61LoTFWun0M9TjRuztK
+         BmdDEWwwb52BWFpmishmix4d+WBiGohTbvGVtzB0mmEYP7Qxn++g4JPiujktU1+s4uNm
+         mxWZJTjHDgFbs5yKA/4SVDS9dYf7ElKqqbUq03IvcQ7RZHzK1HXDsUNaUDPLM7KVkVrS
+         kMBe/iXkS+tU1ks544viXWaamVSNoSb1aXRFjD5AkAJjut9SUKmzUHy3ZCwOSP5B+uo5
+         dTIg==
+X-Gm-Message-State: AOJu0YzwuunBE0PlAgW5wBInLN9tFXC30rhm/ZlzkMKUQmFMKQyau1Os
+	V6oHwDWshmm5xZEw5itQizVl7dJjB4ZafjsU3s59Rezv9q21NEm7ohijlzA4GCvCpV87ALUQt+/
+	P8JWDYNPt5rfboEC6bz0+Od3Luuc=
+X-Google-Smtp-Source: AGHT+IFVhpr6UKynbDeHpEiiVE8XpMZ6sdDwYAcxcdyyAZNmMp2mjyLPZ4IGCXD7i6bXGoNAk3kgupl1t77iWKARgUM=
+X-Received: by 2002:a17:90a:8a85:b0:2c3:11fa:41f with SMTP id
+ 98e67ed59e1d1-2c4dc028a08mr8372403a91.45.1718629836798; Mon, 17 Jun 2024
+ 06:10:36 -0700 (PDT)
+MIME-Version: 1.0
+References: <1718611999-8852-1-git-send-email-wangmy@fujitsu.com> <1718611999-8852-2-git-send-email-wangmy@fujitsu.com>
+In-Reply-To: <1718611999-8852-2-git-send-email-wangmy@fujitsu.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Mon, 17 Jun 2024 09:10:24 -0400
+Message-ID: <CADkTA4OXBvhJ-_VQ7=OKC9+hmiYo958v+sWOJgDbMJ1oN0FOpQ@mail.gmail.com>
+Subject: Re: [meta-virtualization] [PATCH 1/2] lxc: Start WORKDIR -> UNPACKDIR transition
+To: wangmy@fujitsu.com
+Cc: meta-virtualization@lists.yoctoproject.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Mon, 17 Jun 2024 08:13:53 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8800
+ <meta-virtualization@lists.yoctoproject.org>; Mon, 17 Jun 2024 13:10:46 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8801
 
-From: Wang Mingyu <wangmy@fujitsu.com>
+Double check your tree.
 
-Replace references of WORKDIR with UNPACKDIR where it makes sense to do so in preparation for changing the default value of UNPACKDIR.
+These conversions have been done some time ago.
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
----
- recipes-networking/openvswitch/openvswitch.inc | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Bruce
 
-diff --git a/recipes-networking/openvswitch/openvswitch.inc b/recipes-networking/openvswitch/openvswitch.inc
-index 767a41e6..a792a903 100644
---- a/recipes-networking/openvswitch/openvswitch.inc
-+++ b/recipes-networking/openvswitch/openvswitch.inc
-@@ -104,13 +104,13 @@ do_install:prepend() {
- 
- do_install:append() {
- 	install -d ${D}/${sysconfdir}/default/
--	install -m 660 ${WORKDIR}/openvswitch-switch-setup ${D}/${sysconfdir}/default/openvswitch-switch
-+	install -m 660 ${UNPACKDIR}/openvswitch-switch-setup ${D}/${sysconfdir}/default/openvswitch-switch
- 	install -d ${D}/${sysconfdir}/openvswitch-testcontroller
--	install -m 660 ${WORKDIR}/openvswitch-testcontroller-setup ${D}/${sysconfdir}/default/openvswitch-testcontroller
-+	install -m 660 ${UNPACKDIR}/openvswitch-testcontroller-setup ${D}/${sysconfdir}/default/openvswitch-testcontroller
- 
- 	install -d ${D}/${sysconfdir}/init.d/
--	install -m 755 ${WORKDIR}/openvswitch-testcontroller ${D}/${sysconfdir}/init.d/openvswitch-testcontroller
--	install -m 755 ${WORKDIR}/openvswitch-switch ${D}/${sysconfdir}/init.d/openvswitch-switch
-+	install -m 755 ${UNPACKDIR}/openvswitch-testcontroller ${D}/${sysconfdir}/init.d/openvswitch-testcontroller
-+	install -m 755 ${UNPACKDIR}/openvswitch-switch ${D}/${sysconfdir}/init.d/openvswitch-switch
- 	true || rm -fr ${D}/${datadir}/${PN}/pki
- 
- 	install -d ${D}/${sysconfdir}/sysconfig
--- 
-2.34.1
+On Mon, Jun 17, 2024 at 4:13=E2=80=AFAM wangmy via lists.yoctoproject.org
+<wangmy=3Dfujitsu.com@lists.yoctoproject.org> wrote:
+>
+> From: Wang Mingyu <wangmy@fujitsu.com>
+>
+> Replace references of WORKDIR with UNPACKDIR where it makes sense to do s=
+o in preparation for changing the default value of UNPACKDIR.
+>
+> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+> ---
+>  recipes-containers/lxc/lxc_git.bb | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/recipes-containers/lxc/lxc_git.bb b/recipes-containers/lxc/l=
+xc_git.bb
+> index ee0e442f..550f910e 100644
+> --- a/recipes-containers/lxc/lxc_git.bb
+> +++ b/recipes-containers/lxc/lxc_git.bb
+> @@ -161,12 +161,12 @@ do_install:append() {
+>         # /etc/default/lxc sources lxc-net, this allows lxc bridge when l=
+xc-networking
+>         # is not installed this results in no lxcbr0, but when lxc-networ=
+king is installed
+>         # lxcbr0 will be fully configured.
+> -       install -m 644 ${WORKDIR}/lxc-net ${D}${sysconfdir}/default/
+> +       install -m 644 ${UNPACKDIR}/lxc-net ${D}${sysconfdir}/default/
+>
+>         # Force the main dnsmasq instance to bind only to specified inter=
+faces and
+>         # to not bind to virbr0. Libvirt will run its own instance on thi=
+s interface.
+>         install -d ${D}/${sysconfdir}/dnsmasq.d
+> -       install -m 644 ${WORKDIR}/dnsmasq.conf ${D}/${sysconfdir}/dnsmasq=
+.d/lxc
+> +       install -m 644 ${UNPACKDIR}/dnsmasq.conf ${D}/${sysconfdir}/dnsma=
+sq.d/lxc
+>  }
+>
+>  EXTRA_OEMAKE +=3D "TEST_DIR=3D${D}${PTEST_PATH}/src/tests"
+> --
+> 2.34.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#8799): https://lists.yoctoproject.org/g/meta-virtuali=
+zation/message/8799
+> Mute This Topic: https://lists.yoctoproject.org/mt/106717040/1050810
+> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [=
+bruce.ashfield@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
+
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
