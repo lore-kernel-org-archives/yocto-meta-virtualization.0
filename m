@@ -2,54 +2,54 @@ Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC77FC3064D
-	for <webhook@archiver.kernel.org>; Wed, 26 Jun 2024 05:51:37 +0000 (UTC)
-Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com [209.85.219.169])
- by mx.groups.io with SMTP id smtpd.web11.18718.1719381092321595806
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C912C27C4F
+	for <webhook@archiver.kernel.org>; Wed, 26 Jun 2024 05:53:48 +0000 (UTC)
+Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com [209.85.219.182])
+ by mx.groups.io with SMTP id smtpd.web10.18664.1719381226287732611
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 25 Jun 2024 22:51:32 -0700
+ Tue, 25 Jun 2024 22:53:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=AWMtED68;
- spf=pass (domain: mvista.com, ip: 209.85.219.169, mailfrom: hprajapati@mvista.com)
-Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-dfe81d54db9so5918382276.2
-        for <meta-virtualization@lists.yoctoproject.org>; Tue, 25 Jun 2024 22:51:32 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=ie79dcb4;
+ spf=pass (domain: mvista.com, ip: 209.85.219.182, mailfrom: hprajapati@mvista.com)
+Received: by mail-yb1-f182.google.com with SMTP id 3f1490d57ef6-dfdb6122992so5806258276.3
+        for <meta-virtualization@lists.yoctoproject.org>; Tue, 25 Jun 2024 22:53:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1719381091; x=1719985891; darn=lists.yoctoproject.org;
+        d=mvista.com; s=google; t=1719381225; x=1719986025; darn=lists.yoctoproject.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
         bh=AJy1N0IKi2tvxCIyoItJGnSu9UP7ttEEY+U7jEqAxko=;
-        b=AWMtED684sm1Fyd7Y6Z0yRy/a1/m2QrHisqh8m9WzsJ78fNksFAI9rLyNoXLHl01Zw
-         M+n+WrGDTga8Ynua7Nb5M4Jf9sL+zATnAyP95PPIUxJvHYsBPDz569O5orAMmE/Geuns
-         1WdUXX2aiznTHJ3PJZoiICRFTjU/xWeDmYzrk=
+        b=ie79dcb4mbnX416G5KK6VMAYDy1dd4gwQyKgwfveuHPXKW63ilc4pTKDynp6btr92X
+         Xb5rzJ57GLbcrrhQUGHTO5JJNVvQirS1i42E3TF5A76qWn1aN9NfMyQbGqgTbpqJ8MGT
+         kWLAgtYwcEfQxCrNnyck/hCrUiuYQa1sIWMqc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719381091; x=1719985891;
+        d=1e100.net; s=20230601; t=1719381225; x=1719986025;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
         bh=AJy1N0IKi2tvxCIyoItJGnSu9UP7ttEEY+U7jEqAxko=;
-        b=Rq9Q+mwJt5f7DnNPI8XU0jmVnB3N9dg+NI0twE0xQBAQhYZ+hkF+xfSvomEnD8+4Qy
-         rlnfqAJ3tHBRy4PPE5xvJ2aSY8MmHuT/fEDgrkGmqg4lOUoDd3yIjrovPifwhma0hjVs
-         nZDqQxUXENq9pm3UCubFDU836k4oeiAkd4QDmhmJJeg8nKAIHXLvPXQL6EHy4h/pLTI0
-         vhjnq9Uj3Ebxuop1Jjz0gdL+3QAeTJpl8RCXy+lihG7ZYRVPtsdm/fqOZY28b7mRnwUi
-         TBwtlGz8co/wIlqnLDxN2QQG//glShXAy1kaEaYycjohh/lsDpaX7dZz11C8hGho/l+2
-         vkNQ==
-X-Gm-Message-State: AOJu0Yzcj5LMETS9TC+q90Cg7tbje49QVRlIYUHDxh2MUOt8MMH4pqTr
-	YAN35z0/RlB0ybS48Ij7Scqjn84SovRSZWB6TEFrb3geEMkGrqUzffDyK+JLPRL4v4T5u5CASk/
-	8
-X-Google-Smtp-Source: AGHT+IFxVya7m6+kzftUed0861FWZJz7RwTFwvdXNbWyv3S4zMqF/E7cLqJC/r+/CpkHN3utZWcjSw==
-X-Received: by 2002:a25:a126:0:b0:e02:a265:34b4 with SMTP id 3f1490d57ef6-e0300f88cfamr9982780276.16.1719381090997;
-        Tue, 25 Jun 2024 22:51:30 -0700 (PDT)
+        b=aEC87/TEZEv7/5KRIXAm3dk6jbCRFQuJYjLufposkLPSXU2GXTPLjKhA7Yt6C4YJJw
+         qpQkbnL+OjL3F5Js6Lr64WBwawBgQuhW7DXhTP7R2CKFtH5tExZuqd+lf4NnkRgFRRdh
+         lqM0RnzR3zL+62zME4CcvbZC1Lxry9PxeK6gXE2ODA32EoufULb26ZBPezKdiS6yu5As
+         CvuO4BAHprKa7qGG3CcuYQFcQFYmmFgrIqIzOqwpAGjYIzjgjYfuZvLWxdGoXiZ4+mO5
+         MxhD+e8GlyPA4BUjioifHI3vGH5HhyAUZQxtfxGLgZfZsqOEwgZZ0TvPUWNw9WEixC6w
+         5hBg==
+X-Gm-Message-State: AOJu0YzqdVOJCy1YecdmyUTSDtURO+lJHlGFIKmreE8KX6vMsGXZODua
+	eLruq4K6IpzUMALhZAqgUq26ffPJ7iMmC2wgVk8GxeQsxThowKpHgDD15S7n3UBpO0YyeHvoh2g
+	U
+X-Google-Smtp-Source: AGHT+IFBxnWfYIsTjy+M8OFLf+veEq4de/mnskKD+SwRu3PtUSx6g3cnMsbwidI66CNvKgioSg5AFQ==
+X-Received: by 2002:a5b:f90:0:b0:dfe:fac8:b890 with SMTP id 3f1490d57ef6-e0300fcee40mr9703355276.28.1719381225191;
+        Tue, 25 Jun 2024 22:53:45 -0700 (PDT)
 Received: from MVIN00016.mvista.com ([43.249.234.181])
-        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e02e62633d7sm4198839276.29.2024.06.25.22.51.27
+        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e02e65dc0e3sm4352084276.53.2024.06.25.22.53.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Jun 2024 22:51:30 -0700 (PDT)
+        Tue, 25 Jun 2024 22:53:44 -0700 (PDT)
 From: Hitendra Prajapati <hprajapati@mvista.com>
 To: meta-virtualization@lists.yoctoproject.org
 Cc: bruce.ashfield@gmail.com,
 	Hitendra Prajapati <hprajapati@mvista.com>
 Subject: [PATCH] libvirt: fix multiple CVEs
-Date: Wed, 26 Jun 2024 11:21:19 +0530
-Message-Id: <20240626055119.88885-1-hprajapati@mvista.com>
+Date: Wed, 26 Jun 2024 11:23:34 +0530
+Message-Id: <20240626055334.88951-1-hprajapati@mvista.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -57,8 +57,8 @@ Content-Transfer-Encoding: 8bit
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Wed, 26 Jun 2024 05:51:37 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8813
+ <meta-virtualization@lists.yoctoproject.org>; Wed, 26 Jun 2024 05:53:48 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8814
 
 Backport fixes for:
 
