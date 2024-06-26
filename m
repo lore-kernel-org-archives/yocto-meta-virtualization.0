@@ -1,191 +1,491 @@
-Return-Path: <mingli.yu@eng.windriver.com>
+Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67149C27C4F
-	for <webhook@archiver.kernel.org>; Wed, 26 Jun 2024 03:24:47 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.16692.1719372279717586112
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC77FC3064D
+	for <webhook@archiver.kernel.org>; Wed, 26 Jun 2024 05:51:37 +0000 (UTC)
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com [209.85.219.169])
+ by mx.groups.io with SMTP id smtpd.web11.18718.1719381092321595806
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 25 Jun 2024 20:24:39 -0700
+ Tue, 25 Jun 2024 22:51:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=6907085cc7=mingli.yu@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45Q0ONYq016608
-	for <meta-virtualization@lists.yoctoproject.org>; Tue, 25 Jun 2024 20:24:39 -0700
-Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2168.outbound.protection.outlook.com [104.47.57.168])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3ywx4fu7f9-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <meta-virtualization@lists.yoctoproject.org>; Tue, 25 Jun 2024 20:24:39 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MFKWmeofmAONb4Arj1KhrKYsZMl/cGSnCGIdhG5au+Bo2bhNjZUeL5pq9CuMBCsg14j/FBuWwebjgSjkJCQ5y2zAAec/rMjEiXFLdvw7ZAXChlsHgndtmQ+tEMt96FZfIG26pYWGkbi3FX8TupFIL1RE03XwCa0Wqf+77s/w8R8AzL2g8OluNDqX9qBudGrTsQHh1xMzIBFHEgYf9z813rdLSOS/UwAQTxpY8gOMK/63Xmsrqy5Kb2x5/p/ez6oPfzQZDqbOCpqfRb142CUk/BpOaC0JKROxMPxSVKWgyxnMPFQzp8il2xMfGcYKt2EFGvtZ9kd34FtMXz/utsNQ+A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=s7GNPmV3gh4ijno8Dh72UsYuH4obWbU84vyXws+cb2M=;
- b=QyDGIYmIl6/PKlyeQno6nYReQDXq9mnplwS89w/vxe2T6jvBRm3RtrthFQtTsDlDAqUw8+yFmsKZUCwIsrDQH9PkPhGigrVwPR+7sWirFIImcQRge9kEJW+Ocx47wTZrr9tRV1IC+5SQK4NJevkzyY0mPeiTvATxkJMGrbN7Fv/tj1ZMm00N2s9vdBacRuMiwofA9gVHKxrDA+KKwm3T7S70a15Fjggnr14uUKhN2dL4mZ8uiT68UTcG8xyZ7RsMBTo9BFfa6GIXyaemuqbv5BMQULhF7ym+i4uczZ1v6S5IW+ifNcQAO529jXgfYqZbL7o97sEW8Ohls5FsjO9vhg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from CO1PR11MB5009.namprd11.prod.outlook.com (2603:10b6:303:9e::11)
- by PH7PR11MB6546.namprd11.prod.outlook.com (2603:10b6:510:212::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7698.32; Wed, 26 Jun
- 2024 03:24:35 +0000
-Received: from CO1PR11MB5009.namprd11.prod.outlook.com
- ([fe80::b03a:b02:c24e:b976]) by CO1PR11MB5009.namprd11.prod.outlook.com
- ([fe80::b03a:b02:c24e:b976%6]) with mapi id 15.20.7698.025; Wed, 26 Jun 2024
- 03:24:34 +0000
-From: mingli.yu@windriver.com
+ dkim=pass header.i=@mvista.com header.s=google header.b=AWMtED68;
+ spf=pass (domain: mvista.com, ip: 209.85.219.169, mailfrom: hprajapati@mvista.com)
+Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-dfe81d54db9so5918382276.2
+        for <meta-virtualization@lists.yoctoproject.org>; Tue, 25 Jun 2024 22:51:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google; t=1719381091; x=1719985891; darn=lists.yoctoproject.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=AJy1N0IKi2tvxCIyoItJGnSu9UP7ttEEY+U7jEqAxko=;
+        b=AWMtED684sm1Fyd7Y6Z0yRy/a1/m2QrHisqh8m9WzsJ78fNksFAI9rLyNoXLHl01Zw
+         M+n+WrGDTga8Ynua7Nb5M4Jf9sL+zATnAyP95PPIUxJvHYsBPDz569O5orAMmE/Geuns
+         1WdUXX2aiznTHJ3PJZoiICRFTjU/xWeDmYzrk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719381091; x=1719985891;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=AJy1N0IKi2tvxCIyoItJGnSu9UP7ttEEY+U7jEqAxko=;
+        b=Rq9Q+mwJt5f7DnNPI8XU0jmVnB3N9dg+NI0twE0xQBAQhYZ+hkF+xfSvomEnD8+4Qy
+         rlnfqAJ3tHBRy4PPE5xvJ2aSY8MmHuT/fEDgrkGmqg4lOUoDd3yIjrovPifwhma0hjVs
+         nZDqQxUXENq9pm3UCubFDU836k4oeiAkd4QDmhmJJeg8nKAIHXLvPXQL6EHy4h/pLTI0
+         vhjnq9Uj3Ebxuop1Jjz0gdL+3QAeTJpl8RCXy+lihG7ZYRVPtsdm/fqOZY28b7mRnwUi
+         TBwtlGz8co/wIlqnLDxN2QQG//glShXAy1kaEaYycjohh/lsDpaX7dZz11C8hGho/l+2
+         vkNQ==
+X-Gm-Message-State: AOJu0Yzcj5LMETS9TC+q90Cg7tbje49QVRlIYUHDxh2MUOt8MMH4pqTr
+	YAN35z0/RlB0ybS48Ij7Scqjn84SovRSZWB6TEFrb3geEMkGrqUzffDyK+JLPRL4v4T5u5CASk/
+	8
+X-Google-Smtp-Source: AGHT+IFxVya7m6+kzftUed0861FWZJz7RwTFwvdXNbWyv3S4zMqF/E7cLqJC/r+/CpkHN3utZWcjSw==
+X-Received: by 2002:a25:a126:0:b0:e02:a265:34b4 with SMTP id 3f1490d57ef6-e0300f88cfamr9982780276.16.1719381090997;
+        Tue, 25 Jun 2024 22:51:30 -0700 (PDT)
+Received: from MVIN00016.mvista.com ([43.249.234.181])
+        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e02e62633d7sm4198839276.29.2024.06.25.22.51.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Jun 2024 22:51:30 -0700 (PDT)
+From: Hitendra Prajapati <hprajapati@mvista.com>
 To: meta-virtualization@lists.yoctoproject.org
-Subject: [PATCH] aardvark-dns: Improve the ptest output
-Date: Wed, 26 Jun 2024 11:24:17 +0800
-Message-Id: <20240626032417.1990728-1-mingli.yu@windriver.com>
-X-Mailer: git-send-email 2.34.1
-Content-Type: text/plain; charset=UTF-8
-X-ClientProxiedBy: TYCPR01CA0126.jpnprd01.prod.outlook.com
- (2603:1096:400:26d::6) To CO1PR11MB5009.namprd11.prod.outlook.com
- (2603:10b6:303:9e::11)
+Cc: bruce.ashfield@gmail.com,
+	Hitendra Prajapati <hprajapati@mvista.com>
+Subject: [PATCH] libvirt: fix multiple CVEs
+Date: Wed, 26 Jun 2024 11:21:19 +0530
+Message-Id: <20240626055119.88885-1-hprajapati@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1PR11MB5009:EE_|PH7PR11MB6546:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2a41a5af-15dc-47b9-065d-08dc958f803c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230038|1800799022|366014|376012|52116012|38350700012;
-X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?c0hvZDU5NmcxK2RsTlRzcEZKN0tsRnV3UTJDa3ZCS2VrRm0ra1kzcnQwK3JN?=
- =?utf-8?B?OEFoY0llYnp4RFhzMTJMenJCUEpQWEI1ZWVCbzR4d2lacm1NcWZmdGU3amFE?=
- =?utf-8?B?RkN0Q3NOZjU0V1UzczdpTURKVFc3SE1SVXB2RnYvWTd6dk04TjByRkp2d0Zv?=
- =?utf-8?B?a0hlRjc3SEt6VHhkTkVmUTJSMWhGWXpGZ3o3azFCRXI5bFZUU1RaNWxhV0cx?=
- =?utf-8?B?NU5MWDNQL0hjQ1pQRHFYQ01HeWlqbHdVbXNiM0lMVWxZbWQzYmVTWTRnMU1C?=
- =?utf-8?B?TmE1bTZaN2FoSWcxUTFZUDFwaE4xeFZhbElPY1hmZFQrajU5YjRvOVl2TVdM?=
- =?utf-8?B?V09zWjg3QmNtNDdkQXVzNGFSTXdCQXdCYWVMMG5zUEhTay9BamxITmhSakZo?=
- =?utf-8?B?cHpwNEUrang2eHdINURVRTl3bUpJQ3BKdDdhZ3h6VHpncjFsZ0VnaXJFZzRE?=
- =?utf-8?B?RTdhcVZsdDJzalpSMFZlTS9pd3JHaG1oS25lRk5DaUt1c1o4MDRwRlZTNWVC?=
- =?utf-8?B?UUtsdC84T25QQUhEVmw3bUhFSHMvUVJ2Ym1jOTI2QjdOdTdjRXdIS2J0OUdO?=
- =?utf-8?B?ankzYkZMSHRwZFBvZGttb2psYlJQdTVrWCs0Ymh6MVlaSTZ2ZXFFMEVLSjZa?=
- =?utf-8?B?TGVSdzM3YnhsdThjUVg1OHA0eUNuNzhIL2xHb05PYThUNzAwR2k5V2RrMTVB?=
- =?utf-8?B?NS9SVXVNbDl3VWVxM0RGbUlHZVM5akE5d1FyVXhZUFo0ejlEeUZjR09OeTVO?=
- =?utf-8?B?aEd2alJXNGpnVnUwVGtVMFNKa1B1cG5NQ3czelZ3Y1NhZ0dBZXVLUXRLOHdZ?=
- =?utf-8?B?eStLbVA5REFXVEY5RlRaclI0UjcwUFRjOG95dks4QzJ6TzhaazJERmhYZzR1?=
- =?utf-8?B?NEhpN2VBcDZETVRBbXQvOHVqMS80OW1ISFV6elJZdG83ZUh0NEVBcWc2ZjBt?=
- =?utf-8?B?dTY2OXBGRFRaYnBaSlR0VGtndU0zU1A2QWdncW5NSnJOK1JRZzFjK0FPY2w1?=
- =?utf-8?B?S2dTOXFja0xaMTBiQmRILzIwZ1Q4ZEo0SFMwV3ZtekFUVjVuc3hvWEZOTjFS?=
- =?utf-8?B?bUE5a1puSWVvcDJnU2xVZ3BHalIvVkhUbEE0M2kyMk9pVHFxcWk1RE83NjBr?=
- =?utf-8?B?VFU2dVFhQ2RuK3EwajBYTFRieVBiNHNxdmxqS21JOTdYaXU2bVM2ZWNYU0ZP?=
- =?utf-8?B?azdkNUtYUTVvcHQ3RFdNa2JFaWtsWVUvL2JPeG41SkJvcVQ1akFZajcyM2M3?=
- =?utf-8?B?RTRoUjFBNHRIVENNOU1JUnhTNGlKUWowc3BHMElSNjNjdFl3N1NSc3RxSFJn?=
- =?utf-8?B?ZXNhaEFCTGdqeDZhc3l6RG1qSU82OVk0Wmc2N1BtOWJBQkVIZjIvL00rRzIx?=
- =?utf-8?B?R3NTQ3kwa1RGRWJxc3g3d0U1M0ZoUm1mL3B2TFhCRW4rc3NhckMzT3FseGRv?=
- =?utf-8?B?bkN2NzE0c2M0THR1TDZ3SE5uTzFBL1U2cnFBeVhIYVdUcXBFMDF3UVBqVlN2?=
- =?utf-8?B?MitjY3E4Q3NVdjU5dFRQUi9UUjB0SEpYbG5qSTlOc1RSTHZZTmNDRGVhWVc5?=
- =?utf-8?B?TWFxMnpLWHZYdnc3cm0zeXVxSmJDVHo1K2txNm9RS0QxVEhOQkh2d2RXUU1P?=
- =?utf-8?B?Y2lCQnRZR3MwZVN0MCtxZG94d2ZHUHJjSmhPck1sbHVEU1BESjM3NjBCRkZs?=
- =?utf-8?B?Y21BMkkvSGZHMktET2hjblpTd0p1TW16dUVSUDFXN3ZnaE1RbFd2ZUdCSkxp?=
- =?utf-8?B?SEcxS1o0dE5lR3BNUVU5WGRRaFRpQmlIRTBEUUdud0ZLVmFPTktReTNqOWVk?=
- =?utf-8?Q?vrciRbNHqg5ZAeaX32QwX+AzJZi5IPvz/i7CA=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB5009.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230038)(1800799022)(366014)(376012)(52116012)(38350700012);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?S2FOSDdwbzZYdWw1ZUM1MzRZWGkxSURhbFNxQXJoVWI0N1hUWm1WLzF6Rkx4?=
- =?utf-8?B?aHVHTytGMzlqNUl2cFUxMHF5Vndrd2NVYi9WRSs4c1RSZTBHVFJQSXJTOUYy?=
- =?utf-8?B?THVvUTE2cERMQzRpZDErNjYzRW9Ec3dQQThTTzBqMFZLcWZ4K3BnL2RrRFFl?=
- =?utf-8?B?RHlXOGZXNEZEMTUwOCtuelJVTWsrMTR5Q01SL1pkdGw5QnF1aHVaNWFJd3lh?=
- =?utf-8?B?RWlZN1Q3UHhaUFUvOTdkb0t4aDdQU1ZpbkdhWngwZlZLc1BQa3Bia1pFaHVM?=
- =?utf-8?B?M1JBeVNzb0xKMm9ZRW5YZXRHQkRwN2xxcWRYWU1XKzJ4UkJpaEVHaGV1OXlh?=
- =?utf-8?B?TWVCOVhzc2pTd3U0dUEwWTQwSm92T2JEL3krMlJUak95RTcxWE54dWM3ZUQ1?=
- =?utf-8?B?ak5ZcTFnVUQ5bzRqWFdnbFNlWFpzM3FDNkxPeHczVFRhWGpDRkhJQk5RV1BO?=
- =?utf-8?B?OWZTT1JEK2lOWTNYeGxibnNJM3RsSDVWTDdQTUFMSXBZdU13M1RoRFUxOFVK?=
- =?utf-8?B?WGJvU0o5bFhkNXZkN3RGSjB2bnQ4SXkrWXFYWjBVSzVEdUtsSm9XTkR6OVRC?=
- =?utf-8?B?OHJXY1UzWTY1Z3hxcjIrNjZ4enlJT3FjR2NYaHFpVnNtN0RWWUtmTmR5Q0w0?=
- =?utf-8?B?Z1pybWtCTFN5QWZ6SnkvZUs1U0dBT0kvb2MvelFxVFhPNWRjWHNILzBwdUwv?=
- =?utf-8?B?Q0REdlZsejQ1cGtHSkFMSWdZc0NDeUhXWnZPNmNvNjNmejZZbUlDclRpWEp0?=
- =?utf-8?B?My9VdnlPZGRUMlRiU0FKY2Y5clV0amltQSsxZTNXYSs0c2kyZlRoQnVTQUht?=
- =?utf-8?B?N1JkSXFYc3k1WlRtNkFpMmtVY1haQUdSVy90bkFrZkVhMEJrNnBJRW55UkpY?=
- =?utf-8?B?a0lKN0xKMEhybUlKTS9GUlJJdndZaE01c0pmamlOVnlDRGkzUGdKeUFVK0Nx?=
- =?utf-8?B?SXdwSFpzYjYzQ1grcWtDRWxvd1pXNnY3c3hRT3MwdGhBZGR5ZG9rTnZ3RlEx?=
- =?utf-8?B?Q3o0VEF3RlRkcWZFcUFwR0cxQkQvM1JaQW5VQ3lDRWUwckV3WUZycGVMby9M?=
- =?utf-8?B?bEpvSjkrUXlUZ3BKVjVWbFdjd0gzWUUvcG9KdWd5K2FqNDBvc01FSFBvUmZn?=
- =?utf-8?B?aU00NG96bThLWVBTaVlyMGl6VlhVSUp6OTJrdDNibStBR294RmdSaGZFQ3ZR?=
- =?utf-8?B?Vzh2akdNaG1xaXVWOW1oTUhKNEtUUGw0RGJLTHRtRjRlbjFTdis2dGZQM0FT?=
- =?utf-8?B?QTVqTHNYT0VxTWU0MVNidFpmWXM0dndnZHVUWWh6cFUreUpma0JmZEo1NXdG?=
- =?utf-8?B?RFFoS2pZMUVpVmc5SzM2eFZnRVBBQlQvbjZCU0pzMS9pOTUyenZBMHdGNERQ?=
- =?utf-8?B?VlZveWQ1Y21XOUMyMnF2a05CbSsxTmJQOXRlSGtPUGtxK2xkWHMzSmNiZUhX?=
- =?utf-8?B?dzdpaDlOWDNJSVFpMFB3UHBhMWJlaEJEZVE5RXdJVUIwWmVvai9aeFBlMjNi?=
- =?utf-8?B?R09YSnFveHdpNjR6ZnpaSm1tQ1JqSkdWencxR0w3M1FJejdxSDVNYWprRHVJ?=
- =?utf-8?B?V01RTXVkdS9VN01ueGdrd1JQL2tZaU5DeFA3QnRIUllNRDZocHd6S2kvTExk?=
- =?utf-8?B?cmtLcUgrem95bHFoUjNaOERBOE5pbVorVjBRV01VMFRubWQzdFRRak0xM3hJ?=
- =?utf-8?B?SkQ4aGlEd2o4bzA5Z2hTUks4OFk3U0dEK0l2ZXlMcG9jdmkxUFQ4MjRJQ0k1?=
- =?utf-8?B?eXZYN29RZld1ZktmN3d3NHRGRDkvd0d6M3RpWEo2VjNiaENYckFHNjN2NjNh?=
- =?utf-8?B?V2xOK1JZbGVvb2FBejZIaTB4c1QxYjc2aU93cE5ocTNqVlNHY2VlMjduRUNv?=
- =?utf-8?B?QWdNSzNzTkpFd011cFZUdXM4ZDBJQWdzM0JkOWE2SjFaTWRVcWxVVk5hd1Nw?=
- =?utf-8?B?T21LUjBPN2pOUVdhL21Vd2hwUzd6S09UekdaVERHNzRBNGNNeWN5RTFOSDE1?=
- =?utf-8?B?clhXUmxRNlB1VTRPQXRzMnE1ZGtldGg2RWt0NGd3TEx2akdFNDBpMmdIVjhP?=
- =?utf-8?B?Q3A0eWtlMkxaUmduT3c4SkdKQWhHM0tOSW9EWGYveDZGWDI5NUlhNUR0aUxy?=
- =?utf-8?Q?aPkqbS739mGvvYiHQGZSWIIYk?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2a41a5af-15dc-47b9-065d-08dc958f803c
-X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB5009.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jun 2024 03:24:34.6356
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ebm0emr95wBFDRn4KR2xUuVcuaNDx/Q3svGPL9VX8ZFHnrGw/TtB3V7iB1zrlartZb0BkZm3vYfsF8V58rK6rg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB6546
-X-Proofpoint-GUID: HiKSQcbEd9wjw7ckVJk-QisZLi3IxFbQ
-X-Proofpoint-ORIG-GUID: HiKSQcbEd9wjw7ckVJk-QisZLi3IxFbQ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-06-26_01,2024-06-25_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 suspectscore=0
- mlxlogscore=741 mlxscore=0 priorityscore=1501 lowpriorityscore=0
- clxscore=1015 phishscore=0 spamscore=0 impostorscore=0 adultscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.21.0-2406140001 definitions=main-2406260025
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 45Q0ONYq016608
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Wed, 26 Jun 2024 03:24:47 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8812
+ <meta-virtualization@lists.yoctoproject.org>; Wed, 26 Jun 2024 05:51:37 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8813
 
-From: Mingli Yu <mingli.yu@windriver.com>
+Backport fixes for:
 
-The previous ptest result show as =E2=9C=93 or =E2=9C=97 , improve the re=
-sult to
-PASS or FAIL.
- # ./run-ptest
- [snip]
- PASS: 6 basic container - dns itself with long network name
- PASS: 7 two containers on the same network
- PASS: 8 two containers on different networks
- [snip]
+* CVE-2024-1441 - Upstream-Status: Backport from https://gitlab.com/libvirt/libvirt/-/commit/c664015fe3a7bf59db26686e9ed69af011c6ebb8
+* CVE-2024-2494 - Upstream-Status: Backport from https://gitlab.com/libvirt/libvirt/-/commit/8a3f8d957507c1f8223fdcf25a3ff885b15557f2
+* CVE-2024-4418 - Upstream-Status: Backport from https://gitlab.com/libvirt/libvirt/-/commit/8074d64dc2eca846d6a61efe1a9b7428a0ce1dd1
 
-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 ---
- recipes-containers/aardvark-dns/files/run-ptest | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../libvirt/libvirt/CVE-2024-1441.patch       |  70 ++++++
+ .../libvirt/libvirt/CVE-2024-2494.patch       | 220 ++++++++++++++++++
+ .../libvirt/libvirt/CVE-2024-4418.patch       |  86 +++++++
+ recipes-extended/libvirt/libvirt_10.0.0.bb    |   3 +
+ 4 files changed, 379 insertions(+)
+ create mode 100644 recipes-extended/libvirt/libvirt/CVE-2024-1441.patch
+ create mode 100644 recipes-extended/libvirt/libvirt/CVE-2024-2494.patch
+ create mode 100644 recipes-extended/libvirt/libvirt/CVE-2024-4418.patch
 
-diff --git a/recipes-containers/aardvark-dns/files/run-ptest b/recipes-co=
-ntainers/aardvark-dns/files/run-ptest
-index b33d8fd4..d7abbb34 100644
---- a/recipes-containers/aardvark-dns/files/run-ptest
-+++ b/recipes-containers/aardvark-dns/files/run-ptest
-@@ -1,3 +1,3 @@
- #!/bin/bash
-=20
--NETAVARK=3D/usr/libexec/podman/netavark AARDVARK=3D/usr/libexec/podman/a=
-ardvark-dns bats ./test/
-+NETAVARK=3D/usr/libexec/podman/netavark AARDVARK=3D/usr/libexec/podman/a=
-ardvark-dns bats -t ./test/ | sed -e '/^ok/ s/^ok/PASS:/g' | sed -e '/^no=
-t ok/ s/^not ok/FAIL:/g'
---=20
-2.34.1
+diff --git a/recipes-extended/libvirt/libvirt/CVE-2024-1441.patch b/recipes-extended/libvirt/libvirt/CVE-2024-1441.patch
+new file mode 100644
+index 00000000..3fbf1d52
+--- /dev/null
++++ b/recipes-extended/libvirt/libvirt/CVE-2024-1441.patch
+@@ -0,0 +1,70 @@
++From c664015fe3a7bf59db26686e9ed69af011c6ebb8 Mon Sep 17 00:00:00 2001
++From: Martin Kletzander <mkletzan@redhat.com>
++Date: Tue, 27 Feb 2024 16:20:12 +0100
++Subject: [PATCH] Fix off-by-one error in udevListInterfacesByStatus
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++Ever since this function was introduced in 2012 it could've tried
++filling in an extra interface name.  That was made worse in 2019 when
++the caller functions started accepting NULL arrays of size 0.
++
++This is assigned CVE-2024-1441.
++
++Signed-off-by: Martin Kletzander <mkletzan@redhat.com>
++Reported-by: Alexander Kuznetsov <kuznetsovam@altlinux.org>
++Fixes: 5a33366f5c0b18c93d161bd144f9f079de4ac8ca
++Fixes: d6064e2759a24e0802f363e3a810dc5a7d7ebb15
++Reviewed-by: Ján Tomko <jtomko@redhat.com>
++
++Upstream-Status: Backport [https://gitlab.com/libvirt/libvirt/-/commit/c664015fe3a7bf59db26686e9ed69af011c6ebb8]
++CVE: CVE-2024-1441
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ NEWS.rst                               | 15 +++++++++++++++
++ src/interface/interface_backend_udev.c |  2 +-
++ 2 files changed, 16 insertions(+), 1 deletion(-)
++
++diff --git a/NEWS.rst b/NEWS.rst
++index d013fc7..25f2038 100644
++--- a/NEWS.rst
+++++ b/NEWS.rst
++@@ -557,6 +557,21 @@ v9.2.0 (2023-04-01)
++ v9.1.0 (2023-03-01)
++ ===================
++ 
+++  * ``CVE-2024-1441``: Fix off-by-one error leading to a crash
+++
+++    In **libvirt-1.0.0** there were couple of interface listing APIs
+++    introduced which had an off-by-one error.  That error could lead to a
+++    very rare crash if an array was passed to those functions which did
+++    not fit all the interfaces.
+++
+++    In **libvirt-5.10** a check for non-NULL arrays has been adjusted to
+++    allow for NULL arrays with size 0 instead of rejecting all NULL
+++    arrays.  However that made the above issue significantly worse since
+++    that off-by-one error now did not write beyond an array, but
+++    dereferenced said NULL pointer making the crash certain in a
+++    specific scenario in which a NULL array of size 0 was passed to the
+++    aforementioned functions.
+++
++ * **Removed features**
++ 
++   * vbox: removed support for version 5.2 and 6.0 APIs
++diff --git a/src/interface/interface_backend_udev.c b/src/interface/interface_backend_udev.c
++index fb6799e..4091483 100644
++--- a/src/interface/interface_backend_udev.c
+++++ b/src/interface/interface_backend_udev.c
++@@ -222,7 +222,7 @@ udevListInterfacesByStatus(virConnectPtr conn,
++         g_autoptr(virInterfaceDef) def = NULL;
++ 
++         /* Ensure we won't exceed the size of our array */
++-        if (count > names_len)
+++        if (count >= names_len)
++             break;
++ 
++         path = udev_list_entry_get_name(dev_entry);
++-- 
++2.25.1
++
+diff --git a/recipes-extended/libvirt/libvirt/CVE-2024-2494.patch b/recipes-extended/libvirt/libvirt/CVE-2024-2494.patch
+new file mode 100644
+index 00000000..6b38f13a
+--- /dev/null
++++ b/recipes-extended/libvirt/libvirt/CVE-2024-2494.patch
+@@ -0,0 +1,220 @@
++From 8a3f8d957507c1f8223fdcf25a3ff885b15557f2 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
++Date: Fri, 15 Mar 2024 10:47:50 +0000
++Subject: [PATCH] remote: check for negative array lengths before allocation
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++While the C API entry points will validate non-negative lengths
++for various parameters, the RPC server de-serialization code
++will need to allocate memory for arrays before entering the C
++API. These allocations will thus happen before the non-negative
++length check is performed.
++
++Passing a negative length to the g_new0 function will usually
++result in a crash due to the negative length being treated as
++a huge positive number.
++
++This was found and diagnosed by ALT Linux Team with AFLplusplus.
++
++CVE-2024-2494
++Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
++Found-by: Alexandr Shashkin <dutyrok@altlinux.org>
++Co-developed-by: Alexander Kuznetsov <kuznetsovam@altlinux.org>
++Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
++
++Upstream-Status: Backport [https://gitlab.com/libvirt/libvirt/-/commit/8a3f8d957507c1f8223fdcf25a3ff885b15557f2]
++CVE: CVE-2024-2494
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ src/remote/remote_daemon_dispatch.c | 65 +++++++++++++++++++++++++++++
++ src/rpc/gendispatch.pl              |  5 +++
++ 2 files changed, 70 insertions(+)
++
++diff --git a/src/remote/remote_daemon_dispatch.c b/src/remote/remote_daemon_dispatch.c
++index 7daf503..7542caa 100644
++--- a/src/remote/remote_daemon_dispatch.c
+++++ b/src/remote/remote_daemon_dispatch.c
++@@ -2291,6 +2291,10 @@ remoteDispatchDomainGetSchedulerParameters(virNetServer *server G_GNUC_UNUSED,
++     if (!conn)
++         goto cleanup;
++ 
+++    if (args->nparams < 0) {
+++        virReportError(VIR_ERR_INTERNAL_ERROR, "%s", _("nparams must be non-negative"));
+++        goto cleanup;
+++    }
++     if (args->nparams > REMOTE_DOMAIN_SCHEDULER_PARAMETERS_MAX) {
++         virReportError(VIR_ERR_INTERNAL_ERROR, "%s", _("nparams too large"));
++         goto cleanup;
++@@ -2339,6 +2343,10 @@ remoteDispatchDomainGetSchedulerParametersFlags(virNetServer *server G_GNUC_UNUS
++     if (!conn)
++         goto cleanup;
++ 
+++    if (args->nparams < 0) {
+++        virReportError(VIR_ERR_INTERNAL_ERROR, "%s", _("nparams must be non-negative"));
+++        goto cleanup;
+++    }
++     if (args->nparams > REMOTE_DOMAIN_SCHEDULER_PARAMETERS_MAX) {
++         virReportError(VIR_ERR_INTERNAL_ERROR, "%s", _("nparams too large"));
++         goto cleanup;
++@@ -2497,6 +2505,10 @@ remoteDispatchDomainBlockStatsFlags(virNetServer *server G_GNUC_UNUSED,
++         goto cleanup;
++     flags = args->flags;
++ 
+++    if (args->nparams < 0) {
+++        virReportError(VIR_ERR_INTERNAL_ERROR, "%s", _("nparams must be non-negative"));
+++        goto cleanup;
+++    }
++     if (args->nparams > REMOTE_DOMAIN_BLOCK_STATS_PARAMETERS_MAX) {
++         virReportError(VIR_ERR_INTERNAL_ERROR, "%s", _("nparams too large"));
++         goto cleanup;
++@@ -2717,6 +2729,14 @@ remoteDispatchDomainGetVcpuPinInfo(virNetServer *server G_GNUC_UNUSED,
++     if (!(dom = get_nonnull_domain(conn, args->dom)))
++         goto cleanup;
++ 
+++    if (args->ncpumaps < 0) {
+++        virReportError(VIR_ERR_INTERNAL_ERROR, "%s", _("ncpumaps must be non-negative"));
+++        goto cleanup;
+++    }
+++    if (args->maplen < 0) {
+++        virReportError(VIR_ERR_INTERNAL_ERROR, "%s", _("maplen must be non-negative"));
+++        goto cleanup;
+++    }
++     if (args->ncpumaps > REMOTE_VCPUINFO_MAX) {
++         virReportError(VIR_ERR_INTERNAL_ERROR, "%s", _("ncpumaps > REMOTE_VCPUINFO_MAX"));
++         goto cleanup;
++@@ -2811,6 +2831,11 @@ remoteDispatchDomainGetEmulatorPinInfo(virNetServer *server G_GNUC_UNUSED,
++     if (!(dom = get_nonnull_domain(conn, args->dom)))
++         goto cleanup;
++ 
+++    if (args->maplen < 0) {
+++        virReportError(VIR_ERR_INTERNAL_ERROR, "%s", _("maplen must be non-negative"));
+++        goto cleanup;
+++    }
+++
++     /* Allocate buffers to take the results */
++     if (args->maplen > 0)
++         cpumaps = g_new0(unsigned char, args->maplen);
++@@ -2858,6 +2883,14 @@ remoteDispatchDomainGetVcpus(virNetServer *server G_GNUC_UNUSED,
++     if (!(dom = get_nonnull_domain(conn, args->dom)))
++         goto cleanup;
++ 
+++    if (args->maxinfo < 0) {
+++        virReportError(VIR_ERR_INTERNAL_ERROR, "%s", _("maxinfo must be non-negative"));
+++        goto cleanup;
+++    }
+++    if (args->maplen < 0) {
+++        virReportError(VIR_ERR_INTERNAL_ERROR, "%s", _("maxinfo must be non-negative"));
+++        goto cleanup;
+++    }
++     if (args->maxinfo > REMOTE_VCPUINFO_MAX) {
++         virReportError(VIR_ERR_INTERNAL_ERROR, "%s", _("maxinfo > REMOTE_VCPUINFO_MAX"));
++         goto cleanup;
++@@ -3096,6 +3129,10 @@ remoteDispatchDomainGetMemoryParameters(virNetServer *server G_GNUC_UNUSED,
++ 
++     flags = args->flags;
++ 
+++    if (args->nparams < 0) {
+++        virReportError(VIR_ERR_INTERNAL_ERROR, "%s", _("nparams must be non-negative"));
+++        goto cleanup;
+++    }
++     if (args->nparams > REMOTE_DOMAIN_MEMORY_PARAMETERS_MAX) {
++         virReportError(VIR_ERR_INTERNAL_ERROR, "%s", _("nparams too large"));
++         goto cleanup;
++@@ -3156,6 +3193,10 @@ remoteDispatchDomainGetNumaParameters(virNetServer *server G_GNUC_UNUSED,
++ 
++     flags = args->flags;
++ 
+++    if (args->nparams < 0) {
+++        virReportError(VIR_ERR_INTERNAL_ERROR, "%s", _("nparams must be non-negative"));
+++        goto cleanup;
+++    }
++     if (args->nparams > REMOTE_DOMAIN_NUMA_PARAMETERS_MAX) {
++         virReportError(VIR_ERR_INTERNAL_ERROR, "%s", _("nparams too large"));
++         goto cleanup;
++@@ -3216,6 +3257,10 @@ remoteDispatchDomainGetBlkioParameters(virNetServer *server G_GNUC_UNUSED,
++ 
++     flags = args->flags;
++ 
+++    if (args->nparams < 0) {
+++        virReportError(VIR_ERR_INTERNAL_ERROR, "%s", _("nparams must be non-negative"));
+++        goto cleanup;
+++    }
++     if (args->nparams > REMOTE_DOMAIN_BLKIO_PARAMETERS_MAX) {
++         virReportError(VIR_ERR_INTERNAL_ERROR, "%s", _("nparams too large"));
++         goto cleanup;
++@@ -3277,6 +3322,10 @@ remoteDispatchNodeGetCPUStats(virNetServer *server G_GNUC_UNUSED,
++ 
++     flags = args->flags;
++ 
+++    if (args->nparams < 0) {
+++        virReportError(VIR_ERR_INTERNAL_ERROR, "%s", _("nparams must be non-negative"));
+++        goto cleanup;
+++    }
++     if (args->nparams > REMOTE_NODE_CPU_STATS_MAX) {
++         virReportError(VIR_ERR_INTERNAL_ERROR, "%s", _("nparams too large"));
++         goto cleanup;
++@@ -3339,6 +3388,10 @@ remoteDispatchNodeGetMemoryStats(virNetServer *server G_GNUC_UNUSED,
++ 
++     flags = args->flags;
++ 
+++    if (args->nparams < 0) {
+++        virReportError(VIR_ERR_INTERNAL_ERROR, "%s", _("nparams must be non-negative"));
+++        goto cleanup;
+++    }
++     if (args->nparams > REMOTE_NODE_MEMORY_STATS_MAX) {
++         virReportError(VIR_ERR_INTERNAL_ERROR, "%s", _("nparams too large"));
++         goto cleanup;
++@@ -3514,6 +3567,10 @@ remoteDispatchDomainGetBlockIoTune(virNetServer *server G_GNUC_UNUSED,
++     if (!conn)
++         goto cleanup;
++ 
+++    if (args->nparams < 0) {
+++        virReportError(VIR_ERR_INTERNAL_ERROR, "%s", _("nparams must be non-negative"));
+++        goto cleanup;
+++    }
++     if (args->nparams > REMOTE_DOMAIN_BLOCK_IO_TUNE_PARAMETERS_MAX) {
++         virReportError(VIR_ERR_INTERNAL_ERROR, "%s", _("nparams too large"));
++         goto cleanup;
++@@ -5079,6 +5136,10 @@ remoteDispatchDomainGetInterfaceParameters(virNetServer *server G_GNUC_UNUSED,
++ 
++     flags = args->flags;
++ 
+++    if (args->nparams < 0) {
+++        virReportError(VIR_ERR_INTERNAL_ERROR, "%s", _("nparams must be non-negative"));
+++        goto cleanup;
+++    }
++     if (args->nparams > REMOTE_DOMAIN_INTERFACE_PARAMETERS_MAX) {
++         virReportError(VIR_ERR_INTERNAL_ERROR, "%s", _("nparams too large"));
++         goto cleanup;
++@@ -5299,6 +5360,10 @@ remoteDispatchNodeGetMemoryParameters(virNetServer *server G_GNUC_UNUSED,
++ 
++     flags = args->flags;
++ 
+++    if (args->nparams < 0) {
+++        virReportError(VIR_ERR_INTERNAL_ERROR, "%s", _("nparams must be non-negative"));
+++        goto cleanup;
+++    }
++     if (args->nparams > REMOTE_NODE_MEMORY_PARAMETERS_MAX) {
++         virReportError(VIR_ERR_INTERNAL_ERROR, "%s", _("nparams too large"));
++         goto cleanup;
++diff --git a/src/rpc/gendispatch.pl b/src/rpc/gendispatch.pl
++index ea46a9d..17abadc 100755
++--- a/src/rpc/gendispatch.pl
+++++ b/src/rpc/gendispatch.pl
++@@ -1070,6 +1070,11 @@ elsif ($mode eq "server") {
++         print "\n";
++ 
++         if ($single_ret_as_list) {
+++            print "    if (args->$single_ret_list_max_var < 0) {\n";
+++            print "        virReportError(VIR_ERR_RPC,\n";
+++            print "                       \"%s\", _(\"max$single_ret_list_name must be non-negative\"));\n";
+++            print "        goto cleanup;\n";
+++            print "    }\n";
++             print "    if (args->$single_ret_list_max_var > $single_ret_list_max_define) {\n";
++             print "        virReportError(VIR_ERR_RPC,\n";
++             print "                       \"%s\", _(\"max$single_ret_list_name > $single_ret_list_max_define\"));\n";
++-- 
++2.25.1
++
+diff --git a/recipes-extended/libvirt/libvirt/CVE-2024-4418.patch b/recipes-extended/libvirt/libvirt/CVE-2024-4418.patch
+new file mode 100644
+index 00000000..81189abb
+--- /dev/null
++++ b/recipes-extended/libvirt/libvirt/CVE-2024-4418.patch
+@@ -0,0 +1,86 @@
++From 8074d64dc2eca846d6a61efe1a9b7428a0ce1dd1 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
++Date: Tue, 30 Apr 2024 11:51:15 +0100
++Subject: [PATCH] rpc: ensure temporary GSource is removed from client event
++ loop
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++Users are seeing periodic segfaults from libvirt client apps,
++especially thread heavy ones like virt-manager. A typical
++stack trace would end up in the virNetClientIOEventFD method,
++with illegal access to stale stack data. eg
++The root cause is a bad assumption in the virNetClientIOEventLoop
++method. This method is run by whichever thread currently owns the
++buck, and is responsible for handling I/O. Inside a for(;;) loop,
++this method creates a temporary GSource, adds it to the event loop
++and runs g_main_loop_run(). When I/O is ready, the GSource callback
++(virNetClientIOEventFD) will fire and call g_main_loop_quit(), and
++return G_SOURCE_REMOVE which results in the temporary GSource being
++destroyed. A g_autoptr() will then remove the last reference.
++
++What was overlooked, is that a second thread can come along and
++while it can't enter virNetClientIOEventLoop, it will register an
++idle source that uses virNetClientIOWakeup to interrupt the
++original thread's 'g_main_loop_run' call. When this happens the
++virNetClientIOEventFD callback never runs, and so the temporary
++GSource is not destroyed. The g_autoptr() will remove a reference,
++but by virtue of still being attached to the event context, there
++is an extra reference held causing GSource to be leaked. The
++next time 'g_main_loop_run' is called, the original GSource will
++trigger its callback, and access data that was allocated on the
++stack by the previous thread, and likely SEGV.
++
++To solve this, the thread calling 'g_main_loop_run' must call
++g_source_destroy, immediately upon return, to guarantee that
++the temporary GSource is removed.
++
++CVE-2024-4418
++Reviewed-by: Ján Tomko <jtomko@redhat.com>
++Reported-by: Martin Shirokov <shirokovmartin@gmail.com>
++Tested-by: Martin Shirokov <shirokovmartin@gmail.com>
++Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
++
++Upstream-Status: Backport [https://gitlab.com/libvirt/libvirt/-/commit/8074d64dc2eca846d6a61efe1a9b7428a0ce1dd1]
++CVE: CVE-2024-4418
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ src/rpc/virnetclient.c | 14 +++++++++++++-
++ 1 file changed, 13 insertions(+), 1 deletion(-)
++
++diff --git a/src/rpc/virnetclient.c b/src/rpc/virnetclient.c
++index 68098b1..147b0d6 100644
++--- a/src/rpc/virnetclient.c
+++++ b/src/rpc/virnetclient.c
++@@ -1657,7 +1657,7 @@ static int virNetClientIOEventLoop(virNetClient *client,
++ #endif /* !WIN32 */
++         int timeout = -1;
++         virNetMessage *msg = NULL;
++-        g_autoptr(GSource) G_GNUC_UNUSED source = NULL;
+++        g_autoptr(GSource) source = NULL;
++         GIOCondition ev = 0;
++         struct virNetClientIOEventData data = {
++             .client = client,
++@@ -1721,6 +1721,18 @@ static int virNetClientIOEventLoop(virNetClient *client,
++ 
++         g_main_loop_run(client->eventLoop);
++ 
+++        /*
+++         * If virNetClientIOEventFD ran, this GSource will already be
+++         * destroyed due to G_SOURCE_REMOVE. It is harmless to re-destroy
+++         * it, since we still own a reference.
+++         *
+++         * If virNetClientIOWakeup ran, it will have interrupted the
+++         * g_main_loop_run call, before virNetClientIOEventFD could
+++         * run, and thus the GSource is still registered, and we need
+++         * to destroy it since it is referencing stack memory for 'data'
+++         */
+++        g_source_destroy(source);
+++
++ #ifndef WIN32
++         ignore_value(pthread_sigmask(SIG_SETMASK, &oldmask, NULL));
++ #endif /* !WIN32 */
++-- 
++2.25.1
++
+diff --git a/recipes-extended/libvirt/libvirt_10.0.0.bb b/recipes-extended/libvirt/libvirt_10.0.0.bb
+index 6b19b700..a33b6980 100644
+--- a/recipes-extended/libvirt/libvirt_10.0.0.bb
++++ b/recipes-extended/libvirt/libvirt_10.0.0.bb
+@@ -32,6 +32,9 @@ SRC_URI = "http://libvirt.org/sources/libvirt-${PV}.tar.xz;name=libvirt \
+            file://gnutls-helper.py \
+            file://0001-prevent-gendispatch.pl-generating-build-path-in-code.patch \
+            file://0001-messon.build-remove-build-path-information-to-avoid-.patch \
++           file://CVE-2024-1441.patch \
++           file://CVE-2024-2494.patch \
++           file://CVE-2024-4418.patch \
+           "
+ 
+ SRC_URI[libvirt.sha256sum] = "8ba2e72ec8bdd2418554a1474c42c35704c30174b7611eaf9a16544b71bcf00a"
+-- 
+2.25.1
 
 
