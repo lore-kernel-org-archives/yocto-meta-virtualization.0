@@ -1,94 +1,130 @@
-Return-Path: <badganchipv@gmail.com>
+Return-Path: <mingli.yu@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5181FC38150
-	for <webhook@archiver.kernel.org>; Wed, 10 Jul 2024 05:37:17 +0000 (UTC)
-Received: from mail-oa1-f48.google.com (mail-oa1-f48.google.com [209.85.160.48])
- by mx.groups.io with SMTP id smtpd.web10.7379.1720589829163509950
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69F78C3DA45
+	for <webhook@archiver.kernel.org>; Wed, 10 Jul 2024 05:38:47 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.7393.1720589925428540706
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 09 Jul 2024 22:37:09 -0700
+ Tue, 09 Jul 2024 22:38:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=akDmFi9i;
- spf=pass (domain: gmail.com, ip: 209.85.160.48, mailfrom: badganchipv@gmail.com)
-Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-25dfb580d1fso2865616fac.2
-        for <meta-virtualization@lists.yoctoproject.org>; Tue, 09 Jul 2024 22:37:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720589828; x=1721194628; darn=lists.yoctoproject.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=3Kz42oxNF23W6WJ+MliVekluLicFAL5cF7QZnPawnL0=;
-        b=akDmFi9iCFFlSctgDmodEjXIn9DD9tOlJN2B1Z8+7wkIwSTmtrJpL+9JuE22eUgKqy
-         zFM7lY4o5g5mRruZRDzEOnPiC2eZtp8cSK7BODusLHRtkcWSYbAPQZNPRdgbVcDYDOq/
-         Q+JJ2UDJUVSvNkuOTWubuL6Fvb/yyyQ7kgGx6OvKm6VwR+9SD2SsrUd6g3u5H7YghZsm
-         LXj/XQzKzYdmwH6p3cKTRd4crLDWcGOeumPXY0Cpqbgwiu0Mrh+DUA0hICxMtqP3Klqn
-         kOZYOrRk1h+evMHCQ20dBPYNseVsKmotfee/yN7b9d/1TITzMhYjaDZvgJb0jb3wXhq3
-         SdEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720589828; x=1721194628;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3Kz42oxNF23W6WJ+MliVekluLicFAL5cF7QZnPawnL0=;
-        b=ezdYVLxKV+KuAPNHwD5Ng5iAyeUcWPVyzEaCw9Ve0v3GFcbW1bxhaqyVKGhVll8vpK
-         zktYO+r8CM3Y6eUI0Ia0+hrrh+Euc/uB416B7h2CAStRM1e5+Zh8wjwoviSMeN40VesF
-         D04buUWfdUAbol5qw/LaxifMGslpOwVVwOX5g2L/8M9+eMBuF6BU7kHd8jbA3C4VeSHV
-         fska4Ig/vxIpxTeRDX/j+duTdxaPoLoF/toLU4BJhB184UdY5XBPVfQtgjHACtT8z7ai
-         3qsSPmS21I4kL/Sn0O8r54leaAWztnW/wAgZgq4xRUa796gABX6t8KNPl8eCEeOpTxmz
-         zyMA==
-X-Gm-Message-State: AOJu0YwoLRWEfdV2b5BLwnBrdG9+5Hr3qGrFA43gT9x2ftXpeDQo2y4Q
-	ca8PFRp1NJ2RiVl36wMwtq7BH3CdkM6d2FuL88YzKdImP7E/RhKaqQdxbwMJ
-X-Google-Smtp-Source: AGHT+IFky9VNtjqakXHusrIlpVaYmMfH9zGKTAldxquTUO68JULjtfLi9wJBBVVq2EMZQiAjm/qOkQ==
-X-Received: by 2002:a05:6870:b30e:b0:255:1819:b458 with SMTP id 586e51a60fabf-25eae759c34mr3624284fac.8.1720589828233;
-        Tue, 09 Jul 2024 22:37:08 -0700 (PDT)
-Received: from LL-1378.kpit.com ([106.213.81.25])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-70b438f5679sm2905186b3a.90.2024.07.09.22.37.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Jul 2024 22:37:08 -0700 (PDT)
-From: Pawan <badganchipv@gmail.com>
-To: meta-virtualization@lists.yoctoproject.org,
-	badganchipv@gmail.com
-Cc: ranjitsinh.rathod@kpit.com
-Subject: [meta-virtualization][scarthgap][PATCH] lxc: Fix meson build issue
-Date: Wed, 10 Jul 2024 11:06:55 +0530
-Message-Id: <20240710053655.16122-1-badganchipv@gmail.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=79219ea4b6=mingli.yu@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46A59KHg010337
+	for <meta-virtualization@lists.yoctoproject.org>; Wed, 10 Jul 2024 05:38:44 GMT
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 406vw63e7h-2
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <meta-virtualization@lists.yoctoproject.org>; Wed, 10 Jul 2024 05:38:44 +0000 (GMT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Tue, 9 Jul 2024 22:38:43 -0700
+Received: from pek-lpg-core4.wrs.com (128.224.153.44) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.39 via Frontend Transport; Tue, 9 Jul 2024 22:38:43 -0700
+From: <mingli.yu@windriver.com>
+To: <meta-virtualization@lists.yoctoproject.org>
+Subject: [scarthgap][PATCH 2/2] docker-distribution: Use dup3 for riscv64
+Date: Wed, 10 Jul 2024 13:38:41 +0800
+Message-ID: <20240710053841.2981650-2-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240710053841.2981650-1-mingli.yu@windriver.com>
+References: <20240710053841.2981650-1-mingli.yu@windriver.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: irZZaow2vGGJY0UacIJ4CUyT6OpGQRlQ
+X-Proofpoint-GUID: irZZaow2vGGJY0UacIJ4CUyT6OpGQRlQ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-07-10_02,2024-07-09_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 spamscore=0
+ lowpriorityscore=0 bulkscore=0 priorityscore=1501 phishscore=0
+ malwarescore=0 clxscore=1015 adultscore=0 impostorscore=0 mlxlogscore=999
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.21.0-2406140001 definitions=main-2407100042
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Wed, 10 Jul 2024 05:37:17 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8829
+ <meta-virtualization@lists.yoctoproject.org>; Wed, 10 Jul 2024 05:38:47 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8831
 
-Build is failing during do_configure stage for lxc as meson
-does not support --with-systemdsystemunitdir config parameter.
+From: Mingli Yu <mingli.yu@windriver.com>
 
-Error:
-meson: error: unrecognized arguments: --with-systemdsystemunitdir=/etc/systemd/system/
+Use dup3 instead for riscv64 as there is no dup2 on riscv64 linux
+to fix the below build failure:
+  vendor/github.com/bugsnag/panicwrap/dup2.go:10:9: undefined: syscall.Dup2
 
-Hence, use -Dsystemd-unitdir config parameter instead.
-
-Signed-off-by: Pawan Badganchi <badganchipv@gmail.com>
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
 ---
- recipes-containers/lxc/lxc_git.bb | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ .../docker-distribution_git.bb                |  1 +
+ ...-panicwrap-Use-dup3-on-riscv64-linux.patch | 42 +++++++++++++++++++
+ 2 files changed, 43 insertions(+)
+ create mode 100644 recipes-containers/docker-distribution/files/0001-panicwrap-Use-dup3-on-riscv64-linux.patch
 
-diff --git a/recipes-containers/lxc/lxc_git.bb b/recipes-containers/lxc/lxc_git.bb
-index ee0e442f..75cfe859 100644
---- a/recipes-containers/lxc/lxc_git.bb
-+++ b/recipes-containers/lxc/lxc_git.bb
-@@ -81,8 +81,7 @@ PACKAGECONFIG[apparmor] = "-Dapparmor=true,-Dapparmor=false,apparmor,apparmor"
- PACKAGECONFIG[templates] = ",,, ${PN}-templates"
- PACKAGECONFIG[selinux] = "-Dselinux=true,-Dselinux=false,libselinux,libselinux"
- PACKAGECONFIG[seccomp] ="-Dseccomp=true,-Dseccomp=false,libseccomp,libseccomp"
--# meson equiv for the unitdir found yet
--# PACKAGECONFIG[systemd] = "--with-systemdsystemunitdir=${systemd_unitdir}/system/,--without-systemdsystemunitdir,systemd,"
-+PACKAGECONFIG[systemd] = "-Dsystemd-unitdir=${sysconfdir}/systemd/system/, -Dsystemd-unitdir=, systemd,"
- PACKAGECONFIG[systemd] = "-Dinit-script=systemd,-Dinit-script=sysvinit,systemd,"
+diff --git a/recipes-containers/docker-distribution/docker-distribution_git.bb b/recipes-containers/docker-distribution/docker-distribution_git.bb
+index 48f78689..9b918b62 100644
+--- a/recipes-containers/docker-distribution/docker-distribution_git.bb
++++ b/recipes-containers/docker-distribution/docker-distribution_git.bb
+@@ -7,6 +7,7 @@ SRCREV_distribution= "d607c6ccb9372e05556624f973119a23d3a42987"
+ SRC_URI = "git://github.com/docker/distribution.git;branch=release/2.8;name=distribution;destsuffix=git/src/github.com/docker/distribution;protocol=https \
+            file://docker-registry.service \
+            file://0001-build-use-to-use-cross-go-compiler.patch \
++           file://0001-panicwrap-Use-dup3-on-riscv64-linux.patch \
+           "
  
- # required by python3 to run setup.py
+ PACKAGES =+ "docker-registry"
+diff --git a/recipes-containers/docker-distribution/files/0001-panicwrap-Use-dup3-on-riscv64-linux.patch b/recipes-containers/docker-distribution/files/0001-panicwrap-Use-dup3-on-riscv64-linux.patch
+new file mode 100644
+index 00000000..753afef7
+--- /dev/null
++++ b/recipes-containers/docker-distribution/files/0001-panicwrap-Use-dup3-on-riscv64-linux.patch
+@@ -0,0 +1,42 @@
++From 21d54c68751760b1f8915807794a432cf01fb733 Mon Sep 17 00:00:00 2001
++From: Mingli Yu <mingli.yu@windriver.com>
++Date: Tue, 9 Jul 2024 16:28:14 +0800
++Subject: [PATCH] panicwrap: Use dup3 on riscv64 linux
++
++Use dup3 instead for riscv64 as there is no dup2 on riscv64 linux
++to fix the below failure:
++  vendor/github.com/bugsnag/panicwrap/dup2.go:10:9: undefined: syscall.Dup2
++
++Upstream-Status: Inappropriate [The upstream has removed the panicwrap as [1]]
++
++[1] https://github.com/distribution/distribution/commit/3e4c4ead4c3aa07c27f95f2a5c92c6d5c2f9dcdb
++
++Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
++---
++ vendor/github.com/bugsnag/panicwrap/dup2.go | 2 +-
++ vendor/github.com/bugsnag/panicwrap/dup3.go | 2 +-
++ 2 files changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/vendor/github.com/bugsnag/panicwrap/dup2.go b/vendor/github.com/bugsnag/panicwrap/dup2.go
++index de523c83..c68ce5ff 100644
++--- a/vendor/github.com/bugsnag/panicwrap/dup2.go
+++++ b/vendor/github.com/bugsnag/panicwrap/dup2.go
++@@ -1,4 +1,4 @@
++-// +build darwin dragonfly freebsd linux,!arm64 netbsd openbsd
+++// +build darwin dragonfly freebsd linux,!arm64,!riscv64 netbsd openbsd
++ 
++ package panicwrap
++ 
++diff --git a/vendor/github.com/bugsnag/panicwrap/dup3.go b/vendor/github.com/bugsnag/panicwrap/dup3.go
++index 9721b36c..c664da85 100644
++--- a/vendor/github.com/bugsnag/panicwrap/dup3.go
+++++ b/vendor/github.com/bugsnag/panicwrap/dup3.go
++@@ -1,4 +1,4 @@
++-// +build linux,arm64
+++// +build linux,arm64 linux,riscv64
++ 
++ package panicwrap
++ 
++-- 
++2.34.1
++
 -- 
-2.25.1
+2.34.1
 
 
