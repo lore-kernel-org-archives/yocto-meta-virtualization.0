@@ -2,117 +2,150 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE984C38150
-	for <webhook@archiver.kernel.org>; Wed, 10 Jul 2024 03:55:16 +0000 (UTC)
-Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
- by mx.groups.io with SMTP id smtpd.web10.6227.1720583712137673819
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5236C38150
+	for <webhook@archiver.kernel.org>; Wed, 10 Jul 2024 03:56:46 +0000 (UTC)
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+ by mx.groups.io with SMTP id smtpd.web11.6266.1720583803335074032
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 09 Jul 2024 20:55:12 -0700
+ Tue, 09 Jul 2024 20:56:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=W3Fi6Kx2;
- spf=pass (domain: gmail.com, ip: 209.85.219.46, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-6b5f3348f05so25982056d6.0
-        for <meta-virtualization@lists.yoctoproject.org>; Tue, 09 Jul 2024 20:55:12 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=eiVMDSuQ;
+ spf=pass (domain: gmail.com, ip: 209.85.128.177, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-651961563d6so49418907b3.0
+        for <meta-virtualization@lists.yoctoproject.org>; Tue, 09 Jul 2024 20:56:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720583711; x=1721188511; darn=lists.yoctoproject.org;
+        d=gmail.com; s=20230601; t=1720583802; x=1721188602; darn=lists.yoctoproject.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=YJNUbYRpMHPQywpuXqt1kl0UZtEJM7Gt2nLuV8k2shc=;
-        b=W3Fi6Kx2I7daBGjinh/QUFnktKV/1T0cJrQhPikOkzMC8EeS3c97L80iB6JwHi157l
-         9VQ8U9uD/4alJ1VjFBKRhi2IcRwpPR2OXVfdkuuejrqrAHvIINgK1Uc3j1KCTsoMsa8X
-         mOIhR6r239jX7tdz3r33m+e+J+rQojDs+EFaBDkp6IF5cb5K+vT5denUX0Yhmo4XUq+x
-         QSe4C8lJBmapDkDcQ3CR2aSKtZeA0nI8M7PI7pfS8QeZ59TCYajPNGSJ0zZA8b0S5lL4
-         3ce92M3ScaKyPEgi9XXfKFd1DAcBfypPdtV27eJCa4sV5HRaz5qFTLsDWf7ZZxz+0YXl
-         NDuA==
+        bh=6pk5Ih8Cww+gERH3Iqk1MxGsu0i6HhxGLJ2IsGNRdPA=;
+        b=eiVMDSuQDTec9v4kDYYeRPjdCF28uHpMjR2JMKvU109lpWs/tgwYCsZnHEv0Xgf2lj
+         0EucUU+1EkYf76FIo3M8SCaHhy1oEe6UxJFhnNpPKqYmLFMWnQVaKMGiW8xWPPWYHrY1
+         i7t7LJaiTTdAY/r9uimQ9QOHv5x2CWDLr62dN93bJXJrKZU5kas3c1owFK9nF3xdHHzM
+         Qal2vn8hO2mjd+opYuUKtY70eJAbCse33RlS0gSjilgDImI8LFkMRIL6SqV4Usn//P3N
+         72/ZRSg6l/BtucTDKOvCJ79qQnGx6VuzAN+QgjeCunc5yuKuenMOU1V6iYK1tnHuTCjP
+         s3kA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720583711; x=1721188511;
+        d=1e100.net; s=20230601; t=1720583802; x=1721188602;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=YJNUbYRpMHPQywpuXqt1kl0UZtEJM7Gt2nLuV8k2shc=;
-        b=uuLMRUCt/tzu5BywzM/rv5v2Nlt4/6qjGQfcuQ/KD55Heyr9rhkmmQ+9WirDu1v87u
-         peD+XNPkrefHCrUWpn4peJUtddxGbJZmMbI01P100uL5wSe8bp+3fmSnguWn15lMESTV
-         qUa4ypa/orJMCJOY4dqnxf+x+ZkyabBEd87Jw7W8Eh6FKgFNntNY4Uif/kEl2cMyHiAw
-         hLSCdUo6RE6dIO4vc+qlkf1XxZ/Pns/TmlG49HCZbHbT1vLkyCGfH+Psz08jh8c7zZQV
-         +smRj0JuB/EGPyeeUuyssuybKflbdfEhN4cmEBTKdblq3CgO7Hzdz0mSU2ykrOoveKFP
-         DCrg==
-X-Gm-Message-State: AOJu0YwSX+NOxCKArvOqvWiVHG8YXsSVR8jh7HUU8JiPCM5rKrA8GIFB
-	qvOwU/QfEs8365qhu2KNu30bT+eZ5PGjXxYSLS4mnO3w9ozDQMvw+iVAZ6pz
-X-Google-Smtp-Source: AGHT+IGPDZ49Qx6CIht5SlXvSqMJQt0unjwnSHWlwIte27tGU6+ZSk/dkhhp8S5Y2I82dOClZD7dog==
-X-Received: by 2002:a05:6214:2587:b0:6b0:743b:71f5 with SMTP id 6a1803df08f44-6b61c1b2b3bmr60468556d6.44.1720583710916;
-        Tue, 09 Jul 2024 20:55:10 -0700 (PDT)
+        bh=6pk5Ih8Cww+gERH3Iqk1MxGsu0i6HhxGLJ2IsGNRdPA=;
+        b=Ihb2vo7dWRVzWDIAPm2mUqCyFVaC4MFDMFEQtwuXAz/S05wdvjyFMpAvShJehJM0Mi
+         qG5GNQnpUL2mc3gBV8kp9mUUzOET4L+Mco6pltvn15PSXaLvIoIYeVCoybR/lLO6Ty40
+         yiwzprQz2RsUFwQmjrqxdlLdPgwph1PfFAFeporPd9/+or7NSC75KHiQP61tZpSSx1Iz
+         G0/T5CTpagwkyzohSxgbney9FFxK0+kF4zM7/MAtF4Jgbj5e8SkLQnY9PSAQBA4Ln8O4
+         EFKpKexIHLFoorOmch+OSAnwvAoJBMyifC2ngKrvargoCCIs8OE34L84PFsxDIIZ9UrY
+         D9ag==
+X-Gm-Message-State: AOJu0Yx0yqfle1oyg78KMCWLySelO7A6a88BNnmlf/zRWtPGbNm5+V4E
+	yWSsGlwvd1NDVN/qbb5nhWEaxXTWzUeMfDPnMi2Gu6606ql2GIFYo0zTHmNK
+X-Google-Smtp-Source: AGHT+IEW+BKZmjgnxYwN2WjW+f7uWrfsTHiRPvvYtCkUOl8g+gG2M2vxzzPWfQ/4qO+Z3b+93ajyFw==
+X-Received: by 2002:a0d:ea84:0:b0:622:bf2d:7e4a with SMTP id 00721157ae682-658f0dc3250mr45117077b3.49.1720583802297;
+        Tue, 09 Jul 2024 20:56:42 -0700 (PDT)
 Received: from gmail.com (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6b61ba8c9f1sm14074226d6.123.2024.07.09.20.55.10
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-79f190be4c8sm157166085a.136.2024.07.09.20.56.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Jul 2024 20:55:10 -0700 (PDT)
-Date: Wed, 10 Jul 2024 03:55:08 +0000
+        Tue, 09 Jul 2024 20:56:41 -0700 (PDT)
+Date: Wed, 10 Jul 2024 03:56:39 +0000
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: kai.kang@windriver.com
+To: mingli.yu@eng.windriver.com
 Cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [meta-virtualization] [PATCH] virt-manager: update RDEPENDS
-Message-ID: <Zo4GHPqSd2owKwi7@gmail.com>
-References: <20240704060158.282957-1-kai.kang@windriver.com>
+Subject: Re: [meta-virtualization] [PATCH 2/2] docker-distribution: Use dup3
+ for riscv64
+Message-ID: <Zo4Gd0vdkTVYgN5A@gmail.com>
+References: <20240709101657.601908-1-mingli.yu@windriver.com>
+ <20240709101657.601908-2-mingli.yu@windriver.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240704060158.282957-1-kai.kang@windriver.com>
+In-Reply-To: <20240709101657.601908-2-mingli.yu@windriver.com>
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Wed, 10 Jul 2024 03:55:16 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8825
+ <meta-virtualization@lists.yoctoproject.org>; Wed, 10 Jul 2024 03:56:46 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8826
 
-staged on master-next
+I'm currently going through an update cycle for the meta-virtualization
+packages, so once I've uprev'd past this commit, I'll add patch 1/2 and
+test for riscv.
 
 Bruce
 
-In message: [meta-virtualization] [PATCH] virt-manager: update RDEPENDS
-on 04/07/2024 Kai Kang via lists.yoctoproject.org wrote:
+In message: [meta-virtualization] [PATCH 2/2] docker-distribution: Use dup3 for riscv64
+on 09/07/2024 Yu, Mingli via lists.yoctoproject.org wrote:
 
-> From: Kai Kang <kai.kang@windriver.com>
+> From: Mingli Yu <mingli.yu@windriver.com>
 > 
-> Update RDEPENDS to fix following errors when run virt-manager:
+> Use dup3 instead for riscv64 as there is no dup2 on riscv64 linux
+> to fix the below build failure:
+>   vendor/github.com/bugsnag/panicwrap/dup2.go:10:9: undefined: syscall.Dup2
 > 
-> |   File "/usr/share/virt-manager/virtManager/virtmanager.py", line 13, in <module>
-> |     import gi
-> | ModuleNotFoundError: No module named 'gi'
-> 
-> |   File "/usr/lib/python3.12/site-packages/gi/__init__.py", line 122, in require_version
-> |     raise ValueError('Namespace %s not available' % namespace)
-> | ValueError: Namespace LibvirtGLib not available
-> 
-> |   File "/usr/share/virt-manager/virtinst/xmlapi.py", line 7, in <module>
-> |     import libxml2
-> | ModuleNotFoundError: No module named 'libxml2'
-> 
-> |   File "/usr/share/virt-manager/virtinst/install/urlfetcher.py", line 16, in <module>
-> |      import requests
-> | ModuleNotFoundError: No module named 'requests'
-> 
-> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
 > ---
->  recipes-extended/virt-manager/virt-manager_4.1.0.bb | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
+>  .../docker-distribution_git.bb                |  1 +
+>  ...-panicwrap-Use-dup3-on-riscv64-linux.patch | 42 +++++++++++++++++++
+>  2 files changed, 43 insertions(+)
+>  create mode 100644 recipes-containers/docker-distribution/files/0001-panicwrap-Use-dup3-on-riscv64-linux.patch
 > 
-> diff --git a/recipes-extended/virt-manager/virt-manager_4.1.0.bb b/recipes-extended/virt-manager/virt-manager_4.1.0.bb
-> index a2395012..aa3df215 100644
-> --- a/recipes-extended/virt-manager/virt-manager_4.1.0.bb
-> +++ b/recipes-extended/virt-manager/virt-manager_4.1.0.bb
-> @@ -28,7 +28,13 @@ RDEPENDS:${PN}-common += " \
->    libosinfo \
->  "
+> diff --git a/recipes-containers/docker-distribution/docker-distribution_git.bb b/recipes-containers/docker-distribution/docker-distribution_git.bb
+> index 4e64df4f..bb4a7cbf 100644
+> --- a/recipes-containers/docker-distribution/docker-distribution_git.bb
+> +++ b/recipes-containers/docker-distribution/docker-distribution_git.bb
+> @@ -7,6 +7,7 @@ SRCREV_distribution= "d607c6ccb9372e05556624f973119a23d3a42987"
+>  SRC_URI = "git://github.com/docker/distribution.git;branch=release/2.8;name=distribution;destsuffix=git/src/github.com/docker/distribution;protocol=https \
+>             file://docker-registry.service \
+>             file://0001-build-use-to-use-cross-go-compiler.patch \
+> +           file://0001-panicwrap-Use-dup3-on-riscv64-linux.patch \
+>            "
 >  
-> -RDEPENDS:${PN} = "${PN}-common"
-> +RDEPENDS:${PN} = " \
-> +  ${PN}-common \
-> +  libvirt-glib \
-> +  libxml2-python \
-> +  python3-pygobject \
-> +  python3-requests \
-> +"
->  RDEPENDS:${PN}-install = "${PN}-common"
->  
->  SETUPTOOLS_INSTALL_ARGS += "${PACKAGECONFIG_CONFARGS}"
+>  PACKAGES =+ "docker-registry"
+> diff --git a/recipes-containers/docker-distribution/files/0001-panicwrap-Use-dup3-on-riscv64-linux.patch b/recipes-containers/docker-distribution/files/0001-panicwrap-Use-dup3-on-riscv64-linux.patch
+> new file mode 100644
+> index 00000000..753afef7
+> --- /dev/null
+> +++ b/recipes-containers/docker-distribution/files/0001-panicwrap-Use-dup3-on-riscv64-linux.patch
+> @@ -0,0 +1,42 @@
+> +From 21d54c68751760b1f8915807794a432cf01fb733 Mon Sep 17 00:00:00 2001
+> +From: Mingli Yu <mingli.yu@windriver.com>
+> +Date: Tue, 9 Jul 2024 16:28:14 +0800
+> +Subject: [PATCH] panicwrap: Use dup3 on riscv64 linux
+> +
+> +Use dup3 instead for riscv64 as there is no dup2 on riscv64 linux
+> +to fix the below failure:
+> +  vendor/github.com/bugsnag/panicwrap/dup2.go:10:9: undefined: syscall.Dup2
+> +
+> +Upstream-Status: Inappropriate [The upstream has removed the panicwrap as [1]]
+> +
+> +[1] https://github.com/distribution/distribution/commit/3e4c4ead4c3aa07c27f95f2a5c92c6d5c2f9dcdb
+> +
+> +Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+> +---
+> + vendor/github.com/bugsnag/panicwrap/dup2.go | 2 +-
+> + vendor/github.com/bugsnag/panicwrap/dup3.go | 2 +-
+> + 2 files changed, 2 insertions(+), 2 deletions(-)
+> +
+> +diff --git a/vendor/github.com/bugsnag/panicwrap/dup2.go b/vendor/github.com/bugsnag/panicwrap/dup2.go
+> +index de523c83..c68ce5ff 100644
+> +--- a/vendor/github.com/bugsnag/panicwrap/dup2.go
+> ++++ b/vendor/github.com/bugsnag/panicwrap/dup2.go
+> +@@ -1,4 +1,4 @@
+> +-// +build darwin dragonfly freebsd linux,!arm64 netbsd openbsd
+> ++// +build darwin dragonfly freebsd linux,!arm64,!riscv64 netbsd openbsd
+> + 
+> + package panicwrap
+> + 
+> +diff --git a/vendor/github.com/bugsnag/panicwrap/dup3.go b/vendor/github.com/bugsnag/panicwrap/dup3.go
+> +index 9721b36c..c664da85 100644
+> +--- a/vendor/github.com/bugsnag/panicwrap/dup3.go
+> ++++ b/vendor/github.com/bugsnag/panicwrap/dup3.go
+> +@@ -1,4 +1,4 @@
+> +-// +build linux,arm64
+> ++// +build linux,arm64 linux,riscv64
+> + 
+> + package panicwrap
+> + 
+> +-- 
+> +2.34.1
+> +
 > -- 
 > 2.34.1
 > 
@@ -120,8 +153,8 @@ on 04/07/2024 Kai Kang via lists.yoctoproject.org wrote:
 > 
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#8817): https://lists.yoctoproject.org/g/meta-virtualization/message/8817
-> Mute This Topic: https://lists.yoctoproject.org/mt/107033395/1050810
+> View/Reply Online (#8821): https://lists.yoctoproject.org/g/meta-virtualization/message/8821
+> Mute This Topic: https://lists.yoctoproject.org/mt/107119845/1050810
 > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
 > Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
