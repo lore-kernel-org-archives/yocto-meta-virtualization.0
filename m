@@ -1,130 +1,114 @@
-Return-Path: <mingli.yu@eng.windriver.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E63FC2BD09
-	for <webhook@archiver.kernel.org>; Tue,  9 Jul 2024 10:17:09 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.9613.1720520221231153441
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15F69C38150
+	for <webhook@archiver.kernel.org>; Wed, 10 Jul 2024 03:52:27 +0000 (UTC)
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
+ by mx.groups.io with SMTP id smtpd.web11.6212.1720583543160307822
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 09 Jul 2024 03:17:01 -0700
+ Tue, 09 Jul 2024 20:52:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=7920c6e60c=mingli.yu@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4694XCW7017879
-	for <meta-virtualization@lists.yoctoproject.org>; Tue, 9 Jul 2024 10:17:00 GMT
-Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 406u4x2mha-2
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <meta-virtualization@lists.yoctoproject.org>; Tue, 09 Jul 2024 10:17:00 +0000 (GMT)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Tue, 9 Jul 2024 03:16:59 -0700
-Received: from pek-lpg-core4.wrs.com (128.224.153.44) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.39 via Frontend Transport; Tue, 9 Jul 2024 03:16:59 -0700
-From: <mingli.yu@windriver.com>
-To: <meta-virtualization@lists.yoctoproject.org>
-Subject: [PATCH 2/2] docker-distribution: Use dup3 for riscv64
-Date: Tue, 9 Jul 2024 18:16:57 +0800
-Message-ID: <20240709101657.601908-2-mingli.yu@windriver.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240709101657.601908-1-mingli.yu@windriver.com>
-References: <20240709101657.601908-1-mingli.yu@windriver.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=k2MCs8Sc;
+ spf=pass (domain: gmail.com, ip: 209.85.222.170, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-79ef810bd4fso300640985a.2
+        for <meta-virtualization@lists.yoctoproject.org>; Tue, 09 Jul 2024 20:52:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1720583542; x=1721188342; darn=lists.yoctoproject.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=eovGQYXe9+EGNV96etd7YAZFkd7ZP6jhRALf9w/HVUA=;
+        b=k2MCs8SczL+ph/qWaI4azh86r2/Bd9bsztnRJnH2zEOJXLII0+6JxEOGxYco55Zdfz
+         SsQXIx4CyNedN+WYT3ucL15QNMoqTXSYizzwbyiKi7HFsNhUt0MpClJ4Up/cLGyC8wgG
+         EWSwH4k+7WLR3KIuZ3VfSD86sRD9bioHPdZgXzqXO0g5ZQq0RF699P/rVFhPGndJZEBe
+         w+wGn1rQw7TvhhJRnTFPLU0tC1wuuRE+G/kanEIvvB4G6dt/hEMDkF+giw25liLnXHo/
+         EoojZ7iHbZtKi84kdxTeGmJLIyvwD2RpF/YC3RJx6ceN1UP6wGTWkKg/UxG4S3PTCPfu
+         I6Jg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1720583542; x=1721188342;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=eovGQYXe9+EGNV96etd7YAZFkd7ZP6jhRALf9w/HVUA=;
+        b=Pd8oG6q8CmuchAivIOLe/6VqF2C+hCWgyq4RGvG+mUfoKTxwuKouND9prxM0/b5Z6h
+         oOl5oqRBBbJO546IzEl5QhEheiwwlnaUghwsxEcksjPyeGcYy6f1GgNMnYXAN02f9JBG
+         zKDqTz47EIiKVkozA0/7zpDwPupA+pApQwkZUsSdGUygeozuy5gLI0E6B1/qNiQYj7z6
+         IcgK5Hzksql5Rf5RxizHdQA7et4PFGZwUEg3kFhwgohinJgVTWHiZj7K9HiSiJ23kWWi
+         sgcTLsGj0wqqCMMgM7uMGqt3qaDcZl0GxbeOiFVR9guhRki4US6QWZUnIrBC/V7HxDc/
+         U5cA==
+X-Gm-Message-State: AOJu0Yy4Kdrd3GngDHyeP2tgKzzikQ9NeKXDgpWxWkRm1IREXEYJPDWz
+	qG/7cgSjzGuQ/rC5MiY3W9fQWMT3P4Dc4juK52n0htx9EAsF/BIUlvZoDDit
+X-Google-Smtp-Source: AGHT+IFFP7nIIcjL1wZ7/liwG5EAhxhoOD33CCgQZOzWFjebsUBYzk7CzbWztGIXpAA7wWwtfZtR1A==
+X-Received: by 2002:a37:ef19:0:b0:795:5995:fc89 with SMTP id af79cd13be357-79f19a6f377mr467098185a.18.1720583541890;
+        Tue, 09 Jul 2024 20:52:21 -0700 (PDT)
+Received: from gmail.com (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-79f190a862bsm157803385a.114.2024.07.09.20.52.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Jul 2024 20:52:21 -0700 (PDT)
+Date: Wed, 10 Jul 2024 03:52:19 +0000
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: mingli.yu@eng.windriver.com
+Cc: meta-virtualization@lists.yoctoproject.org
+Subject: Re: [meta-virtualization] [PATCH] aardvark-dns: Improve the ptest
+ output
+Message-ID: <Zo4Fcz/Jn596jp6v@gmail.com>
+References: <20240626032417.1990728-1-mingli.yu@windriver.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: Mo-hJn_OUYOvLGNGd7gImyNFqrLNHqzz
-X-Proofpoint-GUID: Mo-hJn_OUYOvLGNGd7gImyNFqrLNHqzz
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-07-09_01,2024-07-08_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 adultscore=0
- malwarescore=0 bulkscore=0 clxscore=1015 spamscore=0 mlxlogscore=999
- priorityscore=1501 lowpriorityscore=0 suspectscore=0 phishscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.21.0-2406140001 definitions=main-2407090069
+In-Reply-To: <20240626032417.1990728-1-mingli.yu@windriver.com>
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Tue, 09 Jul 2024 10:17:09 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8821
+ <meta-virtualization@lists.yoctoproject.org>; Wed, 10 Jul 2024 03:52:26 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8822
 
-From: Mingli Yu <mingli.yu@windriver.com>
+staged to master-next
 
-Use dup3 instead for riscv64 as there is no dup2 on riscv64 linux
-to fix the below build failure:
-  vendor/github.com/bugsnag/panicwrap/dup2.go:10:9: undefined: syscall.Dup2
+Bruce
 
-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
----
- .../docker-distribution_git.bb                |  1 +
- ...-panicwrap-Use-dup3-on-riscv64-linux.patch | 42 +++++++++++++++++++
- 2 files changed, 43 insertions(+)
- create mode 100644 recipes-containers/docker-distribution/files/0001-panicwrap-Use-dup3-on-riscv64-linux.patch
+In message: [meta-virtualization] [PATCH] aardvark-dns: Improve the ptest output
+on 26/06/2024 Yu, Mingli via lists.yoctoproject.org wrote:
 
-diff --git a/recipes-containers/docker-distribution/docker-distribution_git.bb b/recipes-containers/docker-distribution/docker-distribution_git.bb
-index 4e64df4f..bb4a7cbf 100644
---- a/recipes-containers/docker-distribution/docker-distribution_git.bb
-+++ b/recipes-containers/docker-distribution/docker-distribution_git.bb
-@@ -7,6 +7,7 @@ SRCREV_distribution= "d607c6ccb9372e05556624f973119a23d3a42987"
- SRC_URI = "git://github.com/docker/distribution.git;branch=release/2.8;name=distribution;destsuffix=git/src/github.com/docker/distribution;protocol=https \
-            file://docker-registry.service \
-            file://0001-build-use-to-use-cross-go-compiler.patch \
-+           file://0001-panicwrap-Use-dup3-on-riscv64-linux.patch \
-           "
- 
- PACKAGES =+ "docker-registry"
-diff --git a/recipes-containers/docker-distribution/files/0001-panicwrap-Use-dup3-on-riscv64-linux.patch b/recipes-containers/docker-distribution/files/0001-panicwrap-Use-dup3-on-riscv64-linux.patch
-new file mode 100644
-index 00000000..753afef7
---- /dev/null
-+++ b/recipes-containers/docker-distribution/files/0001-panicwrap-Use-dup3-on-riscv64-linux.patch
-@@ -0,0 +1,42 @@
-+From 21d54c68751760b1f8915807794a432cf01fb733 Mon Sep 17 00:00:00 2001
-+From: Mingli Yu <mingli.yu@windriver.com>
-+Date: Tue, 9 Jul 2024 16:28:14 +0800
-+Subject: [PATCH] panicwrap: Use dup3 on riscv64 linux
-+
-+Use dup3 instead for riscv64 as there is no dup2 on riscv64 linux
-+to fix the below failure:
-+  vendor/github.com/bugsnag/panicwrap/dup2.go:10:9: undefined: syscall.Dup2
-+
-+Upstream-Status: Inappropriate [The upstream has removed the panicwrap as [1]]
-+
-+[1] https://github.com/distribution/distribution/commit/3e4c4ead4c3aa07c27f95f2a5c92c6d5c2f9dcdb
-+
-+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-+---
-+ vendor/github.com/bugsnag/panicwrap/dup2.go | 2 +-
-+ vendor/github.com/bugsnag/panicwrap/dup3.go | 2 +-
-+ 2 files changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/vendor/github.com/bugsnag/panicwrap/dup2.go b/vendor/github.com/bugsnag/panicwrap/dup2.go
-+index de523c83..c68ce5ff 100644
-+--- a/vendor/github.com/bugsnag/panicwrap/dup2.go
-++++ b/vendor/github.com/bugsnag/panicwrap/dup2.go
-+@@ -1,4 +1,4 @@
-+-// +build darwin dragonfly freebsd linux,!arm64 netbsd openbsd
-++// +build darwin dragonfly freebsd linux,!arm64,!riscv64 netbsd openbsd
-+ 
-+ package panicwrap
-+ 
-+diff --git a/vendor/github.com/bugsnag/panicwrap/dup3.go b/vendor/github.com/bugsnag/panicwrap/dup3.go
-+index 9721b36c..c664da85 100644
-+--- a/vendor/github.com/bugsnag/panicwrap/dup3.go
-++++ b/vendor/github.com/bugsnag/panicwrap/dup3.go
-+@@ -1,4 +1,4 @@
-+-// +build linux,arm64
-++// +build linux,arm64 linux,riscv64
-+ 
-+ package panicwrap
-+ 
-+-- 
-+2.34.1
-+
--- 
-2.34.1
+> From: Mingli Yu <mingli.yu@windriver.com>
+> 
+> The previous ptest result show as ✓ or ✗ , improve the result to
+> PASS or FAIL.
+>  # ./run-ptest
+>  [snip]
+>  PASS: 6 basic container - dns itself with long network name
+>  PASS: 7 two containers on the same network
+>  PASS: 8 two containers on different networks
+>  [snip]
+> 
+> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+> ---
+>  recipes-containers/aardvark-dns/files/run-ptest | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/recipes-containers/aardvark-dns/files/run-ptest b/recipes-containers/aardvark-dns/files/run-ptest
+> index b33d8fd4..d7abbb34 100644
+> --- a/recipes-containers/aardvark-dns/files/run-ptest
+> +++ b/recipes-containers/aardvark-dns/files/run-ptest
+> @@ -1,3 +1,3 @@
+>  #!/bin/bash
+>  
+> -NETAVARK=/usr/libexec/podman/netavark AARDVARK=/usr/libexec/podman/aardvark-dns bats ./test/
+> +NETAVARK=/usr/libexec/podman/netavark AARDVARK=/usr/libexec/podman/aardvark-dns bats -t ./test/ | sed -e '/^ok/ s/^ok/PASS:/g' | sed -e '/^not ok/ s/^not ok/FAIL:/g'
+> -- 
+> 2.34.1
+> 
+
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#8812): https://lists.yoctoproject.org/g/meta-virtualization/message/8812
+> Mute This Topic: https://lists.yoctoproject.org/mt/106884095/1050810
+> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
 
