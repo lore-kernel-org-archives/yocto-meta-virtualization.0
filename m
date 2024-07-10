@@ -1,87 +1,116 @@
-Return-Path: <d.schultz@phytec.de>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2392FC3DA42
-	for <webhook@archiver.kernel.org>; Wed, 10 Jul 2024 13:35:21 +0000 (UTC)
-Received: from mickerik.phytec.de (mickerik.phytec.de [91.26.50.163])
- by mx.groups.io with SMTP id smtpd.web11.14605.1720618512323033893
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52C0BC3DA42
+	for <webhook@archiver.kernel.org>; Wed, 10 Jul 2024 13:57:31 +0000 (UTC)
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
+ by mx.groups.io with SMTP id smtpd.web10.15106.1720619846767812609
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 10 Jul 2024 06:35:12 -0700
+ Wed, 10 Jul 2024 06:57:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@phytec.de header.s=a4 header.b=FPhgCtgb;
- spf=pass (domain: phytec.de, ip: 91.26.50.163, mailfrom: d.schultz@phytec.de)
-DKIM-Signature: v=1; a=rsa-sha256; d=phytec.de; s=a4; c=relaxed/simple;
-	q=dns/txt; i=@phytec.de; t=1720618510; x=1723210510;
-	h=From:Sender:Reply-To:Subject:Date:Message-ID:To:CC:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=4T3XrEoLDwPXc9nl2L/eLqueIimiG/OJHRzs6UdaIVs=;
-	b=FPhgCtgbdIKq5i6dTwGyDzb8Vr5x24afnDLgpzYgB6MY3fY98P3EwZAQuT4xwE20
-	rj/BKVQI/HloqeaY5B6qAhz6A1tdxnsBAYvwgO0VRLcnqa/uQrv+xeyVszWK/Hzq
-	0mb9yVvt7duW9cDcBdUAaLd3R5/4R+QCXwTWH9II1ek=;
-X-AuditID: ac14000a-03e52700000021bc-f5-668e8e0ec9a4
-Received: from berlix.phytec.de (Unknown_Domain [172.25.0.12])
-	(using TLS with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(Client did not present a certificate)
-	by mickerik.phytec.de (PHYTEC Mail Gateway) with SMTP id B2.E0.08636.E0E8E866; Wed, 10 Jul 2024 15:35:10 +0200 (CEST)
-Received: from ls-radium.phytec (172.25.0.11) by Berlix.phytec.de
- (172.25.0.12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.6; Wed, 10 Jul
- 2024 15:35:09 +0200
-From: Daniel Schultz <d.schultz@phytec.de>
-To: <meta-virtualization@lists.yoctoproject.org>, <L.Anderweit@phytec.de>,
-	<bruce.ashfield@gmail.com>
-CC: <upstream@lists.phytec.de>, Daniel Schultz <d.schultz@phytec.de>
-Subject: [scarthgap+][PATCH] podman-compose: Switch branch to main
-Date: Wed, 10 Jul 2024 06:34:42 -0700
-Message-ID: <20240710133442.1367169-1-d.schultz@phytec.de>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=LYSnwbdl;
+ spf=pass (domain: gmail.com, ip: 209.85.128.179, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-64789495923so55317257b3.0
+        for <meta-virtualization@lists.yoctoproject.org>; Wed, 10 Jul 2024 06:57:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1720619846; x=1721224646; darn=lists.yoctoproject.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Z/g/uXFWupPQBz/BOLztfHoTT2FeEc1g42NpY2InPiQ=;
+        b=LYSnwbdllhDI9E2ju/IYw4QCyyYhG3rvamDJ9Q2baPLJFkqO9ujDJa7X9xQQcmKXel
+         kAKVc1dNpcfSdyAhqS8Hn/APV4WB6FE8HrAUfUhNmNX97HiDKOYNT0cEpzDVRq9N1LYl
+         4Enhs4BZGKbZxrpHooRQKOXfIBrPQxWFnhPU6xIQNpjFAAP5k+AgXrp4LyWG7OOSf4cY
+         huaeHKCcsMyeMhxFXB2KPPwLSvAZ+xQInrn1/bCQROHUdQ/7khlwlc6PXHYV2nXuxMYz
+         artcLYBFxBLotNwUw89RkWJ46Rk9JamIQx4oteXB7JUfPiqjE0oMRRfsQPKoqwj8GqTl
+         7Xww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1720619846; x=1721224646;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Z/g/uXFWupPQBz/BOLztfHoTT2FeEc1g42NpY2InPiQ=;
+        b=Wcs58mr4/cAN0uwR8s16TygdLrmRw0e9W/GHlqt0DxNn79hGEvRMJi9+h5w10KiNcD
+         UkLHukCuKvr8SGTDxCLx7Z0SWOF7FYgp+L9liYQu0PLcWe/x/m1MS3/5ekX/18duXaoE
+         aRTLwsYIhdu4J2ij9USAGMCUltZP6tnekqBcGUy6/GGX/4DsHUeWCjNqOijalWXRUxaY
+         KBOPNeB4UOstzMdRMiCgr5a2ltTJcMItfGpZ2/ZHfTmNg8jNfqGqOoeDe7alSy/OHc4k
+         ShSm7eXYtl9ZRa+sM1M0ADXsn3be5/cxRXCe97lOsDY1P85Vg8uOP1MLoMUekvUTW/VI
+         ioHg==
+X-Gm-Message-State: AOJu0YxDlHyNMzFU2YPEV3gQjtDHU/QoCOA6qdz5NASGnDxYbF0AT0r7
+	dpvfBLeiMCoHVqAXo5CIZOBhukCAThNPqmbKkTfg+LrJxZgHkTxp5/0KK6h8mQmtOZSfsbUN/6P
+	G0OQhqjU1bArT9QKzBJam/uYXrbXBFzlK
+X-Google-Smtp-Source: AGHT+IHQYg6qYMb+1MIiFa1QKbkRRCIjhjs/nplqyzsRMvg2UUHUlKgQcJWbijs7Mj2Zarl2LVqV6c188r/nXQ5iB7s=
+X-Received: by 2002:a0d:e616:0:b0:64a:5df5:3afb with SMTP id
+ 00721157ae682-658f02f4022mr62400247b3.39.1720619845678; Wed, 10 Jul 2024
+ 06:57:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [172.25.0.11]
-X-ClientProxiedBy: Berlix.phytec.de (172.25.0.12) To Berlix.phytec.de
- (172.25.0.12)
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrDLMWRmVeSWpSXmKPExsWyRpKBR5evry/N4O09PYvunQdYLRZ9ecZq
-	0f1O3YHZY+esu+we/d0trB4zTz1iDmCO4rJJSc3JLEst0rdL4Mq4d/EXe8Em9oor0zrYGxhP
-	s3UxcnJICJhI3Jw8hb2LkYtDSGAJk8SKlfcZIZz7jBLrlv9jBqliE9CSuLNlLpgtIpAucbJ1
-	PQuIzSzgIrH4xgfWLkYODmEBJ4njb3xBwiwCqhLXXx4FK+EVsJLY1nOOBWKZvMTMS9/ZIeKC
-	EidnPoEaIy/RvHU2M4QtIXHwxQswW0hAQWL2tsmMML3Tzr1mhrBDJbZ+2c40gVFgFpJRs5CM
-	moVk1AJG5lWMQrmZydmpRZnZegUZlSWpyXopqZsYQSEqwsC1g7FvjschRiYOxkOMEhzMSiK8
-	8290pwnxpiRWVqUW5ccXleakFh9ilOZgURLnXd0RnCokkJ5YkpqdmlqQWgSTZeLglGpgjD8S
-	t6T1bdWNsLbzKzZn/g5Z/zjYiyXQ/sOmsvbDKuyqH+zj9qkUlzBXf1tQpO0c+ODPrdx690jJ
-	JlUmN/6s8hjXD29unWaMCyg+n9G/jjv/yQH/iZtq7gv2TG/UiZdYP/nrivu7DjrdT5x4nEF5
-	g2nJlhlens3cvFtcj2lKX/ptpHn01AwNJZbijERDLeai4kQAhIcVpT8CAAA=
+References: <20240710133017.205957-1-d.schultz@phytec.de>
+In-Reply-To: <20240710133017.205957-1-d.schultz@phytec.de>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Wed, 10 Jul 2024 09:57:13 -0400
+Message-ID: <CADkTA4OBR3uTp0JNe7uMWPfSB0rkBOowyNJTZH3j8sS4tG7F-g@mail.gmail.com>
+Subject: Re: [scarthgap+][PATCH] podman-compose: Switch branch to main
+To: Daniel Schultz <d.schultz@phytec.de>
+Cc: meta-virtualization@lists.yoctoproject.org, L.Anderweit@phytec.de, 
+	upstream@lists.phytec.de
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Wed, 10 Jul 2024 13:35:21 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8835
+ <meta-virtualization@lists.yoctoproject.org>; Wed, 10 Jul 2024 13:57:31 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8836
 
-The podman-compose repository has no stable branch anymore and
-release 1.0.6 is located on main now.
+I'm going through a package update cycle right now and ran into
+this as well.
 
-Signed-off-by: Daniel Schultz <d.schultz@phytec.de>
----
- recipes-containers/podman-compose/podman-compose_1.0.6.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I've got the branch switch and a version bumped queued and under
+test. But I can rush out the branch test switch faster, since it is
+breaking builds.
 
-diff --git a/recipes-containers/podman-compose/podman-compose_1.0.6.bb b/recipes-containers/podman-compose/podman-compose_1.0.6.bb
-index e055ee45..bcb2b86b 100644
---- a/recipes-containers/podman-compose/podman-compose_1.0.6.bb
-+++ b/recipes-containers/podman-compose/podman-compose_1.0.6.bb
-@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=b234ee4d69f5fce4486a80fdaf4a4263"
- 
- inherit setuptools3
- 
--SRC_URI = "git://github.com/containers/podman-compose.git;branch=stable;protocol=https"
-+SRC_URI = "git://github.com/containers/podman-compose.git;branch=main;protocol=https"
- 
- SRCREV = "f6dbce36181c44d0d08b6f4ca166508542875ce1"
- 
--- 
-2.25.1
+Let me say for the mailing list archive .. projects that delete branches
+are inherently wrong. I don't have the energy to go complain to the
+upstream, but if someone wants to go ahead and call them out on
+removing a branch, they should feel free to do so :)
 
+Bruce
+
+On Wed, Jul 10, 2024 at 9:30=E2=80=AFAM Daniel Schultz <d.schultz@phytec.de=
+> wrote:
+>
+> The podman-compose repository has no stable branch anymore and
+> release 1.0.6 is located on main now.
+>
+> Signed-off-by: Daniel Schultz <d.schultz@phytec.de>
+> ---
+>  recipes-containers/podman-compose/podman-compose_1.0.6.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/recipes-containers/podman-compose/podman-compose_1.0.6.bb b/=
+recipes-containers/podman-compose/podman-compose_1.0.6.bb
+> index e055ee45..bcb2b86b 100644
+> --- a/recipes-containers/podman-compose/podman-compose_1.0.6.bb
+> +++ b/recipes-containers/podman-compose/podman-compose_1.0.6.bb
+> @@ -4,7 +4,7 @@ LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3Db234ee4d69f5fc=
+e4486a80fdaf4a4263"
+>
+>  inherit setuptools3
+>
+> -SRC_URI =3D "git://github.com/containers/podman-compose.git;branch=3Dsta=
+ble;protocol=3Dhttps"
+> +SRC_URI =3D "git://github.com/containers/podman-compose.git;branch=3Dmai=
+n;protocol=3Dhttps"
+>
+>  SRCREV =3D "f6dbce36181c44d0d08b6f4ca166508542875ce1"
+>
+> --
+> 2.25.1
+>
+
+
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
