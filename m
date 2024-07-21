@@ -1,116 +1,107 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <tim.orling@konsulko.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 52C0BC3DA42
-	for <webhook@archiver.kernel.org>; Wed, 10 Jul 2024 13:57:31 +0000 (UTC)
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
- by mx.groups.io with SMTP id smtpd.web10.15106.1720619846767812609
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AEC6C3DA5D
+	for <webhook@archiver.kernel.org>; Sun, 21 Jul 2024 06:13:39 +0000 (UTC)
+Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com [209.85.161.44])
+ by mx.groups.io with SMTP id smtpd.web10.20567.1721542408248288842
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 10 Jul 2024 06:57:26 -0700
+ Sat, 20 Jul 2024 23:13:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=LYSnwbdl;
- spf=pass (domain: gmail.com, ip: 209.85.128.179, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-64789495923so55317257b3.0
-        for <meta-virtualization@lists.yoctoproject.org>; Wed, 10 Jul 2024 06:57:26 -0700 (PDT)
+ dkim=pass header.i=@konsulko.com header.s=google header.b=spQgXcmM;
+ spf=pass (domain: konsulko.com, ip: 209.85.161.44, mailfrom: tim.orling@konsulko.com)
+Received: by mail-oo1-f44.google.com with SMTP id 006d021491bc7-5ce74defe43so1726809eaf.2
+        for <meta-virtualization@lists.yoctoproject.org>; Sat, 20 Jul 2024 23:13:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720619846; x=1721224646; darn=lists.yoctoproject.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Z/g/uXFWupPQBz/BOLztfHoTT2FeEc1g42NpY2InPiQ=;
-        b=LYSnwbdllhDI9E2ju/IYw4QCyyYhG3rvamDJ9Q2baPLJFkqO9ujDJa7X9xQQcmKXel
-         kAKVc1dNpcfSdyAhqS8Hn/APV4WB6FE8HrAUfUhNmNX97HiDKOYNT0cEpzDVRq9N1LYl
-         4Enhs4BZGKbZxrpHooRQKOXfIBrPQxWFnhPU6xIQNpjFAAP5k+AgXrp4LyWG7OOSf4cY
-         huaeHKCcsMyeMhxFXB2KPPwLSvAZ+xQInrn1/bCQROHUdQ/7khlwlc6PXHYV2nXuxMYz
-         artcLYBFxBLotNwUw89RkWJ46Rk9JamIQx4oteXB7JUfPiqjE0oMRRfsQPKoqwj8GqTl
-         7Xww==
+        d=konsulko.com; s=google; t=1721542407; x=1722147207; darn=lists.yoctoproject.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=XJxHAA/dYrsIq0PvADzmWq5nwThtEQXNBmYu3QzbwOA=;
+        b=spQgXcmMr+RIvJqEE9CbSPaBHBJtub5RRjMDRqev0aplMGcm1vvKd0hV1wwvC0ZOpS
+         o1IRROaQEyFbO8Nwpr28V1M1jrRodW4pVU6kT0voe9sC4RhxOLAiAvvDCw/znYPo275x
+         Z+9TfC4+OyDq5OQndzPizV8S2wF3OrXA1W3c8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720619846; x=1721224646;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Z/g/uXFWupPQBz/BOLztfHoTT2FeEc1g42NpY2InPiQ=;
-        b=Wcs58mr4/cAN0uwR8s16TygdLrmRw0e9W/GHlqt0DxNn79hGEvRMJi9+h5w10KiNcD
-         UkLHukCuKvr8SGTDxCLx7Z0SWOF7FYgp+L9liYQu0PLcWe/x/m1MS3/5ekX/18duXaoE
-         aRTLwsYIhdu4J2ij9USAGMCUltZP6tnekqBcGUy6/GGX/4DsHUeWCjNqOijalWXRUxaY
-         KBOPNeB4UOstzMdRMiCgr5a2ltTJcMItfGpZ2/ZHfTmNg8jNfqGqOoeDe7alSy/OHc4k
-         ShSm7eXYtl9ZRa+sM1M0ADXsn3be5/cxRXCe97lOsDY1P85Vg8uOP1MLoMUekvUTW/VI
-         ioHg==
-X-Gm-Message-State: AOJu0YxDlHyNMzFU2YPEV3gQjtDHU/QoCOA6qdz5NASGnDxYbF0AT0r7
-	dpvfBLeiMCoHVqAXo5CIZOBhukCAThNPqmbKkTfg+LrJxZgHkTxp5/0KK6h8mQmtOZSfsbUN/6P
-	G0OQhqjU1bArT9QKzBJam/uYXrbXBFzlK
-X-Google-Smtp-Source: AGHT+IHQYg6qYMb+1MIiFa1QKbkRRCIjhjs/nplqyzsRMvg2UUHUlKgQcJWbijs7Mj2Zarl2LVqV6c188r/nXQ5iB7s=
-X-Received: by 2002:a0d:e616:0:b0:64a:5df5:3afb with SMTP id
- 00721157ae682-658f02f4022mr62400247b3.39.1720619845678; Wed, 10 Jul 2024
- 06:57:25 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1721542407; x=1722147207;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=XJxHAA/dYrsIq0PvADzmWq5nwThtEQXNBmYu3QzbwOA=;
+        b=n7MHNs0s7R6NLsdoIzTNOKrCU5gwvayfMtQQiBJg/zX73keWqThTwmPNQJkHvo9oib
+         f2s8Uqa6WeUAt194hLe+aEUkr01hO2zbkH2QpRkMEFqWsk4cvo7g3Waq4V31m5Jhhw3q
+         OvqQRv4a718GCKlfFVijujvUmnYmmeS7kONd4dfPKvUWtqEBPM8TO2zmnKL5W5AWvfFQ
+         0hZyy3xFj2x0S6vGYQI3HwYlG0O2qSBF5mQkBwCtFyXCJ7rqgJa7CSzv7NOaxPUt1Tpi
+         9U1vvnZOnHiszxLJrhZRljjDAbIA7MSq+OfeuUJuI9SABLEyf7T/MtdZpwwC8Z54Dhjg
+         bbIw==
+X-Gm-Message-State: AOJu0YzghXoAtEweQee+yVqbn0HJ6kb9eq2pLiU7ixs5o/UFgcwI6G/9
+	ygMK9Elz8ErBMbWnh7TZtXcWpo6e70bmiHLo7Zpjm8YaWI6yhL+jhW182hZK3b2636+230RLWWZ
+	8FQY=
+X-Google-Smtp-Source: AGHT+IELxSgEnWMtKQnP+F+YDWw8aXOW8pLmDDlGEAGQ8UYPZ/6f4TNpLmfF2H/7PVC3wu3E9EbX4g==
+X-Received: by 2002:a05:6358:3a0f:b0:1ab:86f1:25bb with SMTP id e5c5f4694b2df-1acc5c8041fmr451003355d.27.1721542406737;
+        Sat, 20 Jul 2024 23:13:26 -0700 (PDT)
+Received: from localhost (c-98-232-159-17.hsd1.or.comcast.net. [98.232.159.17])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-79f0a3debc1sm2762194a12.7.2024.07.20.23.13.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 20 Jul 2024 23:13:26 -0700 (PDT)
+From: tim.orling@konsulko.com
+To: meta-virtualization@lists.yoctoproject.org
+Cc: Christopher Clark <christopher.w.clark@gmail.com>,
+	Tim Orling <tim.orling@konsulko.com>
+Subject: [meta-virtualization][PATCH] xen-rpi-u-boot-scr: WORKDIR -> UNPACKDIR transition
+Date: Sat, 20 Jul 2024 23:12:55 -0700
+Message-ID: <20240721061254.3674810-2-tim.orling@konsulko.com>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-References: <20240710133017.205957-1-d.schultz@phytec.de>
-In-Reply-To: <20240710133017.205957-1-d.schultz@phytec.de>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 10 Jul 2024 09:57:13 -0400
-Message-ID: <CADkTA4OBR3uTp0JNe7uMWPfSB0rkBOowyNJTZH3j8sS4tG7F-g@mail.gmail.com>
-Subject: Re: [scarthgap+][PATCH] podman-compose: Switch branch to main
-To: Daniel Schultz <d.schultz@phytec.de>
-Cc: meta-virtualization@lists.yoctoproject.org, L.Anderweit@phytec.de, 
-	upstream@lists.phytec.de
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Wed, 10 Jul 2024 13:57:31 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8836
+ <meta-virtualization@lists.yoctoproject.org>; Sun, 21 Jul 2024 06:13:39 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8837
 
-I'm going through a package update cycle right now and ran into
-this as well.
+From: Tim Orling <tim.orling@konsulko.com>
 
-I've got the branch switch and a version bumped queued and under
-test. But I can rush out the branch test switch faster, since it is
-breaking builds.
+Borrowed from Leon Anavi <leon.anavi@konsulko.com>
+meta-raspberrypi: commit 434ed33c90b7659152b1e8d7c2d4d785db85105f
 
-Let me say for the mailing list archive .. projects that delete branches
-are inherently wrong. I don't have the energy to go complain to the
-upstream, but if someone wants to go ahead and call them out on
-removing a branch, they should feel free to do so :)
+and from Martin Jansa <martin.jansa@gmail.com>
+meta-raspberrypi: commit c39c2b165e68388767f54dc86acf4595a33ee1e1
 
-Bruce
+This adapts to the oe-core rework to enforce a separate directory
+for unpacking local sources (UNPACKDIR) instead of directly using
+WORKDIR.
 
-On Wed, Jul 10, 2024 at 9:30=E2=80=AFAM Daniel Schultz <d.schultz@phytec.de=
-> wrote:
->
-> The podman-compose repository has no stable branch anymore and
-> release 1.0.6 is located on main now.
->
-> Signed-off-by: Daniel Schultz <d.schultz@phytec.de>
-> ---
->  recipes-containers/podman-compose/podman-compose_1.0.6.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/recipes-containers/podman-compose/podman-compose_1.0.6.bb b/=
-recipes-containers/podman-compose/podman-compose_1.0.6.bb
-> index e055ee45..bcb2b86b 100644
-> --- a/recipes-containers/podman-compose/podman-compose_1.0.6.bb
-> +++ b/recipes-containers/podman-compose/podman-compose_1.0.6.bb
-> @@ -4,7 +4,7 @@ LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3Db234ee4d69f5fc=
-e4486a80fdaf4a4263"
->
->  inherit setuptools3
->
-> -SRC_URI =3D "git://github.com/containers/podman-compose.git;branch=3Dsta=
-ble;protocol=3Dhttps"
-> +SRC_URI =3D "git://github.com/containers/podman-compose.git;branch=3Dmai=
-n;protocol=3Dhttps"
->
->  SRCREV =3D "f6dbce36181c44d0d08b6f4ca166508542875ce1"
->
-> --
-> 2.25.1
->
+Follows the preliminary guideline from:
+https://lists.openembedded.org/g/openembedded-architecture/message/2007
 
+Signed-off-by: Tim Orling <tim.orling@konsulko.com>
+---
+ .../recipes-bsp/xen-rpi-u-boot-scr/xen-rpi-u-boot-scr.bb     | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+diff --git a/dynamic-layers/raspberrypi/recipes-bsp/xen-rpi-u-boot-scr/xen-rpi-u-boot-scr.bb b/dynamic-layers/raspberrypi/recipes-bsp/xen-rpi-u-boot-scr/xen-rpi-u-boot-scr.bb
+index 87619d01..3f83c7f8 100644
+--- a/dynamic-layers/raspberrypi/recipes-bsp/xen-rpi-u-boot-scr/xen-rpi-u-boot-scr.bb
++++ b/dynamic-layers/raspberrypi/recipes-bsp/xen-rpi-u-boot-scr/xen-rpi-u-boot-scr.bb
+@@ -17,13 +17,16 @@ do_compile() {
+         -e 's/@@KERNEL_BOOTCMD@@/${KERNEL_BOOTCMD}/' \
+         -e 's/@@RPI_DOM0_MEM@@/${RPI_DOM0_MEM}/' \
+         -e 's/@@RPI_DEBUG_XEN_ARGS@@/${RPI_DEBUG_XEN_ARGS}/' \
+-        "${WORKDIR}/boot.cmd.xen.in" > "${WORKDIR}/boot.cmd"
++        "${UNPACKDIR}/boot.cmd.xen.in" > "${WORKDIR}/boot.cmd"
+ 
+     mkimage -A ${UBOOT_ARCH} -T script -C none -n "Boot script" -d "${WORKDIR}/boot.cmd" boot.scr
+ }
+ 
+ inherit kernel-arch deploy nopackages
+ 
++S = "${WORKDIR}/sources"
++UNPACKDIR = "${S}"
++
+ do_deploy() {
+     install -d ${DEPLOYDIR}
+     install -m 0644 boot.scr ${DEPLOYDIR}
+-- 
+2.45.2
+
 
