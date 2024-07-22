@@ -1,117 +1,288 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AEE51C3DA5D
-	for <webhook@archiver.kernel.org>; Mon, 22 Jul 2024 22:20:07 +0000 (UTC)
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
- by mx.groups.io with SMTP id smtpd.web11.31072.1721686806888524757
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF453C3DA5D
+	for <webhook@archiver.kernel.org>; Mon, 22 Jul 2024 22:24:17 +0000 (UTC)
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
+ by mx.groups.io with SMTP id smtpd.web11.31171.1721687049508531305
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 22 Jul 2024 15:20:07 -0700
+ Mon, 22 Jul 2024 15:24:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=PBx+B3tt;
- spf=pass (domain: gmail.com, ip: 209.85.222.179, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-79ef93865afso282277785a.1
-        for <meta-virtualization@lists.yoctoproject.org>; Mon, 22 Jul 2024 15:20:06 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=MPakcezW;
+ spf=pass (domain: gmail.com, ip: 209.85.128.178, mailfrom: ticotimo@gmail.com)
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-66493332ebfso43444067b3.3
+        for <meta-virtualization@lists.yoctoproject.org>; Mon, 22 Jul 2024 15:24:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1721686806; x=1722291606; darn=lists.yoctoproject.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=yK5v1GfetcBmy82DT0NXXUTfhCFt9OJuE84Z43XK9S4=;
-        b=PBx+B3ttUh6WZ0zkSElyT/wEvjoWkQEHc6pukcNePcy+Q0+HaQwv/4AJTuO2NXnp1w
-         0HYAysNgyzNqeeM4jEiyU/+VMSA//fsGctwskBAML7RhuLVbfhytGatxqsfpkXsSWDlr
-         pJo948FwjPTQYJwP+SaTAyQ5TyzhJEJIsuDEdMpQele44ys1lq3K5m1tPUvPr47nUits
-         5lkgNCX42EQR9qgg/boJWGPuUBiRMDFIJpJp5AHjS2su+VV7Mzo04MFO6rX/5Rua7Fo7
-         lFIou+JG5gyL6wGkZHhpUQQvfULwQSnUOAD2TccUmgjt/sh+BPH0kYdbrysFbZbSTNPl
-         Ojkw==
+        d=gmail.com; s=20230601; t=1721687048; x=1722291848; darn=lists.yoctoproject.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=8w79qNJp9ZWCE6kwIsbKjb6+/Pr+6uk8CU0VhnOoTgg=;
+        b=MPakcezWDE9T5nNcYWNbrFNNaN0HkNueffMrcG5n3wleE8e98u14FcwKSJEeMtIngv
+         zzK9OAtuWpJ30X5zBFC+wvTRgvDk/n1wXgiN9Zr00FyAAKBcEKIziILM6yQr3Ses4rk5
+         z8TKSK9nUEM3i4qgFgm6ggqsa4Uo4JYj+PgOHN/6FaQlhDhQ1AT69nTBWqM9PPAHU6Mw
+         3qQGJXtwOzerpHPSCsCSqgqXmiNcQVsOF9nuIdtjdea2RjsIFZqGQ7gS5xObw7KH/MKO
+         jS3rQYTi2w8IFFIN16B6aQmWroPneGD+9qVaf+HiGjrb2qMF+HoQbzW0PPa/XgVgHQR3
+         zy+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721686806; x=1722291606;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yK5v1GfetcBmy82DT0NXXUTfhCFt9OJuE84Z43XK9S4=;
-        b=fFq+07xRjh2p07lPGFQlkVQvoMMRArgzPyGjzcR5Wfihi8HrkhVg2Y5tz5jFDR1WE7
-         MtcytVmKw1uZ3sqZb7rknthrsGIZpttN5Gi2BlZv6mDcbnzYhM/CjKo1E80PcUfUsEks
-         2SDWnp8ZGJ0fVataSnLfLFFpYpkBZ0zGhJpOEhHc++KJ351G4/m2ZqosStjhW4Xj4Xbd
-         M4k7Ah5+NxSC7Qs+C5c4ji5n9N4/LAyZgblHa0+uW9rP9BjHqIm1DMr8Ruvyc9P1TKew
-         31nn47qLZ10b/6jFORp999efxWl3vI+Zn7/n2fCGG/Q3uqyacgBh6c+IV+bYZdg/qp3E
-         T3tA==
-X-Gm-Message-State: AOJu0YyR52YMAC7ows9vBlFMb6N3rkMN4SpddACG+sHZ9T9uQNy1OnU1
-	RCHdGlSfN9lbsPWErr7j+2yPNqsKAxqQUoEuWcv52P7kKJLFbXlK
-X-Google-Smtp-Source: AGHT+IHBTvr37RAybfOXqG66Gluo8l4JzLM+CrxapCafwJ9NRHVKHY+3WU+aT0LNXofdzlDIZYXnsg==
-X-Received: by 2002:a05:6214:27e5:b0:6b7:9b14:627b with SMTP id 6a1803df08f44-6b9610f023bmr136465986d6.40.1721686805784;
-        Mon, 22 Jul 2024 15:20:05 -0700 (PDT)
-Received: from gmail.com (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6b96cd4e4f0sm19178456d6.78.2024.07.22.15.20.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Jul 2024 15:20:05 -0700 (PDT)
-Date: Mon, 22 Jul 2024 22:20:03 +0000
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: badganchipv@gmail.com
-Cc: meta-virtualization@lists.yoctoproject.org, ranjitsinh.rathod@kpit.com
-Subject: Re: [meta-virtualization][scarthgap][PATCH] lxc: Fix meson build
- issue
-Message-ID: <Zp7bE2xL1AozeyeN@gmail.com>
-References: <20240710053655.16122-1-badganchipv@gmail.com>
+        d=1e100.net; s=20230601; t=1721687048; x=1722291848;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8w79qNJp9ZWCE6kwIsbKjb6+/Pr+6uk8CU0VhnOoTgg=;
+        b=WdnfY1hk4+8Zizri/TsjzhBnd5Dk00s92V+xvU65DX+qBb9eIl4SwlTpQ9DCyFlRTk
+         3eLQT/OXzoavo4R3v/E8Y3MjSbsEcDpzn6xWxk5PeNDTDhX+NtzXbAih1bYrkrl5PY9o
+         kLTNvHlHiqaAO6ScBcowDJsqFvqAusJUEEmr6Axl2JDKuPCZNXjxleLMQb0qRCUPmm49
+         H44t6dQJUcn02gVPncCufIr5cUkuNfHzHrJxXHYwBjkI6wDSVr0Xgcr/r7UR3s4ZPWnv
+         t5lavR1Bbos0PLceRAqe6WgMOFPZ6Xjd/tI0lJJ1u1sHGEiF9JsZcn+zvYcTdI+Q+HWc
+         eadQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWLT68YIL2LRUraakUjt35QDb83MInTqvlvIc0xyo5qyZQGf+3hiSGkDNennzqwriuxjGFDDQeI1axJnQzSjOWBD1LZvgDz1Oug5+ZOfDgt7fXPxxT7e+BPNy8=
+X-Gm-Message-State: AOJu0YxLPLl9rhy5l/C8OmLRmswRXbGZn1eaXER+WWzktu4Lyom0SRQo
+	dAfJn+wqIPY8XVEkrMMdFvYE+z6rzh8m9kFwS03AtpgwXAOU3CHFOYTFwzk9WTUIdAGluq5aujR
+	sG7G/oAGiNqmXqxNXgOsGhD0pEq8=
+X-Google-Smtp-Source: AGHT+IEbzt6zeNNu2zL7OqhJ0wBPjP6AIs6KCNsg0TWyGrtPnbk4qw4Z3gYVGMpmEr4NngADJ7qQmjtFneUvD6MYqgE=
+X-Received: by 2002:a05:690c:4343:b0:64b:3246:cc24 with SMTP id
+ 00721157ae682-66a6a515d70mr93336127b3.29.1721687048545; Mon, 22 Jul 2024
+ 15:24:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240710053655.16122-1-badganchipv@gmail.com>
+References: <20240721061254.3674810-2-tim.orling@konsulko.com> <Zp7aZ7XA6Hly1evR@gmail.com>
+In-Reply-To: <Zp7aZ7XA6Hly1evR@gmail.com>
+From: Tim Orling <ticotimo@gmail.com>
+Date: Mon, 22 Jul 2024 15:23:56 -0700
+Message-ID: <CANx9H-C0hwkqnpe9oVrrZ5wpd5J9Np87CZ5YvY=9bSwB3BBYGg@mail.gmail.com>
+Subject: Re: [meta-virtualization][PATCH] xen-rpi-u-boot-scr: WORKDIR ->
+ UNPACKDIR transition
+To: bruce.ashfield@gmail.com
+Cc: tim.orling@konsulko.com, meta-virtualization@lists.yoctoproject.org, 
+	Christopher Clark <christopher.w.clark@gmail.com>
+Content-Type: multipart/alternative; boundary="000000000000f16d88061ddd80ec"
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Mon, 22 Jul 2024 22:20:07 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8840
+ <meta-virtualization@lists.yoctoproject.org>; Mon, 22 Jul 2024 22:24:17 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8841
 
-Staged locally.
+--000000000000f16d88061ddd80ec
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Once I get master-next merged to master, I'll update scartgap as
-well.
+On Mon, Jul 22, 2024 at 3:17=E2=80=AFPM Bruce Ashfield via lists.yoctoproje=
+ct.org
+<bruce.ashfield=3Dgmail.com@lists.yoctoproject.org> wrote:
 
-Bruce
+>
+> merged to mater-next
+>
+> I finally finished a week long battle with ceph, so I expect
+> to get master-next -> master this week.
+>
 
-In message: [meta-virtualization][scarthgap][PATCH] lxc: Fix meson build issue
-on 10/07/2024 Pawan Badganchi via lists.yoctoproject.org wrote:
+I finally got my yp-dev-day_virtualization CI up and sort of running again
+(which is how I caught this):
+https://gitlab.com/moto-timo/yp-dev-day_virtualization/-/pipelines
 
-> Build is failing during do_configure stage for lxc as meson
-> does not support --with-systemdsystemunitdir config parameter.
-> 
-> Error:
-> meson: error: unrecognized arguments: --with-systemdsystemunitdir=/etc/systemd/system/
-> 
-> Hence, use -Dsystemd-unitdir config parameter instead.
-> 
-> Signed-off-by: Pawan Badganchi <badganchipv@gmail.com>
-> ---
->  recipes-containers/lxc/lxc_git.bb | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/recipes-containers/lxc/lxc_git.bb b/recipes-containers/lxc/lxc_git.bb
-> index ee0e442f..75cfe859 100644
-> --- a/recipes-containers/lxc/lxc_git.bb
-> +++ b/recipes-containers/lxc/lxc_git.bb
-> @@ -81,8 +81,7 @@ PACKAGECONFIG[apparmor] = "-Dapparmor=true,-Dapparmor=false,apparmor,apparmor"
->  PACKAGECONFIG[templates] = ",,, ${PN}-templates"
->  PACKAGECONFIG[selinux] = "-Dselinux=true,-Dselinux=false,libselinux,libselinux"
->  PACKAGECONFIG[seccomp] ="-Dseccomp=true,-Dseccomp=false,libseccomp,libseccomp"
-> -# meson equiv for the unitdir found yet
-> -# PACKAGECONFIG[systemd] = "--with-systemdsystemunitdir=${systemd_unitdir}/system/,--without-systemdsystemunitdir,systemd,"
-> +PACKAGECONFIG[systemd] = "-Dsystemd-unitdir=${sysconfdir}/systemd/system/, -Dsystemd-unitdir=, systemd,"
->  PACKAGECONFIG[systemd] = "-Dinit-script=systemd,-Dinit-script=sysvinit,systemd,"
->  
->  # required by python3 to run setup.py
-> -- 
-> 2.25.1
-> 
+Onward and upwards!
 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
+
+>
+> Bruce
+>
+> In message: [meta-virtualization][PATCH] xen-rpi-u-boot-scr: WORKDIR ->
+> UNPACKDIR transition
+> on 20/07/2024 Tim Orling via lists.yoctoproject.org wrote:
+>
+> > From: Tim Orling <tim.orling@konsulko.com>
+> >
+> > Borrowed from Leon Anavi <leon.anavi@konsulko.com>
+> > meta-raspberrypi: commit 434ed33c90b7659152b1e8d7c2d4d785db85105f
+> >
+> > and from Martin Jansa <martin.jansa@gmail.com>
+> > meta-raspberrypi: commit c39c2b165e68388767f54dc86acf4595a33ee1e1
+> >
+> > This adapts to the oe-core rework to enforce a separate directory
+> > for unpacking local sources (UNPACKDIR) instead of directly using
+> > WORKDIR.
+> >
+> > Follows the preliminary guideline from:
+> > https://lists.openembedded.org/g/openembedded-architecture/message/2007
+> >
+> > Signed-off-by: Tim Orling <tim.orling@konsulko.com>
+> > ---
+> >  .../recipes-bsp/xen-rpi-u-boot-scr/xen-rpi-u-boot-scr.bb     | 5 ++++-
+> >  1 file changed, 4 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/dynamic-layers/raspberrypi/recipes-bsp/xen-rpi-u-boot-scr/
+> xen-rpi-u-boot-scr.bb
+> b/dynamic-layers/raspberrypi/recipes-bsp/xen-rpi-u-boot-scr/
+> xen-rpi-u-boot-scr.bb
+> > index 87619d01..3f83c7f8 100644
+> > --- a/dynamic-layers/raspberrypi/recipes-bsp/xen-rpi-u-boot-scr/
+> xen-rpi-u-boot-scr.bb
+> > +++ b/dynamic-layers/raspberrypi/recipes-bsp/xen-rpi-u-boot-scr/
+> xen-rpi-u-boot-scr.bb
+> > @@ -17,13 +17,16 @@ do_compile() {
+> >          -e 's/@@KERNEL_BOOTCMD@@/${KERNEL_BOOTCMD}/' \
+> >          -e 's/@@RPI_DOM0_MEM@@/${RPI_DOM0_MEM}/' \
+> >          -e 's/@@RPI_DEBUG_XEN_ARGS@@/${RPI_DEBUG_XEN_ARGS}/' \
+> > -        "${WORKDIR}/boot.cmd.xen.in" > "${WORKDIR}/boot.cmd"
+> > +        "${UNPACKDIR}/boot.cmd.xen.in" > "${WORKDIR}/boot.cmd"
+> >
+> >      mkimage -A ${UBOOT_ARCH} -T script -C none -n "Boot script" -d
+> "${WORKDIR}/boot.cmd" boot.scr
+> >  }
+> >
+> >  inherit kernel-arch deploy nopackages
+> >
+> > +S =3D "${WORKDIR}/sources"
+> > +UNPACKDIR =3D "${S}"
+> > +
+> >  do_deploy() {
+> >      install -d ${DEPLOYDIR}
+> >      install -m 0644 boot.scr ${DEPLOYDIR}
+> > --
+> > 2.45.2
+> >
+>
+> >
+> >
+> >
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#8829): https://lists.yoctoproject.org/g/meta-virtualization/message/8829
-> Mute This Topic: https://lists.yoctoproject.org/mt/107137574/1050810
+> View/Reply Online (#8838):
+> https://lists.yoctoproject.org/g/meta-virtualization/message/8838
+> Mute This Topic: https://lists.yoctoproject.org/mt/107463785/924729
 > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [
+> ticotimo@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
 
+--000000000000f16d88061ddd80ec
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Jul 22, 2024 at 3:17=E2=80=AF=
+PM Bruce Ashfield via <a href=3D"http://lists.yoctoproject.org">lists.yocto=
+project.org</a> &lt;bruce.ashfield=3D<a href=3D"mailto:gmail.com@lists.yoct=
+oproject.org">gmail.com@lists.yoctoproject.org</a>&gt; wrote:<br></div><blo=
+ckquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left=
+:1px solid rgb(204,204,204);padding-left:1ex"><br>
+merged to mater-next<br>
+<br>
+I finally finished a week long battle with ceph, so I expect<br>
+to get master-next -&gt; master this week.<br></blockquote><div><br></div><=
+div>I finally got my yp-dev-day_virtualization CI up and sort of running ag=
+ain (which is how I caught this):</div><div><a href=3D"https://gitlab.com/m=
+oto-timo/yp-dev-day_virtualization/-/pipelines">https://gitlab.com/moto-tim=
+o/yp-dev-day_virtualization/-/pipelines</a></div><div><br></div><div>Onward=
+ and upwards!</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">
+<br>
+Bruce<br>
+<br>
+In message: [meta-virtualization][PATCH] xen-rpi-u-boot-scr: WORKDIR -&gt; =
+UNPACKDIR transition<br>
+on 20/07/2024 Tim Orling via <a href=3D"http://lists.yoctoproject.org" rel=
+=3D"noreferrer" target=3D"_blank">lists.yoctoproject.org</a> wrote:<br>
+<br>
+&gt; From: Tim Orling &lt;<a href=3D"mailto:tim.orling@konsulko.com" target=
+=3D"_blank">tim.orling@konsulko.com</a>&gt;<br>
+&gt; <br>
+&gt; Borrowed from Leon Anavi &lt;<a href=3D"mailto:leon.anavi@konsulko.com=
+" target=3D"_blank">leon.anavi@konsulko.com</a>&gt;<br>
+&gt; meta-raspberrypi: commit 434ed33c90b7659152b1e8d7c2d4d785db85105f<br>
+&gt; <br>
+&gt; and from Martin Jansa &lt;<a href=3D"mailto:martin.jansa@gmail.com" ta=
+rget=3D"_blank">martin.jansa@gmail.com</a>&gt;<br>
+&gt; meta-raspberrypi: commit c39c2b165e68388767f54dc86acf4595a33ee1e1<br>
+&gt; <br>
+&gt; This adapts to the oe-core rework to enforce a separate directory<br>
+&gt; for unpacking local sources (UNPACKDIR) instead of directly using<br>
+&gt; WORKDIR.<br>
+&gt; <br>
+&gt; Follows the preliminary guideline from:<br>
+&gt; <a href=3D"https://lists.openembedded.org/g/openembedded-architecture/=
+message/2007" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedd=
+ed.org/g/openembedded-architecture/message/2007</a><br>
+&gt; <br>
+&gt; Signed-off-by: Tim Orling &lt;<a href=3D"mailto:tim.orling@konsulko.co=
+m" target=3D"_blank">tim.orling@konsulko.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 .../recipes-bsp/xen-rpi-u-boot-scr/<a href=3D"http://xen-rpi-u-b=
+oot-scr.bb" rel=3D"noreferrer" target=3D"_blank">xen-rpi-u-boot-scr.bb</a>=
+=C2=A0 =C2=A0 =C2=A0| 5 ++++-<br>
+&gt;=C2=A0 1 file changed, 4 insertions(+), 1 deletion(-)<br>
+&gt; <br>
+&gt; diff --git a/dynamic-layers/raspberrypi/recipes-bsp/xen-rpi-u-boot-scr=
+/<a href=3D"http://xen-rpi-u-boot-scr.bb" rel=3D"noreferrer" target=3D"_bla=
+nk">xen-rpi-u-boot-scr.bb</a> b/dynamic-layers/raspberrypi/recipes-bsp/xen-=
+rpi-u-boot-scr/<a href=3D"http://xen-rpi-u-boot-scr.bb" rel=3D"noreferrer" =
+target=3D"_blank">xen-rpi-u-boot-scr.bb</a><br>
+&gt; index 87619d01..3f83c7f8 100644<br>
+&gt; --- a/dynamic-layers/raspberrypi/recipes-bsp/xen-rpi-u-boot-scr/<a hre=
+f=3D"http://xen-rpi-u-boot-scr.bb" rel=3D"noreferrer" target=3D"_blank">xen=
+-rpi-u-boot-scr.bb</a><br>
+&gt; +++ b/dynamic-layers/raspberrypi/recipes-bsp/xen-rpi-u-boot-scr/<a hre=
+f=3D"http://xen-rpi-u-boot-scr.bb" rel=3D"noreferrer" target=3D"_blank">xen=
+-rpi-u-boot-scr.bb</a><br>
+&gt; @@ -17,13 +17,16 @@ do_compile() {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 -e &#39;s/@@KERNEL_BOOTCMD@@/${KERNE=
+L_BOOTCMD}/&#39; \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 -e &#39;s/@@RPI_DOM0_MEM@@/${RPI_DOM=
+0_MEM}/&#39; \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 -e &#39;s/@@RPI_DEBUG_XEN_ARGS@@/${R=
+PI_DEBUG_XEN_ARGS}/&#39; \<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;${WORKDIR}/<a href=3D"http://boot.c=
+md.xen.in" rel=3D"noreferrer" target=3D"_blank">boot.cmd.xen.in</a>&quot; &=
+gt; &quot;${WORKDIR}/boot.cmd&quot;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;${UNPACKDIR}/<a href=3D"http://boot=
+.cmd.xen.in" rel=3D"noreferrer" target=3D"_blank">boot.cmd.xen.in</a>&quot;=
+ &gt; &quot;${WORKDIR}/boot.cmd&quot;<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 mkimage -A ${UBOOT_ARCH} -T script -C none -n &quo=
+t;Boot script&quot; -d &quot;${WORKDIR}/boot.cmd&quot; boot.scr<br>
+&gt;=C2=A0 }<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 inherit kernel-arch deploy nopackages<br>
+&gt;=C2=A0 <br>
+&gt; +S =3D &quot;${WORKDIR}/sources&quot;<br>
+&gt; +UNPACKDIR =3D &quot;${S}&quot;<br>
+&gt; +<br>
+&gt;=C2=A0 do_deploy() {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 install -d ${DEPLOYDIR}<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 install -m 0644 boot.scr ${DEPLOYDIR}<br>
+&gt; -- <br>
+&gt; 2.45.2<br>
+&gt; <br>
+<br>
+&gt; <br>
+&gt; <br>
+&gt; <br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#8838): <a href=3D"https://lists.yoctoproject.org/g/meta=
+-virtualization/message/8838" rel=3D"noreferrer" target=3D"_blank">https://=
+lists.yoctoproject.org/g/meta-virtualization/message/8838</a><br>
+Mute This Topic: <a href=3D"https://lists.yoctoproject.org/mt/107463785/924=
+729" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.org/mt=
+/107463785/924729</a><br>
+Group Owner: <a href=3D"mailto:meta-virtualization%2Bowner@lists.yoctoproje=
+ct.org" target=3D"_blank">meta-virtualization+owner@lists.yoctoproject.org<=
+/a><br>
+Unsubscribe: <a href=3D"https://lists.yoctoproject.org/g/meta-virtualizatio=
+n/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.or=
+g/g/meta-virtualization/unsub</a> [<a href=3D"mailto:ticotimo@gmail.com" ta=
+rget=3D"_blank">ticotimo@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
+
+--000000000000f16d88061ddd80ec--
 
