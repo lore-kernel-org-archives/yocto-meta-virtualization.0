@@ -2,130 +2,115 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B8BCC3DA64
-	for <webhook@archiver.kernel.org>; Thu,  1 Aug 2024 15:25:38 +0000 (UTC)
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
- by mx.groups.io with SMTP id smtpd.web11.71184.1722525929068397836
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F08B5C3DA64
+	for <webhook@archiver.kernel.org>; Thu,  1 Aug 2024 16:03:38 +0000 (UTC)
+Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
+ by mx.groups.io with SMTP id smtpd.web11.72201.1722528216763985507
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 01 Aug 2024 08:25:29 -0700
+ Thu, 01 Aug 2024 09:03:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=C/5GgazI;
- spf=pass (domain: gmail.com, ip: 209.85.215.172, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-7a0e8b76813so4770738a12.3
-        for <meta-virtualization@lists.yoctoproject.org>; Thu, 01 Aug 2024 08:25:29 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=SBlWtRY/;
+ spf=pass (domain: gmail.com, ip: 209.85.219.53, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-6bb987d3a98so1075596d6.1
+        for <meta-virtualization@lists.yoctoproject.org>; Thu, 01 Aug 2024 09:03:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722525928; x=1723130728; darn=lists.yoctoproject.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Z2ZWnF/abuX+N4Ut/gpJ43G50auHG1HKwcxtQ4BfzLU=;
-        b=C/5GgazIsrDnp19ToYxV5wx8EHbGrLvdrknfXuAaAwzxdc3JhTtJrMNKqQ8veReyGK
-         cUOvMmMdjJqi70v0RWxtakJPKpnzN5ADjF+yu13+T/NDkH8KQErW2bhn71BzhO82JBBU
-         vYiU1ApBuLEtOS/k8dAKX+xFRzonXW3H5io6zrpBXCvjVDK3u5w6eVzOvn+qdLs2Y7YQ
-         m3JT/0I9PjnddQlIqKXh6C8Ti1FSSvpdStNlDYQKKjeri+QDzJA6leI7n4WIVDBhCR0V
-         C4JyFmqtoYv+Va9RlMFr1Px+wf4WfPCyAEX/IMFD68y0mi/B03m31T/r3IBbNYkNH/B1
-         gFvg==
+        d=gmail.com; s=20230601; t=1722528216; x=1723133016; darn=lists.yoctoproject.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=9B7hhF5o5Wj7Gyx0fxWY0JFEY/RL9XP9/9hq/sI5wbk=;
+        b=SBlWtRY/tP4N+MOXbGoFOBYszXpfp572yvtXHWpkxaUMOKsQosOI/IPw8/Q+Nn/smc
+         TuH5OwNlphOl/K89R0xtl+x5GtokoBODds7LZ/hMQf4AYgXCliJzKjpmxd/wsNCqnyIq
+         +jMLlaizVs+E2mw4fuuN8IfQEWGIIq0T0ySR+AqESsPDIx5E9Uf4Hd+vtXI+FjucAyXd
+         SjyPw3jP1UEs2blp1CSqpUDE/Sahe6UGh0FqhhjbIorajew7Wq41+Nvnz1xYw5z+s4xT
+         ts+WkF+qPgekbG/KJVx7PnBBRW2BoQXXLO99RnvgbWM0OHNGCcPLBDFoeFW2+6qMiZxR
+         scOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722525928; x=1723130728;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Z2ZWnF/abuX+N4Ut/gpJ43G50auHG1HKwcxtQ4BfzLU=;
-        b=Px9SvZ/eqqo7a1ffNck4ma15ltaKjl/FwZKSpwBWebkif5QriXwa9Qpb4dp5MgiZTp
-         USVAAkn3ahvd9l1vYr3XPY3pIehGIOkZKt8KFbtSEKiNpX2ClrFqS2fdamT2vNvtbQ4H
-         XPGKGkojDe4qovJ0ncd1qAxyrM5Zcv/gGmsmaggwSOn3LexwrTez4a4YeKIvPjqOtnfg
-         F+Ub4yJM5CnJTOebse1XM1P9DbvV7cailFXM1khW3SjXwY5lkgAavmKZwgGcQjCGiY7r
-         zdvycaRx3FxfBnRwtTDeKTpvoWKhI0m9lFwVuaCyonY6q/9XB/CbHB1RNRS+n7QPrpb3
-         FNxw==
-X-Gm-Message-State: AOJu0YxsOfvALBYyENIEk2tE++xPkhawq+obu+xRZPd07fB5cZbiFuTd
-	RQYE6Ij31dPzvV3KOxtLBldY8MwcfRx0Z5h5hqHxbdUbbnviefUrUn/nHGi6JZapoZgVzM60oFm
-	xKXgWY6LNpzIkNWwY1wncRVpPtQm6TvR7
-X-Google-Smtp-Source: AGHT+IHEomNTLbdF7f4O4w/1GWMV2NEvGv+jvlA7jl/DMT/XzuQ/p1dW8GYthyuHZnySgXuo67z4RRyCMk/hi1mByGU=
-X-Received: by 2002:a17:90a:2e17:b0:2c9:81fd:4c27 with SMTP id
- 98e67ed59e1d1-2cff9449532mr702962a91.14.1722525928212; Thu, 01 Aug 2024
- 08:25:28 -0700 (PDT)
-MIME-Version: 1.0
-References: <20240726104109.1729821-1-jose.quaresma@foundries.io>
-In-Reply-To: <20240726104109.1729821-1-jose.quaresma@foundries.io>
+        d=1e100.net; s=20230601; t=1722528216; x=1723133016;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9B7hhF5o5Wj7Gyx0fxWY0JFEY/RL9XP9/9hq/sI5wbk=;
+        b=SgzMuJpdf//tNfROSYek5vJFYiKJ81YRvbDwXdOhCJHDizno0Quaa/jbRLOF/HDKjb
+         BSfs+oSJUksBh+bXgkIJ/Fs30HYZl5IN/ofP0iIDP/Nwr0IEKM+LQ6sMC3h4BNRjsl4o
+         9K9DsTYrmQvtI+j/ndOCwEFhvDV6rPfsbbWg1SkYO2ssbE+YpK9ddHzcXiV+ZeBoGgRV
+         h3ej1ellODfLWxCNLVtUlPVDy5U6587mG4BlMkNxDTFCH7ijY+938QK3GDTLYewQo8tS
+         hRDG42BjyKeTPkPxXDS38uWr4rnwWP5MWHKcaCMfqr5hvNDtRBY0VtCQDUbaGTV+KPO3
+         s62A==
+X-Gm-Message-State: AOJu0YxQup6YxOa665IFPytSbJfnS8AdMCwVLMcAPR41jn5mR5ZpX8Do
+	svXFllkxUOCAt4FMw8yPaCtJTRxOdTFPYo1tLjFPoZ35j6CeGuQs
+X-Google-Smtp-Source: AGHT+IE904K8pwmzfwkvOX+MgwlOIE+pgd8Ce6zICDZPN6Chngat+FKJpTQiyrVd++iA2NInMz8BBw==
+X-Received: by 2002:a05:6214:3d8c:b0:6b8:6f6e:6714 with SMTP id 6a1803df08f44-6bb9836b9camr5995276d6.26.1722528215407;
+        Thu, 01 Aug 2024 09:03:35 -0700 (PDT)
+Received: from gmail.com (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6bb3fac3b21sm86592506d6.114.2024.08.01.09.03.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 Aug 2024 09:03:34 -0700 (PDT)
+Date: Thu, 1 Aug 2024 16:03:33 +0000
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Thu, 1 Aug 2024 11:25:16 -0400
-Message-ID: <CADkTA4OdNZDvo9ob-T=G4+64XkLO1FBbs14ZBur2=hseRq_QrQ@mail.gmail.com>
-Subject: Re: [meta-virtualization][PATCH] docker-compose: drop SRCREV_FORMAT
-To: quaresma.jose@gmail.com
-Cc: meta-virtualization@lists.yoctoproject.org, 
-	Jose Quaresma <jose.quaresma@foundries.io>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To: richard.purdie@linuxfoundation.org
+Cc: meta-virtualization@lists.yoctoproject.org
+Subject: Re: [meta-virtualization] [PATCH] xen-image-minimal: Add missing
+ dependency causing intermittent failures
+Message-ID: <Zqux1XWvGMYHp8Lj@gmail.com>
+References: <20240731142311.47693-1-richard.purdie@linuxfoundation.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240731142311.47693-1-richard.purdie@linuxfoundation.org>
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Thu, 01 Aug 2024 15:25:38 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8852
+ <meta-virtualization@lists.yoctoproject.org>; Thu, 01 Aug 2024 16:03:38 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8853
 
-On Fri, Jul 26, 2024 at 6:41=E2=80=AFAM Jose Quaresma via
-lists.yoctoproject.org
-<quaresma.jose=3Dgmail.com@lists.yoctoproject.org> wrote:
->
-> We currently only fetch from one SRC_URI so we can drop
-> the SRCREV_FORMAT and covert from the named SRCREV_compose
->
-
-hmm. But we don't actually fetch from a single SRC_URI, there are
-many that are being fetched (src_uri.inc), as the comment in the
-recipe indicates, two important ones are picked to go into the
-recipe hash.
-
-We could argue that "survey" isn't important and that we could use
-another SRCREV, but we should define multiple in the format. We
-could also argue that they all should be in the format, but that also
-doesn't scale / work.
+This looks ok to me, and it passed my local testing, so it
+is now merged (along with the rest of master-next)
 
 Bruce
 
-> Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
+
+In message: [meta-virtualization] [PATCH] xen-image-minimal: Add missing dependency causing intermittent failures
+on 31/07/2024 Richard Purdie via lists.yoctoproject.org wrote:
+
+> "bitbake xen-image-minimal -c do_image_wic" fails with:
+> 
+> | ERROR: _exec_cmd: install -m 0644 tmp/deploy/images/qemux86-64/xen-qemux86-64.gz tmp/work/qemux86_64-poky-linux/xen-image-minimal/1.0/tmp-wic/hdd/boot/xen.gz returned '1' instead of 0
+> | output: install: cannot stat 'tmp/deploy/images/qemux86-64/xen-qemux86-64.gz': No such file or directory
+> |
+> | WARNING: exit code 1 from a shell command.
+> ERROR: Task (/media/build/poky/meta-virtualization/recipes-extended/images/xen-image-minimal.bb:do_image_wic) failed with exit code '1'
+> 
+> Add the missing dependency to avoid this.
+> 
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 > ---
->  recipes-containers/docker-compose/docker-compose_git.bb | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
->
-> diff --git a/recipes-containers/docker-compose/docker-compose_git.bb b/re=
-cipes-containers/docker-compose/docker-compose_git.bb
-> index 8bab3fb6..dd2b131b 100644
-> --- a/recipes-containers/docker-compose/docker-compose_git.bb
-> +++ b/recipes-containers/docker-compose/docker-compose_git.bb
-> @@ -7,11 +7,9 @@ DEPENDS =3D " \
->      rsync-native \
->  "
->
-> -# Specify the first two important SRCREVs as the format
-> -SRCREV_FORMAT=3D"compose_survey"
-> -SRCREV_compose =3D "f79c28168bf6a95ea0cbd1c298f4a0ff4c3ac36b"
-> +SRCREV =3D "3371227794f5f3645f4f19829c60a741635ed329"
->
-> -SRC_URI =3D "git://github.com/docker/compose;name=3Dcompose;branch=3Dmai=
-n;protocol=3Dhttps;destsuffix=3D${GO_SRCURI_DESTSUFFIX}"
-> +SRC_URI =3D "git://github.com/docker/compose;branch=3Dmain;protocol=3Dht=
-tps;destsuffix=3D${GO_SRCURI_DESTSUFFIX}"
->
->  include src_uri.inc
->
-> --
-> 2.45.2
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>  recipes-extended/images/xen-image-minimal.bb | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/recipes-extended/images/xen-image-minimal.bb b/recipes-extended/images/xen-image-minimal.bb
+> index fe79a485..e6fa93ca 100644
+> --- a/recipes-extended/images/xen-image-minimal.bb
+> +++ b/recipes-extended/images/xen-image-minimal.bb
+> @@ -102,6 +102,7 @@ QB_SERIAL_OPT = "-serial mon:stdio"
+>  # qemux86-64 machine does not include 'wic' in IMAGE_FSTYPES, which is needed
+>  # to boot this image, so add it here:
+>  IMAGE_FSTYPES:qemux86-64 += "wic"
+> +do_image_wic[depends] += "xen:do_deploy"
+>  # Networking: the qemuboot.bbclass default virtio network device works ok
+>  # and so does the emulated e1000 -- choose according to the network device
+>  # drivers that are present in your dom0 Linux kernel. To switch to e1000:
+> -- 
+> 2.34.1
+> 
+
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#8845): https://lists.yoctoproject.org/g/meta-virtuali=
-zation/message/8845
-> Mute This Topic: https://lists.yoctoproject.org/mt/107559145/1050810
+> View/Reply Online (#8849): https://lists.yoctoproject.org/g/meta-virtualization/message/8849
+> Mute This Topic: https://lists.yoctoproject.org/mt/107646890/1050810
 > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [=
-bruce.ashfield@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
-
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
 
