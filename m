@@ -2,138 +2,121 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23B03C3DA64
-	for <webhook@archiver.kernel.org>; Thu,  1 Aug 2024 13:02:07 +0000 (UTC)
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
- by mx.groups.io with SMTP id smtpd.web11.67546.1722517323995339157
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B8BCC3DA64
+	for <webhook@archiver.kernel.org>; Thu,  1 Aug 2024 15:25:38 +0000 (UTC)
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+ by mx.groups.io with SMTP id smtpd.web11.71184.1722525929068397836
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 01 Aug 2024 06:02:04 -0700
+ Thu, 01 Aug 2024 08:25:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Hfg05cnd;
- spf=pass (domain: gmail.com, ip: 209.85.215.169, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-7515437ff16so5281732a12.2
-        for <meta-virtualization@lists.yoctoproject.org>; Thu, 01 Aug 2024 06:02:03 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=C/5GgazI;
+ spf=pass (domain: gmail.com, ip: 209.85.215.172, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-7a0e8b76813so4770738a12.3
+        for <meta-virtualization@lists.yoctoproject.org>; Thu, 01 Aug 2024 08:25:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722517323; x=1723122123; darn=lists.yoctoproject.org;
+        d=gmail.com; s=20230601; t=1722525928; x=1723130728; darn=lists.yoctoproject.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=OyCuHJPJXsyVje4IiDk7uhY5rGEO47VD/lCvwZLeGr0=;
-        b=Hfg05cndf1qaO5Kr8UzfecWkHo9OPEXJ8df92YLYk3438BzlshDMTxtEYwAYV2ZpgL
-         7BYqsxjyGqpCuPAMJAlbsbBGXhjx18ypNvDPGS2mowVdrOLPcdfxYGPV96KTwLUM98DZ
-         ZMfhZcRreMbYeDu7J+YWmhXd/+q529Qi+F7lxt8lBGJaBqDS9jns1dbEZIYUZeMySZ3k
-         cACMtNx/m/MlKs/+3w5eoldpA+nzQs4rnUyOam/rqXyggMkHOfDXB86bWEEAFn1M26CI
-         8LEtGB3CwOk1LWBCAWqcDQmiHZWJhQVEn0ssD4zQwOK/ft8MD6jjMpdvWC4UDiG2vhmd
-         TJFA==
+        bh=Z2ZWnF/abuX+N4Ut/gpJ43G50auHG1HKwcxtQ4BfzLU=;
+        b=C/5GgazIsrDnp19ToYxV5wx8EHbGrLvdrknfXuAaAwzxdc3JhTtJrMNKqQ8veReyGK
+         cUOvMmMdjJqi70v0RWxtakJPKpnzN5ADjF+yu13+T/NDkH8KQErW2bhn71BzhO82JBBU
+         vYiU1ApBuLEtOS/k8dAKX+xFRzonXW3H5io6zrpBXCvjVDK3u5w6eVzOvn+qdLs2Y7YQ
+         m3JT/0I9PjnddQlIqKXh6C8Ti1FSSvpdStNlDYQKKjeri+QDzJA6leI7n4WIVDBhCR0V
+         C4JyFmqtoYv+Va9RlMFr1Px+wf4WfPCyAEX/IMFD68y0mi/B03m31T/r3IBbNYkNH/B1
+         gFvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722517323; x=1723122123;
+        d=1e100.net; s=20230601; t=1722525928; x=1723130728;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=OyCuHJPJXsyVje4IiDk7uhY5rGEO47VD/lCvwZLeGr0=;
-        b=hb7npdERUY53ZPOOJmNo89w0p/W+qGeW8kMlG9eICFqhf15F0IzSTBOJUMdqGWNEvn
-         Q8mF9oiUAayXQ4oO/KgyDUj0A0hOKzavvhluNVJBxIPWeJ3dtITvxY6lROAFc8tOohFC
-         MDZnOAefw7SxrfWj5GeuiP0MknE+TcsR2+Lp6T3cZuMM7KaTOc5B8tKD2du5ESx95+Yo
-         Pw8UdYdCilStiM7Kt27/fNgvSz8ro0XJbuclN9KHPE5SyOsEeb7YTEiHWNfndrlDLL+e
-         4LaI1j58SNPC3A+0BjOD9xbXKBehuWwwZD+DsDKDDbric9Remk/0/QMJ9c4dtMhjbM16
-         aYNg==
-X-Gm-Message-State: AOJu0YywXzGzl1HnmtepRh+Yh3lhNCn0CCpRb9zE/liUy9+g+QBe4KBs
-	+gBMUjx21DRwXpPMYd39N9E50ezLJ2Yh09p1VjnfIiKmc4Sec+gnV7xSZlSxTxirYQhGklF2gP0
-	NeTN14r7/VuYKfI/9UNqccqFDAUA=
-X-Google-Smtp-Source: AGHT+IHwRyXJSe+tK9BUQEBWpKJc+fhHILbSqRzKuWMYdxJcTn10etjSjFD5bJoq8dHvC1EJ6Y91ZZK4JMZRjx6s6M8=
-X-Received: by 2002:a17:90a:fe88:b0:2c9:7fba:d88b with SMTP id
- 98e67ed59e1d1-2cff9419943mr106499a91.14.1722517318121; Thu, 01 Aug 2024
- 06:01:58 -0700 (PDT)
+        bh=Z2ZWnF/abuX+N4Ut/gpJ43G50auHG1HKwcxtQ4BfzLU=;
+        b=Px9SvZ/eqqo7a1ffNck4ma15ltaKjl/FwZKSpwBWebkif5QriXwa9Qpb4dp5MgiZTp
+         USVAAkn3ahvd9l1vYr3XPY3pIehGIOkZKt8KFbtSEKiNpX2ClrFqS2fdamT2vNvtbQ4H
+         XPGKGkojDe4qovJ0ncd1qAxyrM5Zcv/gGmsmaggwSOn3LexwrTez4a4YeKIvPjqOtnfg
+         F+Ub4yJM5CnJTOebse1XM1P9DbvV7cailFXM1khW3SjXwY5lkgAavmKZwgGcQjCGiY7r
+         zdvycaRx3FxfBnRwtTDeKTpvoWKhI0m9lFwVuaCyonY6q/9XB/CbHB1RNRS+n7QPrpb3
+         FNxw==
+X-Gm-Message-State: AOJu0YxsOfvALBYyENIEk2tE++xPkhawq+obu+xRZPd07fB5cZbiFuTd
+	RQYE6Ij31dPzvV3KOxtLBldY8MwcfRx0Z5h5hqHxbdUbbnviefUrUn/nHGi6JZapoZgVzM60oFm
+	xKXgWY6LNpzIkNWwY1wncRVpPtQm6TvR7
+X-Google-Smtp-Source: AGHT+IHEomNTLbdF7f4O4w/1GWMV2NEvGv+jvlA7jl/DMT/XzuQ/p1dW8GYthyuHZnySgXuo67z4RRyCMk/hi1mByGU=
+X-Received: by 2002:a17:90a:2e17:b0:2c9:81fd:4c27 with SMTP id
+ 98e67ed59e1d1-2cff9449532mr702962a91.14.1722525928212; Thu, 01 Aug 2024
+ 08:25:28 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240801070827.2759041-1-Qi.Chen@windriver.com>
-In-Reply-To: <20240801070827.2759041-1-Qi.Chen@windriver.com>
+References: <20240726104109.1729821-1-jose.quaresma@foundries.io>
+In-Reply-To: <20240726104109.1729821-1-jose.quaresma@foundries.io>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Thu, 1 Aug 2024 09:01:46 -0400
-Message-ID: <CADkTA4OageXrb1stzSYaH7Zr-K=iaZCWdGeY_PJLTifxsg+OjQ@mail.gmail.com>
-Subject: Re: [meta-virtualization][master][scarthgap][PATCH] kubernetes: fix
- runtime init error caused by git shallow tarball
-To: Qi.Chen@windriver.com
-Cc: meta-virtualization@lists.yoctoproject.org
+Date: Thu, 1 Aug 2024 11:25:16 -0400
+Message-ID: <CADkTA4OdNZDvo9ob-T=G4+64XkLO1FBbs14ZBur2=hseRq_QrQ@mail.gmail.com>
+Subject: Re: [meta-virtualization][PATCH] docker-compose: drop SRCREV_FORMAT
+To: quaresma.jose@gmail.com
+Cc: meta-virtualization@lists.yoctoproject.org, 
+	Jose Quaresma <jose.quaresma@foundries.io>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Thu, 01 Aug 2024 13:02:07 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8851
+ <meta-virtualization@lists.yoctoproject.org>; Thu, 01 Aug 2024 15:25:38 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8852
 
-On Thu, Aug 1, 2024 at 3:08=E2=80=AFAM Chen Qi via lists.yoctoproject.org
-<Qi.Chen=3Dwindriver.com@lists.yoctoproject.org> wrote:
+On Fri, Jul 26, 2024 at 6:41=E2=80=AFAM Jose Quaresma via
+lists.yoctoproject.org
+<quaresma.jose=3Dgmail.com@lists.yoctoproject.org> wrote:
 >
-> From: Chen Qi <Qi.Chen@windriver.com>
+> We currently only fetch from one SRC_URI so we can drop
+> the SRCREV_FORMAT and covert from the named SRCREV_compose
 >
-> k8s uses 'git describe' to determine its version and passes it to
-> go ldflags at build time. This value is actually very important,
-> because 'kubeadm init' will use it.
->
-> In case of shallow tarball, the git history is not complete and
-> the command 'git describe' not succeed, resulting in a default
-> version, v0.0.0-master+$Format:%H$. This causes 'kubeadm init'
-> failure like below:
->
->   [init] Using Kubernetes version: v1.0.0-placeholder-version
->   [preflight] Running pre-flight checks
->   error execution phase preflight: [preflight] Some fatal errors occurred=
-:
->     [ERROR KubeletVersion]: couldn't get kubelet version: Unable to parse
->     output from Kubelet: "Kubernetes v0.0.0-master+$Format:%H$"
->
-> Fix this by exporting KUBE_GIT_VERSION explicitly. This export
-> line is deliberately put right under the PV & SRCREV settings
-> so that when people upgrade k8s, they don't forget to update
-> this value too.
 
-This is something that either needs to be carried in your layers .. or ..
+hmm. But we don't actually fetch from a single SRC_URI, there are
+many that are being fetched (src_uri.inc), as the comment in the
+recipe indicates, two important ones are picked to go into the
+recipe hash.
 
-If it is to merge to meta-virt, it should just use our existing PV and
-SRCREV values
-and be conditional on shallow clones being enabled, since it is working
-around a limitation of those that choose to use shallow clones.
-
-Cheers,
+We could argue that "survey" isn't important and that we could use
+another SRCREV, but we should define multiple in the format. We
+could also argue that they all should be in the format, but that also
+doesn't scale / work.
 
 Bruce
 
->
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
 > ---
->  recipes-containers/kubernetes/kubernetes_git.bb | 5 +++++
->  1 file changed, 5 insertions(+)
+>  recipes-containers/docker-compose/docker-compose_git.bb | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
 >
-> diff --git a/recipes-containers/kubernetes/kubernetes_git.bb b/recipes-co=
-ntainers/kubernetes/kubernetes_git.bb
-> index a742486c..a6fcff90 100644
-> --- a/recipes-containers/kubernetes/kubernetes_git.bb
-> +++ b/recipes-containers/kubernetes/kubernetes_git.bb
-> @@ -10,6 +10,11 @@ CVE_VERSION =3D "1.29.1"
->  SRCREV_kubernetes =3D "a02da633101bd7919153dd56412b09221c0139bf"
->  SRCREV_kubernetes-release =3D "21382abdbfa8e6a43fd417306fa649cb651cc06e"
->  PE =3D "1"
-> +# NOTE: update the following value when upgrading k8s
-> +# The value is derived from the following command in k8s repo:
-> +#   git describe --tags --match=3D'v*' --abbrev=3D14 "a02da633101bd79191=
-53dd56412b09221c0139bf^{commit}"
-> +# This following setting is needed in case, otherwise there'll be runtim=
-e error in case of shallow tarball.
-> +export KUBE_GIT_VERSION=3D"v1.29.1-1-ga02da633101bd7"
+> diff --git a/recipes-containers/docker-compose/docker-compose_git.bb b/re=
+cipes-containers/docker-compose/docker-compose_git.bb
+> index 8bab3fb6..dd2b131b 100644
+> --- a/recipes-containers/docker-compose/docker-compose_git.bb
+> +++ b/recipes-containers/docker-compose/docker-compose_git.bb
+> @@ -7,11 +7,9 @@ DEPENDS =3D " \
+>      rsync-native \
+>  "
 >
->  BBCLASSEXTEND =3D "devupstream:target"
->  LIC_FILES_CHKSUM:class-devupstream =3D "file://LICENSE;md5=3D3b83ef96387=
-f14655fc854ddc3c6bd57"
+> -# Specify the first two important SRCREVs as the format
+> -SRCREV_FORMAT=3D"compose_survey"
+> -SRCREV_compose =3D "f79c28168bf6a95ea0cbd1c298f4a0ff4c3ac36b"
+> +SRCREV =3D "3371227794f5f3645f4f19829c60a741635ed329"
+>
+> -SRC_URI =3D "git://github.com/docker/compose;name=3Dcompose;branch=3Dmai=
+n;protocol=3Dhttps;destsuffix=3D${GO_SRCURI_DESTSUFFIX}"
+> +SRC_URI =3D "git://github.com/docker/compose;branch=3Dmain;protocol=3Dht=
+tps;destsuffix=3D${GO_SRCURI_DESTSUFFIX}"
+>
+>  include src_uri.inc
+>
 > --
-> 2.25.1
+> 2.45.2
 >
 >
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#8850): https://lists.yoctoproject.org/g/meta-virtuali=
-zation/message/8850
-> Mute This Topic: https://lists.yoctoproject.org/mt/107661203/1050810
+> View/Reply Online (#8845): https://lists.yoctoproject.org/g/meta-virtuali=
+zation/message/8845
+> Mute This Topic: https://lists.yoctoproject.org/mt/107559145/1050810
 > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
 > Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [=
 bruce.ashfield@gmail.com]
