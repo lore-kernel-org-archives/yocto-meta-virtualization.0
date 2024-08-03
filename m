@@ -1,104 +1,135 @@
-Return-Path: <troth@openavr.org>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 944CEC3DA4A
-	for <webhook@archiver.kernel.org>; Fri,  2 Aug 2024 12:38:23 +0000 (UTC)
-Received: from mail-io1-f45.google.com (mail-io1-f45.google.com [209.85.166.45])
- by mx.groups.io with SMTP id smtpd.web10.91848.1722602297362574644
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B9393C3DA4A
+	for <webhook@archiver.kernel.org>; Sat,  3 Aug 2024 02:08:19 +0000 (UTC)
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+ by mx.groups.io with SMTP id smtpd.web10.1520.1722650897515960782
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 02 Aug 2024 05:38:17 -0700
+ Fri, 02 Aug 2024 19:08:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@openavr-org.20230601.gappssmtp.com header.s=20230601 header.b=ZdP8ZbSE;
- spf=none, err=permanent DNS error (domain: openavr.org, ip: 209.85.166.45, mailfrom: troth@openavr.org)
-Received: by mail-io1-f45.google.com with SMTP id ca18e2360f4ac-81fbbd4775bso174786439f.3
-        for <meta-virtualization@lists.yoctoproject.org>; Fri, 02 Aug 2024 05:38:17 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=JpIrFrm1;
+ spf=pass (domain: gmail.com, ip: 209.85.216.51, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-2cb53da06a9so2818819a91.0
+        for <meta-virtualization@lists.yoctoproject.org>; Fri, 02 Aug 2024 19:08:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=openavr-org.20230601.gappssmtp.com; s=20230601; t=1722602296; x=1723207096; darn=lists.yoctoproject.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=1Igef/rGY2orlYcYfb4hMJ+e59qfQ/3hW2SEQVC4jEE=;
-        b=ZdP8ZbSEtzxXdxzNL/IDJnsLxjg5U87Lc8KkK5H7Qg/FKKB44q/DcvSM/m0CvzlM+R
-         gKsmc6xA8V0YjzKzxOJZ5GbtScoCyyUhu7VPaVaLWu3apt47S9ihVPTtD+LChooW+lux
-         9fbV1Odtpkxto5J9NcPY6YENir4nCpEX5Jf8wNShca7rniNfj367lKEkxUZ8w8hG4Q4d
-         ehX8bN5oHzFlndHT0vuHfS13VeoXx+gJRgF7cGoQ+Lb2fi9nJwj2cJu+fnWrq/eF1Vx3
-         u3vZcpySzZqAc+3wfTEEK9Fy5QlLSrD1wu87A2xFMtSMjAU9zxpAkHIXo+GNbL77vxE8
-         I7qw==
+        d=gmail.com; s=20230601; t=1722650897; x=1723255697; darn=lists.yoctoproject.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=b15LrnIvY4WodIxNvhJCfREpKvpaVL74iqLx/Yn8byA=;
+        b=JpIrFrm1PRI4pJ++Yf48AsQ5yBJfKEmbIANJ9Coj5Vn0iA4yfNW7xqIuOLR/3ChTHj
+         uKRvJyKZg9EkGlBVbonaDV6PTdVbJj5Iq0eckbAJ32pqm6+4R20oz8uYRETV7MNM68OY
+         rt1YIV/r/f2oscLbS8pFhlv4w76pI7nqWM086GmjlNhlxedq1OvsN/Kor2VJiAA7XMTV
+         JeDSHjSCfn2Olr5pe/n61DG/a1YAWMRw7RAkdUzBlGZlZUqCkC2jtuIXvJ4aSt+8edhM
+         8beVENYI95Cwpxr0+I3IPxbD7FjE/5VQfuqFQkL3Q+btYKEj637xi5NhycJuaoYrG9lw
+         FNjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722602296; x=1723207096;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=1Igef/rGY2orlYcYfb4hMJ+e59qfQ/3hW2SEQVC4jEE=;
-        b=iIxLA0WHg/3NKkOpwbBw8Ye7ooPFiteCx6l2hM42Zc2FxohMMhZ4z+jIbbvzGUUfRU
-         O007zepqmG82hMnmfQVmWrWlBhRHl+fSXwtuFDHiVy7mdkpgiNqDopSwCMyPWu1qjFEU
-         U3GNmQLyL0w6cTJUsHVACYU41419SpXe3Yz4EVb80dBDW31XiV1kGJztrvc3djXIRp5O
-         GqC6Xc4Ukfuc2OxjgImZQtznrXmS/GxIyg0Hg6wJ6/iDSwp8I57PhGcMN3n87bMA3JLn
-         68WmVmhX/XH7y47dcIjndBWXgsgsRWfU0gHJCzWbhp45eQEhiUNaXhis/RVVp6wrUnmU
-         p7kQ==
-X-Gm-Message-State: AOJu0Yyu//+uN1ID5p5aGGVIT5zBtJUqOajlO/Ju+f8Ibs70/vw9jMyl
-	Fwd94mctHglz/HjUi0nSqKzQPZxr5DZzA/6DGA+vFFUZw7UWXYWLdK7Cdd4cgcDV/add3uQrqt/
-	m1ic=
-X-Google-Smtp-Source: AGHT+IGf5FUKQaJqGFqSl4myw8CqylursHYyrKJq4IPqyz+FbMK7WiuRxs72RIcdyfA83wskstlrhw==
-X-Received: by 2002:a05:6602:3ca:b0:81f:9468:7c3c with SMTP id ca18e2360f4ac-81fd43e3415mr415220139f.12.1722602296000;
-        Fri, 02 Aug 2024 05:38:16 -0700 (PDT)
-Received: from beast.bozoland.org (71-211-135-194.hlrn.qwest.net. [71.211.135.194])
-        by smtp.gmail.com with ESMTPSA id ca18e2360f4ac-81fd4d3aa3fsm52410939f.32.2024.08.02.05.38.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Aug 2024 05:38:15 -0700 (PDT)
-From: "Theodore A. Roth" <troth@openavr.org>
-X-Google-Original-From: "Theodore A. Roth" <theodore_roth@trimble.com>
-To: meta-virtualization@lists.yoctoproject.org
-Cc: Bruce Ashfield <bruce.ashfield@gmail.com>,
-	"Theodore A. Roth" <troth@openavr.org>,
-	"Theodore A . Roth" <theodore_roth@trimble.com>
-Subject: [meta-virtualization][PATCH] docker-moby: Fix branch value
-Date: Fri,  2 Aug 2024 06:37:54 -0600
-Message-Id: <20240802123754.3683142-1-theodore_roth@trimble.com>
-X-Mailer: git-send-email 2.34.1
+        d=1e100.net; s=20230601; t=1722650897; x=1723255697;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=b15LrnIvY4WodIxNvhJCfREpKvpaVL74iqLx/Yn8byA=;
+        b=VXqZfu2ywgNZngNOLEyzEXKQ7Altp0T1ZDPAhTFZhgq03hv6hDNe+SwyrOucykoG9X
+         uJEbFliiHN3ofvDOeQf5AXN5Z5ZRuwzqNesNQqyappWmQYaiJwFj0Ftm79YqrCzC72iS
+         4Pp0m57JOj0mOEpzXcSmuF70LRxEHLsgSvx6s0GH5t5TZmlS/Hl9KFmgCwp+84k7F+jA
+         Pskk+cqwOiKQEPKfeEn5nel5CuZL/ZMZzKshfmVydYUqI0UasmcEWXRelkw7HIzqse/o
+         q8cfcjdARDLae/pBJECSf+oCZS0UYzQTXd5fdb1XIsAgLAX+kHoDpIoXeCGzHS3Ar6MK
+         G+gQ==
+X-Gm-Message-State: AOJu0Yz7dLzykCTf81IyjiIEJspNt/Gf6Eu/0wve2QVezY8g7xhw8PAt
+	xoSrL4lXacKkmbQQ3kSxpxSLNJd6TwHHfSj9mkjE85GRzr799d104y6ljhnnEQvpoJDpmb/P0Av
+	l+zate/LPsbGs2dWXN2w+UNXtR5A=
+X-Google-Smtp-Source: AGHT+IFGmlHxczvFXySZfhUREnhaAEQ8yQd4wA/mAgt8T8+SehSmNkY81n2zhpQ+sZdBEJ493HR40ij/PXZQnZBybtw=
+X-Received: by 2002:a17:90b:3b87:b0:2cb:4c30:51bd with SMTP id
+ 98e67ed59e1d1-2cffa2bc65fmr8253395a91.19.1722650896518; Fri, 02 Aug 2024
+ 19:08:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240802123754.3683142-1-theodore_roth@trimble.com>
+In-Reply-To: <20240802123754.3683142-1-theodore_roth@trimble.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Fri, 2 Aug 2024 22:08:05 -0400
+Message-ID: <CADkTA4MvguFWyeZJrR1kAhVjjXTDvQY92Fi9WnxPKP8Ep-+CKA@mail.gmail.com>
+Subject: Re: [meta-virtualization][PATCH] docker-moby: Fix branch value
+To: "Theodore A. Roth" <troth@openavr.org>
+Cc: meta-virtualization@lists.yoctoproject.org, 
+	"Theodore A . Roth" <theodore_roth@trimble.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Fri, 02 Aug 2024 12:38:23 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8857
+ <meta-virtualization@lists.yoctoproject.org>; Sat, 03 Aug 2024 02:08:19 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8858
 
-From: "Theodore A. Roth" <troth@openavr.org>
+On Fri, Aug 2, 2024 at 8:38=E2=80=AFAM Theodore A. Roth <troth@openavr.org>=
+ wrote:
+>
+> From: "Theodore A. Roth" <troth@openavr.org>
+>
+> The upstream git repo does not have a `27.0` branch. It is `27.x`.
+> This is causing fetch errors.
 
-The upstream git repo does not have a `27.0` branch. It is `27.x`.
-This is causing fetch errors.
+To be accurate, they *changed* the upstream branch.
 
-    ERROR: docker-moby-27.0.3+git7fa33a539a2054417c8aacdd7f92e3f8e50f1dff-r0 \
-        do_fetch: Fetcher failure: Unable to find revision \
-        7fa33a539a2054417c8aacdd7f92e3f8e50f1dff in branch 27.0 even from upstream
-    ERROR: docker-moby-27.0.3+git7fa33a539a2054417c8aacdd7f92e3f8e50f1dff-r0 \
-        do_fetch: Bitbake Fetcher Error: FetchError('Unable to fetch URL from \
-        any source.', 'git://github.com/moby/moby.git;branch=27.0;name=moby;protocol=https;destsuffix=git/src/import/')
+One means that the integration was incorrect, the other means that
+the upstream project is behaving antisocially.
 
-Signed-off-by: Theodore A. Roth <troth@openavr.org>
-Signed-off-by: Theodore A. Roth <theodore_roth@trimble.com>
----
- recipes-containers/docker/docker-moby_git.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+I'm actually going to set this to nobranch, since I've lost faith in
+the way they manage their repo.
 
-diff --git a/recipes-containers/docker/docker-moby_git.bb b/recipes-containers/docker/docker-moby_git.bb
-index b4576de9..16675d21 100644
---- a/recipes-containers/docker/docker-moby_git.bb
-+++ b/recipes-containers/docker/docker-moby_git.bb
-@@ -49,9 +49,9 @@ SRCREV_libnetwork = "67e0588f1ddfaf2faf4c8cae8b7ea2876434d91c"
- SRCREV_cli = "d41cb083c352853f94b292a87df4859c4a96dcc2"
- SRCREV_FORMAT = "moby_libnetwork"
- SRC_URI = "\
--	git://github.com/moby/moby.git;branch=27.0;name=moby;protocol=https;destsuffix=${GO_SRCURI_DESTSUFFIX} \
-+	git://github.com/moby/moby.git;branch=27.x;name=moby;protocol=https;destsuffix=${GO_SRCURI_DESTSUFFIX} \
- 	git://github.com/docker/libnetwork.git;branch=master;name=libnetwork;destsuffix=git/libnetwork;protocol=https \
--	git://github.com/docker/cli;branch=27.0;name=cli;destsuffix=git/cli;protocol=https \
-+	git://github.com/docker/cli;branch=27.x;name=cli;destsuffix=git/cli;protocol=https \
- 	file://docker.init \
- 	file://0001-libnetwork-use-GO-instead-of-go.patch \
-         file://0001-cli-use-external-GO111MODULE-and-cross-compiler.patch \
--- 
-2.34.1
+Bruce
 
+>
+>     ERROR: docker-moby-27.0.3+git7fa33a539a2054417c8aacdd7f92e3f8e50f1dff=
+-r0 \
+>         do_fetch: Fetcher failure: Unable to find revision \
+>         7fa33a539a2054417c8aacdd7f92e3f8e50f1dff in branch 27.0 even from=
+ upstream
+>     ERROR: docker-moby-27.0.3+git7fa33a539a2054417c8aacdd7f92e3f8e50f1dff=
+-r0 \
+>         do_fetch: Bitbake Fetcher Error: FetchError('Unable to fetch URL =
+from \
+>         any source.', 'git://github.com/moby/moby.git;branch=3D27.0;name=
+=3Dmoby;protocol=3Dhttps;destsuffix=3Dgit/src/import/')
+>
+> Signed-off-by: Theodore A. Roth <troth@openavr.org>
+> Signed-off-by: Theodore A. Roth <theodore_roth@trimble.com>
+> ---
+>  recipes-containers/docker/docker-moby_git.bb | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/recipes-containers/docker/docker-moby_git.bb b/recipes-conta=
+iners/docker/docker-moby_git.bb
+> index b4576de9..16675d21 100644
+> --- a/recipes-containers/docker/docker-moby_git.bb
+> +++ b/recipes-containers/docker/docker-moby_git.bb
+> @@ -49,9 +49,9 @@ SRCREV_libnetwork =3D "67e0588f1ddfaf2faf4c8cae8b7ea287=
+6434d91c"
+>  SRCREV_cli =3D "d41cb083c352853f94b292a87df4859c4a96dcc2"
+>  SRCREV_FORMAT =3D "moby_libnetwork"
+>  SRC_URI =3D "\
+> -       git://github.com/moby/moby.git;branch=3D27.0;name=3Dmoby;protocol=
+=3Dhttps;destsuffix=3D${GO_SRCURI_DESTSUFFIX} \
+> +       git://github.com/moby/moby.git;branch=3D27.x;name=3Dmoby;protocol=
+=3Dhttps;destsuffix=3D${GO_SRCURI_DESTSUFFIX} \
+>         git://github.com/docker/libnetwork.git;branch=3Dmaster;name=3Dlib=
+network;destsuffix=3Dgit/libnetwork;protocol=3Dhttps \
+> -       git://github.com/docker/cli;branch=3D27.0;name=3Dcli;destsuffix=
+=3Dgit/cli;protocol=3Dhttps \
+> +       git://github.com/docker/cli;branch=3D27.x;name=3Dcli;destsuffix=
+=3Dgit/cli;protocol=3Dhttps \
+>         file://docker.init \
+>         file://0001-libnetwork-use-GO-instead-of-go.patch \
+>          file://0001-cli-use-external-GO111MODULE-and-cross-compiler.patc=
+h \
+> --
+> 2.34.1
+>
+
+
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
