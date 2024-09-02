@@ -1,96 +1,77 @@
-Return-Path: <wangmy@fujitsu.com>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F20EC77B7A
-	for <webhook@archiver.kernel.org>; Thu, 29 Aug 2024 06:21:12 +0000 (UTC)
-Received: from esa3.hc1455-7.c3s2.iphmx.com (esa3.hc1455-7.c3s2.iphmx.com [207.54.90.49])
- by mx.groups.io with SMTP id smtpd.web10.6424.1724912467250314025
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E6AEFCA0ED3
+	for <webhook@archiver.kernel.org>; Mon,  2 Sep 2024 06:12:46 +0000 (UTC)
+Received: from mailout11.t-online.de (mailout11.t-online.de [194.25.134.85])
+ by mx.groups.io with SMTP id smtpd.web10.32561.1725257560627000049
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 28 Aug 2024 23:21:07 -0700
+ Sun, 01 Sep 2024 23:12:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=OomhRFqR;
- spf=pass (domain: fujitsu.com, ip: 207.54.90.49, mailfrom: wangmy@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1724912467; x=1756448467;
-  h=from:to:cc:subject:date:message-id;
-  bh=QZtaRz0plqCfKa2hk6nT8RjyBnKvOslpJJ9u9QHT/rM=;
-  b=OomhRFqR8pIfufD0ln2WvhICMKtSRMVHuMBxqgElywQqLlj09QnN482/
-   RfdLnDlHMxBAAKi3bw+ovy2NvR0wFmVpJb5uaj2jFDkp6w9zHIzSBZ0jR
-   Hloc5Y85weCVzs5i+49slWmOINXNUlqwPyHeQ5Q3NWCCEddGOgDKf0p+t
-   3YuDmDN0BJJTFloxljNS+bGJpAngIpnTHQFtD0FygZ+JlvaZT3eoXaVCi
-   OC/QnRTdF8c20Qu1gARND5biKRqnr6NxiNNHqMw/4dieXGEURTe38l85P
-   XJgKfSu2yd1CZnIwAi2xhusEg4FZYNyZSOBSi3vMaqKAQjybZ019elWDI
-   g==;
-X-CSE-ConnectionGUID: 9GD1aZ5jQv25XPl/YlSaRw==
-X-CSE-MsgGUID: ifWJo/vYRLOCmT00hAEZUg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11178"; a="172017622"
-X-IronPort-AV: E=Sophos;i="6.10,184,1719846000"; 
-   d="scan'208";a="172017622"
-Received: from unknown (HELO oym-r1.gw.nic.fujitsu.com) ([210.162.30.89])
-  by esa3.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2024 15:21:04 +0900
-Received: from oym-m2.gw.nic.fujitsu.com (oym-nat-oym-m2.gw.nic.fujitsu.com [192.168.87.59])
-	by oym-r1.gw.nic.fujitsu.com (Postfix) with ESMTP id A82F1D29EA
-	for <meta-virtualization@lists.yoctoproject.org>; Thu, 29 Aug 2024 15:21:02 +0900 (JST)
-Received: from kws-ab4.gw.nic.fujitsu.com (kws-ab4.gw.nic.fujitsu.com [192.51.206.22])
-	by oym-m2.gw.nic.fujitsu.com (Postfix) with ESMTP id EFC12BF4B6
-	for <meta-virtualization@lists.yoctoproject.org>; Thu, 29 Aug 2024 15:21:01 +0900 (JST)
-Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
-	by kws-ab4.gw.nic.fujitsu.com (Postfix) with ESMTP id 87CA770BE9
-	for <meta-virtualization@lists.yoctoproject.org>; Thu, 29 Aug 2024 15:21:01 +0900 (JST)
-Received: from vm4860.g01.fujitsu.local (unknown [10.193.161.161])
-	by edo.cn.fujitsu.com (Postfix) with ESMTP id 32D601A000B;
-	Thu, 29 Aug 2024 14:21:01 +0800 (CST)
-From: wangmy@fujitsu.com
+ dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.85, mailfrom: f_l_k@t-online.de)
+Received: from fwd75.aul.t-online.de (fwd75.aul.t-online.de [10.223.144.101])
+	by mailout11.t-online.de (Postfix) with SMTP id 4AA661EB77
+	for <meta-virtualization@lists.yoctoproject.org>; Mon,  2 Sep 2024 08:12:33 +0200 (CEST)
+Received: from intel-corei7-64.fritz.box ([79.219.228.144]) by fwd75.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1sl0Ih-0VBOrp0; Mon, 2 Sep 2024 08:12:31 +0200
+From: Markus Volk <f_l_k@t-online.de>
 To: meta-virtualization@lists.yoctoproject.org
-Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [meta-virtualization] [PATCH] libvirt: Fix do_package QA issue
-Date: Thu, 29 Aug 2024 14:20:57 +0800
-Message-Id: <1724912457-10022-1-git-send-email-wangmy@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
-X-TM-AS-GCONF: 00
-X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-28626.005
-X-TM-AS-User-Approved-Sender: Yes
-X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-28626.005
-X-TMASE-Result: 10--7.842100-10.000000
-X-TMASE-MatchedRID: Q3OJUoK6MKWYg1tgtT05Jzz6L+U/pejxCZa9cSpBObl/uVjvNeIxv/Mz
-	LKs5Zq8YTQ0JkPG287/mn3xyPJAJoh2P280ZiGmRowvZ4t/MYW7bjtx2Oq4Xg0VlS5Fk1XJ0qXA
-	FsS+trPLi8zVgXoAltr8hWd4lAsFlC24oEZ6SpSkj80Za3RRg8HvuQ+E7K98+rXeH72pmIgeCP3
-	htO9vH30TwNlqGbcBi4LMLmAzUE38=
-X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
+Subject: [meta-virtualization][PATCH] libvirt: dont set polkit permissions manually
+Date: Mon,  2 Sep 2024 08:14:03 +0200
+Message-ID: <20240902061403.4581-1-f_l_k@t-online.de>
+X-Mailer: git-send-email 2.45.2
+MIME-Version: 1.0
+X-TOI-EXPURGATEID: 150726::1725257551-967FB8F4-79D589C3/0/0 CLEAN NORMAL
+X-TOI-MSGID: 973e0729-5e6c-4cb6-95e4-be7509dae32b
+Content-Transfer-Encoding: quoted-printable
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Thu, 29 Aug 2024 06:21:12 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8864
+ <meta-virtualization@lists.yoctoproject.org>; Mon, 02 Sep 2024 06:12:46 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8865
 
-From: Wang Mingyu <wangmy@fujitsu.com>
+According to this commit polkit rules should go to ${datadir} instead of =
+${sysconfdir}:
+https://git.openembedded.org/meta-openembedded/commit/?h=3Dmaster-next&id=
+=3Dd5e90541f8e35916abc930b2da6de037b23d51a1
+Theres no need to adjust the permissions for ${datadir} anymore:
+https://git.openembedded.org/meta-openembedded/commit/?h=3Dmaster-next&id=
+=3D6da0fd21c900e32a0693a6b27d38182f19c8c76c
 
-When enable multilib, the following do_package QA happens:
+This commit fixes build after:
+https://git.yoctoproject.org/poky/commit/?id=3Def9a927a3af1dd817fe298bbe4=
+5470b738d9ce2f
 
-ERROR: libvirt-v10.5.0+git-r0 do_package: QA Issue: libvirt: Files/directories were installed but not shipped in any package:
-  /usr/lib/sysusers.d
-  /usr/lib/sysusers.d/libvirt-qemu.conf
-
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+Signed-off-by: Markus Volk <f_l_k@t-online.de>
 ---
- recipes-extended/libvirt/libvirt_git.bb | 1 +
- 1 file changed, 1 insertion(+)
+ recipes-extended/libvirt/libvirt_git.bb | 9 ---------
+ 1 file changed, 9 deletions(-)
 
-diff --git a/recipes-extended/libvirt/libvirt_git.bb b/recipes-extended/libvirt/libvirt_git.bb
-index 706d4a40..4e03a962 100644
+diff --git a/recipes-extended/libvirt/libvirt_git.bb b/recipes-extended/l=
+ibvirt/libvirt_git.bb
+index 706d4a40..8af09d71 100644
 --- a/recipes-extended/libvirt/libvirt_git.bb
 +++ b/recipes-extended/libvirt/libvirt_git.bb
-@@ -92,6 +92,7 @@ FILES:${PN} += "${libdir}/libvirt/connection-driver \
- 	    ${datadir}/bash-completion/completions/vsh \
- 	    ${datadir}/bash-completion/completions/virt-admin \
- 	    /usr/lib/firewalld/ \
-+            ${nonarch_base_libdir}/sysusers.d/ \
- 	    "
- 
- FILES:${PN}-dbg += "${libdir}/libvirt/connection-driver/.debug ${libdir}/libvirt/lock-driver/.debug"
--- 
-2.34.1
+@@ -243,15 +243,6 @@ do_install:append() {
+ 	echo "d root root 0755 /run/libvirt/qemu none" \
+ 	     >> ${D}${sysconfdir}/default/volatiles/99_libvirt
+=20
+-	# Manually set permissions and ownership to match polkit recipe
+-	if ${@bb.utils.contains('PACKAGECONFIG', 'polkit', 'true', 'false', d)}=
+; then
+-		install -d -m 0700 ${D}/${datadir}/polkit-1/rules.d
+-		chown polkitd ${D}/${datadir}/polkit-1/rules.d
+-		chgrp root ${D}/${datadir}/polkit-1/rules.d
+-	else
+-		rm -rf ${D}/${datadir}/polkit-1
+-	fi
+-
+ 	# disable seccomp_sandbox
+         if [ -e ${D}${sysconfdir}/libvirt/qemu.conf ] ; then
+ 	   sed -i '/^#seccomp_sandbox =3D 1/aseccomp_sandbox =3D 0' \
+--=20
+2.45.2
 
 
