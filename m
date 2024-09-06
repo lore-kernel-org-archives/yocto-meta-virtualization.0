@@ -1,97 +1,91 @@
-Return-Path: <a-singh21@ti.com>
+Return-Path: <persaur@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8622CE7B19
-	for <webhook@archiver.kernel.org>; Fri,  6 Sep 2024 13:55:45 +0000 (UTC)
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by mx.groups.io with SMTP id smtpd.web11.35257.1725630943740933309
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41826E6FE48
+	for <webhook@archiver.kernel.org>; Fri,  6 Sep 2024 19:58:58 +0000 (UTC)
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com [209.85.219.172])
+ by mx.groups.io with SMTP id smtpd.web11.7952.1725652732418196945
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 06 Sep 2024 06:55:43 -0700
+ Fri, 06 Sep 2024 12:58:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@ti.com header.s=ti-com-17Q1 header.b=kTM/Y5LE;
- spf=pass (domain: ti.com, ip: 198.47.19.141, mailfrom: a-singh21@ti.com)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-	by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 486DtgVN098780;
-	Fri, 6 Sep 2024 08:55:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1725630942;
-	bh=Pk1pwT746Myl4LnMvXO9r9qZ09FdjTTeGWV6w5k8Au8=;
-	h=Date:From:To:CC:Subject:References:In-Reply-To;
-	b=kTM/Y5LEPuQNnnUbM/Yo/d1UIbZ6zycHxteBgjvkfMjAcK63U5Al3Q+hRFCw+ZeDv
-	 +3jX6Qgf7A+eOgy5UpOMVzPS3DkiFt+bnuUAZH0ruocQ9vdK9hVY91aImITqkDiXrt
-	 HJj2O60tf7RpAiurm35hIcaiTFqbi84uC3q71st0=
-Received: from DLEE112.ent.ti.com (dlee112.ent.ti.com [157.170.170.23])
-	by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTP id 486DtgLj110369;
-	Fri, 6 Sep 2024 08:55:42 -0500
-Received: from DLEE101.ent.ti.com (157.170.170.31) by DLEE112.ent.ti.com
- (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Fri, 6
- Sep 2024 08:55:42 -0500
-Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE101.ent.ti.com
- (157.170.170.31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Fri, 6 Sep 2024 08:55:42 -0500
-Received: from localhost (nightbug.dhcp.ti.com [10.24.72.75])
-	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 486Dtft8083541;
-	Fri, 6 Sep 2024 08:55:41 -0500
-Date: Fri, 6 Sep 2024 19:25:40 +0530
-From: Amneesh Singh <a-singh21@ti.com>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-CC: <meta-virtualization@lists.yoctoproject.org>
-Subject: Re: Backporting Xen 4.19 to scarthgap
-Message-ID: <xgoj4nxhjxlk7xsmaq3yd7w5t5wwbhrgcjhtqziiwuzr3hue26@2oefjdiwaw4k>
-References: <g6fqs7n55g3tl5f3iqq4evfjvdbo3p33eyhmpqkwbtpqnwt6m5@sj4psvs2kglu>
- <CADkTA4NwyiEzkXuSwV5Uow679-3hq2mh7MpQxT-f4WwSaiS8-Q@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-In-Reply-To: <CADkTA4NwyiEzkXuSwV5Uow679-3hq2mh7MpQxT-f4WwSaiS8-Q@mail.gmail.com>
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=hXUyjAAt;
+ spf=pass (domain: gmail.com, ip: 209.85.219.172, mailfrom: persaur@gmail.com)
+Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-e1d22ecf2a6so2701372276.1
+        for <meta-virtualization@lists.yoctoproject.org>; Fri, 06 Sep 2024 12:58:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1725652731; x=1726257531; darn=lists.yoctoproject.org;
+        h=to:in-reply-to:cc:references:message-id:date:subject:mime-version
+         :from:content-transfer-encoding:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jZrw/LCaDB+J6BpEI3a8gr7L4QF1vIg5exm9fDK42VU=;
+        b=hXUyjAAtk3o/rQlZJwDtXu9Tov15LauV6j/XPvF5wx95Q3vV67Cu7xOfAgSbiaTV+9
+         uKXmUQ9XFIG4gHN/H7Tk1GqOTgb5n9AKPZjJBeNrukaYPhjDdW6uCZIIX14S+WuS0h1k
+         Fzdoek6vOI6ijIFk+ch36u3sWgnpn/pdDIRjaT4BkWHD9Q/ip7EUFtkwSuBBpCP4Dyfh
+         1Q2P6FqnaP+bCOh+xAdfDssXCTI+ifbI6LJZWq88det4KwffwSo/HL4rMbK3sYNYlOzo
+         5xmHA3gwFHocEEUDjIG0+NtWONjl0pIpaXlU0gTwK+o8mW6xCwrvdjPFz9WQuJEdy02S
+         QuPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725652731; x=1726257531;
+        h=to:in-reply-to:cc:references:message-id:date:subject:mime-version
+         :from:content-transfer-encoding:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jZrw/LCaDB+J6BpEI3a8gr7L4QF1vIg5exm9fDK42VU=;
+        b=H2HhiVI7UGSbjnYRcMebjlmelL7n+1Qn29Mn4DRiTA929De725K+rX08YSf5pIIgwk
+         YnBFBu0rLHDPqtnehquIeSctAR52jAZM8UwGQZmSw7/PFtD8nkJ3xJhUkIZKQ4fWiQFE
+         jelmrQYL0rgn3iipGxFUAkqMKT4yt7Cr+Q1u6O9qcFq2CTbaxekEEy9fG0OAn/JDv66r
+         VSCnC/+hvTEyLqOgKRnFzrF0bnKeiuMNczeKTYVXQul8QMld7R1QaH7sYNmP4HPxUxpb
+         JQOji02IC0iCIl3cwRprg0ycLsArdPxRDoiFNLqi2wY4QaaI/4c0YizZ5wYOKMin/uIV
+         bcuQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXq1OB/F82joyzCv06WLLcs/7vDMCjcjXj1Z8fqPfNEv/KPjVAJq/EflFRnmgzhsFKnl0+06aUnfhF2aQze7VlwWpb5@lists.yoctoproject.org
+X-Gm-Message-State: AOJu0Yz6BilLtCWMEnO6bUg4b13ZcNTbC6BIXmLZ76y4sOlQP5hIP+7H
+	JJE2cHmscE87oJpPCmzeupTelI+3/I5L/Rn9Bi5sPEZAEWBUwwoQ
+X-Google-Smtp-Source: AGHT+IFHW3JO3jgOhOtlwELLVhJMgLFYHvclPJOXzSiAsCfvaLiV7YAuVGF0X1bcogFFIEDO3YV6pA==
+X-Received: by 2002:a05:6902:2b8d:b0:e1a:a665:1d9d with SMTP id 3f1490d57ef6-e1d348983b0mr4234713276.33.1725652731422;
+        Fri, 06 Sep 2024 12:58:51 -0700 (PDT)
+Received: from smtpclient.apple ([207.204.229.121])
+        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e1d4402bd35sm108483276.40.2024.09.06.12.58.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 06 Sep 2024 12:58:50 -0700 (PDT)
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by fllv0015.ext.ti.com id 486DtgVN098780
+From: Rich Persaud <persaur@gmail.com>
+Mime-Version: 1.0 (1.0)
+Subject: Re: [meta-virtualization] Backporting Xen 4.19 to scarthgap
+Date: Fri, 6 Sep 2024 15:58:33 -0400
+Message-Id: <0478095F-53AD-4209-9F3F-8A3740755CD0@gmail.com>
+References: <xgoj4nxhjxlk7xsmaq3yd7w5t5wwbhrgcjhtqziiwuzr3hue26@2oefjdiwaw4k>
+Cc: Bruce Ashfield <bruce.ashfield@gmail.com>,
+ meta-virtualization@lists.yoctoproject.org
+In-Reply-To: <xgoj4nxhjxlk7xsmaq3yd7w5t5wwbhrgcjhtqziiwuzr3hue26@2oefjdiwaw4k>
+To: a-singh21@ti.com
+X-Mailer: iPad Mail (21G93)
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Fri, 06 Sep 2024 13:55:45 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8875
+ <meta-virtualization@lists.yoctoproject.org>; Fri, 06 Sep 2024 19:58:58 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8876
 
-On 09:44-20240906, Bruce Ashfield wrote:
-> On Fri, Sep 6, 2024 at 9:37=E2=80=AFAM Amneesh Singh <a-singh21@ti.com>=
- wrote:
+On Sep 6, 2024, at 09:55, Amneesh Singh via lists.yoctoproject.org <a-singh2=
+1=3Dti.com@lists.yoctoproject.org> wrote:
 >=20
-> > Hello,
-> >
-> > Is backporting Xen 4.19+stable to scarthgap a possibility?
-> >
+>> Xen does fall into that category, if there's a compelling reason (i.e. a
+>> feature we can't backport that is required), then 4.19 could be added, bu=
+t
+>> not made the default version (that would break policy).
 >=20
-> I don't hold quite as strictly to the "no new major versions in stable
-> branches"
-
-I agree, freezing Xen to 4.18, would limit things in my opinion.
-
-> as OE core does.  In particular for recipes that I carry multiple versi=
-ons
-> of.
+> I am mostly interested in dynamic node programming using overlay dtbo.
+> Although, I have not tried it with dom0less domains yet.
 >=20
-> Xen does fall into that category, if there's a compelling reason (i.e. =
-a
-> feature we can't backport that is required), then 4.19 could be added, =
-but
-> not made the default version (that would break policy).
-
-I am mostly interested in dynamic node programming using overlay dtbo.
-Although, I have not tried it with dom0less domains yet.
-
-Other than that, I have a patchset which I'll have to rewrite to make it
-work with 4.18 :p, so I was trying to avoid that.
-
-What do you think? Is it possible to make this work?
-
+> Other than that, I have a patchset which I'll have to rewrite to make it
+> work with 4.18 :p, so I was trying to avoid that.
 >=20
-> Bruce
->=20
+> What do you think? Is it possible to make this work?
 
-Regards
-Amneesh
+Xen should be flexible on the build environment.=20
+
+OpenXT has used multiple versions (4.13 to 4.18) of Xen with the older LTS d=
+unfell.
+
+Rich=
 
