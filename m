@@ -1,163 +1,135 @@
-Return-Path: <marek.belisko@gmail.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA284CE7B01
-	for <webhook@archiver.kernel.org>; Fri,  6 Sep 2024 11:12:54 +0000 (UTC)
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
- by mx.groups.io with SMTP id smtpd.web11.32373.1725621170404785562
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B15BBCE7B15
+	for <webhook@archiver.kernel.org>; Fri,  6 Sep 2024 13:44:25 +0000 (UTC)
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+ by mx.groups.io with SMTP id smtpd.web11.35021.1725630259350109355
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 06 Sep 2024 04:12:50 -0700
+ Fri, 06 Sep 2024 06:44:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=kJwmWLSh;
- spf=pass (domain: gmail.com, ip: 209.85.208.175, mailfrom: marek.belisko@gmail.com)
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2f3eabcd293so21297931fa.2
-        for <meta-virtualization@lists.yoctoproject.org>; Fri, 06 Sep 2024 04:12:50 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=c9P8jCxD;
+ spf=pass (domain: gmail.com, ip: 209.85.210.182, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-717934728adso1408771b3a.2
+        for <meta-virtualization@lists.yoctoproject.org>; Fri, 06 Sep 2024 06:44:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725621168; x=1726225968; darn=lists.yoctoproject.org;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=zmJAZOkLWLD+bVI/CRugHaqIZLQ0s+HlEl8Qbq5OtKs=;
-        b=kJwmWLShKAGSY5j8WhGVdEKZ0GUm6qStqFHnVexVJzvRPZu0pS+oKvBrHAOf3tQwvQ
-         vmdYaJtYd4mtuFuD3bxKnk6Tfyrw76cYT6vQnL9NrYlPdAMHQj+kuL00I3cWMHHbrxTP
-         aUkBTsDGOIbFkgMoPzgbRLbiYVA94sQmlfBzE6BFLxKHMWXTj7iDRxZ2OqldYnSBlZYd
-         JFMpkLtAGrln5ke4H3FcOrZGzlNnANGPMl/JEyuMCmoIarJsxHvRPH38ez39Bjsofvea
-         uAHddSg3qqaBATRozVBSEX9dc0r9hc1aEXIp2BiIJmnww/4aM6pB0ItdNZiRlDX6d7w1
-         uOGw==
+        d=gmail.com; s=20230601; t=1725630258; x=1726235058; darn=lists.yoctoproject.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=CvATz+0+IsvKiCcQnnYVnimgN/s6+RYyg/8HxtY8uwk=;
+        b=c9P8jCxD3PCyZSNYSLDzL89UxzHl/JqOLEdC1qKbFOpCWYN04uy9bo9BSmtrUW4mex
+         HlmyiT6SC6hQgrg+MhSp+7Th2IBF7Z8XRhp9/E/Fa8vPyU1wloX8ogPBIX59yD3IxReh
+         xucPKQVpH+SyKbgnVI3+lH2PuGF7pEGHlWlW/srlbsA3COwHYfRw6Fc4xg8fwGOY8bwQ
+         6NwwDhwEjhBtGll+z45WX4v6tsLkrUPLicmWQc3/1o14TuhTZzPy4EM2mkE+hyuJ1Gt8
+         CmdVv0emJEC9FlosZjZDax1YdODGdHXQhmcTykpKmJS/FVlZAVI8iXcbYp+Qyr3NDbaM
+         xgQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725621168; x=1726225968;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=zmJAZOkLWLD+bVI/CRugHaqIZLQ0s+HlEl8Qbq5OtKs=;
-        b=Cc7FkXlshVXRPtaIZtr9oVLRAuTx716R7v008al2uupFRBxm0MpcCmvIZpmATl7SAc
-         R2NqDmt+BoH9K1nQ78frW9TV1IQQq3Y4qAn9FR02Cauuz4Hzmh/yarzqdBxa+eRDnuAG
-         Y4j+VqvYIxuPYN5HPUoWW2y+08loOoZkX4u+TuWkwieJeqOBc4qqGV1n7CI6kZ3oKuIt
-         4rIlbnGqgNvgE3jVDeCxeNQNJCfsVp/3pEz+v2a+VUoMA6NzjPVwClDaF5a+A6+byfWV
-         VoVlLlUGgXl6YehuXOYFIVd/sH8S8S+iMmxGfv17UoY1nYbXBq2Y9BXOTLFZ2LKMsh7i
-         gl7A==
-X-Gm-Message-State: AOJu0Yy+SXqOa+mPIheSK7CNggW8IjWrKLOH3KtAGhkS2vVitGmf8Oqe
-	r96yVhsShG7dJrd4fllQRWLyQivYDeCu5m0z/fjs3IJcHGspyH3Z6pOSShk/oXDgKajLDUcx2QG
-	jt+1TJQIRl3Vi5q9NGTrgwl9KoBQJbaV/7oo=
-X-Google-Smtp-Source: AGHT+IGFYCS9UFaXQAw+bmKJZgFPfsqU34Z5yl4w010z7MI2w0aboCCcJN4ZlJgtY8dGoEA06ZJM3LtzhZgZwRCvhcQ=
-X-Received: by 2002:a2e:a983:0:b0:2f1:5561:4b66 with SMTP id
- 38308e7fff4ca-2f751f9a132mr15221211fa.44.1725621167472; Fri, 06 Sep 2024
- 04:12:47 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1725630258; x=1726235058;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=CvATz+0+IsvKiCcQnnYVnimgN/s6+RYyg/8HxtY8uwk=;
+        b=D5N/y1FqzodzZ01fu4GwZTozfcmz51U96gtOLs7kPYIuy7eYfMUC+hXzSa7pf49jQJ
+         EjeAnpbwSzyZif48SowYYPKPfOu37A/5MAEGets4B/1XzwqP7vTxWYoYGoFpmut2iVoF
+         zFTdRwd4moZwxl0bzajRX0dVQ+VujUrCIwPBdbdy2RZkDmdtYcJdM5yCs1Fe5V5EdfN3
+         lfXSqntlXTrj80V+haEfGx4Xsh52aZh0Smm1c1GxQJ997zLWln+mz/arvJ8XWLNpQ1lr
+         jYZgWimAq3R3ZQptzvEOsOf+XZomc3tdBlORBI5SET2dmzAhz0M8mG54gLs06T12k2HR
+         Zhng==
+X-Gm-Message-State: AOJu0Yw3ANw3V7WImxzhhM8YRi7tA14koC0WhU5nW321VhagKNOfgth0
+	MFKackHevCDvt7ctSGntIFeiz+Uom0loKJApJOi+nqrUximMiWnUxiEdGkH6Bu2VGZtleWsJ/4l
+	EhH+YYUlIH5Tzb6AY8cdx6WMZUIQ=
+X-Google-Smtp-Source: AGHT+IE9ge2Ln+B7LVaJ3DYuG1gFOVAB5YVyAYREsIhwqGHtfKsvhKJAi+WDBkp0nb3Eo5fjFtOrJ/+79IjhV369MA8=
+X-Received: by 2002:a05:6a20:ce47:b0:1cc:e02e:f2c2 with SMTP id
+ adf61e73a8af0-1cce0ff2410mr28667494637.11.1725630258185; Fri, 06 Sep 2024
+ 06:44:18 -0700 (PDT)
 MIME-Version: 1.0
-From: Belisko Marek <marek.belisko@gmail.com>
-Date: Fri, 6 Sep 2024 13:12:36 +0200
-Message-ID: <CAAfyv340PmSBG6jC-qjPm4kBVeVYfWLukgyBh3pt+wXE+eC52w@mail.gmail.com>
-Subject: meta-cloud-services: fluentd issue
-To: meta-virtualization@lists.yoctoproject.org
-Content-Type: multipart/alternative; boundary="000000000000b4694b0621717c8d"
+References: <g6fqs7n55g3tl5f3iqq4evfjvdbo3p33eyhmpqkwbtpqnwt6m5@sj4psvs2kglu>
+In-Reply-To: <g6fqs7n55g3tl5f3iqq4evfjvdbo3p33eyhmpqkwbtpqnwt6m5@sj4psvs2kglu>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Fri, 6 Sep 2024 09:44:05 -0400
+Message-ID: <CADkTA4NwyiEzkXuSwV5Uow679-3hq2mh7MpQxT-f4WwSaiS8-Q@mail.gmail.com>
+Subject: Re: Backporting Xen 4.19 to scarthgap
+To: Amneesh Singh <a-singh21@ti.com>
+Cc: meta-virtualization@lists.yoctoproject.org
+Content-Type: multipart/alternative; boundary="0000000000008d8d2d0621739ab9"
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Fri, 06 Sep 2024 11:12:54 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8871
+ <meta-virtualization@lists.yoctoproject.org>; Fri, 06 Sep 2024 13:44:25 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8872
 
---000000000000b4694b0621717c8d
+--0000000000008d8d2d0621739ab9
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On Fri, Sep 6, 2024 at 9:37=E2=80=AFAM Amneesh Singh <a-singh21@ti.com> wro=
+te:
 
-I'm including meta-cloud-services to my project in order to have a fluentd
-package in my image. When I run the build I'm getting various error that
-libraries have incorrect format (e.g.):
+> Hello,
+>
+> Is backporting Xen 4.19+stable to scarthgap a possibility?
+>
 
-ERROR: strptime-0.2.5-r0 do_populate_sysroot: Fatal errors occurred in
-subprocesses:
-Command '['aarch64-poky-linux-strip', '--remove-section=.comment',
-'--remove-section=.note', '--strip-unneeded',
-'/data/projects/test-build/build/tmp/work/cortexa53-crypto-poky-linux/strptime/0.2.5-r0/sysroot-destdir/usr/lib/ruby/gems/3.1.0/gems/strptime-0.2.5/ext/strptime/strptime.so']'
-returned non-zero exit status 1.
-Subprocess output:aarch64-poky-linux-strip: Unable to recognise the format
-of the input file
-`/data/projects/test-build/build/tmp/work/cortexa53-crypto-poky-linux/strptime/0.2.5-r0/sysroot-destdir/usr/lib/ruby/gems/3.1.0/gems/strptime-0.2.5/ext/strptime/strptime.so'
-Command '['aarch64-poky-linux-strip', '--remove-section=.comment',
-'--remove-section=.note', '--strip-unneeded',
-'/data/projects/test-build/build/tmp/work/cortexa53-crypto-poky-linux/strptime/0.2.5-r0/sysroot-destdir/usr/lib/ruby/gems/3.1.0/gems/strptime-0.2.5/lib/strptime/strptime.so']'
-returned non-zero exit status 1.
-Subprocess output:aarch64-poky-linux-strip: Unable to recognise the format
-of the input file
-`/data/projects/test-build/build/tmp/work/cortexa53-crypto-poky-linux/strptime/0.2.5-r0/sysroot-destdir/usr/lib/ruby/gems/3.1.0/gems/strptime-0.2.5/lib/strptime/strptime.so'
-Command '['aarch64-poky-linux-strip', '--remove-section=.comment',
-'--remove-section=.note', '--strip-unneeded',
-'/data/projects/test-build/build/tmp/work/cortexa53-crypto-poky-linux/strptime/0.2.5-r0/sysroot-destdir/usr/lib/ruby/gems/3.1.0/extensions/x86_64-linux/3.1.0/strptime-0.2.5/strptime/strptime.so']'
-returned non-zero exit status 1.
-Subprocess output:aarch64-poky-linux-strip: Unable to recognise the format
-of the input file
-`/data/projects/test-build/build/tmp/work/cortexa53-crypto-poky-linux/strptime/0.2.5-r0/sysroot-destdir/usr/lib/ruby/gems/3.1.0/extensions/x86_64-linux/3.1.0/strptime-0.2.5/strptime/strptime.so'
+I don't hold quite as strictly to the "no new major versions in stable
+branches"
+as OE core does.  In particular for recipes that I carry multiple versions
+of.
 
-and when I check the library it's compiled for x86_64 while my target is
-arm64.
+Xen does fall into that category, if there's a compelling reason (i.e. a
+feature we can't backport that is required), then 4.19 could be added, but
+not made the default version (that would break policy).
 
-I'm using kirkstone branch. Am  I doing something wrong?
-
-Thanks and BR,
-
-marek
+Bruce
 
 
 
--- 
-as simple and primitive as possible
--------------------------------------------------
-Marek Belisko - OPEN-NANDRA
-Freelance Developer
+>
+> Regards
+> Amneesh
+>
 
-Ruska Nova Ves 219 | Presov, 08005 Slovak Republic
-Tel: +421 915 052 184
-skype: marekwhite
-twitter: #opennandra
-web: http://open-nandra.com
 
---000000000000b4694b0621717c8d
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end
+- "Use the force Harry" - Gandalf, Star Trek II
+
+--0000000000008d8d2d0621739ab9
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Hi,<div><br></div><div>I&#39;m including=C2=A0meta-cloud-s=
-ervices to my project in order to have a fluentd package in my image. When =
-I run the build I&#39;m getting various error that libraries have incorrect=
- format (e.g.):<br><br></div><div>ERROR: strptime-0.2.5-r0 do_populate_sysr=
-oot: Fatal errors occurred in subprocesses:<br>Command &#39;[&#39;aarch64-p=
-oky-linux-strip&#39;, &#39;--remove-section=3D.comment&#39;, &#39;--remove-=
-section=3D.note&#39;, &#39;--strip-unneeded&#39;, &#39;/data/projects/test-=
-build/build/tmp/work/cortexa53-crypto-poky-linux/strptime/0.2.5-r0/sysroot-=
-destdir/usr/lib/ruby/gems/3.1.0/gems/strptime-0.2.5/ext/strptime/strptime.s=
-o&#39;]&#39; returned non-zero exit status 1.<br>Subprocess output:aarch64-=
-poky-linux-strip: Unable to recognise the format of the input file `/data/p=
-rojects/test-build/build/tmp/work/cortexa53-crypto-poky-linux/strptime/0.2.=
-5-r0/sysroot-destdir/usr/lib/ruby/gems/3.1.0/gems/strptime-0.2.5/ext/strpti=
-me/strptime.so&#39;<br>Command &#39;[&#39;aarch64-poky-linux-strip&#39;, &#=
-39;--remove-section=3D.comment&#39;, &#39;--remove-section=3D.note&#39;, &#=
-39;--strip-unneeded&#39;, &#39;/data/projects/test-build/build/tmp/work/cor=
-texa53-crypto-poky-linux/strptime/0.2.5-r0/sysroot-destdir/usr/lib/ruby/gem=
-s/3.1.0/gems/strptime-0.2.5/lib/strptime/strptime.so&#39;]&#39; returned no=
-n-zero exit status 1.<br>Subprocess output:aarch64-poky-linux-strip: Unable=
- to recognise the format of the input file `/data/projects/test-build/build=
-/tmp/work/cortexa53-crypto-poky-linux/strptime/0.2.5-r0/sysroot-destdir/usr=
-/lib/ruby/gems/3.1.0/gems/strptime-0.2.5/lib/strptime/strptime.so&#39;<br>C=
-ommand &#39;[&#39;aarch64-poky-linux-strip&#39;, &#39;--remove-section=3D.c=
-omment&#39;, &#39;--remove-section=3D.note&#39;, &#39;--strip-unneeded&#39;=
-, &#39;/data/projects/test-build/build/tmp/work/cortexa53-crypto-poky-linux=
-/strptime/0.2.5-r0/sysroot-destdir/usr/lib/ruby/gems/3.1.0/extensions/x86_6=
-4-linux/3.1.0/strptime-0.2.5/strptime/strptime.so&#39;]&#39; returned non-z=
-ero exit status 1.<br>Subprocess output:aarch64-poky-linux-strip: Unable to=
- recognise the format of the input file `/data/projects/test-build/build/tm=
-p/work/cortexa53-crypto-poky-linux/strptime/0.2.5-r0/sysroot-destdir/usr/li=
-b/ruby/gems/3.1.0/extensions/x86_64-linux/3.1.0/strptime-0.2.5/strptime/str=
-ptime.so&#39;</div><div><br></div><div>and when I check the library it&#39;=
-s compiled=C2=A0for x86_64 while my target is arm64.</div><div><br></div><d=
-iv>I&#39;m using kirkstone branch. Am=C2=A0 I doing something wrong?=C2=A0=
-=C2=A0</div><div><br></div><div>Thanks and BR,</div><div><br></div><div>mar=
-ek</div><div><br></div><div><br></div><div><div><br></div><span class=3D"gm=
-ail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signatu=
-re" data-smartmail=3D"gmail_signature">as simple and primitive as possible<=
-br>-------------------------------------------------<br>Marek Belisko - OPE=
-N-NANDRA<br>Freelance Developer<br><br>Ruska Nova Ves 219 | Presov, 08005 S=
-lovak Republic<br>Tel: +421 915 052 184<br>skype: marekwhite<br>twitter: #o=
-pennandra<br>web: <a href=3D"http://open-nandra.com" target=3D"_blank">http=
-://open-nandra.com</a></div></div></div>
+<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
+t-size:small"><br></div></div><br><div class=3D"gmail_quote"><div dir=3D"lt=
+r" class=3D"gmail_attr">On Fri, Sep 6, 2024 at 9:37=E2=80=AFAM Amneesh Sing=
+h &lt;<a href=3D"mailto:a-singh21@ti.com">a-singh21@ti.com</a>&gt; wrote:<b=
+r></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex=
+;border-left:1px solid rgb(204,204,204);padding-left:1ex">Hello,<br>
+<br>
+Is backporting Xen 4.19+stable to scarthgap a possibility?<br></blockquote>=
+<div><br></div><div><div class=3D"gmail_default" style=3D"font-size:small">=
+I don&#39;t hold quite as strictly to the &quot;no new major versions in st=
+able branches&quot;</div><div class=3D"gmail_default" style=3D"font-size:sm=
+all">as OE core does.=C2=A0 In particular for recipes that I carry multiple=
+ versions of.</div><div class=3D"gmail_default" style=3D"font-size:small"><=
+br></div><div class=3D"gmail_default" style=3D"font-size:small">Xen does fa=
+ll into that category, if there&#39;s a compelling reason (i.e. a</div><div=
+ class=3D"gmail_default" style=3D"font-size:small">feature we can&#39;t bac=
+kport that is required), then 4.19 could be added, but</div><div class=3D"g=
+mail_default" style=3D"font-size:small">not made the default version (that =
+would break policy).</div><div class=3D"gmail_default" style=3D"font-size:s=
+mall"><br></div><div class=3D"gmail_default" style=3D"font-size:small">Bruc=
+e</div><br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">
+<br>
+Regards<br>
+Amneesh<br>
+</blockquote></div><br clear=3D"all"><div><br></div><span class=3D"gmail_si=
+gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature">- =
+Thou shalt not follow the NULL pointer, for chaos and madness await thee at=
+ its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star Trek II<br><b=
+r></div></div>
 
---000000000000b4694b0621717c8d--
+--0000000000008d8d2d0621739ab9--
 
