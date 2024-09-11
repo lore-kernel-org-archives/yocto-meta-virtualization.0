@@ -1,91 +1,111 @@
-Return-Path: <persaur@gmail.com>
+Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41826E6FE48
-	for <webhook@archiver.kernel.org>; Fri,  6 Sep 2024 19:58:58 +0000 (UTC)
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com [209.85.219.172])
- by mx.groups.io with SMTP id smtpd.web11.7952.1725652732418196945
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35CC4EE0206
+	for <webhook@archiver.kernel.org>; Wed, 11 Sep 2024 03:54:41 +0000 (UTC)
+Received: from esa5.hc1455-7.c3s2.iphmx.com (esa5.hc1455-7.c3s2.iphmx.com [68.232.139.130])
+ by mx.groups.io with SMTP id smtpd.web11.14350.1726026870956262061
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 06 Sep 2024 12:58:52 -0700
+ Tue, 10 Sep 2024 20:54:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=hXUyjAAt;
- spf=pass (domain: gmail.com, ip: 209.85.219.172, mailfrom: persaur@gmail.com)
-Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-e1d22ecf2a6so2701372276.1
-        for <meta-virtualization@lists.yoctoproject.org>; Fri, 06 Sep 2024 12:58:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725652731; x=1726257531; darn=lists.yoctoproject.org;
-        h=to:in-reply-to:cc:references:message-id:date:subject:mime-version
-         :from:content-transfer-encoding:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=jZrw/LCaDB+J6BpEI3a8gr7L4QF1vIg5exm9fDK42VU=;
-        b=hXUyjAAtk3o/rQlZJwDtXu9Tov15LauV6j/XPvF5wx95Q3vV67Cu7xOfAgSbiaTV+9
-         uKXmUQ9XFIG4gHN/H7Tk1GqOTgb5n9AKPZjJBeNrukaYPhjDdW6uCZIIX14S+WuS0h1k
-         Fzdoek6vOI6ijIFk+ch36u3sWgnpn/pdDIRjaT4BkWHD9Q/ip7EUFtkwSuBBpCP4Dyfh
-         1Q2P6FqnaP+bCOh+xAdfDssXCTI+ifbI6LJZWq88det4KwffwSo/HL4rMbK3sYNYlOzo
-         5xmHA3gwFHocEEUDjIG0+NtWONjl0pIpaXlU0gTwK+o8mW6xCwrvdjPFz9WQuJEdy02S
-         QuPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725652731; x=1726257531;
-        h=to:in-reply-to:cc:references:message-id:date:subject:mime-version
-         :from:content-transfer-encoding:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=jZrw/LCaDB+J6BpEI3a8gr7L4QF1vIg5exm9fDK42VU=;
-        b=H2HhiVI7UGSbjnYRcMebjlmelL7n+1Qn29Mn4DRiTA929De725K+rX08YSf5pIIgwk
-         YnBFBu0rLHDPqtnehquIeSctAR52jAZM8UwGQZmSw7/PFtD8nkJ3xJhUkIZKQ4fWiQFE
-         jelmrQYL0rgn3iipGxFUAkqMKT4yt7Cr+Q1u6O9qcFq2CTbaxekEEy9fG0OAn/JDv66r
-         VSCnC/+hvTEyLqOgKRnFzrF0bnKeiuMNczeKTYVXQul8QMld7R1QaH7sYNmP4HPxUxpb
-         JQOji02IC0iCIl3cwRprg0ycLsArdPxRDoiFNLqi2wY4QaaI/4c0YizZ5wYOKMin/uIV
-         bcuQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXq1OB/F82joyzCv06WLLcs/7vDMCjcjXj1Z8fqPfNEv/KPjVAJq/EflFRnmgzhsFKnl0+06aUnfhF2aQze7VlwWpb5@lists.yoctoproject.org
-X-Gm-Message-State: AOJu0Yz6BilLtCWMEnO6bUg4b13ZcNTbC6BIXmLZ76y4sOlQP5hIP+7H
-	JJE2cHmscE87oJpPCmzeupTelI+3/I5L/Rn9Bi5sPEZAEWBUwwoQ
-X-Google-Smtp-Source: AGHT+IFHW3JO3jgOhOtlwELLVhJMgLFYHvclPJOXzSiAsCfvaLiV7YAuVGF0X1bcogFFIEDO3YV6pA==
-X-Received: by 2002:a05:6902:2b8d:b0:e1a:a665:1d9d with SMTP id 3f1490d57ef6-e1d348983b0mr4234713276.33.1725652731422;
-        Fri, 06 Sep 2024 12:58:51 -0700 (PDT)
-Received: from smtpclient.apple ([207.204.229.121])
-        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e1d4402bd35sm108483276.40.2024.09.06.12.58.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 06 Sep 2024 12:58:50 -0700 (PDT)
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-From: Rich Persaud <persaur@gmail.com>
-Mime-Version: 1.0 (1.0)
-Subject: Re: [meta-virtualization] Backporting Xen 4.19 to scarthgap
-Date: Fri, 6 Sep 2024 15:58:33 -0400
-Message-Id: <0478095F-53AD-4209-9F3F-8A3740755CD0@gmail.com>
-References: <xgoj4nxhjxlk7xsmaq3yd7w5t5wwbhrgcjhtqziiwuzr3hue26@2oefjdiwaw4k>
-Cc: Bruce Ashfield <bruce.ashfield@gmail.com>,
- meta-virtualization@lists.yoctoproject.org
-In-Reply-To: <xgoj4nxhjxlk7xsmaq3yd7w5t5wwbhrgcjhtqziiwuzr3hue26@2oefjdiwaw4k>
-To: a-singh21@ti.com
-X-Mailer: iPad Mail (21G93)
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=M07+MHFb;
+ spf=pass (domain: fujitsu.com, ip: 68.232.139.130, mailfrom: wangmy@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
+  t=1726026872; x=1757562872;
+  h=from:to:cc:subject:date:message-id;
+  bh=3dGrfof73krdWgKsoQWZ1+FzymQSYarIDiXhPxNU2Xs=;
+  b=M07+MHFbYR62PSIwXcqP+OQ58sPTPMQ/qlu7q9r6GkBQbpoRcxFg51ji
+   E5Alwn5jArJOvEgHRjW9A58o2kloAcLkogjFpnOt24QuQcYXvweUv/fKH
+   duOdBEjhbr4McSfbxo3NbRC6/2TaruuTizlj085Fh3YL/b6/8ysYqGnGb
+   Gsl80F6Z40NowN4+1XrQZPfbCPPKiXW3pJ/PjoTiIw/sTUKvOXAVj5NLV
+   xXhZYrp8MKXK2PwILa9F6ukSDKa/k4fWNpIBNrAeLzxvFKUqyZnyRL6CW
+   HqMKnZiZdgMYjcptMy0urDH7EPX3hbXZDdswGOER9MLqEIdooTeQyQiag
+   w==;
+X-CSE-ConnectionGUID: lW7CTAKhQsaLJldyuNV1bw==
+X-CSE-MsgGUID: Z1debvB3Q/+xF9l0Y2BtzA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11191"; a="172560258"
+X-IronPort-AV: E=Sophos;i="6.10,218,1719846000"; 
+   d="scan'208";a="172560258"
+Received: from unknown (HELO oym-r1.gw.nic.fujitsu.com) ([210.162.30.89])
+  by esa5.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2024 12:54:29 +0900
+Received: from oym-m2.gw.nic.fujitsu.com (oym-nat-oym-m2.gw.nic.fujitsu.com [192.168.87.59])
+	by oym-r1.gw.nic.fujitsu.com (Postfix) with ESMTP id 33D31D29E1
+	for <meta-virtualization@lists.yoctoproject.org>; Wed, 11 Sep 2024 12:54:26 +0900 (JST)
+Received: from kws-ab4.gw.nic.fujitsu.com (kws-ab4.gw.nic.fujitsu.com [192.51.206.22])
+	by oym-m2.gw.nic.fujitsu.com (Postfix) with ESMTP id 5FBA1BF49F
+	for <meta-virtualization@lists.yoctoproject.org>; Wed, 11 Sep 2024 12:54:25 +0900 (JST)
+Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
+	by kws-ab4.gw.nic.fujitsu.com (Postfix) with ESMTP id D9766E8EE
+	for <meta-virtualization@lists.yoctoproject.org>; Wed, 11 Sep 2024 12:54:24 +0900 (JST)
+Received: from vm4860.g01.fujitsu.local (unknown [10.193.128.200])
+	by edo.cn.fujitsu.com (Postfix) with ESMTP id 5A9D31A000B;
+	Wed, 11 Sep 2024 11:54:24 +0800 (CST)
+From: wangmy@fujitsu.com
+To: meta-virtualization@lists.yoctoproject.org
+Cc: Wang Mingyu <wangmy@fujitsu.com>
+Subject: [meta-virtualization] [PATCH] libvirt: fix do_rootfs error
+Date: Wed, 11 Sep 2024 11:54:17 +0800
+Message-Id: <1726026857-12442-1-git-send-email-wangmy@fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
+X-TM-AS-GCONF: 00
+X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-28656.004
+X-TM-AS-User-Approved-Sender: Yes
+X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-28656.004
+X-TMASE-Result: 10--6.070300-10.000000
+X-TMASE-MatchedRID: Jy5kObkVr+hXY5ze6zUPKQzrPeIO/OIHlDt5PQMgj01ySYZtwNAWHyQG
+	h5qJzqDbHh5o0wdqO2S1N5MHBnEsbFromRa6X9R8zYK5U+QI3O7BOVz0Jwcxl1gLks93sG9tfiq
+	1gj2xET8M1uAoS31c8ziMwfFTaQrQZSU6HajahM7R7uN8GOEHx6IazKtJxIUH64sf0Egj7iqLlQ
+	g89oDHCuLzNWBegCW2Nfpe10T3IsMLbigRnpKlKSPzRlrdFGDwgPGukHg7saOZb4HvbGnLSO6P+
+	0+l4Jw7xqpVQpY/vVG1AMzNONEyEA==
+X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Fri, 06 Sep 2024 19:58:58 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8876
+ <meta-virtualization@lists.yoctoproject.org>; Wed, 11 Sep 2024 03:54:41 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8877
 
-On Sep 6, 2024, at 09:55, Amneesh Singh via lists.yoctoproject.org <a-singh2=
-1=3Dti.com@lists.yoctoproject.org> wrote:
->=20
->> Xen does fall into that category, if there's a compelling reason (i.e. a
->> feature we can't backport that is required), then 4.19 could be added, bu=
-t
->> not made the default version (that would break policy).
->=20
-> I am mostly interested in dynamic node programming using overlay dtbo.
-> Although, I have not tried it with dom0less domains yet.
->=20
-> Other than that, I have a patchset which I'll have to rewrite to make it
-> work with 4.18 :p, so I was trying to avoid that.
->=20
-> What do you think? Is it possible to make this work?
+From: Wang Mingyu <wangmy@fujitsu.com>
 
-Xen should be flexible on the build environment.=20
+When do_rootfs, the following error occured:
+WARNING: do_rootfs: Group kvm has been defined with id (47) but sysusers.d expects gid (36)
+WARNING: do_rootfs: Group qemu has been defined with id (975) but sysusers.d expects gid (107)
+ERROR: do_rootfs: Error executing a python function in exec_func_python() autogenerated:
 
-OpenXT has used multiple versions (4.13 to 4.18) of Xen with the older LTS d=
-unfell.
+Create an empty file libvirt-qemu.conf to solve the issue of gid mismatch
 
-Rich=
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+---
+ recipes-extended/libvirt/libvirt/libvirt-qemu.conf | 0
+ recipes-extended/libvirt/libvirt_git.bb            | 2 ++
+ 2 files changed, 2 insertions(+)
+ create mode 100644 recipes-extended/libvirt/libvirt/libvirt-qemu.conf
+
+diff --git a/recipes-extended/libvirt/libvirt/libvirt-qemu.conf b/recipes-extended/libvirt/libvirt/libvirt-qemu.conf
+new file mode 100644
+index 00000000..e69de29b
+diff --git a/recipes-extended/libvirt/libvirt_git.bb b/recipes-extended/libvirt/libvirt_git.bb
+index 5a04afa3..1175e737 100644
+--- a/recipes-extended/libvirt/libvirt_git.bb
++++ b/recipes-extended/libvirt/libvirt_git.bb
+@@ -35,6 +35,7 @@ SRC_URI = "gitsm://github.com/libvirt/libvirt.git;name=libvirt;protocol=https;br
+            file://dnsmasq.conf \
+            file://hook_support.py \
+            file://gnutls-helper.py;subdir=${BP} \
++           file://libvirt-qemu.conf \
+            file://0001-prevent-gendispatch.pl-generating-build-path-in-code.patch \
+            file://0001-messon.build-remove-build-path-information-to-avoid-.patch \
+            file://0001-meson.build-clear-abs_top_builddir-to-avoid-QA-warni.patch \
+@@ -207,6 +208,7 @@ do_install:append() {
+ 
+ 	install -m 0755 ${UNPACKDIR}/libvirtd.sh ${D}/etc/init.d/libvirtd
+ 	install -m 0644 ${UNPACKDIR}/libvirtd.conf ${D}/etc/libvirt/libvirtd.conf
++	install -m 0644 ${UNPACKDIR}/libvirt-qemu.conf ${D}${nonarch_base_libdir}/sysusers.d/libvirt-qemu.conf
+ 
+ 	if ${@bb.utils.contains('DISTRO_FEATURES','sysvinit','true','false',d)}; then
+ 	    # This will wind up in the libvirtd package, but will NOT be invoked by default.
+-- 
+2.34.1
+
 
