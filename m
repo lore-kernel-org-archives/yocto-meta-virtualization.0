@@ -1,72 +1,133 @@
-Return-Path: <martin.jansa@gmail.com>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A803BEEB57B
-	for <webhook@archiver.kernel.org>; Thu, 12 Sep 2024 09:33:11 +0000 (UTC)
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
- by mx.groups.io with SMTP id smtpd.web11.44174.1726133590976112554
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DAF4EEB58C
+	for <webhook@archiver.kernel.org>; Thu, 12 Sep 2024 10:42:12 +0000 (UTC)
+Received: from mailout12.t-online.de (mailout12.t-online.de [194.25.134.22])
+ by mx.groups.io with SMTP id smtpd.web10.44999.1726137722735078011
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 12 Sep 2024 02:33:11 -0700
+ Thu, 12 Sep 2024 03:42:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=TUzW8S3T;
- spf=pass (domain: gmail.com, ip: 209.85.167.53, mailfrom: martin.jansa@gmail.com)
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-53567b4c3f4so673950e87.2
-        for <meta-virtualization@lists.yoctoproject.org>; Thu, 12 Sep 2024 02:33:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726133589; x=1726738389; darn=lists.yoctoproject.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4LhimVXwzk9y2TQQFwODzG2e2DjrCWtLQuIeWyQrudM=;
-        b=TUzW8S3TyBhOtuBopbn5Ki5xTHerbPK9Na3iTh1wFEbWxBZvL/U3MMEHSIl/RzhYr9
-         u8Acj2aJ+fLFguCyO4RqRZdNVz4ZMrRU5HDZ7z+yAhdWJCSQBLK1nokOooHku6twJAXe
-         Tmt7LW/51WWzrw1VNEl7+GsO1gHXyeCHS8bE1io/Pluij79qzrEpyFdLAl4oU2uz0L0r
-         YWAZVdteQsX7ncCSUi3gU/ciuo03OiH+08xTYezvfS0LD6ZKGeNavMER/zNmppn3fQ4d
-         OO9PE7h6ZmJl0lkJnRp9mk5WLvjB/qz2Kcsv70vq4pGc88KcjkEmfvB46J025AbbIsrA
-         wx4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726133589; x=1726738389;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4LhimVXwzk9y2TQQFwODzG2e2DjrCWtLQuIeWyQrudM=;
-        b=jHY8nHZ/+dmPlGf8HdJcyzDSs3y3rPEPPyZv+Ycx9ttkPzncL+fmdMCNoIAok54q4/
-         scFwm+ZqvmAgTCCNK95pqEjXkSaZjcpsk5MkSrAenHAQpMGD6Ue1SnX69RD4a1xF0WyF
-         VZKv9dUnUkEaRIjBhHQVT9DWGCKBR0E0cI5mkvO+lUTBTVu/6L3GIGW5/tUmc7gpn4ZP
-         d3ifctQ5qXZg+8rSerAgAXvp4EqKY9NzKlX0Fd5vYcvAjRwUAqrtbuypTpzOj+aS8Ngh
-         SGvcbr4xhWGaf9YQoCzfwxnXtVAPZAxCQyl3tsq5Y3qL8vISGQ4KSipGbVhERB6gkZKQ
-         b5Uw==
-X-Gm-Message-State: AOJu0YyNa+86UaN8aM0uae+0VrKC+tEK2EjNYL7HJMhWwb/Kqad+W9wd
-	DNw3yOryx2NEzVj1PooKb1Yn/bsJ19HCShfp8lzXhKs7jNmABTvWnOinkdVVTZfGk/lBf7jZelp
-	yMb3hVJAff5k76EQExD6dk8VMATs=
-X-Google-Smtp-Source: AGHT+IEv0gWLZOQdo0TXZS8ESjQwOvtQuVsqfQrYKso6x+VmRVB7SSj1Q7pm5nF/Oqg5MKoBreNg/7eBuAEnPEO0//M=
-X-Received: by 2002:a05:6512:ad6:b0:535:6400:1da2 with SMTP id
- 2adb3069b0e04-53678fbb34emr1267576e87.18.1726133588529; Thu, 12 Sep 2024
- 02:33:08 -0700 (PDT)
-MIME-Version: 1.0
-References: <20240912083239.237361-1-f_l_k@t-online.de> <CA+chaQfdVmLsJD3WL_O8YiJ9urPvgwiHO82=48rBruRcw9-PWg@mail.gmail.com>
- <A7ZOJS.J4CMW0BLYVKO2@t-online.de>
-In-Reply-To: <A7ZOJS.J4CMW0BLYVKO2@t-online.de>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Thu, 12 Sep 2024 11:32:52 +0200
-Message-ID: <CA+chaQeJoEypkzx7rBxW7mBFDYtyFKSr37Fm4CVvwMiM2cj6Pw@mail.gmail.com>
+ dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.22, mailfrom: f_l_k@t-online.de)
+Received: from fwd74.aul.t-online.de (fwd74.aul.t-online.de [10.223.144.100])
+	by mailout12.t-online.de (Postfix) with SMTP id 68950F4FA;
+	Thu, 12 Sep 2024 12:41:59 +0200 (CEST)
+Received: from [192.168.178.67] ([84.163.34.202]) by fwd74.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1sohGv-19ElY80; Thu, 12 Sep 2024 12:41:57 +0200
+Date: Thu, 12 Sep 2024 12:43:39 +0200
+From: Markus Volk <f_l_k@t-online.de>
 Subject: Re: [meta-virtualization][PATCH] linux-%.bbappend: fix compatibility
  issue with linux-intel
-To: Markus Volk <f_l_k@t-online.de>
-Cc: meta-virtualization@lists.yoctoproject.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: Markus Volk <f_l_k@t-online.de>,
+	meta-virtualization@lists.yoctoproject.org
+Message-Id: <SG4PJS.15GM9H9ULONU@t-online.de>
+In-Reply-To: <CA+chaQeJoEypkzx7rBxW7mBFDYtyFKSr37Fm4CVvwMiM2cj6Pw@mail.gmail.com>
+References: <20240912083239.237361-1-f_l_k@t-online.de>
+	<CA+chaQfdVmLsJD3WL_O8YiJ9urPvgwiHO82=48rBruRcw9-PWg@mail.gmail.com>
+	<A7ZOJS.J4CMW0BLYVKO2@t-online.de>
+	<CA+chaQeJoEypkzx7rBxW7mBFDYtyFKSr37Fm4CVvwMiM2cj6Pw@mail.gmail.com>
+X-Mailer: geary/46.0
+MIME-Version: 1.0
+Content-Type: multipart/alternative; boundary="=-yxpQzY+H7S8v7f9AxzmF"
+X-TOI-EXPURGATEID: 150726::1726137717-897F85AD-5F72DD03/0/0 CLEAN NORMAL
+X-TOI-MSGID: 3001649f-34e0-4578-96e7-b1c9e54ddc93
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Thu, 12 Sep 2024 09:33:11 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8889
+ <meta-virtualization@lists.yoctoproject.org>; Thu, 12 Sep 2024 10:42:12 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8890
 
-That's weird, these LINUX_MAJOR/LINUX_MINOR are used only to include
+--=-yxpQzY+H7S8v7f9AxzmF
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+
+I see, thanks for the clarification. After looking into this I can say=20
+that in fact
+the issue was caused by this commit:
+<https://git.yoctoproject.org/meta-virtualization/commit/?id=3Dc02af9473163=
+1b3432b8ddee2b89761ab32530ee>
+
+
+It fails because meta-intel missed to set the patch version in=20
+LINUX_VERSION in linux-intel_6.10.bb
+<https://git.yoctoproject.org/meta-intel/tree/recipes-kernel/linux/linux-in=
+tel_6.10.bb#n16>
+
+changing to LINUX_VERSION ?=3D "6.10.0" fixes the issue
+
+On Thu, Sep 12 2024 at 11:32:52 AM +02:00:00, Martin Jansa=20
+<martin.jansa@gmail.com> wrote:
+> That's weird, these LINUX_MAJOR/LINUX_MINOR are used only to include
+> the .inc file in:
+> recipes-kernel/linux/linux-%.bbappend:include
+> ${@bb.utils.contains <mailto:${@bb.utils.contains>('DISTRO_FEATURES',=20
+> 'virtualization',
+> 'linux-${KERNEL_META_TYPE}_${LINUX_MAJOR}.${LINUX_MINOR}_virtualization.i=
+nc',
+> '', d)}
+>=20
+> while yocto-cfg-fragments dependency you've mentioned in the error is
+> added based on PV now in this .inc file:
+> recipes-kernel/linux/linux-yocto_virtualization.inc:        return
+> "yocto-cfg-fragments-%s-native:do_populate_sysroot" % pv
+>=20
+> So I think your fix only prevents either of these to be included:
+> ./recipes-kernel/linux/linux-yocto_virtualization.inc
+> ./recipes-kernel/linux/linux-yocto_6.6_virtualization.inc
+> ./recipes-kernel/linux/linux-yocto_6.10_virtualization.inc
+>=20
+> and not only for people using meta-intel, but for everybody, because
+> there is no linux-yocto_x.y_virtualization.inc at all.
+>=20
+> That doesn't look right. I think
+> "oe.utils.trim_version(d.getVar('PV'), 2)" should be improved to strip
+> trailing +git as well or maybe to use LINUX_MAJOR/LINUX_MINOR instead
+> of PV inside the .inc file.
+>=20
+> Regards,
+>=20
+> On Thu, Sep 12, 2024 at 10:48=E2=80=AFAM Markus Volk <f_l_k@t-online.de=20
+> <mailto:f_l_k@t-online.de>> wrote:
+>>=20
+>>  On Thu, Sep 12 2024 at 10:36:04 AM +02:00:00, Martin Jansa=20
+>> <martin.jansa@gmail.com <mailto:martin.jansa@gmail.com>> wrote:
+>>=20
+>>  Wasn't this fixed by=20
+>> <https://git.yoctoproject.org/meta-virtualization/commit/?id=3Dc02af9473=
+1631b3432b8ddee2b89761ab32530ee>=20
+>> ?
+>>=20
+>>  I have meta-virtualization layer up to date, so it includes this=20
+>> commit, but was still hit by this problem.
+
+
+--=-yxpQzY+H7S8v7f9AxzmF
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div id=3D"geary-body" dir=3D"auto"><div>I see, thanks for the clarificatio=
+n. After looking into this I can say that in fact</div><div>the issue was c=
+aused by this commit:</div><div><a href=3D"https://git.yoctoproject.org/met=
+a-virtualization/commit/?id=3Dc02af94731631b3432b8ddee2b89761ab32530ee">htt=
+ps://git.yoctoproject.org/meta-virtualization/commit/?id=3Dc02af94731631b34=
+32b8ddee2b89761ab32530ee</a></div><div><br></div><div><br></div><div>It fai=
+ls because meta-intel missed to set the patch version in LINUX_VERSION in l=
+inux-intel_6.10.bb</div><div><a href=3D"https://git.yoctoproject.org/meta-i=
+ntel/tree/recipes-kernel/linux/linux-intel_6.10.bb#n16">https://git.yoctopr=
+oject.org/meta-intel/tree/recipes-kernel/linux/linux-intel_6.10.bb#n16</a><=
+/div><div><br></div><div>changing to LINUX_VERSION ?=3D "6.10.0" fixes the =
+issue</div></div><div id=3D"geary-quote" dir=3D"auto"><br>On Thu, Sep 12 20=
+24 at 11:32:52 AM +02:00:00, Martin Jansa &lt;martin.jansa@gmail.com&gt; wr=
+ote:<br><blockquote type=3D"cite"><div class=3D"plaintext" style=3D"white-s=
+pace: break-spaces;">That's weird, these LINUX_MAJOR/LINUX_MINOR are used o=
+nly to include
 the .inc file in:
 recipes-kernel/linux/linux-%.bbappend:include
-${@bb.utils.contains('DISTRO_FEATURES', 'virtualization',
+<a href=3D"mailto:${@bb.utils.contains">${@bb.utils.contains</a>('DISTRO_FE=
+ATURES', 'virtualization',
 'linux-${KERNEL_META_TYPE}_${LINUX_MAJOR}.${LINUX_MINOR}_virtualization.inc=
 ',
 '', d)}
@@ -91,15 +152,20 @@ of PV inside the .inc file.
 
 Regards,
 
-On Thu, Sep 12, 2024 at 10:48=E2=80=AFAM Markus Volk <f_l_k@t-online.de> wr=
-ote:
->
-> On Thu, Sep 12 2024 at 10:36:04 AM +02:00:00, Martin Jansa <martin.jansa@=
-gmail.com> wrote:
->
-> Wasn't this fixed by https://git.yoctoproject.org/meta-virtualization/com=
-mit/?id=3Dc02af94731631b3432b8ddee2b89761ab32530ee ?
->
-> I have meta-virtualization layer up to date, so it includes this commit, =
-but was still hit by this problem.
+On Thu, Sep 12, 2024 at 10:48=E2=80=AFAM Markus Volk &lt;<a href=3D"mailto:=
+f_l_k@t-online.de">f_l_k@t-online.de</a>&gt; wrote:
+<blockquote>
+ On Thu, Sep 12 2024 at 10:36:04 AM +02:00:00, Martin Jansa &lt;<a href=3D"=
+mailto:martin.jansa@gmail.com">martin.jansa@gmail.com</a>&gt; wrote:
+
+ Wasn't this fixed by <a href=3D"https://git.yoctoproject.org/meta-virtuali=
+zation/commit/?id=3Dc02af94731631b3432b8ddee2b89761ab32530ee">https://git.y=
+octoproject.org/meta-virtualization/commit/?id=3Dc02af94731631b3432b8ddee2b=
+89761ab32530ee</a> ?
+
+ I have meta-virtualization layer up to date, so it includes this commit, b=
+ut was still hit by this problem.
+</blockquote></div></blockquote></div>
+--=-yxpQzY+H7S8v7f9AxzmF--
+
 
