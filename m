@@ -2,123 +2,115 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95BD5CCFA16
-	for <webhook@archiver.kernel.org>; Mon, 30 Sep 2024 18:43:23 +0000 (UTC)
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
- by mx.groups.io with SMTP id smtpd.web10.62773.1727721801929428302
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AADFCEBF73
+	for <webhook@archiver.kernel.org>; Mon, 30 Sep 2024 20:16:44 +0000 (UTC)
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+ by mx.groups.io with SMTP id smtpd.web11.65345.1727727400103434512
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 30 Sep 2024 11:43:22 -0700
+ Mon, 30 Sep 2024 13:16:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Xtvl99ON;
- spf=pass (domain: gmail.com, ip: 209.85.219.47, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-6cb2458774dso34589476d6.3
-        for <meta-virtualization@lists.yoctoproject.org>; Mon, 30 Sep 2024 11:43:21 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=LhafskKX;
+ spf=pass (domain: gmail.com, ip: 209.85.222.179, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-7a99e4417c3so412864085a.1
+        for <meta-virtualization@lists.yoctoproject.org>; Mon, 30 Sep 2024 13:16:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727721801; x=1728326601; darn=lists.yoctoproject.org;
+        d=gmail.com; s=20230601; t=1727727399; x=1728332199; darn=lists.yoctoproject.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=UQAQHsY2Hk/fbYdMEObqPrzRkl07hgUuSYYjpDmV9qI=;
-        b=Xtvl99ONAv/lERIPieXyYqJ8cc4aujzKeB3ubRN0/HfiejM330ML/oF16iDUmZr2BW
-         1qobCtboi2hOJAeUGDPt9aJAm5yZGkwqXlKv1azs7ScCEx1gsvcb7uhftzDXNfYHJK/K
-         0AM1LqUIWfCnzm6h5zF4PFP1NOBG7mbhGosWAFrONMy1KSH/2XnMGfC1QHs8kfdRlytj
-         ARcQ5yeklVfMGO3DchtDkIfj20wpTjpRAw4puUrifMjozEXahrtYho7fdFsRwpxP9tMY
-         l8l3KdPzdjdMTjvbLImX3UruKhMRptsWXmTmaDBpjjot/GwTfm19AavT9ZBceCd9cIw+
-         1vZQ==
+        bh=5d20dAMi4AeUeNWlsQINTs4jpXD6VJ+gZ7W6t+/QMaw=;
+        b=LhafskKXoIOa9P+J03iu8kH0ttG5+ZonZcDzJhmeOY0mLUtyHzcNVn9t9dhPuUgyAv
+         +DOk7MiDRCmAepTJmp7QPqlRUJFnwrNU2RnEIkheTS6H58q0sslmsJHNOqsvGbhdaod5
+         OPTkpvUfxi0OdbX3TQhpuQv9iujGzmHUE+i3NB/y5u6rQjVWWlVv2Pl7bBfYmsoPaOZ4
+         VRB7N3dskYB71eSUZTvBdNTGqp0l8SNQnDLvT6ppnxQG5Fyx0cCmKOvJL1784eZtcRIP
+         ZZU8esA7OSM8aTGTFamWQuLH5wKaH79LNb/wt46gLMFHaDy7UfyD704uTKjgIA2EXKgh
+         r+Cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727721801; x=1728326601;
+        d=1e100.net; s=20230601; t=1727727399; x=1728332199;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=UQAQHsY2Hk/fbYdMEObqPrzRkl07hgUuSYYjpDmV9qI=;
-        b=FSr7IcU5VLu/KjJXr7ek8WGSqQpEO6vVxOfVcsOVzaOI0H+IGE81h18109W1QL/Sre
-         0LhO+emYPqZ9tYhE4tiJvdx6v0YCzK70K68q55Qjng5drr9GISIYe69u2c21koXw/MJB
-         TdRYPqqmZUTorHNgfBme2+L21XidARrT+B2y2RoxvEK2+5ICRO1e7YFy/p8rUFGMFaPT
-         9BrcoiTWK2iFJXplOd2XMAamOIiV+lSopcyN4CzwlY7CpAkjiZRPBJEDS+Ve5P3xphMu
-         m1Tv0KV0duwrXDpQybynV+WiuCCqD6Xpjxzt1jR4bmII2v20Y+iWo1uQFhFxsr10+95e
-         9ChA==
-X-Gm-Message-State: AOJu0YyUsbjR+qlvIHOd2pg74SdIgraFnG5Nsi2YXVjPlUlV17BbTB0b
-	B58w2GW01Pgbnw0rl4axPbffGT1eD5X/ehSLEBrhaOM9IwzKmuEJ
-X-Google-Smtp-Source: AGHT+IHbLOyUSrHrnkyWoHfoWVIGxqdinFwTlclF+vYWM/epR69mPml6chgyi0X7vBqHV8FzMblEZQ==
-X-Received: by 2002:a05:6214:3bc3:b0:6cb:4e86:bb53 with SMTP id 6a1803df08f44-6cb4e86bc21mr156557256d6.43.1727721800891;
-        Mon, 30 Sep 2024 11:43:20 -0700 (PDT)
+        bh=5d20dAMi4AeUeNWlsQINTs4jpXD6VJ+gZ7W6t+/QMaw=;
+        b=pyl+KfbgcV9PfoRC9FIF9RWcyQglUL+kz7YT9B6I5tiZXRl4fOs7uP++BhhLTIvjtn
+         MtWK/V50MI6+S6xT5WQ3pwy9vkiefd027g6ms1fC0t2jbi8+180pY8HUqzwpzA0sLEOC
+         hZ/CodBwRgNdhCDhSLQqSd3iVrekBOlgJ+hk398Y06hRdMtDxp04KUq0ImsSEDSYWFcu
+         zKAm3+rYxtLY8y+oGGz3ymdOJoY/FXsd1vzKxGePsMThbStHuTbTrRTErGUlhmLH+gnm
+         kz1WEh6CJWnqM58GbCAAAOhqrl/xWxnG0rPFDnreGhLdBWfv+NVj8FHzUuammAKssmP1
+         LDgw==
+X-Gm-Message-State: AOJu0YzRGevA++gqaQMyp9UTp8hJwR2ZqsbC22yF7xGpySMhYqG+v+NT
+	9Wt8CsdzH/Hf/cxOB+1fjrNoBugjXgHtV1DDJmqzz7ERwZ5YM1Pk
+X-Google-Smtp-Source: AGHT+IEZccStmZ0sCAo0KN9bVSmXEn01isY97HDBV0mFsNNEAa3zvuT2bZFJbqO2DCztOEY+3Mmf3Q==
+X-Received: by 2002:a05:620a:179e:b0:7a4:f284:b955 with SMTP id af79cd13be357-7ae378e3776mr1919432485a.66.1727727399068;
+        Mon, 30 Sep 2024 13:16:39 -0700 (PDT)
 Received: from gmail.com (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6cb3b681749sm42271096d6.123.2024.09.30.11.43.20
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7ae377d8699sm441554685a.40.2024.09.30.13.16.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Sep 2024 11:43:20 -0700 (PDT)
-Date: Mon, 30 Sep 2024 18:43:18 +0000
+        Mon, 30 Sep 2024 13:16:38 -0700 (PDT)
+Date: Mon, 30 Sep 2024 20:16:37 +0000
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Sandeep Gundlupet Raju <sandeep.gundlupet-raju@amd.com>
-Cc: meta-virtualization@lists.yoctoproject.org,
-	mark.hatle@kernel.crashing.org
-Subject: Re: [meta-virtualization][master][scathgap][PATCH] device-tree:
- Rename EXTRA_OVERLAYS to EXTRA_DT_INCLUDE_FILES
-Message-ID: <ZvrxRiQoiRmJCVmx@gmail.com>
-References: <20240928000622.586832-1-sandeep.gundlupet-raju@amd.com>
+To: tim.orling@konsulko.com
+Cc: meta-virtualization@lists.yoctoproject.org
+Subject: Re: [meta-virtualization][PATCH] libvirt: ensure sysusers.d path for
+ libvirt-qemu
+Message-ID: <ZvsHJZqFe38Cpq6T@gmail.com>
+References: <20240929035828.26171-2-tim.orling@konsulko.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240928000622.586832-1-sandeep.gundlupet-raju@amd.com>
+In-Reply-To: <20240929035828.26171-2-tim.orling@konsulko.com>
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Mon, 30 Sep 2024 18:43:23 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8903
+ <meta-virtualization@lists.yoctoproject.org>; Mon, 30 Sep 2024 20:16:44 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8904
 
-In message: [meta-virtualization][master][scathgap][PATCH] device-tree: Rename EXTRA_OVERLAYS to EXTRA_DT_INCLUDE_FILES
-on 27/09/2024 Sandeep Gundlupet Raju wrote:
-
-> Rename EXTRA_OVERLAYS to EXTRA_DT_INCLUDE_FILES as these variables
-> are renamed in device-tree recipe.
-
-Which device tree recipe is that ? We should include a link to that
-base recipe in this commit, so that others will know which one we
-are tracking.
-
-I checked meta-virt and OE-core and didn't see any variable renames.
-
-Other than that, no concerns with this patch.
+merged.
 
 Bruce
 
+In message: [meta-virtualization][PATCH] libvirt: ensure sysusers.d path for libvirt-qemu
+on 28/09/2024 Tim Orling via lists.yoctoproject.org wrote:
+
+> From: Tim Orling <tim.orling@konsulko.com>
 > 
-> Signed-off-by: Sandeep Gundlupet Raju <sandeep.gundlupet-raju@amd.com>
+> In 8138d9cc7e0c31171230110db0cfa881c46a821b the path to
+> /lib/sysusers.d might not exist, use install -d to ensure
+> it does.
+> 
+> Fixes:
+> install: cannot create regular file
+> '.../libvirt/v10.5.0+git/image/lib/sysusers.d/libvirt-qemu.conf':
+> No such file or directory
+> 
+> Signed-off-by: Tim Orling <tim.orling@konsulko.com>
 > ---
->  .../device-tree/device-tree.bbappend          | 20 +++++++++----------
->  1 file changed, 10 insertions(+), 10 deletions(-)
+>  recipes-extended/libvirt/libvirt_git.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/dynamic-layers/xilinx/recipes-bsp/device-tree/device-tree.bbappend b/dynamic-layers/xilinx/recipes-bsp/device-tree/device-tree.bbappend
-> index e235826..813c08f 100644
-> --- a/dynamic-layers/xilinx/recipes-bsp/device-tree/device-tree.bbappend
-> +++ b/dynamic-layers/xilinx/recipes-bsp/device-tree/device-tree.bbappend
-> @@ -3,17 +3,17 @@ FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
->  ENABLE_XEN_DTSI ?= ""
->  ENABLE_XEN_QEMU_DTSI ?= ""
+> diff --git a/recipes-extended/libvirt/libvirt_git.bb b/recipes-extended/libvirt/libvirt_git.bb
+> index 1175e737..bef98b69 100644
+> --- a/recipes-extended/libvirt/libvirt_git.bb
+> +++ b/recipes-extended/libvirt/libvirt_git.bb
+> @@ -208,7 +208,7 @@ do_install:append() {
 >  
-> -XEN_EXTRA_OVERLAYS = ""
-> -XEN_EXTRA_QEMU_OVERLAYS = ""
-> +XEN_EXTRA_DT_INCLUDE_FILES = ""
-> +XEN_EXTRA_QEMU_DT_INCLUDE_FILES = ""
+>  	install -m 0755 ${UNPACKDIR}/libvirtd.sh ${D}/etc/init.d/libvirtd
+>  	install -m 0644 ${UNPACKDIR}/libvirtd.conf ${D}/etc/libvirt/libvirtd.conf
+> -	install -m 0644 ${UNPACKDIR}/libvirt-qemu.conf ${D}${nonarch_base_libdir}/sysusers.d/libvirt-qemu.conf
+> +	install -d -m 0644 ${UNPACKDIR}/libvirt-qemu.conf ${D}${nonarch_base_libdir}/sysusers.d/libvirt-qemu.conf
 >  
-> -XEN_EXTRA_OVERLAYS:zynqmp = "zynqmp-xen.dtsi"
-> -XEN_EXTRA_QEMU_OVERLAYS:zynqmp = "zynqmp-xen.dtsi zynqmp-xen-qemu.dtsi"
-> +XEN_EXTRA_DT_INCLUDE_FILES:zynqmp = "zynqmp-xen.dtsi"
-> +XEN_EXTRA_QEMU_DT_INCLUDE_FILES:zynqmp = "zynqmp-xen.dtsi zynqmp-xen-qemu.dtsi"
->  
-> -XEN_EXTRA_OVERLAYS:versal = "versal-xen.dtsi"
-> -XEN_EXTRA_QEMU_OVERLAYS:versal = "versal-xen.dtsi versal-xen-qemu.dtsi"
-> +XEN_EXTRA_DT_INCLUDE_FILES:versal = "versal-xen.dtsi"
-> +XEN_EXTRA_QEMU_DT_INCLUDE_FILES:versal = "versal-xen.dtsi versal-xen-qemu.dtsi"
->  
-> -XEN_EXTRA_OVERLAYS:versal-net = "versal-net-xen.dtsi"
-> -XEN_EXTRA_QEMU_OVERLAYS:versal-net = "versal-net-xen.dtsi versal-net-xen-qemu.dtsi"
-> +XEN_EXTRA_DT_INCLUDE_FILES:versal-net = "versal-net-xen.dtsi"
-> +XEN_EXTRA_QEMU_DT_INCLUDE_FILES:versal-net = "versal-net-xen.dtsi versal-net-xen-qemu.dtsi"
->  
-> -EXTRA_OVERLAYS:append = "${@' ${XEN_EXTRA_OVERLAYS}' if d.getVar('ENABLE_XEN_DTSI') == '1' else ''}"
-> -EXTRA_OVERLAYS:append = "${@' ${XEN_EXTRA_QEMU_OVERLAYS}' if d.getVar('ENABLE_XEN_QEMU_DTSI') == '1' else ''}"
-> +EXTRA_DT_INCLUDE_FILES:append = "${@' ${XEN_EXTRA_DT_INCLUDE_FILES}' if d.getVar('ENABLE_XEN_DTSI') == '1' else ''}"
-> +EXTRA_DT_INCLUDE_FILES:append = "${@' ${XEN_EXTRA_QEMU_DT_INCLUDE_FILES}' if d.getVar('ENABLE_XEN_QEMU_DTSI') == '1' else ''}"
+>  	if ${@bb.utils.contains('DISTRO_FEATURES','sysvinit','true','false',d)}; then
+>  	    # This will wind up in the libvirtd package, but will NOT be invoked by default.
 > -- 
-> 2.34.1
+> 2.46.2
 > 
+
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#8902): https://lists.yoctoproject.org/g/meta-virtualization/message/8902
+> Mute This Topic: https://lists.yoctoproject.org/mt/108714337/1050810
+> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
 
