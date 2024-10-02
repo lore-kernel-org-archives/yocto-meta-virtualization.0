@@ -2,28 +2,28 @@ Return-Path: <mark.hatle@kernel.crashing.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DBF4CF8545
-	for <webhook@archiver.kernel.org>; Wed,  2 Oct 2024 22:39:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F314CF8546
+	for <webhook@archiver.kernel.org>; Wed,  2 Oct 2024 22:39:10 +0000 (UTC)
 Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
- by mx.groups.io with SMTP id smtpd.web11.7086.1727908739361117559
+ by mx.groups.io with SMTP id smtpd.web11.7091.1727908744898801206
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 02 Oct 2024 15:38:59 -0700
+ Wed, 02 Oct 2024 15:39:05 -0700
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=pass (domain: kernel.crashing.org, ip: 63.228.1.57, mailfrom: mark.hatle@kernel.crashing.org)
 Received: from kernel.crashing.org.net (70-99-78-136.nuveramail.net [70.99.78.136] (may be forged))
-	by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 492Mcv4m022343
-	for <meta-virtualization@lists.yoctoproject.org>; Wed, 2 Oct 2024 17:38:58 -0500
+	by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 492Md3Gk022353
+	for <meta-virtualization@lists.yoctoproject.org>; Wed, 2 Oct 2024 17:39:04 -0500
 From: Mark Hatle <mark.hatle@kernel.crashing.org>
 To: meta-virtualization@lists.yoctoproject.org
-Subject: [meta-virtualization][master][PATCH] linux-yocto_virtualization.inc: If using externalsrc adjust dependency
-Date: Wed,  2 Oct 2024 17:38:56 -0500
-Message-Id: <1727908736-22275-1-git-send-email-mark.hatle@kernel.crashing.org>
+Subject: [meta-virtualization][scarthgap][PATCH]  linux-yocto_virtualization.inc: If using externalsrc adjust dependency
+Date: Wed,  2 Oct 2024 17:39:03 -0500
+Message-Id: <1727908743-22316-1-git-send-email-mark.hatle@kernel.crashing.org>
 X-Mailer: git-send-email 1.8.3.1
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Wed, 02 Oct 2024 22:39:00 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8911
+ <meta-virtualization@lists.yoctoproject.org>; Wed, 02 Oct 2024 22:39:10 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8912
 
 From: Mark Hatle <mark.hatle@amd.com>
 
@@ -67,12 +67,12 @@ Signed-off-by: Mark Hatle <mark.hatle@amd.com>
  1 file changed, 6 insertions(+)
 
 diff --git a/recipes-kernel/linux/linux-yocto_virtualization.inc b/recipes-kernel/linux/linux-yocto_virtualization.inc
-index e729c3b2..d678021b 100644
+index 9a6554d..f0ec80c 100644
 --- a/recipes-kernel/linux/linux-yocto_virtualization.inc
 +++ b/recipes-kernel/linux/linux-yocto_virtualization.inc
-@@ -59,6 +59,12 @@ KERNEL_FEATURES:append = " ${KERNEL_CACHE_FEATURES}"
+@@ -49,6 +49,12 @@ KERNEL_FEATURES:append = " ${KERNEL_CACHE_FEATURES}"
  # features can be enabled via the fragments
- do_kernel_metadata[depends] += "${KERNEL_CFG_DEPENDS}"
+ do_kernel_metadata[depends] += "${@['', 'yocto-cfg-fragments-native:do_populate_sysroot'][(bb.data.inherits_class('kernel-yocto', d))]}"
  
 +# if externalsrc is enabled, do_kernel_metadata dependency on
 +# yocto-cfg-fragments-native won't be run to populate
