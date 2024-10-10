@@ -1,145 +1,219 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <kev.ferber@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31CC3CF11F4
-	for <webhook@archiver.kernel.org>; Thu, 10 Oct 2024 13:17:40 +0000 (UTC)
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
- by mx.groups.io with SMTP id smtpd.web11.43210.1728566253091328401
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6DD5CF11F9
+	for <webhook@archiver.kernel.org>; Thu, 10 Oct 2024 14:43:30 +0000 (UTC)
+Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
+ by mx.groups.io with SMTP id smtpd.web11.45220.1728571408793240523
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 10 Oct 2024 06:17:33 -0700
+ Thu, 10 Oct 2024 07:43:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=bbEdUKqj;
- spf=pass (domain: gmail.com, ip: 209.85.219.49, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-6cbc08e7495so7415216d6.3
-        for <meta-virtualization@lists.yoctoproject.org>; Thu, 10 Oct 2024 06:17:32 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=BjKSvRdH;
+ spf=pass (domain: gmail.com, ip: 209.85.219.53, mailfrom: kev.ferber@gmail.com)
+Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-6cbe700dcc3so6535656d6.3
+        for <meta-virtualization@lists.yoctoproject.org>; Thu, 10 Oct 2024 07:43:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728566252; x=1729171052; darn=lists.yoctoproject.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=7s/LxW+p2wV7z/sPqwvc3j4r19+A5AQqcy4nwgLVCqY=;
-        b=bbEdUKqjDeQWtxTk7qdPK5+f0rPqh5ZvwcO6jSfsH+xneeqgJTenOozeWNyvj8t/7B
-         +mFbWxVAd+TVijs/+pyW3u67hdhs62AHiOC+uBvR9lXwXR8mzFR8iwL2uiPnqpgctly1
-         uvtSn7yhLHr1bKAPFRNUmp/weApdqLBW67HQG+TAtNhvkf/HcOGxZgb1Bdl73whJvH3N
-         aDkYyfs2r/+h9oB+i4yt3NDMg1EtGn0/73SVKFlhwWYP/8LSXl6KvgRTyw9ZyXtDF1L7
-         bSbtJTGd/imZKDdMN/883nAmvizoyu2ey2TL5Wv+PDR+uulUT0879UDZKrp6r/bdH+L/
-         vs6A==
+        d=gmail.com; s=20230601; t=1728571408; x=1729176208; darn=lists.yoctoproject.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=e2EGZNX902StzA+gheZ0xAJDR1GW3rtaon92bSlMFgg=;
+        b=BjKSvRdH5/r7xx7SM4AerqV18xmjtMNYLGIO2ftyKCdlpVALE799DRpU1rb2e+O5gt
+         76qA3k8QtFKpXAO1c+guCn8KBuyrx0nDh2iQDhYDKjeTuOjms28jDEHwlObzbHKTydm0
+         0Dq6jMduC9q2phQ1Skg5Uj59NuppLp10SNjQ/k0hGnGj889764FzCWmycqryyvfdspA4
+         YvzitzgedKJaGsaQOGV6/8Q3Lu4hAlBqEf26OH5dDbRgz76tEL1uH5MbEFeXOw9En7ED
+         sJN+xqmdqGKrkz3wfiXTMVUdET/LDl62n/TdyRjwOUwzAcM6Q8uv9/ryVaNdLdImHmUm
+         pumg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728566252; x=1729171052;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7s/LxW+p2wV7z/sPqwvc3j4r19+A5AQqcy4nwgLVCqY=;
-        b=O8wc9fZeTNytSc8nJVwmCo7+vmJGpub4VZ/ewup4D6kgpCMd8QvI3VAPqi/dou0b58
-         S6s1UazPcholZiTSiF3ZvwRHc5eJ2KYy7S2AXYoqYbbF/Rgbw0JLJPcwlgmsRinJMQyX
-         6nR2DPScmUsvFtCoJdyWk8cDTPKgmLOYRH0/IxQjRkkEyaL3Fl+3WbtskwWCsCPuaf+M
-         RXsXeqtFXSH5DZ4Nu9qMtq+/scYrKX/HcX7ndXlNkUo9GKBU01Hoggn7JvQR6Z5tuCiN
-         0ayabRdou1LoQTiCJD7tmq7RqHVt5Uw6IT8mk5XrILgqfZ1sg8e//nuxzU8P2lFIbE9o
-         z89g==
-X-Gm-Message-State: AOJu0YwmGLg4e6C/3Lni0QpiyY6KF6HrOZU7LSqIHAa3NwglUc62qVmO
-	M1QV1LdMZhKAsWyHh9HHSV1mdj/9/IGnhZCUk6/ancvUGXsU7SFw
-X-Google-Smtp-Source: AGHT+IFZ5ywnw7LZmGLqDEFjgWftAhmc3zecc5XacgHu3sYcil1EZ7UtWDXhLWtcnKfCIrbtD+ymoA==
-X-Received: by 2002:ad4:4431:0:b0:6cb:d63c:e38 with SMTP id 6a1803df08f44-6cbd63c0fd3mr50866556d6.30.1728566252096;
-        Thu, 10 Oct 2024 06:17:32 -0700 (PDT)
-Received: from gmail.com (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6cbe85d8f85sm5230746d6.74.2024.10.10.06.17.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Oct 2024 06:17:31 -0700 (PDT)
-Date: Thu, 10 Oct 2024 13:17:30 +0000
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: mark.hatle@kernel.crashing.org
-Cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [meta-virtualization][scarthgap][PATCH]
- linux-yocto_virtualization.inc: If using externalsrc adjust dependency
-Message-ID: <ZwfT6m8YpLYe4w+9@gmail.com>
-References: <1727908743-22316-1-git-send-email-mark.hatle@kernel.crashing.org>
+        d=1e100.net; s=20230601; t=1728571408; x=1729176208;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=e2EGZNX902StzA+gheZ0xAJDR1GW3rtaon92bSlMFgg=;
+        b=vcdu4nfCIKKRyYI+AjtGcyHRQmSCkhtj875Z2yXNDklGionfrb5lSO3C0lZu2OodRx
+         z67Tnxl0/aEvPpuHnCOISNH/ZocCdu29uaH5z9463aoH8TPgoA6octdna6SSapUVsVYq
+         97K6+8+tChewmwAyLQ4krlBL83AypA/TA/dlFXOsW7aFr0sk7GjsvyMrfN1XUsnwGzTz
+         aus2Z2C57AHVJqnRVv6S1fm42tPBbEEHEhNlnUaXRWOqbCYQSdD6+GxMZvBd4FoOVISN
+         zts549uiPNPnMPUwdMXZKQjbUThyBIGLxgvXVHRiLVZDFK0N0id2/6X7YJnghDJroBvF
+         eBjA==
+X-Gm-Message-State: AOJu0YzU3TjxRk3scg7Fkbmm9WXBqij6jPiLhbWEu3GYRgPi3JDEmXgj
+	DxDg785mp8qnFfvC+B/r2WUzv7jpFkt1wVbgQ2zTMctn1GpVvNDSoI/jEMGyQfuPhWptDF9s+Dx
+	Pv8iZzEY9glIFfJdq3lfqj8rm57k=
+X-Google-Smtp-Source: AGHT+IFebf3qlaPGCF5tf9E1wCrH1KwfN5HSs7A2xpTsexQ0iFg2jlFPQmh5gEpZDH+R8z/tbpCyQQX79my6SRe03L0=
+X-Received: by 2002:a05:6214:2c01:b0:6cb:2e7c:a10e with SMTP id
+ 6a1803df08f44-6cbc9581aa5mr89614276d6.48.1728571407626; Thu, 10 Oct 2024
+ 07:43:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1727908743-22316-1-git-send-email-mark.hatle@kernel.crashing.org>
+References: <CAERRtEuXxxZcjs0fGovUhF_dufQeco7dNM=zaU5aFJ9baoszog@mail.gmail.com>
+ <CADkTA4N5eTYG8aTbjBfRspdR-25+0a3aFSGnjR_y63d8b+mtxA@mail.gmail.com>
+In-Reply-To: <CADkTA4N5eTYG8aTbjBfRspdR-25+0a3aFSGnjR_y63d8b+mtxA@mail.gmail.com>
+From: Kevin Ferber <kev.ferber@gmail.com>
+Date: Thu, 10 Oct 2024 16:43:17 +0200
+Message-ID: <CAERRtEukEAPrG87yduFEk=r1TzdakJqitdiR94Wsd+UUWxu5sQ@mail.gmail.com>
+Subject: Re: [meta-virtualization] Canonical LXD on Yocto
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: meta-virtualization@lists.yoctoproject.org
+Content-Type: multipart/alternative; boundary="000000000000b878a906242064cb"
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Thu, 10 Oct 2024 13:17:40 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8926
+ <meta-virtualization@lists.yoctoproject.org>; Thu, 10 Oct 2024 14:43:30 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8927
 
-merged (and typo fixed)
+--000000000000b878a906242064cb
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Bruce
+Hi Bruce,
 
-In message: [meta-virtualization][scarthgap][PATCH] linux-yocto_virtualization.inc: If using externalsrc adjust dependency
-on 02/10/2024 Mark Hatle via lists.yoctoproject.org wrote:
+it would be really great if you could share the recipe with me, even if it
+is only partially finished.
 
-> From: Mark Hatle <mark.hatle@amd.com>
-> 
-> When using externalsrc, the system will disable a number of tasks such as
-> do_validate_branches, do_unpack and do_patch.  The do_kernel_metadata task
-> is configured to run after do_validate_branches do_unpack and before
-> do_patch.  Since all of these have been removed, the task will never
-> run.
-> 
-> The do_kernel_metadata task is responsible for populating the
-> recipe-sysroot-native/kcfg directory via it's own dependency to
-> yocto-cfg-fragments-native:do_populate_sysroot.
-> 
-> Without do_kernel_metadata running, do_kernel_configme will fail to run
-> with errors like:
->   ERROR: linux-xlnx-6.6.40+git-r0 do_kernel_configme: Feature '../recipe-sysroot-native/kcfg/cfg/virtio.scc' not found, this will cause configuration failures.
->   ERROR: linux-xlnx-6.6.40+git-r0 do_kernel_configme: Check the SRC_URI for meta-data repositories or directories that may be missing
->   ERROR: linux-xlnx-6.6.40+git-r0 do_kernel_configme: Set KERNEL_DANGLING_FEATURES_WARN_ONLY to ignore this issue
-> 
-> Fix this issue by detecting if we're running with externalsrc, and then
-> adding the task do_kernel_metadata (from the current recipe) as a
-> dependency of do_kernel_configme.
-> 
-> To reproduce th original issue:
-> 
->   $ . ./oe-initbuild-env
->   $ bitbake linux-yocto -c patch
->   $ cp -r tmp/work-shared/<machine>/kernel-source linux-yocto
-> 
->   edit the conf/local.conf adding:
->   DISTRO_FEATURES:append = " virtualization"
->   INHERIT += "externalsrc"
->   EXTERNALSRC:pn-linux-yocto = "${TOPDIR}/linux-yocto"
-> 
->   $ rm -rf tmp
->   $ bitbake linux-yocto -c menuconfig
-> 
-> Signed-off-by: Mark Hatle <mark.hatle@amd.com>
-> ---
->  recipes-kernel/linux/linux-yocto_virtualization.inc | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/recipes-kernel/linux/linux-yocto_virtualization.inc b/recipes-kernel/linux/linux-yocto_virtualization.inc
-> index 9a6554d..f0ec80c 100644
-> --- a/recipes-kernel/linux/linux-yocto_virtualization.inc
-> +++ b/recipes-kernel/linux/linux-yocto_virtualization.inc
-> @@ -49,6 +49,12 @@ KERNEL_FEATURES:append = " ${KERNEL_CACHE_FEATURES}"
->  # features can be enabled via the fragments
->  do_kernel_metadata[depends] += "${@['', 'yocto-cfg-fragments-native:do_populate_sysroot'][(bb.data.inherits_class('kernel-yocto', d))]}"
->  
-> +# if externalsrc is enabled, do_kernel_metadata dependency on
-> +# yocto-cfg-fragments-native won't be run to populate
-> +# recipe-sysroot-native/kcfg because do_patch is not run.  Manully add
-> +# the dependency to do_kernel_configme for this special case
-> +do_kernel_configme[depends] += "${@['', d.getVar('PN') + ':do_kernel_metadata'][(bb.data.inherits_class('externalsrc', d))]}"
-> +
->  # xen kernel support
->  # SRC_URI += "${@bb.utils.contains('DISTRO_FEATURES', 'xen', ' file://xen.scc', '', d)}"
->  KERNEL_FEATURES:append = "${@distro_cond_feature('cfg/xen.scc', 'xen', d )}"
-> -- 
-> 2.34.1
-> 
+I've only just started working with Yocto, so it would be good to have a
+starting point.
 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#8912): https://lists.yoctoproject.org/g/meta-virtualization/message/8912
-> Mute This Topic: https://lists.yoctoproject.org/mt/108789783/1050810
-> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+Kevin
 
+Am Do., 10. Okt. 2024 um 15:03 Uhr schrieb Bruce Ashfield <
+bruce.ashfield@gmail.com>:
+
+> I have some partial work on it that I did about a year ago.
+>
+> I never did finish the recipe, since there were runtime issues and no
+> one was asking for it :)
+>
+> It is something I'd like to have in meta-virt (the fact that someone
+> made an entire separate layer for it .. just makes no sense).
+>
+> If you do work on it, please contribute it to the layer. Or it is
+> something I can pick up in a few weeks and perhaps get some assistance
+> in validation.
+>
+> Bruce
+>
+>
+> On Thu, Oct 10, 2024 at 8:52=E2=80=AFAM Kevin Ferber via
+> lists.yoctoproject.org <kev.ferber=3Dgmail.com@lists.yoctoproject.org>
+> wrote:
+> >
+> > Hi all,
+> >
+> > does anyone worked on a recipe for LXD.
+> >
+> > We are in the process of moving from Ubuntu to Yocto Scarthgap because
+> we wanted to use the OTA functionality of RAUC.
+> >
+> > Now we are faced with the challenge of successfully compiling LXD, I
+> have looked at an old unofficial layer (
+> https://github.com/fcuringa/meta-lxd) for reference, which of course no
+> longer works with more recent LXD builds.
+> >
+> > Best regards
+> >
+> > Kevin
+> >
+> >
+> >
+> >
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#8921):
+> https://lists.yoctoproject.org/g/meta-virtualization/message/8921
+> > Mute This Topic: https://lists.yoctoproject.org/mt/108927978/1050810
+> > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+> > Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub
+> [bruce.ashfield@gmail.com]
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> >
+>
+>
+> --
+> - Thou shalt not follow the NULL pointer, for chaos and madness await
+> thee at its end
+> - "Use the force Harry" - Gandalf, Star Trek II
+>
+
+--000000000000b878a906242064cb
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi Bruce,<div><br></div><div><div>it woul=
+d be really great if you could share the recipe with me, even if it is only=
+ partially finished.</div><div><br></div><div>I&#39;ve only just started wo=
+rking with Yocto, so it would be good to have a starting point.=C2=A0</div>=
+</div><div><br></div><div>Kevin</div></div></div><br><div class=3D"gmail_qu=
+ote"><div dir=3D"ltr" class=3D"gmail_attr">Am Do., 10. Okt. 2024 um 15:03=
+=C2=A0Uhr schrieb Bruce Ashfield &lt;<a href=3D"mailto:bruce.ashfield@gmail=
+.com">bruce.ashfield@gmail.com</a>&gt;:<br></div><blockquote class=3D"gmail=
+_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204=
+,204);padding-left:1ex">I have some partial work on it that I did about a y=
+ear ago.<br>
+<br>
+I never did finish the recipe, since there were runtime issues and no<br>
+one was asking for it :)<br>
+<br>
+It is something I&#39;d like to have in meta-virt (the fact that someone<br=
+>
+made an entire separate layer for it .. just makes no sense).<br>
+<br>
+If you do work on it, please contribute it to the layer. Or it is<br>
+something I can pick up in a few weeks and perhaps get some assistance<br>
+in validation.<br>
+<br>
+Bruce<br>
+<br>
+<br>
+On Thu, Oct 10, 2024 at 8:52=E2=80=AFAM Kevin Ferber via<br>
+<a href=3D"http://lists.yoctoproject.org" rel=3D"noreferrer" target=3D"_bla=
+nk">lists.yoctoproject.org</a> &lt;kev.ferber=3D<a href=3D"mailto:gmail.com=
+@lists.yoctoproject.org" target=3D"_blank">gmail.com@lists.yoctoproject.org=
+</a>&gt;<br>
+wrote:<br>
+&gt;<br>
+&gt; Hi all,<br>
+&gt;<br>
+&gt; does anyone worked on a recipe for LXD.<br>
+&gt;<br>
+&gt; We are in the process of moving from Ubuntu to Yocto Scarthgap because=
+ we wanted to use the OTA functionality of RAUC.<br>
+&gt;<br>
+&gt; Now we are faced with the challenge of successfully compiling LXD, I h=
+ave looked at an old unofficial layer (<a href=3D"https://github.com/fcurin=
+ga/meta-lxd" rel=3D"noreferrer" target=3D"_blank">https://github.com/fcurin=
+ga/meta-lxd</a>) for reference, which of course no longer works with more r=
+ecent LXD builds.<br>
+&gt;<br>
+&gt; Best regards<br>
+&gt;<br>
+&gt; Kevin<br>
+&gt;<br>
+&gt;<br>
+&gt;<br>
+&gt;<br>
+&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt; Links: You receive all messages sent to this group.<br>
+&gt; View/Reply Online (#8921): <a href=3D"https://lists.yoctoproject.org/g=
+/meta-virtualization/message/8921" rel=3D"noreferrer" target=3D"_blank">htt=
+ps://lists.yoctoproject.org/g/meta-virtualization/message/8921</a><br>
+&gt; Mute This Topic: <a href=3D"https://lists.yoctoproject.org/mt/10892797=
+8/1050810" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.=
+org/mt/108927978/1050810</a><br>
+&gt; Group Owner: <a href=3D"mailto:meta-virtualization%2Bowner@lists.yocto=
+project.org" target=3D"_blank">meta-virtualization+owner@lists.yoctoproject=
+.org</a><br>
+&gt; Unsubscribe: <a href=3D"https://lists.yoctoproject.org/g/meta-virtuali=
+zation/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproje=
+ct.org/g/meta-virtualization/unsub</a> [<a href=3D"mailto:bruce.ashfield@gm=
+ail.com" target=3D"_blank">bruce.ashfield@gmail.com</a>]<br>
+&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt;<br>
+<br>
+<br>
+-- <br>
+- Thou shalt not follow the NULL pointer, for chaos and madness await<br>
+thee at its end<br>
+- &quot;Use the force Harry&quot; - Gandalf, Star Trek II<br>
+</blockquote></div>
+
+--000000000000b878a906242064cb--
 
