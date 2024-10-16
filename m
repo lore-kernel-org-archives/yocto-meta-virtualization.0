@@ -2,30 +2,30 @@ Return-Path: <Divya.Chellam@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D400D1AD41
-	for <webhook@archiver.kernel.org>; Wed, 16 Oct 2024 10:15:26 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.19431.1729073716616164369
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8ACCED1AD47
+	for <webhook@archiver.kernel.org>; Wed, 16 Oct 2024 11:02:56 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.20531.1729076571982178792
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 16 Oct 2024 03:15:16 -0700
+ Wed, 16 Oct 2024 04:02:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=001945d453=divya.chellam@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49G9u3xL022006
-	for <meta-virtualization@lists.yoctoproject.org>; Wed, 16 Oct 2024 03:15:16 -0700
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=001945d453=divya.chellam@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49GB0Y45011303
+	for <meta-virtualization@lists.yoctoproject.org>; Wed, 16 Oct 2024 11:02:51 GMT
 Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 42a397gf8t-1
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 42a3esggfy-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <meta-virtualization@lists.yoctoproject.org>; Wed, 16 Oct 2024 03:15:15 -0700 (PDT)
+	for <meta-virtualization@lists.yoctoproject.org>; Wed, 16 Oct 2024 11:02:51 +0000 (GMT)
 Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Wed, 16 Oct 2024 03:15:13 -0700
+ 15.1.2507.39; Wed, 16 Oct 2024 04:02:48 -0700
 From: dchellam <divya.chellam@windriver.com>
 To: <meta-virtualization@lists.yoctoproject.org>
-Subject: [meta-virtualization][kirkstone][PATCH 1/1] runc-docker: upgrade 1.1.12 -> 1.1.14
-Date: Wed, 16 Oct 2024 10:14:49 +0000
-Message-ID: <20241016101449.2971072-1-divya.chellam@windriver.com>
+Subject: [meta-virtualization][scarthgap][PATCH 1/1] runc-docker: upgrade 1.1.12 -> 1.1.14
+Date: Wed, 16 Oct 2024 11:02:25 +0000
+Message-ID: <20241016110225.1487727-1-divya.chellam@windriver.com>
 X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -33,27 +33,25 @@ Content-Type: text/plain
 X-Originating-IP: [147.11.136.210]
 X-ClientProxiedBy: ala-exchng01.corp.ad.wrs.com (147.11.82.252) To
  ala-exchng01.corp.ad.wrs.com (147.11.82.252)
-X-Proofpoint-ORIG-GUID: PBg80wLvFIpygOd2PtsxAj4lnWrxgmQm
-X-Authority-Analysis: v=2.4 cv=Fc1lx4+6 c=1 sm=1 tr=0 ts=670f9233 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=Ljcx4Z80PikA:10 a=HCiNrPZc1L8A:10 a=DAUX931o1VcA:10 a=t7CeM3EgAAAA:8 a=NEAV23lmAAAA:8 a=gGsAYKFfswEWyaoDqdMA:9
+X-Proofpoint-GUID: EZRgI6thgaFLhhFAjw39EOYazWLS9hUS
+X-Proofpoint-ORIG-GUID: EZRgI6thgaFLhhFAjw39EOYazWLS9hUS
+X-Authority-Analysis: v=2.4 cv=cPWysUeN c=1 sm=1 tr=0 ts=670f9d5b cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=VZzbbjECq-QA:10 a=HCiNrPZc1L8A:10 a=DAUX931o1VcA:10 a=t7CeM3EgAAAA:8 a=NEAV23lmAAAA:8 a=gGsAYKFfswEWyaoDqdMA:9
  a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-GUID: PBg80wLvFIpygOd2PtsxAj4lnWrxgmQm
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
- definitions=2024-10-16_08,2024-10-15_01,2024-09-30_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999 clxscore=1011
- spamscore=0 impostorscore=0 malwarescore=0 bulkscore=0 mlxscore=0
- suspectscore=0 adultscore=0 lowpriorityscore=0 priorityscore=1501
- phishscore=0 classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
- engine=8.21.0-2409260000 definitions=main-2410160064
+ definitions=2024-10-16_09,2024-10-15_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0 mlxscore=0
+ suspectscore=0 phishscore=0 adultscore=0 priorityscore=1501 spamscore=0
+ clxscore=1015 malwarescore=0 impostorscore=0 bulkscore=0 mlxlogscore=999
+ classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
+ engine=8.21.0-2409260000 definitions=main-2410160068
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Wed, 16 Oct 2024 10:15:26 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8929
+ <meta-virtualization@lists.yoctoproject.org>; Wed, 16 Oct 2024 11:02:56 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8930
 
 From: Divya Chellam <divya.chellam@windriver.com>
-
-Issue: LIN1022-10708
 
 Includes fix for CVE-2024-45310 and other bug fixes
 
@@ -67,7 +65,7 @@ Signed-off-by: Divya Chellam <divya.chellam@windriver.com>
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/recipes-containers/runc/runc-docker_git.bb b/recipes-containers/runc/runc-docker_git.bb
-index afecac67..72acdecb 100644
+index 8d078e85..c00eaf39 100644
 --- a/recipes-containers/runc/runc-docker_git.bb
 +++ b/recipes-containers/runc/runc-docker_git.bb
 @@ -2,13 +2,13 @@ include runc.inc
@@ -77,9 +75,9 @@ index afecac67..72acdecb 100644
 -SRCREV_runc-docker = "a9833ff391a71b30069a6c3f816db113379a4346"
 +SRCREV_runc-docker = "2c9f5602f0ba3d9da1c2596322dfc4e156844890"
  SRC_URI = "git://github.com/opencontainers/runc;branch=release-1.1;name=runc-docker;protocol=https \
-            file://0001-runc-Add-console-socket-dev-null.patch;patchdir=src/import \
-            file://0001-Makefile-respect-GOBUILDFLAGS-for-runc-and-remove-re.patch;patchdir=src/import \
-            file://0001-runc-docker-SIGUSR1-daemonize.patch;patchdir=src/import \
+            file://0001-runc-Add-console-socket-dev-null.patch \
+            file://0001-Makefile-respect-GOBUILDFLAGS-for-runc-and-remove-re.patch \
+            file://0001-runc-docker-SIGUSR1-daemonize.patch \
            "
  
 -RUNC_VERSION = "1.1.12"
