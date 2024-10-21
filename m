@@ -1,153 +1,184 @@
-Return-Path: <sandeep.gundlupet-raju@amd.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BBEBD3C927
-	for <webhook@archiver.kernel.org>; Mon, 21 Oct 2024 02:24:15 +0000 (UTC)
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com (NAM02-BN1-obe.outbound.protection.outlook.com [40.107.212.65])
- by mx.groups.io with SMTP id smtpd.web10.37713.1729477451182344410
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C4A6D3C93C
+	for <webhook@archiver.kernel.org>; Mon, 21 Oct 2024 03:20:35 +0000 (UTC)
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+ by mx.groups.io with SMTP id smtpd.web11.37987.1729480831398581074
  for <meta-virtualization@lists.yoctoproject.org>;
- Sun, 20 Oct 2024 19:24:11 -0700
+ Sun, 20 Oct 2024 20:20:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@amd.com header.s=selector1 header.b=z3A56f/A;
- spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: amd.com, ip: 40.107.212.65, mailfrom: sandeep.gundlupet-raju@amd.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=mEq0irhOq2RbFxsSZ7dVQ5fSrSC3FOWk0HJpdAToGhDtxHNkai7m4cmVbxSsyuMohr56UUchkV7QdVSn9fTzV2f6GuLzujoYlZReHBEkE9FEjx8xZXt8bkZnRj1fylkEfaIplxdvxdyMOxH1dnu9zz2rbZW3UbyW+dUogVLDDFgfqYXyQPrMev1bLbFS4XdXD1lc/yJbe9WJsGrNJGytHrT1IPhMU5B31knESzmLWr59dVRDHa3n/CDBCAQg6egfhRBolnpMifhA4upHGwmZcRAimNhwZHvfg3kTvkk+jfl6wvObCMwyTyv5mfpEgg9DG8cLDC0e1PJQ3g45GLi2xw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HmGNwF4CxGHrE/Pid0eGpCmKgGV7I1B0BIRdPAtnNug=;
- b=quYyapKNi+EXnkYv9THZdKv7YCd6v4n75j+iRvsq1eO9rXk7VQzzSJanL40O3PTqqbXR1SRA8jj5qlXm6qEFgfGiAxm0Kpx77CxaJH74mjDhzfvGXOqa+JzT6PcE2ENwJaoEcyMTNzfn+prDfqjcrrNBqlmrEViqbuGoXETBrJAI95TzOkvu9Im1/Bd0DG0zKdn175ka4lvrdr/w2wSGR3doaaBUN9V8j22YKQr0uLNclxQouJrETfI8ViedmIuLDOLXJ7LNvLaBL2VEHF2EHJ8bzegdvAVGheXvl6P6eqeIuKHp0/AaAJ2qFOFomdkyx6fU1nu8D2q2IRGjwXCdWQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.yoctoproject.org
- smtp.mailfrom=amd.com; dmarc=pass (p=quarantine sp=quarantine pct=100)
- action=none header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HmGNwF4CxGHrE/Pid0eGpCmKgGV7I1B0BIRdPAtnNug=;
- b=z3A56f/AZm7pyh5VwYRlSToDli6lOQF0Cxdh9nMcDmSDwjxw+qFh5hf4ZM4TlLjmMgfKbhRvHapu6LH5kBfGzkn5cD2vNEOTswQRS4sppD86tRR1JuphKGGko0pCKjh/1JewMp4a5yWsLHxv3EEOwItOKoXLHX13aLehO0Mb66k=
-Received: from CH5P223CA0018.NAMP223.PROD.OUTLOOK.COM (2603:10b6:610:1f3::25)
- by SA1PR12MB8985.namprd12.prod.outlook.com (2603:10b6:806:377::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8026.24; Mon, 21 Oct
- 2024 02:24:07 +0000
-Received: from CH1PEPF0000AD76.namprd04.prod.outlook.com
- (2603:10b6:610:1f3:cafe::44) by CH5P223CA0018.outlook.office365.com
- (2603:10b6:610:1f3::25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8069.28 via Frontend
- Transport; Mon, 21 Oct 2024 02:24:07 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
-Received: from SATLEXMB03.amd.com (165.204.84.17) by
- CH1PEPF0000AD76.mail.protection.outlook.com (10.167.244.53) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8093.14 via Frontend Transport; Mon, 21 Oct 2024 02:24:07 +0000
-Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Sun, 20 Oct
- 2024 21:24:01 -0500
-Received: from xcosswyocto01.xilinx.com (10.180.168.240) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
- Transport; Sun, 20 Oct 2024 21:24:01 -0500
-From: Sandeep Gundlupet Raju <sandeep.gundlupet-raju@amd.com>
-To: <meta-virtualization@lists.yoctoproject.org>, <bruce.ashfield@gmail.com>,
-	<edgar.iglesias@amd.com>
-CC: <stefano.stabellini@amd.com>, <mark.hatle@kernel.crashing.org>
-Subject: [meta-virtualization][scarthgap][PATCH] xen-tools.inc: Make qemu-system* as configurable
-Date: Sun, 20 Oct 2024 20:23:56 -0600
-Message-ID: <20241021022356.3836822-1-sandeep.gundlupet-raju@amd.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=TaxXfaAC;
+ spf=pass (domain: gmail.com, ip: 209.85.215.173, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-656d8b346d2so2550730a12.2
+        for <meta-virtualization@lists.yoctoproject.org>; Sun, 20 Oct 2024 20:20:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1729480831; x=1730085631; darn=lists.yoctoproject.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=2CRbQRChEcCTJjS3HdjVR4yTMVRjivHOQ2PiBx48n0o=;
+        b=TaxXfaACJqWwv8/LxAEjtiow2WpguaxLzxAZoZGd1Zg4nNyhcc+6JYko7PCL1Gwr50
+         5hS4w/OzggnpbwZQvfmiAfnx7j+Wfm6Y8J1g5Dzop8dMooYb0+YJ7zO4JK2m5KTRwbPe
+         nBDu+QIxVzJp6X9fbJg0VWgWmtig5d7FhduN21HcIBfwfeKaNSom0rUKz6uPXX+kT0RI
+         BX15/QbLA2bwJwCvhHT1gmfVcXrc7A0BDnT0VDj7mkMcvgx0T1SNwhKHbM9o/bw3Wfi/
+         9RqGW81RtIfC75Bx+lgXcuptQZZbSULY6qwAQOu1cTXtg70dOEhCORStRUQAkKkHQsVD
+         Atcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729480831; x=1730085631;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=2CRbQRChEcCTJjS3HdjVR4yTMVRjivHOQ2PiBx48n0o=;
+        b=MMFoM+R5Ii8TEtcsawIE6whFe5ndU6LkmqFCt1pnm1TpyVi6vuufPazbpIitVWRcv+
+         ptM2bcItVNZoxd6iiTMH0vTYxp55YAb1TJQWA0e7zm5o2oNjpIMkkP6HiKeYYSAW2aga
+         l9AjGSdOldiALGalMy7gTFqVmQjeogOvyllAlWqmCAbuWEMq/jTqu7CuRr8DOjxk/QPG
+         s/YxVxXxXDpGFKiJmHFS40UFXHknBzcONTAdmNhQONrmFIjJWf/DAVtFXKDEy1bGtOjx
+         UBPT1R/Dp48dAraCclLfe5sFj3fn2EusANNJko8NNaKqtV5Es/jrouDSZlSqZ8PFj121
+         Lgrg==
+X-Gm-Message-State: AOJu0YxQJn9u8t2tM5fxHTAEUT4bjZk5Y09FoX52KNdv4fO4BDJKc5Xt
+	psTdAk8IyZvPRxCfXy53z+0f5j37mkWRmRjQjjuio7tpFNydj3irJfYgFWM4eJHZL4gd6kxvJDq
+	WyxqY25RiZ00qwO47skEfRHy/1OA=
+X-Google-Smtp-Source: AGHT+IH4a5nnC9N+7TINFW3z3ivrnLSwflNrFWNgS/MI6TZjbO06XIbjwPYx6PlrXNUqYRWEcZ+5LI90PS6tOb2kJsM=
+X-Received: by 2002:a05:6a20:cd0e:b0:1d9:a80:bcfe with SMTP id
+ adf61e73a8af0-1d92c57df12mr12899509637.41.1729480830719; Sun, 20 Oct 2024
+ 20:20:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-Received-SPF: None (SATLEXMB03.amd.com: sandeep.gundlupet-raju@amd.com does
- not designate permitted sender hosts)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH1PEPF0000AD76:EE_|SA1PR12MB8985:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1a9aeac7-cb83-4d33-955e-08dcf17770bc
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|36860700013|82310400026|1800799024;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?njguJZ8RxeIbgCqKVIjisdK33Ana21QR33kofPwRIDtpL9EbYGRTJpz4qzg8?=
- =?us-ascii?Q?3fCyr65l1T5Sc8FF1H3Ktn2YNExMIZcaZW8bOoqxaqNNHJxx/FhiTIKEWIhD?=
- =?us-ascii?Q?r4QLNuFqecHeMeo8HLddwufrxil4WvrB9z178ojCdlvjU+DbYB9oB+pZaahd?=
- =?us-ascii?Q?MKhQbaBBzNLoN9EqHylwqoXEk46zj7fcKMxb8tTqnZm+7kmdtwb70JK+D1Zx?=
- =?us-ascii?Q?Hd4UMdiRdLkWZbZH0FWzIve5sZo1PJ4AFH9dXaQs/efg7DLaOso0FM+hoHeO?=
- =?us-ascii?Q?0EOa3XxGR/4OF7w1APOHtLcMtvXNygeZ3fsivW9G0nJsClqnR1gDM1fG/WUq?=
- =?us-ascii?Q?ygtMEBnZ3X+iEsN2a5qPymCvpylJVru8h5E9J9+HoFgtcBoBBPQAYK266Hl8?=
- =?us-ascii?Q?si1MWtUrBMeLwsTYt6a9wW+DTlKdHEdEARKsX53eWF6rs1nqbWpRppQTeheR?=
- =?us-ascii?Q?XpkPoUA98iKtiLh5dYbiR3Oh6WCUV7UFQcbkEYPFwfqfCDPGemTvOiTvJbbU?=
- =?us-ascii?Q?COH8LrKVUp1yyKuim744ykfxfqWp0Z7LUFEPkLUjqc1E+tGT43IPRFQS2z/k?=
- =?us-ascii?Q?deETF8Rba8H7PXb39ty1KGaJWjzjQjXcDJkQxCZAgFUdqMwzGr0s6YGJVC4P?=
- =?us-ascii?Q?m37texTWG5ZfI7AMYW+qmPKYZ4mSaXspIKDIAr6rpMsm9OuqcSZoRVQ4Djy5?=
- =?us-ascii?Q?GmE/JKjw75XAB+g4LxACmezu0FC+AwOS5ZvNxL8hsqPy2GIehejNRyQthMl6?=
- =?us-ascii?Q?t8Hd9/UvIaY6JHH3AOeLqrQ6VgSkWXMlP7M9lXnRh4jIVRwthuKCi+V6bOqp?=
- =?us-ascii?Q?FrXkrp8gzyK5dpSaopwkXUdlUCuWfM9AuRDDoGrYlsh+bFnjN0KzM2QgF8oz?=
- =?us-ascii?Q?JTKOGq0nLNDZaKZTnUyp9I0d7nTXH08Hy9nCXdAcmurs++yFtRzVpoNniHPj?=
- =?us-ascii?Q?OvkpKxtV9DtcaH6QNLqsqMV2i4keswWTc03I7ITz55WwWID3ZdZ1nurrU1Y4?=
- =?us-ascii?Q?yT/fizRYhD/9MR+a2fIWfjFke4ZzFCxS/Ijgokc2Akqrbt4XCoSIlWXNS9dU?=
- =?us-ascii?Q?S9S5Vj/q52zjccBL02AD4I5Cgg4HnfjAkj0Ac9/PCyjrGIHlmy91Vt3s+Ivs?=
- =?us-ascii?Q?U4ySwLJTO8+5iMFp194utfWDMzDys2JVLbZASeKC0hDD8JB0sDPBI7VUsoEI?=
- =?us-ascii?Q?xZjS7r8AhAYjh74tUFus241wjep8Z3llIypvJWKABDxT78GQWONSFPmTIn8j?=
- =?us-ascii?Q?Nn4hnOdvEiubjOkEmchzJ7YEUDsbfGmiuRLGCVxuBRhD1M5hMEPd61CePUF7?=
- =?us-ascii?Q?davdQB9ETYnULNjBavz6S6NlI9IzNlfgzv8UOSRWruQD6mAiprcRYu90Re3M?=
- =?us-ascii?Q?pSvEi4PeGj4TkPX3aSo0A5ZC4RGVlKehjbeihgE3Np5pNPmMNQ=3D=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB03.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(36860700013)(82310400026)(1800799024);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2024 02:24:07.3639
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1a9aeac7-cb83-4d33-955e-08dcf17770bc
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB03.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	CH1PEPF0000AD76.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB8985
+References: <20241021022356.3836822-1-sandeep.gundlupet-raju@amd.com>
+In-Reply-To: <20241021022356.3836822-1-sandeep.gundlupet-raju@amd.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Sun, 20 Oct 2024 23:20:18 -0400
+Message-ID: <CADkTA4OpF4tvVi+EDNjUZa1=xpD-y_KVk16axpai9otwr_inYg@mail.gmail.com>
+Subject: Re: [meta-virtualization][scarthgap][PATCH] xen-tools.inc: Make
+ qemu-system* as configurable
+To: Sandeep Gundlupet Raju <sandeep.gundlupet-raju@amd.com>
+Cc: meta-virtualization@lists.yoctoproject.org, edgar.iglesias@amd.com, 
+	stefano.stabellini@amd.com, mark.hatle@kernel.crashing.org
+Content-Type: multipart/alternative; boundary="0000000000008fa1ca0624f4229e"
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Mon, 21 Oct 2024 02:24:15 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8931
+ <meta-virtualization@lists.yoctoproject.org>; Mon, 21 Oct 2024 03:20:35 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8932
 
-Make qemu-system* as configurable in xen-tools so that it allows
-user to switch to qemu-system-aarch64 or other if it is supported by
-qemu.
+--0000000000008fa1ca0624f4229e
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Sandeep Gundlupet Raju <sandeep.gundlupet-raju@amd.com>
----
- recipes-extended/xen/xen-tools.inc | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+On Sun, Oct 20, 2024 at 10:24=E2=80=AFPM Sandeep Gundlupet Raju <
+sandeep.gundlupet-raju@amd.com> wrote:
 
-diff --git a/recipes-extended/xen/xen-tools.inc b/recipes-extended/xen/xen-=
-tools.inc
-index 72d0b37..7099289 100644
---- a/recipes-extended/xen/xen-tools.inc
-+++ b/recipes-extended/xen/xen-tools.inc
-@@ -748,11 +748,13 @@ SYSTEMD_SERVICE:${PN}-xencommons =3D " \
-     "
- SYSTEMD_SERVICE:${PN}-xendomains =3D "xendomains.service"
-=20
-+QEMU_SYSTEM ?=3D "qemu-system-i386"
-+
- EXTRA_OECONF +=3D " \
-     --with-systemd=3D${systemd_unitdir}/system \
-     --with-initddir=3D${INIT_D_DIR} \
-     --with-sysconfig-leaf-dir=3Ddefault \
--    --with-system-qemu=3D${bindir}/qemu-system-i386 \
-+    --with-system-qemu=3D${bindir}/${QEMU_SYSTEM} \
-     "
-=20
- do_configure() {
+> Make qemu-system* as configurable in xen-tools so that it allows
+> user to switch to qemu-system-aarch64 or other if it is supported by
+> qemu.
+>
+>
+This is a new feature, and not something that is tested with meta-virt on
+scarthgap, so it won't merge. You'll need to carry it locally.
+
+My patch in master-next is more complete, and once it does land in master
+I'll consider it for backporting.
+
+Bruce
+
+
+
+> Signed-off-by: Sandeep Gundlupet Raju <sandeep.gundlupet-raju@amd.com>
+> ---
+>  recipes-extended/xen/xen-tools.inc | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/recipes-extended/xen/xen-tools.inc
+> b/recipes-extended/xen/xen-tools.inc
+> index 72d0b37..7099289 100644
+> --- a/recipes-extended/xen/xen-tools.inc
+> +++ b/recipes-extended/xen/xen-tools.inc
+> @@ -748,11 +748,13 @@ SYSTEMD_SERVICE:${PN}-xencommons =3D " \
+>      "
+>  SYSTEMD_SERVICE:${PN}-xendomains =3D "xendomains.service"
+>
+> +QEMU_SYSTEM ?=3D "qemu-system-i386"
+> +
+>  EXTRA_OECONF +=3D " \
+>      --with-systemd=3D${systemd_unitdir}/system \
+>      --with-initddir=3D${INIT_D_DIR} \
+>      --with-sysconfig-leaf-dir=3Ddefault \
+> -    --with-system-qemu=3D${bindir}/qemu-system-i386 \
+> +    --with-system-qemu=3D${bindir}/${QEMU_SYSTEM} \
+>      "
+>
+>  do_configure() {
+> --
+> 2.34.1
+>
+>
+
 --=20
-2.34.1
+- Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
+--0000000000008fa1ca0624f4229e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
+t-size:small">On Sun, Oct 20, 2024 at 10:24=E2=80=AFPM Sandeep Gundlupet Ra=
+ju &lt;<a href=3D"mailto:sandeep.gundlupet-raju@amd.com">sandeep.gundlupet-=
+raju@amd.com</a>&gt; wrote:<br></div></div><div class=3D"gmail_quote"><bloc=
+kquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:=
+1px solid rgb(204,204,204);padding-left:1ex">Make qemu-system* as configura=
+ble in xen-tools so that it allows<br>
+user to switch to qemu-system-aarch64 or other if it is supported by<br>
+qemu.<br>
+<br></blockquote><div><br></div><div><div class=3D"gmail_default" style=3D"=
+font-size:small">This is a new feature, and not something that is tested wi=
+th meta-virt on</div><div class=3D"gmail_default" style=3D"font-size:small"=
+>scarthgap, so it won&#39;t merge. You&#39;ll need to carry it locally.</di=
+v><div class=3D"gmail_default" style=3D"font-size:small"><br></div><div cla=
+ss=3D"gmail_default" style=3D"font-size:small">My patch in master-next is m=
+ore complete, and once it does land in master</div><div class=3D"gmail_defa=
+ult" style=3D"font-size:small">I&#39;ll consider it for backporting.=C2=A0<=
+/div><div class=3D"gmail_default" style=3D"font-size:small"><br></div><div =
+class=3D"gmail_default" style=3D"font-size:small">Bruce</div><br></div><div=
+>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
+0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+Signed-off-by: Sandeep Gundlupet Raju &lt;<a href=3D"mailto:sandeep.gundlup=
+et-raju@amd.com" target=3D"_blank">sandeep.gundlupet-raju@amd.com</a>&gt;<b=
+r>
+---<br>
+=C2=A0recipes-extended/xen/xen-tools.inc | 4 +++-<br>
+=C2=A01 file changed, 3 insertions(+), 1 deletion(-)<br>
+<br>
+diff --git a/recipes-extended/xen/xen-tools.inc b/recipes-extended/xen/xen-=
+tools.inc<br>
+index 72d0b37..7099289 100644<br>
+--- a/recipes-extended/xen/xen-tools.inc<br>
++++ b/recipes-extended/xen/xen-tools.inc<br>
+@@ -748,11 +748,13 @@ SYSTEMD_SERVICE:${PN}-xencommons =3D &quot; \<br>
+=C2=A0 =C2=A0 =C2=A0&quot;<br>
+=C2=A0SYSTEMD_SERVICE:${PN}-xendomains =3D &quot;xendomains.service&quot;<b=
+r>
+<br>
++QEMU_SYSTEM ?=3D &quot;qemu-system-i386&quot;<br>
++<br>
+=C2=A0EXTRA_OECONF +=3D &quot; \<br>
+=C2=A0 =C2=A0 =C2=A0--with-systemd=3D${systemd_unitdir}/system \<br>
+=C2=A0 =C2=A0 =C2=A0--with-initddir=3D${INIT_D_DIR} \<br>
+=C2=A0 =C2=A0 =C2=A0--with-sysconfig-leaf-dir=3Ddefault \<br>
+-=C2=A0 =C2=A0 --with-system-qemu=3D${bindir}/qemu-system-i386 \<br>
++=C2=A0 =C2=A0 --with-system-qemu=3D${bindir}/${QEMU_SYSTEM} \<br>
+=C2=A0 =C2=A0 =C2=A0&quot;<br>
+<br>
+=C2=A0do_configure() {<br>
+-- <br>
+2.34.1<br>
+<br>
+</blockquote></div><br clear=3D"all"><div><br></div><span class=3D"gmail_si=
+gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature">- =
+Thou shalt not follow the NULL pointer, for chaos and madness await thee at=
+ its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star Trek II<br><b=
+r></div></div>
+
+--0000000000008fa1ca0624f4229e--
 
