@@ -1,275 +1,176 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <javier.tia@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8868BE68950
-	for <webhook@archiver.kernel.org>; Thu, 31 Oct 2024 03:56:34 +0000 (UTC)
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
- by mx.groups.io with SMTP id smtpd.web10.5039.1730346987683623664
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6286DD7495C
+	for <webhook@archiver.kernel.org>; Thu, 31 Oct 2024 13:26:37 +0000 (UTC)
+Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com [209.85.217.44])
+ by mx.groups.io with SMTP id smtpd.web10.12461.1730381192123488021
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 30 Oct 2024 20:56:27 -0700
+ Thu, 31 Oct 2024 06:26:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=l+Dm1E+B;
- spf=pass (domain: gmail.com, ip: 209.85.210.170, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-720b2d8bcd3so359873b3a.2
-        for <meta-virtualization@lists.yoctoproject.org>; Wed, 30 Oct 2024 20:56:27 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=NDcKYdFo;
+ spf=pass (domain: linaro.org, ip: 209.85.217.44, mailfrom: javier.tia@linaro.org)
+Received: by mail-vs1-f44.google.com with SMTP id ada2fe7eead31-4a5ad828a0fso225260137.2
+        for <meta-virtualization@lists.yoctoproject.org>; Thu, 31 Oct 2024 06:26:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730346987; x=1730951787; darn=lists.yoctoproject.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=/sFJomWnNNolLkUgGtpUv52tNy2uJ0Uho0HGqzDw63A=;
-        b=l+Dm1E+BV4mtPjNfAV2bfdEnhYKly5KSpxH+2f0ispr/ayYcG4VtVfutSbgOBWOur3
-         nmZ1dckwM9PxgYpoBJzmoeEbvrKOBlw6f6ogFSN10hksvgXzyJjl4OiP6Gx2YeSlrSd5
-         9Ygg0lEm/5ywYHKVElGE1S23cqELhqQvMwmdjaglAfY1+25NrpQVIiwXrcXKRr3h8xUp
-         6JaUaiCfyQJtsLDo1Kcj1giGNfiEV/LyH85Y8hQbLzEa+NDeHxyFqGByQgciC2Ga4Dgs
-         mWmIBBcfI/X/iUHfkwACVoL/g2ZH0k/E9u/HW1pBzKuHZGSS7COtiu4KpRlu0JhZMeyt
-         T61w==
+        d=linaro.org; s=google; t=1730381191; x=1730985991; darn=lists.yoctoproject.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=BPlBaMGbSEnnDUc4Fti+KpgCQl/fR9vxlgxIKF359pM=;
+        b=NDcKYdFo8EgLmFqk1X+5wzUjzu1hB/+rDaT8BCup9/8IzY6107VkpBIHaeosxgtTRB
+         wJbE0srrXmE6TKDiH/KIQ9Q+Z6M0zitGN81w4pgSd6RHcqwaBlBveTFN27jiLEmrLEN+
+         IWU3n4lOneirqtCQZKyr2bisuJLmNooW7avCCJsIzXcJ2Sw6jNK0PeHaU8SlBcc1cztv
+         zUBtLAlltyNK1L1lZgwdUfbjryeRYGJONhhWDuCQcpYWhe32kFkNPEw9Ive547AQhEag
+         0xWm2YmUeGDLyS7/tuQcMrVQFmMmHVBfcEq3lXzu05fs9CYjgfPacWOqbYzCiAnxkV6j
+         EEKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730346987; x=1730951787;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1730381191; x=1730985991;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=/sFJomWnNNolLkUgGtpUv52tNy2uJ0Uho0HGqzDw63A=;
-        b=RW/I33anwknXSLcOizO/nIYy04NwAoff/YMFQ/RNRz+f6jL+8ehju4cLAbrFsNdT1u
-         /2aoL1Z8RSyP5dtOUwS/wAdI556aDjtDNG9K0JebRVeYVg9xW0RvCAomcX2AYydpzUsR
-         6G5RhHhXy2lN/IshKaz/Qsp/qGWrfK9kj2xChnVTsqBK77YlFtMG7IrellkYbzGaZbNn
-         XXgcUYpPRVM3o5AVICLmK+ZvBMr82F36sdPVGOq9IJwELXdko+wb9Ltc5FooTcxwDHWO
-         UwqIb/eQV0uWaMuu9fdU+W1bvrUPG25HegOQWnAXw030K1CuUak6Icfmj16FVKb95xe7
-         a0Xg==
-X-Gm-Message-State: AOJu0Yxn+JgGnDcIZcwdnc0vDbLs5LVIs4g6cUiKRhq/E5EZmVkoaUw8
-	FHyhRV+PDLKtSoJGJgpPSOA5ay5g50kejr6eOFPH0KVpS8NKx3icxYzbMKaYe3ixMGgRq/x7Dsr
-	d+SIlYo5Zu/RytX2fAwQgu8B/ypA=
-X-Google-Smtp-Source: AGHT+IFt9AMp+AoiRDszzcCMy7P9P8qhJhJYR1ozwbTunarGdQ7+LmU+pVsJzx5z8qhGAdRE6dw2L2z2iPJLtWyKvqg=
-X-Received: by 2002:a05:6a00:992:b0:71e:7ab6:8ea6 with SMTP id
- d2e1a72fcca58-72063093c2amr24535540b3a.25.1730346986754; Wed, 30 Oct 2024
- 20:56:26 -0700 (PDT)
+        bh=BPlBaMGbSEnnDUc4Fti+KpgCQl/fR9vxlgxIKF359pM=;
+        b=HATyScEU9DXyEPor8Cn9FKsWhnDFl4LNpFz4zZRVkDWzdbCfB4E/TltORoka5MoBmZ
+         CKuYBXYIaUTYj/UdizlFvIWrPGqUC1YP2XvN6K/erG/LYdXKpddigROu2ogZ2DKCN+63
+         vihXao/RBVVl9A1A7IeMgcXoxGc5QvThvwHw/EsodOtlgGElze8XWMkxZdmL2z9o1ALZ
+         3TgkYmuoaxhsnDhy2ju+EA2NB+vTjJUdWhpTQP86I4FEJWvFnOLihjyiwFKx1n/Ik0Vq
+         MqZMJh88cyNrVr/pX19XkKEHx2qXubGil8T3zmDAatPesBQ+rP13yg8ZBSVa8DyJN3zI
+         f8fg==
+X-Gm-Message-State: AOJu0Yy8HAxPLievHwNpsb9i28/zb11/CROt5O76ZF5BugI7eXF0EeDm
+	Jb/r44zMfpBew8Lf3/hhLHrpYfkPhOlxNzas82Pl9lLNDiOhQ5fCGQOh2h2cCsU=
+X-Google-Smtp-Source: AGHT+IHfnVMPT7kjatdw0zf2TYHl/oHo3lJUsUFuRJs0FBqYnpuqIcF6Tq3/GSNN+rP64mWVShrJ6A==
+X-Received: by 2002:a05:6102:358c:b0:4a3:a137:b9b with SMTP id ada2fe7eead31-4a8cfb4b371mr19425086137.11.1730381191005;
+        Thu, 31 Oct 2024 06:26:31 -0700 (PDT)
+Received: from [192.168.8.164] ([170.246.157.153])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-855dad28d7fsm278115241.7.2024.10.31.06.26.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 31 Oct 2024 06:26:29 -0700 (PDT)
+Message-ID: <6f062bbd-7b69-46f7-9f75-e495d3f30101@linaro.org>
+Date: Thu, 31 Oct 2024 07:26:27 -0600
 MIME-Version: 1.0
-References: <20241021112343.2793593-1-bin.lan.cn@windriver.com>
-In-Reply-To: <20241021112343.2793593-1-bin.lan.cn@windriver.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 30 Oct 2024 23:56:15 -0400
-Message-ID: <CADkTA4Pvhq8-patZ9zY7qDk5zav4QM6XXH6G=so_UjC5oU67nQ@mail.gmail.com>
-Subject: Re: [meta-virtualization] [master][PATCH] openvswitch: fix ptest
- contains reference to TMPDIR [buildpaths]
-To: bin.lan.cn@windriver.com
-Cc: meta-virtualization@lists.yoctoproject.org
-Content-Type: multipart/alternative; boundary="0000000000007bd9180625bdcd8a"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [meta-virtualization][PATCH v0] upx: Fetch the proper v4.2.4 git
+ hash
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: meta-virtualization@lists.yoctoproject.org,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Mikko Rapeli <mikko.rapeli@linaro.org>
+References: <20241030-fix-upx-src_uri-v1-1-1a883085936a@linaro.org>
+ <CADkTA4OehpRpvtQi73fsG_w29XZU3jfhH+noB5=Q3FppApmsfQ@mail.gmail.com>
+From: Javier Tia <javier.tia@linaro.org>
+Content-Language: en-US, es-MX
+Autocrypt: addr=javier.tia@linaro.org; keydata=
+ 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
+ WdJQjTu3/NJR54YogRY=
+In-Reply-To: <CADkTA4OehpRpvtQi73fsG_w29XZU3jfhH+noB5=Q3FppApmsfQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Thu, 31 Oct 2024 03:56:34 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8945
+ <meta-virtualization@lists.yoctoproject.org>; Thu, 31 Oct 2024 13:26:37 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8946
 
---0000000000007bd9180625bdcd8a
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi Bruce,
 
-Thanks for the patch.
+On 10/30/24 9:37 PM, Bruce Ashfield wrote:
+> On Wed, Oct 30, 2024 at 8:38 PM Javier Tia via lists.yoctoproject.org <http://lists.yoctoproject.org> <javier.tia=linaro.org@lists.yoctoproject.org <mailto:linaro.org@lists.yoctoproject.org>> wrote:
+> 
+>     upx recipe fails with:
+> 
+>     ERROR: upx-4.2.4+git-r0 do_fetch: Fetcher failure: Unable to find revision 5221596a608acbc8efed1e54f758bab1908ce7a8 in branch  even from upstream
+>     ERROR: upx-4.2.4+git-r0 do_fetch: gitsm: submodule download failed: FetchError Fetcher failure for URL: 'gitsm://github.com/upx/upx-vendor-valgrind.git;protocol=https;name=vendor/valgrind;subpath=vendor/valgrind;nobranch=1;lfs=True;bareclone=1;nobranch=1 <http://github.com/upx/upx-vendor-valgrind.git;protocol=https;name=vendor/valgrind;subpath=vendor/valgrind;nobranch=1;lfs=True;bareclone=1;nobranch=1>'. Unable to fetch URL from any source.
+> 
+>     Likely, upstream rewrote the Git history.
+> 
+> 
+> I'll wait until I can reproduce this one myself:
+> 
+> bitbake -c cleanall upx; bitbake upx
+> 
+> I can also clone upx, reset it to the revision I'm currently using in meta-virt and do a git submodule init without issues.
+> 
+> Just worked fine here. Were you doing anything different than a regular build when you hit it ?
 
-I injured my hand (so I couldn't type) and then had to do some release
-preparation, but will get to merging his shortly.
+No, I am aware of it.
 
-Bruce
+For me, is easy to reproduce. Clone poky master, add meta-virtualization layer, add virtualization to DISTRO_FEATURES, change MACHINE to 'genericarm64' and `bitbake upx -c cleanall && bitbake upx` will do it.
 
-On Mon, Oct 21, 2024 at 7:23=E2=80=AFAM Bin Lan via lists.yoctoproject.org =
-<
-bin.lan.cn=3Dwindriver.com@lists.yoctoproject.org> wrote:
+For future reference here is the complete log:
 
-> The EGREP in ptest/tests/atlocal contains the build paths.
-> The CFLAGS in ptest/tests/atlocal contains the build paths.
-> This change set fixs:
->  - set EGREP to "grep -E" in ptest/tests/atlocal
->  - set CFLAGS to " " in ptest/tests/atlocal
-> by updating the patch
-> openvswitch-add-ptest-71d553b995d0bd527d3ab1e9fbaf5a2ae34de2f3.patch.
->
-> Signed-off-by: Bin Lan <bin.lan.cn@windriver.com>
-> ---
->  ...est-71d553b995d0bd527d3ab1e9fbaf5a2ae34de2f3.patch | 11 ++++++++++-
->  1 file changed, 10 insertions(+), 1 deletion(-)
->
-> diff --git
-> a/recipes-networking/openvswitch/openvswitch-git/openvswitch-add-ptest-71=
-d553b995d0bd527d3ab1e9fbaf5a2ae34de2f3.patch
-> b/recipes-networking/openvswitch/openvswitch-git/openvswitch-add-ptest-71=
-d553b995d0bd527d3ab1e9fbaf5a2ae34de2f3.patch
-> index 571753a5..abad1458 100644
-> ---
-> a/recipes-networking/openvswitch/openvswitch-git/openvswitch-add-ptest-71=
-d553b995d0bd527d3ab1e9fbaf5a2ae34de2f3.patch
-> +++
-> b/recipes-networking/openvswitch/openvswitch-git/openvswitch-add-ptest-71=
-d553b995d0bd527d3ab1e9fbaf5a2ae34de2f3.patch
-> @@ -16,6 +16,13 @@ Signed-off-by: He Zhe <zhe.he@windriver.com>
->  refresh patch to fix patch-fuzz warning
->  Signed-off-by: Changqing Li <changqing.li@windriver.com>
->
-> +Refresh patch to fix file ptest/tests/atlocal
-> +contains reference to TMPDIR [buildpaths]. The fix is:
-> + - set EGREP to "grep -E" in ptest/tests/atlocal
-> + - set CFLAGS to " " in ptest/tests/atlocal
-> +
-> +Signed-off-by: Bin Lan <bin.lan.cn@windriver.com>
-> +
->  Upstream-Status: Inappropriate [embedded specific]
->  ---
->   Makefile.am |  1 +
-> @@ -37,7 +44,7 @@ new file mode 100644
->  index 0000000..0b4587c
->  --- /dev/null
->  +++ b/test.mk
-> -@@ -0,0 +1,74 @@
-> +@@ -0,0 +1,76 @@
->  +TEST_DEST ?=3D ${prefix}/lib/openvswitch
->  +TEST_ROOT ?=3D ${prefix}/lib/openvswitch
->  +TEST_DEPEND =3D
-> @@ -112,3 +119,5 @@ index 0000000..0b4587c
->  +      sed -i 's|$$srcdir|$$abs_srcdir|g' $(TEST_DEST)/tests/testsuite
->  +      sed -i
-> 's|ovs-appctl-bashcomp\.bash|/etc/bash_completion.d/ovs-appctl-bashcomp\.=
-bash|g'
-> $(TEST_DEST)/tests/testsuite
->  +      sed -i
-> 's|ovs-vsctl-bashcomp\.bash|/etc/bash_completion.d/ovs-vsctl-bashcomp\.ba=
-sh|g'
-> $(TEST_DEST)/tests/testsuite
-> ++      sed -i 's|EGREP=3D.*|EGREP=3D'"'"'grep -E'"'"'|g'
-> $(TEST_DEST)/tests/atlocal
-> ++      sed -i 's|CFLAGS=3D.*|CFLAGS=3D'"'"' '"'"'|g'
-> $(TEST_DEST)/tests/atlocal
-> --
-> 2.34.1
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#8933):
-> https://lists.yoctoproject.org/g/meta-virtualization/message/8933
-> Mute This Topic: https://lists.yoctoproject.org/mt/109130169/1050810
-> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [
-> bruce.ashfield@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
+```
+$ bitbake upx
+Loading cache: 100% |###########################################################################################################################| Time: 0:00:00
+Loaded 4974 entries from dependency cache.
+NOTE: Resolving any missing task queue dependencies
 
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+Build Configuration:
+BB_VERSION           = "2.9.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "aarch64-poky-linux"
+MACHINE              = "genericarm64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.1"
+TUNE_FEATURES        = "aarch64 armv8a crc"
+TARGET_FPU           = ""
+meta
+meta-poky
+meta-yocto-bsp       = "master:c83c0600f67b0806e571d9fcd6c1c267d756f54c"
+meta-oe
+meta-python          = "master:793557a317dd0393d9a68d0aa79e041d7bfdcdda"
+meta-networking
+meta-filesystems     = "master:793557a317dd0393d9a68d0aa79e041d7bfdcdda"
+meta-virtualization  = "master:72ea52031c045bb6b4e13856f324b3ec28e333df"
 
---0000000000007bd9180625bdcd8a
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Sstate summary: Wanted 245 Local 0 Mirrors 0 Missed 245 Current 0 (0% match, 0% complete)##########################################             | ETA:  0:00:00
+Removing 10 stale sstate objects for arch armv8a: 100% |########################################################################################| Time: 0:00:00
+Removing 4 stale sstate objects for arch genericarm64: 100% |###################################################################################| Time: 0:00:00
+Removing 96 stale sstate objects for arch x86_64: 100% |########################################################################################| Time: 0:00:00
+NOTE: Executing Tasks
+WARNING: upx-4.2.4+git-r0 do_fetch: Failed to fetch URL gitsm://github.com/upx/upx-vendor-valgrind.git;protocol=https;name=vendor/valgrind;subpath=vendor/valgrind;nobranch=1;lfs=True;bareclone=1;nobranch=1, attempting MIRRORS if available
+ERROR: upx-4.2.4+git-r0 do_fetch: Fetcher failure: Unable to find revision 5221596a608acbc8efed1e54f758bab1908ce7a8 in branch  even from upstream
+ERROR: upx-4.2.4+git-r0 do_fetch: gitsm: submodule download failed: FetchError Fetcher failure for URL: 'gitsm://github.com/upx/upx-vendor-valgrind.git;protocol=https;name=vendor/valgrind;subpath=vendor/valgrind;nobranch=1;lfs=True;bareclone=1;nobranch=1'. Unable to fetch URL from any source.
+WARNING: upx-4.2.4+git-r0 do_fetch: Failed to fetch URL gitsm://github.com/upx/upx;protocol=https;;name=upx;branch=devel, attempting MIRRORS if available
+ERROR: upx-4.2.4+git-r0 do_fetch: Fetcher failure for URL: 'gitsm://github.com/upx/upx-vendor-valgrind.git;protocol=https;name=vendor/valgrind;subpath=vendor/valgrind;nobranch=1;lfs=True;bareclone=1;nobranch=1'. Unable to fetch URL from any source.
+ERROR: upx-4.2.4+git-r0 do_fetch: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'gitsm://github.com/upx/upx;protocol=https;;name=upx;branch=devel')
+ERROR: Logfile of failure stored in: /yocto-dev/build/tmp/work/armv8a-poky-linux/upx/4.2.4+git/temp/log.do_fetch.54216
+ERROR: Task (/yocto-dev/meta-virtualization/recipes-extended/upx/upx_git.bb:do_fetch) failed with exit code '1'
+NOTE: Tasks Summary: Attempted 328 tasks of which 0 didn't need to be rerun and 1 failed.
+```
 
-<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-size:small"><di=
-v id=3D"gmail-:23e" class=3D"gmail-Am gmail-aiL gmail-aO9 gmail-Al editable=
- gmail-LW-avf gmail-tS-tW gmail-tS-tY" aria-label=3D"Message Body" role=3D"=
-textbox" aria-multiline=3D"true" tabindex=3D"1" style=3D"direction:ltr;min-=
-height:85px" aria-controls=3D":260" aria-expanded=3D"false"><div class=3D"g=
-mail_default">Thanks for the patch.</div><div class=3D"gmail_default"><br><=
-/div><div class=3D"gmail_default">I injured my hand (so I couldn&#39;t type=
-) and then had to do some release preparation, but will get to merging=C2=
-=A0his shortly.</div><div class=3D"gmail_default"><br></div><div class=3D"g=
-mail_default">Bruce</div></div></div></div><br><div class=3D"gmail_quote"><=
-div dir=3D"ltr" class=3D"gmail_attr">On Mon, Oct 21, 2024 at 7:23=E2=80=AFA=
-M Bin Lan via <a href=3D"http://lists.yoctoproject.org">lists.yoctoproject.=
-org</a> &lt;<a href=3D"http://bin.lan.cn">bin.lan.cn</a>=3D<a href=3D"mailt=
-o:windriver.com@lists.yoctoproject.org">windriver.com@lists.yoctoproject.or=
-g</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin=
-:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
->The EGREP in ptest/tests/atlocal contains the build paths.<br>
-The CFLAGS in ptest/tests/atlocal contains the build paths.<br>
-This change set fixs:<br>
-=C2=A0- set EGREP to &quot;grep -E&quot; in ptest/tests/atlocal<br>
-=C2=A0- set CFLAGS to &quot; &quot; in ptest/tests/atlocal<br>
-by updating the patch<br>
-openvswitch-add-ptest-71d553b995d0bd527d3ab1e9fbaf5a2ae34de2f3.patch.<br>
-<br>
-Signed-off-by: Bin Lan &lt;<a href=3D"mailto:bin.lan.cn@windriver.com" targ=
-et=3D"_blank">bin.lan.cn@windriver.com</a>&gt;<br>
----<br>
-=C2=A0...est-71d553b995d0bd527d3ab1e9fbaf5a2ae34de2f3.patch | 11 ++++++++++=
--<br>
-=C2=A01 file changed, 10 insertions(+), 1 deletion(-)<br>
-<br>
-diff --git a/recipes-networking/openvswitch/openvswitch-git/openvswitch-add=
--ptest-71d553b995d0bd527d3ab1e9fbaf5a2ae34de2f3.patch b/recipes-networking/=
-openvswitch/openvswitch-git/openvswitch-add-ptest-71d553b995d0bd527d3ab1e9f=
-baf5a2ae34de2f3.patch<br>
-index 571753a5..abad1458 100644<br>
---- a/recipes-networking/openvswitch/openvswitch-git/openvswitch-add-ptest-=
-71d553b995d0bd527d3ab1e9fbaf5a2ae34de2f3.patch<br>
-+++ b/recipes-networking/openvswitch/openvswitch-git/openvswitch-add-ptest-=
-71d553b995d0bd527d3ab1e9fbaf5a2ae34de2f3.patch<br>
-@@ -16,6 +16,13 @@ Signed-off-by: He Zhe &lt;<a href=3D"mailto:zhe.he@windr=
-iver.com" target=3D"_blank">zhe.he@windriver.com</a>&gt;<br>
-=C2=A0refresh patch to fix patch-fuzz warning<br>
-=C2=A0Signed-off-by: Changqing Li &lt;<a href=3D"mailto:changqing.li@windri=
-ver.com" target=3D"_blank">changqing.li@windriver.com</a>&gt;<br>
-<br>
-+Refresh patch to fix file ptest/tests/atlocal <br>
-+contains reference to TMPDIR [buildpaths]. The fix is:<br>
-+ - set EGREP to &quot;grep -E&quot; in ptest/tests/atlocal<br>
-+ - set CFLAGS to &quot; &quot; in ptest/tests/atlocal<br>
-+<br>
-+Signed-off-by: Bin Lan &lt;<a href=3D"mailto:bin.lan.cn@windriver.com" tar=
-get=3D"_blank">bin.lan.cn@windriver.com</a>&gt;<br>
-+<br>
-=C2=A0Upstream-Status: Inappropriate [embedded specific]<br>
-=C2=A0---<br>
-=C2=A0 Makefile.am |=C2=A0 1 +<br>
-@@ -37,7 +44,7 @@ new file mode 100644<br>
-=C2=A0index 0000000..0b4587c<br>
-=C2=A0--- /dev/null<br>
-=C2=A0+++ b/<a href=3D"http://test.mk" rel=3D"noreferrer" target=3D"_blank"=
->test.mk</a><br>
--@@ -0,0 +1,74 @@<br>
-+@@ -0,0 +1,76 @@<br>
-=C2=A0+TEST_DEST ?=3D ${prefix}/lib/openvswitch<br>
-=C2=A0+TEST_ROOT ?=3D ${prefix}/lib/openvswitch<br>
-=C2=A0+TEST_DEPEND =3D<br>
-@@ -112,3 +119,5 @@ index 0000000..0b4587c<br>
-=C2=A0+=C2=A0 =C2=A0 =C2=A0 sed -i &#39;s|$$srcdir|$$abs_srcdir|g&#39; $(TE=
-ST_DEST)/tests/testsuite<br>
-=C2=A0+=C2=A0 =C2=A0 =C2=A0 sed -i &#39;s|ovs-appctl-bashcomp\.bash|/etc/ba=
-sh_completion.d/ovs-appctl-bashcomp\.bash|g&#39; $(TEST_DEST)/tests/testsui=
-te<br>
-=C2=A0+=C2=A0 =C2=A0 =C2=A0 sed -i &#39;s|ovs-vsctl-bashcomp\.bash|/etc/bas=
-h_completion.d/ovs-vsctl-bashcomp\.bash|g&#39; $(TEST_DEST)/tests/testsuite=
-<br>
-++=C2=A0 =C2=A0 =C2=A0 sed -i &#39;s|EGREP=3D.*|EGREP=3D&#39;&quot;&#39;&qu=
-ot;&#39;grep -E&#39;&quot;&#39;&quot;&#39;|g&#39; $(TEST_DEST)/tests/atloca=
-l<br>
-++=C2=A0 =C2=A0 =C2=A0 sed -i &#39;s|CFLAGS=3D.*|CFLAGS=3D&#39;&quot;&#39;&=
-quot;&#39; &#39;&quot;&#39;&quot;&#39;|g&#39; $(TEST_DEST)/tests/atlocal<br=
->
--- <br>
-2.34.1<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#8933): <a href=3D"https://lists.yoctoproject.org/g/meta=
--virtualization/message/8933" rel=3D"noreferrer" target=3D"_blank">https://=
-lists.yoctoproject.org/g/meta-virtualization/message/8933</a><br>
-Mute This Topic: <a href=3D"https://lists.yoctoproject.org/mt/109130169/105=
-0810" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.org/m=
-t/109130169/1050810</a><br>
-Group Owner: <a href=3D"mailto:meta-virtualization%2Bowner@lists.yoctoproje=
-ct.org" target=3D"_blank">meta-virtualization+owner@lists.yoctoproject.org<=
-/a><br>
-Unsubscribe: <a href=3D"https://lists.yoctoproject.org/g/meta-virtualizatio=
-n/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.or=
-g/g/meta-virtualization/unsub</a> [<a href=3D"mailto:bruce.ashfield@gmail.c=
-om" target=3D"_blank">bruce.ashfield@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
-=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
-ignature">- Thou shalt not follow the NULL pointer, for chaos and madness a=
-wait thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star T=
-rek II<br><br></div>
-
---0000000000007bd9180625bdcd8a--
+» Javier Tia 🖋
 
