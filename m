@@ -1,175 +1,171 @@
-Return-Path: <javier.tia@linaro.org>
+Return-Path: <Qi.Chen@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D3E35E67815
-	for <webhook@archiver.kernel.org>; Sat,  2 Nov 2024 21:21:21 +0000 (UTC)
-Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com [209.85.221.181])
- by mx.groups.io with SMTP id smtpd.web10.25274.1730582474506890524
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F716D1119D
+	for <webhook@archiver.kernel.org>; Tue,  5 Nov 2024 07:37:07 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web10.12733.1730792218414562392
  for <meta-virtualization@lists.yoctoproject.org>;
- Sat, 02 Nov 2024 14:21:14 -0700
+ Mon, 04 Nov 2024 23:36:58 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=Fno8aMKG;
- spf=pass (domain: linaro.org, ip: 209.85.221.181, mailfrom: javier.tia@linaro.org)
-Received: by mail-vk1-f181.google.com with SMTP id 71dfb90a1353d-50d4780a24eso960018e0c.3
-        for <meta-virtualization@lists.yoctoproject.org>; Sat, 02 Nov 2024 14:21:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1730582473; x=1731187273; darn=lists.yoctoproject.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=bYrADOthpRCGcU1S9D2LRCGhWgt5gO3aC5het5Z88qE=;
-        b=Fno8aMKG1wZKdRgE684JnILTVpIvkzSqedfIXlyoLSu7aIkGT+qGXNEuG98XylVQVy
-         bWTKp3vbxCYMFgfIwHdQ66jsKVbocbsbiCVFBKFYBxZ1YSOjBQ/HJheWdNOXFtPyABTt
-         fJwKpwAGqGELLT4mPBSZkY9AzS5dyGxvOycpNMcR0FIgJuNw4d14ptLfrmqB0TsWQot5
-         2aLz4DvwW/GL+g74Ywc4Dv9hqR/eoZvgDefysJ8Ls9ipbsZ6J/JFVSNwgvNCEnf/wAPX
-         4UZxxB4OjvCTeAAa5rQErP6aGCZP3L/RzJzqd96MeA9oOVDHpfRqfwdWwmKiIBxuTGkI
-         uVJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730582473; x=1731187273;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=bYrADOthpRCGcU1S9D2LRCGhWgt5gO3aC5het5Z88qE=;
-        b=O0lWA2JkVbphzHzHk9VWqxYplBChOHMMALQyOXJIlrRo2ItIG1F2QtWSzSD24+IPOE
-         xHa9NnaGamPaN6iMGAY2ZPV0JOLaHX9J1q4X7s5MgJ4z/mHC0kaWBJwFSE/LbrCLV/XS
-         MgVuI30hfgeMi+yW8qh3pxoAKomMqzq610Dp61PKvmYzCnywzv0bYEFvDHPKsIcGuMg5
-         iJPFYYP3tDBtbzo4flrCODFwoCTLKPsfhj0V4l/EmYB/W2oYEqswRZ5T+c+utWuV9lYZ
-         /blU/kdLS3fu+gnyiKM5KFORnkUgTSKXh75PvM8+HUvsWI+RXRDrHYFXwMXID1yRKsRH
-         Dq2Q==
-X-Gm-Message-State: AOJu0YyM6cfrfcqvyjYklUMFpMqM0fGZvyT0LiY9t6nHXQImuPO5241D
-	IMCp+riKsc+Zre5zWh82lnDvvUtpf6z4zuvm8iO4Ct/kCh88NkwMY00fpwSm564=
-X-Google-Smtp-Source: AGHT+IEVyMQq8pW8XZKweSarTZwjgVVXgWJRYUf1rz7WRSKUcpkn8P9GjLnJG1pu7ARtuGj87TXsYQ==
-X-Received: by 2002:a05:6122:2511:b0:50a:caec:70a2 with SMTP id 71dfb90a1353d-512270eb2b4mr7668320e0c.4.1730582473421;
-        Sat, 02 Nov 2024 14:21:13 -0700 (PDT)
-Received: from [192.168.8.164] ([170.246.157.153])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5106f2cd5c8sm1256111e0c.17.2024.11.02.14.21.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 02 Nov 2024 14:21:12 -0700 (PDT)
-Message-ID: <3dd1c818-bdad-49ad-b287-015b2a2455b5@linaro.org>
-Date: Sat, 2 Nov 2024 15:21:10 -0600
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [meta-virtualization][PATCH v0] upx: Fetch the proper v4.2.4 git
- hash
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: meta-virtualization@lists.yoctoproject.org,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Mikko Rapeli <mikko.rapeli@linaro.org>
-References: <20241030-fix-upx-src_uri-v1-1-1a883085936a@linaro.org>
- <CADkTA4OehpRpvtQi73fsG_w29XZU3jfhH+noB5=Q3FppApmsfQ@mail.gmail.com>
- <6f062bbd-7b69-46f7-9f75-e495d3f30101@linaro.org>
- <180391C2E0114A47.6352@lists.yoctoproject.org>
- <1803A46D49AD0D53.1077@lists.yoctoproject.org>
- <CADkTA4N_j57wcmcQ=xESam+V2kbp7E79CVo9+qyi3bVH7ZYBVQ@mail.gmail.com>
-From: Javier Tia <javier.tia@linaro.org>
-Content-Language: en-US, es-MX
-Autocrypt: addr=javier.tia@linaro.org; keydata=
- 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
- WdJQjTu3/NJR54YogRY=
-In-Reply-To: <CADkTA4N_j57wcmcQ=xESam+V2kbp7E79CVo9+qyi3bVH7ZYBVQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=1039b2a242=qi.chen@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4A55s3RF001908
+	for <meta-virtualization@lists.yoctoproject.org>; Mon, 4 Nov 2024 23:36:58 -0800
+Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2174.outbound.protection.outlook.com [104.47.59.174])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 42nfc32h02-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <meta-virtualization@lists.yoctoproject.org>; Mon, 04 Nov 2024 23:36:57 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=XN7mamikJ1ySWArwpuUTRpLA1BLJzymv9SWd6/9qRgWTfawTlkwykCdmiMRr3ZAcogkZ0Ck3RxycDVjt5YYiyo5b4YD5nShJfS1oThegZFIIVP1AfvHy+u8QfH+418qIawzwCTdNQbnjr7lXelHveZrsgXJIrATePG2QWJM87j//2lM7AC3g+InrnkSrKt+H11w4ZqBW9jZG+QiLr1Amt1GE71NkTKUXhMRPrX5uQpWI2p9nyiXWAqiwTNn11VmsiLTRsER6jFpVQV1rlDo/4kgC14DorLMgAvKjC1SZ9RcCTjiNprtjiVnKTdtH5uX9IcAYJMeNK+Zk6j1Rx1HRcw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=G3vnWyCJ5dE/a7xeIZvbvBZB0IefJ4prpxOk4SogHSA=;
+ b=J7R7iwHb6JYHkUcHNNGH+5G1FfahgdOQkckWkK4Z4irjDZA/EYAhcL55jlJLFSoYk5um8mER5OGOIqfnHt63DerAwYdh7VFieeXSOe2luXGNkPZM0hbgQS+4VFwc/rFJ9huIEIYhqFhRvw3iyjC0312qNivUYMLU9l5n5axGcNKl9WJepnNlav1iz/z9Da/bj6ImXhYrBzg9I2ZnJzzrzxiJ1Gz3p8sjve/wuHbXVq7UZidkrq5ZbxUO6Z1vzPo9c8sBLRAqhbCGopIbVQSLt1ikopft2TLmiKtqAb8MPAxEJrGnaJP6Zfb2VN4j5kLIhfYL8vK+23Ff36o1WhS7gg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
+ by CO1PR11MB4915.namprd11.prod.outlook.com (2603:10b6:303:93::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8114.30; Tue, 5 Nov
+ 2024 07:36:55 +0000
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::a7e3:721d:9cec:6093]) by CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::a7e3:721d:9cec:6093%4]) with mapi id 15.20.8114.031; Tue, 5 Nov 2024
+ 07:36:54 +0000
+From: Qi.Chen@windriver.com
+To: meta-virtualization@lists.yoctoproject.org
+Subject: [meta-virtualization][PATCH] criu: fix buildpaths QA issue for arm
+Date: Mon,  4 Nov 2024 23:36:44 -0800
+Message-Id: <20241105073644.3692715-1-Qi.Chen@windriver.com>
+X-Mailer: git-send-email 2.25.1
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: BY5PR04CA0016.namprd04.prod.outlook.com
+ (2603:10b6:a03:1d0::26) To CO6PR11MB5602.namprd11.prod.outlook.com
+ (2603:10b6:303:13a::5)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO6PR11MB5602:EE_|CO1PR11MB4915:EE_
+X-MS-Office365-Filtering-Correlation-Id: a5d1cc1f-33af-4e52-327b-08dcfd6c9ef8
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|1800799024|366016|52116014|376014|38350700014;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?DdOma0urhnL0AIg30grLpRW9q2nhB+jPYfK+IP4DlKWe/npd7CYM+FGqdk37?=
+ =?us-ascii?Q?35gRws4YmxGqlGdBob6O2Rav/ETWqYos2+j4WhsRsHi7qgJSdEiP0BV7wHqF?=
+ =?us-ascii?Q?unzCvAQ4jpdVfXRU7s+IZCMmDxM39EDg6ukbW9MiwnM0X+NFGxwizjTDMSyI?=
+ =?us-ascii?Q?7nGxfD14+BvlGauR7RdaQPvXJ+3cy2KM4m9fKIPT7Ch0kVaEK7DO85ATyjMh?=
+ =?us-ascii?Q?KrSMAsAuHusXIYFoBS/sNfYdMgaasMr3wnsdnu1WLEVFjbh1MdpaYqpzpmtL?=
+ =?us-ascii?Q?TLRbj1AxDh2fTYOea7Ohxml+6atj2RLwOlo5OGSUnsVouKbqtdfzwuEzcA4t?=
+ =?us-ascii?Q?hN4tVqq572+AuBqopONNvJEPwDHbzRpAHPlGGkSWypmUyCHU2iHZhRxyKA9G?=
+ =?us-ascii?Q?eTTbH9MrVDawWFep6vMchihn6jvSC1zTozT5WuFsupNREzQal+mefef9Jshl?=
+ =?us-ascii?Q?I7XKMHdCPyA68X7A4eRzMLa3N6AA03C8iWYZ6nr1gMQOJZkY4/DEdLo0pHrs?=
+ =?us-ascii?Q?JizkuOL8uun0/Y2YKNzjorUtnZAb8WmV3yg9wn4i+jYJpOOrW1eGgbJFM7Ph?=
+ =?us-ascii?Q?x11cV9hL94krtF1X8hujhbgmJGXWz8EuHiWj6HYa/aJn5Komr96ETAWuWD50?=
+ =?us-ascii?Q?bZiFKqmkd9ZxC0kYmhqr3w0U1hnGRy6DwO7FyinAaQ/+/xpc6vR3CXlYvFED?=
+ =?us-ascii?Q?UbbQQQS6bl911fT4r1DXEfGsAFLKBiSOG6Uf4zxc9ylckr7Hw2y4a/nKGgKn?=
+ =?us-ascii?Q?ERWu8OQl1bmc2nFjYFesrcnWpThTYlpV4fzHhqwLMOWS1t5ab0IynVUi+Uh4?=
+ =?us-ascii?Q?lVtFwpi+NMSmeIo4iRcfD0rPO1v1c1jMTcUgnjIcJQtmPhRVaFUXP+RvBXpN?=
+ =?us-ascii?Q?2jCneYfgQ8chNdoxl9uw7JY7dEEga7gRVNmCLe1WmucMEMdAqy5kfdzik+3r?=
+ =?us-ascii?Q?VY6TeYviz8CcYterWAK6AbnbM4Xo0psNq9mIMgnjDjmoiWe1RvDJDnqD8n65?=
+ =?us-ascii?Q?aLQN47OqkvMH34/MelAt6E3lrf9u84dydv4/IAz4CnaOIxJd7BlBSgSIfAPc?=
+ =?us-ascii?Q?MiMVAy7Zq9k3kRjWZZSYG8ddYwR8JgElHrJen+evqEgdBeoEtMvxqlYUK4c5?=
+ =?us-ascii?Q?nt5tR16j5wYmoCOldRRh/H2uYJo/lLxM1jo+DBGTjIXg9AgaZgaX0F3svXtt?=
+ =?us-ascii?Q?kJCW/4FwSXn6K7DVUiHo/cTeqZUBAmDO+vXtOWzNuMhfvQpZTwV9CIQJo2t5?=
+ =?us-ascii?Q?UpreXzILqEYm825bvbRHBZ12+vq/dDDEBTu/Czax1xFkAkEyxNfi2mjsDFL8?=
+ =?us-ascii?Q?UmG+b2az3hXbILtGYgyK5ZmgfQMO4NegHdNTldg3kn2wOSHIjhOemgtSTYTf?=
+ =?us-ascii?Q?rEZddKs=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(52116014)(376014)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?wXhwIl6ErrMN4wrWEIvnDMHApUWiLQ7XlyAp+srAk+8TnRtnzBwXXOjiu/yc?=
+ =?us-ascii?Q?fZdcZ05Iq13gYdKs74ulz7Ao+wLps0hZk/2wRkwu0hklV3YnAJPFboH1Z4kx?=
+ =?us-ascii?Q?o4Ll1sx8hmoWkP1IS5RBuS8X2+2O3obPV9VVq6pqv5vnj+BfiGDKjwpXha94?=
+ =?us-ascii?Q?ZEJkpLlaf5eEXg0/LmJsVMv0jfb9NSWwDiW9ppO09PGdJNHl161GIdbmAto6?=
+ =?us-ascii?Q?Zd4TuV5tA/osXj0P+4Bkdgf7cPezcFpzz8MDZmvBv1AcS51KNb/StxnUCNh+?=
+ =?us-ascii?Q?SxPThcztz/ZyGMytUrVs0DXbA46khTq2LJ++DHaDLuQyh2ndyV+Jphp50Jo1?=
+ =?us-ascii?Q?iJjE4sdn0a0EamSCHXGQS1fb6HMJ1eWQkmAHL32mazEEogu88b2xrFP173ia?=
+ =?us-ascii?Q?8ladrLEnHdBVRazP17rscuqoLyGFEeCmTDywQpZ1SrFIpS3ihvfExsvnDKTN?=
+ =?us-ascii?Q?NNzVnB1XtvQT8qRR/1GLmA4+CKRL48hS54LeeKOKTsbk5V2Hio5ky00B6+Xq?=
+ =?us-ascii?Q?Oh8ODpkuy8EvdbaalFxsTtu3adOTc0L/73K4wq1lUS/mFHMiNruFY9ksQ3Io?=
+ =?us-ascii?Q?gCgZJYoYpmdYmJ3AVC3Ew6vDVztfrkyc/XZXDyw2JeDyAugQ4AND+KJ9UiTX?=
+ =?us-ascii?Q?81tMQSe/7mjXjftqZo88roQT1+pYMosisuWqq4Lo5kiKWcWjQPBgoKK253Zh?=
+ =?us-ascii?Q?cPAt3Zu83Syb5dXh5ITgwIvpWkCf8+TKtfkZM1HqcP2bbJGtbjyYIaWhGWt+?=
+ =?us-ascii?Q?eMh9ixiwT9apyJ2dUZ6ayx64aEQU9Le9kP432eHNmsA8tAd+5fow5aGWGa2D?=
+ =?us-ascii?Q?lvqYc++jN2JDeLiv3TWAmzgG3oF8cAcoo4O19PjYAnuDDA8hfLooGljhCs9W?=
+ =?us-ascii?Q?UPspJAvXXX6JFjBzZtb6peMhtAX4VGyjANOh0YUXjnD4fKTLarxk76igz+G8?=
+ =?us-ascii?Q?cJNqAq0Dse3OX8cMCxmOXd6jTx6S2qFJQkJBszq00qggzW0a+2626T1Tq92n?=
+ =?us-ascii?Q?iewkilx2CopS9kuWfUHN3vmdtlicPc/LS2DWb4BoDMo2juaZg06Vo2dmqyRD?=
+ =?us-ascii?Q?9QvFV9VJoTr2ZHpSaF616CDcWgGO5SXSt6ZoXib6UfbojLtY45ZimrVqObB7?=
+ =?us-ascii?Q?PVm32lwnMAY78hRrpOarEtv3Ve0S5D59mmpmvSBhVnRZbeb0TWk0pTA6k2Ft?=
+ =?us-ascii?Q?opADolOV73f/0BE2QdboS2aFiRK18lKp2OCFI1GBiLs8lIsa5DDuiCA0X3+h?=
+ =?us-ascii?Q?VZpkXnrD6q31hQdbaN/ymEIzh86Fy1zYQnXSo1BeIOEFJIhcigJ/YwgJFUSb?=
+ =?us-ascii?Q?BcI81mjtUV/yZxeo0x00XEaxIxXgdfH65OwCYs8eAsBAssGa9b4f4FXgIAVt?=
+ =?us-ascii?Q?5FlKuSPG8k0yQ8ddRbvBjLUqo34Bv7xiO9J67asFFRQCGX8s7oVKUSld51zg?=
+ =?us-ascii?Q?wIJc6QjmL8muwXDyt1zq6U9LmMcUKyprg2+aHf95PUz1PP+606WlPo19+Xb5?=
+ =?us-ascii?Q?X5srQDQeKC/njj6/8SSBd9QunLil3P3H/PvN8y7VLkC0PMhtDOoE0pQ7A4cR?=
+ =?us-ascii?Q?H20h62SIAEckfXAsq9WYwQAXkbB51NRkRgQEYsSLiILT3V1iM2c0SsljFR1p?=
+ =?us-ascii?Q?fg=3D=3D?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a5d1cc1f-33af-4e52-327b-08dcfd6c9ef8
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Nov 2024 07:36:54.6822
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 1PDwR4+hVTHGEvqbzjxIvWQXBashvtWS3QPXXq1khZf9oWFlwoKLTOr3k4LjrevemQURIujlWFvdruliZz4Vww==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB4915
+X-Authority-Analysis: v=2.4 cv=T7feTOKQ c=1 sm=1 tr=0 ts=6729cb19 cx=c_pps a=pa2+2WWV+ihErLhOOf7pAQ==:117 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=VlfZXiiP6vEA:10 a=bRTqI5nwn0kA:10 a=t7CeM3EgAAAA:8 a=z1g7iogDX4sjfA9P0y8A:9
+ a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: WMuACNw7mvzWBhi6eZcGrvFpTAz3175t
+X-Proofpoint-ORIG-GUID: WMuACNw7mvzWBhi6eZcGrvFpTAz3175t
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-11-05_02,2024-11-04_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 bulkscore=0
+ phishscore=0 lowpriorityscore=0 adultscore=0 clxscore=1011 suspectscore=0
+ spamscore=0 mlxlogscore=564 malwarescore=0 priorityscore=1501 mlxscore=0
+ classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
+ engine=8.21.0-2409260000 definitions=main-2411050055
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Sat, 02 Nov 2024 21:21:21 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8956
+ <meta-virtualization@lists.yoctoproject.org>; Tue, 05 Nov 2024 07:37:07 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8957
 
-Hi Bruce,
+From: Chen Qi <Qi.Chen@windriver.com>
 
-On 11/1/24 10:13 PM, Bruce Ashfield wrote:
-> 
-> 
-> On Thu, Oct 31, 2024 at 4:44 PM Bruce Ashfield via lists.yoctoproject.org <http://lists.yoctoproject.org> <bruce.ashfield=gmail.com@lists.yoctoproject.org <mailto:gmail.com@lists.yoctoproject.org>> wrote:
-> 
-> 
-> 
->     On Thu, Oct 31, 2024 at 11:02 AM Bruce Ashfield via lists.yoctoproject.org <http://lists.yoctoproject.org> <bruce.ashfield=gmail.com@lists.yoctoproject.org <mailto:gmail.com@lists.yoctoproject.org>> wrote:
-> 
-> 
-> 
->         On Thu, Oct 31, 2024 at 9:26 AM Javier Tia <javier.tia@linaro.org <mailto:javier.tia@linaro.org>> wrote:
-> 
->             Hi Bruce,
-> 
->             On 10/30/24 9:37 PM, Bruce Ashfield wrote:
->              > On Wed, Oct 30, 2024 at 8:38 PM Javier Tia via lists.yoctoproject.org <http://lists.yoctoproject.org> <http://lists.yoctoproject.org <http://lists.yoctoproject.org>> <javier.tia=linaro.org@lists.yoctoproject.org <mailto:linaro.org@lists.yoctoproject.org> <mailto:linaro.org@lists.yoctoproject.org <mailto:linaro.org@lists.yoctoproject.org>>> wrote:
->              >
->              >     upx recipe fails with:
->              >
->              >     ERROR: upx-4.2.4+git-r0 do_fetch: Fetcher failure: Unable to find revision 5221596a608acbc8efed1e54f758bab1908ce7a8 in branch  even from upstream
->              >     ERROR: upx-4.2.4+git-r0 do_fetch: gitsm: submodule download failed: FetchError Fetcher failure for URL: 'gitsm://github.com/upx/upx-vendor-valgrind.git;protocol=https;name=vendor/valgrind;subpath=vendor/valgrind;nobranch=1;lfs=True;bareclone=1;nobranch=1 <http://github.com/upx/upx-vendor-valgrind.git;protocol=https;name=vendor/valgrind;subpath=vendor/valgrind;nobranch=1;lfs=True;bareclone=1;nobranch=1> <http://github.com/upx/upx-vendor-valgrind.git;protocol=https;name=vendor/valgrind;subpath=vendor/valgrind;nobranch=1;lfs=True;bareclone=1;nobranch=1 <http://github.com/upx/upx-vendor-valgrind.git;protocol=https;name=vendor/valgrind;subpath=vendor/valgrind;nobranch=1;lfs=True;bareclone=1;nobranch=1>>'. Unable to fetch URL from any source.
->              >
->              >     Likely, upstream rewrote the Git history.
->              >
->              >
->              > I'll wait until I can reproduce this one myself:
->              >
->              > bitbake -c cleanall upx; bitbake upx
->              >
->              > I can also clone upx, reset it to the revision I'm currently using in meta-virt and do a git submodule init without issues.
->              >
->              > Just worked fine here. Were you doing anything different than a regular build when you hit it ?
-> 
->             No, I am aware of it.
-> 
->             For me, is easy to reproduce. Clone poky master, add meta-virtualization layer, add virtualization to DISTRO_FEATURES, change MACHINE to 'genericarm64' and `bitbake upx -c cleanall && bitbake upx` will do it.
-> 
-> 
->         Exactly the same thing works fine for me.
-> 
->         I'll continue to debug it here. I'll likely just update upx to tip, but until I see the failure in my builds, I can't be sure I've fixed anything!
-> 
-> 
->     It looks like I was being fed a cached repository from a mirror. When I switched configurations (I switched builders), I can see it now.
-> 
->     Although, I have no idea why my manual clones were working, since they don't use that infrastructure. I'm going to debug that a bit more.
-> 
->     I'll get this fixed on Friday (assuming I satisfy my manual clone curiosity).
-> 
-> 
-> I went a different way with this. I've had "issues" with this git repository in the past (failing fetcher tests, etc)
-> 
-> I've already done one switch from gitsm to individual git fetches and then back to gitsm.
-> 
-> I've gone back to individual fetches, since I tested the tip of the tree and it is still broken with gitsm fetching.
-> 
-> This worked on all my builders, let me know if you still see issues.
+The settings of CFLAGS:arm overrides the previous CFLAGS settings,
+causing buildpaths QA error for arm. Use CFLAGS:append:arm instead
+to fix this issue.
 
-No issues so far. Thank you!
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ recipes-containers/criu/criu_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-» Javier Tia 🖋
+diff --git a/recipes-containers/criu/criu_git.bb b/recipes-containers/criu/criu_git.bb
+index 09503624..8ecc1725 100644
+--- a/recipes-containers/criu/criu_git.bb
++++ b/recipes-containers/criu/criu_git.bb
+@@ -46,7 +46,7 @@ EXTRA_OEMAKE:append = " LOGROTATEDIR=${sysconfdir} SYSTEMDUNITDIR=${systemd_unit
+ CFLAGS += "-D__USE_GNU -D_GNU_SOURCE "
+ 
+ CFLAGS += " -I${STAGING_INCDIR} -I${STAGING_INCDIR}/libnl3"
+-CFLAGS:arm += "-D__WORDSIZE"
++CFLAGS:append:arm = " -D__WORDSIZE"
+ 
+ # overide LDFLAGS to allow criu to build without: "x86_64-poky-linux-ld: unrecognized option '-Wl,-O1'"
+ export LDFLAGS=""
+-- 
+2.25.1
+
 
