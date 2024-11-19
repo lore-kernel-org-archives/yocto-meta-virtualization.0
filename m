@@ -2,122 +2,160 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F1C4D60D0C
-	for <webhook@archiver.kernel.org>; Tue, 19 Nov 2024 02:30:27 +0000 (UTC)
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
- by mx.groups.io with SMTP id smtpd.web10.11813.1731983422524835318
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2225ED60D0D
+	for <webhook@archiver.kernel.org>; Tue, 19 Nov 2024 02:41:17 +0000 (UTC)
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+ by mx.groups.io with SMTP id smtpd.web11.11967.1731984068811619782
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 18 Nov 2024 18:30:22 -0800
+ Mon, 18 Nov 2024 18:41:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Ms3TKel9;
- spf=pass (domain: gmail.com, ip: 209.85.210.170, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-723db2798caso3949121b3a.0
-        for <meta-virtualization@lists.yoctoproject.org>; Mon, 18 Nov 2024 18:30:22 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Xxo6OSYV;
+ spf=pass (domain: gmail.com, ip: 209.85.216.41, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-2ea568d8216so1602137a91.1
+        for <meta-virtualization@lists.yoctoproject.org>; Mon, 18 Nov 2024 18:41:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731983422; x=1732588222; darn=lists.yoctoproject.org;
+        d=gmail.com; s=20230601; t=1731984068; x=1732588868; darn=lists.yoctoproject.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=EocQiIsrqpGahk+poKmPcwe+4QgmRzI2+7OelFG4fes=;
-        b=Ms3TKel9iM8YK52obeu4I6ETyQtP/N0Pq3UYVHvre5A/I3nZYILfRUuglHL7SVE+4f
-         c6b6tj1wGS82bAvJRidS4WzA+sXdLD0HiXlQNNNXSP+/cr1Ko8col7CzahBH/bmNL4En
-         Mm/E6ISPvSbtH1Rpew0MKuL/J15waFH4jiUa+6aoDUOKM4vpwyLOGjyRCUKZtM0r9OFt
-         r1kiXk0oSDUjD+zijY9x4XHSc9JoqJM/J9WmKi2xYvUSyZoIZ6BhLx7pbHC7uOENU7nv
-         lTpSnTKjLcPw0lXkrGw+U+iBzZj930kffiBiTNANnipbNlpl/nHdKvPL+Dmq1UcE1Gvs
-         fQ0A==
+        bh=d85tDcoQMtAI6Sg8Cw4BWd3Wpq9nKAhHaUnHlWJH4xA=;
+        b=Xxo6OSYVwiYJ1OfTkP/FvjBIk3mh0EI+3qmwnuastWuzP77S3QUbkwQv9O8aV1uMeZ
+         VS+tKMBi5IS3csrrKKzuew/opThWC0826RriNLFUeDNCkRaUyqU5qwLUlh7OX2vDLmzN
+         AbyyJ6sMBz+fKPyo48LsJVHfVya3ZJBtwVDPr3voPWIVNB9PB5H2iCHbN/TDm1dnuvi9
+         aZ1VjCSz2qP8So3YIFCdiI5n6cWp1LwWnM5bghqRuhCAzvbCqqPYFiaL6ByTQ3q2IiEO
+         0UM/C6VIhW9otKCPj8wU30ergyCsobyFqathCW00kEPUft9jDKlen8NPp7/tW010A4tU
+         y2ew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731983422; x=1732588222;
+        d=1e100.net; s=20230601; t=1731984068; x=1732588868;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=EocQiIsrqpGahk+poKmPcwe+4QgmRzI2+7OelFG4fes=;
-        b=NdzSBly/l49cILp/Y9jJuf3n5prX8t03ERTyH2t2laMhLGbvwfqIefXSOsg83v6U7/
-         3LAfrddtqt8VEUFCkX1EVn2PwMKsDK26uSsLJysYeCL316GEw7kbkxtMHtNkHNSlhZDX
-         vIU+9jXHbowxTKm1vO+JKkVK0G391UJWMlVd2vyIGA869bG43eFuSrggXxnbtTatJKRF
-         8sqK6LxlVK4m2l+gr94zfsVYU2Us5ZbZdVMTcL4ycSZ6axyCiEyw9e4bQI74mr6EXnT5
-         36ZjZCt2Wa8aprbaZl44mx5JTBv6b/z5UWmP5Y58Ko1F3repC/c2WKVhsmB5N5NFR1SG
-         pVdw==
-X-Gm-Message-State: AOJu0YxzJpouBHmjaYCyRvwlvZyi1VFavMLUAav3VWOWda7Xnpi9FIbB
-	CEkEQYBGZb2bM8c05hQr5h0NsX2GmoCBX1kg1fdFnPTWXg4heHL5Syko0vfx67hUEN/KxVT7WeY
-	4C0HvYlfvyW0hdaJCGNQ71r0BaGM=
-X-Google-Smtp-Source: AGHT+IEYQMugVaqiKt4dXL7TkXHLfeVfuMXYKhDr31AqKND/8rf6mbx7CfbR65LEfT4Og0ZDlia8HzvqmEV7Ahsr7Pc=
-X-Received: by 2002:a17:90b:3c92:b0:2ea:5e0c:2843 with SMTP id
- 98e67ed59e1d1-2ea5e1b7362mr9190655a91.8.1731983421776; Mon, 18 Nov 2024
- 18:30:21 -0800 (PST)
+        bh=d85tDcoQMtAI6Sg8Cw4BWd3Wpq9nKAhHaUnHlWJH4xA=;
+        b=VYhSeermqajHV2z3GNg0QcnFDlSovEsuHnUzeCzNUvkeM1t8UOKhMN7PCmfklC5vzI
+         +hT9fEVUBuIxaTJic1ih0wNqiKRHA/PwTUxqT3tgDEQTVzufNU4uVvZNtRc0/QG5E9M7
+         GZw6coYnKWEDoKAYYV77/O+KjzpXhCwDw1GO2jJc++/HYCHu9PQF3LIapTTBaGeypf2X
+         o3p2IF1IcbyKEtfYVifOEfY9lxBNA0rESPT3t6Jw4Qi7z+0A3jGaalVJRoVV+WyOSSW5
+         Gs6Y5aK3Gaq+/nThZN0mne81TdXk2MebPlK+tdT6/3U5VtGe1PGdqUhaBZEeppIT4qlk
+         8tiQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWAzraz+gCbcqzTy/NEZzcP9UPDLO3wx2hD1rTn13/8avhj3FQSQDHeX/wTbLf4NYhmTxRJgKs+fFe2xg9xc3EmvO/k@lists.yoctoproject.org
+X-Gm-Message-State: AOJu0Yyg2xFzqC1iUaTablZBdVb47+/DZHpkaUsYaHFPCmO3YQr+TA/1
+	/wsUwN6PYdl/PpctCVb23ZJQOyUl265W9IebXwU5lzBb5mQET3zYgNSZ0lRjt51DDlOCzj0kpEX
+	/OIFRCxmnz157Tq8J7Bhx8YThZpo=
+X-Google-Smtp-Source: AGHT+IHFOYQkHhbxm4aWyKxy6nsAI9vxMuPbCfqKk4Sr5rXwIuK/OvHboKspFW/NKBuTdhcVLQexWIwmCsQpZ+/SzH8=
+X-Received: by 2002:a17:90b:250d:b0:2ea:2a8d:dd24 with SMTP id
+ 98e67ed59e1d1-2ea2a8decb2mr14652446a91.24.1731984068062; Mon, 18 Nov 2024
+ 18:41:08 -0800 (PST)
 MIME-Version: 1.0
-References: <20241118223240.2479834-1-stanley.stanton@taitcommunications.com>
-In-Reply-To: <20241118223240.2479834-1-stanley.stanton@taitcommunications.com>
+References: <20241118223240.2479834-1-stanley.stanton@taitcommunications.com> <18093DBF1757132A.18574@lists.yoctoproject.org>
+In-Reply-To: <18093DBF1757132A.18574@lists.yoctoproject.org>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Mon, 18 Nov 2024 21:30:10 -0500
-Message-ID: <CADkTA4OTj3P=kKv+KWaez_ruac-7swiEEKiw1VqLZJFebDVbew@mail.gmail.com>
+Date: Mon, 18 Nov 2024 21:40:56 -0500
+Message-ID: <CADkTA4Mc5RRPd_vJ5Bt4KDrCyvfB_H4EGwojXY+SAN8F--puqg@mail.gmail.com>
 Subject: Re: [meta-virtualization] [PATCH] xen.inc: python 3.12: fix datetime
  deprecation warning
-To: stanley.stanton@taitcommunications.com
-Cc: meta-virtualization@lists.yoctoproject.org
-Content-Type: multipart/alternative; boundary="0000000000009cab3a06273ad0a4"
+To: bruce.ashfield@gmail.com
+Cc: stanley.stanton@taitcommunications.com, 
+	meta-virtualization@lists.yoctoproject.org
+Content-Type: multipart/alternative; boundary="0000000000002235b206273af763"
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Tue, 19 Nov 2024 02:30:27 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8973
+ <meta-virtualization@lists.yoctoproject.org>; Tue, 19 Nov 2024 02:41:17 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8974
 
---0000000000009cab3a06273ad0a4
+--0000000000002235b206273af763
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Nov 18, 2024 at 5:32=E2=80=AFPM Stanley Stanton via lists.yoctoproj=
-ect.org
-<stanley.stanton=3Dtaitcommunications.com@lists.yoctoproject.org> wrote:
+On Mon, Nov 18, 2024 at 9:30=E2=80=AFPM Bruce Ashfield via lists.yoctoproje=
+ct.org
+<bruce.ashfield=3Dgmail.com@lists.yoctoproject.org> wrote:
 
-> Datetime.UTC seems is a wrapper for datetime.timezone.utc,
-> which is available on both python 3.10, and python 3.12 (Ubuntu 24.04)
-> so, opt to use that instead.
+>
+>
+> On Mon, Nov 18, 2024 at 5:32=E2=80=AFPM Stanley Stanton via lists.yoctopr=
+oject.org
+> <stanley.stanton=3Dtaitcommunications.com@lists.yoctoproject.org> wrote:
+>
+>> Datetime.UTC seems is a wrapper for datetime.timezone.utc,
+>> which is available on both python 3.10, and python 3.12 (Ubuntu 24.04)
+>> so, opt to use that instead.
+>>
+>
+> No objection to the patch, but this commit log doesn't actually tell me
+> what the problem is, so I can't tell what this is fixing.
 >
 
-No objection to the patch, but this commit log doesn't actually tell me
-what the problem is, so I can't tell what this is fixing.
+Sorry, what I meant to say (and I said it badly), is that we should capture
+the warning that is being thrown, since that is what someone will search
+for if they are having the same issue.
+
+We also need to make sure that all of the versions of python (and hosts)
+supported by OE core / yocto have the function in question (or does this
+just get executed by python3-native and not the host python ? .. I'll have
+to check on that tomorrow, I can't recall right now).  Your current commit
+log makes me think that it is the host distro python, otherwise, the
+version of python in ubuntu 24.04 isn't relevant.
 
 Bruce
 
 
 
 >
-> Signed-off-by: Stanley Stanton <stanley.stanton@taitcommunications.com>
-> ---
->  recipes-extended/xen/xen.inc | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> Bruce
 >
-> diff --git a/recipes-extended/xen/xen.inc b/recipes-extended/xen/xen.inc
-> index dcd281b5..63790f73 100644
-> --- a/recipes-extended/xen/xen.inc
-> +++ b/recipes-extended/xen/xen.inc
-> @@ -151,7 +151,7 @@ def get_build_time_vars(d):
->      source_date_epoch =3D d.getVar('SOURCE_DATE_EPOCH')
->      if source_date_epoch is not None:
->          import datetime
-> -        utc_datetime =3D
-> datetime.datetime.utcfromtimestamp(float(source_date_epoch))
-> +        utc_datetime =3D
-> datetime.datetime.fromtimestamp(float(source_date_epoch),
-> datetime.timezone.utc)
->          return " XEN_BUILD_DATE=3D" + utc_datetime.strftime("%Y-%m-%d") =
-+ \
->                 " XEN_BUILD_TIME=3D" + utc_datetime.strftime("%H:%M:%S")
->      return ""
+>
+>
+>>
+>> Signed-off-by: Stanley Stanton <stanley.stanton@taitcommunications.com>
+>> ---
+>>  recipes-extended/xen/xen.inc | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/recipes-extended/xen/xen.inc b/recipes-extended/xen/xen.inc
+>> index dcd281b5..63790f73 100644
+>> --- a/recipes-extended/xen/xen.inc
+>> +++ b/recipes-extended/xen/xen.inc
+>> @@ -151,7 +151,7 @@ def get_build_time_vars(d):
+>>      source_date_epoch =3D d.getVar('SOURCE_DATE_EPOCH')
+>>      if source_date_epoch is not None:
+>>          import datetime
+>> -        utc_datetime =3D
+>> datetime.datetime.utcfromtimestamp(float(source_date_epoch))
+>> +        utc_datetime =3D
+>> datetime.datetime.fromtimestamp(float(source_date_epoch),
+>> datetime.timezone.utc)
+>>          return " XEN_BUILD_DATE=3D" + utc_datetime.strftime("%Y-%m-%d")=
+ + \
+>>                 " XEN_BUILD_TIME=3D" + utc_datetime.strftime("%H:%M:%S")
+>>      return ""
+>> --
+>> 2.43.0
+>>
+>>
+>> --
+>>
+>> This communication is confidential. We only send and receive email on th=
+e
+>> basis of the terms set out at www.taitcommunications.com/email_disclaime=
+r
+>> <http://www.taitcommunications.com/email_disclaimer>
+>>
+>>
+>>
+>>
+>>
+>
 > --
-> 2.43.0
->
->
-> --
->
-> This communication is confidential. We only send and receive email on the
-> basis of the terms set out at www.taitcommunications.com/email_disclaimer
-> <http://www.taitcommunications.com/email_disclaimer>
+> - Thou shalt not follow the NULL pointer, for chaos and madness await the=
+e
+> at its end
+> - "Use the force Harry" - Gandalf, Star Trek II
 >
 >
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#8972):
-> https://lists.yoctoproject.org/g/meta-virtualization/message/8972
+> View/Reply Online (#8973):
+> https://lists.yoctoproject.org/g/meta-virtualization/message/8973
 > Mute This Topic: https://lists.yoctoproject.org/mt/109654730/1050810
 > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
 > Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [
@@ -131,28 +169,51 @@ Bruce
 at its end
 - "Use the force Harry" - Gandalf, Star Trek II
 
---0000000000009cab3a06273ad0a4
+--0000000000002235b206273af763
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
 t-size:small"><br></div></div><br><div class=3D"gmail_quote"><div dir=3D"lt=
-r" class=3D"gmail_attr">On Mon, Nov 18, 2024 at 5:32=E2=80=AFPM Stanley Sta=
-nton via <a href=3D"http://lists.yoctoproject.org">lists.yoctoproject.org</=
-a> &lt;stanley.stanton=3D<a href=3D"mailto:taitcommunications.com@lists.yoc=
-toproject.org">taitcommunications.com@lists.yoctoproject.org</a>&gt; wrote:=
-<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
-ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Datetime.UTC se=
-ems is a wrapper for datetime.timezone.utc,<br>
+r" class=3D"gmail_attr">On Mon, Nov 18, 2024 at 9:30=E2=80=AFPM Bruce Ashfi=
+eld via <a href=3D"http://lists.yoctoproject.org">lists.yoctoproject.org</a=
+> &lt;bruce.ashfield=3D<a href=3D"mailto:gmail.com@lists.yoctoproject.org">=
+gmail.com@lists.yoctoproject.org</a>&gt; wrote:<br></div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div dir=3D"ltr"><div sty=
+le=3D"font-size:small"><br></div></div><br><div class=3D"gmail_quote"><div =
+dir=3D"ltr" class=3D"gmail_attr">On Mon, Nov 18, 2024 at 5:32=E2=80=AFPM St=
+anley Stanton via <a href=3D"http://lists.yoctoproject.org" target=3D"_blan=
+k">lists.yoctoproject.org</a> &lt;stanley.stanton=3D<a href=3D"mailto:taitc=
+ommunications.com@lists.yoctoproject.org" target=3D"_blank">taitcommunicati=
+ons.com@lists.yoctoproject.org</a>&gt; wrote:<br></div><blockquote class=3D=
+"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(2=
+04,204,204);padding-left:1ex">Datetime.UTC seems is a wrapper for datetime.=
+timezone.utc,<br>
 which is available on both python 3.10, and python 3.12 (Ubuntu 24.04)<br>
-so, opt to use that instead.<br></blockquote><div><br></div><div><div class=
-=3D"gmail_default" style=3D"font-size:small">No objection to the patch, but=
- this commit log doesn&#39;t actually tell me what the problem is, so I can=
-&#39;t tell what this is fixing.</div><div class=3D"gmail_default" style=3D=
-"font-size:small"><br></div><div class=3D"gmail_default" style=3D"font-size=
-:small">Bruce</div><br></div><div>=C2=A0</div><blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,20=
-4);padding-left:1ex">
+so, opt to use that instead.<br></blockquote><div><br></div><div><div style=
+=3D"font-size:small">No objection to the patch, but this commit log doesn&#=
+39;t actually tell me what the problem is, so I can&#39;t tell what this is=
+ fixing.</div></div></div></div></blockquote><div><br></div><div><div class=
+=3D"gmail_default" style=3D"font-size:small">Sorry, what I meant to say (an=
+d I said it badly), is that we should capture the warning that is being thr=
+own, since that is what someone will search for if they are having the same=
+ issue.</div><div class=3D"gmail_default" style=3D"font-size:small"><br></d=
+iv><div class=3D"gmail_default" style=3D"font-size:small">We also need to m=
+ake sure that all of the versions of python (and hosts) supported by OE cor=
+e / yocto have the function in question (or does this just get executed by =
+python3-native and not the host python ? .. I&#39;ll have to check on that =
+tomorrow, I can&#39;t recall right now).=C2=A0 Your current commit log make=
+s me think that it is the host distro python, otherwise, the version of pyt=
+hon in ubuntu 24.04 isn&#39;t relevant.</div><div class=3D"gmail_default" s=
+tyle=3D"font-size:small"><br></div><div class=3D"gmail_default" style=3D"fo=
+nt-size:small">Bruce</div><br></div><div>=C2=A0</div><blockquote class=3D"g=
+mail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204=
+,204,204);padding-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_quote"><di=
+v><div style=3D"font-size:small"><br></div><div style=3D"font-size:small">B=
+ruce</div><br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" styl=
+e=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddin=
+g-left:1ex">
 <br>
 Signed-off-by: Stanley Stanton &lt;<a href=3D"mailto:stanley.stanton@taitco=
 mmunications.com" target=3D"_blank">stanley.stanton@taitcommunications.com<=
@@ -196,11 +257,19 @@ oreferrer" target=3D"_blank">http://www.taitcommunications.com/email_discla=
 imer</a>&gt;<br>
 <br>
 <br>
+<br>
+<br>
+</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
+=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
+ignature">- Thou shalt not follow the NULL pointer, for chaos and madness a=
+wait thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star T=
+rek II<br><br></div></div>
+<br>
 -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
 Links: You receive all messages sent to this group.<br>
-View/Reply Online (#8972): <a href=3D"https://lists.yoctoproject.org/g/meta=
--virtualization/message/8972" rel=3D"noreferrer" target=3D"_blank">https://=
-lists.yoctoproject.org/g/meta-virtualization/message/8972</a><br>
+View/Reply Online (#8973): <a href=3D"https://lists.yoctoproject.org/g/meta=
+-virtualization/message/8973" rel=3D"noreferrer" target=3D"_blank">https://=
+lists.yoctoproject.org/g/meta-virtualization/message/8973</a><br>
 Mute This Topic: <a href=3D"https://lists.yoctoproject.org/mt/109654730/105=
 0810" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.org/m=
 t/109654730/1050810</a><br>
@@ -219,5 +288,5 @@ ignature">- Thou shalt not follow the NULL pointer, for chaos and madness a=
 wait thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star T=
 rek II<br><br></div></div>
 
---0000000000009cab3a06273ad0a4--
+--0000000000002235b206273af763--
 
