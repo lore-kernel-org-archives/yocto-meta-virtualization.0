@@ -2,199 +2,148 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82625D75BB8
-	for <webhook@archiver.kernel.org>; Thu, 21 Nov 2024 04:35:50 +0000 (UTC)
-Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
- by mx.groups.io with SMTP id smtpd.web10.3823.1732163745198314804
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88904D75BB8
+	for <webhook@archiver.kernel.org>; Thu, 21 Nov 2024 04:41:00 +0000 (UTC)
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+ by mx.groups.io with SMTP id smtpd.web11.3830.1732164053874271391
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 20 Nov 2024 20:35:45 -0800
+ Wed, 20 Nov 2024 20:40:54 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=bqdrRk3W;
- spf=pass (domain: gmail.com, ip: 209.85.219.52, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-6d41864d745so3278446d6.2
-        for <meta-virtualization@lists.yoctoproject.org>; Wed, 20 Nov 2024 20:35:45 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=R3vyh9Sh;
+ spf=pass (domain: gmail.com, ip: 209.85.160.169, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-460dce6fff9so3200571cf.1
+        for <meta-virtualization@lists.yoctoproject.org>; Wed, 20 Nov 2024 20:40:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732163744; x=1732768544; darn=lists.yoctoproject.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=mOl5VjI4H9iegtSjXfusNU9zd1XM3Bh2c9lsfIHI6VU=;
-        b=bqdrRk3WHiqkVZdtD5u6KxusEbC7/HY/jvt9D0NWjrkOGGA0VzFfWs8AiNWvvblCIB
-         msTJjgHs7osZApsvD8xu8hcsECyNLvcjhe9ZTv4w9JrqeeZtOrrNoLLjByaeHa09QmbN
-         TQkKBnRmysWYE24sCDxpKfyy+d7wWcNANGTVoXHpA9FgIKHtUuv68r+7D2dDkKy8KGAG
-         WGJb6ruB3VTrAQAVHffVDNfKF2bk5lkCWK00gKgRUzmtwMdwPRHa8KJr/LuPSr+MtlVX
-         49r09YK+RTosyX3cr6JdCVfLdLNRkltW/QJzr4jKW/GZY7xkZItsTwyRZixttjE52vNe
-         ifeA==
+        d=gmail.com; s=20230601; t=1732164053; x=1732768853; darn=lists.yoctoproject.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=YvmTjkQT4a6kWAom70eEsU05f8Sd0upGIS//rdl+MA0=;
+        b=R3vyh9ShRp6h2dozwLebwpKefFJIDq+xisbo2O2hXQP4GJqOxjuRL1t5tOFl4OshpP
+         OlJQ3qvrsNy4VdMc8fodJK/I7SJzxNf/pBvLm1AJOuH6THWkCFYpD5/OqnAM8RmQddiB
+         FEKdnUvJ3kqTjSXfu08p9TU7bHdflcFDEZO8jR6oQpk9ZYdw1gorHfsADv5fq+cA6lw4
+         Tzdw218n2UN7K/Vezj+SKwcQnbq5m6RXlV9A6bJctY5zHSuD/ZmdO/WmoisX+mLkJwwF
+         Wy5Ghkdymjjy19BwMp6CiNSvtPOapVJ4NrTnwBsvcfeEcFA9O05EU4Tvdbop8dlBd4/A
+         i7IQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732163744; x=1732768544;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=mOl5VjI4H9iegtSjXfusNU9zd1XM3Bh2c9lsfIHI6VU=;
-        b=oHluaX8zLMSW2wsTOqSwxSd675DZ3jgugOLyZGWDtOHnwyNVKkd3KyOe+4MO5rSnh+
-         BazLn4Opyq9p9cjxOKnkJQqSdrgNdcHbyTOG1QMQr0GLIgUsopDkek4KjxgGq7DswNwv
-         nK5TBWdbzAsZR7BTypb4Lr8GvyqW0ZGpJGjbl2Yw4r+7ewmnl6v3FJfdqLAWsnEB/ijE
-         Q5zNy7e5pDPJkg0bZ+ia2/gbsb6hJ2SfnWF5n9uu2icJTFMbM4iQn5tdM5HYQzCFhxNC
-         /TqKI40K/647eHp8R6GDPaMOSrznM2teyu33iUx6rkdXQi78B+EE8bWGIp8n/coEeR6a
-         Vj+Q==
-X-Gm-Message-State: AOJu0Yx57VmlHV6qUz2R6qYVS8xn71+rMFxPFo6rxV/KAYNBWU6pczRR
-	+zxX/2BJQeHPT6E3DWSV21tpKg7DCBKoGwQUg8WMGj1CMQg9gWOvd9RzJXVQ
-X-Gm-Gg: ASbGnct4mXtK5n4xbh9q7UzmdXCS8FzmY9GIj18I0bCOei7LH5EJggLaQhYw13yTTw3
-	8abGeEo9HSEhS7lxTZTcCvjegjuhlgDa0/TlhchhB247gA5f1ytIS1+MnEmq8/EclCzdFC09WN5
-	6LkDC4kRM+zLrrXJMtygm7NTXd292IWMzp5o4BVqG/esxMcPICsQILHbtTCh1P3PTUizkVWID6Y
-	O3+l1y+++DY0DqXx5tqp/JCOZRuqKwCP52Eiedtvnv+YIetTiyvLNq3dK2zlJFZ9KXRFa58Mziz
-	Gj0EQqFz/NiSeVIM0JYVGwxqFgmd
-X-Google-Smtp-Source: AGHT+IGsdF3fKX3cJ2KRuitaJlgpR+UnDzlc2h1mXbSHGHSb/DjtM3rjsSLg+gI1yivd8VZj1+76iQ==
-X-Received: by 2002:ad4:5f0e:0:b0:6d4:1ea3:981f with SMTP id 6a1803df08f44-6d43785dbb8mr84314036d6.40.1732163744186;
-        Wed, 20 Nov 2024 20:35:44 -0800 (PST)
+        d=1e100.net; s=20230601; t=1732164053; x=1732768853;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YvmTjkQT4a6kWAom70eEsU05f8Sd0upGIS//rdl+MA0=;
+        b=Qgi9dCEhEvG1g1p1XmdGO1zc/Q22jte3zxOYs8ygsvso/cpZeUtoh0pk5yQhvPvQji
+         /DPeHYewuDK6vbarEOxl6gs8M7ADD97ymE6sG0/Mp7oLVT61iv3WUxKUes5sXT1oOaMQ
+         6QH645dD7yDle6Rzh+zhUl49b/X3jZpO+laBB8He3eNc4hH74cGEbxdYnzrysp5uoLss
+         5sUR8UxIaSrHmjY8uSG3XXSXvEtuG0NIxBSR9msBx4tzNoVNfD9amxsSMl+1H10VwqvJ
+         897FvdovwjUvK2zroICikqj0MUVq5GscfoKBfn9DjX6p23FkYVfqkZFvD8gV4xc4elbW
+         8esg==
+X-Gm-Message-State: AOJu0YzD1TSVO98xAqntWPPi4BG0Na3smt7Af0825WVL5b//3f2bJ1Sk
+	fJKILA6GL9l7t0QElX9lSvvB9wye73Yjfxq7WJw+TSjeXjIuA1a5
+X-Google-Smtp-Source: AGHT+IGIlGfufcyG3HGkwGWN+4oDeDZbzGRMjX5yAMJUAdDVtLhrvmPbMDk24lO/QkzA/+IeWSMxGg==
+X-Received: by 2002:a05:622a:5105:b0:461:48f9:4287 with SMTP id d75a77b69052e-46479e27e57mr70155891cf.46.1732164052794;
+        Wed, 20 Nov 2024 20:40:52 -0800 (PST)
 Received: from gmail.com (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6d4381377cbsm18364116d6.122.2024.11.20.20.35.42
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4646aa2c16esm17254091cf.74.2024.11.20.20.40.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Nov 2024 20:35:43 -0800 (PST)
-Date: Thu, 21 Nov 2024 04:35:40 +0000
+        Wed, 20 Nov 2024 20:40:52 -0800 (PST)
+Date: Thu, 21 Nov 2024 04:40:50 +0000
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: simon.kaiser@phoenixcontact.com
-Cc: "meta-virtualization@lists.yoctoproject.org" <meta-virtualization@lists.yoctoproject.org>
-Subject: Re: [meta-virtualization] classes/image-oci-sloci-image: Allow
- labels to have spaces
-Message-ID: <Zz64nDxGQh9gbya9@gmail.com>
-References: <GV1PR05MB9724DECE44E633581768ED6BE7592@GV1PR05MB9724.eurprd05.prod.outlook.com>
+To: Sandeep Gundlupet Raju <sandeep.gundlupet-raju@amd.com>
+Cc: meta-virtualization@lists.yoctoproject.org,
+	mark.hatle@kernel.crashing.org
+Subject: Re: [meta-virtualization][master][PATCH 1/6]  xen-u-boot-scr: Add
+ bbclass for xen boot script variables
+Message-ID: <Zz650spUU9SEUE1c@gmail.com>
+References: <20241119051203.3841577-1-sandeep.gundlupet-raju@amd.com>
+ <20241119051203.3841577-2-sandeep.gundlupet-raju@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <GV1PR05MB9724DECE44E633581768ED6BE7592@GV1PR05MB9724.eurprd05.prod.outlook.com>
+In-Reply-To: <20241119051203.3841577-2-sandeep.gundlupet-raju@amd.com>
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Thu, 21 Nov 2024 04:35:50 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8990
+ <meta-virtualization@lists.yoctoproject.org>; Thu, 21 Nov 2024 04:41:00 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8991
 
-I haven't forgotten about this. I've just been tied
-up with some other issues, and will get a test setup
-for this and see what I can find.
+In message: [meta-virtualization][master][PATCH 1/6]  xen-u-boot-scr: Add bbclass for xen boot script variables
+on 18/11/2024 Sandeep Gundlupet Raju wrote:
+
+> Add a new bbclass for xen boot script variables. This bbclass provides
+> common xen u-boot boot script variables which can be inherited by any
+> vendor specific u-boot boot script recipes. Also these variable are
+> configurable from recipes, global and machine configuration files.
+
+This is this just for configuration, I'd prefer if the
+class was called: xen-uboot-scr-variables or xen-uboot-scr-configuration
+
+That way when I see it inherited from the recipes is it very clear
+what it will be providing.
 
 Bruce
 
-In message: [meta-virtualization] classes/image-oci-sloci-image: Allow labels to have spaces
-on 12/11/2024 Simon Kaiser via lists.yoctoproject.org wrote:
-
-> Hi all,
 > 
-> I tried to use the sloci-image as backend for the container-base.bb recipe.
-> Everything works fine until I want to use spaces in the labels.
+> Variable nomenclature is aligned with xen documentation.
+> https://xenbits.xen.org/docs/unstable/misc/xen-command-line.html
 > 
-> My setup is only using the poky(Tag: yocto-5.0.4), meta-virtualization(Branch: scarthgap) and my meta-custom with a single bbappend of container-base to reproduce this behaviour.
+> Currently it supports Xen Dom0 boot and can be extended for DomU
+> or Dom0less boot.
 > 
-> meta-custom/recipes-extended/images/container-base.bbapend:
-> OCI_IMAGE_BACKEND = "sloci-image"
-> OCI_IMAGE_LABELS = "key=value key1=value1 key2='value 2'"
+> Signed-off-by: Sandeep Gundlupet Raju <sandeep.gundlupet-raju@amd.com>
+> ---
+>  classes-recipe/xen-u-boot-scr.bbclass | 43 +++++++++++++++++++++++++++
+>  1 file changed, 43 insertions(+)
+>  create mode 100644 classes-recipe/xen-u-boot-scr.bbclass
 > 
-> I quoted the space in the variable like described by this patch for the umoci backend:
-> https://lists.yoctoproject.org/g/meta-virtualization/topic/102005707#msg8391
+> diff --git a/classes-recipe/xen-u-boot-scr.bbclass b/classes-recipe/xen-u-boot-scr.bbclass
+> new file mode 100644
+> index 00000000..df8287e1
+> --- /dev/null
+> +++ b/classes-recipe/xen-u-boot-scr.bbclass
+> @@ -0,0 +1,43 @@
+> +# Copyright (C) 2024, Advanced Micro Devices, Inc.  All rights reserved.
+> +#
+> +# SPDX-License-Identifier: MIT
+> +#
+> +# This bbclass defines u-boot script variables required for xen boot which can be
+> +# inherited u-boot boot scripts recipes and also allows to configure these variables
+> +# from recipes, global and machine configurations files.
+> +
+> +# Variable nomenclature is aligned with
+> +# https://xenbits.xen.org/docs/unstable/misc/xen-command-line.html
+> +
+> +# Image Load Address for Xen Dom0 boot
+> +KERNEL_LOAD_ADDRESS ??= "0x00400000"
+> +XEN_LOAD_ADDRESS ??= "0x00200000"
+> +DEVICETREE_LOAD_ADDRESS ??= "0xC000000"
+> +RAMDISK_LOAD_ADDRESS ??= "0x2600000"
+> +
+> +# Xen boot image types.
+> +# KERNEL_IMAGETYPE: Specifies DomU kernel image file to be loaded by u-boot.
+> +# XEN_IMAGETYPE: Specifies xen hypervisor binary to be loaded by u-boot.
+> +#                Example: xen or xen.efi or xen.gz
+> +# DOM0_RAMDISK_IMAGETYPE: Specifies DOM0 ramdisk to be used, Example: cpio.gz
+> +XEN_IMAGETYPE ??= "xen"
+> +DOM0_RAMDISK_IMAGETYPE ??= "rootfs.cpio.gz"
+> +
+> +# Set the amount of memory for dom0 depending on total available memory size(DDR).
+> +DOM0_MEM ??= "256M"
+> +
+> +# Specify which UART console Xen should use. You can sepecify the devicetree
+> +# alias or full path to a node in the devicetree
+> +# XEN_SERIAL_CONSOLES = "/soc/serial@7e215040" or
+> +# XEN_SERIAL_CONSOLES = "serial0" or
+> +# XEN_SERIAL_CONSOLES = "/axi/serial@ff000000"
+> +XEN_SERIAL_CONSOLES ??= "/soc/serial@7e215040"
+> +
+> +# Specify additional command line arguments used for Xen and this will be appended
+> +# to xen-bootargs cariable. This can also be used for passing debug cmd line arguments.
+> +# Examples: XEN_CMDLINE_APPEND ?= "sched=credit loglvl=all guest_loglvl=debug"
+> +XEN_CMDLINE_APPEND ??= "sync_console bootscrub=0"
+> +
+> +# Specify the max number of vcpus for dom0
+> +# Example usage: DOM0_MAX_VCPUS = "2" or DOM0_MAX_VCPUS = "2-4"
+> +DOM0_MAX_VCPUS ??= "1"
+> -- 
+> 2.34.1
 > 
-> The variable oci_image_label_options contains corretly 3 --label with the expected key-value pair.
-> https://git.yoctoproject.org/meta-virtualization/tree/classes/image-oci-sloci-image.inc#n25
-> 
-> So I decided to add double quotes to the variable to keep the space inside the variable:
-> diff --git a/classes/image-oci-sloci-image.inc b/classes/image-oci-sloci-image.inc
-> index 9248489f..ec98e462 100644
-> --- a/classes/image-oci-sloci-image.inc
-> +++ b/classes/image-oci-sloci-image.inc
-> @@ -22,7 +22,7 @@ IMAGE_CMD:oci() {
->      oci_image_label_options=""
->      if [ -n "${OCI_IMAGE_LABELS}" ]; then
->         for l in ${OCI_IMAGE_LABELS}; do
-> -           oci_image_label_options="${oci_image_label_options} --label ${l}"
-> +           oci_image_label_options="${oci_image_label_options} --label \"${l}\""
->         done
->      fi
->      oci_image_env_options=""
-> 
-> For debugging purpose I printed the whole command from classes/image-oci-sloci-image.inc and printed the incoming parameters from the sloci-image script.
-> 
-> First I run my changes with the bitbake command:
-> build$ bitbake container-base -k
-> ...
-> sloci-image  --tar --arch amd64 --arch-variant "" --entrypoint sh --cmd "" --author oe.patch@oe   --label "key=value" --label "key1=value1" --label "key2=value 2"    ${TOPDIR}/tmp/work/qemux86_64-poky-linux/container-base/1.0/rootfs container-base-qemux86-64.rootfs-20241104125622.rootfs-oci:latest
-> Amount: 20
-> Value: --tar - --arch
-> Value: --arch - amd64
-> Value: --arch-variant -
-> Value: --entrypoint - sh
-> Value: --cmd -
-> Value: --author - oe.patch@oe
-> Value: --label - "key=value"
-> Value: --label - "key1=value1"
-> Value: --label - "key2=value
-> Value: 2" - ${TOPDIR}/build/tmp/work/qemux86_64-poky-linux/container-base/1.0/rootfs
-> Usage:
->   sloci-image [options] ROOTFS NAME[:TAG]
->   sloci-image [-h -V]
-> 
-> Create a single-layer OCI image with the given rootfs.
-> ...
-> 
-> The space by "key2=value 2" causes an line break after the space so the key-value pair is splitted and 2 will be misinterpreted as ROOTFS from the script sloci-image.
-> 
-> For further investigation I used the devtool to call that script manually.
-> build$ devtool modify sloci-image-native
-> ...
-> build/workspace/sources/sloci-image-native$ ./sloci-image  --tar --arch amd64 --arch-variant "" --entrypoint sh --cmd "" --author oe.patch@oe   --label "key=value" --label "key1=value1" --label "key2=value 2"    ${TOPDIR}/build/tmp/work/qemux86_64-poky-linux/container-base/1.0/rootfs container-base-qemux86-64.rootfs-20241104125622.rootfs-oci:latest
-> Amount: 19
-> Value: --tar - --arch
-> Value: --arch - amd64
-> Value: --arch-variant - 
-> Value: --entrypoint - sh
-> Value: --cmd - 
-> Value: --author - oe.patch@oe
-> Value: --label - key=value
-> Value: --label - key1=value1
-> Value: --label - key2=value 2
-> Value: ${TOPDIR}/build/tmp/work/qemux86_64-poky-linux/container-base/1.0/rootfs - container-base-qemux86-64.rootfs-20241104125622.rootfs-oci:latest
-> 
-> The manual call of sloci-image works fine, so the issue must be in meta-virtualization/classes/image-oci-sloci-image.inc.
-> Can anybody help me with this issue?
-> 
-> 
-> ﻿Best regards
-> Simon Kaiser
-> PLCnext System Functions
-> Business Area Industry Management and Automation
-> 
-> Phone: +49 5281 946-1517
-> mailto: simon.kaiser@phoenixcontact.com
-> 
-> PHOENIX CONTACT ELECTRONICS GmbH
-> Dringenauer Straße 30
-> 31812 Bad Pyrmont, Germany
-> www.phoenixcontact.com
-> 
-> 
-> 
-> ..................................................................
-> PHOENIX CONTACT ELECTRONICS GmbH
-> 
-> Sitz der Gesellschaft / registered office of the company: 31812 Bad Pyrmont
-> USt-Id-Nr.: DE811742156
-> Amtsgericht Hannover HRB 100528 / district court Hannover HRB 100528
-> Geschäftsführer / Executive Board: Hans-Jürgen Koch, Dr. Martin Wetter 
-> __________________________________________________________________
-> Diese E-Mail enthält vertrauliche und/oder rechtlich geschützte Informationen. Wenn Sie nicht der richtige Adressat sind oder diese E-Mail irrtümlich erhalten haben, informieren Sie bitte sofort den Absender und vernichten Sie diese Mail. Das unerlaubte Kopieren, jegliche anderweitige Verwendung sowie die unbefugte Weitergabe dieser Mail ist nicht gestattet.
-> ----------------------------------------------------------------------------------------------------
-> This e-mail may contain confidential and/or privileged information. If you are not the intended recipient (or have received this e-mail in error) please notify the sender immediately and destroy this e-mail. Any unauthorized copying, disclosure, distribution or other use of the material or parts thereof is strictly forbidden.
-> ___________________________________________________________________
-> 
-> 
-
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#8963): https://lists.yoctoproject.org/g/meta-virtualization/message/8963
-> Mute This Topic: https://lists.yoctoproject.org/mt/109535848/1050810
-> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
-
 
