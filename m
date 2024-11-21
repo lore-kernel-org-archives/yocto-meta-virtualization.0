@@ -2,244 +2,196 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 860DED75BB6
-	for <webhook@archiver.kernel.org>; Thu, 21 Nov 2024 04:34:40 +0000 (UTC)
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
- by mx.groups.io with SMTP id smtpd.web10.3805.1732163673982245026
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82625D75BB8
+	for <webhook@archiver.kernel.org>; Thu, 21 Nov 2024 04:35:50 +0000 (UTC)
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
+ by mx.groups.io with SMTP id smtpd.web10.3823.1732163745198314804
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 20 Nov 2024 20:34:34 -0800
+ Wed, 20 Nov 2024 20:35:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=GUgUPN1U;
- spf=pass (domain: gmail.com, ip: 209.85.222.176, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-7b13ff3141aso29772285a.1
-        for <meta-virtualization@lists.yoctoproject.org>; Wed, 20 Nov 2024 20:34:33 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=bqdrRk3W;
+ spf=pass (domain: gmail.com, ip: 209.85.219.52, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-6d41864d745so3278446d6.2
+        for <meta-virtualization@lists.yoctoproject.org>; Wed, 20 Nov 2024 20:35:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732163673; x=1732768473; darn=lists.yoctoproject.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=MqHqtWg4pdgZ0dEnAr438m2zpwi5+Bgt+HFLMhxwP1I=;
-        b=GUgUPN1UjnfHNi6glR4OvmyKw8mUoJw+vwiBXg7SQTLN3q1j5KwC41ucRSdZa3O4vm
-         hE1x6DnztaX7hNYn2B23jYnQtzSSWJA3MalXOkSpEem7zMVFPy10QOpabsFlu2g/BFNa
-         EEoKc52C+w0h1cuD8Jf+cyxChIweN7cS84iASAwxSoJMKkb7mpo0sVa2tdfJbL5DZvZM
-         6nxSVn8nVeWiJuRcFAjBpoULn5AzLsRurDLlqW+8QS7jTVCmqLrWOijrL2Uiq9bhw1pV
-         q3DO83fqjTrQ1MUy3TDzgkUtdtjmKC8QggLxCLHMU62leYF/SWWDLW+vRNOcca1frYzu
-         QusQ==
+        d=gmail.com; s=20230601; t=1732163744; x=1732768544; darn=lists.yoctoproject.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=mOl5VjI4H9iegtSjXfusNU9zd1XM3Bh2c9lsfIHI6VU=;
+        b=bqdrRk3WHiqkVZdtD5u6KxusEbC7/HY/jvt9D0NWjrkOGGA0VzFfWs8AiNWvvblCIB
+         msTJjgHs7osZApsvD8xu8hcsECyNLvcjhe9ZTv4w9JrqeeZtOrrNoLLjByaeHa09QmbN
+         TQkKBnRmysWYE24sCDxpKfyy+d7wWcNANGTVoXHpA9FgIKHtUuv68r+7D2dDkKy8KGAG
+         WGJb6ruB3VTrAQAVHffVDNfKF2bk5lkCWK00gKgRUzmtwMdwPRHa8KJr/LuPSr+MtlVX
+         49r09YK+RTosyX3cr6JdCVfLdLNRkltW/QJzr4jKW/GZY7xkZItsTwyRZixttjE52vNe
+         ifeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732163673; x=1732768473;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MqHqtWg4pdgZ0dEnAr438m2zpwi5+Bgt+HFLMhxwP1I=;
-        b=wPwUxcyvxKjtrNZLbdR7skEJtG1E9tuxf3IP5pGnHxa64if5NPheneyFyRpeIbZ0jx
-         TZk+88b1ucV02j5RDVUYzWHUvBPcka1axTVKEeszDGK7IEGXOyTubMPPu+QQ9KmC375/
-         UTUBivsQoOTdtjYHHKhaU9KtA5UC/QdtrzLPAj24HRvU3pXC/r9zx3OvNeqRVT/LD2nU
-         Bqc4KHjl+44KBekQiefLR2Bhg9X7R8n9tXmrzkUcnFbVrSvar7uNASK3Lu5EVKwi3UKu
-         G5Rzcn8zjOqdo5MhPqwDfUQnEHGmKqd62rnUpR5eyVmxj8JR1RFJHQY5i7C54xcWrv/z
-         8oXg==
-X-Gm-Message-State: AOJu0YzMBVfF7iG92CHL9opsPoJal6y5OXDxhx6NZi5RzYIEmhKeiWuL
-	YFsD50gW7Z9gFKnBmJxIU+EBO2hRtpviFaahKflAL9CmiAnAgBQGQOyaRQ4j
-X-Google-Smtp-Source: AGHT+IGxQpsGI68kqGQvGXFhkR8AjsxUTR2RlqDIf0koeZdud3cy63JgVJcxroBVbQAp0Eru9FjJ7Q==
-X-Received: by 2002:a05:620a:179f:b0:7b1:4fe2:a32a with SMTP id af79cd13be357-7b431ab9bb0mr715772585a.55.1732163672774;
-        Wed, 20 Nov 2024 20:34:32 -0800 (PST)
+        d=1e100.net; s=20230601; t=1732163744; x=1732768544;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=mOl5VjI4H9iegtSjXfusNU9zd1XM3Bh2c9lsfIHI6VU=;
+        b=oHluaX8zLMSW2wsTOqSwxSd675DZ3jgugOLyZGWDtOHnwyNVKkd3KyOe+4MO5rSnh+
+         BazLn4Opyq9p9cjxOKnkJQqSdrgNdcHbyTOG1QMQr0GLIgUsopDkek4KjxgGq7DswNwv
+         nK5TBWdbzAsZR7BTypb4Lr8GvyqW0ZGpJGjbl2Yw4r+7ewmnl6v3FJfdqLAWsnEB/ijE
+         Q5zNy7e5pDPJkg0bZ+ia2/gbsb6hJ2SfnWF5n9uu2icJTFMbM4iQn5tdM5HYQzCFhxNC
+         /TqKI40K/647eHp8R6GDPaMOSrznM2teyu33iUx6rkdXQi78B+EE8bWGIp8n/coEeR6a
+         Vj+Q==
+X-Gm-Message-State: AOJu0Yx57VmlHV6qUz2R6qYVS8xn71+rMFxPFo6rxV/KAYNBWU6pczRR
+	+zxX/2BJQeHPT6E3DWSV21tpKg7DCBKoGwQUg8WMGj1CMQg9gWOvd9RzJXVQ
+X-Gm-Gg: ASbGnct4mXtK5n4xbh9q7UzmdXCS8FzmY9GIj18I0bCOei7LH5EJggLaQhYw13yTTw3
+	8abGeEo9HSEhS7lxTZTcCvjegjuhlgDa0/TlhchhB247gA5f1ytIS1+MnEmq8/EclCzdFC09WN5
+	6LkDC4kRM+zLrrXJMtygm7NTXd292IWMzp5o4BVqG/esxMcPICsQILHbtTCh1P3PTUizkVWID6Y
+	O3+l1y+++DY0DqXx5tqp/JCOZRuqKwCP52Eiedtvnv+YIetTiyvLNq3dK2zlJFZ9KXRFa58Mziz
+	Gj0EQqFz/NiSeVIM0JYVGwxqFgmd
+X-Google-Smtp-Source: AGHT+IGsdF3fKX3cJ2KRuitaJlgpR+UnDzlc2h1mXbSHGHSb/DjtM3rjsSLg+gI1yivd8VZj1+76iQ==
+X-Received: by 2002:ad4:5f0e:0:b0:6d4:1ea3:981f with SMTP id 6a1803df08f44-6d43785dbb8mr84314036d6.40.1732163744186;
+        Wed, 20 Nov 2024 20:35:44 -0800 (PST)
 Received: from gmail.com (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7b479d2dc5bsm166505285a.24.2024.11.20.20.34.32
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6d4381377cbsm18364116d6.122.2024.11.20.20.35.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Nov 2024 20:34:32 -0800 (PST)
-Date: Thu, 21 Nov 2024 04:34:30 +0000
+        Wed, 20 Nov 2024 20:35:43 -0800 (PST)
+Date: Thu, 21 Nov 2024 04:35:40 +0000
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: peng.zhang1.cn@windriver.com
-Cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [meta-virtualization][PATCH] cri-o: enable ptest
-Message-ID: <Zz64Vljz9C29rI2H@gmail.com>
-References: <20241115141231.1778125-1-peng.zhang1.cn@windriver.com>
+To: simon.kaiser@phoenixcontact.com
+Cc: "meta-virtualization@lists.yoctoproject.org" <meta-virtualization@lists.yoctoproject.org>
+Subject: Re: [meta-virtualization] classes/image-oci-sloci-image: Allow
+ labels to have spaces
+Message-ID: <Zz64nDxGQh9gbya9@gmail.com>
+References: <GV1PR05MB9724DECE44E633581768ED6BE7592@GV1PR05MB9724.eurprd05.prod.outlook.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241115141231.1778125-1-peng.zhang1.cn@windriver.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <GV1PR05MB9724DECE44E633581768ED6BE7592@GV1PR05MB9724.eurprd05.prod.outlook.com>
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Thu, 21 Nov 2024 04:34:40 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8989
+ <meta-virtualization@lists.yoctoproject.org>; Thu, 21 Nov 2024 04:35:50 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/8990
 
-In message: [meta-virtualization][PATCH] cri-o: enable ptest
-on 15/11/2024 Zhang, Peng (Paul) (CN) via lists.yoctoproject.org wrote:
-
-> From: Zhang Peng <peng.zhang1.cn@windriver.com>
-> 
-> The ptest build for cri-o was previously disabled due to issues
-> introduced with Go 1.11, which borken the build process. With the
-> current Go version, these issues no longer occur, and the ptest build is
-> now functional.
-> This commit enables ptest support and resolves the "TMPDIR
-> [buildpaths]" issue encountered during the ptest build process.
-
-Can you include a log of the ptest running in the commit log ?
-That way the baseline pass/fail is understood and captured.
-
-> 
-> Signed-off-by: Zhang Peng <peng.zhang1.cn@windriver.com>
-> ---
->  recipes-containers/cri-o/cri-o_git.bb         | 37 ++++++++++++++++++-
->  .../0001-Add-trimpath-to-build-nri.test.patch | 31 ++++++++++++++++
->  recipes-containers/cri-o/files/run-ptest      | 11 ++++++
->  3 files changed, 77 insertions(+), 2 deletions(-)
->  create mode 100644 recipes-containers/cri-o/files/0001-Add-trimpath-to-build-nri.test.patch
->  create mode 100644 recipes-containers/cri-o/files/run-ptest
-> 
-> diff --git a/recipes-containers/cri-o/cri-o_git.bb b/recipes-containers/cri-o/cri-o_git.bb
-> index efc86fbe..596a43e2 100644
-> --- a/recipes-containers/cri-o/cri-o_git.bb
-> +++ b/recipes-containers/cri-o/cri-o_git.bb
-> @@ -17,7 +17,9 @@ At a high level, we expect the scope of cri-o to be restricted to the following
->  SRCREV_cri-o = "20c06a19cb395445620c31730c0f1a0a1922eaae"
->  SRC_URI = "\
->  	git://github.com/kubernetes-sigs/cri-o.git;branch=release-1.31;name=cri-o;protocol=https;destsuffix=${GO_SRCURI_DESTSUFFIX} \
-> +        file://0001-Add-trimpath-to-build-nri.test.patch \
->          file://crio.conf \
-> +        file://run-ptest \
->  	"
->  
->  # Apache-2.0 for docker
-> @@ -28,7 +30,7 @@ GO_IMPORT = "import"
->  
->  PV = "1.31.0+git${SRCREV_cri-o}"
->  
-> -inherit features_check
-> +inherit features_check ptest
->  REQUIRED_DISTRO_FEATURES ?= "seccomp"
->  
->  DEPENDS = " \
-> @@ -69,6 +71,13 @@ do_compile() {
->  	oe_runmake binaries
->  }
->  
-> +do_compile_ptest() {
-> +    set +e
-> +
-> +    cd ${S}/src/import
-> +
-> +    oe_runmake test-binaries
-> +}
->  SYSTEMD_PACKAGES = "${@bb.utils.contains('DISTRO_FEATURES','systemd','${PN}','',d)}"
->  SYSTEMD_SERVICE:${PN} = "${@bb.utils.contains('DISTRO_FEATURES','systemd','crio.service','',d)}"
->  SYSTEMD_AUTO_ENABLE:${PN} = "enable"
-> @@ -100,6 +109,14 @@ do_install() {
->      install -d ${D}${localstatedir}/lib/crio
->  }
->  
-> +do_install_ptest() {
-> +    install -d ${D}${PTEST_PATH}/test
-> +    install -d ${D}${PTEST_PATH}/bin
-> +    install -d ${D}${PTEST_PATH}/vendor
-> +    cp -rf ${S}/src/import/test ${D}${PTEST_PATH}
-> +    cp -rf ${S}/src/import/bin ${D}${PTEST_PATH}
-> +    cp -rf ${S}/src/import/vendor ${D}${PTEST_PATH}
-> +}
-
-I'm curious. Why does the vendor directory need to be
-copied / installed for the ptest ?
-
->  FILES:${PN}-config = "${sysconfdir}/crio/config/*"
->  FILES:${PN} += "${systemd_unitdir}/system/*"
->  FILES:${PN} += "/usr/local/bin/*"
-> @@ -109,7 +126,23 @@ FILES:${PN} += "/usr/share/containers/oci/hooks.d"
->  ALLOW_EMPTY:${PN} = "1"
->  
->  INSANE_SKIP:${PN} += "ldflags already-stripped textrel"
-> +INSANE_SKIP:${PN}-ptest += "textrel"
->  
-> -deltask compile_ptest_base
-> +RDEPENDS:${PN}-ptest += " \
-> +    bash \
-> +    bats \
-> +    cni \
-> +    crictl \
-> +    bind-utils \
-> +    coreutils \
-> +    dbus-daemon-proxy \
-> +    iproute2 \
-> +    util-linux-unshare \
-> +    jq \
-> +    ipcalc \
-> +    slirp4netns \
-> +    parallel \
-> +    podman \
-> +"
-
-This is an extensive list of rdepends for a ptest.
-What exactly is it testing ? I think we need to document
-in a README what exactly is being tested, since this
-dependency list tells me that it is not trivial and it
-will be prone to breakage.
+I haven't forgotten about this. I've just been tied
+up with some other issues, and will get a test setup
+for this and see what I can find.
 
 Bruce
 
->  
->  COMPATIBLE_HOST = "^(?!(qemu)?mips).*"
-> diff --git a/recipes-containers/cri-o/files/0001-Add-trimpath-to-build-nri.test.patch b/recipes-containers/cri-o/files/0001-Add-trimpath-to-build-nri.test.patch
-> new file mode 100644
-> index 00000000..c6be41f0
-> --- /dev/null
-> +++ b/recipes-containers/cri-o/files/0001-Add-trimpath-to-build-nri.test.patch
-> @@ -0,0 +1,31 @@
-> +From 0bf230f59d211044e7993543e010b0d7f9dcead3 Mon Sep 17 00:00:00 2001
-> +From: Peng Zhang <peng.zhang1.cn@windriver.com>
-> +Date: Fri, 25 Oct 2024 10:42:02 +0800
-> +Subject: [PATCH] Add --trimpath to build nri.test
-> +
-> +when build test-binary, TMPDIR[buildpaths] error found in nri.test
-> +to fix this error, add "--trimpath" option to build nri.test.
-> +
-> +Upstream-Status: Inappropriate [oe specific]
-> +
-> +Signed-off-by: Peng Zhang <peng.zhang1.cn@windriver.com>
-> +---
-> + Makefile | 2 +-
-> + 1 file changed, 1 insertion(+), 1 deletion(-)
-> +
-> +Index: cri-o-1.31.0+git20c06a19cb395445620c31730c0f1a0a1922eaae/src/import/Makefile
-> +===================================================================
-> +--- cri-o-1.31.0+git20c06a19cb395445620c31730c0f1a0a1922eaae.orig/src/import/Makefile
-> ++++ cri-o-1.31.0+git20c06a19cb395445620c31730c0f1a0a1922eaae/src/import/Makefile
-> +@@ -169,7 +169,7 @@ test/checkcriu/checkcriu: $(GO_FILES)
-> + 	$(GO_BUILD) $(GCFLAGS) $(GO_LDFLAGS) -tags "$(BUILDTAGS)" -o $@ ./test/checkcriu
-> + 
-> + test/nri/nri.test: $(wildcard test/nri/*.go)
-> +-	$(GO) test --tags "test $(BUILDTAGS)" -c ./test/nri -o $@
-> ++	$(GO) test --tags "test $(BUILDTAGS)" -c ./test/nri -o $@ ${TRIMPATH}
-> + 
-> + bin/crio: $(GO_FILES)
-> + 	$(GO_BUILD) $(GCFLAGS) $(GO_LDFLAGS) -tags "$(BUILDTAGS)" -o $@ ./cmd/crio
-> +-- 
-> +2.34.1
-> +
-> diff --git a/recipes-containers/cri-o/files/run-ptest b/recipes-containers/cri-o/files/run-ptest
-> new file mode 100644
-> index 00000000..62abe959
-> --- /dev/null
-> +++ b/recipes-containers/cri-o/files/run-ptest
-> @@ -0,0 +1,11 @@
-> +#!/bin/sh
-> +
-> +./test/test_runner.sh | while IFS= read -r line; do
-> +	if [[ $line =~ ^not\ ok ]]; then
-> +		echo "FAIL: ${line#not ok }"
-> +	elif [[ $line =~ ^ok && ! $line =~ \#\ skip ]]; then
-> +		echo "PASS: ${line#ok }"
-> +	elif [[ $line =~ ^ok.*#\ skip ]]; then
-> +		echo "SKIP: ${line#ok }"
-> +	fi
-> +done
-> -- 
-> 2.35.5
+In message: [meta-virtualization] classes/image-oci-sloci-image: Allow labels to have spaces
+on 12/11/2024 Simon Kaiser via lists.yoctoproject.org wrote:
+
+> Hi all,
+> 
+> I tried to use the sloci-image as backend for the container-base.bb recipe.
+> Everything works fine until I want to use spaces in the labels.
+> 
+> My setup is only using the poky(Tag: yocto-5.0.4), meta-virtualization(Branch: scarthgap) and my meta-custom with a single bbappend of container-base to reproduce this behaviour.
+> 
+> meta-custom/recipes-extended/images/container-base.bbapend:
+> OCI_IMAGE_BACKEND = "sloci-image"
+> OCI_IMAGE_LABELS = "key=value key1=value1 key2='value 2'"
+> 
+> I quoted the space in the variable like described by this patch for the umoci backend:
+> https://lists.yoctoproject.org/g/meta-virtualization/topic/102005707#msg8391
+> 
+> The variable oci_image_label_options contains corretly 3 --label with the expected key-value pair.
+> https://git.yoctoproject.org/meta-virtualization/tree/classes/image-oci-sloci-image.inc#n25
+> 
+> So I decided to add double quotes to the variable to keep the space inside the variable:
+> diff --git a/classes/image-oci-sloci-image.inc b/classes/image-oci-sloci-image.inc
+> index 9248489f..ec98e462 100644
+> --- a/classes/image-oci-sloci-image.inc
+> +++ b/classes/image-oci-sloci-image.inc
+> @@ -22,7 +22,7 @@ IMAGE_CMD:oci() {
+>      oci_image_label_options=""
+>      if [ -n "${OCI_IMAGE_LABELS}" ]; then
+>         for l in ${OCI_IMAGE_LABELS}; do
+> -           oci_image_label_options="${oci_image_label_options} --label ${l}"
+> +           oci_image_label_options="${oci_image_label_options} --label \"${l}\""
+>         done
+>      fi
+>      oci_image_env_options=""
+> 
+> For debugging purpose I printed the whole command from classes/image-oci-sloci-image.inc and printed the incoming parameters from the sloci-image script.
+> 
+> First I run my changes with the bitbake command:
+> build$ bitbake container-base -k
+> ...
+> sloci-image  --tar --arch amd64 --arch-variant "" --entrypoint sh --cmd "" --author oe.patch@oe   --label "key=value" --label "key1=value1" --label "key2=value 2"    ${TOPDIR}/tmp/work/qemux86_64-poky-linux/container-base/1.0/rootfs container-base-qemux86-64.rootfs-20241104125622.rootfs-oci:latest
+> Amount: 20
+> Value: --tar - --arch
+> Value: --arch - amd64
+> Value: --arch-variant -
+> Value: --entrypoint - sh
+> Value: --cmd -
+> Value: --author - oe.patch@oe
+> Value: --label - "key=value"
+> Value: --label - "key1=value1"
+> Value: --label - "key2=value
+> Value: 2" - ${TOPDIR}/build/tmp/work/qemux86_64-poky-linux/container-base/1.0/rootfs
+> Usage:
+>   sloci-image [options] ROOTFS NAME[:TAG]
+>   sloci-image [-h -V]
+> 
+> Create a single-layer OCI image with the given rootfs.
+> ...
+> 
+> The space by "key2=value 2" causes an line break after the space so the key-value pair is splitted and 2 will be misinterpreted as ROOTFS from the script sloci-image.
+> 
+> For further investigation I used the devtool to call that script manually.
+> build$ devtool modify sloci-image-native
+> ...
+> build/workspace/sources/sloci-image-native$ ./sloci-image  --tar --arch amd64 --arch-variant "" --entrypoint sh --cmd "" --author oe.patch@oe   --label "key=value" --label "key1=value1" --label "key2=value 2"    ${TOPDIR}/build/tmp/work/qemux86_64-poky-linux/container-base/1.0/rootfs container-base-qemux86-64.rootfs-20241104125622.rootfs-oci:latest
+> Amount: 19
+> Value: --tar - --arch
+> Value: --arch - amd64
+> Value: --arch-variant - 
+> Value: --entrypoint - sh
+> Value: --cmd - 
+> Value: --author - oe.patch@oe
+> Value: --label - key=value
+> Value: --label - key1=value1
+> Value: --label - key2=value 2
+> Value: ${TOPDIR}/build/tmp/work/qemux86_64-poky-linux/container-base/1.0/rootfs - container-base-qemux86-64.rootfs-20241104125622.rootfs-oci:latest
+> 
+> The manual call of sloci-image works fine, so the issue must be in meta-virtualization/classes/image-oci-sloci-image.inc.
+> Can anybody help me with this issue?
+> 
+> 
+> ﻿Best regards
+> Simon Kaiser
+> PLCnext System Functions
+> Business Area Industry Management and Automation
+> 
+> Phone: +49 5281 946-1517
+> mailto: simon.kaiser@phoenixcontact.com
+> 
+> PHOENIX CONTACT ELECTRONICS GmbH
+> Dringenauer Straße 30
+> 31812 Bad Pyrmont, Germany
+> www.phoenixcontact.com
+> 
+> 
+> 
+> ..................................................................
+> PHOENIX CONTACT ELECTRONICS GmbH
+> 
+> Sitz der Gesellschaft / registered office of the company: 31812 Bad Pyrmont
+> USt-Id-Nr.: DE811742156
+> Amtsgericht Hannover HRB 100528 / district court Hannover HRB 100528
+> Geschäftsführer / Executive Board: Hans-Jürgen Koch, Dr. Martin Wetter 
+> __________________________________________________________________
+> Diese E-Mail enthält vertrauliche und/oder rechtlich geschützte Informationen. Wenn Sie nicht der richtige Adressat sind oder diese E-Mail irrtümlich erhalten haben, informieren Sie bitte sofort den Absender und vernichten Sie diese Mail. Das unerlaubte Kopieren, jegliche anderweitige Verwendung sowie die unbefugte Weitergabe dieser Mail ist nicht gestattet.
+> ----------------------------------------------------------------------------------------------------
+> This e-mail may contain confidential and/or privileged information. If you are not the intended recipient (or have received this e-mail in error) please notify the sender immediately and destroy this e-mail. Any unauthorized copying, disclosure, distribution or other use of the material or parts thereof is strictly forbidden.
+> ___________________________________________________________________
+> 
 > 
 
 > 
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#8971): https://lists.yoctoproject.org/g/meta-virtualization/message/8971
-> Mute This Topic: https://lists.yoctoproject.org/mt/109593003/1050810
+> View/Reply Online (#8963): https://lists.yoctoproject.org/g/meta-virtualization/message/8963
+> Mute This Topic: https://lists.yoctoproject.org/mt/109535848/1050810
 > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
 > Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
