@@ -1,146 +1,345 @@
-Return-Path: <sandeep.gundlupet-raju@amd.com>
+Return-Path: <christopher.w.clark@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 135DAE65D02
-	for <webhook@archiver.kernel.org>; Thu, 21 Nov 2024 22:49:52 +0000 (UTC)
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (NAM11-BN8-obe.outbound.protection.outlook.com [40.107.236.63])
- by mx.groups.io with SMTP id smtpd.web11.11850.1732229383869862212
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3E46E6916C
+	for <webhook@archiver.kernel.org>; Fri, 22 Nov 2024 15:12:16 +0000 (UTC)
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+ by mx.groups.io with SMTP id smtpd.web11.26751.1732288327515649703
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 21 Nov 2024 14:49:44 -0800
+ Fri, 22 Nov 2024 07:12:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@amd.com header.s=selector1 header.b=lYRh0/af;
- spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: amd.com, ip: 40.107.236.63, mailfrom: sandeep.gundlupet-raju@amd.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=KPp0POFzcmFlRwX1PSa9Z5je0Z9WSaTUBT5SqYjzskVcUZfhIdrGkXG+lfVuqzQBatHkK4QPKbaBr154ODvOCkzMRs4n7cewxz1MiofBudqvSm2UiIlfr4iYqrKDH5QkE+MIIqYq//FiSO1pLv6J67sb1pixtoBLNyTQj6KfLpCxEiGTQll+DL+ucVE/cfdYR+ra/p0WOJeYfDpZjP8W260buVNhILCSZVTAOz7wdNpzFVHn0C66uB9ON5d5bHV1WX22V7m1izgmGNseEF2K3uCQmk4+9Al2VZVQAHDi7Wmp3MOLP4dFC/MhmIbptQMmvD+t3iR2ADER6R2mdiY9kg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VgzWI+RRXSY/cnI0xyZV2fbN9Z78ZgZ6KwvNl21MDO4=;
- b=XZNhqy9fkxgunAkVyzIR/mpCZHbiiZz49YG+QmlXF77V/aFi1JRW6etDHY6Z6yjUpvipsm3yQNgZkcW5Y8An3h5ODWr+OB9OQp7PC4FR1glsK5+NxP8EYoXdVKkcxRXCo45wdVfjvCPFJPYmqVEQ03f2b+IAhLVzOWeNyzn2rUwKHgabHA3rs24jPf2mHBS1GoT6s8WzbHrSgmVpCm+WhBIo6z+92WMDeSPYZpNHo7iJwoDn+4rpjZhX+pRUO1yEOglarMmuj4eZThfOKgtqs26CTnrYUMk65YKcfTq7oEX/SL4+vTiW3SJidgPCrHd1xoHLf/THMk2cr2PzH9C97g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.12) smtp.rcpttodomain=lists.yoctoproject.org
- smtp.mailfrom=amd.com; dmarc=pass (p=quarantine sp=quarantine pct=100)
- action=none header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VgzWI+RRXSY/cnI0xyZV2fbN9Z78ZgZ6KwvNl21MDO4=;
- b=lYRh0/af8jioZSzQf7b7wC4k5tjE/o9zvMYDvsmCxiyrQsPsje/DypvxZa1+GVSDNUMJOvEOKBaZuBjXvRCjqBFADoCUkwqJGLLy63SbVx98s/yaqM5eGal3vdwdc799LobvoxNfST+VU3SXnkqdjCLaGh2AqE8spYsNyNN/p34=
-Received: from SA9PR13CA0105.namprd13.prod.outlook.com (2603:10b6:806:24::20)
- by MW6PR12MB8734.namprd12.prod.outlook.com (2603:10b6:303:249::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8158.27; Thu, 21 Nov
- 2024 22:49:34 +0000
-Received: from SN1PEPF000397AF.namprd05.prod.outlook.com
- (2603:10b6:806:24:cafe::b8) by SA9PR13CA0105.outlook.office365.com
- (2603:10b6:806:24::20) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8182.16 via Frontend
- Transport; Thu, 21 Nov 2024 22:49:34 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.12)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.12 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.12; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.12) by
- SN1PEPF000397AF.mail.protection.outlook.com (10.167.248.53) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8182.16 via Frontend Transport; Thu, 21 Nov 2024 22:49:34 +0000
-Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 21 Nov
- 2024 16:49:31 -0600
-Received: from xcosswyocto01.xilinx.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
- Transport; Thu, 21 Nov 2024 16:49:31 -0600
-From: Sandeep Gundlupet Raju <sandeep.gundlupet-raju@amd.com>
-To: <meta-virtualization@lists.yoctoproject.org>, <bruce.ashfield@gmail.com>
-CC: <mark.hatle@kernel.crashing.org>
-Subject: [meta-virtualization][master][PATCH v2 6/6]  xen-boot-env.inc: Inherit xen-u-boot-scr-configuration bbclass
-Date: Thu, 21 Nov 2024 15:49:29 -0700
-Message-ID: <20241121224929.776765-7-sandeep.gundlupet-raju@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20241121224929.776765-1-sandeep.gundlupet-raju@amd.com>
-References: <20241121224929.776765-1-sandeep.gundlupet-raju@amd.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=OQlpeXQk;
+ spf=pass (domain: gmail.com, ip: 209.85.208.176, mailfrom: christopher.w.clark@gmail.com)
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2fb59652cb9so24855771fa.3
+        for <meta-virtualization@lists.yoctoproject.org>; Fri, 22 Nov 2024 07:12:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1732288326; x=1732893126; darn=lists.yoctoproject.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=mcURiUcfIW3FJ5FCsxa8E+5bX+5+m5VeXfHfcM7dR7g=;
+        b=OQlpeXQkTwIpb1dWMg2hkHju9KFu3MX1dvbXxfvUh556yY74WZ+Mi3aXavGQxzeBFD
+         K2vcxJB0KCJvDktNjHeCxMA6BRyPyX37qxb8AWfCZLrE4zgrKcwX5TCd/o3mJ51VQUpZ
+         WXXF95nSssr1y87kUrMhi9v1lgdglwCCjY6i/EMk+AFh7v6OrF0c8dq9UmqaT6rRzbnG
+         o8UlXAgEsYwISdmisMXbaAIDOnFWYiHi7prSmuui0BrSPSuQ9x+eS2CYt2gdECdLd+gN
+         KnAlvTN3YDeJjsJLACkbtdQuqauFUFZ5kmO2x2FjKb629X54uOFjyAwvpCp9USDBHenI
+         oMuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732288326; x=1732893126;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=mcURiUcfIW3FJ5FCsxa8E+5bX+5+m5VeXfHfcM7dR7g=;
+        b=vcOmBKZ6k7gQUSsYY29RV4pbrg3bdjTroPXNzBXFQAiJChLzBQpyPHTw45PsIUZmgB
+         bDO6zJFNDOsNs6NDn6tBzMTiBqDTUg7F0tOK3q09H7CRcLjXEcTxdWWaFQd4L0lgZ09C
+         4Z6z/ps21EUimG7KabKvXtd3gSiLRhtcJHcf1Sw/yGil1fSApZOBdJbM0pK0BId1qgnS
+         sJ0V76SF+4QpuMltZn2xQqh2RrcJMMFz8Vg3jGsZhbSNAuHdVrLkcGNUkSAnTMVdjEEg
+         LbDlhxjAxUiysdNQ4JKQPMwD3ZcK5yzZduMsC48RVJqw4z/ETprKHG0qDEzz2dlp+Fel
+         Sz+Q==
+X-Gm-Message-State: AOJu0YxvCohqsNLpQ/GOQkkHaGSNDttmcz28aZzx9sVI1NVtmJKtpmcb
+	9pLa7OstXIJ6lQeuzJueQYpM15CDkJGFAQJu+g2u0bvzO6vhCeUiWKFOIugG5kxY5rMl5qCqn/y
+	aYDXIX6MguMj2ErFN/J5DsQNiYl0=
+X-Gm-Gg: ASbGncv6+tMJyxY4QL1O8V2Ds+Ojf1PnfHrCGBH9wKG/Xql1dmRyg4ks1ZMYw+1cqAw
+	TfrTcogou8RVDtY3e+Cqn0VE0vBnzbA==
+X-Google-Smtp-Source: AGHT+IG1u70CrRcaGoa9A4QTDeuRLJfbjWhONQIRdDJpQ5AI8aZNAldi71x+Yz+5zmH0RgWEdxGbdJhmwjxmWnOdQDQ=
+X-Received: by 2002:a05:651c:1147:b0:2ef:2490:46fb with SMTP id
+ 38308e7fff4ca-2ffa719667dmr20308861fa.37.1732288324430; Fri, 22 Nov 2024
+ 07:12:04 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-Received-SPF: None (SATLEXMB04.amd.com: sandeep.gundlupet-raju@amd.com does
- not designate permitted sender hosts)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN1PEPF000397AF:EE_|MW6PR12MB8734:EE_
-X-MS-Office365-Filtering-Correlation-Id: 43a3ecbe-c29f-4fbf-7602-08dd0a7ec4de
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|82310400026|36860700013|376014|1800799024;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?0PFsm5oP9z22iPHykBue126CFRCOeOiny6Yu5wT4UwnIwL2/o/Cy+rI9+A8x?=
- =?us-ascii?Q?7PyvrJF9igkQxs1akeo6TsL/8zIjlqliefPMqUPJEiG7ziMvOE/9uWgMKw9t?=
- =?us-ascii?Q?iXkhjTocDRPf/XbWpziAH6a4llE4A4s7EVmLfJjj0S8ATOuGscGHyIbZ0VJY?=
- =?us-ascii?Q?sPk1n6fxMknT8FAscPzCcc4vHagOsRXs4aTQuriWdU8V093ULjwCZMo6kwWX?=
- =?us-ascii?Q?d5QG1/U7FP1bLyV6uvkbuBYKr9BIHFWdpp289pbwE1d3dcY5I0wOnKwkJn+s?=
- =?us-ascii?Q?MSBIr5oKfzr5P/qKhXeztczxlgBfC2F/vkJ5XeRXRDT9fZXE33va5B/mYZLL?=
- =?us-ascii?Q?adWX8u29UTne58YQG6PQSC9YCxMIfwcQ0KF7FfNQh9VKhdOawuA/QvJTG8pT?=
- =?us-ascii?Q?vFjK+qM6suNYMf3TVLrVRkUImHnTG30HNDIJ1OIFrgZrkupHJia4M/AuHAvR?=
- =?us-ascii?Q?enm+V0g8lyYRJLpwyqVf46BfWhHw+qyPyzNbl7xwd10OG2FTkXMCRZQwWUnj?=
- =?us-ascii?Q?NlOURkCT4vcdwHJcgOr2q3OsyEatrwCpFcf+hKFVAsKymB0eHgVPC1Yk2IMS?=
- =?us-ascii?Q?zU1rark0rQq4fwfguwNd0mSy7+GRqhMQLXkK41nHNBU6ZcE2GWaqvwzyKcMi?=
- =?us-ascii?Q?NyaQxckp4/bsoaOfDWi4kkEMC40UKq8Q5UuWoJHZuv/XjgDitevIE1CVT8JC?=
- =?us-ascii?Q?+eUYrlwLX4sN8UqNH99hTPvg9BTkb2bsu5fFjspnbgPlCNx7TxsZH67p86RB?=
- =?us-ascii?Q?JYQT2f24524F6L/Hwg6YdoGHlC7n39dQLd18lwIw9LqhdYjC1vG4owifJt+N?=
- =?us-ascii?Q?ShE6meOarqt7J3MxUXf/ejMIM4DFAasu+dffr692/Qf8+X4j5WMHR/ugNAX0?=
- =?us-ascii?Q?i7/YfXGi2q7Wfw5T1tlbOBffl/40ZeB3eFzMoGCuaqy/dRMrV8Wq3RjRMFcN?=
- =?us-ascii?Q?7Jx0g7OxO4zMusW668XXt3w9Mq8fmk7yIspRF0GRbY1/bNJe+iaK9rhbf2Gp?=
- =?us-ascii?Q?CXEjTmj34qrDHESNUqlakfCcf/gXjrBSsAarszknsK+EWZk9+sF5+sy186YF?=
- =?us-ascii?Q?Whue6JAQduKHsf8f3NQpk5WXVRkRRCt3LYeZPmaNMfjjQBYEp6eJsGcB6939?=
- =?us-ascii?Q?vfPKzw2Clx7fCHrM5zsAt5AekSh5CjCOhuYAZDq5a0I0nsIz0cwWFinZKu93?=
- =?us-ascii?Q?vajFNgbraXkgyu2e+77ZoodCPPkEmuD7qJuhMX5NMfRelTaFf5jZuerfGkpJ?=
- =?us-ascii?Q?wks5slMskFLSR24gfrrm5q1zKDFF0Fo4nE0W01bcBTgsaAMGcdqnl7ioJY+/?=
- =?us-ascii?Q?fca1rtqtBP2Si4mP6eQJyevRSkuL6S8NfChXkFJ0+n2WFQnpyaAJO38M9PP4?=
- =?us-ascii?Q?gkVUUVidN2/dZJANimIAV24uJN+OpoH5s3qS0R2CLE0EmQtHOQ=3D=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:165.204.84.12;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:atlvpn-bp.amd.com;CAT:NONE;SFS:(13230040)(82310400026)(36860700013)(376014)(1800799024);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Nov 2024 22:49:34.0142
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 43a3ecbe-c29f-4fbf-7602-08dd0a7ec4de
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.12];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	SN1PEPF000397AF.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW6PR12MB8734
+References: <20241121224929.776765-1-sandeep.gundlupet-raju@amd.com> <20241121224929.776765-2-sandeep.gundlupet-raju@amd.com>
+In-Reply-To: <20241121224929.776765-2-sandeep.gundlupet-raju@amd.com>
+From: Christopher Clark <christopher.w.clark@gmail.com>
+Date: Fri, 22 Nov 2024 15:11:53 +0000
+Message-ID: <CACMJ4GaMrmrotooNaAiPs0Ofwkscog1L1eDkgG=yU+6YspQz+g@mail.gmail.com>
+Subject: Re: [meta-virtualization][master][PATCH v2 1/6] xen-u-boot-scr-configuration:
+ Add bbclass for xen boot script variables
+To: sandeep.gundlupet-raju@amd.com
+Cc: meta-virtualization@lists.yoctoproject.org, bruce.ashfield@gmail.com, 
+	mark.hatle@kernel.crashing.org
+Content-Type: multipart/alternative; boundary="00000000000039f144062781ceb7"
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Thu, 21 Nov 2024 22:49:52 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9008
+ <meta-virtualization@lists.yoctoproject.org>; Fri, 22 Nov 2024 15:12:16 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9009
 
-Inherit xen-u-boot-scr-configuration bbclass to use xen common u-boot
-env variables.
+--00000000000039f144062781ceb7
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Sandeep Gundlupet Raju <sandeep.gundlupet-raju@amd.com>
----
- dynamic-layers/xilinx/recipes-bsp/u-boot/xen-boot-env.inc | 2 ++
- 1 file changed, 2 insertions(+)
+Hi Sandeep,
 
-diff --git a/dynamic-layers/xilinx/recipes-bsp/u-boot/xen-boot-env.inc b/dy=
-namic-layers/xilinx/recipes-bsp/u-boot/xen-boot-env.inc
-index 9b9962a4..43da5690 100644
---- a/dynamic-layers/xilinx/recipes-bsp/u-boot/xen-boot-env.inc
-+++ b/dynamic-layers/xilinx/recipes-bsp/u-boot/xen-boot-env.inc
-@@ -1,5 +1,7 @@
- # Adjust the variables for xen boot
-=20
-+inherit xen-u-boot-scr-configuration
-+
- # Image offsets for Xen boot.
- KERNEL_OFFSET ?=3D "0xE00000"
- DEVICETREE_OFFSET ?=3D "0xC000000"
---=20
-2.34.1
+This series is promoting some of the Xen hypervisor launch configuration
+from the hardware-specific dynamic layers into the common layer, and
+introducing a class that defines interfaces to the hypervisor and its guest
+virtual machines that should be applicable across all architectures, hence
+my comments from a non-architecture-specific perspective.
 
+There's a lot of opportunity for development in this layer to extend and
+improve this area of configuration -- thanks for your contribution.
+
+On Thu, Nov 21, 2024 at 10:49=E2=80=AFPM Sandeep Gundlupet Raju via
+lists.yoctoproject.org <sandeep.gundlupet-raju=3D
+amd.com@lists.yoctoproject.org> wrote:
+
+> Add a new bbclass for xen boot script variables. This bbclass provides
+> common xen u-boot boot script variables which can be inherited by any
+> vendor specific u-boot boot script recipes. Also these variable are
+> configurable from recipes, global and machine configuration files.
+>
+> Variable nomenclature is aligned with xen documentation.
+> https://xenbits.xen.org/docs/unstable/misc/xen-command-line.html
+>
+> Currently it supports Xen Dom0 boot and can be extended for DomU
+> or Dom0less boot.
+>
+
+
+I think that none of the variables in the file are specific to the u-boot
+bootloader, so: could this class be given a non-u-boot-specific name, with
+a view to this configuration being plumbed into all Xen system
+configurations?
+
+Some of the values defined are specific to Arm64 platforms: could those
+default values be moved into an Arm64-specific class? If the variables
+themselves are also arch-specific, they could be moved too.
+
+Declaring the Dom0-specific variables as an interface is a bit unfortunate,
+given dom0less (and hyperlaunch) systems where there needs to be a method
+for providing the same configuration memory and vcpu values for multiple
+guest VMs, rather than just dom0. Do you have a design in mind for the
+extension to DomU or Dom0less that you mention?
+
+Christopher
+
+
+
+>
+> Signed-off-by: Sandeep Gundlupet Raju <sandeep.gundlupet-raju@amd.com>
+> ---
+>  .../xen-u-boot-scr-configuration.bbclass      | 43 +++++++++++++++++++
+>  1 file changed, 43 insertions(+)
+>  create mode 100644 classes-recipe/xen-u-boot-scr-configuration.bbclass
+>
+> diff --git a/classes-recipe/xen-u-boot-scr-configuration.bbclass
+> b/classes-recipe/xen-u-boot-scr-configuration.bbclass
+> new file mode 100644
+> index 00000000..df8287e1
+> --- /dev/null
+> +++ b/classes-recipe/xen-u-boot-scr-configuration.bbclass
+> @@ -0,0 +1,43 @@
+> +# Copyright (C) 2024, Advanced Micro Devices, Inc.  All rights reserved.
+> +#
+> +# SPDX-License-Identifier: MIT
+> +#
+> +# This bbclass defines u-boot script variables required for xen boot
+> which can be
+> +# inherited u-boot boot scripts recipes and also allows to configure
+> these variables
+> +# from recipes, global and machine configurations files.
+> +
+> +# Variable nomenclature is aligned with
+> +# https://xenbits.xen.org/docs/unstable/misc/xen-command-line.html
+> +
+> +# Image Load Address for Xen Dom0 boot
+> +KERNEL_LOAD_ADDRESS ??=3D "0x00400000"
+> +XEN_LOAD_ADDRESS ??=3D "0x00200000"
+> +DEVICETREE_LOAD_ADDRESS ??=3D "0xC000000"
+> +RAMDISK_LOAD_ADDRESS ??=3D "0x2600000"
+> +
+> +# Xen boot image types.
+> +# KERNEL_IMAGETYPE: Specifies DomU kernel image file to be loaded by
+> u-boot.
+> +# XEN_IMAGETYPE: Specifies xen hypervisor binary to be loaded by u-boot.
+> +#                Example: xen or xen.efi or xen.gz
+> +# DOM0_RAMDISK_IMAGETYPE: Specifies DOM0 ramdisk to be used, Example:
+> cpio.gz
+> +XEN_IMAGETYPE ??=3D "xen"
+> +DOM0_RAMDISK_IMAGETYPE ??=3D "rootfs.cpio.gz"
+> +
+> +# Set the amount of memory for dom0 depending on total available memory
+> size(DDR).
+> +DOM0_MEM ??=3D "256M"
+> +
+> +# Specify which UART console Xen should use. You can sepecify the
+> devicetree
+> +# alias or full path to a node in the devicetree
+> +# XEN_SERIAL_CONSOLES =3D "/soc/serial@7e215040" or
+> +# XEN_SERIAL_CONSOLES =3D "serial0" or
+> +# XEN_SERIAL_CONSOLES =3D "/axi/serial@ff000000"
+> +XEN_SERIAL_CONSOLES ??=3D "/soc/serial@7e215040"
+> +
+> +# Specify additional command line arguments used for Xen and this will b=
+e
+> appended
+> +# to xen-bootargs cariable. This can also be used for passing debug cmd
+> line arguments.
+> +# Examples: XEN_CMDLINE_APPEND ?=3D "sched=3Dcredit loglvl=3Dall
+> guest_loglvl=3Ddebug"
+> +XEN_CMDLINE_APPEND ??=3D "sync_console bootscrub=3D0"
+> +
+> +# Specify the max number of vcpus for dom0
+> +# Example usage: DOM0_MAX_VCPUS =3D "2" or DOM0_MAX_VCPUS =3D "2-4"
+> +DOM0_MAX_VCPUS ??=3D "1"
+> --
+> 2.34.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#9007):
+> https://lists.yoctoproject.org/g/meta-virtualization/message/9007
+> Mute This Topic: https://lists.yoctoproject.org/mt/109713423/3619037
+> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [
+> christopher.w.clark@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
+--00000000000039f144062781ceb7
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div>Hi Sandeep,</div><div><br></div><div=
+>This series is promoting some of the Xen hypervisor launch configuration f=
+rom the hardware-specific dynamic layers into the common layer, and introdu=
+cing a class that defines interfaces to the hypervisor and its guest virtua=
+l machines that should be applicable across all architectures, hence my com=
+ments from a non-architecture-specific perspective.</div><div><br>There&#39=
+;s a lot of opportunity for development in this layer to extend and improve=
+ this area of configuration -- thanks for your contribution.<br></div></div=
+><div dir=3D"ltr"><br></div><div dir=3D"ltr">On Thu, Nov 21, 2024 at 10:49=
+=E2=80=AFPM Sandeep Gundlupet Raju via <a href=3D"http://lists.yoctoproject=
+.org">lists.yoctoproject.org</a> &lt;sandeep.gundlupet-raju=3D<a href=3D"ma=
+ilto:amd.com@lists.yoctoproject.org">amd.com@lists.yoctoproject.org</a>&gt;=
+ wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quot=
+e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
+;padding-left:1ex">Add a new bbclass for xen boot script variables. This bb=
+class provides<br>
+common xen u-boot boot script variables which can be inherited by any<br>
+vendor specific u-boot boot script recipes. Also these variable are<br>
+configurable from recipes, global and machine configuration files.<br>
+<br>
+Variable nomenclature is aligned with xen documentation.<br>
+<a href=3D"https://xenbits.xen.org/docs/unstable/misc/xen-command-line.html=
+" rel=3D"noreferrer" target=3D"_blank">https://xenbits.xen.org/docs/unstabl=
+e/misc/xen-command-line.html</a><br>
+<br>
+Currently it supports Xen Dom0 boot and can be extended for DomU<br>
+or Dom0less boot.<br></blockquote><div><br></div><div><br></div><div>I thin=
+k that none of the variables in the file are specific to the u-boot bootloa=
+der, so: could this class be given a non-u-boot-specific name, with a view =
+to this configuration being plumbed into all Xen system configurations?<br>=
+<br>Some of the values defined are specific to Arm64 platforms: could those=
+ default values be moved into an Arm64-specific class? If the variables the=
+mselves are also arch-specific, they could be moved too.<br><br>Declaring t=
+he Dom0-specific variables as an interface is a bit unfortunate, given dom0=
+less (and hyperlaunch) systems where there needs to be a method for providi=
+ng the same configuration memory and vcpu values for multiple guest VMs, ra=
+ther than just dom0. Do you have a design in mind for the extension to DomU=
+ or Dom0less=C2=A0that you mention?</div><div><br></div><div>Christopher</d=
+iv><div><br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">
+<br>
+Signed-off-by: Sandeep Gundlupet Raju &lt;<a href=3D"mailto:sandeep.gundlup=
+et-raju@amd.com" target=3D"_blank">sandeep.gundlupet-raju@amd.com</a>&gt;<b=
+r>
+---<br>
+=C2=A0.../xen-u-boot-scr-configuration.bbclass=C2=A0 =C2=A0 =C2=A0 | 43 +++=
+++++++++++++++++<br>
+=C2=A01 file changed, 43 insertions(+)<br>
+=C2=A0create mode 100644 classes-recipe/xen-u-boot-scr-configuration.bbclas=
+s<br>
+<br>
+diff --git a/classes-recipe/xen-u-boot-scr-configuration.bbclass b/classes-=
+recipe/xen-u-boot-scr-configuration.bbclass<br>
+new file mode 100644<br>
+index 00000000..df8287e1<br>
+--- /dev/null<br>
++++ b/classes-recipe/xen-u-boot-scr-configuration.bbclass<br>
+@@ -0,0 +1,43 @@<br>
++# Copyright (C) 2024, Advanced Micro Devices, Inc.=C2=A0 All rights reserv=
+ed.<br>
++#<br>
++# SPDX-License-Identifier: MIT<br>
++#<br>
++# This bbclass defines u-boot script variables required for xen boot which=
+ can be<br>
++# inherited u-boot boot scripts recipes and also allows to configure these=
+ variables<br>
++# from recipes, global and machine configurations files.<br>
++<br>
++# Variable nomenclature is aligned with<br>
++# <a href=3D"https://xenbits.xen.org/docs/unstable/misc/xen-command-line.h=
+tml" rel=3D"noreferrer" target=3D"_blank">https://xenbits.xen.org/docs/unst=
+able/misc/xen-command-line.html</a><br>
++<br>
++# Image Load Address for Xen Dom0 boot<br>
++KERNEL_LOAD_ADDRESS ??=3D &quot;0x00400000&quot;<br>
++XEN_LOAD_ADDRESS ??=3D &quot;0x00200000&quot;<br>
++DEVICETREE_LOAD_ADDRESS ??=3D &quot;0xC000000&quot;<br>
++RAMDISK_LOAD_ADDRESS ??=3D &quot;0x2600000&quot;<br>
++<br>
++# Xen boot image types.<br>
++# KERNEL_IMAGETYPE: Specifies DomU kernel image file to be loaded by u-boo=
+t.<br>
++# XEN_IMAGETYPE: Specifies xen hypervisor binary to be loaded by u-boot.<b=
+r>
++#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Example: xen or x=
+en.efi or xen.gz<br>
++# DOM0_RAMDISK_IMAGETYPE: Specifies DOM0 ramdisk to be used, Example: cpio=
+.gz<br>
++XEN_IMAGETYPE ??=3D &quot;xen&quot;<br>
++DOM0_RAMDISK_IMAGETYPE ??=3D &quot;rootfs.cpio.gz&quot;<br>
++<br>
++# Set the amount of memory for dom0 depending on total available memory si=
+ze(DDR).<br>
++DOM0_MEM ??=3D &quot;256M&quot;<br>
++<br>
++# Specify which UART console Xen should use. You can sepecify the devicetr=
+ee<br>
++# alias or full path to a node in the devicetree<br>
++# XEN_SERIAL_CONSOLES =3D &quot;/soc/serial@7e215040&quot; or<br>
++# XEN_SERIAL_CONSOLES =3D &quot;serial0&quot; or<br>
++# XEN_SERIAL_CONSOLES =3D &quot;/axi/serial@ff000000&quot;<br>
++XEN_SERIAL_CONSOLES ??=3D &quot;/soc/serial@7e215040&quot;<br>
++<br>
++# Specify additional command line arguments used for Xen and this will be =
+appended<br>
++# to xen-bootargs cariable. This can also be used for passing debug cmd li=
+ne arguments.<br>
++# Examples: XEN_CMDLINE_APPEND ?=3D &quot;sched=3Dcredit loglvl=3Dall gues=
+t_loglvl=3Ddebug&quot;<br>
++XEN_CMDLINE_APPEND ??=3D &quot;sync_console bootscrub=3D0&quot;<br>
++<br>
++# Specify the max number of vcpus for dom0<br>
++# Example usage: DOM0_MAX_VCPUS =3D &quot;2&quot; or DOM0_MAX_VCPUS =3D &q=
+uot;2-4&quot;<br>
++DOM0_MAX_VCPUS ??=3D &quot;1&quot;<br>
+-- <br>
+2.34.1<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#9007): <a href=3D"https://lists.yoctoproject.org/g/meta=
+-virtualization/message/9007" rel=3D"noreferrer" target=3D"_blank">https://=
+lists.yoctoproject.org/g/meta-virtualization/message/9007</a><br>
+Mute This Topic: <a href=3D"https://lists.yoctoproject.org/mt/109713423/361=
+9037" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.org/m=
+t/109713423/3619037</a><br>
+Group Owner: <a href=3D"mailto:meta-virtualization%2Bowner@lists.yoctoproje=
+ct.org" target=3D"_blank">meta-virtualization+owner@lists.yoctoproject.org<=
+/a><br>
+Unsubscribe: <a href=3D"https://lists.yoctoproject.org/g/meta-virtualizatio=
+n/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.or=
+g/g/meta-virtualization/unsub</a> [<a href=3D"mailto:christopher.w.clark@gm=
+ail.com" target=3D"_blank">christopher.w.clark@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
+
+--00000000000039f144062781ceb7--
 
