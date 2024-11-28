@@ -2,1258 +2,757 @@ Return-Path: <peng.zhang1.cn@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D6DED690EB
-	for <webhook@archiver.kernel.org>; Thu, 28 Nov 2024 08:20:56 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.90260.1732782047635354236
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7404ED69117
+	for <webhook@archiver.kernel.org>; Thu, 28 Nov 2024 15:25:08 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web10.96971.1732807498937445085
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 28 Nov 2024 00:20:47 -0800
+ Thu, 28 Nov 2024 07:24:58 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=1062260cf2=peng.zhang1.cn@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AS61AmH014476;
-	Thu, 28 Nov 2024 08:20:46 GMT
-Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2041.outbound.protection.outlook.com [104.47.58.41])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 43671b0seb-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 28 Nov 2024 08:20:45 +0000 (GMT)
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=2062888363=peng.zhang1.cn@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4ASCs1m4029586
+	for <meta-virtualization@lists.yoctoproject.org>; Thu, 28 Nov 2024 07:24:58 -0800
+Received: from nam11-bn8-obe.outbound.protection.outlook.com (mail-bn8nam11lp2169.outbound.protection.outlook.com [104.47.58.169])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 436719s44d-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <meta-virtualization@lists.yoctoproject.org>; Thu, 28 Nov 2024 07:24:57 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=WbyOzj5uguJpAfg0u7Y4PHlIr72dg7hxlI/CxpcJfbiTTMPPs8K10boCS2+HXcLqdCNzJg8jl3BaVq2Izc4NMz8x9CmYRKVkjonROqBjKu6u15P822L8U7dtpKEsSUHe21Lo4wo52JkpNn3HWpxqNJOL2xq/rKrB8kzQFUOw/x0RJ5Gzw6p+DmWmcOzV2W86KAeRzvHH1vGDD+zG1fWRGHWBYDYGcyjo/vXUG+DwA+6Ppa6gGCQBidPSaOyEsvLpYzqAqk7s7ZW31GhFUXgpiM1K1Q96dF3EXgPS/8Iv9s0t272zr1e4RBUoQsotTuGIjYxkFf5xSenv4Eet9Egb6w==
+ b=Cp1sjK9sX8TeazoZxCluvaL9gpsRNlDIYsKbv6wxyY75OmbWVs6kr/aTZ+4u5JIwMhEXG344i4H3pV4nPj/5VsOmZb0+UpOfIdJ7VBkcmWHUKucAAIICM6iGR96yO1Voo/U7Rj8mklf5ej6QQvJigp115+nHvXRjpmtoIaY7gcD+Fig1lfpjRrrl302WqpcnAEdIOQhMusRBsFgoTkoVAK2Bf9KwpIm3UEId6xAs4cJkkNfeeFUOeCocCrwfJmfgbRFeQTvAKOWzALCGdH+hCXz1ZhthIZL7B47WcW9ee/QR+D2QEXslnKjMAKO/RbIOZkQjy4n1Xfq2Vw+ILQLBNw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qUSosLms6ilnxV1yEhuqg15o6Vajj3ZZD0murL2dft0=;
- b=BLCiQNVVl31XEOTB7g6XXfO1iW/ma3uyGj7xgC9um08fSuTfKbwAd8atk2We7JItE/APdgwidboyJtCddUw0XQfi7Pa0fmIR9ymLnSjo/5eLhpcVy8bsl867JOsW1smBxCkbP5BgJuNNRxFnPbsTlQt9Eaw3nODE5kHj3iNgWv0k6qvXJ3rGytc+xOHxRONsPxS/lNMsN5DcKnFdDojEyLM7rQ9CzFGf8fdQ1FU6F8oY2h7yLY2ex0uuUidooqDIXYWh1lnBjU1elsoZSVB+cRGmwUf5PdFWqK50qLyMjvZYAly+9JV1QuWXLYT1rwOWyvwnIQoidGR5fXJa7KB4TA==
+ bh=CpvGqMiGIueKp/gczyDjIF+D8BC9J7cHcu0Te+Aymxo=;
+ b=cESrvlO2T7wt9U03yPydg/3c5jwvtML0BZhytMuEzLbUhZt5NGC7dv656AYv1FrRf2ZWfdc3NXizp461X1MiGzL7Eb7yHQGxmhjlau1sf3Htj2C82LNe9/WK58F7d/Yb1HYEr0kbYbp9icBs6e9i9d8ITt3gxU5impo6Vo9TLv0ZEHbInD3YRMuHfN61kuF+uVX1+BgKM2EgYKQBguUWSbFgB0FiNVcpn8sxC773q6beJJwLWqZ7pFa/mR9NkFJXRc4ZFXyiHZxSLT2TPK8H/uNbAKaeZ+lzWqUQxqMGek6wf21Yqe7h0WkBgCvcZVt+00NA4LAFRonuOz10I2r8KA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 Received: from CH3PR11MB8562.namprd11.prod.outlook.com (2603:10b6:610:1b8::13)
- by MW3PR11MB4713.namprd11.prod.outlook.com (2603:10b6:303:2f::18) with
+ by SN7PR11MB7092.namprd11.prod.outlook.com (2603:10b6:806:29b::13) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8207.13; Thu, 28 Nov
- 2024 08:20:31 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8207.14; Thu, 28 Nov
+ 2024 15:24:53 +0000
 Received: from CH3PR11MB8562.namprd11.prod.outlook.com
  ([fe80::24c6:f8fc:1afe:179f]) by CH3PR11MB8562.namprd11.prod.outlook.com
- ([fe80::24c6:f8fc:1afe:179f%6]) with mapi id 15.20.8182.019; Thu, 28 Nov 2024
- 08:20:30 +0000
-Content-Type: multipart/alternative;
- boundary="------------39omK7sVTEyRF4Osw5ce5JeP"
-Message-ID: <6287fbe9-7051-49eb-88c3-682edbe32389@windriver.com>
-Date: Thu, 28 Nov 2024 16:20:24 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [meta-virtualization][PATCH] cri-o: enable ptest
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: meta-virtualization@lists.yoctoproject.org
-References: <20241115141231.1778125-1-peng.zhang1.cn@windriver.com>
- <Zz64Vljz9C29rI2H@gmail.com>
- <b86724f6-f3c9-47fb-878c-549a3c3d0b0c@windriver.com>
- <CADkTA4P2ZW15HfY2_Q47_5DjTpTpwQEMmGKJDikxK6T+XH_N=w@mail.gmail.com>
-Content-Language: en-US
-From: "Zhang, Peng (Paul) (CN)" <peng.zhang1.cn@windriver.com>
-In-Reply-To: <CADkTA4P2ZW15HfY2_Q47_5DjTpTpwQEMmGKJDikxK6T+XH_N=w@mail.gmail.com>
-X-ClientProxiedBy: SG2PR02CA0047.apcprd02.prod.outlook.com
- (2603:1096:3:18::35) To CH3PR11MB8562.namprd11.prod.outlook.com
+ ([fe80::24c6:f8fc:1afe:179f%7]) with mapi id 15.20.8207.010; Thu, 28 Nov 2024
+ 15:24:51 +0000
+From: peng.zhang1.cn@windriver.com
+To: meta-virtualization@lists.yoctoproject.org
+Subject: [meta-virtualization][PATCH v2] cri-o: enable ptest
+Date: Thu, 28 Nov 2024 23:24:39 +0800
+Message-Id: <20241128152439.937326-1-peng.zhang1.cn@windriver.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SI1PR02CA0032.apcprd02.prod.outlook.com
+ (2603:1096:4:1f6::12) To CH3PR11MB8562.namprd11.prod.outlook.com
  (2603:10b6:610:1b8::13)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR11MB8562:EE_|MW3PR11MB4713:EE_
-X-MS-Office365-Filtering-Correlation-Id: 36d33fed-8028-4b1c-431d-08dd0f8585a7
+X-MS-TrafficTypeDiagnostic: CH3PR11MB8562:EE_|SN7PR11MB7092:EE_
+X-MS-Office365-Filtering-Correlation-Id: c0c11135-7e8b-425e-f2a1-08dd0fc0cd20
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|4022899009|366016|376014|8096899003;
+	BCL:0;ARA:13230040|366016|52116014|1800799024|376014|38350700014;
 X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?bWpJUCtqak43Z3hOM0V0ZlVkYWtpYUpWdUY1UnVIRWdiNXpCaVMyQVFpeFEz?=
- =?utf-8?B?MytHd1NWU2l1RXpIWFFrK1lUOUJqYWVaQXFoeHcrM25DNWVrcVIyRnJ4RWFN?=
- =?utf-8?B?cXRUR21tT3NSb0VjNnpzNjNYelJpQk16SG16ZEhYeEhjcnA1Y3JlTmxMVmRK?=
- =?utf-8?B?ZFV6cXhFb0RHaVEzS1IzRUUrd1NNblI5RTFBYXJRSGFzYldlbkV4RVN1KzJm?=
- =?utf-8?B?TzBxUXpFTzVBa0lMc0xjVnFtUkkrZHJUMEcyLzhkbjBhNzR0UlFVQzE5Zy9k?=
- =?utf-8?B?WlZXckNIdGw0N25rWVd0bEx3UUM0VXdxekFMa1g5UkRNbmx0ZVJ2L2l3eXU2?=
- =?utf-8?B?eFNkdlF0Y0h1RXgvY2VWbGFENWdndkJKSlM3dmVTbEZ5cWltcExRSzBhN1c5?=
- =?utf-8?B?b0ZUemVZR1BrTnNPMDJ4dHpxNE1maGx5eFV1VUM2cTdSOTFLbG5Kc095MG5O?=
- =?utf-8?B?TFZWNVFiUHNzbXRMOXNWUm9GKzkxcG1kNzNjMmljSFRVYXpDdHA2Ly9qdXE0?=
- =?utf-8?B?b1Buc2dUNVF2MU52NVVuMGh2aFRCWVorVjFtbklvc0Mvc2xGdHlJOG8ydnAy?=
- =?utf-8?B?VllFSlhwVjdRc05FbThpaEJNTmdIbXA5bWpIV3ltMXRUUUlvMkN6QzQ4c0ZT?=
- =?utf-8?B?N1kvNm1EbW03ZnN6bEViYktzRERXZndqRVVhV0pZWXJJNDR3NG1YU0RXbGQr?=
- =?utf-8?B?ZXRnQStXdWNrNVNMUld1VHBhS3dGQnFqbnE1WEttUWZlM1Vxci9DNnRJZk9h?=
- =?utf-8?B?bGs2dGZkRUtCdklsanh4eDR1NEp0UHJoblFxS0svcW1pVzY5N2NiWHFvTmU0?=
- =?utf-8?B?YS9Ed01idkVmeWYzT0MxQ2lrWE5vZVpLZ21XSExPT2VkbkdqVGxEUFJ0b1ky?=
- =?utf-8?B?VlJVd1prWDZOcXRFVjNHeVZDU1hjYnM3OTFqS1lNankvcXBNUGZFNTd2clY3?=
- =?utf-8?B?R3dKRkpSZ1o5RzJGYkhIMXdLdG1IenZZbXUxWVFvVEZKQmdVQ01YMS9GL0lB?=
- =?utf-8?B?enNWN25XaVdKWm5SaStlMThyQUZYZ3R1OHJRaEFlWitTYzRPOXNDOWhjOXBm?=
- =?utf-8?B?cGtJSWo4QjZxRWNWWWxxVFFuVG5BWmtwY09jUlVsSDRPeDhwMlpNa3hqaUJj?=
- =?utf-8?B?eS95dkVBSUNjT2tDNWZyMmlVVGNiMkdqNUk4OHFsM1EwVTNlVmt4d0NZQmNh?=
- =?utf-8?B?VDYrZjJMMlFyVmVtT0Y0QW0yS3VUM09TMU40Y0poV3ZkVnk5UkVHZUlUblAy?=
- =?utf-8?B?OE1nTlZiVjNUK0tjdUpzR2hPODJ3Y3dMTThkYkpZbGQvWVN4S1E4dVVUdEhW?=
- =?utf-8?B?eE1OMGtxemdZNXNqNFFmeDYxRWU0WDlhenNpVklnRFE3dEwzcmpySmJ6Ym5C?=
- =?utf-8?B?akpKWTRLWW4zOGxPVTVDK3pZNDBCU1lVZFdOWmVGekpmYjVhRzAvKzN3SklK?=
- =?utf-8?B?UXBPdUdnMCt3OThja0ZLNHBlZW9tMHBrNWZ3WFk1MWhMNmFraU56QTlBc3Nv?=
- =?utf-8?B?T0NnVXNSLzByMCtUSFJka1Y0dW0wM2RFMWt2alhHajh2SVNuYW9pNXpCVkVM?=
- =?utf-8?B?NmY2NklPT0ZpTCs0Qndac0ZHckk1SXBFVlFRSTF4NTlKNkNBRGRRYmVGYWM1?=
- =?utf-8?B?aVlKeldXTmtselVvb1pWSEQvazI3U0dDeGdpU1pzVjZYbi9hNHZIL3NFUFcv?=
- =?utf-8?B?aHRXWG1lV2VINHE1azdZUGI2K0NjYkFKMVgxWjM1cTROaGQrVXlScUo0Q2NI?=
- =?utf-8?Q?Ikaa4DNBq+xf8W8GyY=3D?=
+	=?us-ascii?Q?M0alPEOe6Jp18/RTceH/nXolWIthyCLOe4bHCqCcaZTOqFF9X1dfC7l9E3+6?=
+ =?us-ascii?Q?L7fkNSiaD6c/ljLKNs3jbAkBlEtKeV646PSy4ouo/O63KEjX41ri/hU2QgTp?=
+ =?us-ascii?Q?QrWN7YgDen+tZUjYeK7NVZ72N2ywFFLBgbN1vF6IpeJd8a53NpfGado1XgXG?=
+ =?us-ascii?Q?cMf+KLI9fcHbkjSH4ISLfCnd2RogKtm3RSAI01yViv/gnc0dJoELyivxnfsT?=
+ =?us-ascii?Q?KBGquaFXTVe6k9kDzunW0pBwNB6+Olu+fVOQ0Np59JtCGygT/A7CdULRI8KP?=
+ =?us-ascii?Q?zfpPIvClevbHkMVWQmCM5LkW4keaNdWrFGnOmR69C8Ae7YGkG9Gxup5LIVdd?=
+ =?us-ascii?Q?Fwc0A13JRqmEAsBy0CIVgAUzKC94yHWNMFnT4ky/rNifbnrToXfmGERoyT4X?=
+ =?us-ascii?Q?8CvLz1VEYC2VPk9aSaRAQyvSiB1/1kjq1JNA2SYHsmuUuNA1cSu8eJbQAMgx?=
+ =?us-ascii?Q?B865+hxTJ2DWPOO1juz58ioDkYYlynHeX11A3DOq55ECTpc5qxJQj7q4soF5?=
+ =?us-ascii?Q?LDXAvtLkGqr/2ksj/8b55yHzTIpWbE2DlxE8ynrM/kTn2XN1HNiGX4pebhUk?=
+ =?us-ascii?Q?n0xvf33NzmbOLu5iurmRacd4n93oAQG3et5zYPR76lWhcdsW77AtVIX8oa+E?=
+ =?us-ascii?Q?pGNQyjNR1UURqwiEx/UqF/MMiWFsX5OLhW3Asj/W4VQHJ5f83gevNcdnC7VT?=
+ =?us-ascii?Q?kuiKu6thUHkTCGOU6hBEcD/yiHLlcvmT/08Y4fqclCXXpFggEH1Zqe8lPdqQ?=
+ =?us-ascii?Q?68+zgynaO7b3SM7i8/gbRvd6Xb4Z2BGZroQtQUd1w4pPhIztMfLWyH3KlgvA?=
+ =?us-ascii?Q?92MNItc6ur0gU3LvV0TpBNIbUimqykSFWT2IJPJLDajB/PTFgt/uvp4uaWyq?=
+ =?us-ascii?Q?pWcBBP70wuGAFqrmVOXqoy/46t2twfph0LaFvHMya/2LPXIGxHHZH2OP9V5V?=
+ =?us-ascii?Q?bJefGCzYHrlCHubMTn2yAdGqFy09o5+h9aepoahwCwqjwxIItDF6/yqW+FdU?=
+ =?us-ascii?Q?ulHF4/bzqynsPSKlttReuP7DBuk1f/IWTCiuuWyzxx4Tbo81o0VETje32L/t?=
+ =?us-ascii?Q?2MWtt6xHnRW3BNtMxp6Gi+ciV693ALs8/OGtip61ASPY21NWA0XRR4z6y3Ht?=
+ =?us-ascii?Q?GMDty3JWjlVWQH/Th9CnB9arr1oH825bSOXv713nBMBpHf8XifcbQyIH8pXX?=
+ =?us-ascii?Q?Cp6N0E1bRZ2VtX9bB587MLB9gZL+Ql9eEhkdqL89WiczQfL4mrauR3bEqAYJ?=
+ =?us-ascii?Q?AcOw7Wwhp17N3Me1jybEnwccDdcdXZQJ3sreQ3V7p9VLBhVBDIj5KkBRQNqI?=
+ =?us-ascii?Q?C4ojZBFeKgF/UCW4dtGqfvQu2qg+aE2WEJur4zLUN4qBj6/1Lr3fMnwpBuYV?=
+ =?us-ascii?Q?ceDvHzE=3D?=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB8562.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(4022899009)(366016)(376014)(8096899003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB8562.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(52116014)(1800799024)(376014)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?U3o2bGk4Q1Vmb3VDZlZER0ZycitReFowcW9KRi9YaWNKMng2ZXVGNWRaeVNz?=
- =?utf-8?B?Ump6RXE1aHlSWDZDUlRGVEdyTHE3dlZlMjhDdmRiSU5vRFRUb1I0SW53NDkx?=
- =?utf-8?B?UngvQ045WjlKOU02bVJSK2JpQ0pHakFGTlBQdFRIOGFsL0kyUUx2bzU1UUg2?=
- =?utf-8?B?L0JvWThZWGFoVk5MTmV4RmRMZGpZMFBLR3RnN1NlUFk2Y1c1cU9BbndVUUVP?=
- =?utf-8?B?ZUdacC82NUhtanlncm5ydUZCTUd6dGhBdmJ2RVNzS2tTYWJXY1ZGVENEMjhQ?=
- =?utf-8?B?VE1DT3VGNUhOUVU4ZUdGYnZCNUJHWnBodzdOZUFGc2F2dkdvVVFTSVluSld3?=
- =?utf-8?B?N2VEdlgrK1JpNXN4Wm16NEJiWUpHMzZxQTliZTgvR1JITURrN3hPYUR2eC8y?=
- =?utf-8?B?RERJNzFFNUFDZDZ1Y05CRkhmTlBqWC9EVDVpY3hQMGN6R0xFMUtCMWNucVZ3?=
- =?utf-8?B?WmJ5RlRJdVdrSXAvY0E3WWpEdHFCaGEwS1F1Nm5tR1Y2cmVuK1lIMFhvSlNl?=
- =?utf-8?B?WlNSbGhDTmw4aU45cklYMnpQVFRPVy9DaU40UnFQMzVudEp5YmsvNkxYbHNu?=
- =?utf-8?B?MXdTdWRKRi9kTFNOWVFJOXZRTHJjUW93YlgwMW9MUk1VakVncW1YU2R5Ni93?=
- =?utf-8?B?ZU12aXd4R0Zpc1RKWlpiL3k0WGlKSnZqeDNGTkVwVkswU1NBc2hnUzdzWllR?=
- =?utf-8?B?UUd3ZlVxbmJ2ZnladWpBczA4dno1RHRkV1ROQ3cvLzRER3kxdHlsaHorYnVT?=
- =?utf-8?B?bXA2aTNOK0U4MVBOcURlS0IyNUNhd1U4N0ltOEpjdkUvb2F5Tm1WZ3o3SWJK?=
- =?utf-8?B?UkN6ZGo3QzFDY3JzY1d0K1JOLzBiRkUxMEdFZ2IyUFNja2MxRVBSa2dlVUhF?=
- =?utf-8?B?TjhDSnZlWFdDMXl3K0VuS3FQL0JTYlI1NnlVY1VmbjlteVFmeTlZRnZrSFJV?=
- =?utf-8?B?eFQ3ekRCZEZseHJMN1prT0U1RFlCQ2FDakNFWTFhMzVsYWo2dEx1VEJ1N2VU?=
- =?utf-8?B?cnhDQlFsZHlLbkxuKzdObThtTGVrUWdTeEpnRkxUN1c3andaL29DQmRqK3ht?=
- =?utf-8?B?cCtKelZLdEROUlZjcUw2Y05CWWhzOUdOS2x5UmVNSFZRMmNxZ3lKdnlJamRW?=
- =?utf-8?B?YzQyNU1GZEJza1pJZWJIVUdjdXNwL1k4bEYxSTRDaE5NdVovWi9uR0xSYUk1?=
- =?utf-8?B?WFlkVUtxU1Vva3hjamhRVkl0ZXN1czREYlM5K2FBaUtNMENCSmt0M01vdzJl?=
- =?utf-8?B?bXBWbllyam95RnhXRjcyczljR2U4YXRtL2RJRE5ieWV0dlp3emhNR0h3N295?=
- =?utf-8?B?NlRTSlNmMDJqNllqcVAreGhPOFZlc1dZd0gvaWNEU2JOcUlMTCsxZHVud0NO?=
- =?utf-8?B?bUY2NHNqM0VBaC9lWXltWkRRdWJIQ1hSaWtJYy9mWUFYUDhqdnl3Q0V0ZG5U?=
- =?utf-8?B?dndva1dQK1dJMTNUM3cydWEvVlZ6OExucE5YVm5GUkk2VFZwaWZMQjdzRkY3?=
- =?utf-8?B?TlBvRHo2ekp4ek1uei8xUkQxVlZ1TGYwVitZR3FoQktxY1N4S2NmYTBnbTBo?=
- =?utf-8?B?eGNKRWhSVkhFY3IzWU9YNytXR0pDZDd3Nkx3S1M4UTZPVVpIb0ticTFnL0Nn?=
- =?utf-8?B?d1VPYTdsdXU4Um1Lbk5TNllFTEhKUWoxUCtRZ3E4OU1VaVczYzgrRWFrM1Vv?=
- =?utf-8?B?aUhnZTdrSVBSdmxKVjhjK3d1cEhsanZjc3BadXZBZUoyNEwzcjlpeGZRUHpW?=
- =?utf-8?B?cWtTaEVBcW8rTk5mbDRBRTBIclFtQnN3Szk1cDZqNFlQRW80Z2VoZGc1Zk1k?=
- =?utf-8?B?WGQxNmZmWEZEbURtQXY0czU0VVBDZFlDTjc3RDluUUdDMEVzMkhYWDNQeWo5?=
- =?utf-8?B?RDhaSTREaFNKUlF5b2czdEJ6SUZmVWZKenlkZkdWdnFsVUFDbDljZk9idjB0?=
- =?utf-8?B?UWpjcHlFSmliMDBXcXlaVS9MSS84TFF3ODByQmF0dm53TFppRUpmMmhKd2Ev?=
- =?utf-8?B?MDZjY1I1RUUzMWEzOXluQzBqNWxXdUFOcm5NZENlczljdE54ckdUd1JRdHpk?=
- =?utf-8?B?NnczSHVPVmRDZVhnVXd6eXdoQzVxc1dNMDY5M3d2UHlJWXMrRHlmRmM4RWt4?=
- =?utf-8?B?R3FMNlptVHY5WnpvVHQvdkU0bndRb0RpbHhCRTNiT21VNXdGZmJlQWtzMmNO?=
- =?utf-8?B?enc9PQ==?=
+	=?us-ascii?Q?xO6O4GmS3mqBl+kSEyLVnObaLj6meeuAHKBL4q9Gz3Vf7H8rf0W451cOTJKi?=
+ =?us-ascii?Q?5H5i2lprCWDa6gZLBj/HdepiXxjZUPA2a/ODG2pAUdLEW+labqwiLJmREE3O?=
+ =?us-ascii?Q?tSBjbAUboX20qyhgBqon0A07708XV2UHg4PQlJYA3yMsHApcnQRwTg9rhVR+?=
+ =?us-ascii?Q?mO7zExeXeVWsfVhtzzY4NNex5Mxf6hDvRhmjdz1arCAIoyGBFf+estImaiK8?=
+ =?us-ascii?Q?BV6R67Xcl2q6KGDuPymHRxUOjzWOKwwArUtJLDaIGhqDEH0VMDSlW4y1jQoI?=
+ =?us-ascii?Q?wcSgREasXMtKD/CeCtzFt6s+2AzyBQrzvSRbAjSSIhnBZNNLuAM189hqGZgE?=
+ =?us-ascii?Q?WE54pouFTt1iHXVe7nrZcYcZjIJJvEwfCfhI+U22eJCCU6PIqOqY113I5Zqf?=
+ =?us-ascii?Q?KhBzmBdWqXHc+VDLH4tbL6udS1fzo34sqaUhmxV3+hp7XUN/fnFJdPGIisj7?=
+ =?us-ascii?Q?NX42dKXh7RS7hJ4iOV9gYYPcr+tQn6INX8KZZOK7TX3ripl+OkL0VN1DCNXG?=
+ =?us-ascii?Q?4q/C64w57a9BIbJ0O0PRt1j48dmb3gRiAtLsCQjQqTqGjuJI9BjjkFoT73aR?=
+ =?us-ascii?Q?gifCAGKCsrWlFvhZztfkNhanUXtWAf0fTa1vwVIthzG+bJpbpTfV+Z3hyHIw?=
+ =?us-ascii?Q?QM3p3hIumDrIcUjZ0hUa+uOmjmOo2uFdyz4yf3TsjPA3xPOS53W54vFAorq8?=
+ =?us-ascii?Q?1pWa+FlfYZAObpnmLK6KnUL1ipRAIySX1OY5KSwDSyR2iKAg6wCWsopI0Cwy?=
+ =?us-ascii?Q?AlbD5fcYxxmSKSmK9cbn5lUZCyUFQpVZ7SsASus/1iid72D2Ei5/W3ZnlRDF?=
+ =?us-ascii?Q?H/6FFA6CPeQnSY2eg/VDDMrzUXJ4KVnqZjOpzD/gRvZb1edmxii1W5dMDTIn?=
+ =?us-ascii?Q?H35n9K9ps/9GI/SVQQN/VqJiLx9RVenEtWHwuX4MNfWaENzNaHa5DCqJH6FB?=
+ =?us-ascii?Q?NugnXIh90Orn+oeA4qDEkpvqglIbnEOHNGgYgr8cJzubfnD9omEemuBw3xHY?=
+ =?us-ascii?Q?7S41LA1hZ7b17gbfYJD6WZ/worzTj3sKmBPDOctWFj3z4v5FQU/QEzQJ+2qV?=
+ =?us-ascii?Q?jSj2UDTRKtrGypY6F+eAClRzk2a/rNAG4ZbEweheHvU+HkCiVI1WSadzeR6f?=
+ =?us-ascii?Q?f0+cZLc0vwxs56Ve0Ai9sK3t7EdtBcGD/t2w3QnUXYCYuLR0ossm2pWG34Lq?=
+ =?us-ascii?Q?nty7Q9XHKnYr7iwKjlqpyWafU9Mx8OnvTbHaoDaNKj3TKxTC0L9KVcTz5pA4?=
+ =?us-ascii?Q?jnfxgkTdhuH4WOuFvAMxjuusHB6WMNr48r/YtgX7N9szA+7D12NuNzDEQLHm?=
+ =?us-ascii?Q?jWjKvZQZiYPR/sgk4xrXAx7mVhWVkcFIeygaLg+wkHp0e6ivcNDzeJ1r+NGs?=
+ =?us-ascii?Q?g4PX3h7bOsO1Rb+yAb3UXey+im7C2hXOf5HhFbeLSkyHbtpRQIVh2Jx/bWdh?=
+ =?us-ascii?Q?27kBlNlWhy+r7ClcHhAR+0bdAfxOx18EjxuWtKGu1LcDDSQ+CmKGNwN/fbrk?=
+ =?us-ascii?Q?Il9ZDzjAUYcKCYHmta4TPG5m8LO+zAJxbnGsPw6sJNXT1lDU5inaNVkTq1X3?=
+ =?us-ascii?Q?qBWe6OsaCFXXqSY3LZuw2PZ9HJLRC5RPuMaSPUAWeWapuAP3NKoc0LhhIbsR?=
+ =?us-ascii?Q?nw=3D=3D?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 36d33fed-8028-4b1c-431d-08dd0f8585a7
+X-MS-Exchange-CrossTenant-Network-Message-Id: c0c11135-7e8b-425e-f2a1-08dd0fc0cd20
 X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB8562.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Nov 2024 08:20:30.8263
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Nov 2024 15:24:51.0195
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: i+pRVea8oiiv2VRtbv2CJUDS3f9t6yTXqqGGeiiVszRwLioKiykA1wAA8ozfttTIHS5qlmRz72TQGO69lfBzOSqZTHAhJXzJrPD98Wu4oPU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR11MB4713
-X-Proofpoint-GUID: wCfi8HnJDBJeNdwnVLRsne05PB6YZF8F
-X-Proofpoint-ORIG-GUID: wCfi8HnJDBJeNdwnVLRsne05PB6YZF8F
-X-Authority-Analysis: v=2.4 cv=TIe/S0la c=1 sm=1 tr=0 ts=674827dd cx=c_pps a=OnljjeCONrlUuPUItWmgXA==:117 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=VlfZXiiP6vEA:10 a=bRTqI5nwn0kA:10 a=iGHA9ds3AAAA:8
- a=zfDz3bfgAAAA:8 a=NEAV23lmAAAA:8 a=FlthF8r_AAAA:8 a=t7CeM3EgAAAA:8 a=pGLkceISAAAA:8 a=AmVBzizw25rRqgOQL-QA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=FhIod923Cu35Age6kz0A:9 a=16JWHNGZuQRlns6f:21 a=_W_S_7VecoQA:10 a=lqcHg5cX4UMA:10 a=T1a-OTYGVawA:10
- a=ImwWUX5h3JJ3gRE9moBe:22 a=nM-MV4yxpKKO9kiQg6Ot:22 a=N25aw_RMdTD0XpBlQSev:22 a=zmzZ-Wb6iNJltdUPe3kN:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-MS-Exchange-CrossTenant-UserPrincipalName: /2jFAGOD6HmD76Dn5I4TWjXd45htYvG8A5LRFW6LN2qWh6S0Edg9z/6jN7n7+hkh4mhVTSIkYkHbmiUIrKYd9uFSFVFiofGc2o2h4lZDmDU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB7092
+X-Proofpoint-ORIG-GUID: fqVJKJjgIKzgqC80jsD0U7VIAECOCZ0k
+X-Proofpoint-GUID: fqVJKJjgIKzgqC80jsD0U7VIAECOCZ0k
+X-Authority-Analysis: v=2.4 cv=Z/8WHGRA c=1 sm=1 tr=0 ts=67488b4a cx=c_pps a=NZTPE88KBhpz0z3fOSYQ1w==:117 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=VlfZXiiP6vEA:10 a=bRTqI5nwn0kA:10 a=t7CeM3EgAAAA:8
+ a=NEAV23lmAAAA:8 a=ogMBBawL_Sb6zI7e4ocA:9 a=FdTzh2GWekK77mhwV6Dw:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2024-11-28_07,2024-11-27_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- phishscore=0 mlxscore=0 bulkscore=0 impostorscore=0 clxscore=1015
- malwarescore=0 adultscore=0 suspectscore=0 spamscore=0 lowpriorityscore=0
- mlxlogscore=999 classifier=spam authscore=0 adjust=0 reason=mlx
- scancount=1 engine=8.21.0-2411120000 definitions=main-2411280066
+ definitions=2024-11-28_14,2024-11-28_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
+ lowpriorityscore=0 mlxlogscore=999 malwarescore=0 adultscore=0
+ phishscore=0 spamscore=0 clxscore=1015 bulkscore=0 suspectscore=0
+ mlxscore=0 priorityscore=1501 classifier=spam authscore=0 adjust=0
+ reason=mlx scancount=1 engine=8.21.0-2411120000
+ definitions=main-2411280121
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Thu, 28 Nov 2024 08:20:56 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9016
+ <meta-virtualization@lists.yoctoproject.org>; Thu, 28 Nov 2024 15:25:08 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9017
 
---------------39omK7sVTEyRF4Osw5ce5JeP
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 4AS61AmH014476
+From: Zhang Peng <peng.zhang1.cn@windriver.com>
 
+The ptest build for cri-o was previously disabled due to issues
+introduced with Go 1.11, which borken the build process. With the
+current Go version, these issues no longer occur, and the ptest build is
+now functional.
+This commit enables ptest support and resolves the "TMPDIR
+[buildpaths]" issue encountered during the ptest build process.
 
-On 11/21/2024 10:04 PM, Bruce Ashfield wrote:
-> **
-> *CAUTION: This email comes from a non Wind River email account!*
-> Do not click links or open attachments unless you recognize the sender=20
-> and know the content is safe.
->
->
-> On Thu, Nov 21, 2024 at 4:13=E2=80=AFAM Zhang, Peng (Paul) (CN)=20
-> <peng.zhang1.cn@windriver.com> wrote:
->
->
->     On 11/21/2024 12:34 PM, Bruce Ashfield wrote:
->     > CAUTION: This email comes from a non Wind River email account!
->     > Do not click links or open attachments unless you recognize the
->     sender and know the content is safe.
->     >
->     > In message: [meta-virtualization][PATCH] cri-o: enable ptest
->     > on 15/11/2024 Zhang, Peng (Paul) (CN) via lists.yoctoproject.org
->     <https://urldefense.com/v3/__http://lists.yoctoproject.org__;!!Ajve=
-Ydw8EvQ!dcMJ_RyaY86e9xQF11g_sARozs9Xt8SSpHkb4w4wTRRTx3r-KoAo6OgkM7W2dNBjr=
-4uIRv3_a6xuE9I2eX1AUfzkOaoUePcw$>
->     wrote:
->     >
->     >> From: Zhang Peng <peng.zhang1.cn@windriver.com>
->     >>
->     >> The ptest build for cri-o was previously disabled due to issues
->     >> introduced with Go 1.11, which borken the build process. With th=
-e
->     >> current Go version, these issues no longer occur, and the ptest
->     build is
->     >> now functional.
->     >> This commit enables ptest support and resolves the "TMPDIR
->     >> [buildpaths]" issue encountered during the ptest build process.
->     > Can you include a log of the ptest running in the commit log ?
->     > That way the baseline pass/fail is understood and captured.
->     The CRI-O ptest suite consists of a total of 382 tests. Including t=
-he
->     entire test results in the commit message would make it overly
->     cumbersome and difficult to navigate. Instead, I propose including
->     only
->     the list of failed and skipped tests in the commit message, as thes=
-e
->     provide the most critical information.
->
->
-> That's acceptable for me. If we just put the total number of tests,
-> a general overview of the types of testing and then anything
-> notable (notable here being the skipped or failed tests), then we
-> have a good reference for the initial state.
->
->     =EF=BB=BFAlternatively, the full test results could be stored in a =
-README or
->     another documentation file. This approach ensures the
->     comprehensive test
->     results are preserved as a baseline without bloating the commit
->     message.
->     =EF=BB=BFWould you prefer the abbreviated results in the commit mes=
-sage, or a
->     detailed log stored in a separate file?
->
->
-> See above. Just the summary in the commit, and a README with
-> the initial status of the tests stored in a log file.
->
->     >
->     >> Signed-off-by: Zhang Peng <peng.zhang1.cn@windriver.com>
->     >> ---
->     >>=C2=A0 =C2=A0recipes-containers/cri-o/cri-o_git.bb
->     <https://urldefense.com/v3/__http://cri-o_git.bb__;!!AjveYdw8EvQ!dc=
-MJ_RyaY86e9xQF11g_sARozs9Xt8SSpHkb4w4wTRRTx3r-KoAo6OgkM7W2dNBjr4uIRv3_a6x=
-uE9I2eX1AUfzkOQ5BxFg1$>
->     =C2=A0 =C2=A0 =C2=A0 =C2=A0| 37 ++++++++++++++++++-
->     >>=C2=A0 =C2=A0.../0001-Add-trimpath-to-build-nri.test.patch | 31
->     ++++++++++++++++
->     >>=C2=A0 =C2=A0recipes-containers/cri-o/files/run-ptest=C2=A0 =C2=A0=
- =C2=A0 | 11 ++++++
->     >>=C2=A0 =C2=A03 files changed, 77 insertions(+), 2 deletions(-)
->     >>=C2=A0 =C2=A0create mode 100644
->     recipes-containers/cri-o/files/0001-Add-trimpath-to-build-nri.test.=
-patch
->     >>=C2=A0 =C2=A0create mode 100644 recipes-containers/cri-o/files/ru=
-n-ptest
->     >>
->     >> diff --git a/recipes-containers/cri-o/cri-o_git.bb
->     <https://urldefense.com/v3/__http://cri-o_git.bb__;!!AjveYdw8EvQ!dc=
-MJ_RyaY86e9xQF11g_sARozs9Xt8SSpHkb4w4wTRRTx3r-KoAo6OgkM7W2dNBjr4uIRv3_a6x=
-uE9I2eX1AUfzkOQ5BxFg1$>
->     b/recipes-containers/cri-o/cri-o_git.bb
->     <https://urldefense.com/v3/__http://cri-o_git.bb__;!!AjveYdw8EvQ!dc=
-MJ_RyaY86e9xQF11g_sARozs9Xt8SSpHkb4w4wTRRTx3r-KoAo6OgkM7W2dNBjr4uIRv3_a6x=
-uE9I2eX1AUfzkOQ5BxFg1$>
->     >> index efc86fbe..596a43e2 100644
->     >> --- a/recipes-containers/cri-o/cri-o_git.bb
->     <https://urldefense.com/v3/__http://cri-o_git.bb__;!!AjveYdw8EvQ!dc=
-MJ_RyaY86e9xQF11g_sARozs9Xt8SSpHkb4w4wTRRTx3r-KoAo6OgkM7W2dNBjr4uIRv3_a6x=
-uE9I2eX1AUfzkOQ5BxFg1$>
->     >> +++ b/recipes-containers/cri-o/cri-o_git.bb
->     <https://urldefense.com/v3/__http://cri-o_git.bb__;!!AjveYdw8EvQ!dc=
-MJ_RyaY86e9xQF11g_sARozs9Xt8SSpHkb4w4wTRRTx3r-KoAo6OgkM7W2dNBjr4uIRv3_a6x=
-uE9I2eX1AUfzkOQ5BxFg1$>
->     >> @@ -17,7 +17,9 @@ At a high level, we expect the scope of cri-o
->     to be restricted to the following
->     >>=C2=A0 =C2=A0SRCREV_cri-o =3D "20c06a19cb395445620c31730c0f1a0a19=
-22eaae"
->     >>=C2=A0 =C2=A0SRC_URI =3D "\
->     >>=C2=A0 =C2=A0 =C2=A0 =C2=A0
->     git://github.com/kubernetes-sigs/cri-o.git;branch=3Drelease-1.31;na=
-me=3Dcri-o;protocol=3Dhttps;destsuffix=3D${GO_SRCURI_DESTSUFFIX}
->     <https://urldefense.com/v3/__http://github.com/kubernetes-sigs/cri-=
-o.git;branch=3Drelease-1.31;name=3Dcri-o;protocol=3Dhttps;destsuffix=3D$*=
-7BGO_SRCURI_DESTSUFFIX*7D__;JSU!!AjveYdw8EvQ!dcMJ_RyaY86e9xQF11g_sARozs9X=
-t8SSpHkb4w4wTRRTx3r-KoAo6OgkM7W2dNBjr4uIRv3_a6xuE9I2eX1AUfzkOfiTZ4sE$>
->     \
->     >> + file://0001-Add-trimpath-to-build-nri.test.patch \
->     >> file://crio.conf \
->     >> + file://run-ptest \
->     >>=C2=A0 =C2=A0 =C2=A0 =C2=A0 "
->     >>
->     >>=C2=A0 =C2=A0# Apache-2.0 for docker
->     >> @@ -28,7 +30,7 @@ GO_IMPORT =3D "import"
->     >>
->     >>=C2=A0 =C2=A0PV =3D "1.31.0+git${SRCREV_cri-o}"
->     >>
->     >> -inherit features_check
->     >> +inherit features_check ptest
->     >>=C2=A0 =C2=A0REQUIRED_DISTRO_FEATURES ?=3D "seccomp"
->     >>
->     >>=C2=A0 =C2=A0DEPENDS =3D " \
->     >> @@ -69,6 +71,13 @@ do_compile() {
->     >>=C2=A0 =C2=A0 =C2=A0 =C2=A0 oe_runmake binaries
->     >>=C2=A0 =C2=A0}
->     >>
->     >> +do_compile_ptest() {
->     >> +=C2=A0 =C2=A0 set +e
->     >> +
->     >> +=C2=A0 =C2=A0 cd ${S}/src/import
->     >> +
->     >> +=C2=A0 =C2=A0 oe_runmake test-binaries
->     >> +}
->     >>=C2=A0 =C2=A0SYSTEMD_PACKAGES =3D
->     "${@bb.utils.contains('DISTRO_FEATURES','systemd','${PN}','',d)}"
->     >>=C2=A0 =C2=A0SYSTEMD_SERVICE:${PN} =3D
->     "${@bb.utils.contains('DISTRO_FEATURES','systemd','crio.service',''=
-,d)}"
->     >>=C2=A0 =C2=A0SYSTEMD_AUTO_ENABLE:${PN} =3D "enable"
->     >> @@ -100,6 +109,14 @@ do_install() {
->     >>=C2=A0 =C2=A0 =C2=A0 =C2=A0install -d ${D}${localstatedir}/lib/cr=
-io
->     >>=C2=A0 =C2=A0}
->     >>
->     >> +do_install_ptest() {
->     >> +=C2=A0 =C2=A0 install -d ${D}${PTEST_PATH}/test
->     >> +=C2=A0 =C2=A0 install -d ${D}${PTEST_PATH}/bin
->     >> +=C2=A0 =C2=A0 install -d ${D}${PTEST_PATH}/vendor
->     >> +=C2=A0 =C2=A0 cp -rf ${S}/src/import/test ${D}${PTEST_PATH}
->     >> +=C2=A0 =C2=A0 cp -rf ${S}/src/import/bin ${D}${PTEST_PATH}
->     >> +=C2=A0 =C2=A0 cp -rf ${S}/src/import/vendor ${D}${PTEST_PATH}
->     >> +}
->     > I'm curious. Why does the vendor directory need to be
->     > copied / installed for the ptest ?
->     The ctr_seccomp.bats test requires a JSON file located at
->     vendor/github.com/containers/common/pkg/seccomp/seccomp.json
->     <https://urldefense.com/v3/__http://github.com/containers/common/pk=
-g/seccomp/seccomp.json__;!!AjveYdw8EvQ!dcMJ_RyaY86e9xQF11g_sARozs9Xt8SSpH=
-kb4w4wTRRTx3r-KoAo6OgkM7W2dNBjr4uIRv3_a6xuE9I2eX1AUfzkOf5GEmOu$>.
->     This file
->     is accessed via the CONTAINER_SECCOMP_PROFILE environment variable,
->     which defaults to the path within the vendor directory. Although th=
-is
->     variable can be overridden with a custom-defined path, the default
->     configuration relies on the vendor directory.
->     =EF=BB=BFThis dependency contributes to only two sub-tests passing =
-within the
->     suite. I share your concern about whether this folder should be
->     included. Another option is to allow ctr_seccomp.bats to fail by
->     default
->     if the vendor directory is not installed.
->     =EF=BB=BFWould you recommend keeping the directory or accept the te=
-sts
->     failed to
->     avoid requiring the vendor directory?
->
->
-> What else is in the vendor/ subdirectory (I haven't gone to check) ?
-> I'm ok with files being installed into a default location that the test
-> will check, but I want to be sure that it is only those files.
->
-> So I'd want just the files we need from vendor/ installed, and a commen=
-t
-> above the install line indicating that "test < ... > requires these fil=
-es.
-After reviewing the contents of the vendor/ directory and examining the=20
-code, it turns out that the only file required for the test is=20
-seccomp.json. This file is needed specifically for the ctr_seccomp.bats=20
-test, and its presence allows two sub-test cases to pass.
-The rest of the files in the vendor/ directory (amounting to=20
-approximately 110MB of code) are not relevant to the ptest suite.=20
-Therefore, I have decided not to install the entire vendor/ directory.=20
-Instead, I have documented this requirement in the README file.
-For users who wish to run the tests involving seccomp.json, they can=20
-manually add the file to the appropriate location and set the=20
-CONTAINER_SECCOMP_PROFILE environment variable to point to it.
-the coming v2 will update the code
->
->     >
->     >>=C2=A0 =C2=A0FILES:${PN}-config =3D "${sysconfdir}/crio/config/*"
->     >>=C2=A0 =C2=A0FILES:${PN} +=3D "${systemd_unitdir}/system/*"
->     >>=C2=A0 =C2=A0FILES:${PN} +=3D "/usr/local/bin/*"
->     >> @@ -109,7 +126,23 @@ FILES:${PN} +=3D
->     "/usr/share/containers/oci/hooks.d"
->     >>=C2=A0 =C2=A0ALLOW_EMPTY:${PN} =3D "1"
->     >>
->     >>=C2=A0 =C2=A0INSANE_SKIP:${PN} +=3D "ldflags already-stripped tex=
-trel"
->     >> +INSANE_SKIP:${PN}-ptest +=3D "textrel"
->     >>
->     >> -deltask compile_ptest_base
->     >> +RDEPENDS:${PN}-ptest +=3D " \
->     >> +=C2=A0 =C2=A0 bash \
->     >> +=C2=A0 =C2=A0 bats \
->     >> +=C2=A0 =C2=A0 cni \
->     >> +=C2=A0 =C2=A0 crictl \
->     >> +=C2=A0 =C2=A0 bind-utils \
->     >> +=C2=A0 =C2=A0 coreutils \
->     >> +=C2=A0 =C2=A0 dbus-daemon-proxy \
->     >> +=C2=A0 =C2=A0 iproute2 \
->     >> +=C2=A0 =C2=A0 util-linux-unshare \
->     >> +=C2=A0 =C2=A0 jq \
->     >> +=C2=A0 =C2=A0 ipcalc \
->     >> +=C2=A0 =C2=A0 slirp4netns \
->     >> +=C2=A0 =C2=A0 parallel \
->     >> +=C2=A0 =C2=A0 podman \
->     >> +"
->     > This is an extensive list of rdepends for a ptest.
->     > What exactly is it testing ? I think we need to document
->     > in a README what exactly is being tested, since this
->     > dependency list tells me that it is not trivial and it
->     > will be prone to breakage.
->     Given the suite's complexity, documenting the detailed purpose of
->     each
->     dependency would be challenging and potentially incomplete, as many
->     dependencies are used across multiple tests.=C2=A0 However, I agree=
- that a
->     README summarizing the primary focus areas of the tests (e.g.,
->     networking, security, etc.) could provide clarity and help
->     maintainability.
->
->     =EF=BB=BFLet me know if you=E2=80=99d prefer a high-level summary o=
-f the tests or
->     additional details in the README.
->
->
-> Just a summary of the high level goals and focus of the tests will
-> be enough for me. I agree that anything overly detailed will just get
-> out of date, and be a maintenance burden.
->
-> That list of dependencies basically says "This needs an complete
-> distribution to tests" .. and that is fine since it is contained to the
-> ptests. I just want to document what we know about those
-> dependencies. (since I will forget).
->
-> Bruce
->
->
->     //Peng
->
->     > Bruce
->     >
->     >>=C2=A0 =C2=A0COMPATIBLE_HOST =3D "^(?!(qemu)?mips).*"
->     >> diff --git
->     a/recipes-containers/cri-o/files/0001-Add-trimpath-to-build-nri.tes=
-t.patch
->     b/recipes-containers/cri-o/files/0001-Add-trimpath-to-build-nri.tes=
-t.patch
->     >> new file mode 100644
->     >> index 00000000..c6be41f0
->     >> --- /dev/null
->     >> +++
->     b/recipes-containers/cri-o/files/0001-Add-trimpath-to-build-nri.tes=
-t.patch
->     >> @@ -0,0 +1,31 @@
->     >> +From 0bf230f59d211044e7993543e010b0d7f9dcead3 Mon Sep 17
->     00:00:00 2001
->     >> +From: Peng Zhang <peng.zhang1.cn@windriver.com>
->     >> +Date: Fri, 25 Oct 2024 10:42:02 +0800
->     >> +Subject: [PATCH] Add --trimpath to build nri.test
->     >> +
->     >> +when build test-binary, TMPDIR[buildpaths] error found in nri.t=
-est
->     >> +to fix this error, add "--trimpath" option to build nri.test.
->     >> +
->     >> +Upstream-Status: Inappropriate [oe specific]
->     >> +
->     >> +Signed-off-by: Peng Zhang <peng.zhang1.cn@windriver.com>
->     >> +---
->     >> + Makefile | 2 +-
->     >> + 1 file changed, 1 insertion(+), 1 deletion(-)
->     >> +
->     >> +Index:
->     cri-o-1.31.0+git20c06a19cb395445620c31730c0f1a0a1922eaae/src/import=
-/Makefile
->     >>
->     +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->     >> +---
->     cri-o-1.31.0+git20c06a19cb395445620c31730c0f1a0a1922eaae.orig/src/i=
-mport/Makefile
->     >> ++++
->     cri-o-1.31.0+git20c06a19cb395445620c31730c0f1a0a1922eaae/src/import=
-/Makefile
->     >> +@@ -169,7 +169,7 @@ test/checkcriu/checkcriu: $(GO_FILES)
->     >> +=C2=A0 =C2=A0 =C2=A0$(GO_BUILD) $(GCFLAGS) $(GO_LDFLAGS) -tags =
-"$(BUILDTAGS)"
->     -o $@ ./test/checkcriu
->     >> +
->     >> + test/nri/nri.test: $(wildcard test/nri/*.go)
->     >> +-=C2=A0 =C2=A0 $(GO) test --tags "test $(BUILDTAGS)" -c ./test/=
-nri -o $@
->     >> ++=C2=A0 =C2=A0 $(GO) test --tags "test $(BUILDTAGS)" -c ./test/=
-nri -o $@
->     ${TRIMPATH}
->     >> +
->     >> + bin/crio: $(GO_FILES)
->     >> +=C2=A0 =C2=A0 =C2=A0$(GO_BUILD) $(GCFLAGS) $(GO_LDFLAGS) -tags =
-"$(BUILDTAGS)"
->     -o $@ ./cmd/crio
->     >> +--
->     >> +2.34.1
->     >> +
->     >> diff --git a/recipes-containers/cri-o/files/run-ptest
->     b/recipes-containers/cri-o/files/run-ptest
->     >> new file mode 100644
->     >> index 00000000..62abe959
->     >> --- /dev/null
->     >> +++ b/recipes-containers/cri-o/files/run-ptest
->     >> @@ -0,0 +1,11 @@
->     >> +#!/bin/sh
->     >> +
->     >> +./test/test_runner.sh
->     <https://urldefense.com/v3/__http://test_runner.sh__;!!AjveYdw8EvQ!=
-dcMJ_RyaY86e9xQF11g_sARozs9Xt8SSpHkb4w4wTRRTx3r-KoAo6OgkM7W2dNBjr4uIRv3_a=
-6xuE9I2eX1AUfzkOR_JEp0q$>
->     | while IFS=3D read -r line; do
->     >> +=C2=A0 =C2=A0 =C2=A0if [[ $line =3D~ ^not\ ok ]]; then
->     >> +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0echo "FAIL: ${l=
-ine#not ok }"
->     >> +=C2=A0 =C2=A0 =C2=A0elif [[ $line =3D~ ^ok && ! $line =3D~ \#\ =
-skip ]]; then
->     >> +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0echo "PASS: ${l=
-ine#ok }"
->     >> +=C2=A0 =C2=A0 =C2=A0elif [[ $line =3D~ ^ok.*#\ skip ]]; then
->     >> +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0echo "SKIP: ${l=
-ine#ok }"
->     >> +=C2=A0 =C2=A0 =C2=A0fi
->     >> +done
->     >> --
->     >> 2.35.5
->     >>
->     >> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->     >> Links: You receive all messages sent to this group.
->     >> View/Reply Online (#8971):
->     https://lists.yoctoproject.org/g/meta-virtualization/message/8971
->     <https://urldefense.com/v3/__https://lists.yoctoproject.org/g/meta-=
-virtualization/message/8971__;!!AjveYdw8EvQ!dcMJ_RyaY86e9xQF11g_sARozs9Xt=
-8SSpHkb4w4wTRRTx3r-KoAo6OgkM7W2dNBjr4uIRv3_a6xuE9I2eX1AUfzkOUq_0mwb$>
->     >> Mute This Topic:
->     https://lists.yoctoproject.org/mt/109593003/1050810
->     <https://urldefense.com/v3/__https://lists.yoctoproject.org/mt/1095=
-93003/1050810__;!!AjveYdw8EvQ!dcMJ_RyaY86e9xQF11g_sARozs9Xt8SSpHkb4w4wTRR=
-Tx3r-KoAo6OgkM7W2dNBjr4uIRv3_a6xuE9I2eX1AUfzkOckjaQYc$>
->     >> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
->     <mailto:meta-virtualization%2Bowner@lists.yoctoproject.org>
->     >> Unsubscribe:
->     https://lists.yoctoproject.org/g/meta-virtualization/unsub
->     <https://urldefense.com/v3/__https://lists.yoctoproject.org/g/meta-=
-virtualization/unsub__;!!AjveYdw8EvQ!dcMJ_RyaY86e9xQF11g_sARozs9Xt8SSpHkb=
-4w4wTRRTx3r-KoAo6OgkM7W2dNBjr4uIRv3_a6xuE9I2eX1AUfzkOZmBm5R-$>
->     [bruce.ashfield@gmail.com]
->     >> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->     >>
->
->
->
-> --=20
-> - Thou shalt not follow the NULL pointer, for chaos and madness await=20
-> thee at its end
-> - "Use the force Harry" - Gandalf, Star Trek II
->
---------------39omK7sVTEyRF4Osw5ce5JeP
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+A total of 382 test cases were executed, with the following results:
+PASS: 317
+FAIL: 33
+SKIP: 32
 
-<!DOCTYPE html><html><head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class=3D"moz-cite-prefix">On 11/21/2024 10:04 PM, Bruce Ashfield
-      wrote:<br>
-    </div>
-    <blockquote type=3D"cite" cite=3D"mid:CADkTA4P2ZW15HfY2_Q47_5DjTpTpwQEM=
-mGKJDikxK6T+XH_N=3Dw@mail.gmail.com">
-     =20
-      <strong>
-      </strong>
-      <div style=3D"border:solid #9c6500 1pt;padding:2pt;background:#fcfc03=
-"><strong><class=3D"msonormal" style=3D"line-height:11pt"><span style=3D"fo=
-nt-size:11pt;color:#000">CAUTION: This email
-              comes from a non Wind River email account!</span></class=3D"m=
-sonormal"></strong><br>
-        <class=3D"msonormal" style=3D"line-height:10pt3"><span style=3D"fon=
-t-size:10pt;color:#000">Do not click links or open
-            attachments unless you recognize the sender and know the
-            content is safe.</span><br>
-        </class=3D"msonormal"></div>
-      <div>
-        <div dir=3D"ltr">
-          <div dir=3D"ltr">
-            <div class=3D"gmail_default" style=3D"font-size:small"><br>
-            </div>
-          </div>
-          <br>
-          <div class=3D"gmail_quote">
-            <div dir=3D"ltr" class=3D"gmail_attr">On Thu, Nov 21, 2024 at
-              4:13=E2=80=AFAM Zhang, Peng (Paul) (CN) &lt;<a href=3D"mailto=
-:peng.zhang1.cn@windriver.com" moz-do-not-send=3D"true" class=3D"moz-txt-li=
-nk-freetext">peng.zhang1.cn@windriver.com</a>&gt;
-              wrote:<br>
-            </div>
-            <blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
-.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-              <br>
-              On 11/21/2024 12:34 PM, Bruce Ashfield wrote:<br>
-              &gt; CAUTION: This email comes from a non Wind River email
-              account!<br>
-              &gt; Do not click links or open attachments unless you
-              recognize the sender and know the content is safe.<br>
-              &gt;<br>
-              &gt; In message: [meta-virtualization][PATCH] cri-o:
-              enable ptest<br>
-              &gt; on 15/11/2024 Zhang, Peng (Paul) (CN) via <a href=3D"htt=
-ps://urldefense.com/v3/__http://lists.yoctoproject.org__;!!AjveYdw8EvQ!dcMJ=
-_RyaY86e9xQF11g_sARozs9Xt8SSpHkb4w4wTRRTx3r-KoAo6OgkM7W2dNBjr4uIRv3_a6xuE9I=
-2eX1AUfzkOaoUePcw$" rel=3D"noreferrer" target=3D"_blank" moz-do-not-send=3D=
-"true">
-                lists.yoctoproject.org</a> wrote:<br>
-              &gt;<br>
-              &gt;&gt; From: Zhang Peng &lt;<a href=3D"mailto:peng.zhang1.c=
-n@windriver.com" target=3D"_blank" moz-do-not-send=3D"true" class=3D"moz-tx=
-t-link-freetext">peng.zhang1.cn@windriver.com</a>&gt;<br>
-              &gt;&gt;<br>
-              &gt;&gt; The ptest build for cri-o was previously disabled
-              due to issues<br>
-              &gt;&gt; introduced with Go 1.11, which borken the build
-              process. With the<br>
-              &gt;&gt; current Go version, these issues no longer occur,
-              and the ptest build is<br>
-              &gt;&gt; now functional.<br>
-              &gt;&gt; This commit enables ptest support and resolves
-              the &quot;TMPDIR<br>
-              &gt;&gt; [buildpaths]&quot; issue encountered during the ptes=
-t
-              build process.<br>
-              &gt; Can you include a log of the ptest running in the
-              commit log ?<br>
-              &gt; That way the baseline pass/fail is understood and
-              captured.<br>
-              The CRI-O ptest suite consists of a total of 382 tests.
-              Including the <br>
-              entire test results in the commit message would make it
-              overly <br>
-              cumbersome and difficult to navigate. Instead, I propose
-              including only <br>
-              the list of failed and skipped tests in the commit
-              message, as these <br>
-              provide the most critical information.<br>
-            </blockquote>
-            <div><br>
-            </div>
-            <div>
-              <div class=3D"gmail_default" style=3D"font-size:small">That's
-                acceptable for me. If we just put the total number of
-                tests,</div>
-              <div class=3D"gmail_default" style=3D"font-size:small">a
-                general overview of the types of testing and then
-                anything</div>
-              <div class=3D"gmail_default" style=3D"font-size:small">notabl=
-e
-                (notable here being the skipped or failed tests), then
-                we</div>
-              <div class=3D"gmail_default" style=3D"font-size:small">have a
-                good reference for the initial state.</div>
-            </div>
-            <div>&nbsp;</div>
-            <blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
-.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-              =EF=BB=BFAlternatively, the full test results could be stored=
- in a
-              README or <br>
-              another documentation file. This approach ensures the
-              comprehensive test <br>
-              results are preserved as a baseline without bloating the
-              commit message.<br>
-              =EF=BB=BFWould you prefer the abbreviated results in the comm=
-it
-              message, or a <br>
-              detailed log stored in a separate file?<br>
-            </blockquote>
-            <div><br>
-            </div>
-            <div>
-              <div class=3D"gmail_default" style=3D"font-size:small">See
-                above. Just the summary in the commit, and a README with</d=
-iv>
-              <div class=3D"gmail_default" style=3D"font-size:small">the
-                initial status of the tests stored in a log file.</div>
-            </div>
-            <div><br>
-            </div>
-            <blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
-.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-              &gt;<br>
-              &gt;&gt; Signed-off-by: Zhang Peng &lt;<a href=3D"mailto:peng=
-.zhang1.cn@windriver.com" target=3D"_blank" moz-do-not-send=3D"true" class=
-=3D"moz-txt-link-freetext">peng.zhang1.cn@windriver.com</a>&gt;<br>
-              &gt;&gt; ---<br>
-              &gt;&gt;&nbsp; &nbsp;recipes-containers/cri-o/<a href=3D"http=
-s://urldefense.com/v3/__http://cri-o_git.bb__;!!AjveYdw8EvQ!dcMJ_RyaY86e9xQ=
-F11g_sARozs9Xt8SSpHkb4w4wTRRTx3r-KoAo6OgkM7W2dNBjr4uIRv3_a6xuE9I2eX1AUfzkOQ=
-5BxFg1$" rel=3D"noreferrer" target=3D"_blank" moz-do-not-send=3D"true">cri-=
-o_git.bb</a>&nbsp;
-              &nbsp; &nbsp; &nbsp; &nbsp;| 37 ++++++++++++++++++-<br>
-              &gt;&gt;&nbsp; &nbsp;.../0001-Add-trimpath-to-build-nri.test.=
-patch |
-              31 ++++++++++++++++<br>
-              &gt;&gt;&nbsp; &nbsp;recipes-containers/cri-o/files/run-ptest=
-&nbsp; &nbsp; &nbsp; |
-              11 ++++++<br>
-              &gt;&gt;&nbsp; &nbsp;3 files changed, 77 insertions(+), 2
-              deletions(-)<br>
-              &gt;&gt;&nbsp; &nbsp;create mode 100644
-              recipes-containers/cri-o/files/0001-Add-trimpath-to-build-nri=
-.test.patch<br>
-              &gt;&gt;&nbsp; &nbsp;create mode 100644
-              recipes-containers/cri-o/files/run-ptest<br>
-              &gt;&gt;<br>
-              &gt;&gt; diff --git a/recipes-containers/cri-o/<a href=3D"htt=
-ps://urldefense.com/v3/__http://cri-o_git.bb__;!!AjveYdw8EvQ!dcMJ_RyaY86e9x=
-QF11g_sARozs9Xt8SSpHkb4w4wTRRTx3r-KoAo6OgkM7W2dNBjr4uIRv3_a6xuE9I2eX1AUfzkO=
-Q5BxFg1$" rel=3D"noreferrer" target=3D"_blank" moz-do-not-send=3D"true">cri=
--o_git.bb</a>
-              b/recipes-containers/cri-o/<a href=3D"https://urldefense.com/=
-v3/__http://cri-o_git.bb__;!!AjveYdw8EvQ!dcMJ_RyaY86e9xQF11g_sARozs9Xt8SSpH=
-kb4w4wTRRTx3r-KoAo6OgkM7W2dNBjr4uIRv3_a6xuE9I2eX1AUfzkOQ5BxFg1$" rel=3D"nor=
-eferrer" target=3D"_blank" moz-do-not-send=3D"true">cri-o_git.bb</a><br>
-              &gt;&gt; index efc86fbe..596a43e2 100644<br>
-              &gt;&gt; --- a/recipes-containers/cri-o/<a href=3D"https://ur=
-ldefense.com/v3/__http://cri-o_git.bb__;!!AjveYdw8EvQ!dcMJ_RyaY86e9xQF11g_s=
-ARozs9Xt8SSpHkb4w4wTRRTx3r-KoAo6OgkM7W2dNBjr4uIRv3_a6xuE9I2eX1AUfzkOQ5BxFg1=
-$" rel=3D"noreferrer" target=3D"_blank" moz-do-not-send=3D"true">cri-o_git.=
-bb</a><br>
-              &gt;&gt; +++ b/recipes-containers/cri-o/<a href=3D"https://ur=
-ldefense.com/v3/__http://cri-o_git.bb__;!!AjveYdw8EvQ!dcMJ_RyaY86e9xQF11g_s=
-ARozs9Xt8SSpHkb4w4wTRRTx3r-KoAo6OgkM7W2dNBjr4uIRv3_a6xuE9I2eX1AUfzkOQ5BxFg1=
-$" rel=3D"noreferrer" target=3D"_blank" moz-do-not-send=3D"true">cri-o_git.=
-bb</a><br>
-              &gt;&gt; @@ -17,7 +17,9 @@ At a high level, we expect the
-              scope of cri-o to be restricted to the following<br>
-              &gt;&gt;&nbsp; &nbsp;SRCREV_cri-o =3D
-              &quot;20c06a19cb395445620c31730c0f1a0a1922eaae&quot;<br>
-              &gt;&gt;&nbsp; &nbsp;SRC_URI =3D &quot;\<br>
-              &gt;&gt;&nbsp; &nbsp; &nbsp; &nbsp; git://<a href=3D"https://=
-urldefense.com/v3/__http://github.com/kubernetes-sigs/cri-o.git;branch=3Dre=
-lease-1.31;name=3Dcri-o;protocol=3Dhttps;destsuffix=3D$*7BGO_SRCURI_DESTSUF=
-FIX*7D__;JSU!!AjveYdw8EvQ!dcMJ_RyaY86e9xQF11g_sARozs9Xt8SSpHkb4w4wTRRTx3r-K=
-oAo6OgkM7W2dNBjr4uIRv3_a6xuE9I2eX1AUfzkOfiTZ4sE$" rel=3D"noreferrer" target=
-=3D"_blank" moz-do-not-send=3D"true">github.com/kubernetes-sigs/cri-o.git;b=
-ranch=3Drelease-1.31;name=3Dcri-o;protocol=3Dhttps;destsuffix=3D${GO_SRCURI=
-_DESTSUFFIX}</a>
-              \<br>
-              &gt;&gt; +&nbsp; &nbsp; &nbsp; &nbsp;
-              <a class=3D"moz-txt-link-freetext" href=3D"file://0001-Add-tr=
-impath-to-build-nri.test.patch">file://0001-Add-trimpath-to-build-nri.test.=
-patch</a> \<br>
-              &gt;&gt;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<a class=3D"=
-moz-txt-link-freetext" href=3D"file://crio.conf">file://crio.conf</a> \<br>
-              &gt;&gt; +&nbsp; &nbsp; &nbsp; &nbsp; <a class=3D"moz-txt-lin=
-k-freetext" href=3D"file://run-ptest">file://run-ptest</a> \<br>
-              &gt;&gt;&nbsp; &nbsp; &nbsp; &nbsp; &quot;<br>
-              &gt;&gt;<br>
-              &gt;&gt;&nbsp; &nbsp;# Apache-2.0 for docker<br>
-              &gt;&gt; @@ -28,7 +30,7 @@ GO_IMPORT =3D &quot;import&quot;<b=
-r>
-              &gt;&gt;<br>
-              &gt;&gt;&nbsp; &nbsp;PV =3D &quot;1.31.0+git${SRCREV_cri-o}&q=
-uot;<br>
-              &gt;&gt;<br>
-              &gt;&gt; -inherit features_check<br>
-              &gt;&gt; +inherit features_check ptest<br>
-              &gt;&gt;&nbsp; &nbsp;REQUIRED_DISTRO_FEATURES ?=3D &quot;secc=
-omp&quot;<br>
-              &gt;&gt;<br>
-              &gt;&gt;&nbsp; &nbsp;DEPENDS =3D &quot; \<br>
-              &gt;&gt; @@ -69,6 +71,13 @@ do_compile() {<br>
-              &gt;&gt;&nbsp; &nbsp; &nbsp; &nbsp; oe_runmake binaries<br>
-              &gt;&gt;&nbsp; &nbsp;}<br>
-              &gt;&gt;<br>
-              &gt;&gt; +do_compile_ptest() {<br>
-              &gt;&gt; +&nbsp; &nbsp; set +e<br>
-              &gt;&gt; +<br>
-              &gt;&gt; +&nbsp; &nbsp; cd ${S}/src/import<br>
-              &gt;&gt; +<br>
-              &gt;&gt; +&nbsp; &nbsp; oe_runmake test-binaries<br>
-              &gt;&gt; +}<br>
-              &gt;&gt;&nbsp; &nbsp;SYSTEMD_PACKAGES =3D
-              <a class=3D"moz-txt-link-rfc2396E" href=3D"mailto:${@bb.utils=
-.contains('DISTRO_FEATURES','systemd','${PN}','',d)}">&quot;${@bb.utils.con=
-tains('DISTRO_FEATURES','systemd','${PN}','',d)}&quot;</a><br>
-              &gt;&gt;&nbsp; &nbsp;SYSTEMD_SERVICE:${PN} =3D
-              <a class=3D"moz-txt-link-rfc2396E" href=3D"mailto:${@bb.utils=
-.contains('DISTRO_FEATURES','systemd','crio.service','',d)}">&quot;${@bb.ut=
-ils.contains('DISTRO_FEATURES','systemd','crio.service','',d)}&quot;</a><br=
->
-              &gt;&gt;&nbsp; &nbsp;SYSTEMD_AUTO_ENABLE:${PN} =3D &quot;enab=
-le&quot;<br>
-              &gt;&gt; @@ -100,6 +109,14 @@ do_install() {<br>
-              &gt;&gt;&nbsp; &nbsp; &nbsp; &nbsp;install -d ${D}${localstat=
-edir}/lib/crio<br>
-              &gt;&gt;&nbsp; &nbsp;}<br>
-              &gt;&gt;<br>
-              &gt;&gt; +do_install_ptest() {<br>
-              &gt;&gt; +&nbsp; &nbsp; install -d ${D}${PTEST_PATH}/test<br>
-              &gt;&gt; +&nbsp; &nbsp; install -d ${D}${PTEST_PATH}/bin<br>
-              &gt;&gt; +&nbsp; &nbsp; install -d ${D}${PTEST_PATH}/vendor<b=
-r>
-              &gt;&gt; +&nbsp; &nbsp; cp -rf ${S}/src/import/test
-              ${D}${PTEST_PATH}<br>
-              &gt;&gt; +&nbsp; &nbsp; cp -rf ${S}/src/import/bin ${D}${PTES=
-T_PATH}<br>
-              &gt;&gt; +&nbsp; &nbsp; cp -rf ${S}/src/import/vendor
-              ${D}${PTEST_PATH}<br>
-              &gt;&gt; +}<br>
-              &gt; I'm curious. Why does the vendor directory need to be<br=
->
-              &gt; copied / installed for the ptest ?<br>
-              The ctr_seccomp.bats test requires a JSON file located at
-              <br>
-              vendor/<a href=3D"https://urldefense.com/v3/__http://github.c=
-om/containers/common/pkg/seccomp/seccomp.json__;!!AjveYdw8EvQ!dcMJ_RyaY86e9=
-xQF11g_sARozs9Xt8SSpHkb4w4wTRRTx3r-KoAo6OgkM7W2dNBjr4uIRv3_a6xuE9I2eX1AUfzk=
-Of5GEmOu$" rel=3D"noreferrer" target=3D"_blank" moz-do-not-send=3D"true">gi=
-thub.com/containers/common/pkg/seccomp/seccomp.json</a>.
-              This file <br>
-              is accessed via the CONTAINER_SECCOMP_PROFILE environment
-              variable, <br>
-              which defaults to the path within the vendor directory.
-              Although this <br>
-              variable can be overridden with a custom-defined path, the
-              default <br>
-              configuration relies on the vendor directory.<br>
-              =EF=BB=BFThis dependency contributes to only two sub-tests pa=
-ssing
-              within the <br>
-              suite. I share your concern about whether this folder
-              should be <br>
-              included. Another option is to allow ctr_seccomp.bats to
-              fail by default <br>
-              if the vendor directory is not installed.<br>
-              =EF=BB=BFWould you recommend keeping the directory or accept =
-the
-              tests failed to <br>
-              avoid requiring the vendor directory?<br>
-            </blockquote>
-            <div><br>
-            </div>
-            <div>
-              <div class=3D"gmail_default" style=3D"font-size:small">What
-                else is in the vendor/ subdirectory (I haven't gone to
-                check) ?</div>
-              <div class=3D"gmail_default" style=3D"font-size:small">I'm ok
-                with files being installed into a default location that
-                the test</div>
-              <div class=3D"gmail_default" style=3D"font-size:small">will
-                check, but I want to be sure that it is only those
-                files.</div>
-              <div class=3D"gmail_default" style=3D"font-size:small"><br>
-              </div>
-              <div class=3D"gmail_default" style=3D"font-size:small">So I'd
-                want just the files we need from vendor/ installed, and
-                a comment</div>
-              <div class=3D"gmail_default" style=3D"font-size:small">above
-                the install line indicating that &quot;test &lt; ... &gt;
-                requires these files.</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </blockquote>
-    <div data-slate-node=3D"element" style=3D"position: relative;"><span da=
-ta-slate-node=3D"text"><span data-slate-leaf=3D"true" data-sent-id=3D"e3gaX=
-7QJxe" class=3D"null"><span data-slate-string=3D"true">After reviewing the =
-contents of the
-            vendor/ directory and examining the code, it turns out that
-            the only file required for the test is seccomp.json. </span></s=
-pan></span><span data-slate-node=3D"text"><span data-slate-leaf=3D"true" da=
-ta-sent-id=3D"VOL6MaRbQz" class=3D"null"><span data-slate-string=3D"true">T=
-his file is needed specifically
-            for the ctr_seccomp.bats test, and its presence allows two
-            sub-test cases to pass.</span></span></span></div>
-    <div data-slate-node=3D"element" style=3D"position: relative;"><span da=
-ta-slate-node=3D"text"><span data-slate-leaf=3D"true" data-sent-id=3D"eqvMK=
-AEbOV" class=3D"null"><span data-slate-string=3D"true">The rest of the file=
-s in the
-            vendor/ directory (amounting to approximately 110MB of code)
-            are not relevant to the ptest suite. </span></span></span><span=
- data-slate-node=3D"text"><span data-slate-leaf=3D"true" data-sent-id=3D"Bw=
-v6Aaq1oz" class=3D"null"><span data-slate-string=3D"true">Therefore, I have=
- decided not to
-            install the entire vendor/ directory. </span></span></span><spa=
-n data-slate-node=3D"text"><span data-slate-leaf=3D"true" data-sent-id=3D"z=
-93LNw5mKe" class=3D"null"><span data-slate-string=3D"true">Instead, I have =
-documented this
-            requirement in the README file.</span></span></span></div>
-    <div data-slate-node=3D"element" style=3D"position: relative;"><span da=
-ta-slate-node=3D"text"><span data-slate-leaf=3D"true" data-sent-id=3D"BaYL4=
-npE1B" class=3D"null"><span data-slate-string=3D"true">For users who wish t=
-o run the tests
-            involving seccomp.json, they can manually add the file to
-            the appropriate location and set the
-            CONTAINER_SECCOMP_PROFILE environment variable to point to
-            it.</span></span></span></div>
-    <div data-slate-node=3D"element" style=3D"position: relative;" data-sla=
-te-fragment=3D"JTVCJTdCJTIydHlwZSUyMiUzQSUyMnBhcmFncmFwaCUyMiUyQyUyMmNoaWxk=
-cmVuJTIyJTNBJTVCJTdCJTIyaWQlMjIlM0ElMjJlM2dhWDdRSnhlJTIyJTJDJTIycGFyYUlkeCU=
-yMiUzQTAlMkMlMjJzcmMlMjIlM0ElMjJBZnRlciUyMHJldmlld2luZyUyMHRoZSUyMGNvbnRlbn=
-RzJTIwb2YlMjB0aGUlMjB2ZW5kb3IlMkYlMjBkaXJlY3RvcnklMjBhbmQlMjBleGFtaW5pbmclM=
-jB0aGUlMjBjb2RlJTJDJTIwaXQlMjB0dXJucyUyMG91dCUyMHRoYXQlMjB0aGUlMjBvbmx5JTIw=
-ZmlsZSUyMHJlcXVpcmVkJTIwZm9yJTIwdGhlJTIwdGVzdCUyMGlzJTIwc2VjY29tcC5qc29uLiU=
-yMCUyMiUyQyUyMmRzdCUyMiUzQSUyMiVFNSU5QyVBOCVFNiU5RiVBNSVFNyU5QyU4QnZlbmRvci=
-UyRiVFNyU5QiVBRSVFNSVCRCU5NSVFNyU5QSU4NCVFNSU4NiU4NSVFNSVBRSVCOSVFNSVCOSVCN=
-iVFNiVBMyU4MCVFNiU5RiVBNSVFNCVCQiVBMyVFNyVBMCU4MSVFNSU5MCU4RSVFRiVCQyU4QyVF=
-NSU4RiU5MSVFNyU4RSVCMCVFNiVCNSU4QiVFOCVBRiU5NSVFNiU4OSU4MCVFOSU5QyU4MCVFNyU=
-5QSU4NCVFNSU5NCVBRiVFNCVCOCU4MCVFNiU5NiU4NyVFNCVCQiVCNiVFNiU5OCVBRnNlY2NvbX=
-AuanNvbiVFMyU4MCU4MiUyMiUyQyUyMm1ldGFkYXRhJTIyJTNBJTIyJTIyJTJDJTIybWV0YURhd=
-GElMjIlM0ElNUIlNUQlMkMlMjJ0ZXh0JTIyJTNBJTIyQWZ0ZXIlMjByZXZpZXdpbmclMjB0aGUl=
-MjBjb250ZW50cyUyMG9mJTIwdGhlJTIwdmVuZG9yJTJGJTIwZGlyZWN0b3J5JTIwYW5kJTIwZXh=
-hbWluaW5nJTIwdGhlJTIwY29kZSUyQyUyMGl0JTIwdHVybnMlMjBvdXQlMjB0aGF0JTIwdGhlJT=
-Iwb25seSUyMGZpbGUlMjByZXF1aXJlZCUyMGZvciUyMHRoZSUyMHRlc3QlMjBpcyUyMHNlY2Nvb=
-XAuanNvbi4lMjAlMjIlN0QlMkMlN0IlMjJpZCUyMiUzQSUyMlZPTDZNYVJiUXolMjIlMkMlMjJw=
-YXJhSWR4JTIyJTNBMCUyQyUyMnNyYyUyMiUzQSUyMlRoaXMlMjBmaWxlJTIwaXMlMjBuZWVkZWQ=
-lMjBzcGVjaWZpY2FsbHklMjBmb3IlMjB0aGUlMjBjdHJfc2VjY29tcC5iYXRzJTIwdGVzdCUyQy=
-UyMGFuZCUyMGl0cyUyMHByZXNlbmNlJTIwYWxsb3dzJTIwdHdvJTIwc3ViLXRlc3QlMjBjYXNlc=
-yUyMHRvJTIwcGFzcy4lMjIlMkMlMjJkc3QlMjIlM0ElMjJjdHJfc2NvbXAuYmF0cyVFNiVCNSU4=
-QiVFOCVBRiU5NSVFNyU4OSVCOSVFNSU4OCVBQiVFOSU5QyU4MCVFOCVBNiU4MSVFNiVBRCVBNCV=
-FNiU5NiU4NyVFNCVCQiVCNiVFRiVCQyU4QyVFNSVBRSU4MyVFNyU5QSU4NCVFNSVBRCU5OCVFNS=
-U5QyVBOCVFNSU4NSU4MSVFOCVBRSVCOCVFNCVCOCVBNCVFNCVCOCVBQSVFNSVBRCU5MCVFNiVCN=
-SU4QiVFOCVBRiU5NSVFNyU5NCVBOCVFNCVCRSU4QiVFOSU4MCU5QSVFOCVCRiU4NyVFMyU4MCU4=
-MiUyMiUyQyUyMm1ldGFkYXRhJTIyJTNBJTIyJTIyJTJDJTIybWV0YURhdGElMjIlM0ElNUIlNUQ=
-lMkMlMjJ0ZXh0JTIyJTNBJTIyVGhpcyUyMGZpbGUlMjBpcyUyMG5lZWRlZCUyMHNwZWNpZmljYW=
-xseSUyMGZvciUyMHRoZSUyMGN0cl9zZWNjb21wLmJhdHMlMjB0ZXN0JTJDJTIwYW5kJTIwaXRzJ=
-TIwcHJlc2VuY2UlMjBhbGxvd3MlMjB0d28lMjBzdWItdGVzdCUyMGNhc2VzJTIwdG8lMjBwYXNz=
-LiUyMiU3RCU1RCU3RCUyQyU3QiUyMnR5cGUlMjIlM0ElMjJwYXJhZ3JhcGglMjIlMkMlMjJjaGl=
-sZHJlbiUyMiUzQSU1QiU3QiUyMmlkJTIyJTNBJTIyZXF2TUtBRWJPViUyMiUyQyUyMnBhcmFJZH=
-glMjIlM0ExJTJDJTIyc3JjJTIyJTNBJTIyVGhlJTIwcmVzdCUyMG9mJTIwdGhlJTIwZmlsZXMlM=
-jBpbiUyMHRoZSUyMHZlbmRvciUyRiUyMGRpcmVjdG9yeSUyMChhbW91bnRpbmclMjB0byUyMGFw=
-cHJveGltYXRlbHklMjAxMTBNQiUyMG9mJTIwY29kZSklMjBhcmUlMjBub3QlMjByZWxldmFudCU=
-yMHRvJTIwdGhlJTIwcHRlc3QlMjBzdWl0ZS4lMjAlMjIlMkMlMjJkc3QlMjIlM0ElMjIlRTQlQk=
-UlOUIlRTUlQkElOTQlRTUlOTUlODYlMkYlRTclOUIlQUUlRTUlQkQlOTUlRTQlQjglQUQlRTclO=
-UElODQlRTUlODUlQjYlRTQlQkQlOTklRTYlOTYlODclRTQlQkIlQjYlRUYlQkMlODglRTclQkEl=
-QTYxMTBNQiVFNCVCQiVBMyVFNyVBMCU4MSVFRiVCQyU4OSVFNCVCOCU4RXB0ZXN0JUU1JUE1JTk=
-3JUU0JUJCJUI2JUU2JTk3JUEwJUU1JTg1JUIzJUUzJTgwJTgyJTIyJTJDJTIybWV0YWRhdGElMj=
-IlM0ElMjIlMjIlMkMlMjJtZXRhRGF0YSUyMiUzQSU1QiU1RCUyQyUyMnRleHQlMjIlM0ElMjJUa=
-GUlMjByZXN0JTIwb2YlMjB0aGUlMjBmaWxlcyUyMGluJTIwdGhlJTIwdmVuZG9yJTJGJTIwZGly=
-ZWN0b3J5JTIwKGFtb3VudGluZyUyMHRvJTIwYXBwcm94aW1hdGVseSUyMDExME1CJTIwb2YlMjB=
-jb2RlKSUyMGFyZSUyMG5vdCUyMHJlbGV2YW50JTIwdG8lMjB0aGUlMjBwdGVzdCUyMHN1aXRlLi=
-UyMCUyMiU3RCUyQyU3QiUyMmlkJTIyJTNBJTIyQnd2NkFhcTFveiUyMiUyQyUyMnBhcmFJZHglM=
-jIlM0ExJTJDJTIyc3JjJTIyJTNBJTIyVGhlcmVmb3JlJTJDJTIwSSUyMGhhdmUlMjBkZWNpZGVk=
-JTIwbm90JTIwdG8lMjBpbnN0YWxsJTIwdGhlJTIwZW50aXJlJTIwdmVuZG9yJTJGJTIwZGlyZWN=
-0b3J5LiUyMCUyMiUyQyUyMmRzdCUyMiUzQSUyMiVFNSU5QiVBMCVFNiVBRCVBNCVFRiVCQyU4Qy=
-VFNiU4OCU5MSVFNSU4NiVCMyVFNSVBRSU5QSVFNCVCOCU4RCVFNSVBRSU4OSVFOCVBMyU4NSVFN=
-iU5NSVCNCVFNCVCOCVBQXZlbmRvciUyRiVFNyU5QiVBRSVFNSVCRCU5NSVFMyU4MCU4MiUyMiUy=
-QyUyMm1ldGFkYXRhJTIyJTNBJTIyJTIyJTJDJTIybWV0YURhdGElMjIlM0ElNUIlNUQlMkMlMjJ=
-0ZXh0JTIyJTNBJTIyVGhlcmVmb3JlJTJDJTIwSSUyMGhhdmUlMjBkZWNpZGVkJTIwbm90JTIwdG=
-8lMjBpbnN0YWxsJTIwdGhlJTIwZW50aXJlJTIwdmVuZG9yJTJGJTIwZGlyZWN0b3J5LiUyMCUyM=
-iU3RCUyQyU3QiUyMmlkJTIyJTNBJTIyejkzTE53NW1LZSUyMiUyQyUyMnBhcmFJZHglMjIlM0Ex=
-JTJDJTIyc3JjJTIyJTNBJTIySW5zdGVhZCUyQyUyMEklMjBoYXZlJTIwZG9jdW1lbnRlZCUyMHR=
-oaXMlMjByZXF1aXJlbWVudCUyMGluJTIwdGhlJTIwUkVBRE1FJTIwZmlsZS4lMjIlMkMlMjJkc3=
-QlMjIlM0ElMjIlRTclOUIlQjglRTUlOEYlOEQlRUYlQkMlOEMlRTYlODglOTElRTUlOUMlQThSR=
-UFETUUlRTYlOTYlODclRTQlQkIlQjYlRTQlQjglQUQlRTglQUUlQjAlRTUlQkQlOTUlRTQlQkEl=
-ODYlRTglQkYlOTklRTQlQjglODAlRTglQTYlODElRTYlQjElODIlRTMlODAlODIlMjIlMkMlMjJ=
-tZXRhZGF0YSUyMiUzQSUyMiUyMiUyQyUyMm1ldGFEYXRhJTIyJTNBJTVCJTVEJTJDJTIydGV4dC=
-UyMiUzQSUyMkluc3RlYWQlMkMlMjBJJTIwaGF2ZSUyMGRvY3VtZW50ZWQlMjB0aGlzJTIwcmVxd=
-WlyZW1lbnQlMjBpbiUyMHRoZSUyMFJFQURNRSUyMGZpbGUuJTIyJTdEJTVEJTdEJTJDJTdCJTIy=
-dHlwZSUyMiUzQSUyMnBhcmFncmFwaCUyMiUyQyUyMmNoaWxkcmVuJTIyJTNBJTVCJTdCJTIyaWQ=
-lMjIlM0ElMjJCYVlMNG5wRTFCJTIyJTJDJTIycGFyYUlkeCUyMiUzQTIlMkMlMjJzcmMlMjIlM0=
-ElMjJGb3IlMjB1c2VycyUyMHdobyUyMHdpc2glMjB0byUyMHJ1biUyMHRoZSUyMHRlc3RzJTIwa=
-W52b2x2aW5nJTIwc2VjY29tcC5qc29uJTJDJTIwdGhleSUyMGNhbiUyMG1hbnVhbGx5JTIwYWRk=
-JTIwdGhlJTIwZmlsZSUyMHRvJTIwdGhlJTIwYXBwcm9wcmlhdGUlMjBsb2NhdGlvbiUyMGFuZCU=
-yMHNldCUyMHRoZSUyMENPTlRBSU5FUl9TRUNDT01QX1BST0ZJTEUlMjBlbnZpcm9ubWVudCUyMH=
-ZhcmlhYmxlJTIwdG8lMjBwb2ludCUyMHRvJTIwaXQuJTIyJTJDJTIyZHN0JTIyJTNBJTIyJUU1J=
-UFGJUI5JUU0JUJBJThFJUU1JUI4JThDJUU2JTlDJTlCJUU4JUJGJTkwJUU4JUExJThDJUU2JUI2=
-JTg5JUU1JThGJThBc2VjY29tcC5qc29uJUU3JTlBJTg0JUU2JUI1JThCJUU4JUFGJTk1JUU3JTl=
-BJTg0JUU3JTk0JUE4JUU2JTg4JUI3JUVGJUJDJThDJUU0JUJCJTk2JUU0JUJCJUFDJUU1JThGJU=
-FGJUU0JUJCJUE1JUU2JTg5JThCJUU1JThBJUE4JUU1JUIwJTg2JUU2JTk2JTg3JUU0JUJCJUI2J=
-UU2JUI3JUJCJUU1JThBJUEwJUU1JTg4JUIwJUU5JTgwJTgyJUU1JUJEJTkzJUU3JTlBJTg0JUU0=
-JUJEJThEJUU3JUJEJUFFJUVGJUJDJThDJUU1JUI5JUI2JUU4JUFFJUJFJUU3JUJEJUFFQ09OVEF=
-JTkVSX3NlY2NvbXBfUFJPRklMRSVFNyU4RSVBRiVFNSVBMiU4MyVFNSU4RiU5OCVFOSU4NyU4Ri=
-VFNiU4QyU4NyVFNSU5MCU5MSVFNSVBRSU4MyVFMyU4MCU4MiUyMiUyQyUyMm1ldGFkYXRhJTIyJ=
-TNBJTIyJTIyJTJDJTIybWV0YURhdGElMjIlM0ElNUIlNUQlMkMlMjJ0ZXh0JTIyJTNBJTIyRm9y=
-JTIwdXNlcnMlMjB3aG8lMjB3aXNoJTIwdG8lMjBydW4lMjB0aGUlMjB0ZXN0cyUyMGludm9sdml=
-uZyUyMHNlY2NvbXAuanNvbiUyQyUyMHRoZXklMjBjYW4lMjBtYW51YWxseSUyMGFkZCUyMHRoZS=
-UyMGZpbGUlMjB0byUyMHRoZSUyMGFwcHJvcHJpYXRlJTIwbG9jYXRpb24lMjBhbmQlMjBzZXQlM=
-jB0aGUlMjBDT05UQUlORVJfU0VDQ09NUF9QUk9GSUxFJTIwZW52aXJvbm1lbnQlMjB2YXJpYWJs=
-ZSUyMHRvJTIwcG9pbnQlMjB0byUyMGl0LiUyMiU3RCU1RCU3RCUyQyU3QiUyMnR5cGUlMjIlM0E=
-lMjJwYXJhZ3JhcGglMjIlMkMlMjJjaGlsZHJlbiUyMiUzQSU1QiU3QiUyMmlkJTIyJTNBJTIyem=
-dMVzQ3RXdKQiUyMiUyQyUyMnBhcmFJZHglMjIlM0EzJTJDJTIyc3JjJTIyJTNBJTIydGhlJTIwY=
-29taW5nJTIwdjIlMjB3aWxsJTIwdXBkYXRlJTIwdGhlJTIwY29kZSUyMiUyQyUyMmRzdCUyMiUz=
-QSUyMiVFNSU4RCVCMyVFNSVCMCU4NiVFNSU4OCVCMCVFNiU5RCVBNSVFNyU5QSU4NHYyJUU1JUI=
-wJTg2JUU2JTlCJUI0JUU2JTk2JUIwJUU0JUJCJUEzJUU3JUEwJTgxJTIyJTJDJTIybWV0YWRhdG=
-ElMjIlM0ElMjIlMjIlMkMlMjJtZXRhRGF0YSUyMiUzQSU1QiU1RCUyQyUyMnRleHQlMjIlM0ElM=
-jJ0aGUlMjBjb21pbmclMjB2MiUyMHdpbGwlMjB1cGRhdGUlMjB0aGUlMjBjb2RlJTIyJTdEJTVE=
-JTdEJTVE"><span data-slate-node=3D"text"><span data-slate-leaf=3D"true" dat=
-a-sent-id=3D"zgLW47EwJB" class=3D"null hover-sent"><span data-slate-string=
-=3D"true">the coming v2 will update the code</span></span></span></div>
-    <blockquote type=3D"cite" cite=3D"mid:CADkTA4P2ZW15HfY2_Q47_5DjTpTpwQEM=
-mGKJDikxK6T+XH_N=3Dw@mail.gmail.com">
-      <div>
-        <div dir=3D"ltr">
-          <div class=3D"gmail_quote">
-            <div>
-            </div>
-            <div><br>
-            </div>
-            <blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
-.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-              &gt;<br>
-              &gt;&gt;&nbsp; &nbsp;FILES:${PN}-config =3D
-              &quot;${sysconfdir}/crio/config/*&quot;<br>
-              &gt;&gt;&nbsp; &nbsp;FILES:${PN} +=3D &quot;${systemd_unitdir=
-}/system/*&quot;<br>
-              &gt;&gt;&nbsp; &nbsp;FILES:${PN} +=3D &quot;/usr/local/bin/*&=
-quot;<br>
-              &gt;&gt; @@ -109,7 +126,23 @@ FILES:${PN} +=3D
-              &quot;/usr/share/containers/oci/hooks.d&quot;<br>
-              &gt;&gt;&nbsp; &nbsp;ALLOW_EMPTY:${PN} =3D &quot;1&quot;<br>
-              &gt;&gt;<br>
-              &gt;&gt;&nbsp; &nbsp;INSANE_SKIP:${PN} +=3D &quot;ldflags alr=
-eady-stripped
-              textrel&quot;<br>
-              &gt;&gt; +INSANE_SKIP:${PN}-ptest +=3D &quot;textrel&quot;<br=
->
-              &gt;&gt;<br>
-              &gt;&gt; -deltask compile_ptest_base<br>
-              &gt;&gt; +RDEPENDS:${PN}-ptest +=3D &quot; \<br>
-              &gt;&gt; +&nbsp; &nbsp; bash \<br>
-              &gt;&gt; +&nbsp; &nbsp; bats \<br>
-              &gt;&gt; +&nbsp; &nbsp; cni \<br>
-              &gt;&gt; +&nbsp; &nbsp; crictl \<br>
-              &gt;&gt; +&nbsp; &nbsp; bind-utils \<br>
-              &gt;&gt; +&nbsp; &nbsp; coreutils \<br>
-              &gt;&gt; +&nbsp; &nbsp; dbus-daemon-proxy \<br>
-              &gt;&gt; +&nbsp; &nbsp; iproute2 \<br>
-              &gt;&gt; +&nbsp; &nbsp; util-linux-unshare \<br>
-              &gt;&gt; +&nbsp; &nbsp; jq \<br>
-              &gt;&gt; +&nbsp; &nbsp; ipcalc \<br>
-              &gt;&gt; +&nbsp; &nbsp; slirp4netns \<br>
-              &gt;&gt; +&nbsp; &nbsp; parallel \<br>
-              &gt;&gt; +&nbsp; &nbsp; podman \<br>
-              &gt;&gt; +&quot;<br>
-              &gt; This is an extensive list of rdepends for a ptest.<br>
-              &gt; What exactly is it testing ? I think we need to
-              document<br>
-              &gt; in a README what exactly is being tested, since this<br>
-              &gt; dependency list tells me that it is not trivial and
-              it<br>
-              &gt; will be prone to breakage.<br>
-              Given the suite's complexity, documenting the detailed
-              purpose of each <br>
-              dependency would be challenging and potentially
-              incomplete, as many <br>
-              dependencies are used across multiple tests.&nbsp; However, I
-              agree that a <br>
-              README summarizing the primary focus areas of the tests
-              (e.g., <br>
-              networking, security, etc.) could provide clarity and help
-              maintainability.<br>
-              <br>
-              =EF=BB=BFLet me know if you=E2=80=99d prefer a high-level sum=
-mary of the
-              tests or <br>
-              additional details in the README.<br>
-            </blockquote>
-            <div><br>
-            </div>
-            <div>
-              <div class=3D"gmail_default" style=3D"font-size:small">Just a
-                summary of the high level goals and focus of the tests
-                will</div>
-              <div class=3D"gmail_default" style=3D"font-size:small">be
-                enough for me. I agree that anything overly detailed
-                will just get</div>
-              <div class=3D"gmail_default" style=3D"font-size:small">out of
-                date, and be a maintenance burden.</div>
-              <div class=3D"gmail_default" style=3D"font-size:small"><br>
-              </div>
-              <div class=3D"gmail_default" style=3D"font-size:small">That
-                list of dependencies basically says &quot;This needs an
-                complete</div>
-              <div class=3D"gmail_default" style=3D"font-size:small">distri=
-bution
-                to tests&quot; .. and that is fine since it is contained to
-                the</div>
-              <div class=3D"gmail_default" style=3D"font-size:small">ptests=
-.
-                I just want to document what we know about those</div>
-              <div class=3D"gmail_default" style=3D"font-size:small">depend=
-encies.
-                (since I will forget).</div>
-              <div class=3D"gmail_default" style=3D"font-size:small"><br>
-              </div>
-              <div class=3D"gmail_default" style=3D"font-size:small">Bruce<=
-/div>
-            </div>
-            <div>&nbsp;</div>
-            <blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
-.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-              <br>
-              //Peng<br>
-              <br>
-              &gt; Bruce<br>
-              &gt;<br>
-              &gt;&gt;&nbsp; &nbsp;COMPATIBLE_HOST =3D &quot;^(?!(qemu)?mip=
-s).*&quot;<br>
-              &gt;&gt; diff --git
-a/recipes-containers/cri-o/files/0001-Add-trimpath-to-build-nri.test.patch
-b/recipes-containers/cri-o/files/0001-Add-trimpath-to-build-nri.test.patch<=
-br>
-              &gt;&gt; new file mode 100644<br>
-              &gt;&gt; index 00000000..c6be41f0<br>
-              &gt;&gt; --- /dev/null<br>
-              &gt;&gt; +++
-b/recipes-containers/cri-o/files/0001-Add-trimpath-to-build-nri.test.patch<=
-br>
-              &gt;&gt; @@ -0,0 +1,31 @@<br>
-              &gt;&gt; +From 0bf230f59d211044e7993543e010b0d7f9dcead3
-              Mon Sep 17 00:00:00 2001<br>
-              &gt;&gt; +From: Peng Zhang &lt;<a href=3D"mailto:peng.zhang1.=
-cn@windriver.com" target=3D"_blank" moz-do-not-send=3D"true" class=3D"moz-t=
-xt-link-freetext">peng.zhang1.cn@windriver.com</a>&gt;<br>
-              &gt;&gt; +Date: Fri, 25 Oct 2024 10:42:02 +0800<br>
-              &gt;&gt; +Subject: [PATCH] Add --trimpath to build
-              nri.test<br>
-              &gt;&gt; +<br>
-              &gt;&gt; +when build test-binary, TMPDIR[buildpaths] error
-              found in nri.test<br>
-              &gt;&gt; +to fix this error, add &quot;--trimpath&quot; optio=
-n to
-              build nri.test.<br>
-              &gt;&gt; +<br>
-              &gt;&gt; +Upstream-Status: Inappropriate [oe specific]<br>
-              &gt;&gt; +<br>
-              &gt;&gt; +Signed-off-by: Peng Zhang &lt;<a href=3D"mailto:pen=
-g.zhang1.cn@windriver.com" target=3D"_blank" moz-do-not-send=3D"true" class=
-=3D"moz-txt-link-freetext">peng.zhang1.cn@windriver.com</a>&gt;<br>
-              &gt;&gt; +---<br>
-              &gt;&gt; + Makefile | 2 +-<br>
-              &gt;&gt; + 1 file changed, 1 insertion(+), 1 deletion(-)<br>
-              &gt;&gt; +<br>
-              &gt;&gt; +Index:
-cri-o-1.31.0+git20c06a19cb395445620c31730c0f1a0a1922eaae/src/import/Makefil=
-e<br>
-              &gt;&gt;
-              +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
-              &gt;&gt; +---
-cri-o-1.31.0+git20c06a19cb395445620c31730c0f1a0a1922eaae.orig/src/import/Ma=
-kefile<br>
-              &gt;&gt; ++++
-cri-o-1.31.0+git20c06a19cb395445620c31730c0f1a0a1922eaae/src/import/Makefil=
-e<br>
-              &gt;&gt; +@@ -169,7 +169,7 @@ test/checkcriu/checkcriu:
-              $(GO_FILES)<br>
-              &gt;&gt; +&nbsp; &nbsp; &nbsp;$(GO_BUILD) $(GCFLAGS) $(GO_LDF=
-LAGS) -tags
-              &quot;$(BUILDTAGS)&quot; -o $@ ./test/checkcriu<br>
-              &gt;&gt; +<br>
-              &gt;&gt; + test/nri/nri.test: $(wildcard test/nri/*.go)<br>
-              &gt;&gt; +-&nbsp; &nbsp; $(GO) test --tags &quot;test $(BUILD=
-TAGS)&quot; -c
-              ./test/nri -o $@<br>
-              &gt;&gt; ++&nbsp; &nbsp; $(GO) test --tags &quot;test $(BUILD=
-TAGS)&quot; -c
-              ./test/nri -o $@ ${TRIMPATH}<br>
-              &gt;&gt; +<br>
-              &gt;&gt; + bin/crio: $(GO_FILES)<br>
-              &gt;&gt; +&nbsp; &nbsp; &nbsp;$(GO_BUILD) $(GCFLAGS) $(GO_LDF=
-LAGS) -tags
-              &quot;$(BUILDTAGS)&quot; -o $@ ./cmd/crio<br>
-              &gt;&gt; +--<br>
-              &gt;&gt; +2.34.1<br>
-              &gt;&gt; +<br>
-              &gt;&gt; diff --git
-              a/recipes-containers/cri-o/files/run-ptest
-              b/recipes-containers/cri-o/files/run-ptest<br>
-              &gt;&gt; new file mode 100644<br>
-              &gt;&gt; index 00000000..62abe959<br>
-              &gt;&gt; --- /dev/null<br>
-              &gt;&gt; +++ b/recipes-containers/cri-o/files/run-ptest<br>
-              &gt;&gt; @@ -0,0 +1,11 @@<br>
-              &gt;&gt; +#!/bin/sh<br>
-              &gt;&gt; +<br>
-              &gt;&gt; +./test/<a href=3D"https://urldefense.com/v3/__http:=
-//test_runner.sh__;!!AjveYdw8EvQ!dcMJ_RyaY86e9xQF11g_sARozs9Xt8SSpHkb4w4wTR=
-RTx3r-KoAo6OgkM7W2dNBjr4uIRv3_a6xuE9I2eX1AUfzkOR_JEp0q$" moz-do-not-send=3D=
-"true">test_runner.sh</a> | while IFS=3D
-              read -r line; do<br>
-              &gt;&gt; +&nbsp; &nbsp; &nbsp;if [[ $line =3D~ ^not\ ok ]]; t=
-hen<br>
-              &gt;&gt; +&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;ech=
-o &quot;FAIL: ${line#not ok }&quot;<br>
-              &gt;&gt; +&nbsp; &nbsp; &nbsp;elif [[ $line =3D~ ^ok &amp;&am=
-p; ! $line =3D~
-              \#\ skip ]]; then<br>
-              &gt;&gt; +&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;ech=
-o &quot;PASS: ${line#ok }&quot;<br>
-              &gt;&gt; +&nbsp; &nbsp; &nbsp;elif [[ $line =3D~ ^ok.*#\ skip=
- ]]; then<br>
-              &gt;&gt; +&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;ech=
-o &quot;SKIP: ${line#ok }&quot;<br>
-              &gt;&gt; +&nbsp; &nbsp; &nbsp;fi<br>
-              &gt;&gt; +done<br>
-              &gt;&gt; --<br>
-              &gt;&gt; 2.35.5<br>
-              &gt;&gt;<br>
-              &gt;&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-              &gt;&gt; Links: You receive all messages sent to this
-              group.<br>
-              &gt;&gt; View/Reply Online (#8971): <a href=3D"https://urldef=
-ense.com/v3/__https://lists.yoctoproject.org/g/meta-virtualization/message/=
-8971__;!!AjveYdw8EvQ!dcMJ_RyaY86e9xQF11g_sARozs9Xt8SSpHkb4w4wTRRTx3r-KoAo6O=
-gkM7W2dNBjr4uIRv3_a6xuE9I2eX1AUfzkOUq_0mwb$" rel=3D"noreferrer" target=3D"_=
-blank" moz-do-not-send=3D"true">
-https://lists.yoctoproject.org/g/meta-virtualization/message/8971</a><br>
-              &gt;&gt; Mute This Topic: <a href=3D"https://urldefense.com/v=
-3/__https://lists.yoctoproject.org/mt/109593003/1050810__;!!AjveYdw8EvQ!dcM=
-J_RyaY86e9xQF11g_sARozs9Xt8SSpHkb4w4wTRRTx3r-KoAo6OgkM7W2dNBjr4uIRv3_a6xuE9=
-I2eX1AUfzkOckjaQYc$" rel=3D"noreferrer" target=3D"_blank" moz-do-not-send=
-=3D"true">
-                https://lists.yoctoproject.org/mt/109593003/1050810</a><br>
-              &gt;&gt; Group Owner: <a href=3D"mailto:meta-virtualization%2=
-Bowner@lists.yoctoproject.org" target=3D"_blank" moz-do-not-send=3D"true">
-                meta-virtualization+owner@lists.yoctoproject.org</a><br>
-              &gt;&gt; Unsubscribe: <a href=3D"https://urldefense.com/v3/__=
-https://lists.yoctoproject.org/g/meta-virtualization/unsub__;!!AjveYdw8EvQ!=
-dcMJ_RyaY86e9xQF11g_sARozs9Xt8SSpHkb4w4wTRRTx3r-KoAo6OgkM7W2dNBjr4uIRv3_a6x=
-uE9I2eX1AUfzkOZmBm5R-$" rel=3D"noreferrer" target=3D"_blank" moz-do-not-sen=
-d=3D"true">
-https://lists.yoctoproject.org/g/meta-virtualization/unsub</a> [<a href=3D"=
-mailto:bruce.ashfield@gmail.com" target=3D"_blank" moz-do-not-send=3D"true"=
- class=3D"moz-txt-link-freetext">bruce.ashfield@gmail.com</a>]<br>
-              &gt;&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-              &gt;&gt;<br>
-            </blockquote>
-          </div>
-          <div><br clear=3D"all">
-          </div>
-          <div><br>
-          </div>
-          <span class=3D"gmail_signature_prefix">-- </span><br>
-          <div dir=3D"ltr" class=3D"gmail_signature">- Thou shalt not follo=
-w
-            the NULL pointer, for chaos and madness await thee at its
-            end<br>
-            - &quot;Use the force Harry&quot; - Gandalf, Star Trek II<br>
-            <br>
-          </div>
-        </div>
-      </div>
-    </blockquote>
-  </body>
-</html>
+Signed-off-by: Zhang Peng <peng.zhang1.cn@windriver.com>
+---
+ recipes-containers/cri-o/README.md            | 452 ++++++++++++++++++
+ recipes-containers/cri-o/cri-o_git.bb         |  33 +-
+ .../0001-Add-trimpath-to-build-nri.test.patch |  31 ++
+ recipes-containers/cri-o/files/run-ptest      |  11 +
+ 4 files changed, 525 insertions(+), 2 deletions(-)
+ create mode 100644 recipes-containers/cri-o/README.md
+ create mode 100644 recipes-containers/cri-o/files/0001-Add-trimpath-to-build-nri.test.patch
+ create mode 100644 recipes-containers/cri-o/files/run-ptest
 
---------------39omK7sVTEyRF4Osw5ce5JeP--
+diff --git a/recipes-containers/cri-o/README.md b/recipes-containers/cri-o/README.md
+new file mode 100644
+index 00000000..e3dac040
+--- /dev/null
++++ b/recipes-containers/cri-o/README.md
+@@ -0,0 +1,452 @@
++# CRI-O Ptest Guide
++
++The CRI-O ptest suite is a comprehensive and complex testing framework. This document provides key information and tips for its usage.
++
++
++## 1. Vendor Directory
++
++By default, the `vendor` directory is not installed for ptest. However, the `ctr_seccomp.bats` test relies on a JSON file located at:  
++`vendor/github.com/containers/common/pkg/seccomp/seccomp.json`.
++As a result, the ctr_seccomp.bats test will fail unless this file is manually added. 
++
++### Steps to add seccomp.json:
++- Manually create/copy the required JSON file.
++- Set the `CONTAINER_SECCOMP_PROFILE` environment variable to point to the file's location.
++
++## 2. Runtime Dependencies (RDEPENDS)
++
++The ptest suite requires several dependencies. As of the initial implementation, the runtime dependencies are defined as follows:
++
++```bash
++RDEPENDS:${PN}-ptest += " \
++    bash \
++    bats \
++    cni \
++    crictl \
++    coreutils \
++    dbus-daemon-proxy \
++    iproute2 \
++    util-linux-unshare \
++    jq \
++    slirp4netns \
++    parallel \
++    podman \
++"
++```
++### Explanation of Dependencies:
++- **bash / bats**: The ptest suite is written using BATS and requires support from Bash.
++- **cni / crictl / podman**: Tools for testing container creation, runtime, and networking, directly invoked by the tests.
++- **jq**: Used in test scripts to create or manipulate JSON files.
++- **iproute2  / slirp4netns**: Networking utilities required for validating network-related functionalities.
++- **coreutils / dbus-daemon-proxy / util-linux-unshare**: Additional utilities supporting various test cases.
++- **paralle**: bats using "parallel" to execute test in serial.
++
++## 3. Testing Log (Baseline Reference)
++
++A summary of the test results is provided below for baseline reference:
++
++- **PASS**: 317 tests  
++- **FAIL**: 33 tests  
++- **SKIP**: 32 tests  
++
++#### Full Log Example:
++Below is an excerpt from a typical ptest log:
++```bash
++root@intel-x86-64:~# ptest-runner cri-o -t 1000
++START: ptest-runner
++2024-11-23T14:50
++BEGIN: /usr/lib64/cri-o/ptest
++SKIP: 1 apparmor tests (in sequence) # skip apparmor not enabled
++PASS: 2 no CDI errors, create ctr without CDI devices
++PASS: 3 no CDI errors, create ctr with CDI devices
++PASS: 4 no CDI errors, create ctr with annotated CDI devices
++PASS: 5 no CDI errors, create ctr with duplicate annotated CDI devices
++PASS: 6 no CDI errors, fail to create ctr with unresolvable CDI devices
++PASS: 7 no CDI errors, fail to create ctr with unresolvable annotated CDI devices
++PASS: 8 CDI registry refresh
++PASS: 9 CDI registry refresh, annotated CDI devices
++PASS: 10 reload CRI-O CDI parameters
++PASS: 11 reload CRI-O CDI parameters, with annotated CDI devices
++PASS: 12 CDI with errors, create ctr without CDI devices
++PASS: 13 CDI with errors, create ctr with (unaffected) CDI devices
++PASS: 14 CDI with errors, create ctr with (unaffected) annotated CDI devices
++PASS: 15 pids limit
++PASS: 16 conmon pod cgroup
++PASS: 17 conmon custom cgroup
++PASS: 18 conmon custom cgroup with no infra container
++SKIP: 19 conmonrs custom cgroup with no infra container # skip not supported for conmon
++SKIP: 20 ctr with swap should be configured # skip swap not enabled
++SKIP: 21 ctr with swap should fail when swap is lower # skip swap not enabled
++PASS: 22 ctr swap only configured if enabled
++SKIP: 23 ctr with swap should succeed when swap is unlimited # skip swap not enabled
++PASS: 24 cgroupv2 unified support
++SKIP: 25 cpu-quota.crio.io can disable quota # skip node must be configured with cgroupv1 for this test
++SKIP: 26 checkpoint and restore one container into a new pod (drop infra:true) # skip CRIU check failed
++SKIP: 27 checkpoint and restore one container into a new pod (drop infra:false) # skip CRIU check failed
++SKIP: 28 checkpoint and restore one container into a new pod using --export to OCI image # skip CRIU check failed
++SKIP: 29 checkpoint and restore one container into a new pod using --export to OCI image using repoDigest # skip CRIU check failed
++SKIP: 30 checkpoint and restore one container into a new pod with a new name # skip CRIU check failed
++PASS: 31 crio commands
++PASS: 32 invalid ulimits
++PASS: 33 invalid devices
++PASS: 34 invalid metrics port
++PASS: 35 invalid log max
++PASS: 36 log max boundary testing
++PASS: 37 default config should be empty
++PASS: 38 config dir should succeed
++PASS: 39 config dir should fail with invalid option
++PASS: 40 config dir should fail with invalid evented_pleg option
++PASS: 41 choose different default runtime should succeed
++PASS: 42 runc not existing when default_runtime changed should succeed
++PASS: 43 retain default runtime should succeed
++PASS: 44 monitor fields should be translated
++PASS: 45 handle nil workloads
++PASS: 46 config dir should fail with invalid disable_hostport_mapping option
++SKIP: 47 conmonrs is used # skip not using conmonrs
++SKIP: 48 test cpu load balancing # skip not yet supported on cgroup2
++SKIP: 49 test cpu load balance disabled on manual stop # skip not yet supported on cgroup2
++SKIP: 50 test cpu load balance disabled on container exit # skip not yet supported on cgroup2
++PASS: 51 container memory metrics
++SKIP: 52 container memory cgroupv1-specific metrics # skip
++PASS: 53 storage directory check should find no issues
++PASS: 54 storage directory check should find errors
++PASS: 55 storage directory check should repair errors
++PASS: 56 storage directory check should wipe everything on repair errors
++PASS: 57 remove containers and images when remove both
++PASS: 58 remove containers when remove temporary
++PASS: 59 clear neither when remove persist
++PASS: 60 don't clear podman containers
++PASS: 61 clear everything when shutdown file not found
++PASS: 62 clear podman containers when shutdown file not found
++PASS: 63 fail to clear podman containers when shutdown file not found but container still running
++PASS: 64 don't clear containers on a forced restart of crio
++PASS: 65 don't clear containers if clean shutdown supported file not present
++PASS: 66 internal_wipe remove containers and images when remove both
++PASS: 67 internal_wipe remove containers when remove temporary and node reboots
++PASS: 68 internal_wipe remove containers when remove temporary
++PASS: 69 internal_wipe clear both when remove persist
++PASS: 70 internal_wipe don't clear podman containers
++PASS: 71 internal_wipe don't clear containers on a forced restart of crio
++PASS: 72 internal_wipe eventually cleans network on forced restart of crio if network is slow to come up
++PASS: 73 clean up image if corrupted on server restore
++PASS: 74 recover from badly corrupted storage directory
++SKIP: 75 run the critest suite # skip critest because RUN_CRITEST is not set
++PASS: 76 ctr not found correct error message
++PASS: 77 ctr termination reason Completed
++PASS: 78 ctr termination reason Error
++PASS: 79 ulimits
++PASS: 80 ctr remove
++PASS: 81 ctr lifecycle
++PASS: 82 ctr pod lifecycle with evented pleg enabled
++FAIL: 83 ctr logging
++PASS: 84 ctr log cleaned up if container create failed
++PASS: 85 ctr journald logging
++PASS: 86 ctr logging [tty=true]
++FAIL: 87 ctr log max
++FAIL: 88 ctr log max with default value
++FAIL: 89 ctr log max with minimum value
++FAIL: 90 ctr partial line logging
++PASS: 91 ctrs status for a pod
++PASS: 92 ctr list filtering
++PASS: 93 ctr list label filtering
++PASS: 94 ctr metadata in list & status
++PASS: 95 ctr execsync conflicting with conmon flags parsing
++PASS: 96 ctr execsync
++PASS: 97 ctr execsync should not overwrite initial spec args
++PASS: 98 ctr execsync should succeed if container has a terminal
++PASS: 99 ctr execsync should cap output
++PASS: 100 ctr exec{,sync} should be cancelled when container is stopped
++PASS: 101 ctr device add
++PASS: 102 privileged ctr device add
++PASS: 103 privileged ctr add duplicate device as host
++PASS: 104 ctr hostname env
++PASS: 105 ctr execsync failure
++PASS: 106 ctr execsync exit code
++PASS: 107 ctr execsync std{out,err}
++PASS: 108 ctr stop idempotent
++PASS: 109 ctr caps drop
++PASS: 110 ctr with default list of capabilities from crio.conf
++PASS: 111 ctr with list of capabilities given by user in crio.conf
++PASS: 112 ctr with add_inheritable_capabilities has inheritable capabilities
++PASS: 113 ctr /etc/resolv.conf rw/ro mode
++PASS: 114 ctr create with non-existent command
++PASS: 115 ctr create with non-existent command [tty]
++PASS: 116 ctr update resources
++PASS: 117 ctr correctly setup working directory
++PASS: 118 ctr execsync conflicting with conmon env
++PASS: 119 ctr resources
++PASS: 120 ctr with non-root user has no effective capabilities
++PASS: 121 ctr has gid in supplemental groups
++PASS: 122 ctr has gid in supplemental groups with Merge policy
++PASS: 123 ctr has only specified gid in supplemental groups with Strict policy
++PASS: 124 ctr with low memory configured should not be created
++PASS: 125 privileged ctr -- check for rw mounts
++PASS: 126 annotations passed through
++PASS: 127 ctr with default_env set in configuration
++PASS: 128 ctr with absent mount that should be rejected
++PASS: 129 ctr that mounts container storage as shared should keep shared
++PASS: 130 ctr that mounts container storage as private should not be private
++PASS: 131 ctr that mounts container storage as read-only option but not recursively
++SKIP: 132 ctr that mounts container storage as recursively read-only # skip requires crictl version "1.30" or newer
++SKIP: 133 ctr that fails to mount container storage as recursively read-only without readonly option # skip requires crictl version "1.30" or newer
++SKIP: 134 ctr that fails to mount container storage as recursively read-only without private propagation # skip requires crictl version "1.30" or newer
++PASS: 135 ctr has containerenv
++PASS: 136 ctr stop timeouts should decrease
++PASS: 137 ctr with node level pid namespace should not leak children
++PASS: 138 ctr HOME env newline invalid
++PASS: 139 ctr log linking
++PASS: 140 ctr stop loop kill retry attempts
++PASS: 141 ctr multiple stop calls
++PASS: 142 pause/unpause ctr with right ctr id
++PASS: 143 pause ctr with invalid ctr id
++PASS: 144 pause ctr with already paused ctr
++PASS: 145 unpause ctr with right ctr id with running ctr
++PASS: 146 unpause ctr with invalid ctr id
++PASS: 147 remove paused ctr
++FAIL: 148 ctr seccomp profiles unconfined
++FAIL: 149 ctr seccomp profiles runtime/default
++FAIL: 150 ctr seccomp profiles wrong profile name
++FAIL: 151 ctr seccomp profiles localhost profile name
++FAIL: 152 ctr seccomp overrides unconfined profile with runtime/default when overridden
++FAIL: 153 ctr seccomp profiles runtime/default block unshare
++SKIP: 154 ctr_userns run container # skip userns testing not enabled
++PASS: 155 bind secrets mounts to container
++PASS: 156 default mounts correctly sorted with other mounts
++PASS: 157 additional devices support
++PASS: 158 additional devices permissions
++PASS: 159 annotation devices support
++PASS: 160 annotation should not be processed if not allowed
++PASS: 161 annotation should override configured additional_devices
++PASS: 162 annotation should not be processed if not allowed in allowed_devices
++PASS: 163 annotation should configure multiple devices
++PASS: 164 annotation should fail if one device is invalid
++PASS: 165 test infra ctr dropped
++PASS: 166 test infra ctr not dropped
++PASS: 167 test infra ctr dropped status
++PASS: 168 pod test hooks
++PASS: 169 run container in pod with image ID
++PASS: 170 container status when created by image ID
++PASS: 171 container status when created by image tagged reference
++PASS: 172 container status when created by image canonical reference
++PASS: 173 container status when created by image list canonical reference
++PASS: 174 image pull and list
++PASS: 175 image pull and list using imagestore
++SKIP: 176 image pull with signature # skip registry has some issues
++PASS: 177 image pull and list by tag and ID
++PASS: 178 image pull and list by digest and ID
++PASS: 179 image pull and list by manifest list digest
++PASS: 180 image pull and list by manifest list tag
++PASS: 181 image pull and list by manifest list and individual digest
++PASS: 182 image pull and list by individual and manifest list digest
++PASS: 183 image list with filter
++PASS: 184 image list/remove
++PASS: 185 image status/remove
++SKIP: 186 run container in pod with crun-wasm enabled # skip crun-wasm not installed or runtime type is VM
++PASS: 187 check if image is pinned appropriately
++PASS: 188 run container in pod with timezone configured
++PASS: 189 run container in pod with local timezone
++PASS: 190 run container with memory_limit_in_bytes -1
++PASS: 191 run container with memory_limit_in_bytes 12.5MiB
++PASS: 192 run container with container_min_memory 17.5MiB
++PASS: 193 run container with container_min_memory 5.5MiB
++PASS: 194 run container with empty container_min_memory
++PASS: 195 image remove with multiple names, by name
++PASS: 196 image remove with multiple names, by ID
++PASS: 197 image volume ignore
++PASS: 198 image volume bind
++PASS: 199 image volume user mkdir
++PASS: 200 image fs info with default settings should return matching container_filesystem and image_filesystem
++PASS: 201 image fs info with imagestore set should return different filesystems
++PASS: 202 test infra ctr cpuset
++PASS: 203 info inspect
++PASS: 204 ctr inspect
++PASS: 205 pod inspect when dropping infra
++PASS: 206 ctr inspect not found
++PASS: 207 inspect image should succeed contain all necessary information
++SKIP: 208 irqbalance tests (in sequence) # skip irqbalance not found.
++SKIP: 209 container run with kata should have containerd-shim-kata-v2 process running # skip Not
++PASS: 210 metrics with default host and port
++FAIL: 211 metrics with custom host using localhost and random port
++FAIL: 212 secure metrics with random port
++FAIL: 213 secure metrics with random port and missing cert/key
++PASS: 214 pid namespace mode pod test
++PASS: 215 pid namespace mode target test
++PASS: 216 KUBENSMNT mount namespace
++PASS: 217 ensure correct hostname
++PASS: 218 ensure correct hostname for hostnetwork:true
++PASS: 219 Check for valid pod netns CIDR
++PASS: 220 Ensure correct CNI plugin namespace/name/container-id arguments
++SKIP: 221 Connect to pod hostport from the host # skip node configured with cgroupv2 flakes this test sometimes
++PASS: 222 Clean up network if pod sandbox fails
++PASS: 223 Clean up network if pod sandbox fails after plugin success
++PASS: 224 Clean up network if pod sandbox gets killed
++PASS: 225 Ping pod from the host / another pod
++PASS: 226 run NRI PluginRegistration test
++PASS: 227 run NRI PluginSynchronization test
++PASS: 228 run NRI PodEvents test
++PASS: 229 run NRI ContainerEvents test
++PASS: 230 run NRI MountInjection test
++PASS: 231 run NRI EnvironmentInjection test
++PASS: 232 run NRI AnnotationInjection test
++PASS: 233 run NRI DeviceInjection test
++PASS: 234 run NRI CpusetAdjustment test
++PASS: 235 run NRI MemsetAdjustment test
++PASS: 236 run NRI CpusetAdjustmentUpdate test
++PASS: 237 run NRI MemsetAdjustmentUpdate test
++SKIP: 238 OCI image volume mount lifecycle # skip requires crictl version "1.31" or newer
++PASS: 239 pod release name on remove
++PASS: 240 pod remove
++PASS: 241 pod stop ignores not found sandboxes
++PASS: 242 pod list filtering
++PASS: 243 pod metadata in list & status
++PASS: 244 pass pod sysctls to runtime
++PASS: 245 pass pod sysctls to runtime when in userns
++SKIP: 246 disable crypto.fips_enabled when FIPS_DISABLE is set # skip The directory /proc/sys/crypto does not exist on this host.
++PASS: 247 fail to pass pod sysctls to runtime if invalid spaces
++PASS: 248 fail to pass pod sysctl to runtime if invalid value
++PASS: 249 skip pod sysctls to runtime if host
++PASS: 250 pod stop idempotent
++PASS: 251 pod remove idempotent
++PASS: 252 pod stop idempotent with ctrs already stopped
++PASS: 253 restart crio and still get pod status
++PASS: 254 invalid systemd cgroup_parent fail
++PASS: 255 systemd cgroup_parent correctly set
++PASS: 256 kubernetes pod terminationGracePeriod passthru
++PASS: 257 pod pause image matches configured image in crio.conf
++PASS: 258 pod stop cleans up all namespaces
++PASS: 259 pod with the correct etc folder ownership
++PASS: 260 verify RunAsGroup in container
++PASS: 261 single cni plugin with pod annotations capability enabled
++PASS: 262 single cni plugin with pod annotations capability disabled
++PASS: 263 pod annotations capability for chained cni plugins
++PASS: 264 accept unsigned image with default policy
++PASS: 265 deny unsigned image with restrictive policy
++PASS: 266 accept signed image with default policy
++FAIL: 267 accept signed image with restrictive policy
++PASS: 268 accept unsigned image with not existing namespace policy
++PASS: 269 accept unsigned image with higher priority namespace policy
++PASS: 270 deny unsigned image with higher priority namespace policy
++FAIL: 271 accept signed image with higher priority namespace policy
++PASS: 272 pprof
++PASS: 273 pprof over unix socket
++PASS: 274 reload config should succeed
++PASS: 275 reload config should succeed with 'log_level'
++PASS: 276 reload config should fail with 'log_level' if invalid
++PASS: 277 reload config should fail with if config is malformed
++PASS: 278 reload config should succeed with 'pause_image'
++PASS: 279 reload config should succeed with 'pause_command'
++PASS: 280 reload config should succeed with 'pause_image_auth_file'
++PASS: 281 reload config should fail with non existing 'pause_image_auth_file'
++PASS: 282 reload config should succeed with 'log_filter'
++PASS: 283 reload config should fail with invalid 'log_filter'
++PASS: 284 reload config should succeed with 'decryption_keys_path'
++PASS: 285 reload config should succeed with 'seccomp_profile'
++FAIL: 286 reload config should not fail with invalid 'seccomp_profile'
++SKIP: 287 reload config should succeed with 'apparmor_profile' # skip apparmor not enabled
++SKIP: 288 reload config should fail with invalid 'apparmor_profile' # skip apparmor not enabled
++PASS: 289 reload config should add new runtime
++PASS: 290 reload config should update 'pinned_images'
++PASS: 291 reload config should update 'pinned_images' and only 'pause_image' is pinned
++PASS: 292 reload config should update 'pause_image' and it becomes 'pinned_images'
++PASS: 293 reload config should remove pinned images when an empty list is provided
++PASS: 294 reload system registries should succeed
++PASS: 295 reload system registries should succeed with new registry
++PASS: 296 reload system registries should fail on invalid syntax in file
++PASS: 297 system registries should succeed with new registry without reload
++PASS: 298 system registries should fail on invalid syntax in file without reload
++PASS: 299 system handles burst of configuration changes without excessive reloads
++PASS: 300 system handles duplicate events for the same file
++PASS: 301 crio restore
++PASS: 302 crio restore with pod stopped
++PASS: 303 crio restore with bad state and pod stopped
++PASS: 304 crio restore with bad state and ctr stopped
++PASS: 305 crio restore with bad state and ctr removed
++PASS: 306 crio restore with bad state and pod removed
++PASS: 307 crio restore with bad state
++PASS: 308 crio restore with missing config.json
++PASS: 309 crio restore first not managing then managing
++PASS: 310 crio restore first managing then not managing
++PASS: 311 crio restore changing managing dir
++PASS: 312 crio restore upon entering KUBENSMNT
++PASS: 313 crio restore upon exiting KUBENSMNT
++PASS: 314 crio restore volumes for containers
++PASS: 315 crictl runtimeversion
++PASS: 316 if fs.may_detach_mounts is set
++FAIL: 317 seccomp notifier with runtime/default
++FAIL: 318 seccomp notifier with runtime/default but not stop
++FAIL: 319 seccomp notifier with custom profile
++FAIL: 320 seccomp notifier should not work if annotation is not allowed
++FAIL: 321 seccomp OCI artifact with image annotation without suffix
++FAIL: 322 seccomp OCI artifact with image annotation for pod
++FAIL: 323 seccomp OCI artifact with image annotation for container
++PASS: 324 seccomp OCI artifact with image annotation but not allowed annotation on runtime config
++FAIL: 325 seccomp OCI artifact with image annotation and profile set to unconfined
++PASS: 326 seccomp OCI artifact with image annotation but set runtime default profile with higher priority
++FAIL: 327 seccomp OCI artifact with image annotation but set localhost profile with higher priority
++FAIL: 328 seccomp OCI artifact with pod annotation
++FAIL: 329 seccomp OCI artifact with container annotation
++PASS: 330 seccomp OCI artifact with bogus annotation
++PASS: 331 seccomp OCI artifact with missing artifact
++PASS: 332 selinux label level=s0 is sufficient
++SKIP: 333 selinux skips relabeling if TrySkipVolumeSELinuxLabel annotation is present # skip not enforcing
++SKIP: 334 selinux skips relabeling for super privileged container # skip not enforcing
++PASS: 335 ctr check shared /dev/shm
++PASS: 336 check /dev/shm is changed
++PASS: 337 check /dev/shm fails with incorrect values
++PASS: 338 stats
++PASS: 339 container stats
++PASS: 340 pod stats
++PASS: 341 status not should fail if no subcommand is provided
++PASS: 342 status should succeed to retrieve the config
++PASS: 343 status should fail to retrieve the config with invalid socket
++PASS: 344 status should succeed to retrieve the info
++PASS: 345 status should fail to retrieve the info with invalid socket
++PASS: 346 succeed to retrieve the container info
++PASS: 347 should fail to retrieve the container info without ID
++PASS: 348 should fail to retrieve the container with invalid socket
++PASS: 349 should not clean up pod after timeout
++FAIL: 350 emit metric when sandbox is re-requested
++PASS: 351 should not clean up container after timeout
++PASS: 352 should clean up pod after timeout if request changes
++PASS: 353 should clean up container after timeout if request changes
++PASS: 354 should clean up pod after timeout if not re-requested
++PASS: 355 should not wait for actual duplicate pod request
++PASS: 356 should clean up container after timeout if not re-requested
++FAIL: 357 emit metric when container is re-requested
++PASS: 358 should not be able to operate on a timed out pod
++PASS: 359 should not be able to operate on a timed out container
++PASS: 360 should not wait for actual duplicate container request
++PASS: 361 check umask is changed
++FAIL: 362 userns annotation auto should succeed
++PASS: 363 userns annotation auto with keep-id and map-to-root should fail
++FAIL: 364 userns annotation auto should map host run_as_user
++FAIL: 365 version
++PASS: 366 version -j
++PASS: 367 test workload gets configured to defaults
++PASS: 368 test workload can override defaults
++PASS: 369 test workload should not be set if not defaulted or specified
++PASS: 370 test workload should not be set if annotation not specified
++PASS: 371 test workload pod gets configured to defaults
++PASS: 372 test workload can override pod defaults
++PASS: 373 test workload pod should not be set if not defaulted or specified
++PASS: 374 test workload pod should not be set if annotation not specified
++PASS: 375 test workload pod should override infra_ctr_cpuset option
++PASS: 376 test workload allowed annotation should not work if not configured
++PASS: 377 test workload allowed annotation appended with runtime
++PASS: 378 test workload allowed annotation works for pod
++PASS: 379 test resource cleanup on bad annotation contents
++PASS: 380 test workload pod should not be set if annotation not specified even if prefix
++PASS: 381 test special runtime annotations not allowed
++PASS: 382 test special runtime annotations allowed
++
++real    9m12.847s
++user    42m18.946s
++sys     8m15.064s
++DURATION: 553
++END: /usr/lib64/cri-o/ptest
++2024-11-23T14:59
++STOP: ptest-runner
++TOTAL: 1 FAIL: 0
++root@intel-x86-64:~#
++```
++
+diff --git a/recipes-containers/cri-o/cri-o_git.bb b/recipes-containers/cri-o/cri-o_git.bb
+index efc86fbe..f04c4feb 100644
+--- a/recipes-containers/cri-o/cri-o_git.bb
++++ b/recipes-containers/cri-o/cri-o_git.bb
+@@ -17,7 +17,9 @@ At a high level, we expect the scope of cri-o to be restricted to the following
+ SRCREV_cri-o = "20c06a19cb395445620c31730c0f1a0a1922eaae"
+ SRC_URI = "\
+ 	git://github.com/kubernetes-sigs/cri-o.git;branch=release-1.31;name=cri-o;protocol=https;destsuffix=${GO_SRCURI_DESTSUFFIX} \
++        file://0001-Add-trimpath-to-build-nri.test.patch \
+         file://crio.conf \
++        file://run-ptest \
+ 	"
+ 
+ # Apache-2.0 for docker
+@@ -28,7 +30,7 @@ GO_IMPORT = "import"
+ 
+ PV = "1.31.0+git${SRCREV_cri-o}"
+ 
+-inherit features_check
++inherit features_check ptest
+ REQUIRED_DISTRO_FEATURES ?= "seccomp"
+ 
+ DEPENDS = " \
+@@ -69,6 +71,13 @@ do_compile() {
+ 	oe_runmake binaries
+ }
+ 
++do_compile_ptest() {
++    set +e
++
++    cd ${S}/src/import
++
++    oe_runmake test-binaries
++}
+ SYSTEMD_PACKAGES = "${@bb.utils.contains('DISTRO_FEATURES','systemd','${PN}','',d)}"
+ SYSTEMD_SERVICE:${PN} = "${@bb.utils.contains('DISTRO_FEATURES','systemd','crio.service','',d)}"
+ SYSTEMD_AUTO_ENABLE:${PN} = "enable"
+@@ -100,6 +109,12 @@ do_install() {
+     install -d ${D}${localstatedir}/lib/crio
+ }
+ 
++do_install_ptest() {
++    install -d ${D}${PTEST_PATH}/test
++    install -d ${D}${PTEST_PATH}/bin
++    cp -rf ${S}/src/import/test ${D}${PTEST_PATH}
++    cp -rf ${S}/src/import/bin ${D}${PTEST_PATH}
++}
+ FILES:${PN}-config = "${sysconfdir}/crio/config/*"
+ FILES:${PN} += "${systemd_unitdir}/system/*"
+ FILES:${PN} += "/usr/local/bin/*"
+@@ -109,7 +124,21 @@ FILES:${PN} += "/usr/share/containers/oci/hooks.d"
+ ALLOW_EMPTY:${PN} = "1"
+ 
+ INSANE_SKIP:${PN} += "ldflags already-stripped textrel"
++INSANE_SKIP:${PN}-ptest += "textrel"
+ 
+-deltask compile_ptest_base
++RDEPENDS:${PN}-ptest += " \
++    bash \
++    bats \
++    cni \
++    crictl \
++    coreutils \
++    dbus-daemon-proxy \
++    iproute2 \
++    util-linux-unshare \
++    jq \
++    slirp4netns \
++    parallel \
++    podman \
++"
+ 
+ COMPATIBLE_HOST = "^(?!(qemu)?mips).*"
+diff --git a/recipes-containers/cri-o/files/0001-Add-trimpath-to-build-nri.test.patch b/recipes-containers/cri-o/files/0001-Add-trimpath-to-build-nri.test.patch
+new file mode 100644
+index 00000000..c6be41f0
+--- /dev/null
++++ b/recipes-containers/cri-o/files/0001-Add-trimpath-to-build-nri.test.patch
+@@ -0,0 +1,31 @@
++From 0bf230f59d211044e7993543e010b0d7f9dcead3 Mon Sep 17 00:00:00 2001
++From: Peng Zhang <peng.zhang1.cn@windriver.com>
++Date: Fri, 25 Oct 2024 10:42:02 +0800
++Subject: [PATCH] Add --trimpath to build nri.test
++
++when build test-binary, TMPDIR[buildpaths] error found in nri.test
++to fix this error, add "--trimpath" option to build nri.test.
++
++Upstream-Status: Inappropriate [oe specific]
++
++Signed-off-by: Peng Zhang <peng.zhang1.cn@windriver.com>
++---
++ Makefile | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++Index: cri-o-1.31.0+git20c06a19cb395445620c31730c0f1a0a1922eaae/src/import/Makefile
++===================================================================
++--- cri-o-1.31.0+git20c06a19cb395445620c31730c0f1a0a1922eaae.orig/src/import/Makefile
+++++ cri-o-1.31.0+git20c06a19cb395445620c31730c0f1a0a1922eaae/src/import/Makefile
++@@ -169,7 +169,7 @@ test/checkcriu/checkcriu: $(GO_FILES)
++ 	$(GO_BUILD) $(GCFLAGS) $(GO_LDFLAGS) -tags "$(BUILDTAGS)" -o $@ ./test/checkcriu
++ 
++ test/nri/nri.test: $(wildcard test/nri/*.go)
++-	$(GO) test --tags "test $(BUILDTAGS)" -c ./test/nri -o $@
+++	$(GO) test --tags "test $(BUILDTAGS)" -c ./test/nri -o $@ ${TRIMPATH}
++ 
++ bin/crio: $(GO_FILES)
++ 	$(GO_BUILD) $(GCFLAGS) $(GO_LDFLAGS) -tags "$(BUILDTAGS)" -o $@ ./cmd/crio
++-- 
++2.34.1
++
+diff --git a/recipes-containers/cri-o/files/run-ptest b/recipes-containers/cri-o/files/run-ptest
+new file mode 100644
+index 00000000..62abe959
+--- /dev/null
++++ b/recipes-containers/cri-o/files/run-ptest
+@@ -0,0 +1,11 @@
++#!/bin/sh
++
++./test/test_runner.sh | while IFS= read -r line; do
++	if [[ $line =~ ^not\ ok ]]; then
++		echo "FAIL: ${line#not ok }"
++	elif [[ $line =~ ^ok && ! $line =~ \#\ skip ]]; then
++		echo "PASS: ${line#ok }"
++	elif [[ $line =~ ^ok.*#\ skip ]]; then
++		echo "SKIP: ${line#ok }"
++	fi
++done
+-- 
+2.34.1
+
 
