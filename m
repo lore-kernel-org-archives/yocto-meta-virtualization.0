@@ -2,40 +2,40 @@ Return-Path: <sandeep.gundlupet-raju@amd.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CAA3FE77185
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF57FE77187
 	for <webhook@archiver.kernel.org>; Mon,  9 Dec 2024 14:54:52 +0000 (UTC)
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (NAM12-MW2-obe.outbound.protection.outlook.com [40.107.244.63])
- by mx.groups.io with SMTP id smtpd.web10.103532.1733756090451638350
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com (NAM02-BN1-obe.outbound.protection.outlook.com [40.107.212.57])
+ by mx.groups.io with SMTP id smtpd.web11.103352.1733756089633554907
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 09 Dec 2024 06:54:50 -0800
+ Mon, 09 Dec 2024 06:54:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@amd.com header.s=selector1 header.b=a8S3s+R5;
- spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: amd.com, ip: 40.107.244.63, mailfrom: sandeep.gundlupet-raju@amd.com)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@amd.com header.s=selector1 header.b=K+tF984N;
+ spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: amd.com, ip: 40.107.212.57, mailfrom: sandeep.gundlupet-raju@amd.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Jf2TLYrl99Yf0N9YzREzIxJNbMXfaI7UIebWLCZAJfbnOLh3EoGPnKrIVIC9NK3q52wmSoJfb2be1gXBhDY+HLcDSuenL2aXhUju7AIorH5hi9AK8JkaiN2JH9tSpRRHUDdTIkUlEBB4Jj3nRdcqAh0/tUkTytYV3lvvZF48ZNAonXHAbV4inu9KyOPazi/f6jE2qiCD33NOkNCP0rETolaRXN2FdPg3DQdHVDeBK5aenWL8BYKSYW5RvgZ3alcrdiXF/kFThPIXls/hhF7XnG5J+Zhi7GsGZVIXEEHJKpN/gUgXNftZLpBJpb+iK5TcuXXN9t+PpSUDTKQJi19H1Q==
+ b=tselA2o/I2oRLsHpXNvcgtwL1isLHvotJOd8BAK4UVoiN/bM/gR4QVAEs9FLuD6YK7GEOrVHI/dFYrikFJTa5mytwwDkYWF8Gc0DWM6Ia0lCSRsLuAScexIz3o+3bDZVTDnwohzKgWu7CDcd5wcSIZ1rJvyKyk6kJpY4pqzETCDEDv4+4G39hWobh0s/QGhJINGGmZx21a74KqEBm5HR0B67g7NTbXjU4c03yV9Fk2M3SupbiVyK6Z3etLCkEwaW2SxQNXWBUPr8AA1H0iwga+WCsDv2LJ/HbCGkqNx2cWaseQ8p1uCtuYboogIzjCJSRPV2UEdi4Hqeaf15aTz8TA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=SgHKbYchzkKXmkeb1U4FCTdGY+H2QIeLvsnMSJkCAOg=;
- b=P1TxgQ3musm8DuuUKHTmIkEfzZo1ImK5HRWvOhyY3n2QLGShYHZN9/gaY08+TOZ3fjfDX1Ziywpha2OBGqO53WXVhy+ghohKDkl6Lm5NpyszMSYVXAbMaG6Ydi5LpJCm4g7djINGtQJBSNIV6l0EvNT1Ij4BGb4a3VK2RcG6zc93eeHm/cdx1ZTzuwheZeHht5FObLtr99l7HYYC2RvKpfpotx/C9Xq6ZgiYvGSpUCEwPCO3908k7fWyhMh1M4WhuSAWxXkHqzuVFBPU64wFZZ92STh+VF/Uk+I4z0ZGXFnRpwt9cfCajyIrXKxh7lyvxz6RHHbJIyQpVd3pOsNwmA==
+ bh=oSJpFUOpNqaqPPOtq1EsUZ2E68de4WPZQP+U0FmjddY=;
+ b=vsds17yh9PMVnMRmn1alTXczUaTEAmiVweQHBvGP9GyVXFpUdKatCZn8mKdsPZ8Sm16qbfeiyJvxENrwKpKd/6T03PgS+bO2JCnjqy8SZa52qpXDbxzkw3AMHQB/aeMFbDnNmcD1K0L1e71Q+Dd/DZEQ7hEFsu3hTz3GX44Ns5GC01gPL2fCcosTk+1R81BUZNKao5V9SNs5B/itu28XUFFHztM8wzVFJR3QswcxYUl03vNGGoLMCsOE3rH8dHoeW7ICdNyn539NZlSJ8eCX2+9X+8FS/Hgf8qZvOKT1g7uD73FmlGOy8TWaPF/+JGwkEdJVGsqaL1PXawjqNEtZjQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lists.yoctoproject.org
  smtp.mailfrom=amd.com; dmarc=pass (p=quarantine sp=quarantine pct=100)
  action=none header.from=amd.com; dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SgHKbYchzkKXmkeb1U4FCTdGY+H2QIeLvsnMSJkCAOg=;
- b=a8S3s+R5g1xFCmu8RHJjhF2JLgR0ez5x+XQd5Z9KD4lnEk+PwixC51LF9gSFzju//GaDCu084ooPY31E7ALuhCVxTFYB736oJDSEy2mpn6fIxm2qGNKb95gAcc/bNsLwjsj3ALvJjCyobZLLaY4m9JUKwiQSJHEgHyJPTcVCc34=
-Received: from DS7PR05CA0064.namprd05.prod.outlook.com (2603:10b6:8:57::26) by
- CH3PR12MB9429.namprd12.prod.outlook.com (2603:10b6:610:1c9::19) with
+ bh=oSJpFUOpNqaqPPOtq1EsUZ2E68de4WPZQP+U0FmjddY=;
+ b=K+tF984N67qUuMYoWPkIYXf7UICeALndOhsgZPRsnYD/pGk2e3TbTeCD/N8x+PqDtpPE+gR6insTb5mCwovIcepdd25mBQK46LJeWvdE/WpEBdzoQ5GEvENpf+SvqyniI0IDVKzExxWUh/GGBPWj9jZZnSFkYG/p1BoxYDE84K8=
+Received: from DS7PR05CA0075.namprd05.prod.outlook.com (2603:10b6:8:57::16) by
+ MN2PR12MB4286.namprd12.prod.outlook.com (2603:10b6:208:199::22) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8230.11; Mon, 9 Dec
- 2024 14:54:46 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8207.15; Mon, 9 Dec
+ 2024 14:54:44 +0000
 Received: from DS3PEPF000099E0.namprd04.prod.outlook.com
- (2603:10b6:8:57:cafe::63) by DS7PR05CA0064.outlook.office365.com
- (2603:10b6:8:57::26) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8251.12 via Frontend Transport; Mon,
- 9 Dec 2024 14:54:46 +0000
+ (2603:10b6:8:57:cafe::e5) by DS7PR05CA0075.outlook.office365.com
+ (2603:10b6:8:57::16) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8230.10 via Frontend Transport; Mon,
+ 9 Dec 2024 14:54:44 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -45,104 +45,128 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
  DS3PEPF000099E0.mail.protection.outlook.com (10.167.17.203) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8230.7 via Frontend Transport; Mon, 9 Dec 2024 14:54:46 +0000
-Received: from SATLEXMB06.amd.com (10.181.40.147) by SATLEXMB04.amd.com
+ 15.20.8230.7 via Frontend Transport; Mon, 9 Dec 2024 14:54:43 +0000
+Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 9 Dec
- 2024 08:54:45 -0600
-Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB06.amd.com
- (10.181.40.147) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 9 Dec
- 2024 08:54:45 -0600
+ 2024 08:54:43 -0600
 Received: from xcosswyocto01.xilinx.com (10.180.168.240) by SATLEXMB03.amd.com
  (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
- Transport; Mon, 9 Dec 2024 08:54:45 -0600
+ Transport; Mon, 9 Dec 2024 08:54:42 -0600
 From: Sandeep Gundlupet Raju <sandeep.gundlupet-raju@amd.com>
 To: <meta-virtualization@lists.yoctoproject.org>, <bruce.ashfield@gmail.com>
 CC: <mark.hatle@kernel.crashing.org>
-Subject: [meta-virtualization][master][styhead][PATCH v5 5/5]  xen-boot-env.inc: Inherit xen-launch-config bbclass
-Date: Mon, 9 Dec 2024 07:54:42 -0700
-Message-ID: <20241209145442.3291634-6-sandeep.gundlupet-raju@amd.com>
+Subject: [meta-virtualization][master][styhead][PATCH v5 0/5] Add bbclass for xen launch config variables
+Date: Mon, 9 Dec 2024 07:54:37 -0700
+Message-ID: <20241209145442.3291634-1-sandeep.gundlupet-raju@amd.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20241209145442.3291634-1-sandeep.gundlupet-raju@amd.com>
-References: <20241209145442.3291634-1-sandeep.gundlupet-raju@amd.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
+Received-SPF: None (SATLEXMB04.amd.com: sandeep.gundlupet-raju@amd.com does
+ not designate permitted sender hosts)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS3PEPF000099E0:EE_|CH3PR12MB9429:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8d3521d2-d937-438b-5226-08dd18616c33
+X-MS-TrafficTypeDiagnostic: DS3PEPF000099E0:EE_|MN2PR12MB4286:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9c2f25a5-7f65-4137-ea2e-08dd18616ae7
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|36860700013|82310400026|376014;
+	BCL:0;ARA:13230040|376014|1800799024|82310400026|36860700013;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?5C8gVV/NHT501UwPcuM+d/HdnUhI9dgJ9FRdses+W6+yyPUfBA6daueXLDBW?=
- =?us-ascii?Q?8kjGQ/gwoV1qVfYHvGsuwtkJ0m5nB5BFFt8j/mc4xUXSZZS/ojhmtxYfZGNk?=
- =?us-ascii?Q?7qI0ELCshkLqcP9EG6Zj52wyIFnLoL+liuXWEAbGMCV7lL05QxWapilfgDBS?=
- =?us-ascii?Q?iNEFFIWzsGRHbM7pwyDMD+o4nnFXB59ftJkG/nnsin5w7qIOu/k6jsRgG8YU?=
- =?us-ascii?Q?vyfsKPD6eKURsUMJ0TKHOgbVyJX/zIOXdlkAxrwaisVf1CkwWsJl2z5+TYMs?=
- =?us-ascii?Q?/GJBWLJXPYBBYSa41aXOn0pg2YDRc6maFO/vS9SoOyKm3f1ZdG1ptTVZD5MQ?=
- =?us-ascii?Q?WUApraQ0CGk0JW/0TAPCpl3oL9hNGE6kdJGBnb+MHv2/KctMYyB2nn/UAbRl?=
- =?us-ascii?Q?EbwBLM7xnWFxRAw3qV4fzgyr7Tikc/8umgaopp1jajdBNsXAuePmShcefuAN?=
- =?us-ascii?Q?khIKGNtfR7ykLS4lt644EFL11XHv0lbr8mk0iJYU8e3Lx00nlHdefrg6BuvI?=
- =?us-ascii?Q?98yGjxW16Dcpwtp9wMqGKW04Xogd0Q0zl++Bcdpx0txZqmTziphB+Yh4+V/O?=
- =?us-ascii?Q?lPvJM2+wWRBgAlNxxNktzjBehGLbr0hBbcgwJ//TyYE292RL+jPlule6XxDk?=
- =?us-ascii?Q?01QTdGjU7nllaY+C+Ld/YuZJVdV2CIS8qIi8/TqcwBOaI1XaD/Ahck3NUhS8?=
- =?us-ascii?Q?eTRg4eloSa+pDpA43MUEkfWIlK9Jc0c5Xz+l0OgQDcNeM0sHcgjXSK5/dMwQ?=
- =?us-ascii?Q?I7IrzygWYdwyu16CE/+7QgPyQGSJvT6LKJkdWM8R6cjhCn8Dn4gvj65k3xVV?=
- =?us-ascii?Q?Hg1ugyndc4RDq2Ea0cOqwFeUb1ZkNgVV5hpboGpDruYQX6CMbHUqnAQaeaMX?=
- =?us-ascii?Q?Y61MbCyk+SIKSf0cZIy3Iw5kt10y2K035I7wAtEfznc0Fx3AhXwZSj3oTWlw?=
- =?us-ascii?Q?IgZnuuO716zxInnBZitq9qCNf+hhY3Av3NUMNEvgSdcmT4L4Z9y35ibIAYdh?=
- =?us-ascii?Q?anVB2QsC5ac3wezZbO6ta78Gq9jL8hBoLSlMDmyhcUNDbnvEGavii/d3DZw0?=
- =?us-ascii?Q?e8VQNGMhAGcNNsZk6hEqdGEP/G0kD/w6DM4UxWrE8hOUf8e3krMXcARc0LF8?=
- =?us-ascii?Q?1voVyN27GMqzrrLsuL4gxZoIQ2XUrzGXBetk+Ju4Fmdp14KC15igAajfOPLi?=
- =?us-ascii?Q?fRk3DcVnkJxY/exp1RtPAFuJPOSTvIW69tqbbWvbD1S5c7qmgB0GrIgUYHgL?=
- =?us-ascii?Q?K+YmugtztIIuT1OeUZDa3VOT5BWK6UFdTN8ThhBUVdmtk81ywB/5ayujaiFX?=
- =?us-ascii?Q?2RsdpLg6ioqL2jJ3tLeTkdByTXjn1FZ3fqoY/lE8+gHpr9IL2QETlqHW8r7h?=
- =?us-ascii?Q?qGjwC/bg0aH9dqjetFhy7tUamZ1H4XDITvQEWL8qhNntqWqDzP5/s0QNE5Tu?=
- =?us-ascii?Q?LWl9DXkSbUfOzPq2GweGplLY0YUnM7kr?=
+	=?us-ascii?Q?ksnV42A+Jmxh5QmQuFTJGUFVgApQ8e0C9Lh/y+HPfjJqmsKngbnmJY8tX7ye?=
+ =?us-ascii?Q?b7MTUQ1Ctv7nFD3RRPsuV8/Faw3XuRMAshGnT2ApxBFIc1Z12rZnPqbfX8r/?=
+ =?us-ascii?Q?B/6fMz2ABvuI6XSUtEXu1n0Hh5qj4V0TnHhHuXTphjVRw1e34CfWAhhZzXjz?=
+ =?us-ascii?Q?XdLl/KS/TSdCEjx2G7OGj43fpYg6CjGjx4X8liGodcScRpP60jWyrUQtMoL4?=
+ =?us-ascii?Q?aCuPUUkQtEgTEulIB4AmQa+qlIfZ4B4f5zkl1qH6h4DcsqJGKa6NHPdC1FST?=
+ =?us-ascii?Q?fPQNXdAmfrEvCKEO/qEUdL5oJrxF4yzq77DSa31+D7usaFDR1DB8oZAmJ8eV?=
+ =?us-ascii?Q?TgVZ5kTW1lVjTZ128PoO4FLvrzGKoMTAoy62a+7W+D2hgxotS6dqgSi59mdh?=
+ =?us-ascii?Q?qAIwlx5bGx4hK0CeYlYc1VeYv7JdDaSVUljzQ6BXezZvbwfLJQLMwhTSaUUy?=
+ =?us-ascii?Q?jYHX9KGddSBqYtD7QhWJ2d7t3O0mxwbpynPqmE25rIhh18J9yNuwFE3I62u9?=
+ =?us-ascii?Q?YyFqx0c9SpDvT8ffWR1X6qDWHET+I2ieOnlrx601dGlYz9RDyRkXGXFSOfWs?=
+ =?us-ascii?Q?qPd/tFUdIXqQaYa1y5MnCywkxxhdPi8hDWO9aee578ywPKbZYrnrJiHSNJ3K?=
+ =?us-ascii?Q?ryvCwbLm8RUZglLqMPV7R0TUjY/2RxGweynE0l0+AjscYD1rEX544cCsGNDW?=
+ =?us-ascii?Q?M481JRLT/ieKvpXgpFBgiUoz8li9E+0NInXpAyEsXOigw0vc1YjFcezymOKT?=
+ =?us-ascii?Q?XEmJ1PaarQjQ0Vb/lYAusi+NAWB3k5i2iK5wIbK+e4s/iPsm87JtG7VUsgjn?=
+ =?us-ascii?Q?HjvkxFnTI7gXTcnwDmb1EjMXIweOYXR6EPWR3SBnawASKA6UT0LVxSbZ5yms?=
+ =?us-ascii?Q?xFbY4Pm9UtSySEV/AcVXQvoojlEu1yCL1eZ0XQPdaQz6tcy7IC7Jo/DCB/WV?=
+ =?us-ascii?Q?H1pN2SfHSPS3Ghe+Bkq2Hs7H6sF3LIbouf1W9V0qDs5yV/Pv4ZTLH0wsF6b5?=
+ =?us-ascii?Q?keOqgGhe/7bNvh2SsKVXUKZDXjwQJwrs7Jw44nHXU56Q/B6xST7y5bLgz5IE?=
+ =?us-ascii?Q?j2YM6lUz2ZAQ+mKpjUFm6dGaKKHEH6vntb9P9V0FIVS8GhSqFWLFjxpxWjD9?=
+ =?us-ascii?Q?f7NfaQA2Lh55i847A/g1hgEzapV3+m/emWI3z+cBsH8bDUzSU1HoNpTZtKVN?=
+ =?us-ascii?Q?wFafjs1yAO5YwI0ZXYX4FpeqKLDxG8O5yGHm21z6YiPXSfTbglryRmGaYo5k?=
+ =?us-ascii?Q?kyQiTEffNjLRdr1IqKRV4bK311QMr9YyvmjMFXHIWnaCEdPU8eL17er25AYX?=
+ =?us-ascii?Q?k9HK+z9wMKM9cJaUA2Bwx2ecJOBs5pXNkd7R/jo7v+cOheWMBRkimJDNSp4+?=
+ =?us-ascii?Q?sJF9GXP9u2Z0fiZ+StzdGOMyUF1ePBOVX9iEe9iJIp1b4ZK9c9wu9ozekZ6+?=
+ =?us-ascii?Q?JsGjLAje4KaobzHqIlhaV07n9nyWz9j5?=
 X-Forefront-Antispam-Report: 
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(36860700013)(82310400026)(376014);DIR:OUT;SFP:1101;
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(1800799024)(82310400026)(36860700013);DIR:OUT;SFP:1101;
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Dec 2024 14:54:46.1425
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Dec 2024 14:54:43.9862
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8d3521d2-d937-438b-5226-08dd18616c33
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9c2f25a5-7f65-4137-ea2e-08dd18616ae7
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource: 
 	DS3PEPF000099E0.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB9429
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4286
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <meta-virtualization@lists.yoctoproject.org>; Mon, 09 Dec 2024 14:54:52 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9046
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9044
 
-Inherit xen-launch-config bbclass to use xen launch config variables
-for u-boot boot script.
+Changes in v5:
+   - Merge below 2 patches into single patch.
+       - xen-boot-env: Move xen variables to inc file
+       - u-boot-xlnx-scr: Include xen-boot-env if BOOTMODE is xen
 
-Signed-off-by: Sandeep Gundlupet Raju <sandeep.gundlupet-raju@amd.com>
----
- dynamic-layers/xilinx/recipes-bsp/u-boot/xen-boot-env.inc | 2 ++
- 1 file changed, 2 insertions(+)
+Changes in v4:
+   - Fix xen-boot-env.inc by inheriting xen-lauch-config bbclass
 
-diff --git a/dynamic-layers/xilinx/recipes-bsp/u-boot/xen-boot-env.inc b/dy=
-namic-layers/xilinx/recipes-bsp/u-boot/xen-boot-env.inc
-index 9b9962a4..53f800eb 100644
---- a/dynamic-layers/xilinx/recipes-bsp/u-boot/xen-boot-env.inc
-+++ b/dynamic-layers/xilinx/recipes-bsp/u-boot/xen-boot-env.inc
-@@ -1,5 +1,7 @@
- # Adjust the variables for xen boot
-=20
-+inherit xen-launch-config
-+
- # Image offsets for Xen boot.
- KERNEL_OFFSET ?=3D "0xE00000"
- DEVICETREE_OFFSET ?=3D "0xC000000"
+Changes in v3:
+   - Rename xen-u-boot-scr-configuration.bbclass to xen-launch-config.bbcla=
+ss
+     as suggested by Christopher Clark as this is not u-boot specific.
+
+Changes in V2:
+   - Rename xen-u-boot-scr.bbclass to xen-u-boot-scr-configuration.bbclass
+   - Add comment in u-boot-xlnx-scr.bbappend to specify where BOOTMODE
+     variable is defined.
+
+1. Add xen-lauch-config.bbclass for generic xen launch config
+   variables use by any soc devices.
+2. Inherit xen-launch-config.bbclass in xen-rpi-u-boot-scr.
+3. Move xen variables to xen-boot-env.inc file in xilinx
+   dynamic layers.
+4. Include xen-boot-env if BOOTMODE =3D "xen" switch is enabled.
+5. Add load address to boot.cmd.xen script echo messages.
+6. Inherit xen-launch-config bbclass in xen-boot-env.inc.
+7. If user brings in their own boot.cmd.xxx file they can just
+   inherit xen-launch-config bbclass and use the generic
+   xen boot script variables.
+
+Sandeep Gundlupet Raju (5):
+  xen-launch-config: Add bbclass for xen launch config variables
+  xen-rpi-u-boot-scr: Inherit xen-launch-config bbclass
+  u-boot-xlnx-scr: Include xen-boot-env if BOOTMODE is xen
+  boot.cmd.xen: Add load address to echo messages
+  xen-boot-env.inc: Inherit xen-launch-config bbclass
+
+ classes-recipe/xen-launch-config.bbclass      | 43 +++++++++++++++++++
+ .../xen-rpi-u-boot-scr/files/boot.cmd.xen.in  | 10 ++---
+ .../xen-rpi-u-boot-scr/xen-rpi-u-boot-scr.bb  | 13 +++---
+ .../u-boot/u-boot-xlnx-scr.bbappend           | 13 +++++-
+ .../u-boot/u-boot-xlnx-scr/boot.cmd.xen       |  8 ++--
+ .../recipes-bsp/u-boot/xen-boot-cmd.inc       | 35 ---------------
+ .../recipes-bsp/u-boot/xen-boot-env.inc       | 31 +++++++++++++
+ 7 files changed, 103 insertions(+), 50 deletions(-)
+ create mode 100644 classes-recipe/xen-launch-config.bbclass
+ create mode 100644 dynamic-layers/xilinx/recipes-bsp/u-boot/xen-boot-env.i=
+nc
+
 --=20
 2.34.1
 
