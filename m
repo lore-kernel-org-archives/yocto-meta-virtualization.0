@@ -1,216 +1,280 @@
-Return-Path: <sandeep.gundlupet-raju@amd.com>
+Return-Path: <christopher.w.clark@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C4F99E77184
-	for <webhook@archiver.kernel.org>; Tue, 17 Dec 2024 17:53:29 +0000 (UTC)
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (NAM11-BN8-obe.outbound.protection.outlook.com [40.107.236.84])
- by mx.groups.io with SMTP id smtpd.web10.87749.1734458009097963529
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AAAFAE77184
+	for <webhook@archiver.kernel.org>; Wed, 18 Dec 2024 00:06:31 +0000 (UTC)
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+ by mx.groups.io with SMTP id smtpd.web10.95154.1734480386902155728
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 17 Dec 2024 09:53:29 -0800
+ Tue, 17 Dec 2024 16:06:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@amd.com header.s=selector1 header.b=ntT8KFIc;
- spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: amd.com, ip: 40.107.236.84, mailfrom: sandeep.gundlupet-raju@amd.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=eGYRB6WFIhDytB/44I55NA0ISoZkf+rpu5mi1LISfZ7DWk84m8U/BeNsrDebs5ukczR6qhZhLVsmyYRPqT7g7XGf/jdwV20eE30QXlwv+7ss7D8xiGju4lCuez0dNeoX3StUoPav5F1DHjzCdx3XT/Mf2W/QDAcrcmyp9NYPn8JMrjyxqZOF2E0X8XTVeD9+3Qpsv1zDEsha60ZuQ9uL7x3p9AQDXMeGbtnDdZAsptnJvChPV2LrqqIqtU00Zbh8igZWV9FVbms4xOkamprxpWuyfUJN/pWiuAwr8eHZ/PyNdecWrk0H88ThsCtup3Zo1taR+PoCMH3xCDF3uyuT2w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=AEkosu2rkJXKo+44mVQIh9IlKJiB0GbrCmNpI2cFKLA=;
- b=XHjwd5Qv/dHn1s1jGOVS6+4INe23C/JEQXG7Jak1YN9mL0ZaKNF5xUchwWi/qXdapuNUGnamvmcNt23BTmnbhW292OWnkNN2rgZoA8rJ4BqniDsRjggOoPtPWzmRSKXK9aG2lDhqPjWmxMYxEP6so5h/2oUSgpw/YbmxIYRAZB2ExpyHRyhcXz13Bx4EswV6eX5UvXHvFg+sAMCahwl1M92GtYqy78H7AsRooiQq1lfOBZ9/WNlQKaOfuRNyWhfq90gDEM7r+J8pWVNTNaXCqmKBa8LW7yg2ld6Qh+ZZsxGlP9dWUstu1/Hs5ApIHv0tAhvdNGcrMlDVg3ARNp99sA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AEkosu2rkJXKo+44mVQIh9IlKJiB0GbrCmNpI2cFKLA=;
- b=ntT8KFIc7GGc7aIve9lahZfFOhcgLDMaGsSFXE+sP2M1JMVdai0XoIT75fCnrkpRChI59DiUl4H0rRev5BH607ZtpdQJVqURbnSP0BJ1O3sS/R+vujtATSoOO1IZgrzGd1TEHeiKO8v6NbsIzqxWxO7/Xxb3/o/NZeL2/9MA99Q=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from SA0PR12MB4367.namprd12.prod.outlook.com (2603:10b6:806:94::13)
- by PH0PR12MB8175.namprd12.prod.outlook.com (2603:10b6:510:291::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8251.20; Tue, 17 Dec
- 2024 17:53:23 +0000
-Received: from SA0PR12MB4367.namprd12.prod.outlook.com
- ([fe80::dfc2:2c4:b68b:3f76]) by SA0PR12MB4367.namprd12.prod.outlook.com
- ([fe80::dfc2:2c4:b68b:3f76%5]) with mapi id 15.20.8230.010; Tue, 17 Dec 2024
- 17:53:23 +0000
-Message-ID: <29aae416-4352-4fc9-ad55-32f76f69a555@amd.com>
-Date: Tue, 17 Dec 2024 10:53:20 -0700
-User-Agent: Mozilla Thunderbird
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=JVBD9f9y;
+ spf=pass (domain: gmail.com, ip: 209.85.167.50, mailfrom: christopher.w.clark@gmail.com)
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-540201cfedbso5880923e87.3
+        for <meta-virtualization@lists.yoctoproject.org>; Tue, 17 Dec 2024 16:06:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1734480385; x=1735085185; darn=lists.yoctoproject.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=J0zkLkIig/pR7lFN7ttIuDp1KZ1tHLwKyOxLclr9LoQ=;
+        b=JVBD9f9y33Is763Ie74uPIz/DPwhP9/irUr5B2fcOwkwDP3rieqR7nF0Vm8QOyRLN4
+         x+janA7a4tqiBPLP0dXKR9+tKOeUY9N+Kf+2+Fm+mlDMgb+WFJcAjCjyIBGqKSdxj9wW
+         KT7xij6wGIk+vPLTqatV/9xds9ivpztlUPBqvTMj1iw2AYH0UWvuZ/qRgBqe3kMJI6r2
+         3qQjC/HyJ1Q0cODrKVN/htM9qn2kA4h7OFYBsX3ANWfLFroflYmb2bjTukTf456JXRSt
+         qlaQ8b4Jca/4A6ExxxzWn5Edz9AhmN2mQVCAm8vI7NsRNcThf542chJ9LHZk5XdDNiIX
+         oFdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734480385; x=1735085185;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=J0zkLkIig/pR7lFN7ttIuDp1KZ1tHLwKyOxLclr9LoQ=;
+        b=W/gvK3mLJkRscJqptNj+Pq+iIBGYeFC4qQNDXuQOylLTssszNZZT/ncSJWRGXkt/ju
+         Dn0rH2um/2C0NbnVT3Jguq9bdsMQEBVR5NmXhY4ZeqCuJ5kQJlMArLZEXVtL8Aoub2/j
+         chNQteDgzCEdNaJW4W4mxgE+O3igDacTUFMSVhmWe5a/AH43s2XeN4sM5UnHuIiuXOXv
+         39FkXFO4GYdxWztzqOcfeLzJlLbCKZwDkN7HytTHLePZqeCCDlkaBPy/XoR+t7ctcCF1
+         6Rmz4jCW1lEUt/taumbzcxgmzL6XcR/kJOXJGmb82ClEEFS3VZ7IWqskBPGBdJoI3RH2
+         WF9Q==
+X-Gm-Message-State: AOJu0YynJRWRbntMO3uO5uuSsn4iuSXs6kP5ftUalyGlPb7WP0ilJztC
+	/RX154u649uN68FUZpXX6maPOB85JALyaJ848UkiAYgQmkAW25ABfgF/6X7dfVH/m+MdjB+xCSm
+	NiLZpSjzFVwUn5Y+JK/N4aa6UKTE=
+X-Gm-Gg: ASbGncuLb81PhxxhTpO/SLDlPtmXdQgT4FNtqlCRN74Six7dqD7rsXSug233KEWd8iu
+	NC8pAYrolOIBFC2JVbywG6dkgq8VzsXI18yO/6A==
+X-Google-Smtp-Source: AGHT+IGixgTEU6SRH1Dtz7GewTpFWPXGHbuFjQ3IhpNi06svLyMYB4qWQxxq32yttGtdISdQdS4LOGGEWoQBspmjIaU=
+X-Received: by 2002:a05:6512:ba4:b0:540:3530:5a63 with SMTP id
+ 2adb3069b0e04-541e673bea9mr259853e87.5.1734480384501; Tue, 17 Dec 2024
+ 16:06:24 -0800 (PST)
+MIME-Version: 1.0
+References: <180F89FA56BC204A.19074@lists.yoctoproject.org> <29aae416-4352-4fc9-ad55-32f76f69a555@amd.com>
+In-Reply-To: <29aae416-4352-4fc9-ad55-32f76f69a555@amd.com>
+From: Christopher Clark <christopher.w.clark@gmail.com>
+Date: Wed, 18 Dec 2024 00:06:13 +0000
+Message-ID: <CACMJ4GZGjm0MA1ewwB_1OeU2XJ6LBzduKUF6wSQ13HHSuiOSOA@mail.gmail.com>
 Subject: Re: [meta-virtualization][master][styhead][PATCH v5 0/5] Add bbclass
  for xen launch config variables
-To: meta-virtualization@lists.yoctoproject.org, bruce.ashfield@gmail.com
-Cc: mark.hatle@kernel.crashing.org
-References: <180F89FA56BC204A.19074@lists.yoctoproject.org>
-Content-Language: en-US
-From: "Gundlupet Raju, Sandeep" <sandeep.gundlupet-raju@amd.com>
-In-Reply-To: <180F89FA56BC204A.19074@lists.yoctoproject.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: CH5P222CA0012.NAMP222.PROD.OUTLOOK.COM
- (2603:10b6:610:1ee::7) To SA0PR12MB4367.namprd12.prod.outlook.com
- (2603:10b6:806:94::13)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA0PR12MB4367:EE_|PH0PR12MB8175:EE_
-X-MS-Office365-Filtering-Correlation-Id: 301d69a7-79d7-4f18-9b26-08dd1ec3b352
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|4022899009|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?RXVPeTVmWDMrUktDeDZZdk9vY0RkWkFvSVNycFB3Y2VTUWQycnRZQkZ0K1Jo?=
- =?utf-8?B?SlJiOXh1ViszWStTRTZOT2JSNmNva0NXRTBEMVBLNDBHUGlGREpEbndQcW1h?=
- =?utf-8?B?ek9jT2Z5dy9kV0syN29YeUVsUE1MazlXeUFCWmhqYnFUWURNMzQ2Y3M4aTdF?=
- =?utf-8?B?SzFKY0tVMVJJOHVOdGs5NVJsaFFPZVhidzdkT3ZxbnRGTkp2RCtORENMTGhh?=
- =?utf-8?B?UndxZjVhdzVlenJjb0V4SDBXTUtnYTVrZHV6WkpJTlA1dTgxZjIvTHA3VTZZ?=
- =?utf-8?B?YkZKUlQ5Rm1vcWVaaWJ0NUc4bTJESVlyUmF3cEhITm5naDZaN1dqSnE2VnFn?=
- =?utf-8?B?cmdEWVF2NTlRUS9QcDhFN3NaQmhFZmFsaUZVLzY1d3FkQm9FUDI1c1BFZ1Rn?=
- =?utf-8?B?Z0JHalk3MmJaN1NEMkhCZk90djBxVnZnV1E4a1VvY1gwZm9JUWxMa3g0K09E?=
- =?utf-8?B?cW1KekNBWGN0QXpyTmluK3d5djBycmR4YzBoWEhyMTd6NjJJN08zVEpKMzBp?=
- =?utf-8?B?N0xyNHhvdUo2TmpaZ09QM01aR3dDZDBlUzA1WWtNakdMdUlzbVJ0dWNDOFdF?=
- =?utf-8?B?TklRQVNsUjB0YlZGSTM1eUx0KzJvNDJXMSs2VW5LamZpdWVnVEp4UGpWOU1s?=
- =?utf-8?B?dWR3L0pQcnRMcEluc3JGNklZazN2eHNGNmVEQTlmbkV4VGt6Mm8vcU8yZk5n?=
- =?utf-8?B?VVVjcFdwdC84ZjU3N1hveGV3TmFJNlFjOWJmc2pqSmZodHp4d2llWTlodVJH?=
- =?utf-8?B?c3ZqSmxnSlRiRWNRYjhKaWxFcTBXdlV3cEl3Q082TDI0aVhaL241YTZES0NQ?=
- =?utf-8?B?Y3JJdzNpSUNxRjlzelhZMkVydmI4bXlvdkQraXVsVXhxRzFtRFNFNzNzcldI?=
- =?utf-8?B?KzZTS09TSmUzVVJiWnRmT3VOVjVDL1Bjb1ZkcU4wWUhNT0EwTEFaS2JPMWd3?=
- =?utf-8?B?WkR4aTF5b2ltZjlTOEg1OFJBT2ZOVDNZRW52K1p4ckd1TGhXQmRQbmh6MHh1?=
- =?utf-8?B?ZmhrWUc3MUVQSVhVYzFrWFozZ3VjYjR3ZWtZSU5zcUFSZ2dNckFiYXdlWVBo?=
- =?utf-8?B?ZW0rVHNJUkc2K1ZZTyt3RUxJSlNhNGhyMWlhdTRHaWVXYjEwajlzNEdKL1Nl?=
- =?utf-8?B?cGk3MFJYcEljWFFpS3lvbUlsOVdhRjBwVVAzUDF5MUxESm9uaWxPTXZOQTdy?=
- =?utf-8?B?RGF0VUNxZmpBNVh3cjVnYWhPY2RQR3lxc2RYN0NJSlBxV0lIcGJKQjAvbkdS?=
- =?utf-8?B?NkFnbTRya0VpK3lnQXgxUGt4YzZ2T0lqL2R0dlhhU3M0ZnZmN0VwMDkxeldY?=
- =?utf-8?B?eTF3ZC83czRzLzBkQWRrNmRQaUNRRTFscGJFYkVTT1E3b3paRnhvTXp3ZnhQ?=
- =?utf-8?B?bzBBaFlJRWQ2eENtVjJKNnpHb1FYNjB5ZnhKZlhRdElHTW9qU1NCT2V4TkJY?=
- =?utf-8?B?SzM5ZFQzc0pVN3B5bFFIcnBWVVQzWG93ZjJHNVFKL3RlMXJGZkxhOUhLd2dZ?=
- =?utf-8?B?aHlWYkZRQ3AyK1Iyc1ZlNXZrdXVrMnk5Z21ySDhVVEdBb1ZVcnVOZzV1Mkwy?=
- =?utf-8?B?ZXZkZ2hsMzk2ZXNNcDFwNjJUMkFOQVd5ME1lSWR1MUUySTIvQnFpc2dqU0F1?=
- =?utf-8?B?SG5HRUtMNThUbnlCN0FVOGNGRmZaVVZTRmlLSFBVakRnUDl3NWpaSWt6OGFG?=
- =?utf-8?B?cE9KNFB6UmozbmlFSDhXUC8zRmZDTUFoWjMvblp1V08yK25nK1o1NTdCM21l?=
- =?utf-8?B?ODVGQnJJRzAyVmdldzhBK202Z3RueW9rV1ppYzZoRFR5d3VxRlI3MzRmODZw?=
- =?utf-8?B?c2JDR0p2NWpVUGUrQVlSdz09?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA0PR12MB4367.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(4022899009)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?bnlUSTNLMGtURUpqcCs2YWFnZE1jQ0NGWFhNQ2hDYXhJalVRZDlWbkJIbmc2?=
- =?utf-8?B?eG9HM2dORWZVZ1dZeWVYQVl4SnBERFVqRFVrQ00zMVl4UlRkeFA4QWx1MTVn?=
- =?utf-8?B?NEo0UisyQTRsbFI3dWVML0RuUUsvM1V1bW05aXA1QnJvQkp2Z2IzbXB3d2Fu?=
- =?utf-8?B?cC9YTzBnRFptUkJoQVd6WXNZV0FVd01SWHVlYjlwdDliNzRCdDBpdmxwbTlM?=
- =?utf-8?B?cWZNTmVXNzJMZ0RDTTY4YmhwaGUvbWFuVURETnkzV1l6L1BmcDJ3SmcxSm85?=
- =?utf-8?B?MmRKanhwd1cxWGZVNUx5NDg0TzlXTGdXeVFHcHY1YUUzMTh5STFYdE41cEJu?=
- =?utf-8?B?ODBqZnBLSlIxTlNXSmw5bmtmZGZpcXp0TG1rZW1UdFRKekp6a280L0FFN2Vv?=
- =?utf-8?B?MURKRWh1UWJhelFRSmkxVERoTW9zMTB4ZWZwYXFlenF4YzVHbGw4NmJ2L3VK?=
- =?utf-8?B?cjFBR2N5WDhwTjI1KzlGMmRQWmUveThZWWlSandXbFVlbFhNSnlBempqY25Q?=
- =?utf-8?B?cFBkcWlsMCtMbnJ1eHYrT2h6bnVFUjBWQlV0ZmhFdzVoemh3Z21TbFlMaFE5?=
- =?utf-8?B?MXFVcVpRd0RzVndIbVNQaGZaL21uQU03ZGYrajhMbko2bDRFTUdPblFidXRJ?=
- =?utf-8?B?RTVBNnJwcUtzdXh1TmtMbEVOUnZPeCs2VmNTSzA4ZDBLdklLbzhpYjBadWVw?=
- =?utf-8?B?SjNGMG5KaGs4UThSdzY2TVlLd1BvOC9XR2s2STFKQnJ0NU4vRGlXcW45djZP?=
- =?utf-8?B?TE9oVERyUTk5aTJxZkVRMTBkcGpvb1VDTS8zcXlzNDVCaUlFZ1ovdUZ4MGwr?=
- =?utf-8?B?NnptQ3VpT0NISmVOdTV5RkdBanpOL1REaE1wSS9ZMVNMRktGb2tkUkFmakdM?=
- =?utf-8?B?cGJzcC9sK0tGZUdTSXlUWlJYVERwN3J0emhKVUVEbTBNd3dlZHZqZEVyZUJI?=
- =?utf-8?B?M2hsMzBYL1M3S001VFI2NUp2ZEt1MzFzNE1vMTFhWXZTRi9ETnd5RG5RaHU5?=
- =?utf-8?B?R3Z1WVk0YjlNQUhDQkN4eU4vd2pOb1J6TnNvQVlsTDBvNHVsTmsva0pvSDFw?=
- =?utf-8?B?aHdnOWNlRm41bnNRaVJ0ajh6QlRjTzJhWEdDMXdLWU9oUE9pRU5CcFJiQW1x?=
- =?utf-8?B?ZjVUa1MxSUhXeTNpdkxhRTVjczV5NnJOYTUrRDhtS25yWmpUd29XR3hBb1Y5?=
- =?utf-8?B?Vm1lMHZiWnZLa0JKbHYzVEhXbnAzZFJuZEsvcEI2ZWZZRkVRdm9IMUV3c0Vp?=
- =?utf-8?B?VjBpdHM5UGxuUGd3d0JsYXhqYTdXWDJMOUYwVjRWL1IrVTM3eFVib3ZaNnRG?=
- =?utf-8?B?cTQ1eXAvSXFhOGtTMk5ZNlM2U09JQ0NDTTlZZ0hmV2tVcFY1Uzl1dHRycnho?=
- =?utf-8?B?YTQwOEt6eHRyQVZ4d1JOanlPSGhiakY2T1hCbTVITHZvT3pZc0tMTURxSUdx?=
- =?utf-8?B?TjJKaDhhNHpHcnRuUDcrOWxXWlFsalFuZkVva2Y2VUpVN0VhNGR5dlFDRGxu?=
- =?utf-8?B?VU5seFE3em14dytaYXFiWXJ1K2VwN0R2VnFvUkFTc3hYUlZ6RFlpSlVSajVv?=
- =?utf-8?B?eEtaWU1rKzU2am9qcU5ZdjI1emtFNEtHRDN3anNLR2p6TjRmcHhsdW9XVk9S?=
- =?utf-8?B?YThJNVNySFpsTklnSmV2dWZWZHA2dzBWKzcrSkVTRkhyR3oyMnBiUC9RVTh3?=
- =?utf-8?B?QlV6MXRSZnBmTGdKM1dzczdrck9WOHBJTVZVem14UmV6Mm9KcUM0UGxWMHZo?=
- =?utf-8?B?OFlQR3kwMjZBdzdsN2swR0Z4c1VKaU56NFVmd0RrMXdzcUkwRGRFcUM1cGx0?=
- =?utf-8?B?dnIzc3F2eGJaMVMzOU1VVDBkL2xTREJRc2VneHE3SzhpRitBd1VCMG9wM25X?=
- =?utf-8?B?RW14bVRXYzNSSjI2U3hiakJkRnFHNzVWVEdTdGxPL0ozZzZ0NkRlVUhjWGdL?=
- =?utf-8?B?Uk9wVVB4NGdDV2dLcGd4NjhIRXJDUXpDazNDWnZpTDJnTkxoZnpLN1NXZlF0?=
- =?utf-8?B?UldyNkJRRlBrL2M1eUxZcmorV2ttMDByZ0F5Zm9VTVNYOW1FUTVTay96QW9W?=
- =?utf-8?B?OUtTaDBtVWpqWC91SGV6SWdHMlBQTGw0UVhpTE4wa2xKMm5vby9QTTZkRkRu?=
- =?utf-8?Q?PMWT2EXkSu6Jj8H6jQYCqxsfg?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 301d69a7-79d7-4f18-9b26-08dd1ec3b352
-X-MS-Exchange-CrossTenant-AuthSource: SA0PR12MB4367.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Dec 2024 17:53:23.4256
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ds5KsZSa65nuheryTe7ubX23qmOPKjElEU7IqoFvl3HEg8uLjFoIpoDWk+7FSlTAqTzfRI11kt0Tp7wheV9bvg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB8175
+To: sandeep.gundlupet-raju@amd.com
+Cc: meta-virtualization@lists.yoctoproject.org, bruce.ashfield@gmail.com, 
+	mark.hatle@kernel.crashing.org
+Content-Type: multipart/alternative; boundary="00000000000030333c0629802f42"
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Tue, 17 Dec 2024 17:53:29 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9059
+ <meta-virtualization@lists.yoctoproject.org>; Wed, 18 Dec 2024 00:06:31 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9060
 
-Hi Bruce, Chris,
+--00000000000030333c0629802f42
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Any more comments on patches?
+On Tue, Dec 17, 2024 at 5:53=E2=80=AFPM Sandeep Gundlupet Raju via
+lists.yoctoproject.org <sandeep.gundlupet-raju=3D
+amd.com@lists.yoctoproject.org> wrote:
 
-Thanks,
-Sandeep
+> Hi Bruce, Chris,
+>
+> Any more comments on patches?
 
-On 12/9/2024 7:54 AM, Sandeep Gundlupet Raju via lists.yoctoproject.org 
-wrote:
-> Changes in v5:
->     - Merge below 2 patches into single patch.
->         - xen-boot-env: Move xen variables to inc file
->         - u-boot-xlnx-scr: Include xen-boot-env if BOOTMODE is xen
+
+Sorry I haven=E2=80=99t had chance to look at this series again yet - am ai=
+ming to
+get to it before New Year. Thanks for iterating on the last feedback.
+
+Christopher
+
+
 >
-> Changes in v4:
->     - Fix xen-boot-env.inc by inheriting xen-lauch-config bbclass
+> Thanks,
+> Sandeep
 >
-> Changes in v3:
->     - Rename xen-u-boot-scr-configuration.bbclass to xen-launch-config.bbclass
->       as suggested by Christopher Clark as this is not u-boot specific.
+> On 12/9/2024 7:54 AM, Sandeep Gundlupet Raju via lists.yoctoproject.org
+> wrote:
+> > Changes in v5:
+> >     - Merge below 2 patches into single patch.
+> >         - xen-boot-env: Move xen variables to inc file
+> >         - u-boot-xlnx-scr: Include xen-boot-env if BOOTMODE is xen
+> >
+> > Changes in v4:
+> >     - Fix xen-boot-env.inc by inheriting xen-lauch-config bbclass
+> >
+> > Changes in v3:
+> >     - Rename xen-u-boot-scr-configuration.bbclass to
+> xen-launch-config.bbclass
+> >       as suggested by Christopher Clark as this is not u-boot specific.
+> >
+> > Changes in V2:
+> >     - Rename xen-u-boot-scr.bbclass to
+> xen-u-boot-scr-configuration.bbclass
+> >     - Add comment in u-boot-xlnx-scr.bbappend to specify where BOOTMODE
+> >       variable is defined.
+> >
+> > 1. Add xen-lauch-config.bbclass for generic xen launch config
+> >     variables use by any soc devices.
+> > 2. Inherit xen-launch-config.bbclass in xen-rpi-u-boot-scr.
+> > 3. Move xen variables to xen-boot-env.inc file in xilinx
+> >     dynamic layers.
+> > 4. Include xen-boot-env if BOOTMODE =3D "xen" switch is enabled.
+> > 5. Add load address to boot.cmd.xen script echo messages.
+> > 6. Inherit xen-launch-config bbclass in xen-boot-env.inc.
+> > 7. If user brings in their own boot.cmd.xxx file they can just
+> >     inherit xen-launch-config bbclass and use the generic
+> >     xen boot script variables.
+> >
+> > Sandeep Gundlupet Raju (5):
+> >    xen-launch-config: Add bbclass for xen launch config variables
+> >    xen-rpi-u-boot-scr: Inherit xen-launch-config bbclass
+> >    u-boot-xlnx-scr: Include xen-boot-env if BOOTMODE is xen
+> >    boot.cmd.xen: Add load address to echo messages
+> >    xen-boot-env.inc: Inherit xen-launch-config bbclass
+> >
+> >   classes-recipe/xen-launch-config.bbclass      | 43 ++++++++++++++++++=
++
+> >   .../xen-rpi-u-boot-scr/files/boot.cmd.xen.in  | 10 ++---
+> >   .../xen-rpi-u-boot-scr/xen-rpi-u-boot-scr.bb  | 13 +++---
+> >   .../u-boot/u-boot-xlnx-scr.bbappend           | 13 +++++-
+> >   .../u-boot/u-boot-xlnx-scr/boot.cmd.xen       |  8 ++--
+> >   .../recipes-bsp/u-boot/xen-boot-cmd.inc       | 35 ---------------
+> >   .../recipes-bsp/u-boot/xen-boot-env.inc       | 31 +++++++++++++
+> >   7 files changed, 103 insertions(+), 50 deletions(-)
+> >   create mode 100644 classes-recipe/xen-launch-config.bbclass
+> >   create mode 100644
+> dynamic-layers/xilinx/recipes-bsp/u-boot/xen-boot-env.inc
+> >
+> >
+> >
+> >
 >
-> Changes in V2:
->     - Rename xen-u-boot-scr.bbclass to xen-u-boot-scr-configuration.bbclass
->     - Add comment in u-boot-xlnx-scr.bbappend to specify where BOOTMODE
->       variable is defined.
->
-> 1. Add xen-lauch-config.bbclass for generic xen launch config
->     variables use by any soc devices.
-> 2. Inherit xen-launch-config.bbclass in xen-rpi-u-boot-scr.
-> 3. Move xen variables to xen-boot-env.inc file in xilinx
->     dynamic layers.
-> 4. Include xen-boot-env if BOOTMODE = "xen" switch is enabled.
-> 5. Add load address to boot.cmd.xen script echo messages.
-> 6. Inherit xen-launch-config bbclass in xen-boot-env.inc.
-> 7. If user brings in their own boot.cmd.xxx file they can just
->     inherit xen-launch-config bbclass and use the generic
->     xen boot script variables.
->
-> Sandeep Gundlupet Raju (5):
->    xen-launch-config: Add bbclass for xen launch config variables
->    xen-rpi-u-boot-scr: Inherit xen-launch-config bbclass
->    u-boot-xlnx-scr: Include xen-boot-env if BOOTMODE is xen
->    boot.cmd.xen: Add load address to echo messages
->    xen-boot-env.inc: Inherit xen-launch-config bbclass
->
->   classes-recipe/xen-launch-config.bbclass      | 43 +++++++++++++++++++
->   .../xen-rpi-u-boot-scr/files/boot.cmd.xen.in  | 10 ++---
->   .../xen-rpi-u-boot-scr/xen-rpi-u-boot-scr.bb  | 13 +++---
->   .../u-boot/u-boot-xlnx-scr.bbappend           | 13 +++++-
->   .../u-boot/u-boot-xlnx-scr/boot.cmd.xen       |  8 ++--
->   .../recipes-bsp/u-boot/xen-boot-cmd.inc       | 35 ---------------
->   .../recipes-bsp/u-boot/xen-boot-env.inc       | 31 +++++++++++++
->   7 files changed, 103 insertions(+), 50 deletions(-)
->   create mode 100644 classes-recipe/xen-launch-config.bbclass
->   create mode 100644 dynamic-layers/xilinx/recipes-bsp/u-boot/xen-boot-env.inc
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#9044): https://lists.yoctoproject.org/g/meta-virtualization/message/9044
-> Mute This Topic: https://lists.yoctoproject.org/mt/110006797/3619217
+> View/Reply Online (#9059):
+> https://lists.yoctoproject.org/g/meta-virtualization/message/9059
+> Mute This Topic: https://lists.yoctoproject.org/mt/110006797/3619037
 > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [sandeep.gundlupet-raju@amd.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
+> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [
+> christopher.w.clark@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 >
+>
+
+--00000000000030333c0629802f42
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Tue, Dec 17, 2024 at 5:53=E2=80=AFPM Sandeep Gundlupet R=
+aju via <a href=3D"http://lists.yoctoproject.org">lists.yoctoproject.org</a=
+> &lt;sandeep.gundlupet-raju=3D<a href=3D"mailto:amd.com@lists.yoctoproject=
+.org">amd.com@lists.yoctoproject.org</a>&gt; wrote:<br></div><blockquote cl=
+ass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px=
+;border-left-style:solid;padding-left:1ex;border-left-color:rgb(204,204,204=
+)">Hi Bruce, Chris,<br>
+<br>
+Any more comments on patches?</blockquote><div dir=3D"auto"><br></div><div =
+dir=3D"auto">Sorry I haven=E2=80=99t had chance to look at this series agai=
+n yet - am aiming to get to it before New Year. Thanks for iterating on the=
+ last feedback.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Christop=
+her</div><div dir=3D"auto"><br></div><blockquote class=3D"gmail_quote" styl=
+e=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid=
+;padding-left:1ex;border-left-color:rgb(204,204,204)" dir=3D"auto"><br>
+<br>
+Thanks,<br>
+Sandeep<br>
+<br>
+On 12/9/2024 7:54 AM, Sandeep Gundlupet Raju via <a href=3D"http://lists.yo=
+ctoproject.org" rel=3D"noreferrer" target=3D"_blank">lists.yoctoproject.org=
+</a> <br>
+wrote:<br>
+&gt; Changes in v5:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0- Merge below 2 patches into single patch.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0- xen-boot-env: Move xen variables to=
+ inc file<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0- u-boot-xlnx-scr: Include xen-boot-e=
+nv if BOOTMODE is xen<br>
+&gt;<br>
+&gt; Changes in v4:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0- Fix xen-boot-env.inc by inheriting xen-lauch-conf=
+ig bbclass<br>
+&gt;<br>
+&gt; Changes in v3:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0- Rename xen-u-boot-scr-configuration.bbclass to xe=
+n-launch-config.bbclass<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0as suggested by Christopher Clark as this is=
+ not u-boot specific.<br>
+&gt;<br>
+&gt; Changes in V2:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0- Rename xen-u-boot-scr.bbclass to xen-u-boot-scr-c=
+onfiguration.bbclass<br>
+&gt;=C2=A0 =C2=A0 =C2=A0- Add comment in u-boot-xlnx-scr.bbappend to specif=
+y where BOOTMODE<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0variable is defined.<br>
+&gt;<br>
+&gt; 1. Add xen-lauch-config.bbclass for generic xen launch config<br>
+&gt;=C2=A0 =C2=A0 =C2=A0variables use by any soc devices.<br>
+&gt; 2. Inherit xen-launch-config.bbclass in xen-rpi-u-boot-scr.<br>
+&gt; 3. Move xen variables to xen-boot-env.inc file in xilinx<br>
+&gt;=C2=A0 =C2=A0 =C2=A0dynamic layers.<br>
+&gt; 4. Include xen-boot-env if BOOTMODE =3D &quot;xen&quot; switch is enab=
+led.<br>
+&gt; 5. Add load address to boot.cmd.xen script echo messages.<br>
+&gt; 6. Inherit xen-launch-config bbclass in xen-boot-env.inc.<br>
+&gt; 7. If user brings in their own boot.cmd.xxx file they can just<br>
+&gt;=C2=A0 =C2=A0 =C2=A0inherit xen-launch-config bbclass and use the gener=
+ic<br>
+&gt;=C2=A0 =C2=A0 =C2=A0xen boot script variables.<br>
+&gt;<br>
+&gt; Sandeep Gundlupet Raju (5):<br>
+&gt;=C2=A0 =C2=A0 xen-launch-config: Add bbclass for xen launch config vari=
+ables<br>
+&gt;=C2=A0 =C2=A0 xen-rpi-u-boot-scr: Inherit xen-launch-config bbclass<br>
+&gt;=C2=A0 =C2=A0 u-boot-xlnx-scr: Include xen-boot-env if BOOTMODE is xen<=
+br>
+&gt;=C2=A0 =C2=A0 boot.cmd.xen: Add load address to echo messages<br>
+&gt;=C2=A0 =C2=A0 xen-boot-env.inc: Inherit xen-launch-config bbclass<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0classes-recipe/xen-launch-config.bbclass=C2=A0 =C2=A0 =C2=
+=A0 | 43 +++++++++++++++++++<br>
+&gt;=C2=A0 =C2=A0.../xen-rpi-u-boot-scr/files/<a href=3D"http://boot.cmd.xe=
+n.in" rel=3D"noreferrer" target=3D"_blank">boot.cmd.xen.in</a>=C2=A0 | 10 +=
++---<br>
+&gt;=C2=A0 =C2=A0.../xen-rpi-u-boot-scr/<a href=3D"http://xen-rpi-u-boot-sc=
+r.bb" rel=3D"noreferrer" target=3D"_blank">xen-rpi-u-boot-scr.bb</a>=C2=A0 =
+| 13 +++---<br>
+&gt;=C2=A0 =C2=A0.../u-boot/u-boot-xlnx-scr.bbappend=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0| 13 +++++-<br>
+&gt;=C2=A0 =C2=A0.../u-boot/u-boot-xlnx-scr/boot.cmd.xen=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0|=C2=A0 8 ++--<br>
+&gt;=C2=A0 =C2=A0.../recipes-bsp/u-boot/xen-boot-cmd.inc=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0| 35 ---------------<br>
+&gt;=C2=A0 =C2=A0.../recipes-bsp/u-boot/xen-boot-env.inc=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0| 31 +++++++++++++<br>
+&gt;=C2=A0 =C2=A07 files changed, 103 insertions(+), 50 deletions(-)<br>
+&gt;=C2=A0 =C2=A0create mode 100644 classes-recipe/xen-launch-config.bbclas=
+s<br>
+&gt;=C2=A0 =C2=A0create mode 100644 dynamic-layers/xilinx/recipes-bsp/u-boo=
+t/xen-boot-env.inc<br>
+&gt;<br>
+&gt;<br>
+&gt; <br>
+&gt;<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#9059): <a href=3D"https://lists.yoctoproject.org/g/meta=
+-virtualization/message/9059" rel=3D"noreferrer" target=3D"_blank">https://=
+lists.yoctoproject.org/g/meta-virtualization/message/9059</a><br>
+Mute This Topic: <a href=3D"https://lists.yoctoproject.org/mt/110006797/361=
+9037" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.org/m=
+t/110006797/3619037</a><br>
+Group Owner: <a href=3D"mailto:meta-virtualization%2Bowner@lists.yoctoproje=
+ct.org" target=3D"_blank">meta-virtualization+owner@lists.yoctoproject.org<=
+/a><br>
+Unsubscribe: <a href=3D"https://lists.yoctoproject.org/g/meta-virtualizatio=
+n/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.or=
+g/g/meta-virtualization/unsub</a> [<a href=3D"mailto:christopher.w.clark@gm=
+ail.com" target=3D"_blank">christopher.w.clark@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
+
+--00000000000030333c0629802f42--
 
