@@ -2,119 +2,128 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8593BE77197
-	for <webhook@archiver.kernel.org>; Tue,  7 Jan 2025 22:07:06 +0000 (UTC)
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
- by mx.groups.io with SMTP id smtpd.web11.4894.1736287616819018051
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84CF3E77197
+	for <webhook@archiver.kernel.org>; Tue,  7 Jan 2025 22:09:26 +0000 (UTC)
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
+ by mx.groups.io with SMTP id smtpd.web11.4945.1736287765491910282
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 07 Jan 2025 14:06:56 -0800
+ Tue, 07 Jan 2025 14:09:25 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=XH46F/os;
- spf=pass (domain: gmail.com, ip: 209.85.160.177, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-46b1d40abbdso31510121cf.2
-        for <meta-virtualization@lists.yoctoproject.org>; Tue, 07 Jan 2025 14:06:56 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=DIH0P3/u;
+ spf=pass (domain: gmail.com, ip: 209.85.219.49, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-6dd43aa1558so118555806d6.0
+        for <meta-virtualization@lists.yoctoproject.org>; Tue, 07 Jan 2025 14:09:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736287616; x=1736892416; darn=lists.yoctoproject.org;
+        d=gmail.com; s=20230601; t=1736287764; x=1736892564; darn=lists.yoctoproject.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=L3ruiAFcd25KhAuCEtJtuDxZrfIUI012Jvp9W4qAcUc=;
-        b=XH46F/osJsK5vhYglaPyRrPanOSX6bAYppgUKK4FT2sAu549ErUFyCPRv6fyp4miy1
-         OtkHKBzmLL2O683OHxBNBAeLWwRUnJ28PSVLoJxROrnlBzr8WWH/MdxzTujXWVJF6t2E
-         jSi5TX/qVZzXBNn7eMAyYcJ25BXW7isqoU8gJ26ACsu8Tlm8dfdnuyGfY0aDV8+oJ4gL
-         JmVTU7VPaSa9zUviILk6at/X9X+tv6AU2eRjgkJo2uFVhfxefig2jFHiP3Af4mUJXlnh
-         32dFybWtORS0X2ZQelCR3ZIXvmvSvyHpXYhBns06/7ziEJapW048q17OK4EKLXeOk6W2
-         vrAA==
+        bh=U74WUuszTznbcq7jhbMhqWpSUnyZTHg7g81Aj3P7GEQ=;
+        b=DIH0P3/u+Uw4DAz6ox4UP2mACwSJbl3i0YBNbKkkErpmq7ibmgATgs/OozvcLm1uNX
+         4tcWH1wyeapWrkisDG1lqB1S+SO3h8Q2yTHcvBJFGXxMgMw+6Ob9I9/fRbBNPy/MvRkF
+         xszjDGuuEgZ/pAvsqhDxfFyK7/pJetqnzB4a/IbV7qOgY/WjLkZvV/9Hvzqc8NyTIJdu
+         sRCXk25vVXRWVUiBmgcG/3uA1FQDZwSdv+jXY0rd/CtAuMxC1R9GnNtZWLbCqcSQmyDU
+         MX1v3wYSH9OgMBA34ayUj16aZmmNht+xrH2ovUcD23/jj/zvIi/GY8Qpx/PKCzcDQgwy
+         jypg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736287616; x=1736892416;
+        d=1e100.net; s=20230601; t=1736287764; x=1736892564;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=L3ruiAFcd25KhAuCEtJtuDxZrfIUI012Jvp9W4qAcUc=;
-        b=tdr2NCFCFil/iKM1tI+3fWFNnlj2hC3DAOwjZQq5fE0LuW4w8kA9WWw4TafaYCcsh+
-         8ux59pguK9DRb1re5eiUkqOCzpL+YbaqUk8TZrYwgeIM3ZkOPyXQx9NCV1DzXvh/ouxg
-         WI2UZ8Pjn+vr5Ns6HF811Tg3mOKNEeytxT1GROOWUL9dONNimzrjPTFGyB+zdSsVnRax
-         Ou/2bkrwqG/8ea+/U03Olz45g/zySH4L9HIB2U1JnOKJAr+6bXYpta8GNZwTXhFOIjbg
-         FYSp4QlgGtZddfdIyjqi8m30LhALgmZgT9eE5ukNwgT8/OrRLjGTdMEIkzqW2nLbg0G+
-         fBUg==
-X-Gm-Message-State: AOJu0YwgnUQIGzalhQWWP8yLLbeXQR1/uFe333KtOgJYQpfsAnyiw94c
-	PeQBgr/n61oi4PJUAslDK2h5bBMASOuX3wxmRFrcQV6UKgHTukj5c9HFUof+H3FdNA==
-X-Gm-Gg: ASbGnctw0gWpvkFsT+84nIZSVboLA3aHdbrdKqHLLPbnHXjJjdpedhdPbRfgdOJ9mxl
-	e9+a2plhL1zWdDYgqYnylHwVLO6g+Pf4FrxV7cWcHYwZfSKBBYP5c/NYbILrfPHUd8kXTlEpybX
-	xLTdmOgsG+uuwrKxekdeez1s5dw9ik6tdFHRhMP5HVUtwJfo2ObX4bnVwc+p+mwWg7hI3qFeaHt
-	vWD3LejhSxoyf0muapp1ypPNXSq5QBgq2UTVFnpxuOd1fH5cO8AZdPMxiLCogSIbddAQy9ko+ad
-	Xq70JqKo5ETDyoNrlwDMlZvvt1mVozN0o5c=
-X-Google-Smtp-Source: AGHT+IGFsroEpupAfBcNKnpx1wfhwgF/lbdyQtn+D5KWo8PWIqZVkGQCpVNQ+njA9mgO0SgKgUFaZA==
-X-Received: by 2002:a05:620a:2b91:b0:7b6:66d0:5ac2 with SMTP id af79cd13be357-7bcd97d6498mr62649985a.54.1736287615785;
-        Tue, 07 Jan 2025 14:06:55 -0800 (PST)
+        bh=U74WUuszTznbcq7jhbMhqWpSUnyZTHg7g81Aj3P7GEQ=;
+        b=Mk8qr4nlgRGQw3ikV0T4Jk/ovr3tjn4J5Guaestv5yvDaR1GjowTPfdBInWmj7YsbB
+         ec6AQw4q6ekF3BEZZsr1vpDRENXl/6EAiG20MtGGgkYo7F1SSWJQbuj/zgRH6yhPOekP
+         4pp6UxZmNHNW9ozwyV2/i4M99x6AjRI5di/VE6cV+/fjrD9sW35UhJYqL+Eyjnliq2wk
+         PrPYerJoy4oB13YGiV2RwO2inSFzDp08ahji34rioEqMHRCP+F/eUSNBvFsf6vJTuyYh
+         y92M7QvcCEikuV/am3Yn5Tf0/53X9n8PgCF7Igkn0JrA3BwYPkw/SfqMMSdrW7gwH3ki
+         hQEw==
+X-Gm-Message-State: AOJu0YxoTckutVE7rQSxQr6wJpkqg9MtcXyx903dKTwcKF0vdcNsGlj2
+	uoSXJfPgSBtHJhBmIY8TWRXUeQoIbzhwAxgsvxQoYCe1VR/pWLp0p1Bx4S3yzmTrlg==
+X-Gm-Gg: ASbGnctOEyxEsnuRSW7W6jokHbEthupO8qLYP4cp4iEvbGEkExz9rretYMDt5FEaLS6
+	MNhACd5uOzECYVFSXchGZBkhlJ5rTOLOLllFGuRv5dY3Rm2FAJutIXaAWDSTR+JT2b8gYPvuKRq
+	9/IA5IoZNs8LwIQirqG9gCURwpHbU3fd/LCSBi3s3luPu2tqk44dfjVqZFbgtcBJKBZ24cl/2C2
+	ViLQ4f64dacu8uqh8Tl0lS9frTWbGelwKF9Fz8Yg2Vzx9JdZSQmsXCksgGLxz//MdX+ukC6642e
+	O8LFGzANpdIfCkArh9mBO8thO+ubFhOn53I=
+X-Google-Smtp-Source: AGHT+IFFqE1qKkB1hEc1thDxiS2J5LwTLg5YTsuSO8HJUMNQprrhgnmYRpX0t2zVdIr7SE6LZRwO4g==
+X-Received: by 2002:ad4:5ccd:0:b0:6d8:aa04:9a60 with SMTP id 6a1803df08f44-6df9b1d1f30mr14140816d6.7.1736287764429;
+        Tue, 07 Jan 2025 14:09:24 -0800 (PST)
 Received: from gmail.com (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7b9ac2bd0a5sm1630258085a.20.2025.01.07.14.06.54
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6dd181372easm185747496d6.63.2025.01.07.14.09.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jan 2025 14:06:55 -0800 (PST)
-Date: Tue, 7 Jan 2025 22:06:53 +0000
+        Tue, 07 Jan 2025 14:09:23 -0800 (PST)
+Date: Tue, 7 Jan 2025 22:09:22 +0000
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: L.Anderweit@phytec.de
-Cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [meta-virtualization][PATCH][styhead][master] podman-compose:
- Add runtime dependencies
-Message-ID: <Z32lfda1dN9YzNGX@gmail.com>
-References: <20241218092134.2506858-1-l.anderweit@phytec.de>
+To: hsimeliere.opensource@witekio.com
+Cc: meta-virtualization@lists.yoctoproject.org,
+	Bruno VERNAY <bruno.vernay@se.com>
+Subject: Re: [meta-virtualization] [scarthgap][PATCH] runc-opencontainers:
+ upgrade 1.1.12 -> 1.1.14
+Message-ID: <Z32mEn16mwMHZym3@gmail.com>
+References: <20241211090417.8979-1-hsimeliere.opensource@witekio.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241218092134.2506858-1-l.anderweit@phytec.de>
+In-Reply-To: <20241211090417.8979-1-hsimeliere.opensource@witekio.com>
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Tue, 07 Jan 2025 22:07:06 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9075
+ <meta-virtualization@lists.yoctoproject.org>; Tue, 07 Jan 2025 22:09:26 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9076
 
-Sorry for the delay on this.
+In message: [meta-virtualization] [scarthgap][PATCH] runc-opencontainers: upgrade 1.1.12 -> 1.1.14
+on 11/12/2024 Hugo Simeliere via lists.yoctoproject.org wrote:
 
-I'm now starting a full upgrade cycle on the meta-virtualization
-recipes, so I've caught up on other pending items.
+> From: Hugo SIMELIERE <hsimeliere.opensource@witekio.com>
+> 
+> Alignment with runc-docker version
+> Includes fix for CVE-2024-45310 and other bug fixes
+> 
+> Changelog:
+> ==========
+> https://github.com/opencontainers/runc/blob/v1.1.14/CHANGELOG.md
 
-I've been known to reject cleanups mixed in with fixes, but
-since I've already made you wait a long time for this, I just
-merged it as-is!
+A shortlog summary is preferred, or copying the contents of
+that file into the long log. When referenced like this, there's
+no way to use git to easily see what changed.
+
+But again, I took so long to merge these, that I've gone ahead
+and merged it as-is.
 
 Bruce
 
-In message: [meta-virtualization][PATCH][styhead][master] podman-compose: Add runtime dependencies
-on 18/12/2024 Leonard Anderweit via lists.yoctoproject.org wrote:
-
-> Add missing runtime dependencies on python modules asyncio, json and
-> getpass provided by unixadmin.
-> Sort the dependencies alphabetically while at it.
 > 
-> Signed-off-by: Leonard Anderweit <l.anderweit@phytec.de>
+> Signed-off-by: Bruno VERNAY <bruno.vernay@se.com>
+> Signed-off-by: Hugo SIMELIERE <hsimeliere.opensource@witekio.com>
 > ---
->  recipes-containers/podman-compose/podman-compose_git.bb | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
+>  recipes-containers/runc/runc-opencontainers_git.bb | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/recipes-containers/podman-compose/podman-compose_git.bb b/recipes-containers/podman-compose/podman-compose_git.bb
-> index 0ee171dc88ad..c76bf1c447b8 100644
-> --- a/recipes-containers/podman-compose/podman-compose_git.bb
-> +++ b/recipes-containers/podman-compose/podman-compose_git.bb
-> @@ -14,6 +14,9 @@ S = "${WORKDIR}/git"
->  DEPENDS += "python3-pyyaml-native"
+> diff --git a/recipes-containers/runc/runc-opencontainers_git.bb b/recipes-containers/runc/runc-opencontainers_git.bb
+> index 188b8440..6eef2c8f 100644
+> --- a/recipes-containers/runc/runc-opencontainers_git.bb
+> +++ b/recipes-containers/runc/runc-opencontainers_git.bb
+> @@ -1,11 +1,11 @@
+>  include runc.inc
 >  
->  RDEPENDS:${PN} += "\
-> -    python3-pyyaml \
-> +    python3-asyncio \
->      python3-dotenv \
-> +    python3-json \
-> +    python3-pyyaml \
-> +    python3-unixadmin \
->  "
+> -SRCREV = "a9833ff391a71b30069a6c3f816db113379a4346"
+> +SRCREV = "2c9f5602f0ba3d9da1c2596322dfc4e156844890"
+>  SRC_URI = " \
+>      git://github.com/opencontainers/runc;branch=release-1.1;protocol=https \
+>      file://0001-Makefile-respect-GOBUILDFLAGS-for-runc-and-remove-re.patch \
+>      "
+> -RUNC_VERSION = "1.1.12"
+> +RUNC_VERSION = "1.1.14"
+>  
+>  CVE_PRODUCT = "runc"
+>  
 > -- 
-> 2.25.1
+> 2.43.0
 > 
 
 > 
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#9061): https://lists.yoctoproject.org/g/meta-virtualization/message/9061
-> Mute This Topic: https://lists.yoctoproject.org/mt/110177990/1050810
+> View/Reply Online (#9058): https://lists.yoctoproject.org/g/meta-virtualization/message/9058
+> Mute This Topic: https://lists.yoctoproject.org/mt/110058226/1050810
 > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
 > Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
