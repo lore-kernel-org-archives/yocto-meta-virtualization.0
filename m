@@ -1,244 +1,179 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <Qi.Chen@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CC7EFC0218B
-	for <webhook@archiver.kernel.org>; Tue, 21 Jan 2025 15:29:33 +0000 (UTC)
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
- by mx.groups.io with SMTP id smtpd.web11.18221.1737473371490206804
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50D50C0218D
+	for <webhook@archiver.kernel.org>; Wed, 22 Jan 2025 02:27:37 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web10.33852.1737512850509291586
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 21 Jan 2025 07:29:31 -0800
+ Tue, 21 Jan 2025 18:27:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Cq5zrkZm;
- spf=pass (domain: gmail.com, ip: 209.85.214.179, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-216281bc30fso133326325ad.0
-        for <meta-virtualization@lists.yoctoproject.org>; Tue, 21 Jan 2025 07:29:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737473371; x=1738078171; darn=lists.yoctoproject.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=XAkG3gMSJKyGyQfl/LJwSHYSNnUy7z7ueTZH8rwIPss=;
-        b=Cq5zrkZm7Zq1q0eEi5xD+lN/9i44JrIttxSmy8ETp71sOk619jlLWBFj8WoSJ58Pcc
-         UNHDDW2ZcczReg7/q7kwccrxBkAnG1QHyDcfW2a5DOZMs/NN0wDiJ86FaKZTdC35eDXk
-         ySmqFEQnPt6uKu+l0pkDaLru3TFGYLqVQ9U8Yinj0vPdwqflqsDn5dl7xr2LuQhKQsJx
-         zL+GcwfntJoJS241GYqwkPR3H93fOoNMHIVKp1whAuuv1s09SSvC++lhZ/Y3pMF3QKat
-         b8XvZ04LVObFbp7QrwT4Njq/CB49NogipATKT7KNTJ++PqxVclBJZrxlXs6FVZkZEEjD
-         SeWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737473371; x=1738078171;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=XAkG3gMSJKyGyQfl/LJwSHYSNnUy7z7ueTZH8rwIPss=;
-        b=ry/winOXkniUeWmZtxW9kTsYuPWZkHV59AjQbImeoviucfEcIn9ctx+Sr50RVmaRoL
-         +nrcMdNMv/8q/3MtAQ/zNmv5s9/vxN/6ztfLw2XKYZ1c1GlltDitYWxDVX0RWz+KW3ZM
-         fB0wgUQn/Fz7jGKz6ecT5Vb8jkzvVNdeTI405Dext+LvyRJrJ39wVKXtVJEA4QzhXNvR
-         h8xv8TkjEv75+QoORHSbXUYeEHmsKuCHcE+RiCJz24Cl4FXnv+TPIGAUSz9zy1+cKKEX
-         AoK+S9VAuJglO5ASyCghNYC1/27TsfnKLRd3A+rx+jgtWad2K3t8PDuGPU0SUnWDOYwD
-         GbKg==
-X-Gm-Message-State: AOJu0YxTIuoaW/P24GdxH4jrfxfPmYk9KwmhPCo3gW5pZPbY7ftKgp6p
-	cMf6IdmnWN/aoXzuGyldS4WTR46WbIBt4xWZCmDdP0luiY83Akq2bpr6cKawoMcW6cNaT/Uybp8
-	WxQ7ZpAr2EqlXbBRDh1eWPHB3ro8=
-X-Gm-Gg: ASbGnctBb+F41NCDiW83Pub7zVK8lcUuMJLdUpq9Uun6gCPxnDV6DvdLx0eag+xu+bM
-	CYcYMQ29TdvSdLyfFjO1KCIxn368x4AXtkoQnfxl5s2E2zhT965g=
-X-Google-Smtp-Source: AGHT+IGzvVoOdKC/fTJ3S9zYpa+q4Y4owmso/+GZebRfQP+Eus4iQI87HbWYyVYb7RqAcHIYkmI6bmuBDZwvNwWNr+8=
-X-Received: by 2002:a05:6a21:3288:b0:1e0:be48:177d with SMTP id
- adf61e73a8af0-1eb2146519dmr29566381637.3.1737473370745; Tue, 21 Jan 2025
- 07:29:30 -0800 (PST)
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=31173a9983=qi.chen@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50M204O1000556
+	for <meta-virtualization@lists.yoctoproject.org>; Tue, 21 Jan 2025 18:27:30 -0800
+Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2043.outbound.protection.outlook.com [104.47.66.43])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 44aqg0r0mk-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <meta-virtualization@lists.yoctoproject.org>; Tue, 21 Jan 2025 18:27:29 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=nDhXXuCS4GtXvsXMTGyXh90fuLHhLPjU0LbVy4WzpMsnf1ofP6ahYKTpQEWJaTQAw2Mgz/noB7thIalUDAy0QNoHvdEstDSYSadwwcjmt4rAnsz8h9UuFX+Pk5XGixAn/6Le+D7vqWpuovvWCgxgj776NXVHsRBvjxlmUCsDr3Ht1SJwutojoUOHwN4rTBJd7P7ErGyRqWIy/X5Q4+yml+KnduMyEdgyEPdcSraC2sooZKPdJdYVZqf2FFpXTPVSVDhlvxFJrRQQJ7w0xPwY/5NNGUStj48L8Qij5M+fh4CA7uMHVTnzEdPbNu2Wq55BVHuDP4aXMexnlQ4qq+AEYA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=rrLVwHtl7SIH1pop977cbUg2qKJOVqt/WftJmkrCNPc=;
+ b=mN+xjDMPX/qHFzBwqRNcoxhxbUDsi0Imy8u7CDXII79XJPN/XLclJNxqLlCiT4TniS7XGrwq8vWrk+BUynzA77p8W4tz7YVmLVX5mshJvq+S3c/z1KxAnUp+U4n5JqGUg12rwQFM02pA+Q5jckNgybIfVdhKNOqG/njMeLFkyHVcMC9BAH4C0kkIXdnB3Xi2f2tkNgQdTt/VqBe2qJO07GcqHXc8VNB5UTQOvGEG/GWWNHsoxGUl4xnnK2PNg0ceCs7uO49+cur/j4Cq+j25shgibOY7/GOXbiPqPeAinGjMJwcJ6ccvrWbaXOrou8W8KSpIGvjounQNW8WAsMv7Yw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from DM8PR11MB5605.namprd11.prod.outlook.com (2603:10b6:8:26::11) by
+ PH0PR11MB4934.namprd11.prod.outlook.com (2603:10b6:510:30::17) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8356.22; Wed, 22 Jan 2025 02:27:26 +0000
+Received: from DM8PR11MB5605.namprd11.prod.outlook.com
+ ([fe80::b868:94:9e07:104a]) by DM8PR11MB5605.namprd11.prod.outlook.com
+ ([fe80::b868:94:9e07:104a%3]) with mapi id 15.20.8356.020; Wed, 22 Jan 2025
+ 02:27:25 +0000
+From: Qi.Chen@windriver.com
+To: meta-virtualization@lists.yoctoproject.org
+Subject: [meta-virtualization][scarthgap][PATCH 1/3] cri-o: update to 1.30.8
+Date: Tue, 21 Jan 2025 18:27:12 -0800
+Message-Id: <20250122022714.1792229-1-Qi.Chen@windriver.com>
+X-Mailer: git-send-email 2.25.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SJ0PR13CA0010.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c0::15) To DM8PR11MB5605.namprd11.prod.outlook.com
+ (2603:10b6:8:26::11)
 MIME-Version: 1.0
-References: <20250121-use_inherit_defer-v1-1-dbfd42de3a01@se.com>
-In-Reply-To: <20250121-use_inherit_defer-v1-1-dbfd42de3a01@se.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Tue, 21 Jan 2025 10:29:18 -0500
-X-Gm-Features: AbW1kvZ8rsXh5fMi1JW5ypXBkfflsVlZsu40sEwZI0tBQMrXSWUfnOtPrxiy-g4
-Message-ID: <CADkTA4P-BS3h=owPN_rwi6BzDsZjzge_MNuysUiX42uV-2EX_Q@mail.gmail.com>
-Subject: Re: [meta-virtualization] [PATCH RESEND meta-virtualization]
- virt-manager: use inherit_defer for optional gtk-icon-cache class
-To: massimiliano.minella@gmail.com
-Cc: meta-virtualization@lists.yoctoproject.org, 
-	Massimiliano Minella <massimiliano.minella@se.com>
-Content-Type: multipart/alternative; boundary="00000000000011f2d1062c390b9f"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM8PR11MB5605:EE_|PH0PR11MB4934:EE_
+X-MS-Office365-Filtering-Correlation-Id: 86184f13-0cae-4d7c-a53b-08dd3a8c4f40
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|366016|1800799024|52116014|376014|38350700014;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?HO1YdOkkK2/N6EGyQZWy26zPql7yoegtCNtXZ6D5OInaxwiDJdJDXUmu2Ezy?=
+ =?us-ascii?Q?na2u4Sz844FkIR2L+ouptJuYJ/0QdszWV9nLYuDvbuVao2MFploRCeIoOQzJ?=
+ =?us-ascii?Q?mibwKYAkludE8ljjr2tJ+01b1zUlgqG5UpsSgDyk27HyPrKJ+NyER68mqp6i?=
+ =?us-ascii?Q?ev4AK1KK43BLhma4hwj5l56ZzsSzTq2eIlx8zqyysMiE8zRqzroz86f318uy?=
+ =?us-ascii?Q?dIg2Bt2K9QSfiajSQOnAkHit5U1QyFOTQGlbhxD1RptZsME2zda5p+sYbM4X?=
+ =?us-ascii?Q?I3X3J12617TaY1IfRxCSNhnLo42W03ibm987Nkacis3oXiBkLP5qGG535SQk?=
+ =?us-ascii?Q?N7Nb/71VfkYR0PdkhVxn0nTDd9zQECyjbwWBlOhy62qjjQ5wbwd5sdQBEEh5?=
+ =?us-ascii?Q?IUhzgbIkC/SsjjVux1G47QlE54BKCbrbx9rKefGXyW4n6w74nDWrKpodTWS0?=
+ =?us-ascii?Q?ACDtL73wrOplvqTtICF0clfwdJddPHPz1bbbsbfxR/DcP9ed32+CC4Kq+ejp?=
+ =?us-ascii?Q?4rKNWwWGO422Z7PtPQ+epgnnk85SR+3scYdkhSKIgd2OtJxYdLhkQ2THLDwt?=
+ =?us-ascii?Q?ICSa2T3657S9n6BelqljC97EFTDDEHqf8kz8vmqwBKflT7snBzMChnZj9yPz?=
+ =?us-ascii?Q?B7zB34PuvM6hcvx33Y0p2fD/C19k3l29p8WNLshFXOQhVw1Srd9hcoCmMUe1?=
+ =?us-ascii?Q?bCJgYZJGdsdCvnxx4wRIpMUOAMCFVr8zUX29+jSV6VyhvPCOjn+IAUZC5RLB?=
+ =?us-ascii?Q?6u28/i/hGwtJv7hIzV4EfcsLST9b4luoEa+X247MWnFajGFZ78f2jDykkfWh?=
+ =?us-ascii?Q?FZXQQMHXMJVd7Doovc4oWEjg0fVAkTje+UQMy5EuobPyFBlULV67dr9lVORJ?=
+ =?us-ascii?Q?44jUhPaO7rMJPsDl31hSvnVqSMFnxNMa0lLmon4WV3Gsd67T7FxZNw0WYQzo?=
+ =?us-ascii?Q?kzjmoYFXfM443JoWhIL6pXkc7PU0NEFDQb1COlX16sGdhnHKAk3P6gp05Slc?=
+ =?us-ascii?Q?KQPWXVOPHaKHJd4BLJShyTBMfTXLXOkUTpxT4QyEPsoAUGOK9jT0c3kZkXxM?=
+ =?us-ascii?Q?RnPshaHMRS2ZjiFQRCozv2eBED4T/AGotIOLadc+vIz8avopK3PbVeSMh8Sc?=
+ =?us-ascii?Q?bHT+zDU1vVnQFaGVJ05YXdN48rFUmiV6whGArFJHFZxlgC9LMK/kYulAvNxr?=
+ =?us-ascii?Q?RfacZ3yCvBLktjdQGEYdooZzMufxs/lqACvqKBCqobbBGYsoQIebFtNqMWuj?=
+ =?us-ascii?Q?Fsg9r4ZSwf5WSaFKpvBDFmegDmUrrBT+EgA+JjEGEsUKIQ/qBsDQ3T44w7Bs?=
+ =?us-ascii?Q?myb809Uk3TFidNIuGav0BXbteG9G2+pJMswQSjD9oLXSIneNQYQXsvU9TRII?=
+ =?us-ascii?Q?OEvsQQU+mhzGQLetA0B9r7K6Dc5YW09kPyXjuRVGXhsIlKihgWpriGNj+TDH?=
+ =?us-ascii?Q?h2P7RvrxxDCSRadhNKOsDhQWyRXaXkJ4?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR11MB5605.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(52116014)(376014)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?jIDukNvmunvzAA7fN8FwoAFTkVoCz8pbPoZ769n6C/GnNAKE4SyZBRxUHh+g?=
+ =?us-ascii?Q?b2ar4KDgWNrU+C68QNdmHorDh8JjLIDVSnNjdIScnLXo0j6QF/9dAuyDSLpj?=
+ =?us-ascii?Q?dZDVr+6ZgXeofkTVP2AuB2Ps9C0rzkNNjL09ywV42GYw2ptH+Uzo5sOe2hHA?=
+ =?us-ascii?Q?6CBqe0do3kjNxEnR1KqRtpqLiIyfhHK3CBwF6CZ8izNg/TN1HGHH+4ncJ2SP?=
+ =?us-ascii?Q?vzMtd3TTSqxdlKcv4zt2Hh33HiczXgGwS47wWd4J1fDU8doNI3TApJ9SzHDC?=
+ =?us-ascii?Q?PyCS24JU4DMpCKma10q5rl2OmcJaWr2JEbJwkjt556sXpgXyXBkVQL37LQjs?=
+ =?us-ascii?Q?zABv/snRvlNpvzaga8PogGdq4YbXVlTWgzi/lEP5cXlVcDFYpNi+B0E4H99x?=
+ =?us-ascii?Q?16AbsqeJrIAnOMMT2lDt1Ko5bZljYYgjC8f9+581b7H2wF7F/6GGwz0SNxP5?=
+ =?us-ascii?Q?3PoQqSOnc9kPgcyK8b39oTf4nZECdCHf9zhRh3TZKctweqFwQQRg3q7LM5dm?=
+ =?us-ascii?Q?ljTURgLlQPJR6XQgHYI10Nbj1Dq6IM0F+Y3gbtEvrA4RYDmxq+q/TNLIifhZ?=
+ =?us-ascii?Q?3vdCbzy/viKFU/QnIwMbEuy0W/2SArRE54b2Li2tV/pWsODXir+lk9ffFG77?=
+ =?us-ascii?Q?uEEcFa9j6deoaOJ8spEmRl3WTcoUrPAybziRRjvt6TtT+yrRNJa/d3N6Yi6h?=
+ =?us-ascii?Q?BKbM6B6yBuggWF+j2pBA2P0sgQIqPhntmIECOgaSX6dt2Dk2K+TeprmLCcY4?=
+ =?us-ascii?Q?WbEe6tm9KU1JXVaFfE1N5i4wCsnypafxOlLuGWPH6lAbrEEzaKfnue8orDrx?=
+ =?us-ascii?Q?3M2D01WVSZzvjxemFyRaGMU86BzoyPBuUT+4wGy+2Qu2WVZgjCejjDOmDT9+?=
+ =?us-ascii?Q?fguF/xeaK3u75VWRHD7W+NlljZv4QLzHiI6gqi9OEm6uw7z4f/HZm6WS3FLF?=
+ =?us-ascii?Q?zVxOVnAa7uNs+ItBqu1WXSA5XJ01qh2BvfVAKFNkKj3RF6K4nxycQnhskpo+?=
+ =?us-ascii?Q?DvpsWF5YHbrDuu0G4v0JGtzevp7pPynLDjcFYGv1XQxhfflZmf7cORNZ/XKc?=
+ =?us-ascii?Q?jXRYGGySq/Xb8jkrdwzybqIIPZi3oUDiEhAEjJZ7ojtnmduqwcJWW/IBiHSw?=
+ =?us-ascii?Q?RX1n27OcsTl3o+7aF20DxOGqWE03CcD5QGZw3370TdoXpv+D42FdXWNmU6qQ?=
+ =?us-ascii?Q?HCue9xW++W/DNCysce/2dWTHeP5tWOXmXawewyhyTH+StMUEfO2EIQXRWfFW?=
+ =?us-ascii?Q?oQb8CkmPJcAwneNsIDqSm3L+SZRS2UbnanYEmChDYlhwOh+2E7rymyB4mY7C?=
+ =?us-ascii?Q?n517O+vOeD1kowDjf3FrQCyo8ONQ2nIYBWgtl43VskAfFa/8QXq3JbnVS2MM?=
+ =?us-ascii?Q?GnEyjhYjai0OO6S0EUcZXx170FEdWVHS424w3seoewMDbcdwf9Y4eHy9JFYY?=
+ =?us-ascii?Q?zC/OBN3l31LBNCixa1toaf/agj5DE41ZsN5uNGhWCAuMxIFOlMQ6Z3O7jOgb?=
+ =?us-ascii?Q?o/CvJNgPaNbBZffGeqB0whsGJaJL7Uchsv05pS1FBFUkPJZE/rUxL1jbqSxY?=
+ =?us-ascii?Q?s2ERjvak6AvzT0gqN0i8fxAHSUZQE+D3LtsyIX8t?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 86184f13-0cae-4d7c-a53b-08dd3a8c4f40
+X-MS-Exchange-CrossTenant-AuthSource: DM8PR11MB5605.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jan 2025 02:27:25.8538
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 1Q0TdvvE0+l/8H9i00bBWXV7SwyNW9HmfXtZRCoB/H4fMVAyrI0cS+MJ51AG/ZxFrrjfYnI6+EMq81TlMNFk1w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB4934
+X-Proofpoint-GUID: 8d2EczAYr-G4wR_kZpMcVUnrPafqUWlu
+X-Authority-Analysis: v=2.4 cv=Kue32XWN c=1 sm=1 tr=0 ts=67905791 cx=c_pps a=TJva2t+EO/r6NhP7QVz7tA==:117 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=VZzbbjECq-QA:10 a=VdSt8ZQiCzkA:10 a=bRTqI5nwn0kA:10
+ a=t7CeM3EgAAAA:8 a=NEAV23lmAAAA:8 a=J9ib23vNIjUkgzsXdsIA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-ORIG-GUID: 8d2EczAYr-G4wR_kZpMcVUnrPafqUWlu
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-01-21_10,2025-01-21_03,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 mlxlogscore=888
+ clxscore=1015 suspectscore=0 bulkscore=0 phishscore=0 lowpriorityscore=0
+ adultscore=0 priorityscore=1501 spamscore=0 impostorscore=0 malwarescore=0
+ classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
+ engine=8.21.0-2411120000 definitions=main-2501220015
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Tue, 21 Jan 2025 15:29:33 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9102
+ <meta-virtualization@lists.yoctoproject.org>; Wed, 22 Jan 2025 02:27:37 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9103
 
---00000000000011f2d1062c390b9f
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Chen Qi <Qi.Chen@windriver.com>
 
-Check master-next: virt-manager has gone to meson for the build and I had
-to drop some icon cache bits, as well as add more gtk dependencies to get
-it to build/work.
+The following two patches are dropped as they are in 1.30.8:
+- CVE-2024-5154-0001.patch
+- CVE-2024-5154-0002.patch
 
-Any patches to make that support more optional would be acceptable, since I
-won't look into it for quite some time.
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ recipes-containers/cri-o/cri-o_git.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-But as it stands, I can't merge this one, as things are different enough
-after the uprev to 5.x
+diff --git a/recipes-containers/cri-o/cri-o_git.bb b/recipes-containers/cri-o/cri-o_git.bb
+index 4e17a7cd..1d0aa72e 100644
+--- a/recipes-containers/cri-o/cri-o_git.bb
++++ b/recipes-containers/cri-o/cri-o_git.bb
+@@ -14,7 +14,7 @@ At a high level, we expect the scope of cri-o to be restricted to the following
+  - Resource isolation as required by the CRI \
+  "
+ 
+-SRCREV_cri-o = "5aff11c7c1afdc785adafd7da3c3f2a6ac51b88d"
++SRCREV_cri-o = "359f960f46697517f048e6ff3caf728ae75cb384"
+ SRC_URI = "\
+ 	git://github.com/kubernetes-sigs/cri-o.git;branch=release-1.30;name=cri-o;protocol=https \
+         file://crio.conf \
+@@ -26,7 +26,7 @@ LIC_FILES_CHKSUM = "file://src/import/LICENSE;md5=e3fc50a88d0a364313df4b21ef20c2
+ 
+ GO_IMPORT = "import"
+ 
+-PV = "1.30.0+git${SRCREV_cri-o}"
++PV = "1.30.8+git${SRCREV_cri-o}"
+ 
+ inherit features_check
+ REQUIRED_DISTRO_FEATURES ?= "seccomp"
+-- 
+2.25.1
 
-Bruce
-
-On Tue, Jan 21, 2025 at 10:12=E2=80=AFAM Massimiliano Minella via
-lists.yoctoproject.org <massimiliano.minella=3D
-gmail.com@lists.yoctoproject.org> wrote:
-
-> From: Massimiliano Minella <massimiliano.minella@se.com>
->
-> The inherit is controlled by the PACKAGECONFIG option "gui" but, since
-> it is expanded at parse time, this causes a build error if the option is
-> removed via a bbappend and DISTRO_FEATURES doesn't contain "x11" or
-> "wayland". Replace the inherit with inherit_defer to evaluate the
-> inherit at the end of parsing.
->
-> Signed-off-by: Massimiliano Minella <massimiliano.minella@se.com>
-> ---
->  recipes-extended/virt-manager/virt-manager_4.1.0.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git recipes-extended/virt-manager/virt-manager_4.1.0.bb
-> recipes-extended/virt-manager/virt-manager_4.1.0.bb
-> index d752fd2b..08b7d02b 100644
-> --- recipes-extended/virt-manager/virt-manager_4.1.0.bb
-> +++ recipes-extended/virt-manager/virt-manager_4.1.0.bb
-> @@ -15,7 +15,7 @@ S =3D "${WORKDIR}/git"
->  PACKAGECONFIG ??=3D "gui"
->  PACKAGECONFIG[gui] =3D ",--no-update-icon-cache
-> --no-compile-schemas,python3-pygobject"
->
-> -inherit ${@bb.utils.contains('PACKAGECONFIG', 'gui', 'gtk-icon-cache',
-> '', d)}
-> +inherit_defer ${@bb.utils.contains('PACKAGECONFIG', 'gui',
-> 'gtk-icon-cache', '', d)}
->  inherit bash-completion gettext pkgconfig setuptools3_legacy
->
->  PACKAGES +=3D " \
->
-> ---
-> base-commit: b57f8a25a35a93b95e3baa950c2d359fffc13051
-> change-id: 20250121-use_inherit_defer-0d8e1fb85c13
->
-> Best regards,
-> --
-> Massimiliano Minella <massimiliano.minella@se.com>
->
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#9101):
-> https://lists.yoctoproject.org/g/meta-virtualization/message/9101
-> Mute This Topic: https://lists.yoctoproject.org/mt/110734659/1050810
-> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [
-> bruce.ashfield@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
-
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end
-- "Use the force Harry" - Gandalf, Star Trek II
-
---00000000000011f2d1062c390b9f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-size:small">Che=
-ck master-next: virt-manager has gone to meson for the build and I had to d=
-rop some icon cache bits, as well as add more gtk dependencies to get it to=
- build/work.</div><div class=3D"gmail_default" style=3D"font-size:small"><b=
-r></div><div class=3D"gmail_default" style=3D"font-size:small">Any patches =
-to make that support more optional would be acceptable, since I won&#39;t l=
-ook into it for quite some time.</div><div class=3D"gmail_default" style=3D=
-"font-size:small"><br></div><div class=3D"gmail_default" style=3D"font-size=
-:small">But as it stands, I can&#39;t merge this one, as things are differe=
-nt enough after the uprev to 5.x</div><div class=3D"gmail_default" style=3D=
-"font-size:small"><br></div><div class=3D"gmail_default" style=3D"font-size=
-:small">Bruce</div></div><br><div class=3D"gmail_quote gmail_quote_containe=
-r"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Jan 21, 2025 at 10:12=E2=
-=80=AFAM Massimiliano Minella via <a href=3D"http://lists.yoctoproject.org"=
->lists.yoctoproject.org</a> &lt;massimiliano.minella=3D<a href=3D"mailto:gm=
-ail.com@lists.yoctoproject.org">gmail.com@lists.yoctoproject.org</a>&gt; wr=
-ote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
- 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">From: Massi=
-miliano Minella &lt;<a href=3D"mailto:massimiliano.minella@se.com" target=
-=3D"_blank">massimiliano.minella@se.com</a>&gt;<br>
-<br>
-The inherit is controlled by the PACKAGECONFIG option &quot;gui&quot; but, =
-since<br>
-it is expanded at parse time, this causes a build error if the option is<br=
->
-removed via a bbappend and DISTRO_FEATURES doesn&#39;t contain &quot;x11&qu=
-ot; or<br>
-&quot;wayland&quot;. Replace the inherit with inherit_defer to evaluate the=
-<br>
-inherit at the end of parsing.<br>
-<br>
-Signed-off-by: Massimiliano Minella &lt;<a href=3D"mailto:massimiliano.mine=
-lla@se.com" target=3D"_blank">massimiliano.minella@se.com</a>&gt;<br>
----<br>
-=C2=A0recipes-extended/virt-manager/<a href=3D"http://virt-manager_4.1.0.bb=
-" rel=3D"noreferrer" target=3D"_blank">virt-manager_4.1.0.bb</a> | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git recipes-extended/virt-manager/<a href=3D"http://virt-manager_4.1=
-.0.bb" rel=3D"noreferrer" target=3D"_blank">virt-manager_4.1.0.bb</a> recip=
-es-extended/virt-manager/<a href=3D"http://virt-manager_4.1.0.bb" rel=3D"no=
-referrer" target=3D"_blank">virt-manager_4.1.0.bb</a><br>
-index d752fd2b..08b7d02b 100644<br>
---- recipes-extended/virt-manager/<a href=3D"http://virt-manager_4.1.0.bb" =
-rel=3D"noreferrer" target=3D"_blank">virt-manager_4.1.0.bb</a><br>
-+++ recipes-extended/virt-manager/<a href=3D"http://virt-manager_4.1.0.bb" =
-rel=3D"noreferrer" target=3D"_blank">virt-manager_4.1.0.bb</a><br>
-@@ -15,7 +15,7 @@ S =3D &quot;${WORKDIR}/git&quot;<br>
-=C2=A0PACKAGECONFIG ??=3D &quot;gui&quot;<br>
-=C2=A0PACKAGECONFIG[gui] =3D &quot;,--no-update-icon-cache --no-compile-sch=
-emas,python3-pygobject&quot;<br>
-<br>
--inherit ${@bb.utils.contains(&#39;PACKAGECONFIG&#39;, &#39;gui&#39;, &#39;=
-gtk-icon-cache&#39;, &#39;&#39;, d)}<br>
-+inherit_defer ${@bb.utils.contains(&#39;PACKAGECONFIG&#39;, &#39;gui&#39;,=
- &#39;gtk-icon-cache&#39;, &#39;&#39;, d)}<br>
-=C2=A0inherit bash-completion gettext pkgconfig setuptools3_legacy<br>
-<br>
-=C2=A0PACKAGES +=3D &quot; \<br>
-<br>
----<br>
-base-commit: b57f8a25a35a93b95e3baa950c2d359fffc13051<br>
-change-id: 20250121-use_inherit_defer-0d8e1fb85c13<br>
-<br>
-Best regards,<br>
--- <br>
-Massimiliano Minella &lt;<a href=3D"mailto:massimiliano.minella@se.com" tar=
-get=3D"_blank">massimiliano.minella@se.com</a>&gt;<br>
-<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#9101): <a href=3D"https://lists.yoctoproject.org/g/meta=
--virtualization/message/9101" rel=3D"noreferrer" target=3D"_blank">https://=
-lists.yoctoproject.org/g/meta-virtualization/message/9101</a><br>
-Mute This Topic: <a href=3D"https://lists.yoctoproject.org/mt/110734659/105=
-0810" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.org/m=
-t/110734659/1050810</a><br>
-Group Owner: <a href=3D"mailto:meta-virtualization%2Bowner@lists.yoctoproje=
-ct.org" target=3D"_blank">meta-virtualization+owner@lists.yoctoproject.org<=
-/a><br>
-Unsubscribe: <a href=3D"https://lists.yoctoproject.org/g/meta-virtualizatio=
-n/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.or=
-g/g/meta-virtualization/unsub</a> [<a href=3D"mailto:bruce.ashfield@gmail.c=
-om" target=3D"_blank">bruce.ashfield@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
-=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
-ignature">- Thou shalt not follow the NULL pointer, for chaos and madness a=
-wait thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star T=
-rek II<br><br></div>
-
---00000000000011f2d1062c390b9f--
 
