@@ -2,127 +2,142 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA581C02192
-	for <webhook@archiver.kernel.org>; Wed,  5 Feb 2025 12:24:37 +0000 (UTC)
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
- by mx.groups.io with SMTP id smtpd.web11.10805.1738758272791794810
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E16EBC02192
+	for <webhook@archiver.kernel.org>; Wed,  5 Feb 2025 12:37:27 +0000 (UTC)
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+ by mx.groups.io with SMTP id smtpd.web10.10851.1738759041398335558
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 05 Feb 2025 04:24:32 -0800
+ Wed, 05 Feb 2025 04:37:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=OgqlGj4b;
- spf=pass (domain: gmail.com, ip: 209.85.216.47, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-2f44353649aso9019756a91.0
-        for <meta-virtualization@lists.yoctoproject.org>; Wed, 05 Feb 2025 04:24:32 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Ufo2d/nq;
+ spf=pass (domain: gmail.com, ip: 209.85.214.169, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-21644aca3a0so3136695ad.3
+        for <meta-virtualization@lists.yoctoproject.org>; Wed, 05 Feb 2025 04:37:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738758272; x=1739363072; darn=lists.yoctoproject.org;
+        d=gmail.com; s=20230601; t=1738759041; x=1739363841; darn=lists.yoctoproject.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ytwko0ps+cIXMkT7zOEBUcXbLKlqmGjhWInj1uEeRB0=;
-        b=OgqlGj4bEtRmJI1/OeemFvuqAZ2lUz2cZxC0v3C3MgDL8P4s1DjBKFKQUI2nSjlusI
-         5bptSGwBy9Z0+xMMUpNrRxgALde9BThV+u2CRvrhe1/dvcEYfciVqzisl7WgMIWBS9e8
-         f20TaTSckR/mRrN13sja5NZcdCgT9p7xBe1MmGQ4s6eb6yah99mRYlh/bAMUq55SZpW6
-         +WghdXojvugZWZYoZSfq+iu6v5WUGn4RvQpZvpFyzzmmj89Dv2q67ShWG3XYyCr6eZP4
-         39HkHp1UcO5I5r7tRDVEzLRN6lrr7yP/TxIcOrG+3vx3xW5WNkCTikvGSgfQ6U0exYcC
-         dgFA==
+        bh=aaRTM/IstBGe/gudRpVus//OLxYqpZ4MAQ0lUiKWbSc=;
+        b=Ufo2d/nqNAca3ky1Ww80wXj894fnj7QOLetyoUCY23tnLcXtPIw3PYRu8Q1PAc2oeN
+         0pCzVghlbSIrHHxmfcYhP+TgsHcYxTRG0ljkszY0JtJeEwGtfZJJjfPHR1b4iWskazlj
+         wBWpEIJKACRy1Uuz9F++BLgB605lz5pCDmr90jdgDW+8kH+hngjvk5VyGhoTg4wKkjft
+         AF4/dftosAlIdcubbHTOKKioCcn+I+9eNz+v595pQ6lEbjGSoNns2esuY/JQsAILrr4p
+         1FDOAPYIQk9q0nTGEXfpdox4/Ar9JVdmYgY2+Q3WcFe+r6PpHNWjW+oudEbVu/smuL+x
+         fblg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738758272; x=1739363072;
+        d=1e100.net; s=20230601; t=1738759041; x=1739363841;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Ytwko0ps+cIXMkT7zOEBUcXbLKlqmGjhWInj1uEeRB0=;
-        b=osr8vA88EOA4RUtgzW5XEhRmAVhO+dCm4rBTZq54NO79PhYFiavYFUg967+vvESdyS
-         2VWUCEmCKno3xYEUDMo0Rsx572U2je6HQCSSQgEeAewlx6eWBQtIQXyzPN0J2R/i0Yw3
-         J6zomcb+qyxY1XDA6ycX6ic1oHePOn7cGbpwsYTytRshke7nlCwiP049LHDy7ARb0jB5
-         5kpflQgBPUthVv+dSI4V4I9G7ckjjMaudJ2M04FgH4EBMbWPu6eaP3pLqMRnYDtPnS+3
-         aPNK0u8qv9lzILivaFvSoRZGh4YbBkmvOGdDZAZEkz000y5WcL81hpWDuiOJdz86RpH9
-         J5Ew==
-X-Gm-Message-State: AOJu0Yz2wKPlYtdu54J6oU4nUag84CcSvc0XIba7j0DjrS3Hpbpdww2P
-	l2dbdFXa3a/H3UCZDfNfoYdw6YxVw6PZ1q84v5bgUezr9GIxUam1w/jzKFrQs3F0JyEEsysuUiO
-	VszHigdwnqv51F5EjTcMRPD+D0Q8=
-X-Gm-Gg: ASbGncvAAMv5Go97oC2yFP3oyX11G5TO+P0nOJtxRGz+JUalP2zarQvTOXXDiaTDvt1
-	lXDdONjtB1OJMmLZPik0ctIcRQyJJCS5kiRq66cVrb4KfG1hKvwiJAc1bM9NDHLnIxAO1BxfAbw
+        bh=aaRTM/IstBGe/gudRpVus//OLxYqpZ4MAQ0lUiKWbSc=;
+        b=ICNajv18TTwwOnKL2n05HKcIpTsXk/dtdxl7BlQIhLMqWYPgUQw/Gw3aOntBp214sn
+         EdGsy19f7cr2V8Ra+z1NL7hWn9TMoXsxhynkd0b7CF15tYmVAmBvxAsHrj+BkULaE1JB
+         ZXZ7I380V7AdwBvNoiCK9iQzmKEaGx3Tn/4QQWZRhnVEnARmT9I/j+jfZopx/mUdYrj/
+         cuyHtdiOOZM2JfuxyqBnsTh/UxyWDMG0Kr0MIPUv2Zg/KIWyVoW9LXvzeiFz3/DpQlP+
+         e3iP3J0Rhctk3rURf+5RKPwQbvqF2JKoK8Yral6NFs30JQhAfRIr2hJ32SHqQVx1ti2f
+         DofA==
+X-Gm-Message-State: AOJu0YxhEBiBNscyHnmC7Ohx++xDCkowTmTrgAQyYgq5As13nmNOwffD
+	jZ31IuIL65V8q6scV2ov9CsorVS7vuDX0VzdfBLB2+dAQMBAHwL6+wrb65ZMCbTKT2XQIlDs4yH
+	yAMeoMQ9ehD4AQrbt7coqajsm58Q=
+X-Gm-Gg: ASbGnctbDBSZUtb1nY30oDHhmtEKLBebCmzN2yVi6m5wL17ILnSaGVozl+k6EmpewNg
+	Vs9tAtNu11xORn/4gPXJXQt40cIyYHuDqitQYXsrHaRzTNnOq/Vqf2MTnZQ8MFjz+7eW1ZwTzKw
 	==
-X-Google-Smtp-Source: AGHT+IHJA0+bIBYykEYBXh+D0dSC13LFXfjzGVS+9znVgbNdPQO5lg4JZKSDEk+0FhWclUDumpj/9s68346c4szRtTo=
-X-Received: by 2002:a17:90b:5288:b0:2ee:b4d4:78 with SMTP id
- 98e67ed59e1d1-2f9e080f2a7mr4250399a91.24.1738758271927; Wed, 05 Feb 2025
- 04:24:31 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHivnotKyuicJqd/7pHQ1OvnFSpgfiAeUhF2AACfDbMuYrzCC1AdkaAQ6g4jPafd/G826Nq1ExjtUg4npC6Dbw=
+X-Received: by 2002:a17:902:f54b:b0:21d:ccb9:e2b9 with SMTP id
+ d9443c01a7336-21f17ec878fmr51589355ad.41.1738759040573; Wed, 05 Feb 2025
+ 04:37:20 -0800 (PST)
 MIME-Version: 1.0
-References: <12196.1738732187186511335@lists.yoctoproject.org> <22391.1738748188874422514@lists.yoctoproject.org>
-In-Reply-To: <22391.1738748188874422514@lists.yoctoproject.org>
+References: <20250204122034.2182589-1-divya.chellam@windriver.com>
+In-Reply-To: <20250204122034.2182589-1-divya.chellam@windriver.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 5 Feb 2025 07:24:20 -0500
-X-Gm-Features: AWEUYZlLz8KmX0vAgkWDO65TYLo2D7aMcTcEk2fd6p4-6VYpS7LDtQy-Fhd3k5I
-Message-ID: <CADkTA4ODQinSQg3YY6dsJ5D4VWckh508f262bRsf-MfG0CVC2w@mail.gmail.com>
-Subject: Re: [meta-virtualization] [kirkstone][PATCH 1/1] runc-docker: upgrade
- 1.1.4 -> 1.1.12
-To: jonas.gorski@bisdn.de
+Date: Wed, 5 Feb 2025 07:37:09 -0500
+X-Gm-Features: AWEUYZl1hDYQLbLq3qLeBzD3NPO6N5z1y-ZiKgyYLk2xh62R3fGU4avYCOJ_hlU
+Message-ID: <CADkTA4Pr6kr51x6LSgCxwa1bqLhrn3LHg6qFGxfvVa8bGPm8dA@mail.gmail.com>
+Subject: Re: [meta-virtualization][kirkstone][PATCH 1/1] runc-docker: upgrade
+ 1.1.12 -> 1.1.14
+To: Divya.Chellam@windriver.com
 Cc: meta-virtualization@lists.yoctoproject.org
-Content-Type: multipart/alternative; boundary="00000000000026117d062d643586"
+Content-Type: multipart/alternative; boundary="000000000000f6a6b1062d6462b6"
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Wed, 05 Feb 2025 12:24:37 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9120
+ <meta-virtualization@lists.yoctoproject.org>; Wed, 05 Feb 2025 12:37:27 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9121
 
---00000000000026117d062d643586
+--000000000000f6a6b1062d6462b6
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Feb 5, 2025 at 4:36=E2=80=AFAM Jonas Gorski via lists.yoctoproject.=
-org
-<jonas.gorski=3Dbisdn.de@lists.yoctoproject.org> wrote:
+See the conversion on the list.
 
-> Hi,
->
-> On Wed, Feb  5, 2025 at 06:09 AM, Ranjitsinh Rathod wrote:
-> > Hello Bruce,
-> >
-> > After this merge,
-> > 0001-Makefile-respect-GOBUILDFLAGS-for-runc-and-remove-re.patch is
-> getting
-> > failed for runc-opencontainers as this recipe also uses this patch and
-> not
-> > upgraded to 1.1.12 and still uses 1.1.4.
-> >
-> > Is it possible to also upgrade runc-opencontainers to 1.1.12 to fix sam=
-e
-> CVEs
-> > which we fixed for runc-docker, else we may need to maintain two patche=
-s
-> for
-> > two different versions.
->
-> I want to second that, especially since runc-opencontainers is the defaul=
-t
-> provider for virtual/runc in kirkstone, so this broke it for everyone not
-> explicitly using runc-docker.
->
-> Also the change of patch targets via patchdir isn't done in master; they
-> still target git/src/import. I'm not sure it's a good idea to deviate how
-> master is doing things. Makes backporting things harder.
->
->
-Indeed, and I keep rejecting patches that unnecessarily use/change
-patchdir, I missed this one in my haste.
+You'll need to resubmit this, and the upgrade to 1.1.12
 
-I also always insist on upgrading both at the same time, and again, somehow
-missed it.
+When updating runc-docker, you must also update runc-moby, and you'll note
+that in master I dropped runc-docker on January 15th, so this is only
+something that needs to happen for older releases.
 
-My solution is simpler, I'm reverting the change in kirstone and will wait
-for a resubmission that upgrades (and tests) both.
+Also, please don't change the root of the patches, switching to using
+patchdir is unnecessary, and I won't take changes that do it.
 
 Bruce
 
+On Tue, Feb 4, 2025 at 7:21=E2=80=AFAM dchellam via lists.yoctoproject.org
+<Divya.Chellam=3Dwindriver.com@lists.yoctoproject.org> wrote:
 
-
-> Best regards,
-> Jonas
+> From: Divya Chellam <divya.chellam@windriver.com>
+>
+> Includes fix for CVE-2024-45310 and other bug fixes
+>
+> Changelog:
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> https://github.com/opencontainers/runc/blob/v1.1.14/CHANGELOG.md
+>
+> Signed-off-by: Divya Chellam <divya.chellam@windriver.com>
+> Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+> ---
+>  recipes-containers/runc/runc-docker_git.bb | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/recipes-containers/runc/runc-docker_git.bb
+> b/recipes-containers/runc/runc-docker_git.bb
+> index afecac67..72acdecb 100644
+> --- a/recipes-containers/runc/runc-docker_git.bb
+> +++ b/recipes-containers/runc/runc-docker_git.bb
+> @@ -2,13 +2,13 @@ include runc.inc
+>
+>  # Note: this rev is before the required protocol field, update when all
+> components
+>  #       have been updated to match.
+> -SRCREV_runc-docker =3D "a9833ff391a71b30069a6c3f816db113379a4346"
+> +SRCREV_runc-docker =3D "2c9f5602f0ba3d9da1c2596322dfc4e156844890"
+>  SRC_URI =3D "git://
+> github.com/opencontainers/runc;branch=3Drelease-1.1;name=3Drunc-docker;pr=
+otocol=3Dhttps
+> \
+>
+> file://0001-runc-Add-console-socket-dev-null.patch;patchdir=3Dsrc/import =
+\
+>
+> file://0001-Makefile-respect-GOBUILDFLAGS-for-runc-and-remove-re.patch;pa=
+tchdir=3Dsrc/import
+> \
+>
+> file://0001-runc-docker-SIGUSR1-daemonize.patch;patchdir=3Dsrc/import \
+>            "
+>
+> -RUNC_VERSION =3D "1.1.12"
+> +RUNC_VERSION =3D "1.1.14"
+>
+>  CVE_PRODUCT =3D "runc"
+> --
+> 2.40.0
+>
 >
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#9119):
-> https://lists.yoctoproject.org/g/meta-virtualization/message/9119
-> Mute This Topic: https://lists.yoctoproject.org/mt/110709071/1050810
+> View/Reply Online (#9117):
+> https://lists.yoctoproject.org/g/meta-virtualization/message/9117
+> Mute This Topic: https://lists.yoctoproject.org/mt/110990505/1050810
 > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
 > Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [
 > bruce.ashfield@gmail.com]
@@ -135,66 +150,96 @@ Bruce
 at its end
 - "Use the force Harry" - Gandalf, Star Trek II
 
---00000000000026117d062d643586
+--000000000000f6a6b1062d6462b6
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-size:small"><br></div></div><br><div class=3D"gmail_quote gmail_quote_con=
-tainer"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Feb 5, 2025 at 4:36=
-=E2=80=AFAM Jonas Gorski via <a href=3D"http://lists.yoctoproject.org">list=
-s.yoctoproject.org</a> &lt;jonas.gorski=3D<a href=3D"mailto:bisdn.de@lists.=
-yoctoproject.org">bisdn.de@lists.yoctoproject.org</a>&gt; wrote:<br></div><=
-blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-l=
-eft:1px solid rgb(204,204,204);padding-left:1ex">Hi,<br>
+<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-size:small">See=
+ the conversion on the list.</div><div class=3D"gmail_default" style=3D"fon=
+t-size:small"><br></div><div class=3D"gmail_default" style=3D"font-size:sma=
+ll">You&#39;ll need to resubmit this, and the upgrade to 1.1.12=C2=A0</div>=
+<div class=3D"gmail_default" style=3D"font-size:small"><br></div><div class=
+=3D"gmail_default" style=3D"font-size:small">When updating runc-docker, you=
+ must also update runc-moby, and you&#39;ll note that in master I dropped r=
+unc-docker on January 15th, so this is only something that needs to happen =
+for older releases.</div><div class=3D"gmail_default" style=3D"font-size:sm=
+all"><br></div><div class=3D"gmail_default" style=3D"font-size:small">Also,=
+ please don&#39;t change the root of the patches, switching to using patchd=
+ir is unnecessary, and I won&#39;t take changes that do it.</div><div class=
+=3D"gmail_default" style=3D"font-size:small"><br></div><div class=3D"gmail_=
+default" style=3D"font-size:small">Bruce</div></div><br><div class=3D"gmail=
+_quote gmail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Tue,=
+ Feb 4, 2025 at 7:21=E2=80=AFAM dchellam via <a href=3D"http://lists.yoctop=
+roject.org">lists.yoctoproject.org</a> &lt;Divya.Chellam=3D<a href=3D"mailt=
+o:windriver.com@lists.yoctoproject.org">windriver.com@lists.yoctoproject.or=
+g</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin=
+:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
+>From: Divya Chellam &lt;<a href=3D"mailto:divya.chellam@windriver.com" tar=
+get=3D"_blank">divya.chellam@windriver.com</a>&gt;<br>
 <br>
-On Wed, Feb=C2=A0 5, 2025 at 06:09 AM, Ranjitsinh Rathod wrote:<br>
-&gt; Hello Bruce,<br>
-&gt; <br>
-&gt; After this merge,<br>
-&gt; 0001-Makefile-respect-GOBUILDFLAGS-for-runc-and-remove-re.patch is get=
-ting<br>
-&gt; failed for runc-opencontainers as this recipe also uses this patch and=
- not<br>
-&gt; upgraded to 1.1.12 and still uses 1.1.4.<br>
-&gt; <br>
-&gt; Is it possible to also upgrade runc-opencontainers to 1.1.12 to fix sa=
-me CVEs<br>
-&gt; which we fixed for runc-docker, else we may need to maintain two patch=
-es for<br>
-&gt; two different versions.<br>
+Includes fix for CVE-2024-45310 and other bug fixes<br>
 <br>
-I want to second that, especially since runc-opencontainers is the default =
-provider for virtual/runc in kirkstone, so this broke it for everyone not e=
-xplicitly using runc-docker.<br>
+Changelog:<br>
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
+<a href=3D"https://github.com/opencontainers/runc/blob/v1.1.14/CHANGELOG.md=
+" rel=3D"noreferrer" target=3D"_blank">https://github.com/opencontainers/ru=
+nc/blob/v1.1.14/CHANGELOG.md</a><br>
 <br>
-Also the change of patch targets via patchdir isn&#39;t done in master; the=
-y still target git/src/import. I&#39;m not sure it&#39;s a good idea to dev=
-iate how master is doing things. Makes backporting things harder.<br>
-<br></blockquote><div><br></div><div><div class=3D"gmail_default" style=3D"=
-font-size:small">Indeed, and I keep rejecting patches that unnecessarily=C2=
-=A0use/change patchdir, I missed this one in my haste.</div><div class=3D"g=
-mail_default" style=3D"font-size:small"><br></div><div class=3D"gmail_defau=
-lt" style=3D"font-size:small">I also always insist on upgrading both at the=
- same time, and again, somehow missed it.</div><div class=3D"gmail_default"=
- style=3D"font-size:small"><br></div><div class=3D"gmail_default" style=3D"=
-font-size:small">My solution is simpler, I&#39;m reverting the change in ki=
-rstone and will wait for a resubmission that upgrades (and tests) both.</di=
-v><div class=3D"gmail_default" style=3D"font-size:small"><br></div><div cla=
-ss=3D"gmail_default" style=3D"font-size:small">Bruce</div><br></div><div>=
-=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
-.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-Best regards,<br>
-Jonas<br>
+Signed-off-by: Divya Chellam &lt;<a href=3D"mailto:divya.chellam@windriver.=
+com" target=3D"_blank">divya.chellam@windriver.com</a>&gt;<br>
+Signed-off-by: Bruce Ashfield &lt;<a href=3D"mailto:bruce.ashfield@gmail.co=
+m" target=3D"_blank">bruce.ashfield@gmail.com</a>&gt;<br>
+---<br>
+=C2=A0recipes-containers/runc/<a href=3D"http://runc-docker_git.bb" rel=3D"=
+noreferrer" target=3D"_blank">runc-docker_git.bb</a> | 4 ++--<br>
+=C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
+<br>
+diff --git a/recipes-containers/runc/<a href=3D"http://runc-docker_git.bb" =
+rel=3D"noreferrer" target=3D"_blank">runc-docker_git.bb</a> b/recipes-conta=
+iners/runc/<a href=3D"http://runc-docker_git.bb" rel=3D"noreferrer" target=
+=3D"_blank">runc-docker_git.bb</a><br>
+index afecac67..72acdecb 100644<br>
+--- a/recipes-containers/runc/<a href=3D"http://runc-docker_git.bb" rel=3D"=
+noreferrer" target=3D"_blank">runc-docker_git.bb</a><br>
++++ b/recipes-containers/runc/<a href=3D"http://runc-docker_git.bb" rel=3D"=
+noreferrer" target=3D"_blank">runc-docker_git.bb</a><br>
+@@ -2,13 +2,13 @@ include runc.inc<br>
+<br>
+=C2=A0# Note: this rev is before the required protocol field, update when a=
+ll components<br>
+=C2=A0#=C2=A0 =C2=A0 =C2=A0 =C2=A0have been updated to match.<br>
+-SRCREV_runc-docker =3D &quot;a9833ff391a71b30069a6c3f816db113379a4346&quot=
+;<br>
++SRCREV_runc-docker =3D &quot;2c9f5602f0ba3d9da1c2596322dfc4e156844890&quot=
+;<br>
+=C2=A0SRC_URI =3D &quot;git://<a href=3D"http://github.com/opencontainers/r=
+unc;branch=3Drelease-1.1;name=3Drunc-docker;protocol=3Dhttps" rel=3D"norefe=
+rrer" target=3D"_blank">github.com/opencontainers/runc;branch=3Drelease-1.1=
+;name=3Drunc-docker;protocol=3Dhttps</a> \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-runc-Add-console-sock=
+et-dev-null.patch;patchdir=3Dsrc/import \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-Makefile-respect-GOBU=
+ILDFLAGS-for-runc-and-remove-re.patch;patchdir=3Dsrc/import \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-runc-docker-SIGUSR1-d=
+aemonize.patch;patchdir=3Dsrc/import \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
+<br>
+-RUNC_VERSION =3D &quot;1.1.12&quot;<br>
++RUNC_VERSION =3D &quot;1.1.14&quot;<br>
+<br>
+=C2=A0CVE_PRODUCT =3D &quot;runc&quot;<br>
+-- <br>
+2.40.0<br>
+<br>
 <br>
 -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
 Links: You receive all messages sent to this group.<br>
-View/Reply Online (#9119): <a href=3D"https://lists.yoctoproject.org/g/meta=
--virtualization/message/9119" rel=3D"noreferrer" target=3D"_blank">https://=
-lists.yoctoproject.org/g/meta-virtualization/message/9119</a><br>
-Mute This Topic: <a href=3D"https://lists.yoctoproject.org/mt/110709071/105=
+View/Reply Online (#9117): <a href=3D"https://lists.yoctoproject.org/g/meta=
+-virtualization/message/9117" rel=3D"noreferrer" target=3D"_blank">https://=
+lists.yoctoproject.org/g/meta-virtualization/message/9117</a><br>
+Mute This Topic: <a href=3D"https://lists.yoctoproject.org/mt/110990505/105=
 0810" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.org/m=
-t/110709071/1050810</a><br>
+t/110990505/1050810</a><br>
 Group Owner: <a href=3D"mailto:meta-virtualization%2Bowner@lists.yoctoproje=
 ct.org" target=3D"_blank">meta-virtualization+owner@lists.yoctoproject.org<=
 /a><br>
@@ -208,7 +253,7 @@ om" target=3D"_blank">bruce.ashfield@gmail.com</a>]<br>
 =3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
 ignature">- Thou shalt not follow the NULL pointer, for chaos and madness a=
 wait thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star T=
-rek II<br><br></div></div>
+rek II<br><br></div>
 
---00000000000026117d062d643586--
+--000000000000f6a6b1062d6462b6--
 
