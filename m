@@ -1,565 +1,173 @@
-Return-Path: <sandeep.gundlupet-raju@amd.com>
+Return-Path: <Qi.Chen@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B2F4CC02198
-	for <webhook@archiver.kernel.org>; Wed,  5 Feb 2025 18:53:49 +0000 (UTC)
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (NAM10-DM6-obe.outbound.protection.outlook.com [40.107.93.88])
- by mx.groups.io with SMTP id smtpd.web11.20696.1738781625842496714
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EE59C02196
+	for <webhook@archiver.kernel.org>; Thu,  6 Feb 2025 04:48:12 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web10.32686.1738817284667975523
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 05 Feb 2025 10:53:46 -0800
+ Wed, 05 Feb 2025 20:48:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@amd.com header.s=selector1 header.b=cPVCezW2;
- spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: amd.com, ip: 40.107.93.88, mailfrom: sandeep.gundlupet-raju@amd.com)
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=4132a822a2=qi.chen@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5164Pu3I015880
+	for <meta-virtualization@lists.yoctoproject.org>; Wed, 5 Feb 2025 20:48:04 -0800
+Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2046.outbound.protection.outlook.com [104.47.58.46])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 44hfs8mwmr-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <meta-virtualization@lists.yoctoproject.org>; Wed, 05 Feb 2025 20:48:04 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=L7aUb5aW97XJRjApiqesRVXXbD2t1JHFHRP3wAbF+mL5KQXBop2OMdPpbSmLYeon2fz0g5FlG5RLk76AmTXMYOMKfhaNUMOmej1GIFyh2X7HfjdAphnPmI46zHBVLLaEpTgMyTX5EKklfZy/MuhHd9aiPpylbRaZ8UxVCrhprWqsNc7JqLoO7pIwDBCtn8lRg+keyeGpnjsBOSAXYwtiVCCSjKyCwO1cSC0tfQ5UoLE2ciTQNe23w13RPR1+/2YWpVbgJW7HzqAGMu/pa8KJUr6UFd0wnTV7X5w4cQf6ozRujYi7T6AsRxKZPKIJkVsNncmbp2LfOBT7uj3sMkNhzg==
+ b=uLZLxMBT8DbSVN2Hwsj/QscvbLGcg0oUDGTI+ih9TSuxbmj1b7cHoO/mBKQoCQTxjQt0mGdRbci2W8T1hDVZJ96keeJZ3GPQpdrtdX3m5tDnQBD8cDQ38eHDzUKe7gQYt2BhmsMea8kypdEcT/BO3fylr0EpRe7LFxZNzgEmqfiJ0CC890ieLDRiQEiLEKCRfLJFrGaE/ZF7FhXFBiUtyQBFjHpmDsmV4ajUZtIKXk9i2dhFv5459jx5CvD8g8NRZmrqYAfiIA+02I0OoKhwISju1tqNmfiDkY9tAqy3Z5JFCWy3Wg7E0WGswBRhhlJv0Z7xbzZwadp5XvWRxeyIfA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ubjjZeUtjTlVeiSI+IkgwvrT/7QlGcZCHDHRysUweVE=;
- b=vSSjrP5biHGyh/f7RVFvc5cY9qMeyuN58TAnMrmYuF2DEjA4EM+lcFdCbjJipiDvA4tnHYcLuugIHEfs28dBY8KgN+dXoHmAgJbOHF/4rBrjLs94A3mgY+swIrZGQnkRC4fSlDeMxsYU3QeKQgazzTI3dX+RMierRFCh74U8EOqQrk2vyQt+h6wcylOOWALtpC1grN+TZYD9iOFQiAxTWbKjIjTxFhR66pbNRjVulwk4ftFUAx15IEEcjSVJkGBnjmv64m8TjTg17X9o0RUssXU11EvYttQ0TOm76Jix5EP/R7FjLQe+IdIbdKJAHMLXK7805zHHXPhxo9cbBFLUwA==
+ bh=1LtGzZj7kKXnRP4ZfFWAVMa2BvHWPVQAMlAk4RPU57k=;
+ b=pqT0AJTEx5/cCS8i1To76KXzKIjuPFrEyhm28cdrY1f3FKItM0UTA6iuxriUeCO18z+dpvEd44TStrgWr6E0vF25kzrmSUM3eHCpIQuSOId42WwVNTuVGUL90IGvX9WlrVJyAmsQWw0C07iQz1MS5v71qTXTIbzxs8vM3C+TeWXUS4AYd7g15Onq2TBAgy0d9TdEzHf8dm4ZZkPnW8L8sKevVEszoliQbt7U7l+PLv+nbjTx+0ZfL1qmhkL0MJ266GjJz6D3gBF+hv1WuZjxdHYnYX/PPzBDucvTHE5r36j9ovIkMNQ0dFHu7Ifg2LPt6XtQvE//MF+tEY7eJ44X5g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ubjjZeUtjTlVeiSI+IkgwvrT/7QlGcZCHDHRysUweVE=;
- b=cPVCezW29wCI4TAuKWC7n1Zw0dkpVUsBqR7wzep3Ef+7tG6fm5EX2iZSdjYWJiJg2yyjRd9PyDXiM8OEkHp4vCctImw/HTN+rHrNTgTd8JGtugIYZAHawaWROTx4qz/G4tb8KqkG63up0/HUbH8aV0kEuHfVYML0DnSGX9Ot9gY=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from SA0PR12MB4367.namprd12.prod.outlook.com (2603:10b6:806:94::13)
- by SA1PR12MB8985.namprd12.prod.outlook.com (2603:10b6:806:377::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8398.25; Wed, 5 Feb
- 2025 18:53:42 +0000
-Received: from SA0PR12MB4367.namprd12.prod.outlook.com
- ([fe80::dfc2:2c4:b68b:3f76]) by SA0PR12MB4367.namprd12.prod.outlook.com
- ([fe80::dfc2:2c4:b68b:3f76%6]) with mapi id 15.20.8422.011; Wed, 5 Feb 2025
- 18:53:41 +0000
-Content-Type: multipart/alternative;
- boundary="------------eSqVmEk3k0hWlCwxJ6IsN3hw"
-Message-ID: <8230c924-4873-4871-aaeb-11a9da4cba90@amd.com>
-Date: Wed, 5 Feb 2025 11:53:39 -0700
-User-Agent: Mozilla Thunderbird
-Subject: Re: [meta-virtualization][master][styhead][PATCH v5 2/5]
- xen-rpi-u-boot-scr: Inherit xen-launch-config bbclass
-To: bruce.ashfield@gmail.com
-Cc: meta-virtualization@lists.yoctoproject.org
-References: <20241209145442.3291634-1-sandeep.gundlupet-raju@amd.com>
- <20241209145442.3291634-3-sandeep.gundlupet-raju@amd.com>
- <CACMJ4GZRusBUrxF-zRywgQhMfT+U_1-FR4yENn7bkZu27zfzgA@mail.gmail.com>
- <CADkTA4NyLmdUTMKFAF6sxKc0_RX83guy5k7Lmkf2ztwBOGxG3Q@mail.gmail.com>
- <181B927D4BEAD936.28939@lists.yoctoproject.org>
- <334a9170-082e-4d0c-8f78-6a640a2c2b2e@amd.com>
- <CADkTA4MWAQ8ux9FYHkfMoRXFheyrvjNrFxVL8Uqt_4uH=L0vPQ@mail.gmail.com>
-Content-Language: en-US
-From: "Gundlupet Raju, Sandeep" <sandeep.gundlupet-raju@amd.com>
-In-Reply-To: <CADkTA4MWAQ8ux9FYHkfMoRXFheyrvjNrFxVL8Uqt_4uH=L0vPQ@mail.gmail.com>
-X-ClientProxiedBy: BN9PR03CA0370.namprd03.prod.outlook.com
- (2603:10b6:408:f7::15) To SA0PR12MB4367.namprd12.prod.outlook.com
- (2603:10b6:806:94::13)
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from DM8PR11MB5605.namprd11.prod.outlook.com (2603:10b6:8:26::11) by
+ DM4PR11MB7207.namprd11.prod.outlook.com (2603:10b6:8:111::18) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8422.11; Thu, 6 Feb 2025 04:48:01 +0000
+Received: from DM8PR11MB5605.namprd11.prod.outlook.com
+ ([fe80::b868:94:9e07:104a]) by DM8PR11MB5605.namprd11.prod.outlook.com
+ ([fe80::b868:94:9e07:104a%3]) with mapi id 15.20.8422.010; Thu, 6 Feb 2025
+ 04:48:00 +0000
+From: Qi.Chen@windriver.com
+To: meta-virtualization@lists.yoctoproject.org
+Subject: [meta-virtualization][PATCH] buildah: drop SRCREV_FORMAT
+Date: Wed,  5 Feb 2025 20:47:48 -0800
+Message-Id: <20250206044748.3701612-1-Qi.Chen@windriver.com>
+X-Mailer: git-send-email 2.25.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SJ0PR05CA0079.namprd05.prod.outlook.com
+ (2603:10b6:a03:332::24) To DM8PR11MB5605.namprd11.prod.outlook.com
+ (2603:10b6:8:26::11)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA0PR12MB4367:EE_|SA1PR12MB8985:EE_
-X-MS-Office365-Filtering-Correlation-Id: 61decc21-de83-431a-9605-08dd461668b5
+X-MS-TrafficTypeDiagnostic: DM8PR11MB5605:EE_|DM4PR11MB7207:EE_
+X-MS-Office365-Filtering-Correlation-Id: ffc2c6bc-f4a3-4951-d9bf-08dd46696f24
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|376014|4022899009|366016|8096899003|13003099007;
+	BCL:0;ARA:13230040|366016|1800799024|376014|52116014|38350700014;
 X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?dGRXSWM3SmRGUjRRWGIvRTl2QWl3U3RUQXpWZDZycjdRZWwraHVZc0RTc043?=
- =?utf-8?B?MVJKY2xjY2x1VXgraCswc1F6RHd2UHZWSXR2U0p2dSt5eGFCayt3RkJCK1g1?=
- =?utf-8?B?RUhLL21XQ1J1WHBpNE9RMWNaMytObE1QVm82NEJEanhIVG9zc0VaQlk4Tkdm?=
- =?utf-8?B?R2ZSY3JNd215TDlpQTI0YkQ5RFBmTjM3MTMxZitxVzcreEE3SnJUeWpSRDYx?=
- =?utf-8?B?TDRQSHpNaSs5TWFHVVZPQ3ZnUHNCUGRBSTByNDhwWXUwM0lIYUsrSmNWL2tK?=
- =?utf-8?B?c1hmUXpCclVtQ1FjR2JVRmpzcXc2VjlKOHNKUXpoaGdCejlZSEs3RGNURks0?=
- =?utf-8?B?SUZOMVg0dm5rVnBPdWQvcHVDdmpPZkJyYlZGc0RoWW80Y0lNNndaU0dZOXdR?=
- =?utf-8?B?aU85SGk5d2p5eTAxS1pyV05uN1dZeEtQRUVqMCs4WlJ3VGpkUVcxcHEwdTlD?=
- =?utf-8?B?MmJGWkFkSTBVU2xCWWtwRFo5aDdUK3Rvdk5kUkdNL0FEWGU2T3pFUEdJZUFr?=
- =?utf-8?B?MitsOXZTRzd2M0hrRHNQV3dWcW9VaVdnRytrcnVsRmlpOUNCaWE0UTd6RGlu?=
- =?utf-8?B?QmlKbHBKLzQraVVrekJ2b2hyZFBHbU41QUorcmhKMHN2UWRKdHhNRXdEd2dy?=
- =?utf-8?B?eDlHd0xRdGkwUkJPZ2MwKzdudWJwaUNGL29lNGRqZis2TGUwM1hnaTZEMzhl?=
- =?utf-8?B?TjRGWVF5dUdsRDNXYUYzdW1BU2xWcmgyNnNzS1pIeXJ5clFBdktkSFQzL0NM?=
- =?utf-8?B?UERqR2V5KzdjL0VOYW91Z011cUZ6QjBTdkxHVlJDZTZJQXcwWjhIdE11ekJE?=
- =?utf-8?B?TzU2czFaVUt2RTdTUG0vUzBxRzc1TkVqT0Z5M01jSUNJUDBTWWtNQXhvUkFV?=
- =?utf-8?B?YTlRWFN2RVdiWW1PQ2s1MU9pM1VOUVFlYktpR0VIZWViRjlMcGhmcCtFdm1y?=
- =?utf-8?B?eTZYMEFOSVhGS1dGRlhuUjVKY2lJT1diU3MvQ21JWjBCWVlKajF6UFlRS1dm?=
- =?utf-8?B?YlRFMEpyZWZXZFlzMFpYZTZYTVY0M0lkMUdYM012NkJYT1NtQmFrMXlXa0RW?=
- =?utf-8?B?UHlONk5HdjB0WHQzQmR4U1NOaDRjcm9McTc5Z3k4NjUyTW9CVVl5WFRLSnBC?=
- =?utf-8?B?aFFlb3ZwY3g3Z1ljUVFudUs0eTFBZjVBL2xCMkNPcmw3RkptcmwxMnZuTUV0?=
- =?utf-8?B?TWVMZVhUbVNBV1hFNU1ldFJFNDdaUVc0dlZUUTU4aFZrdk1TU1NUVWRhUjYx?=
- =?utf-8?B?bzR1OC9yMWovRkJXejd6eE8vdjhJRjRoY2JvOWtNcGxBS0xzZENGZllIMVh0?=
- =?utf-8?B?RzRweGplcTNTYlpxRzAyeWttRWJuSlJ1QUx3WlJKK2x4dC9VdmlVN0poOTVE?=
- =?utf-8?B?NXJzVmdEV0FEZFE4dHJwUWZXMVMybWg1clNYUGRKN1JaOUVEUUdCY3JGOEI2?=
- =?utf-8?B?cFdNMG96SkREYWNlLytkcW5veGZqZ1UweW0yV290Y01DZjhiZ0E5MUhvaXd6?=
- =?utf-8?B?MUdiOElsY3ZieWQ0Y2hMSVpPNFZNeFhzNmpiWVV5cXE5c2xWK1FuV2tuMk12?=
- =?utf-8?B?VmswNFNndDR1OXgyMVdQUUtIVTViMHo3QlNSdXJ4ajU2TmdRdkNLZHEzQi9M?=
- =?utf-8?B?U1B1RWg5R2VLMGlEbG1Ib3VsOUc2NzFUQ0UzQXhQSEppWVFKR0s5Y2M1ZFRm?=
- =?utf-8?B?alVvckgvT1l3OUhIMXAxK2lYWndWWmtVdi9CWUFmRkF5bzBWUDFuZW0rekti?=
- =?utf-8?Q?LAaa99LfWwo4LKSacG9Dm4hEu0zA1IFwIWMYSpE?=
+	=?us-ascii?Q?+TUxc8RN9xcUNOHoVFxkUxj2a6tQYeyuEXtY/ZdC/F76veTpmdXrP8odeU18?=
+ =?us-ascii?Q?jwqi5reQ5ojI7MM5evkJ+pscPyj5xwmUw6314PKlmcbncH241FIbvx2NkYil?=
+ =?us-ascii?Q?pekImmH8gSlS6B/IUSJTtmR1RzqKh4pJO+D/Cym4Ewv6IPQzPZBImTHtetr2?=
+ =?us-ascii?Q?EgS1L6TfnsNqacwiUVVgQZQRKgLGRdytDwsWu3HMPOoHIo2VppAyLRpb1icr?=
+ =?us-ascii?Q?+Jt8nW8xsPumo9Pp+VfTMN5gyVktASntoyvFzUSCylnP87lPVi+eNN0j2PZE?=
+ =?us-ascii?Q?g6UUKG5ilFaNyA64Lqy2BRoh4nv0k1c/mxFdmrOW8hTKm+n3eA4W4PiYGZPC?=
+ =?us-ascii?Q?3XFNrbnS9m19VjwAkeGohRxCDPiwlZLZ9x9SDy2iWzIclzLYB7W0eXxCClkr?=
+ =?us-ascii?Q?seT+zgGNaCUaYhoDFTRctuMGyy07wrHWP4wOtKFRUDYDb9+2uMAH+IMvYN0M?=
+ =?us-ascii?Q?IdI1OyT/Toq9fYITg7NYKW4GzNAJU9uyaajaxzJeIGn1A/8OQ0FSFHXrd2cb?=
+ =?us-ascii?Q?iOg9heNeA9RZYBXTbLq7+a9aW+kCpS29k5Fccq7OWRVNrgttXzhcugHxFq3h?=
+ =?us-ascii?Q?QQ9P1BNa87IDNX9PuEO8mEn1n71ubOKOqc80Jl2qKJid0Hq7/bIRN46Gg+dH?=
+ =?us-ascii?Q?sKisOh14+rkB7WlIdpanoNzjR5i2bDLP2DPskVbBVKoCp55imJLJ3niphYbk?=
+ =?us-ascii?Q?ODIxfa6BGXU7r5bNJUjBGeQ6fODDHVOL0cpkoH4BJZM1zHuyj6/jCVWgQsSG?=
+ =?us-ascii?Q?y+s9ZSPioh865b7s5LIcc9wmh4HmlLX92CRk3u6r0pUceBqM39jB6ij3k81L?=
+ =?us-ascii?Q?q0H7C2d6KT5zAxkQ4DoE/88IapsrIfUuRuPzCA6ZxrVfdXF6SI7GADG26oam?=
+ =?us-ascii?Q?G+Upr8Kd/it41+CGlfw3fsoGbfCAziehE4qHyTDarwAcnZDcBlE2WLqOX2y3?=
+ =?us-ascii?Q?SBGQvPOtoK8XUYRURq+tcz2sqw1Jm3jJ5CwhFJ+OZxNPU8FEfZjNqqvhCaCs?=
+ =?us-ascii?Q?8neNXcNb0R5ySVcucgUuW7j1stf/753u89b7ZkapVtqxRwtOLJd9OPWGuvVm?=
+ =?us-ascii?Q?jHoj9WyWLZuU/nfZRRYN+rC+BpKrn5lDNljszGqXwq+CJZ29+ojSV/HzvS3X?=
+ =?us-ascii?Q?Ma0P40AggysI2S1GaOv3VWXAt9yipOPrXGH5qOY2oPL77zp4ahpyvLT36U+l?=
+ =?us-ascii?Q?bR1C5k6EYT4vo91qlj6A4Re8ZhyM27V++x0Y/VrCJv+LFa9sdtPyYAnproWb?=
+ =?us-ascii?Q?d1WK33eddgOOrNPGoPfebGpwY+YUYEDTLUiaLc0yhr0EF+Wy/WHjnDOGPUkS?=
+ =?us-ascii?Q?5sODMFWNolLntt2bcorCo19iyc8lN7enHg99zQO+JkvcMgVHe2dAVWKjFQKs?=
+ =?us-ascii?Q?euN8SaAmoW7GMKBAB46+6bosj8tQ2ZgAQdPempBbh6n1oax01d+07mXTc0IS?=
+ =?us-ascii?Q?DTKNj/d8GjbJjihdhktnj5dT0QDQ/Jil?=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA0PR12MB4367.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(4022899009)(366016)(8096899003)(13003099007);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR11MB5605.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(52116014)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?czZtS2tIT01LRWNZNUQ5YnU2SDdvNEoveEJKREFJSm04K1FDNE1oaldEQWt1?=
- =?utf-8?B?c1Yzai82MHU2VSttNmh6TUVESnZ1R2k0VTBrSHZWekQ3WG5ERy9acnRaSE1x?=
- =?utf-8?B?bThRUUorTDkzYW5rTVozLzdXVFpRbmlxanFKdmdzemNxaUJTaWh4N280M3JD?=
- =?utf-8?B?Q1ZTTGpLc3JFSVZXNG5uZ250UlZtajNLUDNzUFNVWmZ5VFpsaE1JNHZ4K0h6?=
- =?utf-8?B?dVdZVUc3WEwvamhVR0NlQ1h5T2dkSW9zVlZKampmb0l1aDlsQnZxVTlRZDM3?=
- =?utf-8?B?VXpyTUxXUk96c2xnQVpFSUVEbCtWeDhSNDRTempYcVNuWHQrZVNkV2JKK0lt?=
- =?utf-8?B?Y2txUVRCVTFQVytaU1M1djlVYk9LRTFVL095T3pnSkwvVU5PSEtyUWZVRm9R?=
- =?utf-8?B?anpOdVdsQXprdFB4dXo0TU80aWNrU3VseUcwWVFhM3J1Q1p3Mll5d3RWWmFP?=
- =?utf-8?B?cDh3dmN4N2Nvd1ZsUEIzaXdsWHE4dGRGOWpwdmNIaUFzaCtVUTEwMnJOSE0y?=
- =?utf-8?B?MzhKUDdCQ0E1V1gvSWZNK1ZpV0tXUjNxWFNwcU5QMlNwN09lZXJjc3J1SWI0?=
- =?utf-8?B?Z29lYlZ1VXdjUHFDQkVmNE1qT1Jzend0LzhjdUJEeEU0VFJNWTcyS3AxUnRX?=
- =?utf-8?B?d2FUeUdHcmVXamZuVFU3QUQrNEhJMGI4Q2xjay9mS2MwVWp1ekZoSkxNMnFi?=
- =?utf-8?B?TXNWUVRSelBGOGcvY2FXOHVPekFuV2xFOWdDb1E1dGRXbmZxdUc0djFNSFI3?=
- =?utf-8?B?dHFpNjV6blJXTm13MG11YWpJU3FJMTdsSWlFV3FWMHkyWTNUdmkyamc0TGlp?=
- =?utf-8?B?ZWJQa3J1S0F0V1huNEJMZjJjTWJYK05QZXpFenMvYUZJRlZWL3IxU2E2cnFX?=
- =?utf-8?B?THkvdGpMdCt1aFhweWYyazZkdHEzYm1tL3pDYjA5U1ZvTE1MVCtkTzZyVU9T?=
- =?utf-8?B?WXl2c0RINEdnWk9hNXNHK3hrK3lrSWtJclBVT2ZnVE1yVURaSXdkcDlUdDYy?=
- =?utf-8?B?T01HOGpKaHgrbTQyeFpHWFBidUNyTmYxSW1WMWpPMm5WNTZzYTBJa2t5M3lo?=
- =?utf-8?B?bjMvVU9SckZidUd3dVp4YjVYdXJQbU5xakFMRmIyZklJdXd6d201azJuQ2VW?=
- =?utf-8?B?dEoxSnByTXBMZDhJZVhFSS85YkJ0NDNLczd6WklpeVBTYkRGNzhLczBCUm9Z?=
- =?utf-8?B?Y1BXZWJXMkg3VHpuNm1tMGpnWkRKQ0pxRkZSdWZIZTYyQm1qd09oOFVHSzR6?=
- =?utf-8?B?Z0VtWGNGOTcxTVEySUR6dnQyL0FjZkN5MmpmSU55Y0FocXBCNVRqRkliU1VQ?=
- =?utf-8?B?eTh1UzNZU0k5MWJoVXA0VGh4dEJQS2toT0pOckhUbnEzcEh5TStZTFlzem53?=
- =?utf-8?B?emxyWEV2U2RoUnhVYjFjTSswNmx0TDA3cWJzM2UyaVI4azF6aVhDaEt3aDZS?=
- =?utf-8?B?QjZzd2MyU0Vwc3dZaThnSEhyTnFKdGYveFB0NHc1UUwxd3BQZy9RR3J3cXpP?=
- =?utf-8?B?WU50WUJpdTNlRnpHcTRKUmxBTXYxN1h6VEdHcHVmRVRiWmxPQ21iZTNSUWww?=
- =?utf-8?B?ajJSOTRudURTTXBESkJTNlkxWGJRNmhDYzE0dWsrMHdjVnJQZ0VKNzduS0o2?=
- =?utf-8?B?UFB1aFhNUVBjRmx1S0NHVlIraCs1ZUF2enRBQUQvd2RIdTlKbXJkTXUzdDJZ?=
- =?utf-8?B?OCt2VlI3Vno1ZlVNT1pRenkrbFdBT3VpTGFDalVzVXFJcGtpUGxYWitoVG1u?=
- =?utf-8?B?SUZGNjEwSUFZb2lmWVplbVE2bGFpZnkxMXZyOXlvNC9ZQUczQnI3UTVhNC94?=
- =?utf-8?B?bks3TlZPeGU5UGdSSHJQODM1dVFyaXJlQ3BmU0ZPQWl0aU8xVmY1Z25DM1ps?=
- =?utf-8?B?RkNwUG1MV0hDcWVyUHZ6cU1ja1hnM1FqQ1d4SUZEZ2VuQWZzaUVyZWRUNk5m?=
- =?utf-8?B?SWMyQzdSUmEzZmhBQWNaa25mOTdPWFBHMkNvK2ptcGwrNmgzMUczL0liNjFJ?=
- =?utf-8?B?Y2xON1BnU2FoS3luNjRmUHJZekwwaDFGMkI1WFlTOGhiWnNQUXRldGJObTFo?=
- =?utf-8?B?QndrNTd0ckxmYWxCMDhKazgvaENtVktXYzM3Q1BzcnZ2NytSOXZFREFVdVVi?=
- =?utf-8?Q?vfSfeIsimx0z7lO6wpYPjfqm3?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 61decc21-de83-431a-9605-08dd461668b5
-X-MS-Exchange-CrossTenant-AuthSource: SA0PR12MB4367.namprd12.prod.outlook.com
+	=?us-ascii?Q?J4AokG4f++sOsBx6/DPIjDcA94gEEfWvF1figggjhlhHdh+O7GuNfX92xzDV?=
+ =?us-ascii?Q?SDbLEyD8oXcQUjoCxLSP4Tm0asAkEp/ehiyEpeHw9jY5AaCSSlQS4Y+7Tief?=
+ =?us-ascii?Q?ahVRqJxwvdESnhOWpadS1fkCAYjSYFhS3RK9Aqgr9/3xLhLRyI6bzA9+SxbF?=
+ =?us-ascii?Q?x1OX9/UvuLV6bHbZymwFvmIsB4Z3u49CINsx76BD++Fu11Z5M/yDEKU7bpjI?=
+ =?us-ascii?Q?MeqmkkY7o/PrSQ+OzwJXDCwje8tprSOSgvs0LD/FvBVezS+hnbohEa7ulQw0?=
+ =?us-ascii?Q?XIOq5w6S0HYDn+3+vmzSbEUAVgnATQh82Chtzhc7P5lWpf0svVPSYCHSs7kA?=
+ =?us-ascii?Q?S0vgf6ztRzDUPi27Eh7nZFDafW1JzLbyN0ewbBNJHBcX+pqSDvOOYfcSrr94?=
+ =?us-ascii?Q?Zz2sWxP03KY4judCbIK8/kQBMZ/29x4GTUfxwto+BET59Xe2qN1pFy822Z2I?=
+ =?us-ascii?Q?13rAH7EHHE77dd39yx3rYmohJkxTysZkxoj8i+DpjcY1R5GXzH8pmNGhxAHY?=
+ =?us-ascii?Q?UMGOxGrHbtz76T128FrbtFQNjBFpd4/QSnSQdNJONwOK17dp1A6ICV+okTtc?=
+ =?us-ascii?Q?FQ0TxBuR8j9To4AjnfN4yBgnPNta2wv6KMmscBRm0Vaqv4d5V7y7KRH2HUaP?=
+ =?us-ascii?Q?Y7L0Ydhdtl0wKR4eIun/BKzABw4NmzSrngVNM/4qnYSFthicRQAzy4qb9/hw?=
+ =?us-ascii?Q?ne5B1uMfHun+BCdGP0LmVin7M7XVdyeshc8m0/nomOB0d1+6Y0nLmWcRg7g2?=
+ =?us-ascii?Q?gqDci88VoYxo/6LZ+6fpyL2UVIpmEHU7iVKuHcdwjay793RBFkr5kNT6VjXd?=
+ =?us-ascii?Q?2ktxx86bgy+yv88mGRImtbCW0dzwdJzSOJEYsf/lYzYFJxweCR+126TpJu+a?=
+ =?us-ascii?Q?h9J1NaT13NtSmojZW5ixbd8JABP/kmd1my3hhiaAEWzi32k1uqwlESjAQnAw?=
+ =?us-ascii?Q?7R3AsI0y6ZeoDiLGgL5Ijw2c9ZrgA9DxQpZdF67RnvWcEBhN/j4oyLSjivAs?=
+ =?us-ascii?Q?7QaA0gyvlXM/gnAvoRvKIP5TTXKGgVeVNbn3fpY533rBYBlsDUh94EsGDoms?=
+ =?us-ascii?Q?C0tKwJbiV7KGp0S3oWwJY9DXAxFOUUhj9K9AfUrSmPZrk0Dj9rvqInKbLjvC?=
+ =?us-ascii?Q?Nxck8m31hNzHzH72M7+r/xFaOkfwSRR2BXzjv8KDEUtRtP5LRsivzP1lsmVu?=
+ =?us-ascii?Q?P7A0v8I/fgzTMSgfbOKPLn9i6TiBPC1a9Ti41xj7lWH8zO+fUTRc0HbsHwA5?=
+ =?us-ascii?Q?Rj9m5vjJjdVEFIBuGpWhCyq7B1s2VAFNth8nRyzVCWq1P83AYsptwhtihaky?=
+ =?us-ascii?Q?3sN/zRXGZ93tUdw82IiJSZPUMG3TPtB4K6ihLZ9pao4gOWD+8DnA42pC8Hsb?=
+ =?us-ascii?Q?SPdnxxH5QmQGRpeIxgCX1gAd4qn8MZ5V0aQaTGfRlgkHOjSLgHoc48vMepxB?=
+ =?us-ascii?Q?LIyFAmZ+VnVR61acIo8hmseVAZ30nZhpDq9dpxvhywQ32icfY4NkH4KuJ99q?=
+ =?us-ascii?Q?RCdWcJy8e29V4sRNbIqLw+5kmSw+/VwRNbb7hgm0XAd1QOKrvO2OpJPa/q0O?=
+ =?us-ascii?Q?u7mEKHXbfTq6k5cEQdbcku0Yi7X+p6wWuHHRJDPvjfuWKLWiwVwTi2IWKWXX?=
+ =?us-ascii?Q?ZQ=3D=3D?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ffc2c6bc-f4a3-4951-d9bf-08dd46696f24
+X-MS-Exchange-CrossTenant-AuthSource: DM8PR11MB5605.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Feb 2025 18:53:41.9126
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Feb 2025 04:48:00.8959
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: DB6WlP+ROpgpMwrxN7dVH6/TfoqslMhvES+9q56P2ocY0cYEkTA0Mxvj67Ai6hlfIFauXkqzoyThEGDKESFetg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB8985
+X-MS-Exchange-CrossTenant-UserPrincipalName: QKcfHtj1sJmJ6iv5lCLZ8MZTXVq7hr3ufNJ6Hu6KB9DsUSghxe7OVviHwcb42dwz1Zcdvm+bgD7Xv3hYF5F4JA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB7207
+X-Authority-Analysis: v=2.4 cv=JrcLrN4C c=1 sm=1 tr=0 ts=67a43f04 cx=c_pps a=ur2hu7Zt/Tb0cWAHmjvzJg==:117 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=T2h4t0Lz3GQA:10 a=bRTqI5nwn0kA:10 a=t7CeM3EgAAAA:8
+ a=NEAV23lmAAAA:8 a=UysDsY5B1OTJ06xeq5YA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-ORIG-GUID: fLF5ST_ny9eFSYha02V3zwgZ9oP8jnvD
+X-Proofpoint-GUID: fLF5ST_ny9eFSYha02V3zwgZ9oP8jnvD
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-02-06_01,2025-02-05_03,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
+ malwarescore=0 adultscore=0 spamscore=0 mlxlogscore=982 suspectscore=0
+ lowpriorityscore=0 phishscore=0 priorityscore=1501 mlxscore=0
+ clxscore=1015 bulkscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2501170000
+ definitions=main-2502060037
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Wed, 05 Feb 2025 18:53:49 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9123
+ <meta-virtualization@lists.yoctoproject.org>; Thu, 06 Feb 2025 04:48:12 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9124
 
---------------eSqVmEk3k0hWlCwxJ6IsN3hw
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+From: Chen Qi <Qi.Chen@windriver.com>
 
+The source comes from one repo, there's no need to use SRCREV_FORMAT
+any more. So drop it.
 
-On 2/5/2025 5:38 AM, Bruce Ashfield via lists.yoctoproject.org wrote:
->
->
-> On Thu, Jan 30, 2025 at 6:33 PM Sandeep Gundlupet Raju via 
-> lists.yoctoproject.org <http://lists.yoctoproject.org> 
-> <sandeep.gundlupet-raju=amd.com@lists.yoctoproject.org> wrote:
->
->     Hi Bruce,
->
->     Any updates on my questioned. Are you ok to take this as
->     enhancements or we need to get this one now.
->
->     Thanks,
->     Sandeep
->
->     On 1/17/2025 12:45 PM, Sandeep Gundlupet Raju via
->     lists.yoctoproject.org <http://lists.yoctoproject.org> wrote:
->>
->>     Hi Bruce,
->>
->>     Sorry I apologize, I missed this email not sure how.
->>
->>     On 1/17/2025 12:14 PM, Bruce Ashfield wrote:
->>>     FYI: I was waiting on answers to these questions, and a possible
->>>     v3 before merging.
->>>
->>>     Bruce
->>>
->>>     On Tue, Jan 7, 2025 at 10:33 AM Christopher Clark
->>>     <christopher.w.clark@gmail.com> wrote:
->>>
->>>         On Mon, Dec 9, 2024 at 2:54 PM Sandeep Gundlupet Raju via
->>>         lists.yoctoproject.org <http://lists.yoctoproject.org>
->>>         <sandeep.gundlupet-raju=amd.com@lists.yoctoproject.org> wrote:
->>>
->>>             Inherit xen-launch-config bbclass to use common xen
->>>             launch config
->>>             variables for xen-rpi-u-boot-scr recipe.
->>>
->>>
->>>         There is a functional change in this commit that would be
->>>         appropriate to mention in the commit message:
->>>         it introduces the use of KERNEL_IMAGETYPE to identify the
->>>         dom0 linux kernel file whereas it was previously assumed to
->>>         be 'Image'.
->>>
->>>         I think this is an improvement, though I'm not able to test
->>>         it at the moment.
->>>
->>     [Sandeep]: Yes we can take this as enhancement.
->>>
->>>
->>>
->>>             Signed-off-by: Sandeep Gundlupet Raju
->>>             <sandeep.gundlupet-raju@amd.com>
->>>             ---
->>>              .../xen-rpi-u-boot-scr/files/boot.cmd.xen.in
->>>             <http://boot.cmd.xen.in>       | 10 +++++-----
->>>              .../xen-rpi-u-boot-scr/xen-rpi-u-boot-scr.bb
->>>             <http://xen-rpi-u-boot-scr.bb>       | 13 ++++++++-----
->>>              2 files changed, 13 insertions(+), 10 deletions(-)
->>>
->>>             diff --git
->>>             a/dynamic-layers/raspberrypi/recipes-bsp/xen-rpi-u-boot-scr/files/boot.cmd.xen.in
->>>             <http://boot.cmd.xen.in>
->>>             b/dynamic-layers/raspberrypi/recipes-bsp/xen-rpi-u-boot-scr/files/boot.cmd.xen.in
->>>             <http://boot.cmd.xen.in>
->>>             index 98742200..b0ed0dc8 100644
->>>             ---
->>>             a/dynamic-layers/raspberrypi/recipes-bsp/xen-rpi-u-boot-scr/files/boot.cmd.xen.in
->>>             <http://boot.cmd.xen.in>
->>>             +++
->>>             b/dynamic-layers/raspberrypi/recipes-bsp/xen-rpi-u-boot-scr/files/boot.cmd.xen.in
->>>             <http://boot.cmd.xen.in>
->>>             @@ -5,13 +5,13 @@ fdt addr ${fdt_addr}
->>>              fdt get value bootargs /chosen bootargs
->>>
->>>              # Set module load addresses
->>>             -setenv xen_loadaddr     "0x00200000"
->>>             -setenv kernel_loadaddr  "0x00400000"
->>>             +setenv xen_loadaddr  "@@XEN_LOAD_ADDRESS@@"
->>>             +setenv kernel_loadaddr "@@KERNEL_LOAD_ADDRESS@@"
->>>
->>>              # Add some space to the fdt so we can edit it
->>>              fdt resize 0x1000
->>>              echo Add boot arguments for Xen
->>>             -fdt set /chosen xen,xen-bootargs "console=dtuart
->>>             dtuart=/soc/serial@7e215040 dom0_mem='@@RPI_DOM0_MEM@@'
->>>             @@RPI_DEBUG_XEN_ARGS@@"
->>>             +fdt set /chosen xen,xen-bootargs "console=dtuart
->>>             dtuart=@@XEN_SERIAL_CONSOLES@@ dom0_mem=@@DOM0_MEM@@
->>>             @@XEN_CMDLINE_APPEND@@"
->>>
->>>
->>>         Is there a way to ensure that if XEN_SERIAL_CONSOLES is
->>>         unset that the dtuart= argument is not passed, and likewise
->>>         for DOM0_MEM and the dom0_mem= argument?
->>>
->>     [Sandeep]: May be we can implement this in two ways. Do we need
->>     this right away or we can take this as enhancement.
->>
->>     1. Set dtuart in bbclass similar to XEN_CMDLINE_APPEND
->>     or
->>     2. We may need to use u-boot hush shell if condition method.
->>
->
-> I'd prefer to make the above changes now, versus merging them and then 
-> doing enhancements in the future. I'm not convinced that we'll get 
-> around to making those updates in a timely manner .. given how long it 
-> has even taken to get through the reviews of the series.
-[Sandeep]: Ok sounds good I will get the changes in next patch series. 
-If you have any other concerns or changes required let me know asap so 
-that I can incorporate those in next series.
->
-> Bruce
->
->>
->>>         Christopher
->>>
->>>
->>>
->>>     -- 
->>>     - Thou shalt not follow the NULL pointer, for chaos and madness
->>>     await thee at its end
->>>     - "Use the force Harry" - Gandalf, Star Trek II
->>>
->>
->
->
->
->
->
-> -- 
-> - Thou shalt not follow the NULL pointer, for chaos and madness await 
-> thee at its end
-> - "Use the force Harry" - Gandalf, Star Trek II
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#9122):https://lists.yoctoproject.org/g/meta-virtualization/message/9122
-> Mute This Topic:https://lists.yoctoproject.org/mt/110006801/8188369
-> Group Owner:meta-virtualization+owner@lists.yoctoproject.org
-> Unsubscribe:https://lists.yoctoproject.org/g/meta-virtualization/unsub [santraju@amd.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
---------------eSqVmEk3k0hWlCwxJ6IsN3hw
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ recipes-containers/buildah/buildah_git.bb | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-<!DOCTYPE html><html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 2/5/2025 5:38 AM, Bruce Ashfield via
-      lists.yoctoproject.org wrote:<br>
-    </div>
-    <blockquote type="cite" cite="mid:CADkTA4MWAQ8ux9FYHkfMoRXFheyrvjNrFxVL8Uqt_4uH=L0vPQ@mail.gmail.com">
-      
-      <div dir="ltr">
-        <div dir="ltr">
-          <div class="gmail_default" style="font-size:small"><br>
-          </div>
-        </div>
-        <br>
-        <div class="gmail_quote gmail_quote_container">
-          <div dir="ltr" class="gmail_attr">On Thu, Jan 30, 2025 at
-            6:33 PM Sandeep Gundlupet Raju via <a href="http://lists.yoctoproject.org" moz-do-not-send="true">lists.yoctoproject.org</a>
-            &lt;sandeep.gundlupet-raju=<a href="mailto:amd.com@lists.yoctoproject.org" moz-do-not-send="true" class="moz-txt-link-freetext">amd.com@lists.yoctoproject.org</a>&gt;
-            wrote:<br>
-          </div>
-          <blockquote class="gmail_quote" style="margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-            <div>
-              <p>Hi Bruce,</p>
-              <p>Any updates on my questioned. Are you ok to take this
-                as enhancements or we need to get this one now.</p>
-              <p>Thanks,<br>
-                Sandeep<br>
-              </p>
-              <div>On 1/17/2025 12:45 PM, Sandeep Gundlupet Raju via <a href="http://lists.yoctoproject.org" target="_blank" moz-do-not-send="true">lists.yoctoproject.org</a>
-                wrote:<br>
-              </div>
-              <blockquote type="cite">
-                <p>Hi Bruce,<br>
-                  <br>
-                  Sorry I apologize, I missed this email not sure how.<br>
-                </p>
-                <div>On 1/17/2025 12:14 PM, Bruce Ashfield wrote:<br>
-                </div>
-                <blockquote type="cite">
-                  <div dir="ltr">
-                    <div style="font-size:small">FYI: I was waiting on
-                      answers to these questions, and a possible v3
-                      before merging.</div>
-                    <div style="font-size:small"><br>
-                    </div>
-                    <div style="font-size:small">Bruce</div>
-                  </div>
-                  <br>
-                  <div class="gmail_quote">
-                    <div dir="ltr" class="gmail_attr">On Tue, Jan 7,
-                      2025 at 10:33 AM Christopher Clark &lt;<a href="mailto:christopher.w.clark@gmail.com" target="_blank" moz-do-not-send="true" class="moz-txt-link-freetext">christopher.w.clark@gmail.com</a>&gt;
-                      wrote:<br>
-                    </div>
-                    <blockquote class="gmail_quote" style="margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-                      <div dir="ltr">
-                        <div dir="ltr">On Mon, Dec 9, 2024 at 2:54 PM
-                          Sandeep Gundlupet Raju via <a href="http://lists.yoctoproject.org" target="_blank" moz-do-not-send="true">lists.yoctoproject.org</a>
-                          &lt;sandeep.gundlupet-raju=<a href="mailto:amd.com@lists.yoctoproject.org" target="_blank" moz-do-not-send="true" class="moz-txt-link-freetext">amd.com@lists.yoctoproject.org</a>&gt;
-                          wrote:<br>
-                        </div>
-                        <div class="gmail_quote">
-                          <blockquote class="gmail_quote" style="margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Inherit
-                            xen-launch-config bbclass to use common xen
-                            launch config<br>
-                            variables for xen-rpi-u-boot-scr recipe.<br>
-                          </blockquote>
-                          <div><br>
-                          </div>
-                          <div>There is a functional change in this
-                            commit that would be appropriate to mention
-                            in the commit message:</div>
-                          <div>it introduces the use of KERNEL_IMAGETYPE
-                            to identify the dom0 linux kernel file
-                            whereas it was previously assumed to be
-                            'Image'.</div>
-                          <div><br>
-                          </div>
-                          <div>I think this is an improvement, though
-                            I'm not able to test it at the moment.</div>
-                        </div>
-                      </div>
-                    </blockquote>
-                  </div>
-                </blockquote>
-                [Sandeep]: Yes we can take this as enhancement.<br>
-                <blockquote type="cite">
-                  <div class="gmail_quote">
-                    <blockquote class="gmail_quote" style="margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-                      <div dir="ltr">
-                        <div class="gmail_quote">
-                          <div>&nbsp;<br>
-                          </div>
-                          <blockquote class="gmail_quote" style="margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-                            <br>
-                            Signed-off-by: Sandeep Gundlupet Raju &lt;<a href="mailto:sandeep.gundlupet-raju@amd.com" target="_blank" moz-do-not-send="true" class="moz-txt-link-freetext">sandeep.gundlupet-raju@amd.com</a>&gt;<br>
-                            ---<br>
-                            &nbsp;.../xen-rpi-u-boot-scr/files/<a href="http://boot.cmd.xen.in" rel="noreferrer" target="_blank" moz-do-not-send="true">boot.cmd.xen.in</a>&nbsp;
-                            &nbsp; &nbsp; &nbsp; | 10 +++++-----<br>
-                            &nbsp;.../xen-rpi-u-boot-scr/<a href="http://xen-rpi-u-boot-scr.bb" rel="noreferrer" target="_blank" moz-do-not-send="true">xen-rpi-u-boot-scr.bb</a>&nbsp;
-                            &nbsp; &nbsp; &nbsp; | 13 ++++++++-----<br>
-                            &nbsp;2 files changed, 13 insertions(+), 10
-                            deletions(-)<br>
-                            <br>
-                            diff --git
-                            a/dynamic-layers/raspberrypi/recipes-bsp/xen-rpi-u-boot-scr/files/<a href="http://boot.cmd.xen.in" rel="noreferrer" target="_blank" moz-do-not-send="true">boot.cmd.xen.in</a>
-b/dynamic-layers/raspberrypi/recipes-bsp/xen-rpi-u-boot-scr/files/<a href="http://boot.cmd.xen.in" rel="noreferrer" target="_blank" moz-do-not-send="true">boot.cmd.xen.in</a><br>
-                            index 98742200..b0ed0dc8 100644<br>
-                            ---
-                            a/dynamic-layers/raspberrypi/recipes-bsp/xen-rpi-u-boot-scr/files/<a href="http://boot.cmd.xen.in" rel="noreferrer" target="_blank" moz-do-not-send="true">boot.cmd.xen.in</a><br>
-                            +++
-                            b/dynamic-layers/raspberrypi/recipes-bsp/xen-rpi-u-boot-scr/files/<a href="http://boot.cmd.xen.in" rel="noreferrer" target="_blank" moz-do-not-send="true">boot.cmd.xen.in</a><br>
-                            @@ -5,13 +5,13 @@ fdt addr ${fdt_addr}<br>
-                            &nbsp;fdt get value bootargs /chosen bootargs<br>
-                            <br>
-                            &nbsp;# Set module load addresses<br>
-                            -setenv xen_loadaddr&nbsp; &nbsp; &nbsp;&quot;0x00200000&quot;<br>
-                            -setenv kernel_loadaddr&nbsp; &quot;0x00400000&quot;<br>
-                            +setenv xen_loadaddr&nbsp; &nbsp;
-                            &nbsp;&quot;@@XEN_LOAD_ADDRESS@@&quot;<br>
-                            +setenv kernel_loadaddr&nbsp;
-                            &quot;@@KERNEL_LOAD_ADDRESS@@&quot;<br>
-                            <br>
-                            &nbsp;# Add some space to the fdt so we can edit
-                            it<br>
-                            &nbsp;fdt resize 0x1000<br>
-                            &nbsp;echo Add boot arguments for Xen<br>
-                            -fdt set /chosen xen,xen-bootargs
-                            &quot;console=dtuart dtuart=/soc/serial@7e215040
-                            dom0_mem='@@RPI_DOM0_MEM@@'
-                            @@RPI_DEBUG_XEN_ARGS@@&quot;<br>
-                            +fdt set /chosen xen,xen-bootargs
-                            &quot;console=dtuart
-                            dtuart=@@XEN_SERIAL_CONSOLES@@
-                            dom0_mem=@@DOM0_MEM@@
-                            @@XEN_CMDLINE_APPEND@@&quot;<br>
-                          </blockquote>
-                          <div><br>
-                          </div>
-                          <div>Is there a way to ensure that if
-                            XEN_SERIAL_CONSOLES is unset that the
-                            dtuart= argument is not passed, and likewise
-                            for DOM0_MEM and the dom0_mem= argument?</div>
-                        </div>
-                      </div>
-                    </blockquote>
-                  </div>
-                </blockquote>
-                <p>[Sandeep]: May be we can implement this in two ways.
-                  Do we need this right away or we can take this as
-                  enhancement.<br>
-                </p>
-                <p>1. Set dtuart in bbclass similar to
-                  XEN_CMDLINE_APPEND<br>
-                  or<br>
-                  2. We may need to use u-boot hush shell if condition
-                  method.</p>
-              </blockquote>
-            </div>
-          </blockquote>
-          <div><br>
-          </div>
-          <div>
-            <div class="gmail_default" style="font-size:small">I'd
-              prefer to make the above changes now, versus merging them
-              and then doing enhancements in the future. I'm not
-              convinced that we'll get around to making those updates in
-              a timely manner .. given how long it has even taken to get
-              through the reviews of the series.</div>
-          </div>
-        </div>
-      </div>
-    </blockquote>
-    [Sandeep]: Ok sounds good I will get the changes in next patch
-    series. If you have any other concerns or changes required let me
-    know asap so that I can incorporate those in next series.<br>
-    <blockquote type="cite" cite="mid:CADkTA4MWAQ8ux9FYHkfMoRXFheyrvjNrFxVL8Uqt_4uH=L0vPQ@mail.gmail.com">
-      <div dir="ltr">
-        <div class="gmail_quote gmail_quote_container">
-          <div>
-            <div class="gmail_default" style="font-size:small"><br>
-            </div>
-            <div class="gmail_default" style="font-size:small">Bruce</div>
-            <br>
-          </div>
-          <div>&nbsp;</div>
-          <blockquote class="gmail_quote" style="margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-            <div>
-              <blockquote type="cite">
-                <p> <br>
-                </p>
-                <blockquote type="cite">
-                  <div class="gmail_quote">
-                    <blockquote class="gmail_quote" style="margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-                      <div dir="ltr">
-                        <div class="gmail_quote">
-                          <div>&nbsp;</div>
-                          <div>Christopher</div>
-                        </div>
-                      </div>
-                    </blockquote>
-                  </div>
-                  <div><br clear="all">
-                  </div>
-                  <div><br>
-                  </div>
-                  <span class="gmail_signature_prefix">-- </span><br>
-                  <div dir="ltr" class="gmail_signature">- Thou shalt
-                    not follow the NULL pointer, for chaos and madness
-                    await thee at its end<br>
-                    - &quot;Use the force Harry&quot; - Gandalf, Star Trek II<br>
-                    <br>
-                  </div>
-                </blockquote>
-                <br>
-                <fieldset></fieldset>
-              </blockquote>
-            </div>
-            <br>
-            <br>
-            <br>
-          </blockquote>
-        </div>
-        <div><br clear="all">
-        </div>
-        <div><br>
-        </div>
-        <span class="gmail_signature_prefix">-- </span><br>
-        <div dir="ltr" class="gmail_signature">- Thou shalt not follow
-          the NULL pointer, for chaos and madness await thee at its end<br>
-          - &quot;Use the force Harry&quot; - Gandalf, Star Trek II<br>
-          <br>
-        </div>
-      </div>
-      <br>
-      <fieldset class="moz-mime-attachment-header"></fieldset>
-      <pre wrap="" class="moz-quote-pre">
--=-=-=-=-=-=-=-=-=-=-=-
-Links: You receive all messages sent to this group.
-View/Reply Online (#9122): <a class="moz-txt-link-freetext" href="https://lists.yoctoproject.org/g/meta-virtualization/message/9122">https://lists.yoctoproject.org/g/meta-virtualization/message/9122</a>
-Mute This Topic: <a class="moz-txt-link-freetext" href="https://lists.yoctoproject.org/mt/110006801/8188369">https://lists.yoctoproject.org/mt/110006801/8188369</a>
-Group Owner: <a class="moz-txt-link-abbreviated" href="mailto:meta-virtualization+owner@lists.yoctoproject.org">meta-virtualization+owner@lists.yoctoproject.org</a>
-Unsubscribe: <a class="moz-txt-link-freetext" href="https://lists.yoctoproject.org/g/meta-virtualization/unsub">https://lists.yoctoproject.org/g/meta-virtualization/unsub</a> [<a class="moz-txt-link-abbreviated" href="mailto:santraju@amd.com">santraju@amd.com</a>]
--=-=-=-=-=-=-=-=-=-=-=-
+diff --git a/recipes-containers/buildah/buildah_git.bb b/recipes-containers/buildah/buildah_git.bb
+index ae3495ba..58c862a2 100644
+--- a/recipes-containers/buildah/buildah_git.bb
++++ b/recipes-containers/buildah/buildah_git.bb
+@@ -27,9 +27,7 @@ GO_INSTALL = "${GO_IMPORT}"
+ GO_WORKDIR = "${GO_INSTALL}"
+ GOBUILDFLAGS += "-mod vendor"
+ 
+-SRCREV_FORMAT = "buildah_storage"
+-SRCREV_buildah = "c0602013adc2142f017a6b973a70b33e57bd5539"
+-SRCREV_storage = "246ba3062e8b551026aef2708eee747014ce5c52"
++SRCREV = "c0602013adc2142f017a6b973a70b33e57bd5539"
+ 
+ SRC_URI = " \
+     git://github.com/containers/buildah;branch=release-1.37;name=buildah;protocol=https;destsuffix=${GO_SRCURI_DESTSUFFIX} \
+-- 
+2.25.1
 
-</pre>
-    </blockquote>
-  </body>
-</html>
-
---------------eSqVmEk3k0hWlCwxJ6IsN3hw--
 
