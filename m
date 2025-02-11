@@ -1,231 +1,260 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <troth@openavr.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89F90C0219B
-	for <webhook@archiver.kernel.org>; Tue, 11 Feb 2025 21:56:41 +0000 (UTC)
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
- by mx.groups.io with SMTP id smtpd.web11.723.1739310991899548359
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0271BC0219B
+	for <webhook@archiver.kernel.org>; Tue, 11 Feb 2025 22:52:42 +0000 (UTC)
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
+ by mx.groups.io with SMTP id smtpd.web10.1899.1739314352696252862
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 11 Feb 2025 13:56:31 -0800
+ Tue, 11 Feb 2025 14:52:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=XIHjSlST;
- spf=pass (domain: gmail.com, ip: 209.85.216.50, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-2f833af7a09so8409242a91.2
-        for <meta-virtualization@lists.yoctoproject.org>; Tue, 11 Feb 2025 13:56:31 -0800 (PST)
+ dkim=pass header.i=@openavr-org.20230601.gappssmtp.com header.s=20230601 header.b=eIimj/bx;
+ spf=none, err=permanent DNS error (domain: openavr.org, ip: 209.85.128.179, mailfrom: troth@openavr.org)
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-6f9e95c66fdso24083147b3.3
+        for <meta-virtualization@lists.yoctoproject.org>; Tue, 11 Feb 2025 14:52:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739310991; x=1739915791; darn=lists.yoctoproject.org;
+        d=openavr-org.20230601.gappssmtp.com; s=20230601; t=1739314352; x=1739919152; darn=lists.yoctoproject.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=t9IsFXdFGcbHLwDIz01cpV5tH5V6vhhtbv4Q3smcR2w=;
-        b=XIHjSlSTfM52pVMK4uWaF5xMQ92LzPJIQkf3HMgIiIYinLy9jQVmm0gu4jrHpTV09G
-         P5Qg0K2hgEoamYCuuXBqGFDc/kxCyPpymWsKsoiCUtj3pFXXMgxjTb/K6MC874RFectZ
-         Z9KVVjlhZRiIoNT+lf5HMg9q5l7ubqgFU7rDThkEgIa1amS1c6KG1htJK1G61tlrOUjt
-         Km05An0HX5wMx/EB5qoePplhwEz1BHQYCA4lyaD0XnnS6aYkZyCdVJHZ18zG1iN1zaBa
-         rhrzLJiE71v3w548iCWCWozrY7wTl3cACfnPl73BHl3xj+5jwaGTLaU//cF7mqJSlf9k
-         6oiw==
+        bh=m4YGN4El3tabMqXPt94fp75aEimMu/anXeBL93gyQzA=;
+        b=eIimj/bxS+iEsn0miKM2Ghe8tcTprcAW5kjD9Z1VbW1UGDdIjVoyooBv0qnJwl40pE
+         1mwC2Sf4Ce/bfo9dhwLuXlsN5inp2YCHgpeTek72igujcpJEv4Id7Yqz0ya4+TK51vFf
+         lshwPSBE/r5UPoExhz+c3m5GGPxzgrSSfMkRMU3fH9HcR67NKmZhsQbRkACd+E1WaYXt
+         8Pg8lORtE8y2AlNjYInoSdNwntqZlA6nBVo/r/FqUghohps0ln7unYeFBO2ZWuXyjZ+w
+         HB3fAVyHUfX4I4taNX6+5Z84qjfZWZAbO5m5QORS6faA7RKCr9VsuCxKZeGRvpYDsxHD
+         pTAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739310991; x=1739915791;
+        d=1e100.net; s=20230601; t=1739314352; x=1739919152;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=t9IsFXdFGcbHLwDIz01cpV5tH5V6vhhtbv4Q3smcR2w=;
-        b=Qd51cr4PpuELSpyvuanEQpBkIk0m+X/JP/3HtDyeJySmoFAVCIHY9UHEHnw05gPQcp
-         tsaAqSkV9rKzv4r6Xj5DIFjvmP3uWFTm4bcUFR6sVE0bsRW/DRNhS/bzBE4oEwZK7lcP
-         EJbNLNySeUtubWDMP7vGeOuM4ZFeGToKg8/10Bf8YbRhIbMUwpY4m3xiDZM2QbthXjMw
-         2O/Mny15EhiWs4AVGXAVxXzd6Zp9Ro41VU/dW6cuHM0pcqhb0ilhNBWtDzvvOb2gqalQ
-         xaNh6biGe6pYb+TCqVmDAxCVHUAd34PzqDXCZYANIGi7AqUb/JhqlmP4rQJqwgYH6aQA
-         g2yQ==
-X-Gm-Message-State: AOJu0YysQLMxVmcw2HZtyOl5DmDN1tmQ2vfT4XcXDS72CeNWVRRUXiuh
-	H/rz26JERk+ARnSq0SAscahFqn1Tgl4U3luo5H1pRMA4WKZWcWrUHtoNG9lmdUzHSKdMXV6CKZi
-	lUoUtvJnKJViqS6mfcGceF69YnjA=
-X-Gm-Gg: ASbGncs66IT6gayYKsCD5sctjJzxiQJD7VtyIdQTZ0jUk8aiw0sIzsvYVdFu8WHxibV
-	tyJe9MTVP9eWoA0JnCQhSjhCIFDJitasWeaTFBhGSL9xEP6SIzoivDiRSBqexc/DkcC6bAe9y
-X-Google-Smtp-Source: AGHT+IFtiPxxAU1e8rrl4HLzWmb7E0oKzC784LlzYDm6+S8gDEv2xvkHMfiZQCedHk/1udY9JIxxcWJgWmrbXX8/qfQ=
-X-Received: by 2002:a17:90a:e185:b0:2ee:8430:b831 with SMTP id
- 98e67ed59e1d1-2fbf5bc0249mr1232375a91.2.1739310991159; Tue, 11 Feb 2025
- 13:56:31 -0800 (PST)
+        bh=m4YGN4El3tabMqXPt94fp75aEimMu/anXeBL93gyQzA=;
+        b=i2gYdCbfPQx3sbbdl7OynVXCMgnSrTgf1N0QXI1lClcVavP4xHzj+3B2Pbi11BbKeh
+         jdW1yUMRXe2dlWDGb6Q7mRuUDRWfl08Wq+Bexhy1npzueaG/0u/yMDTWs4KOeTVJwYoV
+         cDOmPpEz8xcGcYxNPnWIqPcgpQddfBeGTiPXPmPJI04PWEpf0GaNevInEemyeO+kmcLM
+         M0jXdABT4vwfko+IFqrCWOBGCGxLlfzZSZqGJdyAQTuR5GLwJKrJ1U5jCJ+wVTJaJ2J9
+         Fl2W4hpdn+3A9hmjgMcD6w83TrE5QsFqB2a3R2AXfKQRdeyk3pPVuQzuJfTFvN1pR0s+
+         xdKQ==
+X-Gm-Message-State: AOJu0YwChVDan+jDyMLm7FDziMYP8H89LjCK7FFVkZ2R4dLLV86GmEkb
+	YGntnPkyfVZ4lsizd+D5OAWoVwNQVY1UMh4b76l+O/+S8tLng89BCagF/s1fjHj8Yz36u/epDPW
+	xd4iKE/z5h9Kjqq085wxua+YdTgLuHigZEjsYSw==
+X-Gm-Gg: ASbGncsl3aWfH1lXMAnVf3HfjseZXOTPcLNNCNmTwm1EZJ/32rYYLd4ZwgmLLOg4Bvk
+	cBA9ohgLcTttlHDGck6evDt9hOdiCVUUQYZBNfY9dbR/8R+fpZki66R3GmJTiQPzgrw3iUxci
+X-Google-Smtp-Source: AGHT+IF8ClcxetPHx4LGwDUltsxh2an51OXLhJhMhthbXEC96TFN9YNwQmP15gXD0t+Ha8nzNqjJnVhUSamTFgLxiWo=
+X-Received: by 2002:a05:690c:360a:b0:6f7:a6d8:349 with SMTP id
+ 00721157ae682-6fb1f195054mr15238207b3.10.1739314350585; Tue, 11 Feb 2025
+ 14:52:30 -0800 (PST)
 MIME-Version: 1.0
-References: <20250211210418.3463657-1-troth@openavr.org>
-In-Reply-To: <20250211210418.3463657-1-troth@openavr.org>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Tue, 11 Feb 2025 16:56:21 -0500
-X-Gm-Features: AWEUYZmQccoB22voxU_bku58wvxdK-JwN5j3aUzII2jhac1d0FFjEFUNbwJkddc
-Message-ID: <CADkTA4PiSSq8QeYT1asw9p_SvwQoLbzGeWNZsjtvgytvLE38YQ@mail.gmail.com>
+References: <20250211210418.3463657-1-troth@openavr.org> <CADkTA4PiSSq8QeYT1asw9p_SvwQoLbzGeWNZsjtvgytvLE38YQ@mail.gmail.com>
+In-Reply-To: <CADkTA4PiSSq8QeYT1asw9p_SvwQoLbzGeWNZsjtvgytvLE38YQ@mail.gmail.com>
+From: "Theodore A. Roth" <troth@openavr.org>
+Date: Tue, 11 Feb 2025 15:52:18 -0700
+X-Gm-Features: AWEUYZlp20v1vhV5HrBdfDyfrJCC5upMezskY-u8_VuiIGTM4A2npvHqopDjqqk
+Message-ID: <CAFMvBt2_ALk=hAcsbSg3jv9PNrkzrnrcrfc+U+6PRwE5K_xRJA@mail.gmail.com>
 Subject: Re: [meta-virtualization][PATCH] kernel: Remove linux-yocto_6.6 files
-To: troth@openavr.org
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
 Cc: meta-virtualization@lists.yoctoproject.org, 
 	"Theodore A . Roth" <theodore_roth@trimble.com>
-Content-Type: multipart/alternative; boundary="000000000000c837aa062de4e57b"
+Content-Type: multipart/alternative; boundary="00000000000005176c062de5ae45"
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Tue, 11 Feb 2025 21:56:41 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9137
+ <meta-virtualization@lists.yoctoproject.org>; Tue, 11 Feb 2025 22:52:42 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9138
 
---000000000000c837aa062de4e57b
+--00000000000005176c062de5ae45
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-I already have this commit prepared, as I was the one that removed the 6.6
-kernel :)
+Thanks Bruce!
 
-I just didn't realize it had been merged yet.
+Works for me if you commit your version. I did see that you removed the 6.6
+stuff from poky.
 
-Bruce
+Just thought I'd send a patch to make sure you didn't miss something in
+meta-virt or it fell through the cracks.
 
-On Tue, Feb 11, 2025 at 4:04=E2=80=AFPM Theodore A. Roth via lists.yoctopro=
-ject.org
-<troth=3Dopenavr.org@lists.yoctoproject.org> wrote:
+Ted Roth
 
-> Upstream poky has dropped support for v6.6 kernels which causes rpi
-> builds to fail:
+On Tue, Feb 11, 2025 at 2:56=E2=80=AFPM Bruce Ashfield <bruce.ashfield@gmai=
+l.com>
+wrote:
+
+> I already have this commit prepared, as I was the one that removed the 6.=
+6
+> kernel :)
 >
->   ERROR: No recipes in default available for:
+> I just didn't realize it had been merged yet.
 >
-> meta-virtualization/dynamic-layers/raspberrypi/recipes-kernel/linux/linux=
--yocto_6.6.bbappend
+> Bruce
 >
-> Signed-off-by: Theodore A. Roth <theodore_roth@trimble.com>
-> Signed-off-by: Theodore A. Roth <troth@openavr.org>
-> ---
->  ...6.6.bbappend =3D> linux-yocto_6.12.bbappend} |  2 +-
->  .../linux/linux-yocto_6.6_virtualization.inc  |  4 --
->  .../linux/yocto-cfg-fragments-6.6.bb          | 37 -------------------
->  3 files changed, 1 insertion(+), 42 deletions(-)
->  rename
-> dynamic-layers/raspberrypi/recipes-kernel/linux/{linux-yocto_6.6.bbappend
-> =3D> linux-yocto_6.12.bbappend} (77%)
->  delete mode 100644 recipes-kernel/linux/linux-yocto_6.6_virtualization.i=
-nc
->  delete mode 100644 recipes-kernel/linux/yocto-cfg-fragments-6.6.bb
+> On Tue, Feb 11, 2025 at 4:04=E2=80=AFPM Theodore A. Roth via
+> lists.yoctoproject.org <troth=3Dopenavr.org@lists.yoctoproject.org> wrote=
+:
 >
-> diff --git
-> a/dynamic-layers/raspberrypi/recipes-kernel/linux/linux-yocto_6.6.bbappen=
+>> Upstream poky has dropped support for v6.6 kernels which causes rpi
+>> builds to fail:
+>>
+>>   ERROR: No recipes in default available for:
+>>
+>> meta-virtualization/dynamic-layers/raspberrypi/recipes-kernel/linux/linu=
+x-yocto_6.6.bbappend
+>>
+>> Signed-off-by: Theodore A. Roth <theodore_roth@trimble.com>
+>> Signed-off-by: Theodore A. Roth <troth@openavr.org>
+>> ---
+>>  ...6.6.bbappend =3D> linux-yocto_6.12.bbappend} |  2 +-
+>>  .../linux/linux-yocto_6.6_virtualization.inc  |  4 --
+>>  .../linux/yocto-cfg-fragments-6.6.bb          | 37 -------------------
+>>  3 files changed, 1 insertion(+), 42 deletions(-)
+>>  rename
+>> dynamic-layers/raspberrypi/recipes-kernel/linux/{linux-yocto_6.6.bbappen=
 d
-> b/dynamic-layers/raspberrypi/recipes-kernel/linux/linux-yocto_6.12.bbappe=
+>> =3D> linux-yocto_6.12.bbappend} (77%)
+>>  delete mode 100644
+>> recipes-kernel/linux/linux-yocto_6.6_virtualization.inc
+>>  delete mode 100644 recipes-kernel/linux/yocto-cfg-fragments-6.6.bb
+>>
+>> diff --git
+>> a/dynamic-layers/raspberrypi/recipes-kernel/linux/linux-yocto_6.6.bbappe=
 nd
-> similarity index 77%
-> rename from
-> dynamic-layers/raspberrypi/recipes-kernel/linux/linux-yocto_6.6.bbappend
-> rename to
-> dynamic-layers/raspberrypi/recipes-kernel/linux/linux-yocto_6.12.bbappend
-> index 2e2f92b6..9d1d49f4 100644
-> ---
-> a/dynamic-layers/raspberrypi/recipes-kernel/linux/linux-yocto_6.6.bbappen=
+>> b/dynamic-layers/raspberrypi/recipes-kernel/linux/linux-yocto_6.12.bbapp=
+end
+>> similarity index 77%
+>> rename from
+>> dynamic-layers/raspberrypi/recipes-kernel/linux/linux-yocto_6.6.bbappend
+>> rename to
+>> dynamic-layers/raspberrypi/recipes-kernel/linux/linux-yocto_6.12.bbappen=
 d
-> +++
-> b/dynamic-layers/raspberrypi/recipes-kernel/linux/linux-yocto_6.12.bbappe=
+>> index 2e2f92b6..9d1d49f4 100644
+>> ---
+>> a/dynamic-layers/raspberrypi/recipes-kernel/linux/linux-yocto_6.6.bbappe=
 nd
-> @@ -1,5 +1,5 @@
->  # Enable use of the linux-yocto kernel for the Raspberry Pi 4
-> -KBRANCH:raspberrypi4-64 ?=3D "v6.6/standard/bcm-2xxx-rpi"
-> +KBRANCH:raspberrypi4-64 ?=3D "v6.12/standard/bcm-2xxx-rpi"
->  KMACHINE:raspberrypi4-64 ?=3D "bcm-2xxx-rpi4"
->  COMPATIBLE_MACHINE:raspberrypi4-64 =3D "(raspberrypi4-64)"
+>> +++
+>> b/dynamic-layers/raspberrypi/recipes-kernel/linux/linux-yocto_6.12.bbapp=
+end
+>> @@ -1,5 +1,5 @@
+>>  # Enable use of the linux-yocto kernel for the Raspberry Pi 4
+>> -KBRANCH:raspberrypi4-64 ?=3D "v6.6/standard/bcm-2xxx-rpi"
+>> +KBRANCH:raspberrypi4-64 ?=3D "v6.12/standard/bcm-2xxx-rpi"
+>>  KMACHINE:raspberrypi4-64 ?=3D "bcm-2xxx-rpi4"
+>>  COMPATIBLE_MACHINE:raspberrypi4-64 =3D "(raspberrypi4-64)"
+>>
+>> diff --git a/recipes-kernel/linux/linux-yocto_6.6_virtualization.inc
+>> b/recipes-kernel/linux/linux-yocto_6.6_virtualization.inc
+>> deleted file mode 100644
+>> index 59311487..00000000
+>> --- a/recipes-kernel/linux/linux-yocto_6.6_virtualization.inc
+>> +++ /dev/null
+>> @@ -1,4 +0,0 @@
+>> -# include the baseline meta virtualization configuration options
+>> -# after this include, we can do version specific things
+>> -
+>> -include linux-yocto_virtualization.inc
+>> diff --git a/recipes-kernel/linux/yocto-cfg-fragments-6.6.bb
+>> b/recipes-kernel/linux/yocto-cfg-fragments-6.6.bb
+>> deleted file mode 100644
+>> index 6bdc0d03..00000000
+>> --- a/recipes-kernel/linux/yocto-cfg-fragments-6.6.bb
+>> +++ /dev/null
+>> @@ -1,37 +0,0 @@
+>> -HOMEPAGE =3D "
+>> https://git.yoctoproject.org/cgit/cgit.cgi/yocto-kernel-cache/"
+>> -SUMMARY =3D "Kernel configuration fragments"
+>> -DESCRIPTION =3D "Typically used as part of a kernel clone, this is the
+>> standalone \
+>> -fragment repository. Making it available to other fragment management
+>> schemes \
+>> -"
+>> -SECTION =3D "devel"
+>> -
+>> -LICENSE =3D "MIT"
+>> -LIC_FILES_CHKSUM =3D
+>> "file://COPYING.MIT;md5=3D3da9cfbcb788c80a0384361b4de20420"
+>> -
+>> -do_configure[noexec] =3D "1"
+>> -do_compile[noexec] =3D "1"
+>> -INHIBIT_DEFAULT_DEPS =3D "1"
+>> -
+>> -LINUX_VERSION ?=3D "6.6"
+>> -PV =3D "v${LINUX_VERSION}+git${SRCREV}"
+>> -
+>> -SRCREV =3D "4a494b202029e94a72ebb3c3966d9f1d249900f3"
+>> -SRC_URI =3D "\
+>> -        git://
+>> git.yoctoproject.org/yocto-kernel-cache;branch=3Dyocto-${LINUX_VERSION}
+>> <http://git.yoctoproject.org/yocto-kernel-cache;branch=3Dyocto-$%7BLINUX=
+_VERSION%7D>
+>> \
+>> -        "
+>> -
+>> -S =3D "${WORKDIR}/git"
+>> -
+>> -do_install() {
+>> -    install -d ${D}${base_prefix}/kcfg
+>> -
+>> -    # copy the configuration fragments over to the native deploy
+>> -    cp -r ${S}/* ${D}${base_prefix}/kcfg
+>> -    # scripts bring in a bash dependency we don't want
+>> -    rm -rf ${D}${base_prefix}/kcfg/scripts
+>> -}
+>> -
+>> -FILES:${PN} +=3D "kcfg/"
+>> -SYSROOT_DIRS +=3D "${base_prefix}/kcfg"
+>> -BBCLASSEXTEND =3D "native nativesdk"
+>> -
+>> --
+>> 2.34.1
+>>
+>>
+>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>> Links: You receive all messages sent to this group.
+>> View/Reply Online (#9136):
+>> https://lists.yoctoproject.org/g/meta-virtualization/message/9136
+>> Mute This Topic: https://lists.yoctoproject.org/mt/111131116/1050810
+>> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+>> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub =
+[
+>> bruce.ashfield@gmail.com]
+>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>>
+>>
 >
-> diff --git a/recipes-kernel/linux/linux-yocto_6.6_virtualization.inc
-> b/recipes-kernel/linux/linux-yocto_6.6_virtualization.inc
-> deleted file mode 100644
-> index 59311487..00000000
-> --- a/recipes-kernel/linux/linux-yocto_6.6_virtualization.inc
-> +++ /dev/null
-> @@ -1,4 +0,0 @@
-> -# include the baseline meta virtualization configuration options
-> -# after this include, we can do version specific things
-> -
-> -include linux-yocto_virtualization.inc
-> diff --git a/recipes-kernel/linux/yocto-cfg-fragments-6.6.bb
-> b/recipes-kernel/linux/yocto-cfg-fragments-6.6.bb
-> deleted file mode 100644
-> index 6bdc0d03..00000000
-> --- a/recipes-kernel/linux/yocto-cfg-fragments-6.6.bb
-> +++ /dev/null
-> @@ -1,37 +0,0 @@
-> -HOMEPAGE =3D "
-> https://git.yoctoproject.org/cgit/cgit.cgi/yocto-kernel-cache/"
-> -SUMMARY =3D "Kernel configuration fragments"
-> -DESCRIPTION =3D "Typically used as part of a kernel clone, this is the
-> standalone \
-> -fragment repository. Making it available to other fragment management
-> schemes \
-> -"
-> -SECTION =3D "devel"
-> -
-> -LICENSE =3D "MIT"
-> -LIC_FILES_CHKSUM =3D
-> "file://COPYING.MIT;md5=3D3da9cfbcb788c80a0384361b4de20420"
-> -
-> -do_configure[noexec] =3D "1"
-> -do_compile[noexec] =3D "1"
-> -INHIBIT_DEFAULT_DEPS =3D "1"
-> -
-> -LINUX_VERSION ?=3D "6.6"
-> -PV =3D "v${LINUX_VERSION}+git${SRCREV}"
-> -
-> -SRCREV =3D "4a494b202029e94a72ebb3c3966d9f1d249900f3"
-> -SRC_URI =3D "\
-> -        git://
-> git.yoctoproject.org/yocto-kernel-cache;branch=3Dyocto-${LINUX_VERSION}
-> <http://git.yoctoproject.org/yocto-kernel-cache;branch=3Dyocto-$%7BLINUX_=
-VERSION%7D>
-> \
-> -        "
-> -
-> -S =3D "${WORKDIR}/git"
-> -
-> -do_install() {
-> -    install -d ${D}${base_prefix}/kcfg
-> -
-> -    # copy the configuration fragments over to the native deploy
-> -    cp -r ${S}/* ${D}${base_prefix}/kcfg
-> -    # scripts bring in a bash dependency we don't want
-> -    rm -rf ${D}${base_prefix}/kcfg/scripts
-> -}
-> -
-> -FILES:${PN} +=3D "kcfg/"
-> -SYSROOT_DIRS +=3D "${base_prefix}/kcfg"
-> -BBCLASSEXTEND =3D "native nativesdk"
-> -
 > --
-> 2.34.1
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#9136):
-> https://lists.yoctoproject.org/g/meta-virtualization/message/9136
-> Mute This Topic: https://lists.yoctoproject.org/mt/111131116/1050810
-> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [
-> bruce.ashfield@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> - Thou shalt not follow the NULL pointer, for chaos and madness await the=
+e
+> at its end
+> - "Use the force Harry" - Gandalf, Star Trek II
 >
 >
 
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end
-- "Use the force Harry" - Gandalf, Star Trek II
-
---000000000000c837aa062de4e57b
+--00000000000005176c062de5ae45
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-size:small">I already have this commit prepared, as I was the one that re=
-moved the 6.6 kernel :)</div><div class=3D"gmail_default" style=3D"font-siz=
-e:small"><br></div><div class=3D"gmail_default" style=3D"font-size:small">I=
- just didn&#39;t realize it had been merged yet.</div><div class=3D"gmail_d=
-efault" style=3D"font-size:small"><br></div><div class=3D"gmail_default" st=
-yle=3D"font-size:small">Bruce</div></div><br><div class=3D"gmail_quote gmai=
-l_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Feb 11, 20=
-25 at 4:04=E2=80=AFPM Theodore A. Roth via <a href=3D"http://lists.yoctopro=
-ject.org">lists.yoctoproject.org</a> &lt;troth=3D<a href=3D"mailto:openavr.=
-org@lists.yoctoproject.org">openavr.org@lists.yoctoproject.org</a>&gt; wrot=
-e:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
-.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Upstream poky=
- has dropped support for v6.6 kernels which causes rpi<br>
+<div dir=3D"ltr"><div>Thanks Bruce!</div><div><br></div><div>Works for me i=
+f you commit your version. I did see that you removed the 6.6 stuff from po=
+ky.</div><div><br></div><div>Just thought I&#39;d send a patch to make sure=
+ you didn&#39;t miss something in meta-virt or it fell through the cracks.<=
+/div><div><br></div><div>Ted Roth<br></div><br><div class=3D"gmail_quote gm=
+ail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Feb 11, =
+2025 at 2:56=E2=80=AFPM Bruce Ashfield &lt;<a href=3D"mailto:bruce.ashfield=
+@gmail.com">bruce.ashfield@gmail.com</a>&gt; wrote:<br></div><blockquote cl=
+ass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid=
+ rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div dir=3D"ltr"><div =
+style=3D"font-size:small">I already have this commit prepared, as I was the=
+ one that removed the 6.6 kernel :)</div><div style=3D"font-size:small"><br=
+></div><div style=3D"font-size:small">I just didn&#39;t realize it had been=
+ merged yet.</div><div style=3D"font-size:small"><br></div><div style=3D"fo=
+nt-size:small">Bruce</div></div><br><div class=3D"gmail_quote"><div dir=3D"=
+ltr" class=3D"gmail_attr">On Tue, Feb 11, 2025 at 4:04=E2=80=AFPM Theodore =
+A. Roth via <a href=3D"http://lists.yoctoproject.org" target=3D"_blank">lis=
+ts.yoctoproject.org</a> &lt;troth=3D<a href=3D"mailto:openavr.org@lists.yoc=
+toproject.org" target=3D"_blank">openavr.org@lists.yoctoproject.org</a>&gt;=
+ wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Upstream=
+ poky has dropped support for v6.6 kernels which causes rpi<br>
 builds to fail:<br>
 <br>
 =C2=A0 ERROR: No recipes in default available for:<br>
@@ -365,6 +394,7 @@ om" target=3D"_blank">bruce.ashfield@gmail.com</a>]<br>
 ignature">- Thou shalt not follow the NULL pointer, for chaos and madness a=
 wait thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star T=
 rek II<br><br></div></div>
+</blockquote></div></div>
 
---000000000000c837aa062de4e57b--
+--00000000000005176c062de5ae45--
 
