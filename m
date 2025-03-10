@@ -2,70 +2,70 @@ Return-Path: <dpmin7@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37534C28B28
-	for <webhook@archiver.kernel.org>; Sun,  9 Mar 2025 23:48:33 +0000 (UTC)
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
- by mx.groups.io with SMTP id smtpd.web10.26401.1741564104640921787
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73BB2C28B2F
+	for <webhook@archiver.kernel.org>; Mon, 10 Mar 2025 00:29:03 +0000 (UTC)
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+ by mx.groups.io with SMTP id smtpd.web11.26879.1741566533377564719
  for <meta-virtualization@lists.yoctoproject.org>;
- Sun, 09 Mar 2025 16:48:24 -0700
+ Sun, 09 Mar 2025 17:28:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=iMuOzl2r;
- spf=pass (domain: gmail.com, ip: 209.85.214.175, mailfrom: dpmin7@gmail.com)
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-22548a28d0cso31702255ad.3
-        for <meta-virtualization@lists.yoctoproject.org>; Sun, 09 Mar 2025 16:48:24 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=UI1PfXfs;
+ spf=pass (domain: gmail.com, ip: 209.85.214.169, mailfrom: dpmin7@gmail.com)
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-22403cbb47fso66395365ad.0
+        for <meta-virtualization@lists.yoctoproject.org>; Sun, 09 Mar 2025 17:28:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741564103; x=1742168903; darn=lists.yoctoproject.org;
+        d=gmail.com; s=20230601; t=1741566532; x=1742171332; darn=lists.yoctoproject.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
         bh=o0WfGW39rRCtxHqUoxRJPkqx7lkVSYJRZEAVbRRWpNg=;
-        b=iMuOzl2r+4nvELT6WWBlK7nlrCqq4poLvnoMZERikNyWqA5ZtcdjU3YRt+07HmmWv+
-         +XGkbsAGZ1lIwT3lRYTXHYs6CbZ2TMIkt8YBkYRGGwR3csc3ldYDBDSXxsncJpYmCBTc
-         DagxqWPVKR9RAt/h0svbmtI+HQbsik/dp1T3LvOFF8Ipwnq11R406ER5vNetw1WiTx62
-         2Adn9zhmF+wOmxwrAl9VSrmR9CcuxqwjHcpFOd+P3dM8jYCSF1tjmJMk+9KdnBWVoN1P
-         cVg81PI3t01G+V54DomAhdLh6Lt33HJRlAcEPqBQPMkUpFwEz4sCJFS6CbXDDMUimt0m
-         23QQ==
+        b=UI1PfXfsgLMO3K54+MjmBkVzMB0DQOtg7xjIFxVNrlawTLDLViODlFN2V04BM71fBZ
+         87vGQKOQbUhULkt5xj7/gHKUY/dlBVBwhnbn/EFVvgLrIe64zAaXMIwHJn3wNkMVOVd9
+         Qv5XRoQPzEKrlhengxSYgadXnIKJHca//qpawdP1+D8sVHc1nBpqLgki7AlSm1aL+VpI
+         2ctAS1hWuGiCi4QhOAPZIkgLcReLeB6dcRTuA9l6Pwhca2QRe6bvuAJMxFbu9yHJ7CCz
+         QYK75XRgph/A/Qy1Wn1PmQKiL9YMnIrMLs6nHuQegD4seghF+Sf0nOYsnnrG8wzW+skY
+         hcdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741564103; x=1742168903;
+        d=1e100.net; s=20230601; t=1741566532; x=1742171332;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
         bh=o0WfGW39rRCtxHqUoxRJPkqx7lkVSYJRZEAVbRRWpNg=;
-        b=nkIaqObkv0/S5o8JJ4lHXmGEKXjdo9zw4bMvo0s++Se2pbIptrMR6B2RLXN4qmtIGy
-         qpZH86IkZAFMOxDVHzd9J307ClXFlYkMUt9J0qLsj2BnCLr+20vlkt88x0I7A0EhziuT
-         Owue3776NCS2YC6tEjlFvHwWNvZpyIPeKLA/wDA9KlRAuCORZzwFeOFDqYZXBtagznKw
-         odz55pknpvFF2tS51Y3XI7X/UlLJlBDcGWeGLdgxlJ7BqonCDbkFp3IfzNzdZQwBEO7V
-         6Lj9DeTy/zj+pakuewjG3lI5/BBhC2mgJBzgm5pmvQDH/JlmIyI1f65vqOjq0CacrDDU
-         QY0w==
-X-Gm-Message-State: AOJu0Yy1ADu3WwrjVXedW4zuz5ZMkaceDFn8x2bGAJsDxWqM3I+kCPfq
-	wghMU7rBrhAuaEHacdoKf+al4iFmLbLUwjCqO/fcijzn1ArJa+2wNjIPgA==
-X-Gm-Gg: ASbGncskm1z1JPvsRIvwW/eeTHw6txaTc+vNDuDXz7n/p6ac2ZEDhoF96vAHGJTXBZW
-	2495FVNlay5Qoy+VTKVkqac9qYbjYUz4BBzsHUJ/wZMUZmHk7zF6TF5ZDUqH9FeA0C0JdIUCNtn
-	W3/5PDQZrYMYdeKBaw9OabgrroqD7iL4nbP8l+An6BX+9ZYg54QqZ1+lQpktCimd0GFi38kg6An
-	gOgn5TxoctT1zerllIewoVwI2DL5ZYAJJ1aiS58ui/1OuKa2+4CMP2rs6P0OMpZ5/Pp/lCjOpS2
-	7ZiYnPQX3YGTq7+jhOnHr/ryWR3QUevFOw==
-X-Google-Smtp-Source: AGHT+IGg2gcOUZLgce1J3rjmZUrwM5AoC/dAJXiDRMa95VAP+2AvatN9MKSoYBwQBBAfPixC9j+tbQ==
-X-Received: by 2002:a17:902:f644:b0:224:76f:9e45 with SMTP id d9443c01a7336-22428a8c6femr207817545ad.21.1741564103461;
-        Sun, 09 Mar 2025 16:48:23 -0700 (PDT)
+        b=WM7eC7L4pX4BK+/w9r/5pDKILZLAlcaMxebVZ/pJj20jPQJsKPBFXsPFiRlS594Hej
+         ygI++bmmyTNNa23k4kpC+FLSscOk7BUozMaeEJD7JrrdfxPF+uOdajnBWB1Q1rGOTk+0
+         QEWCPLRLJPyqcTwKhAkdy9fE9RFAmO1qSkQQkLHr9szkKg7QOhFNW9sxM44ZakjRcN7U
+         LeSX1XDGlC7x3USASXl23hM6XkjTtkOEAfG7oE3PZ8Qsnk68dGUcVqGxPfeYuYqghjPS
+         2gG8yjstHqoT6LASqOBMjKnNy8cWS3PxpcgsJMhekkq9H8Iqut59eoAC/VGUE2qPIHR9
+         h35w==
+X-Gm-Message-State: AOJu0YwZdOwyq7ijRTHncLGxCdvHLOxTURixO/LbtCbeuQEnlD5vh+MP
+	NKhoEE/GspZmJGyWo5TAwuM/NAZMHOqRhY/PY/oIL1Few9A9aOrTAhPedg==
+X-Gm-Gg: ASbGncs/Q1fBctp55Rixq8QErdSWssT72/LHbN34GaoOi0Af54S38iSrnjd2XfUJpbf
+	TfMx1yP8Zq9u9h8zfatRrVwS6PBJLOg3xVdc/Ce1SPMX7/q5HoNIa76VYDNo1BS7gp5K63oSl23
+	kiawFKdoBcwyCFHRVWPuID3Q23fRWQlmfKsgOgBRcEv2nYehEm1i8xc0GVqNRp90LSqtmj9BwtX
+	joqpKHrsPYQyWdgHg97U1tNFcpk7xkasTL/NFVoSSy5XZV1vc3012Frl0OdYy1fj6wmwSqcXUi8
+	SlvDC+r/Zh2We428x9EZ+hVPSSvM0D4zsw==
+X-Google-Smtp-Source: AGHT+IE0JlSNshZmK3hCOBZym8XMAVEuSDrvcqkd/gklchUM0KteckD74gXVZlKJGNHZr+HHpepUQA==
+X-Received: by 2002:a17:902:e80e:b0:223:669f:ca2d with SMTP id d9443c01a7336-22428bd5819mr193482085ad.35.1741566532182;
+        Sun, 09 Mar 2025 17:28:52 -0700 (PDT)
 Received: from dpmin-PC.. ([27.122.242.71])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-224109ddc7esm65074435ad.48.2025.03.09.16.48.21
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2ff693e75bfsm6654656a91.33.2025.03.09.17.28.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 Mar 2025 16:48:22 -0700 (PDT)
+        Sun, 09 Mar 2025 17:28:51 -0700 (PDT)
 From: Kyungjik Min <dpmin7@gmail.com>
 X-Google-Original-From: Kyungjik Min <dp.min@lge.com>
 To: meta-virtualization@lists.yoctoproject.org
 Cc: Kyungjik Min <dp.min@lge.com>,
 	Kyungjik Min <dpmin7@gmail.com>
-Subject: [meta-virtualization][PATCH] tini: Support posix basename from musl libc
-Date: Mon, 10 Mar 2025 08:48:17 +0900
-Message-Id: <20250309234817.579683-1-dp.min@lge.com>
+Subject: [meta-virtualization][scarthgap][PATCH] tini: Support posix basename from musl libc
+Date: Mon, 10 Mar 2025 09:28:45 +0900
+Message-Id: <20250310002845.579962-1-dp.min@lge.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Sun, 09 Mar 2025 23:48:33 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9160
+ <meta-virtualization@lists.yoctoproject.org>; Mon, 10 Mar 2025 00:29:03 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9161
 
 This fixes building with musl libc.
 
