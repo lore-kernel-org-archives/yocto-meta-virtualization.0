@@ -1,435 +1,95 @@
-Return-Path: <k4230r6@gmail.com>
+Return-Path: <martin.jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82052C282EC
-	for <webhook@archiver.kernel.org>; Tue, 18 Mar 2025 11:05:44 +0000 (UTC)
-Subject: Docker Compose is broken in the kirkstone branch
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 902CEC28B30
+	for <webhook@archiver.kernel.org>; Thu, 20 Mar 2025 09:12:27 +0000 (UTC)
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+ by mx.groups.io with SMTP id smtpd.web11.3214.1742461940682388836
+ for <meta-virtualization@lists.yoctoproject.org>;
+ Thu, 20 Mar 2025 02:12:20 -0700
+Authentication-Results: mx.groups.io;
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=CJbRrAvF;
+ spf=pass (domain: gmail.com, ip: 209.85.218.49, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-ab7430e27b2so117765966b.3
+        for <meta-virtualization@lists.yoctoproject.org>; Thu, 20 Mar 2025 02:12:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1742461939; x=1743066739; darn=lists.yoctoproject.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=pCDr0//DMIpj7h2+RzEc+8PsoMO3D2pQJODIeYUnekU=;
+        b=CJbRrAvFgAWydMwp0G2XGAOS8YPfJ/fd/gwGFNQyC54QILnuvX9CUwDM9/CogvlVY0
+         GCoTgMM5dkEShyvN7gErHY9ZtnjP/N/OO3UseuSiuNpggnfoaVSx7Vd94yTRFXSb6Jsv
+         ZfqAoQrHGN0QgMin2g56ZuwiFGWyzg4aR92WdDBks7p0SjQ5/RORf1AC3SJjcPYzpg2B
+         ap6W1TnppsUjsMKiz11a8yEinC2QMnc6SwaWaf16twR0ovqYd8WxNdNDpRXVlbfb5dId
+         a/VtVjQ4ZQMLE/Beu+0DRI9DLImHcirFJsgFZKi4Kb3W88YrLcV20y5PXlT8IglnwhWL
+         q05g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742461939; x=1743066739;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=pCDr0//DMIpj7h2+RzEc+8PsoMO3D2pQJODIeYUnekU=;
+        b=M30aaWRfN2TJVwIVMqUyRR1viZBsRdcICjlUftmGXZcien/vo6M/77A8TUAYCJqJyV
+         WOW3ZSO68q8CRd8slE4ilD9xjv408VZco6EGtptJBfeFXp9cLzxRUghierK6yqCtWj1B
+         4wDuWsRjOYkfFXRSZvcpjy6qIB6rEYBFDrNfJluwC8iYsYEbNHss6wp32hggAdheOQEi
+         GiAI6ZRtp9nbv2lCtqz9ZtHxlOLR6Mp9nKgzDkFoHVTwMe2WhWjmkp+kdQHg/+iQPl+y
+         lMSCAzX8et0BqiF2LzV+PxvNO7W3kXRZNzXspo3r+HCGIm2W2mPn5q4iqGip6n/4rKT8
+         //HA==
+X-Gm-Message-State: AOJu0Yzmgfnn7hroOFPMkrrX+JNxQOFu+RbvwEjWOZemQdsddfVON0s4
+	AvRYqF0yrmJvm6WcjNgroPoejirW8Y/xTTj0/ICVS5czAuY5PsUNb9slIQ==
+X-Gm-Gg: ASbGncvzMBntOSEj5je3Qtr93QzCg33KzGKsdmdkA/SLoNyuf2A/QLRRBpDtCpPb3a1
+	1i2ocM48Nm2qP4Qx6r+urgo2GCasuwwU347zu016rgwXWherDs2TOtLiAwJH70SsUfEfPQjcKyE
+	/7W6wYVOl9B0yatu9RdxuH7knZP+/wJsl9/lIkaN+45BxO9p90vDHMQP0UuHA+qSYn7ivq2W2lQ
+	bxdAVQy40qxPd1RehSO44jGfGceMBvHw0T1HEVoTGZEl7FEnrEGdu8tg6EcbsGTUNr5lDL98vys
+	RUv2i8/uNrTOE5pJAOrQbpE3JbEyaZZUlDEO51+XnDkXR4FjeT0+lL6av1dAVqH5yPYjm2LNNf1
+	IKtcHXkREegfY
+X-Google-Smtp-Source: AGHT+IEbZkbqC2UnOjLGvdVBIf26tWQJLHCWlm5RxD8t5u0ND0mgk9DfRg/6OV/kUclsfLSkPnAoqg==
+X-Received: by 2002:a17:907:7254:b0:abf:749f:f719 with SMTP id a640c23a62f3a-ac3b7c1d421mr582992166b.7.1742461938665;
+        Thu, 20 Mar 2025 02:12:18 -0700 (PDT)
+Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
+        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-ac3149cfb96sm1117622966b.119.2025.03.20.02.12.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Mar 2025 02:12:18 -0700 (PDT)
+From: martin.jansa@gmail.com
 To: meta-virtualization@lists.yoctoproject.org
-From: "Christian Ege" <k4230r6@gmail.com>
-X-Originating-Location: CH (147.161.229.79)
-X-Originating-Platform: Linux Chrome 134
-User-Agent: GROUPS.IO Web Poster
+Cc: Martin Jansa <martin.jansa@gmail.com>
+Subject: [PATCH] oath: fix autotools usage
+Date: Thu, 20 Mar 2025 10:12:12 +0100
+Message-ID: <20250320091212.2260260-1-martin.jansa@gmail.com>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-Date: Tue, 18 Mar 2025 04:05:34 -0700
-Message-ID: <pqcZ.1742295934410662356.eyju@lists.yoctoproject.org>
-Content-Type: multipart/alternative; boundary="kE9FlpRC559yYx0FJKOg"
+Content-Transfer-Encoding: 8bit
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Tue, 18 Mar 2025 11:05:44 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9164
+ <meta-virtualization@lists.yoctoproject.org>; Thu, 20 Mar 2025 09:12:27 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9165
 
---kE9FlpRC559yYx0FJKOg
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+From: Martin Jansa <martin.jansa@gmail.com>
 
-Hej,
+* add include for m4 directory to fix:
+  http://errors.yoctoproject.org/Errors/Details/848019/
+  configure.ac:48: error: possibly undefined macro: AM_PATH_XML2
 
-when using the docker-compose command in a recent kirkstone branch based bu=
-ild I do get the following error:
+Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
+---
+ recipes-extended/oath/oath_2.6.2.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-root@ovp81x-68-26-a2 (productive):~# docker-compose up
-Traceback (most recent call last):
-File "/usr/lib/python3.10/site-packages/requests/adapters.py", line 469, in=
- send
-conn =3D self._get_connection(request, verify, proxies)
-File "/usr/lib/python3.10/site-packages/requests/adapters.py", line 343, in=
- _get_connection
-conn =3D self.poolmanager.connection_from_host(
-File "/usr/lib/python3.10/site-packages/urllib3/poolmanager.py", line 246, =
-in connection_from_host
-return self.connection_from_context(request_context)
-File "/usr/lib/python3.10/site-packages/urllib3/poolmanager.py", line 258, =
-in connection_from_context
-raise URLSchemeUnknown(scheme)
-urllib3.exceptions.URLSchemeUnknown: Not supported URL scheme http+docker
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-File "/usr/lib/python3.10/site-packages/docker/api/client.py", line 214, in=
- _retrieve_server_version
-return self.version(api_version=3DFalse)["ApiVersion"]
-File "/usr/lib/python3.10/site-packages/docker/api/daemon.py", line 181, in=
- version
-return self._result(self._get(url), json=3DTrue)
-File "/usr/lib/python3.10/site-packages/docker/utils/decorators.py", line 4=
-6, in inner
-return f(self, *args, **kwargs)
-File "/usr/lib/python3.10/site-packages/docker/api/client.py", line 237, in=
- _get
-return self.get(url, **self._set_request_timeout(kwargs))
-File "/usr/lib/python3.10/site-packages/requests/sessions.py", line 544, in=
- get
-return self.request('GET', url, **kwargs)
-File "/usr/lib/python3.10/site-packages/requests/sessions.py", line 531, in=
- request
-resp =3D self.send(prep, **send_kwargs) =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0File "/usr/lib/python3.10/s=
-ite-packages/requests/sessions.py", line 647, in send
-r =3D adapter.send(request, **kwargs) =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0File "/usr/lib/pytho=
-n3.10/site-packages/requests/adapters.py", line 471, in send
-raise InvalidURL(e, request=3Drequest)
-requests.exceptions.InvalidURL: Not supported URL scheme http+docker
-During handling of the above exception, another exception occurred:
-Traceback (most recent call last):
-File "/usr/bin/docker-compose", line 8, in <module>
-sys.exit(main())
-File "/usr/lib/python3.10/site-packages/compose/cli/main.py", line 81, in m=
-ain
-command_func()
-File "/usr/lib/python3.10/site-packages/compose/cli/main.py", line 200, in =
-perform_command
-project =3D project_from_options('.', options)
-File "/usr/lib/python3.10/site-packages/compose/cli/command.py", line 60, i=
-n project_from_options
-return get_project(
-File "/usr/lib/python3.10/site-packages/compose/cli/command.py", line 152, =
-in get_project
-client =3D get_client(
-File "/usr/lib/python3.10/site-packages/compose/cli/docker_client.py", line=
- 41, in get_client
-client =3D docker_client(
-File "/usr/lib/python3.10/site-packages/compose/cli/docker_client.py", line=
- 170, in docker_client
-client =3D APIClient(use_ssh_client=3Dnot use_paramiko_ssh, **kwargs)
-File "/usr/lib/python3.10/site-packages/docker/api/client.py", line 197, in=
- __init__
-self._version =3D self._retrieve_server_version()
-File "/usr/lib/python3.10/site-packages/docker/api/client.py", line 221, in=
- _retrieve_server_version
-raise DockerException(
-docker.errors.DockerException: Error while fetching server API version: Not=
- supported URL scheme http+docker
-
-The root-cause in my opinion is due to the fix of the CVE-2024-35195 ( http=
-s://github.com/yoctoproject/poky/blob/kirkstone/meta/recipes-devtools/pytho=
-n/python3-requests/CVE-2024-35195.patch ) in poky. When I modify the file: =
-/usr/lib/python3.10/site-packages/docker/transport/basehttpadapter.py by ad=
-ding those lines:
-
-# Hotfix for requests 2.32.0: its commit
-# https://github.com/psf/requests/commit/c0813a2d910ea6b4f8438b91d315b8d181=
-302356
-# changes requests.adapters.HTTPAdapter to no longer call get_connection() =
-from
-# send(), but instead call _get_connection().
-def _get_connection(self, request, *args, proxies=3DNone, **kwargs):
-return self.get_connection(request.url, proxies)
-
-Or by reverting the changes made by CVE-2024-35195 in python3-requests ( ht=
-tps://github.com/yoctoproject/poky/tree/kirkstone/meta/recipes-devtools/pyt=
-hon/python3-requests ) which probaly is not a good idea. I am not an Python=
-, Docker nor security expert. What would be a reasonable fix for this issue=
-? I assume the least impackt has the adaption of basehttpadapter.py in the =
-Docker Python bindings.
-
-Best
-Christian
-
---kE9FlpRC559yYx0FJKOg
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div>Hej,</div>
-<div>&nbsp;</div>
-<div>when using the docker-compose command in a recent kirkstone branch bas=
-ed build I do get the following error:<br /><br />
-<div>root@ovp81x-68-26-a2 (productive):~# docker-compose up &nbsp; &nbsp; &=
-nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;=
- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbs=
-p; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &n=
-bsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp=
-; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp;&nbsp;<br />Traceback (most recent call last): &nbsp; &nbsp; &nbsp; &nbs=
-p; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &n=
-bsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp=
-; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;=
- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<br />=
-&nbsp; File "/usr/lib/python3.10/site-packages/requests/adapters.py", line =
-469, in send &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;=
- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbs=
-p; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &n=
-bsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp=
-; &nbsp;&nbsp;<br />&nbsp; &nbsp; conn =3D self._get_connection(request, ve=
-rify, proxies) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbs=
-p; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &n=
-bsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp=
-; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; &nbsp; &nbsp; &nbsp;<br />&nbsp; File "/usr/lib/python3.10/site-packa=
-ges/requests/adapters.py", line 343, in _get_connection &nbsp; &nbsp; &nbsp=
-; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;=
- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbs=
-p; &nbsp; &nbsp;<br />&nbsp; &nbsp; conn =3D self.poolmanager.connection_fr=
-om_host( &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;=
- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbs=
-p; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &n=
-bsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br />&nbsp; File "/usr/lib=
-/python3.10/site-packages/urllib3/poolmanager.py", line 246, in connection_=
-from_host &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &n=
-bsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp=
-; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; &nbsp; &nbsp;&nbsp;<br />&nbsp; &nbsp; return self.connection_from_cont=
-ext(request_context) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp=
-; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;=
- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbs=
-p; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &n=
-bsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<br />&nbsp; File "/usr/lib/python3.1=
-0/site-packages/urllib3/poolmanager.py", line 258, in connection_from_conte=
-xt &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &n=
-bsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp=
-; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp;<br />&nbsp; &nbsp; raise URLSchemeUnknown(scheme) &nbsp; &nbsp; &nbsp; =
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp=
-; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;=
- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbs=
-p; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &n=
-bsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<b=
-r />urllib3.exceptions.URLSchemeUnknown: Not supported URL scheme http+dock=
-er &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &n=
-bsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp=
-; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;=
- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbs=
-p; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &n=
-bsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp=
-; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;=
- &nbsp; &nbsp; &nbsp; &nbsp;<br />During handling of the above exception, a=
-nother exception occurred: &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;=
- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbs=
-p; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &n=
-bsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp=
-; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp;<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;=
- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbs=
-p; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &n=
-bsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp=
-; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<b=
-r />Traceback (most recent call last): &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;=
- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbs=
-p; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &n=
-bsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp=
-; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<br />&nbsp; File=
- "/usr/lib/python3.10/site-packages/docker/api/client.py", line 214, in _re=
-trieve_server_version &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbs=
-p; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &n=
-bsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp=
-; &nbsp; &nbsp; &nbsp;&nbsp;<br />&nbsp; &nbsp; return self.version(api_ver=
-sion=3DFalse)["ApiVersion"] &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp=
-; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;=
- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbs=
-p; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &n=
-bsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<br />&nbsp; File "/usr/lib/py=
-thon3.10/site-packages/docker/api/daemon.py", line 181, in version &nbsp; &=
-nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;=
- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbs=
-p; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &n=
-bsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br />&nbsp; &nbsp; =
-return self._result(self._get(url), json=3DTrue) &nbsp; &nbsp; &nbsp; &nbsp=
-; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;=
- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbs=
-p; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &n=
-bsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
-&nbsp;&nbsp;<br />&nbsp; File "/usr/lib/python3.10/site-packages/docker/uti=
-ls/decorators.py", line 46, in inner &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;=
- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbs=
-p; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &n=
-bsp; &nbsp;&nbsp;<br />&nbsp; &nbsp; return f(self, *args, **kwargs) &nbsp;=
- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbs=
-p; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &n=
-bsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp=
-; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;=
- &nbsp;<br />&nbsp; File "/usr/lib/python3.10/site-packages/docker/api/clie=
-nt.py", line 237, in _get &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp=
-; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;=
- &nbsp; &nbsp; &nbsp;&nbsp;<br />&nbsp; &nbsp; return self.get(url, **self.=
-_set_request_timeout(kwargs)) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;=
- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbs=
-p; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &n=
-bsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
-&nbsp; &nbsp; &nbsp; &nbsp;<br />&nbsp; File "/usr/lib/python3.10/site-pack=
-ages/requests/sessions.py", line 544, in get &nbsp; &nbsp; &nbsp; &nbsp; &n=
-bsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp=
-; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br />&nbsp; &nbsp; return s=
-elf.request('GET', url, **kwargs) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;=
- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbs=
-p; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &n=
-bsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp=
-; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; &nbsp;<br />&nbsp; File "/usr/lib/python3.10/site-packages/requests/s=
-essions.py", line 531, in request &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;=
- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbs=
-p; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &n=
-bsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp=
-; &nbsp; &nbsp; &nbsp;<br />&nbsp; &nbsp; resp =3D self.send(prep, **send_k=
-wargs) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp=
-; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;=
- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbs=
-p; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &n=
-bsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
-&nbsp;File "/usr/lib/python3.10/site-packages/requests/sessions.py", line 6=
-47, in send &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp=
-; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;=
- &nbsp;&nbsp;<br />&nbsp; &nbsp; r =3D adapter.send(request, **kwargs) &nbs=
-p; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &n=
-bsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp=
-; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;=
- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbs=
-p;File "/usr/lib/python3.10/site-packages/requests/adapters.py", line 471, =
-in send &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbs=
-p; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &n=
-bsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp=
-; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp;&nbsp;<br />&nbsp; &nbsp; raise InvalidURL(e, request=3Drequest)<br />re=
-quests.exceptions.InvalidURL: Not supported URL scheme http+docker &nbsp; &=
-nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;=
- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbs=
-p; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &n=
-bsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp=
-; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</div>
-<div>During handling of the above exception, another exception occurred:</d=
-iv>
-<div>Traceback (most recent call last):<br />&nbsp; File "/usr/bin/docker-c=
-ompose", line 8, in &lt;module&gt;<br />&nbsp; &nbsp; sys.exit(main())<br /=
->&nbsp; File "/usr/lib/python3.10/site-packages/compose/cli/main.py", line =
-81, in main<br />&nbsp; &nbsp; command_func()<br />&nbsp; File "/usr/lib/py=
-thon3.10/site-packages/compose/cli/main.py", line 200, in perform_command<b=
-r />&nbsp; &nbsp; project =3D project_from_options('.', options)<br />&nbsp=
-; File "/usr/lib/python3.10/site-packages/compose/cli/command.py", line 60,=
- in project_from_options<br />&nbsp; &nbsp; return get_project(<br />&nbsp;=
- File "/usr/lib/python3.10/site-packages/compose/cli/command.py", line 152,=
- in get_project<br />&nbsp; &nbsp; client =3D get_client(<br />&nbsp; File =
-"/usr/lib/python3.10/site-packages/compose/cli/docker_client.py", line 41, =
-in get_client<br />&nbsp; &nbsp; client =3D docker_client(<br />&nbsp; File=
- "/usr/lib/python3.10/site-packages/compose/cli/docker_client.py", line 170=
-, in docker_client<br />&nbsp; &nbsp; client =3D APIClient(use_ssh_client=
-=3Dnot use_paramiko_ssh, **kwargs)<br />&nbsp; File "/usr/lib/python3.10/si=
-te-packages/docker/api/client.py", line 197, in __init__<br />&nbsp; &nbsp;=
- self._version =3D self._retrieve_server_version()<br />&nbsp; File "/usr/l=
-ib/python3.10/site-packages/docker/api/client.py", line 221, in _retrieve_s=
-erver_version<br />&nbsp; &nbsp; raise DockerException(<br />docker.errors.=
-DockerException: Error while fetching server API version: Not supported URL=
- scheme http+docker<br /><br />The root-cause in my opinion is due to the f=
-ix of the &nbsp;<a href=3D"https://github.com/yoctoproject/poky/blob/kirkst=
-one/meta/recipes-devtools/python/python3-requests/CVE-2024-35195.patch" tar=
-get=3D"_blank" rel=3D"noopener">CVE-2024-35195</a> in poky. When I modify t=
-he file: /usr/lib/python3.10/site-packages/docker/transport/basehttpadapter=
-.py by adding those lines:<br /><br /><br />&nbsp; &nbsp; # Hotfix for requ=
-ests 2.32.0: its commit<br />&nbsp; &nbsp; # https://github.com/psf/request=
-s/commit/c0813a2d910ea6b4f8438b91d315b8d181302356<br />&nbsp; &nbsp; # chan=
-ges requests.adapters.HTTPAdapter to no longer call get_connection() from<b=
-r />&nbsp; &nbsp; # send(), but instead call _get_connection().<br />&nbsp;=
- &nbsp; def _get_connection(self, request, *args, proxies=3DNone, **kwargs)=
-:<br />&nbsp; &nbsp; &nbsp; &nbsp; return self.get_connection(request.url, =
-proxies)&nbsp;<br /><br />Or by reverting the changes made by <span style=
-=3D"color: #1f2328; font-family: -apple-system, BlinkMacSystemFont, 'Segoe =
-UI', 'Noto Sans', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe=
- UI Emoji'; font-size: 16px; font-style: normal; font-variant-ligatures: no=
-rmal; font-variant-caps: normal; font-weight: 600; letter-spacing: normal; =
-orphans: 2; text-align: start; text-indent: 0px; text-transform: none; wido=
-ws: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: norm=
-al; background-color: #ffffff; text-decoration-thickness: initial; text-dec=
-oration-style: initial; text-decoration-color: initial; display: inline !im=
-portant; float: none;"><span style=3D"color: #1f2328; font-family: -apple-s=
-ystem, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-=
-serif, 'Apple Color Emoji', 'Segoe UI Emoji'; font-size: 16px; font-style: =
-normal; font-variant-ligatures: normal; font-variant-caps: normal; font-wei=
-ght: 600; letter-spacing: normal; orphans: 2; text-align: start; text-inden=
-t: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-st=
-roke-width: 0px; white-space: normal; background-color: #ffffff; text-decor=
-ation-thickness: initial; text-decoration-style: initial; text-decoration-c=
-olor: initial; display: inline !important; float: none;">CVE-2024-35195 in =
-</span></span><span style=3D"background-color: #ffffff; color: #1f2328; fon=
-t-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helve=
-tica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';"></span><a =
-class=3D"Box-sc-g0xbh4-0 kgiVEz prc-Link-Link-85e08" style=3D"box-sizing: b=
-order-box; background-color: transparent; color: var(--fgcolor-accent,var(-=
--color-accent-fg)); text-decoration: none; font-weight: 400;" href=3D"https=
-://github.com/yoctoproject/poky/tree/kirkstone/meta/recipes-devtools/python=
-/python3-requests">python3-requests</a> which probaly is not a good idea. I=
- am not an Python, Docker nor security expert. What would be a reasonable f=
-ix for this issue? I assume the least impackt has the adaption of basehttpa=
-dapter.py in the Docker Python bindings.<br /><br />Best<br />Christian</di=
-v>
-<br /><br /></div>
-
---kE9FlpRC559yYx0FJKOg--
+diff --git a/recipes-extended/oath/oath_2.6.2.bb b/recipes-extended/oath/oath_2.6.2.bb
+index 84d42dff..3d962869 100644
+--- a/recipes-extended/oath/oath_2.6.2.bb
++++ b/recipes-extended/oath/oath_2.6.2.bb
+@@ -14,6 +14,10 @@ SRC_URI[sha256sum] = "b03446fa4b549af5ebe4d35d7aba51163442d255660558cd861ebce536
+ 
+ inherit autotools pkgconfig
+ 
++# http://errors.yoctoproject.org/Errors/Details/848019/
++# uses AM_PATH_XML2 from oath-toolkit-2.6.2/m4/libxml2.m4:AC_DEFUN([AM_PATH_XML2],[...
++EXTRA_AUTORECONF += "-I ${S}/m4"
++
+ # Specify any options you want to pass to the configure script using EXTRA_OECONF:
+ EXTRA_OECONF = ""
+ DEPENDS = "gtk-doc-native"
 
