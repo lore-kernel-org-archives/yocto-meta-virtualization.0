@@ -1,85 +1,119 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <martin.jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E117C28B20
-	for <webhook@archiver.kernel.org>; Sun, 30 Mar 2025 13:56:24 +0000 (UTC)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.web10.30581.1743342979997614559
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1005CC36014
+	for <webhook@archiver.kernel.org>; Mon, 31 Mar 2025 20:36:47 +0000 (UTC)
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+ by mx.groups.io with SMTP id smtpd.web11.3165.1743453401737058715
  for <meta-virtualization@lists.yoctoproject.org>;
- Sun, 30 Mar 2025 06:56:20 -0700
+ Mon, 31 Mar 2025 13:36:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=aKzTtEH7;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-43cf06eabdaso34733605e9.2
-        for <meta-virtualization@lists.yoctoproject.org>; Sun, 30 Mar 2025 06:56:19 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=JbPRrUBx;
+ spf=pass (domain: gmail.com, ip: 209.85.218.46, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-ac41514a734so808959966b.2
+        for <meta-virtualization@lists.yoctoproject.org>; Mon, 31 Mar 2025 13:36:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1743342978; x=1743947778; darn=lists.yoctoproject.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=U8APjPur0p/qbfUQ/oZJoT3zXilwSUDsBLhOiIGJgTE=;
-        b=aKzTtEH7/q46K7c2BBgMk5TmuiO1ZPmjAEpA6G5S1ajEvDZ/wXeqlLhiAwkgmxf9jr
-         nero5QiYyPvthyvyJgHzgBlyhMnQqKA67a+DSYfpnhem8ejbUT+nxsnAV38MdhjrorWY
-         WWbfbB/KFvic73I3f8U39a+CjkxEyBc/0HaaI=
+        d=gmail.com; s=20230601; t=1743453400; x=1744058200; darn=lists.yoctoproject.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=8bcKAKXL9fvvVGVxO+xBtOCFwTtt65DhMCiseGB+VT4=;
+        b=JbPRrUBx6n/FZPCoj6HloK+986ryMwo/6evEqwPQoJFmb9qnor5DhVOvorSpRvfmsJ
+         86taMit/swZU6rRg0LWGusLmXiAL1yx5qNt89S0OIxGA3YX4Imqch1AeX3mdEL1JBe5o
+         lkaUf7GzwWPofT21RwHUtjnfAM2JSDMez/ks8ggesBpS4jPYnKTySUS8UIjcNdgevNv8
+         pdzwuGTDvKm3Qf4zExFFjHDbj0HU/QMwCfwbqCiRzdgSj2vn6lvptKtU7zwgST1MU2A7
+         hPcSxq/U+ThIHKuDnpUuYXxMov1r9PrP/WmDD75/c1peT/1A/3Mf/PDGmGGUl+Q5BG18
+         NHnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743342978; x=1743947778;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=U8APjPur0p/qbfUQ/oZJoT3zXilwSUDsBLhOiIGJgTE=;
-        b=mjecdDfW5Uapwo3pSzi3aI/XboyGOuzoOtuCTuiIet41S2OVs1m9S/+FD1dhXFxHfe
-         IQFC1stlDIo9p3dFlblsRd81/ima36rnh0NndeKd0w9zVzMVJIRnxmzjlNoGSXmAzVg8
-         34+qlYJG2W+LB8e84p03wBO7/GURG+NLdjYVLodnjvxJuHm24pB3XLZ7xAQFO8sThl3L
-         OTkyrv0FI5TaG6uUKmwmixPrVtZ2tVeQOUb09iIkmwHsiwigHqhjHXU0AXw0zSMvkaSu
-         1qV8GBlLltfWaZc4zDqw8jd0Am2Yi3fNyHM4CRLTh1aywPBhKifudF8BrdpfAKtIoMBF
-         1kcA==
-X-Gm-Message-State: AOJu0YwhIMToql9yUL3afwAOoOhVJ7ROh4rF/2kUHQn/zEACv0o/4J3R
-	b+T0JnH/eeS3Or/ZgfGBSQYWTVGJeVkH5sHjUf0Dnh9L7kzbRqkfgX87Cucgul9d3BUo1G4NkYO
-	Q
-X-Gm-Gg: ASbGncurk8tIAy/ZyQBUPVjzlMM4Msxlk6mSmQH3GitGm6UN51S+U6NfEWZic0tQBVU
-	CDW6YpvW0+LYOO7i7fqNechir9OZiTAzMvlYJCMOD+6eg0diJZ676VKbR8w7vaZkWQ7KofkK9Km
-	XbILAqDjBayuuiNkcBN1XGJVM94EL7SNX7a/SmpWXQNfruyzr1BaCyA89nHxfIYxIlUO78Gmxr7
-	olX+jE7yQ0/R342dxNQIwTUDjMLerhQUiRis9T107OQkeMMPzV/m00g9+ORYc5z3tN83VJ5cdEb
-	GUkiXQCi9KH+EmFkdNPuquUtWz/KvYtOrb9IGTwPO3C4LhSy5ep5LjQSDETW+5+bM32WpJEA
-X-Google-Smtp-Source: AGHT+IEqSOT0b2M0i5BplnZRFoPO8TKFFIP3X1tGZZYG7OVJBtU0ZM+kSZoD3rkN6onr328YM5IzEg==
-X-Received: by 2002:a05:600c:b97:b0:43d:1b74:e89a with SMTP id 5b1f17b1804b1-43db6228697mr54776565e9.9.1743342977511;
-        Sun, 30 Mar 2025 06:56:17 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:7ae:7c46:3aa2:eb70])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d8ff02e75sm92606845e9.30.2025.03.30.06.56.16
-        for <meta-virtualization@lists.yoctoproject.org>
+        d=1e100.net; s=20230601; t=1743453400; x=1744058200;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8bcKAKXL9fvvVGVxO+xBtOCFwTtt65DhMCiseGB+VT4=;
+        b=e1tt8wcLf0ngRJn43ZPN/StvktnfDsu4RNI/QACHbNivqS10eIfDb/HQ3jv8lWdTpH
+         7+FUgiK0ag2P+JnqEuUq2p0jGKSQnsvPuHxXitozZb6XbAKO5T56cWZxD4t5wn8uKYfQ
+         SnqF/bcpy/AsdSZJNrm4Slmu+n0+8XouroI1gax3fSbpjlES97OxmQFPgS3j4BSQtyM9
+         GAy7zNKnmEBfGn0CG3hc5M/if2t72cQSoxCDcWb2TIm6iPK4hgqE1Ib9JYnvdwz7aQXR
+         IJ0WKScBvwNx2RjXSqeocOCzSDDBRMftO0BwxRjVBw/PMr/jxgMb2baXdhMwSIiyzpzO
+         dmwg==
+X-Gm-Message-State: AOJu0YzJHFdGaiQBIORfoJkfp8VyV6/6n9DXbMR103ZpHL/rFWvfVu2T
+	AfGe3iesggzPkEg9GRrexrWy40Wr2zF/mLX5DgpX0pblQeKmwDbhVZGRV9tt
+X-Gm-Gg: ASbGncvPJiPGSAp71kYys9aHMvJJzez8mwzNTk7FqtBb7axTFs1EkMgoiKl2Z17DvWn
+	sfFf2pavqqhfT9kcwgKdE87FkLv+uUuja1Eod4gQsMjiVndPUi+RnHDjc7eKfmvWZUX+S0U9rkQ
+	kAEO8OtwnE0u7ANxl8lHOA25x7ag6ZJvdns/QQapT83vYqzXIOWH4d7y15uY5ZHf0pi7RPR9td7
+	AQiYxJxjHAfWRzsuTasvB+Fr1WXVoNCsyEIoJClDEV6HR7w8DcUgtcqp+JLgPIJfmytLleheijx
+	8+Lk6q/2BXVLjxcEHeKQ+yTxYbxJJ8iLcNB68SWPeqNH24pyICQNxdnQjDlw9SVwTI8oPKfnefX
+	QGQ==
+X-Google-Smtp-Source: AGHT+IERc5C+1HHw0MT3mvbzS2jtOCvzIsV46zoTOM/lOyX4x9Q4U3kf4wMJsfv4V68EQcW4g+C3eQ==
+X-Received: by 2002:a17:907:6092:b0:ac3:c7c6:3c97 with SMTP id a640c23a62f3a-ac7385ec8dcmr944307166b.0.1743453399757;
+        Mon, 31 Mar 2025 13:36:39 -0700 (PDT)
+Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
+        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-ac719220358sm666561866b.36.2025.03.31.13.36.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 30 Mar 2025 06:56:16 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+        Mon, 31 Mar 2025 13:36:39 -0700 (PDT)
+From: martin.jansa@gmail.com
 To: meta-virtualization@lists.yoctoproject.org
-Subject: [meta-virtualization] [PATCH] layer.conf: Update to the new release layer series
-Date: Sun, 30 Mar 2025 14:56:15 +0100
-Message-ID: <20250330135615.1769001-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.48.1
+Cc: Bin Lan <bin.lan.cn@windriver.com>,
+	Bruce Ashfield <bruce.ashfield@gmail.com>
+Subject: [scarthgap][PATCH] openvswitch: fix ptest contains reference to TMPDIR [buildpaths]
+Date: Mon, 31 Mar 2025 22:36:36 +0200
+Message-ID: <20250331203636.2882127-1-martin.jansa@gmail.com>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Sun, 30 Mar 2025 13:56:24 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9179
+ <meta-virtualization@lists.yoctoproject.org>; Mon, 31 Mar 2025 20:36:47 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9180
 
-Update to the walnascar release.
+From: Bin Lan <bin.lan.cn@windriver.com>
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+The EGREP in ptest/tests/atlocal contains the build paths.
+The CFLAGS in ptest/tests/atlocal contains the build paths.
+This change set fixs:
+ - set EGREP to "grep -E" in ptest/tests/atlocal
+ - set CFLAGS to " " in ptest/tests/atlocal
+by updating the patch
+openvswitch-add-ptest-71d553b995d0bd527d3ab1e9fbaf5a2ae34de2f3.patch.
+
+Signed-off-by: Bin Lan <bin.lan.cn@windriver.com>
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- conf/layer.conf | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ ...est-71d553b995d0bd527d3ab1e9fbaf5a2ae34de2f3.patch | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/conf/layer.conf b/conf/layer.conf
-index fc35ce40..3db840e7 100644
---- a/conf/layer.conf
-+++ b/conf/layer.conf
-@@ -21,7 +21,7 @@ BBFILES_DYNAMIC += " \
- # This should only be incremented on significant changes that will
- # cause compatibility issues with other layers
- LAYERVERSION_virtualization-layer = "1"
--LAYERSERIES_COMPAT_virtualization-layer = "styhead"
-+LAYERSERIES_COMPAT_virtualization-layer = "walnascar"
- LAYERDEPENDS_virtualization-layer = " \
-     core \
-     openembedded-layer \
+diff --git a/recipes-networking/openvswitch/openvswitch-git/openvswitch-add-ptest-71d553b995d0bd527d3ab1e9fbaf5a2ae34de2f3.patch b/recipes-networking/openvswitch/openvswitch-git/openvswitch-add-ptest-71d553b995d0bd527d3ab1e9fbaf5a2ae34de2f3.patch
+index 571753a5..abad1458 100644
+--- a/recipes-networking/openvswitch/openvswitch-git/openvswitch-add-ptest-71d553b995d0bd527d3ab1e9fbaf5a2ae34de2f3.patch
++++ b/recipes-networking/openvswitch/openvswitch-git/openvswitch-add-ptest-71d553b995d0bd527d3ab1e9fbaf5a2ae34de2f3.patch
+@@ -16,6 +16,13 @@ Signed-off-by: He Zhe <zhe.he@windriver.com>
+ refresh patch to fix patch-fuzz warning
+ Signed-off-by: Changqing Li <changqing.li@windriver.com>
+ 
++Refresh patch to fix file ptest/tests/atlocal 
++contains reference to TMPDIR [buildpaths]. The fix is:
++ - set EGREP to "grep -E" in ptest/tests/atlocal
++ - set CFLAGS to " " in ptest/tests/atlocal
++
++Signed-off-by: Bin Lan <bin.lan.cn@windriver.com>
++
+ Upstream-Status: Inappropriate [embedded specific]
+ ---
+  Makefile.am |  1 +
+@@ -37,7 +44,7 @@ new file mode 100644
+ index 0000000..0b4587c
+ --- /dev/null
+ +++ b/test.mk
+-@@ -0,0 +1,74 @@
++@@ -0,0 +1,76 @@
+ +TEST_DEST ?= ${prefix}/lib/openvswitch
+ +TEST_ROOT ?= ${prefix}/lib/openvswitch
+ +TEST_DEPEND =
+@@ -112,3 +119,5 @@ index 0000000..0b4587c
+ +	sed -i 's|$$srcdir|$$abs_srcdir|g' $(TEST_DEST)/tests/testsuite
+ +	sed -i 's|ovs-appctl-bashcomp\.bash|/etc/bash_completion.d/ovs-appctl-bashcomp\.bash|g' $(TEST_DEST)/tests/testsuite
+ +	sed -i 's|ovs-vsctl-bashcomp\.bash|/etc/bash_completion.d/ovs-vsctl-bashcomp\.bash|g' $(TEST_DEST)/tests/testsuite
+++	sed -i 's|EGREP=.*|EGREP='"'"'grep -E'"'"'|g' $(TEST_DEST)/tests/atlocal
+++	sed -i 's|CFLAGS=.*|CFLAGS='"'"' '"'"'|g' $(TEST_DEST)/tests/atlocal
 
