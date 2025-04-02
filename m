@@ -2,127 +2,129 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CDC9C36010
-	for <webhook@archiver.kernel.org>; Wed,  2 Apr 2025 02:23:01 +0000 (UTC)
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
- by mx.groups.io with SMTP id smtpd.web11.4402.1743560575504553970
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70A7EC36010
+	for <webhook@archiver.kernel.org>; Wed,  2 Apr 2025 02:23:41 +0000 (UTC)
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+ by mx.groups.io with SMTP id smtpd.web11.4417.1743560612562512827
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 01 Apr 2025 19:22:55 -0700
+ Tue, 01 Apr 2025 19:23:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=FEihIIpv;
- spf=pass (domain: gmail.com, ip: 209.85.222.170, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-7c5aecec8f3so969591985a.1
-        for <meta-virtualization@lists.yoctoproject.org>; Tue, 01 Apr 2025 19:22:55 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=K6nfOQ/l;
+ spf=pass (domain: gmail.com, ip: 209.85.160.177, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-476af5479feso53715091cf.2
+        for <meta-virtualization@lists.yoctoproject.org>; Tue, 01 Apr 2025 19:23:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743560574; x=1744165374; darn=lists.yoctoproject.org;
+        d=gmail.com; s=20230601; t=1743560611; x=1744165411; darn=lists.yoctoproject.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=rsSKSUpVd+bi+KSt5jKeu+0TlI38Jxy8qlLtmg7pA3Y=;
-        b=FEihIIpvs9/E+08NTvSSvdBGSU0toythvRVOY+sojsJsq6Lw/tTsOriDRCE9pHSOAO
-         JH6xd008ekYTFn2qAdWniaOVviTRSTISkhK4H64mT2OIlYb9JFXvMQakCoGvOxAYs3DV
-         i0Him+9KJNw/axevSh+o8xm9EsHMCNP5ZORlyyDx1Zs/Nmh5LUDeHkH7caK1oZTyBjGp
-         K0AfB1W6DtNxRYRIl6ego3OIOObB0bjyyB2bkUhBN/TBx2HI5YCujzlRqnk/nnswcQus
-         q88z8o8/DbIB9b6cwdAv3DJA5LhJDuYEHtnVsjjCAiHUCReeZKlhlsb0zI9164wb3A7y
-         80NA==
+        bh=rRgO0gDwgxdoNyQp0lJTbXFHoTKU8y6Pb8VXVGdaWic=;
+        b=K6nfOQ/l5fvQW2KFGffF9xMg8Tx0/Hiv1gJUT1pGnpnacsSzUuV4XuzsiYkeRZJLCg
+         Kk2zHr92/uVsbmx8lDEp369TPIr16vuE/c5z8+FF9p8sAvGxaTcnFLPcKr03kwkffBNd
+         gdEUYjyLBO3kkp+/+YEdtTNcVundBFHXG76zUNKbhzijUWg6Kyj+N8JtkPx+CJHW0ZQg
+         nuOYK1yCDW43hoqJB62kDzer9kGQp/j1Fc4DvC+y47MrwUwNBAO9KlQ42tONcbuIg7fF
+         EJjWRzdOSobBHFt6xOQi5uOYjOVfue4G3f+0U0y9SBk9VWMxhIXKiVe6/xE7bks1hp5q
+         jDFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743560574; x=1744165374;
+        d=1e100.net; s=20230601; t=1743560611; x=1744165411;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=rsSKSUpVd+bi+KSt5jKeu+0TlI38Jxy8qlLtmg7pA3Y=;
-        b=eVc7pRiNoc3ecg/6a1gZNPZmBw7La3eNghT/Z2w6HSSMS+FbFZBSvfbvZXMqkX5yMc
-         B76gontKrwDV68ck0nNXDZNGnhVQEWLHzkzMjnhZhDQCXb3mVCU7dX/6zs+7EzkNmlUQ
-         UPAIJiIiLzwp5XDuS/mjPCnTDdVaWwYxtfJa1boDqGWqp+G/uhWCcTPIfQrGNemeb8OL
-         0n3/93Es4eJOkXHUVxPGBrMd6v0kjY0pcCT3xYruiV6qciq4l8Yt5w0tIp15XKbTDvH1
-         PUYcMae5G30YwKmRXdkTOtJ68IkpIgoVGUHgHNvCUYqS682xQvKF1f2WT/rn2wLWL/Kv
-         HC0g==
-X-Gm-Message-State: AOJu0Yzk631PQNdEWd3HHK8U4gFCoOsl8PTq/jHfWuBaW3yleytAfgJw
-	fjFJCexEkGWRn39FsvjnswJZsyC2ergo1nB3DAxTaYCtnD/hS1RatfMjyR5BAYU=
-X-Gm-Gg: ASbGncsDpfmC+K17JgYQSmCvWzHqKEtzGCkmBIXKY1FGmcJ1R499aOCikoM6rtuWvxD
-	TBhHmXOTFcptU4E0qj67sKMOPxpxvcCHK8mcMX1Ig1cpHoCvOm1gfAikei+ZAqTGxOvnOuZNLWD
-	6zySJhNAJuT9qhQuwjyZDmZ0cqDyWzsCwYAYliHJCbLSq7WBWQFbZkVsCM41Cwcu64+fd/JE5J2
-	FiyXPVUWaNnbhHci72JTbj5CRpI4RlYsyWyCfrhGWReg0wv8ngYtj7XG+eQiWODmi4XTCG/WuVO
-	o9hvVoX5UVkSEBcy0KG9RiYq3PdEDz7y9wHCP7XlqeSt7foI16rxcv3BdIqJtmETLCmWKOIVGpv
-	a7/F/BPsQFUD7ek/dDzboirQ=
-X-Google-Smtp-Source: AGHT+IFw9vZZVIR2/OJT8EKlpHYC1pAmQgCmmEt4pBF+O1CYIWsgJ1tGcxlJjQSS0rkWw+QevomOAg==
-X-Received: by 2002:a05:620a:c51:b0:7c3:c9f4:522 with SMTP id af79cd13be357-7c68c17ab4bmr1829902285a.14.1743560574457;
-        Tue, 01 Apr 2025 19:22:54 -0700 (PDT)
+        bh=rRgO0gDwgxdoNyQp0lJTbXFHoTKU8y6Pb8VXVGdaWic=;
+        b=TGAptdWm+THQClQuiHSV+dIOGaUNwBZFbR11NMLgBSDKYgLtJXviDIyaEPNOWFtk+f
+         4B+dRvwtf/e+BE+To93BnRYvOA5vX0s/u176ys/GAkk7WAPhWwaKLv9OzzXA1qEtAXD/
+         wxZarkdN/RJag3DvprY4Qo0V8B6nLFzjlW7p5MMF4ls2dxI0b7ilhVl4Sahyg9RVvmV1
+         42wsw8seivu+UPdLb5ZmTglbCbdE8qVXeBh5eVG7kTml8oJvMuPqNYANmq8oGrl+k4Ia
+         6nbCVQWuv61D7JTWfQ2YML7JYHtBPOL/b12SfqBhj8IVwhvIYcEPe3IIy0JDjKZj5bkz
+         5Bfw==
+X-Gm-Message-State: AOJu0YwZxecjrg7TTwM3eMvCfechWmJ+MShA1NSDCWUyEkHQ3Rm3xhmd
+	DlDcrpr22yDAUb35abrZYZrH3zKAd+j8d692lwkTcBMhKsaaPF3z
+X-Gm-Gg: ASbGncvM7L8KKb42w5MP9TU19ZHYBiJeGwOZ/v9to2bgO2RTqFsbjCCEfojla7g5ZoK
+	m4lbse7Uf51xlA9zxZ21yB26FYPF3o1AeOVq7+Fc/aQLh/6khr+iiJTbL8Bw7LkxN48yEEX950/
+	VKkNIIu0omcguBO/ROHqt9aHOcRvC5ez+y2Z6o0UWbAKdZS8o71tBvhCBkbdYDpurvQ3Fo/J6bF
+	tmxviqUegCvAIt5RGcjCN9l5uxg+DamSefKdAD7wmN9sd12pqo65J+AVXEd6e5hn58xcyyBOmUQ
+	8ZBjDOFTGF6sHXy9tCJfmyJ0PF6Beo797mklaQcGl2zwuW1FfTGNGeW5Dds1vCUWGFGU5HivTC1
+	k5q7ODlcDi69Kp6CmdGTMLC8ulzsVN3hGXQ==
+X-Google-Smtp-Source: AGHT+IFEk8dCHT4CLOUZV7vbhFG0m0692+cfINNioWLxWb/S4iTFM1CbWtHl1dzZQXMVgGUTgGKfIQ==
+X-Received: by 2002:a05:622a:189d:b0:477:1f29:e80f with SMTP id d75a77b69052e-477e4ad949cmr234579291cf.4.1743560611582;
+        Tue, 01 Apr 2025 19:23:31 -0700 (PDT)
 Received: from gmail.com (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c5f777ced1sm731893285a.100.2025.04.01.19.22.53
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-47782a49f2csm73742821cf.32.2025.04.01.19.23.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Apr 2025 19:22:54 -0700 (PDT)
-Date: Wed, 2 Apr 2025 02:22:52 +0000
+        Tue, 01 Apr 2025 19:23:31 -0700 (PDT)
+Date: Wed, 2 Apr 2025 02:23:29 +0000
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: praveen.kumar@windriver.com
-Cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [meta-virtualization][kirkstone][PATCH 1/1] buildah: upgrade
- 1.26.8 -> 1.26.9
-Message-ID: <Z-yffHK4WnqM0kC6@gmail.com>
-References: <20250327073528.3203099-1-praveen.kumar@windriver.com>
+To: martin.jansa@gmail.com
+Cc: meta-virtualization@lists.yoctoproject.org,
+	Bin Lan <bin.lan.cn@windriver.com>
+Subject: Re: [scarthgap][PATCH] openvswitch: fix ptest contains reference to
+ TMPDIR [buildpaths]
+Message-ID: <Z-yfodIla9zAaJ-5@gmail.com>
+References: <20250331203636.2882127-1-martin.jansa@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250327073528.3203099-1-praveen.kumar@windriver.com>
+In-Reply-To: <20250331203636.2882127-1-martin.jansa@gmail.com>
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Wed, 02 Apr 2025 02:23:01 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9186
+ <meta-virtualization@lists.yoctoproject.org>; Wed, 02 Apr 2025 02:23:41 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9187
+
 
 merged.
 
 Bruce
 
-In message: [meta-virtualization][kirkstone][PATCH 1/1] buildah: upgrade 1.26.8 -> 1.26.9
-on 27/03/2025 Praveen Kumar via lists.yoctoproject.org wrote:
+In message: [scarthgap][PATCH] openvswitch: fix ptest contains reference to TMPDIR [buildpaths]
+on 31/03/2025 martin.jansa@gmail.com wrote:
 
-> This upgrade fixes:
-> CVE-2024-11218
+> From: Bin Lan <bin.lan.cn@windriver.com>
 > 
-> Changes in this Upgrade:
-> =========================
-> This upgrade from Buildah 1.26.8 to 1.26.9 includes important security and stability fixes:
-> - Fixes CVE-2024-11218
-> - Resolves TOCTOU error when bind and cache mounts use "src" values
-> - Fixes cache locks with multiple mounts
-> - Enhances volume handling and mount label options
+> The EGREP in ptest/tests/atlocal contains the build paths.
+> The CFLAGS in ptest/tests/atlocal contains the build paths.
+> This change set fixs:
+>  - set EGREP to "grep -E" in ptest/tests/atlocal
+>  - set CFLAGS to " " in ptest/tests/atlocal
+> by updating the patch
+> openvswitch-add-ptest-71d553b995d0bd527d3ab1e9fbaf5a2ae34de2f3.patch.
 > 
-> For full details, refer to:
-> https://github.com/containers/buildah/releases/tag/v1.26.9
-> 
-> Signed-off-by: Praveen Kumar <praveen.kumar@windriver.com>
+> Signed-off-by: Bin Lan <bin.lan.cn@windriver.com>
+> Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 > ---
->  recipes-containers/buildah/buildah_git.bb | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  ...est-71d553b995d0bd527d3ab1e9fbaf5a2ae34de2f3.patch | 11 ++++++++++-
+>  1 file changed, 10 insertions(+), 1 deletion(-)
 > 
-> diff --git a/recipes-containers/buildah/buildah_git.bb b/recipes-containers/buildah/buildah_git.bb
-> index 45d7b31d..10597d8a 100644
-> --- a/recipes-containers/buildah/buildah_git.bb
-> +++ b/recipes-containers/buildah/buildah_git.bb
-> @@ -8,9 +8,9 @@ LIC_FILES_CHKSUM = "file://src/github.com/containers/buildah/LICENSE;md5=e3fc50a
+> diff --git a/recipes-networking/openvswitch/openvswitch-git/openvswitch-add-ptest-71d553b995d0bd527d3ab1e9fbaf5a2ae34de2f3.patch b/recipes-networking/openvswitch/openvswitch-git/openvswitch-add-ptest-71d553b995d0bd527d3ab1e9fbaf5a2ae34de2f3.patch
+> index 571753a5..abad1458 100644
+> --- a/recipes-networking/openvswitch/openvswitch-git/openvswitch-add-ptest-71d553b995d0bd527d3ab1e9fbaf5a2ae34de2f3.patch
+> +++ b/recipes-networking/openvswitch/openvswitch-git/openvswitch-add-ptest-71d553b995d0bd527d3ab1e9fbaf5a2ae34de2f3.patch
+> @@ -16,6 +16,13 @@ Signed-off-by: He Zhe <zhe.he@windriver.com>
+>  refresh patch to fix patch-fuzz warning
+>  Signed-off-by: Changqing Li <changqing.li@windriver.com>
 >  
->  S = "${WORKDIR}/git"
->  
-> -SRCREV_buildah = "e2feca77516568553dc1318019cea90ae000e0f3"
-> +SRCREV_buildah = "9aaa280f29910a9a0a13b83dd522508f1fa40a91"
->  
-> -PV = "1.26.8"
-> +PV = "1.26.9"
->  
->  inherit go
->  inherit goarch
-> -- 
-> 2.40.0
-> 
-
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#9178): https://lists.yoctoproject.org/g/meta-virtualization/message/9178
-> Mute This Topic: https://lists.yoctoproject.org/mt/111932455/1050810
-> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
-
+> +Refresh patch to fix file ptest/tests/atlocal 
+> +contains reference to TMPDIR [buildpaths]. The fix is:
+> + - set EGREP to "grep -E" in ptest/tests/atlocal
+> + - set CFLAGS to " " in ptest/tests/atlocal
+> +
+> +Signed-off-by: Bin Lan <bin.lan.cn@windriver.com>
+> +
+>  Upstream-Status: Inappropriate [embedded specific]
+>  ---
+>   Makefile.am |  1 +
+> @@ -37,7 +44,7 @@ new file mode 100644
+>  index 0000000..0b4587c
+>  --- /dev/null
+>  +++ b/test.mk
+> -@@ -0,0 +1,74 @@
+> +@@ -0,0 +1,76 @@
+>  +TEST_DEST ?= ${prefix}/lib/openvswitch
+>  +TEST_ROOT ?= ${prefix}/lib/openvswitch
+>  +TEST_DEPEND =
+> @@ -112,3 +119,5 @@ index 0000000..0b4587c
+>  +	sed -i 's|$$srcdir|$$abs_srcdir|g' $(TEST_DEST)/tests/testsuite
+>  +	sed -i 's|ovs-appctl-bashcomp\.bash|/etc/bash_completion.d/ovs-appctl-bashcomp\.bash|g' $(TEST_DEST)/tests/testsuite
+>  +	sed -i 's|ovs-vsctl-bashcomp\.bash|/etc/bash_completion.d/ovs-vsctl-bashcomp\.bash|g' $(TEST_DEST)/tests/testsuite
+> ++	sed -i 's|EGREP=.*|EGREP='"'"'grep -E'"'"'|g' $(TEST_DEST)/tests/atlocal
+> ++	sed -i 's|CFLAGS=.*|CFLAGS='"'"' '"'"'|g' $(TEST_DEST)/tests/atlocal
 
