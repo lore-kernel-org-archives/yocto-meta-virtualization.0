@@ -2,219 +2,164 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85FBFC36018
-	for <webhook@archiver.kernel.org>; Wed,  2 Apr 2025 02:21:31 +0000 (UTC)
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
- by mx.groups.io with SMTP id smtpd.web11.4367.1743560474937243263
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C487C36010
+	for <webhook@archiver.kernel.org>; Wed,  2 Apr 2025 02:22:01 +0000 (UTC)
+Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
+ by mx.groups.io with SMTP id smtpd.web10.4178.1743560519116586612
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 01 Apr 2025 19:21:15 -0700
+ Tue, 01 Apr 2025 19:21:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=AXWbxvEq;
- spf=pass (domain: gmail.com, ip: 209.85.160.175, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-47662449055so32653331cf.1
-        for <meta-virtualization@lists.yoctoproject.org>; Tue, 01 Apr 2025 19:21:14 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=A74maOlo;
+ spf=pass (domain: gmail.com, ip: 209.85.219.45, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-6df83fd01cbso31029486d6.2
+        for <meta-virtualization@lists.yoctoproject.org>; Tue, 01 Apr 2025 19:21:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743560474; x=1744165274; darn=lists.yoctoproject.org;
+        d=gmail.com; s=20230601; t=1743560518; x=1744165318; darn=lists.yoctoproject.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=/Fwpai+f2tVJ591u8ShP8Xg5KPrqf0G5vi4yoNryHxQ=;
-        b=AXWbxvEqx7pSQvviOQbudS/1lU0piQFx1Cq4iD+rMHNijTjkF2dVTdDQocvvLjGArs
-         xykpnSZLCzUgeT0W1zyb8mnXsigauf05OO4xkvahWn1NP3eymGi5HrIQ906j3k7wa90t
-         4/WCLdChvF6jcQZIYYwfSVAVE2Pc1HtN9DWoXfWWg0qUMepGhwgiYOFK7AICDx76PB5m
-         /IoFlkYeuNpCLiDhrr/3Wp4r/mRdSANcSr1gAW8vVBJ71sivLYYQdgGrdZvuXA8NlkI8
-         XFtHeGy+OhXTMgIPBHg0/lSBbZaPI9skjq12x412sf/D63wDsnL94vy41thlrEDn/NUZ
-         Glqg==
+        bh=984uOAeKgL3BGIuvE/akU/4yL5s/2sMz0j9rT9w1ZGY=;
+        b=A74maOloo8pnl3Xa5DkV3MJRv7MFHMekcNCBTO/qYLnqfx6PaQ2+ngWykirpmbJbKl
+         EIAExHbZeID9cOl5gySNPfEYsX0zjsh2wL2xUSSoWMbVrbfMEUTZInagYleiT2CciFqz
+         fK67T7kEI1B8IqbuYd4BuNO7ehkZzO+Xl0UwNSS21bF8Jd6kvxEawkWJGDtMPNr5vUrv
+         du7rjXc/hkznLxNrW9JmduRArR8/NYzx1RoD6TJmtlGYI+drd/JeA6Hyn/Rb7A+K0WET
+         qomMSUt3tVlCmt1DJ/XFOzoYNVdotvosXBSYkR5VPKE2ccx3ylCS8zZTXbWtP6REjmq1
+         U9Gw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743560474; x=1744165274;
+        d=1e100.net; s=20230601; t=1743560518; x=1744165318;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=/Fwpai+f2tVJ591u8ShP8Xg5KPrqf0G5vi4yoNryHxQ=;
-        b=umLIA2P6DNf/CD+ch4enuhtbfNlaLh7dv4NIgpb9uelEck/gwqcVR+OxrGJ8VNUSru
-         /ucwH5aA0oeGsrauSQFuU4i73+L6PMlFLpQE7hwOW/f6TJPaZC9bj5XnPAvGI7bZW0hr
-         aLYRf2OStDs4Pu+a+r7q2Tv/qcDdviDj93nDXea6Ih9D/VyM2PJhuKYvWWMOqqVMk+KK
-         Vfvu4ckO4yID2Z6ISh035o2/7L5c/vQ/SXxypDAdDNjXBmxrKgTmaDhVLgroNRZxtCx0
-         K5MIvYfQdhnQ9xo2h5K3RmPLIpU4JAMKINIJuAlBSStdOaAWdMg375mGIF95hA1auJwN
-         J72g==
-X-Gm-Message-State: AOJu0Yy8taSBg4wqnM3DqIbibiyckodN0RizOK/ktrELQmekWY+qWurx
-	yo/O1nvQyPoOb/I+ERLR6ag8gGLfEO9uvRygi908f8AzoCmbzZOA
-X-Gm-Gg: ASbGnct671XACuU/EAqaZpw1VBpLhilrNT1B0TxR+Wltm3W+lj/1vyfB5SrvUrUJGps
-	K0wHMeKRXpimeZmnOkSdkF79+wjrTL9uURzngXp3ewfNCguEcNord1Ro4VuBeNa4Nranq8g8kSk
-	OaxVKX8YJOVKCdZfqn4N+L9zHRKA1bUzJAQThz9YWkoeDH+ZF5sYvpf4ivnsB9KTMcRnW1j0RLd
-	gzVLgg8tNj2uFyz+qsuH9eOTx89roSUq23RAPA8GZMYzwLtRF+5YBN/Gb6IvzFxiWq8T0vj+v40
-	mplLyp35R2oHz1iUBUzweKykeqXxCbSnN2FvX6P7J2L4fR+W9HENnvilTOtAwoGCYYR/t21PqYm
-	gEaFoBrI+s84qLR5kHljH1c4=
-X-Google-Smtp-Source: AGHT+IEaMuR/fVWnEtHg7AnnAOUOhNOz4jWpRDXOY6oKFSdeAvGlPD0l+xQUwzlKWDNHIrMeh6YiJQ==
-X-Received: by 2002:a05:622a:107:b0:472:28d:62b0 with SMTP id d75a77b69052e-477f79d6039mr226562821cf.41.1743560473784;
-        Tue, 01 Apr 2025 19:21:13 -0700 (PDT)
+        bh=984uOAeKgL3BGIuvE/akU/4yL5s/2sMz0j9rT9w1ZGY=;
+        b=Yz4nJGe36onfbmmmcvIksPUAGpmarmpHaOcT3Ca804B4OwcWwGVcmn7KYHHRz2CbyZ
+         VYqVjtIXAK9bUub/+Xyhskx5i27JLP6DDlpBTt2AKVdDTJ6RaBqZ30nyvh0USd+hYVDb
+         SSMovgexftEk4Hsdv4ax61P5rqgF4QMxK5/Q2Zf/s8MZe+YiTkTZGXxWszjD2pAXAROf
+         6nxj2eZs7HhfjTMcnStfL3DlrQP3rPWaxB08NeCcViDAjdGCEzYaUQkgT0EBjaeemD8x
+         CjG4M2msRvTkqTWYrfNaRDKP2wOFYe0O5YY2mOSgE/OZrhWj1mLgbizrfXsEPfXkN41S
+         g65Q==
+X-Gm-Message-State: AOJu0Yw3qLnvDZljexUMMnZzqvVeQFu11UVGu4kEuTaURQgNDH9rsrmi
+	sM5BVTsZixqgubB33DJPwZ3NX9vOBgSA+AmSHAFQyAvPOGzdhCIHLkpQT6g96iI=
+X-Gm-Gg: ASbGncu6qBr51t7p8DhNGbkj0h6rvYa0tSu7wzKGHqsl9ipEKMnxoyqL5dFtCKqxpfe
+	+7hysHbS8MerwhlZ3T1LY8sEL9klmld40l1jN+XwIb0BsCNrRBvnd+/KSjlGjqe/h2AGtea20zp
+	76gdm7VeKHTOC272pNdI2fdCEOH85TEOFw+eZQ9eZixswp512IV+tBTp5NAUcYRoqOQceZ8DYmq
+	7X5fO4PYR6Ca9RmNCHjitIbzwJwVbCQsM8NZcAW3AauDvRku+nZMYwPtyS7JiUf/Qk6rzXCjXsb
+	8LVM5tdPs9bNHaBNDWDvlcXBcnJyCiyo8BZly+Tzfi66as/V/yj2Rx1TurB/duerv+TWE8+NbMj
+	EZxxHqFtxeF1SmYioWHM1Q2w=
+X-Google-Smtp-Source: AGHT+IEYFqP3LV7QaqwT8pREvSfP/RlRx07wuh9MdLNPqrPLXSI8Sp30kkt9VjPLd5ucg17AAdGUrA==
+X-Received: by 2002:ad4:4ea8:0:b0:6e8:9a55:824f with SMTP id 6a1803df08f44-6eed5f60fddmr195586296d6.6.1743560518054;
+        Tue, 01 Apr 2025 19:21:58 -0700 (PDT)
 Received: from gmail.com (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4778317ba3bsm73643601cf.51.2025.04.01.19.21.13
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c5f7659ad8sm733543885a.22.2025.04.01.19.21.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Apr 2025 19:21:13 -0700 (PDT)
-Date: Wed, 2 Apr 2025 02:21:11 +0000
+        Tue, 01 Apr 2025 19:21:57 -0700 (PDT)
+Date: Wed, 2 Apr 2025 02:21:55 +0000
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: guocai.he.cn@windriver.com
+To: praveen.kumar@windriver.com
 Cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [meta-virtualization][carthgap][PATCH 1/1] criu: Adjust to glibc
- __rseq_size semantic change
-Message-ID: <Z-yfF0ZdirCQvT9e@gmail.com>
-References: <20250325084039.294966-1-guocai.he.cn@windriver.com>
+Subject: Re: [meta-virtualization][scarthgap][PATCH 1/3] docker-moby: Fix
+ CVE-2024-36620
+Message-ID: <Z-yfQ5kffuhkv696@gmail.com>
+References: <20250326195009.757247-1-praveen.kumar@windriver.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250325084039.294966-1-guocai.he.cn@windriver.com>
+In-Reply-To: <20250326195009.757247-1-praveen.kumar@windriver.com>
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Wed, 02 Apr 2025 02:21:31 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9183
+ <meta-virtualization@lists.yoctoproject.org>; Wed, 02 Apr 2025 02:22:01 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9184
 
 
 merged.
 
 Bruce
 
-In message: [meta-virtualization][carthgap][PATCH 1/1] criu: Adjust to glibc __rseq_size semantic change
-on 25/03/2025 guocai he via lists.yoctoproject.org wrote:
+In message: [meta-virtualization][scarthgap][PATCH 1/3] docker-moby: Fix CVE-2024-36620
+on 26/03/2025 Praveen Kumar via lists.yoctoproject.org wrote:
 
-> From: Guocai He <guocai.he.cn@windriver.com>
+> moby v25.0.0 - v26.0.2 is vulnerable to NULL Pointer Dereference
+> via daemon/images/image_history.go.
 > 
-> On criu version 3.19.0:
-> When use "criu restore -d -D checkpoint" to restore, the error is:
-> 1272: Error (criu/cr-restore.c:1498): 1295 killed by signal 11: Segmentation fault
+> Reference:
+> https://nvd.nist.gov/vuln/detail/CVE-2024-36620
 > 
-> The root casue is that the glibc updated and criu should adjust to glibc __rseq_size semantic change.
+> Upstream-patch:
+> https://github.com/moby/moby/commit/ab570ab3d62038b3d26f96a9bb585d0b6095b9b4
 > 
-> Signed-off-by: Guocai He <guocai.he.cn@windriver.com>
+> Signed-off-by: Praveen Kumar <praveen.kumar@windriver.com>
 > ---
->  recipes-containers/criu/criu_git.bb           |  3 +-
->  ...to-glibc-__rseq_size-semantic-change.patch | 94 +++++++++++++++++++
->  2 files changed, 96 insertions(+), 1 deletion(-)
->  create mode 100644 recipes-containers/criu/files/0006-criu-Adjust-to-glibc-__rseq_size-semantic-change.patch
+>  recipes-containers/docker/docker-moby_git.bb  |  1 +
+>  .../docker/files/CVE-2024-36620.patch         | 40 +++++++++++++++++++
+>  2 files changed, 41 insertions(+)
+>  create mode 100644 recipes-containers/docker/files/CVE-2024-36620.patch
 > 
-> diff --git a/recipes-containers/criu/criu_git.bb b/recipes-containers/criu/criu_git.bb
-> index 09503624..cccd3e3c 100644
-> --- a/recipes-containers/criu/criu_git.bb
-> +++ b/recipes-containers/criu/criu_git.bb
-> @@ -21,7 +21,8 @@ SRC_URI = "git://github.com/checkpoint-restore/criu.git;branch=master;protocol=h
->             file://0002-criu-Change-libraries-install-directory.patch \
->             file://0003-crit-pycriu-build-and-install-wheels.patch \
->             file://0004-pycriu-attr-pycriu.version.__version__.patch \
-> -	   file://0005-pycriu-skip-dependency-check-during-build.patch \
-> +           file://0005-pycriu-skip-dependency-check-during-build.patch \
-> +           file://0006-criu-Adjust-to-glibc-__rseq_size-semantic-change.patch \
->             "
+> diff --git a/recipes-containers/docker/docker-moby_git.bb b/recipes-containers/docker/docker-moby_git.bb
+> index 0abb0b3f..a1879ed2 100644
+> --- a/recipes-containers/docker/docker-moby_git.bb
+> +++ b/recipes-containers/docker/docker-moby_git.bb
+> @@ -56,6 +56,7 @@ SRC_URI = "\
+>  	file://0001-libnetwork-use-GO-instead-of-go.patch \
+>          file://0001-cli-use-external-GO111MODULE-and-cross-compiler.patch \
+>          file://0001-dynbinary-use-go-cross-compiler.patch;patchdir=src/import \
+> +        file://CVE-2024-36620.patch;patchdir=src/import \
+>  	"
 >  
->  COMPATIBLE_HOST = "(x86_64|arm|aarch64).*-linux"
-> diff --git a/recipes-containers/criu/files/0006-criu-Adjust-to-glibc-__rseq_size-semantic-change.patch b/recipes-containers/criu/files/0006-criu-Adjust-to-glibc-__rseq_size-semantic-change.patch
+>  DOCKER_COMMIT = "${SRCREV_moby}"
+> diff --git a/recipes-containers/docker/files/CVE-2024-36620.patch b/recipes-containers/docker/files/CVE-2024-36620.patch
 > new file mode 100644
-> index 00000000..29715614
+> index 00000000..7bce4137
 > --- /dev/null
-> +++ b/recipes-containers/criu/files/0006-criu-Adjust-to-glibc-__rseq_size-semantic-change.patch
-> @@ -0,0 +1,94 @@
-> +From 123e558a4bfa8964f9e55d0c0ecc080e6c3a38f3 Mon Sep 17 00:00:00 2001
-> +From: Florian Weimer <fweimer@redhat.com>
-> +Date: Wed, 10 Jul 2024 18:34:50 +0200
-> +Subject: [PATCH] criu: Adjust to glibc __rseq_size semantic change
+> +++ b/recipes-containers/docker/files/CVE-2024-36620.patch
+> @@ -0,0 +1,40 @@
+> +From ab570ab3d62038b3d26f96a9bb585d0b6095b9b4 Mon Sep 17 00:00:00 2001
+> +From: Christopher Petito <47751006+krissetto@users.noreply.github.com>
+> +Date: Fri, 19 Apr 2024 10:44:30 +0000
+> +Subject: [PATCH] nil dereference fix on image history Created value
 > +
-> +In commit 2e456ccf0c34a056e3ccafac4a0c7effef14d918 ("Linux: Make
-> +__rseq_size useful for feature detection (bug 31965)") glibc 2.40
-> +changed the meaning of __rseq_size slightly: it is now the size
-> +of the active/feature area (20 bytes initially), and not the size
-> +of the entire initially defined struct (32 bytes including padding).
-> +The reason for the change is that the size including padding does not
-> +allow detection of newly added features while previously unused
-> +padding is consumed.
+> +Issue was caused by the changes here https://github.com/moby/moby/pull/45504
+> +First released in v25.0.0-beta.1
 > +
-> +The prep_libc_rseq_info change in criu/cr-restore.c is not necessary
-> +on kernels which have full ptrace support for obtaining rseq
-> +information because the code is not used.  On older kernels, it is
-> +a correctness fix because with size 20 (the new value), rseq
-> +registeration would fail.
+> +CVE: CVE-2024-36620
 > +
-> +The two other changes are required to make rseq unregistration work
-> +in tests.
+> +Upstream-Status:
+> +Backport [https://github.com/moby/moby/commit/ab570ab3d62038b3d26f96a9bb585d0b6095b9b4]
 > +
-> +Upstream-Status: Backport [https://github.com/checkpoint-restore/criu/commit/
-> +089345f77a34d1bc7ef146d650636afcd3cdda21]
-> +
-> +Signed-off-by: Florian Weimer <fweimer@redhat.com>
-> +Signed-off-by: Guocai He <guocai.he.cn@windriver.com>
+> +Signed-off-by: Praveen Kumar <praveen.kumar@windriver.com>
 > +---
-> + criu/cr-restore.c             | 8 ++++++++
-> + test/zdtm/static/rseq00.c     | 5 ++++-
-> + test/zdtm/transition/rseq01.c | 5 ++++-
-> + 3 files changed, 16 insertions(+), 2 deletions(-)
+> + daemon/images/image_history.go | 6 +++++-
+> + 1 file changed, 5 insertions(+), 1 deletion(-)
 > +
-> +diff --git a/criu/cr-restore.c b/criu/cr-restore.c
-> +index 270049721..80eb13743 100644
-> +--- a/criu/cr-restore.c
-> ++++ b/criu/cr-restore.c
-> +@@ -3103,7 +3103,15 @@ static void prep_libc_rseq_info(struct rst_rseq_param *rseq)
-> + 	if (!kdat.has_ptrace_get_rseq_conf) {
-> + #if defined(__GLIBC__) && defined(RSEQ_SIG)
-> + 		rseq->rseq_abi_pointer = encode_pointer(__criu_thread_pointer() + __rseq_offset);
-> ++		/*
-> ++		 * Current glibc reports the feature/active size in
-> ++		 * __rseq_size, not the size passed to the kernel.
-> ++		 * This could be 20, but older kernels expect 32 for
-> ++		 * the size argument even if only 20 bytes are used.
-> ++		 */
-> + 		rseq->rseq_abi_size = __rseq_size;
-> ++		if (rseq->rseq_abi_size < 32)
-> ++			rseq->rseq_abi_size = 32;
-> + 		rseq->signature = RSEQ_SIG;
-> + #else
-> + 		rseq->rseq_abi_pointer = 0;
-> +diff --git a/test/zdtm/static/rseq00.c b/test/zdtm/static/rseq00.c
-> +index 471ad6a43..7add7801e 100644
-> +--- a/test/zdtm/static/rseq00.c
-> ++++ b/test/zdtm/static/rseq00.c
-> +@@ -46,12 +46,15 @@ static inline void *__criu_thread_pointer(void)
-> + static inline void unregister_glibc_rseq(void)
-> + {
-> + 	struct rseq *rseq = (struct rseq *)((char *)__criu_thread_pointer() + __rseq_offset);
-> ++	unsigned int size = __rseq_size;
-> + 
-> + 	/* hack: mark glibc rseq structure as failed to register */
-> + 	rseq->cpu_id = RSEQ_CPU_ID_REGISTRATION_FAILED;
-> + 
-> + 	/* unregister rseq */
-> +-	syscall(__NR_rseq, (void *)rseq, __rseq_size, 1, RSEQ_SIG);
-> ++	if (__rseq_size < 32)
-> ++		size = 32;
-> ++	syscall(__NR_rseq, (void *)rseq, size, 1, RSEQ_SIG);
-> + }
-> + #else
-> + static inline void unregister_glibc_rseq(void)
-> +diff --git a/test/zdtm/transition/rseq01.c b/test/zdtm/transition/rseq01.c
-> +index 0fbcc2dca..08a7a8e1a 100644
-> +--- a/test/zdtm/transition/rseq01.c
-> ++++ b/test/zdtm/transition/rseq01.c
-> +@@ -33,7 +33,10 @@ static inline void *thread_pointer(void)
-> + static inline void unregister_old_rseq(void)
-> + {
-> + 	/* unregister rseq */
-> +-	syscall(__NR_rseq, (void *)((char *)thread_pointer() + __rseq_offset), __rseq_size, 1, RSEQ_SIG);
-> ++	unsigned int size = __rseq_size;
-> ++	if (__rseq_size < 32)
-> ++		size = 32;
-> ++	syscall(__NR_rseq, (void *)((char *)thread_pointer() + __rseq_offset), size, 1, RSEQ_SIG);
-> + }
-> + #else
-> + static inline void unregister_old_rseq(void)
-> +-- 
-> +2.34.1
+> +diff --git a/daemon/images/image_history.go b/daemon/images/image_history.go
+> +index dcf7a906aa..e5adda8639 100644
+> +--- a/daemon/images/image_history.go
+> ++++ b/daemon/images/image_history.go
+> +@@ -41,10 +41,14 @@ func (i *ImageService) ImageHistory(ctx context.Context, name string) ([]*image.
+> +			layer.ReleaseAndLog(i.layerStore, l)
+> +			layerCounter++
+> +		}
+> ++		var created int64
+> ++		if h.Created != nil {
+> ++			created = h.Created.Unix()
+> ++		}
 > +
+> +		history = append([]*image.HistoryResponseItem{{
+> +			ID:        "<missing>",
+> +-			Created:   h.Created.Unix(),
+> ++			Created:   created,
+> +			CreatedBy: h.CreatedBy,
+> +			Comment:   h.Comment,
+> +			Size:      layerSize,
+> +--
+> +2.40.0
 > -- 
-> 2.34.1
+> 2.40.0
 > 
 
 > 
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#9173): https://lists.yoctoproject.org/g/meta-virtualization/message/9173
-> Mute This Topic: https://lists.yoctoproject.org/mt/111893502/1050810
+> View/Reply Online (#9174): https://lists.yoctoproject.org/g/meta-virtualization/message/9174
+> Mute This Topic: https://lists.yoctoproject.org/mt/111924192/1050810
 > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
 > Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
