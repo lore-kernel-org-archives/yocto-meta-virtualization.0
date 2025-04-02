@@ -2,220 +2,135 @@ Return-Path: <martin.jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DD4A9C28B20
-	for <webhook@archiver.kernel.org>; Wed,  2 Apr 2025 14:00:00 +0000 (UTC)
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
- by mx.groups.io with SMTP id smtpd.web10.9151.1743602393775291190
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 036ACC3601A
+	for <webhook@archiver.kernel.org>; Wed,  2 Apr 2025 15:59:42 +0000 (UTC)
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+ by mx.groups.io with SMTP id smtpd.web11.12690.1743609578452820465
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 02 Apr 2025 06:59:54 -0700
+ Wed, 02 Apr 2025 08:59:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=e/LMDNQU;
- spf=pass (domain: gmail.com, ip: 209.85.167.48, mailfrom: martin.jansa@gmail.com)
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5493b5bc6e8so7889312e87.2
-        for <meta-virtualization@lists.yoctoproject.org>; Wed, 02 Apr 2025 06:59:53 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=jnWu6eWF;
+ spf=pass (domain: gmail.com, ip: 209.85.208.53, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-5e61375c108so8963184a12.1
+        for <meta-virtualization@lists.yoctoproject.org>; Wed, 02 Apr 2025 08:59:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743602392; x=1744207192; darn=lists.yoctoproject.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1743609577; x=1744214377; darn=lists.yoctoproject.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=bOXNjOpjw/0hFfg5DkmYgXunSyLw477/SEifVrjXKOw=;
-        b=e/LMDNQUpYxAO9ih0ICBY7awNEiQeQeP7Km4OA1Y9CLrCN6lv6x/v2SecWASIcMuZQ
-         hc2LNMTmgaanGpJpLcb9sOxd9pfC9wPPplsafww4JLm03qNLzjPiioqOR+M1OiAqKBdR
-         ojSYkMaT2zcsh1fvrrii5bsnbBM0Gw3U816AeYPIvng7AsnjXxZASGgKW4FfN2nWEVTb
-         1zc58ImB+JMs2rF/RhTsYyRwsZSx/z0DJKaBmkagKJ12GUiKsruRHpDGyWOPmNlBx1qe
-         ldOASSJVEStX9+WMNLoFdERVxLcrY1j+Lyl0hEoFSj1SCwuNBEQ7Fq/yzmfiVqNg+VFI
-         fnWg==
+        bh=e0tiyuKD1ZCZLexxoKxw2li1kR8KHaqIW+h6a5ptVNE=;
+        b=jnWu6eWFij5PvWu/giwjOVmbj180WdySDzL3JjJwEouAm460GHW8vewP1/3KzbFzLA
+         fprjCqIim8O6Q82Blge8Wi+QmemCi4Z3DIM//uMQ+ewro3P7nwXb6Ab4Tu47PfKymZd0
+         afLj4xcs54WsBw+amAMNqWVBTE9kCtO69cAYoTcx4ER7jIDXbCg2MuzUVnX8GYz7N5Eb
+         u6mdEu+rcIhV+KiV/5LEGDUuS+3enA1W0GgtPiCKXvrdo0aRRmoNT1ZjwTlUP4vEiI8E
+         IS9tQo4YfpLpVoKSyk2EnOh8Dg6O/IUTkzyyTyLJxUJtyV2FH0GvHhc9jyewfJO8gdON
+         Bnsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743602392; x=1744207192;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1743609577; x=1744214377;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=bOXNjOpjw/0hFfg5DkmYgXunSyLw477/SEifVrjXKOw=;
-        b=AqUes6zO8xgdslLzPWYKjqhLDzTZB2OUVFgjDQkUhrksUagbk+RugpWKn6wuUGkWHV
-         PfTDGUeJhCGJvil5ObCU+kLRZKl0MRx/13HI4eVUmc3SNBpbIBk0CSNZHtm1T+aWJZcX
-         oki1a70ZPTQFNCROJ2MB/ortSW2QRQJkJ5SMFYFlkznSJp/ETO6KlCzzpIjv+fq7iznc
-         9+MBMQlKobbIfAqalPZPuyzbVGxb2lFvlAhhZfhOH0+tDVcN4llHQqu7CMLgApyO3NZo
-         Xy8gY3b5xtH4KDZUoLp0pgDvE/d717hiobr639ukWbaI75Iv8Pe2/VrMV9+hM9e61Am6
-         I+Ew==
-X-Gm-Message-State: AOJu0YzC59RtA7JKv70NiyCWlHfcrDF9QTQ2gPPZfHPig8cKPn946AJL
-	W2x+/sBgMlI6Uojd5eUIfNml89yAk7Bqpf+mMFRyXqcxSbmXTk1Elk2hH2g5FqRhPs7M2i55wP0
-	pVybGvqseo1jF1q3PMQrAOnnx778WPQgRx8M=
-X-Gm-Gg: ASbGncupLks0X3tYpQlzXNizp/kBokbGFMPFGI/C/vMbHpiUzXjVONk5kGxYbHoHAnf
-	pKOOameTJXz7pQMr8KZNSGsJBE4pVx5gsvjQwV6Z6m+39Z94rcg7inQvmV4jX8sPBjoqcJ98EBc
-	qWUk9Ts0CA54dn3HsFx1q2eI/zlarC
-X-Google-Smtp-Source: AGHT+IFkCFxM6uvSn8Izs9tkOWwuCZy+20L2pmWsjJkllYkmoojxTI1SSmBHoCnfhl0Y6YOVrWVdb91tNnkbM4q4TBU=
-X-Received: by 2002:a05:6512:2c97:b0:54c:a49:d3de with SMTP id
- 2adb3069b0e04-54c0a49d4a3mr2041096e87.10.1743602391423; Wed, 02 Apr 2025
- 06:59:51 -0700 (PDT)
+        bh=e0tiyuKD1ZCZLexxoKxw2li1kR8KHaqIW+h6a5ptVNE=;
+        b=ZDreu+/0JgTixF1TXqirneN/KP/jhE7R5kXLm5rdK9k1fjIsRsFcAD8IqCc/CiMSm7
+         PG7rKfYTLs/lXgbnsugzHEGBUA6A79RbeMtgXZW/I1ykgEnlJ+mvH4ojEeLmnjsH/6rz
+         +i8vzlT5RpZcDgjaD1+tg5hv+lO6ukbTxdG/KiddNdLZl1tC3ldE+B4YeNA/C3cJmVwy
+         HxNyrI1twj5hEd4wCgSohG/K0FtgcR/fqvLCs79JNotks22xzMeebDOg7v7WaBPlSbYB
+         pJkaP7qKPyCSpoZiAs9cOHj5yVhDskuddNGemZ+l4QrKgU1l1m0RvJVKiuh0jATU7Mlt
+         eu0Q==
+X-Gm-Message-State: AOJu0Ywm+PqmF4VIkkLh3Xe5VC3sGFOoqvX2MjivtQZfmWDTKTT84atd
+	Oaz0prLA4z0vezyUu9L7owsf3+TPin2LfUH/Z95L1Kms3llVq5x+q4DCG85Z
+X-Gm-Gg: ASbGnctVYBER7AN4JIxgmTY7pRN5aFG8ADhXgEiboQEpqCBZ7PA6O71tlPhtDLwKBTo
+	amoU0El51yMphvqDi+OwXDZHbdU0EZyF6AOJQDlmRP0q1O6/kInURyKPQS5YSO1FSqVnanbJgvR
+	HsY1JrZ9einYoNOel9Nt5D05r188z7Rqss1j/DmHmbqd7HStTaEvz0Nk10SWYuR7pu+v/tvrn9g
+	lkuAVRyHEv99P2IGcsh2H0LDvuaJ1h6Fp8NEbCKcCv2y6D0UrlFhXjqoeOyGB8zlAwC33As+rDf
+	Aabk4HT8dxHwulxXRJIl8vKFj88zvR6V26IcmoMhdreaHTQ=
+X-Google-Smtp-Source: AGHT+IFXNQBtjcsZMw/LP4xfYWPOERp1US+Y9T/K7TgmRCz7PpivraaQjkKBSG5PcH1C1EwBUBrPzg==
+X-Received: by 2002:a17:907:724a:b0:ac2:972c:f732 with SMTP id a640c23a62f3a-ac738ad5864mr1503725166b.33.1743609576712;
+        Wed, 02 Apr 2025 08:59:36 -0700 (PDT)
+Received: from localhost ([109.238.218.228])
+        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-ac7196dd46asm922587666b.160.2025.04.02.08.59.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Apr 2025 08:59:36 -0700 (PDT)
+From: martin.jansa@gmail.com
+To: meta-virtualization@lists.yoctoproject.org
+Cc: Martin Jansa <martin.jansa@gmail.com>
+Subject: [PATCH 3/3] metadata: relocation.inc: add whitespace around assignments
+Date: Wed,  2 Apr 2025 17:59:27 +0200
+Message-ID: <20250402155927.3585290-3-martin.jansa@gmail.com>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250402155927.3585290-1-martin.jansa@gmail.com>
+References: <20250402155927.3585290-1-martin.jansa@gmail.com>
 MIME-Version: 1.0
-References: <20250326195009.757247-1-praveen.kumar@windriver.com> <20250326195009.757247-2-praveen.kumar@windriver.com>
-In-Reply-To: <20250326195009.757247-2-praveen.kumar@windriver.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Wed, 2 Apr 2025 15:59:37 +0200
-X-Gm-Features: AQ5f1JqzYbZ4CAghs40ic9ppSjT4X8ilREO_XVGE5K3d2PlvIx0MServhNhGkMk
-Message-ID: <CA+chaQcbvurY3Fg+MPbm0CLxx31-t=4WP_8FD24rDKUv71Zo3A@mail.gmail.com>
-Subject: Re: [meta-virtualization][scarthgap][PATCH 2/3] docker-moby: Fix CVE-2024-36621
-To: praveen.kumar@windriver.com
-Cc: meta-virtualization@lists.yoctoproject.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Wed, 02 Apr 2025 14:00:00 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9192
+ <meta-virtualization@lists.yoctoproject.org>; Wed, 02 Apr 2025 15:59:42 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9194
 
-Please don't add a break after Upstream-Status, it's not parsed
-correctly, fix sent in:
+From: Martin Jansa <martin.jansa@gmail.com>
 
-https://lists.yoctoproject.org/g/meta-virtualization/message/9191
+With:
+https://lists.openembedded.org/g/bitbake-devel/message/17508
+there are many WARNINGs from this layer
 
-On Wed, Mar 26, 2025 at 8:50=E2=80=AFPM Praveen Kumar via
-lists.yoctoproject.org
-<praveen.kumar=3Dwindriver.com@lists.yoctoproject.org> wrote:
->
-> moby v25.0.5 is affected by a Race Condition in
-> builder/builder-next/adapters/snapshot/layer.go. The vulnerability could
-> be used to trigger concurrent builds that call the EnsureLayer function
-> resulting in resource leaks/exhaustion.
->
-> Reference:
-> https://nvd.nist.gov/vuln/detail/CVE-2024-36621
->
-> Upstream-patch:
-> https://github.com/moby/moby/commit/37545cc644344dcb576cba67eb7b6f51a463d=
-31e
->
-> Signed-off-by: Praveen Kumar <praveen.kumar@windriver.com>
-> ---
->  recipes-containers/docker/docker-moby_git.bb  |  1 +
->  .../docker/files/CVE-2024-36621.patch         | 83 +++++++++++++++++++
->  2 files changed, 84 insertions(+)
->  create mode 100644 recipes-containers/docker/files/CVE-2024-36621.patch
->
-> diff --git a/recipes-containers/docker/docker-moby_git.bb b/recipes-conta=
-iners/docker/docker-moby_git.bb
-> index a1879ed2..d274b002 100644
-> --- a/recipes-containers/docker/docker-moby_git.bb
-> +++ b/recipes-containers/docker/docker-moby_git.bb
-> @@ -57,6 +57,7 @@ SRC_URI =3D "\
->          file://0001-cli-use-external-GO111MODULE-and-cross-compiler.patc=
-h \
->          file://0001-dynbinary-use-go-cross-compiler.patch;patchdir=3Dsrc=
-/import \
->          file://CVE-2024-36620.patch;patchdir=3Dsrc/import \
-> +        file://CVE-2024-36621.patch;patchdir=3Dsrc/import \
->         "
->
->  DOCKER_COMMIT =3D "${SRCREV_moby}"
-> diff --git a/recipes-containers/docker/files/CVE-2024-36621.patch b/recip=
-es-containers/docker/files/CVE-2024-36621.patch
-> new file mode 100644
-> index 00000000..a6c06ef2
-> --- /dev/null
-> +++ b/recipes-containers/docker/files/CVE-2024-36621.patch
-> @@ -0,0 +1,83 @@
-> +From 37545cc644344dcb576cba67eb7b6f51a463d31e Mon Sep 17 00:00:00 2001
-> +From: Tonis Tiigi <tonistiigi@gmail.com>
-> +Date: Wed, 6 Mar 2024 23:11:32 -0800
-> +Subject: [PATCH] builder-next: fix missing lock in ensurelayer
-> +
-> +When this was called concurrently from the moby image
-> +exporter there could be a data race where a layer was
-> +written to the refs map when it was already there.
-> +
-> +In that case the reference count got mixed up and on
-> +release only one of these layers was actually released.
-> +
-> +CVE: CVE-2024-36621
-> +
-> +Upstream-Status:
-> +Backport [https://github.com/moby/moby/commit/37545cc644344dcb576cba67eb=
-7b6f51a463d31e]
-> +
-> +Signed-off-by: Praveen Kumar <praveen.kumar@windriver.com>
-> +---
-> + .../builder-next/adapters/snapshot/layer.go   |  3 +++
-> + .../adapters/snapshot/snapshot.go             | 19 +++++++++++--------
-> + 2 files changed, 14 insertions(+), 8 deletions(-)
-> +
-> +diff --git a/builder/builder-next/adapters/snapshot/layer.go b/builder/b=
-uilder-next/adapters/snapshot/layer.go
-> +index 73120ea70b..fc83058339 100644
-> +--- a/builder/builder-next/adapters/snapshot/layer.go
-> ++++ b/builder/builder-next/adapters/snapshot/layer.go
-> +@@ -22,6 +22,9 @@ func (s *snapshotter) GetDiffIDs(ctx context.Context, =
-key string) ([]layer.DiffI
-> + }
-> +
-> + func (s *snapshotter) EnsureLayer(ctx context.Context, key string) ([]l=
-ayer.DiffID, error) {
-> ++      s.layerCreateLocker.Lock(key)
-> ++      defer s.layerCreateLocker.Unlock(key)
-> ++
-> +       diffIDs, err :=3D s.GetDiffIDs(ctx, key)
-> +       if err !=3D nil {
-> +               return nil, err
-> +diff --git a/builder/builder-next/adapters/snapshot/snapshot.go b/builde=
-r/builder-next/adapters/snapshot/snapshot.go
-> +index a0d28ad984..510ffefb49 100644
-> +--- a/builder/builder-next/adapters/snapshot/snapshot.go
-> ++++ b/builder/builder-next/adapters/snapshot/snapshot.go
-> +@@ -17,6 +17,7 @@ import (
-> +       "github.com/moby/buildkit/identity"
-> +       "github.com/moby/buildkit/snapshot"
-> +       "github.com/moby/buildkit/util/leaseutil"
-> ++      "github.com/moby/locker"
-> +       "github.com/opencontainers/go-digest"
-> +       "github.com/pkg/errors"
-> +       bolt "go.etcd.io/bbolt"
-> +@@ -51,10 +52,11 @@ type checksumCalculator interface {
-> + type snapshotter struct {
-> +       opt Opt
-> +
-> +-      refs map[string]layer.Layer
-> +-      db   *bolt.DB
-> +-      mu   sync.Mutex
-> +-      reg  graphIDRegistrar
-> ++      refs              map[string]layer.Layer
-> ++      db                *bolt.DB
-> ++      mu                sync.Mutex
-> ++      reg               graphIDRegistrar
-> ++      layerCreateLocker *locker.Locker
-> + }
-> +
-> + // NewSnapshotter creates a new snapshotter
-> +@@ -71,10 +73,11 @@ func NewSnapshotter(opt Opt, prevLM leases.Manager, =
-ns string) (snapshot.Snapsho
-> +       }
-> +
-> +       s :=3D &snapshotter{
-> +-              opt:  opt,
-> +-              db:   db,
-> +-              refs: map[string]layer.Layer{},
-> +-              reg:  reg,
-> ++              opt:               opt,
-> ++              db:                db,
-> ++              refs:              map[string]layer.Layer{},
-> ++              reg:               reg,
-> ++              layerCreateLocker: locker.New(),
-> +       }
-> +
-> +       slm :=3D newLeaseManager(s, prevLM)
-> +--
-> +2.40.0
-> --
-> 2.40.0
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#9175): https://lists.yoctoproject.org/g/meta-virtuali=
-zation/message/9175
-> Mute This Topic: https://lists.yoctoproject.org/mt/111924195/3617156
-> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [=
-martin.jansa@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
+---
+ recipes-containers/docker-compose/relocation.inc | 2 +-
+ recipes-containers/k3s/relocation.inc            | 2 +-
+ recipes-containers/nerdctl/relocation.inc        | 2 +-
+ recipes-extended/rootlesskit/relocation.inc      | 2 +-
+ recipes-networking/cni/relocation.inc            | 2 +-
+ 5 files changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/recipes-containers/docker-compose/relocation.inc b/recipes-containers/docker-compose/relocation.inc
+index 9e71acd8..469361ac 100644
+--- a/recipes-containers/docker-compose/relocation.inc
++++ b/recipes-containers/docker-compose/relocation.inc
+@@ -1,4 +1,4 @@
+-export sites="k8s.io/api:k8s.io/api:force \
++export sites = "k8s.io/api:k8s.io/api:force \
+            k8s.io/utils:k8s.io/utils:force \
+            k8s.io/klog/v2:k8s.io/klog/v2:force \
+            gotest.tools/v3:gotest.tools/v3:force \
+diff --git a/recipes-containers/k3s/relocation.inc b/recipes-containers/k3s/relocation.inc
+index 72c02319..c9caaee0 100644
+--- a/recipes-containers/k3s/relocation.inc
++++ b/recipes-containers/k3s/relocation.inc
+@@ -1,4 +1,4 @@
+-export sites="k8s.io/utils:k8s.io/utils:force \
++export sites = "k8s.io/utils:k8s.io/utils:force \
+            cel.dev/expr:cel.dev/expr:force \
+            k8s.io/gengo:k8s.io/gengo:force \
+            go.uber.org/fx:go.uber.org/fx:force \
+diff --git a/recipes-containers/nerdctl/relocation.inc b/recipes-containers/nerdctl/relocation.inc
+index f5427070..a6129016 100644
+--- a/recipes-containers/nerdctl/relocation.inc
++++ b/recipes-containers/nerdctl/relocation.inc
+@@ -1,4 +1,4 @@
+-export sites="gotest.tools/v3:gotest.tools/v3:force \
++export sites = "gotest.tools/v3:gotest.tools/v3:force \
+            go.uber.org/mock:go.uber.org/mock:force \
+            golang.org/x/net:golang.org/x/net:force \
+            golang.org/x/sys:golang.org/x/sys:force \
+diff --git a/recipes-extended/rootlesskit/relocation.inc b/recipes-extended/rootlesskit/relocation.inc
+index f968694a..6c64233d 100644
+--- a/recipes-extended/rootlesskit/relocation.inc
++++ b/recipes-extended/rootlesskit/relocation.inc
+@@ -1,4 +1,4 @@
+-export sites="gotest.tools/v3:gotest.tools/v3:force \
++export sites = "gotest.tools/v3:gotest.tools/v3:force \
+            golang.org/x/sys:golang.org/x/sys:force \
+            golang.org/x/net:golang.org/x/net:force \
+            github.com/gofrs/flock:github.com/gofrs/flock:force \
+diff --git a/recipes-networking/cni/relocation.inc b/recipes-networking/cni/relocation.inc
+index c6538dd0..8d4a35db 100644
+--- a/recipes-networking/cni/relocation.inc
++++ b/recipes-networking/cni/relocation.inc
+@@ -1,4 +1,4 @@
+-export sites="golang.org/x/exp:golang.org/x/exp:force \
++export sites = "golang.org/x/exp:golang.org/x/exp:force \
+            golang.org/x/net:golang.org/x/net:force \
+            golang.org/x/sys:golang.org/x/sys:force \
+            gopkg.in/yaml.v3:gopkg.in/yaml.v3:force \
 
