@@ -1,138 +1,116 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <martin.jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CCC2C28B20
-	for <webhook@archiver.kernel.org>; Wed,  2 Apr 2025 11:49:20 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.web10.6080.1743594553141224250
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DCA0AC36017
+	for <webhook@archiver.kernel.org>; Wed,  2 Apr 2025 13:58:40 +0000 (UTC)
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+ by mx.groups.io with SMTP id smtpd.web11.9102.1743602316982517431
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 02 Apr 2025 04:49:13 -0700
+ Wed, 02 Apr 2025 06:58:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=SimVl5aF;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.54, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-43d0618746bso46366015e9.2
-        for <meta-virtualization@lists.yoctoproject.org>; Wed, 02 Apr 2025 04:49:12 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=KNxrewjd;
+ spf=pass (domain: gmail.com, ip: 209.85.208.49, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-5e5c7d6b96fso12292131a12.3
+        for <meta-virtualization@lists.yoctoproject.org>; Wed, 02 Apr 2025 06:58:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1743594551; x=1744199351; darn=lists.yoctoproject.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=ROUtONxOkpbgVfLazJVGJBlAOhON6j8jRZB+BsLI1XI=;
-        b=SimVl5aFxEnvTXhXyn1sZyyRyQCUz9u66X8ovm976izpZkzitkNogcxh8rRHwl9u1D
-         U336xzqrGI9cR0GWXDwiRemjbXMyn6kjWBdgNYo+U0E2zJdLILGJMS28pbpD3kVtVUNb
-         vQPtyhjVZxF9I78PLW/dYUGftKdOLTmTmg+x8=
+        d=gmail.com; s=20230601; t=1743602315; x=1744207115; darn=lists.yoctoproject.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=VHkCiB5v2SGW6Tsh8KetebATCtPRYgg2mOfqyjyLpeU=;
+        b=KNxrewjdwRjFdg9RrT8xmnuMfa56KEZ8Ftec54gHwfOdVurX92acG9oUPX5MCfebik
+         OlD3HucVzf95PlLYbh1ZIsZPN00HUhNtA+oJfpGiJicUTWmj3BjJSTfzYQ3rajgNVsTF
+         eTmpew5lpWu4D654/lHuheVqYSgeLJlh+CgwSruG7L0B9uLKYoLlDLGzVaVM1yy8vZPl
+         3NXT1cc4+91ydyRuOi80WmsFvc/yPoPsmiuHx1wBj6HPBV+5KkYtK0si+6pfDpt9pskD
+         z0td2/vi6syS+JXxNRnzce2m5W43Um+JTHqaATYqFRFxRIZWUItL/8Ln79GrS3XPcdiv
+         I2VA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743594551; x=1744199351;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ROUtONxOkpbgVfLazJVGJBlAOhON6j8jRZB+BsLI1XI=;
-        b=fx9dg9zJ+5FpOhKSqFyHdGsJ+OGM0gHO5vCt8JgNX3Q7LN0nnOMW5ZhnIIrNPvye1C
-         OGwxbXVlrezzdyrROEvUWUgO8OvEgOZmBbQYnCyunU9EeyfbN2pwXaFmred92McryrQz
-         e6irF1bBC9lYYPr0PJ0znrRLTeu5HaSL6/phiLFHSUYqDIfG97mzntjyOIJmMj43DImm
-         aoXgtElJIfwlzJ0B76pJI53AkJx2vUxZBwCw/qRdYjg8K8D5eGHPN9ouSC7QA2JInduD
-         Rp1FdpkRlhKFKgCjcI9542ZATehDOBptUbzWlj3tUwH9+LLCBhMWfT77GaqkMETgG3fP
-         0+Qw==
-X-Gm-Message-State: AOJu0YzIZKMrtNt4LNrn5fogZ0jKVmSAPvzrew8xwCtCCsoJkRmlOdrs
-	cl0E7DENOHk0y7JdwxlgVwHmy/xC+E0e9umPxHyeoti/Sr1BRNvs3EbpZO3xc/o=
-X-Gm-Gg: ASbGncsBZ4HYww7hv/67ZthpATajBMqDMdIrPwko+X0hXT6rvf1Vm2MyeU21IlCvp8r
-	JUT4WTLJrvGKnsVp5rP6Qteh+uP0KfQOv3ow+sd2heLxdKm0wJkfrQKSxGFnmINLpFkd4nw8Jig
-	TIRB9jmb37gJ5YxXf1nJ8cWUnuuV8PgBMH+93K5ePGeqIoVlYAS1sWs415HhO11I/9JQPgfFug3
-	5u4HPJSjxfl80Gv4qsFVVkYM6kCQF77Vf0EOh6tYWTa+GVR/pFh1iP2dwc2o0/WI0jmJuroBBDg
-	OSbMN3t0d51N3EB+NA8lsCikwz7I8Lpx/pqm35GqaAv9UO29tL6xF/jrWpjbjA7ZIYZuDeu4lOT
-	K0wOZU8JayamzjHu0fqRrEzKqUEcMNsKl+w==
-X-Google-Smtp-Source: AGHT+IFpAxhdFNscwo8jNE5Y691xq47aJHs67e+tGICwZ9ekfYbLdZnGoOBIDURZ/BP+lJH58rHMDA==
-X-Received: by 2002:a05:600c:811b:b0:43d:ea:51d2 with SMTP id 5b1f17b1804b1-43e8f73a9bcmr139719835e9.14.1743594551542;
-        Wed, 02 Apr 2025 04:49:11 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:24b8:b374:749c:8558? ([2001:8b0:aba:5f3c:24b8:b374:749c:8558])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43eb6103a07sm18075255e9.29.2025.04.02.04.49.10
+        d=1e100.net; s=20230601; t=1743602315; x=1744207115;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=VHkCiB5v2SGW6Tsh8KetebATCtPRYgg2mOfqyjyLpeU=;
+        b=VeYmVPOnlXY1moRcayPG6TR/U7lhqbFeMV1Llf/y6I61384rDG4ktU6v/Snr/1Hg01
+         1Mx7yxGTuhb3IHTBrVw2HE5wT165jzjd588zNIh+pIaRcEwLK1i6XvmPwBdWEHOl5SSj
+         oZQ1fOlogE6g7yX4YVeBlNh5z4DYo6quJxwKqZr133NHwly8xcN81GAFYsWVUQMCAyM3
+         weKn71/K0+17pSqWFrCS4xBT/9fKeUbIjmCrOShNSC2qHNyi51TWWGUZItf2P3aVD/0K
+         d9hw2hCXe4b2CoXUKS70kPzXQAuwSns3A3FYMN9ZILx8roHdb/2HUfuifyByYJxJpqcb
+         WLUw==
+X-Gm-Message-State: AOJu0Yw4JoCEhuGrbjumXYnPOQLunwJ4xl+WJAvAwYdmEPlFy4EWCWIc
+	87FimlSdthm6QqEaN+ngYKIkX60jFOHRFfRpxvBXyWxoNmvOcHklb+qmIXOs
+X-Gm-Gg: ASbGncsPcXS9mGcWk9xVHMAXAN2ZuGhGbSaZlP8bePXIap2J2eYNTG1v6jsNOk2549z
+	XsFRAZnFWXOVdnU3949gey059e5p5BC5LEkmBI3FNqtIxgLP/dDymVlw6DbGLgbGL5PdH87vSsM
+	feH3GECvQZQdaOTcrAn3TTdcl1dro0aljSH5ZYvqpkUDjAdYhrTuagW8P+XsoSb/uVTmvu2rFhi
+	DlXxK1UtNTZw5z1MkJa6tm6Q7Z4MJCPYZK/z8RNy4A+eKIL6/U8WiDqOv5rWYxDI0BtSuGImSqF
+	8FWbCszzOhWeak2FpGtjj792ZjK5s9opOPeG/DAep3qA438=
+X-Google-Smtp-Source: AGHT+IFk3I5OuOc57h1eXHeZDKN8invyXsXsRrUEiARtv1PG6X1WcT6/U8YOw73o4PQv6bAIF7Wilw==
+X-Received: by 2002:a17:906:6a10:b0:ac2:6bb5:413c with SMTP id a640c23a62f3a-ac738a9700amr1823954866b.31.1743602315096;
+        Wed, 02 Apr 2025 06:58:35 -0700 (PDT)
+Received: from localhost ([109.238.218.228])
+        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-ac71927b06fsm920141466b.53.2025.04.02.06.58.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Apr 2025 04:49:10 -0700 (PDT)
-Message-ID: <1314cba6bb89fdc1e066d1d693b2b47cdb99cf68.camel@linuxfoundation.org>
-Subject: Re: Whitespace syntax warnings for meta-virtualization
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: meta-virtualization <meta-virtualization@lists.yoctoproject.org>
-Date: Wed, 02 Apr 2025 12:49:09 +0100
-In-Reply-To: <CADkTA4OhVfOX0VPz_JcV3FzJ553Smd8OOAMb6xkHzD-cSGSsGw@mail.gmail.com>
-References: 
-	<a5b5e19262e51cd9b14e65f42efc3367b1af99e2.camel@linuxfoundation.org>
-	 <CADkTA4OhVfOX0VPz_JcV3FzJ553Smd8OOAMb6xkHzD-cSGSsGw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.0-1 
+        Wed, 02 Apr 2025 06:58:34 -0700 (PDT)
+From: martin.jansa@gmail.com
+To: meta-virtualization@lists.yoctoproject.org
+Cc: Martin Jansa <martin.jansa@gmail.com>
+Subject: [scarthgap][PATCH] docker: fix Upstream-Status format
+Date: Wed,  2 Apr 2025 15:58:30 +0200
+Message-ID: <20250402135830.3393656-1-martin.jansa@gmail.com>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Wed, 02 Apr 2025 11:49:20 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9190
+ <meta-virtualization@lists.yoctoproject.org>; Wed, 02 Apr 2025 13:58:40 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9191
 
-On Wed, 2025-04-02 at 07:24 -0400, Bruce Ashfield wrote:
-> On Wed, Apr 2, 2025 at 7:01=E2=80=AFAM Richard Purdie <richard.purdie@lin=
-uxfoundation.org> wrote:
-> > I just wanted to give a headsup that there is a patch for bitbake that
-> > adds warnings for whitespace syntax which we're likely to deprecate:
-> >=20
-> > https://lists.openembedded.org/g/bitbake-devel/message/17508
-> >=20
-> > I've posted it so people can start seeing how bad some other layers
-> > look. I did sort out OE-Core/meta-oe, at least on the most part.
-> >=20
-> > For meta-virtualization, this results in ~1300 warnings:
-> >=20
-> > https://autobuilder.yoctoproject.org/valkyrie/#/builders/89/builds/1253=
-/steps/12/logs/warnings
-> >=20
-> > Most of these look like they might be script generated, so a small
-> > tweak to those generator scripts might address many of them (he says
-> > optimistically!).
->=20
-> =C2=A0Yes, very much script generated for the go recipes. I'll fix them i=
-n tree and
-> then fix the script after.
+From: Martin Jansa <martin.jansa@gmail.com>
 
-Ok, I wasn't sure which way around you'd prefer to do it but it helps
-to know that.
+* fixes:
+DEBUG: Executing python function do_qa_patch
+ERROR: QA Issue: Malformed Upstream-Status in patch
+TOPDIR/meta-virtualization/recipes-containers/docker/files/CVE-2024-36620.patch
+Please correct according to https://docs.yoctoproject.org/contributor-guide/recipe-style-guide.html#patch-upstream-status :
+Upstream-Status: [patch-status]
+ERROR: QA Issue: Malformed Upstream-Status in patch
+TOPDIR/meta-virtualization/recipes-containers/docker/files/CVE-2024-36621.patch
+Please correct according to https://docs.yoctoproject.org/contributor-guide/recipe-style-guide.html#patch-upstream-status :
+Upstream-Status: [patch-status]
+ERROR: Fatal QA errors were found, failing task.
 
->=20
-> > I do appreciate we're in the middle of release. Personally, I'm in a
-> > lull while core is in testing so I've switched to trying to clean up a
-> > few different ongoing development threads that were deferred until post
-> > release. I appreciate I'm therefore a bit ahead of where others are.
-> > This isn't meant to be any kind of pressure, just a headsup and a
-> > question about if/whether/how any help makes sense, partly to avoid you
-> > getting a load of patches you might not want.
-> >=20
->=20
-> I'll do a mass conversion myself to fix up the whitespace issues,
-> unless you already have one that you are locally testing in that case,
-> feel free to send it, and then I'll fixup the stragglers.
+Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
+---
+ recipes-containers/docker/files/CVE-2024-36620.patch | 3 +--
+ recipes-containers/docker/files/CVE-2024-36621.patch | 3 +--
+ 2 files changed, 2 insertions(+), 4 deletions(-)
 
-I don't have any patch yet. I think Martin Jansa is working on a more
-automated fixup script as I've just done things manually so far. It may
-be worth waiting for that to run against the layer when it is ready.
-
-> I assume this will land in master of bitbake shortly ?
-
-I'm flexible on that. I wanted to post the patch so that people could
-see what state different layers are in. meta-virt seems to be one of
-the more badly affected. I've sent email since I wanted you to be aware
-of it and that I know many people use the layer as a dependency so
-they're going to start reporting this when they test their own layers.
-
->  I haven't
-> branched meta-virt for release yet, and won't for a bit. But I don't
-> mind a patch like this in both as it isn't changing functionality and
-> will make backporting fixes easier.
-
-Agreed, I did fix oe-core and meta-oe before release for similar
-reasons, I had the patches ready.
-
-Cheers,
-
-Richard
-
-
+diff --git a/recipes-containers/docker/files/CVE-2024-36620.patch b/recipes-containers/docker/files/CVE-2024-36620.patch
+index 7bce4137..03628fb3 100644
+--- a/recipes-containers/docker/files/CVE-2024-36620.patch
++++ b/recipes-containers/docker/files/CVE-2024-36620.patch
+@@ -8,8 +8,7 @@ First released in v25.0.0-beta.1
+ 
+ CVE: CVE-2024-36620
+ 
+-Upstream-Status:
+-Backport [https://github.com/moby/moby/commit/ab570ab3d62038b3d26f96a9bb585d0b6095b9b4]
++Upstream-Status: Backport [https://github.com/moby/moby/commit/ab570ab3d62038b3d26f96a9bb585d0b6095b9b4]
+ 
+ Signed-off-by: Praveen Kumar <praveen.kumar@windriver.com>
+ ---
+diff --git a/recipes-containers/docker/files/CVE-2024-36621.patch b/recipes-containers/docker/files/CVE-2024-36621.patch
+index a6c06ef2..6560f46a 100644
+--- a/recipes-containers/docker/files/CVE-2024-36621.patch
++++ b/recipes-containers/docker/files/CVE-2024-36621.patch
+@@ -12,8 +12,7 @@ release only one of these layers was actually released.
+ 
+ CVE: CVE-2024-36621
+ 
+-Upstream-Status:
+-Backport [https://github.com/moby/moby/commit/37545cc644344dcb576cba67eb7b6f51a463d31e]
++Upstream-Status: Backport [https://github.com/moby/moby/commit/37545cc644344dcb576cba67eb7b6f51a463d31e]
+ 
+ Signed-off-by: Praveen Kumar <praveen.kumar@windriver.com>
+ ---
 
