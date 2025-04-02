@@ -2,153 +2,198 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C487C36010
-	for <webhook@archiver.kernel.org>; Wed,  2 Apr 2025 02:22:01 +0000 (UTC)
-Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
- by mx.groups.io with SMTP id smtpd.web10.4178.1743560519116586612
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B6FEC36010
+	for <webhook@archiver.kernel.org>; Wed,  2 Apr 2025 02:22:21 +0000 (UTC)
+Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
+ by mx.groups.io with SMTP id smtpd.web11.4391.1743560535994156742
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 01 Apr 2025 19:21:59 -0700
+ Tue, 01 Apr 2025 19:22:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=A74maOlo;
- spf=pass (domain: gmail.com, ip: 209.85.219.45, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-6df83fd01cbso31029486d6.2
-        for <meta-virtualization@lists.yoctoproject.org>; Tue, 01 Apr 2025 19:21:58 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=RQUCMdVb;
+ spf=pass (domain: gmail.com, ip: 209.85.219.54, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-6e41e18137bso48343746d6.1
+        for <meta-virtualization@lists.yoctoproject.org>; Tue, 01 Apr 2025 19:22:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743560518; x=1744165318; darn=lists.yoctoproject.org;
+        d=gmail.com; s=20230601; t=1743560535; x=1744165335; darn=lists.yoctoproject.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=984uOAeKgL3BGIuvE/akU/4yL5s/2sMz0j9rT9w1ZGY=;
-        b=A74maOloo8pnl3Xa5DkV3MJRv7MFHMekcNCBTO/qYLnqfx6PaQ2+ngWykirpmbJbKl
-         EIAExHbZeID9cOl5gySNPfEYsX0zjsh2wL2xUSSoWMbVrbfMEUTZInagYleiT2CciFqz
-         fK67T7kEI1B8IqbuYd4BuNO7ehkZzO+Xl0UwNSS21bF8Jd6kvxEawkWJGDtMPNr5vUrv
-         du7rjXc/hkznLxNrW9JmduRArR8/NYzx1RoD6TJmtlGYI+drd/JeA6Hyn/Rb7A+K0WET
-         qomMSUt3tVlCmt1DJ/XFOzoYNVdotvosXBSYkR5VPKE2ccx3ylCS8zZTXbWtP6REjmq1
-         U9Gw==
+        bh=8QJsazjJ7H4oRbNKxkM3+DkCs2eYlMctHkTBwebTO6s=;
+        b=RQUCMdVbMVwQcUyKwPpS7g3dlC7JjM7+IjpmXAJwzrfAtB25MFSy0ohu25cK7P/Zfp
+         w/y3pG0oN5IfzcD66zao0fUjZMX6HkGCI5a1oRqaUrxHqsEHkFIh8xpX4uYkYy0YJ2io
+         QTiKzhiKyB3K4ghdtbir+zP6b8MPoBuSY3nTUuy26lV+fnHDutAuspwi36mHODriXr+k
+         Z42q6hG3Xk95szthOqxi13gCdZKlze9zk90NRC30FtRjbDR5/LsTe/7ctRjEh1MuF13l
+         UeZkUjVmz2t6NURPzUsjC4iIsAOL9r2X2Kkkk930xbVvxDtoaITromxQ/IYg8byJGVSd
+         gUBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743560518; x=1744165318;
+        d=1e100.net; s=20230601; t=1743560535; x=1744165335;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=984uOAeKgL3BGIuvE/akU/4yL5s/2sMz0j9rT9w1ZGY=;
-        b=Yz4nJGe36onfbmmmcvIksPUAGpmarmpHaOcT3Ca804B4OwcWwGVcmn7KYHHRz2CbyZ
-         VYqVjtIXAK9bUub/+Xyhskx5i27JLP6DDlpBTt2AKVdDTJ6RaBqZ30nyvh0USd+hYVDb
-         SSMovgexftEk4Hsdv4ax61P5rqgF4QMxK5/Q2Zf/s8MZe+YiTkTZGXxWszjD2pAXAROf
-         6nxj2eZs7HhfjTMcnStfL3DlrQP3rPWaxB08NeCcViDAjdGCEzYaUQkgT0EBjaeemD8x
-         CjG4M2msRvTkqTWYrfNaRDKP2wOFYe0O5YY2mOSgE/OZrhWj1mLgbizrfXsEPfXkN41S
-         g65Q==
-X-Gm-Message-State: AOJu0Yw3qLnvDZljexUMMnZzqvVeQFu11UVGu4kEuTaURQgNDH9rsrmi
-	sM5BVTsZixqgubB33DJPwZ3NX9vOBgSA+AmSHAFQyAvPOGzdhCIHLkpQT6g96iI=
-X-Gm-Gg: ASbGncu6qBr51t7p8DhNGbkj0h6rvYa0tSu7wzKGHqsl9ipEKMnxoyqL5dFtCKqxpfe
-	+7hysHbS8MerwhlZ3T1LY8sEL9klmld40l1jN+XwIb0BsCNrRBvnd+/KSjlGjqe/h2AGtea20zp
-	76gdm7VeKHTOC272pNdI2fdCEOH85TEOFw+eZQ9eZixswp512IV+tBTp5NAUcYRoqOQceZ8DYmq
-	7X5fO4PYR6Ca9RmNCHjitIbzwJwVbCQsM8NZcAW3AauDvRku+nZMYwPtyS7JiUf/Qk6rzXCjXsb
-	8LVM5tdPs9bNHaBNDWDvlcXBcnJyCiyo8BZly+Tzfi66as/V/yj2Rx1TurB/duerv+TWE8+NbMj
-	EZxxHqFtxeF1SmYioWHM1Q2w=
-X-Google-Smtp-Source: AGHT+IEYFqP3LV7QaqwT8pREvSfP/RlRx07wuh9MdLNPqrPLXSI8Sp30kkt9VjPLd5ucg17AAdGUrA==
-X-Received: by 2002:ad4:4ea8:0:b0:6e8:9a55:824f with SMTP id 6a1803df08f44-6eed5f60fddmr195586296d6.6.1743560518054;
-        Tue, 01 Apr 2025 19:21:58 -0700 (PDT)
+        bh=8QJsazjJ7H4oRbNKxkM3+DkCs2eYlMctHkTBwebTO6s=;
+        b=IWf8+WAkF9qwyqZtsKsLCQl+cXi31bzXznoDa1Kp7kRyDDqPE7XvtbcsK6IAJqgTM7
+         aaCLzwnuProO4RgHZAAiu25czGlmoGE0QGwoIZJpi6jB6epI/fLiwo/SEtFLqvNVYB7h
+         dCNezzR17YCmcxZ6KOQh7VfBYCdjWL2QOqBjFVEzXUdITL5dQ7dS43DgxXr7gYSEs8KO
+         B/m7NlvJU+QHU3exdaiBUMZ+HH9jzFeq9H7U0/zI57YmEGE/2kFJmRvU4C+IXDXqB07C
+         qz4MmcWZ+GQY410LBzizg0Z1N0ZkBaMMTf16jj96BSkpFsj4yW7QwxqGUP8UMNKLk5pz
+         EWMg==
+X-Gm-Message-State: AOJu0YwGeUsa9letpRn8ztqiDzv3sBkxZZ9vxEgjkEv3/5btq15uS6Pm
+	hqexoS8/3x2wbGMhdIlwfDTTpTu8WFXqDkS14TFDMkZsSciTX+HvmK5iC6zTllM=
+X-Gm-Gg: ASbGnctNKhSLJCUqGYN4zSaUuEkym5AK910HyD08phLWiYEbLVpYOBuYf9gf8kAH6PE
+	6/jof5Vlr+GFM72sU/DronKno+aiyklGbcSS00U9yJ7Hahx36D94EJDlkg1UXIfv1N0uCeSh0kX
+	Lt7IeVyThPDvCcUzapmcEawG3h+rsYfiZOxwp05xJ/D+/vi+KcgRFWaWMxpZnnhoqC+twJlbYEg
+	TxLWyDc/uNFDBH1m29V1mI5+/V7FPzN9kB7appMFX05jd1rRugNH3svzbwb5H8WIizD18t/b87b
+	PBAvIXDQ+vDZ3GM6JoNs5LF7Ii2sHum9hE2J91kQYIj0VborhCQQtwvIFfC0epnJcNNeWRObk7u
+	rXazVShIbuKyLwhuiIU0MlYQ=
+X-Google-Smtp-Source: AGHT+IGkY1iA1BZw6+T0k6pq5I1eJdRrh6m0uTRIshXoOW+XpMIZrBQYTDuGKArE2azO6e7D/JQX1w==
+X-Received: by 2002:ad4:4aea:0:b0:6eb:1f63:5cac with SMTP id 6a1803df08f44-6ef02b7d4a7mr12334156d6.5.1743560534715;
+        Tue, 01 Apr 2025 19:22:14 -0700 (PDT)
 Received: from gmail.com (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c5f7659ad8sm733543885a.22.2025.04.01.19.21.57
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6eec950465asm69370956d6.0.2025.04.01.19.22.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Apr 2025 19:21:57 -0700 (PDT)
-Date: Wed, 2 Apr 2025 02:21:55 +0000
+        Tue, 01 Apr 2025 19:22:14 -0700 (PDT)
+Date: Wed, 2 Apr 2025 02:22:12 +0000
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 To: praveen.kumar@windriver.com
 Cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [meta-virtualization][scarthgap][PATCH 1/3] docker-moby: Fix
- CVE-2024-36620
-Message-ID: <Z-yfQ5kffuhkv696@gmail.com>
+Subject: Re: [meta-virtualization][scarthgap][PATCH 2/3] docker-moby: Fix
+ CVE-2024-36621
+Message-ID: <Z-yfVPCgWsRzCaq9@gmail.com>
 References: <20250326195009.757247-1-praveen.kumar@windriver.com>
+ <20250326195009.757247-2-praveen.kumar@windriver.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250326195009.757247-1-praveen.kumar@windriver.com>
+In-Reply-To: <20250326195009.757247-2-praveen.kumar@windriver.com>
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Wed, 02 Apr 2025 02:22:01 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9184
-
+ <meta-virtualization@lists.yoctoproject.org>; Wed, 02 Apr 2025 02:22:21 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9185
 
 merged.
 
 Bruce
 
-In message: [meta-virtualization][scarthgap][PATCH 1/3] docker-moby: Fix CVE-2024-36620
+In message: [meta-virtualization][scarthgap][PATCH 2/3] docker-moby: Fix CVE-2024-36621
 on 26/03/2025 Praveen Kumar via lists.yoctoproject.org wrote:
 
-> moby v25.0.0 - v26.0.2 is vulnerable to NULL Pointer Dereference
-> via daemon/images/image_history.go.
+> moby v25.0.5 is affected by a Race Condition in
+> builder/builder-next/adapters/snapshot/layer.go. The vulnerability could
+> be used to trigger concurrent builds that call the EnsureLayer function
+> resulting in resource leaks/exhaustion.
 > 
 > Reference:
-> https://nvd.nist.gov/vuln/detail/CVE-2024-36620
+> https://nvd.nist.gov/vuln/detail/CVE-2024-36621
 > 
 > Upstream-patch:
-> https://github.com/moby/moby/commit/ab570ab3d62038b3d26f96a9bb585d0b6095b9b4
+> https://github.com/moby/moby/commit/37545cc644344dcb576cba67eb7b6f51a463d31e
 > 
 > Signed-off-by: Praveen Kumar <praveen.kumar@windriver.com>
 > ---
 >  recipes-containers/docker/docker-moby_git.bb  |  1 +
->  .../docker/files/CVE-2024-36620.patch         | 40 +++++++++++++++++++
->  2 files changed, 41 insertions(+)
->  create mode 100644 recipes-containers/docker/files/CVE-2024-36620.patch
+>  .../docker/files/CVE-2024-36621.patch         | 83 +++++++++++++++++++
+>  2 files changed, 84 insertions(+)
+>  create mode 100644 recipes-containers/docker/files/CVE-2024-36621.patch
 > 
 > diff --git a/recipes-containers/docker/docker-moby_git.bb b/recipes-containers/docker/docker-moby_git.bb
-> index 0abb0b3f..a1879ed2 100644
+> index a1879ed2..d274b002 100644
 > --- a/recipes-containers/docker/docker-moby_git.bb
 > +++ b/recipes-containers/docker/docker-moby_git.bb
-> @@ -56,6 +56,7 @@ SRC_URI = "\
->  	file://0001-libnetwork-use-GO-instead-of-go.patch \
+> @@ -57,6 +57,7 @@ SRC_URI = "\
 >          file://0001-cli-use-external-GO111MODULE-and-cross-compiler.patch \
 >          file://0001-dynbinary-use-go-cross-compiler.patch;patchdir=src/import \
-> +        file://CVE-2024-36620.patch;patchdir=src/import \
+>          file://CVE-2024-36620.patch;patchdir=src/import \
+> +        file://CVE-2024-36621.patch;patchdir=src/import \
 >  	"
 >  
 >  DOCKER_COMMIT = "${SRCREV_moby}"
-> diff --git a/recipes-containers/docker/files/CVE-2024-36620.patch b/recipes-containers/docker/files/CVE-2024-36620.patch
+> diff --git a/recipes-containers/docker/files/CVE-2024-36621.patch b/recipes-containers/docker/files/CVE-2024-36621.patch
 > new file mode 100644
-> index 00000000..7bce4137
+> index 00000000..a6c06ef2
 > --- /dev/null
-> +++ b/recipes-containers/docker/files/CVE-2024-36620.patch
-> @@ -0,0 +1,40 @@
-> +From ab570ab3d62038b3d26f96a9bb585d0b6095b9b4 Mon Sep 17 00:00:00 2001
-> +From: Christopher Petito <47751006+krissetto@users.noreply.github.com>
-> +Date: Fri, 19 Apr 2024 10:44:30 +0000
-> +Subject: [PATCH] nil dereference fix on image history Created value
+> +++ b/recipes-containers/docker/files/CVE-2024-36621.patch
+> @@ -0,0 +1,83 @@
+> +From 37545cc644344dcb576cba67eb7b6f51a463d31e Mon Sep 17 00:00:00 2001
+> +From: Tonis Tiigi <tonistiigi@gmail.com>
+> +Date: Wed, 6 Mar 2024 23:11:32 -0800
+> +Subject: [PATCH] builder-next: fix missing lock in ensurelayer
 > +
-> +Issue was caused by the changes here https://github.com/moby/moby/pull/45504
-> +First released in v25.0.0-beta.1
+> +When this was called concurrently from the moby image
+> +exporter there could be a data race where a layer was
+> +written to the refs map when it was already there.
 > +
-> +CVE: CVE-2024-36620
+> +In that case the reference count got mixed up and on
+> +release only one of these layers was actually released.
+> +
+> +CVE: CVE-2024-36621
 > +
 > +Upstream-Status:
-> +Backport [https://github.com/moby/moby/commit/ab570ab3d62038b3d26f96a9bb585d0b6095b9b4]
+> +Backport [https://github.com/moby/moby/commit/37545cc644344dcb576cba67eb7b6f51a463d31e]
 > +
 > +Signed-off-by: Praveen Kumar <praveen.kumar@windriver.com>
 > +---
-> + daemon/images/image_history.go | 6 +++++-
-> + 1 file changed, 5 insertions(+), 1 deletion(-)
+> + .../builder-next/adapters/snapshot/layer.go   |  3 +++
+> + .../adapters/snapshot/snapshot.go             | 19 +++++++++++--------
+> + 2 files changed, 14 insertions(+), 8 deletions(-)
 > +
-> +diff --git a/daemon/images/image_history.go b/daemon/images/image_history.go
-> +index dcf7a906aa..e5adda8639 100644
-> +--- a/daemon/images/image_history.go
-> ++++ b/daemon/images/image_history.go
-> +@@ -41,10 +41,14 @@ func (i *ImageService) ImageHistory(ctx context.Context, name string) ([]*image.
-> +			layer.ReleaseAndLog(i.layerStore, l)
-> +			layerCounter++
-> +		}
-> ++		var created int64
-> ++		if h.Created != nil {
-> ++			created = h.Created.Unix()
-> ++		}
+> +diff --git a/builder/builder-next/adapters/snapshot/layer.go b/builder/builder-next/adapters/snapshot/layer.go
+> +index 73120ea70b..fc83058339 100644
+> +--- a/builder/builder-next/adapters/snapshot/layer.go
+> ++++ b/builder/builder-next/adapters/snapshot/layer.go
+> +@@ -22,6 +22,9 @@ func (s *snapshotter) GetDiffIDs(ctx context.Context, key string) ([]layer.DiffI
+> + }
 > +
-> +		history = append([]*image.HistoryResponseItem{{
-> +			ID:        "<missing>",
-> +-			Created:   h.Created.Unix(),
-> ++			Created:   created,
-> +			CreatedBy: h.CreatedBy,
-> +			Comment:   h.Comment,
-> +			Size:      layerSize,
+> + func (s *snapshotter) EnsureLayer(ctx context.Context, key string) ([]layer.DiffID, error) {
+> ++	s.layerCreateLocker.Lock(key)
+> ++	defer s.layerCreateLocker.Unlock(key)
+> ++
+> +	diffIDs, err := s.GetDiffIDs(ctx, key)
+> +	if err != nil {
+> +		return nil, err
+> +diff --git a/builder/builder-next/adapters/snapshot/snapshot.go b/builder/builder-next/adapters/snapshot/snapshot.go
+> +index a0d28ad984..510ffefb49 100644
+> +--- a/builder/builder-next/adapters/snapshot/snapshot.go
+> ++++ b/builder/builder-next/adapters/snapshot/snapshot.go
+> +@@ -17,6 +17,7 @@ import (
+> +	"github.com/moby/buildkit/identity"
+> +	"github.com/moby/buildkit/snapshot"
+> +	"github.com/moby/buildkit/util/leaseutil"
+> ++	"github.com/moby/locker"
+> +	"github.com/opencontainers/go-digest"
+> +	"github.com/pkg/errors"
+> +	bolt "go.etcd.io/bbolt"
+> +@@ -51,10 +52,11 @@ type checksumCalculator interface {
+> + type snapshotter struct {
+> +	opt Opt
+> +
+> +-	refs map[string]layer.Layer
+> +-	db   *bolt.DB
+> +-	mu   sync.Mutex
+> +-	reg  graphIDRegistrar
+> ++	refs              map[string]layer.Layer
+> ++	db                *bolt.DB
+> ++	mu                sync.Mutex
+> ++	reg               graphIDRegistrar
+> ++	layerCreateLocker *locker.Locker
+> + }
+> +
+> + // NewSnapshotter creates a new snapshotter
+> +@@ -71,10 +73,11 @@ func NewSnapshotter(opt Opt, prevLM leases.Manager, ns string) (snapshot.Snapsho
+> +	}
+> +
+> +	s := &snapshotter{
+> +-		opt:  opt,
+> +-		db:   db,
+> +-		refs: map[string]layer.Layer{},
+> +-		reg:  reg,
+> ++		opt:               opt,
+> ++		db:                db,
+> ++		refs:              map[string]layer.Layer{},
+> ++		reg:               reg,
+> ++		layerCreateLocker: locker.New(),
+> +	}
+> +
+> +	slm := newLeaseManager(s, prevLM)
 > +--
 > +2.40.0
 > -- 
@@ -158,8 +203,8 @@ on 26/03/2025 Praveen Kumar via lists.yoctoproject.org wrote:
 > 
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#9174): https://lists.yoctoproject.org/g/meta-virtualization/message/9174
-> Mute This Topic: https://lists.yoctoproject.org/mt/111924192/1050810
+> View/Reply Online (#9175): https://lists.yoctoproject.org/g/meta-virtualization/message/9175
+> Mute This Topic: https://lists.yoctoproject.org/mt/111924195/1050810
 > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
 > Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
