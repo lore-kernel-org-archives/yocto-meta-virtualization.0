@@ -1,152 +1,226 @@
-Return-Path: <Yogita.Urade@windriver.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF3D2C36010
-	for <webhook@archiver.kernel.org>; Fri,  4 Apr 2025 10:04:42 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.7316.1743761076747823795
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42150C36010
+	for <webhook@archiver.kernel.org>; Fri,  4 Apr 2025 14:04:44 +0000 (UTC)
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+ by mx.groups.io with SMTP id smtpd.web11.12073.1743775474141448871
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 04 Apr 2025 03:04:36 -0700
+ Fri, 04 Apr 2025 07:04:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=618979b84a=yogita.urade@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5348diis023846
-	for <meta-virtualization@lists.yoctoproject.org>; Fri, 4 Apr 2025 03:04:36 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 45sg1ua31d-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <meta-virtualization@lists.yoctoproject.org>; Fri, 04 Apr 2025 03:04:35 -0700 (PDT)
-Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Fri, 4 Apr 2025 03:04:33 -0700
-From: yurade <yogita.urade@windriver.com>
-To: <meta-virtualization@lists.yoctoproject.org>
-Subject: [meta-virtualization][kirkstone][PATCH 1/1] ceph: fix CVE-2023-43040
-Date: Fri, 4 Apr 2025 10:04:09 +0000
-Message-ID: <20250404100409.3558585-1-yogita.urade@windriver.com>
-X-Mailer: git-send-email 2.40.0
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=J/l+6weo;
+ spf=pass (domain: gmail.com, ip: 209.85.215.179, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-af548cb1f83so1856644a12.3
+        for <meta-virtualization@lists.yoctoproject.org>; Fri, 04 Apr 2025 07:04:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1743775473; x=1744380273; darn=lists.yoctoproject.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Q/buSjh2dYgPcvf/P9f5Ml0wN1s4z7mTiwSRWYAQfXY=;
+        b=J/l+6weoDUTHgcgnDH2NwEkmCrgcnjouTnywpRRKVN2vO+Fl0EsDpK8zbzPm+VbLp5
+         8uYDLgUPPOUetn2l2l2SfnBog0HaQB/3U0g2dPIoSKXZbsDDX+ta/jwmatjanFBLhTuO
+         C38VBrgt1wO/Ybe6e69ivVgFSZvGx+duWhS/u4bghMkQvv4YlIoF+d06bO/IjeyaF5zS
+         EhL4KXcy+k5l1IaF2+zYD5Eo5REVdjp3HXqku77FdMKsKHbCtOux2SdCFhMX+49x87+Z
+         +3li45sBobQiOLNu+DLV4+52IPCwiFCafxGhrJnB7EJ3ZRwk5l1hTczWNFqC6RpQ9Xft
+         HCTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743775473; x=1744380273;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Q/buSjh2dYgPcvf/P9f5Ml0wN1s4z7mTiwSRWYAQfXY=;
+        b=YbdqCEBDIywKJHiLKEJMD8VWuYapx8KA/MEcB14PIqC9swiswMRS7OdTqUKc5XCX7O
+         d//x6ez/18nRDAxDsOK+MoEPAaEG5WM4i2ODMXZ303HfPWfM85tD0XkRrOXuk21h5XVx
+         F0PTAe+G+bDHM7Vm6Jes7Jo8wN5cAyOizJ8KPtFmbiwyGUz+4qSz8gwBJOq+OOMWjN4a
+         5v1zGn+lMLEgyBxOgM7AjoOi+L7CVhUtVEJ30xjwak25yxdvWo93b6tB7OuXQaUpkBLG
+         a5HrUUpQXiPVlYqXPXc2ODHS0shjvlPVcMlblNPeqNj5ge0MwZ5f6cNU8jYiLiC5mCDa
+         t+Cw==
+X-Gm-Message-State: AOJu0YyxCnpC22fsevfThS9iEbRZieXOWFTM4LxLlfVkR8qJiYPvKTbl
+	QFCaMXIrNfVevPLGxxK3H+uiihPfhCvpKiiiqAKQC7/gMCtxtRGuS44IrRVmDWkWhmGGWHDdxd4
+	bSxUhH3PpqFH5kwPGwvxwEl8sfc0=
+X-Gm-Gg: ASbGncu1qoHeE15dMbFb4flU2rKo9hBFxVFypDu1jPwTyfqZJV57tD9PwZVNrC8NwBV
+	qvwOspNEU5KcAq/bmdaozWEaAiZIanRM9Ubry0msBJG41KlbJWlgrw7lI/gpYjBVn0R1EdQw1zA
+	arshlzJn0I+gu0N+urjmGeSmDRvuA=
+X-Google-Smtp-Source: AGHT+IFduj8/ZZ0IEt+HpdtrqldvzrsMyjqD8Q2fBdJClEihM6HrFXwLUwAdfZmpUQISCsFLP3YO1BYfIF7vyGeQq3s=
+X-Received: by 2002:a17:90b:53c5:b0:2f2:a664:df20 with SMTP id
+ 98e67ed59e1d1-306a47c2e20mr5755178a91.7.1743775472990; Fri, 04 Apr 2025
+ 07:04:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [147.11.136.210]
-X-ClientProxiedBy: ala-exchng01.corp.ad.wrs.com (147.11.82.252) To
- ala-exchng01.corp.ad.wrs.com (147.11.82.252)
-X-Proofpoint-ORIG-GUID: a4WHRnep16tnqekNM-D0ZyZ8ZXi88HH5
-X-Authority-Analysis: v=2.4 cv=Aqnu3P9P c=1 sm=1 tr=0 ts=67efaeb4 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=Ljcx4Z80PikA:10 a=HCiNrPZc1L8A:10 a=XR8D0OoHHMoA:10 a=PYnjg3YJAAAA:8 a=NEAV23lmAAAA:8 a=4u6H09k7AAAA:8
- a=t7CeM3EgAAAA:8 a=KFlg1KZOAAAA:8 a=I6RE4me7PPpNF2afBxEA:9 a=5yerskEF2kbSkDMynNst:22 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-GUID: a4WHRnep16tnqekNM-D0ZyZ8ZXi88HH5
-X-Sensitive_Customer_Information: Yes
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-04_04,2025-04-03_03,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 mlxscore=0
- mlxlogscore=999 adultscore=0 spamscore=0 priorityscore=1501 phishscore=0
- clxscore=1011 malwarescore=0 lowpriorityscore=0 bulkscore=0
- impostorscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2502280000
- definitions=main-2504040068
+References: <18328BABEEB953D4.22698@lists.yoctoproject.org> <CA+chaQen8GCkgLBDBNNGXtrxWWD2k5V62-M3dTqv6egp753Njg@mail.gmail.com>
+In-Reply-To: <CA+chaQen8GCkgLBDBNNGXtrxWWD2k5V62-M3dTqv6egp753Njg@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Fri, 4 Apr 2025 10:04:20 -0400
+X-Gm-Features: AQ5f1JrOvnGzWvVN06OI-BjgacEp5BgFAh3h88Jdf77ZeRRplEDMS8z9pNT2bf4
+Message-ID: <CADkTA4O2Nr+Bu+VuVRtdVQfUAzqbQ7yT7mtmWePaOOkPb3sbmA@mail.gmail.com>
+Subject: Re: [meta-virtualization] [PATCH 1/3] metadata: add whitespace around assignments
+To: martin.jansa@gmail.com
+Cc: meta-virtualization@lists.yoctoproject.org
+Content-Type: multipart/alternative; boundary="000000000000a2c11f0631f45d9d"
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Fri, 04 Apr 2025 10:04:42 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9200
+ <meta-virtualization@lists.yoctoproject.org>; Fri, 04 Apr 2025 14:04:44 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9201
 
-From: Yogita Urade <yogita.urade@windriver.com>
+--000000000000a2c11f0631f45d9d
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-IBM Spectrum Fusion HCI 2.5.2 through 2.7.2 could allow an
-attacker to perform unauthorized actions in RGW for Ceph due
-to improper bucket access. IBM X-Force ID: 266807.
+On Fri, Apr 4, 2025 at 2:34=E2=80=AFAM Martin Jansa via lists.yoctoproject.=
+org
+<martin.jansa=3Dgmail.com@lists.yoctoproject.org> wrote:
 
-Reference:
-https://nvd.nist.gov/vuln/detail/CVE-2023-43040
+> On Wed, Apr 2, 2025 at 5:59=E2=80=AFPM Martin Jansa via lists.yoctoprojec=
+t.org
+> <martin.jansa=3Dgmail.com@lists.yoctoproject.org> wrote:
+> >
+> > From: Martin Jansa <martin.jansa@gmail.com>
+> >
+> > With:
+> > https://lists.openembedded.org/g/bitbake-devel/message/17508
+> > there are many WARNINGs from this layer will cover src_uri.inc files
+> > in next commit.
+>
+> Hi Bruce,
+>
+> I see you already have them in master-next and I've noticed your
+> fix-up for cri-tools.
+>
+> There is one more case like that in:
+> recipes-containers/docker-distribution/docker-distribution_git.bb:
+> EXTRA_OEMAKE
+> =3D "BUILDTAGS =3D ''"
+> do you want me to send v2 with both fix-ups included or additional one
+> for docker-distribution or will you fix it yourself?
+>
 
-Upstream patch:
-https://github.com/ceph/ceph/commit/98bfb71cb38899333deb58dd2562037450fd7fa8
+I have it tweaked locally, I'll just push it shortly once I've done a bit
+more testing on
+some unrelated changes.
 
-Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
----
- .../ceph/ceph/CVE-2023-43040.patch            | 56 +++++++++++++++++++
- recipes-extended/ceph/ceph_15.2.17.bb         |  1 +
- 2 files changed, 57 insertions(+)
- create mode 100644 recipes-extended/ceph/ceph/CVE-2023-43040.patch
 
-diff --git a/recipes-extended/ceph/ceph/CVE-2023-43040.patch b/recipes-extended/ceph/ceph/CVE-2023-43040.patch
-new file mode 100644
-index 00000000..18fca583
---- /dev/null
-+++ b/recipes-extended/ceph/ceph/CVE-2023-43040.patch
-@@ -0,0 +1,56 @@
-+From 98bfb71cb38899333deb58dd2562037450fd7fa8 Mon Sep 17 00:00:00 2001
-+From: Joshua Baergen <jbaergen@digitalocean.com>
-+Date: Wed, 17 May 2023 12:17:09 -0600
-+Subject: [PATCH] rgw: Fix bucket validation against POST policies
-+
-+It's possible that user could provide a form part as a part of a POST
-+object upload that uses 'bucket' as a key; in this case, it was
-+overriding what was being set in the validation env (which is the real
-+bucket being modified). The result of this is that a user could actually
-+upload to any bucket accessible by the specified access key by matching
-+the bucket in the POST policy in said POST form part.
-+
-+Fix this simply by setting the bucket to the correct value after the
-+POST form parts are processed, ignoring the form part above if
-+specified.
-+
-+Fixes: https://tracker.ceph.com/issues/63004
-+
-+Signed-off-by: Joshua Baergen <jbaergen@digitalocean.com>
-+
-+CVE: CVE-2023-43040
-+Upstream-Status: Backport [https://github.com/ceph/ceph/commit/98bfb71cb38899333deb58dd2562037450fd7fa8]
-+
-+Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
-+---
-+ src/rgw/rgw_rest_s3.cc | 8 ++++----
-+ 1 file changed, 4 insertions(+), 4 deletions(-)
-+
-+diff --git a/src/rgw/rgw_rest_s3.cc b/src/rgw/rgw_rest_s3.cc
-+index cb026714..40b4ff92 100644
-+--- a/src/rgw/rgw_rest_s3.cc
-++++ b/src/rgw/rgw_rest_s3.cc
-+@@ -2735,10 +2735,6 @@ int RGWPostObj_ObjStore_S3::get_params()
-+
-+   map_qs_metadata(s);
-+
-+-  ldpp_dout(this, 20) << "adding bucket to policy env: " << s->bucket.name
-+-		    << dendl;
-+-  env.add_var("bucket", s->bucket.name);
-+-
-+   bool done;
-+   do {
-+     struct post_form_part part;
-+@@ -2789,6 +2785,10 @@ int RGWPostObj_ObjStore_S3::get_params()
-+     env.add_var(part.name, part_str);
-+   } while (!done);
-+
-++  ldpp_dout(this, 20) << "adding bucket to policy env: " << s->bucket.name
-++                    << dendl;
-++  env.add_var("bucket", s->bucket.name);
-++
-+   string object_str;
-+   if (!part_str(parts, "key", &object_str)) {
-+     err_msg = "Key not specified";
-+--
-+2.40.0
-diff --git a/recipes-extended/ceph/ceph_15.2.17.bb b/recipes-extended/ceph/ceph_15.2.17.bb
-index 9fb2e722..4f32db0e 100644
---- a/recipes-extended/ceph/ceph_15.2.17.bb
-+++ b/recipes-extended/ceph/ceph_15.2.17.bb
-@@ -14,6 +14,7 @@ SRC_URI = "http://download.ceph.com/tarballs/ceph-${PV}.tar.gz \
-            file://ceph.conf \
-            file://0001-cmake-add-support-for-python3.10.patch \
-            file://0001-SnappyCompressor.h-fix-snappy-compiler-error.patch \
-+           file://CVE-2023-43040.patch \
- "
- 
- SRC_URI[sha256sum] = "d8efe4996aeb01dd2f1cc939c5e434e5a7e2aeaf3f659c0510ffd550477a32e2"
--- 
-2.40.0
+>
+> I did run a world build with these changes, but some recipes aren't
+> included for our DISTRO even with world build. Sorry about missing
+> these 2.
+>
 
+2 really minor issues out of that many changes is excellent. I was just
+starting
+to write a script (or should I say "generate" a script) to do the same
+changes
+and you saved me quite a bit of time, so you have my thanks for the
+contribution!
+
+Bruce
+
+
+
+>
+> Cheers,
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#9199):
+> https://lists.yoctoproject.org/g/meta-virtualization/message/9199
+> Mute This Topic: https://lists.yoctoproject.org/mt/112049203/1050810
+> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [
+> bruce.ashfield@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end
+- "Use the force Harry" - Gandalf, Star Trek II
+
+--000000000000a2c11f0631f45d9d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
+t-size:small"><br></div></div><br><div class=3D"gmail_quote gmail_quote_con=
+tainer"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Apr 4, 2025 at 2:34=
+=E2=80=AFAM Martin Jansa via <a href=3D"http://lists.yoctoproject.org">list=
+s.yoctoproject.org</a> &lt;martin.jansa=3D<a href=3D"mailto:gmail.com@lists=
+.yoctoproject.org">gmail.com@lists.yoctoproject.org</a>&gt; wrote:<br></div=
+><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border=
+-left:1px solid rgb(204,204,204);padding-left:1ex">On Wed, Apr 2, 2025 at 5=
+:59=E2=80=AFPM Martin Jansa via <a href=3D"http://lists.yoctoproject.org" r=
+el=3D"noreferrer" target=3D"_blank">lists.yoctoproject.org</a><br>
+&lt;martin.jansa=3D<a href=3D"mailto:gmail.com@lists.yoctoproject.org" targ=
+et=3D"_blank">gmail.com@lists.yoctoproject.org</a>&gt; wrote:<br>
+&gt;<br>
+&gt; From: Martin Jansa &lt;<a href=3D"mailto:martin.jansa@gmail.com" targe=
+t=3D"_blank">martin.jansa@gmail.com</a>&gt;<br>
+&gt;<br>
+&gt; With:<br>
+&gt; <a href=3D"https://lists.openembedded.org/g/bitbake-devel/message/1750=
+8" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/g/bi=
+tbake-devel/message/17508</a><br>
+&gt; there are many WARNINGs from this layer will cover src_uri.inc files<b=
+r>
+&gt; in next commit.<br>
+<br>
+Hi Bruce,<br>
+<br>
+I see you already have them in master-next and I&#39;ve noticed your<br>
+fix-up for cri-tools.<br>
+<br>
+There is one more case like that in:<br>
+recipes-containers/docker-distribution/docker-distribution_git.bb:EXTRA_OEM=
+AKE<br>
+=3D &quot;BUILDTAGS =3D &#39;&#39;&quot;<br>
+do you want me to send v2 with both fix-ups included or additional one<br>
+for docker-distribution or will you fix it yourself?<br></blockquote><div><=
+br></div><div><div class=3D"gmail_default" style=3D"font-size:small">I have=
+ it tweaked locally, I&#39;ll just push it shortly once I&#39;ve done a bit=
+ more testing on</div><div class=3D"gmail_default" style=3D"font-size:small=
+">some unrelated changes.</div></div><div>=C2=A0</div><blockquote class=3D"=
+gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(20=
+4,204,204);padding-left:1ex">
+<br>
+I did run a world build with these changes, but some recipes aren&#39;t<br>
+included for our DISTRO even with world build. Sorry about missing<br>
+these 2.<br></blockquote><div><br></div><div><div class=3D"gmail_default" s=
+tyle=3D"font-size:small">2 really minor issues out of that many changes is =
+excellent. I was just starting</div><div class=3D"gmail_default" style=3D"f=
+ont-size:small">to write a script (or should I say &quot;generate&quot; a s=
+cript) to do the same changes</div><div class=3D"gmail_default" style=3D"fo=
+nt-size:small">and you saved me quite a bit of time, so you have my thanks =
+for the contribution!</div><div class=3D"gmail_default" style=3D"font-size:=
+small"><br></div><div class=3D"gmail_default" style=3D"font-size:small">Bru=
+ce</div><br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">
+<br>
+Cheers,<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#9199): <a href=3D"https://lists.yoctoproject.org/g/meta=
+-virtualization/message/9199" rel=3D"noreferrer" target=3D"_blank">https://=
+lists.yoctoproject.org/g/meta-virtualization/message/9199</a><br>
+Mute This Topic: <a href=3D"https://lists.yoctoproject.org/mt/112049203/105=
+0810" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.org/m=
+t/112049203/1050810</a><br>
+Group Owner: <a href=3D"mailto:meta-virtualization%2Bowner@lists.yoctoproje=
+ct.org" target=3D"_blank">meta-virtualization+owner@lists.yoctoproject.org<=
+/a><br>
+Unsubscribe: <a href=3D"https://lists.yoctoproject.org/g/meta-virtualizatio=
+n/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.or=
+g/g/meta-virtualization/unsub</a> [<a href=3D"mailto:bruce.ashfield@gmail.c=
+om" target=3D"_blank">bruce.ashfield@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
+=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
+ignature">- Thou shalt not follow the NULL pointer, for chaos and madness a=
+wait thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star T=
+rek II<br><br></div></div>
+
+--000000000000a2c11f0631f45d9d--
 
