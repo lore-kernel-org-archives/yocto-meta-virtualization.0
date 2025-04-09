@@ -1,142 +1,110 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <troth@openavr.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EABDC36002
-	for <webhook@archiver.kernel.org>; Wed,  9 Apr 2025 04:05:10 +0000 (UTC)
-Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
- by mx.groups.io with SMTP id smtpd.web11.829.1744171508176896003
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20EBAC36002
+	for <webhook@archiver.kernel.org>; Wed,  9 Apr 2025 15:07:24 +0000 (UTC)
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+ by mx.groups.io with SMTP id smtpd.web10.10958.1744211234555422400
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 08 Apr 2025 21:05:08 -0700
+ Wed, 09 Apr 2025 08:07:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ZT1N3GMd;
- spf=pass (domain: gmail.com, ip: 209.85.219.41, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-6ecfc7ed0c1so53923066d6.3
-        for <meta-virtualization@lists.yoctoproject.org>; Tue, 08 Apr 2025 21:05:08 -0700 (PDT)
+ dkim=pass header.i=@openavr-org.20230601.gappssmtp.com header.s=20230601 header.b=NAVO2wTy;
+ spf=none, err=permanent DNS error (domain: openavr.org, ip: 209.85.160.172, mailfrom: troth@openavr.org)
+Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-4768f90bf36so62704741cf.0
+        for <meta-virtualization@lists.yoctoproject.org>; Wed, 09 Apr 2025 08:07:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744171507; x=1744776307; darn=lists.yoctoproject.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=RJ4nm1f2gfF/L+c+IXgX0HbHH9luA8EuVn/32w617wA=;
-        b=ZT1N3GMd/Ni4XZWdSW2eONrMT66U7OZRdjMm/ogUhgdC3pdKjVGg0PuC9lACA9IodV
-         oS70w/stj95p6gFp7qm+mwTcsjesH1UW8pIgQJ8+qAV6KBjCv9E5nRqmKPjK1tDcpLXW
-         nkatl0N17L6/pX/6mSfpSAsj5rUXn2liwY9qOSEDK/isuWXsDA/+Nm1RVu1xAb0+X6FD
-         C+yR35dEWK4u+ZSBX21od4N1eL0k28Y+EM04/gzI34co9hYQCIwm/sjLY+7zD1AP3fnH
-         A+T2GTnGaO+Wfe6knocBre66CVar4C8JjkQsp052npxtNFnFI503bZ2Xx5da8RTRsbCU
-         bwPw==
+        d=openavr-org.20230601.gappssmtp.com; s=20230601; t=1744211232; x=1744816032; darn=lists.yoctoproject.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=4Xo6RZtU+EEy+7Qm3m97YqbP4qe3OUp5Tp/7/2M7PUw=;
+        b=NAVO2wTyYx7xxd2N4/p4Tpig++RPe7kWlNxYM3VulUnXPnv5TwjYdspCQdF5XEP930
+         ZKwHczk+SBomzDJARLNLnEKuDowYq5jDfiq9+FrZ2AZc4Ujkk9doN/TCb7j53OWpXNHK
+         +Uoo5x1nabBbbp6eqoFa7dFP4I2iEn33QUbD+L7ykFdJPy+oyqkQaqSZxp+rKMx1VIYG
+         cU4VlpF0oFLrsWYCmhY9Q42DqQRfTU4WZW3CNyrwTkmpAz2MSkeQHQewt8fLtTk8vqsW
+         N1wUmpnkLUSZyQhIXKqrw8sj2GzKX7hWaU2EbW1NaOQRAwO/SMX6IUGDuRDft2ovnr1U
+         wJCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744171507; x=1744776307;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RJ4nm1f2gfF/L+c+IXgX0HbHH9luA8EuVn/32w617wA=;
-        b=xM5+VMXbM4raE46hQsLKbuFxsW8FbYl67AfeIYxue4gtI1JzUb9vxpakkZzWbxmaND
-         2SqZ/cMTOG2XH5R6tRvhVpgR84RpnrcySlnaDKbly/7Tf82RKJEwqFtkip8wePVN4o+p
-         mor+wtBTXGOVvwX0bWwf1vRjG6wEYs3u2JW8u1/UrkSEbJ+dXPefRN+QIZ1Fe29+7dCK
-         4YcwfYnsK4Gir+3pFvQw/iJq+0FE2xRs7X/zJC27XEGlHPA9sYGBsGSUewGUXfcbQmvS
-         vd35Dyfp6JcmzLodSJJFXcUkFNMfKtLHQxtpmzTyNKGDoNk9hkiIR1smo6a+ZxxroBqB
-         M8og==
-X-Gm-Message-State: AOJu0YzqH5rtdq+NC4GPaCtpQwEeuZFTeEJcjsQStqJiX5n+eUU6zsAI
-	IuL3abpPE6KFNZv/JjfMineEVFUyeMqQDtsuQCqidx1RWd8Yktpx
-X-Gm-Gg: ASbGncvMeovrvAoixbFDIp0iOP8eiYSyBw+wjv0BJwIaUCBOCC02oYttjMBqNCHwlL6
-	5U8xgxA8sW7ysP/+P13/omQpjENY1aZ8X26O4jLXRxGp0fEMBZH5f/Ql1H7PbKQtEPNOsXsLH83
-	jT8F8qAUz2K02gPeX3vLx5fYX9qwTdb2FsQZBIirElU5K2ByWLVrGh7+IR3pmOx5746JYrz/VPc
-	iwMq0FDRbH58jT2X//k1ZExFma8W4kbiNq5sDKn3tgXzew93t66KgAfNr3ZK5ZWzj4MjcY6ZOwL
-	uJJci633zhZLsxr1gW7ewAcUGUZqEju4NQimWcOA5EURpAVgmEc71uONM57vq7boVTgN1YCK+4i
-	rGtRTjwFfYREYWlYeQD1Iv/k=
-X-Google-Smtp-Source: AGHT+IGO7RFgVwYWxrvWqV0CCgJas7EkGNG6ozob4B5CVfkIEAY8WmnSKlCb3gJan1MKfb1DtJG0rQ==
-X-Received: by 2002:a05:6214:c43:b0:6e6:6506:af59 with SMTP id 6a1803df08f44-6f0dbbb7b23mr22893276d6.15.1744171507080;
-        Tue, 08 Apr 2025 21:05:07 -0700 (PDT)
-Received: from gmail.com (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6f0de982641sm2503766d6.68.2025.04.08.21.05.06
+        d=1e100.net; s=20230601; t=1744211232; x=1744816032;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=4Xo6RZtU+EEy+7Qm3m97YqbP4qe3OUp5Tp/7/2M7PUw=;
+        b=DHfZCQHHQD+wbLYauUHTKJXpd4LkdJ5VLyeQbHJGh9s1GQtyO5Va9uOGa/X4JrNTqo
+         i22yUoE1WHP0nv4oduWhW9KqMo3W4vFrbyVLYBP8M+NigOpZxHEM12GWcPlGnn5hdR1p
+         Ei06vyXZIlP4IWBRLL8wUuwjAvetCP87ZHMEijnxXM0tbyACtzsbE2wJOwiN5dKhsMhp
+         tBlDoPtCRyhVq50arTLG5l5P0LpgrHv5JyP51qgCH3FlxjzlLRKkM4TVjTPPsKVSwacy
+         f0KFQHoEX1DS81i/lX79yMUvufxbQ19iMZx0KnhRNKi31ZcvaRsXi5ZRN2xukFXq9W0N
+         rWMA==
+X-Gm-Message-State: AOJu0YwgAq15/3aCyKHziF0H0faCasIqwCp70KBZMw4jD0evZA9GoEKQ
+	UWU6zudg+JEerS2jdsDBA9x6uys+lhX9ioCGSlR8+9epQJV3hziA5r1PsjTWWSpWPv6H1atq286
+	D
+X-Gm-Gg: ASbGncueNovcxCrEvENSn+eotKQDeHkKeO9DMD8OzYn0vZWXnaH2DLo5Ic3grkwxh4B
+	1vtob114I4xMO8/kkhy/Jf95O0h+UXSSV5mvh38LUJBgwRcQef+cDrzlwoKvWfoMrBW64NrULwV
+	HzocyGk+etsFIrHdwwk8Ty/m3dUwB/CwMGaodvbucAzoWgN+utAZsPLNlXrLYvtRgAxb3A53iGU
+	xvl9VHB7xCF6GcHR9y9/SXxtwlRVHGPMrIWlWtibYREq0/nzZUm7q5htBeuCTOFL8pbNe9PXMe0
+	E+3upRygD+STOsscxNqwz4WxpOdfuDrOqk78kf7CqP8JsxQdaV0aaCiJLxc=
+X-Google-Smtp-Source: AGHT+IFsBHucg27HmQCYD5LrGO8KWBLCc5IY8055VQ2c9wOFD+Qs1HHlYLQM/vo29E+vMZU8fZFZZg==
+X-Received: by 2002:a05:622a:134f:b0:476:afd2:5b5c with SMTP id d75a77b69052e-479600c531bmr44514491cf.30.1744211231295;
+        Wed, 09 Apr 2025 08:07:11 -0700 (PDT)
+Received: from tas-troth.am.trimblecorp.net ([155.63.136.49])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-47964d71abcsm8116891cf.5.2025.04.09.08.07.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Apr 2025 21:05:06 -0700 (PDT)
-Date: Wed, 9 Apr 2025 04:05:04 +0000
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: martin.jansa@gmail.com
-Cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [meta-virtualization] [scarthgap][PATCH] docker: fix
- Upstream-Status format
-Message-ID: <Z_Xx8CmYqZPCb0cn@gmail.com>
-References: <20250402135830.3393656-1-martin.jansa@gmail.com>
+        Wed, 09 Apr 2025 08:07:10 -0700 (PDT)
+From: "Theodore A. Roth" <troth@openavr.org>
+To: meta-virtualization@lists.yoctoproject.org
+Cc: "Theodore A. Roth" <troth@openavr.org>,
+	"Theodore A . Roth" <theodore_roth@trimble.com>
+Subject: [meta-virtualization][PATCH] podman: Fix QA error for invalid PACKAGECONFIG
+Date: Wed,  9 Apr 2025 09:06:20 -0600
+Message-Id: <20250409150620.59558-1-troth@openavr.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250402135830.3393656-1-martin.jansa@gmail.com>
+Content-Transfer-Encoding: 8bit
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Wed, 09 Apr 2025 04:05:10 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9210
+ <meta-virtualization@lists.yoctoproject.org>; Wed, 09 Apr 2025 15:07:24 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9211
 
+The insane.bbclass now flags as errors when PACKAGECONFIG contains a
+value that does not have a setting.
 
-Thanks for the fixup!
+For example, setting a value like this:
 
-This is now merged.
+    PACKAGECONFIG += "foo"
 
-Bruce
+without something like this in the recipe:
 
+    PACKAGECONFIG[foo] = "stuff"
 
-In message: [meta-virtualization] [scarthgap][PATCH] docker: fix Upstream-Status format
-on 02/04/2025 Martin Jansa via lists.yoctoproject.org wrote:
+will result in QA errors like the following:
 
-> From: Martin Jansa <martin.jansa@gmail.com>
-> 
-> * fixes:
-> DEBUG: Executing python function do_qa_patch
-> ERROR: QA Issue: Malformed Upstream-Status in patch
-> TOPDIR/meta-virtualization/recipes-containers/docker/files/CVE-2024-36620.patch
-> Please correct according to https://docs.yoctoproject.org/contributor-guide/recipe-style-guide.html#patch-upstream-status :
-> Upstream-Status: [patch-status]
-> ERROR: QA Issue: Malformed Upstream-Status in patch
-> TOPDIR/meta-virtualization/recipes-containers/docker/files/CVE-2024-36621.patch
-> Please correct according to https://docs.yoctoproject.org/contributor-guide/recipe-style-guide.html#patch-upstream-status :
-> Upstream-Status: [patch-status]
-> ERROR: Fatal QA errors were found, failing task.
-> 
-> Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
-> ---
->  recipes-containers/docker/files/CVE-2024-36620.patch | 3 +--
->  recipes-containers/docker/files/CVE-2024-36621.patch | 3 +--
->  2 files changed, 2 insertions(+), 4 deletions(-)
-> 
-> diff --git a/recipes-containers/docker/files/CVE-2024-36620.patch b/recipes-containers/docker/files/CVE-2024-36620.patch
-> index 7bce4137..03628fb3 100644
-> --- a/recipes-containers/docker/files/CVE-2024-36620.patch
-> +++ b/recipes-containers/docker/files/CVE-2024-36620.patch
-> @@ -8,8 +8,7 @@ First released in v25.0.0-beta.1
->  
->  CVE: CVE-2024-36620
->  
-> -Upstream-Status:
-> -Backport [https://github.com/moby/moby/commit/ab570ab3d62038b3d26f96a9bb585d0b6095b9b4]
-> +Upstream-Status: Backport [https://github.com/moby/moby/commit/ab570ab3d62038b3d26f96a9bb585d0b6095b9b4]
->  
->  Signed-off-by: Praveen Kumar <praveen.kumar@windriver.com>
->  ---
-> diff --git a/recipes-containers/docker/files/CVE-2024-36621.patch b/recipes-containers/docker/files/CVE-2024-36621.patch
-> index a6c06ef2..6560f46a 100644
-> --- a/recipes-containers/docker/files/CVE-2024-36621.patch
-> +++ b/recipes-containers/docker/files/CVE-2024-36621.patch
-> @@ -12,8 +12,7 @@ release only one of these layers was actually released.
->  
->  CVE: CVE-2024-36621
->  
-> -Upstream-Status:
-> -Backport [https://github.com/moby/moby/commit/37545cc644344dcb576cba67eb7b6f51a463d31e]
-> +Upstream-Status: Backport [https://github.com/moby/moby/commit/37545cc644344dcb576cba67eb7b6f51a463d31e]
->  
->  Signed-off-by: Praveen Kumar <praveen.kumar@windriver.com>
->  ---
+    ERROR: podman-v5.4.1-r0 do_recipe_qa: QA Issue: podman:
+           invalid PACKAGECONFIG(s): docker rootless [invalid-packageconfig]
+    ERROR: podman-v5.4.1-r0 do_recipe_qa: Fatal QA errors were found, failing task.
 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#9191): https://lists.yoctoproject.org/g/meta-virtualization/message/9191
-> Mute This Topic: https://lists.yoctoproject.org/mt/112046797/1050810
-> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+Signed-off-by: Theodore A. Roth <troth@openavr.org>
+Signed-off-by: Theodore A. Roth <theodore_roth@trimble.com>
+---
+ recipes-containers/podman/podman_git.bb | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/recipes-containers/podman/podman_git.bb b/recipes-containers/podman/podman_git.bb
+index be85e512..9f886ed4 100644
+--- a/recipes-containers/podman/podman_git.bb
++++ b/recipes-containers/podman/podman_git.bb
+@@ -70,6 +70,9 @@ EXTRA_OEMAKE = " \
+ # packageconfig, the podman package will rconfict with docker.
+ PACKAGECONFIG ?= "docker"
+ 
++PACKAGECONFIG[docker] ?= ""
++PACKAGECONFIG[rootless] ?= ""
++
+ do_compile() {
+ 	cd ${S}/src
+ 	rm -rf .gopath
+-- 
+2.34.1
 
 
