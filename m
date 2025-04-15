@@ -1,1177 +1,428 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <Qi.Chen@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7DB1C369B5
-	for <webhook@archiver.kernel.org>; Mon, 14 Apr 2025 20:39:58 +0000 (UTC)
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
- by mx.groups.io with SMTP id smtpd.web10.5071.1744663197958745233
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AEC1C369B2
+	for <webhook@archiver.kernel.org>; Tue, 15 Apr 2025 02:06:10 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.10969.1744682769818320257
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 14 Apr 2025 13:39:58 -0700
+ Mon, 14 Apr 2025 19:06:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=I0oij8oH;
- spf=pass (domain: gmail.com, ip: 209.85.215.176, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-af91fc1fa90so4424495a12.0
-        for <meta-virtualization@lists.yoctoproject.org>; Mon, 14 Apr 2025 13:39:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744663197; x=1745267997; darn=lists.yoctoproject.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=EjM57AcyCmeg8F+cLNAlJtyZxFpSjtXg5mb7tRIdkV0=;
-        b=I0oij8oHTld4jamcdEnTB2uG828Q4bqwF3WKdshoGjSKSduQ1UBvdFmm0Bh+AeBrEb
-         5G8xjvT9b008kdfhcIBmUBpwjB3cHlLgUOqnb/i7d9+Zz1/wanGZSJDRXxpGP7qd8Ekl
-         xJTjCsGbu5nAe4RFTHvQU9FHgbSROfAUOiE2Nws3dg7PFokKfupNLaDAXq7jbYy1UzNq
-         +IDrhODmu+lH1tXAUSBD147qKbA7OhfDE8eNh31LPJheNhq8GKpnO7+rGDy7hImO75nv
-         it0iZhGlEFPdkO6l1YcTq4yODSHPjgUO9Zj9U7IL5s0KJA3TY+BIpcPRwkeJfdCx1mZs
-         focw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744663197; x=1745267997;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=EjM57AcyCmeg8F+cLNAlJtyZxFpSjtXg5mb7tRIdkV0=;
-        b=l4ED9yAHqp6UiXR4UL24zN6EGQqTP8FgpuB0oXqkftxuAn116kabiNmArpzhna/Edu
-         8YbVkZJ0ujDjzXcD1XVZWpJ+vMqo6Vbf3omFvPb5wefwJxxQJ2EPShTO2KiPKYf/AUdB
-         4ZY0Rl0IXw47jdMpVGRltVP6M2P55+vv6Tk4MRYTGUbNGqCN1XX8IouasaALVYWIw8cW
-         +MwW45tdE1QTfT9BukLqG/qULLqnnWlWH/xZYq8z9hRIvs/SYjUHVXDTHdV1Jt3gWqoB
-         xEoSBD2Lh7q6gcSJZEJrdUhKuqJ9LGLo6nc8uhgtfLK/5sZN+z3wv3cgMtXYhqDzZ4SY
-         hwsQ==
-X-Gm-Message-State: AOJu0YyaZ/iLmuE8V3pVuWn0Sj5Af2yRF8HwXA3W8Ogr34l8VuJb8GCI
-	i/VkbkUCj4Tg1LMjjlBJbsuxmN1Zy8mw8Et3p+o2Bk5SPCTAm9rmEQke0WMDRveAloGqR4tKz9m
-	26aL0igywVdDw0ALI9/yTN6IJ76Y=
-X-Gm-Gg: ASbGnctwHbRbQE+KTZjEXepKRsrC1b8KkPQdxfjwTHYe+pJ+Nk35azG5cKZixrbeQZ5
-	4qWiFbrhzYcVuu+zfkdVxFD22wtNAhGAA8UsxEO0NAJWK0A8q6NSBCxCQjhKl05Qb5OPloVJM4K
-	E2AH9iSx/G78jR9i5BRcLd
-X-Google-Smtp-Source: AGHT+IG6wx0acSOSwGODyMfcdRGgQEArjLUlkCjc4HxqFt8360SQupnUcMjPG9uH07xT0qM6QKPVKs2ILqHmMTalCac=
-X-Received: by 2002:a17:90b:3e84:b0:2ff:6608:78e2 with SMTP id
- 98e67ed59e1d1-30823644ffdmr22528758a91.16.1744663196921; Mon, 14 Apr 2025
- 13:39:56 -0700 (PDT)
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=6200c09b94=qi.chen@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53F1o2ll000432;
+	Mon, 14 Apr 2025 19:06:08 -0700
+Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2176.outbound.protection.outlook.com [104.47.57.176])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 45yqpkjeyy-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 14 Apr 2025 19:06:08 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=J6am6Fr2M90y2L4GWe6MEMOxaaYfXUOP00l3SBAJe47wc6WpQ1wLt6eUo0AGObwQtJYypALWl3oIq/4Ov2yiwMtPYzbwbzlbq5wGHHhmj1k2S0u8mTpvOYIr5D2G1qbVxL0w+Covp0EYprifj4Ef1aYyeIWbERTzsDhAVYk7HGH+L+cjt9sDrs9h8fjplvxhGiKsVbMYMYL+BmQxaKtySfW7L6q28ueQlFLYK8IHlWEvUMv6x6qkLO/jXsEWIkdJEG9ZBxURtKLte4TJdsGKRTki84o0w56Q427PzBm6l1CIE7O3J7yAiTdLEkStiGrT2mAay7nKTmA0CpSh/fmXrA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=nT5LBI+q4jYtNX/L6Zl4VrjntBIoaCcMAbai5UgBxrI=;
+ b=d+gzRmIq3H/RFeikdaU68Bvby9cFNDnM5r/i8AGe1tMTiSbj1UU54Jgmro+GrtgrT4UFF8mSUOMjk2iHEbi9lPQE9SeuiMgVoiUCD4klpa82bl0aM26pkc+HYiixJeSq5SVIhLB1EJaQrF6qBtG5ZrTLDRfTnkQj4iB0yU9jPWF+wZANNkg6p2z7Z6wJFeBKpRvPCHIEIB3ygBJQ5GMlwX47TyL3QGO8i/rwPLhW2KxLlM2UqAfRU7FCG2H+NXciVfUidO9+FeeGbvQQOS95cUEIjxeop7gcK1aSHC7Cl4xQ03X6/Wq2sNHJ2FVM6A04iA0wBjuKyvJz9/+nP8bqdA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
+ by DM4PR11MB6118.namprd11.prod.outlook.com (2603:10b6:8:b2::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8632.36; Tue, 15 Apr
+ 2025 02:05:53 +0000
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::a7e3:721d:9cec:6093]) by CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::a7e3:721d:9cec:6093%5]) with mapi id 15.20.8632.030; Tue, 15 Apr 2025
+ 02:05:52 +0000
+From: "Chen, Qi" <Qi.Chen@windriver.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+CC: "meta-virtualization@lists.yoctoproject.org"
+	<meta-virtualization@lists.yoctoproject.org>
+Subject: RE: [meta-virtualization][PATCH 1/3] podman: update to 5.4.2
+Thread-Topic: [meta-virtualization][PATCH 1/3] podman: update to 5.4.2
+Thread-Index: AQHbrSSNBRDVTf9TwkK0CL9JvMQr6LOjNAKAgADFyEA=
+Date: Tue, 15 Apr 2025 02:05:52 +0000
+Message-ID: 
+ <CO6PR11MB56021D1E9EE83AD620F308C6EDB22@CO6PR11MB5602.namprd11.prod.outlook.com>
+References: <20250414100358.2940529-1-Qi.Chen@windriver.com>
+ <CADkTA4O=qumMgBDckujDy5QfZit3j==Mxnn4ngYn15u1o7rBpQ@mail.gmail.com>
+In-Reply-To: 
+ <CADkTA4O=qumMgBDckujDy5QfZit3j==Mxnn4ngYn15u1o7rBpQ@mail.gmail.com>
+Accept-Language: en-US, zh-CN
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CO6PR11MB5602:EE_|DM4PR11MB6118:EE_
+x-ms-office365-filtering-correlation-id: d8292471-c1c9-40fb-7ca3-08dd7bc20ce2
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|4022899009|1800799024|376014|366016|8096899003|13003099007|7053199007|38070700018;
+x-microsoft-antispam-message-info: 
+ =?utf-8?B?Zk5NUzZTdUtKTWpjRlJMcFpvNVBVUlRlY3lUVVp0MERrNFprbnFqc3F5Rmo3?=
+ =?utf-8?B?UkNISmVMSHdLa2U3ZjdJdjNGOGE3aFp6cUhicnhmMEd4aE15R0dKTTlGd1Jl?=
+ =?utf-8?B?VVMwREc1cWJNdW9SZVphNlJXeGdqbjhvLzc0WVo4RUtaVTlLaWZBRmluMm5m?=
+ =?utf-8?B?emNwbFRBVVgvWnBTMlhGWGNLNUEwSkxNcjVXN0p2Y1Bua3piY09md1dic1pZ?=
+ =?utf-8?B?Q2lGS3hnU1kyaVArcnBRLzBhbE95ZFM5V0xvN2RGWGdzckVqekVDMTF4VDFS?=
+ =?utf-8?B?MDNYSXBaSTRGNmliVU9PeTNGTW14bUNjeG04a3ZvWjY2NTZadFVDaU1hUU1C?=
+ =?utf-8?B?SVEwL2NDdEJnOGlFdkVOTUZvZSthYzhBYXZYR1djdTBWSHBqSWVzVG1aQkZK?=
+ =?utf-8?B?OEo2elJwemRnWS9FWUpYS1BvZWZCNXZVdVM1TG5wQVgxWTViUi9uK1N5Y2oz?=
+ =?utf-8?B?K0Z6b25KZWZKVlVDdWVUNzQzTzdwNllsN3R6UXkvZnR1U1VtNFZiMmhpUHQ0?=
+ =?utf-8?B?aHV5MnJCNGFoZHlpdTRKc0ZNdGwwQ2FTdmpLcHhOb2pFVEtLMzg0dnBHcThQ?=
+ =?utf-8?B?aDJEVS93SVczTmhlVENTRms4SVVTQWJlK3Bza3FaeXJ2VkR5Vzg0Y2RoV1FW?=
+ =?utf-8?B?NlNCODFGaUNrK1Axa3hsM1NEaUtYS0FaYlFGcWtxSjVLZzRURCtUQUJDY3pL?=
+ =?utf-8?B?Q3Vqa0EwRmNuc3dObVNSVUxnUWhXLzRHUDNvckY3WGZaZ05MdWxVZW5jMXB0?=
+ =?utf-8?B?RUU3eTh1VTBYUHBvVng1NFB1NjBMLy9VeW9BdTBOV3d6bmt2OXozbm0raG9n?=
+ =?utf-8?B?RlN2NnNzQjcyQnMwL3RYU1hiVlZOZGlqaDY4MTlVdDZBMmM3c0tmRW9aMmZK?=
+ =?utf-8?B?NndMZkFFZC8vSFM5Ky90S2M3RTVEUmQ5dzlhTmRScEZER3Q1RllwMUdpNkJ6?=
+ =?utf-8?B?NER2dklHQTY0Z21Qcnc4Z1hOUURHVnNKdGpjeGQ3Sk9Rb3BiRTZwaFRKVG9r?=
+ =?utf-8?B?Q2dvalRjK3hrR0RKTEhVNzV2RDF5ZUFLTDNUcHJpVmE0bDRrZmNLTU5TZTFz?=
+ =?utf-8?B?bm1YYysrY0J0ZWsxTjF3dE91a2tmdURBWlZxOHRKRVByMWl3eG5JNnorMWcy?=
+ =?utf-8?B?V25jZG0wSVNqMCtYYWJJeWpUZlVXbmVINC9HbG95YU44bXplYi9mQm1ZWDlX?=
+ =?utf-8?B?aUFzWG91U0JrM3VzclN3eHh3TUc2WWFzQ2IwU1ZIdHFvUHAwaFVObG5pdjFP?=
+ =?utf-8?B?QU1aMFhHTmJ0dlR6YjdVMHdtbHNqSktMcThOa0JvL0wydTkrSHp6N2xQY0RZ?=
+ =?utf-8?B?SnF3N3RSbGcyNFZIYjRaTGVjd2xnR3Zlejc1eU9mWUNWU2lBdmVRY2hudWYr?=
+ =?utf-8?B?b21QR00wck5CNkVsTW5lc0hjV2ZWSEpvUVM0d3M5SXQzY2p3anBUZjkydVZl?=
+ =?utf-8?B?cGtoSW1mOW9SNmpkL0VyOVB5U0dGSFNxaExTYUJWTWlhL2FjS01FallNNkpm?=
+ =?utf-8?B?N1BxWk4yek5IcVEwcURzNXFGQk5RMkcyRXlOaTRFdkF3RUVRRjVaWk9Lckxl?=
+ =?utf-8?B?TEpXK2ZNLzVtUEYyeUZPYmpWR2JvaFoxa0MrSkl2eTlWNE9vMU5ZSzBTY1pL?=
+ =?utf-8?B?bklXOUZMRFV5RmJ6d2dtVmpQNWVnTmxxWDZ4WGZzblY4c2JZck9uVS9YQndQ?=
+ =?utf-8?B?VENlMFJBallXQTRoVis1aFJRTHM4Z2VqTlZTeGxqQTFURnNTdDFXRnplbEdw?=
+ =?utf-8?B?eE9KMTBQdTY4WHBXeHJFc20xWUtqa2g5ZTVHZVZXa1BuNWVQaWlDZGN5aXlw?=
+ =?utf-8?B?MXFvTHdtMnpPS1dJUUY2OThLNE55MTRaNGZGeWVnTVRyUllWMWNObENTZ0Y1?=
+ =?utf-8?B?NXZhVis0RFV5MEJhWUFiU3RvaTFDN0FxVlE0UDZTbTFzNFZFTWFNTCt6bXd5?=
+ =?utf-8?Q?Jq3SoTwicgg=3D?=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(4022899009)(1800799024)(376014)(366016)(8096899003)(13003099007)(7053199007)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?UWJtNHAxMXdPNjVxaVRpekV0NDd6NXhzOEo1dysxSEl0Vm12U3JScHZrTHFi?=
+ =?utf-8?B?SUxhaCtUSTdMNWgzNXNnb05yVlZJSlBtYlRwVVM5L3NiUk4vVUFpQjFMY3hN?=
+ =?utf-8?B?ak1TbVZKTVlPbVZLUThwT0JjeXNBVDZZLzM0dkU1bUJJZlc4eS9mY281M2t2?=
+ =?utf-8?B?ZDBVN0JmTzdYSkpkMHlDVUpwK1NWakE1N0p4d2t4K1RFVlBYMlUzalRWUnBp?=
+ =?utf-8?B?V25nR3BPK3pvSkxKcHRONnBTaEtaOFB6M1hwTzZXNEdPTERiMG5qVkxqYjZN?=
+ =?utf-8?B?NFE0UVRKM1RkN2JkSUwzQy9KOWhKbEIvT1k2Wi9oWjc1K21EL0tLMVV0ZExU?=
+ =?utf-8?B?UjVhRUxZWGY5NWNxaU1hNk9XZTBEeUQ3VUJqeThOWE5yRVM3U1d2MThjeXJJ?=
+ =?utf-8?B?WG5JTjlybW4xRUNqYUgydTBWYUJUbFo0TWN4S1lGQ2NhVWFIZEVMTDdyYzdL?=
+ =?utf-8?B?RHJKSnJZTyt2WFBVSE5nTjl2YmkzK2l4RytqV2lyRGtXbStwNTlCVWlQbFBI?=
+ =?utf-8?B?VGxGUkcxUjYyUHlnaHViUEZOblljb09HNGVVQkdnT2UwL0VjcXNRY2RHamNY?=
+ =?utf-8?B?WURxQ2x3dXhXUFNBUW5JRlN3MndiSnMxTmJCL2oxaVZzSGNKalA5Tjh0UmRj?=
+ =?utf-8?B?ME1mMks1M2UvejBqOHlOTGZmZWV1SnAwK2UyTXcvYTk2T1FUUEYwK1IxMnRu?=
+ =?utf-8?B?ZXprMlREcFltNFd6dDNjL01MSEFjQmN2ZzJwdHRLYjdOZFdxSTF2bHhVMk5S?=
+ =?utf-8?B?OHpQaG4vUUNiYmFzMXNFUzc1SDJxTkY1cGI5YzVWM3IwVnI0M0YwZzRQdU15?=
+ =?utf-8?B?Zk9OMTdHNXZ6dCsrQnlMZW4vVUovY0NOckllcFRGVUFzeDQ5Z25pMjNIR0pY?=
+ =?utf-8?B?Z2ZIOSt6ZGg0NFE4Uk9UM0ZSTW84UlJXSk1BbGQyT2t3VGVDek9FaXRFU3lm?=
+ =?utf-8?B?ZzRQdVdYTnBJUlFTTDU3QnRscys2RUtrM1dGOGprMDlaQnJnNVdjSTRaRjh4?=
+ =?utf-8?B?OWtVdm9qdnNVbWN4M1NFVHRreHZBMGs5YUJTTzRZSUJmNlpkaDVVb2JPd0JU?=
+ =?utf-8?B?ZW5DdUZJSllpekxTc3VGM25XY1FHSzM0a0tMZXMyQjQ2S21yWmtPM0NySUhr?=
+ =?utf-8?B?d2h6TXIzTHV5a2FVbWtlVnZPMStMeTR6Sk9OOG9nVnFFZnFYUFdZQ1NHUHF3?=
+ =?utf-8?B?ZndlTEZ5c2R5Sm5rNlRhYnZkTmExdXgyOS9iVkdaeEVsdmk1WDhyTVZqWExu?=
+ =?utf-8?B?M0Z5ZnptaTZNTWdHbzJOQmZ0eVpFOHZjbDNIaFAyaUxLSFJjWU1NT0YvWEgx?=
+ =?utf-8?B?T1FDbTU0ZlpITjZ0NzlpTVFBRXB0Sk80N1I2Y3Q2RFhWM1hFa1RNQW5tU2lH?=
+ =?utf-8?B?TnVVVjEzQkFYSXNTdk45d2tLaHJOS2VWQTBUZjNYMjZBeGgyN2drOFNReDZx?=
+ =?utf-8?B?UHNiOTA1YnFMVG9CbGtHNU96eFdZN3c1V3l1REp6S1hUM2N2ZE1wNkQvNTJ0?=
+ =?utf-8?B?SmR0aThyK0FCTGZTL2t1RXo1RE40Q2Z1VUFHaVQ2eHpGR3A2SCttaHZnYzl1?=
+ =?utf-8?B?eml0SUlPVkcvWWJiL24yNUNiYXVjTDJSUFN2RXUyVG1YUlR3RDVJNTBZU0Iv?=
+ =?utf-8?B?V3JHME9pa3BMeWVrOXZjOW5WNjBCK2RVV1pad0YyMCtqc0hncTF3NVJGUkEx?=
+ =?utf-8?B?QUlKOVRqRDhOSjJwajdsRTdQUU11bi90d1pRRFNkVk1BOHhNZTNBelJWU0lG?=
+ =?utf-8?B?WHVyVnh0UHEwbzdQZi9COSs5T1Y4bWtmNU42b01XYkJhcDZJNHVJNng0MUtB?=
+ =?utf-8?B?czB5bG5EeDIyZ2NyU21rRitkblVxdXJOWkoydGttbWxJMVVFWkE1aEo1UFhV?=
+ =?utf-8?B?ajVwdlpWaUk5bVVkVWVpekF2ZjhKeEtreDVVRVdGOWhhaXBPQlNhV1VST3o3?=
+ =?utf-8?B?bjNCQXgweFhFTEZWOUUwUW8wb1AwMmxGQzQ0U0lwV0N4NU8xMDc2NUJiRFlq?=
+ =?utf-8?B?dTRtNHRXR0Y5ajFyZmpUS3pqTVZuenRVYVZUdGt0akxLK0pWVnhuZDAxMmFI?=
+ =?utf-8?B?d0N6ZC8wOTVKQkdkZW5kRlIvTzJaa0ZacTVMdmkxbVcxRjcxRjlEdno2Nmpw?=
+ =?utf-8?Q?cqA8McSmkXgiecA+xHV122xbG?=
+Content-Type: multipart/alternative;
+	boundary="_000_CO6PR11MB56021D1E9EE83AD620F308C6EDB22CO6PR11MB5602namp_"
 MIME-Version: 1.0
-References: <20250414195431.487573-1-pkj@axis.com>
-In-Reply-To: <20250414195431.487573-1-pkj@axis.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Mon, 14 Apr 2025 16:39:45 -0400
-X-Gm-Features: ATxdqUHTcdzIybq1ZLiJYHGzMZNOJd2KN8XQMYd6bbXVLkmc4kUBsoOiAuR7Knw
-Message-ID: <CADkTA4OaNNSXi0SyL8ckOqwVgb9mxeH5ofBSme+Yp7z40fX-OA@mail.gmail.com>
-Subject: Re: [meta-virtualization] [PATCH] yq: Update to 4.45.1
-To: peter.kjellerstedt@axis.com
-Cc: meta-virtualization@lists.yoctoproject.org
-Content-Type: multipart/alternative; boundary="0000000000001af7440632c30e19"
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d8292471-c1c9-40fb-7ca3-08dd7bc20ce2
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Apr 2025 02:05:52.6438
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: gcHm4wBs146CLbm3LclOS0jjOqgiVzE3uQ0P7axQKo+GuG6k3oNi8Y5Q+3kW+g+zWB8/h+Drmj2NMIKHvMgkKg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB6118
+X-Proofpoint-ORIG-GUID: gojymWMJDbwFn2yJsuCOx1QIVggHDwF6
+X-Proofpoint-GUID: gojymWMJDbwFn2yJsuCOx1QIVggHDwF6
+X-Authority-Analysis: v=2.4 cv=UZBRSLSN c=1 sm=1 tr=0 ts=67fdbf10 cx=c_pps a=Bc47kgIQ+uE7vzpOcRUeGA==:117 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=XR8D0OoHHMoA:10
+ a=iGHA9ds3AAAA:8 a=4yYbIk-QAAAA:8 a=NEAV23lmAAAA:8 a=pGLkceISAAAA:8 a=t7CeM3EgAAAA:8 a=zWd9Qz21YGFL70CCuJgA:9 a=QEXdDO2ut3YA:10 a=yMhMjlubAAAA:8 a=SSmOFEACAAAA:8 a=4PdZoQUWoWDojQTEyP4A:9 a=qpRchqd0VBSwb0MW:21 a=gKO2Hq4RSVkA:10 a=UiCQ7L4-1S4A:10
+ a=hTZeC7Yk6K0A:10 a=frz4AuCg-hUA:10 a=lqcHg5cX4UMA:10 a=nM-MV4yxpKKO9kiQg6Ot:22 a=cTuAbiFRQQ3bCsKXpUDn:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Sensitive_Customer_Information: Yes
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-04-15_01,2025-04-10_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 clxscore=1015
+ priorityscore=1501 mlxscore=0 impostorscore=0 phishscore=0 malwarescore=0
+ spamscore=0 adultscore=0 mlxlogscore=999 lowpriorityscore=0 bulkscore=0
+ classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.21.0-2502280000
+ definitions=main-2504150011
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Mon, 14 Apr 2025 20:39:58 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9224
+ <meta-virtualization@lists.yoctoproject.org>; Tue, 15 Apr 2025 02:06:10 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9225
 
---0000000000001af7440632c30e19
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+--_000_CO6PR11MB56021D1E9EE83AD620F308C6EDB22CO6PR11MB5602namp_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Mon, Apr 14, 2025 at 3:54=E2=80=AFPM Peter Kjellerstedt via
-lists.yoctoproject.org <peter.kjellerstedt=3Daxis.com@lists.yoctoproject.or=
-g>
-wrote:
+SGkgQnJ1Y2UsDQoNCk15IHByaW1hcnkgIGNvbmNlcm4gaXMgdGhlIHdhbG5hc2NhciBicmFuY2gu
+IFRoZXNlIHRocmVlIHVwZ3JhZGVzIGFsbCBidW1wIHJlY2lwZXMgdmVyc2lvbnMgdG8gc3RhYmxl
+IHZlcnNpb25zLCB3aGljaCBJIHRoaW5rIHdvdWxkIGJlIGdvb2QgZm9yIHdhbG5hc2NhciBicmFu
+Y2guIEkgbm90aWNlZCB0aGF0IG1ldGEtdnJpdCBoYXNu4oCZdCBicmFuY2hlZCBvdXQgd2FsbmFz
+Y2FyLiBTbyBJIHNlbnQgb3V0IHRoZXNlIHBhdGNoZXMgd2l0aG91dCDigJh3YWxuYXNjYXLigJkg
+aW4gdGhlIHRpdGxlcy4NCg0KV2hlbiB3aWxsIHRoZSB3YWxuYXNjYXIgYnJhbmNoIGJlIGNyZWF0
+ZWQgZm9yIG1ldGEtdmlydD8gV2lsbCB5b3UgdGFrZSB0aGVzZSBwYXRjaGVzIGZvciB0aGUgd2Fs
+bmFzY2FyIGJyYW5jaD8NCg0KUmVnYXJkcywNClFpDQoNCkZyb206IEJydWNlIEFzaGZpZWxkIDxi
+cnVjZS5hc2hmaWVsZEBnbWFpbC5jb20+DQpTZW50OiBNb25kYXksIEFwcmlsIDE0LCAyMDI1IDEw
+OjEyIFBNDQpUbzogQ2hlbiwgUWkgPFFpLkNoZW5Ad2luZHJpdmVyLmNvbT4NCkNjOiBtZXRhLXZp
+cnR1YWxpemF0aW9uQGxpc3RzLnlvY3RvcHJvamVjdC5vcmcNClN1YmplY3Q6IFJlOiBbbWV0YS12
+aXJ0dWFsaXphdGlvbl1bUEFUQ0ggMS8zXSBwb2RtYW46IHVwZGF0ZSB0byA1LjQuMg0KDQpJJ20g
+bm90IHRha2luZyBhbnkgcGFja2FnZSB1cGdyYWRlcyBub3cuDQoNCldoZW4gSSBkbyBteSBwYWNr
+YWdlIHVwZGF0ZSBjeWNsZSBhcm91bmQgTTEuNSBvZiB0aGUgbmV4dCByZWxlYXNlLCBldmVyeXRo
+aW5nIHdpbGwgYmUgYnVtcGVkIHRoZW4uDQoNCkJydWNlDQoNCk9uIE1vbiwgQXByIDE0LCAyMDI1
+IGF0IDY6MDTigK9BTSBDaGVuIFFpIHZpYSBsaXN0cy55b2N0b3Byb2plY3Qub3JnPGh0dHBzOi8v
+dXJsZGVmZW5zZS5jb20vdjMvX19odHRwOi9saXN0cy55b2N0b3Byb2plY3Qub3JnX187ISFBanZl
+WWR3OEV2USFZZ3RiVHJtVjdVdVA2Xy14bWVLQ21hS2lBN2MzN1ZQcDE2eGp3RG1wNFBuWHE0bUxo
+YThCTk1fVkZnZXVvcDM2TEJhT1UweDBTcnBzTmpKUGV5REFJN2JMMkEkPiA8UWkuQ2hlbj13aW5k
+cml2ZXIuY29tQGxpc3RzLnlvY3RvcHJvamVjdC5vcmc8bWFpbHRvOndpbmRyaXZlci5jb21AbGlz
+dHMueW9jdG9wcm9qZWN0Lm9yZz4+IHdyb3RlOg0KRnJvbTogQ2hlbiBRaSA8UWkuQ2hlbkB3aW5k
+cml2ZXIuY29tPG1haWx0bzpRaS5DaGVuQHdpbmRyaXZlci5jb20+Pg0KDQpVcGdyYWRlIHBvZG1h
+biBmcm9tIDUuNC4xKyB0byA1LjQuMi4NCg0KU2lnbmVkLW9mZi1ieTogQ2hlbiBRaSA8UWkuQ2hl
+bkB3aW5kcml2ZXIuY29tPG1haWx0bzpRaS5DaGVuQHdpbmRyaXZlci5jb20+Pg0KLS0tDQogcmVj
+aXBlcy1jb250YWluZXJzL3BvZG1hbi9wb2RtYW5fZ2l0LmJiPGh0dHBzOi8vdXJsZGVmZW5zZS5j
+b20vdjMvX19odHRwOi9wb2RtYW5fZ2l0LmJiX187ISFBanZlWWR3OEV2USFZZ3RiVHJtVjdVdVA2
+Xy14bWVLQ21hS2lBN2MzN1ZQcDE2eGp3RG1wNFBuWHE0bUxoYThCTk1fVkZnZXVvcDM2TEJhT1Uw
+eDBTcnBzTmpKUGV5REFIal9oOEEkPiB8IDQgKystLQ0KIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2Vy
+dGlvbnMoKyksIDIgZGVsZXRpb25zKC0pDQoNCmRpZmYgLS1naXQgYS9yZWNpcGVzLWNvbnRhaW5l
+cnMvcG9kbWFuL3BvZG1hbl9naXQuYmI8aHR0cHM6Ly91cmxkZWZlbnNlLmNvbS92My9fX2h0dHA6
+L3BvZG1hbl9naXQuYmJfXzshIUFqdmVZZHc4RXZRIVlndGJUcm1WN1V1UDZfLXhtZUtDbWFLaUE3
+YzM3VlBwMTZ4andEbXA0UG5YcTRtTGhhOEJOTV9WRmdldW9wMzZMQmFPVTB4MFNycHNOakpQZXlE
+QUhqX2g4QSQ+IGIvcmVjaXBlcy1jb250YWluZXJzL3BvZG1hbi9wb2RtYW5fZ2l0LmJiPGh0dHBz
+Oi8vdXJsZGVmZW5zZS5jb20vdjMvX19odHRwOi9wb2RtYW5fZ2l0LmJiX187ISFBanZlWWR3OEV2
+USFZZ3RiVHJtVjdVdVA2Xy14bWVLQ21hS2lBN2MzN1ZQcDE2eGp3RG1wNFBuWHE0bUxoYThCTk1f
+VkZnZXVvcDM2TEJhT1UweDBTcnBzTmpKUGV5REFIal9oOEEkPg0KaW5kZXggNDZjNmM5NjkuLjc2
+NGMwYWY4IDEwMDY0NA0KLS0tIGEvcmVjaXBlcy1jb250YWluZXJzL3BvZG1hbi9wb2RtYW5fZ2l0
+LmJiPGh0dHBzOi8vdXJsZGVmZW5zZS5jb20vdjMvX19odHRwOi9wb2RtYW5fZ2l0LmJiX187ISFB
+anZlWWR3OEV2USFZZ3RiVHJtVjdVdVA2Xy14bWVLQ21hS2lBN2MzN1ZQcDE2eGp3RG1wNFBuWHE0
+bUxoYThCTk1fVkZnZXVvcDM2TEJhT1UweDBTcnBzTmpKUGV5REFIal9oOEEkPg0KKysrIGIvcmVj
+aXBlcy1jb250YWluZXJzL3BvZG1hbi9wb2RtYW5fZ2l0LmJiPGh0dHBzOi8vdXJsZGVmZW5zZS5j
+b20vdjMvX19odHRwOi9wb2RtYW5fZ2l0LmJiX187ISFBanZlWWR3OEV2USFZZ3RiVHJtVjdVdVA2
+Xy14bWVLQ21hS2lBN2MzN1ZQcDE2eGp3RG1wNFBuWHE0bUxoYThCTk1fVkZnZXVvcDM2TEJhT1Uw
+eDBTcnBzTmpKUGV5REFIal9oOEEkPg0KQEAgLTE2LDcgKzE2LDcgQEAgREVQRU5EUyA9ICIgXA0K
+ICAgICBnZXR0ZXh0LW5hdGl2ZSBcDQogIg0KDQotU1JDUkVWID0gIjIyN2RmOTBlYjdjMDIxMDk3
+YzliYTVmODAwMGM4MzY0OGE1OTgwMjgiDQorU1JDUkVWID0gImJlODUyODdmY2Y0NTkwOTYxNjE0
+ZWUzN2JlNjVlZWIzMTVlNWQ5ZmYiDQogU1JDX1VSSSA9ICIgXA0KICAgICBnaXQ6Ly9naXRodWIu
+Y29tL2NvbnRhaW5lcnMvbGlicG9kLmdpdDticmFuY2g9djUuNDtwcm90b2NvbD1odHRwcztkZXN0
+c3VmZml4PSR7R09fU1JDVVJJX0RFU1RTVUZGSVh9PGh0dHBzOi8vdXJsZGVmZW5zZS5jb20vdjMv
+X19odHRwOi9naXRodWIuY29tL2NvbnRhaW5lcnMvbGlicG9kLmdpdDticmFuY2g9djUuNDtwcm90
+b2NvbD1odHRwcztkZXN0c3VmZml4PSQqN0JHT19TUkNVUklfREVTVFNVRkZJWCo3RF9fO0pTVSEh
+QWp2ZVlkdzhFdlEhWWd0YlRybVY3VXVQNl8teG1lS0NtYUtpQTdjMzdWUHAxNnhqd0RtcDRQblhx
+NG1MaGE4Qk5NX1ZGZ2V1b3AzNkxCYU9VMHgwU3Jwc05qSlBleUJES1Y0NkNnJD4gXA0KICAgICAk
+e0BiYi51dGlscy5jb250YWlucygnUEFDS0FHRUNPTkZJRzxtYWlsdG86JCU3YkBiYi51dGlscy5j
+b250YWlucygnUEFDS0FHRUNPTkZJRz4nLCAncm9vdGxlc3MnLCAnZmlsZTovLzUwLXBvZG1hbi1y
+b290bGVzcy5jb25mJywgJycsIGQpfSBcDQpAQCAtMzAsNyArMzAsNyBAQCBHT19JTVBPUlQgPSAi
+aW1wb3J0Ig0KDQogUyA9ICIke1dPUktESVJ9L2dpdCINCg0KLVBWID0gInY1LjQuMSINCitQViA9
+ICJ2NS40LjIiDQoNCiBDVkVfU1RBVFVTW0NWRS0yMDIyLTI5ODldID0gImZpeGVkLXZlcnNpb246
+IGZpeGVkIHNpbmNlIHY0LjMuMCINCiBDVkVfU1RBVFVTW0NWRS0yMDIzLTA3NzhdID0gImZpeGVk
+LXZlcnNpb246IGZpeGVkIHNpbmNlIHY0LjUuMCINCi0tDQoyLjQ5LjANCg0KDQotPS09LT0tPS09
+LT0tPS09LT0tPS09LQ0KTGlua3M6IFlvdSByZWNlaXZlIGFsbCBtZXNzYWdlcyBzZW50IHRvIHRo
+aXMgZ3JvdXAuDQpWaWV3L1JlcGx5IE9ubGluZSAoIzkyMTkpOiBodHRwczovL2xpc3RzLnlvY3Rv
+cHJvamVjdC5vcmcvZy9tZXRhLXZpcnR1YWxpemF0aW9uL21lc3NhZ2UvOTIxOTxodHRwczovL3Vy
+bGRlZmVuc2UuY29tL3YzL19faHR0cHM6L2xpc3RzLnlvY3RvcHJvamVjdC5vcmcvZy9tZXRhLXZp
+cnR1YWxpemF0aW9uL21lc3NhZ2UvOTIxOV9fOyEhQWp2ZVlkdzhFdlEhWWd0YlRybVY3VXVQNl8t
+eG1lS0NtYUtpQTdjMzdWUHAxNnhqd0RtcDRQblhxNG1MaGE4Qk5NX1ZGZ2V1b3AzNkxCYU9VMHgw
+U3Jwc05qSlBleUNQMXkzWHFnJD4NCk11dGUgVGhpcyBUb3BpYzogaHR0cHM6Ly9saXN0cy55b2N0
+b3Byb2plY3Qub3JnL210LzExMjI1NDMzNS8xMDUwODEwPGh0dHBzOi8vdXJsZGVmZW5zZS5jb20v
+djMvX19odHRwczovbGlzdHMueW9jdG9wcm9qZWN0Lm9yZy9tdC8xMTIyNTQzMzUvMTA1MDgxMF9f
+OyEhQWp2ZVlkdzhFdlEhWWd0YlRybVY3VXVQNl8teG1lS0NtYUtpQTdjMzdWUHAxNnhqd0RtcDRQ
+blhxNG1MaGE4Qk5NX1ZGZ2V1b3AzNkxCYU9VMHgwU3Jwc05qSlBleUR0S040dVlBJD4NCkdyb3Vw
+IE93bmVyOiBtZXRhLXZpcnR1YWxpemF0aW9uK293bmVyQGxpc3RzLnlvY3RvcHJvamVjdC5vcmc8
+bWFpbHRvOm1ldGEtdmlydHVhbGl6YXRpb24lMkJvd25lckBsaXN0cy55b2N0b3Byb2plY3Qub3Jn
+Pg0KVW5zdWJzY3JpYmU6IGh0dHBzOi8vbGlzdHMueW9jdG9wcm9qZWN0Lm9yZy9nL21ldGEtdmly
+dHVhbGl6YXRpb24vdW5zdWI8aHR0cHM6Ly91cmxkZWZlbnNlLmNvbS92My9fX2h0dHBzOi9saXN0
+cy55b2N0b3Byb2plY3Qub3JnL2cvbWV0YS12aXJ0dWFsaXphdGlvbi91bnN1Yl9fOyEhQWp2ZVlk
+dzhFdlEhWWd0YlRybVY3VXVQNl8teG1lS0NtYUtpQTdjMzdWUHAxNnhqd0RtcDRQblhxNG1MaGE4
+Qk5NX1ZGZ2V1b3AzNkxCYU9VMHgwU3Jwc05qSlBleUR5YjAtUE9RJD4gW2JydWNlLmFzaGZpZWxk
+QGdtYWlsLmNvbTxtYWlsdG86YnJ1Y2UuYXNoZmllbGRAZ21haWwuY29tPl0NCi09LT0tPS09LT0t
+PS09LT0tPS09LT0tDQoNCg0KLS0NCi0gVGhvdSBzaGFsdCBub3QgZm9sbG93IHRoZSBOVUxMIHBv
+aW50ZXIsIGZvciBjaGFvcyBhbmQgbWFkbmVzcyBhd2FpdCB0aGVlIGF0IGl0cyBlbmQNCi0gIlVz
+ZSB0aGUgZm9yY2UgSGFycnkiIC0gR2FuZGFsZiwgU3RhciBUcmVrIElJDQo=
 
-> Refactor the recipe to use the gomod fetcher.
->
-> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> ---
->
-> Bruce, I know you prefer to do things your own way, so feel free to
-> ignore this. However, the current version of yq does not build with go
-> 1.24 that comes with Walnascar so the yq recipe needs to be updated one
-> way or the other. Since I have no idea how you update the dependencies
-> in the current version of the recipe, it was easiest for me to generate
-> a new recipe using one of our tools.
->
+--_000_CO6PR11MB56021D1E9EE83AD620F308C6EDB22CO6PR11MB5602namp_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Yes, I'll do the update myself in the next few days.
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
+YWNlDQoJe2ZvbnQtZmFtaWx5Ouetiee6vzsNCglwYW5vc2UtMToyIDEgNiAwIDMgMSAxIDEgMSAx
+O30NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6Q2FsaWJyaTsNCglwYW5vc2UtMToyIDE1IDUg
+MiAyIDIgNCAzIDIgNDt9DQpAZm9udC1mYWNlDQoJe2ZvbnQtZmFtaWx5OkFwdG9zO30NCkBmb250
+LWZhY2UNCgl7Zm9udC1mYW1pbHk6IlxA562J57q/IjsNCglwYW5vc2UtMToyIDEgNiAwIDMgMSAx
+IDEgMSAxO30NCi8qIFN0eWxlIERlZmluaXRpb25zICovDQpwLk1zb05vcm1hbCwgbGkuTXNvTm9y
+bWFsLCBkaXYuTXNvTm9ybWFsDQoJe21hcmdpbjowaW47DQoJZm9udC1zaXplOjEyLjBwdDsNCglm
+b250LWZhbWlseToiQXB0b3MiLHNhbnMtc2VyaWY7fQ0KYTpsaW5rLCBzcGFuLk1zb0h5cGVybGlu
+aw0KCXttc28tc3R5bGUtcHJpb3JpdHk6OTk7DQoJY29sb3I6Ymx1ZTsNCgl0ZXh0LWRlY29yYXRp
+b246dW5kZXJsaW5lO30NCnNwYW4uZ21haWxzaWduYXR1cmVwcmVmaXgNCgl7bXNvLXN0eWxlLW5h
+bWU6Z21haWxfc2lnbmF0dXJlX3ByZWZpeDt9DQpzcGFuLkVtYWlsU3R5bGUyMA0KCXttc28tc3R5
+bGUtdHlwZTpwZXJzb25hbC1yZXBseTsNCglmb250LWZhbWlseToiQXB0b3MiLHNhbnMtc2VyaWY7
+DQoJY29sb3I6d2luZG93dGV4dDt9DQouTXNvQ2hwRGVmYXVsdA0KCXttc28tc3R5bGUtdHlwZTpl
+eHBvcnQtb25seTt9DQpAcGFnZSBXb3JkU2VjdGlvbjENCgl7c2l6ZTo4LjVpbiAxMS4waW47DQoJ
+bWFyZ2luOjEuMGluIDEuMjVpbiAxLjBpbiAxLjI1aW47fQ0KZGl2LldvcmRTZWN0aW9uMQ0KCXtw
+YWdlOldvcmRTZWN0aW9uMTt9DQotLT48L3N0eWxlPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0K
+PG86c2hhcGVkZWZhdWx0cyB2OmV4dD0iZWRpdCIgc3BpZG1heD0iMTAyNiIgLz4NCjwveG1sPjwh
+W2VuZGlmXS0tPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVsYXlvdXQgdjpleHQ9
+ImVkaXQiPg0KPG86aWRtYXAgdjpleHQ9ImVkaXQiIGRhdGE9IjEiIC8+DQo8L286c2hhcGVsYXlv
+dXQ+PC94bWw+PCFbZW5kaWZdLS0+DQo8L2hlYWQ+DQo8Ym9keSBsYW5nPSJFTi1VUyIgbGluaz0i
+Ymx1ZSIgdmxpbms9InB1cnBsZSIgc3R5bGU9IndvcmQtd3JhcDpicmVhay13b3JkIj4NCjxkaXYg
+Y2xhc3M9IldvcmRTZWN0aW9uMSI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0i
+Zm9udC1zaXplOjExLjBwdCI+SGkgQnJ1Y2UsPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xh
+c3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQiPjxvOnA+Jm5ic3A7
+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250
+LXNpemU6MTEuMHB0Ij5NeSBwcmltYXJ5Jm5ic3A7IGNvbmNlcm4gaXMgdGhlIHdhbG5hc2NhciBi
+cmFuY2guIFRoZXNlIHRocmVlIHVwZ3JhZGVzIGFsbCBidW1wIHJlY2lwZXMgdmVyc2lvbnMgdG8g
+c3RhYmxlIHZlcnNpb25zLCB3aGljaCBJIHRoaW5rIHdvdWxkIGJlIGdvb2QgZm9yIHdhbG5hc2Nh
+ciBicmFuY2guIEkgbm90aWNlZCB0aGF0IG1ldGEtdnJpdCBoYXNu4oCZdCBicmFuY2hlZCBvdXQN
+CiB3YWxuYXNjYXIuIFNvIEkgc2VudCBvdXQgdGhlc2UgcGF0Y2hlcyB3aXRob3V0IOKAmHdhbG5h
+c2NhcuKAmSBpbiB0aGUgdGl0bGVzLjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJN
+c29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0Ij48bzpwPiZuYnNwOzwvbzpw
+Pjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXpl
+OjExLjBwdCI+V2hlbiB3aWxsIHRoZSB3YWxuYXNjYXIgYnJhbmNoIGJlIGNyZWF0ZWQgZm9yIG1l
+dGEtdmlydD8gV2lsbCB5b3UgdGFrZSB0aGVzZSBwYXRjaGVzIGZvciB0aGUgd2FsbmFzY2FyIGJy
+YW5jaD8NCjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFu
+IHN0eWxlPSJmb250LXNpemU6MTEuMHB0Ij48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8
+cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdCI+UmVnYXJk
+cyw8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHls
+ZT0iZm9udC1zaXplOjExLjBwdCI+UWk8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0i
+TXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdCI+PG86cD4mbmJzcDs8L286
+cD48L3NwYW4+PC9wPg0KPGRpdiBzdHlsZT0iYm9yZGVyOm5vbmU7Ym9yZGVyLXRvcDpzb2xpZCAj
+RTFFMUUxIDEuMHB0O3BhZGRpbmc6My4wcHQgMGluIDBpbiAwaW4iPg0KPHAgY2xhc3M9Ik1zb05v
+cm1hbCI+PGI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7
+Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmIj5Gcm9tOjwvc3Bhbj48L2I+PHNwYW4gc3R5bGU9ImZv
+bnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlm
+Ij4gQnJ1Y2UgQXNoZmllbGQgJmx0O2JydWNlLmFzaGZpZWxkQGdtYWlsLmNvbSZndDsNCjxicj4N
+CjxiPlNlbnQ6PC9iPiBNb25kYXksIEFwcmlsIDE0LCAyMDI1IDEwOjEyIFBNPGJyPg0KPGI+VG86
+PC9iPiBDaGVuLCBRaSAmbHQ7UWkuQ2hlbkB3aW5kcml2ZXIuY29tJmd0Ozxicj4NCjxiPkNjOjwv
+Yj4gbWV0YS12aXJ0dWFsaXphdGlvbkBsaXN0cy55b2N0b3Byb2plY3Qub3JnPGJyPg0KPGI+U3Vi
+amVjdDo8L2I+IFJlOiBbbWV0YS12aXJ0dWFsaXphdGlvbl1bUEFUQ0ggMS8zXSBwb2RtYW46IHVw
+ZGF0ZSB0byA1LjQuMjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjwvZGl2Pg0KPHAgY2xhc3M9Ik1z
+b05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8ZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJN
+c29Ob3JtYWwiPkknbSBub3QgdGFraW5nIGFueSBwYWNrYWdlIHVwZ3JhZGVzIG5vdy48bzpwPjwv
+bzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7
+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+V2hlbiBJIGRv
+IG15IHBhY2thZ2UgdXBkYXRlIGN5Y2xlIGFyb3VuZCBNMS41IG9mIHRoZSBuZXh0IHJlbGVhc2Us
+IGV2ZXJ5dGhpbmcgd2lsbCBiZSBidW1wZWQgdGhlbi48bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0K
+PGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPC9kaXY+
+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+QnJ1Y2U8bzpwPjwvbzpwPjwvcD4NCjwvZGl2
+Pg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxk
+aXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+T24gTW9uLCBBcHIgMTQsIDIwMjUgYXQg
+NjowNDxzcGFuIHN0eWxlPSJmb250LWZhbWlseTomcXVvdDtUaW1lcyBOZXcgUm9tYW4mcXVvdDss
+c2VyaWYiPuKArzwvc3Bhbj5BTSBDaGVuIFFpIHZpYQ0KPGEgaHJlZj0iaHR0cHM6Ly91cmxkZWZl
+bnNlLmNvbS92My9fX2h0dHA6L2xpc3RzLnlvY3RvcHJvamVjdC5vcmdfXzshIUFqdmVZZHc4RXZR
+IVlndGJUcm1WN1V1UDZfLXhtZUtDbWFLaUE3YzM3VlBwMTZ4andEbXA0UG5YcTRtTGhhOEJOTV9W
+RmdldW9wMzZMQmFPVTB4MFNycHNOakpQZXlEQUk3YkwyQSQiPg0KbGlzdHMueW9jdG9wcm9qZWN0
+Lm9yZzwvYT4gJmx0O1FpLkNoZW49PGEgaHJlZj0ibWFpbHRvOndpbmRyaXZlci5jb21AbGlzdHMu
+eW9jdG9wcm9qZWN0Lm9yZyI+d2luZHJpdmVyLmNvbUBsaXN0cy55b2N0b3Byb2plY3Qub3JnPC9h
+PiZndDsgd3JvdGU6PG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxibG9ja3F1b3RlIHN0eWxlPSJi
+b3JkZXI6bm9uZTtib3JkZXItbGVmdDpzb2xpZCAjQ0NDQ0NDIDEuMHB0O3BhZGRpbmc6MGluIDBp
+biAwaW4gNi4wcHQ7bWFyZ2luLWxlZnQ6NC44cHQ7bWFyZ2luLXJpZ2h0OjBpbiI+DQo8cCBjbGFz
+cz0iTXNvTm9ybWFsIiBzdHlsZT0ibWFyZ2luLWJvdHRvbToxMi4wcHQiPkZyb206IENoZW4gUWkg
+Jmx0OzxhIGhyZWY9Im1haWx0bzpRaS5DaGVuQHdpbmRyaXZlci5jb20iIHRhcmdldD0iX2JsYW5r
+Ij5RaS5DaGVuQHdpbmRyaXZlci5jb208L2E+Jmd0Ozxicj4NCjxicj4NClVwZ3JhZGUgcG9kbWFu
+IGZyb20gNS40LjErIHRvIDUuNC4yLjxicj4NCjxicj4NClNpZ25lZC1vZmYtYnk6IENoZW4gUWkg
+Jmx0OzxhIGhyZWY9Im1haWx0bzpRaS5DaGVuQHdpbmRyaXZlci5jb20iIHRhcmdldD0iX2JsYW5r
+Ij5RaS5DaGVuQHdpbmRyaXZlci5jb208L2E+Jmd0Ozxicj4NCi0tLTxicj4NCiZuYnNwO3JlY2lw
+ZXMtY29udGFpbmVycy9wb2RtYW4vPGEgaHJlZj0iaHR0cHM6Ly91cmxkZWZlbnNlLmNvbS92My9f
+X2h0dHA6L3BvZG1hbl9naXQuYmJfXzshIUFqdmVZZHc4RXZRIVlndGJUcm1WN1V1UDZfLXhtZUtD
+bWFLaUE3YzM3VlBwMTZ4andEbXA0UG5YcTRtTGhhOEJOTV9WRmdldW9wMzZMQmFPVTB4MFNycHNO
+akpQZXlEQUhqX2g4QSQiIHRhcmdldD0iX2JsYW5rIj5wb2RtYW5fZ2l0LmJiPC9hPiB8IDQgKyst
+LTxicj4NCiZuYnNwOzEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25z
+KC0pPGJyPg0KPGJyPg0KZGlmZiAtLWdpdCBhL3JlY2lwZXMtY29udGFpbmVycy9wb2RtYW4vPGEg
+aHJlZj0iaHR0cHM6Ly91cmxkZWZlbnNlLmNvbS92My9fX2h0dHA6L3BvZG1hbl9naXQuYmJfXzsh
+IUFqdmVZZHc4RXZRIVlndGJUcm1WN1V1UDZfLXhtZUtDbWFLaUE3YzM3VlBwMTZ4andEbXA0UG5Y
+cTRtTGhhOEJOTV9WRmdldW9wMzZMQmFPVTB4MFNycHNOakpQZXlEQUhqX2g4QSQiIHRhcmdldD0i
+X2JsYW5rIj5wb2RtYW5fZ2l0LmJiPC9hPiBiL3JlY2lwZXMtY29udGFpbmVycy9wb2RtYW4vPGEg
+aHJlZj0iaHR0cHM6Ly91cmxkZWZlbnNlLmNvbS92My9fX2h0dHA6L3BvZG1hbl9naXQuYmJfXzsh
+IUFqdmVZZHc4RXZRIVlndGJUcm1WN1V1UDZfLXhtZUtDbWFLaUE3YzM3VlBwMTZ4andEbXA0UG5Y
+cTRtTGhhOEJOTV9WRmdldW9wMzZMQmFPVTB4MFNycHNOakpQZXlEQUhqX2g4QSQiIHRhcmdldD0i
+X2JsYW5rIj5wb2RtYW5fZ2l0LmJiPC9hPjxicj4NCmluZGV4IDQ2YzZjOTY5Li43NjRjMGFmOCAx
+MDA2NDQ8YnI+DQotLS0gYS9yZWNpcGVzLWNvbnRhaW5lcnMvcG9kbWFuLzxhIGhyZWY9Imh0dHBz
+Oi8vdXJsZGVmZW5zZS5jb20vdjMvX19odHRwOi9wb2RtYW5fZ2l0LmJiX187ISFBanZlWWR3OEV2
+USFZZ3RiVHJtVjdVdVA2Xy14bWVLQ21hS2lBN2MzN1ZQcDE2eGp3RG1wNFBuWHE0bUxoYThCTk1f
+VkZnZXVvcDM2TEJhT1UweDBTcnBzTmpKUGV5REFIal9oOEEkIiB0YXJnZXQ9Il9ibGFuayI+cG9k
+bWFuX2dpdC5iYjwvYT48YnI+DQorKysgYi9yZWNpcGVzLWNvbnRhaW5lcnMvcG9kbWFuLzxhIGhy
+ZWY9Imh0dHBzOi8vdXJsZGVmZW5zZS5jb20vdjMvX19odHRwOi9wb2RtYW5fZ2l0LmJiX187ISFB
+anZlWWR3OEV2USFZZ3RiVHJtVjdVdVA2Xy14bWVLQ21hS2lBN2MzN1ZQcDE2eGp3RG1wNFBuWHE0
+bUxoYThCTk1fVkZnZXVvcDM2TEJhT1UweDBTcnBzTmpKUGV5REFIal9oOEEkIiB0YXJnZXQ9Il9i
+bGFuayI+cG9kbWFuX2dpdC5iYjwvYT48YnI+DQpAQCAtMTYsNyArMTYsNyBAQCBERVBFTkRTID0g
+JnF1b3Q7IFw8YnI+DQombmJzcDsgJm5ic3A7ICZuYnNwO2dldHRleHQtbmF0aXZlIFw8YnI+DQom
+bmJzcDsmcXVvdDs8YnI+DQo8YnI+DQotU1JDUkVWID0gJnF1b3Q7MjI3ZGY5MGViN2MwMjEwOTdj
+OWJhNWY4MDAwYzgzNjQ4YTU5ODAyOCZxdW90Ozxicj4NCitTUkNSRVYgPSAmcXVvdDtiZTg1Mjg3
+ZmNmNDU5MDk2MTYxNGVlMzdiZTY1ZWViMzE1ZTVkOWZmJnF1b3Q7PGJyPg0KJm5ic3A7U1JDX1VS
+SSA9ICZxdW90OyBcPGJyPg0KJm5ic3A7ICZuYnNwOyAmbmJzcDtnaXQ6Ly88YSBocmVmPSJodHRw
+czovL3VybGRlZmVuc2UuY29tL3YzL19faHR0cDovZ2l0aHViLmNvbS9jb250YWluZXJzL2xpYnBv
+ZC5naXQ7YnJhbmNoPXY1LjQ7cHJvdG9jb2w9aHR0cHM7ZGVzdHN1ZmZpeD0kKjdCR09fU1JDVVJJ
+X0RFU1RTVUZGSVgqN0RfXztKU1UhIUFqdmVZZHc4RXZRIVlndGJUcm1WN1V1UDZfLXhtZUtDbWFL
+aUE3YzM3VlBwMTZ4andEbXA0UG5YcTRtTGhhOEJOTV9WRmdldW9wMzZMQmFPVTB4MFNycHNOakpQ
+ZXlCREtWNDZDZyQiIHRhcmdldD0iX2JsYW5rIj5naXRodWIuY29tL2NvbnRhaW5lcnMvbGlicG9k
+LmdpdDticmFuY2g9djUuNDtwcm90b2NvbD1odHRwcztkZXN0c3VmZml4PSR7R09fU1JDVVJJX0RF
+U1RTVUZGSVh9PC9hPg0KIFw8YnI+DQombmJzcDsgJm5ic3A7ICZuYnNwOzxhIGhyZWY9Im1haWx0
+bzokJTdiQGJiLnV0aWxzLmNvbnRhaW5zKCdQQUNLQUdFQ09ORklHIj4ke0BiYi51dGlscy5jb250
+YWlucygnUEFDS0FHRUNPTkZJRzwvYT4nLCAncm9vdGxlc3MnLCAnZmlsZTovLzUwLXBvZG1hbi1y
+b290bGVzcy5jb25mJywgJycsIGQpfSBcPGJyPg0KQEAgLTMwLDcgKzMwLDcgQEAgR09fSU1QT1JU
+ID0gJnF1b3Q7aW1wb3J0JnF1b3Q7PGJyPg0KPGJyPg0KJm5ic3A7UyA9ICZxdW90OyR7V09SS0RJ
+Un0vZ2l0JnF1b3Q7PGJyPg0KPGJyPg0KLVBWID0gJnF1b3Q7djUuNC4xJnF1b3Q7PGJyPg0KK1BW
+ID0gJnF1b3Q7djUuNC4yJnF1b3Q7PGJyPg0KPGJyPg0KJm5ic3A7Q1ZFX1NUQVRVU1tDVkUtMjAy
+Mi0yOTg5XSA9ICZxdW90O2ZpeGVkLXZlcnNpb246IGZpeGVkIHNpbmNlIHY0LjMuMCZxdW90Ozxi
+cj4NCiZuYnNwO0NWRV9TVEFUVVNbQ1ZFLTIwMjMtMDc3OF0gPSAmcXVvdDtmaXhlZC12ZXJzaW9u
+OiBmaXhlZCBzaW5jZSB2NC41LjAmcXVvdDs8YnI+DQotLSA8YnI+DQoyLjQ5LjA8YnI+DQo8YnI+
+DQo8YnI+DQotPS09LT0tPS09LT0tPS09LT0tPS09LTxicj4NCkxpbmtzOiBZb3UgcmVjZWl2ZSBh
+bGwgbWVzc2FnZXMgc2VudCB0byB0aGlzIGdyb3VwLjxicj4NClZpZXcvUmVwbHkgT25saW5lICgj
+OTIxOSk6IDxhIGhyZWY9Imh0dHBzOi8vdXJsZGVmZW5zZS5jb20vdjMvX19odHRwczovbGlzdHMu
+eW9jdG9wcm9qZWN0Lm9yZy9nL21ldGEtdmlydHVhbGl6YXRpb24vbWVzc2FnZS85MjE5X187ISFB
+anZlWWR3OEV2USFZZ3RiVHJtVjdVdVA2Xy14bWVLQ21hS2lBN2MzN1ZQcDE2eGp3RG1wNFBuWHE0
+bUxoYThCTk1fVkZnZXVvcDM2TEJhT1UweDBTcnBzTmpKUGV5Q1AxeTNYcWckIiB0YXJnZXQ9Il9i
+bGFuayI+DQpodHRwczovL2xpc3RzLnlvY3RvcHJvamVjdC5vcmcvZy9tZXRhLXZpcnR1YWxpemF0
+aW9uL21lc3NhZ2UvOTIxOTwvYT48YnI+DQpNdXRlIFRoaXMgVG9waWM6IDxhIGhyZWY9Imh0dHBz
+Oi8vdXJsZGVmZW5zZS5jb20vdjMvX19odHRwczovbGlzdHMueW9jdG9wcm9qZWN0Lm9yZy9tdC8x
+MTIyNTQzMzUvMTA1MDgxMF9fOyEhQWp2ZVlkdzhFdlEhWWd0YlRybVY3VXVQNl8teG1lS0NtYUtp
+QTdjMzdWUHAxNnhqd0RtcDRQblhxNG1MaGE4Qk5NX1ZGZ2V1b3AzNkxCYU9VMHgwU3Jwc05qSlBl
+eUR0S040dVlBJCIgdGFyZ2V0PSJfYmxhbmsiPg0KaHR0cHM6Ly9saXN0cy55b2N0b3Byb2plY3Qu
+b3JnL210LzExMjI1NDMzNS8xMDUwODEwPC9hPjxicj4NCkdyb3VwIE93bmVyOiA8YSBocmVmPSJt
+YWlsdG86bWV0YS12aXJ0dWFsaXphdGlvbiUyQm93bmVyQGxpc3RzLnlvY3RvcHJvamVjdC5vcmci
+IHRhcmdldD0iX2JsYW5rIj4NCm1ldGEtdmlydHVhbGl6YXRpb24rb3duZXJAbGlzdHMueW9jdG9w
+cm9qZWN0Lm9yZzwvYT48YnI+DQpVbnN1YnNjcmliZTogPGEgaHJlZj0iaHR0cHM6Ly91cmxkZWZl
+bnNlLmNvbS92My9fX2h0dHBzOi9saXN0cy55b2N0b3Byb2plY3Qub3JnL2cvbWV0YS12aXJ0dWFs
+aXphdGlvbi91bnN1Yl9fOyEhQWp2ZVlkdzhFdlEhWWd0YlRybVY3VXVQNl8teG1lS0NtYUtpQTdj
+MzdWUHAxNnhqd0RtcDRQblhxNG1MaGE4Qk5NX1ZGZ2V1b3AzNkxCYU9VMHgwU3Jwc05qSlBleUR5
+YjAtUE9RJCIgdGFyZ2V0PSJfYmxhbmsiPg0KaHR0cHM6Ly9saXN0cy55b2N0b3Byb2plY3Qub3Jn
+L2cvbWV0YS12aXJ0dWFsaXphdGlvbi91bnN1YjwvYT4gWzxhIGhyZWY9Im1haWx0bzpicnVjZS5h
+c2hmaWVsZEBnbWFpbC5jb20iIHRhcmdldD0iX2JsYW5rIj5icnVjZS5hc2hmaWVsZEBnbWFpbC5j
+b208L2E+XTxicj4NCi09LT0tPS09LT0tPS09LT0tPS09LT0tPG86cD48L286cD48L3A+DQo8L2Js
+b2NrcXVvdGU+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48YnIgY2xlYXI9
+ImFsbCI+DQo8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3Jt
+YWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48
+c3BhbiBjbGFzcz0iZ21haWxzaWduYXR1cmVwcmVmaXgiPi0tIDwvc3Bhbj48bzpwPjwvbzpwPjwv
+cD4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIiBzdHlsZT0ibWFyZ2luLWJvdHRvbToxMi4w
+cHQiPi0gVGhvdSBzaGFsdCBub3QgZm9sbG93IHRoZSBOVUxMIHBvaW50ZXIsIGZvciBjaGFvcyBh
+bmQgbWFkbmVzcyBhd2FpdCB0aGVlIGF0IGl0cyBlbmQ8YnI+DQotICZxdW90O1VzZSB0aGUgZm9y
+Y2UgSGFycnkmcXVvdDsgLSBHYW5kYWxmLCBTdGFyIFRyZWsgSUk8bzpwPjwvbzpwPjwvcD4NCjwv
+ZGl2Pg0KPC9kaXY+DQo8L2JvZHk+DQo8L2h0bWw+DQo=
 
-I have no interest in using the oe mod fetchers, given the flux and
-my inability to debug and support them.
-
-Bruce
-
-
-
->
->  recipes-devtools/yq/yq-go-mods.inc  | 37 ++++++++++++
->  recipes-devtools/yq/yq-licenses.inc | 24 ++++++++
->  recipes-devtools/yq/yq_4.45.1.bb    | 40 +++++++++++++
->  recipes-devtools/yq/yq_git.bb       | 87 -----------------------------
->  4 files changed, 101 insertions(+), 87 deletions(-)
->  create mode 100644 recipes-devtools/yq/yq-go-mods.inc
->  create mode 100644 recipes-devtools/yq/yq-licenses.inc
->  create mode 100644 recipes-devtools/yq/yq_4.45.1.bb
->  delete mode 100644 recipes-devtools/yq/yq_git.bb
->
-> diff --git a/recipes-devtools/yq/yq-go-mods.inc
-> b/recipes-devtools/yq/yq-go-mods.inc
-> new file mode 100644
-> index 00000000..0ba399f3
-> --- /dev/null
-> +++ b/recipes-devtools/yq/yq-go-mods.inc
-> @@ -0,0 +1,37 @@
-> +SRC_URI +=3D "\
-> +    gomod://
-> github.com/a8m/envsubst;version=3Dv1.4.2;sha256sum=3D231eedf3a12c110a43c9=
-5f1658b26fba66f24ab289cbd249605b48c5544897ad
-> \
-> +    gomod://
-> github.com/alecthomas/participle/v2;version=3Dv2.1.1;sha256sum=3Dbea61133=
-40aa301c0cc73d0a12cbd3453853ecad9bcec0eefae78eff15d67441
-> \
-> +    gomod://
-> github.com/alecthomas/repr;version=3Dv0.4.0;sha256sum=3De4d4ec046c3ad7425=
-c8e78352dc114ab34b1dd7f3a42c640e19cb51c94484c36
-> \
-> +    gomod://
-> github.com/cpuguy83/go-md2man/v2;version=3Dv2.0.4;mod=3D1;sha256sum=3D14c=
-3afa2ef623555c1b4834d1f88b14df77549afee85e5750c19102465b78aba
-> \
-> +    gomod://
-> github.com/davecgh/go-spew;version=3Dv1.1.0;mod=3D1;sha256sum=3Dbcb293932=
-51237b79a17b6c19bf29134f43e8f438c3198988fcd461a1cdf05cc
-> \
-> +    gomod://
-> github.com/dimchansky/utfbom;version=3Dv1.1.1;sha256sum=3D0c1a11101602d5f=
-57ac3e790c0b72e09ff87d8d535535f43fbee9e6a42327350
-> \
-> +    gomod://
-> github.com/elliotchance/orderedmap;version=3Dv1.7.1;sha256sum=3D86680515e=
-ff3f3d3944149ef3e054dfdd8e6b9bad8fe00ee0a862893754c6a39
-> \
-> +    gomod://
-> github.com/fatih/color;version=3Dv1.18.0;sha256sum=3D4dc6907b7f6807b37c21=
-ad527d966437d398f03472115f471eaa8fe5875363d3
-> \
-> +    gomod://
-> github.com/goccy/go-json;version=3Dv0.10.4;sha256sum=3Dd89fa5215f5c2e0077=
-b67dbc6e043db1b6427e93bdf5faacb7c536afca95e454
-> \
-> +    gomod://
-> github.com/goccy/go-yaml;version=3Dv1.13.3;sha256sum=3D0d2c0c516c9aa022bc=
-448ed4b8056340c4ccfb3ba70e3f873c319d4b66e75f59
-> \
-> +    gomod://
-> github.com/inconshreveable/mousetrap;version=3Dv1.1.0;mod=3D1;sha256sum=
-=3D1c1b15911aa8a0bd5cd0f6670ec23d1086496f3615fdf53306aff2b476ce9be1
-> \
-> +    gomod://
-> github.com/jinzhu/copier;version=3Dv0.4.0;sha256sum=3D45a9bad09e85195732f=
-408f9d505dc2b7f8868f9ddc3a1a7188999e5ca2d0775
-> \
-> +    gomod://
-> github.com/magiconair/properties;version=3Dv1.8.9;sha256sum=3D8361b76b967=
-090e33192173d91fb3de5f5ea43f6b8d23e927bf6d698fc8a0250
-> \
-> +    gomod://
-> github.com/mattn/go-colorable;version=3Dv0.1.13;sha256sum=3D08be322dcc584=
-a9fcfde5caf0cf878b4e11cd98f252e32bc704e92c5a4ba9d15
-> \
-> +    gomod://
-> github.com/mattn/go-isatty;version=3Dv0.0.16;mod=3D1;sha256sum=3D714766ec=
-82d67db895ade8af6b8054ad430c3cea5e15b3a888f23ed2f3e1b863
-> \
-> +    gomod://
-> github.com/mattn/go-isatty;version=3Dv0.0.20;sha256sum=3Df2d5f89ca451577e=
-17464b9bb596dc0d0ecececb5eaa63622c41b57cd0b7b8cc
-> \
-> +    gomod://
-> github.com/pelletier/go-toml/v2;version=3Dv2.2.3;sha256sum=3Da51f4dc7b62b=
-d7c26b387d912dfae87ca1449082f26574c9f614ae640318b092
-> \
-> +    gomod://
-> github.com/pkg/diff;version=3Dv0.0.0-20210226163009-20ebb0f2a09e;sha256su=
-m=3Df35b23fdd2b9522ddd46cc5c0161b4f0765c514475d5d4ca2a86aca31388c8bd
-> \
-> +    gomod://
-> github.com/pmezard/go-difflib;version=3Dv1.0.0;mod=3D1;sha256sum=3D74b2e7=
-66eb215377864d587badf57e95521f692d2a7860b3c7759093f9c9bec2
-> \
-> +    gomod://
-> github.com/russross/blackfriday/v2;version=3Dv2.1.0;mod=3D1;sha256sum=3Dc=
-39547cce6e866e8cfa395d2937bce30801cd07f0b901c2133248f1fba12f58d
-> \
-> +    gomod://
-> github.com/spf13/cobra;version=3Dv1.8.1;sha256sum=3Dbf27a276f87257c93bc05=
-7309df30265a19beefc3d5fc887cbd8fc99ad35466a
-> \
-> +    gomod://
-> github.com/spf13/pflag;version=3Dv1.0.5;sha256sum=3Dfc6e704f2f6a84ddcdce6=
-de0404e5340fa20c8676181bf5d381b17888107ba84
-> \
-> +    gomod://
-> github.com/stretchr/objx;version=3Dv0.1.0;mod=3D1;sha256sum=3D1350354d52d=
-2287a62336ecc0d56232d4c47699af9bba49c67c2b48254da98f1
-> \
-> +    gomod://
-> github.com/stretchr/testify;version=3Dv1.7.0;mod=3D1;sha256sum=3Dfff8168d=
-98e6a07156c454a1b6e925509f3177e96c155516d7f96b4079cca3bf
-> \
-> +    gomod://
-> github.com/yuin/gopher-lua;version=3Dv1.1.1;sha256sum=3Dac45a1524a3904916=
-7f1bb2334b67f728559cb1e60c535c54b3a09f1fc772b45
-> \
-> +    gomod://
-> golang.org/toolchain;version=3Dv0.0.1-go1.22.5.linux-amd64;sha256sum=3D0e=
-b73889fac3ef46a759ca3f8079a7ff656158ee6aedfe127221101824001a77
-> \
-> +    gomod://
-> golang.org/x/net;version=3Dv0.33.0;sha256sum=3Da85014e77369f99c3f9eebe128=
-9b4d0757d58248ca12337642923818ae22ca19
-> \
-> +    gomod://
-> golang.org/x/sys;version=3Dv0.0.0-20220811171246-fbc7d0a398ab;mod=3D1;sha=
-256sum=3Df033333096fe198f3151deed93f2deba74e50bbfe7739134045bc3b7ce4a5024
-> \
-> +    gomod://
-> golang.org/x/sys;version=3Dv0.28.0;sha256sum=3D0ed47a83fe7d7a7e743e815172=
-bc10c1ac0ed0d31ebb095e75717428e09aa895
-> \
-> +    gomod://
-> golang.org/x/sys;version=3Dv0.6.0;mod=3D1;sha256sum=3Df033333096fe198f315=
-1deed93f2deba74e50bbfe7739134045bc3b7ce4a5024
-> \
-> +    gomod://
-> golang.org/x/text;version=3Dv0.21.0;sha256sum=3Dbe3db791651af6f2cb0225aa5=
-d5578c23149b2017246ba8e59586080baadd612
-> \
-> +    gomod://
-> gopkg.in/check.v1;version=3Dv0.0.0-20161208181325-20d25e280405;mod=3D1;sh=
-a256sum=3D5c306e0d633cd66a11b40e2e5fbbc6da42110db7d72ea3c1524ceb45ee40c33f
-> \
-> +    gomod://
-> gopkg.in/op/go-logging.v1;version=3Dv1.0.0-20160211212156-b2cb9fa56473;sh=
-a256sum=3D028f2b859f2d7800d07a6fb36ef1562a95219941f3b1421cdad5e95c44986ab3
-> \
-> +    gomod://
-> gopkg.in/yaml.v3;version=3Dv3.0.0-20200313102051-9f266ea9e77c;mod=3D1;sha=
-256sum=3D21579860a20306fcf43b1bd234d1fba319499c77611b71c05f9bf3ba90dab939
-> \
-> +    gomod://
-> gopkg.in/yaml.v3;version=3Dv3.0.1;sha256sum=3Daab8fbc4e6300ea08e6afe1caea=
-18a21c90c79f489f52c53e2f20431f1a9a015
-> \
-> +"
-> diff --git a/recipes-devtools/yq/yq-licenses.inc
-> b/recipes-devtools/yq/yq-licenses.inc
-> new file mode 100644
-> index 00000000..80ddb5e7
-> --- /dev/null
-> +++ b/recipes-devtools/yq/yq-licenses.inc
-> @@ -0,0 +1,24 @@
-> +GO_MOD_LICENSES =3D "Apache-2.0 & BSD-2-Clause & BSD-3-Clause & MIT"
-> +
-> +LIC_FILES_CHKSUM +=3D "\
-> +    file://pkg/mod/
-> github.com/a8m/envsubst@v1.4.2/LICENSE;md5=3D20cbf74752fb062bc260b078d71d=
-7e30
-> \
-> +    file://pkg/mod/
-> github.com/alecthomas/participle/v2@v2.1.1/COPYING;md5=3Dc9b197062ffa2eb2=
-7eed3d8ef59c1a56
-> \
-> +    file://pkg/mod/
-> github.com/dimchansky/utfbom@v1.1.1/LICENSE;md5=3Dd5b81a403268b5ea485b4a2=
-579630c17
-> \
-> +    file://pkg/mod/
-> github.com/elliotchance/orderedmap@v1.7.1/LICENSE;md5=3D47a0bd50edb147474=
-7d074fc0ba1ead5
-> \
-> +    file://pkg/mod/
-> github.com/fatih/color@v1.18.0/LICENSE.md;md5=3D316e6d590bdcde7993fb17566=
-2c0dd5a
-> \
-> +    file://pkg/mod/
-> github.com/goccy/go-json@v0.10.4/LICENSE;md5=3D33a07164132d795872805bfc53=
-f6097d
-> \
-> +    file://pkg/mod/
-> github.com/goccy/go-yaml@v1.13.3/LICENSE;md5=3D346470d8ac0a6ffe1eb8635a45=
-2cec2b
-> \
-> +    file://pkg/mod/
-> github.com/magiconair/properties@v1.8.9/LICENSE.md;md5=3D714beb7325ffa89d=
-5a68d936a3bb04e5
-> \
-> +    file://pkg/mod/
-> github.com/mattn/go-colorable@v0.1.13/LICENSE;md5=3D24ce168f90aec2456a73d=
-e1839037245
-> \
-> +    file://pkg/mod/
-> github.com/mattn/go-isatty@v0.0.20/LICENSE;md5=3Df509beadd5a11227c27b5d2a=
-d6c9f2c6
-> \
-> +    file://pkg/mod/
-> github.com/pelletier/go-toml/v2@v2.2.3/LICENSE;md5=3D390892c6562af0d807e5=
-27b06d635f94
-> \
-> +    file://pkg/mod/
-> github.com/pkg/diff@v0.0.0-20210226163009-20ebb0f2a09e/LICENSE;md5=3Dd025=
-0703509998b3201f5dd7f26e8c35
-> \
-> +    file://pkg/mod/
-> github.com/spf13/cobra@v1.8.1/LICENSE.txt;md5=3D920d76114a32b0fb75b3f2718=
-c5a91be
-> \
-> +    file://pkg/mod/
-> github.com/spf13/pflag@v1.0.5/LICENSE;md5=3D1e8b7dc8b906737639131047a590f=
-21d
-> \
-> +    file://pkg/mod/
-> github.com/yuin/gopher-lua@v1.1.1/LICENSE;md5=3D5ea59bf62229a35ae7b2c7208=
-524163e
-> \
-> +    file://pkg/mod/
-> golang.org/x/net@v0.33.0/LICENSE;md5=3D7998cb338f82d15c0eff93b7004d272a \
-> +    file://pkg/mod/
-> golang.org/x/sys@v0.28.0/LICENSE;md5=3D7998cb338f82d15c0eff93b7004d272a \
-> +    file://pkg/mod/
-> golang.org/x/text@v0.21.0/LICENSE;md5=3D7998cb338f82d15c0eff93b7004d272a =
-\
-> +    file://pkg/mod/
-> gopkg.in/op/go-logging.v1@v1.0.0-20160211212156-b2cb9fa56473/LICENSE;md5=
-=3Dd01d49c2816e0112c83b3a9f77029b8a
-> \
-> +    file://pkg/mod/
-> gopkg.in/yaml.v3@v3.0.1/LICENSE;md5=3D3c91c17266710e16afdbb2b6d15c761c \
-> +"
-> diff --git a/recipes-devtools/yq/yq_4.45.1.bb b/recipes-devtools/yq/
-> yq_4.45.1.bb
-> new file mode 100644
-> index 00000000..b942ca0b
-> --- /dev/null
-> +++ b/recipes-devtools/yq/yq_4.45.1.bb
-> @@ -0,0 +1,40 @@
-> +SUMMARY =3D "A lightweight and portable command-line YAML processor"
-> +HOMEPAGE =3D "https://github.com/mikefarah/yq"
-> +
-> +LICENSE =3D "MIT & ${GO_MOD_LICENSES}"
-> +LIC_FILES_CHKSUM =3D
-> "file://src/${GO_IMPORT}/LICENSE;md5=3De40a0dcd62f8269b9bff37fe9aa7dcc2"
-> +require ${BPN}-licenses.inc
-> +
-> +SRCREV =3D "8bf425b4d1344db7cd469a8d10a390876e0c77fd"
-> +SRCREV_FORMAT =3D "default"
-> +
-> +SRC_URI =3D
-> "git://${GO_IMPORT}.git;protocol=3Dhttps;branch=3Dmaster;destsuffix=3D${G=
-O_SRCURI_DESTSUFFIX}"
-> +SRC_URI +=3D "file://run-ptest"
-> +require ${BPN}-go-mods.inc
-> +
-> +S =3D "${WORKDIR}/git"
-> +
-> +GO_IMPORT =3D "github.com/mikefarah/yq"
-> +
-> +inherit go-mod ptest
-> +
-> +do_install:append() {
-> +    # these bring in dependencies for the -dev package on bash, and we
-> don't
-> +    # need them .. so we remove them to avoid needing that rdepends
-> +    rm -rf ${D}/${libdir}/go/src/${GO_IMPORT}/debian/rules
-> +    rm -rf ${D}/${libdir}/go/src/${GO_IMPORT}/scripts
-> +    rm -rf ${D}/${libdir}/go/src/${GO_IMPORT}/acceptance_tests
-> +}
-> +
-> +do_install_ptest() {
-> +    install -d ${D}${PTEST_PATH}/tests
-> +    cp -r ${S}/src/${GO_IMPORT}/scripts/* ${D}${PTEST_PATH}/tests
-> +    cp -r ${S}/src/${GO_IMPORT}/acceptance_tests/* ${D}${PTEST_PATH}/tes=
-ts
-> +    cp -r ${S}/src/${GO_IMPORT}/examples ${D}${PTEST_PATH}/tests
-> +}
-> +
-> +RDEPENDS:${PN}-ptest +=3D " \
-> +    bash \
-> +"
-> +
-> +BBCLASSEXTEND =3D "native"
-> diff --git a/recipes-devtools/yq/yq_git.bb b/recipes-devtools/yq/yq_git.b=
-b
-> deleted file mode 100644
-> index 3d0714c7..00000000
-> --- a/recipes-devtools/yq/yq_git.bb
-> +++ /dev/null
-> @@ -1,87 +0,0 @@
-> -SUMMARY =3D "a lightweight and portable command-line YAML processor "
-> -HOMEPAGE =3D "https://github.com/mikefarah/yq"
-> -
-> -LICENSE =3D "MIT"
-> -LIC_FILES_CHKSUM =3D
-> "file://src/${GO_IMPORT}/LICENSE;md5=3De40a0dcd62f8269b9bff37fe9aa7dcc2"
-> -
-> -SRCREV_yq =3D "dd6cf3df146f3e2c0f8c765a6ef9e35780ad8cc1"
-> -SRCREV_color =3D "daf2830f2741ebb735b21709a520c5f37d642d85"
-> -SRCREV_lexer =3D "6cdefc42e112ac71cbe316e1eed264ea62f58e25"
-> -SRCREV_cobra =3D "b43be995ebb4bee335a787bd44498b91aef7619c"
-> -SRCREV_pflag =3D "2e9d26c8c37aae03e3f9d4e90b7116f5accb7cab"
-> -SRCREV_logging =3D "b2cb9fa56473e98db8caba80237377e83fe44db5"
-> -SRCREV_yaml =3D "f6f7691b1fdeb513f56608cd2c32c51f8194bf51"
-> -SRCREV_xerrors =3D "65e65417b02f28de84b55f16b46a1e789149973a"
-> -SRCREV_envsubst =3D "16035fe3571ad42c7796bf554f978bb2df64231b"
-> -SRCREV_participle =3D "49f4822ed012d9818c80ca4fcdeb7e2d55c04806"
-> -SRCREV_utfbom =3D "6ae8f945ca96f30defc7e8ab12ec5d10cf86ded4"
-> -SRCREV_orderedmap =3D "1e43e194ff533a346bab5f9b66b738256f199c8a"
-> -SRCREV_go-json =3D "5efc7d07eeeba186df630d9ab4ac78c761938c27"
-> -SRCREV_copier =3D "d132b069fe1a77d09e4c260852b389a730bbe9ba"
-> -SRCREV_properties =3D "c9a06e8f8f0164e4e16c0d5c4793cbed4ac90264"
-> -SRCREV_net =3D "f3363e06e74cdc304618bf31d898b78590103527"
-> -SRCREV_text =3D "434eadcdbc3b0256971992e8c70027278364c72c"
-> -SRCREV_diff =3D "20ebb0f2a09e612109b224b32f79370409108bcc"
-> -
-> -SRCREV_FORMAT =3D "yq_color"
-> -SRC_URI =3D
-> "git://${GO_IMPORT};name=3Dyq;branch=3Dmaster;protocol=3Dhttps;destsuffix=
-=3D${GO_SRCURI_DESTSUFFIX}
-> \
-> -           git://
-> github.com/fatih/color;name=3Dcolor;destsuffix=3Dbuild/vendor/src/github.=
-com/fatih/color;branch=3Dmain;protocol=3Dhttps
-> \
-> -           git://
-> github.com/goccy/go-yaml;name=3Dlexer;destsuffix=3Dbuild/vendor/src/githu=
-b.com/goccy/go-yaml/;branch=3Dmaster;protocol=3Dhttps
-> \
-> -           git://
-> github.com/spf13/cobra;name=3Dcobra;nobranch=3D1;destsuffix=3Dbuild/vendo=
-r/src/github.com/spf13/cobra;branch=3Dmain;protocol=3Dhttps
-> \
-> -           git://
-> github.com/spf13/pflag;name=3Dpflag;destsuffix=3Dbuild/vendor/src/github.=
-com/spf13/pflag;branch=3Dmaster;protocol=3Dhttps
-> \
-> -           git://
-> github.com/op/go-logging.git;name=3Dlogging;destsuffix=3Dbuild/vendor/src=
-/gopkg.in/op/go-logging.v1;branch=3Dmaster;protocol=3Dhttps
-> \
-> -           git://
-> github.com/go-yaml/yaml.git;name=3Dyaml;branch=3Dv3;destsuffix=3Dbuild/ve=
-ndor/src/gopkg.in/yaml.v3;protocol=3Dhttps
-> \
-> -           git://
-> github.com/golang/xerrors;name=3Dxerrors;protocol=3Dhttps;nobranch=3D1;de=
-stsuffix=3Dbuild/vendor/src/golang.org/x/xerrors
-> \
-> -           git://
-> github.com/a8m/envsubst;name=3Denvsubst;destsuffix=3Dbuild/vendor/src/git=
-hub.com/a8m/envsubst;branch=3Dmaster;protocol=3Dhttps
-> \
-> -           git://
-> github.com/alecthomas/participle;name=3Dparticiple;destsuffix=3Dbuild/ven=
-dor/src/github.com/alecthomas/participle;branch=3Dmaster;protocol=3Dhttps
-> \
-> -           git://
-> github.com/dimchansky/utfbom;name=3Dutfbom;destsuffix=3Dbuild/vendor/src/=
-github.com/dimchansky/utfbom;branch=3Dmaster;protocol=3Dhttps
-> \
-> -           git://
-> github.com/elliotchance/orderedmap;name=3Dorderedmap;destsuffix=3Dbuild/v=
-endor/src/github.com/elliotchance/orderedmap;branch=3Dmaster;protocol=3Dhtt=
-ps
-> \
-> -           git://
-> github.com/goccy/go-json;name=3Dgo-json;destsuffix=3Dbuild/vendor/src/git=
-hub.com/goccy/go-json;branch=3Dmaster;protocol=3Dhttps
-> \
-> -           git://
-> github.com/jinzhu/copier;name=3Dcopier;destsuffix=3Dbuild/vendor/src/gith=
-ub.com/jinzhu/copier;branch=3Dmaster;protocol=3Dhttps
-> \
-> -           git://
-> github.com/magiconair/properties;name=3Dproperties;destsuffix=3Dbuild/ven=
-dor/src/github.com/magiconair/properties;branch=3Dmain;protocol=3Dhttps
-> \
-> -           git://
-> github.com/golang/net;name=3Dnet;destsuffix=3Dbuild/vendor/src/golang.org=
-/x/net;branch=3Dmaster;protocol=3Dhttps
-> \
-> -           git://
-> github.com/golang/text;name=3Dtext;destsuffix=3Dbuild/vendor/src/golang.o=
-rg/x/text;branch=3Dmaster;protocol=3Dhttps
-> \
-> -           git://
-> github.com/pkg/diff;name=3Ddiff;destsuffix=3Dbuild/vendor/src/github.com/=
-pkg/diff;branch=3Dmain;protocol=3Dhttps;apply=3Dno
-> \
-> -           file://run-ptest \
-> -           "
-> -
-> -PV =3D "4.30.8+git${SRCREV_yq}"
-> -GO_IMPORT =3D "github.com/mikefarah/yq"
-> -
-> -inherit go ptest
-> -
-> -do_compile:prepend() {
-> -    # arrange for some of the golang built ins to be found
-> -    (
-> -       cd ${WORKDIR}/build/src/
-> -       ln -sf ${STAGING_DIR_TARGET}/${prefix}/lib/go/src/cmd/vendor/
-> golang.org .
-> -
-> -       cd ${WORKDIR}/build/
-> -       ln -sf ${UNPACKDIR}/build/vendor .
-> -    )
-> -
-> -    # arrange for the fetched dependencies to be found
-> -    export GOPATH=3D"${GOPATH}:${WORKDIR}/build/vendor/"
-> -    export GO111MODULE=3Doff
-> -}
-> -
-> -do_install:append() {
-> -    # these bring in dependencies for the -dev package on bash, and we
-> don't
-> -    # need them .. so we remove them to avoid needing that rdepends
-> -    rm -rf ${D}/${libdir}/go/src/${GO_IMPORT}/debian/rules
-> -    rm -rf ${D}/${libdir}/go/src/${GO_IMPORT}/scripts
-> -    rm -rf ${D}/${libdir}/go/src/${GO_IMPORT}/acceptance_tests
-> -}
-> -
-> -do_install_ptest() {
-> -    install -d ${D}${PTEST_PATH}/tests
-> -    cp -r ${S}/src/github.com/mikefarah/yq/scripts/*
-> ${D}${PTEST_PATH}/tests
-> -    cp -r ${S}/src/github.com/mikefarah/yq/acceptance_tests/*
-> ${D}${PTEST_PATH}/tests
-> -    cp -r ${S}/src/github.com/mikefarah/yq/examples
-> ${D}${PTEST_PATH}/tests
-> -}
-> -
-> -RDEPENDS:${PN}-ptest +=3D " \
-> -    bash \
-> -"
-> -
-> -BBCLASSEXTEND =3D "native"
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#9223):
-> https://lists.yoctoproject.org/g/meta-virtualization/message/9223
-> Mute This Topic: https://lists.yoctoproject.org/mt/112264276/1050810
-> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [
-> bruce.ashfield@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
-
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end
-- "Use the force Harry" - Gandalf, Star Trek II
-
---0000000000001af7440632c30e19
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-size:small"><br></div></div><br><div class=3D"gmail_quote gmail_quote_con=
-tainer"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Apr 14, 2025 at 3:54=
-=E2=80=AFPM Peter Kjellerstedt via <a href=3D"http://lists.yoctoproject.org=
-">lists.yoctoproject.org</a> &lt;peter.kjellerstedt=3D<a href=3D"mailto:axi=
-s.com@lists.yoctoproject.org">axis.com@lists.yoctoproject.org</a>&gt; wrote=
-:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.=
-8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Refactor the r=
-ecipe to use the gomod fetcher.<br>
-<br>
-Signed-off-by: Peter Kjellerstedt &lt;<a href=3D"mailto:peter.kjellerstedt@=
-axis.com" target=3D"_blank">peter.kjellerstedt@axis.com</a>&gt;<br>
----<br>
-<br>
-Bruce, I know you prefer to do things your own way, so feel free to<br>
-ignore this. However, the current version of yq does not build with go<br>
-1.24 that comes with Walnascar so the yq recipe needs to be updated one<br>
-way or the other. Since I have no idea how you update the dependencies<br>
-in the current version of the recipe, it was easiest for me to generate<br>
-a new recipe using one of our tools.<br></blockquote><div><br></div><div><d=
-iv class=3D"gmail_default" style=3D"font-size:small">Yes, I&#39;ll do the u=
-pdate myself in the next few days.</div><div class=3D"gmail_default" style=
-=3D"font-size:small"><br></div><div class=3D"gmail_default" style=3D"font-s=
-ize:small">I have no interest in using the oe mod fetchers, given the flux =
-and</div><div class=3D"gmail_default" style=3D"font-size:small">my inabilit=
-y to debug and support them.</div><div class=3D"gmail_default" style=3D"fon=
-t-size:small"><br></div><div class=3D"gmail_default" style=3D"font-size:sma=
-ll">Bruce</div><br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote"=
- style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
-adding-left:1ex">
-<br>
-=C2=A0recipes-devtools/yq/yq-go-mods.inc=C2=A0 | 37 ++++++++++++<br>
-=C2=A0recipes-devtools/yq/yq-licenses.inc | 24 ++++++++<br>
-=C2=A0recipes-devtools/yq/<a href=3D"http://yq_4.45.1.bb" rel=3D"noreferrer=
-" target=3D"_blank">yq_4.45.1.bb</a>=C2=A0 =C2=A0 | 40 +++++++++++++<br>
-=C2=A0recipes-devtools/yq/<a href=3D"http://yq_git.bb" rel=3D"noreferrer" t=
-arget=3D"_blank">yq_git.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0| 87 -------------=
-----------------<br>
-=C2=A04 files changed, 101 insertions(+), 87 deletions(-)<br>
-=C2=A0create mode 100644 recipes-devtools/yq/yq-go-mods.inc<br>
-=C2=A0create mode 100644 recipes-devtools/yq/yq-licenses.inc<br>
-=C2=A0create mode 100644 recipes-devtools/yq/<a href=3D"http://yq_4.45.1.bb=
-" rel=3D"noreferrer" target=3D"_blank">yq_4.45.1.bb</a><br>
-=C2=A0delete mode 100644 recipes-devtools/yq/<a href=3D"http://yq_git.bb" r=
-el=3D"noreferrer" target=3D"_blank">yq_git.bb</a><br>
-<br>
-diff --git a/recipes-devtools/yq/yq-go-mods.inc b/recipes-devtools/yq/yq-go=
--mods.inc<br>
-new file mode 100644<br>
-index 00000000..0ba399f3<br>
---- /dev/null<br>
-+++ b/recipes-devtools/yq/yq-go-mods.inc<br>
-@@ -0,0 +1,37 @@<br>
-+SRC_URI +=3D &quot;\<br>
-+=C2=A0 =C2=A0 gomod://<a href=3D"http://github.com/a8m/envsubst;version=3D=
-v1.4.2;sha256sum=3D231eedf3a12c110a43c95f1658b26fba66f24ab289cbd249605b48c5=
-544897ad" rel=3D"noreferrer" target=3D"_blank">github.com/a8m/envsubst;vers=
-ion=3Dv1.4.2;sha256sum=3D231eedf3a12c110a43c95f1658b26fba66f24ab289cbd24960=
-5b48c5544897ad</a> \<br>
-+=C2=A0 =C2=A0 gomod://<a href=3D"http://github.com/alecthomas/participle/v=
-2;version=3Dv2.1.1;sha256sum=3Dbea6113340aa301c0cc73d0a12cbd3453853ecad9bce=
-c0eefae78eff15d67441" rel=3D"noreferrer" target=3D"_blank">github.com/alect=
-homas/participle/v2;version=3Dv2.1.1;sha256sum=3Dbea6113340aa301c0cc73d0a12=
-cbd3453853ecad9bcec0eefae78eff15d67441</a> \<br>
-+=C2=A0 =C2=A0 gomod://<a href=3D"http://github.com/alecthomas/repr;version=
-=3Dv0.4.0;sha256sum=3De4d4ec046c3ad7425c8e78352dc114ab34b1dd7f3a42c640e19cb=
-51c94484c36" rel=3D"noreferrer" target=3D"_blank">github.com/alecthomas/rep=
-r;version=3Dv0.4.0;sha256sum=3De4d4ec046c3ad7425c8e78352dc114ab34b1dd7f3a42=
-c640e19cb51c94484c36</a> \<br>
-+=C2=A0 =C2=A0 gomod://<a href=3D"http://github.com/cpuguy83/go-md2man/v2;v=
-ersion=3Dv2.0.4;mod=3D1;sha256sum=3D14c3afa2ef623555c1b4834d1f88b14df77549a=
-fee85e5750c19102465b78aba" rel=3D"noreferrer" target=3D"_blank">github.com/=
-cpuguy83/go-md2man/v2;version=3Dv2.0.4;mod=3D1;sha256sum=3D14c3afa2ef623555=
-c1b4834d1f88b14df77549afee85e5750c19102465b78aba</a> \<br>
-+=C2=A0 =C2=A0 gomod://<a href=3D"http://github.com/davecgh/go-spew;version=
-=3Dv1.1.0;mod=3D1;sha256sum=3Dbcb29393251237b79a17b6c19bf29134f43e8f438c319=
-8988fcd461a1cdf05cc" rel=3D"noreferrer" target=3D"_blank">github.com/davecg=
-h/go-spew;version=3Dv1.1.0;mod=3D1;sha256sum=3Dbcb29393251237b79a17b6c19bf2=
-9134f43e8f438c3198988fcd461a1cdf05cc</a> \<br>
-+=C2=A0 =C2=A0 gomod://<a href=3D"http://github.com/dimchansky/utfbom;versi=
-on=3Dv1.1.1;sha256sum=3D0c1a11101602d5f57ac3e790c0b72e09ff87d8d535535f43fbe=
-e9e6a42327350" rel=3D"noreferrer" target=3D"_blank">github.com/dimchansky/u=
-tfbom;version=3Dv1.1.1;sha256sum=3D0c1a11101602d5f57ac3e790c0b72e09ff87d8d5=
-35535f43fbee9e6a42327350</a> \<br>
-+=C2=A0 =C2=A0 gomod://<a href=3D"http://github.com/elliotchance/orderedmap=
-;version=3Dv1.7.1;sha256sum=3D86680515eff3f3d3944149ef3e054dfdd8e6b9bad8fe0=
-0ee0a862893754c6a39" rel=3D"noreferrer" target=3D"_blank">github.com/elliot=
-chance/orderedmap;version=3Dv1.7.1;sha256sum=3D86680515eff3f3d3944149ef3e05=
-4dfdd8e6b9bad8fe00ee0a862893754c6a39</a> \<br>
-+=C2=A0 =C2=A0 gomod://<a href=3D"http://github.com/fatih/color;version=3Dv=
-1.18.0;sha256sum=3D4dc6907b7f6807b37c21ad527d966437d398f03472115f471eaa8fe5=
-875363d3" rel=3D"noreferrer" target=3D"_blank">github.com/fatih/color;versi=
-on=3Dv1.18.0;sha256sum=3D4dc6907b7f6807b37c21ad527d966437d398f03472115f471e=
-aa8fe5875363d3</a> \<br>
-+=C2=A0 =C2=A0 gomod://<a href=3D"http://github.com/goccy/go-json;version=
-=3Dv0.10.4;sha256sum=3Dd89fa5215f5c2e0077b67dbc6e043db1b6427e93bdf5faacb7c5=
-36afca95e454" rel=3D"noreferrer" target=3D"_blank">github.com/goccy/go-json=
-;version=3Dv0.10.4;sha256sum=3Dd89fa5215f5c2e0077b67dbc6e043db1b6427e93bdf5=
-faacb7c536afca95e454</a> \<br>
-+=C2=A0 =C2=A0 gomod://<a href=3D"http://github.com/goccy/go-yaml;version=
-=3Dv1.13.3;sha256sum=3D0d2c0c516c9aa022bc448ed4b8056340c4ccfb3ba70e3f873c31=
-9d4b66e75f59" rel=3D"noreferrer" target=3D"_blank">github.com/goccy/go-yaml=
-;version=3Dv1.13.3;sha256sum=3D0d2c0c516c9aa022bc448ed4b8056340c4ccfb3ba70e=
-3f873c319d4b66e75f59</a> \<br>
-+=C2=A0 =C2=A0 gomod://<a href=3D"http://github.com/inconshreveable/mousetr=
-ap;version=3Dv1.1.0;mod=3D1;sha256sum=3D1c1b15911aa8a0bd5cd0f6670ec23d10864=
-96f3615fdf53306aff2b476ce9be1" rel=3D"noreferrer" target=3D"_blank">github.=
-com/inconshreveable/mousetrap;version=3Dv1.1.0;mod=3D1;sha256sum=3D1c1b1591=
-1aa8a0bd5cd0f6670ec23d1086496f3615fdf53306aff2b476ce9be1</a> \<br>
-+=C2=A0 =C2=A0 gomod://<a href=3D"http://github.com/jinzhu/copier;version=
-=3Dv0.4.0;sha256sum=3D45a9bad09e85195732f408f9d505dc2b7f8868f9ddc3a1a718899=
-9e5ca2d0775" rel=3D"noreferrer" target=3D"_blank">github.com/jinzhu/copier;=
-version=3Dv0.4.0;sha256sum=3D45a9bad09e85195732f408f9d505dc2b7f8868f9ddc3a1=
-a7188999e5ca2d0775</a> \<br>
-+=C2=A0 =C2=A0 gomod://<a href=3D"http://github.com/magiconair/properties;v=
-ersion=3Dv1.8.9;sha256sum=3D8361b76b967090e33192173d91fb3de5f5ea43f6b8d23e9=
-27bf6d698fc8a0250" rel=3D"noreferrer" target=3D"_blank">github.com/magicona=
-ir/properties;version=3Dv1.8.9;sha256sum=3D8361b76b967090e33192173d91fb3de5=
-f5ea43f6b8d23e927bf6d698fc8a0250</a> \<br>
-+=C2=A0 =C2=A0 gomod://<a href=3D"http://github.com/mattn/go-colorable;vers=
-ion=3Dv0.1.13;sha256sum=3D08be322dcc584a9fcfde5caf0cf878b4e11cd98f252e32bc7=
-04e92c5a4ba9d15" rel=3D"noreferrer" target=3D"_blank">github.com/mattn/go-c=
-olorable;version=3Dv0.1.13;sha256sum=3D08be322dcc584a9fcfde5caf0cf878b4e11c=
-d98f252e32bc704e92c5a4ba9d15</a> \<br>
-+=C2=A0 =C2=A0 gomod://<a href=3D"http://github.com/mattn/go-isatty;version=
-=3Dv0.0.16;mod=3D1;sha256sum=3D714766ec82d67db895ade8af6b8054ad430c3cea5e15=
-b3a888f23ed2f3e1b863" rel=3D"noreferrer" target=3D"_blank">github.com/mattn=
-/go-isatty;version=3Dv0.0.16;mod=3D1;sha256sum=3D714766ec82d67db895ade8af6b=
-8054ad430c3cea5e15b3a888f23ed2f3e1b863</a> \<br>
-+=C2=A0 =C2=A0 gomod://<a href=3D"http://github.com/mattn/go-isatty;version=
-=3Dv0.0.20;sha256sum=3Df2d5f89ca451577e17464b9bb596dc0d0ecececb5eaa63622c41=
-b57cd0b7b8cc" rel=3D"noreferrer" target=3D"_blank">github.com/mattn/go-isat=
-ty;version=3Dv0.0.20;sha256sum=3Df2d5f89ca451577e17464b9bb596dc0d0ecececb5e=
-aa63622c41b57cd0b7b8cc</a> \<br>
-+=C2=A0 =C2=A0 gomod://<a href=3D"http://github.com/pelletier/go-toml/v2;ve=
-rsion=3Dv2.2.3;sha256sum=3Da51f4dc7b62bd7c26b387d912dfae87ca1449082f26574c9=
-f614ae640318b092" rel=3D"noreferrer" target=3D"_blank">github.com/pelletier=
-/go-toml/v2;version=3Dv2.2.3;sha256sum=3Da51f4dc7b62bd7c26b387d912dfae87ca1=
-449082f26574c9f614ae640318b092</a> \<br>
-+=C2=A0 =C2=A0 gomod://<a href=3D"http://github.com/pkg/diff;version=3Dv0.0=
-.0-20210226163009-20ebb0f2a09e;sha256sum=3Df35b23fdd2b9522ddd46cc5c0161b4f0=
-765c514475d5d4ca2a86aca31388c8bd" rel=3D"noreferrer" target=3D"_blank">gith=
-ub.com/pkg/diff;version=3Dv0.0.0-20210226163009-20ebb0f2a09e;sha256sum=3Df3=
-5b23fdd2b9522ddd46cc5c0161b4f0765c514475d5d4ca2a86aca31388c8bd</a> \<br>
-+=C2=A0 =C2=A0 gomod://<a href=3D"http://github.com/pmezard/go-difflib;vers=
-ion=3Dv1.0.0;mod=3D1;sha256sum=3D74b2e766eb215377864d587badf57e95521f692d2a=
-7860b3c7759093f9c9bec2" rel=3D"noreferrer" target=3D"_blank">github.com/pme=
-zard/go-difflib;version=3Dv1.0.0;mod=3D1;sha256sum=3D74b2e766eb215377864d58=
-7badf57e95521f692d2a7860b3c7759093f9c9bec2</a> \<br>
-+=C2=A0 =C2=A0 gomod://<a href=3D"http://github.com/russross/blackfriday/v2=
-;version=3Dv2.1.0;mod=3D1;sha256sum=3Dc39547cce6e866e8cfa395d2937bce30801cd=
-07f0b901c2133248f1fba12f58d" rel=3D"noreferrer" target=3D"_blank">github.co=
-m/russross/blackfriday/v2;version=3Dv2.1.0;mod=3D1;sha256sum=3Dc39547cce6e8=
-66e8cfa395d2937bce30801cd07f0b901c2133248f1fba12f58d</a> \<br>
-+=C2=A0 =C2=A0 gomod://<a href=3D"http://github.com/spf13/cobra;version=3Dv=
-1.8.1;sha256sum=3Dbf27a276f87257c93bc057309df30265a19beefc3d5fc887cbd8fc99a=
-d35466a" rel=3D"noreferrer" target=3D"_blank">github.com/spf13/cobra;versio=
-n=3Dv1.8.1;sha256sum=3Dbf27a276f87257c93bc057309df30265a19beefc3d5fc887cbd8=
-fc99ad35466a</a> \<br>
-+=C2=A0 =C2=A0 gomod://<a href=3D"http://github.com/spf13/pflag;version=3Dv=
-1.0.5;sha256sum=3Dfc6e704f2f6a84ddcdce6de0404e5340fa20c8676181bf5d381b17888=
-107ba84" rel=3D"noreferrer" target=3D"_blank">github.com/spf13/pflag;versio=
-n=3Dv1.0.5;sha256sum=3Dfc6e704f2f6a84ddcdce6de0404e5340fa20c8676181bf5d381b=
-17888107ba84</a> \<br>
-+=C2=A0 =C2=A0 gomod://<a href=3D"http://github.com/stretchr/objx;version=
-=3Dv0.1.0;mod=3D1;sha256sum=3D1350354d52d2287a62336ecc0d56232d4c47699af9bba=
-49c67c2b48254da98f1" rel=3D"noreferrer" target=3D"_blank">github.com/stretc=
-hr/objx;version=3Dv0.1.0;mod=3D1;sha256sum=3D1350354d52d2287a62336ecc0d5623=
-2d4c47699af9bba49c67c2b48254da98f1</a> \<br>
-+=C2=A0 =C2=A0 gomod://<a href=3D"http://github.com/stretchr/testify;versio=
-n=3Dv1.7.0;mod=3D1;sha256sum=3Dfff8168d98e6a07156c454a1b6e925509f3177e96c15=
-5516d7f96b4079cca3bf" rel=3D"noreferrer" target=3D"_blank">github.com/stret=
-chr/testify;version=3Dv1.7.0;mod=3D1;sha256sum=3Dfff8168d98e6a07156c454a1b6=
-e925509f3177e96c155516d7f96b4079cca3bf</a> \<br>
-+=C2=A0 =C2=A0 gomod://<a href=3D"http://github.com/yuin/gopher-lua;version=
-=3Dv1.1.1;sha256sum=3Dac45a1524a39049167f1bb2334b67f728559cb1e60c535c54b3a0=
-9f1fc772b45" rel=3D"noreferrer" target=3D"_blank">github.com/yuin/gopher-lu=
-a;version=3Dv1.1.1;sha256sum=3Dac45a1524a39049167f1bb2334b67f728559cb1e60c5=
-35c54b3a09f1fc772b45</a> \<br>
-+=C2=A0 =C2=A0 gomod://<a href=3D"http://golang.org/toolchain;version=3Dv0.=
-0.1-go1.22.5.linux-amd64;sha256sum=3D0eb73889fac3ef46a759ca3f8079a7ff656158=
-ee6aedfe127221101824001a77" rel=3D"noreferrer" target=3D"_blank">golang.org=
-/toolchain;version=3Dv0.0.1-go1.22.5.linux-amd64;sha256sum=3D0eb73889fac3ef=
-46a759ca3f8079a7ff656158ee6aedfe127221101824001a77</a> \<br>
-+=C2=A0 =C2=A0 gomod://<a href=3D"http://golang.org/x/net;version=3Dv0.33.0=
-;sha256sum=3Da85014e77369f99c3f9eebe1289b4d0757d58248ca12337642923818ae22ca=
-19" rel=3D"noreferrer" target=3D"_blank">golang.org/x/net;version=3Dv0.33.0=
-;sha256sum=3Da85014e77369f99c3f9eebe1289b4d0757d58248ca12337642923818ae22ca=
-19</a> \<br>
-+=C2=A0 =C2=A0 gomod://<a href=3D"http://golang.org/x/sys;version=3Dv0.0.0-=
-20220811171246-fbc7d0a398ab;mod=3D1;sha256sum=3Df033333096fe198f3151deed93f=
-2deba74e50bbfe7739134045bc3b7ce4a5024" rel=3D"noreferrer" target=3D"_blank"=
->golang.org/x/sys;version=3Dv0.0.0-20220811171246-fbc7d0a398ab;mod=3D1;sha2=
-56sum=3Df033333096fe198f3151deed93f2deba74e50bbfe7739134045bc3b7ce4a5024</a=
-> \<br>
-+=C2=A0 =C2=A0 gomod://<a href=3D"http://golang.org/x/sys;version=3Dv0.28.0=
-;sha256sum=3D0ed47a83fe7d7a7e743e815172bc10c1ac0ed0d31ebb095e75717428e09aa8=
-95" rel=3D"noreferrer" target=3D"_blank">golang.org/x/sys;version=3Dv0.28.0=
-;sha256sum=3D0ed47a83fe7d7a7e743e815172bc10c1ac0ed0d31ebb095e75717428e09aa8=
-95</a> \<br>
-+=C2=A0 =C2=A0 gomod://<a href=3D"http://golang.org/x/sys;version=3Dv0.6.0;=
-mod=3D1;sha256sum=3Df033333096fe198f3151deed93f2deba74e50bbfe7739134045bc3b=
-7ce4a5024" rel=3D"noreferrer" target=3D"_blank">golang.org/x/sys;version=3D=
-v0.6.0;mod=3D1;sha256sum=3Df033333096fe198f3151deed93f2deba74e50bbfe7739134=
-045bc3b7ce4a5024</a> \<br>
-+=C2=A0 =C2=A0 gomod://<a href=3D"http://golang.org/x/text;version=3Dv0.21.=
-0;sha256sum=3Dbe3db791651af6f2cb0225aa5d5578c23149b2017246ba8e59586080baadd=
-612" rel=3D"noreferrer" target=3D"_blank">golang.org/x/text;version=3Dv0.21=
-.0;sha256sum=3Dbe3db791651af6f2cb0225aa5d5578c23149b2017246ba8e59586080baad=
-d612</a> \<br>
-+=C2=A0 =C2=A0 gomod://<a href=3D"http://gopkg.in/check.v1;version=3Dv0.0.0=
--20161208181325-20d25e280405;mod=3D1;sha256sum=3D5c306e0d633cd66a11b40e2e5f=
-bbc6da42110db7d72ea3c1524ceb45ee40c33f" rel=3D"noreferrer" target=3D"_blank=
-">gopkg.in/check.v1;version=3Dv0.0.0-20161208181325-20d25e280405;mod=3D1;sh=
-a256sum=3D5c306e0d633cd66a11b40e2e5fbbc6da42110db7d72ea3c1524ceb45ee40c33f<=
-/a> \<br>
-+=C2=A0 =C2=A0 gomod://<a href=3D"http://gopkg.in/op/go-logging.v1;version=
-=3Dv1.0.0-20160211212156-b2cb9fa56473;sha256sum=3D028f2b859f2d7800d07a6fb36=
-ef1562a95219941f3b1421cdad5e95c44986ab3" rel=3D"noreferrer" target=3D"_blan=
-k">gopkg.in/op/go-logging.v1;version=3Dv1.0.0-20160211212156-b2cb9fa56473;s=
-ha256sum=3D028f2b859f2d7800d07a6fb36ef1562a95219941f3b1421cdad5e95c44986ab3=
-</a> \<br>
-+=C2=A0 =C2=A0 gomod://<a href=3D"http://gopkg.in/yaml.v3;version=3Dv3.0.0-=
-20200313102051-9f266ea9e77c;mod=3D1;sha256sum=3D21579860a20306fcf43b1bd234d=
-1fba319499c77611b71c05f9bf3ba90dab939" rel=3D"noreferrer" target=3D"_blank"=
->gopkg.in/yaml.v3;version=3Dv3.0.0-20200313102051-9f266ea9e77c;mod=3D1;sha2=
-56sum=3D21579860a20306fcf43b1bd234d1fba319499c77611b71c05f9bf3ba90dab939</a=
-> \<br>
-+=C2=A0 =C2=A0 gomod://<a href=3D"http://gopkg.in/yaml.v3;version=3Dv3.0.1;=
-sha256sum=3Daab8fbc4e6300ea08e6afe1caea18a21c90c79f489f52c53e2f20431f1a9a01=
-5" rel=3D"noreferrer" target=3D"_blank">gopkg.in/yaml.v3;version=3Dv3.0.1;s=
-ha256sum=3Daab8fbc4e6300ea08e6afe1caea18a21c90c79f489f52c53e2f20431f1a9a015=
-</a> \<br>
-+&quot;<br>
-diff --git a/recipes-devtools/yq/yq-licenses.inc b/recipes-devtools/yq/yq-l=
-icenses.inc<br>
-new file mode 100644<br>
-index 00000000..80ddb5e7<br>
---- /dev/null<br>
-+++ b/recipes-devtools/yq/yq-licenses.inc<br>
-@@ -0,0 +1,24 @@<br>
-+GO_MOD_LICENSES =3D &quot;Apache-2.0 &amp; BSD-2-Clause &amp; BSD-3-Clause=
- &amp; MIT&quot;<br>
-+<br>
-+LIC_FILES_CHKSUM +=3D &quot;\<br>
-+=C2=A0 =C2=A0 file://pkg/mod/<a href=3D"http://github.com/a8m/envsubst@v1.=
-4.2/LICENSE;md5=3D20cbf74752fb062bc260b078d71d7e30" rel=3D"noreferrer" targ=
-et=3D"_blank">github.com/a8m/envsubst@v1.4.2/LICENSE;md5=3D20cbf74752fb062b=
-c260b078d71d7e30</a> \<br>
-+=C2=A0 =C2=A0 file://pkg/mod/<a href=3D"http://github.com/alecthomas/parti=
-ciple/v2@v2.1.1/COPYING;md5=3Dc9b197062ffa2eb27eed3d8ef59c1a56" rel=3D"nore=
-ferrer" target=3D"_blank">github.com/alecthomas/participle/v2@v2.1.1/COPYIN=
-G;md5=3Dc9b197062ffa2eb27eed3d8ef59c1a56</a> \<br>
-+=C2=A0 =C2=A0 file://pkg/mod/<a href=3D"http://github.com/dimchansky/utfbo=
-m@v1.1.1/LICENSE;md5=3Dd5b81a403268b5ea485b4a2579630c17" rel=3D"noreferrer"=
- target=3D"_blank">github.com/dimchansky/utfbom@v1.1.1/LICENSE;md5=3Dd5b81a=
-403268b5ea485b4a2579630c17</a> \<br>
-+=C2=A0 =C2=A0 file://pkg/mod/<a href=3D"http://github.com/elliotchance/ord=
-eredmap@v1.7.1/LICENSE;md5=3D47a0bd50edb1474747d074fc0ba1ead5" rel=3D"noref=
-errer" target=3D"_blank">github.com/elliotchance/orderedmap@v1.7.1/LICENSE;=
-md5=3D47a0bd50edb1474747d074fc0ba1ead5</a> \<br>
-+=C2=A0 =C2=A0 file://pkg/mod/<a href=3D"http://github.com/fatih/color@v1.1=
-8.0/LICENSE.md;md5=3D316e6d590bdcde7993fb175662c0dd5a" rel=3D"noreferrer" t=
-arget=3D"_blank">github.com/fatih/color@v1.18.0/LICENSE.md;md5=3D316e6d590b=
-dcde7993fb175662c0dd5a</a> \<br>
-+=C2=A0 =C2=A0 file://pkg/mod/<a href=3D"http://github.com/goccy/go-json@v0=
-.10.4/LICENSE;md5=3D33a07164132d795872805bfc53f6097d" rel=3D"noreferrer" ta=
-rget=3D"_blank">github.com/goccy/go-json@v0.10.4/LICENSE;md5=3D33a07164132d=
-795872805bfc53f6097d</a> \<br>
-+=C2=A0 =C2=A0 file://pkg/mod/<a href=3D"http://github.com/goccy/go-yaml@v1=
-.13.3/LICENSE;md5=3D346470d8ac0a6ffe1eb8635a452cec2b" rel=3D"noreferrer" ta=
-rget=3D"_blank">github.com/goccy/go-yaml@v1.13.3/LICENSE;md5=3D346470d8ac0a=
-6ffe1eb8635a452cec2b</a> \<br>
-+=C2=A0 =C2=A0 file://pkg/mod/<a href=3D"http://github.com/magiconair/prope=
-rties@v1.8.9/LICENSE.md;md5=3D714beb7325ffa89d5a68d936a3bb04e5" rel=3D"nore=
-ferrer" target=3D"_blank">github.com/magiconair/properties@v1.8.9/LICENSE.m=
-d;md5=3D714beb7325ffa89d5a68d936a3bb04e5</a> \<br>
-+=C2=A0 =C2=A0 file://pkg/mod/<a href=3D"http://github.com/mattn/go-colorab=
-le@v0.1.13/LICENSE;md5=3D24ce168f90aec2456a73de1839037245" rel=3D"noreferre=
-r" target=3D"_blank">github.com/mattn/go-colorable@v0.1.13/LICENSE;md5=3D24=
-ce168f90aec2456a73de1839037245</a> \<br>
-+=C2=A0 =C2=A0 file://pkg/mod/<a href=3D"http://github.com/mattn/go-isatty@=
-v0.0.20/LICENSE;md5=3Df509beadd5a11227c27b5d2ad6c9f2c6" rel=3D"noreferrer" =
-target=3D"_blank">github.com/mattn/go-isatty@v0.0.20/LICENSE;md5=3Df509bead=
-d5a11227c27b5d2ad6c9f2c6</a> \<br>
-+=C2=A0 =C2=A0 file://pkg/mod/<a href=3D"http://github.com/pelletier/go-tom=
-l/v2@v2.2.3/LICENSE;md5=3D390892c6562af0d807e527b06d635f94" rel=3D"noreferr=
-er" target=3D"_blank">github.com/pelletier/go-toml/v2@v2.2.3/LICENSE;md5=3D=
-390892c6562af0d807e527b06d635f94</a> \<br>
-+=C2=A0 =C2=A0 file://pkg/mod/<a href=3D"http://github.com/pkg/diff@v0.0.0-=
-20210226163009-20ebb0f2a09e/LICENSE;md5=3Dd0250703509998b3201f5dd7f26e8c35"=
- rel=3D"noreferrer" target=3D"_blank">github.com/pkg/diff@v0.0.0-2021022616=
-3009-20ebb0f2a09e/LICENSE;md5=3Dd0250703509998b3201f5dd7f26e8c35</a> \<br>
-+=C2=A0 =C2=A0 file://pkg/mod/<a href=3D"http://github.com/spf13/cobra@v1.8=
-.1/LICENSE.txt;md5=3D920d76114a32b0fb75b3f2718c5a91be" rel=3D"noreferrer" t=
-arget=3D"_blank">github.com/spf13/cobra@v1.8.1/LICENSE.txt;md5=3D920d76114a=
-32b0fb75b3f2718c5a91be</a> \<br>
-+=C2=A0 =C2=A0 file://pkg/mod/<a href=3D"http://github.com/spf13/pflag@v1.0=
-.5/LICENSE;md5=3D1e8b7dc8b906737639131047a590f21d" rel=3D"noreferrer" targe=
-t=3D"_blank">github.com/spf13/pflag@v1.0.5/LICENSE;md5=3D1e8b7dc8b906737639=
-131047a590f21d</a> \<br>
-+=C2=A0 =C2=A0 file://pkg/mod/<a href=3D"http://github.com/yuin/gopher-lua@=
-v1.1.1/LICENSE;md5=3D5ea59bf62229a35ae7b2c7208524163e" rel=3D"noreferrer" t=
-arget=3D"_blank">github.com/yuin/gopher-lua@v1.1.1/LICENSE;md5=3D5ea59bf622=
-29a35ae7b2c7208524163e</a> \<br>
-+=C2=A0 =C2=A0 file://pkg/mod/<a href=3D"http://golang.org/x/net@v0.33.0/LI=
-CENSE;md5=3D7998cb338f82d15c0eff93b7004d272a" rel=3D"noreferrer" target=3D"=
-_blank">golang.org/x/net@v0.33.0/LICENSE;md5=3D7998cb338f82d15c0eff93b7004d=
-272a</a> \<br>
-+=C2=A0 =C2=A0 file://pkg/mod/<a href=3D"http://golang.org/x/sys@v0.28.0/LI=
-CENSE;md5=3D7998cb338f82d15c0eff93b7004d272a" rel=3D"noreferrer" target=3D"=
-_blank">golang.org/x/sys@v0.28.0/LICENSE;md5=3D7998cb338f82d15c0eff93b7004d=
-272a</a> \<br>
-+=C2=A0 =C2=A0 file://pkg/mod/<a href=3D"http://golang.org/x/text@v0.21.0/L=
-ICENSE;md5=3D7998cb338f82d15c0eff93b7004d272a" rel=3D"noreferrer" target=3D=
-"_blank">golang.org/x/text@v0.21.0/LICENSE;md5=3D7998cb338f82d15c0eff93b700=
-4d272a</a> \<br>
-+=C2=A0 =C2=A0 file://pkg/mod/<a href=3D"http://gopkg.in/op/go-logging.v1@v=
-1.0.0-20160211212156-b2cb9fa56473/LICENSE;md5=3Dd01d49c2816e0112c83b3a9f770=
-29b8a" rel=3D"noreferrer" target=3D"_blank">gopkg.in/op/go-logging.v1@v1.0.=
-0-20160211212156-b2cb9fa56473/LICENSE;md5=3Dd01d49c2816e0112c83b3a9f77029b8=
-a</a> \<br>
-+=C2=A0 =C2=A0 file://pkg/mod/<a href=3D"http://gopkg.in/yaml.v3@v3.0.1/LIC=
-ENSE;md5=3D3c91c17266710e16afdbb2b6d15c761c" rel=3D"noreferrer" target=3D"_=
-blank">gopkg.in/yaml.v3@v3.0.1/LICENSE;md5=3D3c91c17266710e16afdbb2b6d15c76=
-1c</a> \<br>
-+&quot;<br>
-diff --git a/recipes-devtools/yq/<a href=3D"http://yq_4.45.1.bb" rel=3D"nor=
-eferrer" target=3D"_blank">yq_4.45.1.bb</a> b/recipes-devtools/yq/<a href=
-=3D"http://yq_4.45.1.bb" rel=3D"noreferrer" target=3D"_blank">yq_4.45.1.bb<=
-/a><br>
-new file mode 100644<br>
-index 00000000..b942ca0b<br>
---- /dev/null<br>
-+++ b/recipes-devtools/yq/<a href=3D"http://yq_4.45.1.bb" rel=3D"noreferrer=
-" target=3D"_blank">yq_4.45.1.bb</a><br>
-@@ -0,0 +1,40 @@<br>
-+SUMMARY =3D &quot;A lightweight and portable command-line YAML processor&q=
-uot;<br>
-+HOMEPAGE =3D &quot;<a href=3D"https://github.com/mikefarah/yq" rel=3D"nore=
-ferrer" target=3D"_blank">https://github.com/mikefarah/yq</a>&quot;<br>
-+<br>
-+LICENSE =3D &quot;MIT &amp; ${GO_MOD_LICENSES}&quot;<br>
-+LIC_FILES_CHKSUM =3D &quot;file://src/${GO_IMPORT}/LICENSE;md5=3De40a0dcd6=
-2f8269b9bff37fe9aa7dcc2&quot;<br>
-+require ${BPN}-licenses.inc<br>
-+<br>
-+SRCREV =3D &quot;8bf425b4d1344db7cd469a8d10a390876e0c77fd&quot;<br>
-+SRCREV_FORMAT =3D &quot;default&quot;<br>
-+<br>
-+SRC_URI =3D &quot;git://${GO_IMPORT}.git;protocol=3Dhttps;branch=3Dmaster;=
-destsuffix=3D${GO_SRCURI_DESTSUFFIX}&quot;<br>
-+SRC_URI +=3D &quot;file://run-ptest&quot;<br>
-+require ${BPN}-go-mods.inc<br>
-+<br>
-+S =3D &quot;${WORKDIR}/git&quot;<br>
-+<br>
-+GO_IMPORT =3D &quot;<a href=3D"http://github.com/mikefarah/yq" rel=3D"nore=
-ferrer" target=3D"_blank">github.com/mikefarah/yq</a>&quot;<br>
-+<br>
-+inherit go-mod ptest<br>
-+<br>
-+do_install:append() {<br>
-+=C2=A0 =C2=A0 # these bring in dependencies for the -dev package on bash, =
-and we don&#39;t<br>
-+=C2=A0 =C2=A0 # need them .. so we remove them to avoid needing that rdepe=
-nds<br>
-+=C2=A0 =C2=A0 rm -rf ${D}/${libdir}/go/src/${GO_IMPORT}/debian/rules<br>
-+=C2=A0 =C2=A0 rm -rf ${D}/${libdir}/go/src/${GO_IMPORT}/scripts<br>
-+=C2=A0 =C2=A0 rm -rf ${D}/${libdir}/go/src/${GO_IMPORT}/acceptance_tests<b=
-r>
-+}<br>
-+<br>
-+do_install_ptest() {<br>
-+=C2=A0 =C2=A0 install -d ${D}${PTEST_PATH}/tests<br>
-+=C2=A0 =C2=A0 cp -r ${S}/src/${GO_IMPORT}/scripts/* ${D}${PTEST_PATH}/test=
-s<br>
-+=C2=A0 =C2=A0 cp -r ${S}/src/${GO_IMPORT}/acceptance_tests/* ${D}${PTEST_P=
-ATH}/tests<br>
-+=C2=A0 =C2=A0 cp -r ${S}/src/${GO_IMPORT}/examples ${D}${PTEST_PATH}/tests=
-<br>
-+}<br>
-+<br>
-+RDEPENDS:${PN}-ptest +=3D &quot; \<br>
-+=C2=A0 =C2=A0 bash \<br>
-+&quot;<br>
-+<br>
-+BBCLASSEXTEND =3D &quot;native&quot;<br>
-diff --git a/recipes-devtools/yq/<a href=3D"http://yq_git.bb" rel=3D"norefe=
-rrer" target=3D"_blank">yq_git.bb</a> b/recipes-devtools/yq/<a href=3D"http=
-://yq_git.bb" rel=3D"noreferrer" target=3D"_blank">yq_git.bb</a><br>
-deleted file mode 100644<br>
-index 3d0714c7..00000000<br>
---- a/recipes-devtools/yq/<a href=3D"http://yq_git.bb" rel=3D"noreferrer" t=
-arget=3D"_blank">yq_git.bb</a><br>
-+++ /dev/null<br>
-@@ -1,87 +0,0 @@<br>
--SUMMARY =3D &quot;a lightweight and portable command-line YAML processor &=
-quot;<br>
--HOMEPAGE =3D &quot;<a href=3D"https://github.com/mikefarah/yq" rel=3D"nore=
-ferrer" target=3D"_blank">https://github.com/mikefarah/yq</a>&quot;<br>
--<br>
--LICENSE =3D &quot;MIT&quot;<br>
--LIC_FILES_CHKSUM =3D &quot;file://src/${GO_IMPORT}/LICENSE;md5=3De40a0dcd6=
-2f8269b9bff37fe9aa7dcc2&quot;<br>
--<br>
--SRCREV_yq =3D &quot;dd6cf3df146f3e2c0f8c765a6ef9e35780ad8cc1&quot;<br>
--SRCREV_color =3D &quot;daf2830f2741ebb735b21709a520c5f37d642d85&quot;<br>
--SRCREV_lexer =3D &quot;6cdefc42e112ac71cbe316e1eed264ea62f58e25&quot;<br>
--SRCREV_cobra =3D &quot;b43be995ebb4bee335a787bd44498b91aef7619c&quot;<br>
--SRCREV_pflag =3D &quot;2e9d26c8c37aae03e3f9d4e90b7116f5accb7cab&quot;<br>
--SRCREV_logging =3D &quot;b2cb9fa56473e98db8caba80237377e83fe44db5&quot;<br=
->
--SRCREV_yaml =3D &quot;f6f7691b1fdeb513f56608cd2c32c51f8194bf51&quot;<br>
--SRCREV_xerrors =3D &quot;65e65417b02f28de84b55f16b46a1e789149973a&quot;<br=
->
--SRCREV_envsubst =3D &quot;16035fe3571ad42c7796bf554f978bb2df64231b&quot;<b=
-r>
--SRCREV_participle =3D &quot;49f4822ed012d9818c80ca4fcdeb7e2d55c04806&quot;=
-<br>
--SRCREV_utfbom =3D &quot;6ae8f945ca96f30defc7e8ab12ec5d10cf86ded4&quot;<br>
--SRCREV_orderedmap =3D &quot;1e43e194ff533a346bab5f9b66b738256f199c8a&quot;=
-<br>
--SRCREV_go-json =3D &quot;5efc7d07eeeba186df630d9ab4ac78c761938c27&quot;<br=
->
--SRCREV_copier =3D &quot;d132b069fe1a77d09e4c260852b389a730bbe9ba&quot;<br>
--SRCREV_properties =3D &quot;c9a06e8f8f0164e4e16c0d5c4793cbed4ac90264&quot;=
-<br>
--SRCREV_net =3D &quot;f3363e06e74cdc304618bf31d898b78590103527&quot;<br>
--SRCREV_text =3D &quot;434eadcdbc3b0256971992e8c70027278364c72c&quot;<br>
--SRCREV_diff =3D &quot;20ebb0f2a09e612109b224b32f79370409108bcc&quot;<br>
--<br>
--SRCREV_FORMAT =3D &quot;yq_color&quot;<br>
--SRC_URI =3D &quot;git://${GO_IMPORT};name=3Dyq;branch=3Dmaster;protocol=3D=
-https;destsuffix=3D${GO_SRCURI_DESTSUFFIX} \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0git://<a href=3D"http://github.co=
-m/fatih/color;name=3Dcolor;destsuffix=3Dbuild/vendor/src/github.com/fatih/c=
-olor;branch=3Dmain;protocol=3Dhttps" rel=3D"noreferrer" target=3D"_blank">g=
-ithub.com/fatih/color;name=3Dcolor;destsuffix=3Dbuild/vendor/src/github.com=
-/fatih/color;branch=3Dmain;protocol=3Dhttps</a> \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0git://<a href=3D"http://github.co=
-m/goccy/go-yaml;name=3Dlexer;destsuffix=3Dbuild/vendor/src/github.com/goccy=
-/go-yaml/;branch=3Dmaster;protocol=3Dhttps" rel=3D"noreferrer" target=3D"_b=
-lank">github.com/goccy/go-yaml;name=3Dlexer;destsuffix=3Dbuild/vendor/src/g=
-ithub.com/goccy/go-yaml/;branch=3Dmaster;protocol=3Dhttps</a> \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0git://<a href=3D"http://github.co=
-m/spf13/cobra;name=3Dcobra;nobranch=3D1;destsuffix=3Dbuild/vendor/src/githu=
-b.com/spf13/cobra;branch=3Dmain;protocol=3Dhttps" rel=3D"noreferrer" target=
-=3D"_blank">github.com/spf13/cobra;name=3Dcobra;nobranch=3D1;destsuffix=3Db=
-uild/vendor/src/github.com/spf13/cobra;branch=3Dmain;protocol=3Dhttps</a> \=
-<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0git://<a href=3D"http://github.co=
-m/spf13/pflag;name=3Dpflag;destsuffix=3Dbuild/vendor/src/github.com/spf13/p=
-flag;branch=3Dmaster;protocol=3Dhttps" rel=3D"noreferrer" target=3D"_blank"=
->github.com/spf13/pflag;name=3Dpflag;destsuffix=3Dbuild/vendor/src/github.c=
-om/spf13/pflag;branch=3Dmaster;protocol=3Dhttps</a> \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0git://<a href=3D"http://github.co=
-m/op/go-logging.git;name=3Dlogging;destsuffix=3Dbuild/vendor/src/gopkg.in/o=
-p/go-logging.v1;branch=3Dmaster;protocol=3Dhttps" rel=3D"noreferrer" target=
-=3D"_blank">github.com/op/go-logging.git;name=3Dlogging;destsuffix=3Dbuild/=
-vendor/src/gopkg.in/op/go-logging.v1;branch=3Dmaster;protocol=3Dhttps</a> \=
-<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0git://<a href=3D"http://github.co=
-m/go-yaml/yaml.git;name=3Dyaml;branch=3Dv3;destsuffix=3Dbuild/vendor/src/go=
-pkg.in/yaml.v3;protocol=3Dhttps" rel=3D"noreferrer" target=3D"_blank">githu=
-b.com/go-yaml/yaml.git;name=3Dyaml;branch=3Dv3;destsuffix=3Dbuild/vendor/sr=
-c/gopkg.in/yaml.v3;protocol=3Dhttps</a> \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0git://<a href=3D"http://github.co=
-m/golang/xerrors;name=3Dxerrors;protocol=3Dhttps;nobranch=3D1;destsuffix=3D=
-build/vendor/src/golang.org/x/xerrors" rel=3D"noreferrer" target=3D"_blank"=
->github.com/golang/xerrors;name=3Dxerrors;protocol=3Dhttps;nobranch=3D1;des=
-tsuffix=3Dbuild/vendor/src/golang.org/x/xerrors</a> \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0git://<a href=3D"http://github.co=
-m/a8m/envsubst;name=3Denvsubst;destsuffix=3Dbuild/vendor/src/github.com/a8m=
-/envsubst;branch=3Dmaster;protocol=3Dhttps" rel=3D"noreferrer" target=3D"_b=
-lank">github.com/a8m/envsubst;name=3Denvsubst;destsuffix=3Dbuild/vendor/src=
-/github.com/a8m/envsubst;branch=3Dmaster;protocol=3Dhttps</a> \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0git://<a href=3D"http://github.co=
-m/alecthomas/participle;name=3Dparticiple;destsuffix=3Dbuild/vendor/src/git=
-hub.com/alecthomas/participle;branch=3Dmaster;protocol=3Dhttps" rel=3D"nore=
-ferrer" target=3D"_blank">github.com/alecthomas/participle;name=3Dparticipl=
-e;destsuffix=3Dbuild/vendor/src/github.com/alecthomas/participle;branch=3Dm=
-aster;protocol=3Dhttps</a> \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0git://<a href=3D"http://github.co=
-m/dimchansky/utfbom;name=3Dutfbom;destsuffix=3Dbuild/vendor/src/github.com/=
-dimchansky/utfbom;branch=3Dmaster;protocol=3Dhttps" rel=3D"noreferrer" targ=
-et=3D"_blank">github.com/dimchansky/utfbom;name=3Dutfbom;destsuffix=3Dbuild=
-/vendor/src/github.com/dimchansky/utfbom;branch=3Dmaster;protocol=3Dhttps</=
-a> \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0git://<a href=3D"http://github.co=
-m/elliotchance/orderedmap;name=3Dorderedmap;destsuffix=3Dbuild/vendor/src/g=
-ithub.com/elliotchance/orderedmap;branch=3Dmaster;protocol=3Dhttps" rel=3D"=
-noreferrer" target=3D"_blank">github.com/elliotchance/orderedmap;name=3Dord=
-eredmap;destsuffix=3Dbuild/vendor/src/github.com/elliotchance/orderedmap;br=
-anch=3Dmaster;protocol=3Dhttps</a> \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0git://<a href=3D"http://github.co=
-m/goccy/go-json;name=3Dgo-json;destsuffix=3Dbuild/vendor/src/github.com/goc=
-cy/go-json;branch=3Dmaster;protocol=3Dhttps" rel=3D"noreferrer" target=3D"_=
-blank">github.com/goccy/go-json;name=3Dgo-json;destsuffix=3Dbuild/vendor/sr=
-c/github.com/goccy/go-json;branch=3Dmaster;protocol=3Dhttps</a> \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0git://<a href=3D"http://github.co=
-m/jinzhu/copier;name=3Dcopier;destsuffix=3Dbuild/vendor/src/github.com/jinz=
-hu/copier;branch=3Dmaster;protocol=3Dhttps" rel=3D"noreferrer" target=3D"_b=
-lank">github.com/jinzhu/copier;name=3Dcopier;destsuffix=3Dbuild/vendor/src/=
-github.com/jinzhu/copier;branch=3Dmaster;protocol=3Dhttps</a> \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0git://<a href=3D"http://github.co=
-m/magiconair/properties;name=3Dproperties;destsuffix=3Dbuild/vendor/src/git=
-hub.com/magiconair/properties;branch=3Dmain;protocol=3Dhttps" rel=3D"norefe=
-rrer" target=3D"_blank">github.com/magiconair/properties;name=3Dproperties;=
-destsuffix=3Dbuild/vendor/src/github.com/magiconair/properties;branch=3Dmai=
-n;protocol=3Dhttps</a> \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0git://<a href=3D"http://github.co=
-m/golang/net;name=3Dnet;destsuffix=3Dbuild/vendor/src/golang.org/x/net;bran=
-ch=3Dmaster;protocol=3Dhttps" rel=3D"noreferrer" target=3D"_blank">github.c=
-om/golang/net;name=3Dnet;destsuffix=3Dbuild/vendor/src/golang.org/x/net;bra=
-nch=3Dmaster;protocol=3Dhttps</a> \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0git://<a href=3D"http://github.co=
-m/golang/text;name=3Dtext;destsuffix=3Dbuild/vendor/src/golang.org/x/text;b=
-ranch=3Dmaster;protocol=3Dhttps" rel=3D"noreferrer" target=3D"_blank">githu=
-b.com/golang/text;name=3Dtext;destsuffix=3Dbuild/vendor/src/golang.org/x/te=
-xt;branch=3Dmaster;protocol=3Dhttps</a> \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0git://<a href=3D"http://github.co=
-m/pkg/diff;name=3Ddiff;destsuffix=3Dbuild/vendor/src/github.com/pkg/diff;br=
-anch=3Dmain;protocol=3Dhttps;apply=3Dno" rel=3D"noreferrer" target=3D"_blan=
-k">github.com/pkg/diff;name=3Ddiff;destsuffix=3Dbuild/vendor/src/github.com=
-/pkg/diff;branch=3Dmain;protocol=3Dhttps;apply=3Dno</a> \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://run-ptest \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
--<br>
--PV =3D &quot;4.30.8+git${SRCREV_yq}&quot;<br>
--GO_IMPORT =3D &quot;<a href=3D"http://github.com/mikefarah/yq" rel=3D"nore=
-ferrer" target=3D"_blank">github.com/mikefarah/yq</a>&quot;<br>
--<br>
--inherit go ptest<br>
--<br>
--do_compile:prepend() {<br>
--=C2=A0 =C2=A0 # arrange for some of the golang built ins to be found<br>
--=C2=A0 =C2=A0 (<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0cd ${WORKDIR}/build/src/<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sf ${STAGING_DIR_TARGET}/${prefix}/lib/go/s=
-rc/cmd/vendor/<a href=3D"http://golang.org" rel=3D"noreferrer" target=3D"_b=
-lank">golang.org</a> .<br>
--<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0cd ${WORKDIR}/build/<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sf ${UNPACKDIR}/build/vendor .<br>
--=C2=A0 =C2=A0 )<br>
--<br>
--=C2=A0 =C2=A0 # arrange for the fetched dependencies to be found<br>
--=C2=A0 =C2=A0 export GOPATH=3D&quot;${GOPATH}:${WORKDIR}/build/vendor/&quo=
-t;<br>
--=C2=A0 =C2=A0 export GO111MODULE=3Doff<br>
--}<br>
--<br>
--do_install:append() {<br>
--=C2=A0 =C2=A0 # these bring in dependencies for the -dev package on bash, =
-and we don&#39;t<br>
--=C2=A0 =C2=A0 # need them .. so we remove them to avoid needing that rdepe=
-nds<br>
--=C2=A0 =C2=A0 rm -rf ${D}/${libdir}/go/src/${GO_IMPORT}/debian/rules<br>
--=C2=A0 =C2=A0 rm -rf ${D}/${libdir}/go/src/${GO_IMPORT}/scripts<br>
--=C2=A0 =C2=A0 rm -rf ${D}/${libdir}/go/src/${GO_IMPORT}/acceptance_tests<b=
-r>
--}<br>
--<br>
--do_install_ptest() {<br>
--=C2=A0 =C2=A0 install -d ${D}${PTEST_PATH}/tests<br>
--=C2=A0 =C2=A0 cp -r ${S}/src/<a href=3D"http://github.com/mikefarah/yq/scr=
-ipts/*" rel=3D"noreferrer" target=3D"_blank">github.com/mikefarah/yq/script=
-s/*</a> ${D}${PTEST_PATH}/tests<br>
--=C2=A0 =C2=A0 cp -r ${S}/src/<a href=3D"http://github.com/mikefarah/yq/acc=
-eptance_tests/*" rel=3D"noreferrer" target=3D"_blank">github.com/mikefarah/=
-yq/acceptance_tests/*</a> ${D}${PTEST_PATH}/tests<br>
--=C2=A0 =C2=A0 cp -r ${S}/src/<a href=3D"http://github.com/mikefarah/yq/exa=
-mples" rel=3D"noreferrer" target=3D"_blank">github.com/mikefarah/yq/example=
-s</a> ${D}${PTEST_PATH}/tests<br>
--}<br>
--<br>
--RDEPENDS:${PN}-ptest +=3D &quot; \<br>
--=C2=A0 =C2=A0 bash \<br>
--&quot;<br>
--<br>
--BBCLASSEXTEND =3D &quot;native&quot;<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#9223): <a href=3D"https://lists.yoctoproject.org/g/meta=
--virtualization/message/9223" rel=3D"noreferrer" target=3D"_blank">https://=
-lists.yoctoproject.org/g/meta-virtualization/message/9223</a><br>
-Mute This Topic: <a href=3D"https://lists.yoctoproject.org/mt/112264276/105=
-0810" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.org/m=
-t/112264276/1050810</a><br>
-Group Owner: <a href=3D"mailto:meta-virtualization%2Bowner@lists.yoctoproje=
-ct.org" target=3D"_blank">meta-virtualization+owner@lists.yoctoproject.org<=
-/a><br>
-Unsubscribe: <a href=3D"https://lists.yoctoproject.org/g/meta-virtualizatio=
-n/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.or=
-g/g/meta-virtualization/unsub</a> [<a href=3D"mailto:bruce.ashfield@gmail.c=
-om" target=3D"_blank">bruce.ashfield@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
-=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
-ignature">- Thou shalt not follow the NULL pointer, for chaos and madness a=
-wait thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star T=
-rek II<br><br></div></div>
-
---0000000000001af7440632c30e19--
+--_000_CO6PR11MB56021D1E9EE83AD620F308C6EDB22CO6PR11MB5602namp_--
 
