@@ -2,202 +2,233 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BF47C369C2
-	for <webhook@archiver.kernel.org>; Sun, 20 Apr 2025 21:11:02 +0000 (UTC)
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
- by mx.groups.io with SMTP id smtpd.web11.3924.1745183453867280123
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A31AC369C2
+	for <webhook@archiver.kernel.org>; Sun, 20 Apr 2025 21:37:02 +0000 (UTC)
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+ by mx.groups.io with SMTP id smtpd.web11.4262.1745185021071336047
  for <meta-virtualization@lists.yoctoproject.org>;
- Sun, 20 Apr 2025 14:10:53 -0700
+ Sun, 20 Apr 2025 14:37:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=MdLmyukt;
- spf=pass (domain: gmail.com, ip: 209.85.215.170, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-b00e3c87713so2786151a12.2
-        for <meta-virtualization@lists.yoctoproject.org>; Sun, 20 Apr 2025 14:10:53 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=dPbrTibu;
+ spf=pass (domain: gmail.com, ip: 209.85.216.54, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-30572effb26so3092917a91.0
+        for <meta-virtualization@lists.yoctoproject.org>; Sun, 20 Apr 2025 14:37:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745183453; x=1745788253; darn=lists.yoctoproject.org;
+        d=gmail.com; s=20230601; t=1745185020; x=1745789820; darn=lists.yoctoproject.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=3rB8KpBJoT4da0lC2JrQY/g2c317vEg47/uqR9TrI0Q=;
-        b=MdLmyuktkkuu1JUyQFFJwP3ZjZPcwnvIVjvx8XGcLYEuljncBZcFLV+6nXk79yk/xj
-         vqGy25SvGUSjWoxl1LDbmAn7uKiy0OVT0is/xGAM2hi5dpAp6IPXvJCuAFmuSldHsq69
-         93N02rva9WZH1QdEwCJkvOQ43kNx63iHsYevozOkNiSfBJTd+LmkTOOGUIOSy8tZ35jG
-         blpromDLCC5cRa7D/tDQwP6PmSWyWyiWjiffNBEuyu1H70cqJHqG7dIDKpQDg4OGu59Z
-         jZPI5t+3PGNNotdhvcgo5dsg6rLNv4JKIH/0X/p/JrePG4zhltf7ZJn8msJy8WkF1gGb
-         m+lQ==
+        bh=vL8mXuwg7tBZ4AhSr+cnxQGj0mdofLPAhGanrSC03As=;
+        b=dPbrTibuEJG/Blv+BcYqiVNLv0UyXnUJfomG+lFvjPtpO8rBonKBXHH/ch+rp8J5Xu
+         sonnCBGIySZcGt3zKj1llX6HznFASLuNg0j8pOPqMsQx0dOkXQZR7GQUOuAnGY4FLaia
+         6Ma9OSnl0nyNVDauRwwNOkNt75fHmj/qrNV7o6UTtJBRdqbmT/nU2o4TwEMNL4CyGrC5
+         WTjfZRtVxwGGx1c303QseSmV6fJcpMpxTnxmyQd4Oy/Fh8t4/ztqeFLCm5XSCV+4VAVp
+         1WFPHBoO9pEWIQSlR3i3F8JA54/gNQ61YjhqJSgiAIdwX8TVsMxepd6hf8lmyHzC2lkR
+         b9WQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745183453; x=1745788253;
+        d=1e100.net; s=20230601; t=1745185020; x=1745789820;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=3rB8KpBJoT4da0lC2JrQY/g2c317vEg47/uqR9TrI0Q=;
-        b=cccfk34ArY8AsQoTvDToRSHa01i53QghgLfwDlQ/JrbTQJsEjpkkvzI7fiPrheuVwn
-         wKr8mXW5nGk661CRIVmN9KXSEa4UVjsJoIo+7rlOYMblMsSRw1WdnzaHS8+83qy4u+On
-         SZt9X/+IzvakKkBwiCQ3e+PV31f59soIALa+48dgxdqn/9oF93UoGBAAxlzWTeVpK+ob
-         aHVskcwL7w+aFm/c1Mo4LDU9WVZjB8CLBgRr/wyGdajQ1os/dkOfID785vOf2lydtrAS
-         /C/0QrPPJT77UtPkAjY2xbp0iADoppDhoKDNUvH++XZSsYmmvz7QwGKBjyf6rIjK95rR
-         Msng==
-X-Gm-Message-State: AOJu0YxMZrCNCfGtdDG1eg+2glDwH1ZeOfLHzlXKyJm4kNDuaXeMXyt8
-	+zjtCtwzBvR4yzHBBuC4C3VEm3NP7iLbPZjLPG+mNPolwDVMNES4I2uibrCLRYVlk6dwqCoEYlX
-	pQt1wo3Nfl0qbxaOFTSBvNqssGbk=
-X-Gm-Gg: ASbGnctdOo9u3Rk4FH9rRQ8GBJmhr0L1Xs37qrqY+6gVxhahNJGxxHjaSHGf3ZwCZ9V
-	1yGpgHrnH9BXJ4vpaq8FjRuWn84Lfb2Nd06wKvMuDoWhDp5IqsHgboc+xw7alLTt2VPgWiORAmp
-	jqLTPrqTTV9uHwOA0TjaTdHw==
-X-Google-Smtp-Source: AGHT+IFcLUofK0wFt8yadEUctQa/7K/LKqkHqnLicRFisdiw4HkA6LsuFFdiQjP3ohoQzL8vybBVk9NED+1AuK003hM=
-X-Received: by 2002:a17:90b:58ec:b0:2f4:432d:250d with SMTP id
- 98e67ed59e1d1-3087bb6986bmr13748966a91.21.1745183452957; Sun, 20 Apr 2025
- 14:10:52 -0700 (PDT)
+        bh=vL8mXuwg7tBZ4AhSr+cnxQGj0mdofLPAhGanrSC03As=;
+        b=JNYILYC9jlGyboCMbqQEg39Di9gzu47H+7y36myu81du+y9UxJJQvzdDMXoTrLIoQQ
+         Nd/bJ+pqI+R6jxGs20f/lcO/dg+DPT06Q2qI5cw6lxtEQUm4ZRIX/l7P+OrYIoXZImJU
+         WvpvURo1CUVm5mQy2pJ/LrKtIvcZhwilf7rzSGMikCCSkwUwwKavG1o34KWoF28tXFN8
+         Al9NoNm6vYFlq/4i5hgyXVWfKMyqdkM/uoUwvNsxdp1OonKIARM4fWv56gd9X4o20eZB
+         Q02TFYZ7raAWr+Hg99YNO4EwfLUT08XqUMjHAQNdfIq5Yf6LYNNSyAxMLQ9BeZe1ifgq
+         gz8A==
+X-Forwarded-Encrypted: i=1; AJvYcCWV4x0d5Y3J6C2c37X2E5moXojJk2I07N4Jc8cFV0ZDpQD6mqLdl6yU8SL4Hj+umAzVnFI1TSkKv/2LunL8Rfi6ggyz@lists.yoctoproject.org
+X-Gm-Message-State: AOJu0YwF2/JfC2BKcoLOVZHgPGQKxAWGnrt8E5kqQRpu5wSZ01HNYxLl
+	rTE64usDFHUakkqHQetBy0jVC3+pvhdiLoBcARog8N3pcevdvn+eg7S5Ff938zHb2w0fzNngsCT
+	u3KxTOgNyS8BzxoFV7uJxKGXNoko=
+X-Gm-Gg: ASbGnctmB53/8khADvaHIJhh5CSVLXtlPdYwXpIiVvSMCLewb+iJtdIEZxhO17DNoYB
+	oal0PMEBoa11mPfsi8b+ohEUxqSZd6EZjt3vWRHUQ1kZNS+foJ8Gb0cAJY8BsrmgBC8T+WBuLZL
+	Hz+YvrwH51+lVkwIUEqWUomw==
+X-Google-Smtp-Source: AGHT+IELDCCoPc5lmLkibMCYSQsUdquaMzlZllTsJrmtTM4n/ihOHt0JC+/84gP9T3DNdYLaAUPCkWnrYLegqtyZujQ=
+X-Received: by 2002:a17:90b:57e6:b0:2ff:58c7:a71f with SMTP id
+ 98e67ed59e1d1-3087bbbb887mr11734378a91.32.1745185020359; Sun, 20 Apr 2025
+ 14:37:00 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250420124619.3820627-1-pkj@axis.com>
-In-Reply-To: <20250420124619.3820627-1-pkj@axis.com>
+References: <20250420124619.3820627-1-pkj@axis.com> <1838231AE405029D.21966@lists.yoctoproject.org>
+In-Reply-To: <1838231AE405029D.21966@lists.yoctoproject.org>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Sun, 20 Apr 2025 17:10:42 -0400
-X-Gm-Features: ATxdqUFus3OUp7hTCAhMjBDTq0ZwAs99LmjXhbFt2v9oMLCqrl9N0LNg863Zl_U
-Message-ID: <CADkTA4Pss=+gZNVF5D8v21=r227TvF3CQ=6C7rWySYOEz6KEEw@mail.gmail.com>
+Date: Sun, 20 Apr 2025 17:36:49 -0400
+X-Gm-Features: ATxdqUGZCdHq-L1Kn22sCUCO1COkd8CxtgQKkfwQafZ6Gs_NdBGAzBtKvKjigzk
+Message-ID: <CADkTA4MUB+j5iht=X+B+kgxGdhBqRhG_DVHJpKZFHs4_VArGiQ@mail.gmail.com>
 Subject: Re: [meta-virtualization] [PATCH] yq: Correct the version (4.45.1+)
-To: peter.kjellerstedt@axis.com
-Cc: meta-virtualization@lists.yoctoproject.org
-Content-Type: multipart/alternative; boundary="000000000000c8160d06333c2f25"
+To: bruce.ashfield@gmail.com
+Cc: peter.kjellerstedt@axis.com, meta-virtualization@lists.yoctoproject.org
+Content-Type: multipart/alternative; boundary="00000000000034bd0606333c8d06"
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Sun, 20 Apr 2025 21:11:02 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9233
+ <meta-virtualization@lists.yoctoproject.org>; Sun, 20 Apr 2025 21:37:02 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9234
 
---000000000000c8160d06333c2f25
+--00000000000034bd0606333c8d06
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Apr 20, 2025 at 8:46=E2=80=AFAM Peter Kjellerstedt via
-lists.yoctoproject.org <peter.kjellerstedt=3Daxis.com@lists.yoctoproject.or=
-g>
-wrote:
-
-> The current version of yq is actually based on 4.45.1.
->
-> Also remove ${SRCREV_yq} from PV to allow `devtool modify yq` to work.
-> And remove the do_compile:prepend(). It is not needed and removing it
-> allows yq to be built after devtooling it.
-
-
-I will fix the PV bump, but I don't need most of the other parts.
-
-I'm not a fan of pedantic "just because" changes. If nothing is
-Broken, I just leave things as they are.
-
-The do_compile prepend still seems to be needed in on one
-of my builders as well, I'll investigate that more later, and can
-Drop it once I understand what is going on.
-
-
->
-> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> ---
->
-> In addition to the changes in this commit, I would also suggest setting
-> SRCREV_FORMAT =3D "default" to only include the SHA-1 for yq in PV. I do
-> not see the reason to include the SHA-1 for the color module when the
-> SHA-1s for all the other modules are not included.
-
-
-I'll also leave that as-is, I really should list them all, but chose it to
-be
-A better representative multi scm SRCREV.
-I've never seen "default" documented anywhere. Do you have a link
-to why I'd use / consider it ?
-
-
+On Sun, Apr 20, 2025 at 5:10=E2=80=AFPM Bruce Ashfield via lists.yoctoproje=
+ct.org
+<bruce.ashfield=3Dgmail.com@lists.yoctoproject.org> wrote:
 
 >
 >
->  recipes-devtools/yq/yq_git.bb | 28 +++++++---------------------
->  1 file changed, 7 insertions(+), 21 deletions(-)
+> On Sun, Apr 20, 2025 at 8:46=E2=80=AFAM Peter Kjellerstedt via
+> lists.yoctoproject.org <peter.kjellerstedt=3Daxis.com@lists.yoctoproject.=
+org>
+> wrote:
 >
-> diff --git a/recipes-devtools/yq/yq_git.bb b/recipes-devtools/yq/yq_git.b=
-b
-> index 0e9d36ca..f934e2b2 100644
-> --- a/recipes-devtools/yq/yq_git.bb
-> +++ b/recipes-devtools/yq/yq_git.bb
-> @@ -1,4 +1,4 @@
-> -SUMMARY =3D "a lightweight and portable command-line YAML processor "
-> +SUMMARY =3D "A lightweight and portable command-line YAML processor"
->  HOMEPAGE =3D "https://github.com/mikefarah/yq"
+>> The current version of yq is actually based on 4.45.1.
+>>
+>> Also remove ${SRCREV_yq} from PV to allow `devtool modify yq` to work.
+>> And remove the do_compile:prepend(). It is not needed and removing it
+>> allows yq to be built after devtooling it.
 >
->  LICENSE =3D "MIT"
-> @@ -81,32 +81,18 @@ SRC_URI +=3D "git://
-> github.com/alecthomas/participle;name=3Dv2;protocol=3Dhttps;nobran
->  SRCREV_mousetrap =3D "4e8053ee7ef85a6bd26368364a6d27f1641c1d21"
->  SRC_URI +=3D "git://
-> github.com/inconshreveable/mousetrap;name=3Dmousetrap;protocol=3Dhttps;no=
-branch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendor/github.com/inconshre=
-veable/mousetrap
-> <http://github.com/inconshreveable/mousetrap;name=3Dmousetrap;protocol=3D=
-https;nobranch=3D1;destsuffix=3D$%7BGO_SRCURI_DESTSUFFIX%7D/vendor/github.c=
-om/inconshreveable/mousetrap>
-> "
 >
-> -PV =3D "4.30.8+git${SRCREV_yq}"
-> +PV =3D "4.45.1+git"
+> I will fix the PV bump, but I don't need most of the other parts.
 >
->  GO_IMPORT =3D "github.com/mikefarah/yq"
-> +export GO111MODULE =3D "off"
+> I'm not a fan of pedantic "just because" changes. If nothing is
+> Broken, I just leave things as they are.
 >
->  inherit go ptest
+> The do_compile prepend still seems to be needed in on one
+> of my builders as well, I'll investigate that more later, and can
+> Drop it once I understand what is going on.
 >
-> -do_compile:prepend() {
-> -    # arrange for some of the golang built ins to be found
-> -    (
-> -       cd ${WORKDIR}/build/src/
-> -       ln -sf ${STAGING_DIR_TARGET}/${prefix}/lib/go/src/cmd/vendor/
-> golang.org .
-> -
-> -       cd ${WORKDIR}/build/
-> -       ln -sf ${UNPACKDIR}/build/vendor .
-> -    )
-> -
-> -    # arrange for the fetched dependencies to be found
-> -    export GOPATH=3D"${GOPATH}:${WORKDIR}/build/vendor/"
-> -    export GO111MODULE=3Doff
-> -}
-> -
->  do_install_ptest() {
->      install -d ${D}${PTEST_PATH}/tests
-> -    cp -r ${S}/src/github.com/mikefarah/yq/scripts/*
-> ${D}${PTEST_PATH}/tests
-> -    cp -r ${S}/src/github.com/mikefarah/yq/acceptance_tests/*
-> ${D}${PTEST_PATH}/tests
-> -    cp -r ${S}/src/github.com/mikefarah/yq/examples
-> ${D}${PTEST_PATH}/tests
-> +    cp -r ${S}/src/${GO_IMPORT}/scripts/* ${D}${PTEST_PATH}/tests
-> +    cp -r ${S}/src/${GO_IMPORT}/acceptance_tests/* ${D}${PTEST_PATH}/tes=
-ts
-> +    cp -r ${S}/src/${GO_IMPORT}/examples ${D}${PTEST_PATH}/tests
+>
+>>
+>> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+>> ---
+>>
+>> In addition to the changes in this commit, I would also suggest setting
+>> SRCREV_FORMAT =3D "default" to only include the SHA-1 for yq in PV. I do
+>> not see the reason to include the SHA-1 for the color module when the
+>> SHA-1s for all the other modules are not included.
+>
+>
+> I'll also leave that as-is, I really should list them all, but chose it t=
+o
+> be
+> A better representative multi scm SRCREV.
+> I've never seen "default" documented anywhere. Do you have a link
+> to why I'd use / consider it ?
+>
+>
+>
+>>
+>>
+>>  recipes-devtools/yq/yq_git.bb | 28 +++++++---------------------
+>>  1 file changed, 7 insertions(+), 21 deletions(-)
+>>
+>> diff --git a/recipes-devtools/yq/yq_git.bb b/recipes-devtools/yq/
+>> yq_git.bb
+>> index 0e9d36ca..f934e2b2 100644
+>> --- a/recipes-devtools/yq/yq_git.bb
+>> +++ b/recipes-devtools/yq/yq_git.bb
+>> @@ -1,4 +1,4 @@
+>> -SUMMARY =3D "a lightweight and portable command-line YAML processor "
+>> +SUMMARY =3D "A lightweight and portable command-line YAML processor"
+>>  HOMEPAGE =3D "https://github.com/mikefarah/yq"
+>>
+>>  LICENSE =3D "MIT"
+>> @@ -81,32 +81,18 @@ SRC_URI +=3D "git://
+>> github.com/alecthomas/participle;name=3Dv2;protocol=3Dhttps;nobran
+>>  SRCREV_mousetrap =3D "4e8053ee7ef85a6bd26368364a6d27f1641c1d21"
+>>  SRC_URI +=3D "git://
+>> github.com/inconshreveable/mousetrap;name=3Dmousetrap;protocol=3Dhttps;n=
+obranch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendor/github.com/inconshr=
+eveable/mousetrap
+>> <http://github.com/inconshreveable/mousetrap;name=3Dmousetrap;protocol=
+=3Dhttps;nobranch=3D1;destsuffix=3D$%7BGO_SRCURI_DESTSUFFIX%7D/vendor/githu=
+b.com/inconshreveable/mousetrap>
+>> "
+>>
+>> -PV =3D "4.30.8+git${SRCREV_yq}"
+>> +PV =3D "4.45.1+git"
+>>
+>>  GO_IMPORT =3D "github.com/mikefarah/yq"
+>> +export GO111MODULE =3D "off"
+>>
+>>  inherit go ptest
+>>
+>> -do_compile:prepend() {
+>> -    # arrange for some of the golang built ins to be found
+>> -    (
+>> -       cd ${WORKDIR}/build/src/
+>> -       ln -sf ${STAGING_DIR_TARGET}/${prefix}/lib/go/src/cmd/vendor/
+>> golang.org .
+>> -
+>> -       cd ${WORKDIR}/build/
+>> -       ln -sf ${UNPACKDIR}/build/vendor .
+>> -    )
+>> -
+>> -    # arrange for the fetched dependencies to be found
+>> -    export GOPATH=3D"${GOPATH}:${WORKDIR}/build/vendor/"
+>> -    export GO111MODULE=3Doff
+>> -}
+>> -
+>>  do_install_ptest() {
+>>      install -d ${D}${PTEST_PATH}/tests
+>> -    cp -r ${S}/src/github.com/mikefarah/yq/scripts/*
+>> ${D}${PTEST_PATH}/tests
+>> -    cp -r ${S}/src/github.com/mikefarah/yq/acceptance_tests/*
+>> ${D}${PTEST_PATH}/tests
+>> -    cp -r ${S}/src/github.com/mikefarah/yq/examples
+>> ${D}${PTEST_PATH}/tests
+>> +    cp -r ${S}/src/${GO_IMPORT}/scripts/* ${D}${PTEST_PATH}/tests
+>> +    cp -r ${S}/src/${GO_IMPORT}/acceptance_tests/*
+>> ${D}${PTEST_PATH}/tests
+>> +    cp -r ${S}/src/${GO_IMPORT}/examples ${D}${PTEST_PATH}/tests
+>
+> I like that change as well.
+>
+> I'll split up the commit here and see if I can get the bits I want.
+>
+I've chopped up the commit with git and grabbed the least footprint parts
+of the change.
 
-I like that change as well.
+Once the dust settles on the release, I'll look at the do_compile:prepend()
+to understand why one of my builds blew up (could be some mix of branches,
+or something equally incorrect).
 
-I'll split up the commit here and see if I can get the bits I want.
-
-Cheers,
+I'll stage that part of the commit on master-next so that I can't forget.
 
 Bruce
 
 
->  }
+> Cheers,
 >
->  RDEPENDS:${PN}-ptest +=3D " \
-> @@ -114,7 +100,7 @@ RDEPENDS:${PN}-ptest +=3D " \
->  "
+> Bruce
 >
->  RDEPENDS:${PN}-dev +=3D " \
-> -     bash \
-> +    bash \
->  "
 >
->  BBCLASSEXTEND =3D "native"
+>>  }
+>>
+>>  RDEPENDS:${PN}-ptest +=3D " \
+>> @@ -114,7 +100,7 @@ RDEPENDS:${PN}-ptest +=3D " \
+>>  "
+>>
+>>  RDEPENDS:${PN}-dev +=3D " \
+>> -     bash \
+>> +    bash \
+>>  "
+>>
+>>  BBCLASSEXTEND =3D "native"
+>>
+>>
+>>
+>>
+>
+> --
+> - Thou shalt not follow the NULL pointer, for chaos and madness await the=
+e
+> at its end
+> - "Use the force Harry" - Gandalf, Star Trek II
+>
 >
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#9232):
-> https://lists.yoctoproject.org/g/meta-virtualization/message/9232
+> View/Reply Online (#9233):
+> https://lists.yoctoproject.org/g/meta-virtualization/message/9233
 > Mute This Topic: https://lists.yoctoproject.org/mt/112360308/1050810
 > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
 > Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [
@@ -211,40 +242,44 @@ Bruce
 at its end
 - "Use the force Harry" - Gandalf, Star Trek II
 
---000000000000c8160d06333c2f25
+--00000000000034bd0606333c8d06
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_defa=
-ult" style=3D"font-size:small"><br></div></div><br><div class=3D"gmail_quot=
-e"><div dir=3D"ltr" class=3D"gmail_attr">On Sun, Apr 20, 2025 at 8:46=E2=80=
-=AFAM Peter Kjellerstedt via <a href=3D"http://lists.yoctoproject.org" targ=
-et=3D"_blank">lists.yoctoproject.org</a> &lt;peter.kjellerstedt=3D<a href=
-=3D"mailto:axis.com@lists.yoctoproject.org" target=3D"_blank">axis.com@list=
-s.yoctoproject.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote=
-" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
-padding-left:1ex">The current version of yq is actually based on 4.45.1.<br=
->
+<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
+t-size:small"><br></div></div><br><div class=3D"gmail_quote gmail_quote_con=
+tainer"><div dir=3D"ltr" class=3D"gmail_attr">On Sun, Apr 20, 2025 at 5:10=
+=E2=80=AFPM Bruce Ashfield via <a href=3D"http://lists.yoctoproject.org">li=
+sts.yoctoproject.org</a> &lt;bruce.ashfield=3D<a href=3D"mailto:gmail.com@l=
+ists.yoctoproject.org">gmail.com@lists.yoctoproject.org</a>&gt; wrote:<br><=
+/div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bo=
+rder-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><di=
+v dir=3D"ltr"><div dir=3D"ltr"><div style=3D"font-size:small"><br></div></d=
+iv><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On =
+Sun, Apr 20, 2025 at 8:46=E2=80=AFAM Peter Kjellerstedt via <a href=3D"http=
+://lists.yoctoproject.org" target=3D"_blank">lists.yoctoproject.org</a> &lt=
+;peter.kjellerstedt=3D<a href=3D"mailto:axis.com@lists.yoctoproject.org" ta=
+rget=3D"_blank">axis.com@lists.yoctoproject.org</a>&gt; wrote:<br></div><bl=
+ockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-lef=
+t:1px solid rgb(204,204,204);padding-left:1ex">The current version of yq is=
+ actually based on 4.45.1.<br>
 <br>
 Also remove ${SRCREV_yq} from PV to allow `devtool modify yq` to work.<br>
 And remove the do_compile:prepend(). It is not needed and removing it<br>
 allows yq to be built after devtooling it.<span class=3D"gmail_default" sty=
 le=3D"font-size:small"></span></blockquote><div>=C2=A0</div><div><span clas=
-s=3D"gmail_default" style=3D"font-size:small"></span></div><div class=3D"gm=
-ail_default" style=3D"font-size:small">I will fix the PV bump, but I don&#3=
-9;t need most of the other parts.</div><div class=3D"gmail_default" style=
-=3D"font-size:small"><br></div><div class=3D"gmail_default" style=3D"font-s=
-ize:small">I&#39;m not a fan of pedantic &quot;just because&quot; changes. =
-If nothing is</div><div class=3D"gmail_default" style=3D"font-size:small">B=
-roken, I just leave things as they are.</div><div class=3D"gmail_default" s=
-tyle=3D"font-size:small"><br></div><div class=3D"gmail_default" style=3D"fo=
-nt-size:small">The do_compile prepend still seems to be needed in on one</d=
-iv><div class=3D"gmail_default" style=3D"font-size:small">of my builders as=
- well, I&#39;ll investigate that more later, and can</div><div class=3D"gma=
-il_default" style=3D"font-size:small">Drop it once I understand what is goi=
-ng on.</div><div class=3D"gmail_default" style=3D"font-size:small"><br></di=
-v><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;borde=
-r-left:1px solid rgb(204,204,204);padding-left:1ex"><br>
+s=3D"gmail_default" style=3D"font-size:small"></span></div><div style=3D"fo=
+nt-size:small">I will fix the PV bump, but I don&#39;t need most of the oth=
+er parts.</div><div style=3D"font-size:small"><br></div><div style=3D"font-=
+size:small">I&#39;m not a fan of pedantic &quot;just because&quot; changes.=
+ If nothing is</div><div style=3D"font-size:small">Broken, I just leave thi=
+ngs as they are.</div><div style=3D"font-size:small"><br></div><div style=
+=3D"font-size:small">The do_compile prepend still seems to be needed in on =
+one</div><div style=3D"font-size:small">of my builders as well, I&#39;ll in=
+vestigate that more later, and can</div><div style=3D"font-size:small">Drop=
+ it once I understand what is going on.</div><div style=3D"font-size:small"=
+><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.=
+8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><br>
 <br>
 Signed-off-by: Peter Kjellerstedt &lt;<a href=3D"mailto:peter.kjellerstedt@=
 axis.com" target=3D"_blank">peter.kjellerstedt@axis.com</a>&gt;<br>
@@ -266,13 +301,12 @@ scm SRCREV</span>. <span class=3D"gmail_default" style=3D"font-size:small">=
 ass=3D"gmail_default" style=3D"font-size:small"> a</span>nywhere. Do you ha=
 ve a link<span class=3D"gmail_default" style=3D"font-size:small"></span></d=
 iv><div> to=C2=A0<span class=3D"gmail_default" style=3D"font-size:small">wh=
-y I&#39;d use / consider it ?</span></div><div class=3D"gmail_default" styl=
-e=3D"font-size:small"><br></div><div>=C2=A0</div><blockquote class=3D"gmail=
-_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204=
-,204);padding-left:1ex"><span class=3D"gmail_default" style=3D"font-size:sm=
-all"></span></blockquote><blockquote class=3D"gmail_quote" style=3D"margin:=
+y I&#39;d use / consider it ?</span></div><div style=3D"font-size:small"><b=
+r></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:=
 0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">=
-<br>
+<span class=3D"gmail_default" style=3D"font-size:small"></span></blockquote=
+><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border=
+-left:1px solid rgb(204,204,204);padding-left:1ex"><br>
 <br>
 =C2=A0recipes-devtools/yq/<a href=3D"http://yq_git.bb" rel=3D"noreferrer" t=
 arget=3D"_blank">yq_git.bb</a> | 28 +++++++---------------------<br>
@@ -354,16 +388,30 @@ ATH}/tests<br>
 +=C2=A0 =C2=A0 cp -r ${S}/src/${GO_IMPORT}/examples ${D}${PTEST_PATH}/tests=
 <span class=3D"gmail_default" style=3D"font-size:small"></span></blockquote=
 ><div><span class=3D"gmail_default" style=3D"font-size:small"></span></div>=
-<div class=3D"gmail_default" style=3D"font-size:small">I like that change a=
-s well.</div><div class=3D"gmail_default" style=3D"font-size:small"><br></d=
-iv><div class=3D"gmail_default" style=3D"font-size:small">I&#39;ll split up=
- the commit here and see if I can get the bits I want.</div><div class=3D"g=
-mail_default" style=3D"font-size:small"><br></div><div class=3D"gmail_defau=
-lt" style=3D"font-size:small">Cheers,</div><div class=3D"gmail_default" sty=
-le=3D"font-size:small"><br></div><div class=3D"gmail_default" style=3D"font=
--size:small">Bruce</div><div class=3D"gmail_default" style=3D"font-size:sma=
-ll"><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
- 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><br>
+<div style=3D"font-size:small">I like that change as well.</div><div style=
+=3D"font-size:small"><br></div><div style=3D"font-size:small">I&#39;ll spli=
+t up the commit here and see if I can get the bits I want.<span class=3D"gm=
+ail_default" style=3D"font-size:small"></span></div></div></div></div></blo=
+ckquote><div><span class=3D"gmail_default" style=3D"font-size:small"></span=
+></div><div class=3D"gmail_default" style=3D"font-size:small">I&#39;ve chop=
+ped up the commit with git and grabbed the least footprint parts of the cha=
+nge.</div><div class=3D"gmail_default" style=3D"font-size:small"><br></div>=
+<div class=3D"gmail_default" style=3D"font-size:small">Once the dust settle=
+s on the release, I&#39;ll look at the do_compile:prepend() to understand w=
+hy one of my builds blew up (could be some mix of branches, or something eq=
+ually incorrect).</div><div class=3D"gmail_default" style=3D"font-size:smal=
+l"><br></div><div class=3D"gmail_default" style=3D"font-size:small">I&#39;l=
+l stage that part of the commit on master-next so that I can&#39;t forget.<=
+/div><div class=3D"gmail_default" style=3D"font-size:small"><br></div><div =
+class=3D"gmail_default" style=3D"font-size:small">Bruce</div><div class=3D"=
+gmail_default" style=3D"font-size:small"><br></div><blockquote class=3D"gma=
+il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,2=
+04,204);padding-left:1ex"><div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"g=
+mail_quote"><div style=3D"font-size:small"><br></div><div style=3D"font-siz=
+e:small">Cheers,</div><div style=3D"font-size:small"><br></div><div style=
+=3D"font-size:small">Bruce</div><div style=3D"font-size:small"><br></div><b=
+lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
+ft:1px solid rgb(204,204,204);padding-left:1ex"><br>
 =C2=A0}<br>
 <br>
 =C2=A0RDEPENDS:${PN}-ptest +=3D &quot; \<br>
@@ -377,11 +425,20 @@ ll"><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
 <br>
 =C2=A0BBCLASSEXTEND =3D &quot;native&quot;<br>
 <br>
+<br>
+<br>
+</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
+=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
+ignature">- Thou shalt not follow the NULL pointer, for chaos and madness a=
+wait thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star T=
+rek II<br><br></div></div>
+</div>
+<br>
 -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
 Links: You receive all messages sent to this group.<br>
-View/Reply Online (#9232): <a href=3D"https://lists.yoctoproject.org/g/meta=
--virtualization/message/9232" rel=3D"noreferrer" target=3D"_blank">https://=
-lists.yoctoproject.org/g/meta-virtualization/message/9232</a><br>
+View/Reply Online (#9233): <a href=3D"https://lists.yoctoproject.org/g/meta=
+-virtualization/message/9233" rel=3D"noreferrer" target=3D"_blank">https://=
+lists.yoctoproject.org/g/meta-virtualization/message/9233</a><br>
 Mute This Topic: <a href=3D"https://lists.yoctoproject.org/mt/112360308/105=
 0810" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.org/m=
 t/112360308/1050810</a><br>
@@ -399,7 +456,6 @@ om" target=3D"_blank">bruce.ashfield@gmail.com</a>]<br>
 ignature">- Thou shalt not follow the NULL pointer, for chaos and madness a=
 wait thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star T=
 rek II<br><br></div></div>
-</div>
 
---000000000000c8160d06333c2f25--
+--00000000000034bd0606333c8d06--
 
