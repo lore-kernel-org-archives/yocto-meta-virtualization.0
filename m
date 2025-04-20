@@ -1,208 +1,405 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0888C369C2
-	for <webhook@archiver.kernel.org>; Sun, 20 Apr 2025 12:46:41 +0000 (UTC)
-Received: from EUR02-VI1-obe.outbound.protection.outlook.com (EUR02-VI1-obe.outbound.protection.outlook.com [40.107.241.88])
- by mx.groups.io with SMTP id smtpd.web11.8686.1745153196846014535
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BF47C369C2
+	for <webhook@archiver.kernel.org>; Sun, 20 Apr 2025 21:11:02 +0000 (UTC)
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+ by mx.groups.io with SMTP id smtpd.web11.3924.1745183453867280123
  for <meta-virtualization@lists.yoctoproject.org>;
- Sun, 20 Apr 2025 05:46:37 -0700
+ Sun, 20 Apr 2025 14:10:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@axis.com header.s=selector1 header.b=QiR/hiVL;
- spf=pass (domain: axis.com, ip: 40.107.241.88, mailfrom: peter.kjellerstedt@axis.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Crf8B370jh/BYQW7VlpmbRCHYXg4agsyV24GPmLT3jHw2+QrVZqIttns4+r5uj6UpffdOdi0daGIWc2j3BnzzvGldhNFxcO/yrhjTdYz6MJQFaKo+pp3Nc75WDOyf/1r8E8VUIO2T+e+GPby6j0NzNAbdaa7PIT/MGFtuiiDs+VrdV3tqcBEDOPyD0/sHQZ1TnDH2QjAt0xq+323j1mkRA9Lmj9smYFjQYIpo1hOlbLzDKwQMRLpEnX0lwlJO+uuJj3XRovgqVzZBrERDqsJdmsqUeK/DKYivs5/DO8U9UIsCp37QoUSItVHILIkD0D6LOKcEeoNQJ4Oh3VBCCYdEg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=61d+hzl8UZCMcqk9XM4uC35ONzLB+VjJyr7LU30sU+8=;
- b=cBytthwowUXdQBWY7SiGbURtSATCW2GnqSIBVjNQgs0gP+uieHkGG/0gQzo0Yd2PiPNZQy2cUxnexvk8+b3tuiAyrFsrtTRz+tCd1IvtUMIVZ3q3MMAh5/Y6JKjWrkLSEud+XWaLmX1l7a3pFzw454TqiTjZKnkgJjGS8ZCDOjWPoLAPCTjmdp4PM6cQKCPp1FrzRz0H+zsh13r8JtIWYkLoAkV55XgFlUZ52RfLoToKwMUj/+2VpvBufp9aih9uJ8e1IkzKBOAe0iayJ6ptE9+9W0a7COBgVjQqS24POSw4iD6hqT0rYm4zqWXa3OqReOXLH8qNa2jOGOb9Ufg9vQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 195.60.68.100) smtp.rcpttodomain=lists.yoctoproject.org
- smtp.mailfrom=axis.com; dmarc=pass (p=none sp=none pct=100) action=none
- header.from=axis.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=61d+hzl8UZCMcqk9XM4uC35ONzLB+VjJyr7LU30sU+8=;
- b=QiR/hiVLpbpl/wbXcRwIn3ki1ZZPQemHIS+/cr9dDBi6QjVhjz1MXhowkrAWRjKYZ5+OyW+tlkdFh9fBnc3mZfezz+ENmkjO1G3/X7GD1BGCrUzUi8q19UJOSMrb4Uj/J3c6dm/vvhqKNq7EEANx29iwp+34vWRQYh8Y55QIH2I=
-Received: from DBBPR09CA0037.eurprd09.prod.outlook.com (2603:10a6:10:d4::25)
- by DB9PR02MB7146.eurprd02.prod.outlook.com (2603:10a6:10:1fe::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.20; Sun, 20 Apr
- 2025 12:46:31 +0000
-Received: from DU2PEPF00028D12.eurprd03.prod.outlook.com
- (2603:10a6:10:d4:cafe::69) by DBBPR09CA0037.outlook.office365.com
- (2603:10a6:10:d4::25) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8655.31 via Frontend Transport; Sun,
- 20 Apr 2025 12:46:31 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 195.60.68.100)
- smtp.mailfrom=axis.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=axis.com;
-Received-SPF: Pass (protection.outlook.com: domain of axis.com designates
- 195.60.68.100 as permitted sender) receiver=protection.outlook.com;
- client-ip=195.60.68.100; helo=mail.axis.com; pr=C
-Received: from mail.axis.com (195.60.68.100) by
- DU2PEPF00028D12.mail.protection.outlook.com (10.167.242.26) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8655.12 via Frontend Transport; Sun, 20 Apr 2025 12:46:31 +0000
-Received: from se-mail02w.axis.com (10.20.40.8) by se-mail01w.axis.com
- (10.20.40.7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.44; Sun, 20 Apr
- 2025 14:46:31 +0200
-Received: from se-intmail02x.se.axis.com (10.4.0.28) by se-mail02w.axis.com
- (10.20.40.8) with Microsoft SMTP Server id 15.1.2507.44 via Frontend
- Transport; Sun, 20 Apr 2025 14:46:31 +0200
-Received: from saur (saur.se.axis.com [10.92.3.10])
-	by se-intmail02x.se.axis.com (Postfix) with ESMTP id F2147B7
-	for <meta-virtualization@lists.yoctoproject.org>; Sun, 20 Apr 2025 14:46:30 +0200 (CEST)
-Received: from saur.se.axis.com (localhost [127.0.0.1])
-	by saur (8.17.1/8.15.2) with ESMTPS id 53KCkUDh3820674
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
-	for <meta-virtualization@lists.yoctoproject.org>; Sun, 20 Apr 2025 14:46:30 +0200
-Received: (from pkj@localhost)
-	by saur.se.axis.com (8.17.1/8.17.1/Submit) id 53KCkUuo3820671
-	for meta-virtualization@lists.yoctoproject.org; Sun, 20 Apr 2025 14:46:30 +0200
-From: Peter Kjellerstedt <pkj@axis.com>
-To: <meta-virtualization@lists.yoctoproject.org>
-Subject: [PATCH] yq: Correct the version (4.45.1+)
-Date: Sun, 20 Apr 2025 14:46:19 +0200
-Message-ID: <20250420124619.3820627-1-pkj@axis.com>
-X-Mailer: git-send-email 2.40.1
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=MdLmyukt;
+ spf=pass (domain: gmail.com, ip: 209.85.215.170, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-b00e3c87713so2786151a12.2
+        for <meta-virtualization@lists.yoctoproject.org>; Sun, 20 Apr 2025 14:10:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1745183453; x=1745788253; darn=lists.yoctoproject.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=3rB8KpBJoT4da0lC2JrQY/g2c317vEg47/uqR9TrI0Q=;
+        b=MdLmyuktkkuu1JUyQFFJwP3ZjZPcwnvIVjvx8XGcLYEuljncBZcFLV+6nXk79yk/xj
+         vqGy25SvGUSjWoxl1LDbmAn7uKiy0OVT0is/xGAM2hi5dpAp6IPXvJCuAFmuSldHsq69
+         93N02rva9WZH1QdEwCJkvOQ43kNx63iHsYevozOkNiSfBJTd+LmkTOOGUIOSy8tZ35jG
+         blpromDLCC5cRa7D/tDQwP6PmSWyWyiWjiffNBEuyu1H70cqJHqG7dIDKpQDg4OGu59Z
+         jZPI5t+3PGNNotdhvcgo5dsg6rLNv4JKIH/0X/p/JrePG4zhltf7ZJn8msJy8WkF1gGb
+         m+lQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745183453; x=1745788253;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3rB8KpBJoT4da0lC2JrQY/g2c317vEg47/uqR9TrI0Q=;
+        b=cccfk34ArY8AsQoTvDToRSHa01i53QghgLfwDlQ/JrbTQJsEjpkkvzI7fiPrheuVwn
+         wKr8mXW5nGk661CRIVmN9KXSEa4UVjsJoIo+7rlOYMblMsSRw1WdnzaHS8+83qy4u+On
+         SZt9X/+IzvakKkBwiCQ3e+PV31f59soIALa+48dgxdqn/9oF93UoGBAAxlzWTeVpK+ob
+         aHVskcwL7w+aFm/c1Mo4LDU9WVZjB8CLBgRr/wyGdajQ1os/dkOfID785vOf2lydtrAS
+         /C/0QrPPJT77UtPkAjY2xbp0iADoppDhoKDNUvH++XZSsYmmvz7QwGKBjyf6rIjK95rR
+         Msng==
+X-Gm-Message-State: AOJu0YxMZrCNCfGtdDG1eg+2glDwH1ZeOfLHzlXKyJm4kNDuaXeMXyt8
+	+zjtCtwzBvR4yzHBBuC4C3VEm3NP7iLbPZjLPG+mNPolwDVMNES4I2uibrCLRYVlk6dwqCoEYlX
+	pQt1wo3Nfl0qbxaOFTSBvNqssGbk=
+X-Gm-Gg: ASbGnctdOo9u3Rk4FH9rRQ8GBJmhr0L1Xs37qrqY+6gVxhahNJGxxHjaSHGf3ZwCZ9V
+	1yGpgHrnH9BXJ4vpaq8FjRuWn84Lfb2Nd06wKvMuDoWhDp5IqsHgboc+xw7alLTt2VPgWiORAmp
+	jqLTPrqTTV9uHwOA0TjaTdHw==
+X-Google-Smtp-Source: AGHT+IFcLUofK0wFt8yadEUctQa/7K/LKqkHqnLicRFisdiw4HkA6LsuFFdiQjP3ohoQzL8vybBVk9NED+1AuK003hM=
+X-Received: by 2002:a17:90b:58ec:b0:2f4:432d:250d with SMTP id
+ 98e67ed59e1d1-3087bb6986bmr13748966a91.21.1745183452957; Sun, 20 Apr 2025
+ 14:10:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU2PEPF00028D12:EE_|DB9PR02MB7146:EE_
-X-MS-Office365-Filtering-Correlation-Id: a493b719-d4a3-41bf-c70f-08dd80096049
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|82310400026|36860700013|1800799024|376014|13003099007;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?iFfFFkW/KhL+ADdPFBiLir917kxLo5Q7mXaFBpF8EL9iYpj/Vybvuzb4LTWV?=
- =?us-ascii?Q?prDbHr/hmfeTdwP2fYG4oo6uZQlgzYFShE9kcIcmqI9Rmi6HFECtxde7Z0uB?=
- =?us-ascii?Q?LUEQX7pwnr108fuQ7aUKG9z/3dKy1mBQybMTE9t2WzyspdUrnmBwU1iQB0pJ?=
- =?us-ascii?Q?Z7XhPEpo6oK/ii8WlmLkyuw7uQk91eRq9OfoL63o8lh8bHpKJQRUdoYFLOK6?=
- =?us-ascii?Q?7VaYk7GKpcDlXLcGmJH56Urjn7oMijdJRZApPLnjKUVSJyZVA9kFwddeoI36?=
- =?us-ascii?Q?VBXBbX4QrlSnVpxEO/UZEWuCqBhDrL02eHWXKL1pQwRlcp5asgYIJoOtTfa+?=
- =?us-ascii?Q?BcYQHrPBrT1OzUFaIGgbcZVuEU9hgsqGaE7albUzSr8J5DrVJhBQecF+TBf8?=
- =?us-ascii?Q?AATGnLBv6F0AJaWmokVMxGhhFZIhwyUaq+icMVqkiSxluIoyO8gDVYEiKhxH?=
- =?us-ascii?Q?xsHZ8wELHnhCqAESyQ58rUqsHRg1nRr/Do7HWHFBuNrXHDTSZVZGYt6iJJKJ?=
- =?us-ascii?Q?Sl6K1eaK0h0rpvK9PBC8KKlTowtwBIKQyeoaYVotORQgdRtP6jb/DkN3CQSO?=
- =?us-ascii?Q?ndVS7M7UE2LcayOotFa+pCYq09MMbf2aL/hKzIgyAsGTJfjjNaXJrRHgJL//?=
- =?us-ascii?Q?yhlN4EXGuqLS5JebwDpbA1jJZTxStgHcSA5Z7b6h5aNeohC34eyaNw/y51kp?=
- =?us-ascii?Q?h3XfkGIu+1LOL7KK4QdBHQNycbPPeGF/eErDP4f1zKWEJ4437a0gM0Jsulbn?=
- =?us-ascii?Q?uRT8Qnd6oUga0+/Y+Aj5flfBr9AUHaAktbj5ssY6+P+IwLnkxiFAEIG34a6V?=
- =?us-ascii?Q?cnjtDCZANMvKckcq/ydE1mBtcYU5tNg6fktqeD0le7Xw4VbovFqiaZGYrlv0?=
- =?us-ascii?Q?swF5D8/oxcpwdYulKN+s+4CAZ7gg6P6EScJdnqS0gM10OnM037evpI/iClHH?=
- =?us-ascii?Q?XWedk/YZzPCQbc/x/1f9i7LOn26B+Zs8l/sYwt3dnjB1MbutKKGXepQZYoJA?=
- =?us-ascii?Q?a2kiZi/jcVG4wwQT4863d3qegra6IQiG68CiVaKZZM3nI1fJxzXy5ufu7aKe?=
- =?us-ascii?Q?heuxIBzwhIV1uc5Fj8/1cpw8uw7qJIyyaX44MhHHrPlhEgI3/Y8wYK+ZjvTC?=
- =?us-ascii?Q?wcPQirRop4UFhDMIe3U306JKZ4Tx/SByHWw7DUmDhufYxmhvZ1qPzrjtRtO1?=
- =?us-ascii?Q?P+0yJs9hyPQXXXbDoZ/VqYQfytMvS/nfaDkajqEgbHDmn0Ro2Uz5wNjyjpVI?=
- =?us-ascii?Q?IxyPDOHHBvQkCl09FkWaOfOogYNIj2oKT+BSm+BvHKZScfykRbzMFb7BnQfx?=
- =?us-ascii?Q?wqin7xi+4pI6b9F9lhRw2F47xJveFZaIRBZfaaT3kaiaDBnTf/+d1hOYjRsR?=
- =?us-ascii?Q?8u7c9fxcHVnZLRl06JqfLTbu2f0H0yZfIq0gfnfohcRwq86mRxT+LhEJSPcw?=
- =?us-ascii?Q?ABQ3WOKDB+ilkviez2jZn7GfIPOV3pjrXRmCqSDIMqM41vcmT3tLDQ=3D=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:195.60.68.100;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.axis.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(36860700013)(1800799024)(376014)(13003099007);DIR:OUT;SFP:1101;
-X-OriginatorOrg: axis.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Apr 2025 12:46:31.4518
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: a493b719-d4a3-41bf-c70f-08dd80096049
-X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=78703d3c-b907-432f-b066-88f7af9ca3af;Ip=[195.60.68.100];Helo=[mail.axis.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	DU2PEPF00028D12.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR02MB7146
+References: <20250420124619.3820627-1-pkj@axis.com>
+In-Reply-To: <20250420124619.3820627-1-pkj@axis.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Sun, 20 Apr 2025 17:10:42 -0400
+X-Gm-Features: ATxdqUFus3OUp7hTCAhMjBDTq0ZwAs99LmjXhbFt2v9oMLCqrl9N0LNg863Zl_U
+Message-ID: <CADkTA4Pss=+gZNVF5D8v21=r227TvF3CQ=6C7rWySYOEz6KEEw@mail.gmail.com>
+Subject: Re: [meta-virtualization] [PATCH] yq: Correct the version (4.45.1+)
+To: peter.kjellerstedt@axis.com
+Cc: meta-virtualization@lists.yoctoproject.org
+Content-Type: multipart/alternative; boundary="000000000000c8160d06333c2f25"
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Sun, 20 Apr 2025 12:46:41 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9232
+ <meta-virtualization@lists.yoctoproject.org>; Sun, 20 Apr 2025 21:11:02 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9233
 
-The current version of yq is actually based on 4.45.1.
+--000000000000c8160d06333c2f25
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Also remove ${SRCREV_yq} from PV to allow `devtool modify yq` to work.
-And remove the do_compile:prepend(). It is not needed and removing it
-allows yq to be built after devtooling it.
+On Sun, Apr 20, 2025 at 8:46=E2=80=AFAM Peter Kjellerstedt via
+lists.yoctoproject.org <peter.kjellerstedt=3Daxis.com@lists.yoctoproject.or=
+g>
+wrote:
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
----
+> The current version of yq is actually based on 4.45.1.
+>
+> Also remove ${SRCREV_yq} from PV to allow `devtool modify yq` to work.
+> And remove the do_compile:prepend(). It is not needed and removing it
+> allows yq to be built after devtooling it.
 
-In addition to the changes in this commit, I would also suggest setting
-SRCREV_FORMAT =3D "default" to only include the SHA-1 for yq in PV. I do
-not see the reason to include the SHA-1 for the color module when the
-SHA-1s for all the other modules are not included.
 
- recipes-devtools/yq/yq_git.bb | 28 +++++++---------------------
- 1 file changed, 7 insertions(+), 21 deletions(-)
+I will fix the PV bump, but I don't need most of the other parts.
 
-diff --git a/recipes-devtools/yq/yq_git.bb b/recipes-devtools/yq/yq_git.bb
-index 0e9d36ca..f934e2b2 100644
---- a/recipes-devtools/yq/yq_git.bb
-+++ b/recipes-devtools/yq/yq_git.bb
-@@ -1,4 +1,4 @@
--SUMMARY =3D "a lightweight and portable command-line YAML processor "
-+SUMMARY =3D "A lightweight and portable command-line YAML processor"
- HOMEPAGE =3D "https://github.com/mikefarah/yq"
-=20
- LICENSE =3D "MIT"
-@@ -81,32 +81,18 @@ SRC_URI +=3D "git://github.com/alecthomas/participle;na=
-me=3Dv2;protocol=3Dhttps;nobran
- SRCREV_mousetrap =3D "4e8053ee7ef85a6bd26368364a6d27f1641c1d21"
- SRC_URI +=3D "git://github.com/inconshreveable/mousetrap;name=3Dmousetrap;=
-protocol=3Dhttps;nobranch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendor/g=
-ithub.com/inconshreveable/mousetrap"
-=20
--PV =3D "4.30.8+git${SRCREV_yq}"
-+PV =3D "4.45.1+git"
-=20
- GO_IMPORT =3D "github.com/mikefarah/yq"
-+export GO111MODULE =3D "off"
-=20
- inherit go ptest
-=20
--do_compile:prepend() {
--    # arrange for some of the golang built ins to be found
--    (
--	cd ${WORKDIR}/build/src/
--	ln -sf ${STAGING_DIR_TARGET}/${prefix}/lib/go/src/cmd/vendor/golang.org .
--
--	cd ${WORKDIR}/build/
--	ln -sf ${UNPACKDIR}/build/vendor .
--    )
--
--    # arrange for the fetched dependencies to be found
--    export GOPATH=3D"${GOPATH}:${WORKDIR}/build/vendor/"
--    export GO111MODULE=3Doff
--}
--
- do_install_ptest() {
-     install -d ${D}${PTEST_PATH}/tests
--    cp -r ${S}/src/github.com/mikefarah/yq/scripts/* ${D}${PTEST_PATH}/tes=
+I'm not a fan of pedantic "just because" changes. If nothing is
+Broken, I just leave things as they are.
+
+The do_compile prepend still seems to be needed in on one
+of my builders as well, I'll investigate that more later, and can
+Drop it once I understand what is going on.
+
+
+>
+> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+> ---
+>
+> In addition to the changes in this commit, I would also suggest setting
+> SRCREV_FORMAT =3D "default" to only include the SHA-1 for yq in PV. I do
+> not see the reason to include the SHA-1 for the color module when the
+> SHA-1s for all the other modules are not included.
+
+
+I'll also leave that as-is, I really should list them all, but chose it to
+be
+A better representative multi scm SRCREV.
+I've never seen "default" documented anywhere. Do you have a link
+to why I'd use / consider it ?
+
+
+
+>
+>
+>  recipes-devtools/yq/yq_git.bb | 28 +++++++---------------------
+>  1 file changed, 7 insertions(+), 21 deletions(-)
+>
+> diff --git a/recipes-devtools/yq/yq_git.bb b/recipes-devtools/yq/yq_git.b=
+b
+> index 0e9d36ca..f934e2b2 100644
+> --- a/recipes-devtools/yq/yq_git.bb
+> +++ b/recipes-devtools/yq/yq_git.bb
+> @@ -1,4 +1,4 @@
+> -SUMMARY =3D "a lightweight and portable command-line YAML processor "
+> +SUMMARY =3D "A lightweight and portable command-line YAML processor"
+>  HOMEPAGE =3D "https://github.com/mikefarah/yq"
+>
+>  LICENSE =3D "MIT"
+> @@ -81,32 +81,18 @@ SRC_URI +=3D "git://
+> github.com/alecthomas/participle;name=3Dv2;protocol=3Dhttps;nobran
+>  SRCREV_mousetrap =3D "4e8053ee7ef85a6bd26368364a6d27f1641c1d21"
+>  SRC_URI +=3D "git://
+> github.com/inconshreveable/mousetrap;name=3Dmousetrap;protocol=3Dhttps;no=
+branch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX}/vendor/github.com/inconshre=
+veable/mousetrap
+> <http://github.com/inconshreveable/mousetrap;name=3Dmousetrap;protocol=3D=
+https;nobranch=3D1;destsuffix=3D$%7BGO_SRCURI_DESTSUFFIX%7D/vendor/github.c=
+om/inconshreveable/mousetrap>
+> "
+>
+> -PV =3D "4.30.8+git${SRCREV_yq}"
+> +PV =3D "4.45.1+git"
+>
+>  GO_IMPORT =3D "github.com/mikefarah/yq"
+> +export GO111MODULE =3D "off"
+>
+>  inherit go ptest
+>
+> -do_compile:prepend() {
+> -    # arrange for some of the golang built ins to be found
+> -    (
+> -       cd ${WORKDIR}/build/src/
+> -       ln -sf ${STAGING_DIR_TARGET}/${prefix}/lib/go/src/cmd/vendor/
+> golang.org .
+> -
+> -       cd ${WORKDIR}/build/
+> -       ln -sf ${UNPACKDIR}/build/vendor .
+> -    )
+> -
+> -    # arrange for the fetched dependencies to be found
+> -    export GOPATH=3D"${GOPATH}:${WORKDIR}/build/vendor/"
+> -    export GO111MODULE=3Doff
+> -}
+> -
+>  do_install_ptest() {
+>      install -d ${D}${PTEST_PATH}/tests
+> -    cp -r ${S}/src/github.com/mikefarah/yq/scripts/*
+> ${D}${PTEST_PATH}/tests
+> -    cp -r ${S}/src/github.com/mikefarah/yq/acceptance_tests/*
+> ${D}${PTEST_PATH}/tests
+> -    cp -r ${S}/src/github.com/mikefarah/yq/examples
+> ${D}${PTEST_PATH}/tests
+> +    cp -r ${S}/src/${GO_IMPORT}/scripts/* ${D}${PTEST_PATH}/tests
+> +    cp -r ${S}/src/${GO_IMPORT}/acceptance_tests/* ${D}${PTEST_PATH}/tes=
 ts
--    cp -r ${S}/src/github.com/mikefarah/yq/acceptance_tests/* ${D}${PTEST_=
-PATH}/tests
--    cp -r ${S}/src/github.com/mikefarah/yq/examples ${D}${PTEST_PATH}/test=
-s
-+    cp -r ${S}/src/${GO_IMPORT}/scripts/* ${D}${PTEST_PATH}/tests
-+    cp -r ${S}/src/${GO_IMPORT}/acceptance_tests/* ${D}${PTEST_PATH}/tests
-+    cp -r ${S}/src/${GO_IMPORT}/examples ${D}${PTEST_PATH}/tests
- }
-=20
- RDEPENDS:${PN}-ptest +=3D " \
-@@ -114,7 +100,7 @@ RDEPENDS:${PN}-ptest +=3D " \
- "
-=20
- RDEPENDS:${PN}-dev +=3D " \
--     bash \
-+    bash \
- "
-=20
- BBCLASSEXTEND =3D "native"
+> +    cp -r ${S}/src/${GO_IMPORT}/examples ${D}${PTEST_PATH}/tests
+
+I like that change as well.
+
+I'll split up the commit here and see if I can get the bits I want.
+
+Cheers,
+
+Bruce
+
+
+>  }
+>
+>  RDEPENDS:${PN}-ptest +=3D " \
+> @@ -114,7 +100,7 @@ RDEPENDS:${PN}-ptest +=3D " \
+>  "
+>
+>  RDEPENDS:${PN}-dev +=3D " \
+> -     bash \
+> +    bash \
+>  "
+>
+>  BBCLASSEXTEND =3D "native"
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#9232):
+> https://lists.yoctoproject.org/g/meta-virtualization/message/9232
+> Mute This Topic: https://lists.yoctoproject.org/mt/112360308/1050810
+> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [
+> bruce.ashfield@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end
+- "Use the force Harry" - Gandalf, Star Trek II
+
+--000000000000c8160d06333c2f25
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_defa=
+ult" style=3D"font-size:small"><br></div></div><br><div class=3D"gmail_quot=
+e"><div dir=3D"ltr" class=3D"gmail_attr">On Sun, Apr 20, 2025 at 8:46=E2=80=
+=AFAM Peter Kjellerstedt via <a href=3D"http://lists.yoctoproject.org" targ=
+et=3D"_blank">lists.yoctoproject.org</a> &lt;peter.kjellerstedt=3D<a href=
+=3D"mailto:axis.com@lists.yoctoproject.org" target=3D"_blank">axis.com@list=
+s.yoctoproject.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote=
+" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
+padding-left:1ex">The current version of yq is actually based on 4.45.1.<br=
+>
+<br>
+Also remove ${SRCREV_yq} from PV to allow `devtool modify yq` to work.<br>
+And remove the do_compile:prepend(). It is not needed and removing it<br>
+allows yq to be built after devtooling it.<span class=3D"gmail_default" sty=
+le=3D"font-size:small"></span></blockquote><div>=C2=A0</div><div><span clas=
+s=3D"gmail_default" style=3D"font-size:small"></span></div><div class=3D"gm=
+ail_default" style=3D"font-size:small">I will fix the PV bump, but I don&#3=
+9;t need most of the other parts.</div><div class=3D"gmail_default" style=
+=3D"font-size:small"><br></div><div class=3D"gmail_default" style=3D"font-s=
+ize:small">I&#39;m not a fan of pedantic &quot;just because&quot; changes. =
+If nothing is</div><div class=3D"gmail_default" style=3D"font-size:small">B=
+roken, I just leave things as they are.</div><div class=3D"gmail_default" s=
+tyle=3D"font-size:small"><br></div><div class=3D"gmail_default" style=3D"fo=
+nt-size:small">The do_compile prepend still seems to be needed in on one</d=
+iv><div class=3D"gmail_default" style=3D"font-size:small">of my builders as=
+ well, I&#39;ll investigate that more later, and can</div><div class=3D"gma=
+il_default" style=3D"font-size:small">Drop it once I understand what is goi=
+ng on.</div><div class=3D"gmail_default" style=3D"font-size:small"><br></di=
+v><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;borde=
+r-left:1px solid rgb(204,204,204);padding-left:1ex"><br>
+<br>
+Signed-off-by: Peter Kjellerstedt &lt;<a href=3D"mailto:peter.kjellerstedt@=
+axis.com" target=3D"_blank">peter.kjellerstedt@axis.com</a>&gt;<br>
+---<br>
+<br>
+In addition to the changes in this commit, I would also suggest setting<br>
+SRCREV_FORMAT =3D &quot;default&quot; to only include the SHA-1 for yq in P=
+V. I do<br>
+not see the reason to include the SHA-1 for the color module when the<br>
+SHA-1s for all the other modules are not included.<span class=3D"gmail_defa=
+ult" style=3D"font-size:small"></span></blockquote><div><span class=3D"gmai=
+l_default" style=3D"font-size:small"><br></span></div><div><span class=3D"g=
+mail_default" style=3D"font-size:small">I&#39;ll also leave that as-is, I r=
+eally should list them all, but chose it to be</span></div><div><span class=
+=3D"gmail_default" style=3D"font-size:small">A better representative multi =
+scm SRCREV</span>. <span class=3D"gmail_default" style=3D"font-size:small">=
+</span></div><div><span class=3D"gmail_default" style=3D"font-size:small"><=
+/span></div><div>I&#39;ve never seen &quot;default&quot; documented<span cl=
+ass=3D"gmail_default" style=3D"font-size:small"> a</span>nywhere. Do you ha=
+ve a link<span class=3D"gmail_default" style=3D"font-size:small"></span></d=
+iv><div> to=C2=A0<span class=3D"gmail_default" style=3D"font-size:small">wh=
+y I&#39;d use / consider it ?</span></div><div class=3D"gmail_default" styl=
+e=3D"font-size:small"><br></div><div>=C2=A0</div><blockquote class=3D"gmail=
+_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204=
+,204);padding-left:1ex"><span class=3D"gmail_default" style=3D"font-size:sm=
+all"></span></blockquote><blockquote class=3D"gmail_quote" style=3D"margin:=
+0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">=
+<br>
+<br>
+=C2=A0recipes-devtools/yq/<a href=3D"http://yq_git.bb" rel=3D"noreferrer" t=
+arget=3D"_blank">yq_git.bb</a> | 28 +++++++---------------------<br>
+=C2=A01 file changed, 7 insertions(+), 21 deletions(-)<br>
+<br>
+diff --git a/recipes-devtools/yq/<a href=3D"http://yq_git.bb" rel=3D"norefe=
+rrer" target=3D"_blank">yq_git.bb</a> b/recipes-devtools/yq/<a href=3D"http=
+://yq_git.bb" rel=3D"noreferrer" target=3D"_blank">yq_git.bb</a><br>
+index 0e9d36ca..f934e2b2 100644<br>
+--- a/recipes-devtools/yq/<a href=3D"http://yq_git.bb" rel=3D"noreferrer" t=
+arget=3D"_blank">yq_git.bb</a><br>
++++ b/recipes-devtools/yq/<a href=3D"http://yq_git.bb" rel=3D"noreferrer" t=
+arget=3D"_blank">yq_git.bb</a><br>
+@@ -1,4 +1,4 @@<br>
+-SUMMARY =3D &quot;a lightweight and portable command-line YAML processor &=
+quot;<br>
++SUMMARY =3D &quot;A lightweight and portable command-line YAML processor&q=
+uot;<br>
+=C2=A0HOMEPAGE =3D &quot;<a href=3D"https://github.com/mikefarah/yq" rel=3D=
+"noreferrer" target=3D"_blank">https://github.com/mikefarah/yq</a>&quot;<br=
+>
+<br>
+=C2=A0LICENSE =3D &quot;MIT&quot;<br>
+@@ -81,32 +81,18 @@ SRC_URI +=3D &quot;git://<a href=3D"http://github.com/a=
+lecthomas/participle;name=3Dv2;protocol=3Dhttps;nobran" rel=3D"noreferrer" =
+target=3D"_blank">github.com/alecthomas/participle;name=3Dv2;protocol=3Dhtt=
+ps;nobran</a><br>
+=C2=A0SRCREV_mousetrap =3D &quot;4e8053ee7ef85a6bd26368364a6d27f1641c1d21&q=
+uot;<br>
+=C2=A0SRC_URI +=3D &quot;git://<a href=3D"http://github.com/inconshreveable=
+/mousetrap;name=3Dmousetrap;protocol=3Dhttps;nobranch=3D1;destsuffix=3D$%7B=
+GO_SRCURI_DESTSUFFIX%7D/vendor/github.com/inconshreveable/mousetrap" rel=3D=
+"noreferrer" target=3D"_blank">github.com/inconshreveable/mousetrap;name=3D=
+mousetrap;protocol=3Dhttps;nobranch=3D1;destsuffix=3D${GO_SRCURI_DESTSUFFIX=
+}/vendor/github.com/inconshreveable/mousetrap</a>&quot;<br>
+<br>
+-PV =3D &quot;4.30.8+git${SRCREV_yq}&quot;<br>
++PV =3D &quot;4.45.1+git&quot;<br>
+<br>
+=C2=A0GO_IMPORT =3D &quot;<a href=3D"http://github.com/mikefarah/yq" rel=3D=
+"noreferrer" target=3D"_blank">github.com/mikefarah/yq</a>&quot;<br>
++export GO111MODULE =3D &quot;off&quot;<br>
+<br>
+=C2=A0inherit go ptest<br>
+<br>
+-do_compile:prepend() {<br>
+-=C2=A0 =C2=A0 # arrange for some of the golang built ins to be found<br>
+-=C2=A0 =C2=A0 (<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0cd ${WORKDIR}/build/src/<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sf ${STAGING_DIR_TARGET}/${prefix}/lib/go/s=
+rc/cmd/vendor/<a href=3D"http://golang.org" rel=3D"noreferrer" target=3D"_b=
+lank">golang.org</a> .<br>
+-<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0cd ${WORKDIR}/build/<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sf ${UNPACKDIR}/build/vendor .<br>
+-=C2=A0 =C2=A0 )<br>
+-<br>
+-=C2=A0 =C2=A0 # arrange for the fetched dependencies to be found<br>
+-=C2=A0 =C2=A0 export GOPATH=3D&quot;${GOPATH}:${WORKDIR}/build/vendor/&quo=
+t;<br>
+-=C2=A0 =C2=A0 export GO111MODULE=3Doff<br>
+-}<br>
+-<br>
+=C2=A0do_install_ptest() {<br>
+=C2=A0 =C2=A0 =C2=A0install -d ${D}${PTEST_PATH}/tests<br>
+-=C2=A0 =C2=A0 cp -r ${S}/src/<a href=3D"http://github.com/mikefarah/yq/scr=
+ipts/*" rel=3D"noreferrer" target=3D"_blank">github.com/mikefarah/yq/script=
+s/*</a> ${D}${PTEST_PATH}/tests<br>
+-=C2=A0 =C2=A0 cp -r ${S}/src/<a href=3D"http://github.com/mikefarah/yq/acc=
+eptance_tests/*" rel=3D"noreferrer" target=3D"_blank">github.com/mikefarah/=
+yq/acceptance_tests/*</a> ${D}${PTEST_PATH}/tests<br>
+-=C2=A0 =C2=A0 cp -r ${S}/src/<a href=3D"http://github.com/mikefarah/yq/exa=
+mples" rel=3D"noreferrer" target=3D"_blank">github.com/mikefarah/yq/example=
+s</a> ${D}${PTEST_PATH}/tests<br>
++=C2=A0 =C2=A0 cp -r ${S}/src/${GO_IMPORT}/scripts/* ${D}${PTEST_PATH}/test=
+s<br>
++=C2=A0 =C2=A0 cp -r ${S}/src/${GO_IMPORT}/acceptance_tests/* ${D}${PTEST_P=
+ATH}/tests<br>
++=C2=A0 =C2=A0 cp -r ${S}/src/${GO_IMPORT}/examples ${D}${PTEST_PATH}/tests=
+<span class=3D"gmail_default" style=3D"font-size:small"></span></blockquote=
+><div><span class=3D"gmail_default" style=3D"font-size:small"></span></div>=
+<div class=3D"gmail_default" style=3D"font-size:small">I like that change a=
+s well.</div><div class=3D"gmail_default" style=3D"font-size:small"><br></d=
+iv><div class=3D"gmail_default" style=3D"font-size:small">I&#39;ll split up=
+ the commit here and see if I can get the bits I want.</div><div class=3D"g=
+mail_default" style=3D"font-size:small"><br></div><div class=3D"gmail_defau=
+lt" style=3D"font-size:small">Cheers,</div><div class=3D"gmail_default" sty=
+le=3D"font-size:small"><br></div><div class=3D"gmail_default" style=3D"font=
+-size:small">Bruce</div><div class=3D"gmail_default" style=3D"font-size:sma=
+ll"><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
+ 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><br>
+=C2=A0}<br>
+<br>
+=C2=A0RDEPENDS:${PN}-ptest +=3D &quot; \<br>
+@@ -114,7 +100,7 @@ RDEPENDS:${PN}-ptest +=3D &quot; \<br>
+=C2=A0&quot;<br>
+<br>
+=C2=A0RDEPENDS:${PN}-dev +=3D &quot; \<br>
+-=C2=A0 =C2=A0 =C2=A0bash \<br>
++=C2=A0 =C2=A0 bash \<br>
+=C2=A0&quot;<br>
+<br>
+=C2=A0BBCLASSEXTEND =3D &quot;native&quot;<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#9232): <a href=3D"https://lists.yoctoproject.org/g/meta=
+-virtualization/message/9232" rel=3D"noreferrer" target=3D"_blank">https://=
+lists.yoctoproject.org/g/meta-virtualization/message/9232</a><br>
+Mute This Topic: <a href=3D"https://lists.yoctoproject.org/mt/112360308/105=
+0810" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.org/m=
+t/112360308/1050810</a><br>
+Group Owner: <a href=3D"mailto:meta-virtualization%2Bowner@lists.yoctoproje=
+ct.org" target=3D"_blank">meta-virtualization+owner@lists.yoctoproject.org<=
+/a><br>
+Unsubscribe: <a href=3D"https://lists.yoctoproject.org/g/meta-virtualizatio=
+n/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.or=
+g/g/meta-virtualization/unsub</a> [<a href=3D"mailto:bruce.ashfield@gmail.c=
+om" target=3D"_blank">bruce.ashfield@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
+=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
+ignature">- Thou shalt not follow the NULL pointer, for chaos and madness a=
+wait thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star T=
+rek II<br><br></div></div>
+</div>
+
+--000000000000c8160d06333c2f25--
 
