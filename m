@@ -1,77 +1,88 @@
-Return-Path: <wangmy@fujitsu.com>
+Return-Path: <hongxu.jia@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6371BC3ABBC
-	for <webhook@archiver.kernel.org>; Fri,  9 May 2025 07:33:22 +0000 (UTC)
-Received: from esa9.hc1455-7.c3s2.iphmx.com (esa9.hc1455-7.c3s2.iphmx.com [139.138.36.223])
- by mx.groups.io with SMTP id smtpd.web11.8931.1746775995711400035
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D42B2C3ABDA
+	for <webhook@archiver.kernel.org>; Wed, 14 May 2025 07:59:38 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.97110.1747209568762624204
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 09 May 2025 00:33:16 -0700
+ Wed, 14 May 2025 00:59:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=QHfCSasd;
- spf=pass (domain: fujitsu.com, ip: 139.138.36.223, mailfrom: wangmy@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1746775996; x=1778311996;
-  h=from:to:cc:subject:date:message-id;
-  bh=HIytfXSLWl0M+cH08AsEJtgan2RG35WN7IJnCG5KFoU=;
-  b=QHfCSasdS41KGBIQPd4sHL96XOgzPjIPF8ej0XJfjNUekL6aU77xmRGJ
-   02UxgkrVSX+lG1AZKEMtXRrAKhjsNL6pRTtaw5noKo2kUTUCJ1u7U7lGu
-   diFC1mvlpElJQLbiXnqkQm37EyWDUF9ZCW8EQQlMRSeWzt5bQfO3+8gOb
-   4mJcglod6bX+JuMBrp7Fsk44fn3ZWwIwrz4zCkG3fQIj56ZEXBDBp+D9C
-   lrn22LaqNSCcE9shdU8Vr6C2HS61+Fwh+N2vMPptKMIMSzgHdnL0QpXEc
-   Fe7FcDyuQaw5UoRqlJI93lnElAfzis4oswHEQL3JYIqY64xWt44yAcvS0
-   g==;
-X-CSE-ConnectionGUID: JsMuzQRGRRCqpmPLkZ82bg==
-X-CSE-MsgGUID: 0+UE+GlIQpeK5k30nsy6XQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="187311958"
-X-IronPort-AV: E=Sophos;i="6.15,274,1739804400"; 
-   d="scan'208";a="187311958"
-Received: from unknown (HELO oym-r4.gw.nic.fujitsu.com) ([210.162.30.92])
-  by esa9.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2025 16:33:13 +0900
-Received: from oym-m4.gw.nic.fujitsu.com (oym-nat-oym-m4.gw.nic.fujitsu.com [192.168.87.61])
-	by oym-r4.gw.nic.fujitsu.com (Postfix) with ESMTP id 6454EDC8CB
-	for <meta-virtualization@lists.yoctoproject.org>; Fri,  9 May 2025 16:33:11 +0900 (JST)
-Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
-	by oym-m4.gw.nic.fujitsu.com (Postfix) with ESMTP id 1A4B6D52B7
-	for <meta-virtualization@lists.yoctoproject.org>; Fri,  9 May 2025 16:33:11 +0900 (JST)
-Received: from localhost.localdomain (unknown [10.193.128.200])
-	by edo.cn.fujitsu.com (Postfix) with ESMTP id 5D4621A00A1;
-	Fri,  9 May 2025 15:33:10 +0800 (CST)
-From: wangmy@fujitsu.com
-To: meta-virtualization@lists.yoctoproject.org
-Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [meta-virtualization] [meta-cloud-services] [PATCH] nss-pam-ldapd: Resolve build failure with GCC15
-Date: Fri,  9 May 2025 15:32:53 +0800
-Message-Id: <1746775973-14094-1-git-send-email-wangmy@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=7229a91613=hongxu.jia@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54E5iPGO014893
+	for <meta-virtualization@lists.yoctoproject.org>; Wed, 14 May 2025 00:59:28 -0700
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 46mbca0s2c-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <meta-virtualization@lists.yoctoproject.org>; Wed, 14 May 2025 00:59:28 -0700 (PDT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.43; Wed, 14 May 2025 00:59:25 -0700
+Received: from pek-lpg-core5.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.43 via Frontend Transport; Wed, 14 May 2025 00:59:25 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <meta-virtualization@lists.yoctoproject.org>
+Subject: [meta-virtualization][PATCH] libvirt: fix compile failure while DEBUG_BUILD = 1
+Date: Wed, 14 May 2025 15:59:26 +0800
+Message-ID: <20250514075926.1831264-1-hongxu.jia@windriver.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: DqstzP5vkFf8q5oOxGCCxrgctsTiUIlg
+X-Authority-Analysis: v=2.4 cv=P446hjAu c=1 sm=1 tr=0 ts=68244d60 cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=dt9VzEwgFbYA:10 a=t7CeM3EgAAAA:8 a=d4wmoKv9Fkrp-o7OyhUA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: DqstzP5vkFf8q5oOxGCCxrgctsTiUIlg
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTE0MDA2OCBTYWx0ZWRfX83xUMrbIvlWL uRbbnfyenzRSPwO9b78c6MerHj8TSD2fHf3QjH3X60GN2u6ZlpVmsz9ercnfMsQk+08xcFMDe09 lZHETMJzBE1KSHe7h6AHP/g73glO4pbz+pEu+DXFb8MDSFvGRasl9R/iraLHS8jBji8/xXci3Um
+ CW+leI7Sn06DWRFlvswFj8ECyRpIVY/5R3cHKiMBYY5km2WaKm77mwW5gBVntixAdJAuSACQZE5 T6qm3kvzHo4sSi69lGI89x5D6mA2sjDyqNKvxtcaiYOJ01joT6drvSxMym0b/XOXQ23Q2/DCUtj 6+bP7L2W1pif2PugejcI+sDFXYoqcWroiEUIDeLonI8l2HvBZeGTsFOeiwqpgaG68QEjPSWfllo
+ hzpZJC5fufLZ1RVRbm3ybEnntfvfluZE467BhMdygPaEybmscd4L/AmYurDtS+yuAKacFBYt
+X-Sensitive_Customer_Information: Yes
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-14_02,2025-05-14_02,2025-02-21_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0
+ priorityscore=1501 impostorscore=0 phishscore=0 mlxscore=0 adultscore=0
+ clxscore=1015 lowpriorityscore=0 mlxlogscore=842 suspectscore=0
+ bulkscore=0 malwarescore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2505070000
+ definitions=main-2505140068
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Fri, 09 May 2025 07:33:22 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9247
+ <meta-virtualization@lists.yoctoproject.org>; Wed, 14 May 2025 07:59:38 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9248
 
-From: Wang Mingyu <wangmy@fujitsu.com>
+Build libvirt failed while DEBUG_BUILD = 1
+[snip]
+../git/src/cpu/cpu_x86.c: In function 'cpuidSetLeaf4':
+../git/src/cpu/cpu_x86.c:2563:1: error: inlining failed in call to 'cpuidCall': function not considered for inlining [-Werror=inline]
+ 2563 | cpuidCall(virCPUx86CPUID *cpuid)
+      | ^~~~~~~~~
+[snip]
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+Explicitly add -Wno-error=inline to CFLAGS if DEBUG_BUILD = 1 to workaround
+
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- recipes-support/nss-pam-ldapd/nss-pam-ldapd_0.9.12.bb | 1 +
+ recipes-extended/libvirt/libvirt_git.bb | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/recipes-support/nss-pam-ldapd/nss-pam-ldapd_0.9.12.bb b/recipes-support/nss-pam-ldapd/nss-pam-ldapd_0.9.12.bb
-index 582f7592..08923275 100644
---- a/recipes-support/nss-pam-ldapd/nss-pam-ldapd_0.9.12.bb
-+++ b/recipes-support/nss-pam-ldapd/nss-pam-ldapd_0.9.12.bb
-@@ -28,6 +28,7 @@ SRC_URI[md5sum] = "cc30ee0ab91d6c94b7a343ae09b5dc69"
- SRC_URI[sha256sum] = "c6d661e74693cbf531a790631ca93b73f291fb23cc39465b09deb8da2bfb0e14"
+diff --git a/recipes-extended/libvirt/libvirt_git.bb b/recipes-extended/libvirt/libvirt_git.bb
+index 4c6b3bdd..37a60562 100644
+--- a/recipes-extended/libvirt/libvirt_git.bb
++++ b/recipes-extended/libvirt/libvirt_git.bb
+@@ -50,6 +50,7 @@ USERADD_PACKAGES = "${PN}"
+ GROUPADD_PARAM:${PN} = "-r qemu; -r kvm"
+ USERADD_PARAM:${PN} = "-r -g qemu -G kvm qemu"
  
- DEPENDS += "libpam openldap krb5"
-+EXTRA_OEMAKE += "CC='${CC} -std=c99 '"
++CFLAGS += "${@oe.utils.vartrue('DEBUG_BUILD', '-Wno-error=inline', '', d)}"
  
- EXTRA_OECONF = "\
- 	--disable-pynslcd \
+ EXTRA_OEMESON += "--cross-file ${WORKDIR}/meson-${PN}.cross"
+ do_write_config:append() {
 -- 
-2.43.0
+2.34.1
 
 
