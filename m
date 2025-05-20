@@ -2,220 +2,264 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF6B9C54754
-	for <webhook@archiver.kernel.org>; Tue, 20 May 2025 02:47:48 +0000 (UTC)
-Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
- by mx.groups.io with SMTP id smtpd.web10.12015.1747709260291035349
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B643CC2D0CD
+	for <webhook@archiver.kernel.org>; Tue, 20 May 2025 02:52:28 +0000 (UTC)
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
+ by mx.groups.io with SMTP id smtpd.web11.12126.1747709540772702929
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 19 May 2025 19:47:40 -0700
+ Mon, 19 May 2025 19:52:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=NssYU9k7;
- spf=pass (domain: gmail.com, ip: 209.85.219.54, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-6f8b2682d61so39896126d6.0
-        for <meta-virtualization@lists.yoctoproject.org>; Mon, 19 May 2025 19:47:40 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Cbm9Cf76;
+ spf=pass (domain: gmail.com, ip: 209.85.222.169, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-7c54f67db99so658146585a.1
+        for <meta-virtualization@lists.yoctoproject.org>; Mon, 19 May 2025 19:52:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747709259; x=1748314059; darn=lists.yoctoproject.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=fhc4EhZL/axI/IoWwDyGqdDCREGecIH9KmJSijm9trY=;
-        b=NssYU9k7BXInEqPFwuXQoHpG2Z7FxmkR42Lx5i95WQauxsPCWpjxN+Ko8kS4I1OzfC
-         B8UFRE8aOlxU9A4ZB5PLvE0K1kh42OU6xTXGVmx0GK/6/Bud9l2PljRSzS934A9WBBtQ
-         jEw1BG+tVV+MOhK7LyZbxQSA1LlSxTXftVByeYBhYzMbqa0/sg19XdKhom8RhR3WoHGY
-         Dr2uR6zzvAUvJF5uCtDxDkwdsIUUgF+Ri0H0aMbByUvu1vvEaaCsYbsVI/VhqOsl0FTk
-         M62PXnRUTsIOgWajZu4XWY0/d586NAGpt/yvvURETJKWoiIHgIv5460IKj+Uum3tv1bv
-         aplA==
+        d=gmail.com; s=20230601; t=1747709540; x=1748314340; darn=lists.yoctoproject.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=o7QrjVSMMSjXGN3GJWJy06QXxqzrefgmBeCXtPiJUM8=;
+        b=Cbm9Cf768aZsx4FN8zZr82cVyI0jlZVFQsVnFjQq643vTApM6UVmTvH1zr0Hp7BdDg
+         Ussx1tPV3rHnUwmfXoMevhWLQkHNMtXEjUn/TexM+kE+evBSa6WwBkh6L5MOQdW74OGs
+         NVNmlFCGPe1n4SvxCjevPDBg7d9d5UelxDUyxJIPUm1RhaP28MDo5gXW6n4TJqZJS4O6
+         idv64u5ORDyntWHJn/BUORBKQ1kRU31ou5zcpkijnzriu5YosMnV/ARX5VAyv3/5HSrR
+         ef3BCikSlSaFOUv2e15mBFAkmkYxygMsoEjpf/EJ9XYT3oJNTrPIeACYg2ns6UzN5pRG
+         5xKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747709259; x=1748314059;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fhc4EhZL/axI/IoWwDyGqdDCREGecIH9KmJSijm9trY=;
-        b=EV4HpKo27iGzvZlA/PWj4gq0TTkr1ztPdxcR7Qee7p7ePrPukUz9Axn4BFMKMR3v5U
-         ML868SEORdbQ1fR5laMmJpS/VTDP1oIbqLxRv2EEK4eb6phNZgEMaE2vfH/YNjv/Hd6d
-         vsOWybastCqeiPZVyyBnoaaV4lRvl7wJF1WfWcDpd9aCB6Rs3BnJ4Coexce21sfiSreL
-         99kXJvnxJpWKkT6/zpaRmbafr3xK66x5lNZzHCMj3hTtxNRP4Y0FjA+fG7e4iY/F/tij
-         Xo6FsNlOwQMtxFOHYtTwLfeamO2fH4aTd6PaJCEXXqoOMbF5hsSm+ZYfKAQ409EM1YV5
-         cr+A==
-X-Gm-Message-State: AOJu0YwHJx+pSwCBG0FVn2XBFGSYQfwrLZL2QBEy/5v6BtctVieCaV2t
-	7au29uzaIOsXk5FEOp9JAOSS+wOoJBhPQVeMfqhN7OAcxIkHExp1Pok/
-X-Gm-Gg: ASbGncv5/Qg/0FceUr2O8IOYzENTLDbGyYXhpwR0axrXDXTLcQizuMGEwuBnoKy9Zdp
-	gxkeH9xI9PXQHnUbyAaEu6kldHVDZANx7nkJnOYImG8+BWi3SGwkl7/Quw98oe0FIYmcUBVeSFv
-	S9T/egF4psEZePMWb0b/BFcHWlmOJ+3D0TPv/hYFPAtbk56Sc3trWmeqUlI6uzB6DoVztbdaTDf
-	2ZvGNNPlSbC3QIasuuZx4NCtT0m8N2stx6wvIOUHdkINuacil6eKUIrEfG8n4T7m/oxFlXxcl1h
-	Pywq/1JEt34KxStd2gCqmYZ3XoXY5NGdKyL77dvboiZPZAvdkdc0GDpP+DtRk+03RYXGEaLgImj
-	WHNOaoutKsvatQ/YuylyNHZbRvratOg==
-X-Google-Smtp-Source: AGHT+IGKF/f1+ebGPb9ImTpZJxafvK5EMh99WZl0jVTBTGdp5nnUJk7WoE99CyJMdCn9ZkaGy+BRJw==
-X-Received: by 2002:a05:6214:a03:b0:6f8:b2c7:6ce8 with SMTP id 6a1803df08f44-6f8b2c7780emr190599556d6.1.1747709259129;
-        Mon, 19 May 2025 19:47:39 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1747709540; x=1748314340;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=o7QrjVSMMSjXGN3GJWJy06QXxqzrefgmBeCXtPiJUM8=;
+        b=V4wt6aJZOf/gfe0I1LcTczdR39Tn+KroiPTIKia5UUrz7N3YGF/kAXXhyjbCs+kY+G
+         +0PJlXNj5e4hFgKXzJdPLKw+AVsWTpDyjJrhfO9xh45z/RjfeDDHonWHqoegoeA5DO07
+         u4SvlXLl7OG+Ac5Erpr48Cfzz+7mt1xvy6KVWh1opkGQaYNLQpiHoyF0uSnd/a1fDkZJ
+         kRZJSc6yRp2khTqhzF8xilGTH3ICx2ZTcBTuf5+U5Bdxau52tnSj+z6cvTLZ99SoESM5
+         VFVVV3jFnsct2YIduvr9C2Ivr96aFup8s7a5WhSXyzUTfp+p0AYyJt2mwfP+lSbvs8ih
+         yV4g==
+X-Gm-Message-State: AOJu0Yy37DVhfRLbA3zcMnA0E1Ir5bfsivZRJioqoNAqrYc46gNkvvET
+	+HEM/tq3BiIUiSEA+SWlJ37LxNzrvWptab2Thc4uQFAiIF+ZZ3Wdg+eX
+X-Gm-Gg: ASbGncu4/asqBklUHtZh3aYRsQwWzl2FENaLBdUPIfJuiA75zFPptujUhW70dhUN2Wu
+	uyLvrzsPRzY6qZQe9t8EX4Q8PCDhWzQLNMxj31J5uwDFxy/BuNJlzeOM52c5AKoT2PIyjCT+O6j
+	CaNd/5bQIupcu1vNVw+ePNG+W2/THAo5g09LuaBM9+MuxZ15dFNeF5cl2PXsNCfbnq/lddgDUaE
+	dLJU/oA7s8acgQQhPzqGEv6xh2vGCFbG5ZnH1l+17vxMQFEByZ0dQRkixSK5HTO1Nj2EUDg9YAv
+	ld92dy9tgI2+UTQ95qU/+g5+NWx3vY4nSAtJvLlrQfo1lHwZAUQRqedv1dvZK6FAUIajgUnStvE
+	pRODJOj1tRhqZRKG46ioOWQolg7Oeuw==
+X-Google-Smtp-Source: AGHT+IFQSS88nzkyJlsrg8I6JE54qjvWb1hQIVPA3Ka7Q3dxcHghljVmUZb10x+1bcp6yJEvP3WmGw==
+X-Received: by 2002:a05:620a:2806:b0:7c5:afc9:5144 with SMTP id af79cd13be357-7cd46b6c97bmr1891017485a.23.1747709539647;
+        Mon, 19 May 2025 19:52:19 -0700 (PDT)
 Received: from gmail.com (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6f8b0883f45sm66107286d6.23.2025.05.19.19.47.38
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7cd467eedd7sm670265885a.56.2025.05.19.19.52.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 May 2025 19:47:38 -0700 (PDT)
-Date: Mon, 19 May 2025 22:47:37 -0400
+        Mon, 19 May 2025 19:52:19 -0700 (PDT)
+Date: Mon, 19 May 2025 22:52:17 -0400
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: wojciech.slenska@gmail.com
-Cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [meta-virtualization][PATCH] fuse-overlayfs: update to v1.14
-Message-ID: <aCvtSWl7cErSue9k@gmail.com>
-References: <20250416083932.36075-1-wojciech.slenska@gmail.com>
+To: Anibal Limon <anibal@limonsoftware.com>
+Cc: meta-virtualization@lists.yoctoproject.org,
+	christopher.clark6@baesystems.com
+Subject: Re: [meta-virtualization] [PATCH] scripts: wic plugin
+ bootimg-biosxen drop helper to reuse bootimg-pcbios
+Message-ID: <aCvuYQ0rRfo7Y4kp@gmail.com>
+References: <183C6D1717CD05B3.32718@lists.yoctoproject.org>
+ <CAOU5ZMtKS8c-TNGzEGhv6uNuiL4_uNpJ+OFoVfddyrto7V8EXg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250416083932.36075-1-wojciech.slenska@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAOU5ZMtKS8c-TNGzEGhv6uNuiL4_uNpJ+OFoVfddyrto7V8EXg@mail.gmail.com>
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Tue, 20 May 2025 02:47:48 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9251
+ <meta-virtualization@lists.yoctoproject.org>; Tue, 20 May 2025 02:52:28 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9252
 
-I somehow managed to miss this patch.
+In message: Re: [meta-virtualization] [PATCH] scripts: wic plugin bootimg-biosxen drop helper to reuse bootimg-pcbios
+on 04/05/2025 Anibal Limon wrote:
 
-I'm just starting an upgrade cycle on the packages of m-virt, but
-I don't always do fuse-overlayfs .. so I've grabbed the patch and
-pushed it to master.
+> Hi,
+> 
+> This requires a patch previously sent to OE-Core to allow import wic source
+> plugins.
+> 
+> https://lists.openembedded.org/g/openembedded-core/message/197471
+
+It isn't efficient for me to keep checking if this has merged to
+oe-core.
+
+Please follow up to your patch once it does merge, and I'll get this
+pulled in.
 
 Bruce
 
-In message: [meta-virtualization][PATCH] fuse-overlayfs: update to v1.14
-on 16/04/2025 Wojciech Slenska via lists.yoctoproject.org wrote:
-
-> * fuse-overlayfs-1.14
->     - isolate security xattrs for STAT_OVERRIDE_CONTAINERS.  Prefix all
->       security xattrs with XATTR_CONTAINERS_OVERRIDE_PREFIX.
->     - prefer user.containers.override_stat over user.fuseoverlayfs.
->     - do not force -1 for owner overriding extended attributes.  Otherwise
->       the value is written to the override extended attribute.
->     - fix file owner retrieval for chmod.
->     - honor umask with xattr_permissions.
->     - honor mode for devices with xattr_permissions.
->     - propagate extended attributes permissions with copyup.
 > 
-> * fuse-overlayfs-1.13
->     - fix a performance issue when dealing with big directories.
+> Regards!,
+> Anibal
 > 
-> * fuse-overlayfs-1.12
->     - change license to GPL-2.0-or-later.
+> On Sun, May 4, 2025 at 2:32 PM Anibal Limon via lists.yoctoproject.org <anibal=
+> limonsoftware.com@lists.yoctoproject.org> wrote:
 > 
-> * fuse-overlayfs-1.11
->     - main: if a lower layer doesn't support ACLs do not enable them.
+>     With wic plugins source rename on OE-Core now can be imported.
 > 
-> * fuse-overlayfs-1.10
->     - main: use /proc/self/fd to read xattrs.
->     - main: inherit ACLs for new files/dirs.
->     - main: fix passing noatime.
->     - main: add checks for valid /proc mount.
->     - main: fix copy_file_range for deleted files.
->     - main: fix creating links of just deleted files.
+>     Drop the custom helper to find BootimgPcbiosPlugin plus adapt the code
+>     removing all custom calls and references.
+>     Finally rename bootimg-biosxen to allow be imported.
 > 
-> Signed-off-by: Wojciech Slenska <wojciech.slenska@gmail.com>
-> ---
->  ...tils-Add-missing-include-on-limits.h.patch | 36 -------------------
->  .../fuse-overlayfs/fuse-overlayfs_1.14.bb     | 15 ++++++++
->  .../fuse-overlayfs/fuse-overlayfs_1.9.bb      | 18 ----------
->  3 files changed, 15 insertions(+), 54 deletions(-)
->  delete mode 100644 recipes-extended/fuse-overlayfs/fuse-overlayfs/0001-utils-Add-missing-include-on-limits.h.patch
->  create mode 100644 recipes-extended/fuse-overlayfs/fuse-overlayfs_1.14.bb
->  delete mode 100644 recipes-extended/fuse-overlayfs/fuse-overlayfs_1.9.bb
+>     Tested with xen-image-minimal and testimage.
 > 
-> diff --git a/recipes-extended/fuse-overlayfs/fuse-overlayfs/0001-utils-Add-missing-include-on-limits.h.patch b/recipes-extended/fuse-overlayfs/fuse-overlayfs/0001-utils-Add-missing-include-on-limits.h.patch
-> deleted file mode 100644
-> index cd504ce5..00000000
-> --- a/recipes-extended/fuse-overlayfs/fuse-overlayfs/0001-utils-Add-missing-include-on-limits.h.patch
-> +++ /dev/null
-> @@ -1,36 +0,0 @@
-> -From b48e958aaecfdfc3bb48db082a548a09d6487181 Mon Sep 17 00:00:00 2001
-> -From: Andrei Gherzan <andrei.gherzan@huawei.com>
-> -Date: Wed, 13 Jul 2022 12:05:07 +0200
-> -Subject: [PATCH] utils: Add missing include on limits.h
-> -
-> -This happens to not be an issue with glibc because it gets indirectly
-> -included via dirent.h:
-> -
-> -.. /usr/include/dirent.h
-> -[...]
-> -..... /usr/include/linux/limits.h
-> -
-> -When using the musl libc implementation, that is not the case anymore
-> -and the build fails.
-> -
-> -Signed-off-by: Andrei Gherzan <andrei.gherzan@huawei.com>
-> -Upstream-Status: Submitted [https://github.com/containers/fuse-overlayfs/pull/362]
-> ----
-> - utils.h | 1 +
-> - 1 file changed, 1 insertion(+)
-> -
-> -diff --git a/utils.h b/utils.h
-> -index 13a177e..6fbc328 100644
-> ---- a/utils.h
-> -+++ b/utils.h
-> -@@ -32,6 +32,7 @@
-> - # include <sys/types.h>
-> - # include <fcntl.h>
-> - # include "fuse-overlayfs.h"
-> -+# include <limits.h>
-> - 
-> - # define XATTR_OVERRIDE_STAT "user.fuseoverlayfs.override_stat"
-> - # define XATTR_PRIVILEGED_OVERRIDE_STAT "security.fuseoverlayfs.override_stat"
-> --- 
-> -2.25.1
-> -
-> diff --git a/recipes-extended/fuse-overlayfs/fuse-overlayfs_1.14.bb b/recipes-extended/fuse-overlayfs/fuse-overlayfs_1.14.bb
-> new file mode 100644
-> index 00000000..0f6d0fb6
-> --- /dev/null
-> +++ b/recipes-extended/fuse-overlayfs/fuse-overlayfs_1.14.bb
-> @@ -0,0 +1,15 @@
-> +SUMMARY = "FUSE implementation of overlayfs."
-> +DESCRIPTION = "An implementation of overlay+shiftfs in FUSE for rootless \
-> +containers."
-> +
-> +LICENSE = "GPL-2.0-or-later"
-> +LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
-> +
-> +SRCREV = "33cb788edc05f5e3cbb8a7a241f5a04bee264730"
-> +SRC_URI = "git://github.com/containers/fuse-overlayfs.git;nobranch=1;protocol=https"
-> +
-> +DEPENDS = "fuse3"
-> +
-> +S = "${WORKDIR}/git"
-> +
-> +inherit autotools pkgconfig
-> diff --git a/recipes-extended/fuse-overlayfs/fuse-overlayfs_1.9.bb b/recipes-extended/fuse-overlayfs/fuse-overlayfs_1.9.bb
-> deleted file mode 100644
-> index 31199928..00000000
-> --- a/recipes-extended/fuse-overlayfs/fuse-overlayfs_1.9.bb
-> +++ /dev/null
-> @@ -1,18 +0,0 @@
-> -SUMMARY = "FUSE implementation of overlayfs."
-> -DESCRIPTION = "An implementation of overlay+shiftfs in FUSE for rootless \
-> -containers."
-> -
-> -LICENSE = "GPL-3.0-or-later"
-> -LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
-> -
-> -SRCREV = "51592ea406f48faeccab288f65dcba6c4a67cd90"
-> -SRC_URI = " \
-> -	git://github.com/containers/fuse-overlayfs.git;nobranch=1;protocol=https \
-> -	file://0001-utils-Add-missing-include-on-limits.h.patch \
-> -"
-> -
-> -DEPENDS = "fuse3"
-> -
-> -S = "${WORKDIR}/git"
-> -
-> -inherit autotools pkgconfig
-> -- 
-> 2.34.1
+>     Signed-off-by: Anibal Limon <anibal@limonsoftware.com>
+>     ---
+>      ...{bootimg-biosxen.py => bootimg_biosxen.py} | 71 ++++---------------
+>      1 file changed, 12 insertions(+), 59 deletions(-)
+>      rename scripts/lib/wic/plugins/source/{bootimg-biosxen.py =>
+>     bootimg_biosxen.py} (69%)
 > 
-
+>     diff --git a/scripts/lib/wic/plugins/source/bootimg-biosxen.py b/scripts/
+>     lib/wic/plugins/source/bootimg_biosxen.py
+>     similarity index 69%
+>     rename from scripts/lib/wic/plugins/source/bootimg-biosxen.py
+>     rename to scripts/lib/wic/plugins/source/bootimg_biosxen.py
+>     index f00747db..5242ee4f 100644
+>     --- a/scripts/lib/wic/plugins/source/bootimg-biosxen.py
+>     +++ b/scripts/lib/wic/plugins/source/bootimg_biosxen.py
+>     @@ -34,59 +34,18 @@ import os
+>      import types
 > 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#9228): https://lists.yoctoproject.org/g/meta-virtualization/message/9228
-> Mute This Topic: https://lists.yoctoproject.org/mt/112291695/1050810
-> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
+>      from wic import WicError
+>     -import wic.pluginbase
+>     -from importlib.machinery import SourceFileLoader
+>      from wic.misc import (exec_cmd, get_bitbake_var)
+>     +from wic.plugins.source.bootimg_pcbios import BootimgPcbiosPlugin
 > 
-
+>      logger = logging.getLogger('wic')
+> 
+>     -class BootimgBiosXenPlugin(wic.pluginbase.SourcePlugin):
+>     +class BootimgBiosXenPlugin(BootimgPcbiosPlugin):
+>          """
+>          Create MBR boot partition including files for Xen
+> 
+>          """
+> 
+>          name = 'bootimg-biosxen'
+>     -    __PCBIOS_MODULE_NAME = "bootimg-pcbios"
+>     -    __imgBiosObj = None
+>     -
+>     -    @classmethod
+>     -    def __init__(cls):
+>     -        """
+>     -        Constructor (init)
+>     -        """
+>     -        # original comment from bootimg-biosplusefi.py :
+>     -        # "XXX For some reasons, __init__ constructor is never called.
+>     -        #  Something to do with how pluginbase works?"
+>     -        cls.__instanciateBIOSClass()
+>     -
+>     -    @classmethod
+>     -    def __instanciateBIOSClass(cls):
+>     -        """
+>     -
+>     -        """
+>     -        # Import bootimg-pcbios (class name "BootimgPcbiosPlugin")
+>     -        modulePath = os.path.join(os.path.dirname
+>     (wic.pluginbase.__file__),
+>     -                                  "plugins", "source",
+>     -                                  cls.__PCBIOS_MODULE_NAME + ".py")
+>     -        loader = SourceFileLoader(cls.__PCBIOS_MODULE_NAME, modulePath)
+>     -        mod = types.ModuleType(loader.name)
+>     -        loader.exec_module(mod)
+>     -        cls.__imgBiosObj = mod.BootimgPcbiosPlugin()
+>     -
+>     -    @classmethod
+>     -    def do_install_disk(cls, disk, disk_name, creator, workdir,
+>     oe_builddir,
+>     -                        bootimg_dir, kernel_dir, native_sysroot):
+>     -        """
+>     -        Called after all partitions have been prepared and assembled into
+>     a
+>     -        disk image.
+>     -        """
+>     -        if not cls.__imgBiosObj:
+>     -            cls.__instanciateBIOSClass()
+>     -
+>     -        cls.__imgBiosObj.do_install_disk(disk, disk_name, creator,
+>     workdir,
+>     -                                         oe_builddir, bootimg_dir,
+>     kernel_dir,
+>     -                                         native_sysroot)
+> 
+>          @classmethod
+>          def do_configure_partition(cls, part, source_params, creator,
+>     cr_workdir,
+>     @@ -95,9 +54,6 @@ class BootimgBiosXenPlugin(wic.pluginbase.SourcePlugin):
+>              """
+>              Called before do_prepare_partition(), creates syslinux config
+>              """
+>     -        if not cls.__imgBiosObj:
+>     -            cls.__instanciateBIOSClass()
+>     -
+>              bootloader = creator.ks.bootloader
+> 
+>              if not bootloader.configfile:
+>     @@ -158,10 +114,10 @@ class BootimgBiosXenPlugin
+>     (wic.pluginbase.SourcePlugin):
+>                  cfg.close()
+> 
+>              else:
+>     -            cls.__imgBiosObj.do_configure_partition(part, source_params,
+>     -                                                    creator, cr_workdir,
+>     -                                                    oe_builddir,
+>     bootimg_dir,
+>     -                                                    kernel_dir,
+>     native_sysroot)
+>     +            super().do_configure_partition(part, source_params,
+>     +                                           creator, cr_workdir,
+>     +                                           oe_builddir, bootimg_dir,
+>     +                                           kernel_dir, native_sysroot)
+> 
+>          @classmethod
+>          def do_prepare_partition(cls, part, source_params, creator,
+>     cr_workdir,
+>     @@ -171,10 +127,7 @@ class BootimgBiosXenPlugin
+>     (wic.pluginbase.SourcePlugin):
+>              Called to do the actual content population for a partition i.e. it
+>              'prepares' the partition to be incorporated into the image.
+>              """
+>     -        if not cls.__imgBiosObj:
+>     -            cls.__instanciateBIOSClass()
+>     -
+>     -        bootimg_dir = cls.__imgBiosObj._get_bootimg_dir(bootimg_dir,
+>     'syslinux')
+>     +        bootimg_dir = super()._get_bootimg_dir(bootimg_dir, 'syslinux')
+>              hdddir = "%s/hdd/boot" % cr_workdir
+> 
+>              # machine-deduction logic originally from isoimage-isohybrid.py
+>     @@ -205,8 +158,8 @@ class BootimgBiosXenPlugin
+>     (wic.pluginbase.SourcePlugin):
+>              for install_cmd in cmds:
+>                  exec_cmd(install_cmd)
+> 
+>     -        cls.__imgBiosObj.do_prepare_partition(part, source_params,
+>     -                                              creator, cr_workdir,
+>     -                                              oe_builddir, bootimg_dir,
+>     -                                              kernel_dir, rootfs_dir,
+>     -                                              native_sysroot)
+>     +        super().do_prepare_partition(part, source_params,
+>     +                                     creator, cr_workdir,
+>     +                                     oe_builddir, bootimg_dir,
+>     +                                     kernel_dir, rootfs_dir,
+>     +                                     native_sysroot)
+>     --
+>     2.47.2
+> 
+> 
+>     -=-=-=-=-=-=-=-=-=-=-=-
+>     Links: You receive all messages sent to this group.
+>     View/Reply Online (#9240): https://lists.yoctoproject.org/g/
+>     meta-virtualization/message/9240
+>     Mute This Topic: https://lists.yoctoproject.org/mt/112618356/8181911
+>     Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+>     Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [
+>     anibal@limonsoftware.com]
+>     -=-=-=-=-=-=-=-=-=-=-=-
+> 
+> 
 
