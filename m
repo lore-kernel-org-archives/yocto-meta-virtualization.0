@@ -1,125 +1,105 @@
-Return-Path: <patrick.vogelaar@belden.com>
+Return-Path: <changqing.li@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B5B2C54FB3
-	for <webhook@archiver.kernel.org>; Mon, 26 May 2025 21:07:24 +0000 (UTC)
-Received: from mx0a-00015a02.pphosted.com (mx0a-00015a02.pphosted.com [205.220.166.249])
- by mx.groups.io with SMTP id smtpd.web10.37580.1748293634467113297
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0DD3C3ABB2
+	for <webhook@archiver.kernel.org>; Wed, 28 May 2025 05:48:55 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.9381.1748411328289833090
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 26 May 2025 14:07:14 -0700
+ Tue, 27 May 2025 22:48:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@belden.com header.s=podpps1 header.b=NvPJoBpO;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: belden.com, ip: 205.220.166.249, mailfrom: noreply@belden.com)
-Received: from pps.filterd (m0382794.ppops.net [127.0.0.1])
-	by mx0a-00015a02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54QK1sER007145
-	for <meta-virtualization@lists.yoctoproject.org>; Mon, 26 May 2025 17:07:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=belden.com; h=cc
-	:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=podpps1; bh=g1fjA1U7IWXEFqJXVPBbKbtincmljtGNidr/D
-	ht3tQA=; b=NvPJoBpOiJ46leaIOvgC+jVgdnClHEo7r0IeyLmy2gMh92Duwb1Tk
-	cCQzH0CEkxyWcr9FvHrMifkAfbJPJQwJn9V3X53AU4Mdh/8cgyTSFEefJ5MJ3Dfz
-	ILWDMCWzGSTu/6/owvuED2kj9BWvXIqauPj1KGGH2/MNWEq7EqUIAGy6Yl2uFCq4
-	I9HlMVZ8iCwWe86MmHzHHLDq8XAtTYqsSswjZ+tT7udG+19utSuWOvYINzM/hndx
-	DBqssAAf9kZI4LZhb4NnHhAybCy/mk93XfDtyVBlIauZmmSmvSZXdltB9QZkidpX
-	C8YHiQiOXkQb9wapoU5FlOCLWQEMLCX3Q==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-00015a02.pphosted.com (PPS) with ESMTPS id 46uxjyads2-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL)
-	for <meta-virtualization@lists.yoctoproject.org>; Mon, 26 May 2025 17:07:13 -0400 (EDT)
-Received: from m0382794.ppops.net (m0382794.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 54QL7DKY021748;
-	Mon, 26 May 2025 17:07:13 -0400
-Received: from relay2.belden.com ([12.161.118.81])
-	by mx0a-00015a02.pphosted.com (PPS) with ESMTPS id 46uxjyads0-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Mon, 26 May 2025 17:07:13 -0400 (EDT)
-Received: from pps.filterd (dcric1ppa02pb.mcp.local [127.0.0.1])
-	by dcric1ppa02pb.mcp.local (8.18.1.2/8.18.1.2) with ESMTP id 54QJ5ChB000438;
-	Mon, 26 May 2025 17:12:23 -0400
-Received: from denec1rnd301p.tcn.gad.local ([10.1.2.1])
-	by dcric1ppa02pb.mcp.local (PPS) with ESMTP id 46u9exa231-1;
-	Mon, 26 May 2025 17:12:22 -0400
-Received: from [10.115.248.254] (port=50860 helo=pxv03011-build-home.fritz.box)
-	by denec1rnd301p.tcn.gad.local with esmtp (Exim 4.96)
-	(envelope-from <noreply@belden.com>)
-	id 1uJf2M-004BHY-1h;
-	Mon, 26 May 2025 23:07:10 +0200
-From: Patrick Vogelaar <patrick.vogelaar@belden.com>
-To: meta-virtualization@lists.yoctoproject.org
-Cc: Patrick Vogelaar <patrick.vogelaar@belden.com>
-Subject: [meta-virtualization][PATCH v2] cni: make ca-certificates a packageconfig
-Date: Mon, 26 May 2025 23:07:08 +0200
-Message-Id: <20250526210708.3721789-1-patrick.vogelaar@belden.com>
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=7243e38fb1=changqing.li@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54S1KipF009652
+	for <meta-virtualization@lists.yoctoproject.org>; Wed, 28 May 2025 05:48:47 GMT
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 46u3b13qeq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <meta-virtualization@lists.yoctoproject.org>; Wed, 28 May 2025 05:48:47 +0000 (GMT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.43; Tue, 27 May 2025 22:48:46 -0700
+Received: from pek-lpg-core6.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.43 via Frontend Transport; Tue, 27 May 2025 22:48:43 -0700
+From: <changqing.li@windriver.com>
+To: <meta-virtualization@lists.yoctoproject.org>
+Subject: [meta-virtualization][walnascar][master][PATCH] containerd: make cni_networking conditional
+Date: Wed, 28 May 2025 13:48:41 +0800
+Message-ID: <20250528054841.2516534-1-changqing.li@windriver.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: e53d-VFYZigZZpz5u6DCFyA1GiOXLbFP
+X-Authority-Analysis: v=2.4 cv=VpYjA/2n c=1 sm=1 tr=0 ts=6836a3bf cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=RTWaOWMY450A:10 a=dt9VzEwgFbYA:10 a=Q4-j1AaZAAAA:8 a=t7CeM3EgAAAA:8 a=d3_xJdbfi20hw_gwof4A:9 a=9H3Qd4_ONW2Ztcrla5EB:22
+ a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: e53d-VFYZigZZpz5u6DCFyA1GiOXLbFP
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTI4MDA0OSBTYWx0ZWRfX3SL4NM/G4SIf gmmFpx0JS/Ogmsxpictyi+jAnDBlWonyIsX5H/VX+YDvX4SmiJz3jyjT3k7KJA3tsRlqQaNKZa7 6iQyWfZQJab1YwaNAr0+rIQwqP4ebLYyVoKpGw/tmPw0mdM6vDor5ejGhEtMo62b1e+qG0s7L9o
+ 5nGt8PpHNKkSn6kETXRjj7OL/qsrXyRP5vtlGcTkW7UAV4uxjokDu6/obKbPBaKwrhqXJQ8mWVW ilBX/0yVnhnRbP85P0aMyf+tIlev4KYp6NwdT+LnxD6hn97eumZL+hKWht3IPUeu5F7TiZLN2UQ AUs+NqYkzqnMLvUdG6299KLh19GenlTmvF0JugLA5JtWgig76lHrBJmLKFp0bhMuLIb5nGEpCRh
+ RyJED+SCmR0EDbkIAwFly8xfMJ3XQelnbqqb9ueUCYuyWvlCWbsnmFTeGG+KuqFFhscRzVUZ
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-26_10,2025-05-26_02,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=569 phishscore=0
- malwarescore=0 suspectscore=0 bulkscore=0 spamscore=0 mlxscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2505160000 definitions=main-2505260181
-X-Authority-Analysis: v=2.4 cv=SLxCVPvH c=1 sm=1 tr=0 ts=6834d801 cx=c_pps
- a=cuOCxa8MntS3/AsasmU/aA==:117 a=cuOCxa8MntS3/AsasmU/aA==:17
- a=dt9VzEwgFbYA:10 a=WDlp8lUfAAAA:8 a=nAiqwprkte2nXuFNCMUA:9
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTI2MDE3OSBTYWx0ZWRfXzICcORtb2b54
- B6ILqcmvNjHymj+haGEIJ5mLCYqehU8cnGkOKC6uitZpy3AOeeRlP2GC+n7o6tfBkbnlk+Mvcme
- isV0ozdXhFyiAvCynnA9IjhjiCJr6fs3wEbJGcn14WP/uYEh+xMZxCgt46F1OLQM0MQj3FTUmUf
- fct2H+ZmOMpNgF7jAePt57DEyrv3qMpVzO2eNzlJsyEDxHLZwdKfO+z9p57jnYKVewIikFrrDoI
- iAOQGQHUi4TLJWzoFDHrMfYBc0nytGpdWK868hb19DDLQfYT5src6JG4nUjE+YqsgTkllFkIWwx
- QwZKTXDMk0Z74WRVEGO5GySrBYarxb4LcXcmSoBMkNKoFCLVoHoByym5gyXcAI6f79700d/Ufyw
- 78yyC/hs1qfR2EhpSn+pnCHWrRGkxYU/VfmlIRPmlVIzRIufEtGN3vQ/XaDLTsy1O9odXPCQ
-X-Proofpoint-GUID: bxEagJXu3OeQTo_xTGHYksmeoy0F3Z08
-X-Proofpoint-ORIG-GUID: elOuwpIbGj2YLitVwCrRDPJ2ZuVeMLH-
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-26_10,2025-05-26_02,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 adultscore=0 clxscore=1015 malwarescore=0 spamscore=0
- priorityscore=1501 suspectscore=0 mlxscore=0 mlxlogscore=577 bulkscore=0
- lowpriorityscore=0 impostorscore=0 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505160000 definitions=main-2505260179
-X-Proofpoint-TriggeredRule: module.spam.rule.outbound_notspam
+ definitions=2025-05-28_03,2025-05-27_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
+ mlxlogscore=995 malwarescore=0 mlxscore=0 lowpriorityscore=0 adultscore=0
+ suspectscore=0 priorityscore=1501 spamscore=0 bulkscore=0 clxscore=1011
+ phishscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.21.0-2505160000
+ definitions=main-2505280049
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Mon, 26 May 2025 21:07:24 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9260
+ <meta-virtualization@lists.yoctoproject.org>; Wed, 28 May 2025 05:48:55 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9261
 
-Moving ca-certificates into a packageconfig allows using cni without
-installing all the certificates.
+From: Changqing Li <changqing.li@windriver.com>
 
-Signed-off-by: Patrick Vogelaar <patrick.vogelaar@belden.com>
+make cni_networking conditional, when k3s, k8s is enabled, the
+networking configuration will be provided by the orchestration package,
+containerd-cni is not needed. This is for fix the following error:
+PACKAGE_CLASSES = "package_deb"
+do_rootfs failed with error:
+dpkg: error processing archive /path/to/oe-rootfs-repo/corei7-64/./kubernetes-cni_v1.32.0+git0+5fe148234f_release-r0.deb (--unpack):
+trying to overwrite '/etc/cni/net.d/cni-containerd-net.conflist', which is also in package containerd-cni v2.0.5-r0
+
+Refer [1], "--no-force-overwrite" is set for dpkg, so above error
+occurred.
+
+[1] https://git.openembedded.org/openembedded-core/commit/?id=cb95ba079960411775c57ab864d266e15a6292d1
+
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
 ---
- recipes-networking/cni/cni_git.bb | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ recipes-containers/containerd/containerd_git.bb      | 2 +-
+ recipes-core/packagegroups/packagegroup-container.bb | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/recipes-networking/cni/cni_git.bb b/recipes-networking/cni/cni_git.bb
-index b41b47cf..2cdbb169 100644
---- a/recipes-networking/cni/cni_git.bb
-+++ b/recipes-networking/cni/cni_git.bb
-@@ -89,10 +89,11 @@ do_install() {
-     ln -sf ${libexecdir}/cni/ ${D}/opt/cni/bin
- }
- 
-+PACKAGECONFIG ?= "ca-certs"
-+PACKAGECONFIG[ca-certs] = ",,,ca-certificates"
-+
- FILES:${PN} += "${libexecdir}/cni/* /opt/cni/bin"
- 
- INSANE_SKIP:${PN} += "ldflags already-stripped"
- 
- deltask compile_ptest_base
--
--RDEPENDS:${PN} += " ca-certificates"
+diff --git a/recipes-containers/containerd/containerd_git.bb b/recipes-containers/containerd/containerd_git.bb
+index c683fbeb..def7591a 100644
+--- a/recipes-containers/containerd/containerd_git.bb
++++ b/recipes-containers/containerd/containerd_git.bb
+@@ -102,4 +102,4 @@ RDEPENDS:${PN} += " ${VIRTUAL-RUNTIME_container_runtime}"
+ ## This may need to be made conditional on K3S or similar being
+ ## configured in the distro, since we may have collisions.
+ CNI_NETWORKING_FILES ?= "${UNPACKDIR}/cni-containerd-net.conflist"
+-inherit cni_networking
++inherit_defer ${@bb.utils.contains_any('DISTRO_FEATURES', 'k3s k8s', '', 'cni_networking', d)}
+diff --git a/recipes-core/packagegroups/packagegroup-container.bb b/recipes-core/packagegroups/packagegroup-container.bb
+index f5e20344..8cbcf28e 100644
+--- a/recipes-core/packagegroups/packagegroup-container.bb
++++ b/recipes-core/packagegroups/packagegroup-container.bb
+@@ -69,7 +69,7 @@ RDEPENDS:packagegroup-oci = " \
+ RDEPENDS:packagegroup-containerd = " \
+     virtual-containerd \
+     packagegroup-cni \
+-    containerd-cni \
++    ${@bb.utils.contains_any('DISTRO_FEATURES','k3s k8s','','containerd-cni',d)} \
+     nerdctl \
+     tini \
+ "
 -- 
 2.34.1
 
-
-**********************************************************************
-DISCLAIMER:
-Privileged and/or Confidential information may be contained in this message. If you are not the addressee of this message, you may not copy, use or deliver this message to anyone. In such event, you should destroy the message and kindly notify the sender by reply e-mail. It is understood that opinions or conclusions that do not relate to the official business of the company are neither given nor endorsed by the company. Thank You.
 
