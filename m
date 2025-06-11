@@ -1,243 +1,411 @@
-Return-Path: <Qi.Chen@windriver.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A159AC677C4
-	for <webhook@archiver.kernel.org>; Wed, 11 Jun 2025 07:24:06 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.2033.1749626641239186447
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50F10C677C4
+	for <webhook@archiver.kernel.org>; Wed, 11 Jun 2025 12:41:18 +0000 (UTC)
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+ by mx.groups.io with SMTP id smtpd.web10.6741.1749645669839845763
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 11 Jun 2025 00:24:01 -0700
+ Wed, 11 Jun 2025 05:41:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=8257a4bb2a=qi.chen@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55B7HLCD023230
-	for <meta-virtualization@lists.yoctoproject.org>; Wed, 11 Jun 2025 00:24:00 -0700
-Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10on2077.outbound.protection.outlook.com [40.107.94.77])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 474mxm3u76-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <meta-virtualization@lists.yoctoproject.org>; Wed, 11 Jun 2025 00:24:00 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=qJvtv+n5eH+sHwp68BRcqzIkVLMHAcrtcFDpqowH/zFWlDaiH4fChhTbiNJmaDOKYMPGRq3d+9jT0aH5eGaXkz3zgDvZb/DUzrbIa786ZnV9qnxljMd5F8YktkLW0CZR3BqbuNu0KvNIX7EcrP5qgU6t/OUNFr7p913vguqRnhdFQks1rNIHjT+E2J6b7JJfcxoWQQg6LEqYNH9w0yoK0U/dx6FgR7XLVl+PxYlxALznZYKN09vknL4AwF0kv0+jZ0Z/3kFVgFaXEGlgsQgms5OKyAjP6hhS/oBJGIMWVl82s1W4n3WxuNHMsgRpRvxSTTrlg+bIazoXQX+4V4oftA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5IT46ahVCh2BYjY893r5HHnj/8cf47lthPXorrxgldM=;
- b=qS86XMrblPPQG6EfQbuWMRBXKR3L3Xg1uZtdZ0Y9pon3NGDk0zP5f0/SQeJY+ORj513WRV3N1bBKdUzRSKnNl6jqrY24JidJ6SvpwsxtUyQBpBZf6SmH9G5+h1AVhe4uKexFhpiDuNPCyNryLFEWNeQo1rryJlko83A2g38Jg+Sn/wafYyP+MuPUKs+RmUtWiNb8O7AuMstcBDgWwDTzc32wxhdZ9l7Xu/rhRukIvxxW66ztKXyGn6gQUv5fq00lfxhSVaMuF2MMkObkRVfejSvR4fUwiE9XQZjIVbKp6p/rTYgUIQq+9ZWCNo3BkUH8b30nPR6/8xLpqyPmisXQIQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
- by PH0PR11MB4773.namprd11.prod.outlook.com (2603:10b6:510:33::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8813.22; Wed, 11 Jun
- 2025 07:23:57 +0000
-Received: from CO6PR11MB5602.namprd11.prod.outlook.com
- ([fe80::a7e3:721d:9cec:6093]) by CO6PR11MB5602.namprd11.prod.outlook.com
- ([fe80::a7e3:721d:9cec:6093%4]) with mapi id 15.20.8835.018; Wed, 11 Jun 2025
- 07:23:57 +0000
-From: Qi.Chen@windriver.com
-To: meta-virtualization@lists.yoctoproject.org
-Subject: [meta-virtualization][PATCH] podman: remove ptest
-Date: Wed, 11 Jun 2025 15:23:42 +0800
-Message-Id: <20250611072342.1850153-1-Qi.Chen@windriver.com>
-X-Mailer: git-send-email 2.34.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: TYCP286CA0253.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:456::11) To CO6PR11MB5602.namprd11.prod.outlook.com
- (2603:10b6:303:13a::5)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=g51S6xLF;
+ spf=pass (domain: gmail.com, ip: 209.85.215.169, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-b2fca9d7872so427939a12.1
+        for <meta-virtualization@lists.yoctoproject.org>; Wed, 11 Jun 2025 05:41:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1749645669; x=1750250469; darn=lists.yoctoproject.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZidCJ3EScGUegNzlA0Go7y0Cmj5bZ6wJEMtJa1uDKEY=;
+        b=g51S6xLFp8h7/lMfjXI0j6ZU0YUFZ8bBNkbUiwFyxzsOxGmbiZ+A3AycdU/OtXCmtK
+         AntT1tPTpfqK7VLyFCQPesYbYkNTw773MkzgKxfPSeXcOpm57OJ6fTWGgLi9GaFw93jV
+         jDFduEyp3SHCt1vgyU2E39jh14HvbLW1SIxr9tT8qIl4n9ZbXc8mD7DJ55mti9/t4dwc
+         2X6PCGNQfXJq3xlMPIi+AIZXVOdrdKYIxJwoCEavZnk778xz4qJOVaA3l+BWYd/WMplB
+         /VkXskQUixda6BEAxMlArvYSkyfrImnq3kVi8NGBHrI8Ggg3vCBsDR0uam7mLrHPCvRy
+         daUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749645669; x=1750250469;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ZidCJ3EScGUegNzlA0Go7y0Cmj5bZ6wJEMtJa1uDKEY=;
+        b=quNmf6GkiOA9OyGV3wsIymFxsZSubUnirKo1xDoSYsEsPzin5xKRVyf/jDVRQIuBd2
+         CmEeinbFaRKtFt5KIaOBlY0f82jisJzWBW7sD4JRrBOgbFXrujpxSjwQowO9eSxnov9C
+         JHeSSBYWAz40Tn5xhsTBEdeN906do3SbRXuECnAsMzEK5sf8cdjt1cGDyYrsTxiyevyb
+         5MwqEeuxcu/btXemV6qTQrOClvpYJchOdWmIoR3C/hxKA1XFMOY2XVJj2h1WLqryKPGR
+         XpC0mdvNztdcJsAmgGRNSb399rRx3NCdZVg32QQkf3Oih9oA+GTDLQOMzqNGAQxNx89v
+         F3UA==
+X-Gm-Message-State: AOJu0YxBGU1nGIVYwPZ0+eC8e45gwP09Vl3uemFXH2pa1kCul/4ZWZaW
+	EMGRtvr9KsvUEAs/Zw5J90u8UGQnT1xN9unTFuwKPCnl12pQRntdfOtbaOFEARAxmUJK/e+2ahc
+	40/d33rN+R/5uGL4zS9ycAIoHZyIW1/A=
+X-Gm-Gg: ASbGncs1Xw3XXC4+IApgRLdYqRd+1OW+jxmioPRfDh9pDWOyhZzP4NsTw1kIkr57yfR
+	L3XstMtT7AcGSDrzUcOi1GmjvWinaytJ6yOQVlggyW/CVu/qNhqumBDGqmKBP0sm2KI/cAqY6By
+	Zm5I8Y3YFuUwcxheyXw3kikogu9sRAVwq1hO4wquXalZU=
+X-Google-Smtp-Source: AGHT+IFpXa/MRoGgmH7p3AUxwhijVEVtby9NyZW/HIVC0jQ1ae5DlkyzIQQ9LxtKcTYHHzLosAJxyMmxR8klRsCJERM=
+X-Received: by 2002:a17:90b:2808:b0:311:baa0:89ca with SMTP id
+ 98e67ed59e1d1-313af22d4b8mr4009634a91.34.1749645668933; Wed, 11 Jun 2025
+ 05:41:08 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO6PR11MB5602:EE_|PH0PR11MB4773:EE_
-X-MS-Office365-Filtering-Correlation-Id: 26076402-132b-40c5-375d-08dda8b8ed98
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|52116014|1800799024|366016|38350700014;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?yDfmE75qiNNNKYRMpO6YvYhnPHvnk5nTQRBXBO1ZxG9umRnUQEZ3NHbk/nSa?=
- =?us-ascii?Q?yt0JH4M6+X6WjetpC/v1TCln7xwAOkz5ah1VzI87i+3xx+20Zs9wR4HNU4id?=
- =?us-ascii?Q?JWhdq5qugyJHnLTiGONjLGNB4CKXSYYsDHhd5JlWUBE+br7xOrzE+WBXKKw3?=
- =?us-ascii?Q?71ZZfvDpNjVeHUWMNr/t5JsqpEYgvqug+IXB36avdTp5ha4tkgTcXZw6ZE4D?=
- =?us-ascii?Q?DYx22fOHHz9ipDuezDNCKQR6QbFma82NfILdm3Boes8i1wwfmMjHs3OamF02?=
- =?us-ascii?Q?qPr79+UefArFzWVO2r+hYKXyT71hoGFnnk9rl1c/pKD3CpcYvrxxvZfQvKFq?=
- =?us-ascii?Q?CyeP51Zj/Bl7PeJu3I/W4pHis2vsKm1NoC84KsyYbyfMNrC91qXK3P6IGWZG?=
- =?us-ascii?Q?MKZBanf3vCrJ2Tnhx62cG+CWKaMvuHNIqO+HwyACSfBzkMEExrUPSFmMF0jL?=
- =?us-ascii?Q?+A+zeWwadWGXxl+Qq5hO1TQmIa8urmi6OzDdVQ6G0M5cB5JvFZzW6jYXfuhb?=
- =?us-ascii?Q?4udfQz+8vT15hGUZ+mA0OWU35dCTFq6WxmkvKZ2QBuCNoC7JluFvtVmXDTgo?=
- =?us-ascii?Q?xfYxMxDzEIQLY+MQIrZyacaBFHnlWcFLRInknocwbqBS4zHGdhJuoZIqfdSq?=
- =?us-ascii?Q?UTgPwM/ozamYnxXuiEPLK7bEK+MA/MB3PKaCqwxOqgUzZYZk/QPciy+D2zX7?=
- =?us-ascii?Q?ARjrCB75BSi+v9TKT8CRI5VCr+7VoyYWyFvXF6oaYwNrqbl5W4pfwTVOaugM?=
- =?us-ascii?Q?E/K4UKb18ZiUSjA4uqQSK22DJ4WuTaFjfIRv7oXsS6YjYqvaCcIBQPY+IGx+?=
- =?us-ascii?Q?/NgdYJLb+SWKJa2gqz+b6vEOjVG4xyLa/1ihW5gHOqyzB/sBhSoUTaQuJOdR?=
- =?us-ascii?Q?AJahaopi1h+17SuI/nVur+oyIuSDEY47jNzbtUek/KuiAslvkTWAccgUGlz8?=
- =?us-ascii?Q?/JboWs54KglXlJ4d6K3QiwhJpEci0OQUHYlCMy9saLEWgNDpE30lEMTfsUsk?=
- =?us-ascii?Q?FUJcCcfZm4Rh9Wgr1F1cM94VEaMe8Iu89Z12T8WSKBMLmJ1O+YvFi36ZN69y?=
- =?us-ascii?Q?b+t5tlIQ5WCLUVn8N0KIiNy/ETY/GBrZ5rFhshNqYeusPAuzQ5g+Ke63/eyp?=
- =?us-ascii?Q?ebVKDLgxwguVioGtkMMpvGNo4qPHM9kfmk6R07tYD537Lj2mc+h0vfV3S871?=
- =?us-ascii?Q?ZOJQifw3Lc8aCyvO7l4X5uzHJ/5gRxspLspkAXEjkZFi5mENTnXuFA0ETWiY?=
- =?us-ascii?Q?v3636fnhrlPunfGXJMPhifYSU0BTykKvZ5grDWZioXUCKKhX3aoV+cboYqKg?=
- =?us-ascii?Q?0D1/fCtCMI2SJ3OM/ZHpGQKAwJ3+bts3cNxjSNaY6y3e6/+C9T++vt+HFCQY?=
- =?us-ascii?Q?uOQ2KNie96viMwWnM7UZW8GvQxRqn9ktvqWtoOfnbIYM6iydzqRvXtJdS585?=
- =?us-ascii?Q?cb9GGi7usAfdD4QPDIcSeeJ+LN0lG/cKzBYQgTexjdR9GYEu6i22vg=3D=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(52116014)(1800799024)(366016)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?qjCbpzLtQiTF9wqVVDDrjcUz9ikpW3IA9SCZ+3bhaGklU1iVDawxkHl2ITGI?=
- =?us-ascii?Q?tv6a4UuGS51QeKbLWmf6ctjQfanQ7+/JPdxgmrEeJHHBClkRS4inEMh21nzS?=
- =?us-ascii?Q?KlcMUi4HfYRnbqQ6t1t756Yx6S7DUuIgKdDh6JQ8P39Ouvg3ybw1BKqDywG8?=
- =?us-ascii?Q?2W2geUH2LpDUC1dy+gdMKQAyBS5ndXi0MCbOkmjoeHdEJU1DbSpVUvP4HDW5?=
- =?us-ascii?Q?vxorapnRPPRhajnCyaF2hGviAE7RzNnUSuSYePDnq4wsPjPxvVT672G2FlCf?=
- =?us-ascii?Q?JtwW1R1H4ggATO3ItrKR74i5qnpTF3u0y/i91Xp9cJwJ5doulQIMf3wuCj7P?=
- =?us-ascii?Q?jLf72TcuHQWKwOa+1lfBdkoOyD+FWQlk5AOdvypzZQxoBFliX56yBBJn5x83?=
- =?us-ascii?Q?ebtw8ZSjwz87q1aS6WjbOc4vEiwcS8VNZreqzG2Z5Qjezt1WmsXKo8Rjsmuv?=
- =?us-ascii?Q?2NMBrPmCPqqAXHdi+47MHVnPvHwtYwO+18GSZNGrv/ac26wgTrD8CIvg+N9x?=
- =?us-ascii?Q?BocJPNlWj06iumo8wIf/ou4EmwjQeTUlqmtj+3+2WkqXOfZrL3+TSFb5fm5a?=
- =?us-ascii?Q?Wp0S5VnLxF7IDMHiKxNdlHgw5rzt/fvGaPMnxZW77bqHUcfEU894YE8mI/ga?=
- =?us-ascii?Q?ruJY7Ticr/sNxlRsYT01FsZZFToJ4BVU7VRtAzFo9guijEIocHDiDEQFc4ni?=
- =?us-ascii?Q?VBTpYOMu73QZNemS9oD2vZpdHn1Hw3lE8vjPVGaCIqHZjlNUMs5NesLZB44I?=
- =?us-ascii?Q?yHyuRkKCXcjbZACzuZrEATrCXu3+zI76MlrJK8ehYaJvfeMOZoGaj5iIGvIC?=
- =?us-ascii?Q?e53rjRx9mI9NqwfzB8ljBPZZZHlUqJW1xR+wSmKGq3UtrbZveVP4ICdP2iex?=
- =?us-ascii?Q?Hv9HKQ+J08U6Y/tQQSGCnuhfsDhiKuHJXKxQYXjJn4HldaeUyWD5IS3G+rxP?=
- =?us-ascii?Q?t6SkqQIxihgbhM5oduqftPcaxVulCYl+zCIwkHjESRrUhij8qNxknCOzyvWn?=
- =?us-ascii?Q?ZqM4IcMEonJguR72ZhteIa4M9RO2TxybkPDkTcX7yZfY4zkgPDx/cH96Nezu?=
- =?us-ascii?Q?KcviFLMTvG+dGqcXQ6d0z52TU4oZUw6WLV0DuPkbBILbdbLpvAd5FoARKD1w?=
- =?us-ascii?Q?ootBnKHLTTuBpxNd0P/T0RVKZDCimCqHmaIq8EM+hbBz959pa/RQSgO6CDTT?=
- =?us-ascii?Q?zGrLLTku81o0cAk5zUBbruPuO14b6RnYRyPuOFUDhvNVpk+Lu+8Ul2B5/K2C?=
- =?us-ascii?Q?NvPf/FGYHa72I4pQ0UX9xx3DvjLcI/La4K2E9/s9No/OKTKbogeG/NsDJT2Z?=
- =?us-ascii?Q?1ZeSW/rsHN/cHcYFfDiTDRu+H3j6xj8RzFJgOPZqbTP9ZaANrdRG5ztTPpcY?=
- =?us-ascii?Q?AhJnsWfFbYDIE4CQUvetvGeVu/00FBzGHxKdPYg3WMHbhN8byIIpnMug2BZV?=
- =?us-ascii?Q?CtN0gKGDC9tnJknhgbklTxnBLTtvJBRGKAKLXF0tr8EEhufvQvbBPxrme6qT?=
- =?us-ascii?Q?w+TXr19CWwullU2UCxmZ1ZH4/SZprG3qKOM54/pKOGT6VQBmarnkFEBWRIue?=
- =?us-ascii?Q?y0cxPw3STlNy60UuW6gEJ3XhjA8ykTU6LUQfwr4f?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 26076402-132b-40c5-375d-08dda8b8ed98
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jun 2025 07:23:57.1783
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mJilBXp+kX9p6TvqG8T8JpvMokBWN1LLPVh9+Nuw1+b3gV4tH3vy2D+lQft9OCcYTIE4LJ3F1wfL18RT5/gLUg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB4773
-X-Proofpoint-GUID: 67AfXvkLmBfnfqkaMCNIBZlBTtbUBVZx
-X-Authority-Analysis: v=2.4 cv=L74dQ/T8 c=1 sm=1 tr=0 ts=68492f10 cx=c_pps a=Yhwmj+jW27PGnLXsYKQ0lg==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19
- a=xqWC_Br6kY4A:10 a=6IFa9wvqVegA:10 a=t7CeM3EgAAAA:8 a=NEAV23lmAAAA:8 a=CJP1Jb7SsX1NIeAk8AIA:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjExMDA2NCBTYWx0ZWRfX3RBbPHV1fQxw 6Rtw6VdSR+8467STUUOUFghHBdiDoYgvB2GvmsJDHuu/4tbbBebGe4fIDCsFoecVU8G30s9a68J +giKDLTAH9YwCyX6mKyCi5bJqT7wGWAZDHCeN/kcKCWLYF6uH1fK6paxlEIPWMgcU6A3l5Zj/vo
- 2MjUeKfKZDgxUOBTjRICmLutbpRg5WqY7FqVxV7a3ZYP/dPsvJL16rtNHKyYQuIjjx/wQdEb6Gd fMYIYfnGADhrLLWmeLNrBF8h4amzXDSC6Urdiap4k+jRohYUu774ADqtaUnAlZCgLUXs8sQ3ORM yuYR8PNhUIhRcyuLh+yEXFrt2N9HwF4ZplzQX4t5Arf92zydAxoXY/ohPy52LYvh4pl+LrO4cOZ
- e43WXaiiDaVjTzSOWpBvD8MlcaaQe0A5zbwgT8/lkWSiTcSGFUlJ+MmJJTbnEp2Ry2DlKKci
-X-Proofpoint-ORIG-GUID: 67AfXvkLmBfnfqkaMCNIBZlBTtbUBVZx
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-06-11_03,2025-06-10_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- priorityscore=1501 mlxlogscore=999 adultscore=0 spamscore=0 suspectscore=0
- mlxscore=0 lowpriorityscore=0 clxscore=1015 malwarescore=0 phishscore=0
- bulkscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.21.0-2505280000
- definitions=main-2506110064
+References: <20250528054841.2516534-1-changqing.li@windriver.com>
+ <aEEBBxb7NxcvPnxo@gmail.com> <65f0132d-1bba-4a61-b726-0b3dfd651af0@windriver.com>
+In-Reply-To: <65f0132d-1bba-4a61-b726-0b3dfd651af0@windriver.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Wed, 11 Jun 2025 08:40:57 -0400
+X-Gm-Features: AX0GCFu2imKp906eCZMsG-CT0kVn_5KtKSTG-8DNLKgAJuhsUC6v3_BH7fFi4uU
+Message-ID: <CADkTA4PaaSfwFtxDKpdvanWvO3mY0SihWD3oUeTpwdXCp0745Q@mail.gmail.com>
+Subject: Re: [meta-virtualization][walnascar][master][PATCH] containerd: make
+ cni_networking conditional
+To: Changqing Li <changqing.li@windriver.com>
+Cc: meta-virtualization@lists.yoctoproject.org
+Content-Type: multipart/alternative; boundary="00000000000094652b06374b2041"
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Wed, 11 Jun 2025 07:24:06 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9278
+ <meta-virtualization@lists.yoctoproject.org>; Wed, 11 Jun 2025 12:41:18 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9279
 
-From: Chen Qi <Qi.Chen@windriver.com>
+--00000000000094652b06374b2041
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The ptest was added almost three years ago and since then nobody
-ever fixed anything. It's almost impossible that the ptest never
-failed. As an evidence, for the current version, the test cases
-cannot even run.
+On Wed, Jun 11, 2025 at 3:19=E2=80=AFAM Changqing Li <changqing.li@windrive=
+r.com>
+wrote:
 
-Remove this ptest. People who care about podman ptest should be
-maintaining it.
+>
+> On 6/5/25 10:29, Bruce Ashfield wrote:
+>
+> CAUTION: This email comes from a non Wind River email account!
+> Do not click links or open attachments unless you recognize the sender an=
+d know the content is safe.
+>
+> In message: [meta-virtualization][walnascar][master][PATCH] containerd: m=
+ake cni_networking conditional
+> on 28/05/2025 Changqing Li via lists.yoctoproject.org wrote:
+>
+>
+> From: Changqing Li <changqing.li@windriver.com> <changqing.li@windriver.c=
+om>
+>
+> make cni_networking conditional, when k3s, k8s is enabled, the
+> networking configuration will be provided by the orchestration package,
+> containerd-cni is not needed. This is for fix the following error:
+> PACKAGE_CLASSES =3D "package_deb"
+> do_rootfs failed with error:
+> dpkg: error processing archive /path/to/oe-rootfs-repo/corei7-64/./kubern=
+etes-cni_v1.32.0+git0+5fe148234f_release-r0.deb (--unpack):
+> trying to overwrite '/etc/cni/net.d/cni-containerd-net.conflist', which i=
+s also in package containerd-cni v2.0.5-r0
+>
+> We shouldn't need to do this to fix the package install. Whether we need
+> to do it to make sure networking configurations don't conflict is a separ=
+ate
+> question (and one that we need more information to decide on).
+>
+> The design of the cni_networking is to allow co-existence of packages
+> that need to configure cni networking. So we don't have to do what
+> you've tried to do in this patch.
+>
+> Let's rename the files referenced in CNI_NETWORKING_FILES to something
+> more specific to the kubernetes packages and then they can both be
+> installed at the same time.
+>
+> That's one patch.
+>
+> If you can show me that the two networking configurations being installed
+> at the same time cause issues, we can then do the coordination betwen
+> the packages similarly to what you are doing here in a second, separate
+> patch.
+>
+> Bruce
+>
+> Hi, Bruce
+>
+> Sorry,  I did not notice this mail before.
+>
+> According to kubernetes doc:
+>
+> "If there are multiple CNI configuration files in the directory, the
+> kubelet uses the configuration file that comes first by name in
+> lexicographic order."
+>
+> Now,  both containerd-cni and kubernetes-cni use name
+> cni-containerd-net.conflist.
+>
+> How about keep containerd-cni use name cni-containerd-net.conflist, and
+> let kubernetes-cni use 00_cni-containerd-net.conflist, so that
+> configuration in kubernetes-cni
+>
+> will be used if both package installed?
+>
+>
+That would be a fine solution!
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+Bruce
+
+
+Regards
+>
+> //Changqing
+>
+>
+> Refer [1], "--no-force-overwrite" is set for dpkg, so above error
+> occurred.
+>
+> [1] https://git.openembedded.org/openembedded-core/commit/?id=3Dcb95ba079=
+960411775c57ab864d266e15a6292d1
+>
+> Signed-off-by: Changqing Li <changqing.li@windriver.com> <changqing.li@wi=
+ndriver.com>
+> ---
+>  recipes-containers/containerd/containerd_git.bb      | 2 +-
+>  recipes-core/packagegroups/packagegroup-container.bb | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/recipes-containers/containerd/containerd_git.bb b/recipes-co=
+ntainers/containerd/containerd_git.bb
+> index c683fbeb..def7591a 100644
+> --- a/recipes-containers/containerd/containerd_git.bb
+> +++ b/recipes-containers/containerd/containerd_git.bb
+> @@ -102,4 +102,4 @@ RDEPENDS:${PN} +=3D " ${VIRTUAL-RUNTIME_container_run=
+time}"
+>  ## This may need to be made conditional on K3S or similar being
+>  ## configured in the distro, since we may have collisions.
+>  CNI_NETWORKING_FILES ?=3D "${UNPACKDIR}/cni-containerd-net.conflist"
+> -inherit cni_networking
+> +inherit_defer ${@bb.utils.contains_any('DISTRO_FEATURES', 'k3s k8s', '',=
+ 'cni_networking', d)}
+> diff --git a/recipes-core/packagegroups/packagegroup-container.bb b/recip=
+es-core/packagegroups/packagegroup-container.bb
+> index f5e20344..8cbcf28e 100644
+> --- a/recipes-core/packagegroups/packagegroup-container.bb
+> +++ b/recipes-core/packagegroups/packagegroup-container.bb
+> @@ -69,7 +69,7 @@ RDEPENDS:packagegroup-oci =3D " \
+>  RDEPENDS:packagegroup-containerd =3D " \
+>      virtual-containerd \
+>      packagegroup-cni \
+> -    containerd-cni \
+> +    ${@bb.utils.contains_any('DISTRO_FEATURES','k3s k8s','','containerd-=
+cni',d)} \
+>      nerdctl \
+>      tini \
+>  "
+> --
+> 2.34.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#9261): https://lists.yoctoproject.org/g/meta-virtuali=
+zation/message/9261
+> Mute This Topic: https://lists.yoctoproject.org/mt/113339575/1050810
+> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [=
+bruce.ashfield@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+>
+
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end
+- "Use the force Harry" - Gandalf, Star Trek II
+
+--00000000000094652b06374b2041
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
+t-size:small"><br></div></div><br><div class=3D"gmail_quote gmail_quote_con=
+tainer"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Jun 11, 2025 at 3:19=
+=E2=80=AFAM Changqing Li &lt;<a href=3D"mailto:changqing.li@windriver.com">=
+changqing.li@windriver.com</a>&gt; wrote:<br></div><blockquote class=3D"gma=
+il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,2=
+04,204);padding-left:1ex"><u></u>
+
+ =20
+  <div bgcolor=3D"#cceed0">
+    <p><br>
+    </p>
+    <div>On 6/5/25 10:29, Bruce Ashfield wrote:<br>
+    </div>
+    <blockquote type=3D"cite">
+      <pre>CAUTION: This email comes from a non Wind River email account!
+Do not click links or open attachments unless you recognize the sender and =
+know the content is safe.
+
+In message: [meta-virtualization][walnascar][master][PATCH] containerd: mak=
+e cni_networking conditional
+on 28/05/2025 Changqing Li via <a href=3D"http://lists.yoctoproject.org" ta=
+rget=3D"_blank">lists.yoctoproject.org</a> wrote:
+
+</pre>
+      <blockquote type=3D"cite">
+        <pre>From: Changqing Li <a href=3D"mailto:changqing.li@windriver.co=
+m" target=3D"_blank">&lt;changqing.li@windriver.com&gt;</a>
+
+make cni_networking conditional, when k3s, k8s is enabled, the
+networking configuration will be provided by the orchestration package,
+containerd-cni is not needed. This is for fix the following error:
+PACKAGE_CLASSES =3D &quot;package_deb&quot;
+do_rootfs failed with error:
+dpkg: error processing archive /path/to/oe-rootfs-repo/corei7-64/./kubernet=
+es-cni_v1.32.0+git0+5fe148234f_release-r0.deb (--unpack):
+trying to overwrite &#39;/etc/cni/net.d/cni-containerd-net.conflist&#39;, w=
+hich is also in package containerd-cni v2.0.5-r0
+</pre>
+      </blockquote>
+      <pre>We shouldn&#39;t need to do this to fix the package install. Whe=
+ther we need
+to do it to make sure networking configurations don&#39;t conflict is a sep=
+arate
+question (and one that we need more information to decide on).
+
+The design of the cni_networking is to allow co-existence of packages
+that need to configure cni networking. So we don&#39;t have to do what
+you&#39;ve tried to do in this patch.
+
+Let&#39;s rename the files referenced in CNI_NETWORKING_FILES to something
+more specific to the kubernetes packages and then they can both be
+installed at the same time.
+
+That&#39;s one patch.
+
+If you can show me that the two networking configurations being installed
+at the same time cause issues, we can then do the coordination betwen
+the packages similarly to what you are doing here in a second, separate
+patch.
+
+Bruce</pre>
+    </blockquote>
+    <p>Hi, Bruce</p>
+    <p>Sorry,=C2=A0 I did not notice this mail before.=C2=A0</p>
+    <p>According to kubernetes doc:</p>
+    <p>&quot;If there are multiple CNI configuration files in the directory=
+,
+      the kubelet uses the configuration file that comes first by name
+      in lexicographic order.&quot;</p>
+    <p>Now,=C2=A0 both <span style=3D"white-space:pre-wrap">containerd-cni =
+and </span><span style=3D"white-space:pre-wrap">kubernetes-cni  use name cn=
+i-containerd-net.conflist.</span></p>
+    <p><span style=3D"white-space:pre-wrap">How about keep </span><span sty=
+le=3D"white-space:pre-wrap">containerd-cni use </span><span style=3D"white-=
+space:pre-wrap">name cni-containerd-net.conflist, and let </span><span styl=
+e=3D"white-space:pre-wrap">kubernetes-cni use 00_</span><span style=3D"whit=
+e-space:pre-wrap"></span><span style=3D"white-space:pre-wrap">cni-container=
+d-net.conflist,  so that configuration in </span><span style=3D"white-space=
+:pre-wrap">kubernetes-cni</span></p>
+    <p><span style=3D"white-space:pre-wrap">will be used if both package in=
+stalled? </span></p>
+    <p><span style=3D"white-space:pre-wrap"></span></p></div></blockquote><=
+div><br></div><div><div class=3D"gmail_default" style=3D"font-size:small">T=
+hat would be a fine solution!</div><div class=3D"gmail_default" style=3D"fo=
+nt-size:small"><br></div><div class=3D"gmail_default" style=3D"font-size:sm=
+all">Bruce</div><br></div><div><br></div><blockquote class=3D"gmail_quote" =
+style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pa=
+dding-left:1ex"><div bgcolor=3D"#cceed0"><p><span style=3D"white-space:pre-=
+wrap">
+</span></p>
+    <p><span style=3D"white-space:pre-wrap">Regards</span></p>
+    <p><span style=3D"white-space:pre-wrap">//Changqing
+</span></p>
+    <p><br>
+    </p>
+    <blockquote type=3D"cite">
+      <pre></pre>
+      <blockquote type=3D"cite">
+        <pre>Refer [1], &quot;--no-force-overwrite&quot; is set for dpkg, s=
+o above error
+occurred.
+
+[1] <a href=3D"https://git.openembedded.org/openembedded-core/commit/?id=3D=
+cb95ba079960411775c57ab864d266e15a6292d1" target=3D"_blank">https://git.ope=
+nembedded.org/openembedded-core/commit/?id=3Dcb95ba079960411775c57ab864d266=
+e15a6292d1</a>
+
+Signed-off-by: Changqing Li <a href=3D"mailto:changqing.li@windriver.com" t=
+arget=3D"_blank">&lt;changqing.li@windriver.com&gt;</a>
 ---
- recipes-containers/podman/podman/run-ptest | 13 -----------
- recipes-containers/podman/podman_git.bb    | 27 +---------------------
- 2 files changed, 1 insertion(+), 39 deletions(-)
- delete mode 100644 recipes-containers/podman/podman/run-ptest
+ recipes-containers/containerd/<a href=3D"http://containerd_git.bb" target=
+=3D"_blank">containerd_git.bb</a>      | 2 +-
+ recipes-core/packagegroups/<a href=3D"http://packagegroup-container.bb" ta=
+rget=3D"_blank">packagegroup-container.bb</a> | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/recipes-containers/podman/podman/run-ptest b/recipes-containers/podman/podman/run-ptest
-deleted file mode 100644
-index 108ff451..00000000
---- a/recipes-containers/podman/podman/run-ptest
-+++ /dev/null
-@@ -1,13 +0,0 @@
--#!/bin/sh
--
--# SPDX-FileCopyrightText: Huawei Inc.
--#
--# SPDX-License-Identifier: MIT
--
--#
--# Podman system tests
--#
--
--# The system tests don't need any go related variables. Dummy-define them to
--# avoid useless warnings/errors.
--GOOS=undefined GO=true BUILDTAGS= make localsystem
-diff --git a/recipes-containers/podman/podman_git.bb b/recipes-containers/podman/podman_git.bb
-index 46c6c969..8d8e0f05 100644
---- a/recipes-containers/podman/podman_git.bb
-+++ b/recipes-containers/podman/podman_git.bb
-@@ -20,7 +20,6 @@ SRCREV = "227df90eb7c021097c9ba5f8000c83648a598028"
- SRC_URI = " \
-     git://github.com/containers/libpod.git;branch=v5.4;protocol=https;destsuffix=${GO_SRCURI_DESTSUFFIX} \
-     ${@bb.utils.contains('PACKAGECONFIG', 'rootless', 'file://50-podman-rootless.conf', '', d)} \
--    file://run-ptest \
- "
- 
- LICENSE = "Apache-2.0"
-@@ -55,7 +54,7 @@ export BUILDFLAGS = "${GOBUILDFLAGS}"
- 
- inherit go goarch
- inherit container-host
--inherit systemd pkgconfig ptest
-+inherit systemd pkgconfig
- 
- do_configure[noexec] = "1"
- 
-@@ -128,17 +127,6 @@ do_install() {
- 	fi
- }
- 
--do_install_ptest () {
--	cp ${S}/src/import/Makefile ${D}${PTEST_PATH}
--	install -d ${D}${PTEST_PATH}/test
--	cp -r ${S}/src/import/test/system ${D}${PTEST_PATH}/test
--
--	# Some compatibility links for the Makefile assumptions.
--	install -d ${D}${PTEST_PATH}/bin
--	ln -s ${bindir}/podman ${D}${PTEST_PATH}/bin/podman
--	ln -s ${bindir}/podman-remote ${D}${PTEST_PATH}/bin/podman-remote
--}
--
- FILES:${PN} += " \
-     ${systemd_unitdir}/system/* \
-     ${nonarch_libdir}/systemd/* \
-@@ -169,16 +157,3 @@ RRECOMMENDS:${PN} += "slirp4netns \
-                       kernel-module-xt-tcpudp \
-                       "
- RCONFLICTS:${PN} = "${@bb.utils.contains('PACKAGECONFIG', 'docker', 'docker', '', d)}"
--
--RDEPENDS:${PN}-ptest += " \
--	bash \
--	bats \
--	buildah \
--	coreutils \
--	file \
--	gnupg \
--	jq \
--	make \
--	skopeo \
--	tar \
--"
--- 
+diff --git a/recipes-containers/containerd/<a href=3D"http://containerd_git=
+.bb" target=3D"_blank">containerd_git.bb</a> b/recipes-containers/container=
+d/<a href=3D"http://containerd_git.bb" target=3D"_blank">containerd_git.bb<=
+/a>
+index c683fbeb..def7591a 100644
+--- a/recipes-containers/containerd/<a href=3D"http://containerd_git.bb" ta=
+rget=3D"_blank">containerd_git.bb</a>
++++ b/recipes-containers/containerd/<a href=3D"http://containerd_git.bb" ta=
+rget=3D"_blank">containerd_git.bb</a>
+@@ -102,4 +102,4 @@ RDEPENDS:${PN} +=3D &quot; ${VIRTUAL-RUNTIME_container_=
+runtime}&quot;
+ ## This may need to be made conditional on K3S or similar being
+ ## configured in the distro, since we may have collisions.
+ CNI_NETWORKING_FILES ?=3D &quot;${UNPACKDIR}/cni-containerd-net.conflist&q=
+uot;
+-inherit cni_networking
++inherit_defer ${@bb.utils.contains_any(&#39;DISTRO_FEATURES&#39;, &#39;k3s=
+ k8s&#39;, &#39;&#39;, &#39;cni_networking&#39;, d)}
+diff --git a/recipes-core/packagegroups/<a href=3D"http://packagegroup-cont=
+ainer.bb" target=3D"_blank">packagegroup-container.bb</a> b/recipes-core/pa=
+ckagegroups/<a href=3D"http://packagegroup-container.bb" target=3D"_blank">=
+packagegroup-container.bb</a>
+index f5e20344..8cbcf28e 100644
+--- a/recipes-core/packagegroups/<a href=3D"http://packagegroup-container.b=
+b" target=3D"_blank">packagegroup-container.bb</a>
++++ b/recipes-core/packagegroups/<a href=3D"http://packagegroup-container.b=
+b" target=3D"_blank">packagegroup-container.bb</a>
+@@ -69,7 +69,7 @@ RDEPENDS:packagegroup-oci =3D &quot; \
+ RDEPENDS:packagegroup-containerd =3D &quot; \
+     virtual-containerd \
+     packagegroup-cni \
+-    containerd-cni \
++    ${@bb.utils.contains_any(&#39;DISTRO_FEATURES&#39;,&#39;k3s k8s&#39;,&=
+#39;&#39;,&#39;containerd-cni&#39;,d)} \
+     nerdctl \
+     tini \
+ &quot;
+--
 2.34.1
 
+</pre>
+      </blockquote>
+      <pre></pre>
+      <blockquote type=3D"cite">
+        <pre>-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+Links: You receive all messages sent to this group.
+View/Reply Online (#9261): <a href=3D"https://lists.yoctoproject.org/g/meta=
+-virtualization/message/9261" target=3D"_blank">https://lists.yoctoproject.=
+org/g/meta-virtualization/message/9261</a>
+Mute This Topic: <a href=3D"https://lists.yoctoproject.org/mt/113339575/105=
+0810" target=3D"_blank">https://lists.yoctoproject.org/mt/113339575/1050810=
+</a>
+Group Owner: <a href=3D"mailto:meta-virtualization+owner@lists.yoctoproject=
+.org" target=3D"_blank">meta-virtualization+owner@lists.yoctoproject.org</a=
+>
+Unsubscribe: <a href=3D"https://lists.yoctoproject.org/g/meta-virtualizatio=
+n/unsub" target=3D"_blank">https://lists.yoctoproject.org/g/meta-virtualiza=
+tion/unsub</a> [<a href=3D"mailto:bruce.ashfield@gmail.com" target=3D"_blan=
+k">bruce.ashfield@gmail.com</a>]
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+
+</pre>
+      </blockquote>
+      <pre></pre>
+    </blockquote>
+  </div>
+
+</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
+=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
+ignature">- Thou shalt not follow the NULL pointer, for chaos and madness a=
+wait thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star T=
+rek II<br><br></div></div>
+
+--00000000000094652b06374b2041--
 
