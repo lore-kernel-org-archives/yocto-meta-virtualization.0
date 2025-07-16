@@ -1,454 +1,572 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <raitosyo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F60FC83F22
-	for <webhook@archiver.kernel.org>; Wed, 16 Jul 2025 13:20:56 +0000 (UTC)
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
- by mx.groups.io with SMTP id smtpd.web11.21951.1752672051545436053
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 201F2C83F22
+	for <webhook@archiver.kernel.org>; Wed, 16 Jul 2025 13:28:26 +0000 (UTC)
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+ by mx.groups.io with SMTP id smtpd.web11.22102.1752672499077793430
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 16 Jul 2025 06:20:51 -0700
+ Wed, 16 Jul 2025 06:28:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=BTkjO1J5;
- spf=pass (domain: gmail.com, ip: 209.85.210.175, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-74931666cbcso5293250b3a.0
-        for <meta-virtualization@lists.yoctoproject.org>; Wed, 16 Jul 2025 06:20:51 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=TZrDu65V;
+ spf=pass (domain: gmail.com, ip: 209.85.214.176, mailfrom: raitosyo@gmail.com)
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-237e6963f63so39360755ad.2
+        for <meta-virtualization@lists.yoctoproject.org>; Wed, 16 Jul 2025 06:28:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752672051; x=1753276851; darn=lists.yoctoproject.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=UuUQn+JnZmBCwoLdT/eiFvabx0lF5UiUz7gs3k4EtI0=;
-        b=BTkjO1J5EEnnvv2KFq+wYYYWXjEyc+OkseT4UUIEvKLfpEf05Qp8BnNcbUqpRQd0FT
-         fYXTAGzjtcoRgThZJAfBXFSqEzA8TnV/lUG+MjuiFeNoeCyrpSGzXCx7+Q7QAPx9ngp/
-         Xb/8nWnukkCcQ3Eh1iXXP9rGmxmhaTS1kzqd8y7lBzSuzh9y6pwCiHeFGOe/xQ+ehH8+
-         cgT8szRp78J3JL7LgwhfAmP2h51ZS76aDU0+BsR2j83lSBav46u7YI7LpyX+TcVAi8Zn
-         jS5Ny70Uy409pMxBt5mNXslo9qbAz0EngYglNj7xJTmZl6EAUvyjBQIDBGbtgyolQsU1
-         KBYA==
+        d=gmail.com; s=20230601; t=1752672498; x=1753277298; darn=lists.yoctoproject.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=FsixYClx3NlZW+EEyC/yE74pkMp3i9rpuBrrf9oGYOY=;
+        b=TZrDu65VoU5KyVNCs3EtohS1mLL12/iSuN7nbm0U/AHnF2YrhwcSc3IlS6u0AOHDEy
+         RWjXDYUrOcdnzgnMOCrfe9RDmpdNPU5UvkhAcph9B3LLHCV5sDUed9x5WcB7mJxuGyl2
+         Q9aav4PheEU6A6peyttwDG0MrmYwx7FP1sPNepViquF8xisV+PlJWuqDLpoJp9W+XGJm
+         mHoRBNrxHnwTfbaBaS3hjum7F8E6aeODMAzR0yHZGmJ9SS9M28wAJ5Hnbo0ghvhMWRqB
+         GFgmqkFEpevYGx+9vtAmBMEB4dc4m301vVaPvPl9A+WMiiQPHQD7y9huWQqeATDOVovy
+         jiNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752672051; x=1753276851;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1752672498; x=1753277298;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=UuUQn+JnZmBCwoLdT/eiFvabx0lF5UiUz7gs3k4EtI0=;
-        b=i5umVswXnJoEIVshW6kLqAeKHm0FERwLEFrZCfPgQc/vyTZgcE/Q+BX1c+5GbWDhF+
-         PRqAq7sPFcBLtYT0H3Ub+ybrSPe0SHxigDG+cEwgQKqBMmWZtlz7LoBb3EowOsMo3N79
-         VXNj9s/HAbVsyQZj+ljbYZEoUIrdCYVVOUibJAgmk146NPPO9z02TucTfgEKq9dKZ7pJ
-         ANsrGS0Zg9PTi54YOhJoWcVBbKDkZlCYvnoFz2BwgVfg58pr8px+Lab1ltCDrsdfJVWv
-         gPjt1lgb4dXXEZEEbohbUXEhNa2gkYGH5Ij+gJemIjAYoPwTmZUNHF40FdjWETN8xTkS
-         of2Q==
-X-Gm-Message-State: AOJu0YyyMCui7/iYWMEbzzqMmgCgP022Ft9SzRn+ajDT85MFtDNr/ysp
-	hoTZFZR9NJEdeztdKibNwlM6V2aj4LS5Blexed1JZlI5uQFcWsFrLs6nxjew4P3BL0NiFJwkvF+
-	jBOcKGSygDyhR+byFKKUrMdMvAQrprVk=
-X-Gm-Gg: ASbGncv20rqKKlVH7Bl0lTbTYHr7wFQBXQ0Hf83idpcmg/YgJ8SbhHpsA24j4v3yk8W
-	m5/IgJgRieWDME5/jIidZz8winIbJHv1uBVs7Ct0rGP/SHGRwCUwJQHwxlp2vyNGVsqXL+7y0l/
-	TJ9fR/dwI5g9thTBue3bHJBIa9yhAJGjpR5felY4I15K3ICFWMpHTp/GgCQxyEOo3P+99hq/uAA
-	cX2u34u
-X-Google-Smtp-Source: AGHT+IEslxD3jImZe6cyUsEoYUbsTAVtonOexPsBGnLKXOyXswoxNBmcp8MVPHuX7cj8rziAtE80fVPlO2owwpmzLws=
-X-Received: by 2002:a17:90b:2d85:b0:312:51a9:5d44 with SMTP id
- 98e67ed59e1d1-31c9e6ed862mr4357377a91.5.1752672050544; Wed, 16 Jul 2025
- 06:20:50 -0700 (PDT)
+        bh=FsixYClx3NlZW+EEyC/yE74pkMp3i9rpuBrrf9oGYOY=;
+        b=K0K71Mr0DKhaE7QU+lW9SXS1GnS2W5Hvw08MeQLZB5Ex+A391RkbdoNSCET5pQs5mm
+         O5B1FV74ujj1PdpMicunpC33FxkCG97CXnOmeg5jhuzvMFYe+de0Ri9lH0ZUXj1rfET8
+         c1k6MNuXpLZl0Zvoq109DeencakEX4nRFkGahe7D2FXThH3jJpwbSldPLX2mVz0KWC1Z
+         Yd3jOVvCNxjSurEm6y7hTxn9/2kvfa1sCkpMBesV5mw1lb1GA7p/nnQoUy6oLeuXDg0c
+         oaicey2nizL+JOAcQT/e5U3loWQzM95RGPai9EnMiJiOLtOutJnLuyQr0SQZpBbrt/JY
+         SI0Q==
+X-Gm-Message-State: AOJu0YywqhdInNKirFlmVzRv5hzU/oeBW3nSlyxCXTwemj0ln8mQmkKL
+	AL/mzAV9/k2Oj6u7HtaIJ8s1AfK1i7XfM5+jA3C6FUV2tdkKKFJreodhulSUKg==
+X-Gm-Gg: ASbGncv/G4IaTmnkxKYUn8tZP7Z9oLr0/mNIECHp1okX0Fx+SVSjX1box/1Nrua1r6B
+	CE8Cux8VYlwG+ztOoDPPmSuMmYF8btEb/LfU1OBUsToR7FloIMi6JxWARS1svOkEGiH/XPmIVX1
+	X0GCjet+BfkuAVyDKjSpPKaQp0vbx3ag2AQolzs+ZNkxzA/enY3Bo1duh/Rf9gJS0abbVeSwYyU
+	K2kQUzpgUySpv4xdMyAwyvo3UZQ/33M9FkbE2ffnxRshAttxo7OzzLSINm+FeHe2W/vDheg7xQF
+	Z+giFXxKOxvvDqM/I4MsHq78JvoAoIPt7FIhhRs47rKojlqENrix0j4vDyMrTCPtawOD4lENLtl
+	Yjhm4y+Si8xw7F5I=
+X-Google-Smtp-Source: AGHT+IGsto8Cv0OD8aQfioIKyUlrXaaQO5s4XLVBWe53KZfsotRVAqatW9ceXZvapeEtMhmyzcZ79w==
+X-Received: by 2002:a17:90b:51c3:b0:311:e731:523a with SMTP id 98e67ed59e1d1-31c9f44b9cemr4095168a91.11.1752672497837;
+        Wed, 16 Jul 2025 06:28:17 -0700 (PDT)
+Received: from fedora ([240d:1a:3a7:a400:9a57:aa11:487a:b54f])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-31c9f1fba76sm1517123a91.26.2025.07.16.06.28.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Jul 2025 06:28:17 -0700 (PDT)
+From: Ryosuke Saito <raitosyo@gmail.com>
+To: meta-virtualization@lists.yoctoproject.org
+Cc: raitosyo@gmail.com
+Subject: [meta-virtualization][m-c-s][PATCH] meta-openstack: Add whitespaces around variable assignments
+Date: Wed, 16 Jul 2025 22:28:08 +0900
+Message-ID: <20250716132808.694578-1-raitosyo@gmail.com>
+X-Mailer: git-send-email 2.50.0
 MIME-Version: 1.0
-References: <20250716055943.446042-1-Qi.Chen@windriver.com>
-In-Reply-To: <20250716055943.446042-1-Qi.Chen@windriver.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 16 Jul 2025 09:20:41 -0400
-X-Gm-Features: Ac12FXy_c-Lx7obI7JhqjIMDYvBqp-jYfzyGRzjq8_E8xZWI1HvGRiTEPYyyCEM
-Message-ID: <CADkTA4Mk+4ihsLWHboC0_iLNEgkZdb8R+Wkh54JADtn0yhPZRg@mail.gmail.com>
-Subject: Re: [meta-virtualization][m-c-s][PATCH] meta-cloud-services: remove
- invalid S settings
-To: Qi.Chen@windriver.com
-Cc: meta-virtualization@lists.yoctoproject.org
-Content-Type: multipart/alternative; boundary="000000000000fb04a4063a0bc245"
+Content-Transfer-Encoding: 8bit
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Wed, 16 Jul 2025 13:20:56 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9310
+ <meta-virtualization@lists.yoctoproject.org>; Wed, 16 Jul 2025 13:28:26 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9311
 
---000000000000fb04a4063a0bc245
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Ryosuke Saito <ryosuke.saito@linaro.org>
 
-On Wed, Jul 16, 2025 at 2:00=E2=80=AFAM Chen Qi via lists.yoctoproject.org =
-<Qi.Chen=3D
-windriver.com@lists.yoctoproject.org> wrote:
+Silence QA warnings about missing spaces around the assignments:
 
-> From: Chen Qi <Qi.Chen@windriver.com>
->
-> Due to recent oe-core's change about UNPACKDIR/S, these settings
-> are no longer valid and are causing errors.
->
-> The git fetcher in bitbake now defaults to fetch git source to
-> be under /${BP} instead of /git. So using '/git' is no longer valid.
->
-> In addition, S now locates under ${UNPACKDIR} instead of ${WORKDIR}.
->
-> So the default value of S (S =3D "${UNPACKDIR}/${BP}" from bitbake.conf)
-> is already enough and do not need any further settings for these git
-> recipes.
->
+WARNING: python-ceilometer_git.bb:25 has a lack of whitespace around the assignment:
+ 'KEYSTONE_HOST="${CONTROLLER_IP}"'
+WARNING: python-cinder_git.bb:39 has a lack of whitespace around the assignment:
+ 'KEYSTONE_HOST="${CONTROLLER_IP}"'
+...
 
+Signed-off-by: Ryosuke Saito <ryosuke.saito@linaro.org>
+---
+ meta-openstack/classes/monitor.bbclass             | 12 ++++++------
+ .../recipes-devtools/python/python-barbican_git.bb |  2 +-
+ .../python/python-ceilometer_git.bb                |  2 +-
+ .../recipes-devtools/python/python-cinder_git.bb   |  2 +-
+ .../python/python-cinderclient_git.bb              |  4 ++--
+ .../recipes-devtools/python/python-glance_git.bb   |  2 +-
+ .../recipes-devtools/python/python-heat_git.bb     |  2 +-
+ .../python/python-heatclient_git.bb                |  2 +-
+ .../python/python-keystone-hybrid-backend_git.bb   |  4 ++--
+ .../recipes-devtools/python/python-keystone_git.bb |  2 +-
+ .../python/python-neutron-lib_git.bb               |  4 ++--
+ .../recipes-devtools/python/python-neutron_git.bb  |  2 +-
+ .../recipes-devtools/python/python-nova_git.bb     |  2 +-
+ .../recipes-devtools/python/python-rally_git.bb    |  4 ++--
+ .../recipes-devtools/python/python-swift_git.bb    |  6 +++---
+ .../recipes-devtools/python/python-trove_git.bb    |  6 +++---
+ .../python/python3-glance-store_git.bb             |  4 ++--
+ .../python/python3-magnumclient_3.3.0.bb           |  2 +-
+ .../python/python3-manilaclient_2.4.0.bb           |  2 +-
+ .../python/python3-mistralclient_4.1.1.bb          |  2 +-
+ .../python/python3-taskflow_git.bb                 |  4 ++--
+ .../python/python3-zaqarclient_2.0.0.bb            |  2 +-
+ .../recipes-extended/guest-images/cirros_0.3.2.bb  |  4 ++--
+ meta-openstack/recipes-extended/qpid/qpid_0.20.bb  |  2 +-
+ .../recipes-extended/tempest/tempest_git.bb        |  6 +++---
+ meta-openstack/recipes-extended/uwsgi/uwsgi_git.bb |  4 ++--
+ meta-openstack/recipes-support/salt/salt_3001.1.bb | 14 +++++++-------
+ 27 files changed, 52 insertions(+), 52 deletions(-)
+ mode change 100755 => 100644 meta-openstack/recipes-devtools/python/python-trove_git.bb
 
-Ooops. My mistake on this, I was so busy doing the package uprevs in
-meta-virt,
-that I forgot to commit and push my changes to m-c-s.
+diff --git a/meta-openstack/classes/monitor.bbclass b/meta-openstack/classes/monitor.bbclass
+index e21778003618..7810b9b93c31 100644
+--- a/meta-openstack/classes/monitor.bbclass
++++ b/meta-openstack/classes/monitor.bbclass
+@@ -1,9 +1,9 @@
+-MONITOR_STAGING_DIR="${STAGING_DIR}/monitor"
+-MONITOR_STAGING_SERVICES_DIR="${MONITOR_STAGING_DIR}/services"
+-MONITOR_STAGING_CHECKS_DIR="${MONITOR_STAGING_DIR}/checks"
+-MONITOR_CONFIG_DIR="${IMAGE_ROOTFS}/etc/monitor"
+-MONITOR_CONFIG_SERVICES_DIR="${MONITOR_CONFIG_DIR}/services"
+-MONITOR_CONFIG_CHECKS_DIR="${MONITOR_CONFIG_DIR}/checks"
++MONITOR_STAGING_DIR = "${STAGING_DIR}/monitor"
++MONITOR_STAGING_SERVICES_DIR = "${MONITOR_STAGING_DIR}/services"
++MONITOR_STAGING_CHECKS_DIR = "${MONITOR_STAGING_DIR}/checks"
++MONITOR_CONFIG_DIR = "${IMAGE_ROOTFS}/etc/monitor"
++MONITOR_CONFIG_SERVICES_DIR = "${MONITOR_CONFIG_DIR}/services"
++MONITOR_CONFIG_CHECKS_DIR = "${MONITOR_CONFIG_DIR}/checks"
+ 
+ addtask monitor_install before do_package after do_install
+ addtask monitor_clean before do_clean
+diff --git a/meta-openstack/recipes-devtools/python/python-barbican_git.bb b/meta-openstack/recipes-devtools/python/python-barbican_git.bb
+index c71229d421af..7a07f04a4385 100644
+--- a/meta-openstack/recipes-devtools/python/python-barbican_git.bb
++++ b/meta-openstack/recipes-devtools/python/python-barbican_git.bb
+@@ -22,7 +22,7 @@ S = "${WORKDIR}/git"
+ inherit update-rc.d setuptools3 identity hosts useradd default_configs monitor
+ 
+ SERVICECREATE_PACKAGES = "${SRCNAME}-setup"
+-KEYSTONE_HOST="${CONTROLLER_IP}"
++KEYSTONE_HOST = "${CONTROLLER_IP}"
+ 
+ # USERCREATE_PARAM and SERVICECREATE_PARAM contain the list of parameters to be set.
+ # If the flag for a parameter in the list is not set here, the default value will be given to that parameter.
+diff --git a/meta-openstack/recipes-devtools/python/python-ceilometer_git.bb b/meta-openstack/recipes-devtools/python/python-ceilometer_git.bb
+index ca5d62f3b648..537a854fe8e2 100644
+--- a/meta-openstack/recipes-devtools/python/python-ceilometer_git.bb
++++ b/meta-openstack/recipes-devtools/python/python-ceilometer_git.bb
+@@ -22,7 +22,7 @@ S = "${WORKDIR}/git"
+ CEILOMETER_SECRET ?= "12121212"
+ 
+ SERVICECREATE_PACKAGES = "${SRCNAME}-setup ${SRCNAME}-reseller"
+-KEYSTONE_HOST="${CONTROLLER_IP}"
++KEYSTONE_HOST = "${CONTROLLER_IP}"
+ 
+ # USERCREATE_PARAM and SERVICECREATE_PARAM contain the list of parameters to be set.
+ # If the flag for a parameter in the list is not set here, the default value will be given to that parameter.
+diff --git a/meta-openstack/recipes-devtools/python/python-cinder_git.bb b/meta-openstack/recipes-devtools/python/python-cinder_git.bb
+index 2a3ef47be906..44d6250e4438 100644
+--- a/meta-openstack/recipes-devtools/python/python-cinder_git.bb
++++ b/meta-openstack/recipes-devtools/python/python-cinder_git.bb
+@@ -36,7 +36,7 @@ USERADD_PARAM:${PN} = "--system -m -d ${localstatedir}/lib/cinder -s /bin/false
+ 
+ CINDER_BACKUP_BACKEND_DRIVER ?= "cinder.backup.drivers.swift"
+ 
+-KEYSTONE_HOST="${CONTROLLER_IP}"
++KEYSTONE_HOST = "${CONTROLLER_IP}"
+ 
+ CINDER_LVM_VOLUME_BACKING_FILE_SIZE ?= "2G"
+ CINDER_NFS_VOLUME_SERVERS_DEFAULT = "controller:/etc/cinder/nfs_volumes"
+diff --git a/meta-openstack/recipes-devtools/python/python-cinderclient_git.bb b/meta-openstack/recipes-devtools/python/python-cinderclient_git.bb
+index bd360edfe6a8..8f4b69cd5d9e 100644
+--- a/meta-openstack/recipes-devtools/python/python-cinderclient_git.bb
++++ b/meta-openstack/recipes-devtools/python/python-cinderclient_git.bb
+@@ -12,8 +12,8 @@ SRC_URI = "\
+ 	file://cinder-api-check.sh \
+ 	"
+ 
+-PV="3.1.0+git${SRCPV}"
+-SRCREV="3640aeab6e11987288a2f149fbeedb1c026045e2"
++PV = "3.1.0+git${SRCPV}"
++SRCREV = "3640aeab6e11987288a2f149fbeedb1c026045e2"
+ S = "${WORKDIR}/git"
+ 
+ inherit setuptools3 monitor
+diff --git a/meta-openstack/recipes-devtools/python/python-glance_git.bb b/meta-openstack/recipes-devtools/python/python-glance_git.bb
+index 9fa23ed8dcdc..73142cc0e3d3 100644
+--- a/meta-openstack/recipes-devtools/python/python-glance_git.bb
++++ b/meta-openstack/recipes-devtools/python/python-glance_git.bb
+@@ -37,7 +37,7 @@ GLANCE_KNOWN_STORES ?= "glance.store.rbd.Store,\
+ 
+ 
+ SERVICECREATE_PACKAGES = "${SRCNAME}-setup"
+-KEYSTONE_HOST="${CONTROLLER_IP}"
++KEYSTONE_HOST = "${CONTROLLER_IP}"
+ 
+ # USERCREATE_PARAM and SERVICECREATE_PARAM contain the list of parameters to be set.
+ # If the flag for a parameter in the list is not set here, the default value will be given to that parameter.
+diff --git a/meta-openstack/recipes-devtools/python/python-heat_git.bb b/meta-openstack/recipes-devtools/python/python-heat_git.bb
+index 00709283a652..0a483e0c3ede 100644
+--- a/meta-openstack/recipes-devtools/python/python-heat_git.bb
++++ b/meta-openstack/recipes-devtools/python/python-heat_git.bb
+@@ -20,7 +20,7 @@ PV = "5.0.0+git${SRCPV}"
+ S = "${WORKDIR}/git"
+ 
+ SERVICECREATE_PACKAGES = "${SRCNAME}-setup ${SRCNAME}-templates ${SRCNAME}-cfn"
+-KEYSTONE_HOST="${CONTROLLER_IP}"
++KEYSTONE_HOST = "${CONTROLLER_IP}"
+ 
+ # USERCREATE_PARAM and SERVICECREATE_PARAM contain the list of parameters to be set.
+ # If the flag for a parameter in the list is not set here, the default value will be given to that parameter.
+diff --git a/meta-openstack/recipes-devtools/python/python-heatclient_git.bb b/meta-openstack/recipes-devtools/python/python-heatclient_git.bb
+index 0c153805d322..a54f65216225 100644
+--- a/meta-openstack/recipes-devtools/python/python-heatclient_git.bb
++++ b/meta-openstack/recipes-devtools/python/python-heatclient_git.bb
+@@ -14,7 +14,7 @@ DEPENDS += " \
+         python-pbr-native \
+         "
+ 
+-RDEPENDS:${PN} +="python-cliff \
++RDEPENDS:${PN} += "python-cliff \
+ 	python-httplib2 \
+ 	python-iso8601 \
+ 	python-prettytable \
+diff --git a/meta-openstack/recipes-devtools/python/python-keystone-hybrid-backend_git.bb b/meta-openstack/recipes-devtools/python/python-keystone-hybrid-backend_git.bb
+index 72f5a04d8664..e316ab05d808 100644
+--- a/meta-openstack/recipes-devtools/python/python-keystone-hybrid-backend_git.bb
++++ b/meta-openstack/recipes-devtools/python/python-keystone-hybrid-backend_git.bb
+@@ -8,8 +8,8 @@ PR = "r0"
+ 
+ SRC_URI = "git://github.com/SUSE-Cloud/keystone-hybrid-backend.git;branch=havana;protocol=https"
+ 
+-PV="git${SRCPV}"
+-SRCREV="0bd376242f8522edef7031d2339b9533b86c17aa"
++PV = "git${SRCPV}"
++SRCREV = "0bd376242f8522edef7031d2339b9533b86c17aa"
+ S = "${WORKDIR}/git"
+ 
+ inherit python3-dir
+diff --git a/meta-openstack/recipes-devtools/python/python-keystone_git.bb b/meta-openstack/recipes-devtools/python/python-keystone_git.bb
+index a1b5dd0bb339..6470438daa53 100644
+--- a/meta-openstack/recipes-devtools/python/python-keystone_git.bb
++++ b/meta-openstack/recipes-devtools/python/python-keystone_git.bb
+@@ -37,7 +37,7 @@ USERADD_PARAM:${PN} = "--system -m -s /bin/false keystone"
+ LDAP_DN ?= "dc=my-domain,dc=com"
+ 
+ SERVICECREATE_PACKAGES = "${SRCNAME}-setup"
+-KEYSTONE_HOST="${CONTROLLER_IP}"
++KEYSTONE_HOST = "${CONTROLLER_IP}"
+ 
+ # USERCREATE_PARAM and SERVICECREATE_PARAM contain the list of parameters to be
+ # set.  If the flag for a parameter in the list is not set here, the default
+diff --git a/meta-openstack/recipes-devtools/python/python-neutron-lib_git.bb b/meta-openstack/recipes-devtools/python/python-neutron-lib_git.bb
+index 343942f4484a..5835f74cd2fd 100644
+--- a/meta-openstack/recipes-devtools/python/python-neutron-lib_git.bb
++++ b/meta-openstack/recipes-devtools/python/python-neutron-lib_git.bb
+@@ -8,8 +8,8 @@ SRC_URI = "\
+ 	git://git.openstack.org/openstack/neutron-lib.git;branch=stable/pike \
+ 	"
+ 
+-PV="1.9.1+git${SRCPV}"
+-SRCREV="f0d7e470c2ef1702b2715ceb2fd8a00fce2a23be"
++PV = "1.9.1+git${SRCPV}"
++SRCREV = "f0d7e470c2ef1702b2715ceb2fd8a00fce2a23be"
+ S = "${WORKDIR}/git"
+ 
+ inherit setuptools3
+diff --git a/meta-openstack/recipes-devtools/python/python-neutron_git.bb b/meta-openstack/recipes-devtools/python/python-neutron_git.bb
+index 11dbb843824f..f67c62b72ea2 100644
+--- a/meta-openstack/recipes-devtools/python/python-neutron_git.bb
++++ b/meta-openstack/recipes-devtools/python/python-neutron_git.bb
+@@ -42,7 +42,7 @@ GROUPADD_PARAM:${PN} = "--system ${GROUP}"
+ USERADD_PARAM:${PN} = "--system -m -d ${localstatedir}/lib/neutron -s /bin/false -g ${GROUP} ${USER}"
+ 
+ SERVICECREATE_PACKAGES = "${SRCNAME}-setup"
+-KEYSTONE_HOST="${CONTROLLER_IP}"
++KEYSTONE_HOST = "${CONTROLLER_IP}"
+ 
+ # USERCREATE_PARAM and SERVICECREATE_PARAM contain the list of parameters to be set.
+ # If the flag for a parameter in the list is not set here, the default value will be given to that parameter.
+diff --git a/meta-openstack/recipes-devtools/python/python-nova_git.bb b/meta-openstack/recipes-devtools/python/python-nova_git.bb
+index 7afe347d7bb3..a8245708b838 100644
+--- a/meta-openstack/recipes-devtools/python/python-nova_git.bb
++++ b/meta-openstack/recipes-devtools/python/python-nova_git.bb
+@@ -53,7 +53,7 @@ USERADD_PARAM:${PN} = "--system -m -d ${localstatedir}/lib/nova -s /bin/false -g
+ PLACEMENT_USER = "placement"
+ 
+ SERVICECREATE_PACKAGES = "${SRCNAME}-setup ${SRCNAME}-ec2"
+-KEYSTONE_HOST="${CONTROLLER_IP}"
++KEYSTONE_HOST = "${CONTROLLER_IP}"
+ 
+ # USERCREATE_PARAM and SERVICECREATE_PARAM contain the list of parameters to be set.
+ # If the flag for a parameter in the list is not set here, the default value will be given to that parameter.
+diff --git a/meta-openstack/recipes-devtools/python/python-rally_git.bb b/meta-openstack/recipes-devtools/python/python-rally_git.bb
+index 9327ff509e8a..b814da3202d0 100644
+--- a/meta-openstack/recipes-devtools/python/python-rally_git.bb
++++ b/meta-openstack/recipes-devtools/python/python-rally_git.bb
+@@ -20,8 +20,8 @@ SRC_URI = "git://github.com/stackforge/${SRCNAME}.git;branch=master;protocol=htt
+            file://verification-subunit2json-fail-to-open-result-file.patch \
+ "
+ 
+-SRCREV="b297cf00750f263b8b5bdeb71f6952f672e87f5a"
+-PV="git${SRCPV}"
++SRCREV = "b297cf00750f263b8b5bdeb71f6952f672e87f5a"
++PV = "git${SRCPV}"
+ S = "${WORKDIR}/git"
+ 
+ inherit setuptools3 update-rc.d hosts identity default_configs
+diff --git a/meta-openstack/recipes-devtools/python/python-swift_git.bb b/meta-openstack/recipes-devtools/python/python-swift_git.bb
+index a62d6ab2c569..bd2ab7147bd8 100644
+--- a/meta-openstack/recipes-devtools/python/python-swift_git.bb
++++ b/meta-openstack/recipes-devtools/python/python-swift_git.bb
+@@ -16,8 +16,8 @@ SRC_URI = "git://github.com/openstack/${SRCNAME}.git;branch=master;protocol=http
+            file://cluster.conf \
+ "
+ 
+-SRCREV="4ca08cc395e686265574366497a6869e94eebcb2"
+-PV="2.2.2+git${SRCPV}"
++SRCREV = "4ca08cc395e686265574366497a6869e94eebcb2"
++PV = "2.2.2+git${SRCPV}"
+ S = "${WORKDIR}/git"
+ 
+ inherit setuptools3 python3-dir update-rc.d hosts identity
+@@ -30,7 +30,7 @@ inherit setuptools3 python3-dir update-rc.d hosts identity
+ SWIFT_BACKING_FILE_SIZE ?= "2G"
+ 
+ SERVICECREATE_PACKAGES = "${SRCNAME}-setup"
+-KEYSTONE_HOST="${CONTROLLER_IP}"
++KEYSTONE_HOST = "${CONTROLLER_IP}"
+ 
+ # USERCREATE_PARAM and SERVICECREATE_PARAM contain the list of parameters to be set.
+ # If the flag for a parameter in the list is not set here, the default value will be given to that parameter.
+diff --git a/meta-openstack/recipes-devtools/python/python-trove_git.bb b/meta-openstack/recipes-devtools/python/python-trove_git.bb
+old mode 100755
+new mode 100644
+index b9045e2c331a..5e3105ba76e2
+--- a/meta-openstack/recipes-devtools/python/python-trove_git.bb
++++ b/meta-openstack/recipes-devtools/python/python-trove_git.bb
+@@ -10,14 +10,14 @@ SRC_URI = "git://github.com/openstack/trove.git;branch=master;protocol=https \
+           file://trove-init \
+           "
+ 
+-SRCREV="11996635299396f181f5aec3c6825f8011d45e2c"
+-PV="4.0.0+git${SRCPV}"
++SRCREV = "11996635299396f181f5aec3c6825f8011d45e2c"
++PV = "4.0.0+git${SRCPV}"
+ S = "${WORKDIR}/git"
+ 
+ inherit update-rc.d setuptools3 identity hosts useradd default_configs
+ 
+ SERVICECREATE_PACKAGES = "${SRCNAME}-setup"
+-KEYSTONE_HOST="${CONTROLLER_IP}"
++KEYSTONE_HOST = "${CONTROLLER_IP}"
+ 
+ # USERCREATE_PARAM and SERVICECREATE_PARAM contain the list of parameters to be
+ # set.  If the flag for a parameter in the list is not set here, the default
+diff --git a/meta-openstack/recipes-devtools/python/python3-glance-store_git.bb b/meta-openstack/recipes-devtools/python/python3-glance-store_git.bb
+index 7dc729cf0896..92a1bd13389f 100644
+--- a/meta-openstack/recipes-devtools/python/python3-glance-store_git.bb
++++ b/meta-openstack/recipes-devtools/python/python3-glance-store_git.bb
+@@ -8,8 +8,8 @@ SRC_URI = "\
+ 	git://git.openstack.org/openstack/glance_store.git;branch=stable/pike \
+ 	"
+ 
+-PV="0.22.0+git${SRCPV}"
+-SRCREV="49c915f498fc8d91c98fcf4e07ceecdcf167fc5a"
++PV = "0.22.0+git${SRCPV}"
++SRCREV = "49c915f498fc8d91c98fcf4e07ceecdcf167fc5a"
+ S = "${WORKDIR}/git"
+ 
+ inherit setuptools3
+diff --git a/meta-openstack/recipes-devtools/python/python3-magnumclient_3.3.0.bb b/meta-openstack/recipes-devtools/python/python3-magnumclient_3.3.0.bb
+index 68676000a63b..fa23937e6be7 100644
+--- a/meta-openstack/recipes-devtools/python/python3-magnumclient_3.3.0.bb
++++ b/meta-openstack/recipes-devtools/python/python3-magnumclient_3.3.0.bb
+@@ -16,7 +16,7 @@ DEPENDS += " \
+         python3-pbr-native \
+         "
+ 
+-RDEPENDS:${PN} +=" \
++RDEPENDS:${PN} += " \
+         python3-pbr \
+         python3-babel \
+         python3-oslo.config \
+diff --git a/meta-openstack/recipes-devtools/python/python3-manilaclient_2.4.0.bb b/meta-openstack/recipes-devtools/python/python3-manilaclient_2.4.0.bb
+index 7e51ec664fbd..809260751c97 100644
+--- a/meta-openstack/recipes-devtools/python/python3-manilaclient_2.4.0.bb
++++ b/meta-openstack/recipes-devtools/python/python3-manilaclient_2.4.0.bb
+@@ -16,7 +16,7 @@ DEPENDS += " \
+         python3-pbr-native \
+         "
+ 
+-RDEPENDS:${PN} +=" \
++RDEPENDS:${PN} += " \
+         python3-pbr \
+         python3-iso8601 \
+         python3-oslo.config \
+diff --git a/meta-openstack/recipes-devtools/python/python3-mistralclient_4.1.1.bb b/meta-openstack/recipes-devtools/python/python3-mistralclient_4.1.1.bb
+index 7f7975486258..98027dca1384 100644
+--- a/meta-openstack/recipes-devtools/python/python3-mistralclient_4.1.1.bb
++++ b/meta-openstack/recipes-devtools/python/python3-mistralclient_4.1.1.bb
+@@ -18,7 +18,7 @@ DEPENDS += " \
+         python3-pbr-native \
+         "
+ 
+-RDEPENDS:${PN} +=" \
++RDEPENDS:${PN} += " \
+         python3-cliff \
+         python3-pbr \
+         python3-keystoneclient \
+diff --git a/meta-openstack/recipes-devtools/python/python3-taskflow_git.bb b/meta-openstack/recipes-devtools/python/python3-taskflow_git.bb
+index 193f80e748db..6abfd0dc4085 100644
+--- a/meta-openstack/recipes-devtools/python/python3-taskflow_git.bb
++++ b/meta-openstack/recipes-devtools/python/python3-taskflow_git.bb
+@@ -8,8 +8,8 @@ SRC_URI = "\
+ 	git://git.openstack.org/openstack/taskflow.git;branch=stable/pike \
+ 	"
+ 
+-PV="2.14.1+git${SRCPV}"
+-SRCREV="ed867c4fd17e4102a133c313a13af37baccf14a4"
++PV = "2.14.1+git${SRCPV}"
++SRCREV = "ed867c4fd17e4102a133c313a13af37baccf14a4"
+ S = "${WORKDIR}/git"
+ 
+ inherit setuptools3
+diff --git a/meta-openstack/recipes-devtools/python/python3-zaqarclient_2.0.0.bb b/meta-openstack/recipes-devtools/python/python3-zaqarclient_2.0.0.bb
+index 55423b75238f..28d37f14717c 100644
+--- a/meta-openstack/recipes-devtools/python/python3-zaqarclient_2.0.0.bb
++++ b/meta-openstack/recipes-devtools/python/python3-zaqarclient_2.0.0.bb
+@@ -16,7 +16,7 @@ DEPENDS += " \
+         python3-pbr-native \
+         "
+ 
+-RDEPENDS:${PN} +=" \
++RDEPENDS:${PN} += " \
+         python3-pbr \
+         python3-requests \
+         python3-six \
+diff --git a/meta-openstack/recipes-extended/guest-images/cirros_0.3.2.bb b/meta-openstack/recipes-extended/guest-images/cirros_0.3.2.bb
+index 23e326bb9f8c..16b4a70f9856 100644
+--- a/meta-openstack/recipes-extended/guest-images/cirros_0.3.2.bb
++++ b/meta-openstack/recipes-extended/guest-images/cirros_0.3.2.bb
+@@ -2,7 +2,7 @@ SUMMARY = "An image containing the cirros cloud guest"
+ DESCRIPTION = "CirrOS a tiny cloud guest"
+ HOMEPAGE = "https://launchpad.net/cirros"
+ 
+-LICENSE="GPL-2.0-only"
++LICENSE = "GPL-2.0-only"
+ 
+ SRC_URI = "http://download.cirros-cloud.net/${PV}/${PN}-${PV}-x86_64-disk.img"
+ 
+@@ -11,7 +11,7 @@ SRC_URI[sha256sum] = "a2ca56aeded5a5bcaa6104fb14ec07b1ceb65222e2890bef8a89b8d2da
+ 
+ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
+ 
+-INHIBIT_PACKAGE_STRIP="1"
++INHIBIT_PACKAGE_STRIP = "1"
+ 
+ do_install() {
+ 	     install -d ${D}/${ROOT_HOME}/images
+diff --git a/meta-openstack/recipes-extended/qpid/qpid_0.20.bb b/meta-openstack/recipes-extended/qpid/qpid_0.20.bb
+index 9d8bfc68856a..d7b44e7d82d1 100644
+--- a/meta-openstack/recipes-extended/qpid/qpid_0.20.bb
++++ b/meta-openstack/recipes-extended/qpid/qpid_0.20.bb
+@@ -24,7 +24,7 @@ export PERLCONFIGTARGET = "${@is_target(d)}"
+ export PERL_INC = "${STAGING_LIBDIR}${PERL_OWN_DIR}/perl/${@get_perl_version(d)}/CORE"
+ export PERL_LIB = "${STAGING_LIBDIR}${PERL_OWN_DIR}/perl/${@get_perl_version(d)}"
+ export PERL_ARCHLIB = "${STAGING_LIBDIR}${PERL_OWN_DIR}/perl/${@get_perl_version(d)}"
+-export PERL="${STAGING_BINDIR}/perl"
++export PERL = "${STAGING_BINDIR}/perl"
+ 
+ EXTRA_OECONF += " --without-help2man SASL_PASSWD=/usr/sbin/saslpasswd2"
+ EXTRA_OEMAKE += " CPPFLAGS=-Wno-unused-function \
+diff --git a/meta-openstack/recipes-extended/tempest/tempest_git.bb b/meta-openstack/recipes-extended/tempest/tempest_git.bb
+index 4854516c88bb..c34c89ba546a 100644
+--- a/meta-openstack/recipes-extended/tempest/tempest_git.bb
++++ b/meta-openstack/recipes-extended/tempest/tempest_git.bb
+@@ -14,12 +14,12 @@ SRC_URI = "git://github.com/openstack/${SRCNAME}.git;branch=master;protocol=http
+            file://logging.conf \
+ "
+ 
+-SRCREV="2707a0f065e52d8331d12c983ead95de1224cb32"
+-PV="2014.1+git${SRCPV}"
++SRCREV = "2707a0f065e52d8331d12c983ead95de1224cb32"
++PV = "2014.1+git${SRCPV}"
+ S = "${WORKDIR}/git"
+ 
+ SERVICECREATE_PACKAGES = "${SRCNAME}-setup ${SRCNAME}-setup-altdemo ${SRCNAME}-setup-admin"
+-KEYSTONE_HOST="${CONTROLLER_IP}"
++KEYSTONE_HOST = "${CONTROLLER_IP}"
+ 
+ # USERCREATE_PARAM and SERVICECREATE_PARAM contain the list of parameters to be set.
+ # If the flag for a parameter in the list is not set here, the default value will be given to that parameter.
+diff --git a/meta-openstack/recipes-extended/uwsgi/uwsgi_git.bb b/meta-openstack/recipes-extended/uwsgi/uwsgi_git.bb
+index 62e0df42d698..022f52a04c15 100644
+--- a/meta-openstack/recipes-extended/uwsgi/uwsgi_git.bb
++++ b/meta-openstack/recipes-extended/uwsgi/uwsgi_git.bb
+@@ -10,8 +10,8 @@ SRC_URI = "git://github.com/unbit/uwsgi.git;branch=uwsgi-2.0;protocol=https \
+     file://more-Add-explicit-breaks-to-avoid-implicit-passthrough.patch \
+ "
+ 
+-SRCREV="af44211739136e22471a2897383f34586284bf86"
+-PV="2.0.14+git${SRCPV}"
++SRCREV = "af44211739136e22471a2897383f34586284bf86"
++PV = "2.0.14+git${SRCPV}"
+ S = "${WORKDIR}/git"
+ 
+ inherit setuptools3 pkgconfig
+diff --git a/meta-openstack/recipes-support/salt/salt_3001.1.bb b/meta-openstack/recipes-support/salt/salt_3001.1.bb
+index 4a77fb81bc2d..7fba93c17231 100644
+--- a/meta-openstack/recipes-support/salt/salt_3001.1.bb
++++ b/meta-openstack/recipes-support/salt/salt_3001.1.bb
+@@ -96,13 +96,13 @@ CONFFILES:${PN}-minion = "${sysconfdir}/${PN}/minion"
+ FILES:${PN}-minion = "${bindir}/${PN}-minion ${sysconfdir}/${PN}/minion.d/ ${CONFFILES_${PN}-minion} ${bindir}/${PN}-proxy ${systemd_system_unitdir}/salt-minion.service"
+ 
+ SUMMARY:${PN}-common = "shared libraries that salt requires for all packages"
+-DESCRIPTION:${PN}-common ="${DESCRIPTION_COMMON} This particular package provides shared libraries that \
++DESCRIPTION:${PN}-common = "${DESCRIPTION_COMMON} This particular package provides shared libraries that \
+ salt-master, salt-minion, and salt-syndic require to function."
+ RDEPENDS:${PN}-common = "python3-dateutil python3-jinja2 python3-pyyaml python3-requests (>= 1.0.0) python3-distro"
+ RRECOMMENDS:${PN}-common = "lsb-release"
+ RSUGGESTS:${PN}-common = "python3-mako python3-git"
+ RCONFLICTS:${PN}-common = "python3-mako (< 0.7.0)"
+-CONFFILES:${PN}-common="${sysconfdir}/logrotate.d/${PN}"
++CONFFILES:${PN}-common = "${sysconfdir}/logrotate.d/${PN}"
+ FILES:${PN}-common = "${bindir}/${PN}-call ${PYTHON_SITEPACKAGES_DIR}/* ${CONFFILES_${PN}-common}"
+ 
+ SUMMARY:${PN}-ssh = "remote manager to administer servers via salt"
+@@ -110,7 +110,7 @@ DESCRIPTION:${PN}-ssh = "${DESCRIPTION_COMMON} This particular package provides
+ is able to run salt modules and states on remote hosts via ssh. No minion or other salt specific software needs\
+  to be installed on the remote host."
+ RDEPENDS:${PN}-ssh = "${PN}-common (= ${EXTENDPKGV}) python3-msgpack"
+-CONFFILES:${PN}-ssh="${sysconfdir}/${PN}/roster"
++CONFFILES:${PN}-ssh = "${sysconfdir}/${PN}/roster"
+ FILES:${PN}-ssh = "${bindir}/${PN}-ssh ${CONFFILES_${PN}-ssh}"
+ 
+ SUMMARY:${PN}-api = "generic, modular network access system"
+@@ -126,11 +126,11 @@ FILES:${PN}-api = "${bindir}/${PN}-api ${CONFFILES_${PN}-api} ${systemd_system_u
+ 
+ 
+ SUMMARY:${PN}-master = "remote manager to administer servers via salt"
+-DESCRIPTION:${PN}-master ="${DESCRIPTION_COMMON} This particular package provides the salt controller."
++DESCRIPTION:${PN}-master = "${DESCRIPTION_COMMON} This particular package provides the salt controller."
+ RDEPENDS:${PN}-master = "${PN}-common (= ${EXTENDPKGV}) python3-msgpack python3-pycryptodomex (>= 3.9.7)"
+ RDEPENDS:${PN}-master += "${@bb.utils.contains('PACKAGECONFIG', 'zeromq', 'python3-pycrypto python3-pyzmq (>= 13.1.0)', '',d)}"
+ RDEPENDS:${PN}-master += "${@bb.utils.contains('PACKAGECONFIG', 'tcp', 'python3-pycrypto', '',d)}"
+-CONFFILES:${PN}-master="${sysconfdir}/init.d/${PN}-master  ${sysconfdir}/${PN}/master"
++CONFFILES:${PN}-master = "${sysconfdir}/init.d/${PN}-master  ${sysconfdir}/${PN}/master"
+ RSUGGESTS:${PN}-master = "python3-git"
+ FILES:${PN}-master = "${bindir}/${PN} ${bindir}/${PN}-cp ${bindir}/${PN}-key ${bindir}/${PN}-master ${bindir}/${PN}-run ${bindir}/${PN}-unity ${bindir}/spm ${CONFFILES_${PN}-master} ${systemd_system_unitdir}/${PN}-master.service"
+ 
+@@ -139,7 +139,7 @@ SUMMARY:${PN}-syndic = "master-of-masters for salt, the distributed remote execu
+ DESCRIPTION:${PN}-syndic = "${DESCRIPTION_COMMON} This particular package provides the master of masters for \
+ salt; it enables the management of multiple masters at a time."
+ RDEPENDS:${PN}-syndic = "${PN}-master (= ${EXTENDPKGV})"
+-CONFFILES:${PN}-syndic="${sysconfdir}/init.d/${PN}-syndic"
++CONFFILES:${PN}-syndic = "${sysconfdir}/init.d/${PN}-syndic"
+ FILES:${PN}-syndic = "${bindir}/${PN}-syndic ${CONFFILES_${PN}-syndic} ${systemd_system_unitdir}/${PN}-syndic.service"
+ 
+ SUMMARY:${PN}-cloud = "public cloud VM management system"
+@@ -150,7 +150,7 @@ CONFFILES:${PN}-cloud = "${sysconfdir}/${PN}/cloud"
+ FILES:${PN}-cloud = "${bindir}/${PN}-cloud ${sysconfdir}/${PN}/cloud.conf.d/ ${sysconfdir}/${PN}/cloud.profiles.d/ ${sysconfdir}/${PN}/cloud.providers.d/ ${CONFFILES_${PN}-cloud}"
+ 
+ SUMMARY:${PN}-tests = "salt stack test suite"
+-DESCRIPTION:${PN}-tests ="${DESCRIPTION_COMMON} This particular package provides the salt unit test suite."
++DESCRIPTION:${PN}-tests = "${DESCRIPTION_COMMON} This particular package provides the salt unit test suite."
+ RDEPENDS:${PN}-tests = "${PN}-common python3-pytest-salt python3-tests python3-image bash"
+ FILES:${PN}-tests = "${PYTHON_SITEPACKAGES_DIR}/salt-tests/tests/"
+ 
+-- 
+2.50.0
 
-I'll check mine against this and take care of it shortly.
-
-Bruce
-
-
-
->
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> ---
->  recipes-connectivity/consul/consul-migrate_git.bb          | 1 -
->  recipes-connectivity/consul/consul_git.bb                  | 1 -
->  recipes-connectivity/serf/hashicorp-serf_0.9.4.bb          | 1 -
->  recipes-devtools/python/python-ansible.inc                 | 1 -
->  recipes-support/puppet-vswitch/puppet-vswitch_git.bb       | 1 -
->  recipes-support/puppetlabs-stdlib/puppetlabs-stdlib_git.bb | 1 -
->  recipes-support/ruby-shadow/ruby-shadow_git.bb             | 1 -
->  7 files changed, 7 deletions(-)
->
-> diff --git a/recipes-connectivity/consul/consul-migrate_git.bb
-> b/recipes-connectivity/consul/consul-migrate_git.bb
-> index 1393c912..3c9518ee 100644
-> --- a/recipes-connectivity/consul/consul-migrate_git.bb
-> +++ b/recipes-connectivity/consul/consul-migrate_git.bb
-> @@ -7,7 +7,6 @@ GO_IMPORT =3D "github.com/hashicorp/consul-migrate"
->  SRC_URI =3D "https://${GO_IMPORT}.git;branch=3Dmaster"
->  SRCREV =3D "678fb10cdeae25ab309e99e655148f0bf65f9710"
->
-> -S =3D "${WORKDIR}/git"
->
->  SRCREV_raft =3D "057b893fd996696719e98b6c44649ea14968c811"
->  SRCREV_go-metrics =3D "f303b03b91d770a11a39677f1d3b55da4002bbcb"
-> diff --git a/recipes-connectivity/consul/consul_git.bb
-> b/recipes-connectivity/consul/consul_git.bb
-> index 0d084b0d..3dceb9d8 100644
-> --- a/recipes-connectivity/consul/consul_git.bb
-> +++ b/recipes-connectivity/consul/consul_git.bb
-> @@ -10,7 +10,6 @@ SRC_URI =3D
-> "git://${GO_IMPORT}.git;branch=3Dmain;protocol=3Dhttps \
->             file://consul.service \
->            "
->
-> -S =3D "${WORKDIR}/git"
->
->  RDEPENDS:${PN}-dev:append =3D " bash"
->
-> diff --git a/recipes-connectivity/serf/hashicorp-serf_0.9.4.bb
-> b/recipes-connectivity/serf/hashicorp-serf_0.9.4.bb
-> index 8318400d..e46acbdc 100644
-> --- a/recipes-connectivity/serf/hashicorp-serf_0.9.4.bb
-> +++ b/recipes-connectivity/serf/hashicorp-serf_0.9.4.bb
-> @@ -22,7 +22,6 @@ SRC_URI =3D
-> "git://${GO_IMPORT}.git;protocol=3Dhttps;branch=3Dmaster"
->  PV =3D "0.8.5+git${SRCPV}"
->  SRCREV =3D "1d3fdf93bbe5002c5023da50402368a817488691"
->
-> -S =3D "${WORKDIR}/git"
->
->  inherit go
->
-> diff --git a/recipes-devtools/python/python-ansible.inc
-> b/recipes-devtools/python/python-ansible.inc
-> index 4bb90cb7..737daa9a 100644
-> --- a/recipes-devtools/python/python-ansible.inc
-> +++ b/recipes-devtools/python/python-ansible.inc
-> @@ -10,7 +10,6 @@ SRC_URI =3D "git://
-> github.com/ansible/ansible.git;protocol=3Dhttps;branch=3Dstable-2.1
->
->  SRCREV =3D "dc0e3bd16cc7ded081bc46c88e4e3d1997ca9bb0"
->
-> -S =3D "${WORKDIR}/git"
->
->  ANSIBLE_WHITELIST_MODULES ?=3D "commands files system network/ovs
-> __pycache__ service"
->
-> diff --git a/recipes-support/puppet-vswitch/puppet-vswitch_git.bb
-> b/recipes-support/puppet-vswitch/puppet-vswitch_git.bb
-> index b2413283..6b282168 100644
-> --- a/recipes-support/puppet-vswitch/puppet-vswitch_git.bb
-> +++ b/recipes-support/puppet-vswitch/puppet-vswitch_git.bb
-> @@ -16,7 +16,6 @@ inherit rubyv2
->  GEM_NAME =3D "puppetlabs-std"
->  GEM_SPEC_FILE =3D "puppet-vswitch.gemspec"
->
-> -S =3D "${WORKDIR}/git"
->
->  DEPENDS +=3D " \
->          ruby \
-> diff --git a/recipes-support/puppetlabs-stdlib/puppetlabs-stdlib_git.bb
-> b/recipes-support/puppetlabs-stdlib/puppetlabs-stdlib_git.bb
-> index 8a3c1def..1132f6be 100644
-> --- a/recipes-support/puppetlabs-stdlib/puppetlabs-stdlib_git.bb
-> +++ b/recipes-support/puppetlabs-stdlib/puppetlabs-stdlib_git.bb
-> @@ -16,7 +16,6 @@ inherit rubyv2
->  GEM_NAME =3D "puppetlabs-std"
->  GEM_SPEC_FILE =3D "puppetlabs-stdlib.gemspec"
->
-> -S =3D "${WORKDIR}/git"
->
->  DEPENDS +=3D " \
->          ruby \
-> diff --git a/recipes-support/ruby-shadow/ruby-shadow_git.bb
-> b/recipes-support/ruby-shadow/ruby-shadow_git.bb
-> index 9a82a5bd..c9251aa3 100644
-> --- a/recipes-support/ruby-shadow/ruby-shadow_git.bb
-> +++ b/recipes-support/ruby-shadow/ruby-shadow_git.bb
-> @@ -10,7 +10,6 @@ SRC_URI =3D "git://
-> github.com/apalmblad/ruby-shadow.git;branch=3Dmaster;protocol=3Dhtt
->             file://extconf.rb"
->
->  SRCREV =3D "f135b3fd52d0a638f2eb9b17a8952a7f0f317688"
-> -S =3D "${WORKDIR}/git"
->
->  inherit ruby
->
-> --
-> 2.34.1
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#9309):
-> https://lists.yoctoproject.org/g/meta-virtualization/message/9309
-> Mute This Topic: https://lists.yoctoproject.org/mt/114180711/1050810
-> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [
-> bruce.ashfield@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
-
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end
-- "Use the force Harry" - Gandalf, Star Trek II
-
---000000000000fb04a4063a0bc245
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-size:small"><br></div></div><br><div class=3D"gmail_quote gmail_quote_con=
-tainer"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Jul 16, 2025 at 2:00=
-=E2=80=AFAM Chen Qi via <a href=3D"http://lists.yoctoproject.org">lists.yoc=
-toproject.org</a> &lt;Qi.Chen=3D<a href=3D"mailto:windriver.com@lists.yocto=
-project.org">windriver.com@lists.yoctoproject.org</a>&gt; wrote:<br></div><=
-blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-l=
-eft:1px solid rgb(204,204,204);padding-left:1ex">From: Chen Qi &lt;<a href=
-=3D"mailto:Qi.Chen@windriver.com" target=3D"_blank">Qi.Chen@windriver.com</=
-a>&gt;<br>
-<br>
-Due to recent oe-core&#39;s change about UNPACKDIR/S, these settings<br>
-are no longer valid and are causing errors.<br>
-<br>
-The git fetcher in bitbake now defaults to fetch git source to<br>
-be under /${BP} instead of /git. So using &#39;/git&#39; is no longer valid=
-.<br>
-<br>
-In addition, S now locates under ${UNPACKDIR} instead of ${WORKDIR}.<br>
-<br>
-So the default value of S (S =3D &quot;${UNPACKDIR}/${BP}&quot; from bitbak=
-e.conf)<br>
-is already enough and do not need any further settings for these git<br>
-recipes.<br></blockquote><div><br></div><div><br></div><div><div class=3D"g=
-mail_default" style=3D"font-size:small">Ooops. My mistake on this, I was so=
- busy doing the package uprevs in meta-virt,</div><div class=3D"gmail_defau=
-lt" style=3D"font-size:small">that I forgot to commit and push my changes t=
-o m-c-s.</div><div class=3D"gmail_default" style=3D"font-size:small"><br></=
-div><div class=3D"gmail_default" style=3D"font-size:small">I&#39;ll check m=
-ine against this and take care of it shortly.</div><div class=3D"gmail_defa=
-ult" style=3D"font-size:small"><br></div><div class=3D"gmail_default" style=
-=3D"font-size:small">Bruce</div><br></div><div>=C2=A0</div><blockquote clas=
-s=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid r=
-gb(204,204,204);padding-left:1ex">
-<br>
-Signed-off-by: Chen Qi &lt;<a href=3D"mailto:Qi.Chen@windriver.com" target=
-=3D"_blank">Qi.Chen@windriver.com</a>&gt;<br>
----<br>
-=C2=A0recipes-connectivity/consul/<a href=3D"http://consul-migrate_git.bb" =
-rel=3D"noreferrer" target=3D"_blank">consul-migrate_git.bb</a>=C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 | 1 -<br>
-=C2=A0recipes-connectivity/consul/<a href=3D"http://consul_git.bb" rel=3D"n=
-oreferrer" target=3D"_blank">consul_git.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 1 -<br>
-=C2=A0recipes-connectivity/serf/<a href=3D"http://hashicorp-serf_0.9.4.bb" =
-rel=3D"noreferrer" target=3D"_blank">hashicorp-serf_0.9.4.bb</a>=C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 | 1 -<br>
-=C2=A0recipes-devtools/python/python-ansible.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 1 -<br>
-=C2=A0recipes-support/puppet-vswitch/<a href=3D"http://puppet-vswitch_git.b=
-b" rel=3D"noreferrer" target=3D"_blank">puppet-vswitch_git.bb</a>=C2=A0 =C2=
-=A0 =C2=A0 =C2=A0| 1 -<br>
-=C2=A0recipes-support/puppetlabs-stdlib/<a href=3D"http://puppetlabs-stdlib=
-_git.bb" rel=3D"noreferrer" target=3D"_blank">puppetlabs-stdlib_git.bb</a> =
-| 1 -<br>
-=C2=A0recipes-support/ruby-shadow/<a href=3D"http://ruby-shadow_git.bb" rel=
-=3D"noreferrer" target=3D"_blank">ruby-shadow_git.bb</a>=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 1 -<br>
-=C2=A07 files changed, 7 deletions(-)<br>
-<br>
-diff --git a/recipes-connectivity/consul/<a href=3D"http://consul-migrate_g=
-it.bb" rel=3D"noreferrer" target=3D"_blank">consul-migrate_git.bb</a> b/rec=
-ipes-connectivity/consul/<a href=3D"http://consul-migrate_git.bb" rel=3D"no=
-referrer" target=3D"_blank">consul-migrate_git.bb</a><br>
-index 1393c912..3c9518ee 100644<br>
---- a/recipes-connectivity/consul/<a href=3D"http://consul-migrate_git.bb" =
-rel=3D"noreferrer" target=3D"_blank">consul-migrate_git.bb</a><br>
-+++ b/recipes-connectivity/consul/<a href=3D"http://consul-migrate_git.bb" =
-rel=3D"noreferrer" target=3D"_blank">consul-migrate_git.bb</a><br>
-@@ -7,7 +7,6 @@ GO_IMPORT =3D &quot;<a href=3D"http://github.com/hashicorp/=
-consul-migrate" rel=3D"noreferrer" target=3D"_blank">github.com/hashicorp/c=
-onsul-migrate</a>&quot;<br>
-=C2=A0SRC_URI =3D &quot;https://${GO_IMPORT}.git;branch=3Dmaster&quot;<br>
-=C2=A0SRCREV =3D &quot;678fb10cdeae25ab309e99e655148f0bf65f9710&quot;<br>
-<br>
--S =3D &quot;${WORKDIR}/git&quot;<br>
-<br>
-=C2=A0SRCREV_raft =3D &quot;057b893fd996696719e98b6c44649ea14968c811&quot;<=
-br>
-=C2=A0SRCREV_go-metrics =3D &quot;f303b03b91d770a11a39677f1d3b55da4002bbcb&=
-quot;<br>
-diff --git a/recipes-connectivity/consul/<a href=3D"http://consul_git.bb" r=
-el=3D"noreferrer" target=3D"_blank">consul_git.bb</a> b/recipes-connectivit=
-y/consul/<a href=3D"http://consul_git.bb" rel=3D"noreferrer" target=3D"_bla=
-nk">consul_git.bb</a><br>
-index 0d084b0d..3dceb9d8 100644<br>
---- a/recipes-connectivity/consul/<a href=3D"http://consul_git.bb" rel=3D"n=
-oreferrer" target=3D"_blank">consul_git.bb</a><br>
-+++ b/recipes-connectivity/consul/<a href=3D"http://consul_git.bb" rel=3D"n=
-oreferrer" target=3D"_blank">consul_git.bb</a><br>
-@@ -10,7 +10,6 @@ SRC_URI =3D &quot;git://${GO_IMPORT}.git;branch=3Dmain;pr=
-otocol=3Dhttps \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://consul.service \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
-<br>
--S =3D &quot;${WORKDIR}/git&quot;<br>
-<br>
-=C2=A0RDEPENDS:${PN}-dev:append =3D &quot; bash&quot;<br>
-<br>
-diff --git a/recipes-connectivity/serf/<a href=3D"http://hashicorp-serf_0.9=
-.4.bb" rel=3D"noreferrer" target=3D"_blank">hashicorp-serf_0.9.4.bb</a> b/r=
-ecipes-connectivity/serf/<a href=3D"http://hashicorp-serf_0.9.4.bb" rel=3D"=
-noreferrer" target=3D"_blank">hashicorp-serf_0.9.4.bb</a><br>
-index 8318400d..e46acbdc 100644<br>
---- a/recipes-connectivity/serf/<a href=3D"http://hashicorp-serf_0.9.4.bb" =
-rel=3D"noreferrer" target=3D"_blank">hashicorp-serf_0.9.4.bb</a><br>
-+++ b/recipes-connectivity/serf/<a href=3D"http://hashicorp-serf_0.9.4.bb" =
-rel=3D"noreferrer" target=3D"_blank">hashicorp-serf_0.9.4.bb</a><br>
-@@ -22,7 +22,6 @@ SRC_URI =3D &quot;git://${GO_IMPORT}.git;protocol=3Dhttps=
-;branch=3Dmaster&quot;<br>
-=C2=A0PV =3D &quot;0.8.5+git${SRCPV}&quot;<br>
-=C2=A0SRCREV =3D &quot;1d3fdf93bbe5002c5023da50402368a817488691&quot;<br>
-<br>
--S =3D &quot;${WORKDIR}/git&quot;<br>
-<br>
-=C2=A0inherit go<br>
-<br>
-diff --git a/recipes-devtools/python/python-ansible.inc b/recipes-devtools/=
-python/python-ansible.inc<br>
-index 4bb90cb7..737daa9a 100644<br>
---- a/recipes-devtools/python/python-ansible.inc<br>
-+++ b/recipes-devtools/python/python-ansible.inc<br>
-@@ -10,7 +10,6 @@ SRC_URI =3D &quot;git://<a href=3D"http://github.com/ansi=
-ble/ansible.git;protocol=3Dhttps;branch=3Dstable-2.1" rel=3D"noreferrer" ta=
-rget=3D"_blank">github.com/ansible/ansible.git;protocol=3Dhttps;branch=3Dst=
-able-2.1</a><br>
-<br>
-=C2=A0SRCREV =3D &quot;dc0e3bd16cc7ded081bc46c88e4e3d1997ca9bb0&quot;<br>
-<br>
--S =3D &quot;${WORKDIR}/git&quot;<br>
-<br>
-=C2=A0ANSIBLE_WHITELIST_MODULES ?=3D &quot;commands files system network/ov=
-s __pycache__ service&quot;<br>
-<br>
-diff --git a/recipes-support/puppet-vswitch/<a href=3D"http://puppet-vswitc=
-h_git.bb" rel=3D"noreferrer" target=3D"_blank">puppet-vswitch_git.bb</a> b/=
-recipes-support/puppet-vswitch/<a href=3D"http://puppet-vswitch_git.bb" rel=
-=3D"noreferrer" target=3D"_blank">puppet-vswitch_git.bb</a><br>
-index b2413283..6b282168 100644<br>
---- a/recipes-support/puppet-vswitch/<a href=3D"http://puppet-vswitch_git.b=
-b" rel=3D"noreferrer" target=3D"_blank">puppet-vswitch_git.bb</a><br>
-+++ b/recipes-support/puppet-vswitch/<a href=3D"http://puppet-vswitch_git.b=
-b" rel=3D"noreferrer" target=3D"_blank">puppet-vswitch_git.bb</a><br>
-@@ -16,7 +16,6 @@ inherit rubyv2<br>
-=C2=A0GEM_NAME =3D &quot;puppetlabs-std&quot;<br>
-=C2=A0GEM_SPEC_FILE =3D &quot;puppet-vswitch.gemspec&quot;<br>
-<br>
--S =3D &quot;${WORKDIR}/git&quot;<br>
-<br>
-=C2=A0DEPENDS +=3D &quot; \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ruby \<br>
-diff --git a/recipes-support/puppetlabs-stdlib/<a href=3D"http://puppetlabs=
--stdlib_git.bb" rel=3D"noreferrer" target=3D"_blank">puppetlabs-stdlib_git.=
-bb</a> b/recipes-support/puppetlabs-stdlib/<a href=3D"http://puppetlabs-std=
-lib_git.bb" rel=3D"noreferrer" target=3D"_blank">puppetlabs-stdlib_git.bb</=
-a><br>
-index 8a3c1def..1132f6be 100644<br>
---- a/recipes-support/puppetlabs-stdlib/<a href=3D"http://puppetlabs-stdlib=
-_git.bb" rel=3D"noreferrer" target=3D"_blank">puppetlabs-stdlib_git.bb</a><=
-br>
-+++ b/recipes-support/puppetlabs-stdlib/<a href=3D"http://puppetlabs-stdlib=
-_git.bb" rel=3D"noreferrer" target=3D"_blank">puppetlabs-stdlib_git.bb</a><=
-br>
-@@ -16,7 +16,6 @@ inherit rubyv2<br>
-=C2=A0GEM_NAME =3D &quot;puppetlabs-std&quot;<br>
-=C2=A0GEM_SPEC_FILE =3D &quot;puppetlabs-stdlib.gemspec&quot;<br>
-<br>
--S =3D &quot;${WORKDIR}/git&quot;<br>
-<br>
-=C2=A0DEPENDS +=3D &quot; \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ruby \<br>
-diff --git a/recipes-support/ruby-shadow/<a href=3D"http://ruby-shadow_git.=
-bb" rel=3D"noreferrer" target=3D"_blank">ruby-shadow_git.bb</a> b/recipes-s=
-upport/ruby-shadow/<a href=3D"http://ruby-shadow_git.bb" rel=3D"noreferrer"=
- target=3D"_blank">ruby-shadow_git.bb</a><br>
-index 9a82a5bd..c9251aa3 100644<br>
---- a/recipes-support/ruby-shadow/<a href=3D"http://ruby-shadow_git.bb" rel=
-=3D"noreferrer" target=3D"_blank">ruby-shadow_git.bb</a><br>
-+++ b/recipes-support/ruby-shadow/<a href=3D"http://ruby-shadow_git.bb" rel=
-=3D"noreferrer" target=3D"_blank">ruby-shadow_git.bb</a><br>
-@@ -10,7 +10,6 @@ SRC_URI =3D &quot;git://<a href=3D"http://github.com/apal=
-mblad/ruby-shadow.git;branch=3Dmaster;protocol=3Dhtt" rel=3D"noreferrer" ta=
-rget=3D"_blank">github.com/apalmblad/ruby-shadow.git;branch=3Dmaster;protoc=
-ol=3Dhtt</a><br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://extconf.rb&quot;<br>
-<br>
-=C2=A0SRCREV =3D &quot;f135b3fd52d0a638f2eb9b17a8952a7f0f317688&quot;<br>
--S =3D &quot;${WORKDIR}/git&quot;<br>
-<br>
-=C2=A0inherit ruby<br>
-<br>
--- <br>
-2.34.1<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#9309): <a href=3D"https://lists.yoctoproject.org/g/meta=
--virtualization/message/9309" rel=3D"noreferrer" target=3D"_blank">https://=
-lists.yoctoproject.org/g/meta-virtualization/message/9309</a><br>
-Mute This Topic: <a href=3D"https://lists.yoctoproject.org/mt/114180711/105=
-0810" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.org/m=
-t/114180711/1050810</a><br>
-Group Owner: <a href=3D"mailto:meta-virtualization%2Bowner@lists.yoctoproje=
-ct.org" target=3D"_blank">meta-virtualization+owner@lists.yoctoproject.org<=
-/a><br>
-Unsubscribe: <a href=3D"https://lists.yoctoproject.org/g/meta-virtualizatio=
-n/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.or=
-g/g/meta-virtualization/unsub</a> [<a href=3D"mailto:bruce.ashfield@gmail.c=
-om" target=3D"_blank">bruce.ashfield@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
-=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
-ignature">- Thou shalt not follow the NULL pointer, for chaos and madness a=
-wait thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star T=
-rek II<br><br></div></div>
-
---000000000000fb04a4063a0bc245--
 
