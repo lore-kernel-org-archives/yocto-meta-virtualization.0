@@ -1,444 +1,200 @@
-Return-Path: <raitosyo@gmail.com>
+Return-Path: <Qi.Chen@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DBCF5C83F17
-	for <webhook@archiver.kernel.org>; Mon, 21 Jul 2025 03:20:09 +0000 (UTC)
-Received: from mail-il1-f176.google.com (mail-il1-f176.google.com [209.85.166.176])
- by mx.groups.io with SMTP id smtpd.web11.32104.1753068007713667815
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4AD0C87FC5
+	for <webhook@archiver.kernel.org>; Mon, 21 Jul 2025 09:26:51 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web10.36342.1753090002598390501
  for <meta-virtualization@lists.yoctoproject.org>;
- Sun, 20 Jul 2025 20:20:07 -0700
+ Mon, 21 Jul 2025 02:26:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=mw6enn0E;
- spf=pass (domain: gmail.com, ip: 209.85.166.176, mailfrom: raitosyo@gmail.com)
-Received: by mail-il1-f176.google.com with SMTP id e9e14a558f8ab-3e28058c18cso41027145ab.0
-        for <meta-virtualization@lists.yoctoproject.org>; Sun, 20 Jul 2025 20:20:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753068007; x=1753672807; darn=lists.yoctoproject.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=03QS4hyio4lKPwFi3n9GEPSJzU4l7m3b1+Lg50CjKqg=;
-        b=mw6enn0EfbhuvQDmr+C/wuW5zlbExVmegS5W2cw2o9Uy3AdoSPDXWbN0yXd8fkPtBg
-         kkaEAf/8qdyftXDjuhHXn574VTVzuxp9n6qDWrQQ7IAGdOmyv1MX/maA2CHGv5X3SvfI
-         eruZ3TNNwYvLflJskLHG4T6Rzzmp+3eb24guoyAQ5+dWtZC2OfSfJAr0Z7OoiUtBf6oa
-         ulcMJkiddbubmwiqn0rDOzehcb3hvAYXgHgdcvt71kWmC8N/Wil+sIWEIxKXYV+A95iX
-         rTQ3QGHBsNVqbX2mgjEyzrkrEFcaV10OTcQlhcz/aW5Sjpo2CTWp93HSZpOmN25/tZGT
-         4EuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753068007; x=1753672807;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=03QS4hyio4lKPwFi3n9GEPSJzU4l7m3b1+Lg50CjKqg=;
-        b=FWl9SZD918XlgrZwEvWeqjwIKbsMRGo7I/2OjMtm27HJfb0CU94Hq8Pf8Dm3rtKlO4
-         cAb2tGCa3U9PFQvl6vhSHCqtwDR6bma3hKUXB+fi+a6buxeMlmMX49oQ9lgml6iU0nUJ
-         7u6cwoiuVkypqCjFfqMhg9NLWHmmWkGFEZU/0dgi0zBEDA2Vk+pGVOc+vXI5FFjSqopD
-         tKzU9IcojA03yNJdmpY91RzYO6fKDZjAuA2kTp4H+VpkVjVggVJwHhMILWBYjN+8IR9+
-         a5xWGaAbMDPRqf/ktAbkun7BRiY5LIBi79fRjgRZJlEk/HqETGt7kUe3zQr527QRcJGi
-         TwLQ==
-X-Gm-Message-State: AOJu0YzbkngaU8utl9PCcB1/mD9FFtSlKO8DRQyy8hLwwx58i2vpZuQP
-	phkRfU/mXAVnncM9hqsMNr3HI5pG/C1RHugdQkwpnsNqM1izRpZtgA4H0wnzvbTl/Ec8xX9YRPF
-	FqxTBepx0s2L7KJjXX6JnQ/hx0yqUqOWxgQ==
-X-Gm-Gg: ASbGnctwK20PRf6jpO212/PMIllrWJaydGqt+y89DEuouFL7n9WDxyrpaSTBt6mwMLU
-	bZVtRkqat2XkGuggidFUmstG2aN60Rdws8v8gQpLARs+vTSRXLF6y1qyIuMD/PxNEmD4e6ytI0z
-	3gcO2Hm8CInLQ0eACjgW2bE4Z25vpX9ltL/3bqbaw/FlPjwQU48zYZ2q9CvdBdqn7za//Elg8Dz
-	xGM+T3N5UvWmiLNLIb+eSJnELStrPstGo7oc6C8
-X-Google-Smtp-Source: AGHT+IHvcXCn2IJDYvl/6CQgCbXA0FhCEUXdGkSDJ5om+YeAk/atg4MsWXgVFMAfGPQH/caRmh2swtmonMweB4Yv4ZQ=
-X-Received: by 2002:a05:6e02:2587:b0:3e2:9f78:3783 with SMTP id
- e9e14a558f8ab-3e29f783956mr91749485ab.21.1753068006626; Sun, 20 Jul 2025
- 20:20:06 -0700 (PDT)
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=92974f89d0=qi.chen@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.8/8.18.1.8) with ESMTP id 56L6t24r1250193
+	for <meta-virtualization@lists.yoctoproject.org>; Mon, 21 Jul 2025 02:26:42 -0700
+Received: from nam11-bn8-obe.outbound.protection.outlook.com (mail-bn8nam11on2086.outbound.protection.outlook.com [40.107.236.86])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4806n0sk3m-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
+	for <meta-virtualization@lists.yoctoproject.org>; Mon, 21 Jul 2025 02:26:42 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=nyUI2fiOBSdgQkTyJw4nht8PDkNjobEQnro1kx3QA8q50aBzNtIEcDZgu5WDmxg/J43fQ0biwP2ZUWGuBXbcDR10BvTHvMxmzEJsDjsy8SGE0ljE2yVsp3wmIY5Non7ml7XWDQiAZY40AMSrRtU0hZ56G/R3FlCUMgG6Q/QjVRpZ2bDxT3GBbWsk4BBVFDv+qn2NZByy0JaX3sWgMakLUgLNa7gRGXw8SvYzQ2n96aSBJ7d8BTLUdEcqh5a23Owzo6naoHpMtN14PePyhpMOW6v0gn86PWbHTW+Xk1M6D+KWrQBU0PZhXHFokFJWPbcqKWpKrto3A4BcfArcc+6QgQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2diafv6p4HW3yhjK50Ibm9Vs2CzYbOABZu6H17iZvsY=;
+ b=ALgOjVg29+MHpwgrqz/D82JHtmL3FgzMUsUDnw81LUYoFnDNmU1xPZwpBsrVrB5mOLIdoLusiMYiR4CnGjRXIrWSVXQJhWo4/Q+WbaSYXdhRYdLQw34s6cGrwz+FaTNdEt4f7I14JzpalNowEtXDrxwPDBvqxQhmaD1x5GOisBRryZeovG6eQSjiwTIHJWTFDbW1jNmDX5TDdOi6YbwvWqVd/RDruXiF/VKl4/qzgKbdqVtKADs2qR6abX0i/fBFfdK9IWYFHv6ZXgjhtyX8ngGWyR6V68NR+2HRxqKpxUI02ahNnl1TXGlAZAV1ef71KCoNzD6i224F1fAA6leoNA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
+ by MW3PR11MB4553.namprd11.prod.outlook.com (2603:10b6:303:2c::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8922.36; Mon, 21 Jul
+ 2025 09:26:38 +0000
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::a7e3:721d:9cec:6093]) by CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::a7e3:721d:9cec:6093%6]) with mapi id 15.20.8943.029; Mon, 21 Jul 2025
+ 09:26:37 +0000
+From: Qi.Chen@windriver.com
+To: meta-virtualization@lists.yoctoproject.org
+Subject: [meta-virtualization][PATCH] skopeo: avoid overriding GOBUILDFLAGS set in go.bbclass
+Date: Mon, 21 Jul 2025 17:26:08 +0800
+Message-Id: <20250721092608.1271610-1-Qi.Chen@windriver.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SG2PR02CA0056.apcprd02.prod.outlook.com
+ (2603:1096:4:54::20) To CO6PR11MB5602.namprd11.prod.outlook.com
+ (2603:10b6:303:13a::5)
 MIME-Version: 1.0
-References: <20250718091253.829595-1-raitosyo@gmail.com> <aH2nQblZfyk1OYog@gmail.com>
-In-Reply-To: <aH2nQblZfyk1OYog@gmail.com>
-From: Ryosuke Saito <raitosyo@gmail.com>
-Date: Mon, 21 Jul 2025 12:19:52 +0900
-X-Gm-Features: Ac12FXyWsQfZbGZdskDedtqpeeo1wb6CG_Y9xOqnVghmKOvPJFFZXFhpWs2BOoU
-Message-ID: <CADTWAOJtZixJ+DKy8L7hErDcHVyrfLLQovzQ8cygN9N4nHAQ1A@mail.gmail.com>
-Subject: Re: [meta-virtualization][PATCH] tini: Fix build error with CMake 4+
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: meta-virtualization@lists.yoctoproject.org, 
-	Ryosuke Saito <ryosuke.saito@linaro.org>
-Content-Type: multipart/alternative; boundary="000000000000cd594e063a67f3b8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO6PR11MB5602:EE_|MW3PR11MB4553:EE_
+X-MS-Office365-Filtering-Correlation-Id: c4083bff-ef08-45f1-bcb3-08ddc838b152
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|366016|376014|52116014|1800799024|38350700014;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?+esSclmgB9K3ieYi76IB8bCUCyFVhbm7Bzu6cT0EoP3HzUmIkoHx/q6f4BA6?=
+ =?us-ascii?Q?P+37w5Uu8GpuKLIeykSJ4U8QIjBPkkA2TbpwUlQNe3nfF4hMxU7RAJ1MyIX0?=
+ =?us-ascii?Q?oIQCAAlIlblwbKQy6p6y1bbiYQuRTOTkrCFiPRgw2G7QCagX9XSILshlLsGq?=
+ =?us-ascii?Q?ywLmVPzj6rtaI4eTKfjCr2thEQIKgh3SjkHJni/QII7NoaxnfFuaE8HztALA?=
+ =?us-ascii?Q?boiftXqW+QXGY6LOhqYhlf95zztkqA4MRRFnUkqYQaJIXsUqBE9MSfnRrofv?=
+ =?us-ascii?Q?I9cW0z6RaL+hQntNm0rS5+QFVSh4B+ELrgwUZnMgbiqbYdyLEHGrFgWcvoCH?=
+ =?us-ascii?Q?+uxpeJzOilmrI8eoAjQchk/e63S7Q6hh2pyUVOkIbU0omJ3zahPXox2zNYsG?=
+ =?us-ascii?Q?7UZbAt7+fpJrduUU044IgJIbMAEt1tOZYh03NsDiDVnCGW/1SuR90MrTPQ7O?=
+ =?us-ascii?Q?TUolwbqUziOCFPannpxVrYDO0Wgqa18daeDG3h2lgfbz6XDdZHAIOA8GgDMy?=
+ =?us-ascii?Q?n4nUn5zqpkHen2FUm0yr+7TUwvRjIb0QXoYzbOheqXm6QQ/j1lXFVkb0h/sG?=
+ =?us-ascii?Q?Q4XwrP4SH13j0reQubboG2tXm38qK6503mcwuoSSIl1/vS4aXQZN4Dz74njC?=
+ =?us-ascii?Q?Kk0+yJ1EMkQmCYIJyR/oA8wcYrV3BGepr6nMJzQQvS2ALSgJrE4FDyR4TMLv?=
+ =?us-ascii?Q?+kX3cwQXFnbkMBQpzKgSeBtWCoz4LNOliI1g0Nps1H90RMqERXzbKSitxToV?=
+ =?us-ascii?Q?BtNI2w69RNAdM6UTHJYcPfXETJN70oo+ghEePU4X/FpAGDzBQvsmlPCwZYoR?=
+ =?us-ascii?Q?7tgKii0h6reG5dDvNPK1tODb+zZfuG/nauXC/X8LT9LSQVGtKIvJK7p9ULIe?=
+ =?us-ascii?Q?stIOgxfdUt7Tzq26Qtrz3q4qt2cYnfkkuAqVVt5MA1LAvqtD01fegKyBbp54?=
+ =?us-ascii?Q?5LRkPeddsRPOrUUore3DM3X2Vc/VDbKBpp6TBhGNFbILEEGFrG3cVkdfI1fr?=
+ =?us-ascii?Q?9c+sNPcxGRskohJ+OJXvaZtVV+Ee2CwyesWx4mAzsOfRsxGv1n/lSyypgWwa?=
+ =?us-ascii?Q?zbLS7WdZ/qoiWy0z3fIjTwwi61WJbSaavsjl0H5EsuN5yNxO+lfwvmq6pNvK?=
+ =?us-ascii?Q?00Xw9fpscC10psrOxJ8DK0qp7iRY1o85z7OaZZal8YCkwTwmTnA5mZYVppsk?=
+ =?us-ascii?Q?2wNvmFIuSDl8EDuKGin4lXnvW8g/YJsmHI4xjs0TwRil85klq1lo3bZAqZfg?=
+ =?us-ascii?Q?VnGQoTCMpoQDEyncYd+7MM5QQ5T5NqfeU8FWOZpluM65vVCoNNJG24f+qgKI?=
+ =?us-ascii?Q?fWOWiVzLefPD1Xkl1De7agTvCuIJLg6Ff67q398C3gO3Arev0W0ZwIyuyP62?=
+ =?us-ascii?Q?STVIiN18fSsfbWiVRSZp9XhTCSFgYLgvefwkl/Nto4Jv53x+TcE7k5XJ8HCB?=
+ =?us-ascii?Q?yJizkamhzuVQ0Z6MAoQigQpDRzih60PZHdvhkCGQyQ333965xFMRUA=3D=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(52116014)(1800799024)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?mzHekUP2MPJsMVzGbccVvfijOh4MbGpSeSL7hXie8X8U3UvzImi+ohMi1Cfx?=
+ =?us-ascii?Q?bNeQQYlDkBQnwNRGaADv0pMy2UQxh4WpNmWbi/jHPHy8nic+G3W2K5mvW9hy?=
+ =?us-ascii?Q?6t18yYunpNEwtld4VTrwZMSldZnW04xQZ1jwx8wNUZUTbVlKzyFHhttHGq4B?=
+ =?us-ascii?Q?DdWHv613YVAWOwjiqptu3dh0UhG1z+7VSOqKAKUJbnfMxPmxaZP5N0AgpWJ7?=
+ =?us-ascii?Q?UF2yd7v72zaIAtf6OReQvCaGsVayzKPllUHEZgmgXadkj2Qph7/uBgJgXxn0?=
+ =?us-ascii?Q?ba5N1OI6u3K8dEXZxu/6joKsdps9mh4SPo2dS6pdgwjZas5o/lALG7PlVYgz?=
+ =?us-ascii?Q?n89gKD48SdDNOXFT1O0+3x2jd5/XbZVQdqNwYHUAYkq5FznZiWsHDh+Zge+6?=
+ =?us-ascii?Q?cqKgRmM5STDC6blC7I5MVHhxRp/a5feLgvGWAZ5pF2W+3lhPdFU2WPVOV1l4?=
+ =?us-ascii?Q?ezv+UuVuq25XQYEnJ/2rdcLOB1+ErLW1rEHsEhDeO/wTB+0sXK+KMiR5BMIP?=
+ =?us-ascii?Q?TjIh2mznmo7qX3Ep/LeTqJ+Vsbaksir58YF1ThyKwvpqQX7fcONpPYUwvWaS?=
+ =?us-ascii?Q?n0hGtnDlPbLGIppOUyZ6Cf8J4n+p2BbuEkw5ZaW0wYpLkLxEACPwYbRpcuN/?=
+ =?us-ascii?Q?yweSyniTqBAY3RxnyOOYVMNtxUTAorvCe/EwQNix5mi/k+jw3kuriSYtYvqu?=
+ =?us-ascii?Q?HDRNxDuIQZf9tc4NMMILYwZdv8cDyfGtTOkJnO23DH7Zc8AIsGaTPftLJW1H?=
+ =?us-ascii?Q?N2jhwcmSk5TdWGry84KUsnPoirzl1VMLQcv9RkkiCmAJqJuboBho/g9Tbi+o?=
+ =?us-ascii?Q?oWSQ8ggHkT0HYrJoJRgWpuanQtQyEhLBQ2qmvPXsdaMblFcnR/AVCqe1a3d0?=
+ =?us-ascii?Q?J4DAfVPFtqE6KtTQV7aVwW9/xL2OPUmpv34MVc7boLWT84kcgca5tQ4Ge6F+?=
+ =?us-ascii?Q?CNNjvVK5fQ9g2ZJoLgzGeMHDMHWDJjWY/9pmV2ZTSUEZsLCFDVHULZveuRWa?=
+ =?us-ascii?Q?NrGLKaeXN+z2PJfKUwiibo3xJR6zpYkaTKzrolhzkeE1qsnBIEIFXxQkUHW+?=
+ =?us-ascii?Q?3YTXzKjp2CaW2bz/Jm0a27eH5nOtvNGUh2CsLAndmiPE958FjkK4r6U6zTC/?=
+ =?us-ascii?Q?d5tyPZRpwAS70X75A/4++GSAXoj1alHiaf3pin65+3xr5nr9hxyX/I0p/tKL?=
+ =?us-ascii?Q?4ts9ScW7H4h8sX9nRRttGxvpv+DpG6kSmt8cGgs/5ktcNGxKQUuAzVD+1ivh?=
+ =?us-ascii?Q?uk9cyxIBobzlsyOSbVQOwCXfoG51cSt8/84Dlve8N9R/wvLCBJLmvBmHPOlr?=
+ =?us-ascii?Q?4pVJfS+km40rB2JaIKC3VMjUFq60ioStp1aq4kK3x9fiMHkYpD6cdFD5hH21?=
+ =?us-ascii?Q?hHxQ1t7ccbaBkcxMZM+oL+YPJAkLOuxRKGIcDW0BdbiNH4U5zCQCNayUyY/y?=
+ =?us-ascii?Q?tX6gPhvzKGDEW4pyYiBCls5ib9N7XiGUZ7nW72YJh0QGJYEZNmj5KuFXQh2T?=
+ =?us-ascii?Q?hcapR9zBw2gHeYBPZpeElX8Nq4m+omG7NtF/3XF/5mOuscqta2BwavLclqmx?=
+ =?us-ascii?Q?4cQtArtCKa95DEW6sUJFDiy1dzQ/nOuqgurVLkE+?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c4083bff-ef08-45f1-bcb3-08ddc838b152
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jul 2025 09:26:37.6906
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: DrILu3FAbIOVLZCByZaotb2f5RHjc5Jf+QK73BrU2/kYo6zqe2gVWnzJ7+QNXia0fLzpSdHVznqe8a4Q79c8+w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR11MB4553
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzE5MDA2OCBTYWx0ZWRfX11ehwPwVIEtC
+ wFajs0XDv48gATeqHhZdJnGASNNF55AJ6aARPPrw8TOx3hP+okPkrztkaTBmKG1M1jYED3Uohma
+ vLgb5Ddhs3ou0nnnqLznaZueVkX8SV/kazxgZ0XCewN8wtQi+JK4xWFxl6wmPMXRKG8xhAhSapI
+ bCdlt0TqxEie++QgYOV7v+Q+R9neMZykZgqKpq/dL/Ds22KDVSo0e7a8VoAj6E/vI5Xl5zcyPyb
+ f+NR8NyXddTNWNzkyqUg3+ILP8xn22n+gtWs2QZmvEyFrWacoayV4TgMjSIkkqOfEyrgFzEoiqh
+ VXgqkgxMV9Afu8SIf0xa+vfJ6R0eA8cwgIascSvW7dMpoW1uBv32ZFhPiciMvrP45E+k1iZdp0J
+ I6s/6N1Z
+X-Proofpoint-ORIG-GUID: dd9g64-pVEua4Qm3Gw9ESZ6oVYimToWP
+X-Proofpoint-GUID: dd9g64-pVEua4Qm3Gw9ESZ6oVYimToWP
+X-Authority-Analysis: v=2.4 cv=W4g4VQWk c=1 sm=1 tr=0 ts=687e07d2 cx=c_pps
+ a=Fc+powxz0z9PvbHcotDBUA==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19
+ a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=Wb1JkmetP80A:10
+ a=t7CeM3EgAAAA:8 a=eeoF5tMu70cC8OtShIYA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-07-21_02,2025-07-21_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 impostorscore=0 bulkscore=0 spamscore=0 malwarescore=0
+ clxscore=1015 adultscore=0 priorityscore=1501 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2506270000 definitions=main-2507190068
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Mon, 21 Jul 2025 03:20:09 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9325
+ <meta-virtualization@lists.yoctoproject.org>; Mon, 21 Jul 2025 09:26:51 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9326
 
---000000000000cd594e063a67f3b8
-Content-Type: text/plain; charset="UTF-8"
+From: Chen Qi <Qi.Chen@windriver.com>
 
-That's fine with me, thanks!
+When MACHINE is riscv64, skopeo fails to build with the following
+error message:
 
-Ryosuke
+  ERROR: QA Issue: skopeo: ELF binary /usr/sbin/skopeo has relocations in .text [textrel]
 
-On Mon, Jul 21, 2025, 11:34 Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
+To reproduce the issue, run the following command:
+MACHINE=qemuriscv64 bitbake skopeo
 
-> Rather than stacking more backports onto the recipe, I've just
-> bumped to -tip (I'm doing more package uprev's anyway), and I'm
-> now able to build with the OE CMake bump.
->
-> Bruce
->
-> In message: [meta-virtualization][PATCH] tini: Fix build error with CMake
-> 4+
-> on 18/07/2025 Ryosuke Saito via lists.yoctoproject.org wrote:
->
-> > From: Ryosuke Saito <ryosuke.saito@linaro.org>
-> >
-> > Backport patches from https://github.com/krallin/tini to resolve the
-> > build error with CMake 4.0 and later.
-> >
-> > - 0001-chore-bump-minimum-CMake-to-2.8.12.patch
-> > - 0001-chore-allow-CMake-though-to-3.10.patch
-> >
-> > Signed-off-by: Ryosuke Saito <ryosuke.saito@linaro.org>
-> > ---
-> >  ...001-chore-allow-CMake-though-to-3.10.patch | 39 +++++++++++++++++++
-> >  ...1-chore-bump-minimum-CMake-to-2.8.12.patch | 29 ++++++++++++++
-> >  recipes-containers/tini/tini_0.19.0.bb        |  2 +
-> >  3 files changed, 70 insertions(+)
-> >  create mode 100644
-> recipes-containers/tini/tini/0001-chore-allow-CMake-though-to-3.10.patch
-> >  create mode 100644
-> recipes-containers/tini/tini/0001-chore-bump-minimum-CMake-to-2.8.12.patch
-> >
-> > diff --git
-> a/recipes-containers/tini/tini/0001-chore-allow-CMake-though-to-3.10.patch
-> b/recipes-containers/tini/tini/0001-chore-allow-CMake-though-to-3.10.patch
-> > new file mode 100644
-> > index 000000000000..faea9fb647f9
-> > --- /dev/null
-> > +++
-> b/recipes-containers/tini/tini/0001-chore-allow-CMake-though-to-3.10.patch
-> > @@ -0,0 +1,39 @@
-> > +From bb775aa14cc5072cf687fd7f4edd44df62c06b1d Mon Sep 17 00:00:00 2001
-> > +From: Rudi Heitbaum <rudi@heitbaum.com>
-> > +Date: Fri, 28 Mar 2025 19:10:02 +1100
-> > +Subject: [PATCH] chore: allow CMake though to 3.10
-> > +
-> > +This is allows the build with cmake-4.0.0 without deprecation warnings.
-> > +
-> > +use min...max syntax to allow build with newer cmake.
-> > +ref:
-> https://cmake.org/cmake/help/latest/command/cmake_minimum_required.html
-> > +
-> > +Fixes:
-> > +CMake Error at CMakeLists.txt:1 (cmake_minimum_required):
-> > +  Compatibility with CMake < 3.5 has been removed from CMake.
-> > +
-> > +  Update the VERSION argument <min> value.  Or, use the <min>...<max>
-> syntax
-> > +  to tell CMake that the project requires at least <min> but has been
-> updated
-> > +  to work with policies introduced by <max> or earlier.
-> > +
-> > +  Or, add -DCMAKE_POLICY_VERSION_MINIMUM=3.5 to try configuring anyway.
-> > +
-> > +Upstream-Status: Backport [
-> https://github.com/krallin/tini/commit/071c715e376e9ee0ac1a196fe8c38bcb61ad385c
-> ]
-> > +Signed-off-by: Ryosuke Saito <ryosuke.saito@linaro.org>
-> > +---
-> > + CMakeLists.txt | 2 +-
-> > + 1 file changed, 1 insertion(+), 1 deletion(-)
-> > +
-> > +diff --git a/CMakeLists.txt b/CMakeLists.txt
-> > +index 9b06fc13f31d..2e5390b84967 100644
-> > +--- a/CMakeLists.txt
-> > ++++ b/CMakeLists.txt
-> > +@@ -1,4 +1,4 @@
-> > +-cmake_minimum_required (VERSION 2.8.12)
-> > ++cmake_minimum_required (VERSION 2.8.12...3.10)
-> > + project (tini C)
-> > +
-> > + # Config
-> > +--
-> > +2.34.1
-> > +
-> > diff --git
-> a/recipes-containers/tini/tini/0001-chore-bump-minimum-CMake-to-2.8.12.patch
-> b/recipes-containers/tini/tini/0001-chore-bump-minimum-CMake-to-2.8.12.patch
-> > new file mode 100644
-> > index 000000000000..ec03f7ff16b2
-> > --- /dev/null
-> > +++
-> b/recipes-containers/tini/tini/0001-chore-bump-minimum-CMake-to-2.8.12.patch
-> > @@ -0,0 +1,29 @@
-> > +From 0a5449a61b64938354db6efae8465d530d824d37 Mon Sep 17 00:00:00 2001
-> > +From: Bjorn Neergaard <bneergaard@mirantis.com>
-> > +Date: Fri, 27 Jan 2023 08:07:51 -0700
-> > +Subject: [PATCH] chore: bump minimum CMake to 2.8.12
-> > +
-> > +This is both the last version supported by current CMake, and the
-> > +version in use on Enterprise Linux 7.
-> > +
-> > +Signed-off-by: Bjorn Neergaard <bneergaard@mirantis.com>
-> > +
-> > +Upstream-Status: Backport [
-> https://github.com/krallin/tini/commit/0b44d3665869e46ccbac7414241b8256d6234dc4
-> ]
-> > +Signed-off-by: Ryosuke Saito <ryosuke.saito@linaro.org>
-> > +---
-> > + CMakeLists.txt | 2 +-
-> > + 1 file changed, 1 insertion(+), 1 deletion(-)
-> > +
-> > +diff --git a/CMakeLists.txt b/CMakeLists.txt
-> > +index 4a6cab12fc25..9b06fc13f31d 100644
-> > +--- a/CMakeLists.txt
-> > ++++ b/CMakeLists.txt
-> > +@@ -1,4 +1,4 @@
-> > +-cmake_minimum_required (VERSION 2.8.0)
-> > ++cmake_minimum_required (VERSION 2.8.12)
-> > + project (tini C)
-> > +
-> > + # Config
-> > +--
-> > +2.34.1
-> > +
-> > diff --git a/recipes-containers/tini/tini_0.19.0.bb
-> b/recipes-containers/tini/tini_0.19.0.bb
-> > index c3ca25d07a4a..9eed4a646cba 100644
-> > --- a/recipes-containers/tini/tini_0.19.0.bb
-> > +++ b/recipes-containers/tini/tini_0.19.0.bb
-> > @@ -10,6 +10,8 @@ SRC_URI = " \
-> >
-> file://0001-Do-not-strip-the-output-binary-allow-yocto-to-do-thi.patch \
-> >
-> file://0001-tini.c-a-function-declaration-without-a-prototype-is.patch \
-> >    file://0001-Support-POSIX-basename-from-musl-libc.patch \
-> > +  file://0001-chore-bump-minimum-CMake-to-2.8.12.patch \
-> > +  file://0001-chore-allow-CMake-though-to-3.10.patch \
-> >    "
-> >
-> >  LICENSE = "MIT"
-> > --
-> > 2.50.0
-> >
->
-> >
-> > -=-=-=-=-=-=-=-=-=-=-=-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#9321):
-> https://lists.yoctoproject.org/g/meta-virtualization/message/9321
-> > Mute This Topic: https://lists.yoctoproject.org/mt/114218116/1050810
-> > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> > Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub
-> [bruce.ashfield@gmail.com]
-> > -=-=-=-=-=-=-=-=-=-=-=-
-> >
->
->
+In go.bbclass, we have:
+"""
+export GOBUILDFLAGS ?= "-v ${GO_LDFLAGS} -trimpath"
+...
+python() {
+    if 'mips' in d.getVar('TARGET_ARCH') or 'riscv32' in d.getVar('TARGET_ARCH'):
+        d.appendVar('INSANE_SKIP:%s' % d.getVar('PN'), " textrel")
+    else:
+        d.appendVar('GOBUILDFLAGS', ' -buildmode=pie')
+}
+"""
 
---000000000000cd594e063a67f3b8
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+The '-v -trimpath' and arch depedent '-buildmode=pie' is generally reasonable.
+And we can see we'll need to use anonymous python function to handle PIE. So we
+should avoid overriding it unless necessary.
 
-<div dir=3D"auto">That&#39;s fine with me, thanks!<div dir=3D"auto"><br></d=
-iv><div dir=3D"auto">Ryosuke</div></div><br><div class=3D"gmail_quote gmail=
-_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Jul 21, 202=
-5, 11:34 Bruce Ashfield &lt;<a href=3D"mailto:bruce.ashfield@gmail.com">bru=
-ce.ashfield@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,20=
-4);padding-left:1ex">Rather than stacking more backports onto the recipe, I=
-&#39;ve just<br>
-bumped to -tip (I&#39;m doing more package uprev&#39;s anyway), and I&#39;m=
-<br>
-now able to build with the OE CMake bump.<br>
-<br>
-Bruce<br>
-<br>
-In message: [meta-virtualization][PATCH] tini: Fix build error with CMake 4=
-+<br>
-on 18/07/2025 Ryosuke Saito via <a href=3D"http://lists.yoctoproject.org" r=
-el=3D"noreferrer noreferrer" target=3D"_blank">lists.yoctoproject.org</a> w=
-rote:<br>
-<br>
-&gt; From: Ryosuke Saito &lt;<a href=3D"mailto:ryosuke.saito@linaro.org" ta=
-rget=3D"_blank" rel=3D"noreferrer">ryosuke.saito@linaro.org</a>&gt;<br>
-&gt; <br>
-&gt; Backport patches from <a href=3D"https://github.com/krallin/tini" rel=
-=3D"noreferrer noreferrer" target=3D"_blank">https://github.com/krallin/tin=
-i</a> to resolve the<br>
-&gt; build error with CMake 4.0 and later.<br>
-&gt; <br>
-&gt; - 0001-chore-bump-minimum-CMake-to-2.8.12.patch<br>
-&gt; - 0001-chore-allow-CMake-though-to-3.10.patch<br>
-&gt; <br>
-&gt; Signed-off-by: Ryosuke Saito &lt;<a href=3D"mailto:ryosuke.saito@linar=
-o.org" target=3D"_blank" rel=3D"noreferrer">ryosuke.saito@linaro.org</a>&gt=
-;<br>
-&gt; ---<br>
-&gt;=C2=A0 ...001-chore-allow-CMake-though-to-3.10.patch | 39 +++++++++++++=
-++++++<br>
-&gt;=C2=A0 ...1-chore-bump-minimum-CMake-to-2.8.12.patch | 29 +++++++++++++=
-+<br>
-&gt;=C2=A0 recipes-containers/tini/<a href=3D"http://tini_0.19.0.bb" rel=3D=
-"noreferrer noreferrer" target=3D"_blank">tini_0.19.0.bb</a>=C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 |=C2=A0 2 +<br>
-&gt;=C2=A0 3 files changed, 70 insertions(+)<br>
-&gt;=C2=A0 create mode 100644 recipes-containers/tini/tini/0001-chore-allow=
--CMake-though-to-3.10.patch<br>
-&gt;=C2=A0 create mode 100644 recipes-containers/tini/tini/0001-chore-bump-=
-minimum-CMake-to-2.8.12.patch<br>
-&gt; <br>
-&gt; diff --git a/recipes-containers/tini/tini/0001-chore-allow-CMake-thoug=
-h-to-3.10.patch b/recipes-containers/tini/tini/0001-chore-allow-CMake-thoug=
-h-to-3.10.patch<br>
-&gt; new file mode 100644<br>
-&gt; index 000000000000..faea9fb647f9<br>
-&gt; --- /dev/null<br>
-&gt; +++ b/recipes-containers/tini/tini/0001-chore-allow-CMake-though-to-3.=
-10.patch<br>
-&gt; @@ -0,0 +1,39 @@<br>
-&gt; +From bb775aa14cc5072cf687fd7f4edd44df62c06b1d Mon Sep 17 00:00:00 200=
-1<br>
-&gt; +From: Rudi Heitbaum &lt;<a href=3D"mailto:rudi@heitbaum.com" target=
-=3D"_blank" rel=3D"noreferrer">rudi@heitbaum.com</a>&gt;<br>
-&gt; +Date: Fri, 28 Mar 2025 19:10:02 +1100<br>
-&gt; +Subject: [PATCH] chore: allow CMake though to 3.10<br>
-&gt; +<br>
-&gt; +This is allows the build with cmake-4.0.0 without deprecation warning=
-s.<br>
-&gt; +<br>
-&gt; +use min...max syntax to allow build with newer cmake.<br>
-&gt; +ref: <a href=3D"https://cmake.org/cmake/help/latest/command/cmake_min=
-imum_required.html" rel=3D"noreferrer noreferrer" target=3D"_blank">https:/=
-/cmake.org/cmake/help/latest/command/cmake_minimum_required.html</a><br>
-&gt; +<br>
-&gt; +Fixes:<br>
-&gt; +CMake Error at CMakeLists.txt:1 (cmake_minimum_required):<br>
-&gt; +=C2=A0 Compatibility with CMake &lt; 3.5 has been removed from CMake.=
-<br>
-&gt; +<br>
-&gt; +=C2=A0 Update the VERSION argument &lt;min&gt; value.=C2=A0 Or, use t=
-he &lt;min&gt;...&lt;max&gt; syntax<br>
-&gt; +=C2=A0 to tell CMake that the project requires at least &lt;min&gt; b=
-ut has been updated<br>
-&gt; +=C2=A0 to work with policies introduced by &lt;max&gt; or earlier.<br=
->
-&gt; +<br>
-&gt; +=C2=A0 Or, add -DCMAKE_POLICY_VERSION_MINIMUM=3D3.5 to try configurin=
-g anyway.<br>
-&gt; +<br>
-&gt; +Upstream-Status: Backport [<a href=3D"https://github.com/krallin/tini=
-/commit/071c715e376e9ee0ac1a196fe8c38bcb61ad385c" rel=3D"noreferrer norefer=
-rer" target=3D"_blank">https://github.com/krallin/tini/commit/071c715e376e9=
-ee0ac1a196fe8c38bcb61ad385c</a>]<br>
-&gt; +Signed-off-by: Ryosuke Saito &lt;<a href=3D"mailto:ryosuke.saito@lina=
-ro.org" target=3D"_blank" rel=3D"noreferrer">ryosuke.saito@linaro.org</a>&g=
-t;<br>
-&gt; +---<br>
-&gt; + CMakeLists.txt | 2 +-<br>
-&gt; + 1 file changed, 1 insertion(+), 1 deletion(-)<br>
-&gt; +<br>
-&gt; +diff --git a/CMakeLists.txt b/CMakeLists.txt<br>
-&gt; +index 9b06fc13f31d..2e5390b84967 100644<br>
-&gt; +--- a/CMakeLists.txt<br>
-&gt; ++++ b/CMakeLists.txt<br>
-&gt; +@@ -1,4 +1,4 @@<br>
-&gt; +-cmake_minimum_required (VERSION 2.8.12)<br>
-&gt; ++cmake_minimum_required (VERSION 2.8.12...3.10)<br>
-&gt; + project (tini C)<br>
-&gt; + <br>
-&gt; + # Config<br>
-&gt; +-- <br>
-&gt; +2.34.1<br>
-&gt; +<br>
-&gt; diff --git a/recipes-containers/tini/tini/0001-chore-bump-minimum-CMak=
-e-to-2.8.12.patch b/recipes-containers/tini/tini/0001-chore-bump-minimum-CM=
-ake-to-2.8.12.patch<br>
-&gt; new file mode 100644<br>
-&gt; index 000000000000..ec03f7ff16b2<br>
-&gt; --- /dev/null<br>
-&gt; +++ b/recipes-containers/tini/tini/0001-chore-bump-minimum-CMake-to-2.=
-8.12.patch<br>
-&gt; @@ -0,0 +1,29 @@<br>
-&gt; +From 0a5449a61b64938354db6efae8465d530d824d37 Mon Sep 17 00:00:00 200=
-1<br>
-&gt; +From: Bjorn Neergaard &lt;<a href=3D"mailto:bneergaard@mirantis.com" =
-target=3D"_blank" rel=3D"noreferrer">bneergaard@mirantis.com</a>&gt;<br>
-&gt; +Date: Fri, 27 Jan 2023 08:07:51 -0700<br>
-&gt; +Subject: [PATCH] chore: bump minimum CMake to 2.8.12<br>
-&gt; +<br>
-&gt; +This is both the last version supported by current CMake, and the<br>
-&gt; +version in use on Enterprise Linux 7.<br>
-&gt; +<br>
-&gt; +Signed-off-by: Bjorn Neergaard &lt;<a href=3D"mailto:bneergaard@miran=
-tis.com" target=3D"_blank" rel=3D"noreferrer">bneergaard@mirantis.com</a>&g=
-t;<br>
-&gt; +<br>
-&gt; +Upstream-Status: Backport [<a href=3D"https://github.com/krallin/tini=
-/commit/0b44d3665869e46ccbac7414241b8256d6234dc4" rel=3D"noreferrer norefer=
-rer" target=3D"_blank">https://github.com/krallin/tini/commit/0b44d3665869e=
-46ccbac7414241b8256d6234dc4</a>]<br>
-&gt; +Signed-off-by: Ryosuke Saito &lt;<a href=3D"mailto:ryosuke.saito@lina=
-ro.org" target=3D"_blank" rel=3D"noreferrer">ryosuke.saito@linaro.org</a>&g=
-t;<br>
-&gt; +---<br>
-&gt; + CMakeLists.txt | 2 +-<br>
-&gt; + 1 file changed, 1 insertion(+), 1 deletion(-)<br>
-&gt; +<br>
-&gt; +diff --git a/CMakeLists.txt b/CMakeLists.txt<br>
-&gt; +index 4a6cab12fc25..9b06fc13f31d 100644<br>
-&gt; +--- a/CMakeLists.txt<br>
-&gt; ++++ b/CMakeLists.txt<br>
-&gt; +@@ -1,4 +1,4 @@<br>
-&gt; +-cmake_minimum_required (VERSION 2.8.0)<br>
-&gt; ++cmake_minimum_required (VERSION 2.8.12)<br>
-&gt; + project (tini C)<br>
-&gt; + <br>
-&gt; + # Config<br>
-&gt; +-- <br>
-&gt; +2.34.1<br>
-&gt; +<br>
-&gt; diff --git a/recipes-containers/tini/<a href=3D"http://tini_0.19.0.bb"=
- rel=3D"noreferrer noreferrer" target=3D"_blank">tini_0.19.0.bb</a> b/recip=
-es-containers/tini/<a href=3D"http://tini_0.19.0.bb" rel=3D"noreferrer nore=
-ferrer" target=3D"_blank">tini_0.19.0.bb</a><br>
-&gt; index c3ca25d07a4a..9eed4a646cba 100644<br>
-&gt; --- a/recipes-containers/tini/<a href=3D"http://tini_0.19.0.bb" rel=3D=
-"noreferrer noreferrer" target=3D"_blank">tini_0.19.0.bb</a><br>
-&gt; +++ b/recipes-containers/tini/<a href=3D"http://tini_0.19.0.bb" rel=3D=
-"noreferrer noreferrer" target=3D"_blank">tini_0.19.0.bb</a><br>
-&gt; @@ -10,6 +10,8 @@ SRC_URI =3D &quot; \<br>
-&gt;=C2=A0 =C2=A0 file://0001-Do-not-strip-the-output-binary-allow-yocto-to=
--do-thi.patch \<br>
-&gt;=C2=A0 =C2=A0 file://0001-tini.c-a-function-declaration-without-a-proto=
-type-is.patch \<br>
-&gt;=C2=A0 =C2=A0 file://0001-Support-POSIX-basename-from-musl-libc.patch \=
-<br>
-&gt; +=C2=A0 file://0001-chore-bump-minimum-CMake-to-2.8.12.patch \<br>
-&gt; +=C2=A0 file://0001-chore-allow-CMake-though-to-3.10.patch \<br>
-&gt;=C2=A0 =C2=A0 &quot;<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 LICENSE =3D &quot;MIT&quot;<br>
-&gt; -- <br>
-&gt; 2.50.0<br>
-&gt; <br>
-<br>
-&gt; <br>
-&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt; Links: You receive all messages sent to this group.<br>
-&gt; View/Reply Online (#9321): <a href=3D"https://lists.yoctoproject.org/g=
-/meta-virtualization/message/9321" rel=3D"noreferrer noreferrer" target=3D"=
-_blank">https://lists.yoctoproject.org/g/meta-virtualization/message/9321</=
-a><br>
-&gt; Mute This Topic: <a href=3D"https://lists.yoctoproject.org/mt/11421811=
-6/1050810" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lists.yo=
-ctoproject.org/mt/114218116/1050810</a><br>
-&gt; Group Owner: <a href=3D"mailto:meta-virtualization%2Bowner@lists.yocto=
-project.org" target=3D"_blank" rel=3D"noreferrer">meta-virtualization+owner=
-@lists.yoctoproject.org</a><br>
-&gt; Unsubscribe: <a href=3D"https://lists.yoctoproject.org/g/meta-virtuali=
-zation/unsub" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lists=
-.yoctoproject.org/g/meta-virtualization/unsub</a> [<a href=3D"mailto:bruce.=
-ashfield@gmail.com" target=3D"_blank" rel=3D"noreferrer">bruce.ashfield@gma=
-il.com</a>]<br>
-&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt; <br>
-<br>
-</blockquote></div>
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ recipes-containers/skopeo/skopeo_git.bb | 1 -
+ 1 file changed, 1 deletion(-)
 
---000000000000cd594e063a67f3b8--
+diff --git a/recipes-containers/skopeo/skopeo_git.bb b/recipes-containers/skopeo/skopeo_git.bb
+index c5518cdc..32938108 100644
+--- a/recipes-containers/skopeo/skopeo_git.bb
++++ b/recipes-containers/skopeo/skopeo_git.bb
+@@ -60,7 +60,6 @@ do_compile() {
+ 	export CGO_LDFLAGS="${TARGET_LDFLAGS}"
+ 
+ 	export GO111MODULE=off
+-	export GOBUILDFLAGS="-trimpath"
+ 	export EXTRA_LDFLAGS="-s -w"
+ 
+ 	oe_runmake bin/skopeo
+-- 
+2.34.1
+
 
