@@ -1,200 +1,180 @@
-Return-Path: <Qi.Chen@windriver.com>
+Return-Path: <sudumbha@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4AD0C87FC5
-	for <webhook@archiver.kernel.org>; Mon, 21 Jul 2025 09:26:51 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.36342.1753090002598390501
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DB28C83F25
+	for <webhook@archiver.kernel.org>; Mon, 21 Jul 2025 10:19:12 +0000 (UTC)
+Received: from alln-iport-7.cisco.com (alln-iport-7.cisco.com [173.37.142.94])
+ by mx.groups.io with SMTP id smtpd.web10.37064.1753093143381940466
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 21 Jul 2025 02:26:42 -0700
+ Mon, 21 Jul 2025 03:19:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=92974f89d0=qi.chen@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.8/8.18.1.8) with ESMTP id 56L6t24r1250193
-	for <meta-virtualization@lists.yoctoproject.org>; Mon, 21 Jul 2025 02:26:42 -0700
-Received: from nam11-bn8-obe.outbound.protection.outlook.com (mail-bn8nam11on2086.outbound.protection.outlook.com [40.107.236.86])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4806n0sk3m-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
-	for <meta-virtualization@lists.yoctoproject.org>; Mon, 21 Jul 2025 02:26:42 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=nyUI2fiOBSdgQkTyJw4nht8PDkNjobEQnro1kx3QA8q50aBzNtIEcDZgu5WDmxg/J43fQ0biwP2ZUWGuBXbcDR10BvTHvMxmzEJsDjsy8SGE0ljE2yVsp3wmIY5Non7ml7XWDQiAZY40AMSrRtU0hZ56G/R3FlCUMgG6Q/QjVRpZ2bDxT3GBbWsk4BBVFDv+qn2NZByy0JaX3sWgMakLUgLNa7gRGXw8SvYzQ2n96aSBJ7d8BTLUdEcqh5a23Owzo6naoHpMtN14PePyhpMOW6v0gn86PWbHTW+Xk1M6D+KWrQBU0PZhXHFokFJWPbcqKWpKrto3A4BcfArcc+6QgQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2diafv6p4HW3yhjK50Ibm9Vs2CzYbOABZu6H17iZvsY=;
- b=ALgOjVg29+MHpwgrqz/D82JHtmL3FgzMUsUDnw81LUYoFnDNmU1xPZwpBsrVrB5mOLIdoLusiMYiR4CnGjRXIrWSVXQJhWo4/Q+WbaSYXdhRYdLQw34s6cGrwz+FaTNdEt4f7I14JzpalNowEtXDrxwPDBvqxQhmaD1x5GOisBRryZeovG6eQSjiwTIHJWTFDbW1jNmDX5TDdOi6YbwvWqVd/RDruXiF/VKl4/qzgKbdqVtKADs2qR6abX0i/fBFfdK9IWYFHv6ZXgjhtyX8ngGWyR6V68NR+2HRxqKpxUI02ahNnl1TXGlAZAV1ef71KCoNzD6i224F1fAA6leoNA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
- by MW3PR11MB4553.namprd11.prod.outlook.com (2603:10b6:303:2c::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8922.36; Mon, 21 Jul
- 2025 09:26:38 +0000
-Received: from CO6PR11MB5602.namprd11.prod.outlook.com
- ([fe80::a7e3:721d:9cec:6093]) by CO6PR11MB5602.namprd11.prod.outlook.com
- ([fe80::a7e3:721d:9cec:6093%6]) with mapi id 15.20.8943.029; Mon, 21 Jul 2025
- 09:26:37 +0000
-From: Qi.Chen@windriver.com
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=d601UtJs;
+ spf=pass (domain: cisco.com, ip: 173.37.142.94, mailfrom: sudumbha@cisco.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=cisco.com; i=@cisco.com; l=3417; q=dns/txt;
+  s=iport01; t=1753093143; x=1754302743;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=UCYtapDJV+n4YiHRiZeBFzonroGj2QTGnlcOP6va9G8=;
+  b=d601UtJsgdOpZHTmoVjBBBbNW5fJD0s/eKkROwyvSTOKUcDs6PYmATXq
+   wt54ddHTuI5gwrFarm3lJi4RWgOfvAAW7MVrpV9fibJTKHszlEh+0I4K7
+   dWA6bg1nZj/XM+pXZV62LOghXXAAoPJhz6D6MVjAhYWDqp/CpZ0SrQH0R
+   jZIDYiqiHYpdyTljBzXuJOKp+HN1zVVkGrwctq7FUwjdFrC1rSkkoxQk7
+   nxpjJMNuzdPdLTfD/ujmv0Dwg1bu0R/Flo1jObKbpBemlfIbC65qtOEFF
+   rTBOKvw0Mxep5ZAEamS2wuj+JbvxrUAgiOzQHV4Wa/AIzFBNtuORRYobk
+   w==;
+X-CSE-ConnectionGUID: 5eJvr+jzSQiIktlfzVpSow==
+X-CSE-MsgGUID: ws4NcNfzTyagA5PX9hVYVw==
+X-IPAS-Result: =?us-ascii?q?A0AIAACMEn5o/4oQJK1aGgEBAQEBAQEBAQEDAQEBARIBA?=
+ =?us-ascii?q?QEBAgIBAQEBQIFABAEBAQELAYJKeVpCSYRUkXEDi2QQkiSBfw8BAQEPPRQEA?=
+ =?us-ascii?q?QGFBwKMEgImNQgOAQIEAQEBAQMCAwEBAQEBAQEBAQEBCwEBBQEBAQIBBwWBD?=
+ =?us-ascii?q?hOFew2GWwIBAyMPAUYQHwYCJgICIAsrGYMCAYI5AzICARGuSXqBMoEBg2gCQ?=
+ =?us-ascii?q?0/YQQ1ugW2BGy4BiDIeAYR8bwGEdycbgUlEglCCLYEFgRpCAQGFO4JHIgSDO?=
+ =?us-ascii?q?Ihjg1GEN4EFhndIgQIcA1ksAVUTDQoLBwWBYwM1DAsuFW4yHYEnhRiEKCtPh?=
+ =?us-ascii?q?RCBGYNTJG0PBoEYgnBAAwsYDUgRLDcUGwY9AW4HkWyCKnw9PhMBK1QnICgRW?=
+ =?us-ascii?q?E6SV5JPoBtxhCaMHo88hXwaM4VbpQ4LmHuLNYJThAiRKoEchGmBaQE6gUcLB?=
+ =?us-ascii?q?00jFYMiCUkZD444g2mBf79OIzU8AgcBCgEBAwmRDQEB?=
+IronPort-Data: A9a23:U7aafKrOgIapP832FzmNoqSFkLxeBmJIZBIvgKrLsJaIsI4StFCzt
+ garIBmHO/yPY2HwKt91YIvj/UgCvMLVyYUwQQI+riFkFCMU8+PIVI+TRqvS04x+DSFioGZPt
+ Zh2hgzodZhsJpPkjk7zdOCn9z8ljPvgqoPUUIbsIjp2SRJvVBAvgBdin/9RqoNziLBVOSvV0
+ T/Ji5OZYQHNNwJcaDpOtvrc8ks34JwehRtB1rAATaET1LPhvyF94KI3fcmZM3b+S49IKe+2L
+ 86r5K255G7Q4yA2AdqjlLvhGmVSKlIFFVHT4pb+c/HKbilq/kTe4I5iXBYvQRs/ZwGyojxE4
+ I4lWapc5useFvakdOw1C3G0GszlVEFM0OevzXOX6aR/w6BaGpfh660GMa04AWEX0rt6I39Ut
+ v4KEwkMTxOfg+yk/qqATfY506zPLOGzVG8eknhkyTecCbMtRorOBv2To9RZxzw3wMtJGJ4yZ
+ eJANmEpN0qGOkMJYwxHYH49tL/Aan3XaCBUtVefpaMf6GnIxws327/oWDbQUoHSGp4MwhzB/
+ Qoq+UzmGU08P/qR2waU+32F29f/zCPFabwNQejQGvlCxQf7KnYoIBgbSVL+v/ijllO3X9NNI
+ lAV/SwGqakp6FftX972QxqgunmGsxUAHd1KHIUHBBqlw67Q5UOdQ2MDVDMEMIVgv84tTjts3
+ ViM9z/0OQFSXHSuYSr13t+pQfmaY0D58Udqifc4cDY4
+IronPort-HdrOrdr: A9a23:6YvGjqEQ1GOgln7TpLqE1ceALOsnbusQ8zAXPo5KJiC9Ffbo8f
+ xG/c5rsiMc5wxxZJhNo7290ey7MBHhHP1OkO0s1NWZPDUO0VHAROoJ0WKh+UyEJ8SUzIBgPM
+ lbH5SWcOeAbmSTSa3BkXGF+xFK+qj/zJyV
+X-Talos-CUID: 9a23:VU2uT28yKl8Zii7bCJyVvxMZON4/MX/P907RAkykDWh7dqWuTkDFrQ==
+X-Talos-MUID: 9a23:S/e3RQqub4ljMpLP+Dwezy55aOFjxaq8NFEEnrxbg/nVNRJBBSjI2Q==
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.16,328,1744070400"; 
+   d="scan'208";a="507314213"
+Received: from alln-l-core-01.cisco.com ([173.36.16.138])
+  by alln-iport-7.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 21 Jul 2025 10:19:02 +0000
+Received: from sjc-ads-12007.cisco.com (sjc-ads-12007.cisco.com [171.70.97.7])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by alln-l-core-01.cisco.com (Postfix) with ESMTPS id 1EA7D180003D1;
+	Mon, 21 Jul 2025 10:19:02 +0000 (GMT)
+Received: by sjc-ads-12007.cisco.com (Postfix, from userid 1840713)
+	id ACFC6CCD994; Mon, 21 Jul 2025 03:19:01 -0700 (PDT)
+From: Sudhir Dumbhare <sudumbha@cisco.com>
 To: meta-virtualization@lists.yoctoproject.org
-Subject: [meta-virtualization][PATCH] skopeo: avoid overriding GOBUILDFLAGS set in go.bbclass
-Date: Mon, 21 Jul 2025 17:26:08 +0800
-Message-Id: <20250721092608.1271610-1-Qi.Chen@windriver.com>
-X-Mailer: git-send-email 2.34.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SG2PR02CA0056.apcprd02.prod.outlook.com
- (2603:1096:4:54::20) To CO6PR11MB5602.namprd11.prod.outlook.com
- (2603:10b6:303:13a::5)
+Cc: xe-linux-external@cisco.com,
+	vchavda@cisco.com
+Subject: [meta-virtualization] [scarthgap] [PATCH] docker-moby 25.0.3: fix CVE-2024-36623
+Date: Mon, 21 Jul 2025 03:17:56 -0700
+Message-ID: <20250721101900.759952-1-sudumbha@cisco.com>
+X-Mailer: git-send-email 2.44.1
+In-Reply-To: <aH2oBWMowUl8f7+U@gmail.com>
+References: <aH2oBWMowUl8f7+U@gmail.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO6PR11MB5602:EE_|MW3PR11MB4553:EE_
-X-MS-Office365-Filtering-Correlation-Id: c4083bff-ef08-45f1-bcb3-08ddc838b152
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|366016|376014|52116014|1800799024|38350700014;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?+esSclmgB9K3ieYi76IB8bCUCyFVhbm7Bzu6cT0EoP3HzUmIkoHx/q6f4BA6?=
- =?us-ascii?Q?P+37w5Uu8GpuKLIeykSJ4U8QIjBPkkA2TbpwUlQNe3nfF4hMxU7RAJ1MyIX0?=
- =?us-ascii?Q?oIQCAAlIlblwbKQy6p6y1bbiYQuRTOTkrCFiPRgw2G7QCagX9XSILshlLsGq?=
- =?us-ascii?Q?ywLmVPzj6rtaI4eTKfjCr2thEQIKgh3SjkHJni/QII7NoaxnfFuaE8HztALA?=
- =?us-ascii?Q?boiftXqW+QXGY6LOhqYhlf95zztkqA4MRRFnUkqYQaJIXsUqBE9MSfnRrofv?=
- =?us-ascii?Q?I9cW0z6RaL+hQntNm0rS5+QFVSh4B+ELrgwUZnMgbiqbYdyLEHGrFgWcvoCH?=
- =?us-ascii?Q?+uxpeJzOilmrI8eoAjQchk/e63S7Q6hh2pyUVOkIbU0omJ3zahPXox2zNYsG?=
- =?us-ascii?Q?7UZbAt7+fpJrduUU044IgJIbMAEt1tOZYh03NsDiDVnCGW/1SuR90MrTPQ7O?=
- =?us-ascii?Q?TUolwbqUziOCFPannpxVrYDO0Wgqa18daeDG3h2lgfbz6XDdZHAIOA8GgDMy?=
- =?us-ascii?Q?n4nUn5zqpkHen2FUm0yr+7TUwvRjIb0QXoYzbOheqXm6QQ/j1lXFVkb0h/sG?=
- =?us-ascii?Q?Q4XwrP4SH13j0reQubboG2tXm38qK6503mcwuoSSIl1/vS4aXQZN4Dz74njC?=
- =?us-ascii?Q?Kk0+yJ1EMkQmCYIJyR/oA8wcYrV3BGepr6nMJzQQvS2ALSgJrE4FDyR4TMLv?=
- =?us-ascii?Q?+kX3cwQXFnbkMBQpzKgSeBtWCoz4LNOliI1g0Nps1H90RMqERXzbKSitxToV?=
- =?us-ascii?Q?BtNI2w69RNAdM6UTHJYcPfXETJN70oo+ghEePU4X/FpAGDzBQvsmlPCwZYoR?=
- =?us-ascii?Q?7tgKii0h6reG5dDvNPK1tODb+zZfuG/nauXC/X8LT9LSQVGtKIvJK7p9ULIe?=
- =?us-ascii?Q?stIOgxfdUt7Tzq26Qtrz3q4qt2cYnfkkuAqVVt5MA1LAvqtD01fegKyBbp54?=
- =?us-ascii?Q?5LRkPeddsRPOrUUore3DM3X2Vc/VDbKBpp6TBhGNFbILEEGFrG3cVkdfI1fr?=
- =?us-ascii?Q?9c+sNPcxGRskohJ+OJXvaZtVV+Ee2CwyesWx4mAzsOfRsxGv1n/lSyypgWwa?=
- =?us-ascii?Q?zbLS7WdZ/qoiWy0z3fIjTwwi61WJbSaavsjl0H5EsuN5yNxO+lfwvmq6pNvK?=
- =?us-ascii?Q?00Xw9fpscC10psrOxJ8DK0qp7iRY1o85z7OaZZal8YCkwTwmTnA5mZYVppsk?=
- =?us-ascii?Q?2wNvmFIuSDl8EDuKGin4lXnvW8g/YJsmHI4xjs0TwRil85klq1lo3bZAqZfg?=
- =?us-ascii?Q?VnGQoTCMpoQDEyncYd+7MM5QQ5T5NqfeU8FWOZpluM65vVCoNNJG24f+qgKI?=
- =?us-ascii?Q?fWOWiVzLefPD1Xkl1De7agTvCuIJLg6Ff67q398C3gO3Arev0W0ZwIyuyP62?=
- =?us-ascii?Q?STVIiN18fSsfbWiVRSZp9XhTCSFgYLgvefwkl/Nto4Jv53x+TcE7k5XJ8HCB?=
- =?us-ascii?Q?yJizkamhzuVQ0Z6MAoQigQpDRzih60PZHdvhkCGQyQ333965xFMRUA=3D=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(52116014)(1800799024)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?mzHekUP2MPJsMVzGbccVvfijOh4MbGpSeSL7hXie8X8U3UvzImi+ohMi1Cfx?=
- =?us-ascii?Q?bNeQQYlDkBQnwNRGaADv0pMy2UQxh4WpNmWbi/jHPHy8nic+G3W2K5mvW9hy?=
- =?us-ascii?Q?6t18yYunpNEwtld4VTrwZMSldZnW04xQZ1jwx8wNUZUTbVlKzyFHhttHGq4B?=
- =?us-ascii?Q?DdWHv613YVAWOwjiqptu3dh0UhG1z+7VSOqKAKUJbnfMxPmxaZP5N0AgpWJ7?=
- =?us-ascii?Q?UF2yd7v72zaIAtf6OReQvCaGsVayzKPllUHEZgmgXadkj2Qph7/uBgJgXxn0?=
- =?us-ascii?Q?ba5N1OI6u3K8dEXZxu/6joKsdps9mh4SPo2dS6pdgwjZas5o/lALG7PlVYgz?=
- =?us-ascii?Q?n89gKD48SdDNOXFT1O0+3x2jd5/XbZVQdqNwYHUAYkq5FznZiWsHDh+Zge+6?=
- =?us-ascii?Q?cqKgRmM5STDC6blC7I5MVHhxRp/a5feLgvGWAZ5pF2W+3lhPdFU2WPVOV1l4?=
- =?us-ascii?Q?ezv+UuVuq25XQYEnJ/2rdcLOB1+ErLW1rEHsEhDeO/wTB+0sXK+KMiR5BMIP?=
- =?us-ascii?Q?TjIh2mznmo7qX3Ep/LeTqJ+Vsbaksir58YF1ThyKwvpqQX7fcONpPYUwvWaS?=
- =?us-ascii?Q?n0hGtnDlPbLGIppOUyZ6Cf8J4n+p2BbuEkw5ZaW0wYpLkLxEACPwYbRpcuN/?=
- =?us-ascii?Q?yweSyniTqBAY3RxnyOOYVMNtxUTAorvCe/EwQNix5mi/k+jw3kuriSYtYvqu?=
- =?us-ascii?Q?HDRNxDuIQZf9tc4NMMILYwZdv8cDyfGtTOkJnO23DH7Zc8AIsGaTPftLJW1H?=
- =?us-ascii?Q?N2jhwcmSk5TdWGry84KUsnPoirzl1VMLQcv9RkkiCmAJqJuboBho/g9Tbi+o?=
- =?us-ascii?Q?oWSQ8ggHkT0HYrJoJRgWpuanQtQyEhLBQ2qmvPXsdaMblFcnR/AVCqe1a3d0?=
- =?us-ascii?Q?J4DAfVPFtqE6KtTQV7aVwW9/xL2OPUmpv34MVc7boLWT84kcgca5tQ4Ge6F+?=
- =?us-ascii?Q?CNNjvVK5fQ9g2ZJoLgzGeMHDMHWDJjWY/9pmV2ZTSUEZsLCFDVHULZveuRWa?=
- =?us-ascii?Q?NrGLKaeXN+z2PJfKUwiibo3xJR6zpYkaTKzrolhzkeE1qsnBIEIFXxQkUHW+?=
- =?us-ascii?Q?3YTXzKjp2CaW2bz/Jm0a27eH5nOtvNGUh2CsLAndmiPE958FjkK4r6U6zTC/?=
- =?us-ascii?Q?d5tyPZRpwAS70X75A/4++GSAXoj1alHiaf3pin65+3xr5nr9hxyX/I0p/tKL?=
- =?us-ascii?Q?4ts9ScW7H4h8sX9nRRttGxvpv+DpG6kSmt8cGgs/5ktcNGxKQUuAzVD+1ivh?=
- =?us-ascii?Q?uk9cyxIBobzlsyOSbVQOwCXfoG51cSt8/84Dlve8N9R/wvLCBJLmvBmHPOlr?=
- =?us-ascii?Q?4pVJfS+km40rB2JaIKC3VMjUFq60ioStp1aq4kK3x9fiMHkYpD6cdFD5hH21?=
- =?us-ascii?Q?hHxQ1t7ccbaBkcxMZM+oL+YPJAkLOuxRKGIcDW0BdbiNH4U5zCQCNayUyY/y?=
- =?us-ascii?Q?tX6gPhvzKGDEW4pyYiBCls5ib9N7XiGUZ7nW72YJh0QGJYEZNmj5KuFXQh2T?=
- =?us-ascii?Q?hcapR9zBw2gHeYBPZpeElX8Nq4m+omG7NtF/3XF/5mOuscqta2BwavLclqmx?=
- =?us-ascii?Q?4cQtArtCKa95DEW6sUJFDiy1dzQ/nOuqgurVLkE+?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c4083bff-ef08-45f1-bcb3-08ddc838b152
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jul 2025 09:26:37.6906
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: DrILu3FAbIOVLZCByZaotb2f5RHjc5Jf+QK73BrU2/kYo6zqe2gVWnzJ7+QNXia0fLzpSdHVznqe8a4Q79c8+w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR11MB4553
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzE5MDA2OCBTYWx0ZWRfX11ehwPwVIEtC
- wFajs0XDv48gATeqHhZdJnGASNNF55AJ6aARPPrw8TOx3hP+okPkrztkaTBmKG1M1jYED3Uohma
- vLgb5Ddhs3ou0nnnqLznaZueVkX8SV/kazxgZ0XCewN8wtQi+JK4xWFxl6wmPMXRKG8xhAhSapI
- bCdlt0TqxEie++QgYOV7v+Q+R9neMZykZgqKpq/dL/Ds22KDVSo0e7a8VoAj6E/vI5Xl5zcyPyb
- f+NR8NyXddTNWNzkyqUg3+ILP8xn22n+gtWs2QZmvEyFrWacoayV4TgMjSIkkqOfEyrgFzEoiqh
- VXgqkgxMV9Afu8SIf0xa+vfJ6R0eA8cwgIascSvW7dMpoW1uBv32ZFhPiciMvrP45E+k1iZdp0J
- I6s/6N1Z
-X-Proofpoint-ORIG-GUID: dd9g64-pVEua4Qm3Gw9ESZ6oVYimToWP
-X-Proofpoint-GUID: dd9g64-pVEua4Qm3Gw9ESZ6oVYimToWP
-X-Authority-Analysis: v=2.4 cv=W4g4VQWk c=1 sm=1 tr=0 ts=687e07d2 cx=c_pps
- a=Fc+powxz0z9PvbHcotDBUA==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19
- a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=Wb1JkmetP80A:10
- a=t7CeM3EgAAAA:8 a=eeoF5tMu70cC8OtShIYA:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-07-21_02,2025-07-21_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 impostorscore=0 bulkscore=0 spamscore=0 malwarescore=0
- clxscore=1015 adultscore=0 priorityscore=1501 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2506270000 definitions=main-2507190068
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Outbound-SMTP-Client: 171.70.97.7, sjc-ads-12007.cisco.com
+X-Outbound-Node: alln-l-core-01.cisco.com
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Mon, 21 Jul 2025 09:26:51 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9326
+ <meta-virtualization@lists.yoctoproject.org>; Mon, 21 Jul 2025 10:19:12 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9327
 
-From: Chen Qi <Qi.Chen@windriver.com>
+Bug Details: https://nvd.nist.gov/vuln/detail/CVE-2024-36623
+Type: Security Fix
+CVE: CVE-2024-36623
+Score: 8.1
+Patch: https://github.com/moby/moby/commit/8e3bcf197488
 
-When MACHINE is riscv64, skopeo fails to build with the following
-error message:
+Analysis:
+- Moby through v25.0.3 has a race condition vulnerability in the
+  streamformatter package. It can trigger multiple concurrent write
+  operations resulting in data corruption. [1]
+- The fix adds a mutex to prevent concurrent writes and protect
+  against data corruption. [2]
 
-  ERROR: QA Issue: skopeo: ELF binary /usr/sbin/skopeo has relocations in .text [textrel]
+Reference:
+[1] https://nvd.nist.gov/vuln/detail/CVE-2024-36623
+[2] https://github.com/moby/moby/commit/8e3bcf197488
 
-To reproduce the issue, run the following command:
-MACHINE=qemuriscv64 bitbake skopeo
-
-In go.bbclass, we have:
-"""
-export GOBUILDFLAGS ?= "-v ${GO_LDFLAGS} -trimpath"
-...
-python() {
-    if 'mips' in d.getVar('TARGET_ARCH') or 'riscv32' in d.getVar('TARGET_ARCH'):
-        d.appendVar('INSANE_SKIP:%s' % d.getVar('PN'), " textrel")
-    else:
-        d.appendVar('GOBUILDFLAGS', ' -buildmode=pie')
-}
-"""
-
-The '-v -trimpath' and arch depedent '-buildmode=pie' is generally reasonable.
-And we can see we'll need to use anonymous python function to handle PIE. So we
-should avoid overriding it unless necessary.
-
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+Signed-off-by: Sudhir Dumbhare <sudumbha@cisco.com>
 ---
- recipes-containers/skopeo/skopeo_git.bb | 1 -
- 1 file changed, 1 deletion(-)
+ recipes-containers/docker/docker-moby_git.bb  |  1 +
+ .../docker/files/CVE-2024-36623.patch         | 47 +++++++++++++++++++
+ 2 files changed, 48 insertions(+)
+ create mode 100644 recipes-containers/docker/files/CVE-2024-36623.patch
 
-diff --git a/recipes-containers/skopeo/skopeo_git.bb b/recipes-containers/skopeo/skopeo_git.bb
-index c5518cdc..32938108 100644
---- a/recipes-containers/skopeo/skopeo_git.bb
-+++ b/recipes-containers/skopeo/skopeo_git.bb
-@@ -60,7 +60,6 @@ do_compile() {
- 	export CGO_LDFLAGS="${TARGET_LDFLAGS}"
+diff --git a/recipes-containers/docker/docker-moby_git.bb b/recipes-containers/docker/docker-moby_git.bb
+index aa239f68..d40e3e17 100644
+--- a/recipes-containers/docker/docker-moby_git.bb
++++ b/recipes-containers/docker/docker-moby_git.bb
+@@ -60,6 +60,7 @@ SRC_URI = "\
+         file://CVE-2024-36621.patch;patchdir=src/import \
+         file://CVE-2024-29018_p1.patch;patchdir=src/import \
+         file://CVE-2024-29018_p2.patch;patchdir=src/import \
++        file://CVE-2024-36623.patch;patchdir=src/import \
+ 	"
  
- 	export GO111MODULE=off
--	export GOBUILDFLAGS="-trimpath"
- 	export EXTRA_LDFLAGS="-s -w"
- 
- 	oe_runmake bin/skopeo
+ DOCKER_COMMIT = "${SRCREV_moby}"
+diff --git a/recipes-containers/docker/files/CVE-2024-36623.patch b/recipes-containers/docker/files/CVE-2024-36623.patch
+new file mode 100644
+index 00000000..28553c3e
+--- /dev/null
++++ b/recipes-containers/docker/files/CVE-2024-36623.patch
+@@ -0,0 +1,47 @@
++commit 5becb76fa5a5cb9de135b82017dbc7da7d345614
++Author: Paweł Gronowski <pawel.gronowski@docker.com>
++Date:   Thu Feb 22 18:01:40 2024 +0100
++
++    pkg/streamformatter: Make `progressOutput` concurrency safe
++
++    Sync access to the underlying `io.Writer` with a mutex.
++
++    Upstream-Status: Backport [https://github.com/moby/moby/commit/8e3bcf197488]
++    CVE: CVE-2024-36623
++
++    Signed-off-by: Paweł Gronowski <pawel.gronowski@docker.com>
++    (cherry picked from commit 5689dabfb357b673abdb4391eef426f297d7d1bb)
++    Signed-off-by: Albin Kerouanton <albinker@gmail.com>
++    (cherry picked from commit 8e3bcf19748838b30e34d612832d1dc9d90363b8)
++    Signed-off-by: Sudhir Dumbhare <sudumbha@cisco.com>
++
++diff --git a/pkg/streamformatter/streamformatter.go b/pkg/streamformatter/streamformatter.go
++index b0456e580d..098df6b523 100644
++--- a/pkg/streamformatter/streamformatter.go
+++++ b/pkg/streamformatter/streamformatter.go
++@@ -5,6 +5,7 @@ import (
++ 	"encoding/json"
++ 	"fmt"
++ 	"io"
+++	"sync"
++ 
++ 	"github.com/docker/docker/pkg/jsonmessage"
++ 	"github.com/docker/docker/pkg/progress"
++@@ -109,6 +110,7 @@ type progressOutput struct {
++ 	sf       formatProgress
++ 	out      io.Writer
++ 	newLines bool
+++	mu       sync.Mutex
++ }
++ 
++ // WriteProgress formats progress information from a ProgressReader.
++@@ -120,6 +122,9 @@ func (out *progressOutput) WriteProgress(prog progress.Progress) error {
++ 		jsonProgress := jsonmessage.JSONProgress{Current: prog.Current, Total: prog.Total, HideCounts: prog.HideCounts, Units: prog.Units}
++ 		formatted = out.sf.formatProgress(prog.ID, prog.Action, &jsonProgress, prog.Aux)
++ 	}
+++
+++	out.mu.Lock()
+++	defer out.mu.Unlock()
++ 	_, err := out.out.Write(formatted)
++ 	if err != nil {
++ 		return err
 -- 
-2.34.1
+2.23.1
 
 
