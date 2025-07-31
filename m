@@ -1,556 +1,177 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <koen.kooi@oss.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BD3E7C83F26
-	for <webhook@archiver.kernel.org>; Tue, 29 Jul 2025 17:43:13 +0000 (UTC)
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
- by mx.groups.io with SMTP id smtpd.web11.14652.1753810993352221317
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54A63C87FCC
+	for <webhook@archiver.kernel.org>; Thu, 31 Jul 2025 14:42:01 +0000 (UTC)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+ by mx.groups.io with SMTP id smtpd.web10.63897.1753972912933411263
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 29 Jul 2025 10:43:13 -0700
+ Thu, 31 Jul 2025 07:41:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=cPbh5g3O;
- spf=pass (domain: gmail.com, ip: 209.85.215.180, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-b391ca6146eso5198877a12.3
-        for <meta-virtualization@lists.yoctoproject.org>; Tue, 29 Jul 2025 10:43:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753810993; x=1754415793; darn=lists.yoctoproject.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=2eXhVDRyoA1XwZ3xou1WAP+oa4h0urAl7kp2PQU/e0M=;
-        b=cPbh5g3OyqNZVAFshM2Rdc4tWvEkDcq/AtKK07TfLCqDqKAY4kDTYbEGtUFr5L6wyD
-         0uqppFdLEWhAHpOxA26dqeIZqFMwRoAEls4hZyQ+ia5da4nAou0rDJOpRsR5SB+K5Vfs
-         vEA/Zd0C8e2v8k/CGYQFUceVfXf2wO1orV4BeivPA1reoUVnGKQQomFXD6CgLGP70Mii
-         DZDvYtulO8QeIf7BOcuBCM2KCvY4UWLZ6n8jgq+2XbGHNmicGuCrx0Yjm31K88jD5q0S
-         xtXnsiPahv/ftwoVLdmaZ/IxFwPHe4zlgL60+XresfKQqCYSQy/916sn/cr6+QRmFZYV
-         pb1A==
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=KWEJmPcH;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.180.131, mailfrom: koen.kooi@oss.qualcomm.com)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56VDf2kT018831
+	for <meta-virtualization@lists.yoctoproject.org>; Thu, 31 Jul 2025 14:41:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	HuYhpINsjlYIz9zYKJyUrBNxmyS1l+S6wFb9hcXYU4I=; b=KWEJmPcH/5nkxlps
+	W8tzCUt1DFQY7B+tHuI5i1IftJL/Hs2hPc+uqOJjEIBqW3WfN8Ee0IAkyqGb9Y0e
+	h1IrKzWKFTDBNyFOUj+FV/hePPWIgDehSOdgZT1d6KXDZjRrZ27AK8XpllWVxS54
+	Bks2W9Y69+EID7q39bYaF4R1R3pB7r1IJRWb3DIG7lPoftwMD8MkOVnklXbSvWm3
+	7Cx0dllSYJR8TwnhEbP+bbD9PWvHD2sIVs0QUvVM8T2/MyE2J1cSvWpYNB++TJOt
+	5a6Zx5T5pdYXfkMcJMv8p50TtmZ3BcbPTY5041ACmTt78A8nBw5VD164vkq4Mnf6
+	DUQ6bw==
+Received: from mail-vk1-f197.google.com (mail-vk1-f197.google.com [209.85.221.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 484qda81w9-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <meta-virtualization@lists.yoctoproject.org>; Thu, 31 Jul 2025 14:41:51 +0000 (GMT)
+Received: by mail-vk1-f197.google.com with SMTP id 71dfb90a1353d-53943d3c9baso75678e0c.2
+        for <meta-virtualization@lists.yoctoproject.org>; Thu, 31 Jul 2025 07:41:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753810993; x=1754415793;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2eXhVDRyoA1XwZ3xou1WAP+oa4h0urAl7kp2PQU/e0M=;
-        b=Rp4CZKjT6sRfaRyDUSx8HZ5zcv8egIwaCvIHrSyZp/Xc/8g6UY4sUJLv7flLmrSHej
-         aO1eZsjxQuIMNe9He2CLrAyNZPWBRoCaKXy/ejsbLnevBH2JCeUSZsHDn4zCZRvn6bhY
-         9BsdI1S6RiJGjdMHGLulDNMvakkUgprkpUR4ToVnk1LVK/MbXIF8gJ3U6sZw+N4N63Ov
-         exVF8IiTlItKVWd3+MVqLEmcyx1MTlfWBCJMOxH0z77iFeZ59icPnYdJ0GXARrpKdaBg
-         gVD1/8+ta2Il+SqTLvS6iTev39Nm2h2pu9JbzTN17cgAFzapuzlHDJ5oSzxpj2ekz4J3
-         NiTg==
-X-Gm-Message-State: AOJu0YxXrdxp1jEo4RBjvaKNzCwiWDXzJX6PgEmrmQz/1cpOpe15PhaH
-	F3d4DRQZvI6Of6ygN2o0tKDXhMQIZg5hTAgqER53fHEhkzoUiJmtaOn3rn5jQx0OQbviG/UPRjr
-	UaaPp7j9vCaLujKUJjwWPp3BmwA6k5Wk=
-X-Gm-Gg: ASbGnctuObskPTeFV7u7Z0YOTr5mF36S572nFHrEuVJOsC97lT81y4SZmm6QIELntzx
-	ggNj9LRjrKb24QdI++MbVPvpCWLK0pammEBCTPJ8ndv6HYiN5yDvlFkB3eZPcdX/ErcoXBlbQ7e
-	bJd+kUefLKSP0eI3kKxENMZzDRN4oyP0vB1MnfWxGAOVWKYUlTZPB+rlDR/exFuR23cR5EMM67e
-	/Sc5bk=
-X-Google-Smtp-Source: AGHT+IHZzd1IRdus3q8AnqQpZT2ZKn82BU9/0VyTy9fee8NAib+gW3O03xkEVnWQAL4KygbvXzX57qSviXHhpFP4l6w=
-X-Received: by 2002:a17:902:e890:b0:224:910:23f0 with SMTP id
- d9443c01a7336-24096b3d823mr3959015ad.49.1753810992212; Tue, 29 Jul 2025
- 10:43:12 -0700 (PDT)
-MIME-Version: 1.0
-References: <1856C55E15D2D277.21808@lists.yoctoproject.org> <CAOU5ZMsS8sdnefqHmXtGNkN0CPx_HNZGp2JhR0WYiy6GvQ4LfA@mail.gmail.com>
-In-Reply-To: <CAOU5ZMsS8sdnefqHmXtGNkN0CPx_HNZGp2JhR0WYiy6GvQ4LfA@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Tue, 29 Jul 2025 13:43:01 -0400
-X-Gm-Features: Ac12FXzxA-d2oC0yZrA92idDOCtL4LsvjjN6t-MgPTlGwrBDutHRvJ76elfyG8E
-Message-ID: <CADkTA4P_tQQr6nkKF0F7k2Wz24BnV_21=vX7Kg3uA6yU+F__VA@mail.gmail.com>
-Subject: Re: [meta-virtualization] [PATCHv2] scripts: wic plugin
- bootimg-biosxen drop helper to reuse bootimg_pcbios
-To: anibal@limonsoftware.com
-Cc: meta-virtualization@lists.yoctoproject.org
-Content-Type: multipart/alternative; boundary="00000000000031b186063b14f15b"
+        d=1e100.net; s=20230601; t=1753972911; x=1754577711;
+        h=message-id:in-reply-to:to:references:date:subject:mime-version
+         :content-transfer-encoding:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=HuYhpINsjlYIz9zYKJyUrBNxmyS1l+S6wFb9hcXYU4I=;
+        b=YlAowv1qL9hurAjlprAQDIQLMbzS36RQWDlk5WS+UFqMlBX4cvz4oJU92zHMCplA9b
+         JX0lvQe+CEPN/AvId6CMPKJlwFmneXVeAUsTI24RX7Y1h99Pe5m1XHYzOdlvruz/CUzQ
+         hXBxeLE2J81BrKHgrG3VMlYEZTP0o3yyYLoxVyMq2iFh+cg7lDL1tHZr5xtIvQNZYzac
+         r/DIM3KWaQkeCDBmrqYtNVhDi4k2E4BmMr2/FCDwEuQozF3vnNyq54eTvuiY4TDQSAYO
+         1L1qwc9JkpAFHzmQ9+yAanrRH7a+x3AiIcT3fvovyLZnjbEsdPjQ/ER6mvFPlkay9US1
+         A9Cg==
+X-Gm-Message-State: AOJu0YzCkQ+4hP0SXK0g0U5hbiI5EI6Qan6/+KxAYYd0MX95wASe7M2e
+	1Tctrv9rNU9fOFhh/Ic8NGbTL+vMyvfyvXRJmInc7ZB2g8ZzuFCVFZYWGAKbROMQFrilfZYJkQZ
+	feoLUVM7ZlkOfRPlzkjz7xc2FKvfDa0t3mDS7fdxpbFWSkIRbDG0pFeneqNvkYujlLL41pkX3qG
+	qRhpWPIISZrT/IWYzLWg==
+X-Gm-Gg: ASbGncu5CxjLSPndMmytI91cHh9yRM4gG9At3P1YN5eFemKk39qa38M7L+f+QSBUJAr
+	zGxT1GMe3ERe74joVmt/4j8X2uxLf7ChaVFoLqH+J3wdCOwthhI+zYWrYUkJsgOdzgYdQuVNdEy
+	kPvJh+Kc18k3geMOLLlzbGhwDk+2r8WLLl4ko+IOSktpPNbwS82gg2e+sIVzhNLFeTzXrjbyXp/
+	GXqrWOjM3p4fcJMJUHv6VUc682JH/aFsyfemC8gVc2mGNrQ/73aFeh8R/B7eVJimmXEmbALuWu8
+	8aCYykD9uDANZO3LoeD97uqbLVYOk6TgPVibMK0KP6hzw0BAXTmG47FyZIZlH4R5XaOpXrF6mQN
+	Q9s+XQ2Y/7EFzznZpUn0=
+X-Received: by 2002:a05:6122:250f:b0:530:6c3e:4db1 with SMTP id 71dfb90a1353d-5391cf18946mr5203599e0c.6.1753972910675;
+        Thu, 31 Jul 2025 07:41:50 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFxMn4/h/RX/OndloH3wr6FgMfPgQXRJoyEu8lhi5Vea138xykoOGdXDbDJyufaRNN4T5ew/g==
+X-Received: by 2002:a05:6122:250f:b0:530:6c3e:4db1 with SMTP id 71dfb90a1353d-5391cf18946mr5203565e0c.6.1753972910092;
+        Thu, 31 Jul 2025 07:41:50 -0700 (PDT)
+Received: from smtpclient.apple (082-163-040-105.jonaz.nl. [82.163.40.105])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-af91a0761f2sm120486266b.11.2025.07.31.07.41.49
+        for <meta-virtualization@lists.yoctoproject.org>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 31 Jul 2025 07:41:49 -0700 (PDT)
+From: Koen Kooi <koen.kooi@oss.qualcomm.com>
+Content-Type: text/plain;
+	charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.600.51.1.1\))
+Subject: Re: [meta-virtualization][PATCH v2] Docker: add more required kernel
+ modules as RRECOMMENDS:${PN}
+Date: Thu, 31 Jul 2025 16:41:39 +0200
+References: <184E5D3D5E8ABBD0.8638@lists.yoctoproject.org>
+To: meta-virtualization@lists.yoctoproject.org
+In-Reply-To: <184E5D3D5E8ABBD0.8638@lists.yoctoproject.org>
+Message-Id: <67D35863-DE1B-4D6D-B3DD-7F877B57856D@oss.qualcomm.com>
+X-Mailer: Apple Mail (2.3826.600.51.1.1)
+X-Proofpoint-ORIG-GUID: T2wRAz5bGmDpX1EK1nMOkgj8URItfvVr
+X-Authority-Analysis: v=2.4 cv=Pfv/hjhd c=1 sm=1 tr=0 ts=688b80af cx=c_pps
+ a=JIY1xp/sjQ9K5JH4t62bdg==:117 a=IQEsc5u+BqvcbVO/417rXg==:17
+ a=kj9zAlcOel0A:10 a=Wb1JkmetP80A:10 a=iGHA9ds3AAAA:8 a=EUspDBNiAAAA:8
+ a=prsmG29SPLRdaHDYe18A:9 a=CjuIK1q_8ugA:10 a=tNoRWFLymzeba-QzToBc:22
+ a=nM-MV4yxpKKO9kiQg6Ot:22
+X-Proofpoint-GUID: T2wRAz5bGmDpX1EK1nMOkgj8URItfvVr
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzMxMDEwMCBTYWx0ZWRfXzCZT48LlwnK7
+ PacvN3u2/iZ+XdkoBGc0cmFRFKtcoVp6fcdlE60QSokofPEcyCJdKT3AUDCx9hlP8KODigEF0vn
+ tXXRn/k4TIT9DMorxhtX/eqtLzxsnAUEF0yjNrpe3fcJVqQe/7no+9KAO488y3/l31iN18pL5SF
+ izXrcrvF3yYZl0bI5LSWHP6FWJTSx+WfG3fcJ2zqEMEFgk21S2YD0vVcqpxelZ1QH1WF/NBPUSn
+ DyKA+vnUdd4joG/FnySXyoFVfEt/b+L/SKcu5BuC2cDACQXWmj7CZnxRejde8pGEPtyjn84wjYa
+ IxtvOMgREYVZDjw3+ollAep+3IbqquMhkXAIk4QX6WxmFTODo0Ka5S/7l47rczqmidP6eeza4tW
+ J20kuUrVhNobxkGpSJSFswbS5ipS2DxUWywWeQFeyPxixKq74VH4AQ/zZlkM8W/mJrkiAvO5
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-07-31_02,2025-07-31_02,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999 clxscore=1015 adultscore=0 priorityscore=1501 mlxscore=0
+ spamscore=0 suspectscore=0 phishscore=0 lowpriorityscore=0 malwarescore=0
+ impostorscore=0 bulkscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
+ definitions=main-2507310100
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Tue, 29 Jul 2025 17:43:13 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9332
+ <meta-virtualization@lists.yoctoproject.org>; Thu, 31 Jul 2025 14:42:01 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9333
 
---00000000000031b186063b14f15b
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Ping
 
-On Tue, Jul 29, 2025 at 12:23=E2=80=AFPM Anibal Limon via lists.yoctoprojec=
-t.org
-<anibal=3Dlimonsoftware.com@lists.yoctoproject.org> wrote:
+> Op 2 jul 2025, om 09:03 heeft Koen Kooi via lists.yoctoproject.org =
+<koen.kooi=3Doss.qualcomm.com@lists.yoctoproject.org> het volgende =
+geschreven:
+>=20
+> With a very minimal image recipe that just pulls in docker, the daemon
+> won't start due to missing modules, so add the missing ones.
+>=20
+> The list of new modules was created by diffing the output of `lsmod`
+> before installing all kernel-modules and the output  after launching=20=
 
-> Hi Bruce,
->
-> After all related changes integrated into OE-Core, this patch can be
-> landed now.
->
->
-Thanks for watching and sending the update!
-
-I'll test this shortly and I don't expect any issues.
-
-Bruce
-
-
-
-> Let me know if there is any problem, I tested using xen-image-minimal.
->
-> Regards!,
-> Anibal
->
-> On Tue, Jul 29, 2025 at 10:21=E2=80=AFAM Anibal Limon via lists.yoctoproj=
-ect.org
-> <anibal=3Dlimonsoftware.com@lists.yoctoproject.org> wrote:
->
->> - With wic plugins rename on OE-Core now can be imported.
->>   See OE-Core revs,
->>
->>   afa1b5c9f6ed17c021e37a54d0d6abee50a60bf9
->>   2de444fc3ef450f45f8f93403544e8f7461657b0
->>   16c8251e5272510ad96613b8c6623550c5a72a34
->>
->> - Drop the custom helper to find BootimgPcbiosPlugin plus adapt the code
->>   removing all custom calls and references.
->> - Finally rename bootimg-biosxen to allow be imported.
->>
->> Tested with xen-image-minimal and testimage.
->>
->> Signed-off-by: Anibal Limon <anibal@limonsoftware.com>
->> ---
->>  ...{bootimg-biosxen.py =3D> bootimg_biosxen.py} | 71 ++++--------------=
--
->>  1 file changed, 12 insertions(+), 59 deletions(-)
->>  rename scripts/lib/wic/plugins/source/{bootimg-biosxen.py =3D>
->> bootimg_biosxen.py} (69%)
->>
->> diff --git a/scripts/lib/wic/plugins/source/bootimg-biosxen.py
->> b/scripts/lib/wic/plugins/source/bootimg_biosxen.py
->> similarity index 69%
->> rename from scripts/lib/wic/plugins/source/bootimg-biosxen.py
->> rename to scripts/lib/wic/plugins/source/bootimg_biosxen.py
->> index f3b5540c..e5f545e0 100644
->> --- a/scripts/lib/wic/plugins/source/bootimg-biosxen.py
->> +++ b/scripts/lib/wic/plugins/source/bootimg_biosxen.py
->> @@ -34,59 +34,18 @@ import os
->>  import types
->>
->>  from wic import WicError
->> -import wic.pluginbase
->> -from importlib.machinery import SourceFileLoader
->>  from wic.misc import (exec_cmd, get_bitbake_var)
->> +from wic.plugins.source.bootimg_pcbios import BootimgPcbiosPlugin
->>
->>  logger =3D logging.getLogger('wic')
->>
->> -class BootimgBiosXenPlugin(wic.pluginbase.SourcePlugin):
->> +class BootimgBiosXenPlugin(BootimgPcbiosPlugin):
->>      """
->>      Create MBR boot partition including files for Xen
->>
->>      """
->>
->>      name =3D 'bootimg_biosxen'
->> -    __PCBIOS_MODULE_NAME =3D "bootimg_pcbios"
->> -    __imgBiosObj =3D None
->> -
->> -    @classmethod
->> -    def __init__(cls):
->> -        """
->> -        Constructor (init)
->> -        """
->> -        # original comment from bootimg-biosplusefi.py :
->> -        # "XXX For some reasons, __init__ constructor is never called.
->> -        #  Something to do with how pluginbase works?"
->> -        cls.__instanciateBIOSClass()
->> -
->> -    @classmethod
->> -    def __instanciateBIOSClass(cls):
->> -        """
->> -
->> -        """
->> -        # Import bootimg-pcbios (class name "BootimgPcbiosPlugin")
->> -        modulePath =3D
->> os.path.join(os.path.dirname(wic.pluginbase.__file__),
->> -                                  "plugins", "source",
->> -                                  cls.__PCBIOS_MODULE_NAME + ".py")
->> -        loader =3D SourceFileLoader(cls.__PCBIOS_MODULE_NAME, modulePat=
-h)
->> -        mod =3D types.ModuleType(loader.name)
->> -        loader.exec_module(mod)
->> -        cls.__imgBiosObj =3D mod.BootimgPcbiosPlugin()
->> -
->> -    @classmethod
->> -    def do_install_disk(cls, disk, disk_name, creator, workdir,
->> oe_builddir,
->> -                        bootimg_dir, kernel_dir, native_sysroot):
->> -        """
->> -        Called after all partitions have been prepared and assembled
->> into a
->> -        disk image.
->> -        """
->> -        if not cls.__imgBiosObj:
->> -            cls.__instanciateBIOSClass()
->> -
->> -        cls.__imgBiosObj.do_install_disk(disk, disk_name, creator,
->> workdir,
->> -                                         oe_builddir, bootimg_dir,
->> kernel_dir,
->> -                                         native_sysroot)
->>
->>      @classmethod
->>      def do_configure_partition(cls, part, source_params, creator,
->> cr_workdir,
->> @@ -95,9 +54,6 @@ class BootimgBiosXenPlugin(wic.pluginbase.SourcePlugin=
-):
->>          """
->>          Called before do_prepare_partition(), creates syslinux config
->>          """
->> -        if not cls.__imgBiosObj:
->> -            cls.__instanciateBIOSClass()
->> -
->>          bootloader =3D creator.ks.bootloader
->>
->>          if not bootloader.configfile:
->> @@ -158,10 +114,10 @@ class
->> BootimgBiosXenPlugin(wic.pluginbase.SourcePlugin):
->>              cfg.close()
->>
->>          else:
->> -            cls.__imgBiosObj.do_configure_partition(part, source_params=
-,
->> -                                                    creator, cr_workdir=
-,
->> -                                                    oe_builddir,
->> bootimg_dir,
->> -                                                    kernel_dir,
->> native_sysroot)
->> +            super().do_configure_partition(part, source_params,
->> +                                           creator, cr_workdir,
->> +                                           oe_builddir, bootimg_dir,
->> +                                           kernel_dir, native_sysroot)
->>
->>      @classmethod
->>      def do_prepare_partition(cls, part, source_params, creator,
->> cr_workdir,
->> @@ -171,10 +127,7 @@ class
->> BootimgBiosXenPlugin(wic.pluginbase.SourcePlugin):
->>          Called to do the actual content population for a partition i.e.
->> it
->>          'prepares' the partition to be incorporated into the image.
->>          """
->> -        if not cls.__imgBiosObj:
->> -            cls.__instanciateBIOSClass()
->> -
->> -        bootimg_dir =3D cls.__imgBiosObj._get_bootimg_dir(bootimg_dir,
->> 'syslinux')
->> +        bootimg_dir =3D super()._get_bootimg_dir(bootimg_dir, 'syslinux=
-')
->>          hdddir =3D "%s/hdd/boot" % cr_workdir
->>
->>          # machine-deduction logic originally from isoimage-isohybrid.py
->> @@ -205,8 +158,8 @@ class
->> BootimgBiosXenPlugin(wic.pluginbase.SourcePlugin):
->>          for install_cmd in cmds:
->>              exec_cmd(install_cmd)
->>
->> -        cls.__imgBiosObj.do_prepare_partition(part, source_params,
->> -                                              creator, cr_workdir,
->> -                                              oe_builddir, bootimg_dir,
->> -                                              kernel_dir, rootfs_dir,
->> -                                              native_sysroot)
->> +        super().do_prepare_partition(part, source_params,
->> +                                     creator, cr_workdir,
->> +                                     oe_builddir, bootimg_dir,
->> +                                     kernel_dir, rootfs_dir,
->> +                                     native_sysroot)
->> --
->> 2.39.5
->>
->>
->>
->>
->>
+> docker with all modules installed.
+>=20
+> Signed-off-by: Koen Kooi <koen.kooi@oss.qualcomm.com>
+> ---
+>=20
+> Changes since v1:
+> * Add kernel-module-veth, the docker daemon starts up just fine
+>  with the v1 patch, but launching an actual container fails due
+>          to missing veth.ko.
+>=20
+> recipes-containers/docker/docker.inc | 13 ++++++++++++-
+> 1 file changed, 12 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/recipes-containers/docker/docker.inc =
+b/recipes-containers/docker/docker.inc
+> index 05a14f97..3a9d6865 100644
+> --- a/recipes-containers/docker/docker.inc
+> +++ b/recipes-containers/docker/docker.inc
+> @@ -14,7 +14,18 @@ RDEPENDS:${PN} =3D "util-linux util-linux-unshare =
+iptables \
+>                  "
+> RDEPENDS:${PN} +=3D "virtual-containerd =
+${VIRTUAL-RUNTIME_container_runtime}"
+>=20
+> -RRECOMMENDS:${PN} =3D "kernel-module-dm-thin-pool =
+kernel-module-nf-nat kernel-module-nf-conntrack-netlink =
+kernel-module-xt-addrtype kernel-module-xt-masquerade"
+> +RRECOMMENDS:${PN} =3D "kernel-module-dm-thin-pool \
+> +                     kernel-module-nf-conntrack \
+> +                     kernel-module-nf-conntrack-netlink \
+> +                     kernel-module-nf-nat \
+> +                     kernel-module-nfnetlink \
+> +                     kernel-module-overlay \
+> +                     kernel-module-veth \
+> +                     kernel-module-x-tables \
+> +                     kernel-module-xt-addrtype \
+> +                     kernel-module-xt-conntrack \
+> +                     kernel-module-xt-masquerade \
+> +                    "
+>=20
+> PROVIDES +=3D "virtual/docker"
+>=20
+> --=20
+> 2.48.1
+>=20
+>=20
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#9331):
-> https://lists.yoctoproject.org/g/meta-virtualization/message/9331
-> Mute This Topic: https://lists.yoctoproject.org/mt/114433805/1050810
+> View/Reply Online (#9288): =
+https://lists.yoctoproject.org/g/meta-virtualization/message/9288
+> Mute This Topic: https://lists.yoctoproject.org/mt/113944045/9418801
 > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [
-> bruce.ashfield@gmail.com]
+> Unsubscribe: =
+https://lists.yoctoproject.org/g/meta-virtualization/unsub =
+[koen.kooi@oss.qualcomm.com]
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
+>=20
 
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end
-- "Use the force Harry" - Gandalf, Star Trek II
-
---00000000000031b186063b14f15b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-size:small"><br></div></div><br><div class=3D"gmail_quote gmail_quote_con=
-tainer"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Jul 29, 2025 at 12:23=
-=E2=80=AFPM Anibal Limon via <a href=3D"http://lists.yoctoproject.org">list=
-s.yoctoproject.org</a> &lt;anibal=3D<a href=3D"mailto:limonsoftware.com@lis=
-ts.yoctoproject.org">limonsoftware.com@lists.yoctoproject.org</a>&gt; wrote=
-:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.=
-8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"lt=
-r">Hi Bruce,<div><br></div><div>After all related changes integrated into O=
-E-Core, this patch can be landed now.</div><div><br></div></div></blockquot=
-e><div><br></div><div><div class=3D"gmail_default" style=3D"font-size:small=
-">Thanks for watching and sending the update!</div><div class=3D"gmail_defa=
-ult" style=3D"font-size:small"><br></div><div class=3D"gmail_default" style=
-=3D"font-size:small">I&#39;ll test this shortly and I don&#39;t expect any =
-issues.</div><div class=3D"gmail_default" style=3D"font-size:small"><br></d=
-iv><div class=3D"gmail_default" style=3D"font-size:small">Bruce</div><br></=
-div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
-0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div=
- dir=3D"ltr"><div></div><div>Let me know if there is any problem, I tested =
-using xen-image-minimal.</div><div><br></div><div>Regards!,</div><div>Aniba=
-l</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
-_attr">On Tue, Jul 29, 2025 at 10:21=E2=80=AFAM Anibal Limon via <a href=3D=
-"http://lists.yoctoproject.org" target=3D"_blank">lists.yoctoproject.org</a=
-> &lt;anibal=3D<a href=3D"mailto:limonsoftware.com@lists.yoctoproject.org" =
-target=3D"_blank">limonsoftware.com@lists.yoctoproject.org</a>&gt; wrote:<b=
-r></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex=
-;border-left:1px solid rgb(204,204,204);padding-left:1ex">- With wic plugin=
-s rename on OE-Core now can be imported.<br>
-=C2=A0 See OE-Core revs,<br>
-<br>
-=C2=A0 afa1b5c9f6ed17c021e37a54d0d6abee50a60bf9<br>
-=C2=A0 2de444fc3ef450f45f8f93403544e8f7461657b0<br>
-=C2=A0 16c8251e5272510ad96613b8c6623550c5a72a34<br>
-<br>
-- Drop the custom helper to find BootimgPcbiosPlugin plus adapt the code<br=
->
-=C2=A0 removing all custom calls and references.<br>
-- Finally rename bootimg-biosxen to allow be imported.<br>
-<br>
-Tested with xen-image-minimal and testimage.<br>
-<br>
-Signed-off-by: Anibal Limon &lt;<a href=3D"mailto:anibal@limonsoftware.com"=
- target=3D"_blank">anibal@limonsoftware.com</a>&gt;<br>
----<br>
-=C2=A0...{bootimg-biosxen.py =3D&gt; bootimg_biosxen.py} | 71 ++++---------=
-------<br>
-=C2=A01 file changed, 12 insertions(+), 59 deletions(-)<br>
-=C2=A0rename scripts/lib/wic/plugins/source/{bootimg-biosxen.py =3D&gt; boo=
-timg_biosxen.py} (69%)<br>
-<br>
-diff --git a/scripts/lib/wic/plugins/source/bootimg-biosxen.py b/scripts/li=
-b/wic/plugins/source/bootimg_biosxen.py<br>
-similarity index 69%<br>
-rename from scripts/lib/wic/plugins/source/bootimg-biosxen.py<br>
-rename to scripts/lib/wic/plugins/source/bootimg_biosxen.py<br>
-index f3b5540c..e5f545e0 100644<br>
---- a/scripts/lib/wic/plugins/source/bootimg-biosxen.py<br>
-+++ b/scripts/lib/wic/plugins/source/bootimg_biosxen.py<br>
-@@ -34,59 +34,18 @@ import os<br>
-=C2=A0import types<br>
-<br>
-=C2=A0from wic import WicError<br>
--import wic.pluginbase<br>
--from importlib.machinery import SourceFileLoader<br>
-=C2=A0from wic.misc import (exec_cmd, get_bitbake_var)<br>
-+from wic.plugins.source.bootimg_pcbios import BootimgPcbiosPlugin<br>
-<br>
-=C2=A0logger =3D logging.getLogger(&#39;wic&#39;)<br>
-<br>
--class BootimgBiosXenPlugin(wic.pluginbase.SourcePlugin):<br>
-+class BootimgBiosXenPlugin(BootimgPcbiosPlugin):<br>
-=C2=A0 =C2=A0 =C2=A0&quot;&quot;&quot;<br>
-=C2=A0 =C2=A0 =C2=A0Create MBR boot partition including files for Xen<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0&quot;&quot;&quot;<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0name =3D &#39;bootimg_biosxen&#39;<br>
--=C2=A0 =C2=A0 __PCBIOS_MODULE_NAME =3D &quot;bootimg_pcbios&quot;<br>
--=C2=A0 =C2=A0 __imgBiosObj =3D None<br>
--<br>
--=C2=A0 =C2=A0 @classmethod<br>
--=C2=A0 =C2=A0 def __init__(cls):<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 Constructor (init)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 # original comment from bootimg-biosplusefi.py=
- :<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 # &quot;XXX For some reasons, __init__ constru=
-ctor is never called.<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 #=C2=A0 Something to do with how pluginbase wo=
-rks?&quot;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 cls.__instanciateBIOSClass()<br>
--<br>
--=C2=A0 =C2=A0 @classmethod<br>
--=C2=A0 =C2=A0 def __instanciateBIOSClass(cls):<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
--<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Import bootimg-pcbios (class name &quot;Boot=
-imgPcbiosPlugin&quot;)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 modulePath =3D os.path.join(os.path.dirname(wi=
-c.pluginbase.__file__),<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;plugins&quot;, &quot;so=
-urce&quot;,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cls.__PCBIOS_MODULE_NAME + &q=
-uot;.py&quot;)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 loader =3D SourceFileLoader(cls.__PCBIOS_MODUL=
-E_NAME, modulePath)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 mod =3D types.ModuleType(<a href=3D"http://loa=
-der.name" rel=3D"noreferrer" target=3D"_blank">loader.name</a>)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 loader.exec_module(mod)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 cls.__imgBiosObj =3D mod.BootimgPcbiosPlugin()=
-<br>
--<br>
--=C2=A0 =C2=A0 @classmethod<br>
--=C2=A0 =C2=A0 def do_install_disk(cls, disk, disk_name, creator, workdir, =
-oe_builddir,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 bootimg_dir, kernel_dir, native_sysroot):<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 Called after all partitions have been prepared=
- and assembled into a<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 disk image.<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 if not cls.__imgBiosObj:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cls.__instanciateBIOSClass()<br>
--<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 cls.__imgBiosObj.do_install_disk(disk, disk_na=
-me, creator, workdir,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0oe=
-_builddir, bootimg_dir, kernel_dir,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0na=
-tive_sysroot)<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0@classmethod<br>
-=C2=A0 =C2=A0 =C2=A0def do_configure_partition(cls, part, source_params, cr=
-eator, cr_workdir,<br>
-@@ -95,9 +54,6 @@ class BootimgBiosXenPlugin(wic.pluginbase.SourcePlugin):<=
-br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;&quot;&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Called before do_prepare_partition(), cre=
-ates syslinux config<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;&quot;&quot;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 if not cls.__imgBiosObj:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cls.__instanciateBIOSClass()<br>
--<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bootloader =3D creator.ks.bootloader<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if not bootloader.configfile:<br>
-@@ -158,10 +114,10 @@ class BootimgBiosXenPlugin(wic.pluginbase.SourcePlugi=
-n):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cfg.close()<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0else:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cls.__imgBiosObj.do_configure_pa=
-rtition(part, source_params,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 creator, cr_workdir,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 oe_builddir, bootimg_dir,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 kernel_dir, native_sysroot)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 super().do_configure_partition(p=
-art, source_params,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0creator, cr_workdir,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0oe_builddir, bootimg_dir,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0kernel_dir, native_sysroot)<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0@classmethod<br>
-=C2=A0 =C2=A0 =C2=A0def do_prepare_partition(cls, part, source_params, crea=
-tor, cr_workdir,<br>
-@@ -171,10 +127,7 @@ class BootimgBiosXenPlugin(wic.pluginbase.SourcePlugin=
-):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Called to do the actual content populatio=
-n for a partition i.e. it<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;prepares&#39; the partition to be in=
-corporated into the image.<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;&quot;&quot;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 if not cls.__imgBiosObj:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cls.__instanciateBIOSClass()<br>
--<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 bootimg_dir =3D cls.__imgBiosObj._get_bootimg_=
-dir(bootimg_dir, &#39;syslinux&#39;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 bootimg_dir =3D super()._get_bootimg_dir(booti=
-mg_dir, &#39;syslinux&#39;)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0hdddir =3D &quot;%s/hdd/boot&quot; % cr_w=
-orkdir<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# machine-deduction logic originally from=
- isoimage-isohybrid.py<br>
-@@ -205,8 +158,8 @@ class BootimgBiosXenPlugin(wic.pluginbase.SourcePlugin)=
-:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for install_cmd in cmds:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0exec_cmd(install_cmd)<br>
-<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 cls.__imgBiosObj.do_prepare_partition(part, so=
-urce_params,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 creator, cr_workdir,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 oe_builddir, bootimg_dir,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 kernel_dir, rootfs_dir,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 native_sysroot)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 super().do_prepare_partition(part, source_para=
-ms,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0creator, cr_work=
-dir,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0oe_builddir, boo=
-timg_dir,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0kernel_dir, root=
-fs_dir,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0native_sysroot)<=
-br>
--- <br>
-2.39.5<br>
-<br>
-<br>
-<br>
-<br>
-</blockquote></div>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#9331): <a href=3D"https://lists.yoctoproject.org/g/meta=
--virtualization/message/9331" rel=3D"noreferrer" target=3D"_blank">https://=
-lists.yoctoproject.org/g/meta-virtualization/message/9331</a><br>
-Mute This Topic: <a href=3D"https://lists.yoctoproject.org/mt/114433805/105=
-0810" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.org/m=
-t/114433805/1050810</a><br>
-Group Owner: <a href=3D"mailto:meta-virtualization%2Bowner@lists.yoctoproje=
-ct.org" target=3D"_blank">meta-virtualization+owner@lists.yoctoproject.org<=
-/a><br>
-Unsubscribe: <a href=3D"https://lists.yoctoproject.org/g/meta-virtualizatio=
-n/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.or=
-g/g/meta-virtualization/unsub</a> [<a href=3D"mailto:bruce.ashfield@gmail.c=
-om" target=3D"_blank">bruce.ashfield@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
-=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
-ignature">- Thou shalt not follow the NULL pointer, for chaos and madness a=
-wait thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star T=
-rek II<br><br></div></div>
-
---00000000000031b186063b14f15b--
 
