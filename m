@@ -1,231 +1,265 @@
-Return-Path: <Qi.Chen@windriver.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E81FCA0EDC
-	for <webhook@archiver.kernel.org>; Wed, 13 Aug 2025 02:14:08 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.92048.1755051241583437161
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EDCE2CA0EC4
+	for <webhook@archiver.kernel.org>; Wed, 13 Aug 2025 03:34:29 +0000 (UTC)
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+ by mx.groups.io with SMTP id smtpd.web11.92470.1755056058767466364
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 12 Aug 2025 19:14:01 -0700
+ Tue, 12 Aug 2025 20:34:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=0320c6fca9=qi.chen@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 57D1nCo02370706;
-	Tue, 12 Aug 2025 19:13:59 -0700
-Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10on2070.outbound.protection.outlook.com [40.107.94.70])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 48fvk219uk-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Tue, 12 Aug 2025 19:13:59 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=HeAVqXbR4sIZnm18/sqifC53QtABDPqwfTzJGOinWDlOuZTMBtNtajOIbTOe/FhDOszSkUPzm+PdCTCYJPW8fbUNBPm5VpFWHa9xDAOR44g4YaaTd4CxV5CKc2lk8/QwGYFZckMsg768fuE92GXkUgx6p1DDa3VOuwp8fnLXzN2jIn0mNrqOqq8yHg3aodkxnjgSevD2vCNGeI2O0hbXxVwQBP40x88EDiN8kt206FIks6OrSek5Xan7Gcz/5ZfCdp7f4dUzSJIZQbKfDMr8OQI0fJ2BEBErBjYAxgvn/vxUzZUiRP8VT5KKadYeWAJhm4UCgCxspM04l1KYcNsu0Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MRxunIhdta+wG6MEhK+rDEaqUMwSProO2aKghcWfwKA=;
- b=o9e80ETZuCCbwRqHOfAKZ4oafHMl0bK8iwQP6LVGc5oMXrkr1hbFOolBneee2vlAt0zJm09Ywlclz5dYyO/ae4kTKKVNdzRpGl5HPwscXcL6qSkZAkaOaz42ILs4HnqSnTouKLK051qoawLSXR3uUBMygdfFv5Vr5SfvluNYnVb2nE6tO/C4YcHBX3aFUC+0StvNCA6oy8giQGNF7VI7L6Oi980zuqERkx/D9mukzf4fio6WGalAFaJ+JntMFZf1cFz4xAB0r1iayGVlllBpLEFhBGIPxBBwJM+aDD3TfWYjPq0aNO6IaN/TjpW6Y4svMdMkjHht3FBJ+9MknVam2Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
- by SA1PR11MB6758.namprd11.prod.outlook.com (2603:10b6:806:25d::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9009.22; Wed, 13 Aug
- 2025 02:13:56 +0000
-Received: from CO6PR11MB5602.namprd11.prod.outlook.com
- ([fe80::a7e3:721d:9cec:6093]) by CO6PR11MB5602.namprd11.prod.outlook.com
- ([fe80::a7e3:721d:9cec:6093%6]) with mapi id 15.20.9009.018; Wed, 13 Aug 2025
- 02:13:56 +0000
-Message-ID: <d4a4a660-6093-4465-b8bb-0b13c4cf79db@windriver.com>
-Date: Wed, 13 Aug 2025 10:13:51 +0800
-User-Agent: Mozilla Thunderbird
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=QQa1S1J2;
+ spf=pass (domain: gmail.com, ip: 209.85.216.45, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-321c5eb1f4bso924101a91.1
+        for <meta-virtualization@lists.yoctoproject.org>; Tue, 12 Aug 2025 20:34:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1755056056; x=1755660856; darn=lists.yoctoproject.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=IqxaFEBoyt6BCoDUr8SryiCSiIU31pU1rcP0Uv9VvaY=;
+        b=QQa1S1J2nBlqAjS6WOYN0DodXpnGLYUVHrnUkMkm3/c8sPeltdmh3Tr0Vc3nTshU68
+         J5rpiAjpQAf+ITW3FURLqrQABs/D5tuS1UwMWnjo8RlSOR7j/Fvg5maRVbw+3LFYx2y6
+         yuI0gM18p4VAd1jVzyJlyoOHGIoifJy/As1e12GzMoZ5wppPlKFyXseonwFX0vbPsv+9
+         uoh7qqv/c9/gmHETRA0hhJHk0Y5jWCYQHDl1JDP7XscOZy+h3rlvjbbOFZBaQzv4kL38
+         IAbTSyA04XsswBR4igf6MK39fw3u0mjR6Si3yBD1p6NqzxDe7EWjPleRYlyq2CWdb83k
+         kGfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755056056; x=1755660856;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=IqxaFEBoyt6BCoDUr8SryiCSiIU31pU1rcP0Uv9VvaY=;
+        b=QcGioVjCSYeJapu+FNl+wbqJICJ1cLTiJI+TyH1OgN2fuolkycWxUxsLhEG5b2Q6oa
+         R8XhQkNuZYe+eYpstq2RXR+OMNs8vZiuvxF1vgBNo9i73p6EGnUgPmUqfES1nsdtekgF
+         5C3XGAyaOS5taK075YBV8Pm8Md9deviibYz7u6EGuHri4uunJbWlFgv3n8+leE6zoUmC
+         wnP1rp+mQJtULiJZnPBBLZucMfyOWm0Ifg/PyPbrJDyDXUJlSLQtw4ixLWtn/0cvU4wC
+         iHqdmBrkKtiZHwUBxzBP0lf9nYK5FRNbmxLBtTbPhkqOUOp6lRyyG7OXPDLE3ddcyT0X
+         z0mg==
+X-Gm-Message-State: AOJu0YwWO/cCcCHI+xpKA5e5s6mgWBGfkvc2rcXezaTmnSkMOg7nv1vU
+	EUkThOdT9NiGwAj3hyNFZ7W5lD7Cf0T7sw/yTk1rhcDsTOE6SYlyX4kzWfuJZPmbQj003I5SKw9
+	2/O8UM8OcShm4NioeKjnhanfFuBv2zUs=
+X-Gm-Gg: ASbGnctkIp5FTpdD7XQP21T3oMq3Aeo2ZOV82BuL4rRt5+BznfwNA9VP9hhZn0VFP8v
+	KIwTcakLe5R2U/36QdJs+2xwMHJkWBwRyF3B9ogweuKNL+yz2gMEmpO9QQCW2pVVheoh0wi6Zj9
+	Cnlzze0fdWr/dz/agUynrQjIbkshLegHXLl4T1JYmG2AdB/UjzqdJl/U3oIStGzXRj/Gu9JgxUr
+	6djRZI=
+X-Google-Smtp-Source: AGHT+IH/sZp+1WMvxLQdKqqtiDawnGpEkDxz/PppTRjyYF6cgDUF7Iej6OE57ZpgtEdSeeyaOWp1T9x3HxjqqUPUykg=
+X-Received: by 2002:a17:90b:38c6:b0:321:b975:abe5 with SMTP id
+ 98e67ed59e1d1-321d0affb78mr2757417a91.0.1755056055469; Tue, 12 Aug 2025
+ 20:34:15 -0700 (PDT)
+MIME-Version: 1.0
+References: <18543A11B753F956.534@lists.yoctoproject.org> <d4a4a660-6093-4465-b8bb-0b13c4cf79db@windriver.com>
+In-Reply-To: <d4a4a660-6093-4465-b8bb-0b13c4cf79db@windriver.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Tue, 12 Aug 2025 23:34:04 -0400
+X-Gm-Features: Ac12FXz7XTJsTf5Q9dwgvIopnGiY5vdiC9PRqUI96oIjwEaExjrnV0IZwvSrqUk
+Message-ID: <CADkTA4O5bQHXp-5stdVqBDUk6be14tc05Q44Rchc8N+tWjN86w@mail.gmail.com>
 Subject: Re: [meta-virtualization][PATCH] skopeo: avoid overriding
  GOBUILDFLAGS set in go.bbclass
-To: meta-virtualization@lists.yoctoproject.org
-References: <18543A11B753F956.534@lists.yoctoproject.org>
-Content-Language: en-US
-Cc: Bruce Ashfield <bruce.ashfield@gmail.com>
-From: ChenQi <Qi.Chen@windriver.com>
-In-Reply-To: <18543A11B753F956.534@lists.yoctoproject.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: TY4P286CA0050.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:405:36e::19) To CO6PR11MB5602.namprd11.prod.outlook.com
- (2603:10b6:303:13a::5)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO6PR11MB5602:EE_|SA1PR11MB6758:EE_
-X-MS-Office365-Filtering-Correlation-Id: 918df619-817c-4402-3925-08ddda0f0e88
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|4022899009|376014;
-X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?eGgvcUlQNWlZblVnczVJQ1FwSU9LT1U0dWRzdW9QZmEyVHg3QXVzR1ZuOWdF?=
- =?utf-8?B?a0lnTVpOYzFibFlHN1dwR05YR3hoWFUvU2F6RTE1eldLY2IxbDVENkZUZjQ3?=
- =?utf-8?B?d0doNnVOUUM5ME1vMmhLL0V5Tno0ZjRld1dPSzRuQzYvWVc1SUxUMmk1Y1FB?=
- =?utf-8?B?Z0U2SVFGbW93TkZJWWdFNjBLUXZpM2VyMUZHaWNGWUJ0b1NOWFFUbDhoTjlj?=
- =?utf-8?B?YmJiV0R0VjA5SkdzV2pGdHpEMUdFalpRSGNJYmVPWWY5YUR6cmZrQUJlSGZt?=
- =?utf-8?B?dUJ3ZlFsb2hldEFSL2d3K3g1M041Qk05eG9Tc2ZGWWZpcUxBMWx0dXEwYW90?=
- =?utf-8?B?MVdreWpGb2NmWUtxM2llSDF0R0gwT1hSaVU5ODBRNUR6QmxUd0h3MVlITjV1?=
- =?utf-8?B?bExxMGQ4dERJQm9nVVRDY2o5VXgyY3BtaEZWSSs3SHI4VDh0K2pCdWZNWjZa?=
- =?utf-8?B?R3VMV0d3NjZhb3FBd292Z080QlpwKzc1eG4xYWh2bkEveWtsMjVPLzJOS3BV?=
- =?utf-8?B?Tm44M3lOSTZ6UWM0dkNHb0lJYVJYQ3IwR2QvSTVCYWJwY2REMU5OcTRDdGtU?=
- =?utf-8?B?VHVCRXRvZk9KdDNPdXNyRHAxRnd2TDFCUkI2SVo0bS9HRngvL0EzVktuNDl5?=
- =?utf-8?B?NzZQM1N3Ymx1cDQ1MEFJQUdER0JtSmFCeW1tY09yQUVJY3pQM2tpWTBOUHhV?=
- =?utf-8?B?VUdQS2hTSERpL1ZzMnl6TEQycmk4cnR1SHF5RTBKNVhxSmZpK3AvOVN2Tk92?=
- =?utf-8?B?MUpNYU9tNHlrYkwrUUNOWFNIaldDRGZVYmcxdWtTSTRoZTc1RFI5cTA4M3Yv?=
- =?utf-8?B?SExWY2E1U2ZJNHdqV2c5czEyYnhlR1Z2eVZYYnpxUkNWZ0toVi9EZngxQnR0?=
- =?utf-8?B?bkZRUGFONHYzUzMwT1F5M21Vb0lUL0doVVVyc0x0dHN3dEVOQ3NaeU1uR1BT?=
- =?utf-8?B?bDM0cVFYdzB6c1ZnUTJVNGJkMFdqaDZjMEJEMVlyTHA1VTVPMUpOVHdwRDZw?=
- =?utf-8?B?Y25RU1hvY0JXalBqOEI4aGg2TSsrU1pqTlFjekt3a0VOWFlyeWRWa1Fxd1Bm?=
- =?utf-8?B?VmRBRkdSU3dlVFAyeDB2YWVIM1ZLMWlIMG1WVnMxeFJ0WVBINXdoS0VpNFBa?=
- =?utf-8?B?Wmd5UTBiWktiWmpRSVZPbnk5dVByL0ZqTWRPNFVxT2gwTGgyYlh3a3BzMVFl?=
- =?utf-8?B?VDRxTXBKdFlCeEQ4Si9hY0t3RzJ3cHkvc0piSno4VmE2bUNUeCszMnRtcUly?=
- =?utf-8?B?OUxaZ0xpbWVhazByZ2RjeTB3OGRsWnJOd3B2YndQWlVZL1hGdm4yTzVVMFVs?=
- =?utf-8?B?RndIaEduTFFlUzhicTYvdlNXTzQxK08vYi9JSE81ZURsRGQ4cHVHckhXcVp5?=
- =?utf-8?B?VmV2b25sNml2bmdrYzY2V2NVRmdoL0ZWRVJycWFCODJ0dmNiNG9jWExJdkFF?=
- =?utf-8?B?QVo3T3JFOWZhdkxNRTVFQ1J6Nk5EejlBYmR4NjZCVUNJekFoMHZBM01TYWtH?=
- =?utf-8?B?SzJ5SElya05odzdOWk9KNW1sV25zSzZtMkZ3VE4zd0xlS0gyVStVMC80ZFVu?=
- =?utf-8?B?WjhKQW5WSzdCeUZLNk0vYVoybVNDeVNRV1FNWmRmL1ZNN3ZpSFdkc3dQNFN0?=
- =?utf-8?B?cnBZRHR0TzBRMXRaUm5mQkwwNkZKYmo4Wng5ajBNNnlEbGlGT0VuOTdCUTRE?=
- =?utf-8?B?ZnhaTjRGS0F3UWxuNWV0MHN4RkkvS2ZBOUxGTFdrNzhUZzRicWt1ampkWkFG?=
- =?utf-8?B?K3FYYmQvOU9wSS9VZzdRLytoSkt6OUN1S3pYeEljQ2dLYnovVW53VkxxVkhq?=
- =?utf-8?B?bTBIZExTdFYxQ0xZTmh3aWQvSGQ0WWJiVHZyV0FHbWxNYURHTXNlTHNOakJi?=
- =?utf-8?Q?8fwPeF+IBn9XQ?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(4022899009)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?ek9sdjFhMDhXTEJTZm8yd0lncEpxY1F4WGpLTjh3K0JiN3o0NlFmekhsVUpZ?=
- =?utf-8?B?RHdzNzhVUWM4cWNMcHBXSE5zbGZNRnQwWmYycjFFc1FUdHUwUlR3dVE0T2E0?=
- =?utf-8?B?V0IvRzlvY0FqWFp4bWhaMjhIbUhISzMxWGVCNldIZENBcElrTUJIS0xncWJt?=
- =?utf-8?B?TUZRVEZHKzdlTGNyd0NHckFPaS9ZTXVzMHZpOGgvbnlnMVRqZEdMc3I2Z1ov?=
- =?utf-8?B?QVY5VzgzL1RmWFVjeHAxYjNEbnZBYytEZmMvY2ROVlZzbEdaaU5sdzFZNDMv?=
- =?utf-8?B?dVo0OWJKVnFLUjRvNkR0bVFhelZCZzhJNTNrbWZQd3B5c0gxS0I0bjc0bi9k?=
- =?utf-8?B?RUZpdmNWN2Q0dEJYbmVrbzBxbTZueHZISmdzVnMwRkZJS0Ivam13VDVHcm92?=
- =?utf-8?B?WnR4cHZGck9oendnNEhZQUhGOENEdGJlMjIwbFRwK2txUVF1Q0pXQjVsR2s1?=
- =?utf-8?B?YVR5NE5yVmdWUW5jNVdST09QeldBaDdFUHdVVHJCZUJhOXVhazZmN3JKRzN6?=
- =?utf-8?B?YWhpcG1mOWhFV3diK25CbUZCMEZCdVk0TG9GZ3AzbXVhVmZ4MVhsb0F5ZE5y?=
- =?utf-8?B?ZG1EM2NpVnZIWTZkbmptQVJpeWVZdlNIejhTUzRlellYYk1xVklqN0RFRzJs?=
- =?utf-8?B?eTdnRGRxMlJEMmgvYUpyelpWZVVSbWRHbUpPaVVsN0VpekRRcXp4ajhyT0VL?=
- =?utf-8?B?VkJqMFhHWVM1dDIwUW9iclZ2RlZ0T1JuYi9odXZXV3lpVDlWWDR1WHVha0xi?=
- =?utf-8?B?eGxDRUZXaWNKRUthZnlJNmFud1A0eDZsU0w1M1g2L3dRN3JDb0RsUVJhQzA0?=
- =?utf-8?B?cmZYSzNOZ0xxL2pNY28reFQveThHUUxxZkVlYmR4ZHJYME9vajI4NGRIeXdT?=
- =?utf-8?B?b2xHMkZTQ2dCN0VCbFNFM3lVMHVuV1ZsUmp4OVVwUnhuNlNUZlJzQjZNcFpW?=
- =?utf-8?B?NDNWSHBSeXljV1Fqd0xMMmpGRndBazZuaC9JbmlzVGt5S3NxSFNDSFNoek1p?=
- =?utf-8?B?c3hKTW1PMGxWYTZSWkVSVUs5MlpZZjNpQy94RlJTZ1MwajNaS0M1MU5FTjZS?=
- =?utf-8?B?TkNEUytscXNwNnpiNjhnVitJaFNNMGR5aWdnUHJueFFueCt1aFJ5R0V5Rk5S?=
- =?utf-8?B?bndxckZyb0syQjlPc1phaUhDbnQxeElpMlZlVjFLWHdFMWk5elVFTW05dXBF?=
- =?utf-8?B?V2VrOEQ2U3NTRkg1ZkcvQ3RRdktFNlBteTdEQm5qMVpMTjBkV3lQYmM0cFRH?=
- =?utf-8?B?SjdxTHBzeTRWU0pZcDRLcGlTcjA1bFJFdWZZcGxXZit3YmY4MzJUdTJuM2tC?=
- =?utf-8?B?UWF0ejBLQk45LzZGYVdoMVhKZUtRMnZZcUdKNHhXajU0cld1ZjBYazFCOVZN?=
- =?utf-8?B?bndKOEpCRVhLNWd3VEFBdG9yUFFMUzc2WEtLSWFiUGxVaFJYeFFNNVpPM2k3?=
- =?utf-8?B?T215cW1YUm9vZGFJTW9yQmRRTGhaMTQzZmh0MDJJdHorbjdSUGw5ZCt4VmxI?=
- =?utf-8?B?ZEJnckREZXR6VHIxV1VPeElyYmtBUjZMY3VqVTc5SFVEN0hPK0poVGNrSUhw?=
- =?utf-8?B?VnlzVUFSc054S2FFeVhHcHFBZFdXM1dUNmJNcGN1KzBSZlRsVjN2aHd2a245?=
- =?utf-8?B?a2hzWDdxOHFCYkJ5WllkWmplT3EydXcxeDVRZFdaT0IvOHVyV2FjS3pSZHl3?=
- =?utf-8?B?YzY5RHQ4bUJCQlVPMmdrc0lOQTBOc1BrUFp3eENpbWpKOW01NFJ2T2d0Wnoz?=
- =?utf-8?B?VmVoNzZlQ1dHdkRkeDc0WHExcXp6K0JmOWNoTEp3d0RWRDZvZmlQdkpMYlNo?=
- =?utf-8?B?eSszM3E0cnU5Q0ljdXIwSkVjYjM2eHQweXRsQWVQLzY4OUpuQnZZMDRCQjkv?=
- =?utf-8?B?cjlZS3BHTmdMZXp4QjRYTTVkUXp1clQ2QmRhZk1lcFR0bi9kRVZLcEtncjQ5?=
- =?utf-8?B?L0NvNlNVSVhFekF3TW1lN2J1aEdxOUxNcSswWDM0V25sTnRBNmp1Nk9yaHNU?=
- =?utf-8?B?eHZFT1YvUmtLR0U4YXl1cExSMFhCK2tYNlByOXU5eXkvSW9qYjY2TjY3eEFa?=
- =?utf-8?B?SUY4SVdEelJzaE5SZEJFSnorR0d4Sm82ZklzQWprWG83VlExT1RJR3BadWo2?=
- =?utf-8?Q?GSCSQHZBhltXnYxv/Cf6P0yWB?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 918df619-817c-4402-3925-08ddda0f0e88
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Aug 2025 02:13:56.8616
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: GaWBUlCOrChK5qqtLoePxMUvTLNhlKkQqAJnoIW1RGG/UI3h4/O+QlvrNg32wNvKxiatVhC+3tHNrxi86KQx6Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB6758
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODEzMDAxOSBTYWx0ZWRfX2rbn1SU4Xlns
- lu8BfD4q2wDCPqGr/eutBKOT5dbYMDxtwJuXLfrnUqeUsVWMmxenZ72zWLN4UBLcxNTTD83drPm
- JAKzqKghgcrTZH30L3OUWyL/yBGWKJ+zSDefQxo8zexWO7T9JKYTJ/V14pKzGWVlV/Mvr034rdI
- YjEvMbPpoSaj1llMQc7EoobUujEDJryFoE7GEBoaRVI9b9crDFmz7wHvAY7DtbSqvcHuv5t0cir
- 8ADe3wGRW++HpT8TW7+qrEOb0+9DeBZiJ5MnMZJutFVdmNuB5VC7rXfNMRK2hauKeJZI184I+6Y
- WUPEM3EgYZGGvzNk3q/VceUSRyYO8VcAlhNx/Ou47TBALjeKDkCan82EsP1QjU=
-X-Proofpoint-ORIG-GUID: 1-HbK4ozw5IK9zpL16hWFxA0taiRBCtJ
-X-Proofpoint-GUID: 1-HbK4ozw5IK9zpL16hWFxA0taiRBCtJ
-X-Authority-Analysis: v=2.4 cv=PsOTbxM3 c=1 sm=1 tr=0 ts=689bf4e7 cx=c_pps
- a=nm3qkiEdQefvnzZsVJXsYw==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
- a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19
- a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=iGHA9ds3AAAA:8
- a=t7CeM3EgAAAA:8 a=C_9lfxxwnd_0Fprc72MA:9 a=QEXdDO2ut3YA:10
- a=nM-MV4yxpKKO9kiQg6Ot:22 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-12_08,2025-08-11_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 clxscore=1015 spamscore=0 bulkscore=0 adultscore=0
- impostorscore=0 malwarescore=0 priorityscore=1501 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2507300000 definitions=firstrun
+To: ChenQi <Qi.Chen@windriver.com>
+Cc: meta-virtualization@lists.yoctoproject.org
+Content-Type: multipart/alternative; boundary="000000000000bf5ed5063c36d4bf"
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Wed, 13 Aug 2025 02:14:08 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9348
+ <meta-virtualization@lists.yoctoproject.org>; Wed, 13 Aug 2025 03:34:29 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9349
 
-ping
+--000000000000bf5ed5063c36d4bf
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 7/21/25 17:26, Chen Qi via lists.yoctoproject.org wrote:
-> From: Chen Qi <Qi.Chen@windriver.com>
+I'm still considering it.
+
+But all merges are held for a bit as I finalize the M3 package updates and
+system level testing.
+
+Generally speaking, I don't really want any of the values from the go
+classes as they've caused me more issues than I can count. I prefer to keep
+the recipes handling their own flags.  But as I said, I'll consider this
+once I'm through updates.
+
+Bruce
+
+On Tue, Aug 12, 2025 at 10:14=E2=80=AFPM ChenQi <Qi.Chen@windriver.com> wro=
+te:
+
+> ping
 >
-> When MACHINE is riscv64, skopeo fails to build with the following
-> error message:
+> On 7/21/25 17:26, Chen Qi via lists.yoctoproject.org wrote:
+> > From: Chen Qi <Qi.Chen@windriver.com>
+> >
+> > When MACHINE is riscv64, skopeo fails to build with the following
+> > error message:
+> >
+> >    ERROR: QA Issue: skopeo: ELF binary /usr/sbin/skopeo has relocations
+> in .text [textrel]
+> >
+> > To reproduce the issue, run the following command:
+> > MACHINE=3Dqemuriscv64 bitbake skopeo
+> >
+> > In go.bbclass, we have:
+> > """
+> > export GOBUILDFLAGS ?=3D "-v ${GO_LDFLAGS} -trimpath"
+> > ...
+> > python() {
+> >      if 'mips' in d.getVar('TARGET_ARCH') or 'riscv32' in
+> d.getVar('TARGET_ARCH'):
+> >          d.appendVar('INSANE_SKIP:%s' % d.getVar('PN'), " textrel")
+> >      else:
+> >          d.appendVar('GOBUILDFLAGS', ' -buildmode=3Dpie')
+> > }
+> > """
+> >
+> > The '-v -trimpath' and arch depedent '-buildmode=3Dpie' is generally
+> reasonable.
+> > And we can see we'll need to use anonymous python function to handle
+> PIE. So we
+> > should avoid overriding it unless necessary.
+> >
+> > Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> > ---
+> >   recipes-containers/skopeo/skopeo_git.bb | 1 -
+> >   1 file changed, 1 deletion(-)
+> >
+> > diff --git a/recipes-containers/skopeo/skopeo_git.bb
+> b/recipes-containers/skopeo/skopeo_git.bb
+> > index c5518cdc..32938108 100644
+> > --- a/recipes-containers/skopeo/skopeo_git.bb
+> > +++ b/recipes-containers/skopeo/skopeo_git.bb
+> > @@ -60,7 +60,6 @@ do_compile() {
+> >       export CGO_LDFLAGS=3D"${TARGET_LDFLAGS}"
+> >
+> >       export GO111MODULE=3Doff
+> > -     export GOBUILDFLAGS=3D"-trimpath"
+> >       export EXTRA_LDFLAGS=3D"-s -w"
+> >
+> >       oe_runmake bin/skopeo
+> >
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#9326):
+> https://lists.yoctoproject.org/g/meta-virtualization/message/9326
+> > Mute This Topic: https://lists.yoctoproject.org/mt/114265288/3618072
+> > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+> > Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub
+> [Qi.Chen@windriver.com]
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> >
 >
->    ERROR: QA Issue: skopeo: ELF binary /usr/sbin/skopeo has relocations in .text [textrel]
->
-> To reproduce the issue, run the following command:
-> MACHINE=qemuriscv64 bitbake skopeo
->
-> In go.bbclass, we have:
-> """
-> export GOBUILDFLAGS ?= "-v ${GO_LDFLAGS} -trimpath"
-> ...
-> python() {
->      if 'mips' in d.getVar('TARGET_ARCH') or 'riscv32' in d.getVar('TARGET_ARCH'):
->          d.appendVar('INSANE_SKIP:%s' % d.getVar('PN'), " textrel")
->      else:
->          d.appendVar('GOBUILDFLAGS', ' -buildmode=pie')
-> }
-> """
->
-> The '-v -trimpath' and arch depedent '-buildmode=pie' is generally reasonable.
-> And we can see we'll need to use anonymous python function to handle PIE. So we
-> should avoid overriding it unless necessary.
->
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> ---
->   recipes-containers/skopeo/skopeo_git.bb | 1 -
->   1 file changed, 1 deletion(-)
->
-> diff --git a/recipes-containers/skopeo/skopeo_git.bb b/recipes-containers/skopeo/skopeo_git.bb
-> index c5518cdc..32938108 100644
-> --- a/recipes-containers/skopeo/skopeo_git.bb
-> +++ b/recipes-containers/skopeo/skopeo_git.bb
-> @@ -60,7 +60,6 @@ do_compile() {
->   	export CGO_LDFLAGS="${TARGET_LDFLAGS}"
->   
->   	export GO111MODULE=off
-> -	export GOBUILDFLAGS="-trimpath"
->   	export EXTRA_LDFLAGS="-s -w"
->   
->   	oe_runmake bin/skopeo
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#9326): https://lists.yoctoproject.org/g/meta-virtualization/message/9326
-> Mute This Topic: https://lists.yoctoproject.org/mt/114265288/3618072
-> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [Qi.Chen@windriver.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
 >
 
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end
+- "Use the force Harry" - Gandalf, Star Trek II
+
+--000000000000bf5ed5063c36d4bf
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-size:small">I&#=
+39;m still considering it.</div><div class=3D"gmail_default" style=3D"font-=
+size:small"><br></div><div class=3D"gmail_default" style=3D"font-size:small=
+">But all merges are held for a bit as I finalize the M3 package updates an=
+d system level testing.</div><div class=3D"gmail_default" style=3D"font-siz=
+e:small"><br></div><div class=3D"gmail_default" style=3D"font-size:small">G=
+enerally speaking, I don&#39;t really want any of the values from the go cl=
+asses as they&#39;ve caused me more issues than I can count. I prefer to ke=
+ep the recipes handling their own flags.=C2=A0 But as I said, I&#39;ll cons=
+ider this once I&#39;m through updates.</div><div class=3D"gmail_default" s=
+tyle=3D"font-size:small"><br></div><div class=3D"gmail_default" style=3D"fo=
+nt-size:small">Bruce</div></div><br><div class=3D"gmail_quote gmail_quote_c=
+ontainer"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Aug 12, 2025 at 10:=
+14=E2=80=AFPM ChenQi &lt;<a href=3D"mailto:Qi.Chen@windriver.com">Qi.Chen@w=
+indriver.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" styl=
+e=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddin=
+g-left:1ex">ping<br>
+<br>
+On 7/21/25 17:26, Chen Qi via <a href=3D"http://lists.yoctoproject.org" rel=
+=3D"noreferrer" target=3D"_blank">lists.yoctoproject.org</a> wrote:<br>
+&gt; From: Chen Qi &lt;<a href=3D"mailto:Qi.Chen@windriver.com" target=3D"_=
+blank">Qi.Chen@windriver.com</a>&gt;<br>
+&gt;<br>
+&gt; When MACHINE is riscv64, skopeo fails to build with the following<br>
+&gt; error message:<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 ERROR: QA Issue: skopeo: ELF binary /usr/sbin/skopeo has =
+relocations in .text [textrel]<br>
+&gt;<br>
+&gt; To reproduce the issue, run the following command:<br>
+&gt; MACHINE=3Dqemuriscv64 bitbake skopeo<br>
+&gt;<br>
+&gt; In go.bbclass, we have:<br>
+&gt; &quot;&quot;&quot;<br>
+&gt; export GOBUILDFLAGS ?=3D &quot;-v ${GO_LDFLAGS} -trimpath&quot;<br>
+&gt; ...<br>
+&gt; python() {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 if &#39;mips&#39; in d.getVar(&#39;TARGET_ARCH&#39=
+;) or &#39;riscv32&#39; in d.getVar(&#39;TARGET_ARCH&#39;):<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 d.appendVar(&#39;INSANE_SKIP:%s&#39;=
+ % d.getVar(&#39;PN&#39;), &quot; textrel&quot;)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 else:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 d.appendVar(&#39;GOBUILDFLAGS&#39;, =
+&#39; -buildmode=3Dpie&#39;)<br>
+&gt; }<br>
+&gt; &quot;&quot;&quot;<br>
+&gt;<br>
+&gt; The &#39;-v -trimpath&#39; and arch depedent &#39;-buildmode=3Dpie&#39=
+; is generally reasonable.<br>
+&gt; And we can see we&#39;ll need to use anonymous python function to hand=
+le PIE. So we<br>
+&gt; should avoid overriding it unless necessary.<br>
+&gt;<br>
+&gt; Signed-off-by: Chen Qi &lt;<a href=3D"mailto:Qi.Chen@windriver.com" ta=
+rget=3D"_blank">Qi.Chen@windriver.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 =C2=A0recipes-containers/skopeo/<a href=3D"http://skopeo_git.bb"=
+ rel=3D"noreferrer" target=3D"_blank">skopeo_git.bb</a> | 1 -<br>
+&gt;=C2=A0 =C2=A01 file changed, 1 deletion(-)<br>
+&gt;<br>
+&gt; diff --git a/recipes-containers/skopeo/<a href=3D"http://skopeo_git.bb=
+" rel=3D"noreferrer" target=3D"_blank">skopeo_git.bb</a> b/recipes-containe=
+rs/skopeo/<a href=3D"http://skopeo_git.bb" rel=3D"noreferrer" target=3D"_bl=
+ank">skopeo_git.bb</a><br>
+&gt; index c5518cdc..32938108 100644<br>
+&gt; --- a/recipes-containers/skopeo/<a href=3D"http://skopeo_git.bb" rel=
+=3D"noreferrer" target=3D"_blank">skopeo_git.bb</a><br>
+&gt; +++ b/recipes-containers/skopeo/<a href=3D"http://skopeo_git.bb" rel=
+=3D"noreferrer" target=3D"_blank">skopeo_git.bb</a><br>
+&gt; @@ -60,7 +60,6 @@ do_compile() {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0export CGO_LDFLAGS=3D&quot;${TARGET_LDFLAGS}=
+&quot;<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0export GO111MODULE=3Doff<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0export GOBUILDFLAGS=3D&quot;-trimpath&quot;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0export EXTRA_LDFLAGS=3D&quot;-s -w&quot;<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0oe_runmake bin/skopeo<br>
+&gt;<br>
+&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt; Links: You receive all messages sent to this group.<br>
+&gt; View/Reply Online (#9326): <a href=3D"https://lists.yoctoproject.org/g=
+/meta-virtualization/message/9326" rel=3D"noreferrer" target=3D"_blank">htt=
+ps://lists.yoctoproject.org/g/meta-virtualization/message/9326</a><br>
+&gt; Mute This Topic: <a href=3D"https://lists.yoctoproject.org/mt/11426528=
+8/3618072" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.=
+org/mt/114265288/3618072</a><br>
+&gt; Group Owner: <a href=3D"mailto:meta-virtualization%2Bowner@lists.yocto=
+project.org" target=3D"_blank">meta-virtualization+owner@lists.yoctoproject=
+.org</a><br>
+&gt; Unsubscribe: <a href=3D"https://lists.yoctoproject.org/g/meta-virtuali=
+zation/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproje=
+ct.org/g/meta-virtualization/unsub</a> [<a href=3D"mailto:Qi.Chen@windriver=
+.com" target=3D"_blank">Qi.Chen@windriver.com</a>]<br>
+&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt;<br>
+<br>
+</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
+=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
+ignature">- Thou shalt not follow the NULL pointer, for chaos and madness a=
+wait thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star T=
+rek II<br><br></div>
+
+--000000000000bf5ed5063c36d4bf--
 
