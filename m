@@ -1,156 +1,126 @@
-Return-Path: <deeratho@cisco.com>
+Return-Path: <patrick.vogelaar@belden.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 56333CA0EFA
-	for <webhook@archiver.kernel.org>; Sat, 23 Aug 2025 08:27:59 +0000 (UTC)
-Received: from aer-iport-8.cisco.com (aer-iport-8.cisco.com [173.38.203.70])
- by mx.groups.io with SMTP id smtpd.web10.2942.1755937669769387490
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0773BCA0EFC
+	for <webhook@archiver.kernel.org>; Sun, 24 Aug 2025 12:14:31 +0000 (UTC)
+Received: from mx0a-00015a02.pphosted.com (mx0a-00015a02.pphosted.com [205.220.166.249])
+ by mx.groups.io with SMTP id smtpd.web10.15682.1756037670494709799
  for <meta-virtualization@lists.yoctoproject.org>;
- Sat, 23 Aug 2025 01:27:50 -0700
+ Sun, 24 Aug 2025 05:14:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=dAqDLrD/;
- spf=pass (domain: cisco.com, ip: 173.38.203.70, mailfrom: deeratho@cisco.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=2878; q=dns/txt;
-  s=iport01; t=1755937669; x=1757147269;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=fMdked2RS6ZFbWFUPwcuvXIK8OWgAQf9HA83qtZ2BX4=;
-  b=dAqDLrD/OLqlmutIIGuBLIITW7Z2oraaa8SER7Qtt7wOSl/fPfKDQsrX
-   4H5e3ssFETvwa/29QV2qGjGI5I7Z3FGnoaajYgqLSE/p8kxX+lKQDb6UY
-   OcbT1ylNVr64vQvddqUffBpSH3481kz1Yqfkry1Hl7yaBpJaB4oz+VOth
-   3er7+LTd3xaGwP4Rc+gcMrgY2ZG5WbBpg9bdhxJ2K7IbAJcgpeopIqRC+
-   AThcIU7ifhfxgkfpuP9rfrqJ19lXd6LQF5eQiBRjtBcemGXZJio6Yr6WO
-   KPRk6ooY7X0C0WK/mgumBYiHCX3yT7XvE+iVpPuaS4GmdBsR/T0WlTlX9
-   g==;
-X-CSE-ConnectionGUID: Z+ktA89RRHydrvmhhL0ulw==
-X-CSE-MsgGUID: qXi/P+7yQ4SZdM2wbE1Xzw==
-X-IPAS-Result: =?us-ascii?q?A0AFAAALe6lo/85K/pBaGgEBAQEBAQEBAQEDAQEBARIBA?=
- =?us-ascii?q?QEBAgIBAQEBgX8FAQEBAQsBgkZ6WkJJjHCJVZ4dgX8PAQEBDz0UBAEBhQeMJ?=
- =?us-ascii?q?wImNAkOAQIEAQEBAQMCAwEBAQEBAQEBAQEBCwEBBQEBAQIBBwWBDhOGTw2GW?=
- =?us-ascii?q?gECATUBRiwDAQIkNiMZCIMCAYJyAxGwboIsgQHgJYFJAY1MhWcnGxuBcoJQg?=
- =?us-ascii?q?T5vgmECgSeBBoVVIgSCIoECFIpPhg19gg6HCkiBHgNZLAFVEw0KCwcFgWMDN?=
- =?us-ascii?q?QwLLhVuMh2BJ4UThCYrT4UOhGwkaw8GgRWDZQaCOkADCxgNSBEsNxQbBj5uB?=
- =?us-ascii?q?5Nqgy57EwErf35NkxCSQ4E4n1kKKIN0jB6VORozhVulEJkGizWCU5ZQhGmBa?=
- =?us-ascii?q?DyBWXAVgyIJSRkPji0WHINCuGU7NQI6AgcLAQEDCZFqgX0BAQ?=
-IronPort-Data: A9a23:hC9rq60MjFYXbUr5R/bD5YVwkn2cJEfYwER7XKvMYLTBsI5bp2QOm
- 2MbXmqAMvaLZGCjeIpxaYu08U8BuMLcztNjTFY43Hw8FHgiRegpqji6wuYcGwvIc6UvmWo+t
- 512huHodZ5yFjmG4E70aNANlFEkvYmQXL3wFeXYDS54QA5gWU8JhAlq8wIDqtYAbeORXUXU5
- rsen+WFYAX4g24uaDpNg06+gEoHUMra6WtwUmMWPZinjHeG/1EJAZQWI72GLneQauF8Au6gS
- u/f+6qy92Xf8g1FIovNfmHTKxBirhb6ZGBiu1IOM0SQqkEqSh8ajs7XAMEhhXJ/0F1lqTzeJ
- OJl7vRcQS9xVkHFdX90vxNwS0mSNoUekFPLzOTWXcG7lyX7n3XQL/pGPgI1IaRIq9xNIXBC7
- +IdKDApNg2HmLfjqF67YrEEasULJcTxeYdasXZ6wHSBULAtQIvIROPB4towMDUY35wSW6yDO
- 4xGNXw1NEqojx5nYj/7DLoykeqyj2X/dBVTqUmeouw85G27IAlZi+C3aIaMI4TiqcN9h3aZ4
- VqFoHXAXiooOPnF1jCoq0K+mbqa9c/8cMdIfFGizdZvjUGag3ISEgELXF+6s/Cli0m4c9ZeM
- FAPvDspprQ17FasTNT2Q1u/unHsg/IHc9NdCag+rQqK0KeRu1vfDWkfRTkHY9sj3CMreQEXO
- payt4uBLVRSXHe9EBpxKp/8QeuOBBUo
-IronPort-HdrOrdr: A9a23:TS7jgKEEVPaMe4XrpLqE48eALOsnbusQ8zAXPo5KJiC9Ffbo8v
- xG88576faZslsssRIb6LK90de7IU80nKQdieJ6AV7IZmfbUQWTQL2KlbGSoAEJ30bFh4lgPW
- AKSdkbNOHN
-X-Talos-CUID: =?us-ascii?q?9a23=3AakGHPGjfS4Cv62sPwQlMlG570zJuQD7e0F6AcnW?=
- =?us-ascii?q?CKXdlUqOQSV+0oL5gjJ87?=
-X-Talos-MUID: 9a23:orK5pAlVGXVnwI5KBOw8dnp7BMYv2+fxGXlRqqcKnpObPwEpCyWC2WE=
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="6.17,312,1747699200"; 
-   d="scan'208";a="30204110"
-Received: from aer-l-core-05.cisco.com ([144.254.74.206])
-  by aer-iport-8.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 23 Aug 2025 08:27:47 +0000
-Received: from bgl-ads-3413.cisco.com (bgl-ads-3413.cisco.com [173.39.60.50])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by aer-l-core-05.cisco.com (Postfix) with ESMTPS id 9AEBC18000230;
-	Sat, 23 Aug 2025 08:27:47 +0000 (GMT)
-Received: by bgl-ads-3413.cisco.com (Postfix, from userid 1795984)
-	id 51A9CCC1295; Sat, 23 Aug 2025 13:57:46 +0530 (IST)
-From: "Deepak Rathore -X (deeratho - E INFOCHIPS PRIVATE LIMITED at Cisco)" <deeratho@cisco.com>
+ dkim=pass header.i=@belden.com header.s=podpps1 header.b=MJHOeljK;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: belden.com, ip: 205.220.166.249, mailfrom: patrick.vogelaar@belden.com)
+Received: from pps.filterd (m0264209.ppops.net [127.0.0.1])
+	by mx0a-00015a02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57O9mONd021259
+	for <meta-virtualization@lists.yoctoproject.org>; Sun, 24 Aug 2025 08:14:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=belden.com; h=cc
+	:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=podpps1; bh=BijruzDiDzVAjgmV57VEW+btgLes4EHxkcXft
+	4XE6MM=; b=MJHOeljKjy7GJ3m1A/Oi48h1zKvZRrf5yXMoINebHFV3C1Ts7ZL2q
+	/kS4FDs+ReHapJ0FtC2bIn3oPy8RuSPgUGUplyBxpH2YzwouK2Ova3lgZbLS9nqO
+	92iZC6XT8Mt6Xj7enRKIBOS1nUpRDEdm6Mp4GTP7tvQ6dOlOMMt2Y1PCALETqRqm
+	au3I2sQuPBKu58oXInCUy4UsxbdHnFHI1dSEDjPzBK2XuT9o5emNcuOteYtXBC5G
+	1V2Bv+cXF/5t74daIBDk8sXZ7jfNkg6Jv/hFk00A5Cci1FqIVt5yssJYeHoJ2O+M
+	TkaVWt2IEwalaWhwgZAXzmpr7HSs+6xBA==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-00015a02.pphosted.com (PPS) with ESMTPS id 48q9y91a57-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL)
+	for <meta-virtualization@lists.yoctoproject.org>; Sun, 24 Aug 2025 08:14:30 -0400 (EDT)
+Received: from m0264209.ppops.net (m0264209.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.1.12/8.18.0.8) with ESMTP id 57OCDMDV008320
+	for <meta-virtualization@lists.yoctoproject.org>; Sun, 24 Aug 2025 08:14:29 -0400
+Received: from relay1.belden.com ([12.161.118.81])
+	by mx0a-00015a02.pphosted.com (PPS) with ESMTPS id 48q9y91a55-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Sun, 24 Aug 2025 08:14:29 -0400 (EDT)
+Received: from pps.filterd (dcric1ppa01pb.mcp.local [127.0.0.1])
+	by dcric1ppa01pb.mcp.local (8.18.1.2/8.18.1.2) with ESMTP id 57OCBeHU031065;
+	Sun, 24 Aug 2025 08:14:28 -0400
+Received: from denec1lt1241.eu.gad.local ([10.1.2.1])
+	by dcric1ppa01pb.mcp.local (PPS) with ESMTP id 48q8yu108p-1;
+	Sun, 24 Aug 2025 08:14:27 -0400 (EDT)
+From: Patrick Vogelaar <patrick.vogelaar@belden.com>
 To: meta-virtualization@lists.yoctoproject.org
-Cc: deeratho@cisco.com
-Subject: [meta-virtualization][scarthgap][PATCH] runc-opencontainer: Fix typo in Makefile for static-pie option
-Date: Sat, 23 Aug 2025 13:57:38 +0530
-Message-Id: <20250823082738.2280799-1-deeratho@cisco.com>
-X-Mailer: git-send-email 2.35.6
+Cc: Patrick Vogelaar <patrick.vogelaar@belden.com>
+Subject: [meta-virtualization][PATCH] docker: make ca-certificates a packageconfig
+Date: Sun, 24 Aug 2025 14:14:14 +0200
+Message-Id: <20250824121414.293436-1-patrick.vogelaar@belden.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Outbound-SMTP-Client: 173.39.60.50, bgl-ads-3413.cisco.com
-X-Outbound-Node: aer-l-core-05.cisco.com
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-24_04,2025-08-20_03,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
+ phishscore=0 spamscore=0 adultscore=0 mlxscore=0 mlxlogscore=922
+ suspectscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2508240116
+X-Proofpoint-GUID: KVml0qZ5WcOCpxsgyAqJvX0fhaZ2qUhL
+X-Authority-Analysis: v=2.4 cv=EfzIQOmC c=1 sm=1 tr=0 ts=68ab0226 cx=c_pps
+ a=cuOCxa8MntS3/AsasmU/aA==:117 a=cuOCxa8MntS3/AsasmU/aA==:17
+ a=2OwXVqhp2XgA:10 a=WDlp8lUfAAAA:8 a=4SZMf02-LMkw_P97CAcA:9
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIzMDA4MSBTYWx0ZWRfX3RkcwyQC/bsU
+ MT0NUMKFhEcYD9n2/qJmyL2CEN2wlwV3XS6eS3ygyvOJB1mvBAAa6+TsVMnThWy1gnDij6C1Llz
+ VZCw5VCWhOfwh+WUVrFRRsUAy9PiKGOK2NYBoEporxFm78KKrCbBTcwBQJy8BkQzW0U1UDpXTgZ
+ HYIlm2mLhvinEkkPE55g4g0O/Cli6ZbQf3WbnTeUguaVLzvTOOlioWQuGGLPyu+hRcwPWYPwEko
+ SuRoj61WNvUoHoK66/St+qLFFD1NYl0kMZErSh6DPqSHpy6tlioH8HtjlJNjKD489ZM05kYLeI1
+ 9dAq+Hme1kED3sjnZvljZfDxR/8oFCeGU+9TG1Wp63vb4uN89nFNzpO47wSsHdrbJbAsaz9kBhm
+ w3TrNSmZ
+X-Proofpoint-ORIG-GUID: 7dzZHaZ8q9O25RAOv7NjCKCc-HD9Q4o4
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-24_04,2025-08-20_03,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 bulkscore=0 clxscore=1015 impostorscore=0 suspectscore=0
+ phishscore=0 malwarescore=0 priorityscore=1501 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508230081
+X-Proofpoint-TriggeredRule: module.spam.rule.outbound_notspam
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Sat, 23 Aug 2025 08:27:59 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9356
+ <meta-virtualization@lists.yoctoproject.org>; Sun, 24 Aug 2025 12:14:31 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9357
 
-From: Deepak Rathore <deeratho@cisco.com>
+Moving ca-certificates into a packageconfig allows using docker without
+installing all the certificates.
 
-runc-opencontainer build is failing with clang toolchain due to typo
-error for --static-pie option.
-
-Build Error Logs:
-| running x86_64-oe-linux-clang failed: exit status 1
-| x86_64-oe-linux-clang: error: unknown argument '--static-pie'; did you mean '-static-pie'?
-|
-| make: *** [Makefile:69: static] Error 1
-| ERROR: oe_runmake failed
-
-Fixed it by replacing --static-pie with -static-pie in LDFLAGS_STATIC.
-
-Signed-off-by: Deepak Rathore <deeratho@cisco.com>
+Signed-off-by: Patrick Vogelaar <patrick.vogelaar@belden.com>
 ---
- ...-Makefile-fix-typo-in-LDFLAGS_STATIC.patch | 30 +++++++++++++++++++
- .../runc/runc-opencontainers_git.bb           |  1 +
- 2 files changed, 31 insertions(+)
- create mode 100644 recipes-containers/runc/files/0001-Makefile-fix-typo-in-LDFLAGS_STATIC.patch
+ recipes-containers/docker/docker.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/recipes-containers/runc/files/0001-Makefile-fix-typo-in-LDFLAGS_STATIC.patch b/recipes-containers/runc/files/0001-Makefile-fix-typo-in-LDFLAGS_STATIC.patch
-new file mode 100644
-index 00000000..bfcfd533
---- /dev/null
-+++ b/recipes-containers/runc/files/0001-Makefile-fix-typo-in-LDFLAGS_STATIC.patch
-@@ -0,0 +1,30 @@
-+From 6f20df5de2c6eb2343202c55e4a8b3d9a4feff10 Mon Sep 17 00:00:00 2001
-+From: CrazyMax <crazy-max@users.noreply.github.com>
-+Date: Tue, 14 Feb 2023 21:27:26 +0100
-+Subject: [PATCH] Makefile: fix typo in LDFLAGS_STATIC
-+
-+Upstream-Status: Backport [https://github.com/opencontainers/runc/commit/2e44a2028077]
-+
-+Signed-off-by: CrazyMax <crazy-max@users.noreply.github.com>
-+(cherry picked from commit 2e44a2028077685cde67d7988f95ce66110be5ae)
-+Signed-off-by: Deepak Rathore <deeratho@cisco.com>
-+---
-+ Makefile | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+Index: git/src/import/Makefile
-+===================================================================
-+--- git.orig/src/import/Makefile
-++++ git/src/import/Makefile
-+@@ -36,7 +36,7 @@ LDFLAGS_STATIC := -extldflags -static
-+ ifneq (,$(filter $(GOARCH),arm64 amd64))
-+ 	ifeq (,$(findstring -race,$(EXTRA_FLAGS)))
-+ 		GO_BUILDMODE_STATIC := -buildmode=pie
-+-		LDFLAGS_STATIC := -linkmode external -extldflags --static-pie
-++		LDFLAGS_STATIC := -linkmode external -extldflags -static-pie
-+ 	endif
-+ endif
-+ # Enable static PIE binaries on supported platforms.
-+-- 
-+2.42.0
-+
-diff --git a/recipes-containers/runc/runc-opencontainers_git.bb b/recipes-containers/runc/runc-opencontainers_git.bb
-index 6eef2c8f..4c831502 100644
---- a/recipes-containers/runc/runc-opencontainers_git.bb
-+++ b/recipes-containers/runc/runc-opencontainers_git.bb
-@@ -4,6 +4,7 @@ SRCREV = "2c9f5602f0ba3d9da1c2596322dfc4e156844890"
- SRC_URI = " \
-     git://github.com/opencontainers/runc;branch=release-1.1;protocol=https \
-     file://0001-Makefile-respect-GOBUILDFLAGS-for-runc-and-remove-re.patch \
-+    file://0001-Makefile-fix-typo-in-LDFLAGS_STATIC.patch \
-     "
- RUNC_VERSION = "1.1.14"
+diff --git a/recipes-containers/docker/docker.inc b/recipes-containers/docker/docker.inc
+index 94ee34db..c464bc3c 100644
+--- a/recipes-containers/docker/docker.inc
++++ b/recipes-containers/docker/docker.inc
+@@ -10,7 +10,6 @@ RDEPENDS:${PN} = "util-linux util-linux-unshare iptables \
+                   ${@bb.utils.contains('DISTRO_FEATURES', 'aufs', 'aufs-util', '', d)} \
+                   ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '', 'cgroup-lite', d)} \
+                   bridge-utils \
+-                  ca-certificates \
+                  "
+ RDEPENDS:${PN} += "virtual-containerd ${VIRTUAL-RUNTIME_container_runtime}"
+ 
+@@ -37,10 +36,11 @@ RPROVIDES:${PN}-dev += "docker-dev"
+ RPROVIDES:${PN}-contrip += "docker-dev"
+ 
+ inherit pkgconfig
+-PACKAGECONFIG ??= "docker-init seccomp"
++PACKAGECONFIG ??= "docker-init seccomp ca-certs"
+ PACKAGECONFIG[seccomp] = "seccomp,,libseccomp"
+ PACKAGECONFIG[docker-init] = ",,,docker-init"
+ PACKAGECONFIG[transient-config] = "transient-config"
++PACKAGECONFIG[ca-certs] = ",,,ca-certificates"
+ 
+ GO_IMPORT = "import"
  
 -- 
-2.44.3
+2.34.1
 
+
+**********************************************************************
+DISCLAIMER:
+Privileged and/or Confidential information may be contained in this message. If you are not the addressee of this message, you may not copy, use or deliver this message to anyone. In such event, you should destroy the message and kindly notify the sender by reply e-mail. It is understood that opinions or conclusions that do not relate to the official business of the company are neither given nor endorsed by the company. Thank You.
 
