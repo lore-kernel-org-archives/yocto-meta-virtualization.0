@@ -1,88 +1,144 @@
-Return-Path: <sudumbha@cisco.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C56CCA0EFA
-	for <webhook@archiver.kernel.org>; Mon, 25 Aug 2025 10:57:28 +0000 (UTC)
-Received: from alln-iport-7.cisco.com (alln-iport-7.cisco.com [173.37.142.94])
- by mx.groups.io with SMTP id smtpd.web11.36457.1756119443057662279
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D7E4CA0EFA
+	for <webhook@archiver.kernel.org>; Mon, 25 Aug 2025 10:59:28 +0000 (UTC)
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+ by mx.groups.io with SMTP id smtpd.web11.36481.1756119562020873448
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 25 Aug 2025 03:57:23 -0700
+ Mon, 25 Aug 2025 03:59:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=gU9j6k9Z;
- spf=pass (domain: cisco.com, ip: 173.37.142.94, mailfrom: sudumbha@cisco.com)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=bdbDcJ0w;
+ spf=pass (domain: gmail.com, ip: 209.85.216.42, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-3256986ca60so1734735a91.1
+        for <meta-virtualization@lists.yoctoproject.org>; Mon, 25 Aug 2025 03:59:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=9; q=dns/txt; s=iport01;
-  t=1756119443; x=1757329043;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=GaJc7Xdi3mHYM0xb2teG3SiyidmyZoXhdM8Wnkm4bpU=;
-  b=gU9j6k9ZVRm9aBY9tJyfV5v/79gTUtfEKt5btMAvu//2hN8qfNxOnSap
-   Se75SbhZ4ZLcG6zFqjMlBSV/Cpv5yuik6tztydsx5Sd1eYNroYsrCvHh/
-   3vUj5c+lC5+M3B7IMP4jK0M85geFF1/7rYujGhktiZHvAR1pTjUfDtaXF
-   v5UZXNVHERAlxlZX1DpOvyE7RBA4wmEAE0gL/+y+wr7tYe43utZofVQKh
-   rHAb/1OrwV2uBvXWurEHM/N2GsZbA4lu2gb94mwzqxwIfAYfZBHKzFglE
-   qSAjKaDKgS/ln0W+yyoDGCWthmUx1vmNysQxp0+Xu8YBM7XJ/q5ll8Yes
-   w==;
-X-CSE-ConnectionGUID: A+tpe7W6Q2iCS9GxlfPnxA==
-X-CSE-MsgGUID: /R3g7+R3TA26fUFjmWG+8w==
-X-IPAS-Result: =?us-ascii?q?A0ACAQCwQKxo/4r/Ja1aGwEBAQEBAQEBBQEBARIBAQEDA?=
- =?us-ascii?q?wEBAYITgkeBVEK3FhQPAQEBD1EEAQGFBwKMJQImOBMBAgQBAQEBAwIDAQEBA?=
- =?us-ascii?q?QEBAQEBAQELAQEFAQEBAgEHBYEOE4ZXBYZbAgEDeRALRisrgxuCcwIBr3yCL?=
- =?us-ascii?q?IEBhHzbKYFJjU1vAYR3JxsbgXKEPz6BBYQLhVUiBIIigRYdkB2KC0gKgRQDW?=
- =?us-ascii?q?SwBVRMNCgsHBYEgQwM1DAsuFSNLBS0dgSd5hBWEHytPghtygXVahBIeBmsPB?=
- =?us-ascii?q?oEVGR0uAgICBQJDPoFxBh4GHxICAwECAlM9EAIzQAMLGA1IESw3FBsGPm4Hw?=
- =?us-ascii?q?GChDgoog3ShVxozg3EBpnkLmHukWIRpgX8lgVlwFYMjURkPjjgnvEkjgQoJk?=
- =?us-ascii?q?2cBAQ?=
-IronPort-Data: A9a23:cB1EDK3zuffuPKEfl/bD5YBwkn2cJEfYwER7XKvMYLTBsI5bpzIGn
- DBJW2yOOa2IM2X8Lo8kPdjj9EsOv8fXmNMwTAVt3Hw8FHgiRegpqji6wuYcGwvIc6UvmWo+t
- 512huHodZ5yFjmG4E70aNANlFEkvYmQXL3wFeXYDS54QA5gWU8JhAlq8wIDqtYAbeORXUXU5
- rsen+WFYAX4g24uaDpNg06+gEoHUMra6WtwUmMWPZinjHeG/1EJAZQWI72GLneQauF8Au6gS
- u/f+6qy92Xf8g1FIovNfmHTKxBirhb6ZGBiu1IOM0SQqkEqSh8ajs7XAMEhhXJ/0F1lqTzeJ
- OJl7vRcQS9xVkHFdX90vxNwS0mSNoUekFPLzOTWXcG7lyX7n3XQL/pGJQIqJYBHxbhOW2Blz
- q03ODQDVhaTrrfjqF67YrEEasULNsLnOsYb/3pn1zycVa9gSpHYSKKM7thdtNsyrpkRRrCFO
- IxDNGcpNU+QC/FMEg9/5JYWh/qkm3z1czRwo1OOrq1x6G/WpOB0+OW2boKLJYfQGK25mG7fn
- DnJoCfDWS0zboKR9BSH902Dxb/QyHaTtIU6UefQGuRRqFie2mVWFhwMSUaypfirg1K/XNR3L
- 00P5jFovK856EuzVN7/Uhak5nmesXYht8F4CeY27kSJj6HT+QvcXjFCRT9aY9tgv8gzLdA36
- mK0cxrSLWQHmNWopbi1r994cRva1fApEFI/
-IronPort-HdrOrdr: A9a23:5cdqma6hLzVSWy7hFwPXwM/XdLJyesId70hD6qm+c3Nom6uj5q
- eTdZsgtCMc5Ax9ZJhko6HjBEDiewK5yXcW2+ks1N6ZNWGM0ldAbrsSiLcKqAePJ8SRzIJgPN
- 9bAstD4BmaNykCsS48izPIdeod/A==
-X-Talos-CUID: =?us-ascii?q?9a23=3AfDxVkmgtqQmAWRWsfSrSjWYZxjJuWz7B1HqPHBG?=
- =?us-ascii?q?BU2dCc+y6WVuewKV0up87?=
-X-Talos-MUID: 9a23:l58MkAp+9mIatWUpK/sez3ZYb8g3oJ71NGlXz5s7lcuBCgMzayjI2Q==
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="6.17,312,1747699200"; 
-   d="scan'208,209";a="536067325"
-Received: from rcdn-l-core-01.cisco.com ([173.37.255.138])
-  by alln-iport-7.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 25 Aug 2025 10:57:22 +0000
-Received: from sjc-ads-12007.cisco.com (sjc-ads-12007.cisco.com [171.70.97.7])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by rcdn-l-core-01.cisco.com (Postfix) with ESMTPS id 2265D180001E6;
-	Mon, 25 Aug 2025 10:57:22 +0000 (GMT)
-Received: by sjc-ads-12007.cisco.com (Postfix, from userid 1840713)
-	id C2463CBEF79; Mon, 25 Aug 2025 03:57:21 -0700 (PDT)
-From: "Sudhir Dumbhare -X (sudumbha - E INFOCHIPS PRIVATE LIMITED at Cisco)" <sudumbha@cisco.com>
-To: meta-virtualization@lists.yoctoproject.org
-Cc: vchavda@cisco.com,
-	deeratho@cisco.com
-Subject: Re: [meta-virtualization] [scarthgap] [PATCH] docker-moby 25.0.3: fix CVE-2024-36623
-Date: Mon, 25 Aug 2025 03:57:12 -0700
-Message-ID: <20250825105720.228263-1-sudumbha@cisco.com>
-X-Mailer: git-send-email 2.44.1
-In-Reply-To: <20250804130449.324152-1-sudumbha@cisco.com>
-References: <20250804130449.324152-1-sudumbha@cisco.com>
+        d=gmail.com; s=20230601; t=1756119561; x=1756724361; darn=lists.yoctoproject.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=obLDxZULwZZY++ffYG2Udeh0kWrkDOOT7TbTdEIQSG0=;
+        b=bdbDcJ0wLDhtCCUL9H5Tuj+85/ewyKsLVnLqC08BoiG59yq+RUXB5CZsKi/T9Fuhrf
+         Gx8qy6AqSSqXEg8mTbIwoLjjmVQ4mOvyQzAugjwg3NKJLWboaRGQPNDOQEou7ELsB4dL
+         9yqLON70Ghc7GNQuUe/RJytFxdLt56DOq6vvt9aE5dB0yupGSF8AH0l2sapMNmGiaYUY
+         rAAlZoZPmaLD5c6CIuYPSGpZt1wetbK1HuOxYXRAlnsHp+5dui3clwUBibhuHcPHE/kO
+         GUQMBVrlo2U26EX8k4Q1NLgf0yAyHr5zHFwrWGV4z4+u6ia8H5M4RDK95muvsorbRz+N
+         2W/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756119561; x=1756724361;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=obLDxZULwZZY++ffYG2Udeh0kWrkDOOT7TbTdEIQSG0=;
+        b=Qe/GJBNcmMXXdnXzJWwXDSz78Apt8GPkTT2G+idJK60PWjo6mjv3ZzlebXlrgszBM6
+         kJ7048fvhF+ls7ERXqfDKmzA50xXN0q2kbxmSSEj3o2YyC5JIcW/Hj2KuzrSQ4KkxU/5
+         m7mnAJ8iVJLzNbaBFxgRh5ABs8m028yWmZodL9VASUXN1JsVluOaMUVrvJXbWHv3trOm
+         h7lbuf9ayS9T9LD23eiBgHkHnW+3lPT9h2LnmirDCcnaa4gDNLaMhStsXMG1O33odwp7
+         PFRcJlHRt8ZDwxkXPzkIjjaAold4JZHmDQkKqFLYMTD98uJaKtmX2UiXODOPvwxlLUb2
+         HoNw==
+X-Gm-Message-State: AOJu0YwKYabVSTysILwpvqVOqqHHshUNlgo1NfMBZyDQrVp3cn3PxxKo
+	MABlL9dYovYmUQat1KbJ7IluwKPy1POjKMWJU+olgajfXcGl0oZMy9UuBrVxE+OnyDh9416LlXp
+	KdInJ6Ot9ysrGOwt+Tn7BVaqIZw87jIc=
+X-Gm-Gg: ASbGncvG1lUKpNNyg2poskBTscKT8xcOgzpu7K2wRuS650arvwNWYb/6We87O8MnUna
+	ViIbrMS/FcHN3O/tnNUu5NNN6csTYZ0muOu20JcrrU27Yfuqnt6v7HxeZANG5StEzJDXsO/AZ4F
+	WG87bhZ0VQzKKYwb+I7N6tSAxALmk+zYM5f8UFIdJZawKnQd5lhkcsFVv3KL760wK1fiBvs2DAa
+	1oLKu9aaILo9vwqQD45jTC9Hota3jNsqk8Vq7crWQ==
+X-Google-Smtp-Source: AGHT+IEYbqBNt1Q+2Kv5Oa94wpXVQk2rnNbqdDJrTfPvMV3Gpntf076WMCKXG4veoXVbE+izeBXID/RweGpD7vXFNGA=
+X-Received: by 2002:a17:90b:3c47:b0:31f:3c3:947c with SMTP id
+ 98e67ed59e1d1-32515e412bdmr15481997a91.10.1756119561230; Mon, 25 Aug 2025
+ 03:59:21 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Outbound-SMTP-Client: 171.70.97.7, sjc-ads-12007.cisco.com
-X-Outbound-Node: rcdn-l-core-01.cisco.com
+References: <20250804130449.324152-1-sudumbha@cisco.com> <20250825105720.228263-1-sudumbha@cisco.com>
+In-Reply-To: <20250825105720.228263-1-sudumbha@cisco.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Mon, 25 Aug 2025 07:59:11 -0300
+X-Gm-Features: Ac12FXxFmLDjgI4x6utgR5tcPo0MwU_to3Fvj5zM8BgO5oUKWLGrA1_mx1Q0pqI
+Message-ID: <CADkTA4P0tazAxhxkWU-yQjb5PufzgwC32MwN7+meSFOZSvqMoQ@mail.gmail.com>
+Subject: Re: [meta-virtualization] [scarthgap] [PATCH] docker-moby 25.0.3: fix CVE-2024-36623
+To: "Sudhir Dumbhare -X (sudumbha - E INFOCHIPS PRIVATE LIMITED at Cisco)" <sudumbha@cisco.com>
+Cc: meta-virtualization <meta-virtualization@lists.yoctoproject.org>, 
+	"Viral Chavda (vchavda)" <vchavda@cisco.com>, deeratho@cisco.com
+Content-Type: multipart/alternative; boundary="000000000000a15dc6063d2e72e9"
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Mon, 25 Aug 2025 10:57:28 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9358
+ <meta-virtualization@lists.yoctoproject.org>; Mon, 25 Aug 2025 10:59:28 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9359
 
-ping=0D
+--000000000000a15dc6063d2e72e9
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+The patches are still mangled by the list.
+
+I'm on holidays this week, but will see if I can make better suggestions to
+fix it when I get back.
+
+Bruce
+
+- Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end
+- "Use the force Harry" - Gandalf, Star Trek II
+
+
+On Mon, Aug 25, 2025, 7:57=E2=80=AFAM Sudhir Dumbhare -X (sudumbha - E INFO=
+CHIPS
+PRIVATE LIMITED at Cisco) via lists.yoctoproject.org <sudumbha=3D
+cisco.com@lists.yoctoproject.org> wrote:
+
+> ping
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#9358):
+> https://lists.yoctoproject.org/g/meta-virtualization/message/9358
+> Mute This Topic: https://lists.yoctoproject.org/mt/114208293/1050810
+> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [
+> bruce.ashfield@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
+--000000000000a15dc6063d2e72e9
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div>The patches are still mangled by the list.</div><div=
+ dir=3D"auto"><br></div><div dir=3D"auto">I&#39;m on holidays this week, bu=
+t will see if I can make better suggestions to fix it when=C2=A0I get back.=
+</div><div dir=3D"auto"><br></div><div dir=3D"auto">Bruce=C2=A0</div><div><=
+br></div><div data-smartmail=3D"gmail_signature">- Thou shalt not follow th=
+e NULL pointer, for chaos and madness await thee at its end<br>- &quot;Use =
+the force Harry&quot; - Gandalf, Star Trek II<br><br></div></div><br><div c=
+lass=3D"gmail_quote gmail_quote_container"><div dir=3D"ltr" class=3D"gmail_=
+attr">On Mon, Aug 25, 2025, 7:57=E2=80=AFAM Sudhir Dumbhare -X (sudumbha - =
+E INFOCHIPS PRIVATE LIMITED at Cisco) via <a href=3D"http://lists.yoctoproj=
+ect.org">lists.yoctoproject.org</a> &lt;sudumbha=3D<a href=3D"mailto:cisco.=
+com@lists.yoctoproject.org">cisco.com@lists.yoctoproject.org</a>&gt; wrote:=
+<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bord=
+er-left:1px #ccc solid;padding-left:1ex">ping<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#9358): <a href=3D"https://lists.yoctoproject.org/g/meta=
+-virtualization/message/9358" rel=3D"noreferrer noreferrer" target=3D"_blan=
+k">https://lists.yoctoproject.org/g/meta-virtualization/message/9358</a><br=
+>
+Mute This Topic: <a href=3D"https://lists.yoctoproject.org/mt/114208293/105=
+0810" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lists.yoctopr=
+oject.org/mt/114208293/1050810</a><br>
+Group Owner: <a href=3D"mailto:meta-virtualization%2Bowner@lists.yoctoproje=
+ct.org" target=3D"_blank" rel=3D"noreferrer">meta-virtualization+owner@list=
+s.yoctoproject.org</a><br>
+Unsubscribe: <a href=3D"https://lists.yoctoproject.org/g/meta-virtualizatio=
+n/unsub" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lists.yoct=
+oproject.org/g/meta-virtualization/unsub</a> [<a href=3D"mailto:bruce.ashfi=
+eld@gmail.com" target=3D"_blank" rel=3D"noreferrer">bruce.ashfield@gmail.co=
+m</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div>
+
+--000000000000a15dc6063d2e72e9--
 
