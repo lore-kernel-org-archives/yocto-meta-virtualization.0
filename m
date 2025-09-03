@@ -1,260 +1,191 @@
-Return-Path: <joaohf@gmail.com>
+Return-Path: <sudumbha@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9AC5ECA1009
-	for <webhook@archiver.kernel.org>; Wed,  3 Sep 2025 13:11:52 +0000 (UTC)
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com [209.85.219.182])
- by mx.groups.io with SMTP id smtpd.web11.12029.1756905104535492037
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2CA6CA1011
+	for <webhook@archiver.kernel.org>; Wed,  3 Sep 2025 17:09:03 +0000 (UTC)
+Received: from alln-iport-2.cisco.com (alln-iport-2.cisco.com [173.37.142.89])
+ by mx.groups.io with SMTP id smtpd.web11.18287.1756919339032844760
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 03 Sep 2025 06:11:44 -0700
+ Wed, 03 Sep 2025 10:08:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=DZ02yr2m;
- spf=pass (domain: gmail.com, ip: 209.85.219.182, mailfrom: joaohf@gmail.com)
-Received: by mail-yb1-f182.google.com with SMTP id 3f1490d57ef6-e96eaceb574so838857276.3
-        for <meta-virtualization@lists.yoctoproject.org>; Wed, 03 Sep 2025 06:11:44 -0700 (PDT)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=BkQ04lQx;
+ spf=pass (domain: cisco.com, ip: 173.37.142.89, mailfrom: sudumbha@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756905104; x=1757509904; darn=lists.yoctoproject.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=GL9dw/GQIYqUgsFIxrGz6VjD5eMx3IaYXuzzE459PS4=;
-        b=DZ02yr2m11nURIElLbtGSXRuPnCYmfOj+zUIaHH+5X+v+gQoQHPaSi6l/Ti/WRAscq
-         agYFWWVdJ4E7RlXCB5QaX002fU00LGemeSQk4LV92MQWmlQcfV52KKx8pJjNyZAzUSHG
-         gQW0Q4CUI53Lzw6H5gKo2N+/IIABueisB5412AC1LkECiwwoNdtIp+d7ddJEEScz38sK
-         zAMspSGvrHX8zgFYeMGr8Pbet0NHqN+/akBR8Kl6HB1XfQw9IfkDRpXm8FLfmPGiXC+b
-         cxyf277p0whfffaNZ9Ja9U0SaeoX0XUcTgtwi3Lj14AsRhXZc9je4Eb0Eclg/fuKuK6M
-         Hg6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756905104; x=1757509904;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=GL9dw/GQIYqUgsFIxrGz6VjD5eMx3IaYXuzzE459PS4=;
-        b=hcorSV+IO9K2WPjUR6znTnmrDt2NaoSi9BhejgppDF0lV4HRPn1W4tAccDGKKaf2kh
-         hw8lEgenise9NcFbSukdJvA4QUjl7yAS43pGuC18jjCz2L7maxdA0Ay/WRFiwk1r5kvK
-         B0nmEYhx1c2f15A1DdDCZLjuxZ/VGmvGkBA/29YxSyo3eAgzIdT70ZKSWlbXLOYqEcKX
-         lqMjCLrxCP5nRPpHI2EZ+8CFSnM613fhrTutzfiUSM5aFVFC58UxtXiAlUlNPtoRi+oK
-         ixNMYA6HdzeIoN3VN1XXe5A4KLLc6mb1aiFAFoTotxzBJ2Jz+snF+JkrAcqGJsT682JC
-         hV3Q==
-X-Gm-Message-State: AOJu0YwAB64CROfJ9eEgUUYzHzdGzwAb6MlpOz+6oSsTCGiABiMdJ0dA
-	+fWSe/uBIChYNtFQ/9twNBiviZoW6A4DmAx8XNoRhUItJ9CDOcGuKnZWotZpYzdYI1PrbOR4Faz
-	4YYfBiKjnN+XR3y/ltUJDox5mSZ5rbeo=
-X-Gm-Gg: ASbGncssDRaGXAHPydlgp5Hk1zdd2p17jRGZb0gKvyxG9Qt5bl3MvW/2Qx2ZwlxpDNT
-	LIm7jzJ7BB2uwGNMQGsYkoHBdSIwPz4m5Tad96cxoAcUpJrmnw2D7FModUHexvA8WYrTbjizZTy
-	NULfwH9OnjFkdCkULoxGacV6vZb1ChZMXB3QiuTnDVQKdC7gs9wPaLiXF0vgTx64XKbV+uI+5aO
-	WvTCgWVKA==
-X-Google-Smtp-Source: AGHT+IE6xOiMEgVzW4pne08noHS1DoXK/U68VxT9HS5g3x6cpBx18FtuxPx94BwW+fb70P7ML758a1INCmQUJ4mmrIs=
-X-Received: by 2002:a05:6902:1022:b0:e90:5a9d:1535 with SMTP id
- 3f1490d57ef6-e989be97df5mr12077601276.1.1756905103429; Wed, 03 Sep 2025
- 06:11:43 -0700 (PDT)
+  d=cisco.com; i=@cisco.com; l=3602; q=dns/txt;
+  s=iport01; t=1756919339; x=1758128939;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=BANmit3+XdMvhGKc6XGS3wYuMejZV75TgddSvuj4jzQ=;
+  b=BkQ04lQxwRT0X2sd9dKfsAr/Etp8610Z0ImNG0T4CoKuHreKFCRZsNYh
+   AhfpjDWpydwWevrTpMToU0JmOSyGL9UNxKJvygvN4R1BuEsdDs/yeR+yS
+   ySDNRaCAw9qWveyAg6fjafGDYTISn9ldSs4Pegw8Sf6ZjHpcOt/1QYLqI
+   3t3d7w0EKD4Mf2QGSaZaIC4Xkubc64PcIAWqf6NGE/NExFHMAJSn84+8t
+   SjKWVrXA0QKr+xybgv1SU9H/Zgqew77OZ/DmkdHRNwXQIXLb0F2BFRNT1
+   +u9aeTWczHF7r0Q21YpTOlvyeVT7dwyavvzKemiCi9RIenCZXNg8PiSNU
+   g==;
+X-CSE-ConnectionGUID: 3fVPkNDdRoWDu4kALtXh5Q==
+X-CSE-MsgGUID: kSoPK9PMSlu6sL4z57wRXQ==
+X-IPAS-Result: =?us-ascii?q?A0ADAADldbho/5T/Ja1RCRkBAQEBAQEBAQEBAQEBAQEBA?=
+ =?us-ascii?q?QESAQEBAQEBAQEBAQEBQIE/BAEBAQEBCwGCRnpaQkmEVIgciVUDi2SSNoF/D?=
+ =?us-ascii?q?wEBAQ89FAQBAYUHAowmAiY0CQ4BAgQBAQEBAwIDAQEBAQEBAQEBAQELAQEFA?=
+ =?us-ascii?q?QEBAgEHBYEOE4ZPDYZbAgEDIw8BRhALFAEFAiYCAiALKxmDAgGCOgM1AgERs?=
+ =?us-ascii?q?XJ6gTKBAYNoAkNP2EENgluBGy4BiDEeAYR8bwGEdycbG4FyglCBbz6BBYEaQ?=
+ =?us-ascii?q?gEBgTSEB4JHIgSCIoEWiECDQ4QwfYF/iCFICngcA1ksAVUTDQoLBwWBIEMDN?=
+ =?us-ascii?q?QwLLhUjSwUtHYEneYQUhB4rT4IbcoF1V0CDUx4Gaw8GgRUZSQICAgUCQz6Bb?=
+ =?us-ascii?q?QYcBh8SAgMBAgI6Gj0QgX0CAgQwQAMLGA1IESw3FBsGPQFuB5RpgjN8PT4TA?=
+ =?us-ascii?q?StUJyAoEVhOkleybHEKKIN0jB6PPYV8GjOFW6UQC5h7izWCU4QJkSuBHIRpg?=
+ =?us-ascii?q?Wg8gUcLB3AVgyIJSRkPjjgng0KBf7YFQzU8AgcBCgEBAwmTZwEB?=
+IronPort-Data: A9a23:uSBCP6y6SDjTBTQgCrF6t+dkxyrEfRIJ4+MujC+fZmUNrF6WrkUPn
+ zQaXD+DbvmLM2v2c9F3atznoxkCv8XSzNVqQAU4q1hgHilAwSbn6Xt1DatR0we6dJCroJdPt
+ p1GAjX4BJlqCCea/FH0a+KJQUBUjcmgXqD7BPPPJhd/TAplTDZJoR94kobVuKYw6TSCK13L4
+ IOaT/H3Ygf/hmYlajlMscpvlTs21BjMkGJA1rABTagjUG/2zxE9EJ8ZLKetGHr0KqE8NvK6X
+ evK0Iai9Wrf+Ro3Yvv9+losWhRXKlJ6FVHmZkt+A8BOsDAbzsAB+vpT2M4nVKtio27hc+adZ
+ zl6ncfYpQ8BZsUgkQmGOvVSO3kW0aZuoNcrLZUj2CCe5xWuTpfi/xlhJBo4A7Ub3Mp7O2Zx2
+ eFEKxkpciCD2tvjldpXSsE07igiBNPgMIVavjRryivUSK9/B5vCWK7No9Rf2V/chOgXQq2YP
+ JVfM2cyKk2cM3WjOX9PYH46tPy1imT6eT1RgFmUvqEwpWPUyWSd1ZCwa4WNJ4PaFJ09ckCwp
+ VnBx0eoOjQhMMHB0h7Z4C/zmdX/pHauMG4VPPjinhJwu3WWy3AaTQMXT0emqP24mEeiWtVZA
+ 0gV4TY167k1/1CsVsP6XRCzvDiDpBF0ZjZLO/cx5AfIzu/f5ByUQzFdCDVAc9ch8sQxQFTGy
+ 2O0oj8gPhQ32JX9dJ5X3u38Qe+aUcTNEVI/WA==
+IronPort-HdrOrdr: A9a23:pkBR26upKJpFYvNAgI1Ln72j7skDS9V00zEX/kB9WHVpmwKj+P
+ xG+85rsyMc6QxhP03I9urgBEDtex7hHNtOkOss1NSZLW3bURWTTL2KhLGKq1aLJ8S9zJ856U
+ 4KScZD4bPLYWSS9fyKgzVR170bsaG6GGfCv5am80tQ
+X-Talos-CUID: 9a23:PSo2e2Nuttm2L+5DAydZzE0yNswfdULx0SvTCmukOWY0cejA
+X-Talos-MUID: =?us-ascii?q?9a23=3AwavdFQy/uXKMCn1pv7qmGVRwbmKaqKeVD3guwK0?=
+ =?us-ascii?q?jgM2ZazdUZyXA0yuNcrZyfw=3D=3D?=
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.18,236,1751241600"; 
+   d="scan'208";a="537057890"
+Received: from rcdn-l-core-11.cisco.com ([173.37.255.148])
+  by alln-iport-2.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 03 Sep 2025 17:08:51 +0000
+Received: from sjc-ads-12007.cisco.com (sjc-ads-12007.cisco.com [171.70.97.7])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by rcdn-l-core-11.cisco.com (Postfix) with ESMTPS id D094418000152;
+	Wed,  3 Sep 2025 17:08:50 +0000 (GMT)
+Received: by sjc-ads-12007.cisco.com (Postfix, from userid 1840713)
+	id 773C0CCD994; Wed,  3 Sep 2025 10:08:50 -0700 (PDT)
+From: "Sudhir Dumbhare -X (sudumbha - E INFOCHIPS PRIVATE LIMITED at Cisco)" <sudumbha@cisco.com>
+To: meta-virtualization@lists.yoctoproject.org
+Cc: vchavda@cisco.com,
+	deeratho@cisco.com
+Subject: Re: [meta-virtualization] [scarthgap] [PATCH v2] docker-moby 25.0.3: fix CVE-2024-36623
+Date: Wed,  3 Sep 2025 17:08:50 +0000
+Message-Id: <20250903170850.1888472-1-sudumbha@cisco.com>
+X-Mailer: git-send-email 2.23.1
+In-Reply-To: <CADkTA4P0tazAxhxkWU-yQjb5PufzgwC32MwN7+meSFOZSvqMoQ@mail.gmail.com>
+References: <CADkTA4P0tazAxhxkWU-yQjb5PufzgwC32MwN7+meSFOZSvqMoQ@mail.gmail.com>
 MIME-Version: 1.0
-References: <CANFVK79QdSO79V83OZW2ZoFC-Ey76Ypb+9BAFvg4Ko7v5rg89w@mail.gmail.com>
- <CADkTA4PJ4O5HbwL9LmfvNxWwXgXAp5sCZkQW=c7QPeOC+vWTJw@mail.gmail.com>
-In-Reply-To: <CADkTA4PJ4O5HbwL9LmfvNxWwXgXAp5sCZkQW=c7QPeOC+vWTJw@mail.gmail.com>
-From: =?UTF-8?Q?Jo=C3=A3o_Henrique_Freitas?= <joaohf@gmail.com>
-Date: Wed, 3 Sep 2025 10:11:30 -0300
-X-Gm-Features: Ac12FXzqs1egdeSkP_LwIa2glWPTdnoY-NSlwHssjUBh5Yug9hoz54gyFtS58tY
-Message-ID: <CANFVK7-VXxz__V5ScKQV1tzodsPYrg_eJG1rZJX=NKGshjFSLQ@mail.gmail.com>
-Subject: Re: [meta-virtualization] About rabbitmq (from meta-erlang) for meta-openstack
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: meta-virtualization@lists.yoctoproject.org
-Content-Type: multipart/alternative; boundary="000000000000981aaa063de558ce"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Outbound-SMTP-Client: 171.70.97.7, sjc-ads-12007.cisco.com
+X-Outbound-Node: rcdn-l-core-11.cisco.com
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Wed, 03 Sep 2025 13:11:52 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9364
+ <meta-virtualization@lists.yoctoproject.org>; Wed, 03 Sep 2025 17:09:03 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9365
 
---000000000000981aaa063de558ce
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Sudhir Dumbhare <sudumbha@cisco.com>
 
-Hi Bruce,
+Upstream Repository: https://github.com/moby/moby.git
 
-Alright, thanks for your answer.
+Bug Details: https://nvd.nist.gov/vuln/detail/CVE-2024-36623
+Type: Security Fix
+CVE: CVE-2024-36623
+Score: 8.1
+Patch: https://github.com/moby/moby/commit/8e3bcf197488
 
-I've updated rabbitmq recipe:
-https://github.com/meta-erlang/meta-erlang/commit/d5783b11a74d005c82b11d0f7=
-39564976b09ac2a
+Analysis:
+- Moby through v25.0.3 has a race condition vulnerability in the
+  streamformatter package. It can trigger multiple concurrent write
+  operations resulting in data corruption. [1]
+- The fix adds a mutex to prevent concurrent writes and protect against
+  data corruption. [2]
 
-So, it should work on the meta-erlang master branch. Remember that there is
-a specific combination between erlang/elixir that rabbitmq supports. For
-that version erlang/otp 27 and elixir 1.18 will work. This is done using
-PREFERRED variables.
+Reference:
+[1] https://nvd.nist.gov/vuln/detail/CVE-2024-36623
+[2] https://github.com/moby/moby/commit/8e3bcf197488
 
-Regards,
+Signed-off-by: Sudhir Dumbhare <sudumbha@cisco.com>
+---
 
-On Fri, Aug 22, 2025 at 12:07=E2=80=AFAM Bruce Ashfield <bruce.ashfield@gma=
-il.com>
-wrote:
+Changes in v2:
+	* Fix from identity
+	* Clean up whitespace
 
->
->
-> On Thu, Aug 21, 2025 at 8:45=E2=80=AFPM Jo=C3=A3o Henrique Ferreira de Fr=
-eitas via
-> lists.yoctoproject.org <joaohf=3Dgmail.com@lists.yoctoproject.org> wrote:
->
->>
->> Hi,
->>
->> I don't know if this list is the right place to discuss about meta-cloud=
--services/meta-openstack.
->> The README from meta-openstack says here is the place.
->>
->>
-> You've got the right place.
->
->
->
->> So, I'm the maintainer of meta-erlang layer and as meta-openstack uses
->> rabbitmq-server from meta-erlang, I should say some words here.
->>
->> I'm planning the following changes on master branch:
->>
->> - rabbitmq-server: update from 3.11.28 to 4.1.3, trying to minimize the
->> number of erlang-modules installed. Because I suspect the rabbitmq-serve=
-r
->> recipe is installing too much.
->>
->> - implement some imagetests to test basic rabbitmq features.
->>
->> I want to know if it's ok to meta-openstack users with the plan above.
->> And if 4.1.3 is compatible with the current meta-openstack version.
->>
->
-> That's a good plan with me, I haven't done my refreshes on
-> meta-cloud-services yet, so I'll have a closer look then. But I don't
-> expect any issues.
->
-> It was an explicit decision when I removed the erlang bits from the layer=
-,
-> so I have no concerns following your lead on the version.
->
-> Bruce
->
->
->
->>
->> Thanks
->>
->> --
->> Jo=C3=A3o Henrique Ferreira de Freitas - joaohf_at_gmail.com
->> Campinas-SP-Brasil
->>
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->> Links: You receive all messages sent to this group.
->> View/Reply Online (#9354):
->> https://lists.yoctoproject.org/g/meta-virtualization/message/9354
->> Mute This Topic: https://lists.yoctoproject.org/mt/114828224/1050810
->> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
->> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub =
-[
->> bruce.ashfield@gmail.com]
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->>
->>
->
-> --
-> - Thou shalt not follow the NULL pointer, for chaos and madness await the=
-e
-> at its end
-> - "Use the force Harry" - Gandalf, Star Trek II
->
->
+ recipes-containers/docker/docker-moby_git.bb  |  1 +
+ .../docker/files/CVE-2024-36623.patch         | 47 +++++++++++++++++++
+ 2 files changed, 48 insertions(+)
+ create mode 100644 recipes-containers/docker/files/CVE-2024-36623.patch
 
---=20
-Jo=C3=A3o Henrique Ferreira de Freitas - joaohf_at_gmail.com
-Campinas-SP-Brasil
+diff --git a/recipes-containers/docker/docker-moby_git.bb b/recipes-containers/docker/docker-moby_git.bb
+index d274b002..e1ece0fd 100644
+--- a/recipes-containers/docker/docker-moby_git.bb
++++ b/recipes-containers/docker/docker-moby_git.bb
+@@ -58,6 +58,7 @@ SRC_URI = "\
+         file://0001-dynbinary-use-go-cross-compiler.patch;patchdir=src/import \
+         file://CVE-2024-36620.patch;patchdir=src/import \
+         file://CVE-2024-36621.patch;patchdir=src/import \
++	file://CVE-2024-36623.patch;patchdir=src/import \
+ 	"
+ 
+ DOCKER_COMMIT = "${SRCREV_moby}"
+diff --git a/recipes-containers/docker/files/CVE-2024-36623.patch b/recipes-containers/docker/files/CVE-2024-36623.patch
+new file mode 100644
+index 00000000..3878a8b1
+--- /dev/null
++++ b/recipes-containers/docker/files/CVE-2024-36623.patch
+@@ -0,0 +1,47 @@
++commit 5becb76fa5a5cb9de135b82017dbc7da7d345614
++Author: Paweł Gronowski <pawel.gronowski@docker.com>
++Date:   Thu Feb 22 18:01:40 2024 +0100
++
++    pkg/streamformatter: Make `progressOutput` concurrency safe
++
++    Sync access to the underlying `io.Writer` with a mutex.
++
++    Upstream-Status: Backport [https://github.com/moby/moby/commit/8e3bcf197488]
++    CVE: CVE-2024-36623
++
++    Signed-off-by: Paweł Gronowski <pawel.gronowski@docker.com>
++    (cherry picked from commit 5689dabfb357b673abdb4391eef426f297d7d1bb)
++    Signed-off-by: Albin Kerouanton <albinker@gmail.com>
++    (cherry picked from commit 8e3bcf19748838b30e34d612832d1dc9d90363b8)
++    Signed-off-by: Sudhir Dumbhare <sudumbha@cisco.com>
++
++diff --git a/pkg/streamformatter/streamformatter.go b/pkg/streamformatter/streamformatter.go
++index b0456e580d..098df6b523 100644
++--- a/pkg/streamformatter/streamformatter.go
+++++ b/pkg/streamformatter/streamformatter.go
++@@ -5,6 +5,7 @@ import (
++	"encoding/json"
++	"fmt"
++	"io"
+++	"sync"
++
++	"github.com/docker/docker/pkg/jsonmessage"
++	"github.com/docker/docker/pkg/progress"
++@@ -109,6 +110,7 @@ type progressOutput struct {
++	sf       formatProgress
++	out      io.Writer
++	newLines bool
+++	mu       sync.Mutex
++ }
++
++ // WriteProgress formats progress information from a ProgressReader.
++@@ -120,6 +122,9 @@ func (out *progressOutput) WriteProgress(prog progress.Progress) error {
++		jsonProgress := jsonmessage.JSONProgress{Current: prog.Current, Total: prog.Total, HideCounts: prog.HideCounts, Units: prog.Units}
++		formatted = out.sf.formatProgress(prog.ID, prog.Action, &jsonProgress, prog.Aux)
++	}
+++
+++	out.mu.Lock()
+++	defer out.mu.Unlock()
++	_, err := out.out.Write(formatted)
++	if err != nil {
++		return err
+-- 
+2.23.1
 
---000000000000981aaa063de558ce
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hi Bruce,</div><div><br></div><div>Alright, thanks fo=
-r your answer.</div><div><br></div><div>I&#39;ve updated rabbitmq recipe:=
-=C2=A0<a href=3D"https://github.com/meta-erlang/meta-erlang/commit/d5783b11=
-a74d005c82b11d0f739564976b09ac2a">https://github.com/meta-erlang/meta-erlan=
-g/commit/d5783b11a74d005c82b11d0f739564976b09ac2a</a></div><div><br></div><=
-div>So, it should work on the meta-erlang master branch. Remember that ther=
-e is a specific combination between erlang/elixir that rabbitmq supports. F=
-or that version erlang/otp 27 and elixir 1.18 will work. This is done using=
- PREFERRED variables.</div><div><br></div><div>Regards,</div></div><br><div=
- class=3D"gmail_quote gmail_quote_container"><div dir=3D"ltr" class=3D"gmai=
-l_attr">On Fri, Aug 22, 2025 at 12:07=E2=80=AFAM Bruce Ashfield &lt;<a href=
-=3D"mailto:bruce.ashfield@gmail.com">bruce.ashfield@gmail.com</a>&gt; wrote=
-:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.=
-8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"lt=
-r"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-size:small">=
-<br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gm=
-ail_attr">On Thu, Aug 21, 2025 at 8:45=E2=80=AFPM Jo=C3=A3o Henrique Ferrei=
-ra de Freitas via <a href=3D"http://lists.yoctoproject.org" target=3D"_blan=
-k">lists.yoctoproject.org</a> &lt;joaohf=3D<a href=3D"mailto:gmail.com@list=
-s.yoctoproject.org" target=3D"_blank">gmail.com@lists.yoctoproject.org</a>&=
-gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
-px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div =
-dir=3D"ltr"><div><span><span><br></span></span></div><div><span><span>Hi,</=
-span></span></div><div><span><span><br></span></span></div><div><span><span=
->I don&#39;t know if this list is the right place to discuss about=C2=A0</s=
-pan></span>meta-cloud-services/meta-openstack. The README from meta-opensta=
-ck says here is the place.</div><div><br></div></div></blockquote><div><br>=
-</div><div><div class=3D"gmail_default" style=3D"font-size:small">You&#39;v=
-e got the right place.</div><br></div><div>=C2=A0</div><blockquote class=3D=
-"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(2=
-04,204,204);padding-left:1ex"><div dir=3D"ltr"><div></div><div><span><span>=
-So, I&#39;m the maintainer of meta-erlang layer and as meta-openstack uses =
-rabbitmq-server from meta-erlang, I should say some words here.</span></spa=
-n></div><div><span><span><br></span></span></div><div><span><span>I&#39;m p=
-lanning the following changes on master branch:</span></span></div><div><sp=
-an><span>=C2=A0</span></span></div><div><span><span>- rabbitmq-server: upda=
-te from=C2=A0</span></span>3.11.28 to=C2=A04.1.3, trying to minimize the nu=
-mber of erlang-modules installed. Because I suspect the rabbitmq-server rec=
-ipe is installing too much.</div><div><br></div><div>- implement some image=
-tests=C2=A0to test basic rabbitmq features.</div><div><br></div><div>I want=
- to know if it&#39;s ok to meta-openstack users with the plan above. And if=
- 4.1.3 is compatible with the current meta-openstack version.</div></div></=
-blockquote><div><br></div><div><div class=3D"gmail_default" style=3D"font-s=
-ize:small">That&#39;s a good plan with me, I haven&#39;t done my refreshes =
-on meta-cloud-services yet, so I&#39;ll have a closer look then. But I don&=
-#39;t expect any issues.</div><div class=3D"gmail_default" style=3D"font-si=
-ze:small"><br></div><div class=3D"gmail_default" style=3D"font-size:small">=
-It was an explicit decision when I removed the erlang bits from the layer, =
-so I have no concerns following your lead on the version.</div><div class=
-=3D"gmail_default" style=3D"font-size:small"><br></div><div class=3D"gmail_=
-default" style=3D"font-size:small">Bruce</div><br></div><div>=C2=A0</div><b=
-lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
-ft:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div><br><=
-/div><div>Thanks</div><br><span class=3D"gmail_signature_prefix">-- </span>=
-<br><div dir=3D"ltr" class=3D"gmail_signature"><div dir=3D"ltr">Jo=C3=A3o H=
-enrique Ferreira de Freitas - <a href=3D"http://joaohf_at_gmail.com" target=
-=3D"_blank">joaohf_at_gmail.com</a><br>Campinas-SP-Brasil</div></div></div>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#9354): <a href=3D"https://lists.yoctoproject.org/g/meta=
--virtualization/message/9354" rel=3D"noreferrer" target=3D"_blank">https://=
-lists.yoctoproject.org/g/meta-virtualization/message/9354</a><br>
-Mute This Topic: <a href=3D"https://lists.yoctoproject.org/mt/114828224/105=
-0810" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.org/m=
-t/114828224/1050810</a><br>
-Group Owner: <a href=3D"mailto:meta-virtualization%2Bowner@lists.yoctoproje=
-ct.org" target=3D"_blank">meta-virtualization+owner@lists.yoctoproject.org<=
-/a><br>
-Unsubscribe: <a href=3D"https://lists.yoctoproject.org/g/meta-virtualizatio=
-n/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.or=
-g/g/meta-virtualization/unsub</a> [<a href=3D"mailto:bruce.ashfield@gmail.c=
-om" target=3D"_blank">bruce.ashfield@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
-=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
-ignature">- Thou shalt not follow the NULL pointer, for chaos and madness a=
-wait thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star T=
-rek II<br><br></div></div>
-</blockquote></div><div><br clear=3D"all"></div><br><span class=3D"gmail_si=
-gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
-iv dir=3D"ltr">Jo=C3=A3o Henrique Ferreira de Freitas - <a href=3D"http://j=
-oaohf_at_gmail.com" target=3D"_blank">joaohf_at_gmail.com</a><br>Campinas-S=
-P-Brasil</div></div>
-
---000000000000981aaa063de558ce--
 
