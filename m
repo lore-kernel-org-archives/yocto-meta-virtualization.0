@@ -1,126 +1,198 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <sudumbha@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94740CA1012
-	for <webhook@archiver.kernel.org>; Thu,  4 Sep 2025 01:41:06 +0000 (UTC)
-Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
- by mx.groups.io with SMTP id smtpd.web10.29702.1756950063945783658
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DBCDFCA1012
+	for <webhook@archiver.kernel.org>; Thu,  4 Sep 2025 09:14:08 +0000 (UTC)
+Received: from alln-iport-5.cisco.com (alln-iport-5.cisco.com [173.37.142.92])
+ by mx.groups.io with SMTP id smtpd.web10.34947.1756977243807466812
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 03 Sep 2025 18:41:04 -0700
+ Thu, 04 Sep 2025 02:14:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=QEXtgu9M;
- spf=pass (domain: gmail.com, ip: 209.85.219.46, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-726e7449186so5846876d6.0
-        for <meta-virtualization@lists.yoctoproject.org>; Wed, 03 Sep 2025 18:41:03 -0700 (PDT)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=FGEyMSse;
+ spf=pass (domain: cisco.com, ip: 173.37.142.92, mailfrom: sudumbha@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756950063; x=1757554863; darn=lists.yoctoproject.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=sa5RNM6hYhYNUHMmUHExYIgX+K9aE3r0lbp7Ojh2qS0=;
-        b=QEXtgu9MYWWOfWR7WRKZf6LbRCREzQ4WyIt1uCaXYTSVSOzdE5EnGuY11ieU+rwRp1
-         TTeBomn3+DsCPGdE4wXZKJwr5N03jGkXul4VQFXi6eKUKEnpOLb8rgI8v1fIJUzAUJwH
-         u0UtR7jrc5yxK+l7602SWXg3OU6f0iAU38B1qB/YBVE5Vck2JOvWaimjJ/gfd8qQt3I7
-         iqcxE18iXwlDzfpzs+sC3R9IWS608ilrrY7D7508bWG0RDoFQRJs831JZ7y83RST3wZj
-         myk0aYyHNfedFOY7OYlxgMyyF8mmK2jiy28+LAaaEHYFd436fdl+5QaeHTk423/DMWOy
-         XjeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756950063; x=1757554863;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sa5RNM6hYhYNUHMmUHExYIgX+K9aE3r0lbp7Ojh2qS0=;
-        b=GMskXEOjOeZQe7/5oPvrdnrH/pUQgkGIKAkLlLBcW3CLHVfvQMyIP4JyHGXArYaela
-         B04i52BmFXZlH9Y6d/wD66xlCuWk722eRHWnlgniZjCyyyQus7Er6K/U7vIPpP/9i4Qc
-         Y93fHA7pC8irqPgMCjxU4NpCvKTOrjEXhhje4STH/11iqh/pERAF58qUVP9mofgpu8yw
-         7XjjEFfi+vji80HvYlDCJmdEZosZdKfPH3TG2BWq+ive2NFHCThgL0ocYfYI9ewJZkAz
-         6cduF+Lidm1hgvA0jKaGgHglpt2K9UB1EKbVcRsSMSFphbJPfwelWq44E/stpEVZuWqP
-         ZBSg==
-X-Gm-Message-State: AOJu0YwCWPnqHtsu5Krvc4Q+z+UczJheLq6+1vljjJEi70Qy29bztBZE
-	9vKMB6T8ct8PVuAreBsBW4KH06gGINQFiBRWSQ5pRAis0YnNOx9atbMx
-X-Gm-Gg: ASbGncsa+FqK/4B3jH971n2J706b8PTKTJ/cZvbHAZ2qTZsh6b+UtSzOjLQfPAZxXW5
-	W28WWw0DkxQUgaU3OXN8T+IjJB1FgHwjrVycVktSa96f8NIAkt8uH8I00RO7mexW+lp7WOkC/z2
-	dQXiqbRldqiNVm0Sz9DGQdlcanf33EO4BLQRPI5EQ6QffOuqYrewgCZFbopyk8JHlLYizqwRumb
-	sQrn1OZCFw1QRBMh3h/ct0Syf4TcjrKZdOoqannWjNNjj/sZqLbw3vDqa5XhiimhRHuxRlKYDtl
-	I4GP8ERwi7rtXwwwlDXMQIBl1V5dvHWOzF3mTjtMK8UT7C1ZIl04nxFkM9kH0Mu3LKkE+uVIbL6
-	DmQ5YUTaLq+5USj6hAIlxKqnaq99B5BHtV9CJn6LrkkMCmVEybxO271DXeNWYc6RPt/12KLnmKC
-	sQsYvh7uQE9x/RWBXJkIQ3SUwHMaoPDCuM2cumMBOdmnHfqX8bDLgBUg==
-X-Google-Smtp-Source: AGHT+IHLXv9sR/ha8mXervr7CM5yiK408ihQYeEYfEOHKNhWhlbw3zGTXcdqdLL2lrUEi+7xoMw5oQ==
-X-Received: by 2002:a05:6214:2029:b0:725:370b:6f14 with SMTP id 6a1803df08f44-725370b7077mr55106606d6.63.1756950062870;
-        Wed, 03 Sep 2025 18:41:02 -0700 (PDT)
-Received: from gmail.com (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-720b6a1beabsm37943156d6.70.2025.09.03.18.41.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Sep 2025 18:41:02 -0700 (PDT)
-Date: Wed, 3 Sep 2025 21:41:00 -0400
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: "Anil Dongare -X (adongare - E INFOCHIPS PRIVATE LIMITED at Cisco)" <adongare@cisco.com>
-Cc: meta-virtualization@lists.yoctoproject.org, vchavda@cisco.com
-Subject: Re: [meta-virtualization] [master] [PATCH] grpc-go 1.59.0+git:
- Ignore CVE-2024-7246
-Message-ID: <aLjuLJii7LPeOuoK@gmail.com>
-References: <20250829052335.2162583-1-adongare@cisco.com>
+  d=cisco.com; i=@cisco.com; l=3775; q=dns/txt;
+  s=iport01; t=1756977243; x=1758186843;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=hhuIW4p12oUZI5fzT0F9XGRJTXPk+KK7wDKNIRl18vU=;
+  b=FGEyMSseNezgpU409EgpYK5iMXGTNoq+LLRGfu4Z7YbhpoCtS4bjuaDn
+   W7funQIjqmpQOkVgcxKB7wb2sVhujEMMiS6q9uoQ5glbhXyh5aB8R0TcX
+   KK5jjgqH7bmDH1W55we+V+dTImoOvHmsF3sTW/fpa+NFHmyPsqmeLeYUV
+   6vtGGIoTo9spQbR57kLEqL8bAJty3zByZkroF5fYqoLGg/esE7/P5uxL2
+   Rh2ePEzK91T3vSoXILvuPjfHPpj2Ww2zDuaSgJy1bymkkbzQGHv843SrP
+   G9j2p9fVrWx5X4dychm+xbQaTWF7vQO12nh7fxExpec8QFZnYHL2QRYU3
+   A==;
+X-CSE-ConnectionGUID: 6tuiOOz5TSe6WgoYHpMNsQ==
+X-CSE-MsgGUID: PThdh9t3QpuKVrBijF0Wog==
+X-IPAS-Result: =?us-ascii?q?A0AFAACmV7lo/4//Ja1RCRoBAQEBAQEBAQEBAwEBAQESA?=
+ =?us-ascii?q?QEBAQICAQEBAUCBPwUBAQEBCwGCRnpaQkmEVIgciVUDi2SSNoF/DwEBAQ89F?=
+ =?us-ascii?q?AQBAYUHAownAiY0CQ4BAgQBAQEBAwIDAQEBAQEBAQEBAQELAQEFAQEBAgEHB?=
+ =?us-ascii?q?YEOE4ZPDYZaAQIBAyMPAUYQHAMBAgMCJgICIAsjCBmDAgGCOgM1AgERsyd6g?=
+ =?us-ascii?q?TKBAYNoAkNP2EENgluBGy4BiDEeAYR8bwGEdycbG4FyglCCLYEFgRpCAQGBN?=
+ =?us-ascii?q?IQHgkciBIIigRaMA4QwfYF/iC1IgQIcA1ksAVUTDQoLBwWBYwM1DAsuFW4yH?=
+ =?us-ascii?q?YEnhQ2EHitPhQKBF4NTJGsPBoEVg10GgTGDB0ADCxgNSBEsNxQbBj0BbgeUc?=
+ =?us-ascii?q?IIzfD0+EwErVCcgKBFYTpJXkk+gHXEKKIN0jB6PPYV8GjOFW6UQC5h7izWCU?=
+ =?us-ascii?q?4QJkSuBHIRpgWg8gUcLB3AVgyIJSRkPjjgng0KBf7d/IzU8AgcBCgEBAwmTZ?=
+ =?us-ascii?q?wEB?=
+IronPort-Data: A9a23:8KbQGaLhJqk0cfcRFE+RgpQlxSXFcZb7ZxGr2PjKsXjdYENS1zIOz
+ DBJCz/VP/rbY2PwctFzYYS08BsAv8PUzYRiTQMd+CA2RRqmiyZq6fd1j6vUF3nPRiEWZBs/t
+ 63yUvGZcoZsCCWa/073WlTYhSEU/bmSQbbhA/LzNCl0RAt1IA8skhsLd9QR2uaEuvDnRVrd0
+ T/Oi5eHYgL9imYoajt8B5+r8XuDgtyj4Fv0gXRmDRx7lAe2v2UYCpsZOZawIxPQKqFIHvS3T
+ vr017qw+GXU5X8FUrtJRZ6iLyXm6paLVeS/oiI+t5qK23CulQRuukoPD8fwXG8M49m/c3+d/
+ /0W3XC4YV9B0qQhA43xWTEAe811FfUuFLMqvRFTvOTLp3AqfUcAzN0wEFw3GqoKp9pMDD9x+
+ vspCCgoSAu60rfeLLKTEoGAh+w5J8XteYdasXZ6wHSBU7AtQIvIROPB4towMDUY358VW62BI
+ ZBENHw2ME+ojx5nYj/7DLolgeu1g3P/ehVTqUmeouw85G27IAlZjeS0aICLJYTVLSlTtn6kp
+ m7GrniiOwkHF+KF4zuH3CqTgeCayEsXX6pXTtVU7MVChVCPzykNCQcKSFK/oOuwlk+5XfpbK
+ lcI4Ww/qqMu81SxSdvwVAH+p2SL1iPwQPJKGOE8rQXIwa3O7kPBWC4PTyVKb5ots8peqSEW6
+ 2JlVujBXVRH2IB5g1rHnltIhVte4RQoEFI=
+IronPort-HdrOrdr: A9a23:tqIcH6l6aLQ4tnASgTUJWE0kI3XpDfIR3DAbv31ZSRFFG/FwWf
+ rAoB19726TtN9xYgBGpTnuAsi9qB/nmKKdpLNhX4tKPzOW3FdATrsD0WKK+VSJcEfDH6xmpM
+ JdmsNFZuEYY2IXsS+D2njaLz7lq+P3iJxBQozlvg5QcT0=
+X-Talos-CUID: =?us-ascii?q?9a23=3AsO2fm2p1FlbQC3xWtTeJZ5fmUZ45b3z662WNH3S?=
+ =?us-ascii?q?1V1lmT4y1UXq245oxxg=3D=3D?=
+X-Talos-MUID: 9a23:JodnIwqNdlfch95+oHQezwleNMtosrj1MVgQsqsckciGG3RPPDjI2Q==
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.18,237,1751241600"; 
+   d="scan'208";a="541026707"
+Received: from rcdn-l-core-06.cisco.com ([173.37.255.143])
+  by alln-iport-5.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 04 Sep 2025 09:14:02 +0000
+Received: from sjc-ads-12007.cisco.com (sjc-ads-12007.cisco.com [171.70.97.7])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by rcdn-l-core-06.cisco.com (Postfix) with ESMTPS id 3122E1800027E;
+	Thu,  4 Sep 2025 09:14:02 +0000 (GMT)
+Received: by sjc-ads-12007.cisco.com (Postfix, from userid 1840713)
+	id C4F6BCBEF79; Thu,  4 Sep 2025 02:14:01 -0700 (PDT)
+From: "Sudhir Dumbhare -X (sudumbha - E INFOCHIPS PRIVATE LIMITED at Cisco)" <sudumbha@cisco.com>
+To: meta-virtualization@lists.yoctoproject.org
+Cc: vchavda@cisco.com,
+	deeratho@cisco.com
+Subject: [meta-virtualization] [scarthgap] [PATCH v3] docker-moby 25.0.3: fix CVE-2024-36623
+Date: Thu,  4 Sep 2025 02:13:36 -0700
+Message-ID: <20250904091400.1008346-1-sudumbha@cisco.com>
+X-Mailer: git-send-email 2.44.1
+In-Reply-To: <aLjXOPctYXCxdpeP@gmail.com>
+References: <aLjXOPctYXCxdpeP@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250829052335.2162583-1-adongare@cisco.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Outbound-SMTP-Client: 171.70.97.7, sjc-ads-12007.cisco.com
+X-Outbound-Node: rcdn-l-core-06.cisco.com
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Thu, 04 Sep 2025 01:41:06 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9373
+ <meta-virtualization@lists.yoctoproject.org>; Thu, 04 Sep 2025 09:14:08 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9374
 
-merged to master-next
+From: Sudhir Dumbhare <sudumbha@cisco.com>
 
-Bruce
+Upstream Repository: https://github.com/moby/moby.git
 
-In message: [meta-virtualization] [master] [PATCH] grpc-go 1.59.0+git: Ignore CVE-2024-7246
-on 28/08/2025 Anil Dongare -X (adongare - E INFOCHIPS PRIVATE LIMITED at Cisco) wrote:
+Bug Details: https://nvd.nist.gov/vuln/detail/CVE-2024-36623
+Type: Security Fix
+CVE: CVE-2024-36623
+Score: 8.1
+Patch: https://github.com/moby/moby/commit/8e3bcf197488
 
-> From: Anil Dongare <adongare@cisco.com>
-> 
-> Upstream Repository: https://github.com/grpc/grpc-go
-> 
-> Bug Details: https://nvd.nist.gov/vuln/detail/CVE-2024-7246
-> Type: Security Fix
-> CVE: CVE-2024-7246
-> Score: 6.3 (Medium)
-> Patch: https://github.com/grpc/grpc/issues/36245
-> 
-> Analysis:
-> -CVE-2024-7246 describes an HTTP/2 HPACK header table poisoning
->  issue found in the gRPC C-core implementation (grpc/grpc).
-> -The vulnerability does not apply to the pure Go implementation
->  (grpc-go) used in Yocto (meta-virtualization layer).
-> -Marking as not-applicable-config (implementation difference).
-> -The affected code path is not present in grpc-go.Hence ignoring the
->   CVE for grpc-go.
-> 
-> Reference:
-> [1] https://nvd.nist.gov/vuln/detail/CVE-2024-7246
-> [2] https://github.com/grpc/grpc/issues/36245
-> [3] Upstream gRPC release notes confirming fixed versions for gRPC
->     C-core (not grpc-go).
-> 
-> Signed-off-by: Anil Dongare <adongare@cisco.com>
-> ---
->  recipes-devtools/go/grpc-go_git.bb | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
-> diff --git a/recipes-devtools/go/grpc-go_git.bb b/recipes-devtools/go/grpc-go_git.bb
-> index 839a4f9c..c2990869 100644
-> --- a/recipes-devtools/go/grpc-go_git.bb
-> +++ b/recipes-devtools/go/grpc-go_git.bb
-> @@ -41,3 +41,8 @@ FILES:${PN} += " \
->  # some CVEs are reported with "cpe:2.3:a:grpc:grpc:*:*:*:*:*:go:*:*"
->  # it's better to have false positives than false negatives
->  CVE_PRODUCT += "grpc"
-> +# CVE-2024-7246 is an HTTP/2 HPACK poisoning issue in gRPC C-core
-> +# (C/C++ implementation, meta-openembedded).
-> +# grpc-go (Go implementation in meta-virtualization) does not
-> +# contain the affected HPACK code path.
-> +CVE_STATUS[CVE-2024-7246] = "not-applicable-config: CVE is for grpc (C-core), not grpc-go."
-> -- 
-> 2.44.1
-> 
+Analysis:
+- Moby through v25.0.3 has a race condition vulnerability in the
+  streamformatter package. It can trigger multiple concurrent write
+  operations resulting in data corruption. [1]
+- The fix adds a mutex to prevent concurrent writes and protect against
+  data corruption. [2]
+
+Reference:
+[1] https://nvd.nist.gov/vuln/detail/CVE-2024-36623
+[2] https://github.com/moby/moby/commit/8e3bcf197488
+
+Signed-off-by: Sudhir Dumbhare <sudumbha@cisco.com>
+---
+
+Changes in v3:
+	* Fix patch format
+
+Changes in v2:
+	* Fix from identity
+	* Clean up whitespace
+
+ recipes-containers/docker/docker-moby_git.bb  |  1 +
+ .../docker/files/CVE-2024-36623.patch         | 51 +++++++++++++++++++
+ 2 files changed, 52 insertions(+)
+ create mode 100644 recipes-containers/docker/files/CVE-2024-36623.patch
+
+diff --git a/recipes-containers/docker/docker-moby_git.bb b/recipes-containers/docker/docker-moby_git.bb
+index d274b002..e1ece0fd 100644
+--- a/recipes-containers/docker/docker-moby_git.bb
++++ b/recipes-containers/docker/docker-moby_git.bb
+@@ -58,6 +58,7 @@ SRC_URI = "\
+         file://0001-dynbinary-use-go-cross-compiler.patch;patchdir=src/import \
+         file://CVE-2024-36620.patch;patchdir=src/import \
+         file://CVE-2024-36621.patch;patchdir=src/import \
++	file://CVE-2024-36623.patch;patchdir=src/import \
+ 	"
+ 
+ DOCKER_COMMIT = "${SRCREV_moby}"
+diff --git a/recipes-containers/docker/files/CVE-2024-36623.patch b/recipes-containers/docker/files/CVE-2024-36623.patch
+new file mode 100644
+index 00000000..e2a26479
+--- /dev/null
++++ b/recipes-containers/docker/files/CVE-2024-36623.patch
+@@ -0,0 +1,51 @@
++From a04fb7404d9b12a8357891f1e4d709faf029b695 Mon Sep 17 00:00:00 2001
++From: Paweł Gronowski <pawel.gronowski@docker.com>
++Date: Thu, 22 Feb 2024 18:01:40 +0100
++Subject: [PATCH] pkg/streamformatter: Make `progressOutput` concurrency safe
++
++Sync access to the underlying `io.Writer` with a mutex.
++
++Upstream-Status: Backport [https://github.com/moby/moby/commit/8e3bcf197488]
++CVE: CVE-2024-36623
++
++Signed-off-by: Paweł Gronowski <pawel.gronowski@docker.com>
++(cherry picked from commit 5689dabfb357b673abdb4391eef426f297d7d1bb)
++Signed-off-by: Albin Kerouanton <albinker@gmail.com>
++(cherry picked from commit 8e3bcf19748838b30e34d612832d1dc9d90363b8)
++Signed-off-by: Sudhir Dumbhare <sudumbha@cisco.com>
++---
++ pkg/streamformatter/streamformatter.go | 5 +++++
++ 1 file changed, 5 insertions(+)
++
++diff --git a/pkg/streamformatter/streamformatter.go b/pkg/streamformatter/streamformatter.go
++index b0456e580d..098df6b523 100644
++--- a/pkg/streamformatter/streamformatter.go
+++++ b/pkg/streamformatter/streamformatter.go
++@@ -5,6 +5,7 @@ import (
++	"encoding/json"
++	"fmt"
++	"io"
+++	"sync"
++
++	"github.com/docker/docker/pkg/jsonmessage"
++	"github.com/docker/docker/pkg/progress"
++@@ -109,6 +110,7 @@ type progressOutput struct {
++	sf       formatProgress
++	out      io.Writer
++	newLines bool
+++	mu       sync.Mutex
++ }
++
++ // WriteProgress formats progress information from a ProgressReader.
++@@ -120,6 +122,9 @@ func (out *progressOutput) WriteProgress(prog progress.Progress) error {
++		jsonProgress := jsonmessage.JSONProgress{Current: prog.Current, Total: prog.Total, HideCounts: prog.HideCounts, Units: prog.Units}
++		formatted = out.sf.formatProgress(prog.ID, prog.Action, &jsonProgress, prog.Aux)
++	}
+++
+++	out.mu.Lock()
+++	defer out.mu.Unlock()
++	_, err := out.out.Write(formatted)
++	if err != nil {
++		return err
++--
++2.44.1
+-- 
+2.44.1
+
 
