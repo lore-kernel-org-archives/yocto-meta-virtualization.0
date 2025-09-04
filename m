@@ -2,75 +2,79 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96240CA1010
-	for <webhook@archiver.kernel.org>; Thu,  4 Sep 2025 01:40:36 +0000 (UTC)
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
- by mx.groups.io with SMTP id smtpd.web10.29694.1756950030801914614
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 94740CA1012
+	for <webhook@archiver.kernel.org>; Thu,  4 Sep 2025 01:41:06 +0000 (UTC)
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
+ by mx.groups.io with SMTP id smtpd.web10.29702.1756950063945783658
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 03 Sep 2025 18:40:30 -0700
+ Wed, 03 Sep 2025 18:41:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Eip9QQWJ;
- spf=pass (domain: gmail.com, ip: 209.85.160.172, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-4b32bbefa14so6895461cf.1
-        for <meta-virtualization@lists.yoctoproject.org>; Wed, 03 Sep 2025 18:40:30 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=QEXtgu9M;
+ spf=pass (domain: gmail.com, ip: 209.85.219.46, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-726e7449186so5846876d6.0
+        for <meta-virtualization@lists.yoctoproject.org>; Wed, 03 Sep 2025 18:41:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756950030; x=1757554830; darn=lists.yoctoproject.org;
+        d=gmail.com; s=20230601; t=1756950063; x=1757554863; darn=lists.yoctoproject.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=fkmHBvBIyumC25wBWWgo0PQKvkbOVHjahvhyo+y2oE0=;
-        b=Eip9QQWJYBAc9NpWHfEgFfjlEkFrFaNURGHqpruaP3++fRypRXPE27oEJXsEEdYEW6
-         bIbHjTDoxE6tHy+nnNECVHLolwiK4W7iLQ3LdDM+4Wzaiw3ZO18gZiH0mMBQLt765eBR
-         lZKBmu6IJnUbykJopV15zvD4MvJZg3FIRS112aiszX9ux9OIEl9MHku5tWodJ0uh/VrZ
-         TJXfJ+LD+WmV4N1MuFlBlwdurZd9F2gT3fDATOv7Nl9lT2EgfUbp+L9+rtFYFPqGZiru
-         6MoKRaM97qW0/AQMukKhYfXVmNTFI6bor16RchO2roby7/BgucCdf0bKIezZBNwsMDb3
-         PooQ==
+        bh=sa5RNM6hYhYNUHMmUHExYIgX+K9aE3r0lbp7Ojh2qS0=;
+        b=QEXtgu9MYWWOfWR7WRKZf6LbRCREzQ4WyIt1uCaXYTSVSOzdE5EnGuY11ieU+rwRp1
+         TTeBomn3+DsCPGdE4wXZKJwr5N03jGkXul4VQFXi6eKUKEnpOLb8rgI8v1fIJUzAUJwH
+         u0UtR7jrc5yxK+l7602SWXg3OU6f0iAU38B1qB/YBVE5Vck2JOvWaimjJ/gfd8qQt3I7
+         iqcxE18iXwlDzfpzs+sC3R9IWS608ilrrY7D7508bWG0RDoFQRJs831JZ7y83RST3wZj
+         myk0aYyHNfedFOY7OYlxgMyyF8mmK2jiy28+LAaaEHYFd436fdl+5QaeHTk423/DMWOy
+         XjeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756950030; x=1757554830;
+        d=1e100.net; s=20230601; t=1756950063; x=1757554863;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=fkmHBvBIyumC25wBWWgo0PQKvkbOVHjahvhyo+y2oE0=;
-        b=Ip9dzesp46ayAn7+qqouvCIFMCWFcQzptpm5+/TqKKScigtGbfE/GpDOAlzTAEd4EL
-         53jF81gls/vA5GXswPLA//Dh0eP5khNBtSjE7fB+NmMmsumYsb3848O21xv/QqqIWhF7
-         p+6z0jx3fNO6G5llvRicG1oGG3qqH0O368e1lHyKH8gcdQGEogTK7SQvARZsuMo35/iW
-         kz7qySU32QIvxCiDi7mDa1feth/rVlvNWFSVXjxkKVLpuJ+wKCfHTxw7GFFp6btm5g9l
-         a9vlXRtJ8Tz4IggHTaMj7So2MypyhZQWkiNPkNh11yC7VSBVYPTC0lbdA/Ng0VZnbDng
-         DPRQ==
-X-Gm-Message-State: AOJu0YyC4QXVGddwrlx3ly3KcGjeJK4Hl6W4NzjVTc9ZzFj19KEM4O1w
-	WAjs6f+kDYNhwYw5gT0/CcQ0yar+kR2Ouha6oW4p3e3Wvkui9vUJfUNJ+eWoBSSd
-X-Gm-Gg: ASbGncvmzGT1pJ83jqFuxhoXPgFVuSdoBXQdNOXORAUJn095/rjudwodReC5t4pN6Ud
-	JWtvKyRe1jYiLImlzQDdgJFq32D8wcih91HWEugV2dWve561y3Rh0i8KNnmlHP1RSPs0jJW1Erw
-	yM5gcPIZTZZw9XQrBSv9kZ73g89JOAqnhKIKeu4eKL/wlcrdu1t2Zol6kDeIiK/B1L5kN+iv36v
-	7MDWcb3C4TvgplIDtk7j/7RRhf1jIjrZwcO6F+QK38LQ77t8bSZZZce336vhsM7tLQP6qgr9Tkm
-	mZkAO1jTPha2SsPl2xdUsVX3ath4G+GL+VWFWFzDCaTuvBi8cSvkGJ8n0Im7oHci5HaGQcoZbyL
-	877yeg6n/VvCiPTpWIvEhtzmNtTAJo9WFCtjAAogzh4G9arVf6fKtqUEkVBh9DF3KJbAliqVfT3
-	+fMNDFZc5Ots1+fLBzhfJbtEW590Zyrk2PZqlOLd+82s0=
-X-Google-Smtp-Source: AGHT+IHJv31UbjH4NwnJaGipaI4IfCY0Xr4TWfOs0Pp5Zmfcvmso9aXpHc39Y7+UvnjwSpTRF9JRwQ==
-X-Received: by 2002:a05:622a:1981:b0:4b3:ea6:e0ec with SMTP id d75a77b69052e-4b31d8a34c2mr190008311cf.30.1756950029663;
-        Wed, 03 Sep 2025 18:40:29 -0700 (PDT)
+        bh=sa5RNM6hYhYNUHMmUHExYIgX+K9aE3r0lbp7Ojh2qS0=;
+        b=GMskXEOjOeZQe7/5oPvrdnrH/pUQgkGIKAkLlLBcW3CLHVfvQMyIP4JyHGXArYaela
+         B04i52BmFXZlH9Y6d/wD66xlCuWk722eRHWnlgniZjCyyyQus7Er6K/U7vIPpP/9i4Qc
+         Y93fHA7pC8irqPgMCjxU4NpCvKTOrjEXhhje4STH/11iqh/pERAF58qUVP9mofgpu8yw
+         7XjjEFfi+vji80HvYlDCJmdEZosZdKfPH3TG2BWq+ive2NFHCThgL0ocYfYI9ewJZkAz
+         6cduF+Lidm1hgvA0jKaGgHglpt2K9UB1EKbVcRsSMSFphbJPfwelWq44E/stpEVZuWqP
+         ZBSg==
+X-Gm-Message-State: AOJu0YwCWPnqHtsu5Krvc4Q+z+UczJheLq6+1vljjJEi70Qy29bztBZE
+	9vKMB6T8ct8PVuAreBsBW4KH06gGINQFiBRWSQ5pRAis0YnNOx9atbMx
+X-Gm-Gg: ASbGncsa+FqK/4B3jH971n2J706b8PTKTJ/cZvbHAZ2qTZsh6b+UtSzOjLQfPAZxXW5
+	W28WWw0DkxQUgaU3OXN8T+IjJB1FgHwjrVycVktSa96f8NIAkt8uH8I00RO7mexW+lp7WOkC/z2
+	dQXiqbRldqiNVm0Sz9DGQdlcanf33EO4BLQRPI5EQ6QffOuqYrewgCZFbopyk8JHlLYizqwRumb
+	sQrn1OZCFw1QRBMh3h/ct0Syf4TcjrKZdOoqannWjNNjj/sZqLbw3vDqa5XhiimhRHuxRlKYDtl
+	I4GP8ERwi7rtXwwwlDXMQIBl1V5dvHWOzF3mTjtMK8UT7C1ZIl04nxFkM9kH0Mu3LKkE+uVIbL6
+	DmQ5YUTaLq+5USj6hAIlxKqnaq99B5BHtV9CJn6LrkkMCmVEybxO271DXeNWYc6RPt/12KLnmKC
+	sQsYvh7uQE9x/RWBXJkIQ3SUwHMaoPDCuM2cumMBOdmnHfqX8bDLgBUg==
+X-Google-Smtp-Source: AGHT+IHLXv9sR/ha8mXervr7CM5yiK408ihQYeEYfEOHKNhWhlbw3zGTXcdqdLL2lrUEi+7xoMw5oQ==
+X-Received: by 2002:a05:6214:2029:b0:725:370b:6f14 with SMTP id 6a1803df08f44-725370b7077mr55106606d6.63.1756950062870;
+        Wed, 03 Sep 2025 18:41:02 -0700 (PDT)
 Received: from gmail.com (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4b48f6582f6sm20871211cf.13.2025.09.03.18.40.28
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-720b6a1beabsm37943156d6.70.2025.09.03.18.41.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Sep 2025 18:40:29 -0700 (PDT)
-Date: Wed, 3 Sep 2025 21:40:27 -0400
+        Wed, 03 Sep 2025 18:41:02 -0700 (PDT)
+Date: Wed, 3 Sep 2025 21:41:00 -0400
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 To: "Anil Dongare -X (adongare - E INFOCHIPS PRIVATE LIMITED at Cisco)" <adongare@cisco.com>
 Cc: meta-virtualization@lists.yoctoproject.org, vchavda@cisco.com
-Subject: Re: [meta-virtualization] [scarthgap] [PATCH] grpc-go 1.59.0+git:
+Subject: Re: [meta-virtualization] [master] [PATCH] grpc-go 1.59.0+git:
  Ignore CVE-2024-7246
-Message-ID: <aLjuC1lJ1TVOo0vp@gmail.com>
-References: <20250829045345.2030325-1-adongare@cisco.com>
+Message-ID: <aLjuLJii7LPeOuoK@gmail.com>
+References: <20250829052335.2162583-1-adongare@cisco.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250829045345.2030325-1-adongare@cisco.com>
+In-Reply-To: <20250829052335.2162583-1-adongare@cisco.com>
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Thu, 04 Sep 2025 01:40:36 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9372
+ <meta-virtualization@lists.yoctoproject.org>; Thu, 04 Sep 2025 01:41:06 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9373
 
-In message: [meta-virtualization] [scarthgap] [PATCH] grpc-go 1.59.0+git: Ignore CVE-2024-7246
+merged to master-next
+
+Bruce
+
+In message: [meta-virtualization] [master] [PATCH] grpc-go 1.59.0+git: Ignore CVE-2024-7246
 on 28/08/2025 Anil Dongare -X (adongare - E INFOCHIPS PRIVATE LIMITED at Cisco) wrote:
 
 > From: Anil Dongare <adongare@cisco.com>
@@ -91,11 +95,6 @@ on 28/08/2025 Anil Dongare -X (adongare - E INFOCHIPS PRIVATE LIMITED at Cisco) 
 > -Marking as not-applicable-config (implementation difference).
 > -The affected code path is not present in grpc-go.Hence ignoring the
 >   CVE for grpc-go.
-
-merged.
-
-Bruce
-
 > 
 > Reference:
 > [1] https://nvd.nist.gov/vuln/detail/CVE-2024-7246
@@ -109,10 +108,10 @@ Bruce
 >  1 file changed, 5 insertions(+)
 > 
 > diff --git a/recipes-devtools/go/grpc-go_git.bb b/recipes-devtools/go/grpc-go_git.bb
-> index 7989c02f..fdfc2307 100644
+> index 839a4f9c..c2990869 100644
 > --- a/recipes-devtools/go/grpc-go_git.bb
 > +++ b/recipes-devtools/go/grpc-go_git.bb
-> @@ -43,3 +43,8 @@ FILES:${PN} += " \
+> @@ -41,3 +41,8 @@ FILES:${PN} += " \
 >  # some CVEs are reported with "cpe:2.3:a:grpc:grpc:*:*:*:*:*:go:*:*"
 >  # it's better to have false positives than false negatives
 >  CVE_PRODUCT += "grpc"
@@ -122,6 +121,6 @@ Bruce
 > +# contain the affected HPACK code path.
 > +CVE_STATUS[CVE-2024-7246] = "not-applicable-config: CVE is for grpc (C-core), not grpc-go."
 > -- 
-> 2.43.5
+> 2.44.1
 > 
 
