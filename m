@@ -2,79 +2,79 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 80ECACA1012
-	for <webhook@archiver.kernel.org>; Thu,  4 Sep 2025 01:10:36 +0000 (UTC)
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
- by mx.groups.io with SMTP id smtpd.web10.29161.1756948235421029396
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C72CCA1010
+	for <webhook@archiver.kernel.org>; Thu,  4 Sep 2025 01:11:16 +0000 (UTC)
+Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
+ by mx.groups.io with SMTP id smtpd.web10.29171.1756948263569249227
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 03 Sep 2025 18:10:35 -0700
+ Wed, 03 Sep 2025 18:11:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=FN+J6SNP;
- spf=pass (domain: gmail.com, ip: 209.85.160.171, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-4b338d7a540so7619271cf.1
-        for <meta-virtualization@lists.yoctoproject.org>; Wed, 03 Sep 2025 18:10:35 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=OF8Mgtag;
+ spf=pass (domain: gmail.com, ip: 209.85.222.181, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-7f8ea864d81so68315085a.1
+        for <meta-virtualization@lists.yoctoproject.org>; Wed, 03 Sep 2025 18:11:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756948234; x=1757553034; darn=lists.yoctoproject.org;
+        d=gmail.com; s=20230601; t=1756948262; x=1757553062; darn=lists.yoctoproject.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=puVr6i+Z3KmkWKW0JkKa1qD3OoFcMO+D1DVsoqIQ8vU=;
-        b=FN+J6SNPmwgcE8qMdFb0xaFjA8XSWCyrJArIh1Z1uuj9LpMuoRA8smMFXV0tltsP3M
-         kTfmlP87pXMYyYwoU8VJ6OUzSFjOLhtD17P3hLOZ/g4DABL+/M7nvTdwxNkhtfTWhMx2
-         d/sOgXHTnnhg95qM+lBgDmUqbE6Sgqz8V4LFnMn6aARlFnVv6r1xkOsQBUALFAe980XQ
-         AZcWyQNqiCYRtDk0B69Dft8bqpz5UE2nykXg7pQw8AkZl0j5zf+dkFJdWpXnrcr4/6dy
-         eilAoIP9IhlvTSSNxZzXBol9KN0t7dCqHlgkHxggTzd/uui6alhrTf8jlqrrtyAxVg1G
-         Sciw==
+        bh=Jw/1nxI+JW3frmjKM3FSdOjpskOW6yGFsLm+gStYH/s=;
+        b=OF8Mgtag2LM6O2BYonTesZtADdTcVKyTIPvDHTrX51F/L9z7mG90CI8ApEJdy/gYKH
+         5JHElgeW8cPZcGnpfcMRNgCYm/Hpo6XPElq8IgTs6uQ4h9QBRTVbCGART8HlKYK99QCB
+         a0ksdcC6NLcj9nGLzhsIM+dxt4tRXUHCKAkX0KFaVopv5Huqiq+BM01Hr/PH6srmflBq
+         yPJYF0pK7YttU39Vrp/LmpbFM5teCM4aepozQDKOWcGbS9mS54VzmgZQaDKr11c5fOJs
+         q1Y1ben/Ou7BVh+DYQRi1Etugy5cy1knXuaNqPE3IjnXAwMYE7JXrKG3hlPglw7y7ZrK
+         INBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756948234; x=1757553034;
+        d=1e100.net; s=20230601; t=1756948262; x=1757553062;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=puVr6i+Z3KmkWKW0JkKa1qD3OoFcMO+D1DVsoqIQ8vU=;
-        b=Ff21SCnlH1LCaBdd6/24z78oOKRQRBYae5Rx9IE73tiZcNTIqgvLdgcxvUAvxBk/Rb
-         yP9vQg9ZR7Br3KDYH6d+tZuIafELMOoTggaSvbInls8OeofiNd6jrWpTkNL3BUPLgJ7j
-         uOsM1/US1FWjt8R9GtEpP0VLM6WfNKHBriHLSL+rAX9zsVa1ub+qtlPVnoCrl6Xn/38j
-         OI2augslF54MM1wwxd0P/qPoCE4sK3VvWNMdYeoEK222Bo0Vlr5fKHtSLXQEUaDXaN0Z
-         i9WM9IIiFdykp+jSys6GjfRyOdHnp6i4hkvhw00S4dSWY4I9V2LOcsO1jToSfu1Tai2B
-         tTpg==
-X-Gm-Message-State: AOJu0YxxUgkqAienLl9J7VRk0+oKEun7v/6AndX1tHBp6Nli15CoN5Mk
-	KRWAcoz7vt6uBFl1PcSkfXKk+3cz7DOlkCyzJBbNaE8ibJkNLRyd9GAxJzuGhhWu
-X-Gm-Gg: ASbGncviglBmO4HKu0OsYxp5/dzeKmSTYnw4y4Re2ajhS1O6xulLvgbF+anphnXBeYq
-	t9rJPx+43P4D9m389LhD9VdDc3ccmvO5gLWlF4zKnLq8lHYFYK1hm+3skYaFvcQ+DTVuue8BiHP
-	o2bEyr96e+TCw5YSKtKd85Wjhg4Cr7r6NX370gS9EAXc7b2tD1AG6SqfRzETb8Tvlv9IuWpxiS2
-	kX32YVzepiokV3MdWFVLHb2/lqtUexmhBGuPxo7t1y26bD/sn5x7Es2bc404XIG91UX6X1pU0md
-	tt2PJjA0epaMUhAP6K9tTHmM6y6Sd2SL6rWS4XUXaWZzgOZmoKQMdEJY6y59mw8ZsxQaigs1dPV
-	JT94kt8Krhfbqa3ECgFCUO1jX5RienBEzEUwCo/awiuSGaZMf9KWvHYHXXgDWCZbUzH6+HqPm+j
-	RBexmsdjkgVig7FxAHfrlnrA6xvzd3JdJO+A8nzeCbqYA=
-X-Google-Smtp-Source: AGHT+IGHI5EItIjHatn3ZAlwIahQzmnqwqfEadVkhn8W/25aKzpGR/gX5mdHnltLU1xr21BqkmaadA==
-X-Received: by 2002:ac8:5745:0:b0:4b2:9510:79be with SMTP id d75a77b69052e-4b31d875d46mr180413771cf.20.1756948234050;
-        Wed, 03 Sep 2025 18:10:34 -0700 (PDT)
+        bh=Jw/1nxI+JW3frmjKM3FSdOjpskOW6yGFsLm+gStYH/s=;
+        b=I8IHaQ2WIXXDtl6njJlCcFMPceSEQdmmOQ0Hb8bVN2PcCzckmDIKapdITz8Tfln+rH
+         n/bF/USZ4285spZuH+CGXWKZGsiKmTofWM15ic3UwaTO/KRNfMZounoaxD4uFsXxjdAY
+         iT1kiMOZfmyOSMH3E1J6pbPZ+hDKA+D6gZTdBOrYt77oxCYxqztu+e6GsCHinCMDOjbp
+         KosVhpD5b7jXzPkhy50QOxgbwUks9QxPSUHLCM99BkqSQZyeUusSbPvvEZIUjvk0xaA1
+         f50O/ZvfXxyKHN6ygRjilQA4cAD164AME6Eh6oxqpPM92wuKxrFvAGs1zq++nqleu4eT
+         A4eg==
+X-Gm-Message-State: AOJu0Yw5ZY2bO23yQjxGrrslkNPhn8pf4SFqrPvEhvJ/c3rXvuP8OXZ7
+	uYrTFpW9Ydhw7xGuvjlFnrdnDLdv1amGBHOa9mRoqkoNKmE7ot6bycS9
+X-Gm-Gg: ASbGncvXRY58Yj7544aeWySKdG8g5/mWSa/FjeHbwSuQvX20PEzK2MBPsm/sAGaMPMj
+	FuxdZGJ9/g6GZUYYUuHbr0lTITjYJ9dOyfRGTT1it43tfai10MK1N+XM9BvESCqbbc3yPWqfrWx
+	nc16DOkCpY91+ZL3YW2tqCGFK29vVd/dIf34XBH/+J/+yunVJi1Nvb/W5oCjRb2wIFVtIBnG/MC
+	S/AnpuJStJDGzitfR3Xj83zX6BgRhQHfJBDePHCHj/nEBfbIyy2N3rfkb4JmGWpm9ku9FyJAkHV
+	w3IjX1Lqm6LoSpiiCR2GIdt2vQPJP7XDpBtxpjfx3g+VU0eRXrMRG03xt6cD5ByneBdzb5iWrDQ
+	bNjV95sCShPhYg0PJNpFiks8R8Wbm/LwTdHpQXuViP/g2QxvyEPB/Citi8+Dq4FRacmad4esmkT
+	1B0rCKTTJFNDJfGn8u1YoPcAsQjfIUwNoHdLI2lFFn8sPvLWOAhXyqPQ==
+X-Google-Smtp-Source: AGHT+IEfB0ib6vyKlrK1gWPjUEAUAIei1gZCLcA6u7We0tryS2rv0/VWzsqMypz/sztL38Lgx29bBQ==
+X-Received: by 2002:a05:620a:468d:b0:7f6:b593:d20d with SMTP id af79cd13be357-7ff2b2c74ffmr1984989585a.52.1756948262373;
+        Wed, 03 Sep 2025 18:11:02 -0700 (PDT)
 Received: from gmail.com (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4b48f799b83sm20584811cf.45.2025.09.03.18.10.33
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4b48f660361sm20395561cf.17.2025.09.03.18.11.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Sep 2025 18:10:33 -0700 (PDT)
-Date: Wed, 3 Sep 2025 21:10:31 -0400
+        Wed, 03 Sep 2025 18:11:01 -0700 (PDT)
+Date: Wed, 3 Sep 2025 21:11:00 -0400
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 To: hprajapati@mvista.com
 Cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [meta-virtualization][scarthgap][PATCH] cloud-init: fix for
+Subject: Re: [meta-virtualization][kirkstone][PATCH] cloud-init: fix for
  CVE-2024-6174
-Message-ID: <aLjnB8gNuELg4L/Y@gmail.com>
-References: <20250820061348.40908-1-hprajapati@mvista.com>
+Message-ID: <aLjnJLySfkEp8NSf@gmail.com>
+References: <20250820082109.100727-1-hprajapati@mvista.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250820061348.40908-1-hprajapati@mvista.com>
+In-Reply-To: <20250820082109.100727-1-hprajapati@mvista.com>
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Thu, 04 Sep 2025 01:10:36 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9367
+ <meta-virtualization@lists.yoctoproject.org>; Thu, 04 Sep 2025 01:11:16 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9368
 
 merged.
 
 Bruce
 
-In message: [meta-virtualization][scarthgap][PATCH] cloud-init: fix for CVE-2024-6174
+In message: [meta-virtualization][kirkstone][PATCH] cloud-init: fix for CVE-2024-6174
 on 20/08/2025 Hitendra Prajapati via lists.yoctoproject.org wrote:
 
 > Upstream-Status: Backport from https://github.com/canonical/cloud-init/commit/f43937f0b462734eb9c76700491c18fe4133c8e1
@@ -82,13 +82,13 @@ on 20/08/2025 Hitendra Prajapati via lists.yoctoproject.org wrote:
 > Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 > ---
 >  .../cloud-init/cloud-init/CVE-2024-6174.patch | 103 ++++++++++++++++++
->  recipes-extended/cloud-init/cloud-init_git.bb |   1 +
+>  .../cloud-init/cloud-init_21.4.bb             |   1 +
 >  2 files changed, 104 insertions(+)
 >  create mode 100644 recipes-extended/cloud-init/cloud-init/CVE-2024-6174.patch
 > 
 > diff --git a/recipes-extended/cloud-init/cloud-init/CVE-2024-6174.patch b/recipes-extended/cloud-init/cloud-init/CVE-2024-6174.patch
 > new file mode 100644
-> index 00000000..66347fee
+> index 00000000..797155ce
 > --- /dev/null
 > +++ b/recipes-extended/cloud-init/cloud-init/CVE-2024-6174.patch
 > @@ -0,0 +1,103 @@
@@ -121,10 +121,10 @@ on 20/08/2025 Hitendra Prajapati via lists.yoctoproject.org wrote:
 > + 2 files changed, 10 insertions(+), 11 deletions(-)
 > +
 > +diff --git a/tests/unittests/test_ds_identify.py b/tests/unittests/test_ds_identify.py
-> +index 1be00e464..23d06138b 100644
+> +index f2d2b4949..aaa6999e1 100644
 > +--- a/tests/unittests/test_ds_identify.py
 > ++++ b/tests/unittests/test_ds_identify.py
-> +@@ -63,9 +63,9 @@ BLKID_UEFI_UBUNTU = [
+> +@@ -57,9 +57,9 @@ BLKID_UEFI_UBUNTU = [
 > + 
 > + 
 > + POLICY_FOUND_ONLY = "search,found=all,maybe=none,notfound=disabled"
@@ -137,7 +137,7 @@ on 20/08/2025 Hitendra Prajapati via lists.yoctoproject.org wrote:
 > + DI_EC2_STRICT_ID_DEFAULT = "true"
 > + OVF_MATCH_STRING = "http://schemas.dmtf.org/ovf/environment/1"
 > + 
-> +@@ -674,7 +674,7 @@ class TestDsIdentify(DsIdentifyBase):
+> +@@ -533,7 +533,7 @@ class TestDsIdentify(DsIdentifyBase):
 > +         self._test_ds_found("OpenStack-AssetTag-Compute")
 > + 
 > +     def test_openstack_on_non_intel_is_maybe(self):
@@ -146,7 +146,7 @@ on 20/08/2025 Hitendra Prajapati via lists.yoctoproject.org wrote:
 > + 
 > +         nova does not identify itself on platforms other than intel.
 > +            https://bugs.launchpad.net/cloud-init/+bugs?field.tag=dsid-nova"""
-> +@@ -694,10 +694,9 @@ class TestDsIdentify(DsIdentifyBase):
+> +@@ -553,10 +553,9 @@ class TestDsIdentify(DsIdentifyBase):
 > + 
 > +         # updating the uname to ppc64 though should get a maybe.
 > +         data.update({"mocks": [MOCK_VIRT_IS_KVM, MOCK_UNAME_IS_PPC64]})
@@ -160,7 +160,7 @@ on 20/08/2025 Hitendra Prajapati via lists.yoctoproject.org wrote:
 > +     def test_default_ovf_is_found(self):
 > +         """OVF is identified found when ovf/ovf-env.xml seed file exists."""
 > +diff --git a/tools/ds-identify b/tools/ds-identify
-> +index 741742c7f..e3459d601 100755
+> +index 30d4b0f65..4dd0b5fcf 100755
 > +--- a/tools/ds-identify
 > ++++ b/tools/ds-identify
 > +@@ -14,7 +14,7 @@
@@ -181,7 +181,7 @@ on 20/08/2025 Hitendra Prajapati via lists.yoctoproject.org wrote:
 > + #       if nothing returned 'found', then how to handle maybe.
 > + #       no network sources are allowed to return 'maybe'.
 > + #         all: enable all DS_MAYBE
-> +@@ -99,8 +99,8 @@ DI_MAIN=${DI_MAIN:-main}
+> +@@ -94,8 +94,8 @@ DI_MAIN=${DI_MAIN:-main}
 > + 
 > + DI_BLKID_EXPORT_OUT=""
 > + DI_GEOM_LABEL_STATUS_OUT=""
@@ -189,24 +189,24 @@ on 20/08/2025 Hitendra Prajapati via lists.yoctoproject.org wrote:
 > +-DI_DEFAULT_POLICY_NO_DMI="search,found=all,maybe=all,notfound=${DI_ENABLED}"
 > ++DI_DEFAULT_POLICY="search,found=all,maybe=none,notfound=${DI_DISABLED}"
 > ++DI_DEFAULT_POLICY_NO_DMI="search,found=all,maybe=none,notfound=${DI_ENABLED}"
-> + DI_DMI_BOARD_NAME=""
 > + DI_DMI_CHASSIS_ASSET_TAG=""
 > + DI_DMI_PRODUCT_NAME=""
+> + DI_DMI_SYS_VENDOR=""
 > +-- 
 > +2.50.1
 > +
-> diff --git a/recipes-extended/cloud-init/cloud-init_git.bb b/recipes-extended/cloud-init/cloud-init_git.bb
-> index 6cb3d3b5..4cf74efd 100644
-> --- a/recipes-extended/cloud-init/cloud-init_git.bb
-> +++ b/recipes-extended/cloud-init/cloud-init_git.bb
-> @@ -11,6 +11,7 @@ SRCREV = "e982c20875db3750c8dfc1915e7a4cee37376924"
->  SRC_URI = "git://github.com/canonical/cloud-init;branch=24.1.x;protocol=https \
+> diff --git a/recipes-extended/cloud-init/cloud-init_21.4.bb b/recipes-extended/cloud-init/cloud-init_21.4.bb
+> index 5cb62272..02a89a58 100644
+> --- a/recipes-extended/cloud-init/cloud-init_21.4.bb
+> +++ b/recipes-extended/cloud-init/cloud-init_21.4.bb
+> @@ -9,6 +9,7 @@ SRC_URI = "git://github.com/canonical/cloud-init;branch=main;protocol=https \
 >      file://cloud-init-source-local-lsb-functions.patch \
 >      file://0001-setup.py-check-for-install-anywhere-in-args.patch \
+>      file://0001-setup.py-respect-udevdir-variable.patch \
 > +    file://CVE-2024-6174.patch \
 >  "
 >  
->  PV = "v23.4.1+git"
+>  S = "${WORKDIR}/git"
 > -- 
 > 2.50.1
 > 
@@ -214,8 +214,8 @@ on 20/08/2025 Hitendra Prajapati via lists.yoctoproject.org wrote:
 > 
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#9351): https://lists.yoctoproject.org/g/meta-virtualization/message/9351
-> Mute This Topic: https://lists.yoctoproject.org/mt/114795114/1050810
+> View/Reply Online (#9352): https://lists.yoctoproject.org/g/meta-virtualization/message/9352
+> Mute This Topic: https://lists.yoctoproject.org/mt/114795944/1050810
 > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
 > Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
