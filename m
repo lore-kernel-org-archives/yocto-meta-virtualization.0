@@ -2,151 +2,139 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C407CA1010
-	for <webhook@archiver.kernel.org>; Thu,  4 Sep 2025 01:12:16 +0000 (UTC)
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
- by mx.groups.io with SMTP id smtpd.web11.29077.1756948328999804941
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8646FCA1012
+	for <webhook@archiver.kernel.org>; Thu,  4 Sep 2025 01:14:16 +0000 (UTC)
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
+ by mx.groups.io with SMTP id smtpd.web10.29226.1756948449414061423
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 03 Sep 2025 18:12:09 -0700
+ Wed, 03 Sep 2025 18:14:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ZjLTfiJJ;
- spf=pass (domain: gmail.com, ip: 209.85.222.175, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-80cc99fe980so57801585a.2
-        for <meta-virtualization@lists.yoctoproject.org>; Wed, 03 Sep 2025 18:12:08 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=hbjjgef2;
+ spf=pass (domain: gmail.com, ip: 209.85.219.44, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-7211b09f649so3883076d6.3
+        for <meta-virtualization@lists.yoctoproject.org>; Wed, 03 Sep 2025 18:14:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756948328; x=1757553128; darn=lists.yoctoproject.org;
+        d=gmail.com; s=20230601; t=1756948448; x=1757553248; darn=lists.yoctoproject.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=RIdYMkNgXenTSOZ2HW4NWxTAn/v+HIZIgjjDIWzYMNM=;
-        b=ZjLTfiJJd58lEqSTgTPEYpXwRoJjTZLG5EhpRNSc09rlPgGux/iN5GWrfiefZEUTu7
-         p44mHI/JoYKlWgwrH/lcxXpsZ7RR82xH58nIVBkesPWUE1J4CMeUkjAIuXCK0prPzKSm
-         WOz3iWcbSxzaRpROqr/CBXN0cXY0obHn0DASJe7s7INowEWzvGMULzCmXC8BovLQ9uNl
-         EgeMZeVSBD0ynGBljnRZByZc/+E7hcweQa0aKqR7vthq2jazR2dGyK3pnci2aOxOSjXG
-         lHjD1LsDW879H1H6VZj/NuAhHOX3kp4fbcElBPSvr82DJgrE/WTo0vJVLyfZ2LT0jkNG
-         AIyg==
+        bh=qFB+F719ExtdAJby5tpkyiyhQAa6hb3FlWkspUoovFc=;
+        b=hbjjgef2hynbBH47ovqeRlVHwV0QUHnVFEvSmXy3ZfbIg8+YaZ0FiULwEi4g5En1Wa
+         GZSFzQCbjkuBYbHT6e/06RvINAxTICmtVEJTAmYMev2BKgooi4tBW4BStxX7NTejeE8c
+         GjuXI8q9AofVrJY7WB5dE0+lqtmsP/1IjWkvYUA2YW6yz99Cmfrog8PjbGzFRAbit2wB
+         jB7KiL2v2hwnP+X33vLfAueYxUVDwydASDWEpkp9qaHMJyDwhgVpA+bPa2bqrLhK2UoE
+         7FgOMG4cODt7TnuaCudR6TwEovhjWR15oV8DayL3ZfrgDUmDNXBfCqrJt05TNu6AzgYw
+         Bo4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756948328; x=1757553128;
+        d=1e100.net; s=20230601; t=1756948448; x=1757553248;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=RIdYMkNgXenTSOZ2HW4NWxTAn/v+HIZIgjjDIWzYMNM=;
-        b=ChHVrja3vyWDiE7sxoqbpGy0zMR3XPHfdSPBssLtprQP9BVbqXD+addezu7FjIaSgK
-         4WZHDOp96QH5O7pIlBEHaIbBu+iKUqAD0LzfXBJKeyMXheAhqfh9zema23rFnSfCAUoC
-         W1hO5svPi172tTlTXf7kDc9+ZK8zB/+x74pcADpM7nQdC2ZpzChwM/JKa52xDGHoVxfv
-         AFsWAvq562g7XthfQETR8xT+Y5ii3BVVnVTeL6fykIkAt9l5O2nRapZnVW53CXNmC7YV
-         pKT6npQDMzpfZX38loWmo/rdeP3Vzd0bXylRGxJWN8hGnbmYmFxJ2z5yN88LGTd0hJqy
-         qUYg==
-X-Gm-Message-State: AOJu0Yy5JYgBe87laPT7/7FttcwQG1UrZ9sKem1zQjHEeLPLhZ6Mj21A
-	81X4vJZgmb/59nWNe6tygBMHuVJzVpIS8PT+HufOUtxA0nEFblcmFFKx
-X-Gm-Gg: ASbGnctazFXif5ALOdd1CEHeMAmtpHeY2G/fYuEC+STkCs3e8ySWziV/MU8seathCuN
-	tzyvZeVKXXyG3GvqfHd2Hj5gT4v+S9zYobfjngdCfTJbKTqeJft0LU06VyeZQ6PXFm41MVAi5xU
-	XxlY55riX6kTiMkir7/x0SlInVY54tW/mHEK5TrJuc0/1cUPGtMu7uCpG5VgA1zj1r9Qtl04YG8
-	JK1kMRmsNeCJPgcQylmy9oMqwkX3wS4fUqFhSNP2Q7C4lGPjIiL9/kTBwwlHI1dHKjmRuilJeqJ
-	uLcCNK2l+Ey/8KXPN4y55efeO1ky+Xy3PolHMjntg1wJfLYGmajqwjzs8KdGh7hEZYzxecnq0OP
-	DFg4z5NUq4xAkKWAJyXODJYs0uk8QvZyHZZ/7Si7YMG+MIKxM73TWpFZrq5cEB91wf39xorO5q9
-	UbZ9E5a1fRZa1yZhF3SbEQ6IyW+WJHt7jI9KX56AXiQ2w=
-X-Google-Smtp-Source: AGHT+IEBA48FMTVdwhKdrBhN3OrRFH1IOooh3f6gSB0ek5wU8TegjRUxxDmosa1zz7CLjaK7OYeD3w==
-X-Received: by 2002:a05:620a:4512:b0:80b:981:a0e4 with SMTP id af79cd13be357-80b0981a32dmr486277485a.70.1756948327749;
-        Wed, 03 Sep 2025 18:12:07 -0700 (PDT)
+        bh=qFB+F719ExtdAJby5tpkyiyhQAa6hb3FlWkspUoovFc=;
+        b=r0XQkUeALhFkVkFVbCh6TeK1ub1JKcy9M1O7lHpP65OhjQ79NiZEOnkQWIwMsK9EUT
+         ZDCKMyguYnEPaghtcy9TmnDM1iPVckfAKY77Vt91DCDn79apbUa41qZq7JEVWcDAAHT1
+         iCK/S38B5e6vooe43eZ6pqbaWbyzdSnkANidImlJC6aBwjoiiEap3zOdx0LHTNqkjOZb
+         UBlO5a2522MBurDFeEvOUtS9+POQsTaaOF5rP7E4L1BkI++FFryR7wkbaVAcAIbPSoFt
+         S9rs8nTHa5FS+XkssU+XZ0bl+MZa7t05j+5vSUXa1eEmWMrw3nk/ycXESsIID3g84ZRN
+         +D9A==
+X-Gm-Message-State: AOJu0YxiguWVD4A5D1chKvpP5s+3B7KBQvgVa1mX+Ak1gkIQgsmugY8w
+	BoVxuYQoz6ct+yYNebhx8zoEBYSKUdk5K8RI04fmZ9iSjpDk8RWfb4a1
+X-Gm-Gg: ASbGnctR4QYp6bfY3fM7ziNvcsQkF0ibUGCq+SrjO1R8yYFzMQO3rUGb6GSs5VeMjtu
+	EkodUoub/XAbfnSmhn5fZLb+Ayb2hMQHnGi0Mj6nsbQqQXMbE+l2UvjD+xIZfKFZba65LWoSSAC
+	DAN9ww3zP5OE56l/zZAm8Pm5XLJLQXLcIyiDHVG8pHHm5NJgxYOQU0ERFkisTdxey5q64nSy2rw
+	/DjCcDuWXCke8nxFGHLRl4Ng7VEpV1nxa3bEEB2SinvGd3lBZRnstNmig75gunoWOrmujyHPxK0
+	Jueyd3ZNE73hVcHDJKeAL0ispAkybvngeWruM7BtXFh9CltKNkVEMYe2Xb9Sly/YZWtzY0qZXL0
+	1n3d2wcU+5qVqPydKxwJP1Fp1vqt7mhlcVXRqxR2Pd5jnvFN3ylIgKNcanQOYB3FofSdAwenLsW
+	WFPXCJI1RRKxpc+zvqPhnkIPxqMGiM8w8uNrSiXgHQchs=
+X-Google-Smtp-Source: AGHT+IGaYfCYRnT6jkudMU1XQlTwt9N2ateSwfUuNzxDzZIL+wUH9wewe2CO+T8Of1zhKfa1L4640g==
+X-Received: by 2002:a05:6214:400c:b0:70d:def5:9574 with SMTP id 6a1803df08f44-70fac6f8105mr199844266d6.2.1756948448213;
+        Wed, 03 Sep 2025 18:14:08 -0700 (PDT)
 Received: from gmail.com (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-80aa62c8725sm199521985a.8.2025.09.03.18.12.06
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-720b57c3240sm37279796d6.50.2025.09.03.18.14.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Sep 2025 18:12:06 -0700 (PDT)
-Date: Wed, 3 Sep 2025 21:12:04 -0400
+        Wed, 03 Sep 2025 18:14:07 -0700 (PDT)
+Date: Wed, 3 Sep 2025 21:14:06 -0400
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: "Deepak Rathore -X (deeratho - E INFOCHIPS PRIVATE LIMITED at Cisco)" <deeratho@cisco.com>
-Cc: meta-virtualization@lists.yoctoproject.org, vchavda@cisco.com
-Subject: Re: [meta-virtualization][scarthgap][PATCH] runc-opencontainer: Fix
- typo in Makefile for static-pie option
-Message-ID: <aLjnZLPiHzMXsXCr@gmail.com>
-References: <20250822175400.1677499-1-deeratho@cisco.com>
+To: patrick.vogelaar@belden.com
+Cc: meta-virtualization@lists.yoctoproject.org
+Subject: Re: [meta-virtualization][PATCH] docker: make ca-certificates a
+ packageconfig
+Message-ID: <aLjn3mCCaI8wCYlR@gmail.com>
+References: <20250824121414.293436-1-patrick.vogelaar@belden.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250822175400.1677499-1-deeratho@cisco.com>
+In-Reply-To: <20250824121414.293436-1-patrick.vogelaar@belden.com>
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Thu, 04 Sep 2025 01:12:16 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9369
+ <meta-virtualization@lists.yoctoproject.org>; Thu, 04 Sep 2025 01:14:16 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9370
 
-merged.
+
+In message: [meta-virtualization][PATCH] docker: make ca-certificates a packageconfig
+on 24/08/2025 Patrick Vogelaar via B4 Relay via lists.yoctoproject.org wrote:
+
+> Moving ca-certificates into a packageconfig allows using docker without
+> installing all the certificates.
+
+I don't have (many) issues with the patch, but in my experience you
+can't work with any registries or services with the certs being present.
+
+Are you installing them some other way ? or using some alternative ?
+
+Since the defaults aren't changed by this patch, I'll definitely merge
+it. I'd just like to make sure that it won't create a hidden/non-working
+configuration.
 
 Bruce
 
-In message: [meta-virtualization][scarthgap][PATCH] runc-opencontainer: Fix typo in Makefile for static-pie option
-on 22/08/2025 Deepak Rathore -X (deeratho - E INFOCHIPS PRIVATE LIMITED at Cisco) wrote:
-
-> From: Deepak Rathore <deeratho@cisco.com>
 > 
-> runc-opencontainer build is failing with clang toolchain due to typo
-> error for --static-pie option.
-> 
-> Build Error Logs:
-> | running x86_64-oe-linux-clang failed: exit status 1
-> | x86_64-oe-linux-clang: error: unknown argument '--static-pie'; did you mean '-static-pie'?
-> |
-> | make: *** [Makefile:69: static] Error 1
-> | ERROR: oe_runmake failed
-> 
-> Fixed it by replacing --static-pie with -static-pie in LDFLAGS_STATIC.
-> 
-> Signed-off-by: Deepak Rathore <deeratho@cisco.com>
+> Signed-off-by: Patrick Vogelaar <patrick.vogelaar@belden.com>
 > ---
->  ...-Makefile-fix-typo-in-LDFLAGS_STATIC.patch | 30 +++++++++++++++++++
->  .../runc/runc-opencontainers_git.bb           |  1 +
->  2 files changed, 31 insertions(+)
->  create mode 100644 recipes-containers/runc/files/0001-Makefile-fix-typo-in-LDFLAGS_STATIC.patch
+>  recipes-containers/docker/docker.inc | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/recipes-containers/runc/files/0001-Makefile-fix-typo-in-LDFLAGS_STATIC.patch b/recipes-containers/runc/files/0001-Makefile-fix-typo-in-LDFLAGS_STATIC.patch
-> new file mode 100644
-> index 00000000..bfcfd533
-> --- /dev/null
-> +++ b/recipes-containers/runc/files/0001-Makefile-fix-typo-in-LDFLAGS_STATIC.patch
-> @@ -0,0 +1,30 @@
-> +From 6f20df5de2c6eb2343202c55e4a8b3d9a4feff10 Mon Sep 17 00:00:00 2001
-> +From: CrazyMax <crazy-max@users.noreply.github.com>
-> +Date: Tue, 14 Feb 2023 21:27:26 +0100
-> +Subject: [PATCH] Makefile: fix typo in LDFLAGS_STATIC
-> +
-> +Upstream-Status: Backport [https://github.com/opencontainers/runc/commit/2e44a2028077]
-> +
-> +Signed-off-by: CrazyMax <crazy-max@users.noreply.github.com>
-> +(cherry picked from commit 2e44a2028077685cde67d7988f95ce66110be5ae)
-> +Signed-off-by: Deepak Rathore <deeratho@cisco.com>
-> +---
-> + Makefile | 2 +-
-> + 1 file changed, 1 insertion(+), 1 deletion(-)
-> +
-> +Index: git/src/import/Makefile
-> +===================================================================
-> +--- git.orig/src/import/Makefile
-> ++++ git/src/import/Makefile
-> +@@ -36,7 +36,7 @@ LDFLAGS_STATIC := -extldflags -static
-> + ifneq (,$(filter $(GOARCH),arm64 amd64))
-> + 	ifeq (,$(findstring -race,$(EXTRA_FLAGS)))
-> + 		GO_BUILDMODE_STATIC := -buildmode=pie
-> +-		LDFLAGS_STATIC := -linkmode external -extldflags --static-pie
-> ++		LDFLAGS_STATIC := -linkmode external -extldflags -static-pie
-> + 	endif
-> + endif
-> + # Enable static PIE binaries on supported platforms.
-> +-- 
-> +2.42.0
-> +
-> diff --git a/recipes-containers/runc/runc-opencontainers_git.bb b/recipes-containers/runc/runc-opencontainers_git.bb
-> index 6eef2c8f..4c831502 100644
-> --- a/recipes-containers/runc/runc-opencontainers_git.bb
-> +++ b/recipes-containers/runc/runc-opencontainers_git.bb
-> @@ -4,6 +4,7 @@ SRCREV = "2c9f5602f0ba3d9da1c2596322dfc4e156844890"
->  SRC_URI = " \
->      git://github.com/opencontainers/runc;branch=release-1.1;protocol=https \
->      file://0001-Makefile-respect-GOBUILDFLAGS-for-runc-and-remove-re.patch \
-> +    file://0001-Makefile-fix-typo-in-LDFLAGS_STATIC.patch \
->      "
->  RUNC_VERSION = "1.1.14"
+> diff --git a/recipes-containers/docker/docker.inc b/recipes-containers/docker/docker.inc
+> index 94ee34db..c464bc3c 100644
+> --- a/recipes-containers/docker/docker.inc
+> +++ b/recipes-containers/docker/docker.inc
+> @@ -10,7 +10,6 @@ RDEPENDS:${PN} = "util-linux util-linux-unshare iptables \
+>                    ${@bb.utils.contains('DISTRO_FEATURES', 'aufs', 'aufs-util', '', d)} \
+>                    ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '', 'cgroup-lite', d)} \
+>                    bridge-utils \
+> -                  ca-certificates \
+>                   "
+>  RDEPENDS:${PN} += "virtual-containerd ${VIRTUAL-RUNTIME_container_runtime}"
+>  
+> @@ -37,10 +36,11 @@ RPROVIDES:${PN}-dev += "docker-dev"
+>  RPROVIDES:${PN}-contrip += "docker-dev"
+>  
+>  inherit pkgconfig
+> -PACKAGECONFIG ??= "docker-init seccomp"
+> +PACKAGECONFIG ??= "docker-init seccomp ca-certs"
+>  PACKAGECONFIG[seccomp] = "seccomp,,libseccomp"
+>  PACKAGECONFIG[docker-init] = ",,,docker-init"
+>  PACKAGECONFIG[transient-config] = "transient-config"
+> +PACKAGECONFIG[ca-certs] = ",,,ca-certificates"
+>  
+>  GO_IMPORT = "import"
 >  
 > -- 
-> 2.44.3
+> 2.34.1
 > 
+> 
+> **********************************************************************
+> DISCLAIMER:
+> Privileged and/or Confidential information may be contained in this message. If you are not the addressee of this message, you may not copy, use or deliver this message to anyone. In such event, you should destroy the message and kindly notify the sender by reply e-mail. It is understood that opinions or conclusions that do not relate to the official business of the company are neither given nor endorsed by the company. Thank You.
+
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#9357): https://lists.yoctoproject.org/g/meta-virtualization/message/9357
+> Mute This Topic: https://lists.yoctoproject.org/mt/114864158/1050810
+> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
 
