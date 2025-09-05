@@ -1,166 +1,117 @@
-Return-Path: <patrick.vogelaar@belden.com>
+Return-Path: <spushpka@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5118CA1015
-	for <webhook@archiver.kernel.org>; Fri,  5 Sep 2025 08:42:15 +0000 (UTC)
-Subject: Re: [PATCH] docker: make ca-certificates a packageconfig
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 25D68CA1013
+	for <webhook@archiver.kernel.org>; Fri,  5 Sep 2025 13:35:57 +0000 (UTC)
+Received: from alln-iport-4.cisco.com (alln-iport-4.cisco.com [173.37.142.91])
+ by mx.groups.io with SMTP id smtpd.web10.22037.1757079355450267490
+ for <meta-virtualization@lists.yoctoproject.org>;
+ Fri, 05 Sep 2025 06:35:55 -0700
+Authentication-Results: mx.groups.io;
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=NfjcaBHu;
+ spf=pass (domain: cisco.com, ip: 173.37.142.91, mailfrom: spushpka@cisco.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=cisco.com; i=@cisco.com; l=1164; q=dns/txt;
+  s=iport01; t=1757079355; x=1758288955;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=ckfXYjYqihfB+G+lnEflXNcXhRCTKt/o73LPZQvhtW0=;
+  b=NfjcaBHuKJYY/ZzOKkeQWEGgBiDe5tnbaudoVLph3LyP/6CWqah5ph9M
+   nPiv+E0BMtfh3XkmFqLTnVYgrfZUigiEVDl52/LZUvxVHh5pq5lyrXmyd
+   /nKkkOtWZiUnC7gu/7y7aq6ZF2pTM3ZU1qSduvnAtgvd39eWAXK6ccqpO
+   5EnX/6Dq176Q0+UkybETplGV78kyyM5ZTkiypDDQKcu0xGJjnFnVPu2/s
+   vgdAG9st+klehoIFEs2FHL+2fNpLJnPX0h8WSO+O8Xzlu0vPsajAGVVXP
+   TfEpjTvtsDJPuy5+bBpvUq/3aTtp3f8rr0XsCaWkXmvyldl7M4Rw34mox
+   g==;
+X-CSE-ConnectionGUID: Gj7Wm1a0T2CbTmsCviYoWQ==
+X-CSE-MsgGUID: A+dFuSyuQLeTKa+S7F635A==
+X-IPAS-Result: =?us-ascii?q?A0AHAAA95rpo/4v/Ja1aGgEBAQEBAQEBAQEDAQEBARIBA?=
+ =?us-ascii?q?QEBAgIBAQEBggAEAQEBAQsBgkZ6WUNJojyOIYQFgX8PAQEBDz0UBAEBhQeMK?=
+ =?us-ascii?q?gImNQgOAQIEAQEBAQMCAwEBAQEBAQEBAQEBCwEBBQEBAQIBBwWBDhOGTw2GX?=
+ =?us-ascii?q?TYBRoEMRIMCAYJyAxGxI4IsgQGDaAJD2guBZwaBSQGNTHCEdycbgUlEhH2BB?=
+ =?us-ascii?q?YFcAQGCLYV3BIM4gVWGa4dzhDeGf0iBHgNZLAFVEw0KCwcFgWMDNQwLLhVuM?=
+ =?us-ascii?q?h2BJ4UNhB4rT4UBhGokaw8GgRWDXQaBMYMUQAMLGA1IESw3FBsGPm4HlHmDL?=
+ =?us-ascii?q?z1RLIIskyWzXYQmjB6VORozqmuZBooJg3+WUIRpgWkBOoFHCwdNIxWDIlIZD?=
+ =?us-ascii?q?444J4NCgX+3MkYyPAIHCwEBAwmTZwEB?=
+IronPort-Data: A9a23:M3AiN6BfH7KhlRVW/3riw5YqxClBgxIJ4kV8jS/XYbTApGgn3jJVy
+ zRJX22OM/veamvzc9x3bdzn8xkOv8SGxtRkOVdlrnsFo1CmBibm6XV1Cm+qYkt+++WaFBoPA
+ /02M4eGdIZuCCaF/H9BC5C5xVFkz6aEW7HgP+DNPyF1VGdMRTwo4f5Zs7ZRbrVA357gU2thh
+ fuo+5eCYA79hmYuWo4pw/vrRC1H7ayaVAww5jTSVdgT1HfCmn8cCo4oJK3ZBxPQXolOE+emc
+ P3Ixbe/83mx109F5gSNy+uTnuUiG9Y+DCDW4pZkc/HKbitq+kTe5p0G2M80Mi+7vdkmc+dZk
+ 72hvbToIesg0zaldO41C3G0GAkmVUFKFSOuzXWX6aSuI0P6n3TE7PcxM0RvNNUkoM19PWRV3
+ uIZGTcyV0XW7w626OrTpuhEnM8vKozveYgYoHwllWufBvc9SpeFSKLPjTNa9G5v3YYVQrCEO
+ pdfMGE+BPjDS0Un1lM/E4ojh+ewhXDXeDxDo1XTrq0yi4TW5FEtieS1boaIJrRmQ+183Uq2u
+ 1nX4l3dDy05PZ+klhTbqS+F07qncSTTHdh6+KeD3vtnnFTW2G0JFAAfUVqpqOW4jUiWX9NEN
+ 1dS6y0lsa8q7kupQ9LhGRqirxa5UgU0QdFcFag+rQqK0KeRu1zfDWkfRTkHY9sj3CMreQEXO
+ payt4uBLVRSXHe9EBpxKp/8QeuOBBUo
+IronPort-HdrOrdr: A9a23:xjEehKiGVtUWD5tjYZFUbt4e03BQXtEji2hC6mlwRA09TyVXra
+ +TdZMgpHrJYVkqOU3I9ersBEDiewK/yXcW2+ks1N6ZNWGM0ldAR7sN0WKN+VHd8lXFh41gPW
+ MKSdkYNDU2ZmIK6frH3A==
+X-Talos-CUID: 9a23:9HB1Y25IIZwSy0qCg9ss20xLJcV8eyXhllzaH0qjInhoebqqcArF
+X-Talos-MUID: =?us-ascii?q?9a23=3ACsYfIQ8/gv/dQuYA9IF9Z5uQf+4r74qzM1EQqLE?=
+ =?us-ascii?q?Lh+qNdhcvFWnG0R3iFw=3D=3D?=
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.18,241,1751241600"; 
+   d="scan'208";a="541406454"
+Received: from rcdn-l-core-02.cisco.com ([173.37.255.139])
+  by alln-iport-4.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 05 Sep 2025 13:35:54 +0000
+Received: from sjc-ads-9088.cisco.com (sjc-ads-9088.cisco.com [10.30.208.98])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by rcdn-l-core-02.cisco.com (Postfix) with ESMTPS id 59C5A18000351;
+	Fri,  5 Sep 2025 13:35:54 +0000 (GMT)
+Received: by sjc-ads-9088.cisco.com (Postfix, from userid 1839047)
+	id F3DF4CC1292; Fri,  5 Sep 2025 06:35:53 -0700 (PDT)
+From: Shubham Pushpkar <spushpka@cisco.com>
 To: meta-virtualization@lists.yoctoproject.org
-From: "Patrick Vogelaar via B4 Relay" <patrick.vogelaar@belden.com>
-X-Originating-Location: Slavonski Brod, Brod-Posavina County, HR (194.152.242.219)
-X-Originating-Platform: Windows Firefox 142
-User-Agent: GROUPS.IO Web Poster
+Cc: vchavda@cisco.com,
+	deeratho@cisco.com
+Subject: [meta-virtualization] [Scarthgap] [PATCH] grpc-go 1.59.0+git: Mark CVE-2023-44487 as Patched
+Date: Fri,  5 Sep 2025 13:35:52 +0000
+Message-ID: <20250905133553.1087661-1-spushpka@cisco.com>
+X-Mailer: git-send-email 2.44.0
 MIME-Version: 1.0
-Date: Fri, 05 Sep 2025 01:42:08 -0700
-References: <aLjn3mCCaI8wCYlR@gmail.com>
-In-Reply-To: <aLjn3mCCaI8wCYlR@gmail.com>
-Message-ID: <14236.1757061728389674907@lists.yoctoproject.org>
-Content-Type: multipart/alternative; boundary="C9FVTguaAoYYfLKHV4Nf"
+Content-Transfer-Encoding: 8bit
+X-Outbound-SMTP-Client: 10.30.208.98, sjc-ads-9088.cisco.com
+X-Outbound-Node: rcdn-l-core-02.cisco.com
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Fri, 05 Sep 2025 08:42:15 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9375
+ <meta-virtualization@lists.yoctoproject.org>; Fri, 05 Sep 2025 13:35:57 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9376
 
---C9FVTguaAoYYfLKHV4Nf
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Bug Details: https://nvd.nist.gov/vuln/detail/CVE-2023-44487
+Type: Security Advisory
+CVE: CVE-2023-44487
+Score: 7.5
 
-On Thu, Sep 4, 2025 at 03:14 AM, Bruce Ashfield wrote:
+Analysis:
+- CVE fix is available at [1][2].
+- Current grpc-go v1.59.0 source has the fix integrated.[3]
+- So, marking this CVE as Patched.
 
->=20
-> In message: [meta-virtualization][PATCH] docker: make ca-certificates a
-> packageconfig
-> on 24/08/2025 Patrick Vogelaar via B4 Relay via lists.yoctoproject.org
-> wrote:
->=20
->=20
->> Moving ca-certificates into a packageconfig allows using docker without
->> installing all the certificates.
->=20
-> I don't have (many) issues with the patch, but in my experience you
-> can't work with any registries or services with the certs being present.
->=20
-> Are you installing them some other way ? or using some alternative ?
+Reference:
+[1] https://nvd.nist.gov/vuln/detail/CVE-2023-44487
+[2] https://github.com/grpc/grpc-go/pull/6703
+[3] https://github.com/grpc/grpc-go/commit/e88f12e0517d [v1.59.x]
 
-We are either not installing from registry at all, or we have our own regis=
-try
-were we put only the required certificate and not the whole pool of
-certificates.
+Signed-off-by: Shubham Pushpkar <spushpka@cisco.com>
+---
+ recipes-devtools/go/grpc-go_git.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-Patrick
->=20
->=20
-> Since the defaults aren't changed by this patch, I'll definitely merge
-> it. I'd just like to make sure that it won't create a hidden/non-working
-> configuration.
->=20
-> Bruce
->=20
->=20
->> Signed-off-by: Patrick Vogelaar <patrick.vogelaar@belden.com>
->> ---
->> recipes-containers/docker/docker.inc | 4 ++--
->> 1 file changed, 2 insertions(+), 2 deletions(-)
->>=20
->> diff --git a/recipes-containers/docker/docker.inc
->> b/recipes-containers/docker/docker.inc
->> index 94ee34db..c464bc3c 100644
->> --- a/recipes-containers/docker/docker.inc
->> +++ b/recipes-containers/docker/docker.inc
->> @@ -10,7 +10,6 @@ RDEPENDS:${PN} =3D "util-linux util-linux-unshare ipta=
-bles
->> \
->> ${@bb.utils.contains('DISTRO_FEATURES', 'aufs', 'aufs-util', '', d)} \
->> ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '', 'cgroup-lite', d)=
-}
->> \
->> bridge-utils \
->> - ca-certificates \
->> "
->> RDEPENDS:${PN} +=3D "virtual-containerd
->> ${VIRTUAL-RUNTIME_container_runtime}"
->>=20
->> @@ -37,10 +36,11 @@ RPROVIDES:${PN}-dev +=3D "docker-dev"
->> RPROVIDES:${PN}-contrip +=3D "docker-dev"
->>=20
->> inherit pkgconfig
->> -PACKAGECONFIG ??=3D "docker-init seccomp"
->> +PACKAGECONFIG ??=3D "docker-init seccomp ca-certs"
->> PACKAGECONFIG[seccomp] =3D "seccomp,,libseccomp"
->> PACKAGECONFIG[docker-init] =3D ",,,docker-init"
->> PACKAGECONFIG[transient-config] =3D "transient-config"
->> +PACKAGECONFIG[ca-certs] =3D ",,,ca-certificates"
->>=20
->> GO_IMPORT =3D "import"
->>=20
->> --
->> 2.34.1
->>=20
->>=20
->> **********************************************************************
->> DISCLAIMER:
->> Privileged and/or Confidential information may be contained in this
->> message. If you are not the addressee of this message, you may not copy,
->> use or deliver this message to anyone. In such event, you should destroy
->> the message and kindly notify the sender by reply e-mail. It is understo=
-od
->> that opinions or conclusions that do not relate to the official business
->> of the company are neither given nor endorsed by the company. Thank You.
->=20
->
+diff --git a/recipes-devtools/go/grpc-go_git.bb b/recipes-devtools/go/grpc-go_git.bb
+index fdfc2307..0f52988d 100644
+--- a/recipes-devtools/go/grpc-go_git.bb
++++ b/recipes-devtools/go/grpc-go_git.bb
+@@ -48,3 +48,4 @@ CVE_PRODUCT += "grpc"
+ # grpc-go (Go implementation in meta-virtualization) does not
+ # contain the affected HPACK code path.
+ CVE_STATUS[CVE-2024-7246] = "not-applicable-config: CVE is for grpc (C-core), not grpc-go."
++CVE_STATUS[CVE-2023-44487] = "fixed-version: Fix for the vulnerability is already integrated as part of v1.59.x source."
+-- 
+2.44.0
 
---C9FVTguaAoYYfLKHV4Nf
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div>On Thu, Sep 4, 2025 at 03:14 AM, Bruce Ashfield wrote:</div>
-<div>
-<blockquote>In message: [meta-virtualization][PATCH] docker: make ca-certif=
-icates a packageconfig<br />on 24/08/2025 Patrick Vogelaar via B4 Relay via=
- lists.yoctoproject.org wrote:<br /><br />
-<blockquote>Moving ca-certificates into a packageconfig allows using docker=
- without<br />installing all the certificates.</blockquote>
-I don't have (many) issues with the patch, but in my experience you<br />ca=
-n't work with any registries or services with the certs being present.<br /=
-><br />Are you installing them some other way ? or using some alternative ?=
-</blockquote>
-We are either not installing from registry at all, or we have our own regis=
-try<br />were we put only the required certificate and not the whole pool o=
-f<br />certificates.</div>
-<div>&nbsp;</div>
-<div>Patrick
-<blockquote><br />Since the defaults aren't changed by this patch, I'll def=
-initely merge<br />it. I'd just like to make sure that it won't create a hi=
-dden/non-working<br />configuration.<br /><br />Bruce<br /><br />
-<blockquote>Signed-off-by: Patrick Vogelaar &lt;patrick.vogelaar@belden.com=
-&gt;<br />---<br />recipes-containers/docker/docker.inc | 4 ++--<br />1 fil=
-e changed, 2 insertions(+), 2 deletions(-)<br /><br />diff --git a/recipes-=
-containers/docker/docker.inc b/recipes-containers/docker/docker.inc<br />in=
-dex 94ee34db..c464bc3c 100644<br />--- a/recipes-containers/docker/docker.i=
-nc<br />+++ b/recipes-containers/docker/docker.inc<br />@@ -10,7 +10,6 @@ R=
-DEPENDS:${PN} =3D "util-linux util-linux-unshare iptables \<br />${@bb.util=
-s.contains('DISTRO_FEATURES', 'aufs', 'aufs-util', '', d)} \<br />${@bb.uti=
-ls.contains('DISTRO_FEATURES', 'systemd', '', 'cgroup-lite', d)} \<br />bri=
-dge-utils \<br />- ca-certificates \<br />"<br />RDEPENDS:${PN} +=3D "virtu=
-al-containerd ${VIRTUAL-RUNTIME_container_runtime}"<br /><br />@@ -37,10 +3=
-6,11 @@ RPROVIDES:${PN}-dev +=3D "docker-dev"<br />RPROVIDES:${PN}-contrip =
-+=3D "docker-dev"<br /><br />inherit pkgconfig<br />-PACKAGECONFIG ??=3D "d=
-ocker-init seccomp"<br />+PACKAGECONFIG ??=3D "docker-init seccomp ca-certs=
-"<br />PACKAGECONFIG[seccomp] =3D "seccomp,,libseccomp"<br />PACKAGECONFIG[=
-docker-init] =3D ",,,docker-init"<br />PACKAGECONFIG[transient-config] =3D =
-"transient-config"<br />+PACKAGECONFIG[ca-certs] =3D ",,,ca-certificates"<b=
-r /><br />GO_IMPORT =3D "import"<br /><br />-- <br />2.34.1<br /><br /><br =
-/>**********************************************************************<br=
- />DISCLAIMER:<br />Privileged and/or Confidential information may be conta=
-ined in this message. If you are not the addressee of this message, you may=
- not copy, use or deliver this message to anyone. In such event, you should=
- destroy the message and kindly notify the sender by reply e-mail. It is un=
-derstood that opinions or conclusions that do not relate to the official bu=
-siness of the company are neither given nor endorsed by the company. Thank =
-You.</blockquote>
-</blockquote>
-</div>
-
---C9FVTguaAoYYfLKHV4Nf--
 
