@@ -2,151 +2,184 @@ Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EDD47CA0FED
-	for <webhook@archiver.kernel.org>; Wed, 10 Sep 2025 19:16:23 +0000 (UTC)
-Received: from AM0PR02CU008.outbound.protection.outlook.com (AM0PR02CU008.outbound.protection.outlook.com [52.101.72.48])
- by mx.groups.io with SMTP id smtpd.web10.27926.1757531781402949714
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E67FBCA0FED
+	for <webhook@archiver.kernel.org>; Wed, 10 Sep 2025 19:17:33 +0000 (UTC)
+Received: from AM0PR83CU005.outbound.protection.outlook.com (AM0PR83CU005.outbound.protection.outlook.com [52.101.69.67])
+ by mx.groups.io with SMTP id smtpd.web11.27768.1757531846022584516
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 10 Sep 2025 12:16:21 -0700
+ Wed, 10 Sep 2025 12:17:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@axis.com header.s=selector1 header.b=ib6Scpf4;
- spf=pass (domain: axis.com, ip: 52.101.72.48, mailfrom: peter.kjellerstedt@axis.com)
+ dkim=pass header.i=@axis.com header.s=selector1 header.b=EXsXBaji;
+ spf=pass (domain: axis.com, ip: 52.101.69.67, mailfrom: peter.kjellerstedt@axis.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=PaCQXTom6joB6GdM0V9gJqm/KCjXXdyCzSGS+1MjuAp/SWFZp4gaexLn4GTWWaCqJqL3e/7SKOvkWBTowzgPETpwT506dMHSPcKFyMICYbPAYPPOE7hlWyHAi63SdpNE0/8dtsJoOQyo9Tl9gn+aHsNzcHKxEKZjHsq06FHcF8YOGzTHtEfHFt/Ic8qnNeJfEsrSCtJwGdlV959QC/JPbCkMSM4p5wugY8YpPDnwpMtj+NroJQf0RZt+skrSKJZoVxPqwnWugI/MhzYHKZChk1tDl7GCeVXzYTqhQaQkyzJK+S9A31jI0j40Thkr/JFpYshRMiSR3nlmpyhO8ZymQw==
+ b=lI+yUHcPgHp0AY72YOULhgHZOzjIkfmkzRFZ2+ee2J4NMzzGtoo+01hR9MhbVJ/96PME7F8BBl4LqijJbtDY+xHWsNx/oyEpWL3o4eawcUc3KRliKOIoZ7hqZKh5rzo0u8dnM63KID0C5JEyECQKvqm4SNGyEdBBsj9obyPQk2pmYIRj49i4SzA6+Lci2BrMuKNTHvD52FtLkW+DzxmmPaXxx6ZEyOIgOd3+IddM6jRAmWZboIhuOdgK2Gele7NCy/gGylu7J4peTr4SnBDABi3j5oV+eBLvqjfHQY6Itq4tvnfSI0dRXs/6vc8h9fEIbl9rKjEtWwLzc/MvCVziDg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7jvkgBvm+2YA8Jike/t1XR4s1DOKNQ8Q0j99pt5C2kE=;
- b=C/MO3BlR1aAqSEYWTyHDg0RYd2KIE+Pb1hYgwixRYAh9kK0M9OEvvMT/nSlXGgQACGuFcjugb1mRt2tdOI9kQXgfKtbHqLaTby+Oil+JfsBjB6KsJBqFNOjEO2BktQVUljQmzuYfkpaz9byxEVlN3ackSYuFnQkvmmp+DkFW9RlsE6jVC9KHbNz/LyzPCiPKoCgu4JbmPM5J1L/l0Vp45LtvGnXviuRa3nSqdXhCp00m2Tj4ZYU6TrQfevhDa2IMR4mm2Wd0Azur1s6EFDr53A/4ABEHN7WRb8gbOOMy/qhqdkAjInSNoJvLnc4j/escHI601St6dagxBBBJBQQKpQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 195.60.68.100) smtp.rcpttodomain=lists.yoctoproject.org
- smtp.mailfrom=axis.com; dmarc=pass (p=none sp=none pct=100) action=none
- header.from=axis.com; dkim=none (message not signed); arc=none (0)
+ bh=hh1i7gfbsDqvOHIqRxEHl24re/cUSu/KOGuGayQ32Tk=;
+ b=uzoL/9oSz9fPbJXd4i3P2blXcsF2ROQtWkNfu7oWV3eABEddkjmvVrSQzBEnpG9zWODObpRRIk62H55S3w+ozDfUTFk4UdxmBeMKcLmCayhbCLn6/SNjcg8Z/wUm2Kf/WMQPGDKOYYjhF5tjBF9rcNYEQPsIuQC9yeunmzYdzA8xXDtQLNh943TEk0R6QgmMrsN54LAnEpMBH+hSwL09THbtEdOOpxDw11qTzVhbxfJyVp5IhkVT6VRICg6Z1eXz8ywh4inAX8QpbUTdHe9l0jjqc9nQNmvsIdL8fzy1MIhOiphd66ck6hZyfpIQRNJrycXnGeMu9ouW7Li/sK6bYg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=axis.com; dmarc=pass action=none header.from=axis.com;
+ dkim=pass header.d=axis.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7jvkgBvm+2YA8Jike/t1XR4s1DOKNQ8Q0j99pt5C2kE=;
- b=ib6Scpf4wkII2pqnU4VdcEYmGRTxL0tACdhxM1JjGQiVxo5Mn6Av0R18kFPMMzyPEwHyKiAZNW/Wl2IsFI1GIQ7cZfWmAS2pturofdKq0CVkMXF5M1wD8B9iVGXkQDOXtw+V/ON438c3uxKTVdDolFY6Z26cFDvu7xbX/jrpc1c=
-Received: from DU2P251CA0006.EURP251.PROD.OUTLOOK.COM (2603:10a6:10:230::7) by
- VI1PR02MB6381.eurprd02.prod.outlook.com (2603:10a6:800:19f::7) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9094.22; Wed, 10 Sep 2025 19:16:15 +0000
-Received: from DB1PEPF000509FF.eurprd03.prod.outlook.com
- (2603:10a6:10:230:cafe::75) by DU2P251CA0006.outlook.office365.com
- (2603:10a6:10:230::7) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9115.15 via Frontend Transport; Wed,
- 10 Sep 2025 19:16:16 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 195.60.68.100)
- smtp.mailfrom=axis.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=axis.com;
-Received-SPF: Pass (protection.outlook.com: domain of axis.com designates
- 195.60.68.100 as permitted sender) receiver=protection.outlook.com;
- client-ip=195.60.68.100; helo=mail.axis.com; pr=C
-Received: from mail.axis.com (195.60.68.100) by
- DB1PEPF000509FF.mail.protection.outlook.com (10.167.242.41) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.9115.13 via Frontend Transport; Wed, 10 Sep 2025 19:16:15 +0000
-Received: from se-mail01w.axis.com (10.20.40.7) by se-mail02w.axis.com
- (10.20.40.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.58; Wed, 10 Sep
- 2025 21:16:15 +0200
-Received: from se-intmail01x.se.axis.com (10.4.0.28) by se-mail01w.axis.com
- (10.20.40.7) with Microsoft SMTP Server id 15.1.2507.58 via Frontend
- Transport; Wed, 10 Sep 2025 21:16:15 +0200
-Received: from pc56063-2339.se.axis.com (pc56063-2339.se.axis.com [10.92.3.2])
-	by se-intmail01x.se.axis.com (Postfix) with ESMTP id 41E901E8F
-	for <meta-virtualization@lists.yoctoproject.org>; Wed, 10 Sep 2025 21:16:15 +0200 (CEST)
-Received: by pc56063-2339.se.axis.com (Postfix, from userid 14323)
-	id D185212038E; Wed, 10 Sep 2025 21:16:14 +0200 (CEST)
-From: Peter Kjellerstedt <pkj@axis.com>
-To: <meta-virtualization@lists.yoctoproject.org>
-Subject: [PATCH] Revert "coreutils-native: don't install groups"
-Date: Wed, 10 Sep 2025 21:16:12 +0200
-Message-ID: <20250910191612.3559298-1-pkj@axis.com>
-X-Mailer: git-send-email 2.43.0
-MIME-Version: 1.0
+ bh=hh1i7gfbsDqvOHIqRxEHl24re/cUSu/KOGuGayQ32Tk=;
+ b=EXsXBaji/EwbwjBOmQRbd9mKNcx++s3NsTMyWw4lZP7gr+GUKDZ8QaH1viFNycdUuuwWsZB5VRiU7Zi1FyYHXiyFuQXKZtpQ6M8O8ETxr8hp6EXWa8/AvOX2FIACEaEcRprd3uOF1F39kZO3XwabqLKcX5NdEgVy7GJrvqP67+U=
+Received: from DB5PR02MB10213.eurprd02.prod.outlook.com (2603:10a6:10:4a8::17)
+ by PA1PR02MB11236.eurprd02.prod.outlook.com (2603:10a6:102:4f5::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.22; Wed, 10 Sep
+ 2025 19:17:23 +0000
+Received: from DB5PR02MB10213.eurprd02.prod.outlook.com
+ ([fe80::1bee:3174:a078:5af9]) by DB5PR02MB10213.eurprd02.prod.outlook.com
+ ([fe80::1bee:3174:a078:5af9%3]) with mapi id 15.20.9094.021; Wed, 10 Sep 2025
+ 19:17:23 +0000
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
+	"meta-virtualization@lists.yoctoproject.org"
+	<meta-virtualization@lists.yoctoproject.org>
+Subject: RE: [meta-virtualization] [PATCH] Revert "coreutils-native: don't
+ install groups"
+Thread-Topic: [meta-virtualization] [PATCH] Revert "coreutils-native: don't
+ install groups"
+Thread-Index: AQHcIodoXORgfDEieEOxD+jR/0ptvrSMyd0Q
+Date: Wed, 10 Sep 2025 19:17:22 +0000
+Message-ID: 
+ <DB5PR02MB102133A4DAA714273E06611CEEF0EA@DB5PR02MB10213.eurprd02.prod.outlook.com>
+References: <186401D8040DF014.10180@lists.yoctoproject.org>
+In-Reply-To: <186401D8040DF014.10180@lists.yoctoproject.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=axis.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DB5PR02MB10213:EE_|PA1PR02MB11236:EE_
+x-ms-office365-filtering-correlation-id: 0553138f-759d-41c0-78d0-08ddf09eab8b
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|1800799024|376014|366016|38070700021|7053199007;
+x-microsoft-antispam-message-info: 
+ =?us-ascii?Q?JnstatXD77g8sgZTmlK+mPQggP1+CrC+5uSoQXafZpYZ8hqbTN6rBI0Y8XzN?=
+ =?us-ascii?Q?31yTXU8SN62VWfGtMli1vs+IrfR+4uHY60lvtDd8tHSjzoPaJnklZ2RSTAtI?=
+ =?us-ascii?Q?5sD32M5mTzXtYCHA/SDEyQgMOSD92HDxkGG4fd2ysdbr0eWvDXgIzc7j326L?=
+ =?us-ascii?Q?fFBktWT9wKaIG3NzsITjA8sYcunbhxeRyg/X5QV2Uee1AsulEMpBTqj6oadE?=
+ =?us-ascii?Q?zrK9l4u2iUxQARM3OZhxRW+EHAlq2/cqZOrWDNMIXlZQJJrBst9Tb0AuDRmS?=
+ =?us-ascii?Q?VnGXWTGxgF4PPnl853QvJFEjSvEoyZ8JaHmLpe9lnwgbqIw66Cn32oD2v/SL?=
+ =?us-ascii?Q?w/XzAxfXloV89CMekcwScuieEAp6Znq9JzVHI8JuLKCh82GyehTDdMdjCANK?=
+ =?us-ascii?Q?gr/QgK+3nPGDabMz+sw3lZDiZu8dGrYrDrNsRbn+GlGcYXhcnRrGCJzAmwrt?=
+ =?us-ascii?Q?YODpuS8HV7DwiqPipCPE42DjwkWh2lNj4ZDQbmH9qGUrq2sRO0Q8yKmwe3zh?=
+ =?us-ascii?Q?j39WjneBmMpk0flJl6btXMiMmVYP0Eonb0VTsBS0/sx/Bwsvne9DUX4rWQBE?=
+ =?us-ascii?Q?Zu/RC1zGyveD9dp48L3g92h7U1aYsqZDNcInBP62vA2iRTno6rK2bAu/g1hc?=
+ =?us-ascii?Q?9xsqJJZMTgj5f8MvFqdf4IqQTcNGcN09quDQX/jK7ZAyEO/Tyoz2NH9quj17?=
+ =?us-ascii?Q?IEbAQMJq8fG68vpgfpu6pUXJurV57woJPwR3zjLwW3kR4tq1cQNQwCm7+Rac?=
+ =?us-ascii?Q?zBtcZgDUbK0lMuKEp0Mqqm3+K6k84G9swqPdeMJFcRhCasd6QG5DJO+0rFI2?=
+ =?us-ascii?Q?gVsxQ/pNXhL4BzjQOmI+ghzEQjdqte1jwF2WsRLhXk9+p8/MqgaLZtrmXNaE?=
+ =?us-ascii?Q?8aUAwxe55z1oysBNMzw6WFq24Z8Ln47ZoXetOHSbPBCULzT7kAhC84aLwoDb?=
+ =?us-ascii?Q?ggdZ5Hdh+rnaxYRnfX0FQ4mlh4bEzqsNd1qg3S1NZuJZbPpwWcFLDoXoqosz?=
+ =?us-ascii?Q?sc0Ftvb/5k0h4S9L2mZELZJ4CYugLA4BQXfztPJ8CJaWzvYHCnIhdaIcIoZ2?=
+ =?us-ascii?Q?CIuFHdRrwKJRmHgw1J7jzRqK8DYY9LFkZKqHERH8zcHo8tFO0CmlerqaqP3J?=
+ =?us-ascii?Q?Cba9FnFvOGaT2P/g/KMpNfK9hIl9/ApW8DeZMT4PWqjZU6rG6KRG1jEF9aY5?=
+ =?us-ascii?Q?ds53ANG8x9yN5HmJlelNwIF2elPn55z1jrOq0NOLKrMMNliIolkTPU4RkC5V?=
+ =?us-ascii?Q?FbUVm1fHG+LQMeXrvaRLhcThaAqPdq92TJ+sPS7cu/VVOX6n/hv77zGl7O6O?=
+ =?us-ascii?Q?vNMqtvA+l5qm6vgeFTpq5u791YCQ4g6/oThdRtD3TgRiNJIg61L/pYoPLr/B?=
+ =?us-ascii?Q?1nvRUK2JfL4cooIhekhoU7u/Y+74BAzmFVgsO4RiFo9+tTJKByuYoqfPgkG6?=
+ =?us-ascii?Q?Pv56HNwV5eV5CvtLoQsBDFwRU6j6zeUskKXeVZ7fvhWBmnc0+Ft3eOtFQ52T?=
+ =?us-ascii?Q?KVAlKWJV1l325zQ=3D?=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB5PR02MB10213.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(38070700021)(7053199007);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?PZlfAe7oLH2nGKDpG2spMnTJl+9RkEaOJik82kn06eKimG50od0lzramzkYl?=
+ =?us-ascii?Q?BmbBSUQUKV6SZlsAsEbSnxRqawU5XhubLEqctCODkwdhaci4/aCS8Tm8ECQN?=
+ =?us-ascii?Q?TrAEdhVhsLKmXfdmLyvcdshBOrotd3CEyU7WXgwwP3vAG5qoOU0IE6dGkS3h?=
+ =?us-ascii?Q?DsVoAZKTiiUHaD77y1Tf3PY80AYdNFO24zDd5w+O4nIP5dMLpZiSJhJkDann?=
+ =?us-ascii?Q?l8gwKHKLv9XVt5QhV00QSrY2VdFMdcggJRXFqNcaFtPAQ0I0UjzblLf7JiNT?=
+ =?us-ascii?Q?EezYE1u/dGqxAvY2gy07jLetLZ08pIEIyJ1oDSVIMDwYUf4gmQIptvcuiMo6?=
+ =?us-ascii?Q?U91fYzeGulznN9/ywfy4sfAjRRFk4xgwoR9Q6Pw8Fd8NykmvBtHLGLtA96bb?=
+ =?us-ascii?Q?ISpHiIWQhC5MbMB+KsznVHNXLb9Fq5cKsukSBwvW6mNRwZuwXS2/pnaObKuU?=
+ =?us-ascii?Q?I8lgta8v7prCECMl96GntKFtwC7toLpQ6yR44LZOnKriYUKaM4svjOxMeeJX?=
+ =?us-ascii?Q?rk2r31pjZIeAqyrXC3E1nqAGN/OPA9fmQ92Isxqn/fLpMziXRlEb7rI6ivln?=
+ =?us-ascii?Q?DfJQOvw957mxzsyY4YKe3lbZRrY3v/D7NJbVTAFwNqfrIGHY/pDA6B/XQWwu?=
+ =?us-ascii?Q?5HtnFWdNs4YeQVoinZHKsvmmr9mIqoNn4/pvGSN0Z9q+YUY8K4z2Qdi+JYna?=
+ =?us-ascii?Q?mF6AAnfQp7VvkOBDpzPdGbkhl45PKncTiKVSITBX/LXc24JDN2aYu10J/Z/t?=
+ =?us-ascii?Q?jG2uJKYgh4xeo3Df1JYBtdt6lbFKk8QirINruPZdtbnx7h9EMJ4FdkiQXg7c?=
+ =?us-ascii?Q?l43CQsSxW7Qf1HzBDmwwlHirZqoFhKNms05lGpvk1SR34ARFQiGleiJCutDJ?=
+ =?us-ascii?Q?A/3R5/r/VEbeX2ufWsqXxAmGPpu0d/ip297o4dj7j+gJV9wGSH/iuJzTKzf8?=
+ =?us-ascii?Q?OYQxTw9WdnnEGOYgK6FsTmU/0LH+KhBypbPt4DhxoQ1U8+UGuWN2mD7R0XQC?=
+ =?us-ascii?Q?MZL552NL5F2Px4HkJ+RpWIp5fwS89s9OTul5j48W1rO1LLI38ROAKvK5vCAf?=
+ =?us-ascii?Q?f5TgtXLDJiLXtDRnMxyKY4x8lvfO6fxgU336VkqOd/arrwJ/nBJyY8RubHy4?=
+ =?us-ascii?Q?SkPhgT1zgemFeqvgGshGFE/9WVl2oKtC/u+JnFsM8ov2zLjk0gHAucZfqHVI?=
+ =?us-ascii?Q?9faAU6LQS7ZhlQfmdMg00X3wa5HdoQ9CniLWdJLY2S+z5TOOiQqj9y6Y2u57?=
+ =?us-ascii?Q?eJMZvLS9qkHmBZLNTxa50O5FIH8FJwsOcp6Cl9cjnRRs8VA3QGWZjgOGNEGX?=
+ =?us-ascii?Q?lmpSIVs/qpaEzx4RTsS0ldAI/zCL3pdvBXw5ULC7W9RGCnKYg3Beu2hsfcAT?=
+ =?us-ascii?Q?FTXsls4VTtaObiYwEEGjj4Wej6JFmWPhNIk5PlLs6CgWkwmtro7mxA/fliy1?=
+ =?us-ascii?Q?ohmlNJabyIcdSJBxCeQIql/t+0QZMh+bi40eJbGwbsQ7cqknHi6/W05smhWS?=
+ =?us-ascii?Q?bRfyB7NokTaRoAg8je6FPZXDef09rR603KPMBGpYfmEAPHONV0omef7lNQ?=
+ =?us-ascii?Q?=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB1PEPF000509FF:EE_|VI1PR02MB6381:EE_
-X-MS-Office365-Filtering-Correlation-Id: b5d9ce62-a398-42f5-3ed1-08ddf09e835b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|82310400026|376014|1800799024|36860700013;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?ZVbGz7kfHpXYDLo/5XSG8QabaKZu0lP92oO436M67ICqbt9ve3Buz3kSUfEi?=
- =?us-ascii?Q?2hUJ5chU1VowIb12li6R+rEG9aEyAi4X2mc/i+0RFrBpu1KTp2lgvhwoo1F9?=
- =?us-ascii?Q?1yXLX/uiIlv7/nJCGY/MYQfAa1foF55Tr3ivsXxajsUGq2ZdzRDo1VTUCwu0?=
- =?us-ascii?Q?88o3dhnRvA5/oD91AyKJ41qUBuqE68UwkYNGCQKSDYONJob/PVK+4Fd/uxQA?=
- =?us-ascii?Q?Zwtuw9vuh7mrlc6mjUMSKUWNeyL8dCKjJwcR61k+okYI30hbmHHYUvtpkELn?=
- =?us-ascii?Q?TUIbEfJehnQhz3G+iA8vJBtnuG1cNvGzj9mHMZhwV3N7hwtBuqQq/m2K4lNu?=
- =?us-ascii?Q?WuGqkYYXlqzPPwxAHKzaA40nbQsUaWrDCfmZZZKZe79jiAumpIPvAmMFRAOE?=
- =?us-ascii?Q?kYMO1dwPnItVX9E3XO82irTIKNiRFJdYmGadmadSpb34mza6969nKBAc3QdE?=
- =?us-ascii?Q?LBY0y3j/WEGKLnyaFfXiY13Iyu3Yhj2XFJqTdp9pE64VPVGMdT1ppprH9FS8?=
- =?us-ascii?Q?3AbhHcR2wBhCmEkBN0YMKqWliJMpRADQ00o77y7VFVmK+PEODhGo2qhXQs1k?=
- =?us-ascii?Q?dvGtfTeJsxEKSI8gBPVuX73ujIKl/9MBQyHjHjQOqryNrIGxepCAlUnvsFNd?=
- =?us-ascii?Q?CvcRW4nvQ01eowyHt4lrgIrEinUcPpisxRns8Licv6gjwNqScNqxRFOoY1Jk?=
- =?us-ascii?Q?NuCxfH6IaKnJ5mtykK8QcOy/tbtbrvPz7RnfwtYV+z93mLMaaMZvhew9GPoo?=
- =?us-ascii?Q?kz0lG39jv9dRJVWytr0bbloI/NWYC3PVfCoc/EE1mULJ4TShG0PWR3zLCxGs?=
- =?us-ascii?Q?sGCYB5uok5ifS0x8g0jMVXeUlpgsb9qitLh/4V7rGxTSL0VMutf+K9TqxW7N?=
- =?us-ascii?Q?WUQZ9XNhZAJv6VGLjGskb8uqLkUvo36PBvvlmFxUwX26Xhup9pj5/vhUDhST?=
- =?us-ascii?Q?jMNWP3MzrjA2TzeiNRLFv7ndQtfykNPJK8S2HK6kVYlLgfu0Nka+jVPCREpc?=
- =?us-ascii?Q?eOIWA94DwH6sxqitSf8ZU+ziLitGGykX3XcZuNJV1kzR5e7OIA8z41hqyaP+?=
- =?us-ascii?Q?W2tUdw15Ac0EMTpRPpNnCfHCxnWjbkrYXBz1ddMU5qjq2v2EVHJx6Hx7+LK6?=
- =?us-ascii?Q?CZLQA8wM5SJCIV0RGcrtdLKe+Rm8wdaU9KUL5tmXMnJQRenHn40t3e++pEGM?=
- =?us-ascii?Q?Fjhdx6gkmX1Vp9GhXj4p8NBXiYv5KBkXqS/QyA1ay49AiugHmt6a1zsqKl49?=
- =?us-ascii?Q?UDX45P/c4s2y7iM7xUgf7ctjL4vJKJbd5f+WORy3tlcjNv3BiEWA54BPojjp?=
- =?us-ascii?Q?SnWtkiJ+F2rONqHiDBkfZ7G4bIRwxyIaJ+VO+vsfIzDcYnWfiWiMhZZjoGM/?=
- =?us-ascii?Q?msIhPDUAxC3SDisn/xV/4hChi0EM8ybHYGVTv/OM0Ue+CN/Bvked32tDu0Au?=
- =?us-ascii?Q?qV6ci1CVqx3amGDUiurptTZ1prdXTlNndp/CwaLa34vw8f2ouBo2cKl3ZguU?=
- =?us-ascii?Q?+0vEhJu7Q4VH5eM6yad3dhQhAZE+qtsXYicX?=
-X-Forefront-Antispam-Report: 
-	CIP:195.60.68.100;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.axis.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(376014)(1800799024)(36860700013);DIR:OUT;SFP:1101;
+MIME-Version: 1.0
 X-OriginatorOrg: axis.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2025 19:16:15.5264
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DB5PR02MB10213.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0553138f-759d-41c0-78d0-08ddf09eab8b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Sep 2025 19:17:22.9419
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b5d9ce62-a398-42f5-3ed1-08ddf09e835b
-X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=78703d3c-b907-432f-b066-88f7af9ca3af;Ip=[195.60.68.100];Helo=[mail.axis.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	DB1PEPF000509FF.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR02MB6381
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 78703d3c-b907-432f-b066-88f7af9ca3af
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: duOneuoHInaIRAZwYY2fhCc9qoToYPCTxIBndynKs4DdhhDv+zqqRAp3Ju4Lzw44
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA1PR02MB11236
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Wed, 10 Sep 2025 19:16:23 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9391
+ <meta-virtualization@lists.yoctoproject.org>; Wed, 10 Sep 2025 19:17:33 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9392
 
-This reverts commit 113225b93c55d55a330fcca7d9f996ec039fb953.
+Bah, sent to the wrong list.
 
-The groups command was previously installed by shadow. Therefore the
-one provided by coreutils was removed for native to avoid a conflict.
-However, since version 4.17.0, shadow no longer installs a groups
-command and thus there is no conflict anymore.
+//Peter
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
----
- meta/recipes-core/coreutils/coreutils_9.7.bb | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
-
-diff --git a/meta/recipes-core/coreutils/coreutils_9.7.bb b/meta/recipes-co=
-re/coreutils/coreutils_9.7.bb
-index 3658f7100c..201be4144c 100644
---- a/meta/recipes-core/coreutils/coreutils_9.7.bb
-+++ b/meta/recipes-core/coreutils/coreutils_9.7.bb
-@@ -82,10 +82,8 @@ do_compile:prepend () {
-=20
- do_install:class-native() {
- 	autotools_do_install
--	# remove groups to fix conflict with shadow-native
--	rm -f ${D}${STAGING_BINDIR_NATIVE}/groups
- 	# The return is a must since native doesn't need the
--	# do_install:append() in the below.
-+	# do_install:append() below.
- 	return
- }
-=20
+> -----Original Message-----
+> From: meta-virtualization@lists.yoctoproject.org <meta-
+> virtualization@lists.yoctoproject.org> On Behalf Of Peter Kjellerstedt vi=
+a
+> lists.yoctoproject.org
+> Sent: den 10 september 2025 21:16
+> To: meta-virtualization@lists.yoctoproject.org
+> Subject: [meta-virtualization] [PATCH] Revert "coreutils-native: don't
+> install groups"
+>=20
+> This reverts commit 113225b93c55d55a330fcca7d9f996ec039fb953.
+>=20
+> The groups command was previously installed by shadow. Therefore the
+> one provided by coreutils was removed for native to avoid a conflict.
+> However, since version 4.17.0, shadow no longer installs a groups
+> command and thus there is no conflict anymore.
+>=20
+> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+> ---
+>  meta/recipes-core/coreutils/coreutils_9.7.bb | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+>=20
+> diff --git a/meta/recipes-core/coreutils/coreutils_9.7.bb b/meta/recipes-
+> core/coreutils/coreutils_9.7.bb
+> index 3658f7100c..201be4144c 100644
+> --- a/meta/recipes-core/coreutils/coreutils_9.7.bb
+> +++ b/meta/recipes-core/coreutils/coreutils_9.7.bb
+> @@ -82,10 +82,8 @@ do_compile:prepend () {
+>=20
+>  do_install:class-native() {
+>  	autotools_do_install
+> -	# remove groups to fix conflict with shadow-native
+> -	rm -f ${D}${STAGING_BINDIR_NATIVE}/groups
+>  	# The return is a must since native doesn't need the
+> -	# do_install:append() in the below.
+> +	# do_install:append() below.
+>  	return
+>  }
+>=20
 
