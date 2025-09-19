@@ -2,396 +2,202 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ABA43CA1013
-	for <webhook@archiver.kernel.org>; Fri, 19 Sep 2025 02:37:53 +0000 (UTC)
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
- by mx.groups.io with SMTP id smtpd.web10.6744.1758249466548353047
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7175CA1013
+	for <webhook@archiver.kernel.org>; Fri, 19 Sep 2025 02:41:13 +0000 (UTC)
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
+ by mx.groups.io with SMTP id smtpd.web11.6796.1758249671195406010
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 18 Sep 2025 19:37:46 -0700
+ Thu, 18 Sep 2025 19:41:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=MHs+ACCm;
- spf=pass (domain: gmail.com, ip: 209.85.222.170, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-80e33b9e2d3so155395985a.2
-        for <meta-virtualization@lists.yoctoproject.org>; Thu, 18 Sep 2025 19:37:46 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=c9Nykixl;
+ spf=pass (domain: gmail.com, ip: 209.85.222.172, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-80e2c52703bso162260985a.1
+        for <meta-virtualization@lists.yoctoproject.org>; Thu, 18 Sep 2025 19:41:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758249465; x=1758854265; darn=lists.yoctoproject.org;
+        d=gmail.com; s=20230601; t=1758249670; x=1758854470; darn=lists.yoctoproject.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=qUKvMi6lddwiKSMD9+W/7l4PfxXCEmag7I27B96p7NI=;
-        b=MHs+ACCmr7MsYy/+sbPPJl4sHaF7E3ITwe6MQ0o0G3FwtoDP6GtIQCBQ1ejwO1oVIL
-         EDL1Uf+nnl9EPvUBKjdCEq9yeI0iBH89IFN0ZW5WF12NmkOPK1BshTcQq2gz25oXCZTf
-         dOh9pcZF9pR6JW+YF3vuP+Dbwv+Kwh2cy2IfB7i5m68tm7cDocTrl6TEYZ56WChaAiqp
-         7RISdDvYxSNRS9vF9V699teEdh2Fva1bXF6/MEMSDYXOmJlrc4HQHD57mqAKm9QHBNbN
-         YxoYC5/qRPXdSByjrerNiUNokR4A0l47H6808Sd7em9RWyZe6y8W4CKwwW4ZiHN/b/za
-         swkw==
+        bh=vVdrkF2JcNykYz6rQ7MRibB1NsfGVuyRE3/v/FyLx8g=;
+        b=c9NykixlQXHzmgLmk6RYzG1wH9VwqX9J1oXf3rkpFzKbrx6MUmndvvGWqiri0NvU5X
+         dFrSJzQwNfVLni0JPXQYxRNmN6OK+2BqqPnwNZffHuKeOa+MUJVrhEk+eoWgdk1h9ZaV
+         siTedwRYwJDGkrg2yH81hCmiI0ZdLXi/vvuZY+atXzhcuV13l71AYr2wgidt9DXLZwaw
+         msYBHXvztBp9RsQVGWQ/QPoVcOw2/oetHtlY5yJkYRjHMbZAk16k6f1CxQu/afJMDWhb
+         /1tS1fQFvAVwSKDP+OYaVoKL+CDSDKzXjlxLqfWcVsGHEJ6324GotIwZOQ/CutvbSWqV
+         jmiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758249465; x=1758854265;
+        d=1e100.net; s=20230601; t=1758249670; x=1758854470;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=qUKvMi6lddwiKSMD9+W/7l4PfxXCEmag7I27B96p7NI=;
-        b=xT11QO4z7RIajdJZpR93IXbjYTds/W6Z/1qCcMEoKx9vfT0c0sx8jDg8PRkK/jH49T
-         ZltwvQ7VY40zaj4v8sIXYqqemj7BwEmLqlE+jFrK4JaFfUju00CH9T6OdSjZFwXXzAvL
-         s3bRZnfHGJjogoS6qneYG50XW3uqeFK6Xo0r5Chx1H8kg8oY/xZs+1cUSHgVeJpApSsg
-         dharaJ6xXfpkXz0blMoWRpk8sntTtA379Xt4zggaUsosWoPgnqdBcXPl+dZ7UDeT1Sm3
-         IBK6I+7J7DKNLRQRGNYfMNDdgqPTcdq3F8tk7rRCXvu+SvpaeZFb+qwz3K50T03ntE2l
-         zjIQ==
-X-Gm-Message-State: AOJu0YxW83ANWdWs4ba/1R9Ob+X9jmW44xX3+OaDs0N8/Xl5TtmliFtV
-	P3fLLoNcR6I+Egtj5eSLqS6hrN5byu7tFRaDOGMLXG1RAH/wIbT24BmkaEegh/o0HWY=
-X-Gm-Gg: ASbGncs+Wr5SE1p1P2uNJ5cTIA9lrabMI3k3nd9nQbDHyTcTeuMVhqRc+SGq1eU4TKR
-	CLi1vTP9TgtHq5g9jxAdFcYOuZoCkMXB6Tjiy97XrRg0yPkArystGwf3dNRQkofG5pNL9EOAGt3
-	tj/DzPVFHKlG4VMJiLMgnfofL0+RrVD6wsw0fdmnFom6NkZu8QHtmMRighTpXDC7vQno/lRe40c
-	oUXMETRKnynpYR9EYu+O4iYibPPYDY6VPCVR1MeJx3Ij3ex/S7SEBIbIScTA9XFHTZ96OUhSR/n
-	kQf4EWIP3cqWwQSC7SKAi004JTpU83+Ez8E0nXSfkjHvCbfFpT9ScgzCsycdjjqRhiQSjfU/+gF
-	F1etDxjsvxwbJTRJtbJOlEo91GUgdBsdfqheY4FgL+SBELvVg6GIAAWZIjR69wrggNWkzsSV/kR
-	yMNW9iTVjwFnqUWbFR1NfkP88wIBp7JkRSuyGqXiaUFpYPrwm0bPQ=
-X-Google-Smtp-Source: AGHT+IHeFKCFBIftTBDhXltZndlu6Skx+HndpOD5oMjI19FqtPH/K+t0h4cU0jXf4esC6QY/kQsoBA==
-X-Received: by 2002:a05:620a:2996:b0:813:31ad:bf34 with SMTP id af79cd13be357-83bab4702f7mr240384885a.51.1758249465281;
-        Thu, 18 Sep 2025 19:37:45 -0700 (PDT)
+        bh=vVdrkF2JcNykYz6rQ7MRibB1NsfGVuyRE3/v/FyLx8g=;
+        b=jw8ONL1tUyR8VV+Va+lHR1OJ8g9cr/j4fNA7+5ll84YSlLAzXtL+D7N69rzY2QfzCm
+         fjhX90T/TnwwdPy4BYNaIsbHBUaDtqbeUeULRev5bYhGXMxn7oOMBhOv0wJaH4+1DUAu
+         HsnO3tGRQofptKWseY0C0e47mIs/XsBRPNL2m4Fgw40f74ZgiPlEq3xbHGOIiRMTc0Jd
+         M969ZawDpVjevIM6Uh/E6ig1sDlpuc/baL6EPKyNYE6OVHK2X057Y4fh1lEPJe6sZyfF
+         /tJkf85e3secGnq7X+CpsRYIET4/lh+TkCo840pm4WSqMi8WcvBu0k8PJwxaPqYIC4yz
+         iMRA==
+X-Gm-Message-State: AOJu0YwMT1DvWLIqcY4nMwIBQzJBphXCdrLOu29zUHS5lvNg1zicssZB
+	bAnr8X5cr9io5ENKM1Q0LaB/hgAmxFmBtq0eB02GgRKn41AswBPwNmMn352mQEouLkY=
+X-Gm-Gg: ASbGncvsqHVauHqMFF8j5wfcuzVvvN2bUu5H7UFgaPcg3sQ2PQsy57JhNi2m6vibO+7
+	UEKR6RV76YNzEkdSHhmcxR5VFEdRLM7lF5K3Jj8XIzi1SqUh4AybnWqb8Fw0PV7j9AJP3gAFVJo
+	6zhYEvtD0KqCLzByWVSM63H9LQsqbcqb2QBx/pGSoktsrnLlOfFzSPomD0iDhbDlLpsynP20b7w
+	1kZvflEXnuXnUdMZ3sfMJPk0WWfHHvF9a6y1iG61QKpT9urW07h06iVeDaxMQUhGkCop55fyzFw
+	TCRMhKJgzmjhnV0F+mkJ4RTMtePNkfTK7dq+9PpY+JF9Gg/U+jSs/0lz2z/d1xGH2enRq7Al6BC
+	1PNmf5YjpdJZe10mWBMBT7T+bdS6d8LEmtqHXDAF/1HECenydwhW4/mZLXUUp1is3wTjfeweygk
+	RYI3482Tiq3oTrRy4nIY0lQmHU367t7wgxPBAd8Umfo+JKFeExNJKIBnsn9BHXFQ==
+X-Google-Smtp-Source: AGHT+IFiVFI1XRPIw95jIiG1no7MPtxWyOdQ55HD7Jsg8+LRpJ0Mnw/ZSzcMykTlDaIVRWpHkQ01hA==
+X-Received: by 2002:a05:620a:172a:b0:82e:ceaf:1aaf with SMTP id af79cd13be357-83ba29b5d0dmr212798785a.11.1758249669942;
+        Thu, 18 Sep 2025 19:41:09 -0700 (PDT)
 Received: from gmail.com (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8363198b184sm263389885a.51.2025.09.18.19.37.44
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8361b486263sm272725185a.0.2025.09.18.19.41.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Sep 2025 19:37:44 -0700 (PDT)
-Date: Thu, 18 Sep 2025 22:37:43 -0400
+        Thu, 18 Sep 2025 19:41:09 -0700 (PDT)
+Date: Thu, 18 Sep 2025 22:41:07 -0400
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Hitendra Prajapati <hprajapati@mvista.com>
+To: Yogita.Urade@windriver.com
 Cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [meta-virtualization][scarthgap][PATCH] docker-moby: fix
- CVE-2024-41110
-Message-ID: <aMzB92SypOpZS4BI@gmail.com>
-References: <20250910141357.267108-1-hprajapati@mvista.com>
+Subject: Re: [meta-virtualization][scarthgap][PATCH 1/2] podman: fix
+ CVE-2024-9407
+Message-ID: <aMzCwxyq0uVpLCz0@gmail.com>
+References: <20250916052515.891345-1-yogita.urade@windriver.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250910141357.267108-1-hprajapati@mvista.com>
+In-Reply-To: <20250916052515.891345-1-yogita.urade@windriver.com>
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Fri, 19 Sep 2025 02:37:53 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9404
+ <meta-virtualization@lists.yoctoproject.org>; Fri, 19 Sep 2025 02:41:13 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9405
 
-In message: [meta-virtualization][scarthgap][PATCH] docker-moby: fix CVE-2024-41110
-on 10/09/2025 Hitendra Prajapati wrote:
+The same question needs to be answered for all of these CVE
+patches (send a v2).
 
-> Upstream-Status: Backport from https://github.com/moby/moby/commit/fc274cd2ff4cf3b48c91697fb327dd1fb95588fb && https://github.com/moby/moby/commit/a79fabbfe84117696a19671f4aa88b82d0f64fc1
+What release was the fix/commit introduced, and show that
+you've checked to see if there's a release branch equivalent
+for the version we are patching.
 
-It is much more useful to indicate which release those
-commits are from.
-
-I can't find a branch that contains them, so I'm not
-inclined to take them. A quick check on the link shows
-a message that agrees with my local git checks:
-
-"This commit does not belong to any branch on this repository, and may belong to a fork outside of the repository."
-
-A backport implies it is part of a release .. this doesn't appear to be the case here.
+Version bumps (within the -stable branch policy of 3rd digit
+or no major updates) are much preferred to patches.
 
 Bruce
 
+In message: [meta-virtualization][scarthgap][PATCH 1/2] podman: fix CVE-2024-9407
+on 16/09/2025 Urade, Yogita via lists.yoctoproject.org wrote:
+
+> From: Yogita Urade <yogita.urade@windriver.com>
 > 
-> Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+> A vulnerability exists in the bind-propagation option of the
+> Dockerfile RUN --mount instruction. The system does not properly
+> validate the input passed to this option, allowing users to pass
+> arbitrary parameters to the mount instruction. This issue can be
+> exploited to mount sensitive directories from the host into a
+> container during the build process and, in some cases, modify the
+> contents of those mounted files. Even if SELinux is used, this
+> vulnerability can bypass its protection by allowing the source
+> directory to be relabeled to give the container access to host files.
+> 
+> Reference:
+> https://nvd.nist.gov/vuln/detail/CVE-2024-9407
+> 
+> Upstream patch:
+> https://github.com/containers/podman/commit/2b2c7a89586d0e495b6bc5cc5687bab79162118e
+> 
+> Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
 > ---
->  recipes-containers/docker/docker-moby_git.bb  |   2 +
->  .../docker/files/CVE-2024-41110-001.patch     | 173 ++++++++++++++++++
->  .../docker/files/CVE-2024-41110-002.patch     |  95 ++++++++++
->  3 files changed, 270 insertions(+)
->  create mode 100644 recipes-containers/docker/files/CVE-2024-41110-001.patch
->  create mode 100644 recipes-containers/docker/files/CVE-2024-41110-002.patch
+>  .../podman/podman/CVE-2024-9407.patch         | 58 +++++++++++++++++++
+>  recipes-containers/podman/podman_git.bb       |  1 +
+>  2 files changed, 59 insertions(+)
+>  create mode 100644 recipes-containers/podman/podman/CVE-2024-9407.patch
 > 
-> diff --git a/recipes-containers/docker/docker-moby_git.bb b/recipes-containers/docker/docker-moby_git.bb
-> index d274b002..565925e2 100644
-> --- a/recipes-containers/docker/docker-moby_git.bb
-> +++ b/recipes-containers/docker/docker-moby_git.bb
-> @@ -58,6 +58,8 @@ SRC_URI = "\
->          file://0001-dynbinary-use-go-cross-compiler.patch;patchdir=src/import \
->          file://CVE-2024-36620.patch;patchdir=src/import \
->          file://CVE-2024-36621.patch;patchdir=src/import \
-> +        file://CVE-2024-41110-001.patch;patchdir=src/import \
-> +        file://CVE-2024-41110-002.patch;patchdir=src/import \
->  	"
+> diff --git a/recipes-containers/podman/podman/CVE-2024-9407.patch b/recipes-containers/podman/podman/CVE-2024-9407.patch
+> new file mode 100644
+> index 00000000..397cd362
+> --- /dev/null
+> +++ b/recipes-containers/podman/podman/CVE-2024-9407.patch
+> @@ -0,0 +1,58 @@
+> +From 2b2c7a89586d0e495b6bc5cc5687bab79162118e Mon Sep 17 00:00:00 2001
+> +From: Matt Heon <mheon@redhat.com>
+> +Date: Tue, 1 Oct 2024 12:38:45 -0400
+> +Subject: [PATCH] Validate the bind-propagation option to `--mount`
+> +
+> +Similar to github.com/containers/buildah/pull/5761 but not
+> +security critical as Podman does not have an expectation that
+> +mounts are scoped (the ability to write a --mount option is
+> +already the ability to mount arbitrary content into the container
+> +so sneaking arbitrary options into the mount doesn't have
+> +security implications). Still, bad practice to let users inject
+> +anything into the mount command line so let's not do that.
+> +
+> +Signed-off-by: Matt Heon <mheon@redhat.com>
+> +
+> +CVE: CVE-2024-9407
+> +Upstream-Status: Backport [https://github.com/containers/podman/commit/2b2c7a89586d0e495b6bc5cc5687bab79162118e]
+> +
+> +Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
+> +---
+> + pkg/specgenutil/volumes.go  | 6 ++++++
+> + test/e2e/run_volume_test.go | 4 ++++
+> + 2 files changed, 10 insertions(+)
+> +
+> +diff --git a/pkg/specgenutil/volumes.go b/pkg/specgenutil/volumes.go
+> +index c481867163..5618b2d342 100644
+> +--- a/pkg/specgenutil/volumes.go
+> ++++ b/pkg/specgenutil/volumes.go
+> +@@ -272,6 +272,12 @@ func parseMountOptions(mountType string, args []string) (*spec.Mount, error) {
+> +			if !hasValue {
+> +				return nil, fmt.Errorf("%v: %w", name, errOptionArg)
+> +			}
+> ++                        switch value {
+> ++			case "shared", "rshared", "private", "rprivate", "slave", "rslave", "unbindable", "runbindable":
+> ++				// Do nothing, sane value
+> ++			default:
+> ++				return nil, fmt.Errorf("invalid value %q", arg)
+> ++			}
+> +			mnt.Options = append(mnt.Options, value)
+> +		case "consistency":
+> +			// Often used on MACs and mistakenly on Linux platforms.
+> +diff --git a/test/e2e/run_volume_test.go b/test/e2e/run_volume_test.go
+> +index 4e777d62ef..5b256c9255 100644
+> +--- a/test/e2e/run_volume_test.go
+> ++++ b/test/e2e/run_volume_test.go
+> +@@ -112,6 +112,10 @@ var _ = Describe("Podman run with volumes", func() {
+> +		session.WaitWithDefaultTimeout()
+> +		Expect(session).To(ExitWithError())
+> +
+> ++		session = podmanTest.Podman([]string{"run", "--rm", "--mount", "type=bind,src=/tmp,target=/tmp,bind-propagation=fake", ALPINE, "true"})
+> ++		session.WaitWithDefaultTimeout()
+> ++		Expect(session).To(ExitWithError())
+> ++
+> +		session = podmanTest.Podman([]string{"run", "--rm", "--mount", "type=tmpfs,target=/etc/ssl,notmpcopyup", ALPINE, "ls", "/etc/ssl"})
+> +		session.WaitWithDefaultTimeout()
+> +		Expect(session).Should(ExitCleanly())
+> +--
+> +2.40.0
+> diff --git a/recipes-containers/podman/podman_git.bb b/recipes-containers/podman/podman_git.bb
+> index ef9798f0..4086298f 100644
+> --- a/recipes-containers/podman/podman_git.bb
+> +++ b/recipes-containers/podman/podman_git.bb
+> @@ -24,6 +24,7 @@ SRC_URI = " \
+>      file://0001-Use-securejoin.SecureJoin-when-forming-userns-paths.patch;patchdir=src/import/vendor/github.com/containers/storage \
+>      file://CVE-2025-6032.patch;patchdir=src/import \
+>      file://CVE-2024-9341.patch;patchdir=src/import \
+> +    file://CVE-2024-9407.patch;patchdir=src/import \
+>  "
 >  
->  DOCKER_COMMIT = "${SRCREV_moby}"
-> diff --git a/recipes-containers/docker/files/CVE-2024-41110-001.patch b/recipes-containers/docker/files/CVE-2024-41110-001.patch
-> new file mode 100644
-> index 00000000..ed7c4628
-> --- /dev/null
-> +++ b/recipes-containers/docker/files/CVE-2024-41110-001.patch
-> @@ -0,0 +1,173 @@
-> +From fc274cd2ff4cf3b48c91697fb327dd1fb95588fb Mon Sep 17 00:00:00 2001
-> +From: Jameson Hyde <jameson.hyde@docker.com>
-> +Date: Mon, 26 Nov 2018 14:15:22 -0500
-> +Subject: [PATCH] Authz plugin security fixes for 0-length content and path
-> + validation Signed-off-by: Jameson Hyde <jameson.hyde@docker.com>
-> +
-> +fix comments
-> +
-> +(cherry picked from commit 9659c3a52bac57e615b5fb49b0652baca448643e)
-> +Signed-off-by: Sebastiaan van Stijn <github@gone.nl>
-> +Signed-off-by: Eli Uriegas <eli.uriegas@docker.com>
-> +
-> +CVE: CVE-2024-41110
-> +Upstream-Status: Backport [https://github.com/moby/moby/commit/fc274cd2ff4cf3b48c91697fb327dd1fb95588fb]
-> +Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-> +---
-> + pkg/authorization/authz.go           | 38 ++++++++++++++++++---
-> + pkg/authorization/authz_unix_test.go | 49 ++++++++++++++++++++++++++--
-> + 2 files changed, 80 insertions(+), 7 deletions(-)
-> +
-> +diff --git a/pkg/authorization/authz.go b/pkg/authorization/authz.go
-> +index 1eb44315dd..6450f504af 100644
-> +--- a/pkg/authorization/authz.go
-> ++++ b/pkg/authorization/authz.go
-> +@@ -8,6 +8,8 @@ import (
-> + 	"io"
-> + 	"mime"
-> + 	"net/http"
-> ++	"net/url"
-> ++	"regexp"
-> + 	"strings"
-> + 
-> + 	"github.com/containerd/log"
-> +@@ -53,10 +55,23 @@ type Ctx struct {
-> + 	authReq *Request
-> + }
-> + 
-> ++func isChunked(r *http.Request) bool {
-> ++	//RFC 7230 specifies that content length is to be ignored if Transfer-Encoding is chunked
-> ++	if strings.ToLower(r.Header.Get("Transfer-Encoding")) == "chunked" {
-> ++		return true
-> ++	}
-> ++	for _, v := range r.TransferEncoding {
-> ++		if 0 == strings.Compare(strings.ToLower(v), "chunked") {
-> ++			return true
-> ++		}
-> ++	}
-> ++	return false
-> ++}
-> ++
-> + // AuthZRequest authorized the request to the docker daemon using authZ plugins
-> + func (ctx *Ctx) AuthZRequest(w http.ResponseWriter, r *http.Request) error {
-> + 	var body []byte
-> +-	if sendBody(ctx.requestURI, r.Header) && r.ContentLength > 0 && r.ContentLength < maxBodySize {
-> ++	if sendBody(ctx.requestURI, r.Header) && (r.ContentLength > 0 || isChunked(r)) && r.ContentLength < maxBodySize {
-> + 		var err error
-> + 		body, r.Body, err = drainBody(r.Body)
-> + 		if err != nil {
-> +@@ -109,7 +124,6 @@ func (ctx *Ctx) AuthZResponse(rm ResponseModifier, r *http.Request) error {
-> + 	if sendBody(ctx.requestURI, rm.Header()) {
-> + 		ctx.authReq.ResponseBody = rm.RawBody()
-> + 	}
-> +-
-> + 	for _, plugin := range ctx.plugins {
-> + 		log.G(context.TODO()).Debugf("AuthZ response using plugin %s", plugin.Name())
-> + 
-> +@@ -147,10 +161,26 @@ func drainBody(body io.ReadCloser) ([]byte, io.ReadCloser, error) {
-> + 	return nil, newBody, err
-> + }
-> + 
-> ++func isAuthEndpoint(urlPath string) (bool, error) {
-> ++	// eg www.test.com/v1.24/auth/optional?optional1=something&optional2=something (version optional)
-> ++	matched, err := regexp.MatchString(`^[^\/]+\/(v\d[\d\.]*\/)?auth.*`, urlPath)
-> ++	if err != nil {
-> ++		return false, err
-> ++	}
-> ++	return matched, nil
-> ++}
-> ++
-> + // sendBody returns true when request/response body should be sent to AuthZPlugin
-> +-func sendBody(url string, header http.Header) bool {
-> ++func sendBody(inURL string, header http.Header) bool {
-> ++	u, err := url.Parse(inURL)
-> ++	// Assume no if the URL cannot be parsed - an empty request will still be forwarded to the plugin and should be rejected
-> ++	if err != nil {
-> ++		return false
-> ++	}
-> ++
-> + 	// Skip body for auth endpoint
-> +-	if strings.HasSuffix(url, "/auth") {
-> ++	isAuth, err := isAuthEndpoint(u.Path)
-> ++	if isAuth || err != nil {
-> + 		return false
-> + 	}
-> + 
-> +diff --git a/pkg/authorization/authz_unix_test.go b/pkg/authorization/authz_unix_test.go
-> +index c9b18d96e9..275f1dd3d0 100644
-> +--- a/pkg/authorization/authz_unix_test.go
-> ++++ b/pkg/authorization/authz_unix_test.go
-> +@@ -174,8 +174,8 @@ func TestDrainBody(t *testing.T) {
-> + 
-> + func TestSendBody(t *testing.T) {
-> + 	var (
-> +-		url       = "nothing.com"
-> + 		testcases = []struct {
-> ++			url         string
-> + 			contentType string
-> + 			expected    bool
-> + 		}{
-> +@@ -219,15 +219,58 @@ func TestSendBody(t *testing.T) {
-> + 				contentType: "",
-> + 				expected:    false,
-> + 			},
-> ++			{
-> ++				url:         "nothing.com/auth",
-> ++				contentType: "",
-> ++				expected:    false,
-> ++			},
-> ++			{
-> ++				url:         "nothing.com/auth",
-> ++				contentType: "application/json;charset=UTF8",
-> ++				expected:    false,
-> ++			},
-> ++			{
-> ++				url:         "nothing.com/auth?p1=test",
-> ++				contentType: "application/json;charset=UTF8",
-> ++				expected:    false,
-> ++			},
-> ++			{
-> ++				url:         "nothing.com/test?p1=/auth",
-> ++				contentType: "application/json;charset=UTF8",
-> ++				expected:    true,
-> ++			},
-> ++			{
-> ++				url:         "nothing.com/something/auth",
-> ++				contentType: "application/json;charset=UTF8",
-> ++				expected:    true,
-> ++			},
-> ++			{
-> ++				url:         "nothing.com/auth/test",
-> ++				contentType: "application/json;charset=UTF8",
-> ++				expected:    false,
-> ++			},
-> ++			{
-> ++				url:         "nothing.com/v1.24/auth/test",
-> ++				contentType: "application/json;charset=UTF8",
-> ++				expected:    false,
-> ++			},
-> ++			{
-> ++				url:         "nothing.com/v1/auth/test",
-> ++				contentType: "application/json;charset=UTF8",
-> ++				expected:    false,
-> ++			},
-> + 		}
-> + 	)
-> + 
-> + 	for _, testcase := range testcases {
-> + 		header := http.Header{}
-> + 		header.Set("Content-Type", testcase.contentType)
-> ++		if testcase.url == "" {
-> ++			testcase.url = "nothing.com"
-> ++		}
-> + 
-> +-		if b := sendBody(url, header); b != testcase.expected {
-> +-			t.Fatalf("Unexpected Content-Type; Expected: %t, Actual: %t", testcase.expected, b)
-> ++		if b := sendBody(testcase.url, header); b != testcase.expected {
-> ++			t.Fatalf("sendBody failed: url: %s, content-type: %s; Expected: %t, Actual: %t", testcase.url, testcase.contentType, testcase.expected, b)
-> + 		}
-> + 	}
-> + }
-> +-- 
-> +2.50.1
-> +
-> diff --git a/recipes-containers/docker/files/CVE-2024-41110-002.patch b/recipes-containers/docker/files/CVE-2024-41110-002.patch
-> new file mode 100644
-> index 00000000..7d8b572d
-> --- /dev/null
-> +++ b/recipes-containers/docker/files/CVE-2024-41110-002.patch
-> @@ -0,0 +1,95 @@
-> +From a79fabbfe84117696a19671f4aa88b82d0f64fc1 Mon Sep 17 00:00:00 2001
-> +From: Jameson Hyde <jameson.hyde@docker.com>
-> +Date: Sat, 1 Dec 2018 11:25:49 -0500
-> +Subject: [PATCH] If url includes scheme, urlPath will drop hostname, which
-> + would not match the auth check
-> +
-> +Signed-off-by: Jameson Hyde <jameson.hyde@docker.com>
-> +(cherry picked from commit 754fb8d9d03895ae3ab60d2ad778152b0d835206)
-> +Signed-off-by: Sebastiaan van Stijn <github@gone.nl>
-> +Signed-off-by: Eli Uriegas <eli.uriegas@docker.com>
-> +
-> +CVE: CVE-2024-41110
-> +Upstream-Status: Backport [https://github.com/moby/moby/commit/a79fabbfe84117696a19671f4aa88b82d0f64fc1]
-> +Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-> +---
-> + pkg/authorization/authz.go           |  6 ++---
-> + pkg/authorization/authz_unix_test.go | 35 ++++++++++++++++++++++++++++
-> + 2 files changed, 38 insertions(+), 3 deletions(-)
-> +
-> +diff --git a/pkg/authorization/authz.go b/pkg/authorization/authz.go
-> +index 6450f504af..012aa7e487 100644
-> +--- a/pkg/authorization/authz.go
-> ++++ b/pkg/authorization/authz.go
-> +@@ -57,11 +57,11 @@ type Ctx struct {
-> + 
-> + func isChunked(r *http.Request) bool {
-> + 	//RFC 7230 specifies that content length is to be ignored if Transfer-Encoding is chunked
-> +-	if strings.ToLower(r.Header.Get("Transfer-Encoding")) == "chunked" {
-> ++	if strings.EqualFold(r.Header.Get("Transfer-Encoding"), "chunked") {
-> + 		return true
-> + 	}
-> + 	for _, v := range r.TransferEncoding {
-> +-		if 0 == strings.Compare(strings.ToLower(v), "chunked") {
-> ++		if strings.EqualFold(v, "chunked") {
-> + 			return true
-> + 		}
-> + 	}
-> +@@ -163,7 +163,7 @@ func drainBody(body io.ReadCloser) ([]byte, io.ReadCloser, error) {
-> + 
-> + func isAuthEndpoint(urlPath string) (bool, error) {
-> + 	// eg www.test.com/v1.24/auth/optional?optional1=something&optional2=something (version optional)
-> +-	matched, err := regexp.MatchString(`^[^\/]+\/(v\d[\d\.]*\/)?auth.*`, urlPath)
-> ++	matched, err := regexp.MatchString(`^[^\/]*\/(v\d[\d\.]*\/)?auth.*`, urlPath)
-> + 	if err != nil {
-> + 		return false, err
-> + 	}
-> +diff --git a/pkg/authorization/authz_unix_test.go b/pkg/authorization/authz_unix_test.go
-> +index 275f1dd3d0..66b4d20452 100644
-> +--- a/pkg/authorization/authz_unix_test.go
-> ++++ b/pkg/authorization/authz_unix_test.go
-> +@@ -259,6 +259,41 @@ func TestSendBody(t *testing.T) {
-> + 				contentType: "application/json;charset=UTF8",
-> + 				expected:    false,
-> + 			},
-> ++			{
-> ++				url:         "www.nothing.com/v1.24/auth/test",
-> ++				contentType: "application/json;charset=UTF8",
-> ++				expected:    false,
-> ++			},
-> ++			{
-> ++				url:         "https://www.nothing.com/v1.24/auth/test",
-> ++				contentType: "application/json;charset=UTF8",
-> ++				expected:    false,
-> ++			},
-> ++			{
-> ++				url:         "http://nothing.com/v1.24/auth/test",
-> ++				contentType: "application/json;charset=UTF8",
-> ++				expected:    false,
-> ++			},
-> ++			{
-> ++				url:         "www.nothing.com/test?p1=/auth",
-> ++				contentType: "application/json;charset=UTF8",
-> ++				expected:    true,
-> ++			},
-> ++			{
-> ++				url:         "http://www.nothing.com/test?p1=/auth",
-> ++				contentType: "application/json;charset=UTF8",
-> ++				expected:    true,
-> ++			},
-> ++			{
-> ++				url:         "www.nothing.com/something/auth",
-> ++				contentType: "application/json;charset=UTF8",
-> ++				expected:    true,
-> ++			},
-> ++			{
-> ++				url:         "https://www.nothing.com/something/auth",
-> ++				contentType: "application/json;charset=UTF8",
-> ++				expected:    true,
-> ++			},
-> + 		}
-> + 	)
-> + 
-> +-- 
-> +2.50.1
-> +
+>  LICENSE = "Apache-2.0"
 > -- 
-> 2.50.1
+> 2.40.0
 > 
+
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#9394): https://lists.yoctoproject.org/g/meta-virtualization/message/9394
+> Mute This Topic: https://lists.yoctoproject.org/mt/115268579/1050810
+> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
 
