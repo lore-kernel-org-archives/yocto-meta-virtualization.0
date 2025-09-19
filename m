@@ -2,852 +2,396 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8F92CA1013
-	for <webhook@archiver.kernel.org>; Fri, 19 Sep 2025 02:34:23 +0000 (UTC)
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
- by mx.groups.io with SMTP id smtpd.web10.6676.1758249255257453154
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ABA43CA1013
+	for <webhook@archiver.kernel.org>; Fri, 19 Sep 2025 02:37:53 +0000 (UTC)
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
+ by mx.groups.io with SMTP id smtpd.web10.6744.1758249466548353047
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 18 Sep 2025 19:34:15 -0700
+ Thu, 18 Sep 2025 19:37:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=mcJLdxxD;
- spf=pass (domain: gmail.com, ip: 209.85.222.179, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-8287fa098e8so160179285a.1
-        for <meta-virtualization@lists.yoctoproject.org>; Thu, 18 Sep 2025 19:34:15 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=MHs+ACCm;
+ spf=pass (domain: gmail.com, ip: 209.85.222.170, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-80e33b9e2d3so155395985a.2
+        for <meta-virtualization@lists.yoctoproject.org>; Thu, 18 Sep 2025 19:37:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758249254; x=1758854054; darn=lists.yoctoproject.org;
+        d=gmail.com; s=20230601; t=1758249465; x=1758854265; darn=lists.yoctoproject.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=5bVRfKQY0/aOL0E/ajNJO+Od53Oc5IAOl7Q7X90Wqsg=;
-        b=mcJLdxxDQJmZf7/sPmVKOoT7qcC8b5Iixgz4zt0HgiHeljbnEngwon8Axa6tanqV5u
-         ki9zIOwdIx0wKRiJOr0ZurhFfnnrzee5TfjitpWPpM9zT49oxDTtH4YqGAycS2C90m2t
-         KIxtnsPAfDowAk9OCy9/mEJGmY9luU4dSVpPsqYf8mm87P3/BoxiVry8m+zsb31Wa/cb
-         f0TFOR81oHZWuFGqaUa7B7a8CcgeTd4MWSgIXOxhZsb/vVBHQ9PzduzWRV2KZWzp6AG+
-         uz7o6XBozBrcwHGo0y+AnauBYF2GAbFhcH+EJKl3EYbX0PUq5jqAg/CWqB/UFqqFnwyb
-         Veig==
+        bh=qUKvMi6lddwiKSMD9+W/7l4PfxXCEmag7I27B96p7NI=;
+        b=MHs+ACCmr7MsYy/+sbPPJl4sHaF7E3ITwe6MQ0o0G3FwtoDP6GtIQCBQ1ejwO1oVIL
+         EDL1Uf+nnl9EPvUBKjdCEq9yeI0iBH89IFN0ZW5WF12NmkOPK1BshTcQq2gz25oXCZTf
+         dOh9pcZF9pR6JW+YF3vuP+Dbwv+Kwh2cy2IfB7i5m68tm7cDocTrl6TEYZ56WChaAiqp
+         7RISdDvYxSNRS9vF9V699teEdh2Fva1bXF6/MEMSDYXOmJlrc4HQHD57mqAKm9QHBNbN
+         YxoYC5/qRPXdSByjrerNiUNokR4A0l47H6808Sd7em9RWyZe6y8W4CKwwW4ZiHN/b/za
+         swkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758249254; x=1758854054;
+        d=1e100.net; s=20230601; t=1758249465; x=1758854265;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=5bVRfKQY0/aOL0E/ajNJO+Od53Oc5IAOl7Q7X90Wqsg=;
-        b=s8WT0ZEkFlS2GAoV1r70j9LH2srDqlFkuotMEkAzGcakgIJLH6l8W0M7Jb6o7ZcMtP
-         3JyurFdvMm9V6G42zCqXTCpQWxtyPKg2MdIWThzaT968W3a4OBoWkTNjqAl3GD7dA+TL
-         mfKAdKh37I5sj9CI3SDILOFknDz036yPWicwdaGw49+qFAJkM4yJAgV+MEcR+riEF8uW
-         QlLNn2b+1VKhkPRsXMn1DYtSTgl3Wz0UTtzoVcXfq/qFzOdNuMCNVaPO8+rP0tKaj+tj
-         3MNklhXKhi2VVO7zbOaJJIqeL1RGY21tBn0J5sT81WmaWhy+Dr0hPY1Nilxs6dHwp4cZ
-         qrQA==
-X-Gm-Message-State: AOJu0Yz7HfY0XjwVyjv+3a23SbY6tMJ6tI+sL5hubeJfBwIs15iqqK/H
-	Cn4T/CZDOqkVVeoU+0Wf5d/Kkmd9ezlGYIjOFVSHlhuTqnFbovGntkQ2
-X-Gm-Gg: ASbGncthGWNdEp7g9TaciaJS3Bp0l1KHKYdnilBoWhYPHXxrOa5FJGs+zexvitzSlim
-	WHTkNztKbciuYa70gGBU9pCdt/DM/RGns43rlDHnUQzPWpfc+QGgDNHpxY3fxt3UgIieU6hXXIH
-	hVcbXLl6vIIZrLmvdqWDJwzMF8WcUTBNOX+cFbOevBGmjvxGnpQSixSYPofrVNPGoXNE/bziYVH
-	sCcwcWO8FskKYmJQi+Amn7mKjSTrf+Nj57eAZhKUhOy/9OJcX/XaXyjwWkizdk3qr/6tEGKd8Tf
-	fypM71/ArxbwQhcuzSVXHxlmKOv7M1M8sSzHeMDgtrXoXZ0mhDyeLZIZA72rV1J6aK8e7b/xxLb
-	b1VcOVsHRWPNpsW5BWNKLZnkWQrEmrxHsdODGrBCMl09DXGqvkSSsp2ZbNlq2ss0c1b9IT+AkUw
-	bMEfgrSn0fRCjS5ZakwEdzbdweANBBExlR4dySvUMCuT4KJbYb/qcxJcDaADMs6A==
-X-Google-Smtp-Source: AGHT+IEGjTGPwlXk2k4q9CeoQIGe19YEco7mC+9J2q7BSGtxkP6Z54iLKhoSmClCmGR5BUXglT/t1w==
-X-Received: by 2002:a05:620a:1902:b0:7e8:9f7:da5d with SMTP id af79cd13be357-83ba29b652cmr209512185a.12.1758249253790;
-        Thu, 18 Sep 2025 19:34:13 -0700 (PDT)
+        bh=qUKvMi6lddwiKSMD9+W/7l4PfxXCEmag7I27B96p7NI=;
+        b=xT11QO4z7RIajdJZpR93IXbjYTds/W6Z/1qCcMEoKx9vfT0c0sx8jDg8PRkK/jH49T
+         ZltwvQ7VY40zaj4v8sIXYqqemj7BwEmLqlE+jFrK4JaFfUju00CH9T6OdSjZFwXXzAvL
+         s3bRZnfHGJjogoS6qneYG50XW3uqeFK6Xo0r5Chx1H8kg8oY/xZs+1cUSHgVeJpApSsg
+         dharaJ6xXfpkXz0blMoWRpk8sntTtA379Xt4zggaUsosWoPgnqdBcXPl+dZ7UDeT1Sm3
+         IBK6I+7J7DKNLRQRGNYfMNDdgqPTcdq3F8tk7rRCXvu+SvpaeZFb+qwz3K50T03ntE2l
+         zjIQ==
+X-Gm-Message-State: AOJu0YxW83ANWdWs4ba/1R9Ob+X9jmW44xX3+OaDs0N8/Xl5TtmliFtV
+	P3fLLoNcR6I+Egtj5eSLqS6hrN5byu7tFRaDOGMLXG1RAH/wIbT24BmkaEegh/o0HWY=
+X-Gm-Gg: ASbGncs+Wr5SE1p1P2uNJ5cTIA9lrabMI3k3nd9nQbDHyTcTeuMVhqRc+SGq1eU4TKR
+	CLi1vTP9TgtHq5g9jxAdFcYOuZoCkMXB6Tjiy97XrRg0yPkArystGwf3dNRQkofG5pNL9EOAGt3
+	tj/DzPVFHKlG4VMJiLMgnfofL0+RrVD6wsw0fdmnFom6NkZu8QHtmMRighTpXDC7vQno/lRe40c
+	oUXMETRKnynpYR9EYu+O4iYibPPYDY6VPCVR1MeJx3Ij3ex/S7SEBIbIScTA9XFHTZ96OUhSR/n
+	kQf4EWIP3cqWwQSC7SKAi004JTpU83+Ez8E0nXSfkjHvCbfFpT9ScgzCsycdjjqRhiQSjfU/+gF
+	F1etDxjsvxwbJTRJtbJOlEo91GUgdBsdfqheY4FgL+SBELvVg6GIAAWZIjR69wrggNWkzsSV/kR
+	yMNW9iTVjwFnqUWbFR1NfkP88wIBp7JkRSuyGqXiaUFpYPrwm0bPQ=
+X-Google-Smtp-Source: AGHT+IHeFKCFBIftTBDhXltZndlu6Skx+HndpOD5oMjI19FqtPH/K+t0h4cU0jXf4esC6QY/kQsoBA==
+X-Received: by 2002:a05:620a:2996:b0:813:31ad:bf34 with SMTP id af79cd13be357-83bab4702f7mr240384885a.51.1758249465281;
+        Thu, 18 Sep 2025 19:37:45 -0700 (PDT)
 Received: from gmail.com (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8363198ad41sm262749585a.46.2025.09.18.19.34.12
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8363198b184sm263389885a.51.2025.09.18.19.37.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Sep 2025 19:34:13 -0700 (PDT)
-Date: Thu, 18 Sep 2025 22:34:11 -0400
+        Thu, 18 Sep 2025 19:37:44 -0700 (PDT)
+Date: Thu, 18 Sep 2025 22:37:43 -0400
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: "Deepak Rathore -X (deeratho - E INFOCHIPS PRIVATE LIMITED at Cisco)" <deeratho@cisco.com>
-Cc: meta-virtualization@lists.yoctoproject.org, vchavda@cisco.com
-Subject: Re: [meta-virtualization] [scarthgap] [PATCH] docker-moby: Fix
- CVE-2025-54410
-Message-ID: <aMzBI9uYfIZ2W8qI@gmail.com>
-References: <20250908070909.77349-1-deeratho@cisco.com>
+To: Hitendra Prajapati <hprajapati@mvista.com>
+Cc: meta-virtualization@lists.yoctoproject.org
+Subject: Re: [meta-virtualization][scarthgap][PATCH] docker-moby: fix
+ CVE-2024-41110
+Message-ID: <aMzB92SypOpZS4BI@gmail.com>
+References: <20250910141357.267108-1-hprajapati@mvista.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250908070909.77349-1-deeratho@cisco.com>
+In-Reply-To: <20250910141357.267108-1-hprajapati@mvista.com>
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Fri, 19 Sep 2025 02:34:23 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9403
+ <meta-virtualization@lists.yoctoproject.org>; Fri, 19 Sep 2025 02:37:53 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9404
 
-In message: [meta-virtualization] [scarthgap] [PATCH] docker-moby: Fix CVE-2025-54410
-on 08/09/2025 Deepak Rathore -X (deeratho - E INFOCHIPS PRIVATE LIMITED at Cisco) wrote:
+In message: [meta-virtualization][scarthgap][PATCH] docker-moby: fix CVE-2024-41110
+on 10/09/2025 Hitendra Prajapati wrote:
 
-> From: Deepak Rathore <deeratho@cisco.com>
-> 
-> Upstream Repository: https://github.com/moby/moby.git
-> 
-> Bug Details: https://nvd.nist.gov/vuln/detail/CVE-2025-54410
-> Type: Security Fix
-> CVE: CVE-2025-54410
-> Score: 3.3
-> Patch:
-> [1] https://github.com/moby/moby/commit/a012739c2cf3
-> [2] https://github.com/moby/moby/commit/c761353e7c75
-> [3] https://github.com/moby/moby/commit/41f080df250a
-> [4] https://github.com/moby/moby/commit/651b2feb2731
-> 
-> Note:
-> - The main fix is implemented in [4], which is part of version 25.0.
-> - Commits [1], [2], and [3] are dependent patches also included in v25.0.
-> - The FirewalldReload() function, essential for the fix in [4], was
-> introduced in [3].
-> - Commit [1] adds the iptables.go file, enabling the implementation of
-> FirewalldReload() in [3].
-> - The TestInternalNwConnectivity() test was first introduced in [2] and
-> later updated in [3] to validate the firewall reload behavior.
+> Upstream-Status: Backport from https://github.com/moby/moby/commit/fc274cd2ff4cf3b48c91697fb327dd1fb95588fb && https://github.com/moby/moby/commit/a79fabbfe84117696a19671f4aa88b82d0f64fc1
 
-This isn't answering the right question. scarthgap is on the
-25.x series.
+It is much more useful to indicate which release those
+commits are from.
 
-Are these fixes not integrated into that stable release ?
+I can't find a branch that contains them, so I'm not
+inclined to take them. A quick check on the link shows
+a message that agrees with my local git checks:
 
-A very quick check shows they are:
+"This commit does not belong to any branch on this repository, and may belong to a fork outside of the repository."
 
-% git tag --contains a012739c2cf3
-v25.0.13
-
-So we should not be doing these as patches, we should be
-bumping the version of docker-moby.
+A backport implies it is part of a release .. this doesn't appear to be the case here.
 
 Bruce
 
 > 
-> Signed-off-by: Deepak Rathore <deeratho@cisco.com>
+> Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 > ---
->  recipes-containers/docker/docker-moby_git.bb  |   4 +
->  .../files/CVE-2025-54410-dependent_p1.patch   |  38 ++
->  .../files/CVE-2025-54410-dependent_p2.patch   | 143 ++++++
->  .../files/CVE-2025-54410-dependent_p3.patch   | 451 ++++++++++++++++++
->  .../docker/files/CVE-2025-54410.patch         |  50 ++
->  5 files changed, 686 insertions(+)
->  create mode 100644 recipes-containers/docker/files/CVE-2025-54410-dependent_p1.patch
->  create mode 100644 recipes-containers/docker/files/CVE-2025-54410-dependent_p2.patch
->  create mode 100644 recipes-containers/docker/files/CVE-2025-54410-dependent_p3.patch
->  create mode 100644 recipes-containers/docker/files/CVE-2025-54410.patch
+>  recipes-containers/docker/docker-moby_git.bb  |   2 +
+>  .../docker/files/CVE-2024-41110-001.patch     | 173 ++++++++++++++++++
+>  .../docker/files/CVE-2024-41110-002.patch     |  95 ++++++++++
+>  3 files changed, 270 insertions(+)
+>  create mode 100644 recipes-containers/docker/files/CVE-2024-41110-001.patch
+>  create mode 100644 recipes-containers/docker/files/CVE-2024-41110-002.patch
 > 
 > diff --git a/recipes-containers/docker/docker-moby_git.bb b/recipes-containers/docker/docker-moby_git.bb
-> index d274b002..e4791319 100644
+> index d274b002..565925e2 100644
 > --- a/recipes-containers/docker/docker-moby_git.bb
 > +++ b/recipes-containers/docker/docker-moby_git.bb
-> @@ -58,6 +58,10 @@ SRC_URI = "\
+> @@ -58,6 +58,8 @@ SRC_URI = "\
 >          file://0001-dynbinary-use-go-cross-compiler.patch;patchdir=src/import \
 >          file://CVE-2024-36620.patch;patchdir=src/import \
 >          file://CVE-2024-36621.patch;patchdir=src/import \
-> +        file://CVE-2025-54410-dependent_p1.patch;patchdir=src/import \
-> +        file://CVE-2025-54410-dependent_p2.patch;patchdir=src/import \
-> +        file://CVE-2025-54410-dependent_p3.patch;patchdir=src/import \
-> +        file://CVE-2025-54410.patch;patchdir=src/import \
+> +        file://CVE-2024-41110-001.patch;patchdir=src/import \
+> +        file://CVE-2024-41110-002.patch;patchdir=src/import \
 >  	"
 >  
 >  DOCKER_COMMIT = "${SRCREV_moby}"
-> diff --git a/recipes-containers/docker/files/CVE-2025-54410-dependent_p1.patch b/recipes-containers/docker/files/CVE-2025-54410-dependent_p1.patch
+> diff --git a/recipes-containers/docker/files/CVE-2024-41110-001.patch b/recipes-containers/docker/files/CVE-2024-41110-001.patch
 > new file mode 100644
-> index 00000000..f1a7db3d
+> index 00000000..ed7c4628
 > --- /dev/null
-> +++ b/recipes-containers/docker/files/CVE-2025-54410-dependent_p1.patch
-> @@ -0,0 +1,38 @@
-> +From 4ff88c2b9d85e162676fd54b773a4a3957b5c622 Mon Sep 17 00:00:00 2001
-> +From: Rob Murray <rob.murray@docker.com>
-> +Date: Wed, 26 Mar 2025 14:32:15 +0000
-> +Subject: [PATCH 1/4] Add test util "FirewalldRunning"
+> +++ b/recipes-containers/docker/files/CVE-2024-41110-001.patch
+> @@ -0,0 +1,173 @@
+> +From fc274cd2ff4cf3b48c91697fb327dd1fb95588fb Mon Sep 17 00:00:00 2001
+> +From: Jameson Hyde <jameson.hyde@docker.com>
+> +Date: Mon, 26 Nov 2018 14:15:22 -0500
+> +Subject: [PATCH] Authz plugin security fixes for 0-length content and path
+> + validation Signed-off-by: Jameson Hyde <jameson.hyde@docker.com>
 > +
-> +CVE: CVE-2025-54410
-> +Upstream-Status: Backport [https://github.com/moby/moby/commit/a012739c2cf3]
+> +fix comments
 > +
-> +Signed-off-by: Rob Murray <rob.murray@docker.com>
-> +(cherry picked from commit b8cacdf324c8309fb0555381889aa867391ba9fb)
-> +Signed-off-by: Andrey Epifanov <aepifanov@mirantis.com>
-> +(cherry picked from commit a012739c2cf347847d83ea77e30333528602c8a6)
-> +Signed-off-by: Deepak Rathore <deeratho@cisco.com>
+> +(cherry picked from commit 9659c3a52bac57e615b5fb49b0652baca448643e)
+> +Signed-off-by: Sebastiaan van Stijn <github@gone.nl>
+> +Signed-off-by: Eli Uriegas <eli.uriegas@docker.com>
+> +
+> +CVE: CVE-2024-41110
+> +Upstream-Status: Backport [https://github.com/moby/moby/commit/fc274cd2ff4cf3b48c91697fb327dd1fb95588fb]
+> +Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 > +---
-> + internal/testutils/networking/iptables.go | 12 ++++++++++++
-> + 1 file changed, 12 insertions(+)
-> + create mode 100644 internal/testutils/networking/iptables.go
+> + pkg/authorization/authz.go           | 38 ++++++++++++++++++---
+> + pkg/authorization/authz_unix_test.go | 49 ++++++++++++++++++++++++++--
+> + 2 files changed, 80 insertions(+), 7 deletions(-)
 > +
-> +diff --git a/internal/testutils/networking/iptables.go b/internal/testutils/networking/iptables.go
-> +new file mode 100644
-> +index 0000000000..2e6ada8363
-> +--- /dev/null
-> ++++ b/internal/testutils/networking/iptables.go
-> +@@ -0,0 +1,12 @@
-> ++package networking
-> ++
-> ++import (
-> ++	"os/exec"
-> ++	"strings"
-> ++	"testing"
-> ++)
-> ++
-> ++func FirewalldRunning() bool {
-> ++	state, err := exec.Command("firewall-cmd", "--state").CombinedOutput()
-> ++	return err == nil && strings.TrimSpace(string(state)) == "running"
-> ++}
-> +--
-> +2.44.3
-> diff --git a/recipes-containers/docker/files/CVE-2025-54410-dependent_p2.patch b/recipes-containers/docker/files/CVE-2025-54410-dependent_p2.patch
-> new file mode 100644
-> index 00000000..e376338f
-> --- /dev/null
-> +++ b/recipes-containers/docker/files/CVE-2025-54410-dependent_p2.patch
-> @@ -0,0 +1,143 @@
-> +From 11125e7362281772f6d8cebaee3d8a1c07456e31 Mon Sep 17 00:00:00 2001
-> +From: Rob Murray <rob.murray@docker.com>
-> +Date: Wed, 7 Feb 2024 18:53:27 +0000
-> +Subject: [PATCH 2/4] Make 'internal' bridge networks accessible from host
-> +
-> +Prior to release 25.0.0, the bridge in an internal network was assigned
-> +an IP address - making the internal network accessible from the host,
-> +giving containers on the network access to anything listening on the
-> +bridge's address (or INADDR_ANY on the host).
-> +
-> +This change restores that behaviour. It does not restore the default
-> +route that was configured in the container, because packets sent outside
-> +the internal network's subnet have always been dropped. So, a 'connect()'
-> +to an address outside the subnet will still fail fast.
-> +
-> +CVE: CVE-2025-54410
-> +Upstream-Status: Backport [https://github.com/moby/moby/commit/c761353e7c75]
-> +
-> +Signed-off-by: Rob Murray <rob.murray@docker.com>
-> +(cherry picked from commit 419f5a637230570ec44c32f889f981f67ce15793)
-> +Signed-off-by: Albin Kerouanton <albinker@gmail.com>
-> +(cherry picked from commit c761353e7c75e4ffa90b80f3b5df40473d59620a)
-> +Signed-off-by: Deepak Rathore <deeratho@cisco.com>
-> +---
-> + integration/networking/bridge_test.go         | 57 +++++++++++++++++++
-> + libnetwork/drivers/bridge/setup_ipv4_linux.go | 10 ++--
-> + .../drivers/bridge/setup_verify_linux.go      |  4 +-
-> + 3 files changed, 63 insertions(+), 8 deletions(-)
-> +
-> +diff --git a/integration/networking/bridge_test.go b/integration/networking/bridge_test.go
-> +index e3d1fe2a36..8f54234406 100644
-> +--- a/integration/networking/bridge_test.go
-> ++++ b/integration/networking/bridge_test.go
-> +@@ -477,3 +477,60 @@ func TestDefaultBridgeAddresses(t *testing.T) {
-> +		})
-> +	}
-> + }
-> ++
-> ++// Test that a container on an 'internal' network has IP connectivity with
-> ++// the host (on its own subnet, because the n/w bridge has an address on that
-> ++// subnet, and it's in the host's namespace).
-> ++// Regression test for https://github.com/moby/moby/issues/47329
-> ++func TestInternalNwConnectivity(t *testing.T) {
-> ++	skip.If(t, testEnv.DaemonInfo.OSType == "windows")
-> ++
-> ++	ctx := setupTest(t)
-> ++
-> ++	d := daemon.New(t)
-> ++	d.StartWithBusybox(ctx, t, "-D", "--experimental", "--ip6tables")
-> ++	defer d.Stop(t)
-> ++
-> ++	c := d.NewClientT(t)
-> ++	defer c.Close()
-> ++
-> ++	const bridgeName = "intnw"
-> ++	const gw4 = "172.30.0.1"
-> ++	const gw6 = "fda9:4130:4715::1234"
-> ++	network.CreateNoError(ctx, t, c, bridgeName,
-> ++		network.WithInternal(),
-> ++		network.WithIPv6(),
-> ++		network.WithIPAM("172.30.0.0/24", gw4),
-> ++		network.WithIPAM("fda9:4130:4715::/64", gw6),
-> ++		network.WithDriver("bridge"),
-> ++		network.WithOption("com.docker.network.bridge.name", bridgeName),
-> ++	)
-> ++	defer network.RemoveNoError(ctx, t, c, bridgeName)
-> ++
-> ++	const ctrName = "intctr"
-> ++	id := container.Run(ctx, t, c,
-> ++		container.WithName(ctrName),
-> ++		container.WithImage("busybox:latest"),
-> ++		container.WithCmd("top"),
-> ++		container.WithNetworkMode(bridgeName),
-> ++	)
-> ++	defer c.ContainerRemove(ctx, id, containertypes.RemoveOptions{Force: true})
-> ++
-> ++	execCtx, cancel := context.WithTimeout(ctx, 20*time.Second)
-> ++	defer cancel()
-> ++
-> ++	res := container.ExecT(execCtx, t, c, id, []string{"ping", "-c1", "-W3", gw4})
-> ++	assert.Check(t, is.Equal(res.ExitCode, 0))
-> ++	assert.Check(t, is.Equal(res.Stderr(), ""))
-> ++	assert.Check(t, is.Contains(res.Stdout(), "1 packets transmitted, 1 packets received"))
-> ++
-> ++	res = container.ExecT(execCtx, t, c, id, []string{"ping6", "-c1", "-W3", gw6})
-> ++	assert.Check(t, is.Equal(res.ExitCode, 0))
-> ++	assert.Check(t, is.Equal(res.Stderr(), ""))
-> ++	assert.Check(t, is.Contains(res.Stdout(), "1 packets transmitted, 1 packets received"))
-> ++
-> ++	// Addresses outside the internal subnet must not be accessible.
-> ++	res = container.ExecT(execCtx, t, c, id, []string{"ping", "-c1", "-W3", "8.8.8.8"})
-> ++	assert.Check(t, is.Equal(res.ExitCode, 1))
-> ++	assert.Check(t, is.Contains(res.Stderr(), "Network is unreachable"))
-> ++}
-> +diff --git a/libnetwork/drivers/bridge/setup_ipv4_linux.go b/libnetwork/drivers/bridge/setup_ipv4_linux.go
-> +index 0940745c23..6b925190ce 100644
-> +--- a/libnetwork/drivers/bridge/setup_ipv4_linux.go
-> ++++ b/libnetwork/drivers/bridge/setup_ipv4_linux.go
-> +@@ -32,10 +32,6 @@ func setupBridgeIPv4(config *networkConfiguration, i *bridgeInterface) error {
-> +	//             are decoupled, we should assign it only when it's really needed.
-> +	i.bridgeIPv4 = config.AddressIPv4
-> +
-> +-	if config.Internal {
-> +-		return nil
-> +-	}
-> +-
-> +	if !config.InhibitIPv4 {
-> +		addrv4List, err := i.addresses(netlink.FAMILY_V4)
-> +		if err != nil {
-> +@@ -57,8 +53,10 @@ func setupBridgeIPv4(config *networkConfiguration, i *bridgeInterface) error {
-> +		}
-> +	}
-> +
-> +-	// Store the default gateway
-> +-	i.gatewayIPv4 = config.AddressIPv4.IP
-> ++	if !config.Internal {
-> ++		// Store the default gateway
-> ++		i.gatewayIPv4 = config.AddressIPv4.IP
-> ++	}
-> +
-> +	return nil
-> + }
-> +diff --git a/libnetwork/drivers/bridge/setup_verify_linux.go b/libnetwork/drivers/bridge/setup_verify_linux.go
-> +index a39d750346..b7ddbcf814 100644
-> +--- a/libnetwork/drivers/bridge/setup_verify_linux.go
-> ++++ b/libnetwork/drivers/bridge/setup_verify_linux.go
-> +@@ -20,12 +20,12 @@ func setupVerifyAndReconcileIPv4(config *networkConfiguration, i *bridgeInterfac
-> +	addrv4, _ := selectIPv4Address(addrsv4, config.AddressIPv4)
-> +
-> +	// Verify that the bridge has an IPv4 address.
-> +-	if !config.Internal && addrv4.IPNet == nil {
-> ++	if addrv4.IPNet == nil {
-> +		return &ErrNoIPAddr{}
-> +	}
-> +
-> +	// Verify that the bridge IPv4 address matches the requested configuration.
-> +-	if config.AddressIPv4 != nil && addrv4.IPNet != nil && !addrv4.IP.Equal(config.AddressIPv4.IP) {
-> ++	if config.AddressIPv4 != nil && !addrv4.IP.Equal(config.AddressIPv4.IP) {
-> +		return &IPv4AddrNoMatchError{IP: addrv4.IP, CfgIP: config.AddressIPv4.IP}
-> +	}
-> +
-> +--
-> +2.44.3
-> diff --git a/recipes-containers/docker/files/CVE-2025-54410-dependent_p3.patch b/recipes-containers/docker/files/CVE-2025-54410-dependent_p3.patch
-> new file mode 100644
-> index 00000000..16d4768f
-> --- /dev/null
-> +++ b/recipes-containers/docker/files/CVE-2025-54410-dependent_p3.patch
-> @@ -0,0 +1,451 @@
-> +From 211e9acdef48b1229591724ba83fe4b6ad86c7b6 Mon Sep 17 00:00:00 2001
-> +From: Rob Murray <rob.murray@docker.com>
-> +Date: Fri, 14 Feb 2025 16:23:49 +0000
-> +Subject: [PATCH 3/4] Restore iptables for current networks on firewalld reload
-> +
-> +Using iptables.OnReloaded to restore individual per-network rules
-> +on firewalld reload means rules for deleted networks pop back in
-> +to existence (because there was no way to delete the callbacks on
-> +network-delete).
-> +
-> +So, on firewalld reload, walk over current networks and ask them
-> +to restore their iptables rules.
-> +
-> +CVE: CVE-2025-54410
-> +Upstream-Status: Backport [https://github.com/moby/moby/commit/41f080df250a]
-> +
-> +Signed-off-by: Rob Murray <rob.murray@docker.com>
-> +(cherry picked from commit a527e5a546526117a0f3d7a33f3fcb8f4cd87c72)
-> +
-> +Test that firewalld reload doesn't re-create deleted iptables rules
-> +
-> +Signed-off-by: Rob Murray <rob.murray@docker.com>
-> +(cherry picked from commit c3fa7c17794feaf4e27238aa3c6de42c606765fa)
-> +
-> +Signed-off-by: Andrey Epifanov <aepifanov@mirantis.com>
-> +(cherry picked from commit 41f080df250aef805d34628d1719c369e9ff1585)
-> +Signed-off-by: Deepak Rathore <deeratho@cisco.com>
-> +---
-> + integration/network/bridge_test.go            | 65 +++++++++++++++++++
-> + integration/networking/bridge_test.go         |  4 ++
-> + internal/testutils/networking/iptables.go     | 48 ++++++++++++++
-> + .../testutils/networking/iptables_test.go     | 47 ++++++++++++++
-> + libnetwork/drivers/bridge/bridge_linux.go     | 65 +++++++++++++++++--
-> + libnetwork/drivers/bridge/setup_firewalld.go  | 41 ------------
-> + .../drivers/bridge/setup_ip_tables_linux.go   |  3 +
-> + libnetwork/iptables/firewalld.go              |  1 +
-> + 8 files changed, 227 insertions(+), 47 deletions(-)
-> + create mode 100644 internal/testutils/networking/iptables_test.go
-> + delete mode 100644 libnetwork/drivers/bridge/setup_firewalld.go
-> +
-> +diff --git a/integration/network/bridge_test.go b/integration/network/bridge_test.go
-> +index b09ff5766c..09b7da9c2b 100644
-> +--- a/integration/network/bridge_test.go
-> ++++ b/integration/network/bridge_test.go
-> +@@ -6,11 +6,17 @@ import (
-> +	"testing"
-> +	"time"
-> +
-> ++	containertypes "github.com/docker/docker/api/types/container"
-> +	networktypes "github.com/docker/docker/api/types/network"
-> +	"github.com/docker/docker/api/types/versions"
-> +	ctr "github.com/docker/docker/integration/internal/container"
-> +	"github.com/docker/docker/integration/internal/network"
-> ++	"github.com/docker/docker/internal/testutils/networking"
-> ++	"github.com/docker/docker/libnetwork/drivers/bridge"
-> ++	"github.com/docker/docker/testutil/daemon"
-> ++	"github.com/docker/go-connections/nat"
-> +	"gotest.tools/v3/assert"
-> ++	"gotest.tools/v3/icmd"
-> +	"gotest.tools/v3/skip"
-> + )
-> +
-> +@@ -43,3 +49,62 @@ func TestCreateWithMultiNetworks(t *testing.T) {
-> +	ifacesWithAddress := strings.Count(res.Stdout.String(), "\n")
-> +	assert.Equal(t, ifacesWithAddress, 3)
-> + }
-> ++
-> ++// TestFirewalldReloadNoZombies checks that when firewalld is reloaded, rules
-> ++// belonging to deleted networks/containers do not reappear.
-> ++func TestFirewalldReloadNoZombies(t *testing.T) {
-> ++	skip.If(t, testEnv.DaemonInfo.OSType == "windows")
-> ++	skip.If(t, !networking.FirewalldRunning(), "firewalld is not running")
-> ++	skip.If(t, testEnv.IsRootless, "no firewalld in rootless netns")
-> ++
-> ++	ctx := setupTest(t)
-> ++	d := daemon.New(t)
-> ++	d.StartWithBusybox(ctx, t)
-> ++	defer d.Stop(t)
-> ++	c := d.NewClientT(t)
-> ++
-> ++	const bridgeName = "br-fwdreload"
-> ++	removed := false
-> ++	nw := network.CreateNoError(ctx, t, c, "testnet",
-> ++		network.WithOption(bridge.BridgeName, bridgeName))
-> ++	defer func() {
-> ++		if !removed {
-> ++			network.RemoveNoError(ctx, t, c, nw)
-> ++		}
-> ++	}()
-> ++
-> ++	cid := ctr.Run(ctx, t, c,
-> ++		ctr.WithExposedPorts("80/tcp", "81/tcp"),
-> ++		ctr.WithPortMap(nat.PortMap{"80/tcp": {{HostPort: "8000"}}}))
-> ++	defer func() {
-> ++		if !removed {
-> ++			ctr.Remove(ctx, t, c, cid, containertypes.RemoveOptions{Force: true})
-> ++		}
-> ++	}()
-> ++
-> ++	iptablesSave := icmd.Command("iptables-save")
-> ++	resBeforeDel := icmd.RunCmd(iptablesSave)
-> ++	assert.NilError(t, resBeforeDel.Error)
-> ++	assert.Check(t, strings.Contains(resBeforeDel.Combined(), bridgeName),
-> ++		"With container: expected rules for %s in: %s", bridgeName, resBeforeDel.Combined())
-> ++
-> ++	// Delete the container and its network.
-> ++	ctr.Remove(ctx, t, c, cid, containertypes.RemoveOptions{Force: true})
-> ++	network.RemoveNoError(ctx, t, c, nw)
-> ++	removed = true
-> ++
-> ++	// Check the network does not appear in iptables rules.
-> ++	resAfterDel := icmd.RunCmd(iptablesSave)
-> ++	assert.NilError(t, resAfterDel.Error)
-> ++	assert.Check(t, !strings.Contains(resAfterDel.Combined(), bridgeName),
-> ++		"After deletes: did not expect rules for %s in: %s", bridgeName, resAfterDel.Combined())
-> ++
-> ++	// firewall-cmd --reload, and wait for the daemon to restore rules.
-> ++	networking.FirewalldReload(t, d)
-> ++
-> ++	// Check that rules for the deleted container/network have not reappeared.
-> ++	resAfterReload := icmd.RunCmd(iptablesSave)
-> ++	assert.NilError(t, resAfterReload.Error)
-> ++	assert.Check(t, !strings.Contains(resAfterReload.Combined(), bridgeName),
-> ++		"After deletes: did not expect rules for %s in: %s", bridgeName, resAfterReload.Combined())
-> ++}
-> +diff --git a/integration/networking/bridge_test.go b/integration/networking/bridge_test.go
-> +index 8f54234406..8cdcf02096 100644
-> +--- a/integration/networking/bridge_test.go
-> ++++ b/integration/networking/bridge_test.go
-> +@@ -10,6 +10,7 @@ import (
-> +	containertypes "github.com/docker/docker/api/types/container"
-> +	"github.com/docker/docker/integration/internal/container"
-> +	"github.com/docker/docker/integration/internal/network"
-> ++	"github.com/docker/docker/internal/testutils/networking"
-> +	"github.com/docker/docker/testutil"
-> +	"github.com/docker/docker/testutil/daemon"
-> +	"gotest.tools/v3/assert"
-> +@@ -160,6 +161,8 @@ func TestBridgeICC(t *testing.T) {
-> +				Force: true,
-> +			})
-> +
-> ++			networking.FirewalldReload(t, d)
-> ++
-> +			pingHost := tc.pingHost
-> +			if pingHost == "" {
-> +				if tc.linkLocal {
-> +@@ -515,6 +518,7 @@ func TestInternalNwConnectivity(t *testing.T) {
-> +		container.WithNetworkMode(bridgeName),
-> +	)
-> +	defer c.ContainerRemove(ctx, id, containertypes.RemoveOptions{Force: true})
-> ++	networking.FirewalldReload(t, d)
-> +
-> +	execCtx, cancel := context.WithTimeout(ctx, 20*time.Second)
-> +	defer cancel()
-> +diff --git a/internal/testutils/networking/iptables.go b/internal/testutils/networking/iptables.go
-> +index 2e6ada8363..2041e507c3 100644
-> +--- a/internal/testutils/networking/iptables.go
-> ++++ b/internal/testutils/networking/iptables.go
-> +@@ -1,12 +1,60 @@
-> + package networking
-> +
-> + import (
-> ++	"fmt"
-> +	"os/exec"
+> +diff --git a/pkg/authorization/authz.go b/pkg/authorization/authz.go
+> +index 1eb44315dd..6450f504af 100644
+> +--- a/pkg/authorization/authz.go
+> ++++ b/pkg/authorization/authz.go
+> +@@ -8,6 +8,8 @@ import (
+> + 	"io"
+> + 	"mime"
+> + 	"net/http"
+> ++	"net/url"
 > ++	"regexp"
-> +	"strings"
-> +	"testing"
-> ++	"time"
-> ++
-> ++	"github.com/docker/docker/testutil/daemon"
-> ++	"golang.org/x/net/context"
-> ++	"gotest.tools/v3/assert"
-> ++	"gotest.tools/v3/icmd"
-> ++	"gotest.tools/v3/poll"
-> + )
-> +
-> + func FirewalldRunning() bool {
-> +	state, err := exec.Command("firewall-cmd", "--state").CombinedOutput()
-> +	return err == nil && strings.TrimSpace(string(state)) == "running"
+> + 	"strings"
+> + 
+> + 	"github.com/containerd/log"
+> +@@ -53,10 +55,23 @@ type Ctx struct {
+> + 	authReq *Request
 > + }
-> ++
-> ++func extractLogTime(s string) (time.Time, error) {
-> ++	// time="2025-07-15T13:46:13.414214418Z" level=info msg=""
-> ++	re := regexp.MustCompile(`time="([^"]+)"`)
-> ++	matches := re.FindStringSubmatch(s)
-> ++	if len(matches) < 2 {
-> ++		return time.Time{}, fmt.Errorf("timestamp not found in log line: %s, matches: %+v", s, matches)
+> + 
+> ++func isChunked(r *http.Request) bool {
+> ++	//RFC 7230 specifies that content length is to be ignored if Transfer-Encoding is chunked
+> ++	if strings.ToLower(r.Header.Get("Transfer-Encoding")) == "chunked" {
+> ++		return true
 > ++	}
-> ++
-> ++	return time.Parse(time.RFC3339Nano, matches[1])
-> ++}
-> ++
-> ++// FirewalldReload reloads firewalld and waits for the daemon to re-create its rules.
-> ++// It's a no-op if firewalld is not running, and the test fails if the reload does
-> ++// not complete.
-> ++func FirewalldReload(t *testing.T, d *daemon.Daemon) {
-> ++	t.Helper()
-> ++	if !FirewalldRunning() {
-> ++		return
-> ++	}
-> ++	timeBeforeReload := time.Now()
-> ++	res := icmd.RunCommand("firewall-cmd", "--reload")
-> ++	assert.NilError(t, res.Error)
-> ++
-> ++	ctx := context.Background()
-> ++	poll.WaitOn(t, d.PollCheckLogs(ctx, func(s string) bool {
-> ++		if !strings.Contains(s, "Firewalld reload completed") {
-> ++			return false
-> ++		}
-> ++		lastReload, err := extractLogTime(s)
-> ++		if err != nil {
-> ++			return false
-> ++		}
-> ++		if lastReload.After(timeBeforeReload) {
+> ++	for _, v := range r.TransferEncoding {
+> ++		if 0 == strings.Compare(strings.ToLower(v), "chunked") {
 > ++			return true
 > ++		}
-> ++		return false
-> ++	}))
-> ++}
-> +diff --git a/internal/testutils/networking/iptables_test.go b/internal/testutils/networking/iptables_test.go
-> +new file mode 100644
-> +index 0000000000..24a7bbb49d
-> +--- /dev/null
-> ++++ b/internal/testutils/networking/iptables_test.go
-> +@@ -0,0 +1,47 @@
-> ++package networking
-> ++
-> ++import (
-> ++	"reflect"
-> ++	"testing"
-> ++	"time"
-> ++)
-> ++
-> ++func Test_getTimeFromLogMsg(t *testing.T) {
-> ++	tests := []struct {
-> ++		name    string
-> ++		s       string
-> ++		want    time.Time
-> ++		wantErr bool
-> ++	}{
-> ++		{
-> ++			name:    "valid time",
-> ++			s:       `time="2025-07-15T13:46:13.414214418Z" level=info msg=""`,
-> ++			want:    time.Date(2025, 7, 15, 13, 46, 13, 414214418, time.UTC),
-> ++			wantErr: false,
-> ++		},
-> ++		{
-> ++			name:    "invalid format",
-> ++			s:       `time="invalid-time-format" level=info msg=""`,
-> ++			want:    time.Time{},
-> ++			wantErr: true,
-> ++		},
-> ++		{
-> ++			name:    "missing time",
-> ++			s:       `level=info msg=""`,
-> ++			want:    time.Time{},
-> ++			wantErr: true,
-> ++		},
 > ++	}
-> ++	for _, tt := range tests {
-> ++		t.Run(tt.name, func(t *testing.T) {
-> ++			got, err := extractLogTime(tt.s)
-> ++			if (err != nil) != tt.wantErr {
-> ++				t.Errorf("getTimeFromLogMsg() error = %v, wantErr %v", err, tt.wantErr)
-> ++				return
-> ++			}
-> ++			if !reflect.DeepEqual(got, tt.want) {
-> ++				t.Errorf("getTimeFromLogMsg() got = %v, want %v", got, tt.want)
-> ++			}
-> ++		})
-> ++	}
+> ++	return false
 > ++}
-> +diff --git a/libnetwork/drivers/bridge/bridge_linux.go b/libnetwork/drivers/bridge/bridge_linux.go
-> +index 005c726f2d..2b313c85bf 100644
-> +--- a/libnetwork/drivers/bridge/bridge_linux.go
-> ++++ b/libnetwork/drivers/bridge/bridge_linux.go
-> +@@ -483,6 +483,8 @@ func (d *driver) configure(option map[string]interface{}) error {
-> +	d.config = config
-> +	d.Unlock()
-> +
-> ++	iptables.OnReloaded(d.handleFirewalldReload)
 > ++
-> +	return d.initStore(option)
-> + }
-> +
-> +@@ -800,12 +802,6 @@ func (d *driver) createNetwork(config *networkConfiguration) (err error) {
-> +		// Setup IP6Tables.
-> +		{config.EnableIPv6 && d.config.EnableIP6Tables, network.setupIP6Tables},
-> +
-> +-		// We want to track firewalld configuration so that
-> +-		// if it is started/reloaded, the rules can be applied correctly
-> +-		{d.config.EnableIPTables, network.setupFirewalld},
-> +-		// same for IPv6
-> +-		{config.EnableIPv6 && d.config.EnableIP6Tables, network.setupFirewalld6},
+> + // AuthZRequest authorized the request to the docker daemon using authZ plugins
+> + func (ctx *Ctx) AuthZRequest(w http.ResponseWriter, r *http.Request) error {
+> + 	var body []byte
+> +-	if sendBody(ctx.requestURI, r.Header) && r.ContentLength > 0 && r.ContentLength < maxBodySize {
+> ++	if sendBody(ctx.requestURI, r.Header) && (r.ContentLength > 0 || isChunked(r)) && r.ContentLength < maxBodySize {
+> + 		var err error
+> + 		body, r.Body, err = drainBody(r.Body)
+> + 		if err != nil {
+> +@@ -109,7 +124,6 @@ func (ctx *Ctx) AuthZResponse(rm ResponseModifier, r *http.Request) error {
+> + 	if sendBody(ctx.requestURI, rm.Header()) {
+> + 		ctx.authReq.ResponseBody = rm.RawBody()
+> + 	}
 > +-
-> +		// Setup DefaultGatewayIPv4
-> +		{config.DefaultGatewayIPv4 != nil, setupGatewayIPv4},
-> +
-> +@@ -1297,6 +1293,11 @@ func (d *driver) Leave(nid, eid string) error {
+> + 	for _, plugin := range ctx.plugins {
+> + 		log.G(context.TODO()).Debugf("AuthZ response using plugin %s", plugin.Name())
+> + 
+> +@@ -147,10 +161,26 @@ func drainBody(body io.ReadCloser) ([]byte, io.ReadCloser, error) {
+> + 	return nil, newBody, err
 > + }
-> +
-> + func (d *driver) ProgramExternalConnectivity(nid, eid string, options map[string]interface{}) error {
-> ++	// Make sure the network isn't deleted, or the in middle of a firewalld reload, while
-> ++	// updating its iptables rules.
-> ++	d.configNetwork.Lock()
-> ++	defer d.configNetwork.Unlock()
-> ++
-> +	network, err := d.getNetwork(nid)
-> +	if err != nil {
-> +		return err
-> +@@ -1348,6 +1349,11 @@ func (d *driver) ProgramExternalConnectivity(nid, eid string, options map[string
-> + }
-> +
-> + func (d *driver) RevokeExternalConnectivity(nid, eid string) error {
-> ++	// Make sure this function isn't deleting iptables rules while handleFirewalldReloadNw
-> ++	// is restoring those same rules.
-> ++	d.configNetwork.Lock()
-> ++	defer d.configNetwork.Unlock()
-> ++
-> +	network, err := d.getNetwork(nid)
-> +	if err != nil {
-> +		return err
-> +@@ -1381,6 +1387,53 @@ func (d *driver) RevokeExternalConnectivity(nid, eid string) error {
-> +	return nil
-> + }
-> +
-> ++func (d *driver) handleFirewalldReload() {
-> ++	if !d.config.EnableIPTables && !d.config.EnableIP6Tables {
-> ++		return
-> ++	}
-> ++
-> ++	d.Lock()
-> ++	nids := make([]string, 0, len(d.networks))
-> ++	for _, nw := range d.networks {
-> ++		nids = append(nids, nw.id)
-> ++	}
-> ++	d.Unlock()
-> ++
-> ++	for _, nid := range nids {
-> ++		d.handleFirewalldReloadNw(nid)
-> ++	}
-> ++}
-> ++
-> ++func (d *driver) handleFirewalldReloadNw(nid string) {
-> ++	// Make sure the network isn't being deleted, and ProgramExternalConnectivity/RevokeExternalConnectivity
-> ++	// aren't modifying iptables rules, while restoring the rules.
-> ++	d.configNetwork.Lock()
-> ++	defer d.configNetwork.Unlock()
-> ++
-> ++	nw, err := d.getNetwork(nid)
+> + 
+> ++func isAuthEndpoint(urlPath string) (bool, error) {
+> ++	// eg www.test.com/v1.24/auth/optional?optional1=something&optional2=something (version optional)
+> ++	matched, err := regexp.MatchString(`^[^\/]+\/(v\d[\d\.]*\/)?auth.*`, urlPath)
 > ++	if err != nil {
-> ++		return
+> ++		return false, err
 > ++	}
-> ++	if d.config.EnableIPTables {
-> ++		if err := nw.setupIP4Tables(nw.config, nw.bridge); err != nil {
-> ++			log.G(context.TODO()).WithFields(log.Fields{
-> ++				"network": nw.id,
-> ++				"error":   err,
-> ++			}).Warn("Failed to restore IPv4 per-port iptables rules on firewalld reload")
-> ++		}
-> ++	}
-> ++	if d.config.EnableIP6Tables {
-> ++		if err := nw.setupIP6Tables(nw.config, nw.bridge); err != nil {
-> ++			log.G(context.TODO()).WithFields(log.Fields{
-> ++				"network": nw.id,
-> ++				"error":   err,
-> ++			}).Warn("Failed to restore IPv6 per-port iptables rules on firewalld reload")
-> ++		}
-> ++	}
-> ++	nw.portMapper.ReMapAll()
-> ++	log.G(context.TODO()).Info("Restored iptables rules on firewalld reload")
+> ++	return matched, nil
 > ++}
 > ++
-> + func (d *driver) link(network *bridgeNetwork, endpoint *bridgeEndpoint, enable bool) (retErr error) {
-> +	cc := endpoint.containerConfig
-> +	ec := endpoint.extConnConfig
-> +diff --git a/libnetwork/drivers/bridge/setup_firewalld.go b/libnetwork/drivers/bridge/setup_firewalld.go
-> +deleted file mode 100644
-> +index db7843847c..0000000000
-> +--- a/libnetwork/drivers/bridge/setup_firewalld.go
-> ++++ /dev/null
-> +@@ -1,41 +0,0 @@
-> +-//go:build linux
-> +-
-> +-package bridge
-> +-
-> +-import (
-> +-	"errors"
-> +-
-> +-	"github.com/docker/docker/libnetwork/iptables"
-> +-)
-> +-
-> +-func (n *bridgeNetwork) setupFirewalld(config *networkConfiguration, i *bridgeInterface) error {
-> +-	d := n.driver
-> +-	d.Lock()
-> +-	driverConfig := d.config
-> +-	d.Unlock()
-> +-
-> +-	// Sanity check.
-> +-	if !driverConfig.EnableIPTables {
-> +-		return errors.New("no need to register firewalld hooks, iptables is disabled")
-> +-	}
-> +-
-> +-	iptables.OnReloaded(func() { n.setupIP4Tables(config, i) })
-> +-	iptables.OnReloaded(n.portMapper.ReMapAll)
-> +-	return nil
-> +-}
-> +-
-> +-func (n *bridgeNetwork) setupFirewalld6(config *networkConfiguration, i *bridgeInterface) error {
-> +-	d := n.driver
-> +-	d.Lock()
-> +-	driverConfig := d.config
-> +-	d.Unlock()
-> +-
-> +-	// Sanity check.
-> +-	if !driverConfig.EnableIP6Tables {
-> +-		return errors.New("no need to register firewalld hooks, ip6tables is disabled")
-> +-	}
-> +-
-> +-	iptables.OnReloaded(func() { n.setupIP6Tables(config, i) })
-> +-	iptables.OnReloaded(n.portMapperV6.ReMapAll)
-> +-	return nil
-> +-}
-> +diff --git a/libnetwork/drivers/bridge/setup_ip_tables_linux.go b/libnetwork/drivers/bridge/setup_ip_tables_linux.go
-> +index 328c58bced..42039e24ee 100644
-> +--- a/libnetwork/drivers/bridge/setup_ip_tables_linux.go
-> ++++ b/libnetwork/drivers/bridge/setup_ip_tables_linux.go
-> +@@ -130,6 +130,9 @@ func (n *bridgeNetwork) setupIP6Tables(config *networkConfiguration, i *bridgeIn
-> +		return errors.New("Cannot program chains, EnableIP6Tables is disabled")
-> +	}
-> +
-> ++	if i.bridgeIPv6 == nil {
-> ++		return nil
+> + // sendBody returns true when request/response body should be sent to AuthZPlugin
+> +-func sendBody(url string, header http.Header) bool {
+> ++func sendBody(inURL string, header http.Header) bool {
+> ++	u, err := url.Parse(inURL)
+> ++	// Assume no if the URL cannot be parsed - an empty request will still be forwarded to the plugin and should be rejected
+> ++	if err != nil {
+> ++		return false
 > ++	}
-> +	maskedAddrv6 := &net.IPNet{
-> +		IP:   i.bridgeIPv6.IP.Mask(i.bridgeIPv6.Mask),
-> +		Mask: i.bridgeIPv6.Mask,
-> +diff --git a/libnetwork/iptables/firewalld.go b/libnetwork/iptables/firewalld.go
-> +index dc67240da6..d3b76426e5 100644
-> +--- a/libnetwork/iptables/firewalld.go
-> ++++ b/libnetwork/iptables/firewalld.go
-> +@@ -132,6 +132,7 @@ func reloaded() {
-> +	for _, pf := range onReloaded {
-> +		(*pf)()
-> +	}
-> ++	log.G(context.TODO()).Info("Firewalld reload completed")
+> ++
+> + 	// Skip body for auth endpoint
+> +-	if strings.HasSuffix(url, "/auth") {
+> ++	isAuth, err := isAuthEndpoint(u.Path)
+> ++	if isAuth || err != nil {
+> + 		return false
+> + 	}
+> + 
+> +diff --git a/pkg/authorization/authz_unix_test.go b/pkg/authorization/authz_unix_test.go
+> +index c9b18d96e9..275f1dd3d0 100644
+> +--- a/pkg/authorization/authz_unix_test.go
+> ++++ b/pkg/authorization/authz_unix_test.go
+> +@@ -174,8 +174,8 @@ func TestDrainBody(t *testing.T) {
+> + 
+> + func TestSendBody(t *testing.T) {
+> + 	var (
+> +-		url       = "nothing.com"
+> + 		testcases = []struct {
+> ++			url         string
+> + 			contentType string
+> + 			expected    bool
+> + 		}{
+> +@@ -219,15 +219,58 @@ func TestSendBody(t *testing.T) {
+> + 				contentType: "",
+> + 				expected:    false,
+> + 			},
+> ++			{
+> ++				url:         "nothing.com/auth",
+> ++				contentType: "",
+> ++				expected:    false,
+> ++			},
+> ++			{
+> ++				url:         "nothing.com/auth",
+> ++				contentType: "application/json;charset=UTF8",
+> ++				expected:    false,
+> ++			},
+> ++			{
+> ++				url:         "nothing.com/auth?p1=test",
+> ++				contentType: "application/json;charset=UTF8",
+> ++				expected:    false,
+> ++			},
+> ++			{
+> ++				url:         "nothing.com/test?p1=/auth",
+> ++				contentType: "application/json;charset=UTF8",
+> ++				expected:    true,
+> ++			},
+> ++			{
+> ++				url:         "nothing.com/something/auth",
+> ++				contentType: "application/json;charset=UTF8",
+> ++				expected:    true,
+> ++			},
+> ++			{
+> ++				url:         "nothing.com/auth/test",
+> ++				contentType: "application/json;charset=UTF8",
+> ++				expected:    false,
+> ++			},
+> ++			{
+> ++				url:         "nothing.com/v1.24/auth/test",
+> ++				contentType: "application/json;charset=UTF8",
+> ++				expected:    false,
+> ++			},
+> ++			{
+> ++				url:         "nothing.com/v1/auth/test",
+> ++				contentType: "application/json;charset=UTF8",
+> ++				expected:    false,
+> ++			},
+> + 		}
+> + 	)
+> + 
+> + 	for _, testcase := range testcases {
+> + 		header := http.Header{}
+> + 		header.Set("Content-Type", testcase.contentType)
+> ++		if testcase.url == "" {
+> ++			testcase.url = "nothing.com"
+> ++		}
+> + 
+> +-		if b := sendBody(url, header); b != testcase.expected {
+> +-			t.Fatalf("Unexpected Content-Type; Expected: %t, Actual: %t", testcase.expected, b)
+> ++		if b := sendBody(testcase.url, header); b != testcase.expected {
+> ++			t.Fatalf("sendBody failed: url: %s, content-type: %s; Expected: %t, Actual: %t", testcase.url, testcase.contentType, testcase.expected, b)
+> + 		}
+> + 	}
 > + }
+> +-- 
+> +2.50.1
 > +
-> + // OnReloaded add callback
-> +--
-> +2.44.3
-> diff --git a/recipes-containers/docker/files/CVE-2025-54410.patch b/recipes-containers/docker/files/CVE-2025-54410.patch
+> diff --git a/recipes-containers/docker/files/CVE-2024-41110-002.patch b/recipes-containers/docker/files/CVE-2024-41110-002.patch
 > new file mode 100644
-> index 00000000..b1aa211c
+> index 00000000..7d8b572d
 > --- /dev/null
-> +++ b/recipes-containers/docker/files/CVE-2025-54410.patch
-> @@ -0,0 +1,50 @@
-> +From a4b2c5a774213eb6594cdece17680e16961c8fcb Mon Sep 17 00:00:00 2001
-> +From: Rob Murray <rob.murray@docker.com>
-> +Date: Fri, 14 Feb 2025 16:50:43 +0000
-> +Subject: [PATCH 4/4] Restore INC iptables rules on firewalld reload
+> +++ b/recipes-containers/docker/files/CVE-2024-41110-002.patch
+> @@ -0,0 +1,95 @@
+> +From a79fabbfe84117696a19671f4aa88b82d0f64fc1 Mon Sep 17 00:00:00 2001
+> +From: Jameson Hyde <jameson.hyde@docker.com>
+> +Date: Sat, 1 Dec 2018 11:25:49 -0500
+> +Subject: [PATCH] If url includes scheme, urlPath will drop hostname, which
+> + would not match the auth check
 > +
-> +CVE: CVE-2025-54410
-> +Upstream-Status: Backport [https://github.com/moby/moby/commit/651b2feb2731]
+> +Signed-off-by: Jameson Hyde <jameson.hyde@docker.com>
+> +(cherry picked from commit 754fb8d9d03895ae3ab60d2ad778152b0d835206)
+> +Signed-off-by: Sebastiaan van Stijn <github@gone.nl>
+> +Signed-off-by: Eli Uriegas <eli.uriegas@docker.com>
 > +
-> +Signed-off-by: Rob Murray <rob.murray@docker.com>
-> +(cherry picked from commit 651b2feb27316cf907173c2a76cc6eb85f763663)
-> +Signed-off-by: Deepak Rathore <deeratho@cisco.com>
+> +CVE: CVE-2024-41110
+> +Upstream-Status: Backport [https://github.com/moby/moby/commit/a79fabbfe84117696a19671f4aa88b82d0f64fc1]
+> +Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 > +---
-> + integration/networking/bridge_test.go     | 1 +
-> + libnetwork/drivers/bridge/bridge_linux.go | 9 +++++++++
-> + 2 files changed, 10 insertions(+)
+> + pkg/authorization/authz.go           |  6 ++---
+> + pkg/authorization/authz_unix_test.go | 35 ++++++++++++++++++++++++++++
+> + 2 files changed, 38 insertions(+), 3 deletions(-)
 > +
-> +diff --git a/integration/networking/bridge_test.go b/integration/networking/bridge_test.go
-> +index 8cdcf02096..7c88cd8b43 100644
-> +--- a/integration/networking/bridge_test.go
-> ++++ b/integration/networking/bridge_test.go
-> +@@ -294,6 +294,7 @@ func TestBridgeINC(t *testing.T) {
-> +			defer c.ContainerRemove(ctx, id1, containertypes.RemoveOptions{
-> +				Force: true,
-> +			})
-> ++			networking.FirewalldReload(t, d)
+> +diff --git a/pkg/authorization/authz.go b/pkg/authorization/authz.go
+> +index 6450f504af..012aa7e487 100644
+> +--- a/pkg/authorization/authz.go
+> ++++ b/pkg/authorization/authz.go
+> +@@ -57,11 +57,11 @@ type Ctx struct {
+> + 
+> + func isChunked(r *http.Request) bool {
+> + 	//RFC 7230 specifies that content length is to be ignored if Transfer-Encoding is chunked
+> +-	if strings.ToLower(r.Header.Get("Transfer-Encoding")) == "chunked" {
+> ++	if strings.EqualFold(r.Header.Get("Transfer-Encoding"), "chunked") {
+> + 		return true
+> + 	}
+> + 	for _, v := range r.TransferEncoding {
+> +-		if 0 == strings.Compare(strings.ToLower(v), "chunked") {
+> ++		if strings.EqualFold(v, "chunked") {
+> + 			return true
+> + 		}
+> + 	}
+> +@@ -163,7 +163,7 @@ func drainBody(body io.ReadCloser) ([]byte, io.ReadCloser, error) {
+> + 
+> + func isAuthEndpoint(urlPath string) (bool, error) {
+> + 	// eg www.test.com/v1.24/auth/optional?optional1=something&optional2=something (version optional)
+> +-	matched, err := regexp.MatchString(`^[^\/]+\/(v\d[\d\.]*\/)?auth.*`, urlPath)
+> ++	matched, err := regexp.MatchString(`^[^\/]*\/(v\d[\d\.]*\/)?auth.*`, urlPath)
+> + 	if err != nil {
+> + 		return false, err
+> + 	}
+> +diff --git a/pkg/authorization/authz_unix_test.go b/pkg/authorization/authz_unix_test.go
+> +index 275f1dd3d0..66b4d20452 100644
+> +--- a/pkg/authorization/authz_unix_test.go
+> ++++ b/pkg/authorization/authz_unix_test.go
+> +@@ -259,6 +259,41 @@ func TestSendBody(t *testing.T) {
+> + 				contentType: "application/json;charset=UTF8",
+> + 				expected:    false,
+> + 			},
+> ++			{
+> ++				url:         "www.nothing.com/v1.24/auth/test",
+> ++				contentType: "application/json;charset=UTF8",
+> ++				expected:    false,
+> ++			},
+> ++			{
+> ++				url:         "https://www.nothing.com/v1.24/auth/test",
+> ++				contentType: "application/json;charset=UTF8",
+> ++				expected:    false,
+> ++			},
+> ++			{
+> ++				url:         "http://nothing.com/v1.24/auth/test",
+> ++				contentType: "application/json;charset=UTF8",
+> ++				expected:    false,
+> ++			},
+> ++			{
+> ++				url:         "www.nothing.com/test?p1=/auth",
+> ++				contentType: "application/json;charset=UTF8",
+> ++				expected:    true,
+> ++			},
+> ++			{
+> ++				url:         "http://www.nothing.com/test?p1=/auth",
+> ++				contentType: "application/json;charset=UTF8",
+> ++				expected:    true,
+> ++			},
+> ++			{
+> ++				url:         "www.nothing.com/something/auth",
+> ++				contentType: "application/json;charset=UTF8",
+> ++				expected:    true,
+> ++			},
+> ++			{
+> ++				url:         "https://www.nothing.com/something/auth",
+> ++				contentType: "application/json;charset=UTF8",
+> ++				expected:    true,
+> ++			},
+> + 		}
+> + 	)
+> + 
+> +-- 
+> +2.50.1
 > +
-> +			ctr1Info := container.Inspect(ctx, t, c, id1)
-> +			targetAddr := ctr1Info.NetworkSettings.Networks[bridge1].IPAddress
-> +diff --git a/libnetwork/drivers/bridge/bridge_linux.go b/libnetwork/drivers/bridge/bridge_linux.go
-> +index 2b313c85bf..a8a12aebe3 100644
-> +--- a/libnetwork/drivers/bridge/bridge_linux.go
-> ++++ b/libnetwork/drivers/bridge/bridge_linux.go
-> +@@ -1431,6 +1431,15 @@ func (d *driver) handleFirewalldReloadNw(nid string) {
-> +		}
-> +	}
-> +	nw.portMapper.ReMapAll()
-> ++
-> ++	// Restore the inter-network connectivity (INC) rules.
-> ++	if err := nw.isolateNetwork(true); err != nil {
-> ++		log.G(context.TODO()).WithFields(log.Fields{
-> ++			"network": nw.id,
-> ++			"error":   err,
-> ++		}).Warn("Failed to restore inter-network iptables rules on firewalld reload")
-> ++	}
-> ++
-> +	log.G(context.TODO()).Info("Restored iptables rules on firewalld reload")
-> + }
-> +
-> +--
-> +2.44.3
 > -- 
-> 2.44.3
+> 2.50.1
 > 
 
