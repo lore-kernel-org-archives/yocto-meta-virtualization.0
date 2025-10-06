@@ -1,361 +1,115 @@
-Return-Path: <tgaige.opensource@witekio.com>
+Return-Path: <Divya.Chellam@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46797CAC5B8
-	for <webhook@archiver.kernel.org>; Thu,  2 Oct 2025 08:05:35 +0000 (UTC)
-Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.86])
- by mx.groups.io with SMTP id smtpd.web10.3533.1759392325308997675
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 237CDCCD182
+	for <webhook@archiver.kernel.org>; Mon,  6 Oct 2025 04:49:56 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.26211.1759726191572254560
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 02 Oct 2025 01:05:26 -0700
+ Sun, 05 Oct 2025 21:49:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@witekio.com header.s=selector1 header.b=k+2OCyuY;
- spf=pass (domain: witekio.com, ip: 40.107.159.86, mailfrom: tgaige@witekio.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=y7ODWgAF+kheZiUraTLtMO2PNcSe/dcE5nHMTSyDtIaXlQOU6XCRvKUByw+nZ6nKgmt2nswQjS/xFnH9T2hrJESiJgqI1KSYJrl1yYGH+CslmNCy016ivhlVutsKrT2+8s0ZiPBzqnPGT6KSo57/nqgnDbEmZdgVmaIXKWfKIXapQcv+lxbV5p2+Z7FXuTar8y8vH/m2Bf8OznGgmb1DcL3AzCCO3CMJ/KukF+n+Uh3Wk2Y7sKSjTfr60xuj3hbx4pzUNoMyr1wiES+Tz4+FbUP+FkHT6orLl0sh/zepWF3EZWqqUdtjlg4JPzBknIRgcumP90X73L27DqgkzWqLXA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=r1QQh0ZmI/z3Nv7hwH8+gAIJ9atbm5fTA3oKjfJFgqw=;
- b=NgihdNw/pjHnBaDYJKYDMfVw/qCTjaD4Mgg9jycqNc13al4kwI0LGeBa1R+ptl5y0Diuh6ArHkILGr87oRdeHaXZB1oOo7oghxsG5GYxjUrI24ET65T1IjwAtvlwRDpuGdICymgNyWwtiL9mmF/9d9toeQ/Cd2GeBr9lWhhtp/gHKnm5cF7qknymAR+QTHOsFLql57msNrp57VdK+eqYMXAMPuWSHUVWBx8jCWs2xKo/HKY6rvyADF+qBlBwqt6UuPXZxTV1GeGZ0lUPMvNxgSOHExuBg/m3ycdyLQSJ3R4Wx7x8AJIIiLUhhgxfDf4qP5d5lK7aBuPD/c1Trb7wZg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=witekio.com; dmarc=pass action=none header.from=witekio.com;
- dkim=pass header.d=witekio.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=witekio.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=r1QQh0ZmI/z3Nv7hwH8+gAIJ9atbm5fTA3oKjfJFgqw=;
- b=k+2OCyuYaHq3OXx/0nhC8LuPtTxeinharD1PlUgWGrkonEbubFQEGPxbkU/5mKutW3nwr7RiHjgIbzFu3rCnptLb6m74Utp8fq07kG/NN9V6pzAwTNfssklPPNfANt8C/FKR7UFYA6qC1SGKfm2S6MwOX4yCuE0Rvv+Og2AnN0VxO9UqYwj5XTV4o2VINFOKi3Gb0cSNObJ9e9fF0Dz11RmsA9H42OB8qM/e1WkgBbZ16fKuue6W7qEN/z8n5bfGJLE5s3WyNMny5Kxkac4yP3QyiqDWU2sSmZOgHLQaJBOTvRF8MPqepPby4iWP52Yt6WfMb22deNapRlH2qK867w==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=witekio.com;
-Received: from AM9P192MB1396.EURP192.PROD.OUTLOOK.COM (2603:10a6:20b:3ad::23)
- by PAXP192MB1632.EURP192.PROD.OUTLOOK.COM (2603:10a6:102:28c::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9160.18; Thu, 2 Oct
- 2025 08:05:17 +0000
-Received: from AM9P192MB1396.EURP192.PROD.OUTLOOK.COM
- ([fe80::25ed:86ef:4d24:3d38]) by AM9P192MB1396.EURP192.PROD.OUTLOOK.COM
- ([fe80::25ed:86ef:4d24:3d38%6]) with mapi id 15.20.9160.017; Thu, 2 Oct 2025
- 08:05:17 +0000
-From: tgaige.opensource@witekio.com
-To: meta-virtualization@lists.yoctoproject.org
-CC: Theo GAIGE <tgaige.opensource@witekio.com>
-Subject: [kirkstone][PATCH] containerd-opencontainers: fix CVE-2024-40635
-Date: Thu,  2 Oct 2025 10:05:07 +0200
-Message-ID: <20251002080507.571150-1-tgaige.opensource@witekio.com>
-X-Mailer: git-send-email 2.43.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: ZR2P278CA0070.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:52::13) To AM9P192MB1396.EURP192.PROD.OUTLOOK.COM
- (2603:10a6:20b:3ad::23)
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=h/a1BRfX;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=2374801d94=divya.chellam@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5964dLa64050230
+	for <meta-virtualization@lists.yoctoproject.org>; Mon, 6 Oct 2025 04:49:50 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=PPS06212021;
+	 bh=VzslH6K4Heq2lYzKzBwFkZQ0v3lxaWlYHWbCu2chsiE=; b=h/a1BRfXhhuj
+	3yumOqy6utXJDGVqhHGXEcl2pT8HugRgBRZujnqWtfCioseKT8oRurWzFRdxjeWz
+	Zu6SYnwmHJDZWyWdJ24ZJpl3NQ1qWmLKxxjkFSMQRzWL+q4W3p3Yy5xDcv+H/QQt
+	5rR0JjmpC6ynlifAkyDrRExWLShSJtqJBgywUGTqeejjs0GpztTM9pz/HlY0Riyt
+	RKudaeZ/83AsBj8d7IBCeo9pmrxm/Q9gd8uCNxqWylecRzdyJNwz7NeSOkUV3GPt
+	Ge4bfoggTmJjcjeTBEiulEx6vtU93Y4Jb5blh6lBpcMAgs0kj2i2woo+3vv8qEVs
+	iEnQzhID2g==
+Received: from ala-exchng01.corp.ad.wrs.com ([128.224.246.36])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 49jtj39c4k-2
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <meta-virtualization@lists.yoctoproject.org>; Mon, 06 Oct 2025 04:49:50 +0000 (GMT)
+Received: from blr-linux-engg1.wrs.com (10.11.232.110) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.59; Sun, 5 Oct 2025 21:49:48 -0700
+From: dchellam <divya.chellam@windriver.com>
+To: <meta-virtualization@lists.yoctoproject.org>
+Subject: [PATCH] podman: update to v5.6.2
+Date: Mon, 6 Oct 2025 10:19:24 +0530
+Message-ID: <20251006044924.875740-2-divya.chellam@windriver.com>
+X-Mailer: git-send-email 2.40.0
+In-Reply-To: <20251006044924.875740-1-divya.chellam@windriver.com>
+References: <20251006044924.875740-1-divya.chellam@windriver.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM9P192MB1396:EE_|PAXP192MB1632:EE_
-X-MS-Office365-Filtering-Correlation-Id: e21af92c-b2f6-45b5-7936-08de018a6c75
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|366016|52116014|376014|1800799024|13003099007|38350700014;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?lmfRg0Fx8qDFyXvDm6hM5fdEePyhiqVoLmoh5p37IR9ypivZy1xWCt7jmdmv?=
- =?us-ascii?Q?1xNkTMIOs0qd7SsbHq3YcCFfVuKbiD2xLheyLTSywDG2S/wbtD+tGM33zoUQ?=
- =?us-ascii?Q?Im2n6FMLM6Ks+F8tgLxLjfo8Uun4nfpiOULdzA36W3lqI8V+JmBZeU9njVMH?=
- =?us-ascii?Q?k+bMlIYbUJbwnnFf5KjF6dm6lI1RUP7FyUH8ZuBtLb8zdSzxXjRUkZNB6C3b?=
- =?us-ascii?Q?gD/1HrKJhxwkeq4MEHBhWKX85seVx32cvHKYcB26Y7WJ0yXS/XQPNVj8Wb3C?=
- =?us-ascii?Q?5cjFEo26klQ+Mpyo4UP4rWuL8nTnwnl54sJ4vn27lDx3KmKUm7RBLcHlE59J?=
- =?us-ascii?Q?Z/QOqtTeQcos2zYk/09ZjdQ4OEPkAnMbPRIiAWWEwrc8ZHycZ0ClkNfpiFBa?=
- =?us-ascii?Q?zZFNhXf0irkrJl6g2aHSEaRlwI3ma1g8S1kLxWMTC/rMSH8HAWvRO1C9uSvZ?=
- =?us-ascii?Q?sKwBelkFA2O4RpJ2ylRABrR/g0eCAtoe3kCIbnjZyzm6d7Buag8A04OPovnR?=
- =?us-ascii?Q?h7+9RGwno/18+0Y4GxAtoid/wCrw8uZq2pVrUnN62vPcdxrQhoeawb3qVS9i?=
- =?us-ascii?Q?M/wQdtoWBSknJW5VXehNUXsjxAS4I4a9o59XCfBUCWyOQvm22bzG+VbKefqZ?=
- =?us-ascii?Q?ivbDuQIpNd3YI7bc9DjNhV2X007EtX9QL1CPUoF1YMPwCK+lmb81TJ5SMcUi?=
- =?us-ascii?Q?djzDahJk4L9etZIuCFKnBxPlmQaa1nYffZRnXg5cCvM3wH8OozP9pFp4cMRc?=
- =?us-ascii?Q?SrrCyEj6jh20tYyddvdbGg/be+ilnLjXNeie7TMRLducB+1W8CrNQcxmeTWk?=
- =?us-ascii?Q?9rqh3MKfw3VgqKSunbmnUukpFpBYcTNYsbugoHdfZNImLkBHsUEO9YXOGrRu?=
- =?us-ascii?Q?hh0nGOso8bNgUveSGHpEhm53kOszZB60ucYEG8UNZQvDPWl/Dp94FKq38Zzm?=
- =?us-ascii?Q?/jqobZd/x4MzAbqpmkQr/YJLuABHEqOL1udcwSVPbwJNICpj+9lAXKxpg5xL?=
- =?us-ascii?Q?rksgo7kMu3fIP4QAAmPluNaNE6LZl3oh/UrpdHzMHWTkxK2dIuTjFiL8baWZ?=
- =?us-ascii?Q?AAbv9UudTnnL+jgG/sHWhm073vRKct4f7r3l828cm5zxamL1hrMA9cCgaaF5?=
- =?us-ascii?Q?hea4s4J/+EHHvG13tlVm1Hf5/oDGWvw4BEF47UM2PCp/vw2GqaAdAX+MA7UB?=
- =?us-ascii?Q?fEcKJe7/ogGW1Tgb59722tEQRi85IuEYmVaLwqT8CzdoFwtUHk56pkmRTy8G?=
- =?us-ascii?Q?cJftqwys6V+IFa5wTy5y1En0XRo1SBVuTlqsUCdCThjSPensbl2mc1NLB6p2?=
- =?us-ascii?Q?ZYHA86V/pXjf/RsC278Fz7uSlTgHbcLrtRxG+9cnKix7t9gf01M5r/ib54vj?=
- =?us-ascii?Q?49/CpYQtMPPFxzrf2yd86pg+kbnUqHCoe1XHljB1XcLvaWQH6BoRe1rTTUCp?=
- =?us-ascii?Q?y4z6EKVQLW5ob+SvNc10EYRYHBEzp7rVnMD9aO4cr+W5NKGoQCzO1A=3D=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9P192MB1396.EURP192.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(52116014)(376014)(1800799024)(13003099007)(38350700014);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?iMBZc3nZx4HuEv5WoDcXTrNENKXfFO9q5TSvnAQMVT5bTPzXD0jvnTKglrNu?=
- =?us-ascii?Q?lZ2sDd09lGT1Yl/ZCra0hcS7PsPYpCPeHdfoBSa9WjsN1BIauFufCNkq0HZz?=
- =?us-ascii?Q?C8ZdGDd6aZNxfoMyjJyC1DZVDD5d0MyRA7D8LVKwBswY/O4JFXVVjgFydw1L?=
- =?us-ascii?Q?ehtjzzdvZYzmxtawzXF7FOR+Q6u9LHGIJ8nadTgaOvQqUQ54OfPjMuB4SOZ7?=
- =?us-ascii?Q?GtBmeyMdu1lTg4+7f0YWnL4yZlbJKMifGuxtsgUMX4M2W4QmZ+4llbJvjteD?=
- =?us-ascii?Q?BVfCyiEz76ktw6TVulzJOVOPHR+X3IPjc+4GwMx8rx6+t1FqvwQyJt2LH4dO?=
- =?us-ascii?Q?tuO5JEr94ET+Qm4lRZ0R2VAJGWW40ZsmWTO+vOokEbtJhaHjzRH1TaUqiQQA?=
- =?us-ascii?Q?qqwdCV9in5hCwbqCq7Jgwu3gfqhaYlRnE5I9wE0YXme+iw0Onn8CRPYEobb2?=
- =?us-ascii?Q?/n6am2UcO6I+k5YtmGhR6Vdg6ykqWxrFBEIalGANxnKxDqxHq6NbhwZTG0b9?=
- =?us-ascii?Q?ForiSDvfofCZzmkkxhU+CeghhTjwq7iG4Tf5dG5t+I6W144ljVLeitOWcTPo?=
- =?us-ascii?Q?XuBHtvi4SY9/OIqMwDdJC00S2uSszpLiXE1TM2XjQuJnfyU7PjnRsh2ZJwkl?=
- =?us-ascii?Q?TFv/2UwwFEPy5cWNIHerQ/2CI8EkbHN7Pa+EVJhGYOB0D9symTcyhBgt42Pz?=
- =?us-ascii?Q?/Q2u8J9lFbNuelUXupoNwEpflO+wbU0pm2CFmgTDeoPARJSIF1likPks0kLO?=
- =?us-ascii?Q?r2TOLEXIIRuL+727I7WIfrEgmnkwQygmLPeA6kdczQ39tYAqn1ZBlNTADPo6?=
- =?us-ascii?Q?ZYwx9+AO5qe8jWaJk2PKawQuQKJJXa/FYBW3KBKApzTmabGBlqi3OcyhTgGz?=
- =?us-ascii?Q?L9H9ITFdTwzCdCy08M+lj39Rax8hWi4dTF+ZgS4JQj8aCYx+CTF5rz8FPbw1?=
- =?us-ascii?Q?sLurnUcvyZlhhhyG667wqkMFB6PPx5mYMImb4AvQnE7vORwUfj3WPgsGvcTZ?=
- =?us-ascii?Q?Ks6pxkSyHs5wv2qOAir4FMe7GdUJjE7ZmmP6EP7SOrHy+npQJh5JHG3K6Cph?=
- =?us-ascii?Q?L283oA6TXQ08RWZnaPCwOO/btyeWU+RE1AfmUFUjTC4iQHo7u5In/E8wTGEO?=
- =?us-ascii?Q?n9CXOWcwLhPHjvQu575YM13AD1amhgZ6eP92rQYf3Nda9zQwjQcXs2zOWbd9?=
- =?us-ascii?Q?QmkkHuzWI3QkplyFhCQ/mfeyg8KVI2NqjK9POOcor/WER7RRmUMk1O0ws0KH?=
- =?us-ascii?Q?S4M/oI7Lxyc6Dk0M0wNe8axMFH9iDWLw12Iuslkq97JzbpKj7+d2J/NUHMKg?=
- =?us-ascii?Q?n4SBHduxv4iOVtJdKejww5pycYUEUg8KPI997KRPoSwnbTAhNBneSCpcVp6H?=
- =?us-ascii?Q?NYaLW0qc+6HS4RiVfXWhsjJVp/Pclw4dsVls7W616Nr2qgoaKGhAMFZbIvwF?=
- =?us-ascii?Q?cV4X5sSATa/lwu+I0jTVMfBTdpnm32pA0+xCb3UNHyqxd9yPVGe4eaGxvHwc?=
- =?us-ascii?Q?yv/6HkMmrtLetxpPC+rrS/yR9hTAnKRo9G9cpZg+hYfB3pUwaI8anLKMkCgT?=
- =?us-ascii?Q?9Bo/CG9eyNNA7PSLhWy5iob3omeWZtUewi64H1m0?=
-X-OriginatorOrg: witekio.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e21af92c-b2f6-45b5-7936-08de018a6c75
-X-MS-Exchange-CrossTenant-AuthSource: AM9P192MB1396.EURP192.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Oct 2025 08:05:17.1396
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 317e086a-301a-49af-9ea4-48a1c458b903
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Ytl1SJSLhoO0kUdQaWmiCJ05TkeZfhnAhS7ewnPhyHskaoaEmYsgjK5scqNr6aKFCziFxS7ck6PgLJ8J0t3YzQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXP192MB1632
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.11.232.110]
+X-ClientProxiedBy: ala-exchng01.corp.ad.wrs.com (10.11.224.121) To
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121)
+X-Proofpoint-GUID: JiAcC2xVceGQtrkWgskQslvjal5mgLki
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA2MDAzNiBTYWx0ZWRfXxnHoSn13B2Yr
+ zhDauKhXJtFTZ06Ugg7LsCWekrRHcEkBsZLV7l9ARMT3fIjTmIaMZBpgURQ7JNBga4iVXtei/bs
+ WS5LKdxdCfOtabJ5lDklx6hWLUSA5/ucwroEKmpbp+sZiA17Ns7P9B5cktkQDOdOvWtya2epz2r
+ tyi6p6uBxp3C/ENUM+Tu7p+WjWYuilvIXhBN682Kdv6dy4Chjd6UXMPRZ5PFhS24WjhoINscANq
+ 4Rqi0exgkALqRiUihBGNUgphaewwwufpRFagReWrBo9C1yyDMtXKDVlNq8cRm9uveuKTTv96dx4
+ E+HYrbfUNA3c3fvHhl6kLRxfhf3ijjpYAVtBKveMkqiLQX/Lk6BQkIhD7iBTsNn5ZL2HJ2WoBOm
+ b/tZ7uDW2E1pG4ZVssBD3jfDy7HSug==
+X-Proofpoint-ORIG-GUID: JiAcC2xVceGQtrkWgskQslvjal5mgLki
+X-Authority-Analysis: v=2.4 cv=CqCys34D c=1 sm=1 tr=0 ts=68e34a6e cx=c_pps
+ a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
+ a=gmxlzscTznEA:10 a=x6icFKpwvdMA:10 a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8
+ a=FtxsoFlTb1KdryurmSoA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-06_02,2025-10-02_03,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 malwarescore=0 spamscore=0 phishscore=0 bulkscore=0
+ adultscore=0 clxscore=1015 priorityscore=1501 impostorscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2509150000 definitions=main-2510060036
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Thu, 02 Oct 2025 08:05:35 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9410
+ <meta-virtualization@lists.yoctoproject.org>; Mon, 06 Oct 2025 04:49:56 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9412
 
-From: Theo GAIGE <tgaige.opensource@witekio.com>
+From: Divya Chellam <divya.chellam@windriver.com>
 
-Upstream-Status: Backport from https://github.com/containerd/containerd/com=
-mit/9639b9625554183d0c4d8d072dccb84fedd2320f
+This includes cve for CVE-2025-9566
 
-Signed-off-by: Theo GAIGE <tgaige.opensource@witekio.com>
+Changelog:
+==========
+https://github.com/containers/podman/releases/tag/v5.6.1
+https://github.com/containers/podman/releases/tag/v5.6.2
+
+Signed-off-by: Divya Chellam <divya.chellam@windriver.com>
 ---
- .../CVE-2024-40635.patch                      | 180 ++++++++++++++++++
- .../containerd-opencontainers_git.bb          |   1 +
- 2 files changed, 181 insertions(+)
- create mode 100644 recipes-containers/containerd/containerd-opencontainers=
-/CVE-2024-40635.patch
+ recipes-containers/podman/podman_git.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/recipes-containers/containerd/containerd-opencontainers/CVE-20=
-24-40635.patch b/recipes-containers/containerd/containerd-opencontainers/CV=
-E-2024-40635.patch
-new file mode 100644
-index 00000000..71a0f8b6
---- /dev/null
-+++ b/recipes-containers/containerd/containerd-opencontainers/CVE-2024-4063=
-5.patch
-@@ -0,0 +1,180 @@
-+From 6727fad7cc608f47304c073d758a04ca516e08fd Mon Sep 17 00:00:00 2001
-+From: Craig Ingram <Cjingram@google.com>
-+Date: Fri, 7 Mar 2025 13:27:58 +0000
-+Subject: [PATCH] validate uid/gid
-+
-+Upstream-Status: Backport [https://github.com/containerd/containerd/commit=
-/9639b9625554183d0c4d8d072dccb84fedd2320f]
-+CVE: CVE-2024-40635
-+
-+Signed-off-by: Theo GAIGE <tgaige.opensource@witekio.com>
-+---
-+ oci/spec_opts.go            | 24 ++++++++--
-+ oci/spec_opts_linux_test.go | 92 +++++++++++++++++++++++++++++++++++++
-+ 2 files changed, 112 insertions(+), 4 deletions(-)
-+
-+diff --git a/oci/spec_opts.go b/oci/spec_opts.go
-+index 3330ad108..1f10b24c6 100644
-+--- a/oci/spec_opts.go
-++++ b/oci/spec_opts.go
-+@@ -22,6 +22,7 @@ import (
-+ 	"encoding/json"
-+ 	"errors"
-+ 	"fmt"
-++	"math"
-+ 	"os"
-+ 	"path/filepath"
-+ 	"runtime"
-+@@ -536,6 +537,20 @@ func WithUser(userstr string) SpecOpts {
-+ 		defer ensureAdditionalGids(s)
-+ 		setProcess(s)
-+ 		s.Process.User.AdditionalGids =3D nil
-++		// While the Linux kernel allows the max UID to be MaxUint32 - 2,
-++                // and the OCI Runtime Spec has no definition about the m=
-ax UID,
-++                // the runc implementation is known to require the UID to=
- be <=3D MaxInt32.
-++                //
-++                // containerd follows runc's limitation here.
-++                //
-++                // In future we may relax this limitation to allow MaxUin=
-t32 - 2,
-++                // or, amend the OCI Runtime Spec to codify the implement=
-ation limitation.
-++		const (
-++			minUserID  =3D 0
-++			maxUserID  =3D math.MaxInt32
-++			minGroupID =3D 0
-++			maxGroupID =3D math.MaxInt32
-++		)
-+=20
-+ 		// For LCOW it's a bit harder to confirm that the user actually exists =
-on the host as a rootfs isn't
-+ 		// mounted on the host and shared into the guest, but rather the rootfs=
- is constructed entirely in the
-+@@ -552,8 +567,8 @@ func WithUser(userstr string) SpecOpts {
-+ 		switch len(parts) {
-+ 		case 1:
-+ 			v, err :=3D strconv.Atoi(parts[0])
-+-			if err !=3D nil {
-+-				// if we cannot parse as a uint they try to see if it is a username
-++			if err !=3D nil || v < minUserID || v > maxUserID {
-++				// if we cannot parse as an int32 then try to see if it is a username
-+ 				return WithUsername(userstr)(ctx, client, c, s)
-+ 			}
-+ 			return WithUserID(uint32(v))(ctx, client, c, s)
-+@@ -564,12 +579,13 @@ func WithUser(userstr string) SpecOpts {
-+ 			)
-+ 			var uid, gid uint32
-+ 			v, err :=3D strconv.Atoi(parts[0])
-+-			if err !=3D nil {
-++			if err !=3D nil || v < minUserID || v > maxUserID {
-+ 				username =3D parts[0]
-+ 			} else {
-+ 				uid =3D uint32(v)
-+ 			}
-+-			if v, err =3D strconv.Atoi(parts[1]); err !=3D nil {
-++			v, err =3D strconv.Atoi(parts[1])
-++			if err !=3D nil || v < minGroupID || v > maxGroupID {
-+ 				groupname =3D parts[1]
-+ 			} else {
-+ 				gid =3D uint32(v)
-+diff --git a/oci/spec_opts_linux_test.go b/oci/spec_opts_linux_test.go
-+index 904edcb42..f3be5ef27 100644
-+--- a/oci/spec_opts_linux_test.go
-++++ b/oci/spec_opts_linux_test.go
-+@@ -31,6 +31,98 @@ import (
-+ 	"golang.org/x/sys/unix"
-+ )
-+=20
-++// nolint:gosec
-++func TestWithUser(t *testing.T) {
-++	t.Parallel()
-++
-++	expectedPasswd :=3D `root:x:0:0:root:/root:/bin/ash
-++guest:x:405:100:guest:/dev/null:/sbin/nologin
-++`
-++	expectedGroup :=3D `root:x:0:root
-++bin:x:1:root,bin,daemon
-++daemon:x:2:root,bin,daemon
-++sys:x:3:root,bin,adm
-++guest:x:100:guest
-++`
-++	td :=3D t.TempDir()
-++	apply :=3D fstest.Apply(
-++		fstest.CreateDir("/etc", 0777),
-++		fstest.CreateFile("/etc/passwd", []byte(expectedPasswd), 0777),
-++		fstest.CreateFile("/etc/group", []byte(expectedGroup), 0777),
-++	)
-++	if err :=3D apply.Apply(td); err !=3D nil {
-++		t.Fatalf("failed to apply: %v", err)
-++	}
-++	c :=3D containers.Container{ID: t.Name()}
-++	testCases :=3D []struct {
-++		user        string
-++		expectedUID uint32
-++		expectedGID uint32
-++		err         string
-++	}{
-++		{
-++			user:        "0",
-++			expectedUID: 0,
-++			expectedGID: 0,
-++		},
-++		{
-++			user:        "root:root",
-++			expectedUID: 0,
-++			expectedGID: 0,
-++		},
-++		{
-++			user:        "guest",
-++			expectedUID: 405,
-++			expectedGID: 100,
-++		},
-++		{
-++			user:        "guest:guest",
-++			expectedUID: 405,
-++			expectedGID: 100,
-++		},
-++		{
-++			user: "guest:nobody",
-++			err:  "no groups found",
-++		},
-++		{
-++			user:        "405:100",
-++			expectedUID: 405,
-++			expectedGID: 100,
-++		},
-++		{
-++			user: "405:2147483648",
-++			err:  "no groups found",
-++		},
-++		{
-++			user: "-1000",
-++			err:  "no users found",
-++		},
-++		{
-++			user: "2147483648",
-++			err:  "no users found",
-++		},
-++	}
-++	for _, testCase :=3D range testCases {
-++		testCase :=3D testCase
-++		t.Run(testCase.user, func(t *testing.T) {
-++			t.Parallel()
-++			s :=3D Spec{
-++				Version: specs.Version,
-++				Root: &specs.Root{
-++					Path: td,
-++				},
-++				Linux: &specs.Linux{},
-++			}
-++			err :=3D WithUser(testCase.user)(context.Background(), nil, &c, &s)
-++			if err !=3D nil {
-++				assert.EqualError(t, err, testCase.err)
-++			}
-++			assert.Equal(t, testCase.expectedUID, s.Process.User.UID)
-++			assert.Equal(t, testCase.expectedGID, s.Process.User.GID)
-++		})
-++	}
-++}
-++
-+ // nolint:gosec
-+ func TestWithUserID(t *testing.T) {
-+ 	t.Parallel()
-+--=20
-+2.43.0
-+
-diff --git a/recipes-containers/containerd/containerd-opencontainers_git.bb=
- b/recipes-containers/containerd/containerd-opencontainers_git.bb
-index 6c0266ac..dd621705 100644
---- a/recipes-containers/containerd/containerd-opencontainers_git.bb
-+++ b/recipes-containers/containerd/containerd-opencontainers_git.bb
-@@ -9,6 +9,7 @@ SRCREV =3D "1e1ea6e986c6c86565bc33d52e34b81b3e2bc71f"
- SRC_URI =3D "git://github.com/containerd/containerd;branch=3Drelease/1.6;p=
-rotocol=3Dhttps;destsuffix=3Dgit/src/github.com/containerd/containerd \
-            file://0001-Makefile-allow-GO_BUILD_FLAGS-to-be-externally-spec=
-i.patch \
-            file://0001-build-don-t-use-gcflags-to-define-trimpath.patch \
-+           file://CVE-2024-40635.patch \
-           "
-=20
- # Apache-2.0 for containerd
---=20
-2.43.0
+diff --git a/recipes-containers/podman/podman_git.bb b/recipes-containers/podman/podman_git.bb
+index c5e7b49d..89ee9a7c 100644
+--- a/recipes-containers/podman/podman_git.bb
++++ b/recipes-containers/podman/podman_git.bb
+@@ -16,7 +16,7 @@ DEPENDS = " \
+     gettext-native \
+ "
+ 
+-SRCREV = "41224eb949be6fa380c11d8ef66c099462d2507f"
++SRCREV = "9dd5e1ed33830612bc200d7a13db00af6ab865a4"
+ SRC_URI = " \
+     git://github.com/containers/libpod.git;branch=v5.6;protocol=https;destsuffix=${GO_SRCURI_DESTSUFFIX} \
+     ${@bb.utils.contains('PACKAGECONFIG', 'rootless', 'file://50-podman-rootless.conf', '', d)} \
+@@ -27,7 +27,7 @@ LIC_FILES_CHKSUM = "file://src/import/LICENSE;md5=3d9b931fa23ab1cacd0087f9e2ee12
+ 
+ GO_IMPORT = "import"
+ 
+-PV = "v5.6.0"
++PV = "v5.6.2"
+ 
+ CVE_STATUS[CVE-2022-2989] = "fixed-version: fixed since v4.3.0"
+ CVE_STATUS[CVE-2023-0778] = "fixed-version: fixed since v4.5.0"
+-- 
+2.40.0
 
 
