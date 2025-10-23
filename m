@@ -1,272 +1,197 @@
-Return-Path: <Divya.Chellam@windriver.com>
+Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D63CDCCD18E
-	for <webhook@archiver.kernel.org>; Wed, 15 Oct 2025 11:54:32 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.14297.1760529265018728713
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D3396CCD1BC
+	for <webhook@archiver.kernel.org>; Thu, 23 Oct 2025 13:13:22 +0000 (UTC)
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+ by mx.groups.io with SMTP id smtpd.web10.20254.1761225195777623870
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 15 Oct 2025 04:54:25 -0700
+ Thu, 23 Oct 2025 06:13:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=MInKb+gO;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=2383e0cf1c=divya.chellam@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 59F7lIDQ461206
-	for <meta-virtualization@lists.yoctoproject.org>; Wed, 15 Oct 2025 04:54:24 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PPS06212021; bh=utvtLgY5LSH0ZA6sCINg
-	k84CbiBj3L16qyCp85tx1ZI=; b=MInKb+gOt71DnpNJEgKhBiKB+m420GD2r8Lc
-	fuzDnTna27zC9eHxzTmOkiMf8EMHpSeyquX764KvahaqgMpoGon6fioT618ktV8P
-	Q5EGroXhKrKvkCvgLuV7BLDbS6vFCBOGsgDenR9vk5PwpnZjpKjpCYH11bO6Z+/E
-	8RBKjhiq6VTOai31dnVvW+xVU0gSWrh93RweIWw6buPFzQsPSOzPiKxPniVZ/5bb
-	qD7bVXJOsYpQlvbGuxK/Pfn++RLvxmf+c+yuKp4T0eATz+W1h9Mjjyur5MVRFcah
-	CDWhDXns6/+kVRQJWnhBU8xvf2sYyvo94dBx3cIiZJvYbGrh/Q==
-Received: from ala-exchng01.corp.ad.wrs.com ([128.224.246.36])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 49qprdvhh8-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <meta-virtualization@lists.yoctoproject.org>; Wed, 15 Oct 2025 04:54:24 -0700 (PDT)
-Received: from blr-linux-engg1.wrs.com (10.11.232.110) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.59; Wed, 15 Oct 2025 04:54:22 -0700
-From: dchellam <divya.chellam@windriver.com>
-To: <meta-virtualization@lists.yoctoproject.org>
-Subject: [meta-virtualization][walnascar][PATCH V2 1/1] podman: fix CVE-2025-9566
-Date: Wed, 15 Oct 2025 17:23:59 +0530
-Message-ID: <20251015115359.2054766-1-divya.chellam@windriver.com>
-X-Mailer: git-send-email 2.40.0
+ dkim=pass header.i=@mvista.com header.s=google header.b=AzragG/H;
+ spf=pass (domain: mvista.com, ip: 209.85.210.181, mailfrom: vanusuri@mvista.com)
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-76e2ea933b7so813132b3a.1
+        for <meta-virtualization@lists.yoctoproject.org>; Thu, 23 Oct 2025 06:13:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google; t=1761225194; x=1761829994; darn=lists.yoctoproject.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=dbUCIXLEnVQrAMEsJJS2k3grO4xSuiTQ7ztOoBQFDbQ=;
+        b=AzragG/HxauRCkv1FctmzHnI7+qIdzi+2jutLoOpAJhLiAFHl0FtdwpjworV3CDOR9
+         60OxsGeqEAfR6wAspcGslVGqxawHhsQLA+qiTA+lyMZGP647TM8KaZJ15OXaNyPpfrDU
+         TbLF5kZxfDKt4ypYrgfrjCS4nko8lVLSX3/Q8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761225194; x=1761829994;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dbUCIXLEnVQrAMEsJJS2k3grO4xSuiTQ7ztOoBQFDbQ=;
+        b=xI5r9r5ocoB85dyfPYqLadB8gpAtCjnoFYzysK1AgNaku2PQ96fxvvEW0G5n43nftB
+         GlGhjoZ47R9qtfzev9WZt7Bp2Wgpiyw7Pf2NvOcv1LlHm7NvPsI234YhUeOkUsckun8t
+         bLaOfy8r2WuVV78uQKIOyMboAbxgWPgdVt/0y2bD2ZEiK+Z80TlNQ9LV9LRjCLB3JeuC
+         sxiQlXmzgxlozRdhHswUNr07XeLwLWvCDhquI5tUoJI9lCwamMpoIqzKKsCvXOqU7tOf
+         OVOdvJIADmlXbOei3UNUR7iPVenS3EpIAAg/B6LE3i2J+wBdUuOTWzjzFG8igcHraYro
+         r2tA==
+X-Gm-Message-State: AOJu0YydUVCglgtbvFwoejS1xGJ/idVVQsz6ctRsGFJG7ekbNGhq/OyI
+	w5NaGIcPtAINJUjx34vbtQqWfhvcqJpnflPSX2IfxPmkW5WaSUCIHa9RljessjY7E2F7xORGjVI
+	gw1sT4HY=
+X-Gm-Gg: ASbGncu7XuB+ko5LyDEoM3cdPD9REt5PjJk94DwL05F/WBDfYPXcOCcZPl7jY/5jRUi
+	Sj8KYnZPqVCS80TWPzwCNtnDQ8JP8DzaRxml4Zc0DUqn0RpH8yLDl6eDv1a7E5YcUJTv9fkloFz
+	F0a0QS1wGeAYvmSQbzRbQPJFrWoZ7nCWNoGLWFjPRaGjkKRpE+FtAPUUdcBDuUhWMrQLlni3mFF
+	2UMGIhNWvwXjAtMSqaSypJvTTuNpU9wW/9JwZegOif9ffOuCYPvtcAqtwQI6q4eU9dyeYNAwB3d
+	AdZEssyB9Ydo4JcBuUxVW2eoqAqlcw2bsQu25wgBJ2E43mln4YYB5dtfBCr3c5k+ak+UIJR3uC3
+	3zjXM4R8tSfyeG4/KEl27hukjxjIBPZBTfhkSH7buLnAd3pHjc3ZC/517TqlYrwj9RGZQea2gXd
+	osdBGe8DhxHrf4BA==
+X-Google-Smtp-Source: AGHT+IFs2ZoE3Z/aDPk/YGi2k1slILPjN6PZFexB+L2bdUyoCcHIWyuyu++e8jetW3+ls0DlUXD2KA==
+X-Received: by 2002:a05:6a20:d49b:b0:32d:b925:22ab with SMTP id adf61e73a8af0-33aa6f53c3bmr11592964637.17.1761225194312;
+        Thu, 23 Oct 2025 06:13:14 -0700 (PDT)
+Received: from localhost.localdomain ([2401:4900:8fce:8546:bea:675a:12eb:bfe2])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b6cf4a753dfsm2170470a12.0.2025.10.23.06.13.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Oct 2025 06:13:13 -0700 (PDT)
+From: vanusuri@mvista.com
+To: meta-virtualization@lists.yoctoproject.org
+Cc: Vijay Anusuri <vanusuri@mvista.com>
+Subject: [meta-virtualization][kirkstone][PATCH] kubernetes: Fix for CVE-2025-5187
+Date: Thu, 23 Oct 2025 18:43:04 +0530
+Message-Id: <20251023131304.230788-1-vanusuri@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.11.232.110]
-X-ClientProxiedBy: ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) To
- ala-exchng01.corp.ad.wrs.com (10.11.224.121)
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDE1MDA5MiBTYWx0ZWRfXwKTxhavY/gqI
- sb8TqrgR6Ev3ednp9LMlzGmsN1zN3XrFYtqXg7mAvk0ANSDOI7t2YCgURtLEvc1OFj5Uz1OHCCs
- PESGFwDMCpNJlGV18ogG56PjJBz3j5mqrxCAssABz9Kv7P7fFI5OO9KNLwGGgU3zOavSN5lYV2I
- 403pyMOTGos3BONWNLya13QphLOlqZzXURob++tNs7JM3rfTQObZJV0FHgJd9XECTUzYxtbxkFZ
- O9kzfebd0MchQsr99gAqpv38mw5g5663bJ5kOCyzrRZFAA6Y5/ffpWGBbgFA/FhJrjYJkfYiecg
- usS06x4ETlLUP73H0yN/UQuAb7+jRx9H+g65YCAYrVKTI7TwCIxrsDjAi9DS9DytBe6COslPz0X
- vmyWwC/bsdyuHbZftCx0xr2LPPAaqg==
-X-Proofpoint-GUID: 7qDAQRgPTYFcgcV-ZqTVDWeczmnaxSkp
-X-Authority-Analysis: v=2.4 cv=JaKxbEKV c=1 sm=1 tr=0 ts=68ef8b70 cx=c_pps
- a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
- a=MkUnBrgfyNUA:10 a=gmxlzscTznEA:10 a=x6icFKpwvdMA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=xNf9USuDAAAA:8 a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8
- a=20KFwNOVAAAA:8 a=pM9yUfARAAAA:8 a=9vtvMr6WjeyNXNOe7-cA:9
- a=FdTzh2GWekK77mhwV6Dw:22 a=YH-7kEGJnRg4CV3apUU-:22 a=6_D5ljFcL1GZDUJyZucp:22
-X-Proofpoint-ORIG-GUID: 7qDAQRgPTYFcgcV-ZqTVDWeczmnaxSkp
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-15_05,2025-10-13_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 spamscore=0 adultscore=0 phishscore=0 clxscore=1015
- suspectscore=0 lowpriorityscore=0 impostorscore=0 bulkscore=0
- priorityscore=1501 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510020000
- definitions=main-2510150092
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Wed, 15 Oct 2025 11:54:32 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9420
+ <meta-virtualization@lists.yoctoproject.org>; Thu, 23 Oct 2025 13:13:22 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9421
 
-From: Divya Chellam <divya.chellam@windriver.com>
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-There's a vulnerability in podman where an attacker may use the kube play
-command to overwrite host files when the kube file container a Secrete or
-a ConfigMap volume mount and such volume contains a symbolic link to a host
-file path. In a successful attack, the attacker can only control the target
-file to be overwritten but not the content to be written into the file.
-[EOL][EOL]Binary-Affected: podman[EOL]Upstream-version-introduced:
-v4.0.0[EOL]Upstream-version-fixed: v5.6.1
+Upstream-commit: https://github.com/kubernetes/kubernetes/commit/2e6eaa1fbedd776ea9357b4f472c66dec01955b5
 
-Reference:
-https://security-tracker.debian.org/tracker/CVE-2025-9566
+Reference: https://github.com/kubernetes/kubernetes/pull/133467
+           https://github.com/aks-lts/kubernetes/pull/62/commits/152330ef541b23a027c779597496b62c287fb363
 
-Upstream-patch:
-https://github.com/containers/podman/commit/ca994186f07822b9048fe711b6903e51614d3e15
-
-Signed-off-by: Divya Chellam <divya.chellam@windriver.com>
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 ---
- .../podman/podman/CVE-2025-9566.patch         | 152 ++++++++++++++++++
- recipes-containers/podman/podman_git.bb       |   1 +
- 2 files changed, 153 insertions(+)
- create mode 100644 recipes-containers/podman/podman/CVE-2025-9566.patch
+ .../kubernetes/kubernetes/CVE-2025-5187.patch | 94 +++++++++++++++++++
+ .../kubernetes/kubernetes_git.bb              |  1 +
+ 2 files changed, 95 insertions(+)
+ create mode 100644 recipes-containers/kubernetes/kubernetes/CVE-2025-5187.patch
 
-diff --git a/recipes-containers/podman/podman/CVE-2025-9566.patch b/recipes-containers/podman/podman/CVE-2025-9566.patch
+diff --git a/recipes-containers/kubernetes/kubernetes/CVE-2025-5187.patch b/recipes-containers/kubernetes/kubernetes/CVE-2025-5187.patch
 new file mode 100644
-index 00000000..7e5cbe8b
+index 00000000..a3042224
 --- /dev/null
-+++ b/recipes-containers/podman/podman/CVE-2025-9566.patch
-@@ -0,0 +1,152 @@
-+From ca994186f07822b9048fe711b6903e51614d3e15 Mon Sep 17 00:00:00 2001
-+From: Paul Holzinger <pholzing@redhat.com>
-+Date: Fri, 29 Aug 2025 15:39:38 +0200
-+Subject: [PATCH] kube play: don't follow volume symlinks onto the host
++++ b/recipes-containers/kubernetes/kubernetes/CVE-2025-5187.patch
+@@ -0,0 +1,94 @@
++From 922f15f1b75eada00309e02b7dd61f73e1736f3f Mon Sep 17 00:00:00 2001
++From: Sergey Kanzhelev <S.Kanzhelev@live.com>
++Date: Thu, 22 May 2025 17:54:10 +0000
++Subject: [PATCH] do not allow the node to update it's owner reference
 +
-+For ConfigMap and Secret kube play volumes podman populates the data
-+from the yaml. However the volume content is not controlled by us and we
-+can be tricked following a symlink to a file on the host instead.
-+
-+Fixes: CVE-2025-9566
-+
-+Signed-off-by: Paul Holzinger <pholzing@redhat.com>
-+(cherry picked from commit 43fbde4e665fe6cee6921868f04b7ccd3de5ad89)
-+Signed-off-by: Paul Holzinger <pholzing@redhat.com>
-+
-+CVE: CVE-2025-9566
-+
-+Upstream-Status: Backport [https://github.com/containers/podman/commit/ca994186f07822b9048fe711b6903e51614d3e15]
-+
-+Signed-off-by: Divya Chellam <divya.chellam@windriver.com>
++Upstream-Status: Backport [https://github.com/kubernetes/kubernetes/commit/2e6eaa1fbedd776ea9357b4f472c66dec01955b5]
++CVE: CVE-2025-5187
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 +---
-+ pkg/domain/infra/abi/play.go             |  5 ++-
-+ pkg/domain/infra/abi/play_linux.go       | 18 +++++++++++
-+ pkg/domain/infra/abi/play_unsupported.go | 13 ++++++++
-+ pkg/domain/infra/abi/play_utils.go       | 39 +++++++++++++++++++++++-
-+ 4 files changed, 71 insertions(+), 4 deletions(-)
-+ create mode 100644 pkg/domain/infra/abi/play_linux.go
-+ create mode 100644 pkg/domain/infra/abi/play_unsupported.go
++ .../admission/noderestriction/admission.go    |  5 +++
++ .../noderestriction/admission_test.go         | 36 +++++++++++++++----
++ 2 files changed, 35 insertions(+), 6 deletions(-)
 +
-+diff --git a/pkg/domain/infra/abi/play.go b/pkg/domain/infra/abi/play.go
-+index 6ffbf4cf54..2fa2752d7c 100644
-+--- a/pkg/domain/infra/abi/play.go
-++++ b/pkg/domain/infra/abi/play.go
-+@@ -808,8 +808,7 @@ func (ic *ContainerEngine) playKubePod(ctx context.Context, podName string, podY
-+ 			defaultMode := v.DefaultMode
-+ 			// Create files and add data to the volume mountpoint based on the Items in the volume
-+ 			for k, v := range v.Items {
-+-				dataPath := filepath.Join(mountPoint, k)
-+-				f, err := os.Create(dataPath)
-++				f, err := openPathSafely(mountPoint, k)
-+ 				if err != nil {
-+ 					return nil, nil, fmt.Errorf("cannot create file %q at volume mountpoint %q: %w", k, mountPoint, err)
-+ 				}
-+@@ -819,7 +818,7 @@ func (ic *ContainerEngine) playKubePod(ctx context.Context, podName string, podY
-+ 					return nil, nil, err
-+ 				}
-+ 				// Set file permissions
-+-				if err := os.Chmod(f.Name(), os.FileMode(defaultMode)); err != nil {
-++				if err := f.Chmod(os.FileMode(defaultMode)); err != nil {
-+ 					return nil, nil, err
-+ 				}
-+ 			}
-+diff --git a/pkg/domain/infra/abi/play_linux.go b/pkg/domain/infra/abi/play_linux.go
-+new file mode 100644
-+index 0000000000..a0f9811516
-+--- /dev/null
-++++ b/pkg/domain/infra/abi/play_linux.go
-+@@ -0,0 +1,18 @@
-++//go:build !remote
-++
-++package abi
-++
-++import (
-++	"os"
-++
-++	securejoin "github.com/cyphar/filepath-securejoin"
-++)
-++
-++// openSymlinkPath opens the path under root using securejoin.OpenatInRoot().
-++func openSymlinkPath(root *os.File, unsafePath string, flags int) (*os.File, error) {
-++	file, err := securejoin.OpenatInRoot(root, unsafePath)
-++	if err != nil {
-++		return nil, err
-++	}
-++	return securejoin.Reopen(file, flags)
-++}
-+diff --git a/pkg/domain/infra/abi/play_unsupported.go b/pkg/domain/infra/abi/play_unsupported.go
-+new file mode 100644
-+index 0000000000..3ecbae7cc1
-+--- /dev/null
-++++ b/pkg/domain/infra/abi/play_unsupported.go
-+@@ -0,0 +1,13 @@
-++//go:build !linux && !remote
-++
-++package abi
-++
-++import (
-++	"errors"
-++	"os"
-++)
-++
-++// openSymlinkPath is not supported on this platform.
-++func openSymlinkPath(root *os.File, unsafePath string, flags int) (*os.File, error) {
-++	return nil, errors.New("cannot safely open symlink on this platform")
-++}
-+diff --git a/pkg/domain/infra/abi/play_utils.go b/pkg/domain/infra/abi/play_utils.go
-+index 7285d9c9b9..217b656997 100644
-+--- a/pkg/domain/infra/abi/play_utils.go
-++++ b/pkg/domain/infra/abi/play_utils.go
-+@@ -2,7 +2,14 @@
++diff --git a/plugin/pkg/admission/noderestriction/admission.go b/plugin/pkg/admission/noderestriction/admission.go
++index 0a0d48d131f..8dc3ee7e66e 100644
++--- a/plugin/pkg/admission/noderestriction/admission.go
+++++ b/plugin/pkg/admission/noderestriction/admission.go
++@@ -441,6 +441,11 @@ func (p *Plugin) admitNode(nodeName string, a admission.Attributes) error {
++ 			return admission.NewForbidden(a, fmt.Errorf("node %q is not allowed to modify taints", nodeName))
++ 		}
 + 
-+ package abi
-+ 
-+-import "github.com/containers/podman/v5/libpod/define"
-++import (
-++	"fmt"
-++	"os"
-++	"strings"
+++		// Don't allow a node to update its own ownerReferences.
+++		if !apiequality.Semantic.DeepEqual(node.OwnerReferences, oldNode.OwnerReferences) {
+++		    return admission.NewForbidden(a, fmt.Errorf("node %q is not allowed to modify ownerReferences", nodeName))
+++		}
 ++
-++	"github.com/containers/podman/v5/libpod/define"
-++	"golang.org/x/sys/unix"
-++)
++ 		// Don't allow a node to update labels outside the allowed set.
++ 		// This would allow a node to add or modify its labels in a way that would let it steer privileged workloads to itself.
++ 		modifiedLabels := getModifiedLabels(node.Labels, oldNode.Labels)
++diff --git a/plugin/pkg/admission/noderestriction/admission_test.go b/plugin/pkg/admission/noderestriction/admission_test.go
++index 6a4ccf2d948..1b51c75c4c1 100644
++--- a/plugin/pkg/admission/noderestriction/admission_test.go
+++++ b/plugin/pkg/admission/noderestriction/admission_test.go
++@@ -235,10 +235,14 @@ func (a *admitTestCase) run(t *testing.T) {
 + 
-+ // getSdNotifyMode returns the `sdNotifyAnnotation/$name` for the specified
-+ // name. If name is empty, it'll only look for `sdNotifyAnnotation`.
-+@@ -16,3 +23,33 @@ func getSdNotifyMode(annotations map[string]string, name string) (string, error)
-+ 	}
-+ 	return mode, define.ValidateSdNotifyMode(mode)
-+ }
++ func Test_nodePlugin_Admit(t *testing.T) {
++ 	var (
++-		mynode = &user.DefaultInfo{Name: "system:node:mynode", Groups: []string{"system:nodes"}}
++-		bob    = &user.DefaultInfo{Name: "bob"}
+++		trueRef = true
+++		mynode  = &user.DefaultInfo{Name: "system:node:mynode", Groups: []string{"system:nodes"}}
+++		bob     = &user.DefaultInfo{Name: "bob"}
 ++
-++// openPathSafely opens the given name under the trusted root path, the unsafeName
-++// must be a single path component and not contain "/".
-++// The resulting path will be opened or created if it does not exists.
-++// Following of symlink is done within staying under root, escapes outsides
-++// of root are not allowed and prevent.
-++//
-++// This custom function is needed because securejoin.SecureJoin() is not race safe
-++// and the volume might be mounted in another container that could swap in a symlink
-++// after the function ahs run. securejoin.OpenInRoot() doesn't work either because
-++// it cannot create files and doesn't work on freebsd.
-++func openPathSafely(root, unsafeName string) (*os.File, error) {
-++	if strings.Contains(unsafeName, "/") {
-++		return nil, fmt.Errorf("name %q must not contain path separator", unsafeName)
-++	}
-++	fdDir, err := os.OpenFile(root, unix.O_RDONLY, 0)
-++	if err != nil {
-++		return nil, err
-++	}
-++	defer fdDir.Close()
-++	flags := unix.O_CREAT | unix.O_WRONLY | unix.O_TRUNC | unix.O_CLOEXEC
-++	fd, err := unix.Openat(int(fdDir.Fd()), unsafeName, flags|unix.O_NOFOLLOW, 0o644)
-++	if err == nil {
-++		return os.NewFile(uintptr(fd), unsafeName), nil
-++	}
-++	if err == unix.ELOOP {
-++		return openSymlinkPath(fdDir, unsafeName, flags)
-++	}
-++	return nil, &os.PathError{Op: "openat", Path: unsafeName, Err: err}
-++}
+++		mynodeObjMeta          = metav1.ObjectMeta{Name: "mynode", UID: "mynode-uid"}
+++		mynodeObjMetaOwnerRefA = metav1.ObjectMeta{Name: "mynode", UID: "mynode-uid", OwnerReferences: []metav1.OwnerReference{{Name: "fooerA", Controller: &trueRef}}}
+++		mynodeObjMetaOwnerRefB = metav1.ObjectMeta{Name: "mynode", UID: "mynode-uid", OwnerReferences: []metav1.OwnerReference{{Name: "fooerB", Controller: &trueRef}}}
++ 
++-		mynodeObjMeta    = metav1.ObjectMeta{Name: "mynode", UID: "mynode-uid"}
++ 		mynodeObj        = &api.Node{ObjectMeta: mynodeObjMeta}
++ 		mynodeObjConfigA = &api.Node{ObjectMeta: mynodeObjMeta, Spec: api.NodeSpec{ConfigSource: &api.NodeConfigSource{
++ 			ConfigMap: &api.ConfigMapNodeConfigSource{
++@@ -255,9 +259,11 @@ func Test_nodePlugin_Admit(t *testing.T) {
++ 				KubeletConfigKey: "kubelet",
++ 			}}}}
++ 
++-		mynodeObjTaintA = &api.Node{ObjectMeta: mynodeObjMeta, Spec: api.NodeSpec{Taints: []api.Taint{{Key: "mykey", Value: "A"}}}}
++-		mynodeObjTaintB = &api.Node{ObjectMeta: mynodeObjMeta, Spec: api.NodeSpec{Taints: []api.Taint{{Key: "mykey", Value: "B"}}}}
++-		othernodeObj    = &api.Node{ObjectMeta: metav1.ObjectMeta{Name: "othernode"}}
+++		mynodeObjTaintA    = &api.Node{ObjectMeta: mynodeObjMeta, Spec: api.NodeSpec{Taints: []api.Taint{{Key: "mykey", Value: "A"}}}}
+++		mynodeObjTaintB    = &api.Node{ObjectMeta: mynodeObjMeta, Spec: api.NodeSpec{Taints: []api.Taint{{Key: "mykey", Value: "B"}}}}
+++		mynodeObjOwnerRefA = &api.Node{ObjectMeta: mynodeObjMetaOwnerRefA}
+++		mynodeObjOwnerRefB = &api.Node{ObjectMeta: mynodeObjMetaOwnerRefB}
+++		othernodeObj       = &api.Node{ObjectMeta: metav1.ObjectMeta{Name: "othernode"}}
++ 
++ 		coremymirrorpod, v1mymirrorpod           = makeTestPod("ns", "mymirrorpod", "mynode", true)
++ 		coreothermirrorpod, v1othermirrorpod     = makeTestPod("ns", "othermirrorpod", "othernode", true)
++@@ -1029,6 +1035,24 @@ func Test_nodePlugin_Admit(t *testing.T) {
++ 			attributes: admission.NewAttributesRecord(setForbiddenUpdateLabels(mynodeObj, "new"), setForbiddenUpdateLabels(mynodeObj, "old"), nodeKind, mynodeObj.Namespace, mynodeObj.Name, nodeResource, "", admission.Update, &metav1.UpdateOptions{}, false, mynode),
++ 			err:        `is not allowed to modify labels: foo.node-restriction.kubernetes.io/foo, node-restriction.kubernetes.io/foo, other.k8s.io/foo, other.kubernetes.io/foo`,
++ 		},
+++		{
+++			name:       "forbid update of my node: add owner reference",
+++			podsGetter: existingPods,
+++			attributes: admission.NewAttributesRecord(mynodeObjOwnerRefA, mynodeObj, nodeKind, mynodeObj.Namespace, mynodeObj.Name, nodeResource, "", admission.Update, &metav1.UpdateOptions{}, false, mynode),
+++			err:        "node \"mynode\" is not allowed to modify ownerReferences",
+++		},
+++		{
+++			name:       "forbid update of my node: remove owner reference",
+++			podsGetter: existingPods,
+++			attributes: admission.NewAttributesRecord(mynodeObj, mynodeObjOwnerRefA, nodeKind, mynodeObj.Namespace, mynodeObj.Name, nodeResource, "", admission.Update, &metav1.UpdateOptions{}, false, mynode),
+++			err:        "node \"mynode\" is not allowed to modify ownerReferences",
+++		},
+++		{
+++			name:       "forbid update of my node: change owner reference",
+++			podsGetter: existingPods,
+++			attributes: admission.NewAttributesRecord(mynodeObjOwnerRefA, mynodeObjOwnerRefB, nodeKind, mynodeObj.Namespace, mynodeObj.Name, nodeResource, "", admission.Update, &metav1.UpdateOptions{}, false, mynode),
+++			err:        "node \"mynode\" is not allowed to modify ownerReferences",
+++		},
++ 
++ 		// Other node object
++ 		{
 +-- 
-+2.40.0
++2.25.1
 +
-diff --git a/recipes-containers/podman/podman_git.bb b/recipes-containers/podman/podman_git.bb
-index d98521ba..dbbe59c3 100644
---- a/recipes-containers/podman/podman_git.bb
-+++ b/recipes-containers/podman/podman_git.bb
-@@ -22,6 +22,7 @@ SRC_URI = " \
-     ${@bb.utils.contains('PACKAGECONFIG', 'rootless', 'file://50-podman-rootless.conf', '', d)} \
-     file://run-ptest \
-     file://CVE-2025-6032.patch;patchdir=src/import \
-+    file://CVE-2025-9566.patch;patchdir=src/import \
- "
+diff --git a/recipes-containers/kubernetes/kubernetes_git.bb b/recipes-containers/kubernetes/kubernetes_git.bb
+index 9d6179e0..41f1ad73 100644
+--- a/recipes-containers/kubernetes/kubernetes_git.bb
++++ b/recipes-containers/kubernetes/kubernetes_git.bb
+@@ -38,6 +38,7 @@ SRC_URI:append = " \
+            file://CVE-2024-3177.patch;patchdir=src/import \
+            file://CVE-2023-3955.patch;patchdir=src/import \
+            file://CVE-2023-3676.patch;patchdir=src/import \
++           file://CVE-2025-5187.patch;patchdir=src/import \
+           "
  
- LICENSE = "Apache-2.0"
+ DEPENDS += "rsync-native \
 -- 
-2.40.0
+2.25.1
 
 
