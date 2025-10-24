@@ -2,196 +2,336 @@ Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D3396CCD1BC
-	for <webhook@archiver.kernel.org>; Thu, 23 Oct 2025 13:13:22 +0000 (UTC)
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
- by mx.groups.io with SMTP id smtpd.web10.20254.1761225195777623870
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54E34CCD1AB
+	for <webhook@archiver.kernel.org>; Fri, 24 Oct 2025 08:41:39 +0000 (UTC)
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+ by mx.groups.io with SMTP id smtpd.web10.5388.1761295290761318208
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 23 Oct 2025 06:13:15 -0700
+ Fri, 24 Oct 2025 01:41:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=AzragG/H;
- spf=pass (domain: mvista.com, ip: 209.85.210.181, mailfrom: vanusuri@mvista.com)
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-76e2ea933b7so813132b3a.1
-        for <meta-virtualization@lists.yoctoproject.org>; Thu, 23 Oct 2025 06:13:15 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=fbahvDoU;
+ spf=pass (domain: mvista.com, ip: 209.85.210.178, mailfrom: vanusuri@mvista.com)
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-7a265a02477so1385643b3a.2
+        for <meta-virtualization@lists.yoctoproject.org>; Fri, 24 Oct 2025 01:41:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1761225194; x=1761829994; darn=lists.yoctoproject.org;
+        d=mvista.com; s=google; t=1761295290; x=1761900090; darn=lists.yoctoproject.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=dbUCIXLEnVQrAMEsJJS2k3grO4xSuiTQ7ztOoBQFDbQ=;
-        b=AzragG/HxauRCkv1FctmzHnI7+qIdzi+2jutLoOpAJhLiAFHl0FtdwpjworV3CDOR9
-         60OxsGeqEAfR6wAspcGslVGqxawHhsQLA+qiTA+lyMZGP647TM8KaZJ15OXaNyPpfrDU
-         TbLF5kZxfDKt4ypYrgfrjCS4nko8lVLSX3/Q8=
+        bh=13SEJmcv/V5v5se4r1vIgtJphCvIhGvFMuVeOQ84BMc=;
+        b=fbahvDoUgi+Nxiw7Q3FPBMFyuXmWNqTw7pSHNZEvsCKgXHRXrBeCVNkxaWC57XHTN0
+         Vj7P78YPLxEKoxbxnD+9wJGMlpG9R4eUIbQRdYW1TeOxFzS8BTVj8bVcFL2d/sS/Hlei
+         K86f8XYwDQe85DdQtrOF7zq+HgZ/lq/RkjS20=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761225194; x=1761829994;
+        d=1e100.net; s=20230601; t=1761295290; x=1761900090;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=dbUCIXLEnVQrAMEsJJS2k3grO4xSuiTQ7ztOoBQFDbQ=;
-        b=xI5r9r5ocoB85dyfPYqLadB8gpAtCjnoFYzysK1AgNaku2PQ96fxvvEW0G5n43nftB
-         GlGhjoZ47R9qtfzev9WZt7Bp2Wgpiyw7Pf2NvOcv1LlHm7NvPsI234YhUeOkUsckun8t
-         bLaOfy8r2WuVV78uQKIOyMboAbxgWPgdVt/0y2bD2ZEiK+Z80TlNQ9LV9LRjCLB3JeuC
-         sxiQlXmzgxlozRdhHswUNr07XeLwLWvCDhquI5tUoJI9lCwamMpoIqzKKsCvXOqU7tOf
-         OVOdvJIADmlXbOei3UNUR7iPVenS3EpIAAg/B6LE3i2J+wBdUuOTWzjzFG8igcHraYro
-         r2tA==
-X-Gm-Message-State: AOJu0YydUVCglgtbvFwoejS1xGJ/idVVQsz6ctRsGFJG7ekbNGhq/OyI
-	w5NaGIcPtAINJUjx34vbtQqWfhvcqJpnflPSX2IfxPmkW5WaSUCIHa9RljessjY7E2F7xORGjVI
-	gw1sT4HY=
-X-Gm-Gg: ASbGncu7XuB+ko5LyDEoM3cdPD9REt5PjJk94DwL05F/WBDfYPXcOCcZPl7jY/5jRUi
-	Sj8KYnZPqVCS80TWPzwCNtnDQ8JP8DzaRxml4Zc0DUqn0RpH8yLDl6eDv1a7E5YcUJTv9fkloFz
-	F0a0QS1wGeAYvmSQbzRbQPJFrWoZ7nCWNoGLWFjPRaGjkKRpE+FtAPUUdcBDuUhWMrQLlni3mFF
-	2UMGIhNWvwXjAtMSqaSypJvTTuNpU9wW/9JwZegOif9ffOuCYPvtcAqtwQI6q4eU9dyeYNAwB3d
-	AdZEssyB9Ydo4JcBuUxVW2eoqAqlcw2bsQu25wgBJ2E43mln4YYB5dtfBCr3c5k+ak+UIJR3uC3
-	3zjXM4R8tSfyeG4/KEl27hukjxjIBPZBTfhkSH7buLnAd3pHjc3ZC/517TqlYrwj9RGZQea2gXd
-	osdBGe8DhxHrf4BA==
-X-Google-Smtp-Source: AGHT+IFs2ZoE3Z/aDPk/YGi2k1slILPjN6PZFexB+L2bdUyoCcHIWyuyu++e8jetW3+ls0DlUXD2KA==
-X-Received: by 2002:a05:6a20:d49b:b0:32d:b925:22ab with SMTP id adf61e73a8af0-33aa6f53c3bmr11592964637.17.1761225194312;
-        Thu, 23 Oct 2025 06:13:14 -0700 (PDT)
-Received: from localhost.localdomain ([2401:4900:8fce:8546:bea:675a:12eb:bfe2])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b6cf4a753dfsm2170470a12.0.2025.10.23.06.13.12
+        bh=13SEJmcv/V5v5se4r1vIgtJphCvIhGvFMuVeOQ84BMc=;
+        b=cOdwAwfHhzfkV4lnqBYbPH0wBRnO+uobwe8nHxaf4CwWojPUWupOnGlqhc/s+iZyNJ
+         QQe0KnM8qEUEtzxBQ9y+91pP/RBVgGN7xJ/FHHiR4V1zm1wiezrNyPqUwvEDSkMo0d+n
+         uoSsLu55U9x9ZWI+s/YlaTuy/ihMwzmaIKJB1GoULSSfgA6BY/suhErPqz1hQgrjbKdV
+         brmWzAnU60uscAKiuP/SM/VROZDdhQtHyqpmTvF+eRVrJwHuhcon5LEIM2bXvN2ORhYC
+         YB/Koh7oBuqq//41jZaXQJneoZBDhJDFav7scucfiiLwUHaeCvTXDIKGSsmH2WficquQ
+         KDNA==
+X-Gm-Message-State: AOJu0YwmwWUjWJRqBJ1eqvuk5frijYB32yaYefDTBUwdB36Z5jW5bvz0
+	FvLuFMEhjgwhpsUfvMa+hb4efLGYbZSR8eoewR+oKKyxecYFNHjsm713z8wvG1l1AFvUP+RAR+S
+	7VrJ7uvI=
+X-Gm-Gg: ASbGncvHdJafRmPqbaCywl6KVS96KbDP16SHfq/52AcFaR+YZBDbFdNsYRiv61Ic3rQ
+	jeQT20YC55lk3wqdZCVUN1+JQz8C5UjkRYu4c4pNSXeuBFP3333nFweHPmSAQ+GnJIvzOXEqJjc
+	UDULvB1AdOLNAs6DT1vTsTy7+/BWpVSY5o5BXq7qcNYnzwpyk6LLRyNmO0F6sIyOSnRtfF5wPc1
+	QWKyjUpiPdJ3xV+Gylc7LCotDAreJUca7UePNIy0WXXuOPKxadqLOYEz1IxUXkbUgSFpTS1bBuo
+	peaWaoQBxSni82LCEVZliJi6VAq0WB6BxGExvugxILoeWlaQWIgLCsBcelb1eqDJ7B+dg0Rbu5h
+	DAQC8UyR5NG5hXo9s9tmaoShY7TmEQEsmx60y+dAVdWydNiXFag13GI0ORAZPRwg6H4DvTnnHqk
+	EhiZGPLPT4VLnT
+X-Google-Smtp-Source: AGHT+IGeF76MX7DKxDC6J87EYa6AeJSb+MPP+i3DuTpsvovoJ8DgK/nOnMvQ3aRSV5zTAJJ2VbHqyQ==
+X-Received: by 2002:a05:6a20:1591:b0:2db:f868:22c with SMTP id adf61e73a8af0-33deb276db2mr1957582637.40.1761295289412;
+        Fri, 24 Oct 2025 01:41:29 -0700 (PDT)
+Received: from MVIN00352.. ([2401:4900:8fce:8546:d407:7db9:48da:327a])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7a274dc33desm5092593b3a.71.2025.10.24.01.41.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Oct 2025 06:13:13 -0700 (PDT)
-From: vanusuri@mvista.com
+        Fri, 24 Oct 2025 01:41:28 -0700 (PDT)
+From: Vijay Anusuri <vanusuri@mvista.com>
 To: meta-virtualization@lists.yoctoproject.org
 Cc: Vijay Anusuri <vanusuri@mvista.com>
-Subject: [meta-virtualization][kirkstone][PATCH] kubernetes: Fix for CVE-2025-5187
-Date: Thu, 23 Oct 2025 18:43:04 +0530
-Message-Id: <20251023131304.230788-1-vanusuri@mvista.com>
-X-Mailer: git-send-email 2.25.1
+Subject: [meta-vitualization][scarthgap][patch] kubernetes: Fix CVE-2024-3177
+Date: Fri, 24 Oct 2025 14:11:20 +0530
+Message-ID: <20251024084120.465184-1-vanusuri@mvista.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Thu, 23 Oct 2025 13:13:22 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9421
+ <meta-virtualization@lists.yoctoproject.org>; Fri, 24 Oct 2025 08:41:39 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9422
 
-From: Vijay Anusuri <vanusuri@mvista.com>
+Upstream-commit: https://github.com/kubernetes/kubernetes/commit/34546f4725df0d5493b4e18e3229d3ed201fe260
 
-Upstream-commit: https://github.com/kubernetes/kubernetes/commit/2e6eaa1fbedd776ea9357b4f472c66dec01955b5
-
-Reference: https://github.com/kubernetes/kubernetes/pull/133467
-           https://github.com/aks-lts/kubernetes/pull/62/commits/152330ef541b23a027c779597496b62c287fb363
+Reference: https://github.com/kubernetes/kubernetes/issues/124336
 
 Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 ---
- .../kubernetes/kubernetes/CVE-2025-5187.patch | 94 +++++++++++++++++++
- .../kubernetes/kubernetes_git.bb              |  1 +
- 2 files changed, 95 insertions(+)
- create mode 100644 recipes-containers/kubernetes/kubernetes/CVE-2025-5187.patch
+ .../kubernetes/kubernetes/CVE-2024-3177.patch | 237 ++++++++++++++++++
+ .../kubernetes/kubernetes_git.bb              |   1 +
+ 2 files changed, 238 insertions(+)
+ create mode 100644 recipes-containers/kubernetes/kubernetes/CVE-2024-3177.patch
 
-diff --git a/recipes-containers/kubernetes/kubernetes/CVE-2025-5187.patch b/recipes-containers/kubernetes/kubernetes/CVE-2025-5187.patch
+diff --git a/recipes-containers/kubernetes/kubernetes/CVE-2024-3177.patch b/recipes-containers/kubernetes/kubernetes/CVE-2024-3177.patch
 new file mode 100644
-index 00000000..a3042224
+index 00000000..e6b2c6c4
 --- /dev/null
-+++ b/recipes-containers/kubernetes/kubernetes/CVE-2025-5187.patch
-@@ -0,0 +1,94 @@
-+From 922f15f1b75eada00309e02b7dd61f73e1736f3f Mon Sep 17 00:00:00 2001
-+From: Sergey Kanzhelev <S.Kanzhelev@live.com>
-+Date: Thu, 22 May 2025 17:54:10 +0000
-+Subject: [PATCH] do not allow the node to update it's owner reference
++++ b/recipes-containers/kubernetes/kubernetes/CVE-2024-3177.patch
+@@ -0,0 +1,237 @@
++From 34546f4725df0d5493b4e18e3229d3ed201fe260 Mon Sep 17 00:00:00 2001
++From: Rita Zhang <rita.z.zhang@gmail.com>
++Date: Mon, 25 Mar 2024 10:33:41 -0700
++Subject: [PATCH] Add envFrom to serviceaccount admission plugin
 +
-+Upstream-Status: Backport [https://github.com/kubernetes/kubernetes/commit/2e6eaa1fbedd776ea9357b4f472c66dec01955b5]
-+CVE: CVE-2025-5187
++Signed-off-by: Rita Zhang <rita.z.zhang@gmail.com>
++
++Upstream-Status: Backport [https://github.com/kubernetes/kubernetes/commit/34546f4725df0d5493b4e18e3229d3ed201fe260]
++CVE: CVE-2024-3177
 +Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 +---
-+ .../admission/noderestriction/admission.go    |  5 +++
-+ .../noderestriction/admission_test.go         | 36 +++++++++++++++----
-+ 2 files changed, 35 insertions(+), 6 deletions(-)
++ .../pkg/admission/serviceaccount/admission.go |  21 +++
++ .../serviceaccount/admission_test.go          | 122 ++++++++++++++++--
++ 2 files changed, 132 insertions(+), 11 deletions(-)
 +
-+diff --git a/plugin/pkg/admission/noderestriction/admission.go b/plugin/pkg/admission/noderestriction/admission.go
-+index 0a0d48d131f..8dc3ee7e66e 100644
-+--- a/plugin/pkg/admission/noderestriction/admission.go
-++++ b/plugin/pkg/admission/noderestriction/admission.go
-+@@ -441,6 +441,11 @@ func (p *Plugin) admitNode(nodeName string, a admission.Attributes) error {
-+ 			return admission.NewForbidden(a, fmt.Errorf("node %q is not allowed to modify taints", nodeName))
++diff --git a/plugin/pkg/admission/serviceaccount/admission.go b/plugin/pkg/admission/serviceaccount/admission.go
++index c844a051c24b3..3f4338128e53c 100644
++--- a/plugin/pkg/admission/serviceaccount/admission.go
+++++ b/plugin/pkg/admission/serviceaccount/admission.go
++@@ -337,6 +337,13 @@ func (s *Plugin) limitSecretReferences(serviceAccount *corev1.ServiceAccount, po
++ 				}
++ 			}
 + 		}
-+ 
-++		// Don't allow a node to update its own ownerReferences.
-++		if !apiequality.Semantic.DeepEqual(node.OwnerReferences, oldNode.OwnerReferences) {
-++		    return admission.NewForbidden(a, fmt.Errorf("node %q is not allowed to modify ownerReferences", nodeName))
+++		for _, envFrom := range container.EnvFrom {
+++			if envFrom.SecretRef != nil {
+++				if !mountableSecrets.Has(envFrom.SecretRef.Name) {
+++					return fmt.Errorf("init container %s with envFrom referencing secret.secretName=\"%s\" is not allowed because service account %s does not reference that secret", container.Name, envFrom.SecretRef.Name, serviceAccount.Name)
+++				}
+++			}
 ++		}
++ 	}
++ 
++ 	for _, container := range pod.Spec.Containers {
++@@ -347,6 +354,13 @@ func (s *Plugin) limitSecretReferences(serviceAccount *corev1.ServiceAccount, po
++ 				}
++ 			}
++ 		}
+++		for _, envFrom := range container.EnvFrom {
+++			if envFrom.SecretRef != nil {
+++				if !mountableSecrets.Has(envFrom.SecretRef.Name) {
+++					return fmt.Errorf("container %s with envFrom referencing secret.secretName=\"%s\" is not allowed because service account %s does not reference that secret", container.Name, envFrom.SecretRef.Name, serviceAccount.Name)
+++				}
+++			}
+++		}
++ 	}
++ 
++ 	// limit pull secret references as well
++@@ -388,6 +402,13 @@ func (s *Plugin) limitEphemeralContainerSecretReferences(pod *api.Pod, a admissi
++ 				}
++ 			}
++ 		}
+++		for _, envFrom := range container.EnvFrom {
+++			if envFrom.SecretRef != nil {
+++				if !mountableSecrets.Has(envFrom.SecretRef.Name) {
+++					return fmt.Errorf("ephemeral container %s with envFrom referencing secret.secretName=\"%s\" is not allowed because service account %s does not reference that secret", container.Name, envFrom.SecretRef.Name, serviceAccount.Name)
+++				}
+++			}
+++		}
++ 	}
++ 	return nil
++ }
++diff --git a/plugin/pkg/admission/serviceaccount/admission_test.go b/plugin/pkg/admission/serviceaccount/admission_test.go
++index b5155f5cd33e6..01b08da455f47 100644
++--- a/plugin/pkg/admission/serviceaccount/admission_test.go
+++++ b/plugin/pkg/admission/serviceaccount/admission_test.go
++@@ -520,6 +520,25 @@ func TestAllowsReferencedSecret(t *testing.T) {
++ 		t.Errorf("Unexpected error: %v", err)
++ 	}
++ 
+++	pod2 = &api.Pod{
+++		Spec: api.PodSpec{
+++			Containers: []api.Container{
+++				{
+++					Name: "container-1",
+++					EnvFrom: []api.EnvFromSource{
+++						{
+++							SecretRef: &api.SecretEnvSource{
+++								LocalObjectReference: api.LocalObjectReference{
+++									Name: "foo"}}}},
+++				},
+++			},
+++		},
+++	}
+++	attrs = admission.NewAttributesRecord(pod2, nil, api.Kind("Pod").WithVersion("version"), ns, "myname", api.Resource("pods").WithVersion("version"), "", admission.Create, &metav1.CreateOptions{}, false, nil)
+++	if err := admissiontesting.WithReinvocationTesting(t, admit).Admit(context.TODO(), attrs, nil); err != nil {
+++		t.Errorf("Unexpected error: %v", err)
+++	}
 ++
-+ 		// Don't allow a node to update labels outside the allowed set.
-+ 		// This would allow a node to add or modify its labels in a way that would let it steer privileged workloads to itself.
-+ 		modifiedLabels := getModifiedLabels(node.Labels, oldNode.Labels)
-+diff --git a/plugin/pkg/admission/noderestriction/admission_test.go b/plugin/pkg/admission/noderestriction/admission_test.go
-+index 6a4ccf2d948..1b51c75c4c1 100644
-+--- a/plugin/pkg/admission/noderestriction/admission_test.go
-++++ b/plugin/pkg/admission/noderestriction/admission_test.go
-+@@ -235,10 +235,14 @@ func (a *admitTestCase) run(t *testing.T) {
++ 	pod2 = &api.Pod{
++ 		Spec: api.PodSpec{
++ 			InitContainers: []api.Container{
++@@ -544,6 +563,25 @@ func TestAllowsReferencedSecret(t *testing.T) {
++ 		t.Errorf("Unexpected error: %v", err)
++ 	}
 + 
-+ func Test_nodePlugin_Admit(t *testing.T) {
-+ 	var (
-+-		mynode = &user.DefaultInfo{Name: "system:node:mynode", Groups: []string{"system:nodes"}}
-+-		bob    = &user.DefaultInfo{Name: "bob"}
-++		trueRef = true
-++		mynode  = &user.DefaultInfo{Name: "system:node:mynode", Groups: []string{"system:nodes"}}
-++		bob     = &user.DefaultInfo{Name: "bob"}
+++	pod2 = &api.Pod{
+++		Spec: api.PodSpec{
+++			InitContainers: []api.Container{
+++				{
+++					Name: "container-1",
+++					EnvFrom: []api.EnvFromSource{
+++						{
+++							SecretRef: &api.SecretEnvSource{
+++								LocalObjectReference: api.LocalObjectReference{
+++									Name: "foo"}}}},
+++				},
+++			},
+++		},
+++	}
+++	attrs = admission.NewAttributesRecord(pod2, nil, api.Kind("Pod").WithVersion("version"), ns, "myname", api.Resource("pods").WithVersion("version"), "", admission.Create, &metav1.CreateOptions{}, false, nil)
+++	if err := admissiontesting.WithReinvocationTesting(t, admit).Admit(context.TODO(), attrs, nil); err != nil {
+++		t.Errorf("Unexpected error: %v", err)
+++	}
 ++
-++		mynodeObjMeta          = metav1.ObjectMeta{Name: "mynode", UID: "mynode-uid"}
-++		mynodeObjMetaOwnerRefA = metav1.ObjectMeta{Name: "mynode", UID: "mynode-uid", OwnerReferences: []metav1.OwnerReference{{Name: "fooerA", Controller: &trueRef}}}
-++		mynodeObjMetaOwnerRefB = metav1.ObjectMeta{Name: "mynode", UID: "mynode-uid", OwnerReferences: []metav1.OwnerReference{{Name: "fooerB", Controller: &trueRef}}}
++ 	pod2 = &api.Pod{
++ 		Spec: api.PodSpec{
++ 			ServiceAccountName: DefaultServiceAccountName,
++@@ -571,6 +609,28 @@ func TestAllowsReferencedSecret(t *testing.T) {
++ 	if err := admit.Validate(context.TODO(), attrs, nil); err != nil {
++ 		t.Errorf("Unexpected error: %v", err)
++ 	}
+++
+++	pod2 = &api.Pod{
+++		Spec: api.PodSpec{
+++			ServiceAccountName: DefaultServiceAccountName,
+++			EphemeralContainers: []api.EphemeralContainer{
+++				{
+++					EphemeralContainerCommon: api.EphemeralContainerCommon{
+++						Name: "container-2",
+++						EnvFrom: []api.EnvFromSource{{
+++							SecretRef: &api.SecretEnvSource{
+++								LocalObjectReference: api.LocalObjectReference{
+++									Name: "foo"}}}},
+++					},
+++				},
+++			},
+++		},
+++	}
+++	// validate enforces restrictions on secret mounts when operation==update and subresource==ephemeralcontainers"
+++	attrs = admission.NewAttributesRecord(pod2, nil, api.Kind("Pod").WithVersion("version"), ns, "myname", api.Resource("pods").WithVersion("version"), "ephemeralcontainers", admission.Update, &metav1.UpdateOptions{}, false, nil)
+++	if err := admit.Validate(context.TODO(), attrs, nil); err != nil {
+++		t.Errorf("Unexpected error: %v", err)
+++	}
++ }
 + 
-+-		mynodeObjMeta    = metav1.ObjectMeta{Name: "mynode", UID: "mynode-uid"}
-+ 		mynodeObj        = &api.Node{ObjectMeta: mynodeObjMeta}
-+ 		mynodeObjConfigA = &api.Node{ObjectMeta: mynodeObjMeta, Spec: api.NodeSpec{ConfigSource: &api.NodeConfigSource{
-+ 			ConfigMap: &api.ConfigMapNodeConfigSource{
-+@@ -255,9 +259,11 @@ func Test_nodePlugin_Admit(t *testing.T) {
-+ 				KubeletConfigKey: "kubelet",
-+ 			}}}}
++ func TestRejectsUnreferencedSecretVolumes(t *testing.T) {
++@@ -627,25 +687,20 @@ func TestRejectsUnreferencedSecretVolumes(t *testing.T) {
 + 
-+-		mynodeObjTaintA = &api.Node{ObjectMeta: mynodeObjMeta, Spec: api.NodeSpec{Taints: []api.Taint{{Key: "mykey", Value: "A"}}}}
-+-		mynodeObjTaintB = &api.Node{ObjectMeta: mynodeObjMeta, Spec: api.NodeSpec{Taints: []api.Taint{{Key: "mykey", Value: "B"}}}}
-+-		othernodeObj    = &api.Node{ObjectMeta: metav1.ObjectMeta{Name: "othernode"}}
-++		mynodeObjTaintA    = &api.Node{ObjectMeta: mynodeObjMeta, Spec: api.NodeSpec{Taints: []api.Taint{{Key: "mykey", Value: "A"}}}}
-++		mynodeObjTaintB    = &api.Node{ObjectMeta: mynodeObjMeta, Spec: api.NodeSpec{Taints: []api.Taint{{Key: "mykey", Value: "B"}}}}
-++		mynodeObjOwnerRefA = &api.Node{ObjectMeta: mynodeObjMetaOwnerRefA}
-++		mynodeObjOwnerRefB = &api.Node{ObjectMeta: mynodeObjMetaOwnerRefB}
-++		othernodeObj       = &api.Node{ObjectMeta: metav1.ObjectMeta{Name: "othernode"}}
-+ 
-+ 		coremymirrorpod, v1mymirrorpod           = makeTestPod("ns", "mymirrorpod", "mynode", true)
-+ 		coreothermirrorpod, v1othermirrorpod     = makeTestPod("ns", "othermirrorpod", "othernode", true)
-+@@ -1029,6 +1035,24 @@ func Test_nodePlugin_Admit(t *testing.T) {
-+ 			attributes: admission.NewAttributesRecord(setForbiddenUpdateLabels(mynodeObj, "new"), setForbiddenUpdateLabels(mynodeObj, "old"), nodeKind, mynodeObj.Namespace, mynodeObj.Name, nodeResource, "", admission.Update, &metav1.UpdateOptions{}, false, mynode),
-+ 			err:        `is not allowed to modify labels: foo.node-restriction.kubernetes.io/foo, node-restriction.kubernetes.io/foo, other.k8s.io/foo, other.kubernetes.io/foo`,
++ 	pod2 = &api.Pod{
++ 		Spec: api.PodSpec{
++-			InitContainers: []api.Container{
+++			Containers: []api.Container{
++ 				{
++ 					Name: "container-1",
++-					Env: []api.EnvVar{
+++					EnvFrom: []api.EnvFromSource{
++ 						{
++-							Name: "env-1",
++-							ValueFrom: &api.EnvVarSource{
++-								SecretKeyRef: &api.SecretKeySelector{
++-									LocalObjectReference: api.LocalObjectReference{Name: "foo"},
++-								},
++-							},
++-						},
++-					},
+++							SecretRef: &api.SecretEnvSource{
+++								LocalObjectReference: api.LocalObjectReference{
+++									Name: "foo"}}}},
++ 				},
++ 			},
 + 		},
-++		{
-++			name:       "forbid update of my node: add owner reference",
-++			podsGetter: existingPods,
-++			attributes: admission.NewAttributesRecord(mynodeObjOwnerRefA, mynodeObj, nodeKind, mynodeObj.Namespace, mynodeObj.Name, nodeResource, "", admission.Update, &metav1.UpdateOptions{}, false, mynode),
-++			err:        "node \"mynode\" is not allowed to modify ownerReferences",
-++		},
-++		{
-++			name:       "forbid update of my node: remove owner reference",
-++			podsGetter: existingPods,
-++			attributes: admission.NewAttributesRecord(mynodeObj, mynodeObjOwnerRefA, nodeKind, mynodeObj.Namespace, mynodeObj.Name, nodeResource, "", admission.Update, &metav1.UpdateOptions{}, false, mynode),
-++			err:        "node \"mynode\" is not allowed to modify ownerReferences",
-++		},
-++		{
-++			name:       "forbid update of my node: change owner reference",
-++			podsGetter: existingPods,
-++			attributes: admission.NewAttributesRecord(mynodeObjOwnerRefA, mynodeObjOwnerRefB, nodeKind, mynodeObj.Namespace, mynodeObj.Name, nodeResource, "", admission.Update, &metav1.UpdateOptions{}, false, mynode),
-++			err:        "node \"mynode\" is not allowed to modify ownerReferences",
-++		},
++ 	}
++ 	attrs = admission.NewAttributesRecord(pod2, nil, api.Kind("Pod").WithVersion("version"), ns, "myname", api.Resource("pods").WithVersion("version"), "", admission.Create, &metav1.CreateOptions{}, false, nil)
++-	if err := admissiontesting.WithReinvocationTesting(t, admit).Admit(context.TODO(), attrs, nil); err == nil || !strings.Contains(err.Error(), "with envVar") {
+++	if err := admissiontesting.WithReinvocationTesting(t, admit).Admit(context.TODO(), attrs, nil); err == nil || !strings.Contains(err.Error(), "with envFrom") {
++ 		t.Errorf("Unexpected error: %v", err)
++ 	}
 + 
-+ 		// Other node object
-+ 		{
-+-- 
-+2.25.1
-+
++@@ -678,6 +733,30 @@ func TestRejectsUnreferencedSecretVolumes(t *testing.T) {
++ 		t.Errorf("validate only enforces restrictions on secret mounts when operation==create and subresource==''. Unexpected error: %v", err)
++ 	}
++ 
+++	pod2 = &api.Pod{
+++		Spec: api.PodSpec{
+++			ServiceAccountName: DefaultServiceAccountName,
+++			InitContainers: []api.Container{
+++				{
+++					Name: "container-1",
+++					EnvFrom: []api.EnvFromSource{
+++						{
+++							SecretRef: &api.SecretEnvSource{
+++								LocalObjectReference: api.LocalObjectReference{
+++									Name: "foo"}}}},
+++				},
+++			},
+++		},
+++	}
+++	attrs = admission.NewAttributesRecord(pod2, nil, api.Kind("Pod").WithVersion("version"), ns, "myname", api.Resource("pods").WithVersion("version"), "", admission.Update, &metav1.UpdateOptions{}, false, nil)
+++	if err := admissiontesting.WithReinvocationTesting(t, admit).Admit(context.TODO(), attrs, nil); err != nil {
+++		t.Errorf("admit only enforces restrictions on secret mounts when operation==create. Unexpected error: %v", err)
+++	}
+++	attrs = admission.NewAttributesRecord(pod2, nil, api.Kind("Pod").WithVersion("version"), ns, "myname", api.Resource("pods").WithVersion("version"), "", admission.Create, &metav1.CreateOptions{}, false, nil)
+++	if err := admit.Validate(context.TODO(), attrs, nil); err == nil || !strings.Contains(err.Error(), "with envFrom") {
+++		t.Errorf("validate only enforces restrictions on secret mounts when operation==create and subresource==''. Unexpected error: %v", err)
+++	}
+++
++ 	pod2 = &api.Pod{
++ 		Spec: api.PodSpec{
++ 			ServiceAccountName: DefaultServiceAccountName,
++@@ -708,6 +787,27 @@ func TestRejectsUnreferencedSecretVolumes(t *testing.T) {
++ 	if err := admit.Validate(context.TODO(), attrs, nil); err == nil || !strings.Contains(err.Error(), "with envVar") {
++ 		t.Errorf("validate enforces restrictions on secret mounts when operation==update and subresource==ephemeralcontainers. Unexpected error: %v", err)
++ 	}
+++
+++	pod2 = &api.Pod{
+++		Spec: api.PodSpec{
+++			ServiceAccountName: DefaultServiceAccountName,
+++			EphemeralContainers: []api.EphemeralContainer{
+++				{
+++					EphemeralContainerCommon: api.EphemeralContainerCommon{
+++						Name: "container-2",
+++						EnvFrom: []api.EnvFromSource{{
+++							SecretRef: &api.SecretEnvSource{
+++								LocalObjectReference: api.LocalObjectReference{
+++									Name: "foo"}}}},
+++					},
+++				},
+++			},
+++		},
+++	}
+++	attrs = admission.NewAttributesRecord(pod2, nil, api.Kind("Pod").WithVersion("version"), ns, "myname", api.Resource("pods").WithVersion("version"), "ephemeralcontainers", admission.Update, &metav1.UpdateOptions{}, false, nil)
+++	if err := admit.Validate(context.TODO(), attrs, nil); err == nil || !strings.Contains(err.Error(), "with envFrom") {
+++		t.Errorf("validate enforces restrictions on secret mounts when operation==update and subresource==ephemeralcontainers. Unexpected error: %v", err)
+++	}
++ }
++ 
++ func TestAllowUnreferencedSecretVolumesForPermissiveSAs(t *testing.T) {
 diff --git a/recipes-containers/kubernetes/kubernetes_git.bb b/recipes-containers/kubernetes/kubernetes_git.bb
-index 9d6179e0..41f1ad73 100644
+index ee44db47..c9fecfa6 100644
 --- a/recipes-containers/kubernetes/kubernetes_git.bb
 +++ b/recipes-containers/kubernetes/kubernetes_git.bb
-@@ -38,6 +38,7 @@ SRC_URI:append = " \
-            file://CVE-2024-3177.patch;patchdir=src/import \
-            file://CVE-2023-3955.patch;patchdir=src/import \
-            file://CVE-2023-3676.patch;patchdir=src/import \
-+           file://CVE-2025-5187.patch;patchdir=src/import \
+@@ -35,6 +35,7 @@ SRC_URI:append = " \
+            file://k8s-init \
+            file://99-kubernetes.conf \
+            file://CVE-2025-5187.patch \
++           file://CVE-2024-3177.patch \
            "
  
  DEPENDS += "rsync-native \
 -- 
-2.25.1
+2.43.0
 
 
