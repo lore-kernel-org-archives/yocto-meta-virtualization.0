@@ -1,85 +1,158 @@
-Return-Path: <matt@mattfischer.com>
+Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D4D7CEE35A
-	for <webhook@archiver.kernel.org>; Tue, 18 Nov 2025 20:50:31 +0000 (UTC)
-Received: from outbound.mr.icloud.com (outbound.mr.icloud.com [57.103.69.151])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.7157.1763499023520580729
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DC58CF259E
+	for <webhook@archiver.kernel.org>; Wed, 19 Nov 2025 08:52:25 +0000 (UTC)
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2570.1763542343927748693
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 18 Nov 2025 12:50:23 -0800
+ Wed, 19 Nov 2025 00:52:24 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@mattfischer.com header.s=sig1 header.b=JpukMkwk;
- spf=pass (domain: mattfischer.com, ip: 57.103.69.151, mailfrom: matt@mattfischer.com)
-Received: from outbound.mr.icloud.com (unknown [127.0.0.2])
-	by p00-icloudmta-asmtp-us-west-2a-100-percent-11 (Postfix) with ESMTPS id B218D18000B0;
-	Tue, 18 Nov 2025 20:50:22 +0000 (UTC)
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mattfischer.com; s=sig1; bh=j1KvQzXcz0eedprrj0XB035IS4p7vLfOI0t3ePAGiaQ=; h=From:To:Subject:Date:Message-ID:MIME-Version:x-icloud-hme; b=JpukMkwkDYg1TGgP927gqXzi67aq6+aMBxE5z1e8oV3SbD+ybBluW4k6USnt2NwaJ2PndMAtz+wbYfgdLTr8DKuKecQ+3fmTcRLL1dv5B2Lb3UQHQ/IbEL75NABczKMYCNU96udcranPBczd0KUczdnMiJM3a6Ca92uc4nP/icsMgbwwv22p4GiMFijCioqz3Mpwfe9ak897kew8/keH3+zajnvnnxmtQp7doem58CjMX92/MuW9tfMHDG4Vs+GkRn6emgtb/0mgfF0BlmbQS14R9bfLCc2NkkUUcKCRVwZ0kq3eGwbjK3O8IlC0WZPrzietbmM33Fp58bAY85PZ5Q==
-mail-alias-created-date: 1360949849000
-Received: from localhost.localdomain (unknown [17.57.152.38])
-	by p00-icloudmta-asmtp-us-west-2a-100-percent-11 (Postfix) with ESMTPSA id 32E881800104;
-	Tue, 18 Nov 2025 20:50:22 +0000 (UTC)
-From: Matt Fischer <matt@mattfischer.com>
+ dkim=pass header.i=@mvista.com header.s=google header.b=Ss57NtbF;
+ spf=pass (domain: mvista.com, ip: 209.85.216.45, mailfrom: hprajapati@mvista.com)
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-34361025290so4931536a91.1
+        for <meta-virtualization@lists.yoctoproject.org>; Wed, 19 Nov 2025 00:52:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google; t=1763542343; x=1764147143; darn=lists.yoctoproject.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=2U8rKfxlPvywo1w9gTbmNBZ9JAcocG3pGipZ27Nz4sk=;
+        b=Ss57NtbFeccKc3Jtv/UvnfBo+ztp+tJkvpbAW1Yk32kN58Gs6EvP4MzsZj5HD5Udsb
+         RRLF3KIX+a9KCEsE85st6i0+d1FCl+Bh0bwEVRTQYMltp4KpGmjDpUdE0ysw4ys4Ajie
+         LPFLTM72Cw3adR8WqTtOHvgq7ileq4+m+H/sw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763542343; x=1764147143;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2U8rKfxlPvywo1w9gTbmNBZ9JAcocG3pGipZ27Nz4sk=;
+        b=shxELp7UpyFX/QiDllJsa0MxpKWMaf8N3Q0Mx0ytwRNtID8JyNaruOg0YvgtnKStQy
+         Hezn/JPQq2uXp+tjd1HvoYxeIxo4sKFaoZKfGnl5efx8blP+cAmxm2lnGm26tRv+8rcc
+         p6kE0h3LiTOR6J9hbLHPGsRbG94/UDZnqNkyn84ehCIvLTcskB6/Z3RY2eGhGEvQhUEO
+         54Y67sc1Fh62GTDF9VxrPdaQhEhm6xgKt/7Fd1CkCgUR9DMgdTt5eLV6IYEGhsEPdAap
+         xNpldRY5yyDfUjT3+oGVjy5ZDtgdcxA9iDUW5euBFByTKhxStn12JdYzVRCzv8u4NjDX
+         WnFg==
+X-Gm-Message-State: AOJu0Ywkj3BX/n5p6jYGQ/yYM87gHgjFz51Pp00asqoAnMI1l9HGeuC6
+	Bwjhc9IkpHOpT2Y7c1o3c/32E0pi4CpB4+wcvi2NyAStCvhVPhrS4rqUZ1PzWtvtktXI4uNLg81
+	kGEt7Yus=
+X-Gm-Gg: ASbGnctWTnvaMyTEDYy2fDswwIZ4G+IBgNAd9zysVgqSO7yUi4z31fQMY8EtKv8SHz1
+	e6DA4c3KwHoAjwql2mOLqj8cLqKuLkooFKdHIxwhYscTT/li6VXr272U6UMaPRddj1D6eR1YewD
+	Rwp+MO2eLDRf3PwaykN7DHGI9jjsYku+vG9aq4JTaDkChQmIm5Dwiij2sNrOE7Oas6mRd2C8xCZ
+	ovQ4g591P0dj5t7fEdPy5W+37/NMQZRDG8SubM4pSelswvMgiISqWmj2oVBsfadFtE63y5Y5rp/
+	uxuIPlfgDDULnocKta/NQqcTwLw/B/g5YElfyNfHq74CsENrCPqzFGug75/OQX7Z89ZsjypQxoE
+	E6g18gRv84yCOJghODT56L0/q8bVAaiVmZrwQOERyEZ3MZn4/FqEfbJTHGLffvbteAOBJsYwe7G
+	4kaMiJadBDtrIMrvwuBIfq
+X-Google-Smtp-Source: AGHT+IHIA2JawgvHtA7tW7CCUuum2XrodIS1POFzX40nHpNsv0m3hwNrMxrx6q9KTr83eKxylBYq2w==
+X-Received: by 2002:a17:90b:1d4f:b0:340:f7d6:dc70 with SMTP id 98e67ed59e1d1-343f9e9f3b5mr20254476a91.13.1763542342899;
+        Wed, 19 Nov 2025 00:52:22 -0800 (PST)
+Received: from MVIN00013 ([150.129.170.129])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-345bbfc8dd9sm1963378a91.3.2025.11.19.00.52.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Nov 2025 00:52:22 -0800 (PST)
+From: Hitendra Prajapati <hprajapati@mvista.com>
 To: meta-virtualization@lists.yoctoproject.org
-Cc: Matt Fischer <matt@mattfischer.com>
-Subject: [meta-virtualization][PATCH] Add gpgme as a RDEPENDS for podman
-Date: Tue, 18 Nov 2025 13:50:20 -0700
-Message-ID: <20251118205020.50459-1-matt@mattfischer.com>
+Cc: Hitendra Prajapati <hprajapati@mvista.com>
+Subject: [meta-virtualization][scarthgap][PATCH] kubernetes: Fix for CVE-2024-10220
+Date: Wed, 19 Nov 2025 14:22:16 +0530
+Message-ID: <20251119085216.329343-1-hprajapati@mvista.com>
 X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTE4MDE2OCBTYWx0ZWRfX2BdBH0xa/tip
- VSiCEWNF4hSC5r7vT0loDRVhKaOR/r+hh0Sc312TI3HyitNDx7YPEwKvW2sssluumhYNh6bi4Bl
- FxHAWrcTv5FSuQ0LCQ1ghfULyzZnoNX44Iw1/uYVMQ1xqxmg2jqPwzQSqH0FmVlq42FjzG04uFr
- /dg5s8JYr5bB2zqv2nhyHJLJLTD1LQV3tX/xhdax5FUNzBPiWE/4jIoUZoxdlErxANDhPKCanH3
- A/Ld89Wt1N/EeI6+hv811r7IwDWLqja0NE3X1Lkgs9zAr55snzyVu+IkdJNpn+VMMu09Ax6Va14
- 0TpZg/chhf9mnu7A61h
-X-Proofpoint-ORIG-GUID: bPBddf4mCJIGjKme4bB7IVE2vRc7w6gq
-X-Proofpoint-GUID: bPBddf4mCJIGjKme4bB7IVE2vRc7w6gq
-X-Authority-Info: v=2.4 cv=TbqbdBQh c=1 sm=1 tr=0 ts=691cdc0e cx=c_apl:c_pps
- a=9OgfyREA4BUYbbCgc0Y0oA==:117 a=9OgfyREA4BUYbbCgc0Y0oA==:17
- a=6UeiqGixMTsA:10 a=VkNPw1HP01LnGYTKEx00:22 a=JUVG3O__--Zh8yaqAgkA:9
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-18_03,2025-11-18_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- spamscore=0 bulkscore=0 suspectscore=0 clxscore=1030 phishscore=0 mlxscore=0
- mlxlogscore=749 malwarescore=0 classifier=spam authscore=0 adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511180168
-X-JNJ: AAAAAAABy08w/TJX1QpMsnfM76bnBOn8Pt0bRQQxs8y6x5OOGRBS2nMaD+vhjevJVPVs0AnZHsYnriOpQFVH78iAnAunq4hKYRApT+k7DE/2+5sKwws6oR5P0CMhn9aCTuSq9iT9viKLzcFOUTy+zbzW+P4CUqIBS09hNlT0dzSnuZj52u2mBVVSgtvY8lNRzpMBTqtxeVh22jroHvLVFb/PBxwUvOu2HVbbs6YKOQkdhDSYkVY1f4u+quKC0uLNfJO/boxAqIOHA2oK2vI/b5IVDkgdDFKRM0jB6OgnpwM11StY4sOpsPZI7dQEYx+H/kkT332+2zZPXTXG6zQiNnvKhZg1AH2TCPqUk+9NMOkkxFLzCot+J+Z2WPM+aF3QfN7ZieL+9BbNU+Iaw63N1VXGYWX+5Rda6eRZhf2RZLV6q+0o732dnTk8wVlIOHaD3fxfUaoLMbFCOzNFwVLE8XL7PKmmvSX81xQazNXMPpn95xqW8XCFN/uwxuH+qqgUazTYKbtnl4DAjRY6L8Zjcbe/PX49HWfwvj5Tj1ITIYIDPXl4sVs6tEOAY8qgf2NIFYm7Kw6Tq8xdnFqqBLLp4fDfOqED0RX3s58icUVXkK91/eQik9klDx+5QdlI3u1qEp8=
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Tue, 18 Nov 2025 20:50:31 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9442
+ <meta-virtualization@lists.yoctoproject.org>; Wed, 19 Nov 2025 08:52:25 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9443
 
-podman needs gpgme in order to run. In some usages, this
-is being pulled in transitively by skopeo, but since skopeo
-was removed as a podman dependency last year, it now needs to be
-direct.
+Upstream-Status: Backport from https://github.com/kubernetes/kubernetes/commit/4b7b754099e32ce4b67dacd51d60daa2686ddd94
+
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 ---
- recipes-containers/podman/podman_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../kubernetes/CVE-2024-10220.patch           | 60 +++++++++++++++++++
+ .../kubernetes/kubernetes_git.bb              |  1 +
+ 2 files changed, 61 insertions(+)
+ create mode 100644 recipes-containers/kubernetes/kubernetes/CVE-2024-10220.patch
 
-diff --git a/recipes-containers/podman/podman_git.bb b/recipes-containers=
-/podman/podman_git.bb
-index f20022bb..f09e01f8 100644
---- a/recipes-containers/podman/podman_git.bb
-+++ b/recipes-containers/podman/podman_git.bb
-@@ -143,7 +143,7 @@ VIRTUAL-RUNTIME_base-utils-nsenter ?=3D "util-linux-n=
-senter"
- COMPATIBLE_HOST =3D "^(?!mips).*"
-=20
- RDEPENDS:${PN} +=3D "\
--	catatonit conmon ${VIRTUAL-RUNTIME_container_runtime} iptables libdevma=
-pper \
-+	catatonit conmon ${VIRTUAL-RUNTIME_container_runtime} gpgme iptables li=
-bdevmapper \
- 	${VIRTUAL-RUNTIME_container_dns} ${VIRTUAL-RUNTIME_container_networking=
-} ${VIRTUAL-RUNTIME_base-utils-nsenter} \
- "
- RRECOMMENDS:${PN} +=3D "slirp4netns \
---=20
-2.50.1 (Apple Git-155)
+diff --git a/recipes-containers/kubernetes/kubernetes/CVE-2024-10220.patch b/recipes-containers/kubernetes/kubernetes/CVE-2024-10220.patch
+new file mode 100644
+index 00000000..1de966e4
+--- /dev/null
++++ b/recipes-containers/kubernetes/kubernetes/CVE-2024-10220.patch
+@@ -0,0 +1,60 @@
++From 4b7b754099e32ce4b67dacd51d60daa2686ddd94 Mon Sep 17 00:00:00 2001
++From: Imre Rad <imrer@google.com>
++Date: Thu, 25 Apr 2024 14:21:51 +0000
++Subject: [PATCH] gitRepo volume: directory must be max 1 level deep
++
++More details on Hackerone #2266560
++
++CVE: CVE-2024-10220
++Upstream-Status: Backport [https://github.com/kubernetes/kubernetes/commit/4b7b754099e32ce4b67dacd51d60daa2686ddd94]
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ pkg/volume/git_repo/git_repo.go      |  6 ++++++
++ pkg/volume/git_repo/git_repo_test.go | 14 ++++++++++++++
++ 2 files changed, 20 insertions(+)
++
++diff --git a/pkg/volume/git_repo/git_repo.go b/pkg/volume/git_repo/git_repo.go
++index 995018d9007..b3827b92ad0 100644
++--- a/pkg/volume/git_repo/git_repo.go
+++++ b/pkg/volume/git_repo/git_repo.go
++@@ -261,6 +261,12 @@ func validateVolume(src *v1.GitRepoVolumeSource) error {
++ 	if err := validateNonFlagArgument(src.Directory, "directory"); err != nil {
++ 		return err
++ 	}
+++	if (src.Revision != "") && (src.Directory != "") {
+++		cleanedDir := filepath.Clean(src.Directory)
+++		if strings.Contains(cleanedDir, "/") || (strings.Contains(cleanedDir, "\\")) {
+++			return fmt.Errorf("%q is not a valid directory, it must not contain a directory separator", src.Directory)
+++		}
+++	}
++ 	return nil
++ }
++ 
++diff --git a/pkg/volume/git_repo/git_repo_test.go b/pkg/volume/git_repo/git_repo_test.go
++index 5b1461be892..650f765cc48 100644
++--- a/pkg/volume/git_repo/git_repo_test.go
+++++ b/pkg/volume/git_repo/git_repo_test.go
++@@ -267,6 +267,20 @@ func TestPlugin(t *testing.T) {
++ 			},
++ 			isExpectedFailure: true,
++ 		},
+++		{
+++			name: "invalid-revision-directory-combo",
+++			vol: &v1.Volume{
+++				Name: "vol1",
+++				VolumeSource: v1.VolumeSource{
+++					GitRepo: &v1.GitRepoVolumeSource{
+++						Repository: gitURL,
+++						Revision:   "main",
+++						Directory:  "foo/bar",
+++					},
+++				},
+++			},
+++			isExpectedFailure: true,
+++		},
++ 	}
++ 
++ 	for _, scenario := range scenarios {
++-- 
++2.50.1
++
+diff --git a/recipes-containers/kubernetes/kubernetes_git.bb b/recipes-containers/kubernetes/kubernetes_git.bb
+index ee44db47..5339371c 100644
+--- a/recipes-containers/kubernetes/kubernetes_git.bb
++++ b/recipes-containers/kubernetes/kubernetes_git.bb
+@@ -35,6 +35,7 @@ SRC_URI:append = " \
+            file://k8s-init \
+            file://99-kubernetes.conf \
+            file://CVE-2025-5187.patch \
++           file://CVE-2024-10220.patch \
+           "
+ 
+ DEPENDS += "rsync-native \
+-- 
+2.50.1
 
 
