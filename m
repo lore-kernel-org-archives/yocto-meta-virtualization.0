@@ -1,158 +1,171 @@
-Return-Path: <hprajapati@mvista.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DC58CF259E
-	for <webhook@archiver.kernel.org>; Wed, 19 Nov 2025 08:52:25 +0000 (UTC)
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2570.1763542343927748693
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2230ACF648D
+	for <webhook@archiver.kernel.org>; Wed, 19 Nov 2025 23:23:52 +0000 (UTC)
+Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.20775.1763594624238152326
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 19 Nov 2025 00:52:24 -0800
+ Wed, 19 Nov 2025 15:23:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=Ss57NtbF;
- spf=pass (domain: mvista.com, ip: 209.85.216.45, mailfrom: hprajapati@mvista.com)
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-34361025290so4931536a91.1
-        for <meta-virtualization@lists.yoctoproject.org>; Wed, 19 Nov 2025 00:52:23 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=doUKikZH;
+ spf=pass (domain: gmail.com, ip: 209.85.222.180, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-8b2ea2b9631so25911985a.3
+        for <meta-virtualization@lists.yoctoproject.org>; Wed, 19 Nov 2025 15:23:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1763542343; x=1764147143; darn=lists.yoctoproject.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=2U8rKfxlPvywo1w9gTbmNBZ9JAcocG3pGipZ27Nz4sk=;
-        b=Ss57NtbFeccKc3Jtv/UvnfBo+ztp+tJkvpbAW1Yk32kN58Gs6EvP4MzsZj5HD5Udsb
-         RRLF3KIX+a9KCEsE85st6i0+d1FCl+Bh0bwEVRTQYMltp4KpGmjDpUdE0ysw4ys4Ajie
-         LPFLTM72Cw3adR8WqTtOHvgq7ileq4+m+H/sw=
+        d=gmail.com; s=20230601; t=1763594623; x=1764199423; darn=lists.yoctoproject.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=3xXS832b0rQedjHASD20PpK3ndGvsYlWqHb+6Gkvlzw=;
+        b=doUKikZHSj1Cj7bVVQc+pvREoOIrg6aqNocHC/mGLlhwO9Ay+QL8YUbQUpY6RCgh6p
+         4qfqT4oaXv2aDOEfCS6ths+NYltBlbC/h1wP6aTmPxpM/4c4NpFN1Ubi/kHPXlmNl00l
+         rvlwfXskPvvSMdmUzoD11WA6k+RV/9PBXxxonFRry3ynw13S95dpA6pc0DQdSdwvQqUk
+         Rlf3ikgqTs7UOgreSDqvTLJiX216VpyY0nG+w1Z+0BLiZjjHxp8eCkVl8jNJS5sc0cOR
+         CVXHD9JvRypUqnm7METfIrBuXI39sR+Mx1zCk7KT5sj34vvsvIeOQHz7L/MdH2UVnZal
+         AnUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763542343; x=1764147143;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2U8rKfxlPvywo1w9gTbmNBZ9JAcocG3pGipZ27Nz4sk=;
-        b=shxELp7UpyFX/QiDllJsa0MxpKWMaf8N3Q0Mx0ytwRNtID8JyNaruOg0YvgtnKStQy
-         Hezn/JPQq2uXp+tjd1HvoYxeIxo4sKFaoZKfGnl5efx8blP+cAmxm2lnGm26tRv+8rcc
-         p6kE0h3LiTOR6J9hbLHPGsRbG94/UDZnqNkyn84ehCIvLTcskB6/Z3RY2eGhGEvQhUEO
-         54Y67sc1Fh62GTDF9VxrPdaQhEhm6xgKt/7Fd1CkCgUR9DMgdTt5eLV6IYEGhsEPdAap
-         xNpldRY5yyDfUjT3+oGVjy5ZDtgdcxA9iDUW5euBFByTKhxStn12JdYzVRCzv8u4NjDX
-         WnFg==
-X-Gm-Message-State: AOJu0Ywkj3BX/n5p6jYGQ/yYM87gHgjFz51Pp00asqoAnMI1l9HGeuC6
-	Bwjhc9IkpHOpT2Y7c1o3c/32E0pi4CpB4+wcvi2NyAStCvhVPhrS4rqUZ1PzWtvtktXI4uNLg81
-	kGEt7Yus=
-X-Gm-Gg: ASbGnctWTnvaMyTEDYy2fDswwIZ4G+IBgNAd9zysVgqSO7yUi4z31fQMY8EtKv8SHz1
-	e6DA4c3KwHoAjwql2mOLqj8cLqKuLkooFKdHIxwhYscTT/li6VXr272U6UMaPRddj1D6eR1YewD
-	Rwp+MO2eLDRf3PwaykN7DHGI9jjsYku+vG9aq4JTaDkChQmIm5Dwiij2sNrOE7Oas6mRd2C8xCZ
-	ovQ4g591P0dj5t7fEdPy5W+37/NMQZRDG8SubM4pSelswvMgiISqWmj2oVBsfadFtE63y5Y5rp/
-	uxuIPlfgDDULnocKta/NQqcTwLw/B/g5YElfyNfHq74CsENrCPqzFGug75/OQX7Z89ZsjypQxoE
-	E6g18gRv84yCOJghODT56L0/q8bVAaiVmZrwQOERyEZ3MZn4/FqEfbJTHGLffvbteAOBJsYwe7G
-	4kaMiJadBDtrIMrvwuBIfq
-X-Google-Smtp-Source: AGHT+IHIA2JawgvHtA7tW7CCUuum2XrodIS1POFzX40nHpNsv0m3hwNrMxrx6q9KTr83eKxylBYq2w==
-X-Received: by 2002:a17:90b:1d4f:b0:340:f7d6:dc70 with SMTP id 98e67ed59e1d1-343f9e9f3b5mr20254476a91.13.1763542342899;
-        Wed, 19 Nov 2025 00:52:22 -0800 (PST)
-Received: from MVIN00013 ([150.129.170.129])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-345bbfc8dd9sm1963378a91.3.2025.11.19.00.52.21
+        d=1e100.net; s=20230601; t=1763594623; x=1764199423;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3xXS832b0rQedjHASD20PpK3ndGvsYlWqHb+6Gkvlzw=;
+        b=aULSlEsFgpwbneVh7yoEsS+wgR9irEwlTtR5wJGfhu6ylbE5i1ElROBA8k5nXIwXPv
+         RQxz2J027KA00fTclVzdUr4M9r8cbNW0dUUKjMfCgKw3BSW8YOiFd8DkLC6YnFwx4cED
+         SEKDezcjFb4JR25OqM2peXRKu4VCFQuKdZHHSEhE/AOrNdNUFKbhyQo05xXYV8OUdgMd
+         U7XEltRCJYFgeZaJpFHi6Pl+CoD0jB48hDSrRa4thipNuT2hxLxGKYBCFLsq4Zlc8WpC
+         6dxMqPQAtvzk0pgwm+qNeDPOvYA7QVeLjLVeC026fzvrFJsveRiAiWI88fpaj4pAmywr
+         hiRQ==
+X-Gm-Message-State: AOJu0Yz1UGiP2lxfB02bM9aLU3eZTlm2AJ+2d3c+9PDl8Q5PE46ybrkc
+	LxeFBoVH16KeoUAFjXErSlHMIJz5Qt8b7ZSeGR3QAvmO4ePRKumanyJgUpZV0ODE
+X-Gm-Gg: ASbGncsEnyngBpfi0vC3pv9scnPwZVsxcyrMH8/L9xpTSjm7EQopr3vbuYrYxS3lD6i
+	6Wbq2sk4BO/IRAAU0IymHKFslTZMGOssKb29sZdt8b1ZZMqpCf5YoRKjCsg9yvA/UmIp2iPG8lK
+	AjTSej58YlJCuX2vZFxDcYFcoLNekb7ZyC5xdKFHtTl8mtf7Dvf1AFazkisKVHr4zmJ6yfUS2gD
+	jzRbcH4y7kkubSvv9Lv5jITAevnzhNXVY9EEB4aE8OzYb0GOXU0G01wVZ9LTZM2SqJOG0+9rcRL
+	04Z5I07v8mPZaV/yK7CkHmgf5iWZFYL8uJpuELfLJjZpYtDKwpMIoWCt3ueRBPgHeQGkW1mctjR
+	KTaT2zNqUYpxqkWzLO9Kx7qt57SL/vI1gcJypfZf8Er0ogMoHGEgEuwXT9oItnxtQ3F1V8qOf2e
+	DFDjiK37nDcVrLzboE+UEG3f3Q/7UL2OwF6zBTwRAVOu9KhSprZHVrNVtHDq/vBcrYCvHKmpmyt
+	+w=
+X-Google-Smtp-Source: AGHT+IH+R6YO3vM4obeXNNq3rI39KVNeSdHvfBBuS1rpHFzF3bvig8/s27YrocKkZ/F1RiBlhWbO/A==
+X-Received: by 2002:a05:620a:410a:b0:88e:6f4:2160 with SMTP id af79cd13be357-8b327311233mr177867885a.12.1763594623058;
+        Wed, 19 Nov 2025 15:23:43 -0800 (PST)
+Received: from gmail.com (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8b32932d9ecsm45905085a.3.2025.11.19.15.23.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Nov 2025 00:52:22 -0800 (PST)
-From: Hitendra Prajapati <hprajapati@mvista.com>
-To: meta-virtualization@lists.yoctoproject.org
-Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [meta-virtualization][scarthgap][PATCH] kubernetes: Fix for CVE-2024-10220
-Date: Wed, 19 Nov 2025 14:22:16 +0530
-Message-ID: <20251119085216.329343-1-hprajapati@mvista.com>
-X-Mailer: git-send-email 2.50.1
+        Wed, 19 Nov 2025 15:23:42 -0800 (PST)
+Date: Wed, 19 Nov 2025 18:23:40 -0500
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: tom.hochstein@oss.nxp.com
+Cc: meta-virtualization@lists.yoctoproject.org
+Subject: Re: [meta-virtualization][PATCH v3] libvirt: Fix missing
+ libvirt-python
+Message-ID: <aR5RfHEVSHzA0kaX@gmail.com>
+References: <20251106161130.1562976-1-tom.hochstein@oss.nxp.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251106161130.1562976-1-tom.hochstein@oss.nxp.com>
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Wed, 19 Nov 2025 08:52:25 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9443
+ <meta-virtualization@lists.yoctoproject.org>; Wed, 19 Nov 2025 23:23:52 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9444
 
-Upstream-Status: Backport from https://github.com/kubernetes/kubernetes/commit/4b7b754099e32ce4b67dacd51d60daa2686ddd94
+Sorry for the delay, I've been really focused on some larger container
+stack runtime issues that have been consuming all my time.
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
----
- .../kubernetes/CVE-2024-10220.patch           | 60 +++++++++++++++++++
- .../kubernetes/kubernetes_git.bb              |  1 +
- 2 files changed, 61 insertions(+)
- create mode 100644 recipes-containers/kubernetes/kubernetes/CVE-2024-10220.patch
+I've merged this to master-next.
 
-diff --git a/recipes-containers/kubernetes/kubernetes/CVE-2024-10220.patch b/recipes-containers/kubernetes/kubernetes/CVE-2024-10220.patch
-new file mode 100644
-index 00000000..1de966e4
---- /dev/null
-+++ b/recipes-containers/kubernetes/kubernetes/CVE-2024-10220.patch
-@@ -0,0 +1,60 @@
-+From 4b7b754099e32ce4b67dacd51d60daa2686ddd94 Mon Sep 17 00:00:00 2001
-+From: Imre Rad <imrer@google.com>
-+Date: Thu, 25 Apr 2024 14:21:51 +0000
-+Subject: [PATCH] gitRepo volume: directory must be max 1 level deep
-+
-+More details on Hackerone #2266560
-+
-+CVE: CVE-2024-10220
-+Upstream-Status: Backport [https://github.com/kubernetes/kubernetes/commit/4b7b754099e32ce4b67dacd51d60daa2686ddd94]
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ pkg/volume/git_repo/git_repo.go      |  6 ++++++
-+ pkg/volume/git_repo/git_repo_test.go | 14 ++++++++++++++
-+ 2 files changed, 20 insertions(+)
-+
-+diff --git a/pkg/volume/git_repo/git_repo.go b/pkg/volume/git_repo/git_repo.go
-+index 995018d9007..b3827b92ad0 100644
-+--- a/pkg/volume/git_repo/git_repo.go
-++++ b/pkg/volume/git_repo/git_repo.go
-+@@ -261,6 +261,12 @@ func validateVolume(src *v1.GitRepoVolumeSource) error {
-+ 	if err := validateNonFlagArgument(src.Directory, "directory"); err != nil {
-+ 		return err
-+ 	}
-++	if (src.Revision != "") && (src.Directory != "") {
-++		cleanedDir := filepath.Clean(src.Directory)
-++		if strings.Contains(cleanedDir, "/") || (strings.Contains(cleanedDir, "\\")) {
-++			return fmt.Errorf("%q is not a valid directory, it must not contain a directory separator", src.Directory)
-++		}
-++	}
-+ 	return nil
-+ }
-+ 
-+diff --git a/pkg/volume/git_repo/git_repo_test.go b/pkg/volume/git_repo/git_repo_test.go
-+index 5b1461be892..650f765cc48 100644
-+--- a/pkg/volume/git_repo/git_repo_test.go
-++++ b/pkg/volume/git_repo/git_repo_test.go
-+@@ -267,6 +267,20 @@ func TestPlugin(t *testing.T) {
-+ 			},
-+ 			isExpectedFailure: true,
-+ 		},
-++		{
-++			name: "invalid-revision-directory-combo",
-++			vol: &v1.Volume{
-++				Name: "vol1",
-++				VolumeSource: v1.VolumeSource{
-++					GitRepo: &v1.GitRepoVolumeSource{
-++						Repository: gitURL,
-++						Revision:   "main",
-++						Directory:  "foo/bar",
-++					},
-++				},
-++			},
-++			isExpectedFailure: true,
-++		},
-+ 	}
-+ 
-+ 	for _, scenario := range scenarios {
-+-- 
-+2.50.1
-+
-diff --git a/recipes-containers/kubernetes/kubernetes_git.bb b/recipes-containers/kubernetes/kubernetes_git.bb
-index ee44db47..5339371c 100644
---- a/recipes-containers/kubernetes/kubernetes_git.bb
-+++ b/recipes-containers/kubernetes/kubernetes_git.bb
-@@ -35,6 +35,7 @@ SRC_URI:append = " \
-            file://k8s-init \
-            file://99-kubernetes.conf \
-            file://CVE-2025-5187.patch \
-+           file://CVE-2024-10220.patch \
-           "
- 
- DEPENDS += "rsync-native \
--- 
-2.50.1
+Bruce
+
+In message: [meta-virtualization][PATCH v3] libvirt: Fix missing libvirt-python
+on 06/11/2025 Tom Hochstein via lists.yoctoproject.org wrote:
+
+> From: Tom Hochstein <tom.hochstein@oss.nxp.com>
+> 
+> The do_rootfs task for an image that includes libvirt-python fails.
+> ```
+>   - nothing provides libvirt-python needed by packagegroup-fsl-virtualization-1.0-r0.ls1012afrwy from oe-repo
+> ```
+> 
+> The log shows that the do_compile:append() from libvirt-python.inc is
+> failing but not reporting the failure.
+> ```
+> 174: cd: can't cd to /.../libvirt/v11.8.0+git/sources/libvirt-v11.8.0+git/libvirt-python-11.8.0
+> ```
+> 
+> The root cause is the archive folder format is changed from
+> libvirt-python-VERSION to libvirt_python-VERSION, but the do_compile
+> and do_install tasks are hard-coded to the old format.
+> 
+> Fix the root cause by encoding the archive folder name in a common
+> variable. Also, fix the build and install commands so the cd failure is
+> not ignored.
+> 
+> Signed-off-by: Tom Hochstein <tom.hochstein@oss.nxp.com>
+> ---
+>  recipes-extended/libvirt/libvirt-python.inc | 22 ++++++++++++++-------
+>  1 file changed, 15 insertions(+), 7 deletions(-)
+> 
+> diff --git a/recipes-extended/libvirt/libvirt-python.inc b/recipes-extended/libvirt/libvirt-python.inc
+> index c430ffe5..b8c8656b 100644
+> --- a/recipes-extended/libvirt/libvirt-python.inc
+> +++ b/recipes-extended/libvirt/libvirt-python.inc
+> @@ -18,8 +18,8 @@ FILES:${PN}-python = "${bindir}/* ${libdir}/* ${libdir}/${PYTHON_DIR}/*"
+>  # Currently the libvirt-python debug libraries contain buildpaths
+>  INSANE_SKIP:${PN}-dbg += "buildpaths"
+>  
+> -SRC_URI += "http://libvirt.org/sources/python/${BPN}_python-${LIBVIRT_VERSION}.tar.gz;name=libvirt_python;subdir=${BP}"
+> -
+> +SRC_URI += "http://libvirt.org/sources/python/${LIBVIRT_PYTHON_ARCHIVE_NAME}.tar.gz;name=libvirt_python;subdir=${BP}"
+> +LIBVIRT_PYTHON_ARCHIVE_NAME = "${BPN}_python-${LIBVIRT_VERSION}"
+>  SRC_URI[libvirt_python.sha256sum] = "5d80e13e0cfb96dd254d765ee60e77e5f9b6925172540056cec0aa0e6f0ca83c"
+>  
+>  export LIBVIRT_API_PATH = "${S}/docs/libvirt-api.xml"
+> @@ -46,8 +46,12 @@ do_compile:append() {
+>  		# the syroot staged pkgconfig entries. So we clear the sysroot
+>  		# for just this portion.
+>  		export PKG_CONFIG_SYSROOT_DIR=
+> -		cd ${UNPACKDIR}/${BP}/${BPN}-python-${LIBVIRT_VERSION} && \
+> -		  ${STAGING_BINDIR_NATIVE}/python3-native/python3 setup.py build
+> +		src=${UNPACKDIR}/${BP}/${LIBVIRT_PYTHON_ARCHIVE_NAME}
+> +		if [ ! -d $src ]; then
+> +			bbfatal "Python source not found at expected location \"$src\". Please check that this task logic and SRC_URI are consistent."
+> +		fi
+> +		cd $src
+> +		${STAGING_BINDIR_NATIVE}/python3-native/python3 setup.py build
+>  		cd -
+>  	fi
+>  }
+> @@ -58,9 +62,13 @@ do_install:append() {
+>  		# the syroot staged pkgconfig entries. So we clear the sysroot
+>  		# for just this portion.
+>  		export PKG_CONFIG_SYSROOT_DIR=
+> -		cd ${UNPACKDIR}/${BP}/${BPN}-python-${LIBVIRT_VERSION} && \
+> -		  ${STAGING_BINDIR_NATIVE}/python3-native/python3 setup.py install \
+> -                       --install-lib=${D}/${PYTHON_SITEPACKAGES_DIR} ${LIBVIRT_INSTALL_ARGS}
+> +		src=${UNPACKDIR}/${BP}/${LIBVIRT_PYTHON_ARCHIVE_NAME}
+> +		if [ ! -d $src ]; then
+> +			bbfatal "Python source not found at expected location \"$src\". Please check that this task logic and SRC_URI are consistent."
+> +		fi
+> +		cd $src
+> +		${STAGING_BINDIR_NATIVE}/python3-native/python3 setup.py install \
+> +			--install-lib=${D}/${PYTHON_SITEPACKAGES_DIR} ${LIBVIRT_INSTALL_ARGS}
+>  		cd -
+>  	fi
+>  }
+> -- 
+> 2.34.1
+> 
+
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#9434): https://lists.yoctoproject.org/g/meta-virtualization/message/9434
+> Mute This Topic: https://lists.yoctoproject.org/mt/116155486/1050810
+> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
 
