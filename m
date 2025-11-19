@@ -2,169 +2,211 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 08D6DCF6493
-	for <webhook@archiver.kernel.org>; Wed, 19 Nov 2025 23:29:02 +0000 (UTC)
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.20977.1763594939828157016
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AA0FCF6494
+	for <webhook@archiver.kernel.org>; Wed, 19 Nov 2025 23:29:22 +0000 (UTC)
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.20865.1763594953102832186
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 19 Nov 2025 15:29:00 -0800
+ Wed, 19 Nov 2025 15:29:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=JaTdXte+;
- spf=pass (domain: gmail.com, ip: 209.85.160.169, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-4ee328b8e38so2572331cf.0
-        for <meta-virtualization@lists.yoctoproject.org>; Wed, 19 Nov 2025 15:28:59 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=LD9ekEHy;
+ spf=pass (domain: gmail.com, ip: 209.85.222.177, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-8b2dec4d115so29335885a.0
+        for <meta-virtualization@lists.yoctoproject.org>; Wed, 19 Nov 2025 15:29:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763594939; x=1764199739; darn=lists.yoctoproject.org;
+        d=gmail.com; s=20230601; t=1763594952; x=1764199752; darn=lists.yoctoproject.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=bKthpHbgsRkceAEn8p/fkG0ivBLT7Qwh64bwL7BGWHg=;
-        b=JaTdXte+mZHh84MMKlJbEQvRIW5YyxXKMdYObWOIztd2NfrLpka3/b3xDLbVFsnGIC
-         tqgZPWvUkDPB5GC9xVqhulDGTA+7uG4UAaC1TvvBk6IDpE09iXV0i6KuZhAxcf7qEgwa
-         MGuQ4BDGL84W3ssU9dWfid+42I4K5hDDL7E2nI/9twBBkQ0fe9Z2LN/9FtE5yng6DIzb
-         ro84xuTiMvrJisejlhfv5sLLoJ8rUvJcc+QHBgsEMdIor/RSeFHj2xSt7vYAkNgA2DX3
-         R6h7isVBayFnV45RC6G5HIQgQqzWIiRTkH6XQaBRRbIVkrJXBCFO/rZh/FGo6fqb2ygS
-         Maug==
+        bh=Pn63MJVMwx3bC757bxpFN0smqc9iPHTAK1E58Oz8jXQ=;
+        b=LD9ekEHy3Z6XGvWO3RmDorfiE1nEwy6cL1IJj7ZMu+4xQ1zQM9J9aRWBnGBNkORA/d
+         Ob+Fq9VzHT2yAr8/kmcYai/0/yQfNrwkRECNMG5uD/zsZkrIuwQBOmTeFmpOgvWarse1
+         DuRldBAujfuCq9/nWZDa6m4q65wRtejnyTihhX98iiBe4P+aqEZ7AnK7G+Zcp/yEqcVA
+         MRsq6BV1BNwiBP8f2uQRB89X0o53CujRiN9GsRQPJk5xZuW9HCU4E45GxzjsKLv376ok
+         a3O7G5bqP78fj7nq1EI3lrRSEVcOrMIpHNX+ryxYp3a9OrRFi/kyOlIPMwY08JrCZETb
+         7aVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763594939; x=1764199739;
+        d=1e100.net; s=20230601; t=1763594952; x=1764199752;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=bKthpHbgsRkceAEn8p/fkG0ivBLT7Qwh64bwL7BGWHg=;
-        b=NPtl6YBTVZUeTSzhaL+gKi99NIeA2j8N5g+1m+rxI0ZhW4OUhvKDPHq8sh+HLVKoPv
-         Z6tkQkQKMBLHGtN8f/xMsvI+NCrI1ONuc2K2FwoH91feFAdHvD+uwx3+J7U2zstvCaEp
-         MmOsMfxpTDwEP8vJaXiNWObBotStUKwKHlKMJ1YU2nrRF0EB0F+ywjr+wPv6tRJ8Cn9A
-         u1d5sSlUElMiZmZZNE2UKNzNJohvISIulPDGN3dbTQ/a0VgG7ESIIugBg0AxOROAkQPz
-         VpScCl8gyu+G+aG0fPYIHZrUsHSg4zh7kHg78esg+oRZ6/IL+MQE4+5v7rjvaIZG/7UF
-         9bZQ==
-X-Gm-Message-State: AOJu0YxivVkxLwq1tR1OBHDMXCbPfMaFdpINBBCcW3YhruvWkbenqCoA
-	iiNaFq5ND4mokTHRRcs/48nMicQHuE9QeA1CQJOrRnywIeqEjqtwk7msfs2Bydkq
-X-Gm-Gg: ASbGnctZzMsrcPWNGgNKArlCjsqbEbH+rilpwCLpItIWvgP4Lr7MAVbSYARWU0rUmGl
-	D92ecSLe7yMDkYa6c9oyeItpQljYUwJxvuoHYTDby9Brg86DzITbP/cX4GrDMRokz2du0B1JGOE
-	sbiRj01wf/mUeF+RM22sPrVPdZrOfHVCDs/XgNyr5NBqI5/mxU5Jg7D+8qV5VBfKj2pnSPsrgLm
-	tBy5l/gRo/ugIZtruZ9aWAnnRdwDtboNUJ4eswTzqxPtwBcYu8aY/nAXWzd2CCDBDoyoqRetyM0
-	p4QX9h699cp4PZ9Q4cXAOdr5daXGCESCWH6cOaUKpV4qF4tBrm2e/RtG2sHPAky3/uDoUeo7UGI
-	edIkGj/CKLgpjGIysjIwULP3io7YwGRqxVUTiIpe/qoLp2EU9Fy/luNvPNleAMd1xCKmk8j9RCw
-	UsJzrmBxaoUdhV8XAB+Nah50FifYKF/62z5N++nUt8sdkz7bGXbsSnBn3swoZHs4iY
-X-Google-Smtp-Source: AGHT+IGahGLLFZdFZt+EuBm+xEq0LBqVGA4N0CQduTedGlB3lD2GfSLvvSEsac6gyYYX/RA/myUsIA==
-X-Received: by 2002:a05:622a:112:b0:4ed:b134:38ea with SMTP id d75a77b69052e-4ee4a03ffdfmr10606161cf.41.1763594938748;
-        Wed, 19 Nov 2025 15:28:58 -0800 (PST)
+        bh=Pn63MJVMwx3bC757bxpFN0smqc9iPHTAK1E58Oz8jXQ=;
+        b=kKCMQZ6nQ4TNarnuTv5UgRr4XhnHyLqrEFv9ek6sPNno6FR0b9ZOUCDrarYkHMyx0j
+         XJUtsGZkbx2MA7+b+dH6441JE1e/zMZN1Srni7KBFNIan8+oIBKaHrkwZ8ZJqcz7dZ8P
+         kZJ890oakXB3CL6ZOrMpmFS2KsNXj8aUaQ6Ft7667iNXvyyL5lt1q1tnN3qhRnB8XM3m
+         UCPw9NPtrSC6a8U5+b+QsdZZ8J8FV+NqRjazWieKUPFQcSce9onN7BRapy5gf3Cw4bZX
+         WC3dWZ4VLjV7vsZNaEJjGiKxsGEb92EggIdG0SzJRuLhzL8sS3wveAREpPhSPNkBmBiH
+         Ljvg==
+X-Gm-Message-State: AOJu0Yzs85GncCeCBTFnm5JzRumZf1vqCh/Xl4zd/93pxLBMZOJoNXLr
+	4o3cmlpRh0iYhvRBk1Jd9BD4zzobG/jZMpWjXxSe6DkMHBQ4EanHm7efzOf6JoSO
+X-Gm-Gg: ASbGncu5u8bagYZ6txIbZoIqPmWNERrbl00vs2+RCsQ9MdZs74Zvj6QQjr/itreCpKz
+	iaudrX4Er9DEN+TdSuh9RfzuZN1XMSv6n5XBc/dSUsMEJgMdsvFN2lNzoifLfP7lsQEPPC6wQA0
+	Y0KDnslOt6oBWDaGTA7Qcme3gbUUTWV7aPZvnAKwY1y7jHrAWTNIw9yP+2rYgZI3peZiSvYTI9+
+	ccwdW0RnyDvsXw8q57IuuYN3UGGsXxR5c893dsiAYW/3+3lyDTuSVC8vEmEyJIS+yIYF5WcAzb8
+	QIXGbPJFUNt6ues3DWbECe78IhTvXeS454FB47JTLr9fyj039Tgb7yOXt6n4n7UnXC1dkYY29tn
+	2HWnVq0P5it7BuyacuXa8n2/27d60t0YqsB36FpPNDfz3DtuuPkAnaB+hqw+HdOPVYGvMQi1+/i
+	+Ds9DwnMALwFsXEk2Erz0OtDtSNc7Q2Gtf1Ik4YSmgPI50+KgBZhSq1VBfhzbV7CgMbZcw1tf4j
+	xk=
+X-Google-Smtp-Source: AGHT+IFq2UItbpPPkDCxdilqbeuIdtYcsRjcMh4BD2iTIm4ekvakj4y/Acf05qGIzYqSP4/9veYtVg==
+X-Received: by 2002:a05:620a:258e:b0:8b2:ea5a:414d with SMTP id af79cd13be357-8b32749fed5mr155399685a.66.1763594951939;
+        Wed, 19 Nov 2025 15:29:11 -0800 (PST)
 Received: from gmail.com (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4ee48e90b62sm5714701cf.34.2025.11.19.15.28.57
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8b3294336e4sm45551585a.21.2025.11.19.15.29.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Nov 2025 15:28:57 -0800 (PST)
-Date: Wed, 19 Nov 2025 18:28:55 -0500
+        Wed, 19 Nov 2025 15:29:11 -0800 (PST)
+Date: Wed, 19 Nov 2025 18:29:09 -0500
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 To: vanusuri@mvista.com
 Cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [meta-virtualization][kirkstone][PATCH] kubernetes: Fix for
- CVE-2024-10220
-Message-ID: <aR5St4rF083aHk0n@gmail.com>
-References: <20251117050023.61262-1-vanusuri@mvista.com>
+Subject: Re: [meta-virtualization][kirkstone][PATCH] cloud-init: Fix
+ CVE-2024-11584
+Message-ID: <aR5SxVG6P97W+3pD@gmail.com>
+References: <20251113142617.2403672-1-vanusuri@mvista.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251117050023.61262-1-vanusuri@mvista.com>
+In-Reply-To: <20251113142617.2403672-1-vanusuri@mvista.com>
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Wed, 19 Nov 2025 23:29:02 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9449
+ <meta-virtualization@lists.yoctoproject.org>; Wed, 19 Nov 2025 23:29:22 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9450
 
 merged.
 
 Bruce
 
-In message: [meta-virtualization][kirkstone][PATCH] kubernetes: Fix for CVE-2024-10220
-on 17/11/2025 Vijay Anusuri via lists.yoctoproject.org wrote:
+In message: [meta-virtualization][kirkstone][PATCH] cloud-init: Fix CVE-2024-11584
+on 13/11/2025 Vijay Anusuri via lists.yoctoproject.org wrote:
 
 > From: Vijay Anusuri <vanusuri@mvista.com>
 > 
-> Upstream-Status: Backport from https://github.com/kubernetes/kubernetes/commit/6622b002f70a153100d1c286fbcea721160da192
+> import patch from debian to fix
+>  CVE-2024-11584
 > 
-> Reference: https://github.com/kubernetes/kubernetes/issues/128885
+> Upstream-Status: Backport [import from debian 22.4.2-1+deb12u3
+> Upstream commit
+> https://github.com/canonical/cloud-init/commit/8b45006c4765fd75f20ce244571b563dbc49d4f2]
 > 
 > Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 > ---
->  .../kubernetes/CVE-2024-10220.patch           | 57 +++++++++++++++++++
->  .../kubernetes/kubernetes_git.bb              |  1 +
->  2 files changed, 58 insertions(+)
->  create mode 100644 recipes-containers/kubernetes/kubernetes/CVE-2024-10220.patch
+>  .../cloud-init/CVE-2024-11584.patch           | 95 +++++++++++++++++++
+>  .../cloud-init/cloud-init_21.4.bb             |  1 +
+>  2 files changed, 96 insertions(+)
+>  create mode 100644 recipes-extended/cloud-init/cloud-init/CVE-2024-11584.patch
 > 
-> diff --git a/recipes-containers/kubernetes/kubernetes/CVE-2024-10220.patch b/recipes-containers/kubernetes/kubernetes/CVE-2024-10220.patch
+> diff --git a/recipes-extended/cloud-init/cloud-init/CVE-2024-11584.patch b/recipes-extended/cloud-init/cloud-init/CVE-2024-11584.patch
 > new file mode 100644
-> index 00000000..c0e371af
+> index 00000000..aba34a0a
 > --- /dev/null
-> +++ b/recipes-containers/kubernetes/kubernetes/CVE-2024-10220.patch
-> @@ -0,0 +1,57 @@
-> +From 6622b002f70a153100d1c286fbcea721160da192 Mon Sep 17 00:00:00 2001
-> +From: Imre Rad <imrer@google.com>
-> +Date: Thu, 25 Apr 2024 14:21:51 +0000
-> +Subject: [PATCH] gitRepo volume: directory must be max 1 level deep
+> +++ b/recipes-extended/cloud-init/cloud-init/CVE-2024-11584.patch
+> @@ -0,0 +1,95 @@
+> +From 4839736429e9057a309ccd835cb3159fb51b1353 Mon Sep 17 00:00:00 2001
+> +From: James Falcon <therealfalcon@gmail.com>
+> +Date: Wed, 11 Jun 2025 16:22:32 -0500
+> +Subject: [PATCH] fix: Make hotplug socket writable only by root (#25)
 > +
-> +More details on Hackerone #2266560
+> +The 'hook-hotplug-cmd' was writable by all users, allowing any user
+> +to trigger the hotplug hook script. This script should only be run
+> +by root via a udev trigger.
 > +
-> +Upstream-Status: Backport [https://github.com/kubernetes/kubernetes/commit/6622b002f70a153100d1c286fbcea721160da192]
-> +CVE: CVE-2024-10220
+> +Also move socket into 'share' directory and update references
+> +accordingly. Since the 'share' directory is only readable by root,
+> +this adds another layer of security while also being in a consistent
+> +location with the other sockets used by cloud-init.
+> +
+> +CVE-2024-11584
+> +
+> +Upstream-Status: Backport [import from debain 22.4.2-1+deb12u3
+> +Upstream commit https://github.com/canonical/cloud-init/commit/8b45006c4765fd75f20ce244571b563dbc49d4f2]
+> +CVE: CVE-2024-11584
 > +Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 > +---
-> + pkg/volume/git_repo/git_repo.go      |  6 ++++++
-> + pkg/volume/git_repo/git_repo_test.go | 14 ++++++++++++++
-> + 2 files changed, 20 insertions(+)
+> + cloudinit/cmd/devel/logs.py         | 4 +---
+> + systemd/cloud-init-hotplugd.service | 5 +++--
+> + systemd/cloud-init-hotplugd.socket  | 8 +++++---
+> + tools/hook-hotplug                  | 2 +-
+> + 4 files changed, 10 insertions(+), 9 deletions(-)
 > +
-> +diff --git a/pkg/volume/git_repo/git_repo.go b/pkg/volume/git_repo/git_repo.go
-> +index 995018d900727..b3827b92ad0f0 100644
-> +--- a/pkg/volume/git_repo/git_repo.go
-> ++++ b/pkg/volume/git_repo/git_repo.go
-> +@@ -261,6 +261,12 @@ func validateVolume(src *v1.GitRepoVolumeSource) error {
-> + 	if err := validateNonFlagArgument(src.Directory, "directory"); err != nil {
-> + 		return err
-> + 	}
-> ++	if (src.Revision != "") && (src.Directory != "") {
-> ++		cleanedDir := filepath.Clean(src.Directory)
-> ++		if strings.Contains(cleanedDir, "/") || (strings.Contains(cleanedDir, "\\")) {
-> ++			return fmt.Errorf("%q is not a valid directory, it must not contain a directory separator", src.Directory)
-> ++		}
-> ++	}
-> + 	return nil
-> + }
+> +diff --git a/cloudinit/cmd/devel/logs.py b/cloudinit/cmd/devel/logs.py
+> +index d54b809ac..0830610d4 100644
+> +--- a/cloudinit/cmd/devel/logs.py
+> ++++ b/cloudinit/cmd/devel/logs.py
+> +@@ -67,9 +67,7 @@ def get_parser(parser=None):
 > + 
-> +diff --git a/pkg/volume/git_repo/git_repo_test.go b/pkg/volume/git_repo/git_repo_test.go
-> +index 5b1461be892a1..650f765cc4884 100644
-> +--- a/pkg/volume/git_repo/git_repo_test.go
-> ++++ b/pkg/volume/git_repo/git_repo_test.go
-> +@@ -267,6 +267,20 @@ func TestPlugin(t *testing.T) {
-> + 			},
-> + 			isExpectedFailure: true,
-> + 		},
-> ++		{
-> ++			name: "invalid-revision-directory-combo",
-> ++			vol: &v1.Volume{
-> ++				Name: "vol1",
-> ++				VolumeSource: v1.VolumeSource{
-> ++					GitRepo: &v1.GitRepoVolumeSource{
-> ++						Repository: gitURL,
-> ++						Revision:   "main",
-> ++						Directory:  "foo/bar",
-> ++					},
-> ++				},
-> ++			},
-> ++			isExpectedFailure: true,
-> ++		},
-> + 	}
+> + def _copytree_rundir_ignore_files(curdir, files):
+> +     """Return a list of files to ignore for /run/cloud-init directory"""
+> +-    ignored_files = [
+> +-        "hook-hotplug-cmd",  # named pipe for hotplug
+> +-    ]
+> ++    ignored_files = []
+> +     if os.getuid() != 0:
+> +         # Ignore root-permissioned files
+> +         ignored_files.append(INSTANCE_JSON_SENSITIVE_FILE)
+> +diff --git a/systemd/cloud-init-hotplugd.service b/systemd/cloud-init-hotplugd.service
+> +index b64632efe..65243ff16 100644
+> +--- a/systemd/cloud-init-hotplugd.service
+> ++++ b/systemd/cloud-init-hotplugd.service
+> +@@ -1,6 +1,7 @@
+> + # Paired with cloud-init-hotplugd.socket to read from the FIFO
+> +-# /run/cloud-init/hook-hotplug-cmd which is created during a udev network
+> +-# add or remove event as processed by 10-cloud-init-hook-hotplug.rules.
+> ++# /run/cloud-init/share/hook-hotplug-cmd which is created during a
+> ++# udev network add or remove event as processed by
+> ++# 10-cloud-init-hook-hotplug.rules.
 > + 
-> + 	for _, scenario := range scenarios {
-> diff --git a/recipes-containers/kubernetes/kubernetes_git.bb b/recipes-containers/kubernetes/kubernetes_git.bb
-> index 41f1ad73..dbfb3705 100644
-> --- a/recipes-containers/kubernetes/kubernetes_git.bb
-> +++ b/recipes-containers/kubernetes/kubernetes_git.bb
-> @@ -39,6 +39,7 @@ SRC_URI:append = " \
->             file://CVE-2023-3955.patch;patchdir=src/import \
->             file://CVE-2023-3676.patch;patchdir=src/import \
->             file://CVE-2025-5187.patch;patchdir=src/import \
-> +           file://CVE-2024-10220.patch;patchdir=src/import \
->            "
+> + # On start, read args from the FIFO, process and provide structured arguments
+> + # to `cloud-init devel hotplug-hook` which will setup or teardown network
+> +diff --git a/systemd/cloud-init-hotplugd.socket b/systemd/cloud-init-hotplugd.socket
+> +index aa0930163..db83a65b2 100644
+> +--- a/systemd/cloud-init-hotplugd.socket
+> ++++ b/systemd/cloud-init-hotplugd.socket
+> +@@ -1,13 +1,15 @@
+> + # cloud-init-hotplugd.socket listens on the FIFO file
+> +-# /run/cloud-init/hook-hotplug-cmd which is created during a udev network
+> +-# add or remove event as processed by 10-cloud-init-hook-hotplug.rules.
+> ++# /run/cloud-init/share/hook-hotplug-cmd which is created during a
+> ++# udev network add or remove event as processed by
+> ++# 10-cloud-init-hook-hotplug.rules.
+> + 
+> + # Known bug with an enforcing SELinux policy: LP: #1936229
+> + [Unit]
+> + Description=cloud-init hotplug hook socket
+> + 
+> + [Socket]
+> +-ListenFIFO=/run/cloud-init/hook-hotplug-cmd
+> ++ListenFIFO=/run/cloud-init/share/hook-hotplug-cmd
+> ++SocketMode=0600
+> + 
+> + [Install]
+> + WantedBy=cloud-init.target
+> +diff --git a/tools/hook-hotplug b/tools/hook-hotplug
+> +index 35bd3da27..2a2ed4813 100755
+> +--- a/tools/hook-hotplug
+> ++++ b/tools/hook-hotplug
+> +@@ -10,7 +10,7 @@ is_finished() {
+> + 
+> + if is_finished; then
+> +     # open cloud-init's hotplug-hook fifo rw
+> +-    exec 3<>/run/cloud-init/hook-hotplug-cmd
+> ++    exec 3<>/run/cloud-init/share/hook-hotplug-cmd
+> +     env_params=(
+> +         --subsystem="${SUBSYSTEM}"
+> +         handle
+> +-- 
+> +2.25.1
+> +
+> diff --git a/recipes-extended/cloud-init/cloud-init_21.4.bb b/recipes-extended/cloud-init/cloud-init_21.4.bb
+> index 02a89a58..46c0d29a 100644
+> --- a/recipes-extended/cloud-init/cloud-init_21.4.bb
+> +++ b/recipes-extended/cloud-init/cloud-init_21.4.bb
+> @@ -10,6 +10,7 @@ SRC_URI = "git://github.com/canonical/cloud-init;branch=main;protocol=https \
+>      file://0001-setup.py-check-for-install-anywhere-in-args.patch \
+>      file://0001-setup.py-respect-udevdir-variable.patch \
+>      file://CVE-2024-6174.patch \
+> +    file://CVE-2024-11584.patch \
+>  "
 >  
->  DEPENDS += "rsync-native \
+>  S = "${WORKDIR}/git"
 > -- 
 > 2.25.1
 > 
@@ -172,8 +214,8 @@ on 17/11/2025 Vijay Anusuri via lists.yoctoproject.org wrote:
 > 
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#9441): https://lists.yoctoproject.org/g/meta-virtualization/message/9441
-> Mute This Topic: https://lists.yoctoproject.org/mt/116333305/1050810
+> View/Reply Online (#9439): https://lists.yoctoproject.org/g/meta-virtualization/message/9439
+> Mute This Topic: https://lists.yoctoproject.org/mt/116274711/1050810
 > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
 > Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
