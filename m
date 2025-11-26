@@ -2,28 +2,28 @@ Return-Path: <jaeyoon.jung@lge.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BE7BD10396
-	for <webhook@archiver.kernel.org>; Wed, 26 Nov 2025 08:51:14 +0000 (UTC)
-Received: from lgeamrelo11.lge.com (lgeamrelo11.lge.com [156.147.23.51])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.9159.1764147072606137438
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D1B9D10397
+	for <webhook@archiver.kernel.org>; Wed, 26 Nov 2025 08:53:24 +0000 (UTC)
+Received: from lgeamrelo11.lge.com (lgeamrelo11.lge.com [156.147.23.53])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.9189.1764147203215486795
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 26 Nov 2025 00:51:13 -0800
+ Wed, 26 Nov 2025 00:53:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: lge.com, ip: 156.147.23.51, mailfrom: jaeyoon.jung@lge.com)
-Received: from unknown (HELO lgemrelse6q.lge.com) (156.147.1.121)
-	by 156.147.23.51 with ESMTP; 26 Nov 2025 17:51:09 +0900
-X-Original-SENDERIP: 156.147.1.121
+ dkim=none (message not signed); spf=pass (domain: lge.com, ip: 156.147.23.53, mailfrom: jaeyoon.jung@lge.com)
+Received: from unknown (HELO lgemrelse7q.lge.com) (156.147.1.151)
+	by 156.147.23.53 with ESMTP; 26 Nov 2025 17:53:20 +0900
+X-Original-SENDERIP: 156.147.1.151
 X-Original-MAILFROM: jaeyoon.jung@lge.com
 Received: from unknown (HELO magneto.lge.net) (10.177.121.44)
-	by 156.147.1.121 with ESMTP; 26 Nov 2025 17:51:09 +0900
+	by 156.147.1.151 with ESMTP; 26 Nov 2025 17:53:20 +0900
 X-Original-SENDERIP: 10.177.121.44
 X-Original-MAILFROM: jaeyoon.jung@lge.com
 From: jaeyoon.jung@lge.com
 To: meta-virtualization@lists.yoctoproject.org
 Cc: Jaeyoon Jung <jaeyoon.jung@lge.com>
-Subject: [PATCH] kvmtool: Backport patch for musl compatibility
-Date: Wed, 26 Nov 2025 17:50:30 +0900
-Message-ID: <20251126085038.3883249-1-jaeyoon.jung@lge.com>
+Subject: [scarthgap][PATCH] kvmtool: Backport patch for musl compatibility
+Date: Wed, 26 Nov 2025 17:52:52 +0900
+Message-ID: <20251126085253.3883304-1-jaeyoon.jung@lge.com>
 X-Mailer: git-send-email 2.47.2
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -31,8 +31,8 @@ Content-Transfer-Encoding: 8bit
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Wed, 26 Nov 2025 08:51:14 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9459
+ <meta-virtualization@lists.yoctoproject.org>; Wed, 26 Nov 2025 08:53:24 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9460
 
 From: Jaeyoon Jung <jaeyoon.jung@lge.com>
 
