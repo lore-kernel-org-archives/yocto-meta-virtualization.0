@@ -2,130 +2,253 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1368BCFD376
-	for <webhook@archiver.kernel.org>; Tue,  2 Dec 2025 04:44:47 +0000 (UTC)
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.701.1764650679890321144
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32D82CFD376
+	for <webhook@archiver.kernel.org>; Tue,  2 Dec 2025 04:46:07 +0000 (UTC)
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.717.1764650762785031250
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 01 Dec 2025 20:44:40 -0800
+ Mon, 01 Dec 2025 20:46:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=k/hMO8Sx;
- spf=pass (domain: gmail.com, ip: 209.85.222.173, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-8b2627269d5so431963785a.2
-        for <meta-virtualization@lists.yoctoproject.org>; Mon, 01 Dec 2025 20:44:39 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=D0Px1Ow/;
+ spf=pass (domain: gmail.com, ip: 209.85.160.171, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-4ed66b5abf7so63637781cf.1
+        for <meta-virtualization@lists.yoctoproject.org>; Mon, 01 Dec 2025 20:46:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764650679; x=1765255479; darn=lists.yoctoproject.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=5vhVFGGAbhHAcXwucALhhBY8Id61DfdwGtH9YOoaTyY=;
-        b=k/hMO8SxrwwZFTX8eQX8Qh9Tyfnqz6JnyvGXUdOYzbPml6x2UBjsQwZsPUZ+NxI9kK
-         epSC2KvTizCwBKj4ex8fMNJA9neeZlXJN6nYOEQ1FsV5FSzjYxZC8Exnkm7/p2ejB2mH
-         vuQ+SCGMISpkT1NtO2iL1hbVsurB7YW5lW90sQxAfPMNjx8mHwWiHTBJzf2rI3hRbui2
-         FpRU/3yrI0SevbBlCPm9rhvaHC2NmaqrpbbZyNI4YtDCYqayrWJ8l6cmECkmvRecU7qX
-         RMgZ2m6xm6/hLnXi05vUc3EbS5+gZy2NPy/CHEBuIdjyo6VK1GoWhMEuy9tIYYDgSX7B
-         i8lg==
+        d=gmail.com; s=20230601; t=1764650762; x=1765255562; darn=lists.yoctoproject.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=eAIjdyatT+QVhivxlC0p/lp0KxXSvVOWGvI3q1YGHlk=;
+        b=D0Px1Ow/9iBm/3NvGDQbPuAMM+I9AvdIqUjicbRRtSPY2PY8mnema8KKvm7s7NH68W
+         kixfUjKn0cubAfuagxlSOMReWTNlizplnuyseKa8PFBV+rNe3sNQOtuxtG56CFEu7koJ
+         6TYTJo0OFM47noNZAJRBmbTF7lzoIV2eoxi1KGD327ANZ+Abqr9qRoJKDm69wmuJG4PS
+         cdhR5ww6rCouwD/hnUEi99wPx1NW7YvYEpOUJJGQzqwoZaNYyDw0AVYYpih+NHCTCR3V
+         /vVMPYtpmQHdXB5UD+gAleo4FjP/jTt3VE/xcTK4GwRFPBWmJ7DWs9pwbMJikufD2Ia5
+         V0WA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764650679; x=1765255479;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5vhVFGGAbhHAcXwucALhhBY8Id61DfdwGtH9YOoaTyY=;
-        b=qe4GbD2aF6nHWhN5syLUaxELChlXCbxPmav/Q5DEpTxoFN0gMuS3Fuy+mNSWhZQ5Hi
-         +Y7rrQRaOsxLwJL+FlFaco7e6j3IRU8eeT9uHRygFr/k9cD+IEPoY0X38tWOYXr7HeX4
-         8eIlzKmqjJFqu3lO+ee0IdRJM/BfB3bRs+srBVRkot2RM8Ik3/DNCgxr6mogPPu64WKr
-         sdXmjwGqjWbgwxDCMfRkmZa1SedtuI0eLPxZITmZXNSsawbFs8YX3rjRgdFw58w0Rtkf
-         igfIPWKwXT15yfTITy/1zLwRpzoX1uVUQ+uRaRo1MHBcDpYIWv3xevA1r8GagzvKMIFW
-         LSkg==
-X-Gm-Message-State: AOJu0Ywx/QUP8ym47eTGsnSEaLErQ343SQQB6mVgwLCcMVu7WKYc+2fp
-	yaDPGzK3xCiffM3ktiNfv8d62Q/YNeX6+pbrmsJw/S+1nSHOAYEObjO3n4kd6WD6oqw=
-X-Gm-Gg: ASbGnctWc8jQjbky3m6nuGnZsk8D2lei9d7pzGfh1fTiEmDTgzYvatXQm0wV52+c7x2
-	xOQ1wB71hkNqkfniYitFetrgSjf0bIvk+EL23JPIgR2g90kA8vXulLZ4XoUNLtiXpVkJZh69qMs
-	vFfcfbVFizR0ctKJTMV6m0uGi4uQfewSb7IXsEkwGjYH2bc1cNj5+cJQdgWyq2aXke1G2C0jNob
-	T7zFTcymexwBDUZYwsttfXeBIGyFmo9omkmys+c5a2ZNjHjgKGZmD5z5K0J4FZnRuimh8ZgUkTU
-	zl0lZkZ9V9Uyqf+gN3OnzAB3NiCqrEdwx18S/mbPda2PKYZ8dQv0TZ3do1yrVtaVZH0WASxPWDk
-	evt1QJ8Rs/UoFhdvAVrsRSPosLs0P31UQe/Sr4vXS/8vFAmth+3jgJqAUNHRmvnX9dsNlEYsY1M
-	KsiDKIjRXY64o1jjXGXNE5zUwHpulIYiFU1IGjxzYIMotAnUkECnar1LuE9ejXdfsc
-X-Google-Smtp-Source: AGHT+IGCmE+X2b1N+7alwcUW2HJNWcaNRyNT6egamlJ6psob9dfSV87lN8tDUDU+/EfFUXHlOTdJtg==
-X-Received: by 2002:a05:620a:28c9:b0:866:f322:c6c0 with SMTP id af79cd13be357-8b33d48275dmr5571424285a.60.1764650678733;
-        Mon, 01 Dec 2025 20:44:38 -0800 (PST)
+        d=1e100.net; s=20230601; t=1764650762; x=1765255562;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=eAIjdyatT+QVhivxlC0p/lp0KxXSvVOWGvI3q1YGHlk=;
+        b=X1sn9WpNvRnDDyXCqj54oU0e9uWj0qurJkY9k13SBJe3Zx+IWlMRdM1SOI3gQUQKmi
+         oFgDY84y9vzE1/ycMXJBk1pvs+BY16J/lGCpBt6vpKUg6+UU6thTMGsVHTXRE2+y0L79
+         4Lqapq/mcmPYqnECb1wq8gOfB5lzfMDYYTw75X1SD4ZOblTzpuQ7iBmQ0IwuKfsWa1N4
+         jZevic+MmiOuKggyUyQuVTIIjfzd84td5G3vSVqa5KWFYgArRLtGbsBbPltH+OwEv8aG
+         ymymX3HyosIEiZLhjffIHOqVO1phtQxmQ+zthyH9ircNJFpCmh8cGfhs+KasJqqdTWEU
+         44wQ==
+X-Gm-Message-State: AOJu0YyooAjZ7EOYwXZ9094oALtXGHIDNJQYGtFOHYSngwBYryNmhW9J
+	kN6O4ce+2nmDfNUDiFeQdeh5MeJswMpUiP7EMsqy6IvvLF3khH6Pc/YPUWJoMd+zt2c=
+X-Gm-Gg: ASbGncu0pksU9v1nw/GPp/fWjPQft5W0sfvigMJso61O7DRtpKnmgQKrEggUlRDyHsY
+	34gzICT1NBnKs+rK4dEiikTu1k0WVbPNoHm/KMzyT7UQzzEOBP61qkpNSRzU1FQVc3TUCuu5DIo
+	8O9MgMOmeY7efROHSKYNKe6ylwD1zePZOBBJbeSaijzBsm5b7KvvwYs/wNKr5IiV3/HHnxHTAYm
+	wbR/0tRf5QjxA2woz0M6JFojF41QEZFljPNt2d7OwZBcvzTe9VPFMLKVp5bk0uwbFFfVk+KU7Yt
+	a/J6Z+tcGapHj++u2TkoVuQjpysWXQL1M2M4uLuxOxpaiKJNV5OkUTxwuULaKRmfit4d13/qJ0c
+	lhOMxqt/tml6OohLuPie6yl/uIrB/dzvJLO09gcv+jNJ1NXAqEE15KiOFY5t7aH9DlUrXCb72+m
+	SysEcswh46N/rxlRJfauDWTRnvn24k1h39t118+6lTEN5myGQoSwtbTwIYBGxCeQnT
+X-Google-Smtp-Source: AGHT+IEDH6m4naci2iQ/PtFMh4wW8yHTYcdEHhMZzzRHjSrCh/4EhAXYz45sPL9mAZI23UviVmrzQQ==
+X-Received: by 2002:a05:622a:1989:b0:4ee:26b3:e512 with SMTP id d75a77b69052e-4f0088de078mr20886741cf.13.1764650761577;
+        Mon, 01 Dec 2025 20:46:01 -0800 (PST)
 Received: from gmail.com (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8b5299938b5sm1013406485a.4.2025.12.01.20.44.38
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4efd341f0ecsm86040051cf.16.2025.12.01.20.46.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Dec 2025 20:44:38 -0800 (PST)
-Date: Mon, 1 Dec 2025 23:44:36 -0500
+        Mon, 01 Dec 2025 20:46:00 -0800 (PST)
+Date: Mon, 1 Dec 2025 23:45:59 -0500
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: kai.kang@windriver.com
+To: Vijay Anusuri <vanusuri@mvista.com>
 Cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [PATCH] libvirt: set firewall backend priority
-Message-ID: <aS5utFRSiZDsSaFq@gmail.com>
-References: <20251126072914.2711374-1-kai.kang@windriver.com>
+Subject: Re: [meta-virtualization][kirkstone][PATCH 2/2]
+ containerd-opencontainers: fix CVE-2025-64329
+Message-ID: <aS5vBydbPbyJW690@gmail.com>
+References: <20251110113049.120549-1-vanusuri@mvista.com>
+ <20251110113049.120549-2-vanusuri@mvista.com>
+ <aS482uMvjz7PCB2Y@gmail.com>
+ <CANQUz19+66fM5nGVWzBR134c_VADBG5OKs_+fRXakY4bY0VpkQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20251126072914.2711374-1-kai.kang@windriver.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CANQUz19+66fM5nGVWzBR134c_VADBG5OKs_+fRXakY4bY0VpkQ@mail.gmail.com>
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Tue, 02 Dec 2025 04:44:47 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9469
+ <meta-virtualization@lists.yoctoproject.org>; Tue, 02 Dec 2025 04:46:07 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9470
 
-staged to master-next.
+It looks like I also merged this one. I see it on the branch now
+that I've looked.
 
 Bruce
 
-In message: [PATCH] libvirt: set firewall backend priority
-on 26/11/2025 kai.kang@windriver.com wrote:
+In message: Re: [meta-virtualization][kirkstone][PATCH 2/2] containerd-opencontainers: fix CVE-2025-64329
+on 02/12/2025 Vijay Anusuri wrote:
 
-> From: Kai Kang <kai.kang@windriver.com>
+> Hi Bruce,
 > 
-> If firewall_backend isn't configured in the config file, libvirt will
-> choose the first available backend from the following list by default:
+> Patch 1/2 (containerd-opencontainers: fix CVE-2024-25621) appears to have
+> already been merged.
 > 
->     [nftables, iptables]
+> Patch 1/2 : https://git.yoctoproject.org/meta-virtualization/commit/?h=
+> kirkstone&id=9f4afbb21a91eab9917a25811f1d2ba7d223e071
+> Patch 2/2 : https://git.yoctoproject.org/meta-virtualization/commit/?h=
+> kirkstone&id=4da521b4440f57b10ba70091ee0e31b1085e665e
 > 
-> so when nftables is installed in image, firewall backend nftables rather
-> than iptables is adopted.
+> Since the patches were merged, I wanted to confirm with you before resending
+> them.
+> If you would still like me to resend the patches, I can do so.
 > 
-> Add a PACKAGECONFIG to set the firewall backend priority. And update
-> runtime dependencies for backend nftables.
+> Thanks & Regards,
+> Vijay
 > 
-> Signed-off-by: Kai Kang <kai.kang@windriver.com>
-> ---
->  recipes-extended/libvirt/libvirt_git.bb | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
+> On Tue, Dec 2, 2025 at 6:41 AM Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
 > 
-> diff --git a/recipes-extended/libvirt/libvirt_git.bb b/recipes-extended/libvirt/libvirt_git.bb
-> index 681ceade..e9359e1e 100644
-> --- a/recipes-extended/libvirt/libvirt_git.bb
-> +++ b/recipes-extended/libvirt/libvirt_git.bb
-> @@ -15,7 +15,9 @@ DEPENDS = "bridge-utils gnutls libxml2 lvm2 avahi parted curl libpcap util-linux
->  #
->  RDEPENDS:${PN} = "gettext-runtime"
->  
-> -RDEPENDS:libvirt-libvirtd += "bridge-utils iptables pm-utils dnsmasq netcat-openbsd ebtables"
-> +RDEPENDS:libvirt-libvirtd += "bridge-utils pm-utils dnsmasq netcat-openbsd ebtables \
-> +                              ${@bb.utils.contains('PACKAGECONFIG', 'nftables', 'nftables iproute2-tc', 'iptables', d)} \
-> +                              "
->  RDEPENDS:libvirt-libvirtd:append:x86-64 = " dmidecode"
->  RDEPENDS:libvirt-libvirtd:append:x86 = " dmidecode"
->  RDEPENDS:libvirt-libvirtd:append:arm = " dmidecode"
-> @@ -175,6 +177,7 @@ PACKAGECONFIG[apparmor_profiles] = "-Dapparmor_profiles=enabled, -Dapparmor_prof
->  PACKAGECONFIG[firewalld] = "-Dfirewalld=enabled, -Dfirewalld=disabled,"
->  PACKAGECONFIG[libpcap] = "-Dlibpcap=enabled, -Dlibpcap=disabled,libpcap,libpcap"
->  PACKAGECONFIG[numad] = "-Dnumad=enabled, -Dnumad=disabled,"
-> +PACKAGECONFIG[nftables] = ""
->  
->  # Enable the Python tool support
->  require libvirt-python.inc
-> @@ -313,6 +316,7 @@ do_install:append() {
->  
->  EXTRA_OEMESON += " \
->      -Dinit_script=${@bb.utils.contains('DISTRO_FEATURES','systemd','systemd','none', d)} \
-> +    -Dfirewall_backend_priority=${@bb.utils.contains('PACKAGECONFIG','nftables','nftables,iptables','iptables,nftables', d)} \
->      -Drunstatedir=/run \
->      -Dtests=enabled \
->      "
-> -- 
-> 2.34.1
+>     This patch says 2/2, but I can't find patch 1/2. What was the
+>     subject of 1/2 ? Or rather than just telling me the subject, if
+>     you resend it, that would be great.
+> 
+>     Bruce
+> 
+>     In message: [meta-virtualization][kirkstone][PATCH 2/2]
+>     containerd-opencontainers: fix CVE-2025-64329
+>     on 10/11/2025 Vijay Anusuri via lists.yoctoproject.org wrote:
+> 
+>     > From: Vijay Anusuri <vanusuri@mvista.com>
+>     >
+>     > Upstream-Status: Backport from https://github.com/containerd/containerd/
+>     commit/c575d1b5f4011f33b32f71ace75367a92b08c750
+>     >
+>     > Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+>     > ---
+>     >  .../CVE-2025-64329.patch                      | 80 +++++++++++++++++++
+>     >  .../containerd-opencontainers_git.bb          |  1 +
+>     >  2 files changed, 81 insertions(+)
+>     >  create mode 100644 recipes-containers/containerd/
+>     containerd-opencontainers/CVE-2025-64329.patch
+>     >
+>     > diff --git a/recipes-containers/containerd/containerd-opencontainers/
+>     CVE-2025-64329.patch b/recipes-containers/containerd/
+>     containerd-opencontainers/CVE-2025-64329.patch
+>     > new file mode 100644
+>     > index 00000000..a3cc5e85
+>     > --- /dev/null
+>     > +++ b/recipes-containers/containerd/containerd-opencontainers/
+>     CVE-2025-64329.patch
+>     > @@ -0,0 +1,80 @@
+>     > +From c575d1b5f4011f33b32f71ace75367a92b08c750 Mon Sep 17 00:00:00 2001
+>     > +From: wheat2018 <1151937289@qq.com>
+>     > +Date: Tue, 13 Aug 2024 15:56:31 +0800
+>     > +Subject: [PATCH] fix goroutine leak of container Attach
+>     > +
+>     > +The monitor goroutine (runs (*ContainerIO).Attach.func1) of Attach will
+>     > +never finish if it attaches to a container without any stdout or stderr
+>     > +output. Wait for http context cancel and break the pipe actively to
+>     > +address the issue.
+>     > +
+>     > +Signed-off-by: wheat2018 <1151937289@qq.com>
+>     > +Signed-off-by: Akihiro Suda <akihiro.suda.cz@hco.ntt.co.jp>
+>     > +(cherry picked from commit a0d0f0ef68935338d2c710db164fa7820f692530)
+>     > +Signed-off-by: Akihiro Suda <akihiro.suda.cz@hco.ntt.co.jp>
+>     > +
+>     > +Excluded pkg/cri/sbserver/container_attach.go changes as the file not
+>     > +present in our current vrsion 1.6.19
+>     > +
+>     > +Upstream-Status: Backport [https://github.com/containerd/containerd/
+>     commit/c575d1b5f4011f33b32f71ace75367a92b08c750]
+>     > +CVE: CVE-2025-64329
+>     > +Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+>     > +---
+>     > + pkg/cri/io/container_io.go         | 14 +++++++++++---
+>     > + pkg/cri/server/container_attach.go |  2 +-
+>     > + 2 files changed, 12 insertions(+), 4 deletions(-)
+>     > +
+>     > +diff --git a/pkg/cri/io/container_io.go b/pkg/cri/io/container_io.go
+>     > +index 70bc8b789..e1584100f 100644
+>     > +--- a/pkg/cri/io/container_io.go
+>     > ++++ b/pkg/cri/io/container_io.go
+>     > +@@ -17,6 +17,7 @@
+>     > + package io
+>     > +
+>     > + import (
+>     > ++    "context"
+>     > +     "errors"
+>     > +     "io"
+>     > +     "strings"
+>     > +@@ -134,7 +135,7 @@ func (c *ContainerIO) Pipe() {
+>     > +
+>     > + // Attach attaches container stdio.
+>     > + // TODO(random-liu): Use pools.Copy in docker to reduce memory usage?
+>     > +-func (c *ContainerIO) Attach(opts AttachOptions) {
+>     > ++func (c *ContainerIO) Attach(ctx context.Context, opts AttachOptions) {
+>     > +     var wg sync.WaitGroup
+>     > +     key := util.GenerateID()
+>     > +     stdinKey := streamKey(c.id, "attach-"+key, Stdin)
+>     > +@@ -175,8 +176,15 @@ func (c *ContainerIO) Attach(opts AttachOptions) {
+>     > +     }
+>     > +
+>     > +     attachStream := func(key string, close <-chan struct{}) {
+>     > +-            <-close
+>     > +-            logrus.Infof("Attach stream %q closed", key)
+>     > ++            select {
+>     > ++            case <-close:
+>     > ++                    logrus.Infof("Attach stream %q closed", key)
+>     > ++            case <-ctx.Done():
+>     > ++                    logrus.Infof("Attach client of %q cancelled", key)
+>     > ++                    // Avoid writeGroup heap up
+>     > ++                    c.stdoutGroup.Remove(key)
+>     > ++                    c.stderrGroup.Remove(key)
+>     > ++            }
+>     > +             // Make sure stdin gets closed.
+>     > +             if stdinStreamRC != nil {
+>     > +                     stdinStreamRC.Close()
+>     > +diff --git a/pkg/cri/server/container_attach.go b/pkg/cri/server/
+>     container_attach.go
+>     > +index a95215051..3625229f9 100644
+>     > +--- a/pkg/cri/server/container_attach.go
+>     > ++++ b/pkg/cri/server/container_attach.go
+>     > +@@ -79,6 +79,6 @@ func (c *criService) attachContainer(ctx
+>     context.Context, id string, stdin io.Re
+>     > +             },
+>     > +     }
+>     > +     // TODO(random-liu): Figure out whether we need to support
+>     historical output.
+>     > +-    cntr.IO.Attach(opts)
+>     > ++    cntr.IO.Attach(ctx, opts)
+>     > +     return nil
+>     > + }
+>     > +--
+>     > +2.25.1
+>     > +
+>     > diff --git a/recipes-containers/containerd/
+>     containerd-opencontainers_git.bb b/recipes-containers/containerd/
+>     containerd-opencontainers_git.bb
+>     > index 264d37a6..05683d26 100644
+>     > --- a/recipes-containers/containerd/containerd-opencontainers_git.bb
+>     > +++ b/recipes-containers/containerd/containerd-opencontainers_git.bb
+>     > @@ -11,6 +11,7 @@ SRC_URI = "git://github.com/containerd/containerd;
+>     branch=release/1.6;protocol=ht
+>     >             file://0001-build-don-t-use-gcflags-to-define-trimpath.patch
+>     \
+>     >             file://CVE-2024-40635.patch \
+>     >             file://CVE-2024-25621.patch \
+>     > +           file://CVE-2025-64329.patch \
+>     >            "
+>     > 
+>     >  # Apache-2.0 for containerd
+>     > --
+>     > 2.25.1
+>     >
+> 
+>     >
+>     > -=-=-=-=-=-=-=-=-=-=-=-
+>     > Links: You receive all messages sent to this group.
+>     > View/Reply Online (#9437): https://lists.yoctoproject.org/g/
+>     meta-virtualization/message/9437
+>     > Mute This Topic: https://lists.yoctoproject.org/mt/116217320/1050810
+>     > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+>     > Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [
+>     bruce.ashfield@gmail.com]
+>     > -=-=-=-=-=-=-=-=-=-=-=-
+>     >
+> 
 > 
 
