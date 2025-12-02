@@ -2,161 +2,130 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36ACCCFD2F6
-	for <webhook@archiver.kernel.org>; Tue,  2 Dec 2025 04:43:57 +0000 (UTC)
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.688.1764650636785635736
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1368BCFD376
+	for <webhook@archiver.kernel.org>; Tue,  2 Dec 2025 04:44:47 +0000 (UTC)
+Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.701.1764650679890321144
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 01 Dec 2025 20:43:56 -0800
+ Mon, 01 Dec 2025 20:44:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=C8uLMtiL;
- spf=pass (domain: gmail.com, ip: 209.85.219.53, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-882379c0b14so39774986d6.1
-        for <meta-virtualization@lists.yoctoproject.org>; Mon, 01 Dec 2025 20:43:56 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=k/hMO8Sx;
+ spf=pass (domain: gmail.com, ip: 209.85.222.173, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-8b2627269d5so431963785a.2
+        for <meta-virtualization@lists.yoctoproject.org>; Mon, 01 Dec 2025 20:44:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764650636; x=1765255436; darn=lists.yoctoproject.org;
+        d=gmail.com; s=20230601; t=1764650679; x=1765255479; darn=lists.yoctoproject.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=rJfBIUjONZ6adZT+20mLC0sZ0J37MbnsUhiNPQ0MQPA=;
-        b=C8uLMtiLqwWOHYhvaERP407f6AXP0/EhgZV2EuaOYTl5zwL5GjSj/Ex7AY63+oWxcf
-         TBF650LBVVPXTIB/A3pqLUjrrI4rTO6NlgJMQxK32hmLQB5DPakNgkyPLu6a/vJ+kIwJ
-         6k6nUJG8k1O/q8PkkAVGOQuRmx75Yv4DhBbqKR3ichoDnv3o8FyZN3GaXVWFbZ5A6qdg
-         8mC+U6wI4sjQTXqgAngugLNUTu31Dl/C2Px6X+IDqckycplJ6PCNityfp8cJhOE9MfVw
-         RXcHIkTnikyvyuoUdOKfMdn8DeATodk4zXZA44ueAFMDKpFVEu+9hrUc/2cE3wC68h7X
-         TntA==
+        bh=5vhVFGGAbhHAcXwucALhhBY8Id61DfdwGtH9YOoaTyY=;
+        b=k/hMO8SxrwwZFTX8eQX8Qh9Tyfnqz6JnyvGXUdOYzbPml6x2UBjsQwZsPUZ+NxI9kK
+         epSC2KvTizCwBKj4ex8fMNJA9neeZlXJN6nYOEQ1FsV5FSzjYxZC8Exnkm7/p2ejB2mH
+         vuQ+SCGMISpkT1NtO2iL1hbVsurB7YW5lW90sQxAfPMNjx8mHwWiHTBJzf2rI3hRbui2
+         FpRU/3yrI0SevbBlCPm9rhvaHC2NmaqrpbbZyNI4YtDCYqayrWJ8l6cmECkmvRecU7qX
+         RMgZ2m6xm6/hLnXi05vUc3EbS5+gZy2NPy/CHEBuIdjyo6VK1GoWhMEuy9tIYYDgSX7B
+         i8lg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764650636; x=1765255436;
+        d=1e100.net; s=20230601; t=1764650679; x=1765255479;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=rJfBIUjONZ6adZT+20mLC0sZ0J37MbnsUhiNPQ0MQPA=;
-        b=MHwmz2SMpu3wzkmnVwTQVCtJJMJjO9AYMfKmIaWqQLu9aUXBKVFEbL2wMAnkBd83op
-         fR0vf4BhJEk9QxH5DVQ5DDF/GmBDIRyHB+D3NqS3A9+9wmuvq8JnmZPKugbs8SP1fViO
-         LXE7a34yGsPB2rdy0W6kP9wENFDPSKwKXnfqpCHk2nvLmFIV0HNE5ktSfc7nnzajyfqW
-         4ZOWpx7QMHaWFSRIYxfe3m0vwEfS4PJsWAufD5CrA0wcnE/czEPimbIgViUHZpkOYUOp
-         Wyg6ahHJg5I1FATFR3A2hbSWKZOhchsCT6QuGq+Q1iyen0p3fYU/mhOGmVK9ZRNpI8aR
-         EvMA==
-X-Gm-Message-State: AOJu0YwEDs6iT5tZHWuR4ygdMPiq1VOIL8qPB/uEHFhOPaMO0I3i09qy
-	5cC6NY5EoqYgsFXZ1DgkiOaPovHsqC+MLCAaoTQTt8aQFFD5/XpcNF7O
-X-Gm-Gg: ASbGnctVlFdNIr5kW8gbdEtTT2sJf45XGjzC4mnSQKyA2rBAw9AzlK2bVri20KKhydg
-	3W9wLyCfmi4RrzH+t0zU4NattEwxHKsjCGqt9mxLqpEGRJJ3Qr7jjGt8yoX85ffmZx2IW/XemD/
-	MIiYpVwyLaJ1GmvD5W0AKdyGo5Lt0VgviUPoYJBgUKW5uV1fuFPSyijHBINipWkIt+0a1yO+37Q
-	SVZO8Aw9/PxKdtyNEXrvczbG9dsdqWukmIOudJ/PrHSdCppdwEc6CTRzDF6biot9MSrU9CbktqV
-	i4C2kBf+g6wT/zVDuORj4qYQFTVG/54o8+uAYCmFgd+KmJhjyW0icCSiA+Eo6CJpcJLW+cygjhf
-	T6awc5ts4IbkUBZ5erXOl6ii3dKR/LtQ8BiboRFZCV4OdiXTRT+pLMIYqGCxzaD9jTyj2X/ZJnx
-	cDTGclykzbh7E+ro/TMix8vh+J3GUzJ7fsoDClVkrA9xbE3H7TjVapEvWimPZu44tV
-X-Google-Smtp-Source: AGHT+IEJHpz+pZ0Ou9nD8xKBwuxvcPJEKs3CWXEI8WwpGOVOq1nows/tmlPiPRuJdujxCP6ZWBzKDw==
-X-Received: by 2002:ad4:5bc8:0:b0:882:3f45:c828 with SMTP id 6a1803df08f44-8847c54446fmr657374226d6.36.1764650635729;
-        Mon, 01 Dec 2025 20:43:55 -0800 (PST)
+        bh=5vhVFGGAbhHAcXwucALhhBY8Id61DfdwGtH9YOoaTyY=;
+        b=qe4GbD2aF6nHWhN5syLUaxELChlXCbxPmav/Q5DEpTxoFN0gMuS3Fuy+mNSWhZQ5Hi
+         +Y7rrQRaOsxLwJL+FlFaco7e6j3IRU8eeT9uHRygFr/k9cD+IEPoY0X38tWOYXr7HeX4
+         8eIlzKmqjJFqu3lO+ee0IdRJM/BfB3bRs+srBVRkot2RM8Ik3/DNCgxr6mogPPu64WKr
+         sdXmjwGqjWbgwxDCMfRkmZa1SedtuI0eLPxZITmZXNSsawbFs8YX3rjRgdFw58w0Rtkf
+         igfIPWKwXT15yfTITy/1zLwRpzoX1uVUQ+uRaRo1MHBcDpYIWv3xevA1r8GagzvKMIFW
+         LSkg==
+X-Gm-Message-State: AOJu0Ywx/QUP8ym47eTGsnSEaLErQ343SQQB6mVgwLCcMVu7WKYc+2fp
+	yaDPGzK3xCiffM3ktiNfv8d62Q/YNeX6+pbrmsJw/S+1nSHOAYEObjO3n4kd6WD6oqw=
+X-Gm-Gg: ASbGnctWc8jQjbky3m6nuGnZsk8D2lei9d7pzGfh1fTiEmDTgzYvatXQm0wV52+c7x2
+	xOQ1wB71hkNqkfniYitFetrgSjf0bIvk+EL23JPIgR2g90kA8vXulLZ4XoUNLtiXpVkJZh69qMs
+	vFfcfbVFizR0ctKJTMV6m0uGi4uQfewSb7IXsEkwGjYH2bc1cNj5+cJQdgWyq2aXke1G2C0jNob
+	T7zFTcymexwBDUZYwsttfXeBIGyFmo9omkmys+c5a2ZNjHjgKGZmD5z5K0J4FZnRuimh8ZgUkTU
+	zl0lZkZ9V9Uyqf+gN3OnzAB3NiCqrEdwx18S/mbPda2PKYZ8dQv0TZ3do1yrVtaVZH0WASxPWDk
+	evt1QJ8Rs/UoFhdvAVrsRSPosLs0P31UQe/Sr4vXS/8vFAmth+3jgJqAUNHRmvnX9dsNlEYsY1M
+	KsiDKIjRXY64o1jjXGXNE5zUwHpulIYiFU1IGjxzYIMotAnUkECnar1LuE9ejXdfsc
+X-Google-Smtp-Source: AGHT+IGCmE+X2b1N+7alwcUW2HJNWcaNRyNT6egamlJ6psob9dfSV87lN8tDUDU+/EfFUXHlOTdJtg==
+X-Received: by 2002:a05:620a:28c9:b0:866:f322:c6c0 with SMTP id af79cd13be357-8b33d48275dmr5571424285a.60.1764650678733;
+        Mon, 01 Dec 2025 20:44:38 -0800 (PST)
 Received: from gmail.com (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-88652b492b3sm96842446d6.33.2025.12.01.20.43.55
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8b5299938b5sm1013406485a.4.2025.12.01.20.44.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Dec 2025 20:43:55 -0800 (PST)
-Date: Mon, 1 Dec 2025 23:43:53 -0500
+        Mon, 01 Dec 2025 20:44:38 -0800 (PST)
+Date: Mon, 1 Dec 2025 23:44:36 -0500
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: jaeyoon.jung@lge.com
+To: kai.kang@windriver.com
 Cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [meta-virtualization] [PATCH] irqbalance: fix build with musl
-Message-ID: <aS5uifQnsbkA5GNS@gmail.com>
-References: <20251126042241.3881019-1-jaeyoon.jung@lge.com>
+Subject: Re: [PATCH] libvirt: set firewall backend priority
+Message-ID: <aS5utFRSiZDsSaFq@gmail.com>
+References: <20251126072914.2711374-1-kai.kang@windriver.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251126042241.3881019-1-jaeyoon.jung@lge.com>
+In-Reply-To: <20251126072914.2711374-1-kai.kang@windriver.com>
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Tue, 02 Dec 2025 04:43:57 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9468
+ <meta-virtualization@lists.yoctoproject.org>; Tue, 02 Dec 2025 04:44:47 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9469
 
-Rather than do this backport, I completed the long overdue update
-to irqbalance that should already contain this patch.
-
-There were quite a few adjustments needed, so I haven't pushed
-this to master yet.
-
-You can see the RFC version of the update on master-next.
+staged to master-next.
 
 Bruce
 
-In message: [meta-virtualization] [PATCH] irqbalance: fix build with musl
-on 26/11/2025 Jaeyoon Jung (LGE) via lists.yoctoproject.org wrote:
+In message: [PATCH] libvirt: set firewall backend priority
+on 26/11/2025 kai.kang@windriver.com wrote:
 
-> From: Jaeyoon Jung <jaeyoon.jung@lge.com>
+> From: Kai Kang <kai.kang@windriver.com>
 > 
-> Signed-off-by: Jaeyoon Jung <jaeyoon.jung@lge.com>
+> If firewall_backend isn't configured in the config file, libvirt will
+> choose the first available backend from the following list by default:
+> 
+>     [nftables, iptables]
+> 
+> so when nftables is installed in image, firewall backend nftables rather
+> than iptables is adopted.
+> 
+> Add a PACKAGECONFIG to set the firewall backend priority. And update
+> runtime dependencies for backend nftables.
+> 
+> Signed-off-by: Kai Kang <kai.kang@windriver.com>
 > ---
->  ...fix-initialisation-of-regex_t-struct.patch | 36 +++++++++++++++++++
->  recipes-extended/irqbalance/irqbalance_git.bb |  1 +
->  2 files changed, 37 insertions(+)
->  create mode 100644 recipes-extended/irqbalance/irqbalance/0002-procinterrupts-fix-initialisation-of-regex_t-struct.patch
+>  recipes-extended/libvirt/libvirt_git.bb | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
 > 
-> diff --git a/recipes-extended/irqbalance/irqbalance/0002-procinterrupts-fix-initialisation-of-regex_t-struct.patch b/recipes-extended/irqbalance/irqbalance/0002-procinterrupts-fix-initialisation-of-regex_t-struct.patch
-> new file mode 100644
-> index 00000000..993d9ad8
-> --- /dev/null
-> +++ b/recipes-extended/irqbalance/irqbalance/0002-procinterrupts-fix-initialisation-of-regex_t-struct.patch
-> @@ -0,0 +1,36 @@
-> +From d02ec54e635da8da8439d35b0523ce2b5d5dbae1 Mon Sep 17 00:00:00 2001
-> +From: psykose <alice@ayaya.dev>
-> +Date: Wed, 19 Apr 2023 19:31:19 +0000
-> +Subject: [PATCH] procinterrupts: fix initialisation of regex_t struct
-> +
-> +{NULL} utilises the null pointer, but this is not valid, because null is a pointer:
-> +
-> +procinterrupts.c:110:29: error: initialization of 'long unsigned int' from 'void *' makes integer from pointer without a cast [-Werror=int-conversion]
-> +  110 |                 { "eth.*" ,{NULL} ,NULL, IRQ_TYPE_LEGACY, IRQ_GBETH },
-> +
-> +0-initialisation should be done with '0' instead of a pointer.
-> +
-> +Upstream-Status: Backport [https://github.com/Irqbalance/irqbalance/commit/d02ec54e635da8da8439d35b0523ce2b5d5dbae1]
-> +---
-> + procinterrupts.c | 8 ++++----
-> + 1 file changed, 4 insertions(+), 4 deletions(-)
-> +
-> +diff --git a/procinterrupts.c b/procinterrupts.c
-> +index ec7a52b..dfa95c6 100644
-> +--- a/procinterrupts.c
-> ++++ b/procinterrupts.c
-> +@@ -107,10 +107,10 @@ static void guess_arm_irq_hints(char *name, struct irq_info *info)
-> + 	static int compiled = 0;
-> + 	/* Note: Last entry is a catchall */
-> + 	static struct irq_match matches[] = {
-> +-		{ "eth.*" ,{NULL} ,NULL, IRQ_TYPE_LEGACY, IRQ_GBETH },
-> +-		{ "[A-Z0-9]{4}[0-9a-f]{4}", {NULL} ,check_platform_device, IRQ_TYPE_LEGACY, IRQ_OTHER},
-> +-		{ "PNP[0-9a-f]{4}", {NULL} ,check_platform_device, IRQ_TYPE_LEGACY, IRQ_OTHER},
-> +-		{ ".*", {NULL}, NULL, IRQ_TYPE_LEGACY, IRQ_OTHER},
-> ++		{ "eth.*" , {0},NULL, IRQ_TYPE_LEGACY, IRQ_GBETH },
-> ++		{ "[A-Z0-9]{4}[0-9a-f]{4}", {0}, check_platform_device, IRQ_TYPE_LEGACY, IRQ_OTHER},
-> ++		{ "PNP[0-9a-f]{4}", {0}, check_platform_device, IRQ_TYPE_LEGACY, IRQ_OTHER},
-> ++		{ ".*", {0}, NULL, IRQ_TYPE_LEGACY, IRQ_OTHER},
-> + 		{NULL},
-> + 	};
-> + 
-> diff --git a/recipes-extended/irqbalance/irqbalance_git.bb b/recipes-extended/irqbalance/irqbalance_git.bb
-> index 46b8ed0f..7fdf1216 100644
-> --- a/recipes-extended/irqbalance/irqbalance_git.bb
-> +++ b/recipes-extended/irqbalance/irqbalance_git.bb
-> @@ -11,6 +11,7 @@ SRC_URI = "git://github.com/Irqbalance/irqbalance;branch=master;protocol=https \
->             file://add-initscript.patch \
->             file://irqbalance-Add-status-and-reload-commands.patch \
->             file://0001-add-void-to-fix-strict-prototypes.patch \
-> +           file://0002-procinterrupts-fix-initialisation-of-regex_t-struct.patch \
->            "
+> diff --git a/recipes-extended/libvirt/libvirt_git.bb b/recipes-extended/libvirt/libvirt_git.bb
+> index 681ceade..e9359e1e 100644
+> --- a/recipes-extended/libvirt/libvirt_git.bb
+> +++ b/recipes-extended/libvirt/libvirt_git.bb
+> @@ -15,7 +15,9 @@ DEPENDS = "bridge-utils gnutls libxml2 lvm2 avahi parted curl libpcap util-linux
+>  #
+>  RDEPENDS:${PN} = "gettext-runtime"
 >  
->  CFLAGS += "-Wno-error=format-security"
+> -RDEPENDS:libvirt-libvirtd += "bridge-utils iptables pm-utils dnsmasq netcat-openbsd ebtables"
+> +RDEPENDS:libvirt-libvirtd += "bridge-utils pm-utils dnsmasq netcat-openbsd ebtables \
+> +                              ${@bb.utils.contains('PACKAGECONFIG', 'nftables', 'nftables iproute2-tc', 'iptables', d)} \
+> +                              "
+>  RDEPENDS:libvirt-libvirtd:append:x86-64 = " dmidecode"
+>  RDEPENDS:libvirt-libvirtd:append:x86 = " dmidecode"
+>  RDEPENDS:libvirt-libvirtd:append:arm = " dmidecode"
+> @@ -175,6 +177,7 @@ PACKAGECONFIG[apparmor_profiles] = "-Dapparmor_profiles=enabled, -Dapparmor_prof
+>  PACKAGECONFIG[firewalld] = "-Dfirewalld=enabled, -Dfirewalld=disabled,"
+>  PACKAGECONFIG[libpcap] = "-Dlibpcap=enabled, -Dlibpcap=disabled,libpcap,libpcap"
+>  PACKAGECONFIG[numad] = "-Dnumad=enabled, -Dnumad=disabled,"
+> +PACKAGECONFIG[nftables] = ""
+>  
+>  # Enable the Python tool support
+>  require libvirt-python.inc
+> @@ -313,6 +316,7 @@ do_install:append() {
+>  
+>  EXTRA_OEMESON += " \
+>      -Dinit_script=${@bb.utils.contains('DISTRO_FEATURES','systemd','systemd','none', d)} \
+> +    -Dfirewall_backend_priority=${@bb.utils.contains('PACKAGECONFIG','nftables','nftables,iptables','iptables,nftables', d)} \
+>      -Drunstatedir=/run \
+>      -Dtests=enabled \
+>      "
 > -- 
-> 2.47.2
+> 2.34.1
 > 
-
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#9457): https://lists.yoctoproject.org/g/meta-virtualization/message/9457
-> Mute This Topic: https://lists.yoctoproject.org/mt/116481013/1050810
-> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
-
 
