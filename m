@@ -1,114 +1,66 @@
-Return-Path: <vudupa@qti.qualcomm.com>
+Return-Path: <rpjday@crashcourse.ca>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DEE3D1D873
-	for <webhook@archiver.kernel.org>; Thu,  4 Dec 2025 06:44:23 +0000 (UTC)
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.37478.1764830661804086411
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 12E85D2A52A
+	for <webhook@archiver.kernel.org>; Thu,  4 Dec 2025 20:23:40 +0000 (UTC)
+Received: from cpanel10.indieserve.net (cpanel10.indieserve.net [199.212.143.9])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.53949.1764879818605782663
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 03 Dec 2025 22:44:21 -0800
+ Thu, 04 Dec 2025 12:23:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=AQ0O5tvN;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: qualcomm.com, ip: 205.220.168.131, mailfrom: vudupa@qualcomm.com)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5B46ASaN135928
-	for <meta-virtualization@lists.yoctoproject.org>; Thu, 4 Dec 2025 06:44:21 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=2qe/TljuBfwZoSLn2P2MR1vHGzEwOR76NUy
-	tFFqpxV4=; b=AQ0O5tvN4YKBlfnVZypcjakZrBCUhv2E/GkpG8QXppNqARwJ9HH
-	ncS5dluXaeqAagYWJxx79XhZGnO6M9UviwCdoqwm/cuJw/LvMme9IX1rDH1JGbKf
-	vhlna7tQOY9Qv9euskJC+dbfiQVeKpREzRpdIbekXyCp/9qKoMQaLtrzp79SXOEK
-	94rQZBLdj2n4KvKrMSbco3SMaMtljyaWHkqzUDy7cpx0Nms3+b6M9RUkQKu+Rh/e
-	OFyHytrKiETF8moJnG9H3EQfaK+Ci8KGVpaFJi0zxUoa9mak1M+YubHj6I7SiAMi
-	OQdBrfOEdKOhiZBH3cmIbmGp69BcEH1M+OQ==
-Received: from apblrppmta01.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4atm0hu62h-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <meta-virtualization@lists.yoctoproject.org>; Thu, 04 Dec 2025 06:44:21 +0000 (GMT)
-Received: from pps.filterd (APBLRPPMTA01.qualcomm.com [127.0.0.1])
-	by APBLRPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTP id 5B46iIwh000595
-	for <meta-virtualization@lists.yoctoproject.org>; Thu, 4 Dec 2025 06:44:18 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 4aqswmu03t-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <meta-virtualization@lists.yoctoproject.org>; Thu, 04 Dec 2025 06:44:18 +0000
-Received: from APBLRPPMTA01.qualcomm.com (APBLRPPMTA01.qualcomm.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 5B46iHMh000589
-	for <meta-virtualization@lists.yoctoproject.org>; Thu, 4 Dec 2025 06:44:17 GMT
-Received: from hyd-e160-a01-2-03.qualcomm.com (hyd-e160-a01-2-03.qualcomm.com [10.147.154.239])
-	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 5B46iHJp000586
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 04 Dec 2025 06:44:17 +0000
-Received: by hyd-e160-a01-2-03.qualcomm.com (Postfix, from userid 3978420)
-	id 9292E51D6; Thu,  4 Dec 2025 12:14:16 +0530 (IST)
-From: Vishwas Udupa <vudupa@qti.qualcomm.com>
+ dkim=pass header.i=@crashcourse.ca header.s=default header.b=O7KTuske;
+ spf=pass (domain: crashcourse.ca, ip: 199.212.143.9, mailfrom: rpjday@crashcourse.ca)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=crashcourse.ca; s=default; h=Content-Type:MIME-Version:Message-ID:Subject:
+	To:From:Date:Sender:Reply-To:Cc:Content-Transfer-Encoding:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=SzhoQRVA7+ufJeuiCoK8cVsOyXtnmurm0nCiRL066bU=; b=O7KTuske/5V6s7Y1gkOZtePveM
+	WbBw/3tIAO8Sn9vU5HcGVVmY9pq4WORikBjrrOmWASOanrzu6Bk86S+Fyau+hEOoUBHe5N7Gmn9gm
+	2nDvd9o8Y2ZOkqcNIhL5Qc+iz9chTHqrLHmsnFmggf8nQ/DigqWcHT7KYqbu4B3JuNlEPfugJECPI
+	B3V5ANSVVoA3rM1jeL6o2yO0EaTts113w8l+mmJWjNg5PF1vXzskV9MUuqhceokfkJFQho4sej0Fg
+	qw6qSqsr2d4BjV13tuC/eQayLgeOex9iwAaJtTZi2WhlbrPumePRBzgJopvILQgpWEMYzDdg8iHGO
+	+j1+oAEg==;
+Received: from pool-174-115-41-146.cpe.net.cable.rogers.com ([174.115.41.146]:58966 helo=rday)
+	by cpanel10.indieserve.net with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <rpjday@crashcourse.ca>)
+	id 1vRFrQ-0000000HQ7M-3JcK
+	for meta-virtualization@lists.yoctoproject.org;
+	Thu, 04 Dec 2025 15:23:37 -0500
+Date: Thu, 4 Dec 2025 15:24:51 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
 To: meta-virtualization@lists.yoctoproject.org
-Cc: anuj.mittal@oss.qualcomm.com, Vishwas Udupa <vudupa@qti.qualcomm.com>
-Subject: [PATCH v2] lxc: delete empty lxc state directory
-Date: Thu,  4 Dec 2025 12:13:29 +0530
-Message-Id: <20251204064329.568898-1-vudupa@qti.qualcomm.com>
-X-Mailer: git-send-email 2.25.1
+Subject: Why do *all* xen-tools recipes set DEFAULT_PREFERENCE to '-1'?
+Message-ID: <7a68aa42-0904-18cf-7619-c97b4bf310b1@crashcourse.ca>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: eMOyC5xbErDpD-1oSkLhAN8VMGSqHEzN
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjA0MDA1MiBTYWx0ZWRfXxoPXyZncKX5b
- 4TUpbOf9UqTEHWzGQ66a9OsSY50WIm/yo1mQ1Yk+OYGQiPzE0w1/nFC5Ele+CubazfRY5coCjGt
- fUp5hqYns3CyNy8Yzk2MvXLYe/DGUApNjh9a2Y9r4JLK2fTkLk6+C4Xy3IuzG1ETOC31ANNsOYm
- bREbofBGecC5KuISvdoKLmnTwzD43UJRHAwghkYof/y3b9EUfBvZ2uoL676Ft7SYf/CTfGb0Ouv
- U5ZJ/WXyhoK4GUNlTbzdbX+ZiCc2hR2FLDOBnm0wVrBOcHJ/kLXn/9xi2+ZJI0qCS212P1FxsgD
- v/1R34dXVi1lwOL8HvrVsAOR9zknFYDVAmtg4+yQ2HslcKqmpgRCT+gF3p6luo6UNZXFLB7clqj
- 5Rr3EMQ5vUuajXgR1+gFTHUelZnXZg==
-X-Proofpoint-GUID: eMOyC5xbErDpD-1oSkLhAN8VMGSqHEzN
-X-Authority-Analysis: v=2.4 cv=V5lwEOni c=1 sm=1 tr=0 ts=69312dc5 cx=c_pps
- a=Ou0eQOY4+eZoSc0qltEV5Q==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
- a=wP3pNCr1ah4A:10 a=VkNPw1HP01LnGYTKEx00:22 a=NEAV23lmAAAA:8 a=EUspDBNiAAAA:8
- a=8TO6Z-NECf0Wmy0hxN8A:9
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-12-04_02,2025-12-03_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 impostorscore=0 priorityscore=1501 adultscore=0 malwarescore=0
- suspectscore=0 bulkscore=0 lowpriorityscore=0 clxscore=1015 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512040052
+Content-Type: text/plain; charset=US-ASCII
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - cpanel10.indieserve.net
+X-AntiAbuse: Original Domain - lists.yoctoproject.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Get-Message-Sender-Via: cpanel10.indieserve.net: authenticated_id: rpjday+crashcourse.ca/only user confirmed/virtual account not confirmed
+X-Authenticated-Sender: cpanel10.indieserve.net: rpjday@crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Thu, 04 Dec 2025 06:44:23 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9477
+ <meta-virtualization@lists.yoctoproject.org>; Thu, 04 Dec 2025 20:23:40 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9478
 
-lxc systemd service [1] defines a StateDirectory to ensure that
-the /var/lib/lxc directory is automatically created and managed
-by systemd during service startup.
-Do not create lxc directory at build time for systemd.
 
-[1] https://github.com/lxc/lxc/blob/f9ff9ea2a92653a823edf25e8e28c9dab08b3090/config/init/systemd/lxc.service.in#L16
+  Working on enhancing some documentation and, regarding
+DEFAULT_PREFERENCE, I noticed that *every* version of the xen-tools
+recipes sets this variable weakly to "-1":
 
-Signed-off-by: Vishwas Udupa <vudupa@qti.qualcomm.com>
----
- recipes-containers/lxc/lxc_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+https://git.yoctoproject.org/meta-virtualization/tree/recipes-extended/xen
 
-diff --git a/recipes-containers/lxc/lxc_git.bb b/recipes-containers/lxc/lxc_git.bb
-index d6f137d3..542134db 100644
---- a/recipes-containers/lxc/lxc_git.bb
-+++ b/recipes-containers/lxc/lxc_git.bb
-@@ -141,7 +141,7 @@ do_install:append() {
- 
- 	if "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}"; then
- 	    # nothing special for systemd at the moment
--	    true
-+	    (cd ${D}${localstatedir}; [ -d lib/lxc ] && rmdir -v --parents lib/lxc)
- 	else
- 	    # with meson, these aren't built unless sysvinit is the enabled
- 	    # init system.
--- 
-2.25.1
+  Is there some rationale for this that isn't obvious?
 
+rday
 
