@@ -1,116 +1,115 @@
-Return-Path: <rpjday@crashcourse.ca>
+Return-Path: <paul.leguendekerneizon@savoirfairelinux.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 14AA4D609DF
-	for <webhook@archiver.kernel.org>; Tue, 16 Dec 2025 19:39:40 +0000 (UTC)
-Received: from cpanel10.indieserve.net (cpanel10.indieserve.net [199.212.143.9])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2645.1765913974687552494
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33BCBD6409D
+	for <webhook@archiver.kernel.org>; Wed, 17 Dec 2025 09:21:55 +0000 (UTC)
+Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com [208.88.110.44])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.10414.1765963314069472841
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 16 Dec 2025 11:39:35 -0800
+ Wed, 17 Dec 2025 01:21:54 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@crashcourse.ca header.s=default header.b=CTBmpxFm;
- spf=pass (domain: crashcourse.ca, ip: 199.212.143.9, mailfrom: rpjday@crashcourse.ca)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=crashcourse.ca; s=default; h=Content-Type:MIME-Version:References:
-	Message-ID:In-Reply-To:Subject:cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=WsPaW63akk5U0Jj6EVtEhoFIGu+M5/IAtoJ+F6oZ2R8=; b=CTBmpxFmP1Sr2K0tGE10rE2Vet
-	5qvaqL3/Kyn6GQy7sG91lhQDxdZeyFDo8IQCCKgku7NvPLGnIuwo3sZINuGyVG4QUg/gHV/PxFEWX
-	tR5CclEnv+0AjS4eJmBQnNc6YK4fTI8BvpDm+uTlsXVSLdSualhmluEVc/6t0un00T25mLi5wdpXJ
-	quXSx5QhgEtM/7fgEOY+RoU9Mpdn4jlQDPLbTtLvXOxDTLxY2ZUyUzPj10FE2OIG/MzQqrkAZv79C
-	o7AOnqX5ECYl7vLnIAY/8qRT1PhOTy73JvX9CnEjUH1DRlnLe7EyKRnjarRxiLqmJZH/wNr47dyAX
-	BvAkfB+A==;
-Received: from pool-174-115-41-146.cpe.net.cable.rogers.com ([174.115.41.146]:48350 helo=rday)
-	by cpanel10.indieserve.net with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.99)
-	(envelope-from <rpjday@crashcourse.ca>)
-	id 1vVatN-0000000830E-3PoX;
-	Tue, 16 Dec 2025 14:39:33 -0500
-Date: Tue, 16 Dec 2025 14:41:19 -0500 (EST)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-To: christopher.w.clark@gmail.com
-cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [meta-virtualization] Why do *all* xen-tools recipes set
- DEFAULT_PREFERENCE to '-1'?
-In-Reply-To: <CACMJ4GYXidSqvQtQC9iizONhj4mK15hzS7Y_dswgsf4uEnVQzA@mail.gmail.com>
-Message-ID: <61692bd6-405f-9034-3745-0408ec03419c@crashcourse.ca>
-References: <7a68aa42-0904-18cf-7619-c97b4bf310b1@crashcourse.ca> <CACMJ4GYXidSqvQtQC9iizONhj4mK15hzS7Y_dswgsf4uEnVQzA@mail.gmail.com>
+ dkim=pass header.i=@savoirfairelinux.com header.s=DFC430D2-D198-11EC-948E-34200CB392D2 header.b=q7BPrYd6;
+ spf=pass (domain: savoirfairelinux.com, ip: 208.88.110.44, mailfrom: paul.leguendekerneizon@savoirfairelinux.com)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id DDFEC3D85177
+	for <meta-virtualization@lists.yoctoproject.org>; Wed, 17 Dec 2025 04:21:52 -0500 (EST)
+Received: from mail.savoirfairelinux.com ([127.0.0.1])
+ by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10032)
+ with ESMTP id 9ZLLU780zkp7; Wed, 17 Dec 2025 04:21:52 -0500 (EST)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id 230A73D84F21;
+	Wed, 17 Dec 2025 04:21:52 -0500 (EST)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.savoirfairelinux.com 230A73D84F21
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=savoirfairelinux.com; s=DFC430D2-D198-11EC-948E-34200CB392D2;
+	t=1765963312; bh=fo+RJJqrqv4pj6S3mBIts33ykaFp0yztgLjE69QLKik=;
+	h=From:To:Date:Message-Id:MIME-Version;
+	b=q7BPrYd6sEzTfcOkofD96lctVVuXba/hY4pkTAlEetwn5zGrIe54BoAEyvyHDTYcW
+	 lYpM6KsKWBne72je8OY1wf8cbTfmf2ldY7C+d37HOw3kYsbJCo/GD4giQWylrmE8BO
+	 Ch5oF+Tew48KdAo7sb8tUTvDvIq0zsj06655IOfrQAHz0jOV8Ha0s+JogyufVo1wDc
+	 z0buJVHmwDbofXFtxwEqlhMmOon3uNN8jqsH8/BCRMqwZIEwXnMlGVLM/0C72RA0DU
+	 XzFMYWYNqtb9XX0wBamjkvYQggc9ov6coYCOBOYzeK3GtMPCpE9ya11k1XKuI3vWSJ
+	 lMd4FUKwgiYpA==
+X-Virus-Scanned: amavis at mail.savoirfairelinux.com
+Received: from mail.savoirfairelinux.com ([127.0.0.1])
+ by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10026)
+ with ESMTP id bDhDK0MaTq1Z; Wed, 17 Dec 2025 04:21:52 -0500 (EST)
+Received: from pleguen-ThinkPad-P14s-Gen-2a.rennes.sfl (80-15-101-118.ftth.fr.orangecustomers.net [80.15.101.118])
+	by mail.savoirfairelinux.com (Postfix) with ESMTPSA id A53433D85179;
+	Wed, 17 Dec 2025 04:21:51 -0500 (EST)
+From: Paul Le Guen de Kerneizon <paul.leguendekerneizon@savoirfairelinux.com>
+To: meta-virtualization@lists.yoctoproject.org
+Cc: Paul Le Guen de Kerneizon <paul.leguendekerneizon@savoirfairelinux.com>
+Subject: [PATCH 1/1] cockpit-machines: add recipe
+Date: Wed, 17 Dec 2025 10:21:32 +0100
+Message-Id: <20251217092132.18256-2-paul.leguendekerneizon@savoirfairelinux.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20251217092132.18256-1-paul.leguendekerneizon@savoirfairelinux.com>
+References: <20251217092132.18256-1-paul.leguendekerneizon@savoirfairelinux.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323329-7991155-1765914092=:106698"
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - cpanel10.indieserve.net
-X-AntiAbuse: Original Domain - lists.yoctoproject.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Get-Message-Sender-Via: cpanel10.indieserve.net: authenticated_id: rpjday+crashcourse.ca/only user confirmed/virtual account not confirmed
-X-Authenticated-Sender: cpanel10.indieserve.net: rpjday@crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+Content-Transfer-Encoding: quoted-printable
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Tue, 16 Dec 2025 19:39:40 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9487
+ <meta-virtualization@lists.yoctoproject.org>; Wed, 17 Dec 2025 09:21:55 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9489
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+`cockpit-machines` is a Cockpit plugin used to provide a web interface
+to manage virtual machines. Since Cockpit version 242, cockpit-machines
+has been moved to a dedicated repository.
 
---8323329-7991155-1765914092=:106698
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+Signed-off-by: Paul Le Guen de Kerneizon <paul.leguendekerneizon@savoirfa=
+irelinux.com>
+---
+ .../cockpit-machines/cockpit-machines_346.bb  | 30 +++++++++++++++++++
+ 1 file changed, 30 insertions(+)
+ create mode 100644 recipes-extended/cockpit-machines/cockpit-machines_34=
+6.bb
 
-On Mon, 15 Dec 2025, Christopher Clark via lists.yoctoproject.org wrote:
+diff --git a/recipes-extended/cockpit-machines/cockpit-machines_346.bb b/=
+recipes-extended/cockpit-machines/cockpit-machines_346.bb
+new file mode 100644
+index 00000000..0bd532c4
+--- /dev/null
++++ b/recipes-extended/cockpit-machines/cockpit-machines_346.bb
+@@ -0,0 +1,30 @@
++# Copyright (C) 2024-2025 Savoir-faire Linux, Inc
++
++SUMMARY =3D "Cockpit UI for virtual machines"
++DESCRIPTION =3D "Cockpit-machines provides a user interface to manage vi=
+rtual machines"
++
++BUGTRACKER =3D "github.com/cockpit-project/cockpit-machines/issues"
++
++LICENSE =3D "LGPL-2.1-only"
++LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D4fbd65380cdd255951079008b3645=
+16c"
++
++DEPENDS +=3D "cockpit"
++
++SRC_URI =3D "https://github.com/cockpit-project/cockpit-machines/release=
+s/download/${PV}/cockpit-machines-${PV}.tar.xz"
++SRC_URI[sha256sum] =3D "c9d80357da2bf3ecda9698f0dc6fcb46675b3b76da9150a2=
+2178071fe982fcb0"
++
++S =3D "${WORKDIR}/${PN}"
++
++inherit autotools-brokensep features_check gettext
++
++COMPATIBLE_HOST:libc-musl =3D "null"
++
++RDEPENDS:${PN} +=3D "cockpit libvirt-dbus pciutils virt-manager-install"
++
++REQUIRED_DISTRO_FEATURES =3D "systemd pam"
++
++# Default installation path of cockpit-machines is /usr/local/
++FILES:${PN} =3D "\
++    ${prefix}/local/ \
++    ${datadir}/metainfo/org.cockpit-project.cockpit-machines.metainfo.xm=
+l \
++"
+--=20
+2.34.1
 
-> On Thu, Dec 4, 2025 at 8:23 PM Robert P. J. Day via
-> lists.yoctoproject.org <rpjday=crashcourse.ca@lists.yoctoproject.org>
-> wrote:
-> >
-> >   Working on enhancing some documentation and, regarding
-> > DEFAULT_PREFERENCE, I noticed that *every* version of the xen-tools
-> > recipes sets this variable weakly to "-1":
-> >
-> > https://git.yoctoproject.org/meta-virtualization/tree/recipes-extended/xen
-> >
-> >   Is there some rationale for this that isn't obvious?
->
-> I don't believe so, just maintenance involved when looking at which version is
-> most appropriate around time of releases. From testing with the latest Xen
-> recipes, there is work we can do to make the recipes better to work with:
->
-> Current x86 Xen host images are building in a wic task, introduced to build
-> multi-partition disk images via tooling integrated into OE.
->
-> With experience:
->
-> - the kickstart files aren't bringing much benefit in practice
->
-> - the implementation ends up distributed between wic, the wic plugin,
->   kickstart files, image recipe and OE classes
->
-> - static bootloader configs aren't viable, because they're brittle:
->   eg. need to be dynamic to respect KERNEL_IMAGETYPE
->   and configuration is typically affected by settings from multiple places.
->
-> - the hddimg IMAGE_FSTYPE alternative only supports single-partition
->   FAT filesystems, not sufficient for many systems, and not designed for
->   flexible inclusion of guest VM images
->
-> We can make it easier: replace the use of wic by adding a class for a new
-> IMAGE_FSTYPE: it can write multi-partition output and enable simpler recipes.
-> Should be more capable than hddimg for systems with more advanced filesystems
-> and boot requirements, with more accessible configuration than the
-> wic + kickstart + oe classes + image recipe machinery.
->
-> Thoughts?
-
-  I don't have a lot to add to this, I just made the observation; if
-someone else higher up the food chain wants to clean things up, I will
-offer all the long-distance moral support I can muster.
-
-rday
---8323329-7991155-1765914092=:106698--
 
