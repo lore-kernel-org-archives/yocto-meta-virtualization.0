@@ -1,453 +1,198 @@
-Return-Path: <paul.leguendekerneizon@savoirfairelinux.com>
+Return-Path: <yi.zhao@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF1A5D65C6F
-	for <webhook@archiver.kernel.org>; Wed, 17 Dec 2025 15:36:37 +0000 (UTC)
-Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com [208.88.110.44])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.17822.1765985789337273407
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3622FD6D22C
+	for <webhook@archiver.kernel.org>; Thu, 18 Dec 2025 14:30:05 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.43321.1766068192197115522
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 17 Dec 2025 07:36:29 -0800
+ Thu, 18 Dec 2025 06:29:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@savoirfairelinux.com header.s=DFC430D2-D198-11EC-948E-34200CB392D2 header.b=OpuqnCMf;
- spf=pass (domain: savoirfairelinux.com, ip: 208.88.110.44, mailfrom: paul.leguendekerneizon@savoirfairelinux.com)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id 8E7413D836A2;
-	Wed, 17 Dec 2025 10:36:28 -0500 (EST)
-Received: from mail.savoirfairelinux.com ([127.0.0.1])
- by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10032)
- with ESMTP id u9zAn3WubQor; Wed, 17 Dec 2025 10:36:26 -0500 (EST)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id 3DB763D84821;
-	Wed, 17 Dec 2025 10:36:26 -0500 (EST)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.savoirfairelinux.com 3DB763D84821
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=savoirfairelinux.com; s=DFC430D2-D198-11EC-948E-34200CB392D2;
-	t=1765985786; bh=qJI/WRpAVk+i2xkwJ3Aa9a5r2H78hA6Vf/BdUWCJSIs=;
-	h=Message-ID:Date:MIME-Version:To:From;
-	b=OpuqnCMfSWPZqSuU26G3Q81SsTVyXHsSg6pkMinV81sqPGZuJPvUaMHrxjpbp76eF
-	 1i/rvoWchY7rmbFNgoF1FNwCS68eBOTjH9GSZAUjhJ0vd1coAIsoBGruPqtoWUUYYi
-	 njwyrycniixPP7a7GgYF30Q6EEaAA9W136/kgHNpnMLutmw0wUtx4UgnC6k6/lsSQi
-	 s6KR2qXF49ccO2vQjlra6p3/wjrfSTD1ltrP4eoRBN30h+rPvNBA8k2p0M00D7w4LH
-	 A+cjycACTxDetQitlT2s8u8iIQu3tKiTkhTaepHXPC2AOYcsYX7x3WP5wYKkOatIqQ
-	 ycn1k005jp8Yw==
-X-Virus-Scanned: amavis at mail.savoirfairelinux.com
-Received: from mail.savoirfairelinux.com ([127.0.0.1])
- by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10026)
- with ESMTP id 4FSUiiK-qgQD; Wed, 17 Dec 2025 10:36:26 -0500 (EST)
-Received: from [192.168.216.88] (80-15-101-118.ftth.fr.orangecustomers.net [80.15.101.118])
-	by mail.savoirfairelinux.com (Postfix) with ESMTPSA id A73313D836A2;
-	Wed, 17 Dec 2025 10:36:25 -0500 (EST)
-Content-Type: multipart/alternative;
- boundary="------------hUN10wHAMRA7jAPD2vv6gRsk"
-Message-ID: <290d7683-131d-417b-8f62-ca55305ed378@savoirfairelinux.com>
-Date: Wed, 17 Dec 2025 16:36:24 +0100
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=eX2Rgax4;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=44473d6ac5=yi.zhao@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BIDPmH4943337
+	for <meta-virtualization@lists.yoctoproject.org>; Thu, 18 Dec 2025 06:29:51 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PPS06212021; bh=kBuJOhWFbrU62VuOxNxk
+	zeW0aM5+hf0qjWVAH7yIMWs=; b=eX2Rgax4zW/Cu64lrhDXR8elZW2ZNvujbSPo
+	qIUE3isMOklXXwHuONgZuvTbRmT94osmwELEjISFLmEtfxHoEpWHDF/pRiR8A9h6
+	LWDhoRmZuUHPDhGn8k+xm3vuSBVE08M4YWLJn4BqYmIU7LBZ54IB9A6pUPoatnf3
+	la0sA4sPOY4wiv7QlnAY75ghP/RTLy78YwV74JLEjU/sLqOnl4y8aPSgwRmdAXMG
+	wNuj0X8QHl9ogc3bHvjZrga72Cwt8Q624QU11xS95lQn5sDQypSlZk4tycLi6PxU
+	9rDhJRylzlUPFxVlEXEWqDYAuwjr2V6B4FGaAhVZTAERWnT00g==
+Received: from dm1pr04cu001.outbound.protection.outlook.com (mail-centralusazon11010023.outbound.protection.outlook.com [52.101.61.23])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4b3k0sj2n4-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
+	for <meta-virtualization@lists.yoctoproject.org>; Thu, 18 Dec 2025 06:29:51 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=g9N6CteajPiboVALcypjEjzebcgqkZE532Qg12glB2y0bDo+LzmqYve6kVRQb3UJV/3t1k0mQCBQnxYhT5hGFcATtTZgrJ9IuTL3Gi/badgS31VYkFE1QiFo6vAi/PghBtrcWhRV4Xfgzm+mniQSTl9+E9kiM8dKJikP6aoGz2SIn5T3TqW4XCBUo1koe/oKwZYjReHdOj7B2vVhZ1ZSqBG0OPLUXojDpE6IeF83U/4vqKaj3QRHLW2TBZlKs9QjvjvrDZJO4VQg1AX7L+HJvoU3j6tMYqbZfbVlWOPSoHHUQWzgyujKFzLq0X4uPD3kUCZcUBA1Ooo4Q4JhnrAkCQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=kBuJOhWFbrU62VuOxNxkzeW0aM5+hf0qjWVAH7yIMWs=;
+ b=i7zEP6kGUi08NiwMN+Ip1tAvJYfmfjmu8/Fa0JlD2mSZC/rqLEqJGTZigNtyy9OulNWO7GCP2GxZ6Jw6P8A17z7OHJlGlKgq0na538n6ql2xvQbmXxHM7QWdyrXl1LHIC+108dVR4aDlFfKaHrhRj+nq4oeVjafNPdSw5Jk5rLHbCVBLiMuBIdgcnISfvidDpQT//g2hsLDtDvC3Zd1AYsxawLibPcbKpM50snbMwkC9S5aZjtdl7PGDRXYPCWwbDjsLL2G9SUh7l7vO0NPsre/a3twQrxRjeIRmxaFInM6t/qX7PQegR4yscLl+1lZ8G4H2ci0LoU0f7tHySSQDrg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from DS0PR11MB6399.namprd11.prod.outlook.com (2603:10b6:8:c8::5) by
+ MW4PR11MB7053.namprd11.prod.outlook.com (2603:10b6:303:221::7) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9434.6; Thu, 18 Dec 2025 14:29:48 +0000
+Received: from DS0PR11MB6399.namprd11.prod.outlook.com
+ ([fe80::2b44:787c:e7ee:bfad]) by DS0PR11MB6399.namprd11.prod.outlook.com
+ ([fe80::2b44:787c:e7ee:bfad%3]) with mapi id 15.20.9434.001; Thu, 18 Dec 2025
+ 14:29:48 +0000
+From: Yi Zhao <yi.zhao@windriver.com>
+To: meta-virtualization@lists.yoctoproject.org
+Subject: [PATCH] python3-dotenv: add UPSTREAM_CHECK_PYPI_PACKAGE
+Date: Thu, 18 Dec 2025 22:29:33 +0800
+Message-Id: <20251218142933.3335853-1-yi.zhao@windriver.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SI2PR06CA0016.apcprd06.prod.outlook.com
+ (2603:1096:4:186::22) To DS0PR11MB6399.namprd11.prod.outlook.com
+ (2603:10b6:8:c8::5)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [meta-virtualization][PATCH 0/1] add support of cockpit-machines
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: meta-virtualization@lists.yoctoproject.org
-References: <20251217092132.18256-1-paul.leguendekerneizon@savoirfairelinux.com>
- <CADkTA4Prr_u7grQ_9DWF183LDka+2nu2yGdpYeA1XC4rWkaCRw@mail.gmail.com>
-Content-Language: en-US
-From: Paul Le Guen de Kerneizon <paul.leguendekerneizon@savoirfairelinux.com>
-In-Reply-To: <CADkTA4Prr_u7grQ_9DWF183LDka+2nu2yGdpYeA1XC4rWkaCRw@mail.gmail.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR11MB6399:EE_|MW4PR11MB7053:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6ba3be65-d324-4416-88ed-08de3e41e5eb
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|1800799024|366016|52116014|376014|38350700014;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?QTs5FD/K1nCyIoqscqikzkMw9txG7RmAkZGqI4nBZk3OMjrSefhWi/TDVWkW?=
+ =?us-ascii?Q?uTEQMzqiFxKZEiwvgVjyM3lRwDNx10/UVoDFkxrjQLBv3FXW0uMLsMz+tF52?=
+ =?us-ascii?Q?LmlPXumYwF9sh5Xmyu++IwWB5Vx5PLxlMVbhf5JaK/f5NOPgDCUCUV1vrDQj?=
+ =?us-ascii?Q?TEdcjAH7Zmc4QcnJV9ij+/cZRFjvcWmoV/ULkEyRd9lBwQB5GBAMj+UA4C1L?=
+ =?us-ascii?Q?ZGvKnPUe+uuK6wFdN4DbRWI1HNSKrvLuvrXvVKEQua0HWjEXcsrFxaChgR6G?=
+ =?us-ascii?Q?Tx9YuNEJNU1ERv5eR4PwQxRIDrc8btkWd9DdGUXETNouEK0HORmp/WyBfANY?=
+ =?us-ascii?Q?O7CsqkbZOrQGjuPwChRZ0ONCvR8NLXYT0Utqt3iMcK49+5gZ3xJGQ06sII+v?=
+ =?us-ascii?Q?ypISKaqzC1F0uoE1M5gYD6anic0bWYLWQvSra3zXkCt7uBLZJTWTIkap5IEp?=
+ =?us-ascii?Q?Rq7m56jX0Cr5wkZz0GkSVam3rndzzdSN8bx01JwqpMtC+zS9vDdnXow133DR?=
+ =?us-ascii?Q?3Ej9pF9yx0fe/LALsAiyxyxTCnBqqbw4JQcbeQTpwNWkV0f+zRbkmQ3Ip/Wp?=
+ =?us-ascii?Q?mFXUjszMCT1OhylNBClnPd3Ajzp6wLPL4cdWVJGwsUMVXdwPW6kZN94yuuVT?=
+ =?us-ascii?Q?g3oIrdJE+Kanzc2OUKyqfstj1lUQ4XukTEtEhy6V2Ux4HRyjGZOkU3q+N/Tc?=
+ =?us-ascii?Q?BbPIcCaY/zmoxQ702V39MLBMm4Z35TP9wDm9HW4smpA3jimx//ylSNZdvZS2?=
+ =?us-ascii?Q?PH/xphmtEA8rn/ZzLYWEDB+kxwUq0ku3VDkh56vpumgNqLz51M79EEt29UDS?=
+ =?us-ascii?Q?FYpMgDnlVCjV/TCsKxJdN1DOJJ1LMjopyQHbq8Rx4Oon5iZO/fETl84qejdt?=
+ =?us-ascii?Q?adnEVhF8mo9eSe0UWq5cBUI5G47m5zqROUMhUBTKZYLlcMbp+V9Z125v7Dmh?=
+ =?us-ascii?Q?KXdnnfvkAVDRsNgUXqMs7RKtiZQpEOeLLupVHS0M9ZxltXR0scFEIR38rXHe?=
+ =?us-ascii?Q?zg9i3nhcJhcwzXd9J0JnDjLtMYV476wh8mAepTQusNdzHRpK9ejSajflrQP+?=
+ =?us-ascii?Q?Z//wBRYZvG5QEqqs78coBS15y0526zYalHkXt29MArvFuuSMEDRy8joZi2g+?=
+ =?us-ascii?Q?Muf074WCUfKvZ0XP1hJruLmpEVZN1jAaD01Pe/4dyvFD8PUWxvysBLDGes5V?=
+ =?us-ascii?Q?gbAkpgHm7gQfI/rwLaZIIkMxiefjwPLgk7MdOQxpjhifRr46ExoF3BwWf7As?=
+ =?us-ascii?Q?Ooao35Vsx6Y0jrzXjGl5cAVHmqt7AYltZdgiayF87AD/v1sREE1GNFmOyug+?=
+ =?us-ascii?Q?W/cFBCnFMWHX3IFbX6KW5raTfUR6Y4jCW3gU/JTfqm9gvm1kZau8TFtw5iTz?=
+ =?us-ascii?Q?egaOZL5EtQUEyzmUTETmHtY7vrh6Vlf20lBa6HSF6SgikIWsJ2JUkT5rqEKM?=
+ =?us-ascii?Q?8GdRpi6MoqOFIo2znZZdX2p7Pma7BMzBuMXA/pw1D2l1PE6Cvj/G/zm2wLSh?=
+ =?us-ascii?Q?OeCCGYPLTq9FgWOEzHm5t1WAg+zqyjl8KmU6?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB6399.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(52116014)(376014)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?jUbxTWQ/H+oQN6Ay5lNHGCojOQz78uLdZv79MmbrXoH1P3KdYh66y+ijvTTa?=
+ =?us-ascii?Q?aq4VNPpXbZTEa8TId7Em4yOftB16a2BAoZ3lNfv9C2SCoGfniB2N3Z7cIyx5?=
+ =?us-ascii?Q?jYxXxOe8UljteCrd3visCVMpHW8KcxfJE6i93bZCb2tOpQNE7/MC0sIMf+1N?=
+ =?us-ascii?Q?uXhELUeD1+5NtAQ67rZXly1H02I2vpXsxt6GcUiQtUH8LmZU+PAFf2/5Ogie?=
+ =?us-ascii?Q?4KgRzRfGPyckdbNMWOC1BHOA2v3oyo+Vq7q5V2hJp82QsObXgcmrHPhuX5t0?=
+ =?us-ascii?Q?5I3cdjRV5FUKe5r8bmd0w7G36OwNdH+U7gxpQfo2MA9XRdZXCbd8ur7GV1zk?=
+ =?us-ascii?Q?bLQkzWU2E5LBt2SdtlvOqrndkplo3jdWUV6zn6xbc09w88mr8eRYpY2290M0?=
+ =?us-ascii?Q?bSYWGMq38TApmI2A+/rQDhuCO4nXLIfUcfBHQgTh/KvUUmiljb3PnXlRXEla?=
+ =?us-ascii?Q?xHduwgZJNFk28ktwDKvN412N9ovCiFQi1A7aYnQZ1YndUeg33PzKWzc0Aa4w?=
+ =?us-ascii?Q?yVqL5p9LrHBggDBtSM/m6fjxvg4mCxN1f89k6MlLrBqVX0Qowil3T7+CxNTJ?=
+ =?us-ascii?Q?HhIPaR5HBD7d1mRY6YdMGyWSUHDWLnFEvjRWI+b52aYW2cE4frqsd1hEnOjM?=
+ =?us-ascii?Q?BwOv60QsBnRwnqv0U6/l2e5wWkLH6uC2sAbWpOXV68XhBkR0cTwyeKWc9X5e?=
+ =?us-ascii?Q?7lFuC2MaDAnzershPpOvexp0dTm2FL5REg+0YRYBL5f9zTmgPbZEdig/MtC4?=
+ =?us-ascii?Q?q8SA+BGtMHhkI0//G9hlJxby09/kZyQ9OAcBnMUJHcUuQD9fnRLynJWzFrn3?=
+ =?us-ascii?Q?5diE2LioYHxdE8cnS2lyAAFY3MXp8Xl3KjiZYmYvqKMlKQuxQUyQ8KLAjmqZ?=
+ =?us-ascii?Q?ArmF8prKcxWDDXB8Kl+QOsTrfic5QxMMLxk/zXbEuONr3Gwv4gqDtNnAWp6B?=
+ =?us-ascii?Q?aQ40EYiTXWMwc9pJ2oOpRZSRi7bjrueCvYZVukfBr/5Bnvk4sA8SZhHISpVX?=
+ =?us-ascii?Q?T/UdpIihAWqWmvU9W85UzUXyn+wlhxpXTzE+R9sOXpwe3QyeQf7fXJdvZLBV?=
+ =?us-ascii?Q?XJ/pmwl2/+0kW/AmPj+O5RLAsioV5WRrGn3zbMdHTa5UAcBF+L1G0JGfMvU+?=
+ =?us-ascii?Q?2HZeFCNTMMxk7wIefKSin1U0u/fKUhnbaMsYJQfoLrfy5vYtwrvpiXr5dCxs?=
+ =?us-ascii?Q?i1pKyvzilyv9B8AgjcdGxKcf/mD6gsw6DxQ7q2UHijCjWtdcHAHhZ4YILJNw?=
+ =?us-ascii?Q?30wWge6jyw70vZPWp5usUPwobAnO2ceqLMFhsP4042daQnm99jIuUtvJ2YVI?=
+ =?us-ascii?Q?urPgVWmpciMS6ZMaH7UPsmAHqVM1JBHmzRnKplBC2YwZ3uh5wWCoJArBeI/Y?=
+ =?us-ascii?Q?481+WpOt+GqdaZgrKITB6G/3TPbl5IBVvd1CRIY4vUKP1bd9E/aGQl/LNL4d?=
+ =?us-ascii?Q?YAZKKygxKncdDSfkC7B0CAkIye8638rXByKzu1z6IfcAqNBFt4lWbhEVhDrb?=
+ =?us-ascii?Q?UeQltggvQ7S8KV/Zr1i9wXuCxPEd/R0XplhXqEbre+A/7VxU1R7bBZ4dcRwe?=
+ =?us-ascii?Q?NgizA9MQE/mro9rOaG10WywCCcM31OV47PNcdsHP?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6ba3be65-d324-4416-88ed-08de3e41e5eb
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB6399.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Dec 2025 14:29:48.7513
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: vC+Cyv0PIc42PAxMUX8zOZqLo6+zGmQGTTgJzeTCSmROnCmeOAblUBVOMDEsGD77Hp4hxFgHor03loRW0LqAhw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB7053
+X-Proofpoint-GUID: jVJChyguVOKDeQWPCAKY4Jbc2F7d3kvc
+X-Proofpoint-ORIG-GUID: jVJChyguVOKDeQWPCAKY4Jbc2F7d3kvc
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjE4MDEyMCBTYWx0ZWRfXzzc3q9AUGHFP
+ QBJTHQse0X7y/rPby65a/kjbwLefuEzxNzlsrwo0Y8vx8jNrYkUw1unJOJuFJK/AXy4hHHRQmNi
+ DnguhBPUJBdpKQcG20QRpl359ArxkvvPiK/6nxOiUmHdLfuQB/1LfzkmrCAuMeIpsyZuaK9UvXB
+ lTX8hIBntDXjgycnlxQz/Bf//BZD4POPNMFxbzIV9SEIJh7tD1dBlxliLcKyD9uGiCDpXRKCYoB
+ CHOgsi8ad1ImSARbeLNh0hZYt2jt5kspmAa62+NqaA07U2Fl0mJDJoJdp/fqUTaUkd9dAbIzUP/
+ jw6FpjCGyhSl2YzoxlHNTujO6f/I8EJgrEKdsdl/FRiVFDnxJpSkIKdmfBVzBCf525D+n0MocbN
+ PcVqqv1AhFYZWefvteW7g7IdlMSjnQ==
+X-Authority-Analysis: v=2.4 cv=PqeergM3 c=1 sm=1 tr=0 ts=69440fdf cx=c_pps
+ a=tYtg4CXWOAG754Cl0Lh34g==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=xqWC_Br6kY4A:10 a=wP3pNCr1ah4A:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=t7CeM3EgAAAA:8 a=CRbiok7uc7mLu6ESLsoA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-18_02,2025-12-17_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 adultscore=0 suspectscore=0 spamscore=0 impostorscore=0
+ clxscore=1015 lowpriorityscore=0 malwarescore=0 priorityscore=1501
+ bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
+ definitions=main-2512180120
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Wed, 17 Dec 2025 15:36:37 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9493
+ <meta-virtualization@lists.yoctoproject.org>; Thu, 18 Dec 2025 14:30:05 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9494
 
-This is a multi-part message in MIME format.
---------------hUN10wHAMRA7jAPD2vv6gRsk
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Add UPSTREAM_CHECK_PYPI_PACKAGE to check the correct latest stable
+verison.
 
-Hello Bruce,
-Thanks for your review!
-Here are my answers:
+Before the patch:
+$ devtool latest-version python3-dotenv
+INFO: Current version: 1.1.0
+INFO: Latest version: 1.0.1
 
-    I think we can still hold off on that, but it would be nice to put a =
-comment
-    above LAYERRECOMMENDS_virtualization-layer to indicate that this
-    package also required meta-webserver
+After the patch:
+$ devtool latest-version python3-dotenv
+INFO: Current version: 1.1.0
+INFO: Latest version: 1.2.1
 
-What is for sure is that there is an hard dependency to cockpit package,=20
-cockpit-machines cannot work on its own. I added a comment for now in=20
-the layer.conf file to mention this dependency.
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+---
+ recipes-devtools/python/python3-dotenv_1.1.0.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-    The next question is: can you put a description of how someone would
-    test / use the package into the commit message ? Nothing elaborate, b=
-ut
-    just something to help me later when I'm potentially upreving it.
-
-Yes! I added some explanation in the commit message. For testing, the=20
-Cockpit URL https://127.0.0.1:9090/machines, from the tested target=20
-should be accessible.
-
-    Last question .. the recipe excludes musl (fine with me), but are the=
-re
-    any arch considerations ? I don't think there should be given how it =
-is
-    configured and built and the description, but if there are, we should=
- just
-    restrict it up front versus someone asking questions about riscv64 la=
-ter =F0=9F=99=82
-
- From what I am seeing, there are no arch restrictions. Cockpit and=20
-cockpit-machines are supported on many arch, including risv64. I cannot=20
-test it on this specific arch, but I am seeing that Debian team package=20
-cockpit and cockpit-machines for risv64/all arch (see [1].
-Regarding musl compatibility, it is mainly due to the non-compatibility=20
-of systemd with this lib (see [2]), which cockpit depends on.
-
-I pushed the needed modification in the V2 patch.
-
-[1]: https://packages.debian.org/search?keywords=3Dcockpit
-[2]:=20
-https://github.com/cockpit-project/cockpit/pull/19513#issuecomment-177460=
-7891
-
-Thanks,
-Best regards,
---=20
-Logo Savoir-faire Linux inc.
-Paul Le Guen de Kerneizon
-Free software consultant | Rennes, France
-Logo Jami pleguendekerneizon
-
-
-On 17/12/2025 14:26, Bruce Ashfield wrote:
-> On Wed, Dec 17, 2025 at 4:21=E2=80=AFAM Paul Le Guen de Kerneizon via
-> lists.yoctoproject.org
-> <paul.leguendekerneizon=3Dsavoirfairelinux.com@lists.yoctoproject.org>
-> wrote:
->> Hello community,
->>
->> Since version 242 of Cockpit package, plugin `cockpit-machines` has be=
-en moved
->> to a dedicated repository. This cockpit plugin is used to manage in we=
-b UI
->> virtual machines. There is currently no support of the new cockpit-mac=
-hines
->> package in any Yocto meta and the following patch bring it.
->> This recipe is suggested to be added in the meta-virtualization in
->> order to fulfill the needed dependencies on `virt-manager` and
->> `libvirt-dbus` recipes.
-> Hi Paul,
->
-> Thanks for the contribution!
->
-> The recipe itself is simple enough, so no concerns there.
->
-> The medium sized question is the dependency on cockpit, which is
-> maintained in meta-webserver (from the check I just did on the layer
-> index).
->
-> meta-webserver is currently in the layer conf file in the
-> LAYERRECOMMENDS_virtualization-layer variable (but not mentioned
-> in the README.md .. I can fix that part though). So we do already have
-> recipes in meta-virt that need meta-webserver. I'm just pondering wheth=
-er
-> adding this bumps it up to LAYERDEPENDS_virtualization-layer.
->
-> I think we can still hold off on that, but it would be nice to put a co=
-mment
-> above LAYERRECOMMENDS_virtualization-layer to indicate that this
-> package also required meta-webserver
->
-> The next question is: can you put a description of how someone would
-> test / use the package into the commit message ? Nothing elaborate, but
-> just something to help me later when I'm potentially upreving it.
->
-> Last question .. the recipe excludes musl (fine with me), but are there
-> any arch considerations ? I don't think there should be given how it is
-> configured and built and the description, but if there are, we should j=
-ust
-> restrict it up front versus someone asking questions about riscv64 late=
-r :)
->
-> Cheers,
->
-> Bruce
->
->
->> Waiting for your review, feel free to ask any questions or remarks.
->> Regards,
->> Paul Le Guen de Kerneizon, Savoir-faire Linux
->>
->> Paul Le Guen de Kerneizon (1):
->>    cockpit-machines: add recipe
->>
->>   .../cockpit-machines/cockpit-machines_346.bb  | 30 +++++++++++++++++=
-++
->>   1 file changed, 30 insertions(+)
->>   create mode 100644 recipes-extended/cockpit-machines/cockpit-machine=
-s_346.bb
->>
->> --
->> 2.34.1
->>
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->> Links: You receive all messages sent to this group.
->> View/Reply Online (#9488):https://lists.yoctoproject.org/g/meta-virtua=
-lization/message/9488
->> Mute This Topic:https://lists.yoctoproject.org/mt/116824038/1050810
->> Group Owner:meta-virtualization+owner@lists.yoctoproject.org
->> Unsubscribe:https://lists.yoctoproject.org/g/meta-virtualization/unsub=
- [bruce.ashfield@gmail.com]
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->>
->
-> --
-> - Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at its end
-> - "Use the force Harry" - Gandalf, Star Trek II
-
---=20
-Logo Savoir-faire Linux inc.
-Paul Le Guen de Kerneizon
-Free software consultant | Rennes, France
-Logo Jami pleguendekerneizon
---------------hUN10wHAMRA7jAPD2vv6gRsk
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DUTF=
--8">
-  </head>
-  <body>
-    Hello Bruce,<br>
-    Thanks for your review!<br>
-    Here are my answers:<br>
-    <blockquote>
-      <pre wrap=3D"" class=3D"moz-quote-pre">I think we can still hold of=
-f on that, but it would be nice to put a comment
-above LAYERRECOMMENDS_virtualization-layer to indicate that this
-package also required meta-webserver</pre>
-    </blockquote>
-    What is for sure is that there is an hard dependency to cockpit
-    package, cockpit-machines cannot work on its own. I added a comment
-    for now in the layer.conf file to mention this dependency.<br>
-    <br>
-    <blockquote>
-      <pre wrap=3D"" class=3D"moz-quote-pre">The next question is: can yo=
-u put a description of how someone would
-test / use the package into the commit message ? Nothing elaborate, but
-just something to help me later when I'm potentially upreving it.
-</pre>
-    </blockquote>
-    Yes! I added some explanation in the commit message. For testing,
-    the Cockpit URL <a class=3D"moz-txt-link-freetext" href=3D"https://12=
-7.0.0.1:9090/machines">https://127.0.0.1:9090/machines</a>, from the test=
-ed
-    target should be accessible. <br>
-    <br>
-    <blockquote>
-      <pre wrap=3D"" class=3D"moz-quote-pre">Last question .. the recipe =
-excludes musl (fine with me), but are there
-any arch considerations ? I don't think there should be given how it is
-configured and built and the description, but if there are, we should jus=
-t
-restrict it up front versus someone asking questions about riscv64 later =
-=F0=9F=99=82</pre>
-    </blockquote>
-    From what I am seeing, there are no arch restrictions. Cockpit and
-    cockpit-machines are supported on many arch, including risv64. I
-    cannot test it on this specific arch, but I am seeing that Debian
-    team package cockpit and cockpit-machines for risv64/all arch (see
-    [1]. <br>
-    Regarding musl compatibility, it is mainly due to the
-    non-compatibility of systemd with this lib (see [2]), which cockpit
-    depends on. <br>
-    <br>
-    I pushed the needed modification in the V2 patch. <br>
-    <br>
-    [1]: <a href=3D"https://packages.debian.org/search?keywords=3Dcockpit=
-"
-      class=3D"moz-txt-link-freetext">https://packages.debian.org/search?=
-keywords=3Dcockpit</a><br>
-    [2]: <a
-href=3D"https://github.com/cockpit-project/cockpit/pull/19513#issuecommen=
-t-1774607891"
-      class=3D"moz-txt-link-freetext">https://github.com/cockpit-project/=
-cockpit/pull/19513#issuecomment-1774607891</a><br>
-    <br>
-    Thanks,<br>
-    Best regards,<br>
-    <div class=3D"moz-signature">-- <br>
-      <div class=3D"wrapper"
-style=3D"font: 14px arial, sans-serif; font-weight: normal; max-width: 48=
-0px;">
-        <div class=3D"logo" style=3D"margin-bottom: 10px; width: 100%;"><=
-img
-src=3D"https://static.savoirfairelinux.com/img/signature-courriel/logo-si=
-gnature-sfl.png"
-            alt=3D"Logo Savoir-faire Linux inc." width=3D"138" height=3D"=
-39"></div>
-        <div class=3D"wrapper-name" style=3D"margin-bottom: 20px;">
-          <div
-style=3D"font: 18px arial, sans-serif; font-weight: bold; color: #2b2e30;=
- margin-bottom: 5px;">Paul
-            Le Guen de Kerneizon</div>
-          <div style=3D"color: #768089;">Free software consultant |
-            Rennes, France</div>
-        </div>
-        <div class=3D"phone-ring"><img
-src=3D"https://static.savoirfairelinux.com/img/signature-courriel/jami-pi=
-cto.png"
-            alt=3D"Logo Jami" title=3D"Jami" width=3D"14" height=3D"13"> =
-<span
-            style=3D"color: #768089;">pleguendekerneizon</span></div>
-      </div>
-    </div>
-    <br>
-    <br>
-    <div class=3D"moz-cite-prefix">On 17/12/2025 14:26, Bruce Ashfield
-      wrote:<br>
-    </div>
-    <blockquote type=3D"cite"
-cite=3D"mid:CADkTA4Prr_u7grQ_9DWF183LDka+2nu2yGdpYeA1XC4rWkaCRw@mail.gmai=
-l.com">
-      <pre wrap=3D"" class=3D"moz-quote-pre">On Wed, Dec 17, 2025 at 4:21=
-=E2=80=AFAM Paul Le Guen de Kerneizon via
-lists.yoctoproject.org
-<a class=3D"moz-txt-link-rfc2396E" href=3D"mailto:paul.leguendekerneizon=3D=
-savoirfairelinux.com@lists.yoctoproject.org">&lt;paul.leguendekerneizon=3D=
-savoirfairelinux.com@lists.yoctoproject.org&gt;</a>
-wrote:
-</pre>
-      <blockquote type=3D"cite">
-        <pre wrap=3D"" class=3D"moz-quote-pre">
-Hello community,
-
-Since version 242 of Cockpit package, plugin `cockpit-machines` has been =
-moved
-to a dedicated repository. This cockpit plugin is used to manage in web U=
-I
-virtual machines. There is currently no support of the new cockpit-machin=
-es
-package in any Yocto meta and the following patch bring it.
-This recipe is suggested to be added in the meta-virtualization in
-order to fulfill the needed dependencies on `virt-manager` and
-`libvirt-dbus` recipes.
-</pre>
-      </blockquote>
-      <pre wrap=3D"" class=3D"moz-quote-pre">
-Hi Paul,
-
-Thanks for the contribution!
-
-The recipe itself is simple enough, so no concerns there.
-
-The medium sized question is the dependency on cockpit, which is
-maintained in meta-webserver (from the check I just did on the layer
-index).
-
-meta-webserver is currently in the layer conf file in the
-LAYERRECOMMENDS_virtualization-layer variable (but not mentioned
-in the README.md .. I can fix that part though). So we do already have
-recipes in meta-virt that need meta-webserver. I'm just pondering whether
-adding this bumps it up to LAYERDEPENDS_virtualization-layer.
-
-I think we can still hold off on that, but it would be nice to put a comm=
-ent
-above LAYERRECOMMENDS_virtualization-layer to indicate that this
-package also required meta-webserver
-
-The next question is: can you put a description of how someone would
-test / use the package into the commit message ? Nothing elaborate, but
-just something to help me later when I'm potentially upreving it.
-
-Last question .. the recipe excludes musl (fine with me), but are there
-any arch considerations ? I don't think there should be given how it is
-configured and built and the description, but if there are, we should jus=
-t
-restrict it up front versus someone asking questions about riscv64 later =
-:)
-
-Cheers,
-
-Bruce
-
-
-</pre>
-      <blockquote type=3D"cite">
-        <pre wrap=3D"" class=3D"moz-quote-pre">
-Waiting for your review, feel free to ask any questions or remarks.
-Regards,
-Paul Le Guen de Kerneizon, Savoir-faire Linux
-
-Paul Le Guen de Kerneizon (1):
-  cockpit-machines: add recipe
-
- .../cockpit-machines/cockpit-machines_346.bb  | 30 +++++++++++++++++++
- 1 file changed, 30 insertions(+)
- create mode 100644 recipes-extended/cockpit-machines/cockpit-machines_34=
-6.bb
-
---
+diff --git a/recipes-devtools/python/python3-dotenv_1.1.0.bb b/recipes-devtools/python/python3-dotenv_1.1.0.bb
+index f297e6a6..7e20a444 100644
+--- a/recipes-devtools/python/python3-dotenv_1.1.0.bb
++++ b/recipes-devtools/python/python3-dotenv_1.1.0.bb
+@@ -6,6 +6,7 @@ LICENSE = "BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=e914cdb773ae44a732b392532d88f072"
+ 
+ PYPI_PACKAGE = "python_dotenv"
++UPSTREAM_CHECK_PYPI_PACKAGE = "${PYPI_PACKAGE}"
+ 
+ SRC_URI[sha256sum] = "41f90bc6f5f177fb41f53e87666db362025010eb28f60a01c9143bfa33a2b2d5"
+ 
+-- 
 2.34.1
 
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-Links: You receive all messages sent to this group.
-View/Reply Online (#9488): <a class=3D"moz-txt-link-freetext" href=3D"htt=
-ps://lists.yoctoproject.org/g/meta-virtualization/message/9488">https://l=
-ists.yoctoproject.org/g/meta-virtualization/message/9488</a>
-Mute This Topic: <a class=3D"moz-txt-link-freetext" href=3D"https://lists=
-.yoctoproject.org/mt/116824038/1050810">https://lists.yoctoproject.org/mt=
-/116824038/1050810</a>
-Group Owner: <a class=3D"moz-txt-link-abbreviated" href=3D"mailto:meta-vi=
-rtualization+owner@lists.yoctoproject.org">meta-virtualization+owner@list=
-s.yoctoproject.org</a>
-Unsubscribe: <a class=3D"moz-txt-link-freetext" href=3D"https://lists.yoc=
-toproject.org/g/meta-virtualization/unsub">https://lists.yoctoproject.org=
-/g/meta-virtualization/unsub</a> [<a class=3D"moz-txt-link-abbreviated" h=
-ref=3D"mailto:bruce.ashfield@gmail.com">bruce.ashfield@gmail.com</a>]
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-
-</pre>
-      </blockquote>
-      <pre wrap=3D"" class=3D"moz-quote-pre">
-
---
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
-</pre>
-    </blockquote>
-    <br>
-    <div class=3D"moz-signature">-- <br>
-      <div class=3D"wrapper"
-style=3D"font: 14px arial, sans-serif; font-weight: normal; max-width: 48=
-0px;">
-        <div class=3D"logo" style=3D"margin-bottom: 10px; width: 100%;"><=
-img
-src=3D"https://static.savoirfairelinux.com/img/signature-courriel/logo-si=
-gnature-sfl.png"
-            alt=3D"Logo Savoir-faire Linux inc." width=3D"138" height=3D"=
-39"></div>
-        <div class=3D"wrapper-name" style=3D"margin-bottom: 20px;">
-          <div
-style=3D"font: 18px arial, sans-serif; font-weight: bold; color: #2b2e30;=
- margin-bottom: 5px;">Paul
-            Le Guen de Kerneizon</div>
-          <div style=3D"color: #768089;">Free software consultant |
-            Rennes, France</div>
-        </div>
-        <div class=3D"phone-ring"><img
-src=3D"https://static.savoirfairelinux.com/img/signature-courriel/jami-pi=
-cto.png"
-            alt=3D"Logo Jami" title=3D"Jami" width=3D"14" height=3D"13"> =
-<span
-            style=3D"color: #768089;">pleguendekerneizon</span></div>
-      </div>
-    </div>
-  </body>
-</html>
-
---------------hUN10wHAMRA7jAPD2vv6gRsk--
 
