@@ -1,115 +1,189 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <dmitry.baryshkov@oss.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA276E92726
-	for <webhook@archiver.kernel.org>; Sun, 28 Dec 2025 01:21:21 +0000 (UTC)
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.17581.1766884879186045487
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72557E92729
+	for <webhook@archiver.kernel.org>; Sun, 28 Dec 2025 03:28:22 +0000 (UTC)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.18765.1766892495549096459
  for <meta-virtualization@lists.yoctoproject.org>;
- Sat, 27 Dec 2025 17:21:19 -0800
+ Sat, 27 Dec 2025 19:28:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=QHg8NKIg;
- spf=pass (domain: gmail.com, ip: 209.85.216.47, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-34c71f462d2so8661644a91.0
-        for <meta-virtualization@lists.yoctoproject.org>; Sat, 27 Dec 2025 17:21:19 -0800 (PST)
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=dX/lH8Ms;
+ dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=itmPbzBQ;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BS1P2gh1398296
+	for <meta-virtualization@lists.yoctoproject.org>; Sun, 28 Dec 2025 03:28:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	Xenca8/9N0CKsJtNf+aAJiMo1Urg1wFj2xCKNfjeKDs=; b=dX/lH8MslyUgR4Ql
+	yutESUEtMzubsOOLOrBLAWHLCI5EjZRgr9mLTFQmVDCRGqVATmaOGmtv9V5V3tJb
+	NeT6/z4zf+ujis26K2voe138e53qr6P6joIikZlrRmbh24T+s2RDkVFwdonBE24u
+	y4bdy0mToPS3rBPUp83C4ZeAYTJi+TP0OkR4k2QWehOlW6w8ynThnXZv1SPRsBRc
+	W/+9AKsdNPRxNtR1v3V98ugFYk9QfuySollUypZ1fvdMCDvVu8i6/N5eBzQ3ylsI
+	wBLO3icmFkTIDnh7nWBpXrDG9++EP+Ev6Tsk0lRSEQH/++KRw/dYVIB9I6Na8OdG
+	iRC03w==
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com [209.85.216.70])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ba6dr1qf8-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <meta-virtualization@lists.yoctoproject.org>; Sun, 28 Dec 2025 03:28:14 +0000 (GMT)
+Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-34e5a9f0d6aso8323002a91.0
+        for <meta-virtualization@lists.yoctoproject.org>; Sat, 27 Dec 2025 19:28:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766884878; x=1767489678; darn=lists.yoctoproject.org;
+        d=oss.qualcomm.com; s=google; t=1766892494; x=1767497294; darn=lists.yoctoproject.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=1X1YU8+a7Pi8y1PHrKFkswxIf7u+7pdSmldPKhhHLL8=;
-        b=QHg8NKIgbK+3IUgK/72zhds3BWTv794edDz7R6Mpgjzfd0fhVshSM0jDuktQSGcCen
-         haQG+QziDknTSBUltIFspqBLmCsW1zj/oObMVdTLX6QlcyvDImTvPm38zAMHwFQYlaEG
-         jo8oxARbAex7cUWPumdz9Iw3ROUIHxtsNFBZgQAxoe9dyPxkI+b7wk33PPLcblOdRBJS
-         OjFs8r2cOiOjKOJc9vBhiD3ar1TBqVqb5E5BiWkwbLBl/QKroJ2PXbrjW35U8X3hDQWU
-         8m3hR+rtkOmCvAitEN3G3MuNVKFM1N+ithAUjqTiMo5INNLQ6Axy+NfV/oEVaV3FfDDL
-         H0nA==
+        bh=Xenca8/9N0CKsJtNf+aAJiMo1Urg1wFj2xCKNfjeKDs=;
+        b=itmPbzBQtBBlNLXHbDa0afx0Uubl+uGooXfZ4Qja8dCjOJvGLWwVK1r5ul2RtiriM3
+         SqPaAjSvvcQxH3UU6o9FdSJ0LNQdYfzTtf5zDXYovjNkEWwJDBzs6dy7VBEVKUNJ8hD/
+         B+Knq6F/G3jHKXG7sFvIuHMzB9erI4zYnrvZ1QGBjJUBRMlvm+vfRjjCaHb1M+9PuSyi
+         QylXVP+4eiDPiEUmgkCyr9FCIBlU9dMeOdzV8yG4p3FDNCgSNRrFaOa87gVzIWouVjEb
+         bVmyF8PVIK5ukl0z5cE1gY54A4EP7kERc9ZAKK9dDUa5fMJ/+GSo3pzLwxF9kAQoKxkv
+         25jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766884878; x=1767489678;
+        d=1e100.net; s=20230601; t=1766892494; x=1767497294;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=1X1YU8+a7Pi8y1PHrKFkswxIf7u+7pdSmldPKhhHLL8=;
-        b=w9YkxNj1eUNH1KrKPy2m1qF5VDSko/dSSiH+5KmzvZXqGVoF0jpEVIE7PS9jcvpy7k
-         iBAbfbexddsqjCiE7yQCVfIb28T+C+M0FYYZMk5cMDNXiQC+PfAmP2Li+W40eaRepDnw
-         c/4AaS9teR+3ev7a7qD0kBLTbl/myih7hZe/lF7IpPNX3511UEG2GEQGoifngZa/Nq22
-         lL7mkKar7U98oebfaSi2FA3G4sQP1yV0MdloBoxKMVhHd6UmS9VixWd6SoWOLf9tiRFm
-         yCOtj1l9G0nCZD0BgJzE5AfBdTPvQrKO99FPnaMX3XV/zMpHP/H5/zpwdFnxT+Pxqj6p
-         Pq8g==
-X-Forwarded-Encrypted: i=1; AJvYcCXrOdXH88wubcfWm80Bmbo/mpPGBVMjRWKG87b3JeQPFs7Mhse0KOnaNyDKJlo4ZUUBqM24oa/Nww2BABrk5KEAenkE@lists.yoctoproject.org
-X-Gm-Message-State: AOJu0Yzb8fBxI0NI+WG2IJdYgJ4CTNeaOL/5xDEjlzi7RFAZuiC+h68M
-	0NPE3+4Oju9ovqeBTEDo3pTTnXNTZsa/RtVltj62Xfs/boqNnuLKLFjx8HUn3/EqU8HFhi9Qb9w
-	7m2bgWZmA2HKyWiUc9+9jdTGvj3qbSj0=
-X-Gm-Gg: AY/fxX6Xl4cnBfllVVfYpxDcj0Q31lJMD1hAvdKTpb5ELqF2C/IC6t+Q0ebCqZutDAU
-	YDwKbEBgDYDkF6bknOPcZbAVobADD5zOapYf7gqP5lqkMQoGQDeHtfPFybJwOh6vFiW1y4pG+41
-	NjCsCRh+6xACmQNtTaeQpC5fCRg/2ZEax63WifWGvw9zeGPyAks6J9HhiwUluTts9WSjcEp3BQ6
-	KNdEFIaCZwC2Udi0tk1XArr/wMgxEKz+8HUYv3K2uLVKltGiVeOxsAtPiWJrXLvW3D56wc1AKmD
-	p/x/
-X-Google-Smtp-Source: AGHT+IGGyLv0dyiLdY4ix7eDqEJnRCyOT8D4hU0UaaRu/HI5e2/jXi5xu7ZKbReWL7cWp+D9qC16A40k7zRhma36Pic=
-X-Received: by 2002:a17:90b:2f05:b0:343:a631:28b1 with SMTP id
- 98e67ed59e1d1-34e9214e781mr26974815a91.16.1766884878616; Sat, 27 Dec 2025
- 17:21:18 -0800 (PST)
+        bh=Xenca8/9N0CKsJtNf+aAJiMo1Urg1wFj2xCKNfjeKDs=;
+        b=Hi8skVETUe1KozGXcKjgzFTzytR3KCONuKzUnZnC8X0Jww84tCRP0kPk6RXa/R1Eqy
+         9L/k6SMK995UZhXqPQWSkHmtN5ZZU4HcUMS7mQ3mmEj8Y+2SZyIayMVmZvkMfPH4pHbR
+         NiErNGVFOVNQbuaavIdUPZbgcCPdO+iuVMYPVQy+WJYIsd2PFOOg/4poD6x+vA8uj/Wx
+         vN+pjHRdRHfI6DkMt3dO2WJyfULg0JIV2cxnJaVj6oW1Ed+n99LSgvsxsWE/84Z8CtXy
+         yZybY8ucafs7smjYsgN2bH8QgwoqrJHq4ryMHXArSvmsj9ztQPgSUX5NOSjoSTPNOPU4
+         QzPA==
+X-Gm-Message-State: AOJu0YyeKmdC0nNKPkZ9I/eOL3JKS0G/4YrleXGq66VH03P3gkg6DDbQ
+	puh/ASyM+SCwCJLoIfDMu2rMhxVNBylXtMWBTyyhHgCQGzFFTiAlzkV2i85lH3K/Rbkgiloqysc
+	p0sec1kD/k9agwxvAast6i9CFWhwEgkiNuLYCEi/Qs8wPAiu5p7wcTZLdwUpn93TJolUvz0CBxM
+	VZZAO0n9Gmh/s1+/YIBD+pOS4EFK3LJQfAwsY30ZaUC4k65XvRqM+G0IRUcDml
+X-Gm-Gg: AY/fxX667zAhQxE7pf3Byta+i3SGqnduCtZR7/KBz/ulh7HE9UC9j5QN+2tSj0s0M8D
+	f8X4yP7M1ydUDSmgH3uEBP8gd8KxK0b3IXjcmvELsDw/ZAusGHBs7llhvABHI00S/DxRLCtfMkg
+	98Cm18nLCEkwovJ3bI1Zj5cPd4JoJyzbRmqLYU9ANOEXAB9HeplF4K5eWyzHtNMhg=
+X-Received: by 2002:a17:90b:4c41:b0:34c:2e8a:ea42 with SMTP id 98e67ed59e1d1-34e90d6a375mr27634705a91.7.1766892494198;
+        Sat, 27 Dec 2025 19:28:14 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHy2BLHOgKZP1AQiaTDqr5w9MpmPrW+DRPDMH98l0NrGWlizCcjtJA0Q1Cy55APYBTmkPSAgDJpSnCEzJnX2GA=
+X-Received: by 2002:a17:90b:4c41:b0:34c:2e8a:ea42 with SMTP id
+ 98e67ed59e1d1-34e90d6a375mr27634687a91.7.1766892493577; Sat, 27 Dec 2025
+ 19:28:13 -0800 (PST)
 MIME-Version: 1.0
-References: <3pakbkmf474bma2anwabz4e6t674vsqr6lpksnqy3ix6d33i7e@4lrzjpkmt6kw> <18853C3B26E55FCF.1706869@lists.yoctoproject.org>
-In-Reply-To: <18853C3B26E55FCF.1706869@lists.yoctoproject.org>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Sat, 27 Dec 2025 20:21:07 -0500
-X-Gm-Features: AQt7F2qgvqAdkham03aft_VctBLpUys1A3FVlvv3mGDItAL37JMJ7jZzsAQWT_U
-Message-ID: <CADkTA4MvRWxn3OhQnEAsJ5W6jneZks=3PE0T=WijYw=EGLoJ5g@mail.gmail.com>
+References: <3pakbkmf474bma2anwabz4e6t674vsqr6lpksnqy3ix6d33i7e@4lrzjpkmt6kw>
+ <18853C3B26E55FCF.1706869@lists.yoctoproject.org> <CADkTA4MvRWxn3OhQnEAsJ5W6jneZks=3PE0T=WijYw=EGLoJ5g@mail.gmail.com>
+In-Reply-To: <CADkTA4MvRWxn3OhQnEAsJ5W6jneZks=3PE0T=WijYw=EGLoJ5g@mail.gmail.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Date: Sun, 28 Dec 2025 05:28:02 +0200
+X-Gm-Features: AQt7F2ozSLOrDSQ666B4hpx-Vx_8JE8u9hlC0hUC7WTNzTkR3dg-Ug8zFr97CmU
+Message-ID: <CAO9ioeU1cHLRNhrjxLaOzOPht6_V01Lp1kNtg2BiTNzykGzPww@mail.gmail.com>
 Subject: Re: [meta-virtualization] nerdctl fails in rm_work
-To: bruce.ashfield@gmail.com
-Cc: dmitry.baryshkov@oss.qualcomm.com, 
-	meta-virtualization@lists.yoctoproject.org
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: meta-virtualization@lists.yoctoproject.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjI4MDAzMCBTYWx0ZWRfXxjoisdpJryza
+ +RplmFtzJ/7oMoBOrLuBcyFOH0e3A5Y+swV9Jmgrf6NhqCCAbwCYvzWUf+f0uP2SEOGY2yDAw75
+ jBgZY03zN0iWOog7l+2X8Q1h3KVMMO7FRIrazNyWmDyrV4YhOIVOiE9wp6KF9lCGkMp45rJzmMk
+ 7yRDNIM9dE56w4MWmiYhyui0E1Tof3n7TfdCEjOPLAUGcD/JbVn1igJ84HdpgdtmFUq2nr4/EPQ
+ 4AiScs4u+Bz22qDSFy67NHLa2JWP93+xZfLXcBfsjqpNXYXnBasobCSYa1u53UrbrouXcZg9e21
+ DfPOlw6CBqIVUnPNuInIIm7Nl4jfXvWWeo8IgHuXHVRDCOpwz19kqE60Apv/4Eg34lT0g/rZ4pD
+ e9e8SYbKeRy8fA+CYOPSUs0nuODflsmabKkzGcHVFHPS4pkxVo5LCLYNeDlgLrd3GCSHV2U/C83
+ sMrTCkR0mAC3JBJzajQ==
+X-Authority-Analysis: v=2.4 cv=VdP6/Vp9 c=1 sm=1 tr=0 ts=6950a3ce cx=c_pps
+ a=0uOsjrqzRL749jD1oC5vDA==:117 a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10
+ a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=iGHA9ds3AAAA:8 a=pGLkceISAAAA:8
+ a=MbkroF7KOcb-jk90RKkA:9 a=QEXdDO2ut3YA:10 a=mQ_c8vxmzFEMiUWkPHU9:22
+ a=nM-MV4yxpKKO9kiQg6Ot:22
+X-Proofpoint-GUID: 91Zp-aHGT0Zha5BuCgzH0HTTb4qQfj4t
+X-Proofpoint-ORIG-GUID: 91Zp-aHGT0Zha5BuCgzH0HTTb4qQfj4t
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-28_01,2025-12-26_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 spamscore=0 phishscore=0 lowpriorityscore=0 bulkscore=0
+ adultscore=0 clxscore=1015 malwarescore=0 suspectscore=0 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2512280030
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Sun, 28 Dec 2025 01:21:21 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9507
+ <meta-virtualization@lists.yoctoproject.org>; Sun, 28 Dec 2025 03:28:22 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9508
 
-On Sat, Dec 27, 2025 at 9:17=E2=80=AFPM Bruce Ashfield via
-lists.yoctoproject.org
-<bruce.ashfield=3Dgmail.com@lists.yoctoproject.org> wrote:
+On Sun, 28 Dec 2025 at 03:21, Bruce Ashfield <bruce.ashfield@gmail.com> wro=
+te:
 >
-> On Sat, Dec 27, 2025 at 7:37=E2=80=AFPM Dmitry Baryshkov via
+> On Sat, Dec 27, 2025 at 9:17=E2=80=AFPM Bruce Ashfield via
 > lists.yoctoproject.org
-> <dmitry.baryshkov=3Doss.qualcomm.com@lists.yoctoproject.org> wrote:
+> <bruce.ashfield=3Dgmail.com@lists.yoctoproject.org> wrote:
 > >
-> > Hello,
+> > On Sat, Dec 27, 2025 at 7:37=E2=80=AFPM Dmitry Baryshkov via
+> > lists.yoctoproject.org
+> > <dmitry.baryshkov=3Doss.qualcomm.com@lists.yoctoproject.org> wrote:
+> > >
+> > > Hello,
+> > >
+> > > Our builds stopped to work because the updated nerdctl recipe fails t=
+o
+> > > remove the sources in do_rm_work, because all the source files now ha=
+ve
+> > > 0444 permissions (0555 for the directories). Could you possibly take =
+a
+> > > look and fix that?
 > >
-> > Our builds stopped to work because the updated nerdctl recipe fails to
-> > remove the sources in do_rm_work, because all the source files now have
-> > 0444 permissions (0555 for the directories). Could you possibly take a
-> > look and fix that?
+> > I don't run with rm work enabled, but there are functions that deal wit=
+h
+> > permissions.
+> >
+> > I'd recommend looking at the classes and what they are doing and why
+> > it might not be firing (or finding a non rm-work use case), as
+> > I'm still working on release items and won't be switching / using / tes=
+ting
+> > rm_work any time soon.
 >
-> I don't run with rm work enabled, but there are functions that deal with
-> permissions.
->
-> I'd recommend looking at the classes and what they are doing and why
-> it might not be firing (or finding a non rm-work use case), as
-> I'm still working on release items and won't be switching / using / testi=
-ng
-> rm_work any time soon.
+> I have started a few build cycles on nerdctl here since I'm waiting for
+> some long running tests. If I can reproduce an issue (I had many while
+> developing the new feature), I'll follow up and throw together a fix.
 
-I have started a few build cycles on nerdctl here since I'm waiting for
-some long running tests. If I can reproduce an issue (I had many while
-developing the new feature), I'll follow up and throw together a fix.
+Thanks!
 
-Bruce
+While we are at it, building for armv7a (tune-cortexa15) fails with:
 
->
-> Cheers,
+ERROR: nerdctl-v2.2.0-r0 do_package_qa: QA Issue: nerdctl: ELF binary
+/usr/bin/nerdctl has relocations in .text [textrel]
+
+
 >
 > Bruce
 >
 > >
+> > Cheers,
+> >
+> > Bruce
+> >
+> > >
+> > > --
+> > > With best wishes
+> > > Dmitry
+> > >
+> > >
+> > >
+> >
+> >
 > > --
-> > With best wishes
-> > Dmitry
+> > - Thou shalt not follow the NULL pointer, for chaos and madness await
+> > thee at its end
+> > - "Use the force Harry" - Gandalf, Star Trek II
 > >
-> >
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#9506): https://lists.yoctoproject.org/g/meta-virtua=
+lization/message/9506
+> > Mute This Topic: https://lists.yoctoproject.org/mt/116966533/1050810
+> > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+> > Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub=
+ [bruce.ashfield@gmail.com]
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > >
 >
 >
@@ -117,21 +191,10 @@ Bruce
 > - Thou shalt not follow the NULL pointer, for chaos and madness await
 > thee at its end
 > - "Use the force Harry" - Gandalf, Star Trek II
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#9506): https://lists.yoctoproject.org/g/meta-virtuali=
-zation/message/9506
-> Mute This Topic: https://lists.yoctoproject.org/mt/116966533/1050810
-> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [=
-bruce.ashfield@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+
 
 
 --=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+With best wishes
+Dmitry
 
