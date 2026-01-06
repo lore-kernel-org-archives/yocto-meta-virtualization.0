@@ -2,356 +2,120 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D6D2CEFCFE
-	for <webhook@archiver.kernel.org>; Tue,  6 Jan 2026 19:42:02 +0000 (UTC)
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.98748.1767728512084271322
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46DC4CEFD01
+	for <webhook@archiver.kernel.org>; Tue,  6 Jan 2026 19:43:02 +0000 (UTC)
+Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.98833.1767728578236053789
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 06 Jan 2026 11:41:52 -0800
+ Tue, 06 Jan 2026 11:42:58 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=KSXnXfx3;
- spf=pass (domain: gmail.com, ip: 209.85.219.51, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-888310b91c5so259706d6.1
-        for <meta-virtualization@lists.yoctoproject.org>; Tue, 06 Jan 2026 11:41:51 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Bzy1w6h3;
+ spf=pass (domain: gmail.com, ip: 209.85.222.171, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-8bb6a27d3edso114065085a.3
+        for <meta-virtualization@lists.yoctoproject.org>; Tue, 06 Jan 2026 11:42:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767728511; x=1768333311; darn=lists.yoctoproject.org;
+        d=gmail.com; s=20230601; t=1767728577; x=1768333377; darn=lists.yoctoproject.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=VT+qqYRKIyttcc4Q30IMNEyEcCT8nJNxzZrFAq2Fp9U=;
-        b=KSXnXfx3db5LN+bWxpstyfQ5Zna0OfeGHAYp8PsM/mYFlIQOff3mr18sbkRY7TOcOF
-         ls/6UgSvbHLLk7bCo7FcBwRr1X7Y6PDHqoUaJ1A0fq0PTebWNzxg6BpWUt1SIgtT6hw/
-         OvUekJOIX2SVqvyWGmpjzh6+wpY/RkCHuGQgQFLtc07vupBdDlIUj58pfVCJoJ87CTRv
-         yaNyaioX2AHBIBnhnWTvIIjMjapHNmf8K8iYaQC87LJJP+p/thfSwyxwc0lA1mkYxCWW
-         /rQPt3Hlv42IOQRtqyvbtVKHP9mNKXUGdk0STzmZkWVgbHQdTXvdzFIye9nxDaeAYkL+
-         446Q==
+        bh=F2SWT1ij3awlSikkOKpzlt+gaAHXhd+ccEk+521VD08=;
+        b=Bzy1w6h3pcn+1ZV5AnZD/FLsokofG/GbeD5+EbL2bo2Iml1R1Cz8THYB8b8wCGyz9A
+         2u/xDzRNQUOH05lDmoId+dKDKoN9SANxpfatoJwwsSJex/JRwxReFVS1aIX/ZPWCSGtW
+         o/O3j0vYFDDyCoSriHnpO/gx6pNfOb0sKpbmpDywiALylEboOkshr65fKEfG4JjwSe6i
+         dmAzL8thPUhw3d4WillQAETnPy2/4EwX0rJy4uaxU8W3FNaP+aSfkBYiJtmD8gSaD06F
+         nFx+Ymh929UwR9XH0cpu6l1lJ5r13NP9xR/uKf25qb1fTKmVwRlEPqmMQO3XfH/rAPLR
+         /GkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767728511; x=1768333311;
+        d=1e100.net; s=20230601; t=1767728577; x=1768333377;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=VT+qqYRKIyttcc4Q30IMNEyEcCT8nJNxzZrFAq2Fp9U=;
-        b=bvHIgAb85aZyXW3efVDu83AisapQDr/2ZE5MfRFYFZ9PLhqgJ9m7dIrRSL/AiAEsmp
-         SiKEkS1JWFerIO1avjDb9l8OEZkW7oM45ywfsLi+nIbWPQpCSNDGzTl2FzCid/Hd70oQ
-         C4AorTghEU82zPfO7mbRIrQ3s2XJXO+nwFmjtJN12zRESuXiYX4MAWmvYfWbCGzlgvXu
-         K5R8HubJ7/hpvtJfpaWmk5CGkLVqgUdOQV6XwRRmNYNUxj92rPksdPXAU+TGV9QyR0Ys
-         CwIFhBfSVLPd1n2ceMGIHCDPWXz/mW3a+MuUgZ+WfMKymg4Cg4MxvGiccay5mE10zA01
-         gwgg==
-X-Gm-Message-State: AOJu0YzateUYsN4/O5zDM7T8UA4sUVzpwT+SU7szTKtdQ9Yxy446IV35
-	R4ngq5VR8rAIW3iImQOcQ0pvngnrCin0m6+YE1TDvEWNpSYDUHkFn/cekY1M0MGaUEw=
-X-Gm-Gg: AY/fxX5EpU1pwkDvLqETdZhVqOQgNYGtRdAmkcuOy9fL/2DE73i6x9FNVqXhZVg+tbS
-	eNsMdiLjZfZbpnouA0JgZBS2ltnHMJFcb+VvTUrrYuMBr/UlYx/m6DGkN7PP695fQgMqj4X/R02
-	65Ll1oIp156D+Wgh9HZ0Q2Rp7QXGec3W3Hp3ibUEBADA7IBdAzedMAoKrd///zAZCSVvI9GdxOD
-	9P9QdBWoHGox9DTePKbmvOSEQRgpxCb5KLNi1OAv5GTnmoLCWKowhJ2zpcIQCaFvlbR2+LVKj3k
-	gRse19PtoIDiwD6IQb2pkDh4aQ/dtQBJei5y92Dhg790dLa476ozmd4veJIpkBVcP8+H5i6w9ks
-	j6nKWN2XvVGh16Ctq/pZNc9l84Z/jHLV421/f4/Ajz3Wh8JL0yZDLBqlAN9OU/7fL1I2fbaXqTp
-	1fYk87pcTMLyJHQ+SqICKjbyNnKWYK0rUPrxXKV/X7CsyIKPNb2hOImgb97YuQ7g2B
-X-Google-Smtp-Source: AGHT+IHFC4umiIRQs0XwnH0KmTchh+x6O4cOyih1jAWQj7LvMs9E7viyW/R/F1tyKQRFqGz1qG5LlA==
-X-Received: by 2002:a05:6214:258c:b0:882:36d6:e5c1 with SMTP id 6a1803df08f44-89083cede3cmr4179686d6.29.1767728510992;
-        Tue, 06 Jan 2026 11:41:50 -0800 (PST)
+        bh=F2SWT1ij3awlSikkOKpzlt+gaAHXhd+ccEk+521VD08=;
+        b=LvUGfethnTanyH9SdfgCtvxcBTJT9fJQqdTiOV7/dKnE12IVY9bwgDBomTCdVXzNK/
+         s27eUcy46QpLJ+COsZR5OgwIIQJWZYZb+7HplTI/pqbS81khA2zlTFGJ09xbSNItuk1d
+         pY0R14Qf+iQDqOMlwIH7LPslVhzQUq4Qs6lBmQKl9d9xNh1dEV2EJtmWMqNLgkZrL2ZK
+         sGdNqbo3AnNZky7MRKigJyzoTviOY7reLxOlk+2BoVeOSaYqp2GnbSNMekCSf5Tqcsar
+         8+5dNfRLn6G16ym7PLoagcUgB1JGZdUz0hgZ7+Fau6aaLZ1vQa3GA7kqHg5hY0r/og3j
+         Rmiw==
+X-Gm-Message-State: AOJu0Yy9R4c3ihvmVTOoDnIaKY0nl76pUihqQ509Rz2ZkZKZh6XUgp5U
+	LrSd0NEdQHp+7KqulpWThu3JEl+VMTFyFmhgaLl0gcnclR+4Yy98i8E2md1EXvypJ3E=
+X-Gm-Gg: AY/fxX4Qe8lSSgHzGUDGbtgQp1r2w9h11tYLo64ud3PD09w01b32X8O2P8TVj0LVwq1
+	D/rJ/by0e3uVetpNcPotVCLQ3XGCLgMcAagQwqNqI18l79aECf+veag9wSsulhSOK4ATGJMYupS
+	EF2W9tsc5esuuyVXVSgjHQduGTEepb/BqBjrCfSnejhb4XsZH+kEP5VbbA7PuNMPFlwLECqomLc
+	W0rh/1LysJDjM+WAqutxMvP8pTDvXdII6h6FGG118Ik2gX5Am8Rw6XZOdh0jaEf9ILodQuVQTeK
+	nO1fCCYn8np7zZy4g1bId8guVNO7HTyyqngpbv5lCI8rxPyhzjTeE0RJt2aRN6DCVsbzMhpoJ5L
+	moU3gO4KTPTdQwT+SNwI8nZ4ep0Wt0RptCyj1Jy4c1qSvn5Yd0Uq+tmu98fL09+IjWMNEFVfcj9
+	gEMnn+cjFDrPl5HxM1BxaNjT9BDd2JKuNoYcnqJdyoFfM+43/GFIuTehbcKcu52Ukj
+X-Google-Smtp-Source: AGHT+IFTrmyMcybnl4pjflg6dDy5/2xUjOf8Vez/nxTB3uTMXMFxDOLJSw9rO0nhb8lybCNXDYNAbA==
+X-Received: by 2002:a05:620a:258e:b0:8b2:598d:6e66 with SMTP id af79cd13be357-8c37eb76db2mr577403585a.22.1767728577138;
+        Tue, 06 Jan 2026 11:42:57 -0800 (PST)
 Received: from gmail.com (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-89077253218sm18965386d6.43.2026.01.06.11.41.50
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8c37f4a6145sm225651385a.5.2026.01.06.11.42.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Jan 2026 11:41:50 -0800 (PST)
-Date: Tue, 6 Jan 2026 14:41:48 -0500
+        Tue, 06 Jan 2026 11:42:56 -0800 (PST)
+Date: Tue, 6 Jan 2026 14:42:55 -0500
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: vanusuri@mvista.com
+To: peter.kjellerstedt@axis.com
 Cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [meta-virtualization] [meta-vitualization][scarthgap][patch v2]
- kubernetes: Fix CVE-2024-3177
-Message-ID: <aV1lfNwXKBg8NQZL@gmail.com>
-References: <20251211065326.61303-1-vanusuri@mvista.com>
+Subject: Re: [meta-virtualization] [PATCH] containerd: Remove leading "v"
+ from PV
+Message-ID: <aV1lv8fgagu8jtLB@gmail.com>
+References: <20250907105926.1650992-1-pkj@axis.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251211065326.61303-1-vanusuri@mvista.com>
+In-Reply-To: <20250907105926.1650992-1-pkj@axis.com>
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Tue, 06 Jan 2026 19:42:02 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9527
+ <meta-virtualization@lists.yoctoproject.org>; Tue, 06 Jan 2026 19:43:02 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9528
 
-merged.
+I didn't forget about this.
 
-Bruce
+The version variables are ridciously all over the place.
 
-In message: [meta-virtualization] [meta-vitualization][scarthgap][patch v2] kubernetes: Fix CVE-2024-3177
-on 11/12/2025 Vijay Anusuri via lists.yoctoproject.org wrote:
+I'm not doing it for this release, but for the LTS, I'll
+unify them one way or the other, and I'm leaning towards
+dropping the "v", since it isn't hugely important to me
+and there's such a lack of consistency.
 
-> Upstream-commit: https://github.com/kubernetes/kubernetes/commit/34546f4725df0d5493b4e18e3229d3ed201fe260
+Bruce"
+
+In message: [meta-virtualization] [PATCH] containerd: Remove leading "v" from PV
+on 07/09/2025 Peter Kjellerstedt via lists.yoctoproject.org wrote:
+
+> The leading "v" in the version otherwise makes its way into, e.g., the
+> SBOM.
 > 
-> Reference: https://github.com/kubernetes/kubernetes/issues/124336
-> 
-> Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 > ---
->  .../kubernetes/kubernetes/CVE-2024-3177.patch | 237 ++++++++++++++++++
->  .../kubernetes/kubernetes_git.bb              |   1 +
->  2 files changed, 238 insertions(+)
->  create mode 100644 recipes-containers/kubernetes/kubernetes/CVE-2024-3177.patch
 > 
-> diff --git a/recipes-containers/kubernetes/kubernetes/CVE-2024-3177.patch b/recipes-containers/kubernetes/kubernetes/CVE-2024-3177.patch
-> new file mode 100644
-> index 00000000..e6b2c6c4
-> --- /dev/null
-> +++ b/recipes-containers/kubernetes/kubernetes/CVE-2024-3177.patch
-> @@ -0,0 +1,237 @@
-> +From 34546f4725df0d5493b4e18e3229d3ed201fe260 Mon Sep 17 00:00:00 2001
-> +From: Rita Zhang <rita.z.zhang@gmail.com>
-> +Date: Mon, 25 Mar 2024 10:33:41 -0700
-> +Subject: [PATCH] Add envFrom to serviceaccount admission plugin
-> +
-> +Signed-off-by: Rita Zhang <rita.z.zhang@gmail.com>
-> +
-> +Upstream-Status: Backport [https://github.com/kubernetes/kubernetes/commit/34546f4725df0d5493b4e18e3229d3ed201fe260]
-> +CVE: CVE-2024-3177
-> +Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-> +---
-> + .../pkg/admission/serviceaccount/admission.go |  21 +++
-> + .../serviceaccount/admission_test.go          | 122 ++++++++++++++++--
-> + 2 files changed, 132 insertions(+), 11 deletions(-)
-> +
-> +diff --git a/plugin/pkg/admission/serviceaccount/admission.go b/plugin/pkg/admission/serviceaccount/admission.go
-> +index c844a051c24b3..3f4338128e53c 100644
-> +--- a/plugin/pkg/admission/serviceaccount/admission.go
-> ++++ b/plugin/pkg/admission/serviceaccount/admission.go
-> +@@ -337,6 +337,13 @@ func (s *Plugin) limitSecretReferences(serviceAccount *corev1.ServiceAccount, po
-> + 				}
-> + 			}
-> + 		}
-> ++		for _, envFrom := range container.EnvFrom {
-> ++			if envFrom.SecretRef != nil {
-> ++				if !mountableSecrets.Has(envFrom.SecretRef.Name) {
-> ++					return fmt.Errorf("init container %s with envFrom referencing secret.secretName=\"%s\" is not allowed because service account %s does not reference that secret", container.Name, envFrom.SecretRef.Name, serviceAccount.Name)
-> ++				}
-> ++			}
-> ++		}
-> + 	}
-> + 
-> + 	for _, container := range pod.Spec.Containers {
-> +@@ -347,6 +354,13 @@ func (s *Plugin) limitSecretReferences(serviceAccount *corev1.ServiceAccount, po
-> + 				}
-> + 			}
-> + 		}
-> ++		for _, envFrom := range container.EnvFrom {
-> ++			if envFrom.SecretRef != nil {
-> ++				if !mountableSecrets.Has(envFrom.SecretRef.Name) {
-> ++					return fmt.Errorf("container %s with envFrom referencing secret.secretName=\"%s\" is not allowed because service account %s does not reference that secret", container.Name, envFrom.SecretRef.Name, serviceAccount.Name)
-> ++				}
-> ++			}
-> ++		}
-> + 	}
-> + 
-> + 	// limit pull secret references as well
-> +@@ -388,6 +402,13 @@ func (s *Plugin) limitEphemeralContainerSecretReferences(pod *api.Pod, a admissi
-> + 				}
-> + 			}
-> + 		}
-> ++		for _, envFrom := range container.EnvFrom {
-> ++			if envFrom.SecretRef != nil {
-> ++				if !mountableSecrets.Has(envFrom.SecretRef.Name) {
-> ++					return fmt.Errorf("ephemeral container %s with envFrom referencing secret.secretName=\"%s\" is not allowed because service account %s does not reference that secret", container.Name, envFrom.SecretRef.Name, serviceAccount.Name)
-> ++				}
-> ++			}
-> ++		}
-> + 	}
-> + 	return nil
-> + }
-> +diff --git a/plugin/pkg/admission/serviceaccount/admission_test.go b/plugin/pkg/admission/serviceaccount/admission_test.go
-> +index b5155f5cd33e6..01b08da455f47 100644
-> +--- a/plugin/pkg/admission/serviceaccount/admission_test.go
-> ++++ b/plugin/pkg/admission/serviceaccount/admission_test.go
-> +@@ -520,6 +520,25 @@ func TestAllowsReferencedSecret(t *testing.T) {
-> + 		t.Errorf("Unexpected error: %v", err)
-> + 	}
-> + 
-> ++	pod2 = &api.Pod{
-> ++		Spec: api.PodSpec{
-> ++			Containers: []api.Container{
-> ++				{
-> ++					Name: "container-1",
-> ++					EnvFrom: []api.EnvFromSource{
-> ++						{
-> ++							SecretRef: &api.SecretEnvSource{
-> ++								LocalObjectReference: api.LocalObjectReference{
-> ++									Name: "foo"}}}},
-> ++				},
-> ++			},
-> ++		},
-> ++	}
-> ++	attrs = admission.NewAttributesRecord(pod2, nil, api.Kind("Pod").WithVersion("version"), ns, "myname", api.Resource("pods").WithVersion("version"), "", admission.Create, &metav1.CreateOptions{}, false, nil)
-> ++	if err := admissiontesting.WithReinvocationTesting(t, admit).Admit(context.TODO(), attrs, nil); err != nil {
-> ++		t.Errorf("Unexpected error: %v", err)
-> ++	}
-> ++
-> + 	pod2 = &api.Pod{
-> + 		Spec: api.PodSpec{
-> + 			InitContainers: []api.Container{
-> +@@ -544,6 +563,25 @@ func TestAllowsReferencedSecret(t *testing.T) {
-> + 		t.Errorf("Unexpected error: %v", err)
-> + 	}
-> + 
-> ++	pod2 = &api.Pod{
-> ++		Spec: api.PodSpec{
-> ++			InitContainers: []api.Container{
-> ++				{
-> ++					Name: "container-1",
-> ++					EnvFrom: []api.EnvFromSource{
-> ++						{
-> ++							SecretRef: &api.SecretEnvSource{
-> ++								LocalObjectReference: api.LocalObjectReference{
-> ++									Name: "foo"}}}},
-> ++				},
-> ++			},
-> ++		},
-> ++	}
-> ++	attrs = admission.NewAttributesRecord(pod2, nil, api.Kind("Pod").WithVersion("version"), ns, "myname", api.Resource("pods").WithVersion("version"), "", admission.Create, &metav1.CreateOptions{}, false, nil)
-> ++	if err := admissiontesting.WithReinvocationTesting(t, admit).Admit(context.TODO(), attrs, nil); err != nil {
-> ++		t.Errorf("Unexpected error: %v", err)
-> ++	}
-> ++
-> + 	pod2 = &api.Pod{
-> + 		Spec: api.PodSpec{
-> + 			ServiceAccountName: DefaultServiceAccountName,
-> +@@ -571,6 +609,28 @@ func TestAllowsReferencedSecret(t *testing.T) {
-> + 	if err := admit.Validate(context.TODO(), attrs, nil); err != nil {
-> + 		t.Errorf("Unexpected error: %v", err)
-> + 	}
-> ++
-> ++	pod2 = &api.Pod{
-> ++		Spec: api.PodSpec{
-> ++			ServiceAccountName: DefaultServiceAccountName,
-> ++			EphemeralContainers: []api.EphemeralContainer{
-> ++				{
-> ++					EphemeralContainerCommon: api.EphemeralContainerCommon{
-> ++						Name: "container-2",
-> ++						EnvFrom: []api.EnvFromSource{{
-> ++							SecretRef: &api.SecretEnvSource{
-> ++								LocalObjectReference: api.LocalObjectReference{
-> ++									Name: "foo"}}}},
-> ++					},
-> ++				},
-> ++			},
-> ++		},
-> ++	}
-> ++	// validate enforces restrictions on secret mounts when operation==update and subresource==ephemeralcontainers"
-> ++	attrs = admission.NewAttributesRecord(pod2, nil, api.Kind("Pod").WithVersion("version"), ns, "myname", api.Resource("pods").WithVersion("version"), "ephemeralcontainers", admission.Update, &metav1.UpdateOptions{}, false, nil)
-> ++	if err := admit.Validate(context.TODO(), attrs, nil); err != nil {
-> ++		t.Errorf("Unexpected error: %v", err)
-> ++	}
-> + }
-> + 
-> + func TestRejectsUnreferencedSecretVolumes(t *testing.T) {
-> +@@ -627,25 +687,20 @@ func TestRejectsUnreferencedSecretVolumes(t *testing.T) {
-> + 
-> + 	pod2 = &api.Pod{
-> + 		Spec: api.PodSpec{
-> +-			InitContainers: []api.Container{
-> ++			Containers: []api.Container{
-> + 				{
-> + 					Name: "container-1",
-> +-					Env: []api.EnvVar{
-> ++					EnvFrom: []api.EnvFromSource{
-> + 						{
-> +-							Name: "env-1",
-> +-							ValueFrom: &api.EnvVarSource{
-> +-								SecretKeyRef: &api.SecretKeySelector{
-> +-									LocalObjectReference: api.LocalObjectReference{Name: "foo"},
-> +-								},
-> +-							},
-> +-						},
-> +-					},
-> ++							SecretRef: &api.SecretEnvSource{
-> ++								LocalObjectReference: api.LocalObjectReference{
-> ++									Name: "foo"}}}},
-> + 				},
-> + 			},
-> + 		},
-> + 	}
-> + 	attrs = admission.NewAttributesRecord(pod2, nil, api.Kind("Pod").WithVersion("version"), ns, "myname", api.Resource("pods").WithVersion("version"), "", admission.Create, &metav1.CreateOptions{}, false, nil)
-> +-	if err := admissiontesting.WithReinvocationTesting(t, admit).Admit(context.TODO(), attrs, nil); err == nil || !strings.Contains(err.Error(), "with envVar") {
-> ++	if err := admissiontesting.WithReinvocationTesting(t, admit).Admit(context.TODO(), attrs, nil); err == nil || !strings.Contains(err.Error(), "with envFrom") {
-> + 		t.Errorf("Unexpected error: %v", err)
-> + 	}
-> + 
-> +@@ -678,6 +733,30 @@ func TestRejectsUnreferencedSecretVolumes(t *testing.T) {
-> + 		t.Errorf("validate only enforces restrictions on secret mounts when operation==create and subresource==''. Unexpected error: %v", err)
-> + 	}
-> + 
-> ++	pod2 = &api.Pod{
-> ++		Spec: api.PodSpec{
-> ++			ServiceAccountName: DefaultServiceAccountName,
-> ++			InitContainers: []api.Container{
-> ++				{
-> ++					Name: "container-1",
-> ++					EnvFrom: []api.EnvFromSource{
-> ++						{
-> ++							SecretRef: &api.SecretEnvSource{
-> ++								LocalObjectReference: api.LocalObjectReference{
-> ++									Name: "foo"}}}},
-> ++				},
-> ++			},
-> ++		},
-> ++	}
-> ++	attrs = admission.NewAttributesRecord(pod2, nil, api.Kind("Pod").WithVersion("version"), ns, "myname", api.Resource("pods").WithVersion("version"), "", admission.Update, &metav1.UpdateOptions{}, false, nil)
-> ++	if err := admissiontesting.WithReinvocationTesting(t, admit).Admit(context.TODO(), attrs, nil); err != nil {
-> ++		t.Errorf("admit only enforces restrictions on secret mounts when operation==create. Unexpected error: %v", err)
-> ++	}
-> ++	attrs = admission.NewAttributesRecord(pod2, nil, api.Kind("Pod").WithVersion("version"), ns, "myname", api.Resource("pods").WithVersion("version"), "", admission.Create, &metav1.CreateOptions{}, false, nil)
-> ++	if err := admit.Validate(context.TODO(), attrs, nil); err == nil || !strings.Contains(err.Error(), "with envFrom") {
-> ++		t.Errorf("validate only enforces restrictions on secret mounts when operation==create and subresource==''. Unexpected error: %v", err)
-> ++	}
-> ++
-> + 	pod2 = &api.Pod{
-> + 		Spec: api.PodSpec{
-> + 			ServiceAccountName: DefaultServiceAccountName,
-> +@@ -708,6 +787,27 @@ func TestRejectsUnreferencedSecretVolumes(t *testing.T) {
-> + 	if err := admit.Validate(context.TODO(), attrs, nil); err == nil || !strings.Contains(err.Error(), "with envVar") {
-> + 		t.Errorf("validate enforces restrictions on secret mounts when operation==update and subresource==ephemeralcontainers. Unexpected error: %v", err)
-> + 	}
-> ++
-> ++	pod2 = &api.Pod{
-> ++		Spec: api.PodSpec{
-> ++			ServiceAccountName: DefaultServiceAccountName,
-> ++			EphemeralContainers: []api.EphemeralContainer{
-> ++				{
-> ++					EphemeralContainerCommon: api.EphemeralContainerCommon{
-> ++						Name: "container-2",
-> ++						EnvFrom: []api.EnvFromSource{{
-> ++							SecretRef: &api.SecretEnvSource{
-> ++								LocalObjectReference: api.LocalObjectReference{
-> ++									Name: "foo"}}}},
-> ++					},
-> ++				},
-> ++			},
-> ++		},
-> ++	}
-> ++	attrs = admission.NewAttributesRecord(pod2, nil, api.Kind("Pod").WithVersion("version"), ns, "myname", api.Resource("pods").WithVersion("version"), "ephemeralcontainers", admission.Update, &metav1.UpdateOptions{}, false, nil)
-> ++	if err := admit.Validate(context.TODO(), attrs, nil); err == nil || !strings.Contains(err.Error(), "with envFrom") {
-> ++		t.Errorf("validate enforces restrictions on secret mounts when operation==update and subresource==ephemeralcontainers. Unexpected error: %v", err)
-> ++	}
-> + }
-> + 
-> + func TestAllowUnreferencedSecretVolumesForPermissiveSAs(t *testing.T) {
-> diff --git a/recipes-containers/kubernetes/kubernetes_git.bb b/recipes-containers/kubernetes/kubernetes_git.bb
-> index 5339371c..ab322306 100644
-> --- a/recipes-containers/kubernetes/kubernetes_git.bb
-> +++ b/recipes-containers/kubernetes/kubernetes_git.bb
-> @@ -36,6 +36,7 @@ SRC_URI:append = " \
->             file://99-kubernetes.conf \
->             file://CVE-2025-5187.patch \
->             file://CVE-2024-10220.patch \
-> +           file://CVE-2024-3177.patch \
->            "
+> There are another 30 recipes in meta-virtualization that have a leading
+> "v" in their versions, but this is the only one of them that we use.
+> I can send patches for the others as well if you want.
+> 
+>  recipes-containers/containerd/containerd_git.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/recipes-containers/containerd/containerd_git.bb b/recipes-containers/containerd/containerd_git.bb
+> index bae86146..c46d1673 100644
+> --- a/recipes-containers/containerd/containerd_git.bb
+> +++ b/recipes-containers/containerd/containerd_git.bb
+> @@ -16,7 +16,7 @@ SRC_URI = "git://github.com/containerd/containerd;branch=release/2.1;protocol=ht
+>  LICENSE = "Apache-2.0"
+>  LIC_FILES_CHKSUM = "file://LICENSE;md5=1269f40c0d099c21a871163984590d89"
 >  
->  DEPENDS += "rsync-native \
-> -- 
-> 2.43.0
-> 
+> -CONTAINERD_VERSION = "v2.1.4"
+> +CONTAINERD_VERSION = "2.1.4"
+>  
+>  # EXTRA_OEMAKE += "GODEBUG=1"
+>  
 
 > 
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#9479): https://lists.yoctoproject.org/g/meta-virtualization/message/9479
-> Mute This Topic: https://lists.yoctoproject.org/mt/116725677/1050810
+> View/Reply Online (#9377): https://lists.yoctoproject.org/g/meta-virtualization/message/9377
+> Mute This Topic: https://lists.yoctoproject.org/mt/115111597/1050810
 > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
 > Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
