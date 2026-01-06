@@ -1,122 +1,125 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <dmitry.baryshkov@oss.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AAEBCEFCFC
-	for <webhook@archiver.kernel.org>; Tue,  6 Jan 2026 19:33:22 +0000 (UTC)
-Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com [209.85.160.196])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.98558.1767727996205402127
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55FE2CEFCFC
+	for <webhook@archiver.kernel.org>; Tue,  6 Jan 2026 19:34:42 +0000 (UTC)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.98587.1767728075184763237
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 06 Jan 2026 11:33:16 -0800
+ Tue, 06 Jan 2026 11:34:35 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=iVCDgWac;
- spf=pass (domain: gmail.com, ip: 209.85.160.196, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qt1-f196.google.com with SMTP id d75a77b69052e-4eda6c385c0so8863821cf.3
-        for <meta-virtualization@lists.yoctoproject.org>; Tue, 06 Jan 2026 11:33:16 -0800 (PST)
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=nzvY/cTD;
+ dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=bPRdbRnd;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 606EfoKT322965
+	for <meta-virtualization@lists.yoctoproject.org>; Tue, 6 Jan 2026 19:34:34 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=FC5s7T+h5VZxGsInB0DZ0g17
+	mGUHqtrAAjsVYVcz9tI=; b=nzvY/cTD9ZavjMKVvlbaqQgT4txdfFB6h9nKozdP
+	ZvrrNyUVPV9D88gkHoIGBxiIWNolnfMnuLxQOxho1d1L2rut7IhETC++sAa0+XGk
+	qNUZhZOEkBx0ZvC1y1Ua1f61Cax6wl7lo8SoyXc93RNiQW+xfvNaCvV2RJ8dJfAg
+	8kne07QKbTuR3Pvbr1LP7+KgESwDpT/FHOKii8hWRklLk4/mBs3slkoiLTQmWmXs
+	L3abQTPPX2ZDPrmZ9w9UGSnG8aEbUu/AKfcFtwgGO2SkzGN/VM6bhLrkqEUxzTZL
+	4wCRZtMIgYjnzvu/LnBvKjIPHVuU0CwP9B8n9vIf65t9ew==
+Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com [209.85.215.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bh4crgwmf-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <meta-virtualization@lists.yoctoproject.org>; Tue, 06 Jan 2026 19:34:34 +0000 (GMT)
+Received: by mail-pg1-f197.google.com with SMTP id 41be03b00d2f7-c3dfa080662so67928a12.1
+        for <meta-virtualization@lists.yoctoproject.org>; Tue, 06 Jan 2026 11:34:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767727995; x=1768332795; darn=lists.yoctoproject.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=mqD60anN5dLdmPXuo6KL5ExGg3xcNhEq4EHXnYxnLWY=;
-        b=iVCDgWacYJ2G/SPN7A2lrCuaoqsxw3ubBKU30rlMVU6LqfDLk2cxjL0lIra2fqFhh1
-         HhiVYXL0eT+fcQ8nSQXVLqFKKej1vtGEYGjBr6PSBQvSvWRRH0RDeaqBfoprozVXFb+l
-         5TOOwhTh/qB91tdbKhiyQA/v7hd+LXiF2OJzQt7bFbWK/tkzrTQVzTPi8ht12vZYV6si
-         vDMZKhYCBHbaaZTVxTzsW9SEC7oZR2AQJ/LEm9DqS0Kbh0iDesneTJnmy/GLskQMyFeK
-         zL3or+lV3fZT7HhfAoRNLoVIQdD0UeFUoxemvKCxmpB/6VKmoZl63eaKKL+nXN8uAmum
-         U5gg==
+        d=oss.qualcomm.com; s=google; t=1767728074; x=1768332874; darn=lists.yoctoproject.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=FC5s7T+h5VZxGsInB0DZ0g17mGUHqtrAAjsVYVcz9tI=;
+        b=bPRdbRndL0A4bpXQ2Igjo6VRm6n8mH5Fl9nIDSYYGqJxS2NnMvYxCF8QkQzSJo94Lx
+         HCkg60wENEvoY3ofnYiTa8+FVpVK3pAFBXzojgKeZb0jufeaAEoWdSdK8mNcCvd91dfm
+         XvtHqBoqk1I4kl9CWRRDfedFLteyocbHwfp3jLe0Dg0zgcy+GJYb82YOwn/0Tqanc+p4
+         wF3mdo6XJWbDvqSYoMUHz+4WY+8lNDDQ7sUlpB1wmyVV52s3QOzBKbzg99SybgRb1xEo
+         ZomJQrbMmXAbQbQZBE4Al+gN8gx37lfZVePQoM3DQud0jmKysmI+kj96DN9aBQAMklbU
+         C4rQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767727995; x=1768332795;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mqD60anN5dLdmPXuo6KL5ExGg3xcNhEq4EHXnYxnLWY=;
-        b=k98MZ2RYJ0AVeAbSaSK1/Ydpde0/XCp09Hb4k4NSMc6/Ladum1IzhN6/8bZWhlkRbe
-         tI89yFW/TT5bPXdgxOzqgJKm9XFJkMriM/L6pKnXZvGqwMMIIT13BC6xCnG5j+knxoiA
-         ZfTsWke7SP/KVR0SVPJ7nx/HoftAF2vSfVV4seYF51dxRHfpoh3UajEPAWxq3zG4ikTn
-         JJYlsvPm18iRWAnL22Hq7agMitt6nT6vX4yYWIrEms5xSCGW5rS7j/0vIsKnTHSRKLQA
-         uB9G062Cbs9u/n0qp/Mdz5YHGgXPO+kzQreEWFkBkT465hX23Mn3Tfq3AXRhDzZLcGDe
-         JTlQ==
-X-Gm-Message-State: AOJu0YwzaWizYoZOIP3sBNMzM0TSn1BjIuPquN++IbofoLX6kVADEqZV
-	s+wntkwBVFuKYE787FiD6HxFW0EUdmb7kssYaEdTDTHqOfh7GuXtlmI1
-X-Gm-Gg: AY/fxX5BF6ZZyFJcf6nycHqUjktuffHqHpUlofnKPlD+5EJfD3mDnTTy9mSff1ry8nB
-	4pHldgNbSsaIsUtmwfV1CEciSqg3RSEU3kp6LIa0oAqnecFs+rT0SyMLMjAeOH9RPFmgOJetsOS
-	PmFpR5aJ7Xbd7iSKeR14/YVed7GGIxz1ig2cucMHIhC2xQmgupq24x2fciyqSbNFH/Ayaq4qazC
-	l424ls4r3pMBNGOmzyasIHXht1Y1mNmLsnyaMGQ2EJI6vy1W0heByjcogqT0qBEmgHt60OMNW0O
-	5ql0RPS0DLQEiSZBzxtHobqv5iOWjlPMJ8wG4ylEUo5a98dAedwXb9Sg6fKB7RzgyobFmRQo7m9
-	+IgAWGWWrjL0F2b1x5VV53/FbcAUo8osYgoxa2ck1ldx3eQgfLxJAVJnjMSefSgZgSSltiWdwht
-	9RZgpcriQD6kLzN9NHlgPpcV/YaYvQdr49WOoIiafids63fq41dZJjrmKoIYeFLuun
-X-Google-Smtp-Source: AGHT+IEAGJqIGhv7kERrY6IbkZ+5qS3gos3bPTEBVi85FvtFdC867uUzLPHMOGyEyIRkvOBoqyELFA==
-X-Received: by 2002:a05:622a:229c:b0:4ec:f5cd:8721 with SMTP id d75a77b69052e-4ffb45e0865mr1663121cf.0.1767727994957;
-        Tue, 06 Jan 2026 11:33:14 -0800 (PST)
-Received: from gmail.com (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8907725ffc7sm18915356d6.44.2026.01.06.11.33.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Jan 2026 11:33:14 -0800 (PST)
-Date: Tue, 6 Jan 2026 14:33:12 -0500
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: paul.leguendekerneizon@savoirfairelinux.com
-Cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [meta-virtualization] [PATCH v2 0/1] add support of
- cockpit-machines
-Message-ID: <aV1jeNmTCtVDtLYt@gmail.com>
-References: <20251217153521.51439-1-paul.leguendekerneizon@savoirfairelinux.com>
+        d=1e100.net; s=20230601; t=1767728074; x=1768332874;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FC5s7T+h5VZxGsInB0DZ0g17mGUHqtrAAjsVYVcz9tI=;
+        b=ZT9fQgCVXMJlQ0/LnLnEuwQya5K1v0fyXP0/80uILYTa09zparBjay6b0OH6isrkI0
+         Q10642kW4Tv3GcPqf5JYxl1jByFTC9bCTbndNbRzx1/72QBRPQIhgj4yuaL05pd2bYQ4
+         rB6XszPglTUrNyzDCfgegaABuKIqORpsogT38XCwzfxfueB9vb4SFY+HXKQMtMGT2oxg
+         NwPqxNU5WVqdimhoHYfn5ZdsASTkyBJDJUV0LJwR5yguDZ4UxFvgMVODRYJPp/4DPxCg
+         R/d3IEj5BJEMs2hYJGYcP8ScZZqZASAGB2wlDvGsCFcDzAolnh3qDZSk/Uva+ORJk/Ba
+         13jA==
+X-Gm-Message-State: AOJu0Yy5OjmJMArqPiDno9n+CR5kznYidT0vuOH4pD9ybmQLIppepRuE
+	8kKsS+9D5HWbY31h57CF6cjez9bBqouHP0/9S2oPMK3QD91P9Oyqap8enQga/dTHA6afS5q7vl7
+	uaHJe2+T5s04FlDf9aEns7YCv+A4pVq5NxKfCo7jdUdUv7YfREUOXyhsdmldydKVoE1W+Hq64XA
+	9qgll+2EGrrW1MVbuQy79nCZnB2XlnuAybVLsAypAKUwcMqliwHNQXijiQo3d1
+X-Gm-Gg: AY/fxX4sK9Hn8BYotSU3yOWApwl3J+smWQR/m9tVLEeTHFRth3vvu32FyhTcu3rxyCN
+	81zCpKPQj+LBaPAgpgBVusa1//6vJd1Wwbc3jqWTxpY3rCohTPGkSAmGUz/woyRsrO4BbqvxVvG
+	0akVzsS8Coj5uunjTNdRQTGPpI20gYraomikzBLhvph1JZo8bHYTlaSZDBeeQCsA==
+X-Received: by 2002:a17:90b:2e8f:b0:343:3898:e7c7 with SMTP id 98e67ed59e1d1-34f68c010d0mr202593a91.12.1767728073923;
+        Tue, 06 Jan 2026 11:34:33 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGQgx4ikoifqPqvvi5cuTgSb06t60p/c4a55x27lFRDiC4U55xf/liZvw07/QeX1ko7/pgh+q44qCWB5Bxz1dU=
+X-Received: by 2002:a17:90b:2e8f:b0:343:3898:e7c7 with SMTP id
+ 98e67ed59e1d1-34f68c010d0mr202577a91.12.1767728073287; Tue, 06 Jan 2026
+ 11:34:33 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251217153521.51439-1-paul.leguendekerneizon@savoirfairelinux.com>
+References: <20260106155158.3714544-1-dmitry.baryshkov@oss.qualcomm.com> <aV1f+h059rYKChfi@gmail.com>
+In-Reply-To: <aV1f+h059rYKChfi@gmail.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Date: Tue, 6 Jan 2026 21:34:22 +0200
+X-Gm-Features: AQt7F2qgyJ6dHtE5_LGlXvM8F1_1LCoEI1AZ7-xDQ3Jhwc2pYmGUmc_ZG2ZLSKw
+Message-ID: <CAO9ioeUC4OJ0o9hfMLG6qL0nb_yrVq12NmF1RxMXV=KfaSm4yw@mail.gmail.com>
+Subject: Re: [meta-virtualization][PATCH v2] nerdctl: add textrel to the list
+ of skipped QA checks
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: meta-virtualization@lists.yoctoproject.org
+Content-Type: text/plain; charset="UTF-8"
+X-Authority-Analysis: v=2.4 cv=V9FwEOni c=1 sm=1 tr=0 ts=695d63ca cx=c_pps
+ a=rz3CxIlbcmazkYymdCej/Q==:117 a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10
+ a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=pGLkceISAAAA:8
+ a=930T33EcQvC1Y93n0UYA:9 a=QEXdDO2ut3YA:10 a=bFCP_H2QrGi7Okbo017w:22
+X-Proofpoint-ORIG-GUID: VsRIX9ju8qVpNbyv6aaBsC2njomwwtYs
+X-Proofpoint-GUID: VsRIX9ju8qVpNbyv6aaBsC2njomwwtYs
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTA2MDE2OSBTYWx0ZWRfXy5lVFeqCQSkI
+ KOOUiYmOIGC4mNdFfjHrt3K8DtiP6PYL2xOnex6AFIcbqBOJIP5PvW5yXHgwbOfUqFyRuKeE5nN
+ SMpFn51eXM2VKPkPOcIEnBHYoLlbgHvRh6dMgkc86UtvfcVlP8RqbLYunz0Cn+9Q/+lgO8Al9w1
+ WJAwNNg/5uQAcZ/Rg1ISCTLo0UWdc04VPfIO46XqSGZOPOk91ytGuQGrLAr1CC5Y73Vh6INK+Qn
+ QYkE7w8IKso2nPXNSK8l5+oLx9zzSMS8KXHVbsQUBCeOqLsubkl+iBlubpqCprDasA2y3oRbkTj
+ XmYqnS5SJJ+fZdksg7+hKL2geTM9bHCFGPLv5I6l75Vla5D7ju2C7HjRFYA1voLO+9ELrtuMWrc
+ 3BTr2Ka4dcnckcbt/LFv+7nOXI1Vql8C9XnKvsrI4Hj87CkprQqkG/4y9c1jlKKksjBAjTNR3Aw
+ L/IKElkpDvH1wrD13Qw==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2026-01-06_01,2026-01-06_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 priorityscore=1501 suspectscore=0 phishscore=0 bulkscore=0
+ adultscore=0 malwarescore=0 spamscore=0 clxscore=1015 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2601060169
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Tue, 06 Jan 2026 19:33:22 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9524
+ <meta-virtualization@lists.yoctoproject.org>; Tue, 06 Jan 2026 19:34:42 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9525
 
-Sorry for the delay, this is now merged.
+On Tue, 6 Jan 2026 at 21:18, Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
+>
+> I might have a try at fixing the relocation issues.
+>
+> What is the machine you are building for that shows the
+> issues ?
 
-Bruce
+it's qcom-armv7a, which has:
 
-In message: [meta-virtualization] [PATCH v2 0/1] add support of cockpit-machines
-on 17/12/2025 Paul Le Guen de Kerneizon via lists.yoctoproject.org wrote:
+DEFAULTTUNE = "cortexa15thf-neon-vfpv4"
+require conf/machine/include/arm/armv7a/tune-cortexa15.inc
 
-> Hello community,
-> 
-> Since version 242 of Cockpit package, plugin `cockpit-machines` has been moved
-> to a dedicated repository. This cockpit plugin is used to manage in web UI
-> virtual machines. There is currently no support of the new cockpit-machines
-> package in any Yocto meta and the following patch bring it.
-> This recipe is suggested to be added in the meta-virtualization in
-> order to fulfill the needed dependencies on `virt-manager` and
-> `libvirt-dbus` recipes. As the cockpit recipe is available in the meta-webserver
-> layer, cockpit-machines recipe depends on it.
-> 
-> V2:
-> * Add a comment in layer.conf regarding meta-webserver dependency
-> * Add a comment in cockpit-machines_346.bb about musl compatibility
-> * Edit commit message to give explanations about how to test the recipe on
-> target
-> 
-> Waiting for your review, feel free to ask any questions or remarks.
-> Regards,
-> Paul Le Guen de Kerneizon, Savoir-faire Linux
-> 
-> Paul Le Guen de Kerneizon (1):
->   cockpit-machines: add recipe
-> 
->  conf/layer.conf                               |  4 ++-
->  .../cockpit-machines/cockpit-machines_346.bb  | 31 +++++++++++++++++++
->  2 files changed, 34 insertions(+), 1 deletion(-)
->  create mode 100644 recipes-extended/cockpit-machines/cockpit-machines_346.bb
-> 
-> --
-> 2.34.1
 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#9491): https://lists.yoctoproject.org/g/meta-virtualization/message/9491
-> Mute This Topic: https://lists.yoctoproject.org/mt/116827734/1050810
-> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
-
+-- 
+With best wishes
+Dmitry
 
