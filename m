@@ -1,125 +1,134 @@
-Return-Path: <dmitry.baryshkov@oss.qualcomm.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55FE2CEFCFC
-	for <webhook@archiver.kernel.org>; Tue,  6 Jan 2026 19:34:42 +0000 (UTC)
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.98587.1767728075184763237
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E939CEFCFD
+	for <webhook@archiver.kernel.org>; Tue,  6 Jan 2026 19:37:32 +0000 (UTC)
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.98716.1767728244654394070
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 06 Jan 2026 11:34:35 -0800
+ Tue, 06 Jan 2026 11:37:24 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=nzvY/cTD;
- dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=bPRdbRnd;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 606EfoKT322965
-	for <meta-virtualization@lists.yoctoproject.org>; Tue, 6 Jan 2026 19:34:34 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=FC5s7T+h5VZxGsInB0DZ0g17
-	mGUHqtrAAjsVYVcz9tI=; b=nzvY/cTD9ZavjMKVvlbaqQgT4txdfFB6h9nKozdP
-	ZvrrNyUVPV9D88gkHoIGBxiIWNolnfMnuLxQOxho1d1L2rut7IhETC++sAa0+XGk
-	qNUZhZOEkBx0ZvC1y1Ua1f61Cax6wl7lo8SoyXc93RNiQW+xfvNaCvV2RJ8dJfAg
-	8kne07QKbTuR3Pvbr1LP7+KgESwDpT/FHOKii8hWRklLk4/mBs3slkoiLTQmWmXs
-	L3abQTPPX2ZDPrmZ9w9UGSnG8aEbUu/AKfcFtwgGO2SkzGN/VM6bhLrkqEUxzTZL
-	4wCRZtMIgYjnzvu/LnBvKjIPHVuU0CwP9B8n9vIf65t9ew==
-Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com [209.85.215.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bh4crgwmf-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <meta-virtualization@lists.yoctoproject.org>; Tue, 06 Jan 2026 19:34:34 +0000 (GMT)
-Received: by mail-pg1-f197.google.com with SMTP id 41be03b00d2f7-c3dfa080662so67928a12.1
-        for <meta-virtualization@lists.yoctoproject.org>; Tue, 06 Jan 2026 11:34:34 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=KqYvYlpP;
+ spf=pass (domain: gmail.com, ip: 209.85.222.169, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-8b2d6df99c5so2814285a.1
+        for <meta-virtualization@lists.yoctoproject.org>; Tue, 06 Jan 2026 11:37:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1767728074; x=1768332874; darn=lists.yoctoproject.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=FC5s7T+h5VZxGsInB0DZ0g17mGUHqtrAAjsVYVcz9tI=;
-        b=bPRdbRndL0A4bpXQ2Igjo6VRm6n8mH5Fl9nIDSYYGqJxS2NnMvYxCF8QkQzSJo94Lx
-         HCkg60wENEvoY3ofnYiTa8+FVpVK3pAFBXzojgKeZb0jufeaAEoWdSdK8mNcCvd91dfm
-         XvtHqBoqk1I4kl9CWRRDfedFLteyocbHwfp3jLe0Dg0zgcy+GJYb82YOwn/0Tqanc+p4
-         wF3mdo6XJWbDvqSYoMUHz+4WY+8lNDDQ7sUlpB1wmyVV52s3QOzBKbzg99SybgRb1xEo
-         ZomJQrbMmXAbQbQZBE4Al+gN8gx37lfZVePQoM3DQud0jmKysmI+kj96DN9aBQAMklbU
-         C4rQ==
+        d=gmail.com; s=20230601; t=1767728244; x=1768333044; darn=lists.yoctoproject.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=DqQ0713Hphl6ftUn92wXFa8rC5sFOy3PTEywxdScKL4=;
+        b=KqYvYlpPsxY+tkTZnUL49X74oeAUtl3tYRJfw65wOX952RZd4cuQscujPw7TI7rW3O
+         dN7Eah7816osfxWwzhyJauND4NYFVHdJ5GEdzW81+BkgiscF4PBdg8AOzc/8WP2bHioB
+         HPb7GcN9VzlwzNOnscm/iWgx0b0UwILZL1TzNHkWEvbrHzTgMHO0zWkf0ShGkusjx+OO
+         F6KZSH7yMDA70S3G/vhWC0qx7yRLHLbd+8WtYws8qzSPY1g8plp0eULj2zJveyeUZg47
+         A4cB9tfvvYf4/Fbc904rCLv0tf0xpLNzrCGnfVAJnI6t35s39hNfpCafv1xq0AC8nfLA
+         JSOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767728074; x=1768332874;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FC5s7T+h5VZxGsInB0DZ0g17mGUHqtrAAjsVYVcz9tI=;
-        b=ZT9fQgCVXMJlQ0/LnLnEuwQya5K1v0fyXP0/80uILYTa09zparBjay6b0OH6isrkI0
-         Q10642kW4Tv3GcPqf5JYxl1jByFTC9bCTbndNbRzx1/72QBRPQIhgj4yuaL05pd2bYQ4
-         rB6XszPglTUrNyzDCfgegaABuKIqORpsogT38XCwzfxfueB9vb4SFY+HXKQMtMGT2oxg
-         NwPqxNU5WVqdimhoHYfn5ZdsASTkyBJDJUV0LJwR5yguDZ4UxFvgMVODRYJPp/4DPxCg
-         R/d3IEj5BJEMs2hYJGYcP8ScZZqZASAGB2wlDvGsCFcDzAolnh3qDZSk/Uva+ORJk/Ba
-         13jA==
-X-Gm-Message-State: AOJu0Yy5OjmJMArqPiDno9n+CR5kznYidT0vuOH4pD9ybmQLIppepRuE
-	8kKsS+9D5HWbY31h57CF6cjez9bBqouHP0/9S2oPMK3QD91P9Oyqap8enQga/dTHA6afS5q7vl7
-	uaHJe2+T5s04FlDf9aEns7YCv+A4pVq5NxKfCo7jdUdUv7YfREUOXyhsdmldydKVoE1W+Hq64XA
-	9qgll+2EGrrW1MVbuQy79nCZnB2XlnuAybVLsAypAKUwcMqliwHNQXijiQo3d1
-X-Gm-Gg: AY/fxX4sK9Hn8BYotSU3yOWApwl3J+smWQR/m9tVLEeTHFRth3vvu32FyhTcu3rxyCN
-	81zCpKPQj+LBaPAgpgBVusa1//6vJd1Wwbc3jqWTxpY3rCohTPGkSAmGUz/woyRsrO4BbqvxVvG
-	0akVzsS8Coj5uunjTNdRQTGPpI20gYraomikzBLhvph1JZo8bHYTlaSZDBeeQCsA==
-X-Received: by 2002:a17:90b:2e8f:b0:343:3898:e7c7 with SMTP id 98e67ed59e1d1-34f68c010d0mr202593a91.12.1767728073923;
-        Tue, 06 Jan 2026 11:34:33 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGQgx4ikoifqPqvvi5cuTgSb06t60p/c4a55x27lFRDiC4U55xf/liZvw07/QeX1ko7/pgh+q44qCWB5Bxz1dU=
-X-Received: by 2002:a17:90b:2e8f:b0:343:3898:e7c7 with SMTP id
- 98e67ed59e1d1-34f68c010d0mr202577a91.12.1767728073287; Tue, 06 Jan 2026
- 11:34:33 -0800 (PST)
-MIME-Version: 1.0
-References: <20260106155158.3714544-1-dmitry.baryshkov@oss.qualcomm.com> <aV1f+h059rYKChfi@gmail.com>
-In-Reply-To: <aV1f+h059rYKChfi@gmail.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Date: Tue, 6 Jan 2026 21:34:22 +0200
-X-Gm-Features: AQt7F2qgyJ6dHtE5_LGlXvM8F1_1LCoEI1AZ7-xDQ3Jhwc2pYmGUmc_ZG2ZLSKw
-Message-ID: <CAO9ioeUC4OJ0o9hfMLG6qL0nb_yrVq12NmF1RxMXV=KfaSm4yw@mail.gmail.com>
-Subject: Re: [meta-virtualization][PATCH v2] nerdctl: add textrel to the list
- of skipped QA checks
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
+        d=1e100.net; s=20230601; t=1767728244; x=1768333044;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=DqQ0713Hphl6ftUn92wXFa8rC5sFOy3PTEywxdScKL4=;
+        b=mb17x24J7cPfKNVxUCY6Etttv3KEqzDKL5PAUHT/0jsp4LM+UaW7/4Iitf2fPF0K7Z
+         nN7s/q5H6XrdwEDp90CzSXXLYHdxUbT2ILi9vJ+mv7pke9rXghjAZXcYal8yvx0Ya/Cx
+         iZcvCDS5JqtTmSCdsEosZTSCG9bnl5XotdZ/R/kaqw+uHQjSVnpcLLUkw+j3JLRsoVuv
+         TV3tjg0hj4kzzevV181YxXfFjZzvDz+0nadFMLvL0w9PQo6AWkzaOTneDYNkOPyRwRWz
+         YrQ8D44vC1+nUol6Vwf6hRV8LUxKBnDEQfmGO5bmLQBHPZkLe9/4QvqqO5mFuN9uVeK6
+         OiQw==
+X-Gm-Message-State: AOJu0Yx/Gn/uV6XhrrFNzj9xI7uf0sR8CN+aPzy79FKRy0XdKQBXT1ip
+	OMu+rK3TgC4gzA2BRp/LjgrPAOgRLluoVxAuTeItorcwlUY50DUZxXAIlZXC3onFlQs=
+X-Gm-Gg: AY/fxX7AZrmtx7pMf6bVuon/Hu9mcBEi1sEvB/fXL5z8K1Fr5NPmXGnD9Y1g3P6QanN
+	2/9csY6RDllLj4o4EywUcLd/2uEIKlnCrHgeulKpVMOtQrb8Y8Zf5wSP2CN3XdsftgeCb4NlDVa
+	JIdyiaMPGvHJ7ctvpDh65McGMsImPHehqDPRsz6gNCA1zSH8yZ9wxmA5Zkn2LzxM/N7cAD+n7Yf
+	RXF7055NVC+tlShCpLhjSeC5rA8JB3+hubwtVjXGdGjJdscIPAO+T6HDmZjxcDklgZ7WUt/v4Wy
+	2YfCy74avBXhs1UsXZkvwzTWfCdhSlkiPQ7kBETgrrCplM3sF0rOJphhE6z7cb0V2Wkrz7mQ0E+
+	cUp0Zh2rmLfPMVSjjXlImXjhSuwugN44yoQaiazaWPUOoNOxPqqNmJCrk7gfvVGUCaYMgTJ0Al4
+	Uqwh6zhs43npC8Nsvdasxk0P2qDUZqUMmZpvrPEn7bOfMFkD0cVxolg5S49+V+MsfW
+X-Google-Smtp-Source: AGHT+IE9jxOUX/LGkj4AhPuj6nXD6v4uAtcAHkYIEx63NU6CBwq/97uZFbVeY1jfpdK4ocGYX5a06A==
+X-Received: by 2002:a05:620a:4081:b0:8b2:ed3b:e642 with SMTP id af79cd13be357-8c37f53760dmr523894185a.34.1767728243540;
+        Tue, 06 Jan 2026 11:37:23 -0800 (PST)
+Received: from gmail.com (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8c37f4b8573sm219964885a.12.2026.01.06.11.37.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Jan 2026 11:37:23 -0800 (PST)
+Date: Tue, 6 Jan 2026 14:37:21 -0500
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Qi.Chen@windriver.com
 Cc: meta-virtualization@lists.yoctoproject.org
-Content-Type: text/plain; charset="UTF-8"
-X-Authority-Analysis: v=2.4 cv=V9FwEOni c=1 sm=1 tr=0 ts=695d63ca cx=c_pps
- a=rz3CxIlbcmazkYymdCej/Q==:117 a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10
- a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=pGLkceISAAAA:8
- a=930T33EcQvC1Y93n0UYA:9 a=QEXdDO2ut3YA:10 a=bFCP_H2QrGi7Okbo017w:22
-X-Proofpoint-ORIG-GUID: VsRIX9ju8qVpNbyv6aaBsC2njomwwtYs
-X-Proofpoint-GUID: VsRIX9ju8qVpNbyv6aaBsC2njomwwtYs
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTA2MDE2OSBTYWx0ZWRfXy5lVFeqCQSkI
- KOOUiYmOIGC4mNdFfjHrt3K8DtiP6PYL2xOnex6AFIcbqBOJIP5PvW5yXHgwbOfUqFyRuKeE5nN
- SMpFn51eXM2VKPkPOcIEnBHYoLlbgHvRh6dMgkc86UtvfcVlP8RqbLYunz0Cn+9Q/+lgO8Al9w1
- WJAwNNg/5uQAcZ/Rg1ISCTLo0UWdc04VPfIO46XqSGZOPOk91ytGuQGrLAr1CC5Y73Vh6INK+Qn
- QYkE7w8IKso2nPXNSK8l5+oLx9zzSMS8KXHVbsQUBCeOqLsubkl+iBlubpqCprDasA2y3oRbkTj
- XmYqnS5SJJ+fZdksg7+hKL2geTM9bHCFGPLv5I6l75Vla5D7ju2C7HjRFYA1voLO+9ELrtuMWrc
- 3BTr2Ka4dcnckcbt/LFv+7nOXI1Vql8C9XnKvsrI4Hj87CkprQqkG/4y9c1jlKKksjBAjTNR3Aw
- L/IKElkpDvH1wrD13Qw==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2026-01-06_01,2026-01-06_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 priorityscore=1501 suspectscore=0 phishscore=0 bulkscore=0
- adultscore=0 malwarescore=0 spamscore=0 clxscore=1015 impostorscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2601060169
+Subject: Re: [meta-virtualization][PATCH] crun: fix CRUN_AS_RUNC checking
+Message-ID: <aV1kcXX5tlH5AkdV@gmail.com>
+References: <20251215075204.1048461-1-Qi.Chen@windriver.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251215075204.1048461-1-Qi.Chen@windriver.com>
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Tue, 06 Jan 2026 19:34:42 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9525
+ <meta-virtualization@lists.yoctoproject.org>; Tue, 06 Jan 2026 19:37:32 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9526
 
-On Tue, 6 Jan 2026 at 21:18, Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
->
-> I might have a try at fixing the relocation issues.
->
-> What is the machine you are building for that shows the
-> issues ?
+In message: [meta-virtualization][PATCH] crun: fix CRUN_AS_RUNC checking
+on 15/12/2025 Chen Qi via lists.yoctoproject.org wrote:
 
-it's qcom-armv7a, which has:
+> From: Chen Qi <Qi.Chen@windriver.com>
+> 
+> We have in this recipe:
+> CRUN_AS_RUNC ?= "true"
+> 
+> The expected behavior is that if we set it to "false", the symlink
+> is not created.
 
-DEFAULTTUNE = "cortexa15thf-neon-vfpv4"
-require conf/machine/include/arm/armv7a/tune-cortexa15.inc
+The expected behaviour is that if it was set to
+anything the symlink would be created, if it was
+not set, or cleared nothing is created.
 
+That is a pattern you'll see in many of my
+scripts and classes.
 
--- 
-With best wishes
-Dmitry
+Maybe a comment in the code to indicate that
+is the case ?
+
+i.e. # clear this variable to disable symlink creation
+
+Cheers,
+
+Bruce
+
+> 
+> Fix the check to achieve this expected behavior.
+> 
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+>  recipes-containers/crun/crun_git.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/recipes-containers/crun/crun_git.bb b/recipes-containers/crun/crun_git.bb
+> index edaf15b8..25e76239 100644
+> --- a/recipes-containers/crun/crun_git.bb
+> +++ b/recipes-containers/crun/crun_git.bb
+> @@ -52,7 +52,7 @@ do_configure:prepend () {
+>  
+>  do_install() {
+>      oe_runmake 'DESTDIR=${D}' install
+> -    if [ -n "${CRUN_AS_RUNC}" ]; then
+> +    if ${CRUN_AS_RUNC}; then
+>          ln -sr "${D}/${bindir}/crun" "${D}${bindir}/runc"
+>      fi
+>  }
+> -- 
+> 2.43.0
+> 
+
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#9480): https://lists.yoctoproject.org/g/meta-virtualization/message/9480
+> Mute This Topic: https://lists.yoctoproject.org/mt/116789087/1050810
+> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
 
