@@ -1,112 +1,99 @@
-Return-Path: <massimiliano.minella@gmail.com>
+Return-Path: <changqing.li@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D0ADCEFD1E
-	for <webhook@archiver.kernel.org>; Wed,  7 Jan 2026 16:34:07 +0000 (UTC)
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.10248.1767803646327870781
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9246FD148A8
+	for <webhook@archiver.kernel.org>; Thu,  8 Jan 2026 06:26:38 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.940.1767853597117239015
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 07 Jan 2026 08:34:06 -0800
+ Wed, 07 Jan 2026 22:26:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kernel.org header.s=k20201202 header.b=YkB04odl;
- spf=pass (domain: kernel.org, ip: 172.105.4.254, mailfrom: devnull+massimiliano.minella.se.com@kernel.org)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 2DDFA6000A;
-	Wed,  7 Jan 2026 16:34:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id C33EFC4CEF1;
-	Wed,  7 Jan 2026 16:34:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767803644;
-	bh=nOmKtRSONGuI5vqNzP/kJKkx4r9IK7Q9KJlF68zuc/c=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=YkB04odlSbtwCH5nAR9BXetqLuWKyTn8jzo0oNYNtXrNeMp5F00PDTcZyJdSgRp0o
-	 Nm9OGNEY0p1/L9m166zE/EoBp99hf2JHj5elgRfGhvJsW7p1Bu7ZdBHSRuuoym+sY9
-	 Q4jafrgopYT7tv1J4IA3MiyjwxrtdBiLuDAdvEL6rE4CfkTLMum0KryYs5PG/obYme
-	 tetuqZsl8IgRfeDFQuOtfgSAtGujiCI2P2g7uBdJZUeMqIqzAElYULnGTKacId/SiB
-	 6mhVv/idK0p6j6aVR28AhV4FJBp9WAFmtrLsl4D3ivK8AGm1TCpvKshJmbt8oEqolQ
-	 5LqDJM+0Q6BQQ==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8F55CFD653;
-	Wed,  7 Jan 2026 16:34:04 +0000 (UTC)
-From: Massimiliano Minella via B4 Relay <devnull+massimiliano.minella.se.com@kernel.org>
-Date: Wed, 07 Jan 2026 17:33:59 +0100
-Subject: [PATCH] libvirt: fix python3 compatibility in hook_support.py
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=FzDe+J5/;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=54685ebb30=changqing.li@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60850xiU2264063
+	for <meta-virtualization@lists.yoctoproject.org>; Thu, 8 Jan 2026 06:26:36 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=PPS06212021;
+	 bh=5vLeXz7HjRkTpxUosywdaA/dfpmoxrH6nnIDaVu7o6Y=; b=FzDe+J5/gWoc
+	XupA2+xjjHw3vyF7UTK8Sm0EtlLODNfkIn5zhM7ppHomfbP8XI5s8ge9gA91Ebzh
+	p5406xKgulmweG9dMIvOQQWNDTMH/VUy4fcWVW3EtYFPPTpTbZW16bM1ju6p59/y
+	oy0yfAaoLOGNxGJeURNj/PH1UFwP64Sv8SAmz0qT+l6TeyKUgxjDiAl5mXxV234j
+	4Y6ZuFQvQd9h2N8+/gQXT/X2YOsIGZB6kvZWcKJMQQGttGjENhhqnyFfZOeiiByD
+	hi2QXngmuuY+fCSH6eIn20MfUsI0tm5TJBxoxTsQigk/ggmJn6kqKE+anqVrO7d0
+	Q4nxvQtIXA==
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [128.224.246.37])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4beravd29r-2
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <meta-virtualization@lists.yoctoproject.org>; Thu, 08 Jan 2026 06:26:36 +0000 (GMT)
+Received: from ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) by
+ ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.61; Wed, 7 Jan 2026 22:26:35 -0800
+Received: from pek-lpg-core6.wrs.com (10.11.232.110) by
+ ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server id
+ 15.1.2507.61 via Frontend Transport; Wed, 7 Jan 2026 22:26:34 -0800
+From: <changqing.li@windriver.com>
+To: <meta-virtualization@lists.yoctoproject.org>
+Subject: [meta-virtualization][PATCH 05/15] runc: set go buildid to empty for improving reproducibility
+Date: Thu, 8 Jan 2026 14:26:18 +0800
+Message-ID: <20260108062628.3636344-6-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260108062628.3636344-1-changqing.li@windriver.com>
+References: <20260108062628.3636344-1-changqing.li@windriver.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260107-fix_libvirt_hook_script-v1-1-d0016e043ca4@se.com>
-X-B4-Tracking: v=1; b=H4sIAPaKXmkC/x2MWwqAMAzAriL9dtBNfF5FZOisWhQnnYgg3t3hZ
- yDJA4GEKUCTPCB0cWC/R9BpAm7p95kUj5HBoClQY6kmvu3Gw8Vy2sX71QYnfJzKZZrq3GCFVEO
- sD6Go/ue2e98PPExUN2kAAAA=
-To: meta-virtualization@lists.yoctoproject.org
-Cc: Massimiliano Minella <massimiliano.minella@se.com>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1767803643; l=1846;
- i=massimiliano.minella@se.com; s=20250121; h=from:subject:message-id;
- bh=rROvFh/A5TUsfDeJYorMQKChOPNCM3z8U5Y7jgBNGDA=;
- b=MUnCT8xzbPoxIhkE3+A6mgJTDMwkckek6DkIxKUl1B6yZpMkgKafV7/s3WvU9UOp5PuIr73na
- rO1A6PAYhYXDqhCI5pJ6k+xV1LTgsLK9tNlDTc6nW31Ew0umkTc0OFf
-X-Developer-Key: i=massimiliano.minella@se.com; a=ed25519;
- pk=p6Og4stDBPm4cBEySH8oVWARLO52pxVayNFqHslSXU0=
-X-Endpoint-Received: by B4 Relay for massimiliano.minella@se.com/20250121
- with auth_id=325
-X-Original-From: Massimiliano Minella <massimiliano.minella@se.com>
-Reply-To: massimiliano.minella@se.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTA4MDA0MCBTYWx0ZWRfX7Drpg2jPfKh6
+ 0V4EJy/K3acSS3Z+M9G50rQd/RMfhvPAxcWJNYGyCqkqNOjaKzh5075pINNwQxyzY54DxBqokDE
+ h85dkp6vZVA1NppCfbKkbxWGPdPuVT5QD0fM7zpUY8fxUT92m7SMrvuh0fr4Qsr+sPhS68eyp4s
+ 85cssHWoYBkFr42oEBIVED6maigsG0R+V2soPDvSFqoCRYsDxS9m2/cDKMY/U4mgglYNj8v9TID
+ b8NdzcCXYB95HPOIr23ksXknjJED6HiEB4zc8RQJ3ZguhBi+uwlhZf7+iuWfbro8EOBQL5BWfCk
+ dSua+hcdESV6PuXtD6pL+X5wcvogzFxcimzKxjegShyTY18OlyGKJPsA/I+NgRLAtjMsmCfUd1m
+ w5wRu6OFy/Ff/UbSJPnfpAdi1qa6Jg3H1ABmRi0+76M/f6X4NYwsizip9CFpVZVuUMIW4ixsoa9
+ Z8sS0jhuO2PQPCxDeLw==
+X-Proofpoint-GUID: 9nFSYq9MZWuWSigXTGDFUCvc5lrh3sEW
+X-Proofpoint-ORIG-GUID: 9nFSYq9MZWuWSigXTGDFUCvc5lrh3sEW
+X-Authority-Analysis: v=2.4 cv=PZjyRyhd c=1 sm=1 tr=0 ts=695f4e1c cx=c_pps
+ a=Lg6ja3A245NiLSnFpY5YKQ==:117 a=Lg6ja3A245NiLSnFpY5YKQ==:17
+ a=vUbySO9Y5rIA:10 a=VkNPw1HP01LnGYTKEx00:22 a=t7CeM3EgAAAA:8
+ a=cOh_YXTtctxUkYfZOzcA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2026-01-08_01,2026-01-07_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 adultscore=0 spamscore=0 malwarescore=0 priorityscore=1501
+ clxscore=1015 suspectscore=0 phishscore=0 bulkscore=0 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2601080040
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Wed, 07 Jan 2026 16:34:07 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9530
+ <meta-virtualization@lists.yoctoproject.org>; Thu, 08 Jan 2026 06:26:38 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9536
 
-From: Massimiliano Minella <massimiliano.minella@se.com>
+From: Changqing Li <changqing.li@windriver.com>
 
-By default Popen expects all the streams to be bytes-like objects but,
-in the Popen.communicate() function call, the "input" argument is a
-string, making the call fail with the error:
-
-qemu hook error: a bytes-like object is required, not 'str'
-
-Fix the error by setting text mode to True in the subprocess creation.
-
-Also fix the "SyntaxWarning: invalid escape sequence '\w'" in the regex
-used to match script names.
-
-Signed-off-by: Massimiliano Minella <massimiliano.minella@se.com>
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
 ---
- recipes-extended/libvirt/libvirt/hook_support.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ recipes-containers/runc/runc.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git recipes-extended/libvirt/libvirt/hook_support.py recipes-extended/libvirt/libvirt/hook_support.py
-index 7c5e2a94..63e78b79 100755
---- recipes-extended/libvirt/libvirt/hook_support.py
-+++ recipes-extended/libvirt/libvirt/hook_support.py
-@@ -35,7 +35,7 @@ def main():
- 			stdin_save = sys.stdin.readlines()
- 		# Match the name name of the hook + a dash + atleast
- 		# one alpha-numeric character.
--		matcher = re.compile( "%s-\w+" % hook_name )
-+		matcher = re.compile( rf"%s-\w+" % hook_name )
- 		for file_name in sorted( os.listdir( hook_dir ) ):
- 			file_path = os.path.join( hook_dir, file_name )
- 			if matcher.match( file_name ) \
-@@ -43,7 +43,7 @@ def main():
- 			   and os.path.isfile( file_path ) \
- 			   and return_value == 0:
- 				cmd = [ file_path ] + hook_args
--				p = subprocess.Popen( cmd, stdin=subprocess.PIPE )
-+				p = subprocess.Popen( cmd, stdin=subprocess.PIPE, text=True )
- 				p.communicate( input = ''.join( stdin_save ) )[0]
- 				return_value = p.wait()
- 	except Exception as e:
-
----
-base-commit: 28d26fd95397bf575e65fcca0cbb302b1e9bc7ff
-change-id: 20260107-fix_libvirt_hook_script-c31e952080e9
-
-Best regards,
+diff --git a/recipes-containers/runc/runc.inc b/recipes-containers/runc/runc.inc
+index b834ab14..193701eb 100644
+--- a/recipes-containers/runc/runc.inc
++++ b/recipes-containers/runc/runc.inc
+@@ -61,6 +61,7 @@ do_compile() {
+ 	export CGO_CFLAGS="${CFLAGS} --sysroot=${STAGING_DIR_TARGET}"
+ 	export CGO_LDFLAGS="${LDFLAGS} --sysroot=${STAGING_DIR_TARGET}"
+ 	export GO=${GO}
++	export EXTRA_LDFLAGS="-buildid="
+ 
+ 	export CFLAGS=""
+ 	export LDFLAGS=""
 -- 
-Massimiliano Minella <massimiliano.minella@se.com>
-
+2.34.1
 
 
