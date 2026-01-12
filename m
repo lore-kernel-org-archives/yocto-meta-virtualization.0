@@ -1,316 +1,442 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE283D185F3
-	for <webhook@archiver.kernel.org>; Thu,  8 Jan 2026 13:21:41 +0000 (UTC)
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.6170.1767878494711177201
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AB80D25030
+	for <webhook@archiver.kernel.org>; Mon, 12 Jan 2026 06:07:41 +0000 (UTC)
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.27903.1768198051860522431
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 08 Jan 2026 05:21:34 -0800
+ Sun, 11 Jan 2026 22:07:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Ojhs4c/o;
- spf=pass (domain: gmail.com, ip: 209.85.215.171, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-bcfd82f55ebso865233a12.1
-        for <meta-virtualization@lists.yoctoproject.org>; Thu, 08 Jan 2026 05:21:34 -0800 (PST)
+ dkim=pass header.i=@mvista.com header.s=google header.b=E7gaJVJH;
+ spf=pass (domain: mvista.com, ip: 209.85.214.180, mailfrom: hprajapati@mvista.com)
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2a0834769f0so42176015ad.2
+        for <meta-virtualization@lists.yoctoproject.org>; Sun, 11 Jan 2026 22:07:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767878494; x=1768483294; darn=lists.yoctoproject.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=uzRJDYnsujYbI6ueY6jUcGaRsJ9k7wlJEfJ8qoYcqyU=;
-        b=Ojhs4c/oicv8NJrTCT0/cVZgQX2Mbc7R7kfCJeY8ZxRPPSofQ46Po3g+C3Lv38AHjg
-         g4MMFI7iuQLQ4AZuSZLvjEspps7Q+qM3UlZOFOt01Aq21ZGqXv1N16QbRUxmhmSfRq+f
-         X6ugLZXmFDkOnrTgvwxBFNGLDFe6u4ydLmsrp9mcIC4H/1dejT75JenOWPDSdlRxcqAB
-         1klBK0oH93tRo8KxnipOin6bIiuCyi+Njuq7ZpmLZkpuXoga9+IXlSA2rclTfuIk44fR
-         niBUYCeqTqzF08qkpTMdrq8tOZv3owxoEm7/NYg+V77LEnRcVm4hbGD5caFzSZdt0e00
-         SQyw==
+        d=mvista.com; s=google; t=1768198051; x=1768802851; darn=lists.yoctoproject.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=TtWAB1PFMmDoiz+gmUWSvxmx87YxjRXCLod4KE08GZY=;
+        b=E7gaJVJH6voDFAeIG3VTqY5RqBd1RqhXmdgv1jobNgNHP55Is7kpnPaXce5wGYFwR6
+         Q5Kt4IQwJiG+J/9P5RGT2etUYGANXEMMjtz6QwAw0y7I8tbODL4DsW1YYbxzhU+z6ECq
+         XINAJWhOzjonic2b4+FHrfVlNHoyWjxqo4/Q8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767878494; x=1768483294;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20230601; t=1768198051; x=1768802851;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=uzRJDYnsujYbI6ueY6jUcGaRsJ9k7wlJEfJ8qoYcqyU=;
-        b=X8s804gbp8maGAVdiU2XXEzCNS3Klq1zZ2Dj3wtJ9QqouDqKc4jbXHWf4mJWx1242e
-         g/BHZjbjic5p4WWxfBbz++SpV+N+3M1MihWbJxD2UDebxnpvaar0jQ65M1LMUR2mvMoh
-         ZlUawDQqC1zxQk3UER026idkYqLO42a3glmooU1Ydtytt3qKs9d+5zqKqjoBkQqQwjlG
-         YWsf7tWfFheahxeQXQ+e87iV41kjBuch6peew4C6vmHQar/Ug4JExJv0TUU57BbDb/0T
-         mB3xBqtTJ0TRbS7B8PBVX9qnXX5rUgxtlB4kXcI0bwe2yJx5cveUGijyRECLwyELsq6l
-         eKZA==
-X-Gm-Message-State: AOJu0YxzdRnR6lmY3quoWRMs7CPLLB6CnOo2c1LgSKw2WlfNC2aDwTFx
-	o3jUJX1SqZ3xjGrp4s9aioH9DFNbR6PIex49UuylSGlLiBS+ZhRx5elpuVuT78Yntb3XyPRhc3a
-	vEzf4Y+QSOmYbgtTb1u130Ktc+TVh6oq+X9cSGr0=
-X-Gm-Gg: AY/fxX4F0iPd8QxZzctzSHZvOQ9mTGqE+S2FR5pOHh58LAVQ/cBXrMkzoqTHwMceW4Y
-	fj9Mzur+FNOmmJOwSJxhFatNJlJPD91SdU34APpXdVXIvZKcyj10Cr3/frHATwFE0IeSYMt4xjn
-	CO2ATcSiD8ezTAvniOKqSin/f0w/+5kTHSSxT5GT8mVocYuXu7FSDgQdhUJtSHa76gWbwq9v3ST
-	RB6y8s31CCYT69mdOIuHdtEsp3q4Pe+1bT0ejk7Rd7Z5TyyhjICyA0cKHXJ7UWbnc1D+dd9
-X-Google-Smtp-Source: AGHT+IEFhksIO8LsrdwBGDabKjUX+wpPh4WJkO801oxjN/XQZ0mHR71AX/r2lOSSm4txH8cKrfr+4hmUJ/fTR7JNN1g=
-X-Received: by 2002:a17:903:1ce:b0:296:547a:4bf2 with SMTP id
- d9443c01a7336-2a3edba6a48mr56428405ad.27.1767878493595; Thu, 08 Jan 2026
- 05:21:33 -0800 (PST)
+        bh=TtWAB1PFMmDoiz+gmUWSvxmx87YxjRXCLod4KE08GZY=;
+        b=jku7Ea+RNeoWDz3YCjfFgVvnRgkQtBZJI2W8FFkJBQ5yeFfp+/KoFlJB1ZKOL6yssG
+         T1m920g4oIIN2R63WiYNwGLpa1madmM2VYsrCnnIQuqYsYlP822iiGWZJbJIvWHqJSec
+         emkSGg4M2x9eKkKXiQ39nYkT34t+DsbT8Hx6OArntQSjDIWF58GaosCFIxADpSrwv5Mw
+         ki+kazXkljl2DXpE4YkZHsDLS1zA4qAGOGSt9WlCbSAD5xVRBcrga+5PnjsK8E3ZcE2e
+         fMBTvNRcaZPwuYFesUWRs8L1KCfVORxC25m3TpJvaeQ+q8/Ky1gBKn9fAx+Y2OS5ux4S
+         1nSg==
+X-Gm-Message-State: AOJu0YzmCOb7vkhFYBJHLzdmukDe0SnXCae/u6eqLP0GoAxtDFSnQhkb
+	n1yKbfw2NTyFaImkfFNVamuAQcLB/tF6a1i+jqvI83lha3oz8SSC74SyJhAw7WFj4MfYQW58KTr
+	788lm
+X-Gm-Gg: AY/fxX62EL4UPkbXXYykFZ8N8su5IVRA6EMmr7M9CFMfkRjUSaW4pehVVey0kCAm7sg
+	91Okhd57UzqvxzZrq/zT9qDetSFPXKYMS9JaqHp8PCrtd3iXHgzJNjkgdkrZFLy0IBTpqFCAljb
+	TdJLd3lofrJy9dfJH2ytRTc1yz/kEXusYwiqKwgIWlQHJfDWO0IqVZLUbjx9cZTcG05puZJcgyr
+	b9wMmNZHt0zA5sxSf7Ru3vCAYDgtUPxbf2BL7uOz3GSxNvT1cnRTv/2t+EL/7ROhAsjq+GNEd4i
+	i1bauKXvHh+cfXaV2TQW130inuPUo0ivzz0JJtefUouhgk9z9+xru8GYUcXoYwt9crGTshGvCRQ
+	OZDbnL4VR6iKfk2EA0f59hZgRdaBoqmh5usgDsLr0vDW0u3dNGwfMc/Wde0yZ6E+w9yN0OTbOsS
+	keWS5dVaiD8IjEduw08Abp0BJT9LAP6zlwlA==
+X-Google-Smtp-Source: AGHT+IHsmR6WGQqhcScBqzBMXJGWld70JA4VyMEI7KmQKmZMGQYqCDWT+gLp929kwi2+y1hrh1FD/A==
+X-Received: by 2002:a17:903:1b6b:b0:2a0:c852:5f9f with SMTP id d9443c01a7336-2a3ee41d24emr178150385ad.7.1768198050923;
+        Sun, 11 Jan 2026 22:07:30 -0800 (PST)
+Received: from MVIN00013.mvista.com ([27.121.101.119])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a3e3cb2d6csm164668745ad.64.2026.01.11.22.07.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 11 Jan 2026 22:07:30 -0800 (PST)
+From: Hitendra Prajapati <hprajapati@mvista.com>
+To: meta-virtualization@lists.yoctoproject.org
+Cc: Hitendra Prajapati <hprajapati@mvista.com>
+Subject: [meta-virtualization][scarthgap][PATCH] docker-moby: Fix CVE-2024-29018
+Date: Mon, 12 Jan 2026 11:37:05 +0530
+Message-ID: <20260112060705.193801-1-hprajapati@mvista.com>
+X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
-References: <20260108062628.3636344-1-changqing.li@windriver.com>
-In-Reply-To: <20260108062628.3636344-1-changqing.li@windriver.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Thu, 8 Jan 2026 08:21:22 -0500
-X-Gm-Features: AQt7F2qRaVDtEHag_dsEmX9w0JDUHcKQeMU6gYR5RBvO15rlWBu-U9XN8SQLF_U
-Message-ID: <CADkTA4MB=AckiSmwRHJFjg_X2oYCCfRTEFydoWs2TNqDJK=7rw@mail.gmail.com>
-Subject: Re: [meta-virtualization][PATCH 00/15] set go buildid to empty for
- improving reproducibility
-To: changqing.li@windriver.com
-Cc: meta-virtualization@lists.yoctoproject.org
-Content-Type: multipart/alternative; boundary="0000000000009dee080647e049c5"
+Content-Transfer-Encoding: 8bit
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Thu, 08 Jan 2026 13:21:41 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9547
+ <meta-virtualization@lists.yoctoproject.org>; Mon, 12 Jan 2026 06:07:41 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9548
 
---0000000000009dee080647e049c5
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Upstream-Status: Backport from https://github.com/moby/moby/commit/e63daec8672d77ac0b2b5c262ef525c7cf17fd20
 
-On Thu, Jan 8, 2026 at 1:26=E2=80=AFAM Changqing Li via lists.yoctoproject.=
-org <
-changqing.li=3Dwindriver.com@lists.yoctoproject.org> wrote:
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+---
+ recipes-containers/docker/docker-moby_git.bb  |   1 +
+ .../docker/files/CVE-2024-29018.patch         | 344 ++++++++++++++++++
+ 2 files changed, 345 insertions(+)
+ create mode 100644 recipes-containers/docker/files/CVE-2024-29018.patch
 
-> From: Changqing Li <changqing.li@windriver.com>
->
-> These series of patches are mostly set buildid to empty for improving
-> reproducibility, I also send a patch to oe-core with subject:
-> [PATCH V3] go.bbclass: set buildid to empty string to improve
-> reproducibility
->
-> which add -buildid=3D in default GO_LDFLAGS, but since packages compiled
-> with go may not use GO_LDFLAGS in go.bbclass, they can have their own
-> Makefiles, define their own variables for passing ldflags, so change
-> them one by one.
->
+diff --git a/recipes-containers/docker/docker-moby_git.bb b/recipes-containers/docker/docker-moby_git.bb
+index d274b002..1331930e 100644
+--- a/recipes-containers/docker/docker-moby_git.bb
++++ b/recipes-containers/docker/docker-moby_git.bb
+@@ -58,6 +58,7 @@ SRC_URI = "\
+         file://0001-dynbinary-use-go-cross-compiler.patch;patchdir=src/import \
+         file://CVE-2024-36620.patch;patchdir=src/import \
+         file://CVE-2024-36621.patch;patchdir=src/import \
++        file://CVE-2024-29018.patch;patchdir=src/import \
+ 	"
+ 
+ DOCKER_COMMIT = "${SRCREV_moby}"
+diff --git a/recipes-containers/docker/files/CVE-2024-29018.patch b/recipes-containers/docker/files/CVE-2024-29018.patch
+new file mode 100644
+index 00000000..f3c800ff
+--- /dev/null
++++ b/recipes-containers/docker/files/CVE-2024-29018.patch
+@@ -0,0 +1,344 @@
++From 20c205fd3a0081d005958eff690e2b34df1c5e5e Mon Sep 17 00:00:00 2001
++From: Rob Murray <rob.murray@docker.com>
++Date: Tue, 19 Mar 2024 11:19:30 +0000
++Subject: [PATCH 1/2] Environment variable to override resolv.conf path.
++
++If env var DOCKER_TEST_RESOLV_CONF_PATH is set, treat it as an override
++for the 'resolv.conf' path.
++
++Added as part of resolv.conf refactoring, but needed by back-ported test
++TestInternalNetworkDNS.
++
++Signed-off-by: Rob Murray <rob.murray@docker.com>
++
++CVE: CVE-2024-29018
++Upstream-Status: Backport [https://github.com/moby/moby/commit/e63daec8672d77ac0b2b5c262ef525c7cf17fd20]
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ daemon/container_operations_unix.go       |  20 +--
++ integration/networking/resolvconf_test.go | 142 ++++++++++++++++++++++
++ libnetwork/endpoint.go                    |  12 +-
++ libnetwork/resolver.go                    |  17 ++-
++ libnetwork/sandbox_dns_unix.go            |   9 +-
++ 5 files changed, 182 insertions(+), 18 deletions(-)
++ create mode 100644 integration/networking/resolvconf_test.go
++
++diff --git a/daemon/container_operations_unix.go b/daemon/container_operations_unix.go
++index 6a23a4ca92..e9be1b4e72 100644
++--- a/daemon/container_operations_unix.go
+++++ b/daemon/container_operations_unix.go
++@@ -380,6 +380,7 @@ func serviceDiscoveryOnDefaultNetwork() bool {
++ 
++ func setupPathsAndSandboxOptions(container *container.Container, cfg *config.Config, sboxOptions *[]libnetwork.SandboxOption) error {
++ 	var err error
+++	var originResolvConfPath string
++ 
++ 	// Set the correct paths for /etc/hosts and /etc/resolv.conf, based on the
++ 	// networking-mode of the container. Note that containers with "container"
++@@ -393,8 +394,8 @@ func setupPathsAndSandboxOptions(container *container.Container, cfg *config.Con
++ 		*sboxOptions = append(
++ 			*sboxOptions,
++ 			libnetwork.OptionOriginHostsPath("/etc/hosts"),
++-			libnetwork.OptionOriginResolvConfPath("/etc/resolv.conf"),
++ 		)
+++		originResolvConfPath = "/etc/resolv.conf"
++ 	case container.HostConfig.NetworkMode.IsUserDefined():
++ 		// The container uses a user-defined network. We use the embedded DNS
++ 		// server for container name resolution and to act as a DNS forwarder
++@@ -407,10 +408,7 @@ func setupPathsAndSandboxOptions(container *container.Container, cfg *config.Con
++ 		// If systemd-resolvd is used, the "upstream" DNS servers can be found in
++ 		// /run/systemd/resolve/resolv.conf. We do not query those DNS servers
++ 		// directly, as they can be dynamically reconfigured.
++-		*sboxOptions = append(
++-			*sboxOptions,
++-			libnetwork.OptionOriginResolvConfPath("/etc/resolv.conf"),
++-		)
+++		originResolvConfPath = "/etc/resolv.conf"
++ 	default:
++ 		// For other situations, such as the default bridge network, container
++ 		// discovery / name resolution is handled through /etc/hosts, and no
++@@ -423,11 +421,15 @@ func setupPathsAndSandboxOptions(container *container.Container, cfg *config.Con
++ 		// DNS servers on the host can be dynamically updated.
++ 		//
++ 		// Copy the host's resolv.conf for the container (/run/systemd/resolve/resolv.conf or /etc/resolv.conf)
++-		*sboxOptions = append(
++-			*sboxOptions,
++-			libnetwork.OptionOriginResolvConfPath(cfg.GetResolvConf()),
++-		)
+++		originResolvConfPath = cfg.GetResolvConf()
+++	}
+++
+++	// Allow tests to point at their own resolv.conf file.
+++	if envPath := os.Getenv("DOCKER_TEST_RESOLV_CONF_PATH"); envPath != "" {
+++		log.G(context.TODO()).Infof("Using OriginResolvConfPath from env: %s", envPath)
+++		originResolvConfPath = envPath
++ 	}
+++	*sboxOptions = append(*sboxOptions, libnetwork.OptionOriginResolvConfPath(originResolvConfPath))
++ 
++ 	container.HostsPath, err = container.GetRootResourcePath("hosts")
++ 	if err != nil {
++diff --git a/integration/networking/resolvconf_test.go b/integration/networking/resolvconf_test.go
++new file mode 100644
++index 0000000000..60c8b1bc9a
++--- /dev/null
+++++ b/integration/networking/resolvconf_test.go
++@@ -0,0 +1,142 @@
+++package networking
+++
+++import (
+++	"net"
+++	"os"
+++	"testing"
+++
+++	containertypes "github.com/docker/docker/api/types/container"
+++	"github.com/docker/docker/integration/internal/container"
+++	"github.com/docker/docker/integration/internal/network"
+++	"github.com/docker/docker/testutil/daemon"
+++	"github.com/miekg/dns"
+++	"gotest.tools/v3/assert"
+++	is "gotest.tools/v3/assert/cmp"
+++	"gotest.tools/v3/skip"
+++)
+++
+++// writeTempResolvConf writes a resolv.conf that only contains a single
+++// nameserver line, with address addr.
+++// It returns the name of the temp file.
+++func writeTempResolvConf(t *testing.T, addr string) string {
+++	t.Helper()
+++	// Not using t.TempDir() here because in rootless mode, while the temporary
+++	// directory gets mode 0777, it's a subdir of an 0700 directory owned by root.
+++	// So, it's not accessible by the daemon.
+++	f, err := os.CreateTemp("", "resolv.conf")
+++	assert.NilError(t, err)
+++	t.Cleanup(func() { os.Remove(f.Name()) })
+++	err = f.Chmod(0644)
+++	assert.NilError(t, err)
+++	f.Write([]byte("nameserver " + addr + "\n"))
+++	return f.Name()
+++}
+++
+++const dnsRespAddr = "10.11.12.13"
+++
+++// startDaftDNS starts and returns a really, really daft DNS server that only
+++// responds to type-A requests, and always with address dnsRespAddr.
+++func startDaftDNS(t *testing.T, addr string) *dns.Server {
+++	serveDNS := func(w dns.ResponseWriter, query *dns.Msg) {
+++		if query.Question[0].Qtype == dns.TypeA {
+++			resp := &dns.Msg{}
+++			resp.SetReply(query)
+++			answer := &dns.A{
+++				Hdr: dns.RR_Header{
+++					Name:   query.Question[0].Name,
+++					Rrtype: dns.TypeA,
+++					Class:  dns.ClassINET,
+++					Ttl:    600,
+++				},
+++			}
+++			answer.A = net.ParseIP(dnsRespAddr)
+++			resp.Answer = append(resp.Answer, answer)
+++			_ = w.WriteMsg(resp)
+++		}
+++	}
+++
+++	conn, err := net.ListenUDP("udp", &net.UDPAddr{
+++		IP:   net.ParseIP(addr),
+++		Port: 53,
+++	})
+++	assert.NilError(t, err)
+++
+++	server := &dns.Server{Handler: dns.HandlerFunc(serveDNS), PacketConn: conn}
+++	go func() {
+++		_ = server.ActivateAndServe()
+++	}()
+++
+++	return server
+++}
+++
+++// Check that when a container is connected to an internal network, DNS
+++// requests sent to daemon's internal DNS resolver are not forwarded to
+++// an upstream resolver listening on a localhost address.
+++// (Assumes the host does not already have a DNS server on 127.0.0.1.)
+++func TestInternalNetworkDNS(t *testing.T) {
+++	skip.If(t, testEnv.DaemonInfo.OSType == "windows", "No resolv.conf on Windows")
+++	skip.If(t, testEnv.IsRootless, "Can't use resolver on host in rootless mode")
+++	ctx := setupTest(t)
+++
+++	// Start a DNS server on the loopback interface.
+++	server := startDaftDNS(t, "127.0.0.1")
+++	defer server.Shutdown()
+++
+++	// Set up a temp resolv.conf pointing at that DNS server, and a daemon using it.
+++	tmpFileName := writeTempResolvConf(t, "127.0.0.1")
+++	d := daemon.New(t, daemon.WithEnvVars("DOCKER_TEST_RESOLV_CONF_PATH="+tmpFileName))
+++	d.StartWithBusybox(ctx, t, "--experimental", "--ip6tables")
+++	defer d.Stop(t)
+++
+++	c := d.NewClientT(t)
+++	defer c.Close()
+++
+++	intNetName := "intnet"
+++	network.CreateNoError(ctx, t, c, intNetName,
+++		network.WithDriver("bridge"),
+++		network.WithInternal(),
+++	)
+++	defer network.RemoveNoError(ctx, t, c, intNetName)
+++
+++	extNetName := "extnet"
+++	network.CreateNoError(ctx, t, c, extNetName,
+++		network.WithDriver("bridge"),
+++	)
+++	defer network.RemoveNoError(ctx, t, c, extNetName)
+++
+++	// Create a container, initially with external connectivity.
+++	// Expect the external DNS server to respond to a request from the container.
+++	ctrId := container.Run(ctx, t, c, container.WithNetworkMode(extNetName))
+++	defer c.ContainerRemove(ctx, ctrId, containertypes.RemoveOptions{Force: true})
+++	res, err := container.Exec(ctx, c, ctrId, []string{"nslookup", "test.example"})
+++	assert.NilError(t, err)
+++	assert.Check(t, is.Equal(res.ExitCode, 0))
+++	assert.Check(t, is.Contains(res.Stdout(), dnsRespAddr))
+++
+++	// Connect the container to the internal network as well.
+++	// External DNS should still be used.
+++	err = c.NetworkConnect(ctx, intNetName, ctrId, nil)
+++	assert.NilError(t, err)
+++	res, err = container.Exec(ctx, c, ctrId, []string{"nslookup", "test.example"})
+++	assert.NilError(t, err)
+++	assert.Check(t, is.Equal(res.ExitCode, 0))
+++	assert.Check(t, is.Contains(res.Stdout(), dnsRespAddr))
+++
+++	// Disconnect from the external network.
+++	// Expect no access to the external DNS.
+++	err = c.NetworkDisconnect(ctx, extNetName, ctrId, true)
+++	assert.NilError(t, err)
+++	res, err = container.Exec(ctx, c, ctrId, []string{"nslookup", "test.example"})
+++	assert.NilError(t, err)
+++	assert.Check(t, is.Equal(res.ExitCode, 1))
+++	assert.Check(t, is.Contains(res.Stdout(), "SERVFAIL"))
+++
+++	// Reconnect the external network.
+++	// Check that the external DNS server is used again.
+++	err = c.NetworkConnect(ctx, extNetName, ctrId, nil)
+++	assert.NilError(t, err)
+++	res, err = container.Exec(ctx, c, ctrId, []string{"nslookup", "test.example"})
+++	assert.NilError(t, err)
+++	assert.Check(t, is.Equal(res.ExitCode, 0))
+++	assert.Check(t, is.Contains(res.Stdout(), dnsRespAddr))
+++}
++diff --git a/libnetwork/endpoint.go b/libnetwork/endpoint.go
++index d9c257dc68..3ca546a4ac 100644
++--- a/libnetwork/endpoint.go
+++++ b/libnetwork/endpoint.go
++@@ -538,8 +538,13 @@ func (ep *Endpoint) sbJoin(sb *Sandbox, options ...EndpointOption) (err error) {
++ 		return sb.setupDefaultGW()
++ 	}
++ 
++-	moveExtConn := sb.getGatewayEndpoint() != extEp
+++	currentExtEp := sb.getGatewayEndpoint()
+++	// Enable upstream forwarding if the sandbox gained external connectivity.
+++	if sb.resolver != nil {
+++		sb.resolver.SetForwardingPolicy(currentExtEp != nil)
+++	}
++ 
+++	moveExtConn := currentExtEp != extEp
++ 	if moveExtConn {
++ 		if extEp != nil {
++ 			log.G(context.TODO()).Debugf("Revoking external connectivity on endpoint %s (%s)", extEp.Name(), extEp.ID())
++@@ -735,6 +740,11 @@ func (ep *Endpoint) sbLeave(sb *Sandbox, force bool, options ...EndpointOption)
++ 
++ 	// New endpoint providing external connectivity for the sandbox
++ 	extEp = sb.getGatewayEndpoint()
+++	// Disable upstream forwarding if the sandbox lost external connectivity.
+++	if sb.resolver != nil {
+++		sb.resolver.SetForwardingPolicy(extEp != nil)
+++	}
+++
++ 	if moveExtConn && extEp != nil {
++ 		log.G(context.TODO()).Debugf("Programming external connectivity on endpoint %s (%s)", extEp.Name(), extEp.ID())
++ 		extN, err := extEp.getNetworkFromStore()
++diff --git a/libnetwork/resolver.go b/libnetwork/resolver.go
++index 9df2154499..5d5686fc86 100644
++--- a/libnetwork/resolver.go
+++++ b/libnetwork/resolver.go
++@@ -9,6 +9,7 @@ import (
++ 	"strconv"
++ 	"strings"
++ 	"sync"
+++	"sync/atomic"
++ 	"time"
++ 
++ 	"github.com/containerd/log"
++@@ -75,7 +76,7 @@ type Resolver struct {
++ 	tcpListen     *net.TCPListener
++ 	err           error
++ 	listenAddress string
++-	proxyDNS      bool
+++	proxyDNS      atomic.Bool
++ 	startCh       chan struct{}
++ 	logger        *log.Entry
++ 
++@@ -85,15 +86,17 @@ type Resolver struct {
++ 
++ // NewResolver creates a new instance of the Resolver
++ func NewResolver(address string, proxyDNS bool, backend DNSBackend) *Resolver {
++-	return &Resolver{
+++	r := &Resolver{
++ 		backend:       backend,
++-		proxyDNS:      proxyDNS,
++ 		listenAddress: address,
++ 		err:           fmt.Errorf("setup not done yet"),
++ 		startCh:       make(chan struct{}, 1),
++ 		fwdSem:        semaphore.NewWeighted(maxConcurrent),
++ 		logInverval:   rate.Sometimes{Interval: logInterval},
++ 	}
+++	r.proxyDNS.Store(proxyDNS)
+++
+++	return r
++ }
++ 
++ func (r *Resolver) log(ctx context.Context) *log.Entry {
++@@ -194,6 +197,12 @@ func (r *Resolver) SetExtServers(extDNS []extDNSEntry) {
++ 	}
++ }
++ 
+++// SetForwardingPolicy re-configures the embedded DNS resolver to either enable or disable forwarding DNS queries to
+++// external servers.
+++func (r *Resolver) SetForwardingPolicy(policy bool) {
+++	r.proxyDNS.Store(policy)
+++}
+++
++ // NameServer returns the IP of the DNS resolver for the containers.
++ func (r *Resolver) NameServer() string {
++ 	return r.listenAddress
++@@ -421,7 +430,7 @@ func (r *Resolver) serveDNS(w dns.ResponseWriter, query *dns.Msg) {
++ 		return
++ 	}
++ 
++-	if r.proxyDNS {
+++	if r.proxyDNS.Load() {
++ 		// If the user sets ndots > 0 explicitly and the query is
++ 		// in the root domain don't forward it out. We will return
++ 		// failure and let the client retry with the search domain
++diff --git a/libnetwork/sandbox_dns_unix.go b/libnetwork/sandbox_dns_unix.go
++index e30f394057..9f7a1c4671 100644
++--- a/libnetwork/sandbox_dns_unix.go
+++++ b/libnetwork/sandbox_dns_unix.go
++@@ -30,10 +30,11 @@ const (
++ func (sb *Sandbox) startResolver(restore bool) {
++ 	sb.resolverOnce.Do(func() {
++ 		var err error
++-		// The embedded resolver is always started with proxyDNS set as true, even when the sandbox is only attached to
++-		// an internal network. This way, it's the driver responsibility to make sure `connect` syscall fails fast when
++-		// no external connectivity is available (eg. by not setting a default gateway).
++-		sb.resolver = NewResolver(resolverIPSandbox, true, sb)
+++		// The resolver is started with proxyDNS=false if the sandbox does not currently
+++		// have a gateway. So, if the Sandbox is only connected to an 'internal' network,
+++		// it will not forward DNS requests to external resolvers. The resolver's
+++		// proxyDNS setting is then updated as network Endpoints are added/removed.
+++		sb.resolver = NewResolver(resolverIPSandbox, sb.getGatewayEndpoint() != nil, sb)
++ 		defer func() {
++ 			if err != nil {
++ 				sb.resolver = nil
++-- 
++2.50.1
++
+-- 
+2.50.1
 
-Rather than setting it to empty, I'd rather set it to a value that might
-be useful to us.
-
-Perhaps the git hash we are building ? or the checksum of another
-set of files ?
-
-Bruce
-
-
-
->
-> podman also disable buildvcs
->
-> Changqing Li (15):
->   docker-compose: set go buildid to empty for improving reproducibility
->   docker: set go buildid to empty for improving reproducibility
->   kubernetes: set go buildid to empty for improving reproducibility
->   nerdctl: set go buildid to empty for improving reproducibility
->   runc: set go buildid to empty for improving reproducibility
->   skopeo: set go buildid to empty for improving reproducibility
->   umoci: set go buildid to empty for improving reproducibility
->   cni: update GO_EXTRA_LDFLAGS
->   oci-image-tools: set go buildid to empty for improving reproducibility
->   docker-distribution: set go buildid to empty for improving
->     reproducibility
->   containerd: set go buildid to empty for improving reproducibility
->   cri-o: set go buildid to empty for improving reproducibility
->   cri-tools: set go buildid to empty for improving reproducibility
->   oci-runtime-tools: set go buildid to empty for improving
->     reproducibility
->   podman: improve reproducibility
->
->  .../containerd/containerd_git.bb              |  1 +
->  recipes-containers/cri-o/cri-o_git.bb         |  1 +
->  recipes-containers/cri-tools/cri-tools_git.bb |  2 +-
->  .../docker-compose/docker-compose_git.bb      |  4 +-
->  .../docker-distribution_git.bb                |  2 +
->  ...01-Makefile-remove-duplicate-ldflags.patch | 39 +++++++++++++++++++
->  recipes-containers/docker/docker.inc          |  2 +
->  .../kubernetes/kubernetes_git.bb              |  2 +-
->  recipes-containers/nerdctl/nerdctl_git.bb     |  1 +
->  .../0001-Makefile-add-EXTRA_LDFLAGS.patch     | 39 +++++++++++++++++++
->  .../oci-image-tools/oci-image-tools_git.bb    |  5 ++-
->  .../0001-Makefile-add-EXTRA_LDFLAGS.patch     | 33 ++++++++++++++++
->  .../oci-runtime-tools_git.bb                  |  2 +
->  recipes-containers/podman/podman_git.bb       |  4 +-
->  recipes-containers/runc/runc.inc              |  1 +
->  recipes-containers/skopeo/skopeo_git.bb       |  2 +-
->  recipes-containers/umoci/umoci_git.bb         |  4 +-
->  recipes-networking/cni/cni_git.bb             |  4 +-
->  18 files changed, 138 insertions(+), 10 deletions(-)
->  create mode 100644
-> recipes-containers/docker-distribution/files/0001-Makefile-remove-duplica=
-te-ldflags.patch
->  create mode 100644
-> recipes-containers/oci-image-tools/files/0001-Makefile-add-EXTRA_LDFLAGS.=
-patch
->  create mode 100644
-> recipes-containers/oci-runtime-tools/files/0001-Makefile-add-EXTRA_LDFLAG=
-S.patch
->
-> --
-> 2.34.1
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#9531):
-> https://lists.yoctoproject.org/g/meta-virtualization/message/9531
-> Mute This Topic: https://lists.yoctoproject.org/mt/117148688/1050810
-> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [
-> bruce.ashfield@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
-
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end
-- "Use the force Harry" - Gandalf, Star Trek II
-
---0000000000009dee080647e049c5
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-size:small"><br></div></div><br><div class=3D"gmail_quote gmail_quote_con=
-tainer"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Jan 8, 2026 at 1:26=
-=E2=80=AFAM Changqing Li via <a href=3D"http://lists.yoctoproject.org">list=
-s.yoctoproject.org</a> &lt;<a href=3D"http://changqing.li">changqing.li</a>=
-=3D<a href=3D"mailto:windriver.com@lists.yoctoproject.org">windriver.com@li=
-sts.yoctoproject.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quo=
-te" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204=
-);padding-left:1ex">From: Changqing Li &lt;<a href=3D"mailto:changqing.li@w=
-indriver.com" target=3D"_blank">changqing.li@windriver.com</a>&gt;<br>
-<br>
-These series of patches are mostly set buildid to empty for improving<br>
-reproducibility, I also send a patch to oe-core with subject: <br>
-[PATCH V3] go.bbclass: set buildid to empty string to improve reproducibili=
-ty<br>
-<br>
-which add -buildid=3D in default GO_LDFLAGS, but since packages compiled<br=
->
-with go may not use GO_LDFLAGS in go.bbclass, they can have their own<br>
-Makefiles, define their own variables for passing ldflags, so change<br>
-them one by one.<br></blockquote><div><br></div><div><div class=3D"gmail_de=
-fault" style=3D"font-size:small">Rather than setting it to empty, I&#39;d r=
-ather set it to a value that might</div><div class=3D"gmail_default" style=
-=3D"font-size:small">be useful to us.</div><div class=3D"gmail_default" sty=
-le=3D"font-size:small"><br></div><div class=3D"gmail_default" style=3D"font=
--size:small">Perhaps the git hash we are building ? or the checksum of anot=
-her</div><div class=3D"gmail_default" style=3D"font-size:small">set of file=
-s ?</div><div class=3D"gmail_default" style=3D"font-size:small"><br></div><=
-div class=3D"gmail_default" style=3D"font-size:small">Bruce</div><br></div>=
-<div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
-0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-podman also disable buildvcs<br>
-<br>
-Changqing Li (15):<br>
-=C2=A0 docker-compose: set go buildid to empty for improving reproducibilit=
-y<br>
-=C2=A0 docker: set go buildid to empty for improving reproducibility<br>
-=C2=A0 kubernetes: set go buildid to empty for improving reproducibility<br=
->
-=C2=A0 nerdctl: set go buildid to empty for improving reproducibility<br>
-=C2=A0 runc: set go buildid to empty for improving reproducibility<br>
-=C2=A0 skopeo: set go buildid to empty for improving reproducibility<br>
-=C2=A0 umoci: set go buildid to empty for improving reproducibility<br>
-=C2=A0 cni: update GO_EXTRA_LDFLAGS<br>
-=C2=A0 oci-image-tools: set go buildid to empty for improving reproducibili=
-ty<br>
-=C2=A0 docker-distribution: set go buildid to empty for improving<br>
-=C2=A0 =C2=A0 reproducibility<br>
-=C2=A0 containerd: set go buildid to empty for improving reproducibility<br=
->
-=C2=A0 cri-o: set go buildid to empty for improving reproducibility<br>
-=C2=A0 cri-tools: set go buildid to empty for improving reproducibility<br>
-=C2=A0 oci-runtime-tools: set go buildid to empty for improving<br>
-=C2=A0 =C2=A0 reproducibility<br>
-=C2=A0 podman: improve reproducibility<br>
-<br>
-=C2=A0.../containerd/<a href=3D"http://containerd_git.bb" rel=3D"noreferrer=
-" target=3D"_blank">containerd_git.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 |=C2=A0 1 +<br>
-=C2=A0recipes-containers/cri-o/<a href=3D"http://cri-o_git.bb" rel=3D"noref=
-errer" target=3D"_blank">cri-o_git.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-|=C2=A0 1 +<br>
-=C2=A0recipes-containers/cri-tools/<a href=3D"http://cri-tools_git.bb" rel=
-=3D"noreferrer" target=3D"_blank">cri-tools_git.bb</a> |=C2=A0 2 +-<br>
-=C2=A0.../docker-compose/<a href=3D"http://docker-compose_git.bb" rel=3D"no=
-referrer" target=3D"_blank">docker-compose_git.bb</a>=C2=A0 =C2=A0 =C2=A0 |=
-=C2=A0 4 +-<br>
-=C2=A0.../<a href=3D"http://docker-distribution_git.bb" rel=3D"noreferrer" =
-target=3D"_blank">docker-distribution_git.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 2 +<br>
-=C2=A0...01-Makefile-remove-duplicate-ldflags.patch | 39 ++++++++++++++++++=
-+<br>
-=C2=A0recipes-containers/docker/docker.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 |=C2=A0 2 +<br>
-=C2=A0.../kubernetes/<a href=3D"http://kubernetes_git.bb" rel=3D"noreferrer=
-" target=3D"_blank">kubernetes_git.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 |=C2=A0 2 +-<br>
-=C2=A0recipes-containers/nerdctl/<a href=3D"http://nerdctl_git.bb" rel=3D"n=
-oreferrer" target=3D"_blank">nerdctl_git.bb</a>=C2=A0 =C2=A0 =C2=A0|=C2=A0 =
-1 +<br>
-=C2=A0.../0001-Makefile-add-EXTRA_LDFLAGS.patch=C2=A0 =C2=A0 =C2=A0| 39 +++=
-++++++++++++++++<br>
-=C2=A0.../oci-image-tools/<a href=3D"http://oci-image-tools_git.bb" rel=3D"=
-noreferrer" target=3D"_blank">oci-image-tools_git.bb</a>=C2=A0 =C2=A0 |=C2=
-=A0 5 ++-<br>
-=C2=A0.../0001-Makefile-add-EXTRA_LDFLAGS.patch=C2=A0 =C2=A0 =C2=A0| 33 +++=
-+++++++++++++<br>
-=C2=A0.../<a href=3D"http://oci-runtime-tools_git.bb" rel=3D"noreferrer" ta=
-rget=3D"_blank">oci-runtime-tools_git.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 2 +<br>
-=C2=A0recipes-containers/podman/<a href=3D"http://podman_git.bb" rel=3D"nor=
-eferrer" target=3D"_blank">podman_git.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=
-=A0 4 +-<br>
-=C2=A0recipes-containers/runc/runc.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 |=C2=A0 1 +<br>
-=C2=A0recipes-containers/skopeo/<a href=3D"http://skopeo_git.bb" rel=3D"nor=
-eferrer" target=3D"_blank">skopeo_git.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=
-=A0 2 +-<br>
-=C2=A0recipes-containers/umoci/<a href=3D"http://umoci_git.bb" rel=3D"noref=
-errer" target=3D"_blank">umoci_git.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-|=C2=A0 4 +-<br>
-=C2=A0recipes-networking/cni/<a href=3D"http://cni_git.bb" rel=3D"noreferre=
-r" target=3D"_blank">cni_git.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0|=C2=A0 4 +-<br>
-=C2=A018 files changed, 138 insertions(+), 10 deletions(-)<br>
-=C2=A0create mode 100644 recipes-containers/docker-distribution/files/0001-=
-Makefile-remove-duplicate-ldflags.patch<br>
-=C2=A0create mode 100644 recipes-containers/oci-image-tools/files/0001-Make=
-file-add-EXTRA_LDFLAGS.patch<br>
-=C2=A0create mode 100644 recipes-containers/oci-runtime-tools/files/0001-Ma=
-kefile-add-EXTRA_LDFLAGS.patch<br>
-<br>
--- <br>
-2.34.1<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#9531): <a href=3D"https://lists.yoctoproject.org/g/meta=
--virtualization/message/9531" rel=3D"noreferrer" target=3D"_blank">https://=
-lists.yoctoproject.org/g/meta-virtualization/message/9531</a><br>
-Mute This Topic: <a href=3D"https://lists.yoctoproject.org/mt/117148688/105=
-0810" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.org/m=
-t/117148688/1050810</a><br>
-Group Owner: <a href=3D"mailto:meta-virtualization%2Bowner@lists.yoctoproje=
-ct.org" target=3D"_blank">meta-virtualization+owner@lists.yoctoproject.org<=
-/a><br>
-Unsubscribe: <a href=3D"https://lists.yoctoproject.org/g/meta-virtualizatio=
-n/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.or=
-g/g/meta-virtualization/unsub</a> [<a href=3D"mailto:bruce.ashfield@gmail.c=
-om" target=3D"_blank">bruce.ashfield@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
-=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
-ignature">- Thou shalt not follow the NULL pointer, for chaos and madness a=
-wait thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star T=
-rek II<br><br></div></div>
-
---0000000000009dee080647e049c5--
 
