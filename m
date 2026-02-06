@@ -2,428 +2,464 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 97F76EE209C
-	for <webhook@archiver.kernel.org>; Fri,  6 Feb 2026 12:49:32 +0000 (UTC)
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.10768.1770382170474575519
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C0ACEE209E
+	for <webhook@archiver.kernel.org>; Fri,  6 Feb 2026 12:51:32 +0000 (UTC)
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.10457.1770382286684389542
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 06 Feb 2026 04:49:30 -0800
+ Fri, 06 Feb 2026 04:51:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=hSzLpdo5;
- spf=pass (domain: gmail.com, ip: 209.85.216.41, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-352ccc61658so1096218a91.0
-        for <meta-virtualization@lists.yoctoproject.org>; Fri, 06 Feb 2026 04:49:30 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1770382170; cv=none;
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=YguepaLo;
+ spf=pass (domain: gmail.com, ip: 209.85.215.182, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-c6788f3db37so772903a12.1
+        for <meta-virtualization@lists.yoctoproject.org>; Fri, 06 Feb 2026 04:51:26 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1770382286; cv=none;
         d=google.com; s=arc-20240605;
-        b=PRN1aQznp1qDCeMng/07kC6dvCEt8s67MNqU7UHHvrOGi5nb8TU8IMDEkeQOG1VyCS
-         vZJTdlAJbVCaJGbdRkTbKd2cWTI5w01bfdPBc4eX/5E9OJLPgdtrTdei2kqsrsA2jGGJ
-         iol3CGpUkAboVzQdvW7tsDcsS9vEXlICEX7I8w6sOOtEG9V+VMbRdG5gTneMzEJ9YTF+
-         rFfBSZnnb9VgghbhILd71vZBzGIMhxXh7W+nl20EYnGa1/rXBP9UBVVqIeE7wpp7Ukin
-         pe/wdIk19m4AtnHA0kAPZGgvi3/7RjadakHaolcR6CkSbM+teCsAztDjTu3MLk1/3isU
-         gTVA==
+        b=GzG2/rUl6qhFwkBIpsVsQrOHOrwBWSK/C+NiIR6avsPj9qycsv5acmD7U31fZgqpYl
+         VDswEmMyTuh9e6Y10cT8nKb7BPY0Ersu8NyMesZF8XfinOgs923WiZTu3mmOwJLL4Xq3
+         uQxETjWg1WOt+FtQDlTCs6/i2msGqACEF3rtDy4mWuolF3gGbBmiAqug0RkTsGANLR2h
+         6iMEmCWrtGE3khyNCODOyqOLyIs8HNJUPc37axdLYrdKeWGa5GreT0v8RWZIMb7aGDMM
+         LOfwGszEhoxJ0V70VITSGkuPHS5QHBZh2Tofa1M5UtXlveAzPB/+l80Uw5D1ZcD9+F6+
+         9e+A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=feqGYdHl24M03fK9057IIKwWgXSKDKbfeRs2oszbeHw=;
-        fh=TA/DqR0yLg6S9X3bO0Ym1T8UojDnIj+cFYRmd99upJQ=;
-        b=JF6qqDqJOYXa/h5aAcrhQtKRK249j//QWzYpJXQ8zOKbyBNjotJGdqezZtoH9+vcn3
-         lshTJ283z1mL/D3+Fybwb9s5bJ4aqMoTAJNfpk8jIjNIxjpJIopqzyp3m3bAVVumb40V
-         Qgip4t4G0jyzx/MIkpB2gYgYklCkVeVT6OlL00WZSfs0D096CSAfcGTl38NqPpoK2nUx
-         QfOgfPaNehZIqRoVnuxzgEaiQNbbqPkA7XDTMj2s26A8dBWDlrP/PjN7g4W4qL1a9aqC
-         htbVxEgetUNIwfJAHjEReV9l1LlQ9Dw0XpvTxK/bv6I9lh8rQaqquMLEtyJby3xU/1ZN
-         EnUQ==;
+        bh=ebIb+ad+Ocs/u9d+Ng3uHkZ7kIa2zBdmOfJK1y/2QDs=;
+        fh=dCfQZnOOBf/XgmJmNbuYAJ4GwobbL6NBblPRBkIZTb4=;
+        b=AEqUB+xBZL5kzy/9+o+rq7OFstEGkTZDxaCsl2r91dRCobd8otrUnd6UhcR/XwQKXl
+         /mwbEndcFOyepav38xIcZBjv6htfkIYLR+Wc05pCACSNX4y9TrvHnSWQn0e60SUrWU0a
+         gPj9dtL8wgepQC8E+LmIokgruM4g7yJPq57dtb0V6oLLOvLhUBQeK9ZKXh0V7VbZzlzw
+         zvhp8DHXQrEKtu1/eMJkllKhhRcASU70qmbotvMeCMOqKJybKo40alvzrzs/aS1oHmAm
+         BC1sMWjuGLwMQOwNAmdLF1delzK9ntI26s06+bDTWRx7ptaEc7x30faplbmswMirT1IO
+         9Suw==;
         darn=lists.yoctoproject.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770382170; x=1770986970; darn=lists.yoctoproject.org;
+        d=gmail.com; s=20230601; t=1770382286; x=1770987086; darn=lists.yoctoproject.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=feqGYdHl24M03fK9057IIKwWgXSKDKbfeRs2oszbeHw=;
-        b=hSzLpdo5/qt1pf5PANVwMMs5Rk0gxYzL/KuV69QbSVURKKyI5bRKkuOL15ShLysNHE
-         3kvpbj1H3R9qyVCjOSuuGp3RphiHnYtt9DsRE1q8v5QFQvYP2LIKaKjHQ1K3LEo9Xj28
-         D4WTtpJ8QOf5RHBC6aWtve6FZnl8iv/GENLfM17sxN9Yx8fej3XMfsCUzDVs4MCzqrRH
-         Dk7tM/Nbc1aUn2jxzsBhXMPKor6CIccEG8yqoKVgLztbsgSkHp8fkNbTSbOCEu1KcL9w
-         +9rNgS7mZ4CH4L9a6eSG3kzQjeuEaVb/OUzl0YCcPGr6E9IB3bN3NzTb8ii6MJtGjQUZ
-         GtJA==
+        bh=ebIb+ad+Ocs/u9d+Ng3uHkZ7kIa2zBdmOfJK1y/2QDs=;
+        b=YguepaLoZ0zZHMZIwF53wWivFIuKXXwo8bQ11rCTZ+cfow3PfXmanNHQs1H6BnSyIX
+         su8EbS/0WYBZixStDcpRwRtELQb+ZAuBQoM9kjKS/qo0CfvYwEN6UaAEmoADwfglN3+g
+         cfY07x1K6qspWJtyBkrx+BbLuq+mtAxtQyaP+pkoDTTgS8XLixjy2wxx0HBqAccNiwuq
+         ng3U/7mXKwfDSFUypkqfdVENbwqLFS8J3WWFbI5VFfL9mJ3XupiBOaBUpH8EBZD/R/GT
+         NlW93ICLP2s0XSHJdNatUR0OT8vS46Y46hFUhiGzVoHnGskQfKyLYGhTIt8T3U/ec/tU
+         0tiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770382170; x=1770986970;
+        d=1e100.net; s=20230601; t=1770382286; x=1770987086;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=feqGYdHl24M03fK9057IIKwWgXSKDKbfeRs2oszbeHw=;
-        b=PJDPf4Og6TDTk+GthVvlUXqPEZG+IdKo/pfA5ZX5HDlXdRFyK58UFHwtJmMM6BlraC
-         XMbT6W/v0ChzeVrTiRO4+19SAjxrqHJ5rTXREBuCZTrVGUBod/+Zbt8zUH3culTCKEvW
-         2geD6Qtcmy6Y56VD4EQbrh0g67o2Tq8taEKmryJFzUjXCW9tmP5sAQBI6nL5HDD1Xf6Q
-         /wGaJVZ60kwzSX3RixDwctFJXHZ/uWmMpVKvD3XPAFmopAQFdpJ9GsF1bXOcPQ8uFOuH
-         2xq18+TfSeKSYXgqwNQgUSQjJcHtd+AwQQ/keGfEWqFilsBgL/nNIPO5/VDBv29xeB4w
-         HPDg==
-X-Gm-Message-State: AOJu0YyHdLaS9GGZg629FiBUVb4ugjBzW6QTSHOPDwzqY3pp3Tl8hdBh
-	YpAI4iBA2GdnWHzLYgp9p9jZNAu2vNLwWUaVQpdjJcbEGT+RFewkqXQJxHiPig3ZEG+QloKMUdo
-	VIwW80FN+XhsKF9TsmeGM2byiOtARBqc=
-X-Gm-Gg: AZuq6aJyFnRAEDFslqIUnfHKKuAwOP8AJK4glgpN/846AvZBIoqDfvWkCkoqzqzRC+U
-	VlmE/uG8kwJOdjb3DT3haB6PbI1pfor2kbQCOX/SrXK5B5LVSpfNuc/laSNQ9Zq2hsLs+T7JP6L
-	htMfuiAKQagSInEqvFEkj7nVNKo+vc4yl5Nvv3p5bP4dkmipDrK3pgwF8umnbnN9ymckAfYLDEd
-	37V5HBq87BA3g+3AMfLUxIjepOLIRg4pM64PA9jAkRWmBz6x+ABm2gw4UPauaerBEwvucteKB7w
-	Caxf/Kx6fdlOddohULzgwMTgDYBL
-X-Received: by 2002:a17:90b:3c8b:b0:352:e27e:79c5 with SMTP id
- 98e67ed59e1d1-354b3cfeca9mr2030139a91.31.1770382169596; Fri, 06 Feb 2026
- 04:49:29 -0800 (PST)
+        bh=ebIb+ad+Ocs/u9d+Ng3uHkZ7kIa2zBdmOfJK1y/2QDs=;
+        b=jCCPG0kIshqRc9itN81vVT1jfGkOts8PazAOIBclMQCNOKCzQ5lWIvU3dCuj7/rQof
+         ruL62JFSQiLPXjVK3akp/S334QPLInPgzC/FscgxOLx28+9RYxicr7i1ia1gbrBDyTfv
+         3FQQSfZwgShk8wogW4HsUnx+lCxKjTijXQ1bkui2dRJl7f8dskt0tk8PUhtZnmoEKdXq
+         /OyYI5+OVJI2+owaOxidhqvw5CF6YTXe2JNvIjYQ34R40/HP9KEMMlLFkudXEjipIw3a
+         OkW02GGoczdo+5E9vub8X1mD320z7W+BMgG6Q8t+ExLjuYwwP7lUnJpDOe2DoqefO5Bq
+         usNQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWVXL6PIGOw3DvQygXR3BJe2hMkJy95rWOTcDk67BlBpkcNJkAxWGsBl/KM4PEtCqh38dvQXEnSxTpXvvCkyMVERcSi@lists.yoctoproject.org
+X-Gm-Message-State: AOJu0YznvYhqJ/i2tEZmDCelukV8mlRCPIGTy5fTqo/TleL4bG/JPZeY
+	rxRnwNeVby9UrCf19czQUnjbFJIRWEpAAqN+p30+TXh0V2niwhau10diF8Pb5t2XeK7tEvan/7M
+	7juJN1UPrGgddlFqm8R/Fq4Raf6ebshU=
+X-Gm-Gg: AZuq6aIF0IBy0g8aqxMldIQyiBVQz9XGLcau88EgueBeU2WrI2zUE5CV0VWWim/ihf5
+	5TmM3wsIUSXnWoTLJyHGoT9gQifLj3A4c5ztMyjEgkJFjexyQGpvE7WHy4k4/5lxMhqEsjbUwe+
+	AilxQzRbAwYy8PoVLWu874IJbUuCNfQZH6WJNHd66QI42HkCJX3UUQzsghRgaTZIWaNzxlMRKHr
+	JfAWYs/NgEKxIeyYHdi8fPnwXsgEH4orm17AA3IGsmLkRcLrcYFJNwvogPdTIplOtyHMBK+VNjc
+	UaN8mudXpz+UQdsY09mT4+oxVyl/
+X-Received: by 2002:a17:90a:d410:b0:340:66f9:381 with SMTP id
+ 98e67ed59e1d1-354b3bd505emr2153482a91.10.1770382285292; Fri, 06 Feb 2026
+ 04:51:25 -0800 (PST)
 MIME-Version: 1.0
-References: <20260206091701.3904742-1-changqing.li@windriver.com>
-In-Reply-To: <20260206091701.3904742-1-changqing.li@windriver.com>
+References: <20260206091701.3904742-1-changqing.li@windriver.com> <1891A9344E389A40.377171@lists.yoctoproject.org>
+In-Reply-To: <1891A9344E389A40.377171@lists.yoctoproject.org>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Fri, 6 Feb 2026 07:49:18 -0500
-X-Gm-Features: AZwV_QgEHk3lvYnreHHtUdqgC3161kKZR26BR19XASUQk7JwuQCDY8JWNYuXNPE
-Message-ID: <CADkTA4MCbciKHGNog=fEdGVQ0JY9HMgYxsVTEeLr1z6=DLQ4=Q@mail.gmail.com>
+Date: Fri, 6 Feb 2026 07:51:13 -0500
+X-Gm-Features: AZwV_Qj_mMXB0LlOsP6prQFm5HfDaZZQXUOV3tdrcvHbnx-yT5F3_7OB7BvHpYE
+Message-ID: <CADkTA4NP703RvC2AAZ2-X0R0ofG=-1n1nCdk9mU9k1oWd7i2=w@mail.gmail.com>
 Subject: Re: [meta-virtualization][PATCH 1/2] improve reproducibility
-To: changqing.li@windriver.com
-Cc: meta-virtualization@lists.yoctoproject.org
-Content-Type: multipart/alternative; boundary="00000000000055e4e7064a273813"
+To: bruce.ashfield@gmail.com
+Cc: changqing.li@windriver.com, meta-virtualization@lists.yoctoproject.org
+Content-Type: multipart/alternative; boundary="0000000000003b4e38064a273fea"
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Fri, 06 Feb 2026 12:49:32 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9563
+ <meta-virtualization@lists.yoctoproject.org>; Fri, 06 Feb 2026 12:51:32 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9564
 
---00000000000055e4e7064a273813
+--0000000000003b4e38064a273fea
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Feb 6, 2026 at 4:17=E2=80=AFAM Changqing Li via lists.yoctoproject.=
-org <
-changqing.li=3Dwindriver.com@lists.yoctoproject.org> wrote:
+On Fri, Feb 6, 2026 at 7:49=E2=80=AFAM Bruce Ashfield via lists.yoctoprojec=
+t.org
+<bruce.ashfield=3Dgmail.com@lists.yoctoproject.org> wrote:
 
-> From: Changqing Li <changqing.li@windriver.com>
 >
-> * Refer [1], cgo will embeded cgo_ldflags in the intermediary output,
->   which make content ID will be incfluenced by cgo_ldflags.
->   '--sysroot=3Dxxx' includes build path, which will make the binary not
->   reproducible, these recipes can build successfully without --sysroot, s=
-o
->   remove it
 >
-> * CGO_ENABLED/CGO_CFLAGS/CGO_LDFLAGS already exported in go.bbclass with
->   the same value, remove the not needed settings
+> On Fri, Feb 6, 2026 at 4:17=E2=80=AFAM Changqing Li via lists.yoctoprojec=
+t.org <
+> changqing.li=3Dwindriver.com@lists.yoctoproject.org> wrote:
+>
+>> From: Changqing Li <changqing.li@windriver.com>
+>>
+>> * Refer [1], cgo will embeded cgo_ldflags in the intermediary output,
+>>   which make content ID will be incfluenced by cgo_ldflags.
+>>   '--sysroot=3Dxxx' includes build path, which will make the binary not
+>>   reproducible, these recipes can build successfully without --sysroot, =
+so
+>>   remove it
+>>
+>> * CGO_ENABLED/CGO_CFLAGS/CGO_LDFLAGS already exported in go.bbclass with
+>>   the same value, remove the not needed settings
+>>
+>
+> refer to all my previous email on the subject.
+>
+> I will continue to set these in the classes themselves.
 >
 
-refer to all my previous email on the subject.
+BUT, I will take the removal of the sysroot if we no longer need it.
 
-I will continue to set these in the classes themselves.
+But the duplicated values from the go classes are entirely intentional.
 
 Bruce
 
 
 
 >
-> [1]
-> https://git.openembedded.org/openembedded-core/commit/?id=3D1797741aad02b=
-8bf429fac4b81e30cdda64b5448
+> Bruce
 >
-> Signed-off-by: Changqing Li <changqing.li@windriver.com>
-> ---
->  recipes-containers/containerd/containerd_git.bb           | 3 ---
->  recipes-containers/cri-tools/cri-tools_git.bb             | 5 -----
->  recipes-containers/docker-compose/docker-compose_git.bb   | 6 +-----
->  .../docker-distribution/docker-distribution_git.bb        | 3 ---
->  recipes-containers/docker/docker.inc                      | 4 ----
->  recipes-containers/kubernetes/kubernetes_git.bb           | 8 +++++---
->  recipes-containers/nerdctl/nerdctl_git.bb                 | 6 ------
->  recipes-containers/oci-image-tools/oci-image-tools_git.bb | 3 ---
->  .../oci-runtime-tools/oci-runtime-tools_git.bb            | 3 ---
->  recipes-containers/podman/podman_git.bb                   | 8 --------
->  recipes-containers/runc/runc.inc                          | 3 ---
->  recipes-containers/skopeo/skopeo_git.bb                   | 3 ---
->  recipes-containers/umoci/umoci_git.bb                     | 3 ---
->  13 files changed, 6 insertions(+), 52 deletions(-)
 >
-> diff --git a/recipes-containers/containerd/containerd_git.bb
-> b/recipes-containers/containerd/containerd_git.bb
-> index 081cf354..3d66e06e 100644
-> --- a/recipes-containers/containerd/containerd_git.bb
-> +++ b/recipes-containers/containerd/containerd_git.bb
-> @@ -47,9 +47,6 @@ do_compile() {
 >
->      # Pass the needed cflags/ldflags so that cgo
->      # can find the needed headers files and libraries
-> -    export CGO_ENABLED=3D"1"
-> -    export CGO_CFLAGS=3D"${CFLAGS} --sysroot=3D${STAGING_DIR_TARGET}"
-> -    export CGO_LDFLAGS=3D"${LDFLAGS} --sysroot=3D${STAGING_DIR_TARGET}"
->      export BUILDTAGS=3D"no_btrfs static_build netgo"
->      export CFLAGS=3D"${CFLAGS}"
->      export LDFLAGS=3D"${LDFLAGS}"
-> diff --git a/recipes-containers/cri-tools/cri-tools_git.bb
-> b/recipes-containers/cri-tools/cri-tools_git.bb
-> index dad675e8..98c43b6b 100644
-> --- a/recipes-containers/cri-tools/cri-tools_git.bb
-> +++ b/recipes-containers/cri-tools/cri-tools_git.bb
-> @@ -46,12 +46,7 @@ do_compile() {
->         export
-> GOPATH=3D"${S}/src/import/.gopath:${S}/src/import/vendor:${STAGING_DIR_TA=
-RGET}/${prefix}/local/go"
->         cd ${S}/src/import
->
-> -       # Build the target binaries
-> -       export GOARCH=3D"${TARGET_GOARCH}"
->         # Pass the needed cflags/ldflags so that cgo can find the needed
-> headers files and libraries
-> -       export CGO_ENABLED=3D"1"
-> -       export CGO_CFLAGS=3D"${CFLAGS} --sysroot=3D${STAGING_DIR_TARGET}"
-> -       export CGO_LDFLAGS=3D"${LDFLAGS} --sysroot=3D${STAGING_DIR_TARGET=
-}"
->         export CFLAGS=3D""
->         export LDFLAGS=3D""
->         export CC=3D"${CC}"
-> diff --git a/recipes-containers/docker-compose/docker-compose_git.bb
-> b/recipes-containers/docker-compose/docker-compose_git.bb
-> index ccb36a16..de9427ae 100644
-> --- a/recipes-containers/docker-compose/docker-compose_git.bb
-> +++ b/recipes-containers/docker-compose/docker-compose_git.bb
-> @@ -53,13 +53,9 @@ do_compile() {
->
->         # GOMODCACHE, GOPROXY, GOSUMDB, GOTOOLCHAIN are set by
-> go-mod-vcs.bbclass
->         export
-> GOPATH=3D"${S}/src/import/.gopath:${STAGING_DIR_TARGET}/${prefix}/local/g=
-o"
-> -       export CGO_ENABLED=3D"1"
->
->         # Pass the needed cflags/ldflags so that cgo
->         # can find the needed headers files and libraries
-> -       export GOARCH=3D${TARGET_GOARCH}
-> -       export CGO_CFLAGS=3D"${CFLAGS} --sysroot=3D${STAGING_DIR_TARGET}"
-> -       export CGO_LDFLAGS=3D"${LDFLAGS} --sysroot=3D${STAGING_DIR_TARGET=
-}"
->
->         GO_LDFLAGS=3D"-s -w -X internal.Version=3D${PV} -X
-> ${COMPOSE_PKG}/internal.Version=3D${PV}"
->         GO_BUILDTAGS=3D""
-> @@ -85,4 +81,4 @@ INSANE_SKIP:${PN} +=3D "ldflags already-stripped"
->
->  # the AWS dependency is 8GB, try and control the
->  # size of the clones
-> -BB_GIT_SHALLOW =3D "1"
-> \ No newline at end of file
-> +BB_GIT_SHALLOW =3D "1"
-> diff --git a/recipes-containers/docker-distribution/
-> docker-distribution_git.bb b/recipes-containers/docker-distribution/
-> docker-distribution_git.bb
-> index 5e37fe74..63001331 100644
-> --- a/recipes-containers/docker-distribution/docker-distribution_git.bb
-> +++ b/recipes-containers/docker-distribution/docker-distribution_git.bb
-> @@ -28,12 +28,9 @@ do_compile() {
->         export GOROOT=3D"${STAGING_LIBDIR}/go"
->         # Pass the needed cflags/ldflags so that cgo
->         # can find the needed headers files and libraries
-> -       export CGO_ENABLED=3D"1"
->         export CFLAGS=3D""
->         export LDFLAGS=3D""
-> -       export CGO_CFLAGS=3D"${TARGET_CFLAGS}"
->         export GO_GCFLAGS=3D""
-> -       export CGO_LDFLAGS=3D"${TARGET_LDFLAGS}"
->         export GO111MODULE=3Doff
->         export GO_BUILD_FLAGS=3D"-trimpath"
->
-> diff --git a/recipes-containers/docker/docker.inc
-> b/recipes-containers/docker/docker.inc
-> index 99535a77..b0f52d77 100644
-> --- a/recipes-containers/docker/docker.inc
-> +++ b/recipes-containers/docker/docker.inc
-> @@ -80,10 +80,6 @@ do_compile() {
->
->         # Pass the needed cflags/ldflags so that cgo
->         # can find the needed headers files and libraries
-> -       export GOARCH=3D${TARGET_GOARCH}
-> -       export CGO_ENABLED=3D"1"
-> -       export CGO_CFLAGS=3D"${CFLAGS} --sysroot=3D${STAGING_DIR_TARGET}"
-> -       export CGO_LDFLAGS=3D"${LDFLAGS} --sysroot=3D${STAGING_DIR_TARGET=
-}"
->         export DOCKER_BUILDTAGS=3D'${BUILD_TAGS} ${PACKAGECONFIG_CONFARGS=
-}'
->         export GO111MODULE=3Doff
->
-> diff --git a/recipes-containers/kubernetes/kubernetes_git.bb
-> b/recipes-containers/kubernetes/kubernetes_git.bb
-> index f7b6940a..89c53930 100644
-> --- a/recipes-containers/kubernetes/kubernetes_git.bb
-> +++ b/recipes-containers/kubernetes/kubernetes_git.bb
-> @@ -54,6 +54,9 @@ inherit cni_networking
->
->  COMPATIBLE_HOST =3D '(x86_64.*|arm.*|aarch64.*)-linux'
->
-> +CGO_LDFLAGS ?=3D "${LDFLAGS}"
-> +CGO_LDFLAGS:remove =3D "${DEBUG_PREFIX_MAP}"
-> +
->  do_compile() {
->         export
-> GOPATH=3D"${S}/src/import/.gopath:${S}/src/import/vendor:${STAGING_DIR_TA=
-RGET}/${prefix}/local/go:${UNPACKDIR}/git/"
->         cd ${S}
-> @@ -70,7 +73,6 @@ do_compile() {
->         export CGO_LDFLAGS=3D"$(echo ${BUILD_LDFLAGS} | sed 's/-Wl,-O1//g=
-' |
-> sed 's/-Wl,--dynamic-linker.*?\( \|$\)//g')"
->         export CC=3D"${BUILD_CC}"
->         export LD=3D"${BUILD_LD}"
-> -
->         # set the toolchain to local to avoid an attempted fetch of
->         # valiation by the build
->         # https://github.com/actions/setup-go/issues/420
-> @@ -85,8 +87,8 @@ do_compile() {
->         export GOARCH=3D"${TARGET_GOARCH}"
->         # Pass the needed cflags/ldflags so that cgo can find the needed
-> headers files and libraries
->         export CGO_ENABLED=3D"1"
-> -       export CGO_CFLAGS=3D"${CFLAGS} --sysroot=3D${STAGING_DIR_TARGET}"
-> -       export CGO_LDFLAGS=3D"${LDFLAGS} --sysroot=3D${STAGING_DIR_TARGET=
-}"
-> +       export CGO_CFLAGS=3D"${CFLAGS}"
-> +       export CGO_LDFLAGS=3D"${CGO_LDFLAGS}"
->         export CFLAGS=3D""
->         export LDFLAGS=3D""
->         export CC=3D"${CC}"
-> diff --git a/recipes-containers/nerdctl/nerdctl_git.bb
-> b/recipes-containers/nerdctl/nerdctl_git.bb
-> index 8f63b48c..eb873e23 100644
-> --- a/recipes-containers/nerdctl/nerdctl_git.bb
-> +++ b/recipes-containers/nerdctl/nerdctl_git.bb
-> @@ -71,12 +71,6 @@ do_compile() {
->
->          cd ${S}/src/import
->
-> -        # Pass the needed cflags/ldflags so that cgo
-> -        # can find the needed headers files and libraries
-> -        export GOARCH=3D${TARGET_GOARCH}
-> -        export CGO_CFLAGS=3D"${CFLAGS} --sysroot=3D${STAGING_DIR_TARGET}=
+>>
+>> [1]
+>> https://git.openembedded.org/openembedded-core/commit/?id=3D1797741aad02=
+b8bf429fac4b81e30cdda64b5448
+>>
+>> Signed-off-by: Changqing Li <changqing.li@windriver.com>
+>> ---
+>>  recipes-containers/containerd/containerd_git.bb           | 3 ---
+>>  recipes-containers/cri-tools/cri-tools_git.bb             | 5 -----
+>>  recipes-containers/docker-compose/docker-compose_git.bb   | 6 +-----
+>>  .../docker-distribution/docker-distribution_git.bb        | 3 ---
+>>  recipes-containers/docker/docker.inc                      | 4 ----
+>>  recipes-containers/kubernetes/kubernetes_git.bb           | 8 +++++---
+>>  recipes-containers/nerdctl/nerdctl_git.bb                 | 6 ------
+>>  recipes-containers/oci-image-tools/oci-image-tools_git.bb | 3 ---
+>>  .../oci-runtime-tools/oci-runtime-tools_git.bb            | 3 ---
+>>  recipes-containers/podman/podman_git.bb                   | 8 --------
+>>  recipes-containers/runc/runc.inc                          | 3 ---
+>>  recipes-containers/skopeo/skopeo_git.bb                   | 3 ---
+>>  recipes-containers/umoci/umoci_git.bb                     | 3 ---
+>>  13 files changed, 6 insertions(+), 52 deletions(-)
+>>
+>> diff --git a/recipes-containers/containerd/containerd_git.bb
+>> b/recipes-containers/containerd/containerd_git.bb
+>> index 081cf354..3d66e06e 100644
+>> --- a/recipes-containers/containerd/containerd_git.bb
+>> +++ b/recipes-containers/containerd/containerd_git.bb
+>> @@ -47,9 +47,6 @@ do_compile() {
+>>
+>>      # Pass the needed cflags/ldflags so that cgo
+>>      # can find the needed headers files and libraries
+>> -    export CGO_ENABLED=3D"1"
+>> -    export CGO_CFLAGS=3D"${CFLAGS} --sysroot=3D${STAGING_DIR_TARGET}"
+>> -    export CGO_LDFLAGS=3D"${LDFLAGS} --sysroot=3D${STAGING_DIR_TARGET}"
+>>      export BUILDTAGS=3D"no_btrfs static_build netgo"
+>>      export CFLAGS=3D"${CFLAGS}"
+>>      export LDFLAGS=3D"${LDFLAGS}"
+>> diff --git a/recipes-containers/cri-tools/cri-tools_git.bb
+>> b/recipes-containers/cri-tools/cri-tools_git.bb
+>> index dad675e8..98c43b6b 100644
+>> --- a/recipes-containers/cri-tools/cri-tools_git.bb
+>> +++ b/recipes-containers/cri-tools/cri-tools_git.bb
+>> @@ -46,12 +46,7 @@ do_compile() {
+>>         export
+>> GOPATH=3D"${S}/src/import/.gopath:${S}/src/import/vendor:${STAGING_DIR_T=
+ARGET}/${prefix}/local/go"
+>>         cd ${S}/src/import
+>>
+>> -       # Build the target binaries
+>> -       export GOARCH=3D"${TARGET_GOARCH}"
+>>         # Pass the needed cflags/ldflags so that cgo can find the needed
+>> headers files and libraries
+>> -       export CGO_ENABLED=3D"1"
+>> -       export CGO_CFLAGS=3D"${CFLAGS} --sysroot=3D${STAGING_DIR_TARGET}=
 "
-> -        export CGO_LDFLAGS=3D"${LDFLAGS} --sysroot=3D${STAGING_DIR_TARGE=
+>> -       export CGO_LDFLAGS=3D"${LDFLAGS} --sysroot=3D${STAGING_DIR_TARGE=
 T}"
-> -
->          # -trimpath removes build paths from the binary (required for
-> reproducible builds)
->          oe_runmake GO=3D${GO} BUILDTAGS=3D"${BUILDTAGS}"
-> GO_BUILD_FLAGS=3D"-trimpath" binaries
->  }
-> diff --git a/recipes-containers/oci-image-tools/oci-image-tools_git.bb
-> b/recipes-containers/oci-image-tools/oci-image-tools_git.bb
-> index 36026214..6c355377 100644
-> --- a/recipes-containers/oci-image-tools/oci-image-tools_git.bb
-> +++ b/recipes-containers/oci-image-tools/oci-image-tools_git.bb
-> @@ -29,11 +29,8 @@ do_compile() {
->
->         # Pass the needed cflags/ldflags so that cgo
->         # can find the needed headers files and libraries
-> -       export CGO_ENABLED=3D"1"
->         export CFLAGS=3D""
->         export LDFLAGS=3D""
-> -       export CGO_CFLAGS=3D"${TARGET_CFLAGS}"
-> -       export CGO_LDFLAGS=3D"${TARGET_LDFLAGS}"
->         export GO111MODULE=3Doff
->
->         export GOBUILDFLAGS=3D"-trimpath"
-> diff --git a/recipes-containers/oci-runtime-tools/oci-runtime-tools_git.b=
-b
-> b/recipes-containers/oci-runtime-tools/oci-runtime-tools_git.bb
-> index 81f51f9c..0ba69756 100644
-> --- a/recipes-containers/oci-runtime-tools/oci-runtime-tools_git.bb
-> +++ b/recipes-containers/oci-runtime-tools/oci-runtime-tools_git.bb
-> @@ -25,11 +25,8 @@ do_compile() {
->
->         # Pass the needed cflags/ldflags so that cgo
->         # can find the needed headers files and libraries
-> -       export CGO_ENABLED=3D"1"
->         export CFLAGS=3D""
->         export LDFLAGS=3D""
-> -       export CGO_CFLAGS=3D"${TARGET_CFLAGS}"
-> -       export CGO_LDFLAGS=3D"${TARGET_LDFLAGS}"
->         export GO111MODULE=3Doff
->         export GOFLAGS=3D"-mod=3Dvendor"
->
-> diff --git a/recipes-containers/podman/podman_git.bb
-> b/recipes-containers/podman/podman_git.bb
-> index f09e01f8..5e5f1f9b 100644
-> --- a/recipes-containers/podman/podman_git.bb
-> +++ b/recipes-containers/podman/podman_git.bb
-> @@ -78,19 +78,11 @@ do_compile() {
->
->         ln -sf "../../../import/vendor/github.com/varlink/" ".gopath/src/
-> github.com/varlink"
->
-> -       export GOARCH=3D"${BUILD_GOARCH}"
->         export GOPATH=3D"${S}/src/.gopath"
->         export
-> GOROOT=3D"${STAGING_DIR_NATIVE}/${nonarch_libdir}/${HOST_SYS}/go"
->
->         cd ${S}/src/.gopath/src/"${PODMAN_PKG}"
->
-> -       # Pass the needed cflags/ldflags so that cgo
-> -       # can find the needed headers files and libraries
-> -       export GOARCH=3D${TARGET_GOARCH}
-> -       export CGO_ENABLED=3D"1"
-> -       export CGO_CFLAGS=3D"${CFLAGS} --sysroot=3D${STAGING_DIR_TARGET}"
-> -       export CGO_LDFLAGS=3D"${LDFLAGS} --sysroot=3D${STAGING_DIR_TARGET=
+>>         export CFLAGS=3D""
+>>         export LDFLAGS=3D""
+>>         export CC=3D"${CC}"
+>> diff --git a/recipes-containers/docker-compose/docker-compose_git.bb
+>> b/recipes-containers/docker-compose/docker-compose_git.bb
+>> index ccb36a16..de9427ae 100644
+>> --- a/recipes-containers/docker-compose/docker-compose_git.bb
+>> +++ b/recipes-containers/docker-compose/docker-compose_git.bb
+>> @@ -53,13 +53,9 @@ do_compile() {
+>>
+>>         # GOMODCACHE, GOPROXY, GOSUMDB, GOTOOLCHAIN are set by
+>> go-mod-vcs.bbclass
+>>         export
+>> GOPATH=3D"${S}/src/import/.gopath:${STAGING_DIR_TARGET}/${prefix}/local/=
+go"
+>> -       export CGO_ENABLED=3D"1"
+>>
+>>         # Pass the needed cflags/ldflags so that cgo
+>>         # can find the needed headers files and libraries
+>> -       export GOARCH=3D${TARGET_GOARCH}
+>> -       export CGO_CFLAGS=3D"${CFLAGS} --sysroot=3D${STAGING_DIR_TARGET}=
+"
+>> -       export CGO_LDFLAGS=3D"${LDFLAGS} --sysroot=3D${STAGING_DIR_TARGE=
+T}"
+>>
+>>         GO_LDFLAGS=3D"-s -w -X internal.Version=3D${PV} -X
+>> ${COMPOSE_PKG}/internal.Version=3D${PV}"
+>>         GO_BUILDTAGS=3D""
+>> @@ -85,4 +81,4 @@ INSANE_SKIP:${PN} +=3D "ldflags already-stripped"
+>>
+>>  # the AWS dependency is 8GB, try and control the
+>>  # size of the clones
+>> -BB_GIT_SHALLOW =3D "1"
+>> \ No newline at end of file
+>> +BB_GIT_SHALLOW =3D "1"
+>> diff --git a/recipes-containers/docker-distribution/
+>> docker-distribution_git.bb b/recipes-containers/docker-distribution/
+>> docker-distribution_git.bb
+>> index 5e37fe74..63001331 100644
+>> --- a/recipes-containers/docker-distribution/docker-distribution_git.bb
+>> +++ b/recipes-containers/docker-distribution/docker-distribution_git.bb
+>> @@ -28,12 +28,9 @@ do_compile() {
+>>         export GOROOT=3D"${STAGING_LIBDIR}/go"
+>>         # Pass the needed cflags/ldflags so that cgo
+>>         # can find the needed headers files and libraries
+>> -       export CGO_ENABLED=3D"1"
+>>         export CFLAGS=3D""
+>>         export LDFLAGS=3D""
+>> -       export CGO_CFLAGS=3D"${TARGET_CFLAGS}"
+>>         export GO_GCFLAGS=3D""
+>> -       export CGO_LDFLAGS=3D"${TARGET_LDFLAGS}"
+>>         export GO111MODULE=3Doff
+>>         export GO_BUILD_FLAGS=3D"-trimpath"
+>>
+>> diff --git a/recipes-containers/docker/docker.inc
+>> b/recipes-containers/docker/docker.inc
+>> index 99535a77..b0f52d77 100644
+>> --- a/recipes-containers/docker/docker.inc
+>> +++ b/recipes-containers/docker/docker.inc
+>> @@ -80,10 +80,6 @@ do_compile() {
+>>
+>>         # Pass the needed cflags/ldflags so that cgo
+>>         # can find the needed headers files and libraries
+>> -       export GOARCH=3D${TARGET_GOARCH}
+>> -       export CGO_ENABLED=3D"1"
+>> -       export CGO_CFLAGS=3D"${CFLAGS} --sysroot=3D${STAGING_DIR_TARGET}=
+"
+>> -       export CGO_LDFLAGS=3D"${LDFLAGS} --sysroot=3D${STAGING_DIR_TARGE=
+T}"
+>>         export DOCKER_BUILDTAGS=3D'${BUILD_TAGS} ${PACKAGECONFIG_CONFARG=
+S}'
+>>         export GO111MODULE=3Doff
+>>
+>> diff --git a/recipes-containers/kubernetes/kubernetes_git.bb
+>> b/recipes-containers/kubernetes/kubernetes_git.bb
+>> index f7b6940a..89c53930 100644
+>> --- a/recipes-containers/kubernetes/kubernetes_git.bb
+>> +++ b/recipes-containers/kubernetes/kubernetes_git.bb
+>> @@ -54,6 +54,9 @@ inherit cni_networking
+>>
+>>  COMPATIBLE_HOST =3D '(x86_64.*|arm.*|aarch64.*)-linux'
+>>
+>> +CGO_LDFLAGS ?=3D "${LDFLAGS}"
+>> +CGO_LDFLAGS:remove =3D "${DEBUG_PREFIX_MAP}"
+>> +
+>>  do_compile() {
+>>         export
+>> GOPATH=3D"${S}/src/import/.gopath:${S}/src/import/vendor:${STAGING_DIR_T=
+ARGET}/${prefix}/local/go:${UNPACKDIR}/git/"
+>>         cd ${S}
+>> @@ -70,7 +73,6 @@ do_compile() {
+>>         export CGO_LDFLAGS=3D"$(echo ${BUILD_LDFLAGS} | sed 's/-Wl,-O1//=
+g'
+>> | sed 's/-Wl,--dynamic-linker.*?\( \|$\)//g')"
+>>         export CC=3D"${BUILD_CC}"
+>>         export LD=3D"${BUILD_LD}"
+>> -
+>>         # set the toolchain to local to avoid an attempted fetch of
+>>         # valiation by the build
+>>         # https://github.com/actions/setup-go/issues/420
+>> @@ -85,8 +87,8 @@ do_compile() {
+>>         export GOARCH=3D"${TARGET_GOARCH}"
+>>         # Pass the needed cflags/ldflags so that cgo can find the needed
+>> headers files and libraries
+>>         export CGO_ENABLED=3D"1"
+>> -       export CGO_CFLAGS=3D"${CFLAGS} --sysroot=3D${STAGING_DIR_TARGET}=
+"
+>> -       export CGO_LDFLAGS=3D"${LDFLAGS} --sysroot=3D${STAGING_DIR_TARGE=
+T}"
+>> +       export CGO_CFLAGS=3D"${CFLAGS}"
+>> +       export CGO_LDFLAGS=3D"${CGO_LDFLAGS}"
+>>         export CFLAGS=3D""
+>>         export LDFLAGS=3D""
+>>         export CC=3D"${CC}"
+>> diff --git a/recipes-containers/nerdctl/nerdctl_git.bb
+>> b/recipes-containers/nerdctl/nerdctl_git.bb
+>> index 8f63b48c..eb873e23 100644
+>> --- a/recipes-containers/nerdctl/nerdctl_git.bb
+>> +++ b/recipes-containers/nerdctl/nerdctl_git.bb
+>> @@ -71,12 +71,6 @@ do_compile() {
+>>
+>>          cd ${S}/src/import
+>>
+>> -        # Pass the needed cflags/ldflags so that cgo
+>> -        # can find the needed headers files and libraries
+>> -        export GOARCH=3D${TARGET_GOARCH}
+>> -        export CGO_CFLAGS=3D"${CFLAGS} --sysroot=3D${STAGING_DIR_TARGET=
 }"
-> -
->         # podman now builds go-md2man and requires the host/build details
->         export NATIVE_GOOS=3D${BUILD_GOOS}
->         export NATIVE_GOARCH=3D${BUILD_GOARCH}
-> diff --git a/recipes-containers/runc/runc.inc
-> b/recipes-containers/runc/runc.inc
-> index b834ab14..ebff354f 100644
-> --- a/recipes-containers/runc/runc.inc
-> +++ b/recipes-containers/runc/runc.inc
-> @@ -57,9 +57,6 @@ do_compile() {
->
->         # Pass the needed cflags/ldflags so that cgo
->         # can find the needed headers files and libraries
-> -       export CGO_ENABLED=3D"1"
-> -       export CGO_CFLAGS=3D"${CFLAGS} --sysroot=3D${STAGING_DIR_TARGET}"
-> -       export CGO_LDFLAGS=3D"${LDFLAGS} --sysroot=3D${STAGING_DIR_TARGET=
-}"
->         export GO=3D${GO}
->
->         export CFLAGS=3D""
-> diff --git a/recipes-containers/skopeo/skopeo_git.bb
-> b/recipes-containers/skopeo/skopeo_git.bb
-> index 936d2c3d..1542f2a6 100644
-> --- a/recipes-containers/skopeo/skopeo_git.bb
-> +++ b/recipes-containers/skopeo/skopeo_git.bb
-> @@ -53,11 +53,8 @@ do_compile() {
->
->         # Pass the needed cflags/ldflags so that cgo
->         # can find the needed headers files and libraries
-> -       export CGO_ENABLED=3D"1"
->         export CFLAGS=3D""
->         export LDFLAGS=3D""
-> -       export CGO_CFLAGS=3D"${TARGET_CFLAGS}"
-> -       export CGO_LDFLAGS=3D"${TARGET_LDFLAGS}"
->
->         export GO111MODULE=3Doff
->         export EXTRA_LDFLAGS=3D"-s -w"
-> diff --git a/recipes-containers/umoci/umoci_git.bb
-> b/recipes-containers/umoci/umoci_git.bb
-> index f148b7fa..32868594 100644
-> --- a/recipes-containers/umoci/umoci_git.bb
-> +++ b/recipes-containers/umoci/umoci_git.bb
-> @@ -62,11 +62,8 @@ do_compile() {
->
->      # Pass the needed cflags/ldflags so that cgo
->      # can find the needed headers files and libraries
-> -    export CGO_ENABLED=3D"1"
->      export CFLAGS=3D""
->      export LDFLAGS=3D""
-> -    export CGO_CFLAGS=3D"${TARGET_CFLAGS}"
-> -    export CGO_LDFLAGS=3D"${TARGET_LDFLAGS}"
->
->      export GO111MODULE=3Doff
+>> -        export CGO_LDFLAGS=3D"${LDFLAGS} --sysroot=3D${STAGING_DIR_TARG=
+ET}"
+>> -
+>>          # -trimpath removes build paths from the binary (required for
+>> reproducible builds)
+>>          oe_runmake GO=3D${GO} BUILDTAGS=3D"${BUILDTAGS}"
+>> GO_BUILD_FLAGS=3D"-trimpath" binaries
+>>  }
+>> diff --git a/recipes-containers/oci-image-tools/oci-image-tools_git.bb
+>> b/recipes-containers/oci-image-tools/oci-image-tools_git.bb
+>> index 36026214..6c355377 100644
+>> --- a/recipes-containers/oci-image-tools/oci-image-tools_git.bb
+>> +++ b/recipes-containers/oci-image-tools/oci-image-tools_git.bb
+>> @@ -29,11 +29,8 @@ do_compile() {
+>>
+>>         # Pass the needed cflags/ldflags so that cgo
+>>         # can find the needed headers files and libraries
+>> -       export CGO_ENABLED=3D"1"
+>>         export CFLAGS=3D""
+>>         export LDFLAGS=3D""
+>> -       export CGO_CFLAGS=3D"${TARGET_CFLAGS}"
+>> -       export CGO_LDFLAGS=3D"${TARGET_LDFLAGS}"
+>>         export GO111MODULE=3Doff
+>>
+>>         export GOBUILDFLAGS=3D"-trimpath"
+>> diff --git a/recipes-containers/oci-runtime-tools/
+>> oci-runtime-tools_git.bb b/recipes-containers/oci-runtime-tools/
+>> oci-runtime-tools_git.bb
+>> index 81f51f9c..0ba69756 100644
+>> --- a/recipes-containers/oci-runtime-tools/oci-runtime-tools_git.bb
+>> +++ b/recipes-containers/oci-runtime-tools/oci-runtime-tools_git.bb
+>> @@ -25,11 +25,8 @@ do_compile() {
+>>
+>>         # Pass the needed cflags/ldflags so that cgo
+>>         # can find the needed headers files and libraries
+>> -       export CGO_ENABLED=3D"1"
+>>         export CFLAGS=3D""
+>>         export LDFLAGS=3D""
+>> -       export CGO_CFLAGS=3D"${TARGET_CFLAGS}"
+>> -       export CGO_LDFLAGS=3D"${TARGET_LDFLAGS}"
+>>         export GO111MODULE=3Doff
+>>         export GOFLAGS=3D"-mod=3Dvendor"
+>>
+>> diff --git a/recipes-containers/podman/podman_git.bb
+>> b/recipes-containers/podman/podman_git.bb
+>> index f09e01f8..5e5f1f9b 100644
+>> --- a/recipes-containers/podman/podman_git.bb
+>> +++ b/recipes-containers/podman/podman_git.bb
+>> @@ -78,19 +78,11 @@ do_compile() {
+>>
+>>         ln -sf "../../../import/vendor/github.com/varlink/" ".gopath/src=
+/
+>> github.com/varlink"
+>>
+>> -       export GOARCH=3D"${BUILD_GOARCH}"
+>>         export GOPATH=3D"${S}/src/.gopath"
+>>         export
+>> GOROOT=3D"${STAGING_DIR_NATIVE}/${nonarch_libdir}/${HOST_SYS}/go"
+>>
+>>         cd ${S}/src/.gopath/src/"${PODMAN_PKG}"
+>>
+>> -       # Pass the needed cflags/ldflags so that cgo
+>> -       # can find the needed headers files and libraries
+>> -       export GOARCH=3D${TARGET_GOARCH}
+>> -       export CGO_ENABLED=3D"1"
+>> -       export CGO_CFLAGS=3D"${CFLAGS} --sysroot=3D${STAGING_DIR_TARGET}=
+"
+>> -       export CGO_LDFLAGS=3D"${LDFLAGS} --sysroot=3D${STAGING_DIR_TARGE=
+T}"
+>> -
+>>         # podman now builds go-md2man and requires the host/build detail=
+s
+>>         export NATIVE_GOOS=3D${BUILD_GOOS}
+>>         export NATIVE_GOARCH=3D${BUILD_GOARCH}
+>> diff --git a/recipes-containers/runc/runc.inc
+>> b/recipes-containers/runc/runc.inc
+>> index b834ab14..ebff354f 100644
+>> --- a/recipes-containers/runc/runc.inc
+>> +++ b/recipes-containers/runc/runc.inc
+>> @@ -57,9 +57,6 @@ do_compile() {
+>>
+>>         # Pass the needed cflags/ldflags so that cgo
+>>         # can find the needed headers files and libraries
+>> -       export CGO_ENABLED=3D"1"
+>> -       export CGO_CFLAGS=3D"${CFLAGS} --sysroot=3D${STAGING_DIR_TARGET}=
+"
+>> -       export CGO_LDFLAGS=3D"${LDFLAGS} --sysroot=3D${STAGING_DIR_TARGE=
+T}"
+>>         export GO=3D${GO}
+>>
+>>         export CFLAGS=3D""
+>> diff --git a/recipes-containers/skopeo/skopeo_git.bb
+>> b/recipes-containers/skopeo/skopeo_git.bb
+>> index 936d2c3d..1542f2a6 100644
+>> --- a/recipes-containers/skopeo/skopeo_git.bb
+>> +++ b/recipes-containers/skopeo/skopeo_git.bb
+>> @@ -53,11 +53,8 @@ do_compile() {
+>>
+>>         # Pass the needed cflags/ldflags so that cgo
+>>         # can find the needed headers files and libraries
+>> -       export CGO_ENABLED=3D"1"
+>>         export CFLAGS=3D""
+>>         export LDFLAGS=3D""
+>> -       export CGO_CFLAGS=3D"${TARGET_CFLAGS}"
+>> -       export CGO_LDFLAGS=3D"${TARGET_LDFLAGS}"
+>>
+>>         export GO111MODULE=3Doff
+>>         export EXTRA_LDFLAGS=3D"-s -w"
+>> diff --git a/recipes-containers/umoci/umoci_git.bb
+>> b/recipes-containers/umoci/umoci_git.bb
+>> index f148b7fa..32868594 100644
+>> --- a/recipes-containers/umoci/umoci_git.bb
+>> +++ b/recipes-containers/umoci/umoci_git.bb
+>> @@ -62,11 +62,8 @@ do_compile() {
+>>
+>>      # Pass the needed cflags/ldflags so that cgo
+>>      # can find the needed headers files and libraries
+>> -    export CGO_ENABLED=3D"1"
+>>      export CFLAGS=3D""
+>>      export LDFLAGS=3D""
+>> -    export CGO_CFLAGS=3D"${TARGET_CFLAGS}"
+>> -    export CGO_LDFLAGS=3D"${TARGET_LDFLAGS}"
+>>
+>>      export GO111MODULE=3Doff
+>>
+>> --
+>> 2.34.1
+>>
+>>
+>>
+>>
+>>
 >
 > --
-> 2.34.1
+> - Thou shalt not follow the NULL pointer, for chaos and madness await the=
+e
+> at its end
+> - "Use the force Harry" - Gandalf, Star Trek II
 >
 >
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#9562):
-> https://lists.yoctoproject.org/g/meta-virtualization/message/9562
+> View/Reply Online (#9563):
+> https://lists.yoctoproject.org/g/meta-virtualization/message/9563
 > Mute This Topic: https://lists.yoctoproject.org/mt/117668816/1050810
 > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
 > Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [
@@ -437,20 +473,29 @@ b
 at its end
 - "Use the force Harry" - Gandalf, Star Trek II
 
---00000000000055e4e7064a273813
+--0000000000003b4e38064a273fea
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-size:small"><br></div></div><br><div class=3D"gmail_quote gmail_quote_con=
-tainer"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Feb 6, 2026 at 4:17=
-=E2=80=AFAM Changqing Li via <a href=3D"http://lists.yoctoproject.org">list=
-s.yoctoproject.org</a> &lt;<a href=3D"http://changqing.li">changqing.li</a>=
-=3D<a href=3D"mailto:windriver.com@lists.yoctoproject.org">windriver.com@li=
-sts.yoctoproject.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quo=
-te" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204=
-);padding-left:1ex">From: Changqing Li &lt;<a href=3D"mailto:changqing.li@w=
-indriver.com" target=3D"_blank">changqing.li@windriver.com</a>&gt;<br>
+t-size:small"><br></div></div><div dir=3D"ltr"><div dir=3D"ltr"><div style=
+=3D"font-size:small"><br></div></div><br><div class=3D"gmail_quote"><div di=
+r=3D"ltr" class=3D"gmail_attr">On Fri, Feb 6, 2026 at 7:49=E2=80=AFAM Bruce=
+ Ashfield via <a href=3D"http://lists.yoctoproject.org" target=3D"_blank">l=
+ists.yoctoproject.org</a> &lt;bruce.ashfield=3D<a href=3D"mailto:gmail.com@=
+lists.yoctoproject.org" target=3D"_blank">gmail.com@lists.yoctoproject.org<=
+/a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0=
+px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><=
+div dir=3D"ltr"><div dir=3D"ltr"><div style=3D"font-size:small"><br></div><=
+/div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">O=
+n Fri, Feb 6, 2026 at 4:17=E2=80=AFAM Changqing Li via <a href=3D"http://li=
+sts.yoctoproject.org" target=3D"_blank">lists.yoctoproject.org</a> &lt;<a h=
+ref=3D"http://changqing.li" target=3D"_blank">changqing.li</a>=3D<a href=3D=
+"mailto:windriver.com@lists.yoctoproject.org" target=3D"_blank">windriver.c=
+om@lists.yoctoproject.org</a>&gt; wrote:<br></div><blockquote class=3D"gmai=
+l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,20=
+4,204);padding-left:1ex">From: Changqing Li &lt;<a href=3D"mailto:changqing=
+.li@windriver.com" target=3D"_blank">changqing.li@windriver.com</a>&gt;<br>
 <br>
 * Refer [1], cgo will embeded cgo_ldflags in the intermediary output,<br>
 =C2=A0 which make content ID will be incfluenced by cgo_ldflags.<br>
@@ -463,14 +508,22 @@ inary not<br>
 * CGO_ENABLED/CGO_CFLAGS/CGO_LDFLAGS already exported in go.bbclass with<br=
 >
 =C2=A0 the same value, remove the not needed settings<br></blockquote><div>=
-<br></div><div><div class=3D"gmail_default" style=3D"font-size:small">refer=
- to all my previous email on the subject.</div><div class=3D"gmail_default"=
- style=3D"font-size:small"><br></div><div class=3D"gmail_default" style=3D"=
-font-size:small">I will continue to set these in the classes themselves.</d=
-iv><div class=3D"gmail_default" style=3D"font-size:small"><br></div><div cl=
-ass=3D"gmail_default" style=3D"font-size:small">Bruce</div><br></div><div>=
-=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
-.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br></div><div><div style=3D"font-size:small">refer to all my previous emai=
+l on the subject.</div><div style=3D"font-size:small"><br></div><div style=
+=3D"font-size:small">I will continue to set these in the classes themselves=
+.</div></div></div></div></blockquote><div><br></div><div><div class=3D"gma=
+il_default" style=3D"font-size:small">BUT, I will take the removal of the s=
+ysroot if we no longer need it.</div><div class=3D"gmail_default" style=3D"=
+font-size:small"><br></div><div class=3D"gmail_default" style=3D"font-size:=
+small">But the duplicated values from the go classes are entirely intention=
+al.</div><div class=3D"gmail_default" style=3D"font-size:small"><br></div><=
+div class=3D"gmail_default" style=3D"font-size:small">Bruce</div><br></div>=
+<div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=
+=3D"ltr"><div class=3D"gmail_quote"><div><div style=3D"font-size:small"><br=
+></div><div style=3D"font-size:small">Bruce</div><br></div><div>=C2=A0</div=
+><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border=
+-left:1px solid rgb(204,204,204);padding-left:1ex">
 <br>
 [1] <a href=3D"https://git.openembedded.org/openembedded-core/commit/?id=3D=
 1797741aad02b8bf429fac4b81e30cdda64b5448" rel=3D"noreferrer" target=3D"_bla=
@@ -898,11 +951,19 @@ errer" target=3D"_blank">umoci_git.bb</a><br>
 2.34.1<br>
 <br>
 <br>
+<br>
+<br>
+</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
+=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
+ignature">- Thou shalt not follow the NULL pointer, for chaos and madness a=
+wait thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star T=
+rek II<br><br></div></div>
+<br>
 -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
 Links: You receive all messages sent to this group.<br>
-View/Reply Online (#9562): <a href=3D"https://lists.yoctoproject.org/g/meta=
--virtualization/message/9562" rel=3D"noreferrer" target=3D"_blank">https://=
-lists.yoctoproject.org/g/meta-virtualization/message/9562</a><br>
+View/Reply Online (#9563): <a href=3D"https://lists.yoctoproject.org/g/meta=
+-virtualization/message/9563" rel=3D"noreferrer" target=3D"_blank">https://=
+lists.yoctoproject.org/g/meta-virtualization/message/9563</a><br>
 Mute This Topic: <a href=3D"https://lists.yoctoproject.org/mt/117668816/105=
 0810" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.org/m=
 t/117668816/1050810</a><br>
@@ -920,6 +981,7 @@ om" target=3D"_blank">bruce.ashfield@gmail.com</a>]<br>
 ignature">- Thou shalt not follow the NULL pointer, for chaos and madness a=
 wait thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star T=
 rek II<br><br></div></div>
+</div>
 
---00000000000055e4e7064a273813--
+--0000000000003b4e38064a273fea--
 
