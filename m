@@ -2,384 +2,440 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83631ECD6D0
-	for <webhook@archiver.kernel.org>; Wed, 11 Feb 2026 17:35:58 +0000 (UTC)
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.25044.1770831352738889995
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8ED42ECD6D1
+	for <webhook@archiver.kernel.org>; Wed, 11 Feb 2026 17:40:38 +0000 (UTC)
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.25166.1770831629725717607
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 11 Feb 2026 09:35:52 -0800
+ Wed, 11 Feb 2026 09:40:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=N9cF+Fiz;
- spf=pass (domain: gmail.com, ip: 209.85.210.175, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-824a6f2d816so290571b3a.3
-        for <meta-virtualization@lists.yoctoproject.org>; Wed, 11 Feb 2026 09:35:52 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1770831352; cv=none;
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=hmuhQBpQ;
+ spf=pass (domain: gmail.com, ip: 209.85.215.170, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-bde0f62464cso2205810a12.2
+        for <meta-virtualization@lists.yoctoproject.org>; Wed, 11 Feb 2026 09:40:29 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1770831629; cv=none;
         d=google.com; s=arc-20240605;
-        b=Oaj8DUhXKzfhHLqRYR+uWYsoP1RePtEtLWOl9taIHMThxe+As8av8BjdqBpkmiffnO
-         olMFuwP2bJjuOxG9zC9LNz1HPLa5O2aMO9ISwI8J3FCrdHJcbe91HrBar1ehlLT/uKiW
-         dTJkFUf1cGCidWf3/7DwFlnFYDfwQ4uFy5Ep2ivBAtc15ftAI1vtP4q6vec3kyqsRnLO
-         KtwN+hqIoVPtFFpG8zgFiw2BEb4Pe5CsQA8S9upBL5lttoTNUY3rlj0GQ1MnNYl79KpH
-         +1Me9bwPx2mQ9wYb2Tv8kwrfujKhOisvWVajlmSaitJ4zJvEQOojUNdhMocggN6RRueC
-         d+Kg==
+        b=gGm8nuJyylGteX7e9sBXTWVQpUUXUgNmeWPDK/auRKVXXbBqsDQ+AgNMByajNn9Cbq
+         /bG+eHR2+eVxxe9QF2Ma1aKEPQCUuqY0CWw5zYHFPTVtu6UPOl5eOHHZvzbw4giLDpAk
+         y7yEvWHONwWljb1PI21R7DFfMt0HH1RKs3/HQFLC9gMdoJOpq0tcIEHY298+Zt60Zkrj
+         Ojsm6oGQxXT13yKEEulImGSQxbK/fyXUK1PDh0d2ZAw47G7IxdguTvG93SqgQkDz0kMf
+         WUSwq6ZVtvGuOF6D6Jo4+nwEsaqo0yPeO3/imdelS9B4THeiOWyVPQUkTSdtje/V4ZDu
+         cKMg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=knjDYOPL4o/6GDE5/GnDxQ+NvCwS/XurvMh8UMPHGBw=;
-        fh=ElWWgB0vbEOyVorgThEM0Tnvq5FYowdI/qluCM/iTjI=;
-        b=dRTCL2bzc+8iHrdanYRqamc6kNKWOQ8iC0UPLJKbR52YED3AZdPh7ur9WLercl98/E
-         9e/gurwdDzX2z7tAwWgN9ZbEb+tXW6gJifM2KRhuIAfNR+84wJWSrmL++urgih9IjGbh
-         l5hW/C4H3wbRYolGKKuKQQVrAWYgvCwS6KCwXy0jbr73Gp359pDUnoqUQe51euW4bO3q
-         llsxHsSH7ppjXoAEA68v8eUZ0mpAZs61g+8JjPDUWtLHGc0simtz8EVX8JX0ueRX51b4
-         GncBEC3yDJkTh0iDnQ+ZpxJcoYaOGpxnbEopRVMZt75FszgHMb2uxmQAoG+jBakWUQlQ
-         dHPA==;
+        bh=PpPHPbTGjbXIPc+9uUAK70RFL9MaANYRIDUsweYmc+c=;
+        fh=QDtyf62Y2styJv7atwi1VbtJZWV79E45pt/iuH2MoUQ=;
+        b=YN5rvTCdVLCcDDyYJHCgu8e+p1K+WRFQ2A7jY96FpHZn/R6Llqn1EsM6Vs3w5fdNJS
+         XUJ7DFyUGrbATptov1GLcmva1Vym+WOT2VEsAy9AgCxgls8qy9qGyuyoOFNHXy9Y5Law
+         kam/fFFEgYPc9EukKZ8gSPtNr4KejaPGrYrnXBEom5OK0jSnFV0KC45Kw9lQq9AkXq92
+         BASgP0kJt9lEiUdAqD6JoqqbzmM2v42qmfZZEA0JXtYGx1w/f8Z38lbUid/nvQ0unvRP
+         Uhyctv8sossA6UH5pa15DCfShgxei6XFGh5M83+6wqslpY29sLsa2muX3iaVkFSYZe+z
+         xSjQ==;
         darn=lists.yoctoproject.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770831352; x=1771436152; darn=lists.yoctoproject.org;
+        d=gmail.com; s=20230601; t=1770831629; x=1771436429; darn=lists.yoctoproject.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=knjDYOPL4o/6GDE5/GnDxQ+NvCwS/XurvMh8UMPHGBw=;
-        b=N9cF+FizT48Dvvhk0iU6ZH5it2YC6pZ0DoQKmKye9IYcAsXkgWTcWHJwSRfi0Y+Gnp
-         +yA1jiYfa9vqM5/r5sbP9AzHBv1EJzHzVm1E9iXvNj17DH4mxd90IfpdhSYnSDS+5sDl
-         vppcyv+sKmjAVvgt3JI8U9l83HhJ+kgGbLXPVfnfmH/62regG6h8bjjFstwuJzahrVKx
-         WbPoOsH74N++cSXIMuWqEbKCDduAr7DnisqpPDlt97PGtasCAGzpKsjpzOdrGT4dBdcc
-         72sBzDsziR7lIwz/+rHTMntQGFET9Kx7jWBfta3g6L9xHz5h2J7WHYezRDFM38q9CxbU
-         tpqA==
+        bh=PpPHPbTGjbXIPc+9uUAK70RFL9MaANYRIDUsweYmc+c=;
+        b=hmuhQBpQakyz3tD4fbXQiFnvtHlQZuX2mSMd/w7IoLaX2kAoDliPM1jCl66rzvf8ZL
+         WbWwT1EqeCjusDtPdooWsTvD1qPHcDHPPaVpKK7Ltxr3Qwws9/PMrCZEQrVBLNvTDOs4
+         k/pYxkjyL4QUucbw1pts2gRmMltGQzX7g4knFSCNmqmriFukcmDI/UwP7AvZ38Bii81v
+         Y9J2KY6iQRcAckJWkttHb9otF2LIXhhAwpSF5zka3oEcm/cnUKK+nhfAhGEbbuiNMP19
+         MPpczfw5Ul7VB1HwiB1+QEDcYIVAOMhwvvZZcfGLnneThj1+yMc/8L2ff1RFs5iEESBp
+         K5Dg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770831352; x=1771436152;
+        d=1e100.net; s=20230601; t=1770831629; x=1771436429;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=knjDYOPL4o/6GDE5/GnDxQ+NvCwS/XurvMh8UMPHGBw=;
-        b=hGQQwtQBHQHa1sw7moOuqQPlMn1xdAkPrbvzkD20fS5dRLn1LaTl5YJqvIN4dUWqCc
-         LrpWg0rlVp+Ym/X9C4v8nrhawdth36Pn8AbiuLpytb1C/9tlDzMQOlYhdQPimQWI6m+U
-         C6UcrQywID3VeBJUI8l+7Pe8aKEB7YBQtuRSB1auuGsNB6jNaCF5q4W4qEM7YNYg1U7a
-         jh+awey0XsT79P1g2l0q73lAcBUk+2VVKZXSx3tzX6u71m5Pa2ug2JI0sAH4d5yIH44v
-         DZ8xNJxF/VJb6zC404A6NV4QT0Qfn4HJ8L8eXGaILp6ftG5l5jki8rGlA7L+CFZtBpWE
-         NVkg==
-X-Forwarded-Encrypted: i=1; AJvYcCUqjPYafxU4YiuEL232zJFJ3OCrDdr6Ws+4hC414+F6Pj52ImRwyH5oRTEePjdBrEmKoovcchS0MQ9dL+d6GMNcn9cy@lists.yoctoproject.org
-X-Gm-Message-State: AOJu0YxqaOO2BI3FU3RWPjFzhr1Kipr42lbHGgLduJ2M9XYqM5TAt1vU
-	obpEkKxjTFxB5+fhRPVyalrSkM10fZFYHWGEK6zMzVp1v42sbD9EzpqeTuBBtqs1dcd8pjYqI+S
-	3LovyLv3W1ziQ76T/KQIvEzH4z2FTwk8=
-X-Gm-Gg: AZuq6aIHWZ5Caz1Eq7xByTontuKJ72fiqbPxzLo0TclwxO7RHXaW3/2jMqjWjPnvAXn
-	RJiapPI462PWOUnWefPUHtdaQNMeCfNyRSd3QtNlVlCwVAeso1qb+5p5kyg3XoPYxwazW1otM0U
-	Z+y1iUU3OUpwFJMZ3VwojsOHHmiGHwx6t9MRqZZAST8AZOtymG4GdGBYRXEZMSe+5U1oBNrUJo6
-	jbVlVzRWryBoz1Jbd7xUfFF3XI4yrso5PI9MeVBEA6fWgxOOyVCpE7E7tDTEM/0VTz6oPlMxCP9
-	322fnGqJyuFEsiDHzECI+zjLOKokI9GfKpgnnd1+
-X-Received: by 2002:a17:90b:578c:b0:33b:bed8:891c with SMTP id
- 98e67ed59e1d1-3568f8b88famr129349a91.23.1770831351898; Wed, 11 Feb 2026
- 09:35:51 -0800 (PST)
+        bh=PpPHPbTGjbXIPc+9uUAK70RFL9MaANYRIDUsweYmc+c=;
+        b=IKX8Qnrjc+j4ez7oAY+wjuMKN042lqIu5ooCTTQKKuiU/Z5rN8nTSTWvSGgTq3uL+S
+         mf81mf1VLvh0gly/Lhj0Wf4UGFHBCgp2oy6WraKdxjc+Kw5aYtoqo91f9DU0JF7nXakG
+         E7V9BJPFkHvW2s7+yIj49zBGMbj97J0/Gf0AGvo2nOzQg2QD9YZiUBXdZf7giXlH2JvS
+         yzYBRpzMKYZYfGH3cWGnFEYGyhDc2YJfiKn2KDrXRJQqy3rLCamo2bMvGGqidVHe/HLd
+         yFz47g5UjHKrihqOxwD+akRfq98OGy2CaJzO+DAkEt7l9ESNQUX0ZtFoRDzd9SipoxHE
+         dYag==
+X-Forwarded-Encrypted: i=1; AJvYcCUlLA9kC8JbHuejA89u+oFRjhNFTJL7rnc/b1qdWbU07eY9xm2UH+ovVOhRSDU532//BcZ0TtrXQIkNHfdtTUy6LdrU@lists.yoctoproject.org
+X-Gm-Message-State: AOJu0YwsrRYQZ2BhzP5Rhuruye+a2VgdKu372t/zP1GIwYK/WaImYNSj
+	I2bqJJhQ6bNAshhALsKyQHakGlO13YDkmhX4B3B7SdFdkHv9HMwn/93hKFEKyRNrSpy5aHdfboe
+	cUwSXG2+r1Noe4QVA2/cuA7ww/mhwB84=
+X-Gm-Gg: AZuq6aJm25PpKawnXwpsVomeXNnPEpFOV93wBbZwW/2or5/sGPopxkq8QJvXvUwyuhe
+	Ehk532JtvnCXQWBYv0t/+7dNHwjj28Qb4mx3oDAKJliuK8xzpNMpVw0PrmfexWHRQvNJeO/El5j
+	NwBmU77U8Em5R4bbIqdWV+XIK6ncauGNZ9P8oqkyM8M5MDNcjzwgQyj9ejiaWQc6by+WbedXajB
+	xDTmGtp9n02hhiJz1NwVZS7KRAqMYMmJfRA1MdfSQ7HJ66syNxzWX8M4xQHWdHQ3Ei2byKJWqzn
+	/kBv9TPWJFCj0H9aqTqhoBpungvcheR2zcepzHcx
+X-Received: by 2002:a17:90b:3503:b0:352:c995:808a with SMTP id
+ 98e67ed59e1d1-3568f327382mr146431a91.14.1770831628992; Wed, 11 Feb 2026
+ 09:40:28 -0800 (PST)
 MIME-Version: 1.0
 References: <20260126034434.4242-1-liuyd.fnst@fujitsu.com> <CADkTA4OmUhcmcLHtCD8uGBA+u3UT4PtKx-BuuZryD6LAvUo2Bg@mail.gmail.com>
  <TY3PR01MB10110601F0DF398F5ABB600FA9B63A@TY3PR01MB10110.jpnprd01.prod.outlook.com>
- <CADkTA4MrXa7_+AAtb+CaTFqf9w61exv4aLQcxF5T5CvaFkMFvQ@mail.gmail.com> <DB5PR02MB10213487F3C04A7F5A1806158EF63A@DB5PR02MB10213.eurprd02.prod.outlook.com>
-In-Reply-To: <DB5PR02MB10213487F3C04A7F5A1806158EF63A@DB5PR02MB10213.eurprd02.prod.outlook.com>
+ <CADkTA4MrXa7_+AAtb+CaTFqf9w61exv4aLQcxF5T5CvaFkMFvQ@mail.gmail.com>
+ <DB5PR02MB10213487F3C04A7F5A1806158EF63A@DB5PR02MB10213.eurprd02.prod.outlook.com>
+ <189341BBB2E2D2DD.653184@lists.yoctoproject.org>
+In-Reply-To: <189341BBB2E2D2DD.653184@lists.yoctoproject.org>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 11 Feb 2026 12:35:39 -0500
-X-Gm-Features: AZwV_QhZV3aMsBju0NP1e2QmWjQEsQnm3r6VL9CSOuL4EvlP62SVJs4j-8f9J1I
-Message-ID: <CADkTA4P5cGt5zHH5JJm35TEvj_J4cdkSPqG9-NJeCQ5U2S+Pyw@mail.gmail.com>
+Date: Wed, 11 Feb 2026 12:40:17 -0500
+X-Gm-Features: AZwV_QiGHYFu1NBR1nECEublPJfsn5gJL6AVz2a46iXKVmuRUZ3WjaOnjYHvIec
+Message-ID: <CADkTA4MUSs21j0ML=ET6kw2j+4WOa7=SL12R5DmYQkj4=XGJfw@mail.gmail.com>
 Subject: Re: [meta-virtualization][PATCH] irqbalance: Fix PACKAGECONFIG[systemd]
  parameter
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: "Yiding Liu (Fujitsu)" <liuyd.fnst@fujitsu.com>, 
+To: bruce.ashfield@gmail.com
+Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, 
+	"Yiding Liu (Fujitsu)" <liuyd.fnst@fujitsu.com>, 
 	"meta-virtualization@lists.yoctoproject.org" <meta-virtualization@lists.yoctoproject.org>
-Content-Type: multipart/alternative; boundary="000000000000afe479064a8fcdb4"
+Content-Type: multipart/alternative; boundary="000000000000340431064a8fdef7"
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Wed, 11 Feb 2026 17:35:58 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9579
+ <meta-virtualization@lists.yoctoproject.org>; Wed, 11 Feb 2026 17:40:38 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9580
 
---000000000000afe479064a8fcdb4
+--000000000000340431064a8fdef7
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-We'll agree to disagree :)
+On Wed, Feb 11, 2026 at 12:35=E2=80=AFPM Bruce Ashfield via lists.yoctoproj=
+ect.org
+<bruce.ashfield=3Dgmail.com@lists.yoctoproject.org> wrote:
+
+> We'll agree to disagree :)
+>
+
+I should add that I didn't dig into if the false case of the systemd
+packageconfig runs when it isn't set.  If it doesn't then yes, obviously we
+need it somewhere else.
+
+I'd very much prefer a sysvinit package config if someone is enabling this,
+and not using systemd.  So the false case doesn't really matter from that
+point of view.
 
 Bruce
 
-On Wed, Feb 11, 2026 at 10:58=E2=80=AFAM Peter Kjellerstedt <
-peter.kjellerstedt@axis.com> wrote:
 
-> Umm, I would argue that the initially proposed patch is correct (except
-> for a better explanation in the commit message). If the
-> --with-pkgconfdir=3D${sysconfdir}" shall be set both with and without
-> systemd enabled, then adding it to EXTRA_OECONF is the correct thing to
-> do as it shall always be set regardless of any PACKAGECONFIG.
->
->
->
-> //Peter
->
->
->
-> *From:* meta-virtualization@lists.yoctoproject.org <
-> meta-virtualization@lists.yoctoproject.org> *On Behalf Of *Bruce Ashfield
-> via lists.yoctoproject.org
-> *Sent:* den 11 februari 2026 15:12
-> *To:* Yiding Liu (Fujitsu) <liuyd.fnst@fujitsu.com>
-> *Cc:* meta-virtualization@lists.yoctoproject.org
-> *Subject:* Re: [meta-virtualization][PATCH] irqbalance: Fix
-> PACKAGECONFIG[systemd] parameter
->
->
->
->
->
->
->
-> On Wed, Feb 11, 2026 at 2:09=E2=80=AFAM Yiding Liu (Fujitsu) <
-> liuyd.fnst@fujitsu.com> wrote:
->
-> Hi Bruce
->
->
->
-> >Which is what that first field is trying to do. So is there an
->
-> issue in the configure that isn't passing it through ? Is it
->
-> the combination of that plus our EXTRA_OECONF ?
->
->
->
-> There is no issue with "PACKAGECONFIG[systemd] =3D "--with-systemd
-> --with-pkgconfdir=3D${sysconfdir},,,"
->
->
->
-> But it only works when using systemd, so in that condition, there is no
-> do_package QA Issue about install path.
->
->
->
-> When using sysvinit, PACKAGECONFIG[systemd] can't work, so I need to make
-> this patch to fix it.
->
->
->
-> I want to make "=E2=80=94with-pkgconfdir=3D${sysconfdir}" works for both =
-systemd and
-> sysvinit.
->
->
->
->
->
-> This is the information that needs to be in the commit message. The goal
-> of fixing the
->
-> QA error when sysvinit is used.
->
->
-> But since the packageconfig has a field for adding the options when the
-> packagconfig is
->
-> disabled, then we should be able to collapse everything to something like
-> this:
->
->
->
-> # when systemd is not enabled in PACKAGECONFiG, we just pass
-> --with-pkgconfdir for sysvinit
->
-> PACKAGECONFIG[systemd] =3D "--with-systemd
-> --with-pkgconfdir=3D${sysconfdir},--with-pkgconfdir=3D${sysconfdir},syste=
-md,"
->
->
->
-> unless you have both sysvinit and systemd enabled at once.
->
->
->
-> Alternatively, we introduce a sysvinit PACKAGE config and pass the option=
-s
-> there.
->
->
-> The packageconfig is self documenting as to why we want the option passed=
-,
-> versus
->
-> moving it to the EXTRA_OECONF.
+
 >
 > Bruce
 >
+> On Wed, Feb 11, 2026 at 10:58=E2=80=AFAM Peter Kjellerstedt <
+> peter.kjellerstedt@axis.com> wrote:
 >
->
->
->
->
->
->
->
->
->
-> Liu
->
->
-> ------------------------------
->
-> *=E5=8F=91=E4=BB=B6=E4=BA=BA**:* Bruce Ashfield <bruce.ashfield@gmail.com=
->
-> *=E5=8F=91=E9=80=81=E6=97=B6=E9=97=B4**:* 2026=E5=B9=B42=E6=9C=885=E6=97=
+>> Umm, I would argue that the initially proposed patch is correct (except
+>> for a better explanation in the commit message). If the
+>> --with-pkgconfdir=3D${sysconfdir}" shall be set both with and without
+>> systemd enabled, then adding it to EXTRA_OECONF is the correct thing to
+>> do as it shall always be set regardless of any PACKAGECONFIG.
+>>
+>>
+>>
+>> //Peter
+>>
+>>
+>>
+>> *From:* meta-virtualization@lists.yoctoproject.org <
+>> meta-virtualization@lists.yoctoproject.org> *On Behalf Of *Bruce
+>> Ashfield via lists.yoctoproject.org
+>> *Sent:* den 11 februari 2026 15:12
+>> *To:* Yiding Liu (Fujitsu) <liuyd.fnst@fujitsu.com>
+>> *Cc:* meta-virtualization@lists.yoctoproject.org
+>> *Subject:* Re: [meta-virtualization][PATCH] irqbalance: Fix
+>> PACKAGECONFIG[systemd] parameter
+>>
+>>
+>>
+>>
+>>
+>>
+>>
+>> On Wed, Feb 11, 2026 at 2:09=E2=80=AFAM Yiding Liu (Fujitsu) <
+>> liuyd.fnst@fujitsu.com> wrote:
+>>
+>> Hi Bruce
+>>
+>>
+>>
+>> >Which is what that first field is trying to do. So is there an
+>>
+>> issue in the configure that isn't passing it through ? Is it
+>>
+>> the combination of that plus our EXTRA_OECONF ?
+>>
+>>
+>>
+>> There is no issue with "PACKAGECONFIG[systemd] =3D "--with-systemd
+>> --with-pkgconfdir=3D${sysconfdir},,,"
+>>
+>>
+>>
+>> But it only works when using systemd, so in that condition, there is no
+>> do_package QA Issue about install path.
+>>
+>>
+>>
+>> When using sysvinit, PACKAGECONFIG[systemd] can't work, so I need to mak=
+e
+>> this patch to fix it.
+>>
+>>
+>>
+>> I want to make "=E2=80=94with-pkgconfdir=3D${sysconfdir}" works for both=
+ systemd
+>> and sysvinit.
+>>
+>>
+>>
+>>
+>>
+>> This is the information that needs to be in the commit message. The goal
+>> of fixing the
+>>
+>> QA error when sysvinit is used.
+>>
+>>
+>> But since the packageconfig has a field for adding the options when the
+>> packagconfig is
+>>
+>> disabled, then we should be able to collapse everything to something lik=
+e
+>> this:
+>>
+>>
+>>
+>> # when systemd is not enabled in PACKAGECONFiG, we just pass
+>> --with-pkgconfdir for sysvinit
+>>
+>> PACKAGECONFIG[systemd] =3D "--with-systemd
+>> --with-pkgconfdir=3D${sysconfdir},--with-pkgconfdir=3D${sysconfdir},syst=
+emd,"
+>>
+>>
+>>
+>> unless you have both sysvinit and systemd enabled at once.
+>>
+>>
+>>
+>> Alternatively, we introduce a sysvinit PACKAGE config and pass the
+>> options there.
+>>
+>>
+>> The packageconfig is self documenting as to why we want the option
+>> passed, versus
+>>
+>> moving it to the EXTRA_OECONF.
+>>
+>> Bruce
+>>
+>>
+>>
+>>
+>>
+>>
+>>
+>>
+>>
+>>
+>>
+>> Liu
+>>
+>>
+>> ------------------------------
+>>
+>> *=E5=8F=91=E4=BB=B6=E4=BA=BA**:* Bruce Ashfield <bruce.ashfield@gmail.co=
+m>
+>> *=E5=8F=91=E9=80=81=E6=97=B6=E9=97=B4**:* 2026=E5=B9=B42=E6=9C=885=E6=97=
 =A5 09:50
-> *=E6=94=B6=E4=BB=B6=E4=BA=BA**:* Liu, Yiding/=E5=88=98 =E4=B9=99=E4=B8=81=
- <liuyd.fnst@fujitsu.com>
-> *=E6=8A=84=E9=80=81**:* meta-virtualization@lists.yoctoproject.org <
-> meta-virtualization@lists.yoctoproject.org>
-> *=E4=B8=BB**=E9=A2=98**:* Re: [meta-virtualization][PATCH] irqbalance: Fi=
-x
-> PACKAGECONFIG[systemd] parameter
+>> *=E6=94=B6=E4=BB=B6=E4=BA=BA**:* Liu, Yiding/=E5=88=98 =E4=B9=99=E4=B8=
+=81 <liuyd.fnst@fujitsu.com>
+>> *=E6=8A=84=E9=80=81**:* meta-virtualization@lists.yoctoproject.org <
+>> meta-virtualization@lists.yoctoproject.org>
+>> *=E4=B8=BB**=E9=A2=98**:* Re: [meta-virtualization][PATCH] irqbalance: F=
+ix
+>> PACKAGECONFIG[systemd] parameter
+>>
+>>
+>>
+>> You don't often get email from bruce.ashfield@gmail.com. Learn why this
+>> is important <https://aka.ms/LearnAboutSenderIdentification>
+>>
+>>
+>>
+>>
+>>
+>> On Sun, Jan 25, 2026 at 10:44=E2=80=AFPM Yiding Liu (Fujitsu) via
+>> lists.yoctoproject.org <liuyd.fnst=3Dfujitsu.com@lists.yoctoproject.org>
+>> wrote:
+>>
+>> irqbalance: correct to install /etc/default for sysvinit
+>>
+>> 1. This commit uses option --with-pkgconfdir to correct to install
+>> /etc/default
+>>    Without this fix, there will show do_package QA Issue
+>>    ERROR: irqbalance-1.9.4+git-r0 do_package: QA Issue: irqbalance:
+>> Files/directories were installed but not shipped in any package:
+>>      /usr/etc
+>>      /usr/etc/default
+>>      /usr/etc/default/irqbalance.env
+>>
+>> 2. Merge DEPENDS for systemd into PACKAGECONFIG[systemd]
+>>
+>> Signed-off-by: Liu Yiding <liuyd.fnst@fujitsu.com>
+>> ---
+>>  recipes-extended/irqbalance/irqbalance.inc | 4 ++--
+>>  1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/recipes-extended/irqbalance/irqbalance.inc
+>> b/recipes-extended/irqbalance/irqbalance.inc
+>> index 35b6388e..b7b34a0b 100644
+>> --- a/recipes-extended/irqbalance/irqbalance.inc
+>> +++ b/recipes-extended/irqbalance/irqbalance.inc
+>> @@ -14,7 +14,6 @@ LIC_FILES_CHKSUM =3D
+>> "file://COPYING;md5=3D94d55d512a9ba36caa9b7df079bae19f \
+>>                    "
+>>
+>>  DEPENDS =3D "glib-2.0"
+>> -DEPENDS +=3D "${@bb.utils.contains('DISTRO_FEATURES', 'systemd',
+>> 'systemd', '', d)}"
+>>
+>>  INITSCRIPT_NAME =3D "irqbalanced"
+>>  INITSCRIPT_PARAMS =3D "defaults"
+>> @@ -25,6 +24,7 @@ SYSTEMD_PACKAGES =3D "irqbalance"
+>>  SYSTEMD_SERVICE:irqbalance =3D "irqbalance.service"
+>>
+>>  EXTRA_OECONF =3D "--program-transform-name=3D \
+>> +                --with-pkgconfdir=3D${sysconfdir} \
+>>                "
+>>
+>>  # let the recipes or appends define options
+>> @@ -34,7 +34,7 @@ PACKAGECONFIG ?=3D "${@bb.utils.contains('DISTRO_FEATU=
+RES',
+>> 'systemd', 'systemd',
+>>  #
+>>  PACKAGECONFIG[numa] =3D
+>> <$%7b@bb.utils.contains('DISTRO_FEATURES',%20'systemd',%20'systemd',%0b%=
+C2%A0#+%C2%A0PACKAGECONFIG[numa]+=3D>
+>> "--enable-numa,--disable-numa,numactl,"
+>>  PACKAGECONFIG[libcap-ng] =3D
+>> "--with-libcap-ng,--without-libcap-ng,libcap-ng,"
+>> -PACKAGECONFIG[systemd] =3D "--with-systemd
+>> --with-pkgconfdir=3D${sysconfdir},,,"
+>>
+>>
+>>
+>> We should explain this change more in the commit message.
+>>
+>> irqbalance uses autotools and that's one of the classes that
+>>
+>> is supposed to pick up PACKAGECONFIG_CONFARGS.
+>>
+>>
+>>
+>> Which is what that first field is trying to do. So is there an
+>>
+>> issue in the configure that isn't passing it through ? Is it
+>>
+>> the combination of that plus our EXTRA_OECONF ?
+>>
+>>
+>>
+>> Bruce
+>>
+>>
+>>
+>> +PACKAGECONFIG[systemd] =3D "--with-systemd,,systemd"
+>>
+>>  do_install () {
+>>          oe_runmake 'DESTDIR=3D${D}' install
+>> --
+>> 2.43.0
+>>
+>>
+>>
+>>
+>>
+>>
+>>
+>> --
+>>
+>> - Thou shalt not follow the NULL pointer, for chaos and madness await
+>> thee at its end
+>> - "Use the force Harry" - Gandalf, Star Trek II
+>>
+>>
+>>
+>>
+>> --
+>>
+>> - Thou shalt not follow the NULL pointer, for chaos and madness await
+>> thee at its end
+>> - "Use the force Harry" - Gandalf, Star Trek II
+>>
 >
 >
->
-> You don't often get email from bruce.ashfield@gmail.com. Learn why this
-> is important <https://aka.ms/LearnAboutSenderIdentification>
->
->
->
->
->
-> On Sun, Jan 25, 2026 at 10:44=E2=80=AFPM Yiding Liu (Fujitsu) via
-> lists.yoctoproject.org <liuyd.fnst=3Dfujitsu.com@lists.yoctoproject.org>
-> wrote:
->
-> irqbalance: correct to install /etc/default for sysvinit
->
-> 1. This commit uses option --with-pkgconfdir to correct to install
-> /etc/default
->    Without this fix, there will show do_package QA Issue
->    ERROR: irqbalance-1.9.4+git-r0 do_package: QA Issue: irqbalance:
-> Files/directories were installed but not shipped in any package:
->      /usr/etc
->      /usr/etc/default
->      /usr/etc/default/irqbalance.env
->
-> 2. Merge DEPENDS for systemd into PACKAGECONFIG[systemd]
->
-> Signed-off-by: Liu Yiding <liuyd.fnst@fujitsu.com>
-> ---
->  recipes-extended/irqbalance/irqbalance.inc | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/recipes-extended/irqbalance/irqbalance.inc
-> b/recipes-extended/irqbalance/irqbalance.inc
-> index 35b6388e..b7b34a0b 100644
-> --- a/recipes-extended/irqbalance/irqbalance.inc
-> +++ b/recipes-extended/irqbalance/irqbalance.inc
-> @@ -14,7 +14,6 @@ LIC_FILES_CHKSUM =3D
-> "file://COPYING;md5=3D94d55d512a9ba36caa9b7df079bae19f \
->                    "
->
->  DEPENDS =3D "glib-2.0"
-> -DEPENDS +=3D "${@bb.utils.contains('DISTRO_FEATURES', 'systemd',
-> 'systemd', '', d)}"
->
->  INITSCRIPT_NAME =3D "irqbalanced"
->  INITSCRIPT_PARAMS =3D "defaults"
-> @@ -25,6 +24,7 @@ SYSTEMD_PACKAGES =3D "irqbalance"
->  SYSTEMD_SERVICE:irqbalance =3D "irqbalance.service"
->
->  EXTRA_OECONF =3D "--program-transform-name=3D \
-> +                --with-pkgconfdir=3D${sysconfdir} \
->                "
->
->  # let the recipes or appends define options
-> @@ -34,7 +34,7 @@ PACKAGECONFIG ?=3D "${@bb.utils.contains('DISTRO_FEATUR=
-ES',
-> 'systemd', 'systemd',
->  #
->  PACKAGECONFIG[numa] =3D
-> <$%7b@bb.utils.contains('DISTRO_FEATURES',%20'systemd',%20'systemd',%0b%C=
-2%A0#+%C2%A0PACKAGECONFIG[numa]+=3D>
-> "--enable-numa,--disable-numa,numactl,"
->  PACKAGECONFIG[libcap-ng] =3D
-> "--with-libcap-ng,--without-libcap-ng,libcap-ng,"
-> -PACKAGECONFIG[systemd] =3D "--with-systemd
-> --with-pkgconfdir=3D${sysconfdir},,,"
->
->
->
-> We should explain this change more in the commit message.
->
-> irqbalance uses autotools and that's one of the classes that
->
-> is supposed to pick up PACKAGECONFIG_CONFARGS.
->
->
->
-> Which is what that first field is trying to do. So is there an
->
-> issue in the configure that isn't passing it through ? Is it
->
-> the combination of that plus our EXTRA_OECONF ?
->
->
->
-> Bruce
->
->
->
-> +PACKAGECONFIG[systemd] =3D "--with-systemd,,systemd"
->
->  do_install () {
->          oe_runmake 'DESTDIR=3D${D}' install
 > --
-> 2.43.0
->
->
->
->
->
->
->
-> --
->
 > - Thou shalt not follow the NULL pointer, for chaos and madness await the=
 e
 > at its end
 > - "Use the force Harry" - Gandalf, Star Trek II
 >
 >
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#9579):
+> https://lists.yoctoproject.org/g/meta-virtualization/message/9579
+> Mute This Topic: https://lists.yoctoproject.org/mt/117756607/1050810
+> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [
+> bruce.ashfield@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 >
 >
-> --
->
-> - Thou shalt not follow the NULL pointer, for chaos and madness await the=
-e
-> at its end
-> - "Use the force Harry" - Gandalf, Star Trek II
->
-
 
 --=20
 - Thou shalt not follow the NULL pointer, for chaos and madness await thee
 at its end
 - "Use the force Harry" - Gandalf, Star Trek II
 
---000000000000afe479064a8fcdb4
+--000000000000340431064a8fdef7
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-size:small">We&#39;ll agree to disagree :)</div><div class=3D"gmail_defau=
-lt" style=3D"font-size:small"><br></div><div class=3D"gmail_default" style=
-=3D"font-size:small">Bruce</div></div><br><div class=3D"gmail_quote gmail_q=
-uote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Feb 11, 2026 =
-at 10:58=E2=80=AFAM Peter Kjellerstedt &lt;<a href=3D"mailto:peter.kjellers=
-tedt@axis.com">peter.kjellerstedt@axis.com</a>&gt; wrote:<br></div><blockqu=
-ote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px=
- solid rgb(204,204,204);padding-left:1ex"><div class=3D"msg1169981970747823=
-848">
+t-size:small"><br></div></div><br><div class=3D"gmail_quote gmail_quote_con=
+tainer"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Feb 11, 2026 at 12:35=
+=E2=80=AFPM Bruce Ashfield via <a href=3D"http://lists.yoctoproject.org">li=
+sts.yoctoproject.org</a> &lt;bruce.ashfield=3D<a href=3D"mailto:gmail.com@l=
+ists.yoctoproject.org">gmail.com@lists.yoctoproject.org</a>&gt; wrote:<br><=
+/div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bo=
+rder-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><di=
+v dir=3D"ltr"><div style=3D"font-size:small">We&#39;ll agree to disagree :)=
+</div></div></div></blockquote><div><br></div><div><div class=3D"gmail_defa=
+ult" style=3D"font-size:small">I should add that I didn&#39;t dig into if t=
+he false case of the systemd packageconfig runs when it isn&#39;t set.=C2=
+=A0 If it doesn&#39;t then yes, obviously we need it somewhere=C2=A0else.</=
+div><div class=3D"gmail_default" style=3D"font-size:small"><br></div><div c=
+lass=3D"gmail_default" style=3D"font-size:small">I&#39;d very much prefer a=
+ sysvinit package config if someone is enabling=C2=A0this, and not using sy=
+stemd.=C2=A0 So the false case doesn&#39;t really matter from that point of=
+ view.</div><div class=3D"gmail_default" style=3D"font-size:small"><br></di=
+v><div class=3D"gmail_default" style=3D"font-size:small">Bruce</div><br></d=
+iv><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
+px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div =
+dir=3D"ltr"><div dir=3D"ltr"><div style=3D"font-size:small"><br></div><div =
+style=3D"font-size:small">Bruce</div></div><br><div class=3D"gmail_quote"><=
+div dir=3D"ltr" class=3D"gmail_attr">On Wed, Feb 11, 2026 at 10:58=E2=80=AF=
+AM Peter Kjellerstedt &lt;<a href=3D"mailto:peter.kjellerstedt@axis.com" ta=
+rget=3D"_blank">peter.kjellerstedt@axis.com</a>&gt; wrote:<br></div><blockq=
+uote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1p=
+x solid rgb(204,204,204);padding-left:1ex"><div>
 
 
 
 
 
-<div lang=3D"SV" style=3D"overflow-wrap: break-word;">
-<div class=3D"m_1169981970747823848WordSection1">
+<div lang=3D"SV">
+<div>
 <p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:11pt;font-fa=
 mily:Calibri,sans-serif;color:rgb(148,54,52)">Umm, I would argue that the i=
 nitially proposed patch is correct (except for a better explanation in the =
@@ -609,7 +665,8 @@ an></p>
 <div class=3D"MsoNormal" align=3D"center" style=3D"text-align:center">
 <hr size=3D"2" width=3D"98%" align=3D"center">
 </div>
-<div id=3D"m_1169981970747823848m_900366946418763516divRplyFwdMsg">
+<div id=3D"m_2032840586552836071m_1169981970747823848m_900366946418763516di=
+vRplyFwdMsg">
 <div>
 <p class=3D"MsoNormal"><b><span style=3D"font-size:11pt;font-family:&quot;M=
 icrosoft JhengHei&quot;,sans-serif;color:black">=E5=8F=91=E4=BB=B6=E4=BA=BA=
@@ -859,8 +916,7 @@ ll<br>
 <div>
 <p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
 </div>
-<p class=3D"MsoNormal"><span class=3D"m_1169981970747823848gmailsignaturepr=
-efix">-- </span><u></u><u></u></p>
+<p class=3D"MsoNormal"><span>-- </span><u></u><u></u></p>
 <div>
 <p class=3D"MsoNormal" style=3D"margin-bottom:12pt">- Thou shalt not follow=
  the NULL pointer, for chaos and madness await thee at its end<br>
@@ -876,6 +932,29 @@ class=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gm=
 ail_signature">- Thou shalt not follow the NULL pointer, for chaos and madn=
 ess await thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf, S=
 tar Trek II<br><br></div></div>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#9579): <a href=3D"https://lists.yoctoproject.org/g/meta=
+-virtualization/message/9579" rel=3D"noreferrer" target=3D"_blank">https://=
+lists.yoctoproject.org/g/meta-virtualization/message/9579</a><br>
+Mute This Topic: <a href=3D"https://lists.yoctoproject.org/mt/117756607/105=
+0810" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.org/m=
+t/117756607/1050810</a><br>
+Group Owner: <a href=3D"mailto:meta-virtualization%2Bowner@lists.yoctoproje=
+ct.org" target=3D"_blank">meta-virtualization+owner@lists.yoctoproject.org<=
+/a><br>
+Unsubscribe: <a href=3D"https://lists.yoctoproject.org/g/meta-virtualizatio=
+n/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.or=
+g/g/meta-virtualization/unsub</a> [<a href=3D"mailto:bruce.ashfield@gmail.c=
+om" target=3D"_blank">bruce.ashfield@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
+=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
+ignature">- Thou shalt not follow the NULL pointer, for chaos and madness a=
+wait thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star T=
+rek II<br><br></div></div>
 
---000000000000afe479064a8fcdb4--
+--000000000000340431064a8fdef7--
 
