@@ -2,117 +2,129 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2814FD8FF6
-	for <webhook@archiver.kernel.org>; Thu, 26 Feb 2026 18:21:02 +0000 (UTC)
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.76814.1772130052725820054
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A8252FD8FF6
+	for <webhook@archiver.kernel.org>; Thu, 26 Feb 2026 18:21:12 +0000 (UTC)
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.76822.1772130068884157383
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 26 Feb 2026 10:20:52 -0800
+ Thu, 26 Feb 2026 10:21:09 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=iM0kGRy2;
- spf=pass (domain: gmail.com, ip: 209.85.222.171, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-8cbae8f69cbso109014585a.0
-        for <meta-virtualization@lists.yoctoproject.org>; Thu, 26 Feb 2026 10:20:52 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=BPIwUFwN;
+ spf=pass (domain: gmail.com, ip: 209.85.160.182, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-506aa68065eso12893471cf.1
+        for <meta-virtualization@lists.yoctoproject.org>; Thu, 26 Feb 2026 10:21:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772130052; x=1772734852; darn=lists.yoctoproject.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=yudxD3G/Gh9pBRCBTrPfLLullvfSgCe32Sz7GISa73g=;
-        b=iM0kGRy2xPiYOrDw+Bi6g+c4wOKxY/aMRx7LVYrOD4M5rggeAKSC4o+FPf2YH7ToEn
-         c9pN8xoxH7n4BSH5istfSKpA18zrUxFkEtjSXM5BNOBOBd9bpqdiBwgTgvst/IP37x32
-         oJ/9ORgdVmYbFWaYFVon6fo9L68MJIPoUSDuxmrg7Es/2WCrjaPyu/wNEFUW9x+uzEhq
-         UNkDMmd+7OHYBUK0vfnO764WwavVRirXgpbztTXqC+ENiVVUCYXF2VhiPt+Ckw5pqznk
-         /6hqR0R39eFMqf30sADA7mF8zSiDSKQSDkHABn5F8so5JCQl2CL2ij28CjUk/2G4n/RC
-         eyOw==
+        d=gmail.com; s=20230601; t=1772130068; x=1772734868; darn=lists.yoctoproject.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=cP43S2UhoBunJgAW0z4yMQu9xgchzzU3BgUeAQb9PLE=;
+        b=BPIwUFwNuRUD/eWjUsd1cW7M/otaQ87NDOpoUmUkeXMdY48KN07O9FjLbEzd2FbjlT
+         ixPkOEtJgZnTUKOIfVONGVR9ZUGxq7lyxZkDiI4ucTrjSkLYy+AJmyfByBlR+15/PLHz
+         KV+nw3NcUixlMu+q+MdXbWkGdM5rMwJMGOX0OT7gOyF1y75IXro9ADX8kJLXFuFh6Jyd
+         hzekD+VyIIH52/n+QDkd7p8zXfoKpFlZq3vtHoCSGupQjtaOjW6h0ef172QD5aAGliO3
+         eErjwadQmloHpQbmiwlt6ZWf2GMp5JQd3ZlOiH0FR8DjY4cWbsAyjy2PLjXP4+013sSS
+         Eqkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772130052; x=1772734852;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=yudxD3G/Gh9pBRCBTrPfLLullvfSgCe32Sz7GISa73g=;
-        b=RMcpxGZ7VA7JE7Qy0KdL28BWJzbsgcvu5QlNDZSJDVOKZbe1Ykft9sKrGqgLlNiaH/
-         L/BmYX53GZ8E50GrQUx1g5TVj4mj/1iJsGQu4lxqh62tMVVtWf3r9M/8JOeDptwxWx2D
-         51lc80BgCzqv9SjG4iHZQ6PH7TLYd18ceoZ4Mjuxr/7n6FxyqiTBZP3k38ybwvjdO6tq
-         9syhhI0Ti/+aorTdgEjsAgqQturTAux9flvpPCVqj1KN+UdA+4QcjhA5enLi7WqRYiFN
-         KKY+H0F76vsOOKuwtp03P72Ma5DPfl0WcPpDITzoENMqWHW3Cdh2dxUNp1wFfW2WdIUg
-         mO8g==
-X-Gm-Message-State: AOJu0YxCHTkIcJErZ4WCsUJ/K1KJFwiNePjtZHqH3x1Cbz9YM/4sZptk
-	/3E3nzf/pp+i3YCYbhvmyJDPaV98okfXjWEJEtRQLGANYKyG5ah3tN2d
-X-Gm-Gg: ATEYQzz5fZ90D4TEaFCNfwy0MZ7znDimzMSQVT4q/RTzwCe9rPMP9TOTz9JCC4CiopR
-	5DQm9xh+7YiLW/j7tooA1LYXHxYBk9pNgbM46STYOthX0GgDkUxrdR6Hhqt8d6N6mSZy05XjqG/
-	3QWIFntBgXF4VeX/VLy6v+wQqykPw9IAjySoRnyjF7Fo+LuD02Ec+631C2epNVwwY48govTBx9v
-	hcmFzPkAvL5MXxcN7mQvdkZtlFirwzKB4zh4HYDog1mSJzsXGjGUyniPfcc+ECE0C0AbMTcfpot
-	4HY6hbyTMVdCdvuWphjkSX+6Yt3jaAkOQZsB2Ako5CDvIZc9SP95FRowU2FjSfueuuKGZL95aFJ
-	Rb+xYrK88MrOyKEVHSYgHWmJ7ck84D25xqedsPx3hDpbQYn1Q2wa6T8kAjS2UqISqftKfM3SAzq
-	w13owcFAo4QiXMW2JJJtRnBkXjC/lU+0K/VZ6aKS4elInhCwaO8xNUgyEN3D5LK9WJMLzUePqrQ
-	u5If6NYTV7hTdgJxtPcgdC7UojSFYPnQ4D+
-X-Received: by 2002:a05:620a:29d3:b0:8c6:b16c:a56 with SMTP id af79cd13be357-8cbbf4021cfmr451281085a.38.1772130051654;
-        Thu, 26 Feb 2026 10:20:51 -0800 (PST)
+        d=1e100.net; s=20230601; t=1772130068; x=1772734868;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=cP43S2UhoBunJgAW0z4yMQu9xgchzzU3BgUeAQb9PLE=;
+        b=f6ZdNYjMgzSev5hfhArWFH1bUQfdEaJILci0zwTOUNs8JFw742FyVpXYGvdN/UBH/K
+         4s0bWXp1J4/yp6VPyld/Kk9B4nDs9TxgCak7onoIJ7mi8KT6ni8fqtxsKUPpo90PTP9Q
+         hTBI1uKguhwrPjb1z3vHntQqfyTvYhWU+SU3s0gpWhHmAeVLdjA1dxZfkYl6dwt1E+W/
+         DqMctSLVm9VMtV8AELsaVKjgXHBlVogAlg+oAWJkARZnRu520AI4LS+8cczeytIbtd0y
+         PIXxE3aKlYtb3DH+OETaLy/zSBptE4iyalW5gSQ2z5ibc/wvF6ct3GdNDGrBn1kcP4Qa
+         1F5w==
+X-Gm-Message-State: AOJu0YzfuamhMD/0gxGBjkf59hVYonpAhHZhsPq9whDS2FVayIqyS9Dt
+	ZotmkikhCBDFK9ksrX1a9MqP8pF9YxamlBL7yiOz5q7IADMffHo7dlmu
+X-Gm-Gg: ATEYQzxC85UiVxTswEyHthLJcFmWiY1CCsY5pUUnnkK34RS0qL6vVE38LYch/3pCCA1
+	3lkeaNwXQonaoP4QstUQWafRjtI1+aqJ0ICXJgn+e14KhXBwlLHrwKVtwiyjm8lswWiX17UxUZT
+	q0TV8JHusIRBhrRgcoHiAjpR342ePRSRQNQOjWE0nan+AnF0nav2+1FCgdgfoYoizuU2MihhOzS
+	8G7LC7KLP8LA1RonhhtQ5QEl6wDC7psEO6VA5IKcaJfHNxbmz+tbe9KuLDw8dL66Onz99BJPK41
+	o8Id4AFxotLBuBsO3LGw0MolrdCmaz/SnmEPh8SbR2uCxvRf9gfWLNe2Qr9tawSHzCkIBQldbd5
+	LXBTiT4Yik+b/lfWBRqJkTi6l2Rjy4CN0BG7rkX4oZwHvX/lrmghV07P4Ynulpyr9LLK1wn4siY
+	nhyI3WdQGYheoORxqF50/wbU2izbnSZVkINsI5qlRkkdEf5WSKI4U4+dYD4I81rV3TE2YcUthsh
+	XP6B/PsmCdZ7flAHdQxUh4CmFxCfkPOt0xx
+X-Received: by 2002:ac8:7d09:0:b0:506:2116:4b86 with SMTP id d75a77b69052e-50745be36dfmr38048871cf.0.1772130067715;
+        Thu, 26 Feb 2026 10:21:07 -0800 (PST)
 Received: from gmail.com (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8cbbf7175c6sm268802385a.37.2026.02.26.10.20.50
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-899c73789efsm22623036d6.34.2026.02.26.10.21.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Feb 2026 10:20:51 -0800 (PST)
-Date: Thu, 26 Feb 2026 13:20:49 -0500
+        Thu, 26 Feb 2026 10:21:07 -0800 (PST)
+Date: Thu, 26 Feb 2026 13:21:05 -0500
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: AdrianF <adrian.freihofer@siemens.com>
-Cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [meta-oe][scarthgap][PATCH 1/1] image-oci-unmoci: preserve file
- modes
-Message-ID: <aaCPAYgmFjUAFc0D@gmail.com>
-References: <20260226172529.2551136-1-adrian.freihofer@siemens.com>
- <20260226172529.2551136-2-adrian.freihofer@siemens.com>
+To: felix@piedallu.me
+Cc: meta-virtualization@lists.yoctoproject.org,
+	=?iso-8859-1?Q?F=E9lix_Pi=E9dallu?= <felix.piedallu@non.se.com>,
+	pascal.eberhard@se.com
+Subject: Re: [meta-virtualization] [PATCH v2 0/4] Update docker-moby to
+ v25.0.9
+Message-ID: <aaCPESlDm0dhwBUy@gmail.com>
+References: <20260223-upstream-update-docker-moby-v2-0-5bc0d679d988@non.se.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20260226172529.2551136-2-adrian.freihofer@siemens.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260223-upstream-update-docker-moby-v2-0-5bc0d679d988@non.se.com>
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Thu, 26 Feb 2026 18:21:02 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9611
+ <meta-virtualization@lists.yoctoproject.org>; Thu, 26 Feb 2026 18:21:12 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9612
 
 merged.
 
 Bruce
 
-In message: [meta-oe][scarthgap][PATCH 1/1] image-oci-unmoci: preserve file modes
-on 26/02/2026 AdrianF wrote:
+In message: [meta-virtualization] [PATCH v2 0/4] Update docker-moby to v25.0.9
+on 23/02/2026 felix via lists.yoctoproject.org wrote:
 
-> From: Bruce Ashfield <bruce.ashfield@gmail.com>
+> This patch suite updates docker-moby to version v25.0.9 and
+> removes the patches that were backported upstream for this release.
 > 
-> Based on the following patch:
+> Note: This is not the latest release of the v25.0 branch but the
+> latest supporting Go 1.22, provided in oe-core scarthgap.
+> Updating to newer releases will require updating go to 1.23.
 > 
->    Subject: [meta-virtualization][PATCH] image-oci-umoci: preserve file modes in rootfs
->    From: "Florian Wickert via lists.yoctoproject.org" <FlorianWickert=gmail.com@lists.yoctoproject.org>
-> 
->    cp does not preserve file modes by default.
->    This will break sudo (among others) which needs the suid flag to do its
->    work.
-> 
->    This patch adds the --preserve=mode flag to the cp call to fix this.
-> 
->    Signed-off-by: Florian Wickert <FlorianWickert@gmail.com>
-> 
-> Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-> Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
+> Signed-off-by: F�lix Pi�dallu <felix.piedallu@non.se.com>
 > ---
->  classes/image-oci-umoci.inc | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> Changes in v2:
+> - Revert ec01a803 adding CVE patches backported upstream
+> - Link to v1: https://lists.yoctoproject.org/g/meta-virtualization/message/9591
 > 
-> diff --git a/classes/image-oci-umoci.inc b/classes/image-oci-umoci.inc
-> index c77750fb..9bd154fb 100644
-> --- a/classes/image-oci-umoci.inc
-> +++ b/classes/image-oci-umoci.inc
-> @@ -50,7 +50,7 @@ IMAGE_CMD:oci() {
->  
->      bbdebug 1 "OCI: populating rootfs"
->      bbdebug 1 "OCI: cp -r ${IMAGE_ROOTFS}/* $image_bundle_name/rootfs/"
-> -    cp -r ${IMAGE_ROOTFS}/* $image_bundle_name/rootfs
-> +    cp -r -a --no-preserve=ownership ${IMAGE_ROOTFS}/* $image_bundle_name/rootfs
->  
->      bbdebug 1 "OCI: umoci repack --image $image_name:${OCI_IMAGE_TAG} $image_bundle_name"
->      umoci repack --image $image_name:${OCI_IMAGE_TAG} $image_bundle_name
+> ---
+> F�lix Pi�dallu (4):
+>       Revert "docker-moby: Security fix for CVE-2024-41110"
+>       docker-moby: Update libnetwork
+>       docker-moby: Update docker cli
+>       docker-moby: Update to v25.0.9
+> 
+>  recipes-containers/docker/docker-moby_git.bb       |  13 +-
+>  .../docker/files/CVE-2024-29018.patch              | 344 ---------------------
+>  .../docker/files/CVE-2024-36620.patch              |  39 ---
+>  .../docker/files/CVE-2024-36621.patch              |  82 -----
+>  .../docker/files/CVE-2024-41110_1.patch            | 177 -----------
+>  .../docker/files/CVE-2024-41110_2.patch            |  99 ------
+>  6 files changed, 4 insertions(+), 750 deletions(-)
+> ---
+> base-commit: 78abd77b8695705e6e55266745c838bb665486de
+> change-id: 20260216-upstream-update-docker-moby-d0826db5916b
+> 
+> Best regards,
 > -- 
-> 2.53.0
+> F�lix Pi�dallu <felix.piedallu@non.se.com>
 > 
+
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#9606): https://lists.yoctoproject.org/g/meta-virtualization/message/9606
+> Mute This Topic: https://lists.yoctoproject.org/mt/117959928/1050810
+> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
 
