@@ -1,480 +1,483 @@
-Return-Path: <liuyd.fnst@fujitsu.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96B00EB365B
-	for <webhook@archiver.kernel.org>; Tue,  3 Mar 2026 02:52:44 +0000 (UTC)
-Received: from TYVP286CU001.outbound.protection.outlook.com (TYVP286CU001.outbound.protection.outlook.com [52.101.125.57])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.9964.1772506357128937144
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC7CEFD006E
+	for <webhook@archiver.kernel.org>; Tue,  3 Mar 2026 04:04:14 +0000 (UTC)
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.11005.1772510646494520569
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 02 Mar 2026 18:52:37 -0800
+ Mon, 02 Mar 2026 20:04:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=selector1 header.b=a516ACpV;
- spf=pass (domain: fujitsu.com, ip: 52.101.125.57, mailfrom: liuyd.fnst@fujitsu.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=D2edcwgiiwmKyrXQTiOtBPOlQVOnq+Smly0HBpBBLAN5cdFYqJ2yeykTlvo1Yl4B1rpASyqSJEqSj+u5a8NteMguaoaQE88W4SbD/0AgeU3rY8Y1OKLpWkGpvH6Lpt6DZEEQXXXQ8/cnayBsVuA24JPL+ybFhJMiPgS+dOwC9uGDhNwntqLkpGli9YDAaWGENAjfQS678SGpm5rMo+JnWtK8yNoO/aA9X769JtF0ZJe4k9EX6yZLa08RZuFGRDwHZZ6oeD3aUaL/7KChBZJquuqxdj+vdNRDKeuF1qzYpQhqHeR0GD5NUYxpgpg1y2WiqJMZDqObf0og+JOtplGGiA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IMCkMWRw2d3LkQTfiaKIXcl/iWGex1hJ4XjIvwoE928=;
- b=gtAqQw/Q49QgIuFwgDREcpkV8xJpy7s21CF/TLb/xQtBtBVME++YlcifIQoRi47rO+xHZ5mXvJKMWuCH/0yvuZyNEk/eqT8yM3Ud1ZjVCaU3El+flZyQ1i/hW7F25hRmOE8xmtIx1vg/31gxmJcAbK6P+bASig0rEAyZHJN9nMtftdBrlYVEgJdqUUwhRQZHR0QvfJfqSequ3uQ6yySvvip2wktI5zlaUSw9CELSecSYkjVZ/0xwKF1P/b+4Y/1Ilg2OKFaBUDRm93FCc2l0Tib1tcEvPaDM9gzkwNTsDXIEICfpGZQMLmg3E57vQSLe3CsQjFSmY4G8qfGBplVoGA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=fujitsu.com; dmarc=pass action=none header.from=fujitsu.com;
- dkim=pass header.d=fujitsu.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IMCkMWRw2d3LkQTfiaKIXcl/iWGex1hJ4XjIvwoE928=;
- b=a516ACpVjbWImqEYX8KNb5y5krSb20890zwA36T+JuS2uWSEReBUZbu52k+tr51Z2SvMgAN36TSvOHfzHsQasugHQXu7/O1nzUBV6U8RJzFBRUVSuATbpIPWOqQ5+iNlJFCESxCLo9cu2tICN+jkwLjxvYMpbDycDe4493uGwQJYyxX/QxYaJ2zPWBdaDCwXsy2iYPQFvZWjHJcAqt358VlX5Vh5g6C6/GO7jURPj9N4dyxEbjktMmAnCiP7f1A52lqvdqU0CpgKhi1zWwM3IiQIhJcAovyryx+K4k0w52BaKT3Gcv0Ig4cIdKRkNJVZoW2YbfFQci4g3SGbdlS90Q==
-Received: from TY3PR01MB10110.jpnprd01.prod.outlook.com (2603:1096:400:1d9::5)
- by OS3PR01MB7013.jpnprd01.prod.outlook.com (2603:1096:604:12e::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.22; Tue, 3 Mar
- 2026 02:52:32 +0000
-Received: from TY3PR01MB10110.jpnprd01.prod.outlook.com
- ([fe80::65d2:5fd:bb96:1df2]) by TY3PR01MB10110.jpnprd01.prod.outlook.com
- ([fe80::65d2:5fd:bb96:1df2%5]) with mapi id 15.20.9654.020; Tue, 3 Mar 2026
- 02:52:32 +0000
-From: "Yiding Liu (Fujitsu)" <liuyd.fnst@fujitsu.com>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-CC: "meta-virtualization@lists.yoctoproject.org"
-	<meta-virtualization@lists.yoctoproject.org>
-Subject: [meta-virtualization] image-oci.bbclass:  description of usage of oci
- image
-Thread-Topic: [meta-virtualization] image-oci.bbclass:  description of usage
- of oci image
-Thread-Index: AQHcqrhAClQcL6EtEUm3kBnBcG3bww==
-Date: Tue, 3 Mar 2026 02:52:32 +0000
-Message-ID: 
- <TY3PR01MB10110B39C744E9FAC050B99299B7FA@TY3PR01MB10110.jpnprd01.prod.outlook.com>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
- MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_Enabled=True;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_SiteId=a19f121d-81e1-4858-a9d8-736e267fd4c7;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_SetDate=2026-03-03T02:52:32.079Z;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_Name=FUJITSU-RESTRICTED;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_ContentBits=1;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_Method=Standard;
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=fujitsu.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TY3PR01MB10110:EE_|OS3PR01MB7013:EE_
-x-ms-office365-filtering-correlation-id: 25c15e4f-a276-4308-460f-08de78cfeac4
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|1800799024|366016|376014|8096899003|14052099004|38070700021|1580799027;
-x-microsoft-antispam-message-info: 
- 5+2uZa4KvO1Kg4OLRcJKoYbcBT8XqC6EKOzqmhvtf6n3WTQsLq6mJUhy2fHkrTh//DQ/iecUJEavgl/f8LYVMA89ObJD8DKcqygG1QYLQpvDX7G4rfZkuJooGgI4VET2laOpzy7WNm8vCt0uEZsYQKWfVr1TqNB/JZZ0T+db5ykZS+mgs/a0LVAWxZBA0mCdhrrEQwFTdafQ4D5KuMmcXqGqtoH27+NwHue/vZQJDfHbuYemA1YMhVlBqMoGvTe2BWZKnT4asjva0rhNfHGFYDR6nKLr4V+H7l50sS1rM1P+pVPnjxTUyGqGJYqkGGDJjBQu2a00GDYuH2HkoM3cz1Z0HWHTZqrq3cjw99d2zUbzQTUlQyyDHZBHLli9YZfohi0WjIs7Tmbydt1xU7VljVGku6BcdsfGMLpqaxqIZevwaCNxi8wVtplErTKSHznYVr2UPOufqa1s+iwwbP45edIBztR8ckCI+sVfeH0Es2852u0ptz2PFQ+w5u2oSqf8Vtmrl13I7UnLy6A8ZoXv/tdOkafZCFh5h6n5Ih69MR0iPOF4ps2LCBq+DbKmHm7FVxT33197+fHOhYwpMWCg1bHajO7SD+IfFdf/cDKmyJnviq04ogDyHpIM5i/T1F/0YbyczHTGJ5AFnyQ5JXI3dgOefCbIWkEJkTwPsaAgnqR32toYZbhhwtEa//W/3eUZpaj/LYu+CzTCiNOGpkBKrdlID0sui2dhH36neJUfCvkkfNxQ2x0W2uV0oq1zYnUFL8jT9SyMlL6CC4jpHu+ibw==
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:zh-cn;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB10110.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(8096899003)(14052099004)(38070700021)(1580799027);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?V3ZrMkhOZ2RPclg0WXg3MXhENVlLamp5SFk3OHl2Z1IzNmRxZnNWRUJRN3Zk?=
- =?utf-8?B?WnRRdGtIdjAranpMTjNJRmE0dVlTRFJIUjJJWllBaTcwWXE2aHBSYmJNMkNV?=
- =?utf-8?B?dUQvdzdsRzlGVzIyR1F4NXFNTTFmWmNnekRHamdZSFdrZE5EbXU4cnA0c296?=
- =?utf-8?B?TnJkZm1yM3VLVytXTTJpN2hQUWwyK0RpZm03eHZBc0IweU9BRDN0TGdNeFJS?=
- =?utf-8?B?WDNyd1lyY3h5SzNReUlmQVppL2FtU3JkMlZrVG9KcCtXQ0JiMVdHRzZuVGRD?=
- =?utf-8?B?SGtTekxoZjE3ZnBkSE1hdTJzMm1sYndOaGgzZ2lYaGZnRGdmT3ZsaXRsQ2xU?=
- =?utf-8?B?UFVBN3puWTNXNmdxb1NNNlhTNDFYY28xNXNPUGFRZzBuRm1HdkFIeVdnV21N?=
- =?utf-8?B?VG05VHI5VVpNMjNmbk80QlQrV1BwbTcyWmJXZ1lmMmFHR2xLcVhWaWpsT3JM?=
- =?utf-8?B?S20xVG1McHBUMEhCa2pEWEsrbXRpWkhhd1BsMjJMaFdwM0pwY2R0VEZDd080?=
- =?utf-8?B?MUluWG1uWThpK2VBTHlDRWxRNjhDZ1RTS0FhYXl3bXQ4OTF1MFZHVlVDMkZq?=
- =?utf-8?B?NGVSbldJL3I4QnpCQU0zaTIrL3JQblJsQk1VbjNrbmNSRTBtbyt4ck9IMksr?=
- =?utf-8?B?WFRISS9HMENvUlJtdnVOTXl3L1M1cWdYb3hDK1EvaWFUektGWXRWSkg0T1lW?=
- =?utf-8?B?cWs1MVBVZ0RjVHllNitJZEFTeWNPOWR5elhDL09KdmtoTzZMbTRwNEpBeVJr?=
- =?utf-8?B?QkFreit0SUxUNUtTcEFtbk15dUQzYWNyU2crZXZKR24xS1ZVT2laSW0vSzJv?=
- =?utf-8?B?bHlWcHRBQXVqbkZKSUR1T2N4TlhCWGJxUUtzNE0reXRDcC80aE1kZjNhd2F3?=
- =?utf-8?B?UnZucXRDaytwenFSeklUaFAwMFI4RUhLenZHTGFxRFozTFV2SEttUUhaRVZq?=
- =?utf-8?B?bjR5TGUxWGM5anpZS0hhaUdVeVpRMDd3MmRyWEVHaHZhdjI1amx2YTFnNWU2?=
- =?utf-8?B?cVN2WUxSRkVhMWRKYWpOSHFUMkkrK1BqdHB2dnk3RXJsRjBpZkFFYW5QeEtY?=
- =?utf-8?B?VVh1TWFhQ0RoT29TekpTcThUU2VJK01weGp4V1dnS3dSMThvdmRzLzE4OWN3?=
- =?utf-8?B?THl4aWtCTWN1WkpwM1lmLzFudSswS2dXR3VMOGoxczNncFBMcjBsd2JOQlRv?=
- =?utf-8?B?R3NpbFpONldWZGdtSkUzN2oxNzhQeDN5b1BNWXh3MXAxNFhuUEJYNWFmZWYr?=
- =?utf-8?B?L0pQZG5vZ1dTVXdBOVorT1RSWlo5NjllcHRNbmVzMWwzbk1sR1pwelpUTWgy?=
- =?utf-8?B?WFVSSzFBd2h5ZWtPalhNOE91M1VhcldacG1DVnF2SjVXVGIwZXpxaUo5RVRX?=
- =?utf-8?B?d2paVFdaSWxtQURtWUZiT1lZTFViVG9uNUxvVGFXWGhHMUMvOHZNbFlhaWpP?=
- =?utf-8?B?T3FRQ3crc3lnQ1k5Zk8yZG51M2Q5b3BBVHVYdVEvQXUvSklDTkdhQWZCVkpN?=
- =?utf-8?B?cU9SdkNrelZZWHhIRWRFM3ZsZGNxVzNvZ1I3dTFrQ2tJOWFBQjgwVndndHlL?=
- =?utf-8?B?bGpsTVptTldJOFdBbVN2UkJHbzV1L0N5UmNQSnhaeWNWczB0aHRQSTM3Y0tR?=
- =?utf-8?B?eWJTTG1yYmtYRnlXNm16WXBUeEZjbEZRcXJXZVpIQlNsQk1JNXl1ZEVDMVBw?=
- =?utf-8?B?d3dlZEp2ZEVDaUFvSEFZUitYdU1HTnV2RlRPOVE0Q05SY08ybnNZcTRWQTIz?=
- =?utf-8?B?c3J1WEFDcEVnMGR2U0krZVJpeEdVS1AzbHpsYzdEU1hzNkcxc0doenF3NEtF?=
- =?utf-8?B?cVZoMXpWMmMrSjNyZzVCTnBmbEpSZmFlWkxUSW96aXNCMnd1elJBVGV5Zk1G?=
- =?utf-8?B?aG5GTWxoVGlnZGo3b0V6bHRlTmUzaHNadmFjdXlNd3MvM0pscXRqUlpkNGpH?=
- =?utf-8?B?R2pqdVRvSEVVekJQc2tUWkxxcytDRks1eXA3bTFwdGV4cm1UT211OWwvQ1JO?=
- =?utf-8?B?NzhMazNsdTVZRUdsVjYybVdlR1c0SzM2YlREMXBHU1RlSHZjWXBpbkFPdTBE?=
- =?utf-8?B?MytiMUVqZk5JVXJJNEg1ZVM1RnRSUW1aamFMVG1VeWZsVjUzdzlsQ1ZkNlBY?=
- =?utf-8?B?WmpRMnAzU0E4cENZajZmYnRxNGR0aXFqR0pnaGE5SHI1c3FKNlpMKzlWOU5z?=
- =?utf-8?B?RkUxZlMwWmVIeUNkTkJaSXQwRDNycmNpUFpaMndHcEFlRWxOYU5BQjhGNmZx?=
- =?utf-8?B?MS9XK1NkK3FNZjd2TjBrcTkxRmI4ZWpET1JVYnI5Q1hOZGxCekFjaFFsOUhj?=
- =?utf-8?B?UHQzY1Nia3hoUnNlZ200blZYSDJGV1d0NUp4SjYvOGdGN2IyWlAwQT09?=
-Content-Type: multipart/alternative;
-	boundary="_000_TY3PR01MB10110B39C744E9FAC050B99299B7FATY3PR01MB10110jp_"
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=EreGG/XF;
+ spf=pass (domain: gmail.com, ip: 209.85.214.171, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2a8fba3f769so23824725ad.2
+        for <meta-virtualization@lists.yoctoproject.org>; Mon, 02 Mar 2026 20:04:06 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772510646; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Ybcr3Fk/PsavyyF8sCuYpkW1UlyAkHQbhNzKuNEFfzcZePeAfNVwb0nRMk0BD+YaFq
+         Z+4HOKFc48rR9MaP2r1bM6mo/R5PP3ozf3jJBpNXfTGYlWQvJD3Hr9r3lEs5ddPt52J5
+         oITfS7nQSv1WiMr+/Dy5v+egfNWUk8/PNjkQ4ladAXTw/u32AEarOHt86kjxn8uy2+ci
+         2/ApWY4oQP4lnjk4kgOEUgX2+1rFyug2Zow885FUInEE6xxdkehC10uap+sp9U1XJt03
+         mvh8R/igL6Ax5p7JuoDxyF9QYRgGVdSxKdBbHoNs8WQsB2UZ3NGzqIyapuHEIlTqjars
+         Z4ug==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=BWSdDPy+nUeYFOXOLpi8/kXRAzcrvXGTuEzi1zlXsO4=;
+        fh=OClHZqodWSNbeHsUYFR0FyVz9DAVa4a7109tpdSIGh0=;
+        b=EuMFEbF1/YCsUSU5mv8wpn2p7WPX+gv/RI0ey0GmAI5TlJ9Tq9gBw7viv9zyfu1i9g
+         Ti8pDZq2PAJm37z9Pf2Ethn/7maodLuZj1JXTxJWlkK9cGHgvBMznsK7Xyu02GcDo6JL
+         pweTk1jEfPgXF68zogxy2e6Jqmst/MAbkkzz1DY3CQddpjMVqNIZzBTqmTVQgPUOpjk7
+         qYjcBCe5MvjHhlbwzmDBBfLxVQuaw3WOZZrBjKC06rEtDOViLn/u8qwmv0ihzfCFSvZD
+         1JfwFhuVhoRHmMhSrLU+0F4Cy8Gb/OdMKQ/4kGlKMSbzPt959l3YjKh80IjeZ7VdB3uq
+         BxCQ==;
+        darn=lists.yoctoproject.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1772510646; x=1773115446; darn=lists.yoctoproject.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=BWSdDPy+nUeYFOXOLpi8/kXRAzcrvXGTuEzi1zlXsO4=;
+        b=EreGG/XFQp1y6pnCuFrW6OGyLRluzxL7LxoTj5z98v4SO2RYs772127eCC3uNPSqQN
+         fm0dq20ByHz9BNRrU0q80sMwNIa8d/soUeXegOFbOCg/ztC9LfOA/fpoHZX2+bG+18Gr
+         Z9zWq7wTDS3NaxQvviwFf82MbKIWV9IBN+0uarBDp8Z1BEVgSH4rqP2GDXdEMDgzxDvm
+         le0na83t/35J226SlokkVVNgg0k+RQmJbr9IlGGp2euqbAuaNf82Tf1Zcqc4DcIgmBk8
+         fzMEhf+597IBibUHbqsJEtXDCW/labWSPnKlOzffg17C5UNkfZqUYBsdxttnGAvNUam+
+         W40w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772510646; x=1773115446;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BWSdDPy+nUeYFOXOLpi8/kXRAzcrvXGTuEzi1zlXsO4=;
+        b=P5AfVwvJu4e3kdulaT/9pFKMKyc8YSsF/ksFjdL342IOsUZ1zXj7jZH/ZgCQU50tnr
+         tQ8UF4BhxqgoXeHdYXY2pbiX7AZ6/SjEnM3QpPI4Oqgibfbo85s9hC1PdBQl8OujV95z
+         oV82xpfyrhEk8h/PDeVkyZQvGjsNJ4MKn1iv1F6PCYeuFvPJTF75VDZ7ODBuc5mbT9iX
+         RpGcw/HLyoMzkDWyE7XfBz/qk5GqFYj3IYnp6SgxipEYFM6iYONfYNCPbHQeB1HLE2Nc
+         DcMznA8U1ndy79NPaQpp0qZhNkp3XYBF9ULEIFzqy3kUUsGjp5rWpKQuo4VEgNg31ubs
+         jCWQ==
+X-Gm-Message-State: AOJu0YyxOVwSTGWMhyPJ0qd1AeekNoEvta2eB/udv3HfMDY7kihv1/wy
+	VTsF6SrETRtcjXMtzY5mX+1P29mJ1YoqIoy9EnPd1EspPtUcwduu6INmAqUQ/ymZnsMRJIDPj7C
+	8WDbQWfl0gvCz354bS8ojZgqvBIZGXaw=
+X-Gm-Gg: ATEYQzwEFRzRvJQgEPFipZvgGcfCmnoHaIiuWRRjahvDPwPBHHMMAwkgCb/soHGzd27
+	i1bUKwWpFPVbqHraBrmRdIXV7rhb4yTwsLPL3FBjckrJco9O7KW7m++SqDNH+UTdh/kBdt4lkhj
+	mn010EMsWQmPfjUeN0ZnrcPHLomCJdxQGLmZMRyz/dwmdPq5nOzR0mXMoKTWD4PtVRKDxLD5kwn
+	Snl8OEqhr5AnARWtXFJ3clAQCmWm2vrB78Cax0c03KdsJJvlRW0RWZ8F4WFiQE2N3ccJqxyhUrY
+	8AabsL3BbzBXWOSs9emPcr5RfQ8Fx5BEmngTEelTpD+n3h9Ap6Y=
+X-Received: by 2002:a17:903:3804:b0:2ae:3b36:23e7 with SMTP id
+ d9443c01a7336-2ae3b3629c3mr104072635ad.16.1772510645635; Mon, 02 Mar 2026
+ 20:04:05 -0800 (PST)
 MIME-Version: 1.0
-X-OriginatorOrg: fujitsu.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB10110.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 25c15e4f-a276-4308-460f-08de78cfeac4
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Mar 2026 02:52:32.5008
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a19f121d-81e1-4858-a9d8-736e267fd4c7
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Xa5IBwZmBqFSKgGUnr1AjADzUdHFD6+2fk9todTlYjxyiR98YBbe18Wcu5ocdlZQmLdKDrdQUFurcHvvseouDw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB7013
+References: <TY3PR01MB10110B39C744E9FAC050B99299B7FA@TY3PR01MB10110.jpnprd01.prod.outlook.com>
+In-Reply-To: <TY3PR01MB10110B39C744E9FAC050B99299B7FA@TY3PR01MB10110.jpnprd01.prod.outlook.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Mon, 2 Mar 2026 23:03:54 -0500
+X-Gm-Features: AaiRm5060bnYlqmTmdTsZQGw4vnLO3Xn2OHVDGFIaJ1nU6AzXMYrjC46mMLqX7k
+Message-ID: <CADkTA4NbsbipNiJTxSM_hr29ovgrEHGTBCrJrk6OFbhMS9dPKA@mail.gmail.com>
+Subject: Re: [meta-virtualization] image-oci.bbclass: description of usage of
+ oci image
+To: "Yiding Liu (Fujitsu)" <liuyd.fnst@fujitsu.com>
+Cc: "meta-virtualization@lists.yoctoproject.org" <meta-virtualization@lists.yoctoproject.org>
+Content-Type: multipart/alternative; boundary="00000000000064cb31064c16cbbd"
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Tue, 03 Mar 2026 02:52:44 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9613
+ <meta-virtualization@lists.yoctoproject.org>; Tue, 03 Mar 2026 04:04:14 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9614
 
---_000_TY3PR01MB10110B39C744E9FAC050B99299B7FATY3PR01MB10110jp_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+--00000000000064cb31064c16cbbd
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-SGkgQnJ1Y2UNCiAgICAxLiAgSSBmb2xsb3cgdGhlIHN0ZXAgb2YgcnVubmluZyBvY2kgaW1hZ2Ug
-aW4gIGltYWdlLW9jaS5iYmNsYXNzIGJ1dCBpdCBoYXMgZXJyb3IgaW4gcnVuYy4NCg0KICAgICMg
-dGFyIC14dmYgY29udGFpbmVyLWJhc2UtbGF0ZXN0LW9jaS1kaXIudGFy4oCC4oCC4oCC4oCC4oCC
-4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC
-4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC
-4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC
-4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCCDQrigILigILigILigILigILigILigILigILigILigILi
-gILigILigILigILigILigILigILigILigILigILigILigILigILigILigILigILigILigILigILi
-gILigILigILigILigILigILigILigILigILigILigILigILigILigILigILigILigILigILigILi
-gILigILigILigILigILigILigILigILigILigILigILigILigILigILigILigILigILigILigIIN
-CiAgICAjIG9jaS1pbWFnZS10b29sIGNyZWF0ZSAtLXJlZiBuYW1lPWxhdGVzdCBjb250YWluZXIt
-YmFzZS1xZW11eDg2LTY0LnJvb3Rmcy0yMDI2MDMwMjA5MDczNS5yb290ZnMtb2NpIGNvbnRhaW5l
-ci1iYXNlLW9jaS1idW5kbGXigILigILigILigILigILigILigILigILigILigILigILigILigILi
-gILigILigILigILigILigILigILigILigILigILigILigILigILigILigILigILigILigILigILi
-gILigILigILigILigILigILigILigILigILigILigILigILigILigILigILigILigILigILigILi
-gILigILigILigILigILigILigILigILigILigILigILigILigILigILigILigILigILigILigILi
-gILigIINCuKAguKAguKAguKAguKAguKAguKAguKAguKAguKAguKAguKAguKAguKAguKAguKAguKA
-guKAguKAguKAguKAguKAguKAguKAguKAguKAguKAguKAguKAguKAguKAguKAguKAguKAguKAguKA
-guKAguKAguKAguKAguKAguKAguKAguKAguKAguKAguKAguKAguKAguKAguKAguKAguKAguKAguKA
-guKAguKAguKAguKAguKAguKAguKAguKAguKAguKAguKAguKAguKAguKAguKAgg0KICAgICMgcnVu
-YyBydW4gLWIgY29udGFpbmVyLWJhc2Utb2NpLWJ1bmRsZSBjdHItYnVpbGTigILigILigILigILi
-gILigILigILigILigILigILigILigILigILigILigILigILigILigILigILigILigILigILigILi
-gILigILigILigILigILigILigILigILigILigILigILigILigILigILigILigILigILigILigILi
-gILigILigILigILigILigILigILigILigILigILigILigILigILigILigILigILigILigILigILi
-gILigILigILigILigILigILigILigILigILigIINCkVSUk9bMDAwMF0gcnVuYyBydW4gZmFpbGVk
-OiB1bmFibGUgdG8gc3RhcnQgY29udGFpbmVyIHByb2Nlc3M6IGVycm9yIGR1cmluZyBjb250YWlu
-ZXIgaW5pdDogb3BlbiAvZGV2L3B0cy9wdG14OiBubyBzdWNoIGZpbGUgb3IgZGlyZWN0b3J54oCC
-4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC
-4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC
-4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC
-4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCCDQoNCiAgMi4gVGhlbiBJIGZvbGxvdyB0aGUgY29t
-bWVudCBpbiBpbWFnZS1vY2ktdW1vY2kuaW5jIHVzaW5nIHR3byBtZXRob2RzIHdoaWNoIGNhbiBy
-dW4gY29udGFpbmVyIHN1Y2Nlc3NmdWxseQ0KICAgICMgbWFrZSBhIHRhciB2ZXJzaW9uIG9mIHRo
-ZSBpbWFnZSBkaXJlY290cnkNCiAgICAjICAxKSBpbWFnZV9uYW1lLnRhcjogY29tcGF0aWJsZSB3
-aXRoIG9jaSB0YXIgZm9ybWF0LCBibG9icyBhbmQgcm9vdGZzDQogICAgIyAgICAgYXJlIGF0IHRo
-ZSB0b3AgbGV2ZWwuIENhbiBsb2FkIGRpcmVjdGx5IGZyb20gc29tZXRoaW5nIGxpa2UgcG9kbWFu
-DQogICAgIyAgMilpbWFnZV9uYW1lLWRpci50YTogb3JpZ2luYWwgZm9ybWF0IGZyb20gbWV0YS12
-aXJ0LCBpcyBqdXN0IGEgdGFyJ2QNCiAgICAjICAgICB1cCBvY2kgaW1hZ2UgZGlyZWN0b3J5IChj
-b21wYXRpYmxlIHdpdGggc2tvcGVvIDpkaXIgZm9ybWF0KQ0KDQogICAyLjEgTWV0aG9kIDEgZm9y
-IGltYWdlX25hbWUudGFyDQojIHBvZG1hbiBsb2FkIC1pIGNvbnRhaW5lci1iYXNlLWxhdGVzdC1v
-Y2kudGFyDQoNCiMgcG9kbWFuIGltYWdlcyB8IGdyZXAgbG9jYWxob3N0L2xhdGVzdA0KbG9jYWxo
-b3N0L2xhdGVzdCAgICAgICAgICAgICAgICAgICAgICAgICAgIGxhdGVzdCAgICAgIDFkNjAzYTEw
-NDFjNSAgMTQgeWVhcnMgYWdvICAgNS41OCBNQg0KDQojIHBvZG1hbiBydW4gLWl0IDFkNjAzYTEw
-NDFjNQ0KLyAjIGxzDQpiaW4gICAgYm9vdCAgIGRldiAgICBldGMgICAgaG9tZSAgIGxpYiAgICBt
-ZWRpYSAgbW50ICAgIHByb2MgICByb290ICAgcnVuICAgIHNiaW4gICBzeXMgICAgdG1wICAgIHVz
-ciAgICB2YXINCg0KICAgIDIuMiAgTWV0aG9kIDIgZm9yIGltYWdlX25hbWUtZGlyLnRhcg0KIyB0
-YXIgeHZmIGNvbnRhaW5lci1iYXNlLWxhdGVzdC1vY2ktZGlyLnRhcg0KIyBza29wZW8gY29weSBv
-Y2k6Y29udGFpbmVyLWJhc2UtcWVtdXg4Ni02NC5yb290ZnMtMjAyNjAzMDIwOTA3MzUucm9vdGZz
-LW9jaTpsYXRlc3QgY29udGFpbmVycy1zdG9yYWdlOmNvbnRhaW5lci1iYXNlLXFlbXV4ODYtNjQ6
-MS4wDQojIHBvZG1hbiBpbWFnZXMgfCBncmVwIGNvbnRhaW5lci1iYXNlLXFlbXV4ODYtNjQNCmRv
-Y2tlci5pby9saWJyYXJ5L2NvbnRhaW5lci1iYXNlLXFlbXV4ODYtNjQgIDEuMCAgICAgICAgIDFk
-NjAzYTEwNDFjNSAgMTQgeWVhcnMgYWdvICAgNS41OCBNQg0KDQojIHBvZG1hbiBydW4gLS1ybSAt
-aXQgMWQ2MDNhMTA0MWM1DQovICMgbHMNCmJpbiAgICBib290ICAgZGV2ICAgIGV0YyAgICBob21l
-ICAgbGliICAgIG1lZGlhICBtbnQgICAgcHJvYyAgIHJvb3QgICBydW4gICAgc2JpbiAgIHN5cyAg
-ICB0bXAgICAgdXNyICAgIHZhcg0KDQogICAgICAgQmFzZWQgb24gdGhpcyBwaGVub21lbm9uLCBJ
-IHRoaW5rIHdlIGNhbiBtb2RpZnkgdGhlICBkZXNjcmlwdGlvbiBvZiB1c2FnZSBvZiBvY2kgaW1h
-Z2UgaW4gaW1hZ2Utb2NpLmJiY2xhc3MgdG8gdXNlIHRoZSAgdHdvIG1ldGhvZHMgYWJvdmUuDQoN
-CiAgICAgICBXaGF0IGRvIHlvdSB0aGluayBhYm91dCBteSBzdWdnZXN0aW9u77yfDQoNCkxpdQ0K
-DQo=
+On Mon, Mar 2, 2026 at 9:52=E2=80=AFPM Yiding Liu (Fujitsu) <liuyd.fnst@fuj=
+itsu.com>
+wrote:
 
---_000_TY3PR01MB10110B39C744E9FAC050B99299B7FATY3PR01MB10110jp_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+> Hi Bruce
+>     1.  I follow the step of running oci image in  image-oci.bbclass but
+> it has error in runc.
+>
+>     # tar -xvf container-base-latest-oci-dir.tar
+>     # oci-image-tool create --ref name=3Dlatest
+> container-base-qemux86-64.rootfs-20260302090735.rootfs-oci
+> container-base-oci-bundle
+>
+    # runc run -b container-base-oci-bundle ctr-build
+> ERRO[0000] runc run failed: unable to start container process: error
+> during container init: open /dev/pts/ptmx: no such file or directory
+>
+>   2. Then I follow the comment in image-oci-umoci.inc using two methods
+> which can run container successfully
+>     # make a tar version of the image direcotry
+>     #  1) image_name.tar: compatible with oci tar format, blobs and rootf=
+s
+>     #     are at the top level. Can load directly from something like
+> podman
+>     #  2)image_name-dir.ta: original format from meta-virt, is just a tar=
+'d
+>     #     up oci image directory (compatible with skopeo :dir format)
+>
+>    2.1 Method 1 for image_name.tar
+> # podman load -i container-base-latest-oci.tar
+>
+> # podman images | grep localhost/latest
+> localhost/latest                           latest      1d603a1041c5  14
+> years ago   5.58 MB
+>
+> # podman run -it 1d603a1041c5
+> / # ls
+> bin    boot   dev    etc    home   lib    media  mnt    proc   root   run
+>    sbin   sys    tmp    usr    var
+>
+>     2.2  Method 2 for image_name-dir.tar
+> # tar xvf container-base-latest-oci-dir.tar
+> # skopeo copy
+> oci:container-base-qemux86-64.rootfs-20260302090735.rootfs-oci:latest
+> containers-storage:container-base-qemux86-64:1.0
+> # podman images | grep container-base-qemux86-64
+> docker.io/library/container-base-qemux86-64  1.0         1d603a1041c5  14
+> years ago   5.58 MB
+>
+> # podman run --rm -it 1d603a1041c5
+> / # ls
+> bin    boot   dev    etc    home   lib    media  mnt    proc   root   run
+>    sbin   sys    tmp    usr    var
+>
+>        Based on this phenomenon, I think we can modify the  description o=
+f
+> usage of oci image in image-oci.bbclass to use the  two methods above.
+>
+>        What do you think about my suggestion=EF=BC=9F
+>
 
-PGh0bWw+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIgY29udGVudD0i
-dGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyIgc3R5bGU9
-ImRpc3BsYXk6bm9uZTsiPiBQIHttYXJnaW4tdG9wOjA7bWFyZ2luLWJvdHRvbTowO30gPC9zdHls
-ZT4NCjwvaGVhZD4NCjxib2R5IGRpcj0ibHRyIj4NCjxkaXYgc3R5bGU9InRleHQtYWxpZ246IGxl
-ZnQ7IHRleHQtaW5kZW50OiAwcHg7IGJhY2tncm91bmQtY29sb3I6IHdoaXRlOyBtYXJnaW46IDBw
-eDsgZm9udC1mYW1pbHk6IEFwdG9zLCBBcHRvc19FbWJlZGRlZEZvbnQsIEFwdG9zX01TRm9udFNl
-cnZpY2UsIENhbGlicmksIEhlbHZldGljYSwgc2Fucy1zZXJpZiwgc2VyaWYsIEVtb2ppRm9udDsg
-Zm9udC1zaXplOiAxMnB0OyBjb2xvcjogYmxhY2s7IiBjbGFzcz0iZWxlbWVudFRvUHJvb2YiPg0K
-SGkgQnJ1Y2UmbmJzcDs8L2Rpdj4NCjxkaXYgc3R5bGU9InRleHQtYWxpZ246IGxlZnQ7IHRleHQt
-aW5kZW50OiAwcHg7IGJhY2tncm91bmQtY29sb3I6IHdoaXRlOyBtYXJnaW46IDBweDsgZm9udC1m
-YW1pbHk6IEFwdG9zLCBBcHRvc19FbWJlZGRlZEZvbnQsIEFwdG9zX01TRm9udFNlcnZpY2UsIENh
-bGlicmksIEhlbHZldGljYSwgc2Fucy1zZXJpZiwgc2VyaWYsIEVtb2ppRm9udDsgZm9udC1zaXpl
-OiAxMnB0OyBjb2xvcjogYmxhY2s7IiBjbGFzcz0iZWxlbWVudFRvUHJvb2YiPg0KJm5ic3A7ICZu
-YnNwOyAxLiZuYnNwOyBJIGZvbGxvdyB0aGUgc3RlcCBvZiBydW5uaW5nIG9jaSBpbWFnZSBpbiAm
-bmJzcDtpbWFnZS1vY2kuYmJjbGFzcyBidXQgaXQgaGFzIGVycm9yIGluIHJ1bmMuPC9kaXY+DQo8
-ZGl2IHN0eWxlPSJ0ZXh0LWFsaWduOiBsZWZ0OyB0ZXh0LWluZGVudDogMHB4OyBiYWNrZ3JvdW5k
-LWNvbG9yOiB3aGl0ZTsgbWFyZ2luOiAwcHg7IGZvbnQtZmFtaWx5OiBBcHRvcywgQXB0b3NfRW1i
-ZWRkZWRGb250LCBBcHRvc19NU0ZvbnRTZXJ2aWNlLCBDYWxpYnJpLCBIZWx2ZXRpY2EsIHNhbnMt
-c2VyaWYsIHNlcmlmLCBFbW9qaUZvbnQ7IGZvbnQtc2l6ZTogMTJwdDsgY29sb3I6IGJsYWNrOyIg
-Y2xhc3M9ImVsZW1lbnRUb1Byb29mIj4NCjxicj4NCjwvZGl2Pg0KPGRpdiBzdHlsZT0idGV4dC1h
-bGlnbjogbGVmdDsgdGV4dC1pbmRlbnQ6IDBweDsgYmFja2dyb3VuZC1jb2xvcjogd2hpdGU7IG1h
-cmdpbjogMHB4OyBmb250LWZhbWlseTogQXB0b3MsIEFwdG9zX0VtYmVkZGVkRm9udCwgQXB0b3Nf
-TVNGb250U2VydmljZSwgQ2FsaWJyaSwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmLCBzZXJpZiwgRW1v
-amlGb250OyBmb250LXNpemU6IDEycHQ7IGNvbG9yOiBibGFjazsiIGNsYXNzPSJlbGVtZW50VG9Q
-cm9vZiI+DQombmJzcDsgJm5ic3A7ICMgdGFyIC14dmYgY29udGFpbmVyLWJhc2UtbGF0ZXN0LW9j
-aS1kaXIudGFy4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC
-4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC
-4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC
-4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCCPC9kaXY+DQo8
-ZGl2IHN0eWxlPSJ0ZXh0LWFsaWduOiBsZWZ0OyB0ZXh0LWluZGVudDogMHB4OyBiYWNrZ3JvdW5k
-LWNvbG9yOiByZ2IoMjU1LCAyNTUsIDI1NSk7IG1hcmdpbjogMHB4OyBmb250LWZhbWlseTogQXB0
-b3MsIEFwdG9zX0VtYmVkZGVkRm9udCwgQXB0b3NfTVNGb250U2VydmljZSwgQ2FsaWJyaSwgSGVs
-dmV0aWNhLCBzYW5zLXNlcmlmLCBzZXJpZiwgRW1vamlGb250OyBmb250LXNpemU6IDEycHQ7IGNv
-bG9yOiBibGFjazsiIGNsYXNzPSJlbGVtZW50VG9Qcm9vZiI+DQrigILigILigILigILigILigILi
-gILigILigILigILigILigILigILigILigILigILigILigILigILigILigILigILigILigILigILi
-gILigILigILigILigILigILigILigILigILigILigILigILigILigILigILigILigILigILigILi
-gILigILigILigILigILigILigILigILigILigILigILigILigILigILigILigILigILigILigILi
-gILigILigILigII8L2Rpdj4NCjxkaXYgc3R5bGU9InRleHQtYWxpZ246IGxlZnQ7IHRleHQtaW5k
-ZW50OiAwcHg7IGJhY2tncm91bmQtY29sb3I6IHJnYigyNTUsIDI1NSwgMjU1KTsgbWFyZ2luOiAw
-cHg7IGZvbnQtZmFtaWx5OiBBcHRvcywgQXB0b3NfRW1iZWRkZWRGb250LCBBcHRvc19NU0ZvbnRT
-ZXJ2aWNlLCBDYWxpYnJpLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWYsIHNlcmlmLCBFbW9qaUZvbnQ7
-IGZvbnQtc2l6ZTogMTJwdDsgY29sb3I6IGJsYWNrOyIgY2xhc3M9ImVsZW1lbnRUb1Byb29mIj4N
-CiZuYnNwOyAmbmJzcDsgIyBvY2ktaW1hZ2UtdG9vbCBjcmVhdGUgLS1yZWYgbmFtZT1sYXRlc3Qg
-Y29udGFpbmVyLWJhc2UtcWVtdXg4Ni02NC5yb290ZnMtMjAyNjAzMDIwOTA3MzUucm9vdGZzLW9j
-aSBjb250YWluZXItYmFzZS1vY2ktYnVuZGxl4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC
-4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC
-4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC
-4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC4oCC
-4oCC4oCC4oCC4oCC4oCCPC9kaXY+DQo8ZGl2IHN0eWxlPSJ0ZXh0LWFsaWduOiBsZWZ0OyB0ZXh0
-LWluZGVudDogMHB4OyBiYWNrZ3JvdW5kLWNvbG9yOiByZ2IoMjU1LCAyNTUsIDI1NSk7IG1hcmdp
-bjogMHB4OyBmb250LWZhbWlseTogQXB0b3MsIEFwdG9zX0VtYmVkZGVkRm9udCwgQXB0b3NfTVNG
-b250U2VydmljZSwgQ2FsaWJyaSwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmLCBzZXJpZiwgRW1vamlG
-b250OyBmb250LXNpemU6IDEycHQ7IGNvbG9yOiBibGFjazsiIGNsYXNzPSJlbGVtZW50VG9Qcm9v
-ZiI+DQrigILigILigILigILigILigILigILigILigILigILigILigILigILigILigILigILigILi
-gILigILigILigILigILigILigILigILigILigILigILigILigILigILigILigILigILigILigILi
-gILigILigILigILigILigILigILigILigILigILigILigILigILigILigILigILigILigILigILi
-gILigILigILigILigILigILigILigILigILigILigILigILigILigILigII8L2Rpdj4NCjxkaXYg
-c3R5bGU9InRleHQtYWxpZ246IGxlZnQ7IHRleHQtaW5kZW50OiAwcHg7IGJhY2tncm91bmQtY29s
-b3I6IHJnYigyNTUsIDI1NSwgMjU1KTsgbWFyZ2luOiAwcHg7IGZvbnQtZmFtaWx5OiBBcHRvcywg
-QXB0b3NfRW1iZWRkZWRGb250LCBBcHRvc19NU0ZvbnRTZXJ2aWNlLCBDYWxpYnJpLCBIZWx2ZXRp
-Y2EsIHNhbnMtc2VyaWYsIHNlcmlmLCBFbW9qaUZvbnQ7IGZvbnQtc2l6ZTogMTJwdDsgY29sb3I6
-IGJsYWNrOyIgY2xhc3M9ImVsZW1lbnRUb1Byb29mIj4NCiZuYnNwOyAmbmJzcDsgIyBydW5jIHJ1
-biAtYiBjb250YWluZXItYmFzZS1vY2ktYnVuZGxlIGN0ci1idWlsZOKAguKAguKAguKAguKAguKA
-guKAguKAguKAguKAguKAguKAguKAguKAguKAguKAguKAguKAguKAguKAguKAguKAguKAguKAguKA
-guKAguKAguKAguKAguKAguKAguKAguKAguKAguKAguKAguKAguKAguKAguKAguKAguKAguKAguKA
-guKAguKAguKAguKAguKAguKAguKAguKAguKAguKAguKAguKAguKAguKAguKAguKAguKAguKAguKA
-guKAguKAguKAguKAguKAguKAguKAguKAgjwvZGl2Pg0KPGRpdiBzdHlsZT0idGV4dC1hbGlnbjog
-bGVmdDsgdGV4dC1pbmRlbnQ6IDBweDsgYmFja2dyb3VuZC1jb2xvcjogcmdiKDI1NSwgMjU1LCAy
-NTUpOyBtYXJnaW46IDBweDsgZm9udC1mYW1pbHk6IEFwdG9zLCBBcHRvc19FbWJlZGRlZEZvbnQs
-IEFwdG9zX01TRm9udFNlcnZpY2UsIENhbGlicmksIEhlbHZldGljYSwgc2Fucy1zZXJpZiwgc2Vy
-aWYsIEVtb2ppRm9udDsgZm9udC1zaXplOiAxMnB0OyBjb2xvcjogYmxhY2s7IiBjbGFzcz0iZWxl
-bWVudFRvUHJvb2YiPg0KRVJST1swMDAwXSBydW5jIHJ1biBmYWlsZWQ6IHVuYWJsZSB0byBzdGFy
-dCBjb250YWluZXIgcHJvY2VzczogZXJyb3IgZHVyaW5nIGNvbnRhaW5lciBpbml0OiBvcGVuIC9k
-ZXYvcHRzL3B0bXg6IG5vIHN1Y2ggZmlsZSBvciBkaXJlY3RvcnnigILigILigILigILigILigILi
-gILigILigILigILigILigILigILigILigILigILigILigILigILigILigILigILigILigILigILi
-gILigILigILigILigILigILigILigILigILigILigILigILigILigILigILigILigILigILigILi
-gILigILigILigILigILigILigILigILigILigILigILigILigILigILigILigILigILigILigILi
-gILigILigILigII8L2Rpdj4NCjxkaXYgc3R5bGU9InRleHQtYWxpZ246IGxlZnQ7IHRleHQtaW5k
-ZW50OiAwcHg7IGJhY2tncm91bmQtY29sb3I6IHdoaXRlOyBtYXJnaW46IDBweDsgZm9udC1mYW1p
-bHk6IEFwdG9zLCBBcHRvc19FbWJlZGRlZEZvbnQsIEFwdG9zX01TRm9udFNlcnZpY2UsIENhbGli
-cmksIEhlbHZldGljYSwgc2Fucy1zZXJpZiwgc2VyaWYsIEVtb2ppRm9udDsgZm9udC1zaXplOiAx
-MnB0OyBjb2xvcjogYmxhY2s7IiBjbGFzcz0iZWxlbWVudFRvUHJvb2YiPg0KPGJyPg0KPC9kaXY+
-DQo8ZGl2IHN0eWxlPSJ0ZXh0LWFsaWduOiBsZWZ0OyB0ZXh0LWluZGVudDogMHB4OyBiYWNrZ3Jv
-dW5kLWNvbG9yOiB3aGl0ZTsgbWFyZ2luOiAwcHg7IGZvbnQtZmFtaWx5OiBBcHRvcywgQXB0b3Nf
-RW1iZWRkZWRGb250LCBBcHRvc19NU0ZvbnRTZXJ2aWNlLCBDYWxpYnJpLCBIZWx2ZXRpY2EsIHNh
-bnMtc2VyaWYsIHNlcmlmLCBFbW9qaUZvbnQ7IGZvbnQtc2l6ZTogMTJwdDsgY29sb3I6IGJsYWNr
-OyIgY2xhc3M9ImVsZW1lbnRUb1Byb29mIj4NCiZuYnNwOyAyLiBUaGVuIEkgZm9sbG93IHRoZSBj
-b21tZW50IGluIGltYWdlLW9jaS11bW9jaS5pbmMgdXNpbmcgdHdvIG1ldGhvZHMgd2hpY2ggY2Fu
-IHJ1biBjb250YWluZXIgc3VjY2Vzc2Z1bGx5PC9kaXY+DQo8ZGl2IHN0eWxlPSJ0ZXh0LWFsaWdu
-OiBsZWZ0OyB0ZXh0LWluZGVudDogMHB4OyBiYWNrZ3JvdW5kLWNvbG9yOiB3aGl0ZTsgbWFyZ2lu
-OiAwcHg7IGZvbnQtZmFtaWx5OiBBcHRvcywgQXB0b3NfRW1iZWRkZWRGb250LCBBcHRvc19NU0Zv
-bnRTZXJ2aWNlLCBDYWxpYnJpLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWYsIHNlcmlmLCBFbW9qaUZv
-bnQ7IGZvbnQtc2l6ZTogMTJwdDsgY29sb3I6IGJsYWNrOyIgY2xhc3M9ImVsZW1lbnRUb1Byb29m
-Ij4NCiZuYnNwOyAmbmJzcDsgIyBtYWtlIGEgdGFyIHZlcnNpb24gb2YgdGhlIGltYWdlIGRpcmVj
-b3RyeTwvZGl2Pg0KPGRpdiBzdHlsZT0idGV4dC1hbGlnbjogbGVmdDsgdGV4dC1pbmRlbnQ6IDBw
-eDsgYmFja2dyb3VuZC1jb2xvcjogcmdiKDI1NSwgMjU1LCAyNTUpOyBtYXJnaW46IDBweDsgZm9u
-dC1mYW1pbHk6IEFwdG9zLCBBcHRvc19FbWJlZGRlZEZvbnQsIEFwdG9zX01TRm9udFNlcnZpY2Us
-IENhbGlicmksIEhlbHZldGljYSwgc2Fucy1zZXJpZiwgc2VyaWYsIEVtb2ppRm9udDsgZm9udC1z
-aXplOiAxMnB0OyBjb2xvcjogYmxhY2s7IiBjbGFzcz0iZWxlbWVudFRvUHJvb2YiPg0KJm5ic3A7
-ICZuYnNwOyAjICZuYnNwOzEpIGltYWdlX25hbWUudGFyOiBjb21wYXRpYmxlIHdpdGggb2NpIHRh
-ciBmb3JtYXQsIGJsb2JzIGFuZCByb290ZnM8L2Rpdj4NCjxkaXYgc3R5bGU9InRleHQtYWxpZ246
-IGxlZnQ7IHRleHQtaW5kZW50OiAwcHg7IGJhY2tncm91bmQtY29sb3I6IHJnYigyNTUsIDI1NSwg
-MjU1KTsgbWFyZ2luOiAwcHg7IGZvbnQtZmFtaWx5OiBBcHRvcywgQXB0b3NfRW1iZWRkZWRGb250
-LCBBcHRvc19NU0ZvbnRTZXJ2aWNlLCBDYWxpYnJpLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWYsIHNl
-cmlmLCBFbW9qaUZvbnQ7IGZvbnQtc2l6ZTogMTJwdDsgY29sb3I6IGJsYWNrOyIgY2xhc3M9ImVs
-ZW1lbnRUb1Byb29mIj4NCiZuYnNwOyAmbmJzcDsgIyAmbmJzcDsgJm5ic3A7IGFyZSBhdCB0aGUg
-dG9wIGxldmVsLiBDYW4gbG9hZCBkaXJlY3RseSBmcm9tIHNvbWV0aGluZyBsaWtlIHBvZG1hbjwv
-ZGl2Pg0KPGRpdiBzdHlsZT0idGV4dC1hbGlnbjogbGVmdDsgdGV4dC1pbmRlbnQ6IDBweDsgYmFj
-a2dyb3VuZC1jb2xvcjogcmdiKDI1NSwgMjU1LCAyNTUpOyBtYXJnaW46IDBweDsgZm9udC1mYW1p
-bHk6IEFwdG9zLCBBcHRvc19FbWJlZGRlZEZvbnQsIEFwdG9zX01TRm9udFNlcnZpY2UsIENhbGli
-cmksIEhlbHZldGljYSwgc2Fucy1zZXJpZiwgc2VyaWYsIEVtb2ppRm9udDsgZm9udC1zaXplOiAx
-MnB0OyBjb2xvcjogYmxhY2s7IiBjbGFzcz0iZWxlbWVudFRvUHJvb2YiPg0KJm5ic3A7ICZuYnNw
-OyAjICZuYnNwOzIpaW1hZ2VfbmFtZS1kaXIudGE6IG9yaWdpbmFsIGZvcm1hdCBmcm9tIG1ldGEt
-dmlydCwgaXMganVzdCBhIHRhcidkPC9kaXY+DQo8ZGl2IHN0eWxlPSJ0ZXh0LWFsaWduOiBsZWZ0
-OyB0ZXh0LWluZGVudDogMHB4OyBiYWNrZ3JvdW5kLWNvbG9yOiByZ2IoMjU1LCAyNTUsIDI1NSk7
-IG1hcmdpbjogMHB4OyBmb250LWZhbWlseTogQXB0b3MsIEFwdG9zX0VtYmVkZGVkRm9udCwgQXB0
-b3NfTVNGb250U2VydmljZSwgQ2FsaWJyaSwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmLCBzZXJpZiwg
-RW1vamlGb250OyBmb250LXNpemU6IDEycHQ7IGNvbG9yOiBibGFjazsiIGNsYXNzPSJlbGVtZW50
-VG9Qcm9vZiI+DQombmJzcDsgJm5ic3A7ICMgJm5ic3A7ICZuYnNwOyB1cCBvY2kgaW1hZ2UgZGly
-ZWN0b3J5IChjb21wYXRpYmxlIHdpdGggc2tvcGVvIDpkaXIgZm9ybWF0KTwvZGl2Pg0KPGRpdiBz
-dHlsZT0idGV4dC1hbGlnbjogbGVmdDsgdGV4dC1pbmRlbnQ6IDBweDsgYmFja2dyb3VuZC1jb2xv
-cjogd2hpdGU7IG1hcmdpbjogMHB4OyBmb250LWZhbWlseTogQXB0b3MsIEFwdG9zX0VtYmVkZGVk
-Rm9udCwgQXB0b3NfTVNGb250U2VydmljZSwgQ2FsaWJyaSwgSGVsdmV0aWNhLCBzYW5zLXNlcmlm
-LCBzZXJpZiwgRW1vamlGb250OyBmb250LXNpemU6IDEycHQ7IGNvbG9yOiBibGFjazsiIGNsYXNz
-PSJlbGVtZW50VG9Qcm9vZiI+DQombmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7PC9k
-aXY+DQo8ZGl2IHN0eWxlPSJ0ZXh0LWFsaWduOiBsZWZ0OyB0ZXh0LWluZGVudDogMHB4OyBiYWNr
-Z3JvdW5kLWNvbG9yOiB3aGl0ZTsgbWFyZ2luOiAwcHg7IGZvbnQtZmFtaWx5OiBBcHRvcywgQXB0
-b3NfRW1iZWRkZWRGb250LCBBcHRvc19NU0ZvbnRTZXJ2aWNlLCBDYWxpYnJpLCBIZWx2ZXRpY2Es
-IHNhbnMtc2VyaWYsIHNlcmlmLCBFbW9qaUZvbnQ7IGZvbnQtc2l6ZTogMTJwdDsgY29sb3I6IGJs
-YWNrOyIgY2xhc3M9ImVsZW1lbnRUb1Byb29mIj4NCiZuYnNwOyAmbmJzcDsyLjEgTWV0aG9kIDEg
-Zm9yIGltYWdlX25hbWUudGFyPC9kaXY+DQo8ZGl2IHN0eWxlPSJ0ZXh0LWFsaWduOiBsZWZ0OyB0
-ZXh0LWluZGVudDogMHB4OyBiYWNrZ3JvdW5kLWNvbG9yOiB3aGl0ZTsgbWFyZ2luOiAwcHggMHB4
-IDBweCA0MHB4OyBmb250LWZhbWlseTogQXB0b3MsIEFwdG9zX0VtYmVkZGVkRm9udCwgQXB0b3Nf
-TVNGb250U2VydmljZSwgQ2FsaWJyaSwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmLCBzZXJpZiwgRW1v
-amlGb250OyBmb250LXNpemU6IDEycHQ7IGNvbG9yOiBibGFjazsiIGNsYXNzPSJlbGVtZW50VG9Q
-cm9vZiI+DQojIHBvZG1hbiBsb2FkIC1pIGNvbnRhaW5lci1iYXNlLWxhdGVzdC1vY2kudGFyPC9k
-aXY+DQo8ZGl2IHN0eWxlPSJ0ZXh0LWFsaWduOiBsZWZ0OyB0ZXh0LWluZGVudDogMHB4OyBiYWNr
-Z3JvdW5kLWNvbG9yOiB3aGl0ZTsgbWFyZ2luOiAwcHggMHB4IDBweCA0MHB4OyBmb250LWZhbWls
-eTogQXB0b3MsIEFwdG9zX0VtYmVkZGVkRm9udCwgQXB0b3NfTVNGb250U2VydmljZSwgQ2FsaWJy
-aSwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmLCBzZXJpZiwgRW1vamlGb250OyBmb250LXNpemU6IDEy
-cHQ7IGNvbG9yOiBibGFjazsiIGNsYXNzPSJlbGVtZW50VG9Qcm9vZiI+DQo8YnI+DQo8L2Rpdj4N
-CjxkaXYgc3R5bGU9InRleHQtYWxpZ246IGxlZnQ7IHRleHQtaW5kZW50OiAwcHg7IGJhY2tncm91
-bmQtY29sb3I6IHdoaXRlOyBtYXJnaW46IDBweCAwcHggMHB4IDQwcHg7IGZvbnQtZmFtaWx5OiBB
-cHRvcywgQXB0b3NfRW1iZWRkZWRGb250LCBBcHRvc19NU0ZvbnRTZXJ2aWNlLCBDYWxpYnJpLCBI
-ZWx2ZXRpY2EsIHNhbnMtc2VyaWYsIHNlcmlmLCBFbW9qaUZvbnQ7IGZvbnQtc2l6ZTogMTJwdDsg
-Y29sb3I6IGJsYWNrOyIgY2xhc3M9ImVsZW1lbnRUb1Byb29mIj4NCiMgcG9kbWFuIGltYWdlcyB8
-IGdyZXAgbG9jYWxob3N0L2xhdGVzdDwvZGl2Pg0KPGRpdiBzdHlsZT0idGV4dC1hbGlnbjogbGVm
-dDsgdGV4dC1pbmRlbnQ6IDBweDsgYmFja2dyb3VuZC1jb2xvcjogd2hpdGU7IG1hcmdpbjogMHB4
-IDBweCAwcHggNDBweDsgZm9udC1mYW1pbHk6IEFwdG9zLCBBcHRvc19FbWJlZGRlZEZvbnQsIEFw
-dG9zX01TRm9udFNlcnZpY2UsIENhbGlicmksIEhlbHZldGljYSwgc2Fucy1zZXJpZiwgc2VyaWYs
-IEVtb2ppRm9udDsgZm9udC1zaXplOiAxMnB0OyBjb2xvcjogYmxhY2s7IiBjbGFzcz0iZWxlbWVu
-dFRvUHJvb2YiPg0KbG9jYWxob3N0L2xhdGVzdCAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsg
-Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAm
-bmJzcDsgbGF0ZXN0ICZuYnNwOyAmbmJzcDsgJm5ic3A7MWQ2MDNhMTA0MWM1ICZuYnNwOzE0IHll
-YXJzIGFnbyAmbmJzcDsgNS41OCBNQjwvZGl2Pg0KPGRpdiBzdHlsZT0idGV4dC1hbGlnbjogbGVm
-dDsgdGV4dC1pbmRlbnQ6IDBweDsgYmFja2dyb3VuZC1jb2xvcjogd2hpdGU7IG1hcmdpbjogMHB4
-IDBweCAwcHggNDBweDsgZm9udC1mYW1pbHk6IEFwdG9zLCBBcHRvc19FbWJlZGRlZEZvbnQsIEFw
-dG9zX01TRm9udFNlcnZpY2UsIENhbGlicmksIEhlbHZldGljYSwgc2Fucy1zZXJpZiwgc2VyaWYs
-IEVtb2ppRm9udDsgZm9udC1zaXplOiAxMnB0OyBjb2xvcjogYmxhY2s7IiBjbGFzcz0iZWxlbWVu
-dFRvUHJvb2YiPg0KPGJyPg0KPC9kaXY+DQo8ZGl2IHN0eWxlPSJ0ZXh0LWFsaWduOiBsZWZ0OyB0
-ZXh0LWluZGVudDogMHB4OyBiYWNrZ3JvdW5kLWNvbG9yOiB3aGl0ZTsgbWFyZ2luOiAwcHggMHB4
-IDBweCA0MHB4OyBmb250LWZhbWlseTogQXB0b3MsIEFwdG9zX0VtYmVkZGVkRm9udCwgQXB0b3Nf
-TVNGb250U2VydmljZSwgQ2FsaWJyaSwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmLCBzZXJpZiwgRW1v
-amlGb250OyBmb250LXNpemU6IDEycHQ7IGNvbG9yOiBibGFjazsiIGNsYXNzPSJlbGVtZW50VG9Q
-cm9vZiI+DQojIHBvZG1hbiBydW4gLWl0IDFkNjAzYTEwNDFjNTwvZGl2Pg0KPGRpdiBzdHlsZT0i
-dGV4dC1hbGlnbjogbGVmdDsgdGV4dC1pbmRlbnQ6IDBweDsgYmFja2dyb3VuZC1jb2xvcjogcmdi
-KDI1NSwgMjU1LCAyNTUpOyBtYXJnaW46IDBweCAwcHggMHB4IDQwcHg7IGZvbnQtZmFtaWx5OiBB
-cHRvcywgQXB0b3NfRW1iZWRkZWRGb250LCBBcHRvc19NU0ZvbnRTZXJ2aWNlLCBDYWxpYnJpLCBI
-ZWx2ZXRpY2EsIHNhbnMtc2VyaWYsIHNlcmlmLCBFbW9qaUZvbnQ7IGZvbnQtc2l6ZTogMTJwdDsg
-Y29sb3I6IGJsYWNrOyIgY2xhc3M9ImVsZW1lbnRUb1Byb29mIj4NCi8gIyBsczwvZGl2Pg0KPGRp
-diBzdHlsZT0idGV4dC1hbGlnbjogbGVmdDsgdGV4dC1pbmRlbnQ6IDBweDsgYmFja2dyb3VuZC1j
-b2xvcjogcmdiKDI1NSwgMjU1LCAyNTUpOyBtYXJnaW46IDBweCAwcHggMHB4IDQwcHg7IGZvbnQt
-ZmFtaWx5OiBBcHRvcywgQXB0b3NfRW1iZWRkZWRGb250LCBBcHRvc19NU0ZvbnRTZXJ2aWNlLCBD
-YWxpYnJpLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWYsIHNlcmlmLCBFbW9qaUZvbnQ7IGZvbnQtc2l6
-ZTogMTJwdDsgY29sb3I6IGJsYWNrOyIgY2xhc3M9ImVsZW1lbnRUb1Byb29mIj4NCmJpbiAmbmJz
-cDsgJm5ic3A7Ym9vdCAmbmJzcDsgZGV2ICZuYnNwOyAmbmJzcDtldGMgJm5ic3A7ICZuYnNwO2hv
-bWUgJm5ic3A7IGxpYiAmbmJzcDsgJm5ic3A7bWVkaWEgJm5ic3A7bW50ICZuYnNwOyAmbmJzcDtw
-cm9jICZuYnNwOyByb290ICZuYnNwOyBydW4gJm5ic3A7ICZuYnNwO3NiaW4gJm5ic3A7IHN5cyAm
-bmJzcDsgJm5ic3A7dG1wICZuYnNwOyAmbmJzcDt1c3IgJm5ic3A7ICZuYnNwO3ZhcjwvZGl2Pg0K
-PGRpdiBzdHlsZT0idGV4dC1hbGlnbjogbGVmdDsgdGV4dC1pbmRlbnQ6IDBweDsgYmFja2dyb3Vu
-ZC1jb2xvcjogcmdiKDI1NSwgMjU1LCAyNTUpOyBtYXJnaW46IDBweCAwcHggMHB4IDQwcHg7IGZv
-bnQtZmFtaWx5OiBBcHRvcywgQXB0b3NfRW1iZWRkZWRGb250LCBBcHRvc19NU0ZvbnRTZXJ2aWNl
-LCBDYWxpYnJpLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWYsIHNlcmlmLCBFbW9qaUZvbnQ7IGZvbnQt
-c2l6ZTogMTJwdDsgY29sb3I6IGJsYWNrOyIgY2xhc3M9ImVsZW1lbnRUb1Byb29mIj4NCjxicj4N
-CjwvZGl2Pg0KPGRpdiBzdHlsZT0idGV4dC1hbGlnbjogbGVmdDsgdGV4dC1pbmRlbnQ6IDBweDsg
-YmFja2dyb3VuZC1jb2xvcjogcmdiKDI1NSwgMjU1LCAyNTUpOyBtYXJnaW46IDBweDsgZm9udC1m
-YW1pbHk6IEFwdG9zLCBBcHRvc19FbWJlZGRlZEZvbnQsIEFwdG9zX01TRm9udFNlcnZpY2UsIENh
-bGlicmksIEhlbHZldGljYSwgc2Fucy1zZXJpZiwgc2VyaWYsIEVtb2ppRm9udDsgZm9udC1zaXpl
-OiAxMnB0OyBjb2xvcjogYmxhY2s7IiBjbGFzcz0iZWxlbWVudFRvUHJvb2YiPg0KJm5ic3A7ICZu
-YnNwOyAyLjImbmJzcDsgTWV0aG9kIDImbmJzcDtmb3IgaW1hZ2VfbmFtZS1kaXIudGFyPC9kaXY+
-DQo8ZGl2IHN0eWxlPSJ0ZXh0LWFsaWduOiBsZWZ0OyB0ZXh0LWluZGVudDogMHB4OyBiYWNrZ3Jv
-dW5kLWNvbG9yOiByZ2IoMjU1LCAyNTUsIDI1NSk7IG1hcmdpbjogMHB4IDBweCAwcHggNDBweDsg
-Zm9udC1mYW1pbHk6IEFwdG9zLCBBcHRvc19FbWJlZGRlZEZvbnQsIEFwdG9zX01TRm9udFNlcnZp
-Y2UsIENhbGlicmksIEhlbHZldGljYSwgc2Fucy1zZXJpZiwgc2VyaWYsIEVtb2ppRm9udDsgZm9u
-dC1zaXplOiAxMnB0OyBjb2xvcjogYmxhY2s7IiBjbGFzcz0iZWxlbWVudFRvUHJvb2YiPg0KIyB0
-YXIgeHZmIGNvbnRhaW5lci1iYXNlLWxhdGVzdC1vY2ktZGlyLnRhcjwvZGl2Pg0KPGRpdiBzdHls
-ZT0idGV4dC1hbGlnbjogbGVmdDsgdGV4dC1pbmRlbnQ6IDBweDsgYmFja2dyb3VuZC1jb2xvcjog
-cmdiKDI1NSwgMjU1LCAyNTUpOyBtYXJnaW46IDBweCAwcHggMHB4IDQwcHg7IGZvbnQtZmFtaWx5
-OiBBcHRvcywgQXB0b3NfRW1iZWRkZWRGb250LCBBcHRvc19NU0ZvbnRTZXJ2aWNlLCBDYWxpYnJp
-LCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWYsIHNlcmlmLCBFbW9qaUZvbnQ7IGZvbnQtc2l6ZTogMTJw
-dDsgY29sb3I6IGJsYWNrOyIgY2xhc3M9ImVsZW1lbnRUb1Byb29mIj4NCiMgc2tvcGVvIGNvcHkg
-b2NpOmNvbnRhaW5lci1iYXNlLXFlbXV4ODYtNjQucm9vdGZzLTIwMjYwMzAyMDkwNzM1LnJvb3Rm
-cy1vY2k6bGF0ZXN0IGNvbnRhaW5lcnMtc3RvcmFnZTpjb250YWluZXItYmFzZS1xZW11eDg2LTY0
-OjEuMDwvZGl2Pg0KPGRpdiBzdHlsZT0idGV4dC1hbGlnbjogbGVmdDsgdGV4dC1pbmRlbnQ6IDBw
-eDsgYmFja2dyb3VuZC1jb2xvcjogcmdiKDI1NSwgMjU1LCAyNTUpOyBtYXJnaW46IDBweCAwcHgg
-MHB4IDQwcHg7IGZvbnQtZmFtaWx5OiBBcHRvcywgQXB0b3NfRW1iZWRkZWRGb250LCBBcHRvc19N
-U0ZvbnRTZXJ2aWNlLCBDYWxpYnJpLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWYsIHNlcmlmLCBFbW9q
-aUZvbnQ7IGZvbnQtc2l6ZTogMTJwdDsgY29sb3I6IGJsYWNrOyIgY2xhc3M9ImVsZW1lbnRUb1By
-b29mIj4NCiMgcG9kbWFuIGltYWdlcyB8IGdyZXAgY29udGFpbmVyLWJhc2UtcWVtdXg4Ni02NDwv
-ZGl2Pg0KPGRpdiBzdHlsZT0idGV4dC1hbGlnbjogbGVmdDsgdGV4dC1pbmRlbnQ6IDBweDsgYmFj
-a2dyb3VuZC1jb2xvcjogcmdiKDI1NSwgMjU1LCAyNTUpOyBtYXJnaW46IDBweCAwcHggMHB4IDQw
-cHg7IGZvbnQtZmFtaWx5OiBBcHRvcywgQXB0b3NfRW1iZWRkZWRGb250LCBBcHRvc19NU0ZvbnRT
-ZXJ2aWNlLCBDYWxpYnJpLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWYsIHNlcmlmLCBFbW9qaUZvbnQ7
-IGZvbnQtc2l6ZTogMTJwdDsgY29sb3I6IGJsYWNrOyIgY2xhc3M9ImVsZW1lbnRUb1Byb29mIj4N
-CmRvY2tlci5pby9saWJyYXJ5L2NvbnRhaW5lci1iYXNlLXFlbXV4ODYtNjQgJm5ic3A7MS4wICZu
-YnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAxZDYwM2ExMDQxYzUgJm5ic3A7MTQgeWVhcnMgYWdv
-ICZuYnNwOyA1LjU4IE1CPC9kaXY+DQo8ZGl2IHN0eWxlPSJ0ZXh0LWFsaWduOiBsZWZ0OyB0ZXh0
-LWluZGVudDogMHB4OyBiYWNrZ3JvdW5kLWNvbG9yOiByZ2IoMjU1LCAyNTUsIDI1NSk7IG1hcmdp
-bjogMHB4IDBweCAwcHggNDBweDsgZm9udC1mYW1pbHk6IEFwdG9zLCBBcHRvc19FbWJlZGRlZEZv
-bnQsIEFwdG9zX01TRm9udFNlcnZpY2UsIENhbGlicmksIEhlbHZldGljYSwgc2Fucy1zZXJpZiwg
-c2VyaWYsIEVtb2ppRm9udDsgZm9udC1zaXplOiAxMnB0OyBjb2xvcjogYmxhY2s7IiBjbGFzcz0i
-ZWxlbWVudFRvUHJvb2YiPg0KPGJyPg0KPC9kaXY+DQo8ZGl2IHN0eWxlPSJ0ZXh0LWFsaWduOiBs
-ZWZ0OyB0ZXh0LWluZGVudDogMHB4OyBiYWNrZ3JvdW5kLWNvbG9yOiByZ2IoMjU1LCAyNTUsIDI1
-NSk7IG1hcmdpbjogMHB4IDBweCAwcHggNDBweDsgZm9udC1mYW1pbHk6IEFwdG9zLCBBcHRvc19F
-bWJlZGRlZEZvbnQsIEFwdG9zX01TRm9udFNlcnZpY2UsIENhbGlicmksIEhlbHZldGljYSwgc2Fu
-cy1zZXJpZiwgc2VyaWYsIEVtb2ppRm9udDsgZm9udC1zaXplOiAxMnB0OyBjb2xvcjogYmxhY2s7
-IiBjbGFzcz0iZWxlbWVudFRvUHJvb2YiPg0KIyBwb2RtYW4gcnVuIC0tcm0gLWl0IDFkNjAzYTEw
-NDFjNTwvZGl2Pg0KPGRpdiBzdHlsZT0idGV4dC1hbGlnbjogbGVmdDsgdGV4dC1pbmRlbnQ6IDBw
-eDsgYmFja2dyb3VuZC1jb2xvcjogcmdiKDI1NSwgMjU1LCAyNTUpOyBtYXJnaW46IDBweCAwcHgg
-MHB4IDQwcHg7IGZvbnQtZmFtaWx5OiBBcHRvcywgQXB0b3NfRW1iZWRkZWRGb250LCBBcHRvc19N
-U0ZvbnRTZXJ2aWNlLCBDYWxpYnJpLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWYsIHNlcmlmLCBFbW9q
-aUZvbnQ7IGZvbnQtc2l6ZTogMTJwdDsgY29sb3I6IGJsYWNrOyIgY2xhc3M9ImVsZW1lbnRUb1By
-b29mIj4NCi8gIyZuYnNwO2xzPC9kaXY+DQo8ZGl2IHN0eWxlPSJ0ZXh0LWFsaWduOiBsZWZ0OyB0
-ZXh0LWluZGVudDogMHB4OyBiYWNrZ3JvdW5kLWNvbG9yOiByZ2IoMjU1LCAyNTUsIDI1NSk7IG1h
-cmdpbjogMHB4IDBweCAwcHggNDBweDsgZm9udC1mYW1pbHk6IEFwdG9zLCBBcHRvc19FbWJlZGRl
-ZEZvbnQsIEFwdG9zX01TRm9udFNlcnZpY2UsIENhbGlicmksIEhlbHZldGljYSwgc2Fucy1zZXJp
-Ziwgc2VyaWYsIEVtb2ppRm9udDsgZm9udC1zaXplOiAxMnB0OyBjb2xvcjogYmxhY2s7IiBjbGFz
-cz0iZWxlbWVudFRvUHJvb2YiPg0KYmluICZuYnNwOyAmbmJzcDtib290ICZuYnNwOyBkZXYgJm5i
-c3A7ICZuYnNwO2V0YyAmbmJzcDsgJm5ic3A7aG9tZSAmbmJzcDsgbGliICZuYnNwOyAmbmJzcDtt
-ZWRpYSAmbmJzcDttbnQgJm5ic3A7ICZuYnNwO3Byb2MgJm5ic3A7IHJvb3QgJm5ic3A7IHJ1biAm
-bmJzcDsgJm5ic3A7c2JpbiAmbmJzcDsgc3lzICZuYnNwOyAmbmJzcDt0bXAgJm5ic3A7ICZuYnNw
-O3VzciAmbmJzcDsgJm5ic3A7dmFyPC9kaXY+DQo8ZGl2IHN0eWxlPSJ0ZXh0LWFsaWduOiBsZWZ0
-OyB0ZXh0LWluZGVudDogMHB4OyBiYWNrZ3JvdW5kLWNvbG9yOiByZ2IoMjU1LCAyNTUsIDI1NSk7
-IG1hcmdpbjogMHB4OyBmb250LWZhbWlseTogJnF1b3Q7U2Vnb2UgVUkmcXVvdDssICZxdW90O1Nl
-Z29lIFVJIFdlYiAoV2VzdCBFdXJvcGVhbikmcXVvdDssIC1hcHBsZS1zeXN0ZW0sIEJsaW5rTWFj
-U3lzdGVtRm9udCwgUm9ib3RvLCAmcXVvdDtIZWx2ZXRpY2EgTmV1ZSZxdW90Oywgc2Fucy1zZXJp
-ZjsgZm9udC1zaXplOiAxNXB4OyBjb2xvcjogcmdiKDM2LCAzNiwgMzYpOyIgY2xhc3M9ImVsZW1l
-bnRUb1Byb29mIj4NCjxicj4NCjwvZGl2Pg0KPGRpdiBzdHlsZT0idGV4dC1hbGlnbjogbGVmdDsg
-dGV4dC1pbmRlbnQ6IDBweDsgYmFja2dyb3VuZC1jb2xvcjogcmdiKDI1NSwgMjU1LCAyNTUpOyBt
-YXJnaW46IDBweDsgZm9udC1mYW1pbHk6IEFwdG9zLCBBcHRvc19FbWJlZGRlZEZvbnQsIEFwdG9z
-X01TRm9udFNlcnZpY2UsIENhbGlicmksIEhlbHZldGljYSwgc2Fucy1zZXJpZiwgc2VyaWYsIEVt
-b2ppRm9udDsgZm9udC1zaXplOiAxMnB0OyBjb2xvcjogYmxhY2s7IiBjbGFzcz0iZWxlbWVudFRv
-UHJvb2YiPg0KJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7QmFzZWQgb24gdGhpcyBwaGVub21l
-bm9uLCBJIHRoaW5rIHdlIGNhbiBtb2RpZnkgdGhlJm5ic3A7IGRlc2NyaXB0aW9uIG9mIHVzYWdl
-IG9mIG9jaSBpbWFnZSBpbiBpbWFnZS1vY2kuYmJjbGFzcyB0byB1c2UgdGhlICZuYnNwO3R3byBt
-ZXRob2RzIGFib3ZlLjwvZGl2Pg0KPGRpdiBzdHlsZT0idGV4dC1hbGlnbjogbGVmdDsgdGV4dC1p
-bmRlbnQ6IDBweDsgYmFja2dyb3VuZC1jb2xvcjogcmdiKDI1NSwgMjU1LCAyNTUpOyBtYXJnaW46
-IDBweDsgZm9udC1mYW1pbHk6IEFwdG9zLCBBcHRvc19FbWJlZGRlZEZvbnQsIEFwdG9zX01TRm9u
-dFNlcnZpY2UsIENhbGlicmksIEhlbHZldGljYSwgc2Fucy1zZXJpZiwgc2VyaWYsIEVtb2ppRm9u
-dDsgZm9udC1zaXplOiAxMnB0OyBjb2xvcjogYmxhY2s7IiBjbGFzcz0iZWxlbWVudFRvUHJvb2Yi
-Pg0KJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7PC9kaXY+DQo8ZGl2IHN0eWxlPSJ0ZXh0LWFs
-aWduOiBsZWZ0OyB0ZXh0LWluZGVudDogMHB4OyBiYWNrZ3JvdW5kLWNvbG9yOiByZ2IoMjU1LCAy
-NTUsIDI1NSk7IG1hcmdpbjogMHB4OyBmb250LWZhbWlseTogQXB0b3MsIEFwdG9zX0VtYmVkZGVk
-Rm9udCwgQXB0b3NfTVNGb250U2VydmljZSwgQ2FsaWJyaSwgSGVsdmV0aWNhLCBzYW5zLXNlcmlm
-LCBzZXJpZiwgRW1vamlGb250OyBmb250LXNpemU6IDEycHQ7IGNvbG9yOiBibGFjazsiIGNsYXNz
-PSJlbGVtZW50VG9Qcm9vZiI+DQombmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDtXaGF0IGRvIHlv
-dSB0aGluayBhYm91dCBteSBzdWdnZXN0aW9u77yfPC9kaXY+DQo8ZGl2IHN0eWxlPSJ0ZXh0LWFs
-aWduOiBsZWZ0OyB0ZXh0LWluZGVudDogMHB4OyBiYWNrZ3JvdW5kLWNvbG9yOiByZ2IoMjU1LCAy
-NTUsIDI1NSk7IG1hcmdpbjogMHB4OyBmb250LWZhbWlseTogQXB0b3MsIEFwdG9zX0VtYmVkZGVk
-Rm9udCwgQXB0b3NfTVNGb250U2VydmljZSwgQ2FsaWJyaSwgSGVsdmV0aWNhLCBzYW5zLXNlcmlm
-LCBzZXJpZiwgRW1vamlGb250OyBmb250LXNpemU6IDEycHQ7IGNvbG9yOiBibGFjazsiIGNsYXNz
-PSJlbGVtZW50VG9Qcm9vZiI+DQo8YnI+DQo8L2Rpdj4NCjxkaXYgc3R5bGU9InRleHQtYWxpZ246
-IGxlZnQ7IHRleHQtaW5kZW50OiAwcHg7IGJhY2tncm91bmQtY29sb3I6IHJnYigyNTUsIDI1NSwg
-MjU1KTsgbWFyZ2luOiAwcHg7IGZvbnQtZmFtaWx5OiBBcHRvcywgQXB0b3NfRW1iZWRkZWRGb250
-LCBBcHRvc19NU0ZvbnRTZXJ2aWNlLCBDYWxpYnJpLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWYsIHNl
-cmlmLCBFbW9qaUZvbnQ7IGZvbnQtc2l6ZTogMTJwdDsgY29sb3I6IGJsYWNrOyIgY2xhc3M9ImVs
-ZW1lbnRUb1Byb29mIj4NCkxpdTwvZGl2Pg0KPGRpdiBzdHlsZT0iZm9udC1mYW1pbHk6IEFwdG9z
-LCBBcHRvc19FbWJlZGRlZEZvbnQsIEFwdG9zX01TRm9udFNlcnZpY2UsIENhbGlicmksIEhlbHZl
-dGljYSwgc2Fucy1zZXJpZjsgZm9udC1zaXplOiAxMnB0OyBjb2xvcjogcmdiKDAsIDAsIDApOyIg
-Y2xhc3M9ImVsZW1lbnRUb1Byb29mIj4NCjxicj4NCjwvZGl2Pg0KPC9ib2R5Pg0KPC9odG1sPg0K
+When I wrote that comment, oci-image-tools were capable of creating a
+bundle that runc could directly execute.
 
---_000_TY3PR01MB10110B39C744E9FAC050B99299B7FATY3PR01MB10110jp_--
+I'm actually in the process of upgrading bare bundles + runc to work with
+the new architecture that I've created for bundling docker and podman
+containers (something called vrunc), but that isn't quite ready yet.
+
+So yes, I'd say that we could remove the oci-image-tool reference and just
+update it to suggest umnoci like the  image-oci-umoci.inc
+
+When I have bare runc working again, I can update the headers will those
+details as well.
+
+Bruce
+
+
+>
+> Liu
+>
+>
+
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end
+- "Use the force Harry" - Gandalf, Star Trek II
+
+--00000000000064cb31064c16cbbd
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr"><div cl=
+ass=3D"gmail_default" style=3D"font-size:small"><br></div></div><br><div cl=
+ass=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Mar 2, 20=
+26 at 9:52=E2=80=AFPM Yiding Liu (Fujitsu) &lt;<a href=3D"mailto:liuyd.fnst=
+@fujitsu.com" target=3D"_blank">liuyd.fnst@fujitsu.com</a>&gt; wrote:<br></=
+div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bor=
+der-left:1px solid rgb(204,204,204);padding-left:1ex"><div>
+
+
+
+
+<div dir=3D"ltr">
+<div style=3D"text-align:left;text-indent:0px;background-color:white;margin=
+:0px;font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helve=
+tica,sans-serif,serif,EmojiFont;font-size:12pt;color:black">
+Hi Bruce=C2=A0</div>
+<div style=3D"text-align:left;text-indent:0px;background-color:white;margin=
+:0px;font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helve=
+tica,sans-serif,serif,EmojiFont;font-size:12pt;color:black">
+=C2=A0 =C2=A0 1.=C2=A0 I follow the step of running oci image in =C2=A0imag=
+e-oci.bbclass but it has error in runc.</div>
+<div style=3D"text-align:left;text-indent:0px;background-color:white;margin=
+:0px;font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helve=
+tica,sans-serif,serif,EmojiFont;font-size:12pt;color:black">
+<br>
+</div>
+<div style=3D"text-align:left;text-indent:0px;background-color:white;margin=
+:0px;font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helve=
+tica,sans-serif,serif,EmojiFont;font-size:12pt;color:black">
+=C2=A0 =C2=A0 # tar -xvf container-base-latest-oci-dir.tar=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=
+=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=
+=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=
+=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=
+=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=
+=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=
+=80=82=E2=80=82</div>
+<div style=3D"text-align:left;text-indent:0px;background-color:rgb(255,255,=
+255);margin:0px;font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Ca=
+libri,Helvetica,sans-serif,serif,EmojiFont;font-size:12pt;color:black">
+=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=
+=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=
+=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=
+=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=
+=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=
+=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82</div>
+<div style=3D"text-align:left;text-indent:0px;background-color:rgb(255,255,=
+255);margin:0px;font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Ca=
+libri,Helvetica,sans-serif,serif,EmojiFont;font-size:12pt;color:black">
+=C2=A0 =C2=A0 # oci-image-tool create --ref name=3Dlatest container-base-qe=
+mux86-64.rootfs-20260302090735.rootfs-oci container-base-oci-bundle=E2=80=
+=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=
+=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=
+=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=
+=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=
+=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=
+=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=
+=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82</div>
+<div style=3D"text-align:left;text-indent:0px;background-color:rgb(255,255,=
+255);margin:0px;font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Ca=
+libri,Helvetica,sans-serif,serif,EmojiFont;font-size:12pt;color:black">
+=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=
+=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=
+=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=
+=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=
+=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=
+=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82=E2=80=82</div></div></div></blockquote><blockquote cl=
+ass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid=
+ rgb(204,204,204);padding-left:1ex"><div><div dir=3D"ltr"><div style=3D"tex=
+t-align:left;text-indent:0px;background-color:rgb(255,255,255);margin:0px;f=
+ont-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,s=
+ans-serif,serif,EmojiFont;font-size:12pt;color:black">=C2=A0 =C2=A0 # runc =
+run -b container-base-oci-bundle ctr-build=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=
+=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=
+=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=
+=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=
+=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=
+=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=
+=80=82</div>
+<div style=3D"text-align:left;text-indent:0px;background-color:rgb(255,255,=
+255);margin:0px;font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Ca=
+libri,Helvetica,sans-serif,serif,EmojiFont;font-size:12pt;color:black">
+ERRO[0000] runc run failed: unable to start container process: error during=
+ container init: open /dev/pts/ptmx: no such file or directory=E2=80=82=E2=
+=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=
+=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=
+=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=
+=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=
+=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=
+=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82</div>
+<div style=3D"text-align:left;text-indent:0px;background-color:white;margin=
+:0px;font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helve=
+tica,sans-serif,serif,EmojiFont;font-size:12pt;color:black">
+<br>
+</div>
+<div style=3D"text-align:left;text-indent:0px;background-color:white;margin=
+:0px;font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helve=
+tica,sans-serif,serif,EmojiFont;font-size:12pt;color:black">
+=C2=A0 2. Then I follow the comment in image-oci-umoci.inc using two method=
+s which can run container successfully</div>
+<div style=3D"text-align:left;text-indent:0px;background-color:white;margin=
+:0px;font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helve=
+tica,sans-serif,serif,EmojiFont;font-size:12pt;color:black">
+=C2=A0 =C2=A0 # make a tar version of the image direcotry</div>
+<div style=3D"text-align:left;text-indent:0px;background-color:rgb(255,255,=
+255);margin:0px;font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Ca=
+libri,Helvetica,sans-serif,serif,EmojiFont;font-size:12pt;color:black">
+=C2=A0 =C2=A0 # =C2=A01) image_name.tar: compatible with oci tar format, bl=
+obs and rootfs</div>
+<div style=3D"text-align:left;text-indent:0px;background-color:rgb(255,255,=
+255);margin:0px;font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Ca=
+libri,Helvetica,sans-serif,serif,EmojiFont;font-size:12pt;color:black">
+=C2=A0 =C2=A0 # =C2=A0 =C2=A0 are at the top level. Can load directly from =
+something like podman</div>
+<div style=3D"text-align:left;text-indent:0px;background-color:rgb(255,255,=
+255);margin:0px;font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Ca=
+libri,Helvetica,sans-serif,serif,EmojiFont;font-size:12pt;color:black">
+=C2=A0 =C2=A0 # =C2=A02)image_name-dir.ta: original format from meta-virt, =
+is just a tar&#39;d</div>
+<div style=3D"text-align:left;text-indent:0px;background-color:rgb(255,255,=
+255);margin:0px;font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Ca=
+libri,Helvetica,sans-serif,serif,EmojiFont;font-size:12pt;color:black">
+=C2=A0 =C2=A0 # =C2=A0 =C2=A0 up oci image directory (compatible with skope=
+o :dir format)</div>
+<div style=3D"text-align:left;text-indent:0px;background-color:white;margin=
+:0px;font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helve=
+tica,sans-serif,serif,EmojiFont;font-size:12pt;color:black">
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0</div>
+<div style=3D"text-align:left;text-indent:0px;background-color:white;margin=
+:0px;font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helve=
+tica,sans-serif,serif,EmojiFont;font-size:12pt;color:black">
+=C2=A0 =C2=A02.1 Method 1 for image_name.tar</div>
+<div style=3D"text-align:left;text-indent:0px;background-color:white;margin=
+:0px 0px 0px 40px;font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,=
+Calibri,Helvetica,sans-serif,serif,EmojiFont;font-size:12pt;color:black">
+# podman load -i container-base-latest-oci.tar</div>
+<div style=3D"text-align:left;text-indent:0px;background-color:white;margin=
+:0px 0px 0px 40px;font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,=
+Calibri,Helvetica,sans-serif,serif,EmojiFont;font-size:12pt;color:black">
+<br>
+</div>
+<div style=3D"text-align:left;text-indent:0px;background-color:white;margin=
+:0px 0px 0px 40px;font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,=
+Calibri,Helvetica,sans-serif,serif,EmojiFont;font-size:12pt;color:black">
+# podman images | grep localhost/latest</div>
+<div style=3D"text-align:left;text-indent:0px;background-color:white;margin=
+:0px 0px 0px 40px;font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,=
+Calibri,Helvetica,sans-serif,serif,EmojiFont;font-size:12pt;color:black">
+localhost/latest =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 latest =C2=A0 =C2=A0 =C2=A01d603a1041c5 =
+=C2=A014 years ago =C2=A0 5.58 MB</div>
+<div style=3D"text-align:left;text-indent:0px;background-color:white;margin=
+:0px 0px 0px 40px;font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,=
+Calibri,Helvetica,sans-serif,serif,EmojiFont;font-size:12pt;color:black">
+<br>
+</div>
+<div style=3D"text-align:left;text-indent:0px;background-color:white;margin=
+:0px 0px 0px 40px;font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,=
+Calibri,Helvetica,sans-serif,serif,EmojiFont;font-size:12pt;color:black">
+# podman run -it 1d603a1041c5</div>
+<div style=3D"text-align:left;text-indent:0px;background-color:rgb(255,255,=
+255);margin:0px 0px 0px 40px;font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSF=
+ontService,Calibri,Helvetica,sans-serif,serif,EmojiFont;font-size:12pt;colo=
+r:black">
+/ # ls</div>
+<div style=3D"text-align:left;text-indent:0px;background-color:rgb(255,255,=
+255);margin:0px 0px 0px 40px;font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSF=
+ontService,Calibri,Helvetica,sans-serif,serif,EmojiFont;font-size:12pt;colo=
+r:black">
+bin =C2=A0 =C2=A0boot =C2=A0 dev =C2=A0 =C2=A0etc =C2=A0 =C2=A0home =C2=A0 =
+lib =C2=A0 =C2=A0media =C2=A0mnt =C2=A0 =C2=A0proc =C2=A0 root =C2=A0 run =
+=C2=A0 =C2=A0sbin =C2=A0 sys =C2=A0 =C2=A0tmp =C2=A0 =C2=A0usr =C2=A0 =C2=
+=A0var</div>
+<div style=3D"text-align:left;text-indent:0px;background-color:rgb(255,255,=
+255);margin:0px 0px 0px 40px;font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSF=
+ontService,Calibri,Helvetica,sans-serif,serif,EmojiFont;font-size:12pt;colo=
+r:black">
+<br>
+</div>
+<div style=3D"text-align:left;text-indent:0px;background-color:rgb(255,255,=
+255);margin:0px;font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Ca=
+libri,Helvetica,sans-serif,serif,EmojiFont;font-size:12pt;color:black">
+=C2=A0 =C2=A0 2.2=C2=A0 Method 2=C2=A0for image_name-dir.tar</div>
+<div style=3D"text-align:left;text-indent:0px;background-color:rgb(255,255,=
+255);margin:0px 0px 0px 40px;font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSF=
+ontService,Calibri,Helvetica,sans-serif,serif,EmojiFont;font-size:12pt;colo=
+r:black">
+# tar xvf container-base-latest-oci-dir.tar</div>
+<div style=3D"text-align:left;text-indent:0px;background-color:rgb(255,255,=
+255);margin:0px 0px 0px 40px;font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSF=
+ontService,Calibri,Helvetica,sans-serif,serif,EmojiFont;font-size:12pt;colo=
+r:black">
+# skopeo copy oci:container-base-qemux86-64.rootfs-20260302090735.rootfs-oc=
+i:latest containers-storage:container-base-qemux86-64:1.0</div>
+<div style=3D"text-align:left;text-indent:0px;background-color:rgb(255,255,=
+255);margin:0px 0px 0px 40px;font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSF=
+ontService,Calibri,Helvetica,sans-serif,serif,EmojiFont;font-size:12pt;colo=
+r:black">
+# podman images | grep container-base-qemux86-64</div>
+<div style=3D"text-align:left;text-indent:0px;background-color:rgb(255,255,=
+255);margin:0px 0px 0px 40px;font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSF=
+ontService,Calibri,Helvetica,sans-serif,serif,EmojiFont;font-size:12pt;colo=
+r:black">
+<a href=3D"http://docker.io/library/container-base-qemux86-64" target=3D"_b=
+lank">docker.io/library/container-base-qemux86-64</a> =C2=A01.0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 1d603a1041c5 =C2=A014 years ago =C2=A0 5.58 MB</div>
+<div style=3D"text-align:left;text-indent:0px;background-color:rgb(255,255,=
+255);margin:0px 0px 0px 40px;font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSF=
+ontService,Calibri,Helvetica,sans-serif,serif,EmojiFont;font-size:12pt;colo=
+r:black">
+<br>
+</div>
+<div style=3D"text-align:left;text-indent:0px;background-color:rgb(255,255,=
+255);margin:0px 0px 0px 40px;font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSF=
+ontService,Calibri,Helvetica,sans-serif,serif,EmojiFont;font-size:12pt;colo=
+r:black">
+# podman run --rm -it 1d603a1041c5</div>
+<div style=3D"text-align:left;text-indent:0px;background-color:rgb(255,255,=
+255);margin:0px 0px 0px 40px;font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSF=
+ontService,Calibri,Helvetica,sans-serif,serif,EmojiFont;font-size:12pt;colo=
+r:black">
+/ #=C2=A0ls</div>
+<div style=3D"text-align:left;text-indent:0px;background-color:rgb(255,255,=
+255);margin:0px 0px 0px 40px;font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSF=
+ontService,Calibri,Helvetica,sans-serif,serif,EmojiFont;font-size:12pt;colo=
+r:black">
+bin =C2=A0 =C2=A0boot =C2=A0 dev =C2=A0 =C2=A0etc =C2=A0 =C2=A0home =C2=A0 =
+lib =C2=A0 =C2=A0media =C2=A0mnt =C2=A0 =C2=A0proc =C2=A0 root =C2=A0 run =
+=C2=A0 =C2=A0sbin =C2=A0 sys =C2=A0 =C2=A0tmp =C2=A0 =C2=A0usr =C2=A0 =C2=
+=A0var</div>
+<div style=3D"text-align:left;text-indent:0px;background-color:rgb(255,255,=
+255);margin:0px;font-size:15px;color:rgb(36,36,36)">
+<br>
+</div>
+<div style=3D"text-align:left;text-indent:0px;background-color:rgb(255,255,=
+255);margin:0px;font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Ca=
+libri,Helvetica,sans-serif,serif,EmojiFont;font-size:12pt;color:black">
+=C2=A0 =C2=A0 =C2=A0 =C2=A0Based on this phenomenon, I think we can modify =
+the=C2=A0 description of usage of oci image in image-oci.bbclass to use the=
+ =C2=A0two methods above.</div>
+<div style=3D"text-align:left;text-indent:0px;background-color:rgb(255,255,=
+255);margin:0px;font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Ca=
+libri,Helvetica,sans-serif,serif,EmojiFont;font-size:12pt;color:black">
+=C2=A0 =C2=A0 =C2=A0 =C2=A0</div>
+<div style=3D"text-align:left;text-indent:0px;background-color:rgb(255,255,=
+255);margin:0px;font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Ca=
+libri,Helvetica,sans-serif,serif,EmojiFont;font-size:12pt;color:black">
+=C2=A0 =C2=A0 =C2=A0 =C2=A0What do you think about my suggestion=EF=BC=9F</=
+div></div></div></blockquote><div><br></div><div><div class=3D"gmail_defaul=
+t" style=3D"font-size:small">When I wrote that comment, oci-image-tools wer=
+e capable of creating a bundle that runc could directly execute.<br><br>I&#=
+39;m actually in the process of upgrading bare bundles=C2=A0+ runc to work =
+with the new architecture that I&#39;ve created for bundling docker and pod=
+man containers (something called vrunc), but that isn&#39;t quite ready yet=
+.<br><br>So yes, I&#39;d say that we could remove the oci-image-tool refere=
+nce and just update it to suggest umnoci like the=C2=A0 image-oci-umoci.inc=
+<br><br>When I have bare runc working again, I can update the headers will =
+those details as well.<br><br>Bruce<br>=C2=A0</div></div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex"><div><div dir=3D"ltr">
+<div style=3D"text-align:left;text-indent:0px;background-color:rgb(255,255,=
+255);margin:0px;font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Ca=
+libri,Helvetica,sans-serif,serif,EmojiFont;font-size:12pt;color:black">
+<br>
+</div>
+<div style=3D"text-align:left;text-indent:0px;background-color:rgb(255,255,=
+255);margin:0px;font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Ca=
+libri,Helvetica,sans-serif,serif,EmojiFont;font-size:12pt;color:black">
+Liu</div>
+<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
+bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
+<br>
+</div>
+</div>
+
+</div></blockquote></div><div><br clear=3D"all"></div><div><br></div><span =
+class=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gm=
+ail_signature">- Thou shalt not follow the NULL pointer, for chaos and madn=
+ess await thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf, S=
+tar Trek II<br><br></div></div>
+</div>
+</div>
+
+--00000000000064cb31064c16cbbd--
 
