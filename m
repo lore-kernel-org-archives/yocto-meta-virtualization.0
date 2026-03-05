@@ -1,230 +1,164 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <dmitry.baryshkov@oss.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 681DAEDEC07
-	for <webhook@archiver.kernel.org>; Thu,  5 Mar 2026 04:46:39 +0000 (UTC)
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.37439.1772685995148071807
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 525A9F33A73
+	for <webhook@archiver.kernel.org>; Thu,  5 Mar 2026 14:27:04 +0000 (UTC)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.45195.1772720815196538023
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 04 Mar 2026 20:46:35 -0800
+ Thu, 05 Mar 2026 06:26:55 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Spb2bmsJ;
- spf=pass (domain: gmail.com, ip: 209.85.216.54, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-3597fea200dso3333178a91.3
-        for <meta-virtualization@lists.yoctoproject.org>; Wed, 04 Mar 2026 20:46:35 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772685994; cv=none;
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=XTC97WiP;
+ dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=YAHTkgnI;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 625AFnLm936056
+	for <meta-virtualization@lists.yoctoproject.org>; Thu, 5 Mar 2026 14:26:54 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	e9TYkRV5rpLSSKXmI3PGUVywCGMfi5CswQ7g1VRPgUE=; b=XTC97WiPg5XlsXMG
+	P452gSQ+fUsfuAltZCL3nueDtLIljyezAPWnryIVoloc7mvvxhuLeZbVQBageoDe
+	ePrhXp1w5L76RZ1Lx6w+QmRXvlvUB5aqRKbuLcY6+XMIs/MFRXuS2cyXMsatyTPK
+	nupTpHE8TATHjuBXcwci7ls1rfg2ln2KlPDDA5ma4LxoK6Jhu5hrywsfuYaq1Wfe
+	F9PvzaKUNme1dNzA+qf58ktLGPuCjwW4AlvBdRY7GnSek+95ho8fhxzxiua5hDad
+	BVkKz0IqcXSXuD7/DI4doxlhiwMw6qVNHyVFDGRW7rNgjgy7wDiOgCzCZkoqbKdJ
+	GMO0Xw==
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com [209.85.216.70])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cq04u2cq9-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <meta-virtualization@lists.yoctoproject.org>; Thu, 05 Mar 2026 14:26:54 +0000 (GMT)
+Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-358f058973fso7773466a91.1
+        for <meta-virtualization@lists.yoctoproject.org>; Thu, 05 Mar 2026 06:26:54 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772720814; cv=none;
         d=google.com; s=arc-20240605;
-        b=hkQX28Qk32Ax7m8Vi9pMNKK3HJ0Pb+90Czv/gx3O1vjBRWTcvVFvd5lEXZgwb8C4tr
-         UX4c9eOvjM2oqfJkG1dD/C1IIw/44v3DYKvHj7TX6dwuXNPYgt6xkqr6Ow1T7bYQOw/p
-         ylyKEuUE0tgt5qZkJF37a/xgLUXsjoqq/+9j0+lRDSdaFrA9yUZXoQUhIjbYZj3UGy7I
-         M7fWhfoqhsk6Lv5B4Q3zhYHp1trZiVKodecqXliU0DTaX/6v+n5r9i4C8KSq/aqmu5aD
-         aG8i2ZNa15CehWVdOrUBftEO24hF9+BqTjiQpHswJgQoEQ+HKv9TFbw8TJluRrMtpCaN
-         hVkA==
+        b=R+GLsFoqzmoKdcOdJOFvrCaPAfA909HzzQ/m2DaAtlyPPiP+iR/0C6LRkqzfqO7H7v
+         k7SPg4uFxfY+YqxEatJmnoS5lT56l2FEUNl3LauONieArWL3D5dr+Tq7PP/VsLU6Dj8H
+         ISdOSoA49dK3HhSOaUis7QmfR3MJiDm2jYLqweWmu+YV6TTsoeem6OL7f+wDvNhv96rF
+         bPF2M10+xChQ6lVMM2J91Olcvk3nY74omGdEmQHAzkNRDUYc0qhmQbYgyqnRVO4u8vAp
+         RHUc8jcLUPnACNRJxNlzaRXdcUJkDytQYKbNo01iCjlU+U2sYoScVHH699IuU68iFtxp
+         u7jQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=XIu+z+gcPSIs5VBAtH/UBiTpcxjTXSTFW36LQ+y6Vks=;
-        fh=7rUXyIN8yPrkPFs8eWTCazGJB3tnaNHYOq9MfP6n69o=;
-        b=QWZ8cAx/1fIzkBEwn2Q5QW5EIZKbREZpOUk50tpsLUmwaHswletguoIPIo8Dh7aKZ1
-         8/ivv4NhnGb2EakWqUigMGGQHgPJH8ofyn/j19DII6JNFjF3IF2RCDEfyYBHe2zkwsT6
-         aA9R2uTj/Ezkzr+P04meKR3pox/7DYJ+PoFvURHhPuKZ6SseArTPRgV5zFwuaPsnRFks
-         C3thFdn6bn+wK4krIz248V7v/5LMOWPtaFRgkknT7IG/axjcca2HL40BGvCTsF4uNnFn
-         4RDorH72REVYf0t0IbJ4QswURHY9Rb5Y4K/nkvHqYazpIhp8CJi/HQ0Zg8rwi4FKEiVu
-         jwKQ==;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=e9TYkRV5rpLSSKXmI3PGUVywCGMfi5CswQ7g1VRPgUE=;
+        fh=eCwnOjlv6B8KHYbz1+dR8q8uprCZzyTQ1RaTi1tuuHw=;
+        b=F9bwxe4gr6JymGhYHx3xbUtYZQgMLqhNlxdMDc1m7hIZGSomp3yvHmacBY6+2aA2Bz
+         Xiei5meCft+S1sYk4VutBDpfuBqbLLfFN+nXDRQHSaFqczdbjyLD13p08bd3zMwg2vj5
+         3tAAwk+88QoqRnywUxZcpZCUixa26xDE+92GknQY0j+5XEjzS5lDSH0hG6+2YuiV95PJ
+         nyEUOM8R394KC3j+7geUO5p4PSWacz/kcccX/wvrqskyUC7Zjtam3TVMv7YVAjkAZ74h
+         /wZdje2H5byD5BDV1Q7dyXVzdQcK826WwW2Da+nI8Kb61Y79bzHPJuR1NoqedMFZVqPn
+         7tPw==;
         darn=lists.yoctoproject.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772685994; x=1773290794; darn=lists.yoctoproject.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=XIu+z+gcPSIs5VBAtH/UBiTpcxjTXSTFW36LQ+y6Vks=;
-        b=Spb2bmsJtxQwTFnsIKPFM2yHJOcucDWPNnVAVynVKjFYA/ggqZNlpkQgICDtZI7TkK
-         yuyKMwfzxhnSD0L8B44eVvZdWXLRMgezu+gTWXigENRQCZwseKeKyBZXUnhL9nq7ruYU
-         KhD7+8CvajBn7O9OP5ePqDJto/JxTtJ7pjKBfhf24n6LnUrMxlRXghOrhCYpA+OY42QQ
-         EYyUNmJKRySXO2dNOk75eWBUa0HHDEoUqvZVeROhweHTYrNR/CQcqvxPPPC2xO6q525a
-         3ll48HoBmi7YqkTiOB5LSKMVOieQ1SZpmNObw+/17YJ5WEXckF5Ebj5oM6FZius6k+Pe
-         YTJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772685994; x=1773290794;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=oss.qualcomm.com; s=google; t=1772720814; x=1773325614; darn=lists.yoctoproject.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=XIu+z+gcPSIs5VBAtH/UBiTpcxjTXSTFW36LQ+y6Vks=;
-        b=ADX56WMaAIzzItrCB2ZWNIJL2VkjKTYL6odbrcSVJNh6fBhoG8QuhTd9LWgHD9Iw9h
-         ACVH0kdB+1ZzS/F/AIJeTbU0YFL6hD64QUo9jnXITnmqpYeoyTFr5d7qN7WIl7qpwQUb
-         2ckwgtvUZWNZFc2cOquQ3P/TTmNIXc1T60/ymS706zMiio+Mr7+sravK+Qv2GY8g2caO
-         s2FIOYR5cyqyrQHxqDs/BTtjnnfHBBZSPNureuTWLEXiZZsja9s41MJZuAmjeG+pEljh
-         Z4hfza72yxZ12KLZEdNNBkKjxlavLtJrYlLX+etdzkutZ+8EYYW6BtB4dcnHOF4/eFS+
-         zh+A==
-X-Gm-Message-State: AOJu0YwUfuQUtnvypQua9ZxK0yqW0GmBWlRkFlARMQQV5sxTXnDV3kjS
-	q3Yi8g9D/CFW0wvEZvY/taFT7BkWDiN9xaAwaAKr/1N0tKzxKdeTFXdl4YD5VVuwpXJ1gEM+DuT
-	xa5u+F46+JX1yjzGRwNtWqrfOS9TzOSU=
-X-Gm-Gg: ATEYQzxzB3LsG9SE2W7Wt5p/Kyui8f2w6sbe3fi0cJJ8Mr931mcrzUuaxLn1JScK4Pk
-	j9qEdquGlOlcQ/SrdP/xVcEtnW+JZanJ1QZH9R53SYeXFOMdoakjZ8SoCqSpDszm9chNV/HWPlp
-	HmOAgFnmOG9alCFhh5SvB3al44t4lWiTFU5TQXvNX+wSRRE5gvRuJ7OuixdFytxw8u0Xq4Y0pg5
-	GJC/gTK3jmTGKXRLg3uxUi/+QVxQ23445SX6z/uGiA4QhtF59K4/bLDIo7unUeGzrg3kpER2pdM
-	Hn0ECg+Nl3HbCs9f0z1+HxwpozFxrpGXPlLYRbOs
-X-Received: by 2002:a17:90b:4c49:b0:354:a546:5edd with SMTP id
- 98e67ed59e1d1-359a69c1d30mr3871265a91.11.1772685994284; Wed, 04 Mar 2026
- 20:46:34 -0800 (PST)
+        bh=e9TYkRV5rpLSSKXmI3PGUVywCGMfi5CswQ7g1VRPgUE=;
+        b=YAHTkgnItR5fF1tx840rqWdTI8G0aKrnCPpZyNYl9oyiNSqCdIYS1mHy9+grDBd4B9
+         TtkcWVNb9Pa8v6F/9w6Q0Ad0KXJ1obJi6oJaBkh2mi/0Z9HDBo/pB1JIoZtEZA9sk27V
+         /D8fYL1VtgeFenaRUfM0AjuU+t+3RhHY18isG4veSdV5XRXpFVkj7pzaDUqLQ3rF2eeV
+         0eZc2PbicryWaT+l9YLomYtUFSSOFB+suZovK6ps8azp2GiavdADVdsnn24itp9L3T6D
+         f2PWiQHX/pdH7L9jtJqjqlHh6SEcm7tnEsyEa0Yry+T2Hs0jyo5GdE8aQ+sZKU73k+Oo
+         YNvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772720814; x=1773325614;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=e9TYkRV5rpLSSKXmI3PGUVywCGMfi5CswQ7g1VRPgUE=;
+        b=KxvENdONVWKrv2ovxqsVgHuWXaZEbvVzL22aKJpYiszsaUwNs9tWkcL+6ql07XkHPs
+         T60alymjtZXKfR11SrTo8ul42mEdYRjNKzvAKFtZ5/zjjKVaf1Tgrz5AcKM9D2YFGamf
+         dbjqD7ORdTHzaCNuhrWjJXZGR5ltEYGjdQAxRyJv22GzHslECle2tS8S/sETF0lM6woh
+         7m73mkvl4ixMkNItjqCoh9cnKLG3XAr9o0NqCZuqsfEZX9lMTTdS57yPT8uCsJl3tXwa
+         tmT9f7TnUiFV/2PwywTAjTv/sfjMMAIVHufNk7BkRPcc72fXmeeaWggYP8TKdmEzBrUx
+         XXnA==
+X-Gm-Message-State: AOJu0Yylybl8P5JZ2WgxTFzB4hpatJCmgEtLl1IBhjw3MAHT4lKlCMsc
+	oseblKHWtJmAi5XNarju4beUJMCUb+CWTlH0yOyxZirkWlmcQHnX7XA+dDPbhUCtIB4RI0rpQGI
+	++Wg4WPGdYbfr1nY5pUwhDDaC9FL71jxCS8LtDrpVnXCHTGIrBT03NARg0zm4oBRzve5wKTOdai
+	Ba2t9BuWReZLNL+eJe61p9/VvuGaW37S5MlYtXbT1AubPTaklueJyKfO1EWQqO
+X-Gm-Gg: ATEYQzyvQzAc40++zQ5apZvkiq+ziB2Fogok754CUU/clHv3Vz4ZvFfhCivaiSJdp2A
+	M4XvMArd5x3VJ+ims8Sm2GOt/Z83v04iBzjzjdV3OIp5B3I/4Znj33q9jv28+C644n/vCzZEb+Z
+	nufDkddHkwyBCqYqenyT18pWzfr+sq2CM4vnN2USU0uDCLx5gD0d8MAq30wRhsmoKk3cCR35w7d
+	ozVNM7CQ72+QJmpmH/k
+X-Received: by 2002:a17:90b:2e4e:b0:359:8abc:b348 with SMTP id 98e67ed59e1d1-359a6a3d24bmr5601748a91.18.1772720813672;
+        Thu, 05 Mar 2026 06:26:53 -0800 (PST)
+X-Received: by 2002:a17:90b:2e4e:b0:359:8abc:b348 with SMTP id
+ 98e67ed59e1d1-359a6a3d24bmr5601729a91.18.1772720813089; Thu, 05 Mar 2026
+ 06:26:53 -0800 (PST)
 MIME-Version: 1.0
-References: <20260305043012.1186651-1-dmitry.baryshkov@oss.qualcomm.com>
-In-Reply-To: <20260305043012.1186651-1-dmitry.baryshkov@oss.qualcomm.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 4 Mar 2026 23:46:22 -0500
-X-Gm-Features: AaiRm51wTpvMhrs-CtmiZm5xE4wRIlwbJpQKXtLfnf31FTEQvRAH5026o5kuhZU
-Message-ID: <CADkTA4PUr4idtuhR784CP_GEtUjsaz12rk69JZHCC8zhqSgR_g@mail.gmail.com>
+References: <20260305043012.1186651-1-dmitry.baryshkov@oss.qualcomm.com> <CADkTA4PUr4idtuhR784CP_GEtUjsaz12rk69JZHCC8zhqSgR_g@mail.gmail.com>
+In-Reply-To: <CADkTA4PUr4idtuhR784CP_GEtUjsaz12rk69JZHCC8zhqSgR_g@mail.gmail.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Date: Thu, 5 Mar 2026 16:26:42 +0200
+X-Gm-Features: AaiRm509i3XE2rKsyZD_Mc6o501eXuM0HfafEuhvrBSrkoJjNIbo0oBOo8zyuDA
+Message-ID: <CAO9ioeW95p_ot-jDUgot=1VcRhLAaYdwg8-jW_hjo+NE3SmO7w@mail.gmail.com>
 Subject: Re: [meta-virtualization][PATCH] xen-guest-bundle: require "xen" DISTRO_FEATURE
-To: dmitry.baryshkov@oss.qualcomm.com
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
 Cc: meta-virtualization@lists.yoctoproject.org
-Content-Type: multipart/alternative; boundary="000000000000fcdc19064c3f9e70"
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-GUID: iwDZVl89DSnlcx6VTaHY51ALL5d3n_nG
+X-Authority-Analysis: v=2.4 cv=eqTSD4pX c=1 sm=1 tr=0 ts=69a992ae cx=c_pps
+ a=0uOsjrqzRL749jD1oC5vDA==:117 a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10
+ a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
+ a=yOCtJkima9RkubShWh1s:22 a=iGHA9ds3AAAA:8 a=JAO8n7geXZtbu1nPMswA:9
+ a=lqcHg5cX4UMA:10 a=QEXdDO2ut3YA:10 a=mQ_c8vxmzFEMiUWkPHU9:22
+ a=nM-MV4yxpKKO9kiQg6Ot:22
+X-Proofpoint-ORIG-GUID: iwDZVl89DSnlcx6VTaHY51ALL5d3n_nG
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA1MDExNSBTYWx0ZWRfX++fqw/ssbBsL
+ kyJqEocnIZF2dbLXJ2YGD1YYfKIr2nei9rd738KmmHsyBpc55R6QkCyqfBabpnXe9NnvbplSuYG
+ CkFal+W8nBMiwUsNnnjp4HTPyq7Z2hljvlH7k3yrp/fIW1oODNzrVyWM7d8vk9F9vyMVYsbVSR/
+ 1uWi6vZepM06dNgwvMmG18A42vOLvYb8fKstuu7rH8m61d+3D1xjeOk9dEe9EAh9DaXCDYCxzYL
+ b/zLm0UMnJdecFwE58q3dbsw5KwRsM0ytFcGh0x6A5M5MZhFCz8H70eOCDo3gbe7u48lvXg79Hs
+ sAoYbPw+wFUOlX2uo4rH/fmgqvyz41am4gRdfbwpQ4MJ7YF4H3Ix9zb4/X50YPAr93F+Gk+sz+r
+ g3f69I0w328BEb1eq8NfQyOTGVf3y1PVLUOE7hqL5gp8puQtx9LWoZhBtzsi7EkBpCpNR4GJ04H
+ UzqW0DPBGrUsOxOZrDA==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-05_04,2026-03-04_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 bulkscore=0 clxscore=1015 priorityscore=1501 malwarescore=0
+ lowpriorityscore=0 spamscore=0 impostorscore=0 adultscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603050115
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Thu, 05 Mar 2026 04:46:39 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9619
+ <meta-virtualization@lists.yoctoproject.org>; Thu, 05 Mar 2026 14:27:04 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9620
 
---000000000000fcdc19064c3f9e70
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Mar 4, 2026 at 11:30=E2=80=AFPM Dmitry Baryshkov via lists.yoctopro=
-ject.org
-<dmitry.baryshkov=3Doss.qualcomm.com@lists.yoctoproject.org> wrote:
-
-> Building guest bundles makes sense only if "xen" feature is enabled in
-> DISTRO_FEATURES. Skip all Xen guest bundle recipes if it is not a part
-> of the DISTRO_FEATURES.
-
-
-Sure, but you are just describing what is in the patch.
-
-What problem was this actually causing ?
-
-Bruce
-
-
-
+On 05/03/2026 06:46, Bruce Ashfield wrote:
 >
 >
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> ---
->  classes/xen-guest-bundle.bbclass | 3 +++
->  1 file changed, 3 insertions(+)
+> On Wed, Mar 4, 2026 at 11:30=E2=80=AFPM Dmitry Baryshkov via
+> lists.yoctoproject.org <http://lists.yoctoproject.org>
+> <dmitry.baryshkov=3Doss.qualcomm.com@lists.yoctoproject.org
+> <mailto:oss.qualcomm.com@lists.yoctoproject.org>> wrote:
 >
-> diff --git a/classes/xen-guest-bundle.bbclass
-> b/classes/xen-guest-bundle.bbclass
-> index 3fe7754e61bb..da131c373de4 100644
-> --- a/classes/xen-guest-bundle.bbclass
-> +++ b/classes/xen-guest-bundle.bbclass
-> @@ -269,6 +269,9 @@ python __anonymous() {
->          d.appendVarFlag('do_compile', 'depends', '
-> virtual/kernel:do_deploy')
->  }
->
-> +inherit features_check
-> +REQUIRED_DISTRO_FEATURES =3D "xen"
-> +
->  S =3D "${UNPACKDIR}/sources"
->  B =3D "${WORKDIR}/build"
->
-> --
-> 2.47.3
+>     Building guest bundles makes sense only if "xen" feature is enabled i=
+n
+>     DISTRO_FEATURES. Skip all Xen guest bundle recipes if it is not a par=
+t
+>     of the DISTRO_FEATURES.
 >
 >
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#9618):
-> https://lists.yoctoproject.org/g/meta-virtualization/message/9618
-> Mute This Topic: https://lists.yoctoproject.org/mt/118147344/1050810
-> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [
-> bruce.ashfield@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Sure, but you are just describing what is in the patch.
 >
->
+> What problem was this actually causing ?
 
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+When building world (or when running yocto-check-layers against a
+layer depending on meta-virtualization):
 
---000000000000fcdc19064c3f9e70
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Missing or unbuildable dependency chain was: ['meta-world-pkgdata',
+'example-xen-guest-bundle', 'xen-guest-image-minimal']
 
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-size:small"><br></div></div><br><div class=3D"gmail_quote gmail_quote_con=
-tainer"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Mar 4, 2026 at 11:30=
-=E2=80=AFPM Dmitry Baryshkov via <a href=3D"http://lists.yoctoproject.org">=
-lists.yoctoproject.org</a> &lt;dmitry.baryshkov=3D<a href=3D"mailto:oss.qua=
-lcomm.com@lists.yoctoproject.org">oss.qualcomm.com@lists.yoctoproject.org</=
-a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
-x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Bu=
-ilding guest bundles makes sense only if &quot;xen&quot; feature is enabled=
- in<br>
-DISTRO_FEATURES. Skip all Xen guest bundle recipes if it is not a part<br>
-of the DISTRO_FEATURES.<span class=3D"gmail_default" style=3D"font-size:sma=
-ll"></span></blockquote><div><br></div><div><div class=3D"gmail_default" st=
-yle=3D"font-size:small">Sure, but you are just describing what is in the pa=
-tch.</div><div class=3D"gmail_default" style=3D"font-size:small"><br></div>=
-<div class=3D"gmail_default" style=3D"font-size:small">What problem was thi=
-s actually causing ?</div><div class=3D"gmail_default" style=3D"font-size:s=
-mall"><br></div><div class=3D"gmail_default" style=3D"font-size:small">Bruc=
-e</div><br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex"><br>
-<br>
-Signed-off-by: Dmitry Baryshkov &lt;<a href=3D"mailto:dmitry.baryshkov@oss.=
-qualcomm.com" target=3D"_blank">dmitry.baryshkov@oss.qualcomm.com</a>&gt;<b=
-r>
----<br>
-=C2=A0classes/xen-guest-bundle.bbclass | 3 +++<br>
-=C2=A01 file changed, 3 insertions(+)<br>
-<br>
-diff --git a/classes/xen-guest-bundle.bbclass b/classes/xen-guest-bundle.bb=
-class<br>
-index 3fe7754e61bb..da131c373de4 100644<br>
---- a/classes/xen-guest-bundle.bbclass<br>
-+++ b/classes/xen-guest-bundle.bbclass<br>
-@@ -269,6 +269,9 @@ python __anonymous() {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0d.appendVarFlag(&#39;do_compile&#39;, &#3=
-9;depends&#39;, &#39; virtual/kernel:do_deploy&#39;)<br>
-=C2=A0}<br>
-<br>
-+inherit features_check<br>
-+REQUIRED_DISTRO_FEATURES =3D &quot;xen&quot;<br>
-+<br>
-=C2=A0S =3D &quot;${UNPACKDIR}/sources&quot;<br>
-=C2=A0B =3D &quot;${WORKDIR}/build&quot;<br>
-<br>
--- <br>
-2.47.3<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#9618): <a href=3D"https://lists.yoctoproject.org/g/meta=
--virtualization/message/9618" rel=3D"noreferrer" target=3D"_blank">https://=
-lists.yoctoproject.org/g/meta-virtualization/message/9618</a><br>
-Mute This Topic: <a href=3D"https://lists.yoctoproject.org/mt/118147344/105=
-0810" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.org/m=
-t/118147344/1050810</a><br>
-Group Owner: <a href=3D"mailto:meta-virtualization%2Bowner@lists.yoctoproje=
-ct.org" target=3D"_blank">meta-virtualization+owner@lists.yoctoproject.org<=
-/a><br>
-Unsubscribe: <a href=3D"https://lists.yoctoproject.org/g/meta-virtualizatio=
-n/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.or=
-g/g/meta-virtualization/unsub</a> [<a href=3D"mailto:bruce.ashfield@gmail.c=
-om" target=3D"_blank">bruce.ashfield@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
-=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
-ignature">- Thou shalt not follow the NULL pointer, for chaos and madness a=
-wait thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star T=
-rek II<br><br></div></div>
 
---000000000000fcdc19064c3f9e70--
+
+--
+With best wishes
+Dmitry
 
