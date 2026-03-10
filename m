@@ -2,121 +2,122 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 99537FD88C8
-	for <webhook@archiver.kernel.org>; Tue, 10 Mar 2026 22:38:19 +0000 (UTC)
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.7703.1773182298163664439
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B6D1FD88C9
+	for <webhook@archiver.kernel.org>; Tue, 10 Mar 2026 22:40:39 +0000 (UTC)
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.7742.1773182438840705606
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 10 Mar 2026 15:38:18 -0700
+ Tue, 10 Mar 2026 15:40:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=BobBZP49;
- spf=pass (domain: gmail.com, ip: 209.85.160.173, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-509064418a8so42274661cf.1
-        for <meta-virtualization@lists.yoctoproject.org>; Tue, 10 Mar 2026 15:38:18 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=DFYWji9C;
+ spf=pass (domain: gmail.com, ip: 209.85.222.182, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-8cd847b4b23so300587385a.0
+        for <meta-virtualization@lists.yoctoproject.org>; Tue, 10 Mar 2026 15:40:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773182297; x=1773787097; darn=lists.yoctoproject.org;
+        d=gmail.com; s=20230601; t=1773182438; x=1773787238; darn=lists.yoctoproject.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=RgBpe9qrGcxRezwXUVDV2+w7CuLCVc617BnzpVhVXRY=;
-        b=BobBZP49XPUuPWEBDUDE6DtqneLP2B7IpIE5CghuzPLPj+7S9HAnbncxCw2qh4VjFa
-         8G13XktcOaFj9zbUWrt5yMZWUcqcRgHDYZSND6UqsakIOXJkGY7yCNDycOXDwSmKeRQ+
-         Rq0A7Tuvdjul1bS68V0yXiuvn5hlGICjrBJ6QWAR87kRcMvmoawmNOTA7NlD6TCuILjT
-         9fegwtESOj15e8YkzSBLNQxD3xwg3lyL6raOldBegH9vY51Hk2Y+m1TlhDsExqcHoMBT
-         k1DrX2yIsUrxKw2N9A9oMK7BixOhOEhIIfaAE0YaRHUWwJi5jo/2n2EjDHIvQfAf0Lth
-         rdVQ==
+        bh=a7gbqiA1BpQuPMdWtYELMd+SusB+tjdt9VP4dtula+U=;
+        b=DFYWji9CMhb9OjVlIWUa33+mWH6Gbguq4UWs1GPWVvCRT1C7T66EvoIHzb8NVa0rH3
+         ylkTehu3oI/tgFvvtelQDlpavzPqNXMheqQ1L8HAA5Gf0+lRK31KbZyHcZ2E56MVBXAB
+         0HAZ6lXvTBYBognYwCETCOvV5vUFK6DDsVrzWNoufmiAvS83A+M2F37Kwz2yrLXYyjXh
+         DISseBe/t3N+h/sZ2zFIYrzJs7qyG1WAXq4W2XJGKf2DBrX20MKUNfGj5xaa4dS4BfOA
+         rw0xOYriSQ3yDV1RjmPe3gsT8+hhCzkR+j2xCCM22pvoa1M9HSmhmDzqi85aZgLKe/lj
+         en8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773182297; x=1773787097;
+        d=1e100.net; s=20230601; t=1773182438; x=1773787238;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=RgBpe9qrGcxRezwXUVDV2+w7CuLCVc617BnzpVhVXRY=;
-        b=o3m7txDdolLKjqpSNAO+D+tDXMCioe7UTKNhY4grNQ1GXov/IZw3rI/AT2Vh1cJ2q0
-         9uGdcB/EAGioO9hV+GnUj8qsrkjDFeMIIj7nrwmCOnwNMGcR2XEZqBNJrgzNVTm8NWZ5
-         TwBiM11bWZvdm3VVQOsGUP1+9AekF2qPQgUi8Y5PtPSSm0hWtuX5w2S81tyzu0mdyPB2
-         SvqNLsUjoqVLtQupRu/O0BH+nxoPjU0ZeHQ75h4Gf8dC10oof4HKyUey8Q+dqBJGvy63
-         bZr83tyb1rQL+Z+OUOJIY//C2S9np1Dj8u4WmP8UA4l9evnU+y3sd53Wl9G/ni9/FwP4
-         GtNg==
-X-Gm-Message-State: AOJu0YwIg8tfqNzb6KLsZbUVzWY8U/XLr2b7AZvyWOSqAnrSSjhEGMio
-	Zrs1LG81dy+gfnpx9pDxdw3iLjyA3zB3qPBNODbAhqUcLu8trWuZGKeO
-X-Gm-Gg: ATEYQzzsJBRehokDSwTz30gcDZQk9b5AY9+XOFDkmlvtfNFVKw6qwKzRsa8Q5tRREY9
-	9BWPTrE+E62IpOR6vozZrTgQRMjqs3hEJX37dfYuL/przgU/DCiY/SrdYPcR/wU1bKTAsSt5+l0
-	nRt9J5YxcbhLREFjf8sjUvgX0Pe+iBAkrprADEwvEFqQuFqNrOSJwgmCJ5uhW60/i5YnUTG29EF
-	PhU9+15Jqw5LnzSdKPlTubBM21lA203rVqWie+6W8YsC7BjKTMdQv/UPjFzWKVXVWe1Hv2JBqhZ
-	wtwMEJLKzEkGnnKVlzfa/51HHz6M6Y6Zzkh7+hGiAJdjjEPpZo8Rmb5YOKLvrnOyQg9GPNO1+We
-	UHlAy35jbJMTp7hPO+1YzsbDh52ccWS3G/uUscq3odlPUKSXzvR1xyRhouCHC+7NyHu5NDHt8Dw
-	J4e5o1GCPqLjl15upO9MxfPccRJ8nglJ3YiKAxbnADjtPvAGjtoECkaGuOgaKizkeYgbr2MaVL7
-	wK9jdCZPFh5IZBHt9pRTLoYsDGLkge0Bs1w
-X-Received: by 2002:a05:622a:164a:b0:4b6:24ba:dc6a with SMTP id d75a77b69052e-5093a17c6a2mr5371061cf.38.1773182297099;
-        Tue, 10 Mar 2026 15:38:17 -0700 (PDT)
+        bh=a7gbqiA1BpQuPMdWtYELMd+SusB+tjdt9VP4dtula+U=;
+        b=OjAMbtaiK2hHsIzIMxdiv98Rpl7UyVErs+sjM5Zm0jGVEkxLEh04cnLj55/KEVQUZz
+         1cRF/Pdn3JymiaaCXk0hctDjjXd65xuiKFd/8zMi1RGUuHSv8v4yhWzhLjX0lSxlAZ4E
+         KjW3m2G+jB8ddRHc0Wj6/66HATjY3dK6Fd/jUOVoMYk1ok7+ZIuDyhXGkneeG7OOnikU
+         PA3VBp7CpiezzLKV31e2xBlQfRk8ENltKcGwlcYnKS6lnBDmC/8qbc7u1lWvaV5+2ZtQ
+         UskWIizIru9rGy0Np74CPffZZJCm9YEPoOEzrLvGc+47956APnsy6UiBCGUG5ViCXoak
+         oezA==
+X-Gm-Message-State: AOJu0YzJ0BEQywyNYC7KMLmspWUep4rJCRaShmj47JamQZDms/Z2LMW6
+	hW/MrBcni5NiGXx8qt3LxHE+5nOXzygxo2yuIhQJZkRsdAXBqZ5uaT+w
+X-Gm-Gg: ATEYQzwwjOE1Fy+iBhKAmsbyREckO5RLum7UsSlieB4v8DsgcsHjZTFR4ylepn46+DP
+	RyylJnWBJ2pctkhn3k6kbZzEMEnQs97vhu8LPOT90Jeoeox+3SzjnzkuIe0kQ1FlHN2+fNynWOz
+	eK0dtvJgpLgjSC3CXshOQX5UKExoz1BjhYaENjBuwQT+LkHbxWotaQHImBV0jgXEYtALnZuDtP6
+	3ArzKN777Ums5o2utZi8+qg18S52Wu6f1x3IQVSXXeEkuGM4pdFx/lM3btgHcqmxP3dxBLoiaTx
+	SMUTCRAwqx4J2JHkJtMp9bUis4EBHrhoH4nzCy2oUEpHcnOSVDiQ7p8uf9egDGUcrW8RKSCMPCl
+	CDpU7l7D1hHGm5nClctiQceR1ElLutFohdlqyH7LX7hqE538yOrdo6CLKqcg/j1eXxL9OBQpe7S
+	Kfoo3rAbfp0ypE8oqgZS/v2XvGw0mr1UZcsbsJUgJVWyM6RQkx10pMAZawDBJnT+bm2fTIz1Azq
+	DNE6iF7FvcPH5ihjP/X6ME7QYgjn6GhjxGc
+X-Received: by 2002:a05:620a:4551:b0:8cd:9707:6315 with SMTP id af79cd13be357-8cda19ba6a7mr82061885a.9.1773182437675;
+        Tue, 10 Mar 2026 15:40:37 -0700 (PDT)
 Received: from gmail.com (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-89a65bd54f9sm2958836d6.6.2026.03.10.15.38.16
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8cda21348e2sm16687985a.35.2026.03.10.15.40.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Mar 2026 15:38:16 -0700 (PDT)
-Date: Tue, 10 Mar 2026 22:38:15 +0000
+        Tue, 10 Mar 2026 15:40:36 -0700 (PDT)
+Date: Tue, 10 Mar 2026 22:40:34 +0000
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: martin.jansa@gmail.com
+To: liuyd.fnst@fujitsu.com
 Cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [meta-virtualization] [PATCH 1/2] cockpit-machines: move to
- dynamic layer for meta-webserver
-Message-ID: <abCdV-WOM6O4DYfk@gmail.com>
-References: <20260310135815.3353144-1-martin.jansa@gmail.com>
+Subject: Re: [meta-virtualization][PATCH] podman: Use packageconfig to
+ control fuse-overlayfs depend
+Message-ID: <abCd4oJCXiiacC_P@gmail.com>
+References: <20260310072754.663-1-liuyd.fnst@fujitsu.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260310135815.3353144-1-martin.jansa@gmail.com>
+In-Reply-To: <20260310072754.663-1-liuyd.fnst@fujitsu.com>
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Tue, 10 Mar 2026 22:38:19 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9637
+ <meta-virtualization@lists.yoctoproject.org>; Tue, 10 Mar 2026 22:40:39 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9638
 
-In message: [meta-virtualization] [PATCH 1/2] cockpit-machines: move to dynamic layer for meta-webserver
-on 10/03/2026 Martin Jansa via lists.yoctoproject.org wrote:
+In message: [meta-virtualization][PATCH] podman: Use packageconfig to control fuse-overlayfs depend
+on 10/03/2026 Yiding Liu (Fujitsu) via lists.yoctoproject.org wrote:
 
-> From: Martin Jansa <martin.jansa@gmail.com>
+> The RDEPEND fuse-overlayfs is an Optional package so use packageconfig to control it.
 > 
-> it depends on cockpit recipe from there, fixes:
-> ERROR: Nothing PROVIDES 'cockpit' (but meta-virtualization/recipes-extended/cockpit-machines/cockpit-machines_346.bb DEPENDS on or otherwise requires it)
-> in bitbake world builds
+> Refer to https://podman.io/docs/installation
+> 
+> Signed-off-by: Liu Yiding <liuyd.fnst@fujitsu.com>
+> ---
+>  recipes-containers/podman/podman_git.bb | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/recipes-containers/podman/podman_git.bb b/recipes-containers/podman/podman_git.bb
+> index 53b9b6a0..4495d2d9 100644
+> --- a/recipes-containers/podman/podman_git.bb
+> +++ b/recipes-containers/podman/podman_git.bb
+> @@ -68,7 +68,8 @@ EXTRA_OEMAKE = " \
+>  PODMAN_FEATURES ?= "docker"
+>  
+>  PACKAGECONFIG ?= ""
+> -PACKAGECONFIG[rootless] = ",,,fuse-overlayfs slirp4netns,,"
+> +PACKAGECONFIG[rootless] = ",,,slirp4netns,,"
+> +PACKAGECONFIG[fuse] = ",,,fuse-overlayfs,,"
 
-I guess alternatively, could a skiprecipe be raised if webserver
-isn't in the collections ?
+Whether right or wrong, fuse-overlayfs was being pulled in
+by rootless.
 
-Or meta-weberver becomes a dependency (which I do not want).
+So it should stay pulled in by rootless (unless you can show
+me that there's no requirement at all from rootless .. and
+that information needs to be in the commit message).
+
+It can also just stay in both, since last I checked, having
+the depdendency in twice doesn't cause any issues.
 
 Bruce
 
-> 
-> Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
-> ---
->  conf/layer.conf                                                 | 2 ++
->  .../recipes-extended}/cockpit-machines/cockpit-machines_346.bb  | 0
->  2 files changed, 2 insertions(+)
->  rename {recipes-extended => dynamic-layers/webserver/recipes-extended}/cockpit-machines/cockpit-machines_346.bb (100%)
-> 
-> diff --git a/conf/layer.conf b/conf/layer.conf
-> index 6eadc87f..a0f13f01 100644
-> --- a/conf/layer.conf
-> +++ b/conf/layer.conf
-> @@ -16,6 +16,8 @@ BBFILES_DYNAMIC += " \
->      raspberrypi:${LAYERDIR}/dynamic-layers/raspberrypi/*/*/*.bbappend \
->      xilinx:${LAYERDIR}/dynamic-layers/xilinx/*/*/*.bb \
->      xilinx:${LAYERDIR}/dynamic-layers/xilinx/*/*/*.bbappend \
-> +    webserver:${LAYERDIR}/dynamic-layers/webserver/*/*/*.bb \
-> +    webserver:${LAYERDIR}/dynamic-layers/webserver/*/*/*.bbappend \
->  "
 >  
->  # This should only be incremented on significant changes that will
-> diff --git a/recipes-extended/cockpit-machines/cockpit-machines_346.bb b/dynamic-layers/webserver/recipes-extended/cockpit-machines/cockpit-machines_346.bb
-> similarity index 100%
-> rename from recipes-extended/cockpit-machines/cockpit-machines_346.bb
-> rename to dynamic-layers/webserver/recipes-extended/cockpit-machines/cockpit-machines_346.bb
+>  do_compile() {
+>  	cd ${S}/src
+> -- 
+> 2.43.0
+> 
 
 > 
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#9633): https://lists.yoctoproject.org/g/meta-virtualization/message/9633
-> Mute This Topic: https://lists.yoctoproject.org/mt/118241115/1050810
+> View/Reply Online (#9631): https://lists.yoctoproject.org/g/meta-virtualization/message/9631
+> Mute This Topic: https://lists.yoctoproject.org/mt/118237141/1050810
 > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
 > Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
