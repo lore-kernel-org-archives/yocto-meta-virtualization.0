@@ -1,410 +1,498 @@
-Return-Path: <liuyd.fnst@fujitsu.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AAC83FD88E4
-	for <webhook@archiver.kernel.org>; Wed, 11 Mar 2026 03:08:44 +0000 (UTC)
-Received: from OS0P286CU010.outbound.protection.outlook.com (OS0P286CU010.outbound.protection.outlook.com [40.107.74.52])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.12352.1773198514358765435
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7A69FD88E5
+	for <webhook@archiver.kernel.org>; Wed, 11 Mar 2026 03:17:54 +0000 (UTC)
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.12560.1773199069130540046
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 10 Mar 2026 20:08:34 -0700
+ Tue, 10 Mar 2026 20:17:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=selector1 header.b=b61oJ0i9;
- spf=pass (domain: fujitsu.com, ip: 40.107.74.52, mailfrom: liuyd.fnst@fujitsu.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=UmvhZNpWJCl+hcn/gBnaC/ErYMi8VA1Ou9M9aRIsbVyP+LH7Oo6DWBPuh/+ydVA31cfqlmOGGZDfDCSls8r1QMu0LOFP2ub4qGHdssrtXnGuYXbHUJMVwQ6u0TKjE/3zAWFfqAK/gO+NmdYLfXeKar9oztj55QvNdtsZE/3EFQktvkxDxXF3XeTvQcEvnkxcXD1+WdshHa18n5LQ1ItadELYQNen5lsu9JemJrzFntRDfbqACo6SBbBCqTrFMaRVVX8M77k+hKs/CkOJFWwofT6ZVDc0ZWuxRDzowlISVtZ67rjKgGTmYobCZ2BXxBwoo9rpeU4tWjCXxjsCxYeWoQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nTBwr6/4oOixcsdR4XS6JDqIodUBxeUVgPee1X6AQBM=;
- b=aYA4OL4FaP88FFB37mTl1iwY3NB2aiEiq6GtysZmsYMRuCR5HvxGcrOaWlcRH9Vk2X1ahFq5oLscvroCx0TrWOK7BuDroiHlVtnixlzwIN5eM37YS+dLgG9NKArHssgIsPiBSb/cyGZfHcBiZVkpFF+Rf2LrhoE70DTlcHs9LtK1R3p3n55EQAXMpbNx9qXsJE5fDcL+kizR7pYPOznUjXIBn2ALAHMFYbMDioPdhzODdVvEwLEuhtYJf+XYQP9UYWNUGQkjTi+ZSesR1DKEPrkdxh1oDPUeKpTi3A3i3oFSGVBcjuZufnGo5pfCd5zRQFLPq+mQb5SIcVzY7k0h9A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=fujitsu.com; dmarc=pass action=none header.from=fujitsu.com;
- dkim=pass header.d=fujitsu.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nTBwr6/4oOixcsdR4XS6JDqIodUBxeUVgPee1X6AQBM=;
- b=b61oJ0i9wI0CLGt3daFg9pdDKTl/hkufFlahaBKAQC9RfC9YXEv/lMSzGjIQLW5GJJW98BAFse0YURuflYwSrmydl4z3/BN9OASBRQzsPHSu9tmAe7IUBj/kWyTdIZCFPfaOkcdGlW6o3NtOAUt96xK2juAOGKewPfUnXcpyWjiNgDscvpdlE4obGBwcCCMh2dl4iS+kIhxuuNtbw1SnkZtCxuE650aAcoAOru53WyEXCPbaizrlR0ZpMr+0Cbas6gP08ITsvH3Jh+6fBxDBpGZ8eoJPuNEQYuLfxtv2ZHtDVz054/x0FPoGEfbRV2Gigk/1kZJUp1dVxsfvkyTIjA==
-Received: from OS7PR01MB14444.jpnprd01.prod.outlook.com (2603:1096:604:386::5)
- by OS3PR01MB10423.jpnprd01.prod.outlook.com (2603:1096:604:1ff::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.11; Wed, 11 Mar
- 2026 03:08:29 +0000
-Received: from OS7PR01MB14444.jpnprd01.prod.outlook.com
- ([fe80::749f:a1f1:c336:5d97]) by OS7PR01MB14444.jpnprd01.prod.outlook.com
- ([fe80::749f:a1f1:c336:5d97%6]) with mapi id 15.20.9678.024; Wed, 11 Mar 2026
- 03:08:29 +0000
-From: "Yiding Liu (Fujitsu)" <liuyd.fnst@fujitsu.com>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-CC: "meta-virtualization@lists.yoctoproject.org"
-	<meta-virtualization@lists.yoctoproject.org>
-Subject: Re: issue about classes/image-oci.bbclass
-Thread-Topic: issue about classes/image-oci.bbclass
-Thread-Index: AQHcsFfKNJd6qUSG9Ey43pvThCuo7rWnshIAgADxeMI=
-Date: Wed, 11 Mar 2026 03:08:29 +0000
-Message-ID: 
- <OS7PR01MB1444404E20787B8BA716E9C659B47A@OS7PR01MB14444.jpnprd01.prod.outlook.com>
-References: 
- <OS7PR01MB14444C313A7F44936A3D8EBB99B46A@OS7PR01MB14444.jpnprd01.prod.outlook.com>
- <CADkTA4Mt4E-Uj4G_Xrn9vK+imdA6WUaUGUNpopH3OrbyFSG=7A@mail.gmail.com>
-In-Reply-To: 
- <CADkTA4Mt4E-Uj4G_Xrn9vK+imdA6WUaUGUNpopH3OrbyFSG=7A@mail.gmail.com>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
- MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_Enabled=True;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_SiteId=a19f121d-81e1-4858-a9d8-736e267fd4c7;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_SetDate=2026-03-11T03:08:28.587Z;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_Name=FUJITSU-RESTRICTED;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_ContentBits=1;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_Method=Standard;
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=fujitsu.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OS7PR01MB14444:EE_|OS3PR01MB10423:EE_
-x-ms-office365-filtering-correlation-id: 19ed08c5-0e57-4857-ffab-08de7f1b7855
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|366016|376014|1800799024|7053199007|22082099003|18002099003|56012099003|38070700021|8096899003|1580799027;
-x-microsoft-antispam-message-info: 
- qg+Y0F6oLApbIs09VW9ojrM0i5eYUOTweZa4bm1+BRezIeAKJG+pulOc1mY93vE7YdNmzbQyLTRt/9xM6PxCErH1U/To6wuMBBQjZGWMUpHlMzpJ85VUCOO2XwoSFeFRIeTRPbetQ4j29UOqyEIE4iRbY4NAu7fMzlHWVfGYAXkzK0qk6PJWOVAdAXYgwHfeyDiDcHTONyaoQ/RX/ju/iTgFKLtNDTflXH/xsqRk9bTf+RkZXJwlXDlFggpBJkZtjjw48Iq/h+RHnr4owctEdXZW7Lw4NnJBdGbd3yt8xTioS/06Bq1tC508w/7Emt7/eljgAeAk6aofN/p60wW9RhjzyBT5tNbXGPp71NpOmNyJazKjhzTln8eeBgwU6cXU2wQh3S3fSpOAQWcXcQ9TWEqQUUrWiAsUyjaY98zgQOQ4F28AxKEjG85/sdBGiik76es59RzVAVCZT9GX2hK0FJbijFtac4nySw9/+Hild1ZvfCKL9nL5W6uiBT2j64CR+QlVkJa1P7Z3RhAV0vE5HatO+S1Ds+/CKQwryOQC3xzhdxKZx0kLnOGUqS9NqIv1+3mqo3/x0mjkmXjMSPAFRX1OU2pNaDj4cOthOAl2G/obkQgzhpJ/am46tZCRr7wyls2k0ukYUNzZ0C2ZVJjMpdCJZ3/nzUPCq21XpBsmRYdvCYNs+KPzwADC5jy7YZXKrMwiRu/lz71hUuBQVhtb8g/EIeip6hRvPB021Y2wJqb0ac6+8A5vALcgbaDIrXvswgUA0dWwSTJHxj1s74qO9xF3dQXxXFDy5uZlBox77zl/Aywu7Ijz2xOIonoG3suQ
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:zh-cn;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS7PR01MB14444.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(7053199007)(22082099003)(18002099003)(56012099003)(38070700021)(8096899003)(1580799027);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?R3ZUK2VkcmJRcnArbjRGMXRiZUNmNXpWZUpiZnk3SnBGQWdZMzZyQ0VTc2Fx?=
- =?utf-8?B?L0M3eVVaK3ZIUDVJNWE2OElTUnh1aWxHb2UycllTMFUva3N4WDlwckZIQWMr?=
- =?utf-8?B?UjlwVlBJODJOVmh2cDUwbi8vdk5PT2R6dVZaTERXajZTaUZxdSt2M1k3Z0Jt?=
- =?utf-8?B?MFBrS1QxU094VWpDRCtNWFNLVi9XUllQVHptcXpxUVFrQjZaVU92MDJLa0Zt?=
- =?utf-8?B?TlRrbkhJdlRVZktHYXB3WnFxdFlTV0xDRW0wZ2taakdFc28rbzNZUkM3OXZK?=
- =?utf-8?B?NnhKVnhMdmwvSklSdUJ2SEZxOFNRVlYrdTVPWTVNTklIYmlqNGtvY2t5THdD?=
- =?utf-8?B?OVl1eWVRU05DbEd5V1Q1cWRaS3R0ekhUR2VNTU9rUHBra25meVd2akQzOGhD?=
- =?utf-8?B?eEZrQVZOcm9zWXNXYnMyZ2lwbFZjRDFHMXgzZUNrMTdjUS9Ha3c4enNseDNY?=
- =?utf-8?B?ajVHQVVHUDZaV3dOMEFkYTdtNkNINmp6Tml0WXhFYUFsSFltVWhXNC80L2NC?=
- =?utf-8?B?OTV6WTdBMUVQT0d6dDQrOHAzTVdibWZZaml4WGFtRS9QekJsMnBtUTUveFlF?=
- =?utf-8?B?UDZQckNaNGNrMGZaNHJCWElBbEI1TkN1UVUvSUdXYVVEOGJFRDBaTmFHTURu?=
- =?utf-8?B?bUU1Wlh4OFlIR3NSRGZwZjZCblRVZjFZRGwzb095a1ZPTEx5b1VYTnV1UnR1?=
- =?utf-8?B?UW13WDZLK3NBQ3ozbU9GSGo3dEZkQjVPclliNlhrTG4vTTVPK0dxQi9tbFFX?=
- =?utf-8?B?TTlyb2R0eUM0SXIybkVqQVpFSnd1bnNudElhdUd4b3h5eHJYMFlqeGxqT0sy?=
- =?utf-8?B?OTBUUDdhaitDRGFCTDBnRE1lK2RrN3FRcUJnTSszbXBmUXhiVGNGNHRiSjBS?=
- =?utf-8?B?VVFOaUtLS1JqVlo1R3ExdHZaZHdUN2wrMU5lL0l5dWNMM0dIeVZITHV5NGFl?=
- =?utf-8?B?MloxV1BZUWh5WUp5bzltdDhETWJ6ZnlKZlB3bjd4Y0JyNmVLV1hTZWNWVEVB?=
- =?utf-8?B?dTZEUHNLRFM0eWZmSnMxWGc1T1VUc0UwMHk4WmhRbXlEZmlmOUhNblRNVk00?=
- =?utf-8?B?eUJ4WVBhaWZBbmlZd1ltanYyKzV1SXM2cUIzNEVuT3hwUTc5WUtSR1ZtU2hq?=
- =?utf-8?B?eDVIVFRYNGNLNTZOMlRjZGpkcG14NnByaXBGWWhOdWp1MnlyS2hLbkQ5N0tw?=
- =?utf-8?B?OHRvVEJza2YrNzk1MVQveW9IT0J4UHFMUTZjSTMxcVdRQWIwRkhZVW9jTU8x?=
- =?utf-8?B?ZG81QUt4WDFOc0drbUN0WDgycnh5cmpvNE1GU2hrUSt0dHJGb3NTR2t5dVRp?=
- =?utf-8?B?cVhwVjJZSkZxWk1pZklCNHI1NDl6cUh0WmFKYnVZMmpxbklmQW44cVpIQmdB?=
- =?utf-8?B?WXdpUTlQWW54VlA1cWM4YkRoM1hjc2N3T0pqN1dYcFZ1ZW5tMGd1RExhUXNk?=
- =?utf-8?B?UFdyUHBwNytCaDN4ZkhzTzlVdDEyUHlKWnk5djVoT0tiaHkremlIcGl3NHpZ?=
- =?utf-8?B?dmtyV0Zlc3ovbjJQOUNBWWtTVTZ0eXpMVGtSazlwanBSOE5CUVg1SHkzZ0kv?=
- =?utf-8?B?VktCZFZhN3dHMURXQVNUMFVLOUdlY1Y1UC9aZS9MbGtQUEJiL3dreXh3Vkhp?=
- =?utf-8?B?TUdTZEtXVkQrWFg5bHhEcUd3UnVBWTg0cmNkZkozWDBCYmdSMi9KTGN4OGNn?=
- =?utf-8?B?VzNDczFCOEliblhDS2RKNDM5ODJ0SnJSNSttRFdoWWJ3UEJXSmoxZWdZTUNU?=
- =?utf-8?B?SjdSMXhOanF3aTZqb2U4Yy96c25ybmNsVVB6L0tMUWpnSTA1M0pjZ2h5eWgr?=
- =?utf-8?B?ekxFZDFQZDMrZENrYzZnbVQwdWsvdnRXL0doaFY2aHM5eUYrNjBIQmxibHE2?=
- =?utf-8?B?Zjc3OVpDK1g1b1Y4Q212U0ZiTm9tQklRQ3BJTm5qdUZyZjZabTNSUW5Najl1?=
- =?utf-8?B?SGFTUXRiUkVBRjR5dVFBNjVvOGtIOWFTSkhJMFRCOVF1dHA0MjY1RzBWcjd6?=
- =?utf-8?B?Um94UDA1SXdiR0dSUnlvdThGREFhSnBSLzZPbDJJUjcxTU9PeUJ1eUYzREw3?=
- =?utf-8?B?NGJKSW5ldlljN0liK2Q4RTRyb0x1aURVSjVDbGp5N09QVVc3STc0RE92ZENt?=
- =?utf-8?B?WlUrQXA0YktLWnVCVVo5VGNkM1FmdzBMdDNrUEkyMmlsNWxQbWkvdm5GNmlP?=
- =?utf-8?B?Q29tZ25Zd1JlWmNrQ1Q4RU1mM2p4ZzBoa2w1SFJoaUdWM1hDS3RncDlBSE1G?=
- =?utf-8?B?a3o1ai9ENlR5R2Z1Q2FTMzB0ayt2WmNXbkRTelhZbnc0djBDaXA4dmhEK2NF?=
- =?utf-8?B?QUR5N3ZwWlZTL1NHZ3BwWnFsUkIyUk9kaENsUklUUTk1NWNleU5yUT09?=
-Content-Type: multipart/alternative;
-	boundary="_000_OS7PR01MB1444404E20787B8BA716E9C659B47AOS7PR01MB14444jp_"
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=ad72uauA;
+ spf=pass (domain: gmail.com, ip: 209.85.215.178, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-b6ce6d1d3dcso5064616a12.3
+        for <meta-virtualization@lists.yoctoproject.org>; Tue, 10 Mar 2026 20:17:49 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773199068; cv=none;
+        d=google.com; s=arc-20240605;
+        b=YI4J75afZNp1UOXkALp1XLz017NhwzMyS8bB4H9otxM8UG4OvVqrPlKFDAksHX3NKz
+         /5uREdZn+OeHL1y1nKOF6BYq/2ug2GPueiGK3aGBMCAgVqkqR1Tj5TciH1dchjeVTGc+
+         ogQqMx/tKofLjTN9uCDNEv6tGq1OD3HtfuGzbX9RGUV4RbDuir/B1hM4K2M+jTjFG5q5
+         OkvPSQNUzMt6ddIsPW+lkUywWabk/I6Qt3VMHli4A4BKbzoBgTbHkyV57ezHTmaf8Ay8
+         6mhSP6mYRD7qUsWyIFwX1tiWwDQ8uAno53wP/pG05l3wUyVZmcOMGPsJc6C+poNlkO+c
+         zX9Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=bVxHGebURwwU6cy5p7C59dAHT3OhbEnRUn0nLtQ2oj0=;
+        fh=OClHZqodWSNbeHsUYFR0FyVz9DAVa4a7109tpdSIGh0=;
+        b=OHMBqkk+PIK22zhOLCt2v9Jj3+OoWtZwIQvhyDUf4PRoeo6f2GzzwQ8XL1BwLdSBVD
+         S1kv2L1QDSrKAvFDUbc+jQtoY852N9IJgaRK88Tatfp+vrjgzqSkbBas+61od7NBL612
+         NqgOXiAROilQvESutCF85EIRYdBxVQ+agIt1ON1ndYY3YWUKMQXuZeGkn/yygL7R2LXB
+         iL0PJCV3qlV1sADBn9Y1K/EMI7UZNsLPnzuP1hhHS/x/0K1v2MsxgB1J1+/x8OZwSE4+
+         MFJgTygWgIK1U+AWsA+x3xnJX4xl8vPn+Oqcbb1sUUhxdycAEuO+80Nnta2B76Oijvkz
+         E4aA==;
+        darn=lists.yoctoproject.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773199068; x=1773803868; darn=lists.yoctoproject.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=bVxHGebURwwU6cy5p7C59dAHT3OhbEnRUn0nLtQ2oj0=;
+        b=ad72uauAqIjrbsCCOnIaBzwDZssQZ9XAUnTjdTwUrpF27PWwefC78xbz9dDYZFeWAX
+         EHudc9XC8QHuszD2i57E386oYzzMQy6icjYm2VbdZyiAK3OeIyb6AV7dgR6e+kc5WNiG
+         190Q01on8GxTZprgfDshrx/jmB/h35jJJ9OSaXpRxbgZKh0VHJwU1LR2F44SbDrLYvUC
+         ycRgrolbmbemWXajIwutWskCAyl/DjaUjkxDKamZP4v4TJY+CeVrj0eEvvIwii/IDfsn
+         Wmp2Ez9mWlWQ+XXXihdQzHHHqDQ8xvTamuzCwwqi3aX0QcJd82cvhvW6UBXP621glAU3
+         Lh1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773199068; x=1773803868;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bVxHGebURwwU6cy5p7C59dAHT3OhbEnRUn0nLtQ2oj0=;
+        b=iXWPZPNPxGcbdDOBevTvNNxCHpgiNxJHfsofzaj0tPRYaNV2fRec1lGkCtcBnFvI3Y
+         0ly2h038f8sY/De70UBJ5PkZa/TsI+9l0PO6dp3kBYKcMimwrv6Qx1trs7DKcFqyhpwN
+         oIS/TAW9Mhe4QvHHHv/4FQnYpiquoD+ymQRcXT1YeO8tmZPkR1y5oos9QYaF4abgUWen
+         ZtuJ4pFBfllHfWhqwV8+2as5AHdfG3PIV4qexmEz+6ISQM816soC1veVNku/sUhfpZts
+         /cwwIhZKOjnG17Zftwt3fNDq7VVmArdW0SWKo45xPSTMAW+adHk3AzM/ZF/NQKEOSViP
+         D29Q==
+X-Gm-Message-State: AOJu0YwmjwHK4YjqgA3xPCS5fZ7pfVDDxlMzylaF9boP0SCu+CT0I5pN
+	NK/8JLAvJhJlfXSkYQFFgttdRNxZ2rMkpuEmK1D+lQbEmlwn9oo3RzJwMwXKb2HlEtlC5Au8lfn
+	vjIsV0zU+i/+lBN5zncQGL1+VGZoYByo=
+X-Gm-Gg: ATEYQzwJXSfjurc34EH3BjEvM+KIxKpxtcnezuYBOfId6nvl/QVZts2VR0k/4V7ELJ5
+	tubph2bisfrK1vKQzHRyt9CRqxIg4R7HR1uzoTcJuZOGtACLPu0mkUOzxQJKuoh413Dsgd0AXqD
+	ftN3dvC4LI4IZ7CnHkyyJAW5COrZMY8YeX76J8cApZES0pk+YgBLKGPNCaU4eiGRlNQBpaCzWzJ
+	eDBomqxHkLE9hdmQV96FpDDD58BUEcLGagEw+ECM1PfUsJodc2fQLdNjkKpXKGopob/EW2gX0Hp
+	WTPhhbdHlrEkfVGc14yEm3qEBhk+GHsrfiEtOXrb
+X-Received: by 2002:a05:6a20:728b:b0:398:62b5:d2d with SMTP id
+ adf61e73a8af0-398c5ef248amr849769637.8.1773199068293; Tue, 10 Mar 2026
+ 20:17:48 -0700 (PDT)
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked: 
-	catC3/iZFJ6jDkO+2U7EaOZiUXCUD0SBu02NRez8AbroDjsD86yvVrtWSQV71b/rtfTK4skE4bHSaCQFVQr1mUnPlcoKU7bOUdycYn4xn+COybb09u4QCX+rDlAmSGpijsUnX+ZQOPqqlLotCGXdjNY8XDnvYGUYf1dDDM2E0kEeVdq6WtX7OSgNgTeaRBfk9X2orRw15FeJx+8z5t51U88l6bD0l3IH+99/WRGaiF7smRVn9TUDCWPOidg1n/bcp55kTf2Vddpf4HHQCZSRpgX7OyDqOnomwZXlWXzULO5T4i6VKdWnRe/la2RVHO+jqa0j/LA/CphbboDfaBF5WA==
-X-OriginatorOrg: fujitsu.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS7PR01MB14444.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 19ed08c5-0e57-4857-ffab-08de7f1b7855
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Mar 2026 03:08:29.2464
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a19f121d-81e1-4858-a9d8-736e267fd4c7
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: vIfhg95ZtHQ52q47Xn9iAm266/0/4+SoPcUOT2wqWUHAGnNaDbBX0kJImgwa5xVZgxUP61cZG/APOrbIqPN8cg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB10423
+References: <OS7PR01MB14444C313A7F44936A3D8EBB99B46A@OS7PR01MB14444.jpnprd01.prod.outlook.com>
+ <CADkTA4Mt4E-Uj4G_Xrn9vK+imdA6WUaUGUNpopH3OrbyFSG=7A@mail.gmail.com> <OS7PR01MB1444404E20787B8BA716E9C659B47A@OS7PR01MB14444.jpnprd01.prod.outlook.com>
+In-Reply-To: <OS7PR01MB1444404E20787B8BA716E9C659B47A@OS7PR01MB14444.jpnprd01.prod.outlook.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Tue, 10 Mar 2026 23:17:36 -0400
+X-Gm-Features: AaiRm51s23Dm20Tp75FNtbVDTiXg0b_otqHCaJ-8BhI5_rzgWaL07awYPpfyAoE
+Message-ID: <CADkTA4Ph_hP7=zs8RC8F5SUdmO_MLwDqYB1u-yPt0vPGWxPUKg@mail.gmail.com>
+Subject: Re: issue about classes/image-oci.bbclass
+To: "Yiding Liu (Fujitsu)" <liuyd.fnst@fujitsu.com>
+Cc: "meta-virtualization@lists.yoctoproject.org" <meta-virtualization@lists.yoctoproject.org>
+Content-Type: multipart/alternative; boundary="00000000000094ecf4064cb71415"
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Wed, 11 Mar 2026 03:08:44 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9641
+ <meta-virtualization@lists.yoctoproject.org>; Wed, 11 Mar 2026 03:17:54 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9642
 
---_000_OS7PR01MB1444404E20787B8BA716E9C659B47AOS7PR01MB14444jp_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+--00000000000094ecf4064cb71415
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-SGkgQnJ1Y2UNCiAgICAgSSBkaWRuJ3QgbWVhbiB0byBjaGFuZ2UgdGhlIGltYWdlLW9jaS5iYmNs
-YXNzIGJ1dCB0byBmaXggdGhlICByZWNpcGVzLWV4dGVuZGVkL2ltYWdlcy9jb250YWluZXItYXBw
-LWJhc2UuYmINCg0KICAgICBUbyBtYWtlIE9DSV9JTUFHRV9DTUQgYXMgZW1wdHkgaW4gY29udGFp
-bmVyLWFwcC1iYXNlLmJiLCBvciBpdCB3aWxsIGhhdmUgYSB3cm9uZyBydW50aW1lIHJlc3VsdCBh
-cyBmb2xsb3dpbmcuDQogICAgICAgICAgICAgICAkIHBvZG1hbiBydW4gLS1ybSBmMGQ3OTI5MWVm
-MDgNCiAgICAgICAgICAgICAgZGF0ZTogaW52YWxpZCBkYXRlICcvYmluL3NoJw0KDQogICAgIE1h
-eWJlIGEgcGF0Y2ggbGlrZSB0aGlzPw0KZGlmZiAtLWdpdCBhL3JlY2lwZXMtZXh0ZW5kZWQvaW1h
-Z2VzL2NvbnRhaW5lci1hcHAtYmFzZS5iYiBiL3JlY2lwZXMtZXh0ZW5kZWQvaW1hZ2VzL2NvbnRh
-aW5lci1hcHAtYmFzZS5iYg0KaW5kZXggMzQzODFlZDIuLjRhMWRlYWMyIDEwMDY0NA0KLS0tIGEv
-cmVjaXBlcy1leHRlbmRlZC9pbWFnZXMvY29udGFpbmVyLWFwcC1iYXNlLmJiDQorKysgYi9yZWNp
-cGVzLWV4dGVuZGVkL2ltYWdlcy9jb250YWluZXItYXBwLWJhc2UuYmINCkBAIC04LDYgKzgsNyBA
-QCBpbmNsdWRlIGNvbnRhaW5lci1iYXNlLmJiDQogIyBjb250YWluZXIuIFdoYXQgd2UgaGF2ZSBi
-ZWxvdyBpcyBhIHBsYWNob2xkZXIuIGlmIHlvdSBydW4gdGhpcw0KICMgY29udGFpbmVyLCB5b3Un
-bGwgZ2V0IHRoZSBkYXRlIGVjaG8nZA0KIENPTlRBSU5FUl9BUFBfQ01EID89ICJkYXRlIg0KK09D
-SV9JTUFHRV9DTUQgPSAiIg0KDQogICAgIFdoYXQgZG8geW91IHRoaW5rIGFib3V0IGl0Pw0KDQpM
-aXUNCg0KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18NCuWPkeS7tuS6ujogQnJ1Y2Ug
-QXNoZmllbGQgPGJydWNlLmFzaGZpZWxkQGdtYWlsLmNvbT4NCuWPkemAgeaXtumXtDogMjAyNuW5
-tDPmnIgxMOaXpSAyMDoyOA0K5pS25Lu25Lq6OiBMaXUsIFlpZGluZy/liJgg5LmZ5LiBIDxsaXV5
-ZC5mbnN0QGZ1aml0c3UuY29tPg0K5oqE6YCBOiBtZXRhLXZpcnR1YWxpemF0aW9uQGxpc3RzLnlv
-Y3RvcHJvamVjdC5vcmcgPG1ldGEtdmlydHVhbGl6YXRpb25AbGlzdHMueW9jdG9wcm9qZWN0Lm9y
-Zz4NCuS4u+mimDogUmU6IGlzc3VlIGFib3V0IGNsYXNzZXMvaW1hZ2Utb2NpLmJiY2xhc3MNCg0K
-DQoNCk9uIFR1ZSwgTWFyIDEwLCAyMDI2IGF0IDI6NDnigK9BTSBZaWRpbmcgTGl1IChGdWppdHN1
-KSA8bGl1eWQuZm5zdEBmdWppdHN1LmNvbTxtYWlsdG86bGl1eWQuZm5zdEBmdWppdHN1LmNvbT4+
-IHdyb3RlOg0KSGkgQnJ1Y2UNCiAgICAgSSBmb3VuZCBhbiBpc3N1ZSBhYm91dCBPQ0lfSU1BR0Vf
-Q01EID89ICIvYmluL3NoIiB3aGVuIEkgdXNlIHRoZSBjb250YWluZXItYXBwLWJhc2UgaW1hZ2Uu
-DQoNCiAgICAkIHBvZG1hbiBydW4gLS1ybSBmMGQ3OTI5MWVmMDgNCiAgICAgZGF0ZTogaW52YWxp
-ZCBkYXRlICcvYmluL3NoJw0KDQogICAgVGhlIGlzc3VlIHdhcyBjYXVzZWQgYnkgdGhlIEVudHJ5
-cG9pbnQgYW5kIENtZCBhcmUgYm90aCBkZWZpbmVkLCBhbmQgY21kIHdpbGwgYmUgdGhlIGFwcGVu
-ZCBhcmdzIG9mIGRhdGUsDQogICAgV2hpY2ggY2F1c2VkIHRoZSBvdXRwdXQgZXJyb3IuDQoNCiAg
-ICQgcG9kbWFuIGluc3BlY3QgZjBkNzkyOTFlZjA4DQogICAgICAuLi4NCiAgICAgICAgICAiQ29u
-ZmlnIjogew0KICAgICAgICAgICAgICAgIkVudHJ5cG9pbnQiOiBbDQogICAgICAgICAgICAgICAg
-ICAgICJkYXRlIg0KICAgICAgICAgICAgICAgXSwNCiAgICAgICAgICAgICAgICJDbWQiOiBbDQog
-ICAgICAgICAgICAgICAgICAgICIvYmluL3NoIg0KICAgICAgICAgICAgICAgXSwNCiAgICAuLi4N
-Cg0KICAgSSB0aGluayBtYWtlIE9DSV9JTUFHRV9DTUQgYXMgZW1wdHkgY2FuIHNvbHZlIHRoaXMg
-aXNzdWUsIHdoYXQgZG8geW91IHRoaW5rIGFib3V0IGl0Pw0KICAgT0NJX0lNQUdFX0NNRCA/PSAi
-Ig0KDQpOb3BlLiBZb3UgY2FuIG92ZXJyaWRlIHRoYXQgeW91cnNlbGYuDQoNClRoZSBjdXJyZW50
-IGRlZmF1bHRzIGhhdmUgYmVlbiBleHRlbnNpdmVseSB0ZXN0ZWQgYW5kIG1vZGlmaWVkIGp1c3Qg
-cmVjZW50bHkgdG8gbWFrZSB0aGUgZW50cnlwb2ludCB3b3JrIGluIG1vcmUgc2NlbmFyaW9zLg0K
-DQpDaGVjayBnaXQgaGlzdG9yeSBmb3IgYWxsIHRoZSBkZXRhaWxzLg0KDQpCcnVjZQ0KDQoNCg0K
-ICAgJCBwb2RtYW4gcnVuIC0tcm0gNzAzMDZkYWNkYzRhDQogICBUdWUgTWFyIDEwIDA2OjI3OjQy
-IFVUQyAyMDI2DQoNCkxpdQ0KDQoNCg0KLS0NCi0gVGhvdSBzaGFsdCBub3QgZm9sbG93IHRoZSBO
-VUxMIHBvaW50ZXIsIGZvciBjaGFvcyBhbmQgbWFkbmVzcyBhd2FpdCB0aGVlIGF0IGl0cyBlbmQN
-Ci0gIlVzZSB0aGUgZm9yY2UgSGFycnkiIC0gR2FuZGFsZiwgU3RhciBUcmVrIElJDQoNCg==
+On Tue, Mar 10, 2026 at 11:08=E2=80=AFPM Yiding Liu (Fujitsu) <
+liuyd.fnst@fujitsu.com> wrote:
 
---_000_OS7PR01MB1444404E20787B8BA716E9C659B47AOS7PR01MB14444jp_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+> Hi Bruce
+>      I didn't mean to change the image-oci.bbclass but to fix the
+> recipes-extended/images/container-app-base.bb
+>
+>
+The answer is the same. There's multiple stacks on top of that example that
+expect the current behaviour, so I prefer to leave it as-is,
+but I can do some testing and see if anything breaks.
 
-PGh0bWw+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIgY29udGVudD0i
-dGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyIgc3R5bGU9
-ImRpc3BsYXk6bm9uZTsiPiBQIHttYXJnaW4tdG9wOjA7bWFyZ2luLWJvdHRvbTowO30gPC9zdHls
-ZT4NCjwvaGVhZD4NCjxib2R5IGRpcj0ibHRyIj4NCjxkaXYgc3R5bGU9ImZvbnQtZmFtaWx5OiBB
-cHRvcywgQXB0b3NfRW1iZWRkZWRGb250LCBBcHRvc19NU0ZvbnRTZXJ2aWNlLCBDYWxpYnJpLCBI
-ZWx2ZXRpY2EsIHNhbnMtc2VyaWY7IGZvbnQtc2l6ZTogMTJwdDsgY29sb3I6IHJnYigwLCAwLCAw
-KTsiIGNsYXNzPSJlbGVtZW50VG9Qcm9vZiI+DQpIaSBCcnVjZTwvZGl2Pg0KPGRpdiBzdHlsZT0i
-Zm9udC1mYW1pbHk6IEFwdG9zLCBBcHRvc19FbWJlZGRlZEZvbnQsIEFwdG9zX01TRm9udFNlcnZp
-Y2UsIENhbGlicmksIEhlbHZldGljYSwgc2Fucy1zZXJpZjsgZm9udC1zaXplOiAxMnB0OyBjb2xv
-cjogcmdiKDAsIDAsIDApOyIgY2xhc3M9ImVsZW1lbnRUb1Byb29mIj4NCiZuYnNwOyAmbmJzcDsg
-Jm5ic3A7SSBkaWRuJ3QgbWVhbiB0byBjaGFuZ2UgdGhlIGltYWdlLW9jaS5iYmNsYXNzJm5ic3A7
-YnV0IHRvIGZpeCB0aGUmbmJzcDsgcmVjaXBlcy1leHRlbmRlZC9pbWFnZXMvY29udGFpbmVyLWFw
-cC1iYXNlLmJiPC9kaXY+DQo8ZGl2IHN0eWxlPSJmb250LWZhbWlseTogQXB0b3MsIEFwdG9zX0Vt
-YmVkZGVkRm9udCwgQXB0b3NfTVNGb250U2VydmljZSwgQ2FsaWJyaSwgSGVsdmV0aWNhLCBzYW5z
-LXNlcmlmOyBmb250LXNpemU6IDEycHQ7IGNvbG9yOiByZ2IoMCwgMCwgMCk7IiBjbGFzcz0iZWxl
-bWVudFRvUHJvb2YiPg0KPGJyPg0KPC9kaXY+DQo8ZGl2IHN0eWxlPSJmb250LWZhbWlseTogQXB0
-b3MsIEFwdG9zX0VtYmVkZGVkRm9udCwgQXB0b3NfTVNGb250U2VydmljZSwgQ2FsaWJyaSwgSGVs
-dmV0aWNhLCBzYW5zLXNlcmlmOyBmb250LXNpemU6IDEycHQ7IiBjbGFzcz0iZWxlbWVudFRvUHJv
-b2YiPg0KPHNwYW4gc3R5bGU9ImNvbG9yOiByZ2IoMCwgMCwgMCk7Ij4mbmJzcDsgJm5ic3A7ICZu
-YnNwO1RvIG1ha2UgT0NJX0lNQUdFX0NNRCBhcyBlbXB0eSBpbiBjb250YWluZXItYXBwLWJhc2Uu
-YmIsIG9yIGl0IHdpbGwgaGF2ZSBhIHdyb25nIHJ1bnRpbWUgcmVzdWx0IGFzIGZvbGxvd2luZzwv
-c3Bhbj48c3BhbiBzdHlsZT0iY29sb3I6IGJsYWNrOyI+Ljwvc3Bhbj48L2Rpdj4NCjxkaXYgc3R5
-bGU9ImZvbnQtZmFtaWx5OiBBcHRvcywgQXB0b3NfRW1iZWRkZWRGb250LCBBcHRvc19NU0ZvbnRT
-ZXJ2aWNlLCBDYWxpYnJpLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWY7IGZvbnQtc2l6ZTogMTJwdDsg
-Y29sb3I6IGJsYWNrOyIgY2xhc3M9ImVsZW1lbnRUb1Byb29mIj4NCiZuYnNwOyAmbmJzcDsgJm5i
-c3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7Jm5ic3A7ICZuYnNwOyAkIHBvZG1hbiBydW4gLS1ybSBm
-MGQ3OTI5MWVmMDg8YnI+DQombmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNw
-OyAmbmJzcDsgZGF0ZTogaW52YWxpZCBkYXRlICcvYmluL3NoJzwvZGl2Pg0KPGRpdiBzdHlsZT0i
-Zm9udC1mYW1pbHk6IEFwdG9zLCBBcHRvc19FbWJlZGRlZEZvbnQsIEFwdG9zX01TRm9udFNlcnZp
-Y2UsIENhbGlicmksIEhlbHZldGljYSwgc2Fucy1zZXJpZjsgZm9udC1zaXplOiAxMnB0OyBjb2xv
-cjogYmxhY2s7IiBjbGFzcz0iZWxlbWVudFRvUHJvb2YiPg0KPGJyPg0KPC9kaXY+DQo8ZGl2IHN0
-eWxlPSJmb250LWZhbWlseTogQXB0b3MsIEFwdG9zX0VtYmVkZGVkRm9udCwgQXB0b3NfTVNGb250
-U2VydmljZSwgQ2FsaWJyaSwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmOyBmb250LXNpemU6IDEycHQ7
-IGNvbG9yOiByZ2IoMCwgMCwgMCk7IiBjbGFzcz0iZWxlbWVudFRvUHJvb2YiPg0KJm5ic3A7ICZu
-YnNwOyAmbmJzcDtNYXliZSBhIHBhdGNoIGxpa2UgdGhpcz88L2Rpdj4NCjxkaXYgc3R5bGU9Im1h
-cmdpbi1sZWZ0OiA0MHB4OyBmb250LWZhbWlseTogQXB0b3MsIEFwdG9zX0VtYmVkZGVkRm9udCwg
-QXB0b3NfTVNGb250U2VydmljZSwgQ2FsaWJyaSwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmOyBmb250
-LXNpemU6IDEycHQ7IGNvbG9yOiByZ2IoMCwgMCwgMCk7IiBjbGFzcz0iZWxlbWVudFRvUHJvb2Yi
-Pg0KZGlmZiAtLWdpdCBhL3JlY2lwZXMtZXh0ZW5kZWQvaW1hZ2VzL2NvbnRhaW5lci1hcHAtYmFz
-ZS5iYiZuYnNwO2IvcmVjaXBlcy1leHRlbmRlZC9pbWFnZXMvY29udGFpbmVyLWFwcC1iYXNlLmJi
-PC9kaXY+DQo8ZGl2IHN0eWxlPSJtYXJnaW4tbGVmdDogNDBweDsgZm9udC1mYW1pbHk6IEFwdG9z
-LCBBcHRvc19FbWJlZGRlZEZvbnQsIEFwdG9zX01TRm9udFNlcnZpY2UsIENhbGlicmksIEhlbHZl
-dGljYSwgc2Fucy1zZXJpZjsgZm9udC1zaXplOiAxMnB0OyBjb2xvcjogcmdiKDAsIDAsIDApOyIg
-Y2xhc3M9ImVsZW1lbnRUb1Byb29mIj4NCmluZGV4IDM0MzgxZWQyLi40YTFkZWFjMiAxMDA2NDQ8
-L2Rpdj4NCjxkaXYgc3R5bGU9Im1hcmdpbi1sZWZ0OiA0MHB4OyBmb250LWZhbWlseTogQXB0b3Ms
-IEFwdG9zX0VtYmVkZGVkRm9udCwgQXB0b3NfTVNGb250U2VydmljZSwgQ2FsaWJyaSwgSGVsdmV0
-aWNhLCBzYW5zLXNlcmlmOyBmb250LXNpemU6IDEycHQ7IGNvbG9yOiByZ2IoMCwgMCwgMCk7IiBj
-bGFzcz0iZWxlbWVudFRvUHJvb2YiPg0KLS0tIGEvcmVjaXBlcy1leHRlbmRlZC9pbWFnZXMvY29u
-dGFpbmVyLWFwcC1iYXNlLmJiPC9kaXY+DQo8ZGl2IHN0eWxlPSJtYXJnaW4tbGVmdDogNDBweDsg
-Zm9udC1mYW1pbHk6IEFwdG9zLCBBcHRvc19FbWJlZGRlZEZvbnQsIEFwdG9zX01TRm9udFNlcnZp
-Y2UsIENhbGlicmksIEhlbHZldGljYSwgc2Fucy1zZXJpZjsgZm9udC1zaXplOiAxMnB0OyBjb2xv
-cjogcmdiKDAsIDAsIDApOyIgY2xhc3M9ImVsZW1lbnRUb1Byb29mIj4NCisrKyBiL3JlY2lwZXMt
-ZXh0ZW5kZWQvaW1hZ2VzL2NvbnRhaW5lci1hcHAtYmFzZS5iYjwvZGl2Pg0KPGRpdiBzdHlsZT0i
-bWFyZ2luLWxlZnQ6IDQwcHg7IGZvbnQtZmFtaWx5OiBBcHRvcywgQXB0b3NfRW1iZWRkZWRGb250
-LCBBcHRvc19NU0ZvbnRTZXJ2aWNlLCBDYWxpYnJpLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWY7IGZv
-bnQtc2l6ZTogMTJwdDsgY29sb3I6IHJnYigwLCAwLCAwKTsiIGNsYXNzPSJlbGVtZW50VG9Qcm9v
-ZiI+DQpAQCAtOCw2ICs4LDcgQEAgaW5jbHVkZSBjb250YWluZXItYmFzZS5iYjwvZGl2Pg0KPGRp
-diBzdHlsZT0ibWFyZ2luLWxlZnQ6IDQwcHg7IGZvbnQtZmFtaWx5OiBBcHRvcywgQXB0b3NfRW1i
-ZWRkZWRGb250LCBBcHRvc19NU0ZvbnRTZXJ2aWNlLCBDYWxpYnJpLCBIZWx2ZXRpY2EsIHNhbnMt
-c2VyaWY7IGZvbnQtc2l6ZTogMTJwdDsgY29sb3I6IHJnYigwLCAwLCAwKTsiIGNsYXNzPSJlbGVt
-ZW50VG9Qcm9vZiI+DQombmJzcDsjIGNvbnRhaW5lci4gV2hhdCB3ZSBoYXZlIGJlbG93IGlzIGEg
-cGxhY2hvbGRlci4gaWYgeW91IHJ1biB0aGlzPC9kaXY+DQo8ZGl2IHN0eWxlPSJtYXJnaW4tbGVm
-dDogNDBweDsgZm9udC1mYW1pbHk6IEFwdG9zLCBBcHRvc19FbWJlZGRlZEZvbnQsIEFwdG9zX01T
-Rm9udFNlcnZpY2UsIENhbGlicmksIEhlbHZldGljYSwgc2Fucy1zZXJpZjsgZm9udC1zaXplOiAx
-MnB0OyBjb2xvcjogcmdiKDAsIDAsIDApOyIgY2xhc3M9ImVsZW1lbnRUb1Byb29mIj4NCiZuYnNw
-OyMgY29udGFpbmVyLCB5b3UnbGwgZ2V0IHRoZSBkYXRlIGVjaG8nZDwvZGl2Pg0KPGRpdiBzdHls
-ZT0ibWFyZ2luLWxlZnQ6IDQwcHg7IGZvbnQtZmFtaWx5OiBBcHRvcywgQXB0b3NfRW1iZWRkZWRG
-b250LCBBcHRvc19NU0ZvbnRTZXJ2aWNlLCBDYWxpYnJpLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWY7
-IGZvbnQtc2l6ZTogMTJwdDsgY29sb3I6IHJnYigwLCAwLCAwKTsiIGNsYXNzPSJlbGVtZW50VG9Q
-cm9vZiI+DQombmJzcDtDT05UQUlORVJfQVBQX0NNRCA/PSAmcXVvdDtkYXRlJnF1b3Q7PC9kaXY+
-DQo8ZGl2IHN0eWxlPSJtYXJnaW4tbGVmdDogNDBweDsgZm9udC1mYW1pbHk6IEFwdG9zLCBBcHRv
-c19FbWJlZGRlZEZvbnQsIEFwdG9zX01TRm9udFNlcnZpY2UsIENhbGlicmksIEhlbHZldGljYSwg
-c2Fucy1zZXJpZjsgZm9udC1zaXplOiAxMnB0OyBjb2xvcjogcmdiKDAsIDAsIDApOyI+DQorT0NJ
-X0lNQUdFX0NNRCA9ICZxdW90OyZxdW90OzwvZGl2Pg0KPGRpdiBzdHlsZT0ibWFyZ2luLWxlZnQ6
-IDQwcHg7IGZvbnQtZmFtaWx5OiBBcHRvcywgQXB0b3NfRW1iZWRkZWRGb250LCBBcHRvc19NU0Zv
-bnRTZXJ2aWNlLCBDYWxpYnJpLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWY7IGZvbnQtc2l6ZTogMTJw
-dDsgY29sb3I6IHJnYigwLCAwLCAwKTsiPg0KPGJyPg0KPC9kaXY+DQo8ZGl2IHN0eWxlPSJtYXJn
-aW4tbGVmdDogMHB4OyBmb250LWZhbWlseTogQXB0b3MsIEFwdG9zX0VtYmVkZGVkRm9udCwgQXB0
-b3NfTVNGb250U2VydmljZSwgQ2FsaWJyaSwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmOyBmb250LXNp
-emU6IDEycHQ7IGNvbG9yOiByZ2IoMCwgMCwgMCk7IiBjbGFzcz0iZWxlbWVudFRvUHJvb2YiPg0K
-Jm5ic3A7ICZuYnNwOyAmbmJzcDtXaGF0IGRvIHlvdSB0aGluayBhYm91dCBpdD88L2Rpdj4NCjxk
-aXYgc3R5bGU9Im1hcmdpbi1sZWZ0OiA0MHB4OyBmb250LWZhbWlseTogQXB0b3MsIEFwdG9zX0Vt
-YmVkZGVkRm9udCwgQXB0b3NfTVNGb250U2VydmljZSwgQ2FsaWJyaSwgSGVsdmV0aWNhLCBzYW5z
-LXNlcmlmOyBmb250LXNpemU6IDEycHQ7IGNvbG9yOiByZ2IoMCwgMCwgMCk7Ij4NCjxicj4NCjwv
-ZGl2Pg0KPGRpdiBzdHlsZT0ibWFyZ2luLWxlZnQ6IDBweDsgZm9udC1mYW1pbHk6IEFwdG9zLCBB
-cHRvc19FbWJlZGRlZEZvbnQsIEFwdG9zX01TRm9udFNlcnZpY2UsIENhbGlicmksIEhlbHZldGlj
-YSwgc2Fucy1zZXJpZjsgZm9udC1zaXplOiAxMnB0OyBjb2xvcjogcmdiKDAsIDAsIDApOyI+DQpM
-aXU8L2Rpdj4NCjxkaXYgc3R5bGU9Im1hcmdpbi1sZWZ0OiA0MHB4OyBmb250LWZhbWlseTogQXB0
-b3MsIEFwdG9zX0VtYmVkZGVkRm9udCwgQXB0b3NfTVNGb250U2VydmljZSwgQ2FsaWJyaSwgSGVs
-dmV0aWNhLCBzYW5zLXNlcmlmOyBmb250LXNpemU6IDEycHQ7IGNvbG9yOiByZ2IoMCwgMCwgMCk7
-Ij4NCjxicj4NCjwvZGl2Pg0KPGRpdiBpZD0iYXBwZW5kb25zZW5kIj48L2Rpdj4NCjxociBzdHls
-ZT0iZGlzcGxheTppbmxpbmUtYmxvY2s7d2lkdGg6OTglIiB0YWJpbmRleD0iLTEiPg0KPGRpdiBp
-ZD0iZGl2UnBseUZ3ZE1zZyIgZGlyPSJsdHIiPjxmb250IGZhY2U9IkNhbGlicmksIHNhbnMtc2Vy
-aWYiIHN0eWxlPSJmb250LXNpemU6MTFwdCIgY29sb3I9IiMwMDAwMDAiPjxiPuWPkeS7tuS6ujo8
-L2I+IEJydWNlIEFzaGZpZWxkICZsdDticnVjZS5hc2hmaWVsZEBnbWFpbC5jb20mZ3Q7PGJyPg0K
-PGI+5Y+R6YCB5pe26Ze0OjwvYj4gMjAyNuW5tDPmnIgxMOaXpSAyMDoyODxicj4NCjxiPuaUtuS7
-tuS6ujo8L2I+IExpdSwgWWlkaW5nL+WImCDkuZnkuIEgJmx0O2xpdXlkLmZuc3RAZnVqaXRzdS5j
-b20mZ3Q7PGJyPg0KPGI+5oqE6YCBOjwvYj4gbWV0YS12aXJ0dWFsaXphdGlvbkBsaXN0cy55b2N0
-b3Byb2plY3Qub3JnICZsdDttZXRhLXZpcnR1YWxpemF0aW9uQGxpc3RzLnlvY3RvcHJvamVjdC5v
-cmcmZ3Q7PGJyPg0KPGI+5Li76aKYOjwvYj4gUmU6IGlzc3VlIGFib3V0IGNsYXNzZXMvaW1hZ2Ut
-b2NpLmJiY2xhc3M8L2ZvbnQ+DQo8ZGl2PiZuYnNwOzwvZGl2Pg0KPC9kaXY+DQo8ZGl2Pg0KPGRp
-diBkaXI9Imx0ciI+DQo8ZGl2IGRpcj0ibHRyIj4NCjxkaXYgY2xhc3M9InhfZ21haWxfZGVmYXVs
-dCIgc3R5bGU9ImZvbnQtc2l6ZTpzbWFsbCI+PGJyPg0KPC9kaXY+DQo8L2Rpdj4NCjxicj4NCjxk
-aXYgY2xhc3M9InhfZ21haWxfcXVvdGUgeF9nbWFpbF9xdW90ZV9jb250YWluZXIiPg0KPGRpdiBk
-aXI9Imx0ciIgY2xhc3M9InhfZ21haWxfYXR0ciI+T24gVHVlLCBNYXIgMTAsIDIwMjYgYXQgMjo0
-OeKAr0FNIFlpZGluZyBMaXUgKEZ1aml0c3UpICZsdDs8YSBocmVmPSJtYWlsdG86bGl1eWQuZm5z
-dEBmdWppdHN1LmNvbSI+bGl1eWQuZm5zdEBmdWppdHN1LmNvbTwvYT4mZ3Q7IHdyb3RlOjxicj4N
-CjwvZGl2Pg0KPGJsb2NrcXVvdGUgY2xhc3M9InhfZ21haWxfcXVvdGUiIHN0eWxlPSJtYXJnaW46
-MHB4IDBweCAwcHggMC44ZXg7IGJvcmRlci1sZWZ0OjFweCBzb2xpZCByZ2IoMjA0LDIwNCwyMDQp
-OyBwYWRkaW5nLWxlZnQ6MWV4Ij4NCjxkaXYgY2xhc3M9InhfbXNnNDY2OTgzMjM1MTI5MDg5NjY2
-MSI+DQo8ZGl2IGRpcj0ibHRyIj4NCjxkaXYgc3R5bGU9ImZvbnQtZmFtaWx5OkFwdG9zLEFwdG9z
-X0VtYmVkZGVkRm9udCxBcHRvc19NU0ZvbnRTZXJ2aWNlLENhbGlicmksSGVsdmV0aWNhLHNhbnMt
-c2VyaWY7IGZvbnQtc2l6ZToxMnB0OyBjb2xvcjpyZ2IoMCwwLDApIj4NCkhpIEJydWNlPC9kaXY+
-DQo8ZGl2IHN0eWxlPSJmb250LWZhbWlseTpBcHRvcyxBcHRvc19FbWJlZGRlZEZvbnQsQXB0b3Nf
-TVNGb250U2VydmljZSxDYWxpYnJpLEhlbHZldGljYSxzYW5zLXNlcmlmOyBmb250LXNpemU6MTJw
-dDsgY29sb3I6cmdiKDAsMCwwKSI+DQombmJzcDsgJm5ic3A7ICZuYnNwO0kgZm91bmQgYW4gaXNz
-dWUgYWJvdXQgT0NJX0lNQUdFX0NNRCA/PSAmcXVvdDsvYmluL3NoJnF1b3Q7IHdoZW4gSSB1c2Ug
-dGhlIGNvbnRhaW5lci1hcHAtYmFzZSBpbWFnZS48L2Rpdj4NCjxkaXYgc3R5bGU9ImZvbnQtZmFt
-aWx5OkFwdG9zLEFwdG9zX0VtYmVkZGVkRm9udCxBcHRvc19NU0ZvbnRTZXJ2aWNlLENhbGlicmks
-SGVsdmV0aWNhLHNhbnMtc2VyaWY7IGZvbnQtc2l6ZToxMnB0OyBjb2xvcjpyZ2IoMCwwLDApIj4N
-Cjxicj4NCjwvZGl2Pg0KPGRpdiBzdHlsZT0iZm9udC1mYW1pbHk6QXB0b3MsQXB0b3NfRW1iZWRk
-ZWRGb250LEFwdG9zX01TRm9udFNlcnZpY2UsQ2FsaWJyaSxIZWx2ZXRpY2Esc2Fucy1zZXJpZjsg
-Zm9udC1zaXplOjEycHQ7IGNvbG9yOnJnYigwLDAsMCkiPg0KJm5ic3A7ICZuYnNwOyAkIHBvZG1h
-biBydW4gLS1ybSBmMGQ3OTI5MWVmMDg8YnI+DQombmJzcDsgJm5ic3A7ICZuYnNwO2RhdGU6IGlu
-dmFsaWQgZGF0ZSAnL2Jpbi9zaCc8L2Rpdj4NCjxkaXYgc3R5bGU9ImZvbnQtZmFtaWx5OkFwdG9z
-LEFwdG9zX0VtYmVkZGVkRm9udCxBcHRvc19NU0ZvbnRTZXJ2aWNlLENhbGlicmksSGVsdmV0aWNh
-LHNhbnMtc2VyaWY7IGZvbnQtc2l6ZToxMnB0OyBjb2xvcjpyZ2IoMCwwLDApIj4NCjxicj4NCjwv
-ZGl2Pg0KPGRpdiBzdHlsZT0iZm9udC1mYW1pbHk6QXB0b3MsQXB0b3NfRW1iZWRkZWRGb250LEFw
-dG9zX01TRm9udFNlcnZpY2UsQ2FsaWJyaSxIZWx2ZXRpY2Esc2Fucy1zZXJpZjsgZm9udC1zaXpl
-OjEycHQ7IGNvbG9yOnJnYigwLDAsMCkiPg0KJm5ic3A7ICZuYnNwOyBUaGUgaXNzdWUgd2FzIGNh
-dXNlZCBieSB0aGUgRW50cnlwb2ludCBhbmQgQ21kIGFyZSBib3RoIGRlZmluZWQsIGFuZCBjbWQg
-d2lsbCBiZSB0aGUgYXBwZW5kIGFyZ3Mgb2YgZGF0ZSw8L2Rpdj4NCjxkaXYgc3R5bGU9ImZvbnQt
-ZmFtaWx5OkFwdG9zLEFwdG9zX0VtYmVkZGVkRm9udCxBcHRvc19NU0ZvbnRTZXJ2aWNlLENhbGli
-cmksSGVsdmV0aWNhLHNhbnMtc2VyaWY7IGZvbnQtc2l6ZToxMnB0OyBjb2xvcjpyZ2IoMCwwLDAp
-Ij4NCiZuYnNwOyAmbmJzcDsgV2hpY2ggY2F1c2VkIHRoZSBvdXRwdXQgZXJyb3IuPC9kaXY+DQo8
-ZGl2IHN0eWxlPSJmb250LWZhbWlseTpBcHRvcyxBcHRvc19FbWJlZGRlZEZvbnQsQXB0b3NfTVNG
-b250U2VydmljZSxDYWxpYnJpLEhlbHZldGljYSxzYW5zLXNlcmlmOyBmb250LXNpemU6MTJwdDsg
-Y29sb3I6cmdiKDAsMCwwKSI+DQo8YnI+DQo8L2Rpdj4NCjxkaXYgc3R5bGU9ImZvbnQtZmFtaWx5
-OkFwdG9zLEFwdG9zX0VtYmVkZGVkRm9udCxBcHRvc19NU0ZvbnRTZXJ2aWNlLENhbGlicmksSGVs
-dmV0aWNhLHNhbnMtc2VyaWY7IGZvbnQtc2l6ZToxMnB0OyBjb2xvcjpyZ2IoMCwwLDApIj4NCiZu
-YnNwOyAmbmJzcDskIHBvZG1hbiBpbnNwZWN0IGYwZDc5MjkxZWYwODwvZGl2Pg0KPGRpdiBzdHls
-ZT0iZm9udC1mYW1pbHk6QXB0b3MsQXB0b3NfRW1iZWRkZWRGb250LEFwdG9zX01TRm9udFNlcnZp
-Y2UsQ2FsaWJyaSxIZWx2ZXRpY2Esc2Fucy1zZXJpZjsgZm9udC1zaXplOjEycHQ7IGNvbG9yOnJn
-YigwLDAsMCkiPg0KJm5ic3A7ICZuYnNwOyAmbmJzcDsgLi4uPC9kaXY+DQo8ZGl2IHN0eWxlPSJm
-b250LWZhbWlseTpBcHRvcyxBcHRvc19FbWJlZGRlZEZvbnQsQXB0b3NfTVNGb250U2VydmljZSxD
-YWxpYnJpLEhlbHZldGljYSxzYW5zLXNlcmlmOyBmb250LXNpemU6MTJwdDsgY29sb3I6cmdiKDAs
-MCwwKSI+DQombmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZxdW90O0NvbmZpZyZx
-dW90OzogezwvZGl2Pg0KPGRpdiBzdHlsZT0iZm9udC1mYW1pbHk6QXB0b3MsQXB0b3NfRW1iZWRk
-ZWRGb250LEFwdG9zX01TRm9udFNlcnZpY2UsQ2FsaWJyaSxIZWx2ZXRpY2Esc2Fucy1zZXJpZjsg
-Zm9udC1zaXplOjEycHQ7IGNvbG9yOnJnYigwLDAsMCkiPg0KJm5ic3A7ICZuYnNwOyAmbmJzcDsg
-Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyZxdW90O0VudHJ5cG9pbnQmcXVvdDs6
-IFs8L2Rpdj4NCjxkaXYgc3R5bGU9ImZvbnQtZmFtaWx5OkFwdG9zLEFwdG9zX0VtYmVkZGVkRm9u
-dCxBcHRvc19NU0ZvbnRTZXJ2aWNlLENhbGlicmksSGVsdmV0aWNhLHNhbnMtc2VyaWY7IGZvbnQt
-c2l6ZToxMnB0OyBjb2xvcjpyZ2IoMCwwLDApIj4NCiZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNw
-OyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmcXVvdDtkYXRlJnF1
-b3Q7PC9kaXY+DQo8ZGl2IHN0eWxlPSJmb250LWZhbWlseTpBcHRvcyxBcHRvc19FbWJlZGRlZEZv
-bnQsQXB0b3NfTVNGb250U2VydmljZSxDYWxpYnJpLEhlbHZldGljYSxzYW5zLXNlcmlmOyBmb250
-LXNpemU6MTJwdDsgY29sb3I6cmdiKDAsMCwwKSI+DQombmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJz
-cDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7XSw8L2Rpdj4NCjxkaXYgc3R5bGU9ImZvbnQt
-ZmFtaWx5OkFwdG9zLEFwdG9zX0VtYmVkZGVkRm9udCxBcHRvc19NU0ZvbnRTZXJ2aWNlLENhbGli
-cmksSGVsdmV0aWNhLHNhbnMtc2VyaWY7IGZvbnQtc2l6ZToxMnB0OyBjb2xvcjpyZ2IoMCwwLDAp
-Ij4NCiZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJz
-cDsmcXVvdDtDbWQmcXVvdDs6IFs8L2Rpdj4NCjxkaXYgc3R5bGU9ImZvbnQtZmFtaWx5OkFwdG9z
-LEFwdG9zX0VtYmVkZGVkRm9udCxBcHRvc19NU0ZvbnRTZXJ2aWNlLENhbGlicmksSGVsdmV0aWNh
-LHNhbnMtc2VyaWY7IGZvbnQtc2l6ZToxMnB0OyBjb2xvcjpyZ2IoMCwwLDApIj4NCiZuYnNwOyAm
-bmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZu
-YnNwOyAmcXVvdDsvYmluL3NoJnF1b3Q7PC9kaXY+DQo8ZGl2IHN0eWxlPSJmb250LWZhbWlseTpB
-cHRvcyxBcHRvc19FbWJlZGRlZEZvbnQsQXB0b3NfTVNGb250U2VydmljZSxDYWxpYnJpLEhlbHZl
-dGljYSxzYW5zLXNlcmlmOyBmb250LXNpemU6MTJwdDsgY29sb3I6cmdiKDAsMCwwKSI+DQombmJz
-cDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7XSw8L2Rp
-dj4NCjxkaXYgc3R5bGU9ImZvbnQtZmFtaWx5OkFwdG9zLEFwdG9zX0VtYmVkZGVkRm9udCxBcHRv
-c19NU0ZvbnRTZXJ2aWNlLENhbGlicmksSGVsdmV0aWNhLHNhbnMtc2VyaWY7IGZvbnQtc2l6ZTox
-MnB0OyBjb2xvcjpyZ2IoMCwwLDApIj4NCiZuYnNwOyAmbmJzcDsgLi4uPC9kaXY+DQo8ZGl2IHN0
-eWxlPSJmb250LWZhbWlseTpBcHRvcyxBcHRvc19FbWJlZGRlZEZvbnQsQXB0b3NfTVNGb250U2Vy
-dmljZSxDYWxpYnJpLEhlbHZldGljYSxzYW5zLXNlcmlmOyBmb250LXNpemU6MTJwdDsgY29sb3I6
-cmdiKDAsMCwwKSI+DQo8YnI+DQo8L2Rpdj4NCjxkaXYgc3R5bGU9ImZvbnQtZmFtaWx5OkFwdG9z
-LEFwdG9zX0VtYmVkZGVkRm9udCxBcHRvc19NU0ZvbnRTZXJ2aWNlLENhbGlicmksSGVsdmV0aWNh
-LHNhbnMtc2VyaWY7IGZvbnQtc2l6ZToxMnB0OyBjb2xvcjpyZ2IoMCwwLDApIj4NCiZuYnNwOyAm
-bmJzcDtJIHRoaW5rIG1ha2UgT0NJX0lNQUdFX0NNRCBhcyBlbXB0eSBjYW4gc29sdmUgdGhpcyBp
-c3N1ZSwgd2hhdCBkbyB5b3UgdGhpbmsgYWJvdXQgaXQ/PC9kaXY+DQo8ZGl2IHN0eWxlPSJmb250
-LWZhbWlseTpBcHRvcyxBcHRvc19FbWJlZGRlZEZvbnQsQXB0b3NfTVNGb250U2VydmljZSxDYWxp
-YnJpLEhlbHZldGljYSxzYW5zLXNlcmlmOyBmb250LXNpemU6MTJwdDsgY29sb3I6cmdiKDAsMCww
-KSI+DQombmJzcDsgJm5ic3A7T0NJX0lNQUdFX0NNRCA/PSAmcXVvdDsmcXVvdDs8L2Rpdj4NCjwv
-ZGl2Pg0KPC9kaXY+DQo8L2Jsb2NrcXVvdGU+DQo8ZGl2Pjxicj4NCjwvZGl2Pg0KPGRpdj4NCjxk
-aXYgY2xhc3M9InhfZ21haWxfZGVmYXVsdCIgc3R5bGU9ImZvbnQtc2l6ZTpzbWFsbCI+Tm9wZS4g
-WW91IGNhbiBvdmVycmlkZSB0aGF0IHlvdXJzZWxmLjwvZGl2Pg0KPGRpdiBjbGFzcz0ieF9nbWFp
-bF9kZWZhdWx0IiBzdHlsZT0iZm9udC1zaXplOnNtYWxsIj48YnI+DQo8L2Rpdj4NCjxkaXYgY2xh
-c3M9InhfZ21haWxfZGVmYXVsdCIgc3R5bGU9ImZvbnQtc2l6ZTpzbWFsbCI+VGhlIGN1cnJlbnQg
-ZGVmYXVsdHMmbmJzcDtoYXZlIGJlZW4gZXh0ZW5zaXZlbHkgdGVzdGVkIGFuZCBtb2RpZmllZCBq
-dXN0IHJlY2VudGx5IHRvIG1ha2UgdGhlIGVudHJ5cG9pbnQgd29yayBpbiBtb3JlIHNjZW5hcmlv
-cy48L2Rpdj4NCjxkaXYgY2xhc3M9InhfZ21haWxfZGVmYXVsdCIgc3R5bGU9ImZvbnQtc2l6ZTpz
-bWFsbCI+PGJyPg0KPC9kaXY+DQo8ZGl2IGNsYXNzPSJ4X2dtYWlsX2RlZmF1bHQiIHN0eWxlPSJm
-b250LXNpemU6c21hbGwiPkNoZWNrIGdpdCBoaXN0b3J5IGZvciBhbGwgdGhlIGRldGFpbHMuPC9k
-aXY+DQo8ZGl2IGNsYXNzPSJ4X2dtYWlsX2RlZmF1bHQiIHN0eWxlPSJmb250LXNpemU6c21hbGwi
-Pjxicj4NCjwvZGl2Pg0KPGRpdiBjbGFzcz0ieF9nbWFpbF9kZWZhdWx0IiBzdHlsZT0iZm9udC1z
-aXplOnNtYWxsIj5CcnVjZTwvZGl2Pg0KPGJyPg0KPC9kaXY+DQo8ZGl2PiZuYnNwOzwvZGl2Pg0K
-PGJsb2NrcXVvdGUgY2xhc3M9InhfZ21haWxfcXVvdGUiIHN0eWxlPSJtYXJnaW46MHB4IDBweCAw
-cHggMC44ZXg7IGJvcmRlci1sZWZ0OjFweCBzb2xpZCByZ2IoMjA0LDIwNCwyMDQpOyBwYWRkaW5n
-LWxlZnQ6MWV4Ij4NCjxkaXYgY2xhc3M9InhfbXNnNDY2OTgzMjM1MTI5MDg5NjY2MSI+DQo8ZGl2
-IGRpcj0ibHRyIj4NCjxkaXYgc3R5bGU9ImZvbnQtZmFtaWx5OkFwdG9zLEFwdG9zX0VtYmVkZGVk
-Rm9udCxBcHRvc19NU0ZvbnRTZXJ2aWNlLENhbGlicmksSGVsdmV0aWNhLHNhbnMtc2VyaWY7IGZv
-bnQtc2l6ZToxMnB0OyBjb2xvcjpyZ2IoMCwwLDApIj4NCjxicj4NCjwvZGl2Pg0KPGRpdiBzdHls
-ZT0iZm9udC1mYW1pbHk6QXB0b3MsQXB0b3NfRW1iZWRkZWRGb250LEFwdG9zX01TRm9udFNlcnZp
-Y2UsQ2FsaWJyaSxIZWx2ZXRpY2Esc2Fucy1zZXJpZjsgZm9udC1zaXplOjEycHQ7IGNvbG9yOnJn
-YigwLDAsMCkiPg0KJm5ic3A7ICZuYnNwOyQgcG9kbWFuIHJ1biAtLXJtIDcwMzA2ZGFjZGM0YTxi
-cj4NCiZuYnNwOyAmbmJzcDtUdWUgTWFyIDEwIDA2OjI3OjQyIFVUQyAyMDI2PC9kaXY+DQo8ZGl2
-IHN0eWxlPSJmb250LWZhbWlseTpBcHRvcyxBcHRvc19FbWJlZGRlZEZvbnQsQXB0b3NfTVNGb250
-U2VydmljZSxDYWxpYnJpLEhlbHZldGljYSxzYW5zLXNlcmlmOyBmb250LXNpemU6MTJwdDsgY29s
-b3I6cmdiKDAsMCwwKSI+DQo8YnI+DQo8L2Rpdj4NCjxkaXYgc3R5bGU9ImZvbnQtZmFtaWx5OkFw
-dG9zLEFwdG9zX0VtYmVkZGVkRm9udCxBcHRvc19NU0ZvbnRTZXJ2aWNlLENhbGlicmksSGVsdmV0
-aWNhLHNhbnMtc2VyaWY7IGZvbnQtc2l6ZToxMnB0OyBjb2xvcjpyZ2IoMCwwLDApIj4NCkxpdTwv
-ZGl2Pg0KPGRpdiBzdHlsZT0iZm9udC1mYW1pbHk6QXB0b3MsQXB0b3NfRW1iZWRkZWRGb250LEFw
-dG9zX01TRm9udFNlcnZpY2UsQ2FsaWJyaSxIZWx2ZXRpY2Esc2Fucy1zZXJpZjsgZm9udC1zaXpl
-OjEycHQ7IGNvbG9yOnJnYigwLDAsMCkiPg0KPGJyPg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0K
-PC9ibG9ja3F1b3RlPg0KPC9kaXY+DQo8ZGl2PjxiciBjbGVhcj0iYWxsIj4NCjwvZGl2Pg0KPGRp
-dj48YnI+DQo8L2Rpdj4NCjxzcGFuIGNsYXNzPSJ4X2dtYWlsX3NpZ25hdHVyZV9wcmVmaXgiPi0t
-IDwvc3Bhbj48YnI+DQo8ZGl2IGRpcj0ibHRyIiBjbGFzcz0ieF9nbWFpbF9zaWduYXR1cmUiPi0g
-VGhvdSBzaGFsdCBub3QgZm9sbG93IHRoZSBOVUxMIHBvaW50ZXIsIGZvciBjaGFvcyBhbmQgbWFk
-bmVzcyBhd2FpdCB0aGVlIGF0IGl0cyBlbmQ8YnI+DQotICZxdW90O1VzZSB0aGUgZm9yY2UgSGFy
-cnkmcXVvdDsgLSBHYW5kYWxmLCBTdGFyIFRyZWsgSUk8YnI+DQo8YnI+DQo8L2Rpdj4NCjwvZGl2
-Pg0KPC9kaXY+DQo8L2JvZHk+DQo8L2h0bWw+DQo=
+The container-app-base is intended to be extended for actual applications,
+those are just placeholders.
 
---_000_OS7PR01MB1444404E20787B8BA716E9C659B47AOS7PR01MB14444jp_--
+Bruce
+
+
+
+>      To make OCI_IMAGE_CMD as empty in container-app-base.bb, or it will
+> have a wrong runtime result as following.
+>                $ podman run --rm f0d79291ef08
+>               date: invalid date '/bin/sh'
+>
+>      Maybe a patch like this?
+> diff --git a/recipes-extended/images/container-app-base.bb
+>  b/recipes-extended/images/container-app-base.bb
+> index 34381ed2..4a1deac2 100644
+> --- a/recipes-extended/images/container-app-base.bb
+> +++ b/recipes-extended/images/container-app-base.bb
+> @@ -8,6 +8,7 @@ include container-base.bb
+>  # container. What we have below is a placholder. if you run this
+>  # container, you'll get the date echo'd
+>  CONTAINER_APP_CMD ?=3D "date"
+> +OCI_IMAGE_CMD =3D ""
+>
+>      What do you think about it?
+>
+> Liu
+>
+> ------------------------------
+> *=E5=8F=91=E4=BB=B6=E4=BA=BA:* Bruce Ashfield <bruce.ashfield@gmail.com>
+> *=E5=8F=91=E9=80=81=E6=97=B6=E9=97=B4:* 2026=E5=B9=B43=E6=9C=8810=E6=97=
+=A5 20:28
+> *=E6=94=B6=E4=BB=B6=E4=BA=BA:* Liu, Yiding/=E5=88=98 =E4=B9=99=E4=B8=81 <=
+liuyd.fnst@fujitsu.com>
+> *=E6=8A=84=E9=80=81:* meta-virtualization@lists.yoctoproject.org <
+> meta-virtualization@lists.yoctoproject.org>
+> *=E4=B8=BB=E9=A2=98:* Re: issue about classes/image-oci.bbclass
+>
+>
+>
+> On Tue, Mar 10, 2026 at 2:49=E2=80=AFAM Yiding Liu (Fujitsu) <
+> liuyd.fnst@fujitsu.com> wrote:
+>
+> Hi Bruce
+>      I found an issue about OCI_IMAGE_CMD ?=3D "/bin/sh" when I use the
+> container-app-base image.
+>
+>     $ podman run --rm f0d79291ef08
+>      date: invalid date '/bin/sh'
+>
+>     The issue was caused by the Entrypoint and Cmd are both defined, and
+> cmd will be the append args of date,
+>     Which caused the output error.
+>
+>    $ podman inspect f0d79291ef08
+>       ...
+>           "Config": {
+>                "Entrypoint": [
+>                     "date"
+>                ],
+>                "Cmd": [
+>                     "/bin/sh"
+>                ],
+>     ...
+>
+>    I think make OCI_IMAGE_CMD as empty can solve this issue, what do you
+> think about it?
+>    OCI_IMAGE_CMD ?=3D ""
+>
+>
+> Nope. You can override that yourself.
+>
+> The current defaults have been extensively tested and modified just
+> recently to make the entrypoint work in more scenarios.
+>
+> Check git history for all the details.
+>
+> Bruce
+>
+>
+>
+>
+>    $ podman run --rm 70306dacdc4a
+>    Tue Mar 10 06:27:42 UTC 2026
+>
+> Liu
+>
+>
+>
+> --
+> - Thou shalt not follow the NULL pointer, for chaos and madness await the=
+e
+> at its end
+> - "Use the force Harry" - Gandalf, Star Trek II
+>
+>
+
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end
+- "Use the force Harry" - Gandalf, Star Trek II
+
+--00000000000094ecf4064cb71415
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
+t-size:small"><br></div></div><br><div class=3D"gmail_quote gmail_quote_con=
+tainer"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Mar 10, 2026 at 11:08=
+=E2=80=AFPM Yiding Liu (Fujitsu) &lt;<a href=3D"mailto:liuyd.fnst@fujitsu.c=
+om">liuyd.fnst@fujitsu.com</a>&gt; wrote:<br></div><blockquote class=3D"gma=
+il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,2=
+04,204);padding-left:1ex"><div class=3D"msg-3715019805696923123">
+
+
+
+
+<div dir=3D"ltr">
+<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
+bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
+Hi Bruce</div>
+<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
+bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
+=C2=A0 =C2=A0 =C2=A0I didn&#39;t mean to change the image-oci.bbclass=C2=A0=
+but to fix the=C2=A0 recipes-extended/images/<a href=3D"http://container-ap=
+p-base.bb" target=3D"_blank">container-app-base.bb</a></div>
+<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
+bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
+<br></div></div></div></blockquote><div><br></div><div><div class=3D"gmail_=
+default" style=3D"font-size:small">The answer is the same. There&#39;s mult=
+iple stacks on top of that example that expect the current behaviour, so I =
+prefer to leave it as-is,</div><div class=3D"gmail_default" style=3D"font-s=
+ize:small">but I can do some testing and see if anything breaks.</div><div =
+class=3D"gmail_default" style=3D"font-size:small"><br></div><div class=3D"g=
+mail_default" style=3D"font-size:small">The container-app-base is intended =
+to be extended for actual applications, those are just placeholders.</div><=
+div class=3D"gmail_default" style=3D"font-size:small"><br></div><div class=
+=3D"gmail_default" style=3D"font-size:small">Bruce</div><br></div><div>=C2=
+=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
+x;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div class=3D"ms=
+g-3715019805696923123"><div dir=3D"ltr"><div style=3D"font-family:Aptos,Apt=
+os_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif;font-size:=
+12pt;color:rgb(0,0,0)">
+</div>
+<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
+bri,Helvetica,sans-serif;font-size:12pt">
+<span style=3D"color:rgb(0,0,0)">=C2=A0 =C2=A0 =C2=A0To make OCI_IMAGE_CMD =
+as empty in <a href=3D"http://container-app-base.bb" target=3D"_blank">cont=
+ainer-app-base.bb</a>, or it will have a wrong runtime result as following<=
+/span><span style=3D"color:black">.</span></div>
+<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
+bri,Helvetica,sans-serif;font-size:12pt;color:black">
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 =C2=A0 $ podman run --rm f0=
+d79291ef08<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 date: invalid date &#39;/b=
+in/sh&#39;</div>
+<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
+bri,Helvetica,sans-serif;font-size:12pt;color:black">
+<br>
+</div>
+<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
+bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
+=C2=A0 =C2=A0 =C2=A0Maybe a patch like this?</div>
+<div style=3D"margin-left:40px;font-family:Aptos,Aptos_EmbeddedFont,Aptos_M=
+SFontService,Calibri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
+diff --git a/recipes-extended/images/<a href=3D"http://container-app-base.b=
+b" target=3D"_blank">container-app-base.bb</a>=C2=A0b/recipes-extended/imag=
+es/<a href=3D"http://container-app-base.bb" target=3D"_blank">container-app=
+-base.bb</a></div>
+<div style=3D"margin-left:40px;font-family:Aptos,Aptos_EmbeddedFont,Aptos_M=
+SFontService,Calibri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
+index 34381ed2..4a1deac2 100644</div>
+<div style=3D"margin-left:40px;font-family:Aptos,Aptos_EmbeddedFont,Aptos_M=
+SFontService,Calibri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
+--- a/recipes-extended/images/<a href=3D"http://container-app-base.bb" targ=
+et=3D"_blank">container-app-base.bb</a></div>
+<div style=3D"margin-left:40px;font-family:Aptos,Aptos_EmbeddedFont,Aptos_M=
+SFontService,Calibri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
++++ b/recipes-extended/images/<a href=3D"http://container-app-base.bb" targ=
+et=3D"_blank">container-app-base.bb</a></div>
+<div style=3D"margin-left:40px;font-family:Aptos,Aptos_EmbeddedFont,Aptos_M=
+SFontService,Calibri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
+@@ -8,6 +8,7 @@ include <a href=3D"http://container-base.bb" target=3D"_bla=
+nk">container-base.bb</a></div>
+<div style=3D"margin-left:40px;font-family:Aptos,Aptos_EmbeddedFont,Aptos_M=
+SFontService,Calibri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
+=C2=A0# container. What we have below is a placholder. if you run this</div=
+>
+<div style=3D"margin-left:40px;font-family:Aptos,Aptos_EmbeddedFont,Aptos_M=
+SFontService,Calibri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
+=C2=A0# container, you&#39;ll get the date echo&#39;d</div>
+<div style=3D"margin-left:40px;font-family:Aptos,Aptos_EmbeddedFont,Aptos_M=
+SFontService,Calibri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
+=C2=A0CONTAINER_APP_CMD ?=3D &quot;date&quot;</div>
+<div style=3D"margin-left:40px;font-family:Aptos,Aptos_EmbeddedFont,Aptos_M=
+SFontService,Calibri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
++OCI_IMAGE_CMD =3D &quot;&quot;</div>
+<div style=3D"margin-left:40px;font-family:Aptos,Aptos_EmbeddedFont,Aptos_M=
+SFontService,Calibri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
+<br>
+</div>
+<div style=3D"margin-left:0px;font-family:Aptos,Aptos_EmbeddedFont,Aptos_MS=
+FontService,Calibri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
+=C2=A0 =C2=A0 =C2=A0What do you think about it?</div>
+<div style=3D"margin-left:40px;font-family:Aptos,Aptos_EmbeddedFont,Aptos_M=
+SFontService,Calibri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
+<br>
+</div>
+<div style=3D"margin-left:0px;font-family:Aptos,Aptos_EmbeddedFont,Aptos_MS=
+FontService,Calibri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
+Liu</div>
+<div style=3D"margin-left:40px;font-family:Aptos,Aptos_EmbeddedFont,Aptos_M=
+SFontService,Calibri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
+<br>
+</div>
+<div id=3D"m_-3715019805696923123appendonsend"></div>
+<hr style=3D"display:inline-block;width:98%">
+<div id=3D"m_-3715019805696923123divRplyFwdMsg" dir=3D"ltr"><font face=3D"C=
+alibri, sans-serif" style=3D"font-size:11pt" color=3D"#000000"><b>=E5=8F=91=
+=E4=BB=B6=E4=BA=BA:</b> Bruce Ashfield &lt;<a href=3D"mailto:bruce.ashfield=
+@gmail.com" target=3D"_blank">bruce.ashfield@gmail.com</a>&gt;<br>
+<b>=E5=8F=91=E9=80=81=E6=97=B6=E9=97=B4:</b> 2026=E5=B9=B43=E6=9C=8810=E6=
+=97=A5 20:28<br>
+<b>=E6=94=B6=E4=BB=B6=E4=BA=BA:</b> Liu, Yiding/=E5=88=98 =E4=B9=99=E4=B8=
+=81 &lt;<a href=3D"mailto:liuyd.fnst@fujitsu.com" target=3D"_blank">liuyd.f=
+nst@fujitsu.com</a>&gt;<br>
+<b>=E6=8A=84=E9=80=81:</b> <a href=3D"mailto:meta-virtualization@lists.yoct=
+oproject.org" target=3D"_blank">meta-virtualization@lists.yoctoproject.org<=
+/a> &lt;<a href=3D"mailto:meta-virtualization@lists.yoctoproject.org" targe=
+t=3D"_blank">meta-virtualization@lists.yoctoproject.org</a>&gt;<br>
+<b>=E4=B8=BB=E9=A2=98:</b> Re: issue about classes/image-oci.bbclass</font>
+<div>=C2=A0</div>
+</div>
+<div>
+<div dir=3D"ltr">
+<div dir=3D"ltr">
+<div style=3D"font-size:small"><br>
+</div>
+</div>
+<br>
+<div>
+<div dir=3D"ltr">On Tue, Mar 10, 2026 at 2:49=E2=80=AFAM Yiding Liu (Fujits=
+u) &lt;<a href=3D"mailto:liuyd.fnst@fujitsu.com" target=3D"_blank">liuyd.fn=
+st@fujitsu.com</a>&gt; wrote:<br>
+</div>
+<blockquote style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204=
+,204,204);padding-left:1ex">
+<div>
+<div dir=3D"ltr">
+<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
+bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
+Hi Bruce</div>
+<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
+bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
+=C2=A0 =C2=A0 =C2=A0I found an issue about OCI_IMAGE_CMD ?=3D &quot;/bin/sh=
+&quot; when I use the container-app-base image.</div>
+<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
+bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
+<br>
+</div>
+<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
+bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
+=C2=A0 =C2=A0 $ podman run --rm f0d79291ef08<br>
+=C2=A0 =C2=A0 =C2=A0date: invalid date &#39;/bin/sh&#39;</div>
+<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
+bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
+<br>
+</div>
+<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
+bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
+=C2=A0 =C2=A0 The issue was caused by the Entrypoint and Cmd are both defin=
+ed, and cmd will be the append args of date,</div>
+<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
+bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
+=C2=A0 =C2=A0 Which caused the output error.</div>
+<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
+bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
+<br>
+</div>
+<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
+bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
+=C2=A0 =C2=A0$ podman inspect f0d79291ef08</div>
+<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
+bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
+=C2=A0 =C2=A0 =C2=A0 ...</div>
+<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
+bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;Config&quot;: {</div>
+<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
+bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;Entrypoint&quo=
+t;: [</div>
+<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
+bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot=
+;date&quot;</div>
+<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
+bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0],</div>
+<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
+bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;Cmd&quot;: [</=
+div>
+<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
+bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot=
+;/bin/sh&quot;</div>
+<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
+bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0],</div>
+<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
+bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
+=C2=A0 =C2=A0 ...</div>
+<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
+bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
+<br>
+</div>
+<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
+bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
+=C2=A0 =C2=A0I think make OCI_IMAGE_CMD as empty can solve this issue, what=
+ do you think about it?</div>
+<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
+bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
+=C2=A0 =C2=A0OCI_IMAGE_CMD ?=3D &quot;&quot;</div>
+</div>
+</div>
+</blockquote>
+<div><br>
+</div>
+<div>
+<div style=3D"font-size:small">Nope. You can override that yourself.</div>
+<div style=3D"font-size:small"><br>
+</div>
+<div style=3D"font-size:small">The current defaults=C2=A0have been extensiv=
+ely tested and modified just recently to make the entrypoint work in more s=
+cenarios.</div>
+<div style=3D"font-size:small"><br>
+</div>
+<div style=3D"font-size:small">Check git history for all the details.</div>
+<div style=3D"font-size:small"><br>
+</div>
+<div style=3D"font-size:small">Bruce</div>
+<br>
+</div>
+<div>=C2=A0</div>
+<blockquote style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204=
+,204,204);padding-left:1ex">
+<div>
+<div dir=3D"ltr">
+<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
+bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
+<br>
+</div>
+<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
+bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
+=C2=A0 =C2=A0$ podman run --rm 70306dacdc4a<br>
+=C2=A0 =C2=A0Tue Mar 10 06:27:42 UTC 2026</div>
+<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
+bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
+<br>
+</div>
+<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
+bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
+Liu</div>
+<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
+bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
+<br>
+</div>
+</div>
+</div>
+</blockquote>
+</div>
+<div><br clear=3D"all">
+</div>
+<div><br>
+</div>
+<span>-- </span><br>
+<div dir=3D"ltr">- Thou shalt not follow the NULL pointer, for chaos and ma=
+dness await thee at its end<br>
+- &quot;Use the force Harry&quot; - Gandalf, Star Trek II<br>
+<br>
+</div>
+</div>
+</div>
+</div>
+
+</div></blockquote></div><div><br clear=3D"all"></div><div><br></div><span =
+class=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gm=
+ail_signature">- Thou shalt not follow the NULL pointer, for chaos and madn=
+ess await thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf, S=
+tar Trek II<br><br></div></div>
+
+--00000000000094ecf4064cb71415--
 
