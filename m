@@ -2,120 +2,114 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0534106ACD5
-	for <webhook@archiver.kernel.org>; Thu, 12 Mar 2026 17:31:40 +0000 (UTC)
-Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.25.1773336692041478174
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E29F106ACDA
+	for <webhook@archiver.kernel.org>; Thu, 12 Mar 2026 18:44:21 +0000 (UTC)
+Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.126.1773341053019108105
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 12 Mar 2026 10:31:32 -0700
+ Thu, 12 Mar 2026 11:44:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=JENd/hmi;
- spf=pass (domain: gmail.com, ip: 209.85.219.52, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-899eabc5292so15300216d6.0
-        for <meta-virtualization@lists.yoctoproject.org>; Thu, 12 Mar 2026 10:31:31 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=LxrnWUHN;
+ spf=pass (domain: gmail.com, ip: 209.85.219.45, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-89a1d7cc7f0so12435196d6.1
+        for <meta-virtualization@lists.yoctoproject.org>; Thu, 12 Mar 2026 11:44:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773336691; x=1773941491; darn=lists.yoctoproject.org;
+        d=gmail.com; s=20230601; t=1773341052; x=1773945852; darn=lists.yoctoproject.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ew6h/06KX7KUM7953oqs3ixlQ2qWU3Z161V69AkXw8I=;
-        b=JENd/hmiWKI1bV+OSz8OdCp7y65ylp5rF2//GzohzIdMGuFyI4Nf7+FWOaxjgfTcSQ
-         mNFzPa4fI9Cn5lYTPrdUrzUfzM22fI0+sF4GbLwu0RXGDhfHHN2i8T2DCqtMELMtevl1
-         uBMy6DD6g3Km4uzZIbKyL7vcYNdJmKmvgwqWtTDcOCoWVZhcw8Yksx36n7nWFZPg5FFH
-         xISIpfnhCTZ/k/iiLPK5CYoW3d0XKi5d2Dkvnf7+qsFCj4x4GjhOvShMd2SwhJus8sSS
-         DQx6rzuRj7efncKiNGUiH9iRLGRtr4Dwg8Tl7/tCf5rYlmmsnQ7hcX7QnMf5k01Ckqeu
-         Xgtg==
+        bh=N89HMtKGp8RnO5ZjbgWb04MW50sh7jxjkDh6sKwVMBQ=;
+        b=LxrnWUHNDkNvKRE+nz+KwxzFo4CpG/1rI4CGM6WdNsttBZ+dWVVEb3u9s1x3zKS4EW
+         iWws2yJC1cJ5D325VFUpewsF28kPmMiREHwuLUkG17sMSpMGX6UOhCdRYHDamjMU30sW
+         K8iFgqD255nudOOV+fIzo2liVxy292OMjxhrt2dwY3bfWMjnZ3Cen4r+utlDWxUT22dA
+         NM+RuEgGSNn1e6LiWyjAyVYnyTt4n/jKKculXabpsBFXzsWsmM4ZCLZpKNZVsoU7PIrR
+         OGmYH8PnDKApeOo/hkbWQ4YxwCW7OmkM19g5ofMY7pjd9v500U+t7dYfl2flNGBsaFKu
+         TbbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773336691; x=1773941491;
+        d=1e100.net; s=20230601; t=1773341052; x=1773945852;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ew6h/06KX7KUM7953oqs3ixlQ2qWU3Z161V69AkXw8I=;
-        b=vSpZxWcaT/Ow+L/PXPjpc0AH8lYSwZFtcqXaRqtrSUEIBHHi3vYNg+aL4ZSEk/TNdx
-         K4hx/S8YrzdbFgssVjbGuNxLvP5OeCC88d/efqr26l71f++edDiYCuFgpQFD33pDw64J
-         iTKQAq5CRKCT+zfLyU18TZjXogR/uDhuTUlda3lWeuR7EL7dOChlsxlIJ6lhOs0x/kmH
-         LT1K6VFz6EuivbrRQVCo2ZWBt0W3JPptDC6SnIUdLHkbwBKXSDJKbhGUIyuBBUDU5803
-         dMXB0CsUF6MkwpWvSWtImBH04CE+RpE5DCH8J0aN8KaDe/SSUdfwHTlzbU8tUZ8MIHRb
-         5RHg==
-X-Gm-Message-State: AOJu0Yzk299PamueCeRoRvn/dkNDD7E3GhF3U8QmxeY+cBybW6jvu3JR
-	4VGiA4FqH4XI0AVdumYtJyTHcedf82MqvEGC+XMRJhhGgMJvM0kanU3701z44608D18=
-X-Gm-Gg: ATEYQzzBrquykel3BFQf5+TKMfM3xYFqYmQ74VphCX6jfx6EqjmS0k9nGK+/HZP1t4v
-	OZZZ/7Rpvl5enVeG7hU9qv3pOQ6E2k7w34WrbDSN2Ts94rtkrqwcPkl7T1o6ZimKhTbMSqm1H7A
-	oGQuzhf5pCQDO60OKAzFRt3BBZLWTg8s8QD9xWLtSb75wxamZCRwiobvckv+YSdjwKVorrWmndB
-	/qLNjFhI1/+vfXT1clIBsSTBfIpQAbs6r8Nuk0nZ5Ttl9VWocgMzRN4MpSm1V4S1IxyPVGbriE3
-	h3DYrbVH3QT+cMPgVylF+erGQODCFu6NXs3Up0xmDrGyMG9yyZI50lQHXEeW9f8NS8ILVGuFaxZ
-	4CRyhY2CVOjul7k5EGN3vf6PJqtDE8YAf6w0rxkSQQfYJk7CgQuyzTp+cCC9w0W0mn9syv5JgSs
-	yWxNx85AdvxL0crcIkihxWu8vXD9VNwpYaTWOvmtNS4AUsYpLXs7cG/PDtZpYXEQ7SuJGc++njA
-	yXpKvNQFO5y+rn4KT3jb3NyyxbTynESFGqm
-X-Received: by 2002:a05:6214:d86:b0:899:fa9a:98fc with SMTP id 6a1803df08f44-89a81ea6ac7mr8287306d6.43.1773336690975;
-        Thu, 12 Mar 2026 10:31:30 -0700 (PDT)
+        bh=N89HMtKGp8RnO5ZjbgWb04MW50sh7jxjkDh6sKwVMBQ=;
+        b=OZrnvHMFmtyqFzxN4SwH518vN1i+G+1GC1BvGgJL+MkUqPmqbqxRejGfZTSF9po3x1
+         qQOboiEX4J4Y/NqpGuqBykOIrFdYCGNxJEqprn4oq2/HL+JPRBhALBx3gLLSUPMAmq2b
+         13qDTGdB/ljoDJQ9I1yFv1lEkQ7OB4q1c8H1FVrTeH8xVcpVsr3GYeJ4uQQC1Wau32Zd
+         uSxK3T47EXV1Z+7FPZvIMLx/IoLn3y3u1T3VKFET+AfsS3RpNsB72j4i7eRVW+BJ6yaV
+         QaNQWOpY2a5/yuXupD/d/c3QQfHNkWZl5+rOUYqrf8FJ1t5N5CVHyglq6fk90N852QSM
+         GtZw==
+X-Gm-Message-State: AOJu0Yw0GCO3V95Wi3ggHbz9mmEsEfZsVtjrupev8JY7YtxxkT/3nWkM
+	wzSzBy6JEbn3zqlcDVL/VfggwUx6azVXpyGPqzlRTyH3X9VGNbZdL/5j
+X-Gm-Gg: ATEYQzwLiCN8kPoxVyCs+5FPH+CXYS0+Z6QB9EJyjPXekGxjVOgzj5T8fxEWNdDNTee
+	pK2EKv9I+Kl6f7jkkmtL14SvW3kCeDVamJoABzeBz/yy+X23nJW2GDCnqy20TJXayFFRow8RwgL
+	42YthSmXtvcRnIb2KtR/+W2zMU4osFrehMgmZimUWPrA8bsJc0SMYtwt60I/mEsYqjzs03pMwum
+	u5kEMSCL9pswe4OYo2mJoQUWIwLfelpUd5JLEdYBSrQalBkja2i9AnvHPW1a3UQCsRPNYxW0iKD
+	3scvMIuSdp8jTtTyDm/GmXSMcP58HD9nLgWhPCd1lbg2iUih3nMNWAlD79S0DoV9DBr99pFnNn8
+	ptz4x2IX7JkGhVwVGc2qsuwz3dkUcByxtk+T5URblETYrwuVKGmNu4hnZA0NpJTxxAFLVS9VOZb
+	GH74zL210MbDfQ6LJ95gW2rQkIya1yKUjCFs56vBeHsn/HmvPPu6Y4xJEJ6E9i2KXfDefS4IIaO
+	cNcOshKb4w+b0i1znWtYLxm3YiYcukmFuiv
+X-Received: by 2002:a05:622a:48f:b0:506:a624:1939 with SMTP id d75a77b69052e-50957e2c901mr7037511cf.51.1773341051661;
+        Thu, 12 Mar 2026 11:44:11 -0700 (PDT)
 Received: from gmail.com (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-89a65cfd520sm39269906d6.36.2026.03.12.10.31.29
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-89a65beb131sm38331756d6.13.2026.03.12.11.44.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Mar 2026 10:31:30 -0700 (PDT)
-Date: Thu, 12 Mar 2026 17:31:28 +0000
+        Thu, 12 Mar 2026 11:44:11 -0700 (PDT)
+Date: Thu, 12 Mar 2026 18:44:09 +0000
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: richard.purdie@linuxfoundation.org
+To: yongxin.liu@windriver.com
 Cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [meta-virtualization] [PATCH] qemu-system-native: Tweak
- whitespace handling
-Message-ID: <abL4cBTxTh8OShFs@gmail.com>
-References: <20260312170222.3678984-1-richard.purdie@linuxfoundation.org>
+Subject: Re: [meta-virtualization][PATCH] yocto-cfg-fragments: update to
+ 6.18.16
+Message-ID: <abMJeXGN2AWIVTwQ@gmail.com>
+References: <20260311010758.3694874-1-yongxin.liu@windriver.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260312170222.3678984-1-richard.purdie@linuxfoundation.org>
+In-Reply-To: <20260311010758.3694874-1-yongxin.liu@windriver.com>
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Thu, 12 Mar 2026 17:31:40 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9650
+ <meta-virtualization@lists.yoctoproject.org>; Thu, 12 Mar 2026 18:44:21 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9651
 
-In message: [meta-virtualization] [PATCH] qemu-system-native: Tweak whitespace handling
-on 12/03/2026 Richard Purdie via lists.yoctoproject.org wrote:
+In message: [meta-virtualization][PATCH] yocto-cfg-fragments: update to 6.18.16
+on 11/03/2026 yongxin.liu@windriver.com wrote:
 
-> Avoid a yocto-check-layer issue:
+> From: Yongxin Liu <yongxin.liu@windriver.com>
 > 
->    qemu-system-native:do_recipe_qa: 05c723e48cb4253cb80f1e5dcb63767b266c72cf8a83d3d7ff36a6622e43eb50 -> 7f42888db4f5572303288c58ad79c5267fa81da05a3a71288f91f309b50ed614
->       bitbake-diffsigs --task qemu-system-native do_recipe_qa --signature 05c723e48cb4253cb80f1e5dcb63767b266c72cf8a83d3d7ff36a6622e43eb50 7f42888db4f5572303288c58ad79c5267fa81da05a3a71288f91f309b50ed614
->       NOTE: Reconnecting to bitbake server...
->       basehash changed from 1b770ad4a9b79d38c928331d17651d3d66a6ebc45822c336d7ab98bfa8ebfd94 to 6bc5e5507534603aa6f6ab862ab27ef9c0b9ffcfaa9922d7ef25cb563fab6ab9
->       Variable PACKAGECONFIG value changed:
->       "fdt alsa kvm pie slirp png pixman sdl     virglrenderer epoxy  {++}" (whitespace changed)
-> 
-> but moving the whitespace into the added option.
+> Due to the introduce of kcfg-sysroot in commit a4625a1fa275
+> ("kernel: inject local search path to fragment processing"), old
+> yocto-cfg-fragments can overwrite the latest yocto-kernel-cache during
+> kernel build.
 
-merged.
+I haven't merged this yet, since I'm trying to come up with
+a new way to make these fragments available, but not come
+first in the search path, so as to not clobber the ones in
+a kernel with a meta= SRC_URI entry.
 
-And I've pushed another change, that should get meta-virt passing
-check layer again.
+There's a lot of corner cases and testing, so it is taking
+me a bit longer.
 
 Bruce
 
 > 
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> Signed-off-by: Yongxin Liu <yongxin.liu@windriver.com>
 > ---
->  recipes-devtools/qemu/qemu-system-native_%.bbappend | 2 +-
+>  recipes-kernel/linux/yocto-cfg-fragments-6.18.bb | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/recipes-devtools/qemu/qemu-system-native_%.bbappend b/recipes-devtools/qemu/qemu-system-native_%.bbappend
-> index b04b6934..1b77db02 100644
-> --- a/recipes-devtools/qemu/qemu-system-native_%.bbappend
-> +++ b/recipes-devtools/qemu/qemu-system-native_%.bbappend
-> @@ -9,4 +9,4 @@
->  # The layer.conf propagates virtualization to DISTRO_FEATURES_NATIVE when
->  # vcontainer or virtualization is in the target DISTRO_FEATURES.
+> diff --git a/recipes-kernel/linux/yocto-cfg-fragments-6.18.bb b/recipes-kernel/linux/yocto-cfg-fragments-6.18.bb
+> index e54c1139..7578cd26 100644
+> --- a/recipes-kernel/linux/yocto-cfg-fragments-6.18.bb
+> +++ b/recipes-kernel/linux/yocto-cfg-fragments-6.18.bb
+> @@ -15,7 +15,7 @@ INHIBIT_DEFAULT_DEPS = "1"
+>  LINUX_VERSION ?= "6.18"
+>  PV = "v${LINUX_VERSION}+git${SRCREV}"
 >  
-> -PACKAGECONFIG:append = " ${@bb.utils.contains('DISTRO_FEATURES_NATIVE', 'virtualization', 'virtfs', '', d)}"
-> +PACKAGECONFIG:append = "${@bb.utils.contains('DISTRO_FEATURES_NATIVE', 'virtualization', ' virtfs', '', d)}"
-
+> -SRCREV = "6ab6280418f524cda3e9f30ca0ac4367c58abdcf"
+> +SRCREV = "8ef043d5cbfe1d4c6b6b92d6d884d23c4d3411a3"
+>  SRC_URI = "\
+>          git://git.yoctoproject.org/yocto-kernel-cache;branch=yocto-${LINUX_VERSION} \
+>          "
+> -- 
+> 2.46.2
 > 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#9649): https://lists.yoctoproject.org/g/meta-virtualization/message/9649
-> Mute This Topic: https://lists.yoctoproject.org/mt/118282685/1050810
-> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
-
 
