@@ -2,202 +2,122 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05B3810706E0
-	for <webhook@archiver.kernel.org>; Sat, 14 Mar 2026 15:18:06 +0000 (UTC)
-Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.11671.1773501480959088836
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6EAF10706E4
+	for <webhook@archiver.kernel.org>; Sat, 14 Mar 2026 15:18:45 +0000 (UTC)
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.11667.1773501517915253099
  for <meta-virtualization@lists.yoctoproject.org>;
- Sat, 14 Mar 2026 08:18:01 -0700
+ Sat, 14 Mar 2026 08:18:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=hAp10ptq;
- spf=pass (domain: gmail.com, ip: 209.85.222.182, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-8cd7ecedf2cso327805985a.3
-        for <meta-virtualization@lists.yoctoproject.org>; Sat, 14 Mar 2026 08:18:00 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=aFjgEfv9;
+ spf=pass (domain: gmail.com, ip: 209.85.160.172, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-509164dce91so27597561cf.1
+        for <meta-virtualization@lists.yoctoproject.org>; Sat, 14 Mar 2026 08:18:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773501480; x=1774106280; darn=lists.yoctoproject.org;
+        d=gmail.com; s=20230601; t=1773501517; x=1774106317; darn=lists.yoctoproject.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=TBXmTLcZ58n4+5m9m5vYq3wLzSrvcjC/MtTjg9LAPa0=;
-        b=hAp10ptqJzdrNC7FGHl7VkbsJpQuZ4CbDwt7tT6TnH/A+8dP8ocS9zYvtwBUOKpjaR
-         40FTo5INcSCnfZ6QMZ4TslstcOr9kNXYrNfU2f6+zQJoApTDI9fJo1gPrB06vERti0H1
-         5lmP/zbLX9B4kFEQEOamCnMRmOjeRW7dcnHps60Ti1dCRTnI9WduzDDrli5EOBjQ3oDm
-         ONPEdt3XDPHZBPEK8BxPGDpg7eTdqw38LAgCB+tkj48JIHx9K2QU7w5OmHQdQaOBw1KP
-         3j+NyA1dsSk28fELozBU99CqTHr56h4X3OUnHto4nnAzdZFg6hzxqHjPRwlTWJZV1OFh
-         0K4g==
+        bh=PMbP7VZWIes4x9BYveJ24F6r8Ztp373P7wfUe/GiVA0=;
+        b=aFjgEfv9+n7dsMqyFxg3uw6JQ2qXoQwgYDlrfHq0b3VnFSNerkd0T2R4o4xKrcTQWC
+         KLPVBUh01JWNHpyVe2bdjFYlMF3/l3S/V380n1r3hbkNnPPDdcb0TCBZZb7TANEUQ9Hh
+         Ay0f+8SqPo+F7widzMvYk8RcaA4o8JKiLrt9s43xhv8jPrSadDbnEu6TKhRMJoNCmOj5
+         xKibsQK5AOH3rCMysImlOnYMtxii4sa13bd36wexeOl6xC8tsLmdfaNqdDQF9VKPespc
+         mRzl6uz+9UeQXB1EsdlgNkDJ2csHvyu9nsIwdQliTwlbmeBhH4Fy7meyzZLJKFJ+clgj
+         bzkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773501480; x=1774106280;
+        d=1e100.net; s=20251104; t=1773501517; x=1774106317;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=TBXmTLcZ58n4+5m9m5vYq3wLzSrvcjC/MtTjg9LAPa0=;
-        b=l9OEwJGcuFNkD0y61NVVkX5ipWRL3tOATsMn+qBliWziJRbok5v5CCeM18HFAIKFUj
-         GDKTg7TRT+I9RIRlBeG8YiacSlKAcHzUc1EqzGGMzkI54fbT1pjNPmBR8fJcIxIz8xTu
-         rRjU3YoL0OIId+QsvVI5yLpCf3LWy0jfz9heFHMba1mNoKAr2JJFDoC1CoAu9s95xhVA
-         2uO1zgM42BtNEOV7jQwkmyvzOcBKS4DUUMwJJAgJ1ta4VVYKGFq/LObQhKQAhvGrqwvi
-         Y84QpXLzR1Ri16wuxfxaoFQAMgjvpF8UC5Zy1HEuL8OnuMMXmFuY0hLAHA9pvR34B9Oj
-         QYVg==
-X-Gm-Message-State: AOJu0YxG//GuelCzxuReo3rYVuYG+iyi2FBCVlbKLyofQZkKgU1OG8uj
-	LIElkjgLN/eEq/pG660CCWF9sThOExO0SAu6EJDfIK8Ettwm5wDzEokVM1MZ8xzGX8Y=
-X-Gm-Gg: ATEYQzy2oPBQoJtep7moZKxvsySMy/mLjqW6dBKBxJMpmMPpT9FL/o6m/mlRWcjnfDg
-	2M3R+r8SkjZj570qtoZ5oL7BePYRrgpgpEO4J8DAeJn5w2f0PnOhgiJqlAhUc7yeYC4KpV68Fri
-	qqxz2DZxhTN0jQh1e1A0QnT1tv6ssX36AIdfeSDbVC9RUYpd4tmWeV08prwUAURauhpnSboe2hs
-	x0mgLD2ZPLO3n/WvJlbVHRNMCeGoRmynCp3VqtcGhgJtKg4wv+PoO0lMd4y1H8JVkzslS80NBCr
-	YZri63R1gK8IEVSFS44Nl7TPQN1/6zukn6blmgbBs99IvHCg5oHhGAgiPQcE3UdpX5SwjE0mZBs
-	vpdF8km+XAAhLGE1xZk8KWIXudimUAyrcJpKQzVMBZhVoGs75j4CzSqSo2QkVaNVOOWqWlmdS+4
-	4l6CrOHJGyC/RnNyLXoLG7YBW5zUk578zIYGiMOgNsbmR3VEXJKt+nBwmb161SrReJ0op5ADJsf
-	dfxA5dh/hpazERcm/d3Odkd6GJNURSJZ26k
-X-Received: by 2002:a05:620a:4713:b0:8cd:9aba:f5fb with SMTP id af79cd13be357-8cdb5aa56famr934367785a.30.1773501479817;
-        Sat, 14 Mar 2026 08:17:59 -0700 (PDT)
+        bh=PMbP7VZWIes4x9BYveJ24F6r8Ztp373P7wfUe/GiVA0=;
+        b=Ck/FeCp+e7CsTMeMDYdTuNYlkLzys3/0786c/fQ76mZ8LHVNmcG6LuFRATMR6/6hgm
+         /kQHsZrl/DbyAZhcGwACWrUrBcPj3LjPliVUj0nJ2brKl+JvzeQ3JVdoT6IoNW+T1uh7
+         8ZXFNrfQBXCV9+1jxXhkPfFyrjW9VA5t7t0XhiRcoW6TE6404UeJHCWOHfAcvK+ONQ2V
+         rlUZGYcMeO+xgFG8Hp348SAc0K753UayBrQ5YDD2DgLvULoKie3ixx0JBBxJGQuixYj+
+         4rjxyngEWOVBmdIQja6fjNHy5xG9Em/QXc5RS+GV0nLAbvD9p1KIO/NChL0g+wDOt9FE
+         f6Dg==
+X-Gm-Message-State: AOJu0YzVufKsVX3cN8q+jsrDFIkGK1MemZ5TteXya+URZJ3xn17oXKhm
+	JZOkUUWGuGnFLJE2OxlA/7p8LR2NrVuSswcVWLeAZVOLwRq9pNXtxW0Y
+X-Gm-Gg: ATEYQzxyIkHwXM26uyLko77aiJYYyPJ7PHODDf+K2ARIIC+cQit4OFzcptFse5NOCoT
+	FDSZyebUyX6Jp1kK6BFOWVPDQx3ZV1u2618q0fnNOR2tPktNoEiS4JXHjkb2eOBFSwui6sEcGKj
+	puiJboNy8XjijQh8SoHd+2ARgu3+hkyEH9AynIF8RcAbKe8JsUYcGOG3ziviE2V6veZWA/LfER5
+	40CCz/AH5+jaQUYyNzf79HEWed6cdrNtBqHWtuC2A9ekdq42ogXX91lN+8QUIfUH0D/BzZOYcVB
+	fy13vVao3wM5cEQXZSLPU4SE99fz8SCYORw2Jhy0iP92m9ohV/xXdXbBhk7A/TGQqwkgkMyPh5V
+	JybEAJ0YaDOjhybd3G3+IL8+UHN0qCHVNopWQ2dhjHqhLiVl15I+xQbqiPCvsDl6oa8I6AVKQz1
+	pJ1+BkAMrp4GSnfANgEkXJ3/uN5OnI4iRHw9skd4t39C8AVDfc7mnAInOFiykWR0B9IdR478v/j
+	hrUREw8af7VD8Cx7Ees6sUPExUre9M3vGISi2XV7mawxIE=
+X-Received: by 2002:a05:622a:48f:b0:509:2d83:5acd with SMTP id d75a77b69052e-50957e2df21mr85086201cf.63.1773501516807;
+        Sat, 14 Mar 2026 08:18:36 -0700 (PDT)
 Received: from gmail.com (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8cda1fbcd23sm934882285a.1.2026.03.14.08.17.58
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-89a65bd318fsm79208886d6.8.2026.03.14.08.18.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 14 Mar 2026 08:17:59 -0700 (PDT)
-Date: Sat, 14 Mar 2026 15:17:57 +0000
+        Sat, 14 Mar 2026 08:18:36 -0700 (PDT)
+Date: Sat, 14 Mar 2026 15:18:34 +0000
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: viswanath.kraleti@oss.qualcomm.com
+To: richard.purdie@linuxfoundation.org
 Cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [meta-virtualization][PATCH] lxc: backport fixes to build with
- glibc 2.43
-Message-ID: <abV8JaSa8u2qXxYj@gmail.com>
-References: <20260314071447.2558206-1-viswanath.kraleti@oss.qualcomm.com>
+Subject: Re: [meta-virtualization] [PATCH] container-dummy-provides: Update
+ to match changes in oe-core
+Message-ID: <abV8SmQXZZB1xO80@gmail.com>
+References: <20260314103109.3942620-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260314071447.2558206-1-viswanath.kraleti@oss.qualcomm.com>
+In-Reply-To: <20260314103109.3942620-1-richard.purdie@linuxfoundation.org>
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Sat, 14 Mar 2026 15:18:05 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9657
+ <meta-virtualization@lists.yoctoproject.org>; Sat, 14 Mar 2026 15:18:45 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9658
 
-Thanks for the patch!
+merged.
 
-I had an lxc -stable bump in progress, and it has that
-fix, so I just pushed it to the top of the queue and it
-is in master now.
+Hopefully this is ok without your corresponding oe-core change.
+
+I didn't see any issues, so I've pushed it to master.
 
 Bruce
 
+In message: [meta-virtualization] [PATCH] container-dummy-provides: Update to match changes in oe-core
+on 14/03/2026 Richard Purdie via lists.yoctoproject.org wrote:
 
-In message: [meta-virtualization][PATCH] lxc: backport fixes to build with glibc 2.43
-on 14/03/2026 Viswanath Kraleti via lists.yoctoproject.org wrote:
-
-> Building lxc with glibc 2.43 fails due to stricter header checks and
-> FORTIFY related validations.
+> OE-Core made changes to the way dummy providers work, update the
+> container-dummy-provides to match them. It now needs a hint in layer.conf
+> to make the core components aware of the presence of the dummy recipe.
 > 
-> Backport the following upstream fixes to resolve these build failures:
->   - meson.build: fix open_how include handling for glibc 2.43+
->   - meson.build: fix openat2 include typo exposed by glibc 2.43 + FORTIFY
-> 
-> Signed-off-by: Viswanath Kraleti <viswanath.kraleti@oss.qualcomm.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 > ---
->  ...fix-open_how-include-with-glibc-2.43.patch | 40 +++++++++++++++++++
->  ...openat2-include-typo-fix-with-glibc-.patch | 29 ++++++++++++++
->  recipes-containers/lxc/lxc_git.bb             |  2 +
->  3 files changed, 71 insertions(+)
->  create mode 100644 recipes-containers/lxc/files/0001-meson.build-fix-open_how-include-with-glibc-2.43.patch
->  create mode 100644 recipes-containers/lxc/files/0001-meson.build-fix-openat2-include-typo-fix-with-glibc-.patch
+>  conf/layer.conf                               | 2 ++
+>  recipes-core/meta/container-dummy-provides.bb | 2 ++
+>  2 files changed, 4 insertions(+)
 > 
-> diff --git a/recipes-containers/lxc/files/0001-meson.build-fix-open_how-include-with-glibc-2.43.patch b/recipes-containers/lxc/files/0001-meson.build-fix-open_how-include-with-glibc-2.43.patch
-> new file mode 100644
-> index 00000000..1b3d4de6
-> --- /dev/null
-> +++ b/recipes-containers/lxc/files/0001-meson.build-fix-open_how-include-with-glibc-2.43.patch
-> @@ -0,0 +1,40 @@
-> +From 388a511a7070d1ea9c6b8d2d98e6fa9a3efb0e87 Mon Sep 17 00:00:00 2001
-> +From: Li Lu <1487442471@qq.com>
-> +Date: Wed, 18 Feb 2026 09:24:26 +0800
-> +Subject: [PATCH] meson.build: fix open_how include with glibc-2.43+
+> diff --git a/conf/layer.conf b/conf/layer.conf
+> index cbf95e6a..a387d35e 100644
+> --- a/conf/layer.conf
+> +++ b/conf/layer.conf
+> @@ -75,3 +75,5 @@ HOSTTOOLS_NONFATAL += "getent"
+>  DISTRO_FEATURES_NATIVE:append = " ${@bb.utils.contains_any('DISTRO_FEATURES', 'vcontainer virtualization', 'virtualization', '', d)}"
+>  
+>  NON_MULTILIB_RECIPES:append:x86-64 = " kubernetes"
 > +
-> +Signed-off-by: Li Lu <1487442471@qq.com>
-> +Upstream-Status: Backport [https://github.com/lxc/lxc/commit/5e68a7a633659039d9b114d2b75fdba0df51e52c]
-> +---
-> + meson.build          | 1 +
-> + src/lxc/open_utils.h | 2 ++
-> + 2 files changed, 3 insertions(+)
-> +
-> +diff --git a/meson.build b/meson.build
-> +index 31f5472c5..637ee9873 100644
-> +--- a/meson.build
-> ++++ b/meson.build
-> +@@ -664,6 +664,7 @@ endforeach
-> + 
-> + ## Types.
-> + decl_headers = '''
-> ++#include <fcntl.h>
-> + #include <uchar.h>
-> + #include <sys/mount.h>
-> + #include <sys/stat.h>
-> +diff --git a/src/lxc/open_utils.h b/src/lxc/open_utils.h
-> +index 7ff5945c7..c9b978dbf 100644
-> +--- a/src/lxc/open_utils.h
-> ++++ b/src/lxc/open_utils.h
-> +@@ -25,6 +25,8 @@ struct open_how {
-> + 	__u64 mode;
-> + 	__u64 resolve;
-> + };
-> ++#else
-> ++#include <fcntl.h>
-> + #endif
-> + 
-> + /* how->resolve flags for openat2(2). */
-> +-- 
-> +2.34.1
-> +
-> diff --git a/recipes-containers/lxc/files/0001-meson.build-fix-openat2-include-typo-fix-with-glibc-.patch b/recipes-containers/lxc/files/0001-meson.build-fix-openat2-include-typo-fix-with-glibc-.patch
-> new file mode 100644
-> index 00000000..d84f17c7
-> --- /dev/null
-> +++ b/recipes-containers/lxc/files/0001-meson.build-fix-openat2-include-typo-fix-with-glibc-.patch
-> @@ -0,0 +1,29 @@
-> +From 66ca3b2dee22d2d256e74ec55de2e5b0c975037c Mon Sep 17 00:00:00 2001
-> +From: Joonas Niilola <juippis@gentoo.org>
-> +Date: Sun, 15 Feb 2026 17:42:39 +0200
-> +Subject: [PATCH] meson.build: fix openat2 include typo, fix with glibc-2.43
-> + +FORTIFY
-> +
-> +Closes: https://github.com/lxc/lxc/issues/4641
-> +Signed-off-by: Joonas Niilola <juippis@gentoo.org>
-> +Upstream-Status: Backport [https://github.com/lxc/lxc/commit/511e4db8f2a5b47cdd41eef482647492ce5b0f77]
-> +---
-> + meson.build | 2 +-
-> + 1 file changed, 1 insertion(+), 1 deletion(-)
-> +
-> +diff --git a/meson.build b/meson.build
-> +index 637ee9873..a6bb21a94 100644
-> +--- a/meson.build
-> ++++ b/meson.build
-> +@@ -557,7 +557,7 @@ foreach ident: [
-> +     ['move_mount',        '''#include <sys/mount.h>'''],
-> +     ['openat2',           '''#include <sys/types.h>
-> +                              #include <sys/stat.h>
-> +-                             #include <fctnl.h>'''],
-> ++                             #include <fcntl.h>'''],
-> +     ['open_tree',         '''#include <sys/mount.h>'''],
-> +     ['personality',       '''#include <sys/personality.h>'''],
-> +     ['pidfd_open',        '''#include <stdlib.h>
-> +-- 
-> +2.34.1
-> +
-> diff --git a/recipes-containers/lxc/lxc_git.bb b/recipes-containers/lxc/lxc_git.bb
-> index 04db2ac0..0b6cbb75 100644
-> --- a/recipes-containers/lxc/lxc_git.bb
-> +++ b/recipes-containers/lxc/lxc_git.bb
-> @@ -46,6 +46,8 @@ SRC_URI = "git://github.com/lxc/lxc.git;branch=stable-6.0;protocol=https \
->  	file://tests-our-init-is-not-busybox.patch \
->  	file://0001-template-if-busybox-contains-init-use-it-in-containe.patch \
->  	file://0001-build-Check-if-P_PIDFD-is-defined.patch \
-> +        file://0001-meson.build-fix-openat2-include-typo-fix-with-glibc-.patch \
-> +        file://0001-meson.build-fix-open_how-include-with-glibc-2.43.patch \
->  	file://dnsmasq.conf \
->  	file://lxc-net \
->  	"
+> +DUMMY_PACKAGE_ARCHS_TARGET += "container-dummy-provides"
+> diff --git a/recipes-core/meta/container-dummy-provides.bb b/recipes-core/meta/container-dummy-provides.bb
+> index 2ab42be3..1d58c672 100644
+> --- a/recipes-core/meta/container-dummy-provides.bb
+> +++ b/recipes-core/meta/container-dummy-provides.bb
+> @@ -3,4 +3,6 @@ DUMMYPROVIDES = "\
+>     /bin/sh \
+>     /usr/bin/env \
+>  "
+> +DUMMYSDK_PKGDATA_VARNAME = "PKGDATA_DIR"
+> +DUMMYSDK_EXTRASTAMP_VARNAME = "MACHINE"
+>  require recipes-core/meta/dummy-sdk-package.inc
 
 > 
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#9654): https://lists.yoctoproject.org/g/meta-virtualization/message/9654
-> Mute This Topic: https://lists.yoctoproject.org/mt/118310834/1050810
+> View/Reply Online (#9655): https://lists.yoctoproject.org/g/meta-virtualization/message/9655
+> Mute This Topic: https://lists.yoctoproject.org/mt/118311700/1050810
 > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
 > Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
