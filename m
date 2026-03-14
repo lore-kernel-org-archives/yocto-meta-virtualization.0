@@ -1,170 +1,206 @@
-Return-Path: <viswanath.kraleti@oss.qualcomm.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37DA410706D5
-	for <webhook@archiver.kernel.org>; Sat, 14 Mar 2026 12:16:45 +0000 (UTC)
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.8582.1773490598204443248
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05B3810706E0
+	for <webhook@archiver.kernel.org>; Sat, 14 Mar 2026 15:18:06 +0000 (UTC)
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.11671.1773501480959088836
  for <meta-virtualization@lists.yoctoproject.org>;
- Sat, 14 Mar 2026 05:16:38 -0700
+ Sat, 14 Mar 2026 08:18:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=R1zfyt6D;
- dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=eMyWnR4T;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: viswanath.kraleti@oss.qualcomm.com)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62E3nw0J2907986
-	for <meta-virtualization@lists.yoctoproject.org>; Sat, 14 Mar 2026 12:16:37 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=ux0y9bRtZIvDBFe2hPNBdoQYoaD23KQ/Ry/
-	DiTydyEM=; b=R1zfyt6DYeGgYhe8CR8KFra3wDNrf9+pCYoUCSexXFoidhox3LI
-	QcB7l8pDwuVoS4hypPPawYVFZpS8rIl6xoaOqKZI9iCiIumLJNrARrDNyeHDJLSS
-	et6aV0pGHs+7U8XJwpWbocQMd+kY2gkZ2KIsdS9eP5tiUK2OpjYU+4z324VFvVcC
-	8sgvtJB26BBox83xJhr0BYLn8MiWdMBspvlpQTSWWdfPk5xtFNNdY/D5i/kSshHK
-	ieA51RaAmfwFQk3k8dyclJPWUHW5t2oWan47k9uc+J0Xq9eK/HXcPpKghCvvvQAr
-	ETlyjmko+yQSSGAkyvTALCnHSM+p27hn6Dw==
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com [209.85.216.70])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cw043gqrt-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <meta-virtualization@lists.yoctoproject.org>; Sat, 14 Mar 2026 12:16:37 +0000 (GMT)
-Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-3594620fe97so21862924a91.1
-        for <meta-virtualization@lists.yoctoproject.org>; Sat, 14 Mar 2026 05:16:37 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=hAp10ptq;
+ spf=pass (domain: gmail.com, ip: 209.85.222.182, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-8cd7ecedf2cso327805985a.3
+        for <meta-virtualization@lists.yoctoproject.org>; Sat, 14 Mar 2026 08:18:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1773490597; x=1774095397; darn=lists.yoctoproject.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ux0y9bRtZIvDBFe2hPNBdoQYoaD23KQ/Ry/DiTydyEM=;
-        b=eMyWnR4TVroAZ+PwLt31jowoKtais6W6kjTwWGl8fJ3xy7DVzfCSOFtZRfEoUUb8Vl
-         IRNjJVrn7Ccd29nE9gCSmSr4C85RqBoaSHDYo5X2PeJSLNdt0UQaaz4arSZJPDt9CcRl
-         D44RGmKzbGVaJIhzxbC1QC4V8YCjN6b85NUhXfB6GzKKKMRHNN61x8Madnrk1qo80Iut
-         bSEgxjEL3oIXVPkuMtW0ZgGMKEsBykB4oWSYnvtZxXBaspdk7dyKE7jMOCGrZKaaoWfZ
-         Ph+GuEsDH5vDGQg2ZALaDxraFIfKr/yWrwM4ZpUPXj0fkYvV/zPqOmCXouiPRBkdwEyI
-         ahNg==
+        d=gmail.com; s=20230601; t=1773501480; x=1774106280; darn=lists.yoctoproject.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=TBXmTLcZ58n4+5m9m5vYq3wLzSrvcjC/MtTjg9LAPa0=;
+        b=hAp10ptqJzdrNC7FGHl7VkbsJpQuZ4CbDwt7tT6TnH/A+8dP8ocS9zYvtwBUOKpjaR
+         40FTo5INcSCnfZ6QMZ4TslstcOr9kNXYrNfU2f6+zQJoApTDI9fJo1gPrB06vERti0H1
+         5lmP/zbLX9B4kFEQEOamCnMRmOjeRW7dcnHps60Ti1dCRTnI9WduzDDrli5EOBjQ3oDm
+         ONPEdt3XDPHZBPEK8BxPGDpg7eTdqw38LAgCB+tkj48JIHx9K2QU7w5OmHQdQaOBw1KP
+         3j+NyA1dsSk28fELozBU99CqTHr56h4X3OUnHto4nnAzdZFg6hzxqHjPRwlTWJZV1OFh
+         0K4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773490597; x=1774095397;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ux0y9bRtZIvDBFe2hPNBdoQYoaD23KQ/Ry/DiTydyEM=;
-        b=D/BgykX3l4YxpBZCEjDdyuK2nLmIj07+ggjK2ELJYx2a8p6FkFnq2wAi8+OjqMHyGm
-         l7JV7pGXErRg8aWqSsstx7Rlx60U8dakZytUVoLOsfTD7bfW4cMRtV/5vl59bmL0uJMo
-         rZF8Eiv2rUG+cTAlCfQBfPy+SFOMGU+6jifLqB2QbXCsYdRCFCvTEeLKkspT2Ola2FgD
-         gO9qAqZUiXx2rFC98+JEnlIHlAbjldIsVhOWYydlJ0gXH00HEvHns9jJHRtyZZ314pUA
-         CBlwRpZYbnHhHiX37qY//Z0QPTIBYyCJj/vfSiCCXxZHhQnaxbT4xxPQosLo2jTyCRVf
-         S/cg==
-X-Gm-Message-State: AOJu0Yyeq94Kmzv0fQrPkZQo5LAwO2d9RmXeA2/vssykijglub9xTs38
-	SDXgeEZtr6XB21ppAzzcc4bjQYhaeUOHoB6T0SF1mXtRYtcxIjtcqTjG6dYdEzObh0VeqIXt4hN
-	MrkZRvr9/uu4472NOH3VircBG/sVNB3HPyPZD5+EMlg7uLCyKjAVQP+nTIWlCqMpeDDWkId1wXY
-	oP0xOQsYElXq0/OgytYw==
-X-Gm-Gg: ATEYQzynd0dvWRM2vq6ahrS5mJGX6L9vwz8U8yzKVtqYGWHZuq5ZsH4IvPWdUyag0Pv
-	pvlDKc6to8pEODevWy4CPsm8Nnmc+0YqydxsuBiMsgO661AXuNxqsQKoEW9jX2clBcta6Gssvuj
-	WTwo+QhyVjBWxAhb67EioRd3pXJavbeGiYl6Jrp41FAMZu9xtpWrBTuLDNl0d3ibfMZXH6bRqRu
-	iiDl2BhAjwYY/vkP1R1rlDrwS0HcoF7WpjUKBrVxWFv/dIjgiuYg4EfLwkBlXfMGQHsbQrsmtyo
-	hqNrPb2cCjjhNHumgICOIKl835x5aJbwiMBgqZ0jQyLEUoumT6M/RVRvxAlUbZzPQN2KJXjCHST
-	0dRFCO/PGD5G13C7LGEXwQXf09GH7uCVV54rSVw6jqFNrSgC9wo+AdfD1bZHLT42tECwyRGg5Op
-	zMt4i2tQhSFIu+XfAFWwg=
-X-Received: by 2002:a17:90a:d006:b0:359:8e1c:53e with SMTP id 98e67ed59e1d1-35a220b54d6mr6328038a91.31.1773490596669;
-        Sat, 14 Mar 2026 05:16:36 -0700 (PDT)
-X-Received: by 2002:a17:90a:d006:b0:359:8e1c:53e with SMTP id 98e67ed59e1d1-35a220b54d6mr6328012a91.31.1773490596049;
-        Sat, 14 Mar 2026 05:16:36 -0700 (PDT)
-Received: from hyd-e160-a01-2-02.qualcomm.com ([202.46.22.19])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c73ebb64819sm4967505a12.22.2026.03.14.05.16.34
+        d=1e100.net; s=20251104; t=1773501480; x=1774106280;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=TBXmTLcZ58n4+5m9m5vYq3wLzSrvcjC/MtTjg9LAPa0=;
+        b=l9OEwJGcuFNkD0y61NVVkX5ipWRL3tOATsMn+qBliWziJRbok5v5CCeM18HFAIKFUj
+         GDKTg7TRT+I9RIRlBeG8YiacSlKAcHzUc1EqzGGMzkI54fbT1pjNPmBR8fJcIxIz8xTu
+         rRjU3YoL0OIId+QsvVI5yLpCf3LWy0jfz9heFHMba1mNoKAr2JJFDoC1CoAu9s95xhVA
+         2uO1zgM42BtNEOV7jQwkmyvzOcBKS4DUUMwJJAgJ1ta4VVYKGFq/LObQhKQAhvGrqwvi
+         Y84QpXLzR1Ri16wuxfxaoFQAMgjvpF8UC5Zy1HEuL8OnuMMXmFuY0hLAHA9pvR34B9Oj
+         QYVg==
+X-Gm-Message-State: AOJu0YxG//GuelCzxuReo3rYVuYG+iyi2FBCVlbKLyofQZkKgU1OG8uj
+	LIElkjgLN/eEq/pG660CCWF9sThOExO0SAu6EJDfIK8Ettwm5wDzEokVM1MZ8xzGX8Y=
+X-Gm-Gg: ATEYQzy2oPBQoJtep7moZKxvsySMy/mLjqW6dBKBxJMpmMPpT9FL/o6m/mlRWcjnfDg
+	2M3R+r8SkjZj570qtoZ5oL7BePYRrgpgpEO4J8DAeJn5w2f0PnOhgiJqlAhUc7yeYC4KpV68Fri
+	qqxz2DZxhTN0jQh1e1A0QnT1tv6ssX36AIdfeSDbVC9RUYpd4tmWeV08prwUAURauhpnSboe2hs
+	x0mgLD2ZPLO3n/WvJlbVHRNMCeGoRmynCp3VqtcGhgJtKg4wv+PoO0lMd4y1H8JVkzslS80NBCr
+	YZri63R1gK8IEVSFS44Nl7TPQN1/6zukn6blmgbBs99IvHCg5oHhGAgiPQcE3UdpX5SwjE0mZBs
+	vpdF8km+XAAhLGE1xZk8KWIXudimUAyrcJpKQzVMBZhVoGs75j4CzSqSo2QkVaNVOOWqWlmdS+4
+	4l6CrOHJGyC/RnNyLXoLG7YBW5zUk578zIYGiMOgNsbmR3VEXJKt+nBwmb161SrReJ0op5ADJsf
+	dfxA5dh/hpazERcm/d3Odkd6GJNURSJZ26k
+X-Received: by 2002:a05:620a:4713:b0:8cd:9aba:f5fb with SMTP id af79cd13be357-8cdb5aa56famr934367785a.30.1773501479817;
+        Sat, 14 Mar 2026 08:17:59 -0700 (PDT)
+Received: from gmail.com (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8cda1fbcd23sm934882285a.1.2026.03.14.08.17.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 14 Mar 2026 05:16:35 -0700 (PDT)
-From: Viswanath Kraleti <viswanath.kraleti@oss.qualcomm.com>
-To: meta-virtualization@lists.yoctoproject.org
-Cc: Viswanath Kraleti <viswanath.kraleti@oss.qualcomm.com>
-Subject: [meta-oe][PATCH] android-tools: add fix for strchr() conformance to C23
-Date: Sat, 14 Mar 2026 17:44:59 +0530
-Message-Id: <20260314121459.2875362-1-viswanath.kraleti@oss.qualcomm.com>
-X-Mailer: git-send-email 2.34.1
+        Sat, 14 Mar 2026 08:17:59 -0700 (PDT)
+Date: Sat, 14 Mar 2026 15:17:57 +0000
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: viswanath.kraleti@oss.qualcomm.com
+Cc: meta-virtualization@lists.yoctoproject.org
+Subject: Re: [meta-virtualization][PATCH] lxc: backport fixes to build with
+ glibc 2.43
+Message-ID: <abV8JaSa8u2qXxYj@gmail.com>
+References: <20260314071447.2558206-1-viswanath.kraleti@oss.qualcomm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzE0MDA5NSBTYWx0ZWRfX1hNaC1lnrbSF
- Hw5cfBufcsKWnrsYBPsmL0wUgnetNPPb96X5j5xVNAVbGW95+8fovziNFVpQbPDeS3pv7/f9s0o
- QzvgmIF2EhZLaDU14Bha3fO3QahwBvCnCqwHY6aXRR5Mu/WHD39RTpNUCdtOreIFvUQb2Vz9itb
- SWrfttVW9C5M1Mus/C5f/73BProX8vJfJY4sneG+tFdoj1xWNJqAtSaCvtJbZrkERfD7K/fyGk/
- n6LIwWCBft3VIw8tQ48SSu6kRH7GZZoIufH/w8dvNOqV6JqLK6tpit1EBm5i3g/czrtpCk1xq8U
- iPj1JVS/igQbd4O2mj5Rfop/xdoFSup1uuXzBUnWrZSbFNWjeXiX6/KMradb+NYdEPCGl+r4Qzh
- I/fwlXWKHbDzu9PoZibS/ZqGh2j7mSXyh6XF7IWQC56rzbU6Fs72+2T/K399Z9m4got8oTPA9OU
- cturbPthspU/TOrMbZA==
-X-Proofpoint-GUID: jv7UWk9xhPDmVZHnBpwOerwsPpaB5Jcg
-X-Authority-Analysis: v=2.4 cv=fLs0HJae c=1 sm=1 tr=0 ts=69b551a5 cx=c_pps
- a=0uOsjrqzRL749jD1oC5vDA==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
- a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22 a=EUspDBNiAAAA:8
- a=SZdcAycclXX2kHHUgkgA:9 a=mQ_c8vxmzFEMiUWkPHU9:22
-X-Proofpoint-ORIG-GUID: jv7UWk9xhPDmVZHnBpwOerwsPpaB5Jcg
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-14_03,2026-03-13_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 priorityscore=1501 malwarescore=0 lowpriorityscore=0
- suspectscore=0 impostorscore=0 clxscore=1015 adultscore=0 spamscore=0
- bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2603050001
- definitions=main-2603140095
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260314071447.2558206-1-viswanath.kraleti@oss.qualcomm.com>
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Sat, 14 Mar 2026 12:16:45 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9656
+ <meta-virtualization@lists.yoctoproject.org>; Sat, 14 Mar 2026 15:18:05 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9657
 
-Building android-tools v29.0.6.r14 with glibc 2.43 fails due to ISO C23
-changes to strchr(). Add a patch to update the affected libunwind sources
-to use const pointer types to fix this build failure.
+Thanks for the patch!
 
-Signed-off-by: Viswanath Kraleti <viswanath.kraleti@oss.qualcomm.com>
----
- ...nd-fix-strchr-conformance-to-ISO-C23.patch | 27 +++++++++++++++++++
- .../android-tools/android-tools_29.0.6.r14.bb |  1 +
- 2 files changed, 28 insertions(+)
- create mode 100644 meta-oe/dynamic-layers/selinux/recipes-devtool/android-tools/android-tools/debian/external/libunwind/libunwind-fix-strchr-conformance-to-ISO-C23.patch
+I had an lxc -stable bump in progress, and it has that
+fix, so I just pushed it to the top of the queue and it
+is in master now.
 
-diff --git a/meta-oe/dynamic-layers/selinux/recipes-devtool/android-tools/android-tools/debian/external/libunwind/libunwind-fix-strchr-conformance-to-ISO-C23.patch b/meta-oe/dynamic-layers/selinux/recipes-devtool/android-tools/android-tools/debian/external/libunwind/libunwind-fix-strchr-conformance-to-ISO-C23.patch
-new file mode 100644
-index 0000000000..4da65ea285
---- /dev/null
-+++ b/meta-oe/dynamic-layers/selinux/recipes-devtool/android-tools/android-tools/debian/external/libunwind/libunwind-fix-strchr-conformance-to-ISO-C23.patch
-@@ -0,0 +1,27 @@
-+From d91f5324f809c3a5b0343927716e4b99bc31db53 Mon Sep 17 00:00:00 2001
-+From: Viswanath Kraleti <viswanath.kraleti@oss.qualcomm.com>
-+Date: Fri, 13 Mar 2026 18:57:36 +0530
-+Subject: [PATCH] libunwind: fix strchr() conformance to ISO C23
-+
-+Fix uses of strchr() to conform to ISO C23, supported since glibc-2.43
-+
-+Signed-off-by: Viswanath Kraleti <viswanath.kraleti@oss.qualcomm.com>
-+Upstream-Status: Pending
-+---
-+ external/libunwind/src/dwarf/Gfind_proc_info-lsb.c | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
-+
-+diff --git a/external/libunwind/src/dwarf/Gfind_proc_info-lsb.c b/external/libunwind/src/dwarf/Gfind_proc_info-lsb.c
-+index 77ed3d09..37eadf52 100644
-+--- a/external/libunwind/src/dwarf/Gfind_proc_info-lsb.c
-++++ b/external/libunwind/src/dwarf/Gfind_proc_info-lsb.c
-+@@ -248,7 +248,8 @@ load_debug_frame (const char *file, char **buf, size_t *bufsize,
-+ 
-+   if (*buf == NULL && linkbuf != NULL && memchr (linkbuf, 0, linksize) != NULL)
-+     {
-+-      char *newname, *basedir, *p;
-++      char *newname, *basedir;
-++      const char *p;
-+       static const char *debugdir = "/usr/lib/debug";
-+       int ret;
-+ 
-diff --git a/meta-oe/dynamic-layers/selinux/recipes-devtool/android-tools/android-tools_29.0.6.r14.bb b/meta-oe/dynamic-layers/selinux/recipes-devtool/android-tools/android-tools_29.0.6.r14.bb
-index 74928ed171..3d4e95b496 100644
---- a/meta-oe/dynamic-layers/selinux/recipes-devtool/android-tools/android-tools_29.0.6.r14.bb
-+++ b/meta-oe/dynamic-layers/selinux/recipes-devtool/android-tools/android-tools_29.0.6.r14.bb
-@@ -22,6 +22,7 @@ SRC_URI += " \
-     file://debian/external/libunwind/legacy_built-in_sync_functions.patch \
-     file://debian/external/libunwind/20150704-CVE-2015-3239_dwarf_i.h.patch \
-     file://debian/external/libunwind/libunwind-guard-unreachable-macro-to-avoid-redefinit.patch \
-+    file://debian/external/libunwind/libunwind-fix-strchr-conformance-to-ISO-C23.patch \
-     \
-     file://debian/system/core/move-log-file-to-proper-dir.patch \
-     file://debian/system/core/Added-missing-headers.patch \
+Bruce
+
+
+In message: [meta-virtualization][PATCH] lxc: backport fixes to build with glibc 2.43
+on 14/03/2026 Viswanath Kraleti via lists.yoctoproject.org wrote:
+
+> Building lxc with glibc 2.43 fails due to stricter header checks and
+> FORTIFY related validations.
+> 
+> Backport the following upstream fixes to resolve these build failures:
+>   - meson.build: fix open_how include handling for glibc 2.43+
+>   - meson.build: fix openat2 include typo exposed by glibc 2.43 + FORTIFY
+> 
+> Signed-off-by: Viswanath Kraleti <viswanath.kraleti@oss.qualcomm.com>
+> ---
+>  ...fix-open_how-include-with-glibc-2.43.patch | 40 +++++++++++++++++++
+>  ...openat2-include-typo-fix-with-glibc-.patch | 29 ++++++++++++++
+>  recipes-containers/lxc/lxc_git.bb             |  2 +
+>  3 files changed, 71 insertions(+)
+>  create mode 100644 recipes-containers/lxc/files/0001-meson.build-fix-open_how-include-with-glibc-2.43.patch
+>  create mode 100644 recipes-containers/lxc/files/0001-meson.build-fix-openat2-include-typo-fix-with-glibc-.patch
+> 
+> diff --git a/recipes-containers/lxc/files/0001-meson.build-fix-open_how-include-with-glibc-2.43.patch b/recipes-containers/lxc/files/0001-meson.build-fix-open_how-include-with-glibc-2.43.patch
+> new file mode 100644
+> index 00000000..1b3d4de6
+> --- /dev/null
+> +++ b/recipes-containers/lxc/files/0001-meson.build-fix-open_how-include-with-glibc-2.43.patch
+> @@ -0,0 +1,40 @@
+> +From 388a511a7070d1ea9c6b8d2d98e6fa9a3efb0e87 Mon Sep 17 00:00:00 2001
+> +From: Li Lu <1487442471@qq.com>
+> +Date: Wed, 18 Feb 2026 09:24:26 +0800
+> +Subject: [PATCH] meson.build: fix open_how include with glibc-2.43+
+> +
+> +Signed-off-by: Li Lu <1487442471@qq.com>
+> +Upstream-Status: Backport [https://github.com/lxc/lxc/commit/5e68a7a633659039d9b114d2b75fdba0df51e52c]
+> +---
+> + meson.build          | 1 +
+> + src/lxc/open_utils.h | 2 ++
+> + 2 files changed, 3 insertions(+)
+> +
+> +diff --git a/meson.build b/meson.build
+> +index 31f5472c5..637ee9873 100644
+> +--- a/meson.build
+> ++++ b/meson.build
+> +@@ -664,6 +664,7 @@ endforeach
+> + 
+> + ## Types.
+> + decl_headers = '''
+> ++#include <fcntl.h>
+> + #include <uchar.h>
+> + #include <sys/mount.h>
+> + #include <sys/stat.h>
+> +diff --git a/src/lxc/open_utils.h b/src/lxc/open_utils.h
+> +index 7ff5945c7..c9b978dbf 100644
+> +--- a/src/lxc/open_utils.h
+> ++++ b/src/lxc/open_utils.h
+> +@@ -25,6 +25,8 @@ struct open_how {
+> + 	__u64 mode;
+> + 	__u64 resolve;
+> + };
+> ++#else
+> ++#include <fcntl.h>
+> + #endif
+> + 
+> + /* how->resolve flags for openat2(2). */
+> +-- 
+> +2.34.1
+> +
+> diff --git a/recipes-containers/lxc/files/0001-meson.build-fix-openat2-include-typo-fix-with-glibc-.patch b/recipes-containers/lxc/files/0001-meson.build-fix-openat2-include-typo-fix-with-glibc-.patch
+> new file mode 100644
+> index 00000000..d84f17c7
+> --- /dev/null
+> +++ b/recipes-containers/lxc/files/0001-meson.build-fix-openat2-include-typo-fix-with-glibc-.patch
+> @@ -0,0 +1,29 @@
+> +From 66ca3b2dee22d2d256e74ec55de2e5b0c975037c Mon Sep 17 00:00:00 2001
+> +From: Joonas Niilola <juippis@gentoo.org>
+> +Date: Sun, 15 Feb 2026 17:42:39 +0200
+> +Subject: [PATCH] meson.build: fix openat2 include typo, fix with glibc-2.43
+> + +FORTIFY
+> +
+> +Closes: https://github.com/lxc/lxc/issues/4641
+> +Signed-off-by: Joonas Niilola <juippis@gentoo.org>
+> +Upstream-Status: Backport [https://github.com/lxc/lxc/commit/511e4db8f2a5b47cdd41eef482647492ce5b0f77]
+> +---
+> + meson.build | 2 +-
+> + 1 file changed, 1 insertion(+), 1 deletion(-)
+> +
+> +diff --git a/meson.build b/meson.build
+> +index 637ee9873..a6bb21a94 100644
+> +--- a/meson.build
+> ++++ b/meson.build
+> +@@ -557,7 +557,7 @@ foreach ident: [
+> +     ['move_mount',        '''#include <sys/mount.h>'''],
+> +     ['openat2',           '''#include <sys/types.h>
+> +                              #include <sys/stat.h>
+> +-                             #include <fctnl.h>'''],
+> ++                             #include <fcntl.h>'''],
+> +     ['open_tree',         '''#include <sys/mount.h>'''],
+> +     ['personality',       '''#include <sys/personality.h>'''],
+> +     ['pidfd_open',        '''#include <stdlib.h>
+> +-- 
+> +2.34.1
+> +
+> diff --git a/recipes-containers/lxc/lxc_git.bb b/recipes-containers/lxc/lxc_git.bb
+> index 04db2ac0..0b6cbb75 100644
+> --- a/recipes-containers/lxc/lxc_git.bb
+> +++ b/recipes-containers/lxc/lxc_git.bb
+> @@ -46,6 +46,8 @@ SRC_URI = "git://github.com/lxc/lxc.git;branch=stable-6.0;protocol=https \
+>  	file://tests-our-init-is-not-busybox.patch \
+>  	file://0001-template-if-busybox-contains-init-use-it-in-containe.patch \
+>  	file://0001-build-Check-if-P_PIDFD-is-defined.patch \
+> +        file://0001-meson.build-fix-openat2-include-typo-fix-with-glibc-.patch \
+> +        file://0001-meson.build-fix-open_how-include-with-glibc-2.43.patch \
+>  	file://dnsmasq.conf \
+>  	file://lxc-net \
+>  	"
+
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#9654): https://lists.yoctoproject.org/g/meta-virtualization/message/9654
+> Mute This Topic: https://lists.yoctoproject.org/mt/118310834/1050810
+> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
 
