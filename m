@@ -1,115 +1,121 @@
-Return-Path: <hjadon@cisco.com>
+Return-Path: <jonas.gorski@bisdn.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA61310ED659
-	for <webhook@archiver.kernel.org>; Fri, 27 Mar 2026 11:06:08 +0000 (UTC)
-Received: from alln-iport-3.cisco.com (alln-iport-3.cisco.com [173.37.142.90])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.70306.1774609566829111874
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 29F2010ED67F
+	for <webhook@archiver.kernel.org>; Fri, 27 Mar 2026 14:07:00 +0000 (UTC)
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.74027.1774620419032728176
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 27 Mar 2026 04:06:07 -0700
+ Fri, 27 Mar 2026 07:06:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=JBJva2Bj;
- spf=pass (domain: cisco.com, ip: 173.37.142.90, mailfrom: hjadon@cisco.com)
+ dkim=pass header.i=@bisdn-de.20230601.gappssmtp.com header.s=20230601 header.b=uiouZkRy;
+ spf=none, err=SPF record not found (domain: bisdn.de, ip: 209.85.221.52, mailfrom: jonas.gorski@bisdn.de)
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-43b8ebe6bd1so86255f8f.2
+        for <meta-virtualization@lists.yoctoproject.org>; Fri, 27 Mar 2026 07:06:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=1149; q=dns/txt;
-  s=iport01; t=1774609566; x=1775819166;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=NGvfFx9muShtyXf7zjCtMnLGEvqel/2wFUG+1F3m6UM=;
-  b=JBJva2BjkPYTxQ/HxWa29LTpAGMZzykNxsBRUS62CQydHFABEEmm2GqB
-   0UowP9K1Q2k/dwKfcBwpmZ0RAamKDRl8bPfjv2HhZ8s1enrZ/+ABqpGbZ
-   iTHQFs9Pq/bXsoCylN0iXiq/LdmF3CzEWtQuWdkG3dHMzCRr5TQgIgx7T
-   rufSZYvX0ca2bQ1s8CJfVNVJcR5OwNKMNVrDoeKDLI7H94lg4n/n0xZGs
-   +UB/WFpPbJrVuLl3PcYTwMdRklZcI7wjH3jsk8/pJjvB2WS1Ql7GgnQ2D
-   k8eoxzgyO2Fp3AwCv72HVGj8ABiIhr2nJlmKousaD5k6hkqCy0WwuYsc8
-   w==;
-X-CSE-ConnectionGUID: bPHqK/waTJ6nAH4Fs1hm4Q==
-X-CSE-MsgGUID: caGeIEPhRmy0XsFqp8m2Iw==
-X-IPAS-Result: =?us-ascii?q?A0BEFADNVcZp/5T/Ja1agjQQGoJED4FPQ0mTWgGhDYF/D?=
- =?us-ascii?q?wEBAQ9RBAEBhQeNJwImNQgOAQIEAQEBAQMCAwEBAQEBAQEBAQEBAQoBAQUBA?=
- =?us-ascii?q?QECAQcFgQ4ThlyGXTYBRjBcRIMCgnQDtzCCLIEBhHy1CAELFAGBOIU8iBuFb?=
- =?us-ascii?q?icbG4FyhH2FEIV3BIIigQ6Bf49eSIEeA1ksAVUTDQoLBwWBZgM1EioVbjIdg?=
- =?us-ascii?q?SM+F4EMGwcFgWAPiG10bYEThAwuAwsYDUgRLDcUGwQ+bgeMSTGCNIEOpiuCI?=
- =?us-ascii?q?aEOCiiDdKFYGjOqay6YWKRZhGiBagE5RoETcBWDIlIZD45fygImMj8HAgcOA?=
- =?us-ascii?q?pNwAQE?=
-IronPort-Data: A9a23:7CUO+qk7U1Rq88gwittmnHLo5gzFJ0RdPkR7XQ2eYbSJt1+Wr1Gzt
- xJODDzUPqvYYWv3edpzbIvjoUoDsMfdnYNhTQE9+yszEltH+JHPbTi7wugcHM8zwunrFh8PA
- xA2M4GYRCwMZiaC4Errav668yMUOZigHtLUEPTDNj16WThqQSIgjQMLs+Mii+aEu/Dha++2k
- Y20+Za31GONgWYubDpPsfzb9nuDgdyr0N8mlg1mDRx0lAe2e0k9VPo3Oay3Jn3kdYhYdsbSq
- zHrlezREsvxpn/BO/v9+lrJWhRiro36YWBivkFrt52K2XCukMCdPpETb5LwYW8P49mAcksYJ
- N9l7fRcQi9xVkHAdXh0vxRwS0lD0aN6FLDvK0CfqO/U0ET6USXq6tUyIlpvPYhEw7MiaY1O3
- aRwxDEldBuPgaeyhbm8UOQp351lJ8jwN4RZsXZlpd3bJa95GtaYHOOQuIIehWtg7ixNNa62i
- 84xaThmYBPGSxZOIVwQTpk5mY9Eg1GgKm0J8gvO+fJfD277xwVe3ZnACNrvf83Sdd57h17Io
- zjn4DGsav0dHJnFodafyVqpi/PG2D36Qp4PHbm55Pd2gVqV7mgSEwENE0q8quW+klS5Wd9UN
- woT4CVGkEQp3FagQt+4W1izp2SJ+0dFHdFRCOY9rgqKz8I4/jqkO4TNdRYZAPROiSP8bWVCO
- oOh9z8xOQFSjQ==
-IronPort-HdrOrdr: A9a23:MNPtQah9jihj1e2JlzmgN+4oIXBQXtEji2hC6mlwRA09TyVXra
- +TdZMgpHrJYVkqOU3I9ersBEDiewK/yXcK2+ks1N6ZNWGM0ldAR7sN0WKN+VHd8lXFh41gPW
- MKSdkYNDU2ZmIK6frH3A==
-X-Talos-CUID: =?us-ascii?q?9a23=3Asfv3UGlJKznrivCt10hoR+Un1iPXOXfl7G7zZFC?=
- =?us-ascii?q?xNUQ3TpS1FXGLoaNhz/M7zg=3D=3D?=
-X-Talos-MUID: 9a23:rrIcFgbtQIBvOuBTvDbDiRBPDMdS5rX2OFsjiI1WvpOlKnkl
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="6.23,143,1770595200"; 
-   d="scan'208";a="718921340"
-Received: from rcdn-l-core-11.cisco.com ([173.37.255.148])
-  by alln-iport-3.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 27 Mar 2026 11:06:05 +0000
-Received: from sjc-ads-21441.cisco.com (sjc-ads-21441.cisco.com [10.128.164.182])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by rcdn-l-core-11.cisco.com (Postfix) with ESMTPS id 92BD718000279;
-	Fri, 27 Mar 2026 11:06:05 +0000 (GMT)
-Received: by sjc-ads-21441.cisco.com (Postfix, from userid 1879343)
-	id 507EACC1288; Fri, 27 Mar 2026 04:06:04 -0700 (PDT)
-From: "Himanshu Jadon -X (hjadon - E INFOCHIPS PRIVATE LIMITED at Cisco)" <hjadon@cisco.com>
+        d=bisdn-de.20230601.gappssmtp.com; s=20230601; t=1774620417; x=1775225217; darn=lists.yoctoproject.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=rLaJ7zPCMq1TsrO+wBJgYDEGG1iy4taK29GLRJh9i6Q=;
+        b=uiouZkRyu2QF73VUH9cyMmnKAM/t5LymuweuTv362tKNLXB827k4BYtklnM3kJ71dr
+         ZZMh7/Fpocrxonw0ZfpOS7j8tssmqBi6g62ipo8fFu0oTcECESEWL2jeQ5SOW5+gO4Zb
+         bhZ35EA/ht8Uh0tZwQ1l9RPrdQVt44f0thdWS8EnlyAtSgRkCDA1ifL5NgVHN/zq6DOF
+         PE+qLkeqkUYsgh0dzhup5pXrOl33Mv7uiji85N3/b2a1U1dxM56S1lBhw1rc8UWWdfGN
+         cMmYHoCJBMBIQd9IDMEOu8llJLBKdGxeE1alrwL0K/t+GEMYrszeK1Klj6OQkPnz9Ovu
+         UYJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774620417; x=1775225217;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=rLaJ7zPCMq1TsrO+wBJgYDEGG1iy4taK29GLRJh9i6Q=;
+        b=rsVfadn18kLvqVXmAT1wrkEMgEFMgqyfZjcrXGVgcmKX7khRfaAw5s3ERKYA2Rvc7W
+         jQuNiY2QIFMptdceocWzOn/T4dd/9o83wW7WSQseb6DQ4ahtutB8BqhJcPUsHwguF6zb
+         mBShZIhs1XuaT8bvqJhjQIFjn/O+k/HPxVrCuUmDNopJO6ekQMvmwiA8IT6g/7Px4OaI
+         8mXTZVOUU/cFWyT94B7DKcgASzuSjQV3mn5SVM2Zp2LQ+uk6EJlWemS63ReQuiKEBE+N
+         b6Hg8QHVnUPBxx/VDL+hbVWynJN3LSKx0B6/LhhfszWhSupRUdDZgARW5xhrrl7rh13l
+         ZB1w==
+X-Gm-Message-State: AOJu0YzdVRg/z3SZCcjqSZUGim92Rl1w5VlY3QFQtMNKjU1enBmLJSIt
+	mtIKwMbNUTA16YVeGa2KlXwb9WKI0EjldlGgSXWjhrKNYRl21lTrikmAJoKPmer6/cZ6KyVK6lF
+	1XQvomgIZ+auSH8wBsFn4h2sqQeX7ALt3aMLkhlzdrFyZUKlPz5XTHThDSRSzLQyXbWMaF5R3pK
+	r/wB47M3oYdd2G7CC6Cw==
+X-Gm-Gg: ATEYQzzkERPyRuXohLKgStYWWuboxq9Pbsiyv3g5nG5jOVoOpjjzorBCwQbGYv8N7pG
+	Y1kHjek2aqxpTKPgK86C4J6K2Qb+Y/A9oX7YbyJTRqZYBvvpcGnXiuHaDwAFVJPhWycTIW1qElK
+	M1sKGgsch0gvC1D5IA/K+dz3SYdEhOkNSSJVeG3ubmE4efEaNZzvwkn5+QbD9Bjkco7dRjJ7efZ
+	Y/UZJvb6gruMg3uLui9TN51bh/CMyqSYL49OOO9G3H1u2kHG4kGaoWlMEKMd9R4V36GBP361GO2
+	xn15A48wtgnd7dCT3j2/x/0g6TAVeoZIunT43Hic0hnR3Oc2Biem6TaIhkkIUOSXFGmaNoiGKkV
+	T2UsXCBCD9lgHWhN5iyfRlKALjCF4afi+wlzaL2KNBn+ycrPTgoLqGzr0xwIgMZfwql2sqoFKRl
+	tImH1P6eu5SD6Kmeew1ajjUOf2kdYNH3z3NXIEYhev7eZHiE0dPwNK78KaUctyKNYOcyo8gVqh/
+	Mxesz3aAppXh/qu
+X-Received: by 2002:a05:6000:2b0e:b0:43b:9df3:a1d1 with SMTP id ffacd0b85a97d-43b9ea59ab1mr1430940f8f.8.1774620416962;
+        Fri, 27 Mar 2026 07:06:56 -0700 (PDT)
+Received: from localhost (dslb-002-205-018-238.002.205.pools.vodafone-ip.de. [2.205.18.238])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43c9876ffafsm224779f8f.37.2026.03.27.07.06.55
+        for <meta-virtualization@lists.yoctoproject.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Mar 2026 07:06:55 -0700 (PDT)
+From: Jonas Gorski <jonas.gorski@bisdn.de>
 To: meta-virtualization@lists.yoctoproject.org
-Cc: vchavda@cisco.com,
-	xe-linux-external@cisco.com
-Subject: [meta-virtualization] [master] [PATCH] containerd: Add CVE_PRODUCT to align with NVD CPE
-Date: Fri, 27 Mar 2026 04:06:00 -0700
-Message-Id: <20260327110600.2686287-1-hjadon@cisco.com>
-X-Mailer: git-send-email 2.35.6
+Subject: [meta-virtualization][kirkstone][PATCH 0/4] runc: update to 1.1.15
+Date: Fri, 27 Mar 2026 15:06:36 +0100
+Message-ID: <20260327140640.126833-1-jonas.gorski@bisdn.de>
+X-Mailer: git-send-email 2.53.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Outbound-SMTP-Client: 10.128.164.182, sjc-ads-21441.cisco.com
-X-Outbound-Node: rcdn-l-core-11.cisco.com
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="ISO-8859-1"
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Fri, 27 Mar 2026 11:06:08 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9676
+ <meta-virtualization@lists.yoctoproject.org>; Fri, 27 Mar 2026 14:07:00 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9677
 
-From: Himanshu Jadon <hjadon@cisco.com>
+runc has been stuck at 1.1.4 for long while in kirkstone, and the last
+attempt at updating it had to be reverted.
 
-`CVE_PRODUCT` has been set to `linuxfoundation:containerd` to align
-with the product naming defined in the NVD CPE database for
-`containerd`.
+In order to reduce the amount of open vulnerabilities, update it to the
+latest 1.1 release, 1.1.15, by first updating it to 1.1.12, which was
+the last 1.1 release in master, then updating it to 1.1.15.
 
-Only a single CPE entry exists in the NVD for this product:
- `cpe:2.3:a:linuxfoundation:containerd`
+To keep the amount of patches short, I squashed the cherry-picked
+updates from master to a single patch each.
 
-The NVD references for this CPE confirm that it corresponds to the
-source code used in our recipe.
+In case anyone wonders, runc-opencontainers and runc-docker were at
+different commits before they were both bumped to 1.2.0-rc2, which is
+why their diffs looks different.
 
-Signed-off-by: Himanshu Jadon <hjadon@cisco.com>
----
- recipes-containers/containerd/containerd_git.bb | 3 +++
- 1 file changed, 3 insertions(+)
+I runtested runc-opencontainers, and compile-tested runc-docker.
 
-diff --git a/recipes-containers/containerd/containerd_git.bb b/recipes-containers/containerd/containerd_git.bb
-index d69518d4..51d7c2e2 100644
---- a/recipes-containers/containerd/containerd_git.bb
-+++ b/recipes-containers/containerd/containerd_git.bb
-@@ -105,3 +105,6 @@ RDEPENDS:${PN} += " ${VIRTUAL-RUNTIME_container_runtime}"
- ## configured in the distro, since we may have collisions.
- CNI_NETWORKING_FILES ?= "${UNPACKDIR}/cni-containerd-net.conflist"
- inherit cni_networking
-+
-+# Add CVE_PRODUCT to match the NVD CPE product name
-+CVE_PRODUCT = "linuxfoundation:containerd"
--- 
-2.35.6
+Jonas Gorski (4):
+  runc-opencontainers: update to 1.1.12
+  runc-docker: update to 1.1.12
+  runc-opencontainers: update to 1.1.15
+  runc-docker: update to 1.1.15
+
+ ...spect-GOBUILDFLAGS-for-runc-and-remove-re.patch | 14 +++++++-------
+ recipes-containers/runc/runc-docker_git.bb         |  4 ++--
+ recipes-containers/runc/runc-opencontainers_git.bb |  4 ++--
+ 3 files changed, 11 insertions(+), 11 deletions(-)
+
+--=20
+2.53.0
+
+
+--=20
+BISDN GmbH
+K=F6rnerstra=DFe 7-10
+10785 Berlin
+Germany
+Phone: +49 30 610 816 100
+Managing Directors:=A0Dr.-Ing. Hagen Woesner, Andreas K=F6psel
+
+
+Commercial=20
+register:=A0
+Amtsgericht Berlin-Charlottenburg HRB 141569 B
+VAT ID No:=A0
+DE283257294
+
+
 
 
