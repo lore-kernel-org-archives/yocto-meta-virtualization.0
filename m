@@ -2,65 +2,65 @@ Return-Path: <jonas.gorski@bisdn.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F46010AB83D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C29310BA434
 	for <webhook@archiver.kernel.org>; Fri, 27 Mar 2026 14:07:10 +0000 (UTC)
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.73163.1774620422546324336
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.73165.1774620423773991033
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 27 Mar 2026 07:07:02 -0700
+ Fri, 27 Mar 2026 07:07:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bisdn-de.20230601.gappssmtp.com header.s=20230601 header.b=GGAnmrEH;
- spf=none, err=SPF record not found (domain: bisdn.de, ip: 209.85.221.44, mailfrom: jonas.gorski@bisdn.de)
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-43b3a5973e7so243331f8f.0
-        for <meta-virtualization@lists.yoctoproject.org>; Fri, 27 Mar 2026 07:07:02 -0700 (PDT)
+ dkim=pass header.i=@bisdn-de.20230601.gappssmtp.com header.s=20230601 header.b=Z7Mwn/zI;
+ spf=none, err=SPF record not found (domain: bisdn.de, ip: 209.85.221.46, mailfrom: jonas.gorski@bisdn.de)
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-439b1cf1212so93750f8f.1
+        for <meta-virtualization@lists.yoctoproject.org>; Fri, 27 Mar 2026 07:07:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bisdn-de.20230601.gappssmtp.com; s=20230601; t=1774620421; x=1775225221; darn=lists.yoctoproject.org;
+        d=bisdn-de.20230601.gappssmtp.com; s=20230601; t=1774620422; x=1775225222; darn=lists.yoctoproject.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=S9N08f3vmn/IOKiyJhq/Wb9pZvHXew/339A49i022Ig=;
-        b=GGAnmrEH4KvHONMGYw1swPODMOYIhfMjGfMJF8OmJV4ody221kdgw4HN/qoNoIC4yq
-         /9u8LOVPNVfigGYTfsk8w8oHMX0ZP4Y+isUH5bVFwP+LDkGM3Xbf4k9GGKUZqNjKVQiO
-         xKgKKYbEAtZbOZDA+0I5QqEy4xZqI6xdlIrX+ovhFOQ01kxexjHES2Uh5QhIHE7GD6tN
-         JrQBMSAuOc+QmtzwXgn8alhzJfCujAirRVgtp+nOCrvNdBmmPea0tYmKPrG3yh6b1Uqe
-         noAXJYHwr9qZ30Yn8u85A4d0pOPVUMhhsduvexDN5SCt02HIoEX7CESiz4aV9hbrJnlx
-         9tYw==
+        bh=2l2UHAW4h/dkR2RFrOQ6d7GaBiLgwqmCYdITTv3c1lE=;
+        b=Z7Mwn/zIS7sQMkKmim/L+He87SLo2lW7SJ2PzRs7wGoRdAtbploqF3FeXIVQiyUeMf
+         2GAnCCGvmDJ9zR1ZERIsewNEQHSW1sQImMeUKAo+qveyC/2+AeNo2YZ/3zs2NYfEWkRl
+         FK3t4TAscyVqD68HZo/4RwV12CBQwQAt70Sw9ngdAX+bYyZ3MNmjX7VKePvYjNBXMI/i
+         wm5i5ant/gyMLR9u1GcCGVnD5fYRVkTkt651brhumr+P0PU30sWxek3ix8CRLUHTdICl
+         Svc2WqvdBqYiKDq8Wd5CxO70YXv+oLav37sydHajsxThesITRmdHF9kIGkWcxAH1IpME
+         kRdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774620421; x=1775225221;
+        d=1e100.net; s=20251104; t=1774620422; x=1775225222;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=S9N08f3vmn/IOKiyJhq/Wb9pZvHXew/339A49i022Ig=;
-        b=JPMOLYsN5rVMiJ4lhVOaobKfcOyio9NxPwrxouKKotOcv48QyBbfPJWgStA8Ph/s1S
-         ycTpFmJaSeg7saqfWUvl/wb6Om+XGfprgIzg9KpbKBaX7KIScflk8L4x7f1RQWFIO20A
-         OMaDYMGaAdTd8VRjMCwuB9G7QMrOIgod9DxYTzY6T1vCL4/Iq1LuQYMbAsKOq+zbLcDi
-         bv35ntGOIkfhxcmDNhLwWiIJNBWdhu7aVRWG7X9NpquR78sgtR23zT8f3tZNehFiYTGX
-         RLg2iiWhF1OKeGrpAhp6z8NYosqdeSUxLzFd3iwdKE1+GCIoPTDucbvM/DzeR0kxmFzP
-         NBzg==
-X-Gm-Message-State: AOJu0Yz5PzEPgpqRkRYclniW4oojQuAlOR5hgxQBjVmwctulvceh8WQM
-	GbuBACVxj6gDh4cXGbgDTRpJ5lvJU9XdentvdVTErEjZr8Y70WWzJz7Jh4NZrQvNJmHo1leJBXz
-	gp7bn6X51oDGf4564SVAPTJNQLZNB9s33HWjMuy4L4A6i3wO/D/YcXRGf6u+YHDpHYiC0+b4KdJ
-	TU2qG/pqK6QLSRtVnm5w==
-X-Gm-Gg: ATEYQzx1cH9blwMFraqa9c+qIR2dsXxYSCYtzMYDMT7JhloHRkUj2IpcdgTQsCzhSN7
-	INVXuVOUPrNm8UJRYPDAlBt1M8ODtO75OACeT6x2j1Jd0AwONEY3aMsSab4ml/6JLkn9tj4NPTM
-	9fqXW6oEYAOxf3nJVDqVQRlAv2uWscvOwOHn/szbZpKpW6b4LFMoz7Sz3aQPk/bt8zro2Xh61tD
-	MeQ6SflTvBhp7eJr24BZmKuh29v20hr8B4ep7mzORo75+bKBymjHEbn/W1hUNhZnHz3qs7DjxDe
-	IdakWAj90hWUix1UcV/wBd1uI7MRJ2DHJo9fqgjDyTrzIiVzzhd+xbqqxn99SBgTQor22vCRqz1
-	XmoTn/moPvfDRrDxIvXCyR9k4B2xaKWjDYgEJXdlX3Fq89xOnOaMPA44EO1xHpGxUJ2MO0PFn4F
-	6xN67c0HuN0vGBJOX8huQhusGoZzHN9jJBd8fkbKnIWmfTAisEG+Of9rRwUGAc5qODHRUouefSE
-	b3koA==
-X-Received: by 2002:a05:600c:5251:b0:487:22de:25 with SMTP id 5b1f17b1804b1-487283d4939mr23754155e9.7.1774620420822;
-        Fri, 27 Mar 2026 07:07:00 -0700 (PDT)
+        bh=2l2UHAW4h/dkR2RFrOQ6d7GaBiLgwqmCYdITTv3c1lE=;
+        b=cNcsTiTZdwnZspL7DlWSH6TYLx8ZIY/XY+JqlkbD5d17mlzcyKxZA+7+HWjMpw87Az
+         oQCn4N1rVb1HY8rb7/XwtbeLs3f5ryvt3eQ/F8+DKo5yha5aHvGrtNAzc/mAnt/CaRBZ
+         aLAN11IySAdTEShENK0wd5c5Od766aknsjCbK3lb31Gu2VKQPoLH9wUfTvMcVnjXS9Wo
+         RmG6z5zPL5mTzM3AcTHX32AJ9IoHQVYZFhpdKw3stTUb231YgXHG2MQjDXhkr7E/XhIz
+         5bYegOJzS10AAcomrDgvIKGsoOHA+m32EJuTl/LEumUx6wCI2uhM0LIqP7ZR88ue3qYB
+         k6oA==
+X-Gm-Message-State: AOJu0YwxlZjyJHovEdq7llvDZzz6Xv+rfmjZ6MqfRNcF5PxjBAhqXKXc
+	o81Y+RN5in8qdXwVAw20Oi3mwTwquytzTDSFfUfDEMMt7wDARSlsVfUtQq7+z/VOtqcVOenSD06
+	ap19OTy2VQZ9fEdEPIFuIkNCznELdxFtUzDe+ac/JnYl1vXc2U7fSGU+idgt6zY6UZWrl0aePLT
+	VTRg5iRIlbAq0TzTX80w==
+X-Gm-Gg: ATEYQzz29SMH4VyyaU3+PNSa05FbYZoDaaUJJqULN2Z4ufjPmdzNCWS32v1DxuKam1E
+	8N3h4GOoJACPa3DlkVfN91HnS5Vb2HQGbCvpp05fVTniBYymqmrD8xMmHa6thKGKmSW3oAYbjbH
+	TiPziVJ4KaJ7Ho3s1eLgCIB+PPFWc9S2pgHFDMHHmk5JEB3n9GVFlA7hyBpI8AL6nN9uJXhawfJ
+	hYTdbcV1PTT3Zo3Rqj4rj8p9f0vhSb7RXRUfoAqS/IPfHYmc9VJ7FUMr2j3wGna9XByLXLDb1Em
+	SuuyOtp3qUKv3yRZR4XlGE748t+fnaEXcke8osIZYvo+DeTwMthRkx1HbCNV74QWOYX/L/po1C3
+	IHodqg+Of4XM3SzwICctbar4/ZDSUKeXHbZ6OFIucK84eoaniSFrSEq+ZkVD+eQdVGidvndMABq
+	LIyGxR7asLQHPRNtTgpOuJQWCdKr/K8XgbYDRbRObvRhoCuSkJZYF5c8R74hX3FeNjkuqd5BKuH
+	bGXbw==
+X-Received: by 2002:a05:6000:230d:b0:43b:6559:f14c with SMTP id ffacd0b85a97d-43b9e987efemr2128115f8f.2.1774620422046;
+        Fri, 27 Mar 2026 07:07:02 -0700 (PDT)
 Received: from localhost (dslb-002-205-018-238.002.205.pools.vodafone-ip.de. [2.205.18.238])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b9192e35esm13804062f8f.6.2026.03.27.07.07.00
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b9192e35esm13804200f8f.6.2026.03.27.07.07.01
         for <meta-virtualization@lists.yoctoproject.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Mar 2026 07:07:00 -0700 (PDT)
+        Fri, 27 Mar 2026 07:07:01 -0700 (PDT)
 From: Jonas Gorski <jonas.gorski@bisdn.de>
 To: meta-virtualization@lists.yoctoproject.org
-Subject: [meta-virtualization][kirkstone][PATCH 3/4] runc-opencontainers: update to 1.1.15
-Date: Fri, 27 Mar 2026 15:06:39 +0100
-Message-ID: <20260327140640.126833-4-jonas.gorski@bisdn.de>
+Subject: [meta-virtualization][kirkstone][PATCH 4/4] runc-docker: update to 1.1.15
+Date: Fri, 27 Mar 2026 15:06:40 +0100
+Message-ID: <20260327140640.126833-5-jonas.gorski@bisdn.de>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260327140640.126833-1-jonas.gorski@bisdn.de>
 References: <20260327140640.126833-1-jonas.gorski@bisdn.de>
@@ -71,7 +71,7 @@ List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <meta-virtualization@lists.yoctoproject.org>; Fri, 27 Mar 2026 14:07:10 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9680
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9681
 
 Bump runc to to v1.1.15-2-g068337925cd4:
 
@@ -177,28 +177,45 @@ ted
     09214f21da8e list: getContainers: less indentation
     007abf31f87a Merge pull request #4270 from akhilerm/backport-1.1-4269
     6f4d975c402d allow overriding VERSION value in Makefile
+    e8bb71e147d6 Merge pull request #4257 from sohankunkerkar/release-1.1
+    6379b58d9701 libcontainer: force apps to think fips is enabled/disabled=
+ for testing
+    5bfff6ae24d0 Merge pull request #4261 from kolyshkin/1.1-4256
+    265e73718063 Vagrantfile.fedora: bump Fedora to 39
+    b0691cafe392 Merge pull request #4244 from kycheng/chore/net-cve
+    59056a0213e7 silence security false positives from golang/net
+    148fdabd7053 Merge pull request #4241 from kolyshkin/1.1.13-ci-fixes
+    452bf88ebf5b build: update libseccomp to v2.5.5
+    3fada6eca4e6 tests/int: fix flaky "runc run with tmpfs perm"
+    aae41a4b79d3 Fix integration tests failure when calling "ip"
+    82a8b979ef1a update go version to 1.21 in cirrus ci
+    03271050eb94 ci/gha/cross-i386: pin Go to 1.21
 
 Signed-off-by: Jonas Gorski <jonas.gorski@bisdn.de>
 ---
- recipes-containers/runc/runc-opencontainers_git.bb | 4 ++--
+ recipes-containers/runc/runc-docker_git.bb | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/recipes-containers/runc/runc-opencontainers_git.bb b/recipes-c=
-ontainers/runc/runc-opencontainers_git.bb
-index 48a64f20d7cc..0007798593cb 100644
---- a/recipes-containers/runc/runc-opencontainers_git.bb
-+++ b/recipes-containers/runc/runc-opencontainers_git.bb
-@@ -1,10 +1,10 @@
- include runc.inc
+diff --git a/recipes-containers/runc/runc-docker_git.bb b/recipes-container=
+s/runc/runc-docker_git.bb
+index 8d078e852642..16bc6639c452 100644
+--- a/recipes-containers/runc/runc-docker_git.bb
++++ b/recipes-containers/runc/runc-docker_git.bb
+@@ -2,13 +2,13 @@ include runc.inc
 =20
--SRCREV =3D "e8bb71e147d6044f57dfb5d4da619cf27f830c48"
-+SRCREV =3D "068337925cd4286782c1c576132590992cc8c728"
- SRC_URI =3D " \
-     git://github.com/opencontainers/runc;branch=3Drelease-1.1;protocol=3Dh=
-ttps \
-     file://0001-Makefile-respect-GOBUILDFLAGS-for-runc-and-remove-re.patch=
- \
-     "
+ # Note: this rev is before the required protocol field, update when all co=
+mponents
+ #       have been updated to match.
+-SRCREV_runc-docker =3D "a9833ff391a71b30069a6c3f816db113379a4346"
++SRCREV_runc-docker =3D "068337925cd4286782c1c576132590992cc8c728"
+ SRC_URI =3D "git://github.com/opencontainers/runc;branch=3Drelease-1.1;nam=
+e=3Drunc-docker;protocol=3Dhttps \
+            file://0001-runc-Add-console-socket-dev-null.patch \
+            file://0001-Makefile-respect-GOBUILDFLAGS-for-runc-and-remove-r=
+e.patch \
+            file://0001-runc-docker-SIGUSR1-daemonize.patch \
+           "
+=20
 -RUNC_VERSION =3D "1.1.12"
 +RUNC_VERSION =3D "1.1.15"
 =20
