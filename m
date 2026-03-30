@@ -2,148 +2,121 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DB3A1061B1D
-	for <webhook@archiver.kernel.org>; Mon, 30 Mar 2026 19:36:11 +0000 (UTC)
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.3969.1774899367052757556
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46BB81061B1E
+	for <webhook@archiver.kernel.org>; Mon, 30 Mar 2026 19:38:41 +0000 (UTC)
+Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.4059.1774899517717041435
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 30 Mar 2026 12:36:07 -0700
+ Mon, 30 Mar 2026 12:38:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=RY3JlxSt;
- spf=pass (domain: gmail.com, ip: 209.85.222.177, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-8cd77786e97so490924185a.3
-        for <meta-virtualization@lists.yoctoproject.org>; Mon, 30 Mar 2026 12:36:06 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=fxmxijao;
+ spf=pass (domain: gmail.com, ip: 209.85.222.181, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-8cfc1aced74so842557285a.2
+        for <meta-virtualization@lists.yoctoproject.org>; Mon, 30 Mar 2026 12:38:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774899366; x=1775504166; darn=lists.yoctoproject.org;
+        d=gmail.com; s=20251104; t=1774899517; x=1775504317; darn=lists.yoctoproject.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=/c1pDvWEunsbaf9/7/02DEotXIYlfsDcVkF/pSPRIpk=;
-        b=RY3JlxStaQBcfq7Fu9JA0QtKubtDBTO69j/AJctO5MYm6u1fG4044S50JoZ+DhsywH
-         Ta32u8wKK1RXYKXJ2g+03LRk55SE69Xd1oc0iX9wbsaQAtkbyH8dlWKnODgjkoRF1+3J
-         8NMgpsFeSLi6+odt7DIWFFB6iYxeQvHLsqye1ZR1aUtup+0HsmFO9jKPBnfbTKjAZOZF
-         RtJ6Xf/vUY9Bw3RuqRN4+/QCBY+O2jO09f1kAC9Ow2It8MWHQTGSCfBLhePnFrBtCeLD
-         yGMKwG05inbu0gW8GsoKY47MfWPzMi4rhR/7TN8VtmJMb0b899W1NbVpk09z8o9jBvf1
-         R0DA==
+        bh=zzYmzO2c/dE3SRmDYgwaMwje9tipyx+L4+DBAGL4YiY=;
+        b=fxmxijaovfSZZfEZBAdtlDs0W9hgcVHqQJvGc0coXu2M1By0pDXM0AGmu3FuvTnoQM
+         wI1aloLjYt61KhQYSC5ietgYaw4MIRCAKX1vt4VYcCVInPfQM7wAYYbWKQ+mm+oWr5ty
+         NFFWcf6/nFOnJ3hJrSx2ndoXVGvj9mqPdbv5MSmsuWY3IyQMlXUkjclPuFhWFxGXpSFT
+         NhsT8+wE2YuUd4bfgFBev10fCC8mQ5V0wpXjfSWN3pAO/18FTmpJVJzyQy1WyG5tX8iI
+         d8+lHDGyIZJ6n5MCTTKmeGbMv4kFrmW+5g3JCDfxJC6V6mKDfwsLIBz0ZC2JfSFNea8N
+         Agqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774899366; x=1775504166;
+        d=1e100.net; s=20251104; t=1774899517; x=1775504317;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=/c1pDvWEunsbaf9/7/02DEotXIYlfsDcVkF/pSPRIpk=;
-        b=Cb9FBQTVuSXrerLlrJIdfqpK25YAGnZPmEr1o1MRDaVYrNLE4W8+2RoFcjj8C/aIjN
-         jBYUmqbibu4WDUePSqPUdmIlx4kXD+kzY6EEs/me2FyILhhLsK6cxq9ch+URJKkOdfUI
-         yKkUryobzqNrveVKqWHZgaVnpaUl4Mb4x8J1hsVcRMU6kqEbbUq1uxDuqOsyQzUO4o7k
-         1jM6sBDmOrLpCTUDyXi8cxOrgISbUjgDtHuxt2cAUpIhDJ+3kG+3EBVeqARm0miaW59H
-         F5hrIU008MoRfAIxEi0i+6VNSBv0MXlAo1YgY28t9B/B0TtvbiawI4NT0M37uX6TtLYD
-         qOuQ==
-X-Gm-Message-State: AOJu0YzZWIBpHAU5oiNztv0cc1rt5h2FTkt7WnLxI/+2CpbxBLUrFDxY
-	2k5+6vAEWMGUfOARM0GhxkErCrNo+AYqHWXkCtnUtUIpJXWpuegmZvwB
-X-Gm-Gg: ATEYQzx3V+LKYDlecMNBc15uCgUGggazYSCisJEJKdup6kg0LRBUjby8T6vXHFDewQQ
-	3Q1OhgHgVRmlSHiX/QQ1fkqws7Tkf3mAcwD0jixD/fjtOcFrW48WD8ntdPvxM3TUegXEg5ByRvO
-	GARjpwIUITCaIh8pV8xD4NdA5rtM5Mr8vLWno+NJKJIaiGOnoV5r7Ct8LUqQyfG6gkjGehb4lac
-	1LgSbs44KM/S/EKg/UPmmcOUA10jcqgxn3LDO36SSzGM9X+25ZfXQnwalDbjt+cDi35b7DabEOX
-	gOKTbjHQur0ApAp1TksCS0hnMEtIhXZ3ao/dRVz0l2D4fgaRjU6qCg9fU5jPh2GD5aIaPQAsHGh
-	FCdriuZGO/5Qvn7cR1kaBfAstewJdC9OkTGotSLsxM7ELVICPv5Zr8VICeeVAO9wL5GCfzFNi+D
-	ex8tKTZhy0sBPwlsn+eSc1cRsr8htNxbPlQi03s/2nYgMQJwMuRD5DZqwj4I/6SrJg7KN2BhOdk
-	Jm/2Bp+L/hM4a0FajuayQ/MBYdyf9xUhzis
-X-Received: by 2002:a05:620a:2954:b0:8cf:cee2:e407 with SMTP id af79cd13be357-8d01c666022mr1937826585a.28.1774899365957;
-        Mon, 30 Mar 2026 12:36:05 -0700 (PDT)
+        bh=zzYmzO2c/dE3SRmDYgwaMwje9tipyx+L4+DBAGL4YiY=;
+        b=R+9Yfzr5z/scd7difpuM7V5YZSKyDBP7SoybOCG93WIBeKMeeQsZed3IQH+5RB/PxX
+         H5M6pYSPtIWO6ONXi9/+CUqgYA7Qa2DkkXgscBORsTxqzKpqxlsO9KxCJU3ha29GuWgv
+         6toU6NnZd/npPRhUj90Bnatket4lWusPpoBwlzwn/gmtyPpQEcEKPVBQIZ3kJ3l2AJ6L
+         0iLl6E8SmmVdHAA5vy6rshzFj36n3L0gi2Znma3qUXoKBX9894YClLRQzTFXUVCPIvrb
+         plAG7FM9z+47x44eSagyWB/uUhul1vaQbyilgNJ/+ObHMbxOYZx6J1ZYygDC9u+vwToi
+         WHVw==
+X-Gm-Message-State: AOJu0Yw7OnCn9oP757NQIhykxVJgmcoDIHRhiHcDxqMHBT7rU4CarBMa
+	2BZnNjVo5J7hK/s/RorKi6JLSgZ1Lv65hEOhaMNvHKSJOvQqiPfewbgayBd+RetC
+X-Gm-Gg: ATEYQzx5hFWQ4wd8JWBgLsb0AgVqk69DEEfg5zr65mJSXIw1Jxh2TbffWdwn6e4W5KZ
+	t6N4RaXStr/xM5cmgOmtZ3F+ILlfD3JPtETnOxUstn8WrcHgx+S9etMd24RlnuIQY65N4YOa6Jf
+	OOmprYOIrONmAJJtElhnc4lpzz2T4ObVluntcoWpRQ1pixbUg8cB6BFQSDySKavH9lynWeQ40cL
+	eRg4//4M1xRdRPpMWKmgKgyppvtek7XWGwSnY+qzT3Ud+ryyVV0CGozUK8gISa0pp63pTzql7hK
+	+l19DDh0Hys9SGpCHzv8sbFSIkGj770WV+NiAu1G3qc8WGddSU7Da/HPMSZeNUJ51E6dewjA3hx
+	LbsL3hPTq3FoPkC3jV9JtQ+brdfK9upq5FlIpcNdiIqV1MRWhElu63Zh4O/Lo1xB3mN47nnhMeO
+	ViDix+I0TY+aDI+ycZu1VLB1VrBt5gMxqiNmnKXx7cFL0TNc1sy5RgTufHycjgir14t/DeMLRhI
+	Uv6ox/bHODUuTC123QoOvi5P5CfzbkNOFaL
+X-Received: by 2002:a05:620a:31a8:b0:8cf:c1c2:910 with SMTP id af79cd13be357-8d01c5ecb29mr1988478185a.21.1774899516643;
+        Mon, 30 Mar 2026 12:38:36 -0700 (PDT)
 Received: from gmail.com (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8d028041f8esm691776185a.31.2026.03.30.12.36.05
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8d027f0afd5sm652392985a.17.2026.03.30.12.38.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Mar 2026 12:36:05 -0700 (PDT)
-Date: Mon, 30 Mar 2026 19:36:03 +0000
+        Mon, 30 Mar 2026 12:38:36 -0700 (PDT)
+Date: Mon, 30 Mar 2026 19:38:34 +0000
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: youenn.lejeune@savoirfairelinux.com
-Cc: meta-virtualization@lists.yoctoproject.org,
-	Enguerrand de Ribaucourt <enguerrand.de-ribaucourt@savoirfairelinux.com>,
-	Erwann Roussy <erwann.roussy@savoirfairelinux.com>
-Subject: Re: [meta-virtualization][PATCH] ceph, libvirt, openvswitch: marked
- some CVEs as patched
-Message-ID: <acrQo0_tj86jBiT7@gmail.com>
-References: <20260316120501.1216022-1-youenn.lejeune@savoirfairelinux.com>
+To: f_l_k@t-online.de
+Cc: meta-virtualization@lists.yoctoproject.org
+Subject: Re: [meta-virtualization][PATCH] libvirt: disable netcf backend by
+ default
+Message-ID: <acrROmumFePuBYsP@gmail.com>
+References: <20260319151552.313063-1-f_l_k@t-online.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260316120501.1216022-1-youenn.lejeune@savoirfairelinux.com>
+In-Reply-To: <20260319151552.313063-1-f_l_k@t-online.de>
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Mon, 30 Mar 2026 19:36:11 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9682
+ <meta-virtualization@lists.yoctoproject.org>; Mon, 30 Mar 2026 19:38:41 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9683
 
-merged.
+In message: [meta-virtualization][PATCH] libvirt: disable netcf backend by default
+on 19/03/2026 Markus Volk via lists.yoctoproject.org wrote:
+
+> I see a failure in netcf:
+> | ./bootstrap: .gnulib/gnulib-tool  --import --no-changelog --aux-dir build-aux --doc-base doc --lib libgnu --m4-base gnulib/m4/ --source-base gnulib/lib/ --tests-base gnulib/tests --local-dir gl  --lgpl=2 --with-tests --makefile-name=gnulib.mk --libtool --import ...
+> | python3: can't open file '/home/flk/bitbake-builds/poky/build/tmp/work/corei7-64-oe-linux/netcf/0.2.8+git/sources/netcf-0.2.8+git/.gnulib/.gnulib-tool.py': [Errno 2] No such file or directory
+> | ./bootstrap: gnulib-tool failed
+> 
+> Since the code hasn't been updated in over seven years, and after reading this discussion, perhaps the best solution would be to disable netcf support by default?
+> 
+> https://lists.libvirt.org/archives/list/devel@lists.libvirt.org/message/755CCFUFUW6OTN7CAHB77H7YXQNE5WGG/
+> 
+
+Merged.
+
+I'll eventually just remove the packageconfig itself, but let's see if
+anyone notices this first!
 
 Bruce
 
-In message: [meta-virtualization][PATCH] ceph, libvirt, openvswitch: marked some CVEs as patched
-on 16/03/2026 Youenn Le Jeune via lists.yoctoproject.org wrote:
-
-> For ceph, libvirt and openvswitch, 9 CVEs were marked as "unpatched"
-> whereas they have been patched long ago compared to the versions of
-> the recipes, because the NVD database does not contain patched version
-> for those CVEs.
-> 
-> Reviewed-by: Enguerrand de Ribaucourt <enguerrand.de-ribaucourt@savoirfairelinux.com>
-> Reviewed-by: Erwann Roussy <erwann.roussy@savoirfairelinux.com>
-> Signed-off-by: Youenn Le Jeune <youenn.lejeune@savoirfairelinux.com>
+> Signed-off-by: Markus Volk <f_l_k@t-online.de>
 > ---
->  recipes-extended/ceph/ceph_git.bb                 | 3 +++
->  recipes-extended/libvirt/libvirt_git.bb           | 7 +++++++
->  recipes-networking/openvswitch/openvswitch_git.bb | 2 ++
->  3 files changed, 12 insertions(+)
+>  recipes-extended/libvirt/libvirt_git.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/recipes-extended/ceph/ceph_git.bb b/recipes-extended/ceph/ceph_git.bb
-> index 2cf1c88a..728a420b 100644
-> --- a/recipes-extended/ceph/ceph_git.bb
-> +++ b/recipes-extended/ceph/ceph_git.bb
-> @@ -192,3 +192,6 @@ INSANE_SKIP:${PN}-dbg += "buildpaths"
->  CCACHE_DISABLE = "1"
->  
->  CVE_PRODUCT = "ceph ceph_storage ceph_storage_mon ceph_storage_osd"
-> +
-> +CVE_STATUS[CVE-2017-7519] = "fixed-version: Fixed in 12.1.2, NVD tracks this as version-less vulnerability"
-> +CVE_STATUS[CVE-2020-1700] = "fixed-version: Fixed in 15.1.1, NVD tracks this as version-less vulnerability"
 > diff --git a/recipes-extended/libvirt/libvirt_git.bb b/recipes-extended/libvirt/libvirt_git.bb
-> index 63f882ee..8462c10c 100644
+> index 63f882ee..db600b92 100644
 > --- a/recipes-extended/libvirt/libvirt_git.bb
 > +++ b/recipes-extended/libvirt/libvirt_git.bb
-> @@ -179,6 +179,13 @@ PACKAGECONFIG[libpcap] = "-Dlibpcap=enabled, -Dlibpcap=disabled,libpcap,libpcap"
->  PACKAGECONFIG[numad] = "-Dnumad=enabled, -Dnumad=disabled,"
->  PACKAGECONFIG[nftables] = ""
+> @@ -131,7 +131,7 @@ SYSTEMD_SERVICE:${PN}-libvirtd = " \
 >  
-> +CVE_STATUS[CVE-2014-8135] = "fixed-version: Fixed in 1.2.11, NVD tracks this as version-less vulnerability"
-> +CVE_STATUS[CVE-2014-8136] = "fixed-version: Fixed in 1.2.11, NVD tracks this as version-less vulnerability"
-> +CVE_STATUS[CVE-2015-5313] = "fixed-version: Fixed in 1.3.1, NVD tracks this as version-less vulnerability"
-> +CVE_STATUS[CVE-2018-5748] = "fixed-version: Fixed in 4.0.0, NVD tracks this as version-less vulnerability"
-> +CVE_STATUS[CVE-2018-6764] = "fixed-version: Fixed in 4.1.0, NVD tracks this as version-less vulnerability"
-> +CVE_STATUS[CVE-2023-3750] = "fixed-version: Fixed in 9.6.0, NVD tracks this as version-less vulnerability"
-> +
->  # Enable the Python tool support
->  require libvirt-python.inc
->  
-> diff --git a/recipes-networking/openvswitch/openvswitch_git.bb b/recipes-networking/openvswitch/openvswitch_git.bb
-> index 4d6520e0..61c5e39c 100644
-> --- a/recipes-networking/openvswitch/openvswitch_git.bb
-> +++ b/recipes-networking/openvswitch/openvswitch_git.bb
-> @@ -35,6 +35,8 @@ PACKAGECONFIG[dpdk] = "--with-dpdk=shared,,dpdk,dpdk"
->  PACKAGECONFIG[libcap-ng] = "--enable-libcapng,--disable-libcapng,libcap-ng,"
->  PACKAGECONFIG[ssl] = ",--disable-ssl,openssl,"
->  
-> +CVE_STATUS[CVE-2023-5366] = "fixed-version: Fixed in 3.2.2, NVD tracks this as version-less vulnerability"
-> +
->  # Don't compile kernel modules by default since it heavily depends on
->  # kernel version. Use the in-kernel module for now.
->  # distro layers can enable with EXTRA_OECONF_pn_openvswitch += ""
+>  # full config
+>  PACKAGECONFIG ??= "gnutls qemu openvz vmware vbox esx lxc test remote \
+> -                   libvirtd netcf udev python fuse firewalld libpcap \
+> +                   libvirtd udev python fuse firewalld libpcap \
+>                     ${@bb.utils.contains('DISTRO_FEATURES', 'selinux', 'selinux audit libcap-ng', '', d)} \
+>                     ${@bb.utils.contains('DISTRO_FEATURES', 'xen', 'libxl', '', d)} \
+>                     ${@bb.utils.contains('DISTRO_FEATURES', 'polkit', 'polkit', '', d)} \
 > -- 
-> 2.34.1
+> 2.53.0
 > 
 
 > 
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#9662): https://lists.yoctoproject.org/g/meta-virtualization/message/9662
-> Mute This Topic: https://lists.yoctoproject.org/mt/118343262/1050810
+> View/Reply Online (#9668): https://lists.yoctoproject.org/g/meta-virtualization/message/9668
+> Mute This Topic: https://lists.yoctoproject.org/mt/118401958/1050810
 > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
 > Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
