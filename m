@@ -1,244 +1,152 @@
-Return-Path: <jonas.gorski@bisdn.de>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C29310BA434
-	for <webhook@archiver.kernel.org>; Fri, 27 Mar 2026 14:07:10 +0000 (UTC)
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.73165.1774620423773991033
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DB3A1061B1D
+	for <webhook@archiver.kernel.org>; Mon, 30 Mar 2026 19:36:11 +0000 (UTC)
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.3969.1774899367052757556
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 27 Mar 2026 07:07:04 -0700
+ Mon, 30 Mar 2026 12:36:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bisdn-de.20230601.gappssmtp.com header.s=20230601 header.b=Z7Mwn/zI;
- spf=none, err=SPF record not found (domain: bisdn.de, ip: 209.85.221.46, mailfrom: jonas.gorski@bisdn.de)
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-439b1cf1212so93750f8f.1
-        for <meta-virtualization@lists.yoctoproject.org>; Fri, 27 Mar 2026 07:07:03 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=RY3JlxSt;
+ spf=pass (domain: gmail.com, ip: 209.85.222.177, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-8cd77786e97so490924185a.3
+        for <meta-virtualization@lists.yoctoproject.org>; Mon, 30 Mar 2026 12:36:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bisdn-de.20230601.gappssmtp.com; s=20230601; t=1774620422; x=1775225222; darn=lists.yoctoproject.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2l2UHAW4h/dkR2RFrOQ6d7GaBiLgwqmCYdITTv3c1lE=;
-        b=Z7Mwn/zIS7sQMkKmim/L+He87SLo2lW7SJ2PzRs7wGoRdAtbploqF3FeXIVQiyUeMf
-         2GAnCCGvmDJ9zR1ZERIsewNEQHSW1sQImMeUKAo+qveyC/2+AeNo2YZ/3zs2NYfEWkRl
-         FK3t4TAscyVqD68HZo/4RwV12CBQwQAt70Sw9ngdAX+bYyZ3MNmjX7VKePvYjNBXMI/i
-         wm5i5ant/gyMLR9u1GcCGVnD5fYRVkTkt651brhumr+P0PU30sWxek3ix8CRLUHTdICl
-         Svc2WqvdBqYiKDq8Wd5CxO70YXv+oLav37sydHajsxThesITRmdHF9kIGkWcxAH1IpME
-         kRdg==
+        d=gmail.com; s=20251104; t=1774899366; x=1775504166; darn=lists.yoctoproject.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=/c1pDvWEunsbaf9/7/02DEotXIYlfsDcVkF/pSPRIpk=;
+        b=RY3JlxStaQBcfq7Fu9JA0QtKubtDBTO69j/AJctO5MYm6u1fG4044S50JoZ+DhsywH
+         Ta32u8wKK1RXYKXJ2g+03LRk55SE69Xd1oc0iX9wbsaQAtkbyH8dlWKnODgjkoRF1+3J
+         8NMgpsFeSLi6+odt7DIWFFB6iYxeQvHLsqye1ZR1aUtup+0HsmFO9jKPBnfbTKjAZOZF
+         RtJ6Xf/vUY9Bw3RuqRN4+/QCBY+O2jO09f1kAC9Ow2It8MWHQTGSCfBLhePnFrBtCeLD
+         yGMKwG05inbu0gW8GsoKY47MfWPzMi4rhR/7TN8VtmJMb0b899W1NbVpk09z8o9jBvf1
+         R0DA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774620422; x=1775225222;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=2l2UHAW4h/dkR2RFrOQ6d7GaBiLgwqmCYdITTv3c1lE=;
-        b=cNcsTiTZdwnZspL7DlWSH6TYLx8ZIY/XY+JqlkbD5d17mlzcyKxZA+7+HWjMpw87Az
-         oQCn4N1rVb1HY8rb7/XwtbeLs3f5ryvt3eQ/F8+DKo5yha5aHvGrtNAzc/mAnt/CaRBZ
-         aLAN11IySAdTEShENK0wd5c5Od766aknsjCbK3lb31Gu2VKQPoLH9wUfTvMcVnjXS9Wo
-         RmG6z5zPL5mTzM3AcTHX32AJ9IoHQVYZFhpdKw3stTUb231YgXHG2MQjDXhkr7E/XhIz
-         5bYegOJzS10AAcomrDgvIKGsoOHA+m32EJuTl/LEumUx6wCI2uhM0LIqP7ZR88ue3qYB
-         k6oA==
-X-Gm-Message-State: AOJu0YwxlZjyJHovEdq7llvDZzz6Xv+rfmjZ6MqfRNcF5PxjBAhqXKXc
-	o81Y+RN5in8qdXwVAw20Oi3mwTwquytzTDSFfUfDEMMt7wDARSlsVfUtQq7+z/VOtqcVOenSD06
-	ap19OTy2VQZ9fEdEPIFuIkNCznELdxFtUzDe+ac/JnYl1vXc2U7fSGU+idgt6zY6UZWrl0aePLT
-	VTRg5iRIlbAq0TzTX80w==
-X-Gm-Gg: ATEYQzz29SMH4VyyaU3+PNSa05FbYZoDaaUJJqULN2Z4ufjPmdzNCWS32v1DxuKam1E
-	8N3h4GOoJACPa3DlkVfN91HnS5Vb2HQGbCvpp05fVTniBYymqmrD8xMmHa6thKGKmSW3oAYbjbH
-	TiPziVJ4KaJ7Ho3s1eLgCIB+PPFWc9S2pgHFDMHHmk5JEB3n9GVFlA7hyBpI8AL6nN9uJXhawfJ
-	hYTdbcV1PTT3Zo3Rqj4rj8p9f0vhSb7RXRUfoAqS/IPfHYmc9VJ7FUMr2j3wGna9XByLXLDb1Em
-	SuuyOtp3qUKv3yRZR4XlGE748t+fnaEXcke8osIZYvo+DeTwMthRkx1HbCNV74QWOYX/L/po1C3
-	IHodqg+Of4XM3SzwICctbar4/ZDSUKeXHbZ6OFIucK84eoaniSFrSEq+ZkVD+eQdVGidvndMABq
-	LIyGxR7asLQHPRNtTgpOuJQWCdKr/K8XgbYDRbRObvRhoCuSkJZYF5c8R74hX3FeNjkuqd5BKuH
-	bGXbw==
-X-Received: by 2002:a05:6000:230d:b0:43b:6559:f14c with SMTP id ffacd0b85a97d-43b9e987efemr2128115f8f.2.1774620422046;
-        Fri, 27 Mar 2026 07:07:02 -0700 (PDT)
-Received: from localhost (dslb-002-205-018-238.002.205.pools.vodafone-ip.de. [2.205.18.238])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b9192e35esm13804200f8f.6.2026.03.27.07.07.01
-        for <meta-virtualization@lists.yoctoproject.org>
+        d=1e100.net; s=20251104; t=1774899366; x=1775504166;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/c1pDvWEunsbaf9/7/02DEotXIYlfsDcVkF/pSPRIpk=;
+        b=Cb9FBQTVuSXrerLlrJIdfqpK25YAGnZPmEr1o1MRDaVYrNLE4W8+2RoFcjj8C/aIjN
+         jBYUmqbibu4WDUePSqPUdmIlx4kXD+kzY6EEs/me2FyILhhLsK6cxq9ch+URJKkOdfUI
+         yKkUryobzqNrveVKqWHZgaVnpaUl4Mb4x8J1hsVcRMU6kqEbbUq1uxDuqOsyQzUO4o7k
+         1jM6sBDmOrLpCTUDyXi8cxOrgISbUjgDtHuxt2cAUpIhDJ+3kG+3EBVeqARm0miaW59H
+         F5hrIU008MoRfAIxEi0i+6VNSBv0MXlAo1YgY28t9B/B0TtvbiawI4NT0M37uX6TtLYD
+         qOuQ==
+X-Gm-Message-State: AOJu0YzZWIBpHAU5oiNztv0cc1rt5h2FTkt7WnLxI/+2CpbxBLUrFDxY
+	2k5+6vAEWMGUfOARM0GhxkErCrNo+AYqHWXkCtnUtUIpJXWpuegmZvwB
+X-Gm-Gg: ATEYQzx3V+LKYDlecMNBc15uCgUGggazYSCisJEJKdup6kg0LRBUjby8T6vXHFDewQQ
+	3Q1OhgHgVRmlSHiX/QQ1fkqws7Tkf3mAcwD0jixD/fjtOcFrW48WD8ntdPvxM3TUegXEg5ByRvO
+	GARjpwIUITCaIh8pV8xD4NdA5rtM5Mr8vLWno+NJKJIaiGOnoV5r7Ct8LUqQyfG6gkjGehb4lac
+	1LgSbs44KM/S/EKg/UPmmcOUA10jcqgxn3LDO36SSzGM9X+25ZfXQnwalDbjt+cDi35b7DabEOX
+	gOKTbjHQur0ApAp1TksCS0hnMEtIhXZ3ao/dRVz0l2D4fgaRjU6qCg9fU5jPh2GD5aIaPQAsHGh
+	FCdriuZGO/5Qvn7cR1kaBfAstewJdC9OkTGotSLsxM7ELVICPv5Zr8VICeeVAO9wL5GCfzFNi+D
+	ex8tKTZhy0sBPwlsn+eSc1cRsr8htNxbPlQi03s/2nYgMQJwMuRD5DZqwj4I/6SrJg7KN2BhOdk
+	Jm/2Bp+L/hM4a0FajuayQ/MBYdyf9xUhzis
+X-Received: by 2002:a05:620a:2954:b0:8cf:cee2:e407 with SMTP id af79cd13be357-8d01c666022mr1937826585a.28.1774899365957;
+        Mon, 30 Mar 2026 12:36:05 -0700 (PDT)
+Received: from gmail.com (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8d028041f8esm691776185a.31.2026.03.30.12.36.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Mar 2026 07:07:01 -0700 (PDT)
-From: Jonas Gorski <jonas.gorski@bisdn.de>
-To: meta-virtualization@lists.yoctoproject.org
-Subject: [meta-virtualization][kirkstone][PATCH 4/4] runc-docker: update to 1.1.15
-Date: Fri, 27 Mar 2026 15:06:40 +0100
-Message-ID: <20260327140640.126833-5-jonas.gorski@bisdn.de>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260327140640.126833-1-jonas.gorski@bisdn.de>
-References: <20260327140640.126833-1-jonas.gorski@bisdn.de>
+        Mon, 30 Mar 2026 12:36:05 -0700 (PDT)
+Date: Mon, 30 Mar 2026 19:36:03 +0000
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: youenn.lejeune@savoirfairelinux.com
+Cc: meta-virtualization@lists.yoctoproject.org,
+	Enguerrand de Ribaucourt <enguerrand.de-ribaucourt@savoirfairelinux.com>,
+	Erwann Roussy <erwann.roussy@savoirfairelinux.com>
+Subject: Re: [meta-virtualization][PATCH] ceph, libvirt, openvswitch: marked
+ some CVEs as patched
+Message-ID: <acrQo0_tj86jBiT7@gmail.com>
+References: <20260316120501.1216022-1-youenn.lejeune@savoirfairelinux.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="ISO-8859-1"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260316120501.1216022-1-youenn.lejeune@savoirfairelinux.com>
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Fri, 27 Mar 2026 14:07:10 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9681
+ <meta-virtualization@lists.yoctoproject.org>; Mon, 30 Mar 2026 19:36:11 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9682
 
-Bump runc to to v1.1.15-2-g068337925cd4:
+merged.
 
-    068337925cd4 Merge pull request #4422 from rata/release-1.1.15
-    9f4baaac61d1 VERSION: back to development
-    bc20cb4497af VERSION: release 1.1.15
-    2790485e3eca CHANGELOG: Remove empty changed line
-    ed38aea9dc58 Merge pull request #4425 from kolyshkin/1.1-fix-mount-leak
-    65aa700fc371 [1.1] runc run: fix mount leak
-    a4cebd3549ec Merge pull request #4423 from rata/1-1-fix-CI
-    719e2bc2c376 increase memory.max in cgroups.bats
-    3216d3b72e15 merge #4391 into opencontainers/runc:release-1.1
-    bd671b6a1361 Merge pull request #4392 from cyphar/1.1-remove-bindfd
-    614ce12f0e97 [1.1] nsenter: cloned_binary: remove bindfd logic entirely
-    618e149e4ae5 [1.1] seccomp: patchbpf: always include native architectur=
-e in stub
-    d85b58388f40 [1.1] seccomp: patchbpf: rename nativeArch -> linuxAuditAr=
-ch
-    6223a65d5d6f [1.1] libct/seccomp/patchbpf: rm duplicated code
-    2655e7c5a859 VERSION: back to development
-    2c9f5602f0ba VERSION: release 1.1.14
-    a86c3d88370a Merge commit from fork
-    f0b652ea61ff [1.1] rootfs: try to scope MkdirAll to stay inside the roo=
-tfs
-    8781993968fd [1.1] rootfs: consolidate mountpoint creation logic
-    6419fbabfbd6 Merge pull request #4382 from rata/Makefile-override-fixes
-    0514204d6fcc Makefile: Add EXTRA_VERSION
-    18cdc3476f91 Revert "allow overriding VERSION value in Makefile"
-    f3f71a9347f0 Merge pull request #4372 from kolyshkin/1.1-go123
-    7f75aec407e8 [1.1] Add Go 1.23, drop 1.21
-    931f46304b3d Merge pull request #4361 from austinvazquez/backport-proto=
-buf-updates-to-1.1
-    1f587049fd85 build(deps): bump google.golang.org/protobuf from 1.32.0 t=
-o 1.33.0
-    31f29447d3fb build(deps): bump google.golang.org/protobuf from 1.31.0 t=
-o 1.32.0
-    ac5fc48ad18c build(deps): bump google.golang.org/protobuf from 1.30.0 t=
-o 1.31.0
-    3b5bf8f2a9fa build(deps): bump google.golang.org/protobuf from 1.29.1 t=
-o 1.30.0
-    81461edc125b build(deps): bump google.golang.org/protobuf from 1.29.0 t=
-o 1.29.1
-    2a9acb99b4a9 build(deps): bump google.golang.org/protobuf from 1.28.1 t=
-o 1.29.0
-    19c47f652dd1 build(deps): bump google.golang.org/protobuf from 1.28.0 t=
-o 1.28.1
-    88f54b20fc46 build(deps): bump google.golang.org/protobuf from 1.27.1 t=
-o 1.28.0
-    615068f17a31 Merge pull request #4334 from cyphar/1.1-rootfs-mountfd
-    a0292ca6ffb3 [1.1] rootfs: fix 'can we mount on top of /proc' check
-    b36a0f453712 Merge pull request #4336 from cyphar/1.1-rm-c7
-    5b89027afc11 [1.1] ci/cirrus: switch from CentOS to Almalinux
-    ed406952fc28 Merge pull request #4318 from lifubang/release-1.1.13
-    ec1bc45d462c VERSION: back to development
-    58aa9203c123 VERSION: release 1.1.13
-    2b3a2472d189 Merge pull request #4316 from lifubang/backport-4189
-    3507adac19ff Merge pull request #4315 from lifubang/backport-4311
-    0f7150ade8ca script/*: fix gpg usage wrt keyboxd
-    80186fec5cf4 fix a debug msg for user ns in nsexec
-    8407d3c6021c Merge pull request #4313 from kolyshkin/1.1-backport-4292
-    7219e0afffcd Dockerfile: bump Debian to 12, Go to 1.21
-    c9beabc8d8d5 ci: switch to go 1.22 as main version
-    4578c6c5dbdb libct/nsenter: stop blacklisting go 1.22+
-    c488d13a5331 use go mod instead of go get in spec.bats
-    ae85f058ccff ci/gha: bump golangci-lint to v1.57
-    327e07e96814 ci/gha: bump golangci-lint to v1.54
-    65bdf604ddb9 libct/user: gofumpt -w
-    4d097af534a0 ci/gha: bump golangci-lint-action from 5 to 6
-    fb236084374b ci/gha: bump golangci/golangci-lint-action to v5
-    8bfc75a25d2b CI: run apt with -y
-    e546ddeec869 ci/gha: switch some jobs to ubuntu-22.04
-    0d19e78b847a build(deps): bump actions/setup-go from 4 to 5
-    b36844518a36 build(deps): bump actions/checkout from 3 to 4
-    cb2d85dcde5f build(deps): bump tim-actions/commit-message-checker-with-=
-regex
-    25e27d7eef28 build(deps): bump actions/upload-artifact from 3 to 4
-    2ac8b11f48a0 build(deps): bump golangci/golangci-lint-action from 3 to =
-4
-    7d86e7d9eceb Merge pull request #4299 from kolyshkin/1.1-4290
-    096e6f88f0f0 [1.1] libct/system: ClearRlimitNofileCache for go 1.23
-    14181f438e35 Merge pull request #4308 from kolyshkin/1.1-rm-cs8
-    fc7af59a6b1f ci/cirrus: rm centos stream 8
-    a1610b56a4a3 Merge pull request #4305 from lifubang/backport-cs8eol
-    9629fd9554a2 ci: workaround for centos stream 8 being EOLed
-    20ef9762dae9 Merge pull request #4300 from lifubang/backport-codespell-=
-2.3.0
-    3b7fcf76ef7e ci: pin codespell
-    f8f7defa85f4 Fix codespell warnings
-    a12f444afbb8 Merge pull request #4284 from kolyshkin/1.1-fix-4094
-    860f05f307f4 libct/cg/fs: fix setting rt_period vs rt_runtime
-    9244703011d5 Merge pull request #4277 from lifubang/backport-4265-nofil=
-erlimit
-    51dc97286443 Merge pull request #4231 from kolyshkin/1.1-3349
-    c918058bb76c fix comments for ClearRlimitNofileCache
-    2992049dc31c update/add some tests for rlimit
-    d7a29a3b3367 libct: clean cached rlimit nofile in go runtime
-    42c2ab2b7cb9 use go 1.18 in go.mod
-    83ecd11c29ac runc exec: setupRlimits after syscall.rlimit.init() comple=
-ted
-    fbddb715edbb libct: fix a comment
-    debf52aa5b52 deprecate libct.system.Execv
-    986edbe60ff9 list: use Info(), fix race with delete
-    09214f21da8e list: getContainers: less indentation
-    007abf31f87a Merge pull request #4270 from akhilerm/backport-1.1-4269
-    6f4d975c402d allow overriding VERSION value in Makefile
-    e8bb71e147d6 Merge pull request #4257 from sohankunkerkar/release-1.1
-    6379b58d9701 libcontainer: force apps to think fips is enabled/disabled=
- for testing
-    5bfff6ae24d0 Merge pull request #4261 from kolyshkin/1.1-4256
-    265e73718063 Vagrantfile.fedora: bump Fedora to 39
-    b0691cafe392 Merge pull request #4244 from kycheng/chore/net-cve
-    59056a0213e7 silence security false positives from golang/net
-    148fdabd7053 Merge pull request #4241 from kolyshkin/1.1.13-ci-fixes
-    452bf88ebf5b build: update libseccomp to v2.5.5
-    3fada6eca4e6 tests/int: fix flaky "runc run with tmpfs perm"
-    aae41a4b79d3 Fix integration tests failure when calling "ip"
-    82a8b979ef1a update go version to 1.21 in cirrus ci
-    03271050eb94 ci/gha/cross-i386: pin Go to 1.21
+Bruce
 
-Signed-off-by: Jonas Gorski <jonas.gorski@bisdn.de>
----
- recipes-containers/runc/runc-docker_git.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+In message: [meta-virtualization][PATCH] ceph, libvirt, openvswitch: marked some CVEs as patched
+on 16/03/2026 Youenn Le Jeune via lists.yoctoproject.org wrote:
 
-diff --git a/recipes-containers/runc/runc-docker_git.bb b/recipes-container=
-s/runc/runc-docker_git.bb
-index 8d078e852642..16bc6639c452 100644
---- a/recipes-containers/runc/runc-docker_git.bb
-+++ b/recipes-containers/runc/runc-docker_git.bb
-@@ -2,13 +2,13 @@ include runc.inc
-=20
- # Note: this rev is before the required protocol field, update when all co=
-mponents
- #       have been updated to match.
--SRCREV_runc-docker =3D "a9833ff391a71b30069a6c3f816db113379a4346"
-+SRCREV_runc-docker =3D "068337925cd4286782c1c576132590992cc8c728"
- SRC_URI =3D "git://github.com/opencontainers/runc;branch=3Drelease-1.1;nam=
-e=3Drunc-docker;protocol=3Dhttps \
-            file://0001-runc-Add-console-socket-dev-null.patch \
-            file://0001-Makefile-respect-GOBUILDFLAGS-for-runc-and-remove-r=
-e.patch \
-            file://0001-runc-docker-SIGUSR1-daemonize.patch \
-           "
-=20
--RUNC_VERSION =3D "1.1.12"
-+RUNC_VERSION =3D "1.1.15"
-=20
- CVE_PRODUCT =3D "runc"
---=20
-2.53.0
+> For ceph, libvirt and openvswitch, 9 CVEs were marked as "unpatched"
+> whereas they have been patched long ago compared to the versions of
+> the recipes, because the NVD database does not contain patched version
+> for those CVEs.
+> 
+> Reviewed-by: Enguerrand de Ribaucourt <enguerrand.de-ribaucourt@savoirfairelinux.com>
+> Reviewed-by: Erwann Roussy <erwann.roussy@savoirfairelinux.com>
+> Signed-off-by: Youenn Le Jeune <youenn.lejeune@savoirfairelinux.com>
+> ---
+>  recipes-extended/ceph/ceph_git.bb                 | 3 +++
+>  recipes-extended/libvirt/libvirt_git.bb           | 7 +++++++
+>  recipes-networking/openvswitch/openvswitch_git.bb | 2 ++
+>  3 files changed, 12 insertions(+)
+> 
+> diff --git a/recipes-extended/ceph/ceph_git.bb b/recipes-extended/ceph/ceph_git.bb
+> index 2cf1c88a..728a420b 100644
+> --- a/recipes-extended/ceph/ceph_git.bb
+> +++ b/recipes-extended/ceph/ceph_git.bb
+> @@ -192,3 +192,6 @@ INSANE_SKIP:${PN}-dbg += "buildpaths"
+>  CCACHE_DISABLE = "1"
+>  
+>  CVE_PRODUCT = "ceph ceph_storage ceph_storage_mon ceph_storage_osd"
+> +
+> +CVE_STATUS[CVE-2017-7519] = "fixed-version: Fixed in 12.1.2, NVD tracks this as version-less vulnerability"
+> +CVE_STATUS[CVE-2020-1700] = "fixed-version: Fixed in 15.1.1, NVD tracks this as version-less vulnerability"
+> diff --git a/recipes-extended/libvirt/libvirt_git.bb b/recipes-extended/libvirt/libvirt_git.bb
+> index 63f882ee..8462c10c 100644
+> --- a/recipes-extended/libvirt/libvirt_git.bb
+> +++ b/recipes-extended/libvirt/libvirt_git.bb
+> @@ -179,6 +179,13 @@ PACKAGECONFIG[libpcap] = "-Dlibpcap=enabled, -Dlibpcap=disabled,libpcap,libpcap"
+>  PACKAGECONFIG[numad] = "-Dnumad=enabled, -Dnumad=disabled,"
+>  PACKAGECONFIG[nftables] = ""
+>  
+> +CVE_STATUS[CVE-2014-8135] = "fixed-version: Fixed in 1.2.11, NVD tracks this as version-less vulnerability"
+> +CVE_STATUS[CVE-2014-8136] = "fixed-version: Fixed in 1.2.11, NVD tracks this as version-less vulnerability"
+> +CVE_STATUS[CVE-2015-5313] = "fixed-version: Fixed in 1.3.1, NVD tracks this as version-less vulnerability"
+> +CVE_STATUS[CVE-2018-5748] = "fixed-version: Fixed in 4.0.0, NVD tracks this as version-less vulnerability"
+> +CVE_STATUS[CVE-2018-6764] = "fixed-version: Fixed in 4.1.0, NVD tracks this as version-less vulnerability"
+> +CVE_STATUS[CVE-2023-3750] = "fixed-version: Fixed in 9.6.0, NVD tracks this as version-less vulnerability"
+> +
+>  # Enable the Python tool support
+>  require libvirt-python.inc
+>  
+> diff --git a/recipes-networking/openvswitch/openvswitch_git.bb b/recipes-networking/openvswitch/openvswitch_git.bb
+> index 4d6520e0..61c5e39c 100644
+> --- a/recipes-networking/openvswitch/openvswitch_git.bb
+> +++ b/recipes-networking/openvswitch/openvswitch_git.bb
+> @@ -35,6 +35,8 @@ PACKAGECONFIG[dpdk] = "--with-dpdk=shared,,dpdk,dpdk"
+>  PACKAGECONFIG[libcap-ng] = "--enable-libcapng,--disable-libcapng,libcap-ng,"
+>  PACKAGECONFIG[ssl] = ",--disable-ssl,openssl,"
+>  
+> +CVE_STATUS[CVE-2023-5366] = "fixed-version: Fixed in 3.2.2, NVD tracks this as version-less vulnerability"
+> +
+>  # Don't compile kernel modules by default since it heavily depends on
+>  # kernel version. Use the in-kernel module for now.
+>  # distro layers can enable with EXTRA_OECONF_pn_openvswitch += ""
+> -- 
+> 2.34.1
+> 
 
-
---=20
-BISDN GmbH
-K=F6rnerstra=DFe 7-10
-10785 Berlin
-Germany
-Phone: +49 30 610 816 100
-Managing Directors:=A0Dr.-Ing. Hagen Woesner, Andreas K=F6psel
-
-
-Commercial=20
-register:=A0
-Amtsgericht Berlin-Charlottenburg HRB 141569 B
-VAT ID No:=A0
-DE283257294
-
-
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#9662): https://lists.yoctoproject.org/g/meta-virtualization/message/9662
+> Mute This Topic: https://lists.yoctoproject.org/mt/118343262/1050810
+> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
 
