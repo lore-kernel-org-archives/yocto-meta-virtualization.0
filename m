@@ -1,148 +1,149 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <jonas.gorski@bisdn.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CE561061B20
-	for <webhook@archiver.kernel.org>; Mon, 30 Mar 2026 19:48:41 +0000 (UTC)
-Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.4272.1774900119950227620
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FB10FF60E2
+	for <webhook@archiver.kernel.org>; Tue, 31 Mar 2026 08:14:24 +0000 (UTC)
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.15373.1774944855534215496
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 30 Mar 2026 12:48:40 -0700
+ Tue, 31 Mar 2026 01:14:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=QRDsH0Bw;
- spf=pass (domain: gmail.com, ip: 209.85.219.54, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-8a08fa355a1so22496816d6.0
-        for <meta-virtualization@lists.yoctoproject.org>; Mon, 30 Mar 2026 12:48:39 -0700 (PDT)
+ dkim=pass header.i=@bisdn-de.20230601.gappssmtp.com header.s=20230601 header.b=LZIJ/4vr;
+ spf=none, err=SPF record not found (domain: bisdn.de, ip: 209.85.167.50, mailfrom: jonas.gorski@bisdn.de)
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5a298fe32d1so583599e87.0
+        for <meta-virtualization@lists.yoctoproject.org>; Tue, 31 Mar 2026 01:14:15 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774944853; cv=none;
+        d=google.com; s=arc-20240605;
+        b=G9Xk5iFMiUfEG+1SoS033l6dZSLKla0fKyLDQoCg5P0vyrP/V6nfEmAVd+MKeJMJXv
+         th96ZS5GS13VP2eMaSnrubXapamoLtNQVG2n8Dg2pcfyEyLcgUcYkcqLuwfoykpdXcUH
+         aVVZIxYklGk8qZXmlnn3SYN9fLfKcD3EQDezcKW12csf127H2y98ST9EKIn1c6vR+8Wk
+         tw5mJU3vDvDpYFj7/gB1sgQUkBSpeG+49jWoGNdbNWtkMmqTjt/ZrGqVOKQtFYla98PD
+         ppNPh1RW1zuyQdo27W1ir6+GvLeC2j9VGiI7m8qhj0uepYoXQPQOQ26ntGvL7+2p50Id
+         oYOw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=fOPVmasch7b84nKStOq6NKj4xubtmXwF00jpUYMAK8w=;
+        fh=eCwnOjlv6B8KHYbz1+dR8q8uprCZzyTQ1RaTi1tuuHw=;
+        b=Al8dWJQi3KY1zwZmA1tiBIQJYLv3CEwVUPSnq0dq2zul77qUQKPcXE0nK8JJsCoZb8
+         KY6fPcnoVRFFUerwhUyRfl3PpEgxenaGd257kuIiXUgRWOzLKZyrHHv90i4cpS1gHIKL
+         Ga6A+Eg3we8dE3OEmGXB9IxGuYzcF8BFuozoVBwIDTaChfQdtPwxT3365zuemQ0Yaevv
+         IXDpnV9xT337ho/HBjqfK2jjmGrwNQvNH4RVId9/EMqAzYvTMG+jj2eaJ6yl2LGxn1kU
+         YYmOJn1fT2oTcU0FomaMK01PLqAFvh/35CtRk7ekJ6U4qinzdmdQPhBj71LXPjT5SQTI
+         B4ow==;
+        darn=lists.yoctoproject.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774900119; x=1775504919; darn=lists.yoctoproject.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=1/Fmz9MqV99nQqyZGFfwsNFBY5v5fbca+ZCcr8J3PDA=;
-        b=QRDsH0BwDtBa8hMJGNP/byQxqrDdAC67v2Oyb33btVCq2mb4gET1k4SxQUaBOxmwlO
-         4/tG0MNY4ZQeVXDNAA50Ijji2IikjeLjNmy3mYUNps7KI2hxAwa/Kvi58ApqGV2pBzBa
-         RN4wIWu4eEvyXnxi2EnRY9yVmDM05OQi9qWq8f2eHfcJmS8UAC3pe4/0L5/1XgaqeQ3C
-         im6d28dXZCRBGQtNZB1Y51K4/ln3FshYyqOYae9soFEc90znO3S7yvL9QBZkOjAR1CTs
-         vTYiRqWqOhToHWrSIRGr/rosd8foeYvcLM09UrnfVjnmsYhTSP+d2ppxaw4AbZ8SV07k
-         CRcA==
+        d=bisdn-de.20230601.gappssmtp.com; s=20230601; t=1774944853; x=1775549653; darn=lists.yoctoproject.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fOPVmasch7b84nKStOq6NKj4xubtmXwF00jpUYMAK8w=;
+        b=LZIJ/4vrjai5EnlJH44jukZOFx3W8IPeEoQpCRsr27PXScDtMrxtR8hsyExpWprKW5
+         4/zEz3++JR6SkisoFWsvnclXaKFHD7dYGEurdscbNQIAID2VuXCf0NoaBi1yP+yLQd/p
+         E2jWzOaCbW/qHg30Q3zz7L3gXZdV9tAFgqxhc6pM+/4uOCZucBpaP1NhMVUzwA+JyxVC
+         6CkApgTd/9nDihZoLMhgtZDQAmobqyQPJN+1xNj2REgm6dwbuQyXgQ4Yfy8YtuZOWbuE
+         2InA0V/bP0OhpKbBSSae66Yh6pyVzLHQx3RGq/eQkjWRngIyvv6XYayz8E2HJCTDV/Ve
+         6A5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774900119; x=1775504919;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=1/Fmz9MqV99nQqyZGFfwsNFBY5v5fbca+ZCcr8J3PDA=;
-        b=Tf9hWFXiQN35XdfZcOdOEY1e9OGCr7qt9WQ8ZWzmYcTRu6Ti7oPqxJ+6/5lCKChKli
-         S0Jh92gTnzTF5X6kPDxobIl4z+RdZwL88Q+fnhzPmlVL75rDSk84uBaLOC7MkMSAWp2u
-         /z8v4DySDe1BYsgJ7nsLjjZTWb96Z1ureBS37AvKSbRIn+4pKjXUlBurSmgvPNbGteAY
-         bJhGqEiaXajGkt+TSvfj06ERGhlToZJik38cqq4dlB/wgYRwQWVjkwe17+APYGPsR7AL
-         kUSpcFjrjPAhFGU+I4fau4HiZ/a+8wjNijZIPZOSVWgbMgtv2D/yM4+FGz3MN1KSKV92
-         HfTg==
-X-Gm-Message-State: AOJu0YyipSaHmTTfQYT6z9sZY5WVr/U3qIMsSkscyvJKAIVE6PKxh2wM
-	VB+ybUh5DtF+tMWw0E8KpV6/LCZgG2Ti79dyfdQH8/0Xp8XFQjP1qSvb
-X-Gm-Gg: ATEYQzwu4HA7RXgS2gdNf75wMFan3mv985yHzwP9RNgwt7qPAaZopvNtgmVDXSwx3dK
-	65CzJaNpw8xckmiiB+qLKofQFJYNfbnoY8va8JKjNxa7RU5tQAFEAQbGnird7YwA1fDIldpijvn
-	XzJQzXHHaGb0SiiEeKIbwyGxoQLvFt7sWq8/eY1yyv2xmlyy0mHjnTP6SGkro8Hf4aII1eFZWUM
-	sU+IM5Lp8XYX2fSGQSgZsv9rRk1NDkyCoBcFbH4BKqLqDl9tfxQ9BXmet65I0IfkTt4gkUkWA4c
-	ZuemnJQB3aVUGU17tiPWdb3iZ5RoxaNMW5VT/PQaxkE+KecIteKfNw0mX29hvjo2CxRKqvHqGqd
-	sZXVOkEGTLts8tAF14F3GGzrEGmIXsuCqbotMKQrP6zkT1QfcEC7GKZWdnPgjfPYtn9szTmpluQ
-	qd9+XBYlNaFlPYzMUE6ElFXAcSG3eeSV1TiA/HNUbrrp6y09f8KVnBMM81PEA3diOxnKXqEOWZH
-	zS2pIROxzqN1ecRikZ4Mocb9eSPiMFS5OZr
-X-Received: by 2002:a05:6214:448b:b0:8a0:e086:64d1 with SMTP id 6a1803df08f44-8a0e0866876mr81004016d6.53.1774900118667;
-        Mon, 30 Mar 2026 12:48:38 -0700 (PDT)
-Received: from gmail.com (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-89ecc1923c6sm72228146d6.22.2026.03.30.12.48.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Mar 2026 12:48:38 -0700 (PDT)
-Date: Mon, 30 Mar 2026 15:48:36 -0400
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: jonas.gorski@bisdn.de
-Cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [meta-virtualization][kirkstone][PATCH 0/4] runc: update to
- 1.1.15
-Message-ID: <acrTlFWe3YF8dX4l@gmail.com>
-References: <20260327140640.126833-1-jonas.gorski@bisdn.de>
+        d=1e100.net; s=20251104; t=1774944853; x=1775549653;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=fOPVmasch7b84nKStOq6NKj4xubtmXwF00jpUYMAK8w=;
+        b=ixUIPzQPiZIGmQnX2oYmaXPAUapWYLZHnnHkxPTQNcd+DZ0mwZMiEdELoTLTeTaNff
+         keXMVeccFxWXHpdHunj+90/4ZkJfZbDBIxt5s438LqyQL0KKCwTIPQtdrgp8pBMgH7I7
+         GKE26k2KvHPKTciJv9GinfGCkk80c9cYRtyU2vEXVgmSf+dwZgkAVLFvtCHWW3APn0f1
+         op1WMpqktvNzEGgnQOybMT7yLCBk580DqokzlL4C6Tjvxu5xpKW50lYmDhdiNapfcv7J
+         jo9PZSxg5Z1wp/tDqXlYEUq7QDpXiQEstOdNnp/xw4sYw/G4DwagP36ZWvTfs4lMU1MR
+         YsMQ==
+X-Gm-Message-State: AOJu0Ywib9Bx5Hk/XxmJDy3619kHBAJT3E/Rvb2ly3LWP17CZK2SlchV
+	Z6xo4dllpoBYaxWs7XnYUy1HsLRkghPyWjiBhJ8/S3U5R2Ix/7AYt4xYed7XKtq89TBwKwfgASi
+	rEBR72RL0S6z489INlav6yDDWxkdLlBmMR6yKb6X6hpzvHyG59vxT8Whi1S/ihRWT6xkCNSwjut
+	BfPNhIJNlNc9sOcjqtWHYwWs0zCiif5dkbcn6LCu/Qindrd5Y6Qw0M
+X-Gm-Gg: ATEYQzyaon6q3MU8uhFFdxYZtSNqrS/Q5Jhl4VKRRMwUERoeGLj0BaEuAdnDa6a1qHK
+	ZRLy8zy1/bRHzmDOysF15wm7STUxThli4NxaVzTDWRcUmQpfZc1qStbLDmUjRbuLw99iv8QV1I+
+	HH2nTJdAGLkZC2DYUXBV0uklzXfN3Dxtki3So44WniI2Y3nc4PSj5iwYKZzn6Wve3W4iwQNQK8W
+	xRvBLhEtLocNUOMk/z8jzTUpO72+uACTDmTdghLXN82fnKl3pgfeMzXMY+9hqxhhVdt7nluSt2U
+	PzlSeA==
+X-Received: by 2002:a05:6512:23aa:b0:5a1:4712:376a with SMTP id
+ 2adb3069b0e04-5a2ab940b68mr2374609e87.8.1774944853119; Tue, 31 Mar 2026
+ 01:14:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260327140640.126833-1-jonas.gorski@bisdn.de>
+References: <20260327140640.126833-1-jonas.gorski@bisdn.de> <acrTlFWe3YF8dX4l@gmail.com>
+In-Reply-To: <acrTlFWe3YF8dX4l@gmail.com>
+From: Jonas Gorski <jonas.gorski@bisdn.de>
+Date: Tue, 31 Mar 2026 10:13:57 +0200
+X-Gm-Features: AQROBzCvSxywGcLSFRlMhTdYtSgrSu-LXWDDNMTqa_WtEtvAf85G1MMLLrKEruc
+Message-ID: <CAJpXRYSeQ36iKGrqrcfJ9qpZyDREJzmz=jqmF8DDzoo1f6DY+w@mail.gmail.com>
+Subject: Re: [meta-virtualization][kirkstone][PATCH 0/4] runc: update to 1.1.15
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: meta-virtualization@lists.yoctoproject.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Mon, 30 Mar 2026 19:48:41 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9685
+ <meta-virtualization@lists.yoctoproject.org>; Tue, 31 Mar 2026 08:14:24 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9686
+
+On Mon, 30 Mar 2026 at 21:48, Bruce Ashfield <bruce.ashfield@gmail.com> wro=
+te:
+>
+>
+>
+> In message: [meta-virtualization][kirkstone][PATCH 0/4] runc: update to 1=
+.1.15
+> on 27/03/2026 Jonas Gorski via lists.yoctoproject.org wrote:
+>
+> > runc has been stuck at 1.1.4 for long while in kirkstone, and the last
+> > attempt at updating it had to be reverted.
+> >
+> > In order to reduce the amount of open vulnerabilities, update it to the
+> > latest 1.1 release, 1.1.15, by first updating it to 1.1.12, which was
+> > the last 1.1 release in master, then updating it to 1.1.15.
+> >
+> > To keep the amount of patches short, I squashed the cherry-picked
+> > updates from master to a single patch each.
+> >
+> > In case anyone wonders, runc-opencontainers and runc-docker were at
+> > different commits before they were both bumped to 1.2.0-rc2, which is
+> > why their diffs looks different.
+> >
+> > I runtested runc-opencontainers, and compile-tested runc-docker.
+>
+> Thanks for the extra details, it made this much easier to
+> merge.
+>
+> I confirmed bug/cve only in the 3rd digit bumps, so this is
+> now merged and pushed to the server.
+
+And thank you for merging it so quickly :)
+
+I just noticed that scarthgap is also still at 1.1 (.14), and now
+lagging behind kirkstone. This is awkward.
+
+I'll send a patch as soon as I can to make them even.
+
+Best regards,
+Jonas
+
+--=20
+BISDN GmbH
+K=C3=B6rnerstra=C3=9Fe 7-10
+10785 Berlin
+Germany
+Phone: +49 30 610 816 100
+Managing Directors:=C2=A0Dr.-Ing. Hagen Woesner, Andreas K=C3=B6psel
 
 
+Commercial=20
+register:=C2=A0
+Amtsgericht Berlin-Charlottenburg HRB 141569 B
+VAT ID No:=C2=A0
+DE283257294
 
-In message: [meta-virtualization][kirkstone][PATCH 0/4] runc: update to 1.1.15
-on 27/03/2026 Jonas Gorski via lists.yoctoproject.org wrote:
 
-> runc has been stuck at 1.1.4 for long while in kirkstone, and the last
-> attempt at updating it had to be reverted.
-> 
-> In order to reduce the amount of open vulnerabilities, update it to the
-> latest 1.1 release, 1.1.15, by first updating it to 1.1.12, which was
-> the last 1.1 release in master, then updating it to 1.1.15.
-> 
-> To keep the amount of patches short, I squashed the cherry-picked
-> updates from master to a single patch each.
-> 
-> In case anyone wonders, runc-opencontainers and runc-docker were at
-> different commits before they were both bumped to 1.2.0-rc2, which is
-> why their diffs looks different.
-> 
-> I runtested runc-opencontainers, and compile-tested runc-docker.
-
-Thanks for the extra details, it made this much easier to
-merge.
-
-I confirmed bug/cve only in the 3rd digit bumps, so this is
-now merged and pushed to the server.
-
-Bruce
-
-> 
-> Jonas Gorski (4):
->   runc-opencontainers: update to 1.1.12
->   runc-docker: update to 1.1.12
->   runc-opencontainers: update to 1.1.15
->   runc-docker: update to 1.1.15
-> 
->  ...spect-GOBUILDFLAGS-for-runc-and-remove-re.patch | 14 +++++++-------
->  recipes-containers/runc/runc-docker_git.bb         |  4 ++--
->  recipes-containers/runc/runc-opencontainers_git.bb |  4 ++--
->  3 files changed, 11 insertions(+), 11 deletions(-)
-> 
-> -- 
-> 2.53.0
-> 
-> 
-> -- 
-> BISDN GmbH
-> K�rnerstra�e 7-10
-> 10785 Berlin
-> Germany
-> Phone: +49 30 610 816 100
-> Managing Directors:�Dr.-Ing. Hagen Woesner, Andreas K�psel
-> 
-> 
-> Commercial 
-> register:�
-> Amtsgericht Berlin-Charlottenburg HRB 141569 B
-> VAT ID No:�
-> DE283257294
-> 
-> 
-> 
-
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#9677): https://lists.yoctoproject.org/g/meta-virtualization/message/9677
-> Mute This Topic: https://lists.yoctoproject.org/mt/118535116/1050810
-> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
 
 
