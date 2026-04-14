@@ -1,360 +1,213 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <Qi.Chen@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CDCDF34C58
-	for <webhook@archiver.kernel.org>; Mon, 13 Apr 2026 14:16:51 +0000 (UTC)
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.272894.1776089802694741528
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C352DF531E7
+	for <webhook@archiver.kernel.org>; Tue, 14 Apr 2026 02:17:19 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.9456.1776133033825447587
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 13 Apr 2026 07:16:42 -0700
+ Mon, 13 Apr 2026 19:17:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=SxHPLp1y;
- spf=pass (domain: gmail.com, ip: 209.85.216.52, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-35d95017a68so2792584a91.3
-        for <meta-virtualization@lists.yoctoproject.org>; Mon, 13 Apr 2026 07:16:42 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776089802; cv=none;
-        d=google.com; s=arc-20240605;
-        b=ZFuaAmKAAVUCzTgHa0BwE8Y3ToFvd4bRkOE+T12QnRyBROjAEK5C54JwLhWfE6qGh2
-         yficydzELfzorxustZdBQ4EEcAFj9J93Bl4fLHUJeUS0ue+tcuDMPq6WxKB4Kwui4mv3
-         xOXxaWz8A9CWa2wtF5z9NIiFVl2JHE9CdLu33cCTUjcF0ARSDP+7Z1UZv0aPbcS1IdiQ
-         yDwMS52UBVBa/a1OHhuiZFvou1QXzpj3JW34TGkImWAeWqE6amZeRPOrPTVcqL4y1uMi
-         +bhGg6OXQb4/GkRNsdqz4oTT1w9I5JQJIOfuS4ZnrTv1jamqyA7cAjHAwCQ8MRJ/DiiZ
-         y84w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=VCJjfLN0cM+XOQRzEWY9PibOgi7MR+/eI6B7MQ+VBVc=;
-        fh=T1fsFJFZd3expnPhH4HQBhUXgCpxpAql7h9peGDMJdM=;
-        b=lwMjpgaPm81QNJDsbI3mBqwy6gZQIVQp1PcitVUJa9WBKKwFTpUIPBkSdFdlIdh0SS
-         zl4yNsM4e8XhMHkViN8/Ht2nkfkYFHJ2etMw3/anSEKhfRT1doVXu0+T/uXA4O5z9lXW
-         h3K5ytMgkvxKZAihnSneBYLBWmqit796+x1QVb2w34rE9a2nblFX29lJz5reF2PKzvAa
-         7pBCiYfo75UAT+FoSMhkgmTa02wzQ8Bdo3ZnfjfVj5z0bvlDHwp0rSxMnfR/vX2Zf7Vv
-         UITm6ACUWbciqBZtX8mfLnhM6WZHm8qXOg+tUKjMYw3n2VRg2zAINZj5+8P5Onf8cJP3
-         AOlA==;
-        darn=lists.yoctoproject.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776089802; x=1776694602; darn=lists.yoctoproject.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=VCJjfLN0cM+XOQRzEWY9PibOgi7MR+/eI6B7MQ+VBVc=;
-        b=SxHPLp1ynaN/rq6o3QBGI/fplGanFwYNGT3mb9SHZOhJXYnXUtvPivGjBpSmLThsVm
-         AULA27pVrKIec3XWeyZrF7g1y46fHcp9wlDsoj5NiSayxO03O8SoDvvElCRH1AWLwW+m
-         tGuz/VkAo9BimQnQkq/sARjuiVF3oPbml5HN4/jDqB7s1R4nLebuyXMEuosSScaM3v1N
-         nnqp5BkgkhaDPkfkE/qmMfxPaIVW2T59Jzaq+PheazSrnqCVhayHXU/+8rqCyOXl3wxW
-         xjDa0bx+edccva3ZRGLPLTEXBDPfcmuKbq2zmqEJMrHY97yESteoxOH82f+PCgi5Batd
-         q59Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776089802; x=1776694602;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VCJjfLN0cM+XOQRzEWY9PibOgi7MR+/eI6B7MQ+VBVc=;
-        b=RuFtDbvoG/XGd/KFO1I2o/W5i/YW+Pf4ZYJE7yCiqbbIU1T1F3XkHUS+DHQwyX8O6I
-         vzJZ+QDOVr+MTgsV8IbA6UjlzXahpt94m/Da24bJu25F3M2RU1mtOT/PtmPUETxxPSnZ
-         +YZXEKDOagMnHcFX2SmsMlhQstTseo2Gz/5ecr2mq+/eOWlpFMRUIhDdWBe+B4TP/xNq
-         9gqYJ1Km8H7ktMD0KzL2hnsdVpeNk5qmDACQHDb9PK3O2shvj+Z1CtDbl3dBZsGJGhNs
-         EMhqXZGLcaRKjlJoxKimm9z9Hze4tEkiSAc3sQiDab43zMF0BWau0twbhuArZ0fgbvtA
-         VYgA==
-X-Gm-Message-State: AOJu0YwGZNq4fcCzbkZ6PKOMrXwhINQn40SPRpwEcXXPE40CKu6RcUYE
-	62puTs/jj/wKJudF8SrfchQMh1qLXaygCFLsIzeLrhoeddWcM991xLmzIJY+ubYDwmvOumzc+FK
-	+vuLzcGtR35zrZ4xjExuZBE0HhHpnkgQ=
-X-Gm-Gg: AeBDiesdS2hvhtU9jKFfo/6yHUTYLuE0tX4wNCe+87vfSzeElUJ0RhekjrqHlTb9ZaT
-	r8BiQFHEfwCDL4l9IfIF+gE2j7ByZjW73jO1S18aKa27kHc/wna2lFtE14PDp3RkijR+167SfAL
-	RLbEpDKqIgR2YLYfxcWZzEGR++O+oHWK797aEKFvu2JoG1IFPv438QZduvQpdrLN+w9wg0h1FWE
-	6FVjTaeLFobEdwAthDZU6cQjQsYcsnCWLlsx6zBPqQJIdDp+Vu29zfSP83PHkLXucdWzUjqRQ3T
-	C0JEBvCQEtnaOpUD9o71YDj8lWbSAG/ESKVpHbrH6RoPHuBlEnc=
-X-Received: by 2002:a17:90b:4e85:b0:35d:93ff:2859 with SMTP id
- 98e67ed59e1d1-35e42832228mr13406810a91.22.1776089801855; Mon, 13 Apr 2026
- 07:16:41 -0700 (PDT)
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=BGRK5mEF;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=85642e362d=qi.chen@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63DNchlQ3860875;
+	Mon, 13 Apr 2026 19:17:13 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=cc:content-transfer-encoding:content-type:date:from
+	:in-reply-to:message-id:mime-version:references:subject:to; s=
+	PPS06212021; bh=4jlTFmGDcupoNdui8M0pnq5VlS78/LThBTvwsvWsGk8=; b=
+	BGRK5mEF9BFPpeNRJF5jgI8Sz5GOQ8YvjTZQmd8L3bUJUXtExT8vn0AUgT2oGw3r
+	xYn6WGvX35SRCWSh8HtanSLn2vYbLXeh3Ut6eGwJwIeCV+Xogv2YWxJ9pd2ojkly
+	f2JUOQXEp+5z6uljDk8Lz8cYsvMO/j6mTgb+G0ZqxvUv1/frffUjE93BxRk5KWew
+	BtnWQy/6+rB7rIO89SKngk4dncBCjuG0TTyhb6XKet40zm+9SctnS9nxN7oJmZhU
+	d/Qs9eJYzuJdC/F5YNoSz0PmvT8AVWmu9FvJCHqCnhPubYHd5dj/Pxdd+FawjKeJ
+	F4pag8a0nxrVqTIum/0nVQ==
+Received: from sn4pr2101cu001.outbound.protection.outlook.com (mail-southcentralusazon11012067.outbound.protection.outlook.com [40.93.195.67])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4dh87mr6m9-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Mon, 13 Apr 2026 19:17:12 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=gYfBdzOzWIpTQZHKyKYY2wkuZRZyLzTVNBwYn80nzIg7IiPXseLks+/g4+gf45LuQ4SqyPd62y3HqgcOE/AuaCy/cwW+1a35B+widzJk79PsrdGZ+93TiUo5Xkgcz7EmiyR0rLfd67JTMW6l7u0IV72XjeNCYE9M8O5RT+O+clYSxYTAxI4vrAxKdhoaG/sttyi5YJRlwK9v1mao4nt3fsPcfJ4pMo+n8Jy5ID2ESfAZ4umVHTPoM+87VAUuIJ1CGG06mkl4YIkaC0mwd15Id98YovBBPlAWs6w0BKLp2ttE+h/QMJLfWSxTW/WZsxu4qYK4UNXpRIxKflAgZMh25g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=4jlTFmGDcupoNdui8M0pnq5VlS78/LThBTvwsvWsGk8=;
+ b=VeYKf1QuH5uzSAVS7wMkpciOLk2lNyiyI65z8aPbgtF8Y6izxFBbnD/QF4FXF39IsBm7eJj28K55YEAI8exwtqKBdD7m7GZUaLrSvoIHncB136XJH5OgTWi6PFO5RI75Raa/IGor7LP02DzLSoR3B4/QUPjuMNNO88zhcypqtZJg24OZAxBZ+Pc74cBPFIH5rqJqNDWZuA71huob2k82+kqZAIprTEsi7/+lrSvNCa6XGVawQ8c759T2bUVkYKP+AfuBCqpN2klhKovCiS/BgsIq9QoJ9jg2hTih8ZOZBR7JRKHA1saIf3uqUuVyDdWkppJhTEW/shJzdSdXS3FMmw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
+ by PH8PR11MB6853.namprd11.prod.outlook.com (2603:10b6:510:22e::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9818.20; Tue, 14 Apr
+ 2026 02:17:09 +0000
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::5ad6:8f90:b01d:2c62]) by CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::5ad6:8f90:b01d:2c62%4]) with mapi id 15.20.9818.017; Tue, 14 Apr 2026
+ 02:17:09 +0000
+Message-ID: <1805d421-2e6f-4dd3-835a-e187a3152eca@windriver.com>
+Date: Tue, 14 Apr 2026 10:17:03 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [meta-virtualization][PATCH] libvirt-dbus: disable -Werror=inline
+ to fix build error
+To: tanguy.raufflet@savoirfairelinux.com,
+        meta-virtualization@lists.yoctoproject.org
+Cc: paul.leguendekerneizon@savoirfairelinux.com
+References: <20260413115239.79131-1-tanguy.raufflet@savoirfairelinux.com>
+Content-Language: en-US
+From: ChenQi <Qi.Chen@windriver.com>
+In-Reply-To: <20260413115239.79131-1-tanguy.raufflet@savoirfairelinux.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SI1PR02CA0006.apcprd02.prod.outlook.com
+ (2603:1096:4:1f7::11) To CO6PR11MB5602.namprd11.prod.outlook.com
+ (2603:10b6:303:13a::5)
 MIME-Version: 1.0
-References: <20260411101842.3462555-1-zhixiong.chi@windriver.com> <20260411101842.3462555-2-zhixiong.chi@windriver.com>
-In-Reply-To: <20260411101842.3462555-2-zhixiong.chi@windriver.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Mon, 13 Apr 2026 10:16:30 -0400
-X-Gm-Features: AQROBzA102h0IdSPalVnVLYjd3BeLUCUjctSYyX1g-vBF_iZ-ntXVB_b_610iSA
-Message-ID: <CADkTA4NqpgkTEFRbVb-8NcT+ZP2ahUSNM1i=3OAcFFtF+-EqmQ@mail.gmail.com>
-Subject: Re: [meta-virtualization][PATCH 2/2] libvirt: add secrets PACKAGECONFIG
-To: zhixiong.chi@windriver.com
-Cc: meta-virtualization@lists.yoctoproject.org
-Content-Type: multipart/alternative; boundary="000000000000ba9838064f5821e5"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO6PR11MB5602:EE_|PH8PR11MB6853:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2dcfd315-376a-4b45-ded5-08de99cbee51
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|376014|4022899009|366016|1800799024|56012099003|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info: 
+	V6APOjerOcjK7p8EtyLd48om2QG6Mpc1S9rT+2sbaB1mayWf33TBWUcTvNwJLqAlMfeZY0Ol8Bx3841Jb0Uj76sYl0gtM84ORheUPjFgBvhAwLHjxGGRAfGLYAJvi6stjFzcvKrTBre14nvlci+G+kv42u79L9myeNkALArroVhnTkSzS9n79WCUCCAxSAknrOXrqmUo0a0BwF4UIqcFl9DXKp5AvxI+CkgJrFPKMGLy9L2bukmcN+bGBpNCqwwr9MBKhlCjNmFP2tx3pemvjRf0/b7yX7NjlDUyNbElJe8/4fMQBYcsLIshLFXfsk0IWFTNwWVFHN5ETdcRwMNlrWzpPddCpNMjwXibwyY0Y+m7FKfn0sag4qZ1ypx3TrqBsvaOK99Jg+NeyvWM6HwVG/qltYuryWrBsBu9gTJgSpRJ21kC++qFlD3c1imzkWZOo7BqLezlCY8LlOBHeJxsVYTlIMSNGMzy5dt1w8xe5cWh3IvS5hxXX9ca8e6OoDv8cumUzxCHTUKrukzcFs0+E/7Ov7R92z0MCWg0wHg76B5EnRvE19hs5c2//45lCuqPLBM6WJH781aWSF8RmSoQQP09keabGnfDqe3+oBXe6UhfV8/bwHe/YkLZgaipfi1P8mT39UccUm9EY6JZjxucqqZeSxbdUU8GmpIJudDRtvd+WcrprlLqPqWHYBmlT7PS
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(4022899009)(366016)(1800799024)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?ZG5MQVhqbkl3WFZaM0ZzUVZYb0xRL3BWOGxzcnNLY1hmaEZ3b0UrRDJhMmhH?=
+ =?utf-8?B?ZHZZeExqNjE1aGZCKzZUYTcxYkc1R0UzRWg2S04zZjE5VHJPR3d3dFpUWmlh?=
+ =?utf-8?B?b1l2czJRZkRMRkRLN1JWZlJPeHRZdjNJNldkTk0wcWYwZjZXbHlaYThvNVlG?=
+ =?utf-8?B?Y2lna05RK0xoUWw1dWU1RXFmcmV0NlpUQTlMazA1Qmc3S1gvTWVsekpOeEsy?=
+ =?utf-8?B?MjY5RW9ucldqZVk0NEhvdTRiY0haYzBKMk5YbXhDaE1hUWJ6SGJUWnNXL2Za?=
+ =?utf-8?B?SnEvZUZQWmFWOGJmSFU4ei9GS21lQ01BR1pYVTg4RzVpMVEwb1JvcER0VTlF?=
+ =?utf-8?B?Y1I1YjkxYlVoMitHTjlUT0QwbzBRWTRHNFBoZjZDcDUxbHBxUHNNaWJXTDJ6?=
+ =?utf-8?B?WEI5TWtlOFpuUVJIUGxOTEY0OVFzeGs3KzJHMmRrSWFVc1F4K2UrZHgwdEZ2?=
+ =?utf-8?B?em9kVnY2bUw0MU0wVi8wc000WDFkck9CYnRLbitkbzZ5aDNxZU0rUFltWkM0?=
+ =?utf-8?B?MytRSE1YR2ZHKzZPS0ZLUzZKYXZwNzF6RXhNd05oWWNmRWlMSDJ3bjEzQTNS?=
+ =?utf-8?B?ZERYWGhlb1VCTU12RjFoeWhUaGs2WlRkSGlFRGEwVWpYZmJzcEd3SzYxZDNx?=
+ =?utf-8?B?U2N3UUhlVGI1Lzh4eGZ3NWlpRmpaZWxKNUN5ZmZWZ0MybXJPdFR0Tng5RFpD?=
+ =?utf-8?B?ZXlrRnBrc3NVZkVlUVB6Sm16VVh0clZEV0N6T0oxMVBnYkhtR2lRMTgrMHFT?=
+ =?utf-8?B?K29INHJUSlpjNjlyMkdPN1FmdWZZMU9ldk9KZlZLb09lM2F3S0xtUkM0eXZY?=
+ =?utf-8?B?YmswUFgxaWlvb2M1QW42WGNka01iZDdGR3p6SEFMS1Y4WGhyZzFhaXBpMlJE?=
+ =?utf-8?B?V28yRldRajFreHJ2NGh2eEVDZXBXdXVRWmdMTFAxc25TYXk0Yng2cHhkYnZv?=
+ =?utf-8?B?L1JjNjIwbEVXa0ZGT2M3MmJLTlVvWllDWm1Lbnk2WWxObTBhNmlRMTFSNG5q?=
+ =?utf-8?B?Vm03Tm1BeEZuRmFQOEVjeHFZeFhMakUvQkJ4dGhFTDdNN2d0RFlqWDFBZHFx?=
+ =?utf-8?B?VjJLVlk3TUp2OEhjYlFhV2pyTENtTWw5U0RKcitaT0xWQ2dPTFAyVVZQbno4?=
+ =?utf-8?B?VnAxUW9ZRFQzWWtqdTkvZjZoS3U5WERGeU44RjB6dWk3RXFIdTFtT2huOXFo?=
+ =?utf-8?B?bGRCUW45MkF3YnhzYVFzWUVEZmh2V016VzRXVDE0elVwY1ZPbUpzcmIrQWNZ?=
+ =?utf-8?B?Yko4NEI0cy9kQ1Q5WlIvMFV3emtXOEJDeUwyVUhOd3pMeitPOXZSelNjT09T?=
+ =?utf-8?B?YmwxNTcrSzhUaFhJd2IweS9mRGNlQnZXWm5TRzZQaGdnOElQa2toSHVQdE1v?=
+ =?utf-8?B?ejJqNyt0dFQwRVZDZENEZ1RsTEF4bmhhVTBMWW1ObUp3dTB6aDNQRDNwL2JZ?=
+ =?utf-8?B?ek02RnJmbk51UUtiaUc5ekFHRXpnR3J2R1RaUlJYZGI5OTNqTlZkTW1yN2hG?=
+ =?utf-8?B?dWs1Y3A0Z3hpOWZqWEsxdExDWnBJalZrZkgzekRlQ2ROV092aFQ4RmJqTnpB?=
+ =?utf-8?B?SS9vbmN0dTh0ZmlDRzJaOGFPWmg2S3dsTURNaXpZM0c1L0N2Q0JEM0l2MWxN?=
+ =?utf-8?B?WDAyUFJ0TG9QZk4xUnJGRFhwcnRBdUFOMFY2bVFMSWRnKzU5dUxEaXVwMzZM?=
+ =?utf-8?B?bFFvLzZ3Y1VzR0EvQmRjQmcyVmdWSUdESmxJL3ZRWUFaT203V2xDaUdZQVA3?=
+ =?utf-8?B?UXdPN3NtLzdGWUR2dnZjYW40V2ltU0JEU2xZUmZDWHNBb1dGN2F4S0EvZXJp?=
+ =?utf-8?B?YWRaeURPUThQaW1wS3Y1YWNPOVBVOUtHY3lqYUp0MGJGckQyUG03ckFwQXVt?=
+ =?utf-8?B?N21GcDl4RHVlcndOVGs5UGFVQkFGUHBJSE9COXFJYzM2dXVLajFuYjdCd3VY?=
+ =?utf-8?B?clJUUnhtQ2pBc1hvUVB5UUw4SGIrVFc5VkNKeVFNQUpqZU9rYzFGQ0o1a3ZY?=
+ =?utf-8?B?cXlZSXhScEpCanUwVFE3N1U3MnFJWTd0ZGhEZG5ZdG9LUFl0T3pFR2pNNTZs?=
+ =?utf-8?B?U0lDRUFadUg3MENxdVN5Qkk4UmRGVHRMd1Q0MjJPMjlHd3ZSMVJmdVEyV2tO?=
+ =?utf-8?B?SGZFWHpsYlJJOHpPUUkzQmhuOGVta3FoNVVLTjFGR3NMS0V4ZmJjUEl1bWVL?=
+ =?utf-8?B?Zms3Mnc5djRjM1Y4SE0weWc1UXQwK3lxZGF4THN0TWg1ZXJ6YWloSmEvT2Za?=
+ =?utf-8?B?WEN3azdOVjE0QlRNTzRyUTZYSVFmcnVYM1k4RFNYbVNzbXBPZmhwMkFXOElh?=
+ =?utf-8?B?V1loVndrSjVSMVZMNEg3Qzk0ZUFuWE5xKzh0U3pDZ3JPM2I1ekdQZz09?=
+X-Exchange-RoutingPolicyChecked: 
+	Fv2R5ozh8qrMSpBeXgLke3tdYAEbIPunO5fXYx0eQKXsDw+nVZPY+aWLCfMylhxGWABn53Gj9i9DkX3ceSAxZX2J8RuHJpS9ETpeEYDmtGh45TLz9/+97Om+RgNE5qCjy2Lqz2kIgt8vNlg1jRxXgCayoh+UzqgTgaLSkWO4krvYJ3kURaCMpLFH3KY6cMiL3aLKKmaoyGsdcvmPs9TsvMX/fhxYxnq+m0LYZqiW3gzgXVlKkqcHDu9fre7h3h7CImzzag/dd8WsxXQwLir7vK6JxRRgNH85SUB4wr8h/kDxohryRBhdNzcwl/OArsXn3JZFj5KbSYsak6/ZM2Wk+Q==
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2dcfd315-376a-4b45-ded5-08de99cbee51
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Apr 2026 02:17:09.3655
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 0DdvVR6nInEke0Sd+sgnBuernJkFjwgOQUU7z7l3BWH6O+BqX99E1XUJqimWgF3P79v2gD3/BvWYG5muG4rPEQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB6853
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDE0MDAxOCBTYWx0ZWRfX9aSpf0/bsoV8
+ 5YMoXNeVLg+GOQa345nCQ3CufUWuSDM3Hq8qFSXTF0AoCWpAS9MZ9ZbjuG7kG3uhlXIjl5gOBkp
+ qgZKulf1qnzuwr2Gt4TA1yzVoeOQ/Bkzaug/qc+0m96KJUqXUuV4TmaDZ1Vm8IxYBG6gPHxLJk7
+ T7ipOO59QBUI8o4qevUusci5Aa/BF0hd2FPIucZjy+v/8je/CjdOK2SjjdkHGFtL3Adyu4RPt/r
+ nBffSWfwiC9iSqXNKUYofKclJPz0LTve0o+Xpsi7yrC1g3OJjnf5EDXoi2Rh7SSwCQ6S7gX1Wiq
+ Dfgm0GMPSSfPE1IOOFyfICNG9J4uEceFhelbuvL1wTVA3isZkEAcQW/r4QLlb+Tcr076BxDgQW2
+ Th/RoFLN6+BWhJ7M3kubXt61EHtaNLMOvDYIWdIhgQ/PhQjCR0DACbbMl/mItDuffG6nT+lxYM4
+ ROtZGyzUXJsUMRXKtsA==
+X-Proofpoint-ORIG-GUID: 2fRPfTJgoA8KtgbVQf-kwDLEgpww8zqX
+X-Authority-Analysis: v=2.4 cv=GupyPE1C c=1 sm=1 tr=0 ts=69dda3a9 cx=c_pps
+ a=ButkoIHTjR5vDxq5MUTXqA==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=A5OVakUREuEA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22 a=iKiJcTA2PjBS6x5JeXcw:22
+ a=iGHA9ds3AAAA:8 a=aRxQL1JOAAAA:8 a=t7CeM3EgAAAA:8 a=aX5613nTqTHLsjdElmQA:9
+ a=QEXdDO2ut3YA:10 a=nM-MV4yxpKKO9kiQg6Ot:22 a=lBRdisTmIr2YKkuu8atg:22
+ a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: 2fRPfTJgoA8KtgbVQf-kwDLEgpww8zqX
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-04-13_03,2026-04-13_04,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 impostorscore=0 spamscore=0 malwarescore=0 suspectscore=0
+ lowpriorityscore=0 bulkscore=0 priorityscore=1501 adultscore=0 clxscore=1011
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2604070000 definitions=main-2604140018
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Mon, 13 Apr 2026 14:16:51 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9697
+ <meta-virtualization@lists.yoctoproject.org>; Tue, 14 Apr 2026 02:17:19 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9698
 
---000000000000ba9838064f5821e5
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Can you check with upstream first? After all, they'll be facing the same 
+issue with us.
 
-On Sat, Apr 11, 2026 at 6:18=E2=80=AFAM Zhixiong Chi via lists.yoctoproject=
-.org
-<zhixiong.chi=3Dwindriver.com@lists.yoctoproject.org> wrote:
+The reason is that if we use this solution like this directly, chances 
+are that nobody will ever revisit this issue any more...
 
-> After being upgraded to v12.1.0, the new
-> virt-secret-init-encryption.service
-> has been introduced, and it requires systemd to add openssl to
-> PACKAGECONFIG.
-> Because systemd-creds encrypt command will be executed in the service fil=
-e.
+Regards,
+Qi
+
+On 4/13/26 19:52, Tanguy Raufflet via lists.yoctoproject.org wrote:
+> The meson.build from libvirt-dbus enables the flag -Winline. Combined
+> with -Werror from Yocto, this causes a build failure because GCC refuses
+> to inline g_autoptr_cleanup_generic_gfree() from the glib header
+> glib-autocleanups.h, as it considers the call unlikely and estimates
+> code size would grow.
 >
-> Meanwhile this service was added into the dependency chain of the main
-> service
-> libvirtd.service.
+> Because the function g_autoptr_cleanup_generic_gfree is defined as
+> static inline with good reason, this patch disables -Werror=inline for
+> libvirt-dbus to allow the build to succeed.
 >
-> In systemd recipe, the openssl PACKAGECONFIG is disabled at default.
-> Finally
-> the service file virt-secret-init-encryption.service and libvirtd will be
-> failed.
->
-
-Considering it didn't exist before, then yes, it is disabled by default.
-But that
-we can see from the patch.
-
-If the new service was introduced by the uprev, is it enabled by default by
-libvirt itself, or is it doing some sort of build time detection ? We need
-to
-document that in the commit message. That is what your commit message
-already implies, I just want it to be clearly stated.
-
-We should also be capturing what the user would see in the system logs,
-on the console, or wherever if this service is enabled. Is it an error ? is
-it functional ?
-
-
-
->
-> So add secrets PACKAGECONFIG for libvirt and conditional removal the new
-> virt-secret-init-encryption in the libvirt.service.
->
-> Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
+> Signed-off-by: Tanguy Raufflet <tanguy.raufflet@savoirfairelinux.com>
 > ---
->  recipes-extended/libvirt/libvirt_git.bb | 11 +++++++++++
->  1 file changed, 11 insertions(+)
+>   recipes-extended/libvirt/libvirt-dbus_1.4.1.bb | 2 ++
+>   1 file changed, 2 insertions(+)
 >
-> diff --git a/recipes-extended/libvirt/libvirt_git.bb
-> b/recipes-extended/libvirt/libvirt_git.bb
-> index fbee9c5b..3075149b 100644
-> --- a/recipes-extended/libvirt/libvirt_git.bb
-> +++ b/recipes-extended/libvirt/libvirt_git.bb
-> @@ -177,6 +177,8 @@ PACKAGECONFIG[firewalld] =3D "-Dfirewalld=3Denabled,
-> -Dfirewalld=3Ddisabled,"
->  PACKAGECONFIG[libpcap] =3D "-Dlibpcap=3Denabled,
-> -Dlibpcap=3Ddisabled,libpcap,libpcap"
->  PACKAGECONFIG[numad] =3D "-Dnumad=3Denabled, -Dnumad=3Ddisabled,"
->  PACKAGECONFIG[nftables] =3D ""
-> +# Require systemd to add openssl to PACKAGECONFIG, so disable it at
-> default.
-> +PACKAGECONFIG[secrets] =3D "-Ddriver_secrets=3Denabled,
-> -Ddriver_secrets=3Ddisabled,"
->
->  # Enable the Python tool support
->  require libvirt-python.inc
-> @@ -225,6 +227,15 @@ do_install:append() {
->                  mv ${D}${prefix}/lib/systemd/system/*
-> ${D}${systemd_system_unitdir}
->                  rmdir ${D}${prefix}/lib/systemd/system
-> ${D}${prefix}/lib/systemd
->              fi
+> diff --git a/recipes-extended/libvirt/libvirt-dbus_1.4.1.bb b/recipes-extended/libvirt/libvirt-dbus_1.4.1.bb
+> index 767470e2..e4859b0b 100644
+> --- a/recipes-extended/libvirt/libvirt-dbus_1.4.1.bb
+> +++ b/recipes-extended/libvirt/libvirt-dbus_1.4.1.bb
+> @@ -16,6 +16,8 @@ SRCREV = "0c355bb8921d7cbccf93f41a8615fcd973e64f70"
+>   
+>   inherit meson pkgconfig
+>   
+> +CFLAGS:append = " -Wno-error=inline"
 > +
+>   FILES:${PN} += "\
+>       ${datadir}/dbus-1/* \
+>       ${datadir}/polkit-1/* \
 >
-
-We need a comment above those sed expressions to indicate the final result.
-i.e. service is completely removed.
-
-But again, back to my first comments. If libvirt is enabling this by
-default, and it
-isn't doing some sort of runtime/buildtime detection, is this really the
-only way that
-libvirt has to disable it ?
-
-Bruce
-
-
-
-> +            if ! ${@bb.utils.contains('PACKAGECONFIG', 'secrets', 'true'=
-,
-> 'false', d)}; then
-> +                sed -i \
-> +                    -e '/^Requires=3Dvirt-secret-init-encryption.service=
-/d'
-> \
-> +                    -e '/^After=3Dvirt-secret-init-encryption.service/d'=
- \
-> +                    -e '/^Environment=3DSECRETS_ENCRYPTION_KEY=3D/d' \
-> +                    -e '/^LoadCredentialEncrypted=3D/d' \
-> +                    ${D}${systemd_system_unitdir}/libvirtd.service
-> +            fi
->         fi
->
->         # The /run/libvirt directories created by the Makefile are
-> --
-> 2.49.0
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#9692):
-> https://lists.yoctoproject.org/g/meta-virtualization/message/9692
-> Mute This Topic: https://lists.yoctoproject.org/mt/118773077/1050810
+> View/Reply Online (#9695): https://lists.yoctoproject.org/g/meta-virtualization/message/9695
+> Mute This Topic: https://lists.yoctoproject.org/mt/118803008/3618072
 > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [
-> bruce.ashfield@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [Qi.Chen@windriver.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
 >
 
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end
-- "Use the force Harry" - Gandalf, Star Trek II
-
---000000000000ba9838064f5821e5
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-size:small"><br></div></div><br><div class=3D"gmail_quote gmail_quote_con=
-tainer"><div dir=3D"ltr" class=3D"gmail_attr">On Sat, Apr 11, 2026 at 6:18=
-=E2=80=AFAM Zhixiong Chi via <a href=3D"http://lists.yoctoproject.org">list=
-s.yoctoproject.org</a> &lt;zhixiong.chi=3D<a href=3D"mailto:windriver.com@l=
-ists.yoctoproject.org">windriver.com@lists.yoctoproject.org</a>&gt; wrote:<=
-br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
-x;border-left:1px solid rgb(204,204,204);padding-left:1ex">After being upgr=
-aded to v12.1.0, the new virt-secret-init-encryption.service<br>
-has been introduced, and it requires systemd to add openssl to PACKAGECONFI=
-G.<br>
-Because systemd-creds encrypt command will be executed in the service file.=
-<br>
-<br>
-Meanwhile this service was added into the dependency chain of the main serv=
-ice<br>
-libvirtd.service.<br>
-<br>
-In systemd recipe, the openssl PACKAGECONFIG is disabled at default. Finall=
-y<br>
-the service file virt-secret-init-encryption.service and libvirtd will be<b=
-r>
-failed.<br></blockquote><div><br></div><div><div class=3D"gmail_default" st=
-yle=3D"font-size:small">Considering it didn&#39;t exist before, then yes, i=
-t is disabled by default.=C2=A0 But that</div><div class=3D"gmail_default" =
-style=3D"font-size:small">we can see from the patch.<br><br>If the new serv=
-ice was introduced by the uprev, is it enabled by default by</div><div clas=
-s=3D"gmail_default" style=3D"font-size:small">libvirt itself, or is it doin=
-g some sort of build time detection ? We need to</div><div class=3D"gmail_d=
-efault" style=3D"font-size:small">document that in the commit message. That=
- is what your commit message</div><div class=3D"gmail_default" style=3D"fon=
-t-size:small">already implies, I just want it to be clearly stated.</div><b=
-r></div><div><div class=3D"gmail_default" style=3D"font-size:small">We shou=
-ld also be capturing what the user would see in the system logs,</div><div =
-class=3D"gmail_default" style=3D"font-size:small">on the console, or wherev=
-er if this service is enabled. Is it an error ? is</div><div class=3D"gmail=
-_default" style=3D"font-size:small">it functional ?</div><br></div><div>=C2=
-=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
-x;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-So add secrets PACKAGECONFIG for libvirt and conditional removal the new<br=
->
-virt-secret-init-encryption in the libvirt.service.<br>
-<br>
-Signed-off-by: Zhixiong Chi &lt;<a href=3D"mailto:zhixiong.chi@windriver.co=
-m" target=3D"_blank">zhixiong.chi@windriver.com</a>&gt;<br>
----<br>
-=C2=A0recipes-extended/libvirt/<a href=3D"http://libvirt_git.bb" rel=3D"nor=
-eferrer" target=3D"_blank">libvirt_git.bb</a> | 11 +++++++++++<br>
-=C2=A01 file changed, 11 insertions(+)<br>
-<br>
-diff --git a/recipes-extended/libvirt/<a href=3D"http://libvirt_git.bb" rel=
-=3D"noreferrer" target=3D"_blank">libvirt_git.bb</a> b/recipes-extended/lib=
-virt/<a href=3D"http://libvirt_git.bb" rel=3D"noreferrer" target=3D"_blank"=
->libvirt_git.bb</a><br>
-index fbee9c5b..3075149b 100644<br>
---- a/recipes-extended/libvirt/<a href=3D"http://libvirt_git.bb" rel=3D"nor=
-eferrer" target=3D"_blank">libvirt_git.bb</a><br>
-+++ b/recipes-extended/libvirt/<a href=3D"http://libvirt_git.bb" rel=3D"nor=
-eferrer" target=3D"_blank">libvirt_git.bb</a><br>
-@@ -177,6 +177,8 @@ PACKAGECONFIG[firewalld] =3D &quot;-Dfirewalld=3Denable=
-d, -Dfirewalld=3Ddisabled,&quot;<br>
-=C2=A0PACKAGECONFIG[libpcap] =3D &quot;-Dlibpcap=3Denabled, -Dlibpcap=3Ddis=
-abled,libpcap,libpcap&quot;<br>
-=C2=A0PACKAGECONFIG[numad] =3D &quot;-Dnumad=3Denabled, -Dnumad=3Ddisabled,=
-&quot;<br>
-=C2=A0PACKAGECONFIG[nftables] =3D &quot;&quot;<br>
-+# Require systemd to add openssl to PACKAGECONFIG, so disable it at defaul=
-t.<br>
-+PACKAGECONFIG[secrets] =3D &quot;-Ddriver_secrets=3Denabled, -Ddriver_secr=
-ets=3Ddisabled,&quot;<br>
-<br>
-=C2=A0# Enable the Python tool support<br>
-=C2=A0require libvirt-python.inc<br>
-@@ -225,6 +227,15 @@ do_install:append() {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0mv ${D}${pref=
-ix}/lib/systemd/system/* ${D}${systemd_system_unitdir}<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0rmdir ${D}${p=
-refix}/lib/systemd/system ${D}${prefix}/lib/systemd<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
-+<br></blockquote><div><br></div><div><div class=3D"gmail_default" style=3D=
-"font-size:small">We need a comment above those sed expressions to indicate=
- the final result.</div><div class=3D"gmail_default" style=3D"font-size:sma=
-ll">i.e. service is completely removed.</div><div class=3D"gmail_default" s=
-tyle=3D"font-size:small"><br></div><div class=3D"gmail_default" style=3D"fo=
-nt-size:small">But again, back to my first comments. If libvirt is enabling=
- this by default, and it</div><div class=3D"gmail_default" style=3D"font-si=
-ze:small">isn&#39;t doing some sort of runtime/buildtime detection, is this=
- really the only way that</div><div class=3D"gmail_default" style=3D"font-s=
-ize:small">libvirt has to disable it ?</div><div class=3D"gmail_default" st=
-yle=3D"font-size:small"><br></div><div class=3D"gmail_default" style=3D"fon=
-t-size:small">Bruce</div><br></div><div>=C2=A0</div><blockquote class=3D"gm=
-ail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,=
-204,204);padding-left:1ex">
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if ! ${@bb.utils.contains(&#39;P=
-ACKAGECONFIG&#39;, &#39;secrets&#39;, &#39;true&#39;, &#39;false&#39;, d)};=
- then<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sed -i \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 -e &=
-#39;/^Requires=3Dvirt-secret-init-encryption.service/d&#39; \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 -e &=
-#39;/^After=3Dvirt-secret-init-encryption.service/d&#39; \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 -e &=
-#39;/^Environment=3DSECRETS_ENCRYPTION_KEY=3D/d&#39; \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 -e &=
-#39;/^LoadCredentialEncrypted=3D/d&#39; \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ${D}=
-${systemd_system_unitdir}/libvirtd.service<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 # The /run/libvirt directories created by the M=
-akefile are <br>
--- <br>
-2.49.0<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#9692): <a href=3D"https://lists.yoctoproject.org/g/meta=
--virtualization/message/9692" rel=3D"noreferrer" target=3D"_blank">https://=
-lists.yoctoproject.org/g/meta-virtualization/message/9692</a><br>
-Mute This Topic: <a href=3D"https://lists.yoctoproject.org/mt/118773077/105=
-0810" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.org/m=
-t/118773077/1050810</a><br>
-Group Owner: <a href=3D"mailto:meta-virtualization%2Bowner@lists.yoctoproje=
-ct.org" target=3D"_blank">meta-virtualization+owner@lists.yoctoproject.org<=
-/a><br>
-Unsubscribe: <a href=3D"https://lists.yoctoproject.org/g/meta-virtualizatio=
-n/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.or=
-g/g/meta-virtualization/unsub</a> [<a href=3D"mailto:bruce.ashfield@gmail.c=
-om" target=3D"_blank">bruce.ashfield@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
-=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
-ignature">- Thou shalt not follow the NULL pointer, for chaos and madness a=
-wait thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star T=
-rek II<br><br></div></div>
-
---000000000000ba9838064f5821e5--
 
