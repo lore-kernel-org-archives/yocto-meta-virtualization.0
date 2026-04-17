@@ -2,114 +2,113 @@ Return-Path: <koen.kooi@oss.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A31BCF8E4AE
-	for <webhook@archiver.kernel.org>; Fri, 17 Apr 2026 06:28:13 +0000 (UTC)
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.36808.1776407291726996701
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B552F8E4B7
+	for <webhook@archiver.kernel.org>; Fri, 17 Apr 2026 07:31:44 +0000 (UTC)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.39320.1776411103531087806
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 16 Apr 2026 23:28:11 -0700
+ Fri, 17 Apr 2026 00:31:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=dpR+eFHJ;
- dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=acVwQAMG;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: koen.kooi@oss.qualcomm.com)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63H0frr13102131
-	for <meta-virtualization@lists.yoctoproject.org>; Fri, 17 Apr 2026 06:28:11 GMT
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=IHggeM3G;
+ dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=cqIrBWGH;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.180.131, mailfrom: koen.kooi@oss.qualcomm.com)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63H7AZ5d3438242
+	for <meta-virtualization@lists.yoctoproject.org>; Fri, 17 Apr 2026 07:31:42 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=riKUloFPkYayumaFj9e9Wm+gzP+Hc+rzTTN
-	5OKTGCsY=; b=dpR+eFHJIPyt1T1tRGA4qfBupPNGGPtQr7iYGUXdGTOuBnvozua
-	kgvOJQ9+m6j7AAdZKktU0yUXUu6i3Yh5bS7zycLUCm8sLznEaJx9FxUAc5D9/Tfk
-	3wV+Zheb0aenmqepbF5hGT4CMhn3XM7DQWPUiAb7H8F1mu/ReSDPv9wgZmXs8kt/
-	u40J2ScY3Bk143OmEP3WljuOFnMWSyUSWJR9pd6LoyFgIFq6U/0nTFmE2e6LhU6K
-	ZfxKKMAWPV2gqArecunZCjeGYM1e+VgOikQO6M07wlqp8oE/CKuXyTgEglqSH1wd
-	I1GyRa/3QYoqY5YpLtbAtB0eK45T8nlgNFA==
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4djx4kbn32-1
+	:subject:to; s=qcppdkim1; bh=NEbfX4P7Gvc4ZnJbBOByjte0Bo7Q1fJ7EQJ
+	BH3fi/rc=; b=IHggeM3Ge/7BkynmaAYZk2/XVjissbaQTBUi9qXDQkA1jYIL+7D
+	98A1IZ93u5tP1GNvymHvfXZkp7YrDq1xe2JG4kQmcjix711DcKgxbvsqnO3vbnF7
+	l9LsRS+lRI7IDWEGcwNYjZxyGTyZXUDaxlvHXDAUKoleeO2tbioSVdbi9XLNP15s
+	zAqCUlWsHFWbNN0aIsQmRdlEYVX+Ua9WXXQfWoYXE1TYoet494q0yfv/1Ewh0gYn
+	1LBVTd9UGf8/Z9+zvv8+31qz5Jm5mhuJqrm8ZI0+2ootR0ZQia7DC0n1rmJPCROp
+	N2VEp5rQcLSvcWUuOsTWBNkGQNrzZJYrl+A==
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com [209.85.160.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4dkg88r27f-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <meta-virtualization@lists.yoctoproject.org>; Fri, 17 Apr 2026 06:28:10 +0000 (GMT)
-Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-50d5d1c2289so9989701cf.2
-        for <meta-virtualization@lists.yoctoproject.org>; Thu, 16 Apr 2026 23:28:10 -0700 (PDT)
+	for <meta-virtualization@lists.yoctoproject.org>; Fri, 17 Apr 2026 07:31:41 +0000 (GMT)
+Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-50d6bf346adso9057451cf.1
+        for <meta-virtualization@lists.yoctoproject.org>; Fri, 17 Apr 2026 00:31:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1776407289; x=1777012089; darn=lists.yoctoproject.org;
+        d=oss.qualcomm.com; s=google; t=1776411101; x=1777015901; darn=lists.yoctoproject.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=riKUloFPkYayumaFj9e9Wm+gzP+Hc+rzTTN5OKTGCsY=;
-        b=acVwQAMGVyP9CcLGtaNcTQ3+7dDRIPa+n7nlRQy21TN1ESkPeeHNzyhkUMDI/FD6WO
-         gy2Y1Zl6x9Q3e5AfLVtPFfaOCXX86i9MiKA5GDYpBWsv6sKy1EuQmZXOmi3VSTeiVVUr
-         +hqlKsS0ULuNacZBshpr4fEQBQqsOh6ZDVFPzskibhmDEXcrHgTZLh+B6nzs6C/HtpV3
-         q8tBPmp9rKiZyVSDBo3gUgbe4IlNouDUC5OqoT9PAyD69KBG8h3zsoDbefS3CychM+0L
-         C/gJMKWwxhm+Ht/AHKOxW6Non4w3k/NxbcaaCDaQ8VjnH14KAMzOWpBFzvmser1SsD3D
-         cYeQ==
+        bh=NEbfX4P7Gvc4ZnJbBOByjte0Bo7Q1fJ7EQJBH3fi/rc=;
+        b=cqIrBWGHN9fARJEZqVDWoO5/gqM4ODodHPkF0RzxYAmO0vVELc4GvR5cO1Ui89JMHV
+         5cLwoG2Au4BQ3d070BShuuxs5Jd53VOIC0yiQDi6ERb85KLWa/ew7wfg4jtHawXSKt0J
+         hyyPwLgJg5Wc7kWRM73/h3vQVrYLZ8NH5iswC68HTzkCZ597iHho1Jyf6Rc1J7F4ONNg
+         +GF2kwkD9LHJQQpzQTH12+livCos8PmcHG1ZhSpLKw+CcWZkkqFZE17DnourOxz8qKpW
+         x9m5RxWh/ZH7OsYAvk3C/HMSEyrSI7MA0jyC45txnoQl1sF6AYehjfUKArngyvFrZ5QF
+         1Spg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776407289; x=1777012089;
+        d=1e100.net; s=20251104; t=1776411101; x=1777015901;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=riKUloFPkYayumaFj9e9Wm+gzP+Hc+rzTTN5OKTGCsY=;
-        b=pZcV/0kvWOR31oG56ES6BqtS+G34IUDc+tASFoqe995skGpXWUkk4TXxsvhbYkH+jY
-         zXu5G4oZilojglZQ9JMsbmBhNMMPn/eE58hotXokBTxxH4mY65gcq+6DEY290RHY+w1X
-         cD2ACRqF6MDtYCQTy2+fHuueC6IcEW1Id0qFZFAakxHw1HTW88w34ZykNc4SvoK+2EGr
-         KfQBgQ3pCjZq2zZSsfm9LKgmoRrX94apznBTi/HgJeZTG6ITz+Ph95FLlpQqtfDZrW79
-         eIl2qCeDOKtCJUZKE0ee5Dnp1b4P4k9Ieliy/MX4wVL5hhrWaqeb7LhT1DDKF0SqwWlA
-         hKEw==
-X-Gm-Message-State: AOJu0Yyyl1tdEVagxC+dZMabnfhlst/5pV6rMhXg1NtrlS6cq4D0atVI
-	J4LmWPh981h3wEnm0Oye+wKmBNRwnTZIK731011vwYMR0bUAbdgUprrzn9jH1esN4yh0eoDp86c
-	TfeyzFB4G7Fq5U6sPoeaEhWlVR6qs3TX4XROKjW58BMNQkIIi8U3PLBaikLtCT24smE/QIGqq8d
-	S6TtP/j823R9ftpd7TTA==
-X-Gm-Gg: AeBDiesJtKEbwAh6gDc3R7aGKlH18jgHcWcnNkIbsMiMVo55KaeMDALSXHanZ5bpPcd
-	StA4LGIgjskly1LUKa37b3bC34i7v9rIfpnrXJo1w1Mc0Rhc4Lj13Zv+RlzYXkJnqX+lmaex/8X
-	5q6nouPliFNC+s6mHjqxM5CiC3AkqlqJQtinjQ0Wk++XFD1dUarWc+xshQxZX4cHSuF9rKtv7NF
-	57AIHtJznp+u9vdpAYbu+qvMxBF//EWeC16vHrL6uup2+BbIP3uCg8uy5Q9uMjXWBHQq9rg4bXj
-	Op06cPFEWGQMHX2+5FHxCWvmGu4Jvyh3HMmb/a68+Nmo3UoWccsgKu1MYFf56NlA5Wp60bQffWt
-	ANI4ZixDPUNeTRKclNHK+PDsNgNA0VLJOAMnp9O0eLlE872Lx27VHU1DzFJ4=
-X-Received: by 2002:a05:622a:11d5:b0:50b:41b7:d6c2 with SMTP id d75a77b69052e-50e36c55339mr20431501cf.47.1776407288949;
-        Thu, 16 Apr 2026 23:28:08 -0700 (PDT)
-X-Received: by 2002:a05:622a:11d5:b0:50b:41b7:d6c2 with SMTP id d75a77b69052e-50e36c55339mr20431171cf.47.1776407288224;
-        Thu, 16 Apr 2026 23:28:08 -0700 (PDT)
+        bh=NEbfX4P7Gvc4ZnJbBOByjte0Bo7Q1fJ7EQJBH3fi/rc=;
+        b=m7f8BJdhWu1sUxXwmaqmn2Q9js1nAGwB7iLFL9zZFbuwQ8pcgyxsG7yvbBdHp78svM
+         XwtQMqGoPZHI8vjsUbxEoRvfN5hQ9nV3m9QD3AMHg9+605X07frscgRIiy2ZBJoAZEGq
+         oscFUNTDayvM4aaFsL2SaEgP7J9YROvWRaKdNyQbeaA8HJGCDqgMFR8SN7nbUQ2FiZfI
+         pRyqrICDiM3WyRpYHHD22t14CanxmweCGHqPvfiy0BWhuIf5LcbiRkkvWJob+5n6Lbn6
+         XJ9kEq75tl4WYaCSga7q2JD8yvdZu+/BvOgB4gWXR921cMP8wYSUszGF4UU6a9V4vcUG
+         M1wA==
+X-Gm-Message-State: AOJu0YyXGDqYMCN56ucBo7BxUeYeFQy9oSAXgGxXEYzSw/DJiGBaUOhe
+	UgoBZa+Q9ynZtqI7VsSQ72xRPQf5uze9YV2gJIG4FflEVcaSX7g1r7+uw0y+cMBOxoyOWE/d6cE
+	IKHjjXP4yaD7BvHZyCjC6a95hpdJtstx0E2fYR4B/6FdmyAYi/4ktiAm/s8KrBcOOv0NecJPFjf
+	rzEQa+PnqPrmOqhtFoQA==
+X-Gm-Gg: AeBDiet/XCpjUVGBVIvquImrD4M6/8NbB9/5JxMwWQmWCZzRXYwYshiRgxY2BT+wRnn
+	1+2irYw4CKilmGv/kXIKxCop8vuyHXDIOucZ46sHXD/TLDumXIBwcfGtKTcI+BmIEieOhJDA66p
+	dy95R2q+tozRK5MHYOVbFZoXBze9hD+++ls3pBLLFFvTVoJe5YWXVBJXIeF4XVc0UQfmL8OgxUL
+	9YzKp2CEmCJ8gETJz7NfciQCuCkFiviVet0YJ4TiwiiUUOYhpi8tC8yJxuxf4L/gqNXPuAqn8eN
+	gH7SaeP+UFc5wtBxWvCQYktOHKKN2XCIwog1aF195JxeebJ7MZesmD3qA0JoPExBHMvCMpJSVw6
+	UL2V6kRownlujAi1AyOBHwvIaRuVqRQssoVEcG2Fjqjt3YbFMXNVlYIiyAnU=
+X-Received: by 2002:a05:622a:5806:b0:50d:8903:ae6e with SMTP id d75a77b69052e-50e36b87672mr24238751cf.5.1776411100682;
+        Fri, 17 Apr 2026 00:31:40 -0700 (PDT)
+X-Received: by 2002:a05:622a:5806:b0:50d:8903:ae6e with SMTP id d75a77b69052e-50e36b87672mr24238391cf.5.1776411099972;
+        Fri, 17 Apr 2026 00:31:39 -0700 (PDT)
 Received: from rogue.. (185-047-135-246.jonaz.nl. [185.47.135.246])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ba451cdfd27sm23637266b.26.2026.04.16.23.28.07
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ba454d1b913sm27100866b.31.2026.04.17.00.31.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Apr 2026 23:28:07 -0700 (PDT)
+        Fri, 17 Apr 2026 00:31:39 -0700 (PDT)
 From: Koen Kooi <koen.kooi@oss.qualcomm.com>
 To: meta-virtualization@lists.yoctoproject.org
 Cc: Koen Kooi <koen.kooi@oss.qualcomm.com>
-Subject: [meta-virtualization][PATCH v2] cdi: add container-device-interface commandline utility
-Date: Fri, 17 Apr 2026 08:27:47 +0200
-Message-ID: <20260417062747.833899-1-koen.kooi@oss.qualcomm.com>
+Subject: [meta-virtualization][PATCH v3] cdi: add container-device-interface commandline utility
+Date: Fri, 17 Apr 2026 09:31:34 +0200
+Message-ID: <20260417073134.926832-1-koen.kooi@oss.qualcomm.com>
 X-Mailer: git-send-email 2.47.3
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: xdvn8p74XPAgk7VgL7mxHv2pacHxd3KK
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDE3MDA2MiBTYWx0ZWRfXzfWjGgtS34g0
- fg57x9n/7P4v/p7rH1ubRVzwH6YkvazEBb60cIyuxPaHNRj9UAbtfm7bFA5k87skyebYgRe9sFN
- ShG51PE37gry60nEJyIHMkkXyGd/IIGRQ05HZTAVujiKnCoR3bHrHwXw7ktFQtkwHaG/7n8DU27
- gMfvMBpAIlBg1K9yJpzub0GYKy7gNAs1H4Tas+S+/Nhs7Zt/SHvfAB4AGwxX+5EOzCItN4zICGd
- iRy0iXjoEnVKrd7u92lAT0xxfE/OxF5aTHL1bm/XKnUroKcgOI/wLW8Wm7D/qolBlA4O1krcZUA
- XMOSWRuNZEunoJ/KmjfueeaVkN2I0lre/RxR0BYt/vHT60XdiAr5A5oS+hF+yxo5Ddj0qxuuq0S
- OY8ugdPc71a6m/9E9/vHVytqBXt3EGn7P/XaSHt+/V9Pp2noJy4Y8fL0rmCE0zblTRFcYE9vk0X
- mO1Pw6VP4OSIuY534Ng==
-X-Authority-Analysis: v=2.4 cv=H47rBeYi c=1 sm=1 tr=0 ts=69e1d2fa cx=c_pps
- a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=/kpjpRmFdjEkggKB3J9tkg==:17
+X-Proofpoint-ORIG-GUID: sq8AFvrKSJFvt4KPjHhNO-C6bYiL8R3N
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDE3MDA3NCBTYWx0ZWRfXzx2+oRDnT3AE
+ 0/0tD8ak2ka3fqJMh3dnaGdhpL+CsCE2J4T993LfIC8wspqiTwhXJqdgVGvpCBMyDxMW7shPcSU
+ gsbF/oadjro4K0FoHBGN3mOTzBWOvBlYpF9OAUNt+9uElz93ltPSlJlXgEBW3AYV29dAFIWSGcu
+ CCqFVkCUnmFENQqHiJVbHr2KaO8h504nIFjcih+GhLIxrol+VKZ4ikeWYGuMe0ynTDsQWRszRVk
+ 7XxdCVGUU8kkjPJgoxJW3A+OrSwGiaZJCQS0bMyoiOTUbRos/oJypei3j/7zIpcAg81kKXfKthY
+ K8kBgfTTmzRvRtjwgS1Ds4pgyRT432gi2sCSr9JD3hXoCdCJNuQGizdYpLWoWwdoN0bPH7gOpPR
+ cNyd4gpchVYekGNRDQRq+ufa/XKZMrcyWy2hxHCq7GvC8BpFJuroqhS9oChoniKI8b9vAHMuDY4
+ Nr69zDZ/JdHnEjSVDTQ==
+X-Authority-Analysis: v=2.4 cv=X+Fi7mTe c=1 sm=1 tr=0 ts=69e1e1de cx=c_pps
+ a=WeENfcodrlLV9YRTxbY/uA==:117 a=/kpjpRmFdjEkggKB3J9tkg==:17
  a=A5OVakUREuEA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22 a=NEAV23lmAAAA:8
+ a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22 a=NEAV23lmAAAA:8
  a=EUspDBNiAAAA:8 a=pM9yUfARAAAA:8 a=Oh2cFVv5AAAA:8 a=y8JpcNg0vFqbPD1lgokA:9
- a=dawVfQjAaf238kedN5IG:22 a=YH-7kEGJnRg4CV3apUU-:22 a=7KeoIwV6GZqOttXkcoxL:22
-X-Proofpoint-ORIG-GUID: xdvn8p74XPAgk7VgL7mxHv2pacHxd3KK
+ a=kacYvNCVWA4VmyqE58fU:22 a=YH-7kEGJnRg4CV3apUU-:22 a=7KeoIwV6GZqOttXkcoxL:22
+X-Proofpoint-GUID: sq8AFvrKSJFvt4KPjHhNO-C6bYiL8R3N
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-04-16_04,2026-04-16_03,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 suspectscore=0 lowpriorityscore=0 clxscore=1015
- priorityscore=1501 phishscore=0 bulkscore=0 adultscore=0 spamscore=0
- malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2604070000
- definitions=main-2604170062
+ phishscore=0 clxscore=1015 spamscore=0 impostorscore=0 lowpriorityscore=0
+ bulkscore=0 priorityscore=1501 malwarescore=0 adultscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2604070000 definitions=main-2604170074
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Fri, 17 Apr 2026 06:28:13 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9708
+ <meta-virtualization@lists.yoctoproject.org>; Fri, 17 Apr 2026 07:31:44 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9709
 
 From the upstream description:
 
@@ -130,16 +129,19 @@ The CLI tool is particularly useful for debugging CDI configurations, validating
 Signed-off-by: Koen Kooi <koen.kooi@oss.qualcomm.com>
 ---
 
+Changes since v2:
+	* Fix quoting of GOBUILDFLAGS, passing it via EXTRA_OEMAKE causes issues with qemuarm64
+	* remove debug 'pwd' in do_compile
 Changes since v1:
 	* Buildflags patch went upstream: https://github.com/cncf-tags/container-device-interface/pull/313
 
- recipes-containers/cdi/cdi_git.bb             | 42 ++++++++++++++++
+ recipes-containers/cdi/cdi_git.bb             | 40 +++++++++++++++
  recipes-containers/cdi/go-mod-cache.inc       | 50 +++++++++++++++++++
  recipes-containers/cdi/go-mod-git.inc         | 42 ++++++++++++++++
  .../cdi/go-mod-hybrid-cache.inc               | 10 ++++
  recipes-containers/cdi/go-mod-hybrid-git.inc  |  7 +++
  .../cdi/go-mod-hybrid-gomod.inc               | 45 +++++++++++++++++
- 6 files changed, 196 insertions(+)
+ 6 files changed, 194 insertions(+)
  create mode 100644 recipes-containers/cdi/cdi_git.bb
  create mode 100644 recipes-containers/cdi/go-mod-cache.inc
  create mode 100644 recipes-containers/cdi/go-mod-git.inc
@@ -149,10 +151,10 @@ Changes since v1:
 
 diff --git a/recipes-containers/cdi/cdi_git.bb b/recipes-containers/cdi/cdi_git.bb
 new file mode 100644
-index 00000000..138956dc
+index 00000000..acdfb7ad
 --- /dev/null
 +++ b/recipes-containers/cdi/cdi_git.bb
-@@ -0,0 +1,42 @@
+@@ -0,0 +1,40 @@
 +DESCRIPTION = "The cdi command-line tool is a utility for inspecting and interacting with the CDI (Container Device Interface) cache."
 +SUMMARY = "The cdi command-line tool."
 +HOMEPAGE = "https://github.com/cncf-tags/container-device-interface"
@@ -183,11 +185,9 @@ index 00000000..138956dc
 +include ${@ "go-mod-hybrid-git.inc" if d.getVar("GO_MOD_FETCH_MODE") == "hybrid" else ""}
 +include ${@ "go-mod-hybrid-cache.inc" if d.getVar("GO_MOD_FETCH_MODE") == "hybrid" else ""}
 +
-+EXTRA_OEMAKE = "GO_EXTRAFLAGS='${GO_BUILDFLAGS}'"
-+
 +do_compile() {
 +	cd ${S}/src/${GO_IMPORT}
-+	pwd
++	sed -i -e 's:GO_EXTRAFLAGS:GOBUILDFLAGS:g' Makefile
 +	oe_runmake
 +}
 +
