@@ -1,162 +1,114 @@
-Return-Path: <koen.kooi@oss.qualcomm.com>
+Return-Path: <hjadon@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F9D7F8A161
-	for <webhook@archiver.kernel.org>; Thu, 16 Apr 2026 11:29:53 +0000 (UTC)
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.11623.1776338987599467318
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D745EF8E499
+	for <webhook@archiver.kernel.org>; Fri, 17 Apr 2026 03:37:11 +0000 (UTC)
+Received: from alln-iport-6.cisco.com (alln-iport-6.cisco.com [173.37.142.93])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.34367.1776397028387829087
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 16 Apr 2026 04:29:47 -0700
+ Thu, 16 Apr 2026 20:37:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=JTECyzBA;
- dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=N0y0E2BI;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: koen.kooi@oss.qualcomm.com)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63GAXutc1245152
-	for <meta-virtualization@lists.yoctoproject.org>; Thu, 16 Apr 2026 11:29:47 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	8YT+OgebFiMdkWkqqxyUPHt8k4rWe5TzNbtEvgkG8fw=; b=JTECyzBAiIXRkneo
-	UI8NvH25yHcelKqwKGwaTt6k5NRBMszoaZ1xY9VjkSGpyfUhNLyNAaGfqs3Lwvvn
-	xejey1/QlZancONC1kls+N/dahcbyf0EUd0pFRG7A1d73L6PSXtx2A3DMxn3D/lP
-	V+0Yv6JDxGVY9kBW2kWs5hzddFJvZsAWZZI7+vM/OQRqo/6odDEoTVGASyY1S6s8
-	GLbW3sbT9QkAhWxcwWoOecGAJf5lhZ4SW0K7FaM/3ICCpzLwqMg5PWPoOFzWL0V4
-	OqTBP2RTdBDmRI93oDpD329+0AxvHMAA9lT92EzvfFa47/oNjJFx1eddTKtf9xLH
-	pGUxtg==
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com [209.85.160.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4djx4k858a-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <meta-virtualization@lists.yoctoproject.org>; Thu, 16 Apr 2026 11:29:47 +0000 (GMT)
-Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-50b4661881eso33989531cf.0
-        for <meta-virtualization@lists.yoctoproject.org>; Thu, 16 Apr 2026 04:29:46 -0700 (PDT)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=cbpKR2tj;
+ spf=pass (domain: cisco.com, ip: 173.37.142.93, mailfrom: hjadon@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1776338986; x=1776943786; darn=lists.yoctoproject.org;
-        h=message-id:in-reply-to:to:references:date:subject:mime-version
-         :content-transfer-encoding:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=8YT+OgebFiMdkWkqqxyUPHt8k4rWe5TzNbtEvgkG8fw=;
-        b=N0y0E2BIYXTn/7IDBIWlDEYdH+Ix4XEvB4yHrw2tSQkFM8pLNMJWIzf+mc80mZNaX6
-         LnZXmQgZiVffZ5OlPDr5C1CD863jcEwUvFBmMZ7d/KxIa/ZE0u0E2KGFLjeSG6UnijPr
-         Qiwszadb1as8cV86w6QIUKfVi53m/dEoHxo+6H5pl3kHpqVX6NKeOI5TtCJs/zkwWoKy
-         cucfxZ3ji1SvuS2Hs0FBxZzuyN9rYY+7K9Hkdw5V7ZODTe7RIv1tGzTQYtc8bBtdWHFd
-         TcsjnYKc266bYYlYa/+yr3u+e1+avk9T1eT/7AfYH72yEikeuIpbJehXmfNrTUc99zHb
-         4mvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776338986; x=1776943786;
-        h=message-id:in-reply-to:to:references:date:subject:mime-version
-         :content-transfer-encoding:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=8YT+OgebFiMdkWkqqxyUPHt8k4rWe5TzNbtEvgkG8fw=;
-        b=cZPlB51t1/SkhVCEQGvb8o9Jd88NTGgrzgf4woZSx4pCEEBUVd9zehIZun6pS8W/qd
-         Bois/EpljJxG1mxq9ijursKtMWLD7h14Jjq8fugYGYH1EPOxgRP7wPUUv/g4h9MHMwx5
-         eUEpgtRNS2LguITXZ4+HsG8bKsHWyHXoAVtqNpKIBNHwdj0CBOFXCVKT3O9kVMZHQDqR
-         AjpPOnso9diTOEDUon4rm8Uk8iLmj2FxlgjCGHS24hbkBjCptGUcbqBoLTO2m9dyNsC/
-         KqJ+0iNkLNm9BdtlINh/y3K93Rb33XomPkpYn+6xKwKHwiIz4eF6TnI91aTfvMO4CLth
-         Vxkw==
-X-Gm-Message-State: AOJu0YwvypVW9yWW0SX3LGxcCZy98Qfno8JYY9hGKuuA7VYP23c9wa3T
-	26vUF2rst2Fq1g9Vi43xGSIafbUHuOo4k5X20wk5I6OtkuFrNEMKAw/AU8vyRqD7RONV4nXm+yw
-	pzvEbhXT+eDWc4mwWZBXVrAU+mCdZ2u8d+lXau7ug7MiUupXcKXS/kbu4NKEOT+AChThoEBPfgW
-	CzlIHD3jt2v8fADQAnAg==
-X-Gm-Gg: AeBDieuG0PvcmSpPsQkeLlImYSau0OY3YvoxNtY2Vm6j5Obx+KrzrbN/OC3tqT27EOX
-	jjTbFp9h9sjWCawgW+qGlh/N6ERn+p+cAYnYnpJr/afEnounbMpGmDW8nZgJDZsu4ApVnHeZfiD
-	hpS1JCdrFOksTivvo/v8CQEw6FqH5dSDgQghI9x/6yTZ11i01x8NCJ2AIJ0LkBuC+O3XG+tRmEI
-	JuOZk7pOYDkDWLWCYDjLBzo8OQm8U4MRLDIdqHxreIVjE0KoN/JTsWReZ4oZT3Lk6wkdOn/HhbQ
-	dxWTx62vvVSzqeNXqvse4xAoVjjAj/SU22V+TOaSfWNv0nOAiFTspOBHT91ZhjrX2+fcfpzKLYi
-	cdL5AXE0B9GD2fbdKFbySX2OPD0dqjIyj0oGau7YJg6S8P8TmYYXBfmWbEFdBLgm/TkYjySc=
-X-Received: by 2002:a05:622a:124a:b0:509:1470:d3b2 with SMTP id d75a77b69052e-50dd5c2cab8mr354264771cf.60.1776338985873;
-        Thu, 16 Apr 2026 04:29:45 -0700 (PDT)
-X-Received: by 2002:a05:622a:124a:b0:509:1470:d3b2 with SMTP id d75a77b69052e-50dd5c2cab8mr354264071cf.60.1776338985253;
-        Thu, 16 Apr 2026 04:29:45 -0700 (PDT)
-Received: from smtpclient.apple ([2a01:90a0:1ff:d600:c61:6bc6:7546:2c29])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ba1773c3826sm156300766b.33.2026.04.16.04.29.44
-        for <meta-virtualization@lists.yoctoproject.org>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 16 Apr 2026 04:29:44 -0700 (PDT)
-From: Koen Kooi <koen.kooi@oss.qualcomm.com>
-Content-Type: text/plain;
-	charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.500.181\))
-Subject: Re: [meta-virtualization][PATCH] cdi: add container-device-interface
- commandline utility
-Date: Thu, 16 Apr 2026 13:29:34 +0200
-References: <18A6CC4939671E5E.1570320@lists.yoctoproject.org>
+  d=cisco.com; i=@cisco.com; l=1168; q=dns/txt;
+  s=iport01; t=1776397028; x=1777606628;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=dtOEUM/VV00dhT6gx4ctsSZ+wrTVQhQbIgSBBiHcCWc=;
+  b=cbpKR2tjqUKlwahV30GcqP671qBn9YYdP6sLM+51yYF7R7losrDMpJ/N
+   4P7gO/0+5oB+qkDHmRs7EnTZqXMuUaE3exBt7mwO4KiwFTuF+rXfjhShW
+   gHSrQL9Vj9Aa6M6hMFTdgq/icAY3BxzEtcCS2C0Op9xEV68l2j2hI9vaV
+   SGz4RlwZi4DWvJJ9kfn5J26Rmzev+5TncC8y+wBVUmx2Y0UhSWKSeq4UD
+   2IYlPxXdj3iUbq8Go+koXE8+qgpR5Vf9fN6pq5n7g34aBRQpc4cXlpnEy
+   R0nQxQ7dDNpVSoDe7upVgq+rvHZf9uY4/nRNhd81CA5V0PYZfILLnxSos
+   g==;
+X-CSE-ConnectionGUID: 69Rc7GORQIqFbrOKCu1YHQ==
+X-CSE-MsgGUID: lt3BI9DiSh+Xs0WoH6IxBg==
+X-IPAS-Result: =?us-ascii?q?A0BBAgC1qeFp/5H/Ja1aglmCV4FPQ0mTWgGhDYF/DwEBA?=
+ =?us-ascii?q?Q9RBAEBhQeNLgImNAkOAQIEAQEBAQMCAwEBAQEBAQEBAQEBCwEBBQEBAQIBB?=
+ =?us-ascii?q?wWBDhOGXIZdNgFGMFxEgwKCdAO2MoIsgQGEfNsmAQsUAYE4hT6IHIVuJxsbg?=
+ =?us-ascii?q?XKEfYUQhXcEgiKBDoF+hTCCJ4VLSIEeA1ksAVUTDQoLBwWBZgM1EioVbjIdg?=
+ =?us-ascii?q?SM+F4EMGwcFgUuEfXRtgRODWoEJAwsYDUgRLDcUGwQ+bgeKQSKCOYEOqEyhD?=
+ =?us-ascii?q?goog3ShWBozqmsumFikWYRogWg8RoETcBWDIlIZD45fxDEmMj8HAgcOApNwA?=
+ =?us-ascii?q?QE?=
+IronPort-Data: A9a23:qHPplKwS1jwVQSNKNXt6t+dmxyrEfRIJ4+MujC+fZmUNrF6WrkUAn
+ 2MfW2rXPfqIZ2LyLot/YN61/UsPsMKGn9BjTVdqrFhgHilAwSbn6Xt1DatR0we6dJCroJdPt
+ p1GAjX4BJlqCCea/VH1buSJQUBUjcmgXqD7BPPPJhd/TAplTDZJoR94kobVuKYw6TSCK13L4
+ 4iaT/H3Ygf/hWYoazxMscpvlTs21BjMkGJA1rABTagjUG/2zxE9EJ8ZLKetGHr0KqE8NvK6X
+ evK0Iai9Wrf+Ro3Yvv9+losWhRXKlJ6FVHmZkt+A8BOsDAbzsAB+vpT2M4nVKtio27hc+adZ
+ zl6ncfYpQ8BZsUgkQmGOvVSO3kW0aZuoNcrLZUj2CCe5xWuTpfi/xlhJB9nB4ZH1cFNOEBX2
+ /YCDxMmc0myp9vjldpXSsE07igiBNPgMIVavjRryivUSK52B5vCWK7No9Rf2V/chOgXQq2YP
+ JVfM2cyKk2cPnWjOX9PYH46tOeqj3X4dRVTqUmeouw85G27IAlZj+G9aouMJ4HXLSlTtkKE/
+ Ujnrkj4ORFZBMfH9j2lrFO8rOCayEsXX6pXTtVU7MVChVCPzykNCQcKSFK/oOuwlk+5XfpbK
+ lcI4Ww/qqMu81SxSdvwVAH+p2SL1iPwQPJKGOE8rQXIwa3O7kPBVi4PTyVKb5ots8peqSEW6
+ 2JlVujBXVRH2IB5g1rEnltIhVte4RQoEFI=
+IronPort-HdrOrdr: A9a23:XbJO4q/cKwlWgRMfaJ5uk+DuI+orL9Y04lQ7vn2ZhyY7TiX+rb
+ HKoB11737JYVoqNU3I+urwWpVoP0m9yXcd2+B4Vt2ftWLd1ldAQrsP0WKb+UyCJwTOsshAyK
+ xnb69yTPf0DVR8kILGxTPQKadF/DFCm5rY49s3CBxWPGZXV50=
+X-Talos-CUID: 9a23:EkJKQGFxpiKDfKAbqmI5pXQfRe8CSET81VnaOWibInsweZ2sHAo=
+X-Talos-MUID: 9a23:OHy2WArVosCZZFJ6VF0ezzV+b+1JsoivM0BOoY5ehM6kaw1gETjI2Q==
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.23,183,1770595200"; 
+   d="scan'208";a="718291555"
+Received: from rcdn-l-core-08.cisco.com ([173.37.255.145])
+  by alln-iport-6.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 17 Apr 2026 03:37:07 +0000
+Received: from sjc-ads-21441.cisco.com (sjc-ads-21441.cisco.com [10.128.164.182])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by rcdn-l-core-08.cisco.com (Postfix) with ESMTPS id 545EE180005AB;
+	Fri, 17 Apr 2026 03:37:07 +0000 (GMT)
+Received: by sjc-ads-21441.cisco.com (Postfix, from userid 1879343)
+	id EDC44CC1288; Thu, 16 Apr 2026 20:37:06 -0700 (PDT)
+From: "Himanshu Jadon -X (hjadon - E INFOCHIPS PRIVATE LIMITED at Cisco)" <hjadon@cisco.com>
 To: meta-virtualization@lists.yoctoproject.org
-In-Reply-To: <18A6CC4939671E5E.1570320@lists.yoctoproject.org>
-Message-Id: <F0208C5E-847D-45B3-AF28-8E3B4B5781DC@oss.qualcomm.com>
-X-Mailer: Apple Mail (2.3864.500.181)
-X-Proofpoint-GUID: Z9Bl06zR1o1LPd0lQi4M5c9aRUzhA3ok
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDE2MDEwOCBTYWx0ZWRfXwVxyL6zw39ht
- Bd2293dBbgJ7oZ1iZZzTBEn7roaJhYdVGo2tQZqSoQodjfS7tdIaZqmaEEbzD7zsdb9gIjmKllh
- ZymbJyg1JsbyZczWZQ5Lz1AEKABvthqjxWIy5qjRTMx8UVsRBkHkuNnWFxtDTw2K+RSTRME9gxi
- HhiEdMhVZAAOt64gK9lYJAPM/aF3lE+3Gzg45Upv62vYm52oVmWHMxJGpUqeH+0FLU53XYqNuyq
- NWLFiXnfI/ZKhY6FuhoIe9AIQojh0JNmFPmgTKVC7QS1On2obvG5aekpjCntJOJYT64BR77EFI1
- fgxfEtr+rZNnU/pwpnpY6oOgPnmZ9qJLGGIVC7HCN1e6xMVuUAhi/HOH1LTEsSo+dni7eG7maTS
- v+pD9brdfUro6FW+1254NX6d0iuz1x6W85gz8sfqByC5yikCUG8Ky4VUzim/8nMZBz3ckfVF15o
- 4LCh8WVdDL9EdS3yhAg==
-X-Authority-Analysis: v=2.4 cv=H47rBeYi c=1 sm=1 tr=0 ts=69e0c82b cx=c_pps
- a=JbAStetqSzwMeJznSMzCyw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=A5OVakUREuEA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22 a=NEAV23lmAAAA:8
- a=iGHA9ds3AAAA:8 a=EUspDBNiAAAA:8 a=b8YH3975mJnV1p5wLuMA:9 a=CjuIK1q_8ugA:10
- a=uxP6HrT_eTzRwkO_Te1X:22 a=nM-MV4yxpKKO9kiQg6Ot:22
-X-Proofpoint-ORIG-GUID: Z9Bl06zR1o1LPd0lQi4M5c9aRUzhA3ok
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-04-16_03,2026-04-13_04,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 suspectscore=0 lowpriorityscore=0 clxscore=1015
- priorityscore=1501 phishscore=0 bulkscore=0 adultscore=0 spamscore=0
- malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2604070000
- definitions=main-2604160108
+Cc: vchavda@cisco.com
+Subject: [meta-virtualization] [master] [PATCH] cni: Add CVE_PRODUCT to align with NVD CPE
+Date: Thu, 16 Apr 2026 20:37:00 -0700
+Message-Id: <20260417033700.2011573-1-hjadon@cisco.com>
+X-Mailer: git-send-email 2.35.6
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Outbound-Client-TLS: ANONYMOUS;sjc-ads-21441.cisco.com [10.128.164.182];TLSv1.3;TLS_AES_256_GCM_SHA384;256
+X-Outbound-SMTP-Client: 10.128.164.182, sjc-ads-21441.cisco.com
+X-Outbound-Node: rcdn-l-core-08.cisco.com
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Thu, 16 Apr 2026 11:29:53 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9706
+ <meta-virtualization@lists.yoctoproject.org>; Fri, 17 Apr 2026 03:37:11 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9707
 
+From: Himanshu Jadon <hjadon@cisco.com>
 
+`CVE_PRODUCT` has been set to `linuxfoundation:container_network_interface linuxfoundation:cni_network_plugins`
+to align with the product naming defined in the NVD CPE database for `cni`.
 
-> Op 16 apr 2026, om 11:28 heeft Koen Kooi via lists.yoctoproject.org =
-<koen.kooi=3Doss.qualcomm.com@lists.yoctoproject.org> het volgende =
-geschreven:
->=20
-> [...]=20
-> diff --git =
-a/recipes-containers/cdi/files/0001-makefile-add-GOBUILDFLAGS-to-go-build-=
-call.patch =
-b/recipes-containers/cdi/files/0001-makefile-add-GOBUILDFLAGS-to-go-build-=
-call.patch
-> new file mode 100644
-> index 00000000..b5222ade
-> --- /dev/null
-> +++ =
-b/recipes-containers/cdi/files/0001-makefile-add-GOBUILDFLAGS-to-go-build-=
-call.patch
-> @@ -0,0 +1,31 @@
-> +=46rom 53853d00a0d24fae8ebb975dea1b342c0b25a2c0 Mon Sep 17 00:00:00 =
-2001
-> +From: Koen Kooi <koen.kooi@oss.qualcomm.com>
-> +Date: Tue, 14 Apr 2026 13:45:45 +0200
-> +Subject: [PATCH] makefile: add GOBUILDFLAGS to go build call
-> +
-> +We may need to specify things like -trimpath, so add $(GOBUILDFLAGS)
-> +to allow them to be passed from the recipe to the Makefile.
-> +
-> +Upstream-Status: Inappropriate [embedded specific]
+The NVD CPE database contains product variants for this project under:
+ `cpe:2.3:a:linuxfoundation:container_network_interface`
+ `cpe:2.3:a:linuxfoundation:cni_network_plugins`
 
-Replying to myself here, sorry about that. Jose pointed out that the =
-above Makefile patch might actually have a chance upstream, so I changed =
-it a bit and sent it upstream: =
-https://github.com/cncf-tags/container-device-interface/pull/313
-If that gets accepted I'll rework the recipe to make use of =
-GO_EXTRAFLAGS. For the time being, it has no impact on this patch to =
-meta-virtualization.
+The NVD references for these CPEs confirm that they correspond to the
+source code used in our recipe.
 
-regards,
+Signed-off-by: Himanshu Jadon <hjadon@cisco.com>
+---
+ recipes-networking/cni/cni_git.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Koen=
+diff --git a/recipes-networking/cni/cni_git.bb b/recipes-networking/cni/cni_git.bb
+index f6617c1f..727a9799 100644
+--- a/recipes-networking/cni/cni_git.bb
++++ b/recipes-networking/cni/cni_git.bb
+@@ -139,3 +139,6 @@ INSANE_SKIP:${PN} += "ldflags already-stripped"
+ 
+ deltask compile_ptest_base
+ RRECOMMENDS:${PN} += "iptables iproute2"
++
++# Add CVE_PRODUCT to match the NVD CPE product names
++CVE_PRODUCT = "linuxfoundation:container_network_interface linuxfoundation:cni_network_plugins"
+-- 
+2.35.6
+
 
