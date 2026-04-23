@@ -1,115 +1,112 @@
-Return-Path: <hjadon@cisco.com>
+Return-Path: <mingli.yu@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BEF35FAD40C
-	for <webhook@archiver.kernel.org>; Thu, 23 Apr 2026 04:41:47 +0000 (UTC)
-Received: from alln-iport-3.cisco.com (alln-iport-3.cisco.com [173.37.142.90])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.12630.1776919306073797386
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A63A4FAD41F
+	for <webhook@archiver.kernel.org>; Thu, 23 Apr 2026 06:35:58 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.13859.1776926152356622148
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 22 Apr 2026 21:41:46 -0700
+ Wed, 22 Apr 2026 23:35:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=jKaoO/rv;
- spf=pass (domain: cisco.com, ip: 173.37.142.90, mailfrom: hjadon@cisco.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=1078; q=dns/txt;
-  s=iport01; t=1776919306; x=1778128906;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=WEABbQVNzFda5zLyPwF9c79dO/9BgTCdJRslUzqPtCE=;
-  b=jKaoO/rvVbsvZcW6QM2HwxB516MMnPDv9UMiZ2DIOe1v0iYenGPtHaQJ
-   ba6a4ouLz6vrbHHDXFOZsbkJHh394jECs03ozfwKAQ7Gs54Au+Jjfbqo8
-   K6up49JjLxwrGMf3gkfetIEAowU/F7xmffduVb2Xu3wBBqBjCPXTHCz/Z
-   Fo9CWq4oR5RL4epIHkVxrbPB+SFncvNeWfY8qNdWlz0H1q/Luzuk737Fz
-   z1XAJ/2CrQdnd22hHTABAKPcNs3sfXJtK+3/2QupuMRUMRBduZ810w24T
-   D5yiYG5Cp5Nd1K5Gnt3Al0+/OABQJLQfuT2Lz7lOFY8NIkt2hGpbTzqiC
-   g==;
-X-CSE-ConnectionGUID: nJkBynIwRKWSR7/l5OwQcg==
-X-CSE-MsgGUID: s7ebLoq+T++6KpqDJ4JxMg==
-X-IPAS-Result: =?us-ascii?q?A0BLAgARoulp/5X/Ja1aHgEBCxIMgWsQDwuCU4FPQ0mTW?=
- =?us-ascii?q?gGOV5I2gX8PAQEBD1EEAQGFBo0uAiY0CQ4BAgQBAQEBAwIDAQEBAQEBAQEBA?=
- =?us-ascii?q?QEBCgEBBQEBAQIBBwWBDhOGXIZdNgFGMFELRIMCgjsDNgOuYoIsgQG3Jg2CU?=
- =?us-ascii?q?gELFAGBOIU/gnmFI4VuJxsbgXKEfYIfgnGFdwSCIoEOgX6NK0iBHgNZLAFVE?=
- =?us-ascii?q?w0KCwcFgWYDNRIqFW4yHYEjPheBDBsHBYFLhBltaoELgzCBOXUDCxgNSBEsN?=
- =?us-ascii?q?xQbBD5uB4o9IBCCK2AuAahLoB1xCiiDdJtchXwaM6prLphYkhKSR4RogWg8g?=
- =?us-ascii?q?VlwFYMiUxkPjl/KAyYyPQIHAgcNAwuTZQEB?=
-IronPort-Data: A9a23:MRMNLqB3ZHioehVW/23iw5YqxClBgxIJ4kV8jS/XYbTApDx21TIGn
- GUbXz2OaK7famOhfdkia46z90gG6JXWy9RgOVdlrnsFo1CmBibm6XV1Cm+qYkt+++WaFBoPA
- /02M4eGcYZsCCOM+H9BC5C5xVFkz6aEW7HgP+DNPyF1VGdMRTwo4f5Zs7ZRbrVA357jWGthh
- fuo+5eBYAP/gGYuWo4pw/vrRC1H7ayaVAww5jTSVdgT1HfCmn8cCo4oJK3ZBxMUlaENQ4ZW7
- 86apF2I1juxEyUFU7tJoZ6nGqE+eYM+CCDV4pZgtwdOtTAZzsA6+v5T2PPx8i67gR3R9zx64
- I0lWZBd1W7FM4WU8NnxXSW0HAl4H65s6bnmPkKcjvepkArCLlzz+v5hWRRe0Y0woo6bAElU/
- vAebTRIZReZiqfvmvSwS/JngYIoK8yD0IE34y47i2qGS6x7HNaaH/SiCdxwhF/cguhOH//SY
- MwxYjt0ZxOGaBpKUrsSIM1ixLn12CmiLlW0rnqO+qc9x2/KjzAyk+bOKMP5WICoVeBayxPwS
- mXuuj6R7gshHNmS1TPA7HO2mvLGmSLpUZ4TE7uQ8v9xnEbV12sYFBoOT1y5rPKlzEmkVLpix
- 1c84CEiq+02sUesVNS4Bkf+q3+ftRlaUN1VewEn1DywJmPvy17xLgA5ovRpMbTKaOdeqeQW6
- 2K0
-IronPort-HdrOrdr: A9a23:u0Em/q0al4JXbHmU0jtjIwqjBIQkLtp133Aq2lEZdPWaSKOlfq
- eV7ZEmPHDP6Qr5NEtMpTniAtjjfZqjz/5ICOAqVN/INjUO01HHEGgN1+ffKkXbak7D398Y87
- t8eK5jD9C1J117gcHmpDScKb8bsb26GGTCv5a585+rJjsaDJ1d0w==
-X-Talos-CUID: =?us-ascii?q?9a23=3A7kNQWWr0smaMlchdYT8i0cjmUcYHcVfMylbPGWy?=
- =?us-ascii?q?HMlw2D7nIbkCp86wxxg=3D=3D?=
-X-Talos-MUID: 9a23:xyfZRQYwl8TSzuBTrGDhjhVlLYRUoOfwK1gUvbdamdmhOnkl
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="6.23,194,1770595200"; 
-   d="scan'208";a="740656855"
-Received: from rcdn-l-core-12.cisco.com ([173.37.255.149])
-  by alln-iport-3.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 23 Apr 2026 04:41:45 +0000
-Received: from sjc-ads-21441.cisco.com (sjc-ads-21441.cisco.com [10.128.164.182])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by rcdn-l-core-12.cisco.com (Postfix) with ESMTPS id 3A0E018000254;
-	Thu, 23 Apr 2026 04:41:45 +0000 (GMT)
-Received: by sjc-ads-21441.cisco.com (Postfix, from userid 1879343)
-	id B76F3CC1288; Wed, 22 Apr 2026 21:41:44 -0700 (PDT)
-From: "Himanshu Jadon -X (hjadon - E INFOCHIPS PRIVATE LIMITED at Cisco)" <hjadon@cisco.com>
-To: meta-virtualization@lists.yoctoproject.org
-Cc: vchavda@cisco.com
-Subject: [meta-virtualization] [scarthgap] [PATCH] go-distribution: Add CVE_PRODUCT to align with NVD CPE
-Date: Wed, 22 Apr 2026 21:41:41 -0700
-Message-Id: <20260423044141.4659-1-hjadon@cisco.com>
-X-Mailer: git-send-email 2.35.6
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=lr3ZhoNV;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=8573a3976f=mingli.yu@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63N5rPdB2100031
+	for <meta-virtualization@lists.yoctoproject.org>; Wed, 22 Apr 2026 23:35:51 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PPS06212021; bh=J2heMWjjf92WrBZ1YM75
+	arEDH+nvD44nlHdx9Oe38Xw=; b=lr3ZhoNVCqhqus+rlcKCh8s0TVp3ouAVtmSz
+	ZezdZzXBybA5LnjpyxQGXOqX1UYqEguWSTd7ai1pSJVE++ozGyzwBfVvVUrdlM5c
+	3WpFwxCA/rl1Q0NcrEVBhv1PrSovAWzaQ1luWUsBQ9k+DpoSEzph4bftEEj/B/dI
+	URFj50KjFeABwoI1mH9Xg01aFSu4f2BssEVZ3ndheLa6KkRgfl3/P/ba+c/Cl4T5
+	bCS7y9q+qLNlrg4jLkj+PRlzzKZSKIAAQCCNAYprp9rwlLzyIAIDtB1OQ1cJ40jz
+	PUgJVAFifRSpI5tuDgBBW39lWzica+MYuNjewXLMLJ0j+tMSSA==
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [128.224.246.36])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4dq8sr08kj-20
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <meta-virtualization@lists.yoctoproject.org>; Wed, 22 Apr 2026 23:35:51 -0700 (PDT)
+Received: from ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.61; Wed, 22 Apr 2026 23:35:51 -0700
+Received: from ala-lpggp9.wrs.com (10.11.232.110) by
+ ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server id
+ 15.1.2507.61 via Frontend Transport; Wed, 22 Apr 2026 23:35:50 -0700
+From: <mingli.yu@windriver.com>
+To: <meta-virtualization@lists.yoctoproject.org>
+Subject: [scarthgap][PATCH] podman: Upgrade 5.0.1 -> 5.0.3
+Date: Wed, 22 Apr 2026 23:35:50 -0700
+Message-ID: <20260423063550.2973613-1-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Outbound-Client-TLS: ANONYMOUS;sjc-ads-21441.cisco.com [10.128.164.182];TLSv1.3;TLS_AES_256_GCM_SHA384;256
-X-Outbound-SMTP-Client: 10.128.164.182, sjc-ads-21441.cisco.com
-X-Outbound-Node: rcdn-l-core-12.cisco.com
+Content-Type: text/plain
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDIzMDA2MCBTYWx0ZWRfXzUAayS25dM8f
+ ZB4wg6fpCWgTTVcC1tUJ/ipl2LmRt4ny5T5n1FuJJPLVAvJeRMa2Gzdj6VPX0f/yXVfsxKmXfEF
+ U8U3ump89T5ojhmiG02ddNy16d/7HaVjjKF4We4JLDKcyU/igEExuTh7s1S3HFAa+fTpwDkD6j1
+ seY62DAmUabiztg2HwKC/W39TEBsN5RGpUZjTkXoE1TIhlWSaRgfS734PBgcTn6MqsqKSXUdUq7
+ Gt58yRDqcBbG0HiUM8cTJB/cNeSusLs1YPLpcy0I07kBwZLKUHx3uBXB/oS7GE+uJWR+gNKxB1N
+ T061IaemDF4UyM0wRq1ZBUMMGOkIyVo3bQsvJROCRFij7P9vZAv0SSbdd/MUanX/PcbuyPyTItL
+ O+WfQHrO8/n++nzie3ZV6umC2UCEbP81wydrwz+IxCUCYGFpIS00f9ll6Pd31J18sW4RZRMDAzH
+ 7cXq0SW7rOyFuJZEJSw==
+X-Proofpoint-GUID: OZy6tEFDWoXr86a3YRLAqYhNGG6Wkz3v
+X-Authority-Analysis: v=2.4 cv=PfPPQChd c=1 sm=1 tr=0 ts=69e9bdc7 cx=c_pps
+ a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
+ a=A5OVakUREuEA:10 a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22
+ a=iKiJcTA2PjBS6x5JeXcw:22 a=8hG23R3pAAAA:20 a=t7CeM3EgAAAA:8 a=NEAV23lmAAAA:8
+ a=Y25gXyiYs1xNr7-9NcIA:9 a=FdTzh2GWekK77mhwV6Dw:22 a=bA3UWDv6hWIuX7UZL3qL:22
+X-Proofpoint-ORIG-GUID: OZy6tEFDWoXr86a3YRLAqYhNGG6Wkz3v
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-04-23_01,2026-04-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 bulkscore=0 priorityscore=1501 spamscore=0 phishscore=0
+ clxscore=1011 impostorscore=0 malwarescore=0 adultscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2604200000 definitions=main-2604230060
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Thu, 23 Apr 2026 04:41:47 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9725
+ <meta-virtualization@lists.yoctoproject.org>; Thu, 23 Apr 2026 06:35:58 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9726
 
-From: Himanshu Jadon <hjadon@cisco.com>
+From: Mingli Yu <mingli.yu@windriver.com>
 
-CVE_PRODUCT has been set to docker:registry to align with the NVD CPE
-product namespace for the distribution/registry codebase.
+Upgrade podman to 5.0.3 to include some bugfixes and some security fix
+such as CVE-2024-3727 [1].
 
-Only a single CPE entry exists in the NVD for this product:
- cpe:2.3:a:docker:registry
+[1] https://github.com/containers/podman/releases/tag/v5.0.3
 
-This ensures CVEs tracked for docker registry are matched for this recipe.
-
-Signed-off-by: Himanshu Jadon <hjadon@cisco.com>
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-(cherry picked from commit f8bbbf1f7d7b5c7ef6b2c9c86a93cb44524bc740)
-Signed-off-by: Himanshu Jadon <hjadon@cisco.com>
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
 ---
- recipes-devtools/go/go-distribution_git.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ recipes-containers/podman/podman_git.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/recipes-devtools/go/go-distribution_git.bb b/recipes-devtools/go/go-distribution_git.bb
-index 598df964..740fdfe4 100644
---- a/recipes-devtools/go/go-distribution_git.bb
-+++ b/recipes-devtools/go/go-distribution_git.bb
-@@ -39,3 +39,5 @@ go_distribution_digeset_sysroot_preprocess () {
- }
+diff --git a/recipes-containers/podman/podman_git.bb b/recipes-containers/podman/podman_git.bb
+index ef9798f0..b80b8d5b 100644
+--- a/recipes-containers/podman/podman_git.bb
++++ b/recipes-containers/podman/podman_git.bb
+@@ -17,7 +17,7 @@ DEPENDS = " \
+     gettext-native \
+ "
  
- FILES:${PN} += "${prefix}/local/go/src/${PKG_NAME}/*"
-+
-+CVE_PRODUCT = "docker:registry"
+-SRCREV = "bb81e85a430fa95d23a15b77c717fd68bf06ebf2"
++SRCREV = "d08315df35cb6e95f65bf3935f529295c6e54742"
+ SRC_URI = " \
+     git://github.com/containers/libpod.git;branch=v5.0;protocol=https \
+     ${@bb.utils.contains('PACKAGECONFIG', 'rootless', 'file://50-podman-rootless.conf', '', d)} \
+@@ -33,7 +33,7 @@ GO_IMPORT = "import"
+ 
+ S = "${WORKDIR}/git"
+ 
+-PV = "5.0.1+git"
++PV = "5.0.3+git"
+ 
+ CVE_STATUS[CVE-2022-2989] = "fixed-version: fixed since v4.3.0"
+ CVE_STATUS[CVE-2023-0778] = "fixed-version: fixed since v4.5.0"
 -- 
-2.35.6
+2.49.0
 
 
