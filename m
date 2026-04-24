@@ -1,202 +1,129 @@
-Return-Path: <paul@pbarker.dev>
+Return-Path: <mingli.yu@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 357D3FE51EB
-	for <webhook@archiver.kernel.org>; Fri, 24 Apr 2026 08:57:11 +0000 (UTC)
-Received: from fout-a2-smtp.messagingengine.com (fout-a2-smtp.messagingengine.com [103.168.172.145])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.16692.1777021029870571561
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E62E6FE51FA
+	for <webhook@archiver.kernel.org>; Fri, 24 Apr 2026 09:47:53 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.17773.1777024064763565402
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 24 Apr 2026 01:57:10 -0700
+ Fri, 24 Apr 2026 02:47:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=FwNzMeuk;
- dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=fArihBmi;
- spf=pass (domain: pbarker.dev, ip: 103.168.172.145, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailfout.phl.internal (Postfix) with ESMTP id EAD3EEC0175;
-	Fri, 24 Apr 2026 04:57:08 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-01.internal (MEProxy); Fri, 24 Apr 2026 04:57:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
-	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm1; t=1777021028; x=1777107428; bh=CW2afnYmnd
-	NnJkVswSxIHgckUna6k2FJCBtp1W/DVyQ=; b=FwNzMeuk+hSkSQtBA64hkVZFVY
-	xgOpB0B6vxk9KXDUWoWgzX5QIip7/fEjq5IVZ5J0rFfszcih/jpmWY8XAkBZKRBX
-	NoS/qjSaGcXztY8E0ZGGsauu7iALN1hyIdUluSW5t6mPp+bsYqCOHAmcFu7Snv6L
-	VCmiwfH48jxphC0sWiSfyiD4xWedoxHyh1PUREUQLgfviXX5VYMfODgNP4qMSugb
-	dNtDYwQDcCKp2nJuyuAXqlQmFTaORkIfXGbIOYhU6C9g7LBdM/B+y1waIkI1BwaD
-	QkkmoWhiLsUv/5eh1F1J4BgO/SKYy978nM9bQPwSoGqn/sLGtlHNftpyc12A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1777021028; x=1777107428; bh=CW2afnYmndNnJkVswSxIHgckUna6k2FJCBt
-	p1W/DVyQ=; b=fArihBmiK9hmiLZekavimHRLiYftfztLrMrmazb9yeJ78Rn/cUQ
-	wsZh1vXaGj7cONcBSGnhYqFVF3TXBKxBtdjI1/7DJRiGeJ0omdbcYMFQQC0E+Ho8
-	DLxhcTaY5hxKkBlhrYArol/t5vqSYRBKXV1nyyhg2ZMYq63ORFTlLjX5FBUYcFLK
-	PF+RFmFAr+Ul2K6fnPX9Y5Pr7TNPSs5s7W1vrq7R2drLaYJdb8TV8/nXiszs7Qn9
-	Adz3eUMgZ3plrb24fdg3/360c9ePB40OsB0gskEdRYogzGw8l1r0DYE4KX2BAU2q
-	SnLOWdrEHc6lIssbMpsu3c9ruCACjSNAPGg==
-X-ME-Sender: <xms:ZDDraSuo8x47DlDNfl6wyqVEad8yj5SY0j6Hj0vLFZdvfaDWBzFvVQ>
-    <xme:ZDDrae4zSxrEaNYGQbFrcrZ5KBCI_OrM7FMYoQDHlgy9gDuWUlkW2Z9RuiQm_oBlt
-    yyfvg1fic6UkQwoAqHzogyYPkbjyKAblaEGvoxtL3ZjMwfJfN9MAdg>
-X-ME-Received: <xmr:ZDDrabL4kjotQeLIy6W6TvI3x-0f8FMP_Ix_TOhfsv1GCejyESkaWhnwCxuc96exP6IQLnOtw75xQOhZ0_XDCeyXlQPPqOqN8xyXvOdVcKk_>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdeileeiudcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpefkuffhvfevffgjfhgtfgggsehgtderredtreejnecuhfhrohhmpefrrghulhcuuegr
-    rhhkvghruceophgruhhlsehpsggrrhhkvghrrdguvghvqeenucggtffrrghtthgvrhhnpe
-    evkeehveelgeeuueefhedtkeefvdfggfetueetudetjeffveekteejleeggeegjeenucff
-    ohhmrghinhephihotghtohhprhhojhgvtghtrdhorhhgpdhophgvnhgvmhgsvgguuggvug
-    drohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhm
-    pehprghulhesphgsrghrkhgvrhdruggvvhdpnhgspghrtghpthhtohepfedpmhhouggvpe
-    hsmhhtphhouhhtpdhrtghpthhtohepthhitghothhimhhosehgmhgrihhlrdgtohhmpdhr
-    tghpthhtohepmhgvthgrqdhvihhrthhurghlihiirghtihhonheslhhishhtshdrhihotg
-    htohhprhhojhgvtghtrdhorhhgpdhrtghpthhtohepthhimhdrohhrlhhinhhgsehkohhn
-    shhulhhkohdrtghomh
-X-ME-Proxy: <xmx:ZDDraW5T5oTtFxbYiNmUEHQAyxCKD9TARqZW6BHNDbwxHMFWG4hXpA>
-    <xmx:ZDDraWzVzzywRcjva6vHF2YfLB9IxeCaWehutnDru1e7oIKS43tU_w>
-    <xmx:ZDDraSZoXhCNUxSmoNTAgp-6n0i1DJ5GRbVse3-vSGLjCHi2tY4fog>
-    <xmx:ZDDraQSGny58V49MPI8_0AJQMBYEJmK0_iM9jfT5BiXvqYq7T14uFQ>
-    <xmx:ZDDraeKBo0qNS-fVfPTBrMS4tbfafiJtRulp-WB5cXiS-NC8r50esJle>
-Feedback-ID: i51494658:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 24 Apr 2026 04:57:08 -0400 (EDT)
-Message-ID: <db641b6a21142d5ca3960265be985239aa17ec3b.camel@pbarker.dev>
-Subject: Re: [meta-virtualization][PATCH] distro/vruntime:
- DISTRO_FEATURES_DEFAULT is obsolete
-From: Paul Barker <paul@pbarker.dev>
-To: ticotimo@gmail.com, meta-virtualization@lists.yoctoproject.org
-Cc: Tim Orling <tim.orling@konsulko.com>
-Date: Fri, 24 Apr 2026 09:57:02 +0100
-In-Reply-To: <20260424042727.75417-1-tim.orling@konsulko.com>
-References: <20260424042727.75417-1-tim.orling@konsulko.com>
-Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
- keydata=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
- LUewj8JVy0aJsGTwI4invl
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-XNa6a6jEQ/CRBJay5Axq"
-User-Agent: Evolution 3.52.3-0ubuntu1.1 
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=BEYQAjcu;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=8574f8b4ec=mingli.yu@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63O5QY6T4120347
+	for <meta-virtualization@lists.yoctoproject.org>; Fri, 24 Apr 2026 02:47:44 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PPS06212021; bh=MTWkq45mV985dJ0PQjt0
+	hWpiMVNDXD7osHozy0IyC2g=; b=BEYQAjculifzaCejJvYAQS8cisFBbE/BdIDR
+	2TU1NujfyfjW1mgXbRQmUr5HVQveN3DZ62U8MpGIGsdJjTt7HsFoTpL01DWN+Sxw
+	VbVP/sfjxC5Q4izR5uCnE3T4IgEWizk038yqEbhvZcw7+PSkW8NpI1BR1H0io/Eg
+	6S0UBBAE6/W/ll4kFCxrIWYRRjO33w7vXIH0jCUQ2Cyzq64aQNbz1MksRowXwZKb
+	UU5dzkmDrPnq5iTZ+rDwBpNrzCMTbNWwxSHryp2dH53c/R6BusGhNd7zdaaggofO
+	Enea+S6xXWsWCUD3SI9lJZXVe1lTdizdCIQ1a9axscf0BU8l0w==
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [128.224.246.36])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4dq8rcsuat-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <meta-virtualization@lists.yoctoproject.org>; Fri, 24 Apr 2026 02:47:43 -0700 (PDT)
+Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.61; Fri, 24 Apr 2026 02:47:43 -0700
+Received: from ala-lpggp9.wrs.com (10.11.232.110) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
+ 15.1.2507.61 via Frontend Transport; Fri, 24 Apr 2026 02:47:43 -0700
+From: <mingli.yu@windriver.com>
+To: <meta-virtualization@lists.yoctoproject.org>
+Subject: [scarthgap][PATCH v2] podman: Upgrade 5.0.1 -> 5.0.3
+Date: Fri, 24 Apr 2026 02:47:38 -0700
+Message-ID: <20260424094738.2143616-1-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: ZhLZY2antFFrTk8qACuraNJGaAZJDSvL
+X-Authority-Analysis: v=2.4 cv=MYhcfZ/f c=1 sm=1 tr=0 ts=69eb3c40 cx=c_pps
+ a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
+ a=A5OVakUREuEA:10 a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22
+ a=HK-ge7EqtdluswH-FwHe:22 a=8hG23R3pAAAA:20 a=t7CeM3EgAAAA:8 a=NEAV23lmAAAA:8
+ a=PSyxYiHzna0yrPD1X3YA:9 a=FdTzh2GWekK77mhwV6Dw:22 a=bA3UWDv6hWIuX7UZL3qL:22
+X-Proofpoint-GUID: ZhLZY2antFFrTk8qACuraNJGaAZJDSvL
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDI0MDA5MSBTYWx0ZWRfX3HIUGlxjsB1f
+ +diNfpuwdfurxXS/f4JgkbRrU04BpifVEKMH31c3b9ZMqhpevisAiJtnUK4WhT9GSqmgfEfw7Pw
+ LQRGtB02HjOt3OJXwnLWkXdk1aJzGUdAGJ7Z2NtsiotYaLmOQSMD8lSoFf1flT+7PBQ5mgBH1VI
+ UzcSxiHS5nRV3S/oGI3sLvT2C0kiTva1YcuXSFqvJXyz4rx0dcRmNTQznLM/kYYCeISmu5VyCh1
+ fh3U+X6nUO0z3jiCddfE126dKbomLz6iJ6TMWSRKDCaBVzxt8s97XeX5+HkHAvOg1U6mtVBdWjZ
+ mRGIJGJxlgZ7W28xtnkoJwwexZmMsSX6pKZCF0ItENtBzT9Bb03sQxr8SXW9SJkChVsUH2bMrNA
+ IwAEJK8teqg5OUQP8tIX+Pb1QsGtW6/0O+lS60Db+YkD+1/Ax48jwP8PrJK25L1gWA0XuxYmd/P
+ X+5VC2wz4MqxxYQVCoA==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-04-23_03,2026-04-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 bulkscore=0 suspectscore=0 lowpriorityscore=0 priorityscore=1501
+ malwarescore=0 adultscore=0 spamscore=0 clxscore=1015 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2604200000 definitions=main-2604240091
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Fri, 24 Apr 2026 08:57:11 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9741
+ <meta-virtualization@lists.yoctoproject.org>; Fri, 24 Apr 2026 09:47:53 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9742
 
+From: Mingli Yu <mingli.yu@windriver.com>
 
---=-XNa6a6jEQ/CRBJay5Axq
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Upgrade podman to 5.0.3 to include some bugfixes and some security fix
+such as CVE-2024-3727 [1].
 
-On Thu, 2026-04-23 at 21:26 -0700, Tim Orling via lists.yoctoproject.org
-wrote:
-> Replace with DISTRO_FEATURES_DEFAULTS
->=20
-> https://git.openembedded.org/openembedded-core/commit/meta/conf?id=3D0548=
-ea447445834647be7ef35ed0ae8d1d3387b3
->=20
-> Fixes:
-> ERROR: Nothing PROVIDES 'nativesdk-libseccomp' ...
->=20
-> Signed-off-by: Tim Orling <tim.orling@konsulko.com>
-> ---
->  conf/distro/vruntime.conf | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/conf/distro/vruntime.conf b/conf/distro/vruntime.conf
-> index 0ea43e62..56c5ad6a 100644
-> --- a/conf/distro/vruntime.conf
-> +++ b/conf/distro/vruntime.conf
-> @@ -46,8 +46,8 @@ DISTRO_FEATURES =3D "acl ext2 ipv4 ipv6 seccomp vfat pc=
-i vcontainer vxn"
->  DISTRO_FEATURES_OPTED_OUT =3D "pulseaudio gobject-introspection-data ope=
-ngl ptest multiarch wayland vulkan"
-> =20
->  # Native and nativesdk classes need full features for build tools
-> -DISTRO_FEATURES:class-native =3D "${DISTRO_FEATURES_DEFAULT} ${POKY_DEFA=
-ULT_DISTRO_FEATURES}"
-> -DISTRO_FEATURES:class-nativesdk =3D "${DISTRO_FEATURES_DEFAULT} ${POKY_D=
-EFAULT_DISTRO_FEATURES}"
-> +DISTRO_FEATURES:class-native =3D "${DISTRO_FEATURES_DEFAULTS} ${POKY_DEF=
-AULT_DISTRO_FEATURES}"
-> +DISTRO_FEATURES:class-nativesdk =3D "${DISTRO_FEATURES_DEFAULTS} ${POKY_=
-DEFAULT_DISTRO_FEATURES}"
-> =20
->  # Default to ext4, but image recipes may override to squashfs
->  IMAGE_FSTYPES =3D "ext4"
+Release notes:
+Security
+  This release addresses CVE-2024-3727, a vulnerability in the
+containers/image library which allows attackers to trigger authenticated
+registry access on behalf of the victim user.
 
-Hi Tim,
+Bugfixes
+  Fixed a bug where podman machine start would fail if the machine
+had a volume with a long target path (#22226).
+  Fixed a bug where podman machine start mounted volumes with paths
+that included dashes in the wrong location (#22505).
 
-This is the wrong approach as it bypasses the default feature filtering.
-Instead, just drop DISTRO_FEATURES_DEFAULT, the defaults are appended
-automatically after filtering for opt-outs.
+Misc
+  Updated Buildah to v1.35.4
+  Updated the containers/common library to v0.58.3
+  Updated the containers/image library to v5.30.1
 
-See the corresponding change in poky [1] for an example.
+[1] https://github.com/containers/podman/releases/tag/v5.0.3
 
-[1]: https://git.yoctoproject.org/meta-yocto/commit/?id=3D96085aaec5bfb33c4=
-e4322465eaf0af370db6fc0
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+---
+ recipes-containers/podman/podman_git.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Best regards,
+diff --git a/recipes-containers/podman/podman_git.bb b/recipes-containers/podman/podman_git.bb
+index ef9798f0..b80b8d5b 100644
+--- a/recipes-containers/podman/podman_git.bb
++++ b/recipes-containers/podman/podman_git.bb
+@@ -17,7 +17,7 @@ DEPENDS = " \
+     gettext-native \
+ "
+ 
+-SRCREV = "bb81e85a430fa95d23a15b77c717fd68bf06ebf2"
++SRCREV = "d08315df35cb6e95f65bf3935f529295c6e54742"
+ SRC_URI = " \
+     git://github.com/containers/libpod.git;branch=v5.0;protocol=https \
+     ${@bb.utils.contains('PACKAGECONFIG', 'rootless', 'file://50-podman-rootless.conf', '', d)} \
+@@ -33,7 +33,7 @@ GO_IMPORT = "import"
+ 
+ S = "${WORKDIR}/git"
+ 
+-PV = "5.0.1+git"
++PV = "5.0.3+git"
+ 
+ CVE_STATUS[CVE-2022-2989] = "fixed-version: fixed since v4.3.0"
+ CVE_STATUS[CVE-2023-0778] = "fixed-version: fixed since v4.5.0"
+-- 
+2.49.0
 
---=20
-Paul Barker
-
-
---=-XNa6a6jEQ/CRBJay5Axq
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCaeswXhEccGF1bEBwYmFy
-a2VyLmRldgAKCRCrY1Tsnbr0biD7AP9qCtb78FJwyFfE/6oBzo3pLO5Cq+2sUbsI
-mQpyHXIYkAD7B5w2rgNwxYeT43Cl41asgilT0NWKrecA8C0G7M7mqAI=
-=1yBH
------END PGP SIGNATURE-----
-
---=-XNa6a6jEQ/CRBJay5Axq--
 
