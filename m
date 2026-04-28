@@ -1,151 +1,291 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A11FFF885A
-	for <webhook@archiver.kernel.org>; Tue, 28 Apr 2026 06:12:05 +0000 (UTC)
-Received: from AM0PR02CU008.outbound.protection.outlook.com (AM0PR02CU008.outbound.protection.outlook.com [52.101.72.15])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.6397.1777356716360939281
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5970FF8868
+	for <webhook@archiver.kernel.org>; Tue, 28 Apr 2026 11:16:03 +0000 (UTC)
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.10617.1777374955019488294
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 27 Apr 2026 23:11:56 -0700
+ Tue, 28 Apr 2026 04:15:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@siemens.com header.s=selector2 header.b=MqKO3sji;
- spf=pass (domain: siemens.com, ip: 52.101.72.15, mailfrom: peter.marko@siemens.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=cOlfDXLVaY0b1ZjmBQSoP7O/xZyZUuWj+8yRBiDMMbAg7xd9ZDQD+Nb+BiG353Go5hXJtDn1DEODVqGrzcjWUhjWauCx32sEDL9E4zrwcIKMkkumjs6l+68KhFHe/6EnPqkTsnUa5gtvYVu/HFMEke4aPHI0uo/iWmVMuuBWNuC2WPJmdWjWAc9vNEq0GgjsqnuiWBQEWkW0pv4NZioNwsv3URHuclJaCQz5M1p0zeLKMAPzH4RX0LLZHAn+Ay/wQK0jsf8+NhEIljnrC0rbd4Bm/v6rQJ+/WMXLlWq9GVXiOBNfMpN+wbIkCuMpiOrGgnOdtE4JaQZ2hQPz3ZT0+Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NFe1uf+6noijBYHNpFsG9NkhGnk8exxbN5PGoW1TlcU=;
- b=Lee/WeFC/n1zaterZ2iF/yXU/BRlMAjQuybqdQ1VaXh/Ay9RqYSKVkFDG8LPuw77w7JX5h22Ii1PBHgYDrJ3f6/03M5DMxiFGkRke3hAX5JbOBfLhxqo+TGjlNJT2/Zdcc13dOzOB+4LyikxcoZaGZzR+TRI6gg0vIJpXmpavf+649DOjywlSDo4MHOcINblJtrZ9Z5aupBU0Gwjd1FGrwEdDmjBYp+fXpcV4OjyWmt32d1OKpHkTWQ5D6/Ik714li9r/F7ztXtj/kb3rsrvT/6y4OebzaJdUTE/y8tVUgJa+Y2ZvfWyGnPIUvy9TtkaEhUHPWN0DBk7A57FRLY6FA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
- dkim=pass header.d=siemens.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NFe1uf+6noijBYHNpFsG9NkhGnk8exxbN5PGoW1TlcU=;
- b=MqKO3sji0xIy5Vb6gq05j9dVxAbeKvoy3xXHepSsvkuflx2c15Wb04scRN99QG9aDbO+5hgF1HTiEgdhrbMOkHLROn99lejJwWsZKTnEprOmE9CNY54FublY/cH+EGY/SlvKyHV5PPl41UfYomGTZA0wW9kWvsZqegWxzjloOQkVNIYeBCebis6nAup1hAIRmCKx26jtJigA7qYCZo8fQHvyj+d8KqtR6DSQPkbwdB+uGRU2cLJK2jTu0Wb5hkdmi2LkSIqp5lmD5zXQDDYLgMISGP5sE0TvwXgwKr9kMIK3i/4DEYPaATJoUbnoKKFp5dtK9741HxTbX/fG4Xpyxw==
-Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:479::20)
- by GV1PR10MB5819.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:150:52::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.26; Tue, 28 Apr
- 2026 06:11:51 +0000
-Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::b54d:255a:1abf:2dc7]) by AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::b54d:255a:1abf:2dc7%5]) with mapi id 15.20.9818.023; Tue, 28 Apr 2026
- 06:11:51 +0000
-From: "Marko, Peter" <Peter.Marko@siemens.com>
-To: "patrick.vogelaar.dev@mailbox.org" <patrick.vogelaar.dev@mailbox.org>,
-	"meta-virtualization@lists.yoctoproject.org"
-	<meta-virtualization@lists.yoctoproject.org>
-Subject: RE: [meta-virtualization] Podman version mismatch
-Thread-Topic: [meta-virtualization] Podman version mismatch
-Thread-Index: AQHc1s6CMp2ikxBqpUyDc+vgAkY2F7Xz+9Yw
-Date: Tue, 28 Apr 2026 06:11:51 +0000
-Message-ID: 
- <AS1PR10MB5697C73C24228D7555130AF9FD372@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-References: <255898079.381409.1777353521045@app.mailbox.org>
-In-Reply-To: <255898079.381409.1777353521045@app.mailbox.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
- MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=56571dcc-9168-48ee-8b7c-240ec8e215c9;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2026-04-28T06:03:25Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Tag=10,
- 3, 0, 1;
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siemens.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AS1PR10MB5697:EE_|GV1PR10MB5819:EE_
-x-ms-office365-filtering-correlation-id: c2a6be95-d612-4104-aaeb-08dea4ed0a31
-x-ms-exchange-atpmessageproperties: SA
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|1800799024|366016|376014|38070700021|55112099003|22082099003|56012099003|18002099003;
-x-microsoft-antispam-message-info: 
- IZzFJI4SQbqI800jTw8lOQYyx02RkZtf3fa0Fb43LGwY/nf6UppmARLyh/8pDdQaMrHeiKuZLZ2uPpbaGC7UL8m28gvj90RMfRIsFocTHqv6UkpH6lrjeIXY98kL1awOXYfUtLONz38Zuq0Zgvyy7apsfy1j2vRtn4Ky3weIOu7BqLWm3dfn0dLLXjjE8SVgDQG34SKsFueipvFYO6zvD2+f+zSD7WY5UOThrP4PbShTjS4GXAtQ5oJr8Vz5P9ynPo2SHtd4HadrvX6KmiGNgfvRLyNhwChKrT7VupOrBgTlp6hfl6APK9FO3qMb8YVdQIsqWr5xQEmFBNv6O6X8EinaRaflsywkYoMKFiPtPUUEB6U4sMNu25LhawC6vGtr3FicHPEhHtDoUoQFrARJdTPlLL4NUixv2hstoK7dyK5uofGtDezsGRK8wTDA74QI0P677gfx8umDtYOO6jJsv/22baW8h1EHS7m2gPLY3W13m0wClWiAFSq6taXAUX76WqfB6j1a7xmR6aTt3lj16GVRiiuwpw27fzf2KUkPRhw6UfF3Jrbks66MUpw+85QTb8zfaIrXG4q++hZVYxZnYbkknkA857coG6OEyW9L6UxNn759JYuh3tUIEQbTMeCulQlsOrsgCGIvb1GXSHCLlkJNJ4IfWMm+XSEWIRU0dMSuO50yDlMX0ngZoWHCylSIV5tKj6j7fGoP/b+HVdJ74q1EtF3rv4yZ3WT5iWrviWYIZxqGCDM+ISY/lWdBWRomXOWyFRtEapZtDZEGxnvfehnyQKc3OBks4w//ajx3QUE=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(38070700021)(55112099003)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?VEhCYVZqYS8yWFlGd3pnOXBBV254bUZOQXV5cnJTam5WMXVZY3hWSEIrbG5X?=
- =?utf-8?B?YjhwNU1kejAxY3BXRndSVUx6cG1jeVVLWTA3ZkxxMWJ5S0xJbndFaXYxUFBa?=
- =?utf-8?B?cklwRU16MjdSUU4wRGcrL0ExcjlMZTJaRDdjbk9SenRqUkp5VFNtd1dFeG5h?=
- =?utf-8?B?THVEREZ6cjhjSm4yNGxpd0NhZFB4NjZOWThWWnBQdWZxd1o5VVFIZUxLR0cx?=
- =?utf-8?B?QXZLaE8zcDFOMVp3c2IzazYzekN5aXh1TGZLNmtldkQyWERTMS9qcmphdE5G?=
- =?utf-8?B?b2dkdnozV2hGWW9UbkZHdTZTbEpGaFkzOEp5dEpvYjZiY0hnbHVnQ25HWUZl?=
- =?utf-8?B?WEhpUHZiMWFmVkUwRzQrWFpsTndxRWNxaUhNS1YvekJoVUw0Q1gwOFZJMHNM?=
- =?utf-8?B?MnUwWXFmdkJrd216WXNuM3JFMTM1Wm5NV1lMWnFIOGtZVGUxTUpWSjdhNjFY?=
- =?utf-8?B?TE1xWGtwQmpnTWNmS0VZNkM4SmVwdGxaVjF3SWt6ZUJkU1RtdHVWVWVKZ3Vr?=
- =?utf-8?B?ZlhJd2hhWVlmdFdtOXlPM05DTEtEMlZRWWZhc0IzRS9aSXBjakl5Z1o1TFJK?=
- =?utf-8?B?U1NjNjMyeGVMZE9vNHZuNnBJNlN5bEo4YUJ0WUJMWlAvSnlOamlOSUxrTTBV?=
- =?utf-8?B?UE80bFJpOVpzK3UzaUZ1QzQwaWc1YUxhRkVhM2pKN1IvdUNaWlRxTC82cWNP?=
- =?utf-8?B?ZklLSVFjdjZnek5ZVGZGeGM4L0dJV0w3N1VTNDRNditlRUpKRmFxOVdEZmx2?=
- =?utf-8?B?Q3JNUnN4SllCeXBiRDJ1QW52VjROUGluOUp1ZmhLcEJ0b3ErT3NwcEkranc1?=
- =?utf-8?B?OEhEWmQ1RGlzblBCWVZJLzZPUnN5WnJpRTBvOUhjOVd5a2RwYU9rNVlUZ2Iy?=
- =?utf-8?B?VDFyQm1oVWNJWFhyUEoySGlibXBaT3RTajMxcHhkcURnTnZTdE51VGozS20v?=
- =?utf-8?B?cGExdHEraDZuMFhSbXZpaGRrQjB1eU9aQm1BR3lBNFFQZkhOTlA3V2RTSTFj?=
- =?utf-8?B?aFltNW5WNG5BbGxzS0g0NVdZK1dIbGVJdjF2YXRlR2NudXo3OUQ3NkIyQXdV?=
- =?utf-8?B?b0hsV3QrWUtxRFdwN1BnajNCdUlxRzM3YzVscFhyTUNvVXMrVWpGNlhDM3JR?=
- =?utf-8?B?QzhDdjNOdWdIMTF2dlg4Nk42dEZTZWNuMXRhUStld3crZ29yWC93Rk5PZmVi?=
- =?utf-8?B?cGRrZVpPcmY1ZEtXQnZsekRaWklVbCtEMzdkTXpsQUUwaFRQd3lGTFUrc3lW?=
- =?utf-8?B?MDkxS1NqbmtENXppV2JjTGFQYUQrODQ3enBDNUJ6NGZlTTd4U0tqcnlMZE84?=
- =?utf-8?B?UnRpNXhaRVJLNDlXL1k0eHF6Skg0ZnN4V3pOZ0x6UTBlSEZVd0xIenZva01Q?=
- =?utf-8?B?TkNEVVg4UmlVaWFXVk9VQkF5SW9mQkRKblllcFpjWmZIVEY4QkdEZkh2RVlo?=
- =?utf-8?B?QnAvb3ArR3VSejNsTzVOZWN1d0xxT0tVK0VTRjRTNVVZTFA5QnlKZ0R1Q0NG?=
- =?utf-8?B?ZU0yK0VmZzRON0dvTlZNVE0ydncxdDh1N05jY01yVXZzY1E2aFlhM1RaaXEv?=
- =?utf-8?B?dmZYVDB0WVJQdXc5WVY0aTRhVlQ3QzJvUHV1ZkJQNjZkU3h1ZU5KbTYzNTBX?=
- =?utf-8?B?VnJ3VGVLcFZwWUsrMHRBTmtxTjNIR3A0d2RQeW8wK080YzVpNTduMnVERXVz?=
- =?utf-8?B?YzZUZThGNXZmSmE1ZUNXTEhRNVo5SzNOZUpUYzJmSWdQdGpzaGlWOTJiMGNw?=
- =?utf-8?B?UGRNUHEzbys1VndSL2pUYUpsU0QrMVh4Y3VQN3hsYnV6eG1mVWZCTFd3Njd0?=
- =?utf-8?B?QVBVWEtPNUdBVkhhQU9wYmFHVXBiRWZYcVJmUzJyUUhTZVIvWDgwUXE2UC9B?=
- =?utf-8?B?anlEVWdWY0tUWU5xRHdiZVRBQUFwRTJrM2xaSld2MUs0NnF2UWFEMjJmSE9C?=
- =?utf-8?B?RmRqeVZLc3hNaWdNbUJOcURYYnA4UWZzdHp0N0UyZWg2UlYyRGdvQ2ZOeENI?=
- =?utf-8?B?UzlwWjdoa3V3Smt0aUZCTUlTMkRQak8xNnpMYlVkQTBYb29oRXhzK2pjZkJS?=
- =?utf-8?B?Z1YzdTlCSnFhUFJTRUcyVFpYS21pY3A3SDRkSlFmaG9KUkQ2RE1yRWJTdlh3?=
- =?utf-8?B?NlVtY051a3MwNUpQYVAyUVhYYURvbEpFWlhJMlhEbGRPOTRKdjNxdWRaMjEz?=
- =?utf-8?B?UnFtbE55OGV3RjY0NnB1NTVWb0NpeEZ1a0R1VWlZWkJhN3djWDg4b0lMODRm?=
- =?utf-8?B?NEZ5OUZJMWV1bVVBekt3RWRpVXNYOFNsTXZkcUk2cXpnR2xzRVA2K0tBS250?=
- =?utf-8?B?VXZxS1NwdHAxYTRKYXNwcEJSckt5bUpaWUsrYnlEVi9FQWtLWEovZz09?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=EeLJ0Wmz;
+ spf=pass (domain: gmail.com, ip: 209.85.216.54, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-35fc2b18363so11876811a91.0
+        for <meta-virtualization@lists.yoctoproject.org>; Tue, 28 Apr 2026 04:15:54 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1777374954; cv=none;
+        d=google.com; s=arc-20240605;
+        b=VbHp49OCN1YPAvsXvkG88Dng2D6gFYVK2GGVB7QLLM9zQDagU/Dkqq8VbExqXGjVJS
+         bvYd8ySM26MpabQkah+QAZv8M6QsC2cto5MJg4d0zbRKRtL2C1G/zknDEfmHDexWeA6H
+         zrntt9gkV/2Ir0NPtbRwkJ/Lt1qZVKbNermSB8frYgftAoEG7p2KwXB/hiNWuMDB6rWQ
+         zk/Ouydv/oWplPs+9uRB8TI67dneVqBg/5PXK9fKYUeBUxqH5ywq6FtayBo1j0xBEiGj
+         XYPymyQa/froo08Ls6naIsc+yq8jKcqW+bdiWbBOVn7rehtBPI+z3N4+W1I4tE5mAjMp
+         GR1g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=ZBZcp09cIncZagwwSXns/SF9VWfOJIkIltxf834ODAs=;
+        fh=9Qd+lQoWNFE33H9l+VX8MZj/ezCEKiCawqn4XCMGG2A=;
+        b=Yy8SA9cP/wEBsbruEeIiERB4dYuAR8FiUKV6M27I0VNqlbyerGBlclGcDEgfz+9yk8
+         D2oB9uu5l7gKmVjhmHQjxeG8ayadHuJZqhtBcGrtUiSMBq0vsZx6ckco05Jd50ZDlf5p
+         XHFOtqJjRUmfBZcz1USLQgPi/dKZAfyz9LVKwr4/8onXbX/R7Iup5/3SbWQM463RMQV8
+         rY5shyvLINfBogvwAPqCFXOzSVt1SgmY/gSg17K0j0CQbK3RgAlmkLcdLlqjjS/YWaka
+         BZsDJIryEeDRVk9X4o85co3G7cjX8ymAGB5IZ+6WvajlbMGS3rNmiotZ46El7vMO1KoA
+         Y1KQ==;
+        darn=lists.yoctoproject.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777374954; x=1777979754; darn=lists.yoctoproject.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZBZcp09cIncZagwwSXns/SF9VWfOJIkIltxf834ODAs=;
+        b=EeLJ0WmzKiaaoD++PVYftlhe4JeMmjZxKkyOhZu3Mbb5YxbUWlkm8/nt36VDci2i4K
+         HCsEcxopbQQHdQ8pXqkAo+hSfM7pNYiwndqEbtfF+Seb3ns4dJ9pQ2aGJY6vTuhKNdah
+         uV7YCYp94ZWPZznYH31sXA8QDO/FUThXdnOpYjRfLgY+EJ7hX3q7N06MGclib9DCdZ93
+         sou63eTQyHbMIKTq54VvEogQpAtr2qpghQ5ekh1TOemtHcKwkPEBhygfgncNRjf7pbzs
+         XRoZI2/u+45z1b5bD8EiGQKxjphzVCF7Nn8f5tPycpWcnaFFnxYkAmR8km7xQNE1VH9F
+         nKgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777374954; x=1777979754;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZBZcp09cIncZagwwSXns/SF9VWfOJIkIltxf834ODAs=;
+        b=IgZYBpe9rI6s2ZXJpkqo2sHYzv2kRCbg0csSPCf//nBA877yH6ZES8txAyjeI4bcGs
+         RsVuFWIR67aGHUxyuWhlVPhBTn8ZWWKkOTUrj5Y5Wm4AJ/twDkACzA5rIaetV1uak+Si
+         SdkhfnT0Rhm13fAGf+iloy4pHDlmCbAOYficseUdNStOfLjb+iEs708qkS+4fgI8N8Zk
+         0s4qkeXt1Wh++tAUcxYcnTtv5eHyyJPnuAPKhHG/2H/6I6OvmyqhxQ00oW66/wRR3N47
+         70W39qlCW+78ipQjcNgBy1LSwdFsatV8Xb/Z0izhbFXEk6Q69A6ivQbUv3sp08JAvc2h
+         M6xA==
+X-Forwarded-Encrypted: i=1; AFNElJ9BCIUSp75AGVZhjispOBSdghYXdezwAD/ZKzKTyxPAdr/8PPqzSU1KjeSio1ho76vtpF8ar3OVmwVuu343ALNXeH33@lists.yoctoproject.org
+X-Gm-Message-State: AOJu0YyTZ1zndAX2FKxg8AoBOR8KlRwjqcwveLRxAlmnDjffUDo6RJC+
+	qrrboV9mJ1WmJGuv4eKGDmb3AKxPKTTAaffzZ8CJbj0JIAR38kjSFOpotSENQI3PHwOJccMvL1P
+	fqRGBId3zhCNM9H6YRMJ8nSPc8Ki4dec=
+X-Gm-Gg: AeBDieuRX4Zf1mevDDspWe0n4tDzNtCGl0pQm4LdPFLGEpz3FzL15MFoAmcNy0p8pk7
+	krTkfK+iDuHZ+yDS1KZDLbW+xl9w1yy1/FR8dwSHmQPRUj8vC/dEEZ2p9Qzul937VBSdSLRJdJW
+	uVtMEZbqND3rIOFjLFc5Lesl9MSmKs7WOTDIUzYcWWGObkn2J8M+oZ+uGNd3gZIwfyGZ9fJg4zd
+	hSHGjzcq9tedBEj46kbJbMHldVImXQzzQvaQkRft6OsRMxVY2KYIPEvhfVFIS/H3FxkJbTDrVk7
+	S4C+ho8gz1yo5ZQoQCeo888LhbNeYpqwfJ3Z/jSr3e57yPRzJOw=
+X-Received: by 2002:a17:90a:d88f:b0:35f:b953:2445 with SMTP id
+ 98e67ed59e1d1-364920a5138mr2984325a91.16.1777374954204; Tue, 28 Apr 2026
+ 04:15:54 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: c2a6be95-d612-4104-aaeb-08dea4ed0a31
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Apr 2026 06:11:51.8303
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: mncksTjo5QCCU2orLo7W10ecm00XxAo86wEwkISz3p0suJWXkXV0+kDKWxQITanfby6h/c2k0yMbQcUQKNz89w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR10MB5819
+References: <255898079.381409.1777353521045@app.mailbox.org> <AS1PR10MB5697C73C24228D7555130AF9FD372@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+In-Reply-To: <AS1PR10MB5697C73C24228D7555130AF9FD372@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Tue, 28 Apr 2026 07:15:41 -0400
+X-Gm-Features: AVHnY4Ld8GpzkJ5zQQkugOnS4aGDA2Xru2KnzWQ8wRzrd7dk4wuYJcNofqfdQOE
+Message-ID: <CADkTA4OW9pcG-2HL16zMc3qN0DxK2Dz+bmjjjAQ2jG8fE-kYWA@mail.gmail.com>
+Subject: Re: [meta-virtualization] Podman version mismatch
+To: peter.marko@siemens.com
+Cc: "patrick.vogelaar.dev@mailbox.org" <patrick.vogelaar.dev@mailbox.org>, 
+	"meta-virtualization@lists.yoctoproject.org" <meta-virtualization@lists.yoctoproject.org>
+Content-Type: multipart/alternative; boundary="000000000000c731fe0650835a64"
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Tue, 28 Apr 2026 06:12:05 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9755
+ <meta-virtualization@lists.yoctoproject.org>; Tue, 28 Apr 2026 11:16:03 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9756
 
-bWV0YS12aXJ0dWFsaXphdGlvbiBoYXMgaGFyZGx5IGFueSByZWNpcGUgd2hpY2ggZmV0Y2hlcyBl
-eGFjdGx5IGdpdCB0YWcuDQpTbyB0aGluZ3MgbGlrZSB0aGlzIGFyZSB1bmZvcnR1bmF0ZWx5IGV4
-cGVjdGVkLg0KSW4gdGhlIHBhc3QgSSBoYXZlIHNlbnQgY291cGxlIHVwZGF0ZXMgdG8gbWFpbGlu
-ZyBsaXN0IHRvIHVzZSByZWFsIHZlcnNpb25zLCBidXQgd2l0aG91dCBzdWNjZXNzLCBzbyBJIGdh
-dmUgdXAuDQoNCkhhdmluZyB0aGUgY29taW5nIHJlZ3VsYXRpb25zIGluIG1pbmQgKHJlcXVpcmlu
-ZyBhY2N1cmF0ZSBzYm9tIGFuZCBjdmUgdHJhY2tpbmcpLCBJJ2QgcmVjb21tZW5kIGV2ZXJ5b25l
-IHVzaW5nIG1ldGEtdmlydHVhbGl6YXRpb24gdG8ganVzdCBjb3B5IGFueSB1c2VkIHJlY2lwZSwg
-Y29ycmVjdCBnaXQgaGFzaCBhbmQgdXBkYXRlIGNyYXRlcy5pbmMuDQoNClBldGVyDQoNCj4gLS0t
-LS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogbWV0YS12aXJ0dWFsaXphdGlvbkBsaXN0
-cy55b2N0b3Byb2plY3Qub3JnIDxtZXRhLQ0KPiB2aXJ0dWFsaXphdGlvbkBsaXN0cy55b2N0b3By
-b2plY3Qub3JnPiBPbiBCZWhhbGYgT2YgUGF0cmljayBWb2dlbGFhciB2aWENCj4gbGlzdHMueW9j
-dG9wcm9qZWN0Lm9yZw0KPiBTZW50OiBUdWVzZGF5LCBBcHJpbCAyOCwgMjAyNiA3OjE5IEFNDQo+
-IFRvOiBtZXRhLXZpcnR1YWxpemF0aW9uQGxpc3RzLnlvY3RvcHJvamVjdC5vcmcNCj4gU3ViamVj
-dDogW21ldGEtdmlydHVhbGl6YXRpb25dIFBvZG1hbiB2ZXJzaW9uIG1pc21hdGNoDQo+IA0KPiBI
-aSwNCj4gDQo+IEkgZ2F2ZSB0aGUgbmV3bHkgdXBncmFkZWQgcG9kbWFuIHJlY2lwZSBhIHRyeSBi
-dXQgaXQgc2VlbXMgdGhhdCB0aGVyZSBpcyBzdGlsbCBhDQo+IHZlcnNpb24gbWlzbWF0Y2guDQo+
-IFBWID0gIjUuOC4yIiAgYnV0OiBwb2RtYW4gLXYNCj4gcG9kbWFuIHZlcnNpb24gNS44LjMtZGV2
-DQo+IA0KPiBEbyB5b3Ugd2FudCBtZSB0byBzZW5kIGEgcGF0Y2ggb3IgZG8geW91IHdhbnQgdG8g
-aGF2ZSBhIGxvb2sgYXQgeW91ciB1cGRhdGUNCj4gc2NyaXB0Pw0KPiANCj4gUGF0cmljaw0K
+--000000000000c731fe0650835a64
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Apr 28, 2026 at 2:11=E2=80=AFAM Peter Marko via lists.yoctoproject.=
+org
+<peter.marko=3Dsiemens.com@lists.yoctoproject.org> wrote:
+
+> meta-virtualization has hardly any recipe which fetches exactly git tag.
+> So things like this are unfortunately expected.
+> In the past I have sent couple updates to mailing list to use real
+> versions, but without success, so I gave up.
+>
+>
+Thanks for the encouragement of the 10+ years of
+maintaining meta-virtualization!
+
+The reason they aren't exact git tags or exact releases is that those
+hashes stay valid
+for such a short time that it simply isn't worth it. And there's certaining
+no value in
+constantly bouncing the files through _<version>.bb and the _git.bb every
+time I
+move off an exact release tag.
+
+Maintaining all this many recipes, that move this quickly by stacking
+patches on to
+languages that don't patch all that way would simply be chaos.
+
+Patrick: there's nothing wrong with script that was intentional on the
+version.
+
+Which would be easier in your scenario ? (and by your scenario, I mean me
+changing
+the version reporting in the recipe.
+
+ - adding the -dev into the PV
+ - injecting the "base" version into the build via -X (or whatever
+mechanism the
+   buld needs) ?
+
+Bruce
+
+
+
+> Having the coming regulations in mind (requiring accurate sbom and cve
+> tracking), I'd recommend everyone using meta-virtualization to just copy
+> any used recipe, correct git hash and update crates.inc.
+>
+
+
+> Peter
+>
+> > -----Original Message-----
+> > From: meta-virtualization@lists.yoctoproject.org <meta-
+> > virtualization@lists.yoctoproject.org> On Behalf Of Patrick Vogelaar vi=
+a
+> > lists.yoctoproject.org
+> > Sent: Tuesday, April 28, 2026 7:19 AM
+> > To: meta-virtualization@lists.yoctoproject.org
+> > Subject: [meta-virtualization] Podman version mismatch
+> >
+> > Hi,
+> >
+> > I gave the newly upgraded podman recipe a try but it seems that there i=
+s
+> still a
+> > version mismatch.
+> > PV =3D "5.8.2"  but: podman -v
+> > podman version 5.8.3-dev
+> >
+> > Do you want me to send a patch or do you want to have a look at your
+> update
+> > script?
+> >
+> > Patrick
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#9755):
+> https://lists.yoctoproject.org/g/meta-virtualization/message/9755
+> Mute This Topic: https://lists.yoctoproject.org/mt/119043966/1050810
+> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [
+> bruce.ashfield@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end
+- "Use the force Harry" - Gandalf, Star Trek II
+
+--000000000000c731fe0650835a64
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
+t-size:small"><br></div></div><br><div class=3D"gmail_quote gmail_quote_con=
+tainer"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Apr 28, 2026 at 2:11=
+=E2=80=AFAM Peter Marko via <a href=3D"http://lists.yoctoproject.org">lists=
+.yoctoproject.org</a> &lt;peter.marko=3D<a href=3D"mailto:siemens.com@lists=
+.yoctoproject.org">siemens.com@lists.yoctoproject.org</a>&gt; wrote:<br></d=
+iv><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bord=
+er-left:1px solid rgb(204,204,204);padding-left:1ex">meta-virtualization ha=
+s hardly any recipe which fetches exactly git tag.<br>
+So things like this are unfortunately expected.<br>
+In the past I have sent couple updates to mailing list to use real versions=
+, but without success, so I gave up.<br>
+<br></blockquote><div><br></div><div><div class=3D"gmail_default" style=3D"=
+font-size:small">Thanks for the encouragement of the 10+ years of maintaini=
+ng=C2=A0meta-virtualization!</div><div class=3D"gmail_default" style=3D"fon=
+t-size:small"><br></div><div class=3D"gmail_default" style=3D"font-size:sma=
+ll">The reason they aren&#39;t exact git tags or exact releases is that tho=
+se hashes stay valid</div><div class=3D"gmail_default" style=3D"font-size:s=
+mall">for such a short time that it simply isn&#39;t worth it. And there&#3=
+9;s certaining no value in</div><div class=3D"gmail_default" style=3D"font-=
+size:small">constantly bouncing the files through _&lt;version&gt;.bb and t=
+he _<a href=3D"http://git.bb">git.bb</a> every time I</div><div class=3D"gm=
+ail_default" style=3D"font-size:small">move off an exact release tag.</div>=
+<div class=3D"gmail_default" style=3D"font-size:small"><br></div><div class=
+=3D"gmail_default" style=3D"font-size:small">Maintaining all this many reci=
+pes, that move this quickly by stacking patches on to</div><div class=3D"gm=
+ail_default" style=3D"font-size:small">languages that don&#39;t patch all t=
+hat way would simply be chaos.</div><div class=3D"gmail_default" style=3D"f=
+ont-size:small"><br></div><div class=3D"gmail_default" style=3D"font-size:s=
+mall">Patrick: there&#39;s nothing wrong with script that was intentional o=
+n the version.=C2=A0</div><div class=3D"gmail_default" style=3D"font-size:s=
+mall"><br></div><div class=3D"gmail_default" style=3D"font-size:small">Whic=
+h would be easier in your scenario ? (and by your scenario, I mean me chang=
+ing</div><div class=3D"gmail_default" style=3D"font-size:small">the version=
+ reporting in the recipe.</div><div class=3D"gmail_default" style=3D"font-s=
+ize:small"><br></div><div class=3D"gmail_default" style=3D"font-size:small"=
+>=C2=A0- adding the -dev into the PV</div><div class=3D"gmail_default" styl=
+e=3D"font-size:small">=C2=A0- injecting the &quot;base&quot; version into t=
+he build via -X (or whatever mechanism the</div><div class=3D"gmail_default=
+" style=3D"font-size:small">=C2=A0 =C2=A0buld needs) ?</div><div class=3D"g=
+mail_default" style=3D"font-size:small"><br></div><div class=3D"gmail_defau=
+lt" style=3D"font-size:small">Bruce</div><br></div><div>=C2=A0</div><blockq=
+uote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1p=
+x solid rgb(204,204,204);padding-left:1ex">
+Having the coming regulations in mind (requiring accurate sbom and cve trac=
+king), I&#39;d recommend everyone using meta-virtualization to just copy an=
+y used recipe, correct git hash and update crates.inc.<br></blockquote><div=
+>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
+0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+Peter<br>
+<br>
+&gt; -----Original Message-----<br>
+&gt; From: <a href=3D"mailto:meta-virtualization@lists.yoctoproject.org" ta=
+rget=3D"_blank">meta-virtualization@lists.yoctoproject.org</a> &lt;meta-<br=
+>
+&gt; <a href=3D"mailto:virtualization@lists.yoctoproject.org" target=3D"_bl=
+ank">virtualization@lists.yoctoproject.org</a>&gt; On Behalf Of Patrick Vog=
+elaar via<br>
+&gt; <a href=3D"http://lists.yoctoproject.org" rel=3D"noreferrer" target=3D=
+"_blank">lists.yoctoproject.org</a><br>
+&gt; Sent: Tuesday, April 28, 2026 7:19 AM<br>
+&gt; To: <a href=3D"mailto:meta-virtualization@lists.yoctoproject.org" targ=
+et=3D"_blank">meta-virtualization@lists.yoctoproject.org</a><br>
+&gt; Subject: [meta-virtualization] Podman version mismatch<br>
+&gt; <br>
+&gt; Hi,<br>
+&gt; <br>
+&gt; I gave the newly upgraded podman recipe a try but it seems that there =
+is still a<br>
+&gt; version mismatch.<br>
+&gt; PV =3D &quot;5.8.2&quot;=C2=A0 but: podman -v<br>
+&gt; podman version 5.8.3-dev<br>
+&gt; <br>
+&gt; Do you want me to send a patch or do you want to have a look at your u=
+pdate<br>
+&gt; script?<br>
+&gt; <br>
+&gt; Patrick<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#9755): <a href=3D"https://lists.yoctoproject.org/g/meta=
+-virtualization/message/9755" rel=3D"noreferrer" target=3D"_blank">https://=
+lists.yoctoproject.org/g/meta-virtualization/message/9755</a><br>
+Mute This Topic: <a href=3D"https://lists.yoctoproject.org/mt/119043966/105=
+0810" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.org/m=
+t/119043966/1050810</a><br>
+Group Owner: <a href=3D"mailto:meta-virtualization%2Bowner@lists.yoctoproje=
+ct.org" target=3D"_blank">meta-virtualization+owner@lists.yoctoproject.org<=
+/a><br>
+Unsubscribe: <a href=3D"https://lists.yoctoproject.org/g/meta-virtualizatio=
+n/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.or=
+g/g/meta-virtualization/unsub</a> [<a href=3D"mailto:bruce.ashfield@gmail.c=
+om" target=3D"_blank">bruce.ashfield@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
+=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
+ignature">- Thou shalt not follow the NULL pointer, for chaos and madness a=
+wait thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star T=
+rek II<br><br></div></div>
+
+--000000000000c731fe0650835a64--
 
