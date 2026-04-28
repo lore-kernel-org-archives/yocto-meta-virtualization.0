@@ -2,141 +2,124 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D0053FF8868
-	for <webhook@archiver.kernel.org>; Tue, 28 Apr 2026 11:43:43 +0000 (UTC)
-Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.11061.1777376616080868225
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F420FFF885D
+	for <webhook@archiver.kernel.org>; Tue, 28 Apr 2026 11:45:53 +0000 (UTC)
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.11445.1777376745846069095
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 28 Apr 2026 04:43:36 -0700
+ Tue, 28 Apr 2026 04:45:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=QR5ZcWGV;
- spf=pass (domain: gmail.com, ip: 209.85.222.169, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-8ef5776530bso731071285a.0
-        for <meta-virtualization@lists.yoctoproject.org>; Tue, 28 Apr 2026 04:43:35 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=h52C/vST;
+ spf=pass (domain: gmail.com, ip: 209.85.160.177, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-50e63771eb0so101495461cf.3
+        for <meta-virtualization@lists.yoctoproject.org>; Tue, 28 Apr 2026 04:45:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777376615; x=1777981415; darn=lists.yoctoproject.org;
+        d=gmail.com; s=20251104; t=1777376745; x=1777981545; darn=lists.yoctoproject.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=EJYti9lGuUR2OZtslcPo5gWBjzIdn+y1x6ApSUabcuQ=;
-        b=QR5ZcWGVFxWNyKT9Obo6wSbzV2Z61h/MmLWVD1+loC7lMc5yf9z/YnaeBCwuM8hbo8
-         MwmgniljhAXEGf47f+r+Py0fo+j3yahE9P0tUiIin4vs4MRSZm8Hk6r9453XxPwmuukT
-         TH7zOPCWkQKjn3/VAhw5B/OjfM7KNmy6fBOyzHpxsMwAunkYUhsFpH4eySA689/JlQDu
-         eA64OwR5QluCktQ32NOMqwpP9o1PxW9t6rUmjJVXDJ2K3rpM1XfzxhS/eu/nRSGgihX1
-         SX7gzkL+9DwTh79+P0GC+ZS25TGxrGIHJTcwsRGjXyHbZH85AOyPl8bZ/qL56rlRZRif
-         OZDQ==
+        bh=ZKP+VFmntzT3Icg+LBvMpOqnvaAAEFFTajXuDXLjMDQ=;
+        b=h52C/vSTsGzfmU8Oll1XfOrCfK/PK0wXoCd5+PSNq6Uz7DECaJu7TsGy0/4io9zxiK
+         7T4nsuWMnkT6ZzFyeo7G7vzgI8PTNxpICGkHRPtxKyno8gYXtUobVAWJBYPoRMkLrs13
+         Of2sgDsy+5lXxSyjdtL/4QH4MAZopSLur73OKNHcyTAzb+mb3/y72gBYsWLrMhnXNXKp
+         iIFrBsAehoeePHN5s4/UcExqyiJvxRJRbIihR8DijHp+YD26gVCmlg8bRfOFwzzsETRA
+         3rm6y9P/SM+OB323CXDuURrBs0/gnhzpZVkySj3RGq4Gt90OHWRgfabcvGKY/zyaItVv
+         8pjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777376615; x=1777981415;
+        d=1e100.net; s=20251104; t=1777376745; x=1777981545;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=EJYti9lGuUR2OZtslcPo5gWBjzIdn+y1x6ApSUabcuQ=;
-        b=LlDvzwoZKRoNHG9UkgoSdR5WRbzEEK9exrj9kzG5AQBeb4xBoqlC763xlmMzUN90I8
-         yZuI/mxaljZx0qBOuGkzlV0QHM//AjNZqctha54KNYYyADDiobxgFEbJ5BmFMStXspGt
-         xZbSsTxqufioojt77lHy2ivZ65++vsOHkQBnnmL0OT7a5SDqXSNBnS9ZsOowWJgvPDT3
-         b3JLcz2HmAPOKcAZ0TKuU5oVPRLsgSkG5feJOFOOMXbgaCnGM2Xhpai0nZvAtT2MNoM+
-         DlfOBv5/ubxmCGNS1P+q1C2Uiz43wCXEfXzk85g+WiLRhIwOnKk555CtJszrbkV7fHqA
-         Vzng==
-X-Gm-Message-State: AOJu0YxTTfWqre4bYkysCsMARxhl/im/nJROd6rZJS3jmmY9Drh6k20o
-	KI8TtbpNpOs08KPbH3HR/8LLE7bo7l6UPYQJeykqSoDrkLugA5w/D3zYVxS90EO+Syl53g==
-X-Gm-Gg: AeBDievnAllTGOwd4xOYX8BEqzpX9fWWxB+8FRhP1hXKk8OvU/jFnoNQDDmpPPsXsDV
-	eWYSP4bVhm46YmzGtG5InPrM4ALQUgAzNZ9zIanJ9BmJKGmQeuA6gCZgF05vo9RMRdei2xRd0bZ
-	1uZ6bZZzOtKbeTPM5YaGlOSriojFaXG7OT333KWk7ObOHxvqKXzXMlvxocwkJHQd4rz/sWzq/Aq
-	tTa8cCwxnTj5tdO2IKMm0YgshrEjmNpZjYJjoXA9rsEsAWmMY1TyWCsN81mF0Wy56NGg0FPKQhY
-	4wdMumRYVm4JrMZksGczzJo/NJKId2OfWShqCNwHG7lO7nv85HDaf5C6p8ShVnCFgpq3nG+zSPz
-	UqSMt33Wdazd6qsRiuXosD/Yk61ViRR0iROmWHePp3MHQFdrOX3FTY91PJ9awYU7tOSreMKpdtH
-	AvXUpL1rCq6tTgaPLAIWmjhUOUouaMPTGOL8jQQSDqBPElkBVP5tMAYJhRqEd0QB2dcfuuMByJj
-	RXUnhwRiF182wM/vSV8TXa2U7PFHjO+d57SS21WKUqMThw=
-X-Received: by 2002:a05:620a:4413:b0:8cf:d441:c7c0 with SMTP id af79cd13be357-8f7d9207fb7mr332393185a.34.1777376614977;
-        Tue, 28 Apr 2026 04:43:34 -0700 (PDT)
+        bh=ZKP+VFmntzT3Icg+LBvMpOqnvaAAEFFTajXuDXLjMDQ=;
+        b=g1kk5/wckBe1Wdm2ox8TXPoy3qnZttqjoBm/eWPKed4Q7E0F9njwJRS6atL3GsMSTh
+         YSGgJ8FeYExIrf4PI2NBsNUrmoldDKi70U7o0OtZq4EIVw7OsI7cQtdy5+7Br1vxyusL
+         CbhQ7r2UhESKtti141PBJLrSA2HA5wsf5BM+XWcbVc761qtds+AXrMVBMP+pb1qCmX8O
+         mVdEYt78qv+YReT9HHc3AiR7bCxyu5iuI3Fc7sOqi/Z+po17GviBmXhdJi9bCXqaCjNA
+         1TyfX+M1W4ai9tMWRCBVXB7EGZPOWSdBKsv74kBsNcIj47ynBBPNnnypjq6i1ybLfejX
+         d2hw==
+X-Gm-Message-State: AOJu0YxmjOjlHlK8vzY7HRxiFVVzekyXk/OmsuVQ6iGssLMLYB2PZpxV
+	Bo3FurONIFlWCA3WVyRlQbB5MZGc7mCP9ZJJhs0wLkqOTRZOJhDdbMfd
+X-Gm-Gg: AeBDiesBDQUzBNDnscLfF0oj8FuOsEpWzUs027X9XXJ7kPcxmWvpdMgnKbF1bOha/qe
+	jt56RaO58CEn4XLNg3L8g4YbKQmGf7YvpGZz8KH+vsfeDkZzDIYuw8g2K8ew+9czPXh7lQVmC+2
+	Ywy8Ej1a7mh9YfS3BQ/84LuWN+igrC9ytENCk5pZMTUKdvoTMu34Cd5I8V5pU8klcWJAH5ZXyts
+	cHqJU7pADkRe3lER1zUc2f/A82Ldh5DsZ1euhkGsQRnZA1V5QPQ8qzTDYc/i1fYUcee4gLXGrDT
+	5NgY4Aq3dBZVXvKtRfcVIbfDkULDRzoNk9+8w9CzphOG20DQnZ763azAcmTwIecqLdrYSYjTuys
+	B9mE73svlBGYz8XFXpEwUVWTHXwj418cddJL60FIE5U+NOVtK9DifIzgnR0fGSBAiAGSlM6/Tgf
+	XaRpelJ0y8N45CVYcQnt9wEdlPA3Vs68YHUgWu74PoZ7KwzOviRBcR/upu8hKvEGS5ZI1gT2duQ
+	8oDl41C0boRRPsxffvs6/tlfz2daqEBjYD12xY5K7PRvBg=
+X-Received: by 2002:ac8:5c8c:0:b0:509:f36:496d with SMTP id d75a77b69052e-5100e1b509amr32953611cf.33.1777376744770;
+        Tue, 28 Apr 2026 04:45:44 -0700 (PDT)
 Received: from gmail.com (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8f7c48c71fesm201947185a.5.2026.04.28.04.43.34
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5100e0a9befsm17313481cf.14.2026.04.28.04.45.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Apr 2026 04:43:34 -0700 (PDT)
-Date: Tue, 28 Apr 2026 11:43:32 +0000
+        Tue, 28 Apr 2026 04:45:44 -0700 (PDT)
+Date: Tue, 28 Apr 2026 11:45:42 +0000
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: mingli.yu@eng.windriver.com
-Cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [meta-virtualization] [scarthgap][PATCH v2] podman: Upgrade
- 5.0.1 -> 5.0.3
-Message-ID: <afCdZEDojW6PSeCJ@gmail.com>
-References: <20260424094738.2143616-1-mingli.yu@windriver.com>
+To: louis.rannou@semalibre.com
+Cc: meta-virtualization@lists.yoctoproject.org, pascal.eberhard@se.com,
+	Louis Rannou <louis.rannou@non.se.com>
+Subject: Re: [meta-virtualization][PATCH] libvirt: remove obsolet depends to
+ avahi
+Message-ID: <afCd5q-X7UtiNBt0@gmail.com>
+References: <20260427135431.205900-1-louis.rannou@semalibre.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260424094738.2143616-1-mingli.yu@windriver.com>
+In-Reply-To: <20260427135431.205900-1-louis.rannou@semalibre.com>
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Tue, 28 Apr 2026 11:43:43 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9764
+ <meta-virtualization@lists.yoctoproject.org>; Tue, 28 Apr 2026 11:45:53 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9765
 
-merged.
+small typo in the shortlog fixed, and pushed to master.
+
+I'm curious how you noticed the obselete depdency! If it
+is a scripted or specific prompt you used, I'd be
+interested to know if there are others like this lurking
+in the layer.
 
 Bruce
 
-In message: [meta-virtualization] [scarthgap][PATCH v2] podman: Upgrade 5.0.1 -> 5.0.3
-on 24/04/2026 Yu, Mingli via lists.yoctoproject.org wrote:
+In message: [meta-virtualization][PATCH] libvirt: remove obsolet depends to avahi
+on 27/04/2026 Louis Rannou via lists.yoctoproject.org wrote:
 
-> From: Mingli Yu <mingli.yu@windriver.com>
+> From: Louis Rannou <louis.rannou@non.se.com>
 > 
-> Upgrade podman to 5.0.3 to include some bugfixes and some security fix
-> such as CVE-2024-3727 [1].
+> libvirt has removed support for avahi in version 5.5.0 in 2019:
 > 
-> Release notes:
-> Security
->   This release addresses CVE-2024-3727, a vulnerability in the
-> containers/image library which allows attackers to trigger authenticated
-> registry access on behalf of the victim user.
+>   * Remove Avahi mDNS support
 > 
-> Bugfixes
->   Fixed a bug where podman machine start would fail if the machine
-> had a volume with a long target path (#22226).
->   Fixed a bug where podman machine start mounted volumes with paths
-> that included dashes in the wrong location (#22505).
+>     This feature was never used outside of virt-manager, which has itself
+>     stopped using it a while ago.
 > 
-> Misc
->   Updated Buildah to v1.35.4
->   Updated the containers/common library to v0.58.3
->   Updated the containers/image library to v5.30.1
-> 
-> [1] https://github.com/containers/podman/releases/tag/v5.0.3
-> 
-> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+> Signed-off-by: Louis Rannou <louis.rannou@non.se.com>
+> Signed-off-by: Louis Rannou <louis.rannou@semalibre.com>
 > ---
->  recipes-containers/podman/podman_git.bb | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  recipes-extended/libvirt/libvirt_git.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/recipes-containers/podman/podman_git.bb b/recipes-containers/podman/podman_git.bb
-> index ef9798f0..b80b8d5b 100644
-> --- a/recipes-containers/podman/podman_git.bb
-> +++ b/recipes-containers/podman/podman_git.bb
-> @@ -17,7 +17,7 @@ DEPENDS = " \
->      gettext-native \
->  "
+> diff --git a/recipes-extended/libvirt/libvirt_git.bb b/recipes-extended/libvirt/libvirt_git.bb
+> index b5b0a5f2..34a1ff21 100644
+> --- a/recipes-extended/libvirt/libvirt_git.bb
+> +++ b/recipes-extended/libvirt/libvirt_git.bb
+> @@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+>                      file://COPYING.LESSER;md5=4b54a1fd55a448865a0b32d41598759d"
+>  SECTION = "console/tools"
 >  
-> -SRCREV = "bb81e85a430fa95d23a15b77c717fd68bf06ebf2"
-> +SRCREV = "d08315df35cb6e95f65bf3935f529295c6e54742"
->  SRC_URI = " \
->      git://github.com/containers/libpod.git;branch=v5.0;protocol=https \
->      ${@bb.utils.contains('PACKAGECONFIG', 'rootless', 'file://50-podman-rootless.conf', '', d)} \
-> @@ -33,7 +33,7 @@ GO_IMPORT = "import"
->  
->  S = "${WORKDIR}/git"
->  
-> -PV = "5.0.1+git"
-> +PV = "5.0.3+git"
->  
->  CVE_STATUS[CVE-2022-2989] = "fixed-version: fixed since v4.3.0"
->  CVE_STATUS[CVE-2023-0778] = "fixed-version: fixed since v4.5.0"
+> -DEPENDS = "bridge-utils gnutls libxml2 lvm2 avahi parted curl libpcap util-linux e2fsprogs pm-utils \
+> +DEPENDS = "bridge-utils gnutls libxml2 lvm2 parted curl libpcap util-linux e2fsprogs pm-utils \
+>  	   iptables dnsmasq readline libtasn1 libxslt-native acl libdevmapper libtirpc \
+>             python3-docutils-native \
+>  	   ${@bb.utils.contains('PACKAGECONFIG', 'polkit', 'shadow-native', '', d)} \
 > -- 
-> 2.49.0
+> 2.53.0
 > 
 
 > 
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#9742): https://lists.yoctoproject.org/g/meta-virtualization/message/9742
-> Mute This Topic: https://lists.yoctoproject.org/mt/118985012/1050810
+> View/Reply Online (#9746): https://lists.yoctoproject.org/g/meta-virtualization/message/9746
+> Mute This Topic: https://lists.yoctoproject.org/mt/119030694/1050810
 > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
 > Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
