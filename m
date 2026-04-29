@@ -1,784 +1,489 @@
-Return-Path: <tim.orling@konsulko.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74A31CCFA13
-	for <webhook@archiver.kernel.org>; Wed, 29 Apr 2026 19:58:22 +0000 (UTC)
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.4902.1777492693375740449
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC195FF8875
+	for <webhook@archiver.kernel.org>; Wed, 29 Apr 2026 20:16:42 +0000 (UTC)
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.5288.1777493792715561696
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 29 Apr 2026 12:58:13 -0700
+ Wed, 29 Apr 2026 13:16:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=WXpiYqwq;
- spf=pass (domain: konsulko.com, ip: 209.85.215.178, mailfrom: tim.orling@konsulko.com)
-Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-c7973f67f4dso472833a12.1
-        for <meta-virtualization@lists.yoctoproject.org>; Wed, 29 Apr 2026 12:58:13 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=leqixdYe;
+ spf=pass (domain: gmail.com, ip: 209.85.219.44, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-8a15ebb3abbso3061146d6.1
+        for <meta-virtualization@lists.yoctoproject.org>; Wed, 29 Apr 2026 13:16:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google; t=1777492693; x=1778097493; darn=lists.yoctoproject.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hjMlg1UUhArFz8pfSSjIVeeGTKX82Li4UunOXqTfoyI=;
-        b=WXpiYqwq27dtOEl4Z7pT6j8fCCgo2oJtz8r92dUnNKO8Hdti75GuKrflzb5IeKPa4x
-         MOUqzEBdAmCXLkEQ8LhKWul15JUdwFhB8qpkWX3QZiBhHqwtEKRcZlBq8Q8RqF3Q8ydi
-         pmjmwx4G3KHmzX+CKCJX/CGY/yRKdTIU3lsuo=
+        d=gmail.com; s=20251104; t=1777493792; x=1778098592; darn=lists.yoctoproject.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=hC4kIM0Js6ZPf+HIBr0GtVWIDLo/ycIOhbJ1shDSjwg=;
+        b=leqixdYeOV4XXVl98caVhdCkZoumVLyULw9DqV0YnizgQ84Q/YKzlkOsZl5BGzfDQs
+         +4h/hIF+st7fDIU0LuvEeXKXlYW/jFHcAMvA+MwEjczQRYdRoj2FofhOQKMClR9/TnQ/
+         7UQcGa1upJLH50WZhm0ENHpS7FaIqFv5CbQ33pwFQ9su/yMCYlsx/OHgOTjzUIW99K/9
+         Kr04YzruWerp9soUzSpaVxxpvJXF31JGI0T3QbvQ7XiNhblz0I41JV+H8OjIZSF3eMC9
+         Upq4mgW7WyeUu2esnULq7seIF/BAa1jSUHbwVojdqsvJkBsYfSZtmf3kEpTH+sxuDdt9
+         3Ndg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777492693; x=1778097493;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=hjMlg1UUhArFz8pfSSjIVeeGTKX82Li4UunOXqTfoyI=;
-        b=n4KQcWlVJ1qlitxOj0q1wwi6bvICFx5Z7ZrJc/PRbolff+qDmybisuib/UIVhTcgOl
-         FspdDhVUEefwFUydxVkxIqA2SYxNzZALjFj+8KKd8aA75oQhWhQjGELbQvdVmS2fmaor
-         FPQSuAFkxo4hQ+jX+m2UHUwmCRzbtScVCz1sz9T2ZdNXCbtbIHDRx7poT8wE8lp8ZvOQ
-         pAhZoXrXQddAAZSwyrVJ9wGqUptSkQfBsmjjOlQz0ZPrxXncpFJtHMvQcaXWZHOYovFO
-         QY785f20HFYhLBNihzzkS0D4CixgVwcANF75Ix7nuM5D8L2FGU+Pv2+L32m0g7tOhy4s
-         WUug==
-X-Gm-Message-State: AOJu0YwBn0mjR70LQAQ4E1FbWvLjDrBZ3FHGlZGSINMb6n925XB2l4Y1
-	fzB24w6l6PLujGteIQ1naD7/OBEqtjUWgpzGoKluqstXIlS1SO9Bk2+pupGZx4nlUfXsyw1GnqK
-	gmyGi
-X-Gm-Gg: AeBDieu1LKYfD+3p2H1MBZVaJABgPPoMC67svHltZ7XvTmsKTEg/+R3LQAGuIsjBfFA
-	BGpPwPoejw5K82wR9AJTWK5o7uTGRvdYU5VfPJIz4ubg9QRyFaGLyYTF71TWOMVQVxDBLXmj499
-	96CSloRqhFohKDKK8s7+LGUqoR8E7g7Xuq6mUUpngxQnQ0aV7zCitR+tZqCg+aJM63DnSZj/7hG
-	pGdI7iqOR3qCfuaDzdFlZttPcLswMDCQKc3LUx1YDtataD2+XF5EnzJSGin/4zMKNYVAPUIeTKj
-	9cRPfU120n5IenSly/yv+Wd5JnO9rgEr1qgphF+pspXllPIZUIfxGZPRwzdCJtFBufyo1GOVLRW
-	rmKqO7+44q50gxChWSfdoxYxZLyqpBVPJHe7P6BoFYlUxm2guvQyW7+WLt6EebsQS0a2sHo6qKT
-	CnCFAbRzhPU8mDmWOG2K/Xm7PGXVLn22uR/wwGZsMohV36pZxLtg==
-X-Received: by 2002:a17:903:908:b0:2b0:91e6:bc18 with SMTP id d9443c01a7336-2b98844423amr36703165ad.14.1777492692180;
-        Wed, 29 Apr 2026 12:58:12 -0700 (PDT)
-Received: from thetis.home.local ([2606:c800:6021:700:2f39:e2e2:d871:1e44])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b98879f22esm30068345ad.31.2026.04.29.12.58.11
+        d=1e100.net; s=20251104; t=1777493792; x=1778098592;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=hC4kIM0Js6ZPf+HIBr0GtVWIDLo/ycIOhbJ1shDSjwg=;
+        b=LJH9Rc8OVMbfitiMN1/fEIC7x77qXE1PH1bz+GeFE29lCAu4lQUj02RVqoArInbm2M
+         t/7LUQZgQONeu8PQV4thWzsZMsoMMOfUdB6bUElYLRV5rUjy8d+y6WhqEqFXgLGUC44q
+         oT/6YH3MCODZSxTxNr0uRqCoJpKT2pBpyVvgYCkaQSwIArCYItt+ipl6iVoYVUm7/oTs
+         E0hMAYQH2vLwY+p4LFwqRY4llr5V8Q7Tf+vJxGamWx0ohXdhToOF6bCOjc3aIv8tfZoC
+         5WU23wxEVRk9mSg6NidDJ4RqgLMHRndoQLDet3I9Rigj6ncaJMB/g5j4/csvwO1GrBtd
+         ScRQ==
+X-Gm-Message-State: AOJu0Yw8HaFdooLuvF9PLmAbhbYKVE3QhUaS0e4arDVBmyQHfoOub5Kb
+	kMCmfMiF4NDlI3q+PjG/i+s6NeGrEaVSYNng9Uuya0Ga/fFeSojrG+9E
+X-Gm-Gg: AeBDiev/j34qLBga7gJM6BSJqS3oUjgnEDqnt7UIMDa3D7nLT/nSs0LA6ahyfm1FqSq
+	/0bM7ott50pUQ+SZxtRNjhLpft42+HzI+2L4+ZO8sQFW9ULmuCcOryuRx26/5K4x28g3MrM9HeV
+	TsSz2XdQ/CfG6cqCeEUlaMYD4p3BbNOmIrGm89TdUr1EH3CxE8eYifQFUz/wmY90bcqIMUVsTv/
+	t4S6R2slRTYASx+F5uw6VPTUYkQaj+resVJP79+4KoRB6/lccGQa8Nvcf5PN7E80G1qPZPhJLmq
+	1+2A029hElenIBfZeAAgT4d/cZJ03yWrEiiqbe8LdmFrou9WKH51OEyDeDRO7qBgOIocN0AQZ8k
+	rpr0AWhYYBblBVUkPVYCQQubTa8XmMG8LwJP7G3JbMvlrDLmn7339G4IZZwXbVNSJjjmqlNEERg
+	6jhrIbhYAVCFvUgPUmHXhJyl8MwTrpnWli9L09i+j3d2WBRUR9e2xQEAP79o5qdcMce4+6OTkXa
+	db9KI3gQucTNJlIT4mAOPELcCaMcHeY02nN3rNsEwrOBe4=
+X-Received: by 2002:a05:6214:401c:b0:8ac:7d13:d18a with SMTP id 6a1803df08f44-8b3e31e3fddmr144888016d6.39.1777493791484;
+        Wed, 29 Apr 2026 13:16:31 -0700 (PDT)
+Received: from gmail.com (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8b3ef6fcebbsm27039636d6.8.2026.04.29.13.16.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Apr 2026 12:58:11 -0700 (PDT)
-From: tim.orling@konsulko.com
-To: meta-virtualization@lists.yoctoproject.org
-Cc: Tim Orling <tim.orling@konsulko.com>
-Subject: [RESEND][RFC][PATCH 2/2] tests: add vcontainer --config / VDKR_CONFIG auth plumbing tests
-Date: Wed, 29 Apr 2026 12:57:54 -0700
-Message-ID: <20260429195807.1371305-2-tim.orling@konsulko.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260429195807.1371305-1-tim.orling@konsulko.com>
-References: <20260429195807.1371305-1-tim.orling@konsulko.com>
+        Wed, 29 Apr 2026 13:16:30 -0700 (PDT)
+Date: Wed, 29 Apr 2026 20:16:28 +0000
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: bin.cao.cn@windriver.com
+Cc: meta-virtualization@lists.yoctoproject.org
+Subject: Re: [meta-virtualization][PATCH] python3-dotenv: Fix CVE-2026-28684
+Message-ID: <afJnHOQ79u37IDaL@gmail.com>
+References: <20260429085726.1457379-1-bin.cao.cn@windriver.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260429085726.1457379-1-bin.cao.cn@windriver.com>
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Wed, 29 Apr 2026 19:58:22 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9780
+ <meta-virtualization@lists.yoctoproject.org>; Wed, 29 Apr 2026 20:16:42 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9781
 
-From: Tim Orling <tim.orling@konsulko.com>
+merged.
 
-Add a new pytest module (tests/test_vcontainer_auth_config.py) covering
-the registry-auth-config feature introduced in the previous commit.
-Split into two tiers:
+Bruce
 
-TestAuthConfigStaticPlumbing (40 static/shell-level assertions):
-- vrunner.sh: AUTH_CONFIG picks up VDKR_CONFIG/VPDMN_CONFIG; --config
-  parsing; validate_auth_config and setup_auth_share definitions; every
-  validator reject rule (symlink / non-regular / unreadable / missing /
-  <2B / >1MiB / mode whitelist 400|600|200 / non-owner WARN); 0700
-  staging dir and 0400 staged file; readonly=on on the 9p share;
-  dedicated ${TOOL_NAME}_auth tag. Critically also asserts that
-  AUTH_CONFIG, VDKR_CONFIG and VPDMN_CONFIG never appear in
-  KERNEL_APPEND - only the ${CMDLINE_PREFIX}_auth=1 flag does.
-- vcontainer-common.sh: env-var init, --config parsing, AUTH_CONFIG
-  forwarding via --config to vrunner, and show_usage documentation.
-- vcontainer-init-common.sh: RUNTIME_AUTH default, cmdline parsing,
-  mount_auth_share/unmount_auth_share presence, dedicated per-runtime
-  ${VCONTAINER_RUNTIME_NAME}_auth tag, and the ro,nosuid,nodev,noexec
-  mount options.
-- vdkr-init.sh: install_auth_config present, writes to
-  /root/.docker/config.json with 0600 and 0700 parent, mount + unmount
-  pairing, precedence NOTE logged, and ordering after
-  install_registry_ca so --config wins over --registry-user/-pass.
-- vpdmn-init.sh: writes to /run/containers/0/auth.json with matching
-  modes, exports REGISTRY_AUTH_FILE, mount/unmount pairing, and
-  ordering after verify_podman.
-- README.md: --config section exists and documents both env vars and
-  both runtime target paths.
+In message: [meta-virtualization][PATCH] python3-dotenv: Fix CVE-2026-28684
+on 29/04/2026 Bin Cao via lists.yoctoproject.org wrote:
 
-TestAuthConfigValidator (13 functional cases):
-- Extracts validate_auth_config() from vrunner.sh with a brace-matching
-  parser, sources it in a bash subshell with a stubbed log() helper,
-  and drives it with real files: accepts modes 0600 / 0400, accepts
-  the 2-byte minimum "{}", rejects missing / symlink / directory /
-  empty / 1-byte / >1 MiB / 0644 (world-readable) / 0640 / 0700
-  (owner-exec) / 0000 (unreadable, skipped when running as root).
+> Backported from [1], verified with the test script from [2].
+> 
+> [1] https://github.com/theskumar/python-dotenv/commit/790c5c02991100aa1bf41ee5330aca75edc51311
+> [2] https://github.com/theskumar/python-dotenv/security/advisories/GHSA-mf9w-mj56-hr94
+> [3] https://nvd.nist.gov/vuln/detail/CVE-2026-28684
+> 
+> Signed-off-by: Bin Cao <bin.cao.cn@windriver.com>
+> ---
+>  .../python3-dotenv/CVE-2026-28684.patch       | 363 ++++++++++++++++++
+>  .../python/python3-dotenv_1.1.0.bb            |   1 +
+>  2 files changed, 364 insertions(+)
+>  create mode 100644 recipes-devtools/python/python3-dotenv/CVE-2026-28684.patch
+> 
+> diff --git a/recipes-devtools/python/python3-dotenv/CVE-2026-28684.patch b/recipes-devtools/python/python3-dotenv/CVE-2026-28684.patch
+> new file mode 100644
+> index 00000000..3302c32e
+> --- /dev/null
+> +++ b/recipes-devtools/python/python3-dotenv/CVE-2026-28684.patch
+> @@ -0,0 +1,363 @@
+> +From 3fbba98d80cb3c6bfacf708923c79b9ee8a1489c Mon Sep 17 00:00:00 2001
+> +From: Bin Cao <bin.cao.cn@windriver.com>
+> +Date: Wed, 29 Apr 2026 11:13:56 +0800
+> +Subject: [PATCH] Fix symlink following in set_key/unset_key
+> +
+> +python-dotenv reads key-value pairs from a .env file and can set them as
+> +environment variables. set_key() and unset_key() follow symbolic links
+> +when rewriting .env files via shutil.move(), allowing a local attacker
+> +to overwrite arbitrary files via a crafted symlink when a cross-device
+> +rename fallback is triggered.
+> +
+> +Fix by replacing shutil.move() with os.replace() and creating the temp
+> +file in the same directory as the target to ensure atomic same-device
+> +rename. Also preserve the original file mode and avoid blindly following
+> +symlinks. Add follow_symlinks parameter to rewrite(), set_key(), and
+> +unset_key() to allow opting in to the old behavior when needed.
+> +
+> +Backported from upstream commit 790c5c02991100aa1bf41ee5330aca75edc51311
+> +to v1.1.0.
+> +
+> +CVE: CVE-2026-28684
+> +Upstream-Status: Backport [https://github.com/theskumar/python-dotenv/commit/790c5c02991100aa1bf41ee5330aca75edc51311]
+> +Signed-off-by: Bin Cao <bin.cao.cn@windriver.com>
+> +---
+> + src/dotenv/cli.py  |  15 +++++-
+> + src/dotenv/main.py |  72 ++++++++++++++++++++-----
+> + tests/test_main.py | 129 +++++++++++++++++++++++++++++++++++++++++++++
+> + 3 files changed, 201 insertions(+), 15 deletions(-)
+> +
+> +diff --git a/src/dotenv/cli.py b/src/dotenv/cli.py
+> +index 33ae148..259345b 100644
+> +--- a/src/dotenv/cli.py
+> ++++ b/src/dotenv/cli.py
+> +@@ -93,7 +93,13 @@ def list(ctx: click.Context, format: bool) -> None:
+> + @click.argument('key', required=True)
+> + @click.argument('value', required=True)
+> + def set(ctx: click.Context, key: Any, value: Any) -> None:
+> +-    """Store the given key/value."""
+> ++    """
+> ++    Store the given key/value.
+> ++
+> ++    This doesn't follow symlinks, to avoid accidentally modifying a file at a
+> ++    potentially untrusted path.
+> ++    """
+> ++
+> +     file = ctx.obj['FILE']
+> +     quote = ctx.obj['QUOTE']
+> +     export = ctx.obj['EXPORT']
+> +@@ -125,7 +131,12 @@ def get(ctx: click.Context, key: Any) -> None:
+> + @click.pass_context
+> + @click.argument('key', required=True)
+> + def unset(ctx: click.Context, key: Any) -> None:
+> +-    """Removes the given key."""
+> ++    """
+> ++    Removes the given key.
+> ++
+> ++    This doesn't follow symlinks, to avoid accidentally modifying a file at a
+> ++    potentially untrusted path.
+> ++    """
+> +     file = ctx.obj['FILE']
+> +     quote = ctx.obj['QUOTE']
+> +     success, key = unset_key(file, key, quote)
+> +diff --git a/src/dotenv/main.py b/src/dotenv/main.py
+> +index 1848d60..821bb9b 100644
+> +--- a/src/dotenv/main.py
+> ++++ b/src/dotenv/main.py
+> +@@ -2,7 +2,7 @@ import io
+> + import logging
+> + import os
+> + import pathlib
+> +-import shutil
+> ++import stat
+> + import sys
+> + import tempfile
+> + from collections import OrderedDict
+> +@@ -13,9 +13,7 @@ from .parser import Binding, parse_stream
+> + from .variables import parse_variables
+> + 
+> + # A type alias for a string path to be used for the paths in this file.
+> +-# These paths may flow to `open()` and `shutil.move()`; `shutil.move()`
+> +-# only accepts string paths, not byte paths or file descriptors. See
+> +-# https://github.com/python/typeshed/pull/6832.
+> ++# These paths may flow to `open()` and `os.replace()`.
+> + StrPath = Union[str, "os.PathLike[str]"]
+> + 
+> + logger = logging.getLogger(__name__)
+> +@@ -131,21 +129,54 @@ def get_key(
+> + def rewrite(
+> +     path: StrPath,
+> +     encoding: Optional[str],
+> ++    follow_symlinks: bool = False,
+> + ) -> Iterator[Tuple[IO[str], IO[str]]]:
+> +-    pathlib.Path(path).touch()
+> ++    if follow_symlinks:
+> ++        path = os.path.realpath(path)
+> + 
+> +-    with tempfile.NamedTemporaryFile(mode="w", encoding=encoding, delete=False) as dest:
+> ++    try:
+> ++        source: IO[str] = open(path, encoding=encoding)
+> ++        try:
+> ++            path_stat = os.lstat(path)
+> ++            original_mode: Optional[int] = (
+> ++                stat.S_IMODE(path_stat.st_mode)
+> ++                if stat.S_ISREG(path_stat.st_mode)
+> ++                else None
+> ++            )
+> ++        except BaseException:
+> ++            source.close()
+> ++            raise
+> ++    except FileNotFoundError:
+> ++        source = io.StringIO("")
+> ++        original_mode = None
+> ++
+> ++    with tempfile.NamedTemporaryFile(
+> ++        mode="w",
+> ++        encoding=encoding,
+> ++        delete=False,
+> ++        prefix=".tmp_",
+> ++        dir=os.path.dirname(os.path.abspath(path)),
+> ++    ) as dest:
+> ++        dest_path = pathlib.Path(dest.name)
+> +         error = None
+> ++
+> +         try:
+> +-            with open(path, encoding=encoding) as source:
+> ++            with source:
+> +                 yield (source, dest)
+> +         except BaseException as err:
+> +             error = err
+> + 
+> +     if error is None:
+> +-        shutil.move(dest.name, path)
+> ++        try:
+> ++            if original_mode is not None:
+> ++                os.chmod(dest_path, original_mode)
+> ++
+> ++            os.replace(dest_path, path)
+> ++        except BaseException:
+> ++            dest_path.unlink(missing_ok=True)
+> ++            raise
+> +     else:
+> +-        os.unlink(dest.name)
+> ++        dest_path.unlink(missing_ok=True)
+> +         raise error from None
+> + 
+> + 
+> +@@ -156,12 +187,16 @@ def set_key(
+> +     quote_mode: str = "always",
+> +     export: bool = False,
+> +     encoding: Optional[str] = "utf-8",
+> ++    follow_symlinks: bool = False,
+> + ) -> Tuple[Optional[bool], str, str]:
+> +     """
+> +     Adds or Updates a key/value to the given .env
+> + 
+> +-    If the .env path given doesn't exist, fails instead of risking creating
+> +-    an orphan .env somewhere in the filesystem
+> ++    The target .env file is created if it doesn't exist.
+> ++
+> ++    This function doesn't follow symlinks by default, to avoid accidentally
+> ++    modifying a file at a potentially untrusted path. If you don't need this
+> ++    protection and need symlinks to be followed, use `follow_symlinks`.
+> +     """
+> +     if quote_mode not in ("always", "auto", "never"):
+> +         raise ValueError(f"Unknown quote_mode: {quote_mode}")
+> +@@ -179,7 +214,10 @@ def set_key(
+> +     else:
+> +         line_out = f"{key_to_set}={value_out}\n"
+> + 
+> +-    with rewrite(dotenv_path, encoding=encoding) as (source, dest):
+> ++    with rewrite(dotenv_path, encoding=encoding, follow_symlinks=follow_symlinks) as (
+> ++        source,
+> ++        dest,
+> ++    ):
+> +         replaced = False
+> +         missing_newline = False
+> +         for mapping in with_warn_for_invalid_lines(parse_stream(source)):
+> +@@ -202,19 +240,27 @@ def unset_key(
+> +     key_to_unset: str,
+> +     quote_mode: str = "always",
+> +     encoding: Optional[str] = "utf-8",
+> ++    follow_symlinks: bool = False,
+> + ) -> Tuple[Optional[bool], str]:
+> +     """
+> +     Removes a given key from the given `.env` file.
+> + 
+> +     If the .env path given doesn't exist, fails.
+> +     If the given key doesn't exist in the .env, fails.
+> ++
+> ++    This function doesn't follow symlinks by default, to avoid accidentally
+> ++    modifying a file at a potentially untrusted path. If you don't need this
+> ++    protection and need symlinks to be followed, use `follow_symlinks`.
+> +     """
+> +     if not os.path.exists(dotenv_path):
+> +         logger.warning("Can't delete from %s - it doesn't exist.", dotenv_path)
+> +         return None, key_to_unset
+> + 
+> +     removed = False
+> +-    with rewrite(dotenv_path, encoding=encoding) as (source, dest):
+> ++    with rewrite(dotenv_path, encoding=encoding, follow_symlinks=follow_symlinks) as (
+> ++        source,
+> ++        dest,
+> ++    ):
+> +         for mapping in with_warn_for_invalid_lines(parse_stream(source)):
+> +             if mapping.key == key_to_unset:
+> +                 removed = True
+> +diff --git a/tests/test_main.py b/tests/test_main.py
+> +index 2d63eec..fbae934 100644
+> +--- a/tests/test_main.py
+> ++++ b/tests/test_main.py
+> +@@ -1,6 +1,7 @@
+> + import io
+> + import logging
+> + import os
+> ++import stat
+> + import sys
+> + import textwrap
+> + from unittest import mock
+> +@@ -61,6 +62,86 @@ def test_set_key_encoding(dotenv_path):
+> +     assert dotenv_path.read_text(encoding=encoding) == "a='�'\n"
+> + 
+> + 
+> ++@pytest.mark.skipif(
+> ++    sys.platform == "win32", reason="file mode bits behave differently on Windows"
+> ++)
+> ++def test_set_key_preserves_file_mode(dotenv_path):
+> ++    dotenv_path.write_text("a=x\n")
+> ++    dotenv_path.chmod(0o640)
+> ++    mode_before = stat.S_IMODE(dotenv_path.stat().st_mode)
+> ++
+> ++    dotenv.set_key(dotenv_path, "a", "y")
+> ++
+> ++    mode_after = stat.S_IMODE(dotenv_path.stat().st_mode)
+> ++    assert mode_before == mode_after
+> ++
+> ++
+> ++def test_rewrite_closes_file_handle_on_lstat_failure(tmp_path):
+> ++    dotenv_path = tmp_path / ".env"
+> ++    dotenv_path.write_text("a=x\n")
+> ++    real_open = open
+> ++    opened_handles = []
+> ++
+> ++    def tracking_open(*args, **kwargs):
+> ++        handle = real_open(*args, **kwargs)
+> ++        opened_handles.append(handle)
+> ++        return handle
+> ++
+> ++    with mock.patch("dotenv.main.os.lstat", side_effect=FileNotFoundError):
+> ++        with mock.patch("dotenv.main.open", side_effect=tracking_open):
+> ++            dotenv.set_key(dotenv_path, "a", "x")
+> ++
+> ++    assert opened_handles, "expected at least one file to be opened"
+> ++    assert all(handle.closed for handle in opened_handles)
+> ++
+> ++
+> ++@pytest.mark.skipif(
+> ++    sys.platform == "win32", reason="symlinks require elevated privileges on Windows"
+> ++)
+> ++def test_set_key_symlink_to_existing_file(tmp_path):
+> ++    target = tmp_path / "target.env"
+> ++    target.write_text("a=x\n")
+> ++    symlink = tmp_path / ".env"
+> ++    symlink.symlink_to(target)
+> ++
+> ++    dotenv.set_key(symlink, "a", "y")
+> ++
+> ++    assert target.read_text() == "a=x\n"
+> ++    assert not symlink.is_symlink()
+> ++    assert "a='y'" in symlink.read_text()
+> ++    assert stat.S_IMODE(symlink.stat().st_mode) == 0o600
+> ++
+> ++
+> ++@pytest.mark.skipif(
+> ++    sys.platform == "win32", reason="symlinks require elevated privileges on Windows"
+> ++)
+> ++def test_set_key_symlink_to_missing_file(tmp_path):
+> ++    target = tmp_path / "nx"
+> ++    symlink = tmp_path / ".env"
+> ++    symlink.symlink_to(target)
+> ++
+> ++    dotenv.set_key(symlink, "a", "x")
+> ++
+> ++    assert not target.exists()
+> ++    assert not symlink.is_symlink()
+> ++    assert symlink.read_text() == "a='x'\n"
+> ++
+> ++
+> ++@pytest.mark.skipif(
+> ++    sys.platform == "win32", reason="symlinks require elevated privileges on Windows"
+> ++)
+> ++def test_set_key_follow_symlinks(tmp_path):
+> ++    target = tmp_path / "target.env"
+> ++    target.write_text("a=x\n")
+> ++    symlink = tmp_path / ".env"
+> ++    symlink.symlink_to(target)
+> ++
+> ++    dotenv.set_key(symlink, "a", "y", follow_symlinks=True)
+> ++
+> ++    assert target.read_text() == "a='y'\n"
+> ++    assert symlink.is_symlink()
+> ++
+> ++
+> + def test_set_key_permission_error(dotenv_path):
+> +     dotenv_path.chmod(0o000)
+> + 
+> +@@ -188,6 +269,54 @@ def test_unset_non_existent_file(tmp_path):
+> +     )
+> + 
+> + 
+> ++@pytest.mark.skipif(
+> ++    sys.platform == "win32", reason="symlinks require elevated privileges on Windows"
+> ++)
+> ++def test_unset_key_symlink_to_existing_file(tmp_path):
+> ++    target = tmp_path / "target.env"
+> ++    target.write_text("a=x\n")
+> ++    symlink = tmp_path / ".env"
+> ++    symlink.symlink_to(target)
+> ++
+> ++    dotenv.unset_key(symlink, "a")
+> ++
+> ++    assert target.read_text() == "a=x\n"
+> ++    assert not symlink.is_symlink()
+> ++    assert symlink.read_text() == ""
+> ++
+> ++
+> ++@pytest.mark.skipif(
+> ++    sys.platform == "win32", reason="symlinks require elevated privileges on Windows"
+> ++)
+> ++def test_unset_key_symlink_to_missing_file(tmp_path):
+> ++    target = tmp_path / "nx"
+> ++    symlink = tmp_path / ".env"
+> ++    symlink.symlink_to(target)
+> ++    logger = logging.getLogger("dotenv.main")
+> ++
+> ++    with mock.patch.object(logger, "warning") as mock_warning:
+> ++        result = dotenv.unset_key(symlink, "a")
+> ++
+> ++    assert result == (None, "a")
+> ++    assert symlink.is_symlink()
+> ++    mock_warning.assert_called_once()
+> ++
+> ++
+> ++@pytest.mark.skipif(
+> ++    sys.platform == "win32", reason="symlinks require elevated privileges on Windows"
+> ++)
+> ++def test_unset_key_follow_symlinks(tmp_path):
+> ++    target = tmp_path / "target.env"
+> ++    target.write_text("a=b\n")
+> ++    symlink = tmp_path / ".env"
+> ++    symlink.symlink_to(target)
+> ++
+> ++    dotenv.unset_key(symlink, "a", follow_symlinks=True)
+> ++
+> ++    assert target.read_text() == ""
+> ++    assert symlink.is_symlink()
+> ++
+> ++
+> + def prepare_file_hierarchy(path):
+> +     """
+> +     Create a temporary folder structure like the following:
+> +-- 
+> +2.43.0
+> +
+> diff --git a/recipes-devtools/python/python3-dotenv_1.1.0.bb b/recipes-devtools/python/python3-dotenv_1.1.0.bb
+> index 7e20a444..04c2c0b8 100644
+> --- a/recipes-devtools/python/python3-dotenv_1.1.0.bb
+> +++ b/recipes-devtools/python/python3-dotenv_1.1.0.bb
+> @@ -8,6 +8,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=e914cdb773ae44a732b392532d88f072"
+>  PYPI_PACKAGE = "python_dotenv"
+>  UPSTREAM_CHECK_PYPI_PACKAGE = "${PYPI_PACKAGE}"
+>  
+> +SRC_URI += "file://CVE-2026-28684.patch"
+>  SRC_URI[sha256sum] = "41f90bc6f5f177fb41f53e87666db362025010eb28f60a01c9143bfa33a2b2d5"
+>  
+>  inherit pypi setuptools3
+> -- 
+> 2.43.0
+> 
 
-Path resolution is resilient: VCONTAINER_FILES_DIR env override first,
-otherwise repo-relative to the test file, falling back to the
-/opt/bruce/poky path used elsewhere in the suite. No tests need QEMU,
-a registry, or network. All 53 tests complete in ~0.1s.
-
-Add tests/__pycache__ to .gitignore.
-
-AI-Generated: Claude Cowork Opus 4.7
-Signed-off-by: Tim Orling <tim.orling@konsulko.com>
----
- .gitignore                           |   1 +
- tests/test_vcontainer_auth_config.py | 642 +++++++++++++++++++++++++++
- 2 files changed, 643 insertions(+)
- create mode 100644 tests/test_vcontainer_auth_config.py
-
-diff --git a/.gitignore b/.gitignore
-index daeb43d5..49b373f8 100644
---- a/.gitignore
-+++ b/.gitignore
-@@ -7,3 +7,4 @@ pyshtables.py
- *~
- scripts/lib/wic/plugins/source/__pycache__
- lib/oeqa/runtime/cases/__pycache__
-+tests/__pycache__
-diff --git a/tests/test_vcontainer_auth_config.py b/tests/test_vcontainer_auth_config.py
-new file mode 100644
-index 00000000..2e7093aa
---- /dev/null
-+++ b/tests/test_vcontainer_auth_config.py
-@@ -0,0 +1,642 @@
-+# SPDX-FileCopyrightText: Copyright (C) 2026 Konsulko Group
-+#
-+# SPDX-License-Identifier: MIT
-+"""
-+Tests for the vcontainer registry-auth-config plumbing ("--config" /
-+$VDKR_CONFIG / $VPDMN_CONFIG).
-+
-+These tests are split into two tiers:
-+
-+Tier 1 - static/shell-level (TestAuthConfigStaticPlumbing):
-+    Reads the shell scripts under recipes-containers/vcontainer/files/ and the
-+    README and asserts that the expected function definitions, call sites,
-+    kernel cmdline flags, permission modes, mount options, and documentation
-+    blocks are present. These tests need no infrastructure and run in <1s.
-+
-+Tier 2 - functional validator (TestAuthConfigValidator):
-+    Extracts validate_auth_config() from vrunner.sh, sources it in a bash
-+    subshell with a stubbed log() function, and drives it with a table of
-+    inputs covering the perm / size / symlink / ownership / regular-file
-+    rules. Also runs in <1s per case.
-+
-+Tier 3 (live registry pull with --config) is intentionally NOT in this file.
-+It belongs alongside test_vdkr_registry.py once the registry fixture grows a
-+credentials-required mode.
-+
-+Run with:
-+    pytest tests/test_vcontainer_auth_config.py -v
-+"""
-+
-+import os
-+import re
-+import stat
-+import subprocess
-+import textwrap
-+from pathlib import Path
-+
-+import pytest
-+
-+
-+# ---------------------------------------------------------------------------
-+# Locate the vcontainer files/ directory.
-+# ---------------------------------------------------------------------------
-+#
-+# Resolution order:
-+#   1. VCONTAINER_FILES_DIR environment variable (explicit override)
-+#   2. <repo-root>/recipes-containers/vcontainer/files/ relative to this test
-+#      (i.e. tests/../recipes-containers/vcontainer/files/)
-+#   3. /opt/bruce/poky/meta-virtualization/recipes-containers/vcontainer/files/
-+#      (matches the pattern used by test_container_registry_script.py)
-+#
-+# If none of these are present, every test in this module is skipped.
-+_TESTS_DIR = Path(__file__).resolve().parent
-+_DEFAULT_CANDIDATES = [
-+    _TESTS_DIR.parent / "recipes-containers" / "vcontainer" / "files",
-+    Path("/opt/bruce/poky/meta-virtualization/recipes-containers/vcontainer/files"),
-+]
-+
-+
-+def _find_files_dir() -> Path:
-+    override = os.environ.get("VCONTAINER_FILES_DIR")
-+    if override:
-+        return Path(override)
-+    for c in _DEFAULT_CANDIDATES:
-+        if c.is_dir():
-+            return c
-+    return _DEFAULT_CANDIDATES[0]  # return first, skip in fixture if missing
-+
-+
-+@pytest.fixture(scope="module")
-+def files_dir() -> Path:
-+    d = _find_files_dir()
-+    if not d.is_dir():
-+        pytest.skip(f"vcontainer files/ dir not found: {d}")
-+    return d
-+
-+
-+@pytest.fixture(scope="module")
-+def repo_root() -> Path:
-+    # The vcontainer files live at <root>/recipes-containers/vcontainer/files,
-+    # so the repo root is two levels up.
-+    d = _find_files_dir()
-+    return d.parent.parent.parent
-+
-+
-+@pytest.fixture(scope="module")
-+def vrunner_sh(files_dir: Path) -> str:
-+    p = files_dir / "vrunner.sh"
-+    if not p.is_file():
-+        pytest.skip(f"vrunner.sh not found: {p}")
-+    return p.read_text()
-+
-+
-+@pytest.fixture(scope="module")
-+def vcontainer_common_sh(files_dir: Path) -> str:
-+    p = files_dir / "vcontainer-common.sh"
-+    if not p.is_file():
-+        pytest.skip(f"vcontainer-common.sh not found: {p}")
-+    return p.read_text()
-+
-+
-+@pytest.fixture(scope="module")
-+def init_common_sh(files_dir: Path) -> str:
-+    p = files_dir / "vcontainer-init-common.sh"
-+    if not p.is_file():
-+        pytest.skip(f"vcontainer-init-common.sh not found: {p}")
-+    return p.read_text()
-+
-+
-+@pytest.fixture(scope="module")
-+def vdkr_init_sh(files_dir: Path) -> str:
-+    p = files_dir / "vdkr-init.sh"
-+    if not p.is_file():
-+        pytest.skip(f"vdkr-init.sh not found: {p}")
-+    return p.read_text()
-+
-+
-+@pytest.fixture(scope="module")
-+def vpdmn_init_sh(files_dir: Path) -> str:
-+    p = files_dir / "vpdmn-init.sh"
-+    if not p.is_file():
-+        pytest.skip(f"vpdmn-init.sh not found: {p}")
-+    return p.read_text()
-+
-+
-+@pytest.fixture(scope="module")
-+def readme_md(repo_root: Path) -> str:
-+    p = repo_root / "recipes-containers" / "vcontainer" / "README.md"
-+    if not p.is_file():
-+        pytest.skip(f"vcontainer README.md not found: {p}")
-+    return p.read_text()
-+
-+
-+# ---------------------------------------------------------------------------
-+# Tier 1: Static / shell-level plumbing assertions
-+# ---------------------------------------------------------------------------
-+
-+
-+class TestAuthConfigStaticPlumbing:
-+    """Shell-script-level assertions for the --config / VDKR_CONFIG feature."""
-+
-+    # --- vrunner.sh --------------------------------------------------------
-+
-+    def test_vrunner_defines_auth_config_from_env(self, vrunner_sh):
-+        """AUTH_CONFIG picks up $VDKR_CONFIG or $VPDMN_CONFIG by default."""
-+        assert re.search(
-+            r'AUTH_CONFIG="\$\{VDKR_CONFIG:-\$\{VPDMN_CONFIG:-\}\}"', vrunner_sh
-+        ), "vrunner.sh should initialise AUTH_CONFIG from VDKR_CONFIG/VPDMN_CONFIG"
-+
-+    def test_vrunner_accepts_config_flag(self, vrunner_sh):
-+        """`--config <path>` is parsed and assigned to AUTH_CONFIG."""
-+        # The case label ("--config") plus the assignment should both exist.
-+        # Allow interleaved comment lines between the label and the assignment.
-+        assert re.search(
-+            r'--config\)\s*\n(?:\s*#[^\n]*\n)*\s*AUTH_CONFIG="\$2"',
-+            vrunner_sh,
-+        ), "vrunner.sh should parse --config and set AUTH_CONFIG=\"$2\""
-+
-+    def test_vrunner_defines_validate_auth_config(self, vrunner_sh):
-+        assert "validate_auth_config()" in vrunner_sh, \
-+            "vrunner.sh should define validate_auth_config()"
-+
-+    def test_vrunner_defines_setup_auth_share(self, vrunner_sh):
-+        assert "setup_auth_share()" in vrunner_sh, \
-+            "vrunner.sh should define setup_auth_share()"
-+
-+    def test_vrunner_validator_rejects_symlinks(self, vrunner_sh):
-+        """Symlinks are rejected outright to block /proc/self/environ tricks."""
-+        assert re.search(r'if \[ -L "\$path" \]', vrunner_sh), \
-+            "validate_auth_config must reject symlinks with `[ -L $path ]`"
-+
-+    def test_vrunner_validator_requires_regular_file(self, vrunner_sh):
-+        assert re.search(r'if \[ ! -f "\$path" \]', vrunner_sh), \
-+            "validate_auth_config must require a regular file (-f)"
-+
-+    def test_vrunner_validator_requires_readable(self, vrunner_sh):
-+        assert re.search(r'if \[ ! -r "\$path" \]', vrunner_sh), \
-+            "validate_auth_config must require the file be readable (-r)"
-+
-+    def test_vrunner_validator_checks_missing(self, vrunner_sh):
-+        assert re.search(r'if \[ ! -e "\$path" \]', vrunner_sh), \
-+            "validate_auth_config must detect missing files (-e)"
-+
-+    def test_vrunner_validator_min_size(self, vrunner_sh):
-+        """Files smaller than 2 bytes (minimum "{}" JSON) are rejected."""
-+        assert re.search(r'size"?\s*-lt\s*2', vrunner_sh), \
-+            "validate_auth_config must reject files smaller than 2 bytes"
-+
-+    def test_vrunner_validator_max_size(self, vrunner_sh):
-+        """Files larger than 1 MiB are rejected."""
-+        assert "1048576" in vrunner_sh, \
-+            "validate_auth_config must reject files larger than 1 MiB (1048576)"
-+
-+    def test_vrunner_validator_mode_whitelist(self, vrunner_sh):
-+        """Permission modes are restricted to 400 / 600 / 200."""
-+        # We accept either a case statement or equivalent chain; the canonical
-+        # form in the source is a case statement that matches these literals.
-+        assert re.search(r'400\s*\|\s*600\s*\|\s*200', vrunner_sh), (
-+            "validate_auth_config must whitelist modes 400|600|200 only"
-+        )
-+
-+    def test_vrunner_validator_warns_on_wrong_owner(self, vrunner_sh):
-+        """Non-owner files trigger a WARN but don't reject (documented)."""
-+        assert re.search(r'WARN.*not owned by current user', vrunner_sh), \
-+            "validate_auth_config must WARN when file is not owned by current user"
-+
-+    def test_vrunner_setup_auth_share_permissions(self, vrunner_sh):
-+        """Staging dir is 700 and staged file is 400."""
-+        assert "chmod 700" in vrunner_sh, \
-+            "setup_auth_share must chmod 700 the staging directory"
-+        assert re.search(r'chmod 400[^\n]*config\.json', vrunner_sh), \
-+            "setup_auth_share must chmod 400 the staged config.json"
-+
-+    def test_vrunner_setup_auth_share_readonly_9p(self, vrunner_sh):
-+        """The 9p share is created with readonly=on."""
-+        assert 'hv_build_9p_opts' in vrunner_sh and 'readonly=on' in vrunner_sh, (
-+            "setup_auth_share must pass readonly=on to hv_build_9p_opts"
-+        )
-+
-+    def test_vrunner_setup_auth_share_uses_dedicated_tag(self, vrunner_sh):
-+        """Auth 9p tag is TOOL_NAME_auth (separate from the shared /mnt/share)."""
-+        assert re.search(r'auth_tag="\$\{TOOL_NAME\}_auth"', vrunner_sh), (
-+            'setup_auth_share must use a dedicated "${TOOL_NAME}_auth" 9p tag'
-+        )
-+
-+    def test_vrunner_auth_cmdline_is_flag_only(self, vrunner_sh):
-+        """Only a boolean flag (_auth=1) is appended - never the path or contents."""
-+        # Flag is appended:
-+        assert re.search(
-+            r'KERNEL_APPEND="\$KERNEL_APPEND \$\{CMDLINE_PREFIX\}_auth=1"',
-+            vrunner_sh,
-+        ), "vrunner.sh must append `${CMDLINE_PREFIX}_auth=1` to KERNEL_APPEND"
-+
-+        # And the path / env var names must NEVER land in KERNEL_APPEND.
-+        # Scan every line that mutates KERNEL_APPEND and prove none mention
-+        # AUTH_CONFIG, VDKR_CONFIG, or VPDMN_CONFIG.
-+        for ln in vrunner_sh.splitlines():
-+            if "KERNEL_APPEND=" in ln or "KERNEL_APPEND+=" in ln:
-+                assert "AUTH_CONFIG" not in ln, (
-+                    f"KERNEL_APPEND must not carry AUTH_CONFIG: {ln!r}"
-+                )
-+                assert "VDKR_CONFIG" not in ln, (
-+                    f"KERNEL_APPEND must not carry VDKR_CONFIG: {ln!r}"
-+                )
-+                assert "VPDMN_CONFIG" not in ln, (
-+                    f"KERNEL_APPEND must not carry VPDMN_CONFIG: {ln!r}"
-+                )
-+
-+    def test_vrunner_setup_auth_share_called_in_both_paths(self, vrunner_sh):
-+        """setup_auth_share is called at least twice (daemon + non-daemon paths)."""
-+        # Count *call sites*, not the definition. The definition line has a '(' right after.
-+        call_sites = [
-+            ln for ln in vrunner_sh.splitlines()
-+            if re.search(r'\bsetup_auth_share\b', ln)
-+            and "()" not in ln
-+            and not ln.lstrip().startswith("#")
-+        ]
-+        assert len(call_sites) >= 2, (
-+            f"setup_auth_share should be invoked in both daemon and non-daemon "
-+            f"paths; found {len(call_sites)} call site(s): {call_sites}"
-+        )
-+
-+    # --- vcontainer-common.sh ---------------------------------------------
-+
-+    def test_common_inits_auth_config_from_env(self, vcontainer_common_sh):
-+        assert re.search(
-+            r'AUTH_CONFIG="\$\{VDKR_CONFIG:-\$\{VPDMN_CONFIG:-\}\}"',
-+            vcontainer_common_sh,
-+        ), "vcontainer-common.sh should init AUTH_CONFIG from VDKR_CONFIG/VPDMN_CONFIG"
-+
-+    def test_common_parses_config_flag(self, vcontainer_common_sh):
-+        assert re.search(
-+            r'--config\)\s*\n(?:\s*#[^\n]*\n)*\s*(?:#[^\n]*\n\s*)*AUTH_CONFIG="\$2"',
-+            vcontainer_common_sh,
-+        ), "vcontainer-common.sh should parse --config into AUTH_CONFIG"
-+
-+    def test_common_forwards_auth_config_to_runner(self, vcontainer_common_sh):
-+        """AUTH_CONFIG is forwarded as --config to vrunner.sh."""
-+        assert re.search(
-+            r'\[ -n "\$AUTH_CONFIG" \].*args\+=\("--config" "\$AUTH_CONFIG"\)',
-+            vcontainer_common_sh,
-+        ), "vcontainer-common.sh must forward AUTH_CONFIG via --config to vrunner"
-+
-+    def test_common_show_usage_documents_config(self, vcontainer_common_sh):
-+        """--config appears in show_usage help output."""
-+        assert re.search(r'--config\s+<path>', vcontainer_common_sh), (
-+            "show_usage must document --config <path>"
-+        )
-+        assert "VDKR_CONFIG" in vcontainer_common_sh, \
-+            "show_usage must mention VDKR_CONFIG env var"
-+        assert "VPDMN_CONFIG" in vcontainer_common_sh, \
-+            "show_usage must mention VPDMN_CONFIG env var"
-+
-+    # --- vcontainer-init-common.sh ----------------------------------------
-+
-+    def test_init_common_defaults_runtime_auth(self, init_common_sh):
-+        assert re.search(r'RUNTIME_AUTH="0"', init_common_sh), \
-+            "init-common must default RUNTIME_AUTH to 0"
-+
-+    def test_init_common_parses_auth_flag(self, init_common_sh):
-+        """Kernel cmdline <prefix>_auth=* is parsed into RUNTIME_AUTH."""
-+        assert re.search(
-+            r'\$\{VCONTAINER_RUNTIME_PREFIX\}_auth=\*', init_common_sh
-+        ), "init-common must parse ${VCONTAINER_RUNTIME_PREFIX}_auth=* cmdline arg"
-+        assert re.search(
-+            r'RUNTIME_AUTH="\$\{param#\$\{VCONTAINER_RUNTIME_PREFIX\}_auth=\}"',
-+            init_common_sh,
-+        ), "init-common must strip _auth= prefix into RUNTIME_AUTH"
-+
-+    def test_init_common_defines_mount_helpers(self, init_common_sh):
-+        assert "mount_auth_share()" in init_common_sh, \
-+            "init-common must define mount_auth_share()"
-+        assert "unmount_auth_share()" in init_common_sh, \
-+            "init-common must define unmount_auth_share()"
-+
-+    def test_init_common_mount_uses_dedicated_tag(self, init_common_sh):
-+        """mount_auth_share uses ${VCONTAINER_RUNTIME_NAME}_auth tag."""
-+        assert re.search(
-+            r'AUTH_SHARE_TAG="\$\{VCONTAINER_RUNTIME_NAME\}_auth"',
-+            init_common_sh,
-+        ), "mount_auth_share must use a per-runtime _auth 9p tag"
-+
-+    def test_init_common_mount_options_hardened(self, init_common_sh):
-+        """Auth share is mounted ro,nosuid,nodev,noexec."""
-+        # All four options must be present on the mount command.
-+        # Find the mount call to be sure we're looking at the right line.
-+        m = re.search(
-+            r'mount -t 9p[^\n]*\\\n[^\n]*trans=\$\{NINE_P_TRANSPORT\}[^\n]*',
-+            init_common_sh,
-+        )
-+        assert m, "mount_auth_share must issue a mount -t 9p call"
-+        # The options are on the continuation line; grab the paragraph.
-+        start = m.start()
-+        end = init_common_sh.find('"$AUTH_SHARE_TAG"', start)
-+        block = init_common_sh[start:end if end != -1 else start + 400]
-+        for opt in ("ro", "nosuid", "nodev", "noexec"):
-+            assert opt in block, f"mount_auth_share must include {opt} mount option"
-+
-+    def test_init_common_mount_guarded_by_runtime_auth(self, init_common_sh):
-+        """mount_auth_share returns early when RUNTIME_AUTH != 1."""
-+        # Find "mount_auth_share()" and assert the first ~15 lines contain the guard.
-+        idx = init_common_sh.find("mount_auth_share()")
-+        assert idx != -1
-+        snippet = init_common_sh[idx:idx + 400]
-+        assert re.search(r'if \[ "\$RUNTIME_AUTH" != "1" \]', snippet), (
-+            "mount_auth_share must early-return when RUNTIME_AUTH != 1"
-+        )
-+
-+    # --- vdkr-init.sh ------------------------------------------------------
-+
-+    def test_vdkr_defines_install_auth_config(self, vdkr_init_sh):
-+        assert "install_auth_config()" in vdkr_init_sh, \
-+            "vdkr-init.sh must define install_auth_config()"
-+
-+    def test_vdkr_target_path_and_modes(self, vdkr_init_sh):
-+        """Target is /root/.docker/config.json; mode 0600; parent 0700."""
-+        assert "/root/.docker/config.json" in vdkr_init_sh, (
-+            "vdkr-init must write credentials to /root/.docker/config.json"
-+        )
-+        assert "chmod 700 /root/.docker" in vdkr_init_sh, \
-+            "vdkr-init must chmod 700 /root/.docker"
-+        assert "chmod 600 /root/.docker/config.json" in vdkr_init_sh, \
-+            "vdkr-init must chmod 600 /root/.docker/config.json"
-+
-+    def test_vdkr_calls_mount_and_unmount(self, vdkr_init_sh):
-+        assert "mount_auth_share" in vdkr_init_sh
-+        assert "unmount_auth_share" in vdkr_init_sh, (
-+            "vdkr-init must unmount /mnt/auth after copying"
-+        )
-+
-+    def test_vdkr_logs_precedence_note(self, vdkr_init_sh):
-+        """When --config and --registry-user/--registry-pass are both set, log a NOTE."""
-+        assert re.search(
-+            r'NOTE:\s*--config\s*takes precedence over\s*--registry-user/--registry-pass',
-+            vdkr_init_sh,
-+        ), "vdkr-init must log a precedence NOTE when both mechanisms are supplied"
-+
-+    def test_vdkr_install_auth_config_after_ca(self, vdkr_init_sh):
-+        """install_auth_config runs after install_registry_ca in main flow."""
-+        # Find the call sites (not the definitions). Each name should appear
-+        # at least once at column 0 (bare call) after the function bodies.
-+        # A simpler, resilient check: the LAST occurrence of install_registry_ca
-+        # should appear before the LAST occurrence of install_auth_config.
-+        last_ca = vdkr_init_sh.rfind("install_registry_ca")
-+        last_auth = vdkr_init_sh.rfind("install_auth_config")
-+        assert last_ca != -1 and last_auth != -1
-+        assert last_ca < last_auth, (
-+            "install_auth_config must be called AFTER install_registry_ca "
-+            "so --config wins on precedence"
-+        )
-+
-+    # --- vpdmn-init.sh -----------------------------------------------------
-+
-+    def test_vpdmn_defines_install_auth_config(self, vpdmn_init_sh):
-+        assert "install_auth_config()" in vpdmn_init_sh, \
-+            "vpdmn-init.sh must define install_auth_config()"
-+
-+    def test_vpdmn_target_path_and_modes(self, vpdmn_init_sh):
-+        """Target is /run/containers/0/auth.json with 0600; dir 0700."""
-+        assert "/run/containers/0" in vpdmn_init_sh, \
-+            "vpdmn-init must write to /run/containers/0 (rootful podman default)"
-+        assert re.search(r'auth_file="\$auth_dir/auth\.json"', vpdmn_init_sh), \
-+            "vpdmn-init must write to .../auth.json"
-+        assert re.search(r'chmod 700 "\$auth_dir"', vpdmn_init_sh), \
-+            "vpdmn-init must chmod 700 the auth dir"
-+        assert re.search(r'chmod 600 "\$auth_file"', vpdmn_init_sh), \
-+            "vpdmn-init must chmod 600 the auth.json"
-+
-+    def test_vpdmn_exports_registry_auth_file(self, vpdmn_init_sh):
-+        """REGISTRY_AUTH_FILE is exported so podman finds the creds."""
-+        assert re.search(r'export REGISTRY_AUTH_FILE="\$auth_file"', vpdmn_init_sh), (
-+            "vpdmn-init must export REGISTRY_AUTH_FILE"
-+        )
-+
-+    def test_vpdmn_calls_mount_and_unmount(self, vpdmn_init_sh):
-+        assert "mount_auth_share" in vpdmn_init_sh
-+        assert "unmount_auth_share" in vpdmn_init_sh, (
-+            "vpdmn-init must unmount /mnt/auth after copying"
-+        )
-+
-+    def test_vpdmn_install_auth_config_after_verify_podman(self, vpdmn_init_sh):
-+        """install_auth_config runs after verify_podman in the main flow."""
-+        last_verify = vpdmn_init_sh.rfind("verify_podman")
-+        last_auth = vpdmn_init_sh.rfind("install_auth_config")
-+        assert last_verify != -1 and last_auth != -1
-+        assert last_verify < last_auth, (
-+            "install_auth_config should be called AFTER verify_podman"
-+        )
-+
-+    # --- README.md ---------------------------------------------------------
-+
-+    def test_readme_documents_config_section(self, readme_md):
-+        assert "Passing an existing docker/podman auth file" in readme_md, (
-+            "README must document the --config feature"
-+        )
-+
-+    def test_readme_lists_env_vars(self, readme_md):
-+        assert "VDKR_CONFIG" in readme_md, "README must document VDKR_CONFIG"
-+        assert "VPDMN_CONFIG" in readme_md, "README must document VPDMN_CONFIG"
-+
-+    def test_readme_lists_target_paths(self, readme_md):
-+        """Both runtime target paths appear in the doc."""
-+        assert "/root/.docker/config.json" in readme_md, \
-+            "README must document the vdkr target path"
-+        assert "/run/containers/0/auth.json" in readme_md, \
-+            "README must document the vpdmn target path"
-+
-+
-+# ---------------------------------------------------------------------------
-+# Tier 2: Functional validator tests (bash subshell, no QEMU).
-+# ---------------------------------------------------------------------------
-+
-+
-+def _extract_validate_auth_config(vrunner_text: str) -> str:
-+    """Extract the validate_auth_config function body from vrunner.sh.
-+
-+    Parses from "validate_auth_config() {" to its matching top-level closing
-+    brace. Simple brace-counting suffices because the function body only
-+    contains shell constructs (no here-docs that start with '{').
-+    """
-+    start = vrunner_text.find("validate_auth_config()")
-+    assert start != -1, "validate_auth_config not found in vrunner.sh"
-+    # Jump to the opening brace of the function.
-+    brace = vrunner_text.find("{", start)
-+    assert brace != -1
-+    depth = 0
-+    i = brace
-+    n = len(vrunner_text)
-+    while i < n:
-+        ch = vrunner_text[i]
-+        if ch == "{":
-+            depth += 1
-+        elif ch == "}":
-+            depth -= 1
-+            if depth == 0:
-+                return vrunner_text[start : i + 1]
-+        i += 1
-+    raise AssertionError("Unterminated validate_auth_config definition")
-+
-+
-+@pytest.fixture(scope="module")
-+def validator_harness(vrunner_sh, tmp_path_factory) -> Path:
-+    """Create a tiny bash script that sources validate_auth_config + runs it.
-+
-+    The harness is parameterised by $1 = path argument. It prints validator
-+    output to stderr (as vrunner does) and exits with the validator's code.
-+    """
-+    body = _extract_validate_auth_config(vrunner_sh)
-+    harness = textwrap.dedent(
-+        """\
-+        #!/usr/bin/env bash
-+        # Test harness for validate_auth_config (extracted from vrunner.sh).
-+
-+        # Stub the log() helper used by validate_auth_config. Route everything
-+        # to stderr so the test can grep on captured stderr.
-+        log() {
-+            local level="$1"
-+            shift
-+            echo "[$level] $*" 1>&2
-+        }
-+
-+        %s
-+
-+        validate_auth_config "$1"
-+        exit $?
-+        """
-+    ) % body
-+
-+    out = tmp_path_factory.mktemp("auth_validator") / "harness.sh"
-+    out.write_text(harness)
-+    out.chmod(0o700)
-+    return out
-+
-+
-+def _run_validator(harness: Path, path_arg: str) -> subprocess.CompletedProcess:
-+    return subprocess.run(
-+        ["bash", str(harness), path_arg],
-+        capture_output=True,
-+        text=True,
-+        timeout=10,
-+    )
-+
-+
-+class TestAuthConfigValidator:
-+    """Functional tests for validate_auth_config() in vrunner.sh."""
-+
-+    def test_accepts_valid_mode_600(self, validator_harness, tmp_path):
-+        f = tmp_path / "config.json"
-+        f.write_text('{"auths":{}}')
-+        os.chmod(f, 0o600)
-+        r = _run_validator(validator_harness, str(f))
-+        assert r.returncode == 0, f"expected accept, got {r.returncode}\nstderr={r.stderr}"
-+
-+    def test_accepts_valid_mode_400(self, validator_harness, tmp_path):
-+        f = tmp_path / "config.json"
-+        f.write_text('{"auths":{}}')
-+        os.chmod(f, 0o400)
-+        r = _run_validator(validator_harness, str(f))
-+        assert r.returncode == 0, f"expected accept, got {r.returncode}\nstderr={r.stderr}"
-+
-+    def test_accepts_minimum_two_byte_json(self, validator_harness, tmp_path):
-+        """A 2-byte file ('{}' with no trailing newline) is the minimum valid size."""
-+        f = tmp_path / "config.json"
-+        f.write_bytes(b"{}")
-+        os.chmod(f, 0o600)
-+        r = _run_validator(validator_harness, str(f))
-+        assert r.returncode == 0, (
-+            f"expected accept for 2-byte file, got {r.returncode}\nstderr={r.stderr}"
-+        )
-+
-+    def test_rejects_missing_file(self, validator_harness, tmp_path):
-+        r = _run_validator(validator_harness, str(tmp_path / "no-such-file"))
-+        assert r.returncode != 0
-+        assert "not found" in r.stderr
-+
-+    def test_rejects_symlink(self, validator_harness, tmp_path):
-+        target = tmp_path / "real.json"
-+        target.write_text('{"auths":{}}')
-+        os.chmod(target, 0o600)
-+        link = tmp_path / "link.json"
-+        link.symlink_to(target)
-+        r = _run_validator(validator_harness, str(link))
-+        assert r.returncode != 0
-+        assert "symlink" in r.stderr
-+
-+    def test_rejects_directory(self, validator_harness, tmp_path):
-+        d = tmp_path / "adir"
-+        d.mkdir()
-+        r = _run_validator(validator_harness, str(d))
-+        assert r.returncode != 0
-+        # Directories trip the -L check first on some shells; either error is fine.
-+        assert "regular file" in r.stderr or "not readable" in r.stderr or "symlink" not in r.stderr
-+
-+    def test_rejects_empty_file(self, validator_harness, tmp_path):
-+        f = tmp_path / "empty.json"
-+        f.write_bytes(b"")
-+        os.chmod(f, 0o600)
-+        r = _run_validator(validator_harness, str(f))
-+        assert r.returncode != 0
-+        assert "empty or too small" in r.stderr
-+
-+    def test_rejects_one_byte_file(self, validator_harness, tmp_path):
-+        """A single-byte file (e.g. lone newline from 'echo > file') is rejected."""
-+        f = tmp_path / "tiny.json"
-+        f.write_bytes(b"\n")
-+        os.chmod(f, 0o600)
-+        r = _run_validator(validator_harness, str(f))
-+        assert r.returncode != 0
-+        assert "empty or too small" in r.stderr
-+
-+    def test_rejects_oversize_file(self, validator_harness, tmp_path):
-+        """Files > 1 MiB are rejected."""
-+        f = tmp_path / "big.json"
-+        # 1 MiB + 1 byte.
-+        f.write_bytes(b"{" + b"a" * (1024 * 1024) + b"}")
-+        os.chmod(f, 0o600)
-+        r = _run_validator(validator_harness, str(f))
-+        assert r.returncode != 0
-+        assert "too large" in r.stderr
-+
-+    def test_rejects_world_readable(self, validator_harness, tmp_path):
-+        """Mode 0644 (group/other readable) is rejected."""
-+        f = tmp_path / "config.json"
-+        f.write_text('{"auths":{}}')
-+        os.chmod(f, 0o644)
-+        r = _run_validator(validator_harness, str(f))
-+        assert r.returncode != 0
-+        assert "unsafe permissions" in r.stderr
-+
-+    def test_rejects_group_readable(self, validator_harness, tmp_path):
-+        """Mode 0640 (group readable) is rejected."""
-+        f = tmp_path / "config.json"
-+        f.write_text('{"auths":{}}')
-+        os.chmod(f, 0o640)
-+        r = _run_validator(validator_harness, str(f))
-+        assert r.returncode != 0
-+        assert "unsafe permissions" in r.stderr
-+
-+    def test_rejects_executable(self, validator_harness, tmp_path):
-+        """Mode 0700 (owner-exec) is rejected - we only permit r/w combos."""
-+        f = tmp_path / "config.json"
-+        f.write_text('{"auths":{}}')
-+        os.chmod(f, 0o700)
-+        r = _run_validator(validator_harness, str(f))
-+        assert r.returncode != 0
-+        assert "unsafe permissions" in r.stderr
-+
-+    def test_rejects_unreadable(self, validator_harness, tmp_path):
-+        """A mode 0000 file cannot be read by the invoking user."""
-+        if os.geteuid() == 0:
-+            pytest.skip("running as root; DAC permission checks are bypassed")
-+        f = tmp_path / "config.json"
-+        f.write_text('{"auths":{}}')
-+        # 0000: no bits at all.
-+        os.chmod(f, 0o000)
-+        try:
-+            r = _run_validator(validator_harness, str(f))
-+            assert r.returncode != 0
-+            # Either "not readable" wins, or the mode-check fires; accept either.
-+            assert "not readable" in r.stderr or "unsafe permissions" in r.stderr
-+        finally:
-+            # Restore perms so pytest can clean up the tmp tree.
-+            os.chmod(f, 0o600)
--- 
-2.47.3
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#9778): https://lists.yoctoproject.org/g/meta-virtualization/message/9778
+> Mute This Topic: https://lists.yoctoproject.org/mt/119061439/1050810
+> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
 
