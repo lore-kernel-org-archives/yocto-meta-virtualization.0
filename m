@@ -1,404 +1,186 @@
-Return-Path: <deeratho@cisco.com>
+Return-Path: <Jiaying.Song.CN@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C352DCD4F39
-	for <webhook@archiver.kernel.org>; Thu, 14 May 2026 17:42:46 +0000 (UTC)
-Received: from rcdn-iport-2.cisco.com (rcdn-iport-2.cisco.com [173.37.86.73])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.17348.1778780557881696130
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FA7CCD4851
+	for <webhook@archiver.kernel.org>; Tue, 19 May 2026 07:41:55 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.16290.1779176508736308921
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 14 May 2026 10:42:38 -0700
+ Tue, 19 May 2026 00:41:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=GlpPCMI8;
- spf=pass (domain: cisco.com, ip: 173.37.86.73, mailfrom: deeratho@cisco.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=15284; q=dns/txt;
-  s=iport01; t=1778780557; x=1779990157;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:mime-version;
-  bh=6TmAnWVfCRIIk9j4l6JfHw9Ym2lR4Z5/ze1OrR//XAc=;
-  b=GlpPCMI8NXZCOeQrRGyMQNlPgzHJQJzdgjsdjHJFZTT5Uv36oj29vUz2
-   bivTM7EPKr55z2KuPcSt7P3LaDsxI33VtIdoTlEHlcE4DfyqINM7OWlCy
-   VTQ93LK5FPdG4oVLnI5fD+40JTThqLldwtzzV0TBzmtMiRNE0oZd1BNYL
-   Guxlcx7EafxREaZYQUfarhCWjH5CcpTkf+O6jGvkmDC46rwG5HwHijotL
-   X26rBpp1zmaEBc70L11Zj29qnJq6NVZYwkc+qG0lwAckPLkXKKNcRcwIT
-   BW8KJvjlKKfpq1scyrpU1YQw2AYtKwreumBShw4K1+1EI5HGOB9o94xu8
-   g==;
-X-CSE-ConnectionGUID: mw1gT4YMSmm5GUJyTOurCw==
-X-CSE-MsgGUID: 1MObeEjEQoW9f3Qwd04UaQ==
-X-IPAS-Result: =?us-ascii?q?A0BvBQDSCAZq/4oQJK1agS6CaDFTgQaBI0mEV4NMA4Usi?=
- =?us-ascii?q?HkDi2SLX4ZrgWEKDwEBAQ0BAS4BIgQBAYUGAhaNHAImOBMBAgQDAgMBAQEBA?=
- =?us-ascii?q?QEBAQEBAQsBAQUBAQECAQcFgQ4ThlyGWgEBAQEDARERVhACAQgRBAEBKAMCA?=
- =?us-ascii?q?gIeBwoUCQgCBA4FCBqEfhYHAzYDAQKmLwGBPQKKKnqBMoEB3UUNgl+BTYU/g?=
- =?us-ascii?q?nofAQEqgTUDDoJMgSEZhHsnGxuBcoEVQoJoPoIfgXsPCxEGLoMlOoIvBIIie?=
- =?us-ascii?q?hQbgzmBTDSBZIc6UnIiAyYzLAFVExcLBwWBI0MDgQYjSwUtHYEjIR0XFR5YG?=
- =?us-ascii?q?wcFEiEqbko2XBoDAw0hJBFZdgtGBYF0AoIeGV8jLwNOgStLAwttPTcUGwMEg?=
- =?us-ascii?q?TUFiV0HVhwPgUaCAEYtIRAbSQdSBpcVi2COX5QmcQoog3SLao1yggCGMheEB?=
- =?us-ascii?q?I0TmVSZBpISk2KDIgIEAgQFAhABAQaBfyWBWXAVgyJTGQ+OLRbLVHk9AQEHA?=
- =?us-ascii?q?gcNAwuBaJAAAiaBVQEB?=
-IronPort-PHdr: A9a23:Ea9SyhBiNX8D6JLfe8jZUyQVXRdPi9zP1kY98JErjfdJaqu8us2kN
- 03E7vIrh1jMDs3X6PNB3vLfqLuoGXcB7pCIrG0YfdRSWgUEh8Qbk01oAMOMBUDhav+/Ryc7B
- 89FElRi+hmG
-IronPort-Data: A9a23:pF9Ofq4MpviPu0uydcvW2wxRtGLGchMFZxGqfqrLsTDasY5as4F+v
- jMcX23QP/6IZ2f2f4wgaYrkoU0Au56Gz4JjT1BtpCpgZn8b8sCt6fZ1gavT04J+CuWZESqLO
- u1HMoGowPgcFyGa/lH2dOC98RGQ7InQLpLkEunIJyttcgFtTSYlmHpLlvUw6mJSqYDR7zil5
- 5Wo+KUzBHf/g2Qqaj9Nt/rZwP9SlK2aVA0w7wRWic9j5Dcyp1FNZLoDKKe4KWfPQ4U8NoaSW
- +bZwbilyXjS9hErB8nNuu6TnpoiG+O60aCm0xK6aoD66vRwjnVaPpUTaJLwXXxqZwChxLid/
- jniWauYEm/FNoWU8AgUvoIx/ytWZcWq85efSZSzXFD6I0DuKxPRL/tS4E4eOJJB9dorMER18
- PlFBw0vfyykmvid3+fuIgVsrpxLwMjDNYcbvDRkiDreF/tjGcmFSKTR7tge1zA17ixMNa+BP
- IxCN3w2MlKZOE0n1lQ/UPrSmM+ki3TleiFYr3qepLE85C7YywkZPL3FbISKJI3bGZUK9qqej
- jvj2G70LxM3DdugmDTey22g3rPylBquDer+E5X9rJaGmma7w2EPAVgIVEGnvPC9i1y3R9NYL
- WQQ+zEytu4j80e3ScHnWB+1q2LCuQQTM+e8CMUz7AWLj66R6AGDCy1cF3hKaccts4k9QjlCO
- kK1ou4FzAdH6dW9YXmc7byT6zi1PEAowaUqP0fokSNtDwHfnbwO
-IronPort-HdrOrdr: A9a23:YnuXn6/b+MP9XfRwfmduk+HYdr1zdoMgy1knxilNoENuA6+lfp
- GV/MjziyWUtN9IYgBfpTnhAsW9qXO1z+8S3WBjB8bSYOCGghrmEGgM1/qZ/9SNIVybygcZ79
- YeT0EcMqy/MbEZt7eG3ODQKb9Jq7f3ktHMuQ6d9QYQcegAUdAY0+4NMHfhLqQAfng/OXNWLu
- v62uN34xCbVTA8aMO9CnMZX+7FieHqufvdCyIuNloM0iXLqSmnxoLbPnGjsys2Yndi0L0i+W
- /Kn0jD4Lm/s/a08xnY12XCxZVbktnsx7J4dY2xY84uRQnEu0KNXsBMSreCtDc6rKWE81Axiu
- TBpB8mIoBa927RVnvdm2qv5yDQlBIVr1Pyw16RhnXu5ebjQighNsZHjYVFNjPE9ksbus1m2q
- 4j5RPai3MXN2KEoM3O3amOa/hYrDvznZPkq59Ls5Vra/pbVFaWl/1GwKoaKuZaIMuw0vFWLA
- AnNrCu2B8RSyLbU1np+k9y3derQnM/Wj2CQkQEp4ip9gI+pgEi86Pdr/ZvwkvpM/kGOsR5D+
- ioCNUbqJheCsARdq5zH+EHXI++DXHMWwvFNCaILU3gD7xvAQOGl3fb2sR82AiRQu1C8LIi3J
- DaFF9Iv287fEzjTcWIwZ1Q6xjIBGGwRy7kxM1S74Vw/uSUfsumDQSTDFQ118ewqfQWBcPWH/
- 61JZJNGvfmaW/jA5xA0QHyU4RbbXMeTMoWsNAmXE/mmLOHFqT68ujANPrDLrvkFjgpHmv5H3
- sYRTD2YN5N60i6M0WIySQ5m0mdDHAX0agAZ5QypdJjvbTlHrc8xjQotQ==
-X-Talos-CUID: 9a23:GpQNrW+JZpillmTu4k6Vv0sLQ88ZLkz493LVfmCFK3dVb6CPYkDFrQ==
-X-Talos-MUID: 9a23:a0ZgqAnVhwdMQLBY27pJdno7EeBi7omsJXkKrsQI4PCbOXQsBj6k2WE=
-X-IronPort-Anti-Spam-Filtered: true
-Received: from alln-l-core-01.cisco.com ([173.36.16.138])
-  by rcdn-iport-2.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 14 May 2026 17:42:37 +0000
-Received: from rcdn-opgw-1.cisco.com (rcdn-opgw-1.cisco.com [72.163.7.162])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by alln-l-core-01.cisco.com (Postfix) with ESMTPS id DB8FB180003F7
-	for <meta-virtualization@lists.yoctoproject.org>; Thu, 14 May 2026 17:42:36 +0000 (GMT)
-X-CSE-ConnectionGUID: +RUXVc/CR0i7orxlz9htLQ==
-X-CSE-MsgGUID: 2XDG9CloRh+06xh0pQbrrw==
-Authentication-Results: rcdn-opgw-1.cisco.com; dkim=pass (signature verified) header.i=@cisco.com
-X-IronPort-AV: E=Sophos;i="6.23,235,1770595200"; 
-   d="scan'208,217";a="57941046"
-Received: from mail-dm2pr0701cu00100.outbound.protection.outlook.com (HELO DM2PR0701CU001.outbound.protection.outlook.com) ([40.93.13.64])
-  by rcdn-opgw-1.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 14 May 2026 17:42:36 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=XbVKpHC7lGjUGR+3T2KLeYfwMEMbohjQvwMlJc6itGN3Kr6+WlmYKpUenjCcGFX7ENybKenL9LxpqruZT0jNDKwQK9da8gGX4lb3DcJlpKiH6qe84iL2A+M1bS2YoqpEfYzzzsjFW9TFdZpQU1a6UalOnrtaalmpkWhZBiaOo6NSi6sVnYLc7Er6SWcO9QfxT6HD2BFskvgGjQOQq928y9ORBqxFUsIjc7iSLCtSHiSMKs20KCI4CLm6NgU9WFoWfCsSdgW9h54sMKaX4fsIwrxHAz0KvhwNhzXG02/lt3jhNWVHn4rUMiGzgkEXctzY+4fHJXwpE9yyVC80yY4D8w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6TmAnWVfCRIIk9j4l6JfHw9Ym2lR4Z5/ze1OrR//XAc=;
- b=LoOLYqCPlHnMkGp+ZF8N/HQTJls3d6CP4F8N7tkm7jq87haRRP90YC85YDQSrRAdrLKpgXztLj9hFJaO3CnUFaBm2/dQAFpXIG4iItqCGzD9quOAkRlWEWF26YIxaKt+V5t7k9u71BOgvlknABQS8LlQORpCPm6VFJKPI1kUTo5fEwWAG+4FYlXoNsscrXbQs5tl/e5nvSVY1qrt/42Wu3lSwL9mZfFU5s9E0O40dS6Cwa67ghCwtUWdEr0Mb1l0V4n5Fqm0bjdP5x+5Dsg/TIN0rMkdio1Lqo9fVDAS/MhL7YgKzQyCcRZGEPRzjQs/9uu7n2JUeWkOU8aidDBrDg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=cisco.com; dmarc=pass action=none header.from=cisco.com;
- dkim=pass header.d=cisco.com; arc=none
-Received: from DM4PR11MB6189.namprd11.prod.outlook.com (2603:10b6:8:ae::18) by
- SJ5PPF2F2B659FE.namprd11.prod.outlook.com (2603:10b6:a0f:fc02::81c) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9913.12; Thu, 14 May
- 2026 17:42:32 +0000
-Received: from DM4PR11MB6189.namprd11.prod.outlook.com
- ([fe80::ecd9:17f7:f13f:5543]) by DM4PR11MB6189.namprd11.prod.outlook.com
- ([fe80::ecd9:17f7:f13f:5543%2]) with mapi id 15.20.9913.009; Thu, 14 May 2026
- 17:42:32 +0000
-From: "Deepak Rathore -X (deeratho - E INFOCHIPS PRIVATE LIMITED at Cisco)"
-	<deeratho@cisco.com>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-CC: "meta-virtualization@lists.yoctoproject.org"
-	<meta-virtualization@lists.yoctoproject.org>, "Viral Chavda (vchavda)"
-	<vchavda@cisco.com>
-Subject: Re: meta-virtualization: Wrynose (Yocto 6.0) Release Timeline
-Thread-Topic: meta-virtualization: Wrynose (Yocto 6.0) Release Timeline
-Thread-Index: AQHc3TaiX9MFz15NlUCpPeyX3PdcvLYDGMMAgAqXKpk=
-Date: Thu, 14 May 2026 17:42:32 +0000
-Message-ID: 
- <DM4PR11MB61899ADDF4A6BBAC27BEA9E1C4072@DM4PR11MB6189.namprd11.prod.outlook.com>
-References: 
- <DM4PR11MB61893678145DA76AD96D0B39C43F2@DM4PR11MB6189.namprd11.prod.outlook.com>
- <CADkTA4OtgHjeGJRWY9mjfar+Kn9DAOjBkm1SdJkVmLMiMVFYDQ@mail.gmail.com>
-In-Reply-To: 
- <CADkTA4OtgHjeGJRWY9mjfar+Kn9DAOjBkm1SdJkVmLMiMVFYDQ@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM4PR11MB6189:EE_|SJ5PPF2F2B659FE:EE_
-x-ms-office365-filtering-correlation-id: 36b17c40-19f2-44d3-15f9-08deb1e02d7e
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|366016|376014|1800799024|38070700021|11063799003|4143699003|8096899003|18002099003|22082099003|56012099003;
-x-microsoft-antispam-message-info: 
- 5Tcamzll4F8Su3EXUEaWh8y5VRxtFrwDb1oiffWD8m7b3EKSvxXr5o8LXGbO3FE3fJBO4TBcOvBo89a0uPgOHbq4RUxbZA0jrRi5vN052p+Y/E+QmCJmzf1yqqwG1Xu9zlDKgGrLpEdkYZIsxq02vRsGwMOVOplpHCQkNT2IBWuL6Hw0dS7vsfw+HhytslcFIPi73l3ea6i3EloPodTyHQiFke9NPKv3TVjz8W37K5V62TrCwHBIXzYZEPYnnhOLWDdb00q+s2GYesN4UvErQFtb8q4ZWoVzpwS+0OPcGU32kiCIzV5F8IwpBAWEH/mPCB2Oi1uKsXmlXXGneYAQ9fQSBNl3zTal258xEnpArWZo14mkHqRerqV/EvVj+qMOtHJI1Jcp60MXYESxl10sqgbm/EYwcXZeMujffk0wqzuPbVmO2yEg29LGzEdp8P4cc/w87aLUDowPRhOBGWaswxeJwRZR1dZ8Jtx2frg1QtwxpypXPWxdo8uVpQy56xI8iBtSI4maGKaKvh14yRN7ZJE2BCMV0GSNpPEdwo1RrteiG25HKx+pQWecYhLj2//bC63ENdIdt5LPxm3Q0g+RwwQ0od9Kwmc6uZ4GsHIF7gikhRQO7OPRgNZ/XwDJ4maVJyvTNkxghtWMPU3xacnTU1trO7+dtwq/ugvgjpWKNxD0NFHOblgv6Wama1h3SePZwit3AJ/zZGy8z+qs1Db4/RBhUIAy3ZnkSKLHQTOqA4mLGbetecxWFdoUKQK6aEsJ
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB6189.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(38070700021)(11063799003)(4143699003)(8096899003)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?Z2xFRzhiTGVqNXYzdE5lalp0YU5pNmNMZ0FuaVllMWM5ZWhGSDcwSEhxTXVU?=
- =?utf-8?B?ZkVxTFNXVnkwZElFam52bVB4dlpNdkJZTjFlOUw4U0hUQ25nSFc4T0UzaGRw?=
- =?utf-8?B?aVMvUmxUUFRNZmFQaG9QZ2lSZGxyR2t6dzQ2eGhrYU8reXFaZUlDWmFsbkRU?=
- =?utf-8?B?YVkxMGM1R2VBNVFUUzF2UnFaNDdsUjUxMk8wSTNEUzdlcVJock1vWjFKVXZT?=
- =?utf-8?B?Unl3UHQzRkF3VFRRY1JTWjZEUlZNMnRwWEFwVE4wYmdhWmlGdFFBbjlkQXRz?=
- =?utf-8?B?dW9yNE93L0lGTVFMSlUwT2RFRjZBZ3RlNk1CcFNXd3pHUEFKMUZLd3JGYmVX?=
- =?utf-8?B?SW5pUGowSGxUNUpwOEpxem1uOFYyTUJDSHU1MU1ycU9iOHdiUk5xdGY5Ykpo?=
- =?utf-8?B?aDk0NVBPWHFGdXNqWnNrZWVITnEvemh0U1NOV2taejFkbEMvWUQ3WHNRRTdI?=
- =?utf-8?B?Wnh6V0NVbE1qMUlqdDN0N1kyT1hJSzVEOFNhaHczazladlhzRzJIRThoS2l1?=
- =?utf-8?B?RGJlcnh2bEZ4dFJxVzArYXZqMlJDRXNwdUdNb01uSzFjdnZxNzRIb2hBNnM0?=
- =?utf-8?B?cUo5U3RrQzJLcHUrK3d0Y3NBcTNESVRXQTJvN2xjOEpSQ0x0R1lZMkI0VzN5?=
- =?utf-8?B?SlZWSm1wMGxVSUF5UlVlbnJkZEpMa2w0UUF6eFNJdmt0YXlpYy9TSXRqQmNx?=
- =?utf-8?B?aStlMXZteUg4cXJmTnE0MFJrY0N6QmF2TmUzS0M1V3BaYnNFVlhRU01zcnB3?=
- =?utf-8?B?U2FJWGdMM21WS1M1VUIrMHJWdHRWRnVhQ0xHMnVrcnZkTldZRTZ4a29ZNUZI?=
- =?utf-8?B?eUJEN0V2TEx2Y0NOdG0ycDRZWi9XS0lXczV6dnFWZjFiNnYxUmExMFRhREND?=
- =?utf-8?B?TFpxaGRsZFA5QllPZmtRV1FTY2QzR3hiTmNKNlVDWEU5TGxlemxjcFFobEll?=
- =?utf-8?B?K0Z3MDIyZDRESHVpKy8zczJ6SlZub2xXMTA2eXVWSDRjZ0Qzd3Vsem9HWSt2?=
- =?utf-8?B?WjFxRWt4Q3MwT3ZvYXpIZUJ2UGlzd0JXYXhPOXQrWC9jWTNxTTNwcnBBTEFh?=
- =?utf-8?B?ajlTRVY1VDRFb2ZnNXRGZktpckp1ZkJFTEtEVzN4UEZ4T1Jsd1kzMHE0YmRS?=
- =?utf-8?B?ZUZLM052WExpRFRXU3o3cVZ0a3R2aHhoRWxwdkNUbStRWXA0a2FFVERCcEsy?=
- =?utf-8?B?Sm9OeEFtdW02a3kvUW4xdzFYYUxSaU5YTmlJMW1sRXFsSmtUUGxLd2JMWXpI?=
- =?utf-8?B?NmhUTGZZelp2QjJ2bEpMZytLSjArdFRyd0lHTGVyeVh0aXF6VzhFSGdRTzQz?=
- =?utf-8?B?SkJUbExhbE1xNTg4TGk3cGlyRTlFVm1ERXJuWGRYeHRBb1QwWHVYRGMvRXFD?=
- =?utf-8?B?ZVptakVackVKN2NlbkwxaXloVTJlNStHbnBwNHpPMHRzcjF6eUFTM1AwelE0?=
- =?utf-8?B?YlNWcmxoSGJmR0p6blpPcWxlc2xnYW1OQ0prYmsvaEVqbGhwb25DYk11MW9k?=
- =?utf-8?B?VnMvclp2OUVEQ3J1Ulp6bndOQ1dCOHpNUmkvNC9lRzJzNGFhdzhKSzNjQldR?=
- =?utf-8?B?S2FCTlpJamJIWUtSWTY2V3JTekJIbUkwblRwTkMvTXBuODFBRExXK2NlNzdw?=
- =?utf-8?B?TWxOa29HT2Rvcm1GbUxwT1RTSnZCOXMvaTNnSVo2TTE3bWRDUFMzNkd4ejdC?=
- =?utf-8?B?VCsvb1l2ZkxjaXVQbnVzMTJlYkR3S2wxdlprNGFUc3JseDVXWmovdkRhTzNI?=
- =?utf-8?B?STFNQ0M1RGdWK0dhc1BIN041TUl1SzVRL0wveGc0RmRMWmRFVG5Gd0E4ODdB?=
- =?utf-8?B?em1HQzl6RUp0UmhnelF6R0VmdXVwOHlHM1VHTDdodmN2aEI1Uzl1elJYZFhs?=
- =?utf-8?B?WXFianFKUFBEamx0Y1ZzUnUzNFNTeTJ4N1NyS1pjVU1GZytETFlzVmgvNnhm?=
- =?utf-8?B?VHZZdHFPMTNWTi84YkJCNTB1eExXRzV4RnJjMm10eXBDMWROOGlYa2VDejBM?=
- =?utf-8?B?ZDJ5N1YrUy8vQmVwOERVRno2TUMxRWU0ekdaWCtSUU84eVkrSGVzNFNaYzVF?=
- =?utf-8?B?Nkg4WjEwK0Y5Q1lId1hjRHZ0emxEUDN4S3paejlIVU9BVm1PdGUyNmFMTDVm?=
- =?utf-8?B?cGlobWlxN2xmZ20yTHRRU2daRDJQZDF4eTl1anM4dnA5c04ranRZT2hOZzFy?=
- =?utf-8?B?WWF3dlloMUNCN2p0SGRJeVl2TGRJZUZRekgyeFFTSlZHNVJVVjNkMUpEUTly?=
- =?utf-8?B?UFpMVzIrZlltWE4yK1hkWi9mSnNiVUtlaG83WWdhdER5RHpHV0NzWVJ6Y05p?=
- =?utf-8?Q?8Yy0iiDrfAfj+JS6jN?=
-Content-Type: multipart/alternative;
-	boundary="_000_DM4PR11MB61899ADDF4A6BBAC27BEA9E1C4072DM4PR11MB6189namp_"
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=HQT0Wl7r;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=959923361d=jiaying.song.cn@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64J5F53H3123156;
+	Tue, 19 May 2026 07:41:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PPS06212021; bh=Ab2yWd5CByZZq/5eC8YO
+	vmhJ+kE/moRp4H5BRoxo3B8=; b=HQT0Wl7rplYEnNArLBFrUOYcp5qW/J7KLwz9
+	s9uRpbntE193VvmJ4VN54ynus9ftYUm3MntkmTBaGJzxanzwcTdWCpY8aU019wwc
+	b/a1qv8NW/mI8CZqETrQcRBvNsRhs74HaYPxAAB8LTtxRM+4J2Zp/GMcgPKNL/XK
+	W+AGLKNxO9/0IEdqRQEVfYkWB+2sGFtQ7wLNRJ4KyHXTeV9slRo5Y6dIctzV2AtK
+	bxI6p27Tq+LVUOs+JJgouF0zrnyA8r7+sNLs21R28dJVDx2r9mVFMtVzBAqE4aJY
+	Wqk2PAzSOzTmPLz+QDkQw0A/QPnUOz5NvXFvEfGafQ0W1oUDAg==
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [128.224.246.37])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4e6ecf38fr-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Tue, 19 May 2026 07:41:46 +0000 (GMT)
+Received: from ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) by
+ ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.61; Tue, 19 May 2026 00:41:46 -0700
+Received: from pek-lpg-core5.wrs.com (10.11.232.110) by
+ ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server id
+ 15.1.2507.61 via Frontend Transport; Tue, 19 May 2026 00:41:45 -0700
+From: <jiaying.song.cn@windriver.com>
+To: <meta-virtualization@lists.yoctoproject.org>, <bruce.ashfield@gmail.com>
+Subject: [meta-virtualization][meta-cloud-services][PATCH] layer: update LAYERSERIES_COMPAT to wrynose
+Date: Tue, 19 May 2026 15:41:44 +0800
+Message-ID: <20260519074144.602860-1-jiaying.song.cn@windriver.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked: 
-	oso1g4okf8AAuyfcnYZKymNyyGD6DByRqlNFB1/ErCOB4v4PagaYj5tiifyrEd4l6EN8UwWgSBfdZEYOTFjiACdrlY1xKc0YjjLv8C2+F87t3T3c0FNTHKfXQ2UVTgc71niyieykzeXlA5Omo3EeiAVk50Mp0lBjwfuMBLWZ1FUIrdh/XL3Ra2V2T3ppGlr5q3HS8fOeeNTuiCToF2S3NvabnSq+6v/DXrkjoBqANkR+D/veWazx6HHwFplJKCdtAXu+we3rxpGGm85tI1lSHI5DrOxY78mfPm3zczxO7y85P0O7UufHEafhV61sclaCjwYpLFzLMjkrb6dW2ozdBg==
-X-OriginatorOrg: cisco.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB6189.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 36b17c40-19f2-44d3-15f9-08deb1e02d7e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 May 2026 17:42:32.6874
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 5ae1af62-9505-4097-a69a-c1553ef7840e
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 4U4K8p3QsQzGlz/jVyEJfvfBB9rXFLThtweEEptgHTMVkU9M/0I15XDkaSiMrl5N0Y0u14N3ke/jcyosj9mnkQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ5PPF2F2B659FE
-X-Outbound-Client-TLS: ANONYMOUS;rcdn-opgw-1.cisco.com [72.163.7.162];TLSv1.3;TLS_AES_256_GCM_SHA384;256
-X-Outbound-SMTP-Client: 72.163.7.162, rcdn-opgw-1.cisco.com
-X-Outbound-Node: alln-l-core-01.cisco.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: LPAZdO2iLx6Pa_KRsHf2rhrWfeZXIhBa
+X-Proofpoint-GUID: LPAZdO2iLx6Pa_KRsHf2rhrWfeZXIhBa
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTE5MDA3NSBTYWx0ZWRfX/ASXynbCGnLb
+ 5KPdsoYVk10nfVO24cJwvF20bpzxXk8Gl+r1BxNJ8CB4aQCV1SKfV8Cbrf9MPF8Z8/idfHCmZxQ
+ DEcqf3XUNHqnMbr9JN0nWs2FbWWcxFavhSwSFYN+aEBDa9yEMh2ZgTegaSXA5HdnxJVtuUhYGdM
+ D0Zh10gU8DGY6xXVZgDZShtKjVQh+aBSmphM+SCGszsFXrBAGBzF6c50ipCsRflcFXWe6Urk0+x
+ 4sWd7FrBXSxB1gk6ShBBtTvHO/mrW9p7xY4EI6Pot8RmD4S4YdwtlDI5ifUGOLpeIUqjjl3NcD8
+ k4d5OwKV0yCv5ByTJ78ZRatB7Os8fPxKdJ797mGzeZoEz8EmnReF0Gpm12CUCsxJnUeytx0GUzY
+ sfayNTHWNtnP6ozyfmu0DlakE4rYpdFX9wUiZrN/MwQ0oaXoD5UwEqeZUPVGEojf4f3WpiXf5Bh
+ TZpaTIjBFThHWn3jFzQ==
+X-Authority-Analysis: v=2.4 cv=dK2WXuZb c=1 sm=1 tr=0 ts=6a0c143a cx=c_pps
+ a=Lg6ja3A245NiLSnFpY5YKQ==:117 a=Lg6ja3A245NiLSnFpY5YKQ==:17
+ a=5h67h_9zRmsA:10 a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=bi6dqmuHe4P4UrxVR6um:22 a=klDOsUkWDRETUCZYPvoE:22 a=t7CeM3EgAAAA:8
+ a=Dki1gSQhXkoWWISmaykA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-05-19_02,2026-05-18_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 bulkscore=0 priorityscore=1501 clxscore=1011 phishscore=0
+ impostorscore=0 adultscore=0 suspectscore=0 spamscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2605130000 definitions=main-2605190075
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Thu, 14 May 2026 17:42:46 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9796
+ <meta-virtualization@lists.yoctoproject.org>; Tue, 19 May 2026 07:41:55 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9797
 
---_000_DM4PR11MB61899ADDF4A6BBAC27BEA9E1C4072DM4PR11MB6189namp_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+From: Jiaying Song <jiaying.song.cn@windriver.com>
 
-SGkgQnJ1Y2UsDQpUaGFuayB5b3UgZm9yIHlvdXIgcmVzcG9uc2UuDQpXZSBhcmUgY3VycmVudGx5
-IG1pZ3JhdGluZyBmcm9tIFlvY3RvIFNjYXJ0aGdhcCAoNS4wIExUUykgdG8gV3J5bm9zZSAoNi4w
-IExUUykgYW5kIG5vdGljZWQgdGhhdCB0aGUgd3J5bm9zZSBicmFuY2ggaXMgbm93IGF2YWlsYWJs
-ZSBpbiB0aGUgbWV0YS12aXJ0dWFsaXphdGlvbiBsYXllci4NCkNvdWxkIHlvdSBwbGVhc2UgYWxz
-byBzaGFyZSB0aGUga2V5IGNoYW5nZXMgaW4gV3J5bm9zZSBjb21wYXJlZCB0byBTY2FydGhnYXA/
-IFNwZWNpZmljYWxseSwgaW5mb3JtYXRpb24gc2ltaWxhciB0byB0aGUgWW9jdG8gNi4wIHJlbGVh
-c2Ugbm90ZXMgd291bGQgYmUgdmVyeSBoZWxwZnVsIGZvciBvdXIgbWlncmF0aW9uLCBpbmNsdWRp
-bmc6DQoNCiAgKiAgIE5ldyBmZWF0dXJlcyAvIGVuaGFuY2VtZW50cw0KICAqDQpNYWpvciByZWNp
-cGUgdmVyc2lvbiB1cGdyYWRlcw0KICAqICAgTmV3bHkgYWRkZWQgcGFja2FnZXMNCiAgKiAgIFJl
-bW92ZWQgb3IgZGVwcmVjYXRlZCBwYWNrYWdlcw0KICAqICAgUGFja2FnZSBzcGxpdHMgYW5kIHJ1
-bnRpbWUgYmVoYXZpb3IgY2hhbmdlcw0KICAqICAgUEFDS0FHRUNPTkZJRyBhbmQgZGVmYXVsdCBi
-ZWhhdmlvciBjaGFuZ2VzDQogICoNClJlY29tbWVuZGVkIG1pZ3JhdGlvbiBhY3Rpb25zDQogICoN
-Cktub3duIGlzc3VlcyBpZiBhbnkNCg0KVGhhbmsgeW91IGZvciB5b3VyIHN1cHBvcnQuDQpSZWdh
-cmRzLA0KRGVlcGFrDQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXw0KRnJvbTogQnJ1
-Y2UgQXNoZmllbGQgPGJydWNlLmFzaGZpZWxkQGdtYWlsLmNvbT4NClNlbnQ6IEZyaWRheSwgTWF5
-IDgsIDIwMjYgMzowNiBBTQ0KVG86IERlZXBhayBSYXRob3JlIC1YIChkZWVyYXRobyAtIEUgSU5G
-T0NISVBTIFBSSVZBVEUgTElNSVRFRCBhdCBDaXNjbykgPGRlZXJhdGhvQGNpc2NvLmNvbT4NCkNj
-OiBtZXRhLXZpcnR1YWxpemF0aW9uQGxpc3RzLnlvY3RvcHJvamVjdC5vcmcgPG1ldGEtdmlydHVh
-bGl6YXRpb25AbGlzdHMueW9jdG9wcm9qZWN0Lm9yZz47IFZpcmFsIENoYXZkYSAodmNoYXZkYSkg
-PHZjaGF2ZGFAY2lzY28uY29tPg0KU3ViamVjdDogUmU6IG1ldGEtdmlydHVhbGl6YXRpb246IFdy
-eW5vc2UgKFlvY3RvIDYuMCkgUmVsZWFzZSBUaW1lbGluZQ0KDQoNCg0KT24gV2VkLCBNYXkgNiwg
-MjAyNiBhdCA3OjEx4oCvQU0gRGVlcGFrIFJhdGhvcmUgLVggKGRlZXJhdGhvIC0gRSBJTkZPQ0hJ
-UFMgUFJJVkFURSBMSU1JVEVEIGF0IENpc2NvKSA8ZGVlcmF0aG9AY2lzY28uY29tPG1haWx0bzpk
-ZWVyYXRob0BjaXNjby5jb20+PiB3cm90ZToNCkhpIEJydWNlLA0KDQpJIGhvcGUgdGhpcyBtZXNz
-YWdlIGZpbmRzIHlvdSB3ZWxsLg0KSSB1bmRlcnN0YW5kIHRoYXQgdGhlIFlvY3RvIFByb2plY3Qg
-V3J5bm9zZSAoNi4wKSByZWxlYXNlIGlzIG5vdyBhdmFpbGFibGUsIGFuZCB0aGF0IGNvcnJlc3Bv
-bmRpbmcgYnJhbmNoZXMgaGF2ZSBiZWVuIGNyZWF0ZWQgZm9yIE9FLUNvcmUsIG1ldGEtb3BlbmVt
-YmVkZGVkLCBtZXRhLXNlbGludXgsIGFuZCBiaXRiYWtlLiBIb3dldmVyLCBJIGRvIG5vdCBzZWUg
-YSBkZWRpY2F0ZWQgV3J5bm9zZSBicmFuY2ggZm9yIHRoZSBtZXRhLXZpcnR1YWxpemF0aW9uIGxh
-eWVyIGF0IHRoaXMgdGltZS4NCkNvdWxkIHlvdSBwbGVhc2UgYWR2aXNlIHdoZXRoZXIgdGhlcmUg
-aXMgYSBwbGFubmVkIHRpbWVsaW5lIGZvciBXcnlub3NlIHJlbGVhc2UgZm9yIG1ldGEtdmlydHVh
-bGl6YXRpb24gbGF5ZXI/DQoNClRoZXJlJ3Mgbm8gcGxhbm5lZCB0aW1lbGluZSwganVzdCB3aGVu
-IGl0IHBhc3NlcyBteSByZWxlYXNlIHRlc3RpbmcuIEknbSBkZWJ1Z2dpbmcgYSBmZXcgdGhpbmdz
-IG5vdy4NCg0KVGhhdCBiZWluZyBzYWlkLCBJIGV4cGVjdCBpdCdsbCBiZSBhYm91dCBtaWQgbmV4
-dCB3ZWVrIHdoZW4gSSdtIHJlYWR5IHRvIG1ha2UgdGhlIGJyYW5jaC4NCg0KQnJ1Y2UNCg0KDQpU
-aGFuayB5b3UgZm9yIHlvdXIgdGltZSBhbmQgZ3VpZGFuY2UuDQpSZWdhcmRzLA0KRGVlcGFrDQoN
-Cg0KLS0NCi0gVGhvdSBzaGFsdCBub3QgZm9sbG93IHRoZSBOVUxMIHBvaW50ZXIsIGZvciBjaGFv
-cyBhbmQgbWFkbmVzcyBhd2FpdCB0aGVlIGF0IGl0cyBlbmQNCi0gIlVzZSB0aGUgZm9yY2UgSGFy
-cnkiIC0gR2FuZGFsZiwgU3RhciBUcmVrIElJDQoNCg==
+Update LAYERSERIES_COMPAT from 'thud warrior' to 'wrynose' in 7
+sub-layers to match the main layer and fix compatibility errors
+with the current core layer.
 
---_000_DM4PR11MB61899ADDF4A6BBAC27BEA9E1C4072DM4PR11MB6189namp_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
+---
+ meta-openstack-aio-deploy/conf/layer.conf             | 2 +-
+ meta-openstack-compute-deploy/conf/layer.conf         | 2 +-
+ meta-openstack-compute-test-config/conf/layer.conf    | 2 +-
+ meta-openstack-controller-deploy/conf/layer.conf      | 2 +-
+ meta-openstack-controller-test-config/conf/layer.conf | 2 +-
+ meta-openstack-qemu/conf/layer.conf                   | 2 +-
+ meta-openstack-swift-deploy/conf/layer.conf           | 2 +-
+ 7 files changed, 7 insertions(+), 7 deletions(-)
 
-PGh0bWw+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIgY29udGVudD0i
-dGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyIgc3R5bGU9
-ImRpc3BsYXk6bm9uZTsiPiBQIHttYXJnaW4tdG9wOjA7bWFyZ2luLWJvdHRvbTowO30gPC9zdHls
-ZT4NCjwvaGVhZD4NCjxib2R5IGRpcj0ibHRyIj4NCjxkaXYgY2xhc3M9ImVsZW1lbnRUb1Byb29m
-IiBzdHlsZT0ibGluZS1oZWlnaHQ6IDIwcHg7IG1hcmdpbi10b3A6IDFlbTsgbWFyZ2luLWJvdHRv
-bTogMWVtOyBmb250LWZhbWlseTogQXB0b3MsIEFwdG9zX0VtYmVkZGVkRm9udCwgQXB0b3NfTVNG
-b250U2VydmljZSwgQ2FsaWJyaSwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmOyBmb250LXNpemU6IDEx
-cHQ7IGNvbG9yOiByZ2IoMCwgMCwgMCk7Ij4NCkhpIEJydWNlLDwvZGl2Pg0KPGRpdiBjbGFzcz0i
-ZWxlbWVudFRvUHJvb2YiIHN0eWxlPSJsaW5lLWhlaWdodDogMjBweDsgbWFyZ2luLXRvcDogMWVt
-OyBtYXJnaW4tYm90dG9tOiAxZW07IGZvbnQtZmFtaWx5OiBBcHRvcywgQXB0b3NfRW1iZWRkZWRG
-b250LCBBcHRvc19NU0ZvbnRTZXJ2aWNlLCBDYWxpYnJpLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWY7
-IGZvbnQtc2l6ZTogMTFwdDsgY29sb3I6IHJnYigwLCAwLCAwKTsiPg0KVGhhbmsgeW91IGZvciB5
-b3VyIHJlc3BvbnNlLjwvZGl2Pg0KPGRpdiBjbGFzcz0iZWxlbWVudFRvUHJvb2YiIHN0eWxlPSJs
-aW5lLWhlaWdodDogMjBweDsgbWFyZ2luLXRvcDogMWVtOyBtYXJnaW4tYm90dG9tOiAxZW07IGZv
-bnQtZmFtaWx5OiBBcHRvcywgQXB0b3NfRW1iZWRkZWRGb250LCBBcHRvc19NU0ZvbnRTZXJ2aWNl
-LCBDYWxpYnJpLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWY7IGZvbnQtc2l6ZTogMTFwdDsgY29sb3I6
-IHJnYigwLCAwLCAwKTsiPg0KV2UgYXJlIGN1cnJlbnRseSBtaWdyYXRpbmcgZnJvbSBZb2N0byA8
-aT5TY2FydGhnYXAgKDUuMCBMVFMpPC9pPiZuYnNwO3RvIDxpPldyeW5vc2UgKDYuMCBMVFMpPC9p
-PiZuYnNwO2FuZCBub3RpY2VkIHRoYXQgdGhlDQo8aT53cnlub3NlPC9pPiZuYnNwO2JyYW5jaCBp
-cyBub3cgYXZhaWxhYmxlIGluIHRoZSBtZXRhLXZpcnR1YWxpemF0aW9uIGxheWVyLjwvZGl2Pg0K
-PGRpdiBjbGFzcz0iZWxlbWVudFRvUHJvb2YiIHN0eWxlPSJsaW5lLWhlaWdodDogMjBweDsgbWFy
-Z2luLXRvcDogMWVtOyBtYXJnaW4tYm90dG9tOiAxZW07IGZvbnQtZmFtaWx5OiBBcHRvcywgQXB0
-b3NfRW1iZWRkZWRGb250LCBBcHRvc19NU0ZvbnRTZXJ2aWNlLCBDYWxpYnJpLCBIZWx2ZXRpY2Es
-IHNhbnMtc2VyaWY7IGZvbnQtc2l6ZTogMTFwdDsgY29sb3I6IHJnYigwLCAwLCAwKTsiPg0KQ291
-bGQgeW91IHBsZWFzZSBhbHNvIHNoYXJlIHRoZSBrZXkgY2hhbmdlcyBpbiBXcnlub3NlIGNvbXBh
-cmVkIHRvIFNjYXJ0aGdhcD8gU3BlY2lmaWNhbGx5LCBpbmZvcm1hdGlvbiBzaW1pbGFyIHRvIHRo
-ZSBZb2N0byA2LjAgcmVsZWFzZSBub3RlcyB3b3VsZCBiZSB2ZXJ5IGhlbHBmdWwgZm9yIG91ciBt
-aWdyYXRpb24sIGluY2x1ZGluZzo8L2Rpdj4NCjx1bD4NCjxsaSBzdHlsZT0iZm9udC1mYW1pbHk6
-IEFwdG9zLCBBcHRvc19FbWJlZGRlZEZvbnQsIEFwdG9zX01TRm9udFNlcnZpY2UsIENhbGlicmks
-IEhlbHZldGljYSwgc2Fucy1zZXJpZjsgZm9udC1zaXplOiAxMXB0OyBjb2xvcjogcmdiKDAsIDAs
-IDApOyBsaW5lLWhlaWdodDogMjBweDsiPg0KTmV3IGZlYXR1cmVzIC8gZW5oYW5jZW1lbnRzPC9s
-aT48bGkgc3R5bGU9ImZvbnQtZmFtaWx5OiBBcHRvcywgQXB0b3NfRW1iZWRkZWRGb250LCBBcHRv
-c19NU0ZvbnRTZXJ2aWNlLCBDYWxpYnJpLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWY7IGZvbnQtc2l6
-ZTogMTFwdDsgY29sb3I6IHJnYigwLCAwLCAwKTsgbGluZS1oZWlnaHQ6IDIwcHg7Ij4NCjxkaXYg
-cm9sZT0icHJlc2VudGF0aW9uIj5NYWpvciByZWNpcGUgdmVyc2lvbiB1cGdyYWRlczwvZGl2Pg0K
-PC9saT48bGkgc3R5bGU9ImZvbnQtZmFtaWx5OiBBcHRvcywgQXB0b3NfRW1iZWRkZWRGb250LCBB
-cHRvc19NU0ZvbnRTZXJ2aWNlLCBDYWxpYnJpLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWY7IGZvbnQt
-c2l6ZTogMTFwdDsgY29sb3I6IHJnYigwLCAwLCAwKTsgbGluZS1oZWlnaHQ6IDIwcHg7Ij4NCk5l
-d2x5IGFkZGVkIHBhY2thZ2VzPC9saT48bGkgc3R5bGU9ImZvbnQtZmFtaWx5OiBBcHRvcywgQXB0
-b3NfRW1iZWRkZWRGb250LCBBcHRvc19NU0ZvbnRTZXJ2aWNlLCBDYWxpYnJpLCBIZWx2ZXRpY2Es
-IHNhbnMtc2VyaWY7IGZvbnQtc2l6ZTogMTFwdDsgY29sb3I6IHJnYigwLCAwLCAwKTsgbGluZS1o
-ZWlnaHQ6IDIwcHg7Ij4NClJlbW92ZWQgb3IgZGVwcmVjYXRlZCBwYWNrYWdlczwvbGk+PGxpIHN0
-eWxlPSJmb250LWZhbWlseTogQXB0b3MsIEFwdG9zX0VtYmVkZGVkRm9udCwgQXB0b3NfTVNGb250
-U2VydmljZSwgQ2FsaWJyaSwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmOyBmb250LXNpemU6IDExcHQ7
-IGNvbG9yOiByZ2IoMCwgMCwgMCk7IGxpbmUtaGVpZ2h0OiAyMHB4OyI+DQpQYWNrYWdlIHNwbGl0
-cyBhbmQgcnVudGltZSBiZWhhdmlvciBjaGFuZ2VzPC9saT48bGkgc3R5bGU9ImZvbnQtZmFtaWx5
-OiBBcHRvcywgQXB0b3NfRW1iZWRkZWRGb250LCBBcHRvc19NU0ZvbnRTZXJ2aWNlLCBDYWxpYnJp
-LCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWY7IGZvbnQtc2l6ZTogMTFwdDsgY29sb3I6IHJnYigwLCAw
-LCAwKTsgbGluZS1oZWlnaHQ6IDIwcHg7Ij4NClBBQ0tBR0VDT05GSUcgYW5kIGRlZmF1bHQgYmVo
-YXZpb3IgY2hhbmdlczwvbGk+PGxpIHN0eWxlPSJmb250LWZhbWlseTogQXB0b3MsIEFwdG9zX0Vt
-YmVkZGVkRm9udCwgQXB0b3NfTVNGb250U2VydmljZSwgQ2FsaWJyaSwgSGVsdmV0aWNhLCBzYW5z
-LXNlcmlmOyBmb250LXNpemU6IDExcHQ7IGNvbG9yOiByZ2IoMCwgMCwgMCk7IGxpbmUtaGVpZ2h0
-OiAyMHB4OyI+DQo8ZGl2IHJvbGU9InByZXNlbnRhdGlvbiI+UmVjb21tZW5kZWQgbWlncmF0aW9u
-IGFjdGlvbnM8L2Rpdj4NCjwvbGk+PGxpIHN0eWxlPSJmb250LWZhbWlseTogQXB0b3MsIEFwdG9z
-X0VtYmVkZGVkRm9udCwgQXB0b3NfTVNGb250U2VydmljZSwgQ2FsaWJyaSwgSGVsdmV0aWNhLCBz
-YW5zLXNlcmlmOyBmb250LXNpemU6IDExcHQ7IGNvbG9yOiByZ2IoMCwgMCwgMCk7Ij4NCjxkaXYg
-Y2xhc3M9ImVsZW1lbnRUb1Byb29mIiByb2xlPSJwcmVzZW50YXRpb24iPktub3duIGlzc3VlcyBp
-ZiBhbnk8L2Rpdj4NCjwvbGk+PC91bD4NCjxkaXYgY2xhc3M9ImVsZW1lbnRUb1Byb29mIiBzdHls
-ZT0ibGluZS1oZWlnaHQ6IDIwcHg7IG1hcmdpbi10b3A6IDFlbTsgbWFyZ2luLWJvdHRvbTogMWVt
-OyBmb250LWZhbWlseTogQXB0b3MsIEFwdG9zX0VtYmVkZGVkRm9udCwgQXB0b3NfTVNGb250U2Vy
-dmljZSwgQ2FsaWJyaSwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmOyBmb250LXNpemU6IDExcHQ7IGNv
-bG9yOiByZ2IoMCwgMCwgMCk7Ij4NClRoYW5rIHlvdSBmb3IgeW91ciBzdXBwb3J0LjwvZGl2Pg0K
-PGRpdiBjbGFzcz0iZWxlbWVudFRvUHJvb2YiIHN0eWxlPSJsaW5lLWhlaWdodDogMjBweDsgbWFy
-Z2luLXRvcDogMWVtOyBtYXJnaW4tYm90dG9tOiAxZW07IGNvbG9yOiByZ2IoMCwgMCwgMCk7Ij4N
-CjxzcGFuIHN0eWxlPSJmb250LWZhbWlseTogQXB0b3MsIEFwdG9zX0VtYmVkZGVkRm9udCwgQXB0
-b3NfTVNGb250U2VydmljZSwgQ2FsaWJyaSwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmOyBmb250LXNp
-emU6IDExcHQ7Ij5SZWdhcmRzLDxicj4NCkRlZXBhazwvc3Bhbj48c3BhbiBzdHlsZT0iZm9udC1m
-YW1pbHk6IENhbGlicmksIEFyaWFsLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWY7IGZvbnQtc2l6ZTog
-MTJwdDsiPjxicj4NCjwvc3Bhbj48L2Rpdj4NCjxociBzdHlsZT0iZGlzcGxheTogaW5saW5lLWJs
-b2NrOyB3aWR0aDogOTglOyI+DQo8ZGl2IHN0eWxlPSJmb250LWZhbWlseTogQ2FsaWJyaSwgQXJp
-YWwsIEhlbHZldGljYSwgc2Fucy1zZXJpZjsgZm9udC1zaXplOiAxMnB0OyBjb2xvcjogcmdiKDAs
-IDAsIDApOyI+DQo8Yj5Gcm9tOjwvYj4mbmJzcDtCcnVjZSBBc2hmaWVsZCAmbHQ7YnJ1Y2UuYXNo
-ZmllbGRAZ21haWwuY29tJmd0Ozxicj4NCjxiPlNlbnQ6PC9iPiZuYnNwO0ZyaWRheSwgTWF5IDgs
-IDIwMjYgMzowNiBBTTxicj4NCjxiPlRvOjwvYj4mbmJzcDtEZWVwYWsgUmF0aG9yZSAtWCAoZGVl
-cmF0aG8gLSBFIElORk9DSElQUyBQUklWQVRFIExJTUlURUQgYXQgQ2lzY28pICZsdDtkZWVyYXRo
-b0BjaXNjby5jb20mZ3Q7PGJyPg0KPGI+Q2M6PC9iPiZuYnNwO21ldGEtdmlydHVhbGl6YXRpb25A
-bGlzdHMueW9jdG9wcm9qZWN0Lm9yZyAmbHQ7bWV0YS12aXJ0dWFsaXphdGlvbkBsaXN0cy55b2N0
-b3Byb2plY3Qub3JnJmd0OzsgVmlyYWwgQ2hhdmRhICh2Y2hhdmRhKSAmbHQ7dmNoYXZkYUBjaXNj
-by5jb20mZ3Q7PGJyPg0KPGI+U3ViamVjdDo8L2I+Jm5ic3A7UmU6IG1ldGEtdmlydHVhbGl6YXRp
-b246IFdyeW5vc2UgKFlvY3RvIDYuMCkgUmVsZWFzZSBUaW1lbGluZSA8L2Rpdj4NCjxkaXYgc3R5
-bGU9ImZvbnQtZmFtaWx5OiBDYWxpYnJpLCBBcmlhbCwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmOyBm
-b250LXNpemU6IDEycHQ7IGNvbG9yOiByZ2IoMCwgMCwgMCk7Ij4NCjxicj4NCjwvZGl2Pg0KPGRp
-diBzdHlsZT0iZGlyZWN0aW9uOiBsdHI7IGZvbnQtc2l6ZTogOS43NXB0OyI+PGJyPg0KPC9kaXY+
-DQo8ZGl2IHN0eWxlPSJkaXJlY3Rpb246IGx0cjsiPjxicj4NCjwvZGl2Pg0KPGRpdiBzdHlsZT0i
-ZGlyZWN0aW9uOiBsdHI7Ij5PbiBXZWQsIE1heSA2LCAyMDI2IGF0IDc6MTHigK9BTSBEZWVwYWsg
-UmF0aG9yZSAtWCAoZGVlcmF0aG8gLSBFIElORk9DSElQUyBQUklWQVRFIExJTUlURUQgYXQgQ2lz
-Y28pICZsdDs8YSBocmVmPSJtYWlsdG86ZGVlcmF0aG9AY2lzY28uY29tIiBpZD0iT1dBYWM1MWM5
-M2YtYmU1YS02YTA5LWJkZDQtZGM0YTRkNzRmNjRlIiBjbGFzcz0iT1dBQXV0b0xpbmsiPmRlZXJh
-dGhvQGNpc2NvLmNvbTwvYT4mZ3Q7IHdyb3RlOjwvZGl2Pg0KPGJsb2NrcXVvdGUgc3R5bGU9Im1h
-cmdpbjogMHB4IDBweCAwcHggMC44ZXg7IHBhZGRpbmctbGVmdDogMWV4OyBib3JkZXItbGVmdDog
-MXB4IHNvbGlkIHJnYigyMDQsIDIwNCwgMjA0KTsiPg0KPGRpdiBzdHlsZT0iZGlyZWN0aW9uOiBs
-dHI7IHRleHQtYWxpZ246IGxlZnQ7IHRleHQtaW5kZW50OiAwcHg7IGJhY2tncm91bmQtY29sb3I6
-IHJnYigyNTUsIDI1NSwgMjU1KTsgbWFyZ2luOiAwcHg7IGZvbnQtZmFtaWx5OiBBcHRvcywgQXB0
-b3NfRW1iZWRkZWRGb250LCBBcHRvc19NU0ZvbnRTZXJ2aWNlLCBDYWxpYnJpLCBIZWx2ZXRpY2Es
-IHNhbnMtc2VyaWY7IGZvbnQtc2l6ZTogMTFwdDsgY29sb3I6IHJnYigwLCAwLCAwKTsiPg0KSGkg
-QnJ1Y2UsPC9kaXY+DQo8ZGl2IHN0eWxlPSJkaXJlY3Rpb246IGx0cjsgdGV4dC1hbGlnbjogbGVm
-dDsgdGV4dC1pbmRlbnQ6IDBweDsgYmFja2dyb3VuZC1jb2xvcjogcmdiKDI1NSwgMjU1LCAyNTUp
-OyBtYXJnaW46IDBweDsgZm9udC1mYW1pbHk6IEFwdG9zLCBBcHRvc19FbWJlZGRlZEZvbnQsIEFw
-dG9zX01TRm9udFNlcnZpY2UsIENhbGlicmksIEhlbHZldGljYSwgc2Fucy1zZXJpZjsgZm9udC1z
-aXplOiAxMXB0OyBjb2xvcjogcmdiKDAsIDAsIDApOyI+DQo8YnI+DQo8L2Rpdj4NCjxkaXYgc3R5
-bGU9ImRpcmVjdGlvbjogbHRyOyB0ZXh0LWFsaWduOiBsZWZ0OyB0ZXh0LWluZGVudDogMHB4OyBi
-YWNrZ3JvdW5kLWNvbG9yOiByZ2IoMjU1LCAyNTUsIDI1NSk7IG1hcmdpbjogMHB4OyBmb250LWZh
-bWlseTogQXB0b3MsIEFwdG9zX0VtYmVkZGVkRm9udCwgQXB0b3NfTVNGb250U2VydmljZSwgQ2Fs
-aWJyaSwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmOyBmb250LXNpemU6IDExcHQ7IGNvbG9yOiByZ2Io
-MCwgMCwgMCk7Ij4NCkkgaG9wZSB0aGlzIG1lc3NhZ2UgZmluZHMgeW91IHdlbGwuPC9kaXY+DQo8
-ZGl2IHN0eWxlPSJkaXJlY3Rpb246IGx0cjsgdGV4dC1hbGlnbjogbGVmdDsgdGV4dC1pbmRlbnQ6
-IDBweDsgbGluZS1oZWlnaHQ6IDIwcHg7IGJhY2tncm91bmQtY29sb3I6IHJnYigyNTUsIDI1NSwg
-MjU1KTsgbWFyZ2luOiAxZW0gMHB4OyBmb250LWZhbWlseTogQXB0b3MsIEFwdG9zX0VtYmVkZGVk
-Rm9udCwgQXB0b3NfTVNGb250U2VydmljZSwgQ2FsaWJyaSwgSGVsdmV0aWNhLCBzYW5zLXNlcmlm
-OyBmb250LXNpemU6IDExcHQ7IGNvbG9yOiByZ2IoMCwgMCwgMCk7Ij4NCkkgdW5kZXJzdGFuZCB0
-aGF0IHRoZSBZb2N0byBQcm9qZWN0IDxiPldyeW5vc2UgKDYuMCk8L2I+Jm5ic3A7cmVsZWFzZSBp
-cyBub3cgYXZhaWxhYmxlLCBhbmQgdGhhdCBjb3JyZXNwb25kaW5nIGJyYW5jaGVzIGhhdmUgYmVl
-biBjcmVhdGVkIGZvcg0KPGI+T0UtQ29yZSwgbWV0YS1vcGVuZW1iZWRkZWQsIG1ldGEtc2VsaW51
-eCwgYW5kIGJpdGJha2U8L2I+LiBIb3dldmVyLCBJIGRvIG5vdCBzZWUgYSBkZWRpY2F0ZWQNCjxi
-PldyeW5vc2UgYnJhbmNoPC9iPiZuYnNwO2ZvciB0aGUgPGI+bWV0YS12aXJ0dWFsaXphdGlvbjwv
-Yj4mbmJzcDtsYXllciBhdCB0aGlzIHRpbWUuPC9kaXY+DQo8ZGl2IHN0eWxlPSJkaXJlY3Rpb246
-IGx0cjsgdGV4dC1hbGlnbjogbGVmdDsgdGV4dC1pbmRlbnQ6IDBweDsgbGluZS1oZWlnaHQ6IDIw
-cHg7IGJhY2tncm91bmQtY29sb3I6IHJnYigyNTUsIDI1NSwgMjU1KTsgbWFyZ2luOiAxZW0gMHB4
-OyBmb250LWZhbWlseTogQXB0b3MsIEFwdG9zX0VtYmVkZGVkRm9udCwgQXB0b3NfTVNGb250U2Vy
-dmljZSwgQ2FsaWJyaSwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmOyBmb250LXNpemU6IDExcHQ7IGNv
-bG9yOiByZ2IoMCwgMCwgMCk7Ij4NCkNvdWxkIHlvdSBwbGVhc2UgYWR2aXNlIHdoZXRoZXIgdGhl
-cmUgaXMgYSBwbGFubmVkIHRpbWVsaW5lIGZvciBXcnlub3NlIHJlbGVhc2UgZm9yDQo8Yj5tZXRh
-LXZpcnR1YWxpemF0aW9uPC9iPiZuYnNwO2xheWVyPzwvZGl2Pg0KPC9ibG9ja3F1b3RlPg0KPGRp
-diBzdHlsZT0iZGlyZWN0aW9uOiBsdHI7Ij48YnI+DQo8L2Rpdj4NCjxkaXYgc3R5bGU9ImRpcmVj
-dGlvbjogbHRyOyBmb250LXNpemU6IDkuNzVwdDsiPlRoZXJlJ3Mgbm8gcGxhbm5lZCB0aW1lbGlu
-ZSwganVzdCB3aGVuIGl0IHBhc3NlcyBteSByZWxlYXNlIHRlc3RpbmcuIEknbSBkZWJ1Z2dpbmcg
-YSBmZXcgdGhpbmdzIG5vdy48L2Rpdj4NCjxkaXYgc3R5bGU9ImRpcmVjdGlvbjogbHRyOyBmb250
-LXNpemU6IDkuNzVwdDsiPjxicj4NCjwvZGl2Pg0KPGRpdiBzdHlsZT0iZGlyZWN0aW9uOiBsdHI7
-IGZvbnQtc2l6ZTogOS43NXB0OyI+VGhhdCBiZWluZyBzYWlkLCBJIGV4cGVjdCBpdCdsbCBiZSBh
-Ym91dCBtaWQgbmV4dCB3ZWVrIHdoZW4gSSdtIHJlYWR5IHRvIG1ha2UgdGhlIGJyYW5jaC48L2Rp
-dj4NCjxkaXYgc3R5bGU9ImRpcmVjdGlvbjogbHRyOyBmb250LXNpemU6IDkuNzVwdDsiPjxicj4N
-CjwvZGl2Pg0KPGRpdiBzdHlsZT0iZGlyZWN0aW9uOiBsdHI7IGZvbnQtc2l6ZTogOS43NXB0OyI+
-QnJ1Y2U8L2Rpdj4NCjxkaXYgc3R5bGU9ImRpcmVjdGlvbjogbHRyOyI+PGJyPg0KPC9kaXY+DQo8
-ZGl2IHN0eWxlPSJkaXJlY3Rpb246IGx0cjsiPiZuYnNwOzwvZGl2Pg0KPGJsb2NrcXVvdGUgc3R5
-bGU9Im1hcmdpbjogMHB4IDBweCAwcHggMC44ZXg7IHBhZGRpbmctbGVmdDogMWV4OyBib3JkZXIt
-bGVmdDogMXB4IHNvbGlkIHJnYigyMDQsIDIwNCwgMjA0KTsiPg0KPGRpdiBzdHlsZT0iZGlyZWN0
-aW9uOiBsdHI7IHRleHQtYWxpZ246IGxlZnQ7IHRleHQtaW5kZW50OiAwcHg7IGxpbmUtaGVpZ2h0
-OiAyMHB4OyBiYWNrZ3JvdW5kLWNvbG9yOiByZ2IoMjU1LCAyNTUsIDI1NSk7IG1hcmdpbjogMWVt
-IDBweDsgZm9udC1mYW1pbHk6IEFwdG9zLCBBcHRvc19FbWJlZGRlZEZvbnQsIEFwdG9zX01TRm9u
-dFNlcnZpY2UsIENhbGlicmksIEhlbHZldGljYSwgc2Fucy1zZXJpZjsgZm9udC1zaXplOiAxMXB0
-OyBjb2xvcjogcmdiKDAsIDAsIDApOyI+DQpUaGFuayB5b3UgZm9yIHlvdXIgdGltZSBhbmQgZ3Vp
-ZGFuY2UuPC9kaXY+DQo8ZGl2IHN0eWxlPSJkaXJlY3Rpb246IGx0cjsgdGV4dC1hbGlnbjogbGVm
-dDsgdGV4dC1pbmRlbnQ6IDBweDsgbGluZS1oZWlnaHQ6IDIwcHg7IGJhY2tncm91bmQtY29sb3I6
-IHJnYigyNTUsIDI1NSwgMjU1KTsgbWFyZ2luOiAxZW0gMHB4OyBmb250LWZhbWlseTogQXB0b3Ms
-IEFwdG9zX0VtYmVkZGVkRm9udCwgQXB0b3NfTVNGb250U2VydmljZSwgQ2FsaWJyaSwgSGVsdmV0
-aWNhLCBzYW5zLXNlcmlmOyBmb250LXNpemU6IDExcHQ7IGNvbG9yOiByZ2IoMCwgMCwgMCk7Ij4N
-ClJlZ2FyZHMsPGJyPg0KRGVlcGFrPC9kaXY+DQo8L2Jsb2NrcXVvdGU+DQo8ZGl2IHN0eWxlPSJk
-aXJlY3Rpb246IGx0cjsiPjxicj4NCjwvZGl2Pg0KPGRpdiBzdHlsZT0iZGlyZWN0aW9uOiBsdHI7
-Ij48YnI+DQo8L2Rpdj4NCjxkaXYgc3R5bGU9ImRpcmVjdGlvbjogbHRyOyI+LS08L2Rpdj4NCjxk
-aXYgc3R5bGU9ImRpcmVjdGlvbjogbHRyOyI+LSBUaG91IHNoYWx0IG5vdCBmb2xsb3cgdGhlIE5V
-TEwgcG9pbnRlciwgZm9yIGNoYW9zIGFuZCBtYWRuZXNzIGF3YWl0IHRoZWUgYXQgaXRzIGVuZDxi
-cj4NCi0gJnF1b3Q7VXNlIHRoZSBmb3JjZSBIYXJyeSZxdW90OyAtIEdhbmRhbGYsIFN0YXIgVHJl
-ayBJSTxicj4NCjxicj4NCjwvZGl2Pg0KPC9ib2R5Pg0KPC9odG1sPg0K
+diff --git a/meta-openstack-aio-deploy/conf/layer.conf b/meta-openstack-aio-deploy/conf/layer.conf
+index 67a1ef01..fde31817 100644
+--- a/meta-openstack-aio-deploy/conf/layer.conf
++++ b/meta-openstack-aio-deploy/conf/layer.conf
+@@ -7,7 +7,7 @@ BBFILES += "${LAYERDIR}/recipes*/*/*.bb ${LAYERDIR}/recipes*/*/*.bbappend"
+ BBFILE_COLLECTIONS += "openstack-aio-deploy-layer"
+ BBFILE_PATTERN_openstack-aio-deploy-layer := "^${LAYERDIR}/"
+ BBFILE_PRIORITY_openstack-aio-deploy-layer = "6"
+-LAYERSERIES_COMPAT_openstack-aio-deploy-layer = "thud warrior"
++LAYERSERIES_COMPAT_openstack-aio-deploy-layer = "wrynose"
+ 
+ LAYERDEPENDS_openstack-aio-deploy-layer = " \
+ 	core \
+diff --git a/meta-openstack-compute-deploy/conf/layer.conf b/meta-openstack-compute-deploy/conf/layer.conf
+index 047d006e..4af5ef96 100644
+--- a/meta-openstack-compute-deploy/conf/layer.conf
++++ b/meta-openstack-compute-deploy/conf/layer.conf
+@@ -7,7 +7,7 @@ BBFILES += "${LAYERDIR}/recipes*/*/*.bb ${LAYERDIR}/recipes*/*/*.bbappend"
+ BBFILE_COLLECTIONS += "openstack-compute-deploy-layer"
+ BBFILE_PATTERN_openstack-compute-deploy-layer := "^${LAYERDIR}/"
+ BBFILE_PRIORITY_openstack-compute-deploy-layer = "6"
+-LAYERSERIES_COMPAT_openstack-compute-deploy-layer = "thud warrior"
++LAYERSERIES_COMPAT_openstack-compute-deploy-layer = "wrynose"
+ 
+ LAYERDEPENDS_openstack-compute-deploy-layer = " \
+ 	core \
+diff --git a/meta-openstack-compute-test-config/conf/layer.conf b/meta-openstack-compute-test-config/conf/layer.conf
+index 9525e202..90ed8dcb 100644
+--- a/meta-openstack-compute-test-config/conf/layer.conf
++++ b/meta-openstack-compute-test-config/conf/layer.conf
+@@ -8,7 +8,7 @@ BBFILE_COLLECTIONS += "openstack-compute-test-config-layer"
+ BBFILE_PATTERN_openstack-compute-test-config-layer := "^${LAYERDIR}/"
+ # We want this layer to have higher priority than any other meta-openstack layers
+ BBFILE_PRIORITY_openstack-compute-test-config-layer = "100"
+-LAYERSERIES_COMPAT_openstack-compute-test-config-layer = "thud warrior"
++LAYERSERIES_COMPAT_openstack-compute-test-config-layer = "wrynose"
+ 
+ LAYERDEPENDS_openstack-compute-test-config-layer = " \
+ 	openstack-compute-deploy-layer \
+diff --git a/meta-openstack-controller-deploy/conf/layer.conf b/meta-openstack-controller-deploy/conf/layer.conf
+index d1512b8e..a50e400d 100644
+--- a/meta-openstack-controller-deploy/conf/layer.conf
++++ b/meta-openstack-controller-deploy/conf/layer.conf
+@@ -7,7 +7,7 @@ BBFILES += "${LAYERDIR}/recipes*/*/*.bb ${LAYERDIR}/recipes*/*/*.bbappend"
+ BBFILE_COLLECTIONS += "openstack-controller-deploy-layer"
+ BBFILE_PATTERN_openstack-controller-deploy-layer := "^${LAYERDIR}/"
+ BBFILE_PRIORITY_openstack-controller-deploy-layer = "6"
+-LAYERSERIES_COMPAT_openstack-controller-deploy-layer = "thud warrior"
++LAYERSERIES_COMPAT_openstack-controller-deploy-layer = "wrynose"
+ 
+ LAYERDEPENDS_openstack-controller-deploy-layer = " \
+ 	core \
+diff --git a/meta-openstack-controller-test-config/conf/layer.conf b/meta-openstack-controller-test-config/conf/layer.conf
+index aa8a0ee3..71a9d014 100644
+--- a/meta-openstack-controller-test-config/conf/layer.conf
++++ b/meta-openstack-controller-test-config/conf/layer.conf
+@@ -8,7 +8,7 @@ BBFILE_COLLECTIONS += "openstack-controller-test-config-layer"
+ BBFILE_PATTERN_openstack-controller-test-config-layer := "^${LAYERDIR}/"
+ # We want this layer to have higher priority than any other meta-openstack layers
+ BBFILE_PRIORITY_openstack-controller-test-config-layer = "100"
+-LAYERSERIES_COMPAT_openstack-controller-test-config-layer = "thud warrior"
++LAYERSERIES_COMPAT_openstack-controller-test-config-layer = "wrynose"
+ 
+ LAYERDEPENDS_openstack-controller-test-config-layer = " \
+ 	openstack-controller-deploy-layer \
+diff --git a/meta-openstack-qemu/conf/layer.conf b/meta-openstack-qemu/conf/layer.conf
+index bf629d0b..1fbee947 100644
+--- a/meta-openstack-qemu/conf/layer.conf
++++ b/meta-openstack-qemu/conf/layer.conf
+@@ -7,7 +7,7 @@ BBFILES += "${LAYERDIR}/recipes*/*/*.bb ${LAYERDIR}/recipes*/*/*.bbappend"
+ BBFILE_COLLECTIONS += "openstack-qemu-layer"
+ BBFILE_PATTERN_openstack-qemu-layer := "^${LAYERDIR}/"
+ BBFILE_PRIORITY_openstack-qemu-layer = "6"
+-LAYERSERIES_COMPAT_openstack-qemu-layer = "thud warrior"
++LAYERSERIES_COMPAT_openstack-qemu-layer = "wrynose"
+ 
+ LAYERDEPENDS_openstack-qemu-layer = " \
+ 	core \
+diff --git a/meta-openstack-swift-deploy/conf/layer.conf b/meta-openstack-swift-deploy/conf/layer.conf
+index 5f7a7fa0..14e82fad 100644
+--- a/meta-openstack-swift-deploy/conf/layer.conf
++++ b/meta-openstack-swift-deploy/conf/layer.conf
+@@ -7,7 +7,7 @@ BBFILES += "${LAYERDIR}/recipes*/*/*.bb ${LAYERDIR}/recipes*/*/*.bbappend"
+ BBFILE_COLLECTIONS += "openstack-swift-deploy-layer"
+ BBFILE_PATTERN_openstack-swift-deploy-layer := "^${LAYERDIR}/"
+ BBFILE_PRIORITY_openstack-swift-deploy-layer = "6"
+-LAYERSERIES_COMPAT_openstack-swift-deploy-layer = "thud warrior"
++LAYERSERIES_COMPAT_openstack-swift-deploy-layer = "wrynose"
+ 
+ LAYERDEPENDS_openstack-swift-deploy-layer = " \
+ 	core \
+-- 
+2.34.1
 
---_000_DM4PR11MB61899ADDF4A6BBAC27BEA9E1C4072DM4PR11MB6189namp_--
 
