@@ -2,210 +2,379 @@ Return-Path: <zhixiong.chi@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BA0CCD5BD2
-	for <webhook@archiver.kernel.org>; Mon, 25 May 2026 09:26:43 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.12477.1779701196225523632
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A972CCD5BC8
+	for <webhook@archiver.kernel.org>; Mon, 25 May 2026 09:34:43 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.12548.1779701681465567062
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 25 May 2026 02:26:36 -0700
+ Mon, 25 May 2026 02:34:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=H9YNf0EA;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=9605e3e175=zhixiong.chi@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64P6TLLj1823333
-	for <meta-virtualization@lists.yoctoproject.org>; Mon, 25 May 2026 09:26:35 GMT
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=iji92rDr;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=9605e3e175=zhixiong.chi@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64P6P4UM1717810
+	for <meta-virtualization@lists.yoctoproject.org>; Mon, 25 May 2026 02:34:41 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=PPS06212021;
-	 bh=xflh8k0T12oFjHyVYEt1sDYE058T6OxmtAMLwmmKGgM=; b=H9YNf0EAvdKW
-	jCt+Owc/kdI59imaBsIhqgTTuFqZgLwTX//pH1LLJFMIENvfUtVdpaFRARDtiEwy
-	apMWm+zp3M+o1NYXho313lhdjjDtLjvJzLLtpPrU2MjJ5n4KthjiaNN7xJ4BJelr
-	id6HvKCUrgPYWI68sediJyK6dFSi0lQNCpE7MOw1fFeLR+lBu1LafPNCkSNlCF1n
-	LgrOlG5/jokmj2j6/eGKpZKsCXaPwYHx7MqN10/qSzlRIiFjlXUTPdEizPF6T34H
-	Xr33YTC6ZTrHBTbtjBdki1k+f/Ih6Sr6mIb4EdAZOHD/DPWmSRokEzfqJceKVjxK
-	g+/ByyJDzQ==
-Received: from bn1pr04cu002.outbound.protection.outlook.com (mail-eastus2azon11010045.outbound.protection.outlook.com [52.101.56.45])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4eb1f02n58-3
+	 h=content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=PPS06212021; bh=iGFA3ywsqrFo3NDb4QB0mr
+	EPlQOv3bZSttlI932SfGk=; b=iji92rDr/076uMNe3rLFb2VYNpdrJXdk9us7wA
+	SvaAOutq52swcZm58OmtQMbuwgaRe2wAawYo541L8X63eNdOnXtO+mASDJPfsXfH
+	6GQxCQUmDhnct8GvN9EHj/DUDwqKk1SnNGNJfW2kJAMVvSz4q7uez/EY7fYFe35B
+	rdZPKNvqPOIWy0La35Kql2SvCueWdRsNc6RwGokoAENw3x7NagKkZTV4p5sFxrjC
+	ZQot0a7bhiDb3Hz/qxOZ4IeF97wV5b+U3PMshn63k+GjpGBWgCrfyas6BAnCaYBu
+	mYPRgvJYukFAUucU+4r7o02hvZHFWiCmMx0wemby6TtT6oKQ==
+Received: from sn4pr2101cu001.outbound.protection.outlook.com (mail-southcentralusazon11012064.outbound.protection.outlook.com [40.93.195.64])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4ebbrej4m1-1
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
-	for <meta-virtualization@lists.yoctoproject.org>; Mon, 25 May 2026 09:26:35 +0000 (GMT)
+	for <meta-virtualization@lists.yoctoproject.org>; Mon, 25 May 2026 02:34:40 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=S/EmBXIw9911ZOE8jIgG4a6JhzmjIRpygJarhy3ywgBRajQvsdN0yPrg6i7/LzikOjB0TzlwpzgKnI+IdV7Jqe8Kk0NQvptqcZaaUyHsr84kmOqe0rrQflTIfXPWPgavmFFlTPgar5lT0Y7RkJGmp6sEXm6XiC+GXBounJYyiUfi10j2J0gpzNwJk3ebj4i9xVV4DdTwr7tYQvJ5z4gemFOObG70464NzbBUC4+afvNK5gVIvsK0Nh2mMDB/wmn6MA67h0MIIOLp6oDDmOGCACBiMnxzORWZNRDI47taoYtsCf9GmuXnOGlbuAwUUPdeK8fh6Rdxzeg8JAwMIdDInQ==
+ b=YvQiR+AQRDoualNmfrgu5WKeN4iDVYmKGMdq0Aotj3Hs/5ixG5Kjl+OunOQEtCfig7W5c4CcraOmEODXcL7nbfwwOmdSuwfADQuCfepbEIuGNeBWA/tjVrOcpHhDamX/+iFnnHnfSHvYlavmA9IOPtlBn65pA1MSPPxQf2LndSE1eYmTKrWpsW+UJc79GEb/G3OyOgg28qXTxrlqRWsBOzHpkGLE+GW9lzE0iOe8Xrk2HDuN/2QjCqoj6zoISyykW1gB/RS/Y4GePeUsYRct5UF4ejcOSETJ8ZmWfZSikWKdNV0iR6BjZ12tdzgCc8ysvPG7kt9xcO/MPoB/SzBCng==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xflh8k0T12oFjHyVYEt1sDYE058T6OxmtAMLwmmKGgM=;
- b=IigcAFSUVpNALT6tyBVkrB0/zpawzyi8gjmS1x+9AjocBxAlDrO0TAy16ShBWeNA3cfNX1FXgBuIYWRvWRgSIjHlMrr/8xb5gHgmd/BXOqGqgd4mSYHUM1vtbVxtXM+1KjvQgA5zkxKNLGx2WRGrHMAo0Qnau2iVRhIcQ6CkhhTegjnIXTNVV71gFjWUABIHqN02n+10s77ktagwdNWLXcDSa/qbxvqkmggtG/WBY+h9VSB716iAOg9x2c4Yr2gllJCab1d3/7wwHRLdUZnDRxeBBAJCT8RSPZunZelAwUsblRlXDbmksUbWN580wYL245udMB2AHM/RYM66VFfEKA==
+ bh=iGFA3ywsqrFo3NDb4QB0mrEPlQOv3bZSttlI932SfGk=;
+ b=KlSU4+ED8AYkaWd4nuJ5DAtQ9oon+hIBs22sYuZVLMwKlYTMtPd47G5dbPqtTgEQrBjIkaNdFgRVg1Nvo9ofNMtpfo2ATwKslt0XTJoFP1oNgnAGlen1gYMI65P5p2/fssj9oGK51S0cAPVVcK/+TyNRTPICN3wlv4qhg9sGmwuaQW0unaLc38Su4a0G80jdpXURYTGCve9H/wL/avuwK8+eYc2emsKM0R6iqrWKtna36bLbt5cfrWbJ8okg+ZLMrSl5LUTELALzTqO3jwrv052xcBYVuNw5E5D1DIMrpodIuEySIJ4tmqvJFoYqUsq3/N0TBfR2dIOIHuxvJKp6gA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 Received: from DS4PPF75D68BA1B.namprd11.prod.outlook.com
- (2603:10b6:f:fc02::32) by DS4PR11MB9532.namprd11.prod.outlook.com
- (2603:10b6:8:34b::9) with Microsoft SMTP Server (version=TLS1_2,
+ (2603:10b6:f:fc02::32) by PH7PR11MB6676.namprd11.prod.outlook.com
+ (2603:10b6:510:1ae::7) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.48.20; Mon, 25 May
- 2026 09:26:24 +0000
+ 2026 09:34:37 +0000
 Received: from DS4PPF75D68BA1B.namprd11.prod.outlook.com
  ([fe80::881a:ac0:4717:712a]) by DS4PPF75D68BA1B.namprd11.prod.outlook.com
  ([fe80::881a:ac0:4717:712a%6]) with mapi id 15.21.0048.019; Mon, 25 May 2026
- 09:26:24 +0000
-From: Zhixiong Chi <zhixiong.chi@windriver.com>
+ 09:34:37 +0000
+Content-Type: multipart/alternative;
+ boundary="------------GtyuZhsDqy0ledBeQ7vWt0h2"
+Message-ID: <cb39c079-2e4f-497e-9c78-101d06104937@windriver.com>
+Date: Mon, 25 May 2026 17:34:30 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [meta-virtualization][PATCH 1/4] crun: upgrade to 1.27.1
+Content-Language: en-US
 To: meta-virtualization@lists.yoctoproject.org
-Subject: [meta-virtualization][PATCH 3/4] cri-tools: upgrade to 1.36.0
-Date: Mon, 25 May 2026 09:26:14 +0000
-Message-ID: <20260525092615.742129-3-zhixiong.chi@windriver.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260525092615.742129-1-zhixiong.chi@windriver.com>
-References: <20260525092615.742129-1-zhixiong.chi@windriver.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: BY5PR13CA0012.namprd13.prod.outlook.com
- (2603:10b6:a03:180::25) To DS4PPF75D68BA1B.namprd11.prod.outlook.com
+References: <18B2C4CEFC6290D9.3236635@lists.yoctoproject.org>
+From: "Chi, Zhixiong" <zhixiong.chi@windriver.com>
+In-Reply-To: <18B2C4CEFC6290D9.3236635@lists.yoctoproject.org>
+X-ClientProxiedBy: SE2P216CA0110.KORP216.PROD.OUTLOOK.COM
+ (2603:1096:101:2c4::10) To DS4PPF75D68BA1B.namprd11.prod.outlook.com
  (2603:10b6:f:fc02::32)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS4PPF75D68BA1B:EE_|DS4PR11MB9532:EE_
-X-MS-Office365-Filtering-Correlation-Id: 43846e16-ce46-4c51-ed2f-08deba3fb0d9
+X-MS-TrafficTypeDiagnostic: DS4PPF75D68BA1B:EE_|PH7PR11MB6676:EE_
+X-MS-Office365-Filtering-Correlation-Id: 01bc8a49-952d-4c66-7a23-08deba40d65f
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|52116014|376014|366016|38350700014|22082099003|18002099003|56012099003|3023799007|11063799006|6133799003;
+	BCL:0;ARA:13230040|4022899009|376014|366016|1800799024|3023799007|11063799006|6133799003|56012099003|18002099003|22082099003|8096899003|13003099007;
 X-Microsoft-Antispam-Message-Info: 
-	xDdsaXXArPo8zvvKiqBJdw8+FjFAtPSCY3ypw7Ai6m2tN1NBvY7qNCljclq3cbIrIIs4eW6kNAIQbzNEe3SwjcWvXrePcwooftesFifEM3UU0atW5YtD0DYjBQWV90S3ltpBJsajFD3avk2ujtcO3V/aNtOd/WLVWotDXZIZ30FL5BidgImc1g+sfVMoHIo8Axlhvb70xJFz4cB8fkgsLMuYTCvdV6e09xHpvmpBqvT3IaNQ8yFelbfgLYjRm794DOLe7RKlbRye/q7qzK4uXCZZLrmeqwGyEJ7zGHFEiJ6TPhZAVaPrwnoOSH7IvKjoVMXwS/CusCwjmhaWv0/bJ6IK/fy6CmpScqySIIlASLi4lkE3shktXy7+i23qUqUe6rmkWj8AUKvoiFphdrhZNuX7kQCg1IzSw7F7kDs6dXsuWPrldQX1DlhGqiYHxfDOSJa4llfOQXi/48ct5Cz7nu+ONYOEhfPdvP1ISnI+d+8tTRaJqeTzvTLWuYf/2IOKJiYWBqVLChoBQXyYvuchVjmYEEYfdLJuBXLC5Ye8wsFJbOiR0ZZsb9cYMjW0AThidI8E+VVAHIa7Sxv0d/SP1QQUc708UDg5dcdTWtZCoH+qWod7WEtzt+a+tPdiw/gTrdy+HLDaUWunYB8EG8Qn9O7opOqTW2SrIjnWVhRpOdGavd7UAJ0sH4OkDG92lg2fwdnKDDPfjokket+9q3p0xA==
+	B4SmJsAY47BJEGVqYqd2b9hHfEcXNaNte7F4ao5LT3et5WZnZIvrM7g/jGBDX0bJ/+3qCn+Q8dgX/GG4C+IADsJ8NvFok4ZIJhF81UTTC5vpYmcrou7jZKQfHolpLBmOWLxa3cbrQOi9KY8riR/vtiNbiHZ9q+Cd4w55OPaUkOh8OZSiGW67mA/4oAXEEV899SkgswWfr93E43iZqVsA20Ssx5rvl+NTTXDz22Qmv9AP8tp6VY1hhzOslB0WPNmkjD0ZSvBxcwPrfVancBzqLYN60ixorRLtYd/IqMi9KwD9FTegsL7WSTb+NMSbNVwFUiSYqDERx9C1z3UbaYOL7NxUqh47HpuSvHdWwcA5FnNkX8Jx9V3IYXtQjJW7Bytj6AJd00LDmos9+JWVcZmlwyz9kD9nl4/5kWp3GUnaxb9MO5+IKTRCsDiPmg9acWYCAyS4sJVIkOaSfQ8E4g/YIYzfdU90veKmUPu0RsaWz2+JIaopSqk9f/7UpDORQuXL8vR2mYoK4D03ZJgToa9iB3l9I42CeYuY7Js5mFl5ye9NtwqFLZ6QyzkKirDA68GBpGuKREov9JzxQNAnu1et5PC4dTmlbIvZQwV0U0KyCCLj7J7tPc2EMkEc0+FhkIYhCuKk+/Nq7lBdPffmyY0MJw==
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS4PPF75D68BA1B.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(52116014)(376014)(366016)(38350700014)(22082099003)(18002099003)(56012099003)(3023799007)(11063799006)(6133799003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS4PPF75D68BA1B.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(4022899009)(376014)(366016)(1800799024)(3023799007)(11063799006)(6133799003)(56012099003)(18002099003)(22082099003)(8096899003)(13003099007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?WwDxGVmmHoO/hqSR0sX5D3/XnO6jJDyMF1tZCYZwXx38w/ZTS0eul8bwSdj7?=
- =?us-ascii?Q?Kfzy634x1PRjOKJvgbkwoLkM+H+/IX98W0vyRiYxUU1PPct+I3i4tYOjTMl0?=
- =?us-ascii?Q?grqsA12NSy/1XKwJJOBgPFb55RkHboWIC8neg+YnnodUBOOd7eDMmhUwE47d?=
- =?us-ascii?Q?rpRjNxd0Ys4DXc7NNzpO4RugcHLLriF9r0ist+vIGw1F6IYvBbrTm1X0u0vN?=
- =?us-ascii?Q?CHv/vbWqafsrjB+R4ctzrIOzD4eIM73yK6bx2dsxxzRuasEoNRfZ2l8UA/hA?=
- =?us-ascii?Q?Mbnhh0tIbUXTIQAEJRYXr4wuOjuevMdjqg2KpNORKC4ZN4WFGg7gZUNjCAqw?=
- =?us-ascii?Q?SU9NcZIVL8xnEjUMIauMoEFTFgpWoTxP8LknceEKGUdtHsAawf2fy67TKVA+?=
- =?us-ascii?Q?ZMmPxkBwHef3eo5XU7/php+w4ikb5d1w2L2NnkYaKa5OGCE9tQF+tvTV2Al4?=
- =?us-ascii?Q?kGUisHmUHF3LPIixz5ZxiHIokhrDBtZd56NijoGHlBNNsyNFcTReVnAjOt1J?=
- =?us-ascii?Q?vbF2cwizOyspJaSUnK7zVMehQz0tqGVNHmT8byCRBW0fZSH2OHKbrtZ7GfBp?=
- =?us-ascii?Q?OfU6Hd5vT9188f6tvh07vMvHwW7ENrSxwDbrbPbB9ZYnu7+Tqcwc/hb1vHGa?=
- =?us-ascii?Q?yfVc7m65T9Jx5iQFa2ME5rwF7is7uIRsX3SfcZpZI18bwh2ErckLvnD1q4CE?=
- =?us-ascii?Q?XUHKK8Jr6xFmPBUD42K5d+KQVFYrQ/AKrmw9jtpMrHpDWmGD1BvwltD+uw+L?=
- =?us-ascii?Q?Sl3Ex+4yNR7Sj/GupXgOyBmDbanPL8n48jPEIFopnu0zWEbVyZHLENCrMtVm?=
- =?us-ascii?Q?ChhNrKTxz3DgqDOa2jmQY/mt2C2UAI9DSxJtYYbqUaFydwO2GMOcvgtW8WqT?=
- =?us-ascii?Q?L/aq02+6JhS4bhFxl4bPvIdBQEk4+MUPiv4yDzQ+Bd0gzkMVng/aEsb345Nr?=
- =?us-ascii?Q?pgQwy4uBVOacXyhs5E+4GIzu/7nylwnPT1hUcLx4NaMj7bn/PJ0YdBZMyaWp?=
- =?us-ascii?Q?aUyQ7uLZrN4MjH7SBl79bj+E9aNqkj4NqUmeS/PSSmQaysHadEsQcc/qD2H2?=
- =?us-ascii?Q?A81cIRsqy1rKdBay1H5cw8v8V/1IPP1Kp1TynNzC/AYaAaoWr2UDmnBdxRUj?=
- =?us-ascii?Q?EPgfB3NShClCk6zcXxxdVu26vIZeVxN6m12Gl4wvRlLgk3SqBLB1CxIduQTp?=
- =?us-ascii?Q?9mtyqN74uMiitJ9zn9hDB4bWUVjgE8jFKZhZxEd87JCDxP3PIQVCTAONZlFk?=
- =?us-ascii?Q?SgZg3SFOsPjR5reohJeBozAk72ni9bKZ6lEnovlrepphezZipgOQXnHbjukm?=
- =?us-ascii?Q?aQvKV9KWOew+RK0w24nhorVgU1qoODdQgC+UviIpFZPavbvJ/XibBTnd8FEg?=
- =?us-ascii?Q?h6JgXQFPPhrbB19HTqALgvSDAz6lORd0i+2dPqx6jUUREyTEWQGrZthD9h/N?=
- =?us-ascii?Q?XKWnS1NJO1vjl3+iWxgbafZE23YSYJqPxiiQqs0E6vMCJAowHExhXjLieue0?=
- =?us-ascii?Q?PTGj2rX7CmD6dQIte4igT72o7o1K5tSSLw/B/+vN4qQjwjZcs2aITjLmRUPK?=
- =?us-ascii?Q?mzwF1AYPVMkgOB2FhQKTu4xq4EdnPHGQe/gjboMJcROwLgkUHLl0P22L/CII?=
- =?us-ascii?Q?XmAxrje5HUonRX0f9YNxO4hpy4Braqf64Y/7r7XjuU7j8Ug7XFYPtqJPBlPp?=
- =?us-ascii?Q?DKGxxHxmsDP4TclpMxZap+ZYjVjz40RfelJa4d7krrOcg48vYHOYYWw2B3A8?=
- =?us-ascii?Q?f7ANIboUlEO/WMNh+e2gf/uIbKD7W5M=3D?=
+	=?utf-8?B?Z21xNEp2a2wrdUpvS2Jwb3lsUmtSZS9lc3BnaXlFeE5oSWVkelBsbVhtOExR?=
+ =?utf-8?B?ZGpiYW9qRHIrYmZVSzlLOWFqOFZEZEZjL21WNFJHdGdCTzVoSVJ2Rnh2TTNE?=
+ =?utf-8?B?M2dHeVl6d3BkQzFVNUJRNnRSTy9CZE5FYUFCTU9VcUU2SFA3NzAyUzBEWEcy?=
+ =?utf-8?B?M1RWb1NaK1hzMXFVSEFJUU5BMmlQOG9qTzZsOGQvRk5zN1BsZyt6TzlDM3Vx?=
+ =?utf-8?B?V1NKZUNxUzVmYnE3TVNNZkw5cTQzS0tXMEk5Y2ovT011TDlSdmZtSFhMQmpn?=
+ =?utf-8?B?eE1KUjlseVFoc09pSG1EQjJRbXdGM0RHd1N4aWFFNmhmRVVldHI1R3pQcllm?=
+ =?utf-8?B?YWQ0bzNnQkdORFdBanVTZ25tLzRhSTZwSW5DbVJYQVYyZWY2L1BvcUJNbW9M?=
+ =?utf-8?B?MTlRVkVaMTJqZjI5VjZtcTZ4ZHNZNXZoNmlzVmxvdjUrZDR3TW8xa0ZhYTA3?=
+ =?utf-8?B?UjNZWDBjN3NTL3JLdllkVlFLOTVlWEhPUFBsV1YrN0QwRHdNODM1WCthMVlD?=
+ =?utf-8?B?T3UvSy82bWFMWUtWelFOV2V6bjFHRnZVL2RkVk9UaXdGa2pVa0hQejB4anBh?=
+ =?utf-8?B?WkRTbXVCajVYc0MyM2NFQU5ybW5RODBZTk1Fd25GcXlxeUlSaTFQekZEUU9Q?=
+ =?utf-8?B?TGpuN1c4ZGlsR0NOZjFuazMzbS9vNWhTUnpXU05aeDNTTGJ0aTJydXZjQzZw?=
+ =?utf-8?B?WndnaXIzdTNpazhCVFJZUnJFZ1lma3NEeUZoU3UyUWlncjNSNW85aFNKSmVp?=
+ =?utf-8?B?a1RzcXBMYzdLRzEyUmY4MFBKRW9ON1FTa2tNRGo3UjNLeXNGQktOUlZTZlFE?=
+ =?utf-8?B?T0RBb1VnQWZ3dzZtM1c5UWFTbVdqa3JpWTdvZnhKa2YzVFJub3Z2dTlFd21u?=
+ =?utf-8?B?MVlsaDVYS0FrU3Z3dW1kNkpVTi9qT1RUOFR3YWMvRVhzNVNaeFl0QmNld3Nh?=
+ =?utf-8?B?ZXNLUnNDZjVUNkxnbDJSR1ZtcjZuQmp6Zkc4WFdBRStEVU9WbnNHM09qN0pG?=
+ =?utf-8?B?cU9BYzhKYUJpTWVrMVNPc2h0akZsNVJjQ2F5R2pDenJTaTU4QTdQQy9IKzYr?=
+ =?utf-8?B?NnlFVndRT3ZwandzWGQyeTdXdlZYa2diS0pDRTVwN1pNcWJNKzNZeFZUdEJq?=
+ =?utf-8?B?b3NJSFkzdDZvSVpWZm42d2xKMnA0YW52dWJtWkdRdC9LNTV1RXVyUkE4dkhs?=
+ =?utf-8?B?TW5ncE1FejB2QlZ4VDVEcHMyK1A2eXdqMDZ4WFY5djJmbm4wTlQxdHNsSVNI?=
+ =?utf-8?B?amlyamZtRnNjR2VYNEdNS3AwUUU2TlF0REdvNmt3WFEwaVN6aWhUdmF0MXhS?=
+ =?utf-8?B?WHZyT0RVT2lpSEg1dk9kMXRqTHM4Tys0b25kbU1JdkhJSElHMEJBd1BZaVIv?=
+ =?utf-8?B?UFdMM3NwVTBzSVNwM3h0Smt1S0RHa2QwWlNFT05jeUNwOVpQMVJoWm95MjRl?=
+ =?utf-8?B?bmhmMHFvenorbWtoYXpLWTlEZy9sQjgwUm0zRmhDRnNBaU9HZzE3V0NzcUx5?=
+ =?utf-8?B?YW1rckJ2U2w5N3JpdGN1RHZRMlJEU0FudStveDQyVWhuZkJ1RFBHZUMyb3Jk?=
+ =?utf-8?B?di9aZ0JxajhLTEtIZjVGM0FEOUJjcXZPREs4aW5Bb0RWYjgwOS82N1h5R2dJ?=
+ =?utf-8?B?ejVCaFVUYy9UYUtYbWdTdDdqYUNDN05xdlNGU3JOVkN0ZUhlU1RNWmFCanlT?=
+ =?utf-8?B?cnBQUlNPay90NHU1YkdFQmRyN1FOVjUwRGU1UGJMN2RNMUd6VFpEWmxXSjZZ?=
+ =?utf-8?B?eC85aE56WHR2TEFiWkFYSHJKNVJpZGFLbGtqS2tMQlV2b1JWMzNwL1pWNTBH?=
+ =?utf-8?B?R21UeFVvVE9wVVVYOG04citab3h5ZEJMcUFsZm9lVkRBRUZzQTYvSllmTXpU?=
+ =?utf-8?B?d0dUREU5V29LMmZCeS9pc3VLT1hlNE12VnBuZ2V0cnlsVDJnVmhoeEpsZHJJ?=
+ =?utf-8?B?bHZxTkdyUlR0M0ZXMHB2cnJvdWpIUjI4VmNHRzBmMTE1YWxGQWY2Ny9qZnlT?=
+ =?utf-8?B?blZwa1lYTTlZRmZNUWlNK3g3LzlscTh1VjhwNE01N1IvbVRiOFo2NWJ0d1lT?=
+ =?utf-8?B?TDNOekJ0TnRaY296S0xGYTZjaklVTWpVNXNSOWZMcGQ3SzNZUEp0WFNnbXlE?=
+ =?utf-8?B?MEJTQ1E3YTVlenBQR3RnZENpSUVDOVhrNUdmSHdyQVNrVnhKTmRyY21xQ3Ar?=
+ =?utf-8?B?aGpoMUhzQjdIelZvMEsrdTkwUlN5M0Z2MklVVnBGaG1sSC93TnF4V3lVTHRW?=
+ =?utf-8?B?VVRHSkZ3bjlMKzdKOGlKb0l3YWt0aW5yUmI4MDBIT0tHcGNiSTg4WVZWSUU4?=
+ =?utf-8?B?YTVNWlB6TDdsamlldVlpem9pdmhITnJWTTQrVmpnMDJLdk5rVTZwUGNLbzdO?=
+ =?utf-8?Q?X9qJhVHhcAmqnqDg=3D?=
 X-Exchange-RoutingPolicyChecked: 
-	tHgXxQzkWL6+pTuBXro1CCHKhjGhfipbmp1mF1ueIA5XjR4M1Zp3pJn9wNaIIG9jFx59uQByBLusQcxg1pWBEN6DhcXigurGvRZRj3reaHdKpiq8LQKvOVHpprEU3iFcO0EoMGS1QFPsPCRLwndTwY4Wq9P8J6XbdvS4VjGurLosXCJ7RUD5h85wT9I0l0DOZCfvd7BW79NzzIm1LnbKuYvcF9O4AzuLGwr+T+N31SKN++x4asvh4//ESoAxb/2JrSZMlglfxtrOvT4W9r+SK5U3ofHTGv6pL4ez0zUMdhvN8CrPsmodDCRG4qkYv0GAr1u231G0PpKfzh6KZqoiKw==
+	Xp+h1M5HvkjPpX5qjUC1mQNu2yUm8p7X3V30OeQAz7FsslXoAAuTz98ID18/UnBGJBSEre6cLwOZeJkU2Y3YEOoZraQ7RRKE2qRzEldKDVtAHtfe8rJWYTH7cpjYXyT2CIpF8RJGNSrqRxBFfzVtORfvrrkwu4B0FhLqg/EuH2+g+mYAuVrJvYdRss6+2uoLtwO+wbcu/UwR19DEiTq299Z7u3xgUKQA+jYNU8W+S6XNGgRsFSoEDR/sG/m2oNjKKNUS+LW19kXEUG54R/h7q2wdS94NYt9rrBjJXSiJwKH6i2y8VFlZsQa07Hm+ZOWR82fC1L4VWSvexS5Jri6k6g==
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 43846e16-ce46-4c51-ed2f-08deba3fb0d9
+X-MS-Exchange-CrossTenant-Network-Message-Id: 01bc8a49-952d-4c66-7a23-08deba40d65f
 X-MS-Exchange-CrossTenant-AuthSource: DS4PPF75D68BA1B.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 May 2026 09:26:24.7149
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 May 2026 09:34:37.1560
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: h5BdSpiPnpfnkwLejxPxNXpGW9V7uy3l7k8laoah2fE89rB96OKdI9soi8RuFYnJrcPihOGHQ7EvuoWsf5Edm/TgbhgW1Rm7zbNr+stwbJM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PR11MB9532
-X-Proofpoint-ORIG-GUID: Y0WE4Mz7XERZuJHPvxYkIlL0AtZNz9aG
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTI1MDA5NiBTYWx0ZWRfX+f52JbkeWxzF
- wS7igdmXTIwXRvHm4fSOEyNc+u4kE761Mqq7Er7usMT9a9qYb+xtg1QoN5M/9bEw70mgBRL0QUr
- LuAgwdEHYOBjGauL3z9GId/WgaY28b60TZDEuJoUvE/V0hGL/RIzeLND+JZ+cWngyNt5dNmXghl
- q6lNyIQqPuhoZz+m+6/Yq8hYnSKzi3LVOy2OWHmSIDUkOUT7Y/CAjCoielUBwBQZjXZH2FXu1jh
- Ak6poVPnjLxAJue1hACFMjavuV/Mx8BOt1LceOB9/tz2OBrGjp0IrzbdgQAeErEDNuIl2NsxzLd
- 3XmDja/1u4g3l+S6E2V2so5AjOj9xt5CLtsQIjscDwDLVi6GqjrGYpMp9a5H/cKE2l9B+ve7GAT
- 32ekSlU3cWSR9wHZc5eebgWUD1pG3EY5KE7CMYLcUtOFM30cO61r6tvmAsogAl9pe/VByycph2c
- mL1oxbrFL1vuW7rjuyA==
-X-Proofpoint-GUID: Y0WE4Mz7XERZuJHPvxYkIlL0AtZNz9aG
-X-Authority-Analysis: v=2.4 cv=PZXPQChd c=1 sm=1 tr=0 ts=6a1415cb cx=c_pps
- a=jCeAeT6ZWnoYcCLLvvbvuw==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+X-MS-Exchange-CrossTenant-UserPrincipalName: WeZ1FLf9XGHYWtCaG4OTKaASyWsTtA5jH6FeMqmXvMHxdWgm8tPF/GXRMVuBFCDbVjIIeMV2Kiphnv1+LjJmyI9qN0cmuVY+8Nq6wM941yI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB6676
+X-Proofpoint-GUID: 4YqkNIK6xg61kdX3cfgIq3x1P4Obgkw6
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTI1MDA5OCBTYWx0ZWRfXyMC8ahdzBjUm
+ 4RzzeflYyxHkxEn5QYRU9XhR2zvLpOETUdcXFQIjCRNAua7WCN2Wj2rg+0uQkcrHnEV/QW8dG8B
+ vKrIqXas60ovmJHvXf5H5csnbZqedHbeluA6pu+cHYft2DdSn/6KoHmP6a/Swpv85/E1W1ShNkY
+ TiW+UtohP8XvKrZ1qNoZpOeSQa+dZ0xYQ7hyPVc8pHHT4GFpNJ6+t1V9o7GaDe5WwDufL8BEilC
+ Ho9rYsRbSuHUtrRludOyHg6flnb8al6v6G/j+2WDKmwDZOsausji67n49YN6NqZ1TjyXdVn1kME
+ pJgOAFBPX2LvKiFg9yHdDZ0msCcZ1UpvgD4CeFYspkWrHbiYSB23twyjXqrqFksX9VHdYv/tEUY
+ JsikYVDZqO04wcpZFX2R2lfTBRKNSHgkT5Iou7LuBKnKsvT4qfTO3wIExdtBCZ4H3frwUxXpXyS
+ G4roKHCyc3SrTumpyaA==
+X-Authority-Analysis: v=2.4 cv=IMUyzAvG c=1 sm=1 tr=0 ts=6a1417b0 cx=c_pps
+ a=bXbGeLyqALV9C4BWsqKi7Q==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
  a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
  a=xqWC_Br6kY4A:10 a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=bi6dqmuHe4P4UrxVR6um:22 a=klDOsUkWDRETUCZYPvoE:22 a=pM9yUfARAAAA:8
- a=t7CeM3EgAAAA:8 a=NEAV23lmAAAA:8 a=3JueAJEtnetfFf-77kkA:9
- a=YH-7kEGJnRg4CV3apUU-:22 a=FdTzh2GWekK77mhwV6Dw:22
+ a=bi6dqmuHe4P4UrxVR6um:22 a=iKiJcTA2PjBS6x5JeXcw:22 a=iGHA9ds3AAAA:8
+ a=t7CeM3EgAAAA:8 a=NEAV23lmAAAA:8 a=KKoXKvp_6dRTJP1tzVYA:9 a=QEXdDO2ut3YA:10
+ a=cZzSYzjnrrY0a2LKeQ4A:9 a=lRe4fhy6ftgaRmuV:21 a=_W_S_7VecoQA:10
+ a=lqcHg5cX4UMA:10 a=nM-MV4yxpKKO9kiQg6Ot:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-ORIG-GUID: 4YqkNIK6xg61kdX3cfgIq3x1P4Obgkw6
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-05-25_02,2026-05-18_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 adultscore=0 malwarescore=0 phishscore=0 impostorscore=0
- suspectscore=0 spamscore=0 bulkscore=0 clxscore=1015 lowpriorityscore=0
+ spamscore=0 impostorscore=0 malwarescore=0 bulkscore=0 lowpriorityscore=0
+ phishscore=0 priorityscore=1501 clxscore=1015 suspectscore=0 adultscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2605130000 definitions=main-2605250096
+ reason=mlx scancount=1 engine=8.22.0-2605130000 definitions=main-2605250098
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Mon, 25 May 2026 09:26:43 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9805
+ <meta-virtualization@lists.yoctoproject.org>; Mon, 25 May 2026 09:34:43 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9807
 
-Bumping to version 1.36.0, which comprises the following commits:
+--------------GtyuZhsDqy0ledBeQ7vWt0h2
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-    82f28d67 bumpo to release version of 1.36
-    a846c714 fix typo: intead -> instead
-    3f28b1c4 Add SergeyKanzhelev and tallclair to sig-node-approvers
-    58a1a780 Bump crate-ci/typos from 1.45.0 to 1.45.1
-    31b19db9 Bump actions/cache from 5.0.4 to 5.0.5
-    507358f9 Bump actions/upload-artifact from 7.0.0 to 7.0.1
-    3f90c7cf Bump k8s.io dependencies to v0.36.0-rc.0
-    27c856e8 more gitignore
-    30434d06 bump go tp 1.26.2
-    7d5c1228 Bump crate-ci/typos from 1.44.0 to 1.45.0
-    aad688ce Bump google.golang.org/grpc from 1.79.3 to 1.80.0 in the gomod group
-    af533d44 Bump actions/setup-go from 6.3.0 to 6.4.0
-    ffa8e166 validate: add KubernetesPodUIDLabel to container attributes test
-    bdffd30d validate: use subset checks for labels and annotations
-    661c011e removed deprecated TODO
-    746da572 Use k8s v0.36.0-beta.0
-    c98d29d2 Remediate GHSA-6g7g-w4f8-9c9x (bummp jsonparser to 1.1.2)
-    58323188 Remediate CVE-2026-33186 (bump grpc to 1.79.3)
-    d2f54006 validate: add conformance tests for attribute preservation
-    a8b6fcf6 Revert "Disable runc integration tests due to AppArmor issue"
-    c633d342 adopt the latest cri client
-    76ce604b Bump actions/cache from 5.0.3 to 5.0.4
-    5077d436 feat: add prettier validation to Makefile and AGENTS.md
-    43768b05 crictl: replace utilyaml with sigs.k8s.io/yaml
-    3866e388 Add verify rule to Makefile
-    cdd3d738 created a local copy of AggregateGoroutines
-    14a98847 start using k8s.io/streaming
+Hi Bruce,
 
-Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
+Please ignore this patch series, I make a mistake to send this to master 
+branch:
+[meta-virtualization][PATCH 1/4] crun: upgrade to 1.27.1
+[meta-virtualization][PATCH 2/4] cri-o: upgrade to 1.36.0
+[meta-virtualization][PATCH 3/4] cri-tools: upgrade to 1.36.0
+[meta-virtualization][PATCH 4/4] kubernetes: upgrade to 1.35.5
+
+Thanks.
+
+On 5/25/26 17:26, Zhixiong Chi via lists.yoctoproject.org wrote:
+> Bumping crun to version v1.27.1, which comprises the following commits:
+>
+>      3ec076b3 NEWS: tag 1.27.1
+>      60b2e8f8 tests, podman: pin to 5.8
+>      3010d29d tests: fix failure in user namespace
+>      d6ffa244 krun: remove unused variable
+>      1c5c2f7d linux: pass correct propagation to get_bind_mount
+>      d97461f0 tests: add regression test for idmapped mount leak
+>      59cfa8b8 Revert "linux: skip redundant MS_PRIVATE propagation mounts"
+>      f1b70c0b tests: add subcgroup cleanup test
+>      6177dd86 cgroup: fix recursive cgroup cleanup consuming caller's fd
+>      6c58b0c6 fix -Wdiscarded-qualifiers warnings
+>      acb904c6 krun: Build passt argv based on nitro variant
+>      8199cbb2 krun: implement support for passt networking
+>      7c2500df krun: ignore RAM configurations below 128MB
+>      23f7d9f0 krun: consolidate configuration in configure_vm
+>      04c19ac6 krun: process the vm configuration earlier
+>      81c21e0d handlers: add new hook to close fds
+>      d8813f3d .codespellrc: ignore passt
+>      94d7f641 utils: fix apparmor profile not applied in user namespaces
+>      805e6a44 libcrun: skip cgroup filesystem type check when cgroups are disabled
+>      4c530d43 libcrun: fall back to bind mount for /dev/console on read-only file systems
+>      a718a92c NEWS: tag 1.27
+>      6220914d nix: generate git-version.h in buildPhase
+>      9553f8b8 exec: strengthen -u value validation
+>      1bd7f424 exec: fix CVE-2026-30892
+>      5699da29 nix: fix zlib cross-compilation for s390x
+>      237f8100 nix: remove global overlay to eliminate rebuild cascade
+>      b37594dc release: use path: flake ref to avoid libgit2 safe.directory
+>      aaa6056c release: seed /nix from container image when empty
+>      c4e3fd22 linux: set MS_PRIVATE on detached mounts from get_bind_mount()
+>      360621a3 Revert "container: skip sigaction reset in unblock_signals for the run path"
+>      5d1b0284 nix: migrate to flakes
+>      246a3367 nix: generate git-version.h in buildPhase
+>      3e9986bc nix: bump nixos/nix image from 2.24.9 to 2.34.2
+>      094c97f3 nix: update
+>      195f664f seccomp_notify: tighten crun_make_error input
+>      1d76be72 seccomp: tighten crun_make_error input
+>      62d3e852 container: tighten crun_make_error input
+>      254a8a75 linux: use open_tree+mount_setattr for device mounts
+>      2d6f4c0e linux: use open_tree+move_mount for masked paths
+>      45e62ce5 linux: use open_tree+mount_setattr for readonly paths
+>      f53aa376 linux: use mount_setattr for readonly remounts in finalize_mounts
+>      2dae2238 linux: skip redundant MS_PRIVATE propagation mounts
+>      38e17199 container: skip sigaction reset in unblock_signals for the run path
+>      4b66d8f0 cgroup: skip enable_controllers when joined via CLONE_INTO_CGROUP
+>      a59b186b linux: validate run.oci.mount_context_type annotation value
+>      16bd4e48 utils: do not use errno after success
+>
+> Signed-off-by: Zhixiong Chi<zhixiong.chi@windriver.com>
+> ---
+>   recipes-containers/crun/crun_git.bb | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/recipes-containers/crun/crun_git.bb b/recipes-containers/crun/crun_git.bb
+> index d2f7b63b..f4e489d5 100644
+> --- a/recipes-containers/crun/crun_git.bb
+> +++ b/recipes-containers/crun/crun_git.bb
+> @@ -3,7 +3,7 @@ LICENSE = "GPL-2.0-only"
+>   LIC_FILES_CHKSUM ="file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+>   PRIORITY = "optional"
+>   
+> -SRCREV_crun = "393509db566bedea037d1599c5a58b896f5d3b01"
+> +SRCREV_crun = "3ec076b3b6714ec2f1a10533cf18d5605a6de637"
+>   SRCREV_libocispec = "8b07b619df73a113f7721f1c7ce24f2572b04cea"
+>   SRCREV_ispec = "a4c6ade7bb82b316d45391f572727a63e268b252"
+>   SRCREV_rspec = "6f7b71c2d216403715f7364ac88dec88d9da989c"
+> @@ -19,7 +19,7 @@ SRC_URI = "git://github.com/containers/crun.git;branch=main;name=crun;protocol=h
+>              file://0002-libocispec-fix-array-items-parsing.patch;patchdir=libocispec \
+>             "
+>   
+> -PV = "1.26.0+git"
+> +PV = "1.27.1+git"
+>   
+>   inherit autotools-brokensep pkgconfig features_check
+>   
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#9803):https://lists.yoctoproject.org/g/meta-virtualization/message/9803
+> Mute This Topic:https://lists.yoctoproject.org/mt/119478154/3618679
+> Group Owner:meta-virtualization+owner@lists.yoctoproject.org
+> Unsubscribe:https://lists.yoctoproject.org/g/meta-virtualization/unsub [zhixiong.chi@windriver.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+--------------GtyuZhsDqy0ledBeQ7vWt0h2
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+<!DOCTYPE html><html data-lt-installed="true"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body style="padding-bottom: 1px;">
+    <p>Hi Bruce,<br>
+      <br>
+      Please ignore this patch series, I make a mistake to send this to
+      master branch:<br>
+      [meta-virtualization][PATCH 1/4] crun: upgrade to 1.27.1<br>
+      [meta-virtualization][PATCH 2/4] cri-o: upgrade to 1.36.0<br>
+      [meta-virtualization][PATCH 3/4] cri-tools: upgrade to 1.36.0<br>
+      [meta-virtualization][PATCH 4/4] kubernetes: upgrade to 1.35.5</p>
+    <p>Thanks.<br>
+    </p>
+    <div class="moz-cite-prefix">On 5/25/26 17:26, Zhixiong Chi via
+      lists.yoctoproject.org wrote:<br>
+    </div>
+    <blockquote type="cite" cite="mid:18B2C4CEFC6290D9.3236635@lists.yoctoproject.org">
+      <pre wrap="" class="moz-quote-pre">Bumping crun to version v1.27.1, which comprises the following commits:
+
+    3ec076b3 NEWS: tag 1.27.1
+    60b2e8f8 tests, podman: pin to 5.8
+    3010d29d tests: fix failure in user namespace
+    d6ffa244 krun: remove unused variable
+    1c5c2f7d linux: pass correct propagation to get_bind_mount
+    d97461f0 tests: add regression test for idmapped mount leak
+    59cfa8b8 Revert &quot;linux: skip redundant MS_PRIVATE propagation mounts&quot;
+    f1b70c0b tests: add subcgroup cleanup test
+    6177dd86 cgroup: fix recursive cgroup cleanup consuming caller's fd
+    6c58b0c6 fix -Wdiscarded-qualifiers warnings
+    acb904c6 krun: Build passt argv based on nitro variant
+    8199cbb2 krun: implement support for passt networking
+    7c2500df krun: ignore RAM configurations below 128MB
+    23f7d9f0 krun: consolidate configuration in configure_vm
+    04c19ac6 krun: process the vm configuration earlier
+    81c21e0d handlers: add new hook to close fds
+    d8813f3d .codespellrc: ignore passt
+    94d7f641 utils: fix apparmor profile not applied in user namespaces
+    805e6a44 libcrun: skip cgroup filesystem type check when cgroups are disabled
+    4c530d43 libcrun: fall back to bind mount for /dev/console on read-only file systems
+    a718a92c NEWS: tag 1.27
+    6220914d nix: generate git-version.h in buildPhase
+    9553f8b8 exec: strengthen -u value validation
+    1bd7f424 exec: fix CVE-2026-30892
+    5699da29 nix: fix zlib cross-compilation for s390x
+    237f8100 nix: remove global overlay to eliminate rebuild cascade
+    b37594dc release: use path: flake ref to avoid libgit2 safe.directory
+    aaa6056c release: seed /nix from container image when empty
+    c4e3fd22 linux: set MS_PRIVATE on detached mounts from get_bind_mount()
+    360621a3 Revert &quot;container: skip sigaction reset in unblock_signals for the run path&quot;
+    5d1b0284 nix: migrate to flakes
+    246a3367 nix: generate git-version.h in buildPhase
+    3e9986bc nix: bump nixos/nix image from 2.24.9 to 2.34.2
+    094c97f3 nix: update
+    195f664f seccomp_notify: tighten crun_make_error input
+    1d76be72 seccomp: tighten crun_make_error input
+    62d3e852 container: tighten crun_make_error input
+    254a8a75 linux: use open_tree+mount_setattr for device mounts
+    2d6f4c0e linux: use open_tree+move_mount for masked paths
+    45e62ce5 linux: use open_tree+mount_setattr for readonly paths
+    f53aa376 linux: use mount_setattr for readonly remounts in finalize_mounts
+    2dae2238 linux: skip redundant MS_PRIVATE propagation mounts
+    38e17199 container: skip sigaction reset in unblock_signals for the run path
+    4b66d8f0 cgroup: skip enable_controllers when joined via CLONE_INTO_CGROUP
+    a59b186b linux: validate run.oci.mount_context_type annotation value
+    16bd4e48 utils: do not use errno after success
+
+Signed-off-by: Zhixiong Chi <a class="moz-txt-link-rfc2396E" href="mailto:zhixiong.chi@windriver.com">&lt;zhixiong.chi@windriver.com&gt;</a>
 ---
- recipes-containers/cri-tools/cri-tools_git.bb | 4 ++--
+ recipes-containers/crun/crun_git.bb | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/recipes-containers/cri-tools/cri-tools_git.bb b/recipes-containers/cri-tools/cri-tools_git.bb
-index b2706311..0805e7a2 100644
---- a/recipes-containers/cri-tools/cri-tools_git.bb
-+++ b/recipes-containers/cri-tools/cri-tools_git.bb
-@@ -16,7 +16,7 @@ What is not in scope for this project? \
-     non-exist on the kube-apiserver. \
-  "
+diff --git a/recipes-containers/crun/crun_git.bb b/recipes-containers/crun/crun_git.bb
+index d2f7b63b..f4e489d5 100644
+--- a/recipes-containers/crun/crun_git.bb
++++ b/recipes-containers/crun/crun_git.bb
+@@ -3,7 +3,7 @@ LICENSE = &quot;GPL-2.0-only&quot;
+ LIC_FILES_CHKSUM = <a class="moz-txt-link-rfc2396E" href="file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263">&quot;file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263&quot;</a>
+ PRIORITY = &quot;optional&quot;
  
--SRCREV_cri-tools = "16d5673873fda6d333f8411778a35f5778998680"
-+SRCREV_cri-tools = "88d8ad9d40f82726fda53c2d271e6172b4c619c9"
- SRC_URI = "\
- 	git://github.com/kubernetes-sigs/cri-tools.git;branch=master;name=cri-tools;protocol=https;destsuffix=${GO_SRCURI_DESTSUFFIX} \
-         file://0001-build-allow-environmental-CGO-settings-and-pass-dont.patch \
-@@ -27,7 +27,7 @@ LIC_FILES_CHKSUM = "file://src/import/LICENSE;md5=e3fc50a88d0a364313df4b21ef20c2
+-SRCREV_crun = &quot;393509db566bedea037d1599c5a58b896f5d3b01&quot;
++SRCREV_crun = &quot;3ec076b3b6714ec2f1a10533cf18d5605a6de637&quot;
+ SRCREV_libocispec = &quot;8b07b619df73a113f7721f1c7ce24f2572b04cea&quot;
+ SRCREV_ispec = &quot;a4c6ade7bb82b316d45391f572727a63e268b252&quot;
+ SRCREV_rspec = &quot;6f7b71c2d216403715f7364ac88dec88d9da989c&quot;
+@@ -19,7 +19,7 @@ SRC_URI = &quot;git://github.com/containers/crun.git;branch=main;name=crun;protocol=h
+            <a class="moz-txt-link-freetext" href="file://0002-libocispec-fix-array-items-parsing.patch;patchdir=libocispec">file://0002-libocispec-fix-array-items-parsing.patch;patchdir=libocispec</a> \
+           &quot;
  
- GO_IMPORT = "import"
+-PV = &quot;1.26.0+git&quot;
++PV = &quot;1.27.1+git&quot;
  
--PV = "1.35.0+git"
-+PV = "1.36.0+git"
+ inherit autotools-brokensep pkgconfig features_check
  
- RPROVIDES:${PN} += "crictl"
- PACKAGES =+ "${PN}-critest"
--- 
-2.53.0
+</pre>
+      <br>
+      <fieldset class="moz-mime-attachment-header"></fieldset>
+      <pre wrap="" class="moz-quote-pre">
+-=-=-=-=-=-=-=-=-=-=-=-
+Links: You receive all messages sent to this group.
+View/Reply Online (#9803): <a class="moz-txt-link-freetext" href="https://lists.yoctoproject.org/g/meta-virtualization/message/9803">https://lists.yoctoproject.org/g/meta-virtualization/message/9803</a>
+Mute This Topic: <a class="moz-txt-link-freetext" href="https://lists.yoctoproject.org/mt/119478154/3618679">https://lists.yoctoproject.org/mt/119478154/3618679</a>
+Group Owner: <a class="moz-txt-link-abbreviated" href="mailto:meta-virtualization+owner@lists.yoctoproject.org">meta-virtualization+owner@lists.yoctoproject.org</a>
+Unsubscribe: <a class="moz-txt-link-freetext" href="https://lists.yoctoproject.org/g/meta-virtualization/unsub">https://lists.yoctoproject.org/g/meta-virtualization/unsub</a> [<a class="moz-txt-link-abbreviated" href="mailto:zhixiong.chi@windriver.com">zhixiong.chi@windriver.com</a>]
+-=-=-=-=-=-=-=-=-=-=-=-
 
+</pre>
+    </blockquote>
+  </body>
+  <lt-container></lt-container>
+</html>
+
+--------------GtyuZhsDqy0ledBeQ7vWt0h2--
 
