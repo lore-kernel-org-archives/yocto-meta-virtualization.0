@@ -1,617 +1,230 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <Haitao.Liu@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15C40CD5BD0
-	for <webhook@archiver.kernel.org>; Thu, 28 May 2026 03:03:27 +0000 (UTC)
-Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.3155.1779937405333572112
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A40DDCD5BD1
+	for <webhook@archiver.kernel.org>; Fri, 29 May 2026 02:39:50 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2392.1780022384496603207
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 27 May 2026 20:03:25 -0700
+ Thu, 28 May 2026 19:39:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=YW8fhkmy;
- spf=pass (domain: gmail.com, ip: 209.85.219.45, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-8acae26e564so156765676d6.2
-        for <meta-virtualization@lists.yoctoproject.org>; Wed, 27 May 2026 20:03:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779937404; x=1780542204; darn=lists.yoctoproject.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=nQIId7XmP6HMmKP5V+OSk6ifi4+la9aoXQvVWzKSPLE=;
-        b=YW8fhkmyS7Q9iQQmfI70drkAdjidAWpEiyww7jSqt3qNF7s5O0uVJUIN666Mi111kN
-         d3keHMPFO2Pl528V8rA90UoqbW51VP/HJ0ZmZqjrCEa+BEhQW7yje5uRsTf+aE5reZ4l
-         l6KOrhemB79yHk5tzPHp6oaJKsRhaOP7gqaJr+pltGxjXU39G82UsV1DSMWrNORt95/s
-         quDLbz0stTSweXOxuudSw87nAZVPXbTGLOdAqNTW3lxMDCD5ao9Ed6BqxWrwtelX+V8Q
-         KVgEIJENLUf8nWAO3qA28TUICWm9ugaLtCfuEiLSzoLc7HaaPwQGyQNfLS3eaZRJVAWp
-         KBug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779937404; x=1780542204;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nQIId7XmP6HMmKP5V+OSk6ifi4+la9aoXQvVWzKSPLE=;
-        b=WruDKbI/cER99W3QtEy2iYE2AAFGCGN+5518u/RSLAEn3WQJZVGvvqMfBjcJ7ex/mn
-         LItVSSVIYYtZjCMrrC+BORRinvZEky2s+Du7a6Hhktz3LMm474CBmKRhURk7TqMlxFpz
-         qs+77ct4IXRJfObqooqyjgyVRNR0iyaoeoGvfkkBTtYL9AkAG9E6Ltx0G+Mmc3onNq8Y
-         iw5MxxAZ4hF3A2rFvFOKcSqmtM8tk3djwxbm2OarTYoWuLgrJLUMjpJV87Egq0fbsn+8
-         /CQMs0ul0p82EUgKI5bbtkPqWTlOy5FNEExBbj1zUv3coc8hCRb3qwQumw9AspjIeWvf
-         xE9w==
-X-Gm-Message-State: AOJu0YyZA+Z9DOfZFcmzjS/WN0eTbswRlI+/jElvizV3b9d/4N7thXFX
-	S9JNFtynvVE3wM8xu69HeogdFLnUovWuP3XBgW0IAMCXBvQ/g/c3qppW4W2vP7q7
-X-Gm-Gg: Acq92OHX73P/N9lgqxVksyyB8VdXhSN+1Z3aMv5YNZXs1mgKrf1d5bCyeD5VSzNabht
-	BzxZ8PFTaOSROdX8qgVkIFsrf5ZZ+hHol+LEr2dWioW3lW80dLswiqLUA7deGpUkTtYqQK443F1
-	s95n3LEU5rJ1OCQiiJmAQiEUmOBHspUtg5in4sHGmCzAzgG0Q6eXxpvOedT5XUDloIKYfkamKl/
-	uYJRhApThyam4Q4Z7EgfcaClSxBKnau0mU5diFUYhfY8Px40ZIJn8vo+ppqTrHOh//4h5HffBS3
-	zAIqcBmMEvy0V9SKozoGQAHs2PgNTUWMsXzhtdKWdUNb9nrFvebN9GEDPrknvQz9eYZTpOl0oJ0
-	G/56HKaBTKMfbt4dR9p1DtaK54UBDqiRPKE3Bkl7db8+hnYh94Nyj6vpQ1MODppSbB0+PFbT101
-	5vXBpIXB+hhsHLYi54cMVwM60rgcwEN1diGt7XDlf6gkoufHe2kcUqZiAdbMNLKjcimWkUu9SxB
-	X+PKwP84mpRhF69b0pX/Pd1/Aoi5hOeXf6WgAFg74KpXgnOKLTieV09a10qsj7ATBE28Cv2UidX
-	2LOPhRHxMWM51wRGKhZFpZzXr3lNTzgz
-X-Received: by 2002:a05:6214:568e:b0:8cc:ccb:48d9 with SMTP id 6a1803df08f44-8cc7b691003mr426230996d6.38.1779937404078;
-        Wed, 27 May 2026 20:03:24 -0700 (PDT)
-Received: from gmail.com (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8cc81306c57sm188229626d6.34.2026.05.27.20.03.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 May 2026 20:03:23 -0700 (PDT)
-Date: Thu, 28 May 2026 03:03:22 +0000
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: deeratho@cisco.com
-Cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [meta-virtualization][scarthgap][PATCH 2/2] docker-moby: Fix
- CVE-2026-34040
-Message-ID: <ahewetC7lbrMS3pP@gmail.com>
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=Pg+o88cW;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=06090f33be=haitao.liu@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64T0W65N3077653
+	for <meta-virtualization@lists.yoctoproject.org>; Thu, 28 May 2026 19:39:44 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PPS06212021; bh=LqsWrMyMN32+sxAeRKo/
+	wtQA2x9+GJ6ntEV47U0kTN4=; b=Pg+o88cWL49ocKi7JJs4VPLrdC0vhW8ze7NK
+	+7MnbKWjWZzbMuMfLm0nThYOP4DNWPQa0J7lLXF4T15g3dvWOF0AzW6zvnKWPHCB
+	b8FysGqDefCMSuKolSXPxToTMiqCyE5IYhSA75WPzMs7j+2qmsCH5g7g5ZKaOM7q
+	XuDxncYGx3oqZWQryhcYcbUGdZ8psOarjmbYxCMUJA015tc7kDoN4Osjbr/PM+Up
+	zeZn+X5AesvSHPH71NKRaXV99OsjmZ6fgdv0FDCCGAxam36/UYoOWDBohGVzGGFK
+	8aHhkJdj+pEEbBBlKT1kz4Z2Umx7H+wReKJSVTkc0dWjUzTmDQ==
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [128.224.246.37])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4ee7x6hv6c-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <meta-virtualization@lists.yoctoproject.org>; Thu, 28 May 2026 19:39:43 -0700 (PDT)
+Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
+ ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.61; Thu, 28 May 2026 19:39:43 -0700
+Received: from pek-lpd-susbld.wrs.com (10.11.232.110) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
+ 15.1.2507.61 via Frontend Transport; Thu, 28 May 2026 19:39:42 -0700
+From: Haitao Liu <haitao.liu@windriver.com>
+To: <meta-virtualization@lists.yoctoproject.org>
+Subject: [meta-virtualization][PATCH] libvirt: re-add ptest support for meson build system
+Date: Fri, 29 May 2026 10:39:41 +0800
+Message-ID: <20260529023941.1460960-1-haitao.liu@windriver.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260513151011.3114690-1-deeratho@cisco.com>
- <20260513151104.3119869-1-deeratho@cisco.com>
+Content-Type: text/plain
+X-Proofpoint-GUID: ywOKkHV781Wpy7nd8Sj2HKPVer542TCQ
+X-Proofpoint-ORIG-GUID: ywOKkHV781Wpy7nd8Sj2HKPVer542TCQ
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTI5MDAyNCBTYWx0ZWRfXxG5Zg0TarDsE
+ 4/cVpop+Q/vuhUnXnpCvepzTrUECX18330orw+PUFSXwqcKrxo/4WWhnd+A8TN7UMEDWyewriH/
+ hkHilpqsL2tu91fmPr9iZGsiNJHQMRtbo5L377Cke10jZ03FZ2jJIO9X9X4q+lQyqF4NGtmVZ6q
+ 2/qXkfkg1YHX3M5Z91BFwIEi9uLFK8eDRZ24apL3TZCJn0nIxAi6GuerImJy5clJqz4KUaE0vUg
+ viMQ6s/2N5GzfTvWw5ngPD3musZwLYI8pl2Zp0l1rs7Fksbsd+aIVUqCoy0Qn+g6ZwTmWqBTVfP
+ ZWeUHKWSlNTczA5hzlbUvmXaU8+EL5/psrUKxbe0zJi1Wp9LbjD+27KlJjjC2Y8/wjQRwE/PxtH
+ DVhkaY3l3UX+6uR8ptNmqWcKDvljV59Cv0Mlya0HDZvhHRoLhp7cw02935le/Ix7nYzENxKhoAw
+ 2fcB0X1pvmRJDudOQTA==
+X-Authority-Analysis: v=2.4 cv=bY1bluPB c=1 sm=1 tr=0 ts=6a18fc6f cx=c_pps
+ a=Lg6ja3A245NiLSnFpY5YKQ==:117 a=Lg6ja3A245NiLSnFpY5YKQ==:17
+ a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22
+ a=HK-ge7EqtdluswH-FwHe:22 a=t7CeM3EgAAAA:8 a=NEAV23lmAAAA:8
+ a=FDcp4cXCS3qWZ9KsLuMA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-05-28_07,2026-05-28_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 suspectscore=0 adultscore=0 spamscore=0 impostorscore=0
+ malwarescore=0 clxscore=1011 lowpriorityscore=0 phishscore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2605210000 definitions=main-2605290024
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Thu, 28 May 2026 03:03:27 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9821
+ <meta-virtualization@lists.yoctoproject.org>; Fri, 29 May 2026 02:39:50 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9822
 
-merged.
+libvirt has switched its build system from Makefile to meson, so the
+original run-ptest which relied on "make -C tests -k check-TESTS" no
+longer works. Re-add ptest support based on the meson build system:
 
-Bruce
+- Rewrite run-ptest to directly execute the compiled test binaries
+  instead of invoking make.
+- Patch meson.build at configure time to replace absolute build/source
+  paths with the ptest install paths, removing the need for separate
+  path-stripping patches.
+- Install test binaries and their required data files into the ptest
+  directory.
 
-In message: [meta-virtualization][scarthgap][PATCH 2/2] docker-moby: Fix CVE-2026-34040
-on 13/05/2026 Deepak Rathore via lists.yoctoproject.org wrote:
+Test results on genericx86-64:
 
-> From: Deepak Rathore <deeratho@cisco.com>
-> 
-> The upstream fix [3] & [4] referenced in the Debian security
-> advisory [5] is present in the v25.0 branch, which aligns with the
-> scarthgap branch so pick the corresponding commit [1] & [2] to apply
-> the CVE fix.
-> 
-> [1] https://github.com/moby/moby/commit/553e8214614ee0d65ee309f148a8e865634cc291
-> [2] https://github.com/moby/moby/commit/4d0135c2d25b89ecc62a15277f20177150195695
-> [3] https://github.com/moby/moby/commit/6d311e0d8d4174a6347942db78c553fb7dc3762e
-> [4] https://github.com/moby/moby/commit/db7dadaca041953430d1e2144088c311b78b96d7
-> [5] https://security-tracker.debian.org/tracker/CVE-2026-34040
-> 
-> Signed-off-by: Deepak Rathore <deeratho@cisco.com>
-> 
-> diff --git a/recipes-containers/docker/docker-moby_git.bb b/recipes-containers/docker/docker-moby_git.bb
-> index 26dce276..eb493a43 100644
-> --- a/recipes-containers/docker/docker-moby_git.bb
-> +++ b/recipes-containers/docker/docker-moby_git.bb
-> @@ -57,6 +57,8 @@ SRC_URI = "\
->          file://0001-cli-use-external-GO111MODULE-and-cross-compiler.patch \
->          file://0001-dynbinary-use-go-cross-compiler.patch;patchdir=src/import \
->  		file://CVE-2026-33997.patch;patchdir=src/import \
-> +		file://CVE-2026-34040_p1.patch;patchdir=src/import \
-> +		file://CVE-2026-34040_p2.patch;patchdir=src/import \
->  	"
->  
->  DOCKER_COMMIT = "${SRCREV_moby}"
-> diff --git a/recipes-containers/docker/files/CVE-2026-34040_p1.patch b/recipes-containers/docker/files/CVE-2026-34040_p1.patch
-> new file mode 100644
-> index 00000000..9fb96ab0
-> --- /dev/null
-> +++ b/recipes-containers/docker/files/CVE-2026-34040_p1.patch
-> @@ -0,0 +1,215 @@
-> +From b2ff8a60155731641418d1a8b9efaf9e044e1971 Mon Sep 17 00:00:00 2001
-> +From: =?UTF-8?q?Pawe=C5=82=20Gronowski?= <pawel.gronowski@docker.com>
-> +Date: Mon, 16 Feb 2026 14:15:24 +0100
-> +Subject: [PATCH 1/2] pkg/authz: Reject requests exceeding body size limit
-> +MIME-Version: 1.0
-> +Content-Type: text/plain; charset=UTF-8
-> +Content-Transfer-Encoding: 8bit
-> +
-> +Previously, the authorization system would silently skip body inspection when
-> +request bodies exceeded the maximum size limit (1MiB).
-> +
-> +The authorization plugins would receive an empty body for inspection
-> +while the actual large payload would still be processed by the Docker
-> +daemon, allowing malicious requests to circumvent plugin-based security
-> +controls.
-> +
-> +CVE: CVE-2026-34040
-> +Upstream-Status: Backport [https://github.com/moby/moby/commit/553e8214614ee0d65ee309f148a8e865634cc291]
-> +
-> +Signed-off-by: Paweł Gronowski <pawel.gronowski@docker.com>
-> +(cherry picked from commit 7a767b27fd1238c89a5cc926c39e27d3bcf58e35)
-> +Signed-off-by: Paweł Gronowski <pawel.gronowski@docker.com>
-> +(cherry picked from commit 553e8214614ee0d65ee309f148a8e865634cc291)
-> +Signed-off-by: Deepak Rathore <deeratho@cisco.com>
-> +---
-> + pkg/authorization/authz.go           | 56 ++++++-----------
-> + pkg/authorization/authz_unix_test.go | 93 +++++++++++++++++++---------
-> + 2 files changed, 83 insertions(+), 66 deletions(-)
-> +
-> +diff --git a/pkg/authorization/authz.go b/pkg/authorization/authz.go
-> +index d568a2b597..3bc30f61cf 100644
-> +--- a/pkg/authorization/authz.go
-> ++++ b/pkg/authorization/authz.go
-> +@@ -55,28 +55,31 @@ type Ctx struct {
-> + 	authReq *Request
-> + }
-> + 
-> +-func isChunked(r *http.Request) bool {
-> +-	// RFC 7230 specifies that content length is to be ignored if Transfer-Encoding is chunked
-> +-	if strings.EqualFold(r.Header.Get("Transfer-Encoding"), "chunked") {
-> +-		return true
-> +-	}
-> +-	for _, v := range r.TransferEncoding {
-> +-		if strings.EqualFold(v, "chunked") {
-> +-			return true
-> +-		}
-> +-	}
-> +-	return false
-> +-}
-> +-
-> + // AuthZRequest authorized the request to the docker daemon using authZ plugins
-> + func (ctx *Ctx) AuthZRequest(w http.ResponseWriter, r *http.Request) error {
-> + 	var body []byte
-> +-	if sendBody(ctx.requestURI, r.Header) && (r.ContentLength > 0 || isChunked(r)) && r.ContentLength < maxBodySize {
-> +-		var err error
-> +-		body, r.Body, err = drainBody(r.Body)
-> +-		if err != nil {
-> ++	if sendBody(ctx.requestURI, r.Header) {
-> ++		// Wrap the original request body in a buffered reader so we can inspect
-> ++		// the prefix without consuming bytes from the downstream reader.
-> ++		// `Peek(maxBodySize + 1)` is used as a size check:
-> ++		//   - err == nil means at least maxBodySize+1 bytes are buffered/available,
-> ++		//     so the payload exceeds the plugin limit and is rejected.
-> ++		//   - otherwise, `peeked` contains the complete body bytes currently available
-> ++		//     (for short bodies this is the full payload), and reads from r.Body still
-> ++		//     stream the original body unchanged.
-> ++		bufBody := bufio.NewReaderSize(r.Body, maxBodySize+1)
-> ++		r.Body = ioutils.NewReadCloserWrapper(bufBody, r.Body.Close)
-> ++
-> ++		peeked, err := bufBody.Peek(maxBodySize + 1)
-> ++		if err == nil {
-> ++			// Successfully peeked maxBodySize+1 bytes, so body is too large
-> ++			// TODO: Allows plugin to opt in
-> ++			return fmt.Errorf("request body too large for authorization plugin: size exceeds %d bytes", maxBodySize)
-> ++		} else if err != io.EOF {
-> + 			return err
-> + 		}
-> ++
-> ++		body = peeked
-> + 	}
-> + 
-> + 	var h bytes.Buffer
-> +@@ -142,25 +145,6 @@ func (ctx *Ctx) AuthZResponse(rm ResponseModifier, r *http.Request) error {
-> + 	return nil
-> + }
-> + 
-> +-// drainBody dump the body (if its length is less than 1MB) without modifying the request state
-> +-func drainBody(body io.ReadCloser) ([]byte, io.ReadCloser, error) {
-> +-	bufReader := bufio.NewReaderSize(body, maxBodySize)
-> +-	newBody := ioutils.NewReadCloserWrapper(bufReader, func() error { return body.Close() })
-> +-
-> +-	data, err := bufReader.Peek(maxBodySize)
-> +-	// Body size exceeds max body size
-> +-	if err == nil {
-> +-		log.G(context.TODO()).Warnf("Request body is larger than: '%d' skipping body", maxBodySize)
-> +-		return nil, newBody, nil
-> +-	}
-> +-	// Body size is less than maximum size
-> +-	if err == io.EOF {
-> +-		return data, newBody, nil
-> +-	}
-> +-	// Unknown error
-> +-	return nil, newBody, err
-> +-}
-> +-
-> + func isAuthEndpoint(urlPath string) (bool, error) {
-> + 	// eg www.test.com/v1.24/auth/optional?optional1=something&optional2=something (version optional)
-> + 	matched, err := regexp.MatchString(`^[^\/]*\/(v\d[\d\.]*\/)?auth.*`, urlPath)
-> +diff --git a/pkg/authorization/authz_unix_test.go b/pkg/authorization/authz_unix_test.go
-> +index 66b4d20452..c726e5f79a 100644
-> +--- a/pkg/authorization/authz_unix_test.go
-> ++++ b/pkg/authorization/authz_unix_test.go
-> +@@ -139,36 +139,69 @@ func TestResponseModifier(t *testing.T) {
-> + 	}
-> + }
-> + 
-> +-func TestDrainBody(t *testing.T) {
-> +-	tests := []struct {
-> +-		length             int // length is the message length send to drainBody
-> +-		expectedBodyLength int // expectedBodyLength is the expected body length after drainBody is called
-> +-	}{
-> +-		{10, 10},                           // Small message size
-> +-		{maxBodySize - 1, maxBodySize - 1}, // Max message size
-> +-		{maxBodySize * 2, 0},               // Large message size (skip copying body)
-> +-
-> +-	}
-> +-
-> +-	for _, test := range tests {
-> +-		msg := strings.Repeat("a", test.length)
-> +-		body, closer, err := drainBody(io.NopCloser(bytes.NewReader([]byte(msg))))
-> +-		if err != nil {
-> +-			t.Fatal(err)
-> +-		}
-> +-		if len(body) != test.expectedBodyLength {
-> +-			t.Fatalf("Body must be copied, actual length: '%d'", len(body))
-> +-		}
-> +-		if closer == nil {
-> +-			t.Fatal("Closer must not be nil")
-> +-		}
-> +-		modified, err := io.ReadAll(closer)
-> +-		if err != nil {
-> +-			t.Fatalf("Error must not be nil: '%v'", err)
-> +-		}
-> +-		if len(modified) != len(msg) {
-> +-			t.Fatalf("Result should not be truncated. Original length: '%d', new length: '%d'", len(msg), len(modified))
-> +-		}
-> ++type recordingPlugin struct {
-> ++	recordedRequest Request
-> ++}
-> ++
-> ++func (p *recordingPlugin) Name() string { return "recording-plugin" }
-> ++
-> ++func (p *recordingPlugin) AuthZRequest(authReq *Request) (*Response, error) {
-> ++	p.recordedRequest = *authReq
-> ++	p.recordedRequest.RequestBody = bytes.Clone(authReq.RequestBody)
-> ++	return &Response{Allow: true}, nil
-> ++}
-> ++
-> ++func (p *recordingPlugin) AuthZResponse(_ *Request) (*Response, error) {
-> ++	return &Response{Allow: true}, nil
-> ++}
-> ++
-> ++func TestAuthZRequestBodyWithinLimit(t *testing.T) {
-> ++	payload := strings.Repeat("a", maxBodySize)
-> ++	plugin := &recordingPlugin{}
-> ++	ctx := NewCtx([]Plugin{plugin}, "user", "tls", http.MethodPost, "/containers/create")
-> ++
-> ++	req := httptest.NewRequest(http.MethodPost, "http://example.com/containers/create", strings.NewReader(payload))
-> ++	req.Header.Set("Content-Type", "application/json")
-> ++
-> ++	if err := ctx.AuthZRequest(httptest.NewRecorder(), req); err != nil {
-> ++		t.Fatalf("AuthZRequest failed: %v", err)
-> ++	}
-> ++
-> ++	if string(plugin.recordedRequest.RequestBody) != payload {
-> ++		t.Fatalf("expected full request body to be sent to plugin, got length %d, expected %d", len(plugin.recordedRequest.RequestBody), len(payload))
-> ++	}
-> ++
-> ++	remaining, err := io.ReadAll(req.Body)
-> ++	if err != nil {
-> ++		t.Fatalf("failed to read request body after authz: %v", err)
-> ++	}
-> ++	if string(remaining) != payload {
-> ++		t.Fatalf("request body should be preserved for downstream readers")
-> ++	}
-> ++}
-> ++
-> ++func TestAuthZRequestBodyOverLimit(t *testing.T) {
-> ++	payload := strings.Repeat("a", maxBodySize+1)
-> ++	plugin := &recordingPlugin{}
-> ++	ctx := NewCtx([]Plugin{plugin}, "user", "tls", http.MethodPost, "/containers/create")
-> ++
-> ++	req := httptest.NewRequest(http.MethodPost, "http://example.com/containers/create", strings.NewReader(payload))
-> ++	req.Header.Set("Content-Type", "application/json")
-> ++
-> ++	err := ctx.AuthZRequest(httptest.NewRecorder(), req)
-> ++	if err == nil {
-> ++		t.Fatal("expected AuthZRequest to reject body over max size")
-> ++	}
-> ++	if !strings.Contains(err.Error(), "request body too large for authorization plugin") {
-> ++		t.Fatalf("unexpected error: %v", err)
-> ++	}
-> ++
-> ++	remaining, readErr := io.ReadAll(req.Body)
-> ++	if readErr != nil {
-> ++		t.Fatalf("failed to read request body after authz error: %v", readErr)
-> ++	}
-> ++	if string(remaining) != payload {
-> ++		t.Fatalf("request body should still be preserved after over-limit check")
-> + 	}
-> + }
-> + 
-> +-- 
-> +2.44.4
-> +
-> diff --git a/recipes-containers/docker/files/CVE-2026-34040_p2.patch b/recipes-containers/docker/files/CVE-2026-34040_p2.patch
-> new file mode 100644
-> index 00000000..00a264f0
-> --- /dev/null
-> +++ b/recipes-containers/docker/files/CVE-2026-34040_p2.patch
-> @@ -0,0 +1,39 @@
-> +From f24fa983ccaa393b64724292a49270ab46b49c06 Mon Sep 17 00:00:00 2001
-> +From: =?UTF-8?q?Pawe=C5=82=20Gronowski?= <pawel.gronowski@docker.com>
-> +Date: Mon, 16 Feb 2026 14:16:06 +0100
-> +Subject: [PATCH 2/2] pkg/authz: Increase body limit to 4 MiB
-> +MIME-Version: 1.0
-> +Content-Type: text/plain; charset=UTF-8
-> +Content-Transfer-Encoding: 8bit
-> +
-> +Some endpoint could potentially use a body request than 1 MiB without
-> +malicious intent.
-> +
-> +CVE: CVE-2026-34040
-> +Upstream-Status: Backport [https://github.com/moby/moby/commit/4d0135c2d25b89ecc62a15277f2017715019569]
-> +
-> +Signed-off-by: Paweł Gronowski <pawel.gronowski@docker.com>
-> +(cherry picked from commit ec76e941838797fc762185c556c152f0a032d387)
-> +Signed-off-by: Paweł Gronowski <pawel.gronowski@docker.com>
-> +(cherry picked from commit 4d0135c2d25b89ecc62a15277f20177150195695)
-> +Signed-off-by: Deepak Rathore <deeratho@cisco.com>
-> +---
-> + pkg/authorization/authz.go | 2 +-
-> + 1 file changed, 1 insertion(+), 1 deletion(-)
-> +
-> +diff --git a/pkg/authorization/authz.go b/pkg/authorization/authz.go
-> +index 3bc30f61cf..e9221307a7 100644
-> +--- a/pkg/authorization/authz.go
-> ++++ b/pkg/authorization/authz.go
-> +@@ -16,7 +16,7 @@ import (
-> + 	"github.com/docker/docker/pkg/ioutils"
-> + )
-> + 
-> +-const maxBodySize = 1048576 // 1MB
-> ++const maxBodySize = 4 * 1024 * 1024 // 4MiB
-> + 
-> + // NewCtx creates new authZ context, it is used to store authorization information related to a specific docker
-> + // REST http session
-> +-- 
-> +2.44.4
-> +
-> -- 
-> 2.35.6
-> 
+  All 120 tests passed (0 failures, 0 skips).
 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#9795): https://lists.yoctoproject.org/g/meta-virtualization/message/9795
-> Mute This Topic: https://lists.yoctoproject.org/mt/119298582/1050810
-> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+root@genericx86-64:/usr/lib/libvirt/ptest# ./run-ptest
+PASS: chxml2xmltest
+PASS: nssguestlinktest
+PASS: virbuftest
+PASS: viracpitest
+PASS: esxutilstest
+PASS: ssh
+PASS: storagepoolxml2xmltest
+PASS: commandtest
+...
+...
+PASS: nwfilterebiptablestest
+PASS: cputest
 
+=== Test Summary ===
+PASS: 120
+FAIL: 0
+SKIP: 0
+TOTAL: 120
 
-In message: [meta-virtualization][scarthgap][PATCH 1/2] docker-moby: Fix CVE-2026-33997
-on 13/05/2026 Deepak Rathore via lists.yoctoproject.org wrote:
+Signed-off-by: Haitao Liu <haitao.liu@windriver.com>
+---
+ recipes-extended/libvirt/libvirt/run-ptest | 32 ++++++++++++++-
+ recipes-extended/libvirt/libvirt_git.bb    | 45 ++++++++++++++++++++--
+ 2 files changed, 73 insertions(+), 4 deletions(-)
 
-> From: Deepak Rathore <deeratho@cisco.com>
-> 
-> Pick the version-specific cherry-pick [1] of the upstream fix [2] mentioned in [3].
-> 
-> [1] https://github.com/moby/moby/commit/d5986c0430124d82ce87b439638d8ebb16916e40
-> [2] https://github.com/moby/moby/commit/99a095ecf04e8849318f2811bb3f687905eab09b
-> [3] https://security-tracker.debian.org/tracker/CVE-2026-33997
-> 
-> Signed-off-by: Deepak Rathore <deeratho@cisco.com>
-> 
-> diff --git a/recipes-containers/docker/docker-moby_git.bb b/recipes-containers/docker/docker-moby_git.bb
-> index e66416db..26dce276 100644
-> --- a/recipes-containers/docker/docker-moby_git.bb
-> +++ b/recipes-containers/docker/docker-moby_git.bb
-> @@ -56,6 +56,7 @@ SRC_URI = "\
->  	file://0001-libnetwork-use-GO-instead-of-go.patch \
->          file://0001-cli-use-external-GO111MODULE-and-cross-compiler.patch \
->          file://0001-dynbinary-use-go-cross-compiler.patch;patchdir=src/import \
-> +		file://CVE-2026-33997.patch;patchdir=src/import \
->  	"
->  
->  DOCKER_COMMIT = "${SRCREV_moby}"
-> diff --git a/recipes-containers/docker/files/CVE-2026-33997.patch b/recipes-containers/docker/files/CVE-2026-33997.patch
-> new file mode 100644
-> index 00000000..9da4b3cf
-> --- /dev/null
-> +++ b/recipes-containers/docker/files/CVE-2026-33997.patch
-> @@ -0,0 +1,179 @@
-> +From 7e35ad066ee0c89e15fca9e9b95933b79ba315b7 Mon Sep 17 00:00:00 2001
-> +From: =?UTF-8?q?Pawe=C5=82=20Gronowski?= <pawel.gronowski@docker.com>
-> +Date: Thu, 19 Mar 2026 19:18:23 +0100
-> +Subject: [PATCH] plugin: Fix off-by-one in privilege validation
-> +MIME-Version: 1.0
-> +Content-Type: text/plain; charset=UTF-8
-> +Content-Transfer-Encoding: 8bit
-> +
-> +Fix an off-by-one error in isEqual() where the comparison loop started
-> +at index 1 instead of 0, causing the first privilege (after sorting
-> +alphabetically by name) to never be validated.
-> +
-> +This allowed a malicious plugin to request different values for
-> +whichever privilege sorts first — most notably "allow-all-devices",
-> +which grants unrestricted rwm access to all host devices.
-> +
-> +The bug also meant that plugins requesting exactly one privilege had
-> +zero iterations of the comparison loop, bypassing validation entirely.
-> +
-> +Also fix an existing test case ("diff-order-but-same-value") that only
-> +passed due to the off-by-one bug, and add test cases for single-element
-> +and first-sorted-element mismatches.
-> +
-> +CVE: CVE-2026-33997
-> +Upstream-Status: Backport [https://github.com/moby/moby/commit/d5986c0430124d82ce87b439638d8ebb16916e40]
-> +
-> +Signed-off-by: Paweł Gronowski <pawel.gronowski@docker.com>
-> +(cherry picked from commit 99a095ecf04e8849318f2811bb3f687905eab09b)
-> +Signed-off-by: Paweł Gronowski <pawel.gronowski@docker.com>
-> +(cherry picked from commit d5986c0430124d82ce87b439638d8ebb16916e40)
-> +Signed-off-by: Deepak Rathore <deeratho@cisco.com>
-> +---
-> + plugin/manager.go      | 50 ++++++++++++++++++++++++------------------
-> + plugin/manager_test.go | 44 +++++++++++++++++++++++++++++++++----
-> + 2 files changed, 69 insertions(+), 25 deletions(-)
-> +
-> +diff --git a/plugin/manager.go b/plugin/manager.go
-> +index 81f3d67b80..d98b968c7d 100644
-> +--- a/plugin/manager.go
-> ++++ b/plugin/manager.go
-> +@@ -1,14 +1,14 @@
-> + package plugin // import "github.com/docker/docker/plugin"
-> + 
-> + import (
-> ++	"cmp"
-> + 	"context"
-> + 	"encoding/json"
-> + 	"io"
-> + 	"os"
-> + 	"path/filepath"
-> +-	"reflect"
-> + 	"regexp"
-> +-	"sort"
-> ++	"slices"
-> + 	"strings"
-> + 	"sync"
-> + 	"syscall"
-> +@@ -331,34 +331,42 @@ func makeLoggerStreams(id string) (stdout, stderr io.WriteCloser) {
-> + }
-> + 
-> + func validatePrivileges(requiredPrivileges, privileges types.PluginPrivileges) error {
-> +-	if !isEqual(requiredPrivileges, privileges, isEqualPrivilege) {
-> ++	if len(requiredPrivileges) != len(privileges) {
-> + 		return errors.New("incorrect privileges")
-> + 	}
-> + 
-> +-	return nil
-> +-}
-> +-
-> +-func isEqual(arrOne, arrOther types.PluginPrivileges, compare func(x, y types.PluginPrivilege) bool) bool {
-> +-	if len(arrOne) != len(arrOther) {
-> +-		return false
-> +-	}
-> +-
-> +-	sort.Sort(arrOne)
-> +-	sort.Sort(arrOther)
-> ++	a := normalizePrivileges(requiredPrivileges)
-> ++	b := normalizePrivileges(privileges)
-> + 
-> +-	for i := 1; i < arrOne.Len(); i++ {
-> +-		if !compare(arrOne[i], arrOther[i]) {
-> +-			return false
-> ++	for i := range a {
-> ++		if a[i].Name != b[i].Name {
-> ++			return errors.New("incorrect privileges")
-> ++		}
-> ++		if !slices.Equal(a[i].Value, b[i].Value) {
-> ++			return errors.New("incorrect privileges")
-> + 		}
-> + 	}
-> + 
-> +-	return true
-> ++	return nil
-> + }
-> + 
-> +-func isEqualPrivilege(a, b types.PluginPrivilege) bool {
-> +-	if a.Name != b.Name {
-> +-		return false
-> ++// normalizePrivileges returns a normalized copy of privileges with privilege names
-> ++// and each privilege's values sorted for order-insensitive comparison.
-> ++// The input is not mutated.
-> ++func normalizePrivileges(privileges types.PluginPrivileges) types.PluginPrivileges {
-> ++	normalized := make(types.PluginPrivileges, len(privileges))
-> ++	for i, privilege := range privileges {
-> ++		normalized[i] = types.PluginPrivilege{
-> ++			Name:        privilege.Name,
-> ++			Description: privilege.Description,
-> ++			Value:       slices.Clone(privilege.Value),
-> ++		}
-> ++		slices.Sort(normalized[i].Value)
-> + 	}
-> + 
-> +-	return reflect.DeepEqual(a.Value, b.Value)
-> ++	slices.SortFunc(normalized, func(a, b types.PluginPrivilege) int {
-> ++		return cmp.Compare(a.Name, b.Name)
-> ++	})
-> ++
-> ++	return normalized
-> + }
-> +diff --git a/plugin/manager_test.go b/plugin/manager_test.go
-> +index 62ccf2149d..6d58865044 100644
-> +--- a/plugin/manager_test.go
-> ++++ b/plugin/manager_test.go
-> +@@ -44,12 +44,48 @@ func TestValidatePrivileges(t *testing.T) {
-> + 			},
-> + 			result: true,
-> + 		},
-> ++		"single-element-same": {
-> ++			requiredPrivileges: []types.PluginPrivilege{
-> ++				{Name: "allow-all-devices", Description: "Description", Value: []string{"true"}},
-> ++			},
-> ++			privileges: []types.PluginPrivilege{
-> ++				{Name: "allow-all-devices", Description: "Description", Value: []string{"true"}},
-> ++			},
-> ++			result: true,
-> ++		},
-> ++		"single-element-diff-value": {
-> ++			requiredPrivileges: []types.PluginPrivilege{
-> ++				{Name: "allow-all-devices", Description: "Description", Value: []string{"false"}},
-> ++			},
-> ++			privileges: []types.PluginPrivilege{
-> ++				{Name: "allow-all-devices", Description: "Description", Value: []string{"true"}},
-> ++			},
-> ++			result: false,
-> ++		},
-> ++		"first-sorted-element-diff-value": {
-> ++			requiredPrivileges: []types.PluginPrivilege{
-> ++				{Name: "allow-all-devices", Description: "Description", Value: []string{"false"}},
-> ++				{Name: "network", Description: "Description", Value: []string{"host"}},
-> ++			},
-> ++			privileges: []types.PluginPrivilege{
-> ++				{Name: "allow-all-devices", Description: "Description", Value: []string{"true"}},
-> ++				{Name: "network", Description: "Description", Value: []string{"host"}},
-> ++			},
-> ++			result: false,
-> ++		},
-> ++		"empty-privileges": {
-> ++			requiredPrivileges: []types.PluginPrivilege{},
-> ++			privileges:         []types.PluginPrivilege{},
-> ++			result:             true,
-> ++		},
-> + 	}
-> + 
-> + 	for key, data := range testData {
-> +-		err := validatePrivileges(data.requiredPrivileges, data.privileges)
-> +-		if (err == nil) != data.result {
-> +-			t.Fatalf("Test item %s expected result to be %t, got %t", key, data.result, (err == nil))
-> +-		}
-> ++		t.Run(key, func(t *testing.T) {
-> ++			err := validatePrivileges(data.requiredPrivileges, data.privileges)
-> ++			if (err == nil) != data.result {
-> ++				t.Fatalf("expected result to be %t, got %t", data.result, (err == nil))
-> ++			}
-> ++		})
-> + 	}
-> + }
-> +-- 
-> +2.44.4
-> +
-> -- 
-> 2.35.6
-> 
-
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#9794): https://lists.yoctoproject.org/g/meta-virtualization/message/9794
-> Mute This Topic: https://lists.yoctoproject.org/mt/119298567/1050810
-> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
-
+diff --git a/recipes-extended/libvirt/libvirt/run-ptest b/recipes-extended/libvirt/libvirt/run-ptest
+index a434b186..dd1f94d3 100644
+--- a/recipes-extended/libvirt/libvirt/run-ptest
++++ b/recipes-extended/libvirt/libvirt/run-ptest
+@@ -1,3 +1,33 @@
+ #!/bin/sh
+ 
+-make -C tests -k check-TESTS
++PTEST_DIR="/usr/lib/libvirt/ptest/tests"
++export LD_LIBRARY_PATH="${PTEST_DIR}:${LD_LIBRARY_PATH}"
++PASS=0
++FAIL=0
++SKIP=0
++
++run_test() {
++    tname="$1"
++    tpath="$2"
++    "$tpath" >/dev/null 2>&1
++    rc=$?
++    case $rc in
++        0)  echo "PASS: $tname"; PASS=$((PASS + 1)) ;;
++        77) echo "SKIP: $tname"; SKIP=$((SKIP + 1)) ;;
++        *)  echo "FAIL: $tname"; FAIL=$((FAIL + 1)) ;;
++    esac
++}
++
++# Skip run-ptest (self), commandhelper and qemucapsprobe are middleware
++# used by other test cases, not test cases themselves.
++for t in $(find ${PTEST_DIR} -maxdepth 1 -type f -executable ! -name "*.so" ! -name "run-ptest" ! -name "commandhelper" ! -name "qemucapsprobe"); do
++    run_test "$(basename $t)" "$t"
++done
++
++# Summary
++echo ""
++echo "=== Test Summary ==="
++echo "PASS: $PASS"
++echo "FAIL: $FAIL"
++echo "SKIP: $SKIP"
++echo "TOTAL: $((PASS + FAIL + SKIP))"
+diff --git a/recipes-extended/libvirt/libvirt_git.bb b/recipes-extended/libvirt/libvirt_git.bb
+index 34a1ff21..d1d957cc 100644
+--- a/recipes-extended/libvirt/libvirt_git.bb
++++ b/recipes-extended/libvirt/libvirt_git.bb
+@@ -34,17 +34,16 @@ PV = "v${LIBVIRT_VERSION}+git"
+ SRC_URI = "gitsm://github.com/libvirt/libvirt.git;name=libvirt;protocol=https;branch=master \
+            file://libvirtd.sh \
+            file://libvirtd.conf \
++           file://run-ptest \
+            file://dnsmasq.conf \
+            file://hook_support.py \
+            file://gnutls-helper.py;subdir=${BP} \
+            file://libvirt-qemu.conf \
+            file://0001-prevent-gendispatch.pl-generating-build-path-in-code.patch \
+-           file://0001-messon.build-remove-build-path-information-to-avoid-.patch \
+-           file://0001-tests-meson-clear-absolute-directory-paths.patch \
+            file://0001-qemu_nbdkit.c-use-llu-to-print-time_t.patch \
+           "
+ 
+-inherit meson gettext update-rc.d pkgconfig systemd useradd perlnative
++inherit meson gettext update-rc.d pkgconfig systemd useradd perlnative ptest
+ USERADD_PACKAGES = "${PN}"
+ GROUPADD_PARAM:${PN} = "-r qemu; -r kvm; -r libvirt; -r virtlogin"
+ USERADD_PARAM:${PN} = "-r -g qemu -G kvm qemu"
+@@ -188,6 +187,46 @@ CVE_STATUS[CVE-2023-3750] = "fixed-version: Fixed in 9.6.0, NVD tracks this as v
+ # Enable the Python tool support
+ require libvirt-python.inc
+ 
++do_configure:prepend() {
++      sed -i \
++        -e "s|meson.current_build_dir()|'${PTEST_PATH}/tests'|g" \
++        -e "s|meson.project_build_root()|'${PTEST_PATH}'|g" \
++        -e "s|meson.current_source_dir()|'${PTEST_PATH}/datas/tests'|g" \
++        -e "s|meson.project_source_root()|'${PTEST_PATH}/datas'|g" \
++        ${S}/tests/meson.build ${S}/scripts/rpcgen/tests/meson.build ${S}/tests/schemas/meson.build
++}
++
++# Guard abs_top_builddir/abs_top_srcdir defines with #ifndef to avoid
++# -Werror redefinition conflict when tests pass them via -D compile flags.
++do_configure:append() {
++      sed -i '/^#define abs_top_builddir/c\#ifndef abs_top_builddir\n#define abs_top_builddir " "\n#endif' ${B}/meson-config.h
++      sed -i '/^#define abs_top_srcdir/c\#ifndef abs_top_srcdir\n#define abs_top_srcdir " "\n#endif' ${B}/meson-config.h
++}
++
++
++do_install_ptest() {
++       install -d ${D}${PTEST_PATH}/tests
++       install -d ${D}${PTEST_PATH}/datas/tests
++        # The virshtest expects virsh at ${PTEST_PATH}/tests/tools/virsh, but it is
++        # installed to /usr/bin/virsh by libvirt-virsh. Create a symlink to satisfy
++        # the test's expected path.
++       install -d ${D}${PTEST_PATH}/tools 
++       ln -sf /usr/bin/virsh ${D}${PTEST_PATH}/tools/virsh 
++       find ${B}/tests/  -type f -executable -print -maxdepth 1 | xargs -i cp {} ${D}${PTEST_PATH}/tests -rf
++       cd ${S}/tests && find . -mindepth 1 -maxdepth 1 -type d | xargs -i cp {} ${D}${PTEST_PATH}/datas/tests -a
++       install -m 0755 ${B}/scripts/rpcgen/tests/test_demo ${D}${PTEST_PATH}/tests
++       install -m 0644 ${S}/scripts/rpcgen/tests/*.bin ${D}${PTEST_PATH}/datas/tests
++       install -D -m 0644 -t ${D}${PTEST_PATH}/datas/examples/xml/test/  ${S}/examples/xml/test/*.xml
++       install -D -m 0644 -t ${D}${PTEST_PATH}/datas/examples/xml/storage/ ${S}/examples/xml/storage/*.xml
++       install -D -m 0644 -t ${D}${PTEST_PATH}/datas/src/conf/schemas/ ${S}/src/conf/schemas/*.rng
++       install -D -m 0644 -t ${D}${PTEST_PATH}/datas/src/nwfilter/xml/ ${S}/src/nwfilter/xml/*.xml
++       install -D -m 0644 -t ${D}${PTEST_PATH}/tests/schemas/ ${B}/tests/schemas/*.rng
++       install -m 0644 ${S}/tests/openvzutilstest.conf ${D}${PTEST_PATH}/datas/tests
++       install -d ${D}${PTEST_PATH}/datas/src/network
++}
++
++RDEPENDS:${PN}-ptest += " ${PN}-virsh"
++
+ do_compile() {
+ 	cd ${B}/src
+ 	# There may be race condition, but without creating these directories
+-- 
+2.34.1
 
 
