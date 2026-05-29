@@ -1,182 +1,3672 @@
-Return-Path: <bruce.ashfield@gmail.com>
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-	aws-us-west-2-korg-lkml-1.web.codeaurora.org
+Return-Path: <Qi.Chen@windriver.com>
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D91D2CD6E6B
-	for <webhook@archiver.kernel.org>; Fri,  5 Jun 2026 03:35:28 +0000 (UTC)
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.755.1780630518726925940
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FDD6CD6E49
+	for <webhook@archiver.kernel.org>; Fri, 29 May 2026 07:21:32 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.5109.1780039280072876352
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 04 Jun 2026 20:35:18 -0700
+ Fri, 29 May 2026 00:21:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=Er9mvlc8;
- spf=pass (domain: gmail.com, ip: 209.85.222.172, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-9156ceb55ffso127794385a.0
-        for <meta-virtualization@lists.yoctoproject.org>; Thu, 04 Jun 2026 20:35:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780630518; x=1781235318; darn=lists.yoctoproject.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=1Zd+4sx9CO9X2PRDMBUcnCDC6o/2EJACyXLbqLmF+GY=;
-        b=Er9mvlc8+yYMowG2nNMcFpz/XJ677elQi0nqMnUN2mXXtG0dIVAE89qTMz/G3ZKtUz
-         HO+PIwalEhnvTc0LV4IyO5Q07w6xl1e9ubArc+L5zXBKWc6Zp80r806zhQPHDy0O+Vwh
-         dIqcZhTAV9kaD9d4OT8/OZoyqQew67SX+hRYrc4vxl78gBX3XJtYDBeAZUK6z8Q1drKG
-         CfBcwi1vc0ZaeL6a+bnnQVs2Jhcy4lmUsN0dZBkWf4iCXJyudNpuRov2C1wrv0nbzZab
-         4t3hciTzAZwm4HC/Jy/Rvtc4dwnZVusU0cnrH+rbJBMGfX6sZzwh/rbUh9FIRMWl2b/V
-         r19g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780630518; x=1781235318;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1Zd+4sx9CO9X2PRDMBUcnCDC6o/2EJACyXLbqLmF+GY=;
-        b=AMchwYQG/gHpSwYalDn6Dacc/Eeskg3zcFXGWs69aVd0BcgHcjHvW8+QK3UgvIHHOx
-         K6NWLOhD9IFYNVvtI+8yQcvjjgop9qlMz+Oo700K/0YrHKcfPkFOIxXgEU1C2By60i1s
-         f0IGlKEDgpLT/FXt9nylXlG6b407PVX/F2AuwCWDzz5AXsHI2F1GqQwGrBB3R9RQyq9a
-         z7qATOvPmrYTOzBll2lzxNADZCG2x2l1Q8ym6dYVbXQjdykm/VccyuQ+56FXWtVifthN
-         WnJ58K521XKNZguPk9ej/FZDHa8sFDDJ6ZKJ8F5rmqwW4868XztdWJhK+T9+eIs4F539
-         UdFA==
-X-Gm-Message-State: AOJu0Ywg8dJIDiOSXIGG8rUwjp/JOo58x/f3Lc7ZZj7Hj+pdX4Myx8C+
-	VKvQ7K7nu0VVb2iO91o8/6r7clAkkdcEwZXNhOqmrqlBSBfPcxMRT54NvVO7Dqb+
-X-Gm-Gg: Acq92OErqNBO2s7L4DcADl1TksQXbB8MYyr5+9rl2jn1sHIvTmWtajXeG1cO0FqCB54
-	nQtFmvjRw/4s/gkPnlFntgDV3mFT+/aYTC0EflY5LUg6plqwqoQQ+OJe4XirNMoaZJB/wNBySF7
-	u4ogtsCVzvuIal8/bLTiK02mB2msbtQ17uGSRUTAnQfIVui0Xt32MCqZxbur5XSinEuP6ycHCSa
-	HmFM5vET0qfRMesE5irOMFRVeCtJWrmJO5YRwiVDMd3QKBARY5o6MWI1a3H5Um8UMlmCZT8wNJ6
-	XVJX/xlvI/HemxfbSNdjFi6sUg2+zpCdqSAQSqTFyUfIsmP5+s/Q7Qwi2lAbONsuhES7w+K6aJQ
-	kuwEuyr784wna04vl4jZJB7L0ezHygKTwA5dFIho4aytQuHvEZ8CSWH3MX8Zw9fiphQRKMzUGyP
-	9ndpsZNyz1RnmeU49KNPVtJrFugA2pYXAqndIg0351ldXLll/c/hdiwIN8/3XsRpMHPmbfn0DCE
-	WJnu/8HxMkGpVk5pHGruH4GOswdC4tOFLvgiqnt2wZRnJva4JTjOQRjRjMlxe1Wv6ZTc5xztmSr
-	2FG8GIbA2Szbp8vtTGnZ6WZFqwoSMa54I3IwyG6wPjw=
-X-Received: by 2002:a05:620a:254a:b0:910:db3a:7bdb with SMTP id af79cd13be357-915a9d888demr364544085a.32.1780630517716;
-        Thu, 04 Jun 2026 20:35:17 -0700 (PDT)
-Received: from gmail.com (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-9158a381febsm749139385a.23.2026.06.04.20.35.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Jun 2026 20:35:17 -0700 (PDT)
-Date: Fri, 5 Jun 2026 03:35:15 +0000
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: haiqing.bai@windriver.com
-Cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [meta-virtualization] [wrynose][PATCH] sloci-image: upgrade
- v0.1.0 -> v0.1.2
-Message-ID: <aiJD81hCkwBIfyiC@gmail.com>
-References: <20260602084925.1052813-1-haiqing.bai@windriver.com>
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=hqFpkRHL;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=060979f26c=qi.chen@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64T6aS013764402
+	for <meta-virtualization@lists.yoctoproject.org>; Fri, 29 May 2026 00:21:19 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PPS06212021; bh=bMvZUZk6wh20G5E7AeJZ
+	8wKRVEOMQA8btE5vDVjCKkU=; b=hqFpkRHLNv5myNr2x5qZUY3vbnHoiTuLYDeI
+	MG/VI2iBeHU0g9CIgPIbhxGVrfq1JQabL2jBgJrfd7twQub1B4okw/Kmw001B++W
+	6pM3p656qaO3Q1S2zOHzK0GoSNmmDR6eL5dLgf1JWMpGStBdZ5chb+Xx3vjeudTc
+	3H+RDjJVYbKMwwBIdJqpTdxjOE8+WI69PxCXnr3sVAGwj1RKxnyDCIhscK3D+CL9
+	OxgYN3GJvtNH4zMulQKSUPf3sOLmhSSi2t/wJtq9e7TcL5bhE5nmyygaWtNWPQXY
+	BvhRfWHM22wILyesLVQ+HiE0VNYEtUvBxQ/JU2QRG556yH6qAw==
+Received: from ch1pr05cu001.outbound.protection.outlook.com (mail-northcentralusazhn15010016.outbound.protection.outlook.com [52.102.146.16])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4ee7x6t47m-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
+	for <meta-virtualization@lists.yoctoproject.org>; Fri, 29 May 2026 00:21:17 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=YiiwcuQ4Q9KjKS3/+aqX/tsGTV7nae1D1zYQpiJ4NfyKMTJlimFQq4AX9HKogBggYkmIC9htsUSQQ4bl+rjhN0j7i4T0MaxSPKqu3RxLs4nzEXdoWboTiCzSTDiuMVp338YhLnYbKudWqiGF5otZQE9st2yqFwoO9pGWDIjGDIFg+zSNJKpc2PdLmGbbKuna+v1RdfHMFV86iDyNlWVcEeajl7VeqkmytoWLrYtL1Eh98u5uHqLLNnU4akW/zN4KBBzSA9z46DnRDGq37NzMDY2YLA8SWKuCg5nnmf4rEl4QzGuGiaK0DoPJEVroNdQWgtiS3vxXdMr26OqcvOi00Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=bMvZUZk6wh20G5E7AeJZ8wKRVEOMQA8btE5vDVjCKkU=;
+ b=hCc/ZIUnOg+eUTuvkWb63sBUcAtkkA9jTW39jYJdTHx0r8ke4LBrpFRksMgbz8tXqUJx7o5EEwTl2oKMoHddVQqHeWM6Y6X4rw8xwFXwRp2gjCBBchn5TioTrIUG+MiXTkX9RgRn1q5XMMIay0TpsxmkPUoqHg3w06gnNRtaYlZkrnktwdhj+d7zk0lSznGco2ykSZnuMifCSkkamYaPuWJJA4RFskoWQUbOwlYJTEzfz6QVzv6xi8Hzo8wK6Z96ZF+bCYZ9Qmq84oKIINnFl4p1m7zg8S61Qef5uRBxa9mChya/hZ2I0qlwhEE2qFARsCCcvovWa8gytMePB/v3NQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
+ by DS4PPF382351574.namprd11.prod.outlook.com (2603:10b6:f:fc02::1d) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.14; Fri, 29 May
+ 2026 07:21:08 +0000
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::5ad6:8f90:b01d:2c62]) by CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::5ad6:8f90:b01d:2c62%3]) with mapi id 15.21.0071.014; Fri, 29 May 2026
+ 07:21:08 +0000
+From: Qi.Chen@windriver.com
+To: meta-virtualization@lists.yoctoproject.org
+Subject: [meta-virtualization][PATCH] docker-compose: bump from 5.1.0 to 5.1.4
+Date: Fri, 29 May 2026 00:20:58 -0700
+Message-ID: <20260529072058.2214051-1-Qi.Chen@windriver.com>
+X-Mailer: git-send-email 2.49.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: DS2PEPF00004568.namprd21.prod.outlook.com
+ (2603:10b6:f:fc00::50c) To CO6PR11MB5602.namprd11.prod.outlook.com
+ (2603:10b6:303:13a::5)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260602084925.1052813-1-haiqing.bai@windriver.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO6PR11MB5602:EE_|DS4PPF382351574:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1a367e58-36b4-4d89-84f2-08debd52da1b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|52116014|1800799024|376014|366016|13003099007|38350700014|6133799003|18002099003|56012099006|11063799006|3023799007;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?s7/wZHDxM6+6R9q9OSY1rnbIwyUgWSAFT0Qz4nIUdSw/yRW6t9ckMaSPdpB6?=
+ =?us-ascii?Q?K5sctNxi1ruv4omzfk7exclnQFSGAdu0567yD2mhdoYabA80pyvOBFoiDB20?=
+ =?us-ascii?Q?kch228/9wh8zsysyCN1a78FJYP7ImyOb1kI3QQUwmWH9TJ3SdVw5FDJ0QL8I?=
+ =?us-ascii?Q?k1U8vvhTO/5Woekt4Lt4ToOJy3otoWYxiQb6Bzl14Jj3RJx5ScL4lNmLEAC5?=
+ =?us-ascii?Q?pGP+PXsaX3lyHXbZ/4u5o/lUPeD2TNgdZ6KEtRMewsY5K9aqM1s3AzTbEba/?=
+ =?us-ascii?Q?1mJTxE5n4UJLVlqLK7MAmgTAikrazVQ1EcWLoTi80ELBNYtAHH7VsbnArFY6?=
+ =?us-ascii?Q?bNq7EMLCO3tcAWzi4CLPGHbzHhIuVgqwy7YzLOPqx3xvpGTWbvWhBAM+88aq?=
+ =?us-ascii?Q?D41oJbSIfS4xBVeCUKS7y4Ldm96YUkM+MyZWJ0sLibdAl52J4sfTx3U1+GI6?=
+ =?us-ascii?Q?g8vzASIHu5TMkC3JWFH4G3cEAAIsK84eS2WmJFyWHGRyY6/fZyYbR6UDFf0w?=
+ =?us-ascii?Q?E+oIz1Y8hmRW322K33k+ya15zB+Iz0Dqh09H6hheDFUbqGDJdOaDSmSBqhDK?=
+ =?us-ascii?Q?CSZuak1XnJcQmn/yT548h1il2ocF+o22AJ9RA0sk7QkpM8KNBOm2if66K7Kr?=
+ =?us-ascii?Q?FaAT902MKdLtZQxTc5GaTVNNg7jSL6sFZUr4+COU+k3rCVmYl6hAfRqe1WbN?=
+ =?us-ascii?Q?DLmZQHV1NoeDgTwRmihd/152ZBYm6GRau9KG03RaUWl2QJa7Oxbq317uZfqb?=
+ =?us-ascii?Q?HrZM7e6wYiXoUfAMUYelL+NzLL7fiAcHqIxLm/NW6Oek/B6weJZvSA0JSWqn?=
+ =?us-ascii?Q?cqkPO/4Nd0pbzEinWoIGZjFigonAurd13FqMbWFDimSELiFobfNHAAlwBNy5?=
+ =?us-ascii?Q?0EDKoBO7lXrVgX6mgnblho4mat+XdTqQxsvKfTjQKql8LlDjaENcf8qnHJin?=
+ =?us-ascii?Q?JK4MPQ81BkOJpcwm01AecXyR9ENADapBrOzIGVgrdKB53T3l/yyaqvlpNhYk?=
+ =?us-ascii?Q?4eFq/cBitf1u5Xfi7+9I053Wcd/XOPfWq71Lb/yAp//zHFQHtF53SgYTay+A?=
+ =?us-ascii?Q?1/sxqqqz2KK5mBTtNt/vFpne/rKTuz5/HJzIhqkAjcyAK17sA4O6ni+MjXtw?=
+ =?us-ascii?Q?zpr08K+u4ApRsVOQ79mAl1r3IrsEfjnCLicTOMSvawt4+Mvt6gFoUuFH8wY3?=
+ =?us-ascii?Q?7M/RPVczfjmo714Y9cULlp853T4CXjUtzy71szi7FE80rb15XCumXwgZJ5Oy?=
+ =?us-ascii?Q?V+v437rtFo55q2z94scFppXFt9XhEPcha/sHXjLcmQ=3D=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:9;SRV:;IPV:NLI;SFV:SPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:OSPM;SFS:(13230040)(52116014)(1800799024)(376014)(366016)(13003099007)(38350700014)(6133799003)(18002099003)(56012099006)(11063799006)(3023799007);DIR:OUT;SFP:1501;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?bHXjcYd915o0kHBN9TfRL2kGsk7O4FhzFEEO4XnEjF6LjKjNkYBeoUFUni+X?=
+ =?us-ascii?Q?Fs7SJMvuX6LEXdNCl0cVjWW03jW2mZVgcJJynD5jHuNDwrfs9b4pWWw8aHtA?=
+ =?us-ascii?Q?iDDmN5I6zKqr0UUYE5qoseNlTXXRpKkRCdiurG810gafGuv43pYUKH5TxVH6?=
+ =?us-ascii?Q?bgfF/gLi/Tnn4GS/wsAneP8jFAxDTcIV+Z2/GqoWyA+akrpfDmH/Vxmjm9uG?=
+ =?us-ascii?Q?JEEpKGNov6eEs6kNkg6OeRFG0HQYzXoNMrX2IHkpSaX6ICKDF4aTQ0WkGBXR?=
+ =?us-ascii?Q?j4U35+YCacSZDxVF9OHOGPigbDO7Ni4yVUQt/JaYJ2GvpyEt/kIjqihNwH4O?=
+ =?us-ascii?Q?w6+kCC5G1sRTGwq62Xi7eYq+hIsqxQ6DKFNmanEsiRRVK8sc6xTdB+ZQPW2m?=
+ =?us-ascii?Q?G4EOKyK7IC2FbeT+4ZLElKoCR1Yk3vr4uAw4M/PlVe7P/5p1y9CWP0aMsjlq?=
+ =?us-ascii?Q?2prvutZnBAAciEXcbtFxQWjGxSMrZM5hS0ChGrF6F8v/D1EBA9IqEGoF0Bv7?=
+ =?us-ascii?Q?oH2bjfvHngWe5/kl0+eWOD8rkpgpsS82VENxcbdQdtKb1LVPP7MxDK3WkPgB?=
+ =?us-ascii?Q?KgNUbBncaNR+SDV2fWP6GiOSuriz0lq/6yt2P+ik7HLP/UU7o7WccbGvjzNo?=
+ =?us-ascii?Q?zul7qC4wFYbgnEXi/UyiTTAggc55rwaskLs+ZtFrjuNleof+BpaFwiG7EBVJ?=
+ =?us-ascii?Q?0iuhUHxzOR+pvGvuQuefBwDpfAcLhsyd9bMz351jhGuIt1myB1nLVjLG7CV/?=
+ =?us-ascii?Q?alvztIy5Kjtz/cmkAKO303yddlP47KUDb3VK2/FCHUpA0lY4VN3sm2pvm4k1?=
+ =?us-ascii?Q?T9ik6kAVXBovAVuo0I7JFhFLgtzvHKQUQL+E/XExzhAVN3zTFzejhU88pJS3?=
+ =?us-ascii?Q?TNkilLFXR+zoNrDkuMHDRMTLtxVu3X+dA9Oz0EwQyGF3OvqIxHiu5Ha1Bo8o?=
+ =?us-ascii?Q?zG4izGPSBwruJXApoYHMei0jFfY/zWUkzNkLhkGfaocwPqjvQlj16nE0VIl3?=
+ =?us-ascii?Q?aRRklfeqduIQtmpt5nhVbZVpAsCDzAgrw0mjN/0DjBLbs4JXQcVJMgKM5jVh?=
+ =?us-ascii?Q?9bZ83uxS/INvZ47fl1EiyKr1AhHobWBbbhiBjoI7h2jlQLQCE01BIR1d2fFc?=
+ =?us-ascii?Q?DteeCZEZEoS0gAgN7B5ivLeKnt6nSh60PX711nGnTNoK6wOMu3g9XhnAyQAZ?=
+ =?us-ascii?Q?3/pNaQeeibA83JczZZbomndS/FaZWJND361IQpToj2zQbVlrDwtV9WvO0gil?=
+ =?us-ascii?Q?BU288ytYxe6CqvqdEfZX0CUpC7A0Q7Rf37xoRqTpyWZge7edTeKuYwAm5D8o?=
+ =?us-ascii?Q?eJOAqqBfZ+OtXDxg/fsjqMAnDgMwOL9dQvJu2Yp8qBSUnIBpmLDY12359PcU?=
+ =?us-ascii?Q?Rs7i7WRsUFGvELk5Uu+3ZYroUF45ojQiUK/JW/7vEITzaviFjSpjvVIzyRBn?=
+ =?us-ascii?Q?s6B52x+lUDn8eNm33QcCHTN4u1is/fp1mMC3nZC4iW9KL6dtItJio0F992ku?=
+ =?us-ascii?Q?O4lCBo3w6QlLz291fN2NrSEcgttxlOBmyF3B1iTO0OqVcqt7qksuRTceleC+?=
+ =?us-ascii?Q?0nHNrdocdCWNiiKIgKOb8vYkfByRTO9MC1RvjW/NMkDtHoUNVoqrWuJDeJCb?=
+ =?us-ascii?Q?hhuiKF40mUaQdHUOQax17XzuQMjZm2cegyJGwKVtHZk5i/fiDrf9TO9sqpfk?=
+ =?us-ascii?Q?4iJq2lprRrX7SPFg+Efcr0nkg9W4u2ZIQsTxylZvknl5JmJ1WsW7ft678fBI?=
+ =?us-ascii?Q?lMer5C8Ynd6Vra6KU89pJcN5dG78Pv2RgXmCzVmEAhc+3WC/3tbr0pUbYaFt?=
+X-MS-Exchange-AntiSpam-MessageData-1: 
+	YSuD/aAZ2bkjkdL4gi29H86TxiBlZBb8uE7uvPnbIZg/XSrfV3eprQd9Wj/ym6dvlCcVpQNIUOPu5c5ibQbxvXy/0dvwcIP4dk4=
+X-Exchange-RoutingPolicyChecked: 
+	ptmJvt/8QlxMEsxF5o1GWopQ+C/Qgw0vAl7s8PHkc2v2LzQyfinLPlsk5ihzx7aISPg3mQGbW9ZWwjzGyjZDyLiZA9HVHgafVfmFDnAsl04PhjvL7fp240v4aJ8LYKG+Qdgu1061jCsz0kFKbMIAtmVrtW1NpOePQjaRdOPQGr11mf09DNjNMj/Csok3FVGjfLCPhnoZEgWcuuLc+ljMhlRhtvPdicwNnGcTOgT3cpo47N4x6xgcmta+Wq2m571AmwQLHo/FEchc2JBG2T3tVbh3AP84ETJXxv7wU6UIqB3g7VfpLlUrokT8lyDmOP5KLn99yVt1wtu63s3l1dPTww==
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1a367e58-36b4-4d89-84f2-08debd52da1b
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 May 2026 07:21:08.4279
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: GmPzJAxfuIQdnvMKg4tsVyxBwEjMHiAZaExDNt+UvjBHcZl4BF1ayE4dc4UZKhub3fWgPnk1AVT8wddh14h5TA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PPF382351574
+X-Proofpoint-GUID: Yb4waH2ckBatnULK96QlFNiykg7H0cPz
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTI5MDA3MCBTYWx0ZWRfX0vQoFydZ2iPt
+ dda1i8X7BBVg53lMV0myYsp65hfIIp+6Ci+qR+37K7E/wKxajxAtNHf3lzvW0yGhhXxTVfM/vte
+ 2+qATkLLHa/nTq1Uw/Xz8QGgEYoNAQLf9OQ6IrJUr208NDsHedzrP7zC/1xc8iZWsYPWO/xOaQZ
+ w2n4XzKKXjWXH5EG+ANKFOCUh8y8j7piOQotu4neqJ4qHOmOUY3C8srF8PT2IRquW2bB1BMaUsV
+ Dso0lcKxAlpBPPPQhql0GoeHGG+oQ1ZoEj1pasNIj6CeuS/zsloQdD5JLAXCv2Jkdhmiz08k6v0
+ BfsrtyKi+L7j94mo69kxlFHul+w0s0xG/Z17qvm2u6jBGs0xG28qFvADnTzG3WY6p6d2ZaYeh1r
+ PCYiHkjb1Rn2MHLalAb2oD4ZPMkhssznozXNl4tTyI36kMmh6Lh0h3NQPspJx3xDWAU7PGSk2I3
+ K5332GAPsPKuMxRt7Gw==
+X-Proofpoint-ORIG-GUID: Yb4waH2ckBatnULK96QlFNiykg7H0cPz
+X-Authority-Analysis: v=2.4 cv=FcEHAp+6 c=1 sm=1 tr=0 ts=6a193e6f cx=c_pps
+ a=pemvENIJUAUvIOQsGjwPVw==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=xMGyyMvDoKm8OdV5y1pMtOx9jc4=:19 a=xqWC_Br6kY4A:10 a=NGcC8JguVDcA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22 a=iKiJcTA2PjBS6x5JeXcw:22
+ a=t7CeM3EgAAAA:8 a=pM9yUfARAAAA:8 a=NEAV23lmAAAA:8 a=H2i3IdQ1AAAA:8
+ a=40lzZA5hAAAA:8 a=A8SYFbrGAAAA:8 a=eqivdppWAAAA:8 a=VwQbUJbxAAAA:8
+ a=mc3wkJFoAAAA:8 a=1XWaLZrsAAAA:8 a=Oh2cFVv5AAAA:8 a=mqWyZ3s-utTo25Q7FmkA:9
+ a=FdTzh2GWekK77mhwV6Dw:22 a=YH-7kEGJnRg4CV3apUU-:22 a=yHFHt033RfTVV2SKly0E:22
+ a=6dQpByQ0HwLn7TWfJfym:22 a=F1Pc3dsBGJE1cgPgt59Z:22 a=GnWAtOqT4zqNIbndlx-t:22
+ a=3Vk6Y6XyitgX5zbnooNH:22 a=7KeoIwV6GZqOttXkcoxL:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-05-29_02,2026-05-28_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 malwarescore=0 priorityscore=1501 adultscore=0 bulkscore=0
+ impostorscore=0 clxscore=1015 spamscore=0 lowpriorityscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2605210000 definitions=main-2605290070
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Fri, 05 Jun 2026 03:35:28 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9855
+ <meta-virtualization@lists.yoctoproject.org>; Fri, 29 May 2026 07:21:32 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9825
 
-There's a bump pending in master-next, that needs to land first, and
-then you can sumbit a cherry pick request for it.
+From: Chen Qi <Qi.Chen@windriver.com>
 
-Bruce
+Bumping docker-compose to version 5.1.4, which comprises the following commits:
 
-In message: [meta-virtualization] [wrynose][PATCH] sloci-image: upgrade v0.1.0 -> v0.1.2
-on 02/06/2026 haiqing via lists.yoctoproject.org wrote:
+  4732a2ed2: build(deps): bump golang.org/x/sys from 0.42.0 to 0.44.0
+  5fb09a9b8: build(deps): bump github.com/docker/cli
+  32c78147b: build(deps): bump github.com/compose-spec/compose-go/v2
+  eb4b1cc3f: fix(publish): prompt on sensitive-looking env literals
+  0e25711ca: build(deps): bump google.golang.org/grpc from 1.81.0 to 1.81.1
+  c59e13cde: feat: pre-filter Desktop Logs view by Compose project
+  554a2ba3e: refactor: drop Desktop beta-settings check; gate hint on LogsTab flag
+  71cd334db: fix: restore stoppingEvent/stoppedEvent helpers for plugin stop hook
+  5b4586e3a: fix: stop-only metadata no longer drops options for up/down
+  19fc292eb: perf: avoid duplicate provider metadata fetch on stop
+  672dc14d2: feat: add stop lifecycle hook for external providers
+  8e0d5e17a: fix: make e2e tests pass reliably locally with Docker Desktop   - Fix stale image/container reuse across test runs                                                                                                                                                                                                                                                          - Add registry readiness check and async removal polling   - Skip multi-arch test when docker driver supports it   - Use t.Cleanup for reliable teardown, fix project name mismatches   - Re-enable 4 previously skipped tests that now pass
+  66c21c3b6: fix: route OCI artifact pulls through Docker Desktop HTTP proxy
+  659b269e5: nit: use labelFilter consistently in filters.go
+  5c7071219: fix: restore deprecated Set.Clear/Union; use resource var in pull.go
+  07832c4df: refactor: fix lint issues from cleanup changes
+  40d363baf: refactor: miscellaneous small cleanups (forEach, filters, Set)
+  98163f561: refactor(compose): collapse resolveSharedNamespaces repeated blocks
+  96cb057d0: refactor(compose): extract forEachContainerConcurrent to deduplicate pause/kill logic
+  c8325dd0d: refactor(compose): extract removeResource helper in down.go
+  0eb2e4f4e: refactor(compose): remove redundant wrapper funcs in dependencies.go
+  da530c723: refactor(compose): collapse trivial event-helper wrappers in progress.go
+  616adea1b: refactor(cmd): extract withBackend helper to remove CLI boilerplate
+  88545507e: pkg/compose: go fix
+  2bbb88acf: update to go1.26.3
+  4f69a8c99: build(deps): bump google.golang.org/grpc from 1.80.0 to 1.81.0
+  9581337d2: build(deps): bump github.com/docker/cli
+  e1267ec10: build(deps): bump github.com/moby/moby/client from 0.4.0 to 0.4.1
+  0fcbaff45: build(deps): bump github.com/docker/cli
+  b8effbacb: Change verb tense in `compose` command documentation
+  60584e72b: chore: update cagent-action to v1.4.4
+  baaaaa3ff: build(deps): bump github.com/mattn/go-shellwords from 1.0.12 to 1.0.13
+  9fd9dc7ca: ci: remove unused e2e job from merge workflow
+  977a4310f: remove 'provenance' attribute'
+  efb090183: feat: make hook hint deep links clickable using OSC 8 terminal hyperlinks
+  6ed7625d4: build(deps): bump github.com/containerd/containerd/v2
+  7a97400be: Fix typo in SECURITY.md
+  9eb896670: fix: provider output handling and watch rebuild re-invocation
+  d518da241: build and push Docker Desktop module image on release
+  182defa8a: feat: add Docker Desktop Logs view hints and navigation shortcut
+  ae92bef4e: update to Go 1.25.9
+  ba417e439: use new moby/moby modules instead of docker/docker dependency
+  9085f7bda: bump compose-go to version v2.10.2
+  89e3517f2: build(deps): bump github.com/docker/cli v29.4.0
+  d1296c346: build(deps): github.com/moby/moby/client v0.4.0, moby/api v1.54.1
+  63601ebbb: test: migrate tar_test.go from testify to gotest.tools/v3
+  6ce3fb57a: fix: return error on non-ErrNotExist stat failures in Tar.Sync()
+  c1aefc74c: build(deps): bump github.com/containerd/platforms
+  148ad64ee: build(deps): bump google.golang.org/grpc from 1.79.3 to 1.80.0
+  3ecc08294: build(deps): bump github.com/docker/buildx v0.33.0, buildkit v0.29.0
+  1e3f4d0f4: fix: update e2e tests to expect exit code 130 on user decline
+  37cbf7a9c: test: repurpose decline test to cover sensitive data detection path
+  9c5fd5098: publish: return ErrPublishAborted when user declines interactive prompts
+  73d8a6d57: test: use random host port for dind TLS build test
+  92a7ac1fa: fix mixed assertion libraries in tests
+  a97738de7: fix: add NetworkConnect fallback for API < 1.44
+  3b1004c4d: fix: gate extra EndpointsConfig behind API >= 1.44
+  9cab43945: refactor: merge RuntimeVersion and CurrentAPIVersion into RuntimeAPIVersion
+  ef836856f: fix: don't cache transient errors in version negotiation
+  c7d1a6030: fix: use pointer receivers for composeService methods with sync.Once fields
+  5f6f35ed2: pkg/compose: use negotiated API version for request shaping
+  3d2d03cd3: build(deps): bump github.com/hashicorp/go-version from 1.8.0 to 1.9.0
+  7aeb90c9a: Skip PR review workflow for Dependabot PRs
+  e5c6b9c3b: fix: return error from ExecStart instead of nil in runWaitExec
+  b529a3ca5: fix: add build tag to hook_test.go to fix Windows build failure (#13682)
+  fa9762b15: build(deps): bump github.com/docker/cli
+  5bbdd239d: pkg/compose: fix TestRunHook_ConsoleSize on macOS
+  e742d0971: fix: initialize and pass envFiles map in processExtends
+  612b8c567: fix: preserve ssh:// URL scheme in dockerFilePath
+  ef86a6ef0: build(deps): bump go.opentelemetry.io/otel/sdk from 1.39.0 to 1.42.0
+  0de456bc7: chore: bump GitHub Actions to latest versions
+  56e2dba36: chore: pin GitHub Actions to commit SHA, remove pr-review workflow
+  0c39d8a20: build(deps): bump github.com/moby/patternmatcher from 0.6.0 to 0.6.1
+  a57320fdf: Fix up attach filtering
+  46d75d0be: Update .github/workflows/pr-review.yml
+  bd351d7f9: Update .github/workflows/pr-review.yml
+  ece188682: update cagent-action to latest (with better permissions)
+  2b9f60ba5: Add AI-powered PR review workflow via docker/cagent-action
+  b18354b9f: refactor: thread context through publish sensitive data check
+  72bf113b0: build(deps): bump google.golang.org/grpc from 1.78.0 to 1.79.3
+  5de4353a6: bump golangci-lint to latest and configure CLAUDE to use it on change
+  27d9d5063: build(deps): bump github.com/containerd/platforms
+  0d8dc0904: cmd/display: left-pad timers for right-aligned column
+  02aaf253c: Fix TTY timer alignment leaving stale suffix
+  b04336802: Update docker/github-builder to v1.4.0
+  c7e889636: Fix forbidigo linting error
+  e3fcdb823: Fix linting issues in tty_test.go
+  b7d1c62ec: exclude .idea from git commit
+  25b29d776: Fix deadlock in ttyWriter.Done()
 
-> From: Haiqing Bai <Haiqing.Bai@windriver.com>
-> 
-> Upgrade sloci-image to the latest stable release v0.1.2.
-> 
-> Key upstream changes since v0.1.0:
-> - Fix escaping issues when generating OCI image config files
-> - Don't create top-level directory in tar archive (containerd compat)
-> - Fix "--arch arm64" argument being incorrectly rewritten to "arm"
-> 
-> Recipe changes:
-> - Update SRCREV to b45be2e (tag v0.1.2)
-> - Update LIC_FILES_CHKSUM for updated LICENSE file
-> 
-> The existing variant quoting patch is retained as it remains
-> applicable and is not addressed upstream (Upstream-Status:
-> Inappropriate [embedded specific]).
-> 
-> Signed-off-by: Haiqing Bai <haiqing.bai@windriver.com>
-> ---
->  .../0001-sloci-image-fix-variant-quoting.patch        | 11 ++++++-----
->  recipes-containers/sloci-image/sloci-image_git.bb     |  6 +++---
->  2 files changed, 9 insertions(+), 8 deletions(-)
-> 
-> diff --git a/recipes-containers/sloci-image/sloci-image/0001-sloci-image-fix-variant-quoting.patch b/recipes-containers/sloci-image/sloci-image/0001-sloci-image-fix-variant-quoting.patch
-> index 85aa6205..e1749b63 100644
-> --- a/recipes-containers/sloci-image/sloci-image/0001-sloci-image-fix-variant-quoting.patch
-> +++ b/recipes-containers/sloci-image/sloci-image/0001-sloci-image-fix-variant-quoting.patch
-> @@ -1,4 +1,4 @@
-> -From 55aebd87ee81f851d088beea8688e3e599c2bced Mon Sep 17 00:00:00 2001
-> +From f153bc9b54b2d43e572873b7a5ca490b97d2353d Mon Sep 17 00:00:00 2001
->  From: Bruce Ashfield <bruce.ashfield@gmail.com>
->  Date: Fri, 17 Jul 2020 14:40:12 -0400
->  Subject: [PATCH] sloci-image: fix variant quoting
-> @@ -14,12 +14,13 @@ when a variant is defined.
->  Upstream-Status: Inappropriate [embedded specific]
->  
->  Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-> +Signed-off-by: Haiqing Bai <haiqing.bai@windriver.com>
->  ---
->   sloci-image | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
->  
->  diff --git a/sloci-image b/sloci-image
-> -index be8e79a..e0dc469 100755
-> +index 7c0c3bd..a9bcd44 100755
->  --- a/sloci-image
->  +++ b/sloci-image
->  @@ -298,6 +298,7 @@ oci_image_config() {
-> @@ -34,11 +35,11 @@ index be8e79a..e0dc469 100755
->   	      "digest": "$manifest_digest",
->   	      "platform": {
->   	        "architecture": "$(oci_arch $CFG_ARCH)",
-> --	        ${CFG_ARCH_VARIANT:+"\"variant\": $(json_string "$CFG_ARCH_VARIANT"),"}
-> -+		${CFG_ARCH_VARIANT:+$variant_string}
-> +-	        ${CFG_ARCH_VARIANT:+"$(echo \"variant\"): $(json_string "$CFG_ARCH_VARIANT"),"}
-> ++	        ${CFG_ARCH_VARIANT:+$variant_string}
->   	        "os": "$CFG_OS"
->   	      },
->   	      "annotations": {
->  -- 
-> -2.19.1
-> +2.51.0
->  
-> diff --git a/recipes-containers/sloci-image/sloci-image_git.bb b/recipes-containers/sloci-image/sloci-image_git.bb
-> index e0bdad39..7c72c7d6 100644
-> --- a/recipes-containers/sloci-image/sloci-image_git.bb
-> +++ b/recipes-containers/sloci-image/sloci-image_git.bb
-> @@ -1,6 +1,6 @@
->  SUMMARY = "A simple CLI tool for packing rootfs into a single-layer OCI image"
->  LICENSE = "MIT"
-> -LIC_FILES_CHKSUM = "file://LICENSE;md5=948cd8e59069fad992b0469af9ad7966"
-> +LIC_FILES_CHKSUM = "file://LICENSE;md5=896c8ffa3d0539d0d980d0217269969d"
->  SRC_URI = "git://github.com/jirutka/sloci-image.git;branch=master;protocol=https \
->             file://0001-sloci-image-fix-variant-quoting.patch \
->            "
-> @@ -8,8 +8,8 @@ SRC_URI = "git://github.com/jirutka/sloci-image.git;branch=master;protocol=https
->  
->  DEPENDS = ""
->  
-> -SRCREV = "4015e49763e5a738026a5bbfcf32b38b5a4fa650"
-> -PV = "v0.1.0+git"
-> +SRCREV = "b45be2e049c5c55acb04a5edb017b793d2d9e677"
-> +PV = "v0.1.2+git"
->  
->  do_compile() { 
->  	:
-> -- 
-> 2.53.0
-> 
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ .../docker-compose/docker-compose_git.bb      |    4 +-
+ .../docker-compose/go-mod-cache.inc           | 1262 +++++++++--------
+ .../docker-compose/go-mod-git.inc             | 1167 ++++++++-------
+ .../docker-compose/go-mod-hybrid-cache.inc    |   20 +-
+ .../docker-compose/go-mod-hybrid-git.inc      |   20 +-
+ .../docker-compose/go-mod-hybrid-gomod.inc    |  253 +++-
+ 6 files changed, 1498 insertions(+), 1228 deletions(-)
 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#9839): https://lists.yoctoproject.org/g/meta-virtualization/message/9839
-> Mute This Topic: https://lists.yoctoproject.org/mt/119608048/1050810
-> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+diff --git a/recipes-containers/docker-compose/docker-compose_git.bb b/recipes-containers/docker-compose/docker-compose_git.bb
+index 3eb78c04..b8b3c4ce 100644
+--- a/recipes-containers/docker-compose/docker-compose_git.bb
++++ b/recipes-containers/docker-compose/docker-compose_git.bb
+@@ -6,7 +6,7 @@ DEPENDS = " \
+     go-md2man \
+ "
+ 
+-SRCREV_compose = "e8c214349819cc14804e8946adb8ae3576b7139c"
++SRCREV_compose = "4732a2ed20a49c43a7b44bb4928259162c3ae3be"
+ SRCREV_FORMAT = "compose"
+ 
+ SRC_URI = "git://github.com/docker/compose;branch=main;name=compose;protocol=https;destsuffix=${GO_SRCURI_DESTSUFFIX}"
+@@ -28,7 +28,7 @@ LIC_FILES_CHKSUM = "file://src/import/LICENSE;md5=175792518e4ac015ab6696d16c4f60
+ 
+ GO_IMPORT = "import"
+ 
+-PV = "5.1.0"
++PV = "5.1.4"
+ 
+ COMPOSE_PKG = "github.com/docker/compose/v2"
+ 
+diff --git a/recipes-containers/docker-compose/go-mod-cache.inc b/recipes-containers/docker-compose/go-mod-cache.inc
+index f7e51153..c412204d 100644
+--- a/recipes-containers/docker-compose/go-mod-cache.inc
++++ b/recipes-containers/docker-compose/go-mod-cache.inc
+@@ -8,638 +8,737 @@ inherit go-mod-vcs
+ 
+ # Module metadata for cache building (one module per line)
+ GO_MODULE_CACHE_DATA = '[\
+-{"module":"github.com/go-sql-driver/mysql","version":"v1.3.0","vcs_hash":"732613cefc15b1adbb2c7aeb63e0c9bbf2708050a30ce547a2df82727da51371","timestamp":"2016-12-01T11:50:36Z","subdir":"","vcs_ref":"refs/tags/v1.3.0"},\
++{"module":"cyphar.com/go-pathrs","version":"v0.2.1","vcs_hash":"e45d21327d19f5df130e8033c6a083bb99ae3ef92dff0a6b9e0b6ad59104fe90","timestamp":"2025-11-02T17:55:16Z","subdir":"go-pathrs","vcs_ref":"refs/tags/go-pathrs/v0.2.1"},\
++{"module":"gotest.tools/v3","version":"v3.5.2","vcs_hash":"0059a65e8d8f001755ae605517342ab3e098223b600f512103941850dfee7cc5","timestamp":"2024-09-05T03:48:22Z","subdir":"","vcs_ref":"refs/tags/v3.5.2"},\
++{"module":"go.etcd.io/bbolt","version":"v1.4.3","vcs_hash":"5983ea71bb9e5e22aede686f4e2d57552e937bd9f2a5a3ca5e595c01b957c33a","timestamp":"2025-08-19T17:17:23Z","subdir":"","vcs_ref":"refs/tags/v1.4.3"},\
++{"module":"dario.cat/mergo","version":"v1.0.2","vcs_hash":"b16914f71b927e268f1d35e84fd54af7eca655000013af4d0f184bcbd154847c","timestamp":"2025-05-07T20:15:06Z","subdir":"","vcs_ref":"refs/tags/v1.0.2"},\
++{"module":"go.uber.org/goleak","version":"v1.3.0","vcs_hash":"358840d6c8d4d8a268b95a505fd6f93da14af34041c0824fe51920b4cd523ae2","timestamp":"2023-10-24T16:28:03Z","subdir":"","vcs_ref":"refs/tags/v1.3.0"},\
++{"module":"go.uber.org/mock","version":"v0.6.0","vcs_hash":"03540ab2f6f54b62764f09a177ce039608b19eb6106bf7b67da770000fde2a48","timestamp":"2025-08-18T14:58:04Z","subdir":"","vcs_ref":"refs/tags/v0.6.0"},\
++{"module":"filippo.io/edwards25519","version":"v1.1.0","vcs_hash":"f4c4c638435f40478f3fd4350a83ea7fc251e7970f9edee9b9bc5101fbd4f799","timestamp":"2023-12-10T19:13:24Z","subdir":"","vcs_ref":"refs/tags/v1.1.0"},\
++{"module":"gopkg.in/yaml.v3","version":"v3.0.1","vcs_hash":"8d340fff421a1861f196061b40e49b2f9e802647204935d08e1062b8ecd90b0d","timestamp":"2022-05-27T08:35:30Z","subdir":"","vcs_ref":"refs/tags/v3.0.1"},\
++{"module":"gopkg.in/yaml.v3","version":"v3.0.0-20200313102051-9f266ea9e77c","vcs_hash":"ae6e6119974a43d5668501b6efe7e743408319dee4094d1929d3e75a4f5dac98","timestamp":"2020-03-13T10:20:51Z","subdir":"","vcs_ref":""},\
++{"module":"gopkg.in/fsnotify.v1","version":"v1.4.7","vcs_hash":"cc44f7bf337eee80812ff411465b4e87c78887003ae940c1b27adb151bbed7d2","timestamp":"2018-01-10T05:33:47Z","subdir":"","vcs_ref":"refs/tags/v1.4.7"},\
++{"module":"gopkg.in/tomb.v1","version":"v1.0.0-20141024135613-dd632973f1e7","vcs_hash":"3eb09c53457860b46e591b55bd3d381c6c4ceb426eeef3c43e3b3eac38964c0d","timestamp":"2014-10-24T13:56:13Z","subdir":"","vcs_ref":""},\
++{"module":"gopkg.in/ini.v1","version":"v1.67.0","vcs_hash":"35aca96c4c1dbe28b4a68dd8f9ad52ed4d311b137ae51f57e5f73034281e5da5","timestamp":"2022-08-08T11:35:30Z","subdir":"","vcs_ref":"refs/tags/v1.67.0"},\
++{"module":"gopkg.in/inf.v0","version":"v0.9.1","vcs_hash":"61185ca91404d2e09a193aede807b4a9ededd43199f58cd49ec4cef480d7bc7f","timestamp":"2018-03-26T17:23:32Z","subdir":"","vcs_ref":"refs/tags/v0.9.1"},\
++{"module":"gopkg.in/yaml.v2","version":"v2.2.8","vcs_hash":"400816c86851106c70bff651cdce4df77403b9659ec70d1d1bbe2d3211dfa942","timestamp":"2020-01-21T17:19:40Z","subdir":"","vcs_ref":"refs/tags/v2.2.8"},\
++{"module":"gopkg.in/yaml.v2","version":"v2.2.2","vcs_hash":"8a100ce674e65e72daf096e45d53f5beec9f9123c742acb89993de84b6414834","timestamp":"2018-11-15T11:05:04Z","subdir":"","vcs_ref":"refs/tags/v2.2.2"},\
++{"module":"gopkg.in/yaml.v2","version":"v2.2.4","vcs_hash":"16ad1bc1035b50f99a688a97524eadf6fc6a8b09612f99dd2ef19e0889b7935a","timestamp":"2019-10-02T18:33:36Z","subdir":"","vcs_ref":"refs/tags/v2.2.4"},\
++{"module":"gopkg.in/yaml.v2","version":"v2.2.1","vcs_hash":"0fa3b98a4c1a3d9bd017c1d1c94874fecbc693d1400e5f002f53d4444a42664c","timestamp":"2018-03-28T19:50:20Z","subdir":"","vcs_ref":"refs/tags/v2.2.1"},\
++{"module":"gopkg.in/check.v1","version":"v1.0.0-20200227125254-8fa46927fb4f","vcs_hash":"23da246e09df0cfb88f7874f3e8ab42f1563033c51f59b8fd9f88f708ab87083","timestamp":"2020-02-27T12:52:54Z","subdir":"","vcs_ref":""},\
++{"module":"gopkg.in/check.v1","version":"v0.0.0-20161208181325-20d25e280405","vcs_hash":"f6f7125ac7ef086ca6395a14a9a28c8c11cd6f8790a8be7cfd6475d1acd0f40b","timestamp":"2016-12-08T18:13:25Z","subdir":"","vcs_ref":""},\
++{"module":"gopkg.in/check.v1","version":"v1.0.0-20201130134442-10cb98267c6c","vcs_hash":"b8ed7c01feb15e76511fd0dcf4b7d5e0ab535f96b5fe0e22cd9854a758a6c38d","timestamp":"2020-11-30T13:44:42Z","subdir":"","vcs_ref":""},\
++{"module":"gonum.org/v1/gonum","version":"v0.16.0","vcs_hash":"525f00d6116e74b77041f8bb562564ec0e4c1d66d02a48c7b8093f8f931ae1c4","timestamp":"2025-03-21T18:40:20Z","subdir":"","vcs_ref":"refs/tags/v0.16.0"},\
++{"module":"gonum.org/v1/gonum","version":"v0.17.0","vcs_hash":"97e0ee36296f2cb2f3d1791623b4a81368a81b9887e637d57840b4152a64f400","timestamp":"2025-12-29T19:16:44Z","subdir":"","vcs_ref":"refs/tags/v0.17.0"},\
++{"module":"k8s.io/api","version":"v0.35.2","vcs_hash":"d96e98953ad442fb5f8a0bb8d9b83d63faf0eb92f78689e6616738e60e202642","timestamp":"2026-02-27T03:53:50Z","subdir":"","vcs_ref":"refs/tags/v0.35.2"},\
++{"module":"k8s.io/klog/v2","version":"v2.130.1","vcs_hash":"eaab5e8e1958570d9bced9a912298fdaa9472cecec794161f58aebf8c4d1e963","timestamp":"2024-06-20T00:51:19Z","subdir":"","vcs_ref":"refs/tags/v2.130.1"},\
++{"module":"k8s.io/apimachinery","version":"v0.35.2","vcs_hash":"3607284db090a16c797d866e0afc2f5981016fa804bf28b6ae61b062c6e6c8c3","timestamp":"2025-12-04T22:24:03Z","subdir":"","vcs_ref":"refs/tags/v0.35.2"},\
++{"module":"k8s.io/kube-openapi","version":"v0.0.0-20250910181357-589584f1c912","vcs_hash":"d52ae18a0311c6102c8f6db1458120357ba6824e0af66b6ec92f343cd130aab6","timestamp":"2025-09-10T18:13:57Z","subdir":"","vcs_ref":""},\
++{"module":"k8s.io/kube-openapi","version":"v0.0.0-20250710124328-f3f2b991d03b","vcs_hash":"bbdfcb1726af92c510f587baa66600e18719a63bbabc846728d7c2ff829a2146","timestamp":"2025-07-10T12:43:28Z","subdir":"","vcs_ref":""},\
++{"module":"k8s.io/utils","version":"v0.0.0-20251002143259-bc988d571ff4","vcs_hash":"fb4c92184a0c1cd25830e66a6860cd9ba95d39bd4c7299f50c01f78da028780a","timestamp":"2025-10-02T14:32:59Z","subdir":"","vcs_ref":""},\
++{"module":"k8s.io/utils","version":"v0.0.0-20250604170112-4c0f3b243397","vcs_hash":"60ee1a48e44e3b939997e0fd54e801d1b11cfe7183c5f295746d2564bd6860e8","timestamp":"2025-06-04T17:01:12Z","subdir":"","vcs_ref":""},\
++{"module":"k8s.io/cri-api","version":"v0.34.1","vcs_hash":"7301e739a4795b683b66e93dd7c6f440f5c5fddd2ad7816c05a5678c723aca60","timestamp":"2025-08-16T07:57:26Z","subdir":"","vcs_ref":"refs/tags/v0.34.1"},\
++{"module":"k8s.io/client-go","version":"v0.35.2","vcs_hash":"efba3afcf90e8f75f41529c8eebf5fddd7c6193d91ec24020fa463c47d81bb8a","timestamp":"2026-02-27T04:23:44Z","subdir":"","vcs_ref":"refs/tags/v0.35.2"},\
++{"module":"go.mongodb.org/mongo-driver","version":"v1.17.6","vcs_hash":"e629113ada68e74e78e8cccbe5f20cfc312b1982f3b922205f92ed2458babd7f","timestamp":"2025-10-27T23:16:51Z","subdir":"","vcs_ref":"refs/tags/v1.17.6"},\
++{"module":"cel.dev/expr","version":"v0.25.1","vcs_hash":"aa7727faf6d3d07cc2dd703f32ef5e153071a4e80bc7a5f4ff31cf427863a8ce","timestamp":"2025-11-08T22:07:56Z","subdir":"","vcs_ref":"refs/tags/v0.25.1"},\
++{"module":"cel.dev/expr","version":"v0.24.0","vcs_hash":"22be8bab702f88ee991b30c18c7bac8535814d8de3215c69ac9ee1e73da82c45","timestamp":"2025-05-07T15:31:15Z","subdir":"","vcs_ref":"refs/tags/v0.24.0"},\
++{"module":"go.opencensus.io","version":"v0.24.0","vcs_hash":"8607148e6fbec2ab3d0020ea3ffb8bdce7bc15dae97ebec60385afa6ddb97c29","timestamp":"2022-11-03T20:13:50Z","subdir":"","vcs_ref":"refs/tags/v0.24.0"},\
++{"module":"tags.cncf.io/container-device-interface/specs-go","version":"v1.0.0","vcs_hash":"a9b36137e55bc5c537c3eddc79e73eca4dc1c855628a8e32e027103df4d865f4","timestamp":"2025-03-07T16:36:12Z","subdir":"specs-go","vcs_ref":"refs/tags/specs-go/v1.0.0"},\
++{"module":"tags.cncf.io/container-device-interface/specs-go","version":"v1.1.0","vcs_hash":"2a0706ee0554e66b341fabb5c09e62f00336b0a7e6faac981d973f30b4064622","timestamp":"2025-12-10T08:48:20Z","subdir":"specs-go","vcs_ref":"refs/tags/specs-go/v1.1.0"},\
++{"module":"tags.cncf.io/container-device-interface","version":"v1.0.1","vcs_hash":"228f05c3a05800a5e1340385d34910aac599df817838e50aa367b9cd09151186","timestamp":"2025-03-22T07:35:24Z","subdir":"","vcs_ref":"refs/tags/v1.0.1"},\
++{"module":"tags.cncf.io/container-device-interface","version":"v1.1.0","vcs_hash":"2a0706ee0554e66b341fabb5c09e62f00336b0a7e6faac981d973f30b4064622","timestamp":"2025-12-10T08:48:20Z","subdir":"","vcs_ref":"refs/tags/v1.1.0"},\
++{"module":"kernel.org/pub/linux/libs/security/libcap/cap","version":"v1.2.77","vcs_hash":"0e3f13776ff605f669bbf0d6414b493efd804254db98b6d3bea7655371b7f53f","timestamp":"2025-10-26T18:29:03Z","subdir":"cap","vcs_ref":"refs/tags/cap/v1.2.77"},\
++{"module":"kernel.org/pub/linux/libs/security/libcap/cap","version":"v1.2.76","vcs_hash":"68fcf96342d6b57dcc3e6c818463c707e806599087dedf19a4eb9d818367df61","timestamp":"2025-04-13T16:47:12Z","subdir":"cap","vcs_ref":"refs/tags/cap/v1.2.76"},\
++{"module":"kernel.org/pub/linux/libs/security/libcap/psx","version":"v1.2.77","vcs_hash":"0e3f13776ff605f669bbf0d6414b493efd804254db98b6d3bea7655371b7f53f","timestamp":"2025-10-26T18:29:03Z","subdir":"psx","vcs_ref":"refs/tags/psx/v1.2.77"},\
++{"module":"kernel.org/pub/linux/libs/security/libcap/psx","version":"v1.2.76","vcs_hash":"68fcf96342d6b57dcc3e6c818463c707e806599087dedf19a4eb9d818367df61","timestamp":"2025-04-13T16:47:12Z","subdir":"psx","vcs_ref":"refs/tags/psx/v1.2.76"},\
++{"module":"pgregory.net/rapid","version":"v1.2.0","vcs_hash":"44c434e5467532a753dca055894777e9cc0c2edb2d36b01df08664a6953e8459","timestamp":"2025-02-24T08:18:48Z","subdir":"","vcs_ref":"refs/tags/v1.2.0"},\
++{"module":"google.golang.org/protobuf","version":"v1.36.10","vcs_hash":"3436497d01a86cde43a5e76c997e02e0547f362e8f0246dcbb7680acad79157f","timestamp":"2025-10-02T08:56:10Z","subdir":"","vcs_ref":"refs/tags/v1.36.10"},\
++{"module":"google.golang.org/protobuf","version":"v1.36.11","vcs_hash":"d5e44d171a0e43b2572231e7dad4dbb2fbeb34ff9c7aaf7a36a393294ff3d55d","timestamp":"2025-12-12T08:48:31Z","subdir":"","vcs_ref":"refs/tags/v1.36.11"},\
++{"module":"google.golang.org/genproto/googleapis/api","version":"v0.0.0-20260226221140-a57be14db171","vcs_hash":"7bcda6593cc1f5fa08bd21c9a772b2591c43be74c5148ee2253b318414acbac0","timestamp":"2026-02-26T22:11:40Z","subdir":"googleapis/api","vcs_ref":""},\
++{"module":"google.golang.org/genproto/googleapis/api","version":"v0.0.0-20251022142026-3a174f9686a8","vcs_hash":"b5ce4250f6640d334872a72f3816006a60b60061151262fb86636fdb602cb7f6","timestamp":"2025-10-22T14:20:26Z","subdir":"googleapis/api","vcs_ref":""},\
++{"module":"google.golang.org/genproto/googleapis/api","version":"v0.0.0-20251103181224-f26f9409b101","vcs_hash":"2a836781ea0b225ac15b54d6058e34525750c5a309d733ac59c70bd294604259","timestamp":"2025-11-03T18:12:24Z","subdir":"googleapis/api","vcs_ref":""},\
++{"module":"google.golang.org/genproto/googleapis/rpc","version":"v0.0.0-20260226221140-a57be14db171","vcs_hash":"7bcda6593cc1f5fa08bd21c9a772b2591c43be74c5148ee2253b318414acbac0","timestamp":"2026-02-26T22:11:40Z","subdir":"googleapis/rpc","vcs_ref":""},\
++{"module":"google.golang.org/genproto/googleapis/rpc","version":"v0.0.0-20251022142026-3a174f9686a8","vcs_hash":"b5ce4250f6640d334872a72f3816006a60b60061151262fb86636fdb602cb7f6","timestamp":"2025-10-22T14:20:26Z","subdir":"googleapis/rpc","vcs_ref":""},\
++{"module":"google.golang.org/genproto/googleapis/rpc","version":"v0.0.0-20251103181224-f26f9409b101","vcs_hash":"2a836781ea0b225ac15b54d6058e34525750c5a309d733ac59c70bd294604259","timestamp":"2025-11-03T18:12:24Z","subdir":"googleapis/rpc","vcs_ref":""},\
++{"module":"google.golang.org/genproto","version":"v0.0.0-20230223222841-637eb2293923","vcs_hash":"21c46bcd2e99306470dba32b1498445db51b8fb0eb86d97f796374b8d215eb9c","timestamp":"2023-02-23T22:28:41Z","subdir":"","vcs_ref":""},\
++{"module":"google.golang.org/grpc/cmd/protoc-gen-go-grpc","version":"v1.5.1","vcs_hash":"ce5a862c22ded840bff7b7ec1016804cb0af284075ea09fb5fe73b9866532a3a","timestamp":"2024-07-29T17:04:12Z","subdir":"cmd/protoc-gen-go-grpc","vcs_ref":"refs/tags/cmd/protoc-gen-go-grpc/v1.5.1"},\
++{"module":"google.golang.org/grpc","version":"v1.77.0","vcs_hash":"6a4d91efb4524dab3f60e9d933cded144ffbbfe78825b7b8af87b3f8ac1f948f","timestamp":"2025-11-17T23:10:58Z","subdir":"","vcs_ref":"refs/tags/v1.77.0"},\
++{"module":"google.golang.org/grpc","version":"v1.78.0","vcs_hash":"0638a64122abeb115144e72987920717a22fb1af701d28ef847f1f50cf61c8ac","timestamp":"2025-12-23T09:24:02Z","subdir":"","vcs_ref":"refs/tags/v1.78.0"},\
++{"module":"google.golang.org/grpc","version":"v1.81.1","vcs_hash":"6732dda98dc8306342192af0c71fcd1371a5a5ea2f7928f592d2b29f736ef27c","timestamp":"2026-05-13T05:19:17Z","subdir":"","vcs_ref":"refs/tags/v1.81.1"},\
++{"module":"google.golang.org/grpc","version":"v1.0.5","vcs_hash":"a8f63cb0b9589a8734365d4e15d54811da5f80c7314224f78f912146fcb9e1d8","timestamp":"2016-12-02T18:43:27Z","subdir":"","vcs_ref":"refs/tags/v1.0.5"},\
++{"module":"go.opentelemetry.io/auto/sdk","version":"v1.2.1","vcs_hash":"1fd877c6ad92470308433b00b2458aacc47c259fb28a0596272d30410c77f412","timestamp":"2025-09-15T16:53:44Z","subdir":"sdk","vcs_ref":"refs/tags/sdk/v1.2.1"},\
++{"module":"go.opentelemetry.io/otel/sdk","version":"v1.38.0","vcs_hash":"a95b69a9e67fb0660691c8d8f29b4fbfe95874e2d916849ef02db0d886ff00b5","timestamp":"2025-08-29T19:42:52Z","subdir":"sdk","vcs_ref":"refs/tags/sdk/v1.38.0"},\
++{"module":"go.opentelemetry.io/otel/sdk","version":"v1.43.0","vcs_hash":"1fe6df6a31b92e8a581913f4674726a951d486822b437c0fce7148a4442a0572","timestamp":"2026-04-03T08:30:03Z","subdir":"sdk","vcs_ref":"refs/tags/sdk/v1.43.0"},\
++{"module":"go.opentelemetry.io/otel/sdk/metric","version":"v1.38.0","vcs_hash":"a95b69a9e67fb0660691c8d8f29b4fbfe95874e2d916849ef02db0d886ff00b5","timestamp":"2025-08-29T19:42:52Z","subdir":"sdk/metric","vcs_ref":"refs/tags/sdk/metric/v1.38.0"},\
++{"module":"go.opentelemetry.io/otel/sdk/metric","version":"v1.43.0","vcs_hash":"1fe6df6a31b92e8a581913f4674726a951d486822b437c0fce7148a4442a0572","timestamp":"2026-04-03T08:30:03Z","subdir":"sdk/metric","vcs_ref":"refs/tags/sdk/metric/v1.43.0"},\
++{"module":"go.opentelemetry.io/otel/trace","version":"v1.38.0","vcs_hash":"a95b69a9e67fb0660691c8d8f29b4fbfe95874e2d916849ef02db0d886ff00b5","timestamp":"2025-08-29T19:42:52Z","subdir":"trace","vcs_ref":"refs/tags/trace/v1.38.0"},\
++{"module":"go.opentelemetry.io/otel/trace","version":"v1.43.0","vcs_hash":"1fe6df6a31b92e8a581913f4674726a951d486822b437c0fce7148a4442a0572","timestamp":"2026-04-03T08:30:03Z","subdir":"trace","vcs_ref":"refs/tags/trace/v1.43.0"},\
++{"module":"go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracehttp","version":"v1.42.0","vcs_hash":"c06ba149aa066d301aeb6fe584179342af640071f1a34b08ea7423a0c4fd1ad6","timestamp":"2026-03-06T19:13:23Z","subdir":"exporters/otlp/otlptrace/otlptracehttp","vcs_ref":"refs/tags/exporters/otlp/otlptrace/otlptracehttp/v1.42.0"},\
++{"module":"go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracehttp","version":"v1.38.0","vcs_hash":"a95b69a9e67fb0660691c8d8f29b4fbfe95874e2d916849ef02db0d886ff00b5","timestamp":"2025-08-29T19:42:52Z","subdir":"exporters/otlp/otlptrace/otlptracehttp","vcs_ref":"refs/tags/exporters/otlp/otlptrace/otlptracehttp/v1.38.0"},\
++{"module":"go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc","version":"v1.42.0","vcs_hash":"c06ba149aa066d301aeb6fe584179342af640071f1a34b08ea7423a0c4fd1ad6","timestamp":"2026-03-06T19:13:23Z","subdir":"exporters/otlp/otlptrace/otlptracegrpc","vcs_ref":"refs/tags/exporters/otlp/otlptrace/otlptracegrpc/v1.42.0"},\
++{"module":"go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc","version":"v1.38.0","vcs_hash":"a95b69a9e67fb0660691c8d8f29b4fbfe95874e2d916849ef02db0d886ff00b5","timestamp":"2025-08-29T19:42:52Z","subdir":"exporters/otlp/otlptrace/otlptracegrpc","vcs_ref":"refs/tags/exporters/otlp/otlptrace/otlptracegrpc/v1.38.0"},\
++{"module":"go.opentelemetry.io/otel/exporters/otlp/otlptrace","version":"v1.42.0","vcs_hash":"c06ba149aa066d301aeb6fe584179342af640071f1a34b08ea7423a0c4fd1ad6","timestamp":"2026-03-06T19:13:23Z","subdir":"exporters/otlp/otlptrace","vcs_ref":"refs/tags/exporters/otlp/otlptrace/v1.42.0"},\
++{"module":"go.opentelemetry.io/otel/exporters/otlp/otlptrace","version":"v1.38.0","vcs_hash":"a95b69a9e67fb0660691c8d8f29b4fbfe95874e2d916849ef02db0d886ff00b5","timestamp":"2025-08-29T19:42:52Z","subdir":"exporters/otlp/otlptrace","vcs_ref":"refs/tags/exporters/otlp/otlptrace/v1.38.0"},\
++{"module":"go.opentelemetry.io/otel/exporters/otlp/otlpmetric/otlpmetricgrpc","version":"v1.42.0","vcs_hash":"c06ba149aa066d301aeb6fe584179342af640071f1a34b08ea7423a0c4fd1ad6","timestamp":"2026-03-06T19:13:23Z","subdir":"exporters/otlp/otlpmetric/otlpmetricgrpc","vcs_ref":"refs/tags/exporters/otlp/otlpmetric/otlpmetricgrpc/v1.42.0"},\
++{"module":"go.opentelemetry.io/otel/exporters/otlp/otlpmetric/otlpmetricgrpc","version":"v1.38.0","vcs_hash":"a95b69a9e67fb0660691c8d8f29b4fbfe95874e2d916849ef02db0d886ff00b5","timestamp":"2025-08-29T19:42:52Z","subdir":"exporters/otlp/otlpmetric/otlpmetricgrpc","vcs_ref":"refs/tags/exporters/otlp/otlpmetric/otlpmetricgrpc/v1.38.0"},\
++{"module":"go.opentelemetry.io/otel/exporters/otlp/otlpmetric/otlpmetrichttp","version":"v1.42.0","vcs_hash":"c06ba149aa066d301aeb6fe584179342af640071f1a34b08ea7423a0c4fd1ad6","timestamp":"2026-03-06T19:13:23Z","subdir":"exporters/otlp/otlpmetric/otlpmetrichttp","vcs_ref":"refs/tags/exporters/otlp/otlpmetric/otlpmetrichttp/v1.42.0"},\
++{"module":"go.opentelemetry.io/otel/exporters/otlp/otlpmetric/otlpmetrichttp","version":"v1.38.0","vcs_hash":"a95b69a9e67fb0660691c8d8f29b4fbfe95874e2d916849ef02db0d886ff00b5","timestamp":"2025-08-29T19:42:52Z","subdir":"exporters/otlp/otlpmetric/otlpmetrichttp","vcs_ref":"refs/tags/exporters/otlp/otlpmetric/otlpmetrichttp/v1.38.0"},\
++{"module":"go.opentelemetry.io/otel/exporters/jaeger","version":"v1.17.0","vcs_hash":"7257a93ca31d121ae8fee06e2ce5824c46e65e351d7b2daf9b1a27a10d8bb60d","timestamp":"2023-08-28T14:50:03Z","subdir":"exporters/jaeger","vcs_ref":"refs/tags/exporters/jaeger/v1.17.0"},\
++{"module":"go.opentelemetry.io/otel/exporters/stdout/stdouttrace","version":"v1.31.0","vcs_hash":"32a87864cfa3320f417f47862642c312d2c19908839bd781f0f1073a0a9b899e","timestamp":"2024-10-11T16:59:27Z","subdir":"exporters/stdout/stdouttrace","vcs_ref":""},\
++{"module":"go.opentelemetry.io/otel/exporters/stdout/stdouttrace","version":"v1.38.0","vcs_hash":"a95b69a9e67fb0660691c8d8f29b4fbfe95874e2d916849ef02db0d886ff00b5","timestamp":"2025-08-29T19:42:52Z","subdir":"exporters/stdout/stdouttrace","vcs_ref":"refs/tags/exporters/stdout/stdouttrace/v1.38.0"},\
++{"module":"go.opentelemetry.io/otel/exporters/prometheus","version":"v0.60.0","vcs_hash":"a95b69a9e67fb0660691c8d8f29b4fbfe95874e2d916849ef02db0d886ff00b5","timestamp":"2025-08-29T19:42:52Z","subdir":"exporters/prometheus","vcs_ref":"refs/tags/exporters/prometheus/v0.60.0"},\
++{"module":"go.opentelemetry.io/otel/exporters/prometheus","version":"v0.42.0","vcs_hash":"5781e823bcdbe01100cd1dc8d89e81f073e0a26cb157df3e236c81af5d21f7e4","timestamp":"2023-09-28T19:28:51Z","subdir":"exporters/prometheus","vcs_ref":"refs/tags/exporters/prometheus/v0.42.0"},\
++{"module":"go.opentelemetry.io/otel","version":"v1.38.0","vcs_hash":"a95b69a9e67fb0660691c8d8f29b4fbfe95874e2d916849ef02db0d886ff00b5","timestamp":"2025-08-29T19:42:52Z","subdir":"","vcs_ref":"refs/tags/v1.38.0"},\
++{"module":"go.opentelemetry.io/otel","version":"v1.43.0","vcs_hash":"1fe6df6a31b92e8a581913f4674726a951d486822b437c0fce7148a4442a0572","timestamp":"2026-04-03T08:30:03Z","subdir":"","vcs_ref":"refs/tags/v1.43.0"},\
++{"module":"go.opentelemetry.io/otel/metric","version":"v1.38.0","vcs_hash":"a95b69a9e67fb0660691c8d8f29b4fbfe95874e2d916849ef02db0d886ff00b5","timestamp":"2025-08-29T19:42:52Z","subdir":"metric","vcs_ref":"refs/tags/metric/v1.38.0"},\
++{"module":"go.opentelemetry.io/otel/metric","version":"v1.43.0","vcs_hash":"1fe6df6a31b92e8a581913f4674726a951d486822b437c0fce7148a4442a0572","timestamp":"2026-04-03T08:30:03Z","subdir":"metric","vcs_ref":"refs/tags/metric/v1.43.0"},\
++{"module":"go.opentelemetry.io/proto/otlp","version":"v1.9.0","vcs_hash":"48dd3b051b2ade937fb3ae600f1d49e4d17f78f386f08b2de9f4df57cbb13d0b","timestamp":"2025-11-03T15:38:58Z","subdir":"otlp","vcs_ref":"refs/tags/otlp/v1.9.0"},\
++{"module":"go.opentelemetry.io/proto/otlp","version":"v1.7.1","vcs_hash":"7362aea1b94649c9ad7d031fd6fe79b2310f347d865614b0be2b844894e28013","timestamp":"2025-07-31T08:38:46Z","subdir":"otlp","vcs_ref":"refs/tags/otlp/v1.7.1"},\
++{"module":"go.opentelemetry.io/contrib/detectors/gcp","version":"v1.42.0","vcs_hash":"e4078216f263ac2b531bd085e169d16a8f63b4be144686d18adf43935a314f4c","timestamp":"2026-03-06T20:24:46Z","subdir":"detectors/gcp","vcs_ref":"refs/tags/detectors/gcp/v1.42.0"},\
++{"module":"go.opentelemetry.io/contrib/detectors/gcp","version":"v1.38.0","vcs_hash":"a35299710fa18a3df076b2389758f98c816c8d03e316516b36a9d5299420a7f7","timestamp":"2025-08-29T20:56:25Z","subdir":"detectors/gcp","vcs_ref":"refs/tags/detectors/gcp/v1.38.0"},\
++{"module":"go.opentelemetry.io/contrib/instrumentation/net/http/httptrace/otelhttptrace","version":"v0.63.0","vcs_hash":"a35299710fa18a3df076b2389758f98c816c8d03e316516b36a9d5299420a7f7","timestamp":"2025-08-29T20:56:25Z","subdir":"instrumentation/net/http/httptrace/otelhttptrace","vcs_ref":"refs/tags/instrumentation/net/http/httptrace/otelhttptrace/v0.63.0"},\
++{"module":"go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp","version":"v0.63.0","vcs_hash":"a35299710fa18a3df076b2389758f98c816c8d03e316516b36a9d5299420a7f7","timestamp":"2025-08-29T20:56:25Z","subdir":"instrumentation/net/http/otelhttp","vcs_ref":"refs/tags/instrumentation/net/http/otelhttp/v0.63.0"},\
++{"module":"go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc","version":"v0.63.0","vcs_hash":"a35299710fa18a3df076b2389758f98c816c8d03e316516b36a9d5299420a7f7","timestamp":"2025-08-29T20:56:25Z","subdir":"instrumentation/google.golang.org/grpc/otelgrpc","vcs_ref":"refs/tags/instrumentation/google.golang.org/grpc/otelgrpc/v0.63.0"},\
++{"module":"github.com/matttproud/golang_protobuf_extensions","version":"v1.0.1","vcs_hash":"dd0fe058870feb088b8d2d88a7ff601f4c8c03aedeede7d837efcd311b5aea9b","timestamp":"2016-04-24T11:30:07Z","subdir":"","vcs_ref":"refs/tags/v1.0.1"},\
++{"module":"github.com/russross/blackfriday","version":"v1.6.0","vcs_hash":"45882c51d4da17f32775abbdabd353753e5115f6ec6282c3bf028fe3471fc743","timestamp":"2020-10-27T03:46:40Z","subdir":"","vcs_ref":"refs/tags/v1.6.0"},\
++{"module":"github.com/russross/blackfriday/v2","version":"v2.1.0","vcs_hash":"6dd1604eceba1790dbf7f827f1e22a5866a5348a2ab616daed7363a6e16e081d","timestamp":"2020-10-27T03:47:54Z","subdir":"v2","vcs_ref":"refs/tags/v2.1.0"},\
+ {"module":"github.com/go-sql-driver/mysql","version":"v1.9.3","vcs_hash":"8d8b13db0a1aeb458c063fdae5bc8310ea4fe3f080f94fad773cad52094745d9","timestamp":"2025-06-13T06:20:32Z","subdir":"","vcs_ref":"refs/tags/v1.9.3"},\
+-{"module":"github.com/zclconf/go-cty","version":"v1.17.0","vcs_hash":"47f07e849f1a52fb6afc5ce8207515cf79885a5863c3f77672e2e24bc0ed8ce3","timestamp":"2025-09-05T21:16:50Z","subdir":"","vcs_ref":"refs/tags/v1.17.0"},\
+-{"module":"github.com/julienschmidt/httprouter","version":"v1.2.0","vcs_hash":"2c4d0627c16989284c34f4435f85eda929435309b1f35e089deeada06cba6920","timestamp":"2018-07-15T16:18:54Z","subdir":"","vcs_ref":"refs/tags/v1.2.0"},\
+-{"module":"github.com/julienschmidt/httprouter","version":"v1.3.0","vcs_hash":"14612f57dd95aeae83955a7b4f9b44d716f96bdef922732f059430cdff278e10","timestamp":"2019-09-29T23:21:22Z","subdir":"","vcs_ref":"refs/tags/v1.3.0"},\
+-{"module":"github.com/rivo/uniseg","version":"v0.2.0","vcs_hash":"711d6ce77fb103240fb5d501f7548a0f9a576d48e783647cd7fed297fccb112a","timestamp":"2020-10-19T13:44:17Z","subdir":"","vcs_ref":"refs/tags/v0.2.0"},\
+-{"module":"github.com/rivo/uniseg","version":"v0.4.7","vcs_hash":"1e062c5a8f3a8c313cef582853dc2ed0687bb0632f4cf127d7aaad85b7ce642f","timestamp":"2024-02-08T13:16:15Z","subdir":"","vcs_ref":"refs/tags/v0.4.7"},\
+-{"module":"github.com/spiffe/go-spiffe/v2","version":"v2.6.0","vcs_hash":"aca54385906c3e38bd7515a2b0b52e4b6be402d2333e38eb4d2484305552aca4","timestamp":"2025-08-21T14:57:50Z","subdir":"","vcs_ref":"refs/tags/v2.6.0"},\
+-{"module":"github.com/distribution/reference","version":"v0.6.0","vcs_hash":"ac2c94a9c45cfe172807163d3f9ae441bf0db0b30e528660d1b5db49678ed93a","timestamp":"2024-03-20T17:09:59Z","subdir":"","vcs_ref":"refs/tags/v0.6.0"},\
+-{"module":"github.com/modern-go/reflect2","version":"v1.0.3-0.20250322232337-35a7c28c31ee","vcs_hash":"b0f41ee692517b4a6786fb48ce9d49e532c4f77cac6cacadd6ff49dcb7325931","timestamp":"2025-03-22T23:23:37Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/modern-go/reflect2","version":"v1.0.1","vcs_hash":"5f837a9261606850c86cb464d91848cb7e2e334be529f812891c080cfd881b9a","timestamp":"2018-07-18T01:23:57Z","subdir":"","vcs_ref":"refs/tags/v1.0.1"},\
+-{"module":"github.com/modern-go/reflect2","version":"v0.0.0-20180701023420-4b7aa43c6742","vcs_hash":"8af4d54440b1b6703cd1b26845d1f5914958f01a18064501f7b77554b973b677","timestamp":"2018-07-01T02:34:20Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/modern-go/concurrent","version":"v0.0.0-20180228061459-e0a39a4cb421","vcs_hash":"720429d876e0c333185ab19ebc83ff389edac9e5b459d07c74e7a18cae1c5b7a","timestamp":"2018-02-28T06:14:59Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/modern-go/concurrent","version":"v0.0.0-20180306012644-bacd9c7ef1dd","vcs_hash":"09a996e0549b43adaeb1c40a8dc339563ed1a8dcc831e5cb074441a30d502d23","timestamp":"2018-03-06T01:26:44Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/DefangLabs/secret-detector","version":"v0.0.0-20250403165618-22662109213e","vcs_hash":"42b5e6f1ae54867a47bbe7535a965b97260d8282064da67b0f3d9d82d7524ad4","timestamp":"2025-04-03T16:56:18Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/spf13/jwalterweatherman","version":"v0.0.0-20141219030609-3d60171a6431","vcs_hash":"3516ad16d930d5653a48f59083d5a5851f1503e64d5f3e4f03dd5094d044ceba","timestamp":"2014-12-19T03:06:09Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/spf13/cast","version":"v0.0.0-20150508191742-4d07383ffe94","vcs_hash":"61ca87f5a674dbb7719ca6806869cee44c68d3463ca0ee867270c61ef55016c5","timestamp":"2015-05-08T19:17:42Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/spf13/cobra","version":"v1.10.2","vcs_hash":"a79409fa1813cac46edeefb925df9a65bfd1c4cf3dd47dbb576c385d5f527685","timestamp":"2025-12-03T23:51:15Z","subdir":"","vcs_ref":"refs/tags/v1.10.2"},\
+-{"module":"github.com/spf13/cobra","version":"v1.10.1","vcs_hash":"54a02856b15938777c687441dc6597bc487549c163521b5850e769bee67bc2af","timestamp":"2025-09-01T16:19:51Z","subdir":"","vcs_ref":"refs/tags/v1.10.1"},\
+-{"module":"github.com/spf13/cobra","version":"v0.0.1","vcs_hash":"a6573b02628ec0c919f90bba89f525eac2b0bda84d9dccdcb78b3f07c92b918e","timestamp":"2017-10-12T18:25:33Z","subdir":"","vcs_ref":"refs/tags/v0.0.1"},\
+-{"module":"github.com/spf13/viper","version":"v0.0.0-20150530192845-be5ff3e4840c","vcs_hash":"6b7187b929229be5c3959df1ee113d9acd19aff47b973e42b64e50cdf8a0e740","timestamp":"2015-05-30T19:28:45Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/spf13/pflag","version":"v1.0.10","vcs_hash":"737f239b3c3bd4e75040785cfc62b8349a547b1425bba1698b712866455bce75","timestamp":"2025-09-02T06:08:29Z","subdir":"","vcs_ref":"refs/tags/v1.0.10"},\
+-{"module":"github.com/spf13/pflag","version":"v1.0.0","vcs_hash":"160c6a820138c13e769bbec879294544287b8dfde6af77776f81536ff3f43df9","timestamp":"2017-05-08T18:44:08Z","subdir":"","vcs_ref":"refs/tags/v1.0.0"},\
+-{"module":"github.com/spf13/pflag","version":"v1.0.9","vcs_hash":"241e9025159bbbea2f54722542a86c03ff35968a42a753a0a4e0738690720a54","timestamp":"2025-09-01T07:27:15Z","subdir":"","vcs_ref":"refs/tags/v1.0.9"},\
+-{"module":"github.com/jinzhu/gorm","version":"v0.0.0-20170222002820-5409931a1bb8","vcs_hash":"e51ea32193aeb2a5bfab92442113de19e13f387509f58c7979e704306087d5d2","timestamp":"2017-02-22T00:28:20Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/jinzhu/now","version":"v1.1.1","vcs_hash":"3a2e9d8aa645efa2980908fbe342f3eb31a21421aeacd8a821f15d5775cb129f","timestamp":"2019-10-25T01:43:59Z","subdir":"","vcs_ref":"refs/tags/v1.1.1"},\
+-{"module":"github.com/jinzhu/inflection","version":"v0.0.0-20170102125226-1c35d901db3d","vcs_hash":"3bf372ac0a41f41eb6c408c719a9f71d1a31a5cd8260a8135fa90085e5d6c0ce","timestamp":"2017-01-02T12:52:26Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/json-iterator/go","version":"v1.1.12","vcs_hash":"bdb67d21e426f2274ff76d4829ac60348539016b1aa54fa98cfccc554be12f3b","timestamp":"2021-09-11T02:17:26Z","subdir":"","vcs_ref":"refs/tags/v1.1.12"},\
+-{"module":"github.com/json-iterator/go","version":"v1.1.6","vcs_hash":"49dd68855c9609b742b2b0b4f38fc7310fe801de54098c1919a0a64c7a0df65f","timestamp":"2019-03-06T14:29:09Z","subdir":"","vcs_ref":"refs/tags/v1.1.6"},\
+-{"module":"github.com/json-iterator/go","version":"v1.1.7","vcs_hash":"bc41490320f388f56ca605b559e022840691077e82ae0ad6dd62b7ea000f0603","timestamp":"2019-06-21T16:12:01Z","subdir":"","vcs_ref":"refs/tags/v1.1.7"},\
+-{"module":"github.com/hailocab/go-hostpool","version":"v0.0.0-20160125115350-e80d13ce29ed","vcs_hash":"9c4bc4176e756c26e2cdff114a1c5597225ee9e1831b7404408096c667ad9031","timestamp":"2016-01-25T11:53:50Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/vishvananda/netlink","version":"v1.3.1","vcs_hash":"add152ec680cd6ba7b1daeb50425ed8986ca51024d78c50810923119dbf60a49","timestamp":"2025-05-09T18:59:25Z","subdir":"","vcs_ref":"refs/tags/v1.3.1"},\
+-{"module":"github.com/vishvananda/netns","version":"v0.0.5","vcs_hash":"9f1ef5c3417729b4f24554f4b88d06d9e7cdeb771a5d62000cc1344bb1c985d8","timestamp":"2024-08-13T19:31:45Z","subdir":"","vcs_ref":"refs/tags/v0.0.5"},\
+-{"module":"github.com/AlecAivazis/survey/v2","version":"v2.3.7","vcs_hash":"915e6ad876675eb96b188d35f754bc931b786c20b8e9ce8142ab278092473e7c","timestamp":"2022-12-08T15:41:06Z","subdir":"","vcs_ref":"refs/tags/v2.3.7"},\
+-{"module":"github.com/konsorten/go-windows-terminal-sequences","version":"v1.0.1","vcs_hash":"2044bc70056f083f4686548aca8c8ea39dc8943c0d28ac6ef38cfa1fa5ee7fd0","timestamp":"2018-10-04T22:41:46Z","subdir":"","vcs_ref":"refs/tags/v1.0.1"},\
+-{"module":"github.com/konsorten/go-windows-terminal-sequences","version":"v1.0.2","vcs_hash":"1987ad3f256034b9d0fc3590868bb91e717f53fd7ee6de10cff3948645fcd530","timestamp":"2019-02-26T22:47:05Z","subdir":"","vcs_ref":"refs/tags/v1.0.2"},\
+-{"module":"github.com/fatih/color","version":"v1.18.0","vcs_hash":"5d3a7d46049b39f7f5f80bbbcaf1d95f84b393dcee5978948fd4ca3a5abb4461","timestamp":"2024-10-03T07:06:28Z","subdir":"","vcs_ref":"refs/tags/v1.18.0"},\
+-{"module":"github.com/sigstore/sigstore","version":"v1.10.0","vcs_hash":"90a23575b9b82145605cec4e4b156c7b3b15899d7413a82ddc582ea17239f81e","timestamp":"2025-11-19T11:41:27Z","subdir":"","vcs_ref":"refs/tags/v1.10.0"},\
+-{"module":"github.com/sigstore/rekor-tiles/v2","version":"v2.0.1","vcs_hash":"b8d43475ba70ac8bfe320e5e8116e30c762256078fcd60b87e28d27c91db426d","timestamp":"2025-11-10T15:43:15Z","subdir":"","vcs_ref":"refs/tags/v2.0.1"},\
+-{"module":"github.com/sigstore/rekor","version":"v1.4.3","vcs_hash":"32b94a917cfae30ffab23353a3ce5a1a5f15f908aa8b9c06f99d20126185113c","timestamp":"2025-11-14T20:56:20Z","subdir":"","vcs_ref":"refs/tags/v1.4.3"},\
+-{"module":"github.com/sigstore/timestamp-authority/v2","version":"v2.0.2","vcs_hash":"bbb892dff7b9581efdf6e165444a2c5962eaa7b0c04a76b0600e19cdcd041baa","timestamp":"2025-11-19T17:54:54Z","subdir":"","vcs_ref":"refs/tags/v2.0.2"},\
+-{"module":"github.com/sigstore/sigstore-go","version":"v1.1.4-0.20251124094504-b5fe07a5a7d7","vcs_hash":"9f990573ca42c039488a500e573851a0afe9e058a594f47e8e914198f1bed87e","timestamp":"2025-11-24T09:45:04Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/sigstore/protobuf-specs","version":"v0.5.0","vcs_hash":"4be3492e50d1e30ee1365286244a71456814ed25f2b112ffae504266afbecb00","timestamp":"2025-07-10T06:03:26Z","subdir":"","vcs_ref":"refs/tags/v0.5.0"},\
+-{"module":"github.com/stefanberger/go-pkcs11uri","version":"v0.0.0-20230803200340-78284954bff6","vcs_hash":"38fa201d7d655497d33723d139ffc3ec2ee78d3caab251015a1c3a5190f5e073","timestamp":"2023-08-03T20:03:40Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/letsencrypt/boulder","version":"v0.20251110.0","vcs_hash":"89895769acf16e855d1bc7c1ebcd35d23b4fa6c168fa619c2bfd2e9291e7b0aa","timestamp":"2025-11-06T21:18:46Z","subdir":"","vcs_ref":"refs/tags/v0.20251110.0"},\
+-{"module":"github.com/fxamacker/cbor/v2","version":"v2.9.0","vcs_hash":"a2e55d2b4fdba69f8a4cfc76758713247ee27c62d5ad4168e8c14369f3c94c36","timestamp":"2025-07-14T04:00:34Z","subdir":"","vcs_ref":"refs/tags/v2.9.0"},\
+-{"module":"github.com/bmizerany/assert","version":"v0.0.0-20160611221934-b7ed37b82869","vcs_hash":"56f05fc81a59fa58a710a7972b156c07636f5719c2c74f5fe694e2cf49ca2576","timestamp":"2016-06-11T22:19:34Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/tetratelabs/wazero","version":"v1.9.0","vcs_hash":"8184e4b8a52d22bbf7a3100e9a800f7f69b67c8a4a0349fa457cf7c0f1833060","timestamp":"2025-02-18T15:24:27Z","subdir":"","vcs_ref":"refs/tags/v1.9.0"},\
+-{"module":"github.com/tetratelabs/wazero","version":"v1.10.1","vcs_hash":"e4664efba21af44c61be56ad7d3196dbe0733019a000bd28a0efd72c3fe50858","timestamp":"2025-11-09T00:23:12Z","subdir":"","vcs_ref":"refs/tags/v1.10.1"},\
+-{"module":"github.com/bugsnag/bugsnag-go","version":"v1.0.5-0.20150529004307-13fd6b8acda0","vcs_hash":"fcdbd0f3bb5816415e92fba0ccef0363d33bb9f4dd92baf939f44c15d7ff15dc","timestamp":"2015-05-29T00:43:07Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/bugsnag/osext","version":"v0.0.0-20130617224835-0dd3f918b21b","vcs_hash":"1e7b9a7b360bb8c03ff73c6b542ec4fc9da0aaa3491621e3f0709df81b41c883","timestamp":"2013-06-17T22:48:35Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/bugsnag/panicwrap","version":"v0.0.0-20151223152923-e2c28503fcd0","vcs_hash":"262d5e88587cf547192faef1ff5a62313964f5302529d3b47078409890f656b8","timestamp":"2015-12-23T15:29:23Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/prometheus/common","version":"v0.0.0-20180110214958-89604d197083","vcs_hash":"6fa554cea5eccb087d26785c06f579b8594dbf658c4a1288c2a78398383fed0f","timestamp":"2018-01-10T21:49:58Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/prometheus/common","version":"v0.6.0","vcs_hash":"866ac186da10c19f814988a847f2b46d07b11981edcd6fec98970325a2803af4","timestamp":"2019-06-17T21:11:42Z","subdir":"","vcs_ref":"refs/tags/v0.6.0"},\
+-{"module":"github.com/prometheus/common","version":"v0.66.1","vcs_hash":"4004fe14db85cf2a2119d66ea225f2b9d7d14ea63e1e3bfa539d1d2440d107c4","timestamp":"2025-09-05T07:53:47Z","subdir":"","vcs_ref":"refs/tags/v0.66.1"},\
+-{"module":"github.com/prometheus/common","version":"v0.4.1","vcs_hash":"892c75be05216c8a166e1dfe11c12f4563f5c0830e193268bcf9f7511010bcc7","timestamp":"2019-05-16T16:00:40Z","subdir":"","vcs_ref":"refs/tags/v0.4.1"},\
+-{"module":"github.com/prometheus/client_model","version":"v0.6.2","vcs_hash":"ce4113e6c8f9de1c05a5198a36f67001c5b8ac458bbdbca291a0800fa698d5b1","timestamp":"2025-04-11T05:38:16Z","subdir":"","vcs_ref":"refs/tags/v0.6.2"},\
+-{"module":"github.com/prometheus/client_model","version":"v0.0.0-20190129233127-fd36f4220a90","vcs_hash":"86bc615fe75b2ce98cd8c130b2a77b88c6ddb4a708b29321848472d9dd871940","timestamp":"2019-01-29T23:31:27Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/prometheus/client_model","version":"v0.0.0-20171117100541-99fa1f4be8e5","vcs_hash":"b20883069672740ec9f8b88232be489d4e077ea06970f02fdd7280e57e070c26","timestamp":"2017-11-17T10:05:41Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/prometheus/client_model","version":"v0.0.0-20180712105110-5c3871d89910","vcs_hash":"f6f51abd7b0f905d6b844652733802c893708c937a90eddb39855a9027e795ef","timestamp":"2018-07-12T10:51:10Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/prometheus/otlptranslator","version":"v0.0.2","vcs_hash":"960b1c139109bf5cf4e2953ce32e8fe37a7785666f0a1b74e4e2555f1458a873","timestamp":"2025-08-01T14:53:39Z","subdir":"","vcs_ref":"refs/tags/v0.0.2"},\
+-{"module":"github.com/prometheus/client_golang","version":"v1.23.2","vcs_hash":"d9bbeca592abd4abe4a9bb304c93ff338301ffcad964694c918522126d52a1d2","timestamp":"2025-09-05T14:03:59Z","subdir":"","vcs_ref":"refs/tags/v1.23.2"},\
+-{"module":"github.com/prometheus/client_golang","version":"v0.9.1","vcs_hash":"5b7494e1e1baac9b65067e6f77ebb97bd97f8ea769f7093cc8cb23ca7d5ab93e","timestamp":"2018-11-03T14:23:28Z","subdir":"","vcs_ref":"refs/tags/v0.9.1"},\
+-{"module":"github.com/prometheus/client_golang","version":"v1.0.0","vcs_hash":"607ef8649c55f0756537573f8975af1867f26f93a7f97eb4ff594fc98c467f83","timestamp":"2019-06-15T20:44:27Z","subdir":"","vcs_ref":"refs/tags/v1.0.0"},\
+-{"module":"github.com/prometheus/client_golang","version":"v1.1.0","vcs_hash":"4e44bd818fd07e6368ea60f26721c00dad401136a0e4742f5b167d5755f25168","timestamp":"2019-08-01T13:37:03Z","subdir":"","vcs_ref":"refs/tags/v1.1.0"},\
+-{"module":"github.com/prometheus/procfs","version":"v0.0.2","vcs_hash":"99df38a3259da6d3172d2228188bc6bb7c0f8033d40d03436c89d71e754acf1e","timestamp":"2019-06-03T02:31:54Z","subdir":"","vcs_ref":"refs/tags/v0.0.2"},\
+-{"module":"github.com/prometheus/procfs","version":"v0.0.0-20180125133057-cb4147076ac7","vcs_hash":"d6e1327c0735ef125d48a5e4da87d9573ffbc383c27ca670995682b478f20009","timestamp":"2018-01-25T13:30:57Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/prometheus/procfs","version":"v0.0.3","vcs_hash":"300598e31c95698a764cc0dc7edf8fdfc8ab21a3296c0c5a34791af504e1a038","timestamp":"2019-06-25T16:31:10Z","subdir":"","vcs_ref":"refs/tags/v0.0.3"},\
+-{"module":"github.com/prometheus/procfs","version":"v0.0.0-20181005140218-185b4288413d","vcs_hash":"6f855d6fe4ec2b6948e8c511b7c537693831aa71f3427a1625d4a9a01260e77d","timestamp":"2018-10-05T14:02:18Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/prometheus/procfs","version":"v0.17.0","vcs_hash":"bd38c110e95e59c4551170b1bdd1a77f0c2d3bfb31346fe6c34a3ff9a2d59911","timestamp":"2025-07-03T09:39:02Z","subdir":"","vcs_ref":"refs/tags/v0.17.0"},\
+-{"module":"github.com/prometheus/procfs","version":"v0.16.1","vcs_hash":"c5636022955615867ff5e898a254c352486ff4f35f8066d4296d4561c4ef4d2e","timestamp":"2025-04-19T15:43:08Z","subdir":"","vcs_ref":"refs/tags/v0.16.1"},\
+-{"module":"github.com/compose-spec/compose-go/v2","version":"v2.10.1","vcs_hash":"540724791cad2555f778786ca9d0adbdb0be7b773c591ca036bd86ca2053a063","timestamp":"2026-01-16T07:37:13Z","subdir":"","vcs_ref":"refs/tags/v2.10.1"},\
+-{"module":"github.com/compose-spec/compose-go/v2","version":"v2.10.0","vcs_hash":"d8fd5c67a84d5ea37d52775ed8dea1df6cf236cab46b058f80a0e7ca6bfd75d5","timestamp":"2025-11-25T16:15:06Z","subdir":"","vcs_ref":"refs/tags/v2.10.0"},\
+-{"module":"github.com/sasha-s/go-deadlock","version":"v0.3.5","vcs_hash":"fa29175221f16401d041954c9a07bc5aa8b90d585d480873eaa15a18b5fa8e6d","timestamp":"2024-08-14T18:50:39Z","subdir":"","vcs_ref":"refs/tags/v0.3.5"},\
+-{"module":"github.com/syndtr/goleveldb","version":"v1.0.1-0.20220721030215-126854af5e6d","vcs_hash":"e235339a3b62d86588980eea53546b06c36a7d1f4f68f0c427c52dbe4d251657","timestamp":"2022-07-21T03:02:15Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/syndtr/gocapability","version":"v0.0.0-20200815063812-42c35b437635","vcs_hash":"4480911d3d4457413aedb0be556a8ab2b064c475167177096e4dec65342505e9","timestamp":"2020-08-15T06:38:12Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/alecthomas/units","version":"v0.0.0-20151022065526-2efee857e7cf","vcs_hash":"7a070bc84b00c7dd5b58f997285cd94232a9fb500b03e849c7be9017203e4d51","timestamp":"2015-10-22T06:55:26Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/alecthomas/units","version":"v0.0.0-20211218093645-b94a6e3cc137","vcs_hash":"fd740bbc9bdec5b8bf13526eff2ee852c365b4c2a8feb66c89e2aa4b36a0d677","timestamp":"2021-12-18T09:36:45Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/alecthomas/template","version":"v0.0.0-20160405071501-a0175ee3bccc","vcs_hash":"c18e6411468e7b9fa8d3eaacbe26c05c650393a6ed02eded4f8a729fcbdf3278","timestamp":"2016-04-05T07:15:01Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/alecthomas/kingpin/v2","version":"v2.4.0","vcs_hash":"ae34e4803d18ba03ac4e70e84f5e737ec48634b725413ad5282fb01d6fc47dda","timestamp":"2023-09-30T22:59:49Z","subdir":"","vcs_ref":"refs/tags/v2.4.0"},\
+-{"module":"github.com/GoogleCloudPlatform/opentelemetry-operations-go/detectors/gcp","version":"v1.30.0","vcs_hash":"d73039b2dd906a0889a3850d34d408fe2a98553d7bcdfe853ca194f24d0d76ca","timestamp":"2025-09-25T17:18:32Z","subdir":"detectors/gcp","vcs_ref":"refs/tags/detectors/gcp/v1.30.0"},\
+-{"module":"github.com/decred/dcrd/dcrec/secp256k1/v4","version":"v4.4.0","vcs_hash":"dea203beeafba9300d7341afcdd38985621ebd2ec9d4c5a8a7d262cbb2c2bc41","timestamp":"2025-02-20T17:33:47Z","subdir":"dcrec/secp256k1","vcs_ref":"refs/tags/dcrec/secp256k1/v4.4.0"},\
+-{"module":"github.com/gogo/protobuf","version":"v1.1.1","vcs_hash":"a909192a924253d08799dcf162d9ceb6acdb194f1201fee2872972a79ca6668d","timestamp":"2018-07-17T14:19:46Z","subdir":"","vcs_ref":"refs/tags/v1.1.1"},\
+-{"module":"github.com/gogo/protobuf","version":"v1.0.0","vcs_hash":"cea9fa9f6f83d88736f95389bf744ac714093c67292cefcf1607497c27a1dc2b","timestamp":"2018-02-02T16:19:00Z","subdir":"","vcs_ref":"refs/tags/v1.0.0"},\
+-{"module":"github.com/gogo/protobuf","version":"v1.3.2","vcs_hash":"e07d7c0e03a0e2831dd973581be0944984030693bc73f0b67a64e53b4c690635","timestamp":"2021-01-10T08:01:47Z","subdir":"","vcs_ref":"refs/tags/v1.3.2"},\
+-{"module":"github.com/antihax/optional","version":"v1.0.0","vcs_hash":"535a79fbd6ec4a2d00a2eaeb938554011f822f57d36bc924215af19f4bab0697","timestamp":"2019-10-10T23:37:20Z","subdir":"","vcs_ref":"refs/tags/v1.0.0"},\
+-{"module":"github.com/eiannone/keyboard","version":"v0.0.0-20220611211555-0d226195f203","vcs_hash":"c7ad216919ed9d1db40a1a79054fb70019f12275ddb216094b1aefbdd44e8744","timestamp":"2022-06-11T21:15:55Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/mwitkow/go-conntrack","version":"v0.0.0-20161129095857-cc309e4a2223","vcs_hash":"0ff4a51de5f43065c774026c897e99f6a207c66edef943350fa92176ccaf3982","timestamp":"2016-11-29T09:58:57Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/mwitkow/go-conntrack","version":"v0.0.0-20190716064945-2f068394615f","vcs_hash":"0c95da896ecaf67638f45eea2282c2c840e57fd5bef90b1316645fe86914c177","timestamp":"2019-07-16T06:49:45Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/hinshun/vt10x","version":"v0.0.0-20220119200601-820417d04eec","vcs_hash":"7a79a11a6f7d736423313fcb1bc2d2203d7d9e66baa86d1f4440c872a4349d6d","timestamp":"2022-01-19T20:06:01Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/inhies/go-bytesize","version":"v0.0.0-20220417184213-4913239db9cf","vcs_hash":"33f6338637f180574a557944ab4ae6a88bed881181e11b615b313307b6b045e7","timestamp":"2022-04-17T18:42:13Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/google/deck","version":"v0.0.0-20230104221208-105ad94aa8ae","vcs_hash":"9c43c7ddfa82c3fc0dbcab5945f7f810fa68c290504895ba9a331c514051c140","timestamp":"2023-01-04T22:12:08Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/go-sql-driver/mysql","version":"v1.3.0","vcs_hash":"732613cefc15b1adbb2c7aeb63e0c9bbf2708050a30ce547a2df82727da51371","timestamp":"2016-12-01T11:50:36Z","subdir":"","vcs_ref":"refs/tags/v1.3.0"},\
++{"module":"github.com/ProtonMail/go-crypto","version":"v1.3.0","vcs_hash":"0bcc37d92aae5ed6a3baa05c154e2401eacb94df8b0aa4704a4ffb4fd7365ecf","timestamp":"2025-05-22T14:44:20Z","subdir":"","vcs_ref":"refs/tags/v1.3.0"},\
++{"module":"github.com/golang/glog","version":"v1.2.5","vcs_hash":"c9f39bfa0a44d36bb33abf5da9f941c03e1a2e8b3c98916cabc3aaca09d17583","timestamp":"2025-04-29T08:43:26Z","subdir":"","vcs_ref":"refs/tags/v1.2.5"},\
++{"module":"github.com/golang/protobuf","version":"v1.5.4","vcs_hash":"ff75ecee442381e7c87bac5ec092ebaf50137bc693ba5c5c1edce6eb4bd3ce94","timestamp":"2024-03-06T06:45:40Z","subdir":"","vcs_ref":"refs/tags/v1.5.4"},\
++{"module":"github.com/golang/protobuf","version":"v1.2.0","vcs_hash":"c620195ee748026eed07d7e16b36050b97c69cfe3f735e96aafd915e5397baa5","timestamp":"2018-08-14T21:14:27Z","subdir":"","vcs_ref":"refs/tags/v1.2.0"},\
++{"module":"github.com/golang/protobuf","version":"v1.3.2","vcs_hash":"cbdb48339b27d250cd1655e4e658760981e0b526face5866f3cfac54fd21200c","timestamp":"2019-07-01T18:22:01Z","subdir":"","vcs_ref":"refs/tags/v1.3.2"},\
++{"module":"github.com/golang/protobuf","version":"v1.3.4","vcs_hash":"f83545c5d009af94276add9fdb970f0b4b5b6872f19d4b02b8111007ee5544b0","timestamp":"2020-02-26T19:23:50Z","subdir":"","vcs_ref":"refs/tags/v1.3.4"},\
++{"module":"github.com/golang/protobuf","version":"v1.3.1","vcs_hash":"ac3a600ae77600dcd73c8d21a4cd18d0b220318ed349c8deda52af33b71c50c6","timestamp":"2019-02-28T15:19:29Z","subdir":"","vcs_ref":"refs/tags/v1.3.1"},\
++{"module":"github.com/golang/snappy","version":"v1.0.0","vcs_hash":"9b4d194254df5894f7de7430d94f80f5a183a7ba5b0d3faf68e011bff67f803f","timestamp":"2023-12-25T22:57:46Z","subdir":"","vcs_ref":"refs/heads/master"},\
++{"module":"github.com/golang/snappy","version":"v0.0.4","vcs_hash":"0e8300bf89da9cc73c5b1fb83a5b5f3a9473d85cec3174c9484fb3b87ff8031d","timestamp":"2021-06-08T04:05:37Z","subdir":"","vcs_ref":"refs/tags/v0.0.4"},\
++{"module":"github.com/golang/groupcache","version":"v0.0.0-20241129210726-2c02b8208cf8","vcs_hash":"42d84b5a864149912b1976573aa12f43cdea041dfbb41206b5548b1134452af5","timestamp":"2024-11-29T21:07:26Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/dimchansky/utfbom","version":"v1.1.1","vcs_hash":"04f39ab86cb6ab9bf2a2278357fae9932b31f6cb8b07bf8e6ca02581cbf46ecf","timestamp":"2020-11-06T16:33:08Z","subdir":"","vcs_ref":"refs/tags/v1.1.1"},\
++{"module":"github.com/google/pprof","version":"v0.0.0-20250820193118-f64d9cf942d6","vcs_hash":"b4a3cf22b289c100dae58764b0f35b0c0af89950e35274a0659c15b4340bc322","timestamp":"2025-08-20T19:31:18Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/google/shlex","version":"v0.0.0-20191202100458-e7afc7fbc510","vcs_hash":"6317e931b780de46077449706d69a38f426197406a504d848e3500a0d06b7299","timestamp":"2019-12-02T10:04:58Z","subdir":"","vcs_ref":""},\
+ {"module":"github.com/google/go-cmp","version":"v0.7.0","vcs_hash":"460ed71bde70f3a932cad8d9044d3f12302bf8b6e95353bd17c44189712e2763","timestamp":"2025-01-14T18:15:44Z","subdir":"","vcs_ref":"refs/tags/v0.7.0"},\
+ {"module":"github.com/google/go-cmp","version":"v0.3.0","vcs_hash":"ae58fd0d54f7194cd02ff68b9600f09892901604ebd985b881c9860505e91785","timestamp":"2019-03-12T03:24:27Z","subdir":"","vcs_ref":"refs/tags/v0.3.0"},\
+-{"module":"github.com/google/go-dap","version":"v0.12.1-0.20250904181021-d7a2259b058b","vcs_hash":"38f72ab7a67c1167bc8d252743ea0a437199a1cf9828b348cb7e07c45be9f9b9","timestamp":"2025-09-04T18:10:21Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/google/go-dap","version":"v0.12.0","vcs_hash":"7d0defb60f3f577e67d765314ac295225706f0b4958436b28cf163f2170e3ff7","timestamp":"2024-02-22T16:17:01Z","subdir":"","vcs_ref":"refs/tags/v0.12.0"},\
++{"module":"github.com/google/gofuzz","version":"v1.0.0","vcs_hash":"3b10b16f3e547f9036aa468f5a846c1e873d084728258048c32c4afc2a1bb2cf","timestamp":"2019-04-08T17:44:45Z","subdir":"","vcs_ref":"refs/tags/v1.0.0"},\
+ {"module":"github.com/google/certtostore","version":"v1.0.6","vcs_hash":"03eab8e8fd9152de179043ef32fd09e4375ad5a3b8e25efbeeba6b44d1ca9d4f","timestamp":"2025-09-02T15:28:35Z","subdir":"","vcs_ref":"refs/tags/v1.0.6"},\
+-{"module":"github.com/google/go-containerregistry","version":"v0.20.6","vcs_hash":"38887873d29addecf3cfdeff62087a1dcb2a611b31e4e0df927d8504b7bad507","timestamp":"2025-06-13T21:51:07Z","subdir":"","vcs_ref":"refs/tags/v0.20.6"},\
++{"module":"github.com/google/deck","version":"v0.0.0-20230104221208-105ad94aa8ae","vcs_hash":"9c43c7ddfa82c3fc0dbcab5945f7f810fa68c290504895ba9a331c514051c140","timestamp":"2023-01-04T22:12:08Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/google/gnostic-models","version":"v0.7.0","vcs_hash":"88a05eeac87ac843d53bbad4f86c891fbd1a6eb73d10d5b2c7381c229c0a25ab","timestamp":"2025-06-26T15:23:00Z","subdir":"","vcs_ref":"refs/tags/v0.7.0"},\
+ {"module":"github.com/google/uuid","version":"v1.6.0","vcs_hash":"1743dd7863ebf20fb946ec26a0525a27c91536f2d01acf863b0a99566cd8f3e5","timestamp":"2024-01-23T18:54:04Z","subdir":"","vcs_ref":"refs/tags/v1.6.0"},\
+-{"module":"github.com/google/pprof","version":"v0.0.0-20250820193118-f64d9cf942d6","vcs_hash":"b4a3cf22b289c100dae58764b0f35b0c0af89950e35274a0659c15b4340bc322","timestamp":"2025-08-20T19:31:18Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/google/gofuzz","version":"v1.0.0","vcs_hash":"3b10b16f3e547f9036aa468f5a846c1e873d084728258048c32c4afc2a1bb2cf","timestamp":"2019-04-08T17:44:45Z","subdir":"","vcs_ref":"refs/tags/v1.0.0"},\
+-{"module":"github.com/google/shlex","version":"v0.0.0-20191202100458-e7afc7fbc510","vcs_hash":"6317e931b780de46077449706d69a38f426197406a504d848e3500a0d06b7299","timestamp":"2019-12-02T10:04:58Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/google/go-containerregistry","version":"v0.20.7","vcs_hash":"7718f7a1dba1449780db7674f80547426e1d00e04dad155a6d6d92f8d82b750b","timestamp":"2025-11-24T22:20:20Z","subdir":"","vcs_ref":"refs/tags/v0.20.7"},\
++{"module":"github.com/google/go-containerregistry","version":"v0.20.6","vcs_hash":"38887873d29addecf3cfdeff62087a1dcb2a611b31e4e0df927d8504b7bad507","timestamp":"2025-06-13T21:51:07Z","subdir":"","vcs_ref":"refs/tags/v0.20.6"},\
++{"module":"github.com/google/trillian","version":"v1.7.2","vcs_hash":"e8d401f7e3b6be0101aac286ab5237fe0b10c1bcc3605c934a1f0aeae0914ed1","timestamp":"2025-04-25T16:18:12Z","subdir":"","vcs_ref":"refs/tags/v1.7.2"},\
++{"module":"github.com/google/go-dap","version":"v0.12.1-0.20250904181021-d7a2259b058b","vcs_hash":"38f72ab7a67c1167bc8d252743ea0a437199a1cf9828b348cb7e07c45be9f9b9","timestamp":"2025-09-04T18:10:21Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/google/go-dap","version":"v0.12.0","vcs_hash":"7d0defb60f3f577e67d765314ac295225706f0b4958436b28cf163f2170e3ff7","timestamp":"2024-02-22T16:17:01Z","subdir":"","vcs_ref":"refs/tags/v0.12.0"},\
+ {"module":"github.com/google/certificate-transparency-go","version":"v1.0.10-0.20180222191210-5ab67e519c93","vcs_hash":"0fd69fa049b1061cd5c090184fa587afb10ae78ca64762f4b915f363cf226599","timestamp":"2018-02-22T19:12:10Z","subdir":"","vcs_ref":""},\
+ {"module":"github.com/google/certificate-transparency-go","version":"v1.3.2","vcs_hash":"c0a53496e7fb547e3eb9df58eee5ef548371f97a21a52d73b7106de59ad52699","timestamp":"2025-06-13T09:05:08Z","subdir":"","vcs_ref":"refs/tags/v1.3.2"},\
+-{"module":"github.com/google/trillian","version":"v1.7.2","vcs_hash":"e8d401f7e3b6be0101aac286ab5237fe0b10c1bcc3605c934a1f0aeae0914ed1","timestamp":"2025-04-25T16:18:12Z","subdir":"","vcs_ref":"refs/tags/v1.7.2"},\
+-{"module":"github.com/google/gnostic-models","version":"v0.7.0","vcs_hash":"88a05eeac87ac843d53bbad4f86c891fbd1a6eb73d10d5b2c7381c229c0a25ab","timestamp":"2025-06-26T15:23:00Z","subdir":"","vcs_ref":"refs/tags/v0.7.0"},\
+-{"module":"github.com/go-logfmt/logfmt","version":"v0.3.0","vcs_hash":"87ea6a9e239f17f704d8539912edf62249556b50b823ce9b513c614350572831","timestamp":"2016-11-15T14:25:13Z","subdir":"","vcs_ref":"refs/tags/v0.3.0"},\
+-{"module":"github.com/go-logfmt/logfmt","version":"v0.4.0","vcs_hash":"ba8d08b7a7c3160ce690a9887ce68303c6e395cb41e8669e5b9c7423dbb2e6d8","timestamp":"2018-11-22T01:56:15Z","subdir":"","vcs_ref":"refs/tags/v0.4.0"},\
+-{"module":"github.com/tchap/go-patricia/v2","version":"v2.3.3","vcs_hash":"196ec21f158dd5c10370dcd9b618d17460a5f3dec6cbc351a797a1a4f906b7bb","timestamp":"2025-07-01T06:30:56Z","subdir":"","vcs_ref":"refs/tags/v2.3.3"},\
+-{"module":"github.com/bitly/go-hostpool","version":"v0.1.0","vcs_hash":"4fa48fb597b43d9ba89aa477912e73c8b6130aa0cda05b209201b071f25d10a4","timestamp":"2019-12-24T19:37:25Z","subdir":"","vcs_ref":"refs/tags/v0.1.0"},\
+-{"module":"github.com/bitly/go-simplejson","version":"v0.5.0","vcs_hash":"c56b9fa4257469037ce41f652467339083e21d8cf63b420f7051f689474dcb9e","timestamp":"2015-09-15T16:53:35Z","subdir":"","vcs_ref":"refs/tags/v0.5.0"},\
+-{"module":"github.com/cyberphone/json-canonicalization","version":"v0.0.0-20241213102144-19d51d7fe467","vcs_hash":"0e55f9f02847679b08922b4a88af3131cb189b333af41228fc1ceba858b5fceb","timestamp":"2024-12-13T10:21:44Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/go-ini/ini","version":"v1.67.0","vcs_hash":"cad9f449f807ba878152dab9e71ba0f300b51a0a69390f502d55fb24a11f73a2","timestamp":"2022-08-08T11:35:30Z","subdir":"","vcs_ref":"refs/tags/v1.67.0"},\
+-{"module":"github.com/package-url/packageurl-go","version":"v0.1.1","vcs_hash":"69e2d03e1f7870cf593ec577931a0c5fd11729307d2e00a0deabe610548fcd48","timestamp":"2023-06-19T06:37:43Z","subdir":"","vcs_ref":"refs/tags/v0.1.1"},\
+-{"module":"github.com/serialx/hashring","version":"v0.0.0-20200727003509-22c0c7ab6b1b","vcs_hash":"9ad302311a59b7a00732c9d2e738e872440b07b223df6f9dc7104acafedb16ee","timestamp":"2020-07-27T00:35:09Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/shibumi/go-pathspec","version":"v1.3.0","vcs_hash":"7d6286b09783f24f2ba2db51c2fd61c197637cee9cd88b2e7576338aa579825f","timestamp":"2021-10-17T22:38:10Z","subdir":"","vcs_ref":"refs/tags/v1.3.0"},\
+-{"module":"github.com/gobwas/glob","version":"v0.2.3","vcs_hash":"9ea137b0f545be63130971285b3e0b109491f0a0c45197efd72385336ab0ed05","timestamp":"2018-02-08T21:06:56Z","subdir":"","vcs_ref":"refs/tags/v0.2.3"},\
+-{"module":"github.com/fvbommel/sortorder","version":"v1.1.0","vcs_hash":"f31f7baba1030efc67be0125d6ea3670572de4cf9ef4162f66c110baedf2fc25","timestamp":"2023-03-18T20:06:58Z","subdir":"","vcs_ref":"refs/tags/v1.1.0"},\
+-{"module":"github.com/fsnotify/fsnotify","version":"v1.9.0","vcs_hash":"e7e3eb9997b88b1856ec41676de694527bda7173c94d395822f6eec3ec2067e2","timestamp":"2025-04-04T15:13:49Z","subdir":"","vcs_ref":"refs/tags/v1.9.0"},\
+-{"module":"github.com/fsnotify/fsnotify","version":"v1.4.7","vcs_hash":"cc44f7bf337eee80812ff411465b4e87c78887003ae940c1b27adb151bbed7d2","timestamp":"2018-01-10T05:33:47Z","subdir":"","vcs_ref":"refs/tags/v1.4.7"},\
+-{"module":"github.com/fsnotify/fsevents","version":"v0.2.0","vcs_hash":"fae61401b9b33d2f4bc3fb5a8898dd22623c392e69010b28dd2577454207e33b","timestamp":"2024-05-14T13:38:25Z","subdir":"","vcs_ref":"refs/tags/v0.2.0"},\
+-{"module":"github.com/ProtonMail/go-crypto","version":"v1.3.0","vcs_hash":"0bcc37d92aae5ed6a3baa05c154e2401eacb94df8b0aa4704a4ffb4fd7365ecf","timestamp":"2025-05-22T14:44:20Z","subdir":"","vcs_ref":"refs/tags/v1.3.0"},\
+-{"module":"github.com/jedisct1/go-minisign","version":"v0.0.0-20211028175153-1c139d1cc84b","vcs_hash":"ed26c8fb0a00d7b5743a1d1f1e95f5e4c4e9b2afeca92ceee48f41875b445e1e","timestamp":"2021-10-28T17:51:53Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/morikuni/aec","version":"v1.0.0","vcs_hash":"ed63d58cf112e0b59a076da22b09a7543de7421c2457060482db3ad8303454e1","timestamp":"2017-01-13T03:34:06Z","subdir":"","vcs_ref":"refs/tags/v1.0.0"},\
+-{"module":"github.com/morikuni/aec","version":"v1.1.0","vcs_hash":"0d08cd9576b9540a641376df67caa20435029f8a332a192fd25ac61685cb1764","timestamp":"2025-12-11T07:08:53Z","subdir":"","vcs_ref":"refs/tags/v1.1.0"},\
+-{"module":"github.com/urfave/cli","version":"v1.22.17","vcs_hash":"e30b4b6c880a60654fa02d3559f2088eddf5fbe9bc92870b9df3d72357f735d0","timestamp":"2025-06-14T02:43:22Z","subdir":"","vcs_ref":"refs/tags/v1.22.17"},\
+-{"module":"github.com/urfave/cli/v2","version":"v2.27.7","vcs_hash":"b063b9db6f64a681153d8de9f4474fe963c29b610e0cb156372dbc3dffad882a","timestamp":"2025-06-14T02:47:17Z","subdir":"","vcs_ref":"refs/tags/v2.27.7"},\
+-{"module":"github.com/pkg/profile","version":"v1.7.0","vcs_hash":"514b8b4f0dcd1ab4c812208028d6ffbd8ac9873c6f9fa22227d0537fe9f6af87","timestamp":"2022-10-20T01:34:01Z","subdir":"","vcs_ref":"refs/tags/v1.7.0"},\
+-{"module":"github.com/pkg/browser","version":"v0.0.0-20240102092130-5ac0b6a4141c","vcs_hash":"10a8ed3a78b0663b7f54101de61f0c1b24ac55185382242b62e593e0b344d42e","timestamp":"2024-01-02T09:21:30Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/pkg/errors","version":"v0.8.0","vcs_hash":"ea5c82f11a22b952cd732b93d2e8a599298017272296a9232e4a97e26b3f3f27","timestamp":"2016-09-29T01:48:01Z","subdir":"","vcs_ref":"refs/tags/v0.8.0"},\
+-{"module":"github.com/pkg/errors","version":"v0.9.1","vcs_hash":"58e525151c02acebc6662bf19060e7ee1112335787f1ffb059ea8d46a3164e5e","timestamp":"2020-01-14T19:47:44Z","subdir":"","vcs_ref":"refs/tags/v0.9.1"},\
+-{"module":"github.com/pkg/errors","version":"v0.8.1","vcs_hash":"05a9ae48ad2a27ee2ace909fb6dfe443196ef4ba6b92bd0e3d2f6a9460fc8fea","timestamp":"2019-01-03T06:52:24Z","subdir":"","vcs_ref":"refs/tags/v0.8.1"},\
+-{"module":"github.com/StackExchange/wmi","version":"v0.0.0-20190523213315-cbe66965904d","vcs_hash":"1fc27d9cac14b2a03bbb0b0458896762317bee884884ef85b821fa4cb18c6952","timestamp":"2019-05-23T21:33:15Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/hanwen/go-fuse/v2","version":"v2.8.0","vcs_hash":"9549fd67be856dc5565aa6f4996edb86a648510a1efb4dec609c4133bdba118c","timestamp":"2025-06-11T07:15:48Z","subdir":"","vcs_ref":"refs/tags/v2.8.0"},\
+-{"module":"github.com/xeipuuv/gojsonpointer","version":"v0.0.0-20190905194746-02993c407bfb","vcs_hash":"4b0abfc7aeea962cf44836059fabc8aebf20db8d2e9ce317db13d42ade75c19f","timestamp":"2019-09-05T19:47:46Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/xeipuuv/gojsonreference","version":"v0.0.0-20180127040603-bd5ef7bd5415","vcs_hash":"6cce19ebe3be9e8f13d8b3c5090971f010f3f3cda349fa51197c974450d133ee","timestamp":"2018-01-27T04:06:03Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/xrash/smetrics","version":"v0.0.0-20240521201337-686a1a2994c1","vcs_hash":"39f621debd197a5e0bcda4514cb54d787e4e443693f317363918ceb70d590944","timestamp":"2024-05-21T20:13:37Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/beorn7/perks","version":"v1.0.0","vcs_hash":"8dd89f9e3fbe68a081d37f37c6deba6f0c099069502b162148d0ede72f822a95","timestamp":"2019-04-14T22:11:40Z","subdir":"","vcs_ref":"refs/tags/v1.0.0"},\
+-{"module":"github.com/beorn7/perks","version":"v1.0.1","vcs_hash":"c20c7a1c80a243f687008566bc9b8a9517bdf7e3a4f9db15e17160ad20568e9d","timestamp":"2019-07-31T12:00:54Z","subdir":"","vcs_ref":"refs/tags/v1.0.1"},\
+-{"module":"github.com/beorn7/perks","version":"v0.0.0-20150223135152-b965b613227f","vcs_hash":"bdca05a2672eea03731c25222db95561d1fad3ee6ccede612b305abb27b074ac","timestamp":"2015-02-23T13:51:52Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/beorn7/perks","version":"v0.0.0-20180321164747-3a771d992973","vcs_hash":"b05d3659d70127d95ec0b6f7d3aa9b87a50009706e0919be0913fc61dc69e093","timestamp":"2018-03-21T16:47:47Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/go-ole/go-ole","version":"v1.2.6","vcs_hash":"f8a37b093a9da7f7719abb71318560d985c5c38e6d58c2c73adde45616845d0c","timestamp":"2021-09-15T00:35:42Z","subdir":"","vcs_ref":"refs/tags/v1.2.6"},\
+-{"module":"github.com/kylelemons/godebug","version":"v1.1.0","vcs_hash":"070cd2056d33748c34b60876b93e86d0f8bcfa86a4dee28d6da2a6f3aaea66ac","timestamp":"2019-05-05T01:16:37Z","subdir":"","vcs_ref":"refs/tags/v1.1.0"},\
+-{"module":"github.com/mxk/go-flowrate","version":"v0.0.0-20140419014527-cca7078d478f","vcs_hash":"12c25c020a66ecc07c7c90ff8a8793d5462f3f4e58338c9b36012b25b4ed81b8","timestamp":"2014-04-19T01:45:27Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/go-stack/stack","version":"v1.8.0","vcs_hash":"b165c1e0ccf05d91f62b1ae66d83365c5d96f152e956573fb16040ab15370424","timestamp":"2018-08-26T13:48:48Z","subdir":"","vcs_ref":"refs/tags/v1.8.0"},\
+-{"module":"github.com/oklog/ulid","version":"v1.3.1","vcs_hash":"aad6b8a061fa553536e0c316a41769de0f2b7912cad69a71e0ea72d9bb262c8f","timestamp":"2018-10-02T12:43:06Z","subdir":"","vcs_ref":"refs/tags/v1.3.1"},\
+-{"module":"github.com/creack/pty","version":"v1.1.24","vcs_hash":"a723ba2e04aa95258b42d73ca8ebfd0b4170ac8a314767e9e3f78318484bb93b","timestamp":"2024-10-31T18:56:50Z","subdir":"","vcs_ref":"refs/tags/v1.1.24"},\
+-{"module":"github.com/creack/pty","version":"v1.1.17","vcs_hash":"2ae6946e9609d4012331fdd2a2f73d351d9fb15432db00d88ab4c508585a6d96","timestamp":"2021-10-16T17:41:19Z","subdir":"","vcs_ref":"refs/tags/v1.1.17"},\
+-{"module":"github.com/creack/pty","version":"v1.1.9","vcs_hash":"90ab694bdf1c87cb7742c9e23a91280fd693f673a912c6ed840ff28d25b2d46e","timestamp":"2019-09-25T15:36:33Z","subdir":"","vcs_ref":"refs/tags/v1.1.9"},\
+-{"module":"github.com/yashtewari/glob-intersection","version":"v0.2.0","vcs_hash":"f808bebdb4b58643c351139a2ad430afee40f2154d96cfe1086091dbffa08d35","timestamp":"2023-06-22T20:17:32Z","subdir":"","vcs_ref":"refs/tags/v0.2.0"},\
+-{"module":"github.com/erikstmartin/go-testdb","version":"v0.0.0-20160219214506-8d10e4a1bae5","vcs_hash":"94bdb322899f10502ca21756a20886b09fe0f8e8c7389a50bb21c7a2deb2d047","timestamp":"2016-02-19T21:45:06Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/segmentio/asm","version":"v1.2.0","vcs_hash":"566c03708dcf507b46d508ec323393891b2da4fae7ab290cdeab1bb810334c5c","timestamp":"2022-04-27T20:45:16Z","subdir":"","vcs_ref":"refs/tags/v1.2.0"},\
+-{"module":"github.com/mattn/go-colorable","version":"v0.1.2","vcs_hash":"c71b6f3acd50d510992b046a557833b9b03a5c1f131137523bd7a638b59e233e","timestamp":"2019-05-24T00:26:58Z","subdir":"","vcs_ref":"refs/tags/v0.1.2"},\
+-{"module":"github.com/mattn/go-colorable","version":"v0.1.14","vcs_hash":"d115108e05252e00501d24555b70931860f5e2506c9b51436969923bc59f5dd0","timestamp":"2025-01-10T08:29:27Z","subdir":"","vcs_ref":"refs/tags/v0.1.14"},\
+-{"module":"github.com/mattn/go-sqlite3","version":"v1.6.0","vcs_hash":"0bc060447a84109d178e936cf0287c198c9a1bcbf25d74362b7df7427a44fdda","timestamp":"2018-01-12T08:58:26Z","subdir":"","vcs_ref":"refs/tags/v1.6.0"},\
+-{"module":"github.com/mattn/go-isatty","version":"v0.0.8","vcs_hash":"4963e35bcc64525b440c791c0eb22045df1ebb90bbcdf56256950a814d09f425","timestamp":"2019-05-22T01:25:13Z","subdir":"","vcs_ref":"refs/tags/v0.0.8"},\
+-{"module":"github.com/mattn/go-isatty","version":"v0.0.20","vcs_hash":"d07760adabb0d05ba45e3c8997554326fa96668c12bc4572654f288670e1af35","timestamp":"2023-10-17T07:28:21Z","subdir":"","vcs_ref":"refs/tags/v0.0.20"},\
+-{"module":"github.com/mattn/go-runewidth","version":"v0.0.16","vcs_hash":"1af9e649dfc4b15b3476c94bfc74f82df8afa71fae63a7efc761b8a649019d2d","timestamp":"2024-07-22T12:40:34Z","subdir":"","vcs_ref":"refs/tags/v0.0.16"},\
+-{"module":"github.com/mattn/go-shellwords","version":"v1.0.12","vcs_hash":"3e9de7967c04a07a314669e56b72110ac8eee96a9646f5b9863c709575abe8d1","timestamp":"2021-06-04T13:07:19Z","subdir":"","vcs_ref":"refs/tags/v1.0.12"},\
+-{"module":"github.com/sirupsen/logrus","version":"v1.0.6","vcs_hash":"e2b60414d6cf051bc156482dc25c0e442f2dcbaf755db11f95b165196e3a417d","timestamp":"2018-07-21T07:00:01Z","subdir":"","vcs_ref":"refs/tags/v1.0.6"},\
+-{"module":"github.com/sirupsen/logrus","version":"v1.4.1","vcs_hash":"e7dadc55f17d7e5dd646b8a1408f0d5dc551bfbbbb8de273a6b6ceb927a05353","timestamp":"2019-04-02T16:14:07Z","subdir":"","vcs_ref":"refs/tags/v1.4.1"},\
+-{"module":"github.com/sirupsen/logrus","version":"v1.2.0","vcs_hash":"f662f3bd248d63f5671cbf660c0fd3e5c3fc5389fca023c018b7c8fa63d75263","timestamp":"2018-11-01T07:39:56Z","subdir":"","vcs_ref":"refs/tags/v1.2.0"},\
+-{"module":"github.com/sirupsen/logrus","version":"v1.9.3","vcs_hash":"a1230aee5f8f1a866199cbec636d1525e00a9b13cf2fe0023dcf6b874c525014","timestamp":"2023-05-21T12:59:35Z","subdir":"","vcs_ref":"refs/tags/v1.9.3"},\
+-{"module":"github.com/sirupsen/logrus","version":"v1.9.4","vcs_hash":"7834dd2379c75b18a314ce35955486d0a20f3e960006fc4e8ce53625189de3b5","timestamp":"2025-10-23T12:47:52Z","subdir":"","vcs_ref":"refs/tags/v1.9.4"},\
+-{"module":"github.com/theupdateframework/notary","version":"v0.7.0","vcs_hash":"0e83ed3cbdbbbd63c9ab62dc40651621a386fcaf575326772f2912b1279bfb2b","timestamp":"2021-01-14T13:39:57Z","subdir":"","vcs_ref":"refs/tags/v0.7.0"},\
+-{"module":"github.com/theupdateframework/go-tuf","version":"v0.7.0","vcs_hash":"bbec9c5e97a26007b5a7ef626e437d1c9638f745eb3bcef1032e95a3a76097d3","timestamp":"2023-11-28T14:58:45Z","subdir":"","vcs_ref":"refs/tags/v0.7.0"},\
+-{"module":"github.com/theupdateframework/go-tuf/v2","version":"v2.3.0","vcs_hash":"97ff561da38ed2349284442d498f6f0f3994debe9521efa5d581a46bfb851564","timestamp":"2025-11-04T16:20:07Z","subdir":"","vcs_ref":"refs/tags/v2.3.0"},\
+-{"module":"github.com/AzureAD/microsoft-authentication-library-for-go","version":"v1.6.0","vcs_hash":"a614c17b982b55683fa48ad6af54eeb7a0d805b231482bbbc5a0075a03e060fc","timestamp":"2025-11-05T15:05:01Z","subdir":"","vcs_ref":"refs/tags/v1.6.0"},\
+-{"module":"github.com/jackc/puddle/v2","version":"v2.2.2","vcs_hash":"f3334a91ad7dbb92655b9f37614612cc5df45c529576e03e8308dfed92ae9050","timestamp":"2024-09-10T11:12:31Z","subdir":"","vcs_ref":"refs/tags/v2.2.2"},\
+-{"module":"github.com/jackc/pgpassfile","version":"v1.0.0","vcs_hash":"bcb7f6d6bafda56d4f5f42db214defa53f1769aa323ba6f941283d833ed326d1","timestamp":"2019-03-30T16:09:02Z","subdir":"","vcs_ref":"refs/tags/v1.0.0"},\
+-{"module":"github.com/jackc/pgservicefile","version":"v0.0.0-20240606120523-5a60cdf6a761","vcs_hash":"ddeb106f0a503bc56c2377cf8c3863fd5b039a12e3472f1f499e89f689d70793","timestamp":"2024-06-06T12:05:23Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/jackc/pgx/v5","version":"v5.7.5","vcs_hash":"7d428807020135278d6c041ab060af6cb7629a2458e8beedf6520c22a981521c","timestamp":"2025-05-17T22:14:14Z","subdir":"","vcs_ref":"refs/tags/v5.7.5"},\
+-{"module":"github.com/otiai10/copy","version":"v1.14.1","vcs_hash":"6f52336953491d169a014c4906e3f17a4c78b425ca26804ae779c6167516d7d0","timestamp":"2025-01-05T09:29:22Z","subdir":"","vcs_ref":"refs/tags/v1.14.1"},\
+-{"module":"github.com/otiai10/mint","version":"v1.6.3","vcs_hash":"8e5429bf94b80c2f4aae87b33f4b4dd03b9d8a978004bf74b1fe4042dc0b5fad","timestamp":"2023-07-01T08:53:10Z","subdir":"","vcs_ref":"refs/tags/v1.6.3"},\
+-{"module":"github.com/in-toto/in-toto-golang","version":"v0.9.0","vcs_hash":"2af10e1379ff951a497f89bf7bb202df095b1ff9be198f3787d92db04f8aa720","timestamp":"2023-05-04T15:06:05Z","subdir":"","vcs_ref":"refs/tags/v0.9.0"},\
+-{"module":"github.com/in-toto/attestation","version":"v1.1.2","vcs_hash":"c9afe967ea4e5751fb018d13c01ee86a880270f07f46e7f6c38d9e86c07f25c2","timestamp":"2025-06-13T20:47:12Z","subdir":"","vcs_ref":"refs/tags/v1.1.2"},\
+-{"module":"github.com/Masterminds/semver/v3","version":"v3.4.0","vcs_hash":"b69d3fcaea23340a3ee6fdc0c141ba3d247100353aee6eb28dd426e0d62498b3","timestamp":"2025-06-27T14:48:33Z","subdir":"","vcs_ref":"refs/tags/v3.4.0"},\
+-{"module":"github.com/envoyproxy/go-control-plane","version":"v0.13.5-0.20251024222203-75eaa193e329","vcs_hash":"16d730c776e5b5650a8f35d6f26efcb4548bf62ecba132bc934e522eec2a0508","timestamp":"2025-10-24T22:22:03Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/envoyproxy/go-control-plane/ratelimit","version":"v0.1.0","vcs_hash":"906f63aa0b71e9714823fdb45d45be4659d30de781b6a053c93f43371894845f","timestamp":"2024-12-23T15:25:59Z","subdir":"ratelimit","vcs_ref":"refs/tags/ratelimit/v0.1.0"},\
+-{"module":"github.com/envoyproxy/go-control-plane/envoy","version":"v1.35.0","vcs_hash":"af904f5786ed9309afb305ff0ca3cddce08208c95ec3f9def0b074e767b05cb9","timestamp":"2025-07-22T12:54:42Z","subdir":"envoy","vcs_ref":"refs/tags/envoy/v1.35.0"},\
+-{"module":"github.com/envoyproxy/protoc-gen-validate","version":"v1.2.1","vcs_hash":"d5f02e84a7cac6538441cf10353084bc8986687c4fb1dbec8ce868f36087a44c","timestamp":"2025-01-22T20:15:32Z","subdir":"","vcs_ref":"refs/tags/v1.2.1"},\
+-{"module":"github.com/armon/circbuf","version":"v0.0.0-20190214190532-5111143e8da2","vcs_hash":"f44b726eafbedd3c7d5723dfd9850375946a0b78000629a3558aacfbb013cecb","timestamp":"2019-02-14T19:05:32Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/coreos/go-systemd/v22","version":"v22.6.0","vcs_hash":"cb3155042a873c409f7dda7401561f3206a5dc4225d8ce9335fd9da1ee482c05","timestamp":"2025-08-20T18:00:08Z","subdir":"","vcs_ref":"refs/tags/v22.6.0"},\
+-{"module":"github.com/coreos/go-oidc/v3","version":"v3.16.0","vcs_hash":"03bf95d100c67404240716322c3671b3929db67ce58632e7f64b3830796b4b23","timestamp":"2025-10-03T19:37:06Z","subdir":"","vcs_ref":"refs/tags/v3.16.0"},\
+-{"module":"github.com/mdlayher/socket","version":"v0.5.1","vcs_hash":"ade2a4b5630096b489828944f4f75b866125a6d37fc95c3524f0cc002cbe8cf9","timestamp":"2024-03-15T15:39:10Z","subdir":"","vcs_ref":"refs/tags/v0.5.1"},\
+-{"module":"github.com/mdlayher/vsock","version":"v1.2.1","vcs_hash":"a7b2ec13026e78d41b91e1e452aab0a78ae155b70966624ec8e5e52ba56a0b08","timestamp":"2023-04-29T14:19:24Z","subdir":"","vcs_ref":"refs/tags/v1.2.1"},\
+-{"module":"github.com/mailru/easyjson","version":"v0.7.7","vcs_hash":"5b802334c301c91bd13cee6264caa8c327300bfc16173c6074fc315244620dd8","timestamp":"2021-02-06T19:00:08Z","subdir":"","vcs_ref":"refs/tags/v0.7.7"},\
+-{"module":"github.com/agext/levenshtein","version":"v1.2.3","vcs_hash":"f4186a1dba20fb3f51b9daaf116c010f10b94a0eb8114b084e25bb3b5649ecf6","timestamp":"2020-03-12T21:09:59Z","subdir":"","vcs_ref":"refs/tags/v1.2.3"},\
+-{"module":"github.com/AdaLogics/go-fuzz-headers","version":"v0.0.0-20240806141605-e8a1dd7889d6","vcs_hash":"618ef3cd1ed01872674845eae25e7d6a50a3d70b49881ccd500327b0778fedb9","timestamp":"2024-08-06T14:16:05Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/ysmood/fetchup","version":"v0.2.3","vcs_hash":"8c9dd6ebf834d7256887c2d14a754cf11453f2f3a5e2b0c8c05110052b6ee3a1","timestamp":"2023-05-07T03:47:20Z","subdir":"","vcs_ref":"refs/tags/v0.2.3"},\
+-{"module":"github.com/ysmood/gson","version":"v0.7.3","vcs_hash":"27ce5120c0465dfab869d1d5012071a3115381084f3a241d5de5330ed6bf71e6","timestamp":"2022-11-24T01:23:50Z","subdir":"","vcs_ref":"refs/tags/v0.7.3"},\
+-{"module":"github.com/ysmood/goob","version":"v0.4.0","vcs_hash":"9d85527d5325cd688787ce40dccb6ea83312b580a4e5eba11e779e213a9cb6c7","timestamp":"2022-04-09T04:13:26Z","subdir":"","vcs_ref":"refs/tags/v0.4.0"},\
+-{"module":"github.com/ysmood/got","version":"v0.40.0","vcs_hash":"eeb512ee1df2a3b4f92e5a5dc02e24f7963cec103929eec0113736a6ca67335b","timestamp":"2024-06-13T08:37:41Z","subdir":"","vcs_ref":"refs/tags/v0.40.0"},\
+-{"module":"github.com/ysmood/leakless","version":"v0.9.0","vcs_hash":"ea236bef84d8f62f430439cdcf1cab367fcd2b2371ced56810ccd36d18be2dd9","timestamp":"2024-07-11T10:12:25Z","subdir":"","vcs_ref":"refs/tags/v0.9.0"},\
+-{"module":"github.com/dvsekhvalnov/jose2go","version":"v0.0.0-20170216131308-f21a8cedbbae","vcs_hash":"3bed371de2aaaf0cbb9c346c5f01b8240e14c9e194179639d31b29aef3704b71","timestamp":"2017-02-16T13:13:08Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/opencontainers/runtime-spec","version":"v1.2.1","vcs_hash":"527ad6550cd654c758c3a90c33fba5de9598578a66be5e157153797cc1e49aa3","timestamp":"2025-02-25T22:46:15Z","subdir":"","vcs_ref":"refs/tags/v1.2.1"},\
+-{"module":"github.com/opencontainers/runtime-spec","version":"v1.3.0","vcs_hash":"d9c05db6124626de7f86b5f7cf385d2a821699e74a3a1d784837399c70f4e1b9","timestamp":"2025-11-02T07:35:43Z","subdir":"","vcs_ref":"refs/tags/v1.3.0"},\
+-{"module":"github.com/opencontainers/go-digest","version":"v0.0.0-20170106003457-a6d0ee40d420","vcs_hash":"023b07658f561af4e33906504bb1dff6d66e7a4b8ef99fcf0927e6d101be98bd","timestamp":"2017-01-06T00:34:57Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/opencontainers/go-digest","version":"v1.0.0","vcs_hash":"1a4d20c74c510ca00ecb86a3379c151579ed626508723e74a394480a71a0af24","timestamp":"2020-05-14T01:46:00Z","subdir":"","vcs_ref":"refs/tags/v1.0.0"},\
+-{"module":"github.com/opencontainers/selinux","version":"v1.12.0","vcs_hash":"4335d93e7b91bac4d4e22725cfaafc1cae44ef37a037022ea852d084e488e42a","timestamp":"2025-03-20T18:30:23Z","subdir":"","vcs_ref":"refs/tags/v1.12.0"},\
+-{"module":"github.com/opencontainers/selinux","version":"v1.13.1","vcs_hash":"19ef4b30214c57e5419f63e4397a9c0d90436c49b54e0ae99e1c9a4b964f28e2","timestamp":"2025-11-14T16:04:08Z","subdir":"","vcs_ref":"refs/tags/v1.13.1"},\
+-{"module":"github.com/opencontainers/image-spec","version":"v1.1.1","vcs_hash":"5bb7cbac46d5df774d087c364c00445553d3db253ca80dc7050c4e57832c118d","timestamp":"2025-02-24T17:26:57Z","subdir":"","vcs_ref":"refs/tags/v1.1.1"},\
+-{"module":"github.com/opencontainers/image-spec","version":"v1.0.1","vcs_hash":"cc3b5f635a95bc8a8d17057e77e824e9203543710d27cab434eae6bda0ebd445","timestamp":"2017-10-30T17:47:40Z","subdir":"","vcs_ref":"refs/tags/v1.0.1"},\
+-{"module":"github.com/opencontainers/runtime-tools","version":"v0.9.1-0.20250523060157-0ea5ed0382a2","vcs_hash":"f53bb2252a6ed943b856ebf9ca177b616be13e0631422a2c5167b1eeada6cc21","timestamp":"2025-05-23T06:01:57Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/opencontainers/runtime-tools","version":"v0.9.1-0.20251114084447-edf4cb3d2116","vcs_hash":"9120451d0089ff79de31a4292e8836bebf3ee5e2d7e8c4852764fee040cbfc1e","timestamp":"2025-11-14T08:44:47Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/yuin/goldmark","version":"v1.2.1","vcs_hash":"4c58efe0c28d74a0131cf65fc06af9bf723f3852cb20f81dce6ce9ae50793119","timestamp":"2020-07-30T13:33:42Z","subdir":"","vcs_ref":"refs/tags/v1.2.1"},\
+-{"module":"github.com/yuin/goldmark","version":"v1.4.13","vcs_hash":"fbec1a06cf7d810b36a87559756866f825159c4db030b543bd6359717d401035","timestamp":"2022-07-09T07:22:17Z","subdir":"","vcs_ref":"refs/tags/v1.4.13"},\
+-{"module":"github.com/yuin/goldmark","version":"v1.1.27","vcs_hash":"fb45f805a799ac2f897942f334c68fc215fa5bfc06f4b0277d583fe78f6c36ca","timestamp":"2020-03-31T17:10:28Z","subdir":"","vcs_ref":"refs/tags/v1.1.27"},\
+-{"module":"github.com/go-rod/rod","version":"v0.116.2","vcs_hash":"56a3074e00ed3cc5a312cd4b264c9070764ea81790bf8a1147690ab65ad79579","timestamp":"2024-07-12T02:40:37Z","subdir":"","vcs_ref":"refs/tags/v0.116.2"},\
+-{"module":"github.com/pelletier/go-toml","version":"v1.9.5","vcs_hash":"22bc2e212b193b23af04b0014dd6e6f15e66953913e88670099f8375927b48c7","timestamp":"2022-01-05T14:17:32Z","subdir":"","vcs_ref":"refs/tags/v1.9.5"},\
+-{"module":"github.com/pelletier/go-toml/v2","version":"v2.2.4","vcs_hash":"024e6f520632e6be8a8fbc0202fdf0da2cfc0266ff95451a8e8d944dd0d8882f","timestamp":"2025-04-07T11:11:38Z","subdir":"","vcs_ref":"refs/tags/v2.2.4"},\
+-{"module":"github.com/x448/float16","version":"v0.8.4","vcs_hash":"e395eca01f11e874b5b2b165e3dc2620faa30374fb308657449d3a3023ce5cbb","timestamp":"2020-01-17T18:31:28Z","subdir":"","vcs_ref":"refs/tags/v0.8.4"},\
+-{"module":"github.com/valyala/fastjson","version":"v1.6.4","vcs_hash":"9f8bd53bfc32d2df39c0edaf1166015535c0b16676b7e9d5e385a8e22e796ccd","timestamp":"2022-12-29T18:27:00Z","subdir":"","vcs_ref":"refs/tags/v1.6.4"},\
+-{"module":"github.com/go-viper/mapstructure/v2","version":"v2.5.0","vcs_hash":"3bfaa2e7553753ef9eb595609273310a8498c5d5f4d43000c69a7bd2bb39a3ef","timestamp":"2026-01-12T17:24:26Z","subdir":"","vcs_ref":"refs/tags/v2.5.0"},\
+-{"module":"github.com/go-viper/mapstructure/v2","version":"v2.4.0","vcs_hash":"c8d654dc2b8f99ffd23c744af0b961737a283ddb83b110d144f8558b6ffa2ae1","timestamp":"2025-07-15T08:59:08Z","subdir":"","vcs_ref":"refs/tags/v2.4.0"},\
+-{"module":"github.com/godbus/dbus/v5","version":"v5.1.0","vcs_hash":"64a1380eac8fb56f64570a9ee44f46ff49a8cfc74d31623d696b49699728d072","timestamp":"2022-02-27T11:53:47Z","subdir":"v5","vcs_ref":"refs/tags/v5.1.0"},\
+-{"module":"github.com/acarl005/stripansi","version":"v0.0.0-20180116102854-5a71ef0e047d","vcs_hash":"337c48cf09adc53fe47bcae33dc8d5465a7dbf818b017054e53ee8ec11f2a73f","timestamp":"2018-01-16T10:28:54Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/go-logr/logr","version":"v1.2.2","vcs_hash":"761d6b76e4ca57583edd8a7d6cf39d5a0c0dfd1fb4f82f099c044f754193f7d1","timestamp":"2021-12-05T13:02:31Z","subdir":"","vcs_ref":"refs/tags/v1.2.2"},\
+-{"module":"github.com/go-logr/logr","version":"v1.4.3","vcs_hash":"5b4f8e13d26b7581594ade5c47d93fb87ebb7720ce23eff7afaed11743464e1f","timestamp":"2025-05-19T04:56:57Z","subdir":"","vcs_ref":"refs/tags/v1.4.3"},\
+-{"module":"github.com/go-logr/stdr","version":"v1.2.2","vcs_hash":"e69aa58ea5f2f28aa8623652f5e6643b2299d9fe8ba1e6c73a8e3d602290ac67","timestamp":"2021-12-14T08:00:35Z","subdir":"","vcs_ref":"refs/tags/v1.2.2"},\
+-{"module":"github.com/petermattis/goid","version":"v0.0.0-20240813172612-4fcff4a6cae7","vcs_hash":"28fe23d2ffb5463ca74406309be8d07f56f5b77b8f151b1f3d5a8edf6d6ae9be","timestamp":"2024-08-13T17:26:12Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/blang/semver","version":"v3.5.1+incompatible","vcs_hash":"fb904b093dc37ee6efcaa2a562389f10a2411237cdeef7cddf15818be70366d1","timestamp":"2017-07-27T06:48:18Z","subdir":"","vcs_ref":"refs/tags/v3.5.1"},\
+-{"module":"github.com/danieljoos/wincred","version":"v1.2.2","vcs_hash":"4c31e6f58d17a9dddc9ffae620bea8697c6f92b5c7db87875384a33fa8f2c46b","timestamp":"2024-07-14T14:39:00Z","subdir":"","vcs_ref":"refs/tags/v1.2.2"},\
+-{"module":"github.com/danieljoos/wincred","version":"v1.2.3","vcs_hash":"27fc7633a915ecb9e3e3c6095cfd2d495010d4208024eefb538180b978864222","timestamp":"2025-10-02T18:24:04Z","subdir":"","vcs_ref":"refs/tags/v1.2.3"},\
+-{"module":"github.com/transparency-dev/formats","version":"v0.0.0-20251017110053-404c0d5b696c","vcs_hash":"968921f38a5932901522d8dad3d99ef03c554eb958e6b809606dcae3d3a778dc","timestamp":"2025-10-17T11:00:53Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/transparency-dev/merkle","version":"v0.0.2","vcs_hash":"11ca4461c55ebf4faefccb747a99c74860939f428aba666c5e7b7727ed758c08","timestamp":"2023-05-05T09:59:12Z","subdir":"","vcs_ref":"refs/tags/v0.0.2"},\
+-{"module":"github.com/grpc-ecosystem/go-grpc-middleware/providers/prometheus","version":"v1.1.0","vcs_hash":"42aacc0b51ca4683515670ecfde267af8722802b2bb4d002d5647da7d38f9a47","timestamp":"2025-06-12T22:31:32Z","subdir":"providers/prometheus","vcs_ref":"refs/tags/providers/prometheus/v1.1.0"},\
+-{"module":"github.com/grpc-ecosystem/go-grpc-middleware/v2","version":"v2.1.0","vcs_hash":"4e15ad209f57f1610bea03c67dbeef9ef7792fafe9b2902ca1a141277719f091","timestamp":"2024-02-22T15:43:25Z","subdir":"","vcs_ref":"refs/tags/v2.1.0"},\
+-{"module":"github.com/grpc-ecosystem/grpc-gateway/v2","version":"v2.27.2","vcs_hash":"6c43ad48e059624148bd0ae0b851bb5d1200cd6574bdf1b8e9006ed161aaad3d","timestamp":"2025-08-20T14:35:35Z","subdir":"","vcs_ref":"refs/tags/v2.27.2"},\
+-{"module":"github.com/grpc-ecosystem/grpc-gateway/v2","version":"v2.27.3","vcs_hash":"c03051a5b664a646468e73db0e79c783550c89b868b36ae69d3eed66aea682c1","timestamp":"2025-10-02T17:46:03Z","subdir":"","vcs_ref":"refs/tags/v2.27.3"},\
+-{"module":"github.com/containernetworking/cni","version":"v1.3.0","vcs_hash":"6fa30880d920c48b1630347223a375694a450629a1037b649907b1ab1f2f237a","timestamp":"2025-04-07T15:37:53Z","subdir":"","vcs_ref":"refs/tags/v1.3.0"},\
+-{"module":"github.com/containernetworking/plugins","version":"v1.8.0","vcs_hash":"f6503a87c1f81aa33a6d29c40a420afbc08e92fc8e1791dc7f439650e37194ca","timestamp":"2025-09-01T15:23:06Z","subdir":"","vcs_ref":"refs/tags/v1.8.0"},\
+-{"module":"github.com/containernetworking/plugins","version":"v1.9.0","vcs_hash":"f1741bcddc19dacbe0697ac406a478c08fb3a5527dfb1c4a43b549a9c1a420d3","timestamp":"2025-11-13T11:10:49Z","subdir":"","vcs_ref":"refs/tags/v1.9.0"},\
+-{"module":"github.com/opentracing/opentracing-go","version":"v1.1.0","vcs_hash":"ef2c56f0be025c9601f62c989b9bbcc2ccb4177a010b2d10139888b5762b9823","timestamp":"2019-03-23T20:25:03Z","subdir":"","vcs_ref":"refs/tags/v1.1.0"},\
+-{"module":"github.com/go-kit/kit","version":"v0.8.0","vcs_hash":"164d4eaa2f8107f0ad2f6559aac743c96ecce3f6eb17905b0e878385ede67301","timestamp":"2018-11-08T02:13:29Z","subdir":"","vcs_ref":"refs/tags/v0.8.0"},\
+-{"module":"github.com/go-openapi/jsonreference","version":"v0.21.3","vcs_hash":"06de1c7f0badb80ff65f2b8d602c41115cadba1eab00a3644a26c815fd9f97cc","timestamp":"2025-11-09T12:00:01Z","subdir":"","vcs_ref":"refs/tags/v0.21.3"},\
+-{"module":"github.com/go-openapi/jsonreference","version":"v0.20.2","vcs_hash":"2b1f5e4abef192d562993c04982e0222c673c03ef641b68a8e86ea31eae7b8e4","timestamp":"2023-01-14T04:19:40Z","subdir":"","vcs_ref":"refs/tags/v0.20.2"},\
+-{"module":"github.com/go-openapi/errors","version":"v0.22.4","vcs_hash":"e5716b375e23d3a59fd3d744fba14212d7d3d7434e874898258b45ea2aca6a07","timestamp":"2025-11-09T12:18:43Z","subdir":"","vcs_ref":"refs/tags/v0.22.4"},\
+-{"module":"github.com/go-openapi/swag","version":"v0.25.3","vcs_hash":"7836e34d24416dab15fe6283b68847039139876b4f48af3e54978b11d199b4a5","timestamp":"2025-11-17T21:56:48Z","subdir":"","vcs_ref":"refs/tags/v0.25.3"},\
+-{"module":"github.com/go-openapi/swag","version":"v0.23.0","vcs_hash":"c9cae28160c75921d2cb4ab3d1f827a75eff410d92b10dbdb59ee96851a11ee6","timestamp":"2024-03-09T18:11:11Z","subdir":"","vcs_ref":"refs/tags/v0.23.0"},\
+-{"module":"github.com/go-openapi/swag/conv","version":"v0.25.3","vcs_hash":"7836e34d24416dab15fe6283b68847039139876b4f48af3e54978b11d199b4a5","timestamp":"2025-11-17T21:56:48Z","subdir":"conv","vcs_ref":"refs/tags/conv/v0.25.3"},\
+-{"module":"github.com/go-openapi/swag/yamlutils","version":"v0.25.3","vcs_hash":"7836e34d24416dab15fe6283b68847039139876b4f48af3e54978b11d199b4a5","timestamp":"2025-11-17T21:56:48Z","subdir":"yamlutils","vcs_ref":"refs/tags/yamlutils/v0.25.3"},\
+-{"module":"github.com/go-openapi/swag/netutils","version":"v0.25.3","vcs_hash":"7836e34d24416dab15fe6283b68847039139876b4f48af3e54978b11d199b4a5","timestamp":"2025-11-17T21:56:48Z","subdir":"netutils","vcs_ref":"refs/tags/netutils/v0.25.3"},\
+-{"module":"github.com/go-openapi/swag/cmdutils","version":"v0.25.3","vcs_hash":"7836e34d24416dab15fe6283b68847039139876b4f48af3e54978b11d199b4a5","timestamp":"2025-11-17T21:56:48Z","subdir":"cmdutils","vcs_ref":"refs/tags/cmdutils/v0.25.3"},\
+-{"module":"github.com/go-openapi/swag/typeutils","version":"v0.25.3","vcs_hash":"7836e34d24416dab15fe6283b68847039139876b4f48af3e54978b11d199b4a5","timestamp":"2025-11-17T21:56:48Z","subdir":"typeutils","vcs_ref":"refs/tags/typeutils/v0.25.3"},\
+-{"module":"github.com/go-openapi/swag/stringutils","version":"v0.25.3","vcs_hash":"7836e34d24416dab15fe6283b68847039139876b4f48af3e54978b11d199b4a5","timestamp":"2025-11-17T21:56:48Z","subdir":"stringutils","vcs_ref":"refs/tags/stringutils/v0.25.3"},\
+-{"module":"github.com/go-openapi/swag/fileutils","version":"v0.25.3","vcs_hash":"7836e34d24416dab15fe6283b68847039139876b4f48af3e54978b11d199b4a5","timestamp":"2025-11-17T21:56:48Z","subdir":"fileutils","vcs_ref":"refs/tags/fileutils/v0.25.3"},\
+-{"module":"github.com/go-openapi/swag/jsonutils","version":"v0.25.3","vcs_hash":"7836e34d24416dab15fe6283b68847039139876b4f48af3e54978b11d199b4a5","timestamp":"2025-11-17T21:56:48Z","subdir":"jsonutils","vcs_ref":"refs/tags/jsonutils/v0.25.3"},\
+-{"module":"github.com/go-openapi/swag/loading","version":"v0.25.3","vcs_hash":"7836e34d24416dab15fe6283b68847039139876b4f48af3e54978b11d199b4a5","timestamp":"2025-11-17T21:56:48Z","subdir":"loading","vcs_ref":"refs/tags/loading/v0.25.3"},\
+-{"module":"github.com/go-openapi/swag/mangling","version":"v0.25.3","vcs_hash":"7836e34d24416dab15fe6283b68847039139876b4f48af3e54978b11d199b4a5","timestamp":"2025-11-17T21:56:48Z","subdir":"mangling","vcs_ref":"refs/tags/mangling/v0.25.3"},\
+-{"module":"github.com/go-openapi/swag/jsonname","version":"v0.25.3","vcs_hash":"7836e34d24416dab15fe6283b68847039139876b4f48af3e54978b11d199b4a5","timestamp":"2025-11-17T21:56:48Z","subdir":"jsonname","vcs_ref":"refs/tags/jsonname/v0.25.3"},\
+-{"module":"github.com/go-openapi/validate","version":"v0.25.1","vcs_hash":"634835de930cf49d86f8279271ac56663708df6630c75375676b7da12b0be051","timestamp":"2025-11-09T14:39:49Z","subdir":"","vcs_ref":"refs/tags/v0.25.1"},\
+-{"module":"github.com/go-openapi/strfmt","version":"v0.25.0","vcs_hash":"1c34578346ff3d210d011d6cfe1401d10ad41c4367fffa74ef83da31a0dbd013","timestamp":"2025-11-09T12:54:25Z","subdir":"","vcs_ref":"refs/tags/v0.25.0"},\
+-{"module":"github.com/go-openapi/analysis","version":"v0.24.1","vcs_hash":"ea08203f36c98c5717a34e77c7e63e5e7be53de3838e1348958eba4d2a2f8b14","timestamp":"2025-11-09T13:58:24Z","subdir":"","vcs_ref":"refs/tags/v0.24.1"},\
+-{"module":"github.com/go-openapi/jsonpointer","version":"v0.21.0","vcs_hash":"eaab28eda54bc7b1675e90e5ebeb79d02f5b4b71c2430301297b1b41c648226c","timestamp":"2024-03-09T18:18:34Z","subdir":"","vcs_ref":"refs/tags/v0.21.0"},\
+-{"module":"github.com/go-openapi/jsonpointer","version":"v0.22.1","vcs_hash":"6269b4927db8fb7b41c628d42e3863e247ac6ab2729a17f0ea71ecfef8b873ab","timestamp":"2025-09-26T17:03:54Z","subdir":"","vcs_ref":"refs/tags/v0.22.1"},\
+-{"module":"github.com/go-openapi/spec","version":"v0.22.1","vcs_hash":"4092ffe95426c0c9bca5c198241300fcee8b81ca1c66da9b40ba1acb8768cf32","timestamp":"2025-11-09T13:27:19Z","subdir":"","vcs_ref":"refs/tags/v0.22.1"},\
+-{"module":"github.com/go-openapi/loads","version":"v0.23.2","vcs_hash":"9c224bf4ee23cd9ccea3953edb8991bb14040f2a584059de1f1644613744997e","timestamp":"2025-11-09T13:46:48Z","subdir":"","vcs_ref":"refs/tags/v0.23.2"},\
+-{"module":"github.com/go-openapi/runtime","version":"v0.29.2","vcs_hash":"b635f5b40e7ba10ae8c0cba6c904210f047c83113a12b45953d3e2f6f23d44e7","timestamp":"2025-11-09T19:45:35Z","subdir":"","vcs_ref":"refs/tags/v0.29.2"},\
+-{"module":"github.com/emicklei/go-restful/v3","version":"v3.13.0","vcs_hash":"2b1cb5344031e14606bed4c9c1a5462fa536c12e0f7359188d69f5709fdff9a1","timestamp":"2025-08-14T12:44:48Z","subdir":"","vcs_ref":"refs/tags/v3.13.0"},\
+-{"module":"github.com/gorilla/mux","version":"v1.7.0","vcs_hash":"e9f6dcbb74dd04784ade5364ce0688a4247bdb04e0cc5ea8774218e7cf8a65c5","timestamp":"2019-01-25T16:05:53Z","subdir":"","vcs_ref":"refs/tags/v1.7.0"},\
+-{"module":"github.com/gorilla/mux","version":"v1.8.1","vcs_hash":"489d4511710bd1a1fc80974aa65ee7c2b851f7c6354c34549b8cd131f4435f0f","timestamp":"2023-10-18T11:23:00Z","subdir":"","vcs_ref":"refs/tags/v1.8.1"},\
+-{"module":"github.com/gorilla/websocket","version":"v1.5.4-0.20250319132907-e064f32e3674","vcs_hash":"722c87c831f4b73fd3a40f24d8693191974f7a5a180d73f29a05c9bb3f84589f","timestamp":"2025-03-19T13:29:07Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/golang-sql/civil","version":"v0.0.0-20190719163853-cb61b32ac6fe","vcs_hash":"cf48a794754d9a9b29ff84011cf01764f8e4e9140292e83b4154b89a13f0eee9","timestamp":"2019-07-19T16:38:53Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/tilt-dev/fsnotify","version":"v1.4.8-0.20220602155310-fff9c274a375","vcs_hash":"7518a2b435d07d055cf9c9215e09d3f354425246b3aaec57d9906b3f344e061e","timestamp":"2022-06-02T15:53:10Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/matttproud/golang_protobuf_extensions","version":"v1.0.1","vcs_hash":"dd0fe058870feb088b8d2d88a7ff601f4c8c03aedeede7d837efcd311b5aea9b","timestamp":"2016-04-24T11:30:07Z","subdir":"","vcs_ref":"refs/tags/v1.0.1"},\
+-{"module":"github.com/Netflix/go-expect","version":"v0.0.0-20220104043353-73e0943537d2","vcs_hash":"421789c64dd51281a459815573a00c171d61889f5324c1701c37f5f2e8caa8a3","timestamp":"2022-01-04T04:33:53Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/pmezard/go-difflib","version":"v1.0.0","vcs_hash":"c04ad296d2e3203fda8b7ca96feaca21b20b3b7441e33c7d67cda029ea61ab4c","timestamp":"2016-01-10T10:55:54Z","subdir":"","vcs_ref":"refs/tags/v1.0.0"},\
+-{"module":"github.com/golang/groupcache","version":"v0.0.0-20241129210726-2c02b8208cf8","vcs_hash":"42d84b5a864149912b1976573aa12f43cdea041dfbb41206b5548b1134452af5","timestamp":"2024-11-29T21:07:26Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/golang/glog","version":"v1.2.5","vcs_hash":"c9f39bfa0a44d36bb33abf5da9f941c03e1a2e8b3c98916cabc3aaca09d17583","timestamp":"2025-04-29T08:43:26Z","subdir":"","vcs_ref":"refs/tags/v1.2.5"},\
+-{"module":"github.com/golang/snappy","version":"v0.0.4","vcs_hash":"0e8300bf89da9cc73c5b1fb83a5b5f3a9473d85cec3174c9484fb3b87ff8031d","timestamp":"2021-06-08T04:05:37Z","subdir":"","vcs_ref":"refs/tags/v0.0.4"},\
+-{"module":"github.com/golang/protobuf","version":"v1.3.1","vcs_hash":"ac3a600ae77600dcd73c8d21a4cd18d0b220318ed349c8deda52af33b71c50c6","timestamp":"2019-02-28T15:19:29Z","subdir":"","vcs_ref":"refs/tags/v1.3.1"},\
+-{"module":"github.com/golang/protobuf","version":"v1.2.0","vcs_hash":"c620195ee748026eed07d7e16b36050b97c69cfe3f735e96aafd915e5397baa5","timestamp":"2018-08-14T21:14:27Z","subdir":"","vcs_ref":"refs/tags/v1.2.0"},\
+-{"module":"github.com/golang/protobuf","version":"v1.3.4","vcs_hash":"f83545c5d009af94276add9fdb970f0b4b5b6872f19d4b02b8111007ee5544b0","timestamp":"2020-02-26T19:23:50Z","subdir":"","vcs_ref":"refs/tags/v1.3.4"},\
+-{"module":"github.com/golang/protobuf","version":"v1.3.2","vcs_hash":"cbdb48339b27d250cd1655e4e658760981e0b526face5866f3cfac54fd21200c","timestamp":"2019-07-01T18:22:01Z","subdir":"","vcs_ref":"refs/tags/v1.3.2"},\
+-{"module":"github.com/golang/protobuf","version":"v1.5.4","vcs_hash":"ff75ecee442381e7c87bac5ec092ebaf50137bc693ba5c5c1edce6eb4bd3ce94","timestamp":"2024-03-06T06:45:40Z","subdir":"","vcs_ref":"refs/tags/v1.5.4"},\
+-{"module":"github.com/go-jose/go-jose/v3","version":"v3.0.0","vcs_hash":"a3831850f8ce4841dd8c7a97a914dc89fe910b83d57d95db27c873ade23304b4","timestamp":"2021-06-05T21:22:18Z","subdir":"v3","vcs_ref":"refs/tags/v3.0.0"},\
+-{"module":"github.com/go-jose/go-jose/v4","version":"v4.1.3","vcs_hash":"a4219826063988cbd7f4ed3d1c1fc58d7ed42f236f04225796cee7943617cebb","timestamp":"2025-10-03T18:59:29Z","subdir":"","vcs_ref":"refs/tags/v4.1.3"},\
+-{"module":"github.com/keybase/go-keychain","version":"v0.0.1","vcs_hash":"82b6722ae37ce95c4a4f5c5d543a436be413fa68f322f3be86191b0953905603","timestamp":"2025-02-27T17:52:03Z","subdir":"","vcs_ref":"refs/tags/v0.0.1"},\
++{"module":"github.com/antihax/optional","version":"v1.0.0","vcs_hash":"535a79fbd6ec4a2d00a2eaeb938554011f822f57d36bc924215af19f4bab0697","timestamp":"2019-10-10T23:37:20Z","subdir":"","vcs_ref":"refs/tags/v1.0.0"},\
++{"module":"github.com/josharian/intern","version":"v1.0.0","vcs_hash":"273d42676826fc8f106c11c2800d01690a09463878fa115700b2e26df24a2440","timestamp":"2019-12-14T22:12:22Z","subdir":"","vcs_ref":"refs/tags/v1.0.0"},\
++{"module":"github.com/apparentlymart/go-cidr","version":"v1.0.1","vcs_hash":"78882067332ee02e3c72ccc9d03c697f04b24132ddd74da1593a953f0b833469","timestamp":"2019-08-17T16:12:28Z","subdir":"","vcs_ref":"refs/tags/v1.0.1"},\
++{"module":"github.com/apparentlymart/go-textseg/v15","version":"v15.0.0","vcs_hash":"2ad90a9579325698fb8eedc37a5bb5c32c0df927e2e2029b3cfa6369b0aad683","timestamp":"2023-08-29T15:35:34Z","subdir":"","vcs_ref":"refs/tags/v15.0.0"},\
++{"module":"github.com/fxamacker/cbor/v2","version":"v2.9.0","vcs_hash":"a2e55d2b4fdba69f8a4cfc76758713247ee27c62d5ad4168e8c14369f3c94c36","timestamp":"2025-07-14T04:00:34Z","subdir":"","vcs_ref":"refs/tags/v2.9.0"},\
++{"module":"github.com/yashtewari/glob-intersection","version":"v0.2.0","vcs_hash":"f808bebdb4b58643c351139a2ad430afee40f2154d96cfe1086091dbffa08d35","timestamp":"2023-06-22T20:17:32Z","subdir":"","vcs_ref":"refs/tags/v0.2.0"},\
++{"module":"github.com/stretchr/objx","version":"v0.1.1","vcs_hash":"324a79f9170fef44f826e43999370c6ec3bc3be6044c9a4c2e3eb97cdf5ac743","timestamp":"2018-01-25T22:19:50Z","subdir":"","vcs_ref":"refs/tags/v0.1.1"},\
++{"module":"github.com/stretchr/objx","version":"v0.2.0","vcs_hash":"982a1df420b1f34eee71122e02865aa89e1ea251dc09362265917bd0e0ca3995","timestamp":"2019-04-09T12:31:02Z","subdir":"","vcs_ref":"refs/tags/v0.2.0"},\
++{"module":"github.com/stretchr/objx","version":"v0.1.0","vcs_hash":"39828321881a0709a36a2d1edde8fc9928ddd471ebd0bbdf7012076e7214bb02","timestamp":"2018-01-06T01:13:53Z","subdir":"","vcs_ref":"refs/tags/v0.1.0"},\
++{"module":"github.com/stretchr/objx","version":"v0.5.2","vcs_hash":"fe4a57d26379977ebf461da8c71a20095b9f973a91d55076b67fa0de48206a1e","timestamp":"2024-02-29T09:57:51Z","subdir":"","vcs_ref":"refs/tags/v0.5.2"},\
++{"module":"github.com/stretchr/testify","version":"v1.5.1","vcs_hash":"725790d9265526f327bc846ba6025be038cd5cdf6367be0f622409ad58ac9aa0","timestamp":"2020-02-19T20:56:11Z","subdir":"","vcs_ref":"refs/tags/v1.5.1"},\
++{"module":"github.com/stretchr/testify","version":"v1.2.2","vcs_hash":"2bb8c4aae39dd3460bd5d8094b70444e65cec7f2390b1c2a41ffb7d431d41317","timestamp":"2018-06-09T11:55:18Z","subdir":"","vcs_ref":"refs/tags/v1.2.2"},\
++{"module":"github.com/stretchr/testify","version":"v1.11.1","vcs_hash":"ba91b84762300277627df761c9f004ffcc560434a1a1c2e613269b0c2e378278","timestamp":"2025-08-27T10:46:31Z","subdir":"","vcs_ref":"refs/tags/v1.11.1"},\
++{"module":"github.com/stretchr/testify","version":"v1.4.0","vcs_hash":"9e52b2f6204cf4daab20f41d30029448e95ae1a472c112e86dbdd68a16e14a2e","timestamp":"2019-07-12T00:01:36Z","subdir":"","vcs_ref":"refs/tags/v1.4.0"},\
++{"module":"github.com/stretchr/testify","version":"v1.6.1","vcs_hash":"782e156612c5b8f52bb9daab64be055460c9e50ce18305034fc5c8954a4e6b4a","timestamp":"2020-06-05T10:48:45Z","subdir":"","vcs_ref":"refs/tags/v1.6.1"},\
++{"module":"github.com/stretchr/testify","version":"v1.7.0","vcs_hash":"f87883f9ef1ad6bd6ecb844fe9108ae126c4dfab49080e5fb37bd27ca64417be","timestamp":"2021-01-13T09:54:11Z","subdir":"","vcs_ref":"refs/tags/v1.7.0"},\
++{"module":"github.com/stretchr/testify","version":"v1.3.0","vcs_hash":"15f4be955793ecb9ef81031cf64191211271265868a72e4bf25c409e978a8ce8","timestamp":"2019-01-03T19:31:39Z","subdir":"","vcs_ref":"refs/tags/v1.3.0"},\
++{"module":"github.com/mailru/easyjson","version":"v0.7.7","vcs_hash":"5b802334c301c91bd13cee6264caa8c327300bfc16173c6074fc315244620dd8","timestamp":"2021-02-06T19:00:08Z","subdir":"","vcs_ref":"refs/tags/v0.7.7"},\
+ {"module":"github.com/golang-jwt/jwt/v5","version":"v5.3.0","vcs_hash":"66e46ba0e23fba357561ed48f444bcd3786aa0082ed4d7977f2625fe09cb754e","timestamp":"2025-07-30T13:04:00Z","subdir":"","vcs_ref":"refs/tags/v5.3.0"},\
+-{"module":"github.com/felixge/httpsnoop","version":"v1.0.4","vcs_hash":"4faaa0a5649a2ae9245609ad7ed739dbc2e39cfd27a3018400f3dad114269d26","timestamp":"2023-03-12T10:31:09Z","subdir":"","vcs_ref":"refs/tags/v1.0.4"},\
+-{"module":"github.com/felixge/fgprof","version":"v0.9.3","vcs_hash":"e4198b9fea19f930b494d86892d08c8dcf4d5828b2b7c19db44e432daeadbd37","timestamp":"2022-09-01T14:50:22Z","subdir":"","vcs_ref":"refs/tags/v0.9.3"},\
+-{"module":"github.com/agnivade/levenshtein","version":"v1.2.1","vcs_hash":"d5b038fb822a1e302e22b0e6ac8351f211ac30e1da66a634d22f607d655321e3","timestamp":"2024-12-23T04:53:21Z","subdir":"","vcs_ref":"refs/tags/v1.2.1"},\
+-{"module":"github.com/spdx/tools-golang","version":"v0.5.5","vcs_hash":"67dc836f5c494b30f0be4d730f354867948c78e92c42f1c68e779ec3c48a5a01","timestamp":"2024-06-17T02:01:36Z","subdir":"","vcs_ref":"refs/tags/v0.5.5"},\
+-{"module":"github.com/spdx/tools-golang","version":"v0.5.7","vcs_hash":"2944f2a5d449b4ba31e7000d974e7dafe6c0e63a63a2a667ce98cd5bdd81cadc","timestamp":"2026-01-07T01:39:00Z","subdir":"","vcs_ref":"refs/tags/v0.5.7"},\
+-{"module":"github.com/lib/pq","version":"v0.0.0-20150723085316-0dad96c0b94f","vcs_hash":"501779f1f37d5eedf7b5e73065f7d7847c6343baa947b47ab9335de358604a1c","timestamp":"2015-07-23T08:53:16Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/cloudflare/circl","version":"v1.6.1","vcs_hash":"3c2dfa258c309745a69f7643659c92a962cf059c411c84e321b55c5ac0323f35","timestamp":"2025-04-09T16:57:45Z","subdir":"","vcs_ref":"refs/tags/v1.6.1"},\
+-{"module":"github.com/cloudflare/circl","version":"v1.6.0","vcs_hash":"6b1850dcf66e3b438754c6c9963b00daaa188378c7cb8c9c1ef005abe31f75f9","timestamp":"2025-02-04T23:02:19Z","subdir":"","vcs_ref":"refs/tags/v1.6.0"},\
+-{"module":"github.com/cloudflare/cfssl","version":"v0.0.0-20180223231731-4e2dcbde5004","vcs_hash":"3c8104b7da9d2e18832889b5c6a3e835075611b12d6602487addb722a70feac5","timestamp":"2018-02-23T23:17:31Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/asaskevich/govalidator","version":"v0.0.0-20230301143203-a9d515a09cc2","vcs_hash":"e0c07f200ff31ed92aa0075d9e5e72c7ed4294f6ef7d9e723213e1bceaca59d3","timestamp":"2023-03-01T14:32:03Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/smallstep/pkcs7","version":"v0.1.1","vcs_hash":"2f19e869b678f6b075729ec3df26ac81f8f576057860ead9a9c70212023b6927","timestamp":"2024-12-16T14:13:52Z","subdir":"","vcs_ref":"refs/tags/v0.1.1"},\
+-{"module":"github.com/tonistiigi/go-actions-cache","version":"v0.0.0-20260120203934-54bc28c26fd2","vcs_hash":"2924c7ecb319efa413b0f3012222cad7c8773cd26a54e23c43cd460cf6d9c0b0","timestamp":"2026-01-20T20:39:34Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/tonistiigi/go-actions-cache","version":"v0.0.0-20250626083717-378c5ed1ddd9","vcs_hash":"9f4a150fded4b0c51af4c77ae23f48e741fc3c25041f168f5e152c9bef985194","timestamp":"2025-06-26T08:37:17Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/tonistiigi/dchapes-mode","version":"v0.0.0-20250318174251-73d941a28323","vcs_hash":"088daf1e815a0c250df5a6800476d2fd7926fd2cfde5c798932d14dc518d73f2","timestamp":"2025-03-18T17:42:51Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/tonistiigi/go-csvvalue","version":"v0.0.0-20240814133006-030d3b2625d0","vcs_hash":"4bab931b93ec61ba123209f20dc512a65f448d9af6783e77b89ee8a8b7bf94b3","timestamp":"2024-08-14T13:30:06Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/tonistiigi/units","version":"v0.0.0-20180711220420-6950e57a87ea","vcs_hash":"a0528d63437c733bc9243aeb601d0f1175a8f8eaa01b2402d7b077f35f36fbcd","timestamp":"2018-07-11T22:04:20Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/tonistiigi/go-archvariant","version":"v1.0.0","vcs_hash":"07d631aebb630179eda0ac758a6a400523556e0df873aaaa8107c81569f5312d","timestamp":"2022-01-31T19:23:56Z","subdir":"","vcs_ref":"refs/tags/v1.0.0"},\
+-{"module":"github.com/tonistiigi/jaeger-ui-rest","version":"v0.0.0-20250408171107-3dd17559e117","vcs_hash":"644200fb876350717a5c6642a51a536deec87f616bc0db7325b35f6e96fd6ceb","timestamp":"2025-04-08T17:11:07Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/tonistiigi/fsutil","version":"v0.0.0-20251211185533-a2aa163d723f","vcs_hash":"5728fb0835aa13d026604988f9496a653e4e5442f8a0e93e6495c60887f5e1b8","timestamp":"2025-12-11T18:55:33Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/tonistiigi/fsutil","version":"v0.0.0-20250605211040-586307ad452f","vcs_hash":"d721d7ff5242aee01894397e3189dde451e48dd99ea135fda17971624b878725","timestamp":"2025-06-05T21:10:40Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/tonistiigi/vt100","version":"v0.0.0-20240514184818-90bafcd6abab","vcs_hash":"8c7e9f3cea5c616be7d8cb3b181a8ecf2d3b1ff0b881bb34abd9235b7680d2c9","timestamp":"2024-05-14T18:48:18Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/denisenkom/go-mssqldb","version":"v0.0.0-20191128021309-1d7a30a10f73","vcs_hash":"51d1448ae824a59e167bc4626cbed812ff98e24bad9ad0e55865452f35f4e32a","timestamp":"2019-11-28T02:13:09Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/containerd/stargz-snapshotter","version":"v0.17.0","vcs_hash":"24a2796839044959bbf030bb3fd1172f4a49c4577d48199b4f7087d3952367d6","timestamp":"2025-07-22T06:57:12Z","subdir":"","vcs_ref":"refs/tags/v0.17.0"},\
+-{"module":"github.com/containerd/stargz-snapshotter/estargz","version":"v0.17.0","vcs_hash":"24a2796839044959bbf030bb3fd1172f4a49c4577d48199b4f7087d3952367d6","timestamp":"2025-07-22T06:57:12Z","subdir":"estargz","vcs_ref":"refs/tags/estargz/v0.17.0"},\
+-{"module":"github.com/containerd/otelttrpc","version":"v0.1.0","vcs_hash":"c27d4a7087a7f4624cdf40c161f9707dbb90cd2d71159840f7c7b610260e9f24","timestamp":"2025-01-09T19:17:17Z","subdir":"","vcs_ref":"refs/tags/v0.1.0"},\
+-{"module":"github.com/containerd/platforms","version":"v1.0.0-rc.2","vcs_hash":"a5b697e2dcecbe42edb518786dede1d257aecc63276621eb03e3917cae97e344","timestamp":"2025-08-21T22:24:38Z","subdir":"","vcs_ref":"refs/tags/v1.0.0-rc.2"},\
+-{"module":"github.com/containerd/go-runc","version":"v1.1.0","vcs_hash":"9044e9e240020298712a51a4db4736afc66d70b1870cf11cac73c0661be06842","timestamp":"2023-05-17T04:55:20Z","subdir":"","vcs_ref":"refs/tags/v1.1.0"},\
+-{"module":"github.com/containerd/errdefs","version":"v1.0.0","vcs_hash":"d9d1c9949e837f39205605237b656e944c7d0cd69e48a906fabdb6bebe0edb66","timestamp":"2024-10-08T13:10:09Z","subdir":"","vcs_ref":"refs/tags/v1.0.0"},\
+-{"module":"github.com/containerd/errdefs/pkg","version":"v0.3.0","vcs_hash":"d9d1c9949e837f39205605237b656e944c7d0cd69e48a906fabdb6bebe0edb66","timestamp":"2024-10-08T13:10:09Z","subdir":"pkg","vcs_ref":"refs/tags/pkg/v0.3.0"},\
+-{"module":"github.com/containerd/nri","version":"v0.11.0","vcs_hash":"9ef2c512de0aabf89c060ed428bc6ef3d29fc64b917b4a81d88abcada3f49d90","timestamp":"2025-12-17T00:38:45Z","subdir":"","vcs_ref":"refs/tags/v0.11.0"},\
+-{"module":"github.com/containerd/typeurl/v2","version":"v2.2.3","vcs_hash":"60bc9255cadbea28631b3293cd629cbe0b9a9cffb987712231cdc4f9dc75a2cb","timestamp":"2024-11-07T03:45:23Z","subdir":"","vcs_ref":"refs/tags/v2.2.3"},\
+-{"module":"github.com/containerd/fuse-overlayfs-snapshotter/v2","version":"v2.1.7","vcs_hash":"ebd7034108ca2f7b1a5d3724f3248f21f9cf17f5ecf3db9b5c71ee2e6de56563","timestamp":"2025-11-06T01:42:49Z","subdir":"","vcs_ref":"refs/tags/v2.1.7"},\
+-{"module":"github.com/containerd/cgroups/v3","version":"v3.1.2","vcs_hash":"0a57a364d007af5ddf18af34b681967bf3bdb72cbf2ee50c605be53e1d114a0b","timestamp":"2025-11-26T14:43:42Z","subdir":"","vcs_ref":"refs/tags/v3.1.2"},\
+-{"module":"github.com/containerd/plugin","version":"v1.0.0","vcs_hash":"f786b847c888d27ca5c517b566772c78216ed963d31d5119a32ebad7494855ea","timestamp":"2024-10-20T22:03:21Z","subdir":"","vcs_ref":"refs/tags/v1.0.0"},\
+-{"module":"github.com/containerd/zfs/v2","version":"v2.0.0","vcs_hash":"3b6e8e17660f86603ad978c35f23b066288dc5937890ca5c61f54fc5dfaa9052","timestamp":"2025-12-08T03:44:17Z","subdir":"","vcs_ref":"refs/tags/v2.0.0"},\
+-{"module":"github.com/containerd/continuity","version":"v0.4.5","vcs_hash":"ef286b146362aa5da58f9ef4e88323a32e1ea45eda78c6d484875972ce0a81e0","timestamp":"2024-10-30T04:18:59Z","subdir":"","vcs_ref":"refs/tags/v0.4.5"},\
+-{"module":"github.com/containerd/imgcrypt/v2","version":"v2.0.1","vcs_hash":"cf07f49bde1cc9b1c042dfb7055d38c832cb69592e89521daa5ad46b367e047b","timestamp":"2025-03-18T01:41:40Z","subdir":"","vcs_ref":"refs/tags/v2.0.1"},\
+-{"module":"github.com/containerd/console","version":"v1.0.5","vcs_hash":"a38aca664db28f607862e39301d2fd06b3c58312662cbd189f451215c3eb9894","timestamp":"2025-05-20T06:25:07Z","subdir":"","vcs_ref":"refs/tags/v1.0.5"},\
+-{"module":"github.com/containerd/ttrpc","version":"v1.2.7","vcs_hash":"89e0e59ec2637becf69ff869326d460e7b3aa5c251d58a6d42981bc9c12360fd","timestamp":"2024-12-28T23:29:38Z","subdir":"","vcs_ref":"refs/tags/v1.2.7"},\
+-{"module":"github.com/containerd/fifo","version":"v1.1.0","vcs_hash":"e4b0152cde11b075ce8a8a9f0db77d54abb72ee1bab1036ab0c157b678aade47","timestamp":"2023-02-17T21:37:13Z","subdir":"","vcs_ref":"refs/tags/v1.1.0"},\
+-{"module":"github.com/containerd/go-cni","version":"v1.1.13","vcs_hash":"42aaa61d2bb4bd3a1eb278daa53bed3b31e3af601d35dafceb8b7714333cef05","timestamp":"2025-07-01T22:01:58Z","subdir":"","vcs_ref":"refs/tags/v1.1.13"},\
+-{"module":"github.com/containerd/containerd/api","version":"v1.10.0","vcs_hash":"4ae09c91c596d23f3127d6821ac6178aa6512e66eba4da3a39e7c94903e2407b","timestamp":"2025-11-05T15:11:32Z","subdir":"api","vcs_ref":"refs/tags/api/v1.10.0"},\
+-{"module":"github.com/containerd/containerd/v2","version":"v2.2.2","vcs_hash":"ea4b5c8a660b2fc1f2b90648b4488ba3c3ee8dd68fa6b07824587410c3886213","timestamp":"2026-03-10T19:55:31Z","subdir":"","vcs_ref":"refs/tags/v2.2.2"},\
+-{"module":"github.com/containerd/log","version":"v0.1.0","vcs_hash":"697be36d9b8a0eb34f8591d0f69b6d596e1e9341b5944ebf81ddd334b1907bc6","timestamp":"2023-09-09T00:27:15Z","subdir":"","vcs_ref":"refs/tags/v0.1.0"},\
+-{"module":"github.com/containerd/accelerated-container-image","version":"v1.3.0","vcs_hash":"3c38450d2e9b921d8073a5c5afb9472d94858098bc1fe7d691687d51d0ede1ff","timestamp":"2025-02-13T08:02:42Z","subdir":"","vcs_ref":"refs/tags/v1.3.0"},\
+-{"module":"github.com/containerd/nydus-snapshotter","version":"v0.15.10","vcs_hash":"8950efb8ebb00c25adcc9f3c186f0f47f0a67ddde318fcaeb41450e1d3559580","timestamp":"2025-12-18T11:26:51Z","subdir":"","vcs_ref":"refs/tags/v0.15.10"},\
+-{"module":"github.com/containerd/btrfs/v2","version":"v2.0.0","vcs_hash":"8a2ee3ce7d871ae06962c07984197acdfd6035091884c9db0791378ac0229823","timestamp":"2023-02-10T01:01:25Z","subdir":"","vcs_ref":"refs/tags/v2.0.0"},\
++{"module":"github.com/mgutz/ansi","version":"v0.0.0-20170206155736-9520e82c474b","vcs_hash":"f38805371ceca34945d620f33580bc80b8d8946d490670358956c3579639e7ad","timestamp":"2017-02-06T15:57:36Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/inconshreveable/mousetrap","version":"v1.0.0","vcs_hash":"bdd1bbf309f6078c2e930609779f6207bad79817ed60bcb7a66df8a5735580f3","timestamp":"2014-10-17T20:07:13Z","subdir":"","vcs_ref":"refs/tags/v1.0.0"},\
++{"module":"github.com/inconshreveable/mousetrap","version":"v1.1.0","vcs_hash":"a9f0ac4cf05240ceb9790811cbd8ab3cbdcd404501a9ca5a402a28033e7235d8","timestamp":"2022-11-27T22:01:53Z","subdir":"","vcs_ref":"refs/tags/v1.1.0"},\
++{"module":"github.com/kisielk/gotool","version":"v1.0.0","vcs_hash":"5f448e8a93894c89c55e73478ef6dc8a0a1a6a3fd3fe3a2b5cd5e03e65915fb1","timestamp":"2018-02-21T18:54:26Z","subdir":"","vcs_ref":"refs/tags/v1.0.0"},\
++{"module":"github.com/kisielk/errcheck","version":"v1.5.0","vcs_hash":"2ae681313b6ac49c6c60836f406eed1f7f4db5b86a3027f0ec720f5984386390","timestamp":"2021-01-05T19:12:31Z","subdir":"","vcs_ref":"refs/tags/v1.5.0"},\
++{"module":"github.com/goccy/go-json","version":"v0.10.5","vcs_hash":"9135ffafe2f170bce8f90413934c0b25aa6d201122cc437153cf64a206c46389","timestamp":"2025-01-25T05:38:06Z","subdir":"","vcs_ref":"refs/tags/v0.10.5"},\
+ {"module":"github.com/codahale/rfc6979","version":"v0.0.0-20141003034818-6a90f24967eb","vcs_hash":"fd8285193cc7c3bc341773b0166d258b6baca2f6985aa666e14e22b19401aea7","timestamp":"2014-10-03T03:48:18Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/docker/distribution","version":"v2.8.3+incompatible","vcs_hash":"179a4ea80ae56a5b38e4349dac5aa88a7180045bd04943c05933125b8abc5d93","timestamp":"2023-10-02T17:09:30Z","subdir":"","vcs_ref":"refs/tags/v2.8.3"},\
+-{"module":"github.com/docker/distribution","version":"v2.7.1+incompatible","vcs_hash":"26a3d4dc632c62414346d52deda2aedc133ba755ea9665e3aba4eba2cfe57bb0","timestamp":"2019-01-17T23:19:26Z","subdir":"","vcs_ref":"refs/tags/v2.7.1"},\
+-{"module":"github.com/docker/go-metrics","version":"v0.0.0-20180209012529-399ea8c73916","vcs_hash":"e46943e0ce240f96ccb15fabd2b6c91ee2105677005b8cff59822b6c952ea98e","timestamp":"2018-02-09T01:25:29Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/docker/go-metrics","version":"v0.0.1","vcs_hash":"96ae8893e24907a70aef922af47d48651611460f2b982f7e1e27dacd5ad82b9f","timestamp":"2019-08-28T14:40:21Z","subdir":"","vcs_ref":"refs/tags/v0.0.1"},\
+-{"module":"github.com/docker/docker-credential-helpers","version":"v0.9.5","vcs_hash":"14ec2ee3d9b2ad87575d79cb445095440bdffc43efd7c90bc3f69ae21362242e","timestamp":"2026-01-08T16:44:32Z","subdir":"","vcs_ref":"refs/tags/v0.9.5"},\
++{"module":"github.com/keybase/go-keychain","version":"v0.0.1","vcs_hash":"82b6722ae37ce95c4a4f5c5d543a436be413fa68f322f3be86191b0953905603","timestamp":"2025-02-27T17:52:03Z","subdir":"","vcs_ref":"refs/tags/v0.0.1"},\
++{"module":"github.com/sasha-s/go-deadlock","version":"v0.3.5","vcs_hash":"fa29175221f16401d041954c9a07bc5aa8b90d585d480873eaa15a18b5fa8e6d","timestamp":"2024-08-14T18:50:39Z","subdir":"","vcs_ref":"refs/tags/v0.3.5"},\
++{"module":"github.com/oklog/ulid","version":"v1.3.1","vcs_hash":"aad6b8a061fa553536e0c316a41769de0f2b7912cad69a71e0ea72d9bb262c8f","timestamp":"2018-10-02T12:43:06Z","subdir":"","vcs_ref":"refs/tags/v1.3.1"},\
++{"module":"github.com/oklog/ulid/v2","version":"v2.1.1","vcs_hash":"aaf3b4cc210950472ca5f11135c0d7bb5cf17d9493d2bd55a72286845c1411fa","timestamp":"2024-04-13T18:09:41Z","subdir":"","vcs_ref":"refs/tags/v2.1.1"},\
++{"module":"github.com/eiannone/keyboard","version":"v0.0.0-20220611211555-0d226195f203","vcs_hash":"c7ad216919ed9d1db40a1a79054fb70019f12275ddb216094b1aefbdd44e8744","timestamp":"2022-06-11T21:15:55Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/AzureAD/microsoft-authentication-library-for-go","version":"v1.6.0","vcs_hash":"a614c17b982b55683fa48ad6af54eeb7a0d805b231482bbbc5a0075a03e060fc","timestamp":"2025-11-05T15:05:01Z","subdir":"","vcs_ref":"refs/tags/v1.6.0"},\
++{"module":"github.com/cenkalti/backoff/v4","version":"v4.3.0","vcs_hash":"c644c1d0f5212c0210f056d6c7d45f3e482a1fca002b7c3e65edf8d3c060566f","timestamp":"2024-01-02T22:56:19Z","subdir":"","vcs_ref":"refs/tags/v4.3.0"},\
++{"module":"github.com/cenkalti/backoff/v5","version":"v5.0.3","vcs_hash":"656f7cb59961eb5e57ba97bf50166eda0c13e2ecff4c8c15b33eb72e8ad26dc4","timestamp":"2025-07-23T16:23:35Z","subdir":"","vcs_ref":"refs/tags/v5.0.3"},\
++{"module":"github.com/docker/docker","version":"v28.5.2+incompatible","vcs_hash":"3de5db22583d5bbf6eae05c3768cf39f98cec50b9a6c9fdeb10d95acbabbc761","timestamp":"2025-11-05T14:19:32Z","subdir":"","vcs_ref":"refs/tags/v28.5.2"},\
++{"module":"github.com/docker/compose/v5","version":"v5.0.0-20260520144512-4732a2ed20a4","vcs_hash":"88e8bb43d6fe88ac0134c525850c989e8cbfb0591877f5c3e49ea34cfd01b6c1","timestamp":"2026-05-20T14:45:12Z","subdir":"v5","vcs_ref":""},\
++{"module":"github.com/docker/compose/v5","version":"v5.0.0-20251205141902-9fada6cc23fb","vcs_hash":"0d945e267746ce92d65bce0aaf01de62887f55820fc309105a3bf83b78bc07fb","timestamp":"2025-12-05T14:19:02Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/docker/compose/v5","version":"v5.0.0-20260312130628-e8c214349819","vcs_hash":"9c33332b5cdc980c80ddc24904509f4bd96cfc277a4ef80ebcb47ad70112743a","timestamp":"2026-03-12T13:06:28Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/docker/compose/v5","version":"v5.0.1-0.20251205141902-9fada6cc23fb","vcs_hash":"0d945e267746ce92d65bce0aaf01de62887f55820fc309105a3bf83b78bc07fb","timestamp":"2025-12-05T14:19:02Z","subdir":"","vcs_ref":""},\
+ {"module":"github.com/docker/docker-credential-helpers","version":"v0.9.3","vcs_hash":"770434256d900c6fb465ae2e5f70a7c567db07403fd44a6b8122f593f986a7b6","timestamp":"2025-03-14T11:52:36Z","subdir":"","vcs_ref":"refs/tags/v0.9.3"},\
+-{"module":"github.com/docker/libtrust","version":"v0.0.0-20160708172513-aabc10ec26b7","vcs_hash":"30b9f1ca3a03878df88db7db5466a284cdc61ad2e0e647ef5d4611b4bc72f1b8","timestamp":"2016-07-08T17:25:13Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/docker/buildx","version":"v0.31.1","vcs_hash":"dfa17ea3970eb93a7868db015690e0976ac455fe3108651eb274d3c8f69e70c2","timestamp":"2026-01-28T18:40:33Z","subdir":"","vcs_ref":"refs/tags/v0.31.1"},\
+-{"module":"github.com/docker/buildx","version":"v0.30.1","vcs_hash":"25cb17d8ddf768aee49602f2f54d5eceac6363032a3553dd3c4c2fbc98d2f7e5","timestamp":"2025-11-17T16:54:25Z","subdir":"","vcs_ref":"refs/tags/v0.30.1"},\
+-{"module":"github.com/docker/go-events","version":"v0.0.0-20190806004212-e31b211e4f1c","vcs_hash":"3e0bfea9682128db4b902dfb300a63020f2a4e0fd9e50a9a43529185ded21203","timestamp":"2019-08-06T00:42:12Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/docker/docker-credential-helpers","version":"v0.9.5","vcs_hash":"14ec2ee3d9b2ad87575d79cb445095440bdffc43efd7c90bc3f69ae21362242e","timestamp":"2026-01-08T16:44:32Z","subdir":"","vcs_ref":"refs/tags/v0.9.5"},\
++{"module":"github.com/docker/go-connections","version":"v0.7.0","vcs_hash":"6694cc72e257d7945ae6ccd77415f8b442a5f83176906cd59a70dea2fc417fa1","timestamp":"2026-04-15T21:50:38Z","subdir":"","vcs_ref":"refs/tags/v0.7.0"},\
+ {"module":"github.com/docker/go-connections","version":"v0.6.0","vcs_hash":"cd70a0eee460c110e4a842a78601dec1916771fc94b97da790e5cdff44cf6b59","timestamp":"2025-08-06T15:47:19Z","subdir":"","vcs_ref":"refs/tags/v0.6.0"},\
+ {"module":"github.com/docker/go-connections","version":"v0.4.0","vcs_hash":"90a622b6d50d291d33dc478ac881c41bd809522c6c0c4e6928a6c544843d868f","timestamp":"2018-02-28T14:10:15Z","subdir":"","vcs_ref":"refs/tags/v0.4.0"},\
+-{"module":"github.com/docker/docker","version":"v28.5.2+incompatible","vcs_hash":"3de5db22583d5bbf6eae05c3768cf39f98cec50b9a6c9fdeb10d95acbabbc761","timestamp":"2025-11-05T14:19:32Z","subdir":"","vcs_ref":"refs/tags/v28.5.2"},\
+-{"module":"github.com/docker/go-units","version":"v0.5.0","vcs_hash":"2f970538f28b36d4a39663fa90033ec5c742ddd7774a86d94cc6c179e63a1c49","timestamp":"2022-05-17T10:43:04Z","subdir":"","vcs_ref":"refs/tags/v0.5.0"},\
+-{"module":"github.com/docker/cli","version":"v28.5.2+incompatible","vcs_hash":"a391fb1392ea2dfddf6174cc48f8cd0f4211b670b63e9ab68159b38203ff83cd","timestamp":"2025-11-05T10:32:31Z","subdir":"","vcs_ref":"refs/tags/v28.5.2"},\
+-{"module":"github.com/docker/cli","version":"v29.2.1+incompatible","vcs_hash":"5a943d69020f5a43c45569ee422d339cf415d78724c142bb4bcc7c026f13ba05","timestamp":"2026-02-02T16:33:58Z","subdir":"","vcs_ref":"refs/tags/v29.2.1"},\
+-{"module":"github.com/docker/cli-docs-tool","version":"v0.11.0","vcs_hash":"ea1717b5d1ffddca6c0b88e6cf0df444a95eb1c27839416e9a410285e4c8f907","timestamp":"2025-12-09T14:21:52Z","subdir":"","vcs_ref":"refs/tags/v0.11.0"},\
+ {"module":"github.com/docker/cli-docs-tool","version":"v0.10.0","vcs_hash":"c4b4f54f793ab2389943c51625a95daf19938238de995ed84d04aaeaeb0b8e72","timestamp":"2025-05-19T13:44:28Z","subdir":"","vcs_ref":"refs/tags/v0.10.0"},\
+-{"module":"github.com/docker/compose/v5","version":"v5.0.1-0.20251205141902-9fada6cc23fb","vcs_hash":"0d945e267746ce92d65bce0aaf01de62887f55820fc309105a3bf83b78bc07fb","timestamp":"2025-12-05T14:19:02Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/docker/compose/v5","version":"v5.0.0-20260312130628-e8c214349819","vcs_hash":"9c33332b5cdc980c80ddc24904509f4bd96cfc277a4ef80ebcb47ad70112743a","timestamp":"2026-03-12T13:06:28Z","subdir":"v5","vcs_ref":""},\
+-{"module":"github.com/docker/compose/v5","version":"v5.0.0-20251205141902-9fada6cc23fb","vcs_hash":"0d945e267746ce92d65bce0aaf01de62887f55820fc309105a3bf83b78bc07fb","timestamp":"2025-12-05T14:19:02Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/klauspost/compress","version":"v1.18.3","vcs_hash":"0f346d4ee0d1e9d85741e16fef8a30c1cb637c33a2d4b0c6f46bb41ce24e3619","timestamp":"2026-01-16T09:08:20Z","subdir":"","vcs_ref":"refs/tags/v1.18.3"},\
+-{"module":"github.com/klauspost/compress","version":"v1.18.1","vcs_hash":"b48c3ccd9eeacff33408e742c5cba28495d19318773a2419734e1f7f12be4596","timestamp":"2025-10-02T12:00:22Z","subdir":"","vcs_ref":"refs/tags/v1.18.1"},\
+-{"module":"github.com/jpillora/backoff","version":"v1.0.0","vcs_hash":"f3877637b1b0b11053bd3f6485df13672bc371749f756a13048e72298849b276","timestamp":"2019-10-03T12:57:08Z","subdir":"","vcs_ref":"refs/tags/v1.0.0"},\
+-{"module":"github.com/davecgh/go-spew","version":"v1.1.1","vcs_hash":"4c7d69cfe586f86079773ff48d94f76d327c2914d8dfeffca9e34fd1146e5d5e","timestamp":"2018-02-21T23:26:28Z","subdir":"","vcs_ref":"refs/tags/v1.1.1"},\
+-{"module":"github.com/davecgh/go-spew","version":"v1.1.0","vcs_hash":"5ce38ad71c2d3bc390b87154a89c53fd5ead19aed2bf005419db5c0b28ea9dfd","timestamp":"2016-10-29T20:57:26Z","subdir":"","vcs_ref":"refs/tags/v1.1.0"},\
+-{"module":"github.com/munnerz/goautoneg","version":"v0.0.0-20191010083416-a7dc8b61c822","vcs_hash":"0f68eeb31e17a8fc96eede1943fe26be5835b08f5cc4a9eee4ed1b8eee4887ee","timestamp":"2019-10-10T08:34:16Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/intel/goresctrl","version":"v0.10.0","vcs_hash":"29a6109926a2e174fae849b3c015435e64e4f34ea86919fbc693930c06128b9b","timestamp":"2025-11-03T07:45:09Z","subdir":"","vcs_ref":"refs/tags/v0.10.0"},\
+-{"module":"github.com/gofrs/flock","version":"v0.13.0","vcs_hash":"02d8268670a7857f4978becccdc42f5a6426d2a039ce8e2357ef0bf32795014f","timestamp":"2025-10-09T22:24:42Z","subdir":"","vcs_ref":"refs/tags/v0.13.0"},\
+-{"module":"github.com/moby/sys/atomicwriter","version":"v0.1.0","vcs_hash":"f4359e6cc20b486bfb92dc3bcf6ac79f9272e2daa0c0172e594bcb9e9e7185c4","timestamp":"2025-04-07T15:07:45Z","subdir":"atomicwriter","vcs_ref":"refs/tags/atomicwriter/v0.1.0"},\
++{"module":"github.com/docker/cli-docs-tool","version":"v0.11.0","vcs_hash":"ea1717b5d1ffddca6c0b88e6cf0df444a95eb1c27839416e9a410285e4c8f907","timestamp":"2025-12-09T14:21:52Z","subdir":"","vcs_ref":"refs/tags/v0.11.0"},\
++{"module":"github.com/docker/cli","version":"v29.2.1+incompatible","vcs_hash":"5a943d69020f5a43c45569ee422d339cf415d78724c142bb4bcc7c026f13ba05","timestamp":"2026-02-02T16:33:58Z","subdir":"","vcs_ref":"refs/tags/v29.2.1"},\
++{"module":"github.com/docker/cli","version":"v28.5.2+incompatible","vcs_hash":"a391fb1392ea2dfddf6174cc48f8cd0f4211b670b63e9ab68159b38203ff83cd","timestamp":"2025-11-05T10:32:31Z","subdir":"","vcs_ref":"refs/tags/v28.5.2"},\
++{"module":"github.com/docker/cli","version":"v29.5.1+incompatible","vcs_hash":"78e667c1b12075ddc51baa68d39bb6c39480f83bdd0a58d300fdbbbf59af9acf","timestamp":"2026-05-15T18:33:23Z","subdir":"","vcs_ref":"refs/tags/v29.5.1"},\
++{"module":"github.com/docker/go-metrics","version":"v0.0.1","vcs_hash":"96ae8893e24907a70aef922af47d48651611460f2b982f7e1e27dacd5ad82b9f","timestamp":"2019-08-28T14:40:21Z","subdir":"","vcs_ref":"refs/tags/v0.0.1"},\
++{"module":"github.com/docker/go-metrics","version":"v0.0.0-20180209012529-399ea8c73916","vcs_hash":"e46943e0ce240f96ccb15fabd2b6c91ee2105677005b8cff59822b6c952ea98e","timestamp":"2018-02-09T01:25:29Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/docker/go-units","version":"v0.5.0","vcs_hash":"2f970538f28b36d4a39663fa90033ec5c742ddd7774a86d94cc6c179e63a1c49","timestamp":"2022-05-17T10:43:04Z","subdir":"","vcs_ref":"refs/tags/v0.5.0"},\
++{"module":"github.com/docker/go-events","version":"v0.0.0-20190806004212-e31b211e4f1c","vcs_hash":"3e0bfea9682128db4b902dfb300a63020f2a4e0fd9e50a9a43529185ded21203","timestamp":"2019-08-06T00:42:12Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/docker/distribution","version":"v2.7.1+incompatible","vcs_hash":"26a3d4dc632c62414346d52deda2aedc133ba755ea9665e3aba4eba2cfe57bb0","timestamp":"2019-01-17T23:19:26Z","subdir":"","vcs_ref":"refs/tags/v2.7.1"},\
++{"module":"github.com/docker/distribution","version":"v2.8.3+incompatible","vcs_hash":"179a4ea80ae56a5b38e4349dac5aa88a7180045bd04943c05933125b8abc5d93","timestamp":"2023-10-02T17:09:30Z","subdir":"","vcs_ref":"refs/tags/v2.8.3"},\
++{"module":"github.com/docker/buildx","version":"v0.33.0","vcs_hash":"b5c99f6e6a91ccbfe92aa01789f01c66d03a3d90ad369ef103d98ad6a84b06ad","timestamp":"2026-03-31T14:07:57Z","subdir":"","vcs_ref":"refs/tags/v0.33.0"},\
++{"module":"github.com/docker/buildx","version":"v0.30.1","vcs_hash":"25cb17d8ddf768aee49602f2f54d5eceac6363032a3553dd3c4c2fbc98d2f7e5","timestamp":"2025-11-17T16:54:25Z","subdir":"","vcs_ref":"refs/tags/v0.30.1"},\
++{"module":"github.com/docker/buildx","version":"v0.31.1","vcs_hash":"dfa17ea3970eb93a7868db015690e0976ac455fe3108651eb274d3c8f69e70c2","timestamp":"2026-01-28T18:40:33Z","subdir":"","vcs_ref":"refs/tags/v0.31.1"},\
++{"module":"github.com/docker/libtrust","version":"v0.0.0-20160708172513-aabc10ec26b7","vcs_hash":"30b9f1ca3a03878df88db7db5466a284cdc61ad2e0e647ef5d4611b4bc72f1b8","timestamp":"2016-07-08T17:25:13Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/rogpeppe/go-internal","version":"v1.14.1","vcs_hash":"84674da628e57d1722274a512e0879c23e8465ad7ef7e016c3bc39c8ea13175b","timestamp":"2025-02-25T12:37:03Z","subdir":"","vcs_ref":"refs/tags/v1.14.1"},\
++{"module":"github.com/rogpeppe/fastuuid","version":"v1.2.0","vcs_hash":"20ca2e2cf2990cc136cad7958992d06abd356dc16a58362afd2bd51be48ae0ac","timestamp":"2019-07-08T15:05:45Z","subdir":"","vcs_ref":"refs/tags/v1.2.0"},\
++{"module":"github.com/fsnotify/fsnotify","version":"v1.4.7","vcs_hash":"cc44f7bf337eee80812ff411465b4e87c78887003ae940c1b27adb151bbed7d2","timestamp":"2018-01-10T05:33:47Z","subdir":"","vcs_ref":"refs/tags/v1.4.7"},\
++{"module":"github.com/fsnotify/fsnotify","version":"v1.9.0","vcs_hash":"e7e3eb9997b88b1856ec41676de694527bda7173c94d395822f6eec3ec2067e2","timestamp":"2025-04-04T15:13:49Z","subdir":"","vcs_ref":"refs/tags/v1.9.0"},\
++{"module":"github.com/fsnotify/fsevents","version":"v0.2.0","vcs_hash":"fae61401b9b33d2f4bc3fb5a8898dd22623c392e69010b28dd2577454207e33b","timestamp":"2024-05-14T13:38:25Z","subdir":"","vcs_ref":"refs/tags/v0.2.0"},\
++{"module":"github.com/containers/ocicrypt","version":"v1.2.1","vcs_hash":"bec170205b8cb4f7646d21f6d05f4e78b62b540ff061d55788f38ccecc6313b7","timestamp":"2024-12-16T16:02:12Z","subdir":"","vcs_ref":"refs/tags/v1.2.1"},\
++{"module":"github.com/hashicorp/hcl/v2","version":"v2.24.0","vcs_hash":"7505ee60afc6b2dde4e4189214cf3f948ce2ebbc3aac73c7ba669bd366b12941","timestamp":"2025-07-07T13:00:56Z","subdir":"","vcs_ref":"refs/tags/v2.24.0"},\
++{"module":"github.com/hashicorp/go-immutable-radix/v2","version":"v2.1.0","vcs_hash":"e7330a0d345fdfe0fc28bc95ffa515bf29b09fde15bff6885c08836ae16c3992","timestamp":"2023-11-21T15:50:58Z","subdir":"","vcs_ref":"refs/tags/v2.1.0"},\
++{"module":"github.com/hashicorp/go-version","version":"v1.8.0","vcs_hash":"8982e9d982dbb37864656981c0a1169a41662dac51c477690cdd71c30034f649","timestamp":"2025-11-21T09:01:15Z","subdir":"","vcs_ref":"refs/tags/v1.8.0"},\
++{"module":"github.com/hashicorp/go-version","version":"v1.9.0","vcs_hash":"02c6f55ffc9a79eb888e7a730f9220c1d35f06822549f436384be82da1f77b91","timestamp":"2026-03-30T11:17:49Z","subdir":"","vcs_ref":"refs/tags/v1.9.0"},\
++{"module":"github.com/hashicorp/golang-lru/v2","version":"v2.0.7","vcs_hash":"0a17d620bc2f7dd8c00efd79d0b78bb5f5c0bfaa2ec311417e9256a33b35db77","timestamp":"2023-09-21T18:26:40Z","subdir":"","vcs_ref":"refs/tags/v2.0.7"},\
++{"module":"github.com/hashicorp/go-retryablehttp","version":"v0.7.8","vcs_hash":"420ce476cca0369183e19289674513fb1d412be25fb7aa1ce6f21f22444e1b02","timestamp":"2025-06-18T14:25:10Z","subdir":"","vcs_ref":"refs/tags/v0.7.8"},\
++{"module":"github.com/hashicorp/errwrap","version":"v1.0.0","vcs_hash":"65db17b2a8abd8c2bde5a919d17f7abc0e891ae4037aa21f7aa2482f560cf21f","timestamp":"2018-08-24T00:39:10Z","subdir":"","vcs_ref":"refs/tags/v1.0.0"},\
++{"module":"github.com/hashicorp/errwrap","version":"v1.1.0","vcs_hash":"a0949020a0c14672f86d32cbf0d984b8d048a27e6f75aeac79f8ca3f7cc4ecae","timestamp":"2020-07-14T15:51:01Z","subdir":"","vcs_ref":"refs/tags/v1.1.0"},\
++{"module":"github.com/hashicorp/go-cleanhttp","version":"v0.5.2","vcs_hash":"da345fc970b7e579c1da9ec42edfbe1bf896f5e3274ce418f134b15952eb2494","timestamp":"2021-02-03T18:51:13Z","subdir":"","vcs_ref":"refs/tags/v0.5.2"},\
++{"module":"github.com/hashicorp/go-cty-funcs","version":"v0.0.0-20250818135842-6aab67130928","vcs_hash":"c24779ffbc1879e38298ad13dcbc65277e22b74eaf6a132090792bb6f3aef29f","timestamp":"2025-08-18T13:58:42Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/hashicorp/go-multierror","version":"v1.1.1","vcs_hash":"cec0f337a88725c16a86058204a5dd4ae667b8a92bbed995ab204ebcb62177a5","timestamp":"2021-03-11T20:17:12Z","subdir":"","vcs_ref":"refs/tags/v1.1.1"},\
++{"module":"github.com/mattn/go-colorable","version":"v0.1.14","vcs_hash":"d115108e05252e00501d24555b70931860f5e2506c9b51436969923bc59f5dd0","timestamp":"2025-01-10T08:29:27Z","subdir":"","vcs_ref":"refs/tags/v0.1.14"},\
++{"module":"github.com/mattn/go-colorable","version":"v0.1.2","vcs_hash":"c71b6f3acd50d510992b046a557833b9b03a5c1f131137523bd7a638b59e233e","timestamp":"2019-05-24T00:26:58Z","subdir":"","vcs_ref":"refs/tags/v0.1.2"},\
++{"module":"github.com/mattn/go-isatty","version":"v0.0.20","vcs_hash":"d07760adabb0d05ba45e3c8997554326fa96668c12bc4572654f288670e1af35","timestamp":"2023-10-17T07:28:21Z","subdir":"","vcs_ref":"refs/tags/v0.0.20"},\
++{"module":"github.com/mattn/go-isatty","version":"v0.0.8","vcs_hash":"4963e35bcc64525b440c791c0eb22045df1ebb90bbcdf56256950a814d09f425","timestamp":"2019-05-22T01:25:13Z","subdir":"","vcs_ref":"refs/tags/v0.0.8"},\
++{"module":"github.com/mattn/go-runewidth","version":"v0.0.16","vcs_hash":"1af9e649dfc4b15b3476c94bfc74f82df8afa71fae63a7efc761b8a649019d2d","timestamp":"2024-07-22T12:40:34Z","subdir":"","vcs_ref":"refs/tags/v0.0.16"},\
++{"module":"github.com/mattn/go-sqlite3","version":"v1.6.0","vcs_hash":"0bc060447a84109d178e936cf0287c198c9a1bcbf25d74362b7df7427a44fdda","timestamp":"2018-01-12T08:58:26Z","subdir":"","vcs_ref":"refs/tags/v1.6.0"},\
++{"module":"github.com/mattn/go-shellwords","version":"v1.0.13","vcs_hash":"91646308798c57f3e6f56a7c53c0eaec3fc9c08ea569630bb3c0dd1ab2911ea5","timestamp":"2026-04-13T16:27:09Z","subdir":"","vcs_ref":"refs/tags/v1.0.13"},\
++{"module":"github.com/mattn/go-shellwords","version":"v1.0.12","vcs_hash":"3e9de7967c04a07a314669e56b72110ac8eee96a9646f5b9863c709575abe8d1","timestamp":"2021-06-04T13:07:19Z","subdir":"","vcs_ref":"refs/tags/v1.0.12"},\
++{"module":"github.com/hiddeco/sshsig","version":"v0.2.0","vcs_hash":"fdcb4ab573b69d6bee2d375517e62fb147744ddcca0378b2006891f9dd8f6477","timestamp":"2025-04-12T11:02:39Z","subdir":"","vcs_ref":"refs/tags/v0.2.0"},\
++{"module":"github.com/moby/spdystream","version":"v0.5.0","vcs_hash":"d7500df0fff4308611e91e5edf74d69178b53dccca9230c03beecb0a26d56124","timestamp":"2024-07-23T13:25:06Z","subdir":"","vcs_ref":"refs/tags/v0.5.0"},\
++{"module":"github.com/moby/spdystream","version":"v0.5.1","vcs_hash":"e3640a8a28a138b6c1007a80d8dbf8098fb32c42b5a69f76ab86e7100396954c","timestamp":"2026-04-13T17:36:51Z","subdir":"","vcs_ref":"refs/tags/v0.5.1"},\
++{"module":"github.com/moby/moby/client","version":"v0.4.1","vcs_hash":"a027be40db4027808ba383cb460c8e2df01f1c9debc89e7e9c0b5f7807657244","timestamp":"2026-04-20T14:44:55Z","subdir":"client","vcs_ref":"refs/tags/client/v0.4.1"},\
++{"module":"github.com/moby/moby/client","version":"v0.3.0","vcs_hash":"5565a518d25170f3b3f5875045b25f60e4544c33602acbbe9623f469851912ee","timestamp":"2026-03-05T13:48:11Z","subdir":"client","vcs_ref":"refs/tags/client/v0.3.0"},\
++{"module":"github.com/moby/moby/api","version":"v1.54.2","vcs_hash":"bb8387e2a2ac71ded15787db5dc3a214309b56ea749b290f6e487d18a957b95b","timestamp":"2026-04-20T10:34:33Z","subdir":"api","vcs_ref":"refs/tags/api/v1.54.2"},\
++{"module":"github.com/moby/moby/api","version":"v1.54.0","vcs_hash":"3b022057e034a384cd203891e20d2d127cd0b52e548cd3415504c340aa07d707","timestamp":"2026-03-05T13:32:31Z","subdir":"api","vcs_ref":"refs/tags/api/v1.54.0"},\
++{"module":"github.com/moby/buildkit","version":"v0.26.2","vcs_hash":"ea271cbec4e6af9d6f8b85fc342abbb36b352fe2a1696958921722eb7d40d1dc","timestamp":"2025-11-20T11:38:53Z","subdir":"","vcs_ref":"refs/tags/v0.26.2"},\
++{"module":"github.com/moby/buildkit","version":"v0.27.1","vcs_hash":"c851f6b4972c9c37c74ef154bbd0a3624b9c089e4320539a9204b388bded9c3c","timestamp":"2026-01-28T22:55:18Z","subdir":"","vcs_ref":"refs/tags/v0.27.1"},\
++{"module":"github.com/moby/buildkit","version":"v0.29.0","vcs_hash":"38ec157bca34e65ce3b38da6c0f4c07cdaf68c40b7d53982ee88c0e478fa69e2","timestamp":"2026-03-31T07:10:38Z","subdir":"","vcs_ref":"refs/tags/v0.29.0"},\
++{"module":"github.com/moby/go-archive","version":"v0.2.0","vcs_hash":"6fc421f381bca613289817fce0d54c0c45fe7a0bb20e292dcef3f1f2d77e300d","timestamp":"2025-12-19T16:24:17Z","subdir":"","vcs_ref":"refs/tags/v0.2.0"},\
++{"module":"github.com/moby/go-archive","version":"v0.1.0","vcs_hash":"de83d178e015001ec503f8d89743a9cc08e2d644c9cde111c18076c370479f62","timestamp":"2025-04-16T10:54:52Z","subdir":"","vcs_ref":"refs/tags/v0.1.0"},\
++{"module":"github.com/moby/profiles/seccomp","version":"v0.1.0","vcs_hash":"899c7ea07e4e45b382f104bc27009eeb90de7f25205638ebec13f6349d5977db","timestamp":"2025-07-22T15:37:16Z","subdir":"seccomp","vcs_ref":"refs/tags/seccomp/v0.1.0"},\
++{"module":"github.com/moby/policy-helpers","version":"v0.0.0-20260127165209-eeebf1a0ab2b","vcs_hash":"81e90ed44293828423239c840f4d9f585806a68c1f2cae756a855480505ab307","timestamp":"2026-01-27T16:52:09Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/moby/policy-helpers","version":"v0.0.0-20260324161837-b7c0b994300b","vcs_hash":"f8ce8dcc2d75b063a1a9887660b3fefee0185e7e70b20040145b8889149d45e7","timestamp":"2026-03-24T16:18:37Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/moby/policy-helpers","version":"v0.0.0-20251105011237-bcaa71c99f14","vcs_hash":"7077358f35b23a7b00fbe917cc678c7bc8e3429f2445f4e49c9d9b23313a86fb","timestamp":"2025-11-05T01:12:37Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/moby/sys/user","version":"v0.4.0","vcs_hash":"1ea4d88317a39a40b500e6a8370c6c5f6d53cf5486d16925f6374042d8bf9896","timestamp":"2025-02-27T19:37:07Z","subdir":"user","vcs_ref":"refs/tags/user/v0.4.0"},\
+ {"module":"github.com/moby/sys/symlink","version":"v0.3.0","vcs_hash":"c5c70dcea521c7e4cc66d0ca1ccdc1721b1a865780c1a1b9274ced410fa0553f","timestamp":"2024-07-16T17:21:58Z","subdir":"symlink","vcs_ref":"refs/tags/symlink/v0.3.0"},\
+-{"module":"github.com/moby/sys/sequential","version":"v0.6.0","vcs_hash":"c5c70dcea521c7e4cc66d0ca1ccdc1721b1a865780c1a1b9274ced410fa0553f","timestamp":"2024-07-16T17:21:58Z","subdir":"sequential","vcs_ref":"refs/tags/sequential/v0.6.0"},\
+ {"module":"github.com/moby/sys/userns","version":"v0.1.0","vcs_hash":"8ea1faceda9bb3618c7b96f0749fcc6b4672432eef27c1f25c4bf631513501f2","timestamp":"2024-08-07T23:23:49Z","subdir":"userns","vcs_ref":"refs/tags/userns/v0.1.0"},\
+-{"module":"github.com/moby/sys/capability","version":"v0.4.0","vcs_hash":"e67c1b1913863f71a44fb255bb4ceafcd322cbb0790a301c410f76acaf083f75","timestamp":"2024-11-11T19:02:25Z","subdir":"capability","vcs_ref":"refs/tags/capability/v0.4.0"},\
++{"module":"github.com/moby/sys/sequential","version":"v0.6.0","vcs_hash":"c5c70dcea521c7e4cc66d0ca1ccdc1721b1a865780c1a1b9274ced410fa0553f","timestamp":"2024-07-16T17:21:58Z","subdir":"sequential","vcs_ref":"refs/tags/sequential/v0.6.0"},\
++{"module":"github.com/moby/sys/mountinfo","version":"v0.7.2","vcs_hash":"c5c70dcea521c7e4cc66d0ca1ccdc1721b1a865780c1a1b9274ced410fa0553f","timestamp":"2024-07-16T17:21:58Z","subdir":"mountinfo","vcs_ref":"refs/tags/mountinfo/v0.7.2"},\
+ {"module":"github.com/moby/sys/mount","version":"v0.3.4","vcs_hash":"bafd5119fc031ca52b9e52a119b6c3c57d48dea0d101fe2ad1a175fce54de6c7","timestamp":"2024-07-17T03:02:24Z","subdir":"mount","vcs_ref":"refs/tags/mount/v0.3.4"},\
++{"module":"github.com/moby/sys/atomicwriter","version":"v0.1.0","vcs_hash":"f4359e6cc20b486bfb92dc3bcf6ac79f9272e2daa0c0172e594bcb9e9e7185c4","timestamp":"2025-04-07T15:07:45Z","subdir":"atomicwriter","vcs_ref":"refs/tags/atomicwriter/v0.1.0"},\
+ {"module":"github.com/moby/sys/reexec","version":"v0.1.0","vcs_hash":"4c6d72296668707abb39f73bf8ef79dbb131e20164c7c8897885dfa2b6dd000b","timestamp":"2024-12-18T18:52:09Z","subdir":"reexec","vcs_ref":"refs/tags/reexec/v0.1.0"},\
+ {"module":"github.com/moby/sys/signal","version":"v0.7.1","vcs_hash":"c5c70dcea521c7e4cc66d0ca1ccdc1721b1a865780c1a1b9274ced410fa0553f","timestamp":"2024-07-16T17:21:58Z","subdir":"signal","vcs_ref":"refs/tags/signal/v0.7.1"},\
+-{"module":"github.com/moby/sys/mountinfo","version":"v0.7.2","vcs_hash":"c5c70dcea521c7e4cc66d0ca1ccdc1721b1a865780c1a1b9274ced410fa0553f","timestamp":"2024-07-16T17:21:58Z","subdir":"mountinfo","vcs_ref":"refs/tags/mountinfo/v0.7.2"},\
+-{"module":"github.com/moby/sys/user","version":"v0.4.0","vcs_hash":"1ea4d88317a39a40b500e6a8370c6c5f6d53cf5486d16925f6374042d8bf9896","timestamp":"2025-02-27T19:37:07Z","subdir":"user","vcs_ref":"refs/tags/user/v0.4.0"},\
++{"module":"github.com/moby/sys/capability","version":"v0.4.0","vcs_hash":"e67c1b1913863f71a44fb255bb4ceafcd322cbb0790a301c410f76acaf083f75","timestamp":"2024-11-11T19:02:25Z","subdir":"capability","vcs_ref":"refs/tags/capability/v0.4.0"},\
++{"module":"github.com/moby/patternmatcher","version":"v0.6.1","vcs_hash":"53ef5e229dc41038705efb925832dcb9dcca879198a0675530b800c1ff3acf6c","timestamp":"2026-03-24T17:54:42Z","subdir":"","vcs_ref":"refs/tags/v0.6.1"},\
+ {"module":"github.com/moby/patternmatcher","version":"v0.6.0","vcs_hash":"fde57a922ff865dfe02454fffbfcbb1e5f2ca06ac3390f3a9df16466bfda666b","timestamp":"2023-08-22T20:52:28Z","subdir":"","vcs_ref":"refs/tags/v0.6.0"},\
+-{"module":"github.com/moby/policy-helpers","version":"v0.0.0-20260127165209-eeebf1a0ab2b","vcs_hash":"81e90ed44293828423239c840f4d9f585806a68c1f2cae756a855480505ab307","timestamp":"2026-01-27T16:52:09Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/moby/policy-helpers","version":"v0.0.0-20251105011237-bcaa71c99f14","vcs_hash":"7077358f35b23a7b00fbe917cc678c7bc8e3429f2445f4e49c9d9b23313a86fb","timestamp":"2025-11-05T01:12:37Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/moby/profiles/seccomp","version":"v0.1.0","vcs_hash":"899c7ea07e4e45b382f104bc27009eeb90de7f25205638ebec13f6349d5977db","timestamp":"2025-07-22T15:37:16Z","subdir":"seccomp","vcs_ref":"refs/tags/seccomp/v0.1.0"},\
+ {"module":"github.com/moby/term","version":"v0.5.2","vcs_hash":"b7e959e4874fee596e5f3eaf06300410fe7cefde4fbece51042d17be137ef04e","timestamp":"2025-01-02T15:40:12Z","subdir":"","vcs_ref":"refs/tags/v0.5.2"},\
+-{"module":"github.com/moby/docker-image-spec","version":"v1.3.1","vcs_hash":"7e0006fc710e13d8f5d4dd052be9861a4fd4562e1330ab6bdf94303f885e80da","timestamp":"2024-02-09T17:17:29Z","subdir":"","vcs_ref":"refs/tags/v1.3.1"},\
+-{"module":"github.com/moby/buildkit","version":"v0.26.2","vcs_hash":"ea271cbec4e6af9d6f8b85fc342abbb36b352fe2a1696958921722eb7d40d1dc","timestamp":"2025-11-20T11:38:53Z","subdir":"","vcs_ref":"refs/tags/v0.26.2"},\
+-{"module":"github.com/moby/buildkit","version":"v0.27.1","vcs_hash":"c851f6b4972c9c37c74ef154bbd0a3624b9c089e4320539a9204b388bded9c3c","timestamp":"2026-01-28T22:55:18Z","subdir":"","vcs_ref":"refs/tags/v0.27.1"},\
+ {"module":"github.com/moby/locker","version":"v1.0.1","vcs_hash":"5549df51df50be0334c0cca67abc7ed6c0bd4fceee3f7bb56eb917b56bfe8644","timestamp":"2020-09-10T19:56:44Z","subdir":"","vcs_ref":"refs/tags/v1.0.1"},\
+-{"module":"github.com/moby/go-archive","version":"v0.1.0","vcs_hash":"de83d178e015001ec503f8d89743a9cc08e2d644c9cde111c18076c370479f62","timestamp":"2025-04-16T10:54:52Z","subdir":"","vcs_ref":"refs/tags/v0.1.0"},\
+-{"module":"github.com/moby/go-archive","version":"v0.2.0","vcs_hash":"6fc421f381bca613289817fce0d54c0c45fe7a0bb20e292dcef3f1f2d77e300d","timestamp":"2025-12-19T16:24:17Z","subdir":"","vcs_ref":"refs/tags/v0.2.0"},\
+-{"module":"github.com/moby/moby/client","version":"v0.3.0","vcs_hash":"5565a518d25170f3b3f5875045b25f60e4544c33602acbbe9623f469851912ee","timestamp":"2026-03-05T13:48:11Z","subdir":"client","vcs_ref":"refs/tags/client/v0.3.0"},\
+-{"module":"github.com/moby/moby/api","version":"v1.54.0","vcs_hash":"3b022057e034a384cd203891e20d2d127cd0b52e548cd3415504c340aa07d707","timestamp":"2026-03-05T13:32:31Z","subdir":"api","vcs_ref":"refs/tags/api/v1.54.0"},\
+-{"module":"github.com/moby/spdystream","version":"v0.5.0","vcs_hash":"d7500df0fff4308611e91e5edf74d69178b53dccca9230c03beecb0a26d56124","timestamp":"2024-07-23T13:25:06Z","subdir":"","vcs_ref":"refs/tags/v0.5.0"},\
+-{"module":"github.com/vektah/gqlparser/v2","version":"v2.5.30","vcs_hash":"caccbea1b6233b524f53ad77070228cabeb6c237130882d4d07c2ddf094fed50","timestamp":"2025-06-28T22:26:38Z","subdir":"","vcs_ref":"refs/tags/v2.5.30"},\
+-{"module":"github.com/planetscale/vtprotobuf","version":"v0.6.1-0.20240319094008-0393e58bdf10","vcs_hash":"2a8f7a744764b6b7d0f6b17003fd8217cc861be946aee65fccc7d1491634942f","timestamp":"2024-03-19T09:40:08Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/moby/docker-image-spec","version":"v1.3.1","vcs_hash":"7e0006fc710e13d8f5d4dd052be9861a4fd4562e1330ab6bdf94303f885e80da","timestamp":"2024-02-09T17:17:29Z","subdir":"","vcs_ref":"refs/tags/v1.3.1"},\
+ {"module":"github.com/miekg/pkcs11","version":"v1.1.1","vcs_hash":"cfc32d6973be9c203ec1d8480b59f61c59be67d146de9d920f82d4eb7c4d994a","timestamp":"2022-01-05T09:50:38Z","subdir":"","vcs_ref":"refs/tags/v1.1.1"},\
+ {"module":"github.com/miekg/pkcs11","version":"v1.0.2","vcs_hash":"eb5a56eb790cc3fc7850bf57682d3ac5831360a4496818de755c41ce63d505ba","timestamp":"2019-04-19T07:10:23Z","subdir":"","vcs_ref":"refs/tags/v1.0.2"},\
+-{"module":"github.com/lestrrat-go/httprc/v3","version":"v3.0.1","vcs_hash":"76390b99e6f178283ea247d446a1825e979c8d9cf50844f596abb4e96582b1c1","timestamp":"2025-08-18T10:50:55Z","subdir":"","vcs_ref":"refs/tags/v3.0.1"},\
+-{"module":"github.com/lestrrat-go/dsig-secp256k1","version":"v1.0.0","vcs_hash":"1aeb2bc1012f007479dc7d6ad9a5b56691b7d10a65a0769920fe28a1fd8c5723","timestamp":"2025-08-18T11:27:57Z","subdir":"","vcs_ref":"refs/tags/v1.0.0"},\
+-{"module":"github.com/lestrrat-go/blackmagic","version":"v1.0.4","vcs_hash":"3655ef3535f5fbfddd86c6bcfa866ada2fc8db33ec17816fc8b334009e9fb0f4","timestamp":"2025-06-09T05:38:50Z","subdir":"","vcs_ref":"refs/tags/v1.0.4"},\
+-{"module":"github.com/lestrrat-go/dsig","version":"v1.0.0","vcs_hash":"4fdb7373a44af5a6ec82808bddce9b5b786907d10b6cf2138dcaf3c2ebf4c6ff","timestamp":"2025-08-18T10:59:08Z","subdir":"","vcs_ref":"refs/tags/v1.0.0"},\
+-{"module":"github.com/lestrrat-go/httpcc","version":"v1.0.1","vcs_hash":"466b0cb68191ccc31d667d0e1cf8f0eec07556bbc61fdad149b67379fba0f789","timestamp":"2022-03-29T04:21:01Z","subdir":"","vcs_ref":"refs/tags/v1.0.1"},\
+-{"module":"github.com/lestrrat-go/jwx/v3","version":"v3.0.11","vcs_hash":"66aa4c6c5f6c980c23f16165b33721dbbd2b64c6686a1730684749c9c701712f","timestamp":"2025-09-14T02:50:03Z","subdir":"","vcs_ref":"refs/tags/v3.0.11"},\
+-{"module":"github.com/lestrrat-go/option","version":"v1.0.1","vcs_hash":"1f8dcec97d12a81cde1ec2ba90e51e5a7642e0b6ac69fa6d060c924499d9e826","timestamp":"2022-12-15T23:46:30Z","subdir":"","vcs_ref":"refs/tags/v1.0.1"},\
+-{"module":"github.com/lestrrat-go/option/v2","version":"v2.0.0","vcs_hash":"dc53b62e9538872256995babc7eb47d6a84dacaa027bdd84bb3cce5344e6bef9","timestamp":"2025-06-09T05:55:07Z","subdir":"","vcs_ref":"refs/tags/v2.0.0"},\
+-{"module":"github.com/dimchansky/utfbom","version":"v1.1.1","vcs_hash":"04f39ab86cb6ab9bf2a2278357fae9932b31f6cb8b07bf8e6ca02581cbf46ecf","timestamp":"2020-11-06T16:33:08Z","subdir":"","vcs_ref":"refs/tags/v1.1.1"},\
++{"module":"github.com/ysmood/fetchup","version":"v0.2.3","vcs_hash":"8c9dd6ebf834d7256887c2d14a754cf11453f2f3a5e2b0c8c05110052b6ee3a1","timestamp":"2023-05-07T03:47:20Z","subdir":"","vcs_ref":"refs/tags/v0.2.3"},\
++{"module":"github.com/ysmood/gson","version":"v0.7.3","vcs_hash":"27ce5120c0465dfab869d1d5012071a3115381084f3a241d5de5330ed6bf71e6","timestamp":"2022-11-24T01:23:50Z","subdir":"","vcs_ref":"refs/tags/v0.7.3"},\
++{"module":"github.com/ysmood/goob","version":"v0.4.0","vcs_hash":"9d85527d5325cd688787ce40dccb6ea83312b580a4e5eba11e779e213a9cb6c7","timestamp":"2022-04-09T04:13:26Z","subdir":"","vcs_ref":"refs/tags/v0.4.0"},\
++{"module":"github.com/ysmood/got","version":"v0.40.0","vcs_hash":"eeb512ee1df2a3b4f92e5a5dc02e24f7963cec103929eec0113736a6ca67335b","timestamp":"2024-06-13T08:37:41Z","subdir":"","vcs_ref":"refs/tags/v0.40.0"},\
++{"module":"github.com/ysmood/leakless","version":"v0.9.0","vcs_hash":"ea236bef84d8f62f430439cdcf1cab367fcd2b2371ced56810ccd36d18be2dd9","timestamp":"2024-07-11T10:12:25Z","subdir":"","vcs_ref":"refs/tags/v0.9.0"},\
++{"module":"github.com/pkg/errors","version":"v0.8.1","vcs_hash":"05a9ae48ad2a27ee2ace909fb6dfe443196ef4ba6b92bd0e3d2f6a9460fc8fea","timestamp":"2019-01-03T06:52:24Z","subdir":"","vcs_ref":"refs/tags/v0.8.1"},\
++{"module":"github.com/pkg/errors","version":"v0.9.1","vcs_hash":"58e525151c02acebc6662bf19060e7ee1112335787f1ffb059ea8d46a3164e5e","timestamp":"2020-01-14T19:47:44Z","subdir":"","vcs_ref":"refs/tags/v0.9.1"},\
++{"module":"github.com/pkg/errors","version":"v0.8.0","vcs_hash":"ea5c82f11a22b952cd732b93d2e8a599298017272296a9232e4a97e26b3f3f27","timestamp":"2016-09-29T01:48:01Z","subdir":"","vcs_ref":"refs/tags/v0.8.0"},\
++{"module":"github.com/pkg/profile","version":"v1.7.0","vcs_hash":"514b8b4f0dcd1ab4c812208028d6ffbd8ac9873c6f9fa22227d0537fe9f6af87","timestamp":"2022-10-20T01:34:01Z","subdir":"","vcs_ref":"refs/tags/v1.7.0"},\
++{"module":"github.com/pkg/browser","version":"v0.0.0-20240102092130-5ac0b6a4141c","vcs_hash":"10a8ed3a78b0663b7f54101de61f0c1b24ac55185382242b62e593e0b344d42e","timestamp":"2024-01-02T09:21:30Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/sigstore/rekor-tiles/v2","version":"v2.0.1","vcs_hash":"b8d43475ba70ac8bfe320e5e8116e30c762256078fcd60b87e28d27c91db426d","timestamp":"2025-11-10T15:43:15Z","subdir":"","vcs_ref":"refs/tags/v2.0.1"},\
++{"module":"github.com/sigstore/protobuf-specs","version":"v0.5.0","vcs_hash":"4be3492e50d1e30ee1365286244a71456814ed25f2b112ffae504266afbecb00","timestamp":"2025-07-10T06:03:26Z","subdir":"","vcs_ref":"refs/tags/v0.5.0"},\
++{"module":"github.com/sigstore/rekor","version":"v1.5.0","vcs_hash":"83f42b233ced1d3161475396984e20e2f51539ee96e35cb0d5bba6ceb6d0edab","timestamp":"2026-01-22T01:17:22Z","subdir":"","vcs_ref":"refs/tags/v1.5.0"},\
++{"module":"github.com/sigstore/rekor","version":"v1.4.3","vcs_hash":"32b94a917cfae30ffab23353a3ce5a1a5f15f908aa8b9c06f99d20126185113c","timestamp":"2025-11-14T20:56:20Z","subdir":"","vcs_ref":"refs/tags/v1.4.3"},\
++{"module":"github.com/sigstore/sigstore","version":"v1.10.0","vcs_hash":"90a23575b9b82145605cec4e4b156c7b3b15899d7413a82ddc582ea17239f81e","timestamp":"2025-11-19T11:41:27Z","subdir":"","vcs_ref":"refs/tags/v1.10.0"},\
++{"module":"github.com/sigstore/sigstore","version":"v1.10.4","vcs_hash":"b71061b12624368abda1dd6efd0a3f3badc86b8f49de876d7b7585482f1f31c5","timestamp":"2026-01-22T19:19:21Z","subdir":"","vcs_ref":"refs/tags/v1.10.4"},\
++{"module":"github.com/sigstore/timestamp-authority/v2","version":"v2.0.2","vcs_hash":"bbb892dff7b9581efdf6e165444a2c5962eaa7b0c04a76b0600e19cdcd041baa","timestamp":"2025-11-19T17:54:54Z","subdir":"","vcs_ref":"refs/tags/v2.0.2"},\
++{"module":"github.com/sigstore/timestamp-authority/v2","version":"v2.0.3","vcs_hash":"dd70ebe8f7d2cbe5ccfd2833047f52a0026aa94ba09e37dd26528da042e660da","timestamp":"2025-12-04T19:06:13Z","subdir":"","vcs_ref":"refs/tags/v2.0.3"},\
++{"module":"github.com/sigstore/sigstore-go","version":"v1.1.4","vcs_hash":"266db4b6b3687a3b36e4aba7537c3db2811ed76f16474c4689b7a41d20321f18","timestamp":"2025-12-08T09:34:58Z","subdir":"","vcs_ref":"refs/tags/v1.1.4"},\
++{"module":"github.com/sigstore/sigstore-go","version":"v1.1.4-0.20251124094504-b5fe07a5a7d7","vcs_hash":"9f990573ca42c039488a500e573851a0afe9e058a594f47e8e914198f1bed87e","timestamp":"2025-11-24T09:45:04Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/dlclark/regexp2","version":"v1.11.0","vcs_hash":"da7b9067217bb6e77c96bb05d69da9e4421f31a79abcb4e24d8a02e57affca14","timestamp":"2024-02-24T02:28:33Z","subdir":"","vcs_ref":"refs/tags/v1.11.0"},\
++{"module":"github.com/gofrs/flock","version":"v0.13.0","vcs_hash":"02d8268670a7857f4978becccdc42f5a6426d2a039ce8e2357ef0bf32795014f","timestamp":"2025-10-09T22:24:42Z","subdir":"","vcs_ref":"refs/tags/v0.13.0"},\
++{"module":"github.com/segmentio/asm","version":"v1.2.0","vcs_hash":"566c03708dcf507b46d508ec323393891b2da4fae7ab290cdeab1bb810334c5c","timestamp":"2022-04-27T20:45:16Z","subdir":"","vcs_ref":"refs/tags/v1.2.0"},\
++{"module":"github.com/davecgh/go-spew","version":"v1.1.1","vcs_hash":"4c7d69cfe586f86079773ff48d94f76d327c2914d8dfeffca9e34fd1146e5d5e","timestamp":"2018-02-21T23:26:28Z","subdir":"","vcs_ref":"refs/tags/v1.1.1"},\
++{"module":"github.com/davecgh/go-spew","version":"v1.1.0","vcs_hash":"5ce38ad71c2d3bc390b87154a89c53fd5ead19aed2bf005419db5c0b28ea9dfd","timestamp":"2016-10-29T20:57:26Z","subdir":"","vcs_ref":"refs/tags/v1.1.0"},\
++{"module":"github.com/otiai10/mint","version":"v1.6.3","vcs_hash":"8e5429bf94b80c2f4aae87b33f4b4dd03b9d8a978004bf74b1fe4042dc0b5fad","timestamp":"2023-07-01T08:53:10Z","subdir":"","vcs_ref":"refs/tags/v1.6.3"},\
++{"module":"github.com/otiai10/copy","version":"v1.14.1","vcs_hash":"6f52336953491d169a014c4906e3f17a4c78b425ca26804ae779c6167516d7d0","timestamp":"2025-01-05T09:29:22Z","subdir":"","vcs_ref":"refs/tags/v1.14.1"},\
++{"module":"github.com/mwitkow/go-conntrack","version":"v0.0.0-20161129095857-cc309e4a2223","vcs_hash":"0ff4a51de5f43065c774026c897e99f6a207c66edef943350fa92176ccaf3982","timestamp":"2016-11-29T09:58:57Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/mwitkow/go-conntrack","version":"v0.0.0-20190716064945-2f068394615f","vcs_hash":"0c95da896ecaf67638f45eea2282c2c840e57fd5bef90b1316645fe86914c177","timestamp":"2019-07-16T06:49:45Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/niemeyer/pretty","version":"v0.0.0-20200227124842-a10e7caefd8e","vcs_hash":"7b69594221f05faea56a0d177d0ca9efaac2b2e4ba4f7539c68b87cfe214c6ef","timestamp":"2020-02-27T12:48:42Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/AlecAivazis/survey/v2","version":"v2.3.7","vcs_hash":"915e6ad876675eb96b188d35f754bc931b786c20b8e9ce8142ab278092473e7c","timestamp":"2022-12-08T15:41:06Z","subdir":"","vcs_ref":"refs/tags/v2.3.7"},\
++{"module":"github.com/julienschmidt/httprouter","version":"v1.2.0","vcs_hash":"2c4d0627c16989284c34f4435f85eda929435309b1f35e089deeada06cba6920","timestamp":"2018-07-15T16:18:54Z","subdir":"","vcs_ref":"refs/tags/v1.2.0"},\
++{"module":"github.com/julienschmidt/httprouter","version":"v1.3.0","vcs_hash":"14612f57dd95aeae83955a7b4f9b44d716f96bdef922732f059430cdff278e10","timestamp":"2019-09-29T23:21:22Z","subdir":"","vcs_ref":"refs/tags/v1.3.0"},\
++{"module":"github.com/envoyproxy/go-control-plane/envoy","version":"v1.37.0","vcs_hash":"c1cb9e50270abe5555004fd77d7866ac516f0264029b88996d2a37664542d5c0","timestamp":"2026-01-13T06:26:49Z","subdir":"envoy","vcs_ref":"refs/tags/envoy/v1.37.0"},\
++{"module":"github.com/envoyproxy/go-control-plane/envoy","version":"v1.35.0","vcs_hash":"af904f5786ed9309afb305ff0ca3cddce08208c95ec3f9def0b074e767b05cb9","timestamp":"2025-07-22T12:54:42Z","subdir":"envoy","vcs_ref":"refs/tags/envoy/v1.35.0"},\
++{"module":"github.com/envoyproxy/go-control-plane/ratelimit","version":"v0.1.0","vcs_hash":"906f63aa0b71e9714823fdb45d45be4659d30de781b6a053c93f43371894845f","timestamp":"2024-12-23T15:25:59Z","subdir":"ratelimit","vcs_ref":"refs/tags/ratelimit/v0.1.0"},\
++{"module":"github.com/envoyproxy/go-control-plane","version":"v0.14.0","vcs_hash":"2513f16d9e60ca640f7e1b10874f09f2a4915e2672b103b0edb7deee276349cf","timestamp":"2025-11-04T22:01:44Z","subdir":"","vcs_ref":"refs/tags/v0.14.0"},\
++{"module":"github.com/envoyproxy/go-control-plane","version":"v0.13.5-0.20251024222203-75eaa193e329","vcs_hash":"16d730c776e5b5650a8f35d6f26efcb4548bf62ecba132bc934e522eec2a0508","timestamp":"2025-10-24T22:22:03Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/envoyproxy/protoc-gen-validate","version":"v1.2.1","vcs_hash":"d5f02e84a7cac6538441cf10353084bc8986687c4fb1dbec8ce868f36087a44c","timestamp":"2025-01-22T20:15:32Z","subdir":"","vcs_ref":"refs/tags/v1.2.1"},\
++{"module":"github.com/envoyproxy/protoc-gen-validate","version":"v1.3.3","vcs_hash":"1f1f3b0e1faf176172e6337efdaa2d961b5db6695833c2ebfd381abb9e1b429c","timestamp":"2026-02-18T16:13:16Z","subdir":"","vcs_ref":"refs/tags/v1.3.3"},\
++{"module":"github.com/containerd/zfs/v2","version":"v2.0.0","vcs_hash":"3b6e8e17660f86603ad978c35f23b066288dc5937890ca5c61f54fc5dfaa9052","timestamp":"2025-12-08T03:44:17Z","subdir":"","vcs_ref":"refs/tags/v2.0.0"},\
++{"module":"github.com/containerd/imgcrypt/v2","version":"v2.0.1","vcs_hash":"cf07f49bde1cc9b1c042dfb7055d38c832cb69592e89521daa5ad46b367e047b","timestamp":"2025-03-18T01:41:40Z","subdir":"","vcs_ref":"refs/tags/v2.0.1"},\
++{"module":"github.com/containerd/plugin","version":"v1.0.0","vcs_hash":"f786b847c888d27ca5c517b566772c78216ed963d31d5119a32ebad7494855ea","timestamp":"2024-10-20T22:03:21Z","subdir":"","vcs_ref":"refs/tags/v1.0.0"},\
++{"module":"github.com/containerd/otelttrpc","version":"v0.1.0","vcs_hash":"c27d4a7087a7f4624cdf40c161f9707dbb90cd2d71159840f7c7b610260e9f24","timestamp":"2025-01-09T19:17:17Z","subdir":"","vcs_ref":"refs/tags/v0.1.0"},\
++{"module":"github.com/containerd/btrfs/v2","version":"v2.0.0","vcs_hash":"8a2ee3ce7d871ae06962c07984197acdfd6035091884c9db0791378ac0229823","timestamp":"2023-02-10T01:01:25Z","subdir":"","vcs_ref":"refs/tags/v2.0.0"},\
++{"module":"github.com/containerd/log","version":"v0.1.0","vcs_hash":"697be36d9b8a0eb34f8591d0f69b6d596e1e9341b5944ebf81ddd334b1907bc6","timestamp":"2023-09-09T00:27:15Z","subdir":"","vcs_ref":"refs/tags/v0.1.0"},\
++{"module":"github.com/containerd/ttrpc","version":"v1.2.8","vcs_hash":"bbd06a87919bbdeff01305ac7acdec7d2139e1967739925a101cf216b2d8dc49","timestamp":"2026-03-05T00:05:28Z","subdir":"","vcs_ref":"refs/tags/v1.2.8"},\
++{"module":"github.com/containerd/errdefs/pkg","version":"v0.3.0","vcs_hash":"d9d1c9949e837f39205605237b656e944c7d0cd69e48a906fabdb6bebe0edb66","timestamp":"2024-10-08T13:10:09Z","subdir":"pkg","vcs_ref":"refs/tags/pkg/v0.3.0"},\
++{"module":"github.com/containerd/errdefs","version":"v1.0.0","vcs_hash":"d9d1c9949e837f39205605237b656e944c7d0cd69e48a906fabdb6bebe0edb66","timestamp":"2024-10-08T13:10:09Z","subdir":"","vcs_ref":"refs/tags/v1.0.0"},\
++{"module":"github.com/containerd/console","version":"v1.0.5","vcs_hash":"a38aca664db28f607862e39301d2fd06b3c58312662cbd189f451215c3eb9894","timestamp":"2025-05-20T06:25:07Z","subdir":"","vcs_ref":"refs/tags/v1.0.5"},\
++{"module":"github.com/containerd/containerd/api","version":"v1.10.0","vcs_hash":"4ae09c91c596d23f3127d6821ac6178aa6512e66eba4da3a39e7c94903e2407b","timestamp":"2025-11-05T15:11:32Z","subdir":"api","vcs_ref":"refs/tags/api/v1.10.0"},\
++{"module":"github.com/containerd/containerd/v2","version":"v2.2.3","vcs_hash":"6bdcec8161cf9b56318822f061b0c10ac8c38d747a52bfbc4a9280b6ffc47f96","timestamp":"2026-04-14T17:18:07Z","subdir":"","vcs_ref":"refs/tags/v2.2.3"},\
++{"module":"github.com/containerd/nri","version":"v0.11.0","vcs_hash":"9ef2c512de0aabf89c060ed428bc6ef3d29fc64b917b4a81d88abcada3f49d90","timestamp":"2025-12-17T00:38:45Z","subdir":"","vcs_ref":"refs/tags/v0.11.0"},\
++{"module":"github.com/containerd/stargz-snapshotter","version":"v0.18.2","vcs_hash":"5b8f552ba5310161b4d54e46b1e5f4ac2f03191dd86070de81cf7a2681739216","timestamp":"2026-01-21T14:16:27Z","subdir":"","vcs_ref":"refs/tags/v0.18.2"},\
++{"module":"github.com/containerd/stargz-snapshotter/estargz","version":"v0.18.2","vcs_hash":"5b8f552ba5310161b4d54e46b1e5f4ac2f03191dd86070de81cf7a2681739216","timestamp":"2026-01-21T14:16:27Z","subdir":"estargz","vcs_ref":"refs/tags/estargz/v0.18.2"},\
++{"module":"github.com/containerd/fifo","version":"v1.1.0","vcs_hash":"e4b0152cde11b075ce8a8a9f0db77d54abb72ee1bab1036ab0c157b678aade47","timestamp":"2023-02-17T21:37:13Z","subdir":"","vcs_ref":"refs/tags/v1.1.0"},\
++{"module":"github.com/containerd/platforms","version":"v1.0.0-rc.4","vcs_hash":"2a7a4d65a1d6148c7a403e5bf7c719aa64e3d2a544ad7078906c252afe5a2b3d","timestamp":"2026-03-31T22:53:10Z","subdir":"","vcs_ref":"refs/tags/v1.0.0-rc.4"},\
++{"module":"github.com/containerd/go-cni","version":"v1.1.13","vcs_hash":"42aaa61d2bb4bd3a1eb278daa53bed3b31e3af601d35dafceb8b7714333cef05","timestamp":"2025-07-01T22:01:58Z","subdir":"","vcs_ref":"refs/tags/v1.1.13"},\
++{"module":"github.com/containerd/cgroups/v3","version":"v3.1.3","vcs_hash":"3cacf869e6e5cb422592906f0e2f211bc239e0b2c0730e85debdfc8989de9e0d","timestamp":"2026-02-12T22:21:12Z","subdir":"","vcs_ref":"refs/tags/v3.1.3"},\
++{"module":"github.com/containerd/go-runc","version":"v1.1.0","vcs_hash":"9044e9e240020298712a51a4db4736afc66d70b1870cf11cac73c0661be06842","timestamp":"2023-05-17T04:55:20Z","subdir":"","vcs_ref":"refs/tags/v1.1.0"},\
++{"module":"github.com/containerd/fuse-overlayfs-snapshotter/v2","version":"v2.1.7","vcs_hash":"ebd7034108ca2f7b1a5d3724f3248f21f9cf17f5ecf3db9b5c71ee2e6de56563","timestamp":"2025-11-06T01:42:49Z","subdir":"","vcs_ref":"refs/tags/v2.1.7"},\
++{"module":"github.com/containerd/typeurl/v2","version":"v2.2.3","vcs_hash":"60bc9255cadbea28631b3293cd629cbe0b9a9cffb987712231cdc4f9dc75a2cb","timestamp":"2024-11-07T03:45:23Z","subdir":"","vcs_ref":"refs/tags/v2.2.3"},\
++{"module":"github.com/containerd/nydus-snapshotter","version":"v0.15.13","vcs_hash":"a0835e29b3bcd359c5e58edc0199e5b1e743fdfb61df75a517d0410875535761","timestamp":"2026-03-24T12:42:39Z","subdir":"","vcs_ref":"refs/tags/v0.15.13"},\
++{"module":"github.com/containerd/continuity","version":"v0.4.5","vcs_hash":"ef286b146362aa5da58f9ef4e88323a32e1ea45eda78c6d484875972ce0a81e0","timestamp":"2024-10-30T04:18:59Z","subdir":"","vcs_ref":"refs/tags/v0.4.5"},\
++{"module":"github.com/containerd/accelerated-container-image","version":"v1.3.0","vcs_hash":"3c38450d2e9b921d8073a5c5afb9472d94858098bc1fe7d691687d51d0ede1ff","timestamp":"2025-02-13T08:02:42Z","subdir":"","vcs_ref":"refs/tags/v1.3.0"},\
++{"module":"github.com/go-viper/mapstructure/v2","version":"v2.4.0","vcs_hash":"c8d654dc2b8f99ffd23c744af0b961737a283ddb83b110d144f8558b6ffa2ae1","timestamp":"2025-07-15T08:59:08Z","subdir":"","vcs_ref":"refs/tags/v2.4.0"},\
++{"module":"github.com/go-viper/mapstructure/v2","version":"v2.5.0","vcs_hash":"3bfaa2e7553753ef9eb595609273310a8498c5d5f4d43000c69a7bd2bb39a3ef","timestamp":"2026-01-12T17:24:26Z","subdir":"","vcs_ref":"refs/tags/v2.5.0"},\
++{"module":"github.com/beorn7/perks","version":"v1.0.1","vcs_hash":"c20c7a1c80a243f687008566bc9b8a9517bdf7e3a4f9db15e17160ad20568e9d","timestamp":"2019-07-31T12:00:54Z","subdir":"","vcs_ref":"refs/tags/v1.0.1"},\
++{"module":"github.com/beorn7/perks","version":"v0.0.0-20150223135152-b965b613227f","vcs_hash":"bdca05a2672eea03731c25222db95561d1fad3ee6ccede612b305abb27b074ac","timestamp":"2015-02-23T13:51:52Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/beorn7/perks","version":"v0.0.0-20180321164747-3a771d992973","vcs_hash":"b05d3659d70127d95ec0b6f7d3aa9b87a50009706e0919be0913fc61dc69e093","timestamp":"2018-03-21T16:47:47Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/beorn7/perks","version":"v1.0.0","vcs_hash":"8dd89f9e3fbe68a081d37f37c6deba6f0c099069502b162148d0ede72f822a95","timestamp":"2019-04-14T22:11:40Z","subdir":"","vcs_ref":"refs/tags/v1.0.0"},\
++{"module":"github.com/go-kit/kit","version":"v0.8.0","vcs_hash":"164d4eaa2f8107f0ad2f6559aac743c96ecce3f6eb17905b0e878385ede67301","timestamp":"2018-11-08T02:13:29Z","subdir":"","vcs_ref":"refs/tags/v0.8.0"},\
+ {"module":"github.com/kballard/go-shellquote","version":"v0.0.0-20180428030007-95032a82bc51","vcs_hash":"49fe182d1b759955b666e8ad12ff66052cc7e14ba9ccf9e8371ee85848f1f9ac","timestamp":"2018-04-28T03:00:07Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/cenkalti/backoff/v5","version":"v5.0.3","vcs_hash":"656f7cb59961eb5e57ba97bf50166eda0c13e2ecff4c8c15b33eb72e8ad26dc4","timestamp":"2025-07-23T16:23:35Z","subdir":"","vcs_ref":"refs/tags/v5.0.3"},\
+-{"module":"github.com/cenkalti/backoff/v4","version":"v4.3.0","vcs_hash":"c644c1d0f5212c0210f056d6c7d45f3e482a1fca002b7c3e65edf8d3c060566f","timestamp":"2024-01-02T22:56:19Z","subdir":"","vcs_ref":"refs/tags/v4.3.0"},\
+-{"module":"github.com/buger/goterm","version":"v1.0.4","vcs_hash":"caf1c06b7ea92c81a60195c5df6f46d1e4ceb75cfb096fb918e712dcc226fc04","timestamp":"2022-01-25T19:34:06Z","subdir":"","vcs_ref":"refs/tags/v1.0.4"},\
+-{"module":"github.com/mitchellh/go-ps","version":"v1.0.0","vcs_hash":"e2954bb45e8e4304338ab2532158d042745f3a239202953369cef281beed32cb","timestamp":"2020-02-03T20:02:15Z","subdir":"","vcs_ref":"refs/tags/v1.0.0"},\
+-{"module":"github.com/mitchellh/mapstructure","version":"v1.5.0","vcs_hash":"d9f5489d4515cf23689f7c9a7a71a85fdd52671cf92601ea8e8c59bf3644b6b5","timestamp":"2022-04-20T22:31:31Z","subdir":"","vcs_ref":"refs/tags/v1.5.0"},\
+-{"module":"github.com/mitchellh/mapstructure","version":"v0.0.0-20150613213606-2caf8efc9366","vcs_hash":"5ad95eaf3fe770e7f704095dccb10123fc34e55570f7e163eb2e3e9a5c0586a6","timestamp":"2015-06-13T21:36:06Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/mitchellh/hashstructure/v2","version":"v2.0.2","vcs_hash":"7c1d661828ecf7a5daa9f90b02814e542e1ed4d474edc002d91d945df708a5be","timestamp":"2021-05-27T23:24:52Z","subdir":"v2","vcs_ref":"refs/tags/v2.0.2"},\
+-{"module":"github.com/mitchellh/go-wordwrap","version":"v1.0.1","vcs_hash":"c6c7d05ba9f6db2637751fa2ce7bbc8bb04f632abc0b05363566319c8fd9c9b0","timestamp":"2020-09-25T18:08:01Z","subdir":"","vcs_ref":"refs/tags/v1.0.1"},\
+-{"module":"github.com/goccy/go-json","version":"v0.10.5","vcs_hash":"9135ffafe2f170bce8f90413934c0b25aa6d201122cc437153cf64a206c46389","timestamp":"2025-01-25T05:38:06Z","subdir":"","vcs_ref":"refs/tags/v0.10.5"},\
+-{"module":"github.com/hashicorp/hcl/v2","version":"v2.24.0","vcs_hash":"7505ee60afc6b2dde4e4189214cf3f948ce2ebbc3aac73c7ba669bd366b12941","timestamp":"2025-07-07T13:00:56Z","subdir":"","vcs_ref":"refs/tags/v2.24.0"},\
+-{"module":"github.com/hashicorp/errwrap","version":"v1.0.0","vcs_hash":"65db17b2a8abd8c2bde5a919d17f7abc0e891ae4037aa21f7aa2482f560cf21f","timestamp":"2018-08-24T00:39:10Z","subdir":"","vcs_ref":"refs/tags/v1.0.0"},\
+-{"module":"github.com/hashicorp/errwrap","version":"v1.1.0","vcs_hash":"a0949020a0c14672f86d32cbf0d984b8d048a27e6f75aeac79f8ca3f7cc4ecae","timestamp":"2020-07-14T15:51:01Z","subdir":"","vcs_ref":"refs/tags/v1.1.0"},\
+-{"module":"github.com/hashicorp/go-version","version":"v1.8.0","vcs_hash":"8982e9d982dbb37864656981c0a1169a41662dac51c477690cdd71c30034f649","timestamp":"2025-11-21T09:01:15Z","subdir":"","vcs_ref":"refs/tags/v1.8.0"},\
+-{"module":"github.com/hashicorp/go-multierror","version":"v1.1.1","vcs_hash":"cec0f337a88725c16a86058204a5dd4ae667b8a92bbed995ab204ebcb62177a5","timestamp":"2021-03-11T20:17:12Z","subdir":"","vcs_ref":"refs/tags/v1.1.1"},\
+-{"module":"github.com/hashicorp/go-cty-funcs","version":"v0.0.0-20250818135842-6aab67130928","vcs_hash":"c24779ffbc1879e38298ad13dcbc65277e22b74eaf6a132090792bb6f3aef29f","timestamp":"2025-08-18T13:58:42Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/hashicorp/go-retryablehttp","version":"v0.7.8","vcs_hash":"420ce476cca0369183e19289674513fb1d412be25fb7aa1ce6f21f22444e1b02","timestamp":"2025-06-18T14:25:10Z","subdir":"","vcs_ref":"refs/tags/v0.7.8"},\
+-{"module":"github.com/hashicorp/golang-lru/v2","version":"v2.0.7","vcs_hash":"0a17d620bc2f7dd8c00efd79d0b78bb5f5c0bfaa2ec311417e9256a33b35db77","timestamp":"2023-09-21T18:26:40Z","subdir":"","vcs_ref":"refs/tags/v2.0.7"},\
+-{"module":"github.com/hashicorp/go-immutable-radix/v2","version":"v2.1.0","vcs_hash":"e7330a0d345fdfe0fc28bc95ffa515bf29b09fde15bff6885c08836ae16c3992","timestamp":"2023-11-21T15:50:58Z","subdir":"","vcs_ref":"refs/tags/v2.1.0"},\
+-{"module":"github.com/hashicorp/go-cleanhttp","version":"v0.5.2","vcs_hash":"da345fc970b7e579c1da9ec42edfbe1bf896f5e3274ce418f134b15952eb2494","timestamp":"2021-02-03T18:51:13Z","subdir":"","vcs_ref":"refs/tags/v0.5.2"},\
++{"module":"github.com/xhit/go-str2duration/v2","version":"v2.1.0","vcs_hash":"395a3ddd7e351b7b882dc20af4936a00bd11a84147f83ac7a7c25f8093a51cb3","timestamp":"2022-12-07T00:32:32Z","subdir":"","vcs_ref":"refs/tags/v2.1.0"},\
++{"module":"github.com/stefanberger/go-pkcs11uri","version":"v0.0.0-20230803200340-78284954bff6","vcs_hash":"38fa201d7d655497d33723d139ffc3ec2ee78d3caab251015a1c3a5190f5e073","timestamp":"2023-08-03T20:03:40Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/spiffe/go-spiffe/v2","version":"v2.6.0","vcs_hash":"aca54385906c3e38bd7515a2b0b52e4b6be402d2333e38eb4d2484305552aca4","timestamp":"2025-08-21T14:57:50Z","subdir":"","vcs_ref":"refs/tags/v2.6.0"},\
++{"module":"github.com/go-rod/rod","version":"v0.116.2","vcs_hash":"56a3074e00ed3cc5a312cd4b264c9070764ea81790bf8a1147690ab65ad79579","timestamp":"2024-07-12T02:40:37Z","subdir":"","vcs_ref":"refs/tags/v0.116.2"},\
++{"module":"github.com/pmezard/go-difflib","version":"v1.0.0","vcs_hash":"c04ad296d2e3203fda8b7ca96feaca21b20b3b7441e33c7d67cda029ea61ab4c","timestamp":"2016-01-10T10:55:54Z","subdir":"","vcs_ref":"refs/tags/v1.0.0"},\
++{"module":"github.com/digitorus/pkcs7","version":"v0.0.0-20230818184609-3a137a874352","vcs_hash":"fd2b6e349ca1abce350a94202038bc78abc083934bc68342108df0ef0a47c72c","timestamp":"2023-08-18T18:46:09Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/digitorus/timestamp","version":"v0.0.0-20231217203849-220c5c2851b7","vcs_hash":"316e808b25b3a6563da681b8e93bb537209a2463c7239f367cc18628056cecf7","timestamp":"2023-12-17T20:38:49Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/alecthomas/units","version":"v0.0.0-20211218093645-b94a6e3cc137","vcs_hash":"fd740bbc9bdec5b8bf13526eff2ee852c365b4c2a8feb66c89e2aa4b36a0d677","timestamp":"2021-12-18T09:36:45Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/alecthomas/units","version":"v0.0.0-20151022065526-2efee857e7cf","vcs_hash":"7a070bc84b00c7dd5b58f997285cd94232a9fb500b03e849c7be9017203e4d51","timestamp":"2015-10-22T06:55:26Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/alecthomas/template","version":"v0.0.0-20160405071501-a0175ee3bccc","vcs_hash":"c18e6411468e7b9fa8d3eaacbe26c05c650393a6ed02eded4f8a729fcbdf3278","timestamp":"2016-04-05T07:15:01Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/alecthomas/kingpin/v2","version":"v2.4.0","vcs_hash":"ae34e4803d18ba03ac4e70e84f5e737ec48634b725413ad5282fb01d6fc47dda","timestamp":"2023-09-30T22:59:49Z","subdir":"","vcs_ref":"refs/tags/v2.4.0"},\
+ {"module":"github.com/Azure/go-ansiterm","version":"v0.0.0-20250102033503-faa5f7b0171c","vcs_hash":"d9abe4d330489bbcc2f3473a042a0886c4f556d7a3b9128c484c2fef3396e790","timestamp":"2025-01-02T03:35:03Z","subdir":"","vcs_ref":""},\
+ {"module":"github.com/Azure/azure-sdk-for-go/sdk/storage/azblob","version":"v1.5.0","vcs_hash":"69ba1366ff498c1f6625ee95464ad8462e9596296890fc801954d6d94c815ead","timestamp":"2024-11-13T16:30:52Z","subdir":"sdk/storage/azblob","vcs_ref":"refs/tags/sdk/storage/azblob/v1.5.0"},\
+-{"module":"github.com/Azure/azure-sdk-for-go/sdk/azcore","version":"v1.20.0","vcs_hash":"02f52ded3147a31e12f76b40a2946a56511aa87e241c7cc331dc2fad7934d835","timestamp":"2025-11-06T17:38:09Z","subdir":"sdk/azcore","vcs_ref":"refs/tags/sdk/azcore/v1.20.0"},\
+ {"module":"github.com/Azure/azure-sdk-for-go/sdk/azidentity","version":"v1.13.1","vcs_hash":"b80d29c1ad9369a1185c04ff6677176d1d56f8a746b65ef588727523e8cac4fa","timestamp":"2025-11-10T16:14:28Z","subdir":"sdk/azidentity","vcs_ref":"refs/tags/sdk/azidentity/v1.13.1"},\
+ {"module":"github.com/Azure/azure-sdk-for-go/sdk/internal","version":"v1.11.2","vcs_hash":"29bb1f5f66b9ef2c0d8280dc2ef9de2d950d32bde6082c37129d36181e7f8ad0","timestamp":"2025-07-29T15:53:06Z","subdir":"sdk/internal","vcs_ref":"refs/tags/sdk/internal/v1.11.2"},\
+-{"module":"github.com/cilium/ebpf","version":"v0.16.0","vcs_hash":"8e810695e5aecdedc82025b50fe217f458e95243dfd6f3a725e4be31bb89421b","timestamp":"2024-07-23T16:13:54Z","subdir":"","vcs_ref":"refs/tags/v0.16.0"},\
+-{"module":"github.com/digitorus/pkcs7","version":"v0.0.0-20230818184609-3a137a874352","vcs_hash":"fd2b6e349ca1abce350a94202038bc78abc083934bc68342108df0ef0a47c72c","timestamp":"2023-08-18T18:46:09Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/digitorus/timestamp","version":"v0.0.0-20231217203849-220c5c2851b7","vcs_hash":"316e808b25b3a6563da681b8e93bb537209a2463c7239f367cc18628056cecf7","timestamp":"2023-12-17T20:38:49Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/skratchdot/open-golang","version":"v0.0.0-20200116055534-eef842397966","vcs_hash":"2049e06101e5abb574af5068dfb1255087c23cd963db0e1f0c82585b42e02bf4","timestamp":"2020-01-16T05:55:34Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/magiconair/properties","version":"v1.5.3","vcs_hash":"d96b4b0c7ecc137249800d1b95fece0b9fca1b6978650bd2a8be72d541a097fd","timestamp":"2015-06-01T22:12:01Z","subdir":"","vcs_ref":"refs/tags/v1.5.3"},\
+-{"module":"github.com/magiconair/properties","version":"v1.8.9","vcs_hash":"5d2d0e3a74034cdf4554cd9fa44a3186b4017a8f6ecc1823cdd7dc5202b0b8fb","timestamp":"2024-12-07T18:36:23Z","subdir":"","vcs_ref":"refs/tags/v1.8.9"},\
+-{"module":"github.com/jonboulle/clockwork","version":"v0.5.0","vcs_hash":"8a9b3a40ae13b2679138bcbfbe409f1586f92c23e873f4e219066c6596debc26","timestamp":"2024-11-29T18:02:53Z","subdir":"","vcs_ref":"refs/tags/v0.5.0"},\
+-{"module":"github.com/checkpoint-restore/go-criu/v7","version":"v7.2.0","vcs_hash":"cd3a96bfb455f01e0ad41b83fe0a2ba40c017e12b43cf536dd72401c0a9efa9b","timestamp":"2024-09-09T09:30:43Z","subdir":"","vcs_ref":"refs/tags/v7.2.0"},\
+-{"module":"github.com/checkpoint-restore/checkpointctl","version":"v1.4.0","vcs_hash":"6b759ce79ef9b0cf0e95821c6506ecb3e1f87ff4709b914b3e18ce7b12ed0769","timestamp":"2025-09-01T08:42:45Z","subdir":"","vcs_ref":"refs/tags/v1.4.0"},\
+-{"module":"github.com/kisielk/errcheck","version":"v1.5.0","vcs_hash":"2ae681313b6ac49c6c60836f406eed1f7f4db5b86a3027f0ec720f5984386390","timestamp":"2021-01-05T19:12:31Z","subdir":"","vcs_ref":"refs/tags/v1.5.0"},\
+-{"module":"github.com/kisielk/gotool","version":"v1.0.0","vcs_hash":"5f448e8a93894c89c55e73478ef6dc8a0a1a6a3fd3fe3a2b5cd5e03e65915fb1","timestamp":"2018-02-21T18:54:26Z","subdir":"","vcs_ref":"refs/tags/v1.0.0"},\
+-{"module":"github.com/onsi/gomega","version":"v1.7.1","vcs_hash":"eca01df4f63425b54410888126f5e562e7f2c689d9483249110a2f793909648b","timestamp":"2019-10-30T17:12:58Z","subdir":"","vcs_ref":"refs/tags/v1.7.1"},\
+-{"module":"github.com/onsi/gomega","version":"v1.9.0","vcs_hash":"728f44b7af3fd5cab91499df1e92a9d2c3e67004ea59ac1e4a549fb2ca6763a8","timestamp":"2020-02-01T10:40:48Z","subdir":"","vcs_ref":"refs/tags/v1.9.0"},\
+-{"module":"github.com/onsi/ginkgo","version":"v1.12.0","vcs_hash":"1fa773d747594333c67867f9bdc536ee1286d76aa754e875bec3818f99d1318b","timestamp":"2020-02-01T10:35:24Z","subdir":"","vcs_ref":"refs/tags/v1.12.0"},\
+-{"module":"github.com/onsi/ginkgo","version":"v1.6.0","vcs_hash":"084961c940c1064ad8f72342797a7f84ceb5184e0f4f98076f0ac0a75a0a376f","timestamp":"2018-07-17T16:34:38Z","subdir":"","vcs_ref":"refs/tags/v1.6.0"},\
+-{"module":"github.com/anchore/go-struct-converter","version":"v0.1.0","vcs_hash":"4be54006369c9c3bb6a42a67721ee3e3e0f1aab0f71192fdc85f8dc980af1bd6","timestamp":"2022-11-18T18:22:56Z","subdir":"","vcs_ref":"refs/tags/v0.1.0"},\
+-{"module":"github.com/anchore/go-struct-converter","version":"v0.0.0-20221118182256-c68fdcfa2092","vcs_hash":"4be54006369c9c3bb6a42a67721ee3e3e0f1aab0f71192fdc85f8dc980af1bd6","timestamp":"2022-11-18T18:22:56Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/apparentlymart/go-textseg/v15","version":"v15.0.0","vcs_hash":"2ad90a9579325698fb8eedc37a5bb5c32c0df927e2e2029b3cfa6369b0aad683","timestamp":"2023-08-29T15:35:34Z","subdir":"","vcs_ref":"refs/tags/v15.0.0"},\
+-{"module":"github.com/apparentlymart/go-cidr","version":"v1.0.1","vcs_hash":"78882067332ee02e3c72ccc9d03c697f04b24132ddd74da1593a953f0b833469","timestamp":"2019-08-17T16:12:28Z","subdir":"","vcs_ref":"refs/tags/v1.0.1"},\
++{"module":"github.com/Azure/azure-sdk-for-go/sdk/azcore","version":"v1.20.0","vcs_hash":"02f52ded3147a31e12f76b40a2946a56511aa87e241c7cc331dc2fad7934d835","timestamp":"2025-11-06T17:38:09Z","subdir":"sdk/azcore","vcs_ref":"refs/tags/sdk/azcore/v1.20.0"},\
++{"module":"github.com/zeebo/errs","version":"v1.3.0","vcs_hash":"39db003c7dfcc8ee4cbaee7626cb0f113936318043f7a7b09d6fa4609f36e609","timestamp":"2022-03-17T17:23:02Z","subdir":"","vcs_ref":"refs/tags/v1.3.0"},\
++{"module":"github.com/kylelemons/godebug","version":"v1.1.0","vcs_hash":"070cd2056d33748c34b60876b93e86d0f8bcfa86a4dee28d6da2a6f3aaea66ac","timestamp":"2019-05-05T01:16:37Z","subdir":"","vcs_ref":"refs/tags/v1.1.0"},\
++{"module":"github.com/Microsoft/hcsshim","version":"v0.14.1","vcs_hash":"64498bbd9e58b969c07504954baa5831796326b5afcaeacf17a580703df9ef39","timestamp":"2026-04-08T16:33:08Z","subdir":"","vcs_ref":"refs/tags/v0.14.1"},\
+ {"module":"github.com/Microsoft/go-winio","version":"v0.6.2","vcs_hash":"963154633520174004b7a508de4bfa23c0374f9312f6db845c29aa3cb751d708","timestamp":"2024-04-09T20:07:04Z","subdir":"","vcs_ref":"refs/tags/v0.6.2"},\
+-{"module":"github.com/Microsoft/hcsshim","version":"v0.14.0-rc.1","vcs_hash":"f493369c2a96e959905afa70d80efbf15bd25304bc9938aafdaa00d931825b26","timestamp":"2025-08-12T17:46:53Z","subdir":"","vcs_ref":"refs/tags/v0.14.0-rc.1"},\
+-{"module":"github.com/russross/blackfriday","version":"v1.6.0","vcs_hash":"45882c51d4da17f32775abbdabd353753e5115f6ec6282c3bf028fe3471fc743","timestamp":"2020-10-27T03:46:40Z","subdir":"","vcs_ref":"refs/tags/v1.6.0"},\
+-{"module":"github.com/russross/blackfriday/v2","version":"v2.1.0","vcs_hash":"6dd1604eceba1790dbf7f827f1e22a5866a5348a2ab616daed7363a6e16e081d","timestamp":"2020-10-27T03:47:54Z","subdir":"v2","vcs_ref":"refs/tags/v2.1.0"},\
+-{"module":"github.com/josharian/intern","version":"v1.0.0","vcs_hash":"273d42676826fc8f106c11c2800d01690a09463878fa115700b2e26df24a2440","timestamp":"2019-12-14T22:12:22Z","subdir":"","vcs_ref":"refs/tags/v1.0.0"},\
+-{"module":"github.com/titanous/rocacheck","version":"v0.0.0-20171023193734-afe73141d399","vcs_hash":"333921fe7c4fb4be2fd4b694b9d4ec2e6000c6f84fe6e5a447504b83a30df193","timestamp":"2017-10-23T19:37:34Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/knqyf263/go-plugin","version":"v0.9.0","vcs_hash":"a8467353858eb68db6c0dd39ab99d740baa3155c9ebe2dee04be36a524fc48f7","timestamp":"2025-03-11T05:42:07Z","subdir":"","vcs_ref":"refs/tags/v0.9.0"},\
+-{"module":"github.com/sassoftware/relic","version":"v7.2.1+incompatible","vcs_hash":"11b818fd7c4740f195b6669f17117f3e72c1b14cd4cca20dca3b88334a67edcf","timestamp":"2019-07-31T17:49:13Z","subdir":"","vcs_ref":"refs/tags/v7.2.1"},\
+-{"module":"github.com/hiddeco/sshsig","version":"v0.2.0","vcs_hash":"fdcb4ab573b69d6bee2d375517e62fb147744ddcca0378b2006891f9dd8f6477","timestamp":"2025-04-12T11:02:39Z","subdir":"","vcs_ref":"refs/tags/v0.2.0"},\
+-{"module":"github.com/grafana/regexp","version":"v0.0.0-20240518133315-a468a5bfb3bc","vcs_hash":"ee7ce08aedc8b0c4622a701ebc6308e5f4de035b78a7a97690fe1159dc0e6408","timestamp":"2024-05-18T13:33:15Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/dlclark/regexp2","version":"v1.11.0","vcs_hash":"da7b9067217bb6e77c96bb05d69da9e4421f31a79abcb4e24d8a02e57affca14","timestamp":"2024-02-24T02:28:33Z","subdir":"","vcs_ref":"refs/tags/v1.11.0"},\
+-{"module":"github.com/kr/pretty","version":"v0.1.0","vcs_hash":"0f21d99b403d8e61d556bfa775400b5cd3eeb5d2fb19e978a43ff5e77dae75ee","timestamp":"2018-05-06T08:33:45Z","subdir":"","vcs_ref":"refs/tags/v0.1.0"},\
+-{"module":"github.com/kr/pretty","version":"v0.3.1","vcs_hash":"487dccea2d19da29e6f873ffd57f7f4d33720781a3f60bb9f852176acb476435","timestamp":"2022-08-29T23:03:05Z","subdir":"","vcs_ref":"refs/tags/v0.3.1"},\
+-{"module":"github.com/kr/logfmt","version":"v0.0.0-20140226030751-b84e30acd515","vcs_hash":"e035982996fb3352cf0880f1bb882f434fcb4adc3e775981b88072f2a379ec80","timestamp":"2014-02-26T03:07:51Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/kr/text","version":"v0.1.0","vcs_hash":"d47a4a089998b1398264c79fffcb25588459baa28396ff9e275fff9f4995519a","timestamp":"2018-05-06T08:24:08Z","subdir":"","vcs_ref":"refs/tags/v0.1.0"},\
++{"module":"github.com/decred/dcrd/dcrec/secp256k1/v4","version":"v4.4.0","vcs_hash":"dea203beeafba9300d7341afcdd38985621ebd2ec9d4c5a8a7d262cbb2c2bc41","timestamp":"2025-02-20T17:33:47Z","subdir":"dcrec/secp256k1","vcs_ref":"refs/tags/dcrec/secp256k1/v4.4.0"},\
++{"module":"github.com/konsorten/go-windows-terminal-sequences","version":"v1.0.1","vcs_hash":"2044bc70056f083f4686548aca8c8ea39dc8943c0d28ac6ef38cfa1fa5ee7fd0","timestamp":"2018-10-04T22:41:46Z","subdir":"","vcs_ref":"refs/tags/v1.0.1"},\
++{"module":"github.com/konsorten/go-windows-terminal-sequences","version":"v1.0.2","vcs_hash":"1987ad3f256034b9d0fc3590868bb91e717f53fd7ee6de10cff3948645fcd530","timestamp":"2019-02-26T22:47:05Z","subdir":"","vcs_ref":"refs/tags/v1.0.2"},\
++{"module":"github.com/open-policy-agent/opa","version":"v1.10.1","vcs_hash":"70e752e43ab7d75f9f6aeb2ffc6cb3be9e5d708f347ed6858ff3d3c287e2ccee","timestamp":"2025-11-05T09:06:03Z","subdir":"","vcs_ref":"refs/tags/v1.10.1"},\
++{"module":"github.com/cloudflare/circl","version":"v1.6.3","vcs_hash":"10b428844b05d4b03ef2556cb36787ddb4a7d1daa3442a0c370769eb69b4b079","timestamp":"2026-01-22T20:12:37Z","subdir":"","vcs_ref":"refs/tags/v1.6.3"},\
++{"module":"github.com/cloudflare/circl","version":"v1.6.1","vcs_hash":"3c2dfa258c309745a69f7643659c92a962cf059c411c84e321b55c5ac0323f35","timestamp":"2025-04-09T16:57:45Z","subdir":"","vcs_ref":"refs/tags/v1.6.1"},\
++{"module":"github.com/cloudflare/circl","version":"v1.6.0","vcs_hash":"6b1850dcf66e3b438754c6c9963b00daaa188378c7cb8c9c1ef005abe31f75f9","timestamp":"2025-02-04T23:02:19Z","subdir":"","vcs_ref":"refs/tags/v1.6.0"},\
++{"module":"github.com/cloudflare/cfssl","version":"v0.0.0-20180223231731-4e2dcbde5004","vcs_hash":"3c8104b7da9d2e18832889b5c6a3e835075611b12d6602487addb722a70feac5","timestamp":"2018-02-23T23:17:31Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/magiconair/properties","version":"v1.8.9","vcs_hash":"5d2d0e3a74034cdf4554cd9fa44a3186b4017a8f6ecc1823cdd7dc5202b0b8fb","timestamp":"2024-12-07T18:36:23Z","subdir":"","vcs_ref":"refs/tags/v1.8.9"},\
++{"module":"github.com/magiconair/properties","version":"v1.5.3","vcs_hash":"d96b4b0c7ecc137249800d1b95fece0b9fca1b6978650bd2a8be72d541a097fd","timestamp":"2015-06-01T22:12:01Z","subdir":"","vcs_ref":"refs/tags/v1.5.3"},\
++{"module":"github.com/valyala/fastjson","version":"v1.6.4","vcs_hash":"9f8bd53bfc32d2df39c0edaf1166015535c0b16676b7e9d5e385a8e22e796ccd","timestamp":"2022-12-29T18:27:00Z","subdir":"","vcs_ref":"refs/tags/v1.6.4"},\
++{"module":"github.com/go-logfmt/logfmt","version":"v0.4.0","vcs_hash":"ba8d08b7a7c3160ce690a9887ce68303c6e395cb41e8669e5b9c7423dbb2e6d8","timestamp":"2018-11-22T01:56:15Z","subdir":"","vcs_ref":"refs/tags/v0.4.0"},\
++{"module":"github.com/go-logfmt/logfmt","version":"v0.3.0","vcs_hash":"87ea6a9e239f17f704d8539912edf62249556b50b823ce9b513c614350572831","timestamp":"2016-11-15T14:25:13Z","subdir":"","vcs_ref":"refs/tags/v0.3.0"},\
++{"module":"github.com/transparency-dev/merkle","version":"v0.0.2","vcs_hash":"11ca4461c55ebf4faefccb747a99c74860939f428aba666c5e7b7727ed758c08","timestamp":"2023-05-05T09:59:12Z","subdir":"","vcs_ref":"refs/tags/v0.0.2"},\
++{"module":"github.com/transparency-dev/formats","version":"v0.0.0-20251017110053-404c0d5b696c","vcs_hash":"968921f38a5932901522d8dad3d99ef03c554eb958e6b809606dcae3d3a778dc","timestamp":"2025-10-17T11:00:53Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/sirupsen/logrus","version":"v1.9.3","vcs_hash":"a1230aee5f8f1a866199cbec636d1525e00a9b13cf2fe0023dcf6b874c525014","timestamp":"2023-05-21T12:59:35Z","subdir":"","vcs_ref":"refs/tags/v1.9.3"},\
++{"module":"github.com/sirupsen/logrus","version":"v1.9.4","vcs_hash":"7834dd2379c75b18a314ce35955486d0a20f3e960006fc4e8ce53625189de3b5","timestamp":"2025-10-23T12:47:52Z","subdir":"","vcs_ref":"refs/tags/v1.9.4"},\
++{"module":"github.com/sirupsen/logrus","version":"v1.4.1","vcs_hash":"e7dadc55f17d7e5dd646b8a1408f0d5dc551bfbbbb8de273a6b6ceb927a05353","timestamp":"2019-04-02T16:14:07Z","subdir":"","vcs_ref":"refs/tags/v1.4.1"},\
++{"module":"github.com/sirupsen/logrus","version":"v1.2.0","vcs_hash":"f662f3bd248d63f5671cbf660c0fd3e5c3fc5389fca023c018b7c8fa63d75263","timestamp":"2018-11-01T07:39:56Z","subdir":"","vcs_ref":"refs/tags/v1.2.0"},\
++{"module":"github.com/sirupsen/logrus","version":"v1.0.6","vcs_hash":"e2b60414d6cf051bc156482dc25c0e442f2dcbaf755db11f95b165196e3a417d","timestamp":"2018-07-21T07:00:01Z","subdir":"","vcs_ref":"refs/tags/v1.0.6"},\
++{"module":"github.com/santhosh-tekuri/jsonschema/v6","version":"v6.0.1","vcs_hash":"8cfe8424190c359d20ad2bc01793323c7ac268106706dfa9721cccd4203cbfde","timestamp":"2024-06-06T17:57:31Z","subdir":"","vcs_ref":"refs/tags/v6.0.1"},\
++{"module":"github.com/santhosh-tekuri/jsonschema/v5","version":"v5.3.1","vcs_hash":"9964fa94eb99b405ebcfa3af19e0e16d07aef590c7af497cdfc6743aa4544776","timestamp":"2023-07-22T18:48:50Z","subdir":"","vcs_ref":"refs/tags/v5.3.1"},\
++{"module":"github.com/bitly/go-hostpool","version":"v0.1.0","vcs_hash":"4fa48fb597b43d9ba89aa477912e73c8b6130aa0cda05b209201b071f25d10a4","timestamp":"2019-12-24T19:37:25Z","subdir":"","vcs_ref":"refs/tags/v0.1.0"},\
++{"module":"github.com/bitly/go-simplejson","version":"v0.5.0","vcs_hash":"c56b9fa4257469037ce41f652467339083e21d8cf63b420f7051f689474dcb9e","timestamp":"2015-09-15T16:53:35Z","subdir":"","vcs_ref":"refs/tags/v0.5.0"},\
+ {"module":"github.com/kr/text","version":"v0.2.0","vcs_hash":"62674ecb33f72b9ab66dd856fe2e651dbf7344dea40ba5132203c7b4b32cfd61","timestamp":"2020-02-14T20:31:06Z","subdir":"","vcs_ref":"refs/tags/v0.2.0"},\
++{"module":"github.com/kr/text","version":"v0.1.0","vcs_hash":"d47a4a089998b1398264c79fffcb25588459baa28396ff9e275fff9f4995519a","timestamp":"2018-05-06T08:24:08Z","subdir":"","vcs_ref":"refs/tags/v0.1.0"},\
++{"module":"github.com/kr/logfmt","version":"v0.0.0-20140226030751-b84e30acd515","vcs_hash":"e035982996fb3352cf0880f1bb882f434fcb4adc3e775981b88072f2a379ec80","timestamp":"2014-02-26T03:07:51Z","subdir":"","vcs_ref":""},\
+ {"module":"github.com/kr/pty","version":"v1.1.1","vcs_hash":"1bac58bd1947d8ae4f18469faf2550b830a1ff3614f2644b00e44b1dc16e13ec","timestamp":"2018-01-13T18:08:13Z","subdir":"","vcs_ref":"refs/tags/v1.1.1"},\
+-{"module":"github.com/xhit/go-str2duration/v2","version":"v2.1.0","vcs_hash":"395a3ddd7e351b7b882dc20af4936a00bd11a84147f83ac7a7c25f8093a51cb3","timestamp":"2022-12-07T00:32:32Z","subdir":"","vcs_ref":"refs/tags/v2.1.0"},\
+-{"module":"github.com/rcrowley/go-metrics","version":"v0.0.0-20250401214520-65e299d6c5c9","vcs_hash":"0cbaeb01627514ae95e6aae5f103c7c103c0c38175dca1ae96d51d0c083cb2ae","timestamp":"2025-04-01T21:45:20Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/containers/ocicrypt","version":"v1.2.1","vcs_hash":"bec170205b8cb4f7646d21f6d05f4e78b62b540ff061d55788f38ccecc6313b7","timestamp":"2024-12-16T16:02:12Z","subdir":"","vcs_ref":"refs/tags/v1.2.1"},\
+-{"module":"github.com/juju/loggo","version":"v0.0.0-20190526231331-6e530bcce5d8","vcs_hash":"eaf37a5284a67e209a1c088360157366cb7f05d143b944db7660e83c541adf4c","timestamp":"2019-05-26T23:13:31Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/tink-crypto/tink-go/v2","version":"v2.5.0","vcs_hash":"6ef7407087c1490be9ea49b07a012d985e5870aafd4b3f243366c00b8a6c7228","timestamp":"2025-10-10T12:33:22Z","subdir":"","vcs_ref":"refs/tags/v2.5.0"},\
++{"module":"github.com/kr/pretty","version":"v0.3.1","vcs_hash":"487dccea2d19da29e6f873ffd57f7f4d33720781a3f60bb9f852176acb476435","timestamp":"2022-08-29T23:03:05Z","subdir":"","vcs_ref":"refs/tags/v0.3.1"},\
++{"module":"github.com/kr/pretty","version":"v0.1.0","vcs_hash":"0f21d99b403d8e61d556bfa775400b5cd3eeb5d2fb19e978a43ff5e77dae75ee","timestamp":"2018-05-06T08:33:45Z","subdir":"","vcs_ref":"refs/tags/v0.1.0"},\
++{"module":"github.com/tetratelabs/wazero","version":"v1.10.1","vcs_hash":"e4664efba21af44c61be56ad7d3196dbe0733019a000bd28a0efd72c3fe50858","timestamp":"2025-11-09T00:23:12Z","subdir":"","vcs_ref":"refs/tags/v1.10.1"},\
++{"module":"github.com/tetratelabs/wazero","version":"v1.9.0","vcs_hash":"8184e4b8a52d22bbf7a3100e9a800f7f69b67c8a4a0349fa457cf7c0f1833060","timestamp":"2025-02-18T15:24:27Z","subdir":"","vcs_ref":"refs/tags/v1.9.0"},\
++{"module":"github.com/titanous/rocacheck","version":"v0.0.0-20171023193734-afe73141d399","vcs_hash":"333921fe7c4fb4be2fd4b694b9d4ec2e6000c6f84fe6e5a447504b83a30df193","timestamp":"2017-10-23T19:37:34Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/knqyf263/go-plugin","version":"v0.9.0","vcs_hash":"a8467353858eb68db6c0dd39ab99d740baa3155c9ebe2dee04be36a524fc48f7","timestamp":"2025-03-11T05:42:07Z","subdir":"","vcs_ref":"refs/tags/v0.9.0"},\
+ {"module":"github.com/aws/smithy-go","version":"v1.22.5","vcs_hash":"df3761f412d2b02fbaffd15e24301d8601a60063303e07b87de822ced8c96121","timestamp":"2025-07-24T15:25:01Z","subdir":"","vcs_ref":"refs/tags/v1.22.5"},\
++{"module":"github.com/aws/smithy-go","version":"v1.24.2","vcs_hash":"4b067bd8f9c8c7e81b9f3913ea2f642857fa4231a88c0716acada8bc185b2b9c","timestamp":"2026-02-27T22:13:56Z","subdir":"","vcs_ref":"refs/tags/v1.24.2"},\
+ {"module":"github.com/aws/smithy-go","version":"v1.23.2","vcs_hash":"ceea8ea3ce6f05dc65f31f9c5fc729dffea0edbc06ed85c870c9653cf95fe72e","timestamp":"2025-11-03T19:51:22Z","subdir":"","vcs_ref":"refs/tags/v1.23.2"},\
++{"module":"github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream","version":"v1.7.5","vcs_hash":"16aeeaaa143df3b1145357dedc71c22eb6e12290fea52215ccf6f3370c2a0f95","timestamp":"2026-02-23T19:11:41Z","subdir":"aws/protocol/eventstream","vcs_ref":"refs/tags/aws/protocol/eventstream/v1.7.5"},\
++{"module":"github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream","version":"v1.7.0","vcs_hash":"df9ff661e9255a23fb41298936640e56610c9dcf7556c6dc1cb9570419c85b19","timestamp":"2025-07-28T19:01:15Z","subdir":"aws/protocol/eventstream","vcs_ref":"refs/tags/aws/protocol/eventstream/v1.7.0"},\
++{"module":"github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream","version":"v1.7.2","vcs_hash":"7beb4ea4ace2b86f2fd5d920e72a2086021f585de496c7f0a8183fc9d22665bd","timestamp":"2025-10-16T18:13:47Z","subdir":"aws/protocol/eventstream","vcs_ref":"refs/tags/aws/protocol/eventstream/v1.7.2"},\
++{"module":"github.com/aws/aws-sdk-go-v2/feature/ec2/imds","version":"v1.18.13","vcs_hash":"45e2d6bf4c7e64f4f8fd4ce4f5c93360285f18b7f29072204cee529378cc3ed5","timestamp":"2025-11-04T19:16:04Z","subdir":"feature/ec2/imds","vcs_ref":"refs/tags/feature/ec2/imds/v1.18.13"},\
++{"module":"github.com/aws/aws-sdk-go-v2/feature/ec2/imds","version":"v1.18.4","vcs_hash":"f77bc22040ddae697de68ec8bebd3c584e616c8989a6934f3c03b343efb8e73b","timestamp":"2025-08-21T18:32:18Z","subdir":"feature/ec2/imds","vcs_ref":"refs/tags/feature/ec2/imds/v1.18.4"},\
++{"module":"github.com/aws/aws-sdk-go-v2/feature/ec2/imds","version":"v1.18.20","vcs_hash":"818d606681d1fed2dbc89f77457816b3fa88a6be6b11cf2df80ee7201ed0f55b","timestamp":"2026-03-13T19:23:05Z","subdir":"feature/ec2/imds","vcs_ref":"refs/tags/feature/ec2/imds/v1.18.20"},\
++{"module":"github.com/aws/aws-sdk-go-v2/feature/s3/manager","version":"v1.17.10","vcs_hash":"cb865e07742cd1082075e62a7aa437a1d7a36c2b59650fb3917b59facf9c9870","timestamp":"2024-08-02T18:27:55Z","subdir":"feature/s3/manager","vcs_ref":"refs/tags/feature/s3/manager/v1.17.10"},\
++{"module":"github.com/aws/aws-sdk-go-v2/internal/v4a","version":"v1.4.12","vcs_hash":"30fcbbe2bfcdefbdee0241f6a6d77f9835d4eb5be47610351b16d59c88f91da7","timestamp":"2025-10-30T18:22:40Z","subdir":"internal/v4a","vcs_ref":"refs/tags/internal/v4a/v1.4.12"},\
++{"module":"github.com/aws/aws-sdk-go-v2/internal/v4a","version":"v1.4.4","vcs_hash":"f77bc22040ddae697de68ec8bebd3c584e616c8989a6934f3c03b343efb8e73b","timestamp":"2025-08-21T18:32:18Z","subdir":"internal/v4a","vcs_ref":"refs/tags/internal/v4a/v1.4.4"},\
++{"module":"github.com/aws/aws-sdk-go-v2/internal/endpoints/v2","version":"v2.7.13","vcs_hash":"45e2d6bf4c7e64f4f8fd4ce4f5c93360285f18b7f29072204cee529378cc3ed5","timestamp":"2025-11-04T19:16:04Z","subdir":"internal/endpoints","vcs_ref":"refs/tags/internal/endpoints/v2.7.13"},\
++{"module":"github.com/aws/aws-sdk-go-v2/internal/endpoints/v2","version":"v2.7.4","vcs_hash":"f77bc22040ddae697de68ec8bebd3c584e616c8989a6934f3c03b343efb8e73b","timestamp":"2025-08-21T18:32:18Z","subdir":"internal/endpoints","vcs_ref":"refs/tags/internal/endpoints/v2.7.4"},\
++{"module":"github.com/aws/aws-sdk-go-v2/internal/endpoints/v2","version":"v2.7.20","vcs_hash":"818d606681d1fed2dbc89f77457816b3fa88a6be6b11cf2df80ee7201ed0f55b","timestamp":"2026-03-13T19:23:05Z","subdir":"internal/endpoints","vcs_ref":"refs/tags/internal/endpoints/v2.7.20"},\
++{"module":"github.com/aws/aws-sdk-go-v2/internal/configsources","version":"v1.4.13","vcs_hash":"45e2d6bf4c7e64f4f8fd4ce4f5c93360285f18b7f29072204cee529378cc3ed5","timestamp":"2025-11-04T19:16:04Z","subdir":"internal/configsources","vcs_ref":"refs/tags/internal/configsources/v1.4.13"},\
++{"module":"github.com/aws/aws-sdk-go-v2/internal/configsources","version":"v1.4.20","vcs_hash":"818d606681d1fed2dbc89f77457816b3fa88a6be6b11cf2df80ee7201ed0f55b","timestamp":"2026-03-13T19:23:05Z","subdir":"internal/configsources","vcs_ref":"refs/tags/internal/configsources/v1.4.20"},\
++{"module":"github.com/aws/aws-sdk-go-v2/internal/configsources","version":"v1.4.4","vcs_hash":"f77bc22040ddae697de68ec8bebd3c584e616c8989a6934f3c03b343efb8e73b","timestamp":"2025-08-21T18:32:18Z","subdir":"internal/configsources","vcs_ref":"refs/tags/internal/configsources/v1.4.4"},\
++{"module":"github.com/aws/aws-sdk-go-v2/internal/ini","version":"v1.8.4","vcs_hash":"7beb4ea4ace2b86f2fd5d920e72a2086021f585de496c7f0a8183fc9d22665bd","timestamp":"2025-10-16T18:13:47Z","subdir":"internal/ini","vcs_ref":"refs/tags/internal/ini/v1.8.4"},\
++{"module":"github.com/aws/aws-sdk-go-v2/internal/ini","version":"v1.8.3","vcs_hash":"59776778bcd1c2364b3cf068aae3bc4af675e9db26b504cdf63cfcd408196f9d","timestamp":"2025-02-18T20:03:01Z","subdir":"internal/ini","vcs_ref":"refs/tags/internal/ini/v1.8.3"},\
++{"module":"github.com/aws/aws-sdk-go-v2/internal/ini","version":"v1.8.6","vcs_hash":"818d606681d1fed2dbc89f77457816b3fa88a6be6b11cf2df80ee7201ed0f55b","timestamp":"2026-03-13T19:23:05Z","subdir":"internal/ini","vcs_ref":"refs/tags/internal/ini/v1.8.6"},\
++{"module":"github.com/aws/aws-sdk-go-v2","version":"v1.41.4","vcs_hash":"818d606681d1fed2dbc89f77457816b3fa88a6be6b11cf2df80ee7201ed0f55b","timestamp":"2026-03-13T19:23:05Z","subdir":"","vcs_ref":"refs/tags/v1.41.4"},\
+ {"module":"github.com/aws/aws-sdk-go-v2","version":"v1.39.6","vcs_hash":"45e2d6bf4c7e64f4f8fd4ce4f5c93360285f18b7f29072204cee529378cc3ed5","timestamp":"2025-11-04T19:16:04Z","subdir":"","vcs_ref":"refs/tags/v1.39.6"},\
+ {"module":"github.com/aws/aws-sdk-go-v2","version":"v1.38.1","vcs_hash":"f77bc22040ddae697de68ec8bebd3c584e616c8989a6934f3c03b343efb8e73b","timestamp":"2025-08-21T18:32:18Z","subdir":"","vcs_ref":"refs/tags/v1.38.1"},\
+-{"module":"github.com/aws/aws-sdk-go-v2/credentials","version":"v1.18.24","vcs_hash":"78b72da8835a5f1e87ef9c241f8dcd2d750eaedf954486c831b428fd0e6a6def","timestamp":"2025-11-12T19:22:56Z","subdir":"credentials","vcs_ref":"refs/tags/credentials/v1.18.24"},\
+ {"module":"github.com/aws/aws-sdk-go-v2/credentials","version":"v1.18.7","vcs_hash":"158f4c475d58f45270a2ee360121c0d872bd0af86a66d1a33ae01e7d47d3c0eb","timestamp":"2025-08-26T18:27:23Z","subdir":"credentials","vcs_ref":"refs/tags/credentials/v1.18.7"},\
+-{"module":"github.com/aws/aws-sdk-go-v2/service/sts","version":"v1.40.2","vcs_hash":"78b72da8835a5f1e87ef9c241f8dcd2d750eaedf954486c831b428fd0e6a6def","timestamp":"2025-11-12T19:22:56Z","subdir":"service/sts","vcs_ref":"refs/tags/service/sts/v1.40.2"},\
+-{"module":"github.com/aws/aws-sdk-go-v2/service/sts","version":"v1.38.0","vcs_hash":"f77bc22040ddae697de68ec8bebd3c584e616c8989a6934f3c03b343efb8e73b","timestamp":"2025-08-21T18:32:18Z","subdir":"service/sts","vcs_ref":"refs/tags/service/sts/v1.38.0"},\
+-{"module":"github.com/aws/aws-sdk-go-v2/service/sso","version":"v1.28.2","vcs_hash":"f77bc22040ddae697de68ec8bebd3c584e616c8989a6934f3c03b343efb8e73b","timestamp":"2025-08-21T18:32:18Z","subdir":"service/sso","vcs_ref":"refs/tags/service/sso/v1.28.2"},\
+-{"module":"github.com/aws/aws-sdk-go-v2/service/sso","version":"v1.30.3","vcs_hash":"78b72da8835a5f1e87ef9c241f8dcd2d750eaedf954486c831b428fd0e6a6def","timestamp":"2025-11-12T19:22:56Z","subdir":"service/sso","vcs_ref":"refs/tags/service/sso/v1.30.3"},\
+-{"module":"github.com/aws/aws-sdk-go-v2/service/s3","version":"v1.89.1","vcs_hash":"30fcbbe2bfcdefbdee0241f6a6d77f9835d4eb5be47610351b16d59c88f91da7","timestamp":"2025-10-30T18:22:40Z","subdir":"service/s3","vcs_ref":"refs/tags/service/s3/v1.89.1"},\
+-{"module":"github.com/aws/aws-sdk-go-v2/service/s3","version":"v1.87.1","vcs_hash":"f77bc22040ddae697de68ec8bebd3c584e616c8989a6934f3c03b343efb8e73b","timestamp":"2025-08-21T18:32:18Z","subdir":"service/s3","vcs_ref":"refs/tags/service/s3/v1.87.1"},\
++{"module":"github.com/aws/aws-sdk-go-v2/credentials","version":"v1.19.12","vcs_hash":"818d606681d1fed2dbc89f77457816b3fa88a6be6b11cf2df80ee7201ed0f55b","timestamp":"2026-03-13T19:23:05Z","subdir":"credentials","vcs_ref":"refs/tags/credentials/v1.19.12"},\
++{"module":"github.com/aws/aws-sdk-go-v2/credentials","version":"v1.18.24","vcs_hash":"78b72da8835a5f1e87ef9c241f8dcd2d750eaedf954486c831b428fd0e6a6def","timestamp":"2025-11-12T19:22:56Z","subdir":"credentials","vcs_ref":"refs/tags/credentials/v1.18.24"},\
++{"module":"github.com/aws/aws-sdk-go-v2/config","version":"v1.32.12","vcs_hash":"818d606681d1fed2dbc89f77457816b3fa88a6be6b11cf2df80ee7201ed0f55b","timestamp":"2026-03-13T19:23:05Z","subdir":"config","vcs_ref":"refs/tags/config/v1.32.12"},\
++{"module":"github.com/aws/aws-sdk-go-v2/config","version":"v1.31.20","vcs_hash":"78b72da8835a5f1e87ef9c241f8dcd2d750eaedf954486c831b428fd0e6a6def","timestamp":"2025-11-12T19:22:56Z","subdir":"config","vcs_ref":"refs/heads/main"},\
++{"module":"github.com/aws/aws-sdk-go-v2/config","version":"v1.31.3","vcs_hash":"158f4c475d58f45270a2ee360121c0d872bd0af86a66d1a33ae01e7d47d3c0eb","timestamp":"2025-08-26T18:27:23Z","subdir":"config","vcs_ref":"refs/tags/config/v1.31.3"},\
++{"module":"github.com/aws/aws-sdk-go-v2/service/signin","version":"v1.0.8","vcs_hash":"818d606681d1fed2dbc89f77457816b3fa88a6be6b11cf2df80ee7201ed0f55b","timestamp":"2026-03-13T19:23:05Z","subdir":"service/signin","vcs_ref":"refs/tags/service/signin/v1.0.8"},\
+ {"module":"github.com/aws/aws-sdk-go-v2/service/internal/s3shared","version":"v1.19.12","vcs_hash":"30fcbbe2bfcdefbdee0241f6a6d77f9835d4eb5be47610351b16d59c88f91da7","timestamp":"2025-10-30T18:22:40Z","subdir":"service/internal/s3shared","vcs_ref":"refs/tags/service/internal/s3shared/v1.19.12"},\
+ {"module":"github.com/aws/aws-sdk-go-v2/service/internal/s3shared","version":"v1.19.4","vcs_hash":"f77bc22040ddae697de68ec8bebd3c584e616c8989a6934f3c03b343efb8e73b","timestamp":"2025-08-21T18:32:18Z","subdir":"service/internal/s3shared","vcs_ref":"refs/tags/service/internal/s3shared/v1.19.4"},\
++{"module":"github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding","version":"v1.13.7","vcs_hash":"818d606681d1fed2dbc89f77457816b3fa88a6be6b11cf2df80ee7201ed0f55b","timestamp":"2026-03-13T19:23:05Z","subdir":"service/internal/accept-encoding","vcs_ref":"refs/tags/service/internal/accept-encoding/v1.13.7"},\
+ {"module":"github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding","version":"v1.13.3","vcs_hash":"45e2d6bf4c7e64f4f8fd4ce4f5c93360285f18b7f29072204cee529378cc3ed5","timestamp":"2025-11-04T19:16:04Z","subdir":"service/internal/accept-encoding","vcs_ref":"refs/tags/service/internal/accept-encoding/v1.13.3"},\
+ {"module":"github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding","version":"v1.13.0","vcs_hash":"df9ff661e9255a23fb41298936640e56610c9dcf7556c6dc1cb9570419c85b19","timestamp":"2025-07-28T19:01:15Z","subdir":"service/internal/accept-encoding","vcs_ref":"refs/tags/service/internal/accept-encoding/v1.13.0"},\
+-{"module":"github.com/aws/aws-sdk-go-v2/service/internal/presigned-url","version":"v1.13.4","vcs_hash":"f77bc22040ddae697de68ec8bebd3c584e616c8989a6934f3c03b343efb8e73b","timestamp":"2025-08-21T18:32:18Z","subdir":"service/internal/presigned-url","vcs_ref":"refs/tags/service/internal/presigned-url/v1.13.4"},\
+ {"module":"github.com/aws/aws-sdk-go-v2/service/internal/presigned-url","version":"v1.13.13","vcs_hash":"45e2d6bf4c7e64f4f8fd4ce4f5c93360285f18b7f29072204cee529378cc3ed5","timestamp":"2025-11-04T19:16:04Z","subdir":"service/internal/presigned-url","vcs_ref":"refs/tags/service/internal/presigned-url/v1.13.13"},\
+-{"module":"github.com/aws/aws-sdk-go-v2/service/internal/checksum","version":"v1.8.4","vcs_hash":"f77bc22040ddae697de68ec8bebd3c584e616c8989a6934f3c03b343efb8e73b","timestamp":"2025-08-21T18:32:18Z","subdir":"service/internal/checksum","vcs_ref":"refs/tags/service/internal/checksum/v1.8.4"},\
++{"module":"github.com/aws/aws-sdk-go-v2/service/internal/presigned-url","version":"v1.13.20","vcs_hash":"818d606681d1fed2dbc89f77457816b3fa88a6be6b11cf2df80ee7201ed0f55b","timestamp":"2026-03-13T19:23:05Z","subdir":"service/internal/presigned-url","vcs_ref":"refs/tags/service/internal/presigned-url/v1.13.20"},\
++{"module":"github.com/aws/aws-sdk-go-v2/service/internal/presigned-url","version":"v1.13.4","vcs_hash":"f77bc22040ddae697de68ec8bebd3c584e616c8989a6934f3c03b343efb8e73b","timestamp":"2025-08-21T18:32:18Z","subdir":"service/internal/presigned-url","vcs_ref":"refs/tags/service/internal/presigned-url/v1.13.4"},\
+ {"module":"github.com/aws/aws-sdk-go-v2/service/internal/checksum","version":"v1.9.3","vcs_hash":"30fcbbe2bfcdefbdee0241f6a6d77f9835d4eb5be47610351b16d59c88f91da7","timestamp":"2025-10-30T18:22:40Z","subdir":"service/internal/checksum","vcs_ref":"refs/tags/service/internal/checksum/v1.9.3"},\
+-{"module":"github.com/aws/aws-sdk-go-v2/service/ssooidc","version":"v1.35.7","vcs_hash":"78b72da8835a5f1e87ef9c241f8dcd2d750eaedf954486c831b428fd0e6a6def","timestamp":"2025-11-12T19:22:56Z","subdir":"service/ssooidc","vcs_ref":"refs/tags/service/ssooidc/v1.35.7"},\
++{"module":"github.com/aws/aws-sdk-go-v2/service/internal/checksum","version":"v1.8.4","vcs_hash":"f77bc22040ddae697de68ec8bebd3c584e616c8989a6934f3c03b343efb8e73b","timestamp":"2025-08-21T18:32:18Z","subdir":"service/internal/checksum","vcs_ref":"refs/tags/service/internal/checksum/v1.8.4"},\
++{"module":"github.com/aws/aws-sdk-go-v2/service/s3","version":"v1.89.1","vcs_hash":"30fcbbe2bfcdefbdee0241f6a6d77f9835d4eb5be47610351b16d59c88f91da7","timestamp":"2025-10-30T18:22:40Z","subdir":"service/s3","vcs_ref":"refs/tags/service/s3/v1.89.1"},\
++{"module":"github.com/aws/aws-sdk-go-v2/service/s3","version":"v1.87.1","vcs_hash":"f77bc22040ddae697de68ec8bebd3c584e616c8989a6934f3c03b343efb8e73b","timestamp":"2025-08-21T18:32:18Z","subdir":"service/s3","vcs_ref":"refs/tags/service/s3/v1.87.1"},\
++{"module":"github.com/aws/aws-sdk-go-v2/service/sso","version":"v1.28.2","vcs_hash":"f77bc22040ddae697de68ec8bebd3c584e616c8989a6934f3c03b343efb8e73b","timestamp":"2025-08-21T18:32:18Z","subdir":"service/sso","vcs_ref":"refs/tags/service/sso/v1.28.2"},\
++{"module":"github.com/aws/aws-sdk-go-v2/service/sso","version":"v1.30.3","vcs_hash":"78b72da8835a5f1e87ef9c241f8dcd2d750eaedf954486c831b428fd0e6a6def","timestamp":"2025-11-12T19:22:56Z","subdir":"service/sso","vcs_ref":"refs/tags/service/sso/v1.30.3"},\
++{"module":"github.com/aws/aws-sdk-go-v2/service/sso","version":"v1.30.13","vcs_hash":"818d606681d1fed2dbc89f77457816b3fa88a6be6b11cf2df80ee7201ed0f55b","timestamp":"2026-03-13T19:23:05Z","subdir":"service/sso","vcs_ref":"refs/tags/service/sso/v1.30.13"},\
++{"module":"github.com/aws/aws-sdk-go-v2/service/sts","version":"v1.40.2","vcs_hash":"78b72da8835a5f1e87ef9c241f8dcd2d750eaedf954486c831b428fd0e6a6def","timestamp":"2025-11-12T19:22:56Z","subdir":"service/sts","vcs_ref":"refs/tags/service/sts/v1.40.2"},\
++{"module":"github.com/aws/aws-sdk-go-v2/service/sts","version":"v1.41.9","vcs_hash":"818d606681d1fed2dbc89f77457816b3fa88a6be6b11cf2df80ee7201ed0f55b","timestamp":"2026-03-13T19:23:05Z","subdir":"service/sts","vcs_ref":"refs/tags/service/sts/v1.41.9"},\
++{"module":"github.com/aws/aws-sdk-go-v2/service/sts","version":"v1.38.0","vcs_hash":"f77bc22040ddae697de68ec8bebd3c584e616c8989a6934f3c03b343efb8e73b","timestamp":"2025-08-21T18:32:18Z","subdir":"service/sts","vcs_ref":"refs/tags/service/sts/v1.38.0"},\
+ {"module":"github.com/aws/aws-sdk-go-v2/service/ssooidc","version":"v1.34.0","vcs_hash":"158f4c475d58f45270a2ee360121c0d872bd0af86a66d1a33ae01e7d47d3c0eb","timestamp":"2025-08-26T18:27:23Z","subdir":"service/ssooidc","vcs_ref":"refs/tags/service/ssooidc/v1.34.0"},\
+-{"module":"github.com/aws/aws-sdk-go-v2/internal/endpoints/v2","version":"v2.7.13","vcs_hash":"45e2d6bf4c7e64f4f8fd4ce4f5c93360285f18b7f29072204cee529378cc3ed5","timestamp":"2025-11-04T19:16:04Z","subdir":"internal/endpoints","vcs_ref":"refs/tags/internal/endpoints/v2.7.13"},\
+-{"module":"github.com/aws/aws-sdk-go-v2/internal/endpoints/v2","version":"v2.7.4","vcs_hash":"f77bc22040ddae697de68ec8bebd3c584e616c8989a6934f3c03b343efb8e73b","timestamp":"2025-08-21T18:32:18Z","subdir":"internal/endpoints","vcs_ref":"refs/tags/internal/endpoints/v2.7.4"},\
+-{"module":"github.com/aws/aws-sdk-go-v2/internal/v4a","version":"v1.4.4","vcs_hash":"f77bc22040ddae697de68ec8bebd3c584e616c8989a6934f3c03b343efb8e73b","timestamp":"2025-08-21T18:32:18Z","subdir":"internal/v4a","vcs_ref":"refs/tags/internal/v4a/v1.4.4"},\
+-{"module":"github.com/aws/aws-sdk-go-v2/internal/v4a","version":"v1.4.12","vcs_hash":"30fcbbe2bfcdefbdee0241f6a6d77f9835d4eb5be47610351b16d59c88f91da7","timestamp":"2025-10-30T18:22:40Z","subdir":"internal/v4a","vcs_ref":"refs/tags/internal/v4a/v1.4.12"},\
+-{"module":"github.com/aws/aws-sdk-go-v2/internal/configsources","version":"v1.4.13","vcs_hash":"45e2d6bf4c7e64f4f8fd4ce4f5c93360285f18b7f29072204cee529378cc3ed5","timestamp":"2025-11-04T19:16:04Z","subdir":"internal/configsources","vcs_ref":"refs/tags/internal/configsources/v1.4.13"},\
+-{"module":"github.com/aws/aws-sdk-go-v2/internal/configsources","version":"v1.4.4","vcs_hash":"f77bc22040ddae697de68ec8bebd3c584e616c8989a6934f3c03b343efb8e73b","timestamp":"2025-08-21T18:32:18Z","subdir":"internal/configsources","vcs_ref":"refs/tags/internal/configsources/v1.4.4"},\
+-{"module":"github.com/aws/aws-sdk-go-v2/internal/ini","version":"v1.8.3","vcs_hash":"59776778bcd1c2364b3cf068aae3bc4af675e9db26b504cdf63cfcd408196f9d","timestamp":"2025-02-18T20:03:01Z","subdir":"internal/ini","vcs_ref":"refs/tags/internal/ini/v1.8.3"},\
+-{"module":"github.com/aws/aws-sdk-go-v2/internal/ini","version":"v1.8.4","vcs_hash":"7beb4ea4ace2b86f2fd5d920e72a2086021f585de496c7f0a8183fc9d22665bd","timestamp":"2025-10-16T18:13:47Z","subdir":"internal/ini","vcs_ref":"refs/tags/internal/ini/v1.8.4"},\
+-{"module":"github.com/aws/aws-sdk-go-v2/config","version":"v1.31.20","vcs_hash":"78b72da8835a5f1e87ef9c241f8dcd2d750eaedf954486c831b428fd0e6a6def","timestamp":"2025-11-12T19:22:56Z","subdir":"config","vcs_ref":"refs/heads/main"},\
+-{"module":"github.com/aws/aws-sdk-go-v2/config","version":"v1.31.3","vcs_hash":"158f4c475d58f45270a2ee360121c0d872bd0af86a66d1a33ae01e7d47d3c0eb","timestamp":"2025-08-26T18:27:23Z","subdir":"config","vcs_ref":"refs/tags/config/v1.31.3"},\
+-{"module":"github.com/aws/aws-sdk-go-v2/feature/ec2/imds","version":"v1.18.4","vcs_hash":"f77bc22040ddae697de68ec8bebd3c584e616c8989a6934f3c03b343efb8e73b","timestamp":"2025-08-21T18:32:18Z","subdir":"feature/ec2/imds","vcs_ref":"refs/tags/feature/ec2/imds/v1.18.4"},\
+-{"module":"github.com/aws/aws-sdk-go-v2/feature/ec2/imds","version":"v1.18.13","vcs_hash":"45e2d6bf4c7e64f4f8fd4ce4f5c93360285f18b7f29072204cee529378cc3ed5","timestamp":"2025-11-04T19:16:04Z","subdir":"feature/ec2/imds","vcs_ref":"refs/tags/feature/ec2/imds/v1.18.13"},\
+-{"module":"github.com/aws/aws-sdk-go-v2/feature/s3/manager","version":"v1.17.10","vcs_hash":"cb865e07742cd1082075e62a7aa437a1d7a36c2b59650fb3917b59facf9c9870","timestamp":"2024-08-02T18:27:55Z","subdir":"feature/s3/manager","vcs_ref":"refs/tags/feature/s3/manager/v1.17.10"},\
+-{"module":"github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream","version":"v1.7.0","vcs_hash":"df9ff661e9255a23fb41298936640e56610c9dcf7556c6dc1cb9570419c85b19","timestamp":"2025-07-28T19:01:15Z","subdir":"aws/protocol/eventstream","vcs_ref":"refs/tags/aws/protocol/eventstream/v1.7.0"},\
+-{"module":"github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream","version":"v1.7.2","vcs_hash":"7beb4ea4ace2b86f2fd5d920e72a2086021f585de496c7f0a8183fc9d22665bd","timestamp":"2025-10-16T18:13:47Z","subdir":"aws/protocol/eventstream","vcs_ref":"refs/tags/aws/protocol/eventstream/v1.7.2"},\
+-{"module":"github.com/open-policy-agent/opa","version":"v1.10.1","vcs_hash":"70e752e43ab7d75f9f6aeb2ffc6cb3be9e5d708f347ed6858ff3d3c287e2ccee","timestamp":"2025-11-05T09:06:03Z","subdir":"","vcs_ref":"refs/tags/v1.10.1"},\
+-{"module":"github.com/rogpeppe/fastuuid","version":"v1.2.0","vcs_hash":"20ca2e2cf2990cc136cad7958992d06abd356dc16a58362afd2bd51be48ae0ac","timestamp":"2019-07-08T15:05:45Z","subdir":"","vcs_ref":"refs/tags/v1.2.0"},\
+-{"module":"github.com/rogpeppe/go-internal","version":"v1.14.1","vcs_hash":"84674da628e57d1722274a512e0879c23e8465ad7ef7e016c3bc39c8ea13175b","timestamp":"2025-02-25T12:37:03Z","subdir":"","vcs_ref":"refs/tags/v1.14.1"},\
+-{"module":"github.com/zeebo/errs","version":"v1.3.0","vcs_hash":"39db003c7dfcc8ee4cbaee7626cb0f113936318043f7a7b09d6fa4609f36e609","timestamp":"2022-03-17T17:23:02Z","subdir":"","vcs_ref":"refs/tags/v1.3.0"},\
++{"module":"github.com/aws/aws-sdk-go-v2/service/ssooidc","version":"v1.35.7","vcs_hash":"78b72da8835a5f1e87ef9c241f8dcd2d750eaedf954486c831b428fd0e6a6def","timestamp":"2025-11-12T19:22:56Z","subdir":"service/ssooidc","vcs_ref":"refs/tags/service/ssooidc/v1.35.7"},\
++{"module":"github.com/aws/aws-sdk-go-v2/service/ssooidc","version":"v1.35.17","vcs_hash":"818d606681d1fed2dbc89f77457816b3fa88a6be6b11cf2df80ee7201ed0f55b","timestamp":"2026-03-13T19:23:05Z","subdir":"service/ssooidc","vcs_ref":"refs/tags/service/ssooidc/v1.35.17"},\
++{"module":"github.com/x448/float16","version":"v0.8.4","vcs_hash":"e395eca01f11e874b5b2b165e3dc2620faa30374fb308657449d3a3023ce5cbb","timestamp":"2020-01-17T18:31:28Z","subdir":"","vcs_ref":"refs/tags/v0.8.4"},\
++{"module":"github.com/compose-spec/compose-go/v2","version":"v2.10.0","vcs_hash":"d8fd5c67a84d5ea37d52775ed8dea1df6cf236cab46b058f80a0e7ca6bfd75d5","timestamp":"2025-11-25T16:15:06Z","subdir":"","vcs_ref":"refs/tags/v2.10.0"},\
++{"module":"github.com/compose-spec/compose-go/v2","version":"v2.11.0","vcs_hash":"ad485325c266dc74bbd847a2f69989257e9d02e0e9f052790c41c17cd937da7b","timestamp":"2026-05-20T13:39:54Z","subdir":"","vcs_ref":"refs/tags/v2.11.0"},\
++{"module":"github.com/compose-spec/compose-go/v2","version":"v2.10.1","vcs_hash":"540724791cad2555f778786ca9d0adbdb0be7b773c591ca036bd86ca2053a063","timestamp":"2026-01-16T07:37:13Z","subdir":"","vcs_ref":"refs/tags/v2.10.1"},\
++{"module":"github.com/urfave/cli","version":"v1.22.17","vcs_hash":"e30b4b6c880a60654fa02d3559f2088eddf5fbe9bc92870b9df3d72357f735d0","timestamp":"2025-06-14T02:43:22Z","subdir":"","vcs_ref":"refs/tags/v1.22.17"},\
++{"module":"github.com/urfave/cli/v2","version":"v2.27.7","vcs_hash":"b063b9db6f64a681153d8de9f4474fe963c29b610e0cb156372dbc3dffad882a","timestamp":"2025-06-14T02:47:17Z","subdir":"","vcs_ref":"refs/tags/v2.27.7"},\
++{"module":"github.com/mdlayher/socket","version":"v0.5.1","vcs_hash":"ade2a4b5630096b489828944f4f75b866125a6d37fc95c3524f0cc002cbe8cf9","timestamp":"2024-03-15T15:39:10Z","subdir":"","vcs_ref":"refs/tags/v0.5.1"},\
++{"module":"github.com/mdlayher/vsock","version":"v1.2.1","vcs_hash":"a7b2ec13026e78d41b91e1e452aab0a78ae155b70966624ec8e5e52ba56a0b08","timestamp":"2023-04-29T14:19:24Z","subdir":"","vcs_ref":"refs/tags/v1.2.1"},\
++{"module":"github.com/serialx/hashring","version":"v0.0.0-20200727003509-22c0c7ab6b1b","vcs_hash":"9ad302311a59b7a00732c9d2e738e872440b07b223df6f9dc7104acafedb16ee","timestamp":"2020-07-27T00:35:09Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/containernetworking/plugins","version":"v1.8.0","vcs_hash":"f6503a87c1f81aa33a6d29c40a420afbc08e92fc8e1791dc7f439650e37194ca","timestamp":"2025-09-01T15:23:06Z","subdir":"","vcs_ref":"refs/tags/v1.8.0"},\
++{"module":"github.com/containernetworking/plugins","version":"v1.9.0","vcs_hash":"f1741bcddc19dacbe0697ac406a478c08fb3a5527dfb1c4a43b549a9c1a420d3","timestamp":"2025-11-13T11:10:49Z","subdir":"","vcs_ref":"refs/tags/v1.9.0"},\
++{"module":"github.com/containernetworking/plugins","version":"v1.9.1","vcs_hash":"2b3eda7e17ff627f468e75cc8a571c8e768ce530e404aa2348da7feff5fa0749","timestamp":"2026-02-19T11:31:52Z","subdir":"","vcs_ref":"refs/tags/v1.9.1"},\
++{"module":"github.com/containernetworking/cni","version":"v1.3.0","vcs_hash":"6fa30880d920c48b1630347223a375694a450629a1037b649907b1ab1f2f237a","timestamp":"2025-04-07T15:37:53Z","subdir":"","vcs_ref":"refs/tags/v1.3.0"},\
++{"module":"github.com/klauspost/compress","version":"v1.18.5","vcs_hash":"73840f50baef91a8d14c064e11574fe893f3c31688d0d7a5eda27de28bac8e22","timestamp":"2026-03-19T08:46:35Z","subdir":"","vcs_ref":"refs/tags/v1.18.5"},\
++{"module":"github.com/klauspost/compress","version":"v1.18.1","vcs_hash":"b48c3ccd9eeacff33408e742c5cba28495d19318773a2419734e1f7f12be4596","timestamp":"2025-10-02T12:00:22Z","subdir":"","vcs_ref":"refs/tags/v1.18.1"},\
++{"module":"github.com/klauspost/compress","version":"v1.18.3","vcs_hash":"0f346d4ee0d1e9d85741e16fef8a30c1cb637c33a2d4b0c6f46bb41ce24e3619","timestamp":"2026-01-16T09:08:20Z","subdir":"","vcs_ref":"refs/tags/v1.18.3"},\
++{"module":"github.com/gorilla/websocket","version":"v1.5.4-0.20250319132907-e064f32e3674","vcs_hash":"722c87c831f4b73fd3a40f24d8693191974f7a5a180d73f29a05c9bb3f84589f","timestamp":"2025-03-19T13:29:07Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/gorilla/mux","version":"v1.7.0","vcs_hash":"e9f6dcbb74dd04784ade5364ce0688a4247bdb04e0cc5ea8774218e7cf8a65c5","timestamp":"2019-01-25T16:05:53Z","subdir":"","vcs_ref":"refs/tags/v1.7.0"},\
++{"module":"github.com/gorilla/mux","version":"v1.8.1","vcs_hash":"489d4511710bd1a1fc80974aa65ee7c2b851f7c6354c34549b8cd131f4435f0f","timestamp":"2023-10-18T11:23:00Z","subdir":"","vcs_ref":"refs/tags/v1.8.1"},\
++{"module":"github.com/opencontainers/image-spec","version":"v1.0.1","vcs_hash":"cc3b5f635a95bc8a8d17057e77e824e9203543710d27cab434eae6bda0ebd445","timestamp":"2017-10-30T17:47:40Z","subdir":"","vcs_ref":"refs/tags/v1.0.1"},\
++{"module":"github.com/opencontainers/image-spec","version":"v1.1.1","vcs_hash":"5bb7cbac46d5df774d087c364c00445553d3db253ca80dc7050c4e57832c118d","timestamp":"2025-02-24T17:26:57Z","subdir":"","vcs_ref":"refs/tags/v1.1.1"},\
++{"module":"github.com/opencontainers/runtime-spec","version":"v1.2.1","vcs_hash":"527ad6550cd654c758c3a90c33fba5de9598578a66be5e157153797cc1e49aa3","timestamp":"2025-02-25T22:46:15Z","subdir":"","vcs_ref":"refs/tags/v1.2.1"},\
++{"module":"github.com/opencontainers/runtime-spec","version":"v1.3.0","vcs_hash":"d9c05db6124626de7f86b5f7cf385d2a821699e74a3a1d784837399c70f4e1b9","timestamp":"2025-11-02T07:35:43Z","subdir":"","vcs_ref":"refs/tags/v1.3.0"},\
++{"module":"github.com/opencontainers/selinux","version":"v1.13.1","vcs_hash":"19ef4b30214c57e5419f63e4397a9c0d90436c49b54e0ae99e1c9a4b964f28e2","timestamp":"2025-11-14T16:04:08Z","subdir":"","vcs_ref":"refs/tags/v1.13.1"},\
++{"module":"github.com/opencontainers/selinux","version":"v1.12.0","vcs_hash":"4335d93e7b91bac4d4e22725cfaafc1cae44ef37a037022ea852d084e488e42a","timestamp":"2025-03-20T18:30:23Z","subdir":"","vcs_ref":"refs/tags/v1.12.0"},\
++{"module":"github.com/opencontainers/runtime-tools","version":"v0.9.1-0.20250523060157-0ea5ed0382a2","vcs_hash":"f53bb2252a6ed943b856ebf9ca177b616be13e0631422a2c5167b1eeada6cc21","timestamp":"2025-05-23T06:01:57Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/opencontainers/runtime-tools","version":"v0.9.1-0.20251114084447-edf4cb3d2116","vcs_hash":"9120451d0089ff79de31a4292e8836bebf3ee5e2d7e8c4852764fee040cbfc1e","timestamp":"2025-11-14T08:44:47Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/opencontainers/go-digest","version":"v0.0.0-20170106003457-a6d0ee40d420","vcs_hash":"023b07658f561af4e33906504bb1dff6d66e7a4b8ef99fcf0927e6d101be98bd","timestamp":"2017-01-06T00:34:57Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/opencontainers/go-digest","version":"v1.0.0","vcs_hash":"1a4d20c74c510ca00ecb86a3379c151579ed626508723e74a394480a71a0af24","timestamp":"2020-05-14T01:46:00Z","subdir":"","vcs_ref":"refs/tags/v1.0.0"},\
++{"module":"github.com/checkpoint-restore/go-criu/v7","version":"v7.2.0","vcs_hash":"cd3a96bfb455f01e0ad41b83fe0a2ba40c017e12b43cf536dd72401c0a9efa9b","timestamp":"2024-09-09T09:30:43Z","subdir":"","vcs_ref":"refs/tags/v7.2.0"},\
++{"module":"github.com/checkpoint-restore/checkpointctl","version":"v1.4.0","vcs_hash":"6b759ce79ef9b0cf0e95821c6506ecb3e1f87ff4709b914b3e18ce7b12ed0769","timestamp":"2025-09-01T08:42:45Z","subdir":"","vcs_ref":"refs/tags/v1.4.0"},\
++{"module":"github.com/go-ini/ini","version":"v1.67.0","vcs_hash":"cad9f449f807ba878152dab9e71ba0f300b51a0a69390f502d55fb24a11f73a2","timestamp":"2022-08-08T11:35:30Z","subdir":"","vcs_ref":"refs/tags/v1.67.0"},\
++{"module":"github.com/emicklei/go-restful/v3","version":"v3.13.0","vcs_hash":"2b1cb5344031e14606bed4c9c1a5462fa536c12e0f7359188d69f5709fdff9a1","timestamp":"2025-08-14T12:44:48Z","subdir":"","vcs_ref":"refs/tags/v3.13.0"},\
++{"module":"github.com/vbatts/tar-split","version":"v0.12.2","vcs_hash":"748e9d5ff174cd19acc98de6dc7f6c3d780e0ffcf645aea8c246a36eaa6cac37","timestamp":"2025-10-14T18:26:16Z","subdir":"","vcs_ref":"refs/tags/v0.12.2"},\
++{"module":"github.com/hpcloud/tail","version":"v1.0.0","vcs_hash":"9dfd08c5a4f07a465c8fe6fd4e5e96ac82ccaeba87143831c1a6290e944a3c84","timestamp":"2016-04-28T00:30:50Z","subdir":"","vcs_ref":"refs/tags/v1.0.0"},\
++{"module":"github.com/dvsekhvalnov/jose2go","version":"v0.0.0-20170216131308-f21a8cedbbae","vcs_hash":"3bed371de2aaaf0cbb9c346c5f01b8240e14c9e194179639d31b29aef3704b71","timestamp":"2017-02-16T13:13:08Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/fvbommel/sortorder","version":"v1.1.0","vcs_hash":"f31f7baba1030efc67be0125d6ea3670572de4cf9ef4162f66c110baedf2fc25","timestamp":"2023-03-18T20:06:58Z","subdir":"","vcs_ref":"refs/tags/v1.1.0"},\
++{"module":"github.com/cyberphone/json-canonicalization","version":"v0.0.0-20241213102144-19d51d7fe467","vcs_hash":"0e55f9f02847679b08922b4a88af3131cb189b333af41228fc1ceba858b5fceb","timestamp":"2024-12-13T10:21:44Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/smallstep/pkcs7","version":"v0.1.1","vcs_hash":"2f19e869b678f6b075729ec3df26ac81f8f576057860ead9a9c70212023b6927","timestamp":"2024-12-16T14:13:52Z","subdir":"","vcs_ref":"refs/tags/v0.1.1"},\
++{"module":"github.com/tchap/go-patricia/v2","version":"v2.3.3","vcs_hash":"196ec21f158dd5c10370dcd9b618d17460a5f3dec6cbc351a797a1a4f906b7bb","timestamp":"2025-07-01T06:30:56Z","subdir":"","vcs_ref":"refs/tags/v2.3.3"},\
++{"module":"github.com/felixge/httpsnoop","version":"v1.0.4","vcs_hash":"4faaa0a5649a2ae9245609ad7ed739dbc2e39cfd27a3018400f3dad114269d26","timestamp":"2023-03-12T10:31:09Z","subdir":"","vcs_ref":"refs/tags/v1.0.4"},\
++{"module":"github.com/felixge/fgprof","version":"v0.9.3","vcs_hash":"e4198b9fea19f930b494d86892d08c8dcf4d5828b2b7c19db44e432daeadbd37","timestamp":"2022-09-01T14:50:22Z","subdir":"","vcs_ref":"refs/tags/v0.9.3"},\
++{"module":"github.com/package-url/packageurl-go","version":"v0.1.1","vcs_hash":"69e2d03e1f7870cf593ec577931a0c5fd11729307d2e00a0deabe610548fcd48","timestamp":"2023-06-19T06:37:43Z","subdir":"","vcs_ref":"refs/tags/v0.1.1"},\
++{"module":"github.com/jonboulle/clockwork","version":"v0.5.0","vcs_hash":"8a9b3a40ae13b2679138bcbfbe409f1586f92c23e873f4e219066c6596debc26","timestamp":"2024-11-29T18:02:53Z","subdir":"","vcs_ref":"refs/tags/v0.5.0"},\
++{"module":"github.com/erikstmartin/go-testdb","version":"v0.0.0-20160219214506-8d10e4a1bae5","vcs_hash":"94bdb322899f10502ca21756a20886b09fe0f8e8c7389a50bb21c7a2deb2d047","timestamp":"2016-02-19T21:45:06Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/morikuni/aec","version":"v1.0.0","vcs_hash":"ed63d58cf112e0b59a076da22b09a7543de7421c2457060482db3ad8303454e1","timestamp":"2017-01-13T03:34:06Z","subdir":"","vcs_ref":"refs/tags/v1.0.0"},\
++{"module":"github.com/morikuni/aec","version":"v1.1.0","vcs_hash":"0d08cd9576b9540a641376df67caa20435029f8a332a192fd25ac61685cb1764","timestamp":"2025-12-11T07:08:53Z","subdir":"","vcs_ref":"refs/tags/v1.1.0"},\
++{"module":"github.com/cilium/ebpf","version":"v0.16.0","vcs_hash":"8e810695e5aecdedc82025b50fe217f458e95243dfd6f3a725e4be31bb89421b","timestamp":"2024-07-23T16:13:54Z","subdir":"","vcs_ref":"refs/tags/v0.16.0"},\
++{"module":"github.com/xeipuuv/gojsonreference","version":"v0.0.0-20180127040603-bd5ef7bd5415","vcs_hash":"6cce19ebe3be9e8f13d8b3c5090971f010f3f3cda349fa51197c974450d133ee","timestamp":"2018-01-27T04:06:03Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/xeipuuv/gojsonpointer","version":"v0.0.0-20190905194746-02993c407bfb","vcs_hash":"4b0abfc7aeea962cf44836059fabc8aebf20db8d2e9ce317db13d42ade75c19f","timestamp":"2019-09-05T19:47:46Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/tilt-dev/fsnotify","version":"v1.4.8-0.20220602155310-fff9c274a375","vcs_hash":"7518a2b435d07d055cf9c9215e09d3f354425246b3aaec57d9906b3f344e061e","timestamp":"2022-06-02T15:53:10Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/danieljoos/wincred","version":"v1.2.2","vcs_hash":"4c31e6f58d17a9dddc9ffae620bea8697c6f92b5c7db87875384a33fa8f2c46b","timestamp":"2024-07-14T14:39:00Z","subdir":"","vcs_ref":"refs/tags/v1.2.2"},\
++{"module":"github.com/danieljoos/wincred","version":"v1.2.3","vcs_hash":"27fc7633a915ecb9e3e3c6095cfd2d495010d4208024eefb538180b978864222","timestamp":"2025-10-02T18:24:04Z","subdir":"","vcs_ref":"refs/tags/v1.2.3"},\
++{"module":"github.com/hailocab/go-hostpool","version":"v0.0.0-20160125115350-e80d13ce29ed","vcs_hash":"9c4bc4176e756c26e2cdff114a1c5597225ee9e1831b7404408096c667ad9031","timestamp":"2016-01-25T11:53:50Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/cncf/xds/go","version":"v0.0.0-20260202195803-dba9d589def2","vcs_hash":"cf512fd74c9ed6827318a36d34a156747c5180ecfe10cb19a6ad4d44bb6a1a8a","timestamp":"2026-02-02T19:58:03Z","subdir":"go","vcs_ref":""},\
+ {"module":"github.com/cncf/xds/go","version":"v0.0.0-20251022180443-0feb69152e9f","vcs_hash":"045cd4c74756d97523469c474718cfa5353da2649b74f284c165e81b0d07cd9f","timestamp":"2025-10-22T18:04:43Z","subdir":"go","vcs_ref":""},\
++{"module":"github.com/spf13/viper","version":"v0.0.0-20150530192845-be5ff3e4840c","vcs_hash":"6b7187b929229be5c3959df1ee113d9acd19aff47b973e42b64e50cdf8a0e740","timestamp":"2015-05-30T19:28:45Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/spf13/pflag","version":"v1.0.10","vcs_hash":"737f239b3c3bd4e75040785cfc62b8349a547b1425bba1698b712866455bce75","timestamp":"2025-09-02T06:08:29Z","subdir":"","vcs_ref":"refs/tags/v1.0.10"},\
++{"module":"github.com/spf13/pflag","version":"v1.0.9","vcs_hash":"241e9025159bbbea2f54722542a86c03ff35968a42a753a0a4e0738690720a54","timestamp":"2025-09-01T07:27:15Z","subdir":"","vcs_ref":"refs/tags/v1.0.9"},\
++{"module":"github.com/spf13/pflag","version":"v1.0.0","vcs_hash":"160c6a820138c13e769bbec879294544287b8dfde6af77776f81536ff3f43df9","timestamp":"2017-05-08T18:44:08Z","subdir":"","vcs_ref":"refs/tags/v1.0.0"},\
++{"module":"github.com/spf13/jwalterweatherman","version":"v0.0.0-20141219030609-3d60171a6431","vcs_hash":"3516ad16d930d5653a48f59083d5a5851f1503e64d5f3e4f03dd5094d044ceba","timestamp":"2014-12-19T03:06:09Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/spf13/cast","version":"v0.0.0-20150508191742-4d07383ffe94","vcs_hash":"61ca87f5a674dbb7719ca6806869cee44c68d3463ca0ee867270c61ef55016c5","timestamp":"2015-05-08T19:17:42Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/spf13/cobra","version":"v1.10.2","vcs_hash":"a79409fa1813cac46edeefb925df9a65bfd1c4cf3dd47dbb576c385d5f527685","timestamp":"2025-12-03T23:51:15Z","subdir":"","vcs_ref":"refs/tags/v1.10.2"},\
++{"module":"github.com/spf13/cobra","version":"v0.0.1","vcs_hash":"a6573b02628ec0c919f90bba89f525eac2b0bda84d9dccdcb78b3f07c92b918e","timestamp":"2017-10-12T18:25:33Z","subdir":"","vcs_ref":"refs/tags/v0.0.1"},\
++{"module":"github.com/spf13/cobra","version":"v1.10.1","vcs_hash":"54a02856b15938777c687441dc6597bc487549c163521b5850e769bee67bc2af","timestamp":"2025-09-01T16:19:51Z","subdir":"","vcs_ref":"refs/tags/v1.10.1"},\
++{"module":"github.com/shibumi/go-pathspec","version":"v1.3.0","vcs_hash":"7d6286b09783f24f2ba2db51c2fd61c197637cee9cd88b2e7576338aa579825f","timestamp":"2021-10-17T22:38:10Z","subdir":"","vcs_ref":"refs/tags/v1.3.0"},\
++{"module":"github.com/letsencrypt/boulder","version":"v0.20251110.0","vcs_hash":"89895769acf16e855d1bc7c1ebcd35d23b4fa6c168fa619c2bfd2e9291e7b0aa","timestamp":"2025-11-06T21:18:46Z","subdir":"","vcs_ref":"refs/tags/v0.20251110.0"},\
++{"module":"github.com/golang-sql/civil","version":"v0.0.0-20190719163853-cb61b32ac6fe","vcs_hash":"cf48a794754d9a9b29ff84011cf01764f8e4e9140292e83b4154b89a13f0eee9","timestamp":"2019-07-19T16:38:53Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/skratchdot/open-golang","version":"v0.0.0-20200116055534-eef842397966","vcs_hash":"2049e06101e5abb574af5068dfb1255087c23cd963db0e1f0c82585b42e02bf4","timestamp":"2020-01-16T05:55:34Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/cpuguy83/go-md2man/v2","version":"v2.0.6","vcs_hash":"0b9036af46cc50aa9433a461266e6ef3b3645807c3d1fa49cc53eb201e011781","timestamp":"2024-12-16T17:50:50Z","subdir":"","vcs_ref":"refs/tags/v2.0.6"},\
++{"module":"github.com/cpuguy83/go-md2man/v2","version":"v2.0.7","vcs_hash":"44790142f31974c97a48f51298f4d80d17cdea0211947e7cbfe90054a7fe7774","timestamp":"2025-04-24T23:51:24Z","subdir":"","vcs_ref":"refs/tags/v2.0.7"},\
++{"module":"github.com/jinzhu/gorm","version":"v0.0.0-20170222002820-5409931a1bb8","vcs_hash":"e51ea32193aeb2a5bfab92442113de19e13f387509f58c7979e704306087d5d2","timestamp":"2017-02-22T00:28:20Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/jinzhu/inflection","version":"v0.0.0-20170102125226-1c35d901db3d","vcs_hash":"3bf372ac0a41f41eb6c408c719a9f71d1a31a5cd8260a8135fa90085e5d6c0ce","timestamp":"2017-01-02T12:52:26Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/jinzhu/now","version":"v1.1.1","vcs_hash":"3a2e9d8aa645efa2980908fbe342f3eb31a21421aeacd8a821f15d5775cb129f","timestamp":"2019-10-25T01:43:59Z","subdir":"","vcs_ref":"refs/tags/v1.1.1"},\
++{"module":"github.com/pelletier/go-toml","version":"v1.9.5","vcs_hash":"22bc2e212b193b23af04b0014dd6e6f15e66953913e88670099f8375927b48c7","timestamp":"2022-01-05T14:17:32Z","subdir":"","vcs_ref":"refs/tags/v1.9.5"},\
++{"module":"github.com/pelletier/go-toml/v2","version":"v2.2.4","vcs_hash":"024e6f520632e6be8a8fbc0202fdf0da2cfc0266ff95451a8e8d944dd0d8882f","timestamp":"2025-04-07T11:11:38Z","subdir":"","vcs_ref":"refs/tags/v2.2.4"},\
++{"module":"github.com/acarl005/stripansi","version":"v0.0.0-20180116102854-5a71ef0e047d","vcs_hash":"337c48cf09adc53fe47bcae33dc8d5465a7dbf818b017054e53ee8ec11f2a73f","timestamp":"2018-01-16T10:28:54Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/coreos/go-oidc/v3","version":"v3.17.0","vcs_hash":"8e02c3ed848471cdcbb42e503ddcf14c273d8366034f1c5d58ec0d12e482656a","timestamp":"2025-11-21T03:32:42Z","subdir":"","vcs_ref":"refs/tags/v3.17.0"},\
++{"module":"github.com/coreos/go-oidc/v3","version":"v3.16.0","vcs_hash":"03bf95d100c67404240716322c3671b3929db67ce58632e7f64b3830796b4b23","timestamp":"2025-10-03T19:37:06Z","subdir":"","vcs_ref":"refs/tags/v3.16.0"},\
++{"module":"github.com/coreos/go-systemd/v22","version":"v22.6.0","vcs_hash":"cb3155042a873c409f7dda7401561f3206a5dc4225d8ce9335fd9da1ee482c05","timestamp":"2025-08-20T18:00:08Z","subdir":"","vcs_ref":"refs/tags/v22.6.0"},\
++{"module":"github.com/coreos/go-systemd/v22","version":"v22.7.0","vcs_hash":"c48bcb8fa21ed1b4310ea1e3a00c0ed35993d38e40fd19dd1ec8226f394c19bb","timestamp":"2026-01-27T23:34:05Z","subdir":"","vcs_ref":"refs/tags/v22.7.0"},\
++{"module":"github.com/rivo/uniseg","version":"v0.2.0","vcs_hash":"711d6ce77fb103240fb5d501f7548a0f9a576d48e783647cd7fed297fccb112a","timestamp":"2020-10-19T13:44:17Z","subdir":"","vcs_ref":"refs/tags/v0.2.0"},\
++{"module":"github.com/rivo/uniseg","version":"v0.4.7","vcs_hash":"1e062c5a8f3a8c313cef582853dc2ed0687bb0632f4cf127d7aaad85b7ce642f","timestamp":"2024-02-08T13:16:15Z","subdir":"","vcs_ref":"refs/tags/v0.4.7"},\
++{"module":"github.com/inhies/go-bytesize","version":"v0.0.0-20220417184213-4913239db9cf","vcs_hash":"33f6338637f180574a557944ab4ae6a88bed881181e11b615b313307b6b045e7","timestamp":"2022-04-17T18:42:13Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/lestrrat-go/jwx/v3","version":"v3.0.11","vcs_hash":"66aa4c6c5f6c980c23f16165b33721dbbd2b64c6686a1730684749c9c701712f","timestamp":"2025-09-14T02:50:03Z","subdir":"","vcs_ref":"refs/tags/v3.0.11"},\
++{"module":"github.com/lestrrat-go/httpcc","version":"v1.0.1","vcs_hash":"466b0cb68191ccc31d667d0e1cf8f0eec07556bbc61fdad149b67379fba0f789","timestamp":"2022-03-29T04:21:01Z","subdir":"","vcs_ref":"refs/tags/v1.0.1"},\
++{"module":"github.com/lestrrat-go/dsig","version":"v1.0.0","vcs_hash":"4fdb7373a44af5a6ec82808bddce9b5b786907d10b6cf2138dcaf3c2ebf4c6ff","timestamp":"2025-08-18T10:59:08Z","subdir":"","vcs_ref":"refs/tags/v1.0.0"},\
++{"module":"github.com/lestrrat-go/option","version":"v1.0.1","vcs_hash":"1f8dcec97d12a81cde1ec2ba90e51e5a7642e0b6ac69fa6d060c924499d9e826","timestamp":"2022-12-15T23:46:30Z","subdir":"","vcs_ref":"refs/tags/v1.0.1"},\
++{"module":"github.com/lestrrat-go/option/v2","version":"v2.0.0","vcs_hash":"dc53b62e9538872256995babc7eb47d6a84dacaa027bdd84bb3cce5344e6bef9","timestamp":"2025-06-09T05:55:07Z","subdir":"","vcs_ref":"refs/tags/v2.0.0"},\
++{"module":"github.com/lestrrat-go/blackmagic","version":"v1.0.4","vcs_hash":"3655ef3535f5fbfddd86c6bcfa866ada2fc8db33ec17816fc8b334009e9fb0f4","timestamp":"2025-06-09T05:38:50Z","subdir":"","vcs_ref":"refs/tags/v1.0.4"},\
++{"module":"github.com/lestrrat-go/dsig-secp256k1","version":"v1.0.0","vcs_hash":"1aeb2bc1012f007479dc7d6ad9a5b56691b7d10a65a0769920fe28a1fd8c5723","timestamp":"2025-08-18T11:27:57Z","subdir":"","vcs_ref":"refs/tags/v1.0.0"},\
++{"module":"github.com/lestrrat-go/httprc/v3","version":"v3.0.1","vcs_hash":"76390b99e6f178283ea247d446a1825e979c8d9cf50844f596abb4e96582b1c1","timestamp":"2025-08-18T10:50:55Z","subdir":"","vcs_ref":"refs/tags/v3.0.1"},\
++{"module":"github.com/StackExchange/wmi","version":"v0.0.0-20190523213315-cbe66965904d","vcs_hash":"1fc27d9cac14b2a03bbb0b0458896762317bee884884ef85b821fa4cb18c6952","timestamp":"2019-05-23T21:33:15Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/gogo/protobuf","version":"v1.1.1","vcs_hash":"a909192a924253d08799dcf162d9ceb6acdb194f1201fee2872972a79ca6668d","timestamp":"2018-07-17T14:19:46Z","subdir":"","vcs_ref":"refs/tags/v1.1.1"},\
++{"module":"github.com/gogo/protobuf","version":"v1.3.2","vcs_hash":"e07d7c0e03a0e2831dd973581be0944984030693bc73f0b67a64e53b4c690635","timestamp":"2021-01-10T08:01:47Z","subdir":"","vcs_ref":"refs/tags/v1.3.2"},\
++{"module":"github.com/gogo/protobuf","version":"v1.0.0","vcs_hash":"cea9fa9f6f83d88736f95389bf744ac714093c67292cefcf1607497c27a1dc2b","timestamp":"2018-02-02T16:19:00Z","subdir":"","vcs_ref":"refs/tags/v1.0.0"},\
++{"module":"github.com/creack/pty","version":"v1.1.17","vcs_hash":"2ae6946e9609d4012331fdd2a2f73d351d9fb15432db00d88ab4c508585a6d96","timestamp":"2021-10-16T17:41:19Z","subdir":"","vcs_ref":"refs/tags/v1.1.17"},\
++{"module":"github.com/creack/pty","version":"v1.1.9","vcs_hash":"90ab694bdf1c87cb7742c9e23a91280fd693f673a912c6ed840ff28d25b2d46e","timestamp":"2019-09-25T15:36:33Z","subdir":"","vcs_ref":"refs/tags/v1.1.9"},\
++{"module":"github.com/creack/pty","version":"v1.1.24","vcs_hash":"a723ba2e04aa95258b42d73ca8ebfd0b4170ac8a314767e9e3f78318484bb93b","timestamp":"2024-10-31T18:56:50Z","subdir":"","vcs_ref":"refs/tags/v1.1.24"},\
++{"module":"github.com/mitchellh/go-wordwrap","version":"v1.0.1","vcs_hash":"c6c7d05ba9f6db2637751fa2ce7bbc8bb04f632abc0b05363566319c8fd9c9b0","timestamp":"2020-09-25T18:08:01Z","subdir":"","vcs_ref":"refs/tags/v1.0.1"},\
++{"module":"github.com/mitchellh/hashstructure/v2","version":"v2.0.2","vcs_hash":"7c1d661828ecf7a5daa9f90b02814e542e1ed4d474edc002d91d945df708a5be","timestamp":"2021-05-27T23:24:52Z","subdir":"v2","vcs_ref":"refs/tags/v2.0.2"},\
++{"module":"github.com/mitchellh/mapstructure","version":"v1.5.0","vcs_hash":"d9f5489d4515cf23689f7c9a7a71a85fdd52671cf92601ea8e8c59bf3644b6b5","timestamp":"2022-04-20T22:31:31Z","subdir":"","vcs_ref":"refs/tags/v1.5.0"},\
++{"module":"github.com/mitchellh/mapstructure","version":"v0.0.0-20150613213606-2caf8efc9366","vcs_hash":"5ad95eaf3fe770e7f704095dccb10123fc34e55570f7e163eb2e3e9a5c0586a6","timestamp":"2015-06-13T21:36:06Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/mitchellh/go-ps","version":"v1.0.0","vcs_hash":"e2954bb45e8e4304338ab2532158d042745f3a239202953369cef281beed32cb","timestamp":"2020-02-03T20:02:15Z","subdir":"","vcs_ref":"refs/tags/v1.0.0"},\
++{"module":"github.com/in-toto/attestation","version":"v1.1.2","vcs_hash":"c9afe967ea4e5751fb018d13c01ee86a880270f07f46e7f6c38d9e86c07f25c2","timestamp":"2025-06-13T20:47:12Z","subdir":"","vcs_ref":"refs/tags/v1.1.2"},\
++{"module":"github.com/in-toto/in-toto-golang","version":"v0.10.0","vcs_hash":"69265427ff3ccf4c21841e67a3aac94611d3ed65c3af33479cd7816bdec13405","timestamp":"2026-01-12T15:00:38Z","subdir":"","vcs_ref":"refs/tags/v0.10.0"},\
++{"module":"github.com/in-toto/in-toto-golang","version":"v0.9.0","vcs_hash":"2af10e1379ff951a497f89bf7bb202df095b1ff9be198f3787d92db04f8aa720","timestamp":"2023-05-04T15:06:05Z","subdir":"","vcs_ref":"refs/tags/v0.9.0"},\
++{"module":"github.com/zclconf/go-cty","version":"v1.17.0","vcs_hash":"47f07e849f1a52fb6afc5ce8207515cf79885a5863c3f77672e2e24bc0ed8ce3","timestamp":"2025-09-05T21:16:50Z","subdir":"","vcs_ref":"refs/tags/v1.17.0"},\
++{"module":"github.com/sassoftware/relic","version":"v7.2.1+incompatible","vcs_hash":"11b818fd7c4740f195b6669f17117f3e72c1b14cd4cca20dca3b88334a67edcf","timestamp":"2019-07-31T17:49:13Z","subdir":"","vcs_ref":"refs/tags/v7.2.1"},\
++{"module":"github.com/go-stack/stack","version":"v1.8.0","vcs_hash":"b165c1e0ccf05d91f62b1ae66d83365c5d96f152e956573fb16040ab15370424","timestamp":"2018-08-26T13:48:48Z","subdir":"","vcs_ref":"refs/tags/v1.8.0"},\
++{"module":"github.com/asaskevich/govalidator","version":"v0.0.0-20230301143203-a9d515a09cc2","vcs_hash":"e0c07f200ff31ed92aa0075d9e5e72c7ed4294f6ef7d9e723213e1bceaca59d3","timestamp":"2023-03-01T14:32:03Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/go-ole/go-ole","version":"v1.2.6","vcs_hash":"f8a37b093a9da7f7719abb71318560d985c5c38e6d58c2c73adde45616845d0c","timestamp":"2021-09-15T00:35:42Z","subdir":"","vcs_ref":"refs/tags/v1.2.6"},\
++{"module":"github.com/json-iterator/go","version":"v1.1.7","vcs_hash":"bc41490320f388f56ca605b559e022840691077e82ae0ad6dd62b7ea000f0603","timestamp":"2019-06-21T16:12:01Z","subdir":"","vcs_ref":"refs/tags/v1.1.7"},\
++{"module":"github.com/json-iterator/go","version":"v1.1.12","vcs_hash":"bdb67d21e426f2274ff76d4829ac60348539016b1aa54fa98cfccc554be12f3b","timestamp":"2021-09-11T02:17:26Z","subdir":"","vcs_ref":"refs/tags/v1.1.12"},\
++{"module":"github.com/json-iterator/go","version":"v1.1.6","vcs_hash":"49dd68855c9609b742b2b0b4f38fc7310fe801de54098c1919a0a64c7a0df65f","timestamp":"2019-03-06T14:29:09Z","subdir":"","vcs_ref":"refs/tags/v1.1.6"},\
++{"module":"github.com/go-logr/logr","version":"v1.2.2","vcs_hash":"761d6b76e4ca57583edd8a7d6cf39d5a0c0dfd1fb4f82f099c044f754193f7d1","timestamp":"2021-12-05T13:02:31Z","subdir":"","vcs_ref":"refs/tags/v1.2.2"},\
++{"module":"github.com/go-logr/logr","version":"v1.4.3","vcs_hash":"5b4f8e13d26b7581594ade5c47d93fb87ebb7720ce23eff7afaed11743464e1f","timestamp":"2025-05-19T04:56:57Z","subdir":"","vcs_ref":"refs/tags/v1.4.3"},\
++{"module":"github.com/go-logr/stdr","version":"v1.2.2","vcs_hash":"e69aa58ea5f2f28aa8623652f5e6643b2299d9fe8ba1e6c73a8e3d602290ac67","timestamp":"2021-12-14T08:00:35Z","subdir":"","vcs_ref":"refs/tags/v1.2.2"},\
++{"module":"github.com/munnerz/goautoneg","version":"v0.0.0-20191010083416-a7dc8b61c822","vcs_hash":"0f68eeb31e17a8fc96eede1943fe26be5835b08f5cc4a9eee4ed1b8eee4887ee","timestamp":"2019-10-10T08:34:16Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/mistifyio/go-zfs/v3","version":"v3.0.1","vcs_hash":"14a067948c9001a8443e88278679f597430282136bcd53894095ccfed51182ca","timestamp":"2023-05-23T02:04:01Z","subdir":"","vcs_ref":"refs/tags/v3.0.1"},\
++{"module":"github.com/grpc-ecosystem/grpc-gateway/v2","version":"v2.27.3","vcs_hash":"c03051a5b664a646468e73db0e79c783550c89b868b36ae69d3eed66aea682c1","timestamp":"2025-10-02T17:46:03Z","subdir":"","vcs_ref":"refs/tags/v2.27.3"},\
++{"module":"github.com/grpc-ecosystem/grpc-gateway/v2","version":"v2.27.2","vcs_hash":"6c43ad48e059624148bd0ae0b851bb5d1200cd6574bdf1b8e9006ed161aaad3d","timestamp":"2025-08-20T14:35:35Z","subdir":"","vcs_ref":"refs/tags/v2.27.2"},\
++{"module":"github.com/grpc-ecosystem/grpc-gateway/v2","version":"v2.28.0","vcs_hash":"7f214d7cb034fd202c10bfef1f3dc05aee35570ac472366ba44f3cd6ea5a84ca","timestamp":"2026-02-17T16:59:59Z","subdir":"","vcs_ref":"refs/tags/v2.28.0"},\
++{"module":"github.com/grpc-ecosystem/go-grpc-middleware/providers/prometheus","version":"v1.1.0","vcs_hash":"42aacc0b51ca4683515670ecfde267af8722802b2bb4d002d5647da7d38f9a47","timestamp":"2025-06-12T22:31:32Z","subdir":"providers/prometheus","vcs_ref":"refs/tags/providers/prometheus/v1.1.0"},\
++{"module":"github.com/grpc-ecosystem/go-grpc-middleware/v2","version":"v2.1.0","vcs_hash":"4e15ad209f57f1610bea03c67dbeef9ef7792fafe9b2902ca1a141277719f091","timestamp":"2024-02-22T15:43:25Z","subdir":"","vcs_ref":"refs/tags/v2.1.0"},\
++{"module":"github.com/cespare/xxhash/v2","version":"v2.3.0","vcs_hash":"4cf9134295bfe252b2146507759140e7050e00021c322cfd0d38a231ef3c0b20","timestamp":"2024-04-04T20:00:10Z","subdir":"","vcs_ref":"refs/tags/v2.3.0"},\
++{"module":"github.com/bmizerany/assert","version":"v0.0.0-20160611221934-b7ed37b82869","vcs_hash":"56f05fc81a59fa58a710a7972b156c07636f5719c2c74f5fe694e2cf49ca2576","timestamp":"2016-06-11T22:19:34Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/vektah/gqlparser/v2","version":"v2.5.30","vcs_hash":"caccbea1b6233b524f53ad77070228cabeb6c237130882d4d07c2ddf094fed50","timestamp":"2025-06-28T22:26:38Z","subdir":"","vcs_ref":"refs/tags/v2.5.30"},\
++{"module":"github.com/Masterminds/semver/v3","version":"v3.4.0","vcs_hash":"b69d3fcaea23340a3ee6fdc0c141ba3d247100353aee6eb28dd426e0d62498b3","timestamp":"2025-06-27T14:48:33Z","subdir":"","vcs_ref":"refs/tags/v3.4.0"},\
++{"module":"github.com/yuin/goldmark","version":"v1.4.13","vcs_hash":"fbec1a06cf7d810b36a87559756866f825159c4db030b543bd6359717d401035","timestamp":"2022-07-09T07:22:17Z","subdir":"","vcs_ref":"refs/tags/v1.4.13"},\
++{"module":"github.com/yuin/goldmark","version":"v1.2.1","vcs_hash":"4c58efe0c28d74a0131cf65fc06af9bf723f3852cb20f81dce6ce9ae50793119","timestamp":"2020-07-30T13:33:42Z","subdir":"","vcs_ref":"refs/tags/v1.2.1"},\
++{"module":"github.com/yuin/goldmark","version":"v1.1.27","vcs_hash":"fb45f805a799ac2f897942f334c68fc215fa5bfc06f4b0277d583fe78f6c36ca","timestamp":"2020-03-31T17:10:28Z","subdir":"","vcs_ref":"refs/tags/v1.1.27"},\
++{"module":"github.com/juju/loggo","version":"v0.0.0-20190526231331-6e530bcce5d8","vcs_hash":"eaf37a5284a67e209a1c088360157366cb7f05d143b944db7660e83c541adf4c","timestamp":"2019-05-26T23:13:31Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/petermattis/goid","version":"v0.0.0-20240813172612-4fcff4a6cae7","vcs_hash":"28fe23d2ffb5463ca74406309be8d07f56f5b77b8f151b1f3d5a8edf6d6ae9be","timestamp":"2024-08-13T17:26:12Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/agnivade/levenshtein","version":"v1.2.1","vcs_hash":"d5b038fb822a1e302e22b0e6ac8351f211ac30e1da66a634d22f607d655321e3","timestamp":"2024-12-23T04:53:21Z","subdir":"","vcs_ref":"refs/tags/v1.2.1"},\
++{"module":"github.com/jpillora/backoff","version":"v1.0.0","vcs_hash":"f3877637b1b0b11053bd3f6485df13672bc371749f756a13048e72298849b276","timestamp":"2019-10-03T12:57:08Z","subdir":"","vcs_ref":"refs/tags/v1.0.0"},\
++{"module":"github.com/lib/pq","version":"v0.0.0-20150723085316-0dad96c0b94f","vcs_hash":"501779f1f37d5eedf7b5e73065f7d7847c6343baa947b47ab9335de358604a1c","timestamp":"2015-07-23T08:53:16Z","subdir":"","vcs_ref":""},\
+ {"module":"github.com/cyphar/filepath-securejoin","version":"v0.6.0","vcs_hash":"ebafd268e345e3bd3673b92f938be34bd2c77636cb5b23531ab4d0ae989acee7","timestamp":"2025-11-03T05:06:20Z","subdir":"","vcs_ref":"refs/tags/v0.6.0"},\
+-{"module":"github.com/niemeyer/pretty","version":"v0.0.0-20200227124842-a10e7caefd8e","vcs_hash":"7b69594221f05faea56a0d177d0ca9efaac2b2e4ba4f7539c68b87cfe214c6ef","timestamp":"2020-02-27T12:48:42Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/vbatts/tar-split","version":"v0.12.2","vcs_hash":"748e9d5ff174cd19acc98de6dc7f6c3d780e0ffcf645aea8c246a36eaa6cac37","timestamp":"2025-10-14T18:26:16Z","subdir":"","vcs_ref":"refs/tags/v0.12.2"},\
+-{"module":"github.com/stretchr/testify","version":"v1.7.0","vcs_hash":"f87883f9ef1ad6bd6ecb844fe9108ae126c4dfab49080e5fb37bd27ca64417be","timestamp":"2021-01-13T09:54:11Z","subdir":"","vcs_ref":"refs/tags/v1.7.0"},\
+-{"module":"github.com/stretchr/testify","version":"v1.4.0","vcs_hash":"9e52b2f6204cf4daab20f41d30029448e95ae1a472c112e86dbdd68a16e14a2e","timestamp":"2019-07-12T00:01:36Z","subdir":"","vcs_ref":"refs/tags/v1.4.0"},\
+-{"module":"github.com/stretchr/testify","version":"v1.6.1","vcs_hash":"782e156612c5b8f52bb9daab64be055460c9e50ce18305034fc5c8954a4e6b4a","timestamp":"2020-06-05T10:48:45Z","subdir":"","vcs_ref":"refs/tags/v1.6.1"},\
+-{"module":"github.com/stretchr/testify","version":"v1.5.1","vcs_hash":"725790d9265526f327bc846ba6025be038cd5cdf6367be0f622409ad58ac9aa0","timestamp":"2020-02-19T20:56:11Z","subdir":"","vcs_ref":"refs/tags/v1.5.1"},\
+-{"module":"github.com/stretchr/testify","version":"v1.2.2","vcs_hash":"2bb8c4aae39dd3460bd5d8094b70444e65cec7f2390b1c2a41ffb7d431d41317","timestamp":"2018-06-09T11:55:18Z","subdir":"","vcs_ref":"refs/tags/v1.2.2"},\
+-{"module":"github.com/stretchr/testify","version":"v1.11.1","vcs_hash":"ba91b84762300277627df761c9f004ffcc560434a1a1c2e613269b0c2e378278","timestamp":"2025-08-27T10:46:31Z","subdir":"","vcs_ref":"refs/tags/v1.11.1"},\
+-{"module":"github.com/stretchr/testify","version":"v1.3.0","vcs_hash":"15f4be955793ecb9ef81031cf64191211271265868a72e4bf25c409e978a8ce8","timestamp":"2019-01-03T19:31:39Z","subdir":"","vcs_ref":"refs/tags/v1.3.0"},\
+-{"module":"github.com/stretchr/objx","version":"v0.1.0","vcs_hash":"39828321881a0709a36a2d1edde8fc9928ddd471ebd0bbdf7012076e7214bb02","timestamp":"2018-01-06T01:13:53Z","subdir":"","vcs_ref":"refs/tags/v0.1.0"},\
+-{"module":"github.com/stretchr/objx","version":"v0.2.0","vcs_hash":"982a1df420b1f34eee71122e02865aa89e1ea251dc09362265917bd0e0ca3995","timestamp":"2019-04-09T12:31:02Z","subdir":"","vcs_ref":"refs/tags/v0.2.0"},\
+-{"module":"github.com/stretchr/objx","version":"v0.1.1","vcs_hash":"324a79f9170fef44f826e43999370c6ec3bc3be6044c9a4c2e3eb97cdf5ac743","timestamp":"2018-01-25T22:19:50Z","subdir":"","vcs_ref":"refs/tags/v0.1.1"},\
+-{"module":"github.com/stretchr/objx","version":"v0.5.2","vcs_hash":"fe4a57d26379977ebf461da8c71a20095b9f973a91d55076b67fa0de48206a1e","timestamp":"2024-02-29T09:57:51Z","subdir":"","vcs_ref":"refs/tags/v0.5.2"},\
+-{"module":"github.com/mgutz/ansi","version":"v0.0.0-20170206155736-9520e82c474b","vcs_hash":"f38805371ceca34945d620f33580bc80b8d8946d490670358956c3579639e7ad","timestamp":"2017-02-06T15:57:36Z","subdir":"","vcs_ref":""},\
+-{"module":"github.com/inconshreveable/mousetrap","version":"v1.0.0","vcs_hash":"bdd1bbf309f6078c2e930609779f6207bad79817ed60bcb7a66df8a5735580f3","timestamp":"2014-10-17T20:07:13Z","subdir":"","vcs_ref":"refs/tags/v1.0.0"},\
+-{"module":"github.com/inconshreveable/mousetrap","version":"v1.1.0","vcs_hash":"a9f0ac4cf05240ceb9790811cbd8ab3cbdcd404501a9ca5a402a28033e7235d8","timestamp":"2022-11-27T22:01:53Z","subdir":"","vcs_ref":"refs/tags/v1.1.0"},\
+-{"module":"github.com/cpuguy83/go-md2man/v2","version":"v2.0.6","vcs_hash":"0b9036af46cc50aa9433a461266e6ef3b3645807c3d1fa49cc53eb201e011781","timestamp":"2024-12-16T17:50:50Z","subdir":"","vcs_ref":"refs/tags/v2.0.6"},\
+-{"module":"github.com/cpuguy83/go-md2man/v2","version":"v2.0.7","vcs_hash":"44790142f31974c97a48f51298f4d80d17cdea0211947e7cbfe90054a7fe7774","timestamp":"2025-04-24T23:51:24Z","subdir":"","vcs_ref":"refs/tags/v2.0.7"},\
++{"module":"github.com/vishvananda/netlink","version":"v1.3.1","vcs_hash":"add152ec680cd6ba7b1daeb50425ed8986ca51024d78c50810923119dbf60a49","timestamp":"2025-05-09T18:59:25Z","subdir":"","vcs_ref":"refs/tags/v1.3.1"},\
++{"module":"github.com/vishvananda/netns","version":"v0.0.5","vcs_hash":"9f1ef5c3417729b4f24554f4b88d06d9e7cdeb771a5d62000cc1344bb1c985d8","timestamp":"2024-08-13T19:31:45Z","subdir":"","vcs_ref":"refs/tags/v0.0.5"},\
++{"module":"github.com/onsi/gomega","version":"v1.9.0","vcs_hash":"728f44b7af3fd5cab91499df1e92a9d2c3e67004ea59ac1e4a549fb2ca6763a8","timestamp":"2020-02-01T10:40:48Z","subdir":"","vcs_ref":"refs/tags/v1.9.0"},\
++{"module":"github.com/onsi/gomega","version":"v1.7.1","vcs_hash":"eca01df4f63425b54410888126f5e562e7f2c689d9483249110a2f793909648b","timestamp":"2019-10-30T17:12:58Z","subdir":"","vcs_ref":"refs/tags/v1.7.1"},\
++{"module":"github.com/onsi/ginkgo","version":"v1.12.0","vcs_hash":"1fa773d747594333c67867f9bdc536ee1286d76aa754e875bec3818f99d1318b","timestamp":"2020-02-01T10:35:24Z","subdir":"","vcs_ref":"refs/tags/v1.12.0"},\
++{"module":"github.com/onsi/ginkgo","version":"v1.6.0","vcs_hash":"084961c940c1064ad8f72342797a7f84ceb5184e0f4f98076f0ac0a75a0a376f","timestamp":"2018-07-17T16:34:38Z","subdir":"","vcs_ref":"refs/tags/v1.6.0"},\
++{"module":"github.com/tonistiigi/go-archvariant","version":"v1.0.0","vcs_hash":"07d631aebb630179eda0ac758a6a400523556e0df873aaaa8107c81569f5312d","timestamp":"2022-01-31T19:23:56Z","subdir":"","vcs_ref":"refs/tags/v1.0.0"},\
++{"module":"github.com/tonistiigi/units","version":"v0.0.0-20180711220420-6950e57a87ea","vcs_hash":"a0528d63437c733bc9243aeb601d0f1175a8f8eaa01b2402d7b077f35f36fbcd","timestamp":"2018-07-11T22:04:20Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/tonistiigi/go-actions-cache","version":"v0.0.0-20250626083717-378c5ed1ddd9","vcs_hash":"9f4a150fded4b0c51af4c77ae23f48e741fc3c25041f168f5e152c9bef985194","timestamp":"2025-06-26T08:37:17Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/tonistiigi/go-actions-cache","version":"v0.0.0-20260120203934-54bc28c26fd2","vcs_hash":"2924c7ecb319efa413b0f3012222cad7c8773cd26a54e23c43cd460cf6d9c0b0","timestamp":"2026-01-20T20:39:34Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/tonistiigi/vt100","version":"v0.0.0-20240514184818-90bafcd6abab","vcs_hash":"8c7e9f3cea5c616be7d8cb3b181a8ecf2d3b1ff0b881bb34abd9235b7680d2c9","timestamp":"2024-05-14T18:48:18Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/tonistiigi/go-csvvalue","version":"v0.0.0-20240814133006-030d3b2625d0","vcs_hash":"4bab931b93ec61ba123209f20dc512a65f448d9af6783e77b89ee8a8b7bf94b3","timestamp":"2024-08-14T13:30:06Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/tonistiigi/jaeger-ui-rest","version":"v0.0.0-20250408171107-3dd17559e117","vcs_hash":"644200fb876350717a5c6642a51a536deec87f616bc0db7325b35f6e96fd6ceb","timestamp":"2025-04-08T17:11:07Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/tonistiigi/dchapes-mode","version":"v0.0.0-20250318174251-73d941a28323","vcs_hash":"088daf1e815a0c250df5a6800476d2fd7926fd2cfde5c798932d14dc518d73f2","timestamp":"2025-03-18T17:42:51Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/tonistiigi/fsutil","version":"v0.0.0-20251211185533-a2aa163d723f","vcs_hash":"5728fb0835aa13d026604988f9496a653e4e5442f8a0e93e6495c60887f5e1b8","timestamp":"2025-12-11T18:55:33Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/tonistiigi/fsutil","version":"v0.0.0-20250605211040-586307ad452f","vcs_hash":"d721d7ff5242aee01894397e3189dde451e48dd99ea135fda17971624b878725","timestamp":"2025-06-05T21:10:40Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/secure-systems-lab/go-securesystemslib","version":"v0.10.0","vcs_hash":"994235dd15b0fe3f1f6929ffaad19803d748bf717abf3185bb700d75af65e53f","timestamp":"2026-01-06T15:36:12Z","subdir":"","vcs_ref":"refs/tags/v0.10.0"},\
+ {"module":"github.com/secure-systems-lab/go-securesystemslib","version":"v0.9.1","vcs_hash":"10dbe58c8dc404f5f42a20a009cd93a99386ef2bc8e22ece06ffbaf572deb939","timestamp":"2025-08-02T20:27:47Z","subdir":"","vcs_ref":"refs/tags/v0.9.1"},\
+-{"module":"github.com/hpcloud/tail","version":"v1.0.0","vcs_hash":"9dfd08c5a4f07a465c8fe6fd4e5e96ac82ccaeba87143831c1a6290e944a3c84","timestamp":"2016-04-28T00:30:50Z","subdir":"","vcs_ref":"refs/tags/v1.0.0"},\
+-{"module":"github.com/cespare/xxhash/v2","version":"v2.3.0","vcs_hash":"4cf9134295bfe252b2146507759140e7050e00021c322cfd0d38a231ef3c0b20","timestamp":"2024-04-04T20:00:10Z","subdir":"","vcs_ref":"refs/tags/v2.3.0"},\
+-{"module":"github.com/santhosh-tekuri/jsonschema/v5","version":"v5.3.1","vcs_hash":"9964fa94eb99b405ebcfa3af19e0e16d07aef590c7af497cdfc6743aa4544776","timestamp":"2023-07-22T18:48:50Z","subdir":"","vcs_ref":"refs/tags/v5.3.1"},\
+-{"module":"github.com/santhosh-tekuri/jsonschema/v6","version":"v6.0.1","vcs_hash":"8cfe8424190c359d20ad2bc01793323c7ac268106706dfa9721cccd4203cbfde","timestamp":"2024-06-06T17:57:31Z","subdir":"","vcs_ref":"refs/tags/v6.0.1"},\
+-{"module":"github.com/mistifyio/go-zfs/v3","version":"v3.0.1","vcs_hash":"14a067948c9001a8443e88278679f597430282136bcd53894095ccfed51182ca","timestamp":"2023-05-23T02:04:01Z","subdir":"","vcs_ref":"refs/tags/v3.0.1"},\
+-{"module":"go.uber.org/mock","version":"v0.6.0","vcs_hash":"03540ab2f6f54b62764f09a177ce039608b19eb6106bf7b67da770000fde2a48","timestamp":"2025-08-18T14:58:04Z","subdir":"","vcs_ref":"refs/tags/v0.6.0"},\
+-{"module":"go.uber.org/goleak","version":"v1.3.0","vcs_hash":"358840d6c8d4d8a268b95a505fd6f93da14af34041c0824fe51920b4cd523ae2","timestamp":"2023-10-24T16:28:03Z","subdir":"","vcs_ref":"refs/tags/v1.3.0"},\
+-{"module":"filippo.io/edwards25519","version":"v1.1.0","vcs_hash":"f4c4c638435f40478f3fd4350a83ea7fc251e7970f9edee9b9bc5101fbd4f799","timestamp":"2023-12-10T19:13:24Z","subdir":"","vcs_ref":"refs/tags/v1.1.0"},\
+-{"module":"sigs.k8s.io/structured-merge-diff/v6","version":"v6.3.0","vcs_hash":"d66ac94ec61bd2ff1830ecd910c5ba59307d9987a0b5e8bc4d43eed2a9670e03","timestamp":"2025-07-16T20:34:24Z","subdir":"","vcs_ref":"refs/tags/v6.3.0"},\
+-{"module":"sigs.k8s.io/json","version":"v0.0.0-20241014173422-cfa47c3a1cc8","vcs_hash":"af72b3861f1b450d8fac535a64ce765bba3c291956ec3c652a5f54db46add460","timestamp":"2024-10-14T17:34:22Z","subdir":"","vcs_ref":""},\
+-{"module":"sigs.k8s.io/yaml","version":"v1.6.0","vcs_hash":"289ff1bc36e2275d8f58e8de4b1e27b0cabf0d8bfcb2058f040045490a48f9fc","timestamp":"2025-07-24T18:12:28Z","subdir":"","vcs_ref":"refs/tags/v1.6.0"},\
+-{"module":"sigs.k8s.io/randfill","version":"v1.0.0","vcs_hash":"64598686d0dc1d499a7860fd9d58ec01370c353b03b4e9377d668d615af13dc6","timestamp":"2025-03-04T18:23:53Z","subdir":"","vcs_ref":"refs/tags/v1.0.0"},\
+-{"module":"kernel.org/pub/linux/libs/security/libcap/cap","version":"v1.2.77","vcs_hash":"0e3f13776ff605f669bbf0d6414b493efd804254db98b6d3bea7655371b7f53f","timestamp":"2025-10-26T18:29:03Z","subdir":"cap","vcs_ref":"refs/tags/cap/v1.2.77"},\
+-{"module":"kernel.org/pub/linux/libs/security/libcap/cap","version":"v1.2.76","vcs_hash":"68fcf96342d6b57dcc3e6c818463c707e806599087dedf19a4eb9d818367df61","timestamp":"2025-04-13T16:47:12Z","subdir":"cap","vcs_ref":"refs/tags/cap/v1.2.76"},\
+-{"module":"kernel.org/pub/linux/libs/security/libcap/psx","version":"v1.2.77","vcs_hash":"0e3f13776ff605f669bbf0d6414b493efd804254db98b6d3bea7655371b7f53f","timestamp":"2025-10-26T18:29:03Z","subdir":"psx","vcs_ref":"refs/tags/psx/v1.2.77"},\
+-{"module":"kernel.org/pub/linux/libs/security/libcap/psx","version":"v1.2.76","vcs_hash":"68fcf96342d6b57dcc3e6c818463c707e806599087dedf19a4eb9d818367df61","timestamp":"2025-04-13T16:47:12Z","subdir":"psx","vcs_ref":"refs/tags/psx/v1.2.76"},\
+-{"module":"cel.dev/expr","version":"v0.24.0","vcs_hash":"22be8bab702f88ee991b30c18c7bac8535814d8de3215c69ac9ee1e73da82c45","timestamp":"2025-05-07T15:31:15Z","subdir":"","vcs_ref":"refs/tags/v0.24.0"},\
+-{"module":"cyphar.com/go-pathrs","version":"v0.2.1","vcs_hash":"e45d21327d19f5df130e8033c6a083bb99ae3ef92dff0a6b9e0b6ad59104fe90","timestamp":"2025-11-02T17:55:16Z","subdir":"go-pathrs","vcs_ref":"refs/tags/go-pathrs/v0.2.1"},\
+-{"module":"go.opencensus.io","version":"v0.24.0","vcs_hash":"8607148e6fbec2ab3d0020ea3ffb8bdce7bc15dae97ebec60385afa6ddb97c29","timestamp":"2022-11-03T20:13:50Z","subdir":"","vcs_ref":"refs/tags/v0.24.0"},\
+-{"module":"gonum.org/v1/gonum","version":"v0.16.0","vcs_hash":"525f00d6116e74b77041f8bb562564ec0e4c1d66d02a48c7b8093f8f931ae1c4","timestamp":"2025-03-21T18:40:20Z","subdir":"","vcs_ref":"refs/tags/v0.16.0"},\
+-{"module":"go.yaml.in/yaml/v3","version":"v3.0.4","vcs_hash":"28af0e86ac86bfc3e00873c91eee3b58eb4f82e4f4c0f7963ccfc8872fd4a4a5","timestamp":"2025-06-29T14:09:51Z","subdir":"","vcs_ref":"refs/tags/v3.0.4"},\
+-{"module":"go.yaml.in/yaml/v2","version":"v2.4.2","vcs_hash":"8e5c657c86d0e182b5f4d6ed3715a0ec93dfb998d8ef94555af035578a3aba8d","timestamp":"2025-06-02T16:37:17Z","subdir":"","vcs_ref":"refs/tags/v2.4.2"},\
+-{"module":"go.yaml.in/yaml/v2","version":"v2.4.3","vcs_hash":"2408eeac30b1574986dd0e17458ada4d251f9845f816637202936da13fcdab91","timestamp":"2025-09-11T04:10:14Z","subdir":"","vcs_ref":"refs/tags/v2.4.3"},\
++{"module":"github.com/jedisct1/go-minisign","version":"v0.0.0-20211028175153-1c139d1cc84b","vcs_hash":"ed26c8fb0a00d7b5743a1d1f1e95f5e4c4e9b2afeca92ceee48f41875b445e1e","timestamp":"2021-10-28T17:51:53Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/grafana/regexp","version":"v0.0.0-20240518133315-a468a5bfb3bc","vcs_hash":"ee7ce08aedc8b0c4622a701ebc6308e5f4de035b78a7a97690fe1159dc0e6408","timestamp":"2024-05-18T13:33:15Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/denisenkom/go-mssqldb","version":"v0.0.0-20191128021309-1d7a30a10f73","vcs_hash":"51d1448ae824a59e167bc4626cbed812ff98e24bad9ad0e55865452f35f4e32a","timestamp":"2019-11-28T02:13:09Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/godbus/dbus/v5","version":"v5.1.0","vcs_hash":"64a1380eac8fb56f64570a9ee44f46ff49a8cfc74d31623d696b49699728d072","timestamp":"2022-02-27T11:53:47Z","subdir":"v5","vcs_ref":"refs/tags/v5.1.0"},\
++{"module":"github.com/bugsnag/bugsnag-go","version":"v1.0.5-0.20150529004307-13fd6b8acda0","vcs_hash":"fcdbd0f3bb5816415e92fba0ccef0363d33bb9f4dd92baf939f44c15d7ff15dc","timestamp":"2015-05-29T00:43:07Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/bugsnag/panicwrap","version":"v0.0.0-20151223152923-e2c28503fcd0","vcs_hash":"262d5e88587cf547192faef1ff5a62313964f5302529d3b47078409890f656b8","timestamp":"2015-12-23T15:29:23Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/bugsnag/osext","version":"v0.0.0-20130617224835-0dd3f918b21b","vcs_hash":"1e7b9a7b360bb8c03ff73c6b542ec4fc9da0aaa3491621e3f0709df81b41c883","timestamp":"2013-06-17T22:48:35Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/fatih/color","version":"v1.18.0","vcs_hash":"5d3a7d46049b39f7f5f80bbbcaf1d95f84b393dcee5978948fd4ca3a5abb4461","timestamp":"2024-10-03T07:06:28Z","subdir":"","vcs_ref":"refs/tags/v1.18.0"},\
++{"module":"github.com/opentracing/opentracing-go","version":"v1.1.0","vcs_hash":"ef2c56f0be025c9601f62c989b9bbcc2ccb4177a010b2d10139888b5762b9823","timestamp":"2019-03-23T20:25:03Z","subdir":"","vcs_ref":"refs/tags/v1.1.0"},\
++{"module":"github.com/go-jose/go-jose/v4","version":"v4.1.4","vcs_hash":"1ecb3c60bf1e5c9788a27736634c761cde56baaf8301dab57598857d80040c7b","timestamp":"2026-03-31T23:33:50Z","subdir":"","vcs_ref":"refs/tags/v4.1.4"},\
++{"module":"github.com/go-jose/go-jose/v4","version":"v4.1.3","vcs_hash":"a4219826063988cbd7f4ed3d1c1fc58d7ed42f236f04225796cee7943617cebb","timestamp":"2025-10-03T18:59:29Z","subdir":"","vcs_ref":"refs/tags/v4.1.3"},\
++{"module":"github.com/go-jose/go-jose/v3","version":"v3.0.0","vcs_hash":"a3831850f8ce4841dd8c7a97a914dc89fe910b83d57d95db27c873ade23304b4","timestamp":"2021-06-05T21:22:18Z","subdir":"v3","vcs_ref":"refs/tags/v3.0.0"},\
++{"module":"github.com/tink-crypto/tink-go/v2","version":"v2.5.0","vcs_hash":"6ef7407087c1490be9ea49b07a012d985e5870aafd4b3f243366c00b8a6c7228","timestamp":"2025-10-10T12:33:22Z","subdir":"","vcs_ref":"refs/tags/v2.5.0"},\
++{"module":"github.com/planetscale/vtprotobuf","version":"v0.6.1-0.20240319094008-0393e58bdf10","vcs_hash":"2a8f7a744764b6b7d0f6b17003fd8217cc861be946aee65fccc7d1491634942f","timestamp":"2024-03-19T09:40:08Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/anchore/go-struct-converter","version":"v0.0.0-20221118182256-c68fdcfa2092","vcs_hash":"4be54006369c9c3bb6a42a67721ee3e3e0f1aab0f71192fdc85f8dc980af1bd6","timestamp":"2022-11-18T18:22:56Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/anchore/go-struct-converter","version":"v0.1.0","vcs_hash":"4be54006369c9c3bb6a42a67721ee3e3e0f1aab0f71192fdc85f8dc980af1bd6","timestamp":"2022-11-18T18:22:56Z","subdir":"","vcs_ref":"refs/tags/v0.1.0"},\
++{"module":"github.com/prometheus/client_golang","version":"v1.23.2","vcs_hash":"d9bbeca592abd4abe4a9bb304c93ff338301ffcad964694c918522126d52a1d2","timestamp":"2025-09-05T14:03:59Z","subdir":"","vcs_ref":"refs/tags/v1.23.2"},\
++{"module":"github.com/prometheus/client_golang","version":"v0.9.1","vcs_hash":"5b7494e1e1baac9b65067e6f77ebb97bd97f8ea769f7093cc8cb23ca7d5ab93e","timestamp":"2018-11-03T14:23:28Z","subdir":"","vcs_ref":"refs/tags/v0.9.1"},\
++{"module":"github.com/prometheus/client_golang","version":"v1.0.0","vcs_hash":"607ef8649c55f0756537573f8975af1867f26f93a7f97eb4ff594fc98c467f83","timestamp":"2019-06-15T20:44:27Z","subdir":"","vcs_ref":"refs/tags/v1.0.0"},\
++{"module":"github.com/prometheus/client_golang","version":"v1.1.0","vcs_hash":"4e44bd818fd07e6368ea60f26721c00dad401136a0e4742f5b167d5755f25168","timestamp":"2019-08-01T13:37:03Z","subdir":"","vcs_ref":"refs/tags/v1.1.0"},\
++{"module":"github.com/prometheus/procfs","version":"v0.0.2","vcs_hash":"99df38a3259da6d3172d2228188bc6bb7c0f8033d40d03436c89d71e754acf1e","timestamp":"2019-06-03T02:31:54Z","subdir":"","vcs_ref":"refs/tags/v0.0.2"},\
++{"module":"github.com/prometheus/procfs","version":"v0.0.0-20180125133057-cb4147076ac7","vcs_hash":"d6e1327c0735ef125d48a5e4da87d9573ffbc383c27ca670995682b478f20009","timestamp":"2018-01-25T13:30:57Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/prometheus/procfs","version":"v0.0.3","vcs_hash":"300598e31c95698a764cc0dc7edf8fdfc8ab21a3296c0c5a34791af504e1a038","timestamp":"2019-06-25T16:31:10Z","subdir":"","vcs_ref":"refs/tags/v0.0.3"},\
++{"module":"github.com/prometheus/procfs","version":"v0.16.1","vcs_hash":"c5636022955615867ff5e898a254c352486ff4f35f8066d4296d4561c4ef4d2e","timestamp":"2025-04-19T15:43:08Z","subdir":"","vcs_ref":"refs/tags/v0.16.1"},\
++{"module":"github.com/prometheus/procfs","version":"v0.0.0-20181005140218-185b4288413d","vcs_hash":"6f855d6fe4ec2b6948e8c511b7c537693831aa71f3427a1625d4a9a01260e77d","timestamp":"2018-10-05T14:02:18Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/prometheus/procfs","version":"v0.17.0","vcs_hash":"bd38c110e95e59c4551170b1bdd1a77f0c2d3bfb31346fe6c34a3ff9a2d59911","timestamp":"2025-07-03T09:39:02Z","subdir":"","vcs_ref":"refs/tags/v0.17.0"},\
++{"module":"github.com/prometheus/otlptranslator","version":"v0.0.2","vcs_hash":"960b1c139109bf5cf4e2953ce32e8fe37a7785666f0a1b74e4e2555f1458a873","timestamp":"2025-08-01T14:53:39Z","subdir":"","vcs_ref":"refs/tags/v0.0.2"},\
++{"module":"github.com/prometheus/client_model","version":"v0.6.2","vcs_hash":"ce4113e6c8f9de1c05a5198a36f67001c5b8ac458bbdbca291a0800fa698d5b1","timestamp":"2025-04-11T05:38:16Z","subdir":"","vcs_ref":"refs/tags/v0.6.2"},\
++{"module":"github.com/prometheus/client_model","version":"v0.0.0-20171117100541-99fa1f4be8e5","vcs_hash":"b20883069672740ec9f8b88232be489d4e077ea06970f02fdd7280e57e070c26","timestamp":"2017-11-17T10:05:41Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/prometheus/client_model","version":"v0.0.0-20190129233127-fd36f4220a90","vcs_hash":"86bc615fe75b2ce98cd8c130b2a77b88c6ddb4a708b29321848472d9dd871940","timestamp":"2019-01-29T23:31:27Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/prometheus/client_model","version":"v0.0.0-20180712105110-5c3871d89910","vcs_hash":"f6f51abd7b0f905d6b844652733802c893708c937a90eddb39855a9027e795ef","timestamp":"2018-07-12T10:51:10Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/prometheus/common","version":"v0.66.1","vcs_hash":"4004fe14db85cf2a2119d66ea225f2b9d7d14ea63e1e3bfa539d1d2440d107c4","timestamp":"2025-09-05T07:53:47Z","subdir":"","vcs_ref":"refs/tags/v0.66.1"},\
++{"module":"github.com/prometheus/common","version":"v0.4.1","vcs_hash":"892c75be05216c8a166e1dfe11c12f4563f5c0830e193268bcf9f7511010bcc7","timestamp":"2019-05-16T16:00:40Z","subdir":"","vcs_ref":"refs/tags/v0.4.1"},\
++{"module":"github.com/prometheus/common","version":"v0.6.0","vcs_hash":"866ac186da10c19f814988a847f2b46d07b11981edcd6fec98970325a2803af4","timestamp":"2019-06-17T21:11:42Z","subdir":"","vcs_ref":"refs/tags/v0.6.0"},\
++{"module":"github.com/prometheus/common","version":"v0.0.0-20180110214958-89604d197083","vcs_hash":"6fa554cea5eccb087d26785c06f579b8594dbf658c4a1288c2a78398383fed0f","timestamp":"2018-01-10T21:49:58Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/Netflix/go-expect","version":"v0.0.0-20220104043353-73e0943537d2","vcs_hash":"421789c64dd51281a459815573a00c171d61889f5324c1701c37f5f2e8caa8a3","timestamp":"2022-01-04T04:33:53Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/mxk/go-flowrate","version":"v0.0.0-20140419014527-cca7078d478f","vcs_hash":"12c25c020a66ecc07c7c90ff8a8793d5462f3f4e58338c9b36012b25b4ed81b8","timestamp":"2014-04-19T01:45:27Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/rcrowley/go-metrics","version":"v0.0.0-20250401214520-65e299d6c5c9","vcs_hash":"0cbaeb01627514ae95e6aae5f103c7c103c0c38175dca1ae96d51d0c083cb2ae","timestamp":"2025-04-01T21:45:20Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/agext/levenshtein","version":"v1.2.3","vcs_hash":"f4186a1dba20fb3f51b9daaf116c010f10b94a0eb8114b084e25bb3b5649ecf6","timestamp":"2020-03-12T21:09:59Z","subdir":"","vcs_ref":"refs/tags/v1.2.3"},\
++{"module":"github.com/hinshun/vt10x","version":"v0.0.0-20220119200601-820417d04eec","vcs_hash":"7a79a11a6f7d736423313fcb1bc2d2203d7d9e66baa86d1f4440c872a4349d6d","timestamp":"2022-01-19T20:06:01Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/GoogleCloudPlatform/opentelemetry-operations-go/detectors/gcp","version":"v1.31.0","vcs_hash":"bc817097ac8324503a357241edaa274a0617c238690ccb47deb70f8f0af65eb2","timestamp":"2026-01-16T21:40:50Z","subdir":"detectors/gcp","vcs_ref":"refs/tags/detectors/gcp/v1.31.0"},\
++{"module":"github.com/distribution/reference","version":"v0.6.0","vcs_hash":"ac2c94a9c45cfe172807163d3f9ae441bf0db0b30e528660d1b5db49678ed93a","timestamp":"2024-03-20T17:09:59Z","subdir":"","vcs_ref":"refs/tags/v0.6.0"},\
++{"module":"github.com/blang/semver","version":"v3.5.1+incompatible","vcs_hash":"fb904b093dc37ee6efcaa2a562389f10a2411237cdeef7cddf15818be70366d1","timestamp":"2017-07-27T06:48:18Z","subdir":"","vcs_ref":"refs/tags/v3.5.1"},\
++{"module":"github.com/xrash/smetrics","version":"v0.0.0-20240521201337-686a1a2994c1","vcs_hash":"39f621debd197a5e0bcda4514cb54d787e4e443693f317363918ceb70d590944","timestamp":"2024-05-21T20:13:37Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/DefangLabs/secret-detector","version":"v0.0.0-20250403165618-22662109213e","vcs_hash":"42b5e6f1ae54867a47bbe7535a965b97260d8282064da67b0f3d9d82d7524ad4","timestamp":"2025-04-03T16:56:18Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/syndtr/goleveldb","version":"v1.0.1-0.20220721030215-126854af5e6d","vcs_hash":"e235339a3b62d86588980eea53546b06c36a7d1f4f68f0c427c52dbe4d251657","timestamp":"2022-07-21T03:02:15Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/syndtr/gocapability","version":"v0.0.0-20200815063812-42c35b437635","vcs_hash":"4480911d3d4457413aedb0be556a8ab2b064c475167177096e4dec65342505e9","timestamp":"2020-08-15T06:38:12Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/jackc/pgservicefile","version":"v0.0.0-20240606120523-5a60cdf6a761","vcs_hash":"ddeb106f0a503bc56c2377cf8c3863fd5b039a12e3472f1f499e89f689d70793","timestamp":"2024-06-06T12:05:23Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/jackc/pgx/v5","version":"v5.7.5","vcs_hash":"7d428807020135278d6c041ab060af6cb7629a2458e8beedf6520c22a981521c","timestamp":"2025-05-17T22:14:14Z","subdir":"","vcs_ref":"refs/tags/v5.7.5"},\
++{"module":"github.com/jackc/puddle/v2","version":"v2.2.2","vcs_hash":"f3334a91ad7dbb92655b9f37614612cc5df45c529576e03e8308dfed92ae9050","timestamp":"2024-09-10T11:12:31Z","subdir":"","vcs_ref":"refs/tags/v2.2.2"},\
++{"module":"github.com/jackc/pgpassfile","version":"v1.0.0","vcs_hash":"bcb7f6d6bafda56d4f5f42db214defa53f1769aa323ba6f941283d833ed326d1","timestamp":"2019-03-30T16:09:02Z","subdir":"","vcs_ref":"refs/tags/v1.0.0"},\
++{"module":"github.com/buger/goterm","version":"v1.0.4","vcs_hash":"caf1c06b7ea92c81a60195c5df6f46d1e4ceb75cfb096fb918e712dcc226fc04","timestamp":"2022-01-25T19:34:06Z","subdir":"","vcs_ref":"refs/tags/v1.0.4"},\
++{"module":"github.com/armon/circbuf","version":"v0.0.0-20190214190532-5111143e8da2","vcs_hash":"f44b726eafbedd3c7d5723dfd9850375946a0b78000629a3558aacfbb013cecb","timestamp":"2019-02-14T19:05:32Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/go-openapi/spec","version":"v0.22.4","vcs_hash":"de2752a6a0b287240339b76144a60c409fe66d8956a7163c49ac72dc0e44fdf5","timestamp":"2026-03-03T00:30:19Z","subdir":"","vcs_ref":"refs/tags/v0.22.4"},\
++{"module":"github.com/go-openapi/spec","version":"v0.22.1","vcs_hash":"4092ffe95426c0c9bca5c198241300fcee8b81ca1c66da9b40ba1acb8768cf32","timestamp":"2025-11-09T13:27:19Z","subdir":"","vcs_ref":"refs/tags/v0.22.1"},\
++{"module":"github.com/go-openapi/errors","version":"v0.22.4","vcs_hash":"e5716b375e23d3a59fd3d744fba14212d7d3d7434e874898258b45ea2aca6a07","timestamp":"2025-11-09T12:18:43Z","subdir":"","vcs_ref":"refs/tags/v0.22.4"},\
++{"module":"github.com/go-openapi/errors","version":"v0.22.7","vcs_hash":"54a0bf002cf7fafb70729983ca51f189bceee7c36ecd0b75fe3d55e76add9cd4","timestamp":"2026-03-03T21:52:38Z","subdir":"","vcs_ref":"refs/tags/v0.22.7"},\
++{"module":"github.com/go-openapi/runtime","version":"v0.29.2","vcs_hash":"b635f5b40e7ba10ae8c0cba6c904210f047c83113a12b45953d3e2f6f23d44e7","timestamp":"2025-11-09T19:45:35Z","subdir":"","vcs_ref":"refs/tags/v0.29.2"},\
++{"module":"github.com/go-openapi/validate","version":"v0.25.2","vcs_hash":"a40798525cd2559a382d1e07f13fcd9018c4f962a50d8101e45daad6b7ee86a2","timestamp":"2026-03-08T18:13:28Z","subdir":"","vcs_ref":"refs/tags/v0.25.2"},\
++{"module":"github.com/go-openapi/validate","version":"v0.25.1","vcs_hash":"634835de930cf49d86f8279271ac56663708df6630c75375676b7da12b0be051","timestamp":"2025-11-09T14:39:49Z","subdir":"","vcs_ref":"refs/tags/v0.25.1"},\
++{"module":"github.com/go-openapi/loads","version":"v0.23.2","vcs_hash":"9c224bf4ee23cd9ccea3953edb8991bb14040f2a584059de1f1644613744997e","timestamp":"2025-11-09T13:46:48Z","subdir":"","vcs_ref":"refs/tags/v0.23.2"},\
++{"module":"github.com/go-openapi/loads","version":"v0.23.3","vcs_hash":"5128d105fceda11511719c8d3436e3222b95133854e6750c41b450d09a01c1dc","timestamp":"2026-03-08T15:16:14Z","subdir":"","vcs_ref":"refs/tags/v0.23.3"},\
++{"module":"github.com/go-openapi/swag/stringutils","version":"v0.25.5","vcs_hash":"97266eba04067e616c6d2966d9fe0748c18b47c1c75240f00215c55d61645173","timestamp":"2026-03-02T18:12:04Z","subdir":"stringutils","vcs_ref":"refs/tags/stringutils/v0.25.5"},\
++{"module":"github.com/go-openapi/swag/stringutils","version":"v0.25.3","vcs_hash":"7836e34d24416dab15fe6283b68847039139876b4f48af3e54978b11d199b4a5","timestamp":"2025-11-17T21:56:48Z","subdir":"stringutils","vcs_ref":"refs/tags/stringutils/v0.25.3"},\
++{"module":"github.com/go-openapi/swag/cmdutils","version":"v0.25.3","vcs_hash":"7836e34d24416dab15fe6283b68847039139876b4f48af3e54978b11d199b4a5","timestamp":"2025-11-17T21:56:48Z","subdir":"cmdutils","vcs_ref":"refs/tags/cmdutils/v0.25.3"},\
++{"module":"github.com/go-openapi/swag/cmdutils","version":"v0.25.4","vcs_hash":"c4eff481dcf1f159f88d2401bc4f2a7896f013188f9687e0966bd1daf299c37d","timestamp":"2025-11-25T18:28:48Z","subdir":"cmdutils","vcs_ref":"refs/tags/cmdutils/v0.25.4"},\
++{"module":"github.com/go-openapi/swag/mangling","version":"v0.25.5","vcs_hash":"97266eba04067e616c6d2966d9fe0748c18b47c1c75240f00215c55d61645173","timestamp":"2026-03-02T18:12:04Z","subdir":"mangling","vcs_ref":"refs/tags/mangling/v0.25.5"},\
++{"module":"github.com/go-openapi/swag/mangling","version":"v0.25.3","vcs_hash":"7836e34d24416dab15fe6283b68847039139876b4f48af3e54978b11d199b4a5","timestamp":"2025-11-17T21:56:48Z","subdir":"mangling","vcs_ref":"refs/tags/mangling/v0.25.3"},\
++{"module":"github.com/go-openapi/swag/loading","version":"v0.25.5","vcs_hash":"97266eba04067e616c6d2966d9fe0748c18b47c1c75240f00215c55d61645173","timestamp":"2026-03-02T18:12:04Z","subdir":"loading","vcs_ref":"refs/tags/loading/v0.25.5"},\
++{"module":"github.com/go-openapi/swag/loading","version":"v0.25.3","vcs_hash":"7836e34d24416dab15fe6283b68847039139876b4f48af3e54978b11d199b4a5","timestamp":"2025-11-17T21:56:48Z","subdir":"loading","vcs_ref":"refs/tags/loading/v0.25.3"},\
++{"module":"github.com/go-openapi/swag/conv","version":"v0.25.5","vcs_hash":"97266eba04067e616c6d2966d9fe0748c18b47c1c75240f00215c55d61645173","timestamp":"2026-03-02T18:12:04Z","subdir":"conv","vcs_ref":"refs/tags/conv/v0.25.5"},\
++{"module":"github.com/go-openapi/swag/conv","version":"v0.25.3","vcs_hash":"7836e34d24416dab15fe6283b68847039139876b4f48af3e54978b11d199b4a5","timestamp":"2025-11-17T21:56:48Z","subdir":"conv","vcs_ref":"refs/tags/conv/v0.25.3"},\
++{"module":"github.com/go-openapi/swag/netutils","version":"v0.25.3","vcs_hash":"7836e34d24416dab15fe6283b68847039139876b4f48af3e54978b11d199b4a5","timestamp":"2025-11-17T21:56:48Z","subdir":"netutils","vcs_ref":"refs/tags/netutils/v0.25.3"},\
++{"module":"github.com/go-openapi/swag/netutils","version":"v0.25.4","vcs_hash":"c4eff481dcf1f159f88d2401bc4f2a7896f013188f9687e0966bd1daf299c37d","timestamp":"2025-11-25T18:28:48Z","subdir":"netutils","vcs_ref":"refs/tags/netutils/v0.25.4"},\
++{"module":"github.com/go-openapi/swag/jsonname","version":"v0.25.5","vcs_hash":"97266eba04067e616c6d2966d9fe0748c18b47c1c75240f00215c55d61645173","timestamp":"2026-03-02T18:12:04Z","subdir":"jsonname","vcs_ref":"refs/tags/jsonname/v0.25.5"},\
++{"module":"github.com/go-openapi/swag/jsonname","version":"v0.25.3","vcs_hash":"7836e34d24416dab15fe6283b68847039139876b4f48af3e54978b11d199b4a5","timestamp":"2025-11-17T21:56:48Z","subdir":"jsonname","vcs_ref":"refs/tags/jsonname/v0.25.3"},\
++{"module":"github.com/go-openapi/swag/yamlutils","version":"v0.25.5","vcs_hash":"97266eba04067e616c6d2966d9fe0748c18b47c1c75240f00215c55d61645173","timestamp":"2026-03-02T18:12:04Z","subdir":"yamlutils","vcs_ref":"refs/tags/yamlutils/v0.25.5"},\
++{"module":"github.com/go-openapi/swag/yamlutils","version":"v0.25.3","vcs_hash":"7836e34d24416dab15fe6283b68847039139876b4f48af3e54978b11d199b4a5","timestamp":"2025-11-17T21:56:48Z","subdir":"yamlutils","vcs_ref":"refs/tags/yamlutils/v0.25.3"},\
++{"module":"github.com/go-openapi/swag/fileutils","version":"v0.25.5","vcs_hash":"97266eba04067e616c6d2966d9fe0748c18b47c1c75240f00215c55d61645173","timestamp":"2026-03-02T18:12:04Z","subdir":"fileutils","vcs_ref":"refs/tags/fileutils/v0.25.5"},\
++{"module":"github.com/go-openapi/swag/fileutils","version":"v0.25.3","vcs_hash":"7836e34d24416dab15fe6283b68847039139876b4f48af3e54978b11d199b4a5","timestamp":"2025-11-17T21:56:48Z","subdir":"fileutils","vcs_ref":"refs/tags/fileutils/v0.25.3"},\
++{"module":"github.com/go-openapi/swag/jsonutils","version":"v0.25.5","vcs_hash":"97266eba04067e616c6d2966d9fe0748c18b47c1c75240f00215c55d61645173","timestamp":"2026-03-02T18:12:04Z","subdir":"jsonutils","vcs_ref":"refs/tags/jsonutils/v0.25.5"},\
++{"module":"github.com/go-openapi/swag/jsonutils","version":"v0.25.3","vcs_hash":"7836e34d24416dab15fe6283b68847039139876b4f48af3e54978b11d199b4a5","timestamp":"2025-11-17T21:56:48Z","subdir":"jsonutils","vcs_ref":"refs/tags/jsonutils/v0.25.3"},\
++{"module":"github.com/go-openapi/swag","version":"v0.25.3","vcs_hash":"7836e34d24416dab15fe6283b68847039139876b4f48af3e54978b11d199b4a5","timestamp":"2025-11-17T21:56:48Z","subdir":"","vcs_ref":"refs/tags/v0.25.3"},\
++{"module":"github.com/go-openapi/swag","version":"v0.23.0","vcs_hash":"c9cae28160c75921d2cb4ab3d1f827a75eff410d92b10dbdb59ee96851a11ee6","timestamp":"2024-03-09T18:11:11Z","subdir":"","vcs_ref":"refs/tags/v0.23.0"},\
++{"module":"github.com/go-openapi/swag","version":"v0.25.4","vcs_hash":"c4eff481dcf1f159f88d2401bc4f2a7896f013188f9687e0966bd1daf299c37d","timestamp":"2025-11-25T18:28:48Z","subdir":"","vcs_ref":"refs/tags/v0.25.4"},\
++{"module":"github.com/go-openapi/swag/typeutils","version":"v0.25.5","vcs_hash":"97266eba04067e616c6d2966d9fe0748c18b47c1c75240f00215c55d61645173","timestamp":"2026-03-02T18:12:04Z","subdir":"typeutils","vcs_ref":"refs/tags/typeutils/v0.25.5"},\
++{"module":"github.com/go-openapi/swag/typeutils","version":"v0.25.3","vcs_hash":"7836e34d24416dab15fe6283b68847039139876b4f48af3e54978b11d199b4a5","timestamp":"2025-11-17T21:56:48Z","subdir":"typeutils","vcs_ref":"refs/tags/typeutils/v0.25.3"},\
++{"module":"github.com/go-openapi/jsonreference","version":"v0.21.3","vcs_hash":"06de1c7f0badb80ff65f2b8d602c41115cadba1eab00a3644a26c815fd9f97cc","timestamp":"2025-11-09T12:00:01Z","subdir":"","vcs_ref":"refs/tags/v0.21.3"},\
++{"module":"github.com/go-openapi/jsonreference","version":"v0.20.2","vcs_hash":"2b1f5e4abef192d562993c04982e0222c673c03ef641b68a8e86ea31eae7b8e4","timestamp":"2023-01-14T04:19:40Z","subdir":"","vcs_ref":"refs/tags/v0.20.2"},\
++{"module":"github.com/go-openapi/jsonreference","version":"v0.21.5","vcs_hash":"a22758c4d4c627c8a25a37edf5556f1a9948325bbec0fab2e7c7c5463db8973d","timestamp":"2026-03-02T21:57:17Z","subdir":"","vcs_ref":"refs/tags/v0.21.5"},\
++{"module":"github.com/go-openapi/strfmt","version":"v0.26.1","vcs_hash":"8e34926a1054736ce29e14bc7c6f4e088d73a272d74557345dac215cc541aab5","timestamp":"2026-03-15T12:32:07Z","subdir":"","vcs_ref":"refs/tags/v0.26.1"},\
++{"module":"github.com/go-openapi/strfmt","version":"v0.25.0","vcs_hash":"1c34578346ff3d210d011d6cfe1401d10ad41c4367fffa74ef83da31a0dbd013","timestamp":"2025-11-09T12:54:25Z","subdir":"","vcs_ref":"refs/tags/v0.25.0"},\
++{"module":"github.com/go-openapi/analysis","version":"v0.24.3","vcs_hash":"c9a38cba6e1401e9a82affc769f4be9ba9280852551fe72d883bdbaf80e6b776","timestamp":"2026-03-07T22:47:01Z","subdir":"","vcs_ref":"refs/tags/v0.24.3"},\
++{"module":"github.com/go-openapi/analysis","version":"v0.24.1","vcs_hash":"ea08203f36c98c5717a34e77c7e63e5e7be53de3838e1348958eba4d2a2f8b14","timestamp":"2025-11-09T13:58:24Z","subdir":"","vcs_ref":"refs/tags/v0.24.1"},\
++{"module":"github.com/go-openapi/jsonpointer","version":"v0.21.0","vcs_hash":"eaab28eda54bc7b1675e90e5ebeb79d02f5b4b71c2430301297b1b41c648226c","timestamp":"2024-03-09T18:18:34Z","subdir":"","vcs_ref":"refs/tags/v0.21.0"},\
++{"module":"github.com/go-openapi/jsonpointer","version":"v0.22.5","vcs_hash":"abf24edf6b6d782a40eae204e7d27ac37aebffcc286ba23e4c02a66fb2ad88ca","timestamp":"2026-03-02T21:21:48Z","subdir":"","vcs_ref":"refs/tags/v0.22.5"},\
++{"module":"github.com/go-openapi/jsonpointer","version":"v0.22.1","vcs_hash":"6269b4927db8fb7b41c628d42e3863e247ac6ab2729a17f0ea71ecfef8b873ab","timestamp":"2025-09-26T17:03:54Z","subdir":"","vcs_ref":"refs/tags/v0.22.1"},\
++{"module":"github.com/gobwas/glob","version":"v0.2.3","vcs_hash":"9ea137b0f545be63130971285b3e0b109491f0a0c45197efd72385336ab0ed05","timestamp":"2018-02-08T21:06:56Z","subdir":"","vcs_ref":"refs/tags/v0.2.3"},\
++{"module":"github.com/hanwen/go-fuse/v2","version":"v2.9.0","vcs_hash":"fa95f661c67615f6ecde3328345065d2af48858b578b04900792a2575a5891ac","timestamp":"2025-10-23T22:52:07Z","subdir":"","vcs_ref":"refs/tags/v2.9.0"},\
++{"module":"github.com/hanwen/go-fuse/v2","version":"v2.8.0","vcs_hash":"9549fd67be856dc5565aa6f4996edb86a648510a1efb4dec609c4133bdba118c","timestamp":"2025-06-11T07:15:48Z","subdir":"","vcs_ref":"refs/tags/v2.8.0"},\
++{"module":"github.com/spdx/tools-golang","version":"v0.5.5","vcs_hash":"67dc836f5c494b30f0be4d730f354867948c78e92c42f1c68e779ec3c48a5a01","timestamp":"2024-06-17T02:01:36Z","subdir":"","vcs_ref":"refs/tags/v0.5.5"},\
++{"module":"github.com/spdx/tools-golang","version":"v0.5.7","vcs_hash":"2944f2a5d449b4ba31e7000d974e7dafe6c0e63a63a2a667ce98cd5bdd81cadc","timestamp":"2026-01-07T01:39:00Z","subdir":"","vcs_ref":"refs/tags/v0.5.7"},\
++{"module":"github.com/theupdateframework/notary","version":"v0.7.0","vcs_hash":"0e83ed3cbdbbbd63c9ab62dc40651621a386fcaf575326772f2912b1279bfb2b","timestamp":"2021-01-14T13:39:57Z","subdir":"","vcs_ref":"refs/tags/v0.7.0"},\
++{"module":"github.com/theupdateframework/go-tuf","version":"v0.7.0","vcs_hash":"bbec9c5e97a26007b5a7ef626e437d1c9638f745eb3bcef1032e95a3a76097d3","timestamp":"2023-11-28T14:58:45Z","subdir":"","vcs_ref":"refs/tags/v0.7.0"},\
++{"module":"github.com/theupdateframework/go-tuf/v2","version":"v2.3.0","vcs_hash":"97ff561da38ed2349284442d498f6f0f3994debe9521efa5d581a46bfb851564","timestamp":"2025-11-04T16:20:07Z","subdir":"","vcs_ref":"refs/tags/v2.3.0"},\
++{"module":"github.com/theupdateframework/go-tuf/v2","version":"v2.4.1","vcs_hash":"24410f9d68f2bef47751f65528b3ec3fa18dc875d5ba2e76e28fd98fe2c471f4","timestamp":"2026-01-26T12:41:29Z","subdir":"","vcs_ref":"refs/tags/v2.4.1"},\
++{"module":"github.com/AdaLogics/go-fuzz-headers","version":"v0.0.0-20240806141605-e8a1dd7889d6","vcs_hash":"618ef3cd1ed01872674845eae25e7d6a50a3d70b49881ccd500327b0778fedb9","timestamp":"2024-08-06T14:16:05Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/modern-go/reflect2","version":"v1.0.1","vcs_hash":"5f837a9261606850c86cb464d91848cb7e2e334be529f812891c080cfd881b9a","timestamp":"2018-07-18T01:23:57Z","subdir":"","vcs_ref":"refs/tags/v1.0.1"},\
++{"module":"github.com/modern-go/reflect2","version":"v0.0.0-20180701023420-4b7aa43c6742","vcs_hash":"8af4d54440b1b6703cd1b26845d1f5914958f01a18064501f7b77554b973b677","timestamp":"2018-07-01T02:34:20Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/modern-go/reflect2","version":"v1.0.3-0.20250322232337-35a7c28c31ee","vcs_hash":"b0f41ee692517b4a6786fb48ce9d49e532c4f77cac6cacadd6ff49dcb7325931","timestamp":"2025-03-22T23:23:37Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/modern-go/concurrent","version":"v0.0.0-20180228061459-e0a39a4cb421","vcs_hash":"720429d876e0c333185ab19ebc83ff389edac9e5b459d07c74e7a18cae1c5b7a","timestamp":"2018-02-28T06:14:59Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/modern-go/concurrent","version":"v0.0.0-20180306012644-bacd9c7ef1dd","vcs_hash":"09a996e0549b43adaeb1c40a8dc339563ed1a8dcc831e5cb074441a30d502d23","timestamp":"2018-03-06T01:26:44Z","subdir":"","vcs_ref":""},\
++{"module":"github.com/intel/goresctrl","version":"v0.10.0","vcs_hash":"29a6109926a2e174fae849b3c015435e64e4f34ea86919fbc693930c06128b9b","timestamp":"2025-11-03T07:45:09Z","subdir":"","vcs_ref":"refs/tags/v0.10.0"},\
+ {"module":"go.yaml.in/yaml/v4","version":"v4.0.0-rc.3","vcs_hash":"bb6f6ec483049dba1843496880df5682fc52f28cc7a78c0fd6884e70812d5903","timestamp":"2025-11-04T17:29:07Z","subdir":"","vcs_ref":"refs/tags/v4.0.0-rc.3"},\
+ {"module":"go.yaml.in/yaml/v4","version":"v4.0.0-rc.4","vcs_hash":"adea5cf06c6a3beda8e988488bf42b037fd9e912a944733d3d8861ee12229595","timestamp":"2026-01-21T17:38:02Z","subdir":"","vcs_ref":"refs/tags/v4.0.0-rc.4"},\
+-{"module":"pgregory.net/rapid","version":"v1.2.0","vcs_hash":"44c434e5467532a753dca055894777e9cc0c2edb2d36b01df08664a6953e8459","timestamp":"2025-02-24T08:18:48Z","subdir":"","vcs_ref":"refs/tags/v1.2.0"},\
++{"module":"go.yaml.in/yaml/v3","version":"v3.0.4","vcs_hash":"28af0e86ac86bfc3e00873c91eee3b58eb4f82e4f4c0f7963ccfc8872fd4a4a5","timestamp":"2025-06-29T14:09:51Z","subdir":"","vcs_ref":"refs/tags/v3.0.4"},\
++{"module":"go.yaml.in/yaml/v2","version":"v2.4.3","vcs_hash":"2408eeac30b1574986dd0e17458ada4d251f9845f816637202936da13fcdab91","timestamp":"2025-09-11T04:10:14Z","subdir":"","vcs_ref":"refs/tags/v2.4.3"},\
++{"module":"go.yaml.in/yaml/v2","version":"v2.4.2","vcs_hash":"8e5c657c86d0e182b5f4d6ed3715a0ec93dfb998d8ef94555af035578a3aba8d","timestamp":"2025-06-02T16:37:17Z","subdir":"","vcs_ref":"refs/tags/v2.4.2"},\
++{"module":"sigs.k8s.io/yaml","version":"v1.6.0","vcs_hash":"289ff1bc36e2275d8f58e8de4b1e27b0cabf0d8bfcb2058f040045490a48f9fc","timestamp":"2025-07-24T18:12:28Z","subdir":"","vcs_ref":"refs/tags/v1.6.0"},\
++{"module":"sigs.k8s.io/json","version":"v0.0.0-20241014173422-cfa47c3a1cc8","vcs_hash":"af72b3861f1b450d8fac535a64ce765bba3c291956ec3c652a5f54db46add460","timestamp":"2024-10-14T17:34:22Z","subdir":"","vcs_ref":""},\
++{"module":"sigs.k8s.io/json","version":"v0.0.0-20250730193827-2d320260d730","vcs_hash":"464b6144a42f16f67617e6ae70c780fa6b3663ca909d664a33af0b61e7456764","timestamp":"2025-07-30T19:38:27Z","subdir":"","vcs_ref":""},\
++{"module":"sigs.k8s.io/randfill","version":"v1.0.0","vcs_hash":"64598686d0dc1d499a7860fd9d58ec01370c353b03b4e9377d668d615af13dc6","timestamp":"2025-03-04T18:23:53Z","subdir":"","vcs_ref":"refs/tags/v1.0.0"},\
++{"module":"sigs.k8s.io/structured-merge-diff/v6","version":"v6.3.0","vcs_hash":"d66ac94ec61bd2ff1830ecd910c5ba59307d9987a0b5e8bc4d43eed2a9670e03","timestamp":"2025-07-16T20:34:24Z","subdir":"","vcs_ref":"refs/tags/v6.3.0"},\
++{"module":"cloud.google.com/go/compute/metadata","version":"v0.9.0","vcs_hash":"ef8ad73ce6cafa3fbb115b0895d2b391fa5aefa58dac151c1ff06e7279185884","timestamp":"2025-09-24T19:41:55Z","subdir":"compute/metadata","vcs_ref":"refs/tags/compute/metadata/v0.9.0"},\
++{"module":"golang.org/x/net","version":"v0.48.0","vcs_hash":"933b45295e922f06f042181b7cf7fb2f2b10035e52fef5bbb293c1cb6ea68cf6","timestamp":"2025-12-08T21:41:29Z","subdir":"","vcs_ref":"refs/tags/v0.48.0"},\
++{"module":"golang.org/x/net","version":"v0.51.0","vcs_hash":"27384ca1bf9f8fbfd7f0454280bea1a21fcb6be1145d234e4ede4db200fd3abc","timestamp":"2026-02-25T00:19:02Z","subdir":"","vcs_ref":"refs/tags/v0.51.0"},\
++{"module":"golang.org/x/net","version":"v0.47.0","vcs_hash":"8c32d9cb50e30e4c5deab8ef39dfee35e4f56c13625493919d433a59ec1eb2e4","timestamp":"2025-11-11T18:55:31Z","subdir":"","vcs_ref":"refs/tags/v0.47.0"},\
++{"module":"golang.org/x/tools","version":"v0.41.0","vcs_hash":"52090871934b5fcad164d4fd90e0dd44deed1f10db32e1203de79d7dc33b828b","timestamp":"2026-01-12T17:22:29Z","subdir":"","vcs_ref":"refs/tags/v0.41.0"},\
++{"module":"golang.org/x/tools","version":"v0.38.0","vcs_hash":"d216d54a0764f2431487fc456233144cce69e8db7cf83fe343dc1b40544002c3","timestamp":"2025-10-08T22:17:26Z","subdir":"","vcs_ref":"refs/tags/v0.38.0"},\
++{"module":"golang.org/x/tools","version":"v0.39.0","vcs_hash":"3e134fe07900bbb1f6b786c65f3bae7ddad868e248d5ce0e1a52fc21568e545f","timestamp":"2025-11-12T22:16:42Z","subdir":"","vcs_ref":"refs/tags/v0.39.0"},\
++{"module":"golang.org/x/exp","version":"v0.0.0-20250911091902-df9299821621","vcs_hash":"b29a418d7bb6e15cce9cdb2caf0de7ed5dba8f2a38735a52d5d41801549b0ebf","timestamp":"2025-09-11T09:19:02Z","subdir":"","vcs_ref":""},\
++{"module":"golang.org/x/text","version":"v0.32.0","vcs_hash":"db1055c090da946a126ac8573a0148f86e0c41f537a9ee33dc5eefbe656d95ed","timestamp":"2025-12-08T16:57:43Z","subdir":"","vcs_ref":"refs/tags/v0.32.0"},\
++{"module":"golang.org/x/text","version":"v0.31.0","vcs_hash":"577e4676a2f50c97fb4d38cee5035ca19849a09a3f986733a02de10c991c03d2","timestamp":"2025-11-11T15:05:00Z","subdir":"","vcs_ref":"refs/tags/v0.31.0"},\
++{"module":"golang.org/x/text","version":"v0.4.0","vcs_hash":"5ad35cfebebfa5b556ca6d44b5026673bb71ab874271a0fc395ab751275779ae","timestamp":"2022-10-14T17:33:59Z","subdir":"","vcs_ref":"refs/tags/v0.4.0"},\
++{"module":"golang.org/x/text","version":"v0.34.0","vcs_hash":"ab936e776d558dcf22a5deb255244ee8a750a97767251346fb3276b4eef3542f","timestamp":"2026-02-09T16:14:29Z","subdir":"","vcs_ref":"refs/tags/v0.34.0"},\
++{"module":"golang.org/x/sync","version":"v0.20.0","vcs_hash":"7832f0aec63a5b5bc0fa1a349a5a6f0126ede331ea71a528ecb5f3968f2b000c","timestamp":"2026-02-23T18:54:42Z","subdir":"","vcs_ref":"refs/tags/v0.20.0"},\
++{"module":"golang.org/x/sync","version":"v0.18.0","vcs_hash":"ebf6fd09cb715ca3918f1d9bcf5429f708b1f0cec51d03ec50e2b14777bc5963","timestamp":"2025-10-21T17:44:11Z","subdir":"","vcs_ref":"refs/tags/v0.18.0"},\
++{"module":"golang.org/x/time","version":"v0.14.0","vcs_hash":"0b5a85f52d49b5c97b97cde355131c98905f13038f61a5848c4d01a01512f74b","timestamp":"2025-09-16T23:29:52Z","subdir":"","vcs_ref":"refs/tags/v0.14.0"},\
++{"module":"golang.org/x/oauth2","version":"v0.32.0","vcs_hash":"5299f99fe900c9f416ec8f845e101931917c9ec20b42262d8341778bde5e7247","timestamp":"2025-09-16T00:27:56Z","subdir":"","vcs_ref":"refs/tags/v0.32.0"},\
++{"module":"golang.org/x/oauth2","version":"v0.33.0","vcs_hash":"231775307d2198402b4332072fb4567ff1a13e24f257ef58f6e3fdb368a76ee0","timestamp":"2025-10-23T14:32:39Z","subdir":"","vcs_ref":"refs/tags/v0.33.0"},\
++{"module":"golang.org/x/oauth2","version":"v0.36.0","vcs_hash":"864afddc69fad1ce0a681e3dd141ae639e4d432bb2054f4e23bade98cd28e520","timestamp":"2026-02-11T19:14:10Z","subdir":"","vcs_ref":"refs/tags/v0.36.0"},\
++{"module":"golang.org/x/sys","version":"v0.38.0","vcs_hash":"31b4a87892cd1d88cf590c31b22ef78bd77b4e57c5287e1e0eb653c03ef43d8b","timestamp":"2025-11-04T21:29:36Z","subdir":"","vcs_ref":"refs/tags/v0.38.0"},\
++{"module":"golang.org/x/sys","version":"v0.42.0","vcs_hash":"8e0c29133c55549f2a5ccd9da93c1f00cb94b6e82a15ed2bf8a2406448f69c37","timestamp":"2026-03-03T01:51:03Z","subdir":"","vcs_ref":"refs/tags/v0.42.0"},\
++{"module":"golang.org/x/sys","version":"v0.44.0","vcs_hash":"6f609e950a030bdc26d17f92e04a240e08056999bfc36f1bb76905a96337c8d1","timestamp":"2026-04-23T15:37:02Z","subdir":"","vcs_ref":"refs/tags/v0.44.0"},\
+ {"module":"golang.org/x/sys","version":"v0.1.0","vcs_hash":"b1e9a27b98fa2dd77074f2947aa9586de17609eb0bdd77672fccab342a0f1a77","timestamp":"2022-10-13T17:17:32Z","subdir":"","vcs_ref":"refs/tags/v0.1.0"},\
+ {"module":"golang.org/x/sys","version":"v0.6.0","vcs_hash":"323536cd91bc88e38213d12787ab63a3504a0061ffc7b17a8c7ca560497f24fa","timestamp":"2023-03-04T03:20:52Z","subdir":"","vcs_ref":"refs/tags/v0.6.0"},\
+-{"module":"golang.org/x/sys","version":"v0.42.0","vcs_hash":"8e0c29133c55549f2a5ccd9da93c1f00cb94b6e82a15ed2bf8a2406448f69c37","timestamp":"2026-03-03T01:51:03Z","subdir":"","vcs_ref":"refs/tags/v0.42.0"},\
+-{"module":"golang.org/x/sys","version":"v0.38.0","vcs_hash":"31b4a87892cd1d88cf590c31b22ef78bd77b4e57c5287e1e0eb653c03ef43d8b","timestamp":"2025-11-04T21:29:36Z","subdir":"","vcs_ref":"refs/tags/v0.38.0"},\
+-{"module":"golang.org/x/mod","version":"v0.31.0","vcs_hash":"cb53cc14448559f4b79c8c47297f628afbc8171ff501cdc4743c5f4030033dd7","timestamp":"2025-12-08T16:56:33Z","subdir":"","vcs_ref":"refs/tags/v0.31.0"},\
+-{"module":"golang.org/x/mod","version":"v0.29.0","vcs_hash":"e2f24273f66162f4a2bfde7357a860b565262f0932e1d1bcba22f2c375336f39","timestamp":"2025-10-08T15:23:01Z","subdir":"","vcs_ref":"refs/tags/v0.29.0"},\
+-{"module":"golang.org/x/oauth2","version":"v0.33.0","vcs_hash":"231775307d2198402b4332072fb4567ff1a13e24f257ef58f6e3fdb368a76ee0","timestamp":"2025-10-23T14:32:39Z","subdir":"","vcs_ref":"refs/tags/v0.33.0"},\
+-{"module":"golang.org/x/oauth2","version":"v0.32.0","vcs_hash":"5299f99fe900c9f416ec8f845e101931917c9ec20b42262d8341778bde5e7247","timestamp":"2025-09-16T00:27:56Z","subdir":"","vcs_ref":"refs/tags/v0.32.0"},\
++{"module":"golang.org/x/term","version":"v0.41.0","vcs_hash":"7bae64b3057af373aecee34a2667fba2aff1e229ff6472c080e93e65458ffe5a","timestamp":"2026-03-10T01:43:14Z","subdir":"","vcs_ref":"refs/tags/v0.41.0"},\
+ {"module":"golang.org/x/term","version":"v0.37.0","vcs_hash":"dc68a83f0b959f11ba9a73ae88839dbcfaa7f3926b2c644ab3d6371b08b9487e","timestamp":"2025-11-11T15:03:38Z","subdir":"","vcs_ref":"refs/tags/v0.37.0"},\
+ {"module":"golang.org/x/term","version":"v0.38.0","vcs_hash":"71d12ef0538a7e08304bd53ff5dbe1a79f60001589f3d0127d4b8bfc96b4cb9e","timestamp":"2025-12-08T16:57:31Z","subdir":"","vcs_ref":"refs/tags/v0.38.0"},\
+-{"module":"golang.org/x/sync","version":"v0.20.0","vcs_hash":"7832f0aec63a5b5bc0fa1a349a5a6f0126ede331ea71a528ecb5f3968f2b000c","timestamp":"2026-02-23T18:54:42Z","subdir":"","vcs_ref":"refs/tags/v0.20.0"},\
+-{"module":"golang.org/x/sync","version":"v0.18.0","vcs_hash":"ebf6fd09cb715ca3918f1d9bcf5429f708b1f0cec51d03ec50e2b14777bc5963","timestamp":"2025-10-21T17:44:11Z","subdir":"","vcs_ref":"refs/tags/v0.18.0"},\
+-{"module":"golang.org/x/crypto","version":"v0.46.0","vcs_hash":"798f6d5ef5f210d9df33b4e7c70674a661cd004d741bfb266c427b6f478b1cc8","timestamp":"2025-12-08T18:34:26Z","subdir":"","vcs_ref":"refs/tags/v0.46.0"},\
++{"module":"golang.org/x/crypto","version":"v0.48.0","vcs_hash":"290314b4367a5ace3f2dd13a6b31df560c76113926e950c1eff3b3688c7b62cc","timestamp":"2026-02-09T16:37:10Z","subdir":"","vcs_ref":"refs/tags/v0.48.0"},\
+ {"module":"golang.org/x/crypto","version":"v0.45.0","vcs_hash":"8e06e9b13668ac944956ad59f8348e8b4c938e9d610a8227755b513dc6a69aa7","timestamp":"2025-11-19T19:55:48Z","subdir":"","vcs_ref":"refs/tags/v0.45.0"},\
+-{"module":"golang.org/x/net","version":"v0.47.0","vcs_hash":"8c32d9cb50e30e4c5deab8ef39dfee35e4f56c13625493919d433a59ec1eb2e4","timestamp":"2025-11-11T18:55:31Z","subdir":"","vcs_ref":"refs/tags/v0.47.0"},\
+-{"module":"golang.org/x/net","version":"v0.48.0","vcs_hash":"933b45295e922f06f042181b7cf7fb2f2b10035e52fef5bbb293c1cb6ea68cf6","timestamp":"2025-12-08T21:41:29Z","subdir":"","vcs_ref":"refs/tags/v0.48.0"},\
+-{"module":"golang.org/x/exp","version":"v0.0.0-20250911091902-df9299821621","vcs_hash":"b29a418d7bb6e15cce9cdb2caf0de7ed5dba8f2a38735a52d5d41801549b0ebf","timestamp":"2025-09-11T09:19:02Z","subdir":"","vcs_ref":""},\
+-{"module":"golang.org/x/text","version":"v0.4.0","vcs_hash":"5ad35cfebebfa5b556ca6d44b5026673bb71ab874271a0fc395ab751275779ae","timestamp":"2022-10-14T17:33:59Z","subdir":"","vcs_ref":"refs/tags/v0.4.0"},\
+-{"module":"golang.org/x/text","version":"v0.31.0","vcs_hash":"577e4676a2f50c97fb4d38cee5035ca19849a09a3f986733a02de10c991c03d2","timestamp":"2025-11-11T15:05:00Z","subdir":"","vcs_ref":"refs/tags/v0.31.0"},\
+-{"module":"golang.org/x/text","version":"v0.32.0","vcs_hash":"db1055c090da946a126ac8573a0148f86e0c41f537a9ee33dc5eefbe656d95ed","timestamp":"2025-12-08T16:57:43Z","subdir":"","vcs_ref":"refs/tags/v0.32.0"},\
+-{"module":"golang.org/x/time","version":"v0.14.0","vcs_hash":"0b5a85f52d49b5c97b97cde355131c98905f13038f61a5848c4d01a01512f74b","timestamp":"2025-09-16T23:29:52Z","subdir":"","vcs_ref":"refs/tags/v0.14.0"},\
+-{"module":"golang.org/x/tools","version":"v0.39.0","vcs_hash":"3e134fe07900bbb1f6b786c65f3bae7ddad868e248d5ce0e1a52fc21568e545f","timestamp":"2025-11-12T22:16:42Z","subdir":"","vcs_ref":"refs/tags/v0.39.0"},\
+-{"module":"golang.org/x/tools","version":"v0.38.0","vcs_hash":"d216d54a0764f2431487fc456233144cce69e8db7cf83fe343dc1b40544002c3","timestamp":"2025-10-08T22:17:26Z","subdir":"","vcs_ref":"refs/tags/v0.38.0"},\
+-{"module":"k8s.io/apimachinery","version":"v0.34.1","vcs_hash":"9131e9ebe36078f01c5a5e8e9866300b853aa46fab527d00fc089d4c16938663","timestamp":"2025-08-16T07:57:26Z","subdir":"","vcs_ref":"refs/tags/v0.34.1"},\
+-{"module":"k8s.io/api","version":"v0.34.1","vcs_hash":"5c4bbd0617f6f594b275f1999f97eca8f79dbb30e908e7d6b5c7a80fd5b9b0d2","timestamp":"2025-09-10T04:39:36Z","subdir":"","vcs_ref":"refs/tags/v0.34.1"},\
+-{"module":"k8s.io/klog/v2","version":"v2.130.1","vcs_hash":"eaab5e8e1958570d9bced9a912298fdaa9472cecec794161f58aebf8c4d1e963","timestamp":"2024-06-20T00:51:19Z","subdir":"","vcs_ref":"refs/tags/v2.130.1"},\
+-{"module":"k8s.io/kube-openapi","version":"v0.0.0-20250710124328-f3f2b991d03b","vcs_hash":"bbdfcb1726af92c510f587baa66600e18719a63bbabc846728d7c2ff829a2146","timestamp":"2025-07-10T12:43:28Z","subdir":"","vcs_ref":""},\
+-{"module":"k8s.io/cri-api","version":"v0.34.1","vcs_hash":"7301e739a4795b683b66e93dd7c6f440f5c5fddd2ad7816c05a5678c723aca60","timestamp":"2025-08-16T07:57:26Z","subdir":"","vcs_ref":"refs/tags/v0.34.1"},\
+-{"module":"k8s.io/utils","version":"v0.0.0-20250604170112-4c0f3b243397","vcs_hash":"60ee1a48e44e3b939997e0fd54e801d1b11cfe7183c5f295746d2564bd6860e8","timestamp":"2025-06-04T17:01:12Z","subdir":"","vcs_ref":""},\
+-{"module":"k8s.io/client-go","version":"v0.34.1","vcs_hash":"25b2ca19570dcf36fcfa8a5388cc7647944fee1a9a445671e69704dbd6f452b5","timestamp":"2025-09-10T04:55:33Z","subdir":"","vcs_ref":"refs/tags/v0.34.1"},\
+-{"module":"go.opentelemetry.io/contrib/instrumentation/net/http/httptrace/otelhttptrace","version":"v0.63.0","vcs_hash":"a35299710fa18a3df076b2389758f98c816c8d03e316516b36a9d5299420a7f7","timestamp":"2025-08-29T20:56:25Z","subdir":"instrumentation/net/http/httptrace/otelhttptrace","vcs_ref":"refs/tags/instrumentation/net/http/httptrace/otelhttptrace/v0.63.0"},\
+-{"module":"go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp","version":"v0.63.0","vcs_hash":"a35299710fa18a3df076b2389758f98c816c8d03e316516b36a9d5299420a7f7","timestamp":"2025-08-29T20:56:25Z","subdir":"instrumentation/net/http/otelhttp","vcs_ref":"refs/tags/instrumentation/net/http/otelhttp/v0.63.0"},\
+-{"module":"go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc","version":"v0.63.0","vcs_hash":"a35299710fa18a3df076b2389758f98c816c8d03e316516b36a9d5299420a7f7","timestamp":"2025-08-29T20:56:25Z","subdir":"instrumentation/google.golang.org/grpc/otelgrpc","vcs_ref":"refs/tags/instrumentation/google.golang.org/grpc/otelgrpc/v0.63.0"},\
+-{"module":"go.opentelemetry.io/contrib/detectors/gcp","version":"v1.38.0","vcs_hash":"a35299710fa18a3df076b2389758f98c816c8d03e316516b36a9d5299420a7f7","timestamp":"2025-08-29T20:56:25Z","subdir":"detectors/gcp","vcs_ref":"refs/tags/detectors/gcp/v1.38.0"},\
+-{"module":"go.opentelemetry.io/auto/sdk","version":"v1.2.1","vcs_hash":"1fd877c6ad92470308433b00b2458aacc47c259fb28a0596272d30410c77f412","timestamp":"2025-09-15T16:53:44Z","subdir":"sdk","vcs_ref":"refs/tags/sdk/v1.2.1"},\
+-{"module":"go.opentelemetry.io/proto/otlp","version":"v1.7.1","vcs_hash":"7362aea1b94649c9ad7d031fd6fe79b2310f347d865614b0be2b844894e28013","timestamp":"2025-07-31T08:38:46Z","subdir":"otlp","vcs_ref":"refs/tags/otlp/v1.7.1"},\
+-{"module":"go.opentelemetry.io/otel","version":"v1.38.0","vcs_hash":"a95b69a9e67fb0660691c8d8f29b4fbfe95874e2d916849ef02db0d886ff00b5","timestamp":"2025-08-29T19:42:52Z","subdir":"","vcs_ref":"refs/tags/v1.38.0"},\
+-{"module":"go.opentelemetry.io/otel/sdk","version":"v1.38.0","vcs_hash":"a95b69a9e67fb0660691c8d8f29b4fbfe95874e2d916849ef02db0d886ff00b5","timestamp":"2025-08-29T19:42:52Z","subdir":"sdk","vcs_ref":"refs/tags/sdk/v1.38.0"},\
+-{"module":"go.opentelemetry.io/otel/sdk/metric","version":"v1.38.0","vcs_hash":"a95b69a9e67fb0660691c8d8f29b4fbfe95874e2d916849ef02db0d886ff00b5","timestamp":"2025-08-29T19:42:52Z","subdir":"sdk/metric","vcs_ref":"refs/tags/sdk/metric/v1.38.0"},\
+-{"module":"go.opentelemetry.io/otel/metric","version":"v1.38.0","vcs_hash":"a95b69a9e67fb0660691c8d8f29b4fbfe95874e2d916849ef02db0d886ff00b5","timestamp":"2025-08-29T19:42:52Z","subdir":"metric","vcs_ref":"refs/tags/metric/v1.38.0"},\
+-{"module":"go.opentelemetry.io/otel/trace","version":"v1.38.0","vcs_hash":"a95b69a9e67fb0660691c8d8f29b4fbfe95874e2d916849ef02db0d886ff00b5","timestamp":"2025-08-29T19:42:52Z","subdir":"trace","vcs_ref":"refs/tags/trace/v1.38.0"},\
+-{"module":"go.opentelemetry.io/otel/exporters/prometheus","version":"v0.60.0","vcs_hash":"a95b69a9e67fb0660691c8d8f29b4fbfe95874e2d916849ef02db0d886ff00b5","timestamp":"2025-08-29T19:42:52Z","subdir":"exporters/prometheus","vcs_ref":"refs/tags/exporters/prometheus/v0.60.0"},\
+-{"module":"go.opentelemetry.io/otel/exporters/prometheus","version":"v0.42.0","vcs_hash":"5781e823bcdbe01100cd1dc8d89e81f073e0a26cb157df3e236c81af5d21f7e4","timestamp":"2023-09-28T19:28:51Z","subdir":"exporters/prometheus","vcs_ref":"refs/tags/exporters/prometheus/v0.42.0"},\
+-{"module":"go.opentelemetry.io/otel/exporters/stdout/stdouttrace","version":"v1.38.0","vcs_hash":"a95b69a9e67fb0660691c8d8f29b4fbfe95874e2d916849ef02db0d886ff00b5","timestamp":"2025-08-29T19:42:52Z","subdir":"exporters/stdout/stdouttrace","vcs_ref":"refs/tags/exporters/stdout/stdouttrace/v1.38.0"},\
+-{"module":"go.opentelemetry.io/otel/exporters/stdout/stdouttrace","version":"v1.31.0","vcs_hash":"32a87864cfa3320f417f47862642c312d2c19908839bd781f0f1073a0a9b899e","timestamp":"2024-10-11T16:59:27Z","subdir":"exporters/stdout/stdouttrace","vcs_ref":""},\
+-{"module":"go.opentelemetry.io/otel/exporters/jaeger","version":"v1.17.0","vcs_hash":"7257a93ca31d121ae8fee06e2ce5824c46e65e351d7b2daf9b1a27a10d8bb60d","timestamp":"2023-08-28T14:50:03Z","subdir":"exporters/jaeger","vcs_ref":"refs/tags/exporters/jaeger/v1.17.0"},\
+-{"module":"go.opentelemetry.io/otel/exporters/otlp/otlptrace","version":"v1.38.0","vcs_hash":"a95b69a9e67fb0660691c8d8f29b4fbfe95874e2d916849ef02db0d886ff00b5","timestamp":"2025-08-29T19:42:52Z","subdir":"exporters/otlp/otlptrace","vcs_ref":"refs/tags/exporters/otlp/otlptrace/v1.38.0"},\
+-{"module":"go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracehttp","version":"v1.38.0","vcs_hash":"a95b69a9e67fb0660691c8d8f29b4fbfe95874e2d916849ef02db0d886ff00b5","timestamp":"2025-08-29T19:42:52Z","subdir":"exporters/otlp/otlptrace/otlptracehttp","vcs_ref":"refs/tags/exporters/otlp/otlptrace/otlptracehttp/v1.38.0"},\
+-{"module":"go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc","version":"v1.38.0","vcs_hash":"a95b69a9e67fb0660691c8d8f29b4fbfe95874e2d916849ef02db0d886ff00b5","timestamp":"2025-08-29T19:42:52Z","subdir":"exporters/otlp/otlptrace/otlptracegrpc","vcs_ref":"refs/tags/exporters/otlp/otlptrace/otlptracegrpc/v1.38.0"},\
+-{"module":"go.opentelemetry.io/otel/exporters/otlp/otlpmetric/otlpmetrichttp","version":"v1.38.0","vcs_hash":"a95b69a9e67fb0660691c8d8f29b4fbfe95874e2d916849ef02db0d886ff00b5","timestamp":"2025-08-29T19:42:52Z","subdir":"exporters/otlp/otlpmetric/otlpmetrichttp","vcs_ref":"refs/tags/exporters/otlp/otlpmetric/otlpmetrichttp/v1.38.0"},\
+-{"module":"go.opentelemetry.io/otel/exporters/otlp/otlpmetric/otlpmetricgrpc","version":"v1.38.0","vcs_hash":"a95b69a9e67fb0660691c8d8f29b4fbfe95874e2d916849ef02db0d886ff00b5","timestamp":"2025-08-29T19:42:52Z","subdir":"exporters/otlp/otlpmetric/otlpmetricgrpc","vcs_ref":"refs/tags/exporters/otlp/otlpmetric/otlpmetricgrpc/v1.38.0"},\
+-{"module":"go.etcd.io/bbolt","version":"v1.4.3","vcs_hash":"5983ea71bb9e5e22aede686f4e2d57552e937bd9f2a5a3ca5e595c01b957c33a","timestamp":"2025-08-19T17:17:23Z","subdir":"","vcs_ref":"refs/tags/v1.4.3"},\
+-{"module":"gopkg.in/check.v1","version":"v0.0.0-20161208181325-20d25e280405","vcs_hash":"f6f7125ac7ef086ca6395a14a9a28c8c11cd6f8790a8be7cfd6475d1acd0f40b","timestamp":"2016-12-08T18:13:25Z","subdir":"","vcs_ref":""},\
+-{"module":"gopkg.in/check.v1","version":"v1.0.0-20200227125254-8fa46927fb4f","vcs_hash":"23da246e09df0cfb88f7874f3e8ab42f1563033c51f59b8fd9f88f708ab87083","timestamp":"2020-02-27T12:52:54Z","subdir":"","vcs_ref":""},\
+-{"module":"gopkg.in/check.v1","version":"v1.0.0-20201130134442-10cb98267c6c","vcs_hash":"b8ed7c01feb15e76511fd0dcf4b7d5e0ab535f96b5fe0e22cd9854a758a6c38d","timestamp":"2020-11-30T13:44:42Z","subdir":"","vcs_ref":""},\
+-{"module":"gopkg.in/inf.v0","version":"v0.9.1","vcs_hash":"61185ca91404d2e09a193aede807b4a9ededd43199f58cd49ec4cef480d7bc7f","timestamp":"2018-03-26T17:23:32Z","subdir":"","vcs_ref":"refs/tags/v0.9.1"},\
+-{"module":"gopkg.in/tomb.v1","version":"v1.0.0-20141024135613-dd632973f1e7","vcs_hash":"3eb09c53457860b46e591b55bd3d381c6c4ceb426eeef3c43e3b3eac38964c0d","timestamp":"2014-10-24T13:56:13Z","subdir":"","vcs_ref":""},\
+-{"module":"gopkg.in/yaml.v2","version":"v2.2.8","vcs_hash":"400816c86851106c70bff651cdce4df77403b9659ec70d1d1bbe2d3211dfa942","timestamp":"2020-01-21T17:19:40Z","subdir":"","vcs_ref":"refs/tags/v2.2.8"},\
+-{"module":"gopkg.in/yaml.v2","version":"v2.2.2","vcs_hash":"8a100ce674e65e72daf096e45d53f5beec9f9123c742acb89993de84b6414834","timestamp":"2018-11-15T11:05:04Z","subdir":"","vcs_ref":"refs/tags/v2.2.2"},\
+-{"module":"gopkg.in/yaml.v2","version":"v2.2.4","vcs_hash":"16ad1bc1035b50f99a688a97524eadf6fc6a8b09612f99dd2ef19e0889b7935a","timestamp":"2019-10-02T18:33:36Z","subdir":"","vcs_ref":"refs/tags/v2.2.4"},\
+-{"module":"gopkg.in/yaml.v2","version":"v2.2.1","vcs_hash":"0fa3b98a4c1a3d9bd017c1d1c94874fecbc693d1400e5f002f53d4444a42664c","timestamp":"2018-03-28T19:50:20Z","subdir":"","vcs_ref":"refs/tags/v2.2.1"},\
+-{"module":"gopkg.in/fsnotify.v1","version":"v1.4.7","vcs_hash":"cc44f7bf337eee80812ff411465b4e87c78887003ae940c1b27adb151bbed7d2","timestamp":"2018-01-10T05:33:47Z","subdir":"","vcs_ref":"refs/tags/v1.4.7"},\
+-{"module":"gopkg.in/ini.v1","version":"v1.67.0","vcs_hash":"35aca96c4c1dbe28b4a68dd8f9ad52ed4d311b137ae51f57e5f73034281e5da5","timestamp":"2022-08-08T11:35:30Z","subdir":"","vcs_ref":"refs/tags/v1.67.0"},\
+-{"module":"gopkg.in/yaml.v3","version":"v3.0.1","vcs_hash":"8d340fff421a1861f196061b40e49b2f9e802647204935d08e1062b8ecd90b0d","timestamp":"2022-05-27T08:35:30Z","subdir":"","vcs_ref":"refs/tags/v3.0.1"},\
+-{"module":"gopkg.in/yaml.v3","version":"v3.0.0-20200313102051-9f266ea9e77c","vcs_hash":"ae6e6119974a43d5668501b6efe7e743408319dee4094d1929d3e75a4f5dac98","timestamp":"2020-03-13T10:20:51Z","subdir":"","vcs_ref":""},\
+-{"module":"google.golang.org/grpc","version":"v1.0.5","vcs_hash":"a8f63cb0b9589a8734365d4e15d54811da5f80c7314224f78f912146fcb9e1d8","timestamp":"2016-12-02T18:43:27Z","subdir":"","vcs_ref":"refs/tags/v1.0.5"},\
+-{"module":"google.golang.org/grpc","version":"v1.77.0","vcs_hash":"6a4d91efb4524dab3f60e9d933cded144ffbbfe78825b7b8af87b3f8ac1f948f","timestamp":"2025-11-17T23:10:58Z","subdir":"","vcs_ref":"refs/tags/v1.77.0"},\
+-{"module":"google.golang.org/grpc","version":"v1.78.0","vcs_hash":"0638a64122abeb115144e72987920717a22fb1af701d28ef847f1f50cf61c8ac","timestamp":"2025-12-23T09:24:02Z","subdir":"","vcs_ref":"refs/tags/v1.78.0"},\
+-{"module":"google.golang.org/grpc/cmd/protoc-gen-go-grpc","version":"v1.5.1","vcs_hash":"ce5a862c22ded840bff7b7ec1016804cb0af284075ea09fb5fe73b9866532a3a","timestamp":"2024-07-29T17:04:12Z","subdir":"cmd/protoc-gen-go-grpc","vcs_ref":"refs/tags/cmd/protoc-gen-go-grpc/v1.5.1"},\
+-{"module":"google.golang.org/genproto","version":"v0.0.0-20230223222841-637eb2293923","vcs_hash":"21c46bcd2e99306470dba32b1498445db51b8fb0eb86d97f796374b8d215eb9c","timestamp":"2023-02-23T22:28:41Z","subdir":"","vcs_ref":""},\
+-{"module":"google.golang.org/genproto/googleapis/api","version":"v0.0.0-20251103181224-f26f9409b101","vcs_hash":"2a836781ea0b225ac15b54d6058e34525750c5a309d733ac59c70bd294604259","timestamp":"2025-11-03T18:12:24Z","subdir":"googleapis/api","vcs_ref":""},\
+-{"module":"google.golang.org/genproto/googleapis/api","version":"v0.0.0-20251022142026-3a174f9686a8","vcs_hash":"b5ce4250f6640d334872a72f3816006a60b60061151262fb86636fdb602cb7f6","timestamp":"2025-10-22T14:20:26Z","subdir":"googleapis/api","vcs_ref":""},\
+-{"module":"google.golang.org/genproto/googleapis/rpc","version":"v0.0.0-20251103181224-f26f9409b101","vcs_hash":"2a836781ea0b225ac15b54d6058e34525750c5a309d733ac59c70bd294604259","timestamp":"2025-11-03T18:12:24Z","subdir":"googleapis/rpc","vcs_ref":""},\
+-{"module":"google.golang.org/genproto/googleapis/rpc","version":"v0.0.0-20251022142026-3a174f9686a8","vcs_hash":"b5ce4250f6640d334872a72f3816006a60b60061151262fb86636fdb602cb7f6","timestamp":"2025-10-22T14:20:26Z","subdir":"googleapis/rpc","vcs_ref":""},\
+-{"module":"google.golang.org/protobuf","version":"v1.36.10","vcs_hash":"3436497d01a86cde43a5e76c997e02e0547f362e8f0246dcbb7680acad79157f","timestamp":"2025-10-02T08:56:10Z","subdir":"","vcs_ref":"refs/tags/v1.36.10"},\
+-{"module":"google.golang.org/protobuf","version":"v1.36.11","vcs_hash":"d5e44d171a0e43b2572231e7dad4dbb2fbeb34ff9c7aaf7a36a393294ff3d55d","timestamp":"2025-12-12T08:48:31Z","subdir":"","vcs_ref":"refs/tags/v1.36.11"},\
+-{"module":"go.mongodb.org/mongo-driver","version":"v1.17.6","vcs_hash":"e629113ada68e74e78e8cccbe5f20cfc312b1982f3b922205f92ed2458babd7f","timestamp":"2025-10-27T23:16:51Z","subdir":"","vcs_ref":"refs/tags/v1.17.6"},\
+-{"module":"tags.cncf.io/container-device-interface","version":"v1.0.1","vcs_hash":"228f05c3a05800a5e1340385d34910aac599df817838e50aa367b9cd09151186","timestamp":"2025-03-22T07:35:24Z","subdir":"","vcs_ref":"refs/tags/v1.0.1"},\
+-{"module":"tags.cncf.io/container-device-interface","version":"v1.1.0","vcs_hash":"2a0706ee0554e66b341fabb5c09e62f00336b0a7e6faac981d973f30b4064622","timestamp":"2025-12-10T08:48:20Z","subdir":"","vcs_ref":"refs/tags/v1.1.0"},\
+-{"module":"tags.cncf.io/container-device-interface/specs-go","version":"v1.0.0","vcs_hash":"a9b36137e55bc5c537c3eddc79e73eca4dc1c855628a8e32e027103df4d865f4","timestamp":"2025-03-07T16:36:12Z","subdir":"specs-go","vcs_ref":"refs/tags/specs-go/v1.0.0"},\
+-{"module":"tags.cncf.io/container-device-interface/specs-go","version":"v1.1.0","vcs_hash":"2a0706ee0554e66b341fabb5c09e62f00336b0a7e6faac981d973f30b4064622","timestamp":"2025-12-10T08:48:20Z","subdir":"specs-go","vcs_ref":"refs/tags/specs-go/v1.1.0"},\
+-{"module":"cloud.google.com/go/compute/metadata","version":"v0.9.0","vcs_hash":"ef8ad73ce6cafa3fbb115b0895d2b391fa5aefa58dac151c1ff06e7279185884","timestamp":"2025-09-24T19:41:55Z","subdir":"compute/metadata","vcs_ref":"refs/tags/compute/metadata/v0.9.0"},\
+-{"module":"gotest.tools/v3","version":"v3.5.2","vcs_hash":"0059a65e8d8f001755ae605517342ab3e098223b600f512103941850dfee7cc5","timestamp":"2024-09-05T03:48:22Z","subdir":"","vcs_ref":"refs/tags/v3.5.2"},\
+-{"module":"dario.cat/mergo","version":"v1.0.2","vcs_hash":"b16914f71b927e268f1d35e84fd54af7eca655000013af4d0f184bcbd154847c","timestamp":"2025-05-07T20:15:06Z","subdir":"","vcs_ref":"refs/tags/v1.0.2"},\
++{"module":"golang.org/x/crypto","version":"v0.46.0","vcs_hash":"798f6d5ef5f210d9df33b4e7c70674a661cd004d741bfb266c427b6f478b1cc8","timestamp":"2025-12-08T18:34:26Z","subdir":"","vcs_ref":"refs/tags/v0.46.0"},\
++{"module":"golang.org/x/mod","version":"v0.33.0","vcs_hash":"f4d87b9979324a4a559aa3f3168d28c10683e20256233c463ae48bfbe67ed05d","timestamp":"2026-02-09T16:11:19Z","subdir":"","vcs_ref":"refs/tags/v0.33.0"},\
++{"module":"golang.org/x/mod","version":"v0.31.0","vcs_hash":"cb53cc14448559f4b79c8c47297f628afbc8171ff501cdc4743c5f4030033dd7","timestamp":"2025-12-08T16:56:33Z","subdir":"","vcs_ref":"refs/tags/v0.31.0"},\
++{"module":"golang.org/x/mod","version":"v0.29.0","vcs_hash":"e2f24273f66162f4a2bfde7357a860b565262f0932e1d1bcba22f2c375336f39","timestamp":"2025-10-08T15:23:01Z","subdir":"","vcs_ref":"refs/tags/v0.29.0"},\
++{"module":"golang.org/x/xerrors","version":"v0.0.0-20200804184101-5ec99f83aff1","vcs_hash":"1a7eef0babb47828059471e537bef1e9023bf22cd1c23e5fcaf7523b68332e82","timestamp":"2020-08-04T18:41:01Z","subdir":"","vcs_ref":""},\
+ {"module":"golang.org/x/mod","version":"v0.2.0","vcs_hash":"d8ce3a26ef11a4e81bfc12391c4d0bf865766bcb2812acb31931c12ee0d326f8","timestamp":"1970-01-01T00:00:00Z","subdir":"","vcs_ref":"refs/tags/v0.2.0"},\
+ {"module":"golang.org/x/mod","version":"v0.3.0","vcs_hash":"c7adf8bcca55c1652cddd18c7e949788e387f878482d2553dd5f0a8b63dae8ba","timestamp":"1970-01-01T00:00:00Z","subdir":"","vcs_ref":"refs/tags/v0.3.0"},\
+ {"module":"golang.org/x/mod","version":"v0.6.0-dev.0.20220419223038-86c51ed26bb4","vcs_hash":"8d01fb415e3ecdf7c1c57243ebaa9b07a2cecd87ea1574f747bbc2ab686be373","timestamp":"2022-04-19T22:30:38Z","subdir":"","vcs_ref":"refs/tags/v0.3.0"},\
+@@ -673,5 +772,8 @@ GO_MODULE_CACHE_DATA = '[\
+ {"module":"golang.org/x/tools","version":"v0.0.0-20191119224855-298f0cb1881e","vcs_hash":"4bdade122172b6644bff0ea433cdb68d5460d8b894432e030ced235888ac6fdc","timestamp":"2019-11-19T22:48:55Z","subdir":"","vcs_ref":"refs/tags/v0.3.7"},\
+ {"module":"golang.org/x/tools","version":"v0.0.0-20200619180055-7c47624df98f","vcs_hash":"a7efe20c5bee119c7e0018be6d57820b9b6a182d1818d3ec344c022fad6b7114","timestamp":"2020-06-19T18:00:55Z","subdir":"","vcs_ref":"refs/tags/v0.3.7"},\
+ {"module":"golang.org/x/tools","version":"v0.0.0-20210106214847-113979e3529a","vcs_hash":"74532c68be1c7f64a0eee926ba2b0b7d4552a8c11bae36838bf170186db4264d","timestamp":"2021-01-06T21:48:47Z","subdir":"","vcs_ref":"refs/tags/v0.3.7"},\
+-{"module":"golang.org/x/tools","version":"v0.1.12","vcs_hash":"caef14ab3734fcbf0d05c7a9aab8ffc3dee6066c109316257d37ec9c806f1482","timestamp":"1970-01-01T00:00:00Z","subdir":"","vcs_ref":"refs/tags/v0.1.12"}\
++{"module":"golang.org/x/tools","version":"v0.1.12","vcs_hash":"caef14ab3734fcbf0d05c7a9aab8ffc3dee6066c109316257d37ec9c806f1482","timestamp":"1970-01-01T00:00:00Z","subdir":"","vcs_ref":"refs/tags/v0.1.12"},\
++{"module":"golang.org/x/xerrors","version":"v0.0.0-20190717185122-a985d3407aa7","vcs_hash":"19bf66358270f1db6b287805895c6fc8385236e01234a96b3da1d15fe70245f7","timestamp":"2019-07-17T18:51:22Z","subdir":"","vcs_ref":"refs/tags/v0.1.12"},\
++{"module":"golang.org/x/xerrors","version":"v0.0.0-20191011141410-1b5146add898","vcs_hash":"8c142112d3bf2046dde4cb3dda11db03c95a8ab51bfb424b4d31be45594f7e6a","timestamp":"2019-10-11T14:14:10Z","subdir":"","vcs_ref":"refs/tags/v0.1.12"},\
++{"module":"golang.org/x/xerrors","version":"v0.0.0-20191204190536-9bdfabe68543","vcs_hash":"a190c0bd506167cc1631eefeb81697d88fd666066c0d35abb4f058915f9881cd","timestamp":"2019-12-04T19:05:36Z","subdir":"","vcs_ref":"refs/tags/v0.1.12"}\
+ ]'
+diff --git a/recipes-containers/docker-compose/go-mod-git.inc b/recipes-containers/docker-compose/go-mod-git.inc
+index 75bff6d8..792029df 100644
+--- a/recipes-containers/docker-compose/go-mod-git.inc
++++ b/recipes-containers/docker-compose/go-mod-git.inc
+@@ -1,606 +1,677 @@
+ # Generated by oe-go-mod-fetcher.py v3.0.0
+ # Git repositories for Go module dependencies
+ 
+-SRC_URI += "git://github.com/go-sql-driver/mysql;protocol=https;nobranch=1;tag=v1.9.3;shallow=1;rev=62984ada4402df6571557bc3fed2bcbde48ec908;name=git_825229b4_0;destsuffix=vcs_cache/8d8b13db0a1aeb458c063fdae5bc8310ea4fe3f080f94fad773cad52094745d9"
+-SRC_URI += "git://github.com/go-sql-driver/mysql;protocol=https;nobranch=1;tag=v1.3.0;shallow=1;rev=a0583e0143b1624142adab07e0e97fe106d99561;name=git_825229b4_1;destsuffix=vcs_cache/732613cefc15b1adbb2c7aeb63e0c9bbf2708050a30ce547a2df82727da51371"
+-SRC_URI += "git://github.com/zclconf/go-cty;protocol=https;nobranch=1;tag=v1.17.0;shallow=1;rev=da4c600729aefcf628d6b042ee439e6927d1104e;name=git_5ffc57d2_0;destsuffix=vcs_cache/47f07e849f1a52fb6afc5ce8207515cf79885a5863c3f77672e2e24bc0ed8ce3"
+-SRC_URI += "git://github.com/julienschmidt/httprouter;protocol=https;nobranch=1;tag=v1.2.0;shallow=1;rev=348b672cd90d8190f8240323e372ecd1e66b59dc;name=git_50116b68_0;destsuffix=vcs_cache/2c4d0627c16989284c34f4435f85eda929435309b1f35e089deeada06cba6920"
+-SRC_URI += "git://github.com/julienschmidt/httprouter;protocol=https;nobranch=1;tag=v1.3.0;shallow=1;rev=4eec211fa4e8df74ed978dc5681612131854144f;name=git_50116b68_1;destsuffix=vcs_cache/14612f57dd95aeae83955a7b4f9b44d716f96bdef922732f059430cdff278e10"
+-SRC_URI += "git://github.com/rivo/uniseg;protocol=https;nobranch=1;tag=v0.4.7;shallow=1;rev=03509a98a092b522b2ff0de13e53513d18b3b837;name=git_b3b758f5_0;destsuffix=vcs_cache/1e062c5a8f3a8c313cef582853dc2ed0687bb0632f4cf127d7aaad85b7ce642f"
+-SRC_URI += "git://github.com/rivo/uniseg;protocol=https;nobranch=1;tag=v0.2.0;shallow=1;rev=75711fccf6a3e85bc74c241e2dddd06a9bc9e53d;name=git_b3b758f5_1;destsuffix=vcs_cache/711d6ce77fb103240fb5d501f7548a0f9a576d48e783647cd7fed297fccb112a"
+-SRC_URI += "git://github.com/spiffe/go-spiffe;protocol=https;nobranch=1;tag=v2.6.0;shallow=1;rev=c6d0af3a4780fcc69132bb8bc5d2bdfcbe5ea42b;name=git_217f6de8_0;destsuffix=vcs_cache/aca54385906c3e38bd7515a2b0b52e4b6be402d2333e38eb4d2484305552aca4"
+-SRC_URI += "git://github.com/distribution/reference;protocol=https;nobranch=1;tag=v0.6.0;shallow=1;rev=ff14fafe2236e51c2894ac07d4bdfc778e96d682;name=git_b4d8130d_0;destsuffix=vcs_cache/ac2c94a9c45cfe172807163d3f9ae441bf0db0b30e528660d1b5db49678ed93a"
+-SRC_URI += "git://github.com/modern-go/reflect2;protocol=https;nobranch=1;rev=35a7c28c31ee079903db043180532306a621943a;name=git_975c3d3f_0;destsuffix=vcs_cache/b0f41ee692517b4a6786fb48ce9d49e532c4f77cac6cacadd6ff49dcb7325931"
+-SRC_URI += "git://github.com/modern-go/reflect2;protocol=https;nobranch=1;rev=4b7aa43c6742a2c18fdef89dd197aaae7dac7ccd;name=git_975c3d3f_1;destsuffix=vcs_cache/8af4d54440b1b6703cd1b26845d1f5914958f01a18064501f7b77554b973b677"
+-SRC_URI += "git://github.com/modern-go/reflect2;protocol=https;nobranch=1;tag=v1.0.1;shallow=1;rev=94122c33edd36123c84d5368cfb2b69df93a0ec8;name=git_975c3d3f_2;destsuffix=vcs_cache/5f837a9261606850c86cb464d91848cb7e2e334be529f812891c080cfd881b9a"
+-SRC_URI += "git://github.com/modern-go/concurrent;protocol=https;nobranch=1;rev=bacd9c7ef1dd9b15be4a9909b8ac7a4e313eec94;name=git_2bbaef4c_0;destsuffix=vcs_cache/09a996e0549b43adaeb1c40a8dc339563ed1a8dcc831e5cb074441a30d502d23"
+-SRC_URI += "git://github.com/modern-go/concurrent;protocol=https;nobranch=1;rev=e0a39a4cb4216ea8db28e22a69f4ec25610d513a;name=git_2bbaef4c_1;destsuffix=vcs_cache/720429d876e0c333185ab19ebc83ff389edac9e5b459d07c74e7a18cae1c5b7a"
+-SRC_URI += "git://github.com/DefangLabs/secret-detector;protocol=https;nobranch=1;rev=22662109213e87fb56be9dbc3a9c78499d2e42a5;name=git_985033cd_0;destsuffix=vcs_cache/42b5e6f1ae54867a47bbe7535a965b97260d8282064da67b0f3d9d82d7524ad4"
+-SRC_URI += "git://github.com/spf13/jwalterweatherman;protocol=https;nobranch=1;rev=3d60171a64319ef63c78bd45bd60e6eab1e75f8b;name=git_dbf881a0_0;destsuffix=vcs_cache/3516ad16d930d5653a48f59083d5a5851f1503e64d5f3e4f03dd5094d044ceba"
+-SRC_URI += "git://github.com/spf13/cast;protocol=https;nobranch=1;rev=4d07383ffe94b5e5a6fa3af9211374a4507a0184;name=git_60c66923_0;destsuffix=vcs_cache/61ca87f5a674dbb7719ca6806869cee44c68d3463ca0ee867270c61ef55016c5"
+-SRC_URI += "git://github.com/spf13/cobra;protocol=https;nobranch=1;tag=v0.0.1;shallow=1;rev=7b2c5ac9fc04fc5efafb60700713d4fa609b777b;name=git_41456771_0;destsuffix=vcs_cache/a6573b02628ec0c919f90bba89f525eac2b0bda84d9dccdcb78b3f07c92b918e"
+-SRC_URI += "git://github.com/spf13/cobra;protocol=https;nobranch=1;tag=v1.10.1;shallow=1;rev=7da941c3547e93b8c9f70bbd3befca79c6335388;name=git_41456771_1;destsuffix=vcs_cache/54a02856b15938777c687441dc6597bc487549c163521b5850e769bee67bc2af"
+-SRC_URI += "git://github.com/spf13/cobra;protocol=https;nobranch=1;tag=v1.10.2;shallow=1;rev=88b30ab89da2d0d0abb153818746c5a2d30eccec;name=git_41456771_2;destsuffix=vcs_cache/a79409fa1813cac46edeefb925df9a65bfd1c4cf3dd47dbb576c385d5f527685"
+-SRC_URI += "git://github.com/spf13/viper;protocol=https;nobranch=1;rev=be5ff3e4840cf692388bde7a057595a474ef379e;name=git_133525c9_0;destsuffix=vcs_cache/6b7187b929229be5c3959df1ee113d9acd19aff47b973e42b64e50cdf8a0e740"
+-SRC_URI += "git://github.com/spf13/pflag;protocol=https;nobranch=1;tag=v1.0.10;shallow=1;rev=0491e5702ad2bb108bc519a5221bcc0f52aa9564;name=git_66b7b8c8_0;destsuffix=vcs_cache/737f239b3c3bd4e75040785cfc62b8349a547b1425bba1698b712866455bce75"
+-SRC_URI += "git://github.com/spf13/pflag;protocol=https;nobranch=1;tag=v1.0.9;shallow=1;rev=10438578954bba2527fe5cae3684d4532b064bbe;name=git_66b7b8c8_1;destsuffix=vcs_cache/241e9025159bbbea2f54722542a86c03ff35968a42a753a0a4e0738690720a54"
+-SRC_URI += "git://github.com/spf13/pflag;protocol=https;nobranch=1;tag=v1.0.0;shallow=1;rev=e57e3eeb33f795204c1ca35f56c44f83227c6e66;name=git_66b7b8c8_2;destsuffix=vcs_cache/160c6a820138c13e769bbec879294544287b8dfde6af77776f81536ff3f43df9"
+-SRC_URI += "git://github.com/jinzhu/gorm;protocol=https;nobranch=1;rev=5409931a1bb87e484d68d649af9367c207713ea2;name=git_82a2c1af_0;destsuffix=vcs_cache/e51ea32193aeb2a5bfab92442113de19e13f387509f58c7979e704306087d5d2"
+-SRC_URI += "git://github.com/jinzhu/now;protocol=https;nobranch=1;tag=v1.1.1;shallow=1;rev=7e7333ac029d4aad7e88500a30889fcd22489425;name=git_ffa5efac_0;destsuffix=vcs_cache/3a2e9d8aa645efa2980908fbe342f3eb31a21421aeacd8a821f15d5775cb129f"
+-SRC_URI += "git://github.com/jinzhu/inflection;protocol=https;nobranch=1;rev=1c35d901db3da928c72a72d8458480cc9ade058f;name=git_355e8fac_0;destsuffix=vcs_cache/3bf372ac0a41f41eb6c408c719a9f71d1a31a5cd8260a8135fa90085e5d6c0ce"
+-SRC_URI += "git://github.com/json-iterator/go;protocol=https;nobranch=1;tag=v1.1.12;shallow=1;rev=024077e996b048517130b21ea6bf12aa23055d3d;name=git_61c80dd4_0;destsuffix=vcs_cache/bdb67d21e426f2274ff76d4829ac60348539016b1aa54fa98cfccc554be12f3b"
+-SRC_URI += "git://github.com/json-iterator/go;protocol=https;nobranch=1;tag=v1.1.6;shallow=1;rev=0ff49de124c6f76f8494e194af75bde0f1a49a29;name=git_61c80dd4_1;destsuffix=vcs_cache/49dd68855c9609b742b2b0b4f38fc7310fe801de54098c1919a0a64c7a0df65f"
+-SRC_URI += "git://github.com/json-iterator/go;protocol=https;nobranch=1;tag=v1.1.7;shallow=1;rev=27518f6661eba504be5a7a9a9f6d9460d892ade3;name=git_61c80dd4_2;destsuffix=vcs_cache/bc41490320f388f56ca605b559e022840691077e82ae0ad6dd62b7ea000f0603"
+-SRC_URI += "git://github.com/hailocab/go-hostpool;protocol=https;nobranch=1;rev=e80d13ce29ede4452c43dea11e79b9bc8a15b478;name=git_9b349411_0;destsuffix=vcs_cache/9c4bc4176e756c26e2cdff114a1c5597225ee9e1831b7404408096c667ad9031"
+-SRC_URI += "git://github.com/vishvananda/netlink;protocol=https;nobranch=1;tag=v1.3.1;shallow=1;rev=17daef607c6442d47b0565343cf8a69f985a4cb7;name=git_2270cfb3_0;destsuffix=vcs_cache/add152ec680cd6ba7b1daeb50425ed8986ca51024d78c50810923119dbf60a49"
+-SRC_URI += "git://github.com/vishvananda/netns;protocol=https;nobranch=1;tag=v0.0.5;shallow=1;rev=4c46424d73b556b3ea4bc5a7cec9e7376dcb2a73;name=git_e786acee_0;destsuffix=vcs_cache/9f1ef5c3417729b4f24554f4b88d06d9e7cdeb771a5d62000cc1344bb1c985d8"
+-SRC_URI += "git://github.com/AlecAivazis/survey;protocol=https;nobranch=1;tag=v2.3.7;shallow=1;rev=fa37277e6394c29db7bcc94062cb30cd7785a126;name=git_8f711068_0;destsuffix=vcs_cache/915e6ad876675eb96b188d35f754bc931b786c20b8e9ce8142ab278092473e7c"
+-SRC_URI += "git://github.com/konsorten/go-windows-terminal-sequences;protocol=https;nobranch=1;tag=v1.0.1;shallow=1;rev=5c8c8bd35d3832f5d134ae1e1e375b69a4d25242;name=git_a370b262_0;destsuffix=vcs_cache/2044bc70056f083f4686548aca8c8ea39dc8943c0d28ac6ef38cfa1fa5ee7fd0"
+-SRC_URI += "git://github.com/konsorten/go-windows-terminal-sequences;protocol=https;nobranch=1;tag=v1.0.2;shallow=1;rev=f55edac94c9bbba5d6182a4be46d86a2c9b5b50e;name=git_a370b262_1;destsuffix=vcs_cache/1987ad3f256034b9d0fc3590868bb91e717f53fd7ee6de10cff3948645fcd530"
+-SRC_URI += "git://github.com/fatih/color;protocol=https;nobranch=1;tag=v1.18.0;shallow=1;rev=1c8d8706604ee5fb9a464e5097ba113101828a75;name=git_be555826_0;destsuffix=vcs_cache/5d3a7d46049b39f7f5f80bbbcaf1d95f84b393dcee5978948fd4ca3a5abb4461"
+-SRC_URI += "git://github.com/sigstore/sigstore;protocol=https;nobranch=1;tag=v1.10.0;shallow=1;rev=46cc860a82fb802050aea6c302af70114b733268;name=git_43e46a1b_0;destsuffix=vcs_cache/90a23575b9b82145605cec4e4b156c7b3b15899d7413a82ddc582ea17239f81e"
+-SRC_URI += "git://github.com/sigstore/rekor-tiles;protocol=https;nobranch=1;tag=v2.0.1;shallow=1;rev=266d2496194c067e0f394ee68216c32fc2df8fa8;name=git_56f95c84_0;destsuffix=vcs_cache/b8d43475ba70ac8bfe320e5e8116e30c762256078fcd60b87e28d27c91db426d"
+-SRC_URI += "git://github.com/sigstore/rekor;protocol=https;nobranch=1;tag=v1.4.3;shallow=1;rev=cb5b1d5f364a8437e1c6c857b200283e2dcc2b29;name=git_27e08e54_0;destsuffix=vcs_cache/32b94a917cfae30ffab23353a3ce5a1a5f15f908aa8b9c06f99d20126185113c"
+-SRC_URI += "git://github.com/sigstore/timestamp-authority;protocol=https;nobranch=1;tag=v2.0.2;shallow=1;rev=812628681291626975b59e2d6f1df651220118b6;name=git_1dbbaf86_0;destsuffix=vcs_cache/bbb892dff7b9581efdf6e165444a2c5962eaa7b0c04a76b0600e19cdcd041baa"
+-SRC_URI += "git://github.com/sigstore/sigstore-go;protocol=https;nobranch=1;rev=b5fe07a5a7d719c2f9951e1ada4d5b76a8916345;name=git_2a7b27c4_0;destsuffix=vcs_cache/9f990573ca42c039488a500e573851a0afe9e058a594f47e8e914198f1bed87e"
+-SRC_URI += "git://github.com/sigstore/protobuf-specs;protocol=https;nobranch=1;tag=v0.5.0;shallow=1;rev=f8d009ede80474a9e257788207a00693e4693168;name=git_8b876913_0;destsuffix=vcs_cache/4be3492e50d1e30ee1365286244a71456814ed25f2b112ffae504266afbecb00"
+-SRC_URI += "git://github.com/stefanberger/go-pkcs11uri;protocol=https;nobranch=1;rev=78284954bff6dcce7888166bb79bbba93bea0879;name=git_1abe3c80_0;destsuffix=vcs_cache/38fa201d7d655497d33723d139ffc3ec2ee78d3caab251015a1c3a5190f5e073"
+-SRC_URI += "git://github.com/letsencrypt/boulder;protocol=https;nobranch=1;tag=v0.20251110.0;shallow=1;rev=18685ee437d1988fd05798f4bb61e8a68484eaaa;name=git_6586c43c_0;destsuffix=vcs_cache/89895769acf16e855d1bc7c1ebcd35d23b4fa6c168fa619c2bfd2e9291e7b0aa"
+-SRC_URI += "git://github.com/fxamacker/cbor;protocol=https;nobranch=1;tag=v2.9.0;shallow=1;rev=d29ad7351b55b1844387cf9306c4101658cc5256;name=git_3a88ac44_0;destsuffix=vcs_cache/a2e55d2b4fdba69f8a4cfc76758713247ee27c62d5ad4168e8c14369f3c94c36"
+-SRC_URI += "git://github.com/bmizerany/assert;protocol=https;nobranch=1;rev=b7ed37b82869576c289d7d97fb2bbd8b64a0cb28;name=git_ed3a3c5c_0;destsuffix=vcs_cache/56f05fc81a59fa58a710a7972b156c07636f5719c2c74f5fe694e2cf49ca2576"
+-SRC_URI += "git://github.com/tetratelabs/wazero;protocol=https;nobranch=1;tag=v1.9.0;shallow=1;rev=96f2052f6d12cccc29193f5452c635b76d8a036d;name=git_59327123_0;destsuffix=vcs_cache/8184e4b8a52d22bbf7a3100e9a800f7f69b67c8a4a0349fa457cf7c0f1833060"
+-SRC_URI += "git://github.com/tetratelabs/wazero;protocol=https;nobranch=1;tag=v1.10.1;shallow=1;rev=ee3f9d9c5c6689bbf30824aec049371aaa239f4c;name=git_59327123_1;destsuffix=vcs_cache/e4664efba21af44c61be56ad7d3196dbe0733019a000bd28a0efd72c3fe50858"
+-SRC_URI += "git://github.com/bugsnag/bugsnag-go;protocol=https;nobranch=1;rev=13fd6b8acda029830ef9904df6b63be0a83369d0;name=git_9b5e687f_0;destsuffix=vcs_cache/fcdbd0f3bb5816415e92fba0ccef0363d33bb9f4dd92baf939f44c15d7ff15dc"
+-SRC_URI += "git://github.com/bugsnag/osext;protocol=https;nobranch=1;rev=0dd3f918b21bec95ace9dc86c7e70266cfc5c702;name=git_a1a84bc7_0;destsuffix=vcs_cache/1e7b9a7b360bb8c03ff73c6b542ec4fc9da0aaa3491621e3f0709df81b41c883"
+-SRC_URI += "git://github.com/bugsnag/panicwrap;protocol=https;nobranch=1;rev=e2c28503fcd0675329da73bf48b33404db873782;name=git_3930fbb7_0;destsuffix=vcs_cache/262d5e88587cf547192faef1ff5a62313964f5302529d3b47078409890f656b8"
+-SRC_URI += "git://github.com/prometheus/common;protocol=https;nobranch=1;tag=v0.4.1;shallow=1;rev=17f5ca1748182ddf24fc33a5a7caaaf790a52fcc;name=git_63ab0745_0;destsuffix=vcs_cache/892c75be05216c8a166e1dfe11c12f4563f5c0830e193268bcf9f7511010bcc7"
+-SRC_URI += "git://github.com/prometheus/common;protocol=https;nobranch=1;tag=v0.6.0;shallow=1;rev=31bed53e4047fd6c510e43a941f90cb31be0972a;name=git_63ab0745_1;destsuffix=vcs_cache/866ac186da10c19f814988a847f2b46d07b11981edcd6fec98970325a2803af4"
+-SRC_URI += "git://github.com/prometheus/common;protocol=https;nobranch=1;rev=89604d197083d4781071d3c65855d24ecfb0a563;name=git_63ab0745_2;destsuffix=vcs_cache/6fa554cea5eccb087d26785c06f579b8594dbf658c4a1288c2a78398383fed0f"
+-SRC_URI += "git://github.com/prometheus/common;protocol=https;nobranch=1;tag=v0.66.1;shallow=1;rev=8975dde6db7208309e9872891f24c7301aa77dfb;name=git_63ab0745_3;destsuffix=vcs_cache/4004fe14db85cf2a2119d66ea225f2b9d7d14ea63e1e3bfa539d1d2440d107c4"
+-SRC_URI += "git://github.com/prometheus/client_model;protocol=https;nobranch=1;rev=5c3871d89910bfb32f5fcab2aa4b9ec68e65a99f;name=git_63d71ba5_0;destsuffix=vcs_cache/f6f51abd7b0f905d6b844652733802c893708c937a90eddb39855a9027e795ef"
+-SRC_URI += "git://github.com/prometheus/client_model;protocol=https;nobranch=1;rev=99fa1f4be8e564e8a6b613da7fa6f46c9edafc6c;name=git_63d71ba5_1;destsuffix=vcs_cache/b20883069672740ec9f8b88232be489d4e077ea06970f02fdd7280e57e070c26"
+-SRC_URI += "git://github.com/prometheus/client_model;protocol=https;nobranch=1;tag=v0.6.2;shallow=1;rev=eb136e513d419e0c31ad750922f0a6f7675c2dee;name=git_63d71ba5_2;destsuffix=vcs_cache/ce4113e6c8f9de1c05a5198a36f67001c5b8ac458bbdbca291a0800fa698d5b1"
+-SRC_URI += "git://github.com/prometheus/client_model;protocol=https;nobranch=1;rev=fd36f4220a901265f90734c3183c5f0c91daa0b8;name=git_63d71ba5_3;destsuffix=vcs_cache/86bc615fe75b2ce98cd8c130b2a77b88c6ddb4a708b29321848472d9dd871940"
+-SRC_URI += "git://github.com/prometheus/otlptranslator;protocol=https;nobranch=1;tag=v0.0.2;shallow=1;rev=10a0f69acb3a5e6c588c1cd04e7a106b103a42e2;name=git_e6dca7cd_0;destsuffix=vcs_cache/960b1c139109bf5cf4e2953ce32e8fe37a7785666f0a1b74e4e2555f1458a873"
+-SRC_URI += "git://github.com/prometheus/client_golang;protocol=https;nobranch=1;tag=v1.1.0;shallow=1;rev=170205fb58decfd011f1550d4cfb737230d7ae4f;name=git_6ffa6057_0;destsuffix=vcs_cache/4e44bd818fd07e6368ea60f26721c00dad401136a0e4742f5b167d5755f25168"
+-SRC_URI += "git://github.com/prometheus/client_golang;protocol=https;nobranch=1;tag=v1.0.0;shallow=1;rev=4ab88e80c249ed361d3299e2930427d9ac43ef8d;name=git_6ffa6057_1;destsuffix=vcs_cache/607ef8649c55f0756537573f8975af1867f26f93a7f97eb4ff594fc98c467f83"
+-SRC_URI += "git://github.com/prometheus/client_golang;protocol=https;nobranch=1;tag=v1.23.2;shallow=1;rev=8179a560819f2c64ef6ade70e6ae4c73aecaca3c;name=git_6ffa6057_2;destsuffix=vcs_cache/d9bbeca592abd4abe4a9bb304c93ff338301ffcad964694c918522126d52a1d2"
+-SRC_URI += "git://github.com/prometheus/client_golang;protocol=https;nobranch=1;tag=v0.9.1;shallow=1;rev=abad2d1bd44235a26707c172eab6bca5bf2dbad3;name=git_6ffa6057_3;destsuffix=vcs_cache/5b7494e1e1baac9b65067e6f77ebb97bd97f8ea769f7093cc8cb23ca7d5ab93e"
+-SRC_URI += "git://github.com/prometheus/procfs;protocol=https;nobranch=1;rev=185b4288413d2a0dd0806f78c90dde719829e5ae;name=git_0ab7c7bc_0;destsuffix=vcs_cache/6f855d6fe4ec2b6948e8c511b7c537693831aa71f3427a1625d4a9a01260e77d"
+-SRC_URI += "git://github.com/prometheus/procfs;protocol=https;nobranch=1;tag=v0.0.3;shallow=1;rev=3f98efb27840a48a7a2898ec80be07674d19f9c8;name=git_0ab7c7bc_1;destsuffix=vcs_cache/300598e31c95698a764cc0dc7edf8fdfc8ab21a3296c0c5a34791af504e1a038"
+-SRC_URI += "git://github.com/prometheus/procfs;protocol=https;nobranch=1;tag=v0.17.0;shallow=1;rev=61fe41207276bc95c4c391762e9ef137385e8a5d;name=git_0ab7c7bc_2;destsuffix=vcs_cache/bd38c110e95e59c4551170b1bdd1a77f0c2d3bfb31346fe6c34a3ff9a2d59911"
+-SRC_URI += "git://github.com/prometheus/procfs;protocol=https;nobranch=1;tag=v0.0.2;shallow=1;rev=833678b5bb319f2d20a475cb165c6cc59c2cc77c;name=git_0ab7c7bc_3;destsuffix=vcs_cache/99df38a3259da6d3172d2228188bc6bb7c0f8033d40d03436c89d71e754acf1e"
+-SRC_URI += "git://github.com/prometheus/procfs;protocol=https;nobranch=1;rev=cb4147076ac75738c9a7d279075a253c0cc5acbd;name=git_0ab7c7bc_4;destsuffix=vcs_cache/d6e1327c0735ef125d48a5e4da87d9573ffbc383c27ca670995682b478f20009"
+-SRC_URI += "git://github.com/prometheus/procfs;protocol=https;nobranch=1;tag=v0.16.1;shallow=1;rev=cff69b9d9aa77a0793276da74310e38422864e28;name=git_0ab7c7bc_5;destsuffix=vcs_cache/c5636022955615867ff5e898a254c352486ff4f35f8066d4296d4561c4ef4d2e"
+-SRC_URI += "git://github.com/compose-spec/compose-go;protocol=https;nobranch=1;tag=v2.10.0;shallow=1;rev=3d3411d9d856d55396d121b4e20bbe7b954932e9;name=git_3547d0c7_0;destsuffix=vcs_cache/d8fd5c67a84d5ea37d52775ed8dea1df6cf236cab46b058f80a0e7ca6bfd75d5"
+-SRC_URI += "git://github.com/compose-spec/compose-go;protocol=https;nobranch=1;tag=v2.10.1;shallow=1;rev=ddb94f10f3a0751c628e24afd3cc436ad8d1c55a;name=git_3547d0c7_1;destsuffix=vcs_cache/540724791cad2555f778786ca9d0adbdb0be7b773c591ca036bd86ca2053a063"
+-SRC_URI += "git://github.com/sasha-s/go-deadlock;protocol=https;nobranch=1;tag=v0.3.5;shallow=1;rev=464d34347a399b840a4f963cc96dfc993ccf8c62;name=git_8c229f40_0;destsuffix=vcs_cache/fa29175221f16401d041954c9a07bc5aa8b90d585d480873eaa15a18b5fa8e6d"
+-SRC_URI += "git://github.com/syndtr/goleveldb;protocol=https;nobranch=1;rev=126854af5e6d8295ef8e8bee3040dd8380ae72e8;name=git_a05e1273_0;destsuffix=vcs_cache/e235339a3b62d86588980eea53546b06c36a7d1f4f68f0c427c52dbe4d251657"
+-SRC_URI += "git://github.com/syndtr/gocapability;protocol=https;nobranch=1;rev=42c35b4376354fd554efc7ad35e0b7f94e3a0ffb;name=git_bddf7e02_0;destsuffix=vcs_cache/4480911d3d4457413aedb0be556a8ab2b064c475167177096e4dec65342505e9"
+-SRC_URI += "git://github.com/alecthomas/units;protocol=https;nobranch=1;rev=2efee857e7cfd4f3d0138cc3cbb1b4966962b93a;name=git_12276b46_0;destsuffix=vcs_cache/7a070bc84b00c7dd5b58f997285cd94232a9fb500b03e849c7be9017203e4d51"
+-SRC_URI += "git://github.com/alecthomas/units;protocol=https;nobranch=1;rev=b94a6e3cc13755c0a75fffecbb089eb346fc4289;name=git_12276b46_1;destsuffix=vcs_cache/fd740bbc9bdec5b8bf13526eff2ee852c365b4c2a8feb66c89e2aa4b36a0d677"
+-SRC_URI += "git://github.com/alecthomas/template;protocol=https;nobranch=1;rev=a0175ee3bccc567396460bf5acd36800cb10c49c;name=git_61f91bfb_0;destsuffix=vcs_cache/c18e6411468e7b9fa8d3eaacbe26c05c650393a6ed02eded4f8a729fcbdf3278"
+-SRC_URI += "git://github.com/alecthomas/kingpin;protocol=https;nobranch=1;tag=v2.4.0;shallow=1;rev=64d23c54e3e2a385ce12757939bed9c632d1693c;name=git_f0f35838_0;destsuffix=vcs_cache/ae34e4803d18ba03ac4e70e84f5e737ec48634b725413ad5282fb01d6fc47dda"
+-SRC_URI += "git://github.com/GoogleCloudPlatform/opentelemetry-operations-go;protocol=https;nobranch=1;tag=detectors/gcp/v1.30.0;shallow=1;rev=7130d1aded77c51f613a9d949f166d119cd595e9;name=git_2c8937f6_0;destsuffix=vcs_cache/d73039b2dd906a0889a3850d34d408fe2a98553d7bcdfe853ca194f24d0d76ca"
+-SRC_URI += "git://github.com/decred/dcrd;protocol=https;nobranch=1;tag=dcrec/secp256k1/v4.4.0;shallow=1;rev=f98d08ef138a99711dbbc86c569935ded8d6a986;name=git_9fd408f7_0;destsuffix=vcs_cache/dea203beeafba9300d7341afcdd38985621ebd2ec9d4c5a8a7d262cbb2c2bc41"
+-SRC_URI += "git://github.com/gogo/protobuf;protocol=https;nobranch=1;tag=v1.0.0;shallow=1;rev=1adfc126b41513cc696b209667c8656ea7aac67c;name=git_99185c7b_0;destsuffix=vcs_cache/cea9fa9f6f83d88736f95389bf744ac714093c67292cefcf1607497c27a1dc2b"
+-SRC_URI += "git://github.com/gogo/protobuf;protocol=https;nobranch=1;tag=v1.1.1;shallow=1;rev=636bf0302bc95575d69441b25a2603156ffdddf1;name=git_99185c7b_1;destsuffix=vcs_cache/a909192a924253d08799dcf162d9ceb6acdb194f1201fee2872972a79ca6668d"
+-SRC_URI += "git://github.com/gogo/protobuf;protocol=https;nobranch=1;tag=v1.3.2;shallow=1;rev=b03c65ea87cdc3521ede29f62fe3ce239267c1bc;name=git_99185c7b_2;destsuffix=vcs_cache/e07d7c0e03a0e2831dd973581be0944984030693bc73f0b67a64e53b4c690635"
+-SRC_URI += "git://github.com/antihax/optional;protocol=https;nobranch=1;tag=v1.0.0;shallow=1;rev=c3f0ba9c1a592b971d66b2787679af55b5c58f21;name=git_aab58b7d_0;destsuffix=vcs_cache/535a79fbd6ec4a2d00a2eaeb938554011f822f57d36bc924215af19f4bab0697"
+-SRC_URI += "git://github.com/eiannone/keyboard;protocol=https;nobranch=1;rev=0d226195f2038e282bb90d2e24f7f29aa7c5b210;name=git_856af60d_0;destsuffix=vcs_cache/c7ad216919ed9d1db40a1a79054fb70019f12275ddb216094b1aefbdd44e8744"
+-SRC_URI += "git://github.com/mwitkow/go-conntrack;protocol=https;nobranch=1;rev=2f068394615f73e460c2f3d2c158b0ad9321cadb;name=git_ff07aa22_0;destsuffix=vcs_cache/0c95da896ecaf67638f45eea2282c2c840e57fd5bef90b1316645fe86914c177"
+-SRC_URI += "git://github.com/mwitkow/go-conntrack;protocol=https;nobranch=1;rev=cc309e4a22231782e8893f3c35ced0967807a33e;name=git_ff07aa22_1;destsuffix=vcs_cache/0ff4a51de5f43065c774026c897e99f6a207c66edef943350fa92176ccaf3982"
+-SRC_URI += "git://github.com/hinshun/vt10x;protocol=https;nobranch=1;rev=820417d04eecba13c2cbab106bbacb1edc8e2e98;name=git_08f1274a_0;destsuffix=vcs_cache/7a79a11a6f7d736423313fcb1bc2d2203d7d9e66baa86d1f4440c872a4349d6d"
+-SRC_URI += "git://github.com/inhies/go-bytesize;protocol=https;nobranch=1;rev=4913239db9cf578e44f49d7b813734678ef94f51;name=git_d7b70507_0;destsuffix=vcs_cache/33f6338637f180574a557944ab4ae6a88bed881181e11b615b313307b6b045e7"
+-SRC_URI += "git://github.com/google/deck;protocol=https;nobranch=1;rev=105ad94aa8aec4c27766e92c4310b466f0852009;name=git_57663d5a_0;destsuffix=vcs_cache/9c43c7ddfa82c3fc0dbcab5945f7f810fa68c290504895ba9a331c514051c140"
+-SRC_URI += "git://github.com/google/go-cmp;protocol=https;nobranch=1;tag=v0.3.0;shallow=1;rev=6f77996f0c42f7b84e5a2b252227263f93432e9b;name=git_8726c33a_0;destsuffix=vcs_cache/ae58fd0d54f7194cd02ff68b9600f09892901604ebd985b881c9860505e91785"
+-SRC_URI += "git://github.com/google/go-cmp;protocol=https;nobranch=1;tag=v0.7.0;shallow=1;rev=9b12f366a942ebc7254abc7f32ca05068b455fb7;name=git_8726c33a_1;destsuffix=vcs_cache/460ed71bde70f3a932cad8d9044d3f12302bf8b6e95353bd17c44189712e2763"
+-SRC_URI += "git://github.com/google/go-dap;protocol=https;nobranch=1;tag=v0.12.0;shallow=1;rev=69ae96dd1be582d05210c92e880b3d63a37b2cf7;name=git_befa0a72_0;destsuffix=vcs_cache/7d0defb60f3f577e67d765314ac295225706f0b4958436b28cf163f2170e3ff7"
+-SRC_URI += "git://github.com/google/go-dap;protocol=https;nobranch=1;rev=d7a2259b058b8bcd4e9d1803aa96a308bf03e394;name=git_befa0a72_1;destsuffix=vcs_cache/38f72ab7a67c1167bc8d252743ea0a437199a1cf9828b348cb7e07c45be9f9b9"
+-SRC_URI += "git://github.com/google/certtostore;protocol=https;nobranch=1;tag=v1.0.6;shallow=1;rev=ee4ff6fd9d452e8aa7eb3249c00b272ecd454c2d;name=git_e7a3d490_0;destsuffix=vcs_cache/03eab8e8fd9152de179043ef32fd09e4375ad5a3b8e25efbeeba6b44d1ca9d4f"
+-SRC_URI += "git://github.com/google/go-containerregistry;protocol=https;nobranch=1;tag=v0.20.6;shallow=1;rev=59a4b85930392a30c39462519adc8a2026d47181;name=git_e4a968c9_0;destsuffix=vcs_cache/38887873d29addecf3cfdeff62087a1dcb2a611b31e4e0df927d8504b7bad507"
+-SRC_URI += "git://github.com/google/uuid;protocol=https;nobranch=1;tag=v1.6.0;shallow=1;rev=0f11ee6918f41a04c201eceeadf612a377bc7fbc;name=git_c3a7687c_0;destsuffix=vcs_cache/1743dd7863ebf20fb946ec26a0525a27c91536f2d01acf863b0a99566cd8f3e5"
+-SRC_URI += "git://github.com/google/pprof;protocol=https;nobranch=1;rev=f64d9cf942d6bcc1a1d4add2c9e758f42cd5adcd;name=git_4d435d14_0;destsuffix=vcs_cache/b4a3cf22b289c100dae58764b0f35b0c0af89950e35274a0659c15b4340bc322"
+-SRC_URI += "git://github.com/google/gofuzz;protocol=https;nobranch=1;tag=v1.0.0;shallow=1;rev=f140a6486e521aad38f5917de355cbf147cc0496;name=git_32fcbcb4_0;destsuffix=vcs_cache/3b10b16f3e547f9036aa468f5a846c1e873d084728258048c32c4afc2a1bb2cf"
+-SRC_URI += "git://github.com/google/shlex;protocol=https;nobranch=1;rev=e7afc7fbc51079733e9468cdfd1efcd7d196cd1d;name=git_2bc3fe04_0;destsuffix=vcs_cache/6317e931b780de46077449706d69a38f426197406a504d848e3500a0d06b7299"
+-SRC_URI += "git://github.com/google/certificate-transparency-go;protocol=https;nobranch=1;rev=5ab67e519c93568ac3ee50fd6772a5bcf8aa460d;name=git_1d240fe8_0;destsuffix=vcs_cache/0fd69fa049b1061cd5c090184fa587afb10ae78ca64762f4b915f363cf226599"
+-SRC_URI += "git://github.com/google/certificate-transparency-go;protocol=https;nobranch=1;tag=v1.3.2;shallow=1;rev=d1b16ca3b342e091d4122deb8c7f62b3213a2169;name=git_1d240fe8_1;destsuffix=vcs_cache/c0a53496e7fb547e3eb9df58eee5ef548371f97a21a52d73b7106de59ad52699"
+-SRC_URI += "git://github.com/google/trillian;protocol=https;nobranch=1;tag=v1.7.2;shallow=1;rev=e7aca3cc3a83e222540555ca75ecc87cffccdd53;name=git_3b1a64b0_0;destsuffix=vcs_cache/e8d401f7e3b6be0101aac286ab5237fe0b10c1bcc3605c934a1f0aeae0914ed1"
+-SRC_URI += "git://github.com/google/gnostic-models;protocol=https;nobranch=1;tag=v0.7.0;shallow=1;rev=82b4ba06c153dcd30e1dbcf93601b3bee5cb3792;name=git_62ad6da8_0;destsuffix=vcs_cache/88a05eeac87ac843d53bbad4f86c891fbd1a6eb73d10d5b2c7381c229c0a25ab"
+-SRC_URI += "git://github.com/go-logfmt/logfmt;protocol=https;nobranch=1;tag=v0.4.0;shallow=1;rev=07c9b44f60d7ffdfb7d8efe1ad539965737836dc;name=git_6bd45679_0;destsuffix=vcs_cache/ba8d08b7a7c3160ce690a9887ce68303c6e395cb41e8669e5b9c7423dbb2e6d8"
+-SRC_URI += "git://github.com/go-logfmt/logfmt;protocol=https;nobranch=1;tag=v0.3.0;shallow=1;rev=390ab7935ee28ec6b286364bba9b4dd6410cb3d5;name=git_6bd45679_1;destsuffix=vcs_cache/87ea6a9e239f17f704d8539912edf62249556b50b823ce9b513c614350572831"
+-SRC_URI += "git://github.com/tchap/go-patricia;protocol=https;nobranch=1;tag=v2.3.3;shallow=1;rev=8c5d7fa2ef98ad77bfbd2d2c3d67d4d17db0093a;name=git_faedb7d0_0;destsuffix=vcs_cache/196ec21f158dd5c10370dcd9b618d17460a5f3dec6cbc351a797a1a4f906b7bb"
+-SRC_URI += "git://github.com/bitly/go-hostpool;protocol=https;nobranch=1;tag=v0.1.0;shallow=1;rev=5d3b4dc6ed4701a761ee884fd803b0a0879744f1;name=git_81a0605e_0;destsuffix=vcs_cache/4fa48fb597b43d9ba89aa477912e73c8b6130aa0cda05b209201b071f25d10a4"
+-SRC_URI += "git://github.com/bitly/go-simplejson;protocol=https;nobranch=1;tag=v0.5.0;shallow=1;rev=aabad6e819789e569bd6aabf444c935aa9ba1e44;name=git_460f3a74_0;destsuffix=vcs_cache/c56b9fa4257469037ce41f652467339083e21d8cf63b420f7051f689474dcb9e"
+-SRC_URI += "git://github.com/cyberphone/json-canonicalization;protocol=https;nobranch=1;rev=19d51d7fe467d4706a3ff08adf8a748f29fc21e0;name=git_39606485_0;destsuffix=vcs_cache/0e55f9f02847679b08922b4a88af3131cb189b333af41228fc1ceba858b5fceb"
+-SRC_URI += "git://github.com/go-ini/ini;protocol=https;nobranch=1;tag=v1.67.0;shallow=1;rev=b2f570e5b5b844226bbefe6fb521d891f529a951;name=git_833ca107_0;destsuffix=vcs_cache/cad9f449f807ba878152dab9e71ba0f300b51a0a69390f502d55fb24a11f73a2"
+-SRC_URI += "git://github.com/package-url/packageurl-go;protocol=https;nobranch=1;tag=v0.1.1;shallow=1;rev=358f10025d4a923f7f9babc766f0968720e82240;name=git_cc0cb43e_0;destsuffix=vcs_cache/69e2d03e1f7870cf593ec577931a0c5fd11729307d2e00a0deabe610548fcd48"
+-SRC_URI += "git://github.com/serialx/hashring;protocol=https;nobranch=1;rev=22c0c7ab6b1be4be7b950bae8b117767da7b18b6;name=git_819991f3_0;destsuffix=vcs_cache/9ad302311a59b7a00732c9d2e738e872440b07b223df6f9dc7104acafedb16ee"
+-SRC_URI += "git://github.com/shibumi/go-pathspec;protocol=https;nobranch=1;tag=v1.3.0;shallow=1;rev=30eddf187f62305a5b34f662049d077211abaacd;name=git_48c6ab61_0;destsuffix=vcs_cache/7d6286b09783f24f2ba2db51c2fd61c197637cee9cd88b2e7576338aa579825f"
+-SRC_URI += "git://github.com/gobwas/glob;protocol=https;nobranch=1;tag=v0.2.3;shallow=1;rev=5ccd90ef52e1e632236f7326478d4faa74f99438;name=git_84be3b9c_0;destsuffix=vcs_cache/9ea137b0f545be63130971285b3e0b109491f0a0c45197efd72385336ab0ed05"
+-SRC_URI += "git://github.com/fvbommel/sortorder;protocol=https;nobranch=1;tag=v1.1.0;shallow=1;rev=a8d9302c17f9f46c6580b82b919672e58ef6e396;name=git_9bd73630_0;destsuffix=vcs_cache/f31f7baba1030efc67be0125d6ea3670572de4cf9ef4162f66c110baedf2fc25"
++SRC_URI += "git://github.com/cyphar/libpathrs.git;protocol=https;nobranch=1;tag=go-pathrs/v0.2.1;shallow=1;rev=f900452f21ff9fa092ea5250de5634beaae0f082;name=git_8cb51ac9_0;destsuffix=vcs_cache/e45d21327d19f5df130e8033c6a083bb99ae3ef92dff0a6b9e0b6ad59104fe90"
++SRC_URI += "git://github.com/gotestyourself/gotest.tools;protocol=https;nobranch=1;tag=v3.5.2;shallow=1;rev=0b81523ff268a1f1b0baf4a5da67e42fbb86880b;name=git_6a558ec9_0;destsuffix=vcs_cache/0059a65e8d8f001755ae605517342ab3e098223b600f512103941850dfee7cc5"
++SRC_URI += "git://github.com/etcd-io/bbolt;protocol=https;nobranch=1;tag=v1.4.3;shallow=1;rev=68e6b96e6b74ebc396ac1aa7186c92e616960bd1;name=git_bd7d6031_0;destsuffix=vcs_cache/5983ea71bb9e5e22aede686f4e2d57552e937bd9f2a5a3ca5e595c01b957c33a"
++SRC_URI += "git://github.com/imdario/mergo;protocol=https;nobranch=1;tag=v1.0.2;shallow=1;rev=7b33b2b01026fbbbbfcfbb1ee2c9c0a5e0c9a9f7;name=git_c84ab7ed_0;destsuffix=vcs_cache/b16914f71b927e268f1d35e84fd54af7eca655000013af4d0f184bcbd154847c"
++SRC_URI += "git://github.com/uber-go/goleak;protocol=https;nobranch=1;tag=v1.3.0;shallow=1;rev=31095c657c34bba405a8d480db27989aa5f60b9c;name=git_aa00c2c2_0;destsuffix=vcs_cache/358840d6c8d4d8a268b95a505fd6f93da14af34041c0824fe51920b4cd523ae2"
++SRC_URI += "git://github.com/uber/mock;protocol=https;nobranch=1;tag=v0.6.0;shallow=1;rev=2d1c58167e30f380cf78e44a43b100a14767e817;name=git_d59a22ac_0;destsuffix=vcs_cache/03540ab2f6f54b62764f09a177ce039608b19eb6106bf7b67da770000fde2a48"
++SRC_URI += "git://github.com/FiloSottile/edwards25519;protocol=https;nobranch=1;tag=v1.1.0;shallow=1;rev=325f520de716c1d2d2b4e8dc2f82c7ccc5fac764;name=git_41754dd3_0;destsuffix=vcs_cache/f4c4c638435f40478f3fd4350a83ea7fc251e7970f9edee9b9bc5101fbd4f799"
++SRC_URI += "git://github.com/go-yaml/yaml;protocol=https;nobranch=1;tag=v2.2.2;shallow=1;rev=51d6538a90f86fe93ac480b35f37b2be17fef232;name=git_b0089ab1_0;destsuffix=vcs_cache/8a100ce674e65e72daf096e45d53f5beec9f9123c742acb89993de84b6414834"
++SRC_URI += "git://github.com/go-yaml/yaml;protocol=https;nobranch=1;tag=v2.2.8;shallow=1;rev=53403b58ad1b561927d19068c655246f2db79d48;name=git_b0089ab1_1;destsuffix=vcs_cache/400816c86851106c70bff651cdce4df77403b9659ec70d1d1bbe2d3211dfa942"
++SRC_URI += "git://github.com/go-yaml/yaml;protocol=https;nobranch=1;tag=v2.2.1;shallow=1;rev=5420a8b6744d3b0345ab293f6fcba19c978f1183;name=git_b0089ab1_2;destsuffix=vcs_cache/0fa3b98a4c1a3d9bd017c1d1c94874fecbc693d1400e5f002f53d4444a42664c"
++SRC_URI += "git://github.com/go-yaml/yaml;protocol=https;branch=origin;rev=9f266ea9e77c4c7aab4cf02650570e7c7b3031a5;name=git_b0089ab1_3;destsuffix=vcs_cache/ae6e6119974a43d5668501b6efe7e743408319dee4094d1929d3e75a4f5dac98"
++SRC_URI += "git://github.com/go-yaml/yaml;protocol=https;nobranch=1;tag=v2.2.4;shallow=1;rev=f221b8435cfb71e54062f6c6e99e9ade30b124d5;name=git_b0089ab1_4;destsuffix=vcs_cache/16ad1bc1035b50f99a688a97524eadf6fc6a8b09612f99dd2ef19e0889b7935a"
++SRC_URI += "git://github.com/go-yaml/yaml;protocol=https;nobranch=1;tag=v3.0.1;shallow=1;rev=f6f7691b1fdeb513f56608cd2c32c51f8194bf51;name=git_b0089ab1_5;destsuffix=vcs_cache/8d340fff421a1861f196061b40e49b2f9e802647204935d08e1062b8ecd90b0d"
+ SRC_URI += "git://github.com/fsnotify/fsnotify;protocol=https;nobranch=1;tag=v1.9.0;shallow=1;rev=ae0e7923765f64fb8061396db7edebb558cf6093;name=git_3fa8b61c_0;destsuffix=vcs_cache/e7e3eb9997b88b1856ec41676de694527bda7173c94d395822f6eec3ec2067e2"
+ SRC_URI += "git://github.com/fsnotify/fsnotify;protocol=https;nobranch=1;tag=v1.4.7;shallow=1;rev=c2828203cd70a50dcccfb2761f8b1f8ceef9a8e9;name=git_3fa8b61c_1;destsuffix=vcs_cache/cc44f7bf337eee80812ff411465b4e87c78887003ae940c1b27adb151bbed7d2"
+-SRC_URI += "git://github.com/fsnotify/fsevents;protocol=https;nobranch=1;tag=v0.2.0;shallow=1;rev=f73112e4ef0540a922ff546752e95a70fb8f035d;name=git_584419c1_0;destsuffix=vcs_cache/fae61401b9b33d2f4bc3fb5a8898dd22623c392e69010b28dd2577454207e33b"
+-SRC_URI += "git://github.com/ProtonMail/go-crypto;protocol=https;nobranch=1;tag=v1.3.0;shallow=1;rev=3b22d8539b95b3b7e76a911053023e6ef9ef51d6;name=git_ff8d3c48_0;destsuffix=vcs_cache/0bcc37d92aae5ed6a3baa05c154e2401eacb94df8b0aa4704a4ffb4fd7365ecf"
+-SRC_URI += "git://github.com/jedisct1/go-minisign;protocol=https;nobranch=1;rev=1c139d1cc84b1320feb9d603a6e3962e54b8743f;name=git_1c08b583_0;destsuffix=vcs_cache/ed26c8fb0a00d7b5743a1d1f1e95f5e4c4e9b2afeca92ceee48f41875b445e1e"
+-SRC_URI += "git://github.com/morikuni/aec;protocol=https;nobranch=1;tag=v1.0.0;shallow=1;rev=39771216ff4c63d11f5e604076f9c45e8be1067b;name=git_a24d8d91_0;destsuffix=vcs_cache/ed63d58cf112e0b59a076da22b09a7543de7421c2457060482db3ad8303454e1"
+-SRC_URI += "git://github.com/morikuni/aec;protocol=https;nobranch=1;tag=v1.1.0;shallow=1;rev=ea8ec3476383e19653f7b3f5007f32e1eb4c9596;name=git_a24d8d91_1;destsuffix=vcs_cache/0d08cd9576b9540a641376df67caa20435029f8a332a192fd25ac61685cb1764"
+-SRC_URI += "git://github.com/urfave/cli;protocol=https;nobranch=1;tag=v2.27.7;shallow=1;rev=19b951ab78929023a9a670722b26ffb1d67c733a;name=git_cd035cbf_0;destsuffix=vcs_cache/b063b9db6f64a681153d8de9f4474fe963c29b610e0cb156372dbc3dffad882a"
+-SRC_URI += "git://github.com/urfave/cli;protocol=https;nobranch=1;tag=v1.22.17;shallow=1;rev=992e53d11ad06c124eb4809a0591f15af670d401;name=git_cd035cbf_1;destsuffix=vcs_cache/e30b4b6c880a60654fa02d3559f2088eddf5fbe9bc92870b9df3d72357f735d0"
+-SRC_URI += "git://github.com/pkg/profile;protocol=https;nobranch=1;tag=v1.7.0;shallow=1;rev=1ac3e9a1c69f55d2f3b5304bcc4e18a9525a92d6;name=git_c88da015_0;destsuffix=vcs_cache/514b8b4f0dcd1ab4c812208028d6ffbd8ac9873c6f9fa22227d0537fe9f6af87"
+-SRC_URI += "git://github.com/pkg/browser;protocol=https;nobranch=1;rev=5ac0b6a4141c771a0d3a081c36b87c977cf9c7db;name=git_82ac4e9c_0;destsuffix=vcs_cache/10a8ed3a78b0663b7f54101de61f0c1b24ac55185382242b62e593e0b344d42e"
+-SRC_URI += "git://github.com/pkg/errors;protocol=https;nobranch=1;tag=v0.9.1;shallow=1;rev=614d223910a179a466c1767a985424175c39b465;name=git_6d82bc63_0;destsuffix=vcs_cache/58e525151c02acebc6662bf19060e7ee1112335787f1ffb059ea8d46a3164e5e"
+-SRC_URI += "git://github.com/pkg/errors;protocol=https;nobranch=1;tag=v0.8.0;shallow=1;rev=645ef00459ed84a119197bfb8d8205042c6df63d;name=git_6d82bc63_1;destsuffix=vcs_cache/ea5c82f11a22b952cd732b93d2e8a599298017272296a9232e4a97e26b3f3f27"
+-SRC_URI += "git://github.com/pkg/errors;protocol=https;nobranch=1;tag=v0.8.1;shallow=1;rev=ba968bfe8b2f7e042a574c888954fccecfa385b4;name=git_6d82bc63_2;destsuffix=vcs_cache/05a9ae48ad2a27ee2ace909fb6dfe443196ef4ba6b92bd0e3d2f6a9460fc8fea"
+-SRC_URI += "git://github.com/StackExchange/wmi;protocol=https;nobranch=1;rev=cbe66965904dbe8a6cd589e2298e5d8b986bd7dd;name=git_48d6db20_0;destsuffix=vcs_cache/1fc27d9cac14b2a03bbb0b0458896762317bee884884ef85b821fa4cb18c6952"
+-SRC_URI += "git://github.com/hanwen/go-fuse;protocol=https;nobranch=1;tag=v2.8.0;shallow=1;rev=ee34567408d6ab557a0169089879ec111bd74408;name=git_4e8568a3_0;destsuffix=vcs_cache/9549fd67be856dc5565aa6f4996edb86a648510a1efb4dec609c4133bdba118c"
+-SRC_URI += "git://github.com/xeipuuv/gojsonpointer;protocol=https;nobranch=1;rev=02993c407bfbf5f6dae44c4f4b1cf6a39b5fc5bb;name=git_bd44e658_0;destsuffix=vcs_cache/4b0abfc7aeea962cf44836059fabc8aebf20db8d2e9ce317db13d42ade75c19f"
+-SRC_URI += "git://github.com/xeipuuv/gojsonreference;protocol=https;nobranch=1;rev=bd5ef7bd5415a7ac448318e64f11a24cd21e594b;name=git_ca2a9119_0;destsuffix=vcs_cache/6cce19ebe3be9e8f13d8b3c5090971f010f3f3cda349fa51197c974450d133ee"
+-SRC_URI += "git://github.com/xrash/smetrics;protocol=https;nobranch=1;rev=686a1a2994c11fac124829fadcb683a24ab8d25f;name=git_51ee97a4_0;destsuffix=vcs_cache/39f621debd197a5e0bcda4514cb54d787e4e443693f317363918ceb70d590944"
+-SRC_URI += "git://github.com/beorn7/perks;protocol=https;nobranch=1;tag=v1.0.1;shallow=1;rev=37c8de3658fcb183f997c4e13e8337516ab753e6;name=git_42750950_0;destsuffix=vcs_cache/c20c7a1c80a243f687008566bc9b8a9517bdf7e3a4f9db15e17160ad20568e9d"
+-SRC_URI += "git://github.com/beorn7/perks;protocol=https;nobranch=1;rev=3a771d992973f24aa725d07868b467d1ddfceafb;name=git_42750950_1;destsuffix=vcs_cache/b05d3659d70127d95ec0b6f7d3aa9b87a50009706e0919be0913fc61dc69e093"
+-SRC_URI += "git://github.com/beorn7/perks;protocol=https;nobranch=1;tag=v1.0.0;shallow=1;rev=4b2b341e8d7715fae06375aa633dbb6e91b3fb46;name=git_42750950_2;destsuffix=vcs_cache/8dd89f9e3fbe68a081d37f37c6deba6f0c099069502b162148d0ede72f822a95"
+-SRC_URI += "git://github.com/beorn7/perks;protocol=https;nobranch=1;rev=b965b613227fddccbfffe13eae360ed3fa822f8d;name=git_42750950_3;destsuffix=vcs_cache/bdca05a2672eea03731c25222db95561d1fad3ee6ccede612b305abb27b074ac"
+-SRC_URI += "git://github.com/go-ole/go-ole;protocol=https;nobranch=1;tag=v1.2.6;shallow=1;rev=8b1f7f90f6b1728609c9694f2cff140d34fd91f8;name=git_c77f8c8d_0;destsuffix=vcs_cache/f8a37b093a9da7f7719abb71318560d985c5c38e6d58c2c73adde45616845d0c"
+-SRC_URI += "git://github.com/kylelemons/godebug;protocol=https;nobranch=1;tag=v1.1.0;shallow=1;rev=9ff306d4fbead574800b66369df5b6144732d58e;name=git_463ad04b_0;destsuffix=vcs_cache/070cd2056d33748c34b60876b93e86d0f8bcfa86a4dee28d6da2a6f3aaea66ac"
+-SRC_URI += "git://github.com/mxk/go-flowrate;protocol=https;nobranch=1;rev=cca7078d478f8520f85629ad7c68962d31ed7682;name=git_a209a0d8_0;destsuffix=vcs_cache/12c25c020a66ecc07c7c90ff8a8793d5462f3f4e58338c9b36012b25b4ed81b8"
+-SRC_URI += "git://github.com/go-stack/stack;protocol=https;nobranch=1;tag=v1.8.0;shallow=1;rev=2fee6af1a9795aafbe0253a0cfbdf668e1fb8a9a;name=git_f91af9da_0;destsuffix=vcs_cache/b165c1e0ccf05d91f62b1ae66d83365c5d96f152e956573fb16040ab15370424"
+-SRC_URI += "git://github.com/oklog/ulid;protocol=https;nobranch=1;tag=v1.3.1;shallow=1;rev=02a8604050d8466dd915307496174adb9be4593a;name=git_74526025_0;destsuffix=vcs_cache/aad6b8a061fa553536e0c316a41769de0f2b7912cad69a71e0ea72d9bb262c8f"
+-SRC_URI += "git://github.com/creack/pty;protocol=https;nobranch=1;tag=v1.1.9;shallow=1;rev=3a6a957789163cacdfe0e291617a1c8e80612c11;name=git_86cb0bb0_0;destsuffix=vcs_cache/90ab694bdf1c87cb7742c9e23a91280fd693f673a912c6ed840ff28d25b2d46e"
+-SRC_URI += "git://github.com/creack/pty;protocol=https;nobranch=1;tag=v1.1.17;shallow=1;rev=b135084511330383e4d0adc4504cf407cab59bb0;name=git_86cb0bb0_1;destsuffix=vcs_cache/2ae6946e9609d4012331fdd2a2f73d351d9fb15432db00d88ab4c508585a6d96"
+-SRC_URI += "git://github.com/creack/pty;protocol=https;nobranch=1;tag=v1.1.24;shallow=1;rev=edfbf75025b0ba4ee17c19f52d9b600fad80a787;name=git_86cb0bb0_2;destsuffix=vcs_cache/a723ba2e04aa95258b42d73ca8ebfd0b4170ac8a314767e9e3f78318484bb93b"
+-SRC_URI += "git://github.com/yashtewari/glob-intersection;protocol=https;nobranch=1;tag=v0.2.0;shallow=1;rev=9f24ebf25f62b3565b778d6ec98775caf0e37720;name=git_2842a744_0;destsuffix=vcs_cache/f808bebdb4b58643c351139a2ad430afee40f2154d96cfe1086091dbffa08d35"
+-SRC_URI += "git://github.com/erikstmartin/go-testdb;protocol=https;nobranch=1;rev=8d10e4a1bae52cd8b81ffdec3445890d6dccab3d;name=git_4bbc2975_0;destsuffix=vcs_cache/94bdb322899f10502ca21756a20886b09fe0f8e8c7389a50bb21c7a2deb2d047"
+-SRC_URI += "git://github.com/segmentio/asm;protocol=https;nobranch=1;tag=v1.2.0;shallow=1;rev=52fc5735a2101856fcdbc45c901ce51562127c99;name=git_e15b7717_0;destsuffix=vcs_cache/566c03708dcf507b46d508ec323393891b2da4fae7ab290cdeab1bb810334c5c"
+-SRC_URI += "git://github.com/mattn/go-colorable;protocol=https;nobranch=1;tag=v0.1.14;shallow=1;rev=1f71342c1ee78c126bcb69cd26ed8c2be7e016b3;name=git_65d23631_0;destsuffix=vcs_cache/d115108e05252e00501d24555b70931860f5e2506c9b51436969923bc59f5dd0"
+-SRC_URI += "git://github.com/mattn/go-colorable;protocol=https;nobranch=1;tag=v0.1.2;shallow=1;rev=8029fb3788e5a4a9c00e415f586a6d033f5d38b3;name=git_65d23631_1;destsuffix=vcs_cache/c71b6f3acd50d510992b046a557833b9b03a5c1f131137523bd7a638b59e233e"
+-SRC_URI += "git://github.com/mattn/go-sqlite3;protocol=https;nobranch=1;tag=v1.6.0;shallow=1;rev=6c771bb9887719704b210e87e934f08be014bdb1;name=git_e0a410bf_0;destsuffix=vcs_cache/0bc060447a84109d178e936cf0287c198c9a1bcbf25d74362b7df7427a44fdda"
+-SRC_URI += "git://github.com/mattn/go-isatty;protocol=https;nobranch=1;tag=v0.0.8;shallow=1;rev=1311e847b0cb909da63b5fecfb5370aa66236465;name=git_bdb8c628_0;destsuffix=vcs_cache/4963e35bcc64525b440c791c0eb22045df1ebb90bbcdf56256950a814d09f425"
+-SRC_URI += "git://github.com/mattn/go-isatty;protocol=https;nobranch=1;tag=v0.0.20;shallow=1;rev=a7c02353c47bc4ec6b30dc9628154ae4fe760c11;name=git_bdb8c628_1;destsuffix=vcs_cache/d07760adabb0d05ba45e3c8997554326fa96668c12bc4572654f288670e1af35"
+-SRC_URI += "git://github.com/mattn/go-runewidth;protocol=https;nobranch=1;tag=v0.0.16;shallow=1;rev=6ceadc68530e7bfea8cba17d6523bed32912d4fa;name=git_54f38250_0;destsuffix=vcs_cache/1af9e649dfc4b15b3476c94bfc74f82df8afa71fae63a7efc761b8a649019d2d"
+-SRC_URI += "git://github.com/mattn/go-shellwords;protocol=https;nobranch=1;tag=v1.0.12;shallow=1;rev=973b9d5391598d4ee601db46fa32f6e186a356ac;name=git_86631c51_0;destsuffix=vcs_cache/3e9de7967c04a07a314669e56b72110ac8eee96a9646f5b9863c709575abe8d1"
+-SRC_URI += "git://github.com/sirupsen/logrus;protocol=https;nobranch=1;tag=v1.0.6;shallow=1;rev=3e01752db0189b9157070a0e1668a620f9a85da2;name=git_02061634_0;destsuffix=vcs_cache/e2b60414d6cf051bc156482dc25c0e442f2dcbaf755db11f95b165196e3a417d"
+-SRC_URI += "git://github.com/sirupsen/logrus;protocol=https;nobranch=1;tag=v1.4.1;shallow=1;rev=8bdbc7bcc01dcbb8ec23dc8a28e332258d25251f;name=git_02061634_1;destsuffix=vcs_cache/e7dadc55f17d7e5dd646b8a1408f0d5dc551bfbbbb8de273a6b6ceb927a05353"
+-SRC_URI += "git://github.com/sirupsen/logrus;protocol=https;nobranch=1;tag=v1.9.4;shallow=1;rev=b61f268f75b6ff134a62cd62aee1095fa12e8d2e;name=git_02061634_2;destsuffix=vcs_cache/7834dd2379c75b18a314ce35955486d0a20f3e960006fc4e8ce53625189de3b5"
+-SRC_URI += "git://github.com/sirupsen/logrus;protocol=https;nobranch=1;tag=v1.2.0;shallow=1;rev=bcd833dfe83d3cebad139e4a29ed79cb2318bf95;name=git_02061634_3;destsuffix=vcs_cache/f662f3bd248d63f5671cbf660c0fd3e5c3fc5389fca023c018b7c8fa63d75263"
+-SRC_URI += "git://github.com/sirupsen/logrus;protocol=https;nobranch=1;tag=v1.9.3;shallow=1;rev=d40e25cd45ed9c6b2b66e6b97573a0413e4c23bd;name=git_02061634_4;destsuffix=vcs_cache/a1230aee5f8f1a866199cbec636d1525e00a9b13cf2fe0023dcf6b874c525014"
+-SRC_URI += "git://github.com/theupdateframework/notary;protocol=https;nobranch=1;tag=v0.7.0;shallow=1;rev=b0b6bfdd4933081e8d5ae026b24e8337311dd598;name=git_88169bba_0;destsuffix=vcs_cache/0e83ed3cbdbbbd63c9ab62dc40651621a386fcaf575326772f2912b1279bfb2b"
+-SRC_URI += "git://github.com/theupdateframework/go-tuf;protocol=https;nobranch=1;tag=v2.3.0;shallow=1;rev=3ace7ea23b69a40617eb50f195bf4042726de4ad;name=git_c3a66dbe_0;destsuffix=vcs_cache/97ff561da38ed2349284442d498f6f0f3994debe9521efa5d581a46bfb851564"
+-SRC_URI += "git://github.com/theupdateframework/go-tuf;protocol=https;nobranch=1;tag=v0.7.0;shallow=1;rev=6ad7fe593e4042db3544c4b0fedbe66bac371c42;name=git_c3a66dbe_1;destsuffix=vcs_cache/bbec9c5e97a26007b5a7ef626e437d1c9638f745eb3bcef1032e95a3a76097d3"
+-SRC_URI += "git://github.com/AzureAD/microsoft-authentication-library-for-go;protocol=https;nobranch=1;tag=v1.6.0;shallow=1;rev=22fd2ee68abf6e6e926fa09387c078db25dad7e0;name=git_b3899c58_0;destsuffix=vcs_cache/a614c17b982b55683fa48ad6af54eeb7a0d805b231482bbbc5a0075a03e060fc"
+-SRC_URI += "git://github.com/jackc/puddle;protocol=https;nobranch=1;tag=v2.2.2;shallow=1;rev=bd09d14bd4018b6d65a9d7770e2f3ddf8b00af1c;name=git_c64e1e43_0;destsuffix=vcs_cache/f3334a91ad7dbb92655b9f37614612cc5df45c529576e03e8308dfed92ae9050"
+-SRC_URI += "git://github.com/jackc/pgpassfile;protocol=https;nobranch=1;tag=v1.0.0;shallow=1;rev=99d8e8e28945ffceaf75b0299fcb2bb656b8a683;name=git_3d88473b_0;destsuffix=vcs_cache/bcb7f6d6bafda56d4f5f42db214defa53f1769aa323ba6f941283d833ed326d1"
+-SRC_URI += "git://github.com/jackc/pgservicefile;protocol=https;nobranch=1;rev=5a60cdf6a76120dc3d5152b95f3b5fd8aa7cc9eb;name=git_71385c65_0;destsuffix=vcs_cache/ddeb106f0a503bc56c2377cf8c3863fd5b039a12e3472f1f499e89f689d70793"
+-SRC_URI += "git://github.com/jackc/pgx;protocol=https;nobranch=1;tag=v5.7.5;shallow=1;rev=15bca4a4e14e0049777c1245dba4c16300fe4fd0;name=git_4fb6b0aa_0;destsuffix=vcs_cache/7d428807020135278d6c041ab060af6cb7629a2458e8beedf6520c22a981521c"
+-SRC_URI += "git://github.com/otiai10/copy;protocol=https;nobranch=1;tag=v1.14.1;shallow=1;rev=5ef5923d6ff098ea7a51792c1ec963d04fad9794;name=git_e0ff6709_0;destsuffix=vcs_cache/6f52336953491d169a014c4906e3f17a4c78b425ca26804ae779c6167516d7d0"
+-SRC_URI += "git://github.com/otiai10/mint;protocol=https;nobranch=1;tag=v1.6.3;shallow=1;rev=6dcf2e3a67310fd0fbd970199f187f5c575756c9;name=git_7127f064_0;destsuffix=vcs_cache/8e5429bf94b80c2f4aae87b33f4b4dd03b9d8a978004bf74b1fe4042dc0b5fad"
+-SRC_URI += "git://github.com/in-toto/in-toto-golang;protocol=https;nobranch=1;tag=v0.9.0;shallow=1;rev=5cfa4159eb11aa84d70d2eeea76665ad09130d09;name=git_bd024477_0;destsuffix=vcs_cache/2af10e1379ff951a497f89bf7bb202df095b1ff9be198f3787d92db04f8aa720"
+-SRC_URI += "git://github.com/in-toto/attestation;protocol=https;nobranch=1;tag=v1.1.2;shallow=1;rev=98dd36d4896a9bc1fded38ab12f4f464035c36fa;name=git_de1db936_0;destsuffix=vcs_cache/c9afe967ea4e5751fb018d13c01ee86a880270f07f46e7f6c38d9e86c07f25c2"
+-SRC_URI += "git://github.com/Masterminds/semver;protocol=https;nobranch=1;tag=v3.4.0;shallow=1;rev=61fc460d28283a91c53be65c2e0f20b494ac8ad9;name=git_ff930dd9_0;destsuffix=vcs_cache/b69d3fcaea23340a3ee6fdc0c141ba3d247100353aee6eb28dd426e0d62498b3"
+-SRC_URI += "git://github.com/envoyproxy/go-control-plane;protocol=https;nobranch=1;tag=ratelimit/v0.1.0;shallow=1;rev=2cdf9fc1e8a104e69a6487721514041c335d86f6;name=git_f80b47a3_0;destsuffix=vcs_cache/906f63aa0b71e9714823fdb45d45be4659d30de781b6a053c93f43371894845f"
+-SRC_URI += "git://github.com/envoyproxy/go-control-plane;protocol=https;nobranch=1;tag=envoy/v1.35.0;shallow=1;rev=5321204dac14eb3ef389be392c36364d9bad4302;name=git_f80b47a3_1;destsuffix=vcs_cache/af904f5786ed9309afb305ff0ca3cddce08208c95ec3f9def0b074e767b05cb9"
+-SRC_URI += "git://github.com/envoyproxy/go-control-plane;protocol=https;nobranch=1;rev=75eaa193e329413d3a688b7c3aa2991095f321c1;name=git_f80b47a3_2;destsuffix=vcs_cache/16d730c776e5b5650a8f35d6f26efcb4548bf62ecba132bc934e522eec2a0508"
+-SRC_URI += "git://github.com/envoyproxy/protoc-gen-validate;protocol=https;nobranch=1;tag=v1.2.1;shallow=1;rev=7b06248484ceeaa947e93ca2747eccf336a88ecc;name=git_ac4e3fea_0;destsuffix=vcs_cache/d5f02e84a7cac6538441cf10353084bc8986687c4fb1dbec8ce868f36087a44c"
+-SRC_URI += "git://github.com/armon/circbuf;protocol=https;nobranch=1;rev=5111143e8da2e98b4ea6a8f32b9065ea1821c191;name=git_95ffcffa_0;destsuffix=vcs_cache/f44b726eafbedd3c7d5723dfd9850375946a0b78000629a3558aacfbb013cecb"
+-SRC_URI += "git://github.com/coreos/go-systemd;protocol=https;nobranch=1;tag=v22.6.0;shallow=1;rev=8214e15a7a799dc18f0ef8dd788b830f815d7530;name=git_1f60ff15_0;destsuffix=vcs_cache/cb3155042a873c409f7dda7401561f3206a5dc4225d8ce9335fd9da1ee482c05"
+-SRC_URI += "git://github.com/coreos/go-oidc;protocol=https;nobranch=1;tag=v3.16.0;shallow=1;rev=e9584733f8bb6c4683d1e98b4fb22eee121f7dff;name=git_565daa15_0;destsuffix=vcs_cache/03bf95d100c67404240716322c3671b3929db67ce58632e7f64b3830796b4b23"
+-SRC_URI += "git://github.com/mdlayher/socket;protocol=https;nobranch=1;tag=v0.5.1;shallow=1;rev=9c51a391be6c6bc5b7ce52f328497931c5e97733;name=git_4845c6c9_0;destsuffix=vcs_cache/ade2a4b5630096b489828944f4f75b866125a6d37fc95c3524f0cc002cbe8cf9"
+-SRC_URI += "git://github.com/mdlayher/vsock;protocol=https;nobranch=1;tag=v1.2.1;shallow=1;rev=8569e301791e164b669ff36b51035bb1d7c9b3a3;name=git_9e9130ba_0;destsuffix=vcs_cache/a7b2ec13026e78d41b91e1e452aab0a78ae155b70966624ec8e5e52ba56a0b08"
+-SRC_URI += "git://github.com/mailru/easyjson;protocol=https;nobranch=1;tag=v0.7.7;shallow=1;rev=c120ca7ced6051261161ce15e8f1542a4b2567fc;name=git_4620abf9_0;destsuffix=vcs_cache/5b802334c301c91bd13cee6264caa8c327300bfc16173c6074fc315244620dd8"
+-SRC_URI += "git://github.com/agext/levenshtein;protocol=https;nobranch=1;tag=v1.2.3;shallow=1;rev=52c14c47d03211d8ac1834e94601635e07c5a6ef;name=git_67b51d80_0;destsuffix=vcs_cache/f4186a1dba20fb3f51b9daaf116c010f10b94a0eb8114b084e25bb3b5649ecf6"
+-SRC_URI += "git://github.com/AdaLogics/go-fuzz-headers;protocol=https;nobranch=1;rev=e8a1dd7889d65b8a6f02175e0d79d7c0557db7f9;name=git_77272b21_0;destsuffix=vcs_cache/618ef3cd1ed01872674845eae25e7d6a50a3d70b49881ccd500327b0778fedb9"
+-SRC_URI += "git://github.com/ysmood/fetchup;protocol=https;nobranch=1;tag=v0.2.3;shallow=1;rev=7a28beb46a6bda0bd1865d851bca6ef7eea6dedd;name=git_4a1f81fb_0;destsuffix=vcs_cache/8c9dd6ebf834d7256887c2d14a754cf11453f2f3a5e2b0c8c05110052b6ee3a1"
+-SRC_URI += "git://github.com/ysmood/gson;protocol=https;nobranch=1;tag=v0.7.3;shallow=1;rev=c60042b432eb83a5b356d00e7c2db9813ac7e05f;name=git_e88b461e_0;destsuffix=vcs_cache/27ce5120c0465dfab869d1d5012071a3115381084f3a241d5de5330ed6bf71e6"
+-SRC_URI += "git://github.com/ysmood/goob;protocol=https;nobranch=1;tag=v0.4.0;shallow=1;rev=8c75c65e796d1537f826b45753f994617235f148;name=git_861b8a3e_0;destsuffix=vcs_cache/9d85527d5325cd688787ce40dccb6ea83312b580a4e5eba11e779e213a9cb6c7"
+-SRC_URI += "git://github.com/ysmood/got;protocol=https;nobranch=1;tag=v0.40.0;shallow=1;rev=abba87a7846a0f03b3f6384549694a33873733b7;name=git_55766c11_0;destsuffix=vcs_cache/eeb512ee1df2a3b4f92e5a5dc02e24f7963cec103929eec0113736a6ca67335b"
+-SRC_URI += "git://github.com/ysmood/leakless;protocol=https;nobranch=1;tag=v0.9.0;shallow=1;rev=92f99d503ecc69fba51c2717b516363359e53028;name=git_cc40b049_0;destsuffix=vcs_cache/ea236bef84d8f62f430439cdcf1cab367fcd2b2371ced56810ccd36d18be2dd9"
+-SRC_URI += "git://github.com/dvsekhvalnov/jose2go;protocol=https;nobranch=1;rev=f21a8cedbbae609f623613ec8f81125c243212e6;name=git_a73ac418_0;destsuffix=vcs_cache/3bed371de2aaaf0cbb9c346c5f01b8240e14c9e194179639d31b29aef3704b71"
+-SRC_URI += "git://github.com/opencontainers/runtime-spec;protocol=https;nobranch=1;tag=v1.2.1;shallow=1;rev=524fc0e1b8ab0180e2fc9abd31837a0f4ed1fd6b;name=git_502d0543_0;destsuffix=vcs_cache/527ad6550cd654c758c3a90c33fba5de9598578a66be5e157153797cc1e49aa3"
+-SRC_URI += "git://github.com/opencontainers/runtime-spec;protocol=https;nobranch=1;tag=v1.3.0;shallow=1;rev=92249139eea7161e13745abd4cb6d0ea02a3227a;name=git_502d0543_1;destsuffix=vcs_cache/d9c05db6124626de7f86b5f7cf385d2a821699e74a3a1d784837399c70f4e1b9"
+-SRC_URI += "git://github.com/opencontainers/go-digest;protocol=https;nobranch=1;rev=a6d0ee40d4207ea02364bd3b9e8e77b9159ba1eb;name=git_552be1ee_0;destsuffix=vcs_cache/023b07658f561af4e33906504bb1dff6d66e7a4b8ef99fcf0927e6d101be98bd"
+-SRC_URI += "git://github.com/opencontainers/go-digest;protocol=https;nobranch=1;tag=v1.0.0;shallow=1;rev=ea51bea511f75cfa3ef6098cc253c5c3609b037a;name=git_552be1ee_1;destsuffix=vcs_cache/1a4d20c74c510ca00ecb86a3379c151579ed626508723e74a394480a71a0af24"
+-SRC_URI += "git://github.com/opencontainers/selinux;protocol=https;nobranch=1;tag=v1.13.1;shallow=1;rev=5647f06491288afa5ea45747896b359f51f7c509;name=git_49bf5caa_0;destsuffix=vcs_cache/19ef4b30214c57e5419f63e4397a9c0d90436c49b54e0ae99e1c9a4b964f28e2"
+-SRC_URI += "git://github.com/opencontainers/selinux;protocol=https;nobranch=1;tag=v1.12.0;shallow=1;rev=996c4cffd3c5fb210e4ff01b4998ac73ff0031fa;name=git_49bf5caa_1;destsuffix=vcs_cache/4335d93e7b91bac4d4e22725cfaafc1cae44ef37a037022ea852d084e488e42a"
+-SRC_URI += "git://github.com/opencontainers/image-spec;protocol=https;nobranch=1;tag=v1.1.1;shallow=1;rev=147f9c13cedb47a0c4d9a11a222961073d585877;name=git_a9e099ef_0;destsuffix=vcs_cache/5bb7cbac46d5df774d087c364c00445553d3db253ca80dc7050c4e57832c118d"
+-SRC_URI += "git://github.com/opencontainers/image-spec;protocol=https;nobranch=1;tag=v1.0.1;shallow=1;rev=d60099175f88c47cd379c4738d158884749ed235;name=git_a9e099ef_1;destsuffix=vcs_cache/cc3b5f635a95bc8a8d17057e77e824e9203543710d27cab434eae6bda0ebd445"
+-SRC_URI += "git://github.com/opencontainers/runtime-tools;protocol=https;nobranch=1;rev=0ea5ed0382a279b30530acccafaf070fefeddafd;name=git_b055e1ee_0;destsuffix=vcs_cache/f53bb2252a6ed943b856ebf9ca177b616be13e0631422a2c5167b1eeada6cc21"
+-SRC_URI += "git://github.com/opencontainers/runtime-tools;protocol=https;nobranch=1;rev=edf4cb3d21162a17b02e19637f7d7f8c6bd8523f;name=git_b055e1ee_1;destsuffix=vcs_cache/9120451d0089ff79de31a4292e8836bebf3ee5e2d7e8c4852764fee040cbfc1e"
+-SRC_URI += "git://github.com/yuin/goldmark;protocol=https;nobranch=1;tag=v1.1.27;shallow=1;rev=12fc98ebcd751822bbd43314119e483472e6f55f;name=git_40d8a3db_0;destsuffix=vcs_cache/fb45f805a799ac2f897942f334c68fc215fa5bfc06f4b0277d583fe78f6c36ca"
+-SRC_URI += "git://github.com/yuin/goldmark;protocol=https;nobranch=1;tag=v1.2.1;shallow=1;rev=91e5269fb0f873f91c9a01e98f32de15ca49440f;name=git_40d8a3db_1;destsuffix=vcs_cache/4c58efe0c28d74a0131cf65fc06af9bf723f3852cb20f81dce6ce9ae50793119"
+-SRC_URI += "git://github.com/yuin/goldmark;protocol=https;nobranch=1;tag=v1.4.13;shallow=1;rev=c0856327b39b00b39b5d7e1f5ed0eed8bb1b6a23;name=git_40d8a3db_2;destsuffix=vcs_cache/fbec1a06cf7d810b36a87559756866f825159c4db030b543bd6359717d401035"
+-SRC_URI += "git://github.com/go-rod/rod;protocol=https;nobranch=1;tag=v0.116.2;shallow=1;rev=01a50b925312b71fc59f6eb0d8f489a5195ec448;name=git_b3006ffb_0;destsuffix=vcs_cache/56a3074e00ed3cc5a312cd4b264c9070764ea81790bf8a1147690ab65ad79579"
+-SRC_URI += "git://github.com/pelletier/go-toml;protocol=https;nobranch=1;tag=v2.2.4;shallow=1;rev=ee07c9203b72060f12e31c04ace80e8a187d5a67;name=git_5fc8a683_0;destsuffix=vcs_cache/024e6f520632e6be8a8fbc0202fdf0da2cfc0266ff95451a8e8d944dd0d8882f"
+-SRC_URI += "git://github.com/pelletier/go-toml;protocol=https;nobranch=1;tag=v1.9.5;shallow=1;rev=fed1464066413075eac02cd4dc368b5221845541;name=git_5fc8a683_1;destsuffix=vcs_cache/22bc2e212b193b23af04b0014dd6e6f15e66953913e88670099f8375927b48c7"
+-SRC_URI += "git://github.com/x448/float16;protocol=https;nobranch=1;tag=v0.8.4;shallow=1;rev=cb9afec31f2649663ebb64da5c6c32c3d365c3ca;name=git_b79b770f_0;destsuffix=vcs_cache/e395eca01f11e874b5b2b165e3dc2620faa30374fb308657449d3a3023ce5cbb"
+-SRC_URI += "git://github.com/valyala/fastjson;protocol=https;nobranch=1;tag=v1.6.4;shallow=1;rev=93f67d942133e9d219dbbae7a541433f8bbbe7c4;name=git_80bcc092_0;destsuffix=vcs_cache/9f8bd53bfc32d2df39c0edaf1166015535c0b16676b7e9d5e385a8e22e796ccd"
+-SRC_URI += "git://github.com/go-viper/mapstructure;protocol=https;nobranch=1;tag=v2.5.0;shallow=1;rev=9aa3f77c68e2a56222ea436c1bfa631f1b1072d5;name=git_2ea12042_0;destsuffix=vcs_cache/3bfaa2e7553753ef9eb595609273310a8498c5d5f4d43000c69a7bd2bb39a3ef"
+-SRC_URI += "git://github.com/go-viper/mapstructure;protocol=https;nobranch=1;tag=v2.4.0;shallow=1;rev=b9794a5f0e73d425210d6614ed833067029155f5;name=git_2ea12042_1;destsuffix=vcs_cache/c8d654dc2b8f99ffd23c744af0b961737a283ddb83b110d144f8558b6ffa2ae1"
+-SRC_URI += "git://github.com/godbus/dbus;protocol=https;nobranch=1;tag=v5.1.0;shallow=1;rev=e523abc905595cf17fb0001a7d77eaaddfaa216d;name=git_d9e1e146_0;destsuffix=vcs_cache/64a1380eac8fb56f64570a9ee44f46ff49a8cfc74d31623d696b49699728d072"
+-SRC_URI += "git://github.com/acarl005/stripansi;protocol=https;nobranch=1;rev=5a71ef0e047df0427e87a79f27009029921f1f9b;name=git_b7e052ac_0;destsuffix=vcs_cache/337c48cf09adc53fe47bcae33dc8d5465a7dbf818b017054e53ee8ec11f2a73f"
+-SRC_URI += "git://github.com/go-logr/logr;protocol=https;nobranch=1;tag=v1.4.3;shallow=1;rev=38a1c47ef633fa6b2eee6b8f2e1371ba8626e557;name=git_e0ff909e_0;destsuffix=vcs_cache/5b4f8e13d26b7581594ade5c47d93fb87ebb7720ce23eff7afaed11743464e1f"
+-SRC_URI += "git://github.com/go-logr/logr;protocol=https;nobranch=1;tag=v1.2.2;shallow=1;rev=99e02a994f50f904b6b201df394776cf687238a9;name=git_e0ff909e_1;destsuffix=vcs_cache/761d6b76e4ca57583edd8a7d6cf39d5a0c0dfd1fb4f82f099c044f754193f7d1"
+-SRC_URI += "git://github.com/go-logr/stdr;protocol=https;nobranch=1;tag=v1.2.2;shallow=1;rev=521af2addfa7c81c8a65d0e85ed34bb6bb6dc262;name=git_76834f06_0;destsuffix=vcs_cache/e69aa58ea5f2f28aa8623652f5e6643b2299d9fe8ba1e6c73a8e3d602290ac67"
+-SRC_URI += "git://github.com/petermattis/goid;protocol=https;nobranch=1;rev=4fcff4a6cae7cd8fdaeeaa8bb87443eda9dec107;name=git_8e87b253_0;destsuffix=vcs_cache/28fe23d2ffb5463ca74406309be8d07f56f5b77b8f151b1f3d5a8edf6d6ae9be"
+-SRC_URI += "git://github.com/blang/semver;protocol=https;nobranch=1;tag=v3.5.1;shallow=1;rev=2ee87856327ba09384cabd113bc6b5d174e9ec0f;name=git_b6bc1865_0;destsuffix=vcs_cache/fb904b093dc37ee6efcaa2a562389f10a2411237cdeef7cddf15818be70366d1"
+-SRC_URI += "git://github.com/danieljoos/wincred;protocol=https;nobranch=1;tag=v1.2.3;shallow=1;rev=623325312d3224d48d131159187b93e906216563;name=git_340c15e0_0;destsuffix=vcs_cache/27fc7633a915ecb9e3e3c6095cfd2d495010d4208024eefb538180b978864222"
+-SRC_URI += "git://github.com/danieljoos/wincred;protocol=https;nobranch=1;tag=v1.2.2;shallow=1;rev=f11701399b4bee2ad31457cc1f4ff5aa8abafcd6;name=git_340c15e0_1;destsuffix=vcs_cache/4c31e6f58d17a9dddc9ffae620bea8697c6f92b5c7db87875384a33fa8f2c46b"
+-SRC_URI += "git://github.com/transparency-dev/formats;protocol=https;nobranch=1;rev=404c0d5b696c6a3e4eb9cec706cfc3550cc47e52;name=git_d2a1a757_0;destsuffix=vcs_cache/968921f38a5932901522d8dad3d99ef03c554eb958e6b809606dcae3d3a778dc"
+-SRC_URI += "git://github.com/transparency-dev/merkle;protocol=https;nobranch=1;tag=v0.0.2;shallow=1;rev=036047b5d2f7faf3b1ee643d391e60fe5b1defcf;name=git_f8d2b00f_0;destsuffix=vcs_cache/11ca4461c55ebf4faefccb747a99c74860939f428aba666c5e7b7727ed758c08"
+-SRC_URI += "git://github.com/grpc-ecosystem/go-grpc-middleware;protocol=https;nobranch=1;tag=v2.1.0;shallow=1;rev=3f5e2b31e36c931159a1b80287847840cd581e6e;name=git_e9f7c9ac_0;destsuffix=vcs_cache/4e15ad209f57f1610bea03c67dbeef9ef7792fafe9b2902ca1a141277719f091"
+-SRC_URI += "git://github.com/grpc-ecosystem/go-grpc-middleware;protocol=https;nobranch=1;tag=providers/prometheus/v1.1.0;shallow=1;rev=53040665d19bab33e444905822557433511bb981;name=git_e9f7c9ac_1;destsuffix=vcs_cache/42aacc0b51ca4683515670ecfde267af8722802b2bb4d002d5647da7d38f9a47"
+-SRC_URI += "git://github.com/grpc-ecosystem/grpc-gateway;protocol=https;nobranch=1;tag=v2.27.2;shallow=1;rev=91958df0371da5c71794adc92e21cf8fed58df97;name=git_3fba78e5_0;destsuffix=vcs_cache/6c43ad48e059624148bd0ae0b851bb5d1200cd6574bdf1b8e9006ed161aaad3d"
+-SRC_URI += "git://github.com/grpc-ecosystem/grpc-gateway;protocol=https;nobranch=1;tag=v2.27.3;shallow=1;rev=ab243acfa3bcc5495c4e3923ca44aad7537e834c;name=git_3fba78e5_1;destsuffix=vcs_cache/c03051a5b664a646468e73db0e79c783550c89b868b36ae69d3eed66aea682c1"
+-SRC_URI += "git://github.com/containernetworking/cni;protocol=https;nobranch=1;tag=v1.3.0;shallow=1;rev=a28faab92684aed3af64d5085733c34550ce9877;name=git_4ce5ee0d_0;destsuffix=vcs_cache/6fa30880d920c48b1630347223a375694a450629a1037b649907b1ab1f2f237a"
+-SRC_URI += "git://github.com/containernetworking/plugins;protocol=https;nobranch=1;tag=v1.8.0;shallow=1;rev=0e648479e11c2c6d9109b14fc0c9ac64c677861b;name=git_4541537c_0;destsuffix=vcs_cache/f6503a87c1f81aa33a6d29c40a420afbc08e92fc8e1791dc7f439650e37194ca"
+-SRC_URI += "git://github.com/containernetworking/plugins;protocol=https;nobranch=1;tag=v1.9.0;shallow=1;rev=9b3772e1a7abf93cbb7c6526a28bc0d27b830e02;name=git_4541537c_1;destsuffix=vcs_cache/f1741bcddc19dacbe0697ac406a478c08fb3a5527dfb1c4a43b549a9c1a420d3"
+-SRC_URI += "git://github.com/opentracing/opentracing-go;protocol=https;nobranch=1;tag=v1.1.0;shallow=1;rev=659c90643e714681897ec2521c60567dd21da733;name=git_198e2417_0;destsuffix=vcs_cache/ef2c56f0be025c9601f62c989b9bbcc2ccb4177a010b2d10139888b5762b9823"
+-SRC_URI += "git://github.com/go-kit/kit;protocol=https;nobranch=1;tag=v0.8.0;shallow=1;rev=12210fb6ace19e0496167bb3e667dcd91fa9f69b;name=git_b9f1d7d4_0;destsuffix=vcs_cache/164d4eaa2f8107f0ad2f6559aac743c96ecce3f6eb17905b0e878385ede67301"
+-SRC_URI += "git://github.com/go-openapi/jsonreference;protocol=https;nobranch=1;tag=v0.20.2;shallow=1;rev=1f158e563669961b8e54817e3ea57978d439ffff;name=git_2d19bf8f_0;destsuffix=vcs_cache/2b1f5e4abef192d562993c04982e0222c673c03ef641b68a8e86ea31eae7b8e4"
+-SRC_URI += "git://github.com/go-openapi/jsonreference;protocol=https;nobranch=1;tag=v0.21.3;shallow=1;rev=d5ff0ea463fe1bf994dd48091f28b2526f3cb6bb;name=git_2d19bf8f_1;destsuffix=vcs_cache/06de1c7f0badb80ff65f2b8d602c41115cadba1eab00a3644a26c815fd9f97cc"
+-SRC_URI += "git://github.com/go-openapi/errors;protocol=https;nobranch=1;tag=v0.22.4;shallow=1;rev=7e2b230720943c0c427e3e641ee76119e533b680;name=git_2f7f139e_0;destsuffix=vcs_cache/e5716b375e23d3a59fd3d744fba14212d7d3d7434e874898258b45ea2aca6a07"
+-SRC_URI += "git://github.com/go-openapi/swag;protocol=https;nobranch=1;tag=jsonname/v0.25.3;shallow=1;rev=4db976ab6f80579b63b3e33fb540c90cc558cc5a;name=git_8c33ed8b_0;destsuffix=vcs_cache/7836e34d24416dab15fe6283b68847039139876b4f48af3e54978b11d199b4a5"
+-SRC_URI += "git://github.com/go-openapi/swag;protocol=https;nobranch=1;tag=v0.23.0;shallow=1;rev=53e32e82f758c8e884819330a87aef294ff10c1f;name=git_8c33ed8b_1;destsuffix=vcs_cache/c9cae28160c75921d2cb4ab3d1f827a75eff410d92b10dbdb59ee96851a11ee6"
+-SRC_URI += "git://github.com/go-openapi/validate;protocol=https;nobranch=1;tag=v0.25.1;shallow=1;rev=b43789ca4e6f41c6f532ad98e024712da8336ea2;name=git_e8a696d7_0;destsuffix=vcs_cache/634835de930cf49d86f8279271ac56663708df6630c75375676b7da12b0be051"
+-SRC_URI += "git://github.com/go-openapi/strfmt;protocol=https;nobranch=1;tag=v0.25.0;shallow=1;rev=a235dd3fc2b48f29134e547d440b8b6ed5d98beb;name=git_5147ce60_0;destsuffix=vcs_cache/1c34578346ff3d210d011d6cfe1401d10ad41c4367fffa74ef83da31a0dbd013"
+-SRC_URI += "git://github.com/go-openapi/analysis;protocol=https;nobranch=1;tag=v0.24.1;shallow=1;rev=589beeaaac09b8d4f96bf8446875fba1f228e8dc;name=git_1c9ed6e9_0;destsuffix=vcs_cache/ea08203f36c98c5717a34e77c7e63e5e7be53de3838e1348958eba4d2a2f8b14"
+-SRC_URI += "git://github.com/go-openapi/jsonpointer;protocol=https;nobranch=1;tag=v0.22.1;shallow=1;rev=64079a404bcfdf40f8ab8ccf9e0d86d56bd0bce1;name=git_a3358eda_0;destsuffix=vcs_cache/6269b4927db8fb7b41c628d42e3863e247ac6ab2729a17f0ea71ecfef8b873ab"
+-SRC_URI += "git://github.com/go-openapi/jsonpointer;protocol=https;nobranch=1;tag=v0.21.0;shallow=1;rev=8b546b950409bd7b131488a88613339cd8937b7f;name=git_a3358eda_1;destsuffix=vcs_cache/eaab28eda54bc7b1675e90e5ebeb79d02f5b4b71c2430301297b1b41c648226c"
+-SRC_URI += "git://github.com/go-openapi/spec;protocol=https;nobranch=1;tag=v0.22.1;shallow=1;rev=f06cfffb0300dabf0a47b700b0fb691f9486d110;name=git_e4b4df8f_0;destsuffix=vcs_cache/4092ffe95426c0c9bca5c198241300fcee8b81ca1c66da9b40ba1acb8768cf32"
+-SRC_URI += "git://github.com/go-openapi/loads;protocol=https;nobranch=1;tag=v0.23.2;shallow=1;rev=5e9018c4503a8af31c6ec7816204a8bdbdd780be;name=git_e70762e1_0;destsuffix=vcs_cache/9c224bf4ee23cd9ccea3953edb8991bb14040f2a584059de1f1644613744997e"
+-SRC_URI += "git://github.com/go-openapi/runtime;protocol=https;nobranch=1;tag=v0.29.2;shallow=1;rev=078717abbee7f694e8e77d8e41b8f32a435ae03e;name=git_370ff3c3_0;destsuffix=vcs_cache/b635f5b40e7ba10ae8c0cba6c904210f047c83113a12b45953d3e2f6f23d44e7"
+-SRC_URI += "git://github.com/emicklei/go-restful;protocol=https;nobranch=1;tag=v3.13.0;shallow=1;rev=3fae6e4c6809ebc26315d163196ea7ab8e0685cb;name=git_98baf7ea_0;destsuffix=vcs_cache/2b1cb5344031e14606bed4c9c1a5462fa536c12e0f7359188d69f5709fdff9a1"
+-SRC_URI += "git://github.com/gorilla/mux;protocol=https;nobranch=1;tag=v1.7.0;shallow=1;rev=a7962380ca08b5a188038c69871b8d3fbdf31e89;name=git_ebce69d6_0;destsuffix=vcs_cache/e9f6dcbb74dd04784ade5364ce0688a4247bdb04e0cc5ea8774218e7cf8a65c5"
+-SRC_URI += "git://github.com/gorilla/mux;protocol=https;nobranch=1;tag=v1.8.1;shallow=1;rev=b4617d0b9670ad14039b2739167fd35a60f557c5;name=git_ebce69d6_1;destsuffix=vcs_cache/489d4511710bd1a1fc80974aa65ee7c2b851f7c6354c34549b8cd131f4435f0f"
+-SRC_URI += "git://github.com/gorilla/websocket;protocol=https;nobranch=1;rev=e064f32e3674d9d79a8fd417b5bc06fa5c6cad8f;name=git_05a135b6_0;destsuffix=vcs_cache/722c87c831f4b73fd3a40f24d8693191974f7a5a180d73f29a05c9bb3f84589f"
+-SRC_URI += "git://github.com/golang-sql/civil;protocol=https;nobranch=1;rev=cb61b32ac6fe84d34b81730175f91965e43d0f90;name=git_3d8b378b_0;destsuffix=vcs_cache/cf48a794754d9a9b29ff84011cf01764f8e4e9140292e83b4154b89a13f0eee9"
+-SRC_URI += "git://github.com/tilt-dev/fsnotify;protocol=https;nobranch=1;rev=fff9c274a375301ae46812f257aa68393790c45b;name=git_c15f6d9a_0;destsuffix=vcs_cache/7518a2b435d07d055cf9c9215e09d3f354425246b3aaec57d9906b3f344e061e"
++SRC_URI += "git://github.com/go-tomb/tomb;protocol=https;branch=origin;rev=dd632973f1e7218eb1089048e0798ec9ae7dceb8;name=git_40f32ad0_0;destsuffix=vcs_cache/3eb09c53457860b46e591b55bd3d381c6c4ceb426eeef3c43e3b3eac38964c0d"
++SRC_URI += "git://gopkg.in/ini.v1;protocol=https;nobranch=1;tag=v1.67.0;shallow=1;rev=b2f570e5b5b844226bbefe6fb521d891f529a951;name=git_b7879a4b_0;destsuffix=vcs_cache/35aca96c4c1dbe28b4a68dd8f9ad52ed4d311b137ae51f57e5f73034281e5da5"
++SRC_URI += "git://github.com/go-inf/inf;protocol=https;nobranch=1;tag=v0.9.1;shallow=1;rev=d2d2541c53f18d2a059457998ce2876cc8e67cbf;name=git_989ffae9_0;destsuffix=vcs_cache/61185ca91404d2e09a193aede807b4a9ededd43199f58cd49ec4cef480d7bc7f"
++SRC_URI += "git://github.com/go-check/check;protocol=https;branch=origin;rev=10cb98267c6cb43ea9cd6793f29ff4089c306974;name=git_fc1e328f_0;destsuffix=vcs_cache/b8ed7c01feb15e76511fd0dcf4b7d5e0ab535f96b5fe0e22cd9854a758a6c38d"
++SRC_URI += "git://github.com/go-check/check;protocol=https;branch=origin;rev=20d25e2804050c1cd24a7eea1e7a6447dd0e74ec;name=git_fc1e328f_1;destsuffix=vcs_cache/f6f7125ac7ef086ca6395a14a9a28c8c11cd6f8790a8be7cfd6475d1acd0f40b"
++SRC_URI += "git://github.com/go-check/check;protocol=https;branch=origin;rev=8fa46927fb4f5b54d48bde78c6c08db205b2298c;name=git_fc1e328f_2;destsuffix=vcs_cache/23da246e09df0cfb88f7874f3e8ab42f1563033c51f59b8fd9f88f708ab87083"
++SRC_URI += "git://github.com/gonum/gonum;protocol=https;nobranch=1;tag=v0.16.0;shallow=1;rev=7826ba4358a76646a8bd1f852201c4fed2c81c38;name=git_63b91e23_0;destsuffix=vcs_cache/525f00d6116e74b77041f8bb562564ec0e4c1d66d02a48c7b8093f8f931ae1c4"
++SRC_URI += "git://github.com/gonum/gonum;protocol=https;nobranch=1;tag=v0.17.0;shallow=1;rev=fc402bc485e3a92f8d4f1f0ee5a49e2edf232ed2;name=git_63b91e23_1;destsuffix=vcs_cache/97e0ee36296f2cb2f3d1791623b4a81368a81b9887e637d57840b4152a64f400"
++SRC_URI += "git://github.com/kubernetes/api;protocol=https;nobranch=1;tag=v0.35.2;shallow=1;rev=8a137cde6e07bb0d73e40cb0bf8d7d550507989f;name=git_91745483_0;destsuffix=vcs_cache/d96e98953ad442fb5f8a0bb8d9b83d63faf0eb92f78689e6616738e60e202642"
++SRC_URI += "git://github.com/kubernetes/klog;protocol=https;nobranch=1;tag=v2.130.1;shallow=1;rev=75663bb798999a49e3e4c0f2375ed5cca8164194;name=git_9d03197d_0;destsuffix=vcs_cache/eaab5e8e1958570d9bced9a912298fdaa9472cecec794161f58aebf8c4d1e963"
++SRC_URI += "git://github.com/kubernetes/apimachinery;protocol=https;nobranch=1;tag=v0.35.2;shallow=1;rev=72d71eac265e06713c6d83d7034aac609450243f;name=git_d6490ebc_0;destsuffix=vcs_cache/3607284db090a16c797d866e0afc2f5981016fa804bf28b6ae61b062c6e6c8c3"
++SRC_URI += "git://github.com/kubernetes/kube-openapi;protocol=https;branch=master;rev=589584f1c912f4367fe8954f649a59a98b912da5;name=git_dbee483c_0;destsuffix=vcs_cache/d52ae18a0311c6102c8f6db1458120357ba6824e0af66b6ec92f343cd130aab6"
++SRC_URI += "git://github.com/kubernetes/kube-openapi;protocol=https;branch=master;rev=f3f2b991d03be98072466d6aff0880ad93184b2c;name=git_dbee483c_1;destsuffix=vcs_cache/bbdfcb1726af92c510f587baa66600e18719a63bbabc846728d7c2ff829a2146"
++SRC_URI += "git://github.com/kubernetes/utils;protocol=https;branch=master;rev=4c0f3b24339726b3d4a1b610c150919126aad841;name=git_9da930f9_0;destsuffix=vcs_cache/60ee1a48e44e3b939997e0fd54e801d1b11cfe7183c5f295746d2564bd6860e8"
++SRC_URI += "git://github.com/kubernetes/utils;protocol=https;branch=master;rev=bc988d571ff40eb17793769e9c1b71ecf8ee9c0f;name=git_9da930f9_1;destsuffix=vcs_cache/fb4c92184a0c1cd25830e66a6860cd9ba95d39bd4c7299f50c01f78da028780a"
++SRC_URI += "git://github.com/kubernetes/cri-api;protocol=https;nobranch=1;tag=v0.34.1;shallow=1;rev=9b3ce5ec47987aa9451184a42273d4d36e789f83;name=git_31e69ce5_0;destsuffix=vcs_cache/7301e739a4795b683b66e93dd7c6f440f5c5fddd2ad7816c05a5678c723aca60"
++SRC_URI += "git://github.com/kubernetes/client-go;protocol=https;nobranch=1;tag=v0.35.2;shallow=1;rev=a21b32978c420e4af7da3796bca3f37e2245856e;name=git_0356f569_0;destsuffix=vcs_cache/efba3afcf90e8f75f41529c8eebf5fddd7c6193d91ec24020fa463c47d81bb8a"
++SRC_URI += "git://github.com/mongodb/mongo-go-driver.git;protocol=https;nobranch=1;tag=v1.17.6;shallow=1;rev=d2fa0ab6f3ba0579b7bca7912d30e23907ffec9a;name=git_7f8fc3cf_0;destsuffix=vcs_cache/e629113ada68e74e78e8cccbe5f20cfc312b1982f3b922205f92ed2458babd7f"
++SRC_URI += "git://github.com/google/cel-spec;protocol=https;nobranch=1;tag=v0.25.1;shallow=1;rev=7f3c4c513b42d471d0be9439bf5bde38f45f8404;name=git_9b911644_0;destsuffix=vcs_cache/aa7727faf6d3d07cc2dd703f32ef5e153071a4e80bc7a5f4ff31cf427863a8ce"
++SRC_URI += "git://github.com/google/cel-spec;protocol=https;nobranch=1;tag=v0.24.0;shallow=1;rev=9f069b3ee58b02d6f6736c5ebd6587075c1a1b22;name=git_9b911644_1;destsuffix=vcs_cache/22be8bab702f88ee991b30c18c7bac8535814d8de3215c69ac9ee1e73da82c45"
++SRC_URI += "git://github.com/census-instrumentation/opencensus-go;protocol=https;nobranch=1;tag=v0.24.0;shallow=1;rev=b1a01ee95db0e690d91d7193d037447816fae4c5;name=git_aae3ac7b_0;destsuffix=vcs_cache/8607148e6fbec2ab3d0020ea3ffb8bdce7bc15dae97ebec60385afa6ddb97c29"
++SRC_URI += "git://github.com/cncf-tags/container-device-interface;protocol=https;nobranch=1;tag=specs-go/v1.0.0;shallow=1;rev=40e4c311613750fb2bf8766635d4ed60c0bf3194;name=git_c2439148_0;destsuffix=vcs_cache/a9b36137e55bc5c537c3eddc79e73eca4dc1c855628a8e32e027103df4d865f4"
++SRC_URI += "git://github.com/cncf-tags/container-device-interface;protocol=https;nobranch=1;tag=v1.0.1;shallow=1;rev=79790445c2d70820f6824eb42832d2efd0f08dd2;name=git_c2439148_1;destsuffix=vcs_cache/228f05c3a05800a5e1340385d34910aac599df817838e50aa367b9cd09151186"
++SRC_URI += "git://github.com/cncf-tags/container-device-interface;protocol=https;nobranch=1;tag=v1.1.0;shallow=1;rev=98a7d735d9592c1ccca0130e06b0709f4b65ecbf;name=git_c2439148_2;destsuffix=vcs_cache/2a0706ee0554e66b341fabb5c09e62f00336b0a7e6faac981d973f30b4064622"
++SRC_URI += "git://git.kernel.org/pub/scm/libs/libcap/libcap.git;protocol=https;nobranch=1;tag=psx/v1.2.77;shallow=1;rev=3b2513a1ba696f01d31edfa93f35c30b379cc70e;name=git_101689eb_0;destsuffix=vcs_cache/0e3f13776ff605f669bbf0d6414b493efd804254db98b6d3bea7655371b7f53f"
++SRC_URI += "git://git.kernel.org/pub/scm/libs/libcap/libcap.git;protocol=https;nobranch=1;tag=psx/v1.2.76;shallow=1;rev=5f3e12ca39c476b78160df6e2345a642a8e6f178;name=git_101689eb_1;destsuffix=vcs_cache/68fcf96342d6b57dcc3e6c818463c707e806599087dedf19a4eb9d818367df61"
++SRC_URI += "git://github.com/flyingmutant/rapid;protocol=https;nobranch=1;tag=v1.2.0;shallow=1;rev=7adc026a03621808fcbc07e70c6a36933b0e0d7a;name=git_137f50da_0;destsuffix=vcs_cache/44c434e5467532a753dca055894777e9cc0c2edb2d36b01df08664a6953e8459"
++SRC_URI += "git://go.googlesource.com/protobuf;protocol=https;nobranch=1;tag=v1.36.11;shallow=1;rev=96a179180f0ad6bba9b1e7b6e38d0affb0168e9a;name=git_a6c5d6b8_0;destsuffix=vcs_cache/d5e44d171a0e43b2572231e7dad4dbb2fbeb34ff9c7aaf7a36a393294ff3d55d"
++SRC_URI += "git://go.googlesource.com/protobuf;protocol=https;nobranch=1;tag=v1.36.10;shallow=1;rev=f9fa50e26c0ffec610c509850484a5fdecdb26ec;name=git_a6c5d6b8_1;destsuffix=vcs_cache/3436497d01a86cde43a5e76c997e02e0547f362e8f0246dcbb7680acad79157f"
++SRC_URI += "git://github.com/googleapis/go-genproto;protocol=https;branch=main;rev=3a174f9686a8c31630db6dcfd3e1ebbaefa11974;name=git_461a63b9_0;destsuffix=vcs_cache/b5ce4250f6640d334872a72f3816006a60b60061151262fb86636fdb602cb7f6"
++SRC_URI += "git://github.com/googleapis/go-genproto;protocol=https;branch=main;rev=637eb2293923635deb6e44d88eb5f70e9faad7e0;name=git_461a63b9_1;destsuffix=vcs_cache/21c46bcd2e99306470dba32b1498445db51b8fb0eb86d97f796374b8d215eb9c"
++SRC_URI += "git://github.com/googleapis/go-genproto;protocol=https;branch=main;rev=a57be14db17155dc03a6f4ecf4b3987fbfddc0cc;name=git_461a63b9_2;destsuffix=vcs_cache/7bcda6593cc1f5fa08bd21c9a772b2591c43be74c5148ee2253b318414acbac0"
++SRC_URI += "git://github.com/googleapis/go-genproto;protocol=https;branch=main;rev=f26f9409b1015066eedc5c8084c945f7a5215f34;name=git_461a63b9_3;destsuffix=vcs_cache/2a836781ea0b225ac15b54d6058e34525750c5a309d733ac59c70bd294604259"
++SRC_URI += "git://github.com/grpc/grpc-go;protocol=https;nobranch=1;tag=v1.0.5;shallow=1;rev=708a7f9f3283aa2d4f6132d287d78683babe55c8;name=git_6bc32f05_0;destsuffix=vcs_cache/a8f63cb0b9589a8734365d4e15d54811da5f80c7314224f78f912146fcb9e1d8"
++SRC_URI += "git://github.com/grpc/grpc-go;protocol=https;nobranch=1;tag=v1.77.0;shallow=1;rev=805b1f88c5fb9419e3837c72e1deb9c2ec677ffe;name=git_6bc32f05_1;destsuffix=vcs_cache/6a4d91efb4524dab3f60e9d933cded144ffbbfe78825b7b8af87b3f8ac1f948f"
++SRC_URI += "git://github.com/grpc/grpc-go;protocol=https;nobranch=1;tag=v1.78.0;shallow=1;rev=9df039ef2c921978514b600c9d5c6bf25cce54f6;name=git_6bc32f05_2;destsuffix=vcs_cache/0638a64122abeb115144e72987920717a22fb1af701d28ef847f1f50cf61c8ac"
++SRC_URI += "git://github.com/grpc/grpc-go;protocol=https;nobranch=1;tag=v1.81.1;shallow=1;rev=caf0772c2bcb8bc15d43eb53448e921f34f0b7e8;name=git_6bc32f05_3;destsuffix=vcs_cache/6732dda98dc8306342192af0c71fcd1371a5a5ea2f7928f592d2b29f736ef27c"
++SRC_URI += "git://github.com/grpc/grpc-go;protocol=https;nobranch=1;tag=cmd/protoc-gen-go-grpc/v1.5.1;shallow=1;rev=ec9dff77b186d5308955fe0fc50e3e4cbe187e2c;name=git_6bc32f05_4;destsuffix=vcs_cache/ce5a862c22ded840bff7b7ec1016804cb0af284075ea09fb5fe73b9866532a3a"
++SRC_URI += "git://github.com/open-telemetry/opentelemetry-go-instrumentation;protocol=https;nobranch=1;tag=sdk/v1.2.1;shallow=1;rev=715f58ce2f17e2176b8e53b871e47531a259cc1d;name=git_0cf36a85_0;destsuffix=vcs_cache/1fd877c6ad92470308433b00b2458aacc47c259fb28a0596272d30410c77f412"
++SRC_URI += "git://github.com/open-telemetry/opentelemetry-go;protocol=https;nobranch=1;tag=exporters/jaeger/v1.17.0;shallow=1;rev=3c476ce1816ae6f38758e90cc36d8b77ebcc223b;name=git_120ed83a_0;destsuffix=vcs_cache/7257a93ca31d121ae8fee06e2ce5824c46e65e351d7b2daf9b1a27a10d8bb60d"
++SRC_URI += "git://github.com/open-telemetry/opentelemetry-go;protocol=https;nobranch=1;tag=exporters/prometheus/v0.42.0;shallow=1;rev=60666c554065ac4da502fe28943eea4b938ab479;name=git_120ed83a_1;destsuffix=vcs_cache/5781e823bcdbe01100cd1dc8d89e81f073e0a26cb157df3e236c81af5d21f7e4"
++SRC_URI += "git://github.com/open-telemetry/opentelemetry-go;protocol=https;nobranch=1;tag=metric/v1.38.0;shallow=1;rev=84e3f3ac8b25204f3a0f77a805437a5e08573b35;name=git_120ed83a_2;destsuffix=vcs_cache/a95b69a9e67fb0660691c8d8f29b4fbfe95874e2d916849ef02db0d886ff00b5"
++SRC_URI += "git://github.com/open-telemetry/opentelemetry-go;protocol=https;nobranch=1;tag=metric/v1.43.0;shallow=1;rev=9276201a64b623606e3eaa0d61ae8ee6d62756c0;name=git_120ed83a_3;destsuffix=vcs_cache/1fe6df6a31b92e8a581913f4674726a951d486822b437c0fce7148a4442a0572"
++SRC_URI += "git://github.com/open-telemetry/opentelemetry-go;protocol=https;nobranch=1;tag=exporters/otlp/otlpmetric/otlpmetrichttp/v1.42.0;shallow=1;rev=a3941ff595235e952774f0a581c7655bec93b0ab;name=git_120ed83a_4;destsuffix=vcs_cache/c06ba149aa066d301aeb6fe584179342af640071f1a34b08ea7423a0c4fd1ad6"
++SRC_URI += "git://github.com/open-telemetry/opentelemetry-go;protocol=https;branch=main;rev=bc2fe88756962b76eb43ea2fd92ed3f5b6491cc0;name=git_120ed83a_5;destsuffix=vcs_cache/32a87864cfa3320f417f47862642c312d2c19908839bd781f0f1073a0a9b899e"
++SRC_URI += "git://github.com/open-telemetry/opentelemetry-proto-go;protocol=https;nobranch=1;tag=otlp/v1.7.1;shallow=1;rev=683f172c00ae2b73cbc85ed1aa2ad86cc0e1ee3f;name=git_430aa893_0;destsuffix=vcs_cache/7362aea1b94649c9ad7d031fd6fe79b2310f347d865614b0be2b844894e28013"
++SRC_URI += "git://github.com/open-telemetry/opentelemetry-proto-go;protocol=https;nobranch=1;tag=otlp/v1.9.0;shallow=1;rev=88af9ba7bb5502c916618f4d654911dd64262855;name=git_430aa893_1;destsuffix=vcs_cache/48dd3b051b2ade937fb3ae600f1d49e4d17f78f386f08b2de9f4df57cbb13d0b"
++SRC_URI += "git://github.com/open-telemetry/opentelemetry-go-contrib;protocol=https;nobranch=1;tag=instrumentation/google.golang.org/grpc/otelgrpc/v0.63.0;shallow=1;rev=80c9316336ebb4f4c67d8e1011a3add889213fb7;name=git_9cecf883_0;destsuffix=vcs_cache/a35299710fa18a3df076b2389758f98c816c8d03e316516b36a9d5299420a7f7"
++SRC_URI += "git://github.com/open-telemetry/opentelemetry-go-contrib;protocol=https;nobranch=1;tag=detectors/gcp/v1.42.0;shallow=1;rev=d8dabf67361a4619c353ad0637432f3d0d16ba63;name=git_9cecf883_1;destsuffix=vcs_cache/e4078216f263ac2b531bd085e169d16a8f63b4be144686d18adf43935a314f4c"
+ SRC_URI += "git://github.com/matttproud/golang_protobuf_extensions;protocol=https;nobranch=1;tag=v1.0.1;shallow=1;rev=c12348ce28de40eed0136aa2b644d0ee0650e56c;name=git_2855aad4_0;destsuffix=vcs_cache/dd0fe058870feb088b8d2d88a7ff601f4c8c03aedeede7d837efcd311b5aea9b"
+-SRC_URI += "git://github.com/Netflix/go-expect;protocol=https;nobranch=1;rev=73e0943537d2ba88bdf3f6acec79ca2de1d059df;name=git_e89d3f31_0;destsuffix=vcs_cache/421789c64dd51281a459815573a00c171d61889f5324c1701c37f5f2e8caa8a3"
+-SRC_URI += "git://github.com/pmezard/go-difflib;protocol=https;nobranch=1;tag=v1.0.0;shallow=1;rev=792786c7400a136282c1664665ae0a8db921c6c2;name=git_b66720d7_0;destsuffix=vcs_cache/c04ad296d2e3203fda8b7ca96feaca21b20b3b7441e33c7d67cda029ea61ab4c"
+-SRC_URI += "git://github.com/golang/groupcache;protocol=https;nobranch=1;rev=2c02b8208cf8c02a3e358cb1d9b60950647543fc;name=git_24e750eb_0;destsuffix=vcs_cache/42d84b5a864149912b1976573aa12f43cdea041dfbb41206b5548b1134452af5"
++SRC_URI += "git://github.com/russross/blackfriday;protocol=https;nobranch=1;tag=v2.1.0;shallow=1;rev=4c9bf9512682b995722660a4196c0013228e2049;name=git_fb978822_0;destsuffix=vcs_cache/6dd1604eceba1790dbf7f827f1e22a5866a5348a2ab616daed7363a6e16e081d"
++SRC_URI += "git://github.com/russross/blackfriday;protocol=https;nobranch=1;tag=v1.6.0;shallow=1;rev=e96880f42b9343aea6cbfd99693adae0e5fe2b2a;name=git_fb978822_1;destsuffix=vcs_cache/45882c51d4da17f32775abbdabd353753e5115f6ec6282c3bf028fe3471fc743"
++SRC_URI += "git://github.com/go-sql-driver/mysql;protocol=https;nobranch=1;tag=v1.9.3;shallow=1;rev=62984ada4402df6571557bc3fed2bcbde48ec908;name=git_825229b4_0;destsuffix=vcs_cache/8d8b13db0a1aeb458c063fdae5bc8310ea4fe3f080f94fad773cad52094745d9"
++SRC_URI += "git://github.com/go-sql-driver/mysql;protocol=https;nobranch=1;tag=v1.3.0;shallow=1;rev=a0583e0143b1624142adab07e0e97fe106d99561;name=git_825229b4_1;destsuffix=vcs_cache/732613cefc15b1adbb2c7aeb63e0c9bbf2708050a30ce547a2df82727da51371"
++SRC_URI += "git://github.com/ProtonMail/go-crypto;protocol=https;nobranch=1;tag=v1.3.0;shallow=1;rev=3b22d8539b95b3b7e76a911053023e6ef9ef51d6;name=git_ff8d3c48_0;destsuffix=vcs_cache/0bcc37d92aae5ed6a3baa05c154e2401eacb94df8b0aa4704a4ffb4fd7365ecf"
+ SRC_URI += "git://github.com/golang/glog;protocol=https;nobranch=1;tag=v1.2.5;shallow=1;rev=2b790ef78571cd58d29ce909a8d4e3f71cc4c47e;name=git_d14ca79d_0;destsuffix=vcs_cache/c9f39bfa0a44d36bb33abf5da9f941c03e1a2e8b3c98916cabc3aaca09d17583"
+-SRC_URI += "git://github.com/golang/snappy;protocol=https;nobranch=1;tag=v0.0.4;shallow=1;rev=544b4180ac705b7605231d4a4550a1acb22a19fe;name=git_bd5478a7_0;destsuffix=vcs_cache/0e8300bf89da9cc73c5b1fb83a5b5f3a9473d85cec3174c9484fb3b87ff8031d"
+ SRC_URI += "git://github.com/golang/protobuf;protocol=https;nobranch=1;tag=v1.3.4;shallow=1;rev=5d5b4c10bd43f85e63bd9e4a3fa9b1ea2ef88af2;name=git_6e18cbff_0;destsuffix=vcs_cache/f83545c5d009af94276add9fdb970f0b4b5b6872f19d4b02b8111007ee5544b0"
+ SRC_URI += "git://github.com/golang/protobuf;protocol=https;nobranch=1;tag=v1.3.2;shallow=1;rev=6c65a5562fc06764971b7c5d05c76c75e84bdbf7;name=git_6e18cbff_1;destsuffix=vcs_cache/cbdb48339b27d250cd1655e4e658760981e0b526face5866f3cfac54fd21200c"
+ SRC_URI += "git://github.com/golang/protobuf;protocol=https;nobranch=1;tag=v1.5.4;shallow=1;rev=75de7c059e36b64f01d0dd234ff2fff404ec3374;name=git_6e18cbff_2;destsuffix=vcs_cache/ff75ecee442381e7c87bac5ec092ebaf50137bc693ba5c5c1edce6eb4bd3ce94"
+ SRC_URI += "git://github.com/golang/protobuf;protocol=https;nobranch=1;tag=v1.2.0;shallow=1;rev=aa810b61a9c79d51363740d207bb46cf8e620ed5;name=git_6e18cbff_3;destsuffix=vcs_cache/c620195ee748026eed07d7e16b36050b97c69cfe3f735e96aafd915e5397baa5"
+ SRC_URI += "git://github.com/golang/protobuf;protocol=https;nobranch=1;tag=v1.3.1;shallow=1;rev=b5d812f8a3706043e23a9cd5babf2e5423744d30;name=git_6e18cbff_4;destsuffix=vcs_cache/ac3a600ae77600dcd73c8d21a4cd18d0b220318ed349c8deda52af33b71c50c6"
+-SRC_URI += "git://github.com/go-jose/go-jose;protocol=https;nobranch=1;tag=v4.1.3;shallow=1;rev=5348b9a4ba4559d2266b5af89fb5353cd1a5360a;name=git_3c60bf8b_0;destsuffix=vcs_cache/a4219826063988cbd7f4ed3d1c1fc58d7ed42f236f04225796cee7943617cebb"
+-SRC_URI += "git://github.com/go-jose/go-jose;protocol=https;nobranch=1;tag=v3.0.0;shallow=1;rev=a563785af9481120d75c419acf7bdd86a07cc1f1;name=git_3c60bf8b_1;destsuffix=vcs_cache/a3831850f8ce4841dd8c7a97a914dc89fe910b83d57d95db27c873ade23304b4"
+-SRC_URI += "git://github.com/keybase/go-keychain;protocol=https;nobranch=1;tag=v0.0.1;shallow=1;rev=dd79abb5f55f5239037126b5943c0b1335a84abc;name=git_31bcc336_0;destsuffix=vcs_cache/82b6722ae37ce95c4a4f5c5d543a436be413fa68f322f3be86191b0953905603"
++SRC_URI += "git://github.com/golang/snappy;protocol=https;branch=master;shallow=1;rev=43d5d4cd4e0e3390b0b645d5c3ef1187642403d8;name=git_bd5478a7_0;destsuffix=vcs_cache/9b4d194254df5894f7de7430d94f80f5a183a7ba5b0d3faf68e011bff67f803f"
++SRC_URI += "git://github.com/golang/snappy;protocol=https;nobranch=1;tag=v0.0.4;shallow=1;rev=544b4180ac705b7605231d4a4550a1acb22a19fe;name=git_bd5478a7_1;destsuffix=vcs_cache/0e8300bf89da9cc73c5b1fb83a5b5f3a9473d85cec3174c9484fb3b87ff8031d"
++SRC_URI += "git://github.com/golang/groupcache;protocol=https;branch=master;rev=2c02b8208cf8c02a3e358cb1d9b60950647543fc;name=git_24e750eb_0;destsuffix=vcs_cache/42d84b5a864149912b1976573aa12f43cdea041dfbb41206b5548b1134452af5"
++SRC_URI += "git://github.com/dimchansky/utfbom;protocol=https;nobranch=1;tag=v1.1.1;shallow=1;rev=6ae8f945ca96f30defc7e8ab12ec5d10cf86ded4;name=git_343da044_0;destsuffix=vcs_cache/04f39ab86cb6ab9bf2a2278357fae9932b31f6cb8b07bf8e6ca02581cbf46ecf"
++SRC_URI += "git://github.com/google/pprof;protocol=https;branch=main;rev=f64d9cf942d6bcc1a1d4add2c9e758f42cd5adcd;name=git_4d435d14_0;destsuffix=vcs_cache/b4a3cf22b289c100dae58764b0f35b0c0af89950e35274a0659c15b4340bc322"
++SRC_URI += "git://github.com/google/shlex;protocol=https;branch=master;rev=e7afc7fbc51079733e9468cdfd1efcd7d196cd1d;name=git_2bc3fe04_0;destsuffix=vcs_cache/6317e931b780de46077449706d69a38f426197406a504d848e3500a0d06b7299"
++SRC_URI += "git://github.com/google/go-cmp;protocol=https;nobranch=1;tag=v0.3.0;shallow=1;rev=6f77996f0c42f7b84e5a2b252227263f93432e9b;name=git_8726c33a_0;destsuffix=vcs_cache/ae58fd0d54f7194cd02ff68b9600f09892901604ebd985b881c9860505e91785"
++SRC_URI += "git://github.com/google/go-cmp;protocol=https;nobranch=1;tag=v0.7.0;shallow=1;rev=9b12f366a942ebc7254abc7f32ca05068b455fb7;name=git_8726c33a_1;destsuffix=vcs_cache/460ed71bde70f3a932cad8d9044d3f12302bf8b6e95353bd17c44189712e2763"
++SRC_URI += "git://github.com/google/gofuzz;protocol=https;nobranch=1;tag=v1.0.0;shallow=1;rev=f140a6486e521aad38f5917de355cbf147cc0496;name=git_32fcbcb4_0;destsuffix=vcs_cache/3b10b16f3e547f9036aa468f5a846c1e873d084728258048c32c4afc2a1bb2cf"
++SRC_URI += "git://github.com/google/certtostore;protocol=https;nobranch=1;tag=v1.0.6;shallow=1;rev=ee4ff6fd9d452e8aa7eb3249c00b272ecd454c2d;name=git_e7a3d490_0;destsuffix=vcs_cache/03eab8e8fd9152de179043ef32fd09e4375ad5a3b8e25efbeeba6b44d1ca9d4f"
++SRC_URI += "git://github.com/google/deck;protocol=https;branch=master;rev=105ad94aa8aec4c27766e92c4310b466f0852009;name=git_57663d5a_0;destsuffix=vcs_cache/9c43c7ddfa82c3fc0dbcab5945f7f810fa68c290504895ba9a331c514051c140"
++SRC_URI += "git://github.com/google/gnostic-models;protocol=https;nobranch=1;tag=v0.7.0;shallow=1;rev=82b4ba06c153dcd30e1dbcf93601b3bee5cb3792;name=git_62ad6da8_0;destsuffix=vcs_cache/88a05eeac87ac843d53bbad4f86c891fbd1a6eb73d10d5b2c7381c229c0a25ab"
++SRC_URI += "git://github.com/google/uuid;protocol=https;nobranch=1;tag=v1.6.0;shallow=1;rev=0f11ee6918f41a04c201eceeadf612a377bc7fbc;name=git_c3a7687c_0;destsuffix=vcs_cache/1743dd7863ebf20fb946ec26a0525a27c91536f2d01acf863b0a99566cd8f3e5"
++SRC_URI += "git://github.com/google/go-containerregistry;protocol=https;nobranch=1;tag=v0.20.6;shallow=1;rev=59a4b85930392a30c39462519adc8a2026d47181;name=git_e4a968c9_0;destsuffix=vcs_cache/38887873d29addecf3cfdeff62087a1dcb2a611b31e4e0df927d8504b7bad507"
++SRC_URI += "git://github.com/google/go-containerregistry;protocol=https;nobranch=1;tag=v0.20.7;shallow=1;rev=e075f209120b2467fd1b7d24727f1890a0edb74a;name=git_e4a968c9_1;destsuffix=vcs_cache/7718f7a1dba1449780db7674f80547426e1d00e04dad155a6d6d92f8d82b750b"
++SRC_URI += "git://github.com/google/trillian;protocol=https;nobranch=1;tag=v1.7.2;shallow=1;rev=e7aca3cc3a83e222540555ca75ecc87cffccdd53;name=git_3b1a64b0_0;destsuffix=vcs_cache/e8d401f7e3b6be0101aac286ab5237fe0b10c1bcc3605c934a1f0aeae0914ed1"
++SRC_URI += "git://github.com/google/go-dap;protocol=https;nobranch=1;tag=v0.12.0;shallow=1;rev=69ae96dd1be582d05210c92e880b3d63a37b2cf7;name=git_befa0a72_0;destsuffix=vcs_cache/7d0defb60f3f577e67d765314ac295225706f0b4958436b28cf163f2170e3ff7"
++SRC_URI += "git://github.com/google/go-dap;protocol=https;branch=main;rev=d7a2259b058b8bcd4e9d1803aa96a308bf03e394;name=git_befa0a72_1;destsuffix=vcs_cache/38f72ab7a67c1167bc8d252743ea0a437199a1cf9828b348cb7e07c45be9f9b9"
++SRC_URI += "git://github.com/google/certificate-transparency-go;protocol=https;branch=master;rev=5ab67e519c93568ac3ee50fd6772a5bcf8aa460d;name=git_1d240fe8_0;destsuffix=vcs_cache/0fd69fa049b1061cd5c090184fa587afb10ae78ca64762f4b915f363cf226599"
++SRC_URI += "git://github.com/google/certificate-transparency-go;protocol=https;nobranch=1;tag=v1.3.2;shallow=1;rev=d1b16ca3b342e091d4122deb8c7f62b3213a2169;name=git_1d240fe8_1;destsuffix=vcs_cache/c0a53496e7fb547e3eb9df58eee5ef548371f97a21a52d73b7106de59ad52699"
++SRC_URI += "git://github.com/antihax/optional;protocol=https;nobranch=1;tag=v1.0.0;shallow=1;rev=c3f0ba9c1a592b971d66b2787679af55b5c58f21;name=git_aab58b7d_0;destsuffix=vcs_cache/535a79fbd6ec4a2d00a2eaeb938554011f822f57d36bc924215af19f4bab0697"
++SRC_URI += "git://github.com/josharian/intern;protocol=https;nobranch=1;tag=v1.0.0;shallow=1;rev=8e6ff32b3e7c0b018c43953085fe2ac330fe9acd;name=git_eb6bc1bf_0;destsuffix=vcs_cache/273d42676826fc8f106c11c2800d01690a09463878fa115700b2e26df24a2440"
++SRC_URI += "git://github.com/apparentlymart/go-cidr;protocol=https;nobranch=1;tag=v1.0.1;shallow=1;rev=c0fb5fbe0acb592411e2db59add389a43260ad44;name=git_75732a95_0;destsuffix=vcs_cache/78882067332ee02e3c72ccc9d03c697f04b24132ddd74da1593a953f0b833469"
++SRC_URI += "git://github.com/apparentlymart/go-textseg;protocol=https;nobranch=1;tag=v15.0.0;shallow=1;rev=72b78f42484ddc3f58858f794da1771fb9559ad0;name=git_81a61598_0;destsuffix=vcs_cache/2ad90a9579325698fb8eedc37a5bb5c32c0df927e2e2029b3cfa6369b0aad683"
++SRC_URI += "git://github.com/fxamacker/cbor;protocol=https;nobranch=1;tag=v2.9.0;shallow=1;rev=d29ad7351b55b1844387cf9306c4101658cc5256;name=git_3a88ac44_0;destsuffix=vcs_cache/a2e55d2b4fdba69f8a4cfc76758713247ee27c62d5ad4168e8c14369f3c94c36"
++SRC_URI += "git://github.com/yashtewari/glob-intersection;protocol=https;nobranch=1;tag=v0.2.0;shallow=1;rev=9f24ebf25f62b3565b778d6ec98775caf0e37720;name=git_2842a744_0;destsuffix=vcs_cache/f808bebdb4b58643c351139a2ad430afee40f2154d96cfe1086091dbffa08d35"
++SRC_URI += "git://github.com/stretchr/objx;protocol=https;nobranch=1;tag=v0.5.2;shallow=1;rev=307d0db21292676ac9d469826525c3630f47f63a;name=git_7987da5d_0;destsuffix=vcs_cache/fe4a57d26379977ebf461da8c71a20095b9f973a91d55076b67fa0de48206a1e"
++SRC_URI += "git://github.com/stretchr/objx;protocol=https;nobranch=1;tag=v0.1.1;shallow=1;rev=477a77ecc69700c7cdeb1fa9e129548e1c1c393c;name=git_7987da5d_1;destsuffix=vcs_cache/324a79f9170fef44f826e43999370c6ec3bc3be6044c9a4c2e3eb97cdf5ac743"
++SRC_URI += "git://github.com/stretchr/objx;protocol=https;nobranch=1;tag=v0.2.0;shallow=1;rev=ea4fe68685ee0d3cee7032121851b57e7494e8ea;name=git_7987da5d_2;destsuffix=vcs_cache/982a1df420b1f34eee71122e02865aa89e1ea251dc09362265917bd0e0ca3995"
++SRC_URI += "git://github.com/stretchr/objx;protocol=https;nobranch=1;tag=v0.1.0;shallow=1;rev=facf9a85c22f48d2f52f2380e4efce1768749a89;name=git_7987da5d_3;destsuffix=vcs_cache/39828321881a0709a36a2d1edde8fc9928ddd471ebd0bbdf7012076e7214bb02"
++SRC_URI += "git://github.com/stretchr/testify;protocol=https;nobranch=1;tag=v1.4.0;shallow=1;rev=221dbe5ed46703ee255b1da0dec05086f5035f62;name=git_aa93f7ee_0;destsuffix=vcs_cache/9e52b2f6204cf4daab20f41d30029448e95ae1a472c112e86dbdd68a16e14a2e"
++SRC_URI += "git://github.com/stretchr/testify;protocol=https;nobranch=1;tag=v1.11.1;shallow=1;rev=2a57335dc9cd6833daa820bc94d9b40c26a7917d;name=git_aa93f7ee_1;destsuffix=vcs_cache/ba91b84762300277627df761c9f004ffcc560434a1a1c2e613269b0c2e378278"
++SRC_URI += "git://github.com/stretchr/testify;protocol=https;nobranch=1;tag=v1.5.1;shallow=1;rev=3ebf1ddaeb260c4b1ae502a01c7844fa8c1fa0e9;name=git_aa93f7ee_2;destsuffix=vcs_cache/725790d9265526f327bc846ba6025be038cd5cdf6367be0f622409ad58ac9aa0"
++SRC_URI += "git://github.com/stretchr/testify;protocol=https;nobranch=1;tag=v1.7.0;shallow=1;rev=acba37e5db06f0093b465a7d47822bf13644b66c;name=git_aa93f7ee_3;destsuffix=vcs_cache/f87883f9ef1ad6bd6ecb844fe9108ae126c4dfab49080e5fb37bd27ca64417be"
++SRC_URI += "git://github.com/stretchr/testify;protocol=https;nobranch=1;tag=v1.2.2;shallow=1;rev=f35b8ab0b5a2cef36673838d662e249dd9c94686;name=git_aa93f7ee_4;destsuffix=vcs_cache/2bb8c4aae39dd3460bd5d8094b70444e65cec7f2390b1c2a41ffb7d431d41317"
++SRC_URI += "git://github.com/stretchr/testify;protocol=https;nobranch=1;tag=v1.6.1;shallow=1;rev=f654a9112bbeac49ca2cd45bfbe11533c4666cf8;name=git_aa93f7ee_5;destsuffix=vcs_cache/782e156612c5b8f52bb9daab64be055460c9e50ce18305034fc5c8954a4e6b4a"
++SRC_URI += "git://github.com/stretchr/testify;protocol=https;nobranch=1;tag=v1.3.0;shallow=1;rev=ffdc059bfe9ce6a4e144ba849dbedead332c6053;name=git_aa93f7ee_6;destsuffix=vcs_cache/15f4be955793ecb9ef81031cf64191211271265868a72e4bf25c409e978a8ce8"
++SRC_URI += "git://github.com/mailru/easyjson;protocol=https;nobranch=1;tag=v0.7.7;shallow=1;rev=c120ca7ced6051261161ce15e8f1542a4b2567fc;name=git_4620abf9_0;destsuffix=vcs_cache/5b802334c301c91bd13cee6264caa8c327300bfc16173c6074fc315244620dd8"
+ SRC_URI += "git://github.com/golang-jwt/jwt;protocol=https;nobranch=1;tag=v5.3.0;shallow=1;rev=e9547a11aa603c52a31e315cdcaa71d0f25b921a;name=git_6a52582e_0;destsuffix=vcs_cache/66e46ba0e23fba357561ed48f444bcd3786aa0082ed4d7977f2625fe09cb754e"
+-SRC_URI += "git://github.com/felixge/httpsnoop;protocol=https;nobranch=1;tag=v1.0.4;shallow=1;rev=c5817c27ec125409c069052fdd171023c353501c;name=git_b48d732c_0;destsuffix=vcs_cache/4faaa0a5649a2ae9245609ad7ed739dbc2e39cfd27a3018400f3dad114269d26"
+-SRC_URI += "git://github.com/felixge/fgprof;protocol=https;nobranch=1;tag=v0.9.3;shallow=1;rev=b0f80df6b76f74ec0c611dc52f4e79d4a11bff81;name=git_6649ad42_0;destsuffix=vcs_cache/e4198b9fea19f930b494d86892d08c8dcf4d5828b2b7c19db44e432daeadbd37"
+-SRC_URI += "git://github.com/agnivade/levenshtein;protocol=https;nobranch=1;tag=v1.2.1;shallow=1;rev=813c5d3147488182a4d0d6aea81fc9f28d330cc1;name=git_65ddb0f9_0;destsuffix=vcs_cache/d5b038fb822a1e302e22b0e6ac8351f211ac30e1da66a634d22f607d655321e3"
+-SRC_URI += "git://github.com/spdx/tools-golang;protocol=https;nobranch=1;tag=v0.5.7;shallow=1;rev=28116d2a82c9999a10b186d88e4132e20ac67462;name=git_c611268e_0;destsuffix=vcs_cache/2944f2a5d449b4ba31e7000d974e7dafe6c0e63a63a2a667ce98cd5bdd81cadc"
+-SRC_URI += "git://github.com/spdx/tools-golang;protocol=https;nobranch=1;tag=v0.5.5;shallow=1;rev=9db247b854b9634d0109153d515fd1a9efd5a1b1;name=git_c611268e_1;destsuffix=vcs_cache/67dc836f5c494b30f0be4d730f354867948c78e92c42f1c68e779ec3c48a5a01"
+-SRC_URI += "git://github.com/lib/pq;protocol=https;nobranch=1;rev=0dad96c0b94f8dee039aa40467f767467392a0af;name=git_6c68f1e9_0;destsuffix=vcs_cache/501779f1f37d5eedf7b5e73065f7d7847c6343baa947b47ab9335de358604a1c"
+-SRC_URI += "git://github.com/cloudflare/circl;protocol=https;nobranch=1;tag=v1.6.0;shallow=1;rev=89e658c2ea39d3cfea7b7c7c8b34ebdbd6d21942;name=git_d8934de6_0;destsuffix=vcs_cache/6b1850dcf66e3b438754c6c9963b00daaa188378c7cb8c9c1ef005abe31f75f9"
+-SRC_URI += "git://github.com/cloudflare/circl;protocol=https;nobranch=1;tag=v1.6.1;shallow=1;rev=c6d33e35234ebf5c4319d12ae7d77d7d17053e56;name=git_d8934de6_1;destsuffix=vcs_cache/3c2dfa258c309745a69f7643659c92a962cf059c411c84e321b55c5ac0323f35"
+-SRC_URI += "git://github.com/cloudflare/cfssl;protocol=https;nobranch=1;rev=4e2dcbde500472449917533851bf4bae9bdff562;name=git_00392491_0;destsuffix=vcs_cache/3c8104b7da9d2e18832889b5c6a3e835075611b12d6602487addb722a70feac5"
+-SRC_URI += "git://github.com/asaskevich/govalidator;protocol=https;nobranch=1;rev=a9d515a09cc289c60d55064edec5ef189859f172;name=git_f9896ddf_0;destsuffix=vcs_cache/e0c07f200ff31ed92aa0075d9e5e72c7ed4294f6ef7d9e723213e1bceaca59d3"
+-SRC_URI += "git://github.com/smallstep/pkcs7;protocol=https;nobranch=1;tag=v0.1.1;shallow=1;rev=21b5bd412d3d388540388c0165151f7e3df92213;name=git_dd95d004_0;destsuffix=vcs_cache/2f19e869b678f6b075729ec3df26ac81f8f576057860ead9a9c70212023b6927"
+-SRC_URI += "git://github.com/tonistiigi/go-actions-cache;protocol=https;nobranch=1;rev=378c5ed1ddd9f4bd9371b02deeca46c9b6fae2fa;name=git_27df42ff_0;destsuffix=vcs_cache/9f4a150fded4b0c51af4c77ae23f48e741fc3c25041f168f5e152c9bef985194"
+-SRC_URI += "git://github.com/tonistiigi/go-actions-cache;protocol=https;nobranch=1;rev=54bc28c26fd2ab598cce3f9d3368744bc7b3fb58;name=git_27df42ff_1;destsuffix=vcs_cache/2924c7ecb319efa413b0f3012222cad7c8773cd26a54e23c43cd460cf6d9c0b0"
+-SRC_URI += "git://github.com/tonistiigi/dchapes-mode;protocol=https;nobranch=1;rev=73d941a28323f67dc09aefc69afd2770dc9dfc8b;name=git_e1d53fb7_0;destsuffix=vcs_cache/088daf1e815a0c250df5a6800476d2fd7926fd2cfde5c798932d14dc518d73f2"
+-SRC_URI += "git://github.com/tonistiigi/go-csvvalue;protocol=https;nobranch=1;rev=030d3b2625d0ae73babf789e079c07ae2c9940b4;name=git_cd3fcea2_0;destsuffix=vcs_cache/4bab931b93ec61ba123209f20dc512a65f448d9af6783e77b89ee8a8b7bf94b3"
+-SRC_URI += "git://github.com/tonistiigi/units;protocol=https;nobranch=1;rev=6950e57a87eaf136bbe44ef2ec8e75b9e3569de2;name=git_02686fd3_0;destsuffix=vcs_cache/a0528d63437c733bc9243aeb601d0f1175a8f8eaa01b2402d7b077f35f36fbcd"
+-SRC_URI += "git://github.com/tonistiigi/go-archvariant;protocol=https;nobranch=1;tag=v1.0.0;shallow=1;rev=ee27df245367183248db3391ccaaffce4bf25b3f;name=git_aa07a577_0;destsuffix=vcs_cache/07d631aebb630179eda0ac758a6a400523556e0df873aaaa8107c81569f5312d"
+-SRC_URI += "git://github.com/tonistiigi/jaeger-ui-rest;protocol=https;nobranch=1;rev=3dd17559e117449543489dfacd6ae22014604045;name=git_6e70a498_0;destsuffix=vcs_cache/644200fb876350717a5c6642a51a536deec87f616bc0db7325b35f6e96fd6ceb"
+-SRC_URI += "git://github.com/tonistiigi/fsutil;protocol=https;nobranch=1;rev=586307ad452fadb42e28be16d2b995b2eb6755e9;name=git_e9a91661_0;destsuffix=vcs_cache/d721d7ff5242aee01894397e3189dde451e48dd99ea135fda17971624b878725"
+-SRC_URI += "git://github.com/tonistiigi/fsutil;protocol=https;nobranch=1;rev=a2aa163d723fe2c00105350a49e9e2b02242f472;name=git_e9a91661_1;destsuffix=vcs_cache/5728fb0835aa13d026604988f9496a653e4e5442f8a0e93e6495c60887f5e1b8"
+-SRC_URI += "git://github.com/tonistiigi/vt100;protocol=https;nobranch=1;rev=90bafcd6abab5dc87970f00165ee2022806709fd;name=git_8eef3e28_0;destsuffix=vcs_cache/8c7e9f3cea5c616be7d8cb3b181a8ecf2d3b1ff0b881bb34abd9235b7680d2c9"
+-SRC_URI += "git://github.com/denisenkom/go-mssqldb;protocol=https;nobranch=1;rev=1d7a30a10f73a69b1adb731b0ab12be3da43a833;name=git_827fc7d8_0;destsuffix=vcs_cache/51d1448ae824a59e167bc4626cbed812ff98e24bad9ad0e55865452f35f4e32a"
+-SRC_URI += "git://github.com/containerd/stargz-snapshotter;protocol=https;nobranch=1;tag=estargz/v0.17.0;shallow=1;rev=6f6aacb044960a0820a2d2954f5cbcc40b17fbdb;name=git_0c473532_0;destsuffix=vcs_cache/24a2796839044959bbf030bb3fd1172f4a49c4577d48199b4f7087d3952367d6"
+-SRC_URI += "git://github.com/containerd/otelttrpc;protocol=https;nobranch=1;tag=v0.1.0;shallow=1;rev=fa91cafe17adf59a0edc10650135dfd1dfb761c2;name=git_69c055ed_0;destsuffix=vcs_cache/c27d4a7087a7f4624cdf40c161f9707dbb90cd2d71159840f7c7b610260e9f24"
+-SRC_URI += "git://github.com/containerd/platforms;protocol=https;nobranch=1;tag=v1.0.0-rc.2;shallow=1;rev=2e51fd9435bd985e1753954b24f4b0453f4e4767;name=git_96693f8e_0;destsuffix=vcs_cache/a5b697e2dcecbe42edb518786dede1d257aecc63276621eb03e3917cae97e344"
+-SRC_URI += "git://github.com/containerd/go-runc;protocol=https;nobranch=1;tag=v1.1.0;shallow=1;rev=df3c22d088ca919d1943efa8ae0cfc0514da0542;name=git_84c96084_0;destsuffix=vcs_cache/9044e9e240020298712a51a4db4736afc66d70b1870cf11cac73c0661be06842"
+-SRC_URI += "git://github.com/containerd/errdefs;protocol=https;nobranch=1;tag=pkg/v0.3.0;shallow=1;rev=4817405e4a3caeb7aee9dac68ed55339c59cb635;name=git_070120f7_0;destsuffix=vcs_cache/d9d1c9949e837f39205605237b656e944c7d0cd69e48a906fabdb6bebe0edb66"
+-SRC_URI += "git://github.com/containerd/nri;protocol=https;nobranch=1;tag=v0.11.0;shallow=1;rev=1078130fa016884b4c03880d9d587e6691a67d98;name=git_523249c2_0;destsuffix=vcs_cache/9ef2c512de0aabf89c060ed428bc6ef3d29fc64b917b4a81d88abcada3f49d90"
+-SRC_URI += "git://github.com/containerd/typeurl;protocol=https;nobranch=1;tag=v2.2.3;shallow=1;rev=5b047adad57d172afa9654c019fe65bf0540cc4d;name=git_94e812bb_0;destsuffix=vcs_cache/60bc9255cadbea28631b3293cd629cbe0b9a9cffb987712231cdc4f9dc75a2cb"
+-SRC_URI += "git://github.com/containerd/fuse-overlayfs-snapshotter;protocol=https;nobranch=1;tag=v2.1.7;shallow=1;rev=da57796c7d0a2b608abf173651cf148706e33337;name=git_923d9d3e_0;destsuffix=vcs_cache/ebd7034108ca2f7b1a5d3724f3248f21f9cf17f5ecf3db9b5c71ee2e6de56563"
+-SRC_URI += "git://github.com/containerd/cgroups;protocol=https;nobranch=1;tag=v3.1.2;shallow=1;rev=8c81c66df8df1e3f748b40b93c83dbf081e7d552;name=git_85a7d8f6_0;destsuffix=vcs_cache/0a57a364d007af5ddf18af34b681967bf3bdb72cbf2ee50c605be53e1d114a0b"
+-SRC_URI += "git://github.com/containerd/plugin;protocol=https;nobranch=1;tag=v1.0.0;shallow=1;rev=19cedbf730bb9ae1c106c4d4df8492bb3d3fb8fd;name=git_0f1fd608_0;destsuffix=vcs_cache/f786b847c888d27ca5c517b566772c78216ed963d31d5119a32ebad7494855ea"
+-SRC_URI += "git://github.com/containerd/zfs;protocol=https;nobranch=1;tag=v2.0.0;shallow=1;rev=a3e9bec07f4f2d9da41c5e119006cffad6fecffa;name=git_62ef0568_0;destsuffix=vcs_cache/3b6e8e17660f86603ad978c35f23b066288dc5937890ca5c61f54fc5dfaa9052"
+-SRC_URI += "git://github.com/containerd/continuity;protocol=https;nobranch=1;tag=v0.4.5;shallow=1;rev=44e2adf7e9cd87330f3ad656e7a006ef91ed8c1e;name=git_b4d76115_0;destsuffix=vcs_cache/ef286b146362aa5da58f9ef4e88323a32e1ea45eda78c6d484875972ce0a81e0"
+-SRC_URI += "git://github.com/containerd/imgcrypt;protocol=https;nobranch=1;tag=v2.0.1;shallow=1;rev=c377ec98ff79ec9205eabf555ebd2ea784738c6c;name=git_3f4049aa_0;destsuffix=vcs_cache/cf07f49bde1cc9b1c042dfb7055d38c832cb69592e89521daa5ad46b367e047b"
+-SRC_URI += "git://github.com/containerd/console;protocol=https;nobranch=1;tag=v1.0.5;shallow=1;rev=c8d962180f543ac07c008ecc79a413406ea10c0b;name=git_7dc259a2_0;destsuffix=vcs_cache/a38aca664db28f607862e39301d2fd06b3c58312662cbd189f451215c3eb9894"
+-SRC_URI += "git://github.com/containerd/ttrpc;protocol=https;nobranch=1;tag=v1.2.7;shallow=1;rev=3b8c8b75577584e412043afb7b561193a4a47d2e;name=git_1deba031_0;destsuffix=vcs_cache/89e0e59ec2637becf69ff869326d460e7b3aa5c251d58a6d42981bc9c12360fd"
+-SRC_URI += "git://github.com/containerd/fifo;protocol=https;nobranch=1;tag=v1.1.0;shallow=1;rev=151b205263c29d471e0d55c787d2ce9f5343fd46;name=git_6f3d1077_0;destsuffix=vcs_cache/e4b0152cde11b075ce8a8a9f0db77d54abb72ee1bab1036ab0c157b678aade47"
+-SRC_URI += "git://github.com/containerd/go-cni;protocol=https;nobranch=1;tag=v1.1.13;shallow=1;rev=784f94e654944e41f86cf33ad49bfe07014c2e7e;name=git_cab8b449_0;destsuffix=vcs_cache/42aaa61d2bb4bd3a1eb278daa53bed3b31e3af601d35dafceb8b7714333cef05"
+-SRC_URI += "git://github.com/containerd/containerd;protocol=https;nobranch=1;tag=v2.2.2;shallow=1;rev=301b2dac98f15c27117da5c8af12118a041a31d9;name=git_c2fd43eb_0;destsuffix=vcs_cache/ea4b5c8a660b2fc1f2b90648b4488ba3c3ee8dd68fa6b07824587410c3886213"
+-SRC_URI += "git://github.com/containerd/containerd;protocol=https;nobranch=1;tag=api/v1.10.0;shallow=1;rev=8b34ce391bd114e080892cccfa956ef3807c207c;name=git_c2fd43eb_1;destsuffix=vcs_cache/4ae09c91c596d23f3127d6821ac6178aa6512e66eba4da3a39e7c94903e2407b"
+-SRC_URI += "git://github.com/containerd/log;protocol=https;nobranch=1;tag=v0.1.0;shallow=1;rev=0fc1e28871fdf2786e2cc51bbe4133db6547a199;name=git_b70b7359_0;destsuffix=vcs_cache/697be36d9b8a0eb34f8591d0f69b6d596e1e9341b5944ebf81ddd334b1907bc6"
+-SRC_URI += "git://github.com/containerd/accelerated-container-image;protocol=https;nobranch=1;tag=v1.3.0;shallow=1;rev=c5dd4fa383f2a932ab7d0b974f05a4e90eb46604;name=git_c15853d7_0;destsuffix=vcs_cache/3c38450d2e9b921d8073a5c5afb9472d94858098bc1fe7d691687d51d0ede1ff"
+-SRC_URI += "git://github.com/containerd/nydus-snapshotter;protocol=https;nobranch=1;tag=v0.15.10;shallow=1;rev=ae5bebac2b0c1da6aafd78666eea1dd91fb59d96;name=git_c4766add_0;destsuffix=vcs_cache/8950efb8ebb00c25adcc9f3c186f0f47f0a67ddde318fcaeb41450e1d3559580"
+-SRC_URI += "git://github.com/containerd/btrfs;protocol=https;nobranch=1;tag=v2.0.0;shallow=1;rev=f611cf12b33f43269574b2ad82bcb55e4d6f9982;name=git_afc7f4f6_0;destsuffix=vcs_cache/8a2ee3ce7d871ae06962c07984197acdfd6035091884c9db0791378ac0229823"
+-SRC_URI += "git://github.com/codahale/rfc6979;protocol=https;nobranch=1;rev=6a90f24967ebb1aa57b22f74a13dbb3faad8cf3d;name=git_d13a0aee_0;destsuffix=vcs_cache/fd8285193cc7c3bc341773b0166d258b6baca2f6985aa666e14e22b19401aea7"
+-SRC_URI += "git://github.com/docker/distribution;protocol=https;nobranch=1;tag=v2.7.1;shallow=1;rev=2461543d988979529609e8cb6fca9ca190dc48da;name=git_3954c8b6_0;destsuffix=vcs_cache/26a3d4dc632c62414346d52deda2aedc133ba755ea9665e3aba4eba2cfe57bb0"
+-SRC_URI += "git://github.com/docker/distribution;protocol=https;nobranch=1;tag=v2.8.3;shallow=1;rev=4772604ae973031ab32dd9805a4bccf61d94909f;name=git_3954c8b6_1;destsuffix=vcs_cache/179a4ea80ae56a5b38e4349dac5aa88a7180045bd04943c05933125b8abc5d93"
+-SRC_URI += "git://github.com/docker/go-metrics;protocol=https;nobranch=1;rev=399ea8c73916000c64c2c76e8da00ca82f8387ab;name=git_08ad7bc8_0;destsuffix=vcs_cache/e46943e0ce240f96ccb15fabd2b6c91ee2105677005b8cff59822b6c952ea98e"
+-SRC_URI += "git://github.com/docker/go-metrics;protocol=https;nobranch=1;tag=v0.0.1;shallow=1;rev=b619b3592b65de4f087d9f16863a7e6ff905973c;name=git_08ad7bc8_1;destsuffix=vcs_cache/96ae8893e24907a70aef922af47d48651611460f2b982f7e1e27dacd5ad82b9f"
++SRC_URI += "git://github.com/mgutz/ansi;protocol=https;branch=master;rev=9520e82c474b0a04dd04f8a40959027271bab992;name=git_ab1ea218_0;destsuffix=vcs_cache/f38805371ceca34945d620f33580bc80b8d8946d490670358956c3579639e7ad"
++SRC_URI += "git://github.com/inconshreveable/mousetrap;protocol=https;nobranch=1;tag=v1.1.0;shallow=1;rev=4e8053ee7ef85a6bd26368364a6d27f1641c1d21;name=git_b31cc6ad_0;destsuffix=vcs_cache/a9f0ac4cf05240ceb9790811cbd8ab3cbdcd404501a9ca5a402a28033e7235d8"
++SRC_URI += "git://github.com/inconshreveable/mousetrap;protocol=https;nobranch=1;tag=v1.0.0;shallow=1;rev=76626ae9c91c4f2a10f34cad8ce83ea42c93bb75;name=git_b31cc6ad_1;destsuffix=vcs_cache/bdd1bbf309f6078c2e930609779f6207bad79817ed60bcb7a66df8a5735580f3"
++SRC_URI += "git://github.com/kisielk/gotool;protocol=https;nobranch=1;tag=v1.0.0;shallow=1;rev=80517062f582ea3340cd4baf70e86d539ae7d84d;name=git_e251e12c_0;destsuffix=vcs_cache/5f448e8a93894c89c55e73478ef6dc8a0a1a6a3fd3fe3a2b5cd5e03e65915fb1"
++SRC_URI += "git://github.com/kisielk/errcheck;protocol=https;nobranch=1;tag=v1.5.0;shallow=1;rev=ee08a456fc430219ad80ce5af98415bcc027a219;name=git_19b8b0b3_0;destsuffix=vcs_cache/2ae681313b6ac49c6c60836f406eed1f7f4db5b86a3027f0ec720f5984386390"
++SRC_URI += "git://github.com/goccy/go-json;protocol=https;nobranch=1;tag=v0.10.5;shallow=1;rev=9872089c316cfe2d0f29b331b75d45bf6d522d96;name=git_58b9fee8_0;destsuffix=vcs_cache/9135ffafe2f170bce8f90413934c0b25aa6d201122cc437153cf64a206c46389"
++SRC_URI += "git://github.com/codahale/rfc6979;protocol=https;branch=master;rev=6a90f24967ebb1aa57b22f74a13dbb3faad8cf3d;name=git_d13a0aee_0;destsuffix=vcs_cache/fd8285193cc7c3bc341773b0166d258b6baca2f6985aa666e14e22b19401aea7"
++SRC_URI += "git://github.com/keybase/go-keychain;protocol=https;nobranch=1;tag=v0.0.1;shallow=1;rev=dd79abb5f55f5239037126b5943c0b1335a84abc;name=git_31bcc336_0;destsuffix=vcs_cache/82b6722ae37ce95c4a4f5c5d543a436be413fa68f322f3be86191b0953905603"
++SRC_URI += "git://github.com/sasha-s/go-deadlock;protocol=https;nobranch=1;tag=v0.3.5;shallow=1;rev=464d34347a399b840a4f963cc96dfc993ccf8c62;name=git_8c229f40_0;destsuffix=vcs_cache/fa29175221f16401d041954c9a07bc5aa8b90d585d480873eaa15a18b5fa8e6d"
++SRC_URI += "git://github.com/oklog/ulid;protocol=https;nobranch=1;tag=v1.3.1;shallow=1;rev=02a8604050d8466dd915307496174adb9be4593a;name=git_74526025_0;destsuffix=vcs_cache/aad6b8a061fa553536e0c316a41769de0f2b7912cad69a71e0ea72d9bb262c8f"
++SRC_URI += "git://github.com/oklog/ulid;protocol=https;nobranch=1;tag=v2.1.1;shallow=1;rev=96c4edf226ef639c92f96f42c7c2a161ae0e1a66;name=git_74526025_1;destsuffix=vcs_cache/aaf3b4cc210950472ca5f11135c0d7bb5cf17d9493d2bd55a72286845c1411fa"
++SRC_URI += "git://github.com/eiannone/keyboard;protocol=https;branch=master;rev=0d226195f2038e282bb90d2e24f7f29aa7c5b210;name=git_856af60d_0;destsuffix=vcs_cache/c7ad216919ed9d1db40a1a79054fb70019f12275ddb216094b1aefbdd44e8744"
++SRC_URI += "git://github.com/AzureAD/microsoft-authentication-library-for-go;protocol=https;nobranch=1;tag=v1.6.0;shallow=1;rev=22fd2ee68abf6e6e926fa09387c078db25dad7e0;name=git_b3899c58_0;destsuffix=vcs_cache/a614c17b982b55683fa48ad6af54eeb7a0d805b231482bbbc5a0075a03e060fc"
++SRC_URI += "git://github.com/cenkalti/backoff;protocol=https;nobranch=1;tag=v4.3.0;shallow=1;rev=720b78985a65c0452fd37bb155c7cac4157a7c45;name=git_67dac28e_0;destsuffix=vcs_cache/c644c1d0f5212c0210f056d6c7d45f3e482a1fca002b7c3e65edf8d3c060566f"
++SRC_URI += "git://github.com/cenkalti/backoff;protocol=https;nobranch=1;tag=v5.0.3;shallow=1;rev=7cad66a637c4ffff09d0795608116ddcc7eb1769;name=git_67dac28e_1;destsuffix=vcs_cache/656f7cb59961eb5e57ba97bf50166eda0c13e2ecff4c8c15b33eb72e8ad26dc4"
++SRC_URI += "git://github.com/docker/docker;protocol=https;nobranch=1;tag=v28.5.2;shallow=1;rev=89c5e8fd66634b6128fc4c0e6f1236e2540e46e0;name=git_248eb0d1_0;destsuffix=vcs_cache/3de5db22583d5bbf6eae05c3768cf39f98cec50b9a6c9fdeb10d95acbabbc761"
++SRC_URI += "git://github.com/docker/compose;protocol=https;branch=main;rev=4732a2ed20a49c43a7b44bb4928259162c3ae3be;name=git_8d4a7825_0;destsuffix=vcs_cache/88e8bb43d6fe88ac0134c525850c989e8cbfb0591877f5c3e49ea34cfd01b6c1"
++SRC_URI += "git://github.com/docker/compose;protocol=https;branch=main;rev=9fada6cc23fb95113d5a5475ea63e09144be466e;name=git_8d4a7825_1;destsuffix=vcs_cache/0d945e267746ce92d65bce0aaf01de62887f55820fc309105a3bf83b78bc07fb"
++SRC_URI += "git://github.com/docker/compose;protocol=https;branch=main;rev=e8c214349819cc14804e8946adb8ae3576b7139c;name=git_8d4a7825_2;destsuffix=vcs_cache/9c33332b5cdc980c80ddc24904509f4bd96cfc277a4ef80ebcb47ad70112743a"
+ SRC_URI += "git://github.com/docker/docker-credential-helpers;protocol=https;nobranch=1;tag=v0.9.5;shallow=1;rev=b871f765408aa5d1fa2aa490f05cab8c133937c3;name=git_46e68097_0;destsuffix=vcs_cache/14ec2ee3d9b2ad87575d79cb445095440bdffc43efd7c90bc3f69ae21362242e"
+ SRC_URI += "git://github.com/docker/docker-credential-helpers;protocol=https;nobranch=1;tag=v0.9.3;shallow=1;rev=f9d3010165b642df37215b1be945552f2c6f0e3b;name=git_46e68097_1;destsuffix=vcs_cache/770434256d900c6fb465ae2e5f70a7c567db07403fd44a6b8122f593f986a7b6"
+-SRC_URI += "git://github.com/docker/libtrust;protocol=https;nobranch=1;rev=aabc10ec26b754e797f9028f4589c5b7bd90dc20;name=git_cce0256d_0;destsuffix=vcs_cache/30b9f1ca3a03878df88db7db5466a284cdc61ad2e0e647ef5d4611b4bc72f1b8"
+-SRC_URI += "git://github.com/docker/buildx;protocol=https;nobranch=1;tag=v0.30.1;shallow=1;rev=9e66234aa13328a5e75b75aa5574e1ca6d6d9c01;name=git_730b03c2_0;destsuffix=vcs_cache/25cb17d8ddf768aee49602f2f54d5eceac6363032a3553dd3c4c2fbc98d2f7e5"
+-SRC_URI += "git://github.com/docker/buildx;protocol=https;nobranch=1;tag=v0.31.1;shallow=1;rev=a2675950d46b2cb171b23c2015ca44fb88607531;name=git_730b03c2_1;destsuffix=vcs_cache/dfa17ea3970eb93a7868db015690e0976ac455fe3108651eb274d3c8f69e70c2"
+-SRC_URI += "git://github.com/docker/go-events;protocol=https;nobranch=1;rev=e31b211e4f1cd09aa76fe4ac244571fab96ae47f;name=git_2703dc86_0;destsuffix=vcs_cache/3e0bfea9682128db4b902dfb300a63020f2a4e0fd9e50a9a43529185ded21203"
+ SRC_URI += "git://github.com/docker/go-connections;protocol=https;nobranch=1;tag=v0.6.0;shallow=1;rev=42faf792bde28c414a060127d6351769408a675f;name=git_d4d85c75_0;destsuffix=vcs_cache/cd70a0eee460c110e4a842a78601dec1916771fc94b97da790e5cdff44cf6b59"
+ SRC_URI += "git://github.com/docker/go-connections;protocol=https;nobranch=1;tag=v0.4.0;shallow=1;rev=7395e3f8aa162843a74ed6d48e79627d9792ac55;name=git_d4d85c75_1;destsuffix=vcs_cache/90a622b6d50d291d33dc478ac881c41bd809522c6c0c4e6928a6c544843d868f"
+-SRC_URI += "git://github.com/docker/docker;protocol=https;nobranch=1;tag=v28.5.2;shallow=1;rev=89c5e8fd66634b6128fc4c0e6f1236e2540e46e0;name=git_248eb0d1_0;destsuffix=vcs_cache/3de5db22583d5bbf6eae05c3768cf39f98cec50b9a6c9fdeb10d95acbabbc761"
+-SRC_URI += "git://github.com/docker/go-units;protocol=https;nobranch=1;tag=v0.5.0;shallow=1;rev=e682442797b36348f8e1f98defdbf32bac0b6c6f;name=git_35e0b052_0;destsuffix=vcs_cache/2f970538f28b36d4a39663fa90033ec5c742ddd7774a86d94cc6c179e63a1c49"
+-SRC_URI += "git://github.com/docker/cli;protocol=https;nobranch=1;tag=v29.2.1;shallow=1;rev=a5c7197d720daef7d8b9e6174ee78c0743cea166;name=git_cad1045a_0;destsuffix=vcs_cache/5a943d69020f5a43c45569ee422d339cf415d78724c142bb4bcc7c026f13ba05"
+-SRC_URI += "git://github.com/docker/cli;protocol=https;nobranch=1;tag=v28.5.2;shallow=1;rev=ecc694264de6b34e4b59d16245603382f22fa813;name=git_cad1045a_1;destsuffix=vcs_cache/a391fb1392ea2dfddf6174cc48f8cd0f4211b670b63e9ab68159b38203ff83cd"
++SRC_URI += "git://github.com/docker/go-connections;protocol=https;nobranch=1;tag=v0.7.0;shallow=1;rev=7997b0f0ac81b5b26ad7d3d2c02ca2e8fbc6c7d9;name=git_d4d85c75_2;destsuffix=vcs_cache/6694cc72e257d7945ae6ccd77415f8b442a5f83176906cd59a70dea2fc417fa1"
+ SRC_URI += "git://github.com/docker/cli-docs-tool;protocol=https;nobranch=1;tag=v0.10.0;shallow=1;rev=881b2fe16cd8d11775ba80038acf11497c9d0ab4;name=git_1c37a457_0;destsuffix=vcs_cache/c4b4f54f793ab2389943c51625a95daf19938238de995ed84d04aaeaeb0b8e72"
+ SRC_URI += "git://github.com/docker/cli-docs-tool;protocol=https;nobranch=1;tag=v0.11.0;shallow=1;rev=bf007734186023755e79bf718fbda8aefdeb45d0;name=git_1c37a457_1;destsuffix=vcs_cache/ea1717b5d1ffddca6c0b88e6cf0df444a95eb1c27839416e9a410285e4c8f907"
+-SRC_URI += "git://github.com/docker/compose;protocol=https;nobranch=1;rev=9fada6cc23fb95113d5a5475ea63e09144be466e;name=git_8d4a7825_0;destsuffix=vcs_cache/0d945e267746ce92d65bce0aaf01de62887f55820fc309105a3bf83b78bc07fb"
+-SRC_URI += "git://github.com/docker/compose;protocol=https;nobranch=1;rev=e8c214349819cc14804e8946adb8ae3576b7139c;name=git_8d4a7825_1;destsuffix=vcs_cache/9c33332b5cdc980c80ddc24904509f4bd96cfc277a4ef80ebcb47ad70112743a"
+-SRC_URI += "git://github.com/klauspost/compress;protocol=https;nobranch=1;tag=v1.18.3;shallow=1;rev=1d6cf28a9eac67b569bb334c04e1dcb8bf02cf17;name=git_98939663_0;destsuffix=vcs_cache/0f346d4ee0d1e9d85741e16fef8a30c1cb637c33a2d4b0c6f46bb41ce24e3619"
+-SRC_URI += "git://github.com/klauspost/compress;protocol=https;nobranch=1;tag=v1.18.1;shallow=1;rev=d10b5259eef9d3da9a58bedad041b36731967489;name=git_98939663_1;destsuffix=vcs_cache/b48c3ccd9eeacff33408e742c5cba28495d19318773a2419734e1f7f12be4596"
+-SRC_URI += "git://github.com/jpillora/backoff;protocol=https;nobranch=1;tag=v1.0.0;shallow=1;rev=d80867952dff4e2fbfb4280ded4ff94d67790457;name=git_59c0b9df_0;destsuffix=vcs_cache/f3877637b1b0b11053bd3f6485df13672bc371749f756a13048e72298849b276"
+-SRC_URI += "git://github.com/davecgh/go-spew;protocol=https;nobranch=1;tag=v1.1.0;shallow=1;rev=346938d642f2ec3594ed81d874461961cd0faa76;name=git_d9a489aa_0;destsuffix=vcs_cache/5ce38ad71c2d3bc390b87154a89c53fd5ead19aed2bf005419db5c0b28ea9dfd"
+-SRC_URI += "git://github.com/davecgh/go-spew;protocol=https;nobranch=1;tag=v1.1.1;shallow=1;rev=8991bc29aa16c548c550c7ff78260e27b9ab7c73;name=git_d9a489aa_1;destsuffix=vcs_cache/4c7d69cfe586f86079773ff48d94f76d327c2914d8dfeffca9e34fd1146e5d5e"
+-SRC_URI += "git://github.com/munnerz/goautoneg;protocol=https;nobranch=1;rev=a7dc8b61c822528f973a5e4e7b272055c6fdb43e;name=git_09d50017_0;destsuffix=vcs_cache/0f68eeb31e17a8fc96eede1943fe26be5835b08f5cc4a9eee4ed1b8eee4887ee"
+-SRC_URI += "git://github.com/intel/goresctrl;protocol=https;nobranch=1;tag=v0.10.0;shallow=1;rev=404a7021807bd6c502268a5ab15ff36e11c21f44;name=git_dd750dae_0;destsuffix=vcs_cache/29a6109926a2e174fae849b3c015435e64e4f34ea86919fbc693930c06128b9b"
+-SRC_URI += "git://github.com/gofrs/flock;protocol=https;nobranch=1;tag=v0.13.0;shallow=1;rev=bfec60bb026171031050af631b6dec974f14e9fa;name=git_2d2b3139_0;destsuffix=vcs_cache/02d8268670a7857f4978becccdc42f5a6426d2a039ce8e2357ef0bf32795014f"
++SRC_URI += "git://github.com/docker/cli;protocol=https;nobranch=1;tag=v29.5.1;shallow=1;rev=2518b52d948a0cbee071d394c03c86a3005636ba;name=git_cad1045a_0;destsuffix=vcs_cache/78e667c1b12075ddc51baa68d39bb6c39480f83bdd0a58d300fdbbbf59af9acf"
++SRC_URI += "git://github.com/docker/cli;protocol=https;nobranch=1;tag=v29.2.1;shallow=1;rev=a5c7197d720daef7d8b9e6174ee78c0743cea166;name=git_cad1045a_1;destsuffix=vcs_cache/5a943d69020f5a43c45569ee422d339cf415d78724c142bb4bcc7c026f13ba05"
++SRC_URI += "git://github.com/docker/cli;protocol=https;nobranch=1;tag=v28.5.2;shallow=1;rev=ecc694264de6b34e4b59d16245603382f22fa813;name=git_cad1045a_2;destsuffix=vcs_cache/a391fb1392ea2dfddf6174cc48f8cd0f4211b670b63e9ab68159b38203ff83cd"
++SRC_URI += "git://github.com/docker/go-metrics;protocol=https;branch=master;rev=399ea8c73916000c64c2c76e8da00ca82f8387ab;name=git_08ad7bc8_0;destsuffix=vcs_cache/e46943e0ce240f96ccb15fabd2b6c91ee2105677005b8cff59822b6c952ea98e"
++SRC_URI += "git://github.com/docker/go-metrics;protocol=https;nobranch=1;tag=v0.0.1;shallow=1;rev=b619b3592b65de4f087d9f16863a7e6ff905973c;name=git_08ad7bc8_1;destsuffix=vcs_cache/96ae8893e24907a70aef922af47d48651611460f2b982f7e1e27dacd5ad82b9f"
++SRC_URI += "git://github.com/docker/go-units;protocol=https;nobranch=1;tag=v0.5.0;shallow=1;rev=e682442797b36348f8e1f98defdbf32bac0b6c6f;name=git_35e0b052_0;destsuffix=vcs_cache/2f970538f28b36d4a39663fa90033ec5c742ddd7774a86d94cc6c179e63a1c49"
++SRC_URI += "git://github.com/docker/go-events;protocol=https;branch=main;rev=e31b211e4f1cd09aa76fe4ac244571fab96ae47f;name=git_2703dc86_0;destsuffix=vcs_cache/3e0bfea9682128db4b902dfb300a63020f2a4e0fd9e50a9a43529185ded21203"
++SRC_URI += "git://github.com/docker/distribution;protocol=https;nobranch=1;tag=v2.7.1;shallow=1;rev=2461543d988979529609e8cb6fca9ca190dc48da;name=git_3954c8b6_0;destsuffix=vcs_cache/26a3d4dc632c62414346d52deda2aedc133ba755ea9665e3aba4eba2cfe57bb0"
++SRC_URI += "git://github.com/docker/distribution;protocol=https;nobranch=1;tag=v2.8.3;shallow=1;rev=4772604ae973031ab32dd9805a4bccf61d94909f;name=git_3954c8b6_1;destsuffix=vcs_cache/179a4ea80ae56a5b38e4349dac5aa88a7180045bd04943c05933125b8abc5d93"
++SRC_URI += "git://github.com/docker/buildx;protocol=https;nobranch=1;tag=v0.30.1;shallow=1;rev=9e66234aa13328a5e75b75aa5574e1ca6d6d9c01;name=git_730b03c2_0;destsuffix=vcs_cache/25cb17d8ddf768aee49602f2f54d5eceac6363032a3553dd3c4c2fbc98d2f7e5"
++SRC_URI += "git://github.com/docker/buildx;protocol=https;nobranch=1;tag=v0.31.1;shallow=1;rev=a2675950d46b2cb171b23c2015ca44fb88607531;name=git_730b03c2_1;destsuffix=vcs_cache/dfa17ea3970eb93a7868db015690e0976ac455fe3108651eb274d3c8f69e70c2"
++SRC_URI += "git://github.com/docker/buildx;protocol=https;nobranch=1;tag=v0.33.0;shallow=1;rev=f7897eba028583e0071642db3c011e860444f8cf;name=git_730b03c2_2;destsuffix=vcs_cache/b5c99f6e6a91ccbfe92aa01789f01c66d03a3d90ad369ef103d98ad6a84b06ad"
++SRC_URI += "git://github.com/docker/libtrust;protocol=https;branch=master;rev=aabc10ec26b754e797f9028f4589c5b7bd90dc20;name=git_cce0256d_0;destsuffix=vcs_cache/30b9f1ca3a03878df88db7db5466a284cdc61ad2e0e647ef5d4611b4bc72f1b8"
++SRC_URI += "git://github.com/rogpeppe/go-internal;protocol=https;nobranch=1;tag=v1.14.1;shallow=1;rev=9ee3698d19c525c9cefe855433e5f6096b77c6f5;name=git_2748cdc3_0;destsuffix=vcs_cache/84674da628e57d1722274a512e0879c23e8465ad7ef7e016c3bc39c8ea13175b"
++SRC_URI += "git://github.com/rogpeppe/fastuuid;protocol=https;nobranch=1;tag=v1.2.0;shallow=1;rev=10c3923834d38e951ae8f627bfec2dc632c5b6cb;name=git_8a779c11_0;destsuffix=vcs_cache/20ca2e2cf2990cc136cad7958992d06abd356dc16a58362afd2bd51be48ae0ac"
++SRC_URI += "git://github.com/fsnotify/fsevents;protocol=https;nobranch=1;tag=v0.2.0;shallow=1;rev=f73112e4ef0540a922ff546752e95a70fb8f035d;name=git_584419c1_0;destsuffix=vcs_cache/fae61401b9b33d2f4bc3fb5a8898dd22623c392e69010b28dd2577454207e33b"
++SRC_URI += "git://github.com/containers/ocicrypt;protocol=https;nobranch=1;tag=v1.2.1;shallow=1;rev=1db71af9f28553231f0b59880d3fe5b162fa8c61;name=git_1f55eed4_0;destsuffix=vcs_cache/bec170205b8cb4f7646d21f6d05f4e78b62b540ff061d55788f38ccecc6313b7"
++SRC_URI += "git://github.com/hashicorp/hcl;protocol=https;nobranch=1;tag=v2.24.0;shallow=1;rev=6b5068090eef06b1f127f61529db5ba0be7ed343;name=git_e2b5d849_0;destsuffix=vcs_cache/7505ee60afc6b2dde4e4189214cf3f948ce2ebbc3aac73c7ba669bd366b12941"
++SRC_URI += "git://github.com/hashicorp/go-immutable-radix;protocol=https;nobranch=1;tag=v2.1.0;shallow=1;rev=95618379cef103a15b38cc79cce1e8eb1eaf10f1;name=git_5eeabd90_0;destsuffix=vcs_cache/e7330a0d345fdfe0fc28bc95ffa515bf29b09fde15bff6885c08836ae16c3992"
++SRC_URI += "git://github.com/hashicorp/go-version;protocol=https;nobranch=1;tag=v1.8.0;shallow=1;rev=505335eb9df1a0063c4f4edadabbd4ba68a6039c;name=git_55a07af7_0;destsuffix=vcs_cache/8982e9d982dbb37864656981c0a1169a41662dac51c477690cdd71c30034f649"
++SRC_URI += "git://github.com/hashicorp/go-version;protocol=https;nobranch=1;tag=v1.9.0;shallow=1;rev=b80b1e68c4854757b38663ec02bada2d839b6f56;name=git_55a07af7_1;destsuffix=vcs_cache/02c6f55ffc9a79eb888e7a730f9220c1d35f06822549f436384be82da1f77b91"
++SRC_URI += "git://github.com/hashicorp/golang-lru;protocol=https;nobranch=1;tag=v2.0.7;shallow=1;rev=d8515860cebc7b25ff2d29fada3f10a43611c28b;name=git_aa2934d2_0;destsuffix=vcs_cache/0a17d620bc2f7dd8c00efd79d0b78bb5f5c0bfaa2ec311417e9256a33b35db77"
++SRC_URI += "git://github.com/hashicorp/go-retryablehttp;protocol=https;nobranch=1;tag=v0.7.8;shallow=1;rev=e1f5485fe84728709b857cb89e17088894c301d6;name=git_69ebb5f3_0;destsuffix=vcs_cache/420ce476cca0369183e19289674513fb1d412be25fb7aa1ce6f21f22444e1b02"
++SRC_URI += "git://github.com/hashicorp/errwrap;protocol=https;nobranch=1;tag=v1.1.0;shallow=1;rev=7b00e5db719c64d14dd0caaacbd13e76254d02c0;name=git_28334120_0;destsuffix=vcs_cache/a0949020a0c14672f86d32cbf0d984b8d048a27e6f75aeac79f8ca3f7cc4ecae"
++SRC_URI += "git://github.com/hashicorp/errwrap;protocol=https;nobranch=1;tag=v1.0.0;shallow=1;rev=8a6fb523712970c966eefc6b39ed2c5e74880354;name=git_28334120_1;destsuffix=vcs_cache/65db17b2a8abd8c2bde5a919d17f7abc0e891ae4037aa21f7aa2482f560cf21f"
++SRC_URI += "git://github.com/hashicorp/go-cleanhttp;protocol=https;nobranch=1;tag=v0.5.2;shallow=1;rev=6d9e2ac5d828e5f8594b97f88c4bde14a67bb6d2;name=git_34cadc19_0;destsuffix=vcs_cache/da345fc970b7e579c1da9ec42edfbe1bf896f5e3274ce418f134b15952eb2494"
++SRC_URI += "git://github.com/hashicorp/go-cty-funcs;protocol=https;branch=main;rev=6aab671309282ceb3432b07f94658c3f61d83a46;name=git_918c4c36_0;destsuffix=vcs_cache/c24779ffbc1879e38298ad13dcbc65277e22b74eaf6a132090792bb6f3aef29f"
++SRC_URI += "git://github.com/hashicorp/go-multierror;protocol=https;nobranch=1;tag=v1.1.1;shallow=1;rev=9974e9ec57696378079ecc3accd3d6f29401b3a0;name=git_151ee577_0;destsuffix=vcs_cache/cec0f337a88725c16a86058204a5dd4ae667b8a92bbed995ab204ebcb62177a5"
++SRC_URI += "git://github.com/mattn/go-colorable;protocol=https;nobranch=1;tag=v0.1.14;shallow=1;rev=1f71342c1ee78c126bcb69cd26ed8c2be7e016b3;name=git_65d23631_0;destsuffix=vcs_cache/d115108e05252e00501d24555b70931860f5e2506c9b51436969923bc59f5dd0"
++SRC_URI += "git://github.com/mattn/go-colorable;protocol=https;nobranch=1;tag=v0.1.2;shallow=1;rev=8029fb3788e5a4a9c00e415f586a6d033f5d38b3;name=git_65d23631_1;destsuffix=vcs_cache/c71b6f3acd50d510992b046a557833b9b03a5c1f131137523bd7a638b59e233e"
++SRC_URI += "git://github.com/mattn/go-isatty;protocol=https;nobranch=1;tag=v0.0.8;shallow=1;rev=1311e847b0cb909da63b5fecfb5370aa66236465;name=git_bdb8c628_0;destsuffix=vcs_cache/4963e35bcc64525b440c791c0eb22045df1ebb90bbcdf56256950a814d09f425"
++SRC_URI += "git://github.com/mattn/go-isatty;protocol=https;nobranch=1;tag=v0.0.20;shallow=1;rev=a7c02353c47bc4ec6b30dc9628154ae4fe760c11;name=git_bdb8c628_1;destsuffix=vcs_cache/d07760adabb0d05ba45e3c8997554326fa96668c12bc4572654f288670e1af35"
++SRC_URI += "git://github.com/mattn/go-runewidth;protocol=https;nobranch=1;tag=v0.0.16;shallow=1;rev=6ceadc68530e7bfea8cba17d6523bed32912d4fa;name=git_54f38250_0;destsuffix=vcs_cache/1af9e649dfc4b15b3476c94bfc74f82df8afa71fae63a7efc761b8a649019d2d"
++SRC_URI += "git://github.com/mattn/go-sqlite3;protocol=https;nobranch=1;tag=v1.6.0;shallow=1;rev=6c771bb9887719704b210e87e934f08be014bdb1;name=git_e0a410bf_0;destsuffix=vcs_cache/0bc060447a84109d178e936cf0287c198c9a1bcbf25d74362b7df7427a44fdda"
++SRC_URI += "git://github.com/mattn/go-shellwords;protocol=https;nobranch=1;tag=v1.0.12;shallow=1;rev=973b9d5391598d4ee601db46fa32f6e186a356ac;name=git_86631c51_0;destsuffix=vcs_cache/3e9de7967c04a07a314669e56b72110ac8eee96a9646f5b9863c709575abe8d1"
++SRC_URI += "git://github.com/mattn/go-shellwords;protocol=https;nobranch=1;tag=v1.0.13;shallow=1;rev=fd1aa6cdc3ae8152427063af41b4c89b9a2c9742;name=git_86631c51_1;destsuffix=vcs_cache/91646308798c57f3e6f56a7c53c0eaec3fc9c08ea569630bb3c0dd1ab2911ea5"
++SRC_URI += "git://github.com/hiddeco/sshsig;protocol=https;nobranch=1;tag=v0.2.0;shallow=1;rev=49dc854ac39b55b9239cf5014b72a6ff2105bf2c;name=git_b8e4d5f4_0;destsuffix=vcs_cache/fdcb4ab573b69d6bee2d375517e62fb147744ddcca0378b2006891f9dd8f6477"
++SRC_URI += "git://github.com/moby/spdystream;protocol=https;nobranch=1;tag=v0.5.0;shallow=1;rev=77eb080123d208697674a07b74ceaf94c98bee8b;name=git_30522a60_0;destsuffix=vcs_cache/d7500df0fff4308611e91e5edf74d69178b53dccca9230c03beecb0a26d56124"
++SRC_URI += "git://github.com/moby/spdystream;protocol=https;nobranch=1;tag=v0.5.1;shallow=1;rev=c59e5d73daa301bde452ea77545bdf51e32554a2;name=git_30522a60_1;destsuffix=vcs_cache/e3640a8a28a138b6c1007a80d8dbf8098fb32c42b5a69f76ab86e7100396954c"
++SRC_URI += "git://github.com/moby/moby;protocol=https;nobranch=1;tag=api/v1.54.2;shallow=1;rev=6cbde19f7b9f0498b4e0b26bae4b88b6c77abcbe;name=git_07af7b49_0;destsuffix=vcs_cache/bb8387e2a2ac71ded15787db5dc3a214309b56ea749b290f6e487d18a957b95b"
++SRC_URI += "git://github.com/moby/moby;protocol=https;nobranch=1;tag=api/v1.54.0;shallow=1;rev=7f1a670667e186baf2839a42a78ba2acad4f8852;name=git_07af7b49_1;destsuffix=vcs_cache/3b022057e034a384cd203891e20d2d127cd0b52e548cd3415504c340aa07d707"
++SRC_URI += "git://github.com/moby/moby;protocol=https;nobranch=1;tag=client/v0.3.0;shallow=1;rev=c2f80b072ca4754a19b721e9a4d75ab851cac925;name=git_07af7b49_2;destsuffix=vcs_cache/5565a518d25170f3b3f5875045b25f60e4544c33602acbbe9623f469851912ee"
++SRC_URI += "git://github.com/moby/moby;protocol=https;nobranch=1;tag=client/v0.4.1;shallow=1;rev=d1208353cc5855b63c915ed570277170cf21d4dd;name=git_07af7b49_3;destsuffix=vcs_cache/a027be40db4027808ba383cb460c8e2df01f1c9debc89e7e9c0b5f7807657244"
++SRC_URI += "git://github.com/moby/buildkit;protocol=https;nobranch=1;tag=v0.27.1;shallow=1;rev=5fbebf9d177edcc7af06c36c78728fdd357bf964;name=git_caea0070_0;destsuffix=vcs_cache/c851f6b4972c9c37c74ef154bbd0a3624b9c089e4320539a9204b388bded9c3c"
++SRC_URI += "git://github.com/moby/buildkit;protocol=https;nobranch=1;tag=v0.29.0;shallow=1;rev=8543ce4428265d547cb009e5ad62348284497a88;name=git_caea0070_1;destsuffix=vcs_cache/38ec157bca34e65ce3b38da6c0f4c07cdaf68c40b7d53982ee88c0e478fa69e2"
++SRC_URI += "git://github.com/moby/buildkit;protocol=https;nobranch=1;tag=v0.26.2;shallow=1;rev=be1f38efe73c6a93cc429a0488ad6e1db663398c;name=git_caea0070_2;destsuffix=vcs_cache/ea271cbec4e6af9d6f8b85fc342abbb36b352fe2a1696958921722eb7d40d1dc"
++SRC_URI += "git://github.com/moby/go-archive;protocol=https;nobranch=1;tag=v0.2.0;shallow=1;rev=263611f5f0914b2a153d86dae2042d13be6a88c4;name=git_5508e76d_0;destsuffix=vcs_cache/6fc421f381bca613289817fce0d54c0c45fe7a0bb20e292dcef3f1f2d77e300d"
++SRC_URI += "git://github.com/moby/go-archive;protocol=https;nobranch=1;tag=v0.1.0;shallow=1;rev=9ec1e6e329273f4a3f0a445d8c0fb73c9b16bbe5;name=git_5508e76d_1;destsuffix=vcs_cache/de83d178e015001ec503f8d89743a9cc08e2d644c9cde111c18076c370479f62"
++SRC_URI += "git://github.com/moby/profiles;protocol=https;nobranch=1;tag=seccomp/v0.1.0;shallow=1;rev=c936cc7b4074219137bc0bee45670f5e4618d462;name=git_632e0288_0;destsuffix=vcs_cache/899c7ea07e4e45b382f104bc27009eeb90de7f25205638ebec13f6349d5977db"
++SRC_URI += "git://github.com/moby/policy-helpers;protocol=https;branch=main;rev=b7c0b994300b51929a593b060978b87b68fdc8bf;name=git_e2196f87_0;destsuffix=vcs_cache/f8ce8dcc2d75b063a1a9887660b3fefee0185e7e70b20040145b8889149d45e7"
++SRC_URI += "git://github.com/moby/policy-helpers;protocol=https;branch=main;rev=bcaa71c99f147b8fb48fcc79c5cc9c8ad7c4486c;name=git_e2196f87_1;destsuffix=vcs_cache/7077358f35b23a7b00fbe917cc678c7bc8e3429f2445f4e49c9d9b23313a86fb"
++SRC_URI += "git://github.com/moby/policy-helpers;protocol=https;branch=main;rev=eeebf1a0ab2b2e0b0522574a6ac3c7898f9a22a9;name=git_e2196f87_2;destsuffix=vcs_cache/81e90ed44293828423239c840f4d9f585806a68c1f2cae756a855480505ab307"
+ SRC_URI += "git://github.com/moby/sys;protocol=https;nobranch=1;tag=atomicwriter/v0.1.0;shallow=1;rev=4a75548218baa36bdbaaed1371a3e8a9cdfcffa0;name=git_66165bb7_0;destsuffix=vcs_cache/f4359e6cc20b486bfb92dc3bcf6ac79f9272e2daa0c0172e594bcb9e9e7185c4"
+ SRC_URI += "git://github.com/moby/sys;protocol=https;nobranch=1;tag=capability/v0.4.0;shallow=1;rev=50e999a770172a519119e1c4fd4b6153b7dac90d;name=git_66165bb7_1;destsuffix=vcs_cache/e67c1b1913863f71a44fb255bb4ceafcd322cbb0790a301c410f76acaf083f75"
+ SRC_URI += "git://github.com/moby/sys;protocol=https;nobranch=1;tag=userns/v0.1.0;shallow=1;rev=54475191138bd297c627eb1a59e1e54b953957f1;name=git_66165bb7_2;destsuffix=vcs_cache/8ea1faceda9bb3618c7b96f0749fcc6b4672432eef27c1f25c4bf631513501f2"
+ SRC_URI += "git://github.com/moby/sys;protocol=https;nobranch=1;tag=user/v0.4.0;shallow=1;rev=71f0c5ead442a11945a589a7aafd6ef5976fffc8;name=git_66165bb7_3;destsuffix=vcs_cache/1ea4d88317a39a40b500e6a8370c6c5f6d53cf5486d16925f6374042d8bf9896"
+ SRC_URI += "git://github.com/moby/sys;protocol=https;nobranch=1;tag=mount/v0.3.4;shallow=1;rev=7af2bbe457efeb8b84a57d35692694a50e3ee9cb;name=git_66165bb7_4;destsuffix=vcs_cache/bafd5119fc031ca52b9e52a119b6c3c57d48dea0d101fe2ad1a175fce54de6c7"
+ SRC_URI += "git://github.com/moby/sys;protocol=https;nobranch=1;tag=reexec/v0.1.0;shallow=1;rev=ca0444fed0e9557797cd00105eecf9db4c878b57;name=git_66165bb7_5;destsuffix=vcs_cache/4c6d72296668707abb39f73bf8ef79dbb131e20164c7c8897885dfa2b6dd000b"
+-SRC_URI += "git://github.com/moby/sys;protocol=https;nobranch=1;tag=mountinfo/v0.7.2;shallow=1;rev=cafbe42351600ca9b363e220722f66d96f6e71f4;name=git_66165bb7_6;destsuffix=vcs_cache/c5c70dcea521c7e4cc66d0ca1ccdc1721b1a865780c1a1b9274ced410fa0553f"
++SRC_URI += "git://github.com/moby/sys;protocol=https;nobranch=1;tag=signal/v0.7.1;shallow=1;rev=cafbe42351600ca9b363e220722f66d96f6e71f4;name=git_66165bb7_6;destsuffix=vcs_cache/c5c70dcea521c7e4cc66d0ca1ccdc1721b1a865780c1a1b9274ced410fa0553f"
+ SRC_URI += "git://github.com/moby/patternmatcher;protocol=https;nobranch=1;tag=v0.6.0;shallow=1;rev=347bb8d8d557f90d1b75cd8bca3c0177f380a979;name=git_319ce9bf_0;destsuffix=vcs_cache/fde57a922ff865dfe02454fffbfcbb1e5f2ca06ac3390f3a9df16466bfda666b"
+-SRC_URI += "git://github.com/moby/policy-helpers;protocol=https;nobranch=1;rev=bcaa71c99f147b8fb48fcc79c5cc9c8ad7c4486c;name=git_e2196f87_0;destsuffix=vcs_cache/7077358f35b23a7b00fbe917cc678c7bc8e3429f2445f4e49c9d9b23313a86fb"
+-SRC_URI += "git://github.com/moby/policy-helpers;protocol=https;nobranch=1;rev=eeebf1a0ab2b2e0b0522574a6ac3c7898f9a22a9;name=git_e2196f87_1;destsuffix=vcs_cache/81e90ed44293828423239c840f4d9f585806a68c1f2cae756a855480505ab307"
+-SRC_URI += "git://github.com/moby/profiles;protocol=https;nobranch=1;tag=seccomp/v0.1.0;shallow=1;rev=c936cc7b4074219137bc0bee45670f5e4618d462;name=git_632e0288_0;destsuffix=vcs_cache/899c7ea07e4e45b382f104bc27009eeb90de7f25205638ebec13f6349d5977db"
++SRC_URI += "git://github.com/moby/patternmatcher;protocol=https;nobranch=1;tag=v0.6.1;shallow=1;rev=5a6d8429a19bb6948a372ff19e86fe83599a04b7;name=git_319ce9bf_1;destsuffix=vcs_cache/53ef5e229dc41038705efb925832dcb9dcca879198a0675530b800c1ff3acf6c"
+ SRC_URI += "git://github.com/moby/term;protocol=https;nobranch=1;tag=v0.5.2;shallow=1;rev=6c1b69fecbac2753dcaf18718a7e9f9093c3760d;name=git_1bc89d26_0;destsuffix=vcs_cache/b7e959e4874fee596e5f3eaf06300410fe7cefde4fbece51042d17be137ef04e"
+-SRC_URI += "git://github.com/moby/docker-image-spec;protocol=https;nobranch=1;tag=v1.3.1;shallow=1;rev=f1d00ebd2d6d6805170d5543dbca4b850f35f9af;name=git_00e28400_0;destsuffix=vcs_cache/7e0006fc710e13d8f5d4dd052be9861a4fd4562e1330ab6bdf94303f885e80da"
+-SRC_URI += "git://github.com/moby/buildkit;protocol=https;nobranch=1;tag=v0.27.1;shallow=1;rev=5fbebf9d177edcc7af06c36c78728fdd357bf964;name=git_caea0070_0;destsuffix=vcs_cache/c851f6b4972c9c37c74ef154bbd0a3624b9c089e4320539a9204b388bded9c3c"
+-SRC_URI += "git://github.com/moby/buildkit;protocol=https;nobranch=1;tag=v0.26.2;shallow=1;rev=be1f38efe73c6a93cc429a0488ad6e1db663398c;name=git_caea0070_1;destsuffix=vcs_cache/ea271cbec4e6af9d6f8b85fc342abbb36b352fe2a1696958921722eb7d40d1dc"
+ SRC_URI += "git://github.com/moby/locker;protocol=https;nobranch=1;tag=v1.0.1;shallow=1;rev=281af2d563954745bea9d1487c965f24d30742fe;name=git_a03ea75a_0;destsuffix=vcs_cache/5549df51df50be0334c0cca67abc7ed6c0bd4fceee3f7bb56eb917b56bfe8644"
+-SRC_URI += "git://github.com/moby/go-archive;protocol=https;nobranch=1;tag=v0.2.0;shallow=1;rev=263611f5f0914b2a153d86dae2042d13be6a88c4;name=git_5508e76d_0;destsuffix=vcs_cache/6fc421f381bca613289817fce0d54c0c45fe7a0bb20e292dcef3f1f2d77e300d"
+-SRC_URI += "git://github.com/moby/go-archive;protocol=https;nobranch=1;tag=v0.1.0;shallow=1;rev=9ec1e6e329273f4a3f0a445d8c0fb73c9b16bbe5;name=git_5508e76d_1;destsuffix=vcs_cache/de83d178e015001ec503f8d89743a9cc08e2d644c9cde111c18076c370479f62"
+-SRC_URI += "git://github.com/moby/moby;protocol=https;nobranch=1;tag=api/v1.54.0;shallow=1;rev=7f1a670667e186baf2839a42a78ba2acad4f8852;name=git_07af7b49_0;destsuffix=vcs_cache/3b022057e034a384cd203891e20d2d127cd0b52e548cd3415504c340aa07d707"
+-SRC_URI += "git://github.com/moby/moby;protocol=https;nobranch=1;tag=client/v0.3.0;shallow=1;rev=c2f80b072ca4754a19b721e9a4d75ab851cac925;name=git_07af7b49_1;destsuffix=vcs_cache/5565a518d25170f3b3f5875045b25f60e4544c33602acbbe9623f469851912ee"
+-SRC_URI += "git://github.com/moby/spdystream;protocol=https;nobranch=1;tag=v0.5.0;shallow=1;rev=77eb080123d208697674a07b74ceaf94c98bee8b;name=git_30522a60_0;destsuffix=vcs_cache/d7500df0fff4308611e91e5edf74d69178b53dccca9230c03beecb0a26d56124"
+-SRC_URI += "git://github.com/vektah/gqlparser;protocol=https;nobranch=1;tag=v2.5.30;shallow=1;rev=f6387406570db1dccb7806016745427dbe8f5396;name=git_4c875114_0;destsuffix=vcs_cache/caccbea1b6233b524f53ad77070228cabeb6c237130882d4d07c2ddf094fed50"
+-SRC_URI += "git://github.com/planetscale/vtprotobuf;protocol=https;nobranch=1;rev=0393e58bdf106fe0347e554d272a8f2c84d12461;name=git_d20372f0_0;destsuffix=vcs_cache/2a8f7a744764b6b7d0f6b17003fd8217cc861be946aee65fccc7d1491634942f"
++SRC_URI += "git://github.com/moby/docker-image-spec;protocol=https;nobranch=1;tag=v1.3.1;shallow=1;rev=f1d00ebd2d6d6805170d5543dbca4b850f35f9af;name=git_00e28400_0;destsuffix=vcs_cache/7e0006fc710e13d8f5d4dd052be9861a4fd4562e1330ab6bdf94303f885e80da"
+ SRC_URI += "git://github.com/miekg/pkcs11;protocol=https;nobranch=1;tag=v1.0.2;shallow=1;rev=cb39313ec884f2cd77f4762875fe96aecf68f8e3;name=git_cf5d6134_0;destsuffix=vcs_cache/eb5a56eb790cc3fc7850bf57682d3ac5831360a4496818de755c41ce63d505ba"
+ SRC_URI += "git://github.com/miekg/pkcs11;protocol=https;nobranch=1;tag=v1.1.1;shallow=1;rev=f3481918a208bd212aa995a41f92d786eb418a7d;name=git_cf5d6134_1;destsuffix=vcs_cache/cfc32d6973be9c203ec1d8480b59f61c59be67d146de9d920f82d4eb7c4d994a"
+-SRC_URI += "git://github.com/lestrrat-go/httprc;protocol=https;nobranch=1;tag=v3.0.1;shallow=1;rev=3069ab9baadb0fc83ea8e5b559b490c371421842;name=git_70c47222_0;destsuffix=vcs_cache/76390b99e6f178283ea247d446a1825e979c8d9cf50844f596abb4e96582b1c1"
+-SRC_URI += "git://github.com/lestrrat-go/dsig-secp256k1;protocol=https;nobranch=1;tag=v1.0.0;shallow=1;rev=761bd8630912128383a646ae5c0f9fa6051d8f1e;name=git_4ce8991a_0;destsuffix=vcs_cache/1aeb2bc1012f007479dc7d6ad9a5b56691b7d10a65a0769920fe28a1fd8c5723"
+-SRC_URI += "git://github.com/lestrrat-go/blackmagic;protocol=https;nobranch=1;tag=v1.0.4;shallow=1;rev=150de8a4e21172dd241760e4398a24a8dec3feaf;name=git_a785ed5c_0;destsuffix=vcs_cache/3655ef3535f5fbfddd86c6bcfa866ada2fc8db33ec17816fc8b334009e9fb0f4"
+-SRC_URI += "git://github.com/lestrrat-go/dsig;protocol=https;nobranch=1;tag=v1.0.0;shallow=1;rev=e7e4d54deeba321a433dfe959340ebe7a2db163d;name=git_d409995f_0;destsuffix=vcs_cache/4fdb7373a44af5a6ec82808bddce9b5b786907d10b6cf2138dcaf3c2ebf4c6ff"
+-SRC_URI += "git://github.com/lestrrat-go/httpcc;protocol=https;nobranch=1;tag=v1.0.1;shallow=1;rev=962f66809593fba7c5cdc78a0bdcf98827250e3c;name=git_743770ce_0;destsuffix=vcs_cache/466b0cb68191ccc31d667d0e1cf8f0eec07556bbc61fdad149b67379fba0f789"
+-SRC_URI += "git://github.com/lestrrat-go/jwx;protocol=https;nobranch=1;tag=v3.0.11;shallow=1;rev=9e9c27a269a1a650e1f666b18946dd1796f84779;name=git_daf2c4dd_0;destsuffix=vcs_cache/66aa4c6c5f6c980c23f16165b33721dbbd2b64c6686a1730684749c9c701712f"
+-SRC_URI += "git://github.com/lestrrat-go/option;protocol=https;nobranch=1;tag=v2.0.0;shallow=1;rev=0f819155513c6863e03a9b185a3ba996e5357f71;name=git_7fba3ab3_0;destsuffix=vcs_cache/dc53b62e9538872256995babc7eb47d6a84dacaa027bdd84bb3cce5344e6bef9"
+-SRC_URI += "git://github.com/lestrrat-go/option;protocol=https;nobranch=1;tag=v1.0.1;shallow=1;rev=ced73324dba7d8be3a1587a7d6a5fa081d9e2dc2;name=git_7fba3ab3_1;destsuffix=vcs_cache/1f8dcec97d12a81cde1ec2ba90e51e5a7642e0b6ac69fa6d060c924499d9e826"
+-SRC_URI += "git://github.com/dimchansky/utfbom;protocol=https;nobranch=1;tag=v1.1.1;shallow=1;rev=6ae8f945ca96f30defc7e8ab12ec5d10cf86ded4;name=git_343da044_0;destsuffix=vcs_cache/04f39ab86cb6ab9bf2a2278357fae9932b31f6cb8b07bf8e6ca02581cbf46ecf"
+-SRC_URI += "git://github.com/kballard/go-shellquote;protocol=https;nobranch=1;rev=95032a82bc518f77982ea72343cc1ade730072f0;name=git_e33a00ee_0;destsuffix=vcs_cache/49fe182d1b759955b666e8ad12ff66052cc7e14ba9ccf9e8371ee85848f1f9ac"
+-SRC_URI += "git://github.com/cenkalti/backoff;protocol=https;nobranch=1;tag=v4.3.0;shallow=1;rev=720b78985a65c0452fd37bb155c7cac4157a7c45;name=git_67dac28e_0;destsuffix=vcs_cache/c644c1d0f5212c0210f056d6c7d45f3e482a1fca002b7c3e65edf8d3c060566f"
+-SRC_URI += "git://github.com/cenkalti/backoff;protocol=https;nobranch=1;tag=v5.0.3;shallow=1;rev=7cad66a637c4ffff09d0795608116ddcc7eb1769;name=git_67dac28e_1;destsuffix=vcs_cache/656f7cb59961eb5e57ba97bf50166eda0c13e2ecff4c8c15b33eb72e8ad26dc4"
+-SRC_URI += "git://github.com/buger/goterm;protocol=https;nobranch=1;tag=v1.0.4;shallow=1;rev=a73545aae7d693f786ce4cc687460efca4845f31;name=git_19a54999_0;destsuffix=vcs_cache/caf1c06b7ea92c81a60195c5df6f46d1e4ceb75cfb096fb918e712dcc226fc04"
+-SRC_URI += "git://github.com/mitchellh/go-ps;protocol=https;nobranch=1;tag=v1.0.0;shallow=1;rev=147ff83818ae939913b2e20b91ae3cd6c391771c;name=git_85bf403a_0;destsuffix=vcs_cache/e2954bb45e8e4304338ab2532158d042745f3a239202953369cef281beed32cb"
+-SRC_URI += "git://github.com/mitchellh/mapstructure;protocol=https;nobranch=1;rev=2caf8efc93669b6c43e0441cdc6aed17546c96f3;name=git_3ac6d6a4_0;destsuffix=vcs_cache/5ad95eaf3fe770e7f704095dccb10123fc34e55570f7e163eb2e3e9a5c0586a6"
+-SRC_URI += "git://github.com/mitchellh/mapstructure;protocol=https;nobranch=1;tag=v1.5.0;shallow=1;rev=ab69d8d93410fce4361f4912bb1ff88110a81311;name=git_3ac6d6a4_1;destsuffix=vcs_cache/d9f5489d4515cf23689f7c9a7a71a85fdd52671cf92601ea8e8c59bf3644b6b5"
+-SRC_URI += "git://github.com/mitchellh/hashstructure;protocol=https;nobranch=1;tag=v2.0.2;shallow=1;rev=a045b665615f739329536a58c25ca6327abf1ec1;name=git_2d77412f_0;destsuffix=vcs_cache/7c1d661828ecf7a5daa9f90b02814e542e1ed4d474edc002d91d945df708a5be"
+-SRC_URI += "git://github.com/mitchellh/go-wordwrap;protocol=https;nobranch=1;tag=v1.0.1;shallow=1;rev=ecf0936a077a4bd73a1cc2ac5c370f2b55618d62;name=git_bad0582b_0;destsuffix=vcs_cache/c6c7d05ba9f6db2637751fa2ce7bbc8bb04f632abc0b05363566319c8fd9c9b0"
+-SRC_URI += "git://github.com/goccy/go-json;protocol=https;nobranch=1;tag=v0.10.5;shallow=1;rev=9872089c316cfe2d0f29b331b75d45bf6d522d96;name=git_58b9fee8_0;destsuffix=vcs_cache/9135ffafe2f170bce8f90413934c0b25aa6d201122cc437153cf64a206c46389"
+-SRC_URI += "git://github.com/hashicorp/hcl;protocol=https;nobranch=1;tag=v2.24.0;shallow=1;rev=6b5068090eef06b1f127f61529db5ba0be7ed343;name=git_e2b5d849_0;destsuffix=vcs_cache/7505ee60afc6b2dde4e4189214cf3f948ce2ebbc3aac73c7ba669bd366b12941"
+-SRC_URI += "git://github.com/hashicorp/errwrap;protocol=https;nobranch=1;tag=v1.1.0;shallow=1;rev=7b00e5db719c64d14dd0caaacbd13e76254d02c0;name=git_28334120_0;destsuffix=vcs_cache/a0949020a0c14672f86d32cbf0d984b8d048a27e6f75aeac79f8ca3f7cc4ecae"
+-SRC_URI += "git://github.com/hashicorp/errwrap;protocol=https;nobranch=1;tag=v1.0.0;shallow=1;rev=8a6fb523712970c966eefc6b39ed2c5e74880354;name=git_28334120_1;destsuffix=vcs_cache/65db17b2a8abd8c2bde5a919d17f7abc0e891ae4037aa21f7aa2482f560cf21f"
+-SRC_URI += "git://github.com/hashicorp/go-version;protocol=https;nobranch=1;tag=v1.8.0;shallow=1;rev=505335eb9df1a0063c4f4edadabbd4ba68a6039c;name=git_55a07af7_0;destsuffix=vcs_cache/8982e9d982dbb37864656981c0a1169a41662dac51c477690cdd71c30034f649"
+-SRC_URI += "git://github.com/hashicorp/go-multierror;protocol=https;nobranch=1;tag=v1.1.1;shallow=1;rev=9974e9ec57696378079ecc3accd3d6f29401b3a0;name=git_151ee577_0;destsuffix=vcs_cache/cec0f337a88725c16a86058204a5dd4ae667b8a92bbed995ab204ebcb62177a5"
+-SRC_URI += "git://github.com/hashicorp/go-cty-funcs;protocol=https;nobranch=1;rev=6aab671309282ceb3432b07f94658c3f61d83a46;name=git_918c4c36_0;destsuffix=vcs_cache/c24779ffbc1879e38298ad13dcbc65277e22b74eaf6a132090792bb6f3aef29f"
+-SRC_URI += "git://github.com/hashicorp/go-retryablehttp;protocol=https;nobranch=1;tag=v0.7.8;shallow=1;rev=e1f5485fe84728709b857cb89e17088894c301d6;name=git_69ebb5f3_0;destsuffix=vcs_cache/420ce476cca0369183e19289674513fb1d412be25fb7aa1ce6f21f22444e1b02"
+-SRC_URI += "git://github.com/hashicorp/golang-lru;protocol=https;nobranch=1;tag=v2.0.7;shallow=1;rev=d8515860cebc7b25ff2d29fada3f10a43611c28b;name=git_aa2934d2_0;destsuffix=vcs_cache/0a17d620bc2f7dd8c00efd79d0b78bb5f5c0bfaa2ec311417e9256a33b35db77"
+-SRC_URI += "git://github.com/hashicorp/go-immutable-radix;protocol=https;nobranch=1;tag=v2.1.0;shallow=1;rev=95618379cef103a15b38cc79cce1e8eb1eaf10f1;name=git_5eeabd90_0;destsuffix=vcs_cache/e7330a0d345fdfe0fc28bc95ffa515bf29b09fde15bff6885c08836ae16c3992"
+-SRC_URI += "git://github.com/hashicorp/go-cleanhttp;protocol=https;nobranch=1;tag=v0.5.2;shallow=1;rev=6d9e2ac5d828e5f8594b97f88c4bde14a67bb6d2;name=git_34cadc19_0;destsuffix=vcs_cache/da345fc970b7e579c1da9ec42edfbe1bf896f5e3274ce418f134b15952eb2494"
+-SRC_URI += "git://github.com/Azure/go-ansiterm;protocol=https;nobranch=1;rev=faa5f7b0171c46bb398a91b4a0c906324d3664cf;name=git_e113ad22_0;destsuffix=vcs_cache/d9abe4d330489bbcc2f3473a042a0886c4f556d7a3b9128c484c2fef3396e790"
++SRC_URI += "git://github.com/ysmood/fetchup;protocol=https;nobranch=1;tag=v0.2.3;shallow=1;rev=7a28beb46a6bda0bd1865d851bca6ef7eea6dedd;name=git_4a1f81fb_0;destsuffix=vcs_cache/8c9dd6ebf834d7256887c2d14a754cf11453f2f3a5e2b0c8c05110052b6ee3a1"
++SRC_URI += "git://github.com/ysmood/gson;protocol=https;nobranch=1;tag=v0.7.3;shallow=1;rev=c60042b432eb83a5b356d00e7c2db9813ac7e05f;name=git_e88b461e_0;destsuffix=vcs_cache/27ce5120c0465dfab869d1d5012071a3115381084f3a241d5de5330ed6bf71e6"
++SRC_URI += "git://github.com/ysmood/goob;protocol=https;nobranch=1;tag=v0.4.0;shallow=1;rev=8c75c65e796d1537f826b45753f994617235f148;name=git_861b8a3e_0;destsuffix=vcs_cache/9d85527d5325cd688787ce40dccb6ea83312b580a4e5eba11e779e213a9cb6c7"
++SRC_URI += "git://github.com/ysmood/got;protocol=https;nobranch=1;tag=v0.40.0;shallow=1;rev=abba87a7846a0f03b3f6384549694a33873733b7;name=git_55766c11_0;destsuffix=vcs_cache/eeb512ee1df2a3b4f92e5a5dc02e24f7963cec103929eec0113736a6ca67335b"
++SRC_URI += "git://github.com/ysmood/leakless;protocol=https;nobranch=1;tag=v0.9.0;shallow=1;rev=92f99d503ecc69fba51c2717b516363359e53028;name=git_cc40b049_0;destsuffix=vcs_cache/ea236bef84d8f62f430439cdcf1cab367fcd2b2371ced56810ccd36d18be2dd9"
++SRC_URI += "git://github.com/pkg/errors;protocol=https;nobranch=1;tag=v0.9.1;shallow=1;rev=614d223910a179a466c1767a985424175c39b465;name=git_6d82bc63_0;destsuffix=vcs_cache/58e525151c02acebc6662bf19060e7ee1112335787f1ffb059ea8d46a3164e5e"
++SRC_URI += "git://github.com/pkg/errors;protocol=https;nobranch=1;tag=v0.8.0;shallow=1;rev=645ef00459ed84a119197bfb8d8205042c6df63d;name=git_6d82bc63_1;destsuffix=vcs_cache/ea5c82f11a22b952cd732b93d2e8a599298017272296a9232e4a97e26b3f3f27"
++SRC_URI += "git://github.com/pkg/errors;protocol=https;nobranch=1;tag=v0.8.1;shallow=1;rev=ba968bfe8b2f7e042a574c888954fccecfa385b4;name=git_6d82bc63_2;destsuffix=vcs_cache/05a9ae48ad2a27ee2ace909fb6dfe443196ef4ba6b92bd0e3d2f6a9460fc8fea"
++SRC_URI += "git://github.com/pkg/profile;protocol=https;nobranch=1;tag=v1.7.0;shallow=1;rev=1ac3e9a1c69f55d2f3b5304bcc4e18a9525a92d6;name=git_c88da015_0;destsuffix=vcs_cache/514b8b4f0dcd1ab4c812208028d6ffbd8ac9873c6f9fa22227d0537fe9f6af87"
++SRC_URI += "git://github.com/pkg/browser;protocol=https;branch=master;rev=5ac0b6a4141c771a0d3a081c36b87c977cf9c7db;name=git_82ac4e9c_0;destsuffix=vcs_cache/10a8ed3a78b0663b7f54101de61f0c1b24ac55185382242b62e593e0b344d42e"
++SRC_URI += "git://github.com/sigstore/rekor-tiles;protocol=https;nobranch=1;tag=v2.0.1;shallow=1;rev=266d2496194c067e0f394ee68216c32fc2df8fa8;name=git_56f95c84_0;destsuffix=vcs_cache/b8d43475ba70ac8bfe320e5e8116e30c762256078fcd60b87e28d27c91db426d"
++SRC_URI += "git://github.com/sigstore/protobuf-specs;protocol=https;nobranch=1;tag=v0.5.0;shallow=1;rev=f8d009ede80474a9e257788207a00693e4693168;name=git_8b876913_0;destsuffix=vcs_cache/4be3492e50d1e30ee1365286244a71456814ed25f2b112ffae504266afbecb00"
++SRC_URI += "git://github.com/sigstore/rekor;protocol=https;nobranch=1;tag=v1.4.3;shallow=1;rev=cb5b1d5f364a8437e1c6c857b200283e2dcc2b29;name=git_27e08e54_0;destsuffix=vcs_cache/32b94a917cfae30ffab23353a3ce5a1a5f15f908aa8b9c06f99d20126185113c"
++SRC_URI += "git://github.com/sigstore/rekor;protocol=https;nobranch=1;tag=v1.5.0;shallow=1;rev=fe9717fd6ee4cfecedc30e5fd64c9872bc2ac61c;name=git_27e08e54_1;destsuffix=vcs_cache/83f42b233ced1d3161475396984e20e2f51539ee96e35cb0d5bba6ceb6d0edab"
++SRC_URI += "git://github.com/sigstore/sigstore;protocol=https;nobranch=1;tag=v1.10.0;shallow=1;rev=46cc860a82fb802050aea6c302af70114b733268;name=git_43e46a1b_0;destsuffix=vcs_cache/90a23575b9b82145605cec4e4b156c7b3b15899d7413a82ddc582ea17239f81e"
++SRC_URI += "git://github.com/sigstore/sigstore;protocol=https;nobranch=1;tag=v1.10.4;shallow=1;rev=8ec410a2993ea78083aecf0e473a85453039496e;name=git_43e46a1b_1;destsuffix=vcs_cache/b71061b12624368abda1dd6efd0a3f3badc86b8f49de876d7b7585482f1f31c5"
++SRC_URI += "git://github.com/sigstore/timestamp-authority;protocol=https;nobranch=1;tag=v2.0.3;shallow=1;rev=22406c3ff80d3543d2f2819e4f3cf944b5fe306c;name=git_1dbbaf86_0;destsuffix=vcs_cache/dd70ebe8f7d2cbe5ccfd2833047f52a0026aa94ba09e37dd26528da042e660da"
++SRC_URI += "git://github.com/sigstore/timestamp-authority;protocol=https;nobranch=1;tag=v2.0.2;shallow=1;rev=812628681291626975b59e2d6f1df651220118b6;name=git_1dbbaf86_1;destsuffix=vcs_cache/bbb892dff7b9581efdf6e165444a2c5962eaa7b0c04a76b0600e19cdcd041baa"
++SRC_URI += "git://github.com/sigstore/sigstore-go;protocol=https;branch=main;rev=b5fe07a5a7d719c2f9951e1ada4d5b76a8916345;name=git_2a7b27c4_0;destsuffix=vcs_cache/9f990573ca42c039488a500e573851a0afe9e058a594f47e8e914198f1bed87e"
++SRC_URI += "git://github.com/sigstore/sigstore-go;protocol=https;nobranch=1;tag=v1.1.4;shallow=1;rev=cc06490446765e67a0e63797659f1439c3f53cc0;name=git_2a7b27c4_1;destsuffix=vcs_cache/266db4b6b3687a3b36e4aba7537c3db2811ed76f16474c4689b7a41d20321f18"
++SRC_URI += "git://github.com/dlclark/regexp2;protocol=https;nobranch=1;tag=v1.11.0;shallow=1;rev=05e6ac2ab64bbfb3b0ece82156906edbe794b140;name=git_41f57ef0_0;destsuffix=vcs_cache/da7b9067217bb6e77c96bb05d69da9e4421f31a79abcb4e24d8a02e57affca14"
++SRC_URI += "git://github.com/gofrs/flock;protocol=https;nobranch=1;tag=v0.13.0;shallow=1;rev=bfec60bb026171031050af631b6dec974f14e9fa;name=git_2d2b3139_0;destsuffix=vcs_cache/02d8268670a7857f4978becccdc42f5a6426d2a039ce8e2357ef0bf32795014f"
++SRC_URI += "git://github.com/segmentio/asm;protocol=https;nobranch=1;tag=v1.2.0;shallow=1;rev=52fc5735a2101856fcdbc45c901ce51562127c99;name=git_e15b7717_0;destsuffix=vcs_cache/566c03708dcf507b46d508ec323393891b2da4fae7ab290cdeab1bb810334c5c"
++SRC_URI += "git://github.com/davecgh/go-spew;protocol=https;nobranch=1;tag=v1.1.0;shallow=1;rev=346938d642f2ec3594ed81d874461961cd0faa76;name=git_d9a489aa_0;destsuffix=vcs_cache/5ce38ad71c2d3bc390b87154a89c53fd5ead19aed2bf005419db5c0b28ea9dfd"
++SRC_URI += "git://github.com/davecgh/go-spew;protocol=https;nobranch=1;tag=v1.1.1;shallow=1;rev=8991bc29aa16c548c550c7ff78260e27b9ab7c73;name=git_d9a489aa_1;destsuffix=vcs_cache/4c7d69cfe586f86079773ff48d94f76d327c2914d8dfeffca9e34fd1146e5d5e"
++SRC_URI += "git://github.com/otiai10/mint;protocol=https;nobranch=1;tag=v1.6.3;shallow=1;rev=6dcf2e3a67310fd0fbd970199f187f5c575756c9;name=git_7127f064_0;destsuffix=vcs_cache/8e5429bf94b80c2f4aae87b33f4b4dd03b9d8a978004bf74b1fe4042dc0b5fad"
++SRC_URI += "git://github.com/otiai10/copy;protocol=https;nobranch=1;tag=v1.14.1;shallow=1;rev=5ef5923d6ff098ea7a51792c1ec963d04fad9794;name=git_e0ff6709_0;destsuffix=vcs_cache/6f52336953491d169a014c4906e3f17a4c78b425ca26804ae779c6167516d7d0"
++SRC_URI += "git://github.com/mwitkow/go-conntrack;protocol=https;branch=master;rev=2f068394615f73e460c2f3d2c158b0ad9321cadb;name=git_ff07aa22_0;destsuffix=vcs_cache/0c95da896ecaf67638f45eea2282c2c840e57fd5bef90b1316645fe86914c177"
++SRC_URI += "git://github.com/mwitkow/go-conntrack;protocol=https;branch=master;rev=cc309e4a22231782e8893f3c35ced0967807a33e;name=git_ff07aa22_1;destsuffix=vcs_cache/0ff4a51de5f43065c774026c897e99f6a207c66edef943350fa92176ccaf3982"
++SRC_URI += "git://github.com/niemeyer/pretty;protocol=https;branch=master;rev=a10e7caefd8e0d600cea437f5c3613aeb1553d56;name=git_2ab93bd0_0;destsuffix=vcs_cache/7b69594221f05faea56a0d177d0ca9efaac2b2e4ba4f7539c68b87cfe214c6ef"
++SRC_URI += "git://github.com/AlecAivazis/survey;protocol=https;nobranch=1;tag=v2.3.7;shallow=1;rev=fa37277e6394c29db7bcc94062cb30cd7785a126;name=git_8f711068_0;destsuffix=vcs_cache/915e6ad876675eb96b188d35f754bc931b786c20b8e9ce8142ab278092473e7c"
++SRC_URI += "git://github.com/julienschmidt/httprouter;protocol=https;nobranch=1;tag=v1.2.0;shallow=1;rev=348b672cd90d8190f8240323e372ecd1e66b59dc;name=git_50116b68_0;destsuffix=vcs_cache/2c4d0627c16989284c34f4435f85eda929435309b1f35e089deeada06cba6920"
++SRC_URI += "git://github.com/julienschmidt/httprouter;protocol=https;nobranch=1;tag=v1.3.0;shallow=1;rev=4eec211fa4e8df74ed978dc5681612131854144f;name=git_50116b68_1;destsuffix=vcs_cache/14612f57dd95aeae83955a7b4f9b44d716f96bdef922732f059430cdff278e10"
++SRC_URI += "git://github.com/envoyproxy/go-control-plane;protocol=https;nobranch=1;tag=envoy/v1.37.0;shallow=1;rev=004b9ec70a4696c9fac559adea646dab4ebf62b7;name=git_f80b47a3_0;destsuffix=vcs_cache/c1cb9e50270abe5555004fd77d7866ac516f0264029b88996d2a37664542d5c0"
++SRC_URI += "git://github.com/envoyproxy/go-control-plane;protocol=https;nobranch=1;tag=ratelimit/v0.1.0;shallow=1;rev=2cdf9fc1e8a104e69a6487721514041c335d86f6;name=git_f80b47a3_1;destsuffix=vcs_cache/906f63aa0b71e9714823fdb45d45be4659d30de781b6a053c93f43371894845f"
++SRC_URI += "git://github.com/envoyproxy/go-control-plane;protocol=https;nobranch=1;tag=envoy/v1.35.0;shallow=1;rev=5321204dac14eb3ef389be392c36364d9bad4302;name=git_f80b47a3_2;destsuffix=vcs_cache/af904f5786ed9309afb305ff0ca3cddce08208c95ec3f9def0b074e767b05cb9"
++SRC_URI += "git://github.com/envoyproxy/go-control-plane;protocol=https;nobranch=1;tag=v0.14.0;shallow=1;rev=71637ad69bbc5f51fbb2562e612a4365292804a5;name=git_f80b47a3_3;destsuffix=vcs_cache/2513f16d9e60ca640f7e1b10874f09f2a4915e2672b103b0edb7deee276349cf"
++SRC_URI += "git://github.com/envoyproxy/go-control-plane;protocol=https;branch=main;rev=75eaa193e329413d3a688b7c3aa2991095f321c1;name=git_f80b47a3_4;destsuffix=vcs_cache/16d730c776e5b5650a8f35d6f26efcb4548bf62ecba132bc934e522eec2a0508"
++SRC_URI += "git://github.com/envoyproxy/protoc-gen-validate;protocol=https;nobranch=1;tag=v1.2.1;shallow=1;rev=7b06248484ceeaa947e93ca2747eccf336a88ecc;name=git_ac4e3fea_0;destsuffix=vcs_cache/d5f02e84a7cac6538441cf10353084bc8986687c4fb1dbec8ce868f36087a44c"
++SRC_URI += "git://github.com/envoyproxy/protoc-gen-validate;protocol=https;nobranch=1;tag=v1.3.3;shallow=1;rev=92b9a7df69ca9f71bfc492f7a90adf4d36eab569;name=git_ac4e3fea_1;destsuffix=vcs_cache/1f1f3b0e1faf176172e6337efdaa2d961b5db6695833c2ebfd381abb9e1b429c"
++SRC_URI += "git://github.com/containerd/zfs;protocol=https;nobranch=1;tag=v2.0.0;shallow=1;rev=a3e9bec07f4f2d9da41c5e119006cffad6fecffa;name=git_62ef0568_0;destsuffix=vcs_cache/3b6e8e17660f86603ad978c35f23b066288dc5937890ca5c61f54fc5dfaa9052"
++SRC_URI += "git://github.com/containerd/imgcrypt;protocol=https;nobranch=1;tag=v2.0.1;shallow=1;rev=c377ec98ff79ec9205eabf555ebd2ea784738c6c;name=git_3f4049aa_0;destsuffix=vcs_cache/cf07f49bde1cc9b1c042dfb7055d38c832cb69592e89521daa5ad46b367e047b"
++SRC_URI += "git://github.com/containerd/plugin;protocol=https;nobranch=1;tag=v1.0.0;shallow=1;rev=19cedbf730bb9ae1c106c4d4df8492bb3d3fb8fd;name=git_0f1fd608_0;destsuffix=vcs_cache/f786b847c888d27ca5c517b566772c78216ed963d31d5119a32ebad7494855ea"
++SRC_URI += "git://github.com/containerd/otelttrpc;protocol=https;nobranch=1;tag=v0.1.0;shallow=1;rev=fa91cafe17adf59a0edc10650135dfd1dfb761c2;name=git_69c055ed_0;destsuffix=vcs_cache/c27d4a7087a7f4624cdf40c161f9707dbb90cd2d71159840f7c7b610260e9f24"
++SRC_URI += "git://github.com/containerd/btrfs;protocol=https;nobranch=1;tag=v2.0.0;shallow=1;rev=f611cf12b33f43269574b2ad82bcb55e4d6f9982;name=git_afc7f4f6_0;destsuffix=vcs_cache/8a2ee3ce7d871ae06962c07984197acdfd6035091884c9db0791378ac0229823"
++SRC_URI += "git://github.com/containerd/log;protocol=https;nobranch=1;tag=v0.1.0;shallow=1;rev=0fc1e28871fdf2786e2cc51bbe4133db6547a199;name=git_b70b7359_0;destsuffix=vcs_cache/697be36d9b8a0eb34f8591d0f69b6d596e1e9341b5944ebf81ddd334b1907bc6"
++SRC_URI += "git://github.com/containerd/ttrpc;protocol=https;nobranch=1;tag=v1.2.8;shallow=1;rev=22392c2ec72135af70155428db18d458ecf3ce03;name=git_1deba031_0;destsuffix=vcs_cache/bbd06a87919bbdeff01305ac7acdec7d2139e1967739925a101cf216b2d8dc49"
++SRC_URI += "git://github.com/containerd/errdefs;protocol=https;nobranch=1;tag=v1.0.0;shallow=1;rev=4817405e4a3caeb7aee9dac68ed55339c59cb635;name=git_070120f7_0;destsuffix=vcs_cache/d9d1c9949e837f39205605237b656e944c7d0cd69e48a906fabdb6bebe0edb66"
++SRC_URI += "git://github.com/containerd/console;protocol=https;nobranch=1;tag=v1.0.5;shallow=1;rev=c8d962180f543ac07c008ecc79a413406ea10c0b;name=git_7dc259a2_0;destsuffix=vcs_cache/a38aca664db28f607862e39301d2fd06b3c58312662cbd189f451215c3eb9894"
++SRC_URI += "git://github.com/containerd/containerd;protocol=https;nobranch=1;tag=v2.2.3;shallow=1;rev=77c84241c7cbdd9b4eca2591793e3d4f4317c590;name=git_c2fd43eb_0;destsuffix=vcs_cache/6bdcec8161cf9b56318822f061b0c10ac8c38d747a52bfbc4a9280b6ffc47f96"
++SRC_URI += "git://github.com/containerd/containerd;protocol=https;nobranch=1;tag=api/v1.10.0;shallow=1;rev=8b34ce391bd114e080892cccfa956ef3807c207c;name=git_c2fd43eb_1;destsuffix=vcs_cache/4ae09c91c596d23f3127d6821ac6178aa6512e66eba4da3a39e7c94903e2407b"
++SRC_URI += "git://github.com/containerd/nri;protocol=https;nobranch=1;tag=v0.11.0;shallow=1;rev=1078130fa016884b4c03880d9d587e6691a67d98;name=git_523249c2_0;destsuffix=vcs_cache/9ef2c512de0aabf89c060ed428bc6ef3d29fc64b917b4a81d88abcada3f49d90"
++SRC_URI += "git://github.com/containerd/stargz-snapshotter;protocol=https;nobranch=1;tag=estargz/v0.18.2;shallow=1;rev=3070538befb5a6c09f93e99164762b3a76310357;name=git_0c473532_0;destsuffix=vcs_cache/5b8f552ba5310161b4d54e46b1e5f4ac2f03191dd86070de81cf7a2681739216"
++SRC_URI += "git://github.com/containerd/fifo;protocol=https;nobranch=1;tag=v1.1.0;shallow=1;rev=151b205263c29d471e0d55c787d2ce9f5343fd46;name=git_6f3d1077_0;destsuffix=vcs_cache/e4b0152cde11b075ce8a8a9f0db77d54abb72ee1bab1036ab0c157b678aade47"
++SRC_URI += "git://github.com/containerd/platforms;protocol=https;nobranch=1;tag=v1.0.0-rc.4;shallow=1;rev=09756f59cb1d6b3fb368f371043d36e634789537;name=git_96693f8e_0;destsuffix=vcs_cache/2a7a4d65a1d6148c7a403e5bf7c719aa64e3d2a544ad7078906c252afe5a2b3d"
++SRC_URI += "git://github.com/containerd/go-cni;protocol=https;nobranch=1;tag=v1.1.13;shallow=1;rev=784f94e654944e41f86cf33ad49bfe07014c2e7e;name=git_cab8b449_0;destsuffix=vcs_cache/42aaa61d2bb4bd3a1eb278daa53bed3b31e3af601d35dafceb8b7714333cef05"
++SRC_URI += "git://github.com/containerd/cgroups;protocol=https;nobranch=1;tag=v3.1.3;shallow=1;rev=076b5e0e60bd073ead691caf95a90ac0f2fbec5d;name=git_85a7d8f6_0;destsuffix=vcs_cache/3cacf869e6e5cb422592906f0e2f211bc239e0b2c0730e85debdfc8989de9e0d"
++SRC_URI += "git://github.com/containerd/go-runc;protocol=https;nobranch=1;tag=v1.1.0;shallow=1;rev=df3c22d088ca919d1943efa8ae0cfc0514da0542;name=git_84c96084_0;destsuffix=vcs_cache/9044e9e240020298712a51a4db4736afc66d70b1870cf11cac73c0661be06842"
++SRC_URI += "git://github.com/containerd/fuse-overlayfs-snapshotter;protocol=https;nobranch=1;tag=v2.1.7;shallow=1;rev=da57796c7d0a2b608abf173651cf148706e33337;name=git_923d9d3e_0;destsuffix=vcs_cache/ebd7034108ca2f7b1a5d3724f3248f21f9cf17f5ecf3db9b5c71ee2e6de56563"
++SRC_URI += "git://github.com/containerd/typeurl;protocol=https;nobranch=1;tag=v2.2.3;shallow=1;rev=5b047adad57d172afa9654c019fe65bf0540cc4d;name=git_94e812bb_0;destsuffix=vcs_cache/60bc9255cadbea28631b3293cd629cbe0b9a9cffb987712231cdc4f9dc75a2cb"
++SRC_URI += "git://github.com/containerd/nydus-snapshotter;protocol=https;nobranch=1;tag=v0.15.13;shallow=1;rev=3d398e4dfc928ad782a94019edd801d5441f4fea;name=git_c4766add_0;destsuffix=vcs_cache/a0835e29b3bcd359c5e58edc0199e5b1e743fdfb61df75a517d0410875535761"
++SRC_URI += "git://github.com/containerd/continuity;protocol=https;nobranch=1;tag=v0.4.5;shallow=1;rev=44e2adf7e9cd87330f3ad656e7a006ef91ed8c1e;name=git_b4d76115_0;destsuffix=vcs_cache/ef286b146362aa5da58f9ef4e88323a32e1ea45eda78c6d484875972ce0a81e0"
++SRC_URI += "git://github.com/containerd/accelerated-container-image;protocol=https;nobranch=1;tag=v1.3.0;shallow=1;rev=c5dd4fa383f2a932ab7d0b974f05a4e90eb46604;name=git_c15853d7_0;destsuffix=vcs_cache/3c38450d2e9b921d8073a5c5afb9472d94858098bc1fe7d691687d51d0ede1ff"
++SRC_URI += "git://github.com/go-viper/mapstructure;protocol=https;nobranch=1;tag=v2.5.0;shallow=1;rev=9aa3f77c68e2a56222ea436c1bfa631f1b1072d5;name=git_2ea12042_0;destsuffix=vcs_cache/3bfaa2e7553753ef9eb595609273310a8498c5d5f4d43000c69a7bd2bb39a3ef"
++SRC_URI += "git://github.com/go-viper/mapstructure;protocol=https;nobranch=1;tag=v2.4.0;shallow=1;rev=b9794a5f0e73d425210d6614ed833067029155f5;name=git_2ea12042_1;destsuffix=vcs_cache/c8d654dc2b8f99ffd23c744af0b961737a283ddb83b110d144f8558b6ffa2ae1"
++SRC_URI += "git://github.com/beorn7/perks;protocol=https;nobranch=1;tag=v1.0.1;shallow=1;rev=37c8de3658fcb183f997c4e13e8337516ab753e6;name=git_42750950_0;destsuffix=vcs_cache/c20c7a1c80a243f687008566bc9b8a9517bdf7e3a4f9db15e17160ad20568e9d"
++SRC_URI += "git://github.com/beorn7/perks;protocol=https;branch=master;rev=3a771d992973f24aa725d07868b467d1ddfceafb;name=git_42750950_1;destsuffix=vcs_cache/b05d3659d70127d95ec0b6f7d3aa9b87a50009706e0919be0913fc61dc69e093"
++SRC_URI += "git://github.com/beorn7/perks;protocol=https;nobranch=1;tag=v1.0.0;shallow=1;rev=4b2b341e8d7715fae06375aa633dbb6e91b3fb46;name=git_42750950_2;destsuffix=vcs_cache/8dd89f9e3fbe68a081d37f37c6deba6f0c099069502b162148d0ede72f822a95"
++SRC_URI += "git://github.com/beorn7/perks;protocol=https;branch=master;rev=b965b613227fddccbfffe13eae360ed3fa822f8d;name=git_42750950_3;destsuffix=vcs_cache/bdca05a2672eea03731c25222db95561d1fad3ee6ccede612b305abb27b074ac"
++SRC_URI += "git://github.com/go-kit/kit;protocol=https;nobranch=1;tag=v0.8.0;shallow=1;rev=12210fb6ace19e0496167bb3e667dcd91fa9f69b;name=git_b9f1d7d4_0;destsuffix=vcs_cache/164d4eaa2f8107f0ad2f6559aac743c96ecce3f6eb17905b0e878385ede67301"
++SRC_URI += "git://github.com/kballard/go-shellquote;protocol=https;branch=master;rev=95032a82bc518f77982ea72343cc1ade730072f0;name=git_e33a00ee_0;destsuffix=vcs_cache/49fe182d1b759955b666e8ad12ff66052cc7e14ba9ccf9e8371ee85848f1f9ac"
++SRC_URI += "git://github.com/xhit/go-str2duration;protocol=https;nobranch=1;tag=v2.1.0;shallow=1;rev=017325bfda0895fe02177e4ebb07962e58735bbf;name=git_c7386ea5_0;destsuffix=vcs_cache/395a3ddd7e351b7b882dc20af4936a00bd11a84147f83ac7a7c25f8093a51cb3"
++SRC_URI += "git://github.com/stefanberger/go-pkcs11uri;protocol=https;branch=master;rev=78284954bff6dcce7888166bb79bbba93bea0879;name=git_1abe3c80_0;destsuffix=vcs_cache/38fa201d7d655497d33723d139ffc3ec2ee78d3caab251015a1c3a5190f5e073"
++SRC_URI += "git://github.com/spiffe/go-spiffe;protocol=https;nobranch=1;tag=v2.6.0;shallow=1;rev=c6d0af3a4780fcc69132bb8bc5d2bdfcbe5ea42b;name=git_217f6de8_0;destsuffix=vcs_cache/aca54385906c3e38bd7515a2b0b52e4b6be402d2333e38eb4d2484305552aca4"
++SRC_URI += "git://github.com/go-rod/rod;protocol=https;nobranch=1;tag=v0.116.2;shallow=1;rev=01a50b925312b71fc59f6eb0d8f489a5195ec448;name=git_b3006ffb_0;destsuffix=vcs_cache/56a3074e00ed3cc5a312cd4b264c9070764ea81790bf8a1147690ab65ad79579"
++SRC_URI += "git://github.com/pmezard/go-difflib;protocol=https;nobranch=1;tag=v1.0.0;shallow=1;rev=792786c7400a136282c1664665ae0a8db921c6c2;name=git_b66720d7_0;destsuffix=vcs_cache/c04ad296d2e3203fda8b7ca96feaca21b20b3b7441e33c7d67cda029ea61ab4c"
++SRC_URI += "git://github.com/digitorus/pkcs7;protocol=https;branch=master;rev=3a137a8743524b3683ca4e11608d0dde37caee99;name=git_602eafe1_0;destsuffix=vcs_cache/fd2b6e349ca1abce350a94202038bc78abc083934bc68342108df0ef0a47c72c"
++SRC_URI += "git://github.com/digitorus/timestamp;protocol=https;branch=master;rev=220c5c2851b7435eea999de3daa773601a7ca126;name=git_c314405a_0;destsuffix=vcs_cache/316e808b25b3a6563da681b8e93bb537209a2463c7239f367cc18628056cecf7"
++SRC_URI += "git://github.com/alecthomas/units;protocol=https;branch=master;rev=2efee857e7cfd4f3d0138cc3cbb1b4966962b93a;name=git_12276b46_0;destsuffix=vcs_cache/7a070bc84b00c7dd5b58f997285cd94232a9fb500b03e849c7be9017203e4d51"
++SRC_URI += "git://github.com/alecthomas/units;protocol=https;branch=master;rev=b94a6e3cc13755c0a75fffecbb089eb346fc4289;name=git_12276b46_1;destsuffix=vcs_cache/fd740bbc9bdec5b8bf13526eff2ee852c365b4c2a8feb66c89e2aa4b36a0d677"
++SRC_URI += "git://github.com/alecthomas/template;protocol=https;branch=master;rev=a0175ee3bccc567396460bf5acd36800cb10c49c;name=git_61f91bfb_0;destsuffix=vcs_cache/c18e6411468e7b9fa8d3eaacbe26c05c650393a6ed02eded4f8a729fcbdf3278"
++SRC_URI += "git://github.com/alecthomas/kingpin;protocol=https;nobranch=1;tag=v2.4.0;shallow=1;rev=64d23c54e3e2a385ce12757939bed9c632d1693c;name=git_f0f35838_0;destsuffix=vcs_cache/ae34e4803d18ba03ac4e70e84f5e737ec48634b725413ad5282fb01d6fc47dda"
++SRC_URI += "git://github.com/Azure/go-ansiterm;protocol=https;branch=master;rev=faa5f7b0171c46bb398a91b4a0c906324d3664cf;name=git_e113ad22_0;destsuffix=vcs_cache/d9abe4d330489bbcc2f3473a042a0886c4f556d7a3b9128c484c2fef3396e790"
+ SRC_URI += "git://github.com/Azure/azure-sdk-for-go;protocol=https;nobranch=1;tag=sdk/internal/v1.11.2;shallow=1;rev=066f6f92078187a769c5a4e0bfe3c5ac4a22bd36;name=git_d31d6145_0;destsuffix=vcs_cache/29bb1f5f66b9ef2c0d8280dc2ef9de2d950d32bde6082c37129d36181e7f8ad0"
+ SRC_URI += "git://github.com/Azure/azure-sdk-for-go;protocol=https;nobranch=1;tag=sdk/storage/azblob/v1.5.0;shallow=1;rev=15c65ced02ca0b4875e8463146d7bd4a68a0fbb1;name=git_d31d6145_1;destsuffix=vcs_cache/69ba1366ff498c1f6625ee95464ad8462e9596296890fc801954d6d94c815ead"
+ SRC_URI += "git://github.com/Azure/azure-sdk-for-go;protocol=https;nobranch=1;tag=sdk/azcore/v1.20.0;shallow=1;rev=466795e90c61fba2bef23d311a61d4085b873718;name=git_d31d6145_2;destsuffix=vcs_cache/02f52ded3147a31e12f76b40a2946a56511aa87e241c7cc331dc2fad7934d835"
+ SRC_URI += "git://github.com/Azure/azure-sdk-for-go;protocol=https;nobranch=1;tag=sdk/azidentity/v1.13.1;shallow=1;rev=6bb9b03b237d03bcfd0b32f0ca5e1b989d74e5e8;name=git_d31d6145_3;destsuffix=vcs_cache/b80d29c1ad9369a1185c04ff6677176d1d56f8a746b65ef588727523e8cac4fa"
+-SRC_URI += "git://github.com/cilium/ebpf;protocol=https;nobranch=1;tag=v0.16.0;shallow=1;rev=061e86d8f5e99aa6f04d11a3807c8cacdbe7908b;name=git_1e891de1_0;destsuffix=vcs_cache/8e810695e5aecdedc82025b50fe217f458e95243dfd6f3a725e4be31bb89421b"
+-SRC_URI += "git://github.com/digitorus/pkcs7;protocol=https;nobranch=1;rev=3a137a8743524b3683ca4e11608d0dde37caee99;name=git_602eafe1_0;destsuffix=vcs_cache/fd2b6e349ca1abce350a94202038bc78abc083934bc68342108df0ef0a47c72c"
+-SRC_URI += "git://github.com/digitorus/timestamp;protocol=https;nobranch=1;rev=220c5c2851b7435eea999de3daa773601a7ca126;name=git_c314405a_0;destsuffix=vcs_cache/316e808b25b3a6563da681b8e93bb537209a2463c7239f367cc18628056cecf7"
+-SRC_URI += "git://github.com/skratchdot/open-golang;protocol=https;nobranch=1;rev=eef8423979666925a58eb77f9db583e54320d5a4;name=git_2106ca54_0;destsuffix=vcs_cache/2049e06101e5abb574af5068dfb1255087c23cd963db0e1f0c82585b42e02bf4"
+-SRC_URI += "git://github.com/magiconair/properties;protocol=https;nobranch=1;tag=v1.5.3;shallow=1;rev=624009598839a9432bd97bb75552389422357723;name=git_fa8300c1_0;destsuffix=vcs_cache/d96b4b0c7ecc137249800d1b95fece0b9fca1b6978650bd2a8be72d541a097fd"
+-SRC_URI += "git://github.com/magiconair/properties;protocol=https;nobranch=1;tag=v1.8.9;shallow=1;rev=d8bdba35b511a72d4c00a47e801dc703328198e8;name=git_fa8300c1_1;destsuffix=vcs_cache/5d2d0e3a74034cdf4554cd9fa44a3186b4017a8f6ecc1823cdd7dc5202b0b8fb"
+-SRC_URI += "git://github.com/jonboulle/clockwork;protocol=https;nobranch=1;tag=v0.5.0;shallow=1;rev=6d8d032a18422c2e3ef651170a8a55012d1f704c;name=git_c61652e2_0;destsuffix=vcs_cache/8a9b3a40ae13b2679138bcbfbe409f1586f92c23e873f4e219066c6596debc26"
+-SRC_URI += "git://github.com/checkpoint-restore/go-criu;protocol=https;nobranch=1;tag=v7.2.0;shallow=1;rev=39135d0112fa0fb12e80ba04ef843eea097add46;name=git_400f7838_0;destsuffix=vcs_cache/cd3a96bfb455f01e0ad41b83fe0a2ba40c017e12b43cf536dd72401c0a9efa9b"
+-SRC_URI += "git://github.com/checkpoint-restore/checkpointctl;protocol=https;nobranch=1;tag=v1.4.0;shallow=1;rev=854ab59c71dde1991c2fdfae9c694aaddc752047;name=git_3c5c2d9d_0;destsuffix=vcs_cache/6b759ce79ef9b0cf0e95821c6506ecb3e1f87ff4709b914b3e18ce7b12ed0769"
+-SRC_URI += "git://github.com/kisielk/errcheck;protocol=https;nobranch=1;tag=v1.5.0;shallow=1;rev=ee08a456fc430219ad80ce5af98415bcc027a219;name=git_19b8b0b3_0;destsuffix=vcs_cache/2ae681313b6ac49c6c60836f406eed1f7f4db5b86a3027f0ec720f5984386390"
+-SRC_URI += "git://github.com/kisielk/gotool;protocol=https;nobranch=1;tag=v1.0.0;shallow=1;rev=80517062f582ea3340cd4baf70e86d539ae7d84d;name=git_e251e12c_0;destsuffix=vcs_cache/5f448e8a93894c89c55e73478ef6dc8a0a1a6a3fd3fe3a2b5cd5e03e65915fb1"
+-SRC_URI += "git://github.com/onsi/gomega;protocol=https;nobranch=1;tag=v1.9.0;shallow=1;rev=6be6c439588487cd908a3a700795660c2a16dfec;name=git_4f2954a0_0;destsuffix=vcs_cache/728f44b7af3fd5cab91499df1e92a9d2c3e67004ea59ac1e4a549fb2ca6763a8"
+-SRC_URI += "git://github.com/onsi/gomega;protocol=https;nobranch=1;tag=v1.7.1;shallow=1;rev=f9a52764bd5a0fd2d201bcca584351d03b72f8da;name=git_4f2954a0_1;destsuffix=vcs_cache/eca01df4f63425b54410888126f5e562e7f2c689d9483249110a2f793909648b"
+-SRC_URI += "git://github.com/onsi/ginkgo;protocol=https;nobranch=1;tag=v1.6.0;shallow=1;rev=3774a09d95489ccaa16032e0770d08ea77ba6184;name=git_209602b3_0;destsuffix=vcs_cache/084961c940c1064ad8f72342797a7f84ceb5184e0f4f98076f0ac0a75a0a376f"
+-SRC_URI += "git://github.com/onsi/ginkgo;protocol=https;nobranch=1;tag=v1.12.0;shallow=1;rev=40598150331533e3cd497f21dcce387dae84b561;name=git_209602b3_1;destsuffix=vcs_cache/1fa773d747594333c67867f9bdc536ee1286d76aa754e875bec3818f99d1318b"
+-SRC_URI += "git://github.com/anchore/go-struct-converter;protocol=https;nobranch=1;tag=v0.1.0;shallow=1;rev=c68fdcfa20922cc80b266f13a7986e632bafacca;name=git_5862d91c_0;destsuffix=vcs_cache/4be54006369c9c3bb6a42a67721ee3e3e0f1aab0f71192fdc85f8dc980af1bd6"
+-SRC_URI += "git://github.com/apparentlymart/go-textseg;protocol=https;nobranch=1;tag=v15.0.0;shallow=1;rev=72b78f42484ddc3f58858f794da1771fb9559ad0;name=git_81a61598_0;destsuffix=vcs_cache/2ad90a9579325698fb8eedc37a5bb5c32c0df927e2e2029b3cfa6369b0aad683"
+-SRC_URI += "git://github.com/apparentlymart/go-cidr;protocol=https;nobranch=1;tag=v1.0.1;shallow=1;rev=c0fb5fbe0acb592411e2db59add389a43260ad44;name=git_75732a95_0;destsuffix=vcs_cache/78882067332ee02e3c72ccc9d03c697f04b24132ddd74da1593a953f0b833469"
++SRC_URI += "git://github.com/zeebo/errs;protocol=https;nobranch=1;tag=v1.3.0;shallow=1;rev=743600cc6fdfab08f5d50d6ac661b59cb3b1adaf;name=git_1cced855_0;destsuffix=vcs_cache/39db003c7dfcc8ee4cbaee7626cb0f113936318043f7a7b09d6fa4609f36e609"
++SRC_URI += "git://github.com/kylelemons/godebug;protocol=https;nobranch=1;tag=v1.1.0;shallow=1;rev=9ff306d4fbead574800b66369df5b6144732d58e;name=git_463ad04b_0;destsuffix=vcs_cache/070cd2056d33748c34b60876b93e86d0f8bcfa86a4dee28d6da2a6f3aaea66ac"
++SRC_URI += "git://github.com/Microsoft/hcsshim;protocol=https;nobranch=1;tag=v0.14.1;shallow=1;rev=fb5aa2e9478c8f5dcaba00601cc7c7d10e1320cd;name=git_d1a645ee_0;destsuffix=vcs_cache/64498bbd9e58b969c07504954baa5831796326b5afcaeacf17a580703df9ef39"
+ SRC_URI += "git://github.com/Microsoft/go-winio;protocol=https;nobranch=1;tag=v0.6.2;shallow=1;rev=3c9576c9346a1892dee136329e7e15309e82fb4f;name=git_6d816430_0;destsuffix=vcs_cache/963154633520174004b7a508de4bfa23c0374f9312f6db845c29aa3cb751d708"
+-SRC_URI += "git://github.com/Microsoft/hcsshim;protocol=https;nobranch=1;tag=v0.14.0-rc.1;shallow=1;rev=59e0e2f72c87c95fdd376c5fb12a216b6f983e5d;name=git_d1a645ee_0;destsuffix=vcs_cache/f493369c2a96e959905afa70d80efbf15bd25304bc9938aafdaa00d931825b26"
+-SRC_URI += "git://github.com/russross/blackfriday;protocol=https;nobranch=1;tag=v2.1.0;shallow=1;rev=4c9bf9512682b995722660a4196c0013228e2049;name=git_fb978822_0;destsuffix=vcs_cache/6dd1604eceba1790dbf7f827f1e22a5866a5348a2ab616daed7363a6e16e081d"
+-SRC_URI += "git://github.com/russross/blackfriday;protocol=https;nobranch=1;tag=v1.6.0;shallow=1;rev=e96880f42b9343aea6cbfd99693adae0e5fe2b2a;name=git_fb978822_1;destsuffix=vcs_cache/45882c51d4da17f32775abbdabd353753e5115f6ec6282c3bf028fe3471fc743"
+-SRC_URI += "git://github.com/josharian/intern;protocol=https;nobranch=1;tag=v1.0.0;shallow=1;rev=8e6ff32b3e7c0b018c43953085fe2ac330fe9acd;name=git_eb6bc1bf_0;destsuffix=vcs_cache/273d42676826fc8f106c11c2800d01690a09463878fa115700b2e26df24a2440"
+-SRC_URI += "git://github.com/titanous/rocacheck;protocol=https;nobranch=1;rev=afe73141d399b0c79c3d6412d4bdcf4c672c496a;name=git_b223e935_0;destsuffix=vcs_cache/333921fe7c4fb4be2fd4b694b9d4ec2e6000c6f84fe6e5a447504b83a30df193"
+-SRC_URI += "git://github.com/knqyf263/go-plugin;protocol=https;nobranch=1;tag=v0.9.0;shallow=1;rev=c156889d438cf7d729d5959c02772d9f3a86cb2e;name=git_9ffa8f9a_0;destsuffix=vcs_cache/a8467353858eb68db6c0dd39ab99d740baa3155c9ebe2dee04be36a524fc48f7"
+-SRC_URI += "git://github.com/sassoftware/relic;protocol=https;nobranch=1;tag=v7.2.1;shallow=1;rev=1ba272b5494260614e67ab55afa4e9e49ec881d5;name=git_6cf8c4b1_0;destsuffix=vcs_cache/11b818fd7c4740f195b6669f17117f3e72c1b14cd4cca20dca3b88334a67edcf"
+-SRC_URI += "git://github.com/hiddeco/sshsig;protocol=https;nobranch=1;tag=v0.2.0;shallow=1;rev=49dc854ac39b55b9239cf5014b72a6ff2105bf2c;name=git_b8e4d5f4_0;destsuffix=vcs_cache/fdcb4ab573b69d6bee2d375517e62fb147744ddcca0378b2006891f9dd8f6477"
+-SRC_URI += "git://github.com/grafana/regexp;protocol=https;nobranch=1;rev=a468a5bfb3bc9d48aafe80becd5634c8be0b9fce;name=git_662137b1_0;destsuffix=vcs_cache/ee7ce08aedc8b0c4622a701ebc6308e5f4de035b78a7a97690fe1159dc0e6408"
+-SRC_URI += "git://github.com/dlclark/regexp2;protocol=https;nobranch=1;tag=v1.11.0;shallow=1;rev=05e6ac2ab64bbfb3b0ece82156906edbe794b140;name=git_41f57ef0_0;destsuffix=vcs_cache/da7b9067217bb6e77c96bb05d69da9e4421f31a79abcb4e24d8a02e57affca14"
+-SRC_URI += "git://github.com/kr/pretty;protocol=https;nobranch=1;tag=v0.3.1;shallow=1;rev=3cd153a126da607b78d1762779b1e1054f9889fc;name=git_cd673b00_0;destsuffix=vcs_cache/487dccea2d19da29e6f873ffd57f7f4d33720781a3f60bb9f852176acb476435"
+-SRC_URI += "git://github.com/kr/pretty;protocol=https;nobranch=1;tag=v0.1.0;shallow=1;rev=73f6ac0b30a98e433b289500d779f50c1a6f0712;name=git_cd673b00_1;destsuffix=vcs_cache/0f21d99b403d8e61d556bfa775400b5cd3eeb5d2fb19e978a43ff5e77dae75ee"
+-SRC_URI += "git://github.com/kr/logfmt;protocol=https;nobranch=1;rev=b84e30acd515aadc4b783ad4ff83aff3299bdfe0;name=git_2782f244_0;destsuffix=vcs_cache/e035982996fb3352cf0880f1bb882f434fcb4adc3e775981b88072f2a379ec80"
++SRC_URI += "git://github.com/decred/dcrd;protocol=https;nobranch=1;tag=dcrec/secp256k1/v4.4.0;shallow=1;rev=f98d08ef138a99711dbbc86c569935ded8d6a986;name=git_9fd408f7_0;destsuffix=vcs_cache/dea203beeafba9300d7341afcdd38985621ebd2ec9d4c5a8a7d262cbb2c2bc41"
++SRC_URI += "git://github.com/konsorten/go-windows-terminal-sequences;protocol=https;nobranch=1;tag=v1.0.1;shallow=1;rev=5c8c8bd35d3832f5d134ae1e1e375b69a4d25242;name=git_a370b262_0;destsuffix=vcs_cache/2044bc70056f083f4686548aca8c8ea39dc8943c0d28ac6ef38cfa1fa5ee7fd0"
++SRC_URI += "git://github.com/konsorten/go-windows-terminal-sequences;protocol=https;nobranch=1;tag=v1.0.2;shallow=1;rev=f55edac94c9bbba5d6182a4be46d86a2c9b5b50e;name=git_a370b262_1;destsuffix=vcs_cache/1987ad3f256034b9d0fc3590868bb91e717f53fd7ee6de10cff3948645fcd530"
++SRC_URI += "git://github.com/open-policy-agent/opa;protocol=https;nobranch=1;tag=v1.10.1;shallow=1;rev=a119f30419c83050505a44ac33ba81e7279f5178;name=git_345563a6_0;destsuffix=vcs_cache/70e752e43ab7d75f9f6aeb2ffc6cb3be9e5d708f347ed6858ff3d3c287e2ccee"
++SRC_URI += "git://github.com/cloudflare/circl;protocol=https;nobranch=1;tag=v1.6.3;shallow=1;rev=24ae53c5d6f7fe18203adc125ba3ed76a38703e1;name=git_d8934de6_0;destsuffix=vcs_cache/10b428844b05d4b03ef2556cb36787ddb4a7d1daa3442a0c370769eb69b4b079"
++SRC_URI += "git://github.com/cloudflare/circl;protocol=https;nobranch=1;tag=v1.6.0;shallow=1;rev=89e658c2ea39d3cfea7b7c7c8b34ebdbd6d21942;name=git_d8934de6_1;destsuffix=vcs_cache/6b1850dcf66e3b438754c6c9963b00daaa188378c7cb8c9c1ef005abe31f75f9"
++SRC_URI += "git://github.com/cloudflare/circl;protocol=https;nobranch=1;tag=v1.6.1;shallow=1;rev=c6d33e35234ebf5c4319d12ae7d77d7d17053e56;name=git_d8934de6_2;destsuffix=vcs_cache/3c2dfa258c309745a69f7643659c92a962cf059c411c84e321b55c5ac0323f35"
++SRC_URI += "git://github.com/cloudflare/cfssl;protocol=https;branch=master;rev=4e2dcbde500472449917533851bf4bae9bdff562;name=git_00392491_0;destsuffix=vcs_cache/3c8104b7da9d2e18832889b5c6a3e835075611b12d6602487addb722a70feac5"
++SRC_URI += "git://github.com/magiconair/properties;protocol=https;nobranch=1;tag=v1.5.3;shallow=1;rev=624009598839a9432bd97bb75552389422357723;name=git_fa8300c1_0;destsuffix=vcs_cache/d96b4b0c7ecc137249800d1b95fece0b9fca1b6978650bd2a8be72d541a097fd"
++SRC_URI += "git://github.com/magiconair/properties;protocol=https;nobranch=1;tag=v1.8.9;shallow=1;rev=d8bdba35b511a72d4c00a47e801dc703328198e8;name=git_fa8300c1_1;destsuffix=vcs_cache/5d2d0e3a74034cdf4554cd9fa44a3186b4017a8f6ecc1823cdd7dc5202b0b8fb"
++SRC_URI += "git://github.com/valyala/fastjson;protocol=https;nobranch=1;tag=v1.6.4;shallow=1;rev=93f67d942133e9d219dbbae7a541433f8bbbe7c4;name=git_80bcc092_0;destsuffix=vcs_cache/9f8bd53bfc32d2df39c0edaf1166015535c0b16676b7e9d5e385a8e22e796ccd"
++SRC_URI += "git://github.com/go-logfmt/logfmt;protocol=https;nobranch=1;tag=v0.4.0;shallow=1;rev=07c9b44f60d7ffdfb7d8efe1ad539965737836dc;name=git_6bd45679_0;destsuffix=vcs_cache/ba8d08b7a7c3160ce690a9887ce68303c6e395cb41e8669e5b9c7423dbb2e6d8"
++SRC_URI += "git://github.com/go-logfmt/logfmt;protocol=https;nobranch=1;tag=v0.3.0;shallow=1;rev=390ab7935ee28ec6b286364bba9b4dd6410cb3d5;name=git_6bd45679_1;destsuffix=vcs_cache/87ea6a9e239f17f704d8539912edf62249556b50b823ce9b513c614350572831"
++SRC_URI += "git://github.com/transparency-dev/merkle;protocol=https;nobranch=1;tag=v0.0.2;shallow=1;rev=036047b5d2f7faf3b1ee643d391e60fe5b1defcf;name=git_f8d2b00f_0;destsuffix=vcs_cache/11ca4461c55ebf4faefccb747a99c74860939f428aba666c5e7b7727ed758c08"
++SRC_URI += "git://github.com/transparency-dev/formats;protocol=https;branch=main;rev=404c0d5b696c6a3e4eb9cec706cfc3550cc47e52;name=git_d2a1a757_0;destsuffix=vcs_cache/968921f38a5932901522d8dad3d99ef03c554eb958e6b809606dcae3d3a778dc"
++SRC_URI += "git://github.com/sirupsen/logrus;protocol=https;nobranch=1;tag=v1.0.6;shallow=1;rev=3e01752db0189b9157070a0e1668a620f9a85da2;name=git_02061634_0;destsuffix=vcs_cache/e2b60414d6cf051bc156482dc25c0e442f2dcbaf755db11f95b165196e3a417d"
++SRC_URI += "git://github.com/sirupsen/logrus;protocol=https;nobranch=1;tag=v1.4.1;shallow=1;rev=8bdbc7bcc01dcbb8ec23dc8a28e332258d25251f;name=git_02061634_1;destsuffix=vcs_cache/e7dadc55f17d7e5dd646b8a1408f0d5dc551bfbbbb8de273a6b6ceb927a05353"
++SRC_URI += "git://github.com/sirupsen/logrus;protocol=https;nobranch=1;tag=v1.9.4;shallow=1;rev=b61f268f75b6ff134a62cd62aee1095fa12e8d2e;name=git_02061634_2;destsuffix=vcs_cache/7834dd2379c75b18a314ce35955486d0a20f3e960006fc4e8ce53625189de3b5"
++SRC_URI += "git://github.com/sirupsen/logrus;protocol=https;nobranch=1;tag=v1.2.0;shallow=1;rev=bcd833dfe83d3cebad139e4a29ed79cb2318bf95;name=git_02061634_3;destsuffix=vcs_cache/f662f3bd248d63f5671cbf660c0fd3e5c3fc5389fca023c018b7c8fa63d75263"
++SRC_URI += "git://github.com/sirupsen/logrus;protocol=https;nobranch=1;tag=v1.9.3;shallow=1;rev=d40e25cd45ed9c6b2b66e6b97573a0413e4c23bd;name=git_02061634_4;destsuffix=vcs_cache/a1230aee5f8f1a866199cbec636d1525e00a9b13cf2fe0023dcf6b874c525014"
++SRC_URI += "git://github.com/santhosh-tekuri/jsonschema;protocol=https;nobranch=1;tag=v5.3.1;shallow=1;rev=16bce71af51f6a4a775f11e649a347a8803940d3;name=git_3ace93c7_0;destsuffix=vcs_cache/9964fa94eb99b405ebcfa3af19e0e16d07aef590c7af497cdfc6743aa4544776"
++SRC_URI += "git://github.com/santhosh-tekuri/jsonschema;protocol=https;nobranch=1;tag=v6.0.1;shallow=1;rev=87df339550a7b2440ff7da286bd34ece7d74039b;name=git_3ace93c7_1;destsuffix=vcs_cache/8cfe8424190c359d20ad2bc01793323c7ac268106706dfa9721cccd4203cbfde"
++SRC_URI += "git://github.com/bitly/go-hostpool;protocol=https;nobranch=1;tag=v0.1.0;shallow=1;rev=5d3b4dc6ed4701a761ee884fd803b0a0879744f1;name=git_81a0605e_0;destsuffix=vcs_cache/4fa48fb597b43d9ba89aa477912e73c8b6130aa0cda05b209201b071f25d10a4"
++SRC_URI += "git://github.com/bitly/go-simplejson;protocol=https;nobranch=1;tag=v0.5.0;shallow=1;rev=aabad6e819789e569bd6aabf444c935aa9ba1e44;name=git_460f3a74_0;destsuffix=vcs_cache/c56b9fa4257469037ce41f652467339083e21d8cf63b420f7051f689474dcb9e"
+ SRC_URI += "git://github.com/kr/text;protocol=https;nobranch=1;tag=v0.2.0;shallow=1;rev=702c74938df48b97370179f33ce2107bd7ff3b3e;name=git_2770e00e_0;destsuffix=vcs_cache/62674ecb33f72b9ab66dd856fe2e651dbf7344dea40ba5132203c7b4b32cfd61"
+ SRC_URI += "git://github.com/kr/text;protocol=https;nobranch=1;tag=v0.1.0;shallow=1;rev=e2ffdb16a802fe2bb95e2e35ff34f0e53aeef34f;name=git_2770e00e_1;destsuffix=vcs_cache/d47a4a089998b1398264c79fffcb25588459baa28396ff9e275fff9f4995519a"
++SRC_URI += "git://github.com/kr/logfmt;protocol=https;branch=main;rev=b84e30acd515aadc4b783ad4ff83aff3299bdfe0;name=git_2782f244_0;destsuffix=vcs_cache/e035982996fb3352cf0880f1bb882f434fcb4adc3e775981b88072f2a379ec80"
+ SRC_URI += "git://github.com/kr/pty;protocol=https;nobranch=1;tag=v1.1.1;shallow=1;rev=282ce0e5322c82529687d609ee670fac7c7d917c;name=git_00cb36cf_0;destsuffix=vcs_cache/1bac58bd1947d8ae4f18469faf2550b830a1ff3614f2644b00e44b1dc16e13ec"
+-SRC_URI += "git://github.com/xhit/go-str2duration;protocol=https;nobranch=1;tag=v2.1.0;shallow=1;rev=017325bfda0895fe02177e4ebb07962e58735bbf;name=git_c7386ea5_0;destsuffix=vcs_cache/395a3ddd7e351b7b882dc20af4936a00bd11a84147f83ac7a7c25f8093a51cb3"
+-SRC_URI += "git://github.com/rcrowley/go-metrics;protocol=https;nobranch=1;rev=65e299d6c5c92718e672a9d2bc7f96e5b687eef8;name=git_54613f95_0;destsuffix=vcs_cache/0cbaeb01627514ae95e6aae5f103c7c103c0c38175dca1ae96d51d0c083cb2ae"
+-SRC_URI += "git://github.com/containers/ocicrypt;protocol=https;nobranch=1;tag=v1.2.1;shallow=1;rev=1db71af9f28553231f0b59880d3fe5b162fa8c61;name=git_1f55eed4_0;destsuffix=vcs_cache/bec170205b8cb4f7646d21f6d05f4e78b62b540ff061d55788f38ccecc6313b7"
+-SRC_URI += "git://github.com/juju/loggo;protocol=https;nobranch=1;rev=6e530bcce5d8e1b51b8e5ee7f08a455cd0a8c2e5;name=git_b83624e7_0;destsuffix=vcs_cache/eaf37a5284a67e209a1c088360157366cb7f05d143b944db7660e83c541adf4c"
+-SRC_URI += "git://github.com/tink-crypto/tink-go;protocol=https;nobranch=1;tag=v2.5.0;shallow=1;rev=826823a28e29d3ca5a1269b8759eba29968834c4;name=git_4e7e25bc_0;destsuffix=vcs_cache/6ef7407087c1490be9ea49b07a012d985e5870aafd4b3f243366c00b8a6c7228"
++SRC_URI += "git://github.com/kr/pretty;protocol=https;nobranch=1;tag=v0.3.1;shallow=1;rev=3cd153a126da607b78d1762779b1e1054f9889fc;name=git_cd673b00_0;destsuffix=vcs_cache/487dccea2d19da29e6f873ffd57f7f4d33720781a3f60bb9f852176acb476435"
++SRC_URI += "git://github.com/kr/pretty;protocol=https;nobranch=1;tag=v0.1.0;shallow=1;rev=73f6ac0b30a98e433b289500d779f50c1a6f0712;name=git_cd673b00_1;destsuffix=vcs_cache/0f21d99b403d8e61d556bfa775400b5cd3eeb5d2fb19e978a43ff5e77dae75ee"
++SRC_URI += "git://github.com/tetratelabs/wazero;protocol=https;nobranch=1;tag=v1.9.0;shallow=1;rev=96f2052f6d12cccc29193f5452c635b76d8a036d;name=git_59327123_0;destsuffix=vcs_cache/8184e4b8a52d22bbf7a3100e9a800f7f69b67c8a4a0349fa457cf7c0f1833060"
++SRC_URI += "git://github.com/tetratelabs/wazero;protocol=https;nobranch=1;tag=v1.10.1;shallow=1;rev=ee3f9d9c5c6689bbf30824aec049371aaa239f4c;name=git_59327123_1;destsuffix=vcs_cache/e4664efba21af44c61be56ad7d3196dbe0733019a000bd28a0efd72c3fe50858"
++SRC_URI += "git://github.com/titanous/rocacheck;protocol=https;branch=master;rev=afe73141d399b0c79c3d6412d4bdcf4c672c496a;name=git_b223e935_0;destsuffix=vcs_cache/333921fe7c4fb4be2fd4b694b9d4ec2e6000c6f84fe6e5a447504b83a30df193"
++SRC_URI += "git://github.com/knqyf263/go-plugin;protocol=https;nobranch=1;tag=v0.9.0;shallow=1;rev=c156889d438cf7d729d5959c02772d9f3a86cb2e;name=git_9ffa8f9a_0;destsuffix=vcs_cache/a8467353858eb68db6c0dd39ab99d740baa3155c9ebe2dee04be36a524fc48f7"
+ SRC_URI += "git://github.com/aws/smithy-go;protocol=https;nobranch=1;tag=v1.23.2;shallow=1;rev=299f4049a6724834ef275ce37d7012e7839dfb99;name=git_0adf6e3e_0;destsuffix=vcs_cache/ceea8ea3ce6f05dc65f31f9c5fc729dffea0edbc06ed85c870c9653cf95fe72e"
+ SRC_URI += "git://github.com/aws/smithy-go;protocol=https;nobranch=1;tag=v1.22.5;shallow=1;rev=7ae51ce5ea73d9c3fe85b1c8fb3c81a2bd0b21c6;name=git_0adf6e3e_1;destsuffix=vcs_cache/df3761f412d2b02fbaffd15e24301d8601a60063303e07b87de822ced8c96121"
+-SRC_URI += "git://github.com/aws/aws-sdk-go-v2;protocol=https;nobranch=1;tag=feature/s3/manager/v1.17.10;shallow=1;rev=5102c2e4b1a28439ef06579615323ea351ff1d4a;name=git_0a897d51_0;destsuffix=vcs_cache/cb865e07742cd1082075e62a7aa437a1d7a36c2b59650fb3917b59facf9c9870"
+-SRC_URI += "git://github.com/aws/aws-sdk-go-v2;protocol=https;nobranch=1;tag=internal/ini/v1.8.3;shallow=1;rev=54aed732316b5162e5c4382a1f2d3891175d0254;name=git_0a897d51_1;destsuffix=vcs_cache/59776778bcd1c2364b3cf068aae3bc4af675e9db26b504cdf63cfcd408196f9d"
+-SRC_URI += "git://github.com/aws/aws-sdk-go-v2;protocol=https;nobranch=1;tag=feature/ec2/imds/v1.18.13;shallow=1;rev=aacca0a210fc819cfdbe4dbaea4e28fc66788a55;name=git_0a897d51_2;destsuffix=vcs_cache/45e2d6bf4c7e64f4f8fd4ce4f5c93360285f18b7f29072204cee529378cc3ed5"
+-SRC_URI += "git://github.com/aws/aws-sdk-go-v2;protocol=https;branch=main;shallow=1;rev=b01c60e67d006e63b45267e8060d56623c70704d;name=git_0a897d51_3;destsuffix=vcs_cache/78b72da8835a5f1e87ef9c241f8dcd2d750eaedf954486c831b428fd0e6a6def"
+-SRC_URI += "git://github.com/aws/aws-sdk-go-v2;protocol=https;nobranch=1;tag=aws/protocol/eventstream/v1.7.2;shallow=1;rev=b9b0c6553b80f99603b4f8356b88f5baf1328deb;name=git_0a897d51_4;destsuffix=vcs_cache/7beb4ea4ace2b86f2fd5d920e72a2086021f585de496c7f0a8183fc9d22665bd"
+-SRC_URI += "git://github.com/aws/aws-sdk-go-v2;protocol=https;nobranch=1;tag=feature/ec2/imds/v1.18.4;shallow=1;rev=ba4ee4da236306b260326a7a913f61cb19355110;name=git_0a897d51_5;destsuffix=vcs_cache/f77bc22040ddae697de68ec8bebd3c584e616c8989a6934f3c03b343efb8e73b"
+-SRC_URI += "git://github.com/aws/aws-sdk-go-v2;protocol=https;nobranch=1;tag=internal/v4a/v1.4.12;shallow=1;rev=d8ed081e9bcc22e6c5eb63fb6bbacfa38d7bcce3;name=git_0a897d51_6;destsuffix=vcs_cache/30fcbbe2bfcdefbdee0241f6a6d77f9835d4eb5be47610351b16d59c88f91da7"
+-SRC_URI += "git://github.com/aws/aws-sdk-go-v2;protocol=https;nobranch=1;tag=config/v1.31.3;shallow=1;rev=e1909a587c354bd1b2962eebaba94c16838669a5;name=git_0a897d51_7;destsuffix=vcs_cache/158f4c475d58f45270a2ee360121c0d872bd0af86a66d1a33ae01e7d47d3c0eb"
+-SRC_URI += "git://github.com/aws/aws-sdk-go-v2;protocol=https;nobranch=1;tag=aws/protocol/eventstream/v1.7.0;shallow=1;rev=ebcf78d22f1b40b55dc266b7b614d4f37ed94b73;name=git_0a897d51_8;destsuffix=vcs_cache/df9ff661e9255a23fb41298936640e56610c9dcf7556c6dc1cb9570419c85b19"
+-SRC_URI += "git://github.com/open-policy-agent/opa;protocol=https;nobranch=1;tag=v1.10.1;shallow=1;rev=a119f30419c83050505a44ac33ba81e7279f5178;name=git_345563a6_0;destsuffix=vcs_cache/70e752e43ab7d75f9f6aeb2ffc6cb3be9e5d708f347ed6858ff3d3c287e2ccee"
+-SRC_URI += "git://github.com/rogpeppe/fastuuid;protocol=https;nobranch=1;tag=v1.2.0;shallow=1;rev=10c3923834d38e951ae8f627bfec2dc632c5b6cb;name=git_8a779c11_0;destsuffix=vcs_cache/20ca2e2cf2990cc136cad7958992d06abd356dc16a58362afd2bd51be48ae0ac"
+-SRC_URI += "git://github.com/rogpeppe/go-internal;protocol=https;nobranch=1;tag=v1.14.1;shallow=1;rev=9ee3698d19c525c9cefe855433e5f6096b77c6f5;name=git_2748cdc3_0;destsuffix=vcs_cache/84674da628e57d1722274a512e0879c23e8465ad7ef7e016c3bc39c8ea13175b"
+-SRC_URI += "git://github.com/zeebo/errs;protocol=https;nobranch=1;tag=v1.3.0;shallow=1;rev=743600cc6fdfab08f5d50d6ac661b59cb3b1adaf;name=git_1cced855_0;destsuffix=vcs_cache/39db003c7dfcc8ee4cbaee7626cb0f113936318043f7a7b09d6fa4609f36e609"
+-SRC_URI += "git://github.com/cncf/xds;protocol=https;nobranch=1;rev=0feb69152e9f7e8a45c8a3cfe8c7dd93bca3512f;name=git_02e4abb9_0;destsuffix=vcs_cache/045cd4c74756d97523469c474718cfa5353da2649b74f284c165e81b0d07cd9f"
+-SRC_URI += "git://github.com/cyphar/filepath-securejoin;protocol=https;nobranch=1;tag=v0.6.0;shallow=1;rev=60da611d3eb2d22494ec2b6b746e2b2e89ec25f5;name=git_8d04195c_0;destsuffix=vcs_cache/ebafd268e345e3bd3673b92f938be34bd2c77636cb5b23531ab4d0ae989acee7"
+-SRC_URI += "git://github.com/niemeyer/pretty;protocol=https;nobranch=1;rev=a10e7caefd8e0d600cea437f5c3613aeb1553d56;name=git_2ab93bd0_0;destsuffix=vcs_cache/7b69594221f05faea56a0d177d0ca9efaac2b2e4ba4f7539c68b87cfe214c6ef"
++SRC_URI += "git://github.com/aws/smithy-go;protocol=https;nobranch=1;tag=v1.24.2;shallow=1;rev=b860661df961e236ca154f5a66e1f01216639738;name=git_0adf6e3e_2;destsuffix=vcs_cache/4b067bd8f9c8c7e81b9f3913ea2f642857fa4231a88c0716acada8bc185b2b9c"
++SRC_URI += "git://github.com/aws/aws-sdk-go-v2;protocol=https;nobranch=1;tag=aws/protocol/eventstream/v1.7.5;shallow=1;rev=238dde72705f3e20fcf3e63a7b8fc98a52692f31;name=git_0a897d51_0;destsuffix=vcs_cache/16aeeaaa143df3b1145357dedc71c22eb6e12290fea52215ccf6f3370c2a0f95"
++SRC_URI += "git://github.com/aws/aws-sdk-go-v2;protocol=https;nobranch=1;tag=feature/s3/manager/v1.17.10;shallow=1;rev=5102c2e4b1a28439ef06579615323ea351ff1d4a;name=git_0a897d51_1;destsuffix=vcs_cache/cb865e07742cd1082075e62a7aa437a1d7a36c2b59650fb3917b59facf9c9870"
++SRC_URI += "git://github.com/aws/aws-sdk-go-v2;protocol=https;nobranch=1;tag=internal/ini/v1.8.3;shallow=1;rev=54aed732316b5162e5c4382a1f2d3891175d0254;name=git_0a897d51_2;destsuffix=vcs_cache/59776778bcd1c2364b3cf068aae3bc4af675e9db26b504cdf63cfcd408196f9d"
++SRC_URI += "git://github.com/aws/aws-sdk-go-v2;protocol=https;nobranch=1;tag=service/internal/presigned-url/v1.13.13;shallow=1;rev=aacca0a210fc819cfdbe4dbaea4e28fc66788a55;name=git_0a897d51_3;destsuffix=vcs_cache/45e2d6bf4c7e64f4f8fd4ce4f5c93360285f18b7f29072204cee529378cc3ed5"
++SRC_URI += "git://github.com/aws/aws-sdk-go-v2;protocol=https;nobranch=1;tag=service/ssooidc/v1.35.7;shallow=1;rev=b01c60e67d006e63b45267e8060d56623c70704d;name=git_0a897d51_4;destsuffix=vcs_cache/78b72da8835a5f1e87ef9c241f8dcd2d750eaedf954486c831b428fd0e6a6def"
++SRC_URI += "git://github.com/aws/aws-sdk-go-v2;protocol=https;nobranch=1;tag=service/ssooidc/v1.35.17;shallow=1;rev=b84293d4af5f8b777c48b73cc39669c5b10f914b;name=git_0a897d51_5;destsuffix=vcs_cache/818d606681d1fed2dbc89f77457816b3fa88a6be6b11cf2df80ee7201ed0f55b"
++SRC_URI += "git://github.com/aws/aws-sdk-go-v2;protocol=https;nobranch=1;tag=internal/ini/v1.8.4;shallow=1;rev=b9b0c6553b80f99603b4f8356b88f5baf1328deb;name=git_0a897d51_6;destsuffix=vcs_cache/7beb4ea4ace2b86f2fd5d920e72a2086021f585de496c7f0a8183fc9d22665bd"
++SRC_URI += "git://github.com/aws/aws-sdk-go-v2;protocol=https;nobranch=1;tag=service/sts/v1.38.0;shallow=1;rev=ba4ee4da236306b260326a7a913f61cb19355110;name=git_0a897d51_7;destsuffix=vcs_cache/f77bc22040ddae697de68ec8bebd3c584e616c8989a6934f3c03b343efb8e73b"
++SRC_URI += "git://github.com/aws/aws-sdk-go-v2;protocol=https;nobranch=1;tag=service/s3/v1.89.1;shallow=1;rev=d8ed081e9bcc22e6c5eb63fb6bbacfa38d7bcce3;name=git_0a897d51_8;destsuffix=vcs_cache/30fcbbe2bfcdefbdee0241f6a6d77f9835d4eb5be47610351b16d59c88f91da7"
++SRC_URI += "git://github.com/aws/aws-sdk-go-v2;protocol=https;nobranch=1;tag=service/ssooidc/v1.34.0;shallow=1;rev=e1909a587c354bd1b2962eebaba94c16838669a5;name=git_0a897d51_9;destsuffix=vcs_cache/158f4c475d58f45270a2ee360121c0d872bd0af86a66d1a33ae01e7d47d3c0eb"
++SRC_URI += "git://github.com/aws/aws-sdk-go-v2;protocol=https;nobranch=1;tag=service/internal/accept-encoding/v1.13.0;shallow=1;rev=ebcf78d22f1b40b55dc266b7b614d4f37ed94b73;name=git_0a897d51_10;destsuffix=vcs_cache/df9ff661e9255a23fb41298936640e56610c9dcf7556c6dc1cb9570419c85b19"
++SRC_URI += "git://github.com/x448/float16;protocol=https;nobranch=1;tag=v0.8.4;shallow=1;rev=cb9afec31f2649663ebb64da5c6c32c3d365c3ca;name=git_b79b770f_0;destsuffix=vcs_cache/e395eca01f11e874b5b2b165e3dc2620faa30374fb308657449d3a3023ce5cbb"
++SRC_URI += "git://github.com/compose-spec/compose-go;protocol=https;nobranch=1;tag=v2.10.0;shallow=1;rev=3d3411d9d856d55396d121b4e20bbe7b954932e9;name=git_3547d0c7_0;destsuffix=vcs_cache/d8fd5c67a84d5ea37d52775ed8dea1df6cf236cab46b058f80a0e7ca6bfd75d5"
++SRC_URI += "git://github.com/compose-spec/compose-go;protocol=https;nobranch=1;tag=v2.11.0;shallow=1;rev=468e3142d7878f6ec8f0c99e3e64c913cf3d3148;name=git_3547d0c7_1;destsuffix=vcs_cache/ad485325c266dc74bbd847a2f69989257e9d02e0e9f052790c41c17cd937da7b"
++SRC_URI += "git://github.com/compose-spec/compose-go;protocol=https;nobranch=1;tag=v2.10.1;shallow=1;rev=ddb94f10f3a0751c628e24afd3cc436ad8d1c55a;name=git_3547d0c7_2;destsuffix=vcs_cache/540724791cad2555f778786ca9d0adbdb0be7b773c591ca036bd86ca2053a063"
++SRC_URI += "git://github.com/urfave/cli;protocol=https;nobranch=1;tag=v2.27.7;shallow=1;rev=19b951ab78929023a9a670722b26ffb1d67c733a;name=git_cd035cbf_0;destsuffix=vcs_cache/b063b9db6f64a681153d8de9f4474fe963c29b610e0cb156372dbc3dffad882a"
++SRC_URI += "git://github.com/urfave/cli;protocol=https;nobranch=1;tag=v1.22.17;shallow=1;rev=992e53d11ad06c124eb4809a0591f15af670d401;name=git_cd035cbf_1;destsuffix=vcs_cache/e30b4b6c880a60654fa02d3559f2088eddf5fbe9bc92870b9df3d72357f735d0"
++SRC_URI += "git://github.com/mdlayher/socket;protocol=https;nobranch=1;tag=v0.5.1;shallow=1;rev=9c51a391be6c6bc5b7ce52f328497931c5e97733;name=git_4845c6c9_0;destsuffix=vcs_cache/ade2a4b5630096b489828944f4f75b866125a6d37fc95c3524f0cc002cbe8cf9"
++SRC_URI += "git://github.com/mdlayher/vsock;protocol=https;nobranch=1;tag=v1.2.1;shallow=1;rev=8569e301791e164b669ff36b51035bb1d7c9b3a3;name=git_9e9130ba_0;destsuffix=vcs_cache/a7b2ec13026e78d41b91e1e452aab0a78ae155b70966624ec8e5e52ba56a0b08"
++SRC_URI += "git://github.com/serialx/hashring;protocol=https;branch=master;rev=22c0c7ab6b1be4be7b950bae8b117767da7b18b6;name=git_819991f3_0;destsuffix=vcs_cache/9ad302311a59b7a00732c9d2e738e872440b07b223df6f9dc7104acafedb16ee"
++SRC_URI += "git://github.com/containernetworking/plugins;protocol=https;nobranch=1;tag=v1.8.0;shallow=1;rev=0e648479e11c2c6d9109b14fc0c9ac64c677861b;name=git_4541537c_0;destsuffix=vcs_cache/f6503a87c1f81aa33a6d29c40a420afbc08e92fc8e1791dc7f439650e37194ca"
++SRC_URI += "git://github.com/containernetworking/plugins;protocol=https;nobranch=1;tag=v1.9.0;shallow=1;rev=9b3772e1a7abf93cbb7c6526a28bc0d27b830e02;name=git_4541537c_1;destsuffix=vcs_cache/f1741bcddc19dacbe0697ac406a478c08fb3a5527dfb1c4a43b549a9c1a420d3"
++SRC_URI += "git://github.com/containernetworking/plugins;protocol=https;nobranch=1;tag=v1.9.1;shallow=1;rev=adc3e6b5b581638afbd194cf2e9319ecbb0151a1;name=git_4541537c_2;destsuffix=vcs_cache/2b3eda7e17ff627f468e75cc8a571c8e768ce530e404aa2348da7feff5fa0749"
++SRC_URI += "git://github.com/containernetworking/cni;protocol=https;nobranch=1;tag=v1.3.0;shallow=1;rev=a28faab92684aed3af64d5085733c34550ce9877;name=git_4ce5ee0d_0;destsuffix=vcs_cache/6fa30880d920c48b1630347223a375694a450629a1037b649907b1ab1f2f237a"
++SRC_URI += "git://github.com/klauspost/compress;protocol=https;nobranch=1;tag=v1.18.3;shallow=1;rev=1d6cf28a9eac67b569bb334c04e1dcb8bf02cf17;name=git_98939663_0;destsuffix=vcs_cache/0f346d4ee0d1e9d85741e16fef8a30c1cb637c33a2d4b0c6f46bb41ce24e3619"
++SRC_URI += "git://github.com/klauspost/compress;protocol=https;nobranch=1;tag=v1.18.5;shallow=1;rev=c5e0077f50a3268a27b02816adc48ebfb535c65e;name=git_98939663_1;destsuffix=vcs_cache/73840f50baef91a8d14c064e11574fe893f3c31688d0d7a5eda27de28bac8e22"
++SRC_URI += "git://github.com/klauspost/compress;protocol=https;nobranch=1;tag=v1.18.1;shallow=1;rev=d10b5259eef9d3da9a58bedad041b36731967489;name=git_98939663_2;destsuffix=vcs_cache/b48c3ccd9eeacff33408e742c5cba28495d19318773a2419734e1f7f12be4596"
++SRC_URI += "git://github.com/gorilla/websocket;protocol=https;branch=main;rev=e064f32e3674d9d79a8fd417b5bc06fa5c6cad8f;name=git_05a135b6_0;destsuffix=vcs_cache/722c87c831f4b73fd3a40f24d8693191974f7a5a180d73f29a05c9bb3f84589f"
++SRC_URI += "git://github.com/gorilla/mux;protocol=https;nobranch=1;tag=v1.7.0;shallow=1;rev=a7962380ca08b5a188038c69871b8d3fbdf31e89;name=git_ebce69d6_0;destsuffix=vcs_cache/e9f6dcbb74dd04784ade5364ce0688a4247bdb04e0cc5ea8774218e7cf8a65c5"
++SRC_URI += "git://github.com/gorilla/mux;protocol=https;nobranch=1;tag=v1.8.1;shallow=1;rev=b4617d0b9670ad14039b2739167fd35a60f557c5;name=git_ebce69d6_1;destsuffix=vcs_cache/489d4511710bd1a1fc80974aa65ee7c2b851f7c6354c34549b8cd131f4435f0f"
++SRC_URI += "git://github.com/opencontainers/image-spec;protocol=https;nobranch=1;tag=v1.1.1;shallow=1;rev=147f9c13cedb47a0c4d9a11a222961073d585877;name=git_a9e099ef_0;destsuffix=vcs_cache/5bb7cbac46d5df774d087c364c00445553d3db253ca80dc7050c4e57832c118d"
++SRC_URI += "git://github.com/opencontainers/image-spec;protocol=https;nobranch=1;tag=v1.0.1;shallow=1;rev=d60099175f88c47cd379c4738d158884749ed235;name=git_a9e099ef_1;destsuffix=vcs_cache/cc3b5f635a95bc8a8d17057e77e824e9203543710d27cab434eae6bda0ebd445"
++SRC_URI += "git://github.com/opencontainers/runtime-spec;protocol=https;nobranch=1;tag=v1.2.1;shallow=1;rev=524fc0e1b8ab0180e2fc9abd31837a0f4ed1fd6b;name=git_502d0543_0;destsuffix=vcs_cache/527ad6550cd654c758c3a90c33fba5de9598578a66be5e157153797cc1e49aa3"
++SRC_URI += "git://github.com/opencontainers/runtime-spec;protocol=https;nobranch=1;tag=v1.3.0;shallow=1;rev=92249139eea7161e13745abd4cb6d0ea02a3227a;name=git_502d0543_1;destsuffix=vcs_cache/d9c05db6124626de7f86b5f7cf385d2a821699e74a3a1d784837399c70f4e1b9"
++SRC_URI += "git://github.com/opencontainers/selinux;protocol=https;nobranch=1;tag=v1.13.1;shallow=1;rev=5647f06491288afa5ea45747896b359f51f7c509;name=git_49bf5caa_0;destsuffix=vcs_cache/19ef4b30214c57e5419f63e4397a9c0d90436c49b54e0ae99e1c9a4b964f28e2"
++SRC_URI += "git://github.com/opencontainers/selinux;protocol=https;nobranch=1;tag=v1.12.0;shallow=1;rev=996c4cffd3c5fb210e4ff01b4998ac73ff0031fa;name=git_49bf5caa_1;destsuffix=vcs_cache/4335d93e7b91bac4d4e22725cfaafc1cae44ef37a037022ea852d084e488e42a"
++SRC_URI += "git://github.com/opencontainers/runtime-tools;protocol=https;branch=master;rev=0ea5ed0382a279b30530acccafaf070fefeddafd;name=git_b055e1ee_0;destsuffix=vcs_cache/f53bb2252a6ed943b856ebf9ca177b616be13e0631422a2c5167b1eeada6cc21"
++SRC_URI += "git://github.com/opencontainers/runtime-tools;protocol=https;branch=master;rev=edf4cb3d21162a17b02e19637f7d7f8c6bd8523f;name=git_b055e1ee_1;destsuffix=vcs_cache/9120451d0089ff79de31a4292e8836bebf3ee5e2d7e8c4852764fee040cbfc1e"
++SRC_URI += "git://github.com/opencontainers/go-digest;protocol=https;branch=master;rev=a6d0ee40d4207ea02364bd3b9e8e77b9159ba1eb;name=git_552be1ee_0;destsuffix=vcs_cache/023b07658f561af4e33906504bb1dff6d66e7a4b8ef99fcf0927e6d101be98bd"
++SRC_URI += "git://github.com/opencontainers/go-digest;protocol=https;nobranch=1;tag=v1.0.0;shallow=1;rev=ea51bea511f75cfa3ef6098cc253c5c3609b037a;name=git_552be1ee_1;destsuffix=vcs_cache/1a4d20c74c510ca00ecb86a3379c151579ed626508723e74a394480a71a0af24"
++SRC_URI += "git://github.com/checkpoint-restore/go-criu;protocol=https;nobranch=1;tag=v7.2.0;shallow=1;rev=39135d0112fa0fb12e80ba04ef843eea097add46;name=git_400f7838_0;destsuffix=vcs_cache/cd3a96bfb455f01e0ad41b83fe0a2ba40c017e12b43cf536dd72401c0a9efa9b"
++SRC_URI += "git://github.com/checkpoint-restore/checkpointctl;protocol=https;nobranch=1;tag=v1.4.0;shallow=1;rev=854ab59c71dde1991c2fdfae9c694aaddc752047;name=git_3c5c2d9d_0;destsuffix=vcs_cache/6b759ce79ef9b0cf0e95821c6506ecb3e1f87ff4709b914b3e18ce7b12ed0769"
++SRC_URI += "git://github.com/go-ini/ini;protocol=https;nobranch=1;tag=v1.67.0;shallow=1;rev=b2f570e5b5b844226bbefe6fb521d891f529a951;name=git_833ca107_0;destsuffix=vcs_cache/cad9f449f807ba878152dab9e71ba0f300b51a0a69390f502d55fb24a11f73a2"
++SRC_URI += "git://github.com/emicklei/go-restful;protocol=https;nobranch=1;tag=v3.13.0;shallow=1;rev=3fae6e4c6809ebc26315d163196ea7ab8e0685cb;name=git_98baf7ea_0;destsuffix=vcs_cache/2b1cb5344031e14606bed4c9c1a5462fa536c12e0f7359188d69f5709fdff9a1"
+ SRC_URI += "git://github.com/vbatts/tar-split;protocol=https;nobranch=1;tag=v0.12.2;shallow=1;rev=e93e90127321a61ddca6df0d1dcc786684d75b74;name=git_b8e88960_0;destsuffix=vcs_cache/748e9d5ff174cd19acc98de6dc7f6c3d780e0ffcf645aea8c246a36eaa6cac37"
+-SRC_URI += "git://github.com/stretchr/testify;protocol=https;nobranch=1;tag=v1.4.0;shallow=1;rev=221dbe5ed46703ee255b1da0dec05086f5035f62;name=git_aa93f7ee_0;destsuffix=vcs_cache/9e52b2f6204cf4daab20f41d30029448e95ae1a472c112e86dbdd68a16e14a2e"
+-SRC_URI += "git://github.com/stretchr/testify;protocol=https;nobranch=1;tag=v1.11.1;shallow=1;rev=2a57335dc9cd6833daa820bc94d9b40c26a7917d;name=git_aa93f7ee_1;destsuffix=vcs_cache/ba91b84762300277627df761c9f004ffcc560434a1a1c2e613269b0c2e378278"
+-SRC_URI += "git://github.com/stretchr/testify;protocol=https;nobranch=1;tag=v1.5.1;shallow=1;rev=3ebf1ddaeb260c4b1ae502a01c7844fa8c1fa0e9;name=git_aa93f7ee_2;destsuffix=vcs_cache/725790d9265526f327bc846ba6025be038cd5cdf6367be0f622409ad58ac9aa0"
+-SRC_URI += "git://github.com/stretchr/testify;protocol=https;nobranch=1;tag=v1.7.0;shallow=1;rev=acba37e5db06f0093b465a7d47822bf13644b66c;name=git_aa93f7ee_3;destsuffix=vcs_cache/f87883f9ef1ad6bd6ecb844fe9108ae126c4dfab49080e5fb37bd27ca64417be"
+-SRC_URI += "git://github.com/stretchr/testify;protocol=https;nobranch=1;tag=v1.2.2;shallow=1;rev=f35b8ab0b5a2cef36673838d662e249dd9c94686;name=git_aa93f7ee_4;destsuffix=vcs_cache/2bb8c4aae39dd3460bd5d8094b70444e65cec7f2390b1c2a41ffb7d431d41317"
+-SRC_URI += "git://github.com/stretchr/testify;protocol=https;nobranch=1;tag=v1.6.1;shallow=1;rev=f654a9112bbeac49ca2cd45bfbe11533c4666cf8;name=git_aa93f7ee_5;destsuffix=vcs_cache/782e156612c5b8f52bb9daab64be055460c9e50ce18305034fc5c8954a4e6b4a"
+-SRC_URI += "git://github.com/stretchr/testify;protocol=https;nobranch=1;tag=v1.3.0;shallow=1;rev=ffdc059bfe9ce6a4e144ba849dbedead332c6053;name=git_aa93f7ee_6;destsuffix=vcs_cache/15f4be955793ecb9ef81031cf64191211271265868a72e4bf25c409e978a8ce8"
+-SRC_URI += "git://github.com/stretchr/objx;protocol=https;nobranch=1;tag=v0.5.2;shallow=1;rev=307d0db21292676ac9d469826525c3630f47f63a;name=git_7987da5d_0;destsuffix=vcs_cache/fe4a57d26379977ebf461da8c71a20095b9f973a91d55076b67fa0de48206a1e"
+-SRC_URI += "git://github.com/stretchr/objx;protocol=https;nobranch=1;tag=v0.1.1;shallow=1;rev=477a77ecc69700c7cdeb1fa9e129548e1c1c393c;name=git_7987da5d_1;destsuffix=vcs_cache/324a79f9170fef44f826e43999370c6ec3bc3be6044c9a4c2e3eb97cdf5ac743"
+-SRC_URI += "git://github.com/stretchr/objx;protocol=https;nobranch=1;tag=v0.2.0;shallow=1;rev=ea4fe68685ee0d3cee7032121851b57e7494e8ea;name=git_7987da5d_2;destsuffix=vcs_cache/982a1df420b1f34eee71122e02865aa89e1ea251dc09362265917bd0e0ca3995"
+-SRC_URI += "git://github.com/stretchr/objx;protocol=https;nobranch=1;tag=v0.1.0;shallow=1;rev=facf9a85c22f48d2f52f2380e4efce1768749a89;name=git_7987da5d_3;destsuffix=vcs_cache/39828321881a0709a36a2d1edde8fc9928ddd471ebd0bbdf7012076e7214bb02"
+-SRC_URI += "git://github.com/mgutz/ansi;protocol=https;nobranch=1;rev=9520e82c474b0a04dd04f8a40959027271bab992;name=git_ab1ea218_0;destsuffix=vcs_cache/f38805371ceca34945d620f33580bc80b8d8946d490670358956c3579639e7ad"
+-SRC_URI += "git://github.com/inconshreveable/mousetrap;protocol=https;nobranch=1;tag=v1.1.0;shallow=1;rev=4e8053ee7ef85a6bd26368364a6d27f1641c1d21;name=git_b31cc6ad_0;destsuffix=vcs_cache/a9f0ac4cf05240ceb9790811cbd8ab3cbdcd404501a9ca5a402a28033e7235d8"
+-SRC_URI += "git://github.com/inconshreveable/mousetrap;protocol=https;nobranch=1;tag=v1.0.0;shallow=1;rev=76626ae9c91c4f2a10f34cad8ce83ea42c93bb75;name=git_b31cc6ad_1;destsuffix=vcs_cache/bdd1bbf309f6078c2e930609779f6207bad79817ed60bcb7a66df8a5735580f3"
++SRC_URI += "git://github.com/hpcloud/tail;protocol=https;nobranch=1;tag=v1.0.0;shallow=1;rev=a30252cb686a21eb2d0b98132633053ec2f7f1e5;name=git_eb7f53a1_0;destsuffix=vcs_cache/9dfd08c5a4f07a465c8fe6fd4e5e96ac82ccaeba87143831c1a6290e944a3c84"
++SRC_URI += "git://github.com/dvsekhvalnov/jose2go;protocol=https;branch=master;rev=f21a8cedbbae609f623613ec8f81125c243212e6;name=git_a73ac418_0;destsuffix=vcs_cache/3bed371de2aaaf0cbb9c346c5f01b8240e14c9e194179639d31b29aef3704b71"
++SRC_URI += "git://github.com/fvbommel/sortorder;protocol=https;nobranch=1;tag=v1.1.0;shallow=1;rev=a8d9302c17f9f46c6580b82b919672e58ef6e396;name=git_9bd73630_0;destsuffix=vcs_cache/f31f7baba1030efc67be0125d6ea3670572de4cf9ef4162f66c110baedf2fc25"
++SRC_URI += "git://github.com/cyberphone/json-canonicalization;protocol=https;branch=master;rev=19d51d7fe467d4706a3ff08adf8a748f29fc21e0;name=git_39606485_0;destsuffix=vcs_cache/0e55f9f02847679b08922b4a88af3131cb189b333af41228fc1ceba858b5fceb"
++SRC_URI += "git://github.com/smallstep/pkcs7;protocol=https;nobranch=1;tag=v0.1.1;shallow=1;rev=21b5bd412d3d388540388c0165151f7e3df92213;name=git_dd95d004_0;destsuffix=vcs_cache/2f19e869b678f6b075729ec3df26ac81f8f576057860ead9a9c70212023b6927"
++SRC_URI += "git://github.com/tchap/go-patricia;protocol=https;nobranch=1;tag=v2.3.3;shallow=1;rev=8c5d7fa2ef98ad77bfbd2d2c3d67d4d17db0093a;name=git_faedb7d0_0;destsuffix=vcs_cache/196ec21f158dd5c10370dcd9b618d17460a5f3dec6cbc351a797a1a4f906b7bb"
++SRC_URI += "git://github.com/felixge/httpsnoop;protocol=https;nobranch=1;tag=v1.0.4;shallow=1;rev=c5817c27ec125409c069052fdd171023c353501c;name=git_b48d732c_0;destsuffix=vcs_cache/4faaa0a5649a2ae9245609ad7ed739dbc2e39cfd27a3018400f3dad114269d26"
++SRC_URI += "git://github.com/felixge/fgprof;protocol=https;nobranch=1;tag=v0.9.3;shallow=1;rev=b0f80df6b76f74ec0c611dc52f4e79d4a11bff81;name=git_6649ad42_0;destsuffix=vcs_cache/e4198b9fea19f930b494d86892d08c8dcf4d5828b2b7c19db44e432daeadbd37"
++SRC_URI += "git://github.com/package-url/packageurl-go;protocol=https;nobranch=1;tag=v0.1.1;shallow=1;rev=358f10025d4a923f7f9babc766f0968720e82240;name=git_cc0cb43e_0;destsuffix=vcs_cache/69e2d03e1f7870cf593ec577931a0c5fd11729307d2e00a0deabe610548fcd48"
++SRC_URI += "git://github.com/jonboulle/clockwork;protocol=https;nobranch=1;tag=v0.5.0;shallow=1;rev=6d8d032a18422c2e3ef651170a8a55012d1f704c;name=git_c61652e2_0;destsuffix=vcs_cache/8a9b3a40ae13b2679138bcbfbe409f1586f92c23e873f4e219066c6596debc26"
++SRC_URI += "git://github.com/erikstmartin/go-testdb;protocol=https;branch=master;rev=8d10e4a1bae52cd8b81ffdec3445890d6dccab3d;name=git_4bbc2975_0;destsuffix=vcs_cache/94bdb322899f10502ca21756a20886b09fe0f8e8c7389a50bb21c7a2deb2d047"
++SRC_URI += "git://github.com/morikuni/aec;protocol=https;nobranch=1;tag=v1.0.0;shallow=1;rev=39771216ff4c63d11f5e604076f9c45e8be1067b;name=git_a24d8d91_0;destsuffix=vcs_cache/ed63d58cf112e0b59a076da22b09a7543de7421c2457060482db3ad8303454e1"
++SRC_URI += "git://github.com/morikuni/aec;protocol=https;nobranch=1;tag=v1.1.0;shallow=1;rev=ea8ec3476383e19653f7b3f5007f32e1eb4c9596;name=git_a24d8d91_1;destsuffix=vcs_cache/0d08cd9576b9540a641376df67caa20435029f8a332a192fd25ac61685cb1764"
++SRC_URI += "git://github.com/cilium/ebpf;protocol=https;nobranch=1;tag=v0.16.0;shallow=1;rev=061e86d8f5e99aa6f04d11a3807c8cacdbe7908b;name=git_1e891de1_0;destsuffix=vcs_cache/8e810695e5aecdedc82025b50fe217f458e95243dfd6f3a725e4be31bb89421b"
++SRC_URI += "git://github.com/xeipuuv/gojsonreference;protocol=https;branch=master;rev=bd5ef7bd5415a7ac448318e64f11a24cd21e594b;name=git_ca2a9119_0;destsuffix=vcs_cache/6cce19ebe3be9e8f13d8b3c5090971f010f3f3cda349fa51197c974450d133ee"
++SRC_URI += "git://github.com/xeipuuv/gojsonpointer;protocol=https;branch=master;rev=02993c407bfbf5f6dae44c4f4b1cf6a39b5fc5bb;name=git_bd44e658_0;destsuffix=vcs_cache/4b0abfc7aeea962cf44836059fabc8aebf20db8d2e9ce317db13d42ade75c19f"
++SRC_URI += "git://github.com/tilt-dev/fsnotify;protocol=https;branch=main;rev=fff9c274a375301ae46812f257aa68393790c45b;name=git_c15f6d9a_0;destsuffix=vcs_cache/7518a2b435d07d055cf9c9215e09d3f354425246b3aaec57d9906b3f344e061e"
++SRC_URI += "git://github.com/danieljoos/wincred;protocol=https;nobranch=1;tag=v1.2.3;shallow=1;rev=623325312d3224d48d131159187b93e906216563;name=git_340c15e0_0;destsuffix=vcs_cache/27fc7633a915ecb9e3e3c6095cfd2d495010d4208024eefb538180b978864222"
++SRC_URI += "git://github.com/danieljoos/wincred;protocol=https;nobranch=1;tag=v1.2.2;shallow=1;rev=f11701399b4bee2ad31457cc1f4ff5aa8abafcd6;name=git_340c15e0_1;destsuffix=vcs_cache/4c31e6f58d17a9dddc9ffae620bea8697c6f92b5c7db87875384a33fa8f2c46b"
++SRC_URI += "git://github.com/hailocab/go-hostpool;protocol=https;branch=master;rev=e80d13ce29ede4452c43dea11e79b9bc8a15b478;name=git_9b349411_0;destsuffix=vcs_cache/9c4bc4176e756c26e2cdff114a1c5597225ee9e1831b7404408096c667ad9031"
++SRC_URI += "git://github.com/cncf/xds;protocol=https;branch=main;rev=0feb69152e9f7e8a45c8a3cfe8c7dd93bca3512f;name=git_02e4abb9_0;destsuffix=vcs_cache/045cd4c74756d97523469c474718cfa5353da2649b74f284c165e81b0d07cd9f"
++SRC_URI += "git://github.com/cncf/xds;protocol=https;branch=main;rev=dba9d589def2cd10099a3a64887d859188c2f57a;name=git_02e4abb9_1;destsuffix=vcs_cache/cf512fd74c9ed6827318a36d34a156747c5180ecfe10cb19a6ad4d44bb6a1a8a"
++SRC_URI += "git://github.com/spf13/viper;protocol=https;branch=master;rev=be5ff3e4840cf692388bde7a057595a474ef379e;name=git_133525c9_0;destsuffix=vcs_cache/6b7187b929229be5c3959df1ee113d9acd19aff47b973e42b64e50cdf8a0e740"
++SRC_URI += "git://github.com/spf13/pflag;protocol=https;nobranch=1;tag=v1.0.10;shallow=1;rev=0491e5702ad2bb108bc519a5221bcc0f52aa9564;name=git_66b7b8c8_0;destsuffix=vcs_cache/737f239b3c3bd4e75040785cfc62b8349a547b1425bba1698b712866455bce75"
++SRC_URI += "git://github.com/spf13/pflag;protocol=https;nobranch=1;tag=v1.0.9;shallow=1;rev=10438578954bba2527fe5cae3684d4532b064bbe;name=git_66b7b8c8_1;destsuffix=vcs_cache/241e9025159bbbea2f54722542a86c03ff35968a42a753a0a4e0738690720a54"
++SRC_URI += "git://github.com/spf13/pflag;protocol=https;nobranch=1;tag=v1.0.0;shallow=1;rev=e57e3eeb33f795204c1ca35f56c44f83227c6e66;name=git_66b7b8c8_2;destsuffix=vcs_cache/160c6a820138c13e769bbec879294544287b8dfde6af77776f81536ff3f43df9"
++SRC_URI += "git://github.com/spf13/jwalterweatherman;protocol=https;branch=master;rev=3d60171a64319ef63c78bd45bd60e6eab1e75f8b;name=git_dbf881a0_0;destsuffix=vcs_cache/3516ad16d930d5653a48f59083d5a5851f1503e64d5f3e4f03dd5094d044ceba"
++SRC_URI += "git://github.com/spf13/cast;protocol=https;branch=master;rev=4d07383ffe94b5e5a6fa3af9211374a4507a0184;name=git_60c66923_0;destsuffix=vcs_cache/61ca87f5a674dbb7719ca6806869cee44c68d3463ca0ee867270c61ef55016c5"
++SRC_URI += "git://github.com/spf13/cobra;protocol=https;nobranch=1;tag=v0.0.1;shallow=1;rev=7b2c5ac9fc04fc5efafb60700713d4fa609b777b;name=git_41456771_0;destsuffix=vcs_cache/a6573b02628ec0c919f90bba89f525eac2b0bda84d9dccdcb78b3f07c92b918e"
++SRC_URI += "git://github.com/spf13/cobra;protocol=https;nobranch=1;tag=v1.10.1;shallow=1;rev=7da941c3547e93b8c9f70bbd3befca79c6335388;name=git_41456771_1;destsuffix=vcs_cache/54a02856b15938777c687441dc6597bc487549c163521b5850e769bee67bc2af"
++SRC_URI += "git://github.com/spf13/cobra;protocol=https;nobranch=1;tag=v1.10.2;shallow=1;rev=88b30ab89da2d0d0abb153818746c5a2d30eccec;name=git_41456771_2;destsuffix=vcs_cache/a79409fa1813cac46edeefb925df9a65bfd1c4cf3dd47dbb576c385d5f527685"
++SRC_URI += "git://github.com/shibumi/go-pathspec;protocol=https;nobranch=1;tag=v1.3.0;shallow=1;rev=30eddf187f62305a5b34f662049d077211abaacd;name=git_48c6ab61_0;destsuffix=vcs_cache/7d6286b09783f24f2ba2db51c2fd61c197637cee9cd88b2e7576338aa579825f"
++SRC_URI += "git://github.com/letsencrypt/boulder;protocol=https;nobranch=1;tag=v0.20251110.0;shallow=1;rev=18685ee437d1988fd05798f4bb61e8a68484eaaa;name=git_6586c43c_0;destsuffix=vcs_cache/89895769acf16e855d1bc7c1ebcd35d23b4fa6c168fa619c2bfd2e9291e7b0aa"
++SRC_URI += "git://github.com/golang-sql/civil;protocol=https;branch=master;rev=cb61b32ac6fe84d34b81730175f91965e43d0f90;name=git_3d8b378b_0;destsuffix=vcs_cache/cf48a794754d9a9b29ff84011cf01764f8e4e9140292e83b4154b89a13f0eee9"
++SRC_URI += "git://github.com/skratchdot/open-golang;protocol=https;branch=master;rev=eef8423979666925a58eb77f9db583e54320d5a4;name=git_2106ca54_0;destsuffix=vcs_cache/2049e06101e5abb574af5068dfb1255087c23cd963db0e1f0c82585b42e02bf4"
+ SRC_URI += "git://github.com/cpuguy83/go-md2man;protocol=https;nobranch=1;tag=v2.0.7;shallow=1;rev=061b6c7cbecd6752049221aa15b7a05160796698;name=git_af686cb3_0;destsuffix=vcs_cache/44790142f31974c97a48f51298f4d80d17cdea0211947e7cbfe90054a7fe7774"
+ SRC_URI += "git://github.com/cpuguy83/go-md2man;protocol=https;nobranch=1;tag=v2.0.6;shallow=1;rev=441631534462b74c098953dbd8d5f6210994b0bf;name=git_af686cb3_1;destsuffix=vcs_cache/0b9036af46cc50aa9433a461266e6ef3b3645807c3d1fa49cc53eb201e011781"
+-SRC_URI += "git://github.com/secure-systems-lab/go-securesystemslib;protocol=https;nobranch=1;tag=v0.9.1;shallow=1;rev=a1a33cddd5be3be60e654ba0aeecb80881185d07;name=git_09ca63ed_0;destsuffix=vcs_cache/10dbe58c8dc404f5f42a20a009cd93a99386ef2bc8e22ece06ffbaf572deb939"
+-SRC_URI += "git://github.com/hpcloud/tail;protocol=https;nobranch=1;tag=v1.0.0;shallow=1;rev=a30252cb686a21eb2d0b98132633053ec2f7f1e5;name=git_eb7f53a1_0;destsuffix=vcs_cache/9dfd08c5a4f07a465c8fe6fd4e5e96ac82ccaeba87143831c1a6290e944a3c84"
+-SRC_URI += "git://github.com/cespare/xxhash;protocol=https;nobranch=1;tag=v2.3.0;shallow=1;rev=998dce232f17418a7a5721ecf87ca714025a3243;name=git_9d94b3ef_0;destsuffix=vcs_cache/4cf9134295bfe252b2146507759140e7050e00021c322cfd0d38a231ef3c0b20"
+-SRC_URI += "git://github.com/santhosh-tekuri/jsonschema;protocol=https;nobranch=1;tag=v5.3.1;shallow=1;rev=16bce71af51f6a4a775f11e649a347a8803940d3;name=git_3ace93c7_0;destsuffix=vcs_cache/9964fa94eb99b405ebcfa3af19e0e16d07aef590c7af497cdfc6743aa4544776"
+-SRC_URI += "git://github.com/santhosh-tekuri/jsonschema;protocol=https;nobranch=1;tag=v6.0.1;shallow=1;rev=87df339550a7b2440ff7da286bd34ece7d74039b;name=git_3ace93c7_1;destsuffix=vcs_cache/8cfe8424190c359d20ad2bc01793323c7ac268106706dfa9721cccd4203cbfde"
++SRC_URI += "git://github.com/jinzhu/gorm;protocol=https;branch=master;rev=5409931a1bb87e484d68d649af9367c207713ea2;name=git_82a2c1af_0;destsuffix=vcs_cache/e51ea32193aeb2a5bfab92442113de19e13f387509f58c7979e704306087d5d2"
++SRC_URI += "git://github.com/jinzhu/inflection;protocol=https;branch=master;rev=1c35d901db3da928c72a72d8458480cc9ade058f;name=git_355e8fac_0;destsuffix=vcs_cache/3bf372ac0a41f41eb6c408c719a9f71d1a31a5cd8260a8135fa90085e5d6c0ce"
++SRC_URI += "git://github.com/jinzhu/now;protocol=https;nobranch=1;tag=v1.1.1;shallow=1;rev=7e7333ac029d4aad7e88500a30889fcd22489425;name=git_ffa5efac_0;destsuffix=vcs_cache/3a2e9d8aa645efa2980908fbe342f3eb31a21421aeacd8a821f15d5775cb129f"
++SRC_URI += "git://github.com/pelletier/go-toml;protocol=https;nobranch=1;tag=v2.2.4;shallow=1;rev=ee07c9203b72060f12e31c04ace80e8a187d5a67;name=git_5fc8a683_0;destsuffix=vcs_cache/024e6f520632e6be8a8fbc0202fdf0da2cfc0266ff95451a8e8d944dd0d8882f"
++SRC_URI += "git://github.com/pelletier/go-toml;protocol=https;nobranch=1;tag=v1.9.5;shallow=1;rev=fed1464066413075eac02cd4dc368b5221845541;name=git_5fc8a683_1;destsuffix=vcs_cache/22bc2e212b193b23af04b0014dd6e6f15e66953913e88670099f8375927b48c7"
++SRC_URI += "git://github.com/acarl005/stripansi;protocol=https;branch=master;rev=5a71ef0e047df0427e87a79f27009029921f1f9b;name=git_b7e052ac_0;destsuffix=vcs_cache/337c48cf09adc53fe47bcae33dc8d5465a7dbf818b017054e53ee8ec11f2a73f"
++SRC_URI += "git://github.com/coreos/go-oidc;protocol=https;nobranch=1;tag=v3.17.0;shallow=1;rev=35b8e031bcac7fed73b96b09d42e6e233a6e6562;name=git_565daa15_0;destsuffix=vcs_cache/8e02c3ed848471cdcbb42e503ddcf14c273d8366034f1c5d58ec0d12e482656a"
++SRC_URI += "git://github.com/coreos/go-oidc;protocol=https;nobranch=1;tag=v3.16.0;shallow=1;rev=e9584733f8bb6c4683d1e98b4fb22eee121f7dff;name=git_565daa15_1;destsuffix=vcs_cache/03bf95d100c67404240716322c3671b3929db67ce58632e7f64b3830796b4b23"
++SRC_URI += "git://github.com/coreos/go-systemd;protocol=https;nobranch=1;tag=v22.7.0;shallow=1;rev=4dc4ee60b8394d431f19a3c599040ef758884a27;name=git_1f60ff15_0;destsuffix=vcs_cache/c48bcb8fa21ed1b4310ea1e3a00c0ed35993d38e40fd19dd1ec8226f394c19bb"
++SRC_URI += "git://github.com/coreos/go-systemd;protocol=https;nobranch=1;tag=v22.6.0;shallow=1;rev=8214e15a7a799dc18f0ef8dd788b830f815d7530;name=git_1f60ff15_1;destsuffix=vcs_cache/cb3155042a873c409f7dda7401561f3206a5dc4225d8ce9335fd9da1ee482c05"
++SRC_URI += "git://github.com/rivo/uniseg;protocol=https;nobranch=1;tag=v0.4.7;shallow=1;rev=03509a98a092b522b2ff0de13e53513d18b3b837;name=git_b3b758f5_0;destsuffix=vcs_cache/1e062c5a8f3a8c313cef582853dc2ed0687bb0632f4cf127d7aaad85b7ce642f"
++SRC_URI += "git://github.com/rivo/uniseg;protocol=https;nobranch=1;tag=v0.2.0;shallow=1;rev=75711fccf6a3e85bc74c241e2dddd06a9bc9e53d;name=git_b3b758f5_1;destsuffix=vcs_cache/711d6ce77fb103240fb5d501f7548a0f9a576d48e783647cd7fed297fccb112a"
++SRC_URI += "git://github.com/inhies/go-bytesize;protocol=https;branch=master;rev=4913239db9cf578e44f49d7b813734678ef94f51;name=git_d7b70507_0;destsuffix=vcs_cache/33f6338637f180574a557944ab4ae6a88bed881181e11b615b313307b6b045e7"
++SRC_URI += "git://github.com/lestrrat-go/jwx;protocol=https;nobranch=1;tag=v3.0.11;shallow=1;rev=9e9c27a269a1a650e1f666b18946dd1796f84779;name=git_daf2c4dd_0;destsuffix=vcs_cache/66aa4c6c5f6c980c23f16165b33721dbbd2b64c6686a1730684749c9c701712f"
++SRC_URI += "git://github.com/lestrrat-go/httpcc;protocol=https;nobranch=1;tag=v1.0.1;shallow=1;rev=962f66809593fba7c5cdc78a0bdcf98827250e3c;name=git_743770ce_0;destsuffix=vcs_cache/466b0cb68191ccc31d667d0e1cf8f0eec07556bbc61fdad149b67379fba0f789"
++SRC_URI += "git://github.com/lestrrat-go/dsig;protocol=https;nobranch=1;tag=v1.0.0;shallow=1;rev=e7e4d54deeba321a433dfe959340ebe7a2db163d;name=git_d409995f_0;destsuffix=vcs_cache/4fdb7373a44af5a6ec82808bddce9b5b786907d10b6cf2138dcaf3c2ebf4c6ff"
++SRC_URI += "git://github.com/lestrrat-go/option;protocol=https;nobranch=1;tag=v2.0.0;shallow=1;rev=0f819155513c6863e03a9b185a3ba996e5357f71;name=git_7fba3ab3_0;destsuffix=vcs_cache/dc53b62e9538872256995babc7eb47d6a84dacaa027bdd84bb3cce5344e6bef9"
++SRC_URI += "git://github.com/lestrrat-go/option;protocol=https;nobranch=1;tag=v1.0.1;shallow=1;rev=ced73324dba7d8be3a1587a7d6a5fa081d9e2dc2;name=git_7fba3ab3_1;destsuffix=vcs_cache/1f8dcec97d12a81cde1ec2ba90e51e5a7642e0b6ac69fa6d060c924499d9e826"
++SRC_URI += "git://github.com/lestrrat-go/blackmagic;protocol=https;nobranch=1;tag=v1.0.4;shallow=1;rev=150de8a4e21172dd241760e4398a24a8dec3feaf;name=git_a785ed5c_0;destsuffix=vcs_cache/3655ef3535f5fbfddd86c6bcfa866ada2fc8db33ec17816fc8b334009e9fb0f4"
++SRC_URI += "git://github.com/lestrrat-go/dsig-secp256k1;protocol=https;nobranch=1;tag=v1.0.0;shallow=1;rev=761bd8630912128383a646ae5c0f9fa6051d8f1e;name=git_4ce8991a_0;destsuffix=vcs_cache/1aeb2bc1012f007479dc7d6ad9a5b56691b7d10a65a0769920fe28a1fd8c5723"
++SRC_URI += "git://github.com/lestrrat-go/httprc;protocol=https;nobranch=1;tag=v3.0.1;shallow=1;rev=3069ab9baadb0fc83ea8e5b559b490c371421842;name=git_70c47222_0;destsuffix=vcs_cache/76390b99e6f178283ea247d446a1825e979c8d9cf50844f596abb4e96582b1c1"
++SRC_URI += "git://github.com/StackExchange/wmi;protocol=https;branch=master;rev=cbe66965904dbe8a6cd589e2298e5d8b986bd7dd;name=git_48d6db20_0;destsuffix=vcs_cache/1fc27d9cac14b2a03bbb0b0458896762317bee884884ef85b821fa4cb18c6952"
++SRC_URI += "git://github.com/gogo/protobuf;protocol=https;nobranch=1;tag=v1.0.0;shallow=1;rev=1adfc126b41513cc696b209667c8656ea7aac67c;name=git_99185c7b_0;destsuffix=vcs_cache/cea9fa9f6f83d88736f95389bf744ac714093c67292cefcf1607497c27a1dc2b"
++SRC_URI += "git://github.com/gogo/protobuf;protocol=https;nobranch=1;tag=v1.1.1;shallow=1;rev=636bf0302bc95575d69441b25a2603156ffdddf1;name=git_99185c7b_1;destsuffix=vcs_cache/a909192a924253d08799dcf162d9ceb6acdb194f1201fee2872972a79ca6668d"
++SRC_URI += "git://github.com/gogo/protobuf;protocol=https;nobranch=1;tag=v1.3.2;shallow=1;rev=b03c65ea87cdc3521ede29f62fe3ce239267c1bc;name=git_99185c7b_2;destsuffix=vcs_cache/e07d7c0e03a0e2831dd973581be0944984030693bc73f0b67a64e53b4c690635"
++SRC_URI += "git://github.com/creack/pty;protocol=https;nobranch=1;tag=v1.1.9;shallow=1;rev=3a6a957789163cacdfe0e291617a1c8e80612c11;name=git_86cb0bb0_0;destsuffix=vcs_cache/90ab694bdf1c87cb7742c9e23a91280fd693f673a912c6ed840ff28d25b2d46e"
++SRC_URI += "git://github.com/creack/pty;protocol=https;nobranch=1;tag=v1.1.17;shallow=1;rev=b135084511330383e4d0adc4504cf407cab59bb0;name=git_86cb0bb0_1;destsuffix=vcs_cache/2ae6946e9609d4012331fdd2a2f73d351d9fb15432db00d88ab4c508585a6d96"
++SRC_URI += "git://github.com/creack/pty;protocol=https;nobranch=1;tag=v1.1.24;shallow=1;rev=edfbf75025b0ba4ee17c19f52d9b600fad80a787;name=git_86cb0bb0_2;destsuffix=vcs_cache/a723ba2e04aa95258b42d73ca8ebfd0b4170ac8a314767e9e3f78318484bb93b"
++SRC_URI += "git://github.com/mitchellh/go-wordwrap;protocol=https;nobranch=1;tag=v1.0.1;shallow=1;rev=ecf0936a077a4bd73a1cc2ac5c370f2b55618d62;name=git_bad0582b_0;destsuffix=vcs_cache/c6c7d05ba9f6db2637751fa2ce7bbc8bb04f632abc0b05363566319c8fd9c9b0"
++SRC_URI += "git://github.com/mitchellh/hashstructure;protocol=https;nobranch=1;tag=v2.0.2;shallow=1;rev=a045b665615f739329536a58c25ca6327abf1ec1;name=git_2d77412f_0;destsuffix=vcs_cache/7c1d661828ecf7a5daa9f90b02814e542e1ed4d474edc002d91d945df708a5be"
++SRC_URI += "git://github.com/mitchellh/mapstructure;protocol=https;branch=main;rev=2caf8efc93669b6c43e0441cdc6aed17546c96f3;name=git_3ac6d6a4_0;destsuffix=vcs_cache/5ad95eaf3fe770e7f704095dccb10123fc34e55570f7e163eb2e3e9a5c0586a6"
++SRC_URI += "git://github.com/mitchellh/mapstructure;protocol=https;nobranch=1;tag=v1.5.0;shallow=1;rev=ab69d8d93410fce4361f4912bb1ff88110a81311;name=git_3ac6d6a4_1;destsuffix=vcs_cache/d9f5489d4515cf23689f7c9a7a71a85fdd52671cf92601ea8e8c59bf3644b6b5"
++SRC_URI += "git://github.com/mitchellh/go-ps;protocol=https;nobranch=1;tag=v1.0.0;shallow=1;rev=147ff83818ae939913b2e20b91ae3cd6c391771c;name=git_85bf403a_0;destsuffix=vcs_cache/e2954bb45e8e4304338ab2532158d042745f3a239202953369cef281beed32cb"
++SRC_URI += "git://github.com/in-toto/attestation;protocol=https;nobranch=1;tag=v1.1.2;shallow=1;rev=98dd36d4896a9bc1fded38ab12f4f464035c36fa;name=git_de1db936_0;destsuffix=vcs_cache/c9afe967ea4e5751fb018d13c01ee86a880270f07f46e7f6c38d9e86c07f25c2"
++SRC_URI += "git://github.com/in-toto/in-toto-golang;protocol=https;nobranch=1;tag=v0.9.0;shallow=1;rev=5cfa4159eb11aa84d70d2eeea76665ad09130d09;name=git_bd024477_0;destsuffix=vcs_cache/2af10e1379ff951a497f89bf7bb202df095b1ff9be198f3787d92db04f8aa720"
++SRC_URI += "git://github.com/in-toto/in-toto-golang;protocol=https;nobranch=1;tag=v0.10.0;shallow=1;rev=db554e2ab6498a07d719e5374efa6ad4a7a7c222;name=git_bd024477_1;destsuffix=vcs_cache/69265427ff3ccf4c21841e67a3aac94611d3ed65c3af33479cd7816bdec13405"
++SRC_URI += "git://github.com/zclconf/go-cty;protocol=https;nobranch=1;tag=v1.17.0;shallow=1;rev=da4c600729aefcf628d6b042ee439e6927d1104e;name=git_5ffc57d2_0;destsuffix=vcs_cache/47f07e849f1a52fb6afc5ce8207515cf79885a5863c3f77672e2e24bc0ed8ce3"
++SRC_URI += "git://github.com/sassoftware/relic;protocol=https;nobranch=1;tag=v7.2.1;shallow=1;rev=1ba272b5494260614e67ab55afa4e9e49ec881d5;name=git_6cf8c4b1_0;destsuffix=vcs_cache/11b818fd7c4740f195b6669f17117f3e72c1b14cd4cca20dca3b88334a67edcf"
++SRC_URI += "git://github.com/go-stack/stack;protocol=https;nobranch=1;tag=v1.8.0;shallow=1;rev=2fee6af1a9795aafbe0253a0cfbdf668e1fb8a9a;name=git_f91af9da_0;destsuffix=vcs_cache/b165c1e0ccf05d91f62b1ae66d83365c5d96f152e956573fb16040ab15370424"
++SRC_URI += "git://github.com/asaskevich/govalidator;protocol=https;branch=master;rev=a9d515a09cc289c60d55064edec5ef189859f172;name=git_f9896ddf_0;destsuffix=vcs_cache/e0c07f200ff31ed92aa0075d9e5e72c7ed4294f6ef7d9e723213e1bceaca59d3"
++SRC_URI += "git://github.com/go-ole/go-ole;protocol=https;nobranch=1;tag=v1.2.6;shallow=1;rev=8b1f7f90f6b1728609c9694f2cff140d34fd91f8;name=git_c77f8c8d_0;destsuffix=vcs_cache/f8a37b093a9da7f7719abb71318560d985c5c38e6d58c2c73adde45616845d0c"
++SRC_URI += "git://github.com/json-iterator/go;protocol=https;nobranch=1;tag=v1.1.12;shallow=1;rev=024077e996b048517130b21ea6bf12aa23055d3d;name=git_61c80dd4_0;destsuffix=vcs_cache/bdb67d21e426f2274ff76d4829ac60348539016b1aa54fa98cfccc554be12f3b"
++SRC_URI += "git://github.com/json-iterator/go;protocol=https;nobranch=1;tag=v1.1.6;shallow=1;rev=0ff49de124c6f76f8494e194af75bde0f1a49a29;name=git_61c80dd4_1;destsuffix=vcs_cache/49dd68855c9609b742b2b0b4f38fc7310fe801de54098c1919a0a64c7a0df65f"
++SRC_URI += "git://github.com/json-iterator/go;protocol=https;nobranch=1;tag=v1.1.7;shallow=1;rev=27518f6661eba504be5a7a9a9f6d9460d892ade3;name=git_61c80dd4_2;destsuffix=vcs_cache/bc41490320f388f56ca605b559e022840691077e82ae0ad6dd62b7ea000f0603"
++SRC_URI += "git://github.com/go-logr/logr;protocol=https;nobranch=1;tag=v1.4.3;shallow=1;rev=38a1c47ef633fa6b2eee6b8f2e1371ba8626e557;name=git_e0ff909e_0;destsuffix=vcs_cache/5b4f8e13d26b7581594ade5c47d93fb87ebb7720ce23eff7afaed11743464e1f"
++SRC_URI += "git://github.com/go-logr/logr;protocol=https;nobranch=1;tag=v1.2.2;shallow=1;rev=99e02a994f50f904b6b201df394776cf687238a9;name=git_e0ff909e_1;destsuffix=vcs_cache/761d6b76e4ca57583edd8a7d6cf39d5a0c0dfd1fb4f82f099c044f754193f7d1"
++SRC_URI += "git://github.com/go-logr/stdr;protocol=https;nobranch=1;tag=v1.2.2;shallow=1;rev=521af2addfa7c81c8a65d0e85ed34bb6bb6dc262;name=git_76834f06_0;destsuffix=vcs_cache/e69aa58ea5f2f28aa8623652f5e6643b2299d9fe8ba1e6c73a8e3d602290ac67"
++SRC_URI += "git://github.com/munnerz/goautoneg;protocol=https;branch=master;rev=a7dc8b61c822528f973a5e4e7b272055c6fdb43e;name=git_09d50017_0;destsuffix=vcs_cache/0f68eeb31e17a8fc96eede1943fe26be5835b08f5cc4a9eee4ed1b8eee4887ee"
+ SRC_URI += "git://github.com/mistifyio/go-zfs;protocol=https;nobranch=1;tag=v3.0.1;shallow=1;rev=f6d5c373cf63ae2477370aa9bda9fa49804c2d72;name=git_9ca91730_0;destsuffix=vcs_cache/14a067948c9001a8443e88278679f597430282136bcd53894095ccfed51182ca"
+-SRC_URI += "git://github.com/uber/mock;protocol=https;nobranch=1;tag=v0.6.0;shallow=1;rev=2d1c58167e30f380cf78e44a43b100a14767e817;name=git_d59a22ac_0;destsuffix=vcs_cache/03540ab2f6f54b62764f09a177ce039608b19eb6106bf7b67da770000fde2a48"
+-SRC_URI += "git://github.com/uber-go/goleak;protocol=https;nobranch=1;tag=v1.3.0;shallow=1;rev=31095c657c34bba405a8d480db27989aa5f60b9c;name=git_aa00c2c2_0;destsuffix=vcs_cache/358840d6c8d4d8a268b95a505fd6f93da14af34041c0824fe51920b4cd523ae2"
+-SRC_URI += "git://github.com/FiloSottile/edwards25519;protocol=https;nobranch=1;tag=v1.1.0;shallow=1;rev=325f520de716c1d2d2b4e8dc2f82c7ccc5fac764;name=git_41754dd3_0;destsuffix=vcs_cache/f4c4c638435f40478f3fd4350a83ea7fc251e7970f9edee9b9bc5101fbd4f799"
+-SRC_URI += "git://github.com/kubernetes-sigs/structured-merge-diff;protocol=https;nobranch=1;tag=v6.3.0;shallow=1;rev=d3e4dc6f630e155d2fbfdac465eb0da8a737245f;name=git_68ce0dfe_0;destsuffix=vcs_cache/d66ac94ec61bd2ff1830ecd910c5ba59307d9987a0b5e8bc4d43eed2a9670e03"
+-SRC_URI += "git://github.com/kubernetes-sigs/json;protocol=https;nobranch=1;rev=cfa47c3a1cc8ff0eff148aa9ec5b0226d0909e87;name=git_5671cdf3_0;destsuffix=vcs_cache/af72b3861f1b450d8fac535a64ce765bba3c291956ec3c652a5f54db46add460"
+-SRC_URI += "git://github.com/kubernetes-sigs/yaml;protocol=https;nobranch=1;tag=v1.6.0;shallow=1;rev=048d724aca2d37ddb5b03c90b5b4550a3a48766d;name=git_a731a2aa_0;destsuffix=vcs_cache/289ff1bc36e2275d8f58e8de4b1e27b0cabf0d8bfcb2058f040045490a48f9fc"
+-SRC_URI += "git://github.com/kubernetes-sigs/randfill;protocol=https;nobranch=1;tag=v1.0.0;shallow=1;rev=1b6128de8ceabf6d20c4d81d770bf439c1494960;name=git_8dcba602_0;destsuffix=vcs_cache/64598686d0dc1d499a7860fd9d58ec01370c353b03b4e9377d668d615af13dc6"
+-SRC_URI += "git://git.kernel.org/pub/scm/libs/libcap/libcap.git;protocol=https;nobranch=1;tag=psx/v1.2.77;shallow=1;rev=3b2513a1ba696f01d31edfa93f35c30b379cc70e;name=git_101689eb_0;destsuffix=vcs_cache/0e3f13776ff605f669bbf0d6414b493efd804254db98b6d3bea7655371b7f53f"
+-SRC_URI += "git://git.kernel.org/pub/scm/libs/libcap/libcap.git;protocol=https;nobranch=1;tag=psx/v1.2.76;shallow=1;rev=5f3e12ca39c476b78160df6e2345a642a8e6f178;name=git_101689eb_1;destsuffix=vcs_cache/68fcf96342d6b57dcc3e6c818463c707e806599087dedf19a4eb9d818367df61"
+-SRC_URI += "git://github.com/google/cel-spec;protocol=https;nobranch=1;tag=v0.24.0;shallow=1;rev=9f069b3ee58b02d6f6736c5ebd6587075c1a1b22;name=git_9b911644_0;destsuffix=vcs_cache/22be8bab702f88ee991b30c18c7bac8535814d8de3215c69ac9ee1e73da82c45"
+-SRC_URI += "git://github.com/cyphar/libpathrs.git;protocol=https;nobranch=1;tag=go-pathrs/v0.2.1;shallow=1;rev=f900452f21ff9fa092ea5250de5634beaae0f082;name=git_8cb51ac9_0;destsuffix=vcs_cache/e45d21327d19f5df130e8033c6a083bb99ae3ef92dff0a6b9e0b6ad59104fe90"
+-SRC_URI += "git://github.com/census-instrumentation/opencensus-go;protocol=https;nobranch=1;tag=v0.24.0;shallow=1;rev=b1a01ee95db0e690d91d7193d037447816fae4c5;name=git_aae3ac7b_0;destsuffix=vcs_cache/8607148e6fbec2ab3d0020ea3ffb8bdce7bc15dae97ebec60385afa6ddb97c29"
+-SRC_URI += "git://github.com/gonum/gonum;protocol=https;nobranch=1;tag=v0.16.0;shallow=1;rev=7826ba4358a76646a8bd1f852201c4fed2c81c38;name=git_63b91e23_0;destsuffix=vcs_cache/525f00d6116e74b77041f8bb562564ec0e4c1d66d02a48c7b8093f8f931ae1c4"
++SRC_URI += "git://github.com/grpc-ecosystem/grpc-gateway;protocol=https;nobranch=1;tag=v2.28.0;shallow=1;rev=13a31f46e2dff919fbbb50582b0a79978dce2dc4;name=git_3fba78e5_0;destsuffix=vcs_cache/7f214d7cb034fd202c10bfef1f3dc05aee35570ac472366ba44f3cd6ea5a84ca"
++SRC_URI += "git://github.com/grpc-ecosystem/grpc-gateway;protocol=https;nobranch=1;tag=v2.27.2;shallow=1;rev=91958df0371da5c71794adc92e21cf8fed58df97;name=git_3fba78e5_1;destsuffix=vcs_cache/6c43ad48e059624148bd0ae0b851bb5d1200cd6574bdf1b8e9006ed161aaad3d"
++SRC_URI += "git://github.com/grpc-ecosystem/grpc-gateway;protocol=https;nobranch=1;tag=v2.27.3;shallow=1;rev=ab243acfa3bcc5495c4e3923ca44aad7537e834c;name=git_3fba78e5_2;destsuffix=vcs_cache/c03051a5b664a646468e73db0e79c783550c89b868b36ae69d3eed66aea682c1"
++SRC_URI += "git://github.com/grpc-ecosystem/go-grpc-middleware;protocol=https;nobranch=1;tag=v2.1.0;shallow=1;rev=3f5e2b31e36c931159a1b80287847840cd581e6e;name=git_e9f7c9ac_0;destsuffix=vcs_cache/4e15ad209f57f1610bea03c67dbeef9ef7792fafe9b2902ca1a141277719f091"
++SRC_URI += "git://github.com/grpc-ecosystem/go-grpc-middleware;protocol=https;nobranch=1;tag=providers/prometheus/v1.1.0;shallow=1;rev=53040665d19bab33e444905822557433511bb981;name=git_e9f7c9ac_1;destsuffix=vcs_cache/42aacc0b51ca4683515670ecfde267af8722802b2bb4d002d5647da7d38f9a47"
++SRC_URI += "git://github.com/cespare/xxhash;protocol=https;nobranch=1;tag=v2.3.0;shallow=1;rev=998dce232f17418a7a5721ecf87ca714025a3243;name=git_9d94b3ef_0;destsuffix=vcs_cache/4cf9134295bfe252b2146507759140e7050e00021c322cfd0d38a231ef3c0b20"
++SRC_URI += "git://github.com/bmizerany/assert;protocol=https;branch=master;rev=b7ed37b82869576c289d7d97fb2bbd8b64a0cb28;name=git_ed3a3c5c_0;destsuffix=vcs_cache/56f05fc81a59fa58a710a7972b156c07636f5719c2c74f5fe694e2cf49ca2576"
++SRC_URI += "git://github.com/vektah/gqlparser;protocol=https;nobranch=1;tag=v2.5.30;shallow=1;rev=f6387406570db1dccb7806016745427dbe8f5396;name=git_4c875114_0;destsuffix=vcs_cache/caccbea1b6233b524f53ad77070228cabeb6c237130882d4d07c2ddf094fed50"
++SRC_URI += "git://github.com/Masterminds/semver;protocol=https;nobranch=1;tag=v3.4.0;shallow=1;rev=61fc460d28283a91c53be65c2e0f20b494ac8ad9;name=git_ff930dd9_0;destsuffix=vcs_cache/b69d3fcaea23340a3ee6fdc0c141ba3d247100353aee6eb28dd426e0d62498b3"
++SRC_URI += "git://github.com/yuin/goldmark;protocol=https;nobranch=1;tag=v1.1.27;shallow=1;rev=12fc98ebcd751822bbd43314119e483472e6f55f;name=git_40d8a3db_0;destsuffix=vcs_cache/fb45f805a799ac2f897942f334c68fc215fa5bfc06f4b0277d583fe78f6c36ca"
++SRC_URI += "git://github.com/yuin/goldmark;protocol=https;nobranch=1;tag=v1.2.1;shallow=1;rev=91e5269fb0f873f91c9a01e98f32de15ca49440f;name=git_40d8a3db_1;destsuffix=vcs_cache/4c58efe0c28d74a0131cf65fc06af9bf723f3852cb20f81dce6ce9ae50793119"
++SRC_URI += "git://github.com/yuin/goldmark;protocol=https;nobranch=1;tag=v1.4.13;shallow=1;rev=c0856327b39b00b39b5d7e1f5ed0eed8bb1b6a23;name=git_40d8a3db_2;destsuffix=vcs_cache/fbec1a06cf7d810b36a87559756866f825159c4db030b543bd6359717d401035"
++SRC_URI += "git://github.com/juju/loggo;protocol=https;branch=master;rev=6e530bcce5d8e1b51b8e5ee7f08a455cd0a8c2e5;name=git_b83624e7_0;destsuffix=vcs_cache/eaf37a5284a67e209a1c088360157366cb7f05d143b944db7660e83c541adf4c"
++SRC_URI += "git://github.com/petermattis/goid;protocol=https;branch=master;rev=4fcff4a6cae7cd8fdaeeaa8bb87443eda9dec107;name=git_8e87b253_0;destsuffix=vcs_cache/28fe23d2ffb5463ca74406309be8d07f56f5b77b8f151b1f3d5a8edf6d6ae9be"
++SRC_URI += "git://github.com/agnivade/levenshtein;protocol=https;nobranch=1;tag=v1.2.1;shallow=1;rev=813c5d3147488182a4d0d6aea81fc9f28d330cc1;name=git_65ddb0f9_0;destsuffix=vcs_cache/d5b038fb822a1e302e22b0e6ac8351f211ac30e1da66a634d22f607d655321e3"
++SRC_URI += "git://github.com/jpillora/backoff;protocol=https;nobranch=1;tag=v1.0.0;shallow=1;rev=d80867952dff4e2fbfb4280ded4ff94d67790457;name=git_59c0b9df_0;destsuffix=vcs_cache/f3877637b1b0b11053bd3f6485df13672bc371749f756a13048e72298849b276"
++SRC_URI += "git://github.com/lib/pq;protocol=https;branch=master;rev=0dad96c0b94f8dee039aa40467f767467392a0af;name=git_6c68f1e9_0;destsuffix=vcs_cache/501779f1f37d5eedf7b5e73065f7d7847c6343baa947b47ab9335de358604a1c"
++SRC_URI += "git://github.com/cyphar/filepath-securejoin;protocol=https;nobranch=1;tag=v0.6.0;shallow=1;rev=60da611d3eb2d22494ec2b6b746e2b2e89ec25f5;name=git_8d04195c_0;destsuffix=vcs_cache/ebafd268e345e3bd3673b92f938be34bd2c77636cb5b23531ab4d0ae989acee7"
++SRC_URI += "git://github.com/vishvananda/netlink;protocol=https;nobranch=1;tag=v1.3.1;shallow=1;rev=17daef607c6442d47b0565343cf8a69f985a4cb7;name=git_2270cfb3_0;destsuffix=vcs_cache/add152ec680cd6ba7b1daeb50425ed8986ca51024d78c50810923119dbf60a49"
++SRC_URI += "git://github.com/vishvananda/netns;protocol=https;nobranch=1;tag=v0.0.5;shallow=1;rev=4c46424d73b556b3ea4bc5a7cec9e7376dcb2a73;name=git_e786acee_0;destsuffix=vcs_cache/9f1ef5c3417729b4f24554f4b88d06d9e7cdeb771a5d62000cc1344bb1c985d8"
++SRC_URI += "git://github.com/onsi/gomega;protocol=https;nobranch=1;tag=v1.9.0;shallow=1;rev=6be6c439588487cd908a3a700795660c2a16dfec;name=git_4f2954a0_0;destsuffix=vcs_cache/728f44b7af3fd5cab91499df1e92a9d2c3e67004ea59ac1e4a549fb2ca6763a8"
++SRC_URI += "git://github.com/onsi/gomega;protocol=https;nobranch=1;tag=v1.7.1;shallow=1;rev=f9a52764bd5a0fd2d201bcca584351d03b72f8da;name=git_4f2954a0_1;destsuffix=vcs_cache/eca01df4f63425b54410888126f5e562e7f2c689d9483249110a2f793909648b"
++SRC_URI += "git://github.com/onsi/ginkgo;protocol=https;nobranch=1;tag=v1.6.0;shallow=1;rev=3774a09d95489ccaa16032e0770d08ea77ba6184;name=git_209602b3_0;destsuffix=vcs_cache/084961c940c1064ad8f72342797a7f84ceb5184e0f4f98076f0ac0a75a0a376f"
++SRC_URI += "git://github.com/onsi/ginkgo;protocol=https;nobranch=1;tag=v1.12.0;shallow=1;rev=40598150331533e3cd497f21dcce387dae84b561;name=git_209602b3_1;destsuffix=vcs_cache/1fa773d747594333c67867f9bdc536ee1286d76aa754e875bec3818f99d1318b"
++SRC_URI += "git://github.com/tonistiigi/go-archvariant;protocol=https;nobranch=1;tag=v1.0.0;shallow=1;rev=ee27df245367183248db3391ccaaffce4bf25b3f;name=git_aa07a577_0;destsuffix=vcs_cache/07d631aebb630179eda0ac758a6a400523556e0df873aaaa8107c81569f5312d"
++SRC_URI += "git://github.com/tonistiigi/units;protocol=https;branch=master;rev=6950e57a87eaf136bbe44ef2ec8e75b9e3569de2;name=git_02686fd3_0;destsuffix=vcs_cache/a0528d63437c733bc9243aeb601d0f1175a8f8eaa01b2402d7b077f35f36fbcd"
++SRC_URI += "git://github.com/tonistiigi/go-actions-cache;protocol=https;branch=master;rev=378c5ed1ddd9f4bd9371b02deeca46c9b6fae2fa;name=git_27df42ff_0;destsuffix=vcs_cache/9f4a150fded4b0c51af4c77ae23f48e741fc3c25041f168f5e152c9bef985194"
++SRC_URI += "git://github.com/tonistiigi/go-actions-cache;protocol=https;branch=master;rev=54bc28c26fd2ab598cce3f9d3368744bc7b3fb58;name=git_27df42ff_1;destsuffix=vcs_cache/2924c7ecb319efa413b0f3012222cad7c8773cd26a54e23c43cd460cf6d9c0b0"
++SRC_URI += "git://github.com/tonistiigi/vt100;protocol=https;branch=master;rev=90bafcd6abab5dc87970f00165ee2022806709fd;name=git_8eef3e28_0;destsuffix=vcs_cache/8c7e9f3cea5c616be7d8cb3b181a8ecf2d3b1ff0b881bb34abd9235b7680d2c9"
++SRC_URI += "git://github.com/tonistiigi/go-csvvalue;protocol=https;branch=master;rev=030d3b2625d0ae73babf789e079c07ae2c9940b4;name=git_cd3fcea2_0;destsuffix=vcs_cache/4bab931b93ec61ba123209f20dc512a65f448d9af6783e77b89ee8a8b7bf94b3"
++SRC_URI += "git://github.com/tonistiigi/jaeger-ui-rest;protocol=https;branch=master;rev=3dd17559e117449543489dfacd6ae22014604045;name=git_6e70a498_0;destsuffix=vcs_cache/644200fb876350717a5c6642a51a536deec87f616bc0db7325b35f6e96fd6ceb"
++SRC_URI += "git://github.com/tonistiigi/dchapes-mode;protocol=https;branch=main;rev=73d941a28323f67dc09aefc69afd2770dc9dfc8b;name=git_e1d53fb7_0;destsuffix=vcs_cache/088daf1e815a0c250df5a6800476d2fd7926fd2cfde5c798932d14dc518d73f2"
++SRC_URI += "git://github.com/tonistiigi/fsutil;protocol=https;branch=master;rev=586307ad452fadb42e28be16d2b995b2eb6755e9;name=git_e9a91661_0;destsuffix=vcs_cache/d721d7ff5242aee01894397e3189dde451e48dd99ea135fda17971624b878725"
++SRC_URI += "git://github.com/tonistiigi/fsutil;protocol=https;branch=master;rev=a2aa163d723fe2c00105350a49e9e2b02242f472;name=git_e9a91661_1;destsuffix=vcs_cache/5728fb0835aa13d026604988f9496a653e4e5442f8a0e93e6495c60887f5e1b8"
++SRC_URI += "git://github.com/secure-systems-lab/go-securesystemslib;protocol=https;nobranch=1;tag=v0.10.0;shallow=1;rev=93d7e1c227c83ca0f49a9dbf053069aa8df30c03;name=git_09ca63ed_0;destsuffix=vcs_cache/994235dd15b0fe3f1f6929ffaad19803d748bf717abf3185bb700d75af65e53f"
++SRC_URI += "git://github.com/secure-systems-lab/go-securesystemslib;protocol=https;nobranch=1;tag=v0.9.1;shallow=1;rev=a1a33cddd5be3be60e654ba0aeecb80881185d07;name=git_09ca63ed_1;destsuffix=vcs_cache/10dbe58c8dc404f5f42a20a009cd93a99386ef2bc8e22ece06ffbaf572deb939"
++SRC_URI += "git://github.com/jedisct1/go-minisign;protocol=https;branch=master;rev=1c139d1cc84b1320feb9d603a6e3962e54b8743f;name=git_1c08b583_0;destsuffix=vcs_cache/ed26c8fb0a00d7b5743a1d1f1e95f5e4c4e9b2afeca92ceee48f41875b445e1e"
++SRC_URI += "git://github.com/grafana/regexp;protocol=https;branch=main;rev=a468a5bfb3bc9d48aafe80becd5634c8be0b9fce;name=git_662137b1_0;destsuffix=vcs_cache/ee7ce08aedc8b0c4622a701ebc6308e5f4de035b78a7a97690fe1159dc0e6408"
++SRC_URI += "git://github.com/denisenkom/go-mssqldb;protocol=https;branch=master;rev=1d7a30a10f73a69b1adb731b0ab12be3da43a833;name=git_827fc7d8_0;destsuffix=vcs_cache/51d1448ae824a59e167bc4626cbed812ff98e24bad9ad0e55865452f35f4e32a"
++SRC_URI += "git://github.com/godbus/dbus;protocol=https;nobranch=1;tag=v5.1.0;shallow=1;rev=e523abc905595cf17fb0001a7d77eaaddfaa216d;name=git_d9e1e146_0;destsuffix=vcs_cache/64a1380eac8fb56f64570a9ee44f46ff49a8cfc74d31623d696b49699728d072"
++SRC_URI += "git://github.com/bugsnag/bugsnag-go;protocol=https;branch=master;rev=13fd6b8acda029830ef9904df6b63be0a83369d0;name=git_9b5e687f_0;destsuffix=vcs_cache/fcdbd0f3bb5816415e92fba0ccef0363d33bb9f4dd92baf939f44c15d7ff15dc"
++SRC_URI += "git://github.com/bugsnag/panicwrap;protocol=https;branch=master;rev=e2c28503fcd0675329da73bf48b33404db873782;name=git_3930fbb7_0;destsuffix=vcs_cache/262d5e88587cf547192faef1ff5a62313964f5302529d3b47078409890f656b8"
++SRC_URI += "git://github.com/bugsnag/osext;protocol=https;branch=master;rev=0dd3f918b21bec95ace9dc86c7e70266cfc5c702;name=git_a1a84bc7_0;destsuffix=vcs_cache/1e7b9a7b360bb8c03ff73c6b542ec4fc9da0aaa3491621e3f0709df81b41c883"
++SRC_URI += "git://github.com/fatih/color;protocol=https;nobranch=1;tag=v1.18.0;shallow=1;rev=1c8d8706604ee5fb9a464e5097ba113101828a75;name=git_be555826_0;destsuffix=vcs_cache/5d3a7d46049b39f7f5f80bbbcaf1d95f84b393dcee5978948fd4ca3a5abb4461"
++SRC_URI += "git://github.com/opentracing/opentracing-go;protocol=https;nobranch=1;tag=v1.1.0;shallow=1;rev=659c90643e714681897ec2521c60567dd21da733;name=git_198e2417_0;destsuffix=vcs_cache/ef2c56f0be025c9601f62c989b9bbcc2ccb4177a010b2d10139888b5762b9823"
++SRC_URI += "git://github.com/go-jose/go-jose;protocol=https;nobranch=1;tag=v4.1.4;shallow=1;rev=0e59876635f3dbf46d7b5e97b52bb75a3f96e7d9;name=git_3c60bf8b_0;destsuffix=vcs_cache/1ecb3c60bf1e5c9788a27736634c761cde56baaf8301dab57598857d80040c7b"
++SRC_URI += "git://github.com/go-jose/go-jose;protocol=https;nobranch=1;tag=v4.1.3;shallow=1;rev=5348b9a4ba4559d2266b5af89fb5353cd1a5360a;name=git_3c60bf8b_1;destsuffix=vcs_cache/a4219826063988cbd7f4ed3d1c1fc58d7ed42f236f04225796cee7943617cebb"
++SRC_URI += "git://github.com/go-jose/go-jose;protocol=https;nobranch=1;tag=v3.0.0;shallow=1;rev=a563785af9481120d75c419acf7bdd86a07cc1f1;name=git_3c60bf8b_2;destsuffix=vcs_cache/a3831850f8ce4841dd8c7a97a914dc89fe910b83d57d95db27c873ade23304b4"
++SRC_URI += "git://github.com/tink-crypto/tink-go;protocol=https;nobranch=1;tag=v2.5.0;shallow=1;rev=826823a28e29d3ca5a1269b8759eba29968834c4;name=git_4e7e25bc_0;destsuffix=vcs_cache/6ef7407087c1490be9ea49b07a012d985e5870aafd4b3f243366c00b8a6c7228"
++SRC_URI += "git://github.com/planetscale/vtprotobuf;protocol=https;branch=main;rev=0393e58bdf106fe0347e554d272a8f2c84d12461;name=git_d20372f0_0;destsuffix=vcs_cache/2a8f7a744764b6b7d0f6b17003fd8217cc861be946aee65fccc7d1491634942f"
++SRC_URI += "git://github.com/anchore/go-struct-converter;protocol=https;nobranch=1;tag=v0.1.0;shallow=1;rev=c68fdcfa20922cc80b266f13a7986e632bafacca;name=git_5862d91c_0;destsuffix=vcs_cache/4be54006369c9c3bb6a42a67721ee3e3e0f1aab0f71192fdc85f8dc980af1bd6"
++SRC_URI += "git://github.com/prometheus/client_golang;protocol=https;nobranch=1;tag=v1.1.0;shallow=1;rev=170205fb58decfd011f1550d4cfb737230d7ae4f;name=git_6ffa6057_0;destsuffix=vcs_cache/4e44bd818fd07e6368ea60f26721c00dad401136a0e4742f5b167d5755f25168"
++SRC_URI += "git://github.com/prometheus/client_golang;protocol=https;nobranch=1;tag=v1.0.0;shallow=1;rev=4ab88e80c249ed361d3299e2930427d9ac43ef8d;name=git_6ffa6057_1;destsuffix=vcs_cache/607ef8649c55f0756537573f8975af1867f26f93a7f97eb4ff594fc98c467f83"
++SRC_URI += "git://github.com/prometheus/client_golang;protocol=https;nobranch=1;tag=v1.23.2;shallow=1;rev=8179a560819f2c64ef6ade70e6ae4c73aecaca3c;name=git_6ffa6057_2;destsuffix=vcs_cache/d9bbeca592abd4abe4a9bb304c93ff338301ffcad964694c918522126d52a1d2"
++SRC_URI += "git://github.com/prometheus/client_golang;protocol=https;nobranch=1;tag=v0.9.1;shallow=1;rev=abad2d1bd44235a26707c172eab6bca5bf2dbad3;name=git_6ffa6057_3;destsuffix=vcs_cache/5b7494e1e1baac9b65067e6f77ebb97bd97f8ea769f7093cc8cb23ca7d5ab93e"
++SRC_URI += "git://github.com/prometheus/procfs;protocol=https;branch=master;rev=185b4288413d2a0dd0806f78c90dde719829e5ae;name=git_0ab7c7bc_0;destsuffix=vcs_cache/6f855d6fe4ec2b6948e8c511b7c537693831aa71f3427a1625d4a9a01260e77d"
++SRC_URI += "git://github.com/prometheus/procfs;protocol=https;nobranch=1;tag=v0.0.3;shallow=1;rev=3f98efb27840a48a7a2898ec80be07674d19f9c8;name=git_0ab7c7bc_1;destsuffix=vcs_cache/300598e31c95698a764cc0dc7edf8fdfc8ab21a3296c0c5a34791af504e1a038"
++SRC_URI += "git://github.com/prometheus/procfs;protocol=https;nobranch=1;tag=v0.17.0;shallow=1;rev=61fe41207276bc95c4c391762e9ef137385e8a5d;name=git_0ab7c7bc_2;destsuffix=vcs_cache/bd38c110e95e59c4551170b1bdd1a77f0c2d3bfb31346fe6c34a3ff9a2d59911"
++SRC_URI += "git://github.com/prometheus/procfs;protocol=https;nobranch=1;tag=v0.0.2;shallow=1;rev=833678b5bb319f2d20a475cb165c6cc59c2cc77c;name=git_0ab7c7bc_3;destsuffix=vcs_cache/99df38a3259da6d3172d2228188bc6bb7c0f8033d40d03436c89d71e754acf1e"
++SRC_URI += "git://github.com/prometheus/procfs;protocol=https;branch=master;rev=cb4147076ac75738c9a7d279075a253c0cc5acbd;name=git_0ab7c7bc_4;destsuffix=vcs_cache/d6e1327c0735ef125d48a5e4da87d9573ffbc383c27ca670995682b478f20009"
++SRC_URI += "git://github.com/prometheus/procfs;protocol=https;nobranch=1;tag=v0.16.1;shallow=1;rev=cff69b9d9aa77a0793276da74310e38422864e28;name=git_0ab7c7bc_5;destsuffix=vcs_cache/c5636022955615867ff5e898a254c352486ff4f35f8066d4296d4561c4ef4d2e"
++SRC_URI += "git://github.com/prometheus/otlptranslator;protocol=https;nobranch=1;tag=v0.0.2;shallow=1;rev=10a0f69acb3a5e6c588c1cd04e7a106b103a42e2;name=git_e6dca7cd_0;destsuffix=vcs_cache/960b1c139109bf5cf4e2953ce32e8fe37a7785666f0a1b74e4e2555f1458a873"
++SRC_URI += "git://github.com/prometheus/client_model;protocol=https;branch=master;rev=5c3871d89910bfb32f5fcab2aa4b9ec68e65a99f;name=git_63d71ba5_0;destsuffix=vcs_cache/f6f51abd7b0f905d6b844652733802c893708c937a90eddb39855a9027e795ef"
++SRC_URI += "git://github.com/prometheus/client_model;protocol=https;branch=master;rev=99fa1f4be8e564e8a6b613da7fa6f46c9edafc6c;name=git_63d71ba5_1;destsuffix=vcs_cache/b20883069672740ec9f8b88232be489d4e077ea06970f02fdd7280e57e070c26"
++SRC_URI += "git://github.com/prometheus/client_model;protocol=https;nobranch=1;tag=v0.6.2;shallow=1;rev=eb136e513d419e0c31ad750922f0a6f7675c2dee;name=git_63d71ba5_2;destsuffix=vcs_cache/ce4113e6c8f9de1c05a5198a36f67001c5b8ac458bbdbca291a0800fa698d5b1"
++SRC_URI += "git://github.com/prometheus/client_model;protocol=https;branch=master;rev=fd36f4220a901265f90734c3183c5f0c91daa0b8;name=git_63d71ba5_3;destsuffix=vcs_cache/86bc615fe75b2ce98cd8c130b2a77b88c6ddb4a708b29321848472d9dd871940"
++SRC_URI += "git://github.com/prometheus/common;protocol=https;nobranch=1;tag=v0.4.1;shallow=1;rev=17f5ca1748182ddf24fc33a5a7caaaf790a52fcc;name=git_63ab0745_0;destsuffix=vcs_cache/892c75be05216c8a166e1dfe11c12f4563f5c0830e193268bcf9f7511010bcc7"
++SRC_URI += "git://github.com/prometheus/common;protocol=https;nobranch=1;tag=v0.6.0;shallow=1;rev=31bed53e4047fd6c510e43a941f90cb31be0972a;name=git_63ab0745_1;destsuffix=vcs_cache/866ac186da10c19f814988a847f2b46d07b11981edcd6fec98970325a2803af4"
++SRC_URI += "git://github.com/prometheus/common;protocol=https;branch=main;rev=89604d197083d4781071d3c65855d24ecfb0a563;name=git_63ab0745_2;destsuffix=vcs_cache/6fa554cea5eccb087d26785c06f579b8594dbf658c4a1288c2a78398383fed0f"
++SRC_URI += "git://github.com/prometheus/common;protocol=https;nobranch=1;tag=v0.66.1;shallow=1;rev=8975dde6db7208309e9872891f24c7301aa77dfb;name=git_63ab0745_3;destsuffix=vcs_cache/4004fe14db85cf2a2119d66ea225f2b9d7d14ea63e1e3bfa539d1d2440d107c4"
++SRC_URI += "git://github.com/Netflix/go-expect;protocol=https;branch=master;rev=73e0943537d2ba88bdf3f6acec79ca2de1d059df;name=git_e89d3f31_0;destsuffix=vcs_cache/421789c64dd51281a459815573a00c171d61889f5324c1701c37f5f2e8caa8a3"
++SRC_URI += "git://github.com/mxk/go-flowrate;protocol=https;branch=master;rev=cca7078d478f8520f85629ad7c68962d31ed7682;name=git_a209a0d8_0;destsuffix=vcs_cache/12c25c020a66ecc07c7c90ff8a8793d5462f3f4e58338c9b36012b25b4ed81b8"
++SRC_URI += "git://github.com/rcrowley/go-metrics;protocol=https;branch=master;rev=65e299d6c5c92718e672a9d2bc7f96e5b687eef8;name=git_54613f95_0;destsuffix=vcs_cache/0cbaeb01627514ae95e6aae5f103c7c103c0c38175dca1ae96d51d0c083cb2ae"
++SRC_URI += "git://github.com/agext/levenshtein;protocol=https;nobranch=1;tag=v1.2.3;shallow=1;rev=52c14c47d03211d8ac1834e94601635e07c5a6ef;name=git_67b51d80_0;destsuffix=vcs_cache/f4186a1dba20fb3f51b9daaf116c010f10b94a0eb8114b084e25bb3b5649ecf6"
++SRC_URI += "git://github.com/hinshun/vt10x;protocol=https;branch=master;rev=820417d04eecba13c2cbab106bbacb1edc8e2e98;name=git_08f1274a_0;destsuffix=vcs_cache/7a79a11a6f7d736423313fcb1bc2d2203d7d9e66baa86d1f4440c872a4349d6d"
++SRC_URI += "git://github.com/GoogleCloudPlatform/opentelemetry-operations-go;protocol=https;nobranch=1;tag=detectors/gcp/v1.31.0;shallow=1;rev=316927bd0033e82948538685629172bcc6213562;name=git_2c8937f6_0;destsuffix=vcs_cache/bc817097ac8324503a357241edaa274a0617c238690ccb47deb70f8f0af65eb2"
++SRC_URI += "git://github.com/distribution/reference;protocol=https;nobranch=1;tag=v0.6.0;shallow=1;rev=ff14fafe2236e51c2894ac07d4bdfc778e96d682;name=git_b4d8130d_0;destsuffix=vcs_cache/ac2c94a9c45cfe172807163d3f9ae441bf0db0b30e528660d1b5db49678ed93a"
++SRC_URI += "git://github.com/blang/semver;protocol=https;nobranch=1;tag=v3.5.1;shallow=1;rev=2ee87856327ba09384cabd113bc6b5d174e9ec0f;name=git_b6bc1865_0;destsuffix=vcs_cache/fb904b093dc37ee6efcaa2a562389f10a2411237cdeef7cddf15818be70366d1"
++SRC_URI += "git://github.com/xrash/smetrics;protocol=https;branch=master;rev=686a1a2994c11fac124829fadcb683a24ab8d25f;name=git_51ee97a4_0;destsuffix=vcs_cache/39f621debd197a5e0bcda4514cb54d787e4e443693f317363918ceb70d590944"
++SRC_URI += "git://github.com/DefangLabs/secret-detector;protocol=https;branch=main;rev=22662109213e87fb56be9dbc3a9c78499d2e42a5;name=git_985033cd_0;destsuffix=vcs_cache/42b5e6f1ae54867a47bbe7535a965b97260d8282064da67b0f3d9d82d7524ad4"
++SRC_URI += "git://github.com/syndtr/goleveldb;protocol=https;branch=master;rev=126854af5e6d8295ef8e8bee3040dd8380ae72e8;name=git_a05e1273_0;destsuffix=vcs_cache/e235339a3b62d86588980eea53546b06c36a7d1f4f68f0c427c52dbe4d251657"
++SRC_URI += "git://github.com/syndtr/gocapability;protocol=https;branch=master;rev=42c35b4376354fd554efc7ad35e0b7f94e3a0ffb;name=git_bddf7e02_0;destsuffix=vcs_cache/4480911d3d4457413aedb0be556a8ab2b064c475167177096e4dec65342505e9"
++SRC_URI += "git://github.com/jackc/pgservicefile;protocol=https;branch=master;rev=5a60cdf6a76120dc3d5152b95f3b5fd8aa7cc9eb;name=git_71385c65_0;destsuffix=vcs_cache/ddeb106f0a503bc56c2377cf8c3863fd5b039a12e3472f1f499e89f689d70793"
++SRC_URI += "git://github.com/jackc/pgx;protocol=https;nobranch=1;tag=v5.7.5;shallow=1;rev=15bca4a4e14e0049777c1245dba4c16300fe4fd0;name=git_4fb6b0aa_0;destsuffix=vcs_cache/7d428807020135278d6c041ab060af6cb7629a2458e8beedf6520c22a981521c"
++SRC_URI += "git://github.com/jackc/puddle;protocol=https;nobranch=1;tag=v2.2.2;shallow=1;rev=bd09d14bd4018b6d65a9d7770e2f3ddf8b00af1c;name=git_c64e1e43_0;destsuffix=vcs_cache/f3334a91ad7dbb92655b9f37614612cc5df45c529576e03e8308dfed92ae9050"
++SRC_URI += "git://github.com/jackc/pgpassfile;protocol=https;nobranch=1;tag=v1.0.0;shallow=1;rev=99d8e8e28945ffceaf75b0299fcb2bb656b8a683;name=git_3d88473b_0;destsuffix=vcs_cache/bcb7f6d6bafda56d4f5f42db214defa53f1769aa323ba6f941283d833ed326d1"
++SRC_URI += "git://github.com/buger/goterm;protocol=https;nobranch=1;tag=v1.0.4;shallow=1;rev=a73545aae7d693f786ce4cc687460efca4845f31;name=git_19a54999_0;destsuffix=vcs_cache/caf1c06b7ea92c81a60195c5df6f46d1e4ceb75cfb096fb918e712dcc226fc04"
++SRC_URI += "git://github.com/armon/circbuf;protocol=https;branch=master;rev=5111143e8da2e98b4ea6a8f32b9065ea1821c191;name=git_95ffcffa_0;destsuffix=vcs_cache/f44b726eafbedd3c7d5723dfd9850375946a0b78000629a3558aacfbb013cecb"
++SRC_URI += "git://github.com/go-openapi/spec;protocol=https;nobranch=1;tag=v0.22.4;shallow=1;rev=d6177ef6dbe2c9f47a1e0c362403848dea6027b7;name=git_e4b4df8f_0;destsuffix=vcs_cache/de2752a6a0b287240339b76144a60c409fe66d8956a7163c49ac72dc0e44fdf5"
++SRC_URI += "git://github.com/go-openapi/spec;protocol=https;nobranch=1;tag=v0.22.1;shallow=1;rev=f06cfffb0300dabf0a47b700b0fb691f9486d110;name=git_e4b4df8f_1;destsuffix=vcs_cache/4092ffe95426c0c9bca5c198241300fcee8b81ca1c66da9b40ba1acb8768cf32"
++SRC_URI += "git://github.com/go-openapi/errors;protocol=https;nobranch=1;tag=v0.22.7;shallow=1;rev=0c61a55c8575f63f743cf5a3308dbd48b12eb970;name=git_2f7f139e_0;destsuffix=vcs_cache/54a0bf002cf7fafb70729983ca51f189bceee7c36ecd0b75fe3d55e76add9cd4"
++SRC_URI += "git://github.com/go-openapi/errors;protocol=https;nobranch=1;tag=v0.22.4;shallow=1;rev=7e2b230720943c0c427e3e641ee76119e533b680;name=git_2f7f139e_1;destsuffix=vcs_cache/e5716b375e23d3a59fd3d744fba14212d7d3d7434e874898258b45ea2aca6a07"
++SRC_URI += "git://github.com/go-openapi/runtime;protocol=https;nobranch=1;tag=v0.29.2;shallow=1;rev=078717abbee7f694e8e77d8e41b8f32a435ae03e;name=git_370ff3c3_0;destsuffix=vcs_cache/b635f5b40e7ba10ae8c0cba6c904210f047c83113a12b45953d3e2f6f23d44e7"
++SRC_URI += "git://github.com/go-openapi/validate;protocol=https;nobranch=1;tag=v0.25.2;shallow=1;rev=2021e2ad7aa967d6c643f393633b8f9a42ddaf00;name=git_e8a696d7_0;destsuffix=vcs_cache/a40798525cd2559a382d1e07f13fcd9018c4f962a50d8101e45daad6b7ee86a2"
++SRC_URI += "git://github.com/go-openapi/validate;protocol=https;nobranch=1;tag=v0.25.1;shallow=1;rev=b43789ca4e6f41c6f532ad98e024712da8336ea2;name=git_e8a696d7_1;destsuffix=vcs_cache/634835de930cf49d86f8279271ac56663708df6630c75375676b7da12b0be051"
++SRC_URI += "git://github.com/go-openapi/loads;protocol=https;nobranch=1;tag=v0.23.3;shallow=1;rev=09444f2f2218f880e3e613c38f9fff713623d0bf;name=git_e70762e1_0;destsuffix=vcs_cache/5128d105fceda11511719c8d3436e3222b95133854e6750c41b450d09a01c1dc"
++SRC_URI += "git://github.com/go-openapi/loads;protocol=https;nobranch=1;tag=v0.23.2;shallow=1;rev=5e9018c4503a8af31c6ec7816204a8bdbdd780be;name=git_e70762e1_1;destsuffix=vcs_cache/9c224bf4ee23cd9ccea3953edb8991bb14040f2a584059de1f1644613744997e"
++SRC_URI += "git://github.com/go-openapi/swag;protocol=https;nobranch=1;tag=typeutils/v0.25.3;shallow=1;rev=4db976ab6f80579b63b3e33fb540c90cc558cc5a;name=git_8c33ed8b_0;destsuffix=vcs_cache/7836e34d24416dab15fe6283b68847039139876b4f48af3e54978b11d199b4a5"
++SRC_URI += "git://github.com/go-openapi/swag;protocol=https;nobranch=1;tag=v0.23.0;shallow=1;rev=53e32e82f758c8e884819330a87aef294ff10c1f;name=git_8c33ed8b_1;destsuffix=vcs_cache/c9cae28160c75921d2cb4ab3d1f827a75eff410d92b10dbdb59ee96851a11ee6"
++SRC_URI += "git://github.com/go-openapi/swag;protocol=https;nobranch=1;tag=v0.25.4;shallow=1;rev=73525ad4f9d84ce7e4b15796f0d41a6cb32cc3cd;name=git_8c33ed8b_2;destsuffix=vcs_cache/c4eff481dcf1f159f88d2401bc4f2a7896f013188f9687e0966bd1daf299c37d"
++SRC_URI += "git://github.com/go-openapi/swag;protocol=https;nobranch=1;tag=typeutils/v0.25.5;shallow=1;rev=86905ccd10f1987a41dd6988b6a6ec8c475bc449;name=git_8c33ed8b_3;destsuffix=vcs_cache/97266eba04067e616c6d2966d9fe0748c18b47c1c75240f00215c55d61645173"
++SRC_URI += "git://github.com/go-openapi/jsonreference;protocol=https;nobranch=1;tag=v0.20.2;shallow=1;rev=1f158e563669961b8e54817e3ea57978d439ffff;name=git_2d19bf8f_0;destsuffix=vcs_cache/2b1f5e4abef192d562993c04982e0222c673c03ef641b68a8e86ea31eae7b8e4"
++SRC_URI += "git://github.com/go-openapi/jsonreference;protocol=https;nobranch=1;tag=v0.21.5;shallow=1;rev=8b85573320ccec4f4f1e962e09c1fab880cbfc23;name=git_2d19bf8f_1;destsuffix=vcs_cache/a22758c4d4c627c8a25a37edf5556f1a9948325bbec0fab2e7c7c5463db8973d"
++SRC_URI += "git://github.com/go-openapi/jsonreference;protocol=https;nobranch=1;tag=v0.21.3;shallow=1;rev=d5ff0ea463fe1bf994dd48091f28b2526f3cb6bb;name=git_2d19bf8f_2;destsuffix=vcs_cache/06de1c7f0badb80ff65f2b8d602c41115cadba1eab00a3644a26c815fd9f97cc"
++SRC_URI += "git://github.com/go-openapi/strfmt;protocol=https;nobranch=1;tag=v0.25.0;shallow=1;rev=a235dd3fc2b48f29134e547d440b8b6ed5d98beb;name=git_5147ce60_0;destsuffix=vcs_cache/1c34578346ff3d210d011d6cfe1401d10ad41c4367fffa74ef83da31a0dbd013"
++SRC_URI += "git://github.com/go-openapi/strfmt;protocol=https;nobranch=1;tag=v0.26.1;shallow=1;rev=fcbb618132aefcaca78a17206553c8894d8acf21;name=git_5147ce60_1;destsuffix=vcs_cache/8e34926a1054736ce29e14bc7c6f4e088d73a272d74557345dac215cc541aab5"
++SRC_URI += "git://github.com/go-openapi/analysis;protocol=https;nobranch=1;tag=v0.24.1;shallow=1;rev=589beeaaac09b8d4f96bf8446875fba1f228e8dc;name=git_1c9ed6e9_0;destsuffix=vcs_cache/ea08203f36c98c5717a34e77c7e63e5e7be53de3838e1348958eba4d2a2f8b14"
++SRC_URI += "git://github.com/go-openapi/analysis;protocol=https;nobranch=1;tag=v0.24.3;shallow=1;rev=c3fa783a0dfab17e7a0463a02f614d5f5428d4bc;name=git_1c9ed6e9_1;destsuffix=vcs_cache/c9a38cba6e1401e9a82affc769f4be9ba9280852551fe72d883bdbaf80e6b776"
++SRC_URI += "git://github.com/go-openapi/jsonpointer;protocol=https;nobranch=1;tag=v0.22.1;shallow=1;rev=64079a404bcfdf40f8ab8ccf9e0d86d56bd0bce1;name=git_a3358eda_0;destsuffix=vcs_cache/6269b4927db8fb7b41c628d42e3863e247ac6ab2729a17f0ea71ecfef8b873ab"
++SRC_URI += "git://github.com/go-openapi/jsonpointer;protocol=https;nobranch=1;tag=v0.21.0;shallow=1;rev=8b546b950409bd7b131488a88613339cd8937b7f;name=git_a3358eda_1;destsuffix=vcs_cache/eaab28eda54bc7b1675e90e5ebeb79d02f5b4b71c2430301297b1b41c648226c"
++SRC_URI += "git://github.com/go-openapi/jsonpointer;protocol=https;nobranch=1;tag=v0.22.5;shallow=1;rev=e232aafbbdce6abbf028e4d6efebf845e1ff8148;name=git_a3358eda_2;destsuffix=vcs_cache/abf24edf6b6d782a40eae204e7d27ac37aebffcc286ba23e4c02a66fb2ad88ca"
++SRC_URI += "git://github.com/gobwas/glob;protocol=https;nobranch=1;tag=v0.2.3;shallow=1;rev=5ccd90ef52e1e632236f7326478d4faa74f99438;name=git_84be3b9c_0;destsuffix=vcs_cache/9ea137b0f545be63130971285b3e0b109491f0a0c45197efd72385336ab0ed05"
++SRC_URI += "git://github.com/hanwen/go-fuse;protocol=https;nobranch=1;tag=v2.9.0;shallow=1;rev=3183e469f466607a92dd8c2cb44f966d7d69993b;name=git_4e8568a3_0;destsuffix=vcs_cache/fa95f661c67615f6ecde3328345065d2af48858b578b04900792a2575a5891ac"
++SRC_URI += "git://github.com/hanwen/go-fuse;protocol=https;nobranch=1;tag=v2.8.0;shallow=1;rev=ee34567408d6ab557a0169089879ec111bd74408;name=git_4e8568a3_1;destsuffix=vcs_cache/9549fd67be856dc5565aa6f4996edb86a648510a1efb4dec609c4133bdba118c"
++SRC_URI += "git://github.com/spdx/tools-golang;protocol=https;nobranch=1;tag=v0.5.7;shallow=1;rev=28116d2a82c9999a10b186d88e4132e20ac67462;name=git_c611268e_0;destsuffix=vcs_cache/2944f2a5d449b4ba31e7000d974e7dafe6c0e63a63a2a667ce98cd5bdd81cadc"
++SRC_URI += "git://github.com/spdx/tools-golang;protocol=https;nobranch=1;tag=v0.5.5;shallow=1;rev=9db247b854b9634d0109153d515fd1a9efd5a1b1;name=git_c611268e_1;destsuffix=vcs_cache/67dc836f5c494b30f0be4d730f354867948c78e92c42f1c68e779ec3c48a5a01"
++SRC_URI += "git://github.com/theupdateframework/notary;protocol=https;nobranch=1;tag=v0.7.0;shallow=1;rev=b0b6bfdd4933081e8d5ae026b24e8337311dd598;name=git_88169bba_0;destsuffix=vcs_cache/0e83ed3cbdbbbd63c9ab62dc40651621a386fcaf575326772f2912b1279bfb2b"
++SRC_URI += "git://github.com/theupdateframework/go-tuf;protocol=https;nobranch=1;tag=v2.3.0;shallow=1;rev=3ace7ea23b69a40617eb50f195bf4042726de4ad;name=git_c3a66dbe_0;destsuffix=vcs_cache/97ff561da38ed2349284442d498f6f0f3994debe9521efa5d581a46bfb851564"
++SRC_URI += "git://github.com/theupdateframework/go-tuf;protocol=https;nobranch=1;tag=v0.7.0;shallow=1;rev=6ad7fe593e4042db3544c4b0fedbe66bac371c42;name=git_c3a66dbe_1;destsuffix=vcs_cache/bbec9c5e97a26007b5a7ef626e437d1c9638f745eb3bcef1032e95a3a76097d3"
++SRC_URI += "git://github.com/theupdateframework/go-tuf;protocol=https;nobranch=1;tag=v2.4.1;shallow=1;rev=d361e2ea24e427581343dee5c7a32b485d79fcc0;name=git_c3a66dbe_2;destsuffix=vcs_cache/24410f9d68f2bef47751f65528b3ec3fa18dc875d5ba2e76e28fd98fe2c471f4"
++SRC_URI += "git://github.com/AdaLogics/go-fuzz-headers;protocol=https;branch=main;rev=e8a1dd7889d65b8a6f02175e0d79d7c0557db7f9;name=git_77272b21_0;destsuffix=vcs_cache/618ef3cd1ed01872674845eae25e7d6a50a3d70b49881ccd500327b0778fedb9"
++SRC_URI += "git://github.com/modern-go/reflect2;protocol=https;branch=master;rev=35a7c28c31ee079903db043180532306a621943a;name=git_975c3d3f_0;destsuffix=vcs_cache/b0f41ee692517b4a6786fb48ce9d49e532c4f77cac6cacadd6ff49dcb7325931"
++SRC_URI += "git://github.com/modern-go/reflect2;protocol=https;branch=master;rev=4b7aa43c6742a2c18fdef89dd197aaae7dac7ccd;name=git_975c3d3f_1;destsuffix=vcs_cache/8af4d54440b1b6703cd1b26845d1f5914958f01a18064501f7b77554b973b677"
++SRC_URI += "git://github.com/modern-go/reflect2;protocol=https;nobranch=1;tag=v1.0.1;shallow=1;rev=94122c33edd36123c84d5368cfb2b69df93a0ec8;name=git_975c3d3f_2;destsuffix=vcs_cache/5f837a9261606850c86cb464d91848cb7e2e334be529f812891c080cfd881b9a"
++SRC_URI += "git://github.com/modern-go/concurrent;protocol=https;branch=master;rev=bacd9c7ef1dd9b15be4a9909b8ac7a4e313eec94;name=git_2bbaef4c_0;destsuffix=vcs_cache/09a996e0549b43adaeb1c40a8dc339563ed1a8dcc831e5cb074441a30d502d23"
++SRC_URI += "git://github.com/modern-go/concurrent;protocol=https;branch=master;rev=e0a39a4cb4216ea8db28e22a69f4ec25610d513a;name=git_2bbaef4c_1;destsuffix=vcs_cache/720429d876e0c333185ab19ebc83ff389edac9e5b459d07c74e7a18cae1c5b7a"
++SRC_URI += "git://github.com/intel/goresctrl;protocol=https;nobranch=1;tag=v0.10.0;shallow=1;rev=404a7021807bd6c502268a5ab15ff36e11c21f44;name=git_dd750dae_0;destsuffix=vcs_cache/29a6109926a2e174fae849b3c015435e64e4f34ea86919fbc693930c06128b9b"
+ SRC_URI += "git://github.com/yaml/go-yaml;protocol=https;nobranch=1;tag=v4.0.0-rc.4;shallow=1;rev=068e4d63881bdd1923f069559870b6d153b15478;name=git_780106c7_0;destsuffix=vcs_cache/adea5cf06c6a3beda8e988488bf42b037fd9e912a944733d3d8861ee12229595"
+ SRC_URI += "git://github.com/yaml/go-yaml;protocol=https;nobranch=1;tag=v2.4.2;shallow=1;rev=246a95c22c57f15ef6d3305a1f1b8a0b05e4d560;name=git_780106c7_1;destsuffix=vcs_cache/8e5c657c86d0e182b5f4d6ed3715a0ec93dfb998d8ef94555af035578a3aba8d"
+ SRC_URI += "git://github.com/yaml/go-yaml;protocol=https;nobranch=1;tag=v2.4.3;shallow=1;rev=3b57511c5e469cd030f5df7705d1f4208aa8b339;name=git_780106c7_2;destsuffix=vcs_cache/2408eeac30b1574986dd0e17458ada4d251f9845f816637202936da13fcdab91"
+ SRC_URI += "git://github.com/yaml/go-yaml;protocol=https;nobranch=1;tag=v3.0.4;shallow=1;rev=c3552c15f996075a7634df5159d9161c67bf3d76;name=git_780106c7_3;destsuffix=vcs_cache/28af0e86ac86bfc3e00873c91eee3b58eb4f82e4f4c0f7963ccfc8872fd4a4a5"
+ SRC_URI += "git://github.com/yaml/go-yaml;protocol=https;nobranch=1;tag=v4.0.0-rc.3;shallow=1;rev=e99d6a6e928a797feb752a3f839e0a7e45a46ddc;name=git_780106c7_4;destsuffix=vcs_cache/bb6f6ec483049dba1843496880df5682fc52f28cc7a78c0fd6884e70812d5903"
+-SRC_URI += "git://github.com/flyingmutant/rapid;protocol=https;nobranch=1;tag=v1.2.0;shallow=1;rev=7adc026a03621808fcbc07e70c6a36933b0e0d7a;name=git_137f50da_0;destsuffix=vcs_cache/44c434e5467532a753dca055894777e9cc0c2edb2d36b01df08664a6953e8459"
++SRC_URI += "git://github.com/kubernetes-sigs/yaml;protocol=https;nobranch=1;tag=v1.6.0;shallow=1;rev=048d724aca2d37ddb5b03c90b5b4550a3a48766d;name=git_a731a2aa_0;destsuffix=vcs_cache/289ff1bc36e2275d8f58e8de4b1e27b0cabf0d8bfcb2058f040045490a48f9fc"
++SRC_URI += "git://github.com/kubernetes-sigs/json;protocol=https;branch=main;rev=2d320260d730f3842fef7b08d9a807bdbc617824;name=git_5671cdf3_0;destsuffix=vcs_cache/464b6144a42f16f67617e6ae70c780fa6b3663ca909d664a33af0b61e7456764"
++SRC_URI += "git://github.com/kubernetes-sigs/json;protocol=https;branch=main;rev=cfa47c3a1cc8ff0eff148aa9ec5b0226d0909e87;name=git_5671cdf3_1;destsuffix=vcs_cache/af72b3861f1b450d8fac535a64ce765bba3c291956ec3c652a5f54db46add460"
++SRC_URI += "git://github.com/kubernetes-sigs/randfill;protocol=https;nobranch=1;tag=v1.0.0;shallow=1;rev=1b6128de8ceabf6d20c4d81d770bf439c1494960;name=git_8dcba602_0;destsuffix=vcs_cache/64598686d0dc1d499a7860fd9d58ec01370c353b03b4e9377d668d615af13dc6"
++SRC_URI += "git://github.com/kubernetes-sigs/structured-merge-diff;protocol=https;nobranch=1;tag=v6.3.0;shallow=1;rev=d3e4dc6f630e155d2fbfdac465eb0da8a737245f;name=git_68ce0dfe_0;destsuffix=vcs_cache/d66ac94ec61bd2ff1830ecd910c5ba59307d9987a0b5e8bc4d43eed2a9670e03"
++SRC_URI += "git://github.com/googleapis/google-cloud-go;protocol=https;nobranch=1;tag=compute/metadata/v0.9.0;shallow=1;rev=7b2365446764b0bba37198a55644954b437bddd0;name=git_8ce8c847_0;destsuffix=vcs_cache/ef8ad73ce6cafa3fbb115b0895d2b391fa5aefa58dac151c1ff06e7279185884"
++SRC_URI += "git://go.googlesource.com/net;protocol=https;branch=master;rev=0de0cce0169b09b364e001f108dc0399ea8630b3;name=git_ed42bd05_0;destsuffix=vcs_cache/4a83ce2ea03f8d39736df96f33e3c12c6f2736e4e2d7c83f96b043f96b097451"
++SRC_URI += "git://go.googlesource.com/net;protocol=https;nobranch=1;tag=v0.48.0;shallow=1;rev=35e1306bddd863f360fb94480c5fed84229953f0;name=git_ed42bd05_1;destsuffix=vcs_cache/933b45295e922f06f042181b7cf7fb2f2b10035e52fef5bbb293c1cb6ea68cf6"
++SRC_URI += "git://go.googlesource.com/net;protocol=https;branch=master;rev=3b0461eec859c4b73bb64fdc8285971fd33e3938;name=git_ed42bd05_2;destsuffix=vcs_cache/3c84774e4b117bf9ca7f463a9106bc672447617fbfdf58b268e7a74cb79b8882"
++SRC_URI += "git://go.googlesource.com/net;protocol=https;nobranch=1;tag=v0.51.0;shallow=1;rev=60b3f6f8ce12def82ae597aebe9031753198f74d;name=git_ed42bd05_3;destsuffix=vcs_cache/27384ca1bf9f8fbfd7f0454280bea1a21fcb6be1145d234e4ede4db200fd3abc"
++SRC_URI += "git://go.googlesource.com/net;protocol=https;nobranch=1;tag=v0.47.0;shallow=1;rev=9a296438e54dff851a45667aa645a97003b44db5;name=git_ed42bd05_4;destsuffix=vcs_cache/8c32d9cb50e30e4c5deab8ef39dfee35e4f56c13625493919d433a59ec1eb2e4"
++SRC_URI += "git://go.googlesource.com/net;protocol=https;branch=master;rev=a158d28d115bfbcc1583374c5ae12ba6415bb93e;name=git_ed42bd05_5;destsuffix=vcs_cache/2de939cb01f6e50973e8ce809ddfa5b8ceec4f7d5e7a3aef65caea692eb1f5b5"
++SRC_URI += "git://go.googlesource.com/net;protocol=https;branch=master;rev=e18ecbb051101a46fc263334b127c89bc7bff7ea;name=git_ed42bd05_6;destsuffix=vcs_cache/376d3afffd1f62bc65b76e58fc724fe033367b5c6b239fa6c7d0367687a2bfbd"
++SRC_URI += "git://go.googlesource.com/net;protocol=https;branch=master;rev=eb5bcb51f2a31c7d5141d810b70815c05d9c9146;name=git_ed42bd05_7;destsuffix=vcs_cache/ae86d4593bf8e0a0514f77d1f3831f0f2f4214c3d1e77cc50661343ba4fcdebe"
++SRC_URI += "git://go.googlesource.com/net;protocol=https;branch=master;rev=f5854403a9740e74b2e9e725e6cd7c8a57711905;name=git_ed42bd05_8;destsuffix=vcs_cache/fc8ecf11eddaf279509465d2c0dde9c76fb90ea7c097356e83c6ed4c375e1c16"
++SRC_URI += "git://go.googlesource.com/tools;protocol=https;nobranch=1;tag=v0.39.0;shallow=1;rev=034e59c473362f8f2be47694d98fd3f12a1ad497;name=git_7d9b3b49_0;destsuffix=vcs_cache/3e134fe07900bbb1f6b786c65f3bae7ddad868e248d5ce0e1a52fc21568e545f"
++SRC_URI += "git://go.googlesource.com/tools;protocol=https;branch=internal-branch.go1.16-vendor;rev=113979e3529a77b99c4f3e5f3c8a22802a39cc95;name=git_7d9b3b49_1;destsuffix=vcs_cache/74532c68be1c7f64a0eee926ba2b0b7d4552a8c11bae36838bf170186db4264d"
++SRC_URI += "git://go.googlesource.com/tools;protocol=https;branch=master;rev=298f0cb1881e71e68bc5bc17757fabe78a426460;name=git_7d9b3b49_2;destsuffix=vcs_cache/4bdade122172b6644bff0ea433cdb68d5460d8b894432e030ced235888ac6fdc"
++SRC_URI += "git://go.googlesource.com/tools;protocol=https;nobranch=1;tag=v0.41.0;shallow=1;rev=2ad2b30edf98d0e3b67a7b3e8f6d1d6e41c963c3;name=git_7d9b3b49_3;destsuffix=vcs_cache/52090871934b5fcad164d4fd90e0dd44deed1f10db32e1203de79d7dc33b828b"
++SRC_URI += "git://go.googlesource.com/tools;protocol=https;branch=master;rev=7c47624df98f421302ad5a380f58fd5ed0ecb734;name=git_7d9b3b49_4;destsuffix=vcs_cache/a7efe20c5bee119c7e0018be6d57820b9b6a182d1818d3ec344c022fad6b7114"
++SRC_URI += "git://go.googlesource.com/tools;protocol=https;branch=master;rev=90fa682c2a6e6a37b3a1364ce2fe1d5e41af9d6d;name=git_7d9b3b49_5;destsuffix=vcs_cache/e396d41e128acc62cbad331ee090a99e470d23a3611d8b07d3c2cc41a1cc0b49"
++SRC_URI += "git://go.googlesource.com/tools;protocol=https;nobranch=1;tag=v0.38.0;shallow=1;rev=a22b5e8a9b8d2234e1e960ec2473e4011f012a6b;name=git_7d9b3b49_6;destsuffix=vcs_cache/d216d54a0764f2431487fc456233144cce69e8db7cf83fe343dc1b40544002c3"
++SRC_URI += "git://go.googlesource.com/tools;protocol=https;nobranch=1;tag=v0.1.12;shallow=1;rev=b3b5c13b291f9653da6f31b95db100a2e26bd186;name=git_7d9b3b49_7;destsuffix=vcs_cache/caef14ab3734fcbf0d05c7a9aab8ffc3dee6066c109316257d37ec9c806f1482"
++SRC_URI += "git://go.googlesource.com/exp;protocol=https;branch=master;rev=df9299821621739a7bc3340d51dd518f7f4abc32;name=git_879ce674_0;destsuffix=vcs_cache/b29a418d7bb6e15cce9cdb2caf0de7ed5dba8f2a38735a52d5d41801549b0ebf"
++SRC_URI += "git://go.googlesource.com/text;protocol=https;nobranch=1;tag=v0.32.0;shallow=1;rev=0dd57a6ef90c283b902525213f15d6b2a59cc84b;name=git_38515699_0;destsuffix=vcs_cache/db1055c090da946a126ac8573a0148f86e0c41f537a9ee33dc5eefbe656d95ed"
++SRC_URI += "git://go.googlesource.com/text;protocol=https;nobranch=1;tag=v0.4.0;shallow=1;rev=1bdb400fb39a45cc788ffe7e5d7a2a9719afc7e9;name=git_38515699_1;destsuffix=vcs_cache/5ad35cfebebfa5b556ca6d44b5026673bb71ab874271a0fc395ab751275779ae"
++SRC_URI += "git://go.googlesource.com/text;protocol=https;nobranch=1;tag=v0.3.3;shallow=1;rev=23ae387dee1f90d29a23c0e87ee0b46038fbed0e;name=git_38515699_2;destsuffix=vcs_cache/fc27daff31c5f47a26c7ef94196bf8cee86c79308480edbe7cf8e4dc0c447e43"
++SRC_URI += "git://go.googlesource.com/text;protocol=https;nobranch=1;tag=v0.3.7;shallow=1;rev=383b2e75a7a4198c42f8f87833eefb772868a56f;name=git_38515699_3;destsuffix=vcs_cache/3b8a76fcf794a9f1d2139606900fb5805f666e19e7234b234fc05ccf35ef6a06"
++SRC_URI += "git://go.googlesource.com/text;protocol=https;nobranch=1;tag=v0.34.0;shallow=1;rev=817fba9abd337b4d9097b10c61a540c74feaaeff;name=git_38515699_4;destsuffix=vcs_cache/ab936e776d558dcf22a5deb255244ee8a750a97767251346fb3276b4eef3542f"
++SRC_URI += "git://go.googlesource.com/text;protocol=https;nobranch=1;tag=v0.31.0;shallow=1;rev=e7ff6b3572e1a83c072ef150c985f86603986e1b;name=git_38515699_5;destsuffix=vcs_cache/577e4676a2f50c97fb4d38cee5035ca19849a09a3f986733a02de10c991c03d2"
++SRC_URI += "git://go.googlesource.com/text;protocol=https;nobranch=1;tag=v0.3.0;shallow=1;rev=f21a4dfb5e38f5895301dc265a8def02365cc3d0;name=git_38515699_6;destsuffix=vcs_cache/e9ec4c6af0acd56750bc559cb32d09c01276f0ac22e70bb84dd122fdfa9e2db7"
++SRC_URI += "git://go.googlesource.com/sync;protocol=https;branch=master;rev=112230192c580c3556b8cee6403af37a4fc5f28c;name=git_d7307bee_0;destsuffix=vcs_cache/b68e56943c8c12324ce0414e7075fd80f016eafe879c0c69e6b25893ebb49bce"
++SRC_URI += "git://go.googlesource.com/sync;protocol=https;nobranch=1;tag=v0.18.0;shallow=1;rev=1966f539bbd7664efd5bb7462ae94d9db67f4502;name=git_d7307bee_1;destsuffix=vcs_cache/ebf6fd09cb715ca3918f1d9bcf5429f708b1f0cec51d03ec50e2b14777bc5963"
++SRC_URI += "git://go.googlesource.com/sync;protocol=https;branch=master;rev=67f06af15bc961c363a7260195bcd53487529a21;name=git_d7307bee_2;destsuffix=vcs_cache/63c5dce6fecd17ec0193ec4ee4221b61ccd0834c745a066128df4000c7ec583e"
++SRC_URI += "git://go.googlesource.com/sync;protocol=https;branch=master;rev=886fb9371eb4b47af10bff9c8025a8c9e1554b92;name=git_d7307bee_3;destsuffix=vcs_cache/ca22f14e147dd49170157c4d70861fe830bc43b62113fa8da7da7806f515979b"
++SRC_URI += "git://go.googlesource.com/sync;protocol=https;branch=master;rev=cd5d95a43a6e21273425c7ae415d3df9ea832eeb;name=git_d7307bee_4;destsuffix=vcs_cache/eaa2921285a7524f3154ea98a551847767b259c18f901ed97668900b204aa7a6"
++SRC_URI += "git://go.googlesource.com/sync;protocol=https;nobranch=1;tag=v0.20.0;shallow=1;rev=ec11c4a93de22cde2abe2bf74d70791033c2464c;name=git_d7307bee_5;destsuffix=vcs_cache/7832f0aec63a5b5bc0fa1a349a5a6f0126ede331ea71a528ecb5f3968f2b000c"
++SRC_URI += "git://go.googlesource.com/time;protocol=https;nobranch=1;tag=v0.14.0;shallow=1;rev=2b4e43900c03fd6b77109b7b2b6d77583f48bc1c;name=git_e2f6844a_0;destsuffix=vcs_cache/0b5a85f52d49b5c97b97cde355131c98905f13038f61a5848c4d01a01512f74b"
++SRC_URI += "git://go.googlesource.com/oauth2;protocol=https;nobranch=1;tag=v0.36.0;shallow=1;rev=4d954e69a88d9e1ccb8439f8d5b6cbef230c4ef9;name=git_d7a72cb8_0;destsuffix=vcs_cache/864afddc69fad1ce0a681e3dd141ae639e4d432bb2054f4e23bade98cd28e520"
++SRC_URI += "git://go.googlesource.com/oauth2;protocol=https;nobranch=1;tag=v0.32.0;shallow=1;rev=792c8776358f0c8689d84eef0d0c966937d560fb;name=git_d7a72cb8_1;destsuffix=vcs_cache/5299f99fe900c9f416ec8f845e101931917c9ec20b42262d8341778bde5e7247"
++SRC_URI += "git://go.googlesource.com/oauth2;protocol=https;nobranch=1;tag=v0.33.0;shallow=1;rev=f28b0b5467dda26d56f1240381158f7c334654d1;name=git_d7a72cb8_2;destsuffix=vcs_cache/231775307d2198402b4332072fb4567ff1a13e24f257ef58f6e3fdb368a76ee0"
+ SRC_URI += "git://go.googlesource.com/sys;protocol=https;nobranch=1;tag=v0.38.0;shallow=1;rev=15129aafc3056028aa2694528ac20373f8cd34e4;name=git_da0444fc_0;destsuffix=vcs_cache/31b4a87892cd1d88cf590c31b22ef78bd77b4e57c5287e1e0eb653c03ef43d8b"
+-SRC_URI += "git://go.googlesource.com/sys;protocol=https;nobranch=1;rev=33da011f77ade50ff5b6a6fb4a9a1e6d6b285809;name=git_da0444fc_1;destsuffix=vcs_cache/144d2f77c6aa06af51d5820df4e7506c5ecad01c86e770e0027b682ff0d3f9a9"
+-SRC_URI += "git://go.googlesource.com/sys;protocol=https;nobranch=1;rev=43e1dd70ce54ee5b1711930029ae5b4926f78f72;name=git_da0444fc_2;destsuffix=vcs_cache/61395547cb668a679b4d7508a904d02fd50ffe1630e5ffd6f4ef293a97c2d3ba"
+-SRC_URI += "git://go.googlesource.com/sys;protocol=https;nobranch=1;rev=59db8d763f22395595c26ee1cae0886b57141b3a;name=git_da0444fc_3;destsuffix=vcs_cache/34a6c6ff0efd234ebc0cc2a5cfdad07405fca7403da460f8d25bfb69091bc0c5"
+-SRC_URI += "git://go.googlesource.com/sys;protocol=https;nobranch=1;rev=665e8c7367d1ecf644cea2d163019ef59c13d554;name=git_da0444fc_4;destsuffix=vcs_cache/7389e79775019a8b50e34efbdfd1a6f9ee910ef3822e04963ba444b3d04db399"
+-SRC_URI += "git://go.googlesource.com/sys;protocol=https;nobranch=1;rev=8c9f86f7a55f5af45a9080f6ed3ac915382d369c;name=git_da0444fc_5;destsuffix=vcs_cache/2b23297aec08f23623501029a20a4eee604e87ce090001ef6ad0a5930d799dd5"
++SRC_URI += "git://go.googlesource.com/sys;protocol=https;branch=master;rev=33da011f77ade50ff5b6a6fb4a9a1e6d6b285809;name=git_da0444fc_1;destsuffix=vcs_cache/144d2f77c6aa06af51d5820df4e7506c5ecad01c86e770e0027b682ff0d3f9a9"
++SRC_URI += "git://go.googlesource.com/sys;protocol=https;branch=master;rev=43e1dd70ce54ee5b1711930029ae5b4926f78f72;name=git_da0444fc_2;destsuffix=vcs_cache/61395547cb668a679b4d7508a904d02fd50ffe1630e5ffd6f4ef293a97c2d3ba"
++SRC_URI += "git://go.googlesource.com/sys;protocol=https;branch=master;rev=59db8d763f22395595c26ee1cae0886b57141b3a;name=git_da0444fc_3;destsuffix=vcs_cache/34a6c6ff0efd234ebc0cc2a5cfdad07405fca7403da460f8d25bfb69091bc0c5"
++SRC_URI += "git://go.googlesource.com/sys;protocol=https;branch=master;rev=665e8c7367d1ecf644cea2d163019ef59c13d554;name=git_da0444fc_4;destsuffix=vcs_cache/7389e79775019a8b50e34efbdfd1a6f9ee910ef3822e04963ba444b3d04db399"
++SRC_URI += "git://go.googlesource.com/sys;protocol=https;branch=master;rev=8c9f86f7a55f5af45a9080f6ed3ac915382d369c;name=git_da0444fc_5;destsuffix=vcs_cache/2b23297aec08f23623501029a20a4eee604e87ce090001ef6ad0a5930d799dd5"
+ SRC_URI += "git://go.googlesource.com/sys;protocol=https;nobranch=1;tag=v0.1.0;shallow=1;rev=95e765b1cc43ac521bd4fd501e00774e34401449;name=git_da0444fc_6;destsuffix=vcs_cache/b1e9a27b98fa2dd77074f2947aa9586de17609eb0bdd77672fccab342a0f1a77"
+-SRC_URI += "git://go.googlesource.com/sys;protocol=https;nobranch=1;rev=97732733099d6a942a73b889770774366de963ed;name=git_da0444fc_7;destsuffix=vcs_cache/aa620878a9f9f2576616d28b01af853869a5a014c70f6b2966e79beae63baeae"
+-SRC_URI += "git://go.googlesource.com/sys;protocol=https;nobranch=1;rev=a9d3bda3a223baa6bba6ef412cb273f0fd163c05;name=git_da0444fc_8;destsuffix=vcs_cache/b39bbf1e5c63baf8bb27abab5aa581c65e0d2a22893ed2ccbcc8fa2f7dcb1f04"
+-SRC_URI += "git://go.googlesource.com/sys;protocol=https;nobranch=1;rev=bc2c85ada10aa9b6aa9607e9ac9ad0761b95cf1d;name=git_da0444fc_9;destsuffix=vcs_cache/f1ca944a9f749f11954489cf91646b40418e0abb15fdadc5040f1dbba7b6ee33"
++SRC_URI += "git://go.googlesource.com/sys;protocol=https;branch=master;rev=97732733099d6a942a73b889770774366de963ed;name=git_da0444fc_7;destsuffix=vcs_cache/aa620878a9f9f2576616d28b01af853869a5a014c70f6b2966e79beae63baeae"
++SRC_URI += "git://go.googlesource.com/sys;protocol=https;branch=master;rev=a9d3bda3a223baa6bba6ef412cb273f0fd163c05;name=git_da0444fc_8;destsuffix=vcs_cache/b39bbf1e5c63baf8bb27abab5aa581c65e0d2a22893ed2ccbcc8fa2f7dcb1f04"
++SRC_URI += "git://go.googlesource.com/sys;protocol=https;branch=master;rev=bc2c85ada10aa9b6aa9607e9ac9ad0761b95cf1d;name=git_da0444fc_9;destsuffix=vcs_cache/f1ca944a9f749f11954489cf91646b40418e0abb15fdadc5040f1dbba7b6ee33"
+ SRC_URI += "git://go.googlesource.com/sys;protocol=https;nobranch=1;tag=v0.6.0;shallow=1;rev=c7a1bf9a0b0aa7c0c0e35a435924dd68e64d1653;name=git_da0444fc_10;destsuffix=vcs_cache/323536cd91bc88e38213d12787ab63a3504a0061ffc7b17a8c7ca560497f24fa"
+-SRC_URI += "git://go.googlesource.com/sys;protocol=https;nobranch=1;rev=d0b11bdaac8adb652bff00e49bcacf992835621a;name=git_da0444fc_11;destsuffix=vcs_cache/f12e98c7124bdf27aa44290b851a1ac08039087a76b23733d63312bc784b1556"
++SRC_URI += "git://go.googlesource.com/sys;protocol=https;branch=master;rev=d0b11bdaac8adb652bff00e49bcacf992835621a;name=git_da0444fc_11;destsuffix=vcs_cache/f12e98c7124bdf27aa44290b851a1ac08039087a76b23733d63312bc784b1556"
+ SRC_URI += "git://go.googlesource.com/sys;protocol=https;nobranch=1;tag=v0.42.0;shallow=1;rev=eaaaaee1dc1aacededf4a89bc4544558f425d5f1;name=git_da0444fc_12;destsuffix=vcs_cache/8e0c29133c55549f2a5ccd9da93c1f00cb94b6e82a15ed2bf8a2406448f69c37"
+-SRC_URI += "git://go.googlesource.com/sys;protocol=https;nobranch=1;rev=f84b799fce68db3cb46a8f6f819c1e56377181df;name=git_da0444fc_13;destsuffix=vcs_cache/5e73009c1afca32127ea1cb27ff11e49ac3eab70df61f2738a4e4d8f95e48511"
+-SRC_URI += "git://go.googlesource.com/sys;protocol=https;nobranch=1;rev=fdedc70b468f679c263a3ccaefc1faeed3239939;name=git_da0444fc_14;destsuffix=vcs_cache/782e11bb6bc760c1f6beebcc00039d583f0f5dce996fff1adc7a3eac70c2c65b"
+-SRC_URI += "git://go.googlesource.com/mod;protocol=https;nobranch=1;tag=v0.3.0;shallow=1;rev=859b3ef565e237f9f1a0fb6b55385c497545680d;name=git_13df7481_0;destsuffix=vcs_cache/c7adf8bcca55c1652cddd18c7e949788e387f878482d2553dd5f0a8b63dae8ba"
+-SRC_URI += "git://go.googlesource.com/mod;protocol=https;nobranch=1;rev=86c51ed26bb44749b7d60a57bab0e7524656fe8a;name=git_13df7481_1;destsuffix=vcs_cache/8d01fb415e3ecdf7c1c57243ebaa9b07a2cecd87ea1574f747bbc2ab686be373"
+-SRC_URI += "git://go.googlesource.com/mod;protocol=https;nobranch=1;tag=v0.29.0;shallow=1;rev=bba3e065a67271df90253c78c98f2cea7f572948;name=git_13df7481_2;destsuffix=vcs_cache/e2f24273f66162f4a2bfde7357a860b565262f0932e1d1bcba22f2c375336f39"
+-SRC_URI += "git://go.googlesource.com/mod;protocol=https;nobranch=1;tag=v0.31.0;shallow=1;rev=d271cf332fd221d661d13b186b51a11d7e66ff74;name=git_13df7481_3;destsuffix=vcs_cache/cb53cc14448559f4b79c8c47297f628afbc8171ff501cdc4743c5f4030033dd7"
+-SRC_URI += "git://go.googlesource.com/mod;protocol=https;nobranch=1;tag=v0.2.0;shallow=1;rev=ed3ec21bb8e252814c380df79a80f366440ddb2d;name=git_13df7481_4;destsuffix=vcs_cache/d8ce3a26ef11a4e81bfc12391c4d0bf865766bcb2812acb31931c12ee0d326f8"
+-SRC_URI += "git://go.googlesource.com/oauth2;protocol=https;nobranch=1;tag=v0.32.0;shallow=1;rev=792c8776358f0c8689d84eef0d0c966937d560fb;name=git_d7a72cb8_0;destsuffix=vcs_cache/5299f99fe900c9f416ec8f845e101931917c9ec20b42262d8341778bde5e7247"
+-SRC_URI += "git://go.googlesource.com/oauth2;protocol=https;nobranch=1;tag=v0.33.0;shallow=1;rev=f28b0b5467dda26d56f1240381158f7c334654d1;name=git_d7a72cb8_1;destsuffix=vcs_cache/231775307d2198402b4332072fb4567ff1a13e24f257ef58f6e3fdb368a76ee0"
+-SRC_URI += "git://go.googlesource.com/term;protocol=https;nobranch=1;rev=03fcf44c2211dcd5eb77510b5f7c1fb02d6ded50;name=git_2e975dd2_0;destsuffix=vcs_cache/39b5e1daf17afc894da71452dbc3a21bfd60c2a69143fd621e2f4c38e90360ea"
++SRC_URI += "git://go.googlesource.com/sys;protocol=https;branch=master;rev=f84b799fce68db3cb46a8f6f819c1e56377181df;name=git_da0444fc_13;destsuffix=vcs_cache/5e73009c1afca32127ea1cb27ff11e49ac3eab70df61f2738a4e4d8f95e48511"
++SRC_URI += "git://go.googlesource.com/sys;protocol=https;nobranch=1;tag=v0.44.0;shallow=1;rev=fb1facd76f95fa87c151018200ea5e4892ff115d;name=git_da0444fc_14;destsuffix=vcs_cache/6f609e950a030bdc26d17f92e04a240e08056999bfc36f1bb76905a96337c8d1"
++SRC_URI += "git://go.googlesource.com/sys;protocol=https;branch=master;rev=fdedc70b468f679c263a3ccaefc1faeed3239939;name=git_da0444fc_15;destsuffix=vcs_cache/782e11bb6bc760c1f6beebcc00039d583f0f5dce996fff1adc7a3eac70c2c65b"
++SRC_URI += "git://go.googlesource.com/term;protocol=https;branch=master;rev=03fcf44c2211dcd5eb77510b5f7c1fb02d6ded50;name=git_2e975dd2_0;destsuffix=vcs_cache/39b5e1daf17afc894da71452dbc3a21bfd60c2a69143fd621e2f4c38e90360ea"
+ SRC_URI += "git://go.googlesource.com/term;protocol=https;nobranch=1;tag=v0.37.0;shallow=1;rev=1231d5465be98a7c5f01140358c142d365d4fbb6;name=git_2e975dd2_1;destsuffix=vcs_cache/dc68a83f0b959f11ba9a73ae88839dbcfaa7f3926b2c644ab3d6371b08b9487e"
+ SRC_URI += "git://go.googlesource.com/term;protocol=https;nobranch=1;tag=v0.38.0;shallow=1;rev=3863673230bd2f654d5c3749dc90e6d130067dd6;name=git_2e975dd2_2;destsuffix=vcs_cache/71d12ef0538a7e08304bd53ff5dbe1a79f60001589f3d0127d4b8bfc96b4cb9e"
+-SRC_URI += "git://go.googlesource.com/term;protocol=https;nobranch=1;rev=7de9c90e9dd184706b838f536a1cbf40a296ddb7;name=git_2e975dd2_3;destsuffix=vcs_cache/ead0d27eba7bab1501c9338f4e8f06fcaeada49e20ae7ea11b3242a3e7e99835"
+-SRC_URI += "git://go.googlesource.com/sync;protocol=https;nobranch=1;rev=112230192c580c3556b8cee6403af37a4fc5f28c;name=git_d7307bee_0;destsuffix=vcs_cache/b68e56943c8c12324ce0414e7075fd80f016eafe879c0c69e6b25893ebb49bce"
+-SRC_URI += "git://go.googlesource.com/sync;protocol=https;nobranch=1;tag=v0.18.0;shallow=1;rev=1966f539bbd7664efd5bb7462ae94d9db67f4502;name=git_d7307bee_1;destsuffix=vcs_cache/ebf6fd09cb715ca3918f1d9bcf5429f708b1f0cec51d03ec50e2b14777bc5963"
+-SRC_URI += "git://go.googlesource.com/sync;protocol=https;nobranch=1;rev=67f06af15bc961c363a7260195bcd53487529a21;name=git_d7307bee_2;destsuffix=vcs_cache/63c5dce6fecd17ec0193ec4ee4221b61ccd0834c745a066128df4000c7ec583e"
+-SRC_URI += "git://go.googlesource.com/sync;protocol=https;nobranch=1;rev=886fb9371eb4b47af10bff9c8025a8c9e1554b92;name=git_d7307bee_3;destsuffix=vcs_cache/ca22f14e147dd49170157c4d70861fe830bc43b62113fa8da7da7806f515979b"
+-SRC_URI += "git://go.googlesource.com/sync;protocol=https;nobranch=1;rev=cd5d95a43a6e21273425c7ae415d3df9ea832eeb;name=git_d7307bee_4;destsuffix=vcs_cache/eaa2921285a7524f3154ea98a551847767b259c18f901ed97668900b204aa7a6"
+-SRC_URI += "git://go.googlesource.com/sync;protocol=https;nobranch=1;tag=v0.20.0;shallow=1;rev=ec11c4a93de22cde2abe2bf74d70791033c2464c;name=git_d7307bee_5;destsuffix=vcs_cache/7832f0aec63a5b5bc0fa1a349a5a6f0126ede331ea71a528ecb5f3968f2b000c"
++SRC_URI += "git://go.googlesource.com/term;protocol=https;branch=master;rev=7de9c90e9dd184706b838f536a1cbf40a296ddb7;name=git_2e975dd2_3;destsuffix=vcs_cache/ead0d27eba7bab1501c9338f4e8f06fcaeada49e20ae7ea11b3242a3e7e99835"
++SRC_URI += "git://go.googlesource.com/term;protocol=https;nobranch=1;tag=v0.41.0;shallow=1;rev=9d2dc074d2bdcb2229cbbaa0a252eace245a6489;name=git_2e975dd2_4;destsuffix=vcs_cache/7bae64b3057af373aecee34a2667fba2aff1e229ff6472c080e93e65458ffe5a"
+ SRC_URI += "git://go.googlesource.com/crypto;protocol=https;nobranch=1;tag=v0.46.0;shallow=1;rev=19acf81bd7bc7b558d18a550e8e023df2c33e742;name=git_f72f7a6f_0;destsuffix=vcs_cache/798f6d5ef5f210d9df33b4e7c70674a661cd004d741bfb266c427b6f478b1cc8"
+ SRC_URI += "git://go.googlesource.com/crypto;protocol=https;nobranch=1;tag=v0.45.0;shallow=1;rev=4e0068c0098be10d7025c99ab7c50ce454c1f0f9;name=git_f72f7a6f_1;destsuffix=vcs_cache/8e06e9b13668ac944956ad59f8348e8b4c938e9d610a8227755b513dc6a69aa7"
+-SRC_URI += "git://go.googlesource.com/net;protocol=https;nobranch=1;rev=0de0cce0169b09b364e001f108dc0399ea8630b3;name=git_ed42bd05_0;destsuffix=vcs_cache/4a83ce2ea03f8d39736df96f33e3c12c6f2736e4e2d7c83f96b043f96b097451"
+-SRC_URI += "git://go.googlesource.com/net;protocol=https;nobranch=1;tag=v0.48.0;shallow=1;rev=35e1306bddd863f360fb94480c5fed84229953f0;name=git_ed42bd05_1;destsuffix=vcs_cache/933b45295e922f06f042181b7cf7fb2f2b10035e52fef5bbb293c1cb6ea68cf6"
+-SRC_URI += "git://go.googlesource.com/net;protocol=https;nobranch=1;rev=3b0461eec859c4b73bb64fdc8285971fd33e3938;name=git_ed42bd05_2;destsuffix=vcs_cache/3c84774e4b117bf9ca7f463a9106bc672447617fbfdf58b268e7a74cb79b8882"
+-SRC_URI += "git://go.googlesource.com/net;protocol=https;nobranch=1;tag=v0.47.0;shallow=1;rev=9a296438e54dff851a45667aa645a97003b44db5;name=git_ed42bd05_3;destsuffix=vcs_cache/8c32d9cb50e30e4c5deab8ef39dfee35e4f56c13625493919d433a59ec1eb2e4"
+-SRC_URI += "git://go.googlesource.com/net;protocol=https;nobranch=1;rev=a158d28d115bfbcc1583374c5ae12ba6415bb93e;name=git_ed42bd05_4;destsuffix=vcs_cache/2de939cb01f6e50973e8ce809ddfa5b8ceec4f7d5e7a3aef65caea692eb1f5b5"
+-SRC_URI += "git://go.googlesource.com/net;protocol=https;nobranch=1;rev=e18ecbb051101a46fc263334b127c89bc7bff7ea;name=git_ed42bd05_5;destsuffix=vcs_cache/376d3afffd1f62bc65b76e58fc724fe033367b5c6b239fa6c7d0367687a2bfbd"
+-SRC_URI += "git://go.googlesource.com/net;protocol=https;nobranch=1;rev=eb5bcb51f2a31c7d5141d810b70815c05d9c9146;name=git_ed42bd05_6;destsuffix=vcs_cache/ae86d4593bf8e0a0514f77d1f3831f0f2f4214c3d1e77cc50661343ba4fcdebe"
+-SRC_URI += "git://go.googlesource.com/net;protocol=https;nobranch=1;rev=f5854403a9740e74b2e9e725e6cd7c8a57711905;name=git_ed42bd05_7;destsuffix=vcs_cache/fc8ecf11eddaf279509465d2c0dde9c76fb90ea7c097356e83c6ed4c375e1c16"
+-SRC_URI += "git://go.googlesource.com/exp;protocol=https;nobranch=1;rev=df9299821621739a7bc3340d51dd518f7f4abc32;name=git_879ce674_0;destsuffix=vcs_cache/b29a418d7bb6e15cce9cdb2caf0de7ed5dba8f2a38735a52d5d41801549b0ebf"
+-SRC_URI += "git://go.googlesource.com/text;protocol=https;nobranch=1;tag=v0.32.0;shallow=1;rev=0dd57a6ef90c283b902525213f15d6b2a59cc84b;name=git_38515699_0;destsuffix=vcs_cache/db1055c090da946a126ac8573a0148f86e0c41f537a9ee33dc5eefbe656d95ed"
+-SRC_URI += "git://go.googlesource.com/text;protocol=https;nobranch=1;tag=v0.4.0;shallow=1;rev=1bdb400fb39a45cc788ffe7e5d7a2a9719afc7e9;name=git_38515699_1;destsuffix=vcs_cache/5ad35cfebebfa5b556ca6d44b5026673bb71ab874271a0fc395ab751275779ae"
+-SRC_URI += "git://go.googlesource.com/text;protocol=https;nobranch=1;tag=v0.3.3;shallow=1;rev=23ae387dee1f90d29a23c0e87ee0b46038fbed0e;name=git_38515699_2;destsuffix=vcs_cache/fc27daff31c5f47a26c7ef94196bf8cee86c79308480edbe7cf8e4dc0c447e43"
+-SRC_URI += "git://go.googlesource.com/text;protocol=https;nobranch=1;tag=v0.3.7;shallow=1;rev=383b2e75a7a4198c42f8f87833eefb772868a56f;name=git_38515699_3;destsuffix=vcs_cache/3b8a76fcf794a9f1d2139606900fb5805f666e19e7234b234fc05ccf35ef6a06"
+-SRC_URI += "git://go.googlesource.com/text;protocol=https;nobranch=1;tag=v0.31.0;shallow=1;rev=e7ff6b3572e1a83c072ef150c985f86603986e1b;name=git_38515699_4;destsuffix=vcs_cache/577e4676a2f50c97fb4d38cee5035ca19849a09a3f986733a02de10c991c03d2"
+-SRC_URI += "git://go.googlesource.com/text;protocol=https;nobranch=1;tag=v0.3.0;shallow=1;rev=f21a4dfb5e38f5895301dc265a8def02365cc3d0;name=git_38515699_5;destsuffix=vcs_cache/e9ec4c6af0acd56750bc559cb32d09c01276f0ac22e70bb84dd122fdfa9e2db7"
+-SRC_URI += "git://go.googlesource.com/time;protocol=https;nobranch=1;tag=v0.14.0;shallow=1;rev=2b4e43900c03fd6b77109b7b2b6d77583f48bc1c;name=git_e2f6844a_0;destsuffix=vcs_cache/0b5a85f52d49b5c97b97cde355131c98905f13038f61a5848c4d01a01512f74b"
+-SRC_URI += "git://go.googlesource.com/tools;protocol=https;nobranch=1;tag=v0.39.0;shallow=1;rev=034e59c473362f8f2be47694d98fd3f12a1ad497;name=git_7d9b3b49_0;destsuffix=vcs_cache/3e134fe07900bbb1f6b786c65f3bae7ddad868e248d5ce0e1a52fc21568e545f"
+-SRC_URI += "git://go.googlesource.com/tools;protocol=https;nobranch=1;rev=113979e3529a77b99c4f3e5f3c8a22802a39cc95;name=git_7d9b3b49_1;destsuffix=vcs_cache/74532c68be1c7f64a0eee926ba2b0b7d4552a8c11bae36838bf170186db4264d"
+-SRC_URI += "git://go.googlesource.com/tools;protocol=https;nobranch=1;rev=298f0cb1881e71e68bc5bc17757fabe78a426460;name=git_7d9b3b49_2;destsuffix=vcs_cache/4bdade122172b6644bff0ea433cdb68d5460d8b894432e030ced235888ac6fdc"
+-SRC_URI += "git://go.googlesource.com/tools;protocol=https;nobranch=1;rev=7c47624df98f421302ad5a380f58fd5ed0ecb734;name=git_7d9b3b49_3;destsuffix=vcs_cache/a7efe20c5bee119c7e0018be6d57820b9b6a182d1818d3ec344c022fad6b7114"
+-SRC_URI += "git://go.googlesource.com/tools;protocol=https;nobranch=1;rev=90fa682c2a6e6a37b3a1364ce2fe1d5e41af9d6d;name=git_7d9b3b49_4;destsuffix=vcs_cache/e396d41e128acc62cbad331ee090a99e470d23a3611d8b07d3c2cc41a1cc0b49"
+-SRC_URI += "git://go.googlesource.com/tools;protocol=https;nobranch=1;tag=v0.38.0;shallow=1;rev=a22b5e8a9b8d2234e1e960ec2473e4011f012a6b;name=git_7d9b3b49_5;destsuffix=vcs_cache/d216d54a0764f2431487fc456233144cce69e8db7cf83fe343dc1b40544002c3"
+-SRC_URI += "git://go.googlesource.com/tools;protocol=https;nobranch=1;tag=v0.1.12;shallow=1;rev=b3b5c13b291f9653da6f31b95db100a2e26bd186;name=git_7d9b3b49_6;destsuffix=vcs_cache/caef14ab3734fcbf0d05c7a9aab8ffc3dee6066c109316257d37ec9c806f1482"
+-SRC_URI += "git://github.com/kubernetes/apimachinery;protocol=https;nobranch=1;tag=v0.34.1;shallow=1;rev=b72d93d174332f952a8d431419fece5e6f044bcb;name=git_d6490ebc_0;destsuffix=vcs_cache/9131e9ebe36078f01c5a5e8e9866300b853aa46fab527d00fc089d4c16938663"
+-SRC_URI += "git://github.com/kubernetes/api;protocol=https;nobranch=1;tag=v0.34.1;shallow=1;rev=77c9e29b068e14d4bcca2d6a4c85b2cc9da5a923;name=git_91745483_0;destsuffix=vcs_cache/5c4bbd0617f6f594b275f1999f97eca8f79dbb30e908e7d6b5c7a80fd5b9b0d2"
+-SRC_URI += "git://github.com/kubernetes/klog;protocol=https;nobranch=1;tag=v2.130.1;shallow=1;rev=75663bb798999a49e3e4c0f2375ed5cca8164194;name=git_9d03197d_0;destsuffix=vcs_cache/eaab5e8e1958570d9bced9a912298fdaa9472cecec794161f58aebf8c4d1e963"
+-SRC_URI += "git://github.com/kubernetes/kube-openapi;protocol=https;nobranch=1;rev=f3f2b991d03be98072466d6aff0880ad93184b2c;name=git_dbee483c_0;destsuffix=vcs_cache/bbdfcb1726af92c510f587baa66600e18719a63bbabc846728d7c2ff829a2146"
+-SRC_URI += "git://github.com/kubernetes/cri-api;protocol=https;nobranch=1;tag=v0.34.1;shallow=1;rev=9b3ce5ec47987aa9451184a42273d4d36e789f83;name=git_31e69ce5_0;destsuffix=vcs_cache/7301e739a4795b683b66e93dd7c6f440f5c5fddd2ad7816c05a5678c723aca60"
+-SRC_URI += "git://github.com/kubernetes/utils;protocol=https;nobranch=1;rev=4c0f3b24339726b3d4a1b610c150919126aad841;name=git_9da930f9_0;destsuffix=vcs_cache/60ee1a48e44e3b939997e0fd54e801d1b11cfe7183c5f295746d2564bd6860e8"
+-SRC_URI += "git://github.com/kubernetes/client-go;protocol=https;nobranch=1;tag=v0.34.1;shallow=1;rev=d033c497ffef47be9b4f81abde5c3d94dd78089a;name=git_0356f569_0;destsuffix=vcs_cache/25b2ca19570dcf36fcfa8a5388cc7647944fee1a9a445671e69704dbd6f452b5"
+-SRC_URI += "git://github.com/open-telemetry/opentelemetry-go-contrib;protocol=https;nobranch=1;tag=detectors/gcp/v1.38.0;shallow=1;rev=80c9316336ebb4f4c67d8e1011a3add889213fb7;name=git_9cecf883_0;destsuffix=vcs_cache/a35299710fa18a3df076b2389758f98c816c8d03e316516b36a9d5299420a7f7"
+-SRC_URI += "git://github.com/open-telemetry/opentelemetry-go-instrumentation;protocol=https;nobranch=1;tag=sdk/v1.2.1;shallow=1;rev=715f58ce2f17e2176b8e53b871e47531a259cc1d;name=git_0cf36a85_0;destsuffix=vcs_cache/1fd877c6ad92470308433b00b2458aacc47c259fb28a0596272d30410c77f412"
+-SRC_URI += "git://github.com/open-telemetry/opentelemetry-proto-go;protocol=https;nobranch=1;tag=otlp/v1.7.1;shallow=1;rev=683f172c00ae2b73cbc85ed1aa2ad86cc0e1ee3f;name=git_430aa893_0;destsuffix=vcs_cache/7362aea1b94649c9ad7d031fd6fe79b2310f347d865614b0be2b844894e28013"
+-SRC_URI += "git://github.com/open-telemetry/opentelemetry-go;protocol=https;nobranch=1;tag=exporters/jaeger/v1.17.0;shallow=1;rev=3c476ce1816ae6f38758e90cc36d8b77ebcc223b;name=git_120ed83a_0;destsuffix=vcs_cache/7257a93ca31d121ae8fee06e2ce5824c46e65e351d7b2daf9b1a27a10d8bb60d"
+-SRC_URI += "git://github.com/open-telemetry/opentelemetry-go;protocol=https;nobranch=1;tag=exporters/prometheus/v0.42.0;shallow=1;rev=60666c554065ac4da502fe28943eea4b938ab479;name=git_120ed83a_1;destsuffix=vcs_cache/5781e823bcdbe01100cd1dc8d89e81f073e0a26cb157df3e236c81af5d21f7e4"
+-SRC_URI += "git://github.com/open-telemetry/opentelemetry-go;protocol=https;nobranch=1;tag=exporters/otlp/otlpmetric/otlpmetricgrpc/v1.38.0;shallow=1;rev=84e3f3ac8b25204f3a0f77a805437a5e08573b35;name=git_120ed83a_2;destsuffix=vcs_cache/a95b69a9e67fb0660691c8d8f29b4fbfe95874e2d916849ef02db0d886ff00b5"
+-SRC_URI += "git://github.com/open-telemetry/opentelemetry-go;protocol=https;nobranch=1;rev=bc2fe88756962b76eb43ea2fd92ed3f5b6491cc0;name=git_120ed83a_3;destsuffix=vcs_cache/32a87864cfa3320f417f47862642c312d2c19908839bd781f0f1073a0a9b899e"
+-SRC_URI += "git://github.com/etcd-io/bbolt;protocol=https;nobranch=1;tag=v1.4.3;shallow=1;rev=68e6b96e6b74ebc396ac1aa7186c92e616960bd1;name=git_bd7d6031_0;destsuffix=vcs_cache/5983ea71bb9e5e22aede686f4e2d57552e937bd9f2a5a3ca5e595c01b957c33a"
+-SRC_URI += "git://github.com/go-check/check;protocol=https;nobranch=1;rev=10cb98267c6cb43ea9cd6793f29ff4089c306974;name=git_fc1e328f_0;destsuffix=vcs_cache/b8ed7c01feb15e76511fd0dcf4b7d5e0ab535f96b5fe0e22cd9854a758a6c38d"
+-SRC_URI += "git://github.com/go-check/check;protocol=https;nobranch=1;rev=20d25e2804050c1cd24a7eea1e7a6447dd0e74ec;name=git_fc1e328f_1;destsuffix=vcs_cache/f6f7125ac7ef086ca6395a14a9a28c8c11cd6f8790a8be7cfd6475d1acd0f40b"
+-SRC_URI += "git://github.com/go-check/check;protocol=https;nobranch=1;rev=8fa46927fb4f5b54d48bde78c6c08db205b2298c;name=git_fc1e328f_2;destsuffix=vcs_cache/23da246e09df0cfb88f7874f3e8ab42f1563033c51f59b8fd9f88f708ab87083"
+-SRC_URI += "git://github.com/go-inf/inf;protocol=https;nobranch=1;tag=v0.9.1;shallow=1;rev=d2d2541c53f18d2a059457998ce2876cc8e67cbf;name=git_989ffae9_0;destsuffix=vcs_cache/61185ca91404d2e09a193aede807b4a9ededd43199f58cd49ec4cef480d7bc7f"
+-SRC_URI += "git://github.com/go-tomb/tomb;protocol=https;nobranch=1;rev=dd632973f1e7218eb1089048e0798ec9ae7dceb8;name=git_40f32ad0_0;destsuffix=vcs_cache/3eb09c53457860b46e591b55bd3d381c6c4ceb426eeef3c43e3b3eac38964c0d"
+-SRC_URI += "git://github.com/go-yaml/yaml;protocol=https;nobranch=1;tag=v2.2.2;shallow=1;rev=51d6538a90f86fe93ac480b35f37b2be17fef232;name=git_b0089ab1_0;destsuffix=vcs_cache/8a100ce674e65e72daf096e45d53f5beec9f9123c742acb89993de84b6414834"
+-SRC_URI += "git://github.com/go-yaml/yaml;protocol=https;nobranch=1;tag=v2.2.8;shallow=1;rev=53403b58ad1b561927d19068c655246f2db79d48;name=git_b0089ab1_1;destsuffix=vcs_cache/400816c86851106c70bff651cdce4df77403b9659ec70d1d1bbe2d3211dfa942"
+-SRC_URI += "git://github.com/go-yaml/yaml;protocol=https;nobranch=1;tag=v2.2.1;shallow=1;rev=5420a8b6744d3b0345ab293f6fcba19c978f1183;name=git_b0089ab1_2;destsuffix=vcs_cache/0fa3b98a4c1a3d9bd017c1d1c94874fecbc693d1400e5f002f53d4444a42664c"
+-SRC_URI += "git://github.com/go-yaml/yaml;protocol=https;nobranch=1;rev=9f266ea9e77c4c7aab4cf02650570e7c7b3031a5;name=git_b0089ab1_3;destsuffix=vcs_cache/ae6e6119974a43d5668501b6efe7e743408319dee4094d1929d3e75a4f5dac98"
+-SRC_URI += "git://github.com/go-yaml/yaml;protocol=https;nobranch=1;tag=v2.2.4;shallow=1;rev=f221b8435cfb71e54062f6c6e99e9ade30b124d5;name=git_b0089ab1_4;destsuffix=vcs_cache/16ad1bc1035b50f99a688a97524eadf6fc6a8b09612f99dd2ef19e0889b7935a"
+-SRC_URI += "git://github.com/go-yaml/yaml;protocol=https;nobranch=1;tag=v3.0.1;shallow=1;rev=f6f7691b1fdeb513f56608cd2c32c51f8194bf51;name=git_b0089ab1_5;destsuffix=vcs_cache/8d340fff421a1861f196061b40e49b2f9e802647204935d08e1062b8ecd90b0d"
+-SRC_URI += "git://gopkg.in/ini.v1;protocol=https;nobranch=1;tag=v1.67.0;shallow=1;rev=b2f570e5b5b844226bbefe6fb521d891f529a951;name=git_b7879a4b_0;destsuffix=vcs_cache/35aca96c4c1dbe28b4a68dd8f9ad52ed4d311b137ae51f57e5f73034281e5da5"
+-SRC_URI += "git://github.com/grpc/grpc-go;protocol=https;nobranch=1;tag=v1.0.5;shallow=1;rev=708a7f9f3283aa2d4f6132d287d78683babe55c8;name=git_6bc32f05_0;destsuffix=vcs_cache/a8f63cb0b9589a8734365d4e15d54811da5f80c7314224f78f912146fcb9e1d8"
+-SRC_URI += "git://github.com/grpc/grpc-go;protocol=https;nobranch=1;tag=v1.77.0;shallow=1;rev=805b1f88c5fb9419e3837c72e1deb9c2ec677ffe;name=git_6bc32f05_1;destsuffix=vcs_cache/6a4d91efb4524dab3f60e9d933cded144ffbbfe78825b7b8af87b3f8ac1f948f"
+-SRC_URI += "git://github.com/grpc/grpc-go;protocol=https;nobranch=1;tag=v1.78.0;shallow=1;rev=9df039ef2c921978514b600c9d5c6bf25cce54f6;name=git_6bc32f05_2;destsuffix=vcs_cache/0638a64122abeb115144e72987920717a22fb1af701d28ef847f1f50cf61c8ac"
+-SRC_URI += "git://github.com/grpc/grpc-go;protocol=https;nobranch=1;tag=cmd/protoc-gen-go-grpc/v1.5.1;shallow=1;rev=ec9dff77b186d5308955fe0fc50e3e4cbe187e2c;name=git_6bc32f05_3;destsuffix=vcs_cache/ce5a862c22ded840bff7b7ec1016804cb0af284075ea09fb5fe73b9866532a3a"
+-SRC_URI += "git://github.com/googleapis/go-genproto;protocol=https;nobranch=1;rev=3a174f9686a8c31630db6dcfd3e1ebbaefa11974;name=git_461a63b9_0;destsuffix=vcs_cache/b5ce4250f6640d334872a72f3816006a60b60061151262fb86636fdb602cb7f6"
+-SRC_URI += "git://github.com/googleapis/go-genproto;protocol=https;nobranch=1;rev=637eb2293923635deb6e44d88eb5f70e9faad7e0;name=git_461a63b9_1;destsuffix=vcs_cache/21c46bcd2e99306470dba32b1498445db51b8fb0eb86d97f796374b8d215eb9c"
+-SRC_URI += "git://github.com/googleapis/go-genproto;protocol=https;nobranch=1;rev=f26f9409b1015066eedc5c8084c945f7a5215f34;name=git_461a63b9_2;destsuffix=vcs_cache/2a836781ea0b225ac15b54d6058e34525750c5a309d733ac59c70bd294604259"
+-SRC_URI += "git://go.googlesource.com/protobuf;protocol=https;nobranch=1;tag=v1.36.11;shallow=1;rev=96a179180f0ad6bba9b1e7b6e38d0affb0168e9a;name=git_a6c5d6b8_0;destsuffix=vcs_cache/d5e44d171a0e43b2572231e7dad4dbb2fbeb34ff9c7aaf7a36a393294ff3d55d"
+-SRC_URI += "git://go.googlesource.com/protobuf;protocol=https;nobranch=1;tag=v1.36.10;shallow=1;rev=f9fa50e26c0ffec610c509850484a5fdecdb26ec;name=git_a6c5d6b8_1;destsuffix=vcs_cache/3436497d01a86cde43a5e76c997e02e0547f362e8f0246dcbb7680acad79157f"
+-SRC_URI += "git://github.com/mongodb/mongo-go-driver.git;protocol=https;nobranch=1;tag=v1.17.6;shallow=1;rev=d2fa0ab6f3ba0579b7bca7912d30e23907ffec9a;name=git_7f8fc3cf_0;destsuffix=vcs_cache/e629113ada68e74e78e8cccbe5f20cfc312b1982f3b922205f92ed2458babd7f"
+-SRC_URI += "git://github.com/cncf-tags/container-device-interface;protocol=https;nobranch=1;tag=specs-go/v1.0.0;shallow=1;rev=40e4c311613750fb2bf8766635d4ed60c0bf3194;name=git_c2439148_0;destsuffix=vcs_cache/a9b36137e55bc5c537c3eddc79e73eca4dc1c855628a8e32e027103df4d865f4"
+-SRC_URI += "git://github.com/cncf-tags/container-device-interface;protocol=https;nobranch=1;tag=v1.0.1;shallow=1;rev=79790445c2d70820f6824eb42832d2efd0f08dd2;name=git_c2439148_1;destsuffix=vcs_cache/228f05c3a05800a5e1340385d34910aac599df817838e50aa367b9cd09151186"
+-SRC_URI += "git://github.com/cncf-tags/container-device-interface;protocol=https;nobranch=1;tag=specs-go/v1.1.0;shallow=1;rev=98a7d735d9592c1ccca0130e06b0709f4b65ecbf;name=git_c2439148_2;destsuffix=vcs_cache/2a0706ee0554e66b341fabb5c09e62f00336b0a7e6faac981d973f30b4064622"
+-SRC_URI += "git://github.com/googleapis/google-cloud-go;protocol=https;nobranch=1;tag=compute/metadata/v0.9.0;shallow=1;rev=7b2365446764b0bba37198a55644954b437bddd0;name=git_8ce8c847_0;destsuffix=vcs_cache/ef8ad73ce6cafa3fbb115b0895d2b391fa5aefa58dac151c1ff06e7279185884"
+-SRC_URI += "git://github.com/gotestyourself/gotest.tools;protocol=https;nobranch=1;tag=v3.5.2;shallow=1;rev=0b81523ff268a1f1b0baf4a5da67e42fbb86880b;name=git_6a558ec9_0;destsuffix=vcs_cache/0059a65e8d8f001755ae605517342ab3e098223b600f512103941850dfee7cc5"
+-SRC_URI += "git://github.com/imdario/mergo;protocol=https;nobranch=1;tag=v1.0.2;shallow=1;rev=7b33b2b01026fbbbbfcfbb1ee2c9c0a5e0c9a9f7;name=git_c84ab7ed_0;destsuffix=vcs_cache/b16914f71b927e268f1d35e84fd54af7eca655000013af4d0f184bcbd154847c"
++SRC_URI += "git://go.googlesource.com/crypto;protocol=https;nobranch=1;tag=v0.48.0;shallow=1;rev=e08b06753d6a72f1fe375b6e0fefefb39917c165;name=git_f72f7a6f_2;destsuffix=vcs_cache/290314b4367a5ace3f2dd13a6b31df560c76113926e950c1eff3b3688c7b62cc"
++SRC_URI += "git://go.googlesource.com/mod;protocol=https;nobranch=1;tag=v0.33.0;shallow=1;rev=27761a2ad800eabb86324226bb5e39adb07759da;name=git_13df7481_0;destsuffix=vcs_cache/f4d87b9979324a4a559aa3f3168d28c10683e20256233c463ae48bfbe67ed05d"
++SRC_URI += "git://go.googlesource.com/mod;protocol=https;nobranch=1;tag=v0.3.0;shallow=1;rev=859b3ef565e237f9f1a0fb6b55385c497545680d;name=git_13df7481_1;destsuffix=vcs_cache/c7adf8bcca55c1652cddd18c7e949788e387f878482d2553dd5f0a8b63dae8ba"
++SRC_URI += "git://go.googlesource.com/mod;protocol=https;branch=master;rev=86c51ed26bb44749b7d60a57bab0e7524656fe8a;name=git_13df7481_2;destsuffix=vcs_cache/8d01fb415e3ecdf7c1c57243ebaa9b07a2cecd87ea1574f747bbc2ab686be373"
++SRC_URI += "git://go.googlesource.com/mod;protocol=https;nobranch=1;tag=v0.29.0;shallow=1;rev=bba3e065a67271df90253c78c98f2cea7f572948;name=git_13df7481_3;destsuffix=vcs_cache/e2f24273f66162f4a2bfde7357a860b565262f0932e1d1bcba22f2c375336f39"
++SRC_URI += "git://go.googlesource.com/mod;protocol=https;nobranch=1;tag=v0.31.0;shallow=1;rev=d271cf332fd221d661d13b186b51a11d7e66ff74;name=git_13df7481_4;destsuffix=vcs_cache/cb53cc14448559f4b79c8c47297f628afbc8171ff501cdc4743c5f4030033dd7"
++SRC_URI += "git://go.googlesource.com/mod;protocol=https;nobranch=1;tag=v0.2.0;shallow=1;rev=ed3ec21bb8e252814c380df79a80f366440ddb2d;name=git_13df7481_5;destsuffix=vcs_cache/d8ce3a26ef11a4e81bfc12391c4d0bf865766bcb2812acb31931c12ee0d326f8"
++SRC_URI += "git://go.googlesource.com/xerrors;protocol=https;branch=master;rev=1b5146add8981d58be77b16229c0ff0f8bebd8c1;name=git_e8cbb9fc_0;destsuffix=vcs_cache/8c142112d3bf2046dde4cb3dda11db03c95a8ab51bfb424b4d31be45594f7e6a"
++SRC_URI += "git://go.googlesource.com/xerrors;protocol=https;branch=master;rev=5ec99f83aff198f5fbd629d6c8d8eb38a04218ca;name=git_e8cbb9fc_1;destsuffix=vcs_cache/1a7eef0babb47828059471e537bef1e9023bf22cd1c23e5fcaf7523b68332e82"
++SRC_URI += "git://go.googlesource.com/xerrors;protocol=https;branch=master;rev=9bdfabe68543c54f90421aeb9a60ef8061b5b544;name=git_e8cbb9fc_2;destsuffix=vcs_cache/a190c0bd506167cc1631eefeb81697d88fd666066c0d35abb4f058915f9881cd"
++SRC_URI += "git://go.googlesource.com/xerrors;protocol=https;branch=master;rev=a985d3407aa71f30cf86696ee0a2f409709f22e1;name=git_e8cbb9fc_3;destsuffix=vcs_cache/19bf66358270f1db6b287805895c6fc8385236e01234a96b3da1d15fe70245f7"
+ 
+diff --git a/recipes-containers/docker-compose/go-mod-hybrid-cache.inc b/recipes-containers/docker-compose/go-mod-hybrid-cache.inc
+index f6e9b94d..c0cbf4fe 100644
+--- a/recipes-containers/docker-compose/go-mod-hybrid-cache.inc
++++ b/recipes-containers/docker-compose/go-mod-hybrid-cache.inc
+@@ -8,10 +8,10 @@ inherit go-mod-vcs
+ GO_MODULE_CACHE_DATA = '[\
+ {"module":"github.com/containerd/accelerated-container-image","version":"v1.3.0","vcs_hash":"3c38450d2e9b921d8073a5c5afb9472d94858098bc1fe7d691687d51d0ede1ff","timestamp":"2025-02-13T08:02:42Z","subdir":"","vcs_ref":"refs/tags/v1.3.0"},\
+ {"module":"github.com/containerd/btrfs/v2","version":"v2.0.0","vcs_hash":"8a2ee3ce7d871ae06962c07984197acdfd6035091884c9db0791378ac0229823","timestamp":"2023-02-10T01:01:25Z","subdir":"","vcs_ref":"refs/tags/v2.0.0"},\
+-{"module":"github.com/containerd/cgroups/v3","version":"v3.1.2","vcs_hash":"0a57a364d007af5ddf18af34b681967bf3bdb72cbf2ee50c605be53e1d114a0b","timestamp":"2025-11-26T14:43:42Z","subdir":"","vcs_ref":"refs/tags/v3.1.2"},\
++{"module":"github.com/containerd/cgroups/v3","version":"v3.1.3","vcs_hash":"3cacf869e6e5cb422592906f0e2f211bc239e0b2c0730e85debdfc8989de9e0d","timestamp":"2026-02-12T22:21:12Z","subdir":"","vcs_ref":"refs/tags/v3.1.3"},\
+ {"module":"github.com/containerd/console","version":"v1.0.5","vcs_hash":"a38aca664db28f607862e39301d2fd06b3c58312662cbd189f451215c3eb9894","timestamp":"2025-05-20T06:25:07Z","subdir":"","vcs_ref":"refs/tags/v1.0.5"},\
+ {"module":"github.com/containerd/containerd/api","version":"v1.10.0","vcs_hash":"4ae09c91c596d23f3127d6821ac6178aa6512e66eba4da3a39e7c94903e2407b","timestamp":"2025-11-05T15:11:32Z","subdir":"api","vcs_ref":"refs/tags/api/v1.10.0"},\
+-{"module":"github.com/containerd/containerd/v2","version":"v2.2.2","vcs_hash":"ea4b5c8a660b2fc1f2b90648b4488ba3c3ee8dd68fa6b07824587410c3886213","timestamp":"2026-03-10T19:55:31Z","subdir":"","vcs_ref":"refs/tags/v2.2.2"},\
++{"module":"github.com/containerd/containerd/v2","version":"v2.2.3","vcs_hash":"6bdcec8161cf9b56318822f061b0c10ac8c38d747a52bfbc4a9280b6ffc47f96","timestamp":"2026-04-14T17:18:07Z","subdir":"","vcs_ref":"refs/tags/v2.2.3"},\
+ {"module":"github.com/containerd/continuity","version":"v0.4.5","vcs_hash":"ef286b146362aa5da58f9ef4e88323a32e1ea45eda78c6d484875972ce0a81e0","timestamp":"2024-10-30T04:18:59Z","subdir":"","vcs_ref":"refs/tags/v0.4.5"},\
+ {"module":"github.com/containerd/errdefs","version":"v1.0.0","vcs_hash":"d9d1c9949e837f39205605237b656e944c7d0cd69e48a906fabdb6bebe0edb66","timestamp":"2024-10-08T13:10:09Z","subdir":"","vcs_ref":"refs/tags/v1.0.0"},\
+ {"module":"github.com/containerd/errdefs/pkg","version":"v0.3.0","vcs_hash":"d9d1c9949e837f39205605237b656e944c7d0cd69e48a906fabdb6bebe0edb66","timestamp":"2024-10-08T13:10:09Z","subdir":"pkg","vcs_ref":"refs/tags/pkg/v0.3.0"},\
+@@ -22,15 +22,15 @@ GO_MODULE_CACHE_DATA = '[\
+ {"module":"github.com/containerd/imgcrypt/v2","version":"v2.0.1","vcs_hash":"cf07f49bde1cc9b1c042dfb7055d38c832cb69592e89521daa5ad46b367e047b","timestamp":"2025-03-18T01:41:40Z","subdir":"","vcs_ref":"refs/tags/v2.0.1"},\
+ {"module":"github.com/containerd/log","version":"v0.1.0","vcs_hash":"697be36d9b8a0eb34f8591d0f69b6d596e1e9341b5944ebf81ddd334b1907bc6","timestamp":"2023-09-09T00:27:15Z","subdir":"","vcs_ref":"refs/tags/v0.1.0"},\
+ {"module":"github.com/containerd/nri","version":"v0.11.0","vcs_hash":"9ef2c512de0aabf89c060ed428bc6ef3d29fc64b917b4a81d88abcada3f49d90","timestamp":"2025-12-17T00:38:45Z","subdir":"","vcs_ref":"refs/tags/v0.11.0"},\
+-{"module":"github.com/containerd/nydus-snapshotter","version":"v0.15.10","vcs_hash":"8950efb8ebb00c25adcc9f3c186f0f47f0a67ddde318fcaeb41450e1d3559580","timestamp":"2025-12-18T11:26:51Z","subdir":"","vcs_ref":"refs/tags/v0.15.10"},\
++{"module":"github.com/containerd/nydus-snapshotter","version":"v0.15.13","vcs_hash":"a0835e29b3bcd359c5e58edc0199e5b1e743fdfb61df75a517d0410875535761","timestamp":"2026-03-24T12:42:39Z","subdir":"","vcs_ref":"refs/tags/v0.15.13"},\
+ {"module":"github.com/containerd/otelttrpc","version":"v0.1.0","vcs_hash":"c27d4a7087a7f4624cdf40c161f9707dbb90cd2d71159840f7c7b610260e9f24","timestamp":"2025-01-09T19:17:17Z","subdir":"","vcs_ref":"refs/tags/v0.1.0"},\
+-{"module":"github.com/containerd/platforms","version":"v1.0.0-rc.2","vcs_hash":"a5b697e2dcecbe42edb518786dede1d257aecc63276621eb03e3917cae97e344","timestamp":"2025-08-21T22:24:38Z","subdir":"","vcs_ref":"refs/tags/v1.0.0-rc.2"},\
++{"module":"github.com/containerd/platforms","version":"v1.0.0-rc.4","vcs_hash":"2a7a4d65a1d6148c7a403e5bf7c719aa64e3d2a544ad7078906c252afe5a2b3d","timestamp":"2026-03-31T22:53:10Z","subdir":"","vcs_ref":"refs/tags/v1.0.0-rc.4"},\
+ {"module":"github.com/containerd/plugin","version":"v1.0.0","vcs_hash":"f786b847c888d27ca5c517b566772c78216ed963d31d5119a32ebad7494855ea","timestamp":"2024-10-20T22:03:21Z","subdir":"","vcs_ref":"refs/tags/v1.0.0"},\
+-{"module":"github.com/containerd/stargz-snapshotter","version":"v0.17.0","vcs_hash":"24a2796839044959bbf030bb3fd1172f4a49c4577d48199b4f7087d3952367d6","timestamp":"2025-07-22T06:57:12Z","subdir":"","vcs_ref":"refs/tags/v0.17.0"},\
+-{"module":"github.com/containerd/stargz-snapshotter/estargz","version":"v0.17.0","vcs_hash":"24a2796839044959bbf030bb3fd1172f4a49c4577d48199b4f7087d3952367d6","timestamp":"2025-07-22T06:57:12Z","subdir":"estargz","vcs_ref":"refs/tags/estargz/v0.17.0"},\
+-{"module":"github.com/containerd/ttrpc","version":"v1.2.7","vcs_hash":"89e0e59ec2637becf69ff869326d460e7b3aa5c251d58a6d42981bc9c12360fd","timestamp":"2024-12-28T23:29:38Z","subdir":"","vcs_ref":"refs/tags/v1.2.7"},\
++{"module":"github.com/containerd/stargz-snapshotter","version":"v0.18.2","vcs_hash":"5b8f552ba5310161b4d54e46b1e5f4ac2f03191dd86070de81cf7a2681739216","timestamp":"2026-01-21T14:16:27Z","subdir":"","vcs_ref":"refs/tags/v0.18.2"},\
++{"module":"github.com/containerd/stargz-snapshotter/estargz","version":"v0.18.2","vcs_hash":"5b8f552ba5310161b4d54e46b1e5f4ac2f03191dd86070de81cf7a2681739216","timestamp":"2026-01-21T14:16:27Z","subdir":"estargz","vcs_ref":"refs/tags/estargz/v0.18.2"},\
++{"module":"github.com/containerd/ttrpc","version":"v1.2.8","vcs_hash":"bbd06a87919bbdeff01305ac7acdec7d2139e1967739925a101cf216b2d8dc49","timestamp":"2026-03-05T00:05:28Z","subdir":"","vcs_ref":"refs/tags/v1.2.8"},\
+ {"module":"github.com/containerd/typeurl/v2","version":"v2.2.3","vcs_hash":"60bc9255cadbea28631b3293cd629cbe0b9a9cffb987712231cdc4f9dc75a2cb","timestamp":"2024-11-07T03:45:23Z","subdir":"","vcs_ref":"refs/tags/v2.2.3"},\
+ {"module":"github.com/containerd/zfs/v2","version":"v2.0.0","vcs_hash":"3b6e8e17660f86603ad978c35f23b066288dc5937890ca5c61f54fc5dfaa9052","timestamp":"2025-12-08T03:44:17Z","subdir":"","vcs_ref":"refs/tags/v2.0.0"},\
+-{"module":"k8s.io/api","version":"v0.34.1","vcs_hash":"5c4bbd0617f6f594b275f1999f97eca8f79dbb30e908e7d6b5c7a80fd5b9b0d2","timestamp":"2025-09-10T04:39:36Z","subdir":"","vcs_ref":"refs/tags/v0.34.1"},\
+-{"module":"k8s.io/apimachinery","version":"v0.34.1","vcs_hash":"9131e9ebe36078f01c5a5e8e9866300b853aa46fab527d00fc089d4c16938663","timestamp":"2025-08-16T07:57:26Z","subdir":"","vcs_ref":"refs/tags/v0.34.1"},\
+-{"module":"k8s.io/client-go","version":"v0.34.1","vcs_hash":"25b2ca19570dcf36fcfa8a5388cc7647944fee1a9a445671e69704dbd6f452b5","timestamp":"2025-09-10T04:55:33Z","subdir":"","vcs_ref":"refs/tags/v0.34.1"}]'
++{"module":"k8s.io/client-go","version":"v0.35.2","vcs_hash":"efba3afcf90e8f75f41529c8eebf5fddd7c6193d91ec24020fa463c47d81bb8a","timestamp":"2026-02-27T04:23:44Z","subdir":"","vcs_ref":"refs/tags/v0.35.2"},\
++{"module":"k8s.io/kube-openapi","version":"v0.0.0-20250910181357-589584f1c912","vcs_hash":"d52ae18a0311c6102c8f6db1458120357ba6824e0af66b6ec92f343cd130aab6","timestamp":"2025-09-10T18:13:57Z","subdir":"","vcs_ref":""},\
++{"module":"k8s.io/kube-openapi","version":"v0.0.0-20250710124328-f3f2b991d03b","vcs_hash":"bbdfcb1726af92c510f587baa66600e18719a63bbabc846728d7c2ff829a2146","timestamp":"2025-07-10T12:43:28Z","subdir":"","vcs_ref":""}]'
+diff --git a/recipes-containers/docker-compose/go-mod-hybrid-git.inc b/recipes-containers/docker-compose/go-mod-hybrid-git.inc
+index c9253575..d8fae98a 100644
+--- a/recipes-containers/docker-compose/go-mod-hybrid-git.inc
++++ b/recipes-containers/docker-compose/go-mod-hybrid-git.inc
+@@ -6,12 +6,12 @@
+ 
+ SRC_URI += "git://github.com/containerd/accelerated-container-image;protocol=https;nobranch=1;tag=v1.3.0;shallow=1;rev=c5dd4fa383f2a932ab7d0b974f05a4e90eb46604;name=git_c15853d7_0;destsuffix=vcs_cache/3c38450d2e9b921d8073a5c5afb9472d94858098bc1fe7d691687d51d0ede1ff"
+ SRC_URI += "git://github.com/containerd/btrfs;protocol=https;nobranch=1;tag=v2.0.0;shallow=1;rev=f611cf12b33f43269574b2ad82bcb55e4d6f9982;name=git_afc7f4f6_0;destsuffix=vcs_cache/8a2ee3ce7d871ae06962c07984197acdfd6035091884c9db0791378ac0229823"
+-SRC_URI += "git://github.com/containerd/cgroups;protocol=https;nobranch=1;tag=v3.1.2;shallow=1;rev=8c81c66df8df1e3f748b40b93c83dbf081e7d552;name=git_85a7d8f6_0;destsuffix=vcs_cache/0a57a364d007af5ddf18af34b681967bf3bdb72cbf2ee50c605be53e1d114a0b"
++SRC_URI += "git://github.com/containerd/cgroups;protocol=https;nobranch=1;tag=v3.1.3;shallow=1;rev=076b5e0e60bd073ead691caf95a90ac0f2fbec5d;name=git_85a7d8f6_0;destsuffix=vcs_cache/3cacf869e6e5cb422592906f0e2f211bc239e0b2c0730e85debdfc8989de9e0d"
+ SRC_URI += "git://github.com/containerd/console;protocol=https;nobranch=1;tag=v1.0.5;shallow=1;rev=c8d962180f543ac07c008ecc79a413406ea10c0b;name=git_7dc259a2_0;destsuffix=vcs_cache/a38aca664db28f607862e39301d2fd06b3c58312662cbd189f451215c3eb9894"
+ SRC_URI += "git://github.com/containerd/containerd;protocol=https;nobranch=1;tag=api/v1.10.0;shallow=1;rev=8b34ce391bd114e080892cccfa956ef3807c207c;name=git_c2fd43eb_1;destsuffix=vcs_cache/4ae09c91c596d23f3127d6821ac6178aa6512e66eba4da3a39e7c94903e2407b"
+-SRC_URI += "git://github.com/containerd/containerd;protocol=https;nobranch=1;tag=v2.2.2;shallow=1;rev=301b2dac98f15c27117da5c8af12118a041a31d9;name=git_c2fd43eb_0;destsuffix=vcs_cache/ea4b5c8a660b2fc1f2b90648b4488ba3c3ee8dd68fa6b07824587410c3886213"
++SRC_URI += "git://github.com/containerd/containerd;protocol=https;nobranch=1;tag=v2.2.3;shallow=1;rev=77c84241c7cbdd9b4eca2591793e3d4f4317c590;name=git_c2fd43eb_0;destsuffix=vcs_cache/6bdcec8161cf9b56318822f061b0c10ac8c38d747a52bfbc4a9280b6ffc47f96"
+ SRC_URI += "git://github.com/containerd/continuity;protocol=https;nobranch=1;tag=v0.4.5;shallow=1;rev=44e2adf7e9cd87330f3ad656e7a006ef91ed8c1e;name=git_b4d76115_0;destsuffix=vcs_cache/ef286b146362aa5da58f9ef4e88323a32e1ea45eda78c6d484875972ce0a81e0"
+-SRC_URI += "git://github.com/containerd/errdefs;protocol=https;nobranch=1;tag=pkg/v0.3.0;shallow=1;rev=4817405e4a3caeb7aee9dac68ed55339c59cb635;name=git_070120f7_0;destsuffix=vcs_cache/d9d1c9949e837f39205605237b656e944c7d0cd69e48a906fabdb6bebe0edb66"
++SRC_URI += "git://github.com/containerd/errdefs;protocol=https;nobranch=1;tag=v1.0.0;shallow=1;rev=4817405e4a3caeb7aee9dac68ed55339c59cb635;name=git_070120f7_0;destsuffix=vcs_cache/d9d1c9949e837f39205605237b656e944c7d0cd69e48a906fabdb6bebe0edb66"
+ SRC_URI += "git://github.com/containerd/fifo;protocol=https;nobranch=1;tag=v1.1.0;shallow=1;rev=151b205263c29d471e0d55c787d2ce9f5343fd46;name=git_6f3d1077_0;destsuffix=vcs_cache/e4b0152cde11b075ce8a8a9f0db77d54abb72ee1bab1036ab0c157b678aade47"
+ SRC_URI += "git://github.com/containerd/fuse-overlayfs-snapshotter;protocol=https;nobranch=1;tag=v2.1.7;shallow=1;rev=da57796c7d0a2b608abf173651cf148706e33337;name=git_923d9d3e_0;destsuffix=vcs_cache/ebd7034108ca2f7b1a5d3724f3248f21f9cf17f5ecf3db9b5c71ee2e6de56563"
+ SRC_URI += "git://github.com/containerd/go-cni;protocol=https;nobranch=1;tag=v1.1.13;shallow=1;rev=784f94e654944e41f86cf33ad49bfe07014c2e7e;name=git_cab8b449_0;destsuffix=vcs_cache/42aaa61d2bb4bd3a1eb278daa53bed3b31e3af601d35dafceb8b7714333cef05"
+@@ -19,14 +19,14 @@ SRC_URI += "git://github.com/containerd/go-runc;protocol=https;nobranch=1;tag=v1
+ SRC_URI += "git://github.com/containerd/imgcrypt;protocol=https;nobranch=1;tag=v2.0.1;shallow=1;rev=c377ec98ff79ec9205eabf555ebd2ea784738c6c;name=git_3f4049aa_0;destsuffix=vcs_cache/cf07f49bde1cc9b1c042dfb7055d38c832cb69592e89521daa5ad46b367e047b"
+ SRC_URI += "git://github.com/containerd/log;protocol=https;nobranch=1;tag=v0.1.0;shallow=1;rev=0fc1e28871fdf2786e2cc51bbe4133db6547a199;name=git_b70b7359_0;destsuffix=vcs_cache/697be36d9b8a0eb34f8591d0f69b6d596e1e9341b5944ebf81ddd334b1907bc6"
+ SRC_URI += "git://github.com/containerd/nri;protocol=https;nobranch=1;tag=v0.11.0;shallow=1;rev=1078130fa016884b4c03880d9d587e6691a67d98;name=git_523249c2_0;destsuffix=vcs_cache/9ef2c512de0aabf89c060ed428bc6ef3d29fc64b917b4a81d88abcada3f49d90"
+-SRC_URI += "git://github.com/containerd/nydus-snapshotter;protocol=https;nobranch=1;tag=v0.15.10;shallow=1;rev=ae5bebac2b0c1da6aafd78666eea1dd91fb59d96;name=git_c4766add_0;destsuffix=vcs_cache/8950efb8ebb00c25adcc9f3c186f0f47f0a67ddde318fcaeb41450e1d3559580"
++SRC_URI += "git://github.com/containerd/nydus-snapshotter;protocol=https;nobranch=1;tag=v0.15.13;shallow=1;rev=3d398e4dfc928ad782a94019edd801d5441f4fea;name=git_c4766add_0;destsuffix=vcs_cache/a0835e29b3bcd359c5e58edc0199e5b1e743fdfb61df75a517d0410875535761"
+ SRC_URI += "git://github.com/containerd/otelttrpc;protocol=https;nobranch=1;tag=v0.1.0;shallow=1;rev=fa91cafe17adf59a0edc10650135dfd1dfb761c2;name=git_69c055ed_0;destsuffix=vcs_cache/c27d4a7087a7f4624cdf40c161f9707dbb90cd2d71159840f7c7b610260e9f24"
+-SRC_URI += "git://github.com/containerd/platforms;protocol=https;nobranch=1;tag=v1.0.0-rc.2;shallow=1;rev=2e51fd9435bd985e1753954b24f4b0453f4e4767;name=git_96693f8e_0;destsuffix=vcs_cache/a5b697e2dcecbe42edb518786dede1d257aecc63276621eb03e3917cae97e344"
++SRC_URI += "git://github.com/containerd/platforms;protocol=https;nobranch=1;tag=v1.0.0-rc.4;shallow=1;rev=09756f59cb1d6b3fb368f371043d36e634789537;name=git_96693f8e_0;destsuffix=vcs_cache/2a7a4d65a1d6148c7a403e5bf7c719aa64e3d2a544ad7078906c252afe5a2b3d"
+ SRC_URI += "git://github.com/containerd/plugin;protocol=https;nobranch=1;tag=v1.0.0;shallow=1;rev=19cedbf730bb9ae1c106c4d4df8492bb3d3fb8fd;name=git_0f1fd608_0;destsuffix=vcs_cache/f786b847c888d27ca5c517b566772c78216ed963d31d5119a32ebad7494855ea"
+-SRC_URI += "git://github.com/containerd/stargz-snapshotter;protocol=https;nobranch=1;tag=estargz/v0.17.0;shallow=1;rev=6f6aacb044960a0820a2d2954f5cbcc40b17fbdb;name=git_0c473532_0;destsuffix=vcs_cache/24a2796839044959bbf030bb3fd1172f4a49c4577d48199b4f7087d3952367d6"
+-SRC_URI += "git://github.com/containerd/ttrpc;protocol=https;nobranch=1;tag=v1.2.7;shallow=1;rev=3b8c8b75577584e412043afb7b561193a4a47d2e;name=git_1deba031_0;destsuffix=vcs_cache/89e0e59ec2637becf69ff869326d460e7b3aa5c251d58a6d42981bc9c12360fd"
++SRC_URI += "git://github.com/containerd/stargz-snapshotter;protocol=https;nobranch=1;tag=estargz/v0.18.2;shallow=1;rev=3070538befb5a6c09f93e99164762b3a76310357;name=git_0c473532_0;destsuffix=vcs_cache/5b8f552ba5310161b4d54e46b1e5f4ac2f03191dd86070de81cf7a2681739216"
++SRC_URI += "git://github.com/containerd/ttrpc;protocol=https;nobranch=1;tag=v1.2.8;shallow=1;rev=22392c2ec72135af70155428db18d458ecf3ce03;name=git_1deba031_0;destsuffix=vcs_cache/bbd06a87919bbdeff01305ac7acdec7d2139e1967739925a101cf216b2d8dc49"
+ SRC_URI += "git://github.com/containerd/typeurl;protocol=https;nobranch=1;tag=v2.2.3;shallow=1;rev=5b047adad57d172afa9654c019fe65bf0540cc4d;name=git_94e812bb_0;destsuffix=vcs_cache/60bc9255cadbea28631b3293cd629cbe0b9a9cffb987712231cdc4f9dc75a2cb"
+ SRC_URI += "git://github.com/containerd/zfs;protocol=https;nobranch=1;tag=v2.0.0;shallow=1;rev=a3e9bec07f4f2d9da41c5e119006cffad6fecffa;name=git_62ef0568_0;destsuffix=vcs_cache/3b6e8e17660f86603ad978c35f23b066288dc5937890ca5c61f54fc5dfaa9052"
+-SRC_URI += "git://github.com/kubernetes/api;protocol=https;nobranch=1;tag=v0.34.1;shallow=1;rev=77c9e29b068e14d4bcca2d6a4c85b2cc9da5a923;name=git_91745483_0;destsuffix=vcs_cache/5c4bbd0617f6f594b275f1999f97eca8f79dbb30e908e7d6b5c7a80fd5b9b0d2"
+-SRC_URI += "git://github.com/kubernetes/apimachinery;protocol=https;nobranch=1;tag=v0.34.1;shallow=1;rev=b72d93d174332f952a8d431419fece5e6f044bcb;name=git_d6490ebc_0;destsuffix=vcs_cache/9131e9ebe36078f01c5a5e8e9866300b853aa46fab527d00fc089d4c16938663"
+-SRC_URI += "git://github.com/kubernetes/client-go;protocol=https;nobranch=1;tag=v0.34.1;shallow=1;rev=d033c497ffef47be9b4f81abde5c3d94dd78089a;name=git_0356f569_0;destsuffix=vcs_cache/25b2ca19570dcf36fcfa8a5388cc7647944fee1a9a445671e69704dbd6f452b5"
++SRC_URI += "git://github.com/kubernetes/client-go;protocol=https;nobranch=1;tag=v0.35.2;shallow=1;rev=a21b32978c420e4af7da3796bca3f37e2245856e;name=git_0356f569_0;destsuffix=vcs_cache/efba3afcf90e8f75f41529c8eebf5fddd7c6193d91ec24020fa463c47d81bb8a"
++SRC_URI += "git://github.com/kubernetes/kube-openapi;protocol=https;branch=master;rev=589584f1c912f4367fe8954f649a59a98b912da5;name=git_dbee483c_0;destsuffix=vcs_cache/d52ae18a0311c6102c8f6db1458120357ba6824e0af66b6ec92f343cd130aab6"
++SRC_URI += "git://github.com/kubernetes/kube-openapi;protocol=https;branch=master;rev=f3f2b991d03be98072466d6aff0880ad93184b2c;name=git_dbee483c_1;destsuffix=vcs_cache/bbdfcb1726af92c510f587baa66600e18719a63bbabc846728d7c2ff829a2146"
+diff --git a/recipes-containers/docker-compose/go-mod-hybrid-gomod.inc b/recipes-containers/docker-compose/go-mod-hybrid-gomod.inc
+index dd686400..8a70d7a5 100644
+--- a/recipes-containers/docker-compose/go-mod-hybrid-gomod.inc
++++ b/recipes-containers/docker-compose/go-mod-hybrid-gomod.inc
+@@ -6,6 +6,7 @@
+ 
+ inherit go-mod
+ 
++SRC_URI += "gomod://cel.dev/expr;version=v0.25.1;sha256sum=12652bea2461aa29004d23052d3a08cb5911ab0a652469ef5da6efb37c12ee87"
+ SRC_URI += "gomod://cel.dev/expr;version=v0.24.0;sha256sum=4456189315133136b72bfb40312d731c8957cce38a2807ac21d09f5158259bb7"
+ SRC_URI += "gomod://cloud.google.com/go/compute/metadata;version=v0.9.0;sha256sum=f97e35d1c96239b8574054a77e312c95d2c82a89c21daf46ffeaea6d5fc59eca"
+ SRC_URI += "gomod://cyphar.com/go-pathrs;version=v0.2.1;sha256sum=c68ca36bf78b684a29ef9ce58b5c26a4a68baa4a068259c753b652a91b85a5ed"
+@@ -20,10 +21,10 @@ SRC_URI += "gomod://github.com/Azure/azure-sdk-for-go/sdk/storage/azblob;version
+ SRC_URI += "gomod://github.com/Azure/go-ansiterm;version=v0.0.0-20250102033503-faa5f7b0171c;sha256sum=53babc36db77d2d8af41cf86bddcf6203747335054c26b44165a6725c5455c34"
+ SRC_URI += "gomod://github.com/AzureAD/microsoft-authentication-library-for-go;version=v1.6.0;sha256sum=b5bd3c20f1152ee71546ed7d11466878f85cef9dee35b47ad6218e621d9cc4dc"
+ SRC_URI += "gomod://github.com/DefangLabs/secret-detector;version=v0.0.0-20250403165618-22662109213e;sha256sum=fd03688ccd0deeedaea6e38e3279298d79876d58afa8f403ebb2badb445a3c93"
+-SRC_URI += "gomod://github.com/GoogleCloudPlatform/opentelemetry-operations-go/detectors/gcp;version=v1.30.0;sha256sum=d74de494fd880eac405aa1cdc136f032c8c3c1732ac6f1e3b73898113e544c85"
++SRC_URI += "gomod://github.com/GoogleCloudPlatform/opentelemetry-operations-go/detectors/gcp;version=v1.31.0;sha256sum=60558bb0633e963a442aaf8492162e7bc2a7817fa7b5a07ffe83ebd2ee8463c2"
+ SRC_URI += "gomod://github.com/Masterminds/semver/v3;version=v3.4.0;sha256sum=20cf1a0cf1820860c47cb87a0daa1422824e39ca15f47bb59a52b33bce31a239"
+ SRC_URI += "gomod://github.com/Microsoft/go-winio;version=v0.6.2;sha256sum=cd007bdb877a578efde2780bf5dd2f57dd557b5b08c3614597b820d0369ebb0f"
+-SRC_URI += "gomod://github.com/Microsoft/hcsshim;version=v0.14.0-rc.1;sha256sum=c5201e908e6dabcfad1ea91f93a73dadaa53cc41f3284b915da1bd1d15973d89"
++SRC_URI += "gomod://github.com/Microsoft/hcsshim;version=v0.14.1;sha256sum=b82b9050b19a0e9ee65ebcee4a5b99b92c578be7e2ab753a150e31e2967dfe96"
+ SRC_URI += "gomod://github.com/Netflix/go-expect;version=v0.0.0-20220104043353-73e0943537d2;sha256sum=040ba69510995f02859c5651f5d22f73aab87dc5b41bc0c0ae63dee08650c48c"
+ SRC_URI += "gomod://github.com/ProtonMail/go-crypto;version=v1.3.0;sha256sum=b909c7c3b5d0b7a0879e640bc01382dbc9166bbca6fbf53ee12f2c045b9c5028"
+ SRC_URI += "gomod://github.com/StackExchange/wmi;version=v0.0.0-20190523213315-cbe66965904d;sha256sum=68f499ad4c3f45fc6c286fd2a5966e8e15c0f3abc1f96fbf4a979245df936e16"
+@@ -32,56 +33,71 @@ SRC_URI += "gomod://github.com/agext/levenshtein;version=v1.2.3;sha256sum=f24dca
+ SRC_URI += "gomod://github.com/agnivade/levenshtein;version=v1.2.1;sha256sum=26bdb12f38a5ca1c45a666e8dea1c409189a383443fa14f4ff04f75af7022534"
+ SRC_URI += "gomod://github.com/alecthomas/kingpin/v2;version=v2.4.0;sha256sum=ef1ea6fead21e5fcc9e1532187888c8c7c4f3ebbdb00587ab67a19245206ca66"
+ SRC_URI += "gomod://github.com/alecthomas/template;version=v0.0.0-20160405071501-a0175ee3bccc;sha256sum=86de3337a475e323a0fb54ef03386a4e495682201f42795bd7be646c05298692"
+-SRC_URI += "gomod://github.com/alecthomas/units;version=v0.0.0-20151022065526-2efee857e7cf;sha256sum=2c955e4d09c1208f4542e08515b5b409c36ff8c70cf471ad56859eb5e86f7271"
+ SRC_URI += "gomod://github.com/alecthomas/units;version=v0.0.0-20211218093645-b94a6e3cc137;sha256sum=b62437d74a523089af46ba0115ece1ce11bca5e321fe1e1d4c976ecca6ee78aa"
+-SRC_URI += "gomod://github.com/anchore/go-struct-converter;version=v0.1.0;sha256sum=d59da72ec5a33286bf91e47055e3a526474f9ee2755735be7221dad0540dc88c"
++SRC_URI += "gomod://github.com/alecthomas/units;version=v0.0.0-20151022065526-2efee857e7cf;sha256sum=2c955e4d09c1208f4542e08515b5b409c36ff8c70cf471ad56859eb5e86f7271"
+ SRC_URI += "gomod://github.com/anchore/go-struct-converter;version=v0.0.0-20221118182256-c68fdcfa2092;sha256sum=39c9a3f557aa5486c08681a626858bc9d7c333af34f6ce22142fb157828d00f1"
++SRC_URI += "gomod://github.com/anchore/go-struct-converter;version=v0.1.0;sha256sum=d59da72ec5a33286bf91e47055e3a526474f9ee2755735be7221dad0540dc88c"
+ SRC_URI += "gomod://github.com/antihax/optional;version=v1.0.0;sha256sum=15ab4d41bdbb72ee0ac63db616cdefc7671c79e13d0f73b58355a6a88219c97f"
+ SRC_URI += "gomod://github.com/apparentlymart/go-cidr;version=v1.0.1;sha256sum=5af128e1ecdf5f2203fda104a653f13fb2e46acc3f68b2d7634a760a8f556ea0"
+ SRC_URI += "gomod://github.com/apparentlymart/go-textseg/v15;version=v15.0.0;sha256sum=4886c2e43b8cd2f6ffbd3a78ef436bd7bc8da7825ab7426257969f346e7bb7eb"
+ SRC_URI += "gomod://github.com/armon/circbuf;version=v0.0.0-20190214190532-5111143e8da2;sha256sum=c8b7ba977844b5378a2413c123c3e55d0885fb67f64ad6cf06575a791a36b827"
+ SRC_URI += "gomod://github.com/asaskevich/govalidator;version=v0.0.0-20230301143203-a9d515a09cc2;sha256sum=0f8ec67bbc585d29ec115c0885cef6f2431a422cc1cc10008e466ebe8be5dc37"
++SRC_URI += "gomod://github.com/aws/aws-sdk-go-v2;version=v1.41.4;sha256sum=584f71074c169439fb140d3dd58d9ba77df2d51a8d807a974b1f992cd2e7c51f"
+ SRC_URI += "gomod://github.com/aws/aws-sdk-go-v2;version=v1.39.6;sha256sum=91aea21c184da2dca0575230da2d7258185c7544ada2619a195d281096cbf758"
+ SRC_URI += "gomod://github.com/aws/aws-sdk-go-v2;version=v1.38.1;sha256sum=e6e26aa9cf8f00260501d54d1e1a3d74ca7f4230fbe037337395792999a4d74d"
++SRC_URI += "gomod://github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream;version=v1.7.5;sha256sum=2939cee68656a369a25b652641934bc610d397eed1c230af2a1c7b57fed5548b"
+ SRC_URI += "gomod://github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream;version=v1.7.0;sha256sum=51f06bb486a7271c3c6714a6f531646c474034c15a7281506d108ca633e1b2a0"
+ SRC_URI += "gomod://github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream;version=v1.7.2;sha256sum=e70a11cfa40c39c92eb73043ae46d98fb9ded90088e0152771f25af191547b31"
++SRC_URI += "gomod://github.com/aws/aws-sdk-go-v2/config;version=v1.32.12;sha256sum=8a049a414b7f75e631e185d858fa6d45aea11e05c539120d58a1646f73920ab7"
+ SRC_URI += "gomod://github.com/aws/aws-sdk-go-v2/config;version=v1.31.20;sha256sum=6b7fded2eebec112185a1e663e10d5c0c643e16341417247d6faee9a0f7b1ce5"
+ SRC_URI += "gomod://github.com/aws/aws-sdk-go-v2/config;version=v1.31.3;sha256sum=1ac9b4f99365d03e3ce2b21f3114b7a20c6200b9745fbf3acecb97a13a3ce360"
+-SRC_URI += "gomod://github.com/aws/aws-sdk-go-v2/credentials;version=v1.18.24;sha256sum=c221e58b6d629c68b9ddc73784871c284f12e80f5f659757536d4946d68aa39d"
+ SRC_URI += "gomod://github.com/aws/aws-sdk-go-v2/credentials;version=v1.18.7;sha256sum=9fdeb65230d9cda7c415649a4760bafe55cc897eab6520fb7df4c3e645dafc3f"
+-SRC_URI += "gomod://github.com/aws/aws-sdk-go-v2/feature/ec2/imds;version=v1.18.4;sha256sum=ea0c9dad6cff8ed9435353cb2a0e8ba5db6e24b399a7b5d7d282f10dcaae00f1"
++SRC_URI += "gomod://github.com/aws/aws-sdk-go-v2/credentials;version=v1.19.12;sha256sum=6dd37115d8f9d5b7c244cc402ba68a60ee8d29ba32752f2af6a4efae36faaddd"
++SRC_URI += "gomod://github.com/aws/aws-sdk-go-v2/credentials;version=v1.18.24;sha256sum=c221e58b6d629c68b9ddc73784871c284f12e80f5f659757536d4946d68aa39d"
+ SRC_URI += "gomod://github.com/aws/aws-sdk-go-v2/feature/ec2/imds;version=v1.18.13;sha256sum=2956d48a3c799c1c7027a479118157bbddcce84bb0c13e38df71f9a6875ad01a"
++SRC_URI += "gomod://github.com/aws/aws-sdk-go-v2/feature/ec2/imds;version=v1.18.4;sha256sum=ea0c9dad6cff8ed9435353cb2a0e8ba5db6e24b399a7b5d7d282f10dcaae00f1"
++SRC_URI += "gomod://github.com/aws/aws-sdk-go-v2/feature/ec2/imds;version=v1.18.20;sha256sum=e5a7871e5f41eb3afeb62a563028b2f36b1a7008bfe77c721d7093f0861ebc26"
+ SRC_URI += "gomod://github.com/aws/aws-sdk-go-v2/feature/s3/manager;version=v1.17.10;sha256sum=e4ff6e115f4d1261ef0a1d503c100a161e48f9632ee79ab2ef6b818175e502a2"
+ SRC_URI += "gomod://github.com/aws/aws-sdk-go-v2/internal/configsources;version=v1.4.13;sha256sum=c865975b594b46ce4c81514930677ae510a2a6cd1688106fb4abd0b4fbc62a30"
++SRC_URI += "gomod://github.com/aws/aws-sdk-go-v2/internal/configsources;version=v1.4.20;sha256sum=e8323d1d82f4a1c8cd2707e73865be8a76b6ed015afe4d6207059201facc9255"
+ SRC_URI += "gomod://github.com/aws/aws-sdk-go-v2/internal/configsources;version=v1.4.4;sha256sum=08c8583ecd8a088c51038bd855dfc1e99c6e4ff40df3c7726da83c9c229bf7c5"
+ SRC_URI += "gomod://github.com/aws/aws-sdk-go-v2/internal/endpoints/v2;version=v2.7.13;sha256sum=d770aba8ff4593801ff91e1e86f1df7c0d7597977c6ed3d29a4f85c58c7ee6b4"
+ SRC_URI += "gomod://github.com/aws/aws-sdk-go-v2/internal/endpoints/v2;version=v2.7.4;sha256sum=680ecedd8d91f262418ba3b188b09aceff70305b29574de320e1548bf2016a09"
+-SRC_URI += "gomod://github.com/aws/aws-sdk-go-v2/internal/ini;version=v1.8.3;sha256sum=7c134d09366b976ea1362c3dca8a394e130182af739a792d7b16089eefa8a514"
++SRC_URI += "gomod://github.com/aws/aws-sdk-go-v2/internal/endpoints/v2;version=v2.7.20;sha256sum=f3fb65a40cb73712564c53e4b4735040b405dae0915ec25a9e4f2e172c660b05"
+ SRC_URI += "gomod://github.com/aws/aws-sdk-go-v2/internal/ini;version=v1.8.4;sha256sum=f34dd5f3521bdb07f657b88348bbafbb68f41d134bcb615356122e56c1117600"
+-SRC_URI += "gomod://github.com/aws/aws-sdk-go-v2/internal/v4a;version=v1.4.4;sha256sum=0bba07ce03c9836ede3250590c4ab9b7a078567dfecbc34b74d3defcdd081a17"
++SRC_URI += "gomod://github.com/aws/aws-sdk-go-v2/internal/ini;version=v1.8.3;sha256sum=7c134d09366b976ea1362c3dca8a394e130182af739a792d7b16089eefa8a514"
++SRC_URI += "gomod://github.com/aws/aws-sdk-go-v2/internal/ini;version=v1.8.6;sha256sum=6b9c292ffe13c666c320ef442ab9840390a10aec8518c18c0cf95de2d7d5c4da"
+ SRC_URI += "gomod://github.com/aws/aws-sdk-go-v2/internal/v4a;version=v1.4.12;sha256sum=a987fb44c62f91c058348f98a1d791eab9a066168c5e08ca6ff47d6b6e83251e"
++SRC_URI += "gomod://github.com/aws/aws-sdk-go-v2/internal/v4a;version=v1.4.4;sha256sum=0bba07ce03c9836ede3250590c4ab9b7a078567dfecbc34b74d3defcdd081a17"
++SRC_URI += "gomod://github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding;version=v1.13.7;sha256sum=558754d94ba1c0cafd668d578e619e7bc4d1c5e70244ea467fbd7f9050c0adda"
+ SRC_URI += "gomod://github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding;version=v1.13.3;sha256sum=55758a09847139083b1a98c54301dd946f90519293fc07c52990ba4b09fb6c05"
+ SRC_URI += "gomod://github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding;version=v1.13.0;sha256sum=3698d63c385276ae27a1e2fe54ed50abed2016a35f5296c1f702babb4be11d39"
+-SRC_URI += "gomod://github.com/aws/aws-sdk-go-v2/service/internal/checksum;version=v1.8.4;sha256sum=9db6e59213902c81ce36035efba04bf1299ea0a095b6706714afc340ac9df356"
+ SRC_URI += "gomod://github.com/aws/aws-sdk-go-v2/service/internal/checksum;version=v1.9.3;sha256sum=29bb29037e979418ec5d8a445a7f42c98e2f1fac6e40d230ce0788f6d69e8b82"
+-SRC_URI += "gomod://github.com/aws/aws-sdk-go-v2/service/internal/presigned-url;version=v1.13.4;sha256sum=62ec11fe1d7764148736c03f48e74e097a017ae97c6cc8b113e57e4b2393ae52"
++SRC_URI += "gomod://github.com/aws/aws-sdk-go-v2/service/internal/checksum;version=v1.8.4;sha256sum=9db6e59213902c81ce36035efba04bf1299ea0a095b6706714afc340ac9df356"
+ SRC_URI += "gomod://github.com/aws/aws-sdk-go-v2/service/internal/presigned-url;version=v1.13.13;sha256sum=e18d434800c2596ee3c8bc27207f5dfe424c5a922f912f58fcb7a251384b4150"
++SRC_URI += "gomod://github.com/aws/aws-sdk-go-v2/service/internal/presigned-url;version=v1.13.20;sha256sum=0a4464f36b97741ad45a4d79226339ff1cedf5a0af875b1279307551343e7900"
++SRC_URI += "gomod://github.com/aws/aws-sdk-go-v2/service/internal/presigned-url;version=v1.13.4;sha256sum=62ec11fe1d7764148736c03f48e74e097a017ae97c6cc8b113e57e4b2393ae52"
+ SRC_URI += "gomod://github.com/aws/aws-sdk-go-v2/service/internal/s3shared;version=v1.19.12;sha256sum=933aac4530a3b0e42f22116e5058630b4a8d527421099703d5d50f6c002f7ada"
+ SRC_URI += "gomod://github.com/aws/aws-sdk-go-v2/service/internal/s3shared;version=v1.19.4;sha256sum=92176f37be2b3cca975834c4a568dd9108e4126ad37d4370c28540d34b4bc627"
+ SRC_URI += "gomod://github.com/aws/aws-sdk-go-v2/service/s3;version=v1.89.1;sha256sum=a961c1276bb3c9046f020fc3dca298fd402ae30bc5ae8f9bb144bb501cefc6f1"
+ SRC_URI += "gomod://github.com/aws/aws-sdk-go-v2/service/s3;version=v1.87.1;sha256sum=d0f024176fdc8738037963a829123cb749f91516a85a557301431d6de0526de2"
++SRC_URI += "gomod://github.com/aws/aws-sdk-go-v2/service/signin;version=v1.0.8;sha256sum=44f594b897b98a50726124ee18c41df39697a1456645a40f03f47c5f2e0f28a5"
+ SRC_URI += "gomod://github.com/aws/aws-sdk-go-v2/service/sso;version=v1.28.2;sha256sum=ec1eb04c3557694088831232ed654b78aea2f442f38523908274905ef045dfc8"
+ SRC_URI += "gomod://github.com/aws/aws-sdk-go-v2/service/sso;version=v1.30.3;sha256sum=bd47c38cfea2e1384e101f82948bcd964021e7527ad36d5d3660fdbc54ea9045"
+-SRC_URI += "gomod://github.com/aws/aws-sdk-go-v2/service/ssooidc;version=v1.35.7;sha256sum=6669e059cb859f2148a7a3271d5872e9779dc5d6cecb1b8b309f74ff7a538d8d"
++SRC_URI += "gomod://github.com/aws/aws-sdk-go-v2/service/sso;version=v1.30.13;sha256sum=a82a728d435aa500588fa639291ccdb676ed9a4a403f91cc5a3e175d0f63646c"
+ SRC_URI += "gomod://github.com/aws/aws-sdk-go-v2/service/ssooidc;version=v1.34.0;sha256sum=3cc2085b3295fd315fa0a466cc63c0df52d61c507ef3cd588fbce49bc0534adb"
++SRC_URI += "gomod://github.com/aws/aws-sdk-go-v2/service/ssooidc;version=v1.35.7;sha256sum=6669e059cb859f2148a7a3271d5872e9779dc5d6cecb1b8b309f74ff7a538d8d"
++SRC_URI += "gomod://github.com/aws/aws-sdk-go-v2/service/ssooidc;version=v1.35.17;sha256sum=79a9e2cc83141096c5de61663b4958eff717885136f69a7a2d30cccc4cb38db4"
+ SRC_URI += "gomod://github.com/aws/aws-sdk-go-v2/service/sts;version=v1.40.2;sha256sum=1f020eebc63603732b380d920f1a4d11bc3e4c978f3060ff0637e50f7d6e1d9a"
++SRC_URI += "gomod://github.com/aws/aws-sdk-go-v2/service/sts;version=v1.41.9;sha256sum=9728cf8fb9a8dfc08f4af78a546c3c935e804ab64e007f3f9f9d3735b4511fe8"
+ SRC_URI += "gomod://github.com/aws/aws-sdk-go-v2/service/sts;version=v1.38.0;sha256sum=f0f7df436d0a4b9e92c83e010f5f4047b60be2d8d26aa1844ed802c11762ea19"
+ SRC_URI += "gomod://github.com/aws/smithy-go;version=v1.22.5;sha256sum=51e3e8cd878571ee947de927505805fe425ab8743a1aad05bfad7bbc0b747a29"
++SRC_URI += "gomod://github.com/aws/smithy-go;version=v1.24.2;sha256sum=24861720feaa5169b5d3d2e1911386255b991ac6dca8972205f0d824edb8a51c"
+ SRC_URI += "gomod://github.com/aws/smithy-go;version=v1.23.2;sha256sum=fa8ca95555a0624bef57d4e54cae4fb6c1f731ebb93c0aaea71ead1a6a1ea624"
+-SRC_URI += "gomod://github.com/beorn7/perks;version=v1.0.0;sha256sum=a7ec6164e31ea8e10c601abb9793753ec43cb218283b226800c134fb23cea409"
+ SRC_URI += "gomod://github.com/beorn7/perks;version=v1.0.1;sha256sum=25bd9e2d94aca770e6dbc1f53725f84f6af4432f631d35dd2c46f96ef0512f1a"
+ SRC_URI += "gomod://github.com/beorn7/perks;version=v0.0.0-20150223135152-b965b613227f;sha256sum=c2d9b3d7a26c1cd6b384c2f6cbd00f0174524c0146a0425cd8e37dfc828ee262"
+ SRC_URI += "gomod://github.com/beorn7/perks;version=v0.0.0-20180321164747-3a771d992973;sha256sum=536e7c15d3bddfce923ebc7f55b87bf4c7af6920bcebdbf24d3969e624eb7537"
++SRC_URI += "gomod://github.com/beorn7/perks;version=v1.0.0;sha256sum=a7ec6164e31ea8e10c601abb9793753ec43cb218283b226800c134fb23cea409"
+ SRC_URI += "gomod://github.com/bitly/go-hostpool;version=v0.1.0;sha256sum=61f1e8da2233dd51565308a45116522db5ee21e515dfbea0867c5399d4fcda75"
+ SRC_URI += "gomod://github.com/bitly/go-simplejson;version=v0.5.0;sha256sum=53930281dc7fba8947c1b1f07c82952a38dcaefae23bd3c8e71d70a6daa6cb40"
+ SRC_URI += "gomod://github.com/blang/semver;version=v3.5.1+incompatible;sha256sum=8d032399cf835b93f7cf641b5477a31a002059eed7888a775f97bd3e9677ad3c"
+@@ -97,23 +113,29 @@ SRC_URI += "gomod://github.com/checkpoint-restore/checkpointctl;version=v1.4.0;s
+ SRC_URI += "gomod://github.com/checkpoint-restore/go-criu/v7;version=v7.2.0;sha256sum=6e88d29322c7665fdac2b5ed9c9a30b44fc2fb254e460241d9dee71d564c5ac3"
+ SRC_URI += "gomod://github.com/cilium/ebpf;version=v0.16.0;sha256sum=94f18289e55ece887579f7f3bd5117301c02a4413837fd6b5ff956962c8995cf"
+ SRC_URI += "gomod://github.com/cloudflare/cfssl;version=v0.0.0-20180223231731-4e2dcbde5004;sha256sum=937cbafe6c37ade60fc77687092e1fae2f2e24a59530d59369729278a022c6cb"
++SRC_URI += "gomod://github.com/cloudflare/circl;version=v1.6.3;sha256sum=9aed6385d52ccd66e0a3b8cc093b5f0e7744640485405dd08c8ef89ef6bbeb06"
+ SRC_URI += "gomod://github.com/cloudflare/circl;version=v1.6.1;sha256sum=a639161f881603a040700d987d2c16ec815302418058cdb29bcc3b349ed56c10"
+ SRC_URI += "gomod://github.com/cloudflare/circl;version=v1.6.0;sha256sum=7836c8b3b0d93f739fb350d30b3f619d91ce68f250359f391c05d70dac3a17aa"
++SRC_URI += "gomod://github.com/cncf/xds/go;version=v0.0.0-20260202195803-dba9d589def2;sha256sum=6f1b8ceaaa6e773dba2595bfe7b75f54d98f901c8f1340d420138095b36778fa"
+ SRC_URI += "gomod://github.com/cncf/xds/go;version=v0.0.0-20251022180443-0feb69152e9f;sha256sum=d688e9a17f9558c41939fea8895a51c5b7963173c5f021dc33e2b1be36e51839"
+ SRC_URI += "gomod://github.com/codahale/rfc6979;version=v0.0.0-20141003034818-6a90f24967eb;sha256sum=b15238554e2e66e045df44125055b8cf57fad45a0321b25b47c9fca48ecc8e32"
+-SRC_URI += "gomod://github.com/compose-spec/compose-go/v2;version=v2.10.1;sha256sum=c220d9556fa4f6cec1861fc3bd1034456fa13b30aa6e8a993f2c5eae1edf561f"
+ SRC_URI += "gomod://github.com/compose-spec/compose-go/v2;version=v2.10.0;sha256sum=e5aa05965799dbd5aa3e6df54ff24b7fc61e3aecf97b23f7e5b4e4dc6b245e40"
++SRC_URI += "gomod://github.com/compose-spec/compose-go/v2;version=v2.11.0;sha256sum=1d9a7274e9923aeead4be47892b021c3e1273420d44453a8daf10e7f549537cf"
++SRC_URI += "gomod://github.com/compose-spec/compose-go/v2;version=v2.10.1;sha256sum=c220d9556fa4f6cec1861fc3bd1034456fa13b30aa6e8a993f2c5eae1edf561f"
+ SRC_URI += "gomod://github.com/containernetworking/cni;version=v1.3.0;sha256sum=7badb83e3b25468653c98f63f5d57ecfee92ef9022f203773de79fa777e445db"
+ SRC_URI += "gomod://github.com/containernetworking/plugins;version=v1.8.0;sha256sum=836cc30b9327cbf24395bb40c3b971fe98ba65a02b0cfdbb1ab2494de1b736f1"
+ SRC_URI += "gomod://github.com/containernetworking/plugins;version=v1.9.0;sha256sum=8fd1a894635d21cfdf1726e967d32b961c5a2a2b124d3dcf8bdd92e34a19f887"
++SRC_URI += "gomod://github.com/containernetworking/plugins;version=v1.9.1;sha256sum=41ea04896a9994772229bf3e4a3495756ed370edebfa162bd8d6d94c67698ff6"
+ SRC_URI += "gomod://github.com/containers/ocicrypt;version=v1.2.1;sha256sum=9b36e2235a5009b5e2efcb1374a55ca156c5798d68d09dca25b238e233860183"
++SRC_URI += "gomod://github.com/coreos/go-oidc/v3;version=v3.17.0;sha256sum=fba667f687448a228315d6f0cfd00a5fa9ab8ad9b511e38575a699afc0b30aeb"
+ SRC_URI += "gomod://github.com/coreos/go-oidc/v3;version=v3.16.0;sha256sum=738ce35563917e1d08703fa602be8f0a73b1be7f927b5bb563c76b13fc73b37d"
+ SRC_URI += "gomod://github.com/coreos/go-systemd/v22;version=v22.6.0;sha256sum=7759d251cb9c2f020d8b7b5fa075653cb11cad4861e3e194bf3484267bbabc2f"
++SRC_URI += "gomod://github.com/coreos/go-systemd/v22;version=v22.7.0;sha256sum=25c78b5dae5afa61291a8559328007cc77e60dd6747454af5c83423c26cfdfba"
+ SRC_URI += "gomod://github.com/cpuguy83/go-md2man/v2;version=v2.0.6;sha256sum=b8059316e38bcfd28b69d2c2b32d34b9e800ccaa1ff4b5a61022cbe98fa7c710"
+ SRC_URI += "gomod://github.com/cpuguy83/go-md2man/v2;version=v2.0.7;sha256sum=9ad5f2cbc644c0bb648a9b182d6b70f92e7ac4dfab5cf0ef746bbeef944fda59"
+-SRC_URI += "gomod://github.com/creack/pty;version=v1.1.24;sha256sum=754e25253e76a5583b80d57d3add3afe68fc4d9f2a490968a9d1eda8c8fd8815"
+ SRC_URI += "gomod://github.com/creack/pty;version=v1.1.17;sha256sum=c6b0820b35c25f7d782f86c00545045b28992b6de894930634191feec56fc484"
+ SRC_URI += "gomod://github.com/creack/pty;version=v1.1.9;sha256sum=20edfcc27afd7991780bc91ca523d26999ea025e41f60bc5ed71bbac00e175e2"
++SRC_URI += "gomod://github.com/creack/pty;version=v1.1.24;sha256sum=754e25253e76a5583b80d57d3add3afe68fc4d9f2a490968a9d1eda8c8fd8815"
+ SRC_URI += "gomod://github.com/cyberphone/json-canonicalization;version=v0.0.0-20241213102144-19d51d7fe467;sha256sum=9492fa89d9f2543890346672d239c494ccba4073be51f338b50e8f749792e25a"
+ SRC_URI += "gomod://github.com/cyphar/filepath-securejoin;version=v0.6.0;sha256sum=ea65899eb360982a060471c6213e7acbe0f9a0fd0b604bd24f6f0286a1cb6f00"
+ SRC_URI += "gomod://github.com/danieljoos/wincred;version=v1.2.2;sha256sum=5cad35b62beb448347a6c7422b1ed25936aea3edf6c57f198286282a4ce8df6a"
+@@ -127,99 +149,128 @@ SRC_URI += "gomod://github.com/digitorus/timestamp;version=v0.0.0-20231217203849
+ SRC_URI += "gomod://github.com/dimchansky/utfbom;version=v1.1.1;sha256sum=0c1a11101602d5f57ac3e790c0b72e09ff87d8d535535f43fbee9e6a42327350"
+ SRC_URI += "gomod://github.com/distribution/reference;version=v0.6.0;sha256sum=08232852a7a908263599777daab50e4306bd877e2467df036206367496122bcc"
+ SRC_URI += "gomod://github.com/dlclark/regexp2;version=v1.11.0;sha256sum=2a93432600feacb866669789bb7910ff283e1af764fcd03d70c6592f9619aeb4"
+-SRC_URI += "gomod://github.com/docker/buildx;version=v0.31.1;sha256sum=22dc84feb22fc6792f7648e55e5605783f78aa7f72dfffcb494ddfee7a6f0dec"
++SRC_URI += "gomod://github.com/docker/buildx;version=v0.33.0;sha256sum=678ba20a027bec0fc4347567de07249d0935062a7d1ecaaa45f921e20c0b9dd9"
+ SRC_URI += "gomod://github.com/docker/buildx;version=v0.30.1;sha256sum=50f4cd612a8cada0826eaec64bd968671e093817e8281a5ac91286d9220b1f9b"
+-SRC_URI += "gomod://github.com/docker/cli;version=v28.5.2+incompatible;sha256sum=ae8f0f3ffa308bcee47cc2cb85e087ff082ba0a6c4a5cb379bfdcaa18d62d411"
++SRC_URI += "gomod://github.com/docker/buildx;version=v0.31.1;sha256sum=22dc84feb22fc6792f7648e55e5605783f78aa7f72dfffcb494ddfee7a6f0dec"
+ SRC_URI += "gomod://github.com/docker/cli;version=v29.2.1+incompatible;sha256sum=7532caf47ab19626562df2c996ff59399c9266b7e98e9fb38c064a9925ea5e94"
+-SRC_URI += "gomod://github.com/docker/cli-docs-tool;version=v0.11.0;sha256sum=b4802747380da9db5270f53b4e403f04570a37c3d24323cfa1ae52e911b40d4c"
++SRC_URI += "gomod://github.com/docker/cli;version=v28.5.2+incompatible;sha256sum=ae8f0f3ffa308bcee47cc2cb85e087ff082ba0a6c4a5cb379bfdcaa18d62d411"
++SRC_URI += "gomod://github.com/docker/cli;version=v29.5.1+incompatible;sha256sum=8e20a11720a228ab32145354ade86c373b8582fd83c3368f98e29ef2da1ceae0"
+ SRC_URI += "gomod://github.com/docker/cli-docs-tool;version=v0.10.0;sha256sum=258ad124838ef59f53895f8e090aa57167110e216cd4559e2a1a7ffd22e66b0a"
+-SRC_URI += "gomod://github.com/docker/compose/v5;version=v5.0.1-0.20251205141902-9fada6cc23fb;sha256sum=8dca731645c2dfc46c43bd6bb71cb0de7d59969ae225af90c4dea0d1ca9d9107"
+-SRC_URI += "gomod://github.com/docker/compose/v5;version=v5.0.0-20260312130628-e8c214349819;sha256sum=1a934fce9f439d5112880c3c88a178fd44b2482c9f795e21c8e100395275c60e"
++SRC_URI += "gomod://github.com/docker/cli-docs-tool;version=v0.11.0;sha256sum=b4802747380da9db5270f53b4e403f04570a37c3d24323cfa1ae52e911b40d4c"
++SRC_URI += "gomod://github.com/docker/compose/v5;version=v5.0.0-20260520144512-4732a2ed20a4;sha256sum=2b4153626a7902c2afc18addfb6d9be7f42f823cd9921bcdbaab0f96fec24f7c"
+ SRC_URI += "gomod://github.com/docker/compose/v5;version=v5.0.0-20251205141902-9fada6cc23fb;sha256sum=d7bb2fcd79627feee8c1df7f00b58616ca627ae0b09aa4a4d33d5b73e27b99a8"
+-SRC_URI += "gomod://github.com/docker/distribution;version=v2.8.3+incompatible;sha256sum=8f08722c5459cb4d9aa006e1fae094997da372098f4e14a59215b1ed3d48738a"
++SRC_URI += "gomod://github.com/docker/compose/v5;version=v5.0.0-20260312130628-e8c214349819;sha256sum=1a934fce9f439d5112880c3c88a178fd44b2482c9f795e21c8e100395275c60e"
++SRC_URI += "gomod://github.com/docker/compose/v5;version=v5.0.1-0.20251205141902-9fada6cc23fb;sha256sum=8dca731645c2dfc46c43bd6bb71cb0de7d59969ae225af90c4dea0d1ca9d9107"
+ SRC_URI += "gomod://github.com/docker/distribution;version=v2.7.1+incompatible;sha256sum=be78bc43d74873b67afe05a6b244490088680dab75bdfaf26d0fd4d054595bc7"
++SRC_URI += "gomod://github.com/docker/distribution;version=v2.8.3+incompatible;sha256sum=8f08722c5459cb4d9aa006e1fae094997da372098f4e14a59215b1ed3d48738a"
+ SRC_URI += "gomod://github.com/docker/docker;version=v28.5.2+incompatible;sha256sum=eb2091e8336c55b1996489eccbc01c06b1b9fed028b5b38e0499b49c9fa0d468"
+-SRC_URI += "gomod://github.com/docker/docker-credential-helpers;version=v0.9.5;sha256sum=2a01551502cf37b523c7137d92ec8fbc99aaa5a4b83b2b8f27fb0b47a394b3c5"
+ SRC_URI += "gomod://github.com/docker/docker-credential-helpers;version=v0.9.3;sha256sum=d1d7e8680253fa217273bf0df542ae9183b07716a7e52582b7d51347db4db661"
++SRC_URI += "gomod://github.com/docker/docker-credential-helpers;version=v0.9.5;sha256sum=2a01551502cf37b523c7137d92ec8fbc99aaa5a4b83b2b8f27fb0b47a394b3c5"
++SRC_URI += "gomod://github.com/docker/go-connections;version=v0.7.0;sha256sum=44c583ae40f15bd8abfe95a8b243d121ffef79b4605e8c737e24d5853188746e"
+ SRC_URI += "gomod://github.com/docker/go-connections;version=v0.6.0;sha256sum=c9847dae346c572e5e35cbd910ab3cb8ba7bf2bf2bb63a733e53031dd6d17127"
+ SRC_URI += "gomod://github.com/docker/go-connections;version=v0.4.0;sha256sum=570ebcee7e6fd844e00c89eeab2b1922081d6969df76078dfe4ffacd3db56ada"
+ SRC_URI += "gomod://github.com/docker/go-events;version=v0.0.0-20190806004212-e31b211e4f1c;sha256sum=0f654eb0e7e07c237a229935ea3488728ddb5b082af2918b64452a1129dccae3"
+-SRC_URI += "gomod://github.com/docker/go-metrics;version=v0.0.0-20180209012529-399ea8c73916;sha256sum=575c4b852669f83c4b7b58eebde69908fb4b7699359f170939c830524b03c719"
+ SRC_URI += "gomod://github.com/docker/go-metrics;version=v0.0.1;sha256sum=4efab3706215f5b2d29ba823d3991fd6e2f81c02ce45ef0c73c019ebc90e020b"
++SRC_URI += "gomod://github.com/docker/go-metrics;version=v0.0.0-20180209012529-399ea8c73916;sha256sum=575c4b852669f83c4b7b58eebde69908fb4b7699359f170939c830524b03c719"
+ SRC_URI += "gomod://github.com/docker/go-units;version=v0.5.0;sha256sum=039d53ebe64af1aefa0be94ce42c621a17a3052c58ad15e5b3f357529beeaff6"
+ SRC_URI += "gomod://github.com/docker/libtrust;version=v0.0.0-20160708172513-aabc10ec26b7;sha256sum=bf1c1230a3b5c0dadb2c9366aabc99181e708369d735dc83c3eb89f597f42adb"
+ SRC_URI += "gomod://github.com/dvsekhvalnov/jose2go;version=v0.0.0-20170216131308-f21a8cedbbae;sha256sum=3c122f66601d78857f9f002fa46d9fbbfd6f23794d549996f4255c3fd4bb9519"
+ SRC_URI += "gomod://github.com/eiannone/keyboard;version=v0.0.0-20220611211555-0d226195f203;sha256sum=d7fb345124c63dc9076c80f16cc33d40d4ffd567fd03763ea6f03b0169a651d3"
+ SRC_URI += "gomod://github.com/emicklei/go-restful/v3;version=v3.13.0;sha256sum=06bd60484b324de0b8e4366d4ed326db2e1dc730459b46e19a5306a108439c77"
++SRC_URI += "gomod://github.com/envoyproxy/go-control-plane;version=v0.14.0;sha256sum=79424a75c005ee0981601e44449347c62a3f35b3b2ea57af79a89c1f31d80906"
+ SRC_URI += "gomod://github.com/envoyproxy/go-control-plane;version=v0.13.5-0.20251024222203-75eaa193e329;sha256sum=3e8a2ecc33384a446b7da7afcc1823c54b45999bbd7913f915a58130ed956584"
++SRC_URI += "gomod://github.com/envoyproxy/go-control-plane/envoy;version=v1.37.0;sha256sum=dea96dd46aa4480f6f5dad6b52b9059d088d06a090968557dafa8cd633f629a2"
+ SRC_URI += "gomod://github.com/envoyproxy/go-control-plane/envoy;version=v1.35.0;sha256sum=e9fa9b000b19989956d0c16b93c461f88138316d1c5d384d00b250c30c462519"
+ SRC_URI += "gomod://github.com/envoyproxy/go-control-plane/ratelimit;version=v0.1.0;sha256sum=1165c3cf1efb096a04a3d65b345f3780adce78f126583f7b98465c413a440766"
+ SRC_URI += "gomod://github.com/envoyproxy/protoc-gen-validate;version=v1.2.1;sha256sum=ad9d2639aff17db6be291069c5463c46ed8ac37a0c6c1b57fae5465c5effb567"
++SRC_URI += "gomod://github.com/envoyproxy/protoc-gen-validate;version=v1.3.3;sha256sum=83a909ec95b94609da1f610a866e0553dd4ac3a7b485f7dc5c734692fa326754"
+ SRC_URI += "gomod://github.com/erikstmartin/go-testdb;version=v0.0.0-20160219214506-8d10e4a1bae5;sha256sum=471feb426b2a7ec1df29cc21c66aef34c9e7aabea751328644d1362593983d21"
+ SRC_URI += "gomod://github.com/fatih/color;version=v1.18.0;sha256sum=4dc6907b7f6807b37c21ad527d966437d398f03472115f471eaa8fe5875363d3"
+ SRC_URI += "gomod://github.com/felixge/fgprof;version=v0.9.3;sha256sum=2c83268087acf8b767be69dbc37c099fa85856763c2e88fb99637d46eb6ac23c"
+ SRC_URI += "gomod://github.com/felixge/httpsnoop;version=v1.0.4;sha256sum=75aa471311265e9860df0e523400b4650ed0c1a33262786a421f07226792e494"
+ SRC_URI += "gomod://github.com/fsnotify/fsevents;version=v0.2.0;sha256sum=d239917e6efe35a1dc89a219abca5084c57eb78b83815fda47b6452d27f03749"
+-SRC_URI += "gomod://github.com/fsnotify/fsnotify;version=v1.9.0;sha256sum=94e64824b23591b7aa504e3321d5ec3f57de88f4d49882eaefbbf6820dab746e"
+ SRC_URI += "gomod://github.com/fsnotify/fsnotify;version=v1.4.7;sha256sum=1d09ad8f3dc41cb6e0288023b47272c1c9393ca411e48f4b5009bca6662dc3ad"
++SRC_URI += "gomod://github.com/fsnotify/fsnotify;version=v1.9.0;sha256sum=94e64824b23591b7aa504e3321d5ec3f57de88f4d49882eaefbbf6820dab746e"
+ SRC_URI += "gomod://github.com/fvbommel/sortorder;version=v1.1.0;sha256sum=a4dbc58d2f72212474a7b5e1894b11d6712b687f4cc66ca1f6e202a375d252f7"
+ SRC_URI += "gomod://github.com/fxamacker/cbor/v2;version=v2.9.0;sha256sum=5b0ec6424bd522aeeeab30cbdcad6f40bf976a9a2ddf125ab27b97826140d97a"
+ SRC_URI += "gomod://github.com/go-ini/ini;version=v1.67.0;sha256sum=d77fe1b537b2e6db4040bd518b4755979006d5af7e82ae035aa2bc5d40c0ff55"
+ SRC_URI += "gomod://github.com/go-jose/go-jose/v3;version=v3.0.0;sha256sum=936e00c9abdd3bb365124807201bff21f90c36710beca458d7b1830ff3bea449"
++SRC_URI += "gomod://github.com/go-jose/go-jose/v4;version=v4.1.4;sha256sum=06a37b6668012a2dd109a5f71f6ae15387dc808b35d3cf73f5e406e78a17b027"
+ SRC_URI += "gomod://github.com/go-jose/go-jose/v4;version=v4.1.3;sha256sum=ec019b110f6cdc3f55f067f52573be4474d5051b9b7c7fc11eb846b13c56beb4"
+ SRC_URI += "gomod://github.com/go-kit/kit;version=v0.8.0;sha256sum=73ae40db4bcb0326a9bc1cc66a59f72129c55d14e4b7eba2b8a1f994e8c038ff"
+-SRC_URI += "gomod://github.com/go-logfmt/logfmt;version=v0.3.0;sha256sum=58cdd9d64c5650048b1ef3a4cec6fefd6b245206cdc154ad2dbb41a6edf427f4"
+ SRC_URI += "gomod://github.com/go-logfmt/logfmt;version=v0.4.0;sha256sum=d678198dc0eeaed28736e0d71b919a0bd98501b7275c69a7917122f6de9e0d1c"
++SRC_URI += "gomod://github.com/go-logfmt/logfmt;version=v0.3.0;sha256sum=58cdd9d64c5650048b1ef3a4cec6fefd6b245206cdc154ad2dbb41a6edf427f4"
+ SRC_URI += "gomod://github.com/go-logr/logr;version=v1.2.2;sha256sum=3d8ad5428394dcea7ecd1e9b9750011341e9043412326f53138677f9eac84567"
+ SRC_URI += "gomod://github.com/go-logr/logr;version=v1.4.3;sha256sum=523d7a3587fe73f61ef41c8bc627f7d7f38de8104d46278154b307e60770ad70"
+ SRC_URI += "gomod://github.com/go-logr/stdr;version=v1.2.2;sha256sum=9dd6893bf700198485ae699640b49bc1efbc6c73b37cb5792a0476e1fd8f7fef"
+ SRC_URI += "gomod://github.com/go-ole/go-ole;version=v1.2.6;sha256sum=95b192df81ca16f0fb7d2d98ff6596d70256d73e49e899c55fabd511fd6768ef"
++SRC_URI += "gomod://github.com/go-openapi/analysis;version=v0.24.3;sha256sum=9d0a3b9a0fe14bb4b4880d93f98c459921d1ec4bcd160c1de23433c24285f7e5"
+ SRC_URI += "gomod://github.com/go-openapi/analysis;version=v0.24.1;sha256sum=00bc7194b6adcfab6ee2eef065c4fd5dd38a339cc16ec4543527168e327a7f6f"
+ SRC_URI += "gomod://github.com/go-openapi/errors;version=v0.22.4;sha256sum=3dd6459f014d675347e6d5ab00df7dabb3b8324c45ef6d7bd2c96cb44a5ff101"
++SRC_URI += "gomod://github.com/go-openapi/errors;version=v0.22.7;sha256sum=815a7979d3e3c7048b8bcb82d59c9e3de4fc7882c7de3a9b9e94eea02fba2651"
+ SRC_URI += "gomod://github.com/go-openapi/jsonpointer;version=v0.21.0;sha256sum=8a36ba84f6f6148834875fff96da79fcc2b383ace69cc34d71756b3fa84b9952"
++SRC_URI += "gomod://github.com/go-openapi/jsonpointer;version=v0.22.5;sha256sum=c77c1b57229c8d8cdd8d17a7137dbb44e10ec8aa1e24691bb380485b759a4e37"
+ SRC_URI += "gomod://github.com/go-openapi/jsonpointer;version=v0.22.1;sha256sum=6f017fddfbe1c5e1cc264b6e1dde9d1e5ff80f5ff6771790d2b6fd91755c8b1b"
+ SRC_URI += "gomod://github.com/go-openapi/jsonreference;version=v0.21.3;sha256sum=2f98f9852069d38f464d4d69c24c87fedd8781364dd322b6c8bb98898cc7ce4f"
+ SRC_URI += "gomod://github.com/go-openapi/jsonreference;version=v0.20.2;sha256sum=27afd0bef56453e463eba6093afb04dc08d97b5ad0e15b2266cac867d062ae1b"
++SRC_URI += "gomod://github.com/go-openapi/jsonreference;version=v0.21.5;sha256sum=e451bfc44c231ea285921a412f63b47518c3529cc29ba3a67d8293a9e57f0bb8"
+ SRC_URI += "gomod://github.com/go-openapi/loads;version=v0.23.2;sha256sum=ae63af2b28917c3566d568e498695c1d1983b369b35ce1d3b1832607cb94613a"
++SRC_URI += "gomod://github.com/go-openapi/loads;version=v0.23.3;sha256sum=51a80f3cdfdc4b12ee2c7bac33395e031dbfcc7673d3087d91cd77506a729eb9"
+ SRC_URI += "gomod://github.com/go-openapi/runtime;version=v0.29.2;sha256sum=89b653d9ce163e21c247f4bf450ac2c2edf93940391437a4c0cf7b4452bd3636"
++SRC_URI += "gomod://github.com/go-openapi/spec;version=v0.22.4;sha256sum=3a0ed5b0ee766e01758a08afb06ae7d0ca9b1a877528a4e3c94056634d5534d8"
+ SRC_URI += "gomod://github.com/go-openapi/spec;version=v0.22.1;sha256sum=05ef9d885782a3d6391b6715d4161619632bbee6b2d1bebd77d41aa8ad0fa283"
++SRC_URI += "gomod://github.com/go-openapi/strfmt;version=v0.26.1;sha256sum=0e6d928fc01dc29f1636227582d8f4fd006fd56783470f5b73d5d99c972f9fac"
+ SRC_URI += "gomod://github.com/go-openapi/strfmt;version=v0.25.0;sha256sum=cac3e2abf31b1e3456c024aaf6514695b3fc3273d8ad4fbb2c9ea7ff8a40829f"
+ SRC_URI += "gomod://github.com/go-openapi/swag;version=v0.25.3;sha256sum=c5756208eb89a55477f5585016aa429e230b7eb7b260f48b68171f79e54eb7bf"
+ SRC_URI += "gomod://github.com/go-openapi/swag;version=v0.23.0;sha256sum=a604425d0d3ff6936ffd056e86cd776c80e06874ef026e53da528208a986df94"
++SRC_URI += "gomod://github.com/go-openapi/swag;version=v0.25.4;sha256sum=e1052dcfeace3bf025333119841547d5c1d87eb3bfd8d9a0c55f2b82c75226c2"
+ SRC_URI += "gomod://github.com/go-openapi/swag/cmdutils;version=v0.25.3;sha256sum=5c0dd53303913f87d28cb49f1699b35312a577b3967a68528a8b3782254868a0"
++SRC_URI += "gomod://github.com/go-openapi/swag/cmdutils;version=v0.25.4;sha256sum=4b8bceb55ffd7dec3aa02e3119326f32546928b79e3ef8418211265589839b23"
++SRC_URI += "gomod://github.com/go-openapi/swag/conv;version=v0.25.5;sha256sum=c02fe7118d58720cbd83bc7c0c37edd5bdaff731f26f8ca8bc8998ee1e0f39b2"
+ SRC_URI += "gomod://github.com/go-openapi/swag/conv;version=v0.25.3;sha256sum=6be6ddc74b91352bcd1f922f9441ee9c16fadc15e3189d9c26725d03564fa295"
++SRC_URI += "gomod://github.com/go-openapi/swag/fileutils;version=v0.25.5;sha256sum=f368511a4eda5e14680aaa358b0b6fd2ca23cfc61aa8bfec234acb51ec9c4561"
+ SRC_URI += "gomod://github.com/go-openapi/swag/fileutils;version=v0.25.3;sha256sum=0b76abb23a0266e2fdf17c4723ce507a6b13be37c66881adb3650372ff976fad"
++SRC_URI += "gomod://github.com/go-openapi/swag/jsonname;version=v0.25.5;sha256sum=fff4d3d3875709813d6fcd5657133de4331eb136a0aedd51a099f7f76605ae08"
+ SRC_URI += "gomod://github.com/go-openapi/swag/jsonname;version=v0.25.3;sha256sum=2b9724d47716059b750ce4d2778ccea2abd4448dcbb4e8236a1ba097ac353316"
++SRC_URI += "gomod://github.com/go-openapi/swag/jsonutils;version=v0.25.5;sha256sum=9d6fad8614363682c676c5380433d6f376ddcbfe09af5d5b1e92db57eb3f89a6"
+ SRC_URI += "gomod://github.com/go-openapi/swag/jsonutils;version=v0.25.3;sha256sum=78949d00c8abf5c79598128f8020c29deafafb4675043553f1f057f079421303"
++SRC_URI += "gomod://github.com/go-openapi/swag/loading;version=v0.25.5;sha256sum=08db0dfa32b02d4575d202a43c2cbf547b55e1cc1700b83b50e2bd6963fe473b"
+ SRC_URI += "gomod://github.com/go-openapi/swag/loading;version=v0.25.3;sha256sum=14eacae8df11ef99edd8233344e867850efa99d168fdd78cdc7958fcb84ad5b9"
++SRC_URI += "gomod://github.com/go-openapi/swag/mangling;version=v0.25.5;sha256sum=e18e5bf564ca56e0534593b39c694030a1700ccb75d4d9597633310d01c3032f"
+ SRC_URI += "gomod://github.com/go-openapi/swag/mangling;version=v0.25.3;sha256sum=cb0bb8524e39085e14e881df25f6d70b4636d79c757072a492ee3153f9b78565"
+ SRC_URI += "gomod://github.com/go-openapi/swag/netutils;version=v0.25.3;sha256sum=cbfc3a0ea443b84aaf6602f46fc9a708e35f8be1a6d5c1591462eac3e34eff45"
++SRC_URI += "gomod://github.com/go-openapi/swag/netutils;version=v0.25.4;sha256sum=0b82c5c33ffc2a8b571139074484b755d281313070e13d1b3a6fa640780ec515"
++SRC_URI += "gomod://github.com/go-openapi/swag/stringutils;version=v0.25.5;sha256sum=84c67b1424ec75a3c98c4f8403215212dc8234a2ca49bfc4cd2948c4c0f474fc"
+ SRC_URI += "gomod://github.com/go-openapi/swag/stringutils;version=v0.25.3;sha256sum=09966bcba185141d4c4c2811ea6c0354494efee15ef4d38d4986412755c7cc49"
++SRC_URI += "gomod://github.com/go-openapi/swag/typeutils;version=v0.25.5;sha256sum=e9561c699417276b878b22967f457f29acc80b9ce5f977dc520637dd419f0c4a"
+ SRC_URI += "gomod://github.com/go-openapi/swag/typeutils;version=v0.25.3;sha256sum=23f76395518c07d2e43be68fe5b6c9cd0bcb09d6385f984bc5b0469a010994a8"
++SRC_URI += "gomod://github.com/go-openapi/swag/yamlutils;version=v0.25.5;sha256sum=af4b90aa0549f31d619676f1642fc70b5aeb62a7ae8895a5b0d8225e2d02d09a"
+ SRC_URI += "gomod://github.com/go-openapi/swag/yamlutils;version=v0.25.3;sha256sum=3b104271c38007f922b523c3db74972863a2ab28ba38bbd62a8576ce5204cf50"
++SRC_URI += "gomod://github.com/go-openapi/validate;version=v0.25.2;sha256sum=ce569ad32c22f253dde70de305edbfe595f7c9c19816636451623b94ac5d9f63"
+ SRC_URI += "gomod://github.com/go-openapi/validate;version=v0.25.1;sha256sum=d192bd721533fcc5f91a373e98d5d8938b0cd9d32ba8258800ac1d1deee0068e"
+ SRC_URI += "gomod://github.com/go-rod/rod;version=v0.116.2;sha256sum=985245a8535cc24da8bb91cff4f10ece3daa7b4a25eb5df1800f04287c3e64de"
+-SRC_URI += "gomod://github.com/go-sql-driver/mysql;version=v1.3.0;sha256sum=c315f6495b933a60baa96199e15f75d87a4b416f2133a05f11083a5b1ae458f4"
+ SRC_URI += "gomod://github.com/go-sql-driver/mysql;version=v1.9.3;sha256sum=fa0066aaca3f8932270d62c75dfdb291a0a1a38505464910de6c83a1332e161e"
++SRC_URI += "gomod://github.com/go-sql-driver/mysql;version=v1.3.0;sha256sum=c315f6495b933a60baa96199e15f75d87a4b416f2133a05f11083a5b1ae458f4"
+ SRC_URI += "gomod://github.com/go-stack/stack;version=v1.8.0;sha256sum=78c2667c710f811307038634ffa43af442619acfeaf1efb593aa4e0ded9df48f"
+-SRC_URI += "gomod://github.com/go-viper/mapstructure/v2;version=v2.5.0;sha256sum=326f8e00f648af4ae8e6e18c606325e4206a92d6ed42f486dc2f4da8e1897547"
+ SRC_URI += "gomod://github.com/go-viper/mapstructure/v2;version=v2.4.0;sha256sum=33e0398e34eca4b1b8c9d91318dd3be871811aee6e2ababc82c02280dcca296a"
++SRC_URI += "gomod://github.com/go-viper/mapstructure/v2;version=v2.5.0;sha256sum=326f8e00f648af4ae8e6e18c606325e4206a92d6ed42f486dc2f4da8e1897547"
+ SRC_URI += "gomod://github.com/gobwas/glob;version=v0.2.3;sha256sum=0cfe486cd63d45ed4cb5863ff1cbd14b15e4b9380dcbf80ff26991b4049f4fdf"
+ SRC_URI += "gomod://github.com/goccy/go-json;version=v0.10.5;sha256sum=96e417d4493705f470f7f29858a09cdbe68330f2d7e74cd024fbace4745c0615"
+ SRC_URI += "gomod://github.com/godbus/dbus/v5;version=v5.1.0;sha256sum=03dfa8e71089a6f477310d15c4d3a036d82d028532881b50fee254358e782ad9"
+ SRC_URI += "gomod://github.com/gofrs/flock;version=v0.13.0;sha256sum=171560e83110e199cc9f4f8959d442c563c8ab6b26c100dd67b7a2fe265339ce"
+ SRC_URI += "gomod://github.com/gogo/protobuf;version=v1.1.1;sha256sum=918dce96f1b5c897ecb15e79c741d3088abf0c481ca084b6686109a39f53f52e"
+-SRC_URI += "gomod://github.com/gogo/protobuf;version=v1.0.0;sha256sum=c6e334947d037fdb111d145ed33a1c4d77398557e3ecb3c95e8ca02af286a307"
+ SRC_URI += "gomod://github.com/gogo/protobuf;version=v1.3.2;sha256sum=dd2b73f163c8183941626360196c8f844addd95423d341a0412e1b22d0104ff7"
++SRC_URI += "gomod://github.com/gogo/protobuf;version=v1.0.0;sha256sum=c6e334947d037fdb111d145ed33a1c4d77398557e3ecb3c95e8ca02af286a307"
+ SRC_URI += "gomod://github.com/golang-jwt/jwt/v5;version=v5.3.0;sha256sum=7de1cf03d836b3fcb32e02011d148fe94533e52dd54d521cadc61bcdf068eb1c"
+ SRC_URI += "gomod://github.com/golang-sql/civil;version=v0.0.0-20190719163853-cb61b32ac6fe;sha256sum=22fcd1e01cabf6ec75c6b6c8e443de029611c9dd5cc4673818d52dac465ac688"
+ SRC_URI += "gomod://github.com/golang/glog;version=v1.2.5;sha256sum=99f5736dc4fd976a0691361b57ed853cb459070ba4c42ace6e3f5ebd0d154f8e"
+ SRC_URI += "gomod://github.com/golang/groupcache;version=v0.0.0-20241129210726-2c02b8208cf8;sha256sum=163367355442a630b12b0b452892cd98e99fcfdf7e40b68d358be73479cc1c23"
+-SRC_URI += "gomod://github.com/golang/protobuf;version=v1.3.1;sha256sum=963c1727816dcd6b474158a8a23f26115e0fb610aaf6363233d5b3e317b2193e"
++SRC_URI += "gomod://github.com/golang/protobuf;version=v1.5.4;sha256sum=9a2f43d3eac8ceda506ebbeb4f229254b87235ce90346692a0e233614182190b"
+ SRC_URI += "gomod://github.com/golang/protobuf;version=v1.2.0;sha256sum=7574e650f6f12186def8b31b0e8d980ccb88a6a365b99fbf36515f6e7b99fd09"
+-SRC_URI += "gomod://github.com/golang/protobuf;version=v1.3.4;sha256sum=177c9ae8d07fea0ae1ca3dd771ac299cc66705211720fd9714ddf680aabbe886"
+ SRC_URI += "gomod://github.com/golang/protobuf;version=v1.3.2;sha256sum=a004ba3acb85e012cb9e468e1d445a81cfeeb4b4db7e9802f30aa500a8341851"
+-SRC_URI += "gomod://github.com/golang/protobuf;version=v1.5.4;sha256sum=9a2f43d3eac8ceda506ebbeb4f229254b87235ce90346692a0e233614182190b"
++SRC_URI += "gomod://github.com/golang/protobuf;version=v1.3.4;sha256sum=177c9ae8d07fea0ae1ca3dd771ac299cc66705211720fd9714ddf680aabbe886"
++SRC_URI += "gomod://github.com/golang/protobuf;version=v1.3.1;sha256sum=963c1727816dcd6b474158a8a23f26115e0fb610aaf6363233d5b3e317b2193e"
++SRC_URI += "gomod://github.com/golang/snappy;version=v1.0.0;sha256sum=d712fef567e361d17e879f80ea53ebfdf529185a6bc74a2aa1996133ddd0a930"
+ SRC_URI += "gomod://github.com/golang/snappy;version=v0.0.4;sha256sum=ea4545ca44ee990554094df6de440386a440a5bd99106e048939409d63beb423"
+ SRC_URI += "gomod://github.com/google/certificate-transparency-go;version=v1.0.10-0.20180222191210-5ab67e519c93;sha256sum=ab30ce449613db2703e7579d53d654a8d4e55748e3797a129de010a1473d96ab"
+ SRC_URI += "gomod://github.com/google/certificate-transparency-go;version=v1.3.2;sha256sum=3ed01f6ab05444275466dd46a6c2ce7593c58ffa8c0563528dbc2499e6c1100a"
+@@ -228,6 +279,7 @@ SRC_URI += "gomod://github.com/google/deck;version=v0.0.0-20230104221208-105ad94
+ SRC_URI += "gomod://github.com/google/gnostic-models;version=v0.7.0;sha256sum=797a05cd73a30624ece79633c4db4631676adc1f30f07a0a7051ab39beca96c8"
+ SRC_URI += "gomod://github.com/google/go-cmp;version=v0.7.0;sha256sum=64a9ce046f2c320e3783fba0d1f4a15f8a18f0b009b67bf27f7630919db3f539"
+ SRC_URI += "gomod://github.com/google/go-cmp;version=v0.3.0;sha256sum=129f65af6e54abc08a9b867ef48e5fb69ef560fa67e540067a8cfaefc6977626"
++SRC_URI += "gomod://github.com/google/go-containerregistry;version=v0.20.7;sha256sum=66a762a1b62edda4980afb67b6c75dd2fd1a41f02d56af0d9473ad5edd7be266"
+ SRC_URI += "gomod://github.com/google/go-containerregistry;version=v0.20.6;sha256sum=df1671d352daf96efbc0d06ffa4797dc44b002eef6a706982d89df1aeb27cd79"
+ SRC_URI += "gomod://github.com/google/go-dap;version=v0.12.1-0.20250904181021-d7a2259b058b;sha256sum=b9eda3537b717229926ae927f841678cb6612c90a2f963f3943a019629235081"
+ SRC_URI += "gomod://github.com/google/go-dap;version=v0.12.0;sha256sum=47e50b9d8a3888476fcbf0f76ce81f860ca5026b364c2513e5243726d2c86b50"
+@@ -242,9 +294,11 @@ SRC_URI += "gomod://github.com/gorilla/websocket;version=v1.5.4-0.20250319132907
+ SRC_URI += "gomod://github.com/grafana/regexp;version=v0.0.0-20240518133315-a468a5bfb3bc;sha256sum=0834c0727a787e26ea060eaca46a8ecafb719aca0fd6860d69d98211acd22c00"
+ SRC_URI += "gomod://github.com/grpc-ecosystem/go-grpc-middleware/providers/prometheus;version=v1.1.0;sha256sum=8a0bfef1332e102be67d5599bd7c006bebf5f0823f2a9d11aa5cf22a74dbafb4"
+ SRC_URI += "gomod://github.com/grpc-ecosystem/go-grpc-middleware/v2;version=v2.1.0;sha256sum=77e8fb88b8089ff917f6d409984c1d90f825d8e3dc996a0d68113493e32c96b8"
+-SRC_URI += "gomod://github.com/grpc-ecosystem/grpc-gateway/v2;version=v2.27.2;sha256sum=6dae1ad81ee4d0941b9eee20d0899886c32747de8c71565a7310a039d81e13be"
+ SRC_URI += "gomod://github.com/grpc-ecosystem/grpc-gateway/v2;version=v2.27.3;sha256sum=82f62a00e6a1ab4d571901a8cd19c1fbad98320a350f260e8bc77878c7813492"
++SRC_URI += "gomod://github.com/grpc-ecosystem/grpc-gateway/v2;version=v2.27.2;sha256sum=6dae1ad81ee4d0941b9eee20d0899886c32747de8c71565a7310a039d81e13be"
++SRC_URI += "gomod://github.com/grpc-ecosystem/grpc-gateway/v2;version=v2.28.0;sha256sum=a8cd8e77d733dbf48594cc74ebc41e7a9af65d4d760c3f8d6000e9ccc840dca1"
+ SRC_URI += "gomod://github.com/hailocab/go-hostpool;version=v0.0.0-20160125115350-e80d13ce29ed;sha256sum=faf2b985681cda77ab928976b620b790585e364b6aff351483227d474db85e9a"
++SRC_URI += "gomod://github.com/hanwen/go-fuse/v2;version=v2.9.0;sha256sum=8eb070703aa9448e0f9d5ae80410a0c15f6930c94e7f264a9c6310bf5575becb"
+ SRC_URI += "gomod://github.com/hanwen/go-fuse/v2;version=v2.8.0;sha256sum=ac0a357028e533e764cb25fd359e18e867a0bca09adaef79245658399797d56c"
+ SRC_URI += "gomod://github.com/hashicorp/errwrap;version=v1.0.0;sha256sum=ccdf4c90f894d8a5fde4e79d5828c5d27a13e9f7ce3006dd72ce76e6e17cdeb2"
+ SRC_URI += "gomod://github.com/hashicorp/errwrap;version=v1.1.0;sha256sum=209ae99bc039443e28e4d6bb66517d1756d9468b7578d31f1b63a28103d8e18c"
+@@ -254,12 +308,14 @@ SRC_URI += "gomod://github.com/hashicorp/go-immutable-radix/v2;version=v2.1.0;sh
+ SRC_URI += "gomod://github.com/hashicorp/go-multierror;version=v1.1.1;sha256sum=972cd841ee51fdeac69c5a301e57f8ea27aebf15fddd7f621d5c240f28c3000c"
+ SRC_URI += "gomod://github.com/hashicorp/go-retryablehttp;version=v0.7.8;sha256sum=9e2c175e4af37cdfeba28ed89250ad1fd691eda0fab167fafa9928222646b71e"
+ SRC_URI += "gomod://github.com/hashicorp/go-version;version=v1.8.0;sha256sum=1edce7bf2cd763e2a02ebd44db8c806c50b38570e41c994f2e756bba19caf84c"
++SRC_URI += "gomod://github.com/hashicorp/go-version;version=v1.9.0;sha256sum=b6c05489bf11a28c81cf38119782284c859d6c2d193b811d3f0117592eb31fcb"
+ SRC_URI += "gomod://github.com/hashicorp/golang-lru/v2;version=v2.0.7;sha256sum=2eb92ff13970bccd460efae14255bfc03bb51474da0137e477a60f95561acc30"
+ SRC_URI += "gomod://github.com/hashicorp/hcl/v2;version=v2.24.0;sha256sum=53fd4e96ac9c190e192759daf49b63397865214d337ab5f6dbf6e68c1b0f4810"
+ SRC_URI += "gomod://github.com/hiddeco/sshsig;version=v0.2.0;sha256sum=f1acfab01317d2d1d9b269774de433993e452659ece865ad4009692d06e5a9a3"
+ SRC_URI += "gomod://github.com/hinshun/vt10x;version=v0.0.0-20220119200601-820417d04eec;sha256sum=ac69741b34c166012c5516db17bc6325ec0efc23105776b7728b9a53ae6746de"
+ SRC_URI += "gomod://github.com/hpcloud/tail;version=v1.0.0;sha256sum=3cba484748e2e2919d72663599b8cc6454058976fbca96f9ac78d84f195b922a"
+ SRC_URI += "gomod://github.com/in-toto/attestation;version=v1.1.2;sha256sum=0bb737ac0836f6a9ba6499139630a558bdda510c78dc51967e58355006a03d9a"
++SRC_URI += "gomod://github.com/in-toto/in-toto-golang;version=v0.10.0;sha256sum=714134f015027dc9d65e55de7625d06ed3f91cc3888a84480a6110e14e952709"
+ SRC_URI += "gomod://github.com/in-toto/in-toto-golang;version=v0.9.0;sha256sum=08e1ed5fef21fed93b5acdf8cdae7e9ed51dbd1a6fd65858ee905963db81be5a"
+ SRC_URI += "gomod://github.com/inconshreveable/mousetrap;version=v1.0.0;sha256sum=c3fa0813e78f5cef10dc0e9912c43e68e06ff970a98e98c4050fe14dbbfd18c7"
+ SRC_URI += "gomod://github.com/inconshreveable/mousetrap;version=v1.1.0;sha256sum=526674de624d7db108cfe7653ef110ccdfd97bc85026254224815567928ed243"
+@@ -276,9 +332,9 @@ SRC_URI += "gomod://github.com/jinzhu/now;version=v1.1.1;sha256sum=8c56b1bd3f10b
+ SRC_URI += "gomod://github.com/jonboulle/clockwork;version=v0.5.0;sha256sum=f6b22626f17e5d4be7c755f83f97b575764da4c9ea4deccd5c5794912ce508aa"
+ SRC_URI += "gomod://github.com/josharian/intern;version=v1.0.0;sha256sum=5679bfd11c14adccdb45bd1a0f9cf4b445b95caeed6fb507ba96ecced11c248d"
+ SRC_URI += "gomod://github.com/jpillora/backoff;version=v1.0.0;sha256sum=f856692c725143c49b9cceabfbca8bc93d3dbde84a0aaa53fb26ed3774c220cc"
++SRC_URI += "gomod://github.com/json-iterator/go;version=v1.1.7;sha256sum=95bbe51bbf1e88095e604700f354dab03bcbc00f2377b0ab893618d2976d82dd"
+ SRC_URI += "gomod://github.com/json-iterator/go;version=v1.1.12;sha256sum=d001ea57081afd0e378467c8f4a9b6a51259996bb8bb763f78107eaf12f99501"
+ SRC_URI += "gomod://github.com/json-iterator/go;version=v1.1.6;sha256sum=1e0ddaa3c493f343c11925cd7d3701f58b4339ea38a0d2c34370c672dec640b5"
+-SRC_URI += "gomod://github.com/json-iterator/go;version=v1.1.7;sha256sum=95bbe51bbf1e88095e604700f354dab03bcbc00f2377b0ab893618d2976d82dd"
+ SRC_URI += "gomod://github.com/juju/loggo;version=v0.0.0-20190526231331-6e530bcce5d8;sha256sum=3db058c07ced25b8689f5d3e462d344ffb965c6f371eabc0396ce94d927e6206"
+ SRC_URI += "gomod://github.com/julienschmidt/httprouter;version=v1.2.0;sha256sum=bf0a269697dfe7ebdc6544a2734e76a699505eb7316e34ba2ed53e88e85abf4a"
+ SRC_URI += "gomod://github.com/julienschmidt/httprouter;version=v1.3.0;sha256sum=e457dccd7015f340664e3b8cfd41997471382da2f4a743ee55be539abc6ca1f9"
+@@ -286,17 +342,18 @@ SRC_URI += "gomod://github.com/kballard/go-shellquote;version=v0.0.0-20180428030
+ SRC_URI += "gomod://github.com/keybase/go-keychain;version=v0.0.1;sha256sum=9514a68da08d39d60a47640bef049e44c829aab5dbbddd03d272e9252039a5c7"
+ SRC_URI += "gomod://github.com/kisielk/errcheck;version=v1.5.0;sha256sum=e15bd181a3f384da89fed079dc4ec4d1f431fc20db758fdbe4abb38d7ddee06b"
+ SRC_URI += "gomod://github.com/kisielk/gotool;version=v1.0.0;sha256sum=089dbba6e3aa09944fdb40d72acc86694e8bdde01cfc0f40fe0248309eb80a3f"
+-SRC_URI += "gomod://github.com/klauspost/compress;version=v1.18.3;sha256sum=b78fdb69a9cb8f2b7111ceacb397fe9a2af85f5fd98481025ab2b7d8febf8115"
++SRC_URI += "gomod://github.com/klauspost/compress;version=v1.18.5;sha256sum=e1fdde95d97978146243f1e793ce18a09b107d6cd6032347fcb5b9115181497d"
+ SRC_URI += "gomod://github.com/klauspost/compress;version=v1.18.1;sha256sum=9f233a4929ef02a58da534cd7c91e170548b90f5a69e221829531e9588e4da23"
++SRC_URI += "gomod://github.com/klauspost/compress;version=v1.18.3;sha256sum=b78fdb69a9cb8f2b7111ceacb397fe9a2af85f5fd98481025ab2b7d8febf8115"
+ SRC_URI += "gomod://github.com/knqyf263/go-plugin;version=v0.9.0;sha256sum=ef80e801ff7ed5fc5ebf0a78423a39b876fee0d3df6dc69056277eb1238475e0"
+ SRC_URI += "gomod://github.com/konsorten/go-windows-terminal-sequences;version=v1.0.1;sha256sum=7fd0273fc0855ed08172c150f756e708d6e43c4a6d52ca4939a8b43d03356091"
+ SRC_URI += "gomod://github.com/konsorten/go-windows-terminal-sequences;version=v1.0.2;sha256sum=4d00d71b8de60bcaf454f8f867210ebcd05e75c0a7c2725904f71aa2f20fb08e"
+ SRC_URI += "gomod://github.com/kr/logfmt;version=v0.0.0-20140226030751-b84e30acd515;sha256sum=ebd95653aaca6182184a1b9b309a65d55eb4c7c833c5e790aee11efd73d4722c"
+-SRC_URI += "gomod://github.com/kr/pretty;version=v0.1.0;sha256sum=06063d21457e06dc2aba4a5bd09771147ec3d8ab40b224f26e55c5a76089ca43"
+ SRC_URI += "gomod://github.com/kr/pretty;version=v0.3.1;sha256sum=ecf5a4af24826c3ad758ce06410ca08e2d58e4d95053be3b9dde2e14852c0cdc"
++SRC_URI += "gomod://github.com/kr/pretty;version=v0.1.0;sha256sum=06063d21457e06dc2aba4a5bd09771147ec3d8ab40b224f26e55c5a76089ca43"
+ SRC_URI += "gomod://github.com/kr/pty;version=v1.1.1;sha256sum=10474d7a875cbd2b9d74c9bb8fb99264b7863f204c7610607797ff18d580bf00"
+-SRC_URI += "gomod://github.com/kr/text;version=v0.1.0;sha256sum=9363a4c8f1f3387a36014de51b477b831a13981fc59a5665f9d21609bea9e77c"
+ SRC_URI += "gomod://github.com/kr/text;version=v0.2.0;sha256sum=368eb318f91a5b67be905c47032ab5c31a1d49a97848b1011a0d0a2122b30ba4"
++SRC_URI += "gomod://github.com/kr/text;version=v0.1.0;sha256sum=9363a4c8f1f3387a36014de51b477b831a13981fc59a5665f9d21609bea9e77c"
+ SRC_URI += "gomod://github.com/kylelemons/godebug;version=v1.1.0;sha256sum=dbbd0ce8c2f4932bb03704d73026b21af12bd68d5b8f4798dbf10a487a2b6d13"
+ SRC_URI += "gomod://github.com/lestrrat-go/blackmagic;version=v1.0.4;sha256sum=4775ca8eab443a882cc1772c25716810a889d478746c6a405f559750de42dce6"
+ SRC_URI += "gomod://github.com/lestrrat-go/dsig;version=v1.0.0;sha256sum=d4f31e5380752d00740a447b7c129dfb2644367e4642e35ad60ff252edb470a0"
+@@ -308,14 +365,15 @@ SRC_URI += "gomod://github.com/lestrrat-go/option;version=v1.0.1;sha256sum=3e561
+ SRC_URI += "gomod://github.com/lestrrat-go/option/v2;version=v2.0.0;sha256sum=3456bd01638c67da62570123f3d12f5996d0a01ed521959c2fc85aa83d3ee94a"
+ SRC_URI += "gomod://github.com/letsencrypt/boulder;version=v0.20251110.0;sha256sum=e91825bdde9e72eef21a513e709b7fa255625f7fd5e41674f01cee75f4e2fac0"
+ SRC_URI += "gomod://github.com/lib/pq;version=v0.0.0-20150723085316-0dad96c0b94f;sha256sum=0946c2b1df11f908d6bbe11da9a86f65f10149038cecf082d37ca1e67a9fc6e4"
+-SRC_URI += "gomod://github.com/magiconair/properties;version=v1.5.3;sha256sum=be1987e9a8dac8f197a091b734c1d1a2f91f17b614f52b2d5b13b7d584abf163"
+ SRC_URI += "gomod://github.com/magiconair/properties;version=v1.8.9;sha256sum=8361b76b967090e33192173d91fb3de5f5ea43f6b8d23e927bf6d698fc8a0250"
++SRC_URI += "gomod://github.com/magiconair/properties;version=v1.5.3;sha256sum=be1987e9a8dac8f197a091b734c1d1a2f91f17b614f52b2d5b13b7d584abf163"
+ SRC_URI += "gomod://github.com/mailru/easyjson;version=v0.7.7;sha256sum=139387981a220d499c9f47cece42a2002f105e4ee3ab9c74188a7fb8a9be711e"
+-SRC_URI += "gomod://github.com/mattn/go-colorable;version=v0.1.2;sha256sum=6f64967892df6c491738811a76842998dfbdf631199a0236346dd59b36d42322"
+ SRC_URI += "gomod://github.com/mattn/go-colorable;version=v0.1.14;sha256sum=5e0e7925a070bb5bd11b4097e1a7b608167f0217ee83901b44c135f6e5e85c78"
+-SRC_URI += "gomod://github.com/mattn/go-isatty;version=v0.0.8;sha256sum=0e55980f57ba3e77c8051f46e607adee55ca85f2179e1b78e30f5683007c93ba"
++SRC_URI += "gomod://github.com/mattn/go-colorable;version=v0.1.2;sha256sum=6f64967892df6c491738811a76842998dfbdf631199a0236346dd59b36d42322"
+ SRC_URI += "gomod://github.com/mattn/go-isatty;version=v0.0.20;sha256sum=f2d5f89ca451577e17464b9bb596dc0d0ecececb5eaa63622c41b57cd0b7b8cc"
++SRC_URI += "gomod://github.com/mattn/go-isatty;version=v0.0.8;sha256sum=0e55980f57ba3e77c8051f46e607adee55ca85f2179e1b78e30f5683007c93ba"
+ SRC_URI += "gomod://github.com/mattn/go-runewidth;version=v0.0.16;sha256sum=179d2d900c76ee3560fbeda60d0237a3be6acb734d0cb7423b55e5ccb0cedbca"
++SRC_URI += "gomod://github.com/mattn/go-shellwords;version=v1.0.13;sha256sum=275bc80137082affa209b71f0e98aa78c3bf293af1d789d14b193245eac83ba2"
+ SRC_URI += "gomod://github.com/mattn/go-shellwords;version=v1.0.12;sha256sum=6d35c3edc92e47a06988788d683c1ad389719b55ef19d5a7f239ab4708b6da11"
+ SRC_URI += "gomod://github.com/mattn/go-sqlite3;version=v1.6.0;sha256sum=98494f3b32464346ba4f90b0e96d06976f10079a65759f82bdb47abd7c2aa928"
+ SRC_URI += "gomod://github.com/matttproud/golang_protobuf_extensions;version=v1.0.1;sha256sum=e64dc58023f4b8c4472d05a44f2719b84d6c2cc364cc682820c9f72b233c9cdc"
+@@ -332,17 +390,23 @@ SRC_URI += "gomod://github.com/mitchellh/mapstructure;version=v1.5.0;sha256sum=1
+ SRC_URI += "gomod://github.com/mitchellh/mapstructure;version=v0.0.0-20150613213606-2caf8efc9366;sha256sum=540c288003dcb86a3a2837bfb0dae8a30f0fc315f0a69c48a8e711630dad6d03"
+ SRC_URI += "gomod://github.com/moby/buildkit;version=v0.26.2;sha256sum=5e89793899f3be6adc66cb053b058855f07420a9dbe931d4241591d94ae7dcc6"
+ SRC_URI += "gomod://github.com/moby/buildkit;version=v0.27.1;sha256sum=f922d61d95c6adbd01a2c59f76e941841c8e4908d1b7a177f04eb7c666554015"
++SRC_URI += "gomod://github.com/moby/buildkit;version=v0.29.0;sha256sum=80552e708d80cd265d300560ed1ea66a291ca63baf29e95d3692bf7e00265d93"
+ SRC_URI += "gomod://github.com/moby/docker-image-spec;version=v1.3.1;sha256sum=e3fe212be410465c0cae032baa7e2c7282b9bb878f081f00549333edc260c306"
+-SRC_URI += "gomod://github.com/moby/go-archive;version=v0.1.0;sha256sum=17cd0776ad62e2aee3082c26d1805dc6c355c0a1528e1119c6eab909e4ce6b3d"
+ SRC_URI += "gomod://github.com/moby/go-archive;version=v0.2.0;sha256sum=9fa1f9c9076a5d614e0fe1519878b49f0ae6221203d1b41c8e1710344783d345"
++SRC_URI += "gomod://github.com/moby/go-archive;version=v0.1.0;sha256sum=17cd0776ad62e2aee3082c26d1805dc6c355c0a1528e1119c6eab909e4ce6b3d"
+ SRC_URI += "gomod://github.com/moby/locker;version=v1.0.1;sha256sum=f07361346d12a24e168db7fb2f21281883bee6060f1aedf7507bccf20c4a793f"
++SRC_URI += "gomod://github.com/moby/moby/api;version=v1.54.2;sha256sum=2382fecb42aa7bd89174ec21fc9a7daeeb12273037badd48292a1cd3b91c1bac"
+ SRC_URI += "gomod://github.com/moby/moby/api;version=v1.54.0;sha256sum=17bc432fe7a0d6992127c218d0c189971595d744e347b1f78211314195fb1f31"
++SRC_URI += "gomod://github.com/moby/moby/client;version=v0.4.1;sha256sum=d7d907ec96f9f363ef99d81b9eb14fde7f36ad2aeb302eddf641a5905b153cae"
+ SRC_URI += "gomod://github.com/moby/moby/client;version=v0.3.0;sha256sum=09c68b46ad2b1fd454816316accaa6b4ea1c0506fb602df400fac96eb37d6b38"
++SRC_URI += "gomod://github.com/moby/patternmatcher;version=v0.6.1;sha256sum=63143eefbfab2697750be63bc4be899b2607538b3b1fb8e862ced521f7f9545f"
+ SRC_URI += "gomod://github.com/moby/patternmatcher;version=v0.6.0;sha256sum=5c3e4605f977523322c23c6e17332862689c564b1930dfbcbc74e9004721fcf9"
+ SRC_URI += "gomod://github.com/moby/policy-helpers;version=v0.0.0-20260127165209-eeebf1a0ab2b;sha256sum=274c81c2fe80447f89c114283a14e29bc35fad91b51fbe5ef49822062a4742db"
++SRC_URI += "gomod://github.com/moby/policy-helpers;version=v0.0.0-20260324161837-b7c0b994300b;sha256sum=7301c00a46524f6065adda2171ac25ffe4fca048c82a5935c3d0cfbb1945691a"
+ SRC_URI += "gomod://github.com/moby/policy-helpers;version=v0.0.0-20251105011237-bcaa71c99f14;sha256sum=9fdca4221e4d7faf431070209e660386e5b6c46d687dc6afdaec21c75205f2e1"
+ SRC_URI += "gomod://github.com/moby/profiles/seccomp;version=v0.1.0;sha256sum=8025f81f4e0decdf0edae68ae096f98731413fd2723cc4652cffb8db6a588c9d"
+ SRC_URI += "gomod://github.com/moby/spdystream;version=v0.5.0;sha256sum=0919457a3bba34fb4ee5eff1645830648e26ea9757f27b293f1f7bb9f1ec65a2"
++SRC_URI += "gomod://github.com/moby/spdystream;version=v0.5.1;sha256sum=f4cdb9929a3327708b04dbbb4b6f15e1a21b7919e5c59e5b18bc049bb033d688"
+ SRC_URI += "gomod://github.com/moby/sys/atomicwriter;version=v0.1.0;sha256sum=a43a7148f3866be0752c515f32bd9ca1c96a4cc336b7e61af31932ee434da873"
+ SRC_URI += "gomod://github.com/moby/sys/capability;version=v0.4.0;sha256sum=3502bba106a402fd440d1d4e8eb5ca741da4d70a674e8313725838ec8e22b44c"
+ SRC_URI += "gomod://github.com/moby/sys/mount;version=v0.3.4;sha256sum=d6395b6c77113f33cfc2edc749f0b79a6040ff5a8466991a7d8094ae3846646c"
+@@ -356,9 +420,9 @@ SRC_URI += "gomod://github.com/moby/sys/userns;version=v0.1.0;sha256sum=24c102bc
+ SRC_URI += "gomod://github.com/moby/term;version=v0.5.2;sha256sum=f8d6e5c53992c640512ee45a9b6147a765bebe3d8d50e3bfe1e4ec3e052cd688"
+ SRC_URI += "gomod://github.com/modern-go/concurrent;version=v0.0.0-20180228061459-e0a39a4cb421;sha256sum=7879936219694facd98a70748597a091690b34e1384a9c6987bd0b2c53c2a052"
+ SRC_URI += "gomod://github.com/modern-go/concurrent;version=v0.0.0-20180306012644-bacd9c7ef1dd;sha256sum=91ef49599bec459869d94ff3dec128871ab66bd2dfa61041f1e1169f9b4a8073"
+-SRC_URI += "gomod://github.com/modern-go/reflect2;version=v1.0.3-0.20250322232337-35a7c28c31ee;sha256sum=49f3fb0f76b1b98b52b5e6e8eab2a48454eab33904b937625941c28138a7fea4"
+ SRC_URI += "gomod://github.com/modern-go/reflect2;version=v1.0.1;sha256sum=6af8268206d037428a4197bd421bbe5399c19450ef53ae8309a083f34fb7ac05"
+ SRC_URI += "gomod://github.com/modern-go/reflect2;version=v0.0.0-20180701023420-4b7aa43c6742;sha256sum=ff641a4cb8a664211221f09d9fe4aeafedcaacd6042b0d5ead69ae3becbf2a72"
++SRC_URI += "gomod://github.com/modern-go/reflect2;version=v1.0.3-0.20250322232337-35a7c28c31ee;sha256sum=49f3fb0f76b1b98b52b5e6e8eab2a48454eab33904b937625941c28138a7fea4"
+ SRC_URI += "gomod://github.com/morikuni/aec;version=v1.0.0;sha256sum=c14eeff6945b854edd8b91a83ac760fbd95068f33dc17d102c18f2e8e86bcced"
+ SRC_URI += "gomod://github.com/morikuni/aec;version=v1.1.0;sha256sum=3d50f78078455e310a5df2f0fb5aaf3d50e1f0d52efe66f7d60635700612b392"
+ SRC_URI += "gomod://github.com/munnerz/goautoneg;version=v0.0.0-20191010083416-a7dc8b61c822;sha256sum=3d7ce17916779890be02ea6b3dd6345c3c30c1df502ad9d8b5b9b310e636afd9"
+@@ -367,21 +431,22 @@ SRC_URI += "gomod://github.com/mwitkow/go-conntrack;version=v0.0.0-2019071606494
+ SRC_URI += "gomod://github.com/mxk/go-flowrate;version=v0.0.0-20140419014527-cca7078d478f;sha256sum=bd0701ef9115469a661c07a3e9c2e572114126eb2d098b01eda34ebf62548492"
+ SRC_URI += "gomod://github.com/niemeyer/pretty;version=v0.0.0-20200227124842-a10e7caefd8e;sha256sum=2dcb7053faf11c28cad7d84fcfa3dd7f93e3d236b39d83cff0934f691f860d7a"
+ SRC_URI += "gomod://github.com/oklog/ulid;version=v1.3.1;sha256sum=40e502c064a922d5eb7f2bc2cda9c6a2a929ec0fc76c9aae4db54fb7b6b611ae"
++SRC_URI += "gomod://github.com/oklog/ulid/v2;version=v2.1.1;sha256sum=312b5fea3f68df920adaffc327440efbaba43ad6a8df2f7e0c9e365743f6ff89"
+ SRC_URI += "gomod://github.com/onsi/ginkgo;version=v1.12.0;sha256sum=527bc60953da80718a3afae08d12802a67c7de84937ea54ed5b81230beaa545c"
+ SRC_URI += "gomod://github.com/onsi/ginkgo;version=v1.6.0;sha256sum=04ccd635943d80d8767d83738e9058091d50517860dce86f7f8ac7a55f6c2959"
+-SRC_URI += "gomod://github.com/onsi/gomega;version=v1.7.1;sha256sum=0a245e719f17cc2bc399aa7c2005cca84f1cfba5373b0c96f5c64673f758a712"
+ SRC_URI += "gomod://github.com/onsi/gomega;version=v1.9.0;sha256sum=7b8a44d3e9d2beee947ced1b5a4227f875337828089d1165c1c65f7610a4faaf"
++SRC_URI += "gomod://github.com/onsi/gomega;version=v1.7.1;sha256sum=0a245e719f17cc2bc399aa7c2005cca84f1cfba5373b0c96f5c64673f758a712"
+ SRC_URI += "gomod://github.com/open-policy-agent/opa;version=v1.10.1;sha256sum=3cc27036c293cf33f7f692d9d6df51cdb5dabeb4bccb0dc8309939fc28398469"
+ SRC_URI += "gomod://github.com/opencontainers/go-digest;version=v0.0.0-20170106003457-a6d0ee40d420;sha256sum=a8c121c810839900b7f6d8d35741f438795bc116b9b969cf681df63fb46e7983"
+ SRC_URI += "gomod://github.com/opencontainers/go-digest;version=v1.0.0;sha256sum=615efb31ff6cd71035b8aa38c3659d8b4da46f3cd92ac807cb50449adfe37c86"
+-SRC_URI += "gomod://github.com/opencontainers/image-spec;version=v1.1.1;sha256sum=3a32eeb459719172947c20be78b5b7293c6ea84f4039184e846f6b676bc19574"
+ SRC_URI += "gomod://github.com/opencontainers/image-spec;version=v1.0.1;sha256sum=ebb2dca711a137fbfb717158b0368792f834000f4308d9ea259d06c6804c677c"
++SRC_URI += "gomod://github.com/opencontainers/image-spec;version=v1.1.1;sha256sum=3a32eeb459719172947c20be78b5b7293c6ea84f4039184e846f6b676bc19574"
+ SRC_URI += "gomod://github.com/opencontainers/runtime-spec;version=v1.2.1;sha256sum=847dfbbec37aef7d1e14caebacb0ea036ecd22fa84bca96a0da3dfebfc16ef31"
+ SRC_URI += "gomod://github.com/opencontainers/runtime-spec;version=v1.3.0;sha256sum=09e58e616eb70f2972ed19ada447dd661b298b39777adb0bbd35c94886bdbdf8"
+ SRC_URI += "gomod://github.com/opencontainers/runtime-tools;version=v0.9.1-0.20250523060157-0ea5ed0382a2;sha256sum=6128d4734ad019b6e856fc2813a05d3b8d94bc7facbd3e324fababc024d756e9"
+ SRC_URI += "gomod://github.com/opencontainers/runtime-tools;version=v0.9.1-0.20251114084447-edf4cb3d2116;sha256sum=02a13b5731f9232d9c4c91d7d25348245dbe6a53a2ee43edcc0a4e036a3b8e8c"
+-SRC_URI += "gomod://github.com/opencontainers/selinux;version=v1.12.0;sha256sum=dd7f55f0302d69a221e5db8e80d2c3d4d2c9088d111ebe4074e1fdc54009541a"
+ SRC_URI += "gomod://github.com/opencontainers/selinux;version=v1.13.1;sha256sum=780f0413d30de235169b0a65219bed2780c102feb94228b796d559b1ad4144ed"
++SRC_URI += "gomod://github.com/opencontainers/selinux;version=v1.12.0;sha256sum=dd7f55f0302d69a221e5db8e80d2c3d4d2c9088d111ebe4074e1fdc54009541a"
+ SRC_URI += "gomod://github.com/opentracing/opentracing-go;version=v1.1.0;sha256sum=3e0f42d035019fa037991d340da9677a802f8182792770c38e87906d33e06629"
+ SRC_URI += "gomod://github.com/otiai10/copy;version=v1.14.1;sha256sum=49097038e9011a539645a60a6da9c49ad3d53ec7ffb1a254b1bdc77f8a9bf5d4"
+ SRC_URI += "gomod://github.com/otiai10/mint;version=v1.6.3;sha256sum=a6bc9eebf7f25b75c480eac49ffa90bbda43559e31def54576a679fffc8a1a33"
+@@ -390,9 +455,9 @@ SRC_URI += "gomod://github.com/pelletier/go-toml;version=v1.9.5;sha256sum=de3dcd
+ SRC_URI += "gomod://github.com/pelletier/go-toml/v2;version=v2.2.4;sha256sum=82162be7b85077f3be49bfe0f1e01f308b9c9554c72a980a22a34432f94885f0"
+ SRC_URI += "gomod://github.com/petermattis/goid;version=v0.0.0-20240813172612-4fcff4a6cae7;sha256sum=3f47ab8e5713c36ec5b4295956a5ef012a192bc19198ae1b6591408c061e97ab"
+ SRC_URI += "gomod://github.com/pkg/browser;version=v0.0.0-20240102092130-5ac0b6a4141c;sha256sum=8524ae36d809564d1f218978593b5c565cf3ee8dccd035d66b336ad0c56e60d1"
+-SRC_URI += "gomod://github.com/pkg/errors;version=v0.8.0;sha256sum=e4fa69ba057356614edbc1da881a7d3ebb688505be49f65965686bcb859e2fae"
+-SRC_URI += "gomod://github.com/pkg/errors;version=v0.9.1;sha256sum=d4c36b8bcd0616290a3913215e0f53b931bd6e00670596f2960df1b44af2bd07"
+ SRC_URI += "gomod://github.com/pkg/errors;version=v0.8.1;sha256sum=4e47d021340b7396a7dee454f527552faf7360a9fc34038b1dc32ba3b5a951d8"
++SRC_URI += "gomod://github.com/pkg/errors;version=v0.9.1;sha256sum=d4c36b8bcd0616290a3913215e0f53b931bd6e00670596f2960df1b44af2bd07"
++SRC_URI += "gomod://github.com/pkg/errors;version=v0.8.0;sha256sum=e4fa69ba057356614edbc1da881a7d3ebb688505be49f65965686bcb859e2fae"
+ SRC_URI += "gomod://github.com/pkg/profile;version=v1.7.0;sha256sum=57a65d6ca3ae5df11653052de9e74052feb2d802fd8c4cb10d9a56f0466cc85f"
+ SRC_URI += "gomod://github.com/planetscale/vtprotobuf;version=v0.6.1-0.20240319094008-0393e58bdf10;sha256sum=6fdbac53c6ace58d732be8ec29c1aae928639eb12960cc4c52a9f7a25395ca05"
+ SRC_URI += "gomod://github.com/pmezard/go-difflib;version=v1.0.0;sha256sum=de04cecc1a4b8d53e4357051026794bcbc54f2e6a260cfac508ce69d5d6457a0"
+@@ -401,20 +466,20 @@ SRC_URI += "gomod://github.com/prometheus/client_golang;version=v0.9.1;sha256sum
+ SRC_URI += "gomod://github.com/prometheus/client_golang;version=v1.0.0;sha256sum=f6f37b8178ced8795d16d9a1f8291f36485edbc5baf89d9e457aa21708893b09"
+ SRC_URI += "gomod://github.com/prometheus/client_golang;version=v1.1.0;sha256sum=98db3394cdeee8f8ff9262a2363f18dc825368b169bb893df9dfbc2acd226913"
+ SRC_URI += "gomod://github.com/prometheus/client_model;version=v0.6.2;sha256sum=67017b19f220c6ab91ecfdd10a93824e2a8b09fcb6390054dbdc49df3354a9ca"
+-SRC_URI += "gomod://github.com/prometheus/client_model;version=v0.0.0-20190129233127-fd36f4220a90;sha256sum=1991d7054e7ce33e74158ed4a93fc3e434d06aa652aff122d87f94099af2f730"
+ SRC_URI += "gomod://github.com/prometheus/client_model;version=v0.0.0-20171117100541-99fa1f4be8e5;sha256sum=eb051e03089062114ceed192c97fcd7ca354d6f79723538c004a4850dd552f6a"
++SRC_URI += "gomod://github.com/prometheus/client_model;version=v0.0.0-20190129233127-fd36f4220a90;sha256sum=1991d7054e7ce33e74158ed4a93fc3e434d06aa652aff122d87f94099af2f730"
+ SRC_URI += "gomod://github.com/prometheus/client_model;version=v0.0.0-20180712105110-5c3871d89910;sha256sum=7aaee32659f78fcc032fd1e6a0308e8a7b386bd55b571cb6a6fff29b3b6abaac"
+-SRC_URI += "gomod://github.com/prometheus/common;version=v0.0.0-20180110214958-89604d197083;sha256sum=796855d655242a4d2b0217c93d02c28219bb674ed739a9ed9d098d32f82da352"
+-SRC_URI += "gomod://github.com/prometheus/common;version=v0.6.0;sha256sum=6fb74cce1a5bd84cf36954493d6157b1bd2231b20ba2587c224df9737b579314"
+ SRC_URI += "gomod://github.com/prometheus/common;version=v0.66.1;sha256sum=05d9e8e5c289209245dc22a7d07812b1b72472c67f372b5579dfabc3774e17b4"
+ SRC_URI += "gomod://github.com/prometheus/common;version=v0.4.1;sha256sum=74a1ed44813329ec8a4f37ae35b89f6b2d538f46228aba4032dcd78e9baf8929"
++SRC_URI += "gomod://github.com/prometheus/common;version=v0.6.0;sha256sum=6fb74cce1a5bd84cf36954493d6157b1bd2231b20ba2587c224df9737b579314"
++SRC_URI += "gomod://github.com/prometheus/common;version=v0.0.0-20180110214958-89604d197083;sha256sum=796855d655242a4d2b0217c93d02c28219bb674ed739a9ed9d098d32f82da352"
+ SRC_URI += "gomod://github.com/prometheus/otlptranslator;version=v0.0.2;sha256sum=fcdb6463c6a8bf636a3e4a7ea964115b35ab45d66ed0b0d4f1661cf01132af4b"
+ SRC_URI += "gomod://github.com/prometheus/procfs;version=v0.0.2;sha256sum=d5e9430b0a3209ccd75569f7c6f9c9fcfc48f554557f44562352adab9c617464"
+ SRC_URI += "gomod://github.com/prometheus/procfs;version=v0.0.0-20180125133057-cb4147076ac7;sha256sum=e5a9ec53a73c510710d022b65c8ee41f67b5db43eeca006ffbe2681463674027"
+ SRC_URI += "gomod://github.com/prometheus/procfs;version=v0.0.3;sha256sum=ab1223d5b58bd1a8d197c8a1f73b39de8573b89c25b97497a64645fb00d80005"
++SRC_URI += "gomod://github.com/prometheus/procfs;version=v0.16.1;sha256sum=e4b74815566cbf5aa372d23e1de32f16ac5c3c4c80bc94a31fdee60a1de6074a"
+ SRC_URI += "gomod://github.com/prometheus/procfs;version=v0.0.0-20181005140218-185b4288413d;sha256sum=8562cfc0ef6d6a6cf5a48ab7b7fa7489a3c2694000fb1de0ad580761da688db1"
+ SRC_URI += "gomod://github.com/prometheus/procfs;version=v0.17.0;sha256sum=e826b047a611fddd93a574ec72be3c2f28d5094e9d5d21fdcaed5db5dbafcfac"
+-SRC_URI += "gomod://github.com/prometheus/procfs;version=v0.16.1;sha256sum=e4b74815566cbf5aa372d23e1de32f16ac5c3c4c80bc94a31fdee60a1de6074a"
+ SRC_URI += "gomod://github.com/rcrowley/go-metrics;version=v0.0.0-20250401214520-65e299d6c5c9;sha256sum=a8c9e9792ad16f31ef8c32232de6243cc02147175661c9f64bc7b292f1c4d0cc"
+ SRC_URI += "gomod://github.com/rivo/uniseg;version=v0.2.0;sha256sum=3199d94be50284142220662ca3b00e19ddd1debe4e80ddc745ff4203ecb601c0"
+ SRC_URI += "gomod://github.com/rivo/uniseg;version=v0.4.7;sha256sum=b995e4aa0cc1e5779cc61138ac925cb8c1e963e40c80e4b93ee8553812ebb792"
+@@ -426,54 +491,60 @@ SRC_URI += "gomod://github.com/santhosh-tekuri/jsonschema/v5;version=v5.3.1;sha2
+ SRC_URI += "gomod://github.com/santhosh-tekuri/jsonschema/v6;version=v6.0.1;sha256sum=8652f1086fd29ca90f42aa367fd6020bc77a4eef14c1a6bb402f071084c0f745"
+ SRC_URI += "gomod://github.com/sasha-s/go-deadlock;version=v0.3.5;sha256sum=b927f67dd9a6dc183bac7249c019775e689aee67dc52bfa53354137139d722a1"
+ SRC_URI += "gomod://github.com/sassoftware/relic;version=v7.2.1+incompatible;sha256sum=c28fccce743db96510662f1d45f8a4b2212f5f60fb4a4f31a99261118ed068f3"
++SRC_URI += "gomod://github.com/secure-systems-lab/go-securesystemslib;version=v0.10.0;sha256sum=399f400aa66b243ebd24215a78041cdb7dd0a47ac74e0068898dcf33428d8bc3"
+ SRC_URI += "gomod://github.com/secure-systems-lab/go-securesystemslib;version=v0.9.1;sha256sum=3502bcf0e6b1640646fd801f2c1d2d4486fb6ffbe960810ebf35fe1c9b157a0b"
+ SRC_URI += "gomod://github.com/segmentio/asm;version=v1.2.0;sha256sum=8e2815672f1ab3049b10185b5494006320c32afb419ccf9f14385bc25ea44def"
+ SRC_URI += "gomod://github.com/serialx/hashring;version=v0.0.0-20200727003509-22c0c7ab6b1b;sha256sum=23dc67499d52b7b55a5a8f9d35e976052166da0cd0d499c1cc8be041e56789a4"
+ SRC_URI += "gomod://github.com/shibumi/go-pathspec;version=v1.3.0;sha256sum=1ac9091ebe9ff4154ddc39b2b3436c5b6b268d5cdc1e8462c9790485cd76a58f"
+ SRC_URI += "gomod://github.com/sigstore/protobuf-specs;version=v0.5.0;sha256sum=0eb8b14e1e4392ee93e6ab48fabea3f59d42cdf87e62111384c5d2cc02e1639f"
++SRC_URI += "gomod://github.com/sigstore/rekor;version=v1.5.0;sha256sum=f56a8e36623cc014dffd33c504eab46bc28b4b9c428619b8c30456755e0882fa"
+ SRC_URI += "gomod://github.com/sigstore/rekor;version=v1.4.3;sha256sum=9b2b6f67515fec43cb16668de0239f5074bf0584e3f3cd0729ecf25e9a34d085"
+ SRC_URI += "gomod://github.com/sigstore/rekor-tiles/v2;version=v2.0.1;sha256sum=6d66676d2b8e40b175ca15c90bd800743e470b6e2c97172a21f860a3984e4684"
+ SRC_URI += "gomod://github.com/sigstore/sigstore;version=v1.10.0;sha256sum=e5b4c3e1199c0dfa3435003e33743e3bc02479dfd0cb9d92cea6c7be58f291f2"
++SRC_URI += "gomod://github.com/sigstore/sigstore;version=v1.10.4;sha256sum=305a6912137ee8b90860582ce8ea452a05ffab97e5af6fe8bbac021a562946a5"
++SRC_URI += "gomod://github.com/sigstore/sigstore-go;version=v1.1.4;sha256sum=809fa597f98fcec826efcfdb1ac1376e25903adcccdae356b43b13af10895698"
+ SRC_URI += "gomod://github.com/sigstore/sigstore-go;version=v1.1.4-0.20251124094504-b5fe07a5a7d7;sha256sum=8003d3f5e07b77e2fdc0a11446af989d512f07a05e22354e19d50208d9b35db8"
+ SRC_URI += "gomod://github.com/sigstore/timestamp-authority/v2;version=v2.0.2;sha256sum=800fbd9822ac80be368380dc15c25ca017a05a7f6ba0897da86beac8fc5612f5"
+-SRC_URI += "gomod://github.com/sirupsen/logrus;version=v1.0.6;sha256sum=6d869343dc5ea60f79247eeda7c5888911cad8b477b8836ee40419dfc4137d97"
+-SRC_URI += "gomod://github.com/sirupsen/logrus;version=v1.4.1;sha256sum=03b84b4966e358a46156b3e826e62a2be8ad9077b169b6f396852e440095ee9a"
+-SRC_URI += "gomod://github.com/sirupsen/logrus;version=v1.2.0;sha256sum=35be8800012d00fa02635817e6d9d2f3182482f05aac42ca9818680529c53b3a"
++SRC_URI += "gomod://github.com/sigstore/timestamp-authority/v2;version=v2.0.3;sha256sum=6003d576e0cda3516d674b1c430aeada8946cd64514466ca49d9efc13a708c68"
+ SRC_URI += "gomod://github.com/sirupsen/logrus;version=v1.9.3;sha256sum=4501f4e6b858bfdd997671fcdd2f647a3178b29b6b4d1344caa7c07517121dd0"
+ SRC_URI += "gomod://github.com/sirupsen/logrus;version=v1.9.4;sha256sum=3847d00c5ee6948f1ff0d0120bc343c55ce852becb7720f8f08f53eecfe9e437"
++SRC_URI += "gomod://github.com/sirupsen/logrus;version=v1.4.1;sha256sum=03b84b4966e358a46156b3e826e62a2be8ad9077b169b6f396852e440095ee9a"
++SRC_URI += "gomod://github.com/sirupsen/logrus;version=v1.2.0;sha256sum=35be8800012d00fa02635817e6d9d2f3182482f05aac42ca9818680529c53b3a"
++SRC_URI += "gomod://github.com/sirupsen/logrus;version=v1.0.6;sha256sum=6d869343dc5ea60f79247eeda7c5888911cad8b477b8836ee40419dfc4137d97"
+ SRC_URI += "gomod://github.com/skratchdot/open-golang;version=v0.0.0-20200116055534-eef842397966;sha256sum=3ad7f856621f78b370a47bb05ce12c31bdee1014e596b7f565ee20dc8ac80c66"
+ SRC_URI += "gomod://github.com/smallstep/pkcs7;version=v0.1.1;sha256sum=bc9cd16c7d8306edc4a7b0ca0d841236e6f9e7481ec6ccc5c460a86468cd7b42"
+ SRC_URI += "gomod://github.com/spdx/tools-golang;version=v0.5.5;sha256sum=7658b96ca7814e0af98362ff7e944e0e1bae7c305574c03c85a7fddda15018f3"
+ SRC_URI += "gomod://github.com/spdx/tools-golang;version=v0.5.7;sha256sum=32878e7a65f75f87dc89375504f0e5950c2a9881eeeee1ebcf4721bc5d4dc81c"
+ SRC_URI += "gomod://github.com/spf13/cast;version=v0.0.0-20150508191742-4d07383ffe94;sha256sum=d4a39d9ae8302cf2b9a5f8a068bebd3026eb7a6945dfd31f7219b22102e4505b"
+ SRC_URI += "gomod://github.com/spf13/cobra;version=v1.10.2;sha256sum=a00aae6fcd631e0fde52c98604452ff70e1b73c3b8a560d68db15aff5e26872d"
+-SRC_URI += "gomod://github.com/spf13/cobra;version=v1.10.1;sha256sum=00955783267c9ced54274df456377a15bc1b658362f93f85dfda0708b54f9a28"
+ SRC_URI += "gomod://github.com/spf13/cobra;version=v0.0.1;sha256sum=648fae0e6ed7a985bf52d51f894869429557a387f81a230a4032dcd3db3b1dd7"
++SRC_URI += "gomod://github.com/spf13/cobra;version=v1.10.1;sha256sum=00955783267c9ced54274df456377a15bc1b658362f93f85dfda0708b54f9a28"
+ SRC_URI += "gomod://github.com/spf13/jwalterweatherman;version=v0.0.0-20141219030609-3d60171a6431;sha256sum=1e3e803ab9ba1e70522621412c2b50e07255fc3552b36ab65c859b4b8c966e13"
+ SRC_URI += "gomod://github.com/spf13/pflag;version=v1.0.10;sha256sum=a246b8c9d3daa87d6c634cdfee1bdf7fa53d5817eeef4fa0c6da43edd12de4ca"
+-SRC_URI += "gomod://github.com/spf13/pflag;version=v1.0.0;sha256sum=7d233934958f344c429939fa76ee680aae781cddb8c5eea96b14376628762b8d"
+ SRC_URI += "gomod://github.com/spf13/pflag;version=v1.0.9;sha256sum=83910188d8735f84a48a80ab78351edac0b569896f2b3a244c696a07da9aa5ed"
++SRC_URI += "gomod://github.com/spf13/pflag;version=v1.0.0;sha256sum=7d233934958f344c429939fa76ee680aae781cddb8c5eea96b14376628762b8d"
+ SRC_URI += "gomod://github.com/spf13/viper;version=v0.0.0-20150530192845-be5ff3e4840c;sha256sum=437908d1251b536aefc7cc1b056cf863aaf12ba0dd8df92be1bff1a37b1a05d1"
+ SRC_URI += "gomod://github.com/spiffe/go-spiffe/v2;version=v2.6.0;sha256sum=b90f378c70e2c985f61893ca20bf3e8258bb4f66920af759276d330513d0d7d6"
+ SRC_URI += "gomod://github.com/stefanberger/go-pkcs11uri;version=v0.0.0-20230803200340-78284954bff6;sha256sum=5c5bca74afcdf246740b246cdf6de4244ff25e70f3ca2f31f0c1783e94777bb1"
+-SRC_URI += "gomod://github.com/stretchr/objx;version=v0.1.0;sha256sum=1fa10dab404ed7fc8ed2a033f8784187d5df3513ced3841ce39e46d37850eb1d"
+-SRC_URI += "gomod://github.com/stretchr/objx;version=v0.2.0;sha256sum=5517d43cfb7e628b9c2c64010b934e346cd24726e3d6eaf02b7f86e10752e968"
+ SRC_URI += "gomod://github.com/stretchr/objx;version=v0.1.1;sha256sum=03599ec1d6888e9bf0429346d95a6c07c64d60614b5e4af36f234cce220c7ca0"
++SRC_URI += "gomod://github.com/stretchr/objx;version=v0.2.0;sha256sum=5517d43cfb7e628b9c2c64010b934e346cd24726e3d6eaf02b7f86e10752e968"
++SRC_URI += "gomod://github.com/stretchr/objx;version=v0.1.0;sha256sum=1fa10dab404ed7fc8ed2a033f8784187d5df3513ced3841ce39e46d37850eb1d"
+ SRC_URI += "gomod://github.com/stretchr/objx;version=v0.5.2;sha256sum=3c22c1d1c4c4024eb16a12f0187775640bf35d51b0a06649febc7797119451c0"
+-SRC_URI += "gomod://github.com/stretchr/testify;version=v1.7.0;sha256sum=5a46ccebeff510df3e2f6d3842ee79d3f68d0e7b1554cd6ee93390d68b6c6b34"
+-SRC_URI += "gomod://github.com/stretchr/testify;version=v1.4.0;sha256sum=0400c42ab95389bb4f4577bc09917a040a97f0f4251db2a54a7f6f5e65065b73"
+-SRC_URI += "gomod://github.com/stretchr/testify;version=v1.6.1;sha256sum=e3c77324195658ead0289c507966fec55c69a7b1b8e3aac13c587dc50932fbc3"
+ SRC_URI += "gomod://github.com/stretchr/testify;version=v1.5.1;sha256sum=b0d1f439dfc42208b7c120dfdecee61c697496c1688361aeb100b01366d945f7"
+ SRC_URI += "gomod://github.com/stretchr/testify;version=v1.2.2;sha256sum=a0d1278e9b49f73e770bdf20a2af5f232b6df6b9f0e557707db00efca6eda9ed"
+ SRC_URI += "gomod://github.com/stretchr/testify;version=v1.11.1;sha256sum=b7325b561ead5304b72b9f32aebc871ff49b3823667d530a49fd6c8f3adfc96e"
++SRC_URI += "gomod://github.com/stretchr/testify;version=v1.4.0;sha256sum=0400c42ab95389bb4f4577bc09917a040a97f0f4251db2a54a7f6f5e65065b73"
++SRC_URI += "gomod://github.com/stretchr/testify;version=v1.6.1;sha256sum=e3c77324195658ead0289c507966fec55c69a7b1b8e3aac13c587dc50932fbc3"
++SRC_URI += "gomod://github.com/stretchr/testify;version=v1.7.0;sha256sum=5a46ccebeff510df3e2f6d3842ee79d3f68d0e7b1554cd6ee93390d68b6c6b34"
+ SRC_URI += "gomod://github.com/stretchr/testify;version=v1.3.0;sha256sum=8c935aed71cc334d5bfdf04b34909d9965cf28f80198dec13fb954dc292e6588"
+ SRC_URI += "gomod://github.com/syndtr/gocapability;version=v0.0.0-20200815063812-42c35b437635;sha256sum=91ff91da1936e17aa68fc13756e40ba4db1d7c9375a4ef0969fe19c9aa281195"
+ SRC_URI += "gomod://github.com/syndtr/goleveldb;version=v1.0.1-0.20220721030215-126854af5e6d;sha256sum=68a0e0b2969ac85b591fa083b202852bf0eb8a60b303581a4bd68bc0b69d77d8"
+ SRC_URI += "gomod://github.com/tchap/go-patricia/v2;version=v2.3.3;sha256sum=37591393b0ea113849eacbc292886ea6978798a596164510c5834c2edc374067"
+-SRC_URI += "gomod://github.com/tetratelabs/wazero;version=v1.9.0;sha256sum=caa5349be0eeac1d14b0faee72e5a9b2de198374e064fb9158e39d1d891217b7"
+ SRC_URI += "gomod://github.com/tetratelabs/wazero;version=v1.10.1;sha256sum=b224ec775508c6d8743e3870e5f62bb4f5d9f901d47a368da0ca5a0c2bcd960b"
++SRC_URI += "gomod://github.com/tetratelabs/wazero;version=v1.9.0;sha256sum=caa5349be0eeac1d14b0faee72e5a9b2de198374e064fb9158e39d1d891217b7"
+ SRC_URI += "gomod://github.com/theupdateframework/go-tuf;version=v0.7.0;sha256sum=5c2c631a720e3c4225cfff085bd080acabd4308d0e4e6244e4cc180e019b8eaa"
+ SRC_URI += "gomod://github.com/theupdateframework/go-tuf/v2;version=v2.3.0;sha256sum=5af239beda5fe23b712e3603d2bdb7d3f1c696e0110ba221475128f953096be8"
++SRC_URI += "gomod://github.com/theupdateframework/go-tuf/v2;version=v2.4.1;sha256sum=1cb913a4229e1b64c95b08a7866821256833f70ee3e316f7cdf82cc4ddc9267a"
+ SRC_URI += "gomod://github.com/theupdateframework/notary;version=v0.7.0;sha256sum=777f6c85ead0970109c5ad033574bc048cc114e60173976e3c3efedddd6aae40"
+ SRC_URI += "gomod://github.com/tilt-dev/fsnotify;version=v1.4.8-0.20220602155310-fff9c274a375;sha256sum=a8b2240a525abfefb1293c160737384529b0bd0cbeda2eb863d1224396690574"
+ SRC_URI += "gomod://github.com/tink-crypto/tink-go/v2;version=v2.5.0;sha256sum=3024c05c10a93f19666d91d5f3a442d33108a7e6b80b6804df31a04b6122086d"
+@@ -481,8 +552,8 @@ SRC_URI += "gomod://github.com/titanous/rocacheck;version=v0.0.0-20171023193734-
+ SRC_URI += "gomod://github.com/tonistiigi/dchapes-mode;version=v0.0.0-20250318174251-73d941a28323;sha256sum=251cf604bd1301b75e8dc6d3f6061fccd250f4b3648813ba57793cac799c91ed"
+ SRC_URI += "gomod://github.com/tonistiigi/fsutil;version=v0.0.0-20251211185533-a2aa163d723f;sha256sum=4bff4b70e4b1fa093090d7bc5917b4afa3fe709409fbe4bc8b6cd33785e6be20"
+ SRC_URI += "gomod://github.com/tonistiigi/fsutil;version=v0.0.0-20250605211040-586307ad452f;sha256sum=53e807a685cbaf6d5435781a04d899e17bb3e7f57dc49d724520f84583cda0c9"
+-SRC_URI += "gomod://github.com/tonistiigi/go-actions-cache;version=v0.0.0-20260120203934-54bc28c26fd2;sha256sum=786e01d45ef449b2ecea7b74ec2de6b362550c5ffa39b330861fa9d2be77297f"
+ SRC_URI += "gomod://github.com/tonistiigi/go-actions-cache;version=v0.0.0-20250626083717-378c5ed1ddd9;sha256sum=cc941d28d09be2b5f64843469a10f8a7cf466699b4b4ca789e647025a02dee28"
++SRC_URI += "gomod://github.com/tonistiigi/go-actions-cache;version=v0.0.0-20260120203934-54bc28c26fd2;sha256sum=786e01d45ef449b2ecea7b74ec2de6b362550c5ffa39b330861fa9d2be77297f"
+ SRC_URI += "gomod://github.com/tonistiigi/go-archvariant;version=v1.0.0;sha256sum=039db13b93c017cdcdf50aa675146b470b012ec8673a9bd65ec83bb8f1f36550"
+ SRC_URI += "gomod://github.com/tonistiigi/go-csvvalue;version=v0.0.0-20240814133006-030d3b2625d0;sha256sum=51bce4d81fe31cb3edfcfaa124a74e2cff5ef08ed8d6f54afb054b39dc0ed89a"
+ SRC_URI += "gomod://github.com/tonistiigi/jaeger-ui-rest;version=v0.0.0-20250408171107-3dd17559e117;sha256sum=e7597599b676a442100ccc97cd871a8f20bf24580e25b92d225063356b787207"
+@@ -508,8 +579,8 @@ SRC_URI += "gomod://github.com/ysmood/goob;version=v0.4.0;sha256sum=451f378a78f5
+ SRC_URI += "gomod://github.com/ysmood/got;version=v0.40.0;sha256sum=cc92702b45bfd26fd44adf1dea99ad2bb744b07a3e3f1021cb8f18c13580f29b"
+ SRC_URI += "gomod://github.com/ysmood/gson;version=v0.7.3;sha256sum=5d7373d14cc7df141722b031a16983e78964995462120c05a83d811fcd3b1b0a"
+ SRC_URI += "gomod://github.com/ysmood/leakless;version=v0.9.0;sha256sum=2c1d73d95434697af7c7997a89cb23d1b5161db401b88b006c3f843d0cabcf42"
+-SRC_URI += "gomod://github.com/yuin/goldmark;version=v1.2.1;sha256sum=e07c8cb16aa0b42dc9eaf0f922e25e330af3a39d8e8404c8c6e04bba406aa7b2"
+ SRC_URI += "gomod://github.com/yuin/goldmark;version=v1.4.13;sha256sum=bb41a602b174345fda392c8ad83fcc93217c285c763699677630be90feb7a5e3"
++SRC_URI += "gomod://github.com/yuin/goldmark;version=v1.2.1;sha256sum=e07c8cb16aa0b42dc9eaf0f922e25e330af3a39d8e8404c8c6e04bba406aa7b2"
+ SRC_URI += "gomod://github.com/yuin/goldmark;version=v1.1.27;sha256sum=ed37f29dd392d8b532daf4e3391a917a2cc21c5a281756f7fcd00c17976c38a7"
+ SRC_URI += "gomod://github.com/zclconf/go-cty;version=v1.17.0;sha256sum=04999081dd92af910fd343acc2b500e60b338c935c9fb1df9956afe2281acfaf"
+ SRC_URI += "gomod://github.com/zeebo/errs;version=v1.3.0;sha256sum=eb442a20007e679a7602ca4316083aad883374bdd49be304f25b76b5136c2cd7"
+@@ -517,61 +588,78 @@ SRC_URI += "gomod://go.etcd.io/bbolt;version=v1.4.3;sha256sum=3110374ed5e6984200
+ SRC_URI += "gomod://go.mongodb.org/mongo-driver;version=v1.17.6;sha256sum=639eeca6ee37eb5037ba4ce661c1975251359a521029bd338dba8d493e2869bb"
+ SRC_URI += "gomod://go.opencensus.io;version=v0.24.0;sha256sum=203a767d7f8e7c1ebe5588220ad168d1e15b14ae70a636de7ca9a4a88a7e0d0c"
+ SRC_URI += "gomod://go.opentelemetry.io/auto/sdk;version=v1.2.1;sha256sum=a08a16fc0a7041cdb875f47a260a56000632212c85f65a302a043c76380c8335"
++SRC_URI += "gomod://go.opentelemetry.io/contrib/detectors/gcp;version=v1.42.0;sha256sum=ea93f7b449820f737e0c540b15cad5777bc11fc0d7f67453e1dcb11271f808cd"
+ SRC_URI += "gomod://go.opentelemetry.io/contrib/detectors/gcp;version=v1.38.0;sha256sum=3bc606bb6ce32b4b349ae0259da212552a087b81f6f96847448181764d82eb69"
+ SRC_URI += "gomod://go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc;version=v0.63.0;sha256sum=a093449439c5be2ecaa0c25a4690281445954876a8d4f3396e6d27561d5479dc"
+ SRC_URI += "gomod://go.opentelemetry.io/contrib/instrumentation/net/http/httptrace/otelhttptrace;version=v0.63.0;sha256sum=dfd5da60e9e8cfe612af8dd27a1bceea9b580d2a3d9793b371fe484dd5195456"
+ SRC_URI += "gomod://go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp;version=v0.63.0;sha256sum=bf6c9a7e1596e1939c28395f588a4a8dc9bbb69ffa7f2ed17e20878126bc06ee"
+ SRC_URI += "gomod://go.opentelemetry.io/otel;version=v1.38.0;sha256sum=1f9f344b9f15382834c7f2ea15f13ca1d0516c98116c59e7bb29fed0b4748d8a"
++SRC_URI += "gomod://go.opentelemetry.io/otel;version=v1.43.0;sha256sum=177d24c79e756950c431aa87c1c613bb807cc7fe435260b72c5f675b01651921"
+ SRC_URI += "gomod://go.opentelemetry.io/otel/exporters/jaeger;version=v1.17.0;sha256sum=c9ef13da33fd0e1bf4df89b5ccf61f2922c55040cf2a991b177a72b22717e5f3"
++SRC_URI += "gomod://go.opentelemetry.io/otel/exporters/otlp/otlpmetric/otlpmetricgrpc;version=v1.42.0;sha256sum=2edba259a4e64ff2983a0bda54ccb6151432180dd6825f7e35fd8fece3d07409"
+ SRC_URI += "gomod://go.opentelemetry.io/otel/exporters/otlp/otlpmetric/otlpmetricgrpc;version=v1.38.0;sha256sum=e0844b61c393d38ac7f7c7628df5b1dcd99c6ec84ad64932b429ac2834c9f772"
++SRC_URI += "gomod://go.opentelemetry.io/otel/exporters/otlp/otlpmetric/otlpmetrichttp;version=v1.42.0;sha256sum=23b1625a80d5935add14f082ce0bc3d4cdb4c4da7034a02418a2879af5f7c7c1"
+ SRC_URI += "gomod://go.opentelemetry.io/otel/exporters/otlp/otlpmetric/otlpmetrichttp;version=v1.38.0;sha256sum=45165407959e5c7e24719a9387c1a4b7b9ecd89c8dfffd14f1af10665f58645d"
++SRC_URI += "gomod://go.opentelemetry.io/otel/exporters/otlp/otlptrace;version=v1.42.0;sha256sum=c4fb085cb211f3e1e4bd6da512a13ad9f4bdc69eba3459d3830ada8fbb979661"
+ SRC_URI += "gomod://go.opentelemetry.io/otel/exporters/otlp/otlptrace;version=v1.38.0;sha256sum=83b5d32615fe56dac7aac330e90127f1bb3516948ddd71f386c4698e80802e82"
++SRC_URI += "gomod://go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc;version=v1.42.0;sha256sum=762d4455c641e5fa997b09158152d765430269d3dea787f95826509ee33f8cea"
+ SRC_URI += "gomod://go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc;version=v1.38.0;sha256sum=87881b6e9bef4146abbbafd328bded951d44654961152fb8455621398726140a"
++SRC_URI += "gomod://go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracehttp;version=v1.42.0;sha256sum=5da2e4010e0af3ceb8d1945849eb118341677ed14a8a3c4c8c4daa16fca06846"
+ SRC_URI += "gomod://go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracehttp;version=v1.38.0;sha256sum=5175fcf722b9cabc90d6edb106b28bb5ed785d159325ba2c3636f136a8b9a8d3"
+ SRC_URI += "gomod://go.opentelemetry.io/otel/exporters/prometheus;version=v0.60.0;sha256sum=6dbe0a257a8655bf291736cf6f0bd889af4b7e73194dc444eae09ea00dfd31b9"
+ SRC_URI += "gomod://go.opentelemetry.io/otel/exporters/prometheus;version=v0.42.0;sha256sum=a7a3f332f7902d7cf54607ebedc3ea1591aa4f6793d772e90e794d2e90fb52df"
+-SRC_URI += "gomod://go.opentelemetry.io/otel/exporters/stdout/stdouttrace;version=v1.38.0;sha256sum=3ed4da91dbe33e8a882960ffc24dfc8a7feeab0610ca96d2011dc5736650b7d6"
+ SRC_URI += "gomod://go.opentelemetry.io/otel/exporters/stdout/stdouttrace;version=v1.31.0;sha256sum=184b2057b6e8f2449bc725a257cc2c851fe88bbe282b38d07612dd23daf97fd8"
++SRC_URI += "gomod://go.opentelemetry.io/otel/exporters/stdout/stdouttrace;version=v1.38.0;sha256sum=3ed4da91dbe33e8a882960ffc24dfc8a7feeab0610ca96d2011dc5736650b7d6"
+ SRC_URI += "gomod://go.opentelemetry.io/otel/metric;version=v1.38.0;sha256sum=39dc88030971236b0cbba0d94a834c448d9301ceec749f717994a2a7f9ab838d"
++SRC_URI += "gomod://go.opentelemetry.io/otel/metric;version=v1.43.0;sha256sum=3efb5ad706fab815f4b2e8fc89c1656ec8d2403f07edd406c17c2310dd8a08a6"
+ SRC_URI += "gomod://go.opentelemetry.io/otel/sdk;version=v1.38.0;sha256sum=a3e822297026d4171ed2260a6f4ed9e125f1ea59396162b1f80620a058b02b26"
++SRC_URI += "gomod://go.opentelemetry.io/otel/sdk;version=v1.43.0;sha256sum=cf46abeb516a88a0eb33117103e39fb3161f0db91cd487a84748aae16938e8f2"
+ SRC_URI += "gomod://go.opentelemetry.io/otel/sdk/metric;version=v1.38.0;sha256sum=1b9026686549a952ff49acd68b2781ca822f657050a3b6a23784d740fe0852d7"
++SRC_URI += "gomod://go.opentelemetry.io/otel/sdk/metric;version=v1.43.0;sha256sum=b02c5dded25925d2becf8ea69d446f2eb786a576ab4a7dd8014f3afbd861fc49"
+ SRC_URI += "gomod://go.opentelemetry.io/otel/trace;version=v1.38.0;sha256sum=f040f84581707a0123aec182596cd34700860e7866f556e7900ac4c17233150e"
++SRC_URI += "gomod://go.opentelemetry.io/otel/trace;version=v1.43.0;sha256sum=34fdc70a75e90d68e36caa59b9e800a5de5266118393eaee4489dd0abe3cb62d"
++SRC_URI += "gomod://go.opentelemetry.io/proto/otlp;version=v1.9.0;sha256sum=4dce33b747a98f8295448756af7fb0521f57e26fb86efd365e00a6fd82e36364"
+ SRC_URI += "gomod://go.opentelemetry.io/proto/otlp;version=v1.7.1;sha256sum=15692d8e0dea5eadfad0aa451ab3ba1c7ed20af1d19075306db2301664695dd9"
+ SRC_URI += "gomod://go.uber.org/goleak;version=v1.3.0;sha256sum=70edef0ce7d830d992f024e527fd3452069b884f94a27787a718bd68dd620702"
+ SRC_URI += "gomod://go.uber.org/mock;version=v0.6.0;sha256sum=64e9c159c974cd05c09eae2e0fa1558e7f5eef0c85434208526b052785e1b90f"
+-SRC_URI += "gomod://go.yaml.in/yaml/v2;version=v2.4.2;sha256sum=ed63e181cbb5a991c104639b0e6d48d45fd951f22b47d4c5d1a36156d8ed06ee"
+ SRC_URI += "gomod://go.yaml.in/yaml/v2;version=v2.4.3;sha256sum=bacc1ac9ed600be2df58f88b88d5c1b6f6473526fa4069f61549f64b81b09f41"
++SRC_URI += "gomod://go.yaml.in/yaml/v2;version=v2.4.2;sha256sum=ed63e181cbb5a991c104639b0e6d48d45fd951f22b47d4c5d1a36156d8ed06ee"
+ SRC_URI += "gomod://go.yaml.in/yaml/v3;version=v3.0.4;sha256sum=0317dae56eaa9e9954467c8768fd6a89ba2005f1534e2c26fce5163ad8d2ef31"
+ SRC_URI += "gomod://go.yaml.in/yaml/v4;version=v4.0.0-rc.3;sha256sum=d5ca6a029979bc52760f17ed1a9393637a46095b9e0e8f504f1dc5d70ece46ac"
+ SRC_URI += "gomod://go.yaml.in/yaml/v4;version=v4.0.0-rc.4;sha256sum=9398112d7e82e7d19d01f0d5907ed232d8b1f44b0d487c9d5d0905a4d732996b"
+-SRC_URI += "gomod://golang.org/x/crypto;version=v0.46.0;sha256sum=5f2921ccdf7252ffbe26046948c6044ab0917e500a34710e0ba6664260d6a460"
++SRC_URI += "gomod://golang.org/x/crypto;version=v0.48.0;sha256sum=837297a50ca77a6a18ea2f2936bfe31aaf2ad36d5bcd8c545709da3b6c600fd2"
+ SRC_URI += "gomod://golang.org/x/crypto;version=v0.45.0;sha256sum=416335b9102df16747b29fe58d034d6d9fb70af314740136fb0a37ae8c568705"
++SRC_URI += "gomod://golang.org/x/crypto;version=v0.46.0;sha256sum=5f2921ccdf7252ffbe26046948c6044ab0917e500a34710e0ba6664260d6a460"
+ SRC_URI += "gomod://golang.org/x/exp;version=v0.0.0-20250911091902-df9299821621;sha256sum=b1fc4c9639d9da1d1797342ee6c5beb564aa874fc523eebc9ec93cca333c3548"
++SRC_URI += "gomod://golang.org/x/mod;version=v0.33.0;sha256sum=a5a4c8a9f6700712216df6bc4bc45544494736b5383aebb784fdb2dd0f41f36b"
+ SRC_URI += "gomod://golang.org/x/mod;version=v0.31.0;sha256sum=9b43daca51525bd50289c742999fe66336a653c90a23d2c55561b6fffd656e46"
+ SRC_URI += "gomod://golang.org/x/mod;version=v0.29.0;sha256sum=7c736672c72aa571b65c1106bbb2a64e587dd4265a18f0059c990f95c5117962"
+ SRC_URI += "gomod://golang.org/x/mod;version=v0.2.0;sha256sum=0903f5c7fceebffde791f39210a210fab59d8d0b8c7f4c492793549a846552f5"
+ SRC_URI += "gomod://golang.org/x/mod;version=v0.3.0;sha256sum=0b125ae21eba0eec0d857cd0641d9fc7f07168575f062c0e1df1bac02bec044f"
+ SRC_URI += "gomod://golang.org/x/mod;version=v0.6.0-dev.0.20220419223038-86c51ed26bb4;sha256sum=2b7471ed34a349f91055527c5328acd40e9aba006b644e51d40a8627efa76a92"
+-SRC_URI += "gomod://golang.org/x/net;version=v0.47.0;sha256sum=3444c04eff1dc7a41a6386cb6a0b0b1facebfc7e222bae523043ed4b14039f76"
+ SRC_URI += "gomod://golang.org/x/net;version=v0.48.0;sha256sum=cf5206797e66bbe72fc13542d53a57d069a563cebb6d045c07a870eb4fd888c9"
++SRC_URI += "gomod://golang.org/x/net;version=v0.51.0;sha256sum=a2e41cffc071ee3a6ad731c4bfbf11e1de6e8509691953aa221f8fe7828839eb"
++SRC_URI += "gomod://golang.org/x/net;version=v0.47.0;sha256sum=3444c04eff1dc7a41a6386cb6a0b0b1facebfc7e222bae523043ed4b14039f76"
+ SRC_URI += "gomod://golang.org/x/net;version=v0.0.0-20190404232315-eb5bcb51f2a3;sha256sum=3be13704bcdb3eb79a25459f6116bd627bc90589176a9c8495b58a38c320ec0f"
+ SRC_URI += "gomod://golang.org/x/net;version=v0.0.0-20190620200207-3b0461eec859;sha256sum=8b437b88ece68e61336150fbdd2a4c0e8d80f143bcdc86ce4ef047c4c93f3caa"
+ SRC_URI += "gomod://golang.org/x/net;version=v0.0.0-20200226121028-0de0cce0169b;sha256sum=cf00229a0ab910e519d829fd9192aa77e7e7a486d06ba2311f681965001589dd"
+ SRC_URI += "gomod://golang.org/x/net;version=v0.0.0-20201021035429-f5854403a974;sha256sum=079b484fd6bef7305d6ca5a2e0b86869042459c6b18535873015f193380a4b18"
+ SRC_URI += "gomod://golang.org/x/net;version=v0.0.0-20210226172049-e18ecbb05110;sha256sum=17ae555c0bec70b583d84ec7a099db3fdc5b3b688cb2814f8c388d174e7ada15"
+ SRC_URI += "gomod://golang.org/x/net;version=v0.0.0-20220722155237-a158d28d115b;sha256sum=1decf7a324a0916bc66304da1b68a834ce679379422de3a2855f3031f6dc39bd"
+-SRC_URI += "gomod://golang.org/x/oauth2;version=v0.33.0;sha256sum=8e7f40820982ac95900c4d44888f68d97c979d162219f6f8713c3516fabcca31"
+ SRC_URI += "gomod://golang.org/x/oauth2;version=v0.32.0;sha256sum=64c855b335cc2e90b2d88c1fe6c3a31de53c3ca76fc9c89e6ce266c7334b768b"
++SRC_URI += "gomod://golang.org/x/oauth2;version=v0.33.0;sha256sum=8e7f40820982ac95900c4d44888f68d97c979d162219f6f8713c3516fabcca31"
++SRC_URI += "gomod://golang.org/x/oauth2;version=v0.36.0;sha256sum=15bf65ff103e5dafc809d78cd037a1d1e88ccb8451824e851156002a13304504"
+ SRC_URI += "gomod://golang.org/x/sync;version=v0.20.0;sha256sum=7179d4d68800f6fdcadb9d4bbf11cbb5df9b40360c89305c203fe20723cbd375"
+ SRC_URI += "gomod://golang.org/x/sync;version=v0.18.0;sha256sum=939a1a573cd83df56836b637052a45f6a60f78b86a5a375fc0c6c298a868a14d"
+ SRC_URI += "gomod://golang.org/x/sync;version=v0.0.0-20190423024810-112230192c58;sha256sum=dc105c2b4d6c7ab48e54946ce2f624e8d1f5d47270eff1e88fed06cc65f91fb4"
+ SRC_URI += "gomod://golang.org/x/sync;version=v0.0.0-20190911185100-cd5d95a43a6e;sha256sum=9c63fe51b0c533b258d3acc30d9319fe78679ce1a051109c9dea3105b93e2eef"
+ SRC_URI += "gomod://golang.org/x/sync;version=v0.0.0-20201020160332-67f06af15bc9;sha256sum=a62c30f9e46c28636239041d7bfa1583a24378bc408554ec0670196cbac9858e"
+ SRC_URI += "gomod://golang.org/x/sync;version=v0.0.0-20220722155255-886fb9371eb4;sha256sum=39d2431ae1db11be34b4012b719e7bcec1572006a122d44509da038a5b498ff1"
++SRC_URI += "gomod://golang.org/x/sys;version=v0.38.0;sha256sum=dacd7c9aa2b298f966822da214c6d601da08f14d41b29032bcac4bc503887a49"
++SRC_URI += "gomod://golang.org/x/sys;version=v0.42.0;sha256sum=99df0ad90183debc80aee0b7489648574c6baa0c1cf5da37aaf591cf2e2d426a"
++SRC_URI += "gomod://golang.org/x/sys;version=v0.44.0;sha256sum=f1fa1052808e6bd6eb9c5372c053b2370a582532fac5d6a4600e7a6fab190ff3"
+ SRC_URI += "gomod://golang.org/x/sys;version=v0.1.0;sha256sum=e7cbe58ed3745ba63d482fe82603119bd635f9a5dd914ed95a4c1826fdcf54a7"
+ SRC_URI += "gomod://golang.org/x/sys;version=v0.6.0;sha256sum=8c15860e3850e3cea5a7186bb79b8cf98f513d9ac5498099d3bddfd49c6dfc3f"
+-SRC_URI += "gomod://golang.org/x/sys;version=v0.42.0;sha256sum=99df0ad90183debc80aee0b7489648574c6baa0c1cf5da37aaf591cf2e2d426a"
+-SRC_URI += "gomod://golang.org/x/sys;version=v0.38.0;sha256sum=dacd7c9aa2b298f966822da214c6d601da08f14d41b29032bcac4bc503887a49"
+ SRC_URI += "gomod://golang.org/x/sys;version=v0.0.0-20190215142949-d0b11bdaac8a;sha256sum=d6bf74e7bc64e245a75dd666e62160a8446242b1cde4e66b2e5f93399950a97f"
+ SRC_URI += "gomod://golang.org/x/sys;version=v0.0.0-20190222072716-a9d3bda3a223;sha256sum=aa2f05e0db018e860d80e30e9381e9bcbe86b6d01b4006e8b6cfd64a0f873251"
+ SRC_URI += "gomod://golang.org/x/sys;version=v0.0.0-20190412213103-97732733099d;sha256sum=4c8da803e35ab98f8621b26998717976415c9ccd17ada7183933974be40c7edb"
+@@ -583,19 +671,22 @@ SRC_URI += "gomod://golang.org/x/sys;version=v0.0.0-20210616094352-59db8d763f22;
+ SRC_URI += "gomod://golang.org/x/sys;version=v0.0.0-20220412211240-33da011f77ad;sha256sum=ffb4b3488ab203e6a883355e57fd1c4a84983c41fb0880ef520587863d47219c"
+ SRC_URI += "gomod://golang.org/x/sys;version=v0.0.0-20220520151302-bc2c85ada10a;sha256sum=734caf189549ea9b85dd93f58e87e3f3bceaec72229449f5879c3c067a2ad60e"
+ SRC_URI += "gomod://golang.org/x/sys;version=v0.0.0-20220722155257-8c9f86f7a55f;sha256sum=f4480597a942160a2aaeb761d41ee67f610287785c263f1df253a3e157c98594"
++SRC_URI += "gomod://golang.org/x/term;version=v0.41.0;sha256sum=91ca75a3f454d5ddede1f58c3e4fc8e169c6f3c037223ac0ac76e78234d22828"
+ SRC_URI += "gomod://golang.org/x/term;version=v0.37.0;sha256sum=ffd8a74e9a9fd13e1080fa4e8f807693e438fda98f336992cb2a2420d2e95e61"
+ SRC_URI += "gomod://golang.org/x/term;version=v0.38.0;sha256sum=00cec8beae98bb5a15c9ee9e8e705b7cab9c50269e7858bff98df0533b317363"
+ SRC_URI += "gomod://golang.org/x/term;version=v0.0.0-20201126162022-7de9c90e9dd1;sha256sum=475a86f11dd148b474ce405c5dbdd5f6bcae056c3e44e52445a45926dd69a552"
+ SRC_URI += "gomod://golang.org/x/term;version=v0.0.0-20210927222741-03fcf44c2211;sha256sum=3adf713afa49fe26580ffe4adb1f4fb2f4921c945301aa5a9fb6d34031fa30cd"
+-SRC_URI += "gomod://golang.org/x/text;version=v0.4.0;sha256sum=16af01ae1aacbb027662d39662bd52e92e288ba4ce104ea0116534a81dfd3c30"
+-SRC_URI += "gomod://golang.org/x/text;version=v0.31.0;sha256sum=10d76a358ae35fae9523ffef7b378ec30f2e73bc3f99ba40e46a6cb722ad888a"
+ SRC_URI += "gomod://golang.org/x/text;version=v0.32.0;sha256sum=bc6c70d37c37bc625a83abd48ee32372b459a8c559a1cf5f25dfbf7c7941f81b"
++SRC_URI += "gomod://golang.org/x/text;version=v0.31.0;sha256sum=10d76a358ae35fae9523ffef7b378ec30f2e73bc3f99ba40e46a6cb722ad888a"
++SRC_URI += "gomod://golang.org/x/text;version=v0.4.0;sha256sum=16af01ae1aacbb027662d39662bd52e92e288ba4ce104ea0116534a81dfd3c30"
++SRC_URI += "gomod://golang.org/x/text;version=v0.34.0;sha256sum=67a6cab352a4f313d56671618dfff2f82d908a17151dc4ca9b7fbbfd40828134"
+ SRC_URI += "gomod://golang.org/x/text;version=v0.3.0;sha256sum=ea3068395503d3c7ef8ce16a286f75c8c93882c25a66c2aa6c8e2ad4da7a9ae0"
+ SRC_URI += "gomod://golang.org/x/text;version=v0.3.3;sha256sum=8a896da346baf94ab4f24b0e396df0b79393c93aa05c50ef07cddd561a1ff8d7"
+ SRC_URI += "gomod://golang.org/x/text;version=v0.3.7;sha256sum=e1a9115e61a38da8bdc893d0ba83b65f89cc1114f152a98eb572c5ea6551e8d4"
+ SRC_URI += "gomod://golang.org/x/time;version=v0.14.0;sha256sum=0e2d2e47d107859130c7088346966d99a14ec0f7a42290c4acc0e2cc568e7a81"
+-SRC_URI += "gomod://golang.org/x/tools;version=v0.39.0;sha256sum=498ead1f3de646754a152c14fcaade9b03f86114b2746b65367e3540c1acbcde"
++SRC_URI += "gomod://golang.org/x/tools;version=v0.41.0;sha256sum=7cc6adbaad471e4a1850cace50c56227f78b06a077f0e9154b27e23e199d7a84"
+ SRC_URI += "gomod://golang.org/x/tools;version=v0.38.0;sha256sum=7f58700da5c39d8d19587227d2421011d4cca04076c1c13ebbbe148b851677c6"
++SRC_URI += "gomod://golang.org/x/tools;version=v0.39.0;sha256sum=498ead1f3de646754a152c14fcaade9b03f86114b2746b65367e3540c1acbcde"
+ SRC_URI += "gomod://golang.org/x/tools;version=v0.0.0-20180917221912-90fa682c2a6e;sha256sum=6673fe06662fcbee5f246f12af8ed860328bf08fd016fd490987cd76acb1b4fe"
+ SRC_URI += "gomod://golang.org/x/tools;version=v0.0.0-20191119224855-298f0cb1881e;sha256sum=092e06323d7a55880ee4387905ebf35a021fffdf2b7f72d80fb3c36e48668651"
+ SRC_URI += "gomod://golang.org/x/tools;version=v0.0.0-20200619180055-7c47624df98f;sha256sum=9d537dcdb68b2c06db15a0e712b2c52ed1a57555cb642608da891164f33f3fe4"
+@@ -606,21 +697,24 @@ SRC_URI += "gomod://golang.org/x/xerrors;version=v0.0.0-20190717185122-a985d3407
+ SRC_URI += "gomod://golang.org/x/xerrors;version=v0.0.0-20191011141410-1b5146add898;sha256sum=5059c7b7e95f139b8c42d9001972fa5fa688b3581ef946c912c1dbc52415ff16"
+ SRC_URI += "gomod://golang.org/x/xerrors;version=v0.0.0-20191204190536-9bdfabe68543;sha256sum=a93010abd3c4f483710c37fb87511a776942f709b4c1820a28d099d448680390"
+ SRC_URI += "gomod://gonum.org/v1/gonum;version=v0.16.0;sha256sum=ee1800f8323d1edd76d6864d67a5d00c79f9a3d56afea46f6a3e7f1328e5d790"
++SRC_URI += "gomod://gonum.org/v1/gonum;version=v0.17.0;sha256sum=dadeb3d260548de27375f7188bdfd5a175110120fd8ee8085a63b0dff2cae501"
+ SRC_URI += "gomod://google.golang.org/genproto;version=v0.0.0-20230223222841-637eb2293923;sha256sum=7d5a5483afb003ad17881d7c797973f63b4876dd50cb20b1aba0adac20f00c7a"
+-SRC_URI += "gomod://google.golang.org/genproto/googleapis/api;version=v0.0.0-20251103181224-f26f9409b101;sha256sum=5f92b75c48bca55843a9a713dc1f1318c69aec2c58c95d70a8f140dc933882b3"
++SRC_URI += "gomod://google.golang.org/genproto/googleapis/api;version=v0.0.0-20260226221140-a57be14db171;sha256sum=3b50e702012a8cbcbac4d30fdce855fd0ee13ea134b863a4e23e0baee3b8d840"
+ SRC_URI += "gomod://google.golang.org/genproto/googleapis/api;version=v0.0.0-20251022142026-3a174f9686a8;sha256sum=4c844565199076b7315ed7a507caf1bce1187b1319eb257eb5daf7dca1b5aa73"
+-SRC_URI += "gomod://google.golang.org/genproto/googleapis/rpc;version=v0.0.0-20251103181224-f26f9409b101;sha256sum=044118caa25649de11cc78f812d521be123be922ac1f90c7aadeecd379cb6433"
++SRC_URI += "gomod://google.golang.org/genproto/googleapis/api;version=v0.0.0-20251103181224-f26f9409b101;sha256sum=5f92b75c48bca55843a9a713dc1f1318c69aec2c58c95d70a8f140dc933882b3"
++SRC_URI += "gomod://google.golang.org/genproto/googleapis/rpc;version=v0.0.0-20260226221140-a57be14db171;sha256sum=ef979e597bd8f6d7e9aa2f427b7553bae7cff3ea0355c3898133303bcd1a0c47"
+ SRC_URI += "gomod://google.golang.org/genproto/googleapis/rpc;version=v0.0.0-20251022142026-3a174f9686a8;sha256sum=31e3f6f4389617db20b509ae1394fe08a01585659dac99728ea93428580cdd1c"
+-SRC_URI += "gomod://google.golang.org/grpc;version=v1.0.5;sha256sum=4764088ccec922d322a50719232261d8499e3481f26ae0468fccc5727bf57280"
++SRC_URI += "gomod://google.golang.org/genproto/googleapis/rpc;version=v0.0.0-20251103181224-f26f9409b101;sha256sum=044118caa25649de11cc78f812d521be123be922ac1f90c7aadeecd379cb6433"
+ SRC_URI += "gomod://google.golang.org/grpc;version=v1.77.0;sha256sum=2c92a3b507d34c72c6314f0b8c79c096b2468ce183f7fa63dba7e450c214fea5"
+ SRC_URI += "gomod://google.golang.org/grpc;version=v1.78.0;sha256sum=2aea1bc859f3b80c1f07454a6b59b34974b8bcc9f26ab0cbbea91f527e28dbc5"
++SRC_URI += "gomod://google.golang.org/grpc;version=v1.81.1;sha256sum=11273d01c080389b7079518aa23bd2e20faa91aafd12804d918bbbafaf2c7ffc"
++SRC_URI += "gomod://google.golang.org/grpc;version=v1.0.5;sha256sum=4764088ccec922d322a50719232261d8499e3481f26ae0468fccc5727bf57280"
+ SRC_URI += "gomod://google.golang.org/grpc/cmd/protoc-gen-go-grpc;version=v1.5.1;sha256sum=997320e3e21562ef67d72888c0b1506d1c2a0255baac7227a9b191a15627a8b2"
+ SRC_URI += "gomod://google.golang.org/protobuf;version=v1.36.10;sha256sum=9265fbe7d073ca8571f1a9c4b8e8f20b244c35ad913346892d688e58fe4b1f22"
+ SRC_URI += "gomod://google.golang.org/protobuf;version=v1.36.11;sha256sum=14983d36c56a814ed91b6d652f2b8f895baba1b84eb43b28a0b132c8637cd274"
+-SRC_URI += "gomod://gopkg.in/check.v1;version=v0.0.0-20161208181325-20d25e280405;sha256sum=4e1817f964ca34e545b81afda0325a5e89cf58de2e413d8207c0afddd0fdc15c"
+ SRC_URI += "gomod://gopkg.in/check.v1;version=v1.0.0-20200227125254-8fa46927fb4f;sha256sum=dbd4ccdf6e1740df06b141ff0cf6bd4b24e5a659adb5174cb3f7bfc798a21ed1"
++SRC_URI += "gomod://gopkg.in/check.v1;version=v0.0.0-20161208181325-20d25e280405;sha256sum=4e1817f964ca34e545b81afda0325a5e89cf58de2e413d8207c0afddd0fdc15c"
+ SRC_URI += "gomod://gopkg.in/check.v1;version=v1.0.0-20201130134442-10cb98267c6c;sha256sum=f555684e5c5dacc2850dddb345fef1b8f93f546b72685589789da6d2b062710e"
+-SRC_URI += "gomod://gopkg.in/evanphx/json-patch.v4;version=v4.12.0;sha256sum=eccb52c37cbf4a38d392101f2b31d424eca68bfebab3de4265d0cf595ca07b51"
+ SRC_URI += "gomod://gopkg.in/fsnotify.v1;version=v1.4.7;sha256sum=ce003d540f42b3c0a3dec385deb387b255b536b25ea4438baa65b89458b28f75"
+ SRC_URI += "gomod://gopkg.in/inf.v0;version=v0.9.1;sha256sum=08abac18c95cc43b725d4925f63309398d618beab68b4669659b61255e5374a0"
+ SRC_URI += "gomod://gopkg.in/ini.v1;version=v1.67.0;sha256sum=bd845dfc762a87a56e5a32a07770dc83e86976db7705d7f89c5dbafdc60b06c6"
+@@ -632,9 +726,11 @@ SRC_URI += "gomod://gopkg.in/yaml.v2;version=v2.2.1;sha256sum=fbfd8b7212222175af
+ SRC_URI += "gomod://gopkg.in/yaml.v3;version=v3.0.1;sha256sum=aab8fbc4e6300ea08e6afe1caea18a21c90c79f489f52c53e2f20431f1a9a015"
+ SRC_URI += "gomod://gopkg.in/yaml.v3;version=v3.0.0-20200313102051-9f266ea9e77c;sha256sum=acf19ccb4fca983b234a39ef032faf9ab70e759680673bb3dff077e77fee20fe"
+ SRC_URI += "gomod://gotest.tools/v3;version=v3.5.2;sha256sum=d7c40ae135e4a34dee9ca4847ad18208f138847721e693647b897259287a1d4b"
++SRC_URI += "gomod://k8s.io/api;version=v0.35.2;sha256sum=8051aad53124d0c41e44468a37d7b20a3359fea288a744b409b781f23929fa18"
++SRC_URI += "gomod://k8s.io/apimachinery;version=v0.35.2;sha256sum=bc39dce8fc64a082447400751b6f6a9cf99b3c87a08025d1f6f43d89c65bc9ea"
+ SRC_URI += "gomod://k8s.io/cri-api;version=v0.34.1;sha256sum=575f04bf04c09e2f1442a881113536a4411066a1cfd075751f77826603ec00ef"
+ SRC_URI += "gomod://k8s.io/klog/v2;version=v2.130.1;sha256sum=262b961175bbe8cf6ecf227d06303df2eb47bfb890e19d516846422f7d406cb9"
+-SRC_URI += "gomod://k8s.io/kube-openapi;version=v0.0.0-20250710124328-f3f2b991d03b;sha256sum=65a64094d280804b6d1094a00c5129108ead7970bbc57f940fd3ad48e799acb2"
++SRC_URI += "gomod://k8s.io/utils;version=v0.0.0-20251002143259-bc988d571ff4;sha256sum=3caff8384915ba747aad7708cf2a4aaa2501f952780e64049abe981a57d1cb49"
+ SRC_URI += "gomod://k8s.io/utils;version=v0.0.0-20250604170112-4c0f3b243397;sha256sum=3687c33444d57ee4b35e7e7e6baa2627096057dd4d2819a82ac73d3823bced28"
+ SRC_URI += "gomod://kernel.org/pub/linux/libs/security/libcap/cap;version=v1.2.77;sha256sum=ea01e9900ea2bd4b054870ad10bcad4185931548c3dc076df72629b1dcbc6b49"
+ SRC_URI += "gomod://kernel.org/pub/linux/libs/security/libcap/cap;version=v1.2.76;sha256sum=375924cfe96275d6e703470e19fe3994ec3df8e447525c2859c085813d699298"
+@@ -642,6 +738,7 @@ SRC_URI += "gomod://kernel.org/pub/linux/libs/security/libcap/psx;version=v1.2.7
+ SRC_URI += "gomod://kernel.org/pub/linux/libs/security/libcap/psx;version=v1.2.76;sha256sum=13a7ac858c339f36b5ca66b11f52de8759418ee3a4f6e9b600b08d512e8d315d"
+ SRC_URI += "gomod://pgregory.net/rapid;version=v1.2.0;sha256sum=c48fcf01d3621eb8fde71a0cfa46c3c1bb12cc5a038951bbef903b16916ae64a"
+ SRC_URI += "gomod://sigs.k8s.io/json;version=v0.0.0-20241014173422-cfa47c3a1cc8;sha256sum=4a5cb30c1b7406bd9684b3dbe118308cb565ba57157f7242b06a4815fbc24ed7"
++SRC_URI += "gomod://sigs.k8s.io/json;version=v0.0.0-20250730193827-2d320260d730;sha256sum=7cec6eae3e4e4c9c1e0a009eef200740990fafbcb9cab081eb18ce32f6e7a7b9"
+ SRC_URI += "gomod://sigs.k8s.io/randfill;version=v1.0.0;sha256sum=31dbbfc44ce12f78f1b68d6bbeed8526aa73c53243353d44d50b2532c828f5f1"
+ SRC_URI += "gomod://sigs.k8s.io/structured-merge-diff/v6;version=v6.3.0;sha256sum=bcb0e662e31cfbd06b4cb52eb59eef6f0da101bce5aedca7dbce1f78c34d637a"
+ SRC_URI += "gomod://sigs.k8s.io/yaml;version=v1.6.0;sha256sum=cf88648a471581817b00a42ee8d24fd73eb0e3503998cf46d8e63787e11e5052"
+-- 
+2.49.0
 
 
