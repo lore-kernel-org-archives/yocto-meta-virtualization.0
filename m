@@ -2,118 +2,140 @@ Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5935DCD6E52
-	for <webhook@archiver.kernel.org>; Sat, 30 May 2026 01:31:33 +0000 (UTC)
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2367.1780104691959331751
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C702CD6E51
+	for <webhook@archiver.kernel.org>; Sat, 30 May 2026 01:31:43 +0000 (UTC)
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2369.1780104702941359890
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 29 May 2026 18:31:32 -0700
+ Fri, 29 May 2026 18:31:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=KeyPpkSi;
- spf=pass (domain: gmail.com, ip: 209.85.216.53, mailfrom: ticotimo@gmail.com)
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-3664df32e91so16051159a91.3
-        for <meta-virtualization@lists.yoctoproject.org>; Fri, 29 May 2026 18:31:31 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=F/5UCj6r;
+ spf=pass (domain: gmail.com, ip: 209.85.214.171, mailfrom: ticotimo@gmail.com)
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2bf1f074a12so14314045ad.0
+        for <meta-virtualization@lists.yoctoproject.org>; Fri, 29 May 2026 18:31:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780104691; x=1780709491; darn=lists.yoctoproject.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=NLSNFeTS1b6IZTlfcCdgAs6QY2bt2K2ZELAfkOyKSiU=;
-        b=KeyPpkSiOFF/RW5/6yoeZ8t0XtsCs4K2HUpL2pOs0q/VRt6p1an7iZARViIIbrY72f
-         dUYGUZ+a43PlQB8z3/ngCuh2TB4p3zX41OS27mlK48udJ0Ybr5vh3GXiTiOcl1AjoHWr
-         qp1RvP7Aq3Jy18YTmoul/omm/t0tThszkQlV5p2PKrZgskuXFc30Bu0qD3SRwbfAH8SL
-         1yirAR1tnu8yTVr1oM/LzsTa9QUDo5EbWWuUGNuQNhQiiFrmOARO1BuXOQwp5UbTq9oJ
-         8iS3aUF9Nol8/QGG1U6fJqlFzeQ9Had69N7SmPwXRainZTTfNgZJRBFFffjg+fYaJG97
-         8Ccg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780104691; x=1780709491;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=gmail.com; s=20251104; t=1780104702; x=1780709502; darn=lists.yoctoproject.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=NLSNFeTS1b6IZTlfcCdgAs6QY2bt2K2ZELAfkOyKSiU=;
-        b=ZNLlKO0BIStSPhIXiLt/HziTXxR2b8Z6ATi/jjx09kwz300NQ5b3cJeu02NGyvmtt3
-         CKLsHnluM34hazN2kHvR+ccdJlxL5aWzj0OX/i9bS/3lXsQQ5N3dJqRM27PeZzpT/9Hm
-         Sb8OqvNgOS9epf3hAkdTq4gE21GsRY9GRuSIMo5/FSdI7e+HB/d21ohUrPkHyZJtO6kj
-         bCUP2n1WwQ6UxUci/qORpEn9PgqxUDJegSFESbkN92hnkO+yBwIBv4MWhjoxqzRT40lS
-         Bfosr8iDDlvRNQqVOjR7VBKtnlH9dTEU2gh1mj6nl+vE1dMAGXd9GR+5i4+a492pyZJI
-         jf5A==
-X-Gm-Message-State: AOJu0Yym2pLdrrP9nP10QxuVmDw2WuskTcZb2+rDuuFRksMN/Selxtsj
-	UKceBKxBGAXS+tw30/E+nbvkXSd0tIQ8lLCQMdg1q9oU4CU1zIsN3cmwqq7IIw==
-X-Gm-Gg: Acq92OE06i6h5JjFs99S8cPCAE4Q+HlRlxBCxua/V4NVTuHaZzZ+GAbLk4AL5PBza0W
-	EMLadGU+f0ITY+UhqDk0ObRhJhQZYU/Puv3xblKLc98F1zRSFvRE8/3yqYHPUb6lmoYtPzGppsi
-	+2hATiTV8ePvpLcck16COUyYl2kVxRm6QWuzQoVnvTppMxPQwQ7/mFcH2JK9n+1TeofpQMgyI/p
-	njjLBajmWFjoz+nDcO1Ri6PNrhiuumP193Tvaa039TdEZQaD86Pbv7wuJYbGjaiIDOVLGwxirI9
-	Ion5vBBct2QbK264aODjTFostqwbC2z/low0aNqmdpBWoFmnqxMfBREnE8z4JW7c7VVy/pUv+bp
-	Umquvk7Qb9GCqdMB50l5T5drfwlEZip6SWSZGmjIarUSl6IceFumm7ALnPdAyBVHIhgCp02DzYW
-	rh4ZZZMT80+xdogQJ//Yct+b/53261gwHvUpvlwgdi/qRu7GcO7+LA9/wV0dtH2cGHKf8dxB6qE
-	GALHWFCjsMvGAcAYB9UDT+h6kC/4WwbDwNFK/dyEqdE
-X-Received: by 2002:a17:902:d50f:b0:2bf:3074:34d5 with SMTP id d9443c01a7336-2bf3687d473mr23693105ad.34.1780104690824;
-        Fri, 29 May 2026 18:31:30 -0700 (PDT)
+        bh=bFOfhvyPpJ6mNV6NwpQsmq+e69TG6b1TgEoa37sgjGs=;
+        b=F/5UCj6rsCWGc+nvx7H5erKZg2tCNNN24OASxVSkDzA7MVgM0/TN4/KjWWzBhzQ6NJ
+         3ddOxknrmcysvziRqRGKkeY6ERvN3dK4JtGFKgPAPUycirAcPyuNLC4exwRrV6ufq0Kz
+         x90f5HhafFoeEq3ThKlm2Onwd7+XufMJOEN4B46uB2TjLVxEKIMAf2VMX0xOR+O2tW6T
+         x6OV18N742VX3XMR/ll5vMOnvPHd9ahOdzKFDglSoRsbxc0NfqeCWziKx3BltCValCST
+         Rs36/jCANyb1TBJPz7BH59mK8KhqUYFFKJxeQc/yGfaOTD+r1D0POpVXFHno61FuQ+OY
+         yXDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780104702; x=1780709502;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=bFOfhvyPpJ6mNV6NwpQsmq+e69TG6b1TgEoa37sgjGs=;
+        b=JZSAsO9ygkjAXtthjqiHE1B6K78hkExdKvrIScdYqiLpqQ23F0ywbodoccrh4IxNoh
+         dmVyuDVGEb8EOCKpBjQiimwfFgCpFCd/EbCOYRuB72RopW3ZSPJ0hoYfx3QESLr72APv
+         dibW8SE95JQMqJtMl336NW6V8vAQGIwgrH2eVHBrgxgi/GFQUhDMgTPLyy84akEQHA4X
+         0S+QbWkECyG3gRRNACVugIgRro4JExTgeskz6jUfcnAp3DwvJM+CObFV6MLDcev35yOg
+         FH0a4g0K5oCc/Y4wnqT40XgL4LESFk20PQvDYcrRFQWVFyvvbti2RU8oB1nONqCRGoRR
+         joYg==
+X-Gm-Message-State: AOJu0YxDuyRKWuSqxcR64dllSd37PpbgtRQVP2VYyOE8+CCkQ32p91QA
+	lj6v65gz0Ugr+DbHS272igHer6O8GycSNd7/gk1cDXGJpn0Wr/tlNveR1abFqA==
+X-Gm-Gg: Acq92OFMKie8BSdQ6QaI0d2zvj4TGgwr42EQjpwwt4CW45UpziP9YhyzvgVQEreMDxt
+	2+6CaJ4F/uYsbl5zCdTZ6rGOqIA0qqNu1EywfVtmEJzzG+yTzI8VBEORD3SCj8BUw2otmmUROH9
+	eSrgPt5//pql7XN3DnSLsUZd020glYlLIfyzGUHFedR543V9mnChq5YePc9+U4kf5YqwyJa1fJg
+	E9WY/RptUjPcP4sJqjZhlpZ52rAG00j0txKxTkBtml0zFWcNjhJnJVx4zRvW43lMblcZA/noC17
+	ZWMYEy8WoU9cK0uJ4o3JRXN+20lbQTuuPElPpJQRGRY23zeLwk/1c7OfkI1oSjJsa6UtpdEWIfQ
+	YiCPHda+WG+tHatZ21ZrJTkkKlbE04gPSuC/X4Y1wYMHEN6E2kt0MscD36o8CI3o7y+iISAmUc3
+	22p4jouCijIsuhNdyIUEJT76Lo92ABAnb6cjLEGLyujRw4bgkDqfMyyuoNTxB/f1vI74WiVDQ+f
+	V4bOi8VMvNr67LotteCho9rxQyAbHfDuQ==
+X-Received: by 2002:a17:903:b84:b0:2ae:55eb:f82d with SMTP id d9443c01a7336-2bf367b161cmr24588285ad.1.1780104702337;
+        Fri, 29 May 2026 18:31:42 -0700 (PDT)
 Received: from localhost.localdomain (c-98-232-159-17.hsd1.or.comcast.net. [98.232.159.17])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2bf23a2dbfbsm33798765ad.37.2026.05.29.18.31.29
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2bf23a2dbfbsm33798765ad.37.2026.05.29.18.31.41
         for <meta-virtualization@lists.yoctoproject.org>
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Fri, 29 May 2026 18:31:30 -0700 (PDT)
+        Fri, 29 May 2026 18:31:41 -0700 (PDT)
 From: Tim Orling <ticotimo@gmail.com>
 X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
 To: meta-virtualization@lists.yoctoproject.org
-Subject: [meta-virtualization][PATCH 0/7] Container improvements
-Date: Fri, 29 May 2026 18:31:01 -0700
-Message-ID: <cover.1780104071.git.tim.orling@konsulko.com>
+Subject: [meta-virtualization][PATCH 3/7] recipes-containers/images: add app-container-mosquitto
+Date: Fri, 29 May 2026 18:31:04 -0700
+Message-ID: <8e68815affff4412c88b8a1139d6f916074bb3d1.1780104071.git.tim.orling@konsulko.com>
 X-Mailer: git-send-email 2.54.0
+In-Reply-To: <cover.1780104071.git.tim.orling@konsulko.com>
+References: <cover.1780104071.git.tim.orling@konsulko.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Sat, 30 May 2026 01:31:33 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9826
+ <meta-virtualization@lists.yoctoproject.org>; Sat, 30 May 2026 01:31:43 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9829
 
-This series:
-  * Adds a class to create/run containers with a non-root user
-  * Adds new containers:
-    - app-container-python
-    - app-containter-mosquitto
-    - app-container-valkey
-    - app-container-nginx
-  * Modifies app-container-curl to be more like the upstream
-    experience (and more like the above containers)
-  * Allows meta-webserver/recipes-http to be parsed for
-    vcontainer distro so we can build multiarch containers
-    for app-container-nginx, etc.
+Add OCI container image recipe for the Eclipse Mosquitto MQTT broker.
+The image uses multi-layer mode with separate base and mosquitto layers,
+exposes standard MQTT (1883) and WebSocket (9001) ports, and launches
+mosquitto with its default config file as the entrypoint.
 
-Each of these containers was built in a MACHINE=qemuarm64
-environment as well as mc:container-amd64+mc:container-arm64
-multiarch environment.
+Inherit container-nonroot-user to run as 'nonroot' with UID 65532.
 
-The resulting containers were tested with simple command line
-usage compared to Docker provided equivalents to ensure the
-same expected behavior.
-
-Tim Orling (7):
-  classes: add container-nonroot-user.bbclass
-  recipes-containers/images: add app-container-python
-  recipes-containers/images: add app-container-mosquitto
-  recipes-containers/images: add app-container-valkey
-  recipes-containers/images: add app-container-nginx
-  vcontainer-bbmask.inc: allow meta-webserver/recipes-httpd
-  app-container-curl: use multilayer mode; container-nonroot-user
-
- classes/container-nonroot-user.bbclass        | 68 ++++++++++++++++
- conf/distro/include/vcontainer-bbmask.inc     |  2 +-
- conf/layer.conf                               |  1 +
- .../images/app-container-curl.bb              | 29 ++++++-
- .../images/app-container-mosquitto.bb         | 46 +++++++++++
- .../images/app-container-nginx.bb             | 77 +++++++++++++++++++
- .../images/app-container-python.bb            | 57 ++++++++++++++
- .../images/app-container-valkey.bb            | 61 +++++++++++++++
- 8 files changed, 336 insertions(+), 5 deletions(-)
- create mode 100644 classes/container-nonroot-user.bbclass
- rename {recipes-demo => recipes-containers}/images/app-container-curl.bb (58%)
+Signed-off-by: Tim Orling <tim.orling@konsulko.com>
+---
+ .../images/app-container-mosquitto.bb         | 46 +++++++++++++++++++
+ 1 file changed, 46 insertions(+)
  create mode 100644 recipes-containers/images/app-container-mosquitto.bb
- create mode 100644 recipes-containers/images/app-container-nginx.bb
- create mode 100644 recipes-containers/images/app-container-python.bb
- create mode 100644 recipes-containers/images/app-container-valkey.bb
 
+diff --git a/recipes-containers/images/app-container-mosquitto.bb b/recipes-containers/images/app-container-mosquitto.bb
+new file mode 100644
+index 00000000..37e34a47
+--- /dev/null
++++ b/recipes-containers/images/app-container-mosquitto.bb
+@@ -0,0 +1,46 @@
++SUMMARY = "Mosquitto MQTT broker container image"
++DESCRIPTION = "OCI container running the Eclipse Mosquitto MQTT broker \
++with standard MQTT (1883) and WebSocket (9001) listeners enabled."
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
++
++# Multi-layer mode: create explicit layers instead of single rootfs layer
++OCI_LAYER_MODE = "multi"
++
++# Define layers: each layer contains specific packages
++# Format: "name:type:content" where content uses + as delimiter for multiple items
++OCI_LAYERS = "\
++    base:packages:base-files+base-passwd+netbase \
++    mosquitto:packages:mosquitto \
++"
++
++IMAGE_FSTYPES = "container oci"
++inherit image
++inherit image-oci
++inherit container-nonroot-user
++
++IMAGE_FEATURES = ""
++IMAGE_LINGUAS = ""
++NO_RECOMMENDATIONS = "1"
++
++IMAGE_INSTALL = " \
++    base-files \
++    base-passwd \
++    netbase \
++    mosquitto \
++"
++
++# Allow build with or without a specific kernel
++IMAGE_CONTAINER_NO_DUMMY = "1"
++
++# Workaround /var/volatile for now
++ROOTFS_POSTPROCESS_COMMAND += "rootfs_fixup_var_volatile ; "
++rootfs_fixup_var_volatile () {
++    install -m 1777 -d ${IMAGE_ROOTFS}/${localstatedir}/volatile/tmp
++    install -m 755 -d ${IMAGE_ROOTFS}/${localstatedir}/volatile/log
++}
++
++OCI_IMAGE_ENTRYPOINT = "${sbindir}/mosquitto"
++OCI_IMAGE_ENTRYPOINT_ARGS = "-c '${sysconfdir}/mosquitto/mosquitto.conf'"
++OCI_IMAGE_PORTS = "1883/tcp 9001/tcp"
++OCI_IMAGE_TAG = "latest"
 -- 
 2.54.0
 
