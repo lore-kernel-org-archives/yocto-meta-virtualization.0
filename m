@@ -1,145 +1,110 @@
-Return-Path: <ticotimo@gmail.com>
+Return-Path: <Haitao.Liu@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6458ACD6E51
-	for <webhook@archiver.kernel.org>; Sat, 30 May 2026 01:32:03 +0000 (UTC)
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2373.1780104714619840730
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96F7BCD6E60
+	for <webhook@archiver.kernel.org>; Mon,  1 Jun 2026 09:01:51 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.24242.1780304508849740671
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 29 May 2026 18:31:54 -0700
+ Mon, 01 Jun 2026 02:01:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=ktVu6djo;
- spf=pass (domain: gmail.com, ip: 209.85.216.41, mailfrom: ticotimo@gmail.com)
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-3697f25d26eso7840407a91.1
-        for <meta-virtualization@lists.yoctoproject.org>; Fri, 29 May 2026 18:31:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780104714; x=1780709514; darn=lists.yoctoproject.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=RjARWlUZ957yiW7+2Woam54S9zZlxWlATiyvOyvpijI=;
-        b=ktVu6djouZhKRB4KvrKmWliBbqJsEmT66ZOafquS5seeYFmVMHz07NXRaIzbf+OQZ9
-         gzoqZtJu6eJv9wPVhcphrtlD03J5SuhkCMXFPhy0CpBTN+2tNWpCcKpdaiAGy6wM5q3T
-         gNfa294sF21rYBUTtYEOqVHi3TWd9IIuMK752RTuyNQQy6l1zPMbdHMVjBwS55ZpHdH6
-         jElntP8nkBSShticEvVBJnj6unEdjQdFzXTHiwsidH2lNL0KzHUm9A/rzcgJhdA7Qp5E
-         sxzgysD1v1vIHoqIr4vaXjI2ald8HlNmS7IJ+K14Rp8zYO63WLoQTcuW6l9iA/CgF7We
-         4O9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780104714; x=1780709514;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=RjARWlUZ957yiW7+2Woam54S9zZlxWlATiyvOyvpijI=;
-        b=S8htTVK7Cfp3zi/kuEBruuj6W4Ml3SbQM51gT8dOPZNW6HWGNrxSFGccVSUZc/M7lx
-         jfLbWrkqHKsjrVZJjBMGbn2JNko1vRPL/9hK5NkEEptsZlRnHpEOm8k2033MQeUvxabb
-         cti0sXOJablHo9V6sqBTubRgWMhRYR/3oYLLmI4YyUltZRh1V+3G5fceM/Yg1ZTIPZSK
-         zg5GUYuonp1eQMlEouq3QuwD5OJZBk07BHY5zsjwrBmevosLqcRBmQD9IoAtbuucuOMx
-         ykSqzgvhN6KUrXEbscDnLKwGZrxPdbNuob3RXwUZc8wIPZg+YRKRV8FCoiU7UUqBJDOa
-         U+9A==
-X-Gm-Message-State: AOJu0Yz4gVhGx8h8f1qEZJjWJheVVZf+3KjaAa5ivhSCnsOsBjfIl6UF
-	NuzDcpWG3g7/XvKzLTl6U5zFtepmkPLkZFrJFrDfTh7SwiIUwFnaYg/Sw61yNw==
-X-Gm-Gg: Acq92OHGWFpST/+JEZkaQz+N9qalZ8Ji6U+Zl6DnK33zX4AXXgidUR7TgjlzyRFlohH
-	+6+UgroKEocISNFGFYTEpe//xVE7PJrI8T9tEMBr5uE/+vKUcsgU7jSRoO85xZWErSUXNU98ZET
-	VWu1iB6BCxwybZMwP5Dqj07yBAbHa1pUJwiVmgKk+xlQXzetESDrotJysxeyiBsXFtK6jL/NvW+
-	XhGeXrvNSoW6J1+3LXObTwzk//M0zghH6gMJfdHj6lsw8cImAIStISXc4zd7+Onz1wPC0Jsdqhj
-	ahvaekHbkf6Hrf6uxZtXABVLIQA3/niawrs6ikKnP3q/JszMP0l9E2tIpMuwABwfrLtZy8LQFYM
-	S6275CzFZ9tySIVsrmgQO7O2J4K1KokMZ1FYghxlwbrg9QXHPOmvaTBRJa9Jo06UYk1gAB4Obi+
-	2e3GUjdU3nJJzwVVLgWCc4o5cZxu1UjsyxnFBVdORxHBOUXhbxr353gmavjiKkTEwnsYET4CrpQ
-	44zogsKpoiFKnIkxuVEW3Kt+ERzVO3R4A==
-X-Received: by 2002:a17:903:240e:b0:2ae:450c:951e with SMTP id d9443c01a7336-2bf367f27dcmr25454245ad.17.1780104713990;
-        Fri, 29 May 2026 18:31:53 -0700 (PDT)
-Received: from localhost.localdomain (c-98-232-159-17.hsd1.or.comcast.net. [98.232.159.17])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2bf23a2dbfbsm33798765ad.37.2026.05.29.18.31.52
-        for <meta-virtualization@lists.yoctoproject.org>
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Fri, 29 May 2026 18:31:53 -0700 (PDT)
-From: Tim Orling <ticotimo@gmail.com>
-X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
-To: meta-virtualization@lists.yoctoproject.org
-Subject: [meta-virtualization][PATCH 7/7] app-container-curl: use multilayer mode; container-nonroot-user
-Date: Fri, 29 May 2026 18:31:08 -0700
-Message-ID: <f3106949b40e31f8a993419a0fd8c463ed7a642c.1780104071.git.tim.orling@konsulko.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <cover.1780104071.git.tim.orling@konsulko.com>
-References: <cover.1780104071.git.tim.orling@konsulko.com>
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=IVJtngdu;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=0612209e35=haitao.liu@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6516Ww1d2836487
+	for <meta-virtualization@lists.yoctoproject.org>; Mon, 1 Jun 2026 09:01:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PPS06212021; bh=9ZH4QhqvABAhAfEoLvJn
+	wjIiN9yu0royY+IJKBIy9Cw=; b=IVJtngduAJ9x9jZLY8ca+Mk6CEpk8WUtUYri
+	bqbGxwx6pCh90fiuiWAaZiM63nVgkLMBc/r0Ev4nFaJzNN+4L3mlab2xKSTzG6fo
+	b5HIO8m+J0OaQ4BHOUSTbpMHpsEVXZJr2qaOaA1HzY7/vlxB4Rk/7pJOWiLCnPn9
+	6ePGR+UoFimb4Ha/cXP2uLhVxe9tfkiDxkHst8d7eisxWg36iGbK9BcPdV1gCPLN
+	jUTcVVhSaxLmmf3YpLyKgUuPyYByeBb4qvTRrVZy4WfTZHWm0yok5ne0yih63TiE
+	W8Uo6b0wvInrqazs2dvBZunMRA3ObTkZnKotdQS6fcd/t5Yd0A==
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [128.224.246.37])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4efn402tyb-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <meta-virtualization@lists.yoctoproject.org>; Mon, 01 Jun 2026 09:01:47 +0000 (GMT)
+Received: from ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) by
+ ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.61; Mon, 1 Jun 2026 02:01:46 -0700
+Received: from pek-lpd-susbld.wrs.com (10.11.232.110) by
+ ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server id
+ 15.1.2507.61 via Frontend Transport; Mon, 1 Jun 2026 02:01:46 -0700
+From: Haitao Liu <haitao.liu@windriver.com>
+To: <meta-virtualization@lists.yoctoproject.org>
+Subject: [meta-virtualization][wrynose][PATCH 1/2] openvswitch: update to 3.7.1
+Date: Mon, 1 Jun 2026 17:01:44 +0800
+Message-ID: <20260601090145.412741-1-haitao.liu@windriver.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: TmdovZ84_PhJrki6NdMnw0rBB2-sty1Q
+X-Proofpoint-GUID: TmdovZ84_PhJrki6NdMnw0rBB2-sty1Q
+X-Authority-Analysis: v=2.4 cv=GI441ONK c=1 sm=1 tr=0 ts=6a1d4a7b cx=c_pps
+ a=Lg6ja3A245NiLSnFpY5YKQ==:117 a=Lg6ja3A245NiLSnFpY5YKQ==:17
+ a=8Ad4tvYqdmIA:10 a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=bi6dqmuHe4P4UrxVR6um:22 a=klDOsUkWDRETUCZYPvoE:22 a=t7CeM3EgAAAA:8
+ a=NEAV23lmAAAA:8 a=qKcERC-KJPmDvOPJjfUA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjAxMDA5MCBTYWx0ZWRfX+74EmfxWxHRC
+ fuPjrp9eVE3Plb4sTTRPHKijUahxUVsYj4d6lbAD8J+qALGl4+pQtarZZko760udcp+tetna0Nf
+ U3ofn9oFBhZlbaF0zTzVGjjQkUPMdH0983f3dv590I+4ZipGKx5e4Uc4n0g8doQ0H2vOIuAAMan
+ yxBroAefSE65VuDWhFZyT40gSRotYr7pm3y2xrZWY2Cw6db4Jps4SVbGlEAoFF8Q6Rymv2UW59P
+ 6HBukOZt7445cOPIGYMqKGkbvtCNGzl8tc/7VfQQHfKyuWa4b8sm9N0XZXpLEiYj/fp3bQ16hmL
+ QzBuBMG8ViZKVFih2Qy/0QwL1TKb2NDoWMyP9UdU8A/PT8EPQoxJPQyw5hmCogEjtC+mtQjzxWS
+ VmACqolfaoP5Cyh3JWpNaHE4NfRSuwAMXzQM1GW4oSkfv/PQRWU7P36D6dsRwl4Q0Za4XsswWef
+ TDKEKti7YLdkCjUgrdw==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-01_02,2026-05-28_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 malwarescore=0 phishscore=0 spamscore=0 bulkscore=0
+ adultscore=0 clxscore=1015 priorityscore=1501 lowpriorityscore=0
+ impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2605210000
+ definitions=main-2606010090
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Sat, 30 May 2026 01:32:03 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9833
+ <meta-virtualization@lists.yoctoproject.org>; Mon, 01 Jun 2026 09:01:51 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9834
 
-* Move to recipes-containers/images to show maintenance intent
-* Switch to multilayer mode to more like the other "library"/"official"
-  container recipes.
-* Change OCI_IMAGE_TAG to "latest" for similar reasons.
-* Change OCI_IMAGE_ENTRYPOINT_ARGS to "--help" to be more like upstream
-  containers.
-* Install ca-certificates to enable handling https:// sites
-* Inherit container-nonroot-user to run as 'nonroot' with UID 65532 by
-  default. Set PACKAGECONFIG:pn-app-container-curl = "dev" in local.conf
-  or distro/image config to run as `root` and include a CONTAINER_SHELL.
+pick up the following commits:
 
-Signed-off-by: Tim Orling <tim.orling@konsulko.com>
+    7921d9c69 Set release date for 3.7.1.
+    e1b82e9b7 github: Temporarily disable system tests for DPDK and AF_XDP.
+    a9785c7e1 conntrack: Fix replace_substring to handle larger packets.
+    7dc6fb7ba Update DPDK version for older releases to 23.11.6 and 24.11.4.
+
+Signed-off-by: Haitao Liu <haitao.liu@windriver.com>
 ---
- .../images/app-container-curl.bb              | 29 ++++++++++++++++---
- 1 file changed, 25 insertions(+), 4 deletions(-)
- rename {recipes-demo => recipes-containers}/images/app-container-curl.bb (58%)
+ recipes-networking/openvswitch/openvswitch_git.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/recipes-demo/images/app-container-curl.bb b/recipes-containers/images/app-container-curl.bb
-similarity index 58%
-rename from recipes-demo/images/app-container-curl.bb
-rename to recipes-containers/images/app-container-curl.bb
-index ddeb3022..34204fb9 100644
---- a/recipes-demo/images/app-container-curl.bb
-+++ b/recipes-containers/images/app-container-curl.bb
-@@ -2,9 +2,31 @@ SUMMARY = "Curl Application container image"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+diff --git a/recipes-networking/openvswitch/openvswitch_git.bb b/recipes-networking/openvswitch/openvswitch_git.bb
+index 87790090..8dcb7ca4 100644
+--- a/recipes-networking/openvswitch/openvswitch_git.bb
++++ b/recipes-networking/openvswitch/openvswitch_git.bb
+@@ -13,12 +13,12 @@ RDEPENDS:${PN}-ptest += "\
+ 	python3-resource findutils which diffutils \
+ 	"
  
-+# Multi-layer mode: create explicit layers instead of single rootfs layer
-+OCI_LAYER_MODE = "multi"
-+
-+# Optional 'dev' mode:
-+#   - runs the container as root (UID 0)
-+# Enable with: PACKAGECONFIG:pn-app-container-curl = "dev"
-+PACKAGECONFIG ??= ""
-+PACKAGECONFIG[dev] = ""
-+
-+# Define layers: each layer contains specific packages
-+# Format: "name:type:content" where content uses + as delimiter for multiple items
-+OCI_LAYERS = "\
-+    base:packages:base-files+base-passwd+netbase \
-+    ${@bb.utils.contains('PACKAGECONFIG', 'dev', 'shell:packages:${CONTAINER_SHELL}', '', d)} \
-+    curl:packages:curl+ca-certificates \
-+"
-+
-+# In 'dev' mode, override the nonroot UID inherited from container-nonroot-user
-+# so the container runs as root.
-+OCI_IMAGE_RUNTIME_UID = "${@bb.utils.contains('PACKAGECONFIG', 'dev', '0', '${NONROOT_UID}', d)}"
-+
- IMAGE_FSTYPES = "container oci"
- inherit image
- inherit image-oci
-+inherit container-nonroot-user
+-PV = "3.7.0"
++PV = "3.7.1"
+ CVE_VERSION = "3.5.0"
  
- IMAGE_FEATURES = ""
- IMAGE_LINGUAS = ""
-@@ -39,8 +61,7 @@ rootfs_fixup_var_volatile () {
- }
+ FILESEXTRAPATHS:append := "${THISDIR}/${PN}-git:"
  
- OCI_IMAGE_ENTRYPOINT = "curl"
--OCI_IMAGE_TAG = "easy"
--OCI_IMAGE_ENTRYPOINT_ARGS = "http://localhost:80"
--CONTAINER_SHELL = "busybox"
-+OCI_IMAGE_TAG = "latest"
-+OCI_IMAGE_ENTRYPOINT_ARGS = "--help"
- 
--IMAGE_INSTALL:append = " curl"
-+IMAGE_INSTALL:append = " curl ca-certificates"
+-SRCREV = "0d4c78e153d2b22ab1b173cd4a4dfff89002666d"
++SRCREV = "7921d9c6924b8934ea1de9481891ac1172649280"
+ SRC_URI += "git://github.com/openvswitch/ovs.git;protocol=https;branch=branch-3.7 \
+             file://openvswitch-add-ptest-71d553b995d0bd527d3ab1e9fbaf5a2ae34de2f3.patch \
+             file://run-ptest \
 -- 
-2.54.0
+2.34.1
 
 
