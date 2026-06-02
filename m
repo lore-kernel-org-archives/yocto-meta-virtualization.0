@@ -1,112 +1,165 @@
-Return-Path: <sudumbha@cisco.com>
+Return-Path: <haiqing.bai@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B95C9CD6E55
-	for <webhook@archiver.kernel.org>; Mon,  1 Jun 2026 18:36:02 +0000 (UTC)
-Received: from rcdn-iport-7.cisco.com (rcdn-iport-7.cisco.com [173.37.86.78])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.6332.1780338956683361300
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED595C5DF71
+	for <webhook@archiver.kernel.org>; Tue,  2 Jun 2026 08:49:39 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.20267.1780390169530360196
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 01 Jun 2026 11:35:56 -0700
+ Tue, 02 Jun 2026 01:49:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=DBWcw+wM;
- spf=pass (domain: cisco.com, ip: 173.37.86.78, mailfrom: sudumbha@cisco.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=1004; q=dns/txt;
-  s=iport01; t=1780338956; x=1781548556;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=DaRWeInCeAe7W+GkbfwDh90abPWsMVcbqpI5h2NPI9g=;
-  b=DBWcw+wMzL8QBkq+9UPAUNhYbFH3AacIYADxBWYis6+Q9eJUOpZTuWkR
-   U3zBDV4Oqwt4arYUxGkA/geuwg8Jig1kIInF5O++3AKl0dTdNRIuAmnM7
-   gOOIrsVhxywSq2kTCK087AAhmUNHqy26AhYjwG4jdLmZ/12HJWqsF/Ddm
-   4MTELgd8NRZGzzs+yJ392aJ6QbT85ahunV4syra36XGGrvnBFvlJL8Pre
-   ZGcpZsiS9RtDmsRg0++AiZJxWctyxnwCrUyYnXZgcQijs3mfVG97suMDR
-   WnF1VYD7/eUWpyvZAlzzItKRonuWiYFuHT3m4n/Hswsf96m7Y1+Jpgd8O
-   w==;
-X-CSE-ConnectionGUID: 59TIHeVuThyQSycfP1bQwA==
-X-CSE-MsgGUID: kd4hrbS3QZi+CQi1K1uIJQ==
-X-IPAS-Result: =?us-ascii?q?A0BAAgDRzx1q/5P/Ja1aglmCV3JfQkkDlCegP4F+DwEBA?=
- =?us-ascii?q?Q9EDQQBAYRAjXoCJjQJDgECBAMCAwEBAQEBAQEBAQEBCwEBBQEBAQIBBwWBD?=
- =?us-ascii?q?hOGTw2HEwF2XB0BJoMCAYJzAgERtRaCLIEBg2gCQ1DbKAEFBhQBgTiFP4gdc?=
- =?us-ascii?q?wGEeycbG4FygRWDaIEFgVwBAYIthXcEgiJ6EoF7jWBIgR4DWSwBVRMNCgsHB?=
- =?us-ascii?q?YFmAzUSKhVuMh2BIz4XgQsbBwWBSoFVaoEChRgjHwM5gReBf4ErbDYDCxgNS?=
- =?us-ascii?q?BEsNxQbBD5uB4tMFw+CNYEOLASCKKV2oQ4KKIN0jCGVOhozqmsLmHuOCZZPh?=
- =?us-ascii?q?GiBaDyBRwsHcBWDIlMZD444g2uBf8dKJDUOLwEBBwIHDgMLgWiRfQEB?=
-IronPort-Data: A9a23:rRx7kKsp8OxSar+ZRNwDGNe3lOfnVAVfMUV32f8akzHdYApBsoF/q
- tZmKTyBb63cZzHwLtklPN+38UMEu57XmoBnSAQ+qi0zQ3kRgMeUXt7xwmUckM+xwmwvaGo9s
- q3yv/GZdJhcokf0/0nrav666yEgiclkf5KkYMbcICd9WAR4fykojBNnioYRj5Vh6TSDK1vlV
- eja/YuFZDdJ5xYuajhKs/zb8Us21BjPkGpwUmIWNKgjUGD2zxH5PLpHTYmtIn3xRJVjH+LSb
- 47r0LGj82rFyAwmA9Wjn6yTWhVirmn6ZFXmZtJ+AsBOszAazsAA+v9T2Mk0NS+7vw60c+VZk
- 72hg3AfpTABZcUgkMxFO/VR/roX0aduoNcrKlDn2SCfItGvn3bEm51T4E8K0YIwp7dLIEFDy
- +EkKCE0VQGIidrvyoukY7w57igjBJGD0II3oHpsy3TdSP0hW52GGv2M7t5D1zB2jcdLdRrcT
- 5NGMnw0M1KaPkAJYwtIYH49tL/Aan3XaCBUtVefpaMf6GnIxws327/oWDbQUoDaGpsOzxzE+
- goq+Uz6Dk0aLtakkgO38zGHv+6WvnrmeaArQejQGvlCxQf7KnYoIBgbSVL+v/ijllO3X9NNI
- lAV/SwGqakp6FftX972QxqgunmGsxUAHd1KHIUHBBql0KHY5UOdQ2MDVDMEMYRgv84tTjts3
- ViM9z/0OQFSXHSuYSr13t+pQfmaYED58Udqifc4cDY4
-IronPort-HdrOrdr: A9a23:O9X7+6NKAjXGfcBcTvGjsMiBIKoaSvp037BN7TESdfU7SKKlfq
- yV8cjztiWE6wr5JktApTnoAsDpKhnhHPVOjrX5U43PYOCfgguVBbAny5f+yDv9HCC73Otc2a
- B8N5VaMrTLfD1HZQKQ2njeLz7mq+P3lJyVuQ==
-X-Talos-CUID: 9a23:660t+G+SjVN4PS8NlsyVvxNFJuEFf0PA8HfBGnSpAmhREbesVnbFrQ==
-X-Talos-MUID: 9a23:8pm15wYqX+LPt+BTtDOwhCtoD5xR0aXtI3kMyLZfpuimDHkl
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="6.24,181,1774310400"; 
-   d="scan'208";a="487639244"
-Received: from rcdn-l-core-10.cisco.com ([173.37.255.147])
-  by rcdn-iport-7.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 01 Jun 2026 18:35:54 +0000
-Received: from sjc-ads-12007.cisco.com (sjc-ads-12007.cisco.com [171.70.97.7])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
-	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
-	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
-	by rcdn-l-core-10.cisco.com (Postfix) with ESMTPS id 034F718000A71
-	for <meta-virtualization@lists.yoctoproject.org>; Mon,  1 Jun 2026 18:35:54 +0000 (GMT)
-Received: by sjc-ads-12007.cisco.com (Postfix, from userid 1840713)
-	id 9A612CB6A93; Mon,  1 Jun 2026 11:35:53 -0700 (PDT)
-From: "Sudhir Dumbhare -X (sudumbha - E INFOCHIPS PRIVATE LIMITED at Cisco)" <sudumbha@cisco.com>
-To: meta-virtualization@lists.yoctoproject.org
-Subject: [meta-virtualization][scarthgap][PATCH] podman: set status for CVE-2026-33414
-Date: Mon,  1 Jun 2026 11:35:37 -0700
-Message-Id: <20260601183536.3478585-1-sudumbha@cisco.com>
-X-Mailer: git-send-email 2.35.6
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=WmOric5y;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=061335ca30=haiqing.bai@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6521u6kb663579
+	for <meta-virtualization@lists.yoctoproject.org>; Tue, 2 Jun 2026 08:49:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PPS06212021; bh=DSYAm+vujUlBl0FajIf1
+	pY9Nouy8rE8LBqxveu95f1M=; b=WmOric5yqATjX6VC0U6ylQjkzChK4ik4NnlZ
+	+jTRzGiJfqZRYB5cA7oe1IC3atOQbYVYWM03FG6kHoh8ZSoIw6f/jZI0wMSdYqkD
+	DsZWZgqHhPbPggd6lQwiqvPUcqvq2NJ/2xIuwHir634JKgLwndqII1SnjFi+24Rm
+	1XH09GIK+oeKfedQoaRAt4cVYmqD1iaVr3PoCJBLd8iIwQoAYsXNvVvghIknnkep
+	JKcymc5w9bqn+rTfXWl1+GgrPBhtCqY0ncB0mnmQ7r3QZiuAPN/zO3Y+Ykh8xVRY
+	CmsMKfHeVtuw7w9/NoAPmCGTtyiiGQgnbhIR10LVDJ5IB0IwAQ==
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [128.224.246.36])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4efn404f30-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <meta-virtualization@lists.yoctoproject.org>; Tue, 02 Jun 2026 08:49:28 +0000 (GMT)
+Received: from ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.61; Tue, 2 Jun 2026 01:49:25 -0700
+Received: from ala-lpd-susbld.wrs.com (10.11.232.110) by
+ ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server id
+ 15.1.2507.61 via Frontend Transport; Tue, 2 Jun 2026 01:49:25 -0700
+From: <haiqing.bai@windriver.com>
+To: <meta-virtualization@lists.yoctoproject.org>
+Subject: [wrynose][PATCH] sloci-image: upgrade v0.1.0 -> v0.1.2
+Date: Tue, 2 Jun 2026 08:49:25 +0000
+Message-ID: <20260602084925.1052813-1-haiqing.bai@windriver.com>
+X-Mailer: git-send-email 2.53.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Outbound-Client-TLS: VERIFIED;sjc-ads-12007.cisco.com [171.70.97.7];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
-X-Outbound-SMTP-Client: 171.70.97.7, sjc-ads-12007.cisco.com
-X-Outbound-Node: rcdn-l-core-10.cisco.com
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: CjyQC39grsA5WYuLEt4WSPuwwSEc4uIj
+X-Proofpoint-GUID: CjyQC39grsA5WYuLEt4WSPuwwSEc4uIj
+X-Authority-Analysis: v=2.4 cv=GI441ONK c=1 sm=1 tr=0 ts=6a1e9918 cx=c_pps
+ a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
+ a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22
+ a=klDOsUkWDRETUCZYPvoE:22 a=t7CeM3EgAAAA:8 a=pGLkceISAAAA:8 a=NEAV23lmAAAA:8
+ a=sUjGZmjrdxG75p-aSnwA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjAyMDA4MiBTYWx0ZWRfXyqMljnQEbGPm
+ f+ceEzUzf/pDs4NKm6QDZZueLtHIAukdj5FfyLe1oEqXiJGjaLIdCo+9bxU4m5EexWvWtv7+4C5
+ rHfA77Jl6+tPmAGYZPBSOCAHgL0DXX6D7FPkox7JOkIZxljxOyvmij8mchlBM89niTk9l8ofmm4
+ CfHDn5ntGI0N0s3RCiYHRgkYs8WkCJwAXXJok10C3C2c24ZjRH+LNplBK0MHOL4MnC1rjdCHE7C
+ 1PNeoaBvRkImxnyNnIqgYUsaNUEB+Aj26qGX1+ofQPeV4bP62puiXqnezKwrHdrSRMsuFnt8Iy2
+ ple8R/EZ2w0g83TCmYevZfQYpS5Fh6P1Tf2x+frhNtB2WLpx5/vajfhvIk6tbkc+3FbFmZpVOLu
+ 1jSwtw088qoxXzpnu7cSpZUziF7vKcBGmn8X5aTXzqy81vjmP/tk0SW0HIWQ+H1G4/sq3JAdr/O
+ uY4kI27ym8FSByL6eHw==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-01_07,2026-05-28_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 malwarescore=0 phishscore=0 spamscore=0 bulkscore=0
+ adultscore=0 clxscore=1015 priorityscore=1501 lowpriorityscore=0
+ impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2605210000
+ definitions=main-2606020082
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Mon, 01 Jun 2026 18:36:02 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9838
+ <meta-virtualization@lists.yoctoproject.org>; Tue, 02 Jun 2026 08:49:39 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9839
 
-From: Sudhir Dumbhare <sudumbha@cisco.com>
+From: Haiqing Bai <Haiqing.Bai@windriver.com>
 
-The vulnerability only affects Podman's Windows HyperV backend.
-Ignore this CVE because this recipe builds for the Linux variant.
+Upgrade sloci-image to the latest stable release v0.1.2.
 
-Reference:
-https://nvd.nist.gov/vuln/detail/CVE-2026-33414
-https://github.com/containers/podman/security/advisories/GHSA-hc8w-h2mf-hp59
+Key upstream changes since v0.1.0:
+- Fix escaping issues when generating OCI image config files
+- Don't create top-level directory in tar archive (containerd compat)
+- Fix "--arch arm64" argument being incorrectly rewritten to "arm"
 
-Signed-off-by: Sudhir Dumbhare <sudumbha@cisco.com>
+Recipe changes:
+- Update SRCREV to b45be2e (tag v0.1.2)
+- Update LIC_FILES_CHKSUM for updated LICENSE file
+
+The existing variant quoting patch is retained as it remains
+applicable and is not addressed upstream (Upstream-Status:
+Inappropriate [embedded specific]).
+
+Signed-off-by: Haiqing Bai <haiqing.bai@windriver.com>
 ---
- recipes-containers/podman/podman_git.bb | 1 +
- 1 file changed, 1 insertion(+)
+ .../0001-sloci-image-fix-variant-quoting.patch        | 11 ++++++-----
+ recipes-containers/sloci-image/sloci-image_git.bb     |  6 +++---
+ 2 files changed, 9 insertions(+), 8 deletions(-)
 
-diff --git a/recipes-containers/podman/podman_git.bb b/recipes-containers/podman/podman_git.bb
-index b80b8d5b..44ee9e35 100644
---- a/recipes-containers/podman/podman_git.bb
-+++ b/recipes-containers/podman/podman_git.bb
-@@ -37,6 +37,7 @@ PV = "5.0.3+git"
+diff --git a/recipes-containers/sloci-image/sloci-image/0001-sloci-image-fix-variant-quoting.patch b/recipes-containers/sloci-image/sloci-image/0001-sloci-image-fix-variant-quoting.patch
+index 85aa6205..e1749b63 100644
+--- a/recipes-containers/sloci-image/sloci-image/0001-sloci-image-fix-variant-quoting.patch
++++ b/recipes-containers/sloci-image/sloci-image/0001-sloci-image-fix-variant-quoting.patch
+@@ -1,4 +1,4 @@
+-From 55aebd87ee81f851d088beea8688e3e599c2bced Mon Sep 17 00:00:00 2001
++From f153bc9b54b2d43e572873b7a5ca490b97d2353d Mon Sep 17 00:00:00 2001
+ From: Bruce Ashfield <bruce.ashfield@gmail.com>
+ Date: Fri, 17 Jul 2020 14:40:12 -0400
+ Subject: [PATCH] sloci-image: fix variant quoting
+@@ -14,12 +14,13 @@ when a variant is defined.
+ Upstream-Status: Inappropriate [embedded specific]
  
- CVE_STATUS[CVE-2022-2989] = "fixed-version: fixed since v4.3.0"
- CVE_STATUS[CVE-2023-0778] = "fixed-version: fixed since v4.5.0"
-+CVE_STATUS[CVE-2026-33414] = "not-applicable-platform: affects only Podman's Windows HyperV backend"
+ Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
++Signed-off-by: Haiqing Bai <haiqing.bai@windriver.com>
+ ---
+  sloci-image | 3 ++-
+  1 file changed, 2 insertions(+), 1 deletion(-)
  
- PACKAGES =+ "${PN}-contrib"
+ diff --git a/sloci-image b/sloci-image
+-index be8e79a..e0dc469 100755
++index 7c0c3bd..a9bcd44 100755
+ --- a/sloci-image
+ +++ b/sloci-image
+ @@ -298,6 +298,7 @@ oci_image_config() {
+@@ -34,11 +35,11 @@ index be8e79a..e0dc469 100755
+  	      "digest": "$manifest_digest",
+  	      "platform": {
+  	        "architecture": "$(oci_arch $CFG_ARCH)",
+--	        ${CFG_ARCH_VARIANT:+"\"variant\": $(json_string "$CFG_ARCH_VARIANT"),"}
+-+		${CFG_ARCH_VARIANT:+$variant_string}
++-	        ${CFG_ARCH_VARIANT:+"$(echo \"variant\"): $(json_string "$CFG_ARCH_VARIANT"),"}
+++	        ${CFG_ARCH_VARIANT:+$variant_string}
+  	        "os": "$CFG_OS"
+  	      },
+  	      "annotations": {
+ -- 
+-2.19.1
++2.51.0
  
+diff --git a/recipes-containers/sloci-image/sloci-image_git.bb b/recipes-containers/sloci-image/sloci-image_git.bb
+index e0bdad39..7c72c7d6 100644
+--- a/recipes-containers/sloci-image/sloci-image_git.bb
++++ b/recipes-containers/sloci-image/sloci-image_git.bb
+@@ -1,6 +1,6 @@
+ SUMMARY = "A simple CLI tool for packing rootfs into a single-layer OCI image"
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=948cd8e59069fad992b0469af9ad7966"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=896c8ffa3d0539d0d980d0217269969d"
+ SRC_URI = "git://github.com/jirutka/sloci-image.git;branch=master;protocol=https \
+            file://0001-sloci-image-fix-variant-quoting.patch \
+           "
+@@ -8,8 +8,8 @@ SRC_URI = "git://github.com/jirutka/sloci-image.git;branch=master;protocol=https
+ 
+ DEPENDS = ""
+ 
+-SRCREV = "4015e49763e5a738026a5bbfcf32b38b5a4fa650"
+-PV = "v0.1.0+git"
++SRCREV = "b45be2e049c5c55acb04a5edb017b793d2d9e677"
++PV = "v0.1.2+git"
+ 
+ do_compile() { 
+ 	:
 -- 
-2.44.4
+2.53.0
 
 
