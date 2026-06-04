@@ -2,89 +2,100 @@ Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 462E9CD6E60
-	for <webhook@archiver.kernel.org>; Thu,  4 Jun 2026 00:20:14 +0000 (UTC)
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.819.1780532409884680962
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 64DDCCD6E60
+	for <webhook@archiver.kernel.org>; Thu,  4 Jun 2026 00:41:34 +0000 (UTC)
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1254.1780533689453569818
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 03 Jun 2026 17:20:09 -0700
+ Wed, 03 Jun 2026 17:41:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=hEkDVK11;
- spf=pass (domain: gmail.com, ip: 209.85.216.46, mailfrom: ticotimo@gmail.com)
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-36d8b644473so84375a91.3
-        for <meta-virtualization@lists.yoctoproject.org>; Wed, 03 Jun 2026 17:20:09 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=Lk1uMp0J;
+ spf=pass (domain: gmail.com, ip: 209.85.214.179, mailfrom: ticotimo@gmail.com)
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2c0b944f6edso1368185ad.2
+        for <meta-virtualization@lists.yoctoproject.org>; Wed, 03 Jun 2026 17:41:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780532409; x=1781137209; darn=lists.yoctoproject.org;
+        d=gmail.com; s=20251104; t=1780533689; x=1781138489; darn=lists.yoctoproject.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=p2ySpjwkBGtrGOUBx0t7ny/3zS4gpFMqlOa0WdfLmPE=;
-        b=hEkDVK115t+XEG9kr4dHfND8WRu+2LCJxllRvq+El0MnNl7zPl6q20iaLDtNDE/2qA
-         MBWZpbagfm7eEUWzG7WSLojiK0xyH2+UwXaAsmGsf0bmGIpzw2lZ3etJrdr45nw0ZtPg
-         AZTv7DjuCYkwH5Yer3ioBGc/8/kciJPKXzn9DQFpO1Rf2t2ddRynIZIbxDn+m2eYCGFU
-         N/vlZwKnFSMGPMwIlx8ok1lll6fF5FOeTM+mCw8B4BXg42uyVEQxEaSp0bXAzh1cTkTU
-         X8dTTihhLjnbOPzXudm6IFsSecqN7ket+qU/2yk1YzrLMeIA/vsFImWB0O771LypqCLg
-         rCNw==
+        bh=0SF3QtKEMKe4Kv5sFWPv3vu7XRd2lqmgKZENJMx+1n4=;
+        b=Lk1uMp0JHJU84VMNroAjsmTJw3op6vCTWEJqgzxKXkJZK1jDHY8XQBpTa7Kqz9GyQP
+         z68ru6MKjq6c2LMxHWmYndOwkI5LnV3yNBjJX7S7MqmDY7RcZSOLbvxv3xX0g7nd26+a
+         QHe5+KtL/4s3j0MkWOWU1QWPfAVO1x3Z6gEwec4g+KA303lRB9Txv11VRAtMBo/xJ44U
+         xvcoz/T0SQAZ+XFVgHTpPZo4/xdnZOqNNJjX3YJSR9iTbHMEZoKxx1h5aeDGulab1Lah
+         IWa2U4PF4SyKnII1vIzADK4vj9KtGJqSXAdMclqyY54kDQsVyxJmQBrnGrc8IW1P5dsr
+         Gmzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780532409; x=1781137209;
+        d=1e100.net; s=20251104; t=1780533689; x=1781138489;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=p2ySpjwkBGtrGOUBx0t7ny/3zS4gpFMqlOa0WdfLmPE=;
-        b=YzI2rdXWq9CnlOpvhmZmoIqKEhR9/qUglIzUfUFm4njciIGyE/ALbnUe8Nx5jo5DKI
-         s8VPcOWXqQa93vvDdCcSOgu/+JIzvKSSZ4gqxWjDb5/MBhKts4/GRr9MuGcz4x+OCclK
-         Mx9ZStgkuY1WP60TNA8aaneuqLHXv1NC+xp5Ij0leIDhVzYpLIJmynKKloviitwG1e7w
-         Tkl2YPwmw59RpIKiIwIcJ3kqJFZnqH8p0DikbkNAANV6bXrmBkFTilFQK1xudaFitT8V
-         NkDQw7onQ8c7FvWZ8KdY0ktVRG/sV/LG+UEfbySXIYgelA5iGOnNJIES+2Aakgo1BWa2
-         wMMg==
-X-Gm-Message-State: AOJu0YyN4yyzlxhDHIhAyuaSLoLaTpCCCOJP4vOM/P0vaJZEoCUhbOFt
-	JIoAEPtULBPsKD3dps1YOyZ8dkNHgm+TIo5/jdN6XoGQDDEbFYWw5x+LUFI1Kg==
-X-Gm-Gg: Acq92OHy03e/rpWZZZUlUlBMSaXMgtgKrY7+xo4bm/aO7bN9n/ZIo+i310bUNP+6s7F
-	EkQliq9HOtwB+BUMFM29gfVjjPG89/kkyISHstVAm0QBVOigKxlXGAs0t6yH8iBE8j7Hbk6TbzS
-	tb6mqeNOpXYvTiQ/tw1HbP0y9sRbCos29fxZ5nrjAdvCr1MFGDQlVX2luTWWznvuBu/VVV3diiG
-	qRw7JJEsYHYHehyb5EUOpOjf1y/E5UqzQyXpDLKA6BkEXzKUBNS37buh0zQC/17Fua7IN/hd4YN
-	E5DGvxap2RJsJw8yOEW2eTx5nUqz8wUWaw95OJp7ZcdhlZYmEVMCZDUpuH0nB791whkzfUbw53F
-	XwjVXoANrOgDJ4tpmSzT5aXlbaFzkg/VOlOQe2RY+TcBxCxckfAAojrdCEZqDhPLEyaeKjh5NMM
-	NPqKH6IVmZYC6ThC3NmUv7gm6iflTrsnTYcH8IY6zGj3nGg+jZMDl8khn59SNdptXhoAKA3CFMc
-	5Tf6wsqYAV/oIABnZMx83q9kPaRdytepQ==
-X-Received: by 2002:a17:902:d48d:b0:2bf:2015:5b93 with SMTP id d9443c01a7336-2c163a2311amr59562365ad.11.1780532409225;
-        Wed, 03 Jun 2026 17:20:09 -0700 (PDT)
+        bh=0SF3QtKEMKe4Kv5sFWPv3vu7XRd2lqmgKZENJMx+1n4=;
+        b=btNFqQr9m6wS29qTiPIPz++bWkYb40Yq8X2QsVXBCr177of2Zg49G8jNA8/Ws4eI3k
+         gsIMNfIA8fpcvQu/wCC1tzEa5qKVsrzO4IzYIyhRo1YPXj3CDxLCVN63+Ge+6v8ERZd3
+         WjywANinOkGEJkgK9FPbWrnQFaz6ufK2taJxyEv4AehFYTNGA+egP+GwJjTUjtLyc6W9
+         RcJil03cJOjyGFE9gXhVGW8RjMGhA9nol1j14cEFspEtWRps2H+FfKiIBil6u1YomJt9
+         0New/d5AP/HEjpWscyDQ5CoBl+3CUqblpYTy9A2EfxzV1BxPliUIggNGFOS8TAPAcUsh
+         C2rA==
+X-Gm-Message-State: AOJu0YxL6UZWcmyCzDS9i7mmdFWqBrVw9zl22yZAiK2lnU29V60QgkCU
+	O3NB8mZYHg6FBiuj+jAl0MKpz+mqopcRwdnYBFaqIXXZyPj1NLH54IZIqH2OFg==
+X-Gm-Gg: Acq92OGhgmfyFAhiUCzPGr5dw6uEmq1riUDU/QT+mrEIgRw/g96HuiKRYYYmnHTqTjM
+	RNk/MmKjWlFfLezCSFTfj7NfKTlolz/kzw2k9MiYrl2/HKC+NjMeF9QCYbGMq/LqezlfxrsbRA6
+	rYYolj18hJKQ0HEcFi3EG4/VhWSLFJ8hjZKEeLfX2ygYLYym1pE98xuNulhAAX4JyjSemiZM8zE
+	8EkkaIw9gxSp0vrG0XhPsQTekeOaLGYtHCT2NmDNZcQKexJffhuFb2EVuttYt8irnkkXCIWfutG
+	mvJhkVEatkvqfsMNQGqdDhGhOIaJlDqu8BFUxBjnlnG72yvJunUfH3a1oyVqgMH9/HzV0FBa5M+
+	Aj8WShgs21ld4aHOUw6NlmvTcTfuPlgYIwxvxPNz7xp2hi9pjHJnFrxB3IEo2cLmjTDdd3VUOvg
+	0vZBrk3Ib4pRNR7kWyB0JZ/W4gomvSPnPsl3WRmuK0FGfIV/FmbL17AmJxkLqwXvnzdg4qiTNsi
+	ubQi7RV0cbHfX6XZUB4UuxN0wVhdCHLWg==
+X-Received: by 2002:a17:902:7d83:b0:2ba:7749:f89a with SMTP id d9443c01a7336-2c163a3f998mr41064595ad.11.1780533688778;
+        Wed, 03 Jun 2026 17:41:28 -0700 (PDT)
 Received: from localhost.localdomain (c-98-232-159-17.hsd1.or.comcast.net. [98.232.159.17])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c16629cfe2sm40000665ad.62.2026.06.03.17.20.08
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c164f87920sm39057215ad.24.2026.06.03.17.41.27
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 03 Jun 2026 17:20:08 -0700 (PDT)
+        Wed, 03 Jun 2026 17:41:28 -0700 (PDT)
 From: Tim Orling <ticotimo@gmail.com>
 X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
 To: meta-virtualization@lists.yoctoproject.org
 Cc: Tim Orling <tim.orling@konsulko.com>
-Subject: [meta-virtualization][PATCH] tests: add requirements.txt
-Date: Wed,  3 Jun 2026 17:19:31 -0700
-Message-ID: <20260604001931.96550-1-tim.orling@konsulko.com>
+Subject: [meta-virtualization][PATCH 1/2] container-image-packagelists.inc: add list of container images
+Date: Wed,  3 Jun 2026 17:41:19 -0700
+Message-ID: <20260604004120.97156-1-tim.orling@konsulko.com>
 X-Mailer: git-send-email 2.54.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Thu, 04 Jun 2026 00:20:14 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9846
+ <meta-virtualization@lists.yoctoproject.org>; Thu, 04 Jun 2026 00:41:34 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9847
 
-Add requirements.txt to allow versions to be pinned.
+Similar to ptest-packagelists.inc in oe-core, this list is used by
+container-image-multiarch.bb to provide common multiarch container
+support.
 
 Signed-off-by: Tim Orling <tim.orling@konsulko.com>
 ---
- tests/requirements.txt | 3 +++
- 1 file changed, 3 insertions(+)
- create mode 100644 tests/requirements.txt
+ conf/distro/include/container-image-packagelists.inc | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+ create mode 100644 conf/distro/include/container-image-packagelists.inc
 
-diff --git a/tests/requirements.txt b/tests/requirements.txt
+diff --git a/conf/distro/include/container-image-packagelists.inc b/conf/distro/include/container-image-packagelists.inc
 new file mode 100644
-index 00000000..b0ac705f
+index 00000000..6a50d0bf
 --- /dev/null
-+++ b/tests/requirements.txt
-@@ -0,0 +1,3 @@
-+pytest>=9.0.3,<10
-+pytest-timeout>=2.4.0,<3
-+pexpect>=4.9.0,<5 
++++ b/conf/distro/include/container-image-packagelists.inc
+@@ -0,0 +1,12 @@
++#
++# List of the container-image recipes in meta-virt
++#
++
++CONTAINER_IMAGES_META_VIRT = "\
++    container-base \
++    app-container-curl \
++    app-container-mosquitto \
++    app-container-nginx \
++    app-container-python \
++    app-container-valkey \
++"
 -- 
 2.54.0
 
