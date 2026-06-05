@@ -2,214 +2,177 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B65FACD6E6B
-	for <webhook@archiver.kernel.org>; Thu,  4 Jun 2026 12:52:43 +0000 (UTC)
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.10662.1780577556422226705
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8C9FCD6E6B
+	for <webhook@archiver.kernel.org>; Fri,  5 Jun 2026 03:27:38 +0000 (UTC)
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.665.1780630049602711612
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 04 Jun 2026 05:52:36 -0700
+ Thu, 04 Jun 2026 20:27:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=NXGbuWvY;
- spf=pass (domain: gmail.com, ip: 209.85.216.44, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-36ab8816a35so356638a91.1
-        for <meta-virtualization@lists.yoctoproject.org>; Thu, 04 Jun 2026 05:52:36 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780577556; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Zz8dMAek5cSA8pQdAa4Bo1j2T9ul1tFvZKSh/IRncmnFiz8MQ19TeipwhWrf19Rz8a
-         zP0sSjzcvGDQd/kFgGJQTnqvENBol6t1nqOXf13FTdjZAZ51uxlADwMXnoUAvahPBdYL
-         ngPgJrn+3VlaMdaRKkaI8TgJp/BmkWx0fqswRSIIt+pDz9xoNtk98NRbVVqEuxsx0MGw
-         LaiETulCXYKjuw/xHj86kBAKVsW8y2J0ZEVifvddElXECO5BdaNQlAeX86tDCH7mQsDd
-         JYJRpigAlY0Dy/yg2jeUoQDOkYRIOhbaFbMXfEwFaVCmHMSERgtvQEjNPY3xGoGxgA3m
-         ToIQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=bbNM2v58P3ntrkdKTNgRTmOk8Hj3HS6IX27TlmaaYuY=;
-        fh=DxRdbYpvaHIITytrWPyIPF9HTf5IcxABawiusvqypfM=;
-        b=asYGmgAAfGp0gdMpjWFd9S8F9DV9askEzPVgRN3BE68uK0TMFywidV5uvxpsX7XoGj
-         +exeDnWf7ojfXweo3+tVAcWK0VmR4CinRnAyzai7J+xajVb3Omfb/uE0OtoY4/mjl6Z6
-         cTzeMMvQ5gHTWI2/V1lli9JQmnUMstczZy3IFL9hzT88SaptiF/Icr+TiTHZ7qI79+Gx
-         BXX8j+xTF/DlzdNo//zS8c0FYiLEVB4bhCsS6+lTbYXdoGZcMS7XoU8RrQxZJc1b5b+3
-         GQ70Aha5zLxbj/1FtzGJl7jnE8rvUfmsEjE0rkLhPwYI6ZfvRIFGhUL64Usys2tqKCAn
-         v/VQ==;
-        darn=lists.yoctoproject.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=KtFTBgLj;
+ spf=pass (domain: gmail.com, ip: 209.85.219.48, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-8ccd1f57b32so13848026d6.2
+        for <meta-virtualization@lists.yoctoproject.org>; Thu, 04 Jun 2026 20:27:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780577556; x=1781182356; darn=lists.yoctoproject.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=bbNM2v58P3ntrkdKTNgRTmOk8Hj3HS6IX27TlmaaYuY=;
-        b=NXGbuWvYpziurNSQrtNyTmrRMmchhtaPcRg2JnbqGTFHuN/m2k1ciIeiLh/VVWMtTr
-         IA/pj0j2qe0NEKoAA3CSAq9FnwHZISJ3Zg+ex8fnDAR9FgheBmuAfyZ6E5QO6FpGFRzf
-         XAnbgiCCaxkOQRNSFqQw70JDOWZy1FbrrE2ildRWSKXjpqSBoOa0XNrUSkDxZoEAhVRt
-         b25GBka++YQR7rbhIF2LQiuKjlD8Gb/xLuLARobEdGmG+cvEP2NHEe5EtcJqJuhfdvGJ
-         OIzGkhNyQJcM6+NCi2EhASclsL4HTLBNduQuTXB5jRMyzt7KkmnbCYlxHmK810RJqIaV
-         FOAg==
+        d=gmail.com; s=20251104; t=1780630048; x=1781234848; darn=lists.yoctoproject.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=xy7AOHj32QYotz4kGvPyudIGqLwnFuw/0KJ+2UNZ6MA=;
+        b=KtFTBgLjmfQgtNbScT52zHu+APcfvukSLrB1S2NAZz1rNBQ30zL9ANkzlFUhAAqV2j
+         Wi4Luz2qhHzIke996eFcrTE7oHbjkEH+woyV/wqGHY2hIHEv9ufREEwcCag7lwOGZAgr
+         aLf43RjaQ8lz+GdXVavYwzJwTQt4/q5LsQBWSm3kYd2wtLdJK5gI+4nhuT5qWGtou6/Q
+         HEh0GEGdZthRfUXnhV+G5AGwMdzJo0i2U3RF2id4oFMd+LYntERG/fNKh9/0L07YvQ0P
+         XDILCmsCEo2Es0w9+Zb8XcBxm8F8opKxaZmVrCplzFE78SAgSDW5C9PVG3jaVZQpyzZT
+         OuuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780577556; x=1781182356;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bbNM2v58P3ntrkdKTNgRTmOk8Hj3HS6IX27TlmaaYuY=;
-        b=hfBKsjOkiT+UXXmtURkTVvJnUFybeFTno2Kq6VvKw4JHL0B4hJhkGv9xvcj4B7dJ3C
-         xGlQzAMW2gRg/Up0JyBXxZZKF4JfiG1YDRAIrTTXXoJs0RSi8dQwq2c6e+tPp2c/True
-         oTuTA96zT7os8i7gwtlEDWxe/h4352N79BFietDkDUy5TvQubaxEt70FK4YP2zrnFVfd
-         Ku/NAhZijrEhev/WIfpwFjwX3AwiNAb+eYqM4MrNnw1eTvDkNv1TplNVnwQ/UGKPi7sx
-         6E8PirNLb7/XQrP3huNgltMHoHGnF0p0SOogOP1waAbk00knBrBANCnmwmJ8nuiZo9Yp
-         t6jA==
-X-Gm-Message-State: AOJu0YyzhsNfhhbzW8pOhYJ2B8V+7VzfK2Q10tDoKjCwN2fKmZK1/UUv
-	gp1cwG9wXb4r8jwdKOynHKCfSQ+mCVVWN6JqMu6e0fEDUvLH8KWHXpfpY5aT2iRYH8+vjbpXKZK
-	mg2u7+NPWW6NpiTQgqPRo1TbL54zM0F8=
-X-Gm-Gg: Acq92OF8VaGj+ckIEnjqigD7wFFx+MAEE2oUPTPPovthmtJtdFc3GqKSG3oJJ1sO12D
-	fDOs+5VT/eliUXIvuemX2Eh2IaM73Z+F5mysjwGmVff9sQVVoqnceeAfsdt4Zqn6M28CP8WSVC4
-	MdNfsRwcp3jtOz18vaO2DCCHyJ93192BttCgPsTs/B0JAreHhYn/sn12pNvaACTwHQMRP77jSrQ
-	MRqvSwkAWm237WxuhwNDPbYh8EZjtwSJ21TI7JPaEjimVfC+CyTI+vQy7X+tT4iuNsLq/LkXoab
-	Ws95+GOqKuPTwzaCkVMOj/QOeP4QnTXvHuoWMhFk5H3RbL6C2OWJGgHHOVlgn1h/qT9kAmKubr5
-	TWcbjeq+Bw6KQDsxnlVNGcFbZdXzLj/pD5XOS
-X-Received: by 2002:a17:902:b585:b0:2c0:a711:53d with SMTP id
- d9443c01a7336-2c163fa4df9mr56973175ad.23.1780577555391; Thu, 04 Jun 2026
- 05:52:35 -0700 (PDT)
-MIME-Version: 1.0
-References: <UeWl.1780549185744414138.ZP1e@lists.yoctoproject.org>
-In-Reply-To: <UeWl.1780549185744414138.ZP1e@lists.yoctoproject.org>
+        d=1e100.net; s=20251104; t=1780630048; x=1781234848;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=xy7AOHj32QYotz4kGvPyudIGqLwnFuw/0KJ+2UNZ6MA=;
+        b=o2WR5CnetZdQ2kSX9tMx6EnkwV7lW67fWhbA4uEJNLoWALSpu9yhCBugDnRJCdGlX3
+         eaO41eVR4mvmcqjhTGwexvnLyLGqpHDK80YoxiMv8Fw8OPEFmC+Mrl7u3gOYB4Ut+Q3M
+         3+o6dkaXdcXiPDBd5VLkMyTAg/wvG9TxPAEkS+eyAyAz4wt15ssWn+C2yw+u31mpJYWf
+         0DlpYsFlQAc9unEeTpmAFk24xe7iLM8u2vl3z85eutojIPG69yzt4+6u37EvLiQszpZU
+         0ManI/t1yo3yW1ouA7tMq0/yuWunxe6hrNQEyqVF35KRr8z4PtkU2+zKeTm8eZc68cd/
+         Nv8A==
+X-Gm-Message-State: AOJu0YyL1ldM8bExLQblIXr0N3OE4X0375QsX9rpNfsBFHWSacDQxdle
+	GGdmbES4QYbfG1zPUbQvWWQVw6i5RVDi2Qw/DkZ3EyKOpq+crxtfnUQO
+X-Gm-Gg: Acq92OFXnMcVPKmtpZnrzWrP8cxssRrhK8/Bo2FwgvTVKbx4uH2S9ieBQYzTry9ZA9f
+	vhj6Ug7eAFIIrpIJqMc+6a5BflZdes15FNl7f95qUAEnjj6o4tP1CBbB3p5OQhx2Nbef6cmqZ3F
+	0pogdOe6BH2m6MS3e1IevNbCUOEfnLRY7f95vecjptqfrHAEBvGpr/eI1a5lfUracIlCugdtV63
+	FIUxjvP9UMVqfEjOcoYsP4r73lQo5B9IVWE1RGnbSvSFdQXFtsZu1jVCcHkL++aOmpiZveJLwhr
+	zEkeZUctFCtHA1HaKy6ZCL2Jlgz7JyrmGe57ZLqcESYqin3PDRWqnPWskvhoZczAHu9jKw5NU/V
+	MEfrb8Harv1DSWxQy5CNkspfBDUuMOEatfcbnx3ofDdd/x17eCRMD2EGwOn7ZR5JpRvGAP3/JqB
+	xicMqCia5pVrBLLvbyIYsj2vCnWKu/rQaP41V2TQYlKkudPe5C66ytXDqsTcugbdJKi8NyDfe6r
+	WHeB/xIJipxLdl1aq5sxAB/453vxaVR2AahX7z7kwWrDAjltGeB0ojz+LXYKZCxxbOH7SYxTvnQ
+	18ztLn/6bn5yezs8jvVf+OV5AxlUL5m7
+X-Received: by 2002:a05:6214:4246:b0:8ca:16a6:3d40 with SMTP id 6a1803df08f44-8cee5f9f6c6mr27370226d6.5.1780630048509;
+        Thu, 04 Jun 2026 20:27:28 -0700 (PDT)
+Received: from gmail.com (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8cecd06f5eesm71001276d6.37.2026.06.04.20.27.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Jun 2026 20:27:27 -0700 (PDT)
+Date: Fri, 5 Jun 2026 03:27:26 +0000
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Thu, 4 Jun 2026 08:52:23 -0400
-X-Gm-Features: AVHnY4JFu9g6oaU0e2UyVY0zGd5xv_bWptik2yAP9sYIf8rXcdTkwwS11EpN0oA
-Message-ID: <CADkTA4Nco-jJGC3TQOF+a=5MN7EioGAbDe=BTGaQZykDZsxgLA@mail.gmail.com>
-Subject: Re: [meta-virtualization] [Question] container-bundle:
- CONTAINER_SERVICE_FILE silently dropped (do_unpack noexec)
-To: mark.yang@lge.com
+To: Haitao.Liu@windriver.com
 Cc: meta-virtualization@lists.yoctoproject.org
-Content-Type: multipart/alternative; boundary="000000000000af2c6206536d04e7"
+Subject: Re: [meta-virtualization][wrynose][PATCH 1/2] libvirt: update to
+ v12.2.0
+Message-ID: <aiJCHhtN7Xmu6Ogl@gmail.com>
+References: <20260529030040.1487113-1-haitao.liu@windriver.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260529030040.1487113-1-haitao.liu@windriver.com>
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Thu, 04 Jun 2026 12:52:43 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9850
+ <meta-virtualization@lists.yoctoproject.org>; Fri, 05 Jun 2026 03:27:38 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9851
 
---000000000000af2c6206536d04e7
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In message: [meta-virtualization][wrynose][PATCH 1/2] libvirt: update to v12.2.0
+on 29/05/2026 jason.lau via lists.yoctoproject.org wrote:
 
-On Thu, Jun 4, 2026 at 12:59=E2=80=AFAM mark.yang via lists.yoctoproject.or=
-g
-<mark.yang=3Dlge.com@lists.yoctoproject.org> wrote:
+> Bumping libvirt to version v12.2.0-93a00a3db8c, which comprises the following commits:
+> 
+>     93a00a3db8 (tag: v12.2.0) Release of libvirt-12.2.0
+>     f9c95bdbd0 NEWS: mention new hyperv features
 
-> Hello!
->
-> On master there seems to be a contradiction between the
-> CONTAINER_SERVICE_FILE docs and do_unpack in container-bundle.bbclass.
->
-> The custom-service docs (bbclass header and docs/container-bundling.md)
-> say to
-> ship the unit like this:
->
->     SRC_URI =3D "file://myapp.service"
->     CONTAINER_SERVICE_FILE[myapp-container] =3D "${UNPACKDIR}/myapp.servi=
-ce"
->
-> But container-bundle.bbclass sets do_unpack[noexec] =3D "1", so the
-> file:// is never unpacked into ${UNPACKDIR}. The do_install loop that
-> copies
-> custom services then fails its "[ ! -f $service_file ]" check, skips
-> silently,
-> and the bundle ends up with an empty container-bundles/<runtime>/services=
-/.
->
-> ..Or have I misunderstood how this is meant to be used?
->
+This "NEWS" commit, is talking about new features. The 2nd
+digit bump of this recipe is not bugfix only, so it goes
+against the normal stable branch "bugfix" only policy.
 
-I was placing the file through other means during development (explicitly
-in a
-task) that didn't make it into the final classes / recipes.
+What are you trying to fix with this ? CVEs ? something
+else ?
 
-I'm just finishing up some system testing on upgrades in master-next, I
-have a
-fix and a new test for this that I'll push along with those changes.
+I need justification to go against policy and pick up
+new features.
 
-Bruce
+Bruce"
 
+>     8850040735 NEWS: Document 'handle' fs backend removal, blockjob backend zeroing and stats for '<dataStore>'
+>     d2c6b93f4e NEWS: Document IOMMUFD fixes and new features
+>     f5868958e4 NEWS: Mention VIR_CONNECT_GET_DOMAIN_CAPABILITIES_EXPAND_CPU_FEATURES
+>     473b1d917c NEWS: Document features/improvements/bug fixes I've participated in
+>     2f8013287a qemu_hotplug: Set correct iommufdState on error path
+>     e46934cd98 (tag: v12.2.0-rc2) Translated using Weblate (Czech)
+>     b96ea4db3a hypervisor: Call virWaitForDevices() after detaching host devices
+>     3a91192252 util: virfile: Don't over-allocate buffers in saferead_lim
+>     a719ab7344 util: virfile: Document the various functions for reading from file/fd
+>     4fc09da299 virPCIDeviceReadID: Fix use of 'virFileReadAll'
+>     59684e9cc1 virNetDevIPCheckIPv6Forwarding: Don't NUL terminate buffer from virFileReadAll
+>     747a74dd05 virSecretLoadValue: Don't re-termiante the buffer
+>     58b3a78aff virPCIDeviceReadClass: Don't write beyond end of buffer from virFileReadAll
+>     458c6a2810 util: file: Shrink buffer returned from 'saferead_lim' to actual size
+>     74b24ffc24 secret: config: Don't leak 'cfg->secretsEncryptionKey'
+>     4a363bdfe9 qemu: driver: Don't leak 'qemu_driver->backupPorts'
+>     f590a18da6 (tag: v12.2.0-rc1) po: Refresh potfile for v12.2.0
+>     9d99334bba Translated using Weblate (Romanian)
+>     d3667c0bad Translated using Weblate (Korean)
+>     d1223c502f Translated using Weblate (Chinese (Simplified) (zh_CN))
+>     a99d11bd22 Translated using Weblate (Spanish)
+>     b1d88f766d Translated using Weblate (Spanish)
+>     616c618a2f Translated using Weblate (Spanish)
+>     397b1f9cf0 Translated using Weblate (Spanish)
+>     0fa4d624fe Translated using Weblate (Portuguese)
+>     26263b5600 Translated using Weblate (Georgian)
+>     a8ee17c8a3 Translated using Weblate (English (United Kingdom))
+>     0f52d35b1b virxml: Fix virXMLPropTristateBoolAllowDefault() documentation
+>     a52ba0ae7b tests/virhostcputest: Remove duplicit g_autofree
+>     83f49f6335 util: Fix comment in virBitmapNewData
+>     e2e1b02ae4 qemuDomainGetBlockInfo: Add debug statement when updating disk physical size
+>     ce56dc26f4 qemu: monitor: Separate stats from capacity properties in qemuBlockStats
+>     5f081c4b2e qemuDomainGetStatsBlockExportDisk: Export stats also for 'dataStore'
+>     d731d54a57 virDomainGetBlockInfo: Log 'disk' argument
+> 
+> Signed-off-by: Haitao Liu <haitao.liu@windriver.com>
+> ---
+>  recipes-extended/libvirt/libvirt-python.inc | 2 +-
+>  recipes-extended/libvirt/libvirt_git.bb     | 4 ++--
+>  2 files changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/recipes-extended/libvirt/libvirt-python.inc b/recipes-extended/libvirt/libvirt-python.inc
+> index 6738193a..c37a9ebe 100644
+> --- a/recipes-extended/libvirt/libvirt-python.inc
+> +++ b/recipes-extended/libvirt/libvirt-python.inc
+> @@ -20,7 +20,7 @@ INSANE_SKIP:${PN}-dbg += "buildpaths"
+>  
+>  SRC_URI += "http://libvirt.org/sources/python/${LIBVIRT_PYTHON_ARCHIVE_NAME}.tar.gz;name=libvirt_python;subdir=${BP}"
+>  LIBVIRT_PYTHON_ARCHIVE_NAME = "${BPN}_python-${LIBVIRT_VERSION}"
+> -SRC_URI[libvirt_python.sha256sum] = "2cc02c0b91a9abd140185feab46b33281091d4deffbc1bbfdb68ce682359f2b0"
+> +SRC_URI[libvirt_python.sha256sum] = "742147988bba7d400f6892beeeb7e0a27758f10ff65421b569b7b4b6a2572e44"
+>  
+>  export LIBVIRT_API_PATH = "${S}/docs/libvirt-api.xml"
+>  export LIBVIRT_CFLAGS = "-I${S}/include"
+> diff --git a/recipes-extended/libvirt/libvirt_git.bb b/recipes-extended/libvirt/libvirt_git.bb
+> index 34a1ff21..cb5d3482 100644
+> --- a/recipes-extended/libvirt/libvirt_git.bb
+> +++ b/recipes-extended/libvirt/libvirt_git.bb
+> @@ -26,9 +26,9 @@ RDEPENDS:libvirt-libvirtd:append:aarch64 = " dmidecode"
+>  #connman blocks the 53 port and libvirtd can't start its DNS service
+>  RCONFLICTS:${PN}_libvirtd = "connman"
+>  
+> -SRCREV_libvirt = "9fa6beff05728a32dd11f7ccb7e3c97fca510029"
+> +SRCREV_libvirt = "93a00a3db8c8b5e3ee4a97ff2539193e5e7accff"
+>  
+> -LIBVIRT_VERSION = "12.1.0"
+> +LIBVIRT_VERSION = "12.2.0"
+>  PV = "v${LIBVIRT_VERSION}+git"
+>  
+>  SRC_URI = "gitsm://github.com/libvirt/libvirt.git;name=libvirt;protocol=https;branch=master \
+> -- 
+> 2.34.1
+> 
 
-
->
-> Thanks!
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#9849):
-> https://lists.yoctoproject.org/g/meta-virtualization/message/9849
-> Mute This Topic: https://lists.yoctoproject.org/mt/119641349/1050810
+> View/Reply Online (#9823): https://lists.yoctoproject.org/g/meta-virtualization/message/9823
+> Mute This Topic: https://lists.yoctoproject.org/mt/119542052/1050810
 > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [
-> bruce.ashfield@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
+> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end
-- "Use the force Harry" - Gandalf, Star Trek II
-
---000000000000af2c6206536d04e7
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-size:small"><br></div></div><br><div class=3D"gmail_quote gmail_quote_con=
-tainer"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Jun 4, 2026 at 12:59=
-=E2=80=AFAM mark.yang via <a href=3D"http://lists.yoctoproject.org">lists.y=
-octoproject.org</a> &lt;mark.yang=3D<a href=3D"mailto:lge.com@lists.yoctopr=
-oject.org">lge.com@lists.yoctoproject.org</a>&gt; wrote:<br></div><blockquo=
-te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px =
-solid rgb(204,204,204);padding-left:1ex"><div>Hello!<br><br>On master there=
- seems to be a contradiction between the<br>CONTAINER_SERVICE_FILE docs and=
- do_unpack in container-bundle.bbclass.<br><br>The custom-service docs (bbc=
-lass header and docs/container-bundling.md) say to<br>ship the unit like th=
-is:<br><br>=C2=A0 =C2=A0 SRC_URI =3D &quot;file://myapp.service&quot;<br>=
-=C2=A0 =C2=A0 CONTAINER_SERVICE_FILE[myapp-container] =3D &quot;${UNPACKDIR=
-}/myapp.service&quot;<br><br>But container-bundle.bbclass sets do_unpack[no=
-exec] =3D &quot;1&quot;, so the<br>file:// is never unpacked into ${UNPACKD=
-IR}. The do_install loop that copies<br>custom services then fails its &quo=
-t;[ ! -f $service_file ]&quot; check, skips silently,<br>and the bundle end=
-s up with an empty container-bundles/&lt;runtime&gt;/services/.<br><br>..Or=
- have I misunderstood how this is meant to be used?<br></div></blockquote><=
-div><br></div><div><div class=3D"gmail_default" style=3D"font-size:small">I=
- was placing the file through other means during development (explicitly in=
- a</div><div class=3D"gmail_default" style=3D"font-size:small">task) that d=
-idn&#39;t make it into the final classes / recipes.</div><div class=3D"gmai=
-l_default" style=3D"font-size:small"><br></div><div class=3D"gmail_default"=
- style=3D"font-size:small">I&#39;m just finishing up some system testing on=
- upgrades in master-next, I have a</div><div class=3D"gmail_default" style=
-=3D"font-size:small">fix and a new test for this that I&#39;ll push along w=
-ith those changes.</div><div class=3D"gmail_default" style=3D"font-size:sma=
-ll"><br></div><div class=3D"gmail_default" style=3D"font-size:small">Bruce<=
-/div><br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"=
-margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
-t:1ex"><div><br>Thanks!</div>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#9849): <a href=3D"https://lists.yoctoproject.org/g/meta=
--virtualization/message/9849" rel=3D"noreferrer" target=3D"_blank">https://=
-lists.yoctoproject.org/g/meta-virtualization/message/9849</a><br>
-Mute This Topic: <a href=3D"https://lists.yoctoproject.org/mt/119641349/105=
-0810" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.org/m=
-t/119641349/1050810</a><br>
-Group Owner: <a href=3D"mailto:meta-virtualization%2Bowner@lists.yoctoproje=
-ct.org" target=3D"_blank">meta-virtualization+owner@lists.yoctoproject.org<=
-/a><br>
-Unsubscribe: <a href=3D"https://lists.yoctoproject.org/g/meta-virtualizatio=
-n/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.or=
-g/g/meta-virtualization/unsub</a> [<a href=3D"mailto:bruce.ashfield@gmail.c=
-om" target=3D"_blank">bruce.ashfield@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
-=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
-ignature">- Thou shalt not follow the NULL pointer, for chaos and madness a=
-wait thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star T=
-rek II<br><br></div></div>
-
---000000000000af2c6206536d04e7--
 
