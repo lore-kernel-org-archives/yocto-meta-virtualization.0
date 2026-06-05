@@ -2,139 +2,128 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B6094CD6E6B
-	for <webhook@archiver.kernel.org>; Fri,  5 Jun 2026 03:31:58 +0000 (UTC)
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.712.1780630310141902053
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D70E0CD6E6B
+	for <webhook@archiver.kernel.org>; Fri,  5 Jun 2026 03:33:38 +0000 (UTC)
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.737.1780630415037924180
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 04 Jun 2026 20:31:50 -0700
+ Thu, 04 Jun 2026 20:33:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=e74/NO2D;
- spf=pass (domain: gmail.com, ip: 209.85.222.175, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-91550dfc11fso163121785a.1
-        for <meta-virtualization@lists.yoctoproject.org>; Thu, 04 Jun 2026 20:31:50 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=S1znAnXS;
+ spf=pass (domain: gmail.com, ip: 209.85.160.171, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-5178a42caa3so12810961cf.1
+        for <meta-virtualization@lists.yoctoproject.org>; Thu, 04 Jun 2026 20:33:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780630309; x=1781235109; darn=lists.yoctoproject.org;
+        d=gmail.com; s=20251104; t=1780630414; x=1781235214; darn=lists.yoctoproject.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZbZYdGuSkZEMJ5zAEGoAqIkMLqKKcXFTRtHxQgm345w=;
-        b=e74/NO2DDeitc1kGeFMcKZHJm4pw+jRZ/J/9fc7HJzamyxQ4KB6LKhLVyz7hkfjQIM
-         ybLAX4MeEtNgiKLIc2Y/GyVbzyraXosPVPfS7UEkFfc7RjrYpIgw7HWmiQYqy78zVkmd
-         ezyfEopWJIspGfCz4oPE74RRPG3/FDiPl/1sZwm4Y0QfBT+Fg8mS6tL1aESbAUSdXoTE
-         AOSQcfIgTxlxqdW4F79gBedcti0BN/J7/ugT2fY+/dUjaZYcHlXsIosU6bZGfoheS8M7
-         Rs73X5AmaMOt5b6BjraJr0DcKiLZHR99WNObB48OrIDbobVbv/tmcSitDIDC/jeYkpwX
-         xInQ==
+        bh=1Tsk1IHcqsK9lsSWaOKroqXG11hIhRWBz1IDjaK+anU=;
+        b=S1znAnXSyvWYTyGf0KADwZrCuPusPWkpa30GWrtvHban6Z6VhLSIavWN7T+ediyfn+
+         9TBXPLUOAtg+rxbI6ydrIWlpzPXvdaJmV7brShiLua45NCYYr0lM8XHfH0gPN2DTp2bQ
+         BcJ8fjtJYdEZVxYz4AwyJjW6W9G4K08GqkGL/43HeTqYZWRsodTi06ms3mdDtXSgq9P3
+         ByGarkg2CX65ZMJYoSfE8SI55IHzRtFPXTlzJ6GPcXDQwdqY/FU/eCGQTHQUaDTU0clz
+         jtMNZ1E1DUhZkXHJF9aTXmTl0f75iWul5vygxxHktXhL4yRJ84s7BfY1ShYeeCPHP6zR
+         KBWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780630309; x=1781235109;
+        d=1e100.net; s=20251104; t=1780630414; x=1781235214;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ZbZYdGuSkZEMJ5zAEGoAqIkMLqKKcXFTRtHxQgm345w=;
-        b=OfG3vAWCM8MR+PVSS9B3lMX2Adfy5z/AniyDSMpJVpy9e4/usMq0ywWTXhE30Wbmrp
-         iBg9nWVGLX43MfaBr1pKUXgu4/AmE+cOqkM5Z+e+4szP6WqC4lPIFTxxfQ0rv28Ms5D1
-         iYb/KcPzveUmKJKexQDdBqUvsmxeHKWAuM3pnWod2d0ylp5A5NAu+WLmTc9ofydSH9Eb
-         kBZHMTWqlRHBotJssQ3CtZAaq7iyMp7re9hHcIfE9CbU2fxh+HMszxk2bGLzPCqYGWhE
-         w1grKOLxXbHma6URhG8B/M4KWArC4OWo95EW/opDGms7tn2y9k25bUM3rh6kTGlGIiZf
-         VfOA==
-X-Gm-Message-State: AOJu0YzuLfUCQ4f29rah9iivGklFfhSu8+TXjozaUZ8IuStzRPtDPNf9
-	7LGzsAsiNx7j7V2dzxJdGsC/h0pGGAVIE95Xks6jNE4oZsvENFyFodUF
-X-Gm-Gg: Acq92OGG9XAgnsyfV7m/Uqk1kaVxWlBOiuI2ya/z6378wgZ/sFYkZyOamNesNr4oZwm
-	6iNRL938XdzoH+u1GroOcVnkSo1QMEunXYQb/nVxkPF/iwy0vFukA0P448+kw8thrLkbpS1/uqP
-	GZICHfZB97JeJAog42TpPejEcH0Rh8HwaMWvgN1B4/EZx6VEYUS7T6rivrsHjVi4bvNBlqZclai
-	4zihR8cgfMWmw7hZrq5faTm4Btu3mmKkvu952dozMMd9zkX3TtTO6HZRwxUSYRlPITQH4FCRjWM
-	bqfUtdJ2nwv/r46mpryiqfeNx4bVTfrkF+RJ9upkmbaFirZOBTa+t/mT6L5HQScKgt8mPW/99Rx
-	AgbmaeP2JgbQ5/1z0a3fBGCHh+20oBkGxYzXGh7m6LD3pxbZ9e0yvO8x37TubhP4pjBsbPWDypZ
-	tNtU0rVcUGhqkgEDPWZk4DNRkxEaDnkVt3Vh/eeKPd8uBw+oK3VfZxSztu5IWprPq7Is6mvtM0L
-	kjDl2xKQZ+kyfsrqJmNE1HRe5VXFkiSxORoMJF6JHFE7Gh536vX3xik3BFpKWS2R9y8TsnFTgzN
-	332b6DmQipFE2Y5jJenFzS9d7K960Blv
-X-Received: by 2002:a05:620a:410f:b0:915:8502:f7fd with SMTP id af79cd13be357-915a9c9afc5mr366705585a.17.1780630309069;
-        Thu, 04 Jun 2026 20:31:49 -0700 (PDT)
+        bh=1Tsk1IHcqsK9lsSWaOKroqXG11hIhRWBz1IDjaK+anU=;
+        b=L8+JcjhlOIMIRQiE87Jfk5C83XGvUm62BsgM3zG4gflqJLcoTEXhS50ityAJWE8qE4
+         4adSAtdU1g/jZLs2X5GsYkULacq6jEIy+PxKz6Ycl6Qu7pvXI+gDpJe5sXEB8p4+jRkQ
+         q3Wa4vY+CYGUcBwt1NDpPZwbD5xle1oc1vk0xPGiAdnwDVDA96Js4w/jcFqfCCh91OUt
+         2mUQ8yzURx93L+xV1iMEngCeEXdOwCBND/tWKd/r0atkm/vFFMbDK0FjwK1BK/zshi2x
+         Uy5EadsUEgj83g5otxxyofrZ5w2hbUrKsmmEljgioN4rJjH+bPZ0Ku197yPoKIXW2eNM
+         +0Lw==
+X-Gm-Message-State: AOJu0YzOBEui3cpJBJ8d/4jKsPbPzoKfXTvQzE2bh6y27+J2MjiBmuAy
+	G3D4hSvcsNSlYLaaPBDptl0J0BywF/k67JI2KFW8VSlZ00nyme48mtn9Po2URxCS
+X-Gm-Gg: Acq92OGnv47DapEArx47BegZFzXN4p/dpIuTfYLtMdyrzsk6+Dwp9SgwlrBYrwETCMf
+	U6K9erEAWEEmlALCOuAcwonCz9TdCYTSuDfjqOhfpQxBgfWKSFejMPmWw6NK9LqmeNXDIQqhF27
+	vk+Sphbwc7sgsJLmAhuBDOY1HbTEUpljO3dB0UtunTaqsMUEn5EKN8ui/VZz5I1LFT8GANlVBI/
+	JDez7CSE4Pb37DGFmQnx5JSkZhbHoFzH3wz275oTIFf9m90tgqX4JUkD159qUfSNuBuQ5efzB3A
+	S41dACoGGiM48zY7uXVsDjy13pEk64Y4jNt23qTAhHnV+8RqAPQMT1zRus4QmKNzKtefJd9iCjk
+	OaaB6tKBjnoQVfgl+Gn7Utkwu7qRFGqhMJwiho0rZbZxvmXj345/d3V2q408KTi/kj0AxcUMcad
+	won2R8s6ZcpvehcXnKZPjNCNK5xMgDlzyz72h6iY7OM7TTeljtB+hHxPlDoFZouHamjHjPG2HNe
+	hf7PICYx3exNVQOC05oXFUw/qpMS8fB4QmpfB6uUKrPWIf3bfUQV0ZTxMYJ+mxebSIBoJ31s5BL
+	tbgbMgal7SU73qb2Jz++czMZ+UvreArV
+X-Received: by 2002:a05:622a:4c13:b0:517:5bc6:b575 with SMTP id d75a77b69052e-51798673664mr9552791cf.4.1780630413973;
+        Thu, 04 Jun 2026 20:33:33 -0700 (PDT)
 Received: from gmail.com (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-9158a3c764asm781573585a.37.2026.06.04.20.31.48
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8cecd077be8sm70020796d6.40.2026.06.04.20.33.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Jun 2026 20:31:48 -0700 (PDT)
-Date: Fri, 5 Jun 2026 03:31:46 +0000
+        Thu, 04 Jun 2026 20:33:33 -0700 (PDT)
+Date: Fri, 5 Jun 2026 03:33:31 +0000
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: ticotimo@gmail.com
+To: Haitao.Liu@windriver.com
 Cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [meta-virtualization][PATCH 0/7] Container improvements
-Message-ID: <aiJDIinJWZhO4Jid@gmail.com>
-References: <cover.1780104071.git.tim.orling@konsulko.com>
+Subject: Re: [meta-virtualization][wrynose][PATCH 1/2] openvswitch: update to
+ 3.7.1
+Message-ID: <aiJDi26A0vKWSgvu@gmail.com>
+References: <20260601090145.412741-1-haitao.liu@windriver.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <cover.1780104071.git.tim.orling@konsulko.com>
+In-Reply-To: <20260601090145.412741-1-haitao.liu@windriver.com>
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Fri, 05 Jun 2026 03:31:58 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9853
+ <meta-virtualization@lists.yoctoproject.org>; Fri, 05 Jun 2026 03:33:38 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9854
 
-Just ack'ing the series.
 
-I'm working through issues with the recipe bumps right now, but
-will get to this shortly and have a closer look.
+
+In message: [meta-virtualization][wrynose][PATCH 1/2] openvswitch: update to 3.7.1
+on 01/06/2026 jason.lau via lists.yoctoproject.org wrote:
+
+> pick up the following commits:
+> 
+>     7921d9c69 Set release date for 3.7.1.
+>     e1b82e9b7 github: Temporarily disable system tests for DPDK and AF_XDP.
+>     a9785c7e1 conntrack: Fix replace_substring to handle larger packets.
+>     7dc6fb7ba Update DPDK version for older releases to 23.11.6 and 24.11.4.
+> 
+> Signed-off-by: Haitao Liu <haitao.liu@windriver.com>
+> ---
+>  recipes-networking/openvswitch/openvswitch_git.bb | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/recipes-networking/openvswitch/openvswitch_git.bb b/recipes-networking/openvswitch/openvswitch_git.bb
+> index 87790090..8dcb7ca4 100644
+> --- a/recipes-networking/openvswitch/openvswitch_git.bb
+> +++ b/recipes-networking/openvswitch/openvswitch_git.bb
+> @@ -13,12 +13,12 @@ RDEPENDS:${PN}-ptest += "\
+>  	python3-resource findutils which diffutils \
+>  	"
+>  
+> -PV = "3.7.0"
+> +PV = "3.7.1"
+>  CVE_VERSION = "3.5.0"
+
+Not related to your patch, but it looks like I missed the
+CVE_VERSION.
+
+Can you do a v2 with that fixed to match PV ?
 
 Bruce
 
-In message: [meta-virtualization][PATCH 0/7] Container improvements
-on 29/05/2026 Tim Orling via lists.yoctoproject.org wrote:
-
-> This series:
->   * Adds a class to create/run containers with a non-root user
->   * Adds new containers:
->     - app-container-python
->     - app-containter-mosquitto
->     - app-container-valkey
->     - app-container-nginx
->   * Modifies app-container-curl to be more like the upstream
->     experience (and more like the above containers)
->   * Allows meta-webserver/recipes-http to be parsed for
->     vcontainer distro so we can build multiarch containers
->     for app-container-nginx, etc.
-> 
-> Each of these containers was built in a MACHINE=qemuarm64
-> environment as well as mc:container-amd64+mc:container-arm64
-> multiarch environment.
-> 
-> The resulting containers were tested with simple command line
-> usage compared to Docker provided equivalents to ensure the
-> same expected behavior.
-> 
-> Tim Orling (7):
->   classes: add container-nonroot-user.bbclass
->   recipes-containers/images: add app-container-python
->   recipes-containers/images: add app-container-mosquitto
->   recipes-containers/images: add app-container-valkey
->   recipes-containers/images: add app-container-nginx
->   vcontainer-bbmask.inc: allow meta-webserver/recipes-httpd
->   app-container-curl: use multilayer mode; container-nonroot-user
-> 
->  classes/container-nonroot-user.bbclass        | 68 ++++++++++++++++
->  conf/distro/include/vcontainer-bbmask.inc     |  2 +-
->  conf/layer.conf                               |  1 +
->  .../images/app-container-curl.bb              | 29 ++++++-
->  .../images/app-container-mosquitto.bb         | 46 +++++++++++
->  .../images/app-container-nginx.bb             | 77 +++++++++++++++++++
->  .../images/app-container-python.bb            | 57 ++++++++++++++
->  .../images/app-container-valkey.bb            | 61 +++++++++++++++
->  8 files changed, 336 insertions(+), 5 deletions(-)
->  create mode 100644 classes/container-nonroot-user.bbclass
->  rename {recipes-demo => recipes-containers}/images/app-container-curl.bb (58%)
->  create mode 100644 recipes-containers/images/app-container-mosquitto.bb
->  create mode 100644 recipes-containers/images/app-container-nginx.bb
->  create mode 100644 recipes-containers/images/app-container-python.bb
->  create mode 100644 recipes-containers/images/app-container-valkey.bb
-> 
+>  
+>  FILESEXTRAPATHS:append := "${THISDIR}/${PN}-git:"
+>  
+> -SRCREV = "0d4c78e153d2b22ab1b173cd4a4dfff89002666d"
+> +SRCREV = "7921d9c6924b8934ea1de9481891ac1172649280"
+>  SRC_URI += "git://github.com/openvswitch/ovs.git;protocol=https;branch=branch-3.7 \
+>              file://openvswitch-add-ptest-71d553b995d0bd527d3ab1e9fbaf5a2ae34de2f3.patch \
+>              file://run-ptest \
 > -- 
-> 2.54.0
+> 2.34.1
 > 
 
 > 
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#9826): https://lists.yoctoproject.org/g/meta-virtualization/message/9826
-> Mute This Topic: https://lists.yoctoproject.org/mt/119557384/1050810
+> View/Reply Online (#9834): https://lists.yoctoproject.org/g/meta-virtualization/message/9834
+> Mute This Topic: https://lists.yoctoproject.org/mt/119587461/1050810
 > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
 > Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
