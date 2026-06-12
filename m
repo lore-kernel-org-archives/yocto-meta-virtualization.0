@@ -2,156 +2,233 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E940CD98CF
-	for <webhook@archiver.kernel.org>; Fri, 12 Jun 2026 18:24:03 +0000 (UTC)
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.76908.1781288633946569204
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50D48CD98D2
+	for <webhook@archiver.kernel.org>; Fri, 12 Jun 2026 18:39:13 +0000 (UTC)
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.77090.1781289546486307958
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 12 Jun 2026 11:23:54 -0700
+ Fri, 12 Jun 2026 11:39:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=sDds/As2;
- spf=pass (domain: gmail.com, ip: 209.85.219.42, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-8ccf6a63a45so16474746d6.3
-        for <meta-virtualization@lists.yoctoproject.org>; Fri, 12 Jun 2026 11:23:53 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=C669i+PA;
+ spf=pass (domain: gmail.com, ip: 209.85.222.169, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-9158fbaa4bbso148490685a.1
+        for <meta-virtualization@lists.yoctoproject.org>; Fri, 12 Jun 2026 11:39:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781288633; x=1781893433; darn=lists.yoctoproject.org;
+        d=gmail.com; s=20251104; t=1781289545; x=1781894345; darn=lists.yoctoproject.org;
         h=mime-version:content-transfer-encoding:references:in-reply-to
          :subject:cc:to:from:date:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=UdVMSI0afJpIaiGvjgcsGkzlijZafSGfwBZtjtKhp9E=;
-        b=sDds/As2QDbeOUDl5aGHJKbacYRvMZU+ITOJ5nrHbpmgY1xEZykcqfszgA2oIMwxjK
-         MxpcEIMCkYs2YRPFPmq77R0aWwsFRitJaCg0ReSpBHCBeoejXqB0OvL0cQnlBzTEipzY
-         FUp2b8IRG4s8pwoMoA4Vu2lQjRhn5TbwBwyJAtRO6jAr7XVYeTEnXmI8bUZnvNZ1Z9Kc
-         FNKLr8+CaMlCXke5ks9RimaR+mGT7uDwpzyeASSM8RQulXlTPqQm6mEr8IE0T+Urj/9v
-         l5oBTzS8+NYpuLrvngcM8xiI85TPfcyPndY42MmJQkmOKuKbyz/8U0IZSTsfK1rAbJMz
-         3LPg==
+        bh=HjtK3oZQE7RUdGBqf5NeMnlB43AeBQfq/4h8eeaC9LA=;
+        b=C669i+PAx4ESQ9yeH+zAYoVPy2C6UU3kyEP4c6C3ZyM/Zy861YWporqBHRfIqB42Yn
+         umlwm77vHwStUuIR80rOUlxVA+wawFYBnS1BZkUUmwYGXEWZwz7bUlYnbCp1Rd9G4FYk
+         PvAPIqvqHMeNOGYd5DJAjcFL645o9EuIOfw6kPK6RPbBIFVRURDQlhTOHOJ90qUQ3ojY
+         RjKHJEafK6pVztZcHeP+w9ofPMfGC3Z7eMF0llwGGhr4TG6lv8Xjl1rK+npB1O2yd2gg
+         +MaKjADasDhLz4UMgMkp+1sw5Y42JVrjIaOHMGNZcucKSP0+D7CFvF23sZAA7BhwxKg6
+         cz8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781288633; x=1781893433;
+        d=1e100.net; s=20251104; t=1781289545; x=1781894345;
         h=mime-version:content-transfer-encoding:references:in-reply-to
          :subject:cc:to:from:date:message-id:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=UdVMSI0afJpIaiGvjgcsGkzlijZafSGfwBZtjtKhp9E=;
-        b=D6XYmjvPPS/2j1J0ZZRlJvDqdf6cS1TG6JwFvH4xToAsHsxSc7yahDsDwTe8t3urx6
-         Y3EIlvMxPCYSW+ZqYSa5FlgpnPw1GgVBgpVEoVjJMe/z4T1tfnrTCiXex+yLHoT2GfHf
-         1a7UZIv7pq4uqWXoGGstdMaxvoTGFCzlPqkf6EqUYoKT4cfHbY/dX6JCfjCDPAtvgbwU
-         46XH+uD3mDZK4kmRKH/KLt02twfBaq7t9CN0EdZsXOxIPK9xaLEMfwhhhW4G90i6fbxf
-         td6CBywn05eDI+6NdZrT+R2W9psgG7aIxXzaC0zM6quHIB/T5BzCT9d4JoDtJqqxAGm8
-         qqQw==
-X-Gm-Message-State: AOJu0Yxiyobolqmcdu9H2d0DSvBubMdJ1krDjhpZkkPo98lrhS3nhSZ0
-	pbdpcCmWvSoS3FtlRAyiDcnAMoxrxbnj04bKS2r63kTEGOA74VqBYCda
-X-Gm-Gg: Acq92OFfHh5bai3w4BHSsIU2GgipjT3x+g1SA4dlIpt+hFLWkARzSkCiGZxL8miiwl3
-	kHkiXjk1A69bjJAhgqlVZKsY8NFGZN8AQ+L+nxcNsFEk7ntpQ6BB7Xnd5bzuscgUk2+SLYCapMk
-	lcebUq3gGoq3sngTeQ46+mEPwvTN02YM8dJ0BfAXpq2mzQKeZMqjTqBuYa1DotK5NUc8bqmkCKi
-	nO2z74V7qcJwl5ZuI0Z22H49+COuWbQWgH0Ljm1NC2FFx5CvNhPR0UGHpIUAvPL6HX3MwKEaTwS
-	d9nuwDLdS0kTDwe5DpXoJz4YoSm6Ev5ldD2y8acpIOdTss2tRBImsXinE8zCnqLWXsYVZ1Ch6sl
-	1zQ0Pq3GiLYjQI1o3cO7/JmbhZXo1bJ97rnVa+4ZJw4HyzdsB+4xy9yohQIlsUqal1+ACa8N9uf
-	NuYnY6zDtMAhu8hL+rFlrODFsVSbabap8OZfuiKSYP7BZwGSMY5jcTcVStqkkZ99hTqjpzCOapS
-	V4SC4X70diZXMll1lu8WO17su+JlddksKQj36pnDR/+QNORj01Uq8cG9ZcxiZt2wMnYeLoRbIZh
-	7NvpBUDonjD7ZQ+BP80sgrURHgCSW9kI68I=
-X-Received: by 2002:a05:6214:500f:b0:8ca:1ddd:a6b8 with SMTP id 6a1803df08f44-8d32c7ce63bmr75041416d6.14.1781288632856;
-        Fri, 12 Jun 2026 11:23:52 -0700 (PDT)
+        bh=HjtK3oZQE7RUdGBqf5NeMnlB43AeBQfq/4h8eeaC9LA=;
+        b=lVBLDGtoVjnPz6gFcK/NLdqhmSvEQbP6YWotshHTzZWS9n+sgOQC6u6LZZxJT4exBP
+         L22q4sM8Pn+0UgjgKO2YdXE4G4CY32or3XXGjMx98uGF5mlWcKwo7LXWQNcvNP+NfhP1
+         jXDxAkeR+fny1BXGfwm2eR571V8PEjVo8SD2MTQY1p57+3FS6LEMGxysd3+qKGnBbxlg
+         yfatdVVxHHkJjqxahrBDBDdK8hLxgUeXwXYDLCEN13Yt3LZsYTGiyZ0X1KrDlPKWTcc9
+         f0urLcRvdtR2h0aBcc4nh15xnZVZTGw6S60Ba32qx23BFGVk4J+BPQZ62B077xjupe1J
+         98zA==
+X-Gm-Message-State: AOJu0YyxiF3Kr7rNLbaUsMWTQPjcoiiBpPgLjw4yj0TOL476ufRPQL3y
+	eY7P8Sk9qwLjtM11P300XzCHpjxYZYnbNQ632Ey+op1EMQoFRTl+4aSLv3w7VSL5
+X-Gm-Gg: Acq92OHIgrhEeVOA61EcTSql3ZfJez1K8/HM4eKlVNEzG2AbYrZIWaOR7QHs20BfTGh
+	X/x4lbNXqwph+Vsmw+V54c6vG0TiH99RoUYcRfAMkb8F5myd7FWqGSI7ovxBiUL9Br6zrOspcTw
+	DjjDl/9fgedsek/wX3uE7vZ3/DIuiVKrEYBQG/sZ+9F426fnVXffeVFqXAXeCsS/wOw5AO7cdV9
+	xAJyRSPpgJn/YPp0snpcRARpgLK/hWCxgifQoO3WNykdoFvVYSXJsj2baVv/gadAnYTy8IHw5i+
+	GWgJWDYG8bR6V7gwuQgynk5MpS8zvsopBvTDEDjG/n7X+apqZ2N4Jq5kApbrZp/jrMNRYs0LQ5Z
+	9RVYL58kcCueEm2qSuw45o1JT2yF7ZsbUn+4Li3xBSUx2t14EDLqCofSHbInaFzLRqJxI1+wjc8
+	WQnmCKwGnZBzynre1020MVIv1h2ni10EzIw1j9/hCpnLwBdQyaPT2tC2OppZ7wDwxSKCMA6A9Jb
+	18Eaq2tTODNcsIvT28+QNKLX7G9Hnv/DBX08sk9K14gMgXSmedT7F1GgoOywRIAb3x/NG5QvmR4
+	M/EBSaqruTjPpyVSavO04h0G
+X-Received: by 2002:a05:620a:6cc3:b0:914:bc2f:baf7 with SMTP id af79cd13be357-9161bac437bmr603722885a.4.1781289545270;
+        Fri, 12 Jun 2026 11:39:05 -0700 (PDT)
 Received: from [127.0.1.1] (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8d302211f20sm30631686d6.21.2026.06.12.11.23.51
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8d302211f20sm31021596d6.21.2026.06.12.11.39.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Jun 2026 11:23:51 -0700 (PDT)
-Message-ID: <6a2c4eb7.b63906d5.2d75f7.312b@mx.google.com>
-Date: Fri, 12 Jun 2026 11:23:51 -0700 (PDT)
+        Fri, 12 Jun 2026 11:39:04 -0700 (PDT)
+Message-ID: <6a2c5248.b63906d5.2d75f7.bfa9@mx.google.com>
+Date: Fri, 12 Jun 2026 11:39:04 -0700 (PDT)
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: ticotimo@gmail.com
+To: haitao.liu@windriver.com
 Cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [meta-virtualization][PATCH 7/7] app-container-curl: use
- multilayer mode; container-nonroot-user
-In-Reply-To: =?utf-8?q?=3Cf3106949b40e31f8a993419a0fd8c463ed7a642c=2E1780104?=
- =?utf-8?q?071=2Egit=2Etim=2Eorling=40konsulko=2Ecom=3E?=
-References: <cover.1780104071.git.tim.orling@konsulko.com> =?utf-8?q?=3Cf310?=
- =?utf-8?q?6949b40e31f8a993419a0fd8c463ed7a642c=2E1780104071=2Egit=2Etim=2Eo?=
- =?utf-8?q?rling=40konsulko=2Ecom=3E?=
+Subject: Re: [meta-virtualization][PATCH] openvswitch: re-enable ptest
+In-Reply-To: <20260601095554.460399-1-haitao.liu@windriver.com>
+References: <20260601095554.460399-1-haitao.liu@windriver.com>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Fri, 12 Jun 2026 18:24:03 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9876
+ <meta-virtualization@lists.yoctoproject.org>; Fri, 12 Jun 2026 18:39:13 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9877
 
-Hi Tim,
+Merged into master as 3bab1783.
 
-Wrap-up patch, mostly aligns curl with the new conventions. One real
-question, one observation.
+One small thing to be aware of: I had to retarget the diff's context
+SRCREV from 0d4c78e1 (3.7.0, what master was at when you sent the
+patch) to 04b05b31 (3.7.1-tip, what master is at now after the 3.7.1
+bump landed). The substantive change in the patch =E2=80=94 dropping the old
+add-ptest file from SRC_URI and replacing the disabled
+do_install_ptest body with the new install logic =E2=80=94 applies cleanly
+either way. Same approach I used to land the paired wrynose 2/2
+patch.
 
-On Fri, May 29, 2026 at 18:31 -0700, Tim Orling wrote:
-> * Move to recipes-containers/images to show maintenance intent
-> * Switch to multilayer mode to more like the other "library"/"official"
->   container recipes.
-> * Change OCI_IMAGE_TAG to "latest" for similar reasons.
-> * Change OCI_IMAGE_ENTRYPOINT_ARGS to "--help" to be more like upstream
->   containers.
+The wrynose variant of this is on the wrynose branch as 781735b9.
 
-The directory move right. no issues. recipes-demo was always
-"here's an example", recipes-containers/images is "this is supported".
-Same for "easy" =E2=86=92 "latest"; matches Docker convention.
-
-The "--help" default is a small but a win ... running the image with
-no args now self-documents instead of trying to hit a probably-absent
-localhost:80.
-
-> +OCI_LAYERS =3D "\
-> +    base:packages:base-files+base-passwd+netbase \
-> +    ${@bb.utils.contains('PACKAGECONFIG', 'dev', 'shell:packages:${CONTAIN=
-ER_SHELL}', '', d)} \
-> +    curl:packages:curl+ca-certificates \
-> +"
-[...]
-> -CONTAINER_SHELL =3D "busybox"
-
-This worries me. The old recipe had CONTAINER_SHELL =3D "busybox" at
-the top level, so the variable always had a value. The new recipe
-removes that line and only references ${CONTAINER_SHELL} inside the
-conditional shell layer.
-
-In non-dev mode that's fine because the whole bb.utils.contains
-expression resolves to the empty string and the layer doesn't appear.
-
-In dev mode the OCI_LAYERS line expands to:
-
-    shell:packages:
-
-=E2=80=A6because nothing in the recipe (or in container-nonroot-user.bbclass)
-sets CONTAINER_SHELL. image-oci.bbclass's validator parses this as a
-three-field entry with empty content, so it doesn't bb.fatal =E2=80=94 but no
-packages get added to the auto-derived IMAGE_INSTALL, and the
-resulting layer is empty. The container is silently shipped without
-a shell, which is exactly the thing dev mode is supposed to provide.
-
-Two ways to fix:
-
-  a) Add a default in the recipe near the PACKAGECONFIG declaration:
-
-         CONTAINER_SHELL ??=3D "busybox"
-
-     Then anyone enabling dev gets busybox by default and the variable
-     remains overridable.
-
-  b) Push the default into container-nonroot-user.bbclass so every
-     recipe that inherits it gets a consistent shell value.
-
-I'd lean (a) =E2=80=94 the class shouldn't carry a shell concept; that's a
-per-recipe choice =E2=80=94 but either works.
-
-> +OCI_IMAGE_RUNTIME_UID =3D "${@bb.utils.contains('PACKAGECONFIG', 'dev', '0=
-', '${NONROOT_UID}', d)}"
-
-This dev-mode-overrides-uid pattern also appears in 2/7 (python). It's
-clean here, and identical there =E2=80=94 another candidate for the helper
-class refactor whenever the rootfs_fixup_var_volatile factor-out
-happens, since it's the same shape of "PACKAGECONFIG dev means root".
-
-> +IMAGE_INSTALL:append =3D " curl ca-certificates"
-
-Same series-level point as the earlier recipes =E2=80=94 image-oci.bbclass
-now auto-derives this from OCI_LAYERS in v2 / master-next, so the
-line can go.
+Thanks for the ptest work =E2=80=94 it's good to have ovs ptest back.
 
 Bruce
+
+On Mon, Jun 01, 2026 at 17:55 +0800, jason.lau wrote:
+> Ptest support was disabled in commit 816d4c6e0e7c due to breakage in
+> source handling that prevented proper installation of test files.
+>=20
+> Fix the ptest installation by:
+>   - Copying test binaries from the build directory, preserving subdirectory
+>     structure (e.g., oss-fuzz/) for optional test components
+>   - Installing *.at test definitions and *.py test scripts from the source =
+tree
+>   - Fixing PYTHONPATH in atlocal to use runtime paths instead of build paths
+>   - Symlinking schema files already provided by the main package to avoid
+>     file duplication
+>=20
+> Re-enable ptest now that installation works correctly.
+>=20
+> Test results on genericx86-64:
+>=20
+> PASS: checkpatch - catastrophic backtracking
+> PASS: checkpatch - Unicode code
+> PASS: appctl-bashcomp - complex completion check 4
+> PASS: appctl-bashcomp - complex completion check 2
+> PASS: checkpatch - check misuse APIs
+> PASS: checkpatch - whitespace around cast
+> PASS: checkpatch - comments
+> PASS: checkpatch - check egrep / fgrep
+> PASS: checkpatch - file contents checks - bare return
+> PASS: checkpatch - subject
+> PASS: appctl-bashcomp - negative test
+> ...
+> ...
+> ...
+> PASS: drop-stats - bridge sampling
+> PASS: drop-stats - sampling action
+> PASS: ovsdb-idl - Check Python IDL reconnects to leader - Python3 (leader o=
+nly)
+> PASS: monitor-cond-change with many sessions pending
+>=20
+> 2658 tests were successful.
+> 89 tests were skipped.
+>=20
+> Signed-off-by: Haitao Liu <haitao.liu@windriver.com>
+> ---
+>  .../openvswitch/openvswitch_git.bb            | 59 ++++++++++++++++++-
+>  1 file changed, 56 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/recipes-networking/openvswitch/openvswitch_git.bb b/recipes-ne=
+tworking/openvswitch/openvswitch_git.bb
+> index 87790090..c02ef9fd 100644
+> --- a/recipes-networking/openvswitch/openvswitch_git.bb
+> +++ b/recipes-networking/openvswitch/openvswitch_git.bb
+> @@ -20,7 +20,6 @@ FILESEXTRAPATHS:append :=3D "${THISDIR}/${PN}-git:"
+> =20
+>  SRCREV =3D "0d4c78e153d2b22ab1b173cd4a4dfff89002666d"
+>  SRC_URI +=3D "git://github.com/openvswitch/ovs.git;protocol=3Dhttps;branch=
+=3Dbranch-3.7 \
+> -            file://openvswitch-add-ptest-71d553b995d0bd527d3ab1e9fbaf5a2ae=
+34de2f3.patch \
+>              file://run-ptest \
+>              file://disable_m4_check.patch \
+>              file://systemd-update-tool-paths.patch \
+> @@ -50,6 +49,60 @@ inherit ptest
+>  EXTRA_OEMAKE +=3D "TEST_DEST=3D${D}${PTEST_PATH} TEST_ROOT=3D${PTEST_PATH}"
+> =20
+>  do_install_ptest() {
+> -	echo "disabled: oe_runmake test-install"
+> -}
+> =20
+> +    install -d ${D}${PTEST_PATH}/tests/
+> +
+> +    install -m 0644 ${B}/tests/atlocal ${B}/tests/atconfig ${D}${PTEST_PAT=
+H}/tests/
+> +
+> +    # Copy test binaries into the ptest directory, preserving subdirectory=
+ structure.
+> +    # Use -maxdepth 2 because subdirectories like oss-fuzz/ are not enable=
+d by default;
+> +    # when enabled, their binaries (e.g., ./oss-fuzz/oss) need to be copie=
+d as well.
+> +    cd ${B}/tests && find . -maxdepth 2 -type f -executable | xargs -I {} =
+cp --parents {} ${D}${PTEST_PATH}/tests/
+> +    cd ${S}/tests && find . -maxdepth 1 -name '*.at' | xargs -I {} cp --pa=
+rents {} ${D}${PTEST_PATH}/tests/
+> +    cd ${S}/tests && find . -maxdepth 1 -type f -executable | xargs -I {} =
+cp --parents {} ${D}${PTEST_PATH}/tests/
+> +
+> +    cd ${S}/tests && find . -maxdepth 1 -name '*.py' -exec install -m 0755=
+ {} ${D}${PTEST_PATH}/tests/ \;
+> +
+> +    install -D -m 0644 ${S}/vswitchd/vswitch.ovsschema ${D}${PTEST_PATH}/v=
+switchd/vswitch.ovsschema
+> +
+> +    install -D -m 0755 ${S}/utilities/checkpatch.py ${D}${PTEST_PATH}/util=
+ities/checkpatch.py
+> +    install -D -m 0644 ${S}/utilities/ovs-pcap.in ${D}${PTEST_PATH}/utilit=
+ies/ovs-pcap.in
+> +    install -D -m 0644 ${S}/utilities/ovs-pki.in  ${D}${PTEST_PATH}/utilit=
+ies/ovs-pki.in
+> +
+> +    install -D -m 0644 ${S}/python/test_requirements.txt ${D}${PTEST_PATH}=
+/python/test_requirements.txt
+> +    install -m 0644 ${S}/tests/idltest.ovsschema ${D}${PTEST_PATH}/tests/
+> +    install -m 0644 ${S}/tests/idltest2.ovsschema ${D}${PTEST_PATH}/tests/
+> +    install -m 0644 ${S}/AUTHORS.rst ${D}${PTEST_PATH}/
+> +    install -D -m 0644 ${S}/build-aux/check-structs ${D}${PTEST_PATH}/buil=
+d-aux/check-structs
+> +
+> +    # Symlink vtep.ovsschema to the path expected by ptest; the actual fil=
+e is
+> +    # already installed by the main openvswitch package.
+> +    install -d ${D}${PTEST_PATH}/vtep
+> +    ln -sf /usr/share/openvswitch/vtep.ovsschema ${D}${PTEST_PATH}/vtep/vt=
+ep.ovsschema
+> +
+> +    sed  -i \
+> +         -e 's|PYTHON=3D.*|PYTHON=3D"python3"|' \
+> +         -e 's|PYTHONPATH=3D.*|PYTHONPATH=3D/usr/share/openvswitch/python:=
+${PTEST_PATH}/tests:$PYTHONPATH|' \
+> +         -e 's|EGREP=3D.*|EGREP=3D'"'"'grep -E'"'"'|g' \
+> +         -e 's|CFLAGS=3D.*|CFLAGS=3D'"'"' '"'"'|g' \
+> +         ${D}${PTEST_PATH}/tests/atlocal
+> +
+> +    sed -i \
+> +        -e "s|^at_testdir=3D.*|at_testdir=3D'${PTEST_PATH}'|" \
+> +        -e "s|^abs_builddir=3D.*|abs_builddir=3D'${PTEST_PATH}'|" \
+> +        -e "s|^at_srcdir=3D.*|at_srcdir=3D'${PTEST_PATH}/tests'|" \
+> +        -e "s|^abs_srcdir=3D.*|abs_srcdir=3D'${PTEST_PATH}/tests'|" \
+> +        -e "s|^at_top_srcdir=3D.*|at_top_srcdir=3D'${PTEST_PATH}'|" \
+> +        -e "s|^abs_top_srcdir=3D.*|abs_top_srcdir=3D'${PTEST_PATH}'|" \
+> +        -e "s|^at_top_build_prefix=3D.*|at_top_build_prefix=3D'${PTEST_PAT=
+H}'|" \
+> +        -e "s|^abs_top_builddir=3D.*|abs_top_builddir=3D'${PTEST_PATH}'|" \
+> +         ${D}${PTEST_PATH}/tests/atconfig
+> +
+> +    sed -i \
+> +        -e "s|ovs-appctl-bashcomp\.bash|/etc/bash_completion.d/ovs-appctl-=
+bashcomp\.bash|g" \
+> +        -e "s|ovs-vsctl-bashcomp\.bash|/etc/bash_completion.d/ovs-vsctl-ba=
+shcomp\.bash|g"   \
+> +        -e "s|^\(.*config\.log.*\)|#\1|g" \
+> +         ${D}${PTEST_PATH}/tests/testsuite
+> +}
+> +RDEPENDS:${PN}-ptest +=3D " ${PN}-testcontroller"
+> +RDEPENDS:${PN}-ptest +=3D "python3-packaging python3-setuptools"
 
