@@ -2,69 +2,69 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BFA3CD8CA8
-	for <webhook@archiver.kernel.org>; Fri, 12 Jun 2026 18:06:43 +0000 (UTC)
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.76458.1781287593453930810
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33064CD98CF
+	for <webhook@archiver.kernel.org>; Fri, 12 Jun 2026 18:11:33 +0000 (UTC)
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.76556.1781287886806426103
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 12 Jun 2026 11:06:33 -0700
+ Fri, 12 Jun 2026 11:11:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=qQANxq6L;
- spf=pass (domain: gmail.com, ip: 209.85.160.173, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-5177945a22eso8638351cf.1
-        for <meta-virtualization@lists.yoctoproject.org>; Fri, 12 Jun 2026 11:06:33 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=Ksb2kMr+;
+ spf=pass (domain: gmail.com, ip: 209.85.160.182, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-517b1f2c6adso11353471cf.2
+        for <meta-virtualization@lists.yoctoproject.org>; Fri, 12 Jun 2026 11:11:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781287592; x=1781892392; darn=lists.yoctoproject.org;
+        d=gmail.com; s=20251104; t=1781287886; x=1781892686; darn=lists.yoctoproject.org;
         h=mime-version:content-transfer-encoding:references:in-reply-to
          :subject:cc:to:from:date:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=jf6h10/Y5NfK9bPBVzHRf0rw3JDcjg3Ps4xXKvgYu/c=;
-        b=qQANxq6LJ32pFRT+j3sgDP6qtXbdyfcbsewZKUybyl7UuXqXm1D4BpIkgGWMLySL6M
-         XH6sTgGq+1P7+Yt1jjOfpcreg3PXIOBgaNhlZV+0jjNMxzuVA6kh+OnokzkOHvwOZ9fx
-         1qOiMqdqz/Nc9umKSkKvd+AwM1SU1VxzzIymcfXZkl8UCj7ufTyrxPorHHLZgNUTPWGp
-         e4AyIXlVMn/vQQVtDghwqcBCFKtPUpt2QKaqRVlJvhGfFn+Y5exC/f1OIgGzEl9XuxXq
-         LJyVcP3BuZiA1tT7SVue6LkEwh1R9vCaqEv0hztkbtnKZcJQrE1d8Eu1o38lBepsMnEF
-         6S9g==
+        bh=XGH4Ff7rgWSMogOZMdOlU1cd40XEP9At6eDduyb6wUI=;
+        b=Ksb2kMr+yQd1iDMTRagGdwAljRn1SQzbDFbdFw9V9h1pDdZZQGiM8U9Jl3oXl00wFG
+         iGWXjEFFePMv8dxjhSUKCETJ5d3hMEpViYFM0T7UJdDRR2YWjP8Sf+N1vFEEHRTu68uA
+         cA6uSExyqz9l0UlXv87JTm8FKv3QWEVzFrJrQslSMc4ptpBonwX4LURpB6eKSMXIn6zy
+         6Y3GYFwdlBPX+nKuYAIE0AHU1LsFQXodnN/xGYUMDUUZUXoG7dlFwkAK5AMtq+6TRJen
+         o9Xlmd6Ivkk/nW9pjwEazpE8t+dcmYl2eZ0myc6TwaDU8vQGPdGCBmomfAhQ4sLIRqDq
+         q8Mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781287592; x=1781892392;
+        d=1e100.net; s=20251104; t=1781287886; x=1781892686;
         h=mime-version:content-transfer-encoding:references:in-reply-to
          :subject:cc:to:from:date:message-id:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=jf6h10/Y5NfK9bPBVzHRf0rw3JDcjg3Ps4xXKvgYu/c=;
-        b=SCFdAfuqTWQ3xzs29PR5X8Gpl9SNt/LNA6l9g97TODCd02GNksarGofoqe22NGWrEH
-         xUMLvj+KmRdKX+r7w3Vvi/+2SlwI8XrCGLUWcg6E44MsK7362jFH3GShy+sSSL6YiN57
-         DJuaZPElmw4IuB+U/0o2Vcxb1Dw90D2XG+4MPGbFszebtMU57f4sknkPthtV2GE/ML+n
-         ZjuZIhp93TZ59gVxfXP/QuJXmTdg1wDrHKorADXyjNCtyjgQUDnmkZAhFJdj5O1H8vLU
-         fheK5KYN96wG4CiJWozFLsBcWFG/WaRR8Uki+I/llv1OgW46l3vK9+zGYO+aRlRfQaZ5
-         LxLQ==
-X-Gm-Message-State: AOJu0Yz1t9GapMlGp8kxwAAPX9Ejuswod4iTZqhiYLvXtiDIgMpa8zSm
-	zJEFoA6G5WdOxMYH40EBRRisciMM5L/8Jv7r2UYhtomVw+mbfA1FJTho
-X-Gm-Gg: Acq92OEdlmcAQ9vS8J5SzNK9hqdYHIzcBn8atq4Brryq3tEhk5y2sih5R/8K/fVanGh
-	Z3IEMNUzA/LAEK5QGY6w0+ox3Ix3V/mMw1Xf+b1wJUMU+Pyjp0viBHKUbwVhJiy8aEsOV48ch2l
-	EyeyZdqAlzYX7K7jSQilP0ekdbLeUb0EKOjTn1ELuhrD7/Y9rOMaM4BBU/dz/bxEXE2KT0Kyzc1
-	vrSDTsGUOqKS0N4rvbAfC0/S95G6EFG/fHcnWsZj417R1/2U4JPjP1GiKr6zVJwvJyrXK0p+WEi
-	pdTSwXWHBcgDRjSvUePbEGCpZ2xuN+uhw0vZgU5/M6S0lVPPGQ0b1HxgZJVR4xWqk7sJy11H77m
-	cAuwf5C7+plNNMmubKSZojqhbRWC12fbvZAgMHDgo3Lrl3ow1PTMwa8YgAyElLQqY9MSJm8XXxb
-	4CvepwXszY0xp2V9fB00GPyS/iqamoH2TLto0tFWmkzsbTPuQdqwiIgoJIKfRcKNuxZI0Vl7On7
-	qbKR+DRmZm+NyW5W/d1bZehrw+ar3nFwyjqKydpOi0+6eMcMOcbRhGWfTIfiWKtBYJXEShwzRmh
-	crXM9xl8Q9PnBie678neQ1LA20Xo+PWNSL8=
-X-Received: by 2002:a05:622a:a887:b0:517:899b:7f76 with SMTP id d75a77b69052e-517fe5bb4bdmr57120991cf.35.1781287592166;
-        Fri, 12 Jun 2026 11:06:32 -0700 (PDT)
+        bh=XGH4Ff7rgWSMogOZMdOlU1cd40XEP9At6eDduyb6wUI=;
+        b=VuUcJr8gYySdDuXqkTt8vvShaw9dpZAgITvUE7or0NYBZiGa7llteUnuVVvSwOStbj
+         Av/iUCm+Ity5Qb+mtgKv1hv/0YIiWvN11kipSjNWvG4l9tGu5BhfC3qj8fwOGHzku3yA
+         vEyYvP4qJ48TvAT+OEDpuy8XZfSuC2POAFqj+P2CAqqAc7oCQgFTPLXRqgggOIxNhL1I
+         wC/TYFPN/sEZr1QWk83bDAQq8+bx6AZqwH99ynz9go5AcnMHPdvY1AqUgPLrJg1TdmG6
+         poj4yJjnMR91cs+G3gcMVWA7+0q9SoAn/ypzcCgG+73JJ32M+Q5wuLxP5THx4AyX30rt
+         lKVQ==
+X-Gm-Message-State: AOJu0YwzLh8Sl5y8VnLk5VwKcItOlolDDHtNwfO0SDWga9OuCKr8zLgx
+	0k//aS2tsh3BCufZ2aeWWEgbI0zTbb4IcQNNo1qaRMAbf1GicLzItBTJ
+X-Gm-Gg: Acq92OELM4P0jtQKOv5BZWc2LY/vUd/Hm7D9hUb0RmLyXAb3LTJ3p/LcwWu3kwgm6rl
+	fveAkmdv3aExxrEXozqbLE9oHo0G+XLW6qiDXf7y6Jw+Pr2/7Y/9eZitpYwOGQ8RErEKt3OFLoO
+	AsS3ZqteE2SWoqXle5LBItB4EHbpdG3qGh7Wd2GUqtoFzvmXOeonagSfN49TejQ6JbC7Ct6pWOy
+	cJKlXm7XeZnvS8+w/VpzevZ/QPQE3ltq0udLXzGGeo1UwM6hb06YwGZY524MomlJ1V0Rsr1T4U0
+	9A3alGvmNeWT5PL71E5DpZlWkOtQ/X+9+1hP3PfEE2Vbsloq9650O0x1LIG3shEJ7v0yqwvMdc+
+	gLNa4e258t4zg7BlbvAeMT+acN9EpW5TEDVdsC9+zgmWu/5z/Gu4BulLEZ1/dI4oCeTFhqgs2Nz
+	VHJl1ytVo+NCdOVawlNpNjTRW8TXq+w/5MmPqrNJMzlsZ/szG+O1y5fHiwblhcaiepm6qWKz0bU
+	VOkgj/JQgk7yhjgwDtXp7NheqPlNA1IxrlGSxQr3llR8HxWYa20L7BITOIAw+uDKLwwB2Dj0qJJ
+	5kUJ0Uv26mz3blFfeIwwB9t3EoH3JSxgoQ8=
+X-Received: by 2002:ac8:5f08:0:b0:517:917d:e3d7 with SMTP id d75a77b69052e-517fe4ddc23mr55899241cf.28.1781287885653;
+        Fri, 12 Jun 2026 11:11:25 -0700 (PDT)
 Received: from [127.0.1.1] (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-517fb7dacdfsm28912771cf.20.2026.06.12.11.06.31
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-517fb83db58sm27697201cf.27.2026.06.12.11.11.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Jun 2026 11:06:31 -0700 (PDT)
-Message-ID: <6a2c4aa7.5059f1c4.36e2b7.af06@mx.google.com>
-Date: Fri, 12 Jun 2026 11:06:31 -0700 (PDT)
+        Fri, 12 Jun 2026 11:11:24 -0700 (PDT)
+Message-ID: <6a2c4bcc.f83f8c57.152ba1.f6b8@mx.google.com>
+Date: Fri, 12 Jun 2026 11:11:24 -0700 (PDT)
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 To: ticotimo@gmail.com
 Cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [meta-virtualization][PATCH 3/7] recipes-containers/images: add
- app-container-mosquitto
-In-Reply-To: =?utf-8?q?=3C8e68815affff4412c88b8a1139d6f916074bb3d1=2E1780104?=
+Subject: Re: [meta-virtualization][PATCH 4/7] recipes-containers/images: add
+ app-container-valkey
+In-Reply-To: =?utf-8?q?=3C5539c6da7c7fc8b6d180c2d038986f2bf1f9ecf0=2E1780104?=
  =?utf-8?q?071=2Egit=2Etim=2Eorling=40konsulko=2Ecom=3E?=
-References: <cover.1780104071.git.tim.orling@konsulko.com> =?utf-8?q?=3C8e68?=
- =?utf-8?q?815affff4412c88b8a1139d6f916074bb3d1=2E1780104071=2Egit=2Etim=2Eo?=
+References: <cover.1780104071.git.tim.orling@konsulko.com> =?utf-8?q?=3C5539?=
+ =?utf-8?q?c6da7c7fc8b6d180c2d038986f2bf1f9ecf0=2E1780104071=2Egit=2Etim=2Eo?=
  =?utf-8?q?rling=40konsulko=2Ecom=3E?=
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -72,78 +72,63 @@ MIME-Version: 1.0
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Fri, 12 Jun 2026 18:06:43 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9872
+ <meta-virtualization@lists.yoctoproject.org>; Fri, 12 Jun 2026 18:11:33 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9873
 
 Hi Tim,
 
-A few comments — most are series-level patterns that show up here for
-the first time. I won't repeat them later to not waste our time
+Two valkey-specific comments — the series-level points from 2/7 and 3/7
+apply here too but I won't re-raise them.
 
 On Fri, May 29, 2026 at 18:31 -0700, Tim Orling wrote:
-> Add OCI container image recipe for the Eclipse Mosquitto MQTT broker.
-> The image uses multi-layer mode with separate base and mosquitto layers,
-> exposes standard MQTT (1883) and WebSocket (9001) ports, and launches
-> mosquitto with its default config file as the entrypoint.
->
-> Inherit container-nonroot-user to run as 'nonroot' with UID 65532.
-
-> +OCI_LAYERS = "\
-> +    base:packages:base-files+base-passwd+netbase \
-> +    mosquitto:packages:mosquitto \
-> +"
+> Add OCI container image recipe for the Valkey in-memory key-value
+> datastore. The image uses multi-layer mode with separate base and
+> valkey layers, exposes the standard Valkey port (6379), and launches
+> valkey-server with its default config file as the entrypoint.
 [...]
-> +IMAGE_INSTALL = " \
-> +    base-files \
-> +    base-passwd \
-> +    netbase \
-> +    mosquitto \
-> +"
+> +OCI_IMAGE_ENTRYPOINT = "${bindir}/valkey-server"
+> +# The stock valkey.conf shipped by meta-oe is tuned for a host install
+> +# (daemonize yes, syslog-enabled yes, bind 127.0.0.1). Override those at
+> +# launch so the server stays in the foreground as PID 1, logs to stdout,
+> +# and is reachable from outside the container.
+> +OCI_IMAGE_ENTRYPOINT_ARGS = "'${sysconfdir}/valkey/valkey.conf' \
+> +    --daemonize no \
+> +    --syslog-enabled no \
+> +    --bind '0.0.0.0 -::*' \
+> +    --protected-mode no"
 
-Same point as 2/7 — image-oci.bbclass now folds packages: layers into
-IMAGE_INSTALL automatically (I pushed to master-next). When you respin,
-this block can go.
+The override-the-conf-at-launch trick is nice, I like it, and it's
+documented in the comments.
 
-> +# Workaround /var/volatile for now
-> +ROOTFS_POSTPROCESS_COMMAND += "rootfs_fixup_var_volatile ; "
-> +rootfs_fixup_var_volatile () {
-> +    install -m 1777 -d ${IMAGE_ROOTFS}/${localstatedir}/volatile/tmp
-> +    install -m 755 -d ${IMAGE_ROOTFS}/${localstatedir}/volatile/log
-> +}
+What about a description of `--protected-mode no` ?
 
-This same function appears in 3/7 (mosquitto), 4/7 (valkey), 5/7
-(nginx), and 7/7 (curl) — four near-identical copies. Worth factoring
-into a small helper bbclass (e.g. container-volatile-fixup.bbclass) that
-each recipe can inherit, or rolling it into container-nonroot-user.bbclass
-since every recipe that uses the fixup also inherits the nonroot class.
-Not blocking — but it's a smell that's easy to silence in v2.
+I quickly searched and found with protected-mode off and bind on all
+interfaces, anyone who can reach the container gets unauthenticated
+access — that's the right default for a base image people will pull
+and customise, but a deployer who slaps this into production without
+adding AUTH or namespace isolation gets a surprise. Worth a single
+sentence in DESCRIPTION saying so explicitly:
 
-> +OCI_IMAGE_ENTRYPOINT = "${sbindir}/mosquitto"
-> +OCI_IMAGE_ENTRYPOINT_ARGS = "-c '${sysconfdir}/mosquitto/mosquitto.conf'"
+Maybe this ?
 
-Two questions about running mosquitto as our nonroot (uid 65532):
+  DESCRIPTION = "OCI container running the Valkey in-memory key-value \
+  datastore, a flexible distributed datastore that supports both caching \
+  and beyond caching workloads. This image runs with protected-mode \
+  disabled and bound to all interfaces, intended as a base for \
+  customisation — production deployments should enable requirepass / \
+  ACLs or restrict the network namespace."
 
-1. The mosquitto package usually creates a 'mosquitto' system user
-   (low uid, varies by build) and ships a default config that
-   references paths under /var/lib/mosquitto/ and /var/log/mosquitto/
-   owned by that user. As nonroot we won't be the package's expected
-   user. Does mosquitto -c on the stock config actually start cleanly
-   for you, or did you need to tweak the conf?
+The second is the same persistence question I asked on mosquitto. The
+stock meta-oe valkey.conf may or may not enable AOF / RDB snapshotting
+(`appendonly yes` / `save <seconds> <writes>`). If either is on,
+valkey-server tries to write to its `dir` (usually /var/lib/valkey).
+Running as our nonroot uid 65532 against a /var/lib/valkey owned by the
+valkey package user will fail-to-write or worse, silently lose data.
 
-   I assume it runs fie, since you've been testing it for a while
-
-2. If persistence is enabled in the stock mosquitto.conf (persistence
-   true; persistence_location /var/lib/mosquitto/), we need a
-   writable /var/lib/mosquitto for our nonroot user — same flavour of
-   gap the rootfs_fixup_var_volatile workaround addresses, just for
-   a different path. If you've already validated that persistence is
-   off in the stock conf (or that mosquitto degrades gracefully when
-   the persistence dir isn't writable), a one-line comment in the
-   recipe explaining the trade-off would save the next person from
-   re-deriving it.
+Did you confirm during testing whether the stock conf has persistence
+on? If on, we want a /var/lib/valkey fixup similar to the
+/var/volatile one. If off, a one-line comment saying so would save the
+next person from re-deriving it.
 
 Bruce
-
-> +OCI_IMAGE_PORTS = "1883/tcp 9001/tcp"
-> +OCI_IMAGE_TAG = "latest"
 
