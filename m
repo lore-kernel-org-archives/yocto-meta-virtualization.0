@@ -2,128 +2,156 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36C70CD98D2
-	for <webhook@archiver.kernel.org>; Fri, 12 Jun 2026 18:19:33 +0000 (UTC)
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.76826.1781288369390350802
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E940CD98CF
+	for <webhook@archiver.kernel.org>; Fri, 12 Jun 2026 18:24:03 +0000 (UTC)
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.76908.1781288633946569204
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 12 Jun 2026 11:19:29 -0700
+ Fri, 12 Jun 2026 11:23:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=CqTVYJdG;
- spf=pass (domain: gmail.com, ip: 209.85.222.174, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-9159da9bba5so97443985a.1
-        for <meta-virtualization@lists.yoctoproject.org>; Fri, 12 Jun 2026 11:19:29 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=sDds/As2;
+ spf=pass (domain: gmail.com, ip: 209.85.219.42, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-8ccf6a63a45so16474746d6.3
+        for <meta-virtualization@lists.yoctoproject.org>; Fri, 12 Jun 2026 11:23:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781288368; x=1781893168; darn=lists.yoctoproject.org;
+        d=gmail.com; s=20251104; t=1781288633; x=1781893433; darn=lists.yoctoproject.org;
         h=mime-version:content-transfer-encoding:references:in-reply-to
          :subject:cc:to:from:date:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=qLQoV/rtHoxSBGx1pKexnQ0h277NMxD6NteWbBlG9Fk=;
-        b=CqTVYJdGP4aYRjd9qrlB3LsVr7vW58xhU0ziyW0qsilaCbHH231IeTIXkfnlNys37A
-         e0U2KFvyHS8lmgVW7U9ExTBaHqlYn1SblLQb6LjgZS/gg5W5dJtaxU/p/NW4boRgt0Ps
-         C3rQ7XAcbc6QjxM9ppzCV999/ZI8xsXbP05jAWonzgxGxKSB1xo+wlBSGU7Oy0fGDCPX
-         RmWy4hv67LCs2pvTuPax+0KQVcTyWiKj52e0Twtl4bsDUayTGbptM8EL3fzHT0hn6/+m
-         Z+1CvQvUuoL5ePHFrgmr5EADL6rff3FWsmAbkf+BWPI3dLNUNKNHQdMTewqzc4hbYlBS
-         pVyw==
+        bh=UdVMSI0afJpIaiGvjgcsGkzlijZafSGfwBZtjtKhp9E=;
+        b=sDds/As2QDbeOUDl5aGHJKbacYRvMZU+ITOJ5nrHbpmgY1xEZykcqfszgA2oIMwxjK
+         MxpcEIMCkYs2YRPFPmq77R0aWwsFRitJaCg0ReSpBHCBeoejXqB0OvL0cQnlBzTEipzY
+         FUp2b8IRG4s8pwoMoA4Vu2lQjRhn5TbwBwyJAtRO6jAr7XVYeTEnXmI8bUZnvNZ1Z9Kc
+         FNKLr8+CaMlCXke5ks9RimaR+mGT7uDwpzyeASSM8RQulXlTPqQm6mEr8IE0T+Urj/9v
+         l5oBTzS8+NYpuLrvngcM8xiI85TPfcyPndY42MmJQkmOKuKbyz/8U0IZSTsfK1rAbJMz
+         3LPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781288368; x=1781893168;
+        d=1e100.net; s=20251104; t=1781288633; x=1781893433;
         h=mime-version:content-transfer-encoding:references:in-reply-to
          :subject:cc:to:from:date:message-id:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=qLQoV/rtHoxSBGx1pKexnQ0h277NMxD6NteWbBlG9Fk=;
-        b=EfyCYNV06iq05o/uq0u9hhmNwyM3+pWmSzcpFYn6aY55dHnLSK2HdP6vcn78Hu0QWX
-         poy4DueEPJevJYBwNy2p0oG0ifFSS2pK34uNYZg262C9z1y0eG9c9yUru2Nf31Hc8UYO
-         NfeRdlqAUsb6G2WZ0OC+gnB1EQGXrWeLU6bOKn5XADt8fok7OPWZk3l5zD8io2FWFzvg
-         20gwqM1LlbGe2z74G0n6wPT8cZ1AfkThgOp+cYLt9kKefHjWwB2gjCy45mC08TuLdNuy
-         MwgMKAADOKSoCZHLRMJoC3H0Ty2V3TBtWT+LYtobqi+A+WhpBfO/Q/YFKtEnGnDX3I3X
-         VmoA==
-X-Gm-Message-State: AOJu0Yxc2sz4bkK/LGGfSasyYUgxILUB5adf5v7g0LM7hj0YBL7XF14l
-	VDKiqQwDkP4SKtuNedRlDHGYcvaMaAMY2EIJ3uGUR6B90wZczb5a0KQ1
-X-Gm-Gg: Acq92OFUT1cBmBmAMO84bUuc62xyJU/Albz/EM6iH4xnpcs0rfrDqibEo6AXDZjrVqr
-	8aisNmtHEkhpjNobhTthABhz4sjrmIlqXJ8WpZFNWT0hJuJAQovatGOgmvgC79idxk3uyeJPaBG
-	d0bh3MzUXXBzOEIW+YTjZ8sUus+eHg+8tDyex0piiCO3uMxcDyfzJE79TxaOTGNkYR1rN95MA2e
-	UwndbNPBnq8ybEP6EqTOCpn0cPVEiI7qXA56KjO8p4vNdhAItRJnAui521PMNbjhLZhX8h7E7Su
-	feWkDfLDRB3U7/Ba7e4Z7PSmC2AsaBWJ5Cg48qY2EAg785td0P1W850kFXiMZa4JDqELVVVIRjW
-	qh2BEx9C9HCl4QWbpPv5P74iwpk64jD9wka9bFoQC/OYmwD4HPMQYdEILc5F+4rTa++KEjtpiWf
-	s6Wuz6zRhTP4ErUGK2dPcM1/r3RyD0igVB/7FcsyjdGDd3xfbhUNG8G4S9C8U03fq7sSaeHDuHc
-	rdXtuNHA3Vw3oWuNQdrd4phPN62injG29HZpxYe7IoLIZtmehVUbya9Fs4naUcSV2PZBNt9yipz
-	ilqfXqerf4chGrJ9M28LliHSICf6OFt8GDI=
-X-Received: by 2002:a05:620a:46a3:b0:915:87ad:d5b1 with SMTP id af79cd13be357-9161bbfca43mr590478185a.15.1781288368230;
-        Fri, 12 Jun 2026 11:19:28 -0700 (PDT)
+        bh=UdVMSI0afJpIaiGvjgcsGkzlijZafSGfwBZtjtKhp9E=;
+        b=D6XYmjvPPS/2j1J0ZZRlJvDqdf6cS1TG6JwFvH4xToAsHsxSc7yahDsDwTe8t3urx6
+         Y3EIlvMxPCYSW+ZqYSa5FlgpnPw1GgVBgpVEoVjJMe/z4T1tfnrTCiXex+yLHoT2GfHf
+         1a7UZIv7pq4uqWXoGGstdMaxvoTGFCzlPqkf6EqUYoKT4cfHbY/dX6JCfjCDPAtvgbwU
+         46XH+uD3mDZK4kmRKH/KLt02twfBaq7t9CN0EdZsXOxIPK9xaLEMfwhhhW4G90i6fbxf
+         td6CBywn05eDI+6NdZrT+R2W9psgG7aIxXzaC0zM6quHIB/T5BzCT9d4JoDtJqqxAGm8
+         qqQw==
+X-Gm-Message-State: AOJu0Yxiyobolqmcdu9H2d0DSvBubMdJ1krDjhpZkkPo98lrhS3nhSZ0
+	pbdpcCmWvSoS3FtlRAyiDcnAMoxrxbnj04bKS2r63kTEGOA74VqBYCda
+X-Gm-Gg: Acq92OFfHh5bai3w4BHSsIU2GgipjT3x+g1SA4dlIpt+hFLWkARzSkCiGZxL8miiwl3
+	kHkiXjk1A69bjJAhgqlVZKsY8NFGZN8AQ+L+nxcNsFEk7ntpQ6BB7Xnd5bzuscgUk2+SLYCapMk
+	lcebUq3gGoq3sngTeQ46+mEPwvTN02YM8dJ0BfAXpq2mzQKeZMqjTqBuYa1DotK5NUc8bqmkCKi
+	nO2z74V7qcJwl5ZuI0Z22H49+COuWbQWgH0Ljm1NC2FFx5CvNhPR0UGHpIUAvPL6HX3MwKEaTwS
+	d9nuwDLdS0kTDwe5DpXoJz4YoSm6Ev5ldD2y8acpIOdTss2tRBImsXinE8zCnqLWXsYVZ1Ch6sl
+	1zQ0Pq3GiLYjQI1o3cO7/JmbhZXo1bJ97rnVa+4ZJw4HyzdsB+4xy9yohQIlsUqal1+ACa8N9uf
+	NuYnY6zDtMAhu8hL+rFlrODFsVSbabap8OZfuiKSYP7BZwGSMY5jcTcVStqkkZ99hTqjpzCOapS
+	V4SC4X70diZXMll1lu8WO17su+JlddksKQj36pnDR/+QNORj01Uq8cG9ZcxiZt2wMnYeLoRbIZh
+	7NvpBUDonjD7ZQ+BP80sgrURHgCSW9kI68I=
+X-Received: by 2002:a05:6214:500f:b0:8ca:1ddd:a6b8 with SMTP id 6a1803df08f44-8d32c7ce63bmr75041416d6.14.1781288632856;
+        Fri, 12 Jun 2026 11:23:52 -0700 (PDT)
 Received: from [127.0.1.1] (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-91619ed8aa6sm284650885a.2.2026.06.12.11.19.27
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8d302211f20sm30631686d6.21.2026.06.12.11.23.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Jun 2026 11:19:27 -0700 (PDT)
-Message-ID: <6a2c4daf.3f8fff0e.33b006.22cd@mx.google.com>
-Date: Fri, 12 Jun 2026 11:19:27 -0700 (PDT)
+        Fri, 12 Jun 2026 11:23:51 -0700 (PDT)
+Message-ID: <6a2c4eb7.b63906d5.2d75f7.312b@mx.google.com>
+Date: Fri, 12 Jun 2026 11:23:51 -0700 (PDT)
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 To: ticotimo@gmail.com
 Cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [meta-virtualization][PATCH 6/7] vcontainer-bbmask.inc: allow
- meta-webserver/recipes-httpd
-In-Reply-To: =?utf-8?q?=3C9bdb3d78518c4c8a8247376aec613b23e4628bdd=2E1780104?=
+Subject: Re: [meta-virtualization][PATCH 7/7] app-container-curl: use
+ multilayer mode; container-nonroot-user
+In-Reply-To: =?utf-8?q?=3Cf3106949b40e31f8a993419a0fd8c463ed7a642c=2E1780104?=
  =?utf-8?q?071=2Egit=2Etim=2Eorling=40konsulko=2Ecom=3E?=
-References: <cover.1780104071.git.tim.orling@konsulko.com> =?utf-8?q?=3C9bdb?=
- =?utf-8?q?3d78518c4c8a8247376aec613b23e4628bdd=2E1780104071=2Egit=2Etim=2Eo?=
+References: <cover.1780104071.git.tim.orling@konsulko.com> =?utf-8?q?=3Cf310?=
+ =?utf-8?q?6949b40e31f8a993419a0fd8c463ed7a642c=2E1780104071=2Egit=2Etim=2Eo?=
  =?utf-8?q?rling=40konsulko=2Ecom=3E?=
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Fri, 12 Jun 2026 18:19:33 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9875
+ <meta-virtualization@lists.yoctoproject.org>; Fri, 12 Jun 2026 18:24:03 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9876
 
 Hi Tim,
 
-Small focused change, intent is clear. Two questions, one cleanup.
+Wrap-up patch, mostly aligns curl with the new conventions. One real
+question, one observation.
 
 On Fri, May 29, 2026 at 18:31 -0700, Tim Orling wrote:
-> Allow us to build nginx, apache2, etc. multiarch containers.
+> * Move to recipes-containers/images to show maintenance intent
+> * Switch to multilayer mode to more like the other "library"/"official"
+>   container recipes.
+> * Change OCI_IMAGE_TAG to "latest" for similar reasons.
+> * Change OCI_IMAGE_ENTRYPOINT_ARGS to "--help" to be more like upstream
+>   containers.
+
+The directory move right. no issues. recipes-demo was always
+"here's an example", recipes-containers/images is "this is supported".
+Same for "easy" =E2=86=92 "latest"; matches Docker convention.
+
+The "--help" default is a small but a win ... running the image with
+no args now self-documents instead of trying to hit a probably-absent
+localhost:80.
+
+> +OCI_LAYERS =3D "\
+> +    base:packages:base-files+base-passwd+netbase \
+> +    ${@bb.utils.contains('PACKAGECONFIG', 'dev', 'shell:packages:${CONTAIN=
+ER_SHELL}', '', d)} \
+> +    curl:packages:curl+ca-certificates \
+> +"
 [...]
-> +BBMASK += "meta-webserver/recipes-(?!httpd)"
-[...]
->  BBMASK += "meta-filesystems/"
->  BBMASK += "meta-python/"
-> -BBMASK += "meta-webserver/"
+> -CONTAINER_SHELL =3D "busybox"
 
-The mask is right and the regex correctly leaves recipes-httpd
-parseable while keeping everything else under meta-webserver out.
+This worries me. The old recipe had CONTAINER_SHELL =3D "busybox" at
+the top level, so the variable always had a value. The new recipe
+removes that line and only references ${CONTAINER_SHELL} inside the
+conditional shell layer.
 
-A couple of things worth a follow-up:
+In non-dev mode that's fine because the whole bb.utils.contains
+expression resolves to the empty string and the layer doesn't appear.
 
-  1. recipes-httpd contains both nginx and apache2 (and a couple of
-     smaller recipes — hiawatha, lighttpd, monkey iirc). With this
-     change apache2 also becomes parseable for the vcontainer distro,
-     even though only nginx is used by 5/7. Is the apache2 inclusion
-     intentional (to enable an app-container-apache2 follow-up later),
-     or accidental?
+In dev mode the OCI_LAYERS line expands to:
 
-     If accidental, tightening the regex to recipes-httpd/nginx- might
-     be safer — fewer recipes pulled into parse keeps the dep graph
-     smaller and avoids surprise cascades from apache2's deps.
+    shell:packages:
 
-  2. The companion entry in meta-virt-host.conf:
+=E2=80=A6because nothing in the recipe (or in container-nonroot-user.bbclass)
+sets CONTAINER_SHELL. image-oci.bbclass's validator parses this as a
+three-field entry with empty content, so it doesn't bb.fatal =E2=80=94 but no
+packages get added to the auto-derived IMAGE_INSTALL, and the
+resulting layer is empty. The container is silently shipped without
+a shell, which is exactly the thing dev mode is supposed to provide.
 
-         BBFILE_PATTERN_IGNORE_EMPTY_<meta-webserver> = "1"
-         (or similar variable name — the exact form is what
-         meta-virt-host.conf uses for the other fully-masked layers)
+Two ways to fix:
 
-     ...was added because meta-webserver used to be a fully-masked
-     layer producing the "no recipes in this layer" warning. With this
-     change, meta-webserver does parse at least one recipe (nginx),
-     so the IGNORE_EMPTY entry is no longer needed and should be
-     removed in this same commit. Otherwise it sits as dead config.
+  a) Add a default in the recipe near the PACKAGECONFIG declaration:
 
-  3. Did you run `bitbake -g <container-image>` after this change to
-     confirm the dep graph didn't pick up anything heavy you didn't
-     expect? recipes-httpd's deps tend to be fairly contained, but
-     it's worth a one-time check so we know the BBMASK fence is doing
-     what we think it is.
+         CONTAINER_SHELL ??=3D "busybox"
 
-The change itself is fine to apply as-is; (2) is the only thing I'd
-ask be folded in before merge.
+     Then anyone enabling dev gets busybox by default and the variable
+     remains overridable.
+
+  b) Push the default into container-nonroot-user.bbclass so every
+     recipe that inherits it gets a consistent shell value.
+
+I'd lean (a) =E2=80=94 the class shouldn't carry a shell concept; that's a
+per-recipe choice =E2=80=94 but either works.
+
+> +OCI_IMAGE_RUNTIME_UID =3D "${@bb.utils.contains('PACKAGECONFIG', 'dev', '0=
+', '${NONROOT_UID}', d)}"
+
+This dev-mode-overrides-uid pattern also appears in 2/7 (python). It's
+clean here, and identical there =E2=80=94 another candidate for the helper
+class refactor whenever the rootfs_fixup_var_volatile factor-out
+happens, since it's the same shape of "PACKAGECONFIG dev means root".
+
+> +IMAGE_INSTALL:append =3D " curl ca-certificates"
+
+Same series-level point as the earlier recipes =E2=80=94 image-oci.bbclass
+now auto-derives this from OCI_LAYERS in v2 / master-next, so the
+line can go.
 
 Bruce
 
