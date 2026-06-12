@@ -2,233 +2,291 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 50D48CD98D2
-	for <webhook@archiver.kernel.org>; Fri, 12 Jun 2026 18:39:13 +0000 (UTC)
-Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.77090.1781289546486307958
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5993ECD98D2
+	for <webhook@archiver.kernel.org>; Fri, 12 Jun 2026 18:48:13 +0000 (UTC)
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.77266.1781290084932547869
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 12 Jun 2026 11:39:06 -0700
+ Fri, 12 Jun 2026 11:48:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=C669i+PA;
- spf=pass (domain: gmail.com, ip: 209.85.222.169, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-9158fbaa4bbso148490685a.1
-        for <meta-virtualization@lists.yoctoproject.org>; Fri, 12 Jun 2026 11:39:06 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=h178l7Oy;
+ spf=pass (domain: gmail.com, ip: 209.85.160.181, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-51778077b28so13548681cf.1
+        for <meta-virtualization@lists.yoctoproject.org>; Fri, 12 Jun 2026 11:48:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781289545; x=1781894345; darn=lists.yoctoproject.org;
+        d=gmail.com; s=20251104; t=1781290084; x=1781894884; darn=lists.yoctoproject.org;
         h=mime-version:content-transfer-encoding:references:in-reply-to
          :subject:cc:to:from:date:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=HjtK3oZQE7RUdGBqf5NeMnlB43AeBQfq/4h8eeaC9LA=;
-        b=C669i+PAx4ESQ9yeH+zAYoVPy2C6UU3kyEP4c6C3ZyM/Zy861YWporqBHRfIqB42Yn
-         umlwm77vHwStUuIR80rOUlxVA+wawFYBnS1BZkUUmwYGXEWZwz7bUlYnbCp1Rd9G4FYk
-         PvAPIqvqHMeNOGYd5DJAjcFL645o9EuIOfw6kPK6RPbBIFVRURDQlhTOHOJ90qUQ3ojY
-         RjKHJEafK6pVztZcHeP+w9ofPMfGC3Z7eMF0llwGGhr4TG6lv8Xjl1rK+npB1O2yd2gg
-         +MaKjADasDhLz4UMgMkp+1sw5Y42JVrjIaOHMGNZcucKSP0+D7CFvF23sZAA7BhwxKg6
-         cz8Q==
+        bh=jy4BVsCwGgUTgI5XIjdni1sAFlAp1qQJcjbzYYQtNms=;
+        b=h178l7OyzeH8VE/U8zyyWtgoHF/Sx7E880/NCnExkFiwE+ckmF2+16iho+4S1ZxhsE
+         2A6Mgyq5xx8rtrzYwzQ2/PBZZYSSP6yJNOs/p7s1TdXbV0ACXrd8D3tU3+fqiVM3Lma7
+         EijSSMfYgaOkipdYWQIrS6A+uual4I8CKfiAq3sgaO74JEAYpu1W96xndqEeffrLUXxS
+         b415oRGdGq62dl/+kfnBqPeybxPVTZzOGFFOS2wW9ncGh1cuuxnlNW6a7Mfb8ELJ2WEV
+         7ZC7FMSyDtCZBClDglJrkdU2bla5HeBdCWuJ0BQumSx11XnSMehIOMczbyfb4tI+Dzlk
+         64YQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781289545; x=1781894345;
+        d=1e100.net; s=20251104; t=1781290084; x=1781894884;
         h=mime-version:content-transfer-encoding:references:in-reply-to
          :subject:cc:to:from:date:message-id:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=HjtK3oZQE7RUdGBqf5NeMnlB43AeBQfq/4h8eeaC9LA=;
-        b=lVBLDGtoVjnPz6gFcK/NLdqhmSvEQbP6YWotshHTzZWS9n+sgOQC6u6LZZxJT4exBP
-         L22q4sM8Pn+0UgjgKO2YdXE4G4CY32or3XXGjMx98uGF5mlWcKwo7LXWQNcvNP+NfhP1
-         jXDxAkeR+fny1BXGfwm2eR571V8PEjVo8SD2MTQY1p57+3FS6LEMGxysd3+qKGnBbxlg
-         yfatdVVxHHkJjqxahrBDBDdK8hLxgUeXwXYDLCEN13Yt3LZsYTGiyZ0X1KrDlPKWTcc9
-         f0urLcRvdtR2h0aBcc4nh15xnZVZTGw6S60Ba32qx23BFGVk4J+BPQZ62B077xjupe1J
-         98zA==
-X-Gm-Message-State: AOJu0YyxiF3Kr7rNLbaUsMWTQPjcoiiBpPgLjw4yj0TOL476ufRPQL3y
-	eY7P8Sk9qwLjtM11P300XzCHpjxYZYnbNQ632Ey+op1EMQoFRTl+4aSLv3w7VSL5
-X-Gm-Gg: Acq92OHIgrhEeVOA61EcTSql3ZfJez1K8/HM4eKlVNEzG2AbYrZIWaOR7QHs20BfTGh
-	X/x4lbNXqwph+Vsmw+V54c6vG0TiH99RoUYcRfAMkb8F5myd7FWqGSI7ovxBiUL9Br6zrOspcTw
-	DjjDl/9fgedsek/wX3uE7vZ3/DIuiVKrEYBQG/sZ+9F426fnVXffeVFqXAXeCsS/wOw5AO7cdV9
-	xAJyRSPpgJn/YPp0snpcRARpgLK/hWCxgifQoO3WNykdoFvVYSXJsj2baVv/gadAnYTy8IHw5i+
-	GWgJWDYG8bR6V7gwuQgynk5MpS8zvsopBvTDEDjG/n7X+apqZ2N4Jq5kApbrZp/jrMNRYs0LQ5Z
-	9RVYL58kcCueEm2qSuw45o1JT2yF7ZsbUn+4Li3xBSUx2t14EDLqCofSHbInaFzLRqJxI1+wjc8
-	WQnmCKwGnZBzynre1020MVIv1h2ni10EzIw1j9/hCpnLwBdQyaPT2tC2OppZ7wDwxSKCMA6A9Jb
-	18Eaq2tTODNcsIvT28+QNKLX7G9Hnv/DBX08sk9K14gMgXSmedT7F1GgoOywRIAb3x/NG5QvmR4
-	M/EBSaqruTjPpyVSavO04h0G
-X-Received: by 2002:a05:620a:6cc3:b0:914:bc2f:baf7 with SMTP id af79cd13be357-9161bac437bmr603722885a.4.1781289545270;
-        Fri, 12 Jun 2026 11:39:05 -0700 (PDT)
+        bh=jy4BVsCwGgUTgI5XIjdni1sAFlAp1qQJcjbzYYQtNms=;
+        b=jO4CKkBkZRdpiJGOiq13qU3sbrDM9nMeHNSruxkjA/+EQvCd3I3Pk8zbqQT96Q0Jp9
+         pXNFwHwCxbdUIwT+Mq1F8jTAe7TvuFNKjEKskHvv3zwJBDrWKyc0HkQEL+arv+cONa1c
+         /1ZiS0xcT+yMyFe66Py7MDzWIjNcwgWr0SaeREWrRNVziSm3JMkYHlqbiWlaqEFa7atd
+         vSe+8ib0w/ewY4XNat+1GdKSE4eunesnWkRLG/mIvM7dGffL0NZdmYs3ANRLxxgbj+Fp
+         7HJSxRNHurVcOzheYG4VrLEyIVKIOlWlag4MN0c6LyqEztiUdWkzAktVJDQGeV9ETwAH
+         Wf8Q==
+X-Gm-Message-State: AOJu0YwLlywJilIoP97oF22jkbpGSJ6P6SXuLuhi/JK6q9J1JGV8ylpJ
+	xVIRdlWLfBkX/hyTnRm5y09tl+przuTgwobo0IY0fO3ghOcAq+JcUsBP
+X-Gm-Gg: Acq92OFX0+cEL8JDXfVwLqs2A2uf5fVjjFHT4oclnZiRw0ZnKUs1LB68cR5KJXtm50V
+	IZprU05tVjyct2h+icMfn1RlzijmY+QtQeopNWHnN1X2mptAj/jADb8dIm/xcWhDhJ/UfxozHEE
+	QurHl3PNipJJHswuoFG/Fb3LMX8ZrgBwLIOf0c166GkdE4CgN2xNbu++REpPpMYrHiRSQqGn8Ne
+	XXH/VjRkQ0R2IuoaUfrl4ctNBrsiTk7rRMnuBt6Q9vLC0fw6xMsJsT8ldMYSMCXoFHSj8IwCHIV
+	oI1AYsieG8rmFIFFzXaU9BlJXVFoHLd5hxn7Snqjhas5YzAvwmFfr3zi7tVllzrBloWUQeoVkTq
+	0Z3Nvwp9CqOzHbAy+vk9QTjgTjo4j9sL999QDqAJOTxXLCQ/mI//vrdXP/N7i2m6JoMQNvVx91M
+	4UmCMN8TxVlBSliNjKUYLNtBluSlk8P9QJYlprzgTHgcdlaLo/mC6zeLQMkjrIDIiYBe4hZ5rWM
+	iIWtFBosuKE/NUphXrrUhp5S8K5GB3DEs1YexFWozGKxnFnVTBnCd/lkW+JmGabREnhlaVfdgi7
+	X403+HeGpjvFQbag3bVR47Ix
+X-Received: by 2002:ac8:5794:0:b0:517:8242:489d with SMTP id d75a77b69052e-517fe4fba41mr58093561cf.28.1781290083398;
+        Fri, 12 Jun 2026 11:48:03 -0700 (PDT)
 Received: from [127.0.1.1] (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8d302211f20sm31021596d6.21.2026.06.12.11.39.04
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8d301b2d004sm31756526d6.15.2026.06.12.11.48.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Jun 2026 11:39:04 -0700 (PDT)
-Message-ID: <6a2c5248.b63906d5.2d75f7.bfa9@mx.google.com>
-Date: Fri, 12 Jun 2026 11:39:04 -0700 (PDT)
+        Fri, 12 Jun 2026 11:48:02 -0700 (PDT)
+Message-ID: <6a2c5462.f542fed9.183ec6.cc90@mx.google.com>
+Date: Fri, 12 Jun 2026 11:48:02 -0700 (PDT)
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 To: haitao.liu@windriver.com
 Cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [meta-virtualization][PATCH] openvswitch: re-enable ptest
-In-Reply-To: <20260601095554.460399-1-haitao.liu@windriver.com>
-References: <20260601095554.460399-1-haitao.liu@windriver.com>
+Subject: Re: [meta-virtualization][PATCH] libvirt: re-add ptest support for
+ meson build system
+In-Reply-To: <20260529023941.1460960-1-haitao.liu@windriver.com>
+References: <20260529023941.1460960-1-haitao.liu@windriver.com>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Fri, 12 Jun 2026 18:39:13 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9877
+ <meta-virtualization@lists.yoctoproject.org>; Fri, 12 Jun 2026 18:48:13 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9878
 
-Merged into master as 3bab1783.
+Merged into master as 3ed3d6b3.
 
-One small thing to be aware of: I had to retarget the diff's context
-SRCREV from 0d4c78e1 (3.7.0, what master was at when you sent the
-patch) to 04b05b31 (3.7.1-tip, what master is at now after the 3.7.1
-bump landed). The substantive change in the patch =E2=80=94 dropping the old
-add-ptest file from SRC_URI and replacing the disabled
-do_install_ptest body with the new install logic =E2=80=94 applies cleanly
-either way. Same approach I used to land the paired wrynose 2/2
-patch.
+This one needed a small conflict resolution. Your patch was generated
+against master state from before our 2026-06-02 libvirt 12.4.0 bump,
+which dropped the file://0001-qemu_nbdkit.c-use-llu-to-print-time_t.patch
+SRC_URI entry (upstream took an equivalent fix between v12.1.0 and
+v12.4.0, so the local backport became a reverse-apply hazard).
 
-The wrynose variant of this is on the wrynose branch as 781735b9.
+The qemu_nbdkit line was context for your hunk's removal of
+file://0001-messon.build-remove-build-path-information-to-avoid-.patch
+and file://0001-tests-meson-clear-absolute-directory-paths.patch, so
+git am --3way landed it as a conflict. The right resolution is the
+intersection of both intents: drop the qemu_nbdkit patch (already done
+on master) AND drop the two meson patches (your intent). The
+substantive change in the rest of the patch =E2=80=94 adding run-ptest,
+inheriting ptest, the do_configure prepend/append blocks, and
+do_install_ptest =E2=80=94 applies cleanly.
 
-Thanks for the ptest work =E2=80=94 it's good to have ovs ptest back.
+End state of the SRC_URI block, for confirmation:
+
+    SRC_URI =3D "gitsm://github.com/libvirt/libvirt.git;name=3Dlibvirt;protoc=
+ol=3Dhttps;branch=3Dmaster \
+               file://libvirtd.sh \
+               file://libvirtd.conf \
+               file://run-ptest \
+               file://dnsmasq.conf \
+               file://hook_support.py \
+               file://gnutls-helper.py;subdir=3D${BP} \
+               file://libvirt-qemu.conf \
+               file://0001-prevent-gendispatch.pl-generating-build-path-in-co=
+de.patch \
+              "
+
+The wrynose-tagged 2/2 of this patch (#2881) is parked behind the
+rejected wrynose libvirt 12.2.0 version-bump in 1/2, so this master
+landing doesn't affect that decision.
+
+Thanks for the meson ptest work.
 
 Bruce
 
-On Mon, Jun 01, 2026 at 17:55 +0800, jason.lau wrote:
-> Ptest support was disabled in commit 816d4c6e0e7c due to breakage in
-> source handling that prevented proper installation of test files.
+On Fri, May 29, 2026 at 10:39 +0800, jason.lau wrote:
+> libvirt has switched its build system from Makefile to meson, so the
+> original run-ptest which relied on "make -C tests -k check-TESTS" no
+> longer works. Re-add ptest support based on the meson build system:
 >=20
-> Fix the ptest installation by:
->   - Copying test binaries from the build directory, preserving subdirectory
->     structure (e.g., oss-fuzz/) for optional test components
->   - Installing *.at test definitions and *.py test scripts from the source =
-tree
->   - Fixing PYTHONPATH in atlocal to use runtime paths instead of build paths
->   - Symlinking schema files already provided by the main package to avoid
->     file duplication
->=20
-> Re-enable ptest now that installation works correctly.
+> - Rewrite run-ptest to directly execute the compiled test binaries
+>   instead of invoking make.
+> - Patch meson.build at configure time to replace absolute build/source
+>   paths with the ptest install paths, removing the need for separate
+>   path-stripping patches.
+> - Install test binaries and their required data files into the ptest
+>   directory.
 >=20
 > Test results on genericx86-64:
 >=20
-> PASS: checkpatch - catastrophic backtracking
-> PASS: checkpatch - Unicode code
-> PASS: appctl-bashcomp - complex completion check 4
-> PASS: appctl-bashcomp - complex completion check 2
-> PASS: checkpatch - check misuse APIs
-> PASS: checkpatch - whitespace around cast
-> PASS: checkpatch - comments
-> PASS: checkpatch - check egrep / fgrep
-> PASS: checkpatch - file contents checks - bare return
-> PASS: checkpatch - subject
-> PASS: appctl-bashcomp - negative test
-> ...
-> ...
-> ...
-> PASS: drop-stats - bridge sampling
-> PASS: drop-stats - sampling action
-> PASS: ovsdb-idl - Check Python IDL reconnects to leader - Python3 (leader o=
-nly)
-> PASS: monitor-cond-change with many sessions pending
+>   All 120 tests passed (0 failures, 0 skips).
 >=20
-> 2658 tests were successful.
-> 89 tests were skipped.
+> root@genericx86-64:/usr/lib/libvirt/ptest# ./run-ptest
+> PASS: chxml2xmltest
+> PASS: nssguestlinktest
+> PASS: virbuftest
+> PASS: viracpitest
+> PASS: esxutilstest
+> PASS: ssh
+> PASS: storagepoolxml2xmltest
+> PASS: commandtest
+> ...
+> ...
+> PASS: nwfilterebiptablestest
+> PASS: cputest
+>=20
+> =3D=3D=3D Test Summary =3D=3D=3D
+> PASS: 120
+> FAIL: 0
+> SKIP: 0
+> TOTAL: 120
 >=20
 > Signed-off-by: Haitao Liu <haitao.liu@windriver.com>
 > ---
->  .../openvswitch/openvswitch_git.bb            | 59 ++++++++++++++++++-
->  1 file changed, 56 insertions(+), 3 deletions(-)
+>  recipes-extended/libvirt/libvirt/run-ptest | 32 ++++++++++++++-
+>  recipes-extended/libvirt/libvirt_git.bb    | 45 ++++++++++++++++++++--
+>  2 files changed, 73 insertions(+), 4 deletions(-)
 >=20
-> diff --git a/recipes-networking/openvswitch/openvswitch_git.bb b/recipes-ne=
-tworking/openvswitch/openvswitch_git.bb
-> index 87790090..c02ef9fd 100644
-> --- a/recipes-networking/openvswitch/openvswitch_git.bb
-> +++ b/recipes-networking/openvswitch/openvswitch_git.bb
-> @@ -20,7 +20,6 @@ FILESEXTRAPATHS:append :=3D "${THISDIR}/${PN}-git:"
+> diff --git a/recipes-extended/libvirt/libvirt/run-ptest b/recipes-extended/=
+libvirt/libvirt/run-ptest
+> index a434b186..dd1f94d3 100644
+> --- a/recipes-extended/libvirt/libvirt/run-ptest
+> +++ b/recipes-extended/libvirt/libvirt/run-ptest
+> @@ -1,3 +1,33 @@
+>  #!/bin/sh
 > =20
->  SRCREV =3D "0d4c78e153d2b22ab1b173cd4a4dfff89002666d"
->  SRC_URI +=3D "git://github.com/openvswitch/ovs.git;protocol=3Dhttps;branch=
-=3Dbranch-3.7 \
-> -            file://openvswitch-add-ptest-71d553b995d0bd527d3ab1e9fbaf5a2ae=
-34de2f3.patch \
->              file://run-ptest \
->              file://disable_m4_check.patch \
->              file://systemd-update-tool-paths.patch \
-> @@ -50,6 +49,60 @@ inherit ptest
->  EXTRA_OEMAKE +=3D "TEST_DEST=3D${D}${PTEST_PATH} TEST_ROOT=3D${PTEST_PATH}"
-> =20
->  do_install_ptest() {
-> -	echo "disabled: oe_runmake test-install"
-> -}
-> =20
-> +    install -d ${D}${PTEST_PATH}/tests/
+> -make -C tests -k check-TESTS
+> +PTEST_DIR=3D"/usr/lib/libvirt/ptest/tests"
+> +export LD_LIBRARY_PATH=3D"${PTEST_DIR}:${LD_LIBRARY_PATH}"
+> +PASS=3D0
+> +FAIL=3D0
+> +SKIP=3D0
 > +
-> +    install -m 0644 ${B}/tests/atlocal ${B}/tests/atconfig ${D}${PTEST_PAT=
-H}/tests/
-> +
-> +    # Copy test binaries into the ptest directory, preserving subdirectory=
- structure.
-> +    # Use -maxdepth 2 because subdirectories like oss-fuzz/ are not enable=
-d by default;
-> +    # when enabled, their binaries (e.g., ./oss-fuzz/oss) need to be copie=
-d as well.
-> +    cd ${B}/tests && find . -maxdepth 2 -type f -executable | xargs -I {} =
-cp --parents {} ${D}${PTEST_PATH}/tests/
-> +    cd ${S}/tests && find . -maxdepth 1 -name '*.at' | xargs -I {} cp --pa=
-rents {} ${D}${PTEST_PATH}/tests/
-> +    cd ${S}/tests && find . -maxdepth 1 -type f -executable | xargs -I {} =
-cp --parents {} ${D}${PTEST_PATH}/tests/
-> +
-> +    cd ${S}/tests && find . -maxdepth 1 -name '*.py' -exec install -m 0755=
- {} ${D}${PTEST_PATH}/tests/ \;
-> +
-> +    install -D -m 0644 ${S}/vswitchd/vswitch.ovsschema ${D}${PTEST_PATH}/v=
-switchd/vswitch.ovsschema
-> +
-> +    install -D -m 0755 ${S}/utilities/checkpatch.py ${D}${PTEST_PATH}/util=
-ities/checkpatch.py
-> +    install -D -m 0644 ${S}/utilities/ovs-pcap.in ${D}${PTEST_PATH}/utilit=
-ies/ovs-pcap.in
-> +    install -D -m 0644 ${S}/utilities/ovs-pki.in  ${D}${PTEST_PATH}/utilit=
-ies/ovs-pki.in
-> +
-> +    install -D -m 0644 ${S}/python/test_requirements.txt ${D}${PTEST_PATH}=
-/python/test_requirements.txt
-> +    install -m 0644 ${S}/tests/idltest.ovsschema ${D}${PTEST_PATH}/tests/
-> +    install -m 0644 ${S}/tests/idltest2.ovsschema ${D}${PTEST_PATH}/tests/
-> +    install -m 0644 ${S}/AUTHORS.rst ${D}${PTEST_PATH}/
-> +    install -D -m 0644 ${S}/build-aux/check-structs ${D}${PTEST_PATH}/buil=
-d-aux/check-structs
-> +
-> +    # Symlink vtep.ovsschema to the path expected by ptest; the actual fil=
-e is
-> +    # already installed by the main openvswitch package.
-> +    install -d ${D}${PTEST_PATH}/vtep
-> +    ln -sf /usr/share/openvswitch/vtep.ovsschema ${D}${PTEST_PATH}/vtep/vt=
-ep.ovsschema
-> +
-> +    sed  -i \
-> +         -e 's|PYTHON=3D.*|PYTHON=3D"python3"|' \
-> +         -e 's|PYTHONPATH=3D.*|PYTHONPATH=3D/usr/share/openvswitch/python:=
-${PTEST_PATH}/tests:$PYTHONPATH|' \
-> +         -e 's|EGREP=3D.*|EGREP=3D'"'"'grep -E'"'"'|g' \
-> +         -e 's|CFLAGS=3D.*|CFLAGS=3D'"'"' '"'"'|g' \
-> +         ${D}${PTEST_PATH}/tests/atlocal
-> +
-> +    sed -i \
-> +        -e "s|^at_testdir=3D.*|at_testdir=3D'${PTEST_PATH}'|" \
-> +        -e "s|^abs_builddir=3D.*|abs_builddir=3D'${PTEST_PATH}'|" \
-> +        -e "s|^at_srcdir=3D.*|at_srcdir=3D'${PTEST_PATH}/tests'|" \
-> +        -e "s|^abs_srcdir=3D.*|abs_srcdir=3D'${PTEST_PATH}/tests'|" \
-> +        -e "s|^at_top_srcdir=3D.*|at_top_srcdir=3D'${PTEST_PATH}'|" \
-> +        -e "s|^abs_top_srcdir=3D.*|abs_top_srcdir=3D'${PTEST_PATH}'|" \
-> +        -e "s|^at_top_build_prefix=3D.*|at_top_build_prefix=3D'${PTEST_PAT=
-H}'|" \
-> +        -e "s|^abs_top_builddir=3D.*|abs_top_builddir=3D'${PTEST_PATH}'|" \
-> +         ${D}${PTEST_PATH}/tests/atconfig
-> +
-> +    sed -i \
-> +        -e "s|ovs-appctl-bashcomp\.bash|/etc/bash_completion.d/ovs-appctl-=
-bashcomp\.bash|g" \
-> +        -e "s|ovs-vsctl-bashcomp\.bash|/etc/bash_completion.d/ovs-vsctl-ba=
-shcomp\.bash|g"   \
-> +        -e "s|^\(.*config\.log.*\)|#\1|g" \
-> +         ${D}${PTEST_PATH}/tests/testsuite
+> +run_test() {
+> +    tname=3D"$1"
+> +    tpath=3D"$2"
+> +    "$tpath" >/dev/null 2>&1
+> +    rc=3D$?
+> +    case $rc in
+> +        0)  echo "PASS: $tname"; PASS=3D$((PASS + 1)) ;;
+> +        77) echo "SKIP: $tname"; SKIP=3D$((SKIP + 1)) ;;
+> +        *)  echo "FAIL: $tname"; FAIL=3D$((FAIL + 1)) ;;
+> +    esac
 > +}
-> +RDEPENDS:${PN}-ptest +=3D " ${PN}-testcontroller"
-> +RDEPENDS:${PN}-ptest +=3D "python3-packaging python3-setuptools"
+> +
+> +# Skip run-ptest (self), commandhelper and qemucapsprobe are middleware
+> +# used by other test cases, not test cases themselves.
+> +for t in $(find ${PTEST_DIR} -maxdepth 1 -type f -executable ! -name "*.so=
+" ! -name "run-ptest" ! -name "commandhelper" ! -name "qemucapsprobe"); do
+> +    run_test "$(basename $t)" "$t"
+> +done
+> +
+> +# Summary
+> +echo ""
+> +echo "=3D=3D=3D Test Summary =3D=3D=3D"
+> +echo "PASS: $PASS"
+> +echo "FAIL: $FAIL"
+> +echo "SKIP: $SKIP"
+> +echo "TOTAL: $((PASS + FAIL + SKIP))"
+> diff --git a/recipes-extended/libvirt/libvirt_git.bb b/recipes-extended/lib=
+virt/libvirt_git.bb
+> index 34a1ff21..d1d957cc 100644
+> --- a/recipes-extended/libvirt/libvirt_git.bb
+> +++ b/recipes-extended/libvirt/libvirt_git.bb
+> @@ -34,17 +34,16 @@ PV =3D "v${LIBVIRT_VERSION}+git"
+>  SRC_URI =3D "gitsm://github.com/libvirt/libvirt.git;name=3Dlibvirt;protoco=
+l=3Dhttps;branch=3Dmaster \
+>             file://libvirtd.sh \
+>             file://libvirtd.conf \
+> +           file://run-ptest \
+>             file://dnsmasq.conf \
+>             file://hook_support.py \
+>             file://gnutls-helper.py;subdir=3D${BP} \
+>             file://libvirt-qemu.conf \
+>             file://0001-prevent-gendispatch.pl-generating-build-path-in-cod=
+e.patch \
+> -           file://0001-messon.build-remove-build-path-information-to-avoid=
+-.patch \
+> -           file://0001-tests-meson-clear-absolute-directory-paths.patch \
+>             file://0001-qemu_nbdkit.c-use-llu-to-print-time_t.patch \
+>            "
+> =20
+> -inherit meson gettext update-rc.d pkgconfig systemd useradd perlnative
+> +inherit meson gettext update-rc.d pkgconfig systemd useradd perlnative pte=
+st
+>  USERADD_PACKAGES =3D "${PN}"
+>  GROUPADD_PARAM:${PN} =3D "-r qemu; -r kvm; -r libvirt; -r virtlogin"
+>  USERADD_PARAM:${PN} =3D "-r -g qemu -G kvm qemu"
+> @@ -188,6 +187,46 @@ CVE_STATUS[CVE-2023-3750] =3D "fixed-version: Fixed in=
+ 9.6.0, NVD tracks this as v
+>  # Enable the Python tool support
+>  require libvirt-python.inc
+> =20
+> +do_configure:prepend() {
+> +      sed -i \
+> +        -e "s|meson.current_build_dir()|'${PTEST_PATH}/tests'|g" \
+> +        -e "s|meson.project_build_root()|'${PTEST_PATH}'|g" \
+> +        -e "s|meson.current_source_dir()|'${PTEST_PATH}/datas/tests'|g" \
+> +        -e "s|meson.project_source_root()|'${PTEST_PATH}/datas'|g" \
+> +        ${S}/tests/meson.build ${S}/scripts/rpcgen/tests/meson.build ${S}/=
+tests/schemas/meson.build
+> +}
+> +
+> +# Guard abs_top_builddir/abs_top_srcdir defines with #ifndef to avoid
+> +# -Werror redefinition conflict when tests pass them via -D compile flags.
+> +do_configure:append() {
+> +      sed -i '/^#define abs_top_builddir/c\#ifndef abs_top_builddir\n#defi=
+ne abs_top_builddir " "\n#endif' ${B}/meson-config.h
+> +      sed -i '/^#define abs_top_srcdir/c\#ifndef abs_top_srcdir\n#define a=
+bs_top_srcdir " "\n#endif' ${B}/meson-config.h
+> +}
+> +
+> +
+> +do_install_ptest() {
+> +       install -d ${D}${PTEST_PATH}/tests
+> +       install -d ${D}${PTEST_PATH}/datas/tests
+> +        # The virshtest expects virsh at ${PTEST_PATH}/tests/tools/virsh, =
+but it is
+> +        # installed to /usr/bin/virsh by libvirt-virsh. Create a symlink t=
+o satisfy
+> +        # the test's expected path.
+> +       install -d ${D}${PTEST_PATH}/tools=20
+> +       ln -sf /usr/bin/virsh ${D}${PTEST_PATH}/tools/virsh=20
+> +       find ${B}/tests/  -type f -executable -print -maxdepth 1 | xargs -i=
+ cp {} ${D}${PTEST_PATH}/tests -rf
+> +       cd ${S}/tests && find . -mindepth 1 -maxdepth 1 -type d | xargs -i =
+cp {} ${D}${PTEST_PATH}/datas/tests -a
+> +       install -m 0755 ${B}/scripts/rpcgen/tests/test_demo ${D}${PTEST_PAT=
+H}/tests
+> +       install -m 0644 ${S}/scripts/rpcgen/tests/*.bin ${D}${PTEST_PATH}/d=
+atas/tests
+> +       install -D -m 0644 -t ${D}${PTEST_PATH}/datas/examples/xml/test/  $=
+{S}/examples/xml/test/*.xml
+> +       install -D -m 0644 -t ${D}${PTEST_PATH}/datas/examples/xml/storage/=
+ ${S}/examples/xml/storage/*.xml
+> +       install -D -m 0644 -t ${D}${PTEST_PATH}/datas/src/conf/schemas/ ${S=
+}/src/conf/schemas/*.rng
+> +       install -D -m 0644 -t ${D}${PTEST_PATH}/datas/src/nwfilter/xml/ ${S=
+}/src/nwfilter/xml/*.xml
+> +       install -D -m 0644 -t ${D}${PTEST_PATH}/tests/schemas/ ${B}/tests/s=
+chemas/*.rng
+> +       install -m 0644 ${S}/tests/openvzutilstest.conf ${D}${PTEST_PATH}/d=
+atas/tests
+> +       install -d ${D}${PTEST_PATH}/datas/src/network
+> +}
+> +
+> +RDEPENDS:${PN}-ptest +=3D " ${PN}-virsh"
+> +
+>  do_compile() {
+>  	cd ${B}/src
+>  	# There may be race condition, but without creating these directories
 
