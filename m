@@ -1,272 +1,112 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <mingli.yu@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB9E5CD98C7
-	for <webhook@archiver.kernel.org>; Sun, 14 Jun 2026 03:56:17 +0000 (UTC)
-Received: from mail-yx1-f43.google.com (mail-yx1-f43.google.com [74.125.224.43])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.102808.1781409371670513204
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88B4ACD98CF
+	for <webhook@archiver.kernel.org>; Tue, 16 Jun 2026 09:36:16 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.150242.1781602574769590208
  for <meta-virtualization@lists.yoctoproject.org>;
- Sat, 13 Jun 2026 20:56:11 -0700
+ Tue, 16 Jun 2026 02:36:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=TXowXc4r;
- spf=pass (domain: gmail.com, ip: 74.125.224.43, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-yx1-f43.google.com with SMTP id 956f58d0204a3-66077e888b2so2031549d50.3
-        for <meta-virtualization@lists.yoctoproject.org>; Sat, 13 Jun 2026 20:56:11 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781409371; cv=none;
-        d=google.com; s=arc-20240605;
-        b=lOJVwUVALwUvbByYpGbTKEZYTqfOiBACsP3amjHDrk7UpI0h6IMz2wUL6/PeAJLmln
-         Hg9hjUz/DLGcAhvSld3w06pwzptgiWFlv6q/yoEDS4rNsFsLd88RGKlk1WF72KaSr7ub
-         5hPgyrCwPf/zurBuC9PMYwBqxkr5c+kGoeOE9rybGvOSCIBoCq+dugwuNmfVOZH22VWL
-         zTaBrV1OYAJ4EuOmX3TUXE0MhzkR7ucwFi685Okmd46iKZTS76f7JnRU6VVFTxPBN27f
-         2j0RY4GjRH5eW2+T/iJE0xOoqtosQ3IbEK3eDk/mz6oLptsSXwnOusycvHyfQVUE/mVR
-         wfqA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=PreQ4d6VM5OHrJlwKG/4jNNu/PTWPLX84jmeSWMjLHU=;
-        fh=Ti9E3UEbsPmawEmnjYgqZildcTQW4Ldn+Ux8FKiWujk=;
-        b=Qa9389iRLNzaG0A6i/ZFDm87mHiu2IZeYzARy1PIKVoVg0IFG3IbhBMYoxWMPgeeVR
-         T2s/of0G29eFUMvB7ami5vOdUOP29azMc8wihMiTyQ4EhDNlveC4AfYi5m/r2IMAxdXy
-         C9n19q2bWsxE/hL80XOeJ56J+EuIc6Tny6PDDtH1bYuqyxKijszmwKOUigpDg9gn8aEi
-         3K7Yk2xrfHk4R+WzDqHf94lmOw99RoLvc66SEeufKhcrYauWDCID20JYCukZhXoLe5mW
-         9XIyLSI/s8IBoMWPGaRTuV439emFSbIYJcxLlZzBHLN9FVcy/+v4owKEJqfE9GISkvCY
-         lCvg==;
-        darn=lists.yoctoproject.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781409371; x=1782014171; darn=lists.yoctoproject.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=PreQ4d6VM5OHrJlwKG/4jNNu/PTWPLX84jmeSWMjLHU=;
-        b=TXowXc4rBWMFrtLyGmBVELDnGJv4rlbfTDMl9K8s01uy2+EKUF/XypdHAMTRwdB9Ok
-         Rm4c6SyWJmT0B7JT57a1La5/0d2mvkaHAccaynktPGCMAygZVkNxq7H3NEdCzgzs89so
-         bpGfKbD0gyOPuvQ85mUxpT+cBWY59ZLvDktMrwf3KEoC9QTK7wDsb4RF49D+qXbQWl1G
-         MkLxb+GhsTRTPGozoAqAsNfwfWc6A5U9LNeMWFK0YP74dusk1e9ihwntp7jN7Zseookv
-         vFzKTTKEkagINwJ8EzEGpLYpA2qYbS1TqkSkZR76tMftEBIy3uFwccLF9KJk/a1IPH9K
-         ZbGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781409371; x=1782014171;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PreQ4d6VM5OHrJlwKG/4jNNu/PTWPLX84jmeSWMjLHU=;
-        b=C+fNc/THYnLOWVKP59W17VKDo57x1dG6eCa0RNgnbNbTUF+aKUCZraihuCWfI+XBJA
-         kQrq4/MgoYK6nod4m5TP+ROf2Obr5TGp5BlY5Be35ByYfziSGCrswh0ZwovQTcHIFtDE
-         cGqeSlEQHns7G3Wt42g46fBBwHakW1ayi1GG9qKOarZhjn26E032w+YSys+QDGUGD+lE
-         F4yPHJ5iOeefoGUVelwH6vDnTNfjaUut2AWMdTc7/a3W+DUH6uP4nB5028/UDydB3g45
-         UBMFTYEmxT0o3HX368G9+SCf2BpTU5O5aTKhbrIZol56bPGc3kUf2eDzEn7p20pSdLmW
-         S+Ig==
-X-Forwarded-Encrypted: i=1; AFNElJ+tVVgQk/3Ry0iswl77iWXrO/J0vT3R0f1HZeANxd4CgiSwLJGNBUfONmwduAY2dY+jAu8nl7pJ6/ZO6bwfrMvMc8/L@lists.yoctoproject.org
-X-Gm-Message-State: AOJu0YwiYCCO03jH3EahcozJZiIo5dv7Jz78LA7D+BiAxlC29rE+mxHp
-	2sMch8WnPMqbklWLf4b/7JCJgzt/TeX+TMb4lXSWHeOSoDIqMcjUJLA8FzJoxa/ePGn8xz8Sv1T
-	73AtkFXyr0Pu13bgN2Ry4bQeSNavWjA4=
-X-Gm-Gg: Acq92OEfDsroE9VH04X8z49l2eRqj9DO3UINhFXwl5zB9nFZ1G4ewJVZyrx42XxdFmG
-	SfkzG3n0+rrojJiz2okoOhOGNKSmN6WEj9KkVvJtYjAYHglNW+5l4mZxl3+gbzj5Xy6a6CB0+mf
-	NvKwVXF9UjXl9t4k9E35hvRY+EF6le2YisMhILR0JFNZlU3gTedGLQv7JlI8C0Swlnd9THCK7NM
-	al23XgKuvOQRspttOYWkDEqG+cvPI14X9oHnMOL285vKqbfZHn/eqwri6rRK/kPoJJ9A2KGpghH
-	ERUkaHJWA0ussfrNVWAb/Cef4WMUBzcPKgN/MrSrCmZmrnXehlHzR1Ev4Z8aVMqP/KePbWY9GyS
-	QBOobs28SV80Hf0SBsU05HclGNg==
-X-Received: by 2002:a05:690e:b8a:b0:660:7497:b786 with SMTP id
- 956f58d0204a3-662782d49b6mr7914494d50.31.1781409370603; Sat, 13 Jun 2026
- 20:56:10 -0700 (PDT)
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=nhQSFcI+;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=0627f155f3=mingli.yu@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65G9U1AP3210900
+	for <meta-virtualization@lists.yoctoproject.org>; Tue, 16 Jun 2026 02:36:14 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PPS06212021; bh=HT/H1mnZ++WO7dObSQHg
+	govQVR6gjCe9UW+RK3FS4mo=; b=nhQSFcI+DbtTkYtnzgSBqa0GW+AVHdB2OpPB
+	3WE5nhhY2S0u1rpPVPvWBpzgkN/JwOKiqXq3yK3ZMxDbHmLqxY8KOZ4aWIyyZz78
+	0wZnTF+/KmKwRne82YgB2nK5vJ/6QU9ufcIrP5K7kS0oNgYxv+Ohq3pSj6iXsS30
+	EE4MVnX9x5Q+ku/LjjxuO6EtWgo8zAls3o9SJ9pcYv/b4nkQoNZF2bjok2kzsFlF
+	71p5nLvrhaWYVgqPr2LFTvWMoFMVKKZX+sxQhnAS1j0oM95dnBkNYljZ/tT6RDjL
+	SnJPV6DjcmVFA8cAEaARaSneOvfGFEDIwLTeSaZ1Mvkm6v2RDQ==
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [128.224.246.36])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4es2g0c8wb-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <meta-virtualization@lists.yoctoproject.org>; Tue, 16 Jun 2026 02:36:14 -0700 (PDT)
+Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.61; Tue, 16 Jun 2026 02:36:13 -0700
+Received: from ala-lpggp9.wrs.com (10.11.232.110) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
+ 15.1.2507.61 via Frontend Transport; Tue, 16 Jun 2026 02:36:13 -0700
+From: <mingli.yu@windriver.com>
+To: <meta-virtualization@lists.yoctoproject.org>
+Subject: [PATCH] libvirt: Set COMPATIBLE_HOST to 64bit arch
+Date: Tue, 16 Jun 2026 02:36:13 -0700
+Message-ID: <20260616093613.1817112-1-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.54.0
 MIME-Version: 1.0
-References: <e5d18f05-f00f-45df-a4c1-c2d21ca17de7@gmail.com> <18B8C5CCA74FA3D2.312216@lists.yoctoproject.org>
-In-Reply-To: <18B8C5CCA74FA3D2.312216@lists.yoctoproject.org>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Sat, 13 Jun 2026 23:55:57 -0400
-X-Gm-Features: AVVi8CcnFokyiEnnH97TB5PYRrTPFRipEHihZcOW5ztMV22dtxkfXsmi2112qRo
-Message-ID: <CADkTA4N=2x5+PdfYdK5a3yS0-jd0c_k1FAV_0Z26FCx4wha2_A@mail.gmail.com>
-Subject: Re: [meta-virtualization] lxc: starting a container errors out
-To: bruce.ashfield@gmail.com
-Cc: fntoth@gmail.com, 
-	meta-virtualization <meta-virtualization@lists.yoctoproject.org>
-Content-Type: multipart/alternative; boundary="000000000000bc031006542eb02b"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Authority-Analysis: v=2.4 cv=ZJ/nX37b c=1 sm=1 tr=0 ts=6a31190e cx=c_pps
+ a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
+ a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22
+ a=HK-ge7EqtdluswH-FwHe:22 a=Q4-j1AaZAAAA:8 a=t7CeM3EgAAAA:8
+ a=3XN8_AUbtmPkmUkPTvUA:9 a=9H3Qd4_ONW2Ztcrla5EB:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjE2MDA5NiBTYWx0ZWRfX3JZ5cI98U07b
+ HfcOEMPlsV8+qKRSaFyBOeJdJKl1NXfWcTVTW1rVgkib7Zk5P1y6WbGqd3WrtH50CcW8oFZxROv
+ QtsAN1WIq2isL6+pwykwRbP4zeoGYp2EE8F7w77AhB3hrgfDqcIGDH+EVucEt2j/XsLVv93IiIU
+ 6uTRJwo0BkCeHzXqgIhSADJSF9p1wzyEXML3nXbGUWxNSXKrBpp/Hc52VOMKz/YlUqad1/wXW27
+ vXfPnHaIJOTqLfRzEiwkWBIM05vsPFDW6y/iJeGn+YmXCGs7vLAlpBtEYcMNLRvPhEkNoZM53/5
+ nbAjKW7bsHM5f3D2wiOIVMGc1OE85m4jfl5MibMzENLnF1BDAtfCD4Auo8TR6PFWOlzMAu9pdK5
+ 5X1YZOrHqoZmOJO7gG1crqIquwszME3fblrA/XbWe/XDdAYPLBDtlEWoCz7TUn65rhwoyjpZiy2
+ Z5YsSv1X3zPXm/74p5Q==
+X-Proofpoint-ORIG-GUID: wNpwahaBlp74A2tPfust7B_oGocZ4Zi2
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNjE2MDA5NiBTYWx0ZWRfX4XwLR7L2bk3E
+ mkMmVzX2BLOyE+3bpWFGuqM4+aOtmGw2/gZ/LbCOP6XSUkAHZxelygV7WQUKGIyDdi3eZb3cCc8
+ HovYKygUCc5086xfUbZ32XZwe9EMkwVcU1E9KHKxriAcDyPSjjPU
+X-Proofpoint-GUID: wNpwahaBlp74A2tPfust7B_oGocZ4Zi2
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-16_02,2026-06-15_04,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 adultscore=0 priorityscore=1501 clxscore=1015
+ lowpriorityscore=0 suspectscore=0 spamscore=0 bulkscore=0 impostorscore=0
+ phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606040000
+ definitions=main-2606160096
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Sun, 14 Jun 2026 03:56:17 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9892
+ <meta-virtualization@lists.yoctoproject.org>; Tue, 16 Jun 2026 09:36:16 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9893
 
---000000000000bc031006542eb02b
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Mingli Yu <mingli.yu@windriver.com>
 
-On Sat, Jun 13, 2026 at 6:52=E2=80=AFPM Bruce Ashfield via lists.yoctoproje=
-ct.org
-<bruce.ashfield=3Dgmail.com@lists.yoctoproject.org> wrote:
+qemu sets COMPATIBLE_HOST to 64bit arch [1], so set the COMPATIBLE_HOST
+accordingly to fix the build failure.
+ERROR: Nothing PROVIDES 'qemu' (but /build/layers/meta-virtualization/recipes-extended/libvirt/libvirt_git.bb DEPENDS on or otherwise requires it)
+qemu was skipped: incompatible with host arm-wrs-linux-gnueabi (not in COMPATIBLE_HOST)
 
->
->
-> - Thou shalt not follow the NULL pointer, for chaos and madness await the=
-e
-> at its end
-> - "Use the force Harry" - Gandalf, Star Trek II
->
->
-> On Sat, Jun 13, 2026, 3:34=E2=80=AFp.m. Ferry Toth via lists.yoctoproject=
-.org
-> <fntoth=3Dgmail.com@lists.yoctoproject.org> wrote:
->
->> root@yuna:~# lxc-create --name mycontainer --template download -- --dist
->> ubuntu --release resolute --arch amd64
->>
->> mktemp: failed to create file via template '-d/tmp.XXXXXXXXXX': No such
->> file or directory
->>
->>
->> This can be traced back to
->>
->> - DOWNLOAD_TEMP=3D"${DOWNLOAD_TEMP}$(mktemp -d)"
->>
->> + DOWNLOAD_TEMP=3D"$(mktemp -p ${DOWNLOAD_TEMP} -d)"
->>
->>
->> in patch "templates-actually-create-DOWNLOAD_TEMP-directory.patch."
->>
->> At this point in the code it is guaranteed that DOWNLOAD_TEMP is unset.
->> And `mktemp -p -d` results to the above error (on linux).
->>
->> The patch needs to be dropped.
->>
->
->
-> So send a patch.
->
-> lxc is functional for other use cases master-next is passing sanity for
-> incus/lxc and I'll need to confirm those paths against any changes.
->
->
-I've created some better unit tests for lxc, rather than relying on incus.
+[1] https://git.openembedded.org/openembedded-core/commit/?id=f74d4025
 
-I've also dropped the patch, as both types of testing are passing.
-master-next has the changes. They should be in master early next week.
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+---
+ recipes-extended/libvirt/libvirt_git.bb | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-Bruce
+diff --git a/recipes-extended/libvirt/libvirt_git.bb b/recipes-extended/libvirt/libvirt_git.bb
+index fb7e5293..837f9660 100644
+--- a/recipes-extended/libvirt/libvirt_git.bb
++++ b/recipes-extended/libvirt/libvirt_git.bb
+@@ -139,6 +139,11 @@ PACKAGECONFIG:remove:mipsarchn32 = "qemu"
+ PACKAGECONFIG:remove:mipsarchn64 = "qemu"
+ PACKAGECONFIG:remove:powerpc = "qemu"
+ PACKAGECONFIG:remove:riscv32 = "qemu"
++# QEMU 11.0.0+ requires 64-bit host architecture
++PACKAGECONFIG:remove:arm = "qemu"
++PACKAGECONFIG:remove:armeb = "qemu"
++PACKAGECONFIG:remove:mipsarch = "qemu"
++PACKAGECONFIG:remove:x86 = "qemu"
+ 
+ # numactl is NOT compatible with arm
+ PACKAGECONFIG:remove:arm = "numactl"
+-- 
+2.54.0
 
-
-
-> Bruce
->
->
->> Ferry
->>
->>
->>
->>
->>
->>
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#9891):
-> https://lists.yoctoproject.org/g/meta-virtualization/message/9891
-> Mute This Topic: https://lists.yoctoproject.org/mt/119792692/1050810
-> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [
-> bruce.ashfield@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
-
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end
-- "Use the force Harry" - Gandalf, Star Trek II
-
---000000000000bc031006542eb02b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-size:small"><br></div></div><br><div class=3D"gmail_quote gmail_quote_con=
-tainer"><div dir=3D"ltr" class=3D"gmail_attr">On Sat, Jun 13, 2026 at 6:52=
-=E2=80=AFPM Bruce Ashfield via <a href=3D"http://lists.yoctoproject.org">li=
-sts.yoctoproject.org</a> &lt;bruce.ashfield=3D<a href=3D"mailto:gmail.com@l=
-ists.yoctoproject.org">gmail.com@lists.yoctoproject.org</a>&gt; wrote:<br><=
-/div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bo=
-rder-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"auto"><d=
-iv><div><br></div><div><br></div><div>- Thou shalt not follow the NULL poin=
-ter, for chaos and madness await thee at its end<br>- &quot;Use the force H=
-arry&quot; - Gandalf, Star Trek II<br><br></div><br><div class=3D"gmail_quo=
-te"><div dir=3D"ltr" class=3D"gmail_attr">On Sat, Jun 13, 2026, 3:34=E2=80=
-=AFp.m. Ferry Toth via <a href=3D"http://lists.yoctoproject.org" target=3D"=
-_blank">lists.yoctoproject.org</a> &lt;fntoth=3D<a href=3D"mailto:gmail.com=
-@lists.yoctoproject.org" target=3D"_blank">gmail.com@lists.yoctoproject.org=
-</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:=
-0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">=
-root@yuna:~# lxc-create --name mycontainer --template download -- --dist <b=
-r>
-ubuntu --release resolute --arch amd64<br>
-<br>
-mktemp: failed to create file via template &#39;-d/tmp.XXXXXXXXXX&#39;: No =
-such <br>
-file or directory<br>
-<br>
-<br>
-This can be traced back to<br>
-<br>
-- DOWNLOAD_TEMP=3D&quot;${DOWNLOAD_TEMP}$(mktemp -d)&quot;<br>
-<br>
-+ DOWNLOAD_TEMP=3D&quot;$(mktemp -p ${DOWNLOAD_TEMP} -d)&quot;<br>
-<br>
-<br>
-in patch=C2=A0&quot;templates-actually-create-DOWNLOAD_TEMP-directory.patch=
-.&quot;<br>
-<br>
-At this point in the code it is guaranteed that DOWNLOAD_TEMP is unset. <br=
->
-And `mktemp -p -d` results to the above error (on linux).<br>
-<br>
-The patch needs to be dropped.<br></blockquote></div></div><div dir=3D"auto=
-"><br></div><div dir=3D"auto"><br></div><div dir=3D"auto">So send a patch.<=
-/div><div dir=3D"auto"><br></div><div dir=3D"auto">lxc is functional for ot=
-her use cases master-next is passing sanity for incus/lxc and I&#39;ll need=
- to confirm those paths against any changes.</div><div dir=3D"auto"><br></d=
-iv></div></blockquote><div><br></div><div><div class=3D"gmail_default" styl=
-e=3D"font-size:small">I&#39;ve created some better unit tests for lxc, rath=
-er than relying on incus.</div><div class=3D"gmail_default" style=3D"font-s=
-ize:small"><br></div><div class=3D"gmail_default" style=3D"font-size:small"=
->I&#39;ve also dropped the patch, as both types of testing are passing. mas=
-ter-next has the changes. They should be in master early next week.</div><d=
-iv class=3D"gmail_default" style=3D"font-size:small"><br></div><div class=
-=3D"gmail_default" style=3D"font-size:small">Bruce</div><br></div><div>=C2=
-=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
-x;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"auto=
-"><div dir=3D"auto"></div><div dir=3D"auto">Bruce=C2=A0</div><div dir=3D"au=
-to"><br></div><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote clas=
-s=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid r=
-gb(204,204,204);padding-left:1ex">
-<br>
-Ferry<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-</blockquote></div></div></div>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#9891): <a href=3D"https://lists.yoctoproject.org/g/meta=
--virtualization/message/9891" rel=3D"noreferrer" target=3D"_blank">https://=
-lists.yoctoproject.org/g/meta-virtualization/message/9891</a><br>
-Mute This Topic: <a href=3D"https://lists.yoctoproject.org/mt/119792692/105=
-0810" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.org/m=
-t/119792692/1050810</a><br>
-Group Owner: <a href=3D"mailto:meta-virtualization%2Bowner@lists.yoctoproje=
-ct.org" target=3D"_blank">meta-virtualization+owner@lists.yoctoproject.org<=
-/a><br>
-Unsubscribe: <a href=3D"https://lists.yoctoproject.org/g/meta-virtualizatio=
-n/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.or=
-g/g/meta-virtualization/unsub</a> [<a href=3D"mailto:bruce.ashfield@gmail.c=
-om" target=3D"_blank">bruce.ashfield@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
-=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
-ignature">- Thou shalt not follow the NULL pointer, for chaos and madness a=
-wait thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star T=
-rek II<br><br></div></div>
-
---000000000000bc031006542eb02b--
 
