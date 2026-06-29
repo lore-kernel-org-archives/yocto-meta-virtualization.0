@@ -1,171 +1,160 @@
-Return-Path: <Sandeep.J@windriver.com>
+Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F9A2CDE010
-	for <webhook@archiver.kernel.org>; Fri, 26 Jun 2026 05:01:57 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.28806.1782450100952963053
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4722AC43327
+	for <webhook@archiver.kernel.org>; Mon, 29 Jun 2026 00:21:29 +0000 (UTC)
+Received: from TYVP286CU001.outbound.protection.outlook.com (TYVP286CU001.outbound.protection.outlook.com [52.101.125.58])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.82551.1782692487064554250
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 25 Jun 2026 22:01:40 -0700
+ Sun, 28 Jun 2026 17:21:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=K4y6B1vL;
- spf=none, err=permanent DNS error (domain: oak-lpgbuild12.wrs.com, ip: 205.220.166.238, mailfrom: prvs=06372738ae=sj10@oak-lpgbuild12.wrs.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65Q4SqZv2913851
-	for <meta-virtualization@lists.yoctoproject.org>; Thu, 25 Jun 2026 22:01:40 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:message-id:mime-version:subject:to; s=PPS06212021; bh=hSMw/xJdD
-	w4Ck0VWe2J4YHPi85BSxXMtlqZxvDu1X7k=; b=K4y6B1vLGv37zx0PB9olFwNHt
-	8L4ZjxaC7orDuXKamIqV4i4MAM9pSS3ZFq03SHazuvLfxgv//0mE0CKmm0bumJKE
-	g99+dqTo7hyJfs7bjQ6WjEF6SJarpoyTFkfpVOdzDAXmAH10kricH/h7T1QUCZ5I
-	A2OD3OTx3o/n33ryTY6yoFIP3sVfzWJVrY3bjah4Jv0VW/yaTavuV9UUtiiJyUpT
-	IYY3kDUvKpZ84iJKlh1BLp8fxVEvdxDwyL4kBxbxmfB2B9/UOJ+zvLuLqAS6+LX4
-	xj+KLSwD0tasu+zgoZXNE7nVXb3p27GZgC4m9ok4xrMYzZyFRLtVlq4B6xfvg==
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [128.224.246.36])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4f1exk85rt-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <meta-virtualization@lists.yoctoproject.org>; Thu, 25 Jun 2026 22:01:40 -0700 (PDT)
-Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.61; Thu, 25 Jun 2026 22:01:39 -0700
-Received: from oak-lpgbuild12.wrs.com (10.11.232.110) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
- 15.1.2507.61 via Frontend Transport; Thu, 25 Jun 2026 22:01:39 -0700
-Received: by oak-lpgbuild12.wrs.com (Postfix, from userid 1762445396)
-	id 8D1983900BBB; Fri, 26 Jun 2026 05:01:39 +0000 (UTC)
-From: Sandeep J <Sandeep.J@windriver.com>
-To: <meta-virtualization@lists.yoctoproject.org>
-CC: <Shiva.Komati@windriver.com>, <Randy.MacLeod@windriver.com>,
-        Sandeep J
-	<Sandeep.J@windriver.com>
-Subject: [meta-virtualization][m-c-s][PATCH] Documentation/README: fix broken URLs in meta-openstack and puppet
-Date: Fri, 26 Jun 2026 05:01:39 +0000
-Message-ID: <20260626050139.3401173-1-Sandeep.J@windriver.com>
-X-Mailer: git-send-email 2.54.0
+ dkim=pass header.i=@fujitsu.com header.s=selector1 header.b=kb8afcAJ;
+ spf=pass (domain: fujitsu.com, ip: 52.101.125.58, mailfrom: wangmy@fujitsu.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=w3M2R8banGQpQJrzVJNRj5pA2GELcaqosx6pbaJW8yiVlro5CiqYB9B/ALLHxNAgIYxF9zKn8wQRbnh8X7vfDtOGq/SXS8ZUz7NYWvrYRefCNBF9rOSdqL0Wv9XEYZLR3bKa1w2aURs7R1QAwuHjoBXvBiBOwYAT6Azl811k7vCbofVdUZtC/86RTWpYHIsPZFSNidGKQdAYzYWrvz/DmH6gbmnVI4QLGPAEpFjv0weu8IBEHdyp4QZFaUJ+ruv22WTQ/zOM2xZwC1hNskclsXjwsl2G4dSW07U5KK8oHSu5P6ihkn8gBHt2Du2HqNpq1K6jdcRVBrvnlq9xoxKZAg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=kJAjEnpBQDmss/Xs1LMlb1aaNvHYEiuJv/xSbfmxH6E=;
+ b=uFRgKlPK4QO2hOsJDd7ovokhk8RR1aGxszeTDUifva4nfxuRbCgWLDhQESDyoYxi+OKKOrjvmt2jkj0tRYukpB8mW064P0rnK7/ojzkYa36H+SiiDCUCuP+YlQF/nWsQuFdhRPa/kXgZEZFj4sCFlCUnm9ziTpHSa8MBoYWJex92B0P1EkB3fBXpiGEODKXycvG3zh+SDUXYEe3A80Hvq7SrLs71z+lLbJ3OWVdmwsp5T1VUKEGb8idy7HsB6dc5IvvH2r8HorJ8bsblUbefoepSKL9spMK+nYZ8Hu8nK77Ji9l60qpC6BoVt7podfHwPGXGOoq/HW9uAKh8wM9qYg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=fujitsu.com; dmarc=pass action=none header.from=fujitsu.com;
+ dkim=pass header.d=fujitsu.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kJAjEnpBQDmss/Xs1LMlb1aaNvHYEiuJv/xSbfmxH6E=;
+ b=kb8afcAJefiWcsAC20PoalSzw9cSfXm1127zXWe/HV+N2t1yMR0v+q5ZDnEtF1Jwvk3bIqoHuEawRRzcdOx4tsl7oyHL565G3LGZCZnake7LV2WBUR7AHlW8CLHIKoVhoWJc/Qd35bubU6Rkjvba6GQ1fDUcAAVuFNGbzTMUrF8WcFm3ADJ7CpMU5MBH4fwTg7T/Qw+XVXYRY0B51D33YzJ2pzg99lXgXyLEwhDszVmkY6FBNqP8k9D2+T3fumAL2NiDFrhMeA/ARAb849FPZ8xd9+6IzG5EyMPgs39YqAQhuSJ0sRwsQIwZ7aApQdXq6hoT7v571jHudmfVBCB1BA==
+Received: from TYYPR01MB13419.jpnprd01.prod.outlook.com (2603:1096:405:1be::9)
+ by TYYPR01MB12161.jpnprd01.prod.outlook.com (2603:1096:405:fa::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.19; Mon, 29 Jun
+ 2026 00:21:21 +0000
+Received: from TYYPR01MB13419.jpnprd01.prod.outlook.com
+ ([fe80::5408:8c53:d81e:a928]) by TYYPR01MB13419.jpnprd01.prod.outlook.com
+ ([fe80::5408:8c53:d81e:a928%6]) with mapi id 15.21.0159.018; Mon, 29 Jun 2026
+ 00:21:21 +0000
+From: "Mingyu Wang (Fujitsu)" <wangmy@fujitsu.com>
+To: "Mingyu Wang (Fujitsu)" <wangmy@fujitsu.com>,
+	"meta-virtualization@lists.yoctoproject.org"
+	<meta-virtualization@lists.yoctoproject.org>
+Subject: RE: [PATCH] [meta-virtualization] [meta-cloud-services] [PATCH] qemu:
+ upgrade bbappend to 11.%
+Thread-Topic: [PATCH] [meta-virtualization] [meta-cloud-services] [PATCH]
+ qemu: upgrade bbappend to 11.%
+Thread-Index: AQHdAtUWapJxeexZTUivTD023UNLQbZUtLQQ
+Date: Mon, 29 Jun 2026 00:21:21 +0000
+Message-ID: 
+ <TYYPR01MB1341975C97E9A5113CF8C46FFDCE82@TYYPR01MB13419.jpnprd01.prod.outlook.com>
+References: <18BBA0305BE410F4.1048178@lists.yoctoproject.org>
+In-Reply-To: <18BBA0305BE410F4.1048178@lists.yoctoproject.org>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+ MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_ActionId=aec3299c-2982-4433-b40b-91d9e0cf9270;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_ContentBits=0;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_Enabled=true;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_Method=Standard;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_Name=FUJITSU-RESTRICTED?;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_SetDate=2026-06-29T00:21:09Z;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_SiteId=a19f121d-81e1-4858-a9d8-736e267fd4c7;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_Tag=10,
+ 3, 0, 1;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=fujitsu.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYYPR01MB13419:EE_|TYYPR01MB12161:EE_
+x-ms-office365-filtering-correlation-id: 654a3ecc-d4ed-41ab-91f9-08ded57458b2
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|376014|23010399003|366016|1800799024|56012099006|18002099003|11063799006|22082099003|6133799003|1580799027|38070700021;
+x-microsoft-antispam-message-info: 
+ Oc80aviCzFO7FTDV+J0FmK7acc57j9ltLXTEgS4cd7+R8raDYpIvBQC7lc0GeFdg5V6/kF8P1kzcbxY3VYL8z5UmpR+YKVmY+fGVkpyPLsH0sdL1U4W/Xb6QSmmOX2k3WjxHW/PvhOJ+3BfqA106x+x91O7GjzB0yZlGYr6NvH8qbf88wSdK7dNdUjJRiBHXIhwA2ys7mcK3pkQgZg51YAGoCD3qu2oBr437+bMgYtohWfVkystAIGno4M1Qjeife+BERqXSqBxcotQxsqlenWiHUh0eml+EbxuhD44tdBYISgKPKkHUPyNeXo4B/2TvSNJe5OW8R1NKQfiAFTASIjebiwZDauVm4ouT4ym1+povYiRd9kVMK2am2U6rfo9tFppEC/ehhbwoyPJRh9y45Fr8B67RvANiIVBoqkMq42tbxV8ppRozXEB8KyhWmvZefQ3zzLIe6ENB4gqPZUTpfWKnYzsy85NZiOIa7gMQFYnvdaFAmv0HShf2u9C1l4T0nbBkHftzZsxMTAYxVBsUIUdXBsLMLprPle4YxCHM0AqUfTE1oEpvgpQWFg8IMNQsv+KVhRD5QBN3NXmfWrQxNkyags5BQXTdo8xpRBnhBdtUnEuJKNZbhk19rpQX3OoxlvQRc3Ris4dpbbZ3IO0yv6r+Rom4sUjIMJNXpiJj5N+vZxgclLl1o4WaR/jwHRerLJZiCBNsF5yhtwlHKOY+sbp667jS5l/PhBiEcm0iNIDZvtfsvlea1aHNf0xQG86j
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:zh-cn;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYYPR01MB13419.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(366016)(1800799024)(56012099006)(18002099003)(11063799006)(22082099003)(6133799003)(1580799027)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?gb2312?B?bitUUSt0QVgybzdWaXk5dy91VGFCeUNwdGxXV2QxbHZXeTJralVqeElDUk0r?=
+ =?gb2312?B?MXNtNkdTRUJNK3BYa0ErUjBGeSs1NExpUkhjc0dIM2RmNnpwVEpBSFhzTjVW?=
+ =?gb2312?B?dk80dHhvMUMxaTBqdFgwUWJCV3k1UUpTZm0xUVpJTG1DOThhWmxDSmVXUCs2?=
+ =?gb2312?B?TkY5eHpDcjFIalptK051ck5hZXlHOXl3VUE5Y25UbFZYNmNHNWIzY0NOdHpa?=
+ =?gb2312?B?djNRd3FVblNrZExpRit4Z3BIMTdVZmdRMnVxa2p6bHVQQTdJbHJQYkFrOVlt?=
+ =?gb2312?B?UUhZM0dZZHdCTXJzRzVWRkR2YnRkQVBsZ1VwSk5IdEFJT0VHWVA5VWVoam4y?=
+ =?gb2312?B?TjhzTldWWDhxZ3o2THhhcmVCUGZ1ZmRFTTJmRnZqS2ZHRE9yUXJVRlB2aXRz?=
+ =?gb2312?B?d2x3dmgyNEM5c0I3TVFneXBPcFlQeGxuNmhEQnRCVGRUaGRrOEhuMTBCSTF3?=
+ =?gb2312?B?c29UR3NBeUc5TDRONUNDZ2xwRUI4N1FXRkRPbHRLaTI0SFhLVWlWUUFkM0xj?=
+ =?gb2312?B?VjdMNWJveDJYK3hlNDdUYVR5QUIwZnFqUzBxQU9jamJHN0ZSOHpsQXFXWmlv?=
+ =?gb2312?B?TTQ1TUNiYnVYOGhad0JNbjkrbnBKMzJvalNIZUN5bktkRVVzVzJCb1JOQWtv?=
+ =?gb2312?B?UHBnR1g1ZmY5QkVUTGpCQnY5NVBJdCtzWjcyLzk2TnR5U1c3UndWdVhFYms2?=
+ =?gb2312?B?SG5SSW9TU0RMcUtyS29jUy9mQkYyT01CNEJFWklMcnpMTm1xQ1Y1MmlxS01v?=
+ =?gb2312?B?NURlcmJCdEdzV3hyeGFBaVRORi9yVzBWMFdFR1NhYWt2b1BYSkR5a2J5VEJk?=
+ =?gb2312?B?NnJLV3prdmtjbFUxM2RUdEd1cHlIeGRvNVRLWVJsZ1VBMWl6M2hXR0ZOTmtP?=
+ =?gb2312?B?bC9nVWNkdDJIL0d0dmVkSVAyS2pHb05TOFhjdnJmMFBGWWtPcUJyYnpORlhs?=
+ =?gb2312?B?byt0enZaakpxdk02NXFCcEVKcmZ1WkVIanpQN05mQ1pCM2JURmVrMFpFVmxm?=
+ =?gb2312?B?eDVUT2EvWkR1Qkljc2NIZEM4am5JaFZHRXZjSis2L3prTTRKaUFpR3E0SUxZ?=
+ =?gb2312?B?djd2Y1RQT3RsRGM2d3FxUm0zV3dZb3cvbWFaUXo3UlpRWGVvT2V3UkkxLy8w?=
+ =?gb2312?B?Um5HSUxVVDBzeHc5MFdRbkFxMWhlNzNBbUFEMWdXaThIM0hxUGVHTTNRUzRn?=
+ =?gb2312?B?dk11NzFCREdiMjdzWmpGSjFZZlRheERDQlhQNTdYWS8vOVU0YnN3NlNiWnZt?=
+ =?gb2312?B?MEplZ1hqbGM0bVl1K1c2VElySEFqZnVtYmZCZndPbFowNFNsZEtWTzFWd3dM?=
+ =?gb2312?B?TzVkMytvbFdwQ2xJdWNzKzZRbUVqZk92TUxoL1lZZnpJbC9qamJuSzlEc3d6?=
+ =?gb2312?B?LzdvMVM5dS9kTDJLR2tQczBaQllBUE5kbHBWRWFsdzBTdm4rRC9JZk5VQXNz?=
+ =?gb2312?B?aldwanFzbGwyL2xIajM5b0JmS3JnMG04WjdFZERLR0RjRCt0bC9hOUtrVjRo?=
+ =?gb2312?B?TE9UYkVaTlVTRlRJbHRscmhhaTZJY2Jjd1FvWmdOZjFpR2ZoWFFYSENHeHpG?=
+ =?gb2312?B?S2pVK29KRHhhQ2NQMmZtcGhmS2k1TWN1bi9Ld25vWXlZREVVSC96dXdzdU1R?=
+ =?gb2312?B?V09pS0V4alhERzRQNTVPYWFQUmpWdXdjRERtZXdBcGlBVlViL2tsajJJSUFz?=
+ =?gb2312?B?OUVCU2p0UGkrd05zNHZGZE9Cb1k4OHpuQ3MvREtpb1hxdkd1OVNROUhEVTJU?=
+ =?gb2312?B?b3JRMmdOYll5S0NWMXNNQ0ptcU5RRjZkeG55eDY1VGNGeDJicGtQdjdQMXVB?=
+ =?gb2312?B?SzFjR05sS2F4OUNWeUIvZU1vMG16dVBIR29rL2hhOG51c25aS0RqTDNDdTRX?=
+ =?gb2312?B?VC9ubm5FVTZraHkxTm9sWnF0V0dKNjlvbVByYkdKelRIN0Q5ZjNFMjJRZUhQ?=
+ =?gb2312?B?eGdxeEFDRHNwZG9BSmQwTGhqUTJvdXN6bmJ6SlJjU3lDblo2U3ZXNk9WZm5Q?=
+ =?gb2312?B?WHFnMnJMc0Z4ZFlZcUMzcEpRL1ZwODJ4a1MySkV5Y1ZFYVQ0a3ZqOTl6NnlU?=
+ =?gb2312?B?YlFFcm1WM2lEcW5lT2s5eXpYTjBBeTNIMmlYb2hZQ3RrN3c0eU5IYlRLeVpz?=
+ =?gb2312?B?S2NlWWxWNzFmbHh5ZDlrRXdlNWFXSnBJeDErZDUrU0Q3UkU2RkNia3lERFZJ?=
+ =?gb2312?B?dHNJdkdSRnFzVVR5VXR0RytYTWpWZHhNTmpnQjcxdU94SUEwcmdZb05nbGcz?=
+ =?gb2312?B?NlNpNHI2TExpQS9wbFpOcXJWdmRFMlozVUVrTGlqbDd0Zi81V1REczZ4R21X?=
+ =?gb2312?Q?D8KsZnDmf7qzGkDe9Y?=
+Content-Type: text/plain; charset="gb2312"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: sS0oJON3FTTdeRTeBg33KzIp8gAD0oX1
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNjI2MDAzNyBTYWx0ZWRfX0NZMB7lsbqR9
- hls/EOJ8uNBA2pJILZIKXQR/Ghn6pjYo+anzx0IUZZxE4GVvJEHQg3SPGUetOROKzgAr56eUYWv
- vCVj85KzTmPQctDRG6Su86gHrYSlOUFn7Sg/rhXwBBG1lITvVVlj
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjI2MDAzNyBTYWx0ZWRfX0wKnSgIWsWsB
- DckpmYuI699J3OT4/A/hRD3nPnBQ/gIkP4a2+YQHNrRMFBDLgu5iuGmLvrBpY4G4DV8LuwoJlNz
- Tt0xur9An3AjH+fkADLWsi2wi1Ir36HCI0tenmSLArWazK3gXXy3f8EKylGEZ4SD2s2NHS3u0pG
- tZrvpUIJsDw1lGrfTF5/QpriA4o5IH2XSOIWdvW+G3mQFX0Mqe02wSDZrdTJEVXazDsqWMdD31q
- nPdM3LSRC/UoAyaEFctjNirSeybpkVImysS7dWdijyTtpH2VQdOt7rsPQVPntNdwGaM3hJl966/
- KHLgrNypNzKI1N7yL8LGGfRl5a92xC0gzjEkSmVdyaN1UShmmKRNGwNyiZxHsGNZpWCNxolJ6D5
- lp+01oWWJGFH4qrzba4veD6KlJ3Xb3rYdJbU++dn3FWwlYP5LaVbwr84AvUUphqsg8x3ANpErGI
- UD7S1IPELJihtuNBVdQ==
-X-Proofpoint-GUID: sS0oJON3FTTdeRTeBg33KzIp8gAD0oX1
-X-Authority-Analysis: v=2.4 cv=NLLlPU6g c=1 sm=1 tr=0 ts=6a3e07b4 cx=c_pps
- a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
- a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22
- a=iKiJcTA2PjBS6x5JeXcw:22 a=4u6H09k7AAAA:8 a=B_olCF5PAAAA:8 a=qjkT5h8hAAAA:8
- a=rxDX-_zBAAAA:8 a=NEAV23lmAAAA:8 a=_11zgxYGAAAA:8 a=t7CeM3EgAAAA:8
- a=-AMOOKU90ICpl4cWuI4A:9 a=5yerskEF2kbSkDMynNst:22 a=bKotK0tb0Zdhfv-iQwbr:22
- a=Ksf4zlvzGq4cKnU86lR1:22 a=4eVTqFGykFGrGitcmxkL:22 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-06-26_01,2026-06-24_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1011 bulkscore=0 impostorscore=0 spamscore=0 priorityscore=1501
- adultscore=0 suspectscore=0 phishscore=0 lowpriorityscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2606260037
+X-Exchange-RoutingPolicyChecked: 
+	YsRBeBe4qmqvsmxXZl/vFPPrYWFtnMxcLfHazdLaFGkaWFG/OEC9G0WHOBoJOLtr2ri2V9Gj1ywWtsAb0a14y86ApfFo/6geoZwdXR5s6G00BuBAajqumpfxoj/87KCa9hkwPi7Z9qRhMsVxT1KTgvZFp0jrWxh90dtlsPxNUSCI1r2srS2YKEzTCG1HprJ3dcYoHEvaPrVHMTvfXI6b/mrVZ6pek7e/a1FCLaEWzhuAbx/tS+ippk0zprk+ggLD1zZbFvXcGHcmAmmk3+7MylEBrPkGCg4jGp5cbd0Nh+DS6l7SMYG9xWgF6MaN0E3QwukSNQ9HwqAREqBrb0lp4g==
+X-OriginatorOrg: fujitsu.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYYPR01MB13419.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 654a3ecc-d4ed-41ab-91f9-08ded57458b2
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Jun 2026 00:21:21.3641
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a19f121d-81e1-4858-a9d8-736e267fd4c7
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: oynDIfcXAOICEHG5PnpiTwMjmKYz188LnE4p2iTvqMvzf7RLOPAiX9VZRPLqbpmKVUcLicQPsMBJ4PqjOyGq6A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYYPR01MB12161
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Fri, 26 Jun 2026 05:01:57 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9905
+ <meta-virtualization@lists.yoctoproject.org>; Mon, 29 Jun 2026 00:21:29 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9906
 
-Replace dead/moved URLs in README.trove, README.swift,
-README.networking_flat, README.networking_vlan, README.ceph-openstack,
-and puppet/README with current working links.
-
-Signed-off-by: Sandeep J <Sandeep.J@windriver.com>
----
- meta-openstack/Documentation/README.ceph-openstack  | 2 +-
- meta-openstack/Documentation/README.networking_flat | 2 +-
- meta-openstack/Documentation/README.networking_vlan | 2 +-
- meta-openstack/Documentation/README.swift           | 4 ++--
- meta-openstack/Documentation/README.trove           | 2 +-
- recipes-support/puppet/README                       | 2 +-
- 6 files changed, 7 insertions(+), 7 deletions(-)
-
-diff --git a/meta-openstack/Documentation/README.ceph-openstack b/meta-openstack/Documentation/README.ceph-openstack
-index 11348375..44d24f57 100644
---- a/meta-openstack/Documentation/README.ceph-openstack
-+++ b/meta-openstack/Documentation/README.ceph-openstack
-@@ -572,4 +572,4 @@ Hello World
- Additional References
- =====================
- 
--* https://ceph.com/docs/master/rbd/rbd-openstack/
-+* https://docs.ceph.com/en/latest/rbd/rbd-openstack/
-\ No newline at end of file
-diff --git a/meta-openstack/Documentation/README.networking_flat b/meta-openstack/Documentation/README.networking_flat
-index ab18f6f5..c44968c6 100644
---- a/meta-openstack/Documentation/README.networking_flat
-+++ b/meta-openstack/Documentation/README.networking_flat
-@@ -246,4 +246,4 @@ root@compute:~# ovs-vsctl show
- 
- References
- ----------
--http://developer.rackspace.com/blog/neutron-networking-simple-flat-network.html
-\ No newline at end of file
-+http://docs.openstack.org/neutron/latest/admin/intro-basic-networking.html
-\ No newline at end of file
-diff --git a/meta-openstack/Documentation/README.networking_vlan b/meta-openstack/Documentation/README.networking_vlan
-index 6d48e2b6..afb93436 100644
---- a/meta-openstack/Documentation/README.networking_vlan
-+++ b/meta-openstack/Documentation/README.networking_vlan
-@@ -379,4 +379,4 @@ root@compute:~# ovs-vsctl show
- 
- References
- ----------
--http://developer.rackspace.com/blog/neutron-networking-vlan-provider-networks.html
-\ No newline at end of file
-+http://docs.openstack.org/neutron/latest/admin/intro-basic-networking.html
-\ No newline at end of file
-diff --git a/meta-openstack/Documentation/README.swift b/meta-openstack/Documentation/README.swift
-index 0945ed30..af333c83 100644
---- a/meta-openstack/Documentation/README.swift
-+++ b/meta-openstack/Documentation/README.swift
-@@ -428,5 +428,5 @@ References
- ==========
- 
- * http://docs.openstack.org/developer/swift/deployment_guide.html
--* http://docs.openstack.org/grizzly/openstack-compute/install/yum/content/ch_installing-openstack-object-storage.html
--* https://swiftstack.com/openstack-swift/architecture/
-+* https://docs.openstack.org/swift/rocky/install/index.html
-+* https://docs.openstack.org/swift/latest/install/index.html
-\ No newline at end of file
-diff --git a/meta-openstack/Documentation/README.trove b/meta-openstack/Documentation/README.trove
-index cdbfb583..ce7d2a99 100644
---- a/meta-openstack/Documentation/README.trove
-+++ b/meta-openstack/Documentation/README.trove
-@@ -72,5 +72,5 @@ References
- 
-  * https://github.com/openstack/python-troveclient
-  * https://github.com/openstack/trove
-- * https://wiki.openstack.org/wiki/TrovArchitecture
-+ * https://wiki.openstack.org/wiki/TroveArchitecture
-  * https://wiki.openstack.org/wiki/Trove
-diff --git a/recipes-support/puppet/README b/recipes-support/puppet/README
-index 8befb157..bff0c8b7 100644
---- a/recipes-support/puppet/README
-+++ b/recipes-support/puppet/README
-@@ -16,7 +16,7 @@ The json gem (any modern version)
-     Over time, it became a requirement and was even included in the
-     puppet-agent package, but it was limited by its original design.
- 
--    https://puppet.com/docs/puppet/4.10/hiera_intro.html
-+    https://help.puppet.com/core/current/Content/PuppetCore/hiera_intro.htm
- 
- Simple Demo
- ------------------------
+UGluZw0KDQogIC0tDQpCZXN0IFJlZ2FyZHMNCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KV2FuZyBNaW5neXUNCkZVSklUU1UgTkFOSklORyBTT0ZU
+V0FSRSBURUNITk9MT0dZIENPLiwgTFRELiAoRk5TVCkNCk5vLjYgV2Vuemh1IFJvYWQsIE5hbmpp
+bmcsIDIxMDAxMiwgQ2hpbmENClRFTKO6Kzg2KzI1LTg2NjMwNTY2LS04NTY4DQpDT0lOUzogNzk5
+ODg1NDgNCkZBWDogKzg2KzI1LTgzMzE3Njg1DQpNQUlMOiB3YW5nbXlAZnVqaXRzdS5jb20NCg0K
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBtZXRhLXZpcnR1YWxpemF0aW9u
+QGxpc3RzLnlvY3RvcHJvamVjdC5vcmcNCj4gPG1ldGEtdmlydHVhbGl6YXRpb25AbGlzdHMueW9j
+dG9wcm9qZWN0Lm9yZz4gT24gQmVoYWxmIE9mIHdhbmdteSB2aWENCj4gbGlzdHMueW9jdG9wcm9q
+ZWN0Lm9yZw0KPiBTZW50OiBUdWVzZGF5LCBKdW5lIDIzLCAyMDI2IDE6NTcgUE0NCj4gVG86IG1l
+dGEtdmlydHVhbGl6YXRpb25AbGlzdHMueW9jdG9wcm9qZWN0Lm9yZw0KPiBDYzogV2FuZywgTWlu
+Z3l1L831IMP56KQgPHdhbmdteUBmdWppdHN1LmNvbT4NCj4gU3ViamVjdDogW1BBVENIXSBbbWV0
+YS12aXJ0dWFsaXphdGlvbl0gW21ldGEtY2xvdWQtc2VydmljZXNdIFtQQVRDSF0gcWVtdToNCj4g
+dXBncmFkZSBiYmFwcGVuZCB0byAxMS4lDQo+IA0KPiBGcm9tOiBXYW5nIE1pbmd5dSA8d2FuZ215
+QGZ1aml0c3UuY29tPg0KPiANCj4gQ29tcGF0aWJpbGl0eSB3aXRoIE9FLWNvcmUuDQo+IA0KPiBT
+aWduZWQtb2ZmLWJ5OiBXYW5nIE1pbmd5dSA8d2FuZ215QGZ1aml0c3UuY29tPg0KPiAtLS0NCj4g
+IC4uLi9xZW11L3txZW11XzEwLiUuYmJhcHBlbmQgPT4gcWVtdV8xMS4lLmJiYXBwZW5kfQ0KPiB8
+IDANCj4gIDEgZmlsZSBjaGFuZ2VkLCAwIGluc2VydGlvbnMoKyksIDAgZGVsZXRpb25zKC0pICBy
+ZW5hbWUNCj4gbWV0YS1vcGVuc3RhY2svcmVjaXBlcy1kZXZ0b29scy9xZW11L3txZW11XzEwLiUu
+YmJhcHBlbmQgPT4NCj4gcWVtdV8xMS4lLmJiYXBwZW5kfSAoMTAwJSkNCj4gDQo+IGRpZmYgLS1n
+aXQgYS9tZXRhLW9wZW5zdGFjay9yZWNpcGVzLWRldnRvb2xzL3FlbXUvcWVtdV8xMC4lLmJiYXBw
+ZW5kDQo+IGIvbWV0YS1vcGVuc3RhY2svcmVjaXBlcy1kZXZ0b29scy9xZW11L3FlbXVfMTEuJS5i
+YmFwcGVuZA0KPiBzaW1pbGFyaXR5IGluZGV4IDEwMCUNCj4gcmVuYW1lIGZyb20gbWV0YS1vcGVu
+c3RhY2svcmVjaXBlcy1kZXZ0b29scy9xZW11L3FlbXVfMTAuJS5iYmFwcGVuZA0KPiByZW5hbWUg
+dG8gbWV0YS1vcGVuc3RhY2svcmVjaXBlcy1kZXZ0b29scy9xZW11L3FlbXVfMTEuJS5iYmFwcGVu
+ZA0KPiAtLQ0KPiAyLjQzLjANCg0K
 
