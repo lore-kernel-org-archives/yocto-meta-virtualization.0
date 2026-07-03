@@ -2,146 +2,119 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 330F9C43458
-	for <webhook@archiver.kernel.org>; Fri,  3 Jul 2026 13:46:24 +0000 (UTC)
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.93489.1783086373395891378
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E5C9C44500
+	for <webhook@archiver.kernel.org>; Fri,  3 Jul 2026 13:46:52 +0000 (UTC)
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.92813.1783086407716728899
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 03 Jul 2026 06:46:13 -0700
+ Fri, 03 Jul 2026 06:46:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=IVzw8laG;
- spf=pass (domain: gmail.com, ip: 209.85.222.178, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-92e85499ffbso48082685a.0
-        for <meta-virtualization@lists.yoctoproject.org>; Fri, 03 Jul 2026 06:46:13 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=DqhluSkI;
+ spf=pass (domain: gmail.com, ip: 209.85.160.172, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-51c01089e8aso4682541cf.2
+        for <meta-virtualization@lists.yoctoproject.org>; Fri, 03 Jul 2026 06:46:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783086372; x=1783691172; darn=lists.yoctoproject.org;
+        d=gmail.com; s=20251104; t=1783086407; x=1783691207; darn=lists.yoctoproject.org;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=iDelMj32cb3N3hzLJAQBD+VbRtMOXhJfZzSk2teujcE=;
-        b=IVzw8laGvQcL4bbx669aKVlArDdXUGMleyBFgix9iTLadYPVPmeKAep243av5llB4K
-         O4ZH/4P6mDegj81sYxhARS4vK1jSv+9QqIROvkznVc8qCuUPHqJWCAsYcCWhA7LYsxBM
-         MMqwTL3Bqk7N1GYU7nLy9ymKNhe2PFWOizRdvtp5RhqSDcw/4rXOlsMTYYhqlzUvo4lq
-         4r0sPmNkPU1Qgbz7joNpNcD2YEc5AwV9mlZZUqwp53n26rzw8B9Kb9Fq1swvgwmLNEW+
-         bGUi8QzKQU5SRE9Solcw8MtS1NnzjvbdD0f/AX2+lvRXZE+I2SXYFSO312WZ/KieBp8Y
-         g5dA==
+        bh=X7zfW+0QEBcUuNw5Ngl/96Mbb+Q7hC7/CpEon4V1XgE=;
+        b=DqhluSkIYZ1OUBsCVYcPCkp4ANxyG5Jyae1jB7CwfAiA63UorTAgFEpIcH8rZM7ijb
+         pkdNECVfCbRkIdeaiiHCO0N5Rn50jaWRC8y2Gqj5+thNsmQQWmZnA8fHsmFZmYc9hhjb
+         Pnx1wq02ZLoNxESYFLX1oeU/Obtiu/Tzc8I8eYEo7dAlS/kSGOT7hLhyM+xwC7ftlrEp
+         oyjmDwp4A9JP0QcsgykxoLuOcAY84pexT3aPaH4IJYcqWO13IkziMpBX/Y4CPzNYZeNc
+         OPDZi86RmgXvVty+MWm7xH9VTrw0FfIBOAqgzOSPW9Rgn8FIIqgdq13+UL6wgj06kdkB
+         jtSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783086372; x=1783691172;
+        d=1e100.net; s=20251104; t=1783086407; x=1783691207;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=iDelMj32cb3N3hzLJAQBD+VbRtMOXhJfZzSk2teujcE=;
-        b=Y9iGd4g/F2iJjlgs3u/PEGraXhOiaKFOfIsY4C3jTw6/4VITvxjXF7VnenSZ4tkP4E
-         bCoJtHYmZAMu/hMDBgQi5ycYPzlEYuvL0mT7RXFzIJLMV/2aGD+y5U7HOMB4aruvT+Cx
-         luPXiNkp5oH15QCNSADsS+fHdGnueVt8qZw2CFgL/EfasWXJA4AcH/MXsh8p9IALAMkE
-         Ey1RcAX7F+fO1niGnTt2e8IGOGyL/V9Wmmz/9hFB/OsgUcAHGu4HCl4xhca7HJvDVqc/
-         eCYeXgUSXJJwaMT8WyEOrq0qWxqZLEAB91pHx3WtwzU0EoaTU4X5TTiKVNfZBENr+2T5
-         h5mg==
-X-Gm-Message-State: AOJu0YxCtZkk20mEF+dgVC+SXCi6rOfTicHC4ea95qRABdkl/XNhtcz8
-	DNFKDE4L+E966MwRqLq/rq8Xt8HResfCk/p8CG8hKfXxJFshM55sREw+
-X-Gm-Gg: AfdE7cno42lfG0b+VZaxcLqAuOZZpJ3WBFMKb2BpGrKpOvxmvfgGh4Eois+T2EC/8D4
-	xi58K5XTapSycw2g4WJMvtGzVmMU+tAdbQlLptTQyGgiA4BttwmmKhEs8vYRt8XuvDYp0H6d55B
-	btbIt7mpCBReVPnDQdjBH0HBUlzc75zzYAFV65yjOXMkXk6agXXj/SBw2JD85slfSbPZE5j0dnk
-	yYqVWbnzeArm9hQLsRJw1s8vsRsTzmnSTaNh1C26ehsQvRJmOaAxK2CNICNyQxsMITuG5BUIKUA
-	h24DOaKEQkI4xuPoiWAG+81XTV0gWp9MbgC04tD2CKxKgro8GJce8nykA9lCvTCAVaG5nbOU5c7
-	IEcNZEu4n0P/5/GQYIA12J301RLsh4tStFzVDGAGU1rsd4RPcUldIUfdbPhekQ2r6BS+aCZNZ95
-	hqvrOw5hFJmOODpWAq2P2xDf7KqKWcvlOjQSlsAEibRyjRBgPBS5JZNhccZZYaTsaGmDxdz/FuF
-	ycT2X2kM6wwQBc+GP33CbHwuuVqFLSzWSpy0/SQJFOILpkolWTv8X6aD+XNXs8FTMT/ksJX8HH5
-	difLU/xsjxs=
-X-Received: by 2002:a05:620a:3189:b0:915:5930:94e6 with SMTP id af79cd13be357-92e7b3b3893mr1261248085a.51.1783086372173;
-        Fri, 03 Jul 2026 06:46:12 -0700 (PDT)
+        bh=X7zfW+0QEBcUuNw5Ngl/96Mbb+Q7hC7/CpEon4V1XgE=;
+        b=RKG+ZxIC90twHCTE6k+RbndRphg0BIvjX6/5NZ2r8WjqNa4bQYtIf4YyJccizRuTMy
+         TGgPD5PMg4hyAHk5pvKRlotzl8L21WvhOZdqSD73Kb1MI1bqQuIfta3xyQjXizu1au9+
+         EwbgawvrfhndbU51rla0hZrpfqb5Az2sRMqkLBwd8Jmcinyb/lFhC1DqGa566T3qQrJ+
+         Oa9Rzf8jcaSNyfKFce4n7BqccCZdVlrmGFhmCaoexL15HyCqm1wD9WjikXokymrTP9BQ
+         lPfr+dNp4T6+9HH1Lp/xajeCA1QjWNBtDwV43bawye4Tc22NTALzbxnb0he4skzUP0bm
+         Vtgg==
+X-Gm-Message-State: AOJu0YwTk2mEPpZotmusJNjrgH3DRZgI6N1CkQVxwx7EVfdBLIw1yDYC
+	5SXIwgSRCThqhxRwKg/GesCVIaJszjlSkyIb9RaeLD03+sDtN16iGWlolfO6Fk9s
+X-Gm-Gg: AfdE7clvyTnKfR0IF5XwZCRjq6DPiui3qpO2XZ21vhk99r8kT+RhnRo2Mb8XAPInxQZ
+	2af+AqLvU5L+VgF7LMoDQVcQHe4Ckf5FZltiuXdpfzdSh6tO78EAtGy0lugoUYmyRbrtgQssjng
+	AxSE8hnd8+xWhIrWPR6AwjoHKnvlmDeETmWmbGe34MBBpgOelPZCHb1ndEnbdoMCBiJVaQr4jKb
+	YxamcjXGaaQaN1ymkeA+2KFBi+H8hc98OBVGpB574qbUPyDsg8N0HGUWdgdRFRlaSUVlBkp5Vg0
+	nYB/GphlWSbWxd849M3OzW6//mhWNq57AUBGGYLGh6D5d1SngDBnlh1QOfvS+JRFReKCeyJ+gxo
+	SMmZTERHryYaxL8Jg7Akxvb7xHiYUI4kJiowUhPHM4LPXBLGmNq1v/2i7OCU4GwIe8rKFyRGLzK
+	lHlLhWSBIdimk04AHYmmmAPi0fKn8CzVEMUZrvgQpWPenNzzPwSEWSmOqJC6NN9idCaKhNEywAn
+	9rLHrpGSRYCXVorH4GslUwqte2v4g0ctivTnU4MT8k9CJVfuJnKbt8OmjPjdBsQsWQuwOAO7Kf6
+	Lvt+sREj/Sg=
+X-Received: by 2002:a05:622a:1452:b0:51b:fdd4:a1d6 with SMTP id d75a77b69052e-51c2ad59c89mr118695461cf.31.1783086406618;
+        Fri, 03 Jul 2026 06:46:46 -0700 (PDT)
 Received: from gmail.com (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-92e90cbf5absm165388685a.34.2026.07.03.06.46.10
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-51c41b5d704sm18170811cf.12.2026.07.03.06.46.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Jul 2026 06:46:11 -0700 (PDT)
-Date: Fri, 3 Jul 2026 09:46:09 -0400
+        Fri, 03 Jul 2026 06:46:46 -0700 (PDT)
+Date: Fri, 3 Jul 2026 09:46:44 -0400
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: ticotimo@gmail.com
-Cc: meta-virtualization@lists.yoctoproject.org,
-	Tim Orling <tim.orling@konsulko.com>
-Subject: Re: [meta-virtualization][PATCH] alpine-oci-base: upgrade to 3.24.1
-Message-ID: <ake9IRJIT8l8mQTi@gmail.com>
-References: <20260630190643.75464-2-tim.orling@konsulko.com>
+To: mark.yang@lge.com
+Cc: meta-virtualization@lists.yoctoproject.org
+Subject: Re: [meta-virtualization][PATCH] docker-compose: add CVE_PRODUCT and
+ CVE_STATUS for CVE-2025-62725
+Message-ID: <ake9RL8ybvG7cPV9@gmail.com>
+References: <20260702074427.263216-1-mark.yang@lge.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260630190643.75464-2-tim.orling@konsulko.com>
+In-Reply-To: <20260702074427.263216-1-mark.yang@lge.com>
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Fri, 03 Jul 2026 13:46:24 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9914
+ <meta-virtualization@lists.yoctoproject.org>; Fri, 03 Jul 2026 13:46:52 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9915
 
 merged.
 
-Thanks for the updates, I haven't added these packaged images to
-my regular update flows, so revision bumps are welcome!
-
 Bruce
 
-In message: [meta-virtualization][PATCH] alpine-oci-base: upgrade to 3.24.1
-on 30/06/2026 Tim Orling via lists.yoctoproject.org wrote:
+In message: [meta-virtualization][PATCH] docker-compose: add CVE_PRODUCT and CVE_STATUS for CVE-2025-62725
+on 02/07/2026 mark.yang via lists.yoctoproject.org wrote:
 
-> Upstream release notes:
-> https://alpinelinux.org/posts/Alpine-3.24.1-released.html
+> From: "mark.yang" <mark.yang@lge.com>
 > 
-> CVE: CVE-2026-34180
-> CVE: CVE-2026-34181
-> CVE: CVE-2026-34182
-> CVE: CVE-2026-34183
-> CVE: CVE-2026-42764
-> CVE: CVE-2026-42766
-> CVE: CVE-2026-42767
-> CVE: CVE-2026-42768
-> CVE: CVE-2026-42769
-> CVE: CVE-2026-42770
-> CVE: CVE-2026-45445
-> CVE: CVE-2026-45446
-> CVE: CVE-2026-45447
-> CVE: CVE-2026-7383
-> CVE: CVE-2026-9076
+> Add CVE_PRODUCT to docker-compose that matches CPE.
+> <vendor>:<product> must be set to docker:compose for proper matching.
 > 
-> The full git commit log:
-> https://git.alpinelinux.org/aports/log/?h=v3.24.1
+> CVE-2025-62725 was fixed in 2.40.2, but its record encodes the range as
+> a plain "< 2.40.2" version string that automated version comparison
+> cannot use, so mark it as fixed-version.
 > 
-> Signed-off-by: Tim Orling <tim.orling@konsulko.com>
+> Signed-off-by: mark.yang <mark.yang@lge.com>
 > ---
->  .../{alpine-oci-base_3.23.bb => alpine-oci-base_3.24.bb}    | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->  rename recipes-containers/oci-base-images/{alpine-oci-base_3.23.bb => alpine-oci-base_3.24.bb} (83%)
+>  recipes-containers/docker-compose/docker-compose_git.bb | 4 ++++
+>  1 file changed, 4 insertions(+)
 > 
-> diff --git a/recipes-containers/oci-base-images/alpine-oci-base_3.23.bb b/recipes-containers/oci-base-images/alpine-oci-base_3.24.bb
-> similarity index 83%
-> rename from recipes-containers/oci-base-images/alpine-oci-base_3.23.bb
-> rename to recipes-containers/oci-base-images/alpine-oci-base_3.24.bb
-> index 7bf067d3..88e14789 100644
-> --- a/recipes-containers/oci-base-images/alpine-oci-base_3.23.bb
-> +++ b/recipes-containers/oci-base-images/alpine-oci-base_3.24.bb
-> @@ -21,11 +21,11 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
->  inherit container-bundle
+> diff --git a/recipes-containers/docker-compose/docker-compose_git.bb b/recipes-containers/docker-compose/docker-compose_git.bb
+> index d3798e35..5526912b 100644
+> --- a/recipes-containers/docker-compose/docker-compose_git.bb
+> +++ b/recipes-containers/docker-compose/docker-compose_git.bb
+> @@ -33,6 +33,10 @@ GO_IMPORT = "import"
 >  
->  # Remote container from Docker Hub
-> -CONTAINER_BUNDLES = "docker.io/library/alpine:3.23"
-> +CONTAINER_BUNDLES = "docker.io/library/alpine:3.24"
+>  PV = "5.1.4"
 >  
->  # REQUIRED: Pinned digest for reproducible builds
-> -# Get with: skopeo inspect docker://docker.io/library/alpine:3.23 | jq -r '.Digest'
-> -CONTAINER_DIGESTS[docker.io_library_alpine_3.23] = "sha256:5b10f432ef3da1b8d4c7eb6c487f2f5a8f096bc91145e68878dd4a5019afde11"
-> +# Get with: skopeo inspect docker://docker.io/library/alpine:3.24 | jq -r '.Digest'
-> +CONTAINER_DIGESTS[docker.io_library_alpine_3.24] = "sha256:28bd5fe8b56d1bd048e5babf5b10710ebe0bae67db86916198a6eec434943f8b"
+> +CVE_PRODUCT = "docker:compose"
+> +
+> +CVE_STATUS[CVE-2025-62725] = "fixed-version: fixed in 2.40.2"
+> +
+>  COMPOSE_PKG = "github.com/docker/compose/v2"
 >  
->  # Enable deployment to DEPLOY_DIR_IMAGE for use as OCI base layer
->  CONTAINER_BUNDLE_DEPLOY = "1"
-> -- 
-> 2.54.0
-> 
+>  # go-mod-discovery configuration
 
 > 
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#9908): https://lists.yoctoproject.org/g/meta-virtualization/message/9908
-> Mute This Topic: https://lists.yoctoproject.org/mt/120052438/1050810
+> View/Reply Online (#9909): https://lists.yoctoproject.org/g/meta-virtualization/message/9909
+> Mute This Topic: https://lists.yoctoproject.org/mt/120079933/1050810
 > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
 > Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
