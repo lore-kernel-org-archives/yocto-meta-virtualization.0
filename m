@@ -2,199 +2,162 @@ Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BBA0C43458
-	for <webhook@archiver.kernel.org>; Fri,  3 Jul 2026 15:27:37 +0000 (UTC)
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.95631.1783092449598233917
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8326C43458
+	for <webhook@archiver.kernel.org>; Fri,  3 Jul 2026 15:27:46 +0000 (UTC)
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.95639.1783092464350715690
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 03 Jul 2026 08:27:29 -0700
+ Fri, 03 Jul 2026 08:27:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=lv9nm5z/;
- spf=pass (domain: gmail.com, ip: 209.85.216.54, mailfrom: ticotimo@gmail.com)
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-37df416c44bso585584a91.2
-        for <meta-virtualization@lists.yoctoproject.org>; Fri, 03 Jul 2026 08:27:29 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=qOUHf5mZ;
+ spf=pass (domain: gmail.com, ip: 209.85.216.48, mailfrom: ticotimo@gmail.com)
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-38005a36edbso517561a91.1
+        for <meta-virtualization@lists.yoctoproject.org>; Fri, 03 Jul 2026 08:27:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783092449; x=1783697249; darn=lists.yoctoproject.org;
+        d=gmail.com; s=20251104; t=1783092464; x=1783697264; darn=lists.yoctoproject.org;
         h=message-id:date:references:in-reply-to:cc:to:subject
-         :content-transfer-encoding:content-type:mime-version:from:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=4OKKOxTChy3+xFMHjPe9Og93LK1SwMXctfD+vU09zvE=;
-        b=lv9nm5z/xD6GyNcxijO7d+NdGsl9As5Sph+v6pVbLB3XKQhfm709SDBYdtr3pGXE0m
-         bfa5NAcLndVP6hlnRVnpyl0rkGf08z+ShjWEKuN41Q9qH/TPo+LMTUXPb85edJl1OCxV
-         WYL7hrDXv/kbsqwBUhjU3H86hxXUKuKio91p5QoYC6I1pSg11ywQrUMi1JPWoYJXtSt6
-         8VxCUFW9I6M94rtMjOQz/S0b5O7mIIxnPguwx1y9lWMvgh8VuhEKtImF/Qfx7OWfAPn5
-         8+9czjNxNqlqQlXbQglIuTn62K+oTrtNzCnrUbmnOshot5lQkOqqThfxH1O1PrNJ1dzN
-         vJoQ==
+         :content-transfer-encoding:mime-version:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=96YdBMnINKwtw1vPiGFO610ZZJlcFMR7nVAYTRfxowQ=;
+        b=qOUHf5mZfr6HYp2JRFp6hJzr6RR/2O8udZYxrlw+c6xz8kVhwkH5xQCBJVyQkKiXQD
+         6M5TxZzBa+6jFL6PTnsvwjrTuctbWk1o/CIB1nI0wJKtjdRLqbeZjc/kQ6iQBfKhZ2Vp
+         R0/Z7qGtWds587K3ynCxS39UGetHCMd7S2sGFFr9g2KMBr9k0zK+92BkkD9Jf8XDVhPt
+         PHB3jQAWJKzofhunAmHInGiNuZ8UtLcN2h+jRXRYl9XbIyjtpj/MHeyaph7s5oRB0FDo
+         3ay6R2qgARFK+9plSW6f9iZwCR3bNkIo+aJI1w+btAtCsgC2cIkzLNw6QEtMs/ulHTCd
+         PJaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783092449; x=1783697249;
+        d=1e100.net; s=20251104; t=1783092464; x=1783697264;
         h=message-id:date:references:in-reply-to:cc:to:subject
-         :content-transfer-encoding:content-type:mime-version:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=4OKKOxTChy3+xFMHjPe9Og93LK1SwMXctfD+vU09zvE=;
-        b=C+GSEj20rpY68w+n3RLFHLk/rQfeTgSOUFdkUv5Bi2rHEVhY/6bDYPx+PpFd8NHiR5
-         aUMqsn6uKbObUrrBC1IwfeSoEaqYh9Ysa9DzL7I2hlzMilqJ+axpe6q7wpfZysUy4Zdq
-         RPpMig6RoQ6gMt2dRsTGqzh9Mc+frVcad0yLJud+SAS6PdD6CWH1hapYvb2k2ehOhCnY
-         7j79zGPIJhM3WIffH2oejXsnhpxvITzqhFKo72bBxTAPLjs0BcyZYhKvfoJ43NFtngwv
-         s78lxt8FbatbFWrKaPcBLyhQMEpZhSGPRx6XMTYCxa85lnQdZIEDjnbNhLnteiV0yrX9
-         f6Gw==
-X-Forwarded-Encrypted: i=1; AHgh+RpbqLtsVIcvjxCsZVoe8c1hMzGfV0rxeeAnqXyYqi8jXbV0vNha5FXnygNYihFZeOEvni6Hn9aK0GrJgKUgqK8Kg/cv@lists.yoctoproject.org
-X-Gm-Message-State: AOJu0YxgumkAM8SzEJnxggi7epaeqCY/3aRSUT7ZQlHZt7cVYGn/ZjyP
-	bHB+GF8OlTpEFeP26XYOCIGGdbxcu1JqOpOeTLawA9XE91eT92HKi/v/
-X-Gm-Gg: AfdE7cn0AMV2vUaTel7SqeowhiO2vmAYGFQQyHkS712ChrG4X6gCNHSVwWc3Iv+m+Wu
-	/7XubqjT4djSC9mq5+GI6dwJ9s7iwG7A/wVR/w/9j3leTrE38L8umNUmVGJibjWY6YgcWu0qNHi
-	jWT4nrzNLfzz+Sq9ls5eqDgzMZ/BAqyesV34hkoJ9U+Xb03bRu170av6MwuQwt8EPfpkhur783W
-	4hWy2VbFcLr9A7Ofwr0S5o7BaEwxQ9gOPryHQ39S9P8mWYAMazvHgiXBR8CQ3nbvFK4sjcxl6Oh
-	GnX+v67kBvk+zg1kzo4rx3cqryNAjgQ6hh+xO0wdrFoaWC/VusHuepKA+JsYwXTyam4d3k8cotC
-	zRmqSVqtYcHEGP6ntAjvyB+9mcKnF9lSqlatTmaMMWWaQVdmzSK5IQzffQJZ/Trmvq5sfLvu7Z2
-	OBATtVA1kY8/HMHRgikbbDHX5yUTQMfCMb7WUYDI/2iIfpfw==
-X-Received: by 2002:a17:90b:35cf:b0:381:9b7b:35e5 with SMTP id 98e67ed59e1d1-382800d1a6emr40308a91.4.1783092448651;
-        Fri, 03 Jul 2026 08:27:28 -0700 (PDT)
+         :content-transfer-encoding:mime-version:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=96YdBMnINKwtw1vPiGFO610ZZJlcFMR7nVAYTRfxowQ=;
+        b=N61IImVKjQCh0TJk/ff2OfigSJNgoiT95KW3fDEzhFEsMDpgqclEN9qzqBR+OHv5ee
+         e6b+cD0d6+ga5CUTobHahiu7XBxVVzeXutielz4khShdcNgSaJGVuT9OsMgP4ZVP5xSx
+         CE1G+MzNcnqDIxSFLWFKxY0JtY62v1PwcKQNsQGgyAjPgopf+btWbb3Qpw9bcSd82Q8r
+         hY8iFsTGTN2tjVohjkp8Hqp7ST70ujkp5LIZc5MmXocfrZlLkFN7HfqCMfgXRCRTIRyX
+         0i+f0GIGYS/oechCyu9sZ6QYzaprCsTO7vqBmySQfSdL1ZLsJigL47b4MSS29A7ESyb4
+         0hwA==
+X-Forwarded-Encrypted: i=1; AHgh+Rq8DyWXLuoy0hOh6azJe2d+mNrEFd6hIzBWhdg5m2Wjmgql7gf5wju//4mHtQ+PxKcMD6OfFUQXp5Ea0ogEOjzGRa/P@lists.yoctoproject.org
+X-Gm-Message-State: AOJu0Yw5mlIzVYKP06s1EmVtd8Amx5Z8iIq9Yn90JKuoNxTjGWqK0SmY
+	jNPPyupLMCPvSAv3MjVcQXZa6yHoJ+0cpDbkNzUpJ3oMjIKVsdqB6XEA
+X-Gm-Gg: AfdE7cl79JAxyD+d5SHQdYVomeE99sF33c/j2P9Et5nQekF/vC//+nWreVQLKwRocji
+	mUdtAr85dAQNh6EDHj3WJqOpzepBkYb72V2q2l1QFc5AzDW8AxnSfa3hlGqbyjcyg4aMvCiYcjW
+	L4m09FfM8N4/0FCEg0TO8ayFDOysqRpizdMkC0Tqqid68Gx8hulc7wKaB8g9wE9yT3WHM64GRqn
+	7mo47MyfDUai6VndegesrOofq3w79kBteK2i5ei87BbTVFEcctGXcvKOQxgt3DY1SUJEfh4BnzO
+	AIh+rzIaDzrTexuMIqt673FofFeqptxy5fIJwFPkStYofcok+xAU0BO/tTb8uXZIQ+rkJE+ft/S
+	qEZXlAWeCSJiig/8quGQ7zqphrQAbPsyFoDZS+QCYxU7bQK+GK9wf5Z1vLUHY8W+Jsxbzi/h0en
+	XOeYHtuQdG44hSdDGWoQmvsyFhYM7gBuO6XCDExUGjBpcb9Q==
+X-Received: by 2002:a17:90b:1d04:b0:380:8b14:d8e6 with SMTP id 98e67ed59e1d1-3829f0fe669mr3389a91.17.1783092463554;
+        Fri, 03 Jul 2026 08:27:43 -0700 (PDT)
 Received: from macbookpro.home.local ([69.9.132.159])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3812801eb5asm1119623a91.9.2026.07.03.08.27.27
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38127c8b700sm1149423a91.11.2026.07.03.08.27.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Jul 2026 08:27:27 -0700 (PDT)
+        Fri, 03 Jul 2026 08:27:41 -0700 (PDT)
 From: Tim Orling <ticotimo@gmail.com>
 X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Subject: Re: [meta-virtualization][PATCH 1/7] classes: add
- container-nonroot-user.bbclass
+Subject: Re: [meta-virtualization][PATCH 2/7] recipes-containers/images:
+ add app-container-python
 To: Bruce Ashfield <bruce.ashfield@gmail.com>
 Cc: ticotimo@gmail.com, meta-virtualization@lists.yoctoproject.org
-In-Reply-To: <6a2c39b9.af142770.352616.063b@mx.google.com>
+In-Reply-To: <6a2c4892.b63906d5.2d75f7.2d6d@mx.google.com>
 References: <cover.1780104071.git.tim.orling@konsulko.com>
- <3067d13e8e08136d3e8af275a4e501589f8a38a1.1780104071.git.tim.orling@konsulko.com>
- <6a2c39b9.af142770.352616.063b@mx.google.com>
-Date: Fri, 03 Jul 2026 08:27:26 -0700
-Message-Id: <178309244647.29524.5128328472101493920.b4-reply@b4>
+ <2c612245431bf2ebcfe9c4f188be1e27117cc0db.1780104071.git.tim.orling@konsulko.com>
+ <6a2c4892.b63906d5.2d75f7.2d6d@mx.google.com>
+Date: Fri, 03 Jul 2026 08:27:40 -0700
+Message-Id: <178309246044.29524.753835150477235730.b4-reply@b4>
 X-Mailer: b4 0.16-dev
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Fri, 03 Jul 2026 15:27:37 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9917
+ <meta-virtualization@lists.yoctoproject.org>; Fri, 03 Jul 2026 15:27:46 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9918
 
-On 2026-06-12 09:54:17-07:00, Bruce Ashfield wrote:
+On 2026-06-12 10:57:38-07:00, Bruce Ashfield wrote:
 > Hi Tim,
 > 
-> A few things on this one — none of them blocking the intent, but worth a
-> small follow-up either as a fixup in this series or a v2.
+> Just a couple of comments ...
 > 
 > On Fri, May 29, 2026 at 18:31 -0700, Tim Orling wrote:
 > 
-> > For secure and production environments, we want to run containers as a
-> > non-root user. Some applications, such as Python, require a $HOME
-> > directory with proper permissions. Because OCI_LAYERS :directories:
-> > copies with 'cp -a --no-preserve=ownership', we need a fixup function
-> > to create the proper permissions and ownership in a new raw layer.
-> >
-> > The behavior here is inspired by dhi.io/python:3 (Docker Hardened Image)
-> >
-> > Signed-off-by: Tim Orling <tim.orling@konsulko.com>
+> > Add OCI container image recipe for Python to use as a base for
+> > other Python app containers. The image uses multi-layer mode with
+> > separate base, terminal and python layers.
 > 
-> The non-root + DHI-style image is a real gap in what we ship today;
-> glad to see it filled.
+> [...]
 > 
-> > +inherit extrausers
-> > +
-> > +NONROOT_USER ?= "nonroot"
-> > +NONROOT_UID ?= "65532"
-> > +NONROOT_GID ?= "65532"
-> > +
-> > +# ---------------------------------------------------------------------------
-> > +# Create the unprivileged "nonroot" user (uid 65532, group 65532)
-> > +# ---------------------------------------------------------------------------
-> > +EXTRA_USERS_PARAMS = "\
-> > +    groupadd -g ${NONROOT_GID} ${NONROOT_USER}; \
-> > +    useradd -m -u ${NONROOT_UID} -g ${NONROOT_GID} -d /home/${NONROOT_USER}  ${NONROOT_USER}; \
+> > +OCI_LAYERS = "\
+> > +    base:packages:base-files+base-passwd+netbase \
+> > +    terminal:packages:ncurses-terminfo-base \
+> > +    python:packages:python3+coreutils${@bb.utils.contains('PACKAGECONFIG', 'dev', '+python3-pip', '', d)} \
 > > +"
 > 
-> This hard-assigns EXTRA_USERS_PARAMS rather than appending. Any image
-> that inherits container-nonroot-user AND wants its own extrausers (e.g.
-> a recipe that needs an additional service account) loses whatever else
-> was set, and the order of inheritance silently determines who wins.
+> I like this conditional. Putting the bb.utils.contains() directly inside
+> the layer's package list (instead of duplicating the OCI_LAYERS
+> declaration in two PACKAGECONFIG branches).
 > 
-> Suggest:
-> 
->   EXTRA_USERS_PARAMS += " \
->       groupadd -g ${NONROOT_GID} ${NONROOT_USER}; \
->       useradd -m -u ${NONROOT_UID} -g ${NONROOT_GID} \
->               -d /home/${NONROOT_USER} ${NONROOT_USER}; \
->   "
-> 
-> That way the class composes cleanly with anyone else who sets
-> EXTRA_USERS_PARAMS earlier.
-> 
+> Worth calling out in our multi-layer mode docs as the recommended way
+> to do conditional packages-per-layer. I'll do a patch for that.
 
-Good catch and suggestion. Applied in v2.
+Just capturing that conditional packages-per-layer docs merged in:
+27e41b91 docs/container-bundling: refresh multi-layer mode section
 
-> > +# Make sure we can write to e.g. /home/nonroot/.python_history
-> > +# using :directories: in OCI_LAYERS does not preserve permissions
-> > +fakeroot fix_oci_home_perms() {
-> > +    cd ${IMGDEPLOYDIR}
-> > +    image_name="${IMAGE_NAME}${IMAGE_NAME_SUFFIX}-oci"
-> > +    layer_tar="${WORKDIR}/oci-home-fix-layer.tar"
-> > +
-> > +    rm -f "$layer_tar"
-> > +
-> > +    python3 - "$layer_tar" <<'PYEOF'
-> > +import sys, tarfile, time
-> > +
-> > +layer_tar = sys.argv[1]
-> > +mtime = int(time.time())
-> > +
-> > +# (path, mode, uid, gid)
-> > +entries = [
-> > +    ("home",         0o755, 0,     0),
-> > +    ("home/${NONROOT_USER}", 0o700, ${NONROOT_UID}, ${NONROOT_GID}),
-> > +]
 > 
-> Two things about the Python heredoc:
+> > +# IMAGE_INSTALL triggers package builds via do_rootfs recrdeptask.
+> > +# Even for multi-layer mode, list packages here to ensure they're built.
+> > +# The PM will install them directly to layers from DEPLOY_DIR_IPK.
+> > +# Note: IMAGE_ROOTFS is still created but ignored for packages layers.
+> > +IMAGE_INSTALL = "base-files base-passwd netbase"
+> > +IMAGE_INSTALL += "ncurses-terminfo-base"
+> > +IMAGE_INSTALL += "python3 coreutils"
+> > +IMAGE_INSTALL += "${@bb.utils.contains('PACKAGECONFIG', 'dev', 'python3-pip', '', d)}"
 > 
-> 1. The 'PYEOF' delimiter uses single quotes, which would normally suppress
->    shell expansion inside the heredoc — but bitbake expands ${NONROOT_USER}
->    etc. at parse time *before* the shell ever sees the body, so the
->    expansion does happen, just via a different path than the reader expects.
->    Worth a one-line comment so the next person doesn't try to "fix" it.
+> This is correct today but it doubles the source of truth. The packages
+> listed in OCI_LAYERS:packages: and the packages listed in IMAGE_INSTALL
+> have to be kept in sync.
 > 
-> 2. While the values are simple here (alphanumeric user, integer uid/gid)
->    it's fine, but if someone ever sets NONROOT_USER to something with a
->    quote or backslash, the Python source is no longer well-formed. Since
->    this is a meta-virt-internal class, low risk — but a comment
->    ("NONROOT_USER must be a bare identifier") would protect it.
+> If they drift (change OCI_LAYERS but forget IMAGE_INSTALL or vice
+> versa), the build silently breaks at layer assembly time when the
+> missing package isn't in DEPLOY_DIR_IPK.
 > 
+> Two paths I'd consider, either as part of this series or as a follow-up:
+> 
+>   a) Add a "# KEEP IN SYNC WITH OCI_LAYERS" comment so the next
+>      maintainer knows.
+> 
+>   b) Better: derive IMAGE_INSTALL from OCI_LAYERS:packages: layers
+>      inside image-oci.bbclass, so the recipe only sets it once. That
+>      fixes the problem for every multi-layer recipe, not just python.
+> 
+> I've staged b) on master-next (shortly), if you can do a) .. or maybe
+> it isn't needed at all now.
 
-Added comments for 1. and 2. in v2.
+Option b) was merged in:
+5470cd0a image-oci: auto-derive IMAGE_INSTALL from OCI_LAYERS packages layers
 
-> > +    umoci raw add-layer --image "$image_name:${OCI_IMAGE_TAG}" "$layer_tar"
-> > +    rm -f "$layer_tar"
-> > +
-> > +    rm -f "$image_name.tar" "$image_name-dir.tar"
-> > +    ( cd "$image_name" && tar -cf "../$image_name.tar" "." )
-> > +    tar -cf "$image_name-dir.tar" "$image_name"
-> > +}
-> > +do_image_oci[postfuncs] += "fix_oci_home_perms"
-> 
-> The repackaging step at the bottom assumes do_image_oci's output layout
-> (image_name.tar / image_name-dir.tar) is stable. If image-oci.bbclass
-> ever changes its packaging naming, this silently produces a broken
-> tarball — there's no error checking against the assumption.
-> 
-> A defensive option: stat the expected files before rm -f / tar -cf, and
-> bbwarn if either is missing rather than recreating from a possibly-empty
-> directory. Or, if there's a helper in image-oci.bbclass that already
-> does the repackaging, call that instead of rebuilding by hand.
-> 
+I don't think a) is needed anymore, since b) is proven to be working
 
-There is no helper in image-oci.bbclass, the repackaging is handled in
-do_image_oci(). Added logic gated on OCI_IMAGE_TAR_OUTPUT to detect the
-presence of $image_name/index.json and throw bbfatal if it is not found.
-We could bbwarn, but I think we should fail loudly.
+Refactored to remove the redundant/brittle IMAGE_INSTALL in v2.
 
-> Otherwise the series looks good — I'll keep going through 2/7..7/7 and
-> respond per-patch as I have specific notes.
+> 
+> We can do the same for all the other similar recipes in the series.
+
+Other similar recipes addressed in v2.
+
+> 
+> One more, also non-blocking — the other 4 new image recipes in this
+> series (mosquitto, valkey, nginx, curl) all carry the
+> rootfs_fixup_var_volatile postprocess to create /var/volatile/{tmp,log}.
+> 
+> This one doesn't. Intentional because python doesn't touch /var/log? Or
+> worth adding for consistency in case someone runs as 'dev' and pip
+> wants a writable spot?
+
+Added rootfs_fixup_var_volatile via 'inherit container-volatile-fixup'
+in v2.
+
 > 
 > Bruce
 
