@@ -1,131 +1,109 @@
-Return-Path: <benjamin.robin@bootlin.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E4A0C43458
-	for <webhook@archiver.kernel.org>; Fri,  3 Jul 2026 13:05:12 +0000 (UTC)
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.92738.1783083909620710317
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3132EC43458
+	for <webhook@archiver.kernel.org>; Fri,  3 Jul 2026 13:41:22 +0000 (UTC)
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.93393.1783086078266985347
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 03 Jul 2026 06:05:10 -0700
+ Fri, 03 Jul 2026 06:41:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=dtZVi5DR;
- spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: benjamin.robin@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id E2371C79ABE;
-	Fri,  3 Jul 2026 13:05:18 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 07A1660300;
-	Fri,  3 Jul 2026 13:05:07 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 4E47C104C9464;
-	Fri,  3 Jul 2026 15:05:05 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1783083906; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding; bh=k06XnkB1qXItxQwgSeqLON0OVph9oVcy17t3EIrLXIk=;
-	b=dtZVi5DRk00XiYHZgfCFaIy1iP/dF39MSrIFR55tSmwqAohZpPwkNj0IU613RlYtuSPSOp
-	6gwLDLR9KS/nrO+SQGnwG8qsOI7NJqSOrtxYgvtyVYaV3HPLsK+ExOm4ruKJStSaXgAvXF
-	IuOZc/RHZmh87vl6s5vkPMghYkT8XXnv7RN1S9Il70q3alZfT5zOP2lIJn4grw+0V2ReO1
-	9OCqPuwFnSxkdAnKwvjlqz4cNwE9NgIp+AAQMY1OzPn6KYruHlhvASRm8EpQ/MSmP6caGJ
-	rd5NBen/L828reBgo1D49+ITifWxAdj72C4GGj/BDF+/3j8dwwetX/krd9IOUw==
-From: Benjamin Robin <benjamin.robin@bootlin.com>
-Date: Fri, 03 Jul 2026 15:05:02 +0200
-Subject: [scarthgap][PATCH] containerd: update to v2.0.10
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=E2JeCBf7;
+ spf=pass (domain: gmail.com, ip: 209.85.222.176, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-92e53581361so29515485a.1
+        for <meta-virtualization@lists.yoctoproject.org>; Fri, 03 Jul 2026 06:41:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783086077; x=1783690877; darn=lists.yoctoproject.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=wLwMdi0pZljwi5tgLPR3Q4GmsnivMWCr4/Gyc8+K490=;
+        b=E2JeCBf7WpOaIjA8Qr9tS5ooNWKs3pz42Q1261j/rco4apR0E9sBYQyuPSlQ0b8yzB
+         YPKDXTCYfdGENSPypBYhQH31VZRcOonZLL1LLjX6d51Ii8XA05B10ribl5STJ5woc1SW
+         YF+DcWiWQMnHA/BJYKbZJiYKOjJM2qO0Eksyagf/bnpuGDrtf5b45cuhfBrwxFmi7KNV
+         nKD7nGYdisfnRYKC0FBQWWAYq3KK/GBPygx4zhDZqwwVw0YU6hTL8YG5dgTzeb/A1VPr
+         i6BxI9e62G7nM8zGF/UCEv/6m6EAAgkVuCPWw9nkatC/KgR9aHLyjcqfCtEI0x8NL/S8
+         KhMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783086077; x=1783690877;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=wLwMdi0pZljwi5tgLPR3Q4GmsnivMWCr4/Gyc8+K490=;
+        b=QALEiQdpnIc56pyfzdv38MK0C8IV5mR2BZbMgtIiTJt9lPxtN+VK2FJQQ8JS0fbNgG
+         hnBFHhtcnwEYwMuxlvA+ChgEXARKzgYCeC3++1EDGmSIRslGl3mw27NgZVqyrvWcLPqS
+         yfZKpdSPKYMvx2kIJSPUUNGDBFDiOXy7pqxCGKTejzE57cQVMADLvb2cU7zvccFViWmw
+         VBX103pAbMJWdl3Wrlyt4/V1qR1c4lwzcjJEYHgSvXuZdYR795QbgdDGL8H8Rp47B5IY
+         3Mfse9SZ8Jpx537UZRrCkdnKATziF1XApyEM8CYAYN7lmtl7MBnWDnJRT+Z3yyTPf5GJ
+         jmvA==
+X-Gm-Message-State: AOJu0YyN7WSQE8BViC2YQLv5sI7nXlBPtMcCBauGLXRq07bYVYvMUmfU
+	5L24bP7BlQmrUyzOJOOktiiQalJQvDqM/OrqaClNKIO6t0zEQGDQO3mz
+X-Gm-Gg: AfdE7clpcsRIIsR4OCYSXLhA5EEK9CseWC2Kv8zIH46FftUnmqUgUFKGRbZ4cfvgrpW
+	zLqOaW7cipSLYujQCV9FH71InDBEUn/7MkERvKXONx0wSqUjlpGGWPh/Qwz+0zXbInIZtYVzwhZ
+	0S5BMlKullOU1CVqVvsDM1ma+9CJz4Li3vtG8O2ia9mT+csU1zfXrfmE1dM6Rpou1237GxuBfqA
+	rGvAW9w1lEmhCD81iReQXpJU16o+sHo41Ps+OmVyfnELdXxX302xD+M1/rR/ns7AhnScJ2qsSPD
+	bvX4Qt0tMRLcCFiG+K4YAB+ezCoGMGCm/qLgdM1utna+nsHTKKvLQSGo82QeERvzPPUYL1mrQg6
+	HeOq9B9cmi+gveDfXxhJMfBi+SUZjVvSN/GLgnpBO9c3G1zLIFG2DrDe5uCoAgSHsjHtJjm6jJB
+	gH3viOVeO6xxS4DrPnZeRm7w9AdGQybQFX06Xr5UHGS+Sve3lK8rqe4n7hdTAxBfMTp+QgkwWyb
+	Z7H69XAofoaj7lQNJqDfUSO8l57oOR4e1wBq6P4purtZZzLsMMhHytmFtuWY7irNL9cq13MRihe
+	IKltD10u1x8=
+X-Received: by 2002:a05:620a:640a:b0:927:25f5:ee08 with SMTP id af79cd13be357-92e782c6cbbmr1373895585a.43.1783086077094;
+        Fri, 03 Jul 2026 06:41:17 -0700 (PDT)
+Received: from gmail.com (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-92e90d0011fsm171362485a.45.2026.07.03.06.41.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 Jul 2026 06:41:16 -0700 (PDT)
+Date: Fri, 3 Jul 2026 09:41:14 -0400
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: wangmy@fujitsu.com
+Cc: meta-virtualization@lists.yoctoproject.org
+Subject: Re: [PATCH] [meta-virtualization] [meta-cloud-services] [PATCH]
+ qemu: upgrade bbappend to 11.%
+Message-ID: <ake7-tDE0M5J9O0X@gmail.com>
+References: <20260623055639.1185-1-wangmy@fujitsu.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260703-containerd-update-v1-1-dae635875482@bootlin.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMMQ7CMAxA0atUnomUBoERV6k6uIlpzZBGdoqQq
- t6dAOMb/t/BWIUN7t0Oyi8xWXNDf+ogLpRndpKaIfhw9ejPLq65kmTW5LaSqLIj7ClMeLtgQGh
- dUX7I+/ccxr9tm54c63c0WCSty0xlhOP4ABixRryAAAAA
-X-Change-ID: 20260703-containerd-update-a71a2b785727
-To: meta-virtualization@lists.yoctoproject.org
-Cc: olivier.benjamin@bootlin.com, pascal.eberhard@se.com, 
- wahid.essid@se.com, Benjamin Robin <benjamin.robin@bootlin.com>
-X-Mailer: b4 0.15.2
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260623055639.1185-1-wangmy@fujitsu.com>
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Fri, 03 Jul 2026 13:05:12 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9910
+ <meta-virtualization@lists.yoctoproject.org>; Fri, 03 Jul 2026 13:41:22 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9911
 
-Bumping containerd to version v2.0.10, which comprises the following
-commits since v2.0.7:
+merged.
 
-03a19324f990 Bound user-database file reads in openBoundedUserFile
-bbf4a2b8e6c8 Do not propagate reserved labels from image configs
-a15e98122d25 update runc binary to v1.3.6
-ba2ed2a5e5b5 [release/2.2] update runc binary to v1.3.5
-474184497e5b runc: Update runc binary to v1.3.4
-becbb802ec9a update go to 1.26.4/1.25.11
-55bdc8bc5b0d Configure udevd children-max for root-test
-6d81e88679f8 Clean up disk space in node e2e workflow
-1a3d1c85e0d0 oci: return explicit error for out-of-range USER values
-fa2a97505844 seccomp: Block AF_ALG in default socket policy
-4b2b07879d7c seccomp: Document socket rule scope and socketcall limitation
-ea56c960571d Support both styles of volatile mount option
-3d34dc82065b sandbox: forward Create fields, fix event topics
-4b260843e3f6 apparmor: Set abi conditionally
-3e9c4d1e0c12 Add GitHub Action for k8s node e2e tests
-cf73e68731f8 Fix TOCTOU race bug in tar extraction
-2320b319e096 cri:fix lost container exit events if they arrive before info is cached
-fde1480df4c6 update github.com/moby/spdystream v0.5.1
-5b2eee8a2936 update to Go 1.25.9, 1.26.2
-c579db16e210 update golangci-lint to v2.9.0 with go1.26 support
-185ddcfd0cda remove windows/arm from cross build
-8538158dfacc Ignore warnings for golangci-lint bump
-1cff32695c41 ci: bump golangci from 6.5.2 to 7.0.0
-2e02b8bb316e Skip github.com/cyphar/filepath-securejoin license checks
-e71fc560b19b Updating selinux to v1.13.1
-868869eb9eff fix: sanitize error before gRPC return to prevent credential leak in pod events
-40632e4f2aa7 fix: redact all query parameters in CRI error logs
-85c3b2b0276b CODEOWNERS: mark Sam and Chris as owners for 2.0
-902d804c9914 Update github.com/moby/spdystream v0.4.0->v0.5.0
-e92d7b131182 make linter happy in release
-12fc0e6ca205 add integration test for cni result nil
-8d912c6a2be3 address comment
-742f8b8f60a2 fix issue where cni del is never executed
-f246535975c9 Ignore NOCHANGE error
-9c656fab42dc ci: update CIFuzz actions to support Ubuntu 24.04
-c71c4a091aeb integration: Fix TestImageLoad() failure on CI
-bfee299990b4 ci: modprobe xt_comment on almalinux
+Bruce
 
-Signed-off-by: Benjamin Robin <benjamin.robin@bootlin.com>
----
- recipes-containers/containerd/containerd-opencontainers_git.bb | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+In message: [PATCH] [meta-virtualization] [meta-cloud-services] [PATCH] qemu: upgrade bbappend to 11.%
+on 23/06/2026 wangmy via lists.yoctoproject.org wrote:
 
-diff --git a/recipes-containers/containerd/containerd-opencontainers_git.bb b/recipes-containers/containerd/containerd-opencontainers_git.bb
-index 4ecc915a9c35..bd2a9117b098 100644
---- a/recipes-containers/containerd/containerd-opencontainers_git.bb
-+++ b/recipes-containers/containerd/containerd-opencontainers_git.bb
-@@ -5,7 +5,7 @@ DESCRIPTION = "containerd is a daemon to control runC, built for performance and
-                support as well as checkpoint and restore for cloning and live migration of containers."
- 
- 
--SRCREV = "4ac6c20c7bbf8177f29e46bbdc658fec02ffb8ad"
-+SRCREV = "ffa3ba0cfc08e443758c01c73a69db403d31ad1b"
- SRC_URI = "git://github.com/containerd/containerd;branch=release/2.0;protocol=https;destsuffix=git/src/github.com/containerd/containerd/v2 \
-            file://0001-Makefile-allow-GO_BUILD_FLAGS-to-be-externally-speci.patch \
-            file://0001-build-don-t-use-gcflags-to-define-trimpath.patch \
-@@ -15,8 +15,8 @@ SRC_URI = "git://github.com/containerd/containerd;branch=release/2.0;protocol=ht
- LICENSE = "Apache-2.0"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=1269f40c0d099c21a871163984590d89"
- 
--CONTAINERD_VERSION = "v2.0.7"
--CVE_VERSION = "2.0.7"
-+CONTAINERD_VERSION = "v2.0.10"
-+CVE_VERSION = "2.0.10"
- 
- # EXTRA_OEMAKE += "GODEBUG=1"
- 
+> From: Wang Mingyu <wangmy@fujitsu.com>
+> 
+> Compatibility with OE-core.
+> 
+> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+> ---
+>  .../qemu/{qemu_10.%.bbappend => qemu_11.%.bbappend}               | 0
+>  1 file changed, 0 insertions(+), 0 deletions(-)
+>  rename meta-openstack/recipes-devtools/qemu/{qemu_10.%.bbappend => qemu_11.%.bbappend} (100%)
+> 
+> diff --git a/meta-openstack/recipes-devtools/qemu/qemu_10.%.bbappend b/meta-openstack/recipes-devtools/qemu/qemu_11.%.bbappend
+> similarity index 100%
+> rename from meta-openstack/recipes-devtools/qemu/qemu_10.%.bbappend
+> rename to meta-openstack/recipes-devtools/qemu/qemu_11.%.bbappend
+> -- 
+> 2.43.0
+> 
 
----
-base-commit: 9d0007a369deb4a6346f5ab7a9e6d432a8ed14fe
-change-id: 20260703-containerd-update-a71a2b785727
-
-Best regards,
---  
-Benjamin Robin <benjamin.robin@bootlin.com>
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#9902): https://lists.yoctoproject.org/g/meta-virtualization/message/9902
+> Mute This Topic: https://lists.yoctoproject.org/mt/119937023/1050810
+> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [bruce.ashfield@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
 
