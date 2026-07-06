@@ -2,64 +2,64 @@ Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B50BEC44500
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7337C43458
 	for <webhook@archiver.kernel.org>; Mon,  6 Jul 2026 17:14:31 +0000 (UTC)
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.156226.1783358067207521825
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.155209.1783358064460350379
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 06 Jul 2026 10:14:27 -0700
+ Mon, 06 Jul 2026 10:14:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=Kfe6pI2k;
- spf=pass (domain: gmail.com, ip: 209.85.210.172, mailfrom: ticotimo@gmail.com)
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-8471013fac2so3594827b3a.1
-        for <meta-virtualization@lists.yoctoproject.org>; Mon, 06 Jul 2026 10:14:27 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=YAqUQO4O;
+ spf=pass (domain: gmail.com, ip: 209.85.210.177, mailfrom: ticotimo@gmail.com)
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-847968ca62fso3403576b3a.2
+        for <meta-virtualization@lists.yoctoproject.org>; Mon, 06 Jul 2026 10:14:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783358066; x=1783962866; darn=lists.yoctoproject.org;
+        d=gmail.com; s=20251104; t=1783358064; x=1783962864; darn=lists.yoctoproject.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=3HrNvHUklscoabAyYQlb65R58xsKs5DQjfR0pRa3jsU=;
-        b=Kfe6pI2kT5xrz+4U42oclhutPUy0N8BPEcaxlY41tViQudF50zWQlp2l5l1Pj2Uf67
-         pjhcNDD+jYCKB9++v2+vhohegdQ14xiYjx1L/kQTy+YZitc40LdEvxJ/RUdux2aDDwyn
-         z2RU+B6NIueoiLx5bvJNjpMdDXzua+zj3ogQwS3bvq4Z84OUhGwQJ0+qF5ySximh0uLU
-         fDlv9cCTyCAwOzU/5+wFKkQ/qGkD/qCdtTkBXYmzl6NGZgcLcwPlHsbBzWC4y5SJmpxh
-         BFyJJXWxcDUX8ry4skY16A3ACVMFo4yvxLuaMRwk4lOEfjl1tjVTkiQ79ZoAGW1pnVw9
-         0b2w==
+        bh=BbOvbmb1Wb1+bfp8O9ypQUF+008D1R7p9TC16K8LLNA=;
+        b=YAqUQO4OkuNEeBeRO736oJJoK/vDNuQRpsdSgadOtEClm9c3rr5Pg7u83fv3fz31Ab
+         IUZG71BI0KIArTb1b8POx7+P03SGcpmxCv4lMFfyRLZlXaYYwzEnOshNxrob6Ae/zG+W
+         KEmBUT5BNsiRdy7bxDffH8AGc2fSGIzQueNe+UW5R3zeXouM873Z6OnQJfPu+GikI10l
+         3f9GRqvsJC4OotSQ5BTpMXBkhcqAl3Psxe2uVxI155PaJOZvyiJfNY03tbNdp0VcwWH5
+         qhpU4d6IBxOXrQxa9tPXtVtrVkqtKJbEndIjhL2YVI0wC362XiqTKpbvGu+GzM2cfu+P
+         XZbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783358066; x=1783962866;
+        d=1e100.net; s=20251104; t=1783358064; x=1783962864;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=3HrNvHUklscoabAyYQlb65R58xsKs5DQjfR0pRa3jsU=;
-        b=W5634E+nCGBvhqTWw/TCXMs2PDcr3574bGZ4vxsYPspIM82WEppbt52mnqY7vwKZiC
-         mrXeOPbi7jphDDZwSRCf4j9HzhlLnvfZg5Zn7EETFmLuh7c0gPhVCwMOjleevd7sjFUN
-         WZSsg/mBo2Zdp1/Ns94R3D0hyGnMX0ls7VPrkP7kozoFgJy9liRW0gGcud6gOIp0NigL
-         4v2hUmVc4eLNCT7jHrxHwWHJDqKZSrARbIQW6PLgPDQ/QpymvoRHW8BSwWXCIuWlakTX
-         UlMBe7iCMYgrlLYtdkYZ9I7ROGBYokfJWC9uwvyEKF6G4bJea6WuhJtql40zHkVJroNw
-         3ahQ==
-X-Gm-Message-State: AOJu0YxKAtxiilYQhR80wI+s7017hjoq1dnff4Uxt/V73mCEkmNEcP8Q
-	PhRbzD0qbmgi3q4XmionB+C/ANHKpNdS1qz4T1pe6hv/YCpczUIFuZwAS4FY3g==
-X-Gm-Gg: AfdE7cnor0mjphb3cL7NJ2UP3wcROm7lWe60ijK6fChXjtrNVCFNss+tzmFlQz6SYCF
-	BjURSfti2WskDenrEg8sOqTPFttHTTAlMkZeKoo10oyG/yjV472X59QS3P/Z4tI+MMU9x8pfTWQ
-	RdKvAWpcy38XvUwJ1aFmUGy4taTRpx9cZFbiuR2yF06OqpP79i6dXaMO4AxG9KKP7sSHh0cfyjn
-	PGp/GadK9dRB9bWfPr3fN8rTqiBBS43WGjWKBIy69qIEoZFhGHJJJJe1fvRRnDSqviMu+UfmU8+
-	mUEbdn3HPZuV9pd4/C/AAOifJL4UULCOFut17hxc6cHKbn8kbTw5Dz3rgshIn/EQhdcMmEcyY3Y
-	+QIO0zDWFvtH5EB/ck/ErPZWZ/Gj+AUeJLjqOhSXhFpu4xpuBiezwObNJG4j7hZaYDi1METCS3b
-	l6DJ9TjXKZ94gWKvDyB6jLLMZm+yTy0Aa08TdHiOQ9nBHiUEd/+doZ9+UabDpBbdmYNpheUqmyb
-	4EhkYGhYv0c
-X-Received: by 2002:a05:6a00:3d55:b0:847:82dc:452d with SMTP id d2e1a72fcca58-84826d1d859mr1594944b3a.29.1783358066544;
-        Mon, 06 Jul 2026 10:14:26 -0700 (PDT)
+        bh=BbOvbmb1Wb1+bfp8O9ypQUF+008D1R7p9TC16K8LLNA=;
+        b=L+uvfjkbG6q2qrREG7FFbhLuaywbyteHLLM6zvsBxRTo4MmWsOKgCIL8rMPGG+QejW
+         CA9CzSZ9uy0HvinQJIGh0Q3EFhlvngCfJQcPkb8aytyOCgrWY4FVf9rFAuNtHMqhgco+
+         /jx6PYa5AxTUgEPt9X28vJF7/408iUuu+MmZ2MPOrvyD54T0iqTCAZkWphRxd8ktvScP
+         5j9fNxT9aaJrZqZ28Cjx4o1Wkk84+tnwwh4ENCe/Su8hQ5ISHGx2AFrgtAeamONYp4CE
+         2ttZIXqgU803wnSRdjiiGUsi2Kw00rHGCcVr5SaeeGchbgptH3Sbxx9jKaV8HZunwFd0
+         w36w==
+X-Gm-Message-State: AOJu0YzFuxfCyVA0bb9GsC3z1y1pyqBD7yIwQgDex+d1Y0X2fyoYau44
+	n6sygfLRbN+SGu4zPtpNXOsDq14JQMm21/7nVx6Hokka8BTk3EJKXXLnR9poYg==
+X-Gm-Gg: AfdE7cn0aAJ/18Ow33RfNGp8N1DpC0TCthec+dWm5V0KMpvGcHleipUc+qasgcMrbpD
+	knCbPP4AkpqfbleycQIrnvtwzZZeBvpLZvGSUBhMXfb5XJlizSz3n/E9Py+ZMOOuyKvnoefmy6B
+	o7PFTwvUzpMe0P+96qProailiDF4+9byP5xgxZr+cqu2Wjry+4ru8pgppzxiRTeCr9fLGX0oKAe
+	Nm/X0jmlFzw773BlW4VLVpqCGUQ7XpgHbave4mPbdHjUO32pKkHP61DxEtHED8zCo8CQtDGFjf6
+	KhynTZGbWZQVppDFEcRqA+5wMt7uhUZCLrsszl4ymYVV7GtWICjZ+8fgE6UsgxfqSBrdtumxe/p
+	vnAf7HzcihB4BB97h2wcSRfLbRaZg0I5c18/6q1lHMWrUm1syortfyAvkcA6JemwTNs7O2+O1Sy
+	3lv4TKeiXLQ0vLdagfIq0CIVjkgDcsa6JXV320i9EPABHcwZJ+WQhtMqfNCQtKPQAjpeM+TJBb0
+	ZCoBgECttiM
+X-Received: by 2002:a05:6a00:3a13:b0:845:e1a3:1080 with SMTP id d2e1a72fcca58-84826d81a1amr1581038b3a.55.1783358063762;
+        Mon, 06 Jul 2026 10:14:23 -0700 (PDT)
 Received: from localhost.localdomain (c-98-232-159-17.hsd1.or.comcast.net. [98.232.159.17])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-847f6bd1078sm4121873b3a.24.2026.07.06.10.14.25
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-847f6bd1078sm4121873b3a.24.2026.07.06.10.14.20
         for <meta-virtualization@lists.yoctoproject.org>
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Mon, 06 Jul 2026 10:14:25 -0700 (PDT)
+        Mon, 06 Jul 2026 10:14:21 -0700 (PDT)
 From: Tim Orling <ticotimo@gmail.com>
 X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
 To: meta-virtualization@lists.yoctoproject.org
-Subject: [PATCH v2 12/13] container-image-multiarch: add helper recipe
-Date: Mon,  6 Jul 2026 10:12:47 -0700
-Message-ID: <a869ef29878d35ab40b4555214e055d8983d66c3.1783356922.git.tim.orling@konsulko.com>
+Subject: [PATCH v2 11/13] app-container-curl: use multilayer mode; container-nonroot-user
+Date: Mon,  6 Jul 2026 10:12:46 -0700
+Message-ID: <b400060011a465a2e7bcab6c0a3f4e1f04021646.1783356922.git.tim.orling@konsulko.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <cover.1783356922.git.tim.orling@konsulko.com>
 References: <cover.1780104071.git.tim.orling@konsulko.com> <cover.1783356922.git.tim.orling@konsulko.com>
@@ -69,54 +69,130 @@ List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <meta-virtualization@lists.yoctoproject.org>; Mon, 06 Jul 2026 17:14:31 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9936
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9935
 
-Similar to core-image-ptest.bb, this recipe uses mcextend to add
-multiarch support for any recipe in CONTAINER_IMAGES variable.
+From: Tim Orling <ticotimo@gmail.com>
+
+* Move to recipes-containers/images to show maintenance intent
+* Switch to multilayer mode to more like the other "library"/"official"
+  container recipes.
+* Change OCI_IMAGE_TAG to "latest" for similar reasons.
+* Change OCI_IMAGE_ENTRYPOINT_ARGS to "--help" to be more like upstream
+  containers.
+* Install ca-certificates to enable handling https:// sites
+* Inherit container-nonroot-user to run as 'nonroot' with UID 65532 by
+  default.
+* Inherit container-volatile-fixup to fix 'log' and 'tmp' in
+  /var/volatile.
+* Inherit container-dev-mode to optionally build a "-dev" image.
+  Set PACKAGECONFIG:pn-app-container-curl = "dev" in local.conf or
+  distro/image config to run as `root` and include a CONTAINER_SHELL.
 
 Signed-off-by: Tim Orling <tim.orling@konsulko.com>
 ---
- .../images/container-image-multiarch.bb       | 31 +++++++++++++++++++
- 1 file changed, 31 insertions(+)
- create mode 100644 recipes-containers/images/container-image-multiarch.bb
+ .../images/app-container-curl.bb              | 39 ++++++++++++++++
+ recipes-demo/images/app-container-curl.bb     | 46 -------------------
+ 2 files changed, 39 insertions(+), 46 deletions(-)
+ create mode 100644 recipes-containers/images/app-container-curl.bb
+ delete mode 100644 recipes-demo/images/app-container-curl.bb
 
-diff --git a/recipes-containers/images/container-image-multiarch.bb b/recipes-containers/images/container-image-multiarch.bb
+diff --git a/recipes-containers/images/app-container-curl.bb b/recipes-containers/images/app-container-curl.bb
 new file mode 100644
-index 00000000..13c4ae24
+index 00000000..bfa3e708
 --- /dev/null
-+++ b/recipes-containers/images/container-image-multiarch.bb
-@@ -0,0 +1,31 @@
-+inherit features_check
-+REQUIRED_DISTRO_FEATURES = "vcontainer"
++++ b/recipes-containers/images/app-container-curl.bb
+@@ -0,0 +1,39 @@
++SUMMARY = "Curl Application container image"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 +
++# Multi-layer mode: create explicit layers instead of single rootfs layer
++OCI_LAYER_MODE = "multi"
 +
-+DESCRIPTION += "Enable building the ${MCNAME} multiarch image."
-+SUMMARY ?= "${MCNAME} multiarch image."
-+HOMEPAGE ?= "https://www.yoctoproject.org/"
-+LICENSE ?= "MIT"
-+LIC_FILES_CHKSUM ?= "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
++# Optional 'dev' mode:
++#   - adds a shell to the container
++#   - runs the container as root (UID 0)
++# Enable with: PACKAGECONFIG:pn-app-container-curl = "dev"
++PACKAGECONFIG ??= ""
++PACKAGECONFIG[dev] = ""
++inherit container-dev-mode
 +
-+
-+CONTAINER_IMAGES ?= "\
-+    container-base \
-+    app-container-curl \
-+    app-container-mosquitto \
-+    app-container-nginx \
-+    app-container-python \
-+    app-container-valkey \
++# Define layers: each layer contains specific packages
++# Format: "name:type:content" where content uses + as delimiter for multiple items
++OCI_LAYERS = "\
++    base:packages:base-files+base-passwd+netbase \
++    ${@bb.utils.contains('PACKAGECONFIG', 'dev', 'shell:packages:${CONTAINER_SHELL}', '', d)} \
++    curl:packages:curl+ca-certificates \
 +"
 +
-+inherit oci-multiarch
++IMAGE_FSTYPES = "container oci"
++inherit image
++inherit image-oci
++inherit container-nonroot-user
++inherit container-volatile-fixup
 +
-+BBCLASSEXTEND = "${@' '.join(['mcextend:'+x for x in d.getVar('CONTAINER_IMAGES').split()])}"
++IMAGE_FEATURES = ""
++IMAGE_LINGUAS = ""
++NO_RECOMMENDATIONS = "1"
 +
-+OCI_MULTIARCH_RECIPE = "${MCNAME}"
-+OCI_MULTIARCH_PLATFORMS = "aarch64 x86_64"
++# Allow build with or without a specific kernel
++IMAGE_CONTAINER_NO_DUMMY = "1"
 +
-+python () {
-+    if not d.getVar("MCNAME"):
-+        raise bb.parse.SkipRecipe("No class extension set")
-+}
++OCI_IMAGE_ENTRYPOINT = "curl"
++OCI_IMAGE_TAG = "latest"
++OCI_IMAGE_ENTRYPOINT_ARGS = "--help"
+diff --git a/recipes-demo/images/app-container-curl.bb b/recipes-demo/images/app-container-curl.bb
+deleted file mode 100644
+index ddeb3022..00000000
+--- a/recipes-demo/images/app-container-curl.bb
++++ /dev/null
+@@ -1,46 +0,0 @@
+-SUMMARY = "Curl Application container image"
+-LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+-
+-IMAGE_FSTYPES = "container oci"
+-inherit image
+-inherit image-oci
+-
+-IMAGE_FEATURES = ""
+-IMAGE_LINGUAS = ""
+-NO_RECOMMENDATIONS = "1"
+-
+-IMAGE_INSTALL = " \
+-       base-files \
+-       base-passwd \
+-       netbase \
+-       ${CONTAINER_SHELL} \
+-"
+-
+-# If the following is configured in local.conf (or the distro):
+-#      PACKAGE_EXTRA_ARCHS:append = " container-dummy-provides"
+-# 
+-# it has been explicitly # indicated that we don't want or need a shell, so we'll
+-# add the dummy provides.
+-# 
+-# This is required, since there are postinstall scripts in base-files and base-passwd
+-# that reference /bin/sh and we'll get a rootfs error if there's no shell or no dummy
+-# provider.
+-CONTAINER_SHELL ?= "${@bb.utils.contains('PACKAGE_EXTRA_ARCHS', 'container-dummy-provides', 'container-dummy-provides', 'busybox', d)}"
+-
+-# Allow build with or without a specific kernel
+-IMAGE_CONTAINER_NO_DUMMY = "1"
+-
+-# Workaround /var/volatile for now
+-ROOTFS_POSTPROCESS_COMMAND += "rootfs_fixup_var_volatile ; "
+-rootfs_fixup_var_volatile () {
+-    install -m 1777 -d ${IMAGE_ROOTFS}/${localstatedir}/volatile/tmp
+-    install -m 755 -d ${IMAGE_ROOTFS}/${localstatedir}/volatile/log
+-}
+-
+-OCI_IMAGE_ENTRYPOINT = "curl"
+-OCI_IMAGE_TAG = "easy"
+-OCI_IMAGE_ENTRYPOINT_ARGS = "http://localhost:80"
+-CONTAINER_SHELL = "busybox"
+-
+-IMAGE_INSTALL:append = " curl"
 -- 
 2.54.0
 
