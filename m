@@ -1,378 +1,193 @@
-Return-Path: <deeratho@cisco.com>
+Return-Path: <kraghava@qti.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 401A4C43458
-	for <webhook@archiver.kernel.org>; Tue,  7 Jul 2026 07:26:16 +0000 (UTC)
-Received: from rcdn-iport-2.cisco.com (rcdn-iport-2.cisco.com [173.37.86.73])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.168320.1783409165073446249
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 630CFC43458
+	for <webhook@archiver.kernel.org>; Tue,  7 Jul 2026 13:20:37 +0000 (UTC)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.173143.1783430434619414472
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 07 Jul 2026 00:26:05 -0700
+ Tue, 07 Jul 2026 06:20:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=fbz8JRxi;
- spf=pass (domain: cisco.com, ip: 173.37.86.73, mailfrom: deeratho@cisco.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=12377; q=dns/txt;
-  s=iport01; t=1783409165; x=1784618765;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=8pB3V1qTmNKT0GQUUdFc3EFAHPyhre0hBNhiv7iAKQg=;
-  b=fbz8JRxiBCbAfoYBmKmSl7yMChQUt07gVORFhDd5UNaRJFK9tr1aLI+5
-   RZcc0dgyLlOoYu7cab10wlR5KAzx642hsLHDy4J6k/6FFTAFNtMLPfrz/
-   eqB9aqqfwLSBVnHNFG0TD62mvpf2EJl0oTD2MFM/uU4surrCLO0PXYBqz
-   LgH06WKFNPlej36nkMs1PH/TT/oK3SYbqXM8GTgBopyE0WAFuzv25AGDe
-   OjrWXTDmxK5bLP13hH8b+3mDOhDbsExa6vDVDC8Ca2ASUcELGJfQXZ8P+
-   vnAdLHzhWQt0O/+aAP9fvWkhN3RLrMxCBaEfm1aJHTaV3+zZ++wWkuf58
-   Q==;
-X-CSE-ConnectionGUID: 1ncidyYgSsmsx/DGo3JJvA==
-X-CSE-MsgGUID: 44yqUvyGQvWBB1JBRzmvmw==
-X-IPAS-Result: =?us-ascii?q?A0BEAgCSqExq/4z/Ja1aHgEBCxIMggULgld0X0JJlCqCI?=
- =?us-ascii?q?YEWnQiBfg8BAQEPRA0EAQGEQEYCjU0CJjQJDgECBAMCAwEBAQEBAQEBAQEBC?=
- =?us-ascii?q?wEBBQEBAQIBBwWBDhOGTw2GWgE4ATQ+AwECWiMZCIMCAYJzAxEGuFGCLIEBh?=
- =?us-ascii?q?H3bLAELFAGBOIU/iB9bGAGEfCcbG4FygRWCc3aBBYFcAgKBSIZbBIIigQyBW?=
- =?us-ascii?q?oIYjUJIgR4DWSwBVRMNCgsHBYFmAzUSKhVuMh2BIz4XgQwbBwWBHYFrgQKEe?=
- =?us-ascii?q?SMfAzl/gTB1SnktgQMSHgqBUoFRAwsYDUgRLDcUGwQ+bgeNDRcPgjYGAQEsT?=
- =?us-ascii?q?hMBKwQBGwIuX0kQJA4UkwwRPZF3gTifWgoog3WMIZU6GjOFW6URC5h9izeCU?=
- =?us-ascii?q?5U0gRyEaIFoPIFZcBWDIglKGQ+OOINrzgo8NQsyAQEHAgcOAwuBaJABgXwBA?=
- =?us-ascii?q?Q?=
-IronPort-Data: A9a23:TDCggaInMDr3b1UNFE+RgpQlxSXFcZb7ZxGr2PjKsXjdYENS1GEGy
- GVMX2zQOKyOYzH0L4ogOoyzpxgC6MeBy4c1SAYd+CA2RRqmiyZq6fd1j6vUF3nPRiEWZBs/t
- 63yUvGZcoZsCCSa/kvxWlTYhSEU/bmSQbbhA/LzNCl0RAt1IA8skhsLd9QR2uaEuvDnRVnQ0
- T/Oi5eHYgH9hGYrajt8B5+r8XuDgtyj4Fv0gXRmDRx7lAe2v2UYCpsZOZawIxPQKqFIHvS3T
- vr017qw+GXU5X8FUrtJRZ6iLyXm6paLVeS/oiI+t5qK23CulQRuukoPD8fwXG8M49m/c3+d/
- /0W3XC4YV9B0qQhA43xWTEAe811FfUuFLMqvRFTvOTLp3AqfUcAzN03Cko3MZwp9d1sBHpes
- tA3L2svTA6q0rfeLLKTEoGAh+w5J8XteYdasXZ6wHSBVrAtQIvIROPB4towMDUY358VW62BI
- ZBENHw2MEyojx5nYj/7DLoykeqyj2X/dBVTqUmeouw85G27IAlZjOm0bYKEIofXLSlTthrEt
- 3v74XXWOw8lHvbG6xC/4Heyg/CayEsXX6pXTtVU7MVChVCPzykNCQcKSFK/oOuwlk+5XfpbK
- lcI4Ww/qqMu81SxSdvwVAH+p2SL1iPwQPJKGOE8rQXIwa3O7kPBXS4PTyVKb5ots8peqSEW6
- 2JlVujBXVRH2IB5g1rEnltIhVte4RQoEFI=
-IronPort-HdrOrdr: A9a23:4IniwKPse2VUjsBcTvGjsMiBIKoaSvp037BN7TESdfU7SKKlfq
- yV8cjztiWE6wr5JktApTnoAsDpKhnhHPVOjrX5U43PYOCfgguVBbAny5f+yDv9HCC73Otc2a
- B8N5VaMrTLfD1HZQKQ2njeLz7mq+P3lJyVuQ==
-X-Talos-CUID: 9a23:iCohv20oLaKep2bvGr2y3bxfQ8Yuc3HM/XjrOEqjGSFFZ7rOa32O0fYx
-X-Talos-MUID: 9a23:B49MhwUFDuQl7DDq/GOwlShfKtZH2rqRImpUs788qcyaMDMlbg==
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="6.25,153,1779148800"; 
-   d="scan'208";a="491509035"
-Received: from rcdn-l-core-03.cisco.com ([173.37.255.140])
-  by rcdn-iport-2.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 07 Jul 2026 07:26:03 +0000
-Received: from bgl-ads-3413.cisco.com (bgl-ads-3413.cisco.com [173.39.60.50])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
-	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
-	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
-	by rcdn-l-core-03.cisco.com (Postfix) with ESMTPS id 9932A180005BF
-	for <meta-virtualization@lists.yoctoproject.org>; Tue,  7 Jul 2026 07:26:03 +0000 (GMT)
-Received: by bgl-ads-3413.cisco.com (Postfix, from userid 1795984)
-	id ADB08CC037D; Tue,  7 Jul 2026 12:56:01 +0530 (IST)
-From: "Deepak Rathore -X (deeratho - E INFOCHIPS PRIVATE LIMITED at Cisco)" <deeratho@cisco.com>
-To: meta-virtualization@lists.yoctoproject.org
-Subject: [meta-virtualization][scarthgap][PATCH] podman: Fix CVE-2026-55686
-Date: Tue,  7 Jul 2026 12:55:56 +0530
-Message-Id: <20260707072556.2854620-1-deeratho@cisco.com>
-X-Mailer: git-send-email 2.35.6
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=XLkTVGV+;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: qti.qualcomm.com, ip: 205.220.168.131, mailfrom: kraghava@qti.qualcomm.com)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 667C8hWF3755535;
+	Tue, 7 Jul 2026 13:20:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	QqqjEuUcSMKgCIxnD3nVP/+eUUUGZJCt5OW76kpt6GE=; b=XLkTVGV+CDlYTbI3
+	k+cCX/XyWwDOgZZtBe7ZNz1Mi3IR7t03u5oYqDHWUVs3u7WCqpjemUdDuUIgRCo0
+	xza0+CX9Y+QJKfALhcTrzsU7Hb/LTqemHjIjNREO9+TvvnKLqcU7Z18kfGLVeAUy
+	ZsZUYqCsNsmxqLtcVMGNtCBglrAjIrSDm1pfjVN1Z2VKKnNn4nQtPr46SeFOPMkl
+	Q9REevmqxnge6qcCIBMGf9hiCjG0NTHDR/FW/ruxDrA8N24bNo4zxIqPEhmZe0Zn
+	Qx4rmXLcZzelF8bdwO82+TsUnOcPLjaAuWQbA/1OAsaZuMnv55hHAgr0P6lQQ8o6
+	WR98/g==
+Received: from ds2pr08cu001.outbound.protection.outlook.com (mail-ds2pr08cu00107.outbound.protection.outlook.com [40.93.13.55])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f8wep19qg-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Tue, 07 Jul 2026 13:20:33 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=hoi5SaGvYD8KL1Vo0CrerYsNZepBePrThVmi450eQ21MwD7EBuAdO/qAS+qoquxO9v/WkRQR4kzqauRTL6Yr6I2PjhjfddMPEiJrE7Dpo4/ghrYseF4CxXjCSqHcsewKPH2eYSwipq7egveaA3diVdAzJoV10RrgGdHSySB2LJRsLmlKQ8GFl0JgTMZQtH6brauPlI9U6TRA4w+VERLi3REMMTqjQORyUqL9DETLSlz7MJKrqMqFXZIBX0VS9n8qBXuDo7hVZAFou2tuSMGwclkZcG+1VEKc6Gm879I5jXx5UOCupMO/gJaGZinOPhjvbRuycWKZzeBsEHeUavOfMg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=QqqjEuUcSMKgCIxnD3nVP/+eUUUGZJCt5OW76kpt6GE=;
+ b=fsYPiv9V+o6fNB96utJ0lUyWTcJvEAUQBFnzvNojHBPzgkE68/4JqzOvkoVAAQDqa/SNLiLsNolhjTof7CQfYn7YN9tXAqYfxEzjGxY6Gh4X6Gf9Rb1g8TQ5kD4t8uf2SXkP9a8J21qtoMxod+lSV3PrShoLz7yg+xBhWLcPJ3+3ADifaT8uc42W0KOm/6kPvHtHzvUj2VAG5V6keDvWiO5DHbqnQZCzgtSR+U2qk8fTmbL6/6/otmFjVJx4lA0G3AjmF1J6jThgzEjDyoKMhjzRhsowx8npmXmsRhzxSmP80k88sR8b2AOK6PHDmWWpejpXrNAi9um5jXpiKQ4M5w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=qti.qualcomm.com; dmarc=pass action=none
+ header.from=qti.qualcomm.com; dkim=pass header.d=qti.qualcomm.com; arc=none
+Received: from CH8PR02MB10971.namprd02.prod.outlook.com
+ (2603:10b6:610:2bd::11) by SA2PR02MB7531.namprd02.prod.outlook.com
+ (2603:10b6:806:14c::13) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.13; Tue, 7 Jul
+ 2026 13:20:30 +0000
+Received: from CH8PR02MB10971.namprd02.prod.outlook.com
+ ([fe80::ca3d:581a:3e40:7168]) by CH8PR02MB10971.namprd02.prod.outlook.com
+ ([fe80::ca3d:581a:3e40:7168%4]) with mapi id 15.21.0181.012; Tue, 7 Jul 2026
+ 13:20:30 +0000
+From: Keerthivasan Raghavan <kraghava@qti.qualcomm.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+CC: "meta-virtualization@lists.yoctoproject.org"
+	<meta-virtualization@lists.yoctoproject.org>,
+        Viswanath Kraleti
+	<vkraleti@qti.qualcomm.com>,
+        Anuj Mittal <anujmitt@qti.qualcomm.com>,
+        Sourabh
+ Banerjee <sbanerje@qti.qualcomm.com>
+Subject: Re: [PATCH v2 1/2] crosvm: add recipe for ChromeOS Virtual Machine
+ Monitor (VMM)
+Thread-Topic: [PATCH v2 1/2] crosvm: add recipe for ChromeOS Virtual Machine
+ Monitor (VMM)
+Thread-Index: AQHc+vsFxbnwu93/BUe2rsEco5rHo7ZG17OAgARDlbiAAN57b4AAMCiAgBYF90o=
+Date: Tue, 7 Jul 2026 13:20:30 +0000
+Message-ID: 
+ <CH8PR02MB10971E2FF7E737B8089C33503F3F02@CH8PR02MB10971.namprd02.prod.outlook.com>
+References: <20260613060743.3120135-1-kraghava@qti.qualcomm.com>
+ <20260613060743.3120135-2-kraghava@qti.qualcomm.com>
+ <6a360c2b.eef12218.262e9b.f8ea@mx.google.com>
+ <CH8PR02MB10971460B68EFD02FD19E40DDF3EF2@CH8PR02MB10971.namprd02.prod.outlook.com>
+ <6a399fd2.40ff4c04.83ff5.dffb@mx.google.com>
+ <CH8PR02MB109712F19227670A82BC626ECF3EE2@CH8PR02MB10971.namprd02.prod.outlook.com>
+ <CADkTA4NykhXNe9xahCc76OBc5B4D9TfLCHSw847Y9JHJnx2=QQ@mail.gmail.com>
+In-Reply-To: 
+ <CADkTA4NykhXNe9xahCc76OBc5B4D9TfLCHSw847Y9JHJnx2=QQ@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CH8PR02MB10971:EE_|SA2PR02MB7531:EE_
+x-ms-office365-filtering-correlation-id: fa804cef-8a8c-49a6-9d74-08dedc2a8479
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|366016|1800799024|376014|23010399003|22082099003|18002099003|38070700021|6133799003|56012099006|4143699003|11063799006;
+x-microsoft-antispam-message-info: 
+ yKeY8FEjwehum5YZX8EGvseU4RmU3Fp/tacAhNalWHYEZbs9P0/2h2n8Gl2LGIM9YgveSvqzm7ZCKSiCCPcslCDfW5VKoxZU+UH6kvDICY3VcCrqpcy/B34yHsxDr0soAoVU/ep4VENufBqRBLSiQuezY0UMbjo3qjOyzxG2hk43G2/HXgQySb2+7mXGb9fFA+Jy9jw1J0MUuigdj58R2thm7LlY3d1anLQbihc4E5LMEU9tdbaxfMTgum/C0wP5OedLd0Kd7r9l/oHIh7tIoV18Ugn48dovMoi3oZQhTcp617Yz/nzBSbm9/Ddlc4FIIZyYEL/TFKemBae15aOCcK0gD2SnQxKyjGbmEPWWVXetjv1rNkCx9RJFvBZRLDyE/3Z9tNQLFB4o/DQgPP3bBEUMIWgZBK5dQxD8u04QcvTRZ8fk2pxRNwPOQr3hsB/mMIiVM6pmepO+4L8BGJTxJjzXtIpGw42H/NHWarVEMNcCStyZN6Got39qEw6qj7HLzWYyZv8g/PVjQZUZsHGfmmRFm9eSK6m8xCE4OxfJ6v09Q3i2hBaNMTqZTXG93PwDswgv5ScceKxL9Bf/N69QeCHi3pBgZCVBJuEL/ddP1+zJYM1EsHjhzQpJR1aJQLVtfNXSx87YeDNiK7mujqSyIk+N4qnTBznAfx/YNR6x5Df1/RzeusSewOzzOhQ3ribNU0F87bYmgCfCdqIyKi+WPMiJgUb7L8aqabMmjg+KErA=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH8PR02MB10971.namprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(23010399003)(22082099003)(18002099003)(38070700021)(6133799003)(56012099006)(4143699003)(11063799006);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?iso-8859-1?Q?rljHDfPEL5DET4YT96EAuGZ5WnD36H69eJUGJ9/qyajRRCVaP6xiWde8i0?=
+ =?iso-8859-1?Q?j0naM/DYX1fhP6nvHhhCRnIEGMgrfpp/dTV28m8T4adaIoquX+qi1BFjwe?=
+ =?iso-8859-1?Q?jxioXluQHirM7yxqWc3uQW+kDRwxWrEPM1Papo96PbAVlfJbn7CfPFVr8E?=
+ =?iso-8859-1?Q?55u0ct8n6ol5KCM2NOD6rHnnTsHUxfwcxUmrvHRipoAx+J0S49hkchyBpK?=
+ =?iso-8859-1?Q?q032tOoxks5Kg+rEXB5cN3ccrPXxXjEOC9CXlcIjlMiNl1MN2kDKh6GaE1?=
+ =?iso-8859-1?Q?OF7PWHeiNVnZRuqQRleEK8veWfkHEqsG3jUAHnwqXmMjt1AVgjRZ2vCoVZ?=
+ =?iso-8859-1?Q?lSvxK+iyTTq6ONzzz5ujNH0Xw4aLPvaXVkCXGlIQj28k8x6IflV2izxzr6?=
+ =?iso-8859-1?Q?+QhbFM5rR1HTVm0ywPteZG70za9j0L9mlwvgV8orDTyT/I5t3o23Td0iA9?=
+ =?iso-8859-1?Q?BFcFRKKuYXS3/aE9KckxWsxvlQPD17+fzekSkhVxNea2oTyqP0q/DAUiqC?=
+ =?iso-8859-1?Q?o6/yuA4u1EXqCaiWEtiLqNIiD3XrMm+WV1fKdAzMjZx5nuXmpN6uyxwKpO?=
+ =?iso-8859-1?Q?YOW9dsbUDtqV89YjjquWDU6TNc6dEpvyLU0eryhOh6am8H4E1ipUICcy2n?=
+ =?iso-8859-1?Q?9DUNRBf2g5CC+sxRel37A+UxrIDZyjE0jxycp5qrWpmYvtry6ZwnpfA9h0?=
+ =?iso-8859-1?Q?n8kKMCM7SMVqJ/ZPXpmUV//yLlo82UBnM0DL3kvGp/WCDkGNiojhV6evzC?=
+ =?iso-8859-1?Q?x/OUBSGLDwQ/zTFW94AlSAF9Lx3s9QxbtJkU05mZkc8n7kPbVoiYSyrD0y?=
+ =?iso-8859-1?Q?QgGWE1AyP/nwXOnYDBzbAa+/2ydGn7TMV7tXck2+opDiIC60dHM6ulDZq7?=
+ =?iso-8859-1?Q?7PvYxnL4QSvw8NrBZ1WSby9wD0bic5+EE2cLD5gqTa0WGRV68dSU879nCC?=
+ =?iso-8859-1?Q?6y8WokaUOhpUFiIiS7CbunxIo/zZFza1DC5VlaVK4O0tMw7axiDcI87+K5?=
+ =?iso-8859-1?Q?CpKaIrk+6uwf8wW0LayZFyRI2/YI5P9Lq6RUfkmShPSln44kjwUVTwCVSb?=
+ =?iso-8859-1?Q?p8/eHVPQ4z9rs9gP1HujHRsbNc5IqgBPvAsisO/jPeFhg3kFQrcVvxvB1W?=
+ =?iso-8859-1?Q?XW7FCxw/aYXZFeXAkrtS1Lfg3pbJWJjhBj7PJtKKme9SmGPV10PJNewhvV?=
+ =?iso-8859-1?Q?I9ufX6Ci9bxXJtYq4tU0ycfnzI0nYVQY2HstiPxxWgbZDqtsQj9SAcV3nT?=
+ =?iso-8859-1?Q?pPm0SxGp3xBrJ/K+/EQwMOVgJnFaurO6+kbXcypn9QnNNTaSZ55JcbRdt9?=
+ =?iso-8859-1?Q?0sgbrru83mMmGZ00RUdEkjciYu7ZY9kcs/kkyyS4rpQ+sYS5IHOxxHp5pW?=
+ =?iso-8859-1?Q?MUAhPpjHznPH6dSP/SPiQapQkj9r6Cla5tl0tqe7QHM5xPGqngN53Gfv/Q?=
+ =?iso-8859-1?Q?9YZnS/+YeH9sRMCt5VIwUowq3DW8yMv0hqqV7bva3XjIqJyK4ISvj7zX2V?=
+ =?iso-8859-1?Q?rp86WVeLkHVL8i5JSdhqRvpQzrDWAv4RhfWelzNFdAE7QOqT4RCjLvIR6s?=
+ =?iso-8859-1?Q?h6ai2B6aZJO957QVb+9bJawVHshHd/OafmF/fWKt7op8iGS+PbYak8v5OS?=
+ =?iso-8859-1?Q?oL9ICjL+Trvx66JSYD+Md6HCA0IeizlSvhfToToLwnA6w3zx8APjlsubk/?=
+ =?iso-8859-1?Q?O8iZ8MS2iFwkgl7XfPr+tBC1hX+ZqTTj/lu1E72kFtYw7bn+ruz2s67p/T?=
+ =?iso-8859-1?Q?Bc2PfPq7wUbCxW5k+H2aXm0ABuiEGEz78ilzya3lvYJWucSdi3fwrAmVAy?=
+ =?iso-8859-1?Q?dJ++RJxmsA=3D=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Outbound-Client-TLS: VERIFIED;bgl-ads-3413.cisco.com [173.39.60.50];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
-X-Outbound-SMTP-Client: 173.39.60.50, bgl-ads-3413.cisco.com
-X-Outbound-Node: rcdn-l-core-03.cisco.com
+X-Exchange-RoutingPolicyChecked: 
+	sDrAklJ81/onYZLc65H0iVvKvlG9CKNcONUxFUPtsJaqbuYwxOa27HCLpG9h7aGEFbaWQ1XIFYPfdHWHMWiyqwkZks2uam1XnU84MfWbFxWVYrLfLQY25URU9ZDPANeiI7rpbkYQq8RG9DLnAqKSCiBmw79W4VQC2k7hxP7iN/hWyGb9UJyQ7At+S2VWh8r6otXuo098pqax+G+LPOd+tzoFtEf9XHa9xIf8rm6eBtZXCTHQ39Q4xCPO6TstT+xfVbDR0nmktpipfXJK6hJvu2u/nv5Tbpbt+1zWrwuIr+tIIw3Ptt8XWoi/sQcqngcYQZOiFOJvzc8I2FhioopbBw==
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
+	M8BTKFgomiEIRRj1eVrf0nC9FKfwsBzkbs/aW1eG3B23scQv+KGrzoq1BgoR9H7TDYPk6pfWLcC63uHA8PSTq0ZkCPxQesH7HPG3Fg85JzsXz976mcE59AIPrwjKsjAxhm367Th8XqKjmKft3JNu+3lGuk2KDf7o1UL1eLMeQdLHLcjTMosaa73SsAuIagNOq09TGD3X6XCXYLJkxgYqs/uS58Lp6e8asFqjaeS6rtIvO4inZwfSqSg6VTkXfBjHhf/beS0nI3SwJXhbFzCOuB/yr/1PNoiRX2jVX9o2eLb+IQsr3gpwM0Vy0W6SEDxnKblt2g+TvyUgsbtaXS22LpnVzS3eTNIkJ1dk+935j1ffGHRxzc/t2/aVLR4+xnzXw/gEwhlzSUyqE9v0SvDWl/VoV9CEHJj22zqIDMtuE5I0jLBRlTBSEmTOsadsYSm+KQZP4kpYnUkRSpv12EmMeQLqEudnRDl8Nn3DIc2sPPl9OzO9ha1/D/StHUegZYCVUXi9B7gr7IPkuxW4gQffbHz7EDOJ1ix99YBg8/WAxLJBZ/PA75F3P4JVz7Oj7Z5CGG9JdZ9e9uwMCgPg1o/zUk3lsnACCjtprRM7hLsgsDzSUxf3eSPx1bXjZ+Fe8H3i
+X-OriginatorOrg: qti.qualcomm.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CH8PR02MB10971.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fa804cef-8a8c-49a6-9d74-08dedc2a8479
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Jul 2026 13:20:30.2343
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: KvZ94twIHhX9K5bZM7j92cFSDfEMUznwAqs6RGLpgPMAnyRPgVUGcOgjPNFO7751qxeXwTmlQOSql69NmgRu8D+ioW76Cqtpm35l6/bjU/Y=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR02MB7531
+X-Proofpoint-GUID: DcTsKjGr7NwVCLgvReq0LXjYDmChmlTD
+X-Proofpoint-ORIG-GUID: DcTsKjGr7NwVCLgvReq0LXjYDmChmlTD
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA3MDEzMCBTYWx0ZWRfX0URygZ9KkRFD
+ b6xoYCmqgGnFyALugVzegvwMCpZtS0w5UfFZroRhjbqOaUInDRrli9VWb8ivGXIwDyNnlfcSMZT
+ 5OMb84w4GN8Y7SkjqgxmujmclgpObOCdYblWZjyrWdFoToNutv2KyHN6Y03OQZJ6GSYzTNtJfqU
+ nbaF+zefD3ZGVH03VNHeUJ6N7t6idzAjFuRuegt8gwhFlbUQcZ37qLB7EXW8zF/zutuCd82sR0j
+ jLb8fiOgsN99wOw0tjjhMYLPMxFZ/zJYUOwatvOejyDw2t/NuNcB0/aGCJfDJ82/0PkyfR1aDoF
+ xYUNZwfwADblSKQ6youK8zZamhbAg3VrXifhuppso0zCpkj+SSnG7lFLS5zefqEo2/0mFtiJg65
+ i8ZC6vYcDhSgSDn5lEQQGv/fJOP4F3Z3cczHZgbcEv3QkGgHBNWqPR/W7s7YqOHatOwQf+mFMoh
+ KPMg80bltlaTJEbWJ6Q==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA3MDEzMCBTYWx0ZWRfX282OAc0EkuNf
+ 7BrmirDBOeJaocUEgj1+XbE0CaUs95z5aW5TcGlBCVJZSOQh4mh5OHB8Tt1X+sffSW/qsxLatAF
+ WOl/Unw0a1YA4jYPs5Ldd4c5cFmeHfg=
+X-Authority-Analysis: v=2.4 cv=atSCzyZV c=1 sm=1 tr=0 ts=6a4cfd21 cx=c_pps
+ a=vkEPmp//vMHCVjW2JM8fXA==:117 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=8nJEP1OIZ-IA:10
+ a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
+ a=yOCtJkima9RkubShWh1s:22 a=o1JoR_qQpSJbh2oIwvQA:9 a=wPNLvfGTeEIA:10
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-07_03,2026-07-06_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 phishscore=0 clxscore=1015 priorityscore=1501 spamscore=0
+ suspectscore=0 lowpriorityscore=0 bulkscore=0 impostorscore=0 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607070130
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Tue, 07 Jul 2026 07:26:16 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9938
+ <meta-virtualization@lists.yoctoproject.org>; Tue, 07 Jul 2026 13:20:37 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9939
 
-From: Deepak Rathore <deeratho@cisco.com>
-
-- This patch applies the upstream v5.7.1 backport for CVE-2026-55686.
-- The upstream fix commit is referenced in [1],the public CVE advisory
-is referenced in [2], and the dependent upstream workdir test commit
-is referenced in [3].
-- The dependent patch is carried because the CVE fix extends that
-upstream symlinked-workdir regression test.
-
-[1] https://github.com/containers/podman/commit/7ce2e00ab140c11a68301f0b161f51984131a858
-[2] https://github.com/advisories/GHSA-q6r4-3wmg-fwcq
-[3] https://github.com/podman-container-tools/podman/commit/e576e002e9d95ae6b37265d9e0b3deaa4c43d73f
-
-Signed-off-by: Deepak Rathore <deeratho@cisco.com>
----
- .../podman/CVE-2026-55686-dependent.patch     |  53 +++++
- .../podman/podman/CVE-2026-55686.patch        | 190 ++++++++++++++++++
- recipes-containers/podman/podman_git.bb       |   2 +
- 3 files changed, 245 insertions(+)
- create mode 100644 recipes-containers/podman/podman/CVE-2026-55686-dependent.patch
- create mode 100644 recipes-containers/podman/podman/CVE-2026-55686.patch
-
-diff --git a/recipes-containers/podman/podman/CVE-2026-55686-dependent.patch b/recipes-containers/podman/podman/CVE-2026-55686-dependent.patch
-new file mode 100644
-index 0000000..026e5b6
---- /dev/null
-+++ b/recipes-containers/podman/podman/CVE-2026-55686-dependent.patch
-@@ -0,0 +1,53 @@
-+From 757c798d8fd8ee2b05a7f0b5df753b37c7169a49 Mon Sep 17 00:00:00 2001
-+From: Paul Holzinger <pholzing@redhat.com>
-+Date: Wed, 3 Dec 2025 16:57:15 +0100
-+Subject: [PATCH 1/2] libpod: fix workdir MkdirAll() all check
-+
-+MkdirAll can fail with EEXIST when the path is a symlink and the target
-+doesn't exist. As such we should ignore the error.
-+
-+Note there is something fundemantal wrong here with the path access as
-+it is following the symlink to the host, however it is only for a
-+stat() so it is not an security issue here.
-+
-+Fixes: 637c264e2e ("fix issues found by nilness")
-+
-+CVE: CVE-2026-55686
-+Upstream-Status: Backport [https://github.com/podman-container-tools/podman/commit/e576e002e9d95ae6b37265d9e0b3deaa4c43d73f]
-+
-+Backport Changes:
-+- Omitted the libpod/container_internal_common.go hunk because
-+  Scarthgap already has equivalent os.IsExist(err) handling in the
-+  resolveWorkDir() os.MkdirAll() error path.
-+- Kept the upstream symlinked-workdir e2e test because the CVE fix
-+  commit extends this test upstream.
-+
-+Signed-off-by: Paul Holzinger <pholzing@redhat.com>
-+(cherry picked from commit e576e002e9d95ae6b37265d9e0b3deaa4c43d73f)
-+Signed-off-by: Deepak Rathore <deeratho@cisco.com>
-+---
-+ test/e2e/run_working_dir_test.go | 10 ++++++++++
-+ 1 file changed, 10 insertions(+)
-+
-+diff --git a/test/e2e/run_working_dir_test.go b/test/e2e/run_working_dir_test.go
-+index 9f06df9313..53040cd98c 100644
-+--- a/test/e2e/run_working_dir_test.go
-++++ b/test/e2e/run_working_dir_test.go
-+@@ -56,4 +56,14 @@ WORKDIR  /etc/foobar`, ALPINE)
-+ 		Expect(session).Should(ExitCleanly())
-+ 		Expect(session.OutputToString()).To(Equal("/home/foobar"))
-+ 	})
-++
-++	It("podman run on an image with a symlinked workdir", func() {
-++		dockerfile := fmt.Sprintf(`FROM %s
-++RUN mkdir /A && ln -s /A /B
-++WORKDIR /B`, ALPINE)
-++		podmanTest.BuildImage(dockerfile, "test", "false")
-++
-++		session := podmanTest.PodmanExitCleanly("run", "test", "pwd")
-++		Expect(session.OutputToString()).To(Equal("/A"))
-++	})
-+ })
-+-- 
-+2.35.6
-+
-diff --git a/recipes-containers/podman/podman/CVE-2026-55686.patch b/recipes-containers/podman/podman/CVE-2026-55686.patch
-new file mode 100644
-index 0000000..fe0744c
---- /dev/null
-+++ b/recipes-containers/podman/podman/CVE-2026-55686.patch
-@@ -0,0 +1,190 @@
-+From 7548d6714dee9c43f437202dc3d3652e89a99ee1 Mon Sep 17 00:00:00 2001
-+From: Paul Holzinger <pholzing@redhat.com>
-+Date: Wed, 3 Dec 2025 19:15:24 +0100
-+Subject: [PATCH 2/2] libpod: simplify resolveWorkDir()
-+
-+The code checks for isPathOnVolume and isPathOnMount so we can just use
-+the SecureJoin here directly to check for path existance.
-+
-+Then instead of walking symlinks and trying to guess if they are on a
-+mount just assume if it is a link (path is different from the normal
-+joined one) then don't error out early and let the OCI runtime deal with
-+it. The runtime does produce a less readable error but it still fails
-+and we have much less fragile code.
-+
-+CVE: CVE-2026-55686
-+Upstream-Status: Backport [https://github.com/podman-container-tools/podman/commit/7ce2e00ab140c11a68301f0b161f51984131a858]
-+
-+Backport Changes:
-+- Applied the upstream SecureJoin-based resolveWorkDir() change to
-+  Scarthgap's older v5.0 function shape, replacing its
-+  isWorkDirSymlink()/resolvePath() flow with the same security behavior.
-+- Kept Scarthgap's existing os.MkdirAll(..., 0755) and os.IsExist(err)
-+  context because the equivalent prerequisite behavior is already present
-+  and is documented in CVE-2026-55686-dependent.patch.
-+- Kept Scarthgap's existing gexec import while applying the upstream
-+  symlinked-workdir test extension.
-+
-+Signed-off-by: Paul Holzinger <pholzing@redhat.com>
-+(cherry picked from commit 7ce2e00ab140c11a68301f0b161f51984131a858)
-+Signed-off-by: Deepak Rathore <deeratho@cisco.com>
-+---
-+ libpod/container_internal_common.go | 81 +++++++----------------------
-+ test/e2e/run_working_dir_test.go    | 24 ++++++++-
-+ 2 files changed, 41 insertions(+), 64 deletions(-)
-+
-+diff --git a/libpod/container_internal_common.go b/libpod/container_internal_common.go
-+index 3bb6dfe1eb..cfdaf1a148 100644
-+--- a/libpod/container_internal_common.go
-++++ b/libpod/container_internal_common.go
-+@@ -688,54 +688,6 @@ func (c *Container) generateSpec(ctx context.Context) (s *spec.Spec, cleanupFunc
-+ 	return g.Config, cleanupFunc, nil
-+ }
-+ 
-+-// isWorkDirSymlink returns true if resolved workdir is symlink or a chain of symlinks,
-+-// and final resolved target is present either on  volume, mount or inside of container
-+-// otherwise it returns false. Following function is meant for internal use only and
-+-// can change at any point of time.
-+-func (c *Container) isWorkDirSymlink(resolvedPath string) bool {
-+-	// We cannot create workdir since explicit --workdir is
-+-	// set in config but workdir could also be a symlink.
-+-	// If it's a symlink, check if the resolved target is present in the container.
-+-	// If so, that's a valid use case: return nil.
-+-
-+-	maxSymLinks := 0
-+-	for {
-+-		// Linux only supports a chain of 40 links.
-+-		// Reference: https://github.com/torvalds/linux/blob/master/include/linux/namei.h#L13
-+-		if maxSymLinks > 40 {
-+-			break
-+-		}
-+-		resolvedSymlink, err := os.Readlink(resolvedPath)
-+-		if err != nil {
-+-			// End sym-link resolution loop.
-+-			break
-+-		}
-+-		if resolvedSymlink != "" {
-+-			_, resolvedSymlinkWorkdir, err := c.resolvePath(c.state.Mountpoint, resolvedSymlink)
-+-			if isPathOnVolume(c, resolvedSymlinkWorkdir) || isPathOnMount(c, resolvedSymlinkWorkdir) {
-+-				// Resolved symlink exists on external volume or mount
-+-				return true
-+-			}
-+-			if err != nil {
-+-				// Could not resolve path so end sym-link resolution loop.
-+-				break
-+-			}
-+-			if resolvedSymlinkWorkdir != "" {
-+-				resolvedPath = resolvedSymlinkWorkdir
-+-				_, err := os.Stat(resolvedSymlinkWorkdir)
-+-				if err == nil {
-+-					// Symlink resolved successfully and resolved path exists on container,
-+-					// this is a valid use-case so return nil.
-+-					logrus.Debugf("Workdir is a symlink with target to %q and resolved symlink exists on container", resolvedSymlink)
-+-					return true
-+-				}
-+-			}
-+-		}
-+-		maxSymLinks++
-+-	}
-+-	return false
-+-}
-+-
-+ // resolveWorkDir resolves the container's workdir and, depending on the
-+ // configuration, will create it, or error out if it does not exist.
-+ // Note that the container must be mounted before.
-+@@ -750,7 +702,7 @@ func (c *Container) resolveWorkDir() error {
-+ 		return nil
-+ 	}
-+ 
-+-	_, resolvedWorkdir, err := c.resolvePath(c.state.Mountpoint, workdir)
-++	resolvedWorkdir, err := securejoin.SecureJoin(c.state.Mountpoint, workdir)
-+ 	if err != nil {
-+ 		return err
-+ 	}
-+@@ -766,20 +718,23 @@ func (c *Container) resolveWorkDir() error {
-+ 	if !c.config.CreateWorkingDir {
-+ 		// No need to create it (e.g., `--workdir=/foo`), so let's make sure
-+ 		// the path exists on the container.
-+-		if err != nil {
-+-			if os.IsNotExist(err) {
-+-				// If resolved Workdir path gets marked as a valid symlink,
-+-				// return nil cause this is valid use-case.
-+-				if c.isWorkDirSymlink(resolvedWorkdir) {
-+-					return nil
-+-				}
-+-				return fmt.Errorf("workdir %q does not exist on container %s", workdir, c.ID())
-+-			}
-+-			// This might be a serious error (e.g., permission), so
-+-			// we need to return the full error.
-+-			return fmt.Errorf("detecting workdir %q on container %s: %w", workdir, c.ID(), err)
-+-		}
-+-		return nil
-++		if errors.Is(err, os.ErrNotExist) {
-++			// Check if path is a symlink, securejoin resolves and follows the links
-++			// so the path will be different from the normal join if it is one.
-++			if resolvedWorkdir != filepath.Join(c.state.Mountpoint, workdir) {
-++				// Path must be a symlink to non existing directory.
-++				// It could point to mounts that are only created later so that make
-++				// an assumption here and let's just continue and let the oci runtime
-++				// do its job.
-++				return nil
-++			}
-++			// If they are the same we know there is no symlink/relative path involved.
-++			// We can return a nicer error message without having to go through the OCI runtime.
-++			return fmt.Errorf("workdir %q does not exist on container %s", workdir, c.ID())
-++		}
-++		// This might be a serious error (e.g., permission), so
-++		// we need to return the full error.
-++		return fmt.Errorf("detecting workdir %q on container %s: %w", workdir, c.ID(), err)
-+ 	}
-+ 	if err := os.MkdirAll(resolvedWorkdir, 0755); err != nil {
-+ 		if os.IsExist(err) {
-+diff --git a/test/e2e/run_working_dir_test.go b/test/e2e/run_working_dir_test.go
-+index 53040cd98c..ff9eeac50c 100644
-+--- a/test/e2e/run_working_dir_test.go
-++++ b/test/e2e/run_working_dir_test.go
-+@@ -9,6 +9,7 @@ import (
-+ 	. "github.com/onsi/ginkgo/v2"
-+ 	. "github.com/onsi/gomega"
-+ 	. "github.com/onsi/gomega/gexec"
-++	"github.com/onsi/gomega/types"
-+ )
-+ 
-+ var _ = Describe("Podman run", func() {
-+@@ -59,11 +60,32 @@ WORKDIR  /etc/foobar`, ALPINE)
-+ 
-+ 	It("podman run on an image with a symlinked workdir", func() {
-+ 		dockerfile := fmt.Sprintf(`FROM %s
-+-RUN mkdir /A && ln -s /A /B
-++RUN mkdir /A && ln -s /A /B && ln -s /vol/test /link
-+ WORKDIR /B`, ALPINE)
-+ 		podmanTest.BuildImage(dockerfile, "test", "false")
-+ 
-+ 		session := podmanTest.PodmanExitCleanly("run", "test", "pwd")
-+ 		Expect(session.OutputToString()).To(Equal("/A"))
-++
-++		path := filepath.Join(podmanTest.TempDir, "test")
-++		err := os.Mkdir(path, 0o755)
-++		Expect(err).ToNot(HaveOccurred())
-++
-++		session = podmanTest.PodmanExitCleanly("run", "--workdir=/link", "--volume", podmanTest.TempDir+":/vol", "test", "pwd")
-++		Expect(session.OutputToString()).To(Equal("/vol/test"))
-++
-++		// This will fail in the runtime since the target doesn't exists
-++		session = podmanTest.Podman([]string{"run", "--workdir=/link", "test", "pwd"})
-++		session.WaitWithDefaultTimeout()
-++		var matcher types.GomegaMatcher
-++		if filepath.Base(podmanTest.OCIRuntime) == "crun" {
-++			matcher = ExitWithError(127, "chdir to `/link`: No such file or directory")
-++		} else if filepath.Base(podmanTest.OCIRuntime) == "runc" {
-++			matcher = ExitWithError(126, "mkdir /link: file exists")
-++		} else {
-++			// unknown runtime, just check it failed
-++			matcher = Not(ExitCleanly())
-++		}
-++		Expect(session).Should(matcher)
-+ 	})
-+ })
-+-- 
-+2.35.6
-+
-diff --git a/recipes-containers/podman/podman_git.bb b/recipes-containers/podman/podman_git.bb
-index 44ee9e3..c714e73 100644
---- a/recipes-containers/podman/podman_git.bb
-+++ b/recipes-containers/podman/podman_git.bb
-@@ -24,6 +24,8 @@ SRC_URI = " \
-     file://0001-Use-securejoin.SecureJoin-when-forming-userns-paths.patch;patchdir=src/import/vendor/github.com/containers/storage \
-     file://CVE-2025-6032.patch;patchdir=src/import \
-     file://CVE-2024-9341.patch;patchdir=src/import \
-+    file://CVE-2026-55686-dependent.patch;patchdir=src/import \
-+    file://CVE-2026-55686.patch;patchdir=src/import \
- "
- 
- LICENSE = "Apache-2.0"
--- 
-2.35.6
-
+Hi Bruce,=0A=
+=0A=
+> I value simplicity. Passing the sysroot, which is a valid option to bindg=
+en is a single argument and fixes the build. No extended researching of var=
+iables and dumping the environment to know what you are passing.=0A=
+>=0A=
+> I'm curious as to how you hadn't hit this previously ?  my build broke wi=
+thout something fixing it up.=0A=
+=0A=
+I gave up trying to reproduce it. Will stick to your recommended patch for =
+the value of  BINDGEN_EXTRA_CLANG_ARGS. With your recommended changes the b=
+uild works for me. Will post a v3 patch set that addresses all the comments=
+ mentioned so far.=0A=
+=0A=
+Thank you,=0A=
+Keerthivasan Raghavan=0A=
+=0A=
 
