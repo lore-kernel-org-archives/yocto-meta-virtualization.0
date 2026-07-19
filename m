@@ -1,144 +1,66 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23E14C44516
-	for <webhook@archiver.kernel.org>; Fri, 17 Jul 2026 23:17:19 +0000 (UTC)
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.700.1784330235110849708
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1172BC44520
+	for <webhook@archiver.kernel.org>; Sun, 19 Jul 2026 20:49:36 +0000 (UTC)
+Received: from mta-65-228.siemens.flowmailer.net (mta-65-228.siemens.flowmailer.net [185.136.65.228])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.3290.1784494171800804807
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 17 Jul 2026 16:17:15 -0700
+ Sun, 19 Jul 2026 13:49:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=fQzMGIj7;
- spf=pass (domain: gmail.com, ip: 209.85.210.174, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-845c92bc464so4752709b3a.2
-        for <meta-virtualization@lists.yoctoproject.org>; Fri, 17 Jul 2026 16:17:15 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784330234; cv=none;
-        d=google.com; s=arc-20260327;
-        b=osUtqqWSz9a178Is2L4asVK7cIzVyHqu+DH1gNm0flK4nwKK+aQA+Ut83KOStHZqo7
-         iVQAgOCsVtkL1kKsUJM4MAnJwvKpa5ZrgfCxJFBlHurNIB25qtfJwIByJrZMHrYa08AW
-         xzyM9NNmhkE1o9+oz6y/bv9LI2PMidP9QITe+q8GaXf+LJlQAVT1B4oKtWJhK0wyA2ci
-         GKrCDCpOw4d1Irt1ps2r819ruEeN7U/okY3iw0V6Pro+s6ArfvB/BFpF6Iu2foO4COFD
-         Jl1Ne3jdWoHX3GaKZFu/B4RyHmui9FQU3CINQ/dqH1ecoZoEI8rQbYKnmJDlO9i2hhQD
-         UbkQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=YNV9Fx2dcMujwHb3GNQz0r0iczQqo4U5Z8VcN2/0CM8=;
-        fh=Bmjc5AD2zSnSs3TEk9my45olU1WXqaz7lg7VOwso468=;
-        b=sZevV4aJc/orCyVPwQtBSzdvHUGV/lgrnkPOigV4Pthy9+5nVVDlPpGc1K/YV0JQab
-         PCMisGTgXywy1ktwWOEYi1RRKORCtw4iq1/1urF1n/pqj+s2DW6K6ZZsn/jQfR6blUX7
-         rFLoATWTOPiAtYJ7DlCYgmbFPSwZnDkwhkY9wed/ysOOnY3anbGB4PYEWAzjQT/CxbQd
-         mccE2XGMrQv1wPApjAls59yCw9UXLfYaj610kjNnkK67FJV0eelbOfVEAXMZ/zBlKp9F
-         7nokyOWNfb5/RtTFVg/YPMAyw8cl7CSNpjdeJce6FGZQb7+rH6tEEknOVxp1f26JmI0a
-         +XIQ==;
-        darn=lists.yoctoproject.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784330234; x=1784935034; darn=lists.yoctoproject.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=YNV9Fx2dcMujwHb3GNQz0r0iczQqo4U5Z8VcN2/0CM8=;
-        b=fQzMGIj7rCckV0wRGQgen8zfo9a43wwqqP5AE9UZOj0dCOon+WHQZulqRo2iOm5128
-         mgJk5zpQSv8veXl9P0H6EoElJibH0KfiGg6nfRUeWAV2Uu6O95m3vT9TK0Bp3D8BBppx
-         bKgPfEucGic9ngt4HYgdN4Q2j109w/3sD8Aq55dL4Ah+6gZA4fWK/rC3ptU3TbZGC4Y9
-         tKRZbWu0pLw/5qEx5Go5gLx8LBErGgZWWd1qvafhiCei1TgqkWPJ9RvVtF6T1F5tqPIx
-         SJ1kAuO4MACksCboaDhCXzrBeOahxDbyrq9ZWQbM41+5AisCNwBZTSAPUVx0QpJh5i6f
-         JzUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784330234; x=1784935034;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=YNV9Fx2dcMujwHb3GNQz0r0iczQqo4U5Z8VcN2/0CM8=;
-        b=UOx3I1RLGJOcmOA0hDLXszGh/GfeSBx1Yu4Wnw6DUFno63BChwya39biN7LmperZ9R
-         TtbjmU83p+a3Tb+OnB3pMN4z+zwnIjApqOn9Y2vFxdZa0CKsXVuzvpbweX4E1y9p5vI4
-         FUIS+m19eBT1U9jFKior+BEWRIYfPrtZtZn2KwK620ha5+gdN4W9oVh+xsSt1e1Ep7mN
-         Y6hWVTMYupF+CcCp6+sjieX0k3QbFIprOtbj0kfwRvTHMLwQFWjW/GVxuol3aLom6PLk
-         e/t6S8vyi4xfudmTj+aLzhAbUCmwAbvV09PZ3lcjOd0wH4MzC3BS/+Da8HqbfTA3u6f9
-         dDxQ==
-X-Gm-Message-State: AOJu0Yy4oG1SGJni+ih1lqoFyKUANyZZ/9QE4bdDrcfXQj/q/tZpUAeL
-	0Rrv997+BTWqNAf7mglH3iKFqBku/W55KoJU9Pkc6FCiSn6arZQgYUvmkfXGcKmkDkeEABD6s4s
-	filTwi4Efob/jbn8sxAFA+xYqf2jvTa6lTNWK
-X-Gm-Gg: AfdE7cm0+vTU9ezAlfR3cMGwSVkHHlVrfzJ0Dj/WkNnVebGvXfEF6HzEeQyr5eorzAY
-	ME8xAu9F1gLUzUc1xq9bYxCQ3skMxa7MsASvxIuG1kAlHAPVpZs8RZQJkjMJMHBvhXOfnL2K2mz
-	GY1Tt+4LGYZiS9kIcqGHDYW62UHw7T8QN/UjUteJNJxAU0NKw2hHiTJQTh+rbRRYwhbpCK5GY7S
-	Fbl6xIkaXr1WLFmLX9CD+twXg/gqsUzh+E7G+L/sUlGlMg6UGW4J2r5RzpOeLUVPl3Q6PU36DR6
-	AZZ/qSBKgarqvoHB5gdycGO2uQ5/tnBK7O/0vxJ2A7X9p/JmYzG9mL1MgPumq4RoampB6Bufl1U
-	PlHXc
-X-Received: by 2002:a05:6a20:c70b:b0:3b4:cd6:88b with SMTP id
- adf61e73a8af0-3c3ada1e7d0mr5228244637.46.1784330234298; Fri, 17 Jul 2026
- 16:17:14 -0700 (PDT)
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=XTNR4ECs;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.228, mailfrom: fm-256628-20260719204928bf1e3155590002078d-ochtcz@rts-flowmailer.siemens.com)
+Received: by mta-65-228.siemens.flowmailer.net with ESMTPSA id 20260719204928bf1e3155590002078d
+        for <meta-virtualization@lists.yoctoproject.org>;
+        Sun, 19 Jul 2026 22:49:29 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=91jAs5yUdZWLZZnn45KW9RS7IeSG2YUdf8M2ZyJHzuc=;
+ b=XTNR4ECsk+Juq57/7JvSDPekXvItb0TK8b1AqgNtHtZP/bg0QcV14n+lFctHeKXOQbleCf
+ jEfljQ7dKF+qTTNfgKa4j5jc0WFEyjbxb1B/9dsYOA75pAIPLvKVXUDTr5WANvqFZ2sIqYWn
+ xy24uJehYgGE7H/YaAITq9pUTwtaSLhb35+cqrMaV3okgTUcXHAoi37rv9DAJCwRnRu/9/mn
+ BgDP6YiN2pK0TEV5VX8hsJaDLjug0ixHSMhwkQi71tP0psY6C+KwRKkJMu8Yh0tC3Eb9UT7i
+ JQnpZBH7Jq5GvBG2l7Od9jhZUrv9BWTK31F8sQmpHFUR5BPqMCr/lEvw==;
+From: Peter Marko <peter.marko@siemens.com>
+To: meta-virtualization@lists.yoctoproject.org
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [meta-virtualization][PATCH] crun: set status for CVE-2025-24965
+Date: Sun, 19 Jul 2026 22:48:12 +0200
+Message-ID: <20260719204812.449816-1-peter.marko@siemens.com>
 MIME-Version: 1.0
-References: <20260717200521.3747191-1-kris.gavvala@windriver.com>
-In-Reply-To: <20260717200521.3747191-1-kris.gavvala@windriver.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Fri, 17 Jul 2026 19:17:03 -0400
-X-Gm-Features: AUfX_my2ovagyCmEaMSP3UBhuWdy_HRte0mvVJe-QIsGShWHpQ5yDOUCQnn8COo
-Message-ID: <CADkTA4PEAiLJZ1b1PDpF0PRe-Xk+W1Rq0vcs8tP-UJ7CQrixEw@mail.gmail.com>
-Subject: Re: [meta-virtualization][PATCH] libvirt: fix typo messon -> meson in
- patch filename
-To: Kris.Gavvala@windriver.com
-Cc: meta-virtualization@lists.yoctoproject.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Fri, 17 Jul 2026 23:17:19 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9956
+ <meta-virtualization@lists.yoctoproject.org>; Sun, 19 Jul 2026 20:49:36 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9957
 
-On Fri, Jul 17, 2026 at 4:05=E2=80=AFPM Gavvala, Kris via
-lists.yoctoproject.org
-<Kris.Gavvala=3Dwindriver.com@lists.yoctoproject.org> wrote:
->
-> Fixed a typo in a patch filename (messon instead of meson).
-> Its a minor issue, but could cause some confusion while seaching.
->
-> The patch is not being referenced anywhere so nothing else needs
-> updating.
+From: Peter Marko <peter.marko@siemens.com>
 
-If it's not being referenced, we should just delete it.
+This CVE was fixed in v1.20.
+This is mentione in NVD report description [1] and github advisory [2].
+Explicitly set CVE_STATUS because cve-check still reports it as open.
 
-Bruce
+[1] https://nvd.nist.gov/vuln/detail/CVE-2025-24965
+[2] https://github.com/containers/crun/security/advisories/GHSA-f42g-r5jj-qh4j
 
->
-> Signed-off-by: Kris Gavvala <kris.gavvala@windriver.com>
-> ---
->  ...001-meson.build-remove-build-path-information-to-avoid-.patch} | 0
->  1 file changed, 0 insertions(+), 0 deletions(-)
->  rename recipes-extended/libvirt/libvirt/{0001-messon.build-remove-build-=
-path-information-to-avoid-.patch =3D> 0001-meson.build-remove-build-path-in=
-formation-to-avoid-.patch} (100%)
->
-> diff --git a/recipes-extended/libvirt/libvirt/0001-messon.build-remove-bu=
-ild-path-information-to-avoid-.patch b/recipes-extended/libvirt/libvirt/000=
-1-meson.build-remove-build-path-information-to-avoid-.patch
-> similarity index 100%
-> rename from recipes-extended/libvirt/libvirt/0001-messon.build-remove-bui=
-ld-path-information-to-avoid-.patch
-> rename to recipes-extended/libvirt/libvirt/0001-meson.build-remove-build-=
-path-information-to-avoid-.patch
-> --
-> 2.49.0
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#9955): https://lists.yoctoproject.org/g/meta-virtuali=
-zation/message/9955
-> Mute This Topic: https://lists.yoctoproject.org/mt/120321751/1050810
-> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [=
-bruce.ashfield@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+---
+ recipes-containers/crun/crun_git.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+diff --git a/recipes-containers/crun/crun_git.bb b/recipes-containers/crun/crun_git.bb
+index 1fa9f886..1b0443f1 100644
+--- a/recipes-containers/crun/crun_git.bb
++++ b/recipes-containers/crun/crun_git.bb
+@@ -67,3 +67,5 @@ RCONFLICTS:${PN} = "${@'runc' if d.getVar('CRUN_AS_RUNC') else ''}"
+ REQUIRED_DISTRO_FEATURES:class-native ?= ""
+ DEPENDS:class-native += "yajl libcap go-md2man m4 libseccomp"
+ BBCLASSEXTEND = "native"
++
++CVE_STATUS[CVE-2025-24965] = "fixed-version: Fixed since 1.20"
 
