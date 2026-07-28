@@ -1,269 +1,202 @@
-Return-Path: <koen.kooi@oss.qualcomm.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54A04C531F9
-	for <webhook@archiver.kernel.org>; Tue, 28 Jul 2026 11:57:09 +0000 (UTC)
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.9676.1785239820236015643
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 78391C53219
+	for <webhook@archiver.kernel.org>; Tue, 28 Jul 2026 12:46:00 +0000 (UTC)
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.10445.1785242751357843851
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 28 Jul 2026 04:57:00 -0700
+ Tue, 28 Jul 2026 05:45:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=La6D2nHt;
- dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=N0mWc6UN;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: koen.kooi@oss.qualcomm.com)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66SBI4Ax2122693
-	for <meta-virtualization@lists.yoctoproject.org>; Tue, 28 Jul 2026 11:57:00 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=qcppdkim1; bh=NyPVKLS9W0B
-	NNl3ZKTGpYVFYtM5Ez+SgAWzr1tGotYM=; b=La6D2nHtu04wejmRKbzeGffK/0I
-	awinv7bNbIUEeLCNec/RlB3YJk/O3MP3BRhu5sJdv4xfLBrIUPLB9MEtODCXWI3u
-	ufmFiAcY/3uW6w0ARRHq+VkTTVHLt81UFic97lOBad3fvRmYXrV6HPNUG0zkH4b+
-	9sMrhdgxga2n1xxKbPrPO3fl4QGzG4XLg6BmhcPhDGJifvGxExhY3COwGEV5Eryb
-	Xmhx99G5UmIVcBf/KrknlfM4vvRclvOFCIIzEr3THTMkM/SOVd5LguhG0/5vhZS5
-	V8YWOb11dP0Ts78ecrrwDNrIzuz9LOeqsHsMMX0jjUlaT24wC6hm1eg/uaw==
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fppttsdwd-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <meta-virtualization@lists.yoctoproject.org>; Tue, 28 Jul 2026 11:56:59 +0000 (GMT)
-Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-51bfe3fa93bso44685881cf.2
-        for <meta-virtualization@lists.yoctoproject.org>; Tue, 28 Jul 2026 04:56:59 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=hwRnt0M5;
+ spf=pass (domain: gmail.com, ip: 209.85.214.175, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2cf41bab353so54802435ad.0
+        for <meta-virtualization@lists.yoctoproject.org>; Tue, 28 Jul 2026 05:45:51 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1785242751; cv=none;
+        d=google.com; s=arc-20260327;
+        b=d1tCde+saKfdhaMSsyT4qCrriqXJYUqDWyJv9uDmsjQQPx6Gsh8yxlRTM54WItzo5j
+         XjiLtBhri8scuzJCUqAHFoyLi9eXIaC1N1IcAJYr1PFnjpt8D2f1KO5IrBmgRbs9iOrp
+         8VPDLmtAZ7Nqw8X3PNjucxvcOXe8cd7WIaqZyyugas4IgkvMrcwXsuTvGZuRjQ3kMlly
+         UQpGsUpkibtTvc7C/BjP201/mLTuMEuNBpXxM9EY0RS1tiqaLlvDS6TLZiVLNhrqWYHO
+         IgxojKhf3+IzQa/qIsWETbZuodvm+PuaPXwcwfaKFhJcSG4LXEYW0v7O3sD1JKcHS9L0
+         W0Zw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=0ekSHi/FdrLsyhzKtpOpk5RvWDlgHrvHuUcUq/My1+o=;
+        fh=dFTg4p4tAYHgpQk8ypaRYlaLG2ISar8c+sE9mXf2xt8=;
+        b=GyfVjIhl/16Ktdt9h2vq8p1RfkffvNl+OkRLi+sk8ZtXJ1j9wOYk4VTKRh380pqGPe
+         wLjB3sXfLw2VZ8ui2VLj5P/Gd5D9GHjk0wVG4JpLYs++Xw9BkYcKYT+AdX6y9amSbW6F
+         zr01KGPUykylKRUy0wK4Ixwf8sCWqNzZHFfCLWK23J9cXqXjAhdzlIm2tBH++XhcyB+t
+         ZO/3mfn2ikoeyF92QSce/QkNdoDH477uyRZm6YWpk4gkhyTD0WYNccZWpvdNZkp7zSoa
+         AfsYBOW7m6w7qY7x3QO6WXsv/ZdWvEB7TiK0sV/Kc7g03h2WjaZXDSUxiMqVDDo+KEG5
+         zLzA==;
+        darn=lists.yoctoproject.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1785239819; x=1785844619; darn=lists.yoctoproject.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=NyPVKLS9W0BNNl3ZKTGpYVFYtM5Ez+SgAWzr1tGotYM=;
-        b=N0mWc6UNMq2xWS3XD9syXftL0V68789VqeE9w4+xYiVho7hmDLFilwn97Tgbmflcm1
-         qQ21bB6bgXMXeX5DZ0rsWDJUnkAZBS7G5DiEZhwkc+++FLcndnp8ma+gnPuvJVTZ/L8T
-         WFe34+td+6wfrn2mzvK/FZvXDMKcbl1o8Dq8hyKQWhSV+FhN3XztaG17T5IeR3RvJeZq
-         eEvkc+U9/o14tvVf9KSfRjoTYw070zkBlsjH0WaYNGKbMEflggdW0LxJwPTuaG1Q+cxv
-         QHdu2aJXgJe/EkCqu3yZzRYdPGb9aagijVpUHpC90eu2FI1OrgBE5Fr/gtiRPL69v69n
-         4pIw==
+        d=gmail.com; s=20251104; t=1785242751; x=1785847551; darn=lists.yoctoproject.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=0ekSHi/FdrLsyhzKtpOpk5RvWDlgHrvHuUcUq/My1+o=;
+        b=hwRnt0M51r+7j79YHBOwB4nLKb1keyAZNK+mIuy1emz0/wAbUYB21NOtlAjSc/QUwc
+         tUWsbC+SOdIrBw83ZxsXr42BtUF6ODlqLTxLku0c+orQBvuEgWlurb9j7BAkjJwuOz/i
+         I6jSDkfMOy8emZewOdZyQ6L3+KLiIYcV9oIKk037fRlZE1TawdJT4r7MUsDGHGZ+bFEq
+         +MYeW/Rkt+NJuZNBLPuibtNjlVKXg/xwxv0g27Ve5ucWMmszdoBKR+48RQ/f220Tctrf
+         KJUAi8pE1ImAC1ksJsGhgZVcxL7cX28PRn/XZpxSG7yLTtI+OwA4WFlS5UkLCOny5Z/t
+         G7mQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785239819; x=1785844619;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=NyPVKLS9W0BNNl3ZKTGpYVFYtM5Ez+SgAWzr1tGotYM=;
-        b=s0xZH08zhgLpDwNeqabUmgjjdcu5zNLufy/rO67EuNiS/moTWy+zm8LONWe4ETHXpT
-         q62mIvmk3v70LPJS8YmKgS6HB0iG3oQh5X9MQ6nZ67VP2WYYYaRWRV37MQSAMXXS6V4b
-         +JY5Qc7PGkgdJPld621g2DxmfKBYN1jQvhM8L5Nf5bxi/X/UFaHaUZ7zweOQX7kjIDwO
-         3fjSqPojNWG8FdX+Ul8M+X5Mbvqg8R7p82gxC/kLajnVhErCKYl2kuNk83pUiVXiLJCZ
-         aLA/hnUMe+sQko+CNuUJs5zGSp0vDqvE4rTl+hU0PDEbysgnVZg0MidUwa6PZOtFvZ1c
-         qp8Q==
-X-Gm-Message-State: AOJu0Yx2l/IcmbOYQfsO6YF70o+T0GpVYrlv6xiZ++Q0gfi74goTtxAC
-	JYpPcBVQjEYBsROC+gSchCxy4ElzTz4pNskKXvI655XXU7XqKNokRHOqyCqq4BFdhef3vY9cX0H
-	KD/3vbruGCGzXTjIqw0hfG9XuZ4W6ndYNtUxh1FtxHVxpjCEMcwYguOKrm5HvJW8t7ZCO4hMPbI
-	x7lH0GbuJYqE0NZifg9A==
-X-Gm-Gg: AR+sD13l1C026A3zwT85akdI/j6cFQR94CZII/GMAuHhsf6PwrJ3b51RDZy6Ijbc9p3
-	4Cqi6fZahpYotTAb0by9q5MK01RFtcRe5vtPFLGRwJOsMSmvGgeTIjEx5KMn1bNlq36hEeOxD+J
-	8yL/bWyl+hL/JraYfEnSL9gT9TCxL+KrsOj3rnuKok1i0mDVEAvlFayivFMFMOelc/2JpFx4Gd4
-	v96Da0jNsUXWxvooVjZW9Tk4AoQq9l1dEPU9TKnKCSI+MoQbGIIN4C34fgLFGDmUme83bl+Gcpq
-	hR7nKyLxHfAYqUbulFIfnlEs/XILSDXz13KJHZYmpSaQU5OG9mOF8LItxL8gV/9dUu28T9NDWAx
-	2alkD/+/kbOfZ/sP7PH4eqeQ=
-X-Received: by 2002:ac8:5a82:0:b0:51c:8fb:fa45 with SMTP id d75a77b69052e-529d7110314mr16258021cf.58.1785239818512;
-        Tue, 28 Jul 2026 04:56:58 -0700 (PDT)
-X-Received: by 2002:ac8:5a82:0:b0:51c:8fb:fa45 with SMTP id d75a77b69052e-529d7110314mr16257451cf.58.1785239817471;
-        Tue, 28 Jul 2026 04:56:57 -0700 (PDT)
-Received: from hu-kkooi-ams.qualcomm.com ([212.136.9.4])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c1c58b8b992sm582268466b.31.2026.07.28.04.56.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Jul 2026 04:56:56 -0700 (PDT)
-From: Koen Kooi <koen.kooi@oss.qualcomm.com>
-To: meta-virtualization@lists.yoctoproject.org
-Cc: Koen Kooi <koen.kooi@oss.qualcomm.com>
-Subject: [PATCH 2/2] image-oci: drop *-initial sysroot deps in do_image_oci to avoid libgcc collision
-Date: Tue, 28 Jul 2026 13:55:16 +0200
-Message-Id: <20260728115516.1107990-3-koen.kooi@oss.qualcomm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260728115516.1107990-1-koen.kooi@oss.qualcomm.com>
-References: <20260728115516.1107990-1-koen.kooi@oss.qualcomm.com>
+        d=1e100.net; s=20251104; t=1785242751; x=1785847551;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=0ekSHi/FdrLsyhzKtpOpk5RvWDlgHrvHuUcUq/My1+o=;
+        b=Mir+g4qG5TjKuo4go2FxNrwEIyBaJuGEYQfT47xKI8nujZDS+OMmHM11C4acfFKbmm
+         P+u+r0KgsKxGQUwBlnq6Tx/G+txI8GYDD5Dri3i37c7qREFU+5wLvwcVgazrmmH/DY1i
+         xdwM8emPFI8Y89bHoB26HLHKC8f9Tr+mz676k9SHJHx80zeNKoyG2rspFeGQraHZMyyP
+         YJYYTw4JuOMnSyBbsfIxL/MLf9dw4eRIo1WF2EdCLqMVVE/HMbjavkLJtkags5RK5cGk
+         G8gwcn2TU7b5qcK5sANu6x7iF9+M4mPJ0YofrDNAVkfN+eEV/xO4ExlOybdTyVyyM5DJ
+         mNQg==
+X-Gm-Message-State: AOJu0Yxsrqf0EcCTtJYalb2z7z7BnohNqA17XP0h+cphmoylo7jnBIzB
+	4o53FUxoyTCdPDChgVAU+hmWfwKl8RxdYhJog0swDRMIM4qbRfnp3aCimLolnAGf9aPpeON/oZk
+	wA6K7DKIQncPewEWjf/G7G2/xt5K/0Jo=
+X-Gm-Gg: AR+sD10bJO+1Q6qMRJim/Zb3wYX0OIBAZMIOHN+0hq45aH6QTAdeVN5txp2EK0ew6bI
+	5nwESya+MLN5wtjkjJUwXWwzuwjfezRlCjx4OGjtpzSYYix3zvJscwuy4KgK+xYUrqNsjrFLast
+	Jyql8UQpJ3OLIjP7AalYjEhH+cNKBqWj+bRzh4bEPu36Tmdx7OrDTB+0ckQqOfVSSuxUeYCHqy7
+	DJnCTKBjzPXTaep4bnyra/XpWCKoObefpiAUT2PAMHpv1vwauhVxgwYBcNkhvketshh0IcQiWnB
+	KlcTi2UtW8aF1lancJdAK5tvooA5dhKfErSrl4W8O/bhYgjajGas9+gj8A9lNw84b4faJ55QFUe
+	ONKea
+X-Received: by 2002:a17:902:f645:b0:2ca:ecf6:910e with SMTP id
+ d9443c01a7336-2d0159aff48mr28158675ad.0.1785242750527; Tue, 28 Jul 2026
+ 05:45:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzI4MDEwNSBTYWx0ZWRfX+D3t52ehtuEx
- sDPzZ9AX1/WoMpdILoOjB0S1JnaWE7iHq2EIrBBrgMZ0euMufk42r8LvVd5eUKYslUQjxaZXrtN
- 1l5yimGXba+VDWyhKns6U5PPTny0Lmg=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzI4MDEwNSBTYWx0ZWRfXz38Xd157uLbO
- ymxTcrVCUbPh02VP+wpZkHV8akpeqdhVXH806mnEvZ9ndHGkCfCk8RZwjFgC0BfCsgp6PomiDnK
- 1BZaPr8jkOHvfAyEcoqPNgOLQHKrrVKv2dtY60Egqj5qlYG7oWjS6VX/jfmRXTQtwbAFGbb1NpQ
- u9nCVc6i6DjjmMmZnYhR9IHlrSelku/d3NzVI5n3iX+0Xe1aFugqu2t9pZ9tuAcSLwd3xHU2l2g
- t2ylugveqCTzo7JocUsLBbudtNAuv/yiL8rjDY84ALa9eum5LOmOZX0xxkI4u2oA/W3a/1Wdreu
- uVB0h7rkjygkjLavUTORyD4AWrw6mIt9kzWFwTynm2Qp5ubESBt/lb/p3fSVYGKQsugxxMOs83V
- dj2wC9iYF4Q+3B1wQcRfM65gKHEIb8iY8YmHh3GcdraLctGY2heH17V0kXUNm7PAb4xyt8lqRlW
- 1bW9gZiTrn1CNi2VMoQ==
-X-Authority-Analysis: v=2.4 cv=aa1RWxot c=1 sm=1 tr=0 ts=6a68990b cx=c_pps
- a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=dNlqnMcrdpbb+gQrTujlOQ==:17
- a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22 a=EUspDBNiAAAA:8
- a=ZKCcNxj31Ayd8cZQ89sA:9 a=dawVfQjAaf238kedN5IG:22
-X-Proofpoint-GUID: GNMQueVj3p_y3PQqHoeFPyIbfyirosXD
-X-Proofpoint-ORIG-GUID: GNMQueVj3p_y3PQqHoeFPyIbfyirosXD
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-28_03,2026-07-28_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 lowpriorityscore=0 bulkscore=0 clxscore=1015 adultscore=0
- suspectscore=0 impostorscore=0 malwarescore=0 phishscore=0 priorityscore=1501
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607280105
+References: <20260728115516.1107990-1-koen.kooi@oss.qualcomm.com>
+In-Reply-To: <20260728115516.1107990-1-koen.kooi@oss.qualcomm.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Tue, 28 Jul 2026 08:45:38 -0400
+X-Gm-Features: AUfX_my1Vm9SLemPFlUof3-nt_t650OBGLnwPJxTVOw7fbA4_Zsp5nRU_6kN3ls
+Message-ID: <CADkTA4NRnwrXxgpU7Hwf55SmVEhTDnTidSwvQgpOkHTRWbVG6g@mail.gmail.com>
+Subject: Re: [meta-virtualization][PATCH 0/2] image-oci: two do_image_oci
+ bugfixes (missing pm.update(), libgcc/libgcc-initial sysroot collision)
+To: koen.kooi@oss.qualcomm.com
+Cc: meta-virtualization@lists.yoctoproject.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Tue, 28 Jul 2026 11:57:09 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9992
+ <meta-virtualization@lists.yoctoproject.org>; Tue, 28 Jul 2026 12:46:00 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/9993
 
-do_image_oci can abort with:
+On Tue, Jul 28, 2026 at 7:56=E2=80=AFAM Koen Kooi via lists.yoctoproject.or=
+g
+<koen.kooi=3Doss.qualcomm.com@lists.yoctoproject.org> wrote:
+>
+> I've been working on a prototype for building a rootfs with multiple mult=
+i-layer OCI images images, all built from scratch, in one bitbake command. =
+I ran into some issues along the way:
+>
+> * image-oci never runs "opkg update" or its rpm equivalents, so nothing g=
+ets installed
+> * both libgcc-initial and libgcc want to be in the sysroot
+>
+> The first issue is straightforward, for the second I leaned heavily on Cl=
+aude to write a proper python version and explain it better. I'm not fond o=
+f the wall of text that ends up with, but this is already the 3rd iteration=
+ of trimming it down.
+>
+> Anyway, This is the first wave, I'm working on other fixes, like mtime in=
+fluencing base-layer sharing, but that needs more testing and review. I do =
+need to mention how surprisingly small the resulting image recipes are, a b=
+ig thanks to everyone who has been working on this!
+>
+> Below is what Claude suggested as coverletter, it is still verbose, but d=
+oesn't suffer from the "Is Koen being sarcastic or not?" issue :)
+>
+> 1/2 - image-oci: call pm.update() before pm.install() for multi-layer
+>       package layers
+>
+>   Multi-layer OCI images (OCI_LAYER_MODE =3D "multi") with a "packages:"
+>   layer silently produce an empty layer: do_image_oci reports success,
+>   but the layer's opkg/rpm install never actually installs anything,
+>   because the per-layer package manager's local index/cache was never
+>   refreshed after write_index() (do_rootfs itself always calls
+>   pm.update() between the two; image-oci's per-layer installer
+>   skipped it). The failure is only visible as a bb.warn(), so the
+>   build looks green while shipping an empty (or partial) layer.
 
-  ERROR: <recipe> do_image_oci: The file .../crtbegin.o is installed
-  by both libgcc and libgcc-initial, aborting
+Aha. Since I've obviously tested the package installs and they work,
+but multi layer is something that I don't recall testing in that combinatio=
+n.
 
-This was seen deterministically (6+ clean-sstate attempts) on an
-OCI_LAYER_MODE = "multi" image recipe whose "packages:" content is a
-from-source-compiled library with a moderately large DEPENDS. It is
-sstate-state-dependent: it only fires once do_image_oci's dependency
-walk actually has to populate (rather than skip via sstate/setscene
-shortcuts) both libgcc and libgcc-initial into the same recipe
-sysroot, so a given recipe/build combination can build clean one run
-and hit the collision on the next, depending on what is already
-present in sstate. Confirmed in our own testing: instrumenting the
-fix below shows it stripping two "*-initial" do_populate_sysroot
-nodes out of BB_TASKDEPDATA for a boost-based multi-layer "packages:"
-recipe -- i.e. libgcc-initial is a real, reachable node in
-do_image_oci's dependency walk for realistic recipes, even though a
-minimal single-package recipe does not reach it.
+>
+>   Reproduced with a minimal recipe (base-files+coreutils in a
+>   "packages:" layer): before the fix, the resulting OCI layer blob
+>   contains 0 regular files; after the fix, the same layer contains
+>   272 files and the compressed blob grows from 299 bytes to 7.5 MB.
+>   Full before/after evidence in the patch commit message and in
+>   TEST-CASES.md if you'd like to reproduce it independently.
+>
 
-Root cause: do_image_oci[depends] contains several
-"...:do_populate_sysroot" entries (umoci-native, jq-native, and for
-multi-layer package installs, opkg-native/rsync-native/dnf-native).
-Any task whose [depends] flag contains the substring
-"populate_sysroot" gets oe-core's extend_recipe_sysroot
-(staging.bbclass) auto-attached as a prefunc, which walks the full
-transitive do_populate_sysroot closure reachable from those deps and
-copies it into the recipe's private sysroot.
+I'd definitely want to see a reproducer, both so I can confirm how
+I didn't see this before, and so I can get it into the layer tests.
 
-oe-core already protects against exposing both libgcc and
-libgcc-initial into the same sysroot: setscene_depvalid() excludes
-"*-initial" recipes via SSTATE_EXCLUDEDEPS_SYSROOT
-(".*->.*-initial.*", meta/conf/layer.conf, "nothing needs to depend
-on libc-initial"), and staging_populate_sysroot_dir has its own
-"skip libgcc-initial due to file overlap" special case. But the
-SSTATE_EXCLUDEDEPS_SYSROOT check inside setscene_depvalid only
-applies when the *dependent* task is itself do_populate_sysroot
-("taskdependees[task][1] == 'do_populate_sysroot'"). For
-do_image_oci, the dependent task is do_image_oci, not
-do_populate_sysroot, so that exclusion is skipped entirely and both
-libgcc and libgcc-initial fall through to the default "keep it"
-path, landing in the same sysroot and colliding on their shared
-crtbegin.o.
+Does this same image reproduce the second issue as well ?
+I'd also like to reproduce that, to hunt around and see if there's
+any other options to resolve the problem.
 
-Fix: add a RecipeTaskPreProcess handler that, for do_image_oci
-specifically, prepends a prefunc which strips "*-initial"
-do_populate_sysroot nodes out of BB_TASKDEPDATA before
-extend_recipe_sysroot runs (extend_recipe_sysroot re-reads
-BB_TASKDEPDATA fresh each time, so this is sufficient). This mirrors
-the existing "skip *-initial" intent from
-staging_populate_sysroot_dir, scoped narrowly to do_image_oci so it
-doesn't change behavior for any other task. The *-initial recipes
-are bootstrap-only (used to build glibc) and are fully superseded by
-their real counterparts by image-assembly time, so nothing an image
-needs is lost by excluding them here.
+Bruce
 
-Signed-off-by: Koen Kooi <koen.kooi@oss.qualcomm.com>
----
- classes/image-oci.bbclass | 77 ++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 77 insertions(+)
+> 2/2 - image-oci: drop *-initial sysroot deps in do_image_oci to avoid
+>       libgcc collision
+>
+>   do_image_oci can abort with:
+>     ERROR: <recipe> do_image_oci: The file .../crtbegin.o is installed
+>     by both libgcc and libgcc-initial, aborting
+>
+>   Root cause is in extend_recipe_sysroot's dependency walk: the
+>   SSTATE_EXCLUDEDEPS_SYSROOT exclusion that normally keeps libgcc and
+>   libgcc-initial from landing in the same sysroot only applies when
+>   the *consuming* task is itself do_populate_sysroot. do_image_oci
+>   reaches extend_recipe_sysroot through the generic "any task whose
+>   [depends] contains populate_sysroot gets this prefunc" path
+>   (staging_taskhandler), so that exclusion never fires for it.
+>
+>   This one is sstate-state-dependent -- whether it fires depends on
+>   whether extend_recipe_sysroot's walk actually needs to populate (vs.
+>   skip via sstate/setscene shortcuts) both libgcc and libgcc-initial
+>   for a given recipe/build. A minimal single-package OCI recipe did
+>   not reach libgcc in our testing, but a multi-layer "packages:" recipe
+>   installing a from-source-compiled library with a moderately large
+>   DEPENDS (boost) did: instrumenting the fix confirms it stripping two
+>   "*-initial" do_populate_sysroot nodes out of BB_TASKDEPDATA for that
+>   recipe, i.e. libgcc-initial is a real, reachable node in
+>   do_image_oci's dependency walk for realistic recipes. We were not
+>   able to force the raw abort deterministically within our test
+>   window (a downstream build did hit it deterministically across 6+
+>   clean-sstate attempts on a wider dependency set) -- see the patch
+>   commit message and TEST-CASES.md for exactly what was and wasn't
+>   reproduced, and why the fix is justified regardless.
+>
+>
+> Signed-off-by: Koen Kooi <koen.kooi@oss.qualcomm.com>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#9990): https://lists.yoctoproject.org/g/meta-virtuali=
+zation/message/9990
+> Mute This Topic: https://lists.yoctoproject.org/mt/120482430/1050810
+> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [=
+bruce.ashfield@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
-diff --git a/classes/image-oci.bbclass b/classes/image-oci.bbclass
-index ed8926f6..c397e2f9 100644
---- a/classes/image-oci.bbclass
-+++ b/classes/image-oci.bbclass
-@@ -526,6 +526,83 @@ def oci_install_layer_packages(d, layer_rootfs, layer_packages, layer_name):
 
-     bb.note(f"OCI: Package installation complete for layer '{layer_name}'")
-
-+# =============================================================================
-+# Work around libgcc vs libgcc-initial sysroot collision in do_image_oci
-+# =============================================================================
-+#
-+# do_image_oci[depends] contains "...:do_populate_sysroot" entries (for the
-+# native tools it needs: umoci/jq/opkg/rsync-native). oe-core's
-+# staging_taskhandler therefore auto-attaches extend_recipe_sysroot as a
-+# prefunc of do_image_oci (any task whose [depends] contains the substring
-+# "populate_sysroot" gets it). extend_recipe_sysroot then walks the whole
-+# reachable populate_sysroot dependency tree and exposes it into this recipe's
-+# private sysroot.
-+#
-+# For a *do_populate_sysroot* consumer, oe-core's setscene_depvalid() excludes
-+# *-initial recipes (SSTATE_EXCLUDEDEPS_SYSROOT ".*->.*-initial.*"), so a normal
-+# recipe never sees both libgcc and libgcc-initial. But that exclusion is gated
-+# behind "taskdependees[task][1] == 'do_populate_sysroot'", which is false here
-+# (the consuming task is do_image_oci), so both libgcc and libgcc-initial get
-+# exposed and their shared crtbegin.o collides:
-+#   ERROR: ... The file .../crtbegin.o is installed by both libgcc and
-+#          libgcc-initial, aborting
-+#
-+# oe-core already skips *-initial on its other sysroot-population codepaths
-+# (staging_populate_sysroot_dir: "skip libgcc-initial due to file overlap", and
-+# the do_sdk_depends/do_populate_sdk_ext skip inside extend_recipe_sysroot
-+# itself). We apply the same intent here, narrowly and only for image-oci
-+# recipes: before extend_recipe_sysroot runs, drop *-initial do_populate_sysroot
-+# nodes from this task's copy of BB_TASKDEPDATA so they never enter the tree.
-+# extend_recipe_sysroot re-reads BB_TASKDEPDATA fresh, so this is sufficient and
-+# touches nothing else. The *-initial recipes are bootstrap-only (used to build
-+# glibc) and are fully superseded by their real counterparts by image-assembly
-+# time, so nothing an image needs is lost.
-+python oci_strip_initial_from_taskdepdata () {
-+    import copy
-+
-+    taskdepdata = d.getVar("BB_TASKDEPDATA", False)
-+    if not taskdepdata:
-+        return
-+
-+    filtered = copy.deepcopy(taskdepdata)
-+    drop = set()
-+    for k, v in filtered.items():
-+        # v[0] = PN, v[1] = taskname
-+        if v[1] == "do_populate_sysroot" and v[0].endswith("-initial"):
-+            drop.add(k)
-+
-+    if not drop:
-+        return
-+
-+    for k in drop:
-+        del filtered[k]
-+    # Remove inbound edges to the dropped nodes. Each entry is a bb.TaskData
-+    # namedtuple (immutable), but its dep set (index 3) is a mutable set, so
-+    # mutate it in place rather than reassigning the field.
-+    for v in filtered.values():
-+        v[3].difference_update(drop)
-+
-+    bb.note("OCI: dropped %d *-initial do_populate_sysroot node(s) from "
-+            "BB_TASKDEPDATA to avoid libgcc/libgcc-initial sysroot collision"
-+            % len(drop))
-+    d.setVar("BB_TASKDEPDATA", filtered)
-+}
-+oci_strip_initial_from_taskdepdata[vardepsexclude] += "BB_TASKDEPDATA"
-+
-+# Ensure our prefunc runs *before* extend_recipe_sysroot. staging_taskhandler
-+# (a global class) prepends extend_recipe_sysroot on the RecipeTaskPreProcess
-+# event; this handler is registered later (image-oci is inherited after the
-+# global classes) so its prepend lands first in the prefunc list.
-+python oci_taskhandler() {
-+    task = "do_image_oci"
-+    if task in e.tasklist:
-+        deps = d.getVarFlag(task, "depends")
-+        if deps and "populate_sysroot" in deps:
-+            d.prependVarFlag(task, "prefuncs", "oci_strip_initial_from_taskdepdata ")
-+}
-+oci_taskhandler[eventmask] = "bb.event.RecipeTaskPreProcess"
-+addhandler oci_taskhandler
-+
- # the IMAGE_CMD:oci comes from the .inc
- OCI_IMAGE_BACKEND_INC ?= "${@"image-oci-" + "${OCI_IMAGE_BACKEND}" + ".inc"}"
- include ${OCI_IMAGE_BACKEND_INC}
 --
-2.34.1
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
