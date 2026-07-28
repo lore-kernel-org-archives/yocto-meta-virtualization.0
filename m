@@ -2,122 +2,79 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BD8BAC53219
-	for <webhook@archiver.kernel.org>; Tue, 28 Jul 2026 17:37:39 +0000 (UTC)
-Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com [209.85.221.179])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1931.1785260252166314605
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C242FC54F4D
+	for <webhook@archiver.kernel.org>; Tue, 28 Jul 2026 17:47:09 +0000 (UTC)
+Received: from mail-vk1-f182.google.com (mail-vk1-f182.google.com [209.85.221.182])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2138.1785260828583655991
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 28 Jul 2026 10:37:32 -0700
+ Tue, 28 Jul 2026 10:47:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=Zx3gi9/c;
- spf=pass (domain: gmail.com, ip: 209.85.221.179, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-vk1-f179.google.com with SMTP id 71dfb90a1353d-5bf9466867cso22206e0c.2
-        for <meta-virtualization@lists.yoctoproject.org>; Tue, 28 Jul 2026 10:37:32 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=nDARHqqj;
+ spf=pass (domain: gmail.com, ip: 209.85.221.182, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-vk1-f182.google.com with SMTP id 71dfb90a1353d-5c276bfce7eso40688e0c.2
+        for <meta-virtualization@lists.yoctoproject.org>; Tue, 28 Jul 2026 10:47:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785260251; x=1785865051; darn=lists.yoctoproject.org;
+        d=gmail.com; s=20251104; t=1785260827; x=1785865627; darn=lists.yoctoproject.org;
         h=mime-version:content-transfer-encoding:content-type:references
          :in-reply-to:subject:to:from:date:message-id:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=KbBXa5FEddoXkJlDuRYGtHwa108VCdrQE7fR+0heczA=;
-        b=Zx3gi9/cybrjMXxTkxWqZwuIz4Kw+X+CV8haN3NBvqIiIuG3IUie4ldmdYxi+1421+
-         K3UgxU7jkFhsgMSRwCc73yIT/1hf6BKPd99jsLGtaY0y4FmwY/X/PtDP/hzn7HzNYgXS
-         WyboEQbUl4Nw1Q0y6BO9mwfT+s59r+Ax6wXrcXQDTBxmxJzlhEf0znoRHBkGtqkKZsjC
-         IyaCVtJoWwxQF0hmtujfSkRsCatEkDGqqOIMp7sdM9PlB5LFpV1oHwnO4nsUos91i+hT
-         jZ8Ucjmj1/RYcBOl+r9Ul20DMFAN29VW2eTDlH7sLVu1FIJnxHzDFxl7XTxKf0Eyj5G/
-         Qprw==
+        bh=tlq/vr6kSdCi9iN7PVNjXkq54Y1H85OwEwR4PJG5iHE=;
+        b=nDARHqqj7MDtt3b5g0VUOV0ZnQ3Bl79MMdXxbXoUgKHytIWOT/GuWisTREUIy0kUta
+         1OrM4IM/H34xBDdh67bJJOYILxsp79na3BaNCxF9hcu6GmBIm+nyxHSbsdZJDRJtJgcW
+         M/84u6Xdncyb8AoowMUaKmgFJWtTCEJaUGh3FUn515gAkfBpj1UAR7aNS7CKZ0fjvT3H
+         3HSBJmhuOqfoHiiJb77QajNaw9YHp1JyIUamYt/mgoGZrjCxoyrRcpjReMrnmmJ+VDiT
+         z+XF2LJpPigiGsW082B4vvqfoqj3c+ipPDPjwhQ/21kfJ+S64P+Ebx3ys2Orb030PXSi
+         vz9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785260251; x=1785865051;
+        d=1e100.net; s=20251104; t=1785260827; x=1785865627;
         h=mime-version:content-transfer-encoding:content-type:references
          :in-reply-to:subject:to:from:date:message-id:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=KbBXa5FEddoXkJlDuRYGtHwa108VCdrQE7fR+0heczA=;
-        b=mkLLwV9m2goaFJJQc2QgyEhwzIUcHnlhrvFMFnXNgffgN4EmhDJ/pcqR8RhjcYWBtl
-         tf2ouO8IJQFKLtvKl7e2KXTiuYYwwnltjuK3DHNpBWtY6Ws3vEz0dP2dU6HixT2lN7FB
-         /RajVMefa9dLl4OYMlmwuspcwyIPNJphKF9Mr4G44PN6q+VPAC1krOrMkGZUihFbvD1W
-         vhIGFe+3PNNlB30P4DqqFoGv/0XMOKVHf3kjfmhXoPPHdbcR8W6LUmuTw7GVSckNfnkx
-         6T+9KTFZ+0AXkYBWQbhyBKgWWBrebKov4RwE2nilIRZxtsJOLH2Bh/buSqknSjB4x02n
-         bNQg==
-X-Gm-Message-State: AOJu0YxjNmsOfUIKuzX8gsV1+oxr4bcdSkPjJU+Pf1YwqvYwcAGy/qj5
-	ec7FluawdxS/AiBoeF2Lbqk64oVblMrJarZiElcq8JqcnNV7wfKsYOq85Y/hUzZ6
-X-Gm-Gg: AR+sD12RDRPt/PPNpGbiMFa6u4SewS439PSOQIYqkhBLUpOIrcE2aDPYWBXYsr4cCtd
-	vH1wJl+zqN85+mKBn13SstEh26VE7OLGudPiA7SOkewbFjpYEQe7IS+Wxcmh9dOQFtuSUyTiWKN
-	tKH2c2zHZmT9wQEuhy4Xu8LH+vW3faE3VBYSOvOTcgkuX+TwP7NsmM9EJjYdkBIjToXi3wiuIVE
-	LPQxJ8sCrxfAiqeT6wTzPyNkkoTPK/nafvK/O60iQ4Bppoxgev/dwJ29RkRz+j/Q3LYoFdI2PzP
-	SUa21XKCX1s9lig/vXzly4bkM2qIbHYSBochox4jU9gwJgid2BR9vq2SdRv/XtLR8jOHHOm5+0T
-	O3yPpQBWS/FiHR4wnA/5rCtGUte+4KwtYv3wqAmRqSyhUi5zTmU/tITLyDZG2Z3AtIXZpDG68Ry
-	adnIapXxf5XMZh5OUpTgoZDh72G/Gg5mKi8QcLp7Gzeq5BF0h5Hr6S/VkTPHeeC5wQu70XQYQbJ
-	6w++T/TBSJaGBvXZcdqjhtFwGgCjVcGlJryOnhYP9lDzff6RJoUKfjDzq2TjLX/wpO/HICyiU96
-	fO4=
-X-Received: by 2002:a05:6122:f92:b0:5bd:ddab:59a7 with SMTP id 71dfb90a1353d-5c33fa33b02mr1574164e0c.10.1785260250992;
-        Tue, 28 Jul 2026 10:37:30 -0700 (PDT)
+        bh=tlq/vr6kSdCi9iN7PVNjXkq54Y1H85OwEwR4PJG5iHE=;
+        b=WvE9EPCwhSG5CgxkYTBhQEP2wuqAcURlbFppMnLsVwuuLlQ43XctIM51POU5y/MuUz
+         5kU4//WsGfn1+XeU/R6D9IrcI90EiiUtp7prbIbJc0B01J6wDr+ZoQiSXyA+adlWdRi3
+         OLVzkS5psinV+RZpZsw+ACGhtEkBJIjZC5/lQqOzoXctxOyaTUy1XzmLsIyc5L2UUbIQ
+         Fw45FWjCsnrFSZm4+680lZ5Cw4NGgMb46UkZAk1u2Y0yxQ8rcxXe9IVEZDA9/OOvDX3K
+         GoqpLif7qyOBEJjfHz4pVybUhpgkPWtXqRn1NEOcHpNOs2bAo5mK/5hDGModPoQoo4tN
+         KUfw==
+X-Gm-Message-State: AOJu0YxIX2LbgOnnvtx3m9yDnRkZduaHuwRfSzWgxMvi7h7eZsBGdioQ
+	HVyYu9TxP74WglPGZHwL2Djnl2aqfqT4HqlQDQXtlG6/zZQ+e0oXBsX258Z+cTg9
+X-Gm-Gg: AR+sD11nckmhJXTLvEcwkAru/V8obLJ9yYV47j+KxnW7jbyK8hEg8bdlfS1yWmtQRmd
+	+pIFTEWsazwr0IPcV86UF9X/nuRys6EIqQ3U7gbBvvb4ZnQvyl3DjlkbaNx3GFrWv/Xa0XVN0j+
+	34WBzt7VO4iypzItaJ+iLxQCUQgzB4k8g6Hkct29rUleBq6o3DPxve8lmePBk20XcPb7rd0YqnD
+	67/sihkj2pFYLbwJV0DspyWxhwFFfYTkr0r97s33GnmsI3WticyqNaxPpLK+mWVg0G4fAqjWyQ6
+	AtJMuFv4r7R1naJm5+4gTQwRpgXgpHUAy1hwcc0uj/sIO5fU4JfFaHMqgVtwxpI1fHpaQB47Glt
+	/B/0/UCfwUN9g27xZkubl00Glnl7Oq8TaqcTzgvgZxW3Rb78hFUI6WgMVaAynQCrETxFO596Y5T
+	yVca44jVNgPIPRvwHuWZsLTTP3fk19q3ORESdVdAHqq+KzNaU4hRMHfyRCl5NJmettL6e/za5m3
+	bL20KzyUnYTageI10n2gVo0XvQkWFjhCDEtmTNhknRRHlV/2XWPUhO6QP6ec7jJTHMxvIMcJBPg
+	Ki4=
+X-Received: by 2002:a05:6122:3291:b0:5bd:fb8c:5db1 with SMTP id 71dfb90a1353d-5c33fa8155dmr1879124e0c.10.1785260827443;
+        Tue, 28 Jul 2026 10:47:07 -0700 (PDT)
 Received: from [127.0.1.1] (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5c34f14b121sm7149e0c.12.2026.07.28.10.37.30
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5c34eeff656sm74457e0c.3.2026.07.28.10.47.05
         for <meta-virtualization@lists.yoctoproject.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Jul 2026 10:37:30 -0700 (PDT)
-Message-ID: <6a68e8da.c40671ba.2ba795.19ab@mx.google.com>
-Date: Tue, 28 Jul 2026 10:37:30 -0700 (PDT)
+        Tue, 28 Jul 2026 10:47:06 -0700 (PDT)
+Message-ID: <6a68eb1a.2bc1d9cf.30de46.0eda@mx.google.com>
+Date: Tue, 28 Jul 2026 10:47:06 -0700 (PDT)
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 To: meta-virtualization@lists.yoctoproject.org
-Subject: 
- Re: [PATCH v1] crosvm: replace monolithic DEPENDS with PACKAGECONFIG flags
-In-Reply-To: <20260726202028.509096-1-kraghava@qti.qualcomm.com>
-References: <20260726202028.509096-1-kraghava@qti.qualcomm.com>
+Subject: Re: [meta-virtualization][RFC][PATCH 3/5] packagegroup-yocto-builder:
+ add additional dependencies
+In-Reply-To: <20260727000247.1623785-7-tim.orling@konsulko.com>
+References: <20260727000247.1623785-3-tim.orling@konsulko.com>
+ <20260727000247.1623785-7-tim.orling@konsulko.com>
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 MIME-Version: 1.0
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Tue, 28 Jul 2026 17:37:39 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/10002
+ <meta-virtualization@lists.yoctoproject.org>; Tue, 28 Jul 2026 17:47:09 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/10004
 
-Thanks Keerthivasan — this cleanly addresses the TODO we left in v4 and
-it's pretty close for a v1. A few questions before I take it; so let's
-do them in a v2.
-
-1. protobuf-native
-
-   The old DEPENDS carried protobuf-native unconditionally, and the
-   new base DEPENDS drops it without mapping it into any PACKAGECONFIG
-   entry. Please confirm whether it's actually unused (in which case
-   removing it as dead weight is fine — a one-liner in the commit
-   message noting so would be great), or whether it's needed by a
-   specific feature (in which case it should be attached to that
-   feature's PACKAGECONFIG line, not left dangling).
-
-   The test you ran ("default PACKAGECONFIG boots on x86-64") wouldn't
-   necessarily exercise this — if some non-default feature (GPU,
-   something else) pulls in protobuf codegen via a build.rs, that path
-   is off in your test. A quick check with `--all-features` (or the
-   full upstream default set) would answer it.
-
-2. config-file in the default set
-
-   Upstream crosvm's default features are approximately:
-
-     ["audio", "balloon", "config-file", "document-features",
-      "gpu", "libvda-stub", "net", "qcow", "slirp", "usb"]
-
-   Your PACKAGECONFIG default is "audio balloon document-features qcow
-   usb libvda-stub net slirp" — i.e. upstream's default minus gpu
-   *and* minus config-file. GPU-off is deliberate and explained; the
-   config-file omission isn't. Is that intentional (and if so, why)
-   or an oversight? I'd lean toward matching upstream on this so our
-   "default minus GPU" claim is exact.
-
-3. document-features in the default set
-
-   document-features is an attribute-macro crate whose sole purpose
-   is generating documentation from feature declarations — it's a
-   build-time doc helper, not a runtime feature. If this recipe isn't
-   building or shipping docs by default (and it isn't), enabling it
-   by default doesn't serve anyone. Please drop it from the default
-   PACKAGECONFIG set. Keep it as a PACKAGECONFIG entry so someone
-   who does want the doc build can flip it on.
-
-I'll wait on a v2. Everything else looks good.
+ack'd, staging on master-next.
 
 Bruce
 
