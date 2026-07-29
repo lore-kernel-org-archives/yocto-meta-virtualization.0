@@ -2,123 +2,220 @@ Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE5CDC54F51
-	for <webhook@archiver.kernel.org>; Wed, 29 Jul 2026 21:25:11 +0000 (UTC)
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.22076.1785360311004306341
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00C0FC54F51
+	for <webhook@archiver.kernel.org>; Wed, 29 Jul 2026 21:49:43 +0000 (UTC)
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.22549.1785361776577129661
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 29 Jul 2026 14:25:11 -0700
+ Wed, 29 Jul 2026 14:49:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=mMVuSNUP;
- spf=pass (domain: gmail.com, ip: 209.85.214.176, mailfrom: ticotimo@gmail.com)
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2cedda2ce6fso12697545ad.1
-        for <meta-virtualization@lists.yoctoproject.org>; Wed, 29 Jul 2026 14:25:10 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=XOp0NFAX;
+ spf=pass (domain: gmail.com, ip: 209.85.216.49, mailfrom: ticotimo@gmail.com)
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-3811f512167so1395811a91.3
+        for <meta-virtualization@lists.yoctoproject.org>; Wed, 29 Jul 2026 14:49:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785360310; x=1785965110; darn=lists.yoctoproject.org;
+        d=gmail.com; s=20251104; t=1785361776; x=1785966576; darn=lists.yoctoproject.org;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :content-type:mime-version:references:message-id:subject:cc:to:date
          :from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=TzOipfOhI++wiXlMXXAR/ESpraPHzI5utBCiTfdFvJ0=;
-        b=mMVuSNUPH6V5ZkkIbwor1ZaZMeJpY7v2/akcZf9jRiMo/GTfDV0qSDOscA3jJUMO+m
-         LFXfFHPDmGoKmy/f5oHkrzp3QLIPn0A9x8jQEz/RD8pnBp6gvXH8y4lJ67FNkdQFvemg
-         Ku/zuZMHBs7JonzDaH6htZZASUa0GvT4cD+2Qawi9qpewhv+hZh0Z6PJzjfS1dRD6CS5
-         Rk713IiFQu7G/SdIgqX7m9PNS0S9BHf8LDMEqIEm94ZakpzEGztX4ikueVZNwmqUn0Pz
-         oiClzCJaIbMI4eq17tFbbnxowExH9jJ7thxUxL2J1dn/3xHwVO+0W8e64NyoWaAMZ9ze
-         08rw==
+        bh=xXbkudGPMsouRu4qnduq4HGjS8GxU1geb+cildi8YQs=;
+        b=XOp0NFAX9Dh2TEUNrnsbBIYhYRiq4okejOPOBmTTGJg/MEBrGsNkJTTfk225B6o2vn
+         smNVnYCOk8me8TED6Qua+BC/SI8IZNjwWxnR5JwPD1H4u0WG5fBhw7AZ1ZsCk6Pwrb+Y
+         twOOq2dSVAoD+m910vgO0b2kSTFdUgrb/3qAVZ5BC4c3MN9jeOhJgM7JPpVKOhCpnitm
+         wDyOM1QRqagn4wa1WBEkhOaW/oW6yVc/72R+O+p8dEh25xtMWzgaqDoVv9WYXZwX6ryn
+         0D+pC2yVlJ8GHKt5x9/E+m/4au5s7rf+fl3iT0cvf5jauPexwumQHegBt3Pr2O7VaDNn
+         0Iog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785360310; x=1785965110;
+        d=1e100.net; s=20251104; t=1785361776; x=1785966576;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :content-type:mime-version:references:message-id:subject:cc:to:date
          :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=TzOipfOhI++wiXlMXXAR/ESpraPHzI5utBCiTfdFvJ0=;
-        b=HIhHP82ya9bWRjYBqRT1AQ/NtkfO3eEsOn7PeInwy2lEfGvUVdqsm0YxPfTL4qapPJ
-         S3Bdl5b5zymQdWuy+TKs4gPs1OZejeDYNa9jMBA4VUXSvKqAUxhf64gXF0ziynK7REQT
-         9JkoMgmllwjM0cSozmGEfTJgW0cN9Nj1DlfjnCu3t6Z9kfur91tedw7e9+JXl9FTD91Q
-         svOYkp37K2dWM+NmesuaimaNskCNBIo7eZBe6fDRlvvlvt+Tz9LG4lrzXPDTMpoh69hr
-         P9FwqJ2LrSwbfIQJXvS0RaLmOyW9lDeLsF/POGKbi/dFVqZwxExkyai81G8r1fJSk0Jz
-         uGEQ==
-X-Gm-Message-State: AOJu0YycA1hqxz6efu1AOuBI530XhNrk8gskLIGTL4j9jZiUFIoH/XgN
-	N9x5PluUoVV28QaQnaFHXH6rcm2GO0PBDP7E/ZWdcENCu2lz19P6PqiS
-X-Gm-Gg: AR+sD10FCAeA/yfq2broj7vPyOymvcAKcKi1Grri2WdFMnGe12LgEE0Hb+/XkN15KHm
-	4vCfXeGOK4GvR6uNygaUdoNiUicL4Fo44gvbWLpmuiaisYmPO3Hcs23RsGG4+fIu2PKY5fIeYz5
-	Z6f9xAOZtrz0oUu/Z0zXx7bLaCJoPFiE3DcKZXJxtGytK2FqG+zCu18B4p6OsOzC6+oinj1zUfO
-	i9oEp792t9rBZ7JQRAGsvK/UZwEScZPprBSHcmXXvudMr3oFuT0ffKBflfZbhh8BR9QqlbbxPiI
-	+Ewc7w+kPav3XK4biAyLObDvxZqdGb1HeZW5Yinjd1iBbfi5TE2F+U75FuLzc7jj83eGRC/gUzR
-	3ygKBgEDadpGtlsKc9LYQHxfCSCiC6UanF0it+AwaZDsSRjQ2Sm8Qvx4m64OHgjxP5KA6KOgNOm
-	dr+ZOGNdw86ck5E4AJP6zz9rxkQF3kMgqFd4GaOw/eRE9xZYJFHdHdpJZUoZbEg8bEIYwB1kzUD
-	aVWW54UhsXJ5m+nBf+LY6tuMGTaAbNn
-X-Received: by 2002:a17:903:22c5:b0:2cc:9179:32e with SMTP id d9443c01a7336-2d035b99b2bmr202275ad.10.1785360310302;
-        Wed, 29 Jul 2026 14:25:10 -0700 (PDT)
+        bh=xXbkudGPMsouRu4qnduq4HGjS8GxU1geb+cildi8YQs=;
+        b=LLgA32WE880eyNOFCU9bwGbbrkEUPU2lGoaY2l0H5t8qVseZaUoa7/YFz8xDPkStpF
+         dA42hIUm9Tb8+iQv7cTUIU/vS08BFKQAw4zWVWUI0zaCSOS9VmLf9Z4HIjPv/cOj7Mtr
+         HuSdHWG/ISAWdGDRp+j27d0UbG7iMv6kcc9dID2rqBgsSKNsJ/+C9hBbmant9j5esiMs
+         Fc6cgdwsgkY4xMP5lYVv3lWXie1B6XkacUe0V2dN9CcFq9popFpTL6PSNHD2V+8VoDH6
+         rSRgnrp0oXPxei/Mv4izCN25GDR/oBxjhhtfc3n7MEN84o81ti/4rdfz1FTvafsJ+E62
+         etCQ==
+X-Forwarded-Encrypted: i=1; AHgh+RpzeD2L+oRbD+IcflvXNapQh8RTnhgm0wnaFFgNPMleIYUDAkSRwbRUXEGH3DsGCV29t3dJ0XYxpCIN4T+o9HyKLLXo@lists.yoctoproject.org
+X-Gm-Message-State: AOJu0YyLkWshw73hZcxHMphPLzLp8KpxSR1/1gYoGa3gwWo9jh4lbvLe
+	y5hoQAjKzvHosQOGxL5OB24M5QEA04fCJsHDmyrNDN9auBl01NERPFMZ
+X-Gm-Gg: AR+sD12rudv1NQEth9sfjh6EhHhs3y1cXKgKi+INYfltmrLTsHxfRfnSjOIt/UR110A
+	Mc1+3D2Q+A2Dm9xv4bLjRpNH3dGsueZPr+oaskJHKmqhH7jrSR4F6f0kj1lp+K5MI5X+PFzMiRc
+	XizL6UZwRwZS4SpdewNivBlhFaq/LCrIOz6IAmVwUROQzijF1vNr6Mt6qv2yuL9fD5uFL43PWX9
+	bsZtY+z2NvixYsrvlja4Ja82fGSL4y4eaecrxYUO33Nd9z9sYpdnkgz6NyxjP4r/cpnm/xTivMr
+	OTjFIqKEw0juA9NQgEcWfuRcADGzZGMs1f3wGX+TvMAmriiZTeqbCG9kys/vAAOyTUOFKlzjfoY
+	nbw2RgYY5TMT9dcAA/3P0teCdwLJ6IqKIB8qndD77Lf1vNu1Ut0qTR8UXXdWek7W/kKdDyh4njY
+	e1QYX9yZXWHJ5+ZvXRJb2l2P53ajfhPPTdKgfji+Gw8HIgS717bOevENYQDT3yDX1yQHfcYL1wx
+	0yx9DfcFWUsMppai3/IicOfwwLQJSCvnau+xArPNCg=
+X-Received: by 2002:a17:90b:28cc:b0:37f:e177:f58 with SMTP id 98e67ed59e1d1-38f9bd62f12mr7589a91.9.1785361775881;
+        Wed, 29 Jul 2026 14:49:35 -0700 (PDT)
 Received: from chiron.local (c-98-232-159-17.hsd1.or.comcast.net. [98.232.159.17])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d022bfbe23sm16283795ad.63.2026.07.29.14.25.09
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38f9b4662dfsm24863a91.6.2026.07.29.14.49.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Jul 2026 14:25:09 -0700 (PDT)
+        Wed, 29 Jul 2026 14:49:35 -0700 (PDT)
 From: Tim Orling <ticotimo@gmail.com>
 X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
-Date: Wed, 29 Jul 2026 14:25:07 -0700
+Date: Wed, 29 Jul 2026 14:49:33 -0700
 To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [meta-virtualization][RFC][PATCH 1/5] vcontainer-bbmask.inc: add
- python3-pexpect,-ptyprocess
-Message-ID: <bhqgv5ksj7nqtzcyfyrh5flqyoqrihl6tp7hvqhzyk2c7hmdju@6gycblijngol>
-References: <20260727000247.1623785-3-tim.orling@konsulko.com>
- <6a68eb22.e28fa2c5.219bbc.346d@mx.google.com>
+Cc: ticotimo@gmail.com, meta-virtualization@lists.yoctoproject.org
+Subject: Re: [meta-virtualization] [PATCH v2 00/13] Container Improvements
+Message-ID: <a44c7d6yoras4hwsc2lzajmpevjjbsbwys2szfa5xaxivijcnh@jmgqlg7x4qp6>
+References: <cover.1783356922.git.tim.orling@konsulko.com>
+ <6a5e8a9d.ec7609bc.1985ef.8845@mx.google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <6a68eb22.e28fa2c5.219bbc.346d@mx.google.com>
+In-Reply-To: <6a5e8a9d.ec7609bc.1985ef.8845@mx.google.com>
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Wed, 29 Jul 2026 21:25:11 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/10017
+ <meta-virtualization@lists.yoctoproject.org>; Wed, 29 Jul 2026 21:49:42 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/10018
 
-On Tue, Jul 28, 2026 at 10:47:14AM -0700, Bruce Ashfield wrote:
-> Thanks Tim. I'm taking 2/5 through 5/5 directly (verified 2/5 against
-> image-oci.bbclass — the auto-fold of OCI_LAYERS `packages:` entries
-> into IMAGE_INSTALL at line ~389 is exactly the duplication this drops,
-> so it's a clean removal). 3/5's added deps all trace to concrete
-> failures documented in 5/5, which is a great artifact.
+On Mon, Jul 20, 2026 at 01:52:45PM -0700, Bruce Ashfield wrote:
+> Hi Tim,
 > 
-> One question before I take this one:
+> Thanks for the substantial rework. Reviewed the whole series against the
+> v1 comments, and the two new pieces you factored out (container-volatile-fixup
+> and container-dev-mode) look great. Series has been applied on master.
 > 
-> The commit says python3-pexpect is needed "during run-time testing
-> with the bitbake-setup workflow." What in the built container actually
-
-This was a mistake on my part, not capturing the original reason.
-
-It was a build-time error satisfying the RDEPENDS for
-packagegroup-yocto-build-extras which I am fairly certain you added
-because you were trying to satisfy "Build Host Packages" [1] or
-similar.
-
-Ignoring the yocto-docs history, looking purely at openembedded-core
-the only place I found an obvious import is in the SerialConnection
-class in [2]. However, for a fully functional container-yocto-builder
-built with mc:container-* multiconfig, we would still need this.
-
-I have updated the commit message and added a comment in v2.
-
-I have also updated docs/container-yocto-builder.md to better reflect
-this reason and will also send a v2 for that patch.
-
-> imports/exec's pexpect at runtime? If it's the vcontainer test suite
-> driving the container from outside, pexpect belongs on the test host,
-> not baked into the image. If it's something inside the container —
-> bitbake-setup itself, a Yocto tool, or a test harness that runs
-> in-container — that's legitimate, but a one-line note in the commit
-> message naming the caller would help future readers understand why
-> we're carving a hole in the meta-python mask.
+> Here's my summary, just so we can have it archived and use it as a reference
+> later if something breaks:
 > 
-> If it's just needed for our own vcontainer test runner and not by
-> anything the container itself invokes, I'd rather leave the meta-python
-> mask intact and put pexpect on the host that runs the tests.
+> v1 items — status
+> -----------------
+> 
+> Addressed:
+> 
+>   * EXTRA_USERS_PARAMS uses += now (was = in v1)
+>   * PYEOF single-quoted heredoc has the "bitbake pre-expansion" comment
+>   * NONROOT_USER bare-identifier requirement documented
+>   * fix_oci_home_perms has the index.json guard + OCI_IMAGE_TAR_OUTPUT
+>     gate + bbfatal if the layout ever changes
+>   * IMAGE_INSTALL is no longer duplicated against OCI_LAYERS packages
+>     across the image recipes (image-oci auto-derivation on master
+>     handles it)
+>   * rootfs_fixup_var_volatile is factored into
+>     container-volatile-fixup.bbclass and app-container-python inherits
+>     it (was missing in v1)
+>   * container-dev-mode.bbclass cleans up the '-dev' boilerplate that
+>     each recipe previously repeated
+>   * app-container-valkey's persistence paths (/data, /var/lib/valkey,
+>     /var/log/valkey, /run/valkey) are in NONROOT_OWNED_DIRS
+>   * The valkey security-caveats item is moot in v2 — the
+>     container-entrypoint.sh design supersedes the always-on
+>     protected-mode override I had asked to be flagged in DESCRIPTION
+> 
+> I did notice a few things on the way through, but it was more efficient
+> if I just did them myself.
+
+Agreed.
+
+> 
+> All three are behavior-neutral cleanups:
+> 
+> 1. app-container-valkey: drop redundant OCI_IMAGE_RUNTIME_UID
+> 
+>    The recipe carries a verbatim copy of the same
+>      OCI_IMAGE_RUNTIME_UID = "${@bb.utils.contains('PACKAGECONFIG',
+>                                 'dev', '0', '${NONROOT_UID}', d)}"
+>    line that container-dev-mode.bbclass now supplies. Leftover from v1.
+> 
+> 2. app-container-mosquitto: fix PACKAGECONFIG 'dev' comment
+> 
+>    The block above PACKAGECONFIG was copied from app-container-python
+>    and mentions python3-pip / site-packages /
+>    pn-app-container-python — none of which apply. Rewrote it per-recipe.
+>    nginx and curl in the same series already have the correct wording.
+> 
+> 3. container-nonroot-user.bbclass: document + assert inherit order
+> 
+>    oci_nonroot_inject_user() is a do_image_oci prefunc that reads
+>    OCI_LAYER_*_ROOTFS. Those vars are populated by image-oci's OWN
+>    do_image_oci prefunc (oci_multilayer_install_packages), and prefunc
+>    execution follows inherit order. If a future recipe inherits
+>    container-nonroot-user before image-oci, injection runs against
+>    empty per-layer state, no layer ships /etc/passwd, and the only
+>    signal is a bb.warn that reviewers can miss. Added a header comment
+>    spelling out the requirement + an anonymous-python guard that
+>    raises bb.fatal at parse time. All five in-tree consumers already
+>    inherit in the right order, so this catches a future mistake rather
+>    than fixing a current one.
+> 
+> Also — the cover letter says "verify '-dev' mode switches from root
+> user to mosquitto user", but the recipe doesn't set
+> NONROOT_USER = "mosquitto" (unlike nginx which does set it to "nginx").
+> So either the cover letter is aspirational or something is happening
+> implicitly that I'm missing. Any changes we can do on top of the
+> series. I've put it on master-next for visibility.
+
+I addressed this in [1] but let me copy that content here for posterity.
+
+"""
+It turns out that in v1 we were not really running as the 'nonroot' user,
+because of image-oci and container-nonroot-user both setting OCI_IMAGE_RUNTIME_UID
+with ?= (which means the order of inheritance influenced the behavior). Part of
+v2 changes image-oci to OCI_IMAGE_RUNTIME_UID ??= so container-nonroot-user can
+'override' it (while still being a 'soft' ?= assignment).
+
+It runs fine in both 'production' (default) and '-dev' flavors.
+
+$ docker run --rm -it registry.yocto.io/library/mosquitto:2
+
+1783090865: Info: running mosquitto as user: nonroot.
+1783090865: mosquitto version 2.1.2 starting
+1783090865: Config loaded from /etc/mosquitto/mosquitto.conf.
+1783090865: Bridge support available.
+1783090865: Persistence support available.
+1783090865: TLS support available.
+1783090865: TLS-PSK support available.
+1783090865: Websockets support available.
+1783090865: Starting in local only mode. Connections will only be possible from clients running on this machine.
+1783090865: Create a configuration file which defines a listener to allow remote access.
+1783090865: For more details see https://mosquitto.org/documentation/authentication-methods/
+1783090865: Opening ipv4 listen socket on port 1883.
+1783090865: Opening ipv6 listen socket on port 1883.
+1783090865: mosquitto version 2.1.2 running
+
+$ docker run --rm -it registry.yocto.io/library/mosquitto:2-dev
+
+1783090933: Info: running mosquitto as user: mosquitto.
+1783090933: mosquitto version 2.1.2 starting
+1783090933: Config loaded from /etc/mosquitto/mosquitto.conf.
+1783090933: Bridge support available.
+1783090933: Persistence support available.
+1783090933: TLS support available.
+1783090933: TLS-PSK support available.
+1783090933: Websockets support available.
+1783090933: Starting in local only mode. Connections will only be possible from clients running on this machine.
+1783090933: Create a configuration file which defines a listener to allow remote access.
+1783090933: For more details see https://mosquitto.org/documentation/authentication-methods/
+1783090933: Opening ipv4 listen socket on port 1883.
+1783090933: Opening ipv6 listen socket on port 1883.
+1783090933: mosquitto version 2.1.2 running
+
+For '-dev' mode, the container starts as 'root' and setuids to 'mosquitto' user.
+
+One of the other things I noticed in testing is that the 'nonroot' UID 65532
+was never making it into /etc/passwd, because the base-passwd package is what
+was providing /etc/passwd and the useradd/extrausers mechanism installs in
+IMAGE_ROOTFS, which was not being brought into the container layers. This has
+also been fixed in v2 of container-nonroot-user.bbclass.
+
+The mosquitto.conf that is built by the recipe has all lines commented out.
+In practice, end users will almost always want to provide their own mosquitto.conf.
+For instance, they will probably want to require a password and access control (ACL).
+
+Many real-world uses on target will probably want a multi-container approach, putting a
+reverse proxy like nginx in front of mosquitto or running with docker-compose.
+"""
+
 > 
 > Bruce
 > 
 
-[1] https://docs.yoctoproject.org/brief-yoctoprojectqs/index.html#build-host-packages
-[2] https://git.openembedded.org/openembedded-core/tree/meta/lib/oeqa/core/target/serial.py#n258
+[1] https://lore.kernel.org/yocto-meta-virtualization/178309247930.29524.9527654462555578401.b4-reply@b4/
 
