@@ -2,118 +2,175 @@ Return-Path: <dkelaiya@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29AC5C55838
-	for <webhook@archiver.kernel.org>; Thu,  6 Aug 2026 05:54:04 +0000 (UTC)
-Received: from alln-iport-8.cisco.com (alln-iport-8.cisco.com [173.37.142.95])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.13143.1785995639947662939
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F098C55ABF
+	for <webhook@archiver.kernel.org>; Thu,  6 Aug 2026 05:55:04 +0000 (UTC)
+Received: from alln-iport-7.cisco.com (alln-iport-7.cisco.com [173.37.142.94])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.13163.1785995703447437070
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 05 Aug 2026 22:54:00 -0700
+ Wed, 05 Aug 2026 22:55:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=BZ0hHovc;
- spf=pass (domain: cisco.com, ip: 173.37.142.95, mailfrom: dkelaiya@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=jgOY5SAu;
+ spf=pass (domain: cisco.com, ip: 173.37.142.94, mailfrom: dkelaiya@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=1324; q=dns/txt;
-  s=iport01; t=1785995639; x=1787205239;
+  d=cisco.com; i=@cisco.com; l=3329; q=dns/txt;
+  s=iport01; t=1785995703; x=1787205303;
   h=from:to:cc:subject:date:message-id:mime-version:
    content-transfer-encoding;
-  bh=7j2wq3arfwnen5KaSZv0NInOoVMVbfMVR7CIw2hL+qM=;
-  b=BZ0hHovclXKaV3I4NfwFsIFjw64QUiA5a6p40BkWXEXd/aMO+f98qX8U
-   idYKAKJ/h0kBy5mifPXOYetWuTh/8JZcbEHe/KGZwU9uubAeNST33osIB
-   DytPKb0Hwqe7mMJPdgvHmChSezvy7/mGkA/n07hZITOAS77rItYK34uyC
-   FNUvMJNzvygrWiMZm/QJgVGlz6ALFjONoO3BVvHEQFNnEz2NYKJZtEkT+
-   O6VxE5Hltz6hrqNKdhIGU7oCHxMcunQd2D2FLd6Nb9B7/WQ+jbRs/pPMP
-   DicajBSnq/o8/Rw2ydp3MDOck5IYRZtzLfR9GU293HSLhHZpjZyBFYsGU
-   w==;
-X-CSE-ConnectionGUID: iqkd6VsQTIaQY7dqD9Vn8g==
-X-CSE-MsgGUID: WYcFSMHxRpqnO6ZwpYpOFg==
-X-IPAS-Result: =?us-ascii?q?A0DEAgC5IHRq/4sQJK1aHgEBCxIMggULgld0XkNJk1kBg?=
- =?us-ascii?q?gSMU5I3gX4PAQEBDzcaBAEBhQWNaAImNQgOAQIEAwIDAQEBAQEBAQEBAQELA?=
- =?us-ascii?q?QEFAQEBAgEHBYEOE4Zchl0rCwEYAS0wUQtEgwIBgjoDNwO9BYF5M4EBgygB2?=
- =?us-ascii?q?h0NglgBCxQBBYEzhT+CfoUjbQgBhHwnGxuBcoR+gh+Ba4EGhXgEgiJ6EpJwS?=
- =?us-ascii?q?IEeA1ksAVUTDQoLBwWBZgM1EioVbjIdgSM+F4ENGwcFgR2BKIRoIxk2eoEJX?=
- =?us-ascii?q?oEtKmQBEheBCYJvAoJ6gSkLGA1IESw3FBkEPm4HjX8ggkFhLZk6jxSgHnEKK?=
- =?us-ascii?q?IN1jCGPPoV8GjOEBKZomQiCWY86kkeEaYFqAjiBWXAVgyIJShkPji4V0BknM?=
- =?us-ascii?q?gI7AgcCBw4DC5FogX4BAQ?=
-IronPort-Data: A9a23:9TdDwaMx6z5fQH7vrR3PlsFynXyQoLVcMsEvi/4bfWQNrUon1WMHn
- 2BNXTiCPfbbYDH1L9h+aYri8BsEsZPczd8yTXM5pCpnJ55oRWUpJjg4wmPYZX76whjrFRo/h
- ykmQoCeaphyFTmE+kvF3oHJ9RFUzbuPSqf3FNnKMyVwQR4MYCo6gHqPocZh6mJTqYb/WV7lV
- e/a+ZWFZgf1g2MsaAr41orawP9RlKWq0N8nlgRWicBj5Df2i3QTBZQDEqC9R1OQapVUBOOzW
- 9HYx7i/+G7Dlz91Yj9yuu+mGqGiaue60Tmm0hK6aYD76vRxjnBaPpIACRYpQRw/ZwNlMDxG4
- I4lWZSYEW/FN0BX8QgXe0Ew/ypWZcWq9FJbSJSymZT78qHIT5fj6/R3D01oA5Yhxsd+OFAR+
- eU0eQ4LPh/W0opawJrjIgVtrs0nKM+uOMYUvWttiGmDS/0nWpvEBa7N4Le03h9p2ZsIRqiYP
- pRfMGE+BPjDS0Un1lM/BJEzmO6pl3DXeDxDo1XTrq0yi4TW5FwpiOCzaYCJI7RmQ+1qr022n
- Ufm717hGxc9au6A0Qud1Vyj07qncSTTHdh6+KeD3vRwnVaegGUICBMXWF+3ifa8g0+6HdlYL
- iQ8/ycypO0s9Va3U9D5Xg+xvH+DuDYYWsFMCKsr7wqRzbLO5ASUDXRCSSROAOHKr+c/QTgsk
- 1vMlNTzCHk36vueSGmW8fGfqjba1TUpEFLurBQsFWMti+QPaqlq5v4TZr6PyJKIs+A=
-IronPort-HdrOrdr: A9a23:BNixBqknoD3mPiRW7w+BwjPEFb7pDfIA3DAbv31ZSRFFG/FwWf
- rAoB19726QtN9/YhAdcLy7VZVoIkmsl6Kdn7NwAV7KZmCP0wGVxepZg7cKrQeNJ8TWzJ846U
- 4ZSdkcNPTASX5nkM39/A60V/wkwNWB7eSUoN229QYLcemvAJsQljuQzW2gYytLeDU=
-X-Talos-CUID: 9a23:JVlkoW7PMfs6NBvbp9ss9VcXFp4baUTh7X7pEhC0EEo4drvFRgrF
-X-Talos-MUID: 9a23:zAOFpwg9ljBOq9EfR+4lYcMpC/ZjzZ+LKFA3iYwAnJe2KjRBIxCzg2Hi
+  bh=I2mP5VqU4/Z38iEaJALDqKhpDZ8oZqC6UHiY+PbLAus=;
+  b=jgOY5SAuYYUR8xEGTbILyJundYKdgopBakYv+J3k+imAV+PSiBKZUWHV
+   0OkzGsWHBLJUMGpMRqTpJm0EnVXFCaFtFVtKAo453KhcpsqUTMkwOBo7s
+   nRW9CcyuyXVfY7mQAGJwTOr/cCPbSm4JWOyNT0tRnyPTjmW3wSUYFutKT
+   umJExNtNmGldVoqEmngzoMtN0RrFDC5OHNBrZHe/q0JigZWolCbLB7g/S
+   9xPqESdmkna8x4K6qw3lX7cJaSlaSd+maIphw3aA+or45dLvjLCXx2PFt
+   yw2VwZHOFmWJEHwJv1p2EjnZrpJas0IuDTitTfVuLsZNPWByk0D8rUYLk
+   g==;
+X-CSE-ConnectionGUID: hh2V3omuTYKXr/OjbkM0LA==
+X-CSE-MsgGUID: jJajMQ/ZTNWrgJD/EsBUHg==
+X-IPAS-Result: =?us-ascii?q?A0BEAgA8IHRq/5QQJK1aHgEBCxIMggULgld0XkNJA5ZHn?=
+ =?us-ascii?q?h6Bfg8BAQEPRA0EAQGFBY1oAiY0CQ4BAgQDAgMBAQEBAQEBAQEBAQsBAQUBA?=
+ =?us-ascii?q?QECAQcFgQ4Thk8NhloBAgE1ARgBLSwDAQJaIyGDAgGCdAMRvHKCLIEBgygBP?=
+ =?us-ascii?q?wJDUNsuAQsUAQWBM4U/iCFdGAGEfCcbG4FygRWDaYEFgVELAQGIJQSCIoEMg?=
+ =?us-ascii?q?VoekHhIgR4DWSwBVRMNCgsHBYFmAzUSKhVuMh2BIz4XgQ0bBwWBHYEohGgjG?=
+ =?us-ascii?q?TZ6gQlegS0qZAESF4EJgm8CgnqBKQsYDUgRLDcUGQQ+bgeNfyCCQYEOASkBA?=
+ =?us-ascii?q?SACb3QnpXahDwoog3WMIZU6GjOFW6URC5h9jgqGD4FNgjGLc1CEaYFoPIFHC?=
+ =?us-ascii?q?wdwFYMiCUoZD444g2uBf4NlxlUnMgIJAy8BAQcCBw4DC4FokX4BAQ?=
+IronPort-Data: A9a23:9IJ5bqiCNPr/UOVkg0d8wN5AX161MBEKZh0ujC45NGQN5FlHY01je
+ htvXj2DP62JMWb2f49/Oo+/ph4AuZCHxtdhTVQ9+Cw0EiNjpJueD7x1DKtf0wB+jyHnZBg6h
+ ynLQoCYdKjYdleF+FH1dOOn9SUgvU2xbuKUIPbePSxsThNTRi4kiBZy88Y0mYcAbeKRW2thg
+ vus5ZeCULOZ82QsaDxMu/re8EkHUMna4Vv0gHRvPZing3eG/5UlJMp3Db28KXL+Xr5VEoaSL
+ 87fzKu093/u5BwkDNWoiN7TKiXmlZaLYGBiIlIPM0STqkAqSh4ai87XB9JAAatjsAhlqvgqo
+ Dl7WTNcfi9yVkHEsLx1vxC1iEiSN4UekFPMCSDXXcB+UyQqflO0q8iCAn3aMqUY+rxJWmZL6
+ MApCwAXKTeBjeGTmJaSH7wEasQLdKEHPasWvnVmiDWcBvE8TNWaGuPB5MRT23E7gcUm8fT2P
+ pVCL2ExKk2eJUQTaj/7C7pm9AusrnX8fjlRqUOcjaE2+GPUigd21dABNfKKK4zWHJQMzxzwS
+ mTu/UbwADQjc+6j7wWf/VCAwcLUtx7bV9dHfFG/3rsw6LGJ/UQWBQEfEEW6u+Wkg0q/SdtDK
+ ksS0i4vtrQpsl2sRcX6Rwe/onOPolgbQdU4LgEhwAiJzqyR50OSAXIJC2cYLtcnr8QxAzct0
+ zdlgu/UONCmi5XNIVr1y1tehWra1fQ9RYPaWRI5cA==
+IronPort-HdrOrdr: A9a23:SP6TKKMhkoTDbcBcTu2jsMiBIKoaSvp037Dk7S9MoHtuA6mlfq
+ +V/cjzuSWYtN9zYgBDpTn/Asm9qBrnnPYfi7X5Vo3NYOCJggeVxahZnO/fKkXbak7D398Y87
+ t8eK5jD9C1J117gcHmpDScKb8bsb66GGTCv5am85+rJjsaDZ1d0w==
+X-Talos-CUID: =?us-ascii?q?9a23=3AABIRf2lzTvTybmanKkCVjBwPbTLXOX3dlkmLJEq?=
+ =?us-ascii?q?lNVdKeKfSbl2a+4Y8t+M7zg=3D=3D?=
+X-Talos-MUID: 9a23:fsp4lwW2Y7VGSwfq/D3OjTNHDYBa34KREk8vvdIroOO5FSMlbg==
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.25,207,1779148800"; 
-   d="scan'208";a="800061241"
-Received: from alln-l-core-02.cisco.com ([173.36.16.139])
-  by alln-iport-8.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 06 Aug 2026 05:53:59 +0000
+   d="scan'208";a="798419192"
+Received: from alln-l-core-11.cisco.com ([173.36.16.148])
+  by alln-iport-7.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 06 Aug 2026 05:55:02 +0000
 Received: from sjc-ads-5675.cisco.com (sjc-ads-5675.cisco.com [10.28.88.189])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by alln-l-core-02.cisco.com (Postfix) with ESMTPS id F39CD180001A5;
-	Thu,  6 Aug 2026 05:53:58 +0000 (GMT)
+	by alln-l-core-11.cisco.com (Postfix) with ESMTPS id D66EF18006F02;
+	Thu,  6 Aug 2026 05:55:01 +0000 (GMT)
 Received: by sjc-ads-5675.cisco.com (Postfix, from userid 1887444)
-	id 64E70CD02BC; Wed,  5 Aug 2026 22:53:58 -0700 (PDT)
+	id 63195CD02BC; Wed,  5 Aug 2026 22:55:01 -0700 (PDT)
 From: "Darsh Kelaiya -X (dkelaiya - E INFOCHIPS PRIVATE LIMITED at Cisco)" <dkelaiya@cisco.com>
 To: meta-virtualization@lists.yoctoproject.org
 Cc: xe-linux-external@cisco.com,
-	Bruce Ashfield <bruce.ashfield@gmail.com>,
 	Darsh Kelaiya <dkelaiya@cisco.com>
-Subject: [meta-virtualization][wrynose][PATCH] python3-webob: update to 1.8.10
-Date: Wed,  5 Aug 2026 22:53:55 -0700
-Message-Id: <20260806055355.3112059-1-dkelaiya@cisco.com>
+Subject: [meta-virtualization][scarthgap][PATCH 1/2] python3-webob: fix CVE-2024-42353
+Date: Wed,  5 Aug 2026 22:54:54 -0700
+Message-Id: <20260806055455.3114166-1-dkelaiya@cisco.com>
 X-Mailer: git-send-email 2.35.6
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Auto-Response-Suppress: DR, OOF, AutoReply
 X-Outbound-Client-TLS: ANONYMOUS;sjc-ads-5675.cisco.com [10.28.88.189];TLSv1.3;TLS_AES_256_GCM_SHA384;256
 X-Outbound-SMTP-Client: 10.28.88.189, sjc-ads-5675.cisco.com
-X-Outbound-Node: alln-l-core-02.cisco.com
+X-Outbound-Node: alln-l-core-11.cisco.com
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Thu, 06 Aug 2026 05:54:04 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/10027
+ <meta-virtualization@lists.yoctoproject.org>; Thu, 06 Aug 2026 05:55:04 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/10029
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+From: Darsh Kelaiya <dkelaiya@cisco.com>
 
-Bump 1.8.9 -> 1.8.10 (latest on PyPI). New sdist sha256sum:
+This patch applies the upstream fix as referenced in [2], using the
+commit shown in [1].
 
-  1c963a11f307bc3f624fbab9dde737701eae255f32981b7a5486a88db1767c2b
+[1] https://github.com/Pylons/webob/commit/f689bcf4f0a1f64f1735b1d5069aef5be6974b5b
+[2] https://nvd.nist.gov/vuln/detail/CVE-2024-42353
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-(cherry picked from commit 88ad007e53c213e649cc5ecec30101430c9b4965)
 Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
 ---
- .../python/{python3-webob_1.8.9.bb => python3-webob_1.8.10.bb}  | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename recipes-devtools/python/{python3-webob_1.8.9.bb => python3-webob_1.8.10.bb} (77%)
+ .../python/python3-webob/CVE-2024-42353.patch | 56 +++++++++++++++++++
+ .../python/python3-webob_1.8.7.bb             |  2 +
+ 2 files changed, 58 insertions(+)
+ create mode 100644 recipes-devtools/python/python3-webob/CVE-2024-42353.patch
 
-diff --git a/recipes-devtools/python/python3-webob_1.8.9.bb b/recipes-devtools/python/python3-webob_1.8.10.bb
-similarity index 77%
-rename from recipes-devtools/python/python3-webob_1.8.9.bb
-rename to recipes-devtools/python/python3-webob_1.8.10.bb
-index 4a3ed90e..6d895103 100644
---- a/recipes-devtools/python/python3-webob_1.8.9.bb
-+++ b/recipes-devtools/python/python3-webob_1.8.10.bb
-@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://docs/license.txt;md5=8ed3584bcc78c16da363747ccabc5af5
+diff --git a/recipes-devtools/python/python3-webob/CVE-2024-42353.patch b/recipes-devtools/python/python3-webob/CVE-2024-42353.patch
+new file mode 100644
+index 00000000..56e7543f
+--- /dev/null
++++ b/recipes-devtools/python/python3-webob/CVE-2024-42353.patch
+@@ -0,0 +1,56 @@
++From a14a5b798de5b1145513660be64c09c7117f2b0d Mon Sep 17 00:00:00 2001
++From: Delta Regeer <xistence@0x58.com>
++Date: Wed, 7 Aug 2024 11:15:35 -0600
++Subject: [PATCH] Add fix for open redirect
++
++CVE: CVE-2024-42353
++Upstream-Status: Backport [https://github.com/Pylons/webob/commit/f689bcf4f0a1f64f1735b1d5069aef5be6974b5b]
++
++(cherry picked from commit f689bcf4f0a1f64f1735b1d5069aef5be6974b5b)
++Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
++---
++ src/webob/response.py  |  5 +++++
++ tests/test_response.py | 11 +++++++++++
++ 2 files changed, 16 insertions(+)
++
++diff --git a/src/webob/response.py b/src/webob/response.py
++index 2aad591..efc38ec 100644
++--- a/src/webob/response.py
+++++ b/src/webob/response.py
++@@ -1284,6 +1284,11 @@ class Response(object):
++         if SCHEME_RE.search(value):
++             return value
++ 
+++        # This is to fix an open redirect issue due to the way that
+++        # urlparse.urljoin works. See CVE-2024-42353 and
+++        # https://github.com/Pylons/webob/security/advisories/GHSA-mg3v-6m49-jhp3
+++        if value.startswith("//"):
+++            value = "/%2f{}".format(value[2:])
++         new_location = urlparse.urljoin(_request_uri(environ), value)
++         return new_location
++ 
++diff --git a/tests/test_response.py b/tests/test_response.py
++index 9d9f9d3..8a6ac06 100644
++--- a/tests/test_response.py
+++++ b/tests/test_response.py
++@@ -1031,6 +1031,17 @@ def test_location():
++     assert req.get_response(res).location == 'http://localhost/test2.html'
++ 
++ 
+++def test_location_no_open_redirect():
+++    # This is a test for a fix for CVE-2024-42353 and
+++    # https://github.com/Pylons/webob/security/advisories/GHSA-mg3v-6m49-jhp3
+++    res = Response()
+++    res.status = "301"
+++    res.location = "//www.example.com/test"
+++    assert res.location == "//www.example.com/test"
+++    req = Request.blank("/")
+++    assert req.get_response(res).location == "http://localhost/%2fwww.example.com/test"
+++
+++
++ @pytest.mark.xfail(sys.version_info < (3,0),
++                    reason="Python 2.x unicode != str, WSGI requires str. Test "
++                    "added due to https://github.com/Pylons/webob/issues/247. "
++-- 
++2.44.4
++
+diff --git a/recipes-devtools/python/python3-webob_1.8.7.bb b/recipes-devtools/python/python3-webob_1.8.7.bb
+index d23ddfd2..5d7f74c8 100644
+--- a/recipes-devtools/python/python3-webob_1.8.7.bb
++++ b/recipes-devtools/python/python3-webob_1.8.7.bb
+@@ -14,3 +14,5 @@ RDEPENDS:${PN} += " \
+ 	python3-sphinx \
+ 	"
  
- PYPI_PACKAGE = "webob"
- 
--SRC_URI[sha256sum] = "ad6078e2edb6766d1334ec3dee072ac6a7f95b1e32ce10def8ff7f0f02d56589"
-+SRC_URI[sha256sum] = "1c963a11f307bc3f624fbab9dde737701eae255f32981b7a5486a88db1767c2b"
- 
- inherit setuptools3 pypi
- 
++SRC_URI += "file://CVE-2024-42353.patch \
++           "
 -- 
 2.35.6
 
