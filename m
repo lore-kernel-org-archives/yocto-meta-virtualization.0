@@ -2,133 +2,116 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04A3CC5AC7A
-	for <webhook@archiver.kernel.org>; Fri,  7 Aug 2026 18:31:41 +0000 (UTC)
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.48984.1786127493269045222
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23C7DC2A09B
+	for <webhook@archiver.kernel.org>; Fri,  7 Aug 2026 18:55:51 +0000 (UTC)
+Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.49716.1786128942991699137
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 07 Aug 2026 11:31:33 -0700
+ Fri, 07 Aug 2026 11:55:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=Ff6LPhHD;
- spf=pass (domain: gmail.com, ip: 209.85.160.179, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-51c15bf5000so17994951cf.3
-        for <meta-virtualization@lists.yoctoproject.org>; Fri, 07 Aug 2026 11:31:33 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=Ph8BpUCj;
+ spf=pass (domain: gmail.com, ip: 209.85.219.50, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-8f1a8e914a9so29457176d6.1
+        for <meta-virtualization@lists.yoctoproject.org>; Fri, 07 Aug 2026 11:55:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786127492; x=1786732292; darn=lists.yoctoproject.org;
+        d=gmail.com; s=20251104; t=1786128942; x=1786733742; darn=lists.yoctoproject.org;
         h=mime-version:content-transfer-encoding:content-type:references
          :in-reply-to:subject:to:from:date:message-id:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=lhyIYR6cUhUgXsj1mokz+zX2DAyvDDP2IFMu7GavRNg=;
-        b=Ff6LPhHDcOyE4NliqXy87DmPMBtQ7UQNi9dLOO/IUqv/yyeZccZzeY2lDuWKMmGxIv
-         5wo98XsoVpLt84HSF0CukdczwrnGRvdnlPxNrLjfhTLkX0SJDaHZiV6tpk50qxZqmwEt
-         TIbQd8mn/MBnXY6wRrIm5LEYUCf8fyaKKy4nJHFPTjBTVO0lX1LLuNViCgLb4orSIUMZ
-         /jcv72GQ/5MuBxRrfblcBNDsqIHIxXA/sxwbDq1YhujUq0ZyhdNy/hiXzMsGNFDj+LZb
-         6YYtGhI7OEcLMtQs2dstME/pJNHr5+NzCc4tBFF4+G3Ncf5wOY9qq6sXM4sUpSyiKHSK
-         Q5zw==
+        bh=INWwNpIdMID7F4ccWqWER6tnM8jD/nXW6oC4/fBDRqc=;
+        b=Ph8BpUCjLv25T55Cl+nEJsLHCOOmAMN5Sf8GCfWGJr+va/0/v3Q3U9KSz80cHR1ejU
+         Wpykc3kSJ+tLSH3pLTxZTiQj6dqkT0ovCCp6rXIxp3lj7Dq/NJy4nhAIyNYVTyowbcci
+         GmqictTvIGiUzqHDHW8A/jmoTIZiEybjWSMOvZCkWRmbF+TAZEEx8FzKlUNEkjyAeV7N
+         yZib4Zo9NVV/SZRpUR3L2X+n4SfHUem8B1P8erpA7LA0uJfoycE0sM8M1qSsaIW2kECg
+         54J2QUHSlhZagBmv2drTTGztXWV6CIeDUekXN8MuMkqoZSjHr7h4yRvLjKV8Yq6lYJ+9
+         Aj4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786127492; x=1786732292;
+        d=1e100.net; s=20251104; t=1786128942; x=1786733742;
         h=mime-version:content-transfer-encoding:content-type:references
          :in-reply-to:subject:to:from:date:message-id:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=lhyIYR6cUhUgXsj1mokz+zX2DAyvDDP2IFMu7GavRNg=;
-        b=AFDeclkxjC1+rvL/y3BYx/no+YzyzCybyl6mnKIorzPQ/SCnMhRwAg/jaQfFoiC/hx
-         wy/oDBPPH/ZJDgjxlZDonK9QaGY9r3zJBt6IIaNHz5CFNL85FhNryzhc6rEEInw4qE+j
-         uCJELQuy1nfkKhuON1SLc2mlPdZveebHKiSfzkulBUvjUpC1qRns8nIjvNJq/olm0G0W
-         jq1+2awZIz2WGVer5oBZO1d+OPILUbIZ5H0i7PUcklvOEAefuAEdEoMBFkJWGVaRVl5G
-         moeIdq3aVwN5ajOLRsvK6JrCyak3PgzoNJ5rljn7p6pmeeZT6sv8AA9xW8H2eXWxuH/Z
-         zBwA==
-X-Gm-Message-State: AOJu0YyQDPDinjz0A+ueaH+8fdxPFtn0mMTiJZgtuM/c0y2ApvEgcFQ9
-	/z6CoOkSgPgnFn2n241O6txSP+Hx46B9UZ29T+R5Ufg5Wq6e0GZdWUNIuLtcDuI3
-X-Gm-Gg: AR+sD13TdhUHUVqqTJ2bD/Jd+cchbqaPlujxzivCOuSzS8IJR4+8FivALIeg9K6NkVz
-	Rz2APrY+FIxKnXjLHYa6hAWwBaQqZzltdSzIdoY5jYuvARoMCihJu2QNZTBbT4jqEYaGoGKol9T
-	oNd+MARO3cOYD3Oxrpk6/7MNU6EYgCoiLF7fL37gKMui9Rnox2zG/dUkakn8OhNzFCtClAdAaoq
-	bDmJ8f2jYNypUACygm/9P3mCj8fFoDdvBl3Y4GwLsQxPYiv+6YXPz8NJ4qEtil5ekMtk0d8WduM
-	oe5d1UyOt893LqdfQS674X6sCcFvAdynVxUZLINrLTduojYrzDFr5jVVCBbuHPpH0bG8a+lWNuL
-	tJLjVTtgeoqyrrzUJTo+jBBtHSXucTFCmD5b08a71bdvclWGY6Bf9ZMLKOtJ5WEgCVdXE6o2f7R
-	KuKRfiF5mOvDu6V3oo8cERfv214m6ymfHzq5H0W9p1MBZB98Zg1bBoYmW1NLqbmcglclrCs6SPb
-	7S6JQgd8wjqN8++4go6CnhSDhdjbUWJbNHQLnZh/WQo4HuJet+HHBSdXxMsz5TOGHP2UHP8IsyZ
-	LjLYpYHrd2bSzWWNT/+pd3uVgXTkC+Newt/r958OoofS8HrnfOYJi9l3yl6Ysw==
-X-Received: by 2002:a05:622a:998:b0:51b:ecbb:206f with SMTP id d75a77b69052e-52ce6182feamr293847771cf.32.1786127491966;
-        Fri, 07 Aug 2026 11:31:31 -0700 (PDT)
+        bh=INWwNpIdMID7F4ccWqWER6tnM8jD/nXW6oC4/fBDRqc=;
+        b=Xig3wZRufZb0WMMOqO2wfwFMP96sbJi7JPlDUHbn/zzdAkf4NyJ9vn74mXnwqcjC6L
+         RVfSoJHYzrbz3HgHtoJfldL4B3Np7srJ65XoJ8EIbvHQENz/+SVwDlt2ZncwhCxzOEq8
+         +oCNF/KB7nptX0W9HRqAjzgjYgYC+ICqroCIAPGEEJtW+gf9zDLsBADNh31BMrvb5RCj
+         xLm/ySgjaCiNSQLjgz4wzS9SCKQoLI1y3IID4GY4Bqfg0glRYLiQvQMunSMqYrXJg0zQ
+         RYEikgpkzi3XsjIoCcT7+UFnGmRvEqcXWTUsnT2K7vSEsr7slLsf9ueLZTs/7WueQ2GK
+         8/0A==
+X-Gm-Message-State: AOJu0YzJvjjviUHRQ3NafjYZgcPM69BmF1ZdMAhmdn3UI7Ruv/P/fPF3
+	oC6IcMlufIY3NqmoYH1hiVVGJF5wVKh/fNboEldNlQVT0dGWLpSdfDlTxl1cTicw
+X-Gm-Gg: AR+sD10kjyUj1EkI2BeyLV8mHkjvKkctUwiNBdxS7wReYQT6V6pm/CDIqHUaJ+tz60G
+	4g8TvHs4cUFGKlF2MiW3LcT+OtJL7+SeyKjuJUPcOAQXBhQyiCTL/u+2YSq7C6k/N2wXabCHNdK
+	RUoKqw8eTIr5bEl7i4sVUlKZmYWCBpitWklTKX5Dd5x5LWJW7mozRmhyszKTu1Wyr1zJkCK7YKJ
+	VUQrmNf4+JQdzSuadr1KvGtHIOakBGQM14neLt0V/ed71BTaEFDgFRs6Qr+fiUJo3zewiBnoF4K
+	JnVG7L/ScJ1yDgZS0tyU4p1Y6BOOJyi/3m58tXHjtm3xo91778XjeHadbbKa5lKi2KCLplAcUuj
+	dXczFQjkzt7xOoLL2JRBaBPCEKYd8/vIl4k+lOws+WoDjVsFFkNPIGiBlxd+fzyNsyrrBe0ID/C
+	5SaG0L5KugrGKTpONFWML6Klie1RC3LklUpd6VHQZsa3LhwJUc/ZnsNMVItYddG+BGzNxiuXSHd
+	vrtAvcolsUnrepDBLBudsUpUNEAw6a763aZoELvTqiZ2kp89SPSWhue4s7/wIA4Y/6X4Ts56cbe
+	T/v41aSnRRF6CRijuRlPd8Blc4mjY/rTsy2rhrHVsp+PsEe4yESRBhrCYeHi1w==
+X-Received: by 2002:a05:6214:3912:b0:8f3:e97:59b8 with SMTP id 6a1803df08f44-90a346e2a01mr33017966d6.29.1786128941696;
+        Fri, 07 Aug 2026 11:55:41 -0700 (PDT)
 Received: from [127.0.1.1] (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-908a932e552sm14463156d6.39.2026.08.07.11.31.31
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-908a9348e70sm14972016d6.43.2026.08.07.11.55.40
         for <meta-virtualization@lists.yoctoproject.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Aug 2026 11:31:31 -0700 (PDT)
-Message-ID: <6a762483.ce53cff3.11d7ee.5f7c@mx.google.com>
-Date: Fri, 07 Aug 2026 11:31:31 -0700 (PDT)
+        Fri, 07 Aug 2026 11:55:41 -0700 (PDT)
+Message-ID: <6a762a2d.0a531e61.138fdb.127d@mx.google.com>
+Date: Fri, 07 Aug 2026 11:55:41 -0700 (PDT)
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 To: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [meta-virtualization][PATCH v3] Add Eclipse Ankaios container
- orchestrator recipe
-In-Reply-To: <20260807073153.2186092-1-kaloyan.rusev@elektrobit.com>
-References: <20260806110607.1627844-1-kaloyan.rusev@elektrobit.com>
- <20260807073153.2186092-1-kaloyan.rusev@elektrobit.com>
+Subject: 
+ Re: [meta-virtualization] [meta-cloud-services] [PATCH] fix license error
+In-Reply-To: <20260807025036.1571-1-wangmy@fujitsu.com>
+References: <20260807025036.1571-1-wangmy@fujitsu.com>
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 MIME-Version: 1.0
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Fri, 07 Aug 2026 18:31:41 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/10039
+ <meta-virtualization@lists.yoctoproject.org>; Fri, 07 Aug 2026 18:55:51 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/10040
 
-Thanks Kaloyan, and enjoy the vacation.
+Hi Wang,
 
-The v2->v3 changes address what I had, and the license comment
-referencing deny.toml with the specific crate mappings
-(ring / foldhash / borrow-or-share / unicode-ident) is exactly the
-audit I was looking for.
+Individually each of these changes looks right, but the commit as
+posted bundles ~5 unrelated fixes under "fix license error" and I'd
+like a v2 split before I take them. Bisect-hostile if any one turns
+out to have side effects, and the subject undersells (and mis-names)
+most of what's in there.
 
-The end-to-end test image + README is a nice add too -- it makes this
-actually reviewable in a QEMU boot rather than just parsing cleanly.
+Suggested split, one commit per logical change:
 
-Two things I'd like fixed before I take it. Neither is urgent; happy
-to hold until you're back.
+  1. python3-*: use SPDX-2 BSD-3-Clause instead of bare BSD
 
-1. LICENSE uses the old bitbake-style '&' separator:
+     The 11 recipes that just swap LICENSE = "BSD" for
+     LICENSE = "BSD-3-Clause". Pure license syntax cleanup, matches
+     what OE-core is asking for.
 
-     LICENSE =3D "Apache-2.0 & MIT & BSD-3-Clause & ISC & Unicode-3.0 & Zlib =
-& MIT-0 & OpenSSL"
+  2. python3-django-nose, python3-nose-exclude: drop dead python3-nose
+     RDEPENDS
 
-   OE-core now emits a "LICENSE is using an old syntax" warning for
-   that form -- it wants SPDX-2 with 'AND' / 'OR', alphabetized, no
-   commas. We just did a layer-wide sweep for exactly this warning, so
-   a brand new recipe on '&' would go straight back into the same
-   pile. Suggested:
+     python3-nose is Python-2-era and has been removed upstream. The
+     django-nose swap to python3-nose-exclude belongs here too.
 
-     LICENSE =3D "Apache-2.0 AND BSD-3-Clause AND ISC AND MIT AND MIT-0 AND O=
-penSSL AND Unicode-3.0 AND Zlib"
+  3. python3-pecan: migrate to python_setuptools_build_meta
 
-   MIT-0 might need special handling if oe-core's COMMON_LICENSE_DIR
-   doesn't ship it
+     PEP 517 backend switch + the scripts= sed in setup.py. Not a
+     license fix.
 
-2. The inherit line and the comment above it disagree. The comment
-   says:
+  4. python3-pysnmp: replace dead pycrypto with pycryptodome
 
-     # Add cargo-update-recipe-crates so `bitbake -c update_crates
-     # ankaios` works for future maintenance
+     pycrypto is EOL upstream and gone from oe-core; pycryptodome is
+     the maintained fork.
 
-   but the actual inherit is:
+  5. python3-testscenarios: update to 0.6.2
 
-     inherit cargo systemd update-rc.d
+     PV bump, dual-license update to "Apache-2.0 OR BSD-3-Clause",
+     backend switch to python_hatchling, dependencies. All belongs
+     together as one version-bump commit.
 
-   cargo-update-recipe-crates isn't there, so `bitbake -c
-   update_crates ankaios` won't actually work. Presumably you meant:
-
-     inherit cargo cargo-update-recipe-crates systemd update-rc.d
-
-   That was the intent I was checking for -- future SRCREV bumps
-   should be a `bitbake ankaios -c update_crates` away rather than a
-   hand rebuild of ankaios-crates.inc.
-
-Small style thing (not a blocker): `require ${BPN}-crates.inc` sits
-above `inherit cargo`. Usually `inherit cargo` goes first and the
-require comes after. Doesn't break anything the way you have it, but
-it's what most cargo recipes in the layer look like.
-
-I'll wait for v4.
+The 12006 open-iscsi-kernel removal I've taken as-is, thanks.
 
 Bruce
 
