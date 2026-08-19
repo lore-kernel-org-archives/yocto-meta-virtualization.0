@@ -2,197 +2,108 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90A64C5DF87
-	for <webhook@archiver.kernel.org>; Wed, 19 Aug 2026 09:45:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85BD4C5DF86
+	for <webhook@archiver.kernel.org>; Wed, 19 Aug 2026 09:45:34 +0000 (UTC)
 Received: from esa6.hc1455-7.c3s2.iphmx.com (esa6.hc1455-7.c3s2.iphmx.com [68.232.139.139])
  by mx.groups.io with SMTP id smtpd.msgproc02-g2.3507.1787132720281837314
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 19 Aug 2026 02:45:20 -0700
+ Wed, 19 Aug 2026 02:45:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=HlxMDgbY;
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=q1Wo23dj;
  spf=pass (domain: fujitsu.com, ip: 68.232.139.139, mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1787132724; x=1818668724;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=tSafQ/iwNr+APz7UwBxyU9njyBFr1UIrYJYwJVWZhLs=;
-  b=HlxMDgbYqnKj0rcmgiWZ3fHNUGB67wGEAULWQpCW8+k6lpw4w+bzJoHj
-   kGarBJinrohwvU56Pps7cxorrEalpbyUA3M7oKU31wTCbmdL4bQQrpzd8
-   ajzsD/qFPDhsf6tfzlH6eRqda4A4KYSx2X2AkCh0zhEPaYTZlfIwK56Uw
-   xAj5uaQ9AJsTeHOSjiNb80I6TBtu33ARmmiRK6/JH4XuxR9PAwSM8Hrec
-   1+mu+1P1SSbmNj+LgHMNAjLN6pxhsLZxAdIVK+gGxEc98tV1alQ8Lvxqz
-   xsO0frsqIv2GTLM70jP0I2HAc/Lx7kiG/n79J2fD+gMB3Y14qpDZxeg8X
+  t=1787132729; x=1818668729;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=R3z1t4HuxPhdx/uSbsWB4ek5IW1KfYIz9ova3CCBaBU=;
+  b=q1Wo23djOS8Qt9MZRlqOtsNqpe3SPDSRTgImMOTh3gvxT3zcEKoELQ0a
+   6pwZCnssXc/pSXpitzZ9C4rKVHdxeCsa8EhqdFJ55yBSjPodYieTfNX7H
+   V8Wfk6HcqnAuknvKuQVuslVmcqFh0a2zGMmGxlOPXdI1YjIvpD5oPgY/z
+   7HOomLi/xUJO7UnZCtJwEPEqk3tTnGhy63ZG/GIr5vmYW071PQwV64+uM
+   q3SpqT2l7RiAdzu4tFmglMJTOr8z+Hv5X/SXFy8c8Q5n8YtyZi09wYUO4
+   m9chIvyPnJIUXJ+X7EUMwpdfsufx6ttvANm99rlWj9bWq2IT4QL+HqlhW
    A==;
-X-CSE-ConnectionGUID: 3I4a0YVST8WI473n0HdCPw==
-X-CSE-MsgGUID: gFlyTATRR5GGGHJnuuEHaQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11879"; a="255508760"
+X-CSE-ConnectionGUID: MlZsUM2HT+aob2TzkyfW3Q==
+X-CSE-MsgGUID: KX3zwj5sQQWX5rEUIEvjNw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11879"; a="255508772"
 X-IronPort-AV: E=Sophos;i="6.25,231,1779116400"; 
-   d="scan'208";a="255508760"
-Received: from gmgwuk01.global.fujitsu.com ([172.187.114.235])
-  by esa6.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2026 18:45:22 +0900
-Received: from az2uksmgm2.o.css.fujitsu.com (unknown [10.151.22.199])
+   d="scan'208";a="255508772"
+Received: from gmgwnl01.global.fujitsu.com ([52.143.17.124])
+  by esa6.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2026 18:45:29 +0900
+Received: from az2nlsmgm2.o.css.fujitsu.com (unknown [10.150.26.202])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by gmgwuk01.global.fujitsu.com (Postfix) with ESMTPS id 8582E8200BD
-	for <meta-virtualization@lists.yoctoproject.org>; Wed, 19 Aug 2026 09:45:18 +0000 (UTC)
+	by gmgwnl01.global.fujitsu.com (Postfix) with ESMTPS id BFBD9100037F
+	for <meta-virtualization@lists.yoctoproject.org>; Wed, 19 Aug 2026 09:45:25 +0000 (UTC)
 Received: from az2nlsmom4.fujitsu.com (unknown [10.150.26.201])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by az2uksmgm2.o.css.fujitsu.com (Postfix) with ESMTPS id 398E91800264
-	for <meta-virtualization@lists.yoctoproject.org>; Wed, 19 Aug 2026 09:45:18 +0000 (UTC)
+	by az2nlsmgm2.o.css.fujitsu.com (Postfix) with ESMTPS id 732111C135EB
+	for <meta-virtualization@lists.yoctoproject.org>; Wed, 19 Aug 2026 09:45:25 +0000 (UTC)
 Received: from G08FNSTD200057.g08.fujitsu.local (unknown [10.167.135.104])
-	by az2nlsmom4.fujitsu.com (Postfix) with ESMTP id 11EE7200076A;
-	Wed, 19 Aug 2026 09:45:15 +0000 (UTC)
+	by az2nlsmom4.fujitsu.com (Postfix) with ESMTP id 7118E200076A;
+	Wed, 19 Aug 2026 09:45:23 +0000 (UTC)
 From: Wang Mingyu < wangmy@fujitsu.com>
 To: meta-virtualization@lists.yoctoproject.org
 Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [meta-virtualization] [meta-cloud-services] [PATCH 1/5] python3-*: Use SPDX-2 BSD-3-Clause instead of bare BSD
-Date: Wed, 19 Aug 2026 17:45:08 +0800
-Message-ID: <20260819094512.1153-1-wangmy@fujitsu.com>
+Subject: [meta-virtualization] [meta-cloud-services] [PATCH 5/5] python3-testscenarios: update to 0.6.2
+Date: Wed, 19 Aug 2026 17:45:12 +0800
+Message-ID: <20260819094512.1153-5-wangmy@fujitsu.com>
 X-Mailer: git-send-email 2.55.0.windows.3
+In-Reply-To: <20260819094512.1153-1-wangmy@fujitsu.com>
+References: <20260819094512.1153-1-wangmy@fujitsu.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Wed, 19 Aug 2026 09:45:24 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/10043
+ <meta-virtualization@lists.yoctoproject.org>; Wed, 19 Aug 2026 09:45:34 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/10047
 
 From: Wang Mingyu <wangmy@fujitsu.com>
 
+PV bump, dual-license update to "Apache-2.0 OR BSD-3-Clause",
+backend switch to python_hatchling, dependencies.
+
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../recipes-devtools/python/python3-cssselect_1.1.0.bb          | 2 +-
- .../recipes-devtools/python/python3-django-appconf_1.0.4.bb     | 2 +-
- .../recipes-devtools/python/python3-django-babel_0.6.2.bb       | 2 +-
- .../recipes-devtools/python/python3-dogpile.cache_1.1.2.bb      | 2 +-
- meta-openstack/recipes-devtools/python/python3-kombu_5.0.2.bb   | 2 +-
- .../recipes-devtools/python/python3-logutils_0.3.5.bb           | 2 +-
- .../recipes-devtools/python/python3-setuptools-git_1.2.bb       | 2 +-
- .../recipes-devtools/python/python3-unicodecsv_0.14.1.bb        | 2 +-
- .../recipes-devtools/python/python3-voluptuous_0.12.0.bb        | 2 +-
- 9 files changed, 9 insertions(+), 9 deletions(-)
+ ...narios_0.5.0.bb => python3-testscenarios_0.6.2.bb} | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
+ rename meta-openstack/recipes-devtools/python/{python3-testscenarios_0.5.0.bb => python3-testscenarios_0.6.2.bb} (61%)
 
-diff --git a/meta-openstack/recipes-devtools/python/python3-cssselect_1.1.0.bb b/meta-openstack/recipes-devtools/python/python3-cssselect_1.1.0.bb
-index a13a2183..592c640c 100644
---- a/meta-openstack/recipes-devtools/python/python3-cssselect_1.1.0.bb
-+++ b/meta-openstack/recipes-devtools/python/python3-cssselect_1.1.0.bb
-@@ -1,7 +1,7 @@
- DESCRIPTION = "cssselect parses CSS3 Selectors and translates them to XPath 1.0"
- HOMEPAGE = "http://packages.python.org/cssselect/"
+diff --git a/meta-openstack/recipes-devtools/python/python3-testscenarios_0.5.0.bb b/meta-openstack/recipes-devtools/python/python3-testscenarios_0.6.2.bb
+similarity index 61%
+rename from meta-openstack/recipes-devtools/python/python3-testscenarios_0.5.0.bb
+rename to meta-openstack/recipes-devtools/python/python3-testscenarios_0.6.2.bb
+index 79b03fb7..2a9dd71c 100644
+--- a/meta-openstack/recipes-devtools/python/python3-testscenarios_0.5.0.bb
++++ b/meta-openstack/recipes-devtools/python/python3-testscenarios_0.6.2.bb
+@@ -1,16 +1,17 @@
+ DESCRIPTION = "testscenarios: a pyunit extension for dependency injection"
+ HOMEPAGE = "https://pypi.python.org/pypi/testscenarios"
  SECTION = "devel/python"
 -LICENSE = "BSD"
-+LICENSE = "BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=952026b3fd2f625f2a3c0aa21da2493d"
+-LIC_FILES_CHKSUM = "file://BSD;md5=0805e4f024d089a52dca0671a65b8b66"
++LICENSE = "Apache-2.0 OR BSD-3-Clause"
++LIC_FILES_CHKSUM = "file://BSD;md5=0805e4f024d089a52dca0671a65b8b66 \
++                    file://Apache-2.0;md5=3b83ef96387f14655fc854ddc3c6bd57"
  
- SRC_URI[md5sum] = "fa57704c1cb66cc8e537b782bd6b227e"
-diff --git a/meta-openstack/recipes-devtools/python/python3-django-appconf_1.0.4.bb b/meta-openstack/recipes-devtools/python/python3-django-appconf_1.0.4.bb
-index cffcb353..7d334e81 100644
---- a/meta-openstack/recipes-devtools/python/python3-django-appconf_1.0.4.bb
-+++ b/meta-openstack/recipes-devtools/python/python3-django-appconf_1.0.4.bb
-@@ -1,7 +1,7 @@
- DESCRIPTION = "A helper class for handling configuration defaults of packaged apps gracefully."
- HOMEPAGE = "http://django-appconf.readthedocs.org/"
- SECTION = "devel/python"
--LICENSE = "BSD"
-+LICENSE = "BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=3f34b9b2f6413fd5f91869fa7e992457"
+-SRC_URI[md5sum] = "859073d9e7b049aee2e6704c51f6001a"
+-SRC_URI[sha256sum] = "c257cb6b90ea7e6f8fef3158121d430543412c9a87df30b5dde6ec8b9b57a2b6"
++SRC_URI[sha256sum] = "ab5ae8cd550e11ea978151981e7a8ecac329b7b22e4dec706b1e6fe213f463e7"
  
- SRC_URI[md5sum] = "da4a355140acaa3eeb236987ab174e9d"
-diff --git a/meta-openstack/recipes-devtools/python/python3-django-babel_0.6.2.bb b/meta-openstack/recipes-devtools/python/python3-django-babel_0.6.2.bb
-index 0c4dd755..0cca5755 100644
---- a/meta-openstack/recipes-devtools/python/python3-django-babel_0.6.2.bb
-+++ b/meta-openstack/recipes-devtools/python/python3-django-babel_0.6.2.bb
-@@ -1,7 +1,7 @@
- DESCRIPTION = "Tools for using Babel with Django"
- HOMEPAGE = "https://github.com/python-babel/django-babel"
- SECTION = "devel/python"
--LICENSE = "BSD"
-+LICENSE = "BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://COPYING;md5=5ae97ab65116b8d7890c59de57577b46"
+-inherit setuptools3 pypi
++inherit python_hatchling pypi
  
- inherit setuptools3 pypi
-diff --git a/meta-openstack/recipes-devtools/python/python3-dogpile.cache_1.1.2.bb b/meta-openstack/recipes-devtools/python/python3-dogpile.cache_1.1.2.bb
-index 41e36333..f0970942 100644
---- a/meta-openstack/recipes-devtools/python/python3-dogpile.cache_1.1.2.bb
-+++ b/meta-openstack/recipes-devtools/python/python3-dogpile.cache_1.1.2.bb
-@@ -1,7 +1,7 @@
- DESCRIPTION = "Python Dogpile Cache: A caching front-end based on the Dogpile lock"
- HOMEPAGE = "https://pypi.python.org/pypi/dogpile.cache"
- SECTION = "devel/python"
--LICENSE = "BSD"
-+LICENSE = "BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=6d830a549d9d8c25362346e0f8fbba53"
+ DEPENDS += "\
+     ${PYTHON_PN}-pbr \
++    ${PYTHON_PN}-hatch-vcs-native \
+     "
  
- SRC_URI[md5sum] = "fb9bea726156560d03890599c4cd92e0"
-diff --git a/meta-openstack/recipes-devtools/python/python3-kombu_5.0.2.bb b/meta-openstack/recipes-devtools/python/python3-kombu_5.0.2.bb
-index bd06f3ee..a3c97314 100644
---- a/meta-openstack/recipes-devtools/python/python3-kombu_5.0.2.bb
-+++ b/meta-openstack/recipes-devtools/python/python3-kombu_5.0.2.bb
-@@ -1,7 +1,7 @@
- DESCRIPTION = "A messaging framework for Python"
- HOMEPAGE = "http://kombu.readthedocs.org"
- SECTION = "devel/python"
--LICENSE = "BSD"
-+LICENSE = "BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=daea7c168428449fbee05e644df929f4"
- 
- SRC_URI[md5sum] = "52192e631ac39a443fb1abeb52299f22"
-diff --git a/meta-openstack/recipes-devtools/python/python3-logutils_0.3.5.bb b/meta-openstack/recipes-devtools/python/python3-logutils_0.3.5.bb
-index c0068559..2024ee0d 100644
---- a/meta-openstack/recipes-devtools/python/python3-logutils_0.3.5.bb
-+++ b/meta-openstack/recipes-devtools/python/python3-logutils_0.3.5.bb
-@@ -1,7 +1,7 @@
- DESCRIPTION = "Set of handlers for the Python standard library's logging package"
- HOMEPAGE = "https://pypi.python.org/pypi/logutils"
- SECTION = "devel/python"
--LICENSE = "BSD"
-+LICENSE = "BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=44c35f0b8e2a27a2f33a4e4a5c65d014"
- 
- SRC_URI[md5sum] = "fcd2f8e9217bfa0b580f253b35a9d954"
-diff --git a/meta-openstack/recipes-devtools/python/python3-setuptools-git_1.2.bb b/meta-openstack/recipes-devtools/python/python3-setuptools-git_1.2.bb
-index 98fec91f..7554cc33 100644
---- a/meta-openstack/recipes-devtools/python/python3-setuptools-git_1.2.bb
-+++ b/meta-openstack/recipes-devtools/python/python3-setuptools-git_1.2.bb
-@@ -1,7 +1,7 @@
- DESCRIPTION = "Plugin for setuptools that enables git integration"
- HOMEPAGE = "https://github.com/wichert/setuptools-git"
- SECTION = "devel/python"
--LICENSE = "BSD"
-+LICENSE = "BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=3775480a712fc46a69647678acb234cb"
- 
- SRC_URI[md5sum] = "40b2ef7687a384ea144503c2e5bc67e2"
-diff --git a/meta-openstack/recipes-devtools/python/python3-unicodecsv_0.14.1.bb b/meta-openstack/recipes-devtools/python/python3-unicodecsv_0.14.1.bb
-index b11c3d85..3520a980 100644
---- a/meta-openstack/recipes-devtools/python/python3-unicodecsv_0.14.1.bb
-+++ b/meta-openstack/recipes-devtools/python/python3-unicodecsv_0.14.1.bb
-@@ -1,7 +1,7 @@
- SUMMARY = "Python2's stdlib csv module replacement with unicode support"
- HOMEPAGE = "https://github.com/jdunck/python-unicodecsv"
- SECTION = "devel/python"
--LICENSE = "BSD"
-+LICENSE = "BSD-3-Clause"
- 
- LIC_FILES_CHKSUM = "file://PKG-INFO;md5=776dee90d219355b4ffd5c06fda5a39d"
- 
-diff --git a/meta-openstack/recipes-devtools/python/python3-voluptuous_0.12.0.bb b/meta-openstack/recipes-devtools/python/python3-voluptuous_0.12.0.bb
-index 3e77e306..7b5e50b3 100644
---- a/meta-openstack/recipes-devtools/python/python3-voluptuous_0.12.0.bb
-+++ b/meta-openstack/recipes-devtools/python/python3-voluptuous_0.12.0.bb
-@@ -1,7 +1,7 @@
- DESCRIPTION = "Voluptuous is a Python data validation library"
- HOMEPAGE = "https://pypi.python.org/pypi/voluptuous/"
- SECTION = "devel/python"
--LICENSE = "BSD"
-+LICENSE = "BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://COPYING;md5=9855ba150f2edb00d8e7a41554896ffb"
- 
- SRC_URI[md5sum] = "4b628978d320baeee543ee407aefc0b1"
+ # Satisfy setup.py 'setup_requires'
 -- 
 2.43.0
 
