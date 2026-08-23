@@ -1,111 +1,127 @@
-Return-Path: <devanshp@cisco.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DFD5FC5DF88
-	for <webhook@archiver.kernel.org>; Fri, 21 Aug 2026 05:08:59 +0000 (UTC)
-Received: from alln-iport-8.cisco.com (alln-iport-8.cisco.com [173.37.142.95])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1071.1787288934386546446
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F64EC5DF8C
+	for <webhook@archiver.kernel.org>; Sun, 23 Aug 2026 10:04:06 +0000 (UTC)
+Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.11833.1787479439367043756
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 20 Aug 2026 22:08:54 -0700
+ Sun, 23 Aug 2026 03:04:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=aaAiNd7C;
- spf=pass (domain: cisco.com, ip: 173.37.142.95, mailfrom: devanshp@cisco.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=894; q=dns/txt;
-  s=iport01; t=1787288934; x=1788498534;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=TFP/7BNmL2sEY5Tfe34gkKGndv1qVDoCYwAp8BO0tF8=;
-  b=aaAiNd7CCVJhdoX1I99HfOe9T0y1T/0Ny9g4mrJVeViBbE8pg+hWyb+T
-   QRjJEhT4qE1XszCmtT2krw6+GDtcrjPjKDgqFMUmv50Koyspb442ix3kM
-   hdJuP+C17j6fVLQKLPlp99BS0Mnxm5ufMHLmZveDWovBkBSAFg5z+TTTm
-   2zF/vP1ZeY6eIEa/8NQPcLUqj06NQjnYmNgfVSri0Cjyd/jc0OfOdrezt
-   r+Or5NyzRJfBwf6FURylb5lnSDUj4QJzZ1tXAmOsfXQePKALXmeSrSl3y
-   fegHBm545hLvXnvohLVA7/zyVFS7YUlXQlUyWVqtBOAWeQ/L4mY0n2hTk
-   A==;
-X-CSE-ConnectionGUID: 13gbFpx4TB+wE25Q/IwMzw==
-X-CSE-MsgGUID: h41kQahYRr6MTBbI3rMKZw==
-X-IPAS-Result: =?us-ascii?q?A0D2AgA/3Idq/40QJK1RCYJZgld0XkNJk1kBoQ6Bfg8BA?=
- =?us-ascii?q?QEPMSAEAQGFBY1uAiY2Bw4BAgQDAgMBAQEBAQEBAQEBAQsBAQUBAQECAQcFg?=
- =?us-ascii?q?Q4Thk8Nhl02AUYwXESDAgGCdAPAWoIsgQGEfdswAQsUAQWBM4U/iCKFcicbG?=
- =?us-ascii?q?4FyhH6CYQKBNHmFeASCIoEMgXiRXkiBHgNZLAFVEw0KCwcFgWYDNRIqFW4yH?=
- =?us-ascii?q?YEjPheBDRsGBYEdgSiENyMZNnyBCV6BKyphARIXgQmCCgKCX4IFAgFJQw4HO?=
- =?us-ascii?q?gsYDUgRLDcUGQQ+bgeOWiCCRoEOLIFtpjWhDwoog3aMIZU6GjOFW6URLphai?=
- =?us-ascii?q?zeYbDeEaYFvCC2BWXAVgyIJShkPkiPMOScyPwcCBw8Ck3EBAQ?=
-IronPort-Data: A9a23:s8XDA6yVIy1JsmVzUwx6t+dnxyrEfRIJ4+MujC+fZmUNrF6WrkUHn
- GFOXD/TPfyPZGH9f9twPIqyoRsGu5bdz4dlT1Y9/lhgHilAwSbn6Xt1DatR0we6dJCroJdPt
- p1GAjX4BJlqCCea/VH1buSJQUBUjcmgXqD7BPPPJhd/TAplTDZJoR94kobVuKYw6TSCK13L4
- 46aT/H3Ygf/hWYkaDpMscpvlTs21BjMkGJA1rABTagjUG/2zxE9EJ8ZLKetGHr0KqE8NvK6X
- evK0Iai9Wrf+Ro3Yvv9+losWhRXKlJ6FVHmZkt+A8BOsDAbzsAB+vpT2M4nVKtio27hc+adZ
- zl6ncfYpQ8BZsUgkQmGOvVSO3kW0aZuoNcrLZUj2CCe5xWuTpfi/xlhJBhtMoc24vYrPUsN6
- tFCdQlKTw+mlf3jldpXSsE07igiBMDvOIVavjRryivUSK56B5vCWK7No9Rf2V/chOgXQq2YP
- JRfMGQpNUiZC/FMEg9/5JYWkOq2j3/kcyVwo1OOrq1x6G/WpOB0+Oi0boOEKoLSHa25mG6Y+
- jvFxm35MysAavmj4zCkqWiJpd3QyHaTtIU6UefQGuRRqFie2mVWFhwMSUaypfirg1K/XNR3L
- 00P5jFovK856EuzVN7/Uhak5nmesXYht8F4Guk+7kSJj6HT+QvcXjRCRT9aY9tgv8gzLdA36
- mK0cxrSLWQHmNWopbi1r994cRva1fApEFI/
-IronPort-HdrOrdr: A9a23:0w1W564fdaTjIuxQGwPXwOTXdLJyesId70hD6qm+c3Nom6uj5q
- WTdZsgtCMc5Ax9ZJhCo6HjBED/exPhHPdOiOF7V4tKNzOJhILHFu1fBKLZslnd8lXFh41g/J
- YlVbRiA9vtClU/p8P77A6kV+sE+rC8gceVbSO09QYVcemsAJsQiTtENg==
-X-Talos-CUID: 9a23:Cg1ZEG02o9kZonrinexxbLxfQ5sqeFPF3CvsCQynJDw0cfq0VnqC5/Yx
-X-Talos-MUID: 9a23:m30gAwpUIs+8pgd4LrAezzE+bcRR6qSfMlpTtKkssejfLwlTCSjI2Q==
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="6.25,234,1779148800"; 
-   d="scan'208";a="816198600"
-Received: from alln-l-core-04.cisco.com ([173.36.16.141])
-  by alln-iport-8.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 21 Aug 2026 05:08:53 +0000
-Received: from sjc-ads-5197.cisco.com (sjc-ads-5197.cisco.com [10.28.35.211])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
-	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
-	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
-	by alln-l-core-04.cisco.com (Postfix) with ESMTPS id 7432418000481;
-	Fri, 21 Aug 2026 05:08:53 +0000 (GMT)
-Received: by sjc-ads-5197.cisco.com (Postfix, from userid 1887503)
-	id 1A079CC12A6; Thu, 20 Aug 2026 22:08:53 -0700 (PDT)
-From: "Devansh Patel -X (devanshp - E INFOCHIPS PRIVATE LIMITED at Cisco)" <devanshp@cisco.com>
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=eEL0fKjq;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-256628-2026082310035592d5563ca60002079d-hpwl6n@rts-flowmailer.siemens.com)
+Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 2026082310035592d5563ca60002079d
+        for <meta-virtualization@lists.yoctoproject.org>;
+        Sun, 23 Aug 2026 12:03:56 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=tFlqFaFTRUUE6Wi1/IMVHdNEpZHfa7EM/ajPmf7cSng=;
+ b=eEL0fKjqsaKtv5xVHsSPXc2id/Riu9yMhpFpXgLntw7aUsBk/pNzVTpLUIVevOY2IilIF5
+ vwxHP//1sAZAfp6f5Zb61ZUzIAvlnZwDwwXb58Vih2XWzMu6Fe+mtJoY1OIb9TtGhAweaVvl
+ pYJcbga81gd3L6+94pwye6H8gm/ALvWhEVXI9kz/qJTNC6sB4IqX5tl9h25SUSZ0IqSO7Ksn
+ peRxnYvofAYKqEyzHCsxC6Od2AJL4dzYgX+dEC1FgVHo8Rw0N2FX6n6zsWMz7ppwo1bvJZ6K
+ QgmVElfJVO7fcmkcO0E82TZU1+zxf8wRHFfV91xMbYg9JbqO62k3+VcQ==;
+From: Peter Marko <peter.marko@siemens.com>
 To: meta-virtualization@lists.yoctoproject.org
-Cc: xe-linux-external@cisco.com
-Subject: [meta-virtualization][PATCH] go-logrus: correct CVE_PRODUCT mapping
-Date: Thu, 20 Aug 2026 22:08:53 -0700
-Message-Id: <20260821050853.52159-1-devanshp@cisco.com>
-X-Mailer: git-send-email 2.35.6
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [meta-virtualization][wrynose][PATCH 1/2] crun: patch CVE-2026-30892
+Date: Sun, 23 Aug 2026 12:03:28 +0200
+Message-ID: <20260823100330.3784951-1-peter.marko@siemens.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Auto-Response-Suppress: DR, OOF, AutoReply
-X-Outbound-Client-TLS: VERIFIED;sjc-ads-5197.cisco.com [10.28.35.211];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
-X-Outbound-SMTP-Client: 10.28.35.211, sjc-ads-5197.cisco.com
-X-Outbound-Node: alln-l-core-04.cisco.com
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Fri, 21 Aug 2026 05:08:59 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/10060
+ <meta-virtualization@lists.yoctoproject.org>; Sun, 23 Aug 2026 10:04:06 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/10061
 
-From: Devansh Patel <devanshp@cisco.com>
+From: Peter Marko <peter.marko@siemens.com>
 
-The default "go-logrus" product does not match the packaged Logrus identity in NVD, so its CVE records are not associated with the recipe.
+Pick patch per [1].
 
-Use "turbopuffer:logrus", the exact NVD identity for the github.com/sirupsen/logrus source.
+[1] https://security-tracker.debian.org/tracker/CVE-2026-30892
 
-Signed-off-by: Devansh Patel <devanshp@cisco.com>
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- recipes-devtools/go/go-logrus_git.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ .../crun/crun/CVE-2026-30892.patch            | 53 +++++++++++++++++++
+ recipes-containers/crun/crun_git.bb           |  1 +
+ 2 files changed, 54 insertions(+)
+ create mode 100644 recipes-containers/crun/crun/CVE-2026-30892.patch
 
-diff --git a/recipes-devtools/go/go-logrus_git.bb b/recipes-devtools/go/go-logrus_git.bb
-index 7b9e31a5..4f8a255e 100644
---- a/recipes-devtools/go/go-logrus_git.bb
-+++ b/recipes-devtools/go/go-logrus_git.bb
-@@ -12,6 +12,8 @@ SRC_URI = "git://${PKG_NAME};branch=master;protocol=https"
- SRCREV = "a29884b9be3dc22c18338c0fe5a51d23e69731e4"
- PV = "1.9.4+git"
- 
-+CVE_PRODUCT = "turbopuffer:logrus"
+diff --git a/recipes-containers/crun/crun/CVE-2026-30892.patch b/recipes-containers/crun/crun/CVE-2026-30892.patch
+new file mode 100644
+index 00000000..3d900cc3
+--- /dev/null
++++ b/recipes-containers/crun/crun/CVE-2026-30892.patch
+@@ -0,0 +1,53 @@
++From 1bd7f42446999b0e76bc3d575392e05c943b0b01 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Erik=20Sj=C3=B6lund?= <erik.sjolund@gmail.com>
++Date: Sat, 7 Mar 2026 19:19:41 +0100
++Subject: [PATCH] exec: fix CVE-2026-30892
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
 +
- inherit meta-virt-depreciated-warning
++Fix parsing of the -u (--user) option for "crun exec".
++
++Before:
++Value "1" is interpreted as UID=0 GID=0
++
++After:
++Value "1" is interpreted as UID=1 GID=0
++
++Commit 85d4db3d8b27c9ca606eea5f007c58a752ae77aa introduced the
++regression.
++
++Reference:
++https://github.com/containers/crun/security/advisories/GHSA-4vg2-xjqj-7chj
++
++Signed-off-by: Erik Sjölund <erik.sjolund@gmail.com>
++
++CVE: CVE-2026-30892
++Upstream-Status: Backport [https://github.com/containers/crun/commit/1bd7f42446999b0e76bc3d575392e05c943b0b01]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ src/exec.c | 7 +++----
++ 1 file changed, 3 insertions(+), 4 deletions(-)
++
++diff --git a/src/exec.c b/src/exec.c
++index 36c6084c..5713bbcf 100644
++--- a/src/exec.c
+++++ b/src/exec.c
++@@ -214,14 +214,13 @@ make_oci_process_user (const char *userspec)
++   l = strtoll (userspec, &endptr, 10);
++   if (errno == ERANGE)
++     libcrun_fail_with_error (0, "invalid UID specified");
+++  if (l < INT_MIN || l > INT_MAX)
+++    libcrun_fail_with_error (0, "invalid UID specified");
+++  u->uid = (int) l;
++   if (*endptr == '\0')
++     return u;
++   if (*endptr != ':')
++     libcrun_fail_with_error (0, "invalid USERSPEC specified");
++-  if (l < INT_MIN || l > INT_MAX)
++-    libcrun_fail_with_error (0, "invalid UID specified");
++-
++-  u->uid = (int) l;
++ 
++   errno = 0;
++   l = strtoll (endptr + 1, &endptr, 10);
+diff --git a/recipes-containers/crun/crun_git.bb b/recipes-containers/crun/crun_git.bb
+index ea14e8ec..e8d87484 100644
+--- a/recipes-containers/crun/crun_git.bb
++++ b/recipes-containers/crun/crun_git.bb
+@@ -17,6 +17,7 @@ SRC_URI = "git://github.com/containers/crun.git;branch=main;name=crun;protocol=h
+            git://github.com/containers/yajl.git;branch=main;name=yajl;destsuffix=${BB_GIT_DEFAULT_DESTSUFFIX}/libocispec/yajl;protocol=https \
+            file://0001-libocispec-correctly-parse-JSON-schema-references.patch;patchdir=libocispec \
+            file://0002-libocispec-fix-array-items-parsing.patch;patchdir=libocispec \
++           file://CVE-2026-30892.patch \
+           "
  
- do_install() {
--- 
-2.35.6
+ PV = "1.26.0+git"
 
