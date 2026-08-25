@@ -1,236 +1,67 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <jaeyoon.jung@lge.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 205D5C5DF9B
-	for <webhook@archiver.kernel.org>; Sun, 23 Aug 2026 10:04:06 +0000 (UTC)
-Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.12045.1787479442068630783
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 29928C61DB4
+	for <webhook@archiver.kernel.org>; Tue, 25 Aug 2026 10:24:34 +0000 (UTC)
+Received: from lgeamrelo11.lge.com (lgeamrelo11.lge.com [156.147.23.51])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.18493.1787653470229927312
  for <meta-virtualization@lists.yoctoproject.org>;
- Sun, 23 Aug 2026 03:04:03 -0700
+ Tue, 25 Aug 2026 03:24:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=Ydm+5yk6;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-256628-20260823100400d7ea8a43d70002075e-5j_mz4@rts-flowmailer.siemens.com)
-Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 20260823100400d7ea8a43d70002075e
-        for <meta-virtualization@lists.yoctoproject.org>;
-        Sun, 23 Aug 2026 12:04:00 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=N2+EukumVTcY62MvOMpIW3asqghGwOg+TsXEmh0phIg=;
- b=Ydm+5yk6zRxC78nh7gzPYlqMxT0XzLLzVgkdBK/K+ix2977Pst5CCvoA4KBJ4fLninoPJb
- Se+AVfFFujesNkW2bAEsb1J1UXXJ1nuMAiO6o/JgkOXNvyn01W1WvRLprlKcl8+ftQvDU0gJ
- 06xtdOhbAm3CJemyaPG511mzPdqu6T9054Kjqa7FOFGEkqWmWoIiJnTmTNIGNohklvw2kuZf
- 4vw3OmN6VPZ8twHClYW3P20iNoF2N/LpvaQkWqxQhNqx2WiEOVmWuWTKdTPSoY2MfW4d7QrJ
- ExFRZXl2XvFYVr8oQd9TTPa+mJkb+4zh19ZIoknQqp6LjMqn2BXIrbSw==;
-From: Peter Marko <peter.marko@siemens.com>
+ dkim=none (message not signed); spf=pass (domain: lge.com, ip: 156.147.23.51, mailfrom: jaeyoon.jung@lge.com)
+Received: from unknown (HELO lgemrelse6q.lge.com) (156.147.1.121)
+	by 156.147.23.51 with ESMTP; 25 Aug 2026 19:24:28 +0900
+X-Original-SENDERIP: 156.147.1.121
+X-Original-MAILFROM: jaeyoon.jung@lge.com
+Received: from unknown (HELO magneto) (10.177.121.44)
+	by 156.147.1.121 with ESMTP; 25 Aug 2026 19:24:28 +0900
+X-Original-SENDERIP: 10.177.121.44
+X-Original-MAILFROM: jaeyoon.jung@lge.com
+From: jaeyoon.jung@lge.com
 To: meta-virtualization@lists.yoctoproject.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [meta-virtualization][wrynose][PATCH 2/2] crun: patch CVE-2026-47766
-Date: Sun, 23 Aug 2026 12:03:29 +0200
-Message-ID: <20260823100330.3784951-2-peter.marko@siemens.com>
-In-Reply-To: <20260823100330.3784951-1-peter.marko@siemens.com>
-References: <20260823100330.3784951-1-peter.marko@siemens.com>
+Cc: Jaeyoon Jung <jaeyoon.jung@lge.com>
+Subject: [PATCH] irqbalance: add PACKAGECONFIG for ui
+Date: Tue, 25 Aug 2026 19:24:24 +0900
+Message-ID: <20260825102425.3092801-1-jaeyoon.jung@lge.com>
+X-Mailer: git-send-email 2.53.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Sun, 23 Aug 2026 10:04:06 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/10062
+ <meta-virtualization@lists.yoctoproject.org>; Tue, 25 Aug 2026 10:24:34 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/10063
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Jaeyoon Jung <jaeyoon.jung@lge.com>
 
-Pick patch per [1].
+Add 'ui' to PACKAGECONFIG, corresponding to the '--with-irqbalance-ui'
+configure option along with an explicit build dependency on ncurses.
+Add it to the default PACKAGECONFIG since the feature is enabled by
+default unless '--without-irqbalance-ui' is specified.
 
-[1] https://security-tracker.debian.org/tracker/CVE-2026-47766
-
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Jaeyoon Jung <jaeyoon.jung@lge.com>
 ---
- .../crun/crun/CVE-2026-47766.patch            | 161 ++++++++++++++++++
- recipes-containers/crun/crun_git.bb           |   1 +
- 2 files changed, 162 insertions(+)
- create mode 100644 recipes-containers/crun/crun/CVE-2026-47766.patch
+ recipes-extended/irqbalance/irqbalance.inc | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/recipes-containers/crun/crun/CVE-2026-47766.patch b/recipes-containers/crun/crun/CVE-2026-47766.patch
-new file mode 100644
-index 00000000..0a369b46
---- /dev/null
-+++ b/recipes-containers/crun/crun/CVE-2026-47766.patch
-@@ -0,0 +1,161 @@
-+From c6f338ac2e26e216ab7820b91863a0b84e608097 Mon Sep 17 00:00:00 2001
-+From: JUNYI LIU <moss80199.cs05@nycu.edu.tw>
-+Date: Mon, 25 May 2026 22:45:06 +0800
-+Subject: [PATCH] Do not follow rootfs /dev symlinks (CVE-2026-47766)
-+
-+Open rootfs /dev with safe_openat before creating default devices or handler-specific devices. This keeps rootfs-controlled /dev symlinks from redirecting device setup outside the container rootfs.
-+
-+Add a regression test covering a rootfs /dev symlink to an outside directory and verify that the outside target is not populated or replaced.
-+
-+Signed-off-by: JUNYI LIU <moss80199.cs05@nycu.edu.tw>
-+
-+CVE: CVE-2026-47766
-+Upstream-Status: Backport [https://github.com/containers/crun/commit/c6f338ac2e26e216ab7820b91863a0b84e608097]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ src/libcrun/handlers/krun.c |  4 +-
-+ src/libcrun/linux.c         |  4 +-
-+ tests/test_devices.py       | 84 +++++++++++++++++++++++++++++++++++++
-+ 3 files changed, 88 insertions(+), 4 deletions(-)
-+
-+diff --git a/src/libcrun/handlers/krun.c b/src/libcrun/handlers/krun.c
-+index 5e1f3e54..6e249a9b 100644
-+--- a/src/libcrun/handlers/krun.c
-++++ b/src/libcrun/handlers/krun.c
-+@@ -609,9 +609,9 @@ libkrun_configure_container (void *cookie, enum handler_configure_phase phase,
-+         }
-+     }
-+ 
-+-  devfd = openat (rootfsfd, "dev", O_PATH | O_DIRECTORY | O_CLOEXEC);
-++  devfd = safe_openat (rootfsfd, rootfs, "dev", O_PATH | O_DIRECTORY | O_CLOEXEC, 0, err);
-+   if (UNLIKELY (devfd < 0))
-+-    return crun_make_error (err, errno, "open /dev directory in `%s`", rootfs);
-++    return devfd;
-+ 
-+   ret = check_running_in_user_namespace (err);
-+   if (UNLIKELY (ret < 0))
-+diff --git a/src/libcrun/linux.c b/src/libcrun/linux.c
-+index 24569dec..fcb62dbf 100644
-+--- a/src/libcrun/linux.c
-++++ b/src/libcrun/linux.c
-+@@ -1754,9 +1754,9 @@ create_missing_devs (libcrun_container_t *container, bool binds, libcrun_error_t
-+   if (! def || ! def->linux)
-+     return 0;
-+ 
-+-  devfd = openat (get_private_data (container)->rootfsfd, "dev", O_CLOEXEC | O_PATH | O_DIRECTORY);
-++  devfd = safe_openat (get_private_data (container)->rootfsfd, rootfs, "dev", O_CLOEXEC | O_PATH | O_DIRECTORY, 0, err);
-+   if (UNLIKELY (devfd < 0))
-+-    return crun_make_error (err, errno, "open `/dev` directory in `%s`", rootfs);
-++    return devfd;
-+ 
-+   for (i = 0; i < def->linux->devices_len; i++)
-+     {
-+diff --git a/tests/test_devices.py b/tests/test_devices.py
-+index 1a973025..4f0a2bb6 100755
-+--- a/tests/test_devices.py
-++++ b/tests/test_devices.py
-+@@ -18,6 +18,7 @@
-+ import os
-+ import subprocess
-+ import shutil
-++import json
-+ from tests_utils import *
-+ 
-+ def test_mode_device():
-+@@ -368,6 +369,88 @@ def test_mknod_char_device():
-+         return -1
-+     return 0
-+ 
-++def test_dev_symlink_does_not_populate_outside_rootfs():
-++    if is_rootless():
-++        return (77, "requires root privileges")
-++
-++    workdir = os.path.join(get_tests_root(), "dev-symlink")
-++    bundle = os.path.join(workdir, "bundle")
-++    rootfs = os.path.join(bundle, "rootfs")
-++    outside_dev = os.path.join(workdir, "outside-dev")
-++    runtime_root = os.path.join(workdir, "run")
-++    shutil.rmtree(workdir, ignore_errors=True)
-++    try:
-++        os.makedirs(rootfs)
-++        os.makedirs(outside_dev)
-++        os.makedirs(runtime_root)
-++        ptmx_marker = os.path.join(outside_dev, "ptmx")
-++        with open(ptmx_marker, "w") as f:
-++            f.write("outside marker\n")
-++
-++        os.symlink(outside_dev, os.path.join(rootfs, "dev"))
-++        shutil.copy2(get_init_path(), os.path.join(rootfs, "init"))
-++        os.chmod(os.path.join(rootfs, "init"), 0o755)
-++
-++        conf = {
-++            "ociVersion": "1.0.2",
-++            "process": {
-++                "terminal": False,
-++                "user": {"uid": 0, "gid": 0},
-++                "args": ["/init", "true"],
-++                "env": ["PATH=/bin"],
-++                "cwd": "/",
-++            },
-++            "root": {
-++                "path": "rootfs",
-++                "readonly": True,
-++            },
-++            "mounts": [
-++                {"destination": "/proc", "type": "proc", "source": "proc"},
-++            ],
-++            "linux": {
-++                "namespaces": [
-++                    {"type": "mount"},
-++                    {"type": "pid"},
-++                    {"type": "ipc"},
-++                    {"type": "uts"},
-++                ],
-++            },
-++        }
-++        with open(os.path.join(bundle, "config.json"), "w") as f:
-++            f.write(json.dumps(conf))
-++
-++        container_id = "test-dev-symlink"
-++        crun = get_crun_path()
-++
-++        try:
-++            subprocess.check_output([crun, "--root", runtime_root, "run", "-b", bundle, container_id],
-++                                    stderr=subprocess.STDOUT)
-++            logger.info("container unexpectedly started with rootfs /dev symlink")
-++            return -1
-++        except subprocess.CalledProcessError:
-++            pass
-++        finally:
-++            subprocess.run([crun, "--root", runtime_root, "delete", "-f", container_id],
-++                           stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-++
-++        outside_entries = sorted(os.listdir(outside_dev))
-++        if outside_entries != ["ptmx"]:
-++            logger.info("rootfs /dev symlink target was populated outside rootfs: %s", outside_entries)
-++            return -1
-++
-++        if os.path.islink(ptmx_marker):
-++            logger.info("rootfs /dev symlink target ptmx marker was replaced with a symlink")
-++            return -1
-++
-++        with open(ptmx_marker) as f:
-++            if f.read() != "outside marker\n":
-++                logger.info("rootfs /dev symlink target ptmx marker content changed")
-++                return -1
-++
-++        return 0
-++    finally:
-++        shutil.rmtree(workdir, ignore_errors=True)
-++
-+ def test_allow_device_read_only():
-+     if is_rootless():
-+         return (77, "requires root privileges")
-+@@ -425,6 +508,7 @@ def test_allow_device_read_only():
-+ all_tests = {
-+     "mknod-fifo-device": test_mknod_fifo_device,
-+     "mknod-char-device": test_mknod_char_device,
-++    "dev-symlink-does-not-populate-outside-rootfs": test_dev_symlink_does_not_populate_outside_rootfs,
-+     "allow-device-read-only": test_allow_device_read_only,
-+     "owner-device" : test_owner_device,
-+     "deny-devices" : test_deny_devices,
-diff --git a/recipes-containers/crun/crun_git.bb b/recipes-containers/crun/crun_git.bb
-index e8d87484..809b6c01 100644
---- a/recipes-containers/crun/crun_git.bb
-+++ b/recipes-containers/crun/crun_git.bb
-@@ -18,6 +18,7 @@ SRC_URI = "git://github.com/containers/crun.git;branch=main;name=crun;protocol=h
-            file://0001-libocispec-correctly-parse-JSON-schema-references.patch;patchdir=libocispec \
-            file://0002-libocispec-fix-array-items-parsing.patch;patchdir=libocispec \
-            file://CVE-2026-30892.patch \
-+           file://CVE-2026-47766.patch \
-           "
+diff --git a/recipes-extended/irqbalance/irqbalance.inc b/recipes-extended/irqbalance/irqbalance.inc
+index 0c570e12..a0dda231 100644
+--- a/recipes-extended/irqbalance/irqbalance.inc
++++ b/recipes-extended/irqbalance/irqbalance.inc
+@@ -28,12 +28,13 @@ EXTRA_OECONF = "--program-transform-name= \
  
- PV = "1.26.0+git"
+ # let the recipes or appends define options
+ #
+-PACKAGECONFIG ?= "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)}"
++PACKAGECONFIG ?= "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)} ui"
+ # enable,disable,depends,rdepends
+ #
+ PACKAGECONFIG[numa] = "--enable-numa,--disable-numa,numactl,"
+ PACKAGECONFIG[libcap-ng] = "--with-libcap-ng,--without-libcap-ng,libcap-ng,"
+ PACKAGECONFIG[systemd] = "--with-systemd --with-pkgconfdir=${sysconfdir},--with-pkgconfdir=${sysconfdir},systemd,"
++PACKAGECONFIG[ui] = "--with-irqbalance-ui,--without-irqbalance-ui,ncurses,"
+ 
+ do_install () {
+         oe_runmake 'DESTDIR=${D}' install
 
