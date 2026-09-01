@@ -2,77 +2,76 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DBA93C624D3
-	for <webhook@archiver.kernel.org>; Tue,  1 Sep 2026 14:58:09 +0000 (UTC)
-Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.10318.1788274680614092294
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B608C61DD6
+	for <webhook@archiver.kernel.org>; Tue,  1 Sep 2026 15:12:20 +0000 (UTC)
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.10661.1788275536064544417
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 01 Sep 2026 07:58:00 -0700
+ Tue, 01 Sep 2026 08:12:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=gJSYYgWz;
- spf=pass (domain: gmail.com, ip: 209.85.210.52, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ot1-f52.google.com with SMTP id 46e09a7af769-7e9ef94c0e2so630554a34.3
-        for <meta-virtualization@lists.yoctoproject.org>; Tue, 01 Sep 2026 07:58:00 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=KHvzhrrG;
+ spf=pass (domain: gmail.com, ip: 209.85.218.53, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-c207cb16cf5so812770466b.1
+        for <meta-virtualization@lists.yoctoproject.org>; Tue, 01 Sep 2026 08:12:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788274680; x=1788879480; darn=lists.yoctoproject.org;
+        d=gmail.com; s=20251104; t=1788275534; x=1788880334; darn=lists.yoctoproject.org;
         h=mime-version:content-transfer-encoding:content-type:references
          :in-reply-to:subject:cc:to:from:date:message-id:from:to:cc:subject
          :date:message-id:reply-to:content-type;
         bh=QmXbgnhysW6ilWyQ/a29nOI3tw7mnEfxS6ub3q5tZoE=;
-        b=gJSYYgWzoNTs/RpZKaJ1rb8/Wihby0SCNkFebfPp9KLpqWc9pnEObiVP3yNBSWmMOr
-         RXZVd48WdZYtSZ+xtn2GakH68F/2/VVCG5HuL/2BgRyzEw8oIVppi6eIO9Tsbj+lA4J7
-         0HGf8UiPSbMklscALJZDr7miXhUQl8J92G/N+lisaoh0jGaAD+oTP66O+eeofe2IqQ6A
-         t16wGDux+oVLy1hgCZNJRCSRMjIyDARStpi5xCPFbKtHXJWDA2shR3W6fib2wXMxek3D
-         1C8VpLQ/4e8PjnAtcKlYizxJy+mvpOhFeKrGVzZc5gpdG8OD0NGO8tv2teraebxZhUB7
-         OSdw==
+        b=KHvzhrrGTCmBXcNOuSCdpHb6P7JaZIqct7BD9ywN1R04nB3v4Il+LKuAp7PsjrUTE9
+         9T28cfxBMmkvB3jvS6PvY6oZgNahD90WzYcw6W+xMfaE4VW3OnDiqeodRQ0wbdoxyozG
+         IG5jq6Kyl2oGMhGJuDaxO9zCW4qDc+7t2h7E1Wl1kCYM1jTpIP4EPM+S8jgWmGdBpXo8
+         PVMfgu7AoZtSy4o057tFMRb0BBIdD48lXKvASnoxmSm6reGhPZf6pJASatMjATSl6mby
+         f/7kQO3aygGIuYG+1i/XxgdC1HBF/miRhbJvEKxqENUu/zONmbNnEr2ikWpgHezbDSfK
+         IdyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788274680; x=1788879480;
+        d=1e100.net; s=20251104; t=1788275534; x=1788880334;
         h=mime-version:content-transfer-encoding:content-type:references
          :in-reply-to:subject:cc:to:from:date:message-id:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
         bh=QmXbgnhysW6ilWyQ/a29nOI3tw7mnEfxS6ub3q5tZoE=;
-        b=kxBaHNfQAGfhitCVxs/YxXja9htsgH7BfeSVqZ0PTcsQUdnoPLeZB1HwBbQtogRIHr
-         kPOpDtJXCtdg+3LyIWqfk3cAx4KjrjRzpxyIsFD46PpYcPn3RJ6eUpuqQtphhMcbpMI+
-         KWXxza+nDXK2NAs1GDvSm3m3PTXkdBGc7ALKrrI4dhM6zM4aPTDD1bdH0qd7GPuiKpLG
-         FUtOwW07HCicnqqWHhw5NfjgIqEbtaEJtk2jmAyXZmwxtStUpYUCiplqyl0109g+BEMf
-         x8oB4Ufck9LKIXjJAfCabrrJPVd6VM89hOF8k5BGebKaXaXqQl+5aCUnQ2G2UC749kEh
-         MXDw==
-X-Gm-Message-State: AFuF++mish9/4zJ8kdf0PhWI+JxrPKPcRjWUkzk7PaCZs4j/zCMJ7sEI
-	tpH/oQdAo/Id4f3X06Re3LUKji6BsdKFNN2ovaDoSLyCvr24/nasdQfR
-X-Gm-Gg: AR+sD11bXPc4e7FjhLEGJ7ibM2TR20DSEvgVTOUFhyi/XMwIlbXI/AxCtR/SsmgbZQs
-	w1bW6tVLfIDax5ryN7epKQe6cMS4qqJE7ipoGi4lTP07odJtq7WIsmLZqJNkg77J+6DCuZLV4P6
-	FUtt8Lw5tmDzBcE8qBkTKaR4hnWUQ3bbLn7z9K8qgDWJkJiMm9BNeWDIK5PEOzWsO7FL3GKMQTz
-	oe13rX34pU1qdjJ92wUmuGJJX89JqtYLEWYm5uAjb/cJm0VPt22zvpizP5HPET6S9oOeISw2FHW
-	0kF1ZfBtWQbeFYkFfFjTyghIbpWPKumZLDU+bC2Fzj1uAXkH9AJPUVrIdBfOZSmKD8z39CI4+s8
-	DYM7uL+HKjj9obxrL0it3IMDbozG7PN7V0NzYNktPcmovJg/S9jc7m5KWornJKq4dNS9nO3uxze
-	6It8HcFk77RE6/BYqKqYzzhoDNVaSmLfmsnm3nSsQWUeOAu75rJlul7wr0+elYZ8Fxo61BDgFd/
-	8jJ01BgpriLEpNOlntAdiYd9WxLJuTqdAAZSSb/02ojMevT97thx0lqCPqyZN5+yz1tNS5SMia3
-	NGHoxW4xMPzBwpuxo1FYZOIdufDLE9IRqIw5txVJQyQPAf2N/wIUyaIAkXFD1o6SHSEBAIc=
-X-Received: by 2002:a05:6830:349a:b0:7e9:e288:2b60 with SMTP id 46e09a7af769-7f4f21cb626mr33830436a34.1.1788274679643;
-        Tue, 01 Sep 2026 07:57:59 -0700 (PDT)
+        b=oeBilQ71tmxzmft9E3ZN5kPPm18TAL310+VrAInbyW3F6vHusldx0ifiT5Lm5/iIG7
+         ckXk6P48lCS4qfGS4Sr7Qoj2soHRGAlWnDQZYRV4xl0gYYkpOxg4wAx1ahLSZhXZSX44
+         CtAlIloCkueHOh1LQYhnaxk8FENQaLhP0zS/DYLYirQGQYk2ZNSwoVwtRseij/RfnSVs
+         ekXDixEmpOZbJEwabRJuXAoH6gCBlIIghEV4xx1m6nbH2KkBjJ04iSVoCqOEh/wTi4+o
+         FtdeyBqJJCKgeAy9RfkKhXE6ldv8Vy6rAbe0bn+TBz4Pg6Z9m8IUIhsOire78r3ubQHK
+         TxOw==
+X-Gm-Message-State: AFuF++nxD8M/59XYHDHex4otR9rBXhbO6G+AcMHchLLy9exTTBdnCjM8
+	yRh0wFEO+LceIVeUtPE6TRf0m/DKR5ii8tF/8LoMdnWwFzzDNjPhfiF8
+X-Gm-Gg: AR+sD13ty+aA6caqssKzIXGx5X6heOnsrd6wRyRWDgTueVQTyZ/bZIACYqkVLyvzW9Q
+	maMKwm6boIuL3SYiwZiQe4e4YvRA2dQQDFQ9wQiUeOJKiyumyWcOZNLj/WM36rY6DfCXeKINn7o
+	pD0GqV/jJXWDMNNzKx9BljUFvu7NBWegqV+sbkHR1hKYaPsZ8dfrSDNz8UZUT0xgtgICvrH7gL7
+	0uW4b1NvdP74bXBXeaehJq0VHN+J8aEbtdzYq+3oO8DV4pl+q7FbAyZlOKmAFVDHo8uAZcdlt7E
+	u4nVt5P+Wi6N8/PIugzJGEeAkOW0ZVAPJUdHNST0lp9Q/drb6Hp6OHCjzFoMn5jrdVpLaMnbnZp
+	BeZJt+zRaub9pS4K1sK1adjk5AdwDU09xm7I4vP1YKrBEl5WW5snOSwJUqLBXmraQbxjjJOwSyV
+	zPymbz7iNG3dkpKMZlwGyhdHoj9Mji42F/8cKkuaI9vHMT2Jbr4BeRnFTTfoahMGnYS8qGczU9u
+	tO3F59DHRd0leRh8Wm2/RUa0odgKeH+XsXqYxZpzV46FWaJWZVNAFkhyg9kqFFsnPBJXuM4/mDs
+	J28GFmDwDbLeHdC90kwvfla79coVXTYRQpNUbDHBpPygJkEPVgc3CcJXF5gW0g==
+X-Received: by 2002:a17:906:25d9:b0:c12:5a0e:3e0 with SMTP id a640c23a62f3a-c25b3d16de9mr526219466b.19.1788275533752;
+        Tue, 01 Sep 2026 08:12:13 -0700 (PDT)
 Received: from [127.0.1.1] (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7f4fa9a153dsm11029672a34.23.2026.09.01.07.57.58
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c255f1b5a4esm609802566b.32.2026.09.01.08.12.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Sep 2026 07:57:59 -0700 (PDT)
-Message-ID: <6a96e7f7.a29f8321.1c507e.2702@mx.google.com>
-Date: Tue, 01 Sep 2026 07:57:59 -0700 (PDT)
+        Tue, 01 Sep 2026 08:12:13 -0700 (PDT)
+Message-ID: <6a96eb4d.42d66b02.2ade6.7864@mx.google.com>
+Date: Tue, 01 Sep 2026 08:12:13 -0700 (PDT)
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: peter.marko@siemens.com
+To: kaloyan.rusev@elektrobit.com
 Cc: meta-virtualization@lists.yoctoproject.org
-Subject: 
- Re: [meta-virtualization][wrynose][PATCH 2/2] crun: patch CVE-2026-47766
-In-Reply-To: <20260823100330.3784951-2-peter.marko@siemens.com>
-References: <20260823100330.3784951-1-peter.marko@siemens.com>
- <20260823100330.3784951-2-peter.marko@siemens.com>
+Subject: Re: [meta-virtualization][PATCH v4] Add Eclipse Ankaios container
+In-Reply-To: <20260827093704.208717-1-kaloyan.rusev@elektrobit.com>
+References: <6a762483.ce53cff3.11d7ee.5f7c@mx.google.com>
+ <20260827093704.208717-1-kaloyan.rusev@elektrobit.com>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 MIME-Version: 1.0
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Tue, 01 Sep 2026 14:58:09 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/10073
+ <meta-virtualization@lists.yoctoproject.org>; Tue, 01 Sep 2026 15:12:20 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/10074
 
 merged
 
