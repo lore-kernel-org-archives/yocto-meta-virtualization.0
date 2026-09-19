@@ -1,136 +1,116 @@
-Return-Path: <royzah@gmail.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3364C982D8
-	for <webhook@archiver.kernel.org>; Sat, 19 Sep 2026 17:35:59 +0000 (UTC)
-Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.16306.1789839355386295193
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E14AC982D8
+	for <webhook@archiver.kernel.org>; Sat, 19 Sep 2026 18:25:00 +0000 (UTC)
+Received: from mail-qk2-f42.google.com (mail-qk2-f42.google.com [74.125.230.234])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.17138.1789842290422427422
  for <meta-virtualization@lists.yoctoproject.org>;
- Sat, 19 Sep 2026 10:35:55 -0700
+ Sat, 19 Sep 2026 11:24:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=Xd8VLZG+;
- spf=pass (domain: gmail.com, ip: 74.125.225.140, mailfrom: royzah@gmail.com)
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49b965f447cso14374925e9.3
-        for <meta-virtualization@lists.yoctoproject.org>; Sat, 19 Sep 2026 10:35:55 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=g6pNFi47;
+ spf=pass (domain: gmail.com, ip: 74.125.230.234, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk2-f42.google.com with SMTP id af79cd13be357-93bef17c191so41393585a.2
+        for <meta-virtualization@lists.yoctoproject.org>; Sat, 19 Sep 2026 11:24:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789839354; x=1790444154; darn=lists.yoctoproject.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=MiCOP7rE9HfhMegLeRUcGNZay2gK84kvQTfNhpLrB/k=;
-        b=Xd8VLZG+u00T8AtAHvvtFNaSir1C6GkPFbScPVDI7BoDJRYbQ6xB/VkROVtGH9XH/8
-         xl0RlTJP+ALX0tNivRk6JCAHqYkBiOHw/3KjnUFthHlNJnGfA207xs6WWTwwAGF1Be91
-         k4ypQ55GdTJksh8kzdFzrJ4esOYVocGXDjwYwZ+PFvEwXmzhBYoIUyoC3KjaZ55HnhPK
-         1VYzsjguyNj4C+MYFyW8k8kz1bRasyEl5/7s5D5chXexXSkzGARHeu6M+WyltVHZ88zk
-         tEB0fX3aeEFJRDwEN4e78v6dlIortR2iYaQUoILVxhoDFl3PxKJQ+eOwMRmchc13XW5B
-         DKCA==
+        d=gmail.com; s=20251104; t=1789842289; x=1790447089; darn=lists.yoctoproject.org;
+        h=mime-version:content-transfer-encoding:content-type:references
+         :in-reply-to:subject:cc:to:from:date:message-id:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=TKgrPmyI2jheHOSWauKrYE+L0B5gwQ482UIngptFmo8=;
+        b=g6pNFi47Nu8pThT8vRwUVsLKUBdoUwGQAINGh/bJTolAGLAZ4fI8c/6l/UWM3OONzl
+         s7nmcjA0Xvl97aKHyrgmcsWhqIz1xrUbumIvKqT6vDeoy9TyrDU2xJkF1wMqYJLjejD4
+         RVGqPtCrF6vwPTJiZA+sAQMv3W9/E9qrZ1smPIe8epmRA/AouAW0eww3SyF5GkPX9VlR
+         2mldkBSNEYDinqbH5L+Y1zKpeGHEGRpc3UwVNqBp2KHP4WIPm+haeqDyH4QbwFDOhL/x
+         vRnAlLbexulgN4p9dHa5GspRZpeRFH4t6w85LBJZu1OvNSLltx4gyBV0QWR+NdSL64Wb
+         7i1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789839354; x=1790444154;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=MiCOP7rE9HfhMegLeRUcGNZay2gK84kvQTfNhpLrB/k=;
-        b=MaYdnoFsMfFxGy5TPbmsfIxkXPoFTZL7/fcCi/i1vtpkyTEjc5Q2Iimn9ukySdVk3D
-         MjeDL24DaeCqQ+Ofai1qM1lVh9a48kGlu1KSFXYjy/xDz+XCOhhcKFW3/PufQAMN68KA
-         2uksCWF+8Nn0JHizhOAR3fZB8e0/m4+b2MNQ/OAFRN9jqf69Fj2B91mtQyKJYrAL8XaD
-         MN0a5TGYpWzqh03jclmCTDumaJcy6RjUqsG+ojvsybHpLvi2VpBRxrZrWYvII45lp7oq
-         v1KhgOiHxA7u774L2MlfJlN10deRl8zC1FzyAZuwycUHpnzIYHhInbbs29gWENfqGyot
-         o+Rg==
-X-Gm-Message-State: AFuF++losmXi+kA0h/0MfGCxsfC0SRXVtlrGgTVTctsHZXxk7dtbHXRT
-	trFYtdNiB3X1wIVe46HvMyYdXws6LUKpvIuDkDcaKXn8yVwjDjcJ64rjybzHSNd7+Vsax8wI
-X-Gm-Gg: AYBFou3k5kkt19ngnbvo2DcjzTDNgz+xHBh4VPaGy9qRritLh68JQMPp4iG8IGD1N8o
-	E92F+EHGvpAye9StNq0R5918J41F1M8VPcZ8ydAjvfDrlr6Lhhf/AeKASRpK7kuOMzbjpcisa89
-	IaPuk9tf9zeXepo9iQcRS8YBLlmZQ6QZOEAOxfWks3GXOJKjW7ruHdGA+1uLG+h4e1huD+FWpTh
-	httf10BDqUL9rXJLegixuv6KbwPVbxjLSP5H0EUblGzzShinpcBdjMVQ+zRVVzssYEiAu4srSec
-	ATWIjgeWo764/8dW/oPhtny/1VyDGT5I3Utm+lK4StmVS4yxeddbQ9cdN1tPmrk4HVh7rVHsBRa
-	Q5SABHge18WCjzaP5QUBhKwuURV2adsGRE0UpfhPKeHP0/oUTW426eJmlz6azAMGStC96hVNmE4
-	0DBJFqjrhnVCNQggCgzg4gIYTsuUSvSPFfp+f8rUPtWTNvOntq+HlKLa/SsM0gpyqPb7PszQbyy
-	wpv3dwve2HIMxRUKnosZkXSiBdB4rj4MJoF
-X-Received: by 2002:a05:600c:34c6:b0:49c:fa20:cc0a with SMTP id 5b1f17b1804b1-49fc5742ebamr75445285e9.33.1789839353533;
-        Sat, 19 Sep 2026 10:35:53 -0700 (PDT)
-Received: from royzah-ThinkPad-T14-Gen-4.tail7db7d.ts.net ([2001:8f8:1137:5e38:4ab9:7dbd:93ae:5ae6])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fcd0874c3sm129703785e9.14.2026.09.19.10.35.50
-        for <meta-virtualization@lists.yoctoproject.org>
+        d=1e100.net; s=20260707; t=1789842289; x=1790447089;
+        h=mime-version:content-transfer-encoding:content-type:references
+         :in-reply-to:subject:cc:to:from:date:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=TKgrPmyI2jheHOSWauKrYE+L0B5gwQ482UIngptFmo8=;
+        b=GnNQGLD+8QC7NLC/RcobY5/pPM5dWvNu/p6pTbJ0IaWIZHUfKHA9cBPWi+LToETZS8
+         pCDKfb85W6oWtg4ZLZ+2jXI+kJbojR4oSNXX2tMPt8cXGkTVIkcyw2DU3cHeLnv46j0I
+         zA+YCrlVVCioDt7ZWEkB+DZ4vL37xUtpTOj5zZ+6x8Hw1ZnfQeDUaJ2E19efqY7xUO/C
+         ozSM4ugYiAmIulYGxnyi5Bc/Li0HbT6/twJustwCKnMB9Rh0zP2tR8LMO5GKy5kq0PDd
+         f3qFgcEWtSeBYkojmHZUTWFgsXc+XaIOATiLl5kMFmiv/c7WYlTYUUhQmQ9iGhYJfvMJ
+         p1Vw==
+X-Gm-Message-State: AFuF++mnV5MutOPaA832wTAPXU8z5ZsXddAzZ/YXPel0djKcap0rC9nb
+	tqG3UBEewINp6oRxPa4Di+ZGF/pF+VbdS1NabvqrH+Ns97sRMAjgL9HvMGjDgPsVFrU=
+X-Gm-Gg: AYBFou0KfLN1/gwkREBTGdCCALB7epUxFGplem8iAzYYitD8H+MHDsR3DBl/nVHEU26
+	sZ6B8qIFJ5lIlwrynS+fcbiZK2VDD84XMvZciYrzfdX2bDFoujAYFfBNOsnZ+Ocbb+n+lDiPvdZ
+	N6gdPxY8HcwYTHupIRUMfwEtwfPYib4YwlWPD/qSgSd66YDXI4lkEXbWnzQIxN/LYrdBT7kLy1e
+	j3G5HvFSHk4CCUa1QoApz6syWqpeeu2dNwjmG04zEmweXh7o7qYzCj+04x+2087ZblQxjyy5sf4
+	d/ajQsVanmK9eINhH5pm5ogO+hxNUIrmzxqZI8becyRcS9cxWPEGhbkajYbz/EXnYYZAjyiOiMp
+	Z2RBH0AbqXcZdWaoRweS7YIOK2/tQAVekX6uvIh4QDHWsSUEtXgddTvhJldZXFTILQo4nw2UdiO
+	O6sKtRSLsVv3NcBkruP8iIQud2vE9bV+EJd2/TaEpfp22YZ+m94aXOh0sQtOZirlSRFIkkFzc1H
+	5YgsjwLFmruHhYE0HYrmG9Y+4RO+kIPFow8afKOWvWAX6aq2HJIR8+aqO22di00lQz2lb/6ng/I
+	nc8+5eqN5bSrDW3/gdJTo8+r0V1jfGZp35K1Y+5KY38rmpWDqRvxDbfzitDmLEgeQtFOmW7hfCR
+	fCpOLCA==
+X-Received: by 2002:a05:620a:439c:b0:93b:e9db:1bab with SMTP id af79cd13be357-93bf5795d5emr277007585a.56.1789842289119;
+        Sat, 19 Sep 2026 11:24:49 -0700 (PDT)
+Received: from [127.0.1.1] (pool-174-112-35-248.cpe.net.cable.rogers.com. [174.112.35.248])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-93befd5c2d0sm210924085a.4.2026.09.19.11.24.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 19 Sep 2026 10:35:51 -0700 (PDT)
-From: Royyan Zahir <royzah@gmail.com>
+        Sat, 19 Sep 2026 11:24:48 -0700 (PDT)
+Message-ID: <6aaed370.03c0d5ef.138d32.2423@mx.google.com>
+Date: Sat, 19 Sep 2026 11:24:48 -0700 (PDT)
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 To: meta-virtualization@lists.yoctoproject.org
-Subject: [meta-virtualization][PATCH] crun: provide virtual-runc and honour CRUN_AS_RUNC
-Date: Sat, 19 Sep 2026 21:35:39 +0400
-Message-ID: <20260919173540.1602199-1-royzah@gmail.com>
-X-Mailer: git-send-email 2.55.0
+Cc: royzah@gmail.com
+Subject: Re: [meta-virtualization][PATCH] crun: provide virtual-runc and
+ honour CRUN_AS_RUNC
+In-Reply-To: <20260919173540.1602199-1-royzah@gmail.com>
+References: <20260919173540.1602199-1-royzah@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Sat, 19 Sep 2026 17:35:59 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/10087
+ <meta-virtualization@lists.yoctoproject.org>; Sat, 19 Sep 2026 18:25:00 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/10088
 
-runc.inc declares the provider abstraction the layer builds on:
+Hi Royyan,
 
-  PROVIDES += "virtual/runc"
-  RPROVIDES:${PN} = "virtual-runc"
+Thanks for the patch, but the premise it's built on is the one thing
+I need to push back on.
 
-crun declares neither, even though it already stands in for runc: with
-CRUN_AS_RUNC it installs the /usr/bin/runc symlink and takes RCONFLICTS on
-the runc package. So PREFERRED_RPROVIDER_virtual-runc = "crun" cannot
-resolve, and every consumer that wants crun as its OCI runtime carries the
-same bbappend adding the RPROVIDES by hand.
+`virtual/runc` (and its RPROVIDES sibling `virtual-runc`) is a holdover
+from when meta-virtualization carried two runc implementations in-tree,
+opencontainers/runc and docker's own. Commit 7d6284a0 (2017)
+introduced the abstraction so a build could set PREFERRED_PROVIDER to
+pick which variant was the C-level runc binary. Once the two variants
+were consolidated (cb2d4868 removed the "opencontainers" flavor,
+ea15fd06 dropped runc-docker), the mechanism lost its purpose. It's on
+a path to removal, not extension, and I'd rather not add new consumers.
 
-Join the virtual when the symlink is installed, which is the case where crun
-actually substitutes for runc.
+For picking crun vs runc as the OCI runtime of a container engine, the
+layer's mechanism today is `VIRTUAL-RUNTIME_container_runtime` (plus
+the sibling VIRTUAL-RUNTIME_container_* variables) set in the profile
+fragments under `conf/distro/include/`. `meta-virt-container-containerd.inc`
+already ships with `VIRTUAL-RUNTIME_container_runtime ??= "crun"` -- that
+is the intended way to make crun the default runtime, and no bbappend
+or RPROVIDES is involved. The bbappend churn you're seeing in
+downstreams is a symptom of that pattern not being documented well
+enough, not of a missing RPROVIDES on crun.
 
-While here, make CRUN_AS_RUNC mean what it says. Both guards treat the string
-"false" as true, the shell one because -n tests for a non-empty string and the
-python one because a non-empty str is truthy, so the only way to turn the
-symlink off today is to set the variable to the empty string. Normalize once
-with bb.utils.to_boolean() and use that everywhere.
+That said, the second half of your patch is genuinely finding a bug:
+`CRUN_AS_RUNC = "false"` reads as true today, because "false" is a
+non-empty string in both the shell `-n` test and the python
+`if d.getVar(...)` expansions. That fix is worth landing on its own.
 
-Note that to_boolean() rejects values outside the y/yes/1/true and n/no/0/false
-sets, so a recipe or config setting CRUN_AS_RUNC to something else now fails to
-parse instead of silently enabling the symlink.
+Would you resubmit as a smaller patch that keeps just the
+`bb.utils.to_boolean()` normalization for `CRUN_AS_RUNC`, without the
+`RPROVIDES virtual-runc` addition? I'd also skip the comment
+rewordings on the RCONFLICTS line -- the existing comment reads fine
+and reworking it on a bugfix makes the change harder to review. I can
+take that version as-is.
 
-Signed-off-by: Royyan Zahir <royzah@gmail.com>
----
- recipes-containers/crun/crun_git.bb | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+Cheers,
 
-diff --git a/recipes-containers/crun/crun_git.bb b/recipes-containers/crun/crun_git.bb
-index 288c953..67e67e9 100644
---- a/recipes-containers/crun/crun_git.bb
-+++ b/recipes-containers/crun/crun_git.bb
-@@ -31,6 +31,10 @@ CLEANBROKEN = "1"
- # with container stacks
- CRUN_AS_RUNC ?= "true"
- 
-+# Normalized once: a bare "false" is a non-empty string and would otherwise
-+# read as true in both the shell test and the python expansions below.
-+CRUN_AS_RUNC_ENABLED = "${@'1' if bb.utils.to_boolean(d.getVar('CRUN_AS_RUNC')) else ''}"
-+
- PACKAGECONFIG ??= " \
-     caps external-yajl man \
-     ${@bb.utils.contains('DISTRO_FEATURES', 'seccomp', 'seccomp', '', d)} \
-@@ -56,13 +60,15 @@ do_configure:prepend () {
- 
- do_install() {
-     oe_runmake 'DESTDIR=${D}' install
--    if [ -n "${CRUN_AS_RUNC}" ]; then
-+    if [ -n "${CRUN_AS_RUNC_ENABLED}" ]; then
-         ln -sr "${D}/${bindir}/crun" "${D}${bindir}/runc"
-     fi
- }
- 
--# When crun provides /usr/bin/runc symlink, it conflicts with the runc package
--RCONFLICTS:${PN} = "${@'runc' if d.getVar('CRUN_AS_RUNC') else ''}"
-+# When crun provides the /usr/bin/runc symlink it replaces the runc package,
-+# so it conflicts with it and stands in for it as the virtual-runc provider.
-+RCONFLICTS:${PN} = "${@'runc' if d.getVar('CRUN_AS_RUNC_ENABLED') else ''}"
-+RPROVIDES:${PN} += "${@'virtual-runc' if d.getVar('CRUN_AS_RUNC_ENABLED') else ''}"
- 
- REQUIRED_DISTRO_FEATURES:class-native ?= ""
- DEPENDS:class-native += "yajl libcap go-md2man m4 libseccomp"
--- 
-2.55.0
-
+Bruce
 
