@@ -1,81 +1,180 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41606C98304
-	for <webhook@archiver.kernel.org>; Wed, 23 Sep 2026 16:11:06 +0000 (UTC)
-Received: from mail-vs2-f13.google.com (mail-vs2-f13.google.com [74.125.227.13])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1555.1790179856358139442
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 237BBCA5FA1
+	for <webhook@archiver.kernel.org>; Mon, 28 Sep 2026 21:12:30 +0000 (UTC)
+Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.68727.1790629943504968060
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 23 Sep 2026 09:10:56 -0700
+ Mon, 28 Sep 2026 14:12:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=qjenvM+o;
- spf=pass (domain: gmail.com, ip: 74.125.227.13, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-vs2-f13.google.com with SMTP id ada2fe7eead31-795a0ab5227so442170137.1
-        for <meta-virtualization@lists.yoctoproject.org>; Wed, 23 Sep 2026 09:10:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790179855; x=1790784655; darn=lists.yoctoproject.org;
-        h=mime-version:content-transfer-encoding:content-type:references
-         :in-reply-to:subject:cc:to:from:date:message-id:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=QmXbgnhysW6ilWyQ/a29nOI3tw7mnEfxS6ub3q5tZoE=;
-        b=qjenvM+oN4FfRekgrFAIvFmFAiqjD364tTbuRn6DYScPTa3jPi24K8Ud8gX15jl0IY
-         AYwW9qOomEIBVtcrEWrSWv+Sj6n0jpvxDIix5AQVBXw5PVYK82eqWrzrAP+zi4AXGH3T
-         WG/31oNLCtvdZz6K7hhNyoLbtFeNdxwtEZbTAtN9TW04hehbQBvi4T6gEJ5a2sHC1dBF
-         71QZlBzO55puodmtG1ucWBv4x2axyvdC7OkTY64B5N3DBZ1cMsRl5bT34W0VdVHFTJfn
-         1B3T6mvFy/QQ7YPvBPnckUTHRsBmIHDWNJredE/OHyMP/6RacAfMaPc2/uXJGUSMLy/o
-         jVbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790179855; x=1790784655;
-        h=mime-version:content-transfer-encoding:content-type:references
-         :in-reply-to:subject:cc:to:from:date:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=QmXbgnhysW6ilWyQ/a29nOI3tw7mnEfxS6ub3q5tZoE=;
-        b=SF24i5t8i5AXfZ1MjRXzNiiEqQuLlUA94/kX3x8m2oCuMiUtTd54kTmMzBiHYVR+AT
-         ZUHzZ96Nj1e071X/0afvGqPSW2DqVh35idh0Rdh3DomyanQJnw/o4pEmeKFFtNYv7kCV
-         ebkIKZj2peFVtDMJ5TaE7X/LjWnGpYLLaRUVOgKlYkRzcXxT0dNSafX65wgiHF3wFm4A
-         UxOkDhXbCfJiCsTVmtT8jBYPNIkvtNhESMSj5hi2zAgYg+R/1dDAFTada6cnepML7ZsA
-         yaJP6dCE6GjvZBvy6lvuit9XNof6SSV/FTaGDDuIM7A6q0jt2qhQTKnaFgKsEcbb3hyx
-         yQZA==
-X-Gm-Message-State: AFuF++nM+demej44OU13JAI1YnHjAkwqZXCS9EAOm8ZNWVUxjSsY0TrE
-	iWS+hNNt/HPwM7ON4nPnZ1ia+GLPrR2xBqYtR/p4UXGcFOvxbmT23UhaAHKgKEl3ErM=
-X-Gm-Gg: AYBFou0uPxzHm9T8J3fFv/gIQLo0tEnzFaIqEpLaN+ZXTG2BwWHW3tOa/OPUM4T0Mf/
-	sZVbccL4RIvRirVylOTTAqqO/5pSD6B45qz0Q9OdaIMfwq6FKLYGJ1EMYMI61SomZhblBNcu97j
-	+XWWKJwxQbrgzqkolDc+HIRPGuccViHxbG7Rn41VEkdslB+lYRzeF1kTnrJunbblKTig7vC3etC
-	MDWIUvrhBxMYldisUgBvHQv2P5HfpTI4Znck6u9rQSlZ6xP3RoAwWi6eaw3ccwDQBn9OkEliPUV
-	9UZIxY/u5UrkA7W6dQnYBuFr/ZUvsT8D93wrb8X1cUYX8MtUftb6cn+O6saxJJ7CxzXBb/EFyNv
-	r14C+2sPlo6AkCuSUPxMCL5/s4Q+vpQe16S1ZOk8WPzSTSmT8hlinDr3yvAzUAjt3bPGFWLNrjX
-	i2J6zjIObCLn4jktgaJoInDshdhT+7OiBkRZJUxxTMUj8fLUOIXYMbAuYKVrfNJShLNna4R/sde
-	SOesFVIHeGk0o9RIN71npx1ZgoBKQn/R/Hx7TBXgW0tg+ByjjcK37+etvASFyGi5cKht+G8/IiD
-	2vs+Pzdfu/56GAYiEXpBdHTg4NBXUwVnHYeh/4Jc/lEqSWHPlbutcKgiH5I1M7svMbUU2bYrTFH
-	bF62f4kc=
-X-Received: by 2002:a05:6102:4b0a:b0:7a5:e455:1823 with SMTP id ada2fe7eead31-7ac1d4f39fdmr2899168137.27.1790179855046;
-        Wed, 23 Sep 2026 09:10:55 -0700 (PDT)
-Received: from [127.0.1.1] (pool-174-112-35-248.cpe.net.cable.rogers.com. [174.112.35.248])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-985169f579bsm4239982241.3.2026.09.23.09.10.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Sep 2026 09:10:54 -0700 (PDT)
-Message-ID: <6ab3fa0e.17f05609.3129b9.a281@mx.google.com>
-Date: Wed, 23 Sep 2026 09:10:54 -0700 (PDT)
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=MTg42aAT;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-256628-2026092821122163761a2c9200020743-5w6hhk@rts-flowmailer.siemens.com)
+Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 2026092821122163761a2c9200020743
+        for <meta-virtualization@lists.yoctoproject.org>;
+        Mon, 28 Sep 2026 23:12:21 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=UjdokxYyJT+Ta7JOz0YvVyCF+NIcAU64mVmgbR2ud7Q=;
+ b=MTg42aAT7pD86AYbxtp+vHeRzidZBZ8eC4XsEfKqZ47+UXLvqDXXsrQVaQEccuwM6ECmoF
+ BDBxMo9kqz6ekkjLcqZlTUvMP+BTDF1dU9v07gzizaDcPLRJHV9KoQv+AFTnsO9UkyNvDV0g
+ sGDctnq5agP1k5zCLdeAM6KcJdboCcHLYBtRHDkAGxiSYHOvAN3IWtji9HtHvaZW2eWQp7h0
+ jLXlZT6mi7CxdTTOremVbxIO2I9LIel3gRQMMoTjk81RntAMUW7IdHj6PrvVFsgF5fpMb7J9
+ QXdaxbaWvlfNE8BKeDfMdtGmwVwrEIc8YuD41HsBj8kdCwvFfKA/3mxQ==;
+From: Peter Marko <peter.marko@siemens.com>
 To: meta-virtualization@lists.yoctoproject.org
-Cc: kaloyan.rusev@elektrobit.com
-Subject: Re: [meta-virtualization][wrynose][PATCH] ankaios: add Eclipse
- Ankaios container orchestrator recipe
-In-Reply-To: <20260917134911.95950-1-kaloyan.rusev@elektrobit.com>
-References: <6aaaa2a3.98235939.208b75.d30f@mx.google.com>
- <20260917134911.95950-1-kaloyan.rusev@elektrobit.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [meta-virtualization][wrynose][PATCH] crun: patch CVE-2026-88264
+Date: Mon, 28 Sep 2026 23:12:15 +0200
+Message-ID: <20260928211215.679597-1-peter.marko@siemens.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Wed, 23 Sep 2026 16:11:06 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/10095
+ <meta-virtualization@lists.yoctoproject.org>; Mon, 28 Sep 2026 21:12:30 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/10096
 
-merged
+From: Peter Marko <peter.marko@siemens.com>
 
-Bruce
+Pick patch referencing this CVE.
+
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+---
+ .../crun/crun/CVE-2026-88264.patch            | 109 ++++++++++++++++++
+ recipes-containers/crun/crun_git.bb           |   1 +
+ 2 files changed, 110 insertions(+)
+ create mode 100644 recipes-containers/crun/crun/CVE-2026-88264.patch
+
+diff --git a/recipes-containers/crun/crun/CVE-2026-88264.patch b/recipes-containers/crun/crun/CVE-2026-88264.patch
+new file mode 100644
+index 00000000..1d8eea96
+--- /dev/null
++++ b/recipes-containers/crun/crun/CVE-2026-88264.patch
+@@ -0,0 +1,109 @@
++From ef32479522af883568ce4a5482358069ff71dc8f Mon Sep 17 00:00:00 2001
++From: Giuseppe Scrivano <gscrivan@redhat.com>
++Date: Fri, 11 Sep 2026 09:25:48 +0000
++Subject: [PATCH] utils: do not follow symlinks when creating /dev/console
++
++create_file_if_missing_at() is only used to create `/dev/console` in the
++container rootfs when a terminal is requested, and it opened the file
++with O_CREAT but without O_NOFOLLOW.  A rootfs providing `/dev/console`
++as a symlink made the open follow it, and since the devices are created
++before the pivot_root the target was resolved against the host file
++system, so crun created a root owned file at a path chosen by the
++container image.
++
++Open the file with O_NOFOLLOW, and check for an already existing file
++without following symlinks either, so that a symlink is not mistaken for
++a regular file that is already there.
++
++This is only reachable when nothing is mounted over /dev, so the rootfs
++entry stays visible; the configurations generated by Docker, Podman,
++containerd, CRI-O and `crun spec` mount a tmpfs there.
++
++Add a test case.
++
++Fixes: CVE-2026-88264
++Signed-off-by: Giuseppe Scrivano <gscrivan@redhat.com>
++
++CVE: CVE-2026-88264
++Upstream-Status: Backport [https://github.com/containers/crun/commit/ef32479522af883568ce4a5482358069ff71dc8f]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ src/libcrun/utils.c   |  4 ++--
++ tests/test_devices.py | 36 ++++++++++++++++++++++++++++++++++++
++ 2 files changed, 38 insertions(+), 2 deletions(-)
++
++diff --git a/src/libcrun/utils.c b/src/libcrun/utils.c
++index ce44c261..76175411 100644
++--- a/src/libcrun/utils.c
+++++ b/src/libcrun/utils.c
++@@ -196,14 +196,14 @@ get_file_type (mode_t *mode, bool nofollow, const char *path)
++ int
++ create_file_if_missing_at (int dirfd, const char *file, mode_t mode, libcrun_error_t *err)
++ {
++-  cleanup_close int fd_write = openat (dirfd, file, O_CLOEXEC | O_CREAT | O_WRONLY, mode);
+++  cleanup_close int fd_write = openat (dirfd, file, O_CLOEXEC | O_CREAT | O_WRONLY | O_NOFOLLOW, mode);
++   if (fd_write < 0)
++     {
++       mode_t tmp_mode;
++       int ret;
++ 
++       /* On errors, check if the file already exists.  */
++-      ret = get_file_type_at (dirfd, &tmp_mode, false, file);
+++      ret = get_file_type_at (dirfd, &tmp_mode, true, file);
++       if (ret == 0 && S_ISREG (tmp_mode))
++         return 0;
++ 
++diff --git a/tests/test_devices.py b/tests/test_devices.py
++index 6956e2bd..a99753a3 100755
++--- a/tests/test_devices.py
+++++ b/tests/test_devices.py
++@@ -369,6 +369,41 @@ def test_mknod_char_device():
++         return -1
++     return 0
++ 
+++def test_dev_console_symlink_does_not_escape_rootfs():
+++    escaped = os.path.join(get_tests_root(), "escaped-console")
+++
+++    conf = base_config()
+++    add_all_namespaces(conf)
+++    conf['process']['terminal'] = True
+++    conf['process']['args'] = ['/init', 'true']
+++    conf['mounts'] = [i for i in conf['mounts'] if not i['destination'].startswith("/dev")]
+++    # a hook forces the deferred pivot_root, so the rootfs is still reached
+++    # through the host file system when the devices are created.
+++    conf['hooks'] = {"createRuntime": [{"path": "/bin/true"}]}
+++
+++    def prepare_rootfs(rootfs):
+++        os.symlink(escaped, os.path.join(rootfs, "dev", "console"))
+++
+++    output = None
+++    try:
+++        run_and_get_output(conf, callback_prepare_rootfs=prepare_rootfs)
+++    except Exception as e:
+++        output = e.output.decode()
+++
+++    if os.path.lexists(escaped):
+++        logger.error("`%s` was created outside the rootfs", escaped)
+++        return -1
+++
+++    if output is None:
+++        logger.error("the container was not refused")
+++        return -1
+++
+++    if "create file `console`" not in output:
+++        logger.error("the container failed for a different reason: %s", output)
+++        return -1
+++
+++    return 0
+++
++ def test_dev_symlink_does_not_populate_outside_rootfs():
++     if is_rootless():
++         return (77, "requires root privileges")
++@@ -508,6 +543,7 @@ def test_allow_device_read_only():
++ all_tests = {
++     "mknod-fifo-device": test_mknod_fifo_device,
++     "mknod-char-device": test_mknod_char_device,
+++    "dev-console-symlink-does-not-escape-rootfs": test_dev_console_symlink_does_not_escape_rootfs,
++     "dev-symlink-does-not-populate-outside-rootfs": test_dev_symlink_does_not_populate_outside_rootfs,
++     "allow-device-read-only": test_allow_device_read_only,
++     "owner-device" : test_owner_device,
+diff --git a/recipes-containers/crun/crun_git.bb b/recipes-containers/crun/crun_git.bb
+index 809b6c01..80468b0a 100644
+--- a/recipes-containers/crun/crun_git.bb
++++ b/recipes-containers/crun/crun_git.bb
+@@ -19,6 +19,7 @@ SRC_URI = "git://github.com/containers/crun.git;branch=main;name=crun;protocol=h
+            file://0002-libocispec-fix-array-items-parsing.patch;patchdir=libocispec \
+            file://CVE-2026-30892.patch \
+            file://CVE-2026-47766.patch \
++           file://CVE-2026-88264.patch \
+           "
+ 
+ PV = "1.26.0+git"
 
