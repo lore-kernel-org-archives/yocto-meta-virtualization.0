@@ -2,60 +2,194 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 237BBCA5FA1
-	for <webhook@archiver.kernel.org>; Mon, 28 Sep 2026 21:12:30 +0000 (UTC)
-Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.68727.1790629943504968060
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A082CA5FA2
+	for <webhook@archiver.kernel.org>; Mon, 28 Sep 2026 21:12:40 +0000 (UTC)
+Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.69695.1790629953904262220
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 28 Sep 2026 14:12:23 -0700
+ Mon, 28 Sep 2026 14:12:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=MTg42aAT;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-256628-2026092821122163761a2c9200020743-5w6hhk@rts-flowmailer.siemens.com)
-Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 2026092821122163761a2c9200020743
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=k0DUllTK;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-256628-20260928211232e9f8eb35cb0002079c-8ewkrm@rts-flowmailer.siemens.com)
+Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 20260928211232e9f8eb35cb0002079c
         for <meta-virtualization@lists.yoctoproject.org>;
-        Mon, 28 Sep 2026 23:12:21 +0200
+        Mon, 28 Sep 2026 23:12:32 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=UjdokxYyJT+Ta7JOz0YvVyCF+NIcAU64mVmgbR2ud7Q=;
- b=MTg42aAT7pD86AYbxtp+vHeRzidZBZ8eC4XsEfKqZ47+UXLvqDXXsrQVaQEccuwM6ECmoF
- BDBxMo9kqz6ekkjLcqZlTUvMP+BTDF1dU9v07gzizaDcPLRJHV9KoQv+AFTnsO9UkyNvDV0g
- sGDctnq5agP1k5zCLdeAM6KcJdboCcHLYBtRHDkAGxiSYHOvAN3IWtji9HtHvaZW2eWQp7h0
- jLXlZT6mi7CxdTTOremVbxIO2I9LIel3gRQMMoTjk81RntAMUW7IdHj6PrvVFsgF5fpMb7J9
- QXdaxbaWvlfNE8BKeDfMdtGmwVwrEIc8YuD41HsBj8kdCwvFfKA/3mxQ==;
+ bh=M5xphkKzk1KQalj/Dx42ZAMF+XPLyM3tddcA7YglYFY=;
+ b=k0DUllTKQyTaBPwcTLpot1xqDfbpjCReGEojfmNo3e/PX45TQimLBtoM1QepQoLUZzgBO7
+ Td/ErU3WEh5xshmDtDl38xf2d/WyBiUxOL0g60dIHCmGmWZvBmp8tgF2nigFF8d0amBiCqhq
+ IshRkmdy3ekZ/DjWh/JrSb3H2TtdgREtI7lJUbuZBtpiM1LyU4KHNMtiIzo3ChvrFXqqODmM
+ xnZTZ5n59FGZAyinQgjZZDMTdcuPk1YbXOJ0ZOPwklTexZe13MHg8gV4WmQokcop5FRZcJOi
+ Ig8RaReLk7gSLmEpJe0wj1AxGFydvFoSll93YgD4d0nXES0w8FkZDnSg==;
 From: Peter Marko <peter.marko@siemens.com>
 To: meta-virtualization@lists.yoctoproject.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [meta-virtualization][wrynose][PATCH] crun: patch CVE-2026-88264
-Date: Mon, 28 Sep 2026 23:12:15 +0200
-Message-ID: <20260928211215.679597-1-peter.marko@siemens.com>
+Subject: [meta-virtualization][scarthgap][PATCH] crun: patch CVE-2026-88264
+Date: Mon, 28 Sep 2026 23:11:40 +0200
+Message-ID: <20260928211145.679470-1-peter.marko@siemens.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
 Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Mon, 28 Sep 2026 21:12:30 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/10096
+ <meta-virtualization@lists.yoctoproject.org>; Mon, 28 Sep 2026 21:12:40 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/10097
 
 From: Peter Marko <peter.marko@siemens.com>
 
 Pick patch referencing this CVE.
+Additioanlly pick a refactoring patch to apply it cleanly.
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- .../crun/crun/CVE-2026-88264.patch            | 109 ++++++++++++++++++
- recipes-containers/crun/crun_git.bb           |   1 +
- 2 files changed, 110 insertions(+)
- create mode 100644 recipes-containers/crun/crun/CVE-2026-88264.patch
+ .../crun/crun/CVE-2026-88264-01.patch         | 124 ++++++++++++++++++
+ .../crun/crun/CVE-2026-88264-02.patch         | 104 +++++++++++++++
+ recipes-containers/crun/crun_git.bb           |   2 +
+ 3 files changed, 230 insertions(+)
+ create mode 100644 recipes-containers/crun/crun/CVE-2026-88264-01.patch
+ create mode 100644 recipes-containers/crun/crun/CVE-2026-88264-02.patch
 
-diff --git a/recipes-containers/crun/crun/CVE-2026-88264.patch b/recipes-containers/crun/crun/CVE-2026-88264.patch
+diff --git a/recipes-containers/crun/crun/CVE-2026-88264-01.patch b/recipes-containers/crun/crun/CVE-2026-88264-01.patch
 new file mode 100644
-index 00000000..1d8eea96
+index 00000000..39a69166
 --- /dev/null
-+++ b/recipes-containers/crun/crun/CVE-2026-88264.patch
-@@ -0,0 +1,109 @@
++++ b/recipes-containers/crun/crun/CVE-2026-88264-01.patch
+@@ -0,0 +1,124 @@
++From 490d550204f22765d04dd012f51f1bf74b8c4543 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Erik=20Sj=C3=B6lund?= <erik.sjolund@gmail.com>
++Date: Wed, 29 Jan 2025 18:42:02 +0100
++Subject: [PATCH] linux, utils: remove dead code crun_ensure_file*()
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++Remove dead code.
++
++Use 0620 instead of 0700 as mode
++for the new file.
++
++Signed-off-by: Erik Sjölund <erik.sjolund@gmail.com>
++
++CVE: CVE-2026-88264
++Upstream-Status: Backport [https://github.com/containers/crun/commit/490d550204f22765d04dd012f51f1bf74b8c4543]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ src/libcrun/linux.c |  2 +-
++ src/libcrun/utils.c | 37 +++++--------------------------------
++ src/libcrun/utils.h |  6 +-----
++ 3 files changed, 7 insertions(+), 38 deletions(-)
++
++diff --git a/src/libcrun/linux.c b/src/libcrun/linux.c
++index acfb5b0b..6ecbaaac 100644
++--- a/src/libcrun/linux.c
+++++ b/src/libcrun/linux.c
++@@ -1836,7 +1836,7 @@ create_missing_devs (libcrun_container_t *container, bool binds, libcrun_error_t
++ 
++   if (container->container_def->process && container->container_def->process->terminal)
++     {
++-      ret = crun_ensure_file_at (devfd, "console", 0620, true, err);
+++      ret = create_file_if_missing_at (devfd, "console", 0620, err);
++       if (UNLIKELY (ret < 0))
++         return ret;
++     }
++diff --git a/src/libcrun/utils.c b/src/libcrun/utils.c
++index fd40110a..38d86c82 100644
++--- a/src/libcrun/utils.c
+++++ b/src/libcrun/utils.c
++@@ -242,17 +242,17 @@ get_file_type (mode_t *mode, bool nofollow, const char *path)
++ }
++ 
++ int
++-create_file_if_missing_at (int dirfd, const char *file, libcrun_error_t *err)
+++create_file_if_missing_at (int dirfd, const char *file, mode_t mode, libcrun_error_t *err)
++ {
++-  cleanup_close int fd_write = openat (dirfd, file, O_CLOEXEC | O_CREAT | O_WRONLY, 0700);
+++  cleanup_close int fd_write = openat (dirfd, file, O_CLOEXEC | O_CREAT | O_WRONLY, mode);
++   if (fd_write < 0)
++     {
++-      mode_t mode;
+++      mode_t tmp_mode;
++       int ret;
++ 
++       /* On errors, check if the file already exists.  */
++-      ret = get_file_type_at (dirfd, &mode, false, file);
++-      if (ret == 0 && S_ISREG (mode))
+++      ret = get_file_type_at (dirfd, &tmp_mode, false, file);
+++      if (ret == 0 && S_ISREG (tmp_mode))
++         return 0;
++ 
++       return crun_make_error (err, errno, "creating file `%s`", file);
++@@ -635,33 +635,6 @@ crun_ensure_directory (const char *path, int mode, bool nofollow, libcrun_error_
++   return crun_ensure_directory_at (AT_FDCWD, path, mode, nofollow, err);
++ }
++ 
++-int
++-crun_ensure_file_at (int dirfd, const char *path, int mode, bool nofollow, libcrun_error_t *err)
++-{
++-  cleanup_free char *tmp = xstrdup (path);
++-  size_t len = strlen (tmp);
++-  char *it = tmp + len - 1;
++-  int ret;
++-
++-  while (*it != '/' && it > tmp)
++-    it--;
++-  if (it > tmp)
++-    {
++-      *it = '\0';
++-      ret = crun_ensure_directory_at (dirfd, tmp, mode, nofollow, err);
++-      if (UNLIKELY (ret < 0))
++-        return ret;
++-      *it = '/';
++-    }
++-  return create_file_if_missing_at (dirfd, tmp, err);
++-}
++-
++-int
++-crun_ensure_file (const char *path, int mode, bool nofollow, libcrun_error_t *err)
++-{
++-  return crun_ensure_file_at (AT_FDCWD, path, mode, nofollow, err);
++-}
++-
++ static int
++ get_file_size (int fd, off_t *size)
++ {
++diff --git a/src/libcrun/utils.h b/src/libcrun/utils.h
++index ed83344e..0025648f 100644
++--- a/src/libcrun/utils.h
+++++ b/src/libcrun/utils.h
++@@ -265,12 +265,8 @@ int write_file_at_with_flags (int dirfd, int flags, mode_t mode, const char *nam
++ 
++ int crun_ensure_directory (const char *path, int mode, bool nofollow, libcrun_error_t *err);
++ 
++-int crun_ensure_file (const char *path, int mode, bool nofollow, libcrun_error_t *err);
++-
++ int crun_ensure_directory_at (int dirfd, const char *path, int mode, bool nofollow, libcrun_error_t *err);
++ 
++-int crun_ensure_file_at (int dirfd, const char *path, int mode, bool nofollow, libcrun_error_t *err);
++-
++ int crun_safe_create_and_open_ref_at (bool dir, int dirfd, const char *dirpath, size_t dirpath_len, const char *path, int mode, libcrun_error_t *err);
++ 
++ int crun_safe_ensure_directory_at (int dirfd, const char *dirpath, size_t dirpath_len, const char *path, int mode,
++@@ -285,7 +281,7 @@ int crun_dir_p_at (int dirfd, const char *path, bool nofollow, libcrun_error_t *
++ 
++ int detach_process ();
++ 
++-int create_file_if_missing_at (int dirfd, const char *file, libcrun_error_t *err);
+++int create_file_if_missing_at (int dirfd, const char *file, mode_t mode, libcrun_error_t *err);
++ 
++ int check_running_in_user_namespace (libcrun_error_t *err);
++ 
+diff --git a/recipes-containers/crun/crun/CVE-2026-88264-02.patch b/recipes-containers/crun/crun/CVE-2026-88264-02.patch
+new file mode 100644
+index 00000000..88c89b8b
+--- /dev/null
++++ b/recipes-containers/crun/crun/CVE-2026-88264-02.patch
+@@ -0,0 +1,104 @@
 +From ef32479522af883568ce4a5482358069ff71dc8f Mon Sep 17 00:00:00 2001
 +From: Giuseppe Scrivano <gscrivan@redhat.com>
 +Date: Fri, 11 Sep 2026 09:25:48 +0000
@@ -94,7 +228,7 @@ index 00000000..1d8eea96
 +index ce44c261..76175411 100644
 +--- a/src/libcrun/utils.c
 ++++ b/src/libcrun/utils.c
-+@@ -196,14 +196,14 @@ get_file_type (mode_t *mode, bool nofollow, const char *path)
++@@ -244,14 +244,14 @@ get_file_type (mode_t *mode, bool nofollow, const char *path)
 + int
 + create_file_if_missing_at (int dirfd, const char *file, mode_t mode, libcrun_error_t *err)
 + {
@@ -115,7 +249,7 @@ index 00000000..1d8eea96
 +index 6956e2bd..a99753a3 100755
 +--- a/tests/test_devices.py
 ++++ b/tests/test_devices.py
-+@@ -369,6 +369,41 @@ def test_mknod_char_device():
++@@ -214,8 +214,44 @@ def test_mknod_device():
 +         return -1
 +     return 0
 + 
@@ -154,27 +288,23 @@ index 00000000..1d8eea96
 ++
 ++    return 0
 ++
-+ def test_dev_symlink_does_not_populate_outside_rootfs():
-+     if is_rootless():
-+         return (77, "requires root privileges")
-+@@ -508,6 +543,7 @@ def test_allow_device_read_only():
++ 
 + all_tests = {
-+     "mknod-fifo-device": test_mknod_fifo_device,
-+     "mknod-char-device": test_mknod_char_device,
 ++    "dev-console-symlink-does-not-escape-rootfs": test_dev_console_symlink_does_not_escape_rootfs,
-+     "dev-symlink-does-not-populate-outside-rootfs": test_dev_symlink_does_not_populate_outside_rootfs,
-+     "allow-device-read-only": test_allow_device_read_only,
 +     "owner-device" : test_owner_device,
++     "deny-devices" : test_deny_devices,
++     "allow-device" : test_allow_device,
 diff --git a/recipes-containers/crun/crun_git.bb b/recipes-containers/crun/crun_git.bb
-index 809b6c01..80468b0a 100644
+index 8d72e5f6..0bcc51aa 100644
 --- a/recipes-containers/crun/crun_git.bb
 +++ b/recipes-containers/crun/crun_git.bb
-@@ -19,6 +19,7 @@ SRC_URI = "git://github.com/containers/crun.git;branch=main;name=crun;protocol=h
-            file://0002-libocispec-fix-array-items-parsing.patch;patchdir=libocispec \
-            file://CVE-2026-30892.patch \
-            file://CVE-2026-47766.patch \
-+           file://CVE-2026-88264.patch \
+@@ -16,6 +16,8 @@ SRC_URI = "git://github.com/containers/crun.git;branch=main;name=crun;protocol=h
+            git://github.com/opencontainers/image-spec.git;branch=main;name=ispec;destsuffix=git/libocispec/image-spec;protocol=https \
+            git://github.com/containers/yajl.git;branch=main;name=yajl;destsuffix=git/libocispec/yajl;protocol=https \
+            file://CVE-2025-24965.patch \
++           file://CVE-2026-88264-01.patch \
++           file://CVE-2026-88264-02.patch \
            "
  
- PV = "1.26.0+git"
+ PV = "v1.14.3+git${SRCREV_crun}"
 
