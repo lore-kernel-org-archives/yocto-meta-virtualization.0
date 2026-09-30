@@ -1,279 +1,165 @@
-Return-Path: <tanguy.raufflet@savoirfairelinux.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B2656CA5FC5
-	for <webhook@archiver.kernel.org>; Wed, 30 Sep 2026 14:47:14 +0000 (UTC)
-Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com [208.88.110.44])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.15199.1790779632629856073
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 045D9CA5FC5
+	for <webhook@archiver.kernel.org>; Wed, 30 Sep 2026 15:56:08 +0000 (UTC)
+Received: from mail-qk2-f12.google.com (mail-qk2-f12.google.com [74.125.230.204])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.17003.1790783765843698745
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 30 Sep 2026 07:47:13 -0700
+ Wed, 30 Sep 2026 08:56:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@savoirfairelinux.com header.s=DFC430D2-D198-11EC-948E-34200CB392D2 header.b=DM6BK23W;
- spf=pass (domain: savoirfairelinux.com, ip: 208.88.110.44, mailfrom: tanguy.raufflet@savoirfairelinux.com)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id 29FA63D8160C
-	for <meta-virtualization@lists.yoctoproject.org>; Wed, 30 Sep 2026 10:47:11 -0400 (EDT)
-Received: from mail.savoirfairelinux.com ([127.0.0.1])
- by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10032)
- with ESMTP id 2d_c3SMo8_FJ; Wed, 30 Sep 2026 10:47:09 -0400 (EDT)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id 5AB3C3D8165B;
-	Wed, 30 Sep 2026 10:47:09 -0400 (EDT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.savoirfairelinux.com 5AB3C3D8165B
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=TtrbDBNL;
+ spf=pass (domain: gmail.com, ip: 74.125.230.204, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk2-f12.google.com with SMTP id d75a77b69052e-530de452c33so50929251cf.1
+        for <meta-virtualization@lists.yoctoproject.org>; Wed, 30 Sep 2026 08:56:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=savoirfairelinux.com; s=DFC430D2-D198-11EC-948E-34200CB392D2;
-	t=1790779629; bh=HHgRp6cTyvZ+zo6sXL2fX92Wkl4+baSeSAM/F6I+IIo=;
-	h=From:To:Date:Message-ID:MIME-Version;
-	b=DM6BK23WxxzUvVrGJ2FnsHrHr5qpaWJ8spF8eAIjOnyiLnnAS5rTDsoC84OEQy0en
-	 Hzj43Hsci61OBw1VKh6W4p+Z5mW201YmTQ3caL4ThrxhIuWbrq0OVdYxDGrn0FXXud
-	 34wPpsm9PYk/diOmQeGJnKTTtgFRkJa/HpZNLJCcx67/RSXWHtiyKEqPkW1HrQ0blm
-	 STXaNpQuDBShJdIrD9j5ESgfoPimWCQYLsrZhi05PV65Pltnl2AY3Go6Sv0s5R01qf
-	 S2z1vmXrLlgvfPvoxvkb7O8QRi2UsMRgoSA0TWNvkCKytxzVlE7UC26kmdb/WXdHFE
-	 VGSZhbz2+MYkw==
-X-Virus-Scanned: amavis at mail.savoirfairelinux.com
-Received: from mail.savoirfairelinux.com ([127.0.0.1])
- by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10026)
- with ESMTP id 3I045r-qD6Ts; Wed, 30 Sep 2026 10:47:09 -0400 (EDT)
-Received: from traufflet.rennes.sfl (80-15-101-118.ftth.fr.orangecustomers.net [80.15.101.118])
-	by mail.savoirfairelinux.com (Postfix) with ESMTPSA id C48F23D8160C;
-	Wed, 30 Sep 2026 10:47:08 -0400 (EDT)
-From: Tanguy Raufflet <tanguy.raufflet@savoirfairelinux.com>
+        d=gmail.com; s=20251104; t=1790783765; x=1791388565; darn=lists.yoctoproject.org;
+        h=mime-version:content-transfer-encoding:content-type:references
+         :in-reply-to:subject:cc:to:from:date:message-id:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=KJwfZA7W5DVaGtwdFPckPhc9Bqxpqz94NLq2qppjihk=;
+        b=TtrbDBNLxcUQLEu7sPQlZQLWD9H/waJ6xVupNK+rKuvl73GgarW5G8Y83Lr9eJQbMP
+         gT5OQI23hxCHs0I8cCnny4eh4i5c1aKKFXSOUeBkVGFAZvg/wLR3R1eAWodcuFGw4/Fq
+         1osy99L6Oyh/8VlD12UQJjt8V5k2RtlXPbaBbJTT9q+RFT4issB/4iAVmbyJmoeTyLpH
+         qjU3SKNveNshLu37qjaZ1QV7QDlaROeBoWJP1OcjiNeUfx9oJwKLcBIbKO/wMn4Pho7Z
+         O3YnfZjZr8HCbf5RvKO3kDoYlSprPF8NrbtyI2b2252WDYyW2HXuvPY3Q79BlcfjScbn
+         LFzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790783765; x=1791388565;
+        h=mime-version:content-transfer-encoding:content-type:references
+         :in-reply-to:subject:cc:to:from:date:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=KJwfZA7W5DVaGtwdFPckPhc9Bqxpqz94NLq2qppjihk=;
+        b=0M+4v54pgjrljRGuFn1K3apbk9iRuRVONxyTJrTUnSWpeAL5h1QP3xymXArY52LPWY
+         AzPASSyGxEG5lA2IOeQAphu2PtSP1M7AgB1bKyBv1qHDrgK7Q6egNxhQyQrN3ux0VWzK
+         6Gh7pTfzrB3rn9c8KKA/P4BKwE9ML7iXxTktEaZ2/1fPAmf5v6K/HFw/IinCrejLv9ko
+         s9Ch8/gtDo4poIBW8leYJPnBUsoxVyExDixvtOjTT4dOhW85Tg00RnLIFRDcRO1iycia
+         m4PxzsrDxV89RzJt4HYvsjkrji8LqXyTTbL/rAYVV5n1S3VStfjKQjlHl2RFQNwah/Wm
+         NYig==
+X-Gm-Message-State: AFuF++mvWH+f79qQ71CiUiLd4xWDJ0xVAKU7MabS4LTlT3pL/c73DpVO
+	G74XiR7kWR68ROhxNxgdaYEakO1AHQ+BfUmZHBBnJU6fJyO+B4ZbkB8kajlRmucM6+I=
+X-Gm-Gg: AYBFou0IvERd4QFe0j5MzEt59onw6cNsfgAMv1aa5kVc1YlTO93gNKYxwKeHdPF3EDL
+	wrbfcYIaTLz99pErrZ9WrPEvGZauhDFmNoMX9dlQZ4xvduOtZ0eA7VKcPYyydwYGGgQzkHBhBEv
+	KOC4CdYbAC3SnjmYd69+v6GotXVGHk6ORfAiSh2tEYBmpdKKdYZKfk2b7yCOATOU+qkptd7pUeK
+	FUuwb54u6iPRRnXC5pjJ8/zxu66xW9XfXdVZhvo00gQYhPNg7dtWsyVpZfu6dsIVh/dOSZ5yePl
+	Nry4soSMykwJUxH84z4FflAtYGdKwViai1yvL+pAilClALMsZo4Sfnd1nCvivqbQFQzk4RE36qj
+	z3yWWKmJgALMi5KfY3T9mCWGOPAurV/7rC01a6xeFICN6hCUKc7Hi22wEebfmh9nOQCgygHVh5Z
+	6zxDKWhVrWmHGNTIq51dCkw95iIT3NL18E2VeDm0bxF1B6tZNUW7DFmXVTFtgIwrnjLlCdWtut6
+	SgZQMuuGlVNIXvOjliN4I7/Hlob4fQTE8mp4dayF2RHDAftyV/Mb2VO/C48ftqjMjdFVGTHXmoZ
+	iS+yIkktGkLLd48wV+c6GEmUwX70/r3egv7Z5azafcaiZT1Z+aODbiM/BTtJLzqcCRmbbCo=
+X-Received: by 2002:a05:622a:6092:b0:532:99e0:5a14 with SMTP id d75a77b69052e-53373c9ac08mr36281141cf.4.1790783764568;
+        Wed, 30 Sep 2026 08:56:04 -0700 (PDT)
+Received: from [127.0.1.1] (pool-174-112-35-248.cpe.net.cable.rogers.com. [174.112.35.248])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-917a89a52e1sm2953506d6.13.2026.09.30.08.56.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Sep 2026 08:56:03 -0700 (PDT)
+Message-ID: <6abd3113.e51cd04b.1fe4c8.0684@mx.google.com>
+Date: Wed, 30 Sep 2026 08:56:03 -0700 (PDT)
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 To: meta-virtualization@lists.yoctoproject.org
-Cc: enguerrand.de-ribaucourt@savoirfairelinux.com,
-	Tanguy Raufflet <tanguy.raufflet@savoirfairelinux.com>
-Subject: [meta-virtualization][PATCH 1/2] image-oci: add OCI runtime bundle output
-Date: Wed, 30 Sep 2026 16:47:04 +0200
-Message-ID: <20260930144705.64792-1-tanguy.raufflet@savoirfairelinux.com>
-X-Mailer: git-send-email 2.55.0
+Cc: tanguy.raufflet@savoirfairelinux.com
+Subject: 
+ Re: [meta-virtualization][PATCH 1/2] image-oci: add OCI runtime bundle output
+In-Reply-To: <20260930144705.64792-1-tanguy.raufflet@savoirfairelinux.com>
+References: <20260930144705.64792-1-tanguy.raufflet@savoirfairelinux.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Wed, 30 Sep 2026 14:47:14 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/10098
+ <meta-virtualization@lists.yoctoproject.org>; Wed, 30 Sep 2026 15:56:08 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/10100
 
-umoci currently uses an OCI runtime bundle as a temporary artifact
-because umoci needs this intermediate representation to construct an OCI
-image with the rootfs populated. After this step, the bundle is not used
-anymore since umoci does not provide a mechanism to directly configure
-the runtime bundle directly.
+Hi Tanguy,
 
-Because some utilities expect an OCI runtime bundle as input (e.g.,
-crun, runc), it is useful to optionally retain the bundle after
-constructing the OCI image. The comment [1] in the code was already
-suggesting that retaining the OCI runtime bundle could be beneficial.
+I don't want to take this as it stands, and I want to be clear about
+why. It isn't the mechanics of the change, it's the architectural
+one.
 
-    "We could make this optional, since the bundle is directly runnable
-    via runc"
+But this is a good topic to discuss more, since there may be another
+way to get what you ar elooking for.
 
-This commit adds OCI_IMAGE_BUNDLE_OUTPUT to optionally deploy the
-runtime bundle as a tar archive into IMGDEPLOYDIR. This bundle contains
-the fully populated OCI runtime bundle, including the rootfs and the
-config.json file reflecting the final OCI image configuration.
+Sorry for the long reply, this is something I'm currently working
+through as part of my OSSEU presentation (and next release planning)
+that I'm doing this week.
 
-Also, a postprocess command can be specified to either modify the
-runtime bundle's configuration or replace it entirely before it is
-archived.
+image-oci exists to build OCI images. If a use case wants an
+OCI-targeted container, the "sanctioned" way is a real image recipe
+with the appropriate image type set (IMAGE_FSTYPES = "oci") and the
+OCI_IMAGE_* variables expressing what that container is. The recipe
+is where the container's identity lives and where it can be reasoned
+about, audited, patched, and rebuilt.
 
-Note that image_bundle_name is not generated to the IMGDEPLOYDIR anymore
-to avoid issues when BitBake processes and caches files under
-IMGDEPLOYDIR.
+I'll risk saying the obvious, since this will go in the list archive
+.. and it is worth being clear about what the two outputs actually
+are. The existing -oci-dir[.tar] artifact is an OCI Image Layout
+(blobs + manifests). The patch's new .oci-bundle.tar is an OCI Runtime
+Bundle (flat rootfs + config.json). Same container in two spec
+representations, aimed at different consumers. Image Layout for
+interchange (registries, skopeo, cross-arch manifests), Runtime Bundle
+for direct exec by runc/crun. `umoci unpack --image <layout>:tag
+<bundle-dir>` converts one to the other in a step. So the patch's
+output is a strictly-lossier view (no layer sharing, no multi-arch, no
+registry push) of the artifact we already ship, produced at build time
+in a way the deploy side could have produced itself.
 
-Signed-off-by: Tanguy Raufflet <tanguy.raufflet@savoirfairelinux.com>
----
- classes/image-oci-umoci.inc | 41 ++++++++++++++++++++++--
- classes/image-oci.bbclass   | 13 ++++++++
- docs/container-bundling.md  | 64 +++++++++++++++++++++++++++++++++++++
- 3 files changed, 115 insertions(+), 3 deletions(-)
+I can see some value in emitting the bundle directly. But that piece
+is trivially scriptable downstream from an OCI container that's
+already built: one `umoci unpack` at deploy time gets you there, 
+and doesn't have to be baked into image-oci as a build-time output
+to be reachable.
 
-diff --git a/classes/image-oci-umoci.inc b/classes/image-oci-umoci.inc
-index 67f6c6e5..ad103f16 100644
---- a/classes/image-oci-umoci.inc
-+++ b/classes/image-oci-umoci.inc
-@@ -421,6 +421,34 @@ PYEOF
-     bbnote "OCI fix: Layer whiteout fix complete"
- }
-=20
-+oci_archive_bundle() {
-+    image_tag=3D"${@d.getVar("OCI_IMAGE_TAG").replace(":", "_")}"
-+
-+    ${IMAGE_CMD_TAR} --sort=3Dname --format=3Dposix --pax-option=3Ddelet=
-e=3Datime,delete=3Dctime --numeric-owner \
-+        -cf "${IMGDEPLOYDIR}/${IMAGE_NAME}.oci-bundle.tar" \
-+        -C "${OCI_BUNDLE_DIR}" \
-+        .
-+
-+    ln -sfn "${IMAGE_NAME}.oci-bundle.tar" \
-+        "${IMGDEPLOYDIR}/${IMAGE_BASENAME}-$image_tag-oci-bundle.tar"
-+
-+    rm -rf "${OCI_BUNDLE_DIR}"
-+}
-+
-+python oci_bundle_postprocess() {
-+    from oe.utils import execute_pre_post_process
-+
-+    execute_pre_post_process(
-+        d, d.getVar('OCI_BUNDLE_POSTPROCESS_COMMAND')
-+    )
-+    bb.build.exec_func('oci_archive_bundle', d)
-+}
-+
-+oci_bundle_postprocess[dirs] =3D "${OCI_BUNDLE_DIR}"
-+
-+do_image_oci[postfuncs] +=3D "${@'oci_bundle_postprocess' if bb.utils.to=
-_boolean(d.getVar('OCI_IMAGE_BUNDLE_OUTPUT')) else ''}"
-+do_image_oci[subimages] +=3D "${@'oci-bundle.tar' if bb.utils.to_boolean=
-(d.getVar('OCI_IMAGE_BUNDLE_OUTPUT')) else ''}"
-+
- IMAGE_CMD:oci() {
-     umoci_options=3D""
-=20
-@@ -477,7 +505,7 @@ IMAGE_CMD:oci() {
-=20
-     new_image=3Dt
-     image_name=3D"${IMAGE_NAME}${IMAGE_NAME_SUFFIX}-oci"
--    image_bundle_name=3D"${IMAGE_NAME}${IMAGE_NAME_SUFFIX}-oci-bundle"
-+    image_bundle_name=3D"${OCI_BUNDLE_DIR}"
-     if [ -n "$OCI_REUSE_IMAGE" ]; then
- 	if [ -d $image_name ]; then
- 	    bbdebug 1 "OCI: reusing image directory"
-@@ -816,8 +844,15 @@ IMAGE_CMD:oci() {
- 	ln -sfn "$image_name-dir.tar" "${IMAGE_BASENAME}-$image_tag-oci-dir.tar=
-"
-     fi
-=20
--    # We could make this optional, since the bundle is directly runnable=
- via runc
--    rm -rf $image_bundle_name
-+    if [ "${OCI_IMAGE_BUNDLE_OUTPUT}" =3D "1" ]; then
-+        # Refresh config.json from the finalized image before post-proce=
-ssing.
-+        umoci raw runtime-config --rootless \
-+            --image "$image_name:${OCI_IMAGE_TAG}" \
-+            --rootfs "$image_bundle_name/rootfs" \
-+            "$image_bundle_name/config.json"
-+    else
-+        rm -rf "$image_bundle_name"
-+    fi
-=20
-     # This is the OCI image directory, which is technically the "image" =
-as specified
-     # Use -n to avoid creating link inside existing symlink target direc=
-tory
-diff --git a/classes/image-oci.bbclass b/classes/image-oci.bbclass
-index 141cd2a8..cbbaa388 100644
---- a/classes/image-oci.bbclass
-+++ b/classes/image-oci.bbclass
-@@ -280,6 +280,19 @@ OCI_LAYER_CACHE_DIR ?=3D "${TOPDIR}/oci-layer-cache/=
-${MACHINE}"
- # bundled into a tarball.
- OCI_IMAGE_TAR_OUTPUT ?=3D "true"
-=20
-+# Create a tar archive containing an OCI runtime bundle suitable for OCI=
- runtimes such as crun.
-+OCI_IMAGE_BUNDLE_OUTPUT ?=3D "0"
-+
-+# Functions appended here run after the final runtime configuration is g=
-enerated
-+# and before the bundle is archived. The bundle directory is available a=
-s
-+# OCI_BUNDLE_DIR.
-+OCI_BUNDLE_DIR =3D "${WORKDIR}/${IMAGE_BASENAME}-oci-bundle"
-+OCI_BUNDLE_POSTPROCESS_COMMAND ?=3D ""
-+
-+python () {
-+    d.setVarFlag('OCI_BUNDLE_POSTPROCESS_COMMAND', 'vardeps', d.getVar('=
-OCI_BUNDLE_POSTPROCESS_COMMAND'))
-+}
-+
- # Generate a subarch that is appropriate to OCI image
- # types. This is typically only ARM architectures at the
- # moment.
-diff --git a/docs/container-bundling.md b/docs/container-bundling.md
-index 77aa09b0..bedd541e 100644
---- a/docs/container-bundling.md
-+++ b/docs/container-bundling.md
-@@ -288,6 +288,70 @@ Disable caching with `OCI_LAYER_CACHE =3D "0"` if yo=
-u:
- - Need fully reproducible builds with no local state
- - Are debugging package installation issues
-=20
-+### OCI Runtime Bundles
-+
-+The umoci backend can emit an OCI runtime bundle suitable for runtimes s=
-uch
-+as crun and runc:
-+
-+    OCI_IMAGE_BUNDLE_OUTPUT =3D "1"
-+
-+The `app-container-oci-bundle` demo image enables this output and can be
-+built with `bitbake app-container-oci-bundle`.
-+
-+The runtime configuration is generated from the finalized OCI image, so =
-its
-+`config.json` includes settings applied through `OCI_IMAGE_ENV_VARS`,
-+`OCI_IMAGE_CMD`, `OCI_IMAGE_ENTRYPOINT`, `OCI_IMAGE_RUNTIME_UID`, and
-+`OCI_IMAGE_WORKINGDIR`. It is deployed as:
-+
-+    ${IMAGE_BASENAME}-${OCI_IMAGE_TAG}-oci-bundle.tar
-+
-+with the convenience symlink:
-+
-+    ${IMAGE_BASENAME}-oci-bundle.tar
-+
-+`OCI_IMAGE_BUNDLE_OUTPUT` is independent of `OCI_IMAGE_TAR_OUTPUT`. The
-+latter controls tar output for the OCI image layout (`index.json` and
-+`blobs/`), while the runtime bundle contains `config.json` and `rootfs/`=
-.
-+
-+Extract and run the bundle with crun:
-+
-+    mkdir my-container-bundle
-+    tar -xf my-container-oci-bundle.tar -C my-container-bundle
-+    crun run --bundle my-container-bundle my-container
-+
-+#### Bundle Post-processing
-+
-+Functions listed in `OCI_BUNDLE_POSTPROCESS_COMMAND` run after the final=
-ized
-+image is unpacked and before the bundle is archived. They run with
-+`OCI_BUNDLE_DIR` as their current working directory:
-+
-+```bitbake
-+OCI_BUNDLE_POSTPROCESS_COMMAND +=3D "configure_runtime_bundle;"
-+
-+configure_runtime_bundle() {
-+    config=3D"config.json"
-+    jq '.process.terminal =3D false' "$config" > "$config.tmp"
-+    mv "$config.tmp" "$config"
-+}
-+```
-+
-+Post-processing changes only the emitted runtime bundle. It does not mod=
-ify
-+the OCI image configuration or its filesystem layers.
-+
-+To replace `config.json` completely, add the replacement to `SRC_URI` an=
-d
-+install it from a post-processing function:
-+
-+```bitbake
-+SRC_URI +=3D "file://config.json"
-+
-+OCI_BUNDLE_POSTPROCESS_COMMAND +=3D "install_runtime_config;"
-+
-+install_runtime_config() {
-+    install -m 0644 "${WORKDIR}/config.json" \
-+    "config.json"
-+}
-+```
-+
- ### OCI_IMAGE_CMD vs OCI_IMAGE_ENTRYPOINT
-=20
-     # CMD (default) - replaced when user passes arguments
---=20
-2.55.0
+The part I object to more strongly is the modification-to-make-it-
+runnable half. OCI_BUNDLE_POSTPROCESS_COMMAND (jq-mutate config.json,
+or drop config.json in from SRC_URI) is hidden logic that mutates
+container output bytes after the recipe has finished expressing what
+the container is. That can't be a first-class output of the layer.
+First-class means the recipe/variables describe the container end-to-
+end, and someone reading the recipe can tell what will land in
+config.json without also reading a post-hook shell function that
+patches it afterward. Layered together with the 2/2 pattern
+("require app-container.bb; OCI_IMAGE_BUNDLE_OUTPUT = 1"), it's a
+way to define effectively a new container by appending post-hooks
+onto an unrelated image recipe. Every image-oci build silently
+becomes two products with the second one shaped by hidden logic.
+That's the side door.
 
+One clarification on the code comment you cite as prior
+encouragement:
+
+    "We could make this optional, since the bundle is directly
+     runnable via runc"
+
+That was less about promoting the bundle as a first-class shippable
+artifact and more a note about reuse/sharing between image builds --
+"we could keep it around instead of rebuilding it every time" reuse
+angle. Reading it as a plan for exposing bundles as standalone-
+runnable outputs via crun/runc goes further than intended.
+
+That's the reasoning, now to the path to hopefully a solution ....
+
+One question that would help me understand the motivation of what
+you're after: is the goal here to produce multiple containers from a
+single image construction, and the bundle+postprocess pair is the
+plumbing you found that gets close to that? If so, the current patch
+is still 1-image-to-1-bundle so it doesn't actually get you there
+either, and that's a different discussion worth having on its own.
+
+If the goal is just "1 image, 1 bundle, but with config.json tweaks
+the current OCI_IMAGE_* variables can't express", then let me know the
+missing knobs and we can look at adding them as first-class variables
+in image-oci (the recipe-level path), rather than as a post-hook that
+sits outside the image-config machinery.
+
+If there's something clunky or otherwise not working in the image-oci
+output, then that is also something to look into fixing. But if we
+still require a recipe -> produce one output, then I'm missing why
+we need a change like this.
+
+Cheers,
+
+Bruce
 
