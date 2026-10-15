@@ -1,130 +1,120 @@
-Return-Path: <tanguy.raufflet@savoirfairelinux.com>
+Return-Path: <hthakar@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62303CA9EC5
-	for <webhook@archiver.kernel.org>; Mon, 12 Oct 2026 12:24:13 +0000 (UTC)
-Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com [208.88.110.44])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.12047.1791807845322527127
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AA84CC6B2E
+	for <webhook@archiver.kernel.org>; Thu, 15 Oct 2026 04:40:20 +0000 (UTC)
+Received: from rcdn-iport-7.cisco.com (rcdn-iport-7.cisco.com [173.37.86.78])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.32498.1792039210479120283
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 12 Oct 2026 05:24:06 -0700
+ Wed, 14 Oct 2026 21:40:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@savoirfairelinux.com header.s=DFC430D2-D198-11EC-948E-34200CB392D2 header.b=cOQyLxsN;
- spf=pass (domain: savoirfairelinux.com, ip: 208.88.110.44, mailfrom: tanguy.raufflet@savoirfairelinux.com)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id 7BDA13D80F41;
-	Mon, 12 Oct 2026 08:24:03 -0400 (EDT)
-Received: from mail.savoirfairelinux.com ([127.0.0.1])
- by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10032)
- with ESMTP id daeL-cGVO-LE; Mon, 12 Oct 2026 08:24:02 -0400 (EDT)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id 3B7353D81657;
-	Mon, 12 Oct 2026 08:24:02 -0400 (EDT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.savoirfairelinux.com 3B7353D81657
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=IiOg6aHH;
+ spf=pass (domain: cisco.com, ip: 173.37.86.78, mailfrom: hthakar@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=savoirfairelinux.com; s=DFC430D2-D198-11EC-948E-34200CB392D2;
-	t=1791807842; bh=CLa43lv57v7OHAOv7FB03zAAOwP7DfFztPMEwv1/WPQ=;
-	h=Date:From:To:Message-ID:MIME-Version;
-	b=cOQyLxsNEv2cTXOWEuGvqQ/KFsu9obTrU0LcRBgAJdizXK+FfPENrNS34zhc3dd34
-	 JdOynGD+0NlS2kNOJikmJIKlqNQkDb7JikgW+8FmZBGLjeBeZTGhUeHaH7aSUoVzqW
-	 +n5ygeHSTNs8hcPLVvk0NPLf8tCjOX7KPbN9XE3sQ0xj1kP3aBuc+S98F28MLO0FJM
-	 sqzADoqqfMy6CPcZQWuiRk93DIRdasr1o5+98BHqrK0yyxe+5tHU1ZikZ4RnOn0NMb
-	 Kzp6G3xvoXAXPEhjXo1/c3X3z1QWA/NLuXarqQ9thRFoxSh1WWg7wnSmWt9ijqf4uZ
-	 gJZJtv57zKs2Q==
-X-Virus-Scanned: amavis at mail.savoirfairelinux.com
-Received: from mail.savoirfairelinux.com ([127.0.0.1])
- by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10026)
- with ESMTP id sE9SWt9VPlxc; Mon, 12 Oct 2026 08:24:02 -0400 (EDT)
-Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com [192.168.48.237])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id 097DA3D80F41;
-	Mon, 12 Oct 2026 08:24:02 -0400 (EDT)
-Date: Mon, 12 Oct 2026 08:24:02 -0400 (EDT)
-From: Tanguy Raufflet <tanguy.raufflet@savoirfairelinux.com>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: meta-virtualization@lists.yoctoproject.org, 
-	enguerrand de-ribaucourt <enguerrand.de-ribaucourt@savoirfairelinux.com>
-Message-ID: <1760387508.1766093.1791807841997.JavaMail.zimbra@savoirfairelinux.com>
-In-Reply-To: <6abd3113.e51cd04b.1fe4c8.0684@mx.google.com>
-References: <20260930144705.64792-1-tanguy.raufflet@savoirfairelinux.com> <6abd3113.e51cd04b.1fe4c8.0684@mx.google.com>
-Subject: Re: [meta-virtualization][PATCH 1/2] image-oci: add OCI runtime
- bundle output
+  d=cisco.com; i=@cisco.com; l=1358; q=dns/txt;
+  s=iport01; t=1792039210; x=1793248810;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=qUUm9T8YYTGpMn9nv+2SGi5/Un4PHLayXEI+EzW3wko=;
+  b=IiOg6aHHBvlA716u2PbToG2izvXmuI6v100s6kxtWJsLPL0VOFmR2dsY
+   GWmr8XD7NAhlOEuCXL+/+U4Uu5i4HYQc6PALvs22lX8iW6PdSXuStGwyr
+   rNyLm2L3mBIt+gJmhKlU2hsqzUgV+hZWOKHehO0/8jw/EGSpnrEk09H34
+   MTS5nfQlHVesPKbwl2StIFkEB67Pd/c7BvormN2LMQXuRE2p+NyFf0lke
+   zz45mct3pwT0Spc+b6JbaYj3OPeAq64E5OokTPDtI8CIa3T0XteE9Q9kM
+   cx5jEFZ0JSEFAYim/C2FlPXVMohdwW8ynCLY5Eli2FmuJ1w+fIqM91qf/
+   w==;
+X-CSE-ConnectionGUID: sz80QNhlRqCwS7ySU+AFyg==
+X-CSE-MsgGUID: 0TjMyJJNTI6z3Rqb+9m7yg==
+X-IPAS-Result: =?us-ascii?q?A0BCAgCRV9Bq/5P/Ja1aglmCV3VgQ0mWSp4dgSQDVw8BA?=
+ =?us-ascii?q?QEPPRQEAQGFBY4WAiY0CQ4BAgQDAgMBAQEBAQEBAQEBAQEKAQEFAQEBAgEHB?=
+ =?us-ascii?q?YEOE4ZPDZAVNgFGMFxEgwIBgnQDEQa6U4IsgQGDaQJDUNsyAQUGFAEFgTOFQ?=
+ =?us-ascii?q?IgjdQGEfCcbG4FygRWDaYEFgVwBAQKCK4V4BIIigQyUQoJISIEeA1ksAVUTD?=
+ =?us-ascii?q?QoLBwWBaAM1EioVbjIdgSM+F4EHGwYFgR2BIIIWIxk2eoEJXoErKWABEBeBC?=
+ =?us-ascii?q?YIHAoJUggACAUlBDgdFUwklQxJHJiIIEgkBExowC4EbODwJKEEXDHMMHQVyC?=
+ =?us-ascii?q?AINCQ0YDUgRLDcVGQQ+bgeRfB6CZRB+LASCKBGlZaEPCiiDdowilToaM6pvC?=
+ =?us-ascii?q?5h9jgqWUIRpgWg8OYEgcBWDIlMZD445g2vOWicyAjsBAQcCBw4DC4FokX4BA?=
+ =?us-ascii?q?Q?=
+IronPort-Data: A9a23:Rd5j2KJ/WWTOhw3eFE+RgZQlxSXFcZb7ZxGr2PjKsXjdYENSgWcCm
+ jEZW2zQPquIMGH0c94kad+/pkoFvJDdmIU1GwYd+CA2RRqmiyZq6fd1j6vUF3nPRiEWZBs/t
+ 63yUvGZcoZpCCea+Uf1WlTYhSEU/bmSQbbhA/LzNCl0RAt1IA8skhsLd9QR2uaEuvDnRVnS0
+ T/Oi5eHYgH8g2cpajt8B5+r8XuDgtyj4Fv0gXRmDRx7lAe2v2UYCpsZOZawIxPQKqFIHvS3T
+ vr017qw+GXU5X8FUrtJRZ6iLyXm6paLVeS/oiI+t5qK23CulQRuukoPD8fwXG8M49m/c3+d/
+ /0W3XC4YV9B0qQhA43xWTEAe811FfUuFLMqvRFTvOTLp3AqfUcAzN11HhFuBKsY/txuKn51q
+ u0jFXMkQAGM0rfeLLKTEoGAh+w5J8XteYdasXZ6wHSAVbAtQIvIROPB4towMDUY358VW62BI
+ ZBENHw2MEuojx5nYj/7DLo+gOehhXDlWzZZs1mS46Ew5gA/ySQsi+W1a4KNK4biqcN9xnqag
+ 3Pk3ULFI08Ib+aGw3nU9y29ibqa9c/8cMdIfFGizdZvjUGag3ISEgELXF+6s/Cli0m4c9ZeM
+ FAPvDspprQ17FasTNT2Q1u/unHsg/IHc8BbH+t/7ESGzbDZpl/BQGMFVTVGLtchsafaWAAX6
+ 7NApPuxbRQHjVFfYSj1Gmu8xd9qBRUoEA==
+IronPort-HdrOrdr: A9a23:L3G1760JrzEwJjetMidmHQqjBJ4kLtp133Aq2lEZdPWaSKOlfq
+ eV7ZEmPHDP6Qr5NEtMpTniAtjjfZqjz/5ICOAqVN/INjUO01HHEGgN1+ffKhTbaknDH5ZmpM
+ RdWpk7LsHsBl5nisu/ygy5H9E8hOSjysmT9IDjJ7MHd3ASV0mmhD0JbDqmLg==
+X-Talos-CUID: 9a23:PVTqwG1ikvCSzJapdSRJFLxfAdJ1KkT7zHPqOmSnMjl4c4DWYHGB9/Yx
+X-Talos-MUID: =?us-ascii?q?9a23=3Aags9lw0N/xlKfAM3x3cJ/rPFqjUju5isLVEvs7M?=
+ =?us-ascii?q?6mpeWbhZpMXTMiWumTdpy?=
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.27,159,1787011200"; 
+   d="scan'208";a="535030092"
+Received: from rcdn-l-core-10.cisco.com ([173.37.255.147])
+  by rcdn-iport-7.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 15 Oct 2026 04:40:09 +0000
+Received: from sjc-ads-5245.cisco.com (sjc-ads-5245.cisco.com [10.28.23.9])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by rcdn-l-core-10.cisco.com (Postfix) with ESMTPS id 54BC618000267;
+	Thu, 15 Oct 2026 04:40:09 +0000 (GMT)
+Received: by sjc-ads-5245.cisco.com (Postfix, from userid 1887505)
+	id F0573CC1611; Wed, 14 Oct 2026 21:40:08 -0700 (PDT)
+From: "Hetvi Thakar -X (hthakar - E INFOCHIPS PRIVATE LIMITED at Cisco)" <hthakar@cisco.com>
+To: meta-virtualization@lists.yoctoproject.org
+Cc: xe-linux-external@cisco.com
+Subject: [meta-virtualization][wrynose][PATCH 1/2] grpc-go: Ignore CVE-2023-33953
+Date: Wed, 14 Oct 2026 21:40:07 -0700
+Message-Id: <20261015044008.538247-1-hthakar@cisco.com>
+X-Mailer: git-send-email 2.35.6
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-Mailer: Zimbra 10.1.20_GA_0326 (ZimbraWebClient - FF157 (Linux)/10.1.20_GA_0326)
-X-Zimbra-Message-Verification: hash=SHA256;guid=MjFhZjZjNWVhZjgwMjI3NTg4MDI2ZWIwNWM4ZDUwZmJiMWE1ZjU1MTliZDI5NDYxZjFmZjRmNTQyNjVjOTMxNg==
-Thread-Topic: image-oci: add OCI runtime bundle output
-Thread-Index: s5m5oZmneL/ageMIBL+j86/pLwjiAw==
+Content-Transfer-Encoding: 8bit
+X-Auto-Response-Suppress: DR, OOF, AutoReply
+X-Outbound-Client-TLS: ANONYMOUS;sjc-ads-5245.cisco.com [10.28.23.9];TLSv1.3;TLS_AES_256_GCM_SHA384;256
+X-Outbound-SMTP-Client: 10.28.23.9, sjc-ads-5245.cisco.com
+X-Outbound-Node: rcdn-l-core-10.cisco.com
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Mon, 12 Oct 2026 12:24:13 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/10109
+ <meta-virtualization@lists.yoctoproject.org>; Thu, 15 Oct 2026 04:40:20 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/10111
 
-Hello Bruce,
+From: Hetvi Thakar <hthakar@cisco.com>
 
-Thanks for the review !
+Analysis:
+- CVE-2023-33953 affects the gRPC C-core HPACK parser used by the
+  C++, Python, and Ruby implementations [1][2].
+- grpc-go is an independent Go implementation and does not contain the
+  affected C-core HPACK path [1][2].
+- The grpc-go v1.56.1 to v1.56.2 comparison contains no HPACK security
+  fix, so the C-core 1.56.2 fixed-version boundary does not apply [3].
+- Hence ignoring the CVE for grpc-go.
 
-> I can see some value in emitting the bundle directly. But that piece
-> is trivially scriptable downstream from an OCI container that's
-> already built: one `umoci unpack` at deploy time gets you there,
-> and doesn't have to be baked into image-oci as a build-time output
-> to be reachable.
+Reference:
+[1] https://cloud.google.com/support/bulletins#gcp-2023-022
+[2] https://github.com/advisories/GHSA-496j-2rq6-j6cc
+[3] https://github.com/grpc/grpc-go/compare/v1.56.1...v1.56.2
 
-I am working with an embedded system that that will use container and for
-which, we need to maximize the performance. This is why crun was chosen.
-For this I need to generate an OCI bundle image, and we want it to be
-fully handled by Yocto. Running umoci unpack during deployment would add
-a preparation step outside our Yocto build, which does not meet our
-project requirements.
+Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
+---
+ recipes-devtools/go/grpc-go_git.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-> The part I object to more strongly is the modification-to-make-it-
-> runnable half. OCI_BUNDLE_POSTPROCESS_COMMAND (jq-mutate config.json,
-> or drop config.json in from SRC_URI) is hidden logic that mutates
-> container output bytes after the recipe has finished expressing what
-> the container is. That can't be a first-class output of the layer.
-> First-class means the recipe/variables describe the container end-to-
-> end, and someone reading the recipe can tell what will land in
-> config.json without also reading a post-hook shell function that
-> patches it afterward. Layered together with the 2/2 pattern
-> ("require app-container.bb; OCI_IMAGE_BUNDLE_OUTPUT = 1"), it's a
-> way to define effectively a new container by appending post-hooks
-> onto an unrelated image recipe. Every image-oci build silently
-> becomes two products with the second one shaped by hidden logic.
-> That's the side door.
+diff --git a/recipes-devtools/go/grpc-go_git.bb b/recipes-devtools/go/grpc-go_git.bb
+index 2b5894d3..7c8e05ca 100644
+--- a/recipes-devtools/go/grpc-go_git.bb
++++ b/recipes-devtools/go/grpc-go_git.bb
+@@ -46,3 +46,4 @@ CVE_PRODUCT += "grpc"
+ # grpc-go (Go implementation in meta-virtualization) does not
+ # contain the affected HPACK code path.
+ CVE_STATUS[CVE-2024-7246] = "not-applicable-config: CVE is for grpc (C-core), not grpc-go."
++CVE_STATUS[CVE-2023-33953] = "not-applicable-config: CVE affects gRPC C-core-based implementations, not grpc-go."
+-- 
+2.35.6
 
-Yes, I agree.
-I added the post-processing hook because we expect to need runtime
-settings such as mounts, capabilities, and namespaces. But it lets the
-bundle's configuration diverge through changes that are not expressed
-as recipe-level settings. Would first-class, bundle-specific variables
-in image-oci be an appropriate way to declare those runtime settings
-while generating the bundle from the finalized image?
-
-> One question that would help me understand the motivation of what
-> you're after: is the goal here to produce multiple containers from a
-> single image construction, and the bundle+postprocess pair is the
-> plumbing you found that gets close to that? If so, the current patch
-> is still 1-image-to-1-bundle so it doesn't actually get you there
-> either, and that's a different discussion worth having on its own.
-
-> If the goal is just "1 image, 1 bundle, but with config.json tweaks
-> the current OCI_IMAGE_* variables can't express", then let me know the
-> missing knobs and we can look at adding them as first-class variables
-> in image-oci (the recipe-level path), rather than as a post-hook that
-> sits outside the image-config machinery.
-
-Yes, the goal is simply to produce one OCI bundle with one image recipe.
-The OCI image that will also be generated will never be used in my case.
-The settings I expect to need include mounts, capabilities, namespaces,
-etc. As I understand it, these are runtime-spec settings in config.json,
-not fields of the OCI image configuration, so the current OCI_IMAGE_*
-variables cannot express them in the image itself
-
-I would be interested to get feedback on the best approach to generate
-the OCI bundle fully within Yocto, without relying on post-processing
-hooks, so I can update the patch accordingly.
-
-Best regards,
-Tanguy Raufflet
 
