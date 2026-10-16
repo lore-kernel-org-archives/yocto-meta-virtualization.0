@@ -1,118 +1,132 @@
-Return-Path: <hthakar@cisco.com>
+Return-Path: <dkelaiya@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AAD4CC6B34
-	for <webhook@archiver.kernel.org>; Thu, 15 Oct 2026 04:40:20 +0000 (UTC)
-Received: from rcdn-iport-5.cisco.com (rcdn-iport-5.cisco.com [173.37.86.76])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.32153.1792039210447189628
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56D04CCA462
+	for <webhook@archiver.kernel.org>; Fri, 16 Oct 2026 06:26:26 +0000 (UTC)
+Received: from rcdn-iport-1.cisco.com (rcdn-iport-1.cisco.com [173.37.86.72])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.15968.1792131978306456856
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 14 Oct 2026 21:40:10 -0700
+ Thu, 15 Oct 2026 23:26:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=QHWNdumN;
- spf=pass (domain: cisco.com, ip: 173.37.86.76, mailfrom: hthakar@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=fyKqZckp;
+ spf=pass (domain: cisco.com, ip: 173.37.86.72, mailfrom: dkelaiya@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=1182; q=dns/txt;
-  s=iport01; t=1792039210; x=1793248810;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=bJ0Hdp97kWOp+iDhpUDyygAxqnGcOu3vR5OvPhDH34k=;
-  b=QHWNdumNkvw/VBdFQ2G3WVWNXS09cY86QkCgX4WX5mFtOekBs3M3ZSOf
-   t6aHFfcOpT2BoOtyXwVMhv9n/lxNMG8iLPVxU6ani/rq4WKWt559hGbNU
-   pRIRpF5PXVJNARN2zBVMM6Dp7GajPI3gNjoaT1pXfwn0LzNqvfqSbIHDc
-   E925tj1Tv+GDtpTo74ULDfMUlT9tfSuZ+VupzyI3q9w9gR+gMzS0pBJv9
-   p4YngHxgxF5oCpgrhcUq3WjicdfPYVqZcf4AUWB4+3NptS+68E3bmGOi6
-   XmTP8izWtdT1n8tNe6p91H13TdWF9YXaOmcYQiTrCoufquaSBNsVnTYbt
-   w==;
-X-CSE-ConnectionGUID: 6OpT8ZTIROWqfMxzkJoWnA==
-X-CSE-MsgGUID: Xr6/IhA+R5Gh/YxgLv9Tuw==
-X-IPAS-Result: =?us-ascii?q?A0BFAgCRV9Bq/5L/Ja1aglmCV3VgQ0kDlkcDnhqBfg8BA?=
- =?us-ascii?q?QEPRA0EAQGFBQKOFAImNAkOAQIEAwIDAQEBAQEBAQEBAQEBCgEBBQEBAQIBB?=
- =?us-ascii?q?wWBDhOGTw2QEwIBAzIBRhAgMSsrGYMCAYJ0AxG6WYIsgQGEftsyAQUGFAEFg?=
- =?us-ascii?q?TOFQIgjdQGEfCcbG4FygRWDaYEFgVwCgi2FeASCIoEMlwpIgR4DWSwBVRMNC?=
- =?us-ascii?q?gsHBYFoAzUSKhVuMh2BIz4XgQcbBgWBHYEgghYjGTZ6gQlegSspYAEQF4EJg?=
- =?us-ascii?q?gcCglSCAAIBSUEOB0VTCSVDEkcmIggSCQETGjALgRs4PAkoQRcMcwwdBXIIA?=
- =?us-ascii?q?g0JDRgNSBEsNxUZBD5uB5F8HoJlgQ4sBIEXgRGldqEPCiiDdowilToaM6pvC?=
- =?us-ascii?q?5h9jgqVZ2mEaYFoPIFZcBWDIlMZD445g2vOWicyDi8BAQcCBw4DC4FokX4BA?=
- =?us-ascii?q?Q?=
-IronPort-Data: A9a23:P11f5agxjsqSNii8b2ZQYwTkX161MBEKZh0ujC45NGQN5FlHY01je
- htvUWHXOKmOZ2CkethzaI2y8xsD7JDQnNdmQFBvrCs1ECpjpJueD7x1DKtf0wB+jyHnZBg6h
- ynLQoCYdKjYdleF+FHwdOCn8ikkvU2xbuKUIPbePSxsThNTRi4kiBZy88Y0mYcAbeKRW2thg
- vus5ZeAULOZ82QsaDxNs/ve8EoHUMna4Vv0gHRvPZing3eG/5UlJMp3Db28KXL+Xr5VEoaSL
- 87fzKu093/u5BwkDNWoiN7TKiXmlZaLYGBiIlIPM0STqkAqSh4ai87XB9JAAatjsAhlqvgqo
- Dl7WTNcfi9yVkHEsLx1vxC1iEiSN4UekFPMCSDXXcB+UyQqflO0q8iCAn3aMqVG3f5LUVNy1
- MY/FykDSwCRhMCx/7SSH7wEasQLdKEHPasFsX1miDWcBvE8TNWbEuPB5MRT23E7gcUm8fT2P
- pVCL2EwKk6dPlsWZgl/5JEWxI9EglH/bz1Rq1uPjaE2+GPUigd21dABNfKIIYHbHJkEwBnwS
- mTuz36nRTAaHZ+llBWFtUO8icvRzB/mR9dHfFG/3rsw6LGJ/UQWBQEfEEW6u+Wkg0q/SdtDK
- ksS0i4vtrQpsl2sRcX6Rwe/onOPolgbQdU4LgEhwBuGxqyR50OSAXIJC2YQLtcnr8QxAzct0
- zdlgu/UONCmi5XNIVr1y1tehWra1fQ9RYPaWRI5cA==
-IronPort-HdrOrdr: A9a23:A3WPOK1uuEpItZYlPAEQ0AqjBGokLtp133Aq2lEZdPWaSKOlfq
- eV7ZMmPHDP6Qr5NEtMpTnEAtjjfZq+z+8Q3WBuB9eftWDd0QPCRr2Kr7GSpgEIcBeRygcy78
- tdmoFFebvN5CBB/KXHyTj9Nco8y9+a963tr+Lfw3BxCTxOUchbnn5E4sLxKDwMeOGAbqBJbK
- ah2g==
-X-Talos-CUID: =?us-ascii?q?9a23=3AFi7XKWioEVtlcaGvhfpjrQR6kTJuLFrF8CfiH26?=
- =?us-ascii?q?CLllwRpiFW1yy/5xiup87?=
-X-Talos-MUID: 9a23:n5RSVQQY3DN+7+lMRXTcnm8lFcdBoJ7zJ0BKoIUJn9fVCTFvbmI=
+  d=cisco.com; i=@cisco.com; l=2147; q=dns/txt;
+  s=iport01; t=1792131978; x=1793341578;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=jQQdJ/zldv1TDD/iFH55HonH9JujzuIywlen0NIAgkc=;
+  b=fyKqZckpb9xUy+CWoGpZ8TY/8Ixar6n0xejPAMkEefM1xY0IMtwhlhl9
+   VEiFPxAwTotOMQ7VPxap89Oi00C9Buz99W/yFhqT9b7lY9dGvNKUHpwHL
+   5/Auy7QhBpE7mUGeJ+AIMJVCNUBGQG6qF58Uh3DDvfLfiSVFz1W1R51K1
+   b7YQcjHrnuCxm8JaZd3Pj5ZDFgmJLc5xDrJVOWjzrH7+Awt27P1jcz8ZF
+   S6UeIOfvz2JAGX0DURT2QjV6YaYf3o+CGe98UbgHi6I8g2vzRGS/yxyi4
+   r7IbqAFypuiLGLI9h+trJ3PGI8jglF9Qpj5Y1Ny6s/4NIMIVZJLgn/qaB
+   A==;
+X-CSE-ConnectionGUID: FS705bWAR9yv5Fzr06FBfQ==
+X-CSE-MsgGUID: VsRqBG63Qv65e/LgOORI3w==
+X-IPAS-Result: =?us-ascii?q?A0BpBABLw9Fq/47/Ja1aHgEBCxIMggULg0xgQ0mTWQGCc?=
+ =?us-ascii?q?J4fFIFqDwEBAQ89FAQBAYUFjhcCJjYHDgECBAMCAwEBAQEBAQEBAQEBAQoBA?=
+ =?us-ascii?q?QUBAQECAQcFgQ4Thk8NkBU2ARgBGxIwXESDAgGCdAMRBrxxgiyBAYMpAT8CQ?=
+ =?us-ascii?q?1DbPhWBOIVAiCNtCAGEfCcbG4FyhH6CYQEBgUdmhXgEgiJ6EpchSIEeA1ksA?=
+ =?us-ascii?q?VUTDQoLBwWBaAM1EioVbjIdgSM+F4EHGwYFgR2BIIIWIxk2eoEJXoErKWABE?=
+ =?us-ascii?q?BeBCYIHAoJUggACAUlBDgdFUwklQxJHJiIIEgkBExowC4EbODwJKEEXDHMMH?=
+ =?us-ascii?q?QVyCAINCQcpGA1IESw3FRkEPm4HkhQegWGBAwE9UiuBGxlQByEFpXChDwoog?=
+ =?us-ascii?q?3aMIpU6GjOEBKZrkyuFXYJZizGWT4RpgW8DMoFHCwdwFYMiCUoZD5IkgX/MW?=
+ =?us-ascii?q?ycyAjsCBwIHDgMLkWotgU8BAQ?=
+IronPort-Data: A9a23:tfHTcaNDHGJdxe/vrR32lsFynXyQoLVcMsEvi/4bfWQNrUp2hWAPx
+ mIYXGqOa/qCamrwKN50b42//EIDvJHSz9U3QHM5pCpnJ55oRWUpJjg4wmPYZX76whjrFRo/h
+ ykmQoCeap1yFjmD9k/F3oHJ9RFUzbuPSqf3FNnKMyVwQR4MYCo6gHqPocZh6mJTqYb/WVzlV
+ e/a+ZWFZgb9gmAsawr41orawP9RlKWq0N8nlgRWicBj5Df2i3QTBZQDEqC9R1OQapVUBOOzW
+ 9HYx7i/+G7Dlz91Yj9yuu+mGqGiaue60Tmm0hK6aYD76vRxjnBaPpIACRYpQRw/ZwNlMDxG4
+ I4lWZSYEW/FN0BX8QgXe0Ew/ypWZcWq9FJbSJSymZT78qHIT5fj69tVUxlrN7IxwLdmHzxg5
+ +ZAdh4nYCnW0opawJrjIgVtrt4oIM+uOMYUvWttiGmES/0nWpvEBa7N4Le03h9p2ZsIRqmYP
+ ZdEL2MzNnwsYDUXUrsTIJ49keOhh2j2WzZZs1mS46Ew5gA/ySQsi+a1a4uKJIziqcN9oF2iv
+ 0jpoT/AHE9HOZu7xh2iyFP3mbqa9c/8cMdIfFGizdZvjUGag3ISEgELXF+6s/Cli0m4c9ZeM
+ FAPvDspprQ17FasTNT2Q1u/unHsg/IHc8BbH+t/7ESGzbDZpl7EQGMFVTVGLtchsafaWAAX6
+ 7NApPuxbRQHjVFfYSv1Gmu8xd9qBRUoEA==
+IronPort-HdrOrdr: A9a23:Vbx8ZqmUAzbT2Vi5MgSzmNJ5cazpDfIa3DAbv31ZSRFFG/FwWf
+ rAoB19726QtN9/YhAdcLy7VZVoIkmsl6Kdn7NwAV7KZmCP0wGVxepZg7cKrQeNJ8SHzJ8/6Y
+ 5QN45jFdb3EV92yez+4AW+DpIc5ePvytHNuQ8bpE0dKz2DrMpbnmBENjo=
+X-Talos-CUID: 9a23:f5Kqqmxcrf/rkz7y/eY0BgU6IZ99L3fi5U2BMlHlJ3RzEOO7Y1GprfY=
+X-Talos-MUID: 9a23:634BygXyzDpwh7rq/AH3vihIG5kz2rrwVU1KtZohnPOlbjMlbg==
 X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="6.27,159,1787011200"; 
-   d="scan'208";a="535914967"
-Received: from rcdn-l-core-09.cisco.com ([173.37.255.146])
-  by rcdn-iport-5.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 15 Oct 2026 04:40:09 +0000
-Received: from sjc-ads-5245.cisco.com (sjc-ads-5245.cisco.com [10.28.23.9])
+X-IronPort-AV: E=Sophos;i="6.27,161,1787011200"; 
+   d="scan'208";a="536039768"
+Received: from rcdn-l-core-05.cisco.com ([173.37.255.142])
+  by rcdn-iport-1.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 16 Oct 2026 06:26:17 +0000
+Received: from sjc-ads-5675.cisco.com (sjc-ads-5675.cisco.com [10.28.88.189])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by rcdn-l-core-09.cisco.com (Postfix) with ESMTPS id 566A718000493;
-	Thu, 15 Oct 2026 04:40:09 +0000 (GMT)
-Received: by sjc-ads-5245.cisco.com (Postfix, from userid 1887505)
-	id F3952CBF201; Wed, 14 Oct 2026 21:40:08 -0700 (PDT)
-From: "Hetvi Thakar -X (hthakar - E INFOCHIPS PRIVATE LIMITED at Cisco)" <hthakar@cisco.com>
+	by rcdn-l-core-05.cisco.com (Postfix) with ESMTPS id 33B0518000351;
+	Fri, 16 Oct 2026 06:26:17 +0000 (GMT)
+Received: by sjc-ads-5675.cisco.com (Postfix, from userid 1887444)
+	id D0896CC1611; Thu, 15 Oct 2026 23:26:16 -0700 (PDT)
+From: "Darsh Kelaiya -X (dkelaiya - E INFOCHIPS PRIVATE LIMITED at Cisco)" <dkelaiya@cisco.com>
 To: meta-virtualization@lists.yoctoproject.org
-Cc: xe-linux-external@cisco.com
-Subject: [meta-virtualization][wrynose][PATCH 2/2] grpc-go: Ignore CVE-2024-37168
-Date: Wed, 14 Oct 2026 21:40:08 -0700
-Message-Id: <20261015044008.538247-2-hthakar@cisco.com>
+Cc: Darsh Kelaiya <dkelaiya@cisco.com>
+Subject: [meta-virtualization][wrynose][PATCH 0/1] aardvark-dns: update to v1.17.1
+Date: Thu, 15 Oct 2026 23:25:54 -0700
+Message-Id: <20261016062555.3887753-1-dkelaiya@cisco.com>
 X-Mailer: git-send-email 2.35.6
-In-Reply-To: <20261015044008.538247-1-hthakar@cisco.com>
-References: <20261015044008.538247-1-hthakar@cisco.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Auto-Response-Suppress: DR, OOF, AutoReply
-X-Outbound-Client-TLS: ANONYMOUS;sjc-ads-5245.cisco.com [10.28.23.9];TLSv1.3;TLS_AES_256_GCM_SHA384;256
-X-Outbound-SMTP-Client: 10.28.23.9, sjc-ads-5245.cisco.com
-X-Outbound-Node: rcdn-l-core-09.cisco.com
+X-Outbound-Client-TLS: ANONYMOUS;sjc-ads-5675.cisco.com [10.28.88.189];TLSv1.3;TLS_AES_256_GCM_SHA384;256
+X-Outbound-SMTP-Client: 10.28.88.189, sjc-ads-5675.cisco.com
+X-Outbound-Node: rcdn-l-core-05.cisco.com
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <meta-virtualization@lists.yoctoproject.org>; Thu, 15 Oct 2026 04:40:20 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/10110
+ <meta-virtualization@lists.yoctoproject.org>; Fri, 16 Oct 2026 06:26:26 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/10112
 
-From: Hetvi Thakar <hthakar@cisco.com>
+From: Darsh Kelaiya <dkelaiya@cisco.com>
 
-Analysis:
-- CVE-2024-37168 affects the JavaScript implementation distributed as
-  the @grpc/grpc-js npm package [1].
-- The grpc-go recipe builds the independent Go implementation and does
-  not contain the affected JavaScript message handling paths [1].
-- Hence ignoring the CVE for grpc-go as an incorrect CPE match.
+Backport the aardvark-dns v1.17.1 security release to Wrynose. The
+release fixes CVE-2026-35406, where a truncated TCP DNS query followed
+by a connection reset can leave aardvark-dns in an unrecoverable loop
+at 100% CPU usage [1]. Upstream reports that versions 1.16.0 through
+1.17.0 are affected and that 1.17.1 contains the fix.
 
-Reference:
-[1] https://github.com/grpc/grpc-node/security/advisories/GHSA-7v5v-9h63-cj86
+This update follows OE's stable release policy: upstream prepared
+v1.17.1 on its v1.17 maintenance branch, and the runtime change is the
+security fix. The other commits contain release and CI metadata; the
+release introduces no runtime features or API changes [2].
 
-Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
----
- recipes-devtools/go/grpc-go_git.bb | 1 +
- 1 file changed, 1 insertion(+)
+The recipe selects merge commit 880f6903d225,
+described by git as v1.17.1-1-g880f690. Its source tree is identical to
+the signed v1.17.1 tag at d9d17d4fe9d0a43512f6203042543deb3431a1bb,
+so the selected revision contains no post-release source changes.
 
-diff --git a/recipes-devtools/go/grpc-go_git.bb b/recipes-devtools/go/grpc-go_git.bb
-index 7c8e05ca..6d56ed20 100644
---- a/recipes-devtools/go/grpc-go_git.bb
-+++ b/recipes-devtools/go/grpc-go_git.bb
-@@ -47,3 +47,4 @@ CVE_PRODUCT += "grpc"
- # contain the affected HPACK code path.
- CVE_STATUS[CVE-2024-7246] = "not-applicable-config: CVE is for grpc (C-core), not grpc-go."
- CVE_STATUS[CVE-2023-33953] = "not-applicable-config: CVE affects gRPC C-core-based implementations, not grpc-go."
-+CVE_STATUS[CVE-2024-37168] = "cpe-incorrect: affects @grpc/grpc-js, not grpc-go"
+The crate version changes restore the dependency versions pinned on
+upstream's v1.17 maintenance branch. The previous SRCREV,
+b36c4cc80b2d15135acf88c5684bcbede48ec5fd, was a main-branch snapshot
+whose Cargo package version had already moved to 2.0.0-dev. This
+accounts for the dependency version decreases in the recipe update.
+
+Scarthgap carries aardvark-dns 1.10.0 and is outside the affected
+version range, so no corresponding Scarthgap backport is required.
+
+Validation completed:
+- The submitted patch matches the locally formatted Wrynose commit.
+- The pre-change recipe blobs match the current upstream Wrynose
+  baseline, and the patch applies without conflicts.
+- The selected merge commit and signed v1.17.1 tag have identical
+  source trees.
+
+[1] https://nvd.nist.gov/vuln/detail/CVE-2026-35406
+[2] https://github.com/containers/aardvark-dns/releases/tag/v1.17.1
+
+Bruce Ashfield (1):
+  aardvark-dns: update to v1.17.1
+
+ .../aardvark-dns/aardvark-dns-crates.inc      | 90 ++++++++++---------
+ ...k-dns_1.17.0.bb => aardvark-dns_1.17.1.bb  |  2 +-
+ 2 files changed, 47 insertions(+), 45 deletions(-)
+ rename recipes-containers/aardvark-dns/{aardvark-dns_1.17.0.bb => aardvark-dns_1.17.1.bb} (95%)
+
 -- 
 2.35.6
 
