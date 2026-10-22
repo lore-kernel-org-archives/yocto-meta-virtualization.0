@@ -1,71 +1,70 @@
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.6785.1792696160650782700
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6800.1792696162386929618
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 22 Oct 2026 12:09:20 -0700
+ Thu, 22 Oct 2026 12:09:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=aSPPvypM;
- spf=pass (domain: gmail.com, ip: 209.85.222.173, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-93e7ad9f78dso11720885a.1
-        for <meta-virtualization@lists.yoctoproject.org>; Thu, 22 Oct 2026 12:09:20 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=j+JSvCJ1;
+ spf=pass (domain: gmail.com, ip: 209.85.160.179, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-5365f9a04c5so815531cf.1
+        for <meta-virtualization@lists.yoctoproject.org>; Thu, 22 Oct 2026 12:09:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792696159; x=1793300959; darn=lists.yoctoproject.org;
+        d=gmail.com; s=20251104; t=1792696161; x=1793300961; darn=lists.yoctoproject.org;
         h=mime-version:content-transfer-encoding:content-type:references
          :in-reply-to:subject:cc:to:from:date:message-id:from:to:cc:subject
          :date:message-id:reply-to:content-type;
         bh=QmXbgnhysW6ilWyQ/a29nOI3tw7mnEfxS6ub3q5tZoE=;
-        b=aSPPvypMOwSazsA8yKisbgzrEnjamxQQKej5pC/dvYHF2CmfW+qkjaTFdtS6YfmrYD
-         VzR+pLXmS5GTGpyLTOEghMouk4QX1xajCiELCbw4ooCJ3+12/yUh+REcKMVZ4KAhX5xZ
-         vmDHSo5CQHCqNvA+y96RQSQpTxCARzoNhobW6l6drPsVeTrm/ha0bgmn2d9d9LOso9Jl
-         n7GT74FbS0VfhUl+pIqk0qBeieQ4AbrBuPWvJZevf5rtDL07Ez2Dr0pg25iAbH+Tck3a
-         MmsQjD1t6pkfwbl58C0Aez5SnJ/OW8UjTxtljpU5cVA8toIAYfSNRjwnF0D6AuFmHdnJ
-         NCXQ==
+        b=j+JSvCJ1XVEDcXMhwjB8yrKLYDPl+NpL6oVq4RcTEAPwhzl21siZiSRqjPW94DsqDJ
+         bFfV0RPqNJFegRIbJT0vgex/fgsTiI6qLII6UanF2SZpjtXpti+h5SSa3uAR2Ul563Aj
+         Oitzsy9SnM2R4IotZ3IaW5Jfvbv8SZRwe9m2ueHXP6X0kVmeRRIXDJoKXPzPjR/IMFLh
+         8mHLPE+aA6Ccc0DNAv/c0Ao0S9s2VpuYIMNSMW0oMtJ8dvP4JuE2ruu5vZ1SCupstm+I
+         lsdSbPcWkYzKTFYLy6ciwFKAHQ989jN5NLR0XqMxgxXnQVLZtITgEfLdLgEOxDk/m2v4
+         JeMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792696159; x=1793300959;
+        d=1e100.net; s=20260707; t=1792696161; x=1793300961;
         h=mime-version:content-transfer-encoding:content-type:references
          :in-reply-to:subject:cc:to:from:date:message-id:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
         bh=QmXbgnhysW6ilWyQ/a29nOI3tw7mnEfxS6ub3q5tZoE=;
-        b=ZI4rPws+6awBXXQjCNvF+RkjKqZ16z+8IaEQKBoKjnC97OkA2/AfcmzPVpDMNbuo1U
-         LJZNbc7UDrE5t2KvphSX+e0EjxpAVbAF1h/swtKfAInx2a4buvSiRYK4+OBCCDuAsern
-         4nSQe7YIE3vaFs4+P9gemd9T4LCgtWPv3yzCyh89K9i2Sfm1wkBp2WKf1tXSmQbkgPXI
-         Vh2O284SxczD68Ij/hwwbbu9lb38bu5qWfiyoAgpOKK0HKtyUmvNiVon8RZD1EPJkSDy
-         tZWmAfefSnRLYRNJ23efukubxO+7Of8d+XYF2gRQMLaGWj47TZKXpN9u5KhsSXEJO6na
-         SszA==
-X-Gm-Message-State: AFq9FYKCM+JLVX0W1MpDd2zBy4vYNtxv8eAx+nDXpMRUATuE9RrD7ym1
-	VBz/sk/2TAvIKf4aejmqbzAoc7J5uXFYzrP4CueYhP+viHCuD1e0U8fIFSL/PIVZ
-X-Gm-Gg: AYBFou2ZpIp9BXa1QH/4ejWD/bRJ5v14yLc3PK4tW6UfobKstHWbMdwpJT/xuOXBkvb
-	wE/lyuakhdnNtRxInMQ9onlLzVDFEyZdJXBipF7mtM6n0LXNt/tTJ5FhCxJfXq4fmV+HcS4HISY
-	tRSIyT4BXciP+pqt3V4l8GxrU4FN5idZIVFdmj2KOijL15AGPQtD2i8tA0KB006F4uq1TkhipEO
-	KIzfYRVlri0HQQP99KNXIzMvYWjnTg33avJNZDpeGBdh+8JRHnKD+6NAfMfOZ7oQ2zk7l+CN5kF
-	Zv31ecX+dryLuNiBOXy/VkAKZ7vanC5fUh+2E5ApmYY4D0h1mtCygHo0DyhAxTDiyk5u83EPdOM
-	udtSVDTVwLq0gVqR5zH9HNwRCT0NYNh3qJT+nrPvFulbbjcAcQMVyY7m/u12DgDrDD48d3S4VtX
-	B0pZcqF9OB7iff9yrBm2DoNgFCQo9o+lY5m/dtCJdnCEV2OZN6PRFT1XhQSQVGHPogt+xCh/mgb
-	cZjsY+f8j2opdALXdElWvpHXLGfqTVepJ9NPsBhWBn8ko99iqvzPJaB3e72dEpUiDRvhFZVKw0D
-	iWnmcV2Bg/yyot1PnznX9kAA8zBDIngCSKbL1nbANz1AtVw6KZDy8Hagu03feH/NUKYTARy5o4S
-	DllzYkRiaEZikUnXlhweqE0E/EeGOsIDWuMjx9AVGTldd9KtHOvbf
-X-Received: by 2002:a05:620a:4728:b0:93f:3795:e8ca with SMTP id af79cd13be357-93f6f78715emr70442185a.21.1792696159409;
-        Thu, 22 Oct 2026 12:09:19 -0700 (PDT)
+        b=1EiqjbCQXOFFOib3/wbdN6EJmRXYw53w78WYIC8sdVKZZtg1OjXVk91kBgbqaWVP6B
+         wXoQWzXxayQiDmoylQA5QxKZ1UxVtepFubZ0g0C3IQL9ucqMVoJwx3tLoN1OKxoqV/om
+         T4j8Wwx0owvMyiqrlONqv7yRiLuuPTOWS+3UCBZCJN+zy3xF7E31F1bf69XPvF5fKibD
+         /XApcgWxAdMAVxLiGp6UW7wu0RHOSq32SGeprxua8klVQnLfshKMayfsxghOlI3hgSdK
+         ekSy3rNW80x8UAVASjs+/3AUDfKtRJtXn6RwQGxpRlML5yZb5cp/XLYh6KzRAr8vBwdH
+         /RCQ==
+X-Gm-Message-State: AFq9FYIvWA8E82lg3tPV0bb95NUqPTzUxF7Y7l/i4JOPRuvYSVw585cO
+	FqOanwf8q67jbvrn/kF9F/1ZIr3uh1vTzG+7ApsjBvdBMnye5EolNmFWhJHiFNZm
+X-Gm-Gg: AYBFou1eWAqkcv3TEDkClJSrhw5VmPhaYBqJjxmiiQNcRg/oi2NeZ8nVEFFhiMQ+bQ3
+	9CwBU4QXKMl0t4WOnlchfy9m+LNCZd30EK7EEMPAYlXMfz5/EI/85A9C3pQ85+UWjM2JJCJJO9O
+	AEOdMUqp7rsyygty4cG18f64GFpXYPgnTl/pAzhMCZAwcPwqMoaj2DfxwwIDCXYagLuhMnzbgBm
+	povD4CIXp0+KF9mRjI0KQpT8adWSqzPinnF2FXxPc81vq56yyzgy2H15RbDfIr+r+rYW4/wiEfR
+	MwPFugch12G9OadjDv8Ii5+W6xxXO9j68S2olrNqZUBkFkPW/U/F7Z/a1gwAFNBGsD4afdrlq4A
+	QSLLXoE1V0Q1uk45cT2Vo5iUNeq137pHvJrOX9sfztWEd0UIm5d0d7x1QNTs15oERX7uoKXRxlq
+	KPBcdLFoePiRVp+o41hLp44/D+G4KEYJUczi0vzea0A3PZgpQEQc9upbScJu/Y38Fx+hqVWAfK3
+	QU4umimU3X4TJkqBmvmCXD4d/IUOcQI03iJjMn8tM+UfkMdlXiEL1+07EFMI18syB4B2eaWfThY
+	0b90V/VftuGn92rNoYC3uAOV2Yzfzk3EHvlm3ZA3bPmSjL5nWmpqDXamLz3wMzaB3z9qQsuEP5b
+	ek65kVX5AXAaAasYzCDRZgPZcrorDY4lfMs42QKm53oD2sAlCGvMkyA==
+X-Received: by 2002:ac8:5d11:0:b0:536:5f01:7016 with SMTP id d75a77b69052e-5369b7ca411mr100453021cf.38.1792696161203;
+        Thu, 22 Oct 2026 12:09:21 -0700 (PDT)
 Return-Path: <bruce.ashfield@gmail.com>
 Received: from [127.0.1.1] (pool-174-112-35-248.cpe.net.cable.rogers.com. [174.112.35.248])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-93f6fa79976sm27853885a.1.2026.10.22.12.09.18
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-536c17f3f53sm32061cf.13.2026.10.22.12.09.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Oct 2026 12:09:18 -0700 (PDT)
-Message-ID: <6ada5f5e.8c8d7b34.1de36e.b257@mx.google.com>
-Date: Thu, 22 Oct 2026 12:09:18 -0700 (PDT)
+        Thu, 22 Oct 2026 12:09:20 -0700 (PDT)
+Message-ID: <6ada5f60.17e05534.3f1b2.0ac1@mx.google.com>
+Date: Thu, 22 Oct 2026 12:09:20 -0700 (PDT)
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 To: meta-virtualization@lists.yoctoproject.org
-Cc: deeratho@cisco.com
-Subject: Re: [meta-virtualization][wrynose][PATCH 5/5] containerd: Fix CVE-2026-53493
-In-Reply-To: <20261016100641.1628059-5-deeratho@cisco.com>
-References: <20261016100641.1628059-1-deeratho@cisco.com>
- <20261016100641.1628059-5-deeratho@cisco.com>
+Cc: Roopa.Kalmath@windriver.com
+Subject: Re: [meta-virtualization][wrynose][PATCH] libvirt: fix CVE-2026-18917
+In-Reply-To: <20261022094457.3334481-1-Roopa.Kalmath@windriver.com>
+References: <20261022094457.3334481-1-Roopa.Kalmath@windriver.com>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 MIME-Version: 1.0
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <meta-virtualization@lists.yoctoproject.org>; Thu, 22 Oct 2026 19:09:26 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/10130
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/10131
 
 merged
 
