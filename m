@@ -1,71 +1,71 @@
-Received: from alln-iport-1.cisco.com (alln-iport-1.cisco.com [173.37.142.88])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.28297.1793858429798111915
+Received: from alln-iport-5.cisco.com (alln-iport-5.cisco.com [173.37.142.92])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.28299.1793858431524286831
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 04 Nov 2026 22:00:29 -0800
+ Wed, 04 Nov 2026 22:00:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=RyGZxtP4;
- spf=pass (domain: cisco.com, ip: 173.37.142.88, mailfrom: deeratho@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=PSn4yOOI;
+ spf=pass (domain: cisco.com, ip: 173.37.142.92, mailfrom: deeratho@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=7674; q=dns/txt;
-  s=iport01; t=1793858429; x=1795068029;
+  d=cisco.com; i=@cisco.com; l=8765; q=dns/txt;
+  s=iport01; t=1793858431; x=1795068031;
   h=from:to:subject:date:message-id:in-reply-to:references:
    mime-version:content-transfer-encoding;
-  bh=wxc6/9y7D6IByZ/akFpnsTctbTkRuO0LwVQHyt6oS/s=;
-  b=RyGZxtP4OCRsB5Zkjt/UN2fTA38FFOcEmd55RRnUokw/OYydphtDkwaB
-   Pt/JCM3jOMN1opHih/HIPWwixNXcy/udh3UMQeNCCwfK8IlRfgW7G2Wvc
-   cCXGOSp+NPw3gFcBAlacKNxpeSMeMff90YmAAqZXM3AHFfFsW67zP+1dT
-   lpgbiEk6005ttFQrhxY1H4ovxL+NuEZOqjcc+n9LOSz7p/1Xcc/al5BK8
-   AC+fVRC29LEZLW8NSu/P8UrvLIf6WJ1OttytKdlpOJ+Amy6KXazIkSixj
-   dpaeC0NbhcK7Wd9wyngVhe/weonUbTf10BHXD9Q7+gFymP75u14QAt9Dj
-   Q==;
-X-CSE-ConnectionGUID: PqUOBg8+RPisJhpmxCyw5w==
-X-CSE-MsgGUID: 28JWBU8GQrqiJqtGPgKCqg==
-X-IPAS-Result: =?us-ascii?q?A0AaAABsGuxq/40QJK1aHAEBAQEBAQcBARIBAQQEAQGBf?=
- =?us-ascii?q?AcBAQsBglZ1YUJJA4RUiBuHOIIhA4ETkDmMVYF+DwEBAQ9EDQQBAYUFAo4dA?=
- =?us-ascii?q?iY0CQ4BAgQDAgMBAQEBAQEBAQEBAQEKAQEFAQEBAgEHBYEOE4ZPDZASAQIBA?=
- =?us-ascii?q?yMPAVYcAwECAwImAgIrIwgQAQiDAgGCdAMRvD96gTKBAYJmghjbMwELFAGBC?=
- =?us-ascii?q?i4BhT+DHwGFA10YAYR9JxsbgXKBFYJzdoEFgVwChTyCSCIEgiKBDIFaHox6A?=
- =?us-ascii?q?oFShnFIgQIcA1ksAVUTDQoLBwWBaAM1EioVbjIdgSM+Fy9YGwYFgR2BHoESg?=
- =?us-ascii?q?QddgSsoXiGBCIF2AoJRggACAUlBDgdFUwklQxJHJCIIEgkBExosCoEaNTwJJ?=
- =?us-ascii?q?j8VDGQLGgVhCAINDHI5EDAeJC8FHCZAGwoYGA1IESw3FRkEPQFuB5IvgwoHM?=
- =?us-ascii?q?UoTASuBGxh5JJMbkBaCHqEUCiiDeIwklToaM6pxC5h9jgqIeYw8MxkBAU6Ea?=
- =?us-ascii?q?YFoPIFZcBWDIglKGQ+OOYNrhFDJcjw1CwMvAQEHAgcCDAMLgWiQAi2BTwEB?=
-IronPort-Data: A9a23:coVof6DMcrI5WRVW/3niw5YqxClBgxIJ4kV8jS/XYbTApD0r1j1Wz
- jZOCmCEaa2DN2T3eIsnOYW2px8DvZKAzYMyOVdlrnsFo1CmBibm6XV1Cm+qYkt+++WaFBoPA
- /02M4eGcYZsCCCM/n9BC5C5xVFkz6aEW7HgP+DNPyF1VGdMRTwo4f5Zs7ZRbrVA357jXGthh
- fuo+5eBYQb9h2YuWo4pw/vrRC1H7ayaVAww5jTSVdgT1HfCmn8cCo4oJK3ZBxPQXolOE+emc
- P3Ixbe/83mx109F5gSNy+uTnuUiG9Y+DCDW4pZkc/HKbitq+kTe5p0G2M80Mi+7vdkmc+dZk
- 72hvbToIesg0zaldO41C3G0GAkmVUFKFSOuzXWX6aSuI0P6n3TE++xTK2s5bc4iwudsI2FW8
- OwzOS9QcUXW7w626OrTpuhEj8AnKozveYgYoHwllW2fBvc9SpeFSKLPjTNa9G5v3YYVQ7CHO
- YxANWMHgBfoO3WjPn8bBZ8klfuogVH0ciZTrxSeoq9fD237nF0qgeCwb4qFEjCMbZ8FvHmym
- zLpxn7gAzMDKPOnxhmu633504cjmgu+Aur+DoaQ8/N2iRiNx3YPFRQSVEmyvfi+jGa6WslDM
- AoF/SEyqrAo806mRcW7WAe3yENopTYVX95WVul/4waXx++Mv0CSB3MPSXhKb9lOWNIKeAHGH
- 2Shx7vBbQGDepXOIZ5B3t94dQ+PBBU=
-IronPort-HdrOrdr: A9a23:iA+lNqslq6ltZn6aklw+Y+CI7skDVNV00zEX/kB9WHVpm6uj5q
- eTdZUgpHvJYVkqNk3I9ersBEDEewK+yXcX2/h1AV7dZmjbUQKTRekIh7cKgQeQeREWndQz6U
- 4PScRD4aXLbWRSvILd/BSyFcomzZ2s9aClgvqb8lJWJDsaDZ2JK2xCe36m+oocfng+OaYE
-X-Talos-CUID: =?us-ascii?q?9a23=3AO/eW42m9AbGY3cjEn58O+8GQpSHXOUXE8VD6LB/?=
- =?us-ascii?q?7M15oU5+VUVqA07J7ztU7zg=3D=3D?=
-X-Talos-MUID: 9a23:l591ZQbBvmQrweBT7W/OuxtfZOhR+b2vKlkRvq0JmOKdOnkl
+  bh=z2dPS3Ym1GFvYWz1Lgr5YWJWLB1bwoqwH6b1bDb1EVk=;
+  b=PSn4yOOI1EQ/6KgcPjMYRVlwrRjK3UYCoojZUWv8vpJnBudyhRQNafDC
+   iELOPvLShjXw+rB/pLk2ycwq9P4AX7ud0/RYiRoHqfli/tf51VJNRP5ij
+   6BwDZIYg2pcZXwig3fa0hTP9b6N5lAztAzNHY8/R7VqavzlmLKX9zel60
+   j8R/x5XsmC3w83QS/cnjR+2idpNWNay0s3JAWE/SfC0zrMDDrXyh4PwTG
+   N/L6Ir9TCfh3lWuCas0rGyIFvv95narApjuONKNXwbIEy0opBex4XOmuR
+   P4dmnKMDbYyo0LSJD7w79x/e+oxwKO6TEtLWJFqkLBO80/nF5zGMuWT/E
+   w==;
+X-CSE-ConnectionGUID: vmGnnx9BQYSh7G/1Mh6xxQ==
+X-CSE-MsgGUID: /RX/mb+2TZO1z7ULdT8clw==
+X-IPAS-Result: =?us-ascii?q?A0AaAABsGuxq/5UQJK1aHAEBAQEBAQcBARIBAQQEAQFMg?=
+ =?us-ascii?q?TAHAQELAYJWdWFCSQOMb4c4giEDgROdDoF+DwEBAQ9EDQQBAYUFAk8VjTkCJ?=
+ =?us-ascii?q?jQJDgECBAMCAwEBAQEBAQEBAQEBAQoBAQUBAQECAQcFgQ4Thk8NkBIBAgEDM?=
+ =?us-ascii?q?gFWHAMBAi8rIwgRCIMCAYJ0AxG8P4IsgQGEftszAQsUAYE4AYU/iCNdGAGEf?=
+ =?us-ascii?q?ScbG4FygRWCc3aBBUsBgRACiAQiBIIigQyBWh5ljBUCgVKGcUiBHgNZLAFVE?=
+ =?us-ascii?q?w0KCwcFgWgDNRIqFW4yHYEjPheBBxsGBYEdgR6BEoEHXYErKF4hgQiBdgKCU?=
+ =?us-ascii?q?YIAAgFJQQ4HRVMJJUMSRyQiCBIJARMaLAqBGjU8CSY/FQxkCxoFYQgCDQxyO?=
+ =?us-ascii?q?RAwHiQvBRwmQBsKGBgNSBEsNxUZBD5uB5Ivgh9rBwF6EwEqAReBbAUfBZMuE?=
+ =?us-ascii?q?ZAWgh6BOJ9cCiiDeIwklToaM4VbpRYLmH2LN4JTllGEaYFoPIFZcBU7gmcJS?=
+ =?us-ascii?q?hkPjjmDa4I2zAw8NQsDLwEBBwIHDgMLgWiRfgEB?=
+IronPort-Data: A9a23:dW+K0ape2xPPDGsi+BhsP32RhqpeBmJIZBIvgKrLsJaIsI4StFCzt
+ garIBmGP66JamqhLY91bojnoENQ7ZeGyNI2SAZs/C0zRX8SpePIVI+TRqvS04x+DSFioGZPt
+ Zh2hgzodZhsJpPkjk7zdOWn9T8jhfngqoPUUIbsIjp2SRJvVBAvgBdin/9RqoNziLBVOSvV0
+ T/Ji5OZYgDNNwJcaDpOtfva8E835pwehRtB1rAATaET1LPhvyF94KI3fcmZM3b+S49IKe+2L
+ 86r5K255G7Q4yA2AdqjlLvhGmVSKlIFFVHT4pb+c/HKbilq/kTe4I5iXBYvQRs/ZwGyojxE4
+ I4lWapc5useFvakdOw1C3G0GszlVEFM0OevzXOX6aR/w6BaGpfh660GMa04AWEX0vhyLmdI5
+ a0yEQE2bk+swLuTwOyrWtA506zPLOGzVG8eknhkyTecCbMtRorOBvyQo9RZxzw3wMtJGJ4yZ
+ eJANmEpN0qGOkMJYwtGYH49tL/Aan3XfzBVsluJpa0f6GnIxws327/oWDbQUozbHZ0FxhvC+
+ Aoq+Uy+OCFdMdbckwa31Su+2dLrkR+rU4YNQejQGvlCxQf7KnYoIBgbSVL+v/ijllO3X9NNI
+ lAV/SwGqakp6FftX972QxqgunmGsxUAHd1KHIUHBBqlw67Q5UOdQ2MDVDMEMYZgv84tTjts3
+ ViM9z/0OQFSXHSuYSr13t+pQfmaYED58Udqifc4cDY4
+IronPort-HdrOrdr: A9a23:z8VJBa9UoA5ZGFDRTNxuk+D0I+orL9Y04lQ7vn2ZLiYlFvBw+P
+ rBoB1273LJYXMqKRIdcLO7Scy9qA3nlKKdiLN5VdzJYOClghrLEGgI1+TfKlPbdxEWjtQ86Y
+ 5QN45jFdb3EV92yez+4AW+DpIc5ePvytHOuQ8bpE0dND2DrMpbnmFENjo=
+X-Talos-CUID: 9a23:KfbSP2NeA5sZfe5DRixI8kgES+ocQ0bdk1iXemq4V3Z5cejA
+X-Talos-MUID: =?us-ascii?q?9a23=3Aq8ucbA4FnPt+ztXgsHdp5VG3xowv2ZTpDUpOy6k?=
+ =?us-ascii?q?0nJCWahFUNwvNhzCoF9o=3D?=
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.27,196,1787011200"; 
-   d="scan'208";a="893905788"
-Received: from alln-l-core-04.cisco.com ([173.36.16.141])
-  by alln-iport-1.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 05 Nov 2026 06:00:28 +0000
+   d="scan'208";a="890080526"
+Received: from alln-l-core-12.cisco.com ([173.36.16.149])
+  by alln-iport-5.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 05 Nov 2026 06:00:30 +0000
 Received: from bgl-ads-3413.cisco.com (bgl-ads-3413.cisco.com [173.39.60.50])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
 	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
 	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
-	by alln-l-core-04.cisco.com (Postfix) with ESMTPS id D5D2C180001A7
-	for <meta-virtualization@lists.yoctoproject.org>; Thu,  5 Nov 2026 06:00:27 +0000 (GMT)
+	by alln-l-core-12.cisco.com (Postfix) with ESMTPS id 39D6C18000868
+	for <meta-virtualization@lists.yoctoproject.org>; Thu,  5 Nov 2026 06:00:30 +0000 (GMT)
 Received: by bgl-ads-3413.cisco.com (Postfix, from userid 1795984)
-	id D732FCC1295; Thu,  5 Nov 2026 11:30:25 +0530 (IST)
+	id 34BABCC1633; Thu,  5 Nov 2026 11:30:28 +0530 (IST)
 From: "Deepak Rathore -X (deeratho - E INFOCHIPS PRIVATE LIMITED at Cisco)" <deeratho@cisco.com>
 To: meta-virtualization@lists.yoctoproject.org
-Subject: [meta-virtualization][wrynose][PATCH 2/5] docker-moby: Fix CVE-2026-33997
-Date: Thu,  5 Nov 2026 11:30:03 +0530
-Message-Id: <20261105060006.1286469-2-deeratho@cisco.com>
+Subject: [meta-virtualization][wrynose][PATCH 4/5] docker-moby: Fix CVE-2026-92543
+Date: Thu,  5 Nov 2026 11:30:05 +0530
+Message-Id: <20261105060006.1286469-4-deeratho@cisco.com>
 X-Mailer: git-send-email 2.35.6
 In-Reply-To: <20261105060006.1286469-1-deeratho@cisco.com>
 References: <20261105060006.1286469-1-deeratho@cisco.com>
@@ -73,222 +73,213 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Outbound-Client-TLS: VERIFIED;bgl-ads-3413.cisco.com [173.39.60.50];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
 X-Outbound-SMTP-Client: 173.39.60.50, bgl-ads-3413.cisco.com
-X-Outbound-Node: alln-l-core-04.cisco.com
+X-Outbound-Node: alln-l-core-12.cisco.com
 List-Id: <meta-virtualization.lists.yoctoproject.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <meta-virtualization@lists.yoctoproject.org>; Thu, 05 Nov 2026 06:00:37 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/10146
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <meta-virtualization@lists.yoctoproject.org>; Thu, 05 Nov 2026 06:00:38 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/10147
 Content-Type: text/plain; charset="utf-8"
 
 From: Deepak Rathore <deeratho@cisco.com>
 
 This patch applies the upstream Docker 29.x backport for
-CVE-2026-33997. It corrects plugin privilege comparison so that the first
-and single requested privilege are validated. The upstream fix commit is
-referenced in [1], and the public CVE advisory is referenced in [2].
+CVE-2026-92543. The upstream fix commit is referenced in [1], and the
+public CVE advisory is referenced in [2].
 
-[1] https://github.com/moby/moby/commit/f4d6f25bf0c3fa12d4968320a45685947756a22a
-[2] https://github.com/moby/moby/security/advisories/GHSA-pxq6-2prw-chj9
+Require every DNS-resolved registry address to match an insecure CIDR
+before treating the registry as insecure. This prevents a mixed loopback
+and non-loopback DNS response from disabling TLS.
+
+[1] https://github.com/moby/moby/commit/fa42933fd5c2eda65cedbdf84657e77fa860530b
+[2] https://github.com/moby/moby/security/advisories/GHSA-7cfq-22r6-qp73
 
 Signed-off-by: Deepak Rathore <deeratho@cisco.com>
 ---
  recipes-containers/docker/docker-moby_git.bb  |   1 +
- .../docker/files/CVE-2026-33997.patch         | 175 ++++++++++++++++++
- 2 files changed, 176 insertions(+)
- create mode 100644 recipes-containers/docker/files/CVE-2026-33997.patch
+ .../docker/files/CVE-2026-92543.patch         | 163 ++++++++++++++++++
+ 2 files changed, 164 insertions(+)
+ create mode 100644 recipes-containers/docker/files/CVE-2026-92543.patch
 
 diff --git a/recipes-containers/docker/docker-moby_git.bb b/recipes-containers/docker/docker-moby_git.bb
-index 7561215c..831f7aa6 100644
+index 9c5e807c..26123ab6 100644
 --- a/recipes-containers/docker/docker-moby_git.bb
 +++ b/recipes-containers/docker/docker-moby_git.bb
-@@ -59,6 +59,7 @@ SRC_URI = "\
-         file://CVE-2026-42306_p2.patch;patchdir=src/import \
-         file://CVE-2026-34040_p1.patch;patchdir=src/import \
-         file://CVE-2026-34040_p2.patch;patchdir=src/import \
-+        file://CVE-2026-33997.patch;patchdir=src/import \
+@@ -65,6 +65,7 @@ SRC_URI = "\
+         file://CVE-2026-17106-dependent_p3.patch;patchdir=src/import \
+         file://CVE-2026-17106.patch;patchdir=src/import \
+         file://CVE-2026-17106-regression.patch;patchdir=src/import \
++        file://CVE-2026-92543.patch;patchdir=src/import \
  	"
  
  DOCKER_COMMIT = "${SRCREV_moby}"
-diff --git a/recipes-containers/docker/files/CVE-2026-33997.patch b/recipes-containers/docker/files/CVE-2026-33997.patch
+diff --git a/recipes-containers/docker/files/CVE-2026-92543.patch b/recipes-containers/docker/files/CVE-2026-92543.patch
 new file mode 100644
-index 00000000..08a3a960
+index 00000000..0c82ddc4
 --- /dev/null
-+++ b/recipes-containers/docker/files/CVE-2026-33997.patch
-@@ -0,0 +1,175 @@
-+From 5f3f8ec951421512c10795d075936f8508d6eeb0 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Pawe=C5=82=20Gronowski?= <pawel.gronowski@docker.com>
-+Date: Thu, 19 Mar 2026 19:18:23 +0100
-+Subject: [PATCH] plugin: Fix off-by-one in privilege validation
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
++++ b/recipes-containers/docker/files/CVE-2026-92543.patch
+@@ -0,0 +1,163 @@
++From 49dfd3f63ba224eda8961a0297062d12ba7b1111 Mon Sep 17 00:00:00 2001
++From: Sebastiaan van Stijn <github@gone.nl>
++Date: Mon, 7 Sep 2026 20:55:25 +0200
++Subject: [PATCH] daemon/pkg/registry: require all resolved addresses to be
++ insecure
 +
-+Fix an off-by-one error in isEqual() where the comparison loop started
-+at index 1 instead of 0, causing the first privilege (after sorting
-+alphabetically by name) to never be validated.
++Only consider a registry insecure through CIDR matching when all of its
++resolved IP addresses match a configured insecure subnet.
 +
-+This allowed a malicious plugin to request different values for
-+whichever privilege sorts first — most notably "allow-all-devices",
-+which grants unrestricted rwm access to all host devices.
++This prevents a registry that resolves to both loopback and non-loopback
++addresses from falling back to insecure requests.
 +
-+The bug also meant that plugins requesting exactly one privilege had
-+zero iterations of the comparison loop, bypassing validation entirely.
++CVE: CVE-2026-92543
++Upstream-Status: Backport [https://github.com/moby/moby/commit/fa42933fd5c2eda65cedbdf84657e77fa860530b]
 +
-+Also fix an existing test case ("diff-order-but-same-value") that only
-+passed due to the off-by-one bug, and add test cases for single-element
-+and first-sorted-element mismatches.
++Backport Changes:
++- Adapted `registry_test.go` for the target's older positional test table
++  and existing address fixtures. The three security cases are retained;
++  upstream's 26 added test lines become 11 branch-compatible additions.
 +
-+CVE: CVE-2026-33997
-+Upstream-Status: Backport [https://github.com/moby/moby/commit/f4d6f25bf0c3fa12d4968320a45685947756a22a]
-+
-+Signed-off-by: Paweł Gronowski <pawel.gronowski@docker.com>
-+(cherry picked from commit 99a095ecf04e8849318f2811bb3f687905eab09b)
-+Signed-off-by: Paweł Gronowski <pawel.gronowski@docker.com>
-+(cherry picked from commit f4d6f25bf0c3fa12d4968320a45685947756a22a)
++Signed-off-by: Sebastiaan van Stijn <github@gone.nl>
++(cherry picked from commit db9f143dae0692f11ee7a2d32cdc9066049a673b)
++Signed-off-by: Sebastiaan van Stijn <github@gone.nl>
++(cherry picked from commit fa42933fd5c2eda65cedbdf84657e77fa860530b)
 +Signed-off-by: Deepak Rathore <deeratho@cisco.com>
 +---
-+ daemon/pkg/plugin/manager.go      | 50 ++++++++++++++++++-------------
-+ daemon/pkg/plugin/manager_test.go | 44 ++++++++++++++++++++++++---
-+ 2 files changed, 69 insertions(+), 25 deletions(-)
++ daemon/pkg/registry/config.go        | 66 +++++++++++++++-------------
++ daemon/pkg/registry/registry_test.go | 11 +++++
++ 2 files changed, 46 insertions(+), 31 deletions(-)
 +
-+diff --git a/daemon/pkg/plugin/manager.go b/daemon/pkg/plugin/manager.go
-+index 03477ace23..ec90e465e4 100644
-+--- a/daemon/pkg/plugin/manager.go
-++++ b/daemon/pkg/plugin/manager.go
-+@@ -1,13 +1,13 @@
-+ package plugin
-+ 
-+ import (
-++	"cmp"
-+ 	"context"
-+ 	"encoding/json"
-+ 	"io"
-+ 	"os"
-+ 	"path/filepath"
-+-	"reflect"
-+-	"sort"
-++	"slices"
-+ 	"strings"
-+ 	"sync"
-+ 	"syscall"
-+@@ -337,34 +337,42 @@ func makeLoggerStreams(id string) (stdout, stderr io.WriteCloser) {
++diff --git a/daemon/pkg/registry/config.go b/daemon/pkg/registry/config.go
++index 4e230bd1be..a0909b670e 100644
++--- a/daemon/pkg/registry/config.go
+++++ b/daemon/pkg/registry/config.go
++@@ -196,17 +196,18 @@ func (config *serviceConfig) loadInsecureRegistries(registries []string) error {
++ 	return nil
 + }
 + 
-+ func validatePrivileges(requiredPrivileges, privileges plugin.Privileges) error {
-+-	if !isEqual(requiredPrivileges, privileges, isEqualPrivilege) {
-++	if len(requiredPrivileges) != len(privileges) {
-+ 		return errors.New("incorrect privileges")
++-// isSecureIndex returns false if the provided indexName is part of the list of insecure registries
+++// isSecureIndex returns false if the provided indexName is part of the list of insecure registries.
++ // Insecure registries accept HTTP and/or accept HTTPS with certificates from unknown CAs.
++ //
++ // The list of insecure registries can contain an element with CIDR notation to specify a whole subnet.
++-// If the subnet contains one of the IPs of the registry specified by indexName, the latter is considered
++-// insecure.
+++// If all IP addresses of the registry specified by indexName are contained in one or more of those
+++// subnets, the registry is considered insecure. If any resolved IP address is not contained in an
+++// insecure subnet, the registry is considered secure.
++ //
++ // indexName should be a URL.Host (`host:port` or `host`) where the `host` part can be either a domain name
++-// or an IP address. If it is a domain name, then it will be resolved in order to check if the IP is contained
++-// in a subnet. If the resolving is not successful, isSecureIndex will only try to match hostname to any element
++-// of insecureRegistries.
+++// or an IP address. If it is a domain name, then it will be resolved in order to check its IP addresses
+++// against the configured subnets. If resolution is not successful, isSecureIndex will only try to match
+++// the hostname to an element of insecureRegistries.
++ func (config *serviceConfig) isSecureIndex(indexName string) bool {
++ 	// Check for configured index, first.  This is needed in case isSecureIndex
++ 	// is called from anything besides newIndexInfo, in order to honor per-index configurations.
++@@ -220,45 +221,48 @@ func (config *serviceConfig) isSecureIndex(indexName string) bool {
++ // for mocking in unit tests.
++ var lookupIP = net.LookupIP
++ 
++-// isCIDRMatch returns true if urlHost matches an element of cidrs. urlHost is a URL.Host ("host:port" or "host")
++-// where the `host` part can be either a domain name or an IP address. If it is a domain name, then it will be
++-// resolved to IP addresses for matching. If resolution fails, false is returned.
+++// isCIDRMatch returns true if all IP addresses for urlHost match an element of
+++// cidrs. urlHost is a URL.Host ("host:port" or "host"), where the host part can
+++// be either a domain name or an IP address. Domain names are resolved before
+++// matching. If resolution fails, or no addresses are returned, false is returned.
++ func isCIDRMatch(cidrs []netip.Prefix, urlHost string) bool {
++ 	if len(cidrs) == 0 {
++ 		return false
 + 	}
 + 
-+-	return nil
-+-}
-+-
-+-func isEqual(arrOne, arrOther plugin.Privileges, compare func(x, y plugin.Privilege) bool) bool {
-+-	if len(arrOne) != len(arrOther) {
-+-		return false
-+-	}
-+-
-+-	sort.Sort(arrOne)
-+-	sort.Sort(arrOther)
-++	a := normalizePrivileges(requiredPrivileges)
-++	b := normalizePrivileges(privileges)
++-	host, _, err := net.SplitHostPort(urlHost)
++-	if err != nil {
++-		// Assume urlHost is a host without port and go on.
++-		host = urlHost
+++	host := urlHost
+++	if h, _, err := net.SplitHostPort(urlHost); err == nil {
+++		// urlHost includes a port; use only the host for matching.
+++		host = h
++ 	}
 + 
-+-	for i := 1; i < arrOne.Len(); i++ {
-+-		if !compare(arrOne[i], arrOther[i]) {
-+-			return false
-++	for i := range a {
-++		if a[i].Name != b[i].Name {
-++			return errors.New("incorrect privileges")
-++		}
-++		if !slices.Equal(a[i].Value, b[i].Value) {
-++			return errors.New("incorrect privileges")
++-	addresses := make(map[netip.Addr]struct{})
++ 	if ip, err := netip.ParseAddr(host); err == nil {
++-		// Host is an IP-address.
++-		addresses[ip] = struct{}{}
++-	} else {
++-		// Try to resolve the host's IP-address.
++-		ips, err := lookupIP(host)
++-		if err != nil {
++-			// We failed to resolve the host; assume there's no match.
+++		// host is an IP-address.
+++		return matchesCIDR(cidrs, ip)
+++	}
+++
+++	// Try to resolve the host's IP-address.
+++	ips, err := lookupIP(host)
+++	if err != nil || len(ips) == 0 {
+++		// We failed to resolve the host; assume there's no match.
+++		return false
+++	}
+++	for _, ip := range ips {
+++		addr, ok := netip.AddrFromSlice(ip)
+++		if !ok || !matchesCIDR(cidrs, addr) {
++ 			return false
++ 		}
++-		for _, ip := range ips {
++-			addr, _ := netip.AddrFromSlice(ip)
++-			addresses[addr] = struct{}{}
++-		}
++ 	}
+++	return true
+++}
++ 
++-	for addr := range addresses {
++-		for _, ipnet := range cidrs {
++-			if ipnet.Contains(addr.Unmap()) {
++-				return true
++-			}
+++func matchesCIDR(cidrs []netip.Prefix, addr netip.Addr) bool {
+++	addr = addr.Unmap()
+++	for _, prefix := range cidrs {
+++		if prefix.Contains(addr) {
+++			return true
 + 		}
 + 	}
-+ 
-+-	return true
-++	return nil
++-
++ 	return false
 + }
 + 
-+-func isEqualPrivilege(a, b plugin.Privilege) bool {
-+-	if a.Name != b.Name {
-+-		return false
-++// normalizePrivileges returns a normalized copy of privileges with privilege names
-++// and each privilege's values sorted for order-insensitive comparison.
-++// The input is not mutated.
-++func normalizePrivileges(privileges plugin.Privileges) plugin.Privileges {
-++	normalized := make(plugin.Privileges, len(privileges))
-++	for i, privilege := range privileges {
-++		normalized[i] = plugin.Privilege{
-++			Name:        privilege.Name,
-++			Description: privilege.Description,
-++			Value:       slices.Clone(privilege.Value),
-++		}
-++		slices.Sort(normalized[i].Value)
++diff --git a/daemon/pkg/registry/registry_test.go b/daemon/pkg/registry/registry_test.go
++index 9ad2d78ae7..7ab3ec6125 100644
++--- a/daemon/pkg/registry/registry_test.go
+++++ b/daemon/pkg/registry/registry_test.go
++@@ -21,6 +21,14 @@ func overrideLookupIP(t *testing.T) {
++ 			"localhost":   {net.ParseIP("127.0.0.1"), net.ParseIP("::1")},
++ 			"example.com": {net.ParseIP("42.42.42.42")},
++ 			"other.com":   {net.ParseIP("43.43.43.43")},
+++			"loopback.example": {
+++				net.ParseIP("127.0.0.2"),
+++				net.ParseIP("::1"),
+++			},
+++			"mixed.example": {
+++				net.ParseIP("127.0.0.1"),
+++				net.ParseIP("192.0.2.1"),
+++			},
++ 		}
++ 		if addrs, ok := mockHosts[host]; ok {
++ 			return addrs, nil
++@@ -100,6 +108,9 @@ func TestIsSecureIndex(t *testing.T) {
++ 		{"invalid.example.com", []string{"invalid.example.com"}, false},
++ 		{"invalid.example.com:5000", []string{"invalid.example.com"}, true},
++ 		{"invalid.example.com:5000", []string{"invalid.example.com:5000"}, false},
+++		{"loopback.example", []string{"127.0.0.0/8", "::1/128"}, false},
+++		{"mixed.example", []string{"127.0.0.0/8", "192.0.2.0/24"}, false},
+++		{"mixed.example", []string{"127.0.0.0/8"}, true},
 + 	}
-+ 
-+-	return reflect.DeepEqual(a.Value, b.Value)
-++	slices.SortFunc(normalized, func(a, b plugin.Privilege) int {
-++		return cmp.Compare(a.Name, b.Name)
-++	})
-++
-++	return normalized
-+ }
-+diff --git a/daemon/pkg/plugin/manager_test.go b/daemon/pkg/plugin/manager_test.go
-+index f2078d41f5..e51a3367ae 100644
-+--- a/daemon/pkg/plugin/manager_test.go
-++++ b/daemon/pkg/plugin/manager_test.go
-+@@ -44,12 +44,48 @@ func TestValidatePrivileges(t *testing.T) {
-+ 			},
-+ 			result: true,
-+ 		},
-++		"single-element-same": {
-++			requiredPrivileges: []plugin.Privilege{
-++				{Name: "allow-all-devices", Description: "Description", Value: []string{"true"}},
-++			},
-++			privileges: []plugin.Privilege{
-++				{Name: "allow-all-devices", Description: "Description", Value: []string{"true"}},
-++			},
-++			result: true,
-++		},
-++		"single-element-diff-value": {
-++			requiredPrivileges: []plugin.Privilege{
-++				{Name: "allow-all-devices", Description: "Description", Value: []string{"false"}},
-++			},
-++			privileges: []plugin.Privilege{
-++				{Name: "allow-all-devices", Description: "Description", Value: []string{"true"}},
-++			},
-++			result: false,
-++		},
-++		"first-sorted-element-diff-value": {
-++			requiredPrivileges: []plugin.Privilege{
-++				{Name: "allow-all-devices", Description: "Description", Value: []string{"false"}},
-++				{Name: "network", Description: "Description", Value: []string{"host"}},
-++			},
-++			privileges: []plugin.Privilege{
-++				{Name: "allow-all-devices", Description: "Description", Value: []string{"true"}},
-++				{Name: "network", Description: "Description", Value: []string{"host"}},
-++			},
-++			result: false,
-++		},
-++		"empty-privileges": {
-++			requiredPrivileges: []plugin.Privilege{},
-++			privileges:         []plugin.Privilege{},
-++			result:             true,
-++		},
-+ 	}
-+ 
-+ 	for key, data := range testData {
-+-		err := validatePrivileges(data.requiredPrivileges, data.privileges)
-+-		if (err == nil) != data.result {
-+-			t.Fatalf("Test item %s expected result to be %t, got %t", key, data.result, (err == nil))
-+-		}
-++		t.Run(key, func(t *testing.T) {
-++			err := validatePrivileges(data.requiredPrivileges, data.privileges)
-++			if (err == nil) != data.result {
-++				t.Fatalf("expected result to be %t, got %t", data.result, (err == nil))
-++			}
-++		})
-+ 	}
-+ }
++ 	for _, tc := range tests {
++ 		config, err := newServiceConfig(ServiceOptions{
++
 -- 
 2.35.6
 
