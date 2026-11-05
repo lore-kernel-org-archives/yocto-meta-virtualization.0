@@ -1,347 +1,348 @@
-Received: from alln-iport-2.cisco.com (alln-iport-2.cisco.com [173.37.142.89])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.28351.1793858647975544724
+Received: from alln-iport-8.cisco.com (alln-iport-8.cisco.com [173.37.142.95])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.28355.1793858652364154372
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 04 Nov 2026 22:04:08 -0800
+ Wed, 04 Nov 2026 22:04:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=kz6GOXLa;
- spf=pass (domain: cisco.com, ip: 173.37.142.89, mailfrom: deeratho@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=D08GNLL3;
+ spf=pass (domain: cisco.com, ip: 173.37.142.95, mailfrom: deeratho@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=11361; q=dns/txt;
-  s=iport01; t=1793858648; x=1795068248;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=dX8YmdMGobP5ZbSMBBfmOBe7FcW65gKnUBwBwQWwdhI=;
-  b=kz6GOXLa+FDT3gHjqs6hlmKPasWI7PJcQ6oQ7fC742C8wSzfEAmzXiT6
-   MwUfkNdqjkthjo/OeGOJsHHY1YqGg47ucx1MpaKh0wX5pkTjPCUPBYuud
-   i96lYZB7GVhjZqtZjFIAw6u3gZmB/g7xu+xMvQ+uTySod1gBQ9CdWIq0i
-   p4LoTpt7j1oZHGvWidJpxzF28Jf/2PWOkKNjedr3U+uQxTS/tHMtx3E97
-   c+lLG26Q7PCERKSGYTlztnDAxSvodwsvoNOlrzEebTv3c2KRIPwwEbQX+
-   bd3MVJgGi4Q3Enz0z077TvAJ7lRoUSQnakw5l/Rs9mE3SJQJLtm1HFhJn
+  d=cisco.com; i=@cisco.com; l=8958; q=dns/txt;
+  s=iport01; t=1793858652; x=1795068252;
+  h=from:to:subject:date:message-id:in-reply-to:references:
+   mime-version:content-transfer-encoding;
+  bh=Yd+ZWj8PtoO7+PoU8FXAnuXAyRkrPIg0QuTh3cOIjXk=;
+  b=D08GNLL3DgekqUkTHRkra9h7/g3ibwNhslWlB44qOLfYn1APtIYUFDLr
+   Ra8efld9z1jdL0A33dAmVKKcFgsDoJepfVveBVhOx/cZgpvUJL0PYFJlq
+   a8zHVNBQbnNX5bDYjTO+YrIBLEEWhFiNYNISxfzzmy0q4xmN39juufm8x
+   XNAXRc5KJxUJ0OKxlT0wb23ltw4M0hGcpgml1Lh6YLAse9Ko9LbKTOkzn
+   vqa8QNVHeWoSWdvLWw4aA+o6eYcV4jsUN/m3aZxMnRHmR2bAWutXZu8jO
+   O7w55SuhBuy4ZEgjJaHeLfG51DPhVwOPQzM7gAovXfyBOzyExU9VSOmiB
    g==;
-X-CSE-ConnectionGUID: PXr7b4tGRGC0ZSbvTJ+4Pw==
-X-CSE-MsgGUID: 0SWrzWTBQaqVQQNzm+sXcQ==
-X-IPAS-Result: =?us-ascii?q?A0BFAgBsG+xq/5EQJK1aHgEBCxIMggULgld1YUJJA5Qng?=
- =?us-ascii?q?iGBFp0OgSQDVw8BAQEPRA0EAQGEP45lAiY0CQ4BAgQDAgMBAQEBAQEBAQEBA?=
- =?us-ascii?q?QEKAQEFAQEBAgEHBYEOE4ZPDZASATgBcgMBAlojGQiDAgGCdAMRvDSCLIEBg?=
- =?us-ascii?q?maBAwJDUNszAQsUAYE4hUCII10YAYR9JxsbgXKBFYJzdoEFgVwCA4FFhl4Eg?=
- =?us-ascii?q?g0VgQyBWoEDgiKJcwKBUoZxSIEeA1ksAVUTDQoLBwWBaAM1EioVbjIdgSM+F?=
- =?us-ascii?q?4EHGwYFgR2BHoESgQddgSsoXiGBCIF2AoJRggACAUlBDgdFUwklQxJHJCIIE?=
- =?us-ascii?q?gkBExosCoEaNTwJJj8VDGQLGgVhCAINDHI5EDAeJC8FHCZAGwoYGA1IESw3F?=
- =?us-ascii?q?RkEPm4Hki+DDwEBWQEHEwcTASsFS0tSFgghDw8EozOCHp9WgT4KKIN4jCSVO?=
- =?us-ascii?q?hozhVulFguYfYs3glOVaWiEaYFoPDmBIHAVO4JnCUoZD445g2uCZIEjgQzJL?=
- =?us-ascii?q?jw1CwMvAQEHAgcOAwuBaJACLYFPAQE?=
-IronPort-Data: A9a23:r2IpBql4tUZCCG54xGtq2T7o5gzRJ0RdPkR7XQ2eYbSJt1+Wr1Gzt
- xIeWmjUaf2DYmKnetB+b43k9kID7JLXyIdnHgZrqy41EltH+JHPbTi7wugcHM8zwunrFh8PA
- xA2M4GYRCwMZiaC4Errav6+/SEUOZigHtLUEPTDNj16WThqQSIgjQMLs+Mii+aEu/Dha++2k
- Y20+ZK31GONgWYubDtNs/7b8nuDgdyr0N8mlg1mDRx0lAe2e0k9VPo3Oay3Jn3kdYhYdsbSb
- /rD1ryw4lTC9B4rDN6/+p6jGqHdauePVeQmoiM+t5mK2nCulARrukoIHKZ0hXNsttm8t4sZJ
- OOhGnCHYVxB0qXkwIzxWvTDes10FfUuFLTveRBTvSEPpqHLWyOE/hlgMK05FbUo4Ll9XX1hz
- 9MzcAI2ZA6/paHq+K3uH4GAhux7RCXqFIobvnclyXTSCuwrBMiTBa7L/tRfmjw3g6iiH96HO
- JFfMmQpNUqGOkESUrsUIMpWcOOAinTyaTREqFW9rqss6G+Vxwt0uFToGIqFJ4zTGJQPzy50o
- EqexFvjEC4mHuWW0AS8y1S+g6zUrSjCDdd6+LqQs6QCbEeo7mkeFBRTS1qhveSwjk+sUs5eL
- Eo8/is1sbN05UugUt7lRRq6rXWY+BkGVLJt//YS4QWJzO/Qpg2eHGVBFm4HY909v8hwTjsvv
- rOUo+7U6fVUmOX9YRqgGn289Fte5QB9wbc+WBI5
-IronPort-HdrOrdr: A9a23:O9kOra4UdvQfUzunKwPXwPjXdLJyesId70hD6qkXc202TiX2ra
- 6TdZgguCMc6wxhO03I5+rgBEDoexq1nvRICOIqUotKMjOLhILRFuFfxLqn5SH8ECvj8eMY/6
- Jhf69iTODUNzFB/KPHCM3SKadG/DFBm5rY4dvj8w==
-X-Talos-CUID: 9a23:ViHq221g+LSAbUp3evAIYLxfIvA/LXeB0FjqDGTgO11jVoG3CgOo5/Yx
-X-Talos-MUID: 9a23:qZ1uVQnDCd8AD85+bdy6dno6D/hy8ZuSInkEiKs/gu+WMG9rCzyk2WE=
+X-CSE-ConnectionGUID: F4J0Noe3SbanuuaiHHjUJA==
+X-CSE-MsgGUID: BQa+sqNYQBqSIORVOXIIaQ==
+X-IPAS-Result: =?us-ascii?q?A0DMAgAbHOxq/5IQJK1aglmCV3VhQkkDlCeCIQOeIRSBE?=
+ =?us-ascii?q?ANXDwEBAQ9EDQQBAYFxgk5GAo4dAiY1CA4BAgQDAgMBAQEBAQEBAQEBAQEKA?=
+ =?us-ascii?q?QEFAQEBAgEHBYEOE4ZPDZASAQIBAzIBVhwDAQIvKyMIEQiDAgGCdAMRvDWCL?=
+ =?us-ascii?q?IEBgmaBAwJDUNszAQsUAYE4hUCII10YAYR9JxsbgXKEfoEFgVwCgScfhmAEg?=
+ =?us-ascii?q?iKBDIFajBOBBQKBUoZxSIEeA1ksAVUTDQoLBwWBaAM1EioVbjIdgSM+F4EHG?=
+ =?us-ascii?q?wYFgR2BHoESgQddgSsoXiGBCIF2AoJRggACAUlBDgdFUwklQxJHJCIIEgkBE?=
+ =?us-ascii?q?xosCoEaNTwJJj8VDGQLGgVhCAINDHI5EDAeJC8FHCZAGwoYGA1IESw3FRkEP?=
+ =?us-ascii?q?m4Hki+CREwBPVEBK4E0ORABLh4cFJJDHQmQHoIegTifXAoog3iMJJU6GjOFW?=
+ =?us-ascii?q?6UWC5h9izeCU5ZRhGmBagI4OYEgcBWDIglKGQ9XjVQOC4NghRPJLjw1CwMvA?=
+ =?us-ascii?q?QEHAgcOAwuBaJAAAiYHgU8BAQ?=
+IronPort-Data: A9a23:XnOAyKzHz+rHGkqxe616t+dnxyrEfRIJ4+MujC+fZmUNrF6WrkUAy
+ mBKWmCCb/2MNmCkfYoiPI+1900DvMeBnYM3HQQ4/lhgHilAwSbn6Xt1DatR0we6dJCroJdPt
+ p1GAjX4BJlqCCKa/lHyYuCJQUBUjcmgXqD7BPPPJhd/TAplTDZJoR94kobVuKYw6TSCK13L4
+ 4yaT/H3Ygf/hWctaj5MscpvlTs21BjMkGJA1rABTagjUG/2zxE9EJ8ZLKetGHr0KqE8NvK6X
+ evK0Iai9Wrf+Ro3Yvv9+losWhRXKlJ6FVHmZkt+A8BOsDAbzsAB+vpT2M4nVKtio27hc+adZ
+ zl6ncfYpQ8BZsUgkQmGOvVSO3kW0aZuoNcrLZUj2CCe5xWuTpfi/xlhJG9qH9U+/essOmtH8
+ +EFITEtThK+pcvjldpXSsE07igiBMDvOIVavjRryivUSK53B5vCWK7No9Rf2V/chOgXQq2YP
+ JRfMGQpNUieC/FMEg9/5JYWkOqlnHDjczpwo1OOrq1x6G/WpOB0+Oi9YYSOKoLaFa25mG6yn
+ 2uF5H3fMygwLee+7gC71UKNp+b2yHaTtIU6UefQGuRRqFie2mVWFhwMSUaypfirg1K/XNR3L
+ 00P5jFovK856EuzVN7/Uhak5nmesXYht8F4Guk+7kSJj6HT+QvcXjlCRT9aY9tgv8gzLdA36
+ mK0cxrSLWQHmNWopbi1rd94cRva1fApEFI/
+IronPort-HdrOrdr: A9a23:t3+rPay36iAGMLjLLTIyKrPwAL1zdoMgy1knxilNoHtuA6ilfq
+ +V8sjzuSWYtN9VYgBCpTniAtjkfZqjz/9ICOAqVN/INjUO+lHYTr2KhrGM/9SPIUHDH5ZmtZ
+ tIQuxZFMD6C0R8gILR5Qm1FMtl/fy8mZrY4ts3CxxWPHhXg2YK1XYeNjqm
+X-Talos-CUID: =?us-ascii?q?9a23=3Airhtkmnwrhk0hz7lUFhMlgs3frfXOVOB7i/2JEL?=
+ =?us-ascii?q?jMmxgTqCIQF6w2KFZseM7zg=3D=3D?=
+X-Talos-MUID: 9a23:bFk2Mwo7ZgDNi7WgD6kezxtbPYRz+oKfMWoUqrQhgfejBQ1RMg7I2Q==
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.27,196,1787011200"; 
-   d="scan'208";a="885815929"
-Received: from alln-l-core-08.cisco.com ([173.36.16.145])
-  by alln-iport-2.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 05 Nov 2026 06:04:07 +0000
+   d="scan'208";a="889638688"
+Received: from alln-l-core-09.cisco.com ([173.36.16.146])
+  by alln-iport-8.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 05 Nov 2026 06:04:11 +0000
 Received: from bgl-ads-3413.cisco.com (bgl-ads-3413.cisco.com [173.39.60.50])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
 	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
 	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
-	by alln-l-core-08.cisco.com (Postfix) with ESMTPS id 965BF18000443
-	for <meta-virtualization@lists.yoctoproject.org>; Thu,  5 Nov 2026 06:04:06 +0000 (GMT)
+	by alln-l-core-09.cisco.com (Postfix) with ESMTPS id 2230B18000466
+	for <meta-virtualization@lists.yoctoproject.org>; Thu,  5 Nov 2026 06:04:11 +0000 (GMT)
 Received: by bgl-ads-3413.cisco.com (Postfix, from userid 1795984)
-	id 99663CC1295; Thu,  5 Nov 2026 11:34:04 +0530 (IST)
+	id 2DC14CC1295; Thu,  5 Nov 2026 11:34:09 +0530 (IST)
 From: "Deepak Rathore -X (deeratho - E INFOCHIPS PRIVATE LIMITED at Cisco)" <deeratho@cisco.com>
 To: meta-virtualization@lists.yoctoproject.org
-Subject: [meta-virtualization][wrynose][PATCH 1/2] containerd: Fix CVE-2026-95837
-Date: Thu,  5 Nov 2026 11:33:53 +0530
-Message-Id: <20261105060354.1290580-1-deeratho@cisco.com>
+Subject: [meta-virtualization][wrynose][PATCH 2/2] containerd: Fix CVE-2026-95838
+Date: Thu,  5 Nov 2026 11:33:54 +0530
+Message-Id: <20261105060354.1290580-2-deeratho@cisco.com>
 X-Mailer: git-send-email 2.35.6
+In-Reply-To: <20261105060354.1290580-1-deeratho@cisco.com>
+References: <20261105060354.1290580-1-deeratho@cisco.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Outbound-Client-TLS: VERIFIED;bgl-ads-3413.cisco.com [173.39.60.50];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
 X-Outbound-SMTP-Client: 173.39.60.50, bgl-ads-3413.cisco.com
-X-Outbound-Node: alln-l-core-08.cisco.com
+X-Outbound-Node: alln-l-core-09.cisco.com
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <meta-virtualization@lists.yoctoproject.org>; Thu, 05 Nov 2026 06:04:18 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/10150
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/10151
 Content-Type: text/plain; charset="utf-8"
 
 From: Deepak Rathore <deeratho@cisco.com>
 
 This patch applies the upstream release/2.2 fix for
-CVE-2026-95837. It disables checkpoint restore through
-CreateContainer by default, while keeping an explicit opt-in for
-users who need this experimental behavior. The upstream fix is
-referenced in [1], and the Debian tracker entry that records the fix
-commit is referenced in [2].
+CVE-2026-95838. It prevents repeated directory walks when
+containerd extracts layers with repeated opaque whiteouts. The
+upstream fix is referenced in [1], and the Debian tracker entry that
+records the fix commit is referenced in [2].
 
-[1] https://github.com/containerd/containerd/commit/5c3a47036ec08f8a7517a01a0baf113d6146eca0
-[2] https://security-tracker.debian.org/tracker/CVE-2026-95837
+[1] https://github.com/containerd/containerd/commit/45166eb828c9f8605db44299836a87b78bda701b
+[2] https://security-tracker.debian.org/tracker/CVE-2026-95838
 
 Signed-off-by: Deepak Rathore <deeratho@cisco.com>
 ---
- .../containerd/CVE-2026-95837.patch           | 231 +++++++++++++++++++
+ .../containerd/CVE-2026-95838.patch           | 231 ++++++++++++++++++
  .../containerd/containerd_git.bb              |   1 +
  2 files changed, 232 insertions(+)
- create mode 100644 recipes-containers/containerd/containerd/CVE-2026-95837.patch
+ create mode 100644 recipes-containers/containerd/containerd/CVE-2026-95838.patch
 
-diff --git a/recipes-containers/containerd/containerd/CVE-2026-95837.patch b/recipes-containers/containerd/containerd/CVE-2026-95837.patch
+diff --git a/recipes-containers/containerd/containerd/CVE-2026-95838.patch b/recipes-containers/containerd/containerd/CVE-2026-95838.patch
 new file mode 100644
-index 00000000..e3e03d21
+index 00000000..d46f803f
 --- /dev/null
-+++ b/recipes-containers/containerd/containerd/CVE-2026-95837.patch
++++ b/recipes-containers/containerd/containerd/CVE-2026-95838.patch
 @@ -0,0 +1,231 @@
-+From 746209812edc4b43ca19f8b0ee7b6627d2f7eca5 Mon Sep 17 00:00:00 2001
-+From: Samuel Karp <me@samuelkarp.com>
-+Date: Sun, 25 Oct 2026 23:23:55 -0700
-+Subject: [PATCH] cri: disable restore in CreateContainer by default
++From 2a2aed4580fb148baa2a7944d0e491a0383b0906 Mon Sep 17 00:00:00 2001
++From: Samuel Karp <samuelkarp@google.com>
++Date: Tue, 25 Aug 2026 05:50:31 +0000
++Subject: [PATCH] archive: skip redundant opaque whiteout walks
 +
-+Checkpoint restore via CreateContainer was intended to be experimental,
-+but was enabled by default. While the enable_criu knob can disable CRIU
-+entirely, explicit forensic checkpoints still benefit from CRIU while
-+restore via CreateContainer should be disabled by default.
++When unpacking a layer changeset in applyNaive, encountering an opaque
++whiteout (.wh..wh..opq) triggers a directory walk to remove files
++belonging to lower layers. Since files unpacked earlier in the current
++layer are recorded in unpackedPaths and preserved, interleaved files and
++opaque whiteouts in the same directory cause repeated walks over the
++same growing directory, leading to superlinear execution time.
 +
-+Add the enable_experimental_restore_via_create configuration knob to
-+control restore via CreateContainer independently from enable_criu,
-+defaulting to disabled.
++Once a directory has been purged of lower-layer files by an opaque
++whiteout, all existing and subsequent entries in that directory are
++guaranteed to be in unpackedPaths. Tracking directories that have
++already processed an opaque whiteout allows subsequent opaque whiteouts
++for the same directory to return early, restoring linear unpack time.
 +
-+CVE: CVE-2026-95837
-+Upstream-Status: Backport [https://github.com/containerd/containerd/commit/5c3a47036ec08f8a7517a01a0baf113d6146eca0]
++Benchmark results (n=1,000):
 +
-+Backport Changes:
-+- The release/2.2 fix assumes two CRIU controls already present in
-+  that branch: the enable_criu configuration option [1] and checkCriu
-+  availability and version validation [2]. Containerd 2.2.2 has
-+  neither. Carrying both controls would add broader CRIU functionality,
-+  so this backport instead disables CreateContainer restore by default
-+  and adds a separate opt-in configuration.
-+- The docs/cri/config.md comment uses concise target wording: it describes the
-+  option as allowing checkpoint restore via CreateContainer and says it is
-+  disabled by default, omitting upstream's expanded experimental wording.
-+- Keep the v2/v3 config documentation and equivalent regression tests for
-+  default denial and TOML/JSON parsing. Omit README.md (unrelated link
-+  change), RELEASES.md (release notes), contrib checkpoint shell tests
-+  (standalone integration scripts not run by this recipe), and
-+  enable_criu_linux_test.go (tests for the unavailable CRIU controls).
++| Metric | Pre-change | Post-change | Delta |
++| :--- | :--- | :--- | :--- |
++| Execution Time | 2,578.8 ms/op | 135.3 ms/op | ~19.1x faster (94.8% reduction) |
++| Allocated Memory | 200.5 MB/op | 2.3 MB/op | ~86.9x less memory (98.8% reduction) |
++| Allocs / op | 2,068,820 allocs/op | 48,060 allocs/op | ~43.0x fewer allocs (97.7% reduction) |
 +
-+References:
-+[1] https://github.com/containerd/containerd/commit/7d41b25c9884c0f94acdb0f7e78fbab2752fccb6
-+[2] https://github.com/containerd/containerd/commit/48116fa596fd0e926749dcdfd3ef92da00fc6dc8
++CVE: CVE-2026-95838
++Upstream-Status: Backport [https://github.com/containerd/containerd/commit/45166eb828c9f8605db44299836a87b78bda701b]
 +
 +Assisted-by: Antigravity
 +Signed-off-by: Samuel Karp <samuelkarp@google.com>
-+(cherry picked from commit 928c03c6898cad95f795300281fdff0dbc55a32f)
-+(cherry picked from commit 5c3a47036ec08f8a7517a01a0baf113d6146eca0)
++(cherry picked from commit e6ca378dcfa610d06589a3ac96aa992de866e4f0)
++Signed-off-by: Samuel Karp <samuelkarp@google.com>
++(cherry picked from commit 45166eb828c9f8605db44299836a87b78bda701b)
 +Signed-off-by: Deepak Rathore <deeratho@cisco.com>
 +---
-+ docs/cri/config.md                            |  5 ++
-+ internal/cri/config/config.go                 |  5 ++
-+ internal/cri/config/config_test.go            | 46 +++++++++++++++++++
-+ internal/cri/config/config_unix.go            | 25 +++++-----
-+ internal/cri/config/config_windows.go         |  3 +-
-+ .../cri/server/container_checkpoint_linux.go  |  4 ++
-+ .../server/container_checkpoint_linux_test.go |  6 +++
-+ 7 files changed, 81 insertions(+), 13 deletions(-)
++ pkg/archive/tar.go      |  15 ++++-
++ pkg/archive/tar_test.go | 136 ++++++++++++++++++++++++++++++++++++++++
++ 2 files changed, 150 insertions(+), 1 deletion(-)
 +
-+diff --git a/docs/cri/config.md b/docs/cri/config.md
-+index 49c81a272..ba11e0982 100644
-+--- a/docs/cri/config.md
-++++ b/docs/cri/config.md
-+@@ -272,6 +272,7 @@ version = 3
-+     cdi_spec_dirs = ['/etc/cdi', '/var/run/cdi']
-+     drain_exec_sync_io_timeout = '0s'
-+     ignore_deprecation_warnings = []
-++    enable_experimental_restore_via_create = false
++diff --git a/pkg/archive/tar.go b/pkg/archive/tar.go
++index 286a46c05..5c11f1d7f 100644
++--- a/pkg/archive/tar.go
+++++ b/pkg/archive/tar.go
++@@ -169,6 +169,9 @@ func applyNaive(ctx context.Context, root string, r io.Reader, options ApplyOpti
++ 		// Used for handling opaque directory markers which
++ 		// may occur out of order
++ 		unpackedPaths = make(map[string]struct{})
+++		// Used for tracking directories that have already processed an
+++		// opaque directory marker to avoid redundant directory walks
+++		opaqueDirs = make(map[string]struct{})
 + 
-+     [plugins.'io.containerd.cri.v1.runtime'.containerd]
-+       default_runtime_name = 'runc'
-+@@ -470,6 +471,10 @@ version = 2
-+   # For example, the value can be '5h', '2h30m', '10s'.
-+   drain_exec_sync_io_timeout = "0s"
-+ 
-++  # enable_experimental_restore_via_create allows restoring checkpoints via
-++  # CreateContainer. This is disabled by default.
-++  enable_experimental_restore_via_create = false
++ 		convertWhiteout = options.ConvertWhiteout
++ 	)
++@@ -179,6 +182,11 @@ func applyNaive(ctx context.Context, root string, r io.Reader, options ApplyOpti
++ 			base := filepath.Base(path)
++ 			dir := filepath.Dir(path)
++ 			if base == whiteoutOpaqueDir {
+++				if _, ok := opaqueDirs[dir]; ok {
+++					return false, nil
+++				}
+++				opaqueDirs[dir] = struct{}{}
 ++
-+   # 'plugins."io.containerd.grpc.v1.cri".x509_key_pair_streaming' contains a x509 valid key pair to stream with tls.
-+   [plugins."io.containerd.grpc.v1.cri".x509_key_pair_streaming]
-+     # tls_cert_file is the filepath to the certificate paired with the "tls_key_file"
-+diff --git a/internal/cri/config/config.go b/internal/cri/config/config.go
-+index 98d62a705..0c86b6648 100644
-+--- a/internal/cri/config/config.go
-++++ b/internal/cri/config/config.go
-+@@ -427,6 +427,11 @@ type RuntimeConfig struct {
-+ 	// IgnoreDeprecationWarnings is the list of the deprecation IDs (such as "io.containerd.deprecation/pull-schema-1-image")
-+ 	// that should be ignored for checking "ContainerdHasNoDeprecationWarnings" condition.
-+ 	IgnoreDeprecationWarnings []string `toml:"ignore_deprecation_warnings" json:"ignoreDeprecationWarnings"`
-++
-++	// EnableExperimentalRestoreViaCreate enables experimental restore of container checkpoints via CreateContainer.
-++	// When set to false, checkpoint restore via CreateContainer will be disabled.
-++	// Default: false
-++	EnableExperimentalRestoreViaCreate bool `toml:"enable_experimental_restore_via_create" json:"enableExperimentalRestoreViaCreate"`
-+ }
-+ 
-+ // X509KeyPairStreaming contains the x509 configuration for streaming
-+diff --git a/internal/cri/config/config_test.go b/internal/cri/config/config_test.go
-+index a9134ed9d..10a8432ff 100644
-+--- a/internal/cri/config/config_test.go
-++++ b/internal/cri/config/config_test.go
-+@@ -18,9 +18,11 @@ package config
-+ 
-+ import (
-+ 	"context"
-++	"encoding/json"
-+ 	"runtime"
-+ 	"testing"
-+ 
-++	"github.com/pelletier/go-toml/v2"
-+ 	"github.com/stretchr/testify/assert"
-+ 	criruntime "k8s.io/cri-api/pkg/apis/runtime/v1"
-+ 
-+@@ -508,3 +510,47 @@ func TestCheckLocalImagePullConfigs(t *testing.T) {
-+ 		})
-+ 	}
-+ }
-++
-++func TestParseEnableExperimentalRestoreViaCreate(t *testing.T) {
-++	testCases := []struct {
-++		name            string
-++		tomlStr         string
-++		expectedRestore bool
-++	}{
-++		{
-++			name:            "enabled",
-++			tomlStr:         "enable_experimental_restore_via_create = true",
-++			expectedRestore: true,
-++		},
-++		{
-++			name:            "disabled",
-++			tomlStr:         "enable_experimental_restore_via_create = false",
-++			expectedRestore: false,
-++		},
-++		{
-++			name:            "absent defaults to disabled",
-++			tomlStr:         "# no restore setting",
-++			expectedRestore: false,
-++		},
-++	}
-++
-++	for _, tc := range testCases {
-++		t.Run(tc.name, func(t *testing.T) {
-++			cfg := DefaultRuntimeConfig()
-++			err := toml.Unmarshal([]byte(tc.tomlStr), &cfg)
-++			assert.NoError(t, err)
-++			assert.Equal(t, tc.expectedRestore, cfg.EnableExperimentalRestoreViaCreate)
-++		})
-++	}
-++}
-++
-++func TestJSONEnableExperimentalRestoreViaCreate(t *testing.T) {
-++	cfg := DefaultRuntimeConfig()
-++	err := json.Unmarshal([]byte(`{"enableExperimentalRestoreViaCreate":true}`), &cfg)
-++	assert.NoError(t, err)
-++	assert.True(t, cfg.EnableExperimentalRestoreViaCreate)
-++
-++	b, err := json.Marshal(cfg)
-++	assert.NoError(t, err)
-++	assert.Contains(t, string(b), `"enableExperimentalRestoreViaCreate":true`)
-++}
-+diff --git a/internal/cri/config/config_unix.go b/internal/cri/config/config_unix.go
-+index 7c4514b68..5694e6ac5 100644
-+--- a/internal/cri/config/config_unix.go
-++++ b/internal/cri/config/config_unix.go
-+@@ -97,17 +97,18 @@ func DefaultRuntimeConfig() RuntimeConfig {
-+ 				},
-+ 			},
++ 				_, err := os.Lstat(dir)
++ 				if err != nil {
++ 					return false, err
++@@ -195,7 +203,12 @@ func applyNaive(ctx context.Context, root string, r io.Reader, options ApplyOpti
++ 					}
++ 					if _, exists := unpackedPaths[path]; !exists {
++ 						err := os.RemoveAll(path)
++-						return err
+++						if err != nil {
+++							return err
+++						}
+++						if info.IsDir() {
+++							return filepath.SkipDir
+++						}
++ 					}
++ 					return nil
++ 				})
++diff --git a/pkg/archive/tar_test.go b/pkg/archive/tar_test.go
++index 62f03146d..1289af2b8 100644
++--- a/pkg/archive/tar_test.go
+++++ b/pkg/archive/tar_test.go
++@@ -715,6 +715,38 @@ func TestBreakouts(t *testing.T) {
++ 			// resolution ends up just removing etc
++ 			validator: fileNotExists("etc/passwd"),
 + 		},
-+-		EnableSelinux:                    false,
-+-		SelinuxCategoryRange:             1024,
-+-		MaxContainerLogLineSize:          16 * 1024,
-+-		DisableProcMount:                 false,
-+-		TolerateMissingHugetlbController: true,
-+-		DisableHugetlbController:         true,
-+-		IgnoreImageDefinedVolumes:        false,
-+-		EnableCDI:                        true,
-+-		CDISpecDirs:                      []string{"/etc/cdi", "/var/run/cdi"},
-+-		DrainExecSyncIOTimeout:           "0s",
-+-		EnableUnprivilegedPorts:          true,
-+-		EnableUnprivilegedICMP:           true,
-++		EnableSelinux:                      false,
-++		SelinuxCategoryRange:               1024,
-++		MaxContainerLogLineSize:            16 * 1024,
-++		DisableProcMount:                   false,
-++		TolerateMissingHugetlbController:   true,
-++		DisableHugetlbController:           true,
-++		IgnoreImageDefinedVolumes:          false,
-++		EnableCDI:                          true,
-++		CDISpecDirs:                        []string{"/etc/cdi", "/var/run/cdi"},
-++		DrainExecSyncIOTimeout:             "0s",
-++		EnableUnprivilegedPorts:            true,
-++		EnableUnprivilegedICMP:             true,
-++		EnableExperimentalRestoreViaCreate: false,
+++		{
+++			name: "WhiteoutOpaque",
+++			apply: fstest.Apply(
+++				fstest.CreateDir("/etc/", 0755),
+++				fstest.CreateFile("/etc/passwd", []byte("all users"), 0644),
+++				fstest.CreateFile("/etc/shadow", []byte("root:secret"), 0600),
+++			),
+++			w: tartest.TarAll(
+++				tc.File("etc/.wh..wh..opq", []byte{}, 0600),
+++				tc.File("etc/group", []byte("all groups"), 0644),
+++			),
+++			validator: all(
+++				fileNotExists("etc/passwd"),
+++				fileNotExists("etc/shadow"),
+++				fileValue("etc/group", []byte("all groups")),
+++			),
+++		},
+++		{
+++			name: "WhiteoutOpaqueOutOfOrder",
+++			apply: fstest.Apply(
+++				fstest.CreateDir("/etc/", 0755),
+++				fstest.CreateFile("/etc/passwd", []byte("all users"), 0644),
+++			),
+++			w: tartest.TarAll(
+++				tc.File("etc/group", []byte("all groups"), 0644),
+++				tc.File("etc/.wh..wh..opq", []byte{}, 0600),
+++			),
+++			validator: all(
+++				fileNotExists("etc/passwd"),
+++				fileValue("etc/group", []byte("all groups")),
+++			),
+++		},
++ 		{
++ 			name: "SymlinkOverridePath",
++ 			w: tartest.TarAll(
++@@ -1464,3 +1496,107 @@ func requireTar(t *testing.T) {
++ 		t.Skipf("%s not found, skipping", tarCmd)
 + 	}
 + }
-+diff --git a/internal/cri/config/config_windows.go b/internal/cri/config/config_windows.go
-+index 789d499c6..716d00863 100644
-+--- a/internal/cri/config/config_windows.go
-++++ b/internal/cri/config/config_windows.go
-+@@ -86,6 +86,7 @@ func DefaultRuntimeConfig() RuntimeConfig {
-+ 		IgnoreImageDefinedVolumes: false,
-+ 		// TODO(windows): Add platform specific config, so that most common defaults can be shared.
-+ 
-+-		DrainExecSyncIOTimeout: "0s",
-++		DrainExecSyncIOTimeout:             "0s",
-++		EnableExperimentalRestoreViaCreate: false,
-+ 	}
-+ }
-+diff --git a/internal/cri/server/container_checkpoint_linux.go b/internal/cri/server/container_checkpoint_linux.go
-+index 26f0d9b25..dc6c13d0c 100644
-+--- a/internal/cri/server/container_checkpoint_linux.go
-++++ b/internal/cri/server/container_checkpoint_linux.go
-+@@ -189,6 +189,10 @@ func (c *criService) CRImportCheckpoint(
-+ 	sandbox *sandbox.Sandbox,
-+ 	sandboxConfig *runtime.PodSandboxConfig,
-+ ) (ctrID string, retErr error) {
-++	if !c.config.EnableExperimentalRestoreViaCreate {
-++		return "", errors.New("checkpoint restore via CreateContainer is disabled by configuration")
+++
+++func TestRepeatedOpaqueWhiteout(t *testing.T) {
+++	ctx := t.Context()
+++	td := t.TempDir()
+++
+++	// Create base directory with lower-layer file
+++	if err := os.WriteFile(filepath.Join(td, "oldfile"), []byte("lower"), 0644); err != nil {
+++		t.Fatal(err)
 ++	}
 ++
-+ 	var mountPoint string
-+ 	start := time.Now()
-+ 	// Ensure that the image to restore the checkpoint from has been provided.
-+diff --git a/internal/cri/server/container_checkpoint_linux_test.go b/internal/cri/server/container_checkpoint_linux_test.go
-+index 740a52100..5ba9d73ad 100644
-+--- a/internal/cri/server/container_checkpoint_linux_test.go
-++++ b/internal/cri/server/container_checkpoint_linux_test.go
-+@@ -235,3 +235,9 @@ func TestCheckpointArchiveEntryAllowed(t *testing.T) {
-+ 		})
-+ 	}
-+ }
+++	// Create a tar with interleaved files and opaque whiteouts
+++	var buf bytes.Buffer
+++	tw := tar.NewWriter(&buf)
 ++
-++func TestCRImportCheckpointRestoreViaCreateDisabledByDefault(t *testing.T) {
-++	c := newTestCRIService()
-++	_, err := c.CRImportCheckpoint(context.Background(), nil, nil, nil)
-++	require.ErrorContains(t, err, "checkpoint restore via CreateContainer is disabled by configuration")
+++	const n = 500
+++	for i := 0; i < n; i++ {
+++		name := fmt.Sprintf("f%04d", i)
+++		if err := tw.WriteHeader(&tar.Header{
+++			Name:     name,
+++			Mode:     0644,
+++			Size:     1,
+++			Typeflag: tar.TypeReg,
+++		}); err != nil {
+++			t.Fatal(err)
+++		}
+++		if _, err := tw.Write([]byte("x")); err != nil {
+++			t.Fatal(err)
+++		}
+++		if err := tw.WriteHeader(&tar.Header{
+++			Name:     whiteoutOpaqueDir,
+++			Mode:     0600,
+++			Size:     0,
+++			Typeflag: tar.TypeReg,
+++		}); err != nil {
+++			t.Fatal(err)
+++		}
+++	}
+++	if err := tw.Close(); err != nil {
+++		t.Fatal(err)
+++	}
+++
+++	if _, err := Apply(ctx, td, &buf, WithNoSameOwner()); err != nil {
+++		t.Fatalf("failed to apply tar: %v", err)
+++	}
+++
+++	// Verify oldfile was removed by opaque whiteout
+++	if _, err := os.Lstat(filepath.Join(td, "oldfile")); !os.IsNotExist(err) {
+++		t.Errorf("expected oldfile to be removed, err: %v", err)
+++	}
+++
+++	// Verify all unpacked files exist
+++	for i := 0; i < n; i++ {
+++		p := filepath.Join(td, fmt.Sprintf("f%04d", i))
+++		if _, err := os.Lstat(p); err != nil {
+++			t.Errorf("expected %s to exist, err: %v", p, err)
+++		}
+++	}
+++}
+++
+++func BenchmarkRepeatedOpaqueWhiteout(b *testing.B) {
+++	ctx := b.Context()
+++
+++	// Build tar payload with interleaved files and opaque whiteouts
+++	var buf bytes.Buffer
+++	tw := tar.NewWriter(&buf)
+++
+++	const n = 1000
+++	for i := 0; i < n; i++ {
+++		name := fmt.Sprintf("f%04d", i)
+++		if err := tw.WriteHeader(&tar.Header{
+++			Name:     name,
+++			Mode:     0644,
+++			Size:     1,
+++			Typeflag: tar.TypeReg,
+++		}); err != nil {
+++			b.Fatal(err)
+++		}
+++		if _, err := tw.Write([]byte("x")); err != nil {
+++			b.Fatal(err)
+++		}
+++		if err := tw.WriteHeader(&tar.Header{
+++			Name:     whiteoutOpaqueDir,
+++			Mode:     0600,
+++			Size:     0,
+++			Typeflag: tar.TypeReg,
+++		}); err != nil {
+++			b.Fatal(err)
+++		}
+++	}
+++	if err := tw.Close(); err != nil {
+++		b.Fatal(err)
+++	}
+++
+++	payload := buf.Bytes()
+++	b.ReportAllocs()
+++	b.ResetTimer()
+++
+++	for i := 0; i < b.N; i++ {
+++		td := b.TempDir()
+++		if _, err := Apply(ctx, td, bytes.NewReader(payload), WithNoSameOwner()); err != nil {
+++			b.Fatalf("failed to apply tar: %v", err)
+++		}
+++	}
 ++}
 diff --git a/recipes-containers/containerd/containerd_git.bb b/recipes-containers/containerd/containerd_git.bb
-index 48d41dbc..176bdc7e 100644
+index 176bdc7e..a388a2b7 100644
 --- a/recipes-containers/containerd/containerd_git.bb
 +++ b/recipes-containers/containerd/containerd_git.bb
-@@ -19,6 +19,7 @@ SRC_URI = "git://github.com/containerd/containerd;branch=release/2.2;protocol=ht
-            file://CVE-2026-53495.patch \
+@@ -20,6 +20,7 @@ SRC_URI = "git://github.com/containerd/containerd;branch=release/2.2;protocol=ht
             file://CVE-2026-53493_p1.patch \
             file://CVE-2026-53493_p2.patch \
-+           file://CVE-2026-95837.patch \
+            file://CVE-2026-95837.patch \
++           file://CVE-2026-95838.patch \
            "
  
  # Apache-2.0 for containerd
