@@ -1,83 +1,88 @@
-Received: from mail-oo1-f45.google.com (mail-oo1-f45.google.com [209.85.161.45])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.335.1793896673054398849
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.593.1793897423335393083
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 05 Nov 2026 08:37:53 -0800
+ Thu, 05 Nov 2026 08:50:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=UHwVfAQD;
- spf=pass (domain: gmail.com, ip: 209.85.161.45, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-oo1-f45.google.com with SMTP id 006d021491bc7-6dde81a6820so1336803eaf.2
-        for <meta-virtualization@lists.yoctoproject.org>; Thu, 05 Nov 2026 08:37:52 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=ZNnYTcuB;
+ spf=pass (domain: gmail.com, ip: 209.85.222.178, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-93f3c89594cso188475085a.2
+        for <meta-virtualization@lists.yoctoproject.org>; Thu, 05 Nov 2026 08:50:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793896672; x=1794501472; darn=lists.yoctoproject.org;
+        d=gmail.com; s=20260707; t=1793897422; x=1794502222; darn=lists.yoctoproject.org;
         h=mime-version:content-transfer-encoding:content-type:references
          :in-reply-to:subject:cc:to:from:date:message-id:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=dMicTMBihdwjrCpGaSJ864qKSxUrTHEsbSl8Y+4Ow1w=;
-        b=UHwVfAQDdS6Wk5Fk8jD4Nd/FB45rT/OI6VQqkt4VIXzakqAaOftKyEOAUvUts3ejwa
-         fEYArBAuxlgBFHmkZQc3Pc1dLVsGJCbSLxn585LtWmIBbo4nlS+cQXQEeGzssRF0udwf
-         JMTqwYIxKG/AQaBmL4ZCu++J+WQzz5ZbYl78zIrVKtRWerJVT/q+HYqB5ByzSh1xNgS4
-         mjtLXYEgrdPM0+b5OI/4uqW/tkqAnfSLQg/80nuTt+wXtJlK+abjwDsQALhHDFKpGR8U
-         vc3Dvem+vdDfqxKHgbMbJGpmHBEUd1ovqLSC5h2fAuoaYfv+yE1N4PuqUgKPPvFSSny5
-         eVxA==
+        bh=JQeNeC6N2fSY19MPnr6nUEdh+d55MGr21eilvQIts9A=;
+        b=ZNnYTcuBCWGov+JTBHVL0soTxDTFZR7ZCHlpc4ZW6gIi/Ehyrtv7XT0X4ao729sWFi
+         dyDBm4v8TVom9nX10lGAt7bk1ne/AWFZiNIIET4oKfDvhzlzOrUtjMkLvJ/i7cduHwIg
+         jW0/KyG47rtQUxVnoaUfhhppjrtQPY2VhsQkE2pm7yGyvxoXYvfBBOqQM+ryuOhx30yx
+         LRV49Ztwbbunq8/siiBMOgRIpEEJgSEj6oYUhr4s7n4SfY4zDxhU0qNd0FV+4SDR2SJ/
+         gc0BjFwnJfC1V203twMQK35HSCMKYsqwflCCRVoL3OQr6KiQyM9ReNY+/sDYMzchsQNC
+         L8iQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793896672; x=1794501472;
+        d=1e100.net; s=20260707; t=1793897422; x=1794502222;
         h=mime-version:content-transfer-encoding:content-type:references
          :in-reply-to:subject:cc:to:from:date:message-id:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=dMicTMBihdwjrCpGaSJ864qKSxUrTHEsbSl8Y+4Ow1w=;
-        b=y9eMUijLSd804kzkzZtajrG8Bfdb4EzayJ0S959al9AwngvVLpJLzuuzJL7jClhGHJ
-         qxpTgh6oeKVQGO10t76o1rRFj+lk7ffLRPhBxzPa3AztlNJAYEXS/TkinND0jIi/XsRa
-         IaMSNuSFr3jRAo5bICnYLwSjulbho2FpQqKp2bvTV0YQsy1pW2Y3U7OkVodHm6UHtRXB
-         wpRzoFtq6PQS52bYf0aRv6QM0T+SIrxwI08a0jUswgqI4tJehZ4lj7vOIW2rncxpWwxC
-         BUnYBq9p3KEGTG2ocbBroHZsfB4PEQFbt1qaZ43w/ANdC0/efF+Rf+z2Q4Y4dBdzyMvp
-         rxlQ==
-X-Gm-Message-State: APuU4Z+7uFDfKTvHuHOOWI3LtmtR34PVwKzVs8mqOwGw077DqOna9r8p
-	s4xy5ayvoUTM2Grf1SMfeWEhSQkHDPfgcohnXVv6rg2EKQNlUY5HeVMB
-X-Gm-Gg: AYBFou1nMLWFTEU/5xPUoTIhVmJglbXPUx6F0Cj3yjOkwQaOxrXUJiE//yHhciObmmB
-	3ArdwKp6PyjlJfExp0y3q4o39iRJEpJE+J+lad4y4jJLqnwH/3mU5TU/XxEKOZEc46CNy7G4dNX
-	YnRPcR/yCUL8TkzPsf1EHL0lXBgRq1/anhytKxDg3dlO/HnnT5CEZXgIbSOKIK21XhyFP6g/Gk4
-	3XxdN0z63jQ9//+yKB0gSJn7Xn4CKcbhJsEtuQPfhZW4QRZftEQFG4LpWChKWbKWWH8OIJunQD4
-	bJME9PHmZmc/Rgcxd8HhVM6IzsEidCEs9Gjt6XA20NbuFr7UGNlU06L09hw5dLxeadloRYeo4Xa
-	j2hojjiHoHtc7DVgQivpnjbkjtKKA/KLXfEjdwVRiQTWAE0iTDH1Av4Jw7vTCAFF04Vr1yhnyvU
-	NJM3WBoRydQYHByQQ/YCBTKxn8m7wcxxsoy3RXtyBZVbt2l5Aw56PUT7QMij0zUaqrVF849VNw2
-	It9bQTTywCK/An4EBOTTV3JqZOJFuNBvyXzq8wcAfd4UyRrMjaeV9OlveQ6OLYSVJC6GGN++NZK
-	ByFwgMDrkmAiwCbrgWtd4usjt1VoCPQHJDjxMiDri1WuyCqu6zZQfqjUT73t73hS6UYFURt2hFF
-	qsWqh5qjiHzNVNLZgrKq0rgQUSHdlo5dxIwBtZv5/XabNiStgnQRB
-X-Received: by 2002:a05:6820:83cd:10b0:70d:d3a7:24bd with SMTP id 006d021491bc7-716e79123eemr25155eaf.49.1793896671857;
-        Thu, 05 Nov 2026 08:37:51 -0800 (PST)
+        bh=JQeNeC6N2fSY19MPnr6nUEdh+d55MGr21eilvQIts9A=;
+        b=ZvEuXDVUgxS3SMjvmEcwkecJsv8gv6dLhsKvM66tyxocZ8ZC6h53XqIbRboJQFj+SP
+         fv3nksU3iSFgQ19NaXZQavgbzBff1D1n8WtdqixoeFCKiIDcXI5pD/g56KagzUOGT0/m
+         OvxCK6t+kuh0uLAeQYYCkgqohPnqsvjuHHx/PdZtchQV/l/IV6zwO//ZhsKSpBg3l8eM
+         K0J5AWXTn2GlZ7yAGvIkpz2CodQSMtOaTfeO/HGIJkez+FHmf8ZKAuRxzZK6LvV61nh2
+         XBnkhviiq+IB2IevFDmXwZwhW3Km775DynMd4f91uiq28xlqB4mW1VAhUrTWDFqsRAIt
+         s/fw==
+X-Gm-Message-State: APuU4Z9FVICXHJEXUhcWce8RsOVqbfYhqi8Ae6kCWsHudytWrPtgvwR6
+	N70fn/OP7m8w5C7FRQY/uRmt+NEfrK3KU7sAXYIP5L/EV5GTOvPwyeoC
+X-Gm-Gg: AYBFou1c0n/4J+VAL3QvBETPDwUzxRvZrJA2a/6mNDxHL3t6Q/9sUcnPaK5uLjOVmkW
+	RpUTjKWItrz3iQJSzLmRhu+IgjacvH0mSr60q9MhK9rPpLncECI24LGoIJ9ynxoORQR43R72rx8
+	n0z7TiDSh0diUIaVRV60kEGKrKPySej9VFQLnTg8Xh/gG8A3xlel3mhkEUV3eIc7L5D5HgIykO2
+	ACKmQiA32YF0D2GtUzu+9sdSZpdVhv+HZ9FbOH3dpGBp9cPDXjhaUm+WJT44S6eZ6gcVcrLBaC7
+	jHKQXzUy+Y8JU8LsLywS06GVH15k7amnIU174RwKvQE3VajwkGOgKtbB++n1A2k2SzDNzvcuh/y
+	ehYrCy9HbRYtAKRwexm5fGwU9XwG0lM2ZBBoo+RKoRQprTwe8luI+26GxFeQU7KVYtlXLdtxMSg
+	U/ZWqYWWW1g0wjX4aeP4PZ7zW5zvpS387lkuDUSsfVuZHaGKt6D6m6gwmO5erSD25i35HaEVkyG
+	WdterhYZQNamCvsrMmZMHeCHM5OOcxjUGJhKoBQVbsLnur1nY2C62pPzkmlh+aWxrWZ23tpesHB
+	2vIr1B4arYbGvGxevKKAOaqKaBnz8mDFFAiexFlf/8Lc8DzosKt+nHigpolAfLvxHZ47NEQPRBV
+	oDGaobwhyiBZLjqzMQvFbyO+V8pE7paTqDPHgQxs3y/U+hfk2cxUvNSOL4FUfq67nLFA/lD956w
+	==
+X-Received: by 2002:a05:620a:40c9:b0:944:3aa:520b with SMTP id af79cd13be357-94421659dd3mr3519364885a.16.1793897421491;
+        Thu, 05 Nov 2026 08:50:21 -0800 (PST)
 Return-Path: <bruce.ashfield@gmail.com>
 Received: from [127.0.1.1] (pool-174-112-35-248.cpe.net.cable.rogers.com. [174.112.35.248])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-716c12b7d84sm4438855eaf.7.2026.11.05.08.37.50
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-945d484499esm504425685a.26.2026.11.05.08.50.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Nov 2026 08:37:51 -0800 (PST)
-Message-ID: <6aecb0df.9e649e5a.29d0fd.a42e@mx.google.com>
-Date: Thu, 05 Nov 2026 08:37:51 -0800 (PST)
+        Thu, 05 Nov 2026 08:50:20 -0800 (PST)
+Message-ID: <6aecb3cc.1ef1dc9a.2bbb4c.3498@mx.google.com>
+Date: Thu, 05 Nov 2026 08:50:20 -0800 (PST)
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 To: Deepak Rathore <deeratho@cisco.com>
 Cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [meta-virtualization][wrynose][PATCH 1/2] containerd: Fix CVE-2026-95837
-In-Reply-To: <20261105060354.1290580-1-deeratho@cisco.com>
-References: <20261105060354.1290580-1-deeratho@cisco.com>
+Subject: Re: [meta-virtualization][wrynose][PATCH 3/5] docker-moby: Fix CVE-2026-17106
+In-Reply-To: <20261105060006.1286469-3-deeratho@cisco.com>
+References: <20261105060006.1286469-1-deeratho@cisco.com>
+ <20261105060006.1286469-3-deeratho@cisco.com>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 MIME-Version: 1.0
 List-Id: <meta-virtualization.lists.yoctoproject.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <meta-virtualization@lists.yoctoproject.org>; Thu, 05 Nov 2026 16:37:55 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/10154
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <meta-virtualization@lists.yoctoproject.org>; Thu, 05 Nov 2026 16:50:26 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/10155
 
-Rather than taking the partial backports, I've bumped wrynose to
-containerd v2.2.10. It has both of these fixes, and the ones we were
-already carrying as patches. If you have any issues with the version
-bump, let me know.
+I'm holding off on this one. The partial go-archive backport stops the
+escape, but it also fails on valid archives:
 
-In the future, if there's a bugfix release on the stable line with the
-fixes and it meets the stable policy, you can send that bump instead of
-patches.
+ - a file written through an absolute symlink (var/run -> /run, then
+   var/run/foo) fails with "path escapes from parent"
+ - a directory entry with no entry for its parent (opt/x/ without opt/)
+   fails with "mkdirat opt/x: no such file or directory"
 
-Also, 1/2 has a bad hunk count as sent. The header says 231 lines but
-the mail has 232, so git am drops the closing brace of the new test
-and the patch fails at do_patch. It looks like it was edited after it
-was generated, so that's worth checking on your side.
+Both work with go-archive v0.3.3. The series skips v0.3.1 and v0.3.2,
+which looks to be where that handling went in.
+
+Could you respin this as a vendor of go-archive v0.3.3 as a whole,
+rather than selected hunks ? In a quick test, replacing the vendored
+directory and updating go.mod and modules.txt built at our SRCREV and
+those cases worked. It would also need go.sum and the
+daemon/archive_unix.go change from 2a3ab8fcc0.
 
 Bruce
