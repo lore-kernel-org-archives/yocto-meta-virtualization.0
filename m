@@ -1,113 +1,119 @@
-Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com [209.85.161.41])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.35.1794497139824045436
+Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.21255.1794802189631705788
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 12 Nov 2026 07:25:39 -0800
+ Sun, 15 Nov 2026 20:09:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=hTG+dLTB;
- spf=pass (domain: gmail.com, ip: 209.85.161.41, mailfrom: jpewhacker@gmail.com)
-Received: by mail-oo1-f41.google.com with SMTP id 006d021491bc7-706113e92f9so2497892eaf.2
-        for <meta-virtualization@lists.yoctoproject.org>; Thu, 12 Nov 2026 07:25:39 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=HfKEfxwJ;
+ spf=pass (domain: gmail.com, ip: 209.85.219.43, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-91ecdaf14beso39978026d6.3
+        for <meta-virtualization@lists.yoctoproject.org>; Sun, 15 Nov 2026 20:09:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794497139; x=1795101939; darn=lists.yoctoproject.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=x/lQhtU5xdhOkBOY3+0AUCOb7vxzpQ3ggRr9W6Bsgt4=;
-        b=hTG+dLTBZkWkNFyLDkinT6ktBSms1tLGMnU8KNsyc7qBYHUW/n/fknH791E1cz90v5
-         gaQRnsDVzKjKUe4BuZrnbGJod2B90fy1Qbu5qHAl7A2rBr8I6kFtn6c5EafRzZnjkhYU
-         B/hASjwikE6SgU6XDFBPoERwcW3Bq2QDbbrrW80WuHd/bcr7RQg0xYJMqOMsTvAS3qgu
-         nBSBqgNBebsT/Kfc/0/aS95Sruzsoafo7ZeDOlOeeUEPNlUg8/Qsg5OwRnSduCcg5fBY
-         AMnaiGJ1hc05+rhlsf6hmGlymoJih5GqBy2LLDayKdNP0y2bRDp8QNAjm8muO/vO1egW
-         j3nQ==
+        d=gmail.com; s=20260707; t=1794802188; x=1795406988; darn=lists.yoctoproject.org;
+        h=mime-version:content-transfer-encoding:content-type:references
+         :in-reply-to:subject:cc:to:from:date:message-id:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=f1U36WG9Uq5w6TwLuewSBrsHV5dzqUCaqi3DiF2UDD4=;
+        b=HfKEfxwJOFCH66AwiIPjaUoQ4bFwnEvN0meBbNhEBM3teChLlaZXyJQ3kVWw5cBKGO
+         O+nf/5m8tCp3kuKhvqeB8Cpb+KP8rzSiMLm0sinVDeF7yUWAFTLKPGwAPGKoanDutxzF
+         9Id5+5Q1+wyoWcrKPZj9aBssSG6KO/lXs+U7UG+YREwXwqmQkV02FmzOCjCWrNVNHO7o
+         ci6i+TKAqt5MeB0LK+Nr0rKs92qZ7k69CODkFwn71aWnGxHj4CrVI+4QQNojm/9aB8Kg
+         W4bdwQF4dy5+9zJS8YHp22iykk4AVh7GfYysn8sbYH6IX4TKp7L09f+s26bOHdr9BH9V
+         pZfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794497139; x=1795101939;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=x/lQhtU5xdhOkBOY3+0AUCOb7vxzpQ3ggRr9W6Bsgt4=;
-        b=oOMh8mcWXATktEzpB5+vClhbpr/SU8rHaWESnHnIrzlVHEVWIPek4HiO/vV4CzV4+y
-         HIsW1b4fh4nFXBtcNDMxpIzalYRauZIAb4oenYmXWK6yj21tsAPIWEUtPNm7Ze/AmFhV
-         Uo3TeO4aoBRdu/Em1RTwrapDRZZgqoSEzdufj9shSU47uqJt/RkF+T4xYWO/nVOGc6SP
-         dn0phSfPXBQmsT7Nqa9pPkIzzqdiisPvFx0MWgnABTvydVar8oKEDnaU5WVgRNwS+mJy
-         NRNwzgDWxJ+L5aRPToOZ8kRKiEEkRjfMIXuXlQUV1G2m+iTW7NNFLHOhJc+3+WdafSQx
-         +Djw==
-X-Gm-Message-State: APuU4Z9OIKdIU2uWw6dVYxBHDO0W2vBVh7EQaHGw3FZ0wlw44QT/ZLWs
-	SmBxIKyTNTtkT40DHjpgU+RvKxTvwiUHDZaaWMTqgTuONMoHhd9tyWfdoYZJ8g==
-X-Gm-Gg: AYBFou10aW9GXi893aBRy6a3YHgXNBh3cEAe4v1Kn+EEOn8EKpdB33iMSjMIIswXBIw
-	QvlvLh8SJhQKa7ZJGv7ACuKge4SLWV3wweVnC/mRHvxny1EnpRXfUxCvjEz96TzLwkkLcuAjfNJ
-	7mphBoqUqcpIYfsvtYO/2qCwiGGFDF6SvcXUEShV1cWDClLujFw3xotKQDvLLWs0ME3mGNxPSfx
-	qfcuBZkFJSwGYlY9GJ60LJipLbpV7anWAeTMhhhPssJ59mKj/MDyxBud2YTid6xWyk2O+m+Zx53
-	7uj9+Nz6vmpwZEsrV2GP+0osV/L5JtD+Fkdmz7hLF4mIlhEv1DF+OrrGQjodLuFCzDtdW07EmER
-	+tKKX/tk7xaGhzJts9urCCv02xrFJpO8JM72THiNDN84WsPc1Lkt7CI0k89mbzyVs+LAT4+2Jb2
-	sKk5tAucgQRYwceVqb8l1K5V6YusZrDLt2dE64Z2KnmKGQcqweL1MnDUdp2rA7XsGzjwggzuxO5
-	e6RE/UBTpoKjw8S0gnY0uPcWuQtJ0m69H0QTArjB3GElzcdcHTtXkV8nQ9h4fyzCSsJO3HHXxUi
-	5kz9HjRHuYWWNmJh1etMmkYHjlg=
-X-Received: by 2002:a05:6820:a28b:20b0:6dc:e1c3:b2c1 with SMTP id 006d021491bc7-7191796b410mr2878613eaf.56.1794497138573;
-        Thu, 12 Nov 2026 07:25:38 -0800 (PST)
-Return-Path: <jpewhacker@gmail.com>
-Received: from localhost.localdomain ([2601:283:4b01:ba50::caf9])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-71ab0e7e573sm128913eaf.6.2026.11.12.07.25.26
+        d=1e100.net; s=20260707; t=1794802188; x=1795406988;
+        h=mime-version:content-transfer-encoding:content-type:references
+         :in-reply-to:subject:cc:to:from:date:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=f1U36WG9Uq5w6TwLuewSBrsHV5dzqUCaqi3DiF2UDD4=;
+        b=Iuw4Iz1H92kiurz493ru5PfjPBPyfuyxrf29C1lxB44WDK70zniAihAjEvGbeFsi3g
+         l7Z4AFsRfa/FSQtm7hnyaE131b/aXYWzjhws8K+2LqtYeNPD9iHR6/+Cijpym/RmBgld
+         nK6gu1CilhLOPmUWzoCXb+yWjSsiLw6aBYCrJtyJW/fU0uCTvbu/onnp4lRnOyvx+77s
+         H2/JkEx1hh66BMRRaAipiQubGKAsLmfJgMr0Z3xktSTjbruBJzQ1gsL7hsVmtE4pLojN
+         wts2dkwGGqlm58wGjXgEoEK3M9YSj6WMKTHfpT6rIymh/xFiIjCOGW6aQ5O4CcSjHB8E
+         pHQw==
+X-Gm-Message-State: APuU4Z+eRzb3ufPFK8mMzrQoKKwjujn8VHuXnhYdbW2VoU+xQNmVyuUy
+	hGn2bh3xGzG2ZzhgZcIXzQ1Su7ujq5V/ssa6Kvx2jXVDBpqVAVR6E6ol
+X-Gm-Gg: AYBFou27NUEyelMjlVKnXBjhnSMjeL9JLEa8rqukHvfQAZmO/hX0hGa2ZF0/cO7rNtP
+	XkjDEDZoM5jERgtrUyX93g2Oy459k9gPeGPEX/Cpql5L+YNrqdWGQCOmJxTRaUJRNKAuoioeGcD
+	UtjXnIZ7avSj7NLil7ky25o0KEOEv3Sp4ItVcKPP5RVm5XI8qoyRvQVjZQx2bel+rMEksCbjXKc
+	fRvJ/cd6GDqiWoXpY8Ihhxw/zfkhmWhJ97BjpW55qDptlWU+POCc1tjNbzVFDKnluG90OtzGzHi
+	TI7LMy8fM2xCiE23xGuH3ae/wY0YAz7XJAdWGlIy6SO0cORIirvYEMwK5J5FxP7s1usXhN+Es4c
+	QtZnWdFtoofv52aCFgbXuOYwj1Dd+hrjgz2C8Ep0Ck8D6doFgyW9LtvTJBqE0ZtrILxRuF16xyV
+	YDDHE4XuuB2ZWOCVGh7CNB2hwM76it0hcXuOFj1MrKFNiYkSApNO/scx+igzmfgsOgwkNxeuiSk
+	iGRmX/hSg7QH92HTob+kPc+Y2YNalb3Cb2Ahp351HcGZRve8/8Qx/VGeg3ONx7X0K/ZCHRDar3n
+	j44Lyvd2SbLPuHu6E+21xE9DL4i0tDxLh3EeIIKLG7IeRUYPSBSU2eARKQPwSm389+Get42A+Vs
+	5WLx6AskbY5kt2I3VzYojV7SeJaajGYyPY5hK4QwyYJ/FQR5RwP7ksGtHTHAkf1BH5qDBUzw=
+X-Received: by 2002:a05:6214:4c44:b0:91e:93eb:5977 with SMTP id 6a1803df08f44-91f2421b208mr133867276d6.35.1794802188373;
+        Sun, 15 Nov 2026 20:09:48 -0800 (PST)
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from [127.0.1.1] (pool-174-112-34-35.cpe.net.cable.rogers.com. [174.112.34.35])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91f23d73206sm77559536d6.25.2026.11.15.20.09.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Nov 2026 07:25:28 -0800 (PST)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: meta-virtualization@lists.yoctoproject.org
-Cc: Joshua Watt <JPEWhacker@gmail.com>
-Subject: [meta-virtualization][PATCH] Fix up SPDX deploy errors
-Date: Thu, 12 Nov 2026 08:25:10 -0700
-Message-ID: <20261112152510.1116302-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.56.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-List-Id: <meta-virtualization.lists.yoctoproject.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <meta-virtualization@lists.yoctoproject.org>; Thu, 12 Nov 2026 15:25:41 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/10166
+        Sun, 15 Nov 2026 20:09:48 -0800 (PST)
+Message-ID: <6afa820c.01036f89.11cd8a.6ff7@mx.google.com>
+Date: Sun, 15 Nov 2026 20:09:48 -0800 (PST)
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Tanguy Raufflet <tanguy.raufflet@savoirfairelinux.com>
+Cc: meta-virtualization@lists.yoctoproject.org
+Subject: Re: [meta-virtualization][PATCH 1/2] image-oci: add OCI runtime bundle output
+In-Reply-To: <1074218742.1918618.1793711762503.JavaMail.zimbra@savoirfairelinux.com>
+References: <20260930144705.64792-1-tanguy.raufflet@savoirfairelinux.com>
+ <6abd3113.e51cd04b.1fe4c8.0684@mx.google.com>
+ <1760387508.1766093.1791807841997.JavaMail.zimbra@savoirfairelinux.com>
+ <6ada5b42.4bcc4235.70a25.8048@mx.google.com>
+ <1074218742.1918618.1793711762503.JavaMail.zimbra@savoirfairelinux.com>
 Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+List-Id: <meta-virtualization.lists.yoctoproject.org>
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <meta-virtualization@lists.yoctoproject.org>; Mon, 16 Nov 2026 04:09:52 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/10167
 
-do_deploy tasks now generate SPDX output for files that are placed in
-the deploy directory; however SPDX must be told if it is expected that
-do_deploy will not produce any files by setting
-SPDX_DEPLOY_ALLOW_EMPTY:task-deploy = "1"
+Hi Tanguy,
 
-Several recipes in meta-virtualization have do_deploy tasks that may not
-produce any output, so mark these tasks to prevent them from generating
-errors.
+> We'd be happy to contribute follow-up enhancements once you've pushed
+> your WIP branch. In the meantime, we'd also be glad to help test the
+> changes or review before merging.
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
----
- classes/container-bundle.bbclass   | 1 +
- classes/oci-multiarch.bbclass      | 1 +
- recipes-extended/xen/xen-tools.inc | 1 +
- 3 files changed, 3 insertions(+)
+The series is now on master-next. Testing it against your containers
+and reviewing it would be great.
 
-diff --git a/classes/container-bundle.bbclass b/classes/container-bundle.bbclass
-index 25f1a1e2..7377f0fb 100644
---- a/classes/container-bundle.bbclass
-+++ b/classes/container-bundle.bbclass
-@@ -637,3 +637,4 @@ do_deploy[dirs] = "${DEPLOYDIR}"
- 
- # Only add sstate for deploy when enabled
- SSTATE_SKIP_CREATION:task-deploy = "${@'' if d.getVar('CONTAINER_BUNDLE_DEPLOY') == '1' else '1'}"
-+SPDX_DEPLOY_ALLOW_EMPTY:task-deploy = "1"
-diff --git a/classes/oci-multiarch.bbclass b/classes/oci-multiarch.bbclass
-index 43944afc..b92e13d8 100644
---- a/classes/oci-multiarch.bbclass
-+++ b/classes/oci-multiarch.bbclass
-@@ -272,5 +272,6 @@ python do_deploy() {
- }
- 
- addtask do_deploy after do_create_multiarch_index before do_build
-+SPDX_DEPLOY_ALLOW_EMPTY:task-deploy = "1"
- 
- EXCLUDE_FROM_WORLD = "1"
-diff --git a/recipes-extended/xen/xen-tools.inc b/recipes-extended/xen/xen-tools.inc
-index f38cabc2..0e46f289 100644
---- a/recipes-extended/xen/xen-tools.inc
-+++ b/recipes-extended/xen/xen-tools.inc
-@@ -954,3 +954,4 @@ do_deploy() {
- # - add the task before do_build to ensure that deployment has completed when
- #   the recipe build done stamp is written
- addtask deploy after do_install do_populate_sysroot before do_build
-+SPDX_DEPLOY_ALLOW_EMPTY:task-deploy = "1"
--- 
-2.56.1
+> Based on our current config.json, the runtime settings we would like
+> to express through recipe variables are listed below. The OCI*BUNDLE*\*
+> names are only suggestions:
 
+I went with OCI_RUNTIME_* for these, since they're runtime spec
+settings. Everything on your list is there, plus devices, terminal and
+a read-only rootfs. The defaults are in the variables, so assigning one
+replaces it and += / :remove adjust it. image-oci.bbclass has the
+format of each one, and docs/container-bundling.md lists them. Setting
+both the uid and gid mappings gives the container a private user
+namespace.
+
+The bundle is selected with OCI_IMAGE_OUTPUT_MODE = "bundle", or
+"image bundle" for both, and deploys an -oci-bundle.tar. It's unpacked
+from the final image, so process.args is the entrypoint followed by
+cmd.
+
+> Also, our container config.json needs to hold template fields that will be
+> filled at installation. Example: a mountpoint to an instance's specific data
+> directory. The proposal sounds compatible, we can use a placeholder like
+> @INSTANCE_DIR@ in the variables and need to do our post-processing
+> at runtime.
+
+Values like @INSTANCE_DIR@ are passed through as is, for you to fill
+in.
+
+There are also crun and runc container profiles, BUNDLED_CONTAINERS
+installs bundles with a systemd service on those hosts, and vrnc / vcrn
+in the vcontainer SDK run a bundle on the build host.
+
+> Additional runtime settings not listed above may also need to be overridden
+> by downstream users (e.g., apparmorProfile, oomScoreAdj, scheduler
+> settings, and hooks).
+
+Those aren't in yet. If you need them, let me know and I'll do some
+more thinking on them.
+
+Bruce
