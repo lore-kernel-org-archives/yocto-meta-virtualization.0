@@ -1,71 +1,70 @@
-Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com [209.85.217.48])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.20992.1794802927247367844
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.21403.1794802926197665621
  for <meta-virtualization@lists.yoctoproject.org>;
- Sun, 15 Nov 2026 20:22:07 -0800
+ Sun, 15 Nov 2026 20:22:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=iegKsyHI;
- spf=pass (domain: gmail.com, ip: 209.85.217.48, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-vs1-f48.google.com with SMTP id ada2fe7eead31-7cc2bb73cd9so748215137.3
-        for <meta-virtualization@lists.yoctoproject.org>; Sun, 15 Nov 2026 20:22:07 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=I4hLY3Fm;
+ spf=pass (domain: gmail.com, ip: 209.85.219.48, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-91ea16d8072so31918876d6.2
+        for <meta-virtualization@lists.yoctoproject.org>; Sun, 15 Nov 2026 20:22:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794802926; x=1795407726; darn=lists.yoctoproject.org;
+        d=gmail.com; s=20260707; t=1794802925; x=1795407725; darn=lists.yoctoproject.org;
         h=mime-version:content-transfer-encoding:content-type:references
          :in-reply-to:subject:cc:to:from:date:message-id:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=VWR8hgFKrjnQ4XZpsi6rzd1KHVOk5UPbpeKry4PfjIk=;
-        b=iegKsyHI/M+0UttE7J1mHwvDSQZloPsQX3n/wFES1CVWPpJcN7AoT78Kl42pyhv6HR
-         v5Lrq5gkj4VL1xki86jpwien+gA81Aqtq/qPY4pENX3dPwOwXYuiEObgXJIIIoBOBxQF
-         Qp6ofHy21l1F76NFboLfGURmrjnpSB+veXjbRs+hFuZpqApW+ROCLpY7ywWABtfDt0YG
-         FhdSpIJdd+xMlzLIOyM610EKiJhE4aTCdRM9N/0lU+IHJIDXpdwSsXfJQ0FPm8vIX9qG
-         66o3c5AxPSWMTPCNI/+Bv9XBfVxTwBhOQuoqtJNr4FzKC1v4qTkyPFO4+Q75HBHvVZbd
-         l1hg==
+        bh=bA9ZYOhAp2Uc83uEC0uJxeNcv6somjEWZyswWttZndU=;
+        b=I4hLY3Fm4t35Obo5tYD7xl9ZQ4R4jf6nZypLSLpuPeuR/uxvTyip5+H9dZgR8tNCr7
+         9TlfNeePJlfnbl6gR7Oe6hZbaTntahAF3iUyTfojmu5uje6mJglrirXcorJGnHSwg8sM
+         KaojlGLG2cgLMVPuBsczugPXiVX5Jr0qXQqXtsDeRyP0VZAwuKR9aENDRU9x+NNaUslQ
+         z669lW2x/cumKbNg6dNC44sbMcbcbn1qZWrdqt508Z96cHwhsJqAGsUzDgatqJQarPCX
+         +L7VHBmcaMCpBVfiRvatQb9NoM3gGmwFFY/VkM9a41P2Vj4orcldklb5+N45JD2O3P3L
+         ZnLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794802926; x=1795407726;
+        d=1e100.net; s=20260707; t=1794802925; x=1795407725;
         h=mime-version:content-transfer-encoding:content-type:references
          :in-reply-to:subject:cc:to:from:date:message-id:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=VWR8hgFKrjnQ4XZpsi6rzd1KHVOk5UPbpeKry4PfjIk=;
-        b=QpJJvQfETP9ojpryq8h8Faa7J0+ZkxV+qmMzxZSIQIOdVroc4qrOWClNwpR4q/6Vju
-         T352DzDdCnkuF2vpQ5HiVG7WI5cPvvMZTRVpxgNav3ZsABL3nBj50vXqtls96mSJ9889
-         SmErZe9cnYmum9WPWTNjng5E4p6bMkM56MRSksiYOOLw0Vie8W6Vl5fHA5HYitB/dabT
-         IsMIs6WM0uWSIi3cWZMDh37wMQISvWGYRTS3LAGECkmLyKaJbC2d2+EsJQG95BBaYN98
-         AJHj+/JKyLGKnI6Ti1PfQEFm8EexUHQ5lSbd9QFOwqydsLHSc9OfTQAmVhD+T3mqqZqa
-         FgTQ==
-X-Gm-Message-State: APuU4Z9VFbhwDUKOSUYGp8lO1J8v4Hc1u/b4AndrMYt+gijL0CYuMaeL
-	RXEG6cX64TniMWTR0ElKVyIFNeYKQuyM5gpLzbpNIO1K4NgBbg5N/Q1Z
-X-Gm-Gg: AYBFou0NQfZMM0ZLa0BVPnjfQV+YQxwKk0GnbqXD0Tca2iUeWyXb6n5P65yD7nsooTQ
-	eSsADs9j+9oG+z9P8stKvGZNyrvl/7MZcYKNblzh8ohkqQ05PW+TWQyy9g5YZmOdEG/meVyw87/
-	BHsJGccOc5+XZgS7cUVNqjdldGl9ouiZicCMuthtWpYFnGGlr5WrfJze1BOz2CkAKeIhfGT+gxW
-	Jts0D7FBM3PVBlVwh9/HxV0G9fk0fKZVMf2TPXEDcFa8PDq1Gn/wXwqHUUOj8BQ73UGzyOiA3jd
-	rDxOw3xaS5Xugpi4nFYFxsiN297kfpg/cltPrx5cNDGKDscpQASbA6ThjklYrdd9WSYu2eRRB63
-	MwV9su6lbnXAWVjJ+DPoIlgz8+TmpXdNQwxwmCCWu4NVlN+CfgahgdHI8qtzgcDGRnWqrJsiPSN
-	1UQmdUQoEAbBJdw0yBq0pXTjStNzQJ+bjidXGiiANFUGovW+3EDKfeEnR/8qKqgVh2+/+bRrfzs
-	OmPnkyjtd6fuv3JO6stumF/lsUFLXQBXRWARRi+ctIs5kDdON8Q8oaWmIK+Cx+CHi1EZy2dICzQ
-	XejhxDVRmcfW8Ll97APHoPIjjCoKBvNnOzcEhAS08tJANu+rqAjN+yU2ATc7deNfRMzJfuxPf4U
-	3lsSkF1a98fNIwqMcGeaFGsYQraU+x9PXsbNf2aBj4a165XI6HA==
-X-Received: by 2002:a05:6102:f12:b0:7d2:8e49:f90e with SMTP id ada2fe7eead31-7d64d84030cmr2266895137.27.1794802925995;
-        Sun, 15 Nov 2026 20:22:05 -0800 (PST)
+        bh=bA9ZYOhAp2Uc83uEC0uJxeNcv6somjEWZyswWttZndU=;
+        b=n+hc6W2pTk9PKG26ExDUh6k24d7zgBktKna0/VcCHag64Ka0fHiCO68HVJmDwEsjEL
+         +K0iHZB8oH6kxUfFtNEGXsVJ4CZiSqFRhzEDN0kAuIvC14kbvMLhGaLrjE0nC90w4zpk
+         TUU9jVrHKp6vKSKiw+nT+lJUkxm6tz4chorRzNycNRudwCDAFlzmh9FME2cWdDXlVyL0
+         vRiQntt4L66ZQhh2KtvsgG21+wDHN9j6aO8NVLDHMvkAgL1wEDr23RQ9CPd6kgfnK08K
+         f0tTSG9CV56hZcAE8ETEJVQmCzvpsghF6VyYZH2KCIUfZqYet5VYWDoRMGLDWdOBjhNa
+         QDMA==
+X-Gm-Message-State: APuU4Z94/1x9K0vlopMW/8Rv2hxkMWzH8Ovk0G5E2/saLJ72mfHUjV1R
+	rwK1RC5h4aYfMyMehMyb/hehcKeM835XqBUsSKkWZH6k/k4g43j0n1z1
+X-Gm-Gg: AYBFou1kuZmgqPQPl6nmlKvjo/ZB2F12G//jp01axJQzwIhR5CeeVu8CM9cAtuU78y8
+	X6oO3eb1A5lnPS11atAdYzBJX8fq2xpyj1b2mXd0e3ghBDoGNEEdKtgX6OSnUqdgSuv+uxpJXTZ
+	8EjqopoOaCXTTqnNBayzy34pirGimbyq2MLVcJLE+rhOiQVnocjNHiLoaKuoVK6lv5jn1s22Olh
+	do5XSrFLBP0UFghJzeQzW+ySLy/ljBM94sm12lYt+H0IRoGEAbfY9UVvE4wrehUGPK3TFJIo37O
+	40/Bh++wXz1gd5qfj6KT+SR/wLGI3B570nZ3t/QooMbDKuRn6MZmVY6Q7c4H77gdYWlb/o+3zDC
+	UDvZpDLaJc9K0cbAgpYd/TIav1FENfopqrhi/OjuGu/SaosO1K5ZsD1kYiQSwMeOxo/IrlqZ4a8
+	1CS7H7NDDPZ66OgA+ZSo6XznxNdVyu69KoIj1ZsaqX8CYM5LPLKS9GUpkXTaH5dxl+IwUoiKYAr
+	q/JOXSYz2Erd3PezVxMSYN+0aY5QVOL4nKJoUNzXELh8Nr0wmLC8vtKoGrp5KxJyPj4BPqRiSTG
+	fuRmRXq9OX0lUI+8f+qqUvR/xeL7AT8kzJPuT46KbAVkwo+VCgz58oMsKyHL9u8UR4vq9LsAgJm
+	UZk2uXCFeJm4tNteYPpPTjvTDi3t192/HrXRCMHIG6x9uxZfxXQ==
+X-Received: by 2002:a05:6214:411c:b0:91e:8d1a:a198 with SMTP id 6a1803df08f44-91f241ea1dfmr151754356d6.49.1794802924902;
+        Sun, 15 Nov 2026 20:22:04 -0800 (PST)
 Return-Path: <bruce.ashfield@gmail.com>
 Received: from [127.0.1.1] (pool-174-112-34-35.cpe.net.cable.rogers.com. [174.112.34.35])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-7d64c1b33e1sm6029689137.1.2026.11.15.20.22.05
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91f23dbf30dsm76912616d6.44.2026.11.15.20.22.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Nov 2026 20:22:05 -0800 (PST)
-Message-ID: <6afa84ed.1cefc639.29b32c.8394@mx.google.com>
-Date: Sun, 15 Nov 2026 20:22:05 -0800 (PST)
+        Sun, 15 Nov 2026 20:22:04 -0800 (PST)
+Message-ID: <6afa84ec.4ac1fc02.4a2c6.9391@mx.google.com>
+Date: Sun, 15 Nov 2026 20:22:04 -0800 (PST)
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 To: Peter Marko <peter.marko@siemens.com>
 Cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [meta-virtualization][blacksail][PATCH] podman: set status of
- several CVEs
-In-Reply-To: <20261106212235.441977-1-peter.marko@siemens.com>
-References: <20261106212235.441977-1-peter.marko@siemens.com>
+Subject: Re: [meta-virtualization][wrynose][PATCH] podman: set status of several CVEs
+In-Reply-To: <20261106212218.441914-1-peter.marko@siemens.com>
+References: <20261106212218.441914-1-peter.marko@siemens.com>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <meta-virtualization@lists.yoctoproject.org>; Mon, 16 Nov 2026 04:22:12 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/10170
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/10169
 
 merged
 
@@ -97,11 +96,11 @@ On Fri, Nov 06, 2026 at 22:22, Peter Marko wrote:
 >
 > diff --git a/recipes-containers/podman/podman_git.bb b/recipes-containers/p=
 odman/podman_git.bb
-> index 161d0c6a..707ede83 100644
+> index 0fbd4cfd..0728a816 100644
 > --- a/recipes-containers/podman/podman_git.bb
 > +++ b/recipes-containers/podman/podman_git.bb
-> @@ -32,9 +32,13 @@ PV =3D "6.2.0-dev"
->  CVE_PRODUCT =3D "podman_project:podman libpod_project:libpod"
+> @@ -31,9 +31,13 @@ GO_IMPORT =3D "import"
+>  PV =3D "5.8.3-dev"
 >
 >  CVE_STATUS[CVE-2019-10152] =3D "fixed-version: fixed since v1.4.0"
 > +CVE_STATUS[CVE-2019-10214] =3D "fixed-version: fixed since v3.0.0"
