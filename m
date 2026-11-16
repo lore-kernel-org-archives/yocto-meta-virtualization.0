@@ -1,260 +1,118 @@
-Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com [209.85.222.47])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.20960.1794802746429146363
+Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com [209.85.217.48])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.20992.1794802927247367844
  for <meta-virtualization@lists.yoctoproject.org>;
- Sun, 15 Nov 2026 20:19:06 -0800
+ Sun, 15 Nov 2026 20:22:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=ns17zO4z;
- spf=pass (domain: gmail.com, ip: 209.85.222.47, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ua1-f47.google.com with SMTP id a1e0cc1a2514c-980c4f5c921so535066241.2
-        for <meta-virtualization@lists.yoctoproject.org>; Sun, 15 Nov 2026 20:19:06 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794802745; cv=none;
-        d=google.com; s=arc-20260327;
-        b=rIT80Kvq0WD26+2LonqASSt3CIfnrFY2fXZ6bPhnKCpYle+UEtLkemsVFVx0NYNLF3
-         0VWPdhYAjBE+yU1jNS3gP5t0Y/kdFOoQz3rFfaxhHBDdnlO6OwaUXg9i6iZaQsC2LBjc
-         HXckkHLePac9/RLr1YLwDt3jdLxz3UkHe9nMIHQmEpQC+UdnyJ85yM3XDSNZp0PIQw8o
-         5p9+QJq0icVbngqHguZmdj/662HH8sFffwUSGfGjNwOCnPjPzvOy8MfomDf0QFaLuMCs
-         RB/INVwWLW9Uby5NREmDCaIgMdqHFvDnNpELe0yRtBLwGImFNbkT0xEfemmIpeTEcBr9
-         2otA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=frcVBBooZIyQnzUN4t+iSUXj9DAJob5uYjB4KvotXdE=;
-        fh=YKjR+7DXmIBw0z4BFJsBMe3JjIIUFxibOzP+v74cDzE=;
-        b=es2AiHXzRBNoI9tKYwC9n8zvun5mWsdCcssS7Dom2D3WKpLEznJMdfa8/583khryNm
-         Ossj/933ZDt7lDdyskZsNbob8fgSmaNBJTeomcKMqnroTNjDiKMqRzD4I2F48bdViKPB
-         9nIxjkwF+rGdL7AoxUoYvR9GkUPcmUPnQVQYMQQDYtvbtelTl47WpdgtJfeOTl0dpE9k
-         XyT4W6Xk7sB5nA8atLNqFsDQdFzq52FKv7t2Hvoaz7Zc1xj8uj5e2lZYJETB7dZsxSS8
-         8NU+iUwskI6GhFFRDCBPQQpUUwazPfR/jLL4NAHthvhzgdTx96pqWWsulnp6anM0LtU1
-         Vy/Q==;
-        darn=lists.yoctoproject.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=iegKsyHI;
+ spf=pass (domain: gmail.com, ip: 209.85.217.48, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-vs1-f48.google.com with SMTP id ada2fe7eead31-7cc2bb73cd9so748215137.3
+        for <meta-virtualization@lists.yoctoproject.org>; Sun, 15 Nov 2026 20:22:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794802745; x=1795407545; darn=lists.yoctoproject.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=frcVBBooZIyQnzUN4t+iSUXj9DAJob5uYjB4KvotXdE=;
-        b=ns17zO4zSM7Af4GvjckYN6MX8wW6bWk5pf7TPdubqy3KepdCpBXyynRCd6lfP0+E5N
-         ku0hXD6hU6d41Bnrm6egznNU8UO/p4FFYZ+S/N3pec5/J3N1XETO3rR2yliypJG8kG+D
-         8GjpsekKesp2+tgBiRAVPdvTpe0vBN8QIRBgroJKVovXDxVY2323JzpJBbTjPEM78x/V
-         904XQUc1ob7+VSkhINyAAT8xnN/P4mYauuRrCUicOn/sp3aJAWeTq0apK+qmDIXa04Pb
-         1sa9jPqyF9RnU/GB4iJrk7FZUtesTH9UBDTBx4oFXm5SA3w54rs70MWtQc6AY6bVRsvv
-         OjgA==
+        d=gmail.com; s=20260707; t=1794802926; x=1795407726; darn=lists.yoctoproject.org;
+        h=mime-version:content-transfer-encoding:content-type:references
+         :in-reply-to:subject:cc:to:from:date:message-id:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=VWR8hgFKrjnQ4XZpsi6rzd1KHVOk5UPbpeKry4PfjIk=;
+        b=iegKsyHI/M+0UttE7J1mHwvDSQZloPsQX3n/wFES1CVWPpJcN7AoT78Kl42pyhv6HR
+         v5Lrq5gkj4VL1xki86jpwien+gA81Aqtq/qPY4pENX3dPwOwXYuiEObgXJIIIoBOBxQF
+         Qp6ofHy21l1F76NFboLfGURmrjnpSB+veXjbRs+hFuZpqApW+ROCLpY7ywWABtfDt0YG
+         FhdSpIJdd+xMlzLIOyM610EKiJhE4aTCdRM9N/0lU+IHJIDXpdwSsXfJQ0FPm8vIX9qG
+         66o3c5AxPSWMTPCNI/+Bv9XBfVxTwBhOQuoqtJNr4FzKC1v4qTkyPFO4+Q75HBHvVZbd
+         l1hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794802745; x=1795407545;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=frcVBBooZIyQnzUN4t+iSUXj9DAJob5uYjB4KvotXdE=;
-        b=jVZ0qwwwD4jQnvzTejR0MMBjoyyir1nIV+gE2WuFlmyfslXA9m/vMKihohLwypDvqn
-         UBTNhDSDmGom2zjA6U2saWasqLT3V9TFaaCu3JoNijP4JXkpVQDMzVQfafldKuELjjfF
-         b/cYmTGRHS++p/nV4qYZVWXoGEDxwnyeV0/5vE25vGXlw/Sj6s4r0eKLomJ0/FBxZfPg
-         qL4QsFYrLXAwrry1bFJgJdOlYK7BjT+72EUX74XIR9nsWazJI8DOOPOe7vqKtTGIjOwU
-         XlAifYKUGSrrzwOcZG7+QPQjwBsxoAzp2lWawNW/nMUdgJZyP40derKtNKH68DRw6CM4
-         hEyA==
-X-Gm-Message-State: APuU4Z+DtNNx1IkUTHLY8/TC6GcqRG0hZSV0wxMr8NDuWS1v64+H3Iek
-	IILd/u3aGb4GHas8v1LHPlGeYsDFAuyi58SMjflfxnjWo/IhzRsROxDDMrElzYyTkTOEGCRMsrI
-	noQzGMP/5ZJcyZYe1vUm59lssYI0PgPc=
-X-Gm-Gg: AYBFou2Bu1XkoROM581CX7RVH6JsFM3P17eC2HMY2AUfux5uCev9UBUnpjKBDJhKXbQ
-	wa9iSFJylI3tJAH8l5NpUJnF6MDC8Aiw/0ciIKRIm7OzbD8hmYjHNfFA+gj7DZ/P672RFWtDepj
-	A6B/lAGF/IMUXuzognhG673NBgIviPNsJrwNeG7Z8LFAuppOjpnquJGZxN2xwv6LVHFE7iE5+eR
-	dLImSNamFO/1Y7oik6p/YugFek9wLhLVu0iIsFyn5zxGXTR8S/HYxOf4v9rNI+tEl9CdFXJg124
-	dRjMqph2yTa+WTMFBCcV9DvCOXNYmooavyyDD4sXIiTiQlSypHz5NOjUEqDj/mCRK73RlhO3blI
-	JQkTZnSOwf4qNBDDLZC2Nzm9W2ztNd1EZFaqxOTXQQ6YUsQBmwL7GDwU8KAUoNEEehkdIOtSTVC
-	e6GyEhM20gqZqp85LLg1vE+viCHu9f8ngvcXLO/sIrUWLB5DAOph4AXg==
-X-Received: by 2002:a05:6122:1d04:b0:5ec:b4ec:e93f with SMTP id
- 71dfb90a1353d-5ee34a7da36mr2903610e0c.10.1794802744913; Sun, 15 Nov 2026
- 20:19:04 -0800 (PST)
-MIME-Version: 1.0
-References: <20261112152510.1116302-1-JPEWhacker@gmail.com>
-In-Reply-To: <20261112152510.1116302-1-JPEWhacker@gmail.com>
+        d=1e100.net; s=20260707; t=1794802926; x=1795407726;
+        h=mime-version:content-transfer-encoding:content-type:references
+         :in-reply-to:subject:cc:to:from:date:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=VWR8hgFKrjnQ4XZpsi6rzd1KHVOk5UPbpeKry4PfjIk=;
+        b=QpJJvQfETP9ojpryq8h8Faa7J0+ZkxV+qmMzxZSIQIOdVroc4qrOWClNwpR4q/6Vju
+         T352DzDdCnkuF2vpQ5HiVG7WI5cPvvMZTRVpxgNav3ZsABL3nBj50vXqtls96mSJ9889
+         SmErZe9cnYmum9WPWTNjng5E4p6bMkM56MRSksiYOOLw0Vie8W6Vl5fHA5HYitB/dabT
+         IsMIs6WM0uWSIi3cWZMDh37wMQISvWGYRTS3LAGECkmLyKaJbC2d2+EsJQG95BBaYN98
+         AJHj+/JKyLGKnI6Ti1PfQEFm8EexUHQ5lSbd9QFOwqydsLHSc9OfTQAmVhD+T3mqqZqa
+         FgTQ==
+X-Gm-Message-State: APuU4Z9VFbhwDUKOSUYGp8lO1J8v4Hc1u/b4AndrMYt+gijL0CYuMaeL
+	RXEG6cX64TniMWTR0ElKVyIFNeYKQuyM5gpLzbpNIO1K4NgBbg5N/Q1Z
+X-Gm-Gg: AYBFou0NQfZMM0ZLa0BVPnjfQV+YQxwKk0GnbqXD0Tca2iUeWyXb6n5P65yD7nsooTQ
+	eSsADs9j+9oG+z9P8stKvGZNyrvl/7MZcYKNblzh8ohkqQ05PW+TWQyy9g5YZmOdEG/meVyw87/
+	BHsJGccOc5+XZgS7cUVNqjdldGl9ouiZicCMuthtWpYFnGGlr5WrfJze1BOz2CkAKeIhfGT+gxW
+	Jts0D7FBM3PVBlVwh9/HxV0G9fk0fKZVMf2TPXEDcFa8PDq1Gn/wXwqHUUOj8BQ73UGzyOiA3jd
+	rDxOw3xaS5Xugpi4nFYFxsiN297kfpg/cltPrx5cNDGKDscpQASbA6ThjklYrdd9WSYu2eRRB63
+	MwV9su6lbnXAWVjJ+DPoIlgz8+TmpXdNQwxwmCCWu4NVlN+CfgahgdHI8qtzgcDGRnWqrJsiPSN
+	1UQmdUQoEAbBJdw0yBq0pXTjStNzQJ+bjidXGiiANFUGovW+3EDKfeEnR/8qKqgVh2+/+bRrfzs
+	OmPnkyjtd6fuv3JO6stumF/lsUFLXQBXRWARRi+ctIs5kDdON8Q8oaWmIK+Cx+CHi1EZy2dICzQ
+	XejhxDVRmcfW8Ll97APHoPIjjCoKBvNnOzcEhAS08tJANu+rqAjN+yU2ATc7deNfRMzJfuxPf4U
+	3lsSkF1a98fNIwqMcGeaFGsYQraU+x9PXsbNf2aBj4a165XI6HA==
+X-Received: by 2002:a05:6102:f12:b0:7d2:8e49:f90e with SMTP id ada2fe7eead31-7d64d84030cmr2266895137.27.1794802925995;
+        Sun, 15 Nov 2026 20:22:05 -0800 (PST)
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from [127.0.1.1] (pool-174-112-34-35.cpe.net.cable.rogers.com. [174.112.34.35])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-7d64c1b33e1sm6029689137.1.2026.11.15.20.22.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 15 Nov 2026 20:22:05 -0800 (PST)
+Message-ID: <6afa84ed.1cefc639.29b32c.8394@mx.google.com>
+Date: Sun, 15 Nov 2026 20:22:05 -0800 (PST)
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Sun, 15 Nov 2026 23:18:52 -0500
-X-Gm-Features: Aa3M54pTgsUJlCUvKFgwnRnhUljjzptvrUJCFoAfaqx99qAiTHXV5ytLlbMnmI8
-Message-ID: <CADkTA4NyDCVYtE+8F6p3Ehgpbmv9_r1ZKBwXEgd+1cE5EJs8uQ@mail.gmail.com>
-Subject: Re: [meta-virtualization][PATCH] Fix up SPDX deploy errors
-To: JPEWhacker@gmail.com
+To: Peter Marko <peter.marko@siemens.com>
 Cc: meta-virtualization@lists.yoctoproject.org
-Content-Type: multipart/alternative; boundary="0000000000000d744d06605d144c"
-List-Id: <meta-virtualization.lists.yoctoproject.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <meta-virtualization@lists.yoctoproject.org>; Mon, 16 Nov 2026 04:19:12 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/10168
-
---0000000000000d744d06605d144c
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [meta-virtualization][blacksail][PATCH] podman: set status of
+ several CVEs
+In-Reply-To: <20261106212235.441977-1-peter.marko@siemens.com>
+References: <20261106212235.441977-1-peter.marko@siemens.com>
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+List-Id: <meta-virtualization.lists.yoctoproject.org>
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <meta-virtualization@lists.yoctoproject.org>; Mon, 16 Nov 2026 04:22:12 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/10170
 
-applied to master-next.
+merged
 
 Bruce
 
-On Thu, Nov 12, 2026 at 10:25=E2=80=AFAM Joshua Watt via meta-virtualizatio=
-n
-<JPEWhacker=3Dgmail.com@lists.yoctoproject.org> wrote:
-
-> do_deploy tasks now generate SPDX output for files that are placed in
-> the deploy directory; however SPDX must be told if it is expected that
-> do_deploy will not produce any files by setting
-> SPDX_DEPLOY_ALLOW_EMPTY:task-deploy =3D "1"
+On Fri, Nov 06, 2026 at 22:22, Peter Marko wrote:
+> From: Peter Marko <peter.marko@siemens.com>
 >
-> Several recipes in meta-virtualization have do_deploy tasks that may not
-> produce any output, so mark these tasks to prevent them from generating
-> errors.
+> These CVEs are showing up in CVE reports as open due to sbom-cve-check
+> tooling not being able to make decision.
 >
-> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+> All statements are based on Debian CVE tracker links/comments.
+> The 4th one also additionally by checking commit marked as "unaffected"
+> in [1] which updated buildah to 1.27.6 while we already have 1.43.4.
+>
+> * CVE-2019-10214: no-version-ranges (no unaffected tags in DB)
+> * CVE-2022-2738: no-version-ranges (only RedHat package versions in DB)
+> * CVE-2022-2739: no-version-ranges (only RedHat package versions in DB)
+> * CVE-2025-4953: no-version-ranges (unaffected version is git hash)
+>
+> [1] https://github.com/CVEProject/cvelistV5/blob/main/cves/2025/4xxx/CVE-20=
+25-4953.json
+>
+> Signed-off-by: Peter Marko <peter.marko@siemens.com>
+> Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 > ---
->  classes/container-bundle.bbclass   | 1 +
->  classes/oci-multiarch.bbclass      | 1 +
->  recipes-extended/xen/xen-tools.inc | 1 +
->  3 files changed, 3 insertions(+)
+>  recipes-containers/podman/podman_git.bb | 4 ++++
+>  1 file changed, 4 insertions(+)
 >
-> diff --git a/classes/container-bundle.bbclass
-> b/classes/container-bundle.bbclass
-> index 25f1a1e2..7377f0fb 100644
-> --- a/classes/container-bundle.bbclass
-> +++ b/classes/container-bundle.bbclass
-> @@ -637,3 +637,4 @@ do_deploy[dirs] =3D "${DEPLOYDIR}"
+> diff --git a/recipes-containers/podman/podman_git.bb b/recipes-containers/p=
+odman/podman_git.bb
+> index 161d0c6a..707ede83 100644
+> --- a/recipes-containers/podman/podman_git.bb
+> +++ b/recipes-containers/podman/podman_git.bb
+> @@ -32,9 +32,13 @@ PV =3D "6.2.0-dev"
+>  CVE_PRODUCT =3D "podman_project:podman libpod_project:libpod"
 >
->  # Only add sstate for deploy when enabled
->  SSTATE_SKIP_CREATION:task-deploy =3D "${@'' if
-> d.getVar('CONTAINER_BUNDLE_DEPLOY') =3D=3D '1' else '1'}"
-> +SPDX_DEPLOY_ALLOW_EMPTY:task-deploy =3D "1"
-> diff --git a/classes/oci-multiarch.bbclass b/classes/oci-multiarch.bbclas=
-s
-> index 43944afc..b92e13d8 100644
-> --- a/classes/oci-multiarch.bbclass
-> +++ b/classes/oci-multiarch.bbclass
-> @@ -272,5 +272,6 @@ python do_deploy() {
->  }
+>  CVE_STATUS[CVE-2019-10152] =3D "fixed-version: fixed since v1.4.0"
+> +CVE_STATUS[CVE-2019-10214] =3D "fixed-version: fixed since v3.0.0"
+>  CVE_STATUS[CVE-2020-1726] =3D "fixed-version: fixed since v1.8.1"
+> +CVE_STATUS[CVE-2022-2738] =3D "not-applicable-platform: RedHat specific is=
+sue"
+> +CVE_STATUS[CVE-2022-2739] =3D "not-applicable-platform: RedHat specific is=
+sue"
+>  CVE_STATUS[CVE-2022-2989] =3D "fixed-version: fixed since v4.3.0"
+>  CVE_STATUS[CVE-2023-0778] =3D "fixed-version: fixed since v4.5.0"
+> +CVE_STATUS[CVE-2025-4953] =3D "fixed-version: fixed in used buildah versio=
+n"
 >
->  addtask do_deploy after do_create_multiarch_index before do_build
-> +SPDX_DEPLOY_ALLOW_EMPTY:task-deploy =3D "1"
->
->  EXCLUDE_FROM_WORLD =3D "1"
-> diff --git a/recipes-extended/xen/xen-tools.inc
-> b/recipes-extended/xen/xen-tools.inc
-> index f38cabc2..0e46f289 100644
-> --- a/recipes-extended/xen/xen-tools.inc
-> +++ b/recipes-extended/xen/xen-tools.inc
-> @@ -954,3 +954,4 @@ do_deploy() {
->  # - add the task before do_build to ensure that deployment has completed
-> when
->  #   the recipe build done stamp is written
->  addtask deploy after do_install do_populate_sysroot before do_build
-> +SPDX_DEPLOY_ALLOW_EMPTY:task-deploy =3D "1"
-> --
-> 2.56.1
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#10166):
-> https://lists.yoctoproject.org/g/meta-virtualization/message/10166
-> Mute This Topic: https://lists.yoctoproject.org/mt/122231710/1050810
-> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub [
-> bruce.ashfield@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
-
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end
-- "Use the force Harry" - Gandalf, Star Trek II
-
---0000000000000d744d06605d144c
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-size:small">app=
-lied to master-next.</div><div class=3D"gmail_default" style=3D"font-size:s=
-mall"><br></div><div class=3D"gmail_default" style=3D"font-size:small">Bruc=
-e</div></div><br><div class=3D"gmail_quote gmail_quote_container"><div dir=
-=3D"ltr" class=3D"gmail_attr">On Thu, Nov 12, 2026 at 10:25=E2=80=AFAM Josh=
-ua Watt via meta-virtualization &lt;JPEWhacker=3D<a href=3D"mailto:gmail.co=
-m@lists.yoctoproject.org">gmail.com@lists.yoctoproject.org</a>&gt; wrote:<b=
-r></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex=
-;border-left:1px solid rgb(204,204,204);padding-left:1ex">do_deploy tasks n=
-ow generate SPDX output for files that are placed in<br>
-the deploy directory; however SPDX must be told if it is expected that<br>
-do_deploy will not produce any files by setting<br>
-SPDX_DEPLOY_ALLOW_EMPTY:task-deploy =3D &quot;1&quot;<br>
-<br>
-Several recipes in meta-virtualization have do_deploy tasks that may not<br=
->
-produce any output, so mark these tasks to prevent them from generating<br>
-errors.<br>
-<br>
-Signed-off-by: Joshua Watt &lt;<a href=3D"mailto:JPEWhacker@gmail.com" targ=
-et=3D"_blank">JPEWhacker@gmail.com</a>&gt;<br>
----<br>
-=C2=A0classes/container-bundle.bbclass=C2=A0 =C2=A0| 1 +<br>
-=C2=A0classes/oci-multiarch.bbclass=C2=A0 =C2=A0 =C2=A0 | 1 +<br>
-=C2=A0recipes-extended/xen/xen-tools.inc | 1 +<br>
-=C2=A03 files changed, 3 insertions(+)<br>
-<br>
-diff --git a/classes/container-bundle.bbclass b/classes/container-bundle.bb=
-class<br>
-index 25f1a1e2..7377f0fb 100644<br>
---- a/classes/container-bundle.bbclass<br>
-+++ b/classes/container-bundle.bbclass<br>
-@@ -637,3 +637,4 @@ do_deploy[dirs] =3D &quot;${DEPLOYDIR}&quot;<br>
-<br>
-=C2=A0# Only add sstate for deploy when enabled<br>
-=C2=A0SSTATE_SKIP_CREATION:task-deploy =3D &quot;${@&#39;&#39; if d.getVar(=
-&#39;CONTAINER_BUNDLE_DEPLOY&#39;) =3D=3D &#39;1&#39; else &#39;1&#39;}&quo=
-t;<br>
-+SPDX_DEPLOY_ALLOW_EMPTY:task-deploy =3D &quot;1&quot;<br>
-diff --git a/classes/oci-multiarch.bbclass b/classes/oci-multiarch.bbclass<=
-br>
-index 43944afc..b92e13d8 100644<br>
---- a/classes/oci-multiarch.bbclass<br>
-+++ b/classes/oci-multiarch.bbclass<br>
-@@ -272,5 +272,6 @@ python do_deploy() {<br>
-=C2=A0}<br>
-<br>
-=C2=A0addtask do_deploy after do_create_multiarch_index before do_build<br>
-+SPDX_DEPLOY_ALLOW_EMPTY:task-deploy =3D &quot;1&quot;<br>
-<br>
-=C2=A0EXCLUDE_FROM_WORLD =3D &quot;1&quot;<br>
-diff --git a/recipes-extended/xen/xen-tools.inc b/recipes-extended/xen/xen-=
-tools.inc<br>
-index f38cabc2..0e46f289 100644<br>
---- a/recipes-extended/xen/xen-tools.inc<br>
-+++ b/recipes-extended/xen/xen-tools.inc<br>
-@@ -954,3 +954,4 @@ do_deploy() {<br>
-=C2=A0# - add the task before do_build to ensure that deployment has comple=
-ted when<br>
-=C2=A0#=C2=A0 =C2=A0the recipe build done stamp is written<br>
-=C2=A0addtask deploy after do_install do_populate_sysroot before do_build<b=
-r>
-+SPDX_DEPLOY_ALLOW_EMPTY:task-deploy =3D &quot;1&quot;<br>
--- <br>
-2.56.1<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#10166): <a href=3D"https://lists.yoctoproject.org/g/met=
-a-virtualization/message/10166" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.yoctoproject.org/g/meta-virtualization/message/10166</a><br>
-Mute This Topic: <a href=3D"https://lists.yoctoproject.org/mt/122231710/105=
-0810" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.org/m=
-t/122231710/1050810</a><br>
-Group Owner: <a href=3D"mailto:meta-virtualization%2Bowner@lists.yoctoproje=
-ct.org" target=3D"_blank">meta-virtualization+owner@lists.yoctoproject.org<=
-/a><br>
-Unsubscribe: <a href=3D"https://lists.yoctoproject.org/g/meta-virtualizatio=
-n/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.or=
-g/g/meta-virtualization/unsub</a> [<a href=3D"mailto:bruce.ashfield@gmail.c=
-om" target=3D"_blank">bruce.ashfield@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
-=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
-ignature">- Thou shalt not follow the NULL pointer, for chaos and madness a=
-wait thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star T=
-rek II<br><br></div>
-
---0000000000000d744d06605d144c--
+>  PACKAGES =3D+ "${PN}-contrib"
