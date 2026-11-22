@@ -1,62 +1,62 @@
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.38742.1795372176649557113
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.38199.1795372172148175437
  for <meta-virtualization@lists.yoctoproject.org>;
- Sun, 22 Nov 2026 10:29:36 -0800
+ Sun, 22 Nov 2026 10:29:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=PCxtxSKu;
- spf=pass (domain: gmail.com, ip: 209.85.215.179, mailfrom: ticotimo@gmail.com)
-Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-cde1479f76fso1593186a12.0
-        for <meta-virtualization@lists.yoctoproject.org>; Sun, 22 Nov 2026 10:29:36 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=dRDBJcqf;
+ spf=pass (domain: gmail.com, ip: 209.85.215.175, mailfrom: ticotimo@gmail.com)
+Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-cdb2893531bso1401311a12.1
+        for <meta-virtualization@lists.yoctoproject.org>; Sun, 22 Nov 2026 10:29:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795372176; x=1795976976; darn=lists.yoctoproject.org;
+        d=gmail.com; s=20260707; t=1795372171; x=1795976971; darn=lists.yoctoproject.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=42hik3v2Rv4mOtZPsxco9TCIDWiRG0W+cp9hu8ORb44=;
-        b=PCxtxSKucv2D5opNgGSq9mSH7pm4pJx6bt3X2K/cTxXWxbe2WIr8GgMeUOX46SqBXn
-         TqJMT7SNA7zAT358PIEjA4rdiVAgbkAo0Nz0J83aBgjQ/W0XY4TUzX5wnm/QnZjRqEQR
-         666M1i8yzwwsWRaPlF6swyEneX5cCNIxOB36u3Ag6izAjb8pvaAFb7OBPQZMIoMmui2R
-         2FrN5NBiWNA4IXxRUAJcBwoCjm6dxZNkWfgFayC/kgvyZXDn3jCEuh5PFGCfQsE66tw8
-         K0CzApYunbotyR/GBYCcosEl59HQXC03XG5XZ8KTnpHm48c2wX0U+ej6JzhbhK+mDarN
-         mEeA==
+        bh=PtAREggWko4Q8yQRoeXwhMSYkzuONFJu0tGhUX9MtoA=;
+        b=dRDBJcqfjXXLqBztX4mf6Rep7lpUGyhdIr9b45cPk5rZ+yn4+Ol5uUBi72pt7BxzWE
+         gcss8lRyGXLeDkuz3hRJuNSvnqNUHnkNaQHysIjUdao0ACbiK13/1BBpf/Cmbg65vhPA
+         6fcXccCy4n4n5vcbku7rkXfh0hNHPNpCt59NLD3Z+B2b+yZNPmjyXSMlkjJ9Q0A3H3DQ
+         bURAyYK28G6S32PeVrzb0U1H/d/jsCSieruP1or1A2xGtGTtQCFrfyweeBZTDagbJtHU
+         45KVSpuKdwag4MioDLP+Di5s/ki6hjm3DuSAvWbion98eP0HQag9t2I01kkQuQku3icJ
+         WObw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795372176; x=1795976976;
+        d=1e100.net; s=20260707; t=1795372171; x=1795976971;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=42hik3v2Rv4mOtZPsxco9TCIDWiRG0W+cp9hu8ORb44=;
-        b=rnxp6AWP+31i4WiomVhiDCT52bQFX9thyGxB5HcEsePG9anB7kxCtlv8kRHFV9tJv2
-         n4tTnrcaBjcra9GWJKZaNgyYrPsJcVkxNob3QSyHf3TR+lKo9zhzMz6ZQhIKu7Sm+tMk
-         XaRRrVj1S94mCoorPrBShGmZ/xcHcrcEibK9EnmmcE8Q4sLO7ZFNw09/DX4cAq7oanPR
-         q5mSIMx1Uc3aVdLgqLmZeCZURdclDmqs8A95Iy/zGX0UqaEVc05E0uUC3oGNpvMwgUhv
-         c9BdsUWNlbDyA8sYBtk2rfVwmaXKiOzybCikrkWbA6T3O1RiW/vP7FOox5/tgVH+moGR
-         ItfQ==
-X-Gm-Message-State: APuU4Z8IZisyCvQVKDkZrzvd/K2Lof4f+E/zr4ZjfgoR/Kog/PIAPkgX
-	NLmssrONA5rYAJFrUCaydw/bjRHZln8SCmPclLfeA0qu7jKP5vWfRAGzKX58O4uA
-X-Gm-Gg: AZFdTZfaMQ1cidnDF5wELpGWz68uGXXtevNDBwv5inIE3SyRw1BCCJfnCLd3tQOF2F1
-	xNl5Cg2IppI7gzPYZ++QvtWNv3D2sc4bgz8ce7sTdk7OaWLASYA3Of+otNmRwhIDH8qUC0o2Ife
-	AybtmkjDOERN2bUzMabqPJvNxVlVMYEerCI50ysehvJMkPsU1WhZWY4JmK7DxQchsHeAXhkS20k
-	Law9YlCxwZn1Da9zVBwoODzlWXmJk+HsIQU9VipCUPmay8MT9olZON2mx8SH/Xvp9pGO57uRmi2
-	POvRl0uNoR6Mip0PKV7xDWOd41JV0kFz1MeDifNu0YnCbKNAkZIq0ApdKv5yq4jOq7grYihU98F
-	vtsRBLm/duMhaAIzNF7FdZYxGfOIqiLwIhTMe3XczSgcO2nw/as35LYDMeJReuoa88G2ZlV6aLq
-	34A6UkdHW9B5pjsQv1A0zPYx3OJZTH/YF3nX+CM3QDB4q8/0pKvvu7C7JZVz+3cHuM5cqR/SaiS
-	WObx3ZikUriCiY2hZ66DZGU1IIA8s29MxtIsWbv4/x/EkWZ1eERzU9H7WUcgu0hTBxxzmB8E5m/
-	Wc8ZYdzuuLJaG78fGzkr1H4Ft4jvSqYHvlybnJnV6SYBbig0bL14D0S/zNgKN9+LBfIVwdt47jL
-	VVmGFBsZrdyIzsiK3Naf7kmQQSg==
-X-Received: by 2002:a05:6a21:a109:b0:3e9:290d:9774 with SMTP id adf61e73a8af0-4014d25d94cmr8533628637.44.1795372175895;
-        Sun, 22 Nov 2026 10:29:35 -0800 (PST)
+        bh=PtAREggWko4Q8yQRoeXwhMSYkzuONFJu0tGhUX9MtoA=;
+        b=OpL87VsnxwRC5mVGfmQbh8uPPQPFTZ9eN5KKIBCtl56CbtP7Wu4QWROPPUspGzB/cb
+         FJbmm95iVQG/SZuaqxDsd+zKZft4Lfi9hg5UjK/b4yYEV6EhuDOYGMf5LiNME0ZI4FHa
+         kq+hlsc0GhBdgpF2PxvgxsGx9MPs26lwrAFwCz/C75y8hhiAECdjy2oZYEvjMlj6yeOH
+         JV/6MqDkBiWkPnqe6ca399LeIRLurwdFyvPGf0czDeNGcpeu/pbnzHgw/iRoJhNin13T
+         /GBytg73vmLhiAB40nFUMESdo1c/d6QFuS9S/MoCQY6982xuOhBEyhxdYPiYDiEvodUc
+         nFLA==
+X-Gm-Message-State: APuU4Z+rqHCvXgl7mrxe74SpBxH7VjOwvEz7pvTKZPwtrL5FnRUosQKD
+	rxsjOQjincnVhKHrbBxlT/WrPrKfsSudjZVoyiYNITM9P0fCpW30VpV8FJwXJOK1
+X-Gm-Gg: AZFdTZeZjFenGtDOgBfMjtH5xKLB0n54gyYsugdFf02lDjngHs+9O9fI2af2fhbDNWP
+	jR31H3/0hAehGPtYjG92CKOiVMrZVRESAhFzgx/PaPzeNv8lkl/b9XUT7Yhc1f1hJmGQ+EnVZEO
+	I07lnYnA3RkB10WRAWT85amNqzrte7coK7pELCudtRSE5f+DqcSg7Q7wlCV2cNaxgYrTrPwb/0Z
+	+EJstDn2lXRnW8XWNymwo8ARdQZFxunrgUYwoeHt2FZGQGjBFi+li2Ce9liWRXxgZN8zkqwt1tu
+	62CMqthT+SqPPXAPImUkbId4oqDpzNuPPIWi/TUjLwHpybrdNzn5wJt7YzvZh4uxXIh20NVp9PE
+	BCiwf4/AiiAkHBk+Cbw+7gIFV1c69cdMWQDJQS7M9cV58IHVxMxVaCkPo+dfemyA+uRcyLBSKkr
+	rS08wb4nB1kZ8AkxLl09mQ9zqR3jaNd55jLNQ8EnL6f30vKde1kxQ1GUxkLvd8AHn6xmgSn2uET
+	E7vNPP+t2u4rk4hH/5SSfOiCKWnwn4tqFkbcFJ5pJiM80Hp+JoUsClHZBE8qcuAGJfnFjw8RKmc
+	BOvP1WuaBzCrI/akHWmfbMFMJujsR+tf580Xs09niYmKNcsErjct/xtTE1hi5rpuVT1cHPKwSUt
+	lpj6j4YACRirPxRdS9+RmTWzeP6HspSKZZXvKP+opuRsKk3k=
+X-Received: by 2002:a05:6a21:8903:b0:3e1:549d:eedb with SMTP id adf61e73a8af0-40145f2bd15mr7520973637.0.1795372171227;
+        Sun, 22 Nov 2026 10:29:31 -0800 (PST)
 Return-Path: <ticotimo@gmail.com>
 Received: from localhost.localdomain (c-24-20-171-118.hsd1.or.comcast.net. [24.20.171.118])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cde6d0818c1sm3882952a12.30.2026.11.22.10.29.32
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cde6d0818c1sm3882952a12.30.2026.11.22.10.29.27
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sun, 22 Nov 2026 10:29:33 -0800 (PST)
+        Sun, 22 Nov 2026 10:29:29 -0800 (PST)
 From: Tim Orling <ticotimo@gmail.com>
 X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
 To: meta-virtualization@lists.yoctoproject.org
 Cc: Tim Orling <tim.orling@konsulko.com>
-Subject: [meta-virtualization][PATCH 2/3] container-volatile-fixup: run after empty_var_volatile
-Date: Sun, 22 Nov 2026 10:29:09 -0800
-Message-ID: <20261122182910.35849-3-tim.orling@konsulko.com>
+Subject: [meta-virtualization][PATCH 1/3] image-oci: track multi-layer rootfs directories with pseudo
+Date: Sun, 22 Nov 2026 10:29:08 -0800
+Message-ID: <20261122182910.35849-2-tim.orling@konsulko.com>
 X-Mailer: git-send-email 2.56.1
 In-Reply-To: <20261122182910.35849-1-tim.orling@konsulko.com>
 References: <20261122182910.35849-1-tim.orling@konsulko.com>
@@ -64,49 +64,59 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <meta-virtualization@lists.yoctoproject.org>; Sun, 22 Nov 2026 18:29:40 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/10177
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/10176
 Content-Type: text/plain; charset="utf-8"
 
-image.bbclass inherits rootfs-postcommands with inherit_defer, so its
-"ROOTFS_POSTPROCESS_COMMAND += 'empty_var_volatile'" is added after the
-recipe's own "+= rootfs_fixup_var_volatile". base-files' fstab mounts
-tmpfs on /var/volatile, so empty_var_volatile then deletes the
-volatile/tmp and volatile/log directories the fixup just created,
-leaving /var/log and /var/tmp as dangling symlinks. Multi-layer
-directories: layers then warn:
+oci_multilayer_install_packages() installs each packages: layer into
+${WORKDIR}/oci-layer-rootfs/layer-N-<name> from the do_image_oci
+prefunc, which runs under pseudo. That directory is not in
+PSEUDO_INCLUDE_PATHS, whereas ${WORKDIR}/rootfs used by do_rootfs is.
 
-  OCI: Directory not found in IMAGE_ROOTFS: /var/volatile/log
-  OCI: Directory not found in IMAGE_ROOTFS: /var/volatile/tmp
+Since oe-core moved to dnf 5.4.7.0, every layer install fails:
 
-Use :append so the fixup runs after empty_var_volatile.
+  error: cannot open Packages database in
+  Failed to load system repo from root ".../oci-layer-rootfs/layer-1-base":
+  rpmtsOpenDB failed: Invalid argument
+
+dnf creates var/lib/rpm in the layer rootfs but the rpmdb is never
+created, while do_rootfs of the same recipe installs the same packages
+successfully. The rpm macros (%_dbpath=/var/lib/rpm) and the
+RPM_CONFIGDIR/RPM_ETCCONFIGDIR environment are identical in both tasks;
+the only difference found is pseudo coverage of the install root.
+
+Add the layer rootfs base to PSEUDO_INCLUDE_PATHS, the same way
+image.bbclass does for MULTILIB_TEMP_ROOTFS.
 
 Tested with the containers-library autobuilder target (aarch64 and
 x86-64).
 
+[YOCTO #16531]
+
 AI-Generated: Uses Claude Code (Claude Opus 5.5)
 Signed-off-by: Tim Orling <tim.orling@konsulko.com>
 ---
- classes/container-volatile-fixup.bbclass | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ classes/image-oci.bbclass | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/classes/container-volatile-fixup.bbclass b/classes/container-volatile-fixup.bbclass
-index 98c86b97..be3dbdd4 100644
---- a/classes/container-volatile-fixup.bbclass
-+++ b/classes/container-volatile-fixup.bbclass
-@@ -1,5 +1,12 @@
- # Workaround /var/volatile for now
--ROOTFS_POSTPROCESS_COMMAND += "rootfs_fixup_var_volatile"
-+#
+diff --git a/classes/image-oci.bbclass b/classes/image-oci.bbclass
+index 141cd2a8..5c9ef0e6 100644
+--- a/classes/image-oci.bbclass
++++ b/classes/image-oci.bbclass
+@@ -69,6 +69,14 @@ do_image_oci[depends] += "jq-native:do_populate_sysroot"
+ # Package manager native tools for multi-layer mode with package installation
+ OCI_PM_DEPENDS = "${@oci_get_pm_depends(d)}"
+ do_image_oci[depends] += "${OCI_PM_DEPENDS}"
 +# AI-generated (Claude Code, Claude Opus 5.5).
-+# Use :append, not +=: image.bbclass pulls in rootfs-postcommands via
-+# inherit_defer, so its "+= empty_var_volatile" lands after anything a
-+# recipe adds with +=. empty_var_volatile then deletes everything under
-+# /var/volatile (base-files' fstab mounts tmpfs there), undoing this fixup.
-+# :append is applied after all += operations, so this runs afterwards.
-+ROOTFS_POSTPROCESS_COMMAND:append = " rootfs_fixup_var_volatile"
- rootfs_fixup_var_volatile () {
-     install -m 1777 -d ${IMAGE_ROOTFS}/${localstatedir}/volatile/tmp
-     install -m 755 -d ${IMAGE_ROOTFS}/${localstatedir}/volatile/log
++# Multi-layer package layers are installed by RpmPM/OpkgPM into
++# ${WORKDIR}/oci-layer-rootfs/layer-N-<name> from do_image_oci, which runs
++# under pseudo. Like ${WORKDIR}/rootfs for do_rootfs, the layer rootfs must
++# be tracked by pseudo or dnf5/rpm6 cannot open the rpmdb in the installroot
++# ("rpmtsOpenDB failed: Invalid argument"). Same approach as image.bbclass
++# uses for MULTILIB_TEMP_ROOTFS.
++PSEUDO_INCLUDE_PATHS .= ",${WORKDIR}/oci-layer-rootfs"
+ 
+ def oci_pkg_type(d):
+     """Resolve IMAGE_PKGTYPE with a single, documented default.
 -- 
 2.56.1
 
