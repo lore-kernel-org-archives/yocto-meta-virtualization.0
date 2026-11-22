@@ -1,113 +1,97 @@
-Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com [208.88.110.44])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.346.1795102533699436576
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.38738.1795372165350985111
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 19 Nov 2026 07:35:34 -0800
+ Sun, 22 Nov 2026 10:29:25 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@savoirfairelinux.com header.s=DFC430D2-D198-11EC-948E-34200CB392D2 header.b=k64mOc+3;
- spf=pass (domain: savoirfairelinux.com, ip: 208.88.110.44, mailfrom: tanguy.raufflet@savoirfairelinux.com)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id 588803D815F7;
-	Thu, 19 Nov 2026 10:35:32 -0500 (EST)
-Received: from mail.savoirfairelinux.com ([127.0.0.1])
- by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10032)
- with ESMTP id T5pD1aOAeRbZ; Thu, 19 Nov 2026 10:35:31 -0500 (EST)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id 714D63D81611;
-	Thu, 19 Nov 2026 10:35:31 -0500 (EST)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.savoirfairelinux.com 714D63D81611
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=pBDkYBxS;
+ spf=pass (domain: gmail.com, ip: 209.85.216.52, mailfrom: ticotimo@gmail.com)
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-3ae691283ecso1183418a91.0
+        for <meta-virtualization@lists.yoctoproject.org>; Sun, 22 Nov 2026 10:29:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=savoirfairelinux.com; s=DFC430D2-D198-11EC-948E-34200CB392D2;
-	t=1795102531; bh=dsOtRQf+510eiIKhuVOG+B7DnHOY8lqaJJ2dmiEw/MA=;
-	h=Date:From:To:Message-ID:MIME-Version;
-	b=k64mOc+3983WDbx+wuyiHA9ae4VQB3mbFNHBbmkgpp/NwoJ0CDRsaaM+q7PtoYV/G
-	 Cx00pFS86Umas2tjzMymSw4770cO6Ib7Tvt6v7cqbLfZDSFoj+K2qXLxMvylfU1Ppa
-	 FVow6RNDJnsIXUcEy9n1Fqn3SjzVIMWZZRxBY9ZCTvReGbmFihCEzAtU/PcHLulx+o
-	 8dQMEmuIhF4C0ab5uyU+bmv1fUjtIyPTvoDOG8u5c/zutvOYUrVzVlJw8mm9YkiLxx
-	 v1NtsI4lH/1WFfKcNF5PpR3FbmYozSBD5gPXgonKUZBokebXB5IKiOEIyJ20k4dQAU
-	 ce0o8wM9Imjdw==
-X-Virus-Scanned: amavis at mail.savoirfairelinux.com
-Received: from mail.savoirfairelinux.com ([127.0.0.1])
- by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10026)
- with ESMTP id v3vUGTplyQsH; Thu, 19 Nov 2026 10:35:31 -0500 (EST)
-Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com [192.168.48.237])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id 39E7E3D815F7;
-	Thu, 19 Nov 2026 10:35:31 -0500 (EST)
-Date: Thu, 19 Nov 2026 10:35:31 -0500 (EST)
-From: Tanguy Raufflet <tanguy.raufflet@savoirfairelinux.com>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: meta-virtualization <meta-virtualization@lists.yoctoproject.org>
-Message-ID: <1294544681.753540.1795102531174.JavaMail.zimbra@savoirfairelinux.com>
-In-Reply-To: <6afa820c.01036f89.11cd8a.6ff7@mx.google.com>
-References: <20260930144705.64792-1-tanguy.raufflet@savoirfairelinux.com> <6abd3113.e51cd04b.1fe4c8.0684@mx.google.com> <1760387508.1766093.1791807841997.JavaMail.zimbra@savoirfairelinux.com> <6ada5b42.4bcc4235.70a25.8048@mx.google.com> <1074218742.1918618.1793711762503.JavaMail.zimbra@savoirfairelinux.com> <6afa820c.01036f89.11cd8a.6ff7@mx.google.com>
-Subject: Re: [meta-virtualization][PATCH 1/2] image-oci: add OCI runtime
- bundle output
+        d=gmail.com; s=20260707; t=1795372165; x=1795976965; darn=lists.yoctoproject.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Ac83yD5NaBxzoXJ6Fdo5PXh4G00VbdyHz+c6ttP57Rw=;
+        b=pBDkYBxSsiPm/x7BcwZqQfQmsh7k1WzpgqgS1JNoNkD0Xi+VHDzJYj+01Pl31Vr9w0
+         7voOVLX09yF1K5H5zMSY6ymnKDbhx/75Wx0M2lwiXDLuieR55dv6MexCQyDRy0aVbrA3
+         Ll8I9L6nvcV39rAMZ8CBFgpaWafAFICdsIDHxEWES9XyFktDLRrYCOiL5m9lOGLWMhmc
+         UosvXG3k531rlLrBZtWocNaa/d2Hf6Krezcr2It7HkSs09hfCV61DOQfvFEh7K99qxnu
+         bkM4VeFbbJA0uXVlq73cWMBYkipA5hblzAzJz3Tgaa6gSOCVXl9ujod98zd1mxNueno/
+         YAQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795372165; x=1795976965;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Ac83yD5NaBxzoXJ6Fdo5PXh4G00VbdyHz+c6ttP57Rw=;
+        b=b2zunnqFj7pz9VIZEe3cl/CUW6W64kL+/wyZt49KOgUW6NoWbO+vxo9h8T3ctX6i4n
+         fNn5UISKsa+KOAvxCxvmS12wxrUNQF2qiih6bad8dJVukqOvAhRh44l2m5ahY6sQ/ju0
+         Q1sMdk3CQYC8OaC0RYznSsPlJWLUghz43IB7u9GmhL5N6K5npxDies0jAaxod9Bi3dym
+         F+DNtw2IYoS1/UNDH4hHxJhGT9QJ+TYCMeRyiKAZnwM0OLF1EpIy8ol1GsoI8NLyElft
+         vNdnWNqV1d3otI1Ea7NAty551uM/DyN8TwOEj/WUf8SffvcJwrhKe+UEgXtNU61SEoKO
+         GtdQ==
+X-Gm-Message-State: APuU4Z8X03bUiAB7uG6GbwdsFRm8ivhT1cwZYUPhcNPtXlY4cF8cOx8H
+	unr4wM4/UiLft9HB5LOsOi2hBJNUSrpiN/PiyF6IKTDRkGWitiszWIwy+tTXl1ek
+X-Gm-Gg: AZFdTZdVyp7fu4He0H3W+H3VMa9rRgOv5hhPor9r3rncYOeE1qn0Lf+unorrFpRr/eW
+	9JASZIVUjqO1SYUsigQpjvTuS3ZHD5hYzxjJK4qOJH+3mFHfi+lmZ93wwskS8gFOhDD8ORPVg7+
+	yX/xYoh0ybXje2jA2L0jp39eeysosyV1sYM/OzJQqsLxppFQRLGQPf1Mn6d6Fn1Xnnu6XrwdM98
+	r4+SwU+2srV2ovgqaU/vR5mKYvUvIKohjBpQRJbNox+cH2jNfHBZBv7BeDckQJzEk45puilHWSX
+	xUxZW/w9cAypXr9GxnnMApsGSzxNuzGnUDtf0Oe+7tjuY0mgn5GW0oqZ3Ssqg+ipuqH/JAooMXI
+	uPgRTbsyZvb8jQlkzu9/dUDo9c2nn+12M3gdQjX51VLqU/vpZtxTSaqcQJH3k9V3gIkashfO5kD
+	KQDzF8XQyOrf/HN4tjtPCwBl0dFFhcxtWxIobOD4ejURASz8pNzezMMj4QC9V3tDdq+mQENneRR
+	sRoH1Zv8mpZCGfpn42vNauTCDiEzxR3PBEbYgWgx30ppiar92OUbu0CmZKMYL1nz05yIqXvfEgB
+	jIhFAxcAiHy+nFfjqwZHOfEMQhNFDvedDlBvJDcN5KG3LcHKMZbIqiGdt5qYyR1DbSmmydlRc+N
+	KV4+c2rsKncsmxje9ysPxzNVIdEaQDYPofZP7tYqDOAZcWA==
+X-Received: by 2002:a17:90b:5848:b0:3b0:a4d1:6d75 with SMTP id 98e67ed59e1d1-3b40a647c0dmr7237389a91.55.1795372164542;
+        Sun, 22 Nov 2026 10:29:24 -0800 (PST)
+Return-Path: <ticotimo@gmail.com>
+Received: from localhost.localdomain (c-24-20-171-118.hsd1.or.comcast.net. [24.20.171.118])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cde6d0818c1sm3882952a12.30.2026.11.22.10.29.22
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Sun, 22 Nov 2026 10:29:22 -0800 (PST)
+From: Tim Orling <ticotimo@gmail.com>
+X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
+To: meta-virtualization@lists.yoctoproject.org
+Cc: Tim Orling <tim.orling@konsulko.com>
+Subject: [meta-virtualization][PATCH 0/3] OCI multi-layer fixes for dnf5 and nginx
+Date: Sun, 22 Nov 2026 10:29:07 -0800
+Message-ID: <20261122182910.35849-1-tim.orling@konsulko.com>
+X-Mailer: git-send-email 2.56.1
 MIME-Version: 1.0
-Content-Type: multipart/alternative; 
-	boundary="=_26ef4c72-32cb-41c0-bf68-4038f89abb76"
-X-Mailer: Zimbra 10.1.21_GA_0426 (ZimbraWebClient - FF160 (Linux)/10.1.21_GA_0426)
-X-Zimbra-Message-Verification: hash=SHA256;guid=MmI1OGQyMjRkMmIwNDU4ZmVkYmMyNjhjYWYxM2Q2Zjk0ZTIyZDQ2MjRjNTUzOTYyNmQ4YzNlZGNlZjZiODlhYw==
-Thread-Topic: image-oci: add OCI runtime bundle output
-Thread-Index: ca9aWgH+Vj05/l3xuqrvPTD0k7zY0Q==
+Content-Transfer-Encoding: 8bit
 List-Id: <meta-virtualization.lists.yoctoproject.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <meta-virtualization@lists.yoctoproject.org>; Thu, 19 Nov 2026 15:35:40 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/10174
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <meta-virtualization@lists.yoctoproject.org>; Sun, 22 Nov 2026 18:29:30 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/10175
+Content-Type: text/plain; charset="utf-8"
 
---=_26ef4c72-32cb-41c0-bf68-4038f89abb76
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Since oe-core moved to dnf 5.4.7.0, every OCI_LAYER_MODE = "multi"
+image fails to install its packages: layers, because the layer rootfs
+under ${WORKDIR}/oci-layer-rootfs is not tracked by pseudo. Patch 1
+fixes that.
 
-Hi Bruce, 
+Patches 2 and 3 fix the long-standing "OCI: Directory not found in
+IMAGE_ROOTFS" warnings from app-container-nginx: empty_var_volatile
+was wiping the container-volatile-fixup directories, and nginx's /run
+and /var/log directories are never created outside of boot-time
+tmpfiles.d.
 
-> The series is now on master-next. Testing it against your containers
-> and reviewing it would be great.
-I've tested the OCI runtime bundle support on master-next with our ISMS 
-container. This is really nice! I was able to reproduce our existing 
-runtime configuration easily using the new variables. 
+Tested with the containers-library autobuilder target (aarch64 and
+x86-64): all containers build with no warnings.
 
-The only issue I've found so far concerns rootfs ownership when using 
-UID/GID mappings. For example, with: 
+[YOCTO #16531]
 
-``` 
-OCI_RUNTIME_UID_MAPPINGS = "0:231072:65536" 
-OCI_RUNTIME_GID_MAPPINGS = "0:231072:65536" 
-``` 
+Tim Orling (3):
+  image-oci: track multi-layer rootfs directories with pseudo
+  container-volatile-fixup: run after empty_var_volatile
+  app-container-nginx: create /run/nginx and /var/log/nginx in rootfs
 
-The generated config.json contains the correct mappings, but files such 
-as rootfs/etc/passwd are archived with ownership 0:0, whereas I would 
-expect 231072:231072 to match the configured mappings. 
+ classes/container-volatile-fixup.bbclass         |  9 ++++++++-
+ classes/image-oci.bbclass                        |  8 ++++++++
+ recipes-containers/images/app-container-nginx.bb | 11 +++++++++++
+ 3 files changed, 27 insertions(+), 1 deletion(-)
 
-Apart from this ownership issue, the bundle generation, runtime 
-configuration, and installation worked well in this setup. 
 
-Thanks for this implementation ! 
+base-commit: 89b00d096a432000766729cd721ae647af500112
+-- 
+2.56.1
 
-Tanguy 
-
---=_26ef4c72-32cb-41c0-bf68-4038f89abb76
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-
-<html><body><div style=3D"font-family: arial,helvetica,sans-serif; font-siz=
-e: 12pt; color: #000000"><div data-marker=3D"__QUOTED_TEXT__"><div>Hi Bruce=
-,</div><blockquote style=3D"border-left:2px solid #1010FF;margin-left:5px;p=
-adding-left:5px;color:#000;font-weight:normal;font-style:normal;text-decora=
-tion:none;font-family:Helvetica,Arial,sans-serif;font-size:12pt;">The serie=
-s is now on master-next. Testing it against your containers<br>and reviewin=
-g it would be great.</blockquote>I've tested the OCI runtime bundle support=
- on master-next with our ISMS<br>container. This is really nice! I was able=
- to reproduce our existing<br>runtime configuration easily using the new va=
-riables.<br><br>The only issue I've found so far concerns rootfs ownership =
-when using<br>UID/GID mappings. For example, with:</div><div data-marker=3D=
-"__QUOTED_TEXT__"><div><br data-mce-bogus=3D"1"></div><div>```</div><div>OC=
-I_RUNTIME_UID_MAPPINGS =3D "0:231072:65536"<br>OCI_RUNTIME_GID_MAPPINGS =3D=
- "0:231072:65536"</div><div>```</div><div><br data-mce-bogus=3D"1"></div>Th=
-e generated config.json contains the correct mappings, but files such<br>as=
- rootfs/etc/passwd are archived with ownership 0:0, whereas I would<br>expe=
-ct 231072:231072 to match the configured mappings.<br><br>Apart from this o=
-wnership issue, the bundle generation, runtime<br>configuration, and instal=
-lation worked well in this setup.</div><div data-marker=3D"__QUOTED_TEXT__"=
-><br data-mce-bogus=3D"1"></div><div data-marker=3D"__QUOTED_TEXT__">Thanks=
- for this implementation !</div><div data-marker=3D"__QUOTED_TEXT__"><br da=
-ta-mce-bogus=3D"1"></div><div data-marker=3D"__QUOTED_TEXT__">Tanguy</div><=
-/div></body></html>
---=_26ef4c72-32cb-41c0-bf68-4038f89abb76--
