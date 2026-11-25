@@ -1,95 +1,98 @@
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.3556.1795647522362951627
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.3557.1795647525470184846
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 25 Nov 2026 14:58:42 -0800
+ Wed, 25 Nov 2026 14:58:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=j8CzVDdH;
- spf=pass (domain: konsulko.com, ip: 209.85.216.42, mailfrom: tim.orling@konsulko.com)
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-3ae6b4c669fso5962629a91.0
-        for <meta-virtualization@lists.yoctoproject.org>; Wed, 25 Nov 2026 14:58:42 -0800 (PST)
+ dkim=pass header.i=@konsulko.com header.s=google header.b=mq/JYQcR;
+ spf=pass (domain: konsulko.com, ip: 209.85.214.174, mailfrom: tim.orling@konsulko.com)
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2f04bea9a93so56685005ad.3
+        for <meta-virtualization@lists.yoctoproject.org>; Wed, 25 Nov 2026 14:58:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google; t=1795647522; x=1796252322; darn=lists.yoctoproject.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=IH33APK6JeKKQoob0MIslT36c1y+dKW3FxODWljJ7xQ=;
-        b=j8CzVDdHvxOdI293af+N8roo9wK7TKjdQj1TmxD6gfgBTNgcm0SHWhC5m7un/AQMbz
-         hW/kQFDvbtQYVB8zcqsb3YxrG2ABRFphI83fj5azCL7M62CeddnxIq/9oV9AD423uv8o
-         yu6I0fIaNXmGpxLLT+3xvdPTLYflnIiaX8ykw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795647522; x=1796252322;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=konsulko.com; s=google; t=1795647525; x=1796252325; darn=lists.yoctoproject.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=IH33APK6JeKKQoob0MIslT36c1y+dKW3FxODWljJ7xQ=;
-        b=lfsEZ+phtDloJGVFmZze9lyQh4VRH25yqhN0pwvE15bi7SuhAXPP6ksiXwV76qVJ/o
-         jcAUwiJaww4MNOy6VIjnlyRBKtWa/EbGM6rtPflN+jCBM+2mfQsuDeQa6F+AjaQ1E7w3
-         X7hbmYfnAVygFghR//1HIOYC5OtV1a13724pdX9uH1uk0bnxwL5PWnA1rQVtxHCxKuE3
-         /1WifNicblwuGIDrcClRC2eMR89/RGnQpmPBfsN0i3VXpx+d50nFC60ZSOLi8hplyGOD
-         wjonPb1fsFCo6jDmkLRRbs3ORZtNhv6c3iHz8l2h1TJiaVCP0II7D2HNhdunMs6gBloR
-         J78Q==
-X-Gm-Message-State: APuU4Z/1BoZJbQsO+aKgxCpy7hKL2qMBUM2fVjsyR3NUv5SuM9160xRv
-	zmSmBENSTHDnKoUM0j3HqvfB8HKYcuxj9Ya7P7mbs+A7NrujNv5TXt+vRLpXu1SIorzh+Ob7K2H
-	rAhwhRZ8=
-X-Gm-Gg: AZFdTZd+3XIGEV/apzqxi5rmfcURC5GkuXaUDIuob8jhvuNLIflIEomrFovr98dGa4h
-	r1cWXuMuI07PXNmCI1EmwRdRZFMViSEqjZJ9LIZzLh8gRjzMLibPQEIthk4w7UbljLtg25rp8KL
-	ayafIkTbtT4lplcF4SJXQNaMNPDLR2LqHM/1xx0djwo+uoNS5SycCEgYtCNVHPhzhTIIvdm53aV
-	xaEIDA2eSCSb6gdD5KvBTMAwtYzd3LYzDODvM5pNVMX6V1XdCXQ6MWRTHdrhA9Rr1TGhO9M3Mqw
-	MKUiZQEoR/sXcJu/TL76+BUAvIDLd6yCnZgdroSfPPGGRKPbb8XeeF7eO1HI8Y/xNK+ne5rNaru
-	cr+SVvE6iH7fHbg3W8fS5ZYlYxawvyzImVSwOHF9HaKAhyqScNtj3u+B7HBwchtYcaZfYYytu3P
-	KUF26Hq2VvlxT83Q/oqXR6B57cNYILQm0kAISRkSII3DIWq5I+QrVQOBa5m9woRlwMCRE2KzaKg
-	k0f3g7K7Om5BmdyfpYKH+nNsGTEj4NSP08MWfV2DQORU+rRe6wVvZAaf0pMecRZfchB1GyE/GjN
-	JzNj43mKDbPii2I87HcfM/0TK3VPhdcD5QgfJoPv62nh1rcHoGVUM8MWknoyd8aZLI09qv+JXaV
-	Vx6Qzm/b8zhvIMm0Q9p4vsNDvnNljesq6wkHAuBAZ0liSs9g35G1Fgr5T/53RVJza2A==
-X-Received: by 2002:a17:90a:d2cf:b0:3a0:e568:ed63 with SMTP id 98e67ed59e1d1-3b41c8e0507mr12143248a91.8.1795647521580;
-        Wed, 25 Nov 2026 14:58:41 -0800 (PST)
+        bh=0XAsaTKfVBwcCXY9xsRvbBzTDo7z5J3BKwE+PjUR9qk=;
+        b=mq/JYQcRL6iKOyUHcaqOESOSpPJ+ZbsSu8GQHqIIha9pYZ9LqYjDYy5YsSWW+Dusi8
+         fPY50EDRo+pG2F82hkFaR+9tDumA5zUC5BjsWHOsTARFzYJCdBs0stUpRqjByEic0IHE
+         ToS9ms1bxVmjQ+eJ0mECSZ3Ka7ukeB65Ej7wo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795647525; x=1796252325;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=0XAsaTKfVBwcCXY9xsRvbBzTDo7z5J3BKwE+PjUR9qk=;
+        b=vpFneoT6lTSYRoRJi54+NI/XnGszeEHKj75OtaOPomf81MlzxGLjx5AHSAtvA2tXH4
+         s68UGlzjbXQLztGMaSRWeYX5QzF9moDICbTfDbC1x8JxJyfFe0MlCFIm/cuJd7nh+37i
+         B6jtM3P0d4nDTQaUpaDL8jkOUuBdJ1MryVz+bV6V7W7HgEkzD6GGGzTFaM/5KiEKnhtu
+         LoBfjg8Fa0MX1yGtEz5nc/aKyKuo5EkAoImsAH/Ra9sldq8bvyhNac4s+oe4fRDJtUy/
+         cxSbalas1EMl7II5PU7NSgi0Fvf/Z0Z/On2FF9Ga/hsqYRhgel6sI6yT6p2wCzR1hoOU
+         9z4g==
+X-Gm-Message-State: APuU4Z+sDKcdbErNnmfG7fhcLvTcoagBaLM8SEzw5eJzyc/vY5l7tlPL
+	opHU1yzlP3uaUAjT8YRwxmXkJDqvUGRe3XzyqUyQ81+97aAMvND+5h8eJapyZrywYEBJpdqTomP
+	xHQqcNRU=
+X-Gm-Gg: AZFdTZc0in2Q/t02AzMdnADdLZqa//wmU8eMfDLsZylx6ofkD2Tt7POq9XJWmvWc7x+
+	pCiS0y2jI9ahedWgil2Z/dm0+Hn6+pQtP3jOxhp5wReeVEYiOSpJgngdujc5Ju/84QyXKODmzo2
+	1wDi5JUj9tdhPsphtSbOgS1KFntuSJepByLHPBjdbMgoTD+v/o7Jp8ISlWclP2KFbGYChGyLnxM
+	XFAoyGXz76FYXShMp9ewRWtEmhuUFoskfdMZ2LKse6rl9cbj7/4MlTkquvkcEOU8WUIRxw/WTLE
+	dl6dH32MVHDg8OeK6uuLVRBbq02Pga1RJh1G9NjrJXtqWBqZgHW9zl2GNdm78GF5/SAljoobRrG
+	kbgH6f+bAnIolhcDCieXFvvD2TdZKY8I81h8HC6L6quHWaCMBb2t+11AlX528BWg8N727ZkjEgq
+	Ayqoa5rjNQ64HoKmyu8Nhu0758s+6HGQ1iSIJZb9SGJbireNvuC6EPa2uBri93Xw5jhEKMq6/5w
+	RBwy0mw6SqWJHjekuYz7dTUj/s5hXORW1J4aCX4zRBovgQuLVSVvbJCL4L5YGp4sR96MSeCFtJy
+	BoA8HK5ncc1aoRh6TgEPlNM4cIsOYbUjEDSRnf6tPMVjfinlz+Yc7JGt6/VF4/o840qpMBGDr5i
+	cWxPWK9BQc+qgTdzGbd5hf1RjmjCOLmxLM2ttOSVXXAGfRbJusHeyxq2vNctqn/mlrQ==
+X-Received: by 2002:a17:902:e847:b0:2ed:3d74:b640 with SMTP id d9443c01a7336-2f03f26b691mr184612545ad.59.1795647524789;
+        Wed, 25 Nov 2026 14:58:44 -0800 (PST)
 Return-Path: <tim.orling@konsulko.com>
 Received: from localhost (c-24-20-171-118.hsd1.or.comcast.net. [24.20.171.118])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b41ad0b52dsm31962760a91.5.2026.11.25.14.58.40
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2f0b5647b94sm42073555ad.14.2026.11.25.14.58.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Nov 2026 14:58:41 -0800 (PST)
+        Wed, 25 Nov 2026 14:58:44 -0800 (PST)
 From: Tim Orling <tim.orling@konsulko.com>
 To: meta-virtualization@lists.yoctoproject.org
 Cc: Tim Orling <tim.orling@konsulko.com>
-Subject: [meta-virtualization][PATCH v2 1/2] xen-rpi-u-boot-scr: fix UNPACKDIR
-Date: Wed, 25 Nov 2026 14:57:08 -0800
-Message-ID: <20261125225836.83743-1-tim.orling@konsulko.com>
+Subject: [meta-virtualization][PATCH v2 2/2] xen-rpi-u-boot-scr: replace UBOOT_ARCH
+Date: Wed, 25 Nov 2026 14:57:09 -0800
+Message-ID: <20261125225836.83743-2-tim.orling@konsulko.com>
 X-Mailer: git-send-email 2.56.1
+In-Reply-To: <20261125225836.83743-1-tim.orling@konsulko.com>
+References: <20261125225836.83743-1-tim.orling@konsulko.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <meta-virtualization@lists.yoctoproject.org>; Wed, 25 Nov 2026 22:58:49 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/10186
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/10187
 Content-Type: text/plain; charset="utf-8"
 
 Since oe-core:
-f19ea21c8eb "bitbake.conf: set UNPACKDIR to just 'sources' and not 'sources-unpack'"
-UNPACKDIR defaults to ${WORKDIR}/sources, so we can drop the redundant definition.
-
-Since oe-core:
-46480a5e66 "insane/do_qa_unpack: add checks that ensure S is set correctly"
-S = "${UNPACKDIR}" is needed.
+bdcd04bbc5 "kernel-arch: Drop UBOOT_ARCH", we should just use the
+oe.kernel.map_uboot_arch(d) call directly. This was the only
+reason for inheriting kernel-arch, so we can drop it.
 
 Signed-off-by: Tim Orling <tim.orling@konsulko.com>
 ---
 v2: resend so the author is tim.orling@konsulko.com (v1 arrived as ticotimo@gmail.com)
 
- .../recipes-bsp/xen-rpi-u-boot-scr/xen-rpi-u-boot-scr.bb       | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ .../recipes-bsp/xen-rpi-u-boot-scr/xen-rpi-u-boot-scr.bb      | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/dynamic-layers/raspberrypi/recipes-bsp/xen-rpi-u-boot-scr/xen-rpi-u-boot-scr.bb b/dynamic-layers/raspberrypi/recipes-bsp/xen-rpi-u-boot-scr/xen-rpi-u-boot-scr.bb
-index 3f83c7f8..e25963ad 100644
+index e25963ad..7e7b2f6a 100644
 --- a/dynamic-layers/raspberrypi/recipes-bsp/xen-rpi-u-boot-scr/xen-rpi-u-boot-scr.bb
 +++ b/dynamic-layers/raspberrypi/recipes-bsp/xen-rpi-u-boot-scr/xen-rpi-u-boot-scr.bb
-@@ -24,8 +24,7 @@ do_compile() {
+@@ -19,10 +19,10 @@ do_compile() {
+         -e 's/@@RPI_DEBUG_XEN_ARGS@@/${RPI_DEBUG_XEN_ARGS}/' \
+         "${UNPACKDIR}/boot.cmd.xen.in" > "${WORKDIR}/boot.cmd"
  
- inherit kernel-arch deploy nopackages
+-    mkimage -A ${UBOOT_ARCH} -T script -C none -n "Boot script" -d "${WORKDIR}/boot.cmd" boot.scr
++    mkimage -A ${@oe.kernel.map_uboot_arch(d)} -T script -C none -n "Boot script" -d "${WORKDIR}/boot.cmd" boot.scr
+ }
  
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
+-inherit kernel-arch deploy nopackages
++inherit deploy nopackages
  
- do_deploy() {
-     install -d ${DEPLOYDIR}
+ S = "${UNPACKDIR}"
+ 
 -- 
 2.56.1
 
