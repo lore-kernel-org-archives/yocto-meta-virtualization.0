@@ -1,99 +1,95 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2471.1795643606768597563
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.3556.1795647522362951627
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 25 Nov 2026 13:53:26 -0800
+ Wed, 25 Nov 2026 14:58:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=EYeYi0WL;
- spf=pass (domain: gmail.com, ip: 209.85.216.48, mailfrom: ticotimo@gmail.com)
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-3b4021b572dso3997858a91.2
-        for <meta-virtualization@lists.yoctoproject.org>; Wed, 25 Nov 2026 13:53:26 -0800 (PST)
+ dkim=pass header.i=@konsulko.com header.s=google header.b=j8CzVDdH;
+ spf=pass (domain: konsulko.com, ip: 209.85.216.42, mailfrom: tim.orling@konsulko.com)
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-3ae6b4c669fso5962629a91.0
+        for <meta-virtualization@lists.yoctoproject.org>; Wed, 25 Nov 2026 14:58:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795643606; x=1796248406; darn=lists.yoctoproject.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=pXrerSuHaibtJGbeKyBclH4zhyOxzX7IygStJbbHQqM=;
-        b=EYeYi0WLAagjrQyFheYgGz0/7n4fAdy0h+MZnQ6NKTA3eeOHoxtD4+l64LzjN2m9QJ
-         kcof75m80b8Kg+zPgFOEErZ1kq36zAHHA8/JhYgUdBIxj9hgsR2kmo/mp6vl7VW2XigE
-         1E/Yq70ccfK1NmKOucFHVnx/oab+1dX999AundPgscOrfgTL9bhCiVrEBNvxzf2nDn5t
-         v7snDmhn5E3Yz43RyGO9bGn7pIf/JcQGcl1uptqOmZVmPuUGdPJoo8aqHT+3xZ/VqZx0
-         5OqLdcumqtte0wHcKfKpit5uyIXFw+EP7UT8CIPZ+4qbTJrLSUkp4Ehojs5vgF8/nv2D
-         mGKg==
+        d=konsulko.com; s=google; t=1795647522; x=1796252322; darn=lists.yoctoproject.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=IH33APK6JeKKQoob0MIslT36c1y+dKW3FxODWljJ7xQ=;
+        b=j8CzVDdHvxOdI293af+N8roo9wK7TKjdQj1TmxD6gfgBTNgcm0SHWhC5m7un/AQMbz
+         hW/kQFDvbtQYVB8zcqsb3YxrG2ABRFphI83fj5azCL7M62CeddnxIq/9oV9AD423uv8o
+         yu6I0fIaNXmGpxLLT+3xvdPTLYflnIiaX8ykw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795643606; x=1796248406;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=pXrerSuHaibtJGbeKyBclH4zhyOxzX7IygStJbbHQqM=;
-        b=VKVieGlV6DGFbW9bQjhU2VYbHXI4I2SaknBC4R6UlAzCTeg3didl2BLEqx/X46toCI
-         HVtTUJKI0Ra4XGwXXg6NCpWxoRqRCRZkaIYKqBw3sSQozd4zXkizzuqfVF/mBlIth8qs
-         /bRnyrQHwrJ52k1/Yn8tmBE5sdO2xebn04LD8BMK7lFP/eef2oZOTwJn4JqIEUN+T1yD
-         Sf0EFJC7Y8qPJmXaKCR/vLMHy/P9mU7IcmBIjueHuUVIjvpdP6joqj6PmGs4dACrKbbn
-         3t5VNj7uGx6gWi/4NjZN5YT1fg3FWX+M6HZI5DuWUS51ow5Q+5aoNPyK9BBxo20LxMiW
-         HiHg==
-X-Gm-Message-State: APuU4Z/UGUc7qM8BS3Znv7e7ANVom2mm3iII4s72kRnZi2wZOGz5UzGF
-	oP77NisyvxnSEbdySBBWO3L3SWj4kxjEVs6c5uxK1Y84RcBMm0klsGV0R26FOYyO
-X-Gm-Gg: AZFdTZdb2c6rxu1bXTv7msdYWmyIuPCgf0rHt/oGKnTrYp0yYY68nuRned1rpVMTCxz
-	8HVMhHrCoNUKO9dJZIff22Q/SaaBr3eciA94Pw5EeJ7YjcLLGu+s5qDKAKZaWvdYvZa9bJdsgp4
-	uv4w4hayK1OGrfimTVFSclllLIWuyAWW0CoS/+bb9t31ZUueNJ9M2/tzeWxrdQGVV85fnbH0Wl0
-	WTm3ICLggKDshJ/1BLqzRi/krSLcWHBEFJIW8ZV/8Jtl61/6p2fH2lOKXTPrxDjKT3HQrYPBSJF
-	dkLBgxmSVh+DjLBNkyJHjygtEwywyZ1zZETkyRry4AntaO1cNc8ShzubnTFZnjzGfr5BWJDydXd
-	CyLr5eWZCHPYK9AHfLvhYb+OIziwcfcFyJv/ZOUCfus2fue1GY8xY9Wzq01iMyh0AeH2ivSPidN
-	Zipu5rCN/znkWDYM/Jzj5te+j5IhNzXQiGIn36rscNElbWDmyidbOgLfe5qBrH11oKpGTslHSjy
-	rIIhNyO0V+8A3oAsidncJZpoeorIbXm+0iZEWRWP5q2VD07ClUkXCzb44wl5GTD9X0CUFonMjWV
-	63bGmK+KnDUp6CMjeDIBf7bYffM8QfyLHgMe3bokqxkfpGK9hE7NPJuLBosnEu8/Jy8ccA0ghzj
-	05O9e2TRfd9oVmwduHZuxh+mr
-X-Received: by 2002:a17:90b:2701:b0:3aa:fdad:7d6e with SMTP id 98e67ed59e1d1-3b41c8d9224mr17885307a91.10.1795643606019;
-        Wed, 25 Nov 2026 13:53:26 -0800 (PST)
-Return-Path: <ticotimo@gmail.com>
-Received: from localhost.localdomain (c-24-20-171-118.hsd1.or.comcast.net. [24.20.171.118])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b44b217a5bsm13834120a91.0.2026.11.25.13.53.24
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 25 Nov 2026 13:53:24 -0800 (PST)
-From: Tim Orling <ticotimo@gmail.com>
-X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
+        d=1e100.net; s=20260707; t=1795647522; x=1796252322;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=IH33APK6JeKKQoob0MIslT36c1y+dKW3FxODWljJ7xQ=;
+        b=lfsEZ+phtDloJGVFmZze9lyQh4VRH25yqhN0pwvE15bi7SuhAXPP6ksiXwV76qVJ/o
+         jcAUwiJaww4MNOy6VIjnlyRBKtWa/EbGM6rtPflN+jCBM+2mfQsuDeQa6F+AjaQ1E7w3
+         X7hbmYfnAVygFghR//1HIOYC5OtV1a13724pdX9uH1uk0bnxwL5PWnA1rQVtxHCxKuE3
+         /1WifNicblwuGIDrcClRC2eMR89/RGnQpmPBfsN0i3VXpx+d50nFC60ZSOLi8hplyGOD
+         wjonPb1fsFCo6jDmkLRRbs3ORZtNhv6c3iHz8l2h1TJiaVCP0II7D2HNhdunMs6gBloR
+         J78Q==
+X-Gm-Message-State: APuU4Z/1BoZJbQsO+aKgxCpy7hKL2qMBUM2fVjsyR3NUv5SuM9160xRv
+	zmSmBENSTHDnKoUM0j3HqvfB8HKYcuxj9Ya7P7mbs+A7NrujNv5TXt+vRLpXu1SIorzh+Ob7K2H
+	rAhwhRZ8=
+X-Gm-Gg: AZFdTZd+3XIGEV/apzqxi5rmfcURC5GkuXaUDIuob8jhvuNLIflIEomrFovr98dGa4h
+	r1cWXuMuI07PXNmCI1EmwRdRZFMViSEqjZJ9LIZzLh8gRjzMLibPQEIthk4w7UbljLtg25rp8KL
+	ayafIkTbtT4lplcF4SJXQNaMNPDLR2LqHM/1xx0djwo+uoNS5SycCEgYtCNVHPhzhTIIvdm53aV
+	xaEIDA2eSCSb6gdD5KvBTMAwtYzd3LYzDODvM5pNVMX6V1XdCXQ6MWRTHdrhA9Rr1TGhO9M3Mqw
+	MKUiZQEoR/sXcJu/TL76+BUAvIDLd6yCnZgdroSfPPGGRKPbb8XeeF7eO1HI8Y/xNK+ne5rNaru
+	cr+SVvE6iH7fHbg3W8fS5ZYlYxawvyzImVSwOHF9HaKAhyqScNtj3u+B7HBwchtYcaZfYYytu3P
+	KUF26Hq2VvlxT83Q/oqXR6B57cNYILQm0kAISRkSII3DIWq5I+QrVQOBa5m9woRlwMCRE2KzaKg
+	k0f3g7K7Om5BmdyfpYKH+nNsGTEj4NSP08MWfV2DQORU+rRe6wVvZAaf0pMecRZfchB1GyE/GjN
+	JzNj43mKDbPii2I87HcfM/0TK3VPhdcD5QgfJoPv62nh1rcHoGVUM8MWknoyd8aZLI09qv+JXaV
+	Vx6Qzm/b8zhvIMm0Q9p4vsNDvnNljesq6wkHAuBAZ0liSs9g35G1Fgr5T/53RVJza2A==
+X-Received: by 2002:a17:90a:d2cf:b0:3a0:e568:ed63 with SMTP id 98e67ed59e1d1-3b41c8e0507mr12143248a91.8.1795647521580;
+        Wed, 25 Nov 2026 14:58:41 -0800 (PST)
+Return-Path: <tim.orling@konsulko.com>
+Received: from localhost (c-24-20-171-118.hsd1.or.comcast.net. [24.20.171.118])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b41ad0b52dsm31962760a91.5.2026.11.25.14.58.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Nov 2026 14:58:41 -0800 (PST)
+From: Tim Orling <tim.orling@konsulko.com>
 To: meta-virtualization@lists.yoctoproject.org
 Cc: Tim Orling <tim.orling@konsulko.com>
-Subject: [meta-virtualization][PATCH 2/2] xen-rpi-u-boot-scr: replace UBOOT_ARCH
-Date: Wed, 25 Nov 2026 13:53:07 -0800
-Message-ID: <20261125215307.73937-2-tim.orling@konsulko.com>
+Subject: [meta-virtualization][PATCH v2 1/2] xen-rpi-u-boot-scr: fix UNPACKDIR
+Date: Wed, 25 Nov 2026 14:57:08 -0800
+Message-ID: <20261125225836.83743-1-tim.orling@konsulko.com>
 X-Mailer: git-send-email 2.56.1
-In-Reply-To: <20261125215307.73937-1-tim.orling@konsulko.com>
-References: <20261125215307.73937-1-tim.orling@konsulko.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <meta-virtualization.lists.yoctoproject.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <meta-virtualization@lists.yoctoproject.org>; Wed, 25 Nov 2026 21:53:27 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/10185
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <meta-virtualization@lists.yoctoproject.org>; Wed, 25 Nov 2026 22:58:49 -0000
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/10186
 Content-Type: text/plain; charset="utf-8"
 
 Since oe-core:
-bdcd04bbc5 "kernel-arch: Drop UBOOT_ARCH", we should just use the
-oe.kernel.map_uboot_arch(d) call directly. This was the only
-reason for inheriting kernel-arch, so we can drop it.
+f19ea21c8eb "bitbake.conf: set UNPACKDIR to just 'sources' and not 'sources-unpack'"
+UNPACKDIR defaults to ${WORKDIR}/sources, so we can drop the redundant definition.
+
+Since oe-core:
+46480a5e66 "insane/do_qa_unpack: add checks that ensure S is set correctly"
+S = "${UNPACKDIR}" is needed.
 
 Signed-off-by: Tim Orling <tim.orling@konsulko.com>
 ---
- .../recipes-bsp/xen-rpi-u-boot-scr/xen-rpi-u-boot-scr.bb      | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+v2: resend so the author is tim.orling@konsulko.com (v1 arrived as ticotimo@gmail.com)
+
+ .../recipes-bsp/xen-rpi-u-boot-scr/xen-rpi-u-boot-scr.bb       | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
 diff --git a/dynamic-layers/raspberrypi/recipes-bsp/xen-rpi-u-boot-scr/xen-rpi-u-boot-scr.bb b/dynamic-layers/raspberrypi/recipes-bsp/xen-rpi-u-boot-scr/xen-rpi-u-boot-scr.bb
-index e25963ad..7e7b2f6a 100644
+index 3f83c7f8..e25963ad 100644
 --- a/dynamic-layers/raspberrypi/recipes-bsp/xen-rpi-u-boot-scr/xen-rpi-u-boot-scr.bb
 +++ b/dynamic-layers/raspberrypi/recipes-bsp/xen-rpi-u-boot-scr/xen-rpi-u-boot-scr.bb
-@@ -19,10 +19,10 @@ do_compile() {
-         -e 's/@@RPI_DEBUG_XEN_ARGS@@/${RPI_DEBUG_XEN_ARGS}/' \
-         "${UNPACKDIR}/boot.cmd.xen.in" > "${WORKDIR}/boot.cmd"
+@@ -24,8 +24,7 @@ do_compile() {
  
--    mkimage -A ${UBOOT_ARCH} -T script -C none -n "Boot script" -d "${WORKDIR}/boot.cmd" boot.scr
-+    mkimage -A ${@oe.kernel.map_uboot_arch(d)} -T script -C none -n "Boot script" -d "${WORKDIR}/boot.cmd" boot.scr
- }
+ inherit kernel-arch deploy nopackages
  
--inherit kernel-arch deploy nopackages
-+inherit deploy nopackages
+-S = "${WORKDIR}/sources"
+-UNPACKDIR = "${S}"
++S = "${UNPACKDIR}"
  
- S = "${UNPACKDIR}"
- 
+ do_deploy() {
+     install -d ${DEPLOYDIR}
 -- 
 2.56.1
 
