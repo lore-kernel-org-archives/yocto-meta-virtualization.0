@@ -1,59 +1,59 @@
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.5086.1795654084743564978
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.5088.1795654088921889294
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 25 Nov 2026 16:48:04 -0800
+ Wed, 25 Nov 2026 16:48:09 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=SZ8wGaLT;
- spf=pass (domain: konsulko.com, ip: 209.85.210.172, mailfrom: tim.orling@konsulko.com)
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-8b32bc605d9so3171576b3a.2
-        for <meta-virtualization@lists.yoctoproject.org>; Wed, 25 Nov 2026 16:48:04 -0800 (PST)
+ dkim=pass header.i=@konsulko.com header.s=google header.b=hAyW8Baw;
+ spf=pass (domain: konsulko.com, ip: 209.85.216.48, mailfrom: tim.orling@konsulko.com)
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-3b0ae87069dso2746133a91.2
+        for <meta-virtualization@lists.yoctoproject.org>; Wed, 25 Nov 2026 16:48:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google; t=1795654084; x=1796258884; darn=lists.yoctoproject.org;
+        d=konsulko.com; s=google; t=1795654088; x=1796258888; darn=lists.yoctoproject.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=zo2OhDlQbfrbL3C5KtN+l5iON5/Kq9iMoHjWyaepWZw=;
-        b=SZ8wGaLTkjK0MIJT5+Y85vTjqx730f6BuEoGYVbRFcFDlnsrrac2o5a6eQJjklTNtD
-         jYdbMaNBZeFaQ4Zd+ZgZN1pV3k3vLWJ84d9hZfqLum/09RfduaFBm9xMf2Eppt5Ul+PH
-         xLpjk3iG9Rl/b049yet23ef8Covmal1+glsDo=
+        bh=SbK9lLArxah6ffgVkOji27/BZZ4+c++pM1EKKS01Goo=;
+        b=hAyW8BawRST3JrAiESF/VtjgwWm4DhrAApAGlhiqVLgp6SSqreCwCGFnu+Fq8wL7aj
+         5QxIKmkF3Grt9b3aelgRwTOJtvYeJHk0iSZ7B73npIWVJRaq+pYS5IQxgunyGDwUJEFA
+         F90YeqJ/jskWj84g1+wbG8TciElzJ797d26Ms=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795654084; x=1796258884;
+        d=1e100.net; s=20260707; t=1795654088; x=1796258888;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=zo2OhDlQbfrbL3C5KtN+l5iON5/Kq9iMoHjWyaepWZw=;
-        b=liF6aFcNNRbcDt5+EtMjhNKqKN4uOQQzJ99BbTBLJSuEO1x/NNvG5uNgJbwQZiAyM5
-         UIcMle9TPGOQSMhdHnn6gT/i8hqhlYTrgqAyKMgJrrdgPmlQOXdt86xch4PwbS309+87
-         tvr+eG+5zAVEe82q4THhTvCivGNNiO25QY+Hk5dvrWXtP4YEGGRZiYiR3EljqjEVUKT1
-         c1XIxxPgPqxYR1ngc8ziUarueShBqHdRufoXKrqfv7PPzGCcADSjrP1jIh2CsEbO9SL8
-         I0jKqdWICbbihEkMOV7ogR5MIMIjAqm0ozsovkrD0Pp+Ho6TlQ0+uGJNmqnJ5GFmsqQd
-         hYBQ==
-X-Gm-Message-State: APuU4Z8QllbYBD4EVHlc06/hmUkci0P2CZ3Xv2829ZD/H7STTEhFkmY3
-	0J//reTJPzr8yTFf7rJ1PH3tYvGVT04JNy/wjyPavHySbi1RsdExOlg76/+D7JWa+anPN8PCxKr
-	3VI5EvgU=
-X-Gm-Gg: AZFdTZfVQMWgzlL5+x60i+uYmMZ8tQlYOupzfEOGuH0RUQ79R0pWFt8DpQmGV+DrceK
-	GGTGb29ic0wUCnfZLBZBcFL3Tqno55CqgYjN2iKv12/pva5+XtZdj95pDX2WxpU9u8wAC5Cobhn
-	vPLGpISaAVRDN+XyKY9k+3WaF9+ZiIqwIqKVtMs0nZxfUsdAuxs9UtNv6/PhH9nIlIOQf1FlzzX
-	rOaLfpZw59/YRhhySxU4hLcyP6goW60csmek46pWScX2QQXRCO9tz2xe5gdLJXoKAtSdzPFcd6z
-	t6GxRCMwRQ/7hlTZ9bOAXLmeUvl4cYGLvA5AV4eb6WIYaP7/XHCLXoAE6zk767hc1SXfoCdsUI0
-	pTYIJvm1SBeNSbVr9GPzs/mL7kUvFMvNrWd9B8XU02Gn75S3aUsSpeaWDkD4xIMt6UuPzSmbjFB
-	Z/8KUMUQHh01SQRWi1gjhn54ZoP7l8piz3ErCeWpNPVONFiuKvABMADasS1f0AqLjCDrzKqhe59
-	Viaxgv9TGiW+Goq7ePEOigkYZOBMzGC5hHzy05f5i+QpAO8Xsv+me8kFi33etF8nLT9ezBE6GAk
-	7qychHNnB4Fpx7A1QF9fgj7kU3lWb53D5+x/6Z7cWmp5//scbrpQb+BYazBq+LyWIYXSmlBtWqP
-	NOoHoUsAv6YtmV4nviHM7ma1ChzPc5N+LQ+TgaNlt2rHkXRgI6jXRXqV/Op2maJwIojM=
-X-Received: by 2002:a05:6a20:244c:b0:3e2:acd2:b94 with SMTP id adf61e73a8af0-4014b564579mr23191912637.35.1795654084043;
-        Wed, 25 Nov 2026 16:48:04 -0800 (PST)
+        bh=SbK9lLArxah6ffgVkOji27/BZZ4+c++pM1EKKS01Goo=;
+        b=XPA9od0QwhpPRwQbbuqbqdsVzHF6+mMwVuzVHK7Pi2ZT7g9ZYThxXgcCNHDsIlE74N
+         RIhWfdJce/le4ER3E9IZHqEiV9RIy4Oi2NuqkrMT6VCYyEYLt5RiCf4YvKz+1ZAWXdNb
+         DtKU3WQYgiUmzjeUugIhLPG1mrVVnDYMf4fjXusJpUz4ZWELuijDA4zZE9GFLSX3D191
+         1S5LFmy+VTnhGZGyX/ds9zIntQ+s5OKBO7+YVfDnI8pcqpYom4jMTDFRYg4/3DHDVX0U
+         4l8EnsVH2StjwAkM8MdD0ymPC6/t3VuTT1lLNG+3uv7RuAuVw4GjuSj3qpV0AHjrIDM3
+         7rsg==
+X-Gm-Message-State: APuU4Z9Xh8QFvwdUtPahh6nK5SX0RKWDkiVbifw2snd6Y5ezGeKC2OZ5
+	w8glPKlk3Il1/gdPIZk4G5nblvktBl2EOlJEPBGDuM1C4T/FxJVSRrbIAd0QU84jZm0SNu/YEXT
+	fwbE3J0Y=
+X-Gm-Gg: AZFdTZdLALVAQvUwozi/ruzAndQSvFdRbGn7S5Pt8Eqo2zDn7zWmNlzkIizsvSrv8v3
+	Sj5k4pn368/QGdu8QsHtt7xvnE7Ngg9KrdlJQQXdTq66DpmN6G63i3u5vQJ+Y8yEPKluBJVNm3v
+	ZteKAzc5jq9icZ1j673uCT4UnX/RtMSd/oY3SzZvx0pqRg4cLNEIG8FmLRbaS32+h/h4lA3Kb0a
+	IblX6nzV5kQQGc1UM3uTKygrpR0DBAsHizpJwg9LtaW7ubrNaGe1jPrhCpB86vr0OwoxHRe1ojp
+	JLSU08egrK5cKGJZFRBs1z4+4EaCRhh9eVL+8NELxj7zbH/fCxqQjUM+XPIibvJWtk3FWcIbzu1
+	4e9pkpbVUH7oV8Q1jTdDQ8xr+1gKcltJNA4DF5H7Kly98pF7DhZRowoJXcU708dwbQndlukkaHi
+	E9q2GccJKAFsj4EppLA4iHgX6hvImxlZefT5x4s/tF3mKCCxn/iBd0iCo5aIV0eeFAny9dFhg+E
+	MiVoRGys/L2v12kDnvQl5bKwK3BtU0tGR7Gb8DTzONrGwWN003fHsK7Ju6JALPjiNXw2OEa6yxp
+	WkbwEYyhEKELezIAZeBi9Gy/8UaAqYSQXk7BWkS1aGMlLKqii59Z+HfCPFJpNJCXXl4UT2pf3XK
+	JU4mk0ftMN5GKfk7TMt3Pn+NX/2mETc0y2yG6NA+24SW9oB/KdPN3OI+VlMM0jJAskio=
+X-Received: by 2002:a17:90b:4d10:b0:3b3:ce10:7659 with SMTP id 98e67ed59e1d1-3b41c7ac261mr18676991a91.5.1795654088237;
+        Wed, 25 Nov 2026 16:48:08 -0800 (PST)
 Return-Path: <tim.orling@konsulko.com>
 Received: from localhost (c-24-20-171-118.hsd1.or.comcast.net. [24.20.171.118])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cde6d0332bfsm10049301a12.22.2026.11.25.16.48.02
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b41abb1b66sm30981438a91.1.2026.11.25.16.48.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Nov 2026 16:48:03 -0800 (PST)
+        Wed, 25 Nov 2026 16:48:07 -0800 (PST)
 From: Tim Orling <tim.orling@konsulko.com>
 To: meta-virtualization@lists.yoctoproject.org
 Cc: Tim Orling <tim.orling@konsulko.com>
-Subject: [meta-virtualization][PATCH v2 1/3] image-oci: track multi-layer rootfs directories with pseudo
-Date: Wed, 25 Nov 2026 16:47:54 -0800
-Message-ID: <20261126004756.89781-2-tim.orling@konsulko.com>
+Subject: [meta-virtualization][PATCH v2 3/3] app-container-nginx: create /run/nginx and /var/log/nginx in rootfs
+Date: Wed, 25 Nov 2026 16:47:56 -0800
+Message-ID: <20261126004756.89781-4-tim.orling@konsulko.com>
 X-Mailer: git-send-email 2.56.1
 In-Reply-To: <20261126004756.89781-1-tim.orling@konsulko.com>
 References: <20261126004756.89781-1-tim.orling@konsulko.com>
@@ -61,88 +61,49 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <meta-virtualization.lists.yoctoproject.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <meta-virtualization@lists.yoctoproject.org>; Thu, 26 Nov 2026 00:48:10 -0000
-X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/10189
+X-Groupsio-URL: https://lists.yoctoproject.org/g/meta-virtualization/message/10191
 Content-Type: text/plain; charset="utf-8"
 
-oci_install_layer_packages() installs each packages: layer into
-${WORKDIR}/oci-layer-rootfs/layer-N-<name> from do_image_oci. Since
-oe-core moved to dnf 5.4.7.0, every rpm layer install fails:
+nginx removes /run and ${localstatedir}/log from its package and creates
+them at boot via tmpfiles.d or populate-volatile, which never runs in a
+container. The nginx-dirs layer and NONROOT_OWNED_DIRS therefore find
+nothing to copy or chown:
 
-  error: cannot open Packages database in
-  Failed to load system repo from root ".../oci-layer-rootfs/layer-1-base":
-  rpmtsOpenDB failed: Invalid argument
+  OCI: Directory not found in IMAGE_ROOTFS: /run/nginx
+  OCI: Directory not found in IMAGE_ROOTFS: /var/log/nginx
 
-do_image_oci runs under pseudo, so getuid() returns 0 in dnf and rpm,
-but the layer rootfs is not in PSEUDO_INCLUDE_PATHS, so pseudo passes
-their syscalls through unchanged. When dnf5 loads the system repo,
-libsolv calls rpmtsOpenDB(), and rpm's openDatabase() runs
-rpmioMkpath(dbhome, 0755, getuid(), getgid()). That creates var/lib/rpm
-and then chowns it to 0:0 for real. bitbake runs the task in a user
-namespace that maps only the build user's uid (bb.utils.disable_network),
-so the kernel rejects a chown to the unmapped uid 0 with EINVAL. rpm
-returns before the sqlite rpmdb is created.
+Create both directories in a ROOTFS_POSTPROCESS_COMMAND, appended after
+rootfs_fixup_var_volatile so the /var/log -> volatile/log target exists.
 
-dnf4 never showed this: its CLI loads the system repo with
-load_system_repo='auto' and ignores the failure, and the next open finds
-the directories already present and skips the chown. dnf5 makes the
-failure fatal.
-
-Opening the rpmdb is only the first place rpm needs root. With
-getuid() == 0 it chowns every file it installs (fsmChown() in
-lib/fsm.cc), and every transaction chroots into the install root
-(rpmChrootIn() in lib/transaction.cc), as do scriptlets. Both fail
-outside pseudo.
-
-Running dnf with PSEUDO_DISABLED=1 instead avoids the chowns, but the
-chroot then fails with EPERM and every transaction aborts with "Rpm
-transaction failed", leaving all package layers empty (tried on the
-containers-library autobuilder target).
-
-So the layer rootfs needs pseudo for the same reason ${WORKDIR}/rootfs
-does for do_rootfs. Add it to PSEUDO_INCLUDE_PATHS, as image.bbclass
-does for MULTILIB_TEMP_ROOTFS. The ownership pseudo records there does
-not reach the image: the layer is copied into the bundle with
---no-owner --no-group, and umoci records ownership itself.
-
-To reproduce, build a multi-layer rpm image, for example:
-
-  inherit image image-oci
-  IMAGE_INSTALL = "base-files"
-  IMAGE_PKGTYPE = "rpm"
-  OCI_LAYER_MODE = "multi"
-  OCI_LAYERS = "base:packages:base-files+coreutils"
-
-Without this change, log.do_image_oci shows the error above, demoted to
-"OCI: Package installation had issues", and the layer is empty.
-
-The EINVAL can be shown on its own with:
-
-  unshare --user --net --map-current-user sh -c 'touch f && chown 0:0 f'
+To reproduce, build app-container-nginx with the previous patch applied
+and check log.do_image_oci for the warnings above.
 
 Tested with the containers-library autobuilder target (aarch64 and
 x86-64).
 
-[YOCTO #16531]
-
 AI-Generated: Uses Claude Code (Claude Opus 5.5)
 Signed-off-by: Tim Orling <tim.orling@konsulko.com>
 ---
- classes/image-oci.bbclass | 2 ++
- 1 file changed, 2 insertions(+)
+ recipes-containers/images/app-container-nginx.bb | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/classes/image-oci.bbclass b/classes/image-oci.bbclass
-index 141cd2a8..d4c3096a 100644
---- a/classes/image-oci.bbclass
-+++ b/classes/image-oci.bbclass
-@@ -69,6 +69,8 @@ do_image_oci[depends] += "jq-native:do_populate_sysroot"
- # Package manager native tools for multi-layer mode with package installation
- OCI_PM_DEPENDS = "${@oci_get_pm_depends(d)}"
- do_image_oci[depends] += "${OCI_PM_DEPENDS}"
-+# rpm installs layers as fake root (chown, chroot), so pseudo must track them
-+PSEUDO_INCLUDE_PATHS .= ",${WORKDIR}/oci-layer-rootfs"
+diff --git a/recipes-containers/images/app-container-nginx.bb b/recipes-containers/images/app-container-nginx.bb
+index f57c7887..9401b10b 100644
+--- a/recipes-containers/images/app-container-nginx.bb
++++ b/recipes-containers/images/app-container-nginx.bb
+@@ -47,6 +47,12 @@ inherit image-oci
+ inherit container-nonroot-user
+ inherit container-volatile-fixup
  
- def oci_pkg_type(d):
-     """Resolve IMAGE_PKGTYPE with a single, documented default.
++# nginx creates these at boot via tmpfiles.d, which never runs in a container
++ROOTFS_POSTPROCESS_COMMAND:append = " nginx_container_dirs"
++nginx_container_dirs () {
++    install -d -m 0755 ${IMAGE_ROOTFS}/run/nginx ${IMAGE_ROOTFS}${localstatedir}/log/nginx
++}
++
+ IMAGE_FEATURES = ""
+ IMAGE_LINGUAS = ""
+ NO_RECOMMENDATIONS = "1"
 -- 
 2.56.1
 
